@@ -62,19 +62,48 @@ export function buildEggSheet(colorName: string): SpriteSheet {
   return atlas.build();
 }
 
-/** A cocoon: the Nubbin wrapped up before evolving. */
-export function buildCocoonSheet(): SpriteSheet {
+/**
+ * A cocoon: the Nubbin wrapped up before evolving (lavender), being reborn (a warm
+ * glow) or moving on (pale and soft, faded by the view).
+ */
+export function buildCocoonSheet(kind: 'evolve' | 'rebirth' | 'depart' = 'evolve'): SpriteSheet {
   const atlas = new AtlasBuilder(EGG_SIZE, EGG_SIZE, 2);
+  const pal =
+    kind === 'rebirth'
+      ? { body: C.sunYellow, shade: C.orange, thread: C.cream, glint: C.white, outline: C.orange }
+      : kind === 'depart'
+        ? {
+            body: C.pale,
+            shade: C.lilacGrey,
+            thread: C.white,
+            glint: C.white,
+            outline: C.lilacGrey,
+          }
+        : {
+            body: C.lavender,
+            shade: C.violet,
+            thread: C.pale,
+            glint: C.white,
+            outline: C.moonPurple,
+          };
   for (let f = 0; f < 2; f++) {
     const pc = new PixelCanvas(EGG_SIZE, EGG_SIZE);
     const cy = 19;
-    pc.ellipse(16, cy, 7, 10 - f * 0.5, C.lavender);
-    pc.ellipse(18, cy + 2, 5, 7, C.violet);
-    pc.ellipse(15.5, cy, 5.5, 8, C.lavender);
-    for (let i = 0; i < 4; i++) pc.line(10, cy - 6 + i * 4, 22, cy - 8 + i * 4, C.pale);
-    pc.px(13, cy - 6, C.white);
-    pc.px(12, cy - 5, C.white);
-    pc.outline(C.moonPurple);
+    pc.ellipse(16, cy, 7, 10 - f * 0.5, pal.body);
+    pc.ellipse(18, cy + 2, 5, 7, pal.shade);
+    pc.ellipse(15.5, cy, 5.5, 8, pal.body);
+    for (let i = 0; i < 4; i++) pc.line(10, cy - 6 + i * 4, 22, cy - 8 + i * 4, pal.thread);
+    pc.px(13, cy - 6, pal.glint);
+    pc.px(12, cy - 5, pal.glint);
+    if (kind === 'rebirth') {
+      // Sparkles around a glowing cocoon.
+      const s = f === 0 ? 0 : 1;
+      pc.px(6 + s, cy - 8, C.white);
+      pc.px(26 - s, cy - 3, C.white);
+      pc.px(8, cy + 7 + s, C.cream);
+      pc.px(24 + s, cy + 9, C.cream);
+    }
+    pc.outline(pal.outline);
     atlas.add(frameKey('idle', 'front', f), pc);
   }
   return atlas.build();

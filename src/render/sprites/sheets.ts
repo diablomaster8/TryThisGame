@@ -1,7 +1,15 @@
 import type { Nubbin, PartSlot } from '../../sim/types';
 import { childHint } from '../../sim/alignment';
 import type { SpriteSheet } from './atlas';
-import { adultColors, buildChaoSheet, CHILD_MOON, CHILD_NEUTRAL, CHILD_SUN, lookOf } from './chao';
+import {
+  adultColors,
+  buildChaoSheet,
+  CHILD_MOON,
+  CHILD_NEUTRAL,
+  CHILD_SUN,
+  eternalColors,
+  lookOf,
+} from './chao';
 import { buildCocoonSheet, buildEggSheet } from './egg';
 import { buildEmoteSheet } from './emote';
 import { buildKeeperSheet, MOON_KEEPER, SUN_KEEPER } from './keeper';
@@ -36,9 +44,10 @@ export class SheetCache {
   /** The style key a Nubbin renders with right now. */
   static nubbinKey(n: Nubbin): string {
     if (n.stage === 'egg') return `egg:${n.eggColor}`;
-    if (n.stage === 'cocoon') return 'cocoon';
+    if (n.stage === 'cocoon') return `cocoon:${n.cocoonKind ?? 'evolve'}`;
     const parts = SLOTS.map((s) => n.parts[s] ?? '-').join(',');
     if (n.stage === 'adult' && n.form) {
+      if (n.eternal) return `eternal:${n.eternal}:${parts}`;
       return `adult:${n.form.band}:${n.form.type}:${n.form.second ?? '-'}:${parts}`;
     }
     return `child:${childHint(n.alignment)}:${parts}`;
@@ -48,8 +57,13 @@ export class SheetCache {
     const key = SheetCache.nubbinKey(n);
     return this.get(key, () => {
       if (n.stage === 'egg') return buildEggSheet(n.eggColor);
-      if (n.stage === 'cocoon') return buildCocoonSheet();
+      if (n.stage === 'cocoon') return buildCocoonSheet(n.cocoonKind ?? 'evolve');
       if (n.stage === 'adult' && n.form) {
+        if (n.eternal) {
+          return buildChaoSheet(
+            lookOf(eternalColors(n.eternal), 'normal', null, { ...n.parts }, true),
+          );
+        }
         return buildChaoSheet(
           lookOf(adultColors(n.form.band, n.form.type), n.form.type, n.form.second, { ...n.parts }),
         );

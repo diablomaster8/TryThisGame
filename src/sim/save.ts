@@ -80,6 +80,9 @@ export function validateWorld(w: World): World {
     n.karateRecord ??= {};
     n.gradeUpgrades ??= {};
     n.parts ??= { ears: null, tail: null, arms: null, back: null };
+    n.cocoonKind ??= n.stage === 'cocoon' ? 'evolve' : null;
+    n.eternal ??= null;
+    n.awaitingKeeper ??= false;
     if (n.form) {
       n.form.second ??= null;
       n.form.leanAtEvolution ??= { ...n.typeLean };

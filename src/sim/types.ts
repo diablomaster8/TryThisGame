@@ -19,6 +19,9 @@ export type KeeperAlignment = 'sun' | 'moon';
 
 export type LifeStage = 'egg' | 'child' | 'cocoon' | 'adult';
 
+/** Why a Nubbin is in a cocoon: growing up, being reborn, or moving on. */
+export type CocoonKind = 'evolve' | 'rebirth' | 'depart';
+
 export type Personality = 'cheerful' | 'shy' | 'mischievous' | 'lazy';
 
 export type PartSlot = 'ears' | 'tail' | 'arms' | 'back';
@@ -89,6 +92,8 @@ export interface Nubbin {
   stage: LifeStage;
   /** Time spent in the current stage. */
   stageMs: number;
+  /** Set while in a cocoon. */
+  cocoonKind: CocoonKind | null;
   /** Lifetime age across stages, excluding egg time. */
   ageMs: number;
   /** Hatch countdown while an egg. */
@@ -260,6 +265,9 @@ export type SimEvent =
       groveUnlocked: GroveKind | null;
     }
   | { kind: 'secondEvolved'; nubbinId: string; second: NubbinType }
+  | { kind: 'cocoonStarted'; nubbinId: string; cocoon: CocoonKind }
+  | { kind: 'eternal'; nubbinId: string; band: AlignmentBand }
+  | { kind: 'awaitingKeeper'; nubbinId: string }
   | { kind: 'critterGiven'; nubbinId: string; species: string }
   | { kind: 'essenceGiven'; nubbinId: string; type: NubbinType }
   | { kind: 'reborn'; nubbinId: string }

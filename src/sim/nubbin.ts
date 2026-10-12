@@ -16,6 +16,7 @@ export function createEgg(id: string, pos: Vec2, rng: Rng, eggColor: string = 'p
     seed,
     stage: 'egg',
     stageMs: 0,
+    cocoonKind: null,
     ageMs: 0,
     hatchRemainingMs: EGG.hatchMs,
     eggColor,

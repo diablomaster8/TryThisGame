@@ -137,6 +137,18 @@ export function mountHud(
         } else if (e.kind === 'secondEvolved') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           toast(UI_TEXT.secondEvolved(n?.name ?? NAMES.creature, TYPE_LABELS[e.second]));
+        } else if (e.kind === 'cocoonStarted' && e.cocoon !== 'evolve') {
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          const name = n?.name ?? NAMES.creature;
+          toast(e.cocoon === 'rebirth' ? UI_TEXT.cocoonRebirth(name) : UI_TEXT.cocoonDepart(name));
+        } else if (e.kind === 'reborn') {
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          toast(UI_TEXT.reborn(n?.name ?? NAMES.creature));
+        } else if (e.kind === 'departed') {
+          toast(UI_TEXT.departed(e.name));
+        } else if (e.kind === 'eternal') {
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          toast(UI_TEXT.eternal(n?.name ?? NAMES.creature));
         }
       }
     },

@@ -1,5 +1,5 @@
 import { Object3D } from 'three';
-import { EGG, UI } from '../config/tuning';
+import { EGG, LIFECYCLE, UI } from '../config/tuning';
 import { childHint } from '../sim/alignment';
 import { moodOf } from '../sim/needs';
 import type { Item, Nubbin, SimEvent, Vec2, World } from '../sim/types';
@@ -38,6 +38,7 @@ export class WorldView {
   readonly sheets = new SheetCache();
   private readonly nubbins = new Map<string, NubbinView>();
   private readonly items = new Map<string, { sprite: SpriteView; prev: Snapshot }>();
+  private readonly memorials = new Map<string, SpriteView>();
   private readonly keeper: SpriteView;
   private keeperPrev: Snapshot = { pos: { x: 0, z: 0 }, y: 0 };
   private keeperClipStart = 0;
@@ -149,6 +150,27 @@ export class WorldView {
       this.items.delete(id);
     }
 
+    // Memorial flowers.
+    const seenMemorials = new Set<string>();
+    for (const m of world.memorials) {
+      seenMemorials.add(m.id);
+      let sprite = this.memorials.get(m.id);
+      if (!sprite) {
+        sprite = new SpriteView(PROP_SIZE, PROP_SIZE, 0.2);
+        sprite.setSheet(this.sheets.props());
+        sprite.setFrame(frameKey('flower', 'front', 0));
+        sprite.setPosition(m.pos.x, 0, m.pos.z);
+        this.root.add(sprite.root);
+        this.memorials.set(m.id, sprite);
+      }
+      sprite.faceCamera(yaw, pitch);
+    }
+    for (const [id, sprite] of this.memorials) {
+      if (seenMemorials.has(id)) continue;
+      sprite.dispose();
+      this.memorials.delete(id);
+    }
+
     // Keeper.
     const k = world.keeper;
     this.keeper.setSheet(this.sheets.keeper(k.alignment));
@@ -217,7 +239,22 @@ export class WorldView {
       key = frameKey(f, 'front', 0);
     } else if (n.stage === 'cocoon') {
       key = frameKey('idle', 'front', Math.floor(nowMs / 600) % 2);
+      // A departing cocoon fades softly; a rebirth cocoon pulses.
+      const mat = v.sprite.mesh.material;
+      if (n.cocoonKind === 'depart') {
+        const t = Math.min(1, n.stageMs / LIFECYCLE.cocoonMs);
+        mat.alphaTest = 0.05;
+        mat.opacity = 1 - t * 0.85;
+      } else {
+        mat.alphaTest = 0.5;
+        mat.opacity = n.cocoonKind === 'rebirth' ? 0.85 + 0.15 * Math.sin(nowMs / 150) : 1;
+      }
     } else {
+      const mat = v.sprite.mesh.material;
+      if (mat.opacity !== 1) {
+        mat.opacity = 1;
+        mat.alphaTest = 0.5;
+      }
       const clip = clipFor(n);
       if (clip !== v.clip) {
         v.clip = clip;
@@ -270,6 +307,7 @@ export class WorldView {
       v.emote.dispose();
     }
     for (const v of this.items.values()) v.sprite.dispose();
+    for (const s of this.memorials.values()) s.dispose();
     this.keeper.dispose();
     this.sheets.dispose();
   }
@@ -335,7 +373,8 @@ export function emoteFor(n: Nubbin): EmoteShape {
     case 'dizzy':
       return 'spiral';
     default: {
-      const hint = n.form ? n.form.band : childHint(n.alignment);
+      if (n.eternal === 'neutral') return 'star';
+      const hint = n.eternal ?? (n.form ? n.form.band : childHint(n.alignment));
       return hint === 'sun' ? 'halo' : hint === 'moon' ? 'spiky' : 'ball';
     }
   }

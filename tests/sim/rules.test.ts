@@ -111,6 +111,9 @@ describe('alignment and type lean', () => {
     expect(winningType({ normal: 0, swim: 100, fly: 90, run: 0, power: 0 })).toBe('normal');
     expect(winningType({ normal: 0, swim: 115, fly: 100, run: 0, power: 0 })).toBe('swim');
     expect(winningType({ normal: 0, swim: 0, fly: 0, run: 0, power: 0 })).toBe('normal');
+    // A little incidental training does not make a type.
+    expect(winningType({ normal: 0, swim: 15, fly: 0, run: 0, power: 0 })).toBe('normal');
+    expect(winningType({ normal: 0, swim: 30, fly: 0, run: 0, power: 0 })).toBe('swim');
   });
 });
 

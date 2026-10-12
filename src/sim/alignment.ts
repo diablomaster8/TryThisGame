@@ -37,7 +37,7 @@ export function winningType(lean: Record<NubbinType, number>): NubbinType {
       second = score;
     }
   }
-  if (bestScore <= 0) return 'normal';
+  if (bestScore < TYPE_LEAN.minToCount) return 'normal';
   if (second <= 0) return best;
   if (bestScore < second * (1 + TYPE_LEAN.leadMargin)) return 'normal';
   return best;

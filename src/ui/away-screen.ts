@@ -46,6 +46,12 @@ export class AwayScreen {
         case 'departed':
           text = UI_TEXT.awayDeparted(e.name);
           break;
+        case 'eternal':
+          text = UI_TEXT.awayEternal(nameOf(e.nubbinId));
+          break;
+        case 'awaitingKeeper':
+          text = UI_TEXT.awayWaiting(nameOf(e.nubbinId));
+          break;
         default:
           break;
       }

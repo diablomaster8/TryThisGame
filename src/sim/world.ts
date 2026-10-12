@@ -1,5 +1,5 @@
 import { NUBBIN_NAMES } from '../config/strings';
-import { EGG, GROVE, OFFLINE, THROW, TREES } from '../config/tuning';
+import { EGG, GROVE, LIFECYCLE, OFFLINE, THROW, TREES } from '../config/tuning';
 import { nudgeAlignment } from './alignment';
 import { applyDrop, decayNeeds } from './needs';
 import { clampToWorld, putDown, react, sampleAll, startThrow, updateBehavior } from './behavior';
@@ -256,10 +256,10 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
       return;
     }
     case 'debugForceEndOfLife': {
-      // End of life arrives in M3. For now jump the adult to the end of its stage.
       const n = findNubbin(world, cmd.nubbinId);
       if (!n || n.stage !== 'adult') return;
-      n.stageMs = Number.MAX_SAFE_INTEGER / 4;
+      n.eternal = null;
+      n.stageMs = LIFECYCLE.adultMs;
       return;
     }
     case 'debugHatchNow': {
@@ -285,7 +285,8 @@ export function stepWorld(world: World, dtMs: number, wallMs?: number): SimEvent
   withRng(world, (rng) => {
     updateTrees(world, dtMs, rng, events);
     updateItems(world, dtMs);
-    for (const n of world.nubbins) {
+    // Iterate a copy: a departure removes its Nubbin from the list.
+    for (const n of [...world.nubbins]) {
       if (n.stage === 'egg') {
         if (!isHeld(n) && n.behavior.state !== 'thrown') {
           n.hatchRemainingMs -= dtMs;
@@ -293,14 +294,14 @@ export function stepWorld(world: World, dtMs: number, wallMs?: number): SimEvent
           n.hatchRemainingMs -= dtMs; // eggs still incubate while carried
         }
         if (n.hatchRemainingMs <= 0 && !isHeld(n) && n.behavior.state !== 'thrown') {
-          hatch(n, events);
+          hatch(n, events, world.timeMs);
         }
         if (n.behavior.state === 'thrown') updateBehavior(n, world, dtMs, rng, events);
         continue;
       }
       decayNeeds(n, dtMs);
-      advanceStage(n, dtMs, events, world);
-      updateBehavior(n, world, dtMs, rng, events);
+      advanceStage(n, dtMs, events, world, false);
+      if (world.nubbins.includes(n)) updateBehavior(n, world, dtMs, rng, events);
     }
     updateKeeper(world, dtMs, events);
   });

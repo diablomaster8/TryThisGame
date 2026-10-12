@@ -7,6 +7,7 @@ import {
   CHILD_NEUTRAL,
   CHILD_SUN,
   drawChao,
+  eternalColors,
   lookOf,
   poseFor,
   type ChaoLook,
@@ -113,6 +114,14 @@ export function mountSpriteGallery(root: HTMLElement, scale = 4): void {
     }
   }
 
+  for (const band of ['sun', 'moon', 'neutral'] as const) {
+    chao(
+      `Eternal ${band} (Chaos form)`,
+      lookOf(eternalColors(band), 'normal', null, undefined, true),
+      [...idleAngles, ['flap', 'front', 1], ['happy', 'front', 0]],
+    );
+  }
+
   for (const type of NUBBIN_TYPES) {
     if (type === 'normal') continue;
     for (const second of NUBBIN_TYPES) {
@@ -170,7 +179,12 @@ export function mountSpriteGallery(root: HTMLElement, scale = 4): void {
       ),
     );
   }
-  sheet('Cocoon', buildCocoonSheet(), [frameKey('idle', 'front', 0), frameKey('idle', 'front', 1)]);
+  for (const kind of ['evolve', 'rebirth', 'depart'] as const) {
+    sheet(`Cocoon: ${kind}`, buildCocoonSheet(kind), [
+      frameKey('idle', 'front', 0),
+      frameKey('idle', 'front', 1),
+    ]);
+  }
   const keeperKeys = (clips: ClipName[]) => clipFrames(clips).map(([c, a, f]) => frameKey(c, a, f));
   sheet('Sun Keeper', buildKeeperSheet(SUN_KEEPER), keeperKeys(['idle', 'walk']));
   sheet('Moon Keeper', buildKeeperSheet(MOON_KEEPER), keeperKeys(['idle']));

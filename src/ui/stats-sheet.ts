@@ -231,6 +231,8 @@ function subtitleFor(n: Nubbin, world: World): string {
     ? ` · ${TYPE_LABELS[n.form.type]}${n.form.second && n.form.second !== 'normal' ? ` / ${TYPE_LABELS[n.form.second]}` : ''}`
     : '';
   const rebirths = n.rebirths > 0 ? ` · ${UI_TEXT.rebirths(n.rebirths)}` : '';
+  const eternal = n.eternal ? ` · ✦ ${UI_TEXT.eternalLabel}` : '';
+  const waiting = n.awaitingKeeper ? ` · ${UI_TEXT.waiting}` : '';
   void world;
-  return `${stage}${type} · ${bandLabel} · ${UI_TEXT.age(formatDuration(n.ageMs))}${rebirths}`;
+  return `${stage}${type} · ${bandLabel} · ${UI_TEXT.age(formatDuration(n.ageMs))}${rebirths}${eternal}${waiting}`;
 }

@@ -157,6 +157,22 @@ export const LIFECYCLE = {
   secondEvolutionMs: 60 * MINUTE,
 } as const;
 
+export const REBIRTH = {
+  /** Lifetime average happiness needed to be reborn instead of departing. */
+  minLifetimeHappiness: 30,
+  minAffection: 40,
+  /** Fraction of stat points carried into the next life. */
+  keepPointsFraction: 0.1,
+} as const;
+
+export const ETERNAL = {
+  minRebirths: 2,
+  sunThreshold: 0.8,
+  moonThreshold: -0.8,
+  /** |alignment| at or under this counts as Eternal Neutral. */
+  neutralBand: 0.1,
+} as const;
+
 export const CRITTERS = {
   mainStatPoints: 30,
   otherStatPoints: 10,
@@ -193,6 +209,8 @@ export const TYPE_LEAN = {
   leadMargin: 0.15,
   /** Lean gained after evolution needed for a second evolution to show. */
   secondMin: 40,
+  /** A type needs at least this much lean to count at all; less than one critter. */
+  minToCount: 20,
   /** Lean gained per second of swimming / flapping. Slow: an hour of play ≈ one critter. */
   trainingPerSecond: 0.02,
 } as const;

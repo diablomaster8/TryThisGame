@@ -11,7 +11,7 @@ export const EMOTE_SIZE = 12;
  * Moon forms a spiked ball. Sleep shows a Z.
  */
 export type EmoteShape =
-  'ball' | 'heart' | 'spiral' | 'exclaim' | 'question' | 'halo' | 'spiky' | 'zz' | 'none';
+  'ball' | 'heart' | 'spiral' | 'exclaim' | 'question' | 'halo' | 'spiky' | 'zz' | 'star' | 'none';
 export const EMOTE_SHAPES: readonly EmoteShape[] = [
   'ball',
   'heart',
@@ -21,6 +21,7 @@ export const EMOTE_SHAPES: readonly EmoteShape[] = [
   'halo',
   'spiky',
   'zz',
+  'star',
 ];
 
 function drawEmote(shape: EmoteShape, frame: number, tint: number): PixelCanvas {
@@ -94,6 +95,14 @@ function drawEmote(shape: EmoteShape, frame: number, tint: number): PixelCanvas 
       pc.line(cx + 1, cy + 1, cx + 4, cy + 1, C.pale);
       pc.line(cx + 4, cy + 1, cx + 1, cy + 4, C.pale);
       pc.line(cx + 1, cy + 4, cx + 4, cy + 4, C.pale);
+      break;
+    case 'star':
+      // The Eternal Neutral's silver star.
+      pc.line(cx, cy - 4, cx, cy + 4, C.pale);
+      pc.line(cx - 4, cy, cx + 4, cy, C.pale);
+      pc.line(cx - 2, cy - 2, cx + 2, cy + 2, C.lilacGrey);
+      pc.line(cx - 2, cy + 2, cx + 2, cy - 2, C.lilacGrey);
+      pc.px(cx, cy, C.white);
       break;
     case 'none':
       break;

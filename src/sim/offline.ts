@@ -41,7 +41,12 @@ export function catchUp(world: World, elapsedMs: number, nowWallMs: number): Awa
 
 function isReportable(e: SimEvent): boolean {
   return (
-    e.kind === 'hatched' || e.kind === 'evolved' || e.kind === 'reborn' || e.kind === 'departed'
+    e.kind === 'hatched' ||
+    e.kind === 'evolved' ||
+    e.kind === 'reborn' ||
+    e.kind === 'departed' ||
+    e.kind === 'eternal' ||
+    e.kind === 'awaitingKeeper'
   );
 }
 
@@ -65,10 +70,10 @@ export function coarseStep(world: World, dtMs: number, events: SimEvent[]): void
       }
     }
   }
-  for (const n of world.nubbins) {
+  for (const n of [...world.nubbins]) {
     if (n.stage === 'egg') {
       n.hatchRemainingMs -= dtMs;
-      if (n.hatchRemainingMs <= 0) hatch(n, events);
+      if (n.hatchRemainingMs <= 0) hatch(n, events, world.timeMs);
       continue;
     }
     // Sleep when exhausted, otherwise rest a little: coarse steps do not model naps.
@@ -82,7 +87,7 @@ export function coarseStep(world: World, dtMs: number, events: SimEvent[]): void
     }
     decayNeeds(n, dtMs);
     if (n.behavior.state === 'nap') n.behavior.state = 'sit';
-    advanceStage(n, dtMs, events, world);
-    sampleHappiness(n);
+    advanceStage(n, dtMs, events, world, true);
+    if (world.nubbins.includes(n)) sampleHappiness(n);
   }
 }

@@ -111,10 +111,59 @@ export function adultColors(band: 'sun' | 'moon' | 'neutral', type: string): Cha
   }
 }
 
+/**
+ * The Chaos forms: Eternals. Sun is the angelic white-and-gold look with great wings,
+ * Moon the devilish black-and-red one, Neutral a silvery, ethereal one.
+ */
+export function eternalColors(band: 'sun' | 'moon' | 'neutral'): ChaoColors {
+  switch (band) {
+    case 'sun':
+      return {
+        body: C.white,
+        shade: C.cream,
+        belly: C.white,
+        tip: C.sunYellow,
+        tipShade: C.orange,
+        wing: C.cream,
+        eye: C.deepWater,
+        glint: C.white,
+        outline: C.sand,
+      };
+    case 'moon':
+      return {
+        body: C.ink,
+        shade: C.darkPlum,
+        belly: C.plum,
+        tip: C.ember,
+        tipShade: C.berry,
+        wing: C.berry,
+        eye: C.ember,
+        glint: C.sunYellow,
+        outline: C.darkPlum,
+      };
+    default:
+      return {
+        body: C.lilacGrey,
+        shade: C.dusk,
+        belly: C.pale,
+        tip: C.mint,
+        tipShade: C.teal,
+        wing: C.lavender,
+        eye: C.teal,
+        glint: C.white,
+        outline: C.plum,
+      };
+  }
+}
+
 /** Silhouette by type. Second evolutions add a lighter touch of their type. */
-export function shapeFor(type: NubbinType | null, second: NubbinType | null): ChaoShape {
+export function shapeFor(
+  type: NubbinType | null,
+  second: NubbinType | null,
+  eternal = false,
+): ChaoShape {
   if (!type) return CHILD_SHAPE;
-  const s: ChaoShape = { ...CHILD_SHAPE, grow: 1 };
+  const s: ChaoShape = { ...CHILD_SHAPE, grow: 1, wingScale: eternal ? 2.2 : 1 };
   const apply = (t: NubbinType, k: number) => {
     switch (t) {
       case 'swim':
@@ -704,8 +753,9 @@ export function lookOf(
   type: NubbinType | null = null,
   second: NubbinType | null = null,
   parts: Record<PartSlot, string | null> = NO_PARTS,
+  eternal = false,
 ): ChaoLook {
-  return { colors, shape: shapeFor(type, second), parts };
+  return { colors, shape: shapeFor(type, second, eternal), parts };
 }
 
 export type { PartStyle };
