@@ -109,3 +109,28 @@ body {
     display: none;
   }
 }
+
+/* Developer sprite gallery (?sprites) */
+.gallery {
+  position: static;
+  overflow: auto;
+  height: 100%;
+  padding: 16px;
+  background: #3a3550;
+}
+
+.gallery h2 {
+  font-size: 14px;
+  margin: 16px 0 6px;
+}
+
+.gallery-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.gallery-row canvas {
+  image-rendering: pixelated;
+  background: #5a5478;
+}
