@@ -116,6 +116,8 @@ export interface Nubbin {
   /** Hidden -1..1. */
   alignment: number;
   personality: Personality | null;
+  /** How it was treated as a child; decides the personality at evolution. */
+  childCare: { pets: number; throws: number; feeds: number };
   /** Set at evolution. */
   form: NubbinForm | null;
   /** Part ids from critters, e.g. "rabbit-ears". The newest critter wins a slot. */
@@ -184,6 +186,7 @@ export interface OfflineAgingSettings {
 export interface Settings {
   offlineAging: OfflineAgingSettings;
   joystick: boolean;
+  sound: boolean;
 }
 
 export interface Inventory {
@@ -227,6 +230,8 @@ export interface World {
   unlocks: { sunGrove: boolean; moonGrove: boolean };
   /** Which Grove is shown. Sun and Moon are recolours, unlocked by the first adult of that band. */
   grove: GroveKind;
+  /** Highest tier won per race course (0 = none). */
+  races: Record<string, number>;
   nextId: number;
   /** Id of the Nubbin the player has selected, or null. */
   selected: string | null;
@@ -255,6 +260,15 @@ export type Command =
   | { kind: 'giveEssence'; nubbinId: string; type: NubbinType }
   | { kind: 'addRewards'; rewards: Rewards }
   | { kind: 'buy'; item: ShopItem }
+  | {
+      kind: 'raceResult';
+      course: string;
+      tier: number;
+      placement: number;
+      shells: number;
+      hat: string | null;
+    }
+  | { kind: 'wearHat'; nubbinId: string; hat: string | null }
   | { kind: 'setSettings'; settings: Settings }
   | { kind: 'rename'; nubbinId: string; name: string }
   // Debug

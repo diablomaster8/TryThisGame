@@ -1,7 +1,8 @@
-import { KEEPER, SIM, TREES } from '../config/tuning';
+import { KEEPER, NEEDS, SIM, TREES } from '../config/tuning';
 import { nudgeAlignment } from './alignment';
 import { eat, putDown, react } from './behavior';
 import { applyPet } from './needs';
+import { noteCare } from './personality';
 import type { Keeper, KeeperIntent, Nubbin, SimEvent, Vec2, World } from './types';
 
 const dist = (a: Vec2, b: Vec2): number => Math.hypot(a.x - b.x, a.z - b.z);
@@ -122,6 +123,7 @@ function performIntent(world: World, intent: KeeperIntent, events: SimEvent[]): 
       world.inventory.fruit -= 1;
       eat(n, now, events);
       nudgeAlignment(n, world.keeper.alignment);
+      noteCare(n, 'feeds');
       return;
     }
     case 'shakeTree': {
@@ -146,6 +148,7 @@ export function petNubbin(world: World, n: Nubbin, events: SimEvent[]): void {
   const now = world.timeMs;
   applyPet(n);
   nudgeAlignment(n, world.keeper.alignment);
+  if (now - n.lastPetMs >= NEEDS.petCooldownMs) noteCare(n, 'pets');
   n.lastPetMs = now;
   react(n, 'love', now, events);
 }

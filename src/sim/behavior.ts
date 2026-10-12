@@ -8,6 +8,7 @@ import {
   sampleHappiness,
 } from './needs';
 import { isFree } from './nubbin';
+import { idleMultipliers } from './personality';
 import type { Rng } from './rng';
 import { addPoints } from './stats';
 import type { BehaviorState, Item, Nubbin, Reaction, SimEvent, Vec2, World } from './types';
@@ -94,26 +95,28 @@ function nearestToy(world: World, from: Vec2): Item | null {
 }
 
 function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
+  // Personality only shifts the odds of idle choices.
+  const m = idleMultipliers(n.personality);
   const keeperNear = dist(n.pos, world.keeper.pos) < BEHAVIOR.greetRadius;
-  if (keeperNear && rng.chance(BEHAVIOR.greetChance)) {
+  if (keeperNear && rng.chance(Math.min(1, BEHAVIOR.greetChance * m.greet))) {
     setState(n, 'greet', now, BEHAVIOR.greetMs);
     n.facing = Math.atan2(world.keeper.pos.x - n.pos.x, world.keeper.pos.z - n.pos.z);
     return;
   }
   const toy = nearestToy(world, n.pos);
-  if (toy && rng.chance(BEHAVIOR.playChance)) {
+  if (toy && rng.chance(Math.min(1, BEHAVIOR.playChance * m.play))) {
     setState(n, 'play', now, rng.float(...BEHAVIOR.playMs));
     n.behavior.itemId = toy.id;
     n.behavior.target = { x: toy.pos.x, z: toy.pos.z };
     return;
   }
-  if (n.stage !== 'egg' && rng.chance(BEHAVIOR.swimChance)) {
+  if (n.stage !== 'egg' && rng.chance(Math.min(1, BEHAVIOR.swimChance * m.swim))) {
     setState(n, 'swim', now, rng.float(...BEHAVIOR.swimMs));
     n.behavior.target = randomPoint(rng, GROVE.pond, GROVE.pond.r - 0.8);
     return;
   }
-  if (rng.chance(BEHAVIOR.sitChance)) {
-    setState(n, 'sit', now, rng.float(...BEHAVIOR.sitMs));
+  if (rng.chance(Math.min(1, BEHAVIOR.sitChance * m.sit))) {
+    setState(n, 'sit', now, rng.float(...BEHAVIOR.sitMs) * (n.personality === 'lazy' ? 1.5 : 1));
     return;
   }
   setState(n, 'wander', now, rng.float(...BEHAVIOR.wanderMs));

@@ -15,6 +15,7 @@ export class SettingsMenu {
   private readonly capError: HTMLDivElement;
   private readonly departures: HTMLInputElement;
   private readonly departuresRow: HTMLLabelElement;
+  private readonly sound: HTMLInputElement;
 
   constructor(
     parent: HTMLElement,
@@ -73,6 +74,15 @@ export class SettingsMenu {
     section.appendChild(this.departuresRow);
     body.appendChild(section);
 
+    const soundRow = el('label', 'check-row');
+    this.sound = el('input');
+    this.sound.type = 'checkbox';
+    this.sound.addEventListener('change', () => this.apply());
+    const sText = el('span');
+    sText.append(el('strong', undefined, UI_TEXT.sound), el('small', undefined, UI_TEXT.soundHelp));
+    soundRow.append(this.sound, sText);
+    body.appendChild(soundRow);
+
     const saves = el('div', 'settings-actions');
     saves.append(
       button(UI_TEXT.exportSave, () => this.exportSave()),
@@ -90,6 +100,7 @@ export class SettingsMenu {
     this.capInput.value = String(s.capHours);
     this.capError.hidden = true;
     this.departures.checked = s.allowOfflineDepartures;
+    this.sound.checked = g.world.settings.sound;
     this.syncEnabled(s.mode);
     this.dialog.show();
   }
@@ -131,6 +142,7 @@ export class SettingsMenu {
     this.capError.hidden = valid || mode !== 'capped';
     const settings: Settings = {
       ...prev,
+      sound: this.sound.checked,
       offlineAging: {
         mode,
         capHours: valid ? hours : prev.offlineAging.capHours,

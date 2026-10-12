@@ -1,0 +1,20 @@
+{
+  "name": "Grove",
+  "short_name": "Grove",
+  "description": "A cozy virtual-pet garden. Hatch, raise and race your Nubbins.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0d0a1a",
+  "theme_color": "#0d0a1a",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

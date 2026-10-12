@@ -16,6 +16,10 @@ export default tseslint.config(
     languageOptions: { globals: { ...globals.node } },
   },
   {
+    files: ['public/sw.js'],
+    languageOptions: { globals: { ...globals.serviceworker } },
+  },
+  {
     // Architecture rule: sim/ holds game rules only. No DOM, no Three.js.
     files: ['src/sim/**/*.ts'],
     rules: {

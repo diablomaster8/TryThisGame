@@ -9,7 +9,14 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
-## Current milestone: M4 Expedition and shop — COMPLETE (2026-10-12, tag `m4`)
+## Current milestone: M5 Races, personality, polish — BUILT (2026-10-12, tag `m5`)
+
+**Done when:** every acceptance check in CLAUDE.md passes. The automated ones do (see
+"Acceptance checks" below). The manual device pass is Maor's: iPhone Safari (browser and
+home screen), Android Chrome, desktop Chrome/Safari/Firefox, 60 fps with 8 Nubbins,
+blocked storage, no console errors. The build is deployed for that pass.
+
+## M4 Expedition and shop — COMPLETE (2026-10-12, tag `m4`)
 
 **Done when:** a run is fun on a phone and its rewards reach the Grove. Rewards verified
 in the browser (results screen → Shells, Essences and Critters in the inventory) and in
@@ -126,16 +133,52 @@ Check any sheet at `?sprites` (developer gallery).
 - **Shop (M4)**: `sim/shop.ts` (fruit, egg with a 15 % rare colour chance and the roster
   cap of 8, hat into the collection, ball toy with a cap of 3) and `ui/shop.ts`.
 - **Toys (M4)**: `play` behavior: walk to the ball, bat it around, a little happiness.
-- **Tests**: 109 Vitest cases (sim rules, growth, life cycle, expedition, shop, world
-  determinism, save round-trip, offline modes incl. the 7-day < 3 s check, sprite math
-  and parts).
+- **Races (M5)**: `sim/race.ts` with 3 courses built from swim / fly / run / climb /
+  stamina-stretch sections, each checking its stat; stamina drains into a 1.5 s rest;
+  3 tiers with 4–8 seeded rivals whose levels scale with the tier; cheer boost (×1.45
+  for 1.2 s, once per 3 s); prizes 20/10/5 Shells × tier and a hat on a win; winning a
+  tier unlocks the next (`world.races`). `minigames/race/screen.ts` draws a side view
+  with lanes stacked in depth on the same low-res canvas style, a big Cheer button
+  (space on desktop), live placement and the player's stamina bar.
+- **Personality (M5)**: `sim/personality.ts` decides Cheerful / Shy / Mischievous /
+  Lazy at evolution from childhood pets, throws and feeds, and only shifts idle odds
+  (greet, play, sit, swim).
+- **Roster (M5)**: `ui/roster.ts` with portraits, rename, stats with grades, age,
+  rebirths, alignment word + icon, personality, hat picker ("wearHat"), Go to.
+- **Hats (M5)**: five styles drawn on the crown at all angles (straw, crown, beanie,
+  flower, bucket); bought in the shop or won in races.
+- **Sound (M5)**: `platform/audio.ts` synthesizes blips (no audio assets); muted until
+  the first tap or click; a Sound toggle in Settings lives in the save.
+- **PWA (M5)**: `public/manifest.webmanifest`, generated icons (`tests/tools/
+  make-icons.test.ts` with `MAKE_ICONS=1`), hand-rolled `public/sw.js` (stale-while-
+  revalidate, offline shell), registered only on the built site.
+- **Reduced motion**: instant camera snaps, no toast/celebration animation, no meter
+  transition.
+- **Tests**: 119 Vitest cases (+1 skipped icon writer).
+
+## Acceptance checks (CLAUDE.md v1)
+
+Automated, all green in `npm test`: grade multipliers; the 99 level cap; 10 % carried
+over on rebirth; type-lean and alignment thresholds; a full life at ×1000; Eternal when
+met and never otherwise; save export → import identical (round-trip fingerprint);
+older saves migrate (the table is empty at v1, the loader defaults missing fields);
+aging while closed in all three modes; the 7-day indefinite catch-up under 3 s; with
+departures off no departure during catch-up and the check runs live.
+
+Manual (Maor): iPhone Safari in the browser and installed to the home screen; Android
+Chrome; desktop Chrome, Safari, Firefox; 60 fps with 8 Nubbins; blocked storage does
+not crash (the storage wrapper swallows errors and toasts once); no console errors; no
+names, art or audio from an existing franchise (the Nubbins are Chao-faithful fan art
+by Maor's decision; names, music and sound are original).
 
 ## What's stubbed
 
-- Hats are bought into `inventory.hats` but worn only in M5.
-- Shiny/jewel/two-tone colour variants: the egg colours exist (6); body colour variants
-  are M5 polish with the hats.
-- Character Chao looks, roster screen, races, personality, sound, PWA: M5.
+- Shiny / jewel / two-tone body colour variants: not drawn yet (egg colours are).
+- Character Chao looks (Tails, Knuckles, Amy, NiGHTS…): not drawn yet; they would be
+  hat-like overlays once Maor wants them.
+- `vite-plugin-pwa` 2.0 supports Vite 8 but pulls in workbox; a 40-line service worker
+  does the job for v1. Swap if precache manifests are wanted.
+- An on-screen joystick (optional per CLAUDE.md) is not built; tap-to-move covers phones.
 
 ## Known bugs / open items
 
@@ -173,11 +216,9 @@ Check any sheet at `?sprites` (developer gallery).
 
 ## Next steps
 
-1. **M5 Races, personality, polish** (see CLAUDE.md): races (3 courses of sections
-   checking Swim/Fly/Run/Power/Stamina, 3 tiers with 4–8 seeded rivals, cheer button,
-   prizes, side view with lanes in depth, readable in portrait), personality locked at
-   evolution and shaping idle behavior, the roster with naming and hats (wearing),
-   PWA install, sound (muted until the first tap), reduced motion, a device test pass.
-   Done when every acceptance check in CLAUDE.md passes.
-2. Phone checks owed to Maor: the Expedition's feel on a real phone (tap/hold timing),
-   and the M0 60 fps check with 8 Nubbins.
+1. **Device test pass (Maor):** open https://diablomaster8.github.io/TryThisGame/ on
+   iPhone Safari (and Add to Home Screen), Android Chrome and the desktop browsers.
+   Check fps with 8 Nubbins (buy eggs in the shop with debug Shells), the Expedition's
+   tap/hold feel, a race in portrait, and that nothing logs to the console.
+2. Polish backlog after the pass: body colour variants, character looks, Keeper
+   pond-wading, a joystick if tap-to-move feels wrong on a phone.

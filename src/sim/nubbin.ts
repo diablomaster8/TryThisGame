@@ -32,6 +32,7 @@ export function createEgg(id: string, pos: Vec2, rng: Rng, eggColor: string = 'p
     typeLean: lean,
     alignment: 0,
     personality: null,
+    childCare: { pets: 0, throws: 0, feeds: 0 },
     form: null,
     parts: { ears: null, tail: null, arms: null, back: null },
     hat: null,

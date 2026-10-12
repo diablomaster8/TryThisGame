@@ -285,6 +285,54 @@ export interface ChaoLook {
   colors: ChaoColors;
   shape: ChaoShape;
   parts: Record<PartSlot, string | null>;
+  /** Hat id from the shop, or null. */
+  hat?: string | null;
+}
+
+/** Hats sit on the crown. Five styles, drawn simply enough to read at 32 px. */
+function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: Layout, hat: string): void {
+  const top = L.headCy - L.headRy;
+  const cx = L.headCx + (angle === 'side' ? -1 : 0);
+  switch (hat) {
+    case 'straw':
+      pc.rect(cx - 9, top + 1, 19, 2, C.cream);
+      pc.rect(cx - 9, top + 2, 19, 1, C.sand);
+      pc.ellipse(cx, top - 1, 5.5, 3.5, C.cream);
+      pc.rect(cx - 5, top + 0, 11, 1, C.ember);
+      break;
+    case 'crown':
+      pc.rect(cx - 4, top - 1, 9, 4, C.sunYellow);
+      for (const dx of [-4, -1, 2])
+        pc.tri(cx + dx, top - 1, cx + dx + 3, top - 1, cx + dx + 1.5, top - 4, C.sunYellow);
+      pc.px(cx, top + 1, C.rose);
+      pc.px(cx - 3, top + 1, C.water);
+      pc.px(cx + 3, top + 1, C.water);
+      break;
+    case 'beanie':
+      pc.ellipse(cx, top + 1, 7.5, 4.5, C.ember);
+      pc.rect(cx - 7, top + 2, 15, 2, C.pale);
+      pc.disc(cx, top - 3, 2, C.cream);
+      break;
+    case 'flower':
+      for (const [dx, dy] of [
+        [0, -3],
+        [3, 0],
+        [0, 3],
+        [-3, 0],
+      ] as const) {
+        pc.disc(cx + 5 + dx, top + 1 + dy, 1.5, C.rose);
+      }
+      pc.disc(cx + 5, top + 1, 1.5, C.sunYellow);
+      pc.px(cx + 3, top + 4, C.leaf);
+      break;
+    case 'bucket':
+      pc.rect(cx - 6, top - 3, 13, 5, C.teal);
+      pc.rect(cx - 8, top + 1, 17, 2, C.teal);
+      pc.rect(cx - 6, top - 1, 13, 1, C.mint);
+      break;
+    default:
+      break;
+  }
 }
 
 export const NO_PARTS: Record<PartSlot, string | null> = {
@@ -701,6 +749,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
 
   const ears = partStyle(look.parts.ears);
   if (ears) drawEars(pc, angle, L, ears);
+  if (look.hat) drawHat(pc, angle, L, look.hat);
 
   if (fromFront) drawArms(pc, angle, pose, L, look);
   drawFace(pc, angle, pose, L, col);
@@ -754,8 +803,9 @@ export function lookOf(
   second: NubbinType | null = null,
   parts: Record<PartSlot, string | null> = NO_PARTS,
   eternal = false,
+  hat: string | null = null,
 ): ChaoLook {
-  return { colors, shape: shapeFor(type, second, eternal), parts };
+  return { colors, shape: shapeFor(type, second, eternal), parts, hat };
 }
 
 export type { PartStyle };

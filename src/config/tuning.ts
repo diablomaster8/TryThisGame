@@ -175,6 +175,54 @@ export const ETERNAL = {
   neutralBand: 0.1,
 } as const;
 
+export const PERSONALITY = {
+  /** Thresholds on childhood care counts, checked in this order at evolution. */
+  mischievousThrows: 5,
+  cheerfulPets: 10,
+  shyTotal: 3,
+  lazyFeeds: 5,
+  /** Idle multipliers by personality: greet, play, sit, swim. */
+  multipliers: {
+    cheerful: { greet: 1.6, play: 1.4, sit: 0.7, swim: 1.1 },
+    shy: { greet: 0.3, play: 0.8, sit: 1.3, swim: 0.8 },
+    mischievous: { greet: 1.0, play: 1.6, sit: 0.5, swim: 1.5 },
+    lazy: { greet: 0.8, play: 0.6, sit: 2.2, swim: 0.5 },
+  } as const,
+} as const;
+
+export const RACE = {
+  /** Base speed in track units per second at level 0; stat levels add up to this much more. */
+  baseSpeed: 2.0,
+  statSpeedBonus: 3.0,
+  /** Stamina pool at level 0 and the bonus at level 99, in seconds of effort. */
+  staminaBase: 18,
+  staminaBonus: 40,
+  /** Stamina stretches drain at this multiple. */
+  stretchDrain: 2.5,
+  restMs: 1500,
+  /** Fraction of the pool restored after a rest. */
+  restRefill: 0.45,
+  cheerBoost: 1.45,
+  cheerMs: 1200,
+  cheerCooldownMs: 3000,
+  /** Rivals per tier (min, max) and how their stat levels scale with the tier. */
+  rivals: [
+    [4, 5],
+    [5, 7],
+    [6, 8],
+  ] as const,
+  rivalLevels: [
+    [2, 14],
+    [12, 36],
+    [30, 70],
+  ] as const,
+  /** Prizes in Shells by placement, times the tier number. */
+  prizes: [20, 10, 5] as const,
+  hatChanceOnWin: 0.5,
+  /** Hard cap so a race always ends. */
+  maxMs: 120_000,
+} as const;
+
 export const CRITTERS = {
   mainStatPoints: 30,
   otherStatPoints: 10,

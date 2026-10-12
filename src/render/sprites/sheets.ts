@@ -46,11 +46,12 @@ export class SheetCache {
     if (n.stage === 'egg') return `egg:${n.eggColor}`;
     if (n.stage === 'cocoon') return `cocoon:${n.cocoonKind ?? 'evolve'}`;
     const parts = SLOTS.map((s) => n.parts[s] ?? '-').join(',');
+    const hat = n.hat ?? '-';
     if (n.stage === 'adult' && n.form) {
-      if (n.eternal) return `eternal:${n.eternal}:${parts}`;
-      return `adult:${n.form.band}:${n.form.type}:${n.form.second ?? '-'}:${parts}`;
+      if (n.eternal) return `eternal:${n.eternal}:${parts}:${hat}`;
+      return `adult:${n.form.band}:${n.form.type}:${n.form.second ?? '-'}:${parts}:${hat}`;
     }
-    return `child:${childHint(n.alignment)}:${parts}`;
+    return `child:${childHint(n.alignment)}:${parts}:${hat}`;
   }
 
   forNubbin(n: Nubbin): SpriteSheet {
@@ -61,17 +62,33 @@ export class SheetCache {
       if (n.stage === 'adult' && n.form) {
         if (n.eternal) {
           return buildChaoSheet(
-            lookOf(eternalColors(n.eternal), 'normal', null, { ...n.parts }, true),
+            lookOf(eternalColors(n.eternal), 'normal', null, { ...n.parts }, true, n.hat),
           );
         }
         return buildChaoSheet(
-          lookOf(adultColors(n.form.band, n.form.type), n.form.type, n.form.second, { ...n.parts }),
+          lookOf(
+            adultColors(n.form.band, n.form.type),
+            n.form.type,
+            n.form.second,
+            { ...n.parts },
+            false,
+            n.hat,
+          ),
         );
       }
       const hint = childHint(n.alignment);
       const colors = hint === 'sun' ? CHILD_SUN : hint === 'moon' ? CHILD_MOON : CHILD_NEUTRAL;
-      return buildChaoSheet(lookOf(colors, null, null, { ...n.parts }));
+      return buildChaoSheet(lookOf(colors, null, null, { ...n.parts }, false, n.hat));
     });
+  }
+
+  /** A generic adult look for race rivals. */
+  rival(band: 'sun' | 'moon' | 'neutral', type: string): SpriteSheet {
+    return this.get(`rival:${band}:${type}`, () =>
+      buildChaoSheet(
+        lookOf(adultColors(band, type), type as 'swim' | 'fly' | 'run' | 'power' | 'normal'),
+      ),
+    );
   }
 
   keeper(alignment: 'sun' | 'moon'): SpriteSheet {

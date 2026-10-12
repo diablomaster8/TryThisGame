@@ -5,6 +5,7 @@ import { applyDrop, decayNeeds } from './needs';
 import { clampToWorld, putDown, react, sampleAll, startThrow, updateBehavior } from './behavior';
 import { CRITTER_SPECIES, giveCritter, giveEssence } from './critters';
 import { createKeeper, keeperPutDown, updateKeeper } from './keeper';
+import { noteCare } from './personality';
 import { addRewards, buy } from './shop';
 import { advanceStage, evolve, hatch, secondEvolve } from './lifecycle';
 import { createEgg, isHeld } from './nubbin';
@@ -29,6 +30,7 @@ export function defaultSettings(): Settings {
       allowOfflineDepartures: OFFLINE.defaultAllowDepartures,
     },
     joystick: false,
+    sound: true,
   };
 }
 
@@ -48,6 +50,7 @@ export function createWorld(seed: number, wallMs: number): World {
     memorials: [],
     unlocks: { sunGrove: false, moonGrove: false },
     grove: 'main',
+    races: {},
     nextId: 1,
     selected: null,
   };
@@ -176,6 +179,7 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
       if (!n) return;
       const speed = Math.hypot(cmd.vel.x, cmd.vel.z);
       if (speed >= THROW.minSpeed) {
+        noteCare(n, 'throws');
         startThrow(n, cmd.vel, now, events);
       } else {
         if (n.stage !== 'egg') applyDrop(n);
@@ -218,6 +222,21 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
     case 'buy':
       withRng(world, (rng) => buy(world, cmd.item, rng, events));
       return;
+    case 'raceResult': {
+      world.inventory.shells += Math.max(0, cmd.shells);
+      if (cmd.hat) world.inventory.hats.push(cmd.hat);
+      if (cmd.placement === 1) {
+        world.races[cmd.course] = Math.max(world.races[cmd.course] ?? 0, cmd.tier);
+      }
+      return;
+    }
+    case 'wearHat': {
+      const n = findNubbin(world, cmd.nubbinId);
+      if (!n) return;
+      if (cmd.hat && !world.inventory.hats.includes(cmd.hat)) return;
+      n.hat = cmd.hat;
+      return;
+    }
     case 'setSettings':
       world.settings = cmd.settings;
       return;

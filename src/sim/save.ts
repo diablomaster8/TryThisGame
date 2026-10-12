@@ -60,6 +60,8 @@ export function validateWorld(w: World): World {
   w.inventory.hats ??= [];
   w.settings ??= defaultSettings();
   w.settings.offlineAging ??= defaultSettings().offlineAging;
+  w.settings.sound ??= true;
+  w.settings.joystick ??= false;
   const oa = w.settings.offlineAging;
   if (oa.mode !== 'indefinite' && oa.mode !== 'capped' && oa.mode !== 'off')
     oa.mode = OFFLINE.defaultMode;
@@ -73,6 +75,7 @@ export function validateWorld(w: World): World {
   oa.allowOfflineDepartures = Boolean(oa.allowOfflineDepartures);
   w.selected ??= null;
   w.grove ??= 'main';
+  w.races ??= {};
   w.inventory.critters ??= {};
   w.inventory.essences ??= {};
   for (const n of w.nubbins) {
@@ -82,6 +85,9 @@ export function validateWorld(w: World): World {
     n.gradeUpgrades ??= {};
     n.parts ??= { ears: null, tail: null, arms: null, back: null };
     n.cocoonKind ??= n.stage === 'cocoon' ? 'evolve' : null;
+    n.childCare ??= { pets: 0, throws: 0, feeds: 0 };
+    n.personality ??= null;
+    n.hat ??= null;
     n.eternal ??= null;
     n.awaitingKeeper ??= false;
     if (n.form) {

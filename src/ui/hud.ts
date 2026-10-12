@@ -3,9 +3,13 @@ import { GROVE_LABELS, NAMES, TYPE_LABELS, UI_TEXT } from '../config/strings';
 import type { Game, GameHooks } from '../game';
 import type { AwayReport, GroveKind, SimEvent } from '../sim/types';
 import { ExpeditionScreen } from '../minigames/expedition/screen';
+import { playSound, setSoundEnabled } from '../platform/audio';
+import type { Nubbin } from '../sim/types';
 import { AwayScreen } from './away-screen';
 import { Celebration } from './celebration';
 import { DebugPanel } from './debug-panel';
+import { RacesMenu } from './races';
+import { RosterMenu } from './roster';
 import { ShopMenu } from './shop';
 import { button, el } from './dom';
 import { SettingsMenu } from './settings';
@@ -37,19 +41,41 @@ export function mountHud(
   const expeditionBtn = button('🏃', () => startExpedition(), 'btn btn-icon');
   expeditionBtn.setAttribute('aria-label', UI_TEXT.expedition);
   expeditionBtn.title = UI_TEXT.expedition;
-  top.append(logo, shells, fruit, groveBtn, expeditionBtn, shopBtn, keeperBtn, settingsBtn);
+  const racesBtn = button('🏁', () => races.open(), 'btn btn-icon');
+  racesBtn.setAttribute('aria-label', UI_TEXT.races);
+  racesBtn.title = UI_TEXT.races;
+  const rosterBtn = button('📋', () => roster.open(), 'btn btn-icon');
+  rosterBtn.setAttribute('aria-label', UI_TEXT.roster);
+  rosterBtn.title = UI_TEXT.roster;
+  top.append(
+    logo,
+    shells,
+    fruit,
+    groveBtn,
+    rosterBtn,
+    expeditionBtn,
+    racesBtn,
+    shopBtn,
+    keeperBtn,
+    settingsBtn,
+  );
   root.appendChild(top);
+
+  /** The Nubbin that goes on Expeditions and races: the selected one, else the first grown one. */
+  function pickRunner(): Nubbin | null {
+    const g = game();
+    if (!g) return null;
+    const selected = g.world.selected
+      ? g.world.nubbins.find((n) => n.id === g.world.selected)
+      : null;
+    if (selected && selected.stage !== 'egg' && selected.stage !== 'cocoon') return selected;
+    return g.world.nubbins.find((n) => n.stage === 'child' || n.stage === 'adult') ?? null;
+  }
 
   function startExpedition(): void {
     const g = game();
     if (!g || expedition.isOpen) return;
-    const selected = g.world.selected
-      ? g.world.nubbins.find((n) => n.id === g.world.selected)
-      : null;
-    const runner =
-      (selected && selected.stage !== 'egg' && selected.stage !== 'cocoon' ? selected : null) ??
-      g.world.nubbins.find((n) => n.stage === 'child' || n.stage === 'adult') ??
-      null;
+    const runner = pickRunner();
     if (!runner) {
       toast(UI_TEXT.expeditionNeedsNubbin);
       return;
@@ -114,9 +140,18 @@ export function mountHud(
   const celebration = new Celebration(root, game);
   const shop = new ShopMenu(root, game, toast);
   const expedition = new ExpeditionScreen(root);
+  const races = new RacesMenu(root, game, toast, pickRunner);
+  const roster = new RosterMenu(root, game, (id) => sheet.open(id));
   if (import.meta.env.DEV) {
     // Console access during development, alongside `window.grove`.
-    (window as unknown as { groveUi: unknown }).groveUi = { shop, expedition, sheet, debug };
+    (window as unknown as { groveUi: unknown }).groveUi = {
+      shop,
+      expedition,
+      sheet,
+      debug,
+      races,
+      roster,
+    };
   }
 
   // Triple-tap the logo, or press backtick, for the debug panel.
@@ -138,6 +173,8 @@ export function mountHud(
     if (e.key === 'Escape') {
       if (settings.isOpen()) settings.close();
       else if (shop.isOpen()) shop.close();
+      else if (races.isOpen()) races.close();
+      else if (roster.isOpen()) roster.close();
       else if (!sheet.root.hidden) sheet.close();
     }
   });
@@ -171,12 +208,21 @@ export function mountHud(
     onEvents(events: SimEvent[]) {
       const g = game();
       if (!g) return;
+      setSoundEnabled(g.world.settings.sound);
       for (const e of events) {
         if (e.kind === 'hatched') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           toast(UI_TEXT.hatched(n?.name ?? NAMES.creature));
+          playSound('hatch');
         } else if (e.kind === 'evolved') {
           celebration.show(e);
+          playSound('evolve');
+        } else if (e.kind === 'reaction' && e.reaction === 'love') {
+          playSound('pet');
+        } else if (e.kind === 'collected' || e.kind === 'fruitDropped') {
+          playSound('pickup');
+        } else if (e.kind === 'landed') {
+          playSound('hit');
         } else if (e.kind === 'secondEvolved') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           toast(UI_TEXT.secondEvolved(n?.name ?? NAMES.creature, TYPE_LABELS[e.second]));
@@ -189,11 +235,13 @@ export function mountHud(
           toast(UI_TEXT.reborn(n?.name ?? NAMES.creature));
         } else if (e.kind === 'departed') {
           toast(UI_TEXT.departed(e.name));
+          playSound('sad');
         } else if (e.kind === 'eternal') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           toast(UI_TEXT.eternal(n?.name ?? NAMES.creature));
         } else if (e.kind === 'bought') {
           shop.onBought(e.ok, e.reason, e.item);
+          if (e.ok) playSound('buy');
         }
       }
     },

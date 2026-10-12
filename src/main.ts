@@ -1,4 +1,5 @@
 import { Game } from './game';
+import { unlockAudio } from './platform/audio';
 import { mountCameraButtons } from './ui/camera-buttons';
 import { FpsCounter } from './ui/fps';
 import { mountHud } from './ui/hud';
@@ -62,6 +63,22 @@ function startGame(): void {
     }
   });
   window.addEventListener('pagehide', () => game?.save());
+
+  // Sound starts muted and unlocks on the first tap or click.
+  const unlock = () => {
+    unlockAudio();
+    window.removeEventListener('pointerdown', unlock);
+    window.removeEventListener('keydown', unlock);
+  };
+  window.addEventListener('pointerdown', unlock);
+  window.addEventListener('keydown', unlock);
+
+  // Install-to-home-screen: the service worker only runs on the built site.
+  if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`).catch(() => undefined);
+    });
+  }
 
   game.start();
 }

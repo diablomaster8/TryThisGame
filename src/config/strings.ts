@@ -100,6 +100,27 @@ export const GROVE_LABELS = {
   moon: '☾ Moon Grove',
 } as const;
 
+export const HAT_LABELS: Record<string, string> = {
+  straw: 'Straw hat',
+  crown: 'Crown',
+  beanie: 'Beanie',
+  flower: 'Flower',
+  bucket: 'Bucket hat',
+};
+
+export const PERSONALITY_LABELS = {
+  cheerful: 'Cheerful',
+  shy: 'Shy',
+  mischievous: 'Mischievous',
+  lazy: 'Lazy',
+} as const;
+
+export const COURSE_LABELS: Record<string, string> = {
+  meadow: 'Meadow Dash',
+  cliffs: 'Cliff Climb',
+  lagoon: 'Lagoon Loop',
+};
+
 export const SHOP_ITEMS = {
   fruit: { name: 'Fruit', help: 'Fills a hungry belly and adds Stamina.' },
   egg: { name: 'Egg', help: 'A new Nubbin. Sometimes a rare colour!' },
@@ -203,6 +224,24 @@ export const UI_TEXT = {
   resultNothing: 'Nothing this time. Jump for the shells!',
   backToGrove: 'Back to the Grove',
   expeditionHint: 'Tap to jump · hold to jump higher',
+  // Races
+  races: 'Races',
+  racesHelp: 'Pick a course. Win a tier to unlock the next. The selected Nubbin runs.',
+  tierLabel: (tier: number) => `Tier ${tier}`,
+  cheer: 'Cheer!',
+  raceResults: 'Race results',
+  place: (p: number) =>
+    p === 1 ? '1st place' : p === 2 ? '2nd place' : p === 3 ? '3rd place' : `${p}th place`,
+  wonHat: 'You won a hat!',
+  tierUnlocked: 'Next tier unlocked!',
+  // Roster
+  roster: 'Roster',
+  rosterCount: (n: number) => `${n} / 8 Nubbins`,
+  noHat: 'No hat',
+  find: 'Go to',
+  // Sound
+  sound: 'Sound',
+  soundHelp: 'Little blips for taps, pickups and big moments.',
   nothingToGive: 'Nothing to give yet. Expeditions (M4) bring Critters and Essences.',
   switchKeeper: 'Switch Keeper',
   groveButton: 'Grove',

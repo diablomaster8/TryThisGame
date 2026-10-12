@@ -1,6 +1,7 @@
 import { BEHAVIOR, EGG, ETERNAL, LIFECYCLE, REBIRTH, TYPE_LEAN } from '../config/tuning';
 import { bandOf, winningType } from './alignment';
 import { lifetimeHappiness } from './needs';
+import { decidePersonality } from './personality';
 import { levelOf, nextGrade } from './stats';
 import type {
   AlignmentBand,
@@ -151,6 +152,8 @@ export function evolve(n: Nubbin, events: SimEvent[], world?: World): void {
   const band = bandOf(n.alignment);
   const type = winningType(n.typeLean);
   n.form = { band, type, second: null, leanAtEvolution: { ...n.typeLean } };
+  // Personality locks in now, from how the child was treated.
+  n.personality = decidePersonality(n.childCare);
   n.stage = 'adult';
   n.stageMs = 0;
   n.cocoonKind = null;
@@ -220,6 +223,8 @@ export function rebirth(n: Nubbin, events: SimEvent[]): void {
   n.form = null;
   n.parts = { ears: null, tail: null, arms: null, back: null };
   n.typeLean = { normal: 0, swim: 0, fly: 0, run: 0, power: 0 };
+  n.personality = null;
+  n.childCare = { pets: 0, throws: 0, feeds: 0 };
   for (const key of STAT_KEYS) {
     n.stats[key].points = Math.floor(n.stats[key].points * REBIRTH.keepPointsFraction);
   }
