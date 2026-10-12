@@ -9,16 +9,18 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
-## Current milestone: M2 Growth — COMPLETE (2026-10-12, tag `m2`)
+## Current milestone: M3 Life cycle — COMPLETE (2026-10-12, tag `m3`)
 
-**Done when:** at ×100, a scripted mix of critters and actions produces the predicted
-adult form. Verified by `tests/sim/growth.test.ts` (3 Penguins + 2 Swim Essences + Sun
-petting → Sun Swim; balanced Run/Power + Moon → Moon Normal) and in the browser (Tiger
-critter → tiger ears and tail, forced evolution → Sun Power with the celebration card,
-Swim grade C → B, Sun Grove unlocked and recoloured). 87 tests, lint, build pass.
+**Done when:** egg → adult → rebirth → adult keeps everything correctly, and Eternal
+follows the rules exactly. Verified by `tests/sim/lifecycle.test.ts` (a full life at
+×1000: name, 10 % of points, grades, affection and rebirth count kept, heart greeting;
+departure leaves a memorial; Eternal only with 2+ rebirths, Normal type and alignment
+> 0.8 / < −0.8 / within 0.1 of 0, and never otherwise; Eternals never age; offline end
+of life waits with departures off, departs with it on, rebirths always happen) and in
+the browser (forced end of life → fading cocoon → flower; loved adult → golden cocoon →
+egg → hatch with a heart). 97 tests, lint, build pass.
 
-M1 (Grove and first Nubbin) was completed earlier the same day, tag `m1`: hatch, pet and
-feed within 60 s, reload restores exactly.
+Earlier the same day: M1 (tag `m1`) and M2 (tag `m2`), see the sections below.
 
 **Live:** https://diablomaster8.github.io/TryThisGame/ (repo
 https://github.com/diablomaster8/TryThisGame, Pages source: GitHub Actions).
@@ -34,7 +36,7 @@ and where it lands:
 | Child: Neutral, Hero-leaning, Dark-leaning                        | 3                | M1 ✓      |
 | Adult first evolution: Neutral/Hero/Dark × Normal/Swim/Fly/Run/Power | 15            | M2 ✓      |
 | Adult second evolution: type-pair overlays                        | 60 (75 total)    | M2 ✓      |
-| Chaos Chao: Light, Dark, Neutral                                  | 3                | M3        |
+| Chaos Chao: Light, Dark, Neutral (the Eternals)                   | 3                | M3 ✓      |
 | Character Chao (Tails, Knuckles, Amy, NiGHTS…)                    | ~6 unlockables   | M5        |
 | Shiny, jewel, two-tone colour variants                            | palette layers   | M4        |
 
@@ -93,14 +95,24 @@ Check any sheet at `?sprites` (developer gallery).
 - **UI (M2)**: Give section on the stats sheet (critters and essences from the
   inventory), Keeper switch (☀/☾) and Grove switcher in the top bar (shown once a Grove
   is unlocked), evolution celebration card, debug +critters / +essences.
-- **Tests**: 87 Vitest cases (sim rules, growth, world determinism, save round-trip,
-  offline modes incl. the 7-day < 3 s check, sprite math and parts).
+- **Life cycle (M3)**: `lifecycle.ts` runs the end-of-life check at 5 h of adult life
+  (`runEndOfLife`): rebirth cocoon → `rebirth()` (egg again, same name, 10 % points,
+  grades + upgrades, affection, rebirths +1, heart greeting on hatch) or departure
+  cocoon → `depart()` (removed, memorial flower at its spot). `eternalBandFor` applies
+  the Eternal rules at evolution; Eternals skip aging. Offline: `awaitingKeeper` freezes
+  the adult at the check when departures are off; live play re-runs the check on screen
+  (a Nubbin loved in the meantime is reborn instead). `TYPE_LEAN.minToCount` (20) keeps
+  incidental pond time from making Swim types.
+- **Art/UI (M3)**: three cocoon looks (evolve / rebirth glow / depart fade), Chaos-form
+  palettes with great wings for Eternal Sun / Moon / Neutral (+ a star emote), memorial
+  flower sprites, toasts and away-screen lines for cocoons, rebirths, departures,
+  Eternals and waiting Nubbins; the sheet shows ✦ Eternal and "Waiting for you".
+- **Tests**: 97 Vitest cases (sim rules, growth, life cycle, world determinism, save
+  round-trip, offline modes incl. the 7-day < 3 s check, sprite math and parts).
 
 ## What's stubbed
 
 - `play` behavior waits for toys (M4).
-- End of life, rebirth, departure, Eternal, memorial flowers: M3 (`debugForceEndOfLife`
-  only jumps the stage timer).
 - Critters and Essences only come from the debug panel until the Expedition (M4).
 - Shiny/jewel/two-tone colour variants and egg colours in the shop: M4.
 - Character Chao looks, hats, roster, races, personality, sound, PWA: M5.
@@ -141,10 +153,9 @@ Check any sheet at `?sprites` (developer gallery).
 
 ## Next steps
 
-1. **M3 Life cycle** (see CLAUDE.md): adult aging to the 5 h end-of-life check, rebirth
-   (glowing cocoon → egg keeping name, 10 % of points, grade upgrades, affection memory,
-   rebirth count +1, heart greeting) vs departure (soft fading cocoon, memorial flower),
-   Eternal rules, `awaitingKeeper` for offline end of life, the Chaos forms' art, unit
-   tests of a full life at ×1000. Done when egg → adult → rebirth → adult keeps everything
-   correctly and Eternal follows the rules exactly.
-2. Then M4, M5 per CLAUDE.md, under the standing approval above.
+1. **M4 Expedition and shop** (see CLAUDE.md): the 45–60 s side-scrolling dash in the
+   same pixel style (tap to jump, hold higher; Shells, Essences, Critters in bubbles;
+   obstacles cost Shells, never end the run; results screen → Grove inventory), the shop
+   (fruit, eggs with rare colours, hats, toys), critter inventory and giving. Done when a
+   run is fun on a phone and its rewards reach the Grove.
+2. Then M5 per CLAUDE.md, under the standing approval above.
