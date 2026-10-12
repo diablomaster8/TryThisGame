@@ -2,12 +2,15 @@
 
 Read this with CLAUDE.md at the start of every session.
 
-## Current milestone: M0 Foundation — built and verified locally, waiting on deploy + phone check
+## Current milestone: M0 Foundation — deployed, waiting on the phone check
 
 **Done when:** the deployed test scene runs at 60 fps on a phone. Lint, format, typecheck,
-tests and build all pass on this machine (2026-10-12). The scene was smoke-tested in the
-desktop browser pane: rotate (buttons and Q/E), zoom toggle, portrait re-fit, no console
-errors. The first deploy and the 60 fps phone check are still to do (see "Next steps").
+tests and build all pass locally and in CI (2026-10-12). The scene was smoke-tested in the
+desktop browser pane, locally and from the deployed URL: rotate (buttons and Q/E), zoom
+toggle, portrait re-fit, no console errors. Only the 60 fps phone check is left.
+
+**Live:** https://diablomaster8.github.io/TryThisGame/ (repo
+https://github.com/diablomaster8/TryThisGame, Pages source: GitHub Actions).
 
 ## What works
 
@@ -33,7 +36,9 @@ errors. The first deploy and the 60 fps phone check are still to do (see "Next s
 - **FPS counter** (`src/ui/fps.ts`), rendering paused while the tab is hidden.
 - **Tests.** 13 Vitest cases for the frame-size math and camera math (`tests/render/`).
 - **Deploy workflow.** `.github/workflows/deploy.yml` lints, tests, builds and publishes to
-  GitHub Pages on every push to `main`.
+  GitHub Pages on every push to `main`. First successful run: 2026-10-12. The first run
+  failed at `configure-pages` because Pages was still on "Deploy from a branch"; it needs
+  the GitHub Actions source, set once in the repo settings.
 
 ## What's stubbed
 
@@ -41,7 +46,6 @@ errors. The first deploy and the 60 fps phone check are still to do (see "Next s
   animations are M1 (`src/render/sprites/`).
 - `src/sim/`, Keeper movement, HUD, debug panel, settings: not started (M1).
 - No texture atlas yet; one sprite, one draw call, so it does not matter until M1.
-- The repo is not on GitHub yet, so the deploy workflow has not run.
 
 ## Known bugs / open items
 
@@ -82,11 +86,10 @@ errors. The first deploy and the 60 fps phone check are still to do (see "Next s
 
 ## Next steps (to finish M0)
 
-1. **First deploy:** create an empty GitHub repo, then
-   `git remote add origin <url>` and `git push -u origin main`. In the repo settings,
-   Pages → Build and deployment → Source: **GitHub Actions**. The workflow publishes to
-   `https://<user>.github.io/<repo>/`.
-2. **Phone check:** open the Pages URL on a phone (or `npm run dev -- --host` on Wi-Fi and
-   open the Network URL). Confirm the FPS counter reads 60, rotation and pinch work, and
+1. **Phone check:** open https://diablomaster8.github.io/TryThisGame/ on a phone. Confirm
+   the FPS counter reads 60, rotation (two-finger swipe, buttons) and pinch zoom work, and
    rotating the phone re-fits the frame.
-3. Confirm 60 fps from the deployed link, then tag: `git tag m0 && git push --tags`.
+2. If it reads 60, tag: `git tag m0 && git push --tags`. If not, profile before changing
+   anything; the likely levers are `RENDER.targetHeight` and the CSS upscale path.
+3. Pushing to `main` needs GitHub credentials. Git Credential Manager caches them after the
+   first browser sign-in, so later pushes work from a non-interactive shell.
