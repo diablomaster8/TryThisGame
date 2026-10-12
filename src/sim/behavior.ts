@@ -223,9 +223,10 @@ function updateThrown(n: Nubbin, dtMs: number, now: number, events: SimEvent[]):
     n.y = 0;
     n.vel = { x: 0, y: 0, z: 0 };
     events.push({ kind: 'landed', nubbinId: n.id });
-    if (n.stage === 'egg') {
-      setState(n, 'sit', now, 0);
-    } else {
+    // Back on the ground first, so the reaction below replaces 'thrown' rather than
+    // being swallowed by the held/thrown guard in react().
+    setState(n, 'sit', now, 0);
+    if (n.stage !== 'egg') {
       applyDrop(n);
       react(n, 'dizzy', now, events);
     }
@@ -236,10 +237,8 @@ function updateThrown(n: Nubbin, dtMs: number, now: number, events: SimEvent[]):
 export function putDown(n: Nubbin, now: number, events: SimEvent[]): void {
   n.y = 0;
   n.vel = { x: 0, y: 0, z: 0 };
-  if (n.stage === 'egg') {
-    setState(n, 'sit', now, 0);
-    return;
-  }
+  setState(n, 'sit', now, 0);
+  if (n.stage === 'egg') return;
   react(n, 'confused', now, events);
 }
 

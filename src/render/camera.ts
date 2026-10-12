@@ -141,14 +141,14 @@ export class OrbitCamera {
     this.setZoom((this.zoomIndex + 1) % CAMERA.pixelsPerUnit.length, nowMs);
   }
 
-  /** Advance tweens. Call once per frame. */
+  /** Advance tweens and re-apply the pose (the target may have moved). Call once per frame. */
   update(nowMs: number): void {
     if (this.yawTween) {
       const t = MathUtils.clamp((nowMs - this.yawTween.startMs) / CAMERA.snapMs, 0, 1);
       this.yaw = MathUtils.lerp(this.yawTween.from, this.yawTween.to, easeOutCubic(t));
       if (t >= 1) this.finishYawTween();
-      this.applyPose();
     }
+    this.applyPose();
     if (this.zoomTween) {
       const t = MathUtils.clamp((nowMs - this.zoomTween.startMs) / CAMERA.snapMs, 0, 1);
       this.viewHeight = MathUtils.lerp(this.zoomTween.from, this.zoomTween.to, easeOutCubic(t));

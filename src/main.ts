@@ -1,9 +1,7 @@
-import { CameraControls } from './input/camera-controls';
-import { OrbitCamera } from './render/camera';
-import { LowResPipeline } from './render/pipeline';
-import { TestScene } from './render/test-scene';
+import { Game } from './game';
 import { mountCameraButtons } from './ui/camera-buttons';
 import { FpsCounter } from './ui/fps';
+import { mountHud } from './ui/hud';
 import { mountSpriteGallery } from './ui/sprite-gallery';
 
 function mustGet<T extends Element>(selector: string): T {
@@ -14,7 +12,7 @@ function mustGet<T extends Element>(selector: string): T {
 
 const app = mustGet<HTMLDivElement>('#app');
 const canvas = mustGet<HTMLCanvasElement>('#game');
-const hud = mustGet<HTMLDivElement>('#hud');
+const hudRoot = mustGet<HTMLDivElement>('#hud');
 
 if (new URLSearchParams(location.search).has('sprites')) {
   mountSpriteGallery(app);
@@ -23,61 +21,47 @@ if (new URLSearchParams(location.search).has('sprites')) {
 }
 
 function startGame(): void {
-  const pipeline = new LowResPipeline(canvas);
-  const camera = new OrbitCamera();
-  const scene = new TestScene();
-  const fps = new FpsCounter(hud);
-  new CameraControls(camera, canvas);
-  mountCameraButtons(hud, camera);
+  const fps = new FpsCounter(hudRoot);
+  let game: Game | null = null;
+  const hud = mountHud(hudRoot, () => game);
+  game = new Game(canvas, hud.hooks);
+  hud.bind(game);
+  if (import.meta.env.DEV) {
+    // Console access during development: `grove.world`, `grove.send({...})`.
+    (window as unknown as { grove: Game }).grove = game;
+  }
+  mountCameraButtons(hudRoot, game.camera);
 
   // ---------- resize / rotation ----------
 
   function applySize(): void {
     const rect = app.getBoundingClientRect();
-    const size = pipeline.resize(rect.width, rect.height);
-    camera.setAspect(size.width / size.height);
+    game?.resize(rect.width, rect.height);
   }
-
-  const resizeObserver = new ResizeObserver(() => applySize());
-  resizeObserver.observe(app);
-  window.addEventListener('orientationchange', () => {
-    // Some browsers report stale sizes immediately after rotation.
-    setTimeout(applySize, 50);
-  });
+  new ResizeObserver(() => applySize()).observe(app);
+  window.addEventListener('orientationchange', () => setTimeout(applySize, 50));
   window.visualViewport?.addEventListener('resize', applySize);
   applySize();
 
-  // ---------- frame loop ----------
+  // ---------- fps + lifecycle ----------
 
-  let rafId = 0;
-  let running = false;
-
-  function frame(nowMs: number): void {
-    if (!running) return;
-    camera.update(nowMs);
-    scene.update(camera);
-    pipeline.render(scene.scene, camera.camera);
-    fps.tick(nowMs);
-    rafId = requestAnimationFrame(frame);
+  function fpsLoop(now: number): void {
+    if (!document.hidden) fps.tick(now);
+    requestAnimationFrame(fpsLoop);
   }
+  requestAnimationFrame(fpsLoop);
 
-  function start(): void {
-    if (running) return;
-    running = true;
-    fps.reset();
-    rafId = requestAnimationFrame(frame);
-  }
-
-  function stop(): void {
-    running = false;
-    cancelAnimationFrame(rafId);
-  }
-
-  // Pause rendering when the tab is hidden.
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) stop();
-    else start();
+    if (!game) return;
+    if (document.hidden) {
+      game.save();
+      game.stop();
+    } else {
+      fps.reset();
+      game.resume();
+    }
   });
+  window.addEventListener('pagehide', () => game?.save());
 
-  start();
+  game.start();
 }

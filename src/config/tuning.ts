@@ -78,6 +78,8 @@ export const SIM = {
   stepMs: 100,
   /** Fine steps allowed per rendered frame before the loop falls back to coarse steps. */
   maxStepsPerFrame: 400,
+  /** Longest real gap one frame may feed the clock; anything longer is a pause. */
+  maxFrameDeltaMs: 5000,
   /** Coarse step used for long catch-ups. */
   coarseStepMs: 1 * MINUTE,
   /** Absences longer than this are simulated in coarse steps. */

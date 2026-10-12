@@ -1,3 +1,4 @@
+import { NUBBIN_NAMES } from '../config/strings';
 import { EGG, GROVE, OFFLINE, THROW, TREES } from '../config/tuning';
 import { applyDrop, decayNeeds } from './needs';
 import { clampToWorld, putDown, react, sampleAll, startThrow, updateBehavior } from './behavior';
@@ -45,10 +46,21 @@ export function createWorld(seed: number, wallMs: number): World {
   }
   for (let i = 0; i < EGG.startCount; i++) {
     const spot = GROVE.eggSpots[i] ?? { x: i * 2 - 1, z: 0 };
-    world.nubbins.push(createEgg(newId(world, 'nub'), spot, rng));
+    const egg = createEgg(newId(world, 'nub'), spot, rng);
+    egg.name = uniqueName(world, egg.name, rng);
+    world.nubbins.push(egg);
   }
   world.rngState = rng.state;
   return world;
+}
+
+/** Avoid two Nubbins sharing a random name. */
+export function uniqueName(world: World, name: string, rng: Rng): string {
+  const taken = new Set(world.nubbins.map((n) => n.name));
+  if (!taken.has(name)) return name;
+  const free = NUBBIN_NAMES.filter((n) => !taken.has(n));
+  if (free.length > 0) return rng.pick(free);
+  return `${name} ${world.nubbins.length + 1}`;
 }
 
 export function newId(world: World, prefix: string): string {

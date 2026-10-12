@@ -89,6 +89,29 @@ describe('world', () => {
     expect(events.some((e) => e.kind === 'landed')).toBe(true);
     expect(n.y).toBe(0);
     expect(n.needs.happiness).toBeLessThan(before);
+    expect(n.behavior.state).not.toBe('thrown');
+    expect(n.behavior.state).not.toBe('held');
+  });
+
+  it('a gentle release puts the Nubbin down and frees it', () => {
+    const w = createWorld(9, 0);
+    run(w, EGG.hatchMs / SIM.stepMs + 5);
+    const n = w.nubbins[0]!;
+    run(w, 1, [
+      { kind: 'grab', nubbinId: n.id },
+      { kind: 'drag', pos: { x: 3, z: 3 } },
+    ]);
+    expect(n.behavior.state).toBe('held');
+    expect(n.y).toBeGreaterThan(0);
+    run(w, 1, [{ kind: 'release', vel: { x: 0, z: 0 } }]);
+    expect(n.behavior.state).not.toBe('held');
+    expect(n.y).toBe(0);
+    expect(n.pos).toEqual({ x: 3, z: 3 });
+    // And it goes back to living its life.
+    run(w, 100);
+    expect(['wander', 'sit', 'greet', 'swim', 'findFood', 'react', 'nap', 'cry']).toContain(
+      n.behavior.state,
+    );
   });
 
   it('trees drop fruit and hungry Nubbins go eat it', () => {
