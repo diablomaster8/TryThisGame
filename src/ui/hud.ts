@@ -8,6 +8,7 @@ import type { Nubbin } from '../sim/types';
 import { AwayScreen } from './away-screen';
 import { Celebration } from './celebration';
 import { DebugPanel } from './debug-panel';
+import { Joystick } from './joystick';
 import { RacesMenu } from './races';
 import { RosterMenu } from './roster';
 import { ShopMenu } from './shop';
@@ -142,6 +143,7 @@ export function mountHud(
   const expedition = new ExpeditionScreen(root);
   const races = new RacesMenu(root, game, toast, pickRunner);
   const roster = new RosterMenu(root, game, (id) => sheet.open(id));
+  let joystick: Joystick | null = null;
   if (import.meta.env.DEV) {
     // Console access during development, alongside `window.grove`.
     (window as unknown as { groveUi: unknown }).groveUi = {
@@ -193,6 +195,8 @@ export function mountHud(
       shells.textContent = `🐚 ${g.world.inventory.shells}`;
       fruit.textContent = `🍎 ${g.world.inventory.fruit}`;
       keeperBtn.textContent = g.world.keeper.alignment === 'sun' ? '☀' : '☾';
+      joystick ??= new Joystick(root, g.camera, (cmd) => g.send(cmd));
+      joystick.setVisible(g.world.settings.joystick);
       const anyUnlocked = g.world.unlocks.sunGrove || g.world.unlocks.moonGrove;
       groveBtn.hidden = !anyUnlocked;
       groveBtn.textContent = GROVE_LABELS[g.world.grove];

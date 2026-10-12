@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { EGG, SIM } from '../../src/config/tuning';
+import { EGG, GROVE, SIM } from '../../src/config/tuning';
 import { deserialize, serialize, SaveError, worldFingerprint } from '../../src/sim/save';
 import type { Command, SimEvent, World } from '../../src/sim/types';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
@@ -63,6 +63,14 @@ describe('world', () => {
     expect(n.needs.affection).toBeGreaterThan(before);
     expect(n.alignment).toBeGreaterThan(0);
     expect(events.some((e) => e.kind === 'reaction' && e.reaction === 'love')).toBe(true);
+  });
+
+  it('the Keeper stops at the shoreline instead of wading', () => {
+    const w = createWorld(9, 0);
+    run(w, 200, [{ kind: 'moveKeeperTo', pos: { x: GROVE.pond.x, z: GROVE.pond.z } }]);
+    const d = Math.hypot(w.keeper.pos.x - GROVE.pond.x, w.keeper.pos.z - GROVE.pond.z);
+    expect(d).toBeGreaterThanOrEqual(GROVE.pond.r);
+    expect(d).toBeLessThan(GROVE.pond.r + 1.5);
   });
 
   it('feeding from the inventory fills hunger', () => {

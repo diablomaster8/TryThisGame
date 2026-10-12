@@ -16,6 +16,7 @@ export class SettingsMenu {
   private readonly departures: HTMLInputElement;
   private readonly departuresRow: HTMLLabelElement;
   private readonly sound: HTMLInputElement;
+  private readonly joystick: HTMLInputElement;
 
   constructor(
     parent: HTMLElement,
@@ -83,6 +84,18 @@ export class SettingsMenu {
     soundRow.append(this.sound, sText);
     body.appendChild(soundRow);
 
+    const joyRow = el('label', 'check-row');
+    this.joystick = el('input');
+    this.joystick.type = 'checkbox';
+    this.joystick.addEventListener('change', () => this.apply());
+    const jText = el('span');
+    jText.append(
+      el('strong', undefined, UI_TEXT.joystick),
+      el('small', undefined, UI_TEXT.joystickHelp),
+    );
+    joyRow.append(this.joystick, jText);
+    body.appendChild(joyRow);
+
     const saves = el('div', 'settings-actions');
     saves.append(
       button(UI_TEXT.exportSave, () => this.exportSave()),
@@ -101,6 +114,7 @@ export class SettingsMenu {
     this.capError.hidden = true;
     this.departures.checked = s.allowOfflineDepartures;
     this.sound.checked = g.world.settings.sound;
+    this.joystick.checked = g.world.settings.joystick;
     this.syncEnabled(s.mode);
     this.dialog.show();
   }
@@ -143,6 +157,7 @@ export class SettingsMenu {
     const settings: Settings = {
       ...prev,
       sound: this.sound.checked,
+      joystick: this.joystick.checked,
       offlineAging: {
         mode,
         capHours: valid ? hours : prev.offlineAging.capHours,

@@ -21,6 +21,7 @@ export function unlockAudio(): void {
     ctx = new Ctor();
     void ctx.resume();
     unlocked = true;
+    startMusic();
   } catch {
     ctx = null;
   }
@@ -28,6 +29,35 @@ export function unlockAudio(): void {
 
 export function setSoundEnabled(on: boolean): void {
   enabled = on;
+  if (on) startMusic();
+  else stopMusic();
+}
+
+// ---------- music: a slow pentatonic loop, very quiet ----------
+
+let musicTimer = 0;
+let musicStep = 0;
+const SCALE = [262, 294, 330, 392, 440, 523, 587, 659];
+const PATTERN = [0, 2, 4, 7, 5, 4, 2, 1, 0, 2, 5, 7, 4, 2, 1, 3];
+
+function musicTick(): void {
+  if (!ctx || !enabled) return;
+  const note = PATTERN[musicStep % PATTERN.length] ?? 0;
+  const freq = SCALE[note] ?? 262;
+  tone(freq, 0, 420, 'triangle', 0.025);
+  if (musicStep % 4 === 0) tone(freq / 2, 0, 800, 'sine', 0.02);
+  musicStep += 1;
+}
+
+export function startMusic(): void {
+  if (musicTimer || !unlocked || !enabled) return;
+  musicTimer = window.setInterval(musicTick, 500);
+}
+
+export function stopMusic(): void {
+  if (!musicTimer) return;
+  clearInterval(musicTimer);
+  musicTimer = 0;
 }
 
 export function isSoundEnabled(): boolean {

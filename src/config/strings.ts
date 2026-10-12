@@ -254,7 +254,9 @@ export const UI_TEXT = {
   find: 'Go to',
   // Sound
   sound: 'Sound',
-  soundHelp: 'Little blips for taps, pickups and big moments.',
+  soundHelp: 'Soft music and little blips for taps, pickups and big moments.',
+  joystick: 'On-screen joystick',
+  joystickHelp: 'A thumb pad for moving the Keeper. Tapping the ground always works too.',
   nothingToGive: 'Nothing to give yet. Expeditions (M4) bring Critters and Essences.',
   switchKeeper: 'Switch Keeper',
   groveButton: 'Grove',

@@ -1,4 +1,4 @@
-import { KEEPER, NEEDS, SIM, TREES } from '../config/tuning';
+import { GROVE, KEEPER, NEEDS, SIM, TREES } from '../config/tuning';
 import { nudgeAlignment } from './alignment';
 import { eat, putDown, react } from './behavior';
 import { applyPet } from './needs';
@@ -23,6 +23,18 @@ function clampToWorld(p: Vec2): void {
   const h = SIM.worldHalf;
   p.x = Math.max(-h, Math.min(h, p.x));
   p.z = Math.max(-h, Math.min(h, p.z));
+}
+
+/** Keep the Keeper on dry land: points inside the pond move to its edge. */
+export function shoreline(p: Vec2): Vec2 {
+  const pond = GROVE.pond;
+  const dx = p.x - pond.x;
+  const dz = p.z - pond.z;
+  const d = Math.hypot(dx, dz);
+  const edge = pond.r + 0.5;
+  if (d >= edge) return p;
+  if (d < 1e-6) return { x: pond.x + edge, z: pond.z };
+  return { x: pond.x + (dx / d) * edge, z: pond.z + (dz / d) * edge };
 }
 
 function findNubbin(world: World, id: string): Nubbin | undefined {
@@ -60,9 +72,13 @@ export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): vo
     let target = k.moveTarget;
     if (k.intent) target = intentTarget(world, k.intent);
     if (k.intent && !target) k.intent = null;
+    // The Keeper does not wade: a target in the pond becomes the nearest shoreline point,
+    // and a Nubbin in the water is reached from there.
+    if (target) target = shoreline(target);
     if (target) {
       const d = dist(k.pos, target);
-      const reach = k.intent ? KEEPER.interactRadius : KEEPER.arriveRadius;
+      // From the shore, a swimming Nubbin is within reach however far out it is.
+      const reach = k.intent ? KEEPER.interactRadius + GROVE.pond.r : KEEPER.arriveRadius;
       if (d <= reach) {
         if (k.intent) {
           performIntent(world, k.intent, events);
