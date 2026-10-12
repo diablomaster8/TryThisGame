@@ -1,6 +1,10 @@
 // Every tunable number lives here. Nothing in this file is player-facing text
 // (that is config/strings.ts).
 
+const SECOND = 1000;
+const MINUTE = 60 * SECOND;
+const HOUR = 60 * MINUTE;
+
 export const RENDER = {
   /** Height of the low-res frame in pixels. Width follows the screen aspect ratio. */
   targetHeight: 270,
@@ -21,13 +25,15 @@ export const CAMERA = {
    * pixel art crisp. Index 0 is the farthest view.
    */
   pixelsPerUnit: [8, 16] as const,
-  initialZoomIndex: 0,
+  initialZoomIndex: 1,
   /** Distance from the orbit target. Only affects clipping for an orthographic camera. */
   distance: 60,
   near: 0.1,
   far: 200,
   /** Duration of the eased snap between yaw steps and zoom levels, in ms. */
   snapMs: 180,
+  /** How quickly the orbit target follows the Keeper (fraction per second). */
+  followRate: 6,
 } as const;
 
 export const TEST_SCENE = {
@@ -49,8 +55,185 @@ export const INPUT = {
   pinchInRatio: 1.25,
   /** Wheel delta (px) that counts as one zoom step. */
   wheelThreshold: 20,
+  /** Pointer travel (CSS px) before a press becomes a drag instead of a tap. */
+  dragThresholdPx: 10,
+  /** Press duration (ms) under which a release counts as a tap. */
+  tapMaxMs: 350,
+  /** Pointer direction reversals per second that count as shaking a held egg. */
+  shakeReversalsPerSecond: 4,
+  /** Logo taps within this window open the debug panel. */
+  tripleTapMs: 600,
 } as const;
 
 export const UI = {
   fpsUpdateMs: 1000,
+  /** Mood bubble lifetime above a Nubbin, in ms. */
+  bubbleMs: 1500,
+} as const;
+
+// ---------- simulation ----------
+
+export const SIM = {
+  /** Fixed sim step. 10 per second. */
+  stepMs: 100,
+  /** Fine steps allowed per rendered frame before the loop falls back to coarse steps. */
+  maxStepsPerFrame: 400,
+  /** Coarse step used for long catch-ups. */
+  coarseStepMs: 1 * MINUTE,
+  /** Absences longer than this are simulated in coarse steps. */
+  coarseAfterMs: 3 * MINUTE,
+  timeScales: [1, 10, 100, 1000] as const,
+  autosaveMs: 30 * SECOND,
+  /** Show a progress indicator when catch-up takes longer than this. */
+  catchUpProgressMs: 500,
+  /** Grove bounds: entities stay within ±half on both axes. */
+  worldHalf: 14,
+} as const;
+
+export const OFFLINE = {
+  defaultMode: 'capped' as const,
+  defaultCapHours: 8,
+  minCapHours: 1,
+  maxCapHours: 720,
+  defaultAllowDepartures: false,
+} as const;
+
+export const EGG = {
+  startCount: 2,
+  hatchMs: 3 * MINUTE,
+  /** Each shake while held takes this much off the hatch timer. */
+  shakeBonusMs: 15 * SECOND,
+  /** Minimum gap between shakes that count. */
+  shakeCooldownMs: 250,
+} as const;
+
+export const NEEDS = {
+  /** Hunger goes from 1 (full) to 0 (starving) in this time. */
+  hungerFullToStarvingMs: 20 * MINUTE,
+  /** Energy goes from 1 to 0 in this time. */
+  energyFullToEmptyMs: 40 * MINUTE,
+  napMs: 3 * MINUTE,
+  /** Below this hunger the Nubbin looks for food. */
+  hungryThreshold: 0.35,
+  /** Below this hunger it is starving and loses happiness. */
+  starvingThreshold: 0.1,
+  starvingHappinessPerMinute: -2,
+  happinessMin: -100,
+  happinessMax: 100,
+  happinessStart: 20,
+  affectionMin: 0,
+  affectionMax: 100,
+  affectionStart: 10,
+  petHappiness: 5,
+  petAffection: 2,
+  dropHappiness: -10,
+  dropAffection: -3,
+  /** One fruit restores this much hunger (0..1). */
+  fruitHunger: 0.5,
+  fruitHappiness: 3,
+  fruitStaminaPoints: 10,
+  /** Happiness drifts toward 0 by this much per minute when nothing else happens. */
+  happinessDriftPerMinute: 0.5,
+  /** Pets are only counted as a new kindness after this gap. */
+  petCooldownMs: 2 * SECOND,
+} as const;
+
+export const TREES = {
+  fruitIntervalMs: 4 * MINUTE,
+  /** Shaking the tree takes this much off the fruit timer. */
+  shakeBonusMs: 60 * SECOND,
+  maxFruitOnGround: 6,
+  /** Fruit lands within this radius of the trunk. */
+  dropRadius: 1.6,
+} as const;
+
+export const LIFECYCLE = {
+  childMs: 60 * MINUTE,
+  cocoonMs: 30 * SECOND,
+  adultMs: 5 * HOUR,
+} as const;
+
+export const STATS = {
+  maxLevel: 99,
+  pointsPerLevel: 100,
+  gradeMultiplier: { E: 0.8, D: 0.9, C: 1.0, B: 1.1, A: 1.2, S: 1.35 } as const,
+  /** Birth grade weights, low end heavy. */
+  gradeWeights: { E: 30, D: 28, C: 22, B: 12, A: 6, S: 2 } as const,
+} as const;
+
+export const ALIGNMENT = {
+  /** Every kind action moves alignment this far toward the active Keeper. */
+  kindActionDelta: 0.01,
+  sunThreshold: 0.5,
+  moonThreshold: -0.5,
+  /** Children show hints once they lean this far. */
+  childHintThreshold: 0.15,
+} as const;
+
+export const TYPE_LEAN = {
+  /** The leading type must beat the runner-up by this fraction or the adult is Normal. */
+  leadMargin: 0.15,
+} as const;
+
+export const BEHAVIOR = {
+  /** World units per second. */
+  walkSpeed: 1.4,
+  swimSpeed: 0.8,
+  arriveRadius: 0.25,
+  /** How long each state lasts, min and max, in ms. */
+  wanderMs: [2 * SECOND, 6 * SECOND] as const,
+  sitMs: [3 * SECOND, 8 * SECOND] as const,
+  eatMs: 2 * SECOND,
+  greetMs: 2 * SECOND,
+  cryMs: 3 * SECOND,
+  swimMs: [5 * SECOND, 12 * SECOND] as const,
+  reactMs: 1200,
+  /** The Nubbin notices the Keeper within this distance. */
+  greetRadius: 2.2,
+  greetChance: 0.35,
+  swimChance: 0.15,
+  sitChance: 0.3,
+  /** Hungry Nubbins only look for fruit within this distance. */
+  foodSearchRadius: 30,
+} as const;
+
+export const KEEPER = {
+  speed: 3.5,
+  arriveRadius: 0.2,
+  /** Distance at which the Keeper can touch, pick up, shake or feed. */
+  interactRadius: 1.4,
+  /** Height a carried Nubbin floats at above the Keeper's feet. */
+  carryHeight: 1.6,
+} as const;
+
+export const THROW = {
+  /** Release speeds above this count as a throw; slower is a put-down. */
+  minSpeed: 3,
+  maxSpeed: 12,
+  gravity: 24,
+  /** Upward speed added to a throw. */
+  lift: 5,
+  /** Held Nubbins float this high above the ground under the pointer. */
+  holdHeight: 1.2,
+} as const;
+
+export const GROVE = {
+  size: 32,
+  /** Centre and radius of the pond. */
+  pond: { x: 6, z: 5, r: 4 },
+  trees: [
+    { x: -6, z: -4 },
+    { x: 5, z: -8 },
+  ] as const,
+  hills: [
+    { x: -11, z: 8, r: 5, h: 2.2 },
+    { x: 11, z: -11, r: 6, h: 3 },
+    { x: -12, z: -11, r: 4, h: 1.6 },
+  ] as const,
+  waterfall: { x: 11, z: -11, height: 3, width: 1.5 },
+  keeperStart: { x: 0, z: 3 },
+  eggSpots: [
+    { x: -2, z: 0 },
+    { x: 2, z: -1 },
+  ] as const,
 } as const;

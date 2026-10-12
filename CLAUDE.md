@@ -6,7 +6,7 @@ This file is the standing brief for this project. Read it at the start of every 
 
 An original virtual-pet garden game that runs in phone and desktop browsers. You hatch a creature, raise it, and shape how it grows. It ages, and it either comes back reborn or gently moves on. You can enter it in races.
 
-The game draws on the depth of classic 3D-platformer pet gardens. Every character, creature design, name, logo, piece of music and sound effect must be our own, never copied from Sega or any other franchise. Reusing game mechanics is fine; reusing art and names is not.
+The game draws on the depth of classic 3D-platformer pet gardens. **The creatures are Chao-faithful fan art:** draw the Nubbins as close to Sega's Chao as possible, and put every Chao variant in the game (Maor's decision, 2026-10-12; the catalogue and its milestone mapping are in PROGRESS.md). The art is generated in code from memory, never from copied Sega assets or sprite sheets. Names, logo, music and sound effects stay our own. Reusing game mechanics is fine.
 
 **Working names:**
 
@@ -100,11 +100,11 @@ tests/sim/
   - walk (4 frames)
   - happy, sad, sleep, eat
   - swim and flap, for adults with high Swim or Fly
-- **The Nubbin design:**
-  - Small, round and huggable, with the proportions of a toddler. Big eyes, stubby limbs.
-  - A leaf or bud on top shows mood: perky and bright when happy, drooping and dull when sad or hungry.
-  - **Sun** forms are warm and bright, with a ring of petals. **Moon** forms are cool and dark, with a crescent leaf. **Neutral** forms stay green.
-  - It must be an original design that doesn't look like any existing franchise creature.
+- **The Nubbin design (Chao-faithful):**
+  - Small, round and huggable, with the proportions of a toddler. Big eyes, stubby limbs, tiny wings, a pointed crown on the head.
+  - A floating emote ball above the head shows mood: a plain ball when content, a heart when happy, a spiral when dizzy or sad, an exclamation when surprised, a question mark when confused.
+  - Child: light blue body with yellow-tipped head, hands and feet. **Sun** (Hero) forms go white and blue with a halo-like ball. **Moon** (Dark) forms go purple and black with a spiked ball. **Neutral** adults take their type's colour.
+  - Every Chao variant is in scope: the 15 first evolutions, the 60 second evolutions, the three Chaos forms, the character Chao as unlockable looks, and the shiny, jewel and two-tone colour variants.
 - **Camera:**
   - Orbits the Grove at a fixed downward angle of about 35°.
   - Rotates in 45° steps: Q/E on desktop, on-screen buttons or a two-finger swipe on phones.
