@@ -1,4 +1,4 @@
-import { BEHAVIOR, GROVE, NEEDS, SIM, THROW } from '../config/tuning';
+import { BEHAVIOR, GROVE, NEEDS, SIM, THROW, TYPE_LEAN } from '../config/tuning';
 import {
   addHappiness,
   applyDrop,
@@ -147,7 +147,9 @@ export function updateBehavior(
         if (walkToward(n, b.target, BEHAVIOR.swimSpeed, dtMs)) {
           b.target = randomPoint(rng, GROVE.pond, GROVE.pond.r - 0.8);
         }
+        // Swimming is training: a little Swim and a little Swim lean.
         addPoints(n.stats.swim, (dtMs / 1000) * 0.5);
+        n.typeLean.swim += (dtMs / 1000) * TYPE_LEAN.trainingPerSecond;
       }
       if (now >= b.untilMs) {
         // Leave the water before doing anything else.

@@ -1,4 +1,6 @@
 import {
+  CRITTER_LABELS,
+  ESSENCE_LABELS,
   formatDuration,
   NAMES,
   STAGE_LABELS,
@@ -9,7 +11,7 @@ import {
 } from '../config/strings';
 import { bandOf, childHint } from '../sim/alignment';
 import { levelOf } from '../sim/stats';
-import { STAT_KEYS, type Nubbin, type World } from '../sim/types';
+import { STAT_KEYS, type Nubbin, type NubbinType, type World } from '../sim/types';
 import type { Game } from '../game';
 import { button, el, meter } from './dom';
 
@@ -77,8 +79,57 @@ export class StatsSheet {
     this.shakeBtn = button(UI_TEXT.shake, () => this.act('shake'));
     this.actions.append(this.petBtn, this.carryBtn, this.feedBtn, this.shakeBtn);
 
-    this.root.append(head, needs, stats, this.actions);
+    this.give = el('div', 'sheet-give');
+    this.giveTitle = el('div', 'sheet-give-title', UI_TEXT.give);
+    this.giveList = el('div', 'sheet-give-list');
+    this.give.append(this.giveTitle, this.giveList);
+
+    this.root.append(head, needs, stats, this.actions, this.give);
     parent.appendChild(this.root);
+  }
+
+  private readonly give: HTMLDivElement;
+  private readonly giveTitle: HTMLDivElement;
+  private readonly giveList: HTMLDivElement;
+  private giveKey = '';
+
+  /** Rebuild the Critter / Essence buttons only when the inventory changes. */
+  private refreshGive(world: World, n: Nubbin): void {
+    const inv = world.inventory;
+    const critters = Object.entries(inv.critters).filter(([, c]) => c > 0);
+    const essences = Object.entries(inv.essences).filter(([, c]) => c > 0);
+    const key = `${n.stage}|${critters.map(([k, c]) => `${k}:${c}`).join(',')}|${essences.map(([k, c]) => `${k}:${c}`).join(',')}`;
+    if (key === this.giveKey) return;
+    this.giveKey = key;
+    this.giveList.innerHTML = '';
+    const canGive = n.stage !== 'egg' && n.stage !== 'cocoon';
+    this.give.hidden = !canGive;
+    if (!canGive) return;
+    if (critters.length === 0 && essences.length === 0) {
+      this.giveList.appendChild(el('span', 'help', UI_TEXT.nothingToGive));
+      return;
+    }
+    for (const [species, count] of critters) {
+      const b = button(
+        `${CRITTER_LABELS[species] ?? species} ×${count}`,
+        () => {
+          this.game()?.send({ kind: 'giveCritter', nubbinId: n.id, species });
+        },
+        'btn btn-small',
+      );
+      this.giveList.appendChild(b);
+    }
+    for (const [type, count] of essences) {
+      const t = type as NubbinType;
+      const b = button(
+        `${ESSENCE_LABELS[t]} ×${count}`,
+        () => {
+          this.game()?.send({ kind: 'giveEssence', nubbinId: n.id, type: t });
+        },
+        'btn btn-small',
+      );
+      this.giveList.appendChild(b);
+    }
   }
 
   get selectedId(): string | null {
@@ -120,6 +171,7 @@ export class StatsSheet {
       const cell = this.statRows.get(key);
       if (cell) cell.textContent = `Lv ${levelOf(s.points)} · ${s.grade}`;
     }
+    this.refreshGive(world, n);
 
     const isEgg = n.stage === 'egg';
     const carried = world.keeper.carrying === n.id;
@@ -175,7 +227,9 @@ function subtitleFor(n: Nubbin, world: World): string {
       : band === 'moon'
         ? `☾ ${NAMES.alignmentMoon}`
         : `◐ ${NAMES.alignmentNeutral}`;
-  const type = n.form ? ` · ${TYPE_LABELS[n.form.type]}` : '';
+  const type = n.form
+    ? ` · ${TYPE_LABELS[n.form.type]}${n.form.second && n.form.second !== 'normal' ? ` / ${TYPE_LABELS[n.form.second]}` : ''}`
+    : '';
   const rebirths = n.rebirths > 0 ? ` · ${UI_TEXT.rebirths(n.rebirths)}` : '';
   void world;
   return `${stage}${type} · ${bandLabel} · ${UI_TEXT.age(formatDuration(n.ageMs))}${rebirths}`;

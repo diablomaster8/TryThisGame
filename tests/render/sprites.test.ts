@@ -2,7 +2,9 @@ import { describe, expect, it } from 'vitest';
 import { viewAngle, viewIndex } from '../../src/render/sprites/angles';
 import { CLIPS, frameAt, frameKey } from '../../src/render/sprites/animations';
 import { atlasSize, cellRect } from '../../src/render/sprites/atlas';
-import { CHILD_NEUTRAL, drawChao, poseFor } from '../../src/render/sprites/chao';
+import { CHILD_NEUTRAL, drawChao, lookOf, poseFor, shapeFor } from '../../src/render/sprites/chao';
+import { PART_STYLES } from '../../src/render/sprites/parts';
+import { CRITTER_SPECIES, partId } from '../../src/sim/critters';
 import { C } from '../../src/render/sprites/palette';
 import { PixelCanvas } from '../../src/render/sprites/pixel-canvas';
 
@@ -74,9 +76,11 @@ describe('PixelCanvas', () => {
 });
 
 describe('drawChao', () => {
+  const NEUTRAL = lookOf(CHILD_NEUTRAL);
+
   it('produces a full-size sprite at every angle with feet on the ground row', () => {
     for (const angle of ['front', 'frontQuarter', 'side', 'backQuarter', 'back'] as const) {
-      const pc = drawChao(angle, poseFor('idle', 0), CHILD_NEUTRAL);
+      const pc = drawChao(angle, poseFor('idle', 0), NEUTRAL);
       const b = pc.bounds();
       expect(b).not.toBeNull();
       expect(b!.h).toBeGreaterThan(18);
@@ -86,8 +90,8 @@ describe('drawChao', () => {
   });
 
   it('shows eyes from the front and none from the back', () => {
-    const front = drawChao('front', poseFor('idle', 0), CHILD_NEUTRAL);
-    const back = drawChao('back', poseFor('idle', 0), CHILD_NEUTRAL);
+    const front = drawChao('front', poseFor('idle', 0), NEUTRAL);
+    const back = drawChao('back', poseFor('idle', 0), NEUTRAL);
     const count = (pc: PixelCanvas, c: number) => {
       let n = 0;
       for (let y = 0; y < 32; y++) for (let x = 0; x < 32; x++) if (pc.get(x, y) === c) n++;
@@ -99,8 +103,40 @@ describe('drawChao', () => {
   });
 
   it('is deterministic', () => {
-    const a = drawChao('side', poseFor('walk', 2), CHILD_NEUTRAL);
-    const b = drawChao('side', poseFor('walk', 2), CHILD_NEUTRAL);
+    const a = drawChao('side', poseFor('walk', 2), NEUTRAL);
+    const b = drawChao('side', poseFor('walk', 2), NEUTRAL);
     expect(Array.from(a.data)).toEqual(Array.from(b.data));
+  });
+
+  it('every critter part has a style and changes the drawing', () => {
+    const base = drawChao('front', poseFor('idle', 0), NEUTRAL);
+    for (const species of CRITTER_SPECIES) {
+      const parts = { ears: null, tail: null, arms: null, back: null } as Record<
+        'ears' | 'tail' | 'arms' | 'back',
+        string | null
+      >;
+      for (const slot of species.parts) {
+        const id = partId(species.id, slot);
+        expect(PART_STYLES[id], id).toBeDefined();
+        parts[slot] = id;
+      }
+      const withParts = drawChao(
+        'front',
+        poseFor('idle', 0),
+        lookOf(CHILD_NEUTRAL, null, null, parts),
+      );
+      expect(Array.from(withParts.data), species.id).not.toEqual(Array.from(base.data));
+    }
+  });
+
+  it('types change the silhouette and second evolutions add a lighter touch', () => {
+    expect(shapeFor('run', null).legLength).toBeGreaterThan(shapeFor('swim', 'run').legLength);
+    expect(shapeFor('swim', 'run').legLength).toBeGreaterThan(0);
+    expect(shapeFor('fly', null).wingScale).toBeGreaterThan(1);
+    expect(shapeFor(null, null).grow).toBe(0);
+    const run = drawChao('side', poseFor('idle', 0), lookOf(CHILD_NEUTRAL, 'run'));
+    expect(run.bounds()!.h).toBeGreaterThan(
+      drawChao('side', poseFor('idle', 0), NEUTRAL).bounds()!.h,
+    );
   });
 });

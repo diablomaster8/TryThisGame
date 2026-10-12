@@ -153,6 +153,22 @@ export const LIFECYCLE = {
   childMs: 60 * MINUTE,
   cocoonMs: 30 * SECOND,
   adultMs: 5 * HOUR,
+  /** How far into adult life the second evolution settles. */
+  secondEvolutionMs: 60 * MINUTE,
+} as const;
+
+export const CRITTERS = {
+  mainStatPoints: 30,
+  otherStatPoints: 10,
+  leanNudge: 30,
+  /** Giving a critter is a kindness too. */
+  happiness: 8,
+} as const;
+
+export const ESSENCES = {
+  statPoints: 50,
+  leanNudge: 50,
+  happiness: 5,
 } as const;
 
 export const STATS = {
@@ -175,6 +191,10 @@ export const ALIGNMENT = {
 export const TYPE_LEAN = {
   /** The leading type must beat the runner-up by this fraction or the adult is Normal. */
   leadMargin: 0.15,
+  /** Lean gained after evolution needed for a second evolution to show. */
+  secondMin: 40,
+  /** Lean gained per second of swimming / flapping. Slow: an hour of play ≈ one critter. */
+  trainingPerSecond: 0.02,
 } as const;
 
 export const BEHAVIOR = {

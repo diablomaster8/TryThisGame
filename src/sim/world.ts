@@ -1,12 +1,24 @@
 import { NUBBIN_NAMES } from '../config/strings';
 import { EGG, GROVE, OFFLINE, THROW, TREES } from '../config/tuning';
+import { nudgeAlignment } from './alignment';
 import { applyDrop, decayNeeds } from './needs';
 import { clampToWorld, putDown, react, sampleAll, startThrow, updateBehavior } from './behavior';
+import { CRITTER_SPECIES, giveCritter, giveEssence } from './critters';
 import { createKeeper, keeperPutDown, updateKeeper } from './keeper';
-import { advanceStage, evolve, hatch } from './lifecycle';
+import { advanceStage, evolve, hatch, secondEvolve } from './lifecycle';
 import { createEgg, isHeld } from './nubbin';
 import { Rng } from './rng';
-import type { Command, Item, Nubbin, Settings, SimEvent, Tree, Vec2, World } from './types';
+import {
+  NUBBIN_TYPES,
+  type Command,
+  type Item,
+  type Nubbin,
+  type Settings,
+  type SimEvent,
+  type Tree,
+  type Vec2,
+  type World,
+} from './types';
 
 export function defaultSettings(): Settings {
   return {
@@ -34,6 +46,7 @@ export function createWorld(seed: number, wallMs: number): World {
     settings: defaultSettings(),
     memorials: [],
     unlocks: { sunGrove: false, moonGrove: false },
+    grove: 'main',
     nextId: 1,
     selected: null,
   };
@@ -172,6 +185,32 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
     case 'switchKeeper':
       k.alignment = cmd.alignment;
       return;
+    case 'setGrove':
+      if (cmd.grove === 'sun' && !world.unlocks.sunGrove) return;
+      if (cmd.grove === 'moon' && !world.unlocks.moonGrove) return;
+      world.grove = cmd.grove;
+      return;
+    case 'giveCritter': {
+      const n = findNubbin(world, cmd.nubbinId);
+      if (!n || n.stage === 'egg' || n.stage === 'cocoon') return;
+      if ((world.inventory.critters[cmd.species] ?? 0) <= 0) return;
+      const ok = withRng(world, (rng) => giveCritter(n, cmd.species, rng, events));
+      if (!ok) return;
+      world.inventory.critters[cmd.species] = (world.inventory.critters[cmd.species] ?? 0) - 1;
+      nudgeAlignment(n, k.alignment);
+      react(n, 'love', now, events);
+      return;
+    }
+    case 'giveEssence': {
+      const n = findNubbin(world, cmd.nubbinId);
+      if (!n || n.stage === 'egg' || n.stage === 'cocoon') return;
+      if ((world.inventory.essences[cmd.type] ?? 0) <= 0) return;
+      giveEssence(n, cmd.type, events);
+      world.inventory.essences[cmd.type] = (world.inventory.essences[cmd.type] ?? 0) - 1;
+      nudgeAlignment(n, k.alignment);
+      react(n, 'happy', now, events);
+      return;
+    }
     case 'setSettings':
       world.settings = cmd.settings;
       return;
@@ -182,7 +221,22 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
     }
     case 'debugGive':
       if (cmd.what === 'shells') world.inventory.shells += cmd.amount;
-      else world.inventory.fruit += cmd.amount;
+      else if (cmd.what === 'fruit') world.inventory.fruit += cmd.amount;
+      else if (cmd.what === 'critter') {
+        withRng(world, (rng) => {
+          for (let i = 0; i < cmd.amount; i++) {
+            const s = rng.pick(CRITTER_SPECIES).id;
+            world.inventory.critters[s] = (world.inventory.critters[s] ?? 0) + 1;
+          }
+        });
+      } else {
+        withRng(world, (rng) => {
+          for (let i = 0; i < cmd.amount; i++) {
+            const t = rng.pick(NUBBIN_TYPES);
+            world.inventory.essences[t] = (world.inventory.essences[t] ?? 0) + 1;
+          }
+        });
+      }
       return;
     case 'debugFillNeeds': {
       const n = findNubbin(world, cmd.nubbinId);
@@ -193,8 +247,12 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
     }
     case 'debugForceEvolve': {
       const n = findNubbin(world, cmd.nubbinId);
-      if (!n || n.stage === 'egg' || n.stage === 'adult') return;
-      evolve(n, events);
+      if (!n || n.stage === 'egg') return;
+      if (n.stage === 'adult') {
+        if (n.form && n.form.second === null) secondEvolve(n, events);
+        return;
+      }
+      evolve(n, events, world);
       return;
     }
     case 'debugForceEndOfLife': {
@@ -241,7 +299,7 @@ export function stepWorld(world: World, dtMs: number, wallMs?: number): SimEvent
         continue;
       }
       decayNeeds(n, dtMs);
-      advanceStage(n, dtMs, events);
+      advanceStage(n, dtMs, events, world);
       updateBehavior(n, world, dtMs, rng, events);
     }
     updateKeeper(world, dtMs, events);

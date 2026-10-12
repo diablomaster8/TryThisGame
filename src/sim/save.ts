@@ -71,11 +71,19 @@ export function validateWorld(w: World): World {
   }
   oa.allowOfflineDepartures = Boolean(oa.allowOfflineDepartures);
   w.selected ??= null;
+  w.grove ??= 'main';
+  w.inventory.critters ??= {};
+  w.inventory.essences ??= {};
   for (const n of w.nubbins) {
     n.genes ??= {};
     n.skills ??= {};
     n.karateRecord ??= {};
     n.gradeUpgrades ??= {};
+    n.parts ??= { ears: null, tail: null, arms: null, back: null };
+    if (n.form) {
+      n.form.second ??= null;
+      n.form.leanAtEvolution ??= { ...n.typeLean };
+    }
     // A held Nubbin saved mid-drag lands where it was.
     if (n.behavior.state === 'held' || n.behavior.state === 'thrown') {
       n.behavior.state = 'sit';

@@ -1,8 +1,9 @@
 import { INPUT } from '../config/tuning';
-import { NAMES, UI_TEXT } from '../config/strings';
+import { GROVE_LABELS, NAMES, TYPE_LABELS, UI_TEXT } from '../config/strings';
 import type { Game, GameHooks } from '../game';
-import type { AwayReport, SimEvent } from '../sim/types';
+import type { AwayReport, GroveKind, SimEvent } from '../sim/types';
 import { AwayScreen } from './away-screen';
+import { Celebration } from './celebration';
 import { DebugPanel } from './debug-panel';
 import { button, el } from './dom';
 import { SettingsMenu } from './settings';
@@ -23,8 +24,31 @@ export function mountHud(
   const fruit = el('span', 'chip', '');
   const settingsBtn = button('⚙', () => settings.open(), 'btn btn-icon');
   settingsBtn.setAttribute('aria-label', UI_TEXT.settings);
-  top.append(logo, shells, fruit, settingsBtn);
+  const keeperBtn = button('☀', () => switchKeeper(), 'btn btn-icon');
+  keeperBtn.setAttribute('aria-label', UI_TEXT.switchKeeper);
+  keeperBtn.title = UI_TEXT.switchKeeper;
+  const groveBtn = button(GROVE_LABELS.main, () => cycleGrove(), 'btn btn-small');
+  groveBtn.hidden = true;
+  top.append(logo, shells, fruit, groveBtn, keeperBtn, settingsBtn);
   root.appendChild(top);
+
+  function switchKeeper(): void {
+    const g = game();
+    if (!g) return;
+    g.send({
+      kind: 'switchKeeper',
+      alignment: g.world.keeper.alignment === 'sun' ? 'moon' : 'sun',
+    });
+  }
+  function cycleGrove(): void {
+    const g = game();
+    if (!g) return;
+    const order: GroveKind[] = ['main'];
+    if (g.world.unlocks.sunGrove) order.push('sun');
+    if (g.world.unlocks.moonGrove) order.push('moon');
+    const i = order.indexOf(g.world.grove);
+    g.send({ kind: 'setGrove', grove: order[(i + 1) % order.length] ?? 'main' });
+  }
 
   // Carry chip.
   const carry = el('div', 'carry');
@@ -52,6 +76,7 @@ export function mountHud(
   const settings = new SettingsMenu(root, game, toast);
   const away = new AwayScreen(root);
   const debug = new DebugPanel(root, game, () => sheet.selectedId);
+  const celebration = new Celebration(root, game);
 
   // Triple-tap the logo, or press backtick, for the debug panel.
   let logoTaps: number[] = [];
@@ -82,6 +107,10 @@ export function mountHud(
     if (g) {
       shells.textContent = `🐚 ${g.world.inventory.shells}`;
       fruit.textContent = `🍎 ${g.world.inventory.fruit}`;
+      keeperBtn.textContent = g.world.keeper.alignment === 'sun' ? '☀' : '☾';
+      const anyUnlocked = g.world.unlocks.sunGrove || g.world.unlocks.moonGrove;
+      groveBtn.hidden = !anyUnlocked;
+      groveBtn.textContent = GROVE_LABELS[g.world.grove];
       const carrying = g.world.keeper.carrying;
       carry.hidden = !carrying;
       if (carrying) {
@@ -104,8 +133,10 @@ export function mountHud(
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           toast(UI_TEXT.hatched(n?.name ?? NAMES.creature));
         } else if (e.kind === 'evolved') {
+          celebration.show(e);
+        } else if (e.kind === 'secondEvolved') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          toast(UI_TEXT.evolved(n?.name ?? NAMES.creature));
+          toast(UI_TEXT.secondEvolved(n?.name ?? NAMES.creature, TYPE_LABELS[e.second]));
         }
       }
     },

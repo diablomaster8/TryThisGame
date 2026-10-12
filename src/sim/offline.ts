@@ -82,7 +82,7 @@ export function coarseStep(world: World, dtMs: number, events: SimEvent[]): void
     }
     decayNeeds(n, dtMs);
     if (n.behavior.state === 'nap') n.behavior.state = 'sit';
-    advanceStage(n, dtMs, events);
+    advanceStage(n, dtMs, events, world);
     sampleHappiness(n);
   }
 }

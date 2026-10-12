@@ -16,6 +16,7 @@ import {
   type Texture,
 } from 'three';
 import { GROVE } from '../config/tuning';
+import type { GroveKind } from '../sim/types';
 import { C, color } from './sprites/palette';
 import {
   makeGrassTexture,
@@ -36,21 +37,27 @@ export class GroveScene {
   private readonly water: Texture;
   private readonly falls: Texture;
   private readonly disposables: Array<{ dispose(): void }> = [];
+  private readonly hemi: HemisphereLight;
+  private readonly sun: DirectionalLight;
+  /** Textured materials that take the Sun/Moon tint. */
+  private readonly tintable: MeshLambertMaterial[] = [];
+  private groveKind: GroveKind = 'main';
 
   constructor() {
     this.scene.background = new Color(color(C.nightBlue));
 
-    const hemi = new HemisphereLight(new Color(color(C.shallows)), new Color(color(C.forest)), 1.5);
-    this.scene.add(hemi);
-    const sun = new DirectionalLight(new Color(color(C.cream)), 1.1);
-    sun.position.set(6, 10, 4);
-    this.scene.add(sun);
+    this.hemi = new HemisphereLight(new Color(color(C.shallows)), new Color(color(C.forest)), 1.5);
+    this.scene.add(this.hemi);
+    this.sun = new DirectionalLight(new Color(color(C.cream)), 1.1);
+    this.sun.position.set(6, 10, 4);
+    this.scene.add(this.sun);
 
     // Ground.
     const size = GROVE.size;
     const grass = makeGrassTexture(8, size);
     const groundGeo = new PlaneGeometry(size, size);
     const groundMat = new MeshLambertMaterial({ map: grass });
+    this.tintable.push(groundMat);
     const ground = new Mesh(groundGeo, groundMat);
     ground.rotation.x = -Math.PI / 2;
     ground.userData.pick = { kind: 'ground', id: 'ground' };
@@ -80,6 +87,7 @@ export class GroveScene {
     // Hills: flattened spheres with a hill texture, sunk into the ground.
     const hillTex = makeHillTexture(8, 6);
     const hillMat = new MeshLambertMaterial({ map: hillTex, flatShading: true });
+    this.tintable.push(hillMat);
     this.disposables.push(hillTex, hillMat);
     for (const h of GROVE.hills) {
       const geo = new SphereGeometry(h.r, 10, 6);
@@ -173,6 +181,23 @@ export class GroveScene {
   update(nowMs: number): void {
     this.water.offset.set((nowMs / 6000) % 1, (nowMs / 9000) % 1);
     this.falls.offset.set(0, (-nowMs / 400) % 1);
+  }
+
+  /**
+   * The Sun and Moon Groves are recolours of the main Grove: a tint on the lit
+   * materials, a different sky and light. Cheap, and every sprite stays the same.
+   */
+  setGrove(kind: GroveKind): void {
+    if (this.groveKind === kind) return;
+    this.groveKind = kind;
+    const tint = kind === 'sun' ? color(C.cream) : kind === 'moon' ? color(C.lavender) : '#ffffff';
+    const sky = kind === 'sun' ? C.shallows : kind === 'moon' ? C.ink : C.nightBlue;
+    this.scene.background = new Color(color(sky));
+    for (const m of this.tintable) m.color.set(tint);
+    this.hemi.intensity = kind === 'moon' ? 0.9 : 1.5;
+    this.hemi.color.set(color(kind === 'moon' ? C.moonPurple : C.shallows));
+    this.sun.intensity = kind === 'sun' ? 1.5 : kind === 'moon' ? 0.6 : 1.1;
+    this.sun.color.set(color(kind === 'moon' ? C.lavender : C.cream));
   }
 
   dispose(): void {

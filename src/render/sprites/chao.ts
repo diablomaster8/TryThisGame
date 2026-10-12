@@ -1,7 +1,10 @@
+import type { NubbinType, PartSlot } from '../../sim/types';
 import { CLIPS, frameKey, type ClipName } from './animations';
 import { DRAWN_ANGLES, type DrawnAngle } from './angles';
 import { AtlasBuilder, type SpriteSheet } from './atlas';
+import { CHILD_SHAPE, layout, type ChaoShape, type Layout } from './layout';
 import { C } from './palette';
+import { drawArmPart, drawBack, drawEars, drawTail, partStyle, type PartStyle } from './parts';
 import { PixelCanvas } from './pixel-canvas';
 
 /**
@@ -10,8 +13,9 @@ import { PixelCanvas } from './pixel-canvas';
  * feet, two small wings on the back, and big dark eyes. The emote ball floats above as
  * its own sprite (see emote.ts) so moods change without rebuilding the sheet.
  *
- * Frames are 32×32 with the feet on row 30. Parts render in back-to-front order so the
- * same code serves all five drawn angles.
+ * Adults differ by type (fins, bigger wings, longer legs, bigger arms) and carry critter
+ * parts in four slots. Frames are 32×32 with the feet on row 30. Parts render in
+ * back-to-front order so the same code serves all five drawn angles.
  */
 
 export const CHAO_SIZE = 32;
@@ -62,7 +66,7 @@ export const CHILD_MOON: ChaoColors = {
   glint: C.rose,
 };
 
-/** Adult recolours by alignment band and type. Parts and shapes come in M2. */
+/** Adult palettes by alignment band and type: the 15 first-evolution looks. */
 export function adultColors(band: 'sun' | 'moon' | 'neutral', type: string): ChaoColors {
   const base = band === 'sun' ? CHILD_SUN : band === 'moon' ? CHILD_MOON : CHILD_NEUTRAL;
   if (band === 'neutral') {
@@ -107,6 +111,34 @@ export function adultColors(band: 'sun' | 'moon' | 'neutral', type: string): Cha
   }
 }
 
+/** Silhouette by type. Second evolutions add a lighter touch of their type. */
+export function shapeFor(type: NubbinType | null, second: NubbinType | null): ChaoShape {
+  if (!type) return CHILD_SHAPE;
+  const s: ChaoShape = { ...CHILD_SHAPE, grow: 1 };
+  const apply = (t: NubbinType, k: number) => {
+    switch (t) {
+      case 'swim':
+        s.headFins = Math.max(s.headFins, k === 1 ? 2 : 1);
+        break;
+      case 'fly':
+        s.wingScale = Math.max(s.wingScale, k === 1 ? 1.8 : 1.35);
+        break;
+      case 'run':
+        s.legLength = Math.max(s.legLength, k === 1 ? 3 : 2);
+        break;
+      case 'power':
+        s.bodyWiden = Math.max(s.bodyWiden, k === 1 ? 1 : 0);
+        s.handBonus = Math.max(s.handBonus, k === 1 ? 1.2 : 0.6);
+        break;
+      default:
+        break;
+    }
+  };
+  apply(type, 1);
+  if (second && second !== type) apply(second, 0.5);
+  return s;
+}
+
 export type EyeState = 'open' | 'closed' | 'happy' | 'half' | 'dizzy' | 'wide';
 export type MouthState = 'smile' | 'flat' | 'open' | 'sad' | 'none';
 export type ArmPose = 'down' | 'up' | 'out' | 'swingA' | 'swingB';
@@ -126,8 +158,6 @@ export interface ChaoPose {
   waterline: boolean;
   /** Head tilt in px for sad and sleep poses. */
   headDrop: number;
-  /** Adult: a little larger. */
-  grown: boolean;
 }
 
 const BASE: ChaoPose = {
@@ -140,7 +170,6 @@ const BASE: ChaoPose = {
   wings: 0,
   waterline: false,
   headDrop: 0,
-  grown: false,
 };
 
 /** Poses per clip frame. */
@@ -203,62 +232,46 @@ export function poseFor(clip: ClipName, frame: number): ChaoPose {
   }
 }
 
-// ---------- geometry ----------
-
-interface Layout {
-  headCx: number;
-  headCy: number;
-  headRx: number;
-  headRy: number;
-  bodyCx: number;
-  bodyCy: number;
-  bodyRx: number;
-  bodyRy: number;
-  feetY: number;
+export interface ChaoLook {
+  colors: ChaoColors;
+  shape: ChaoShape;
+  parts: Record<PartSlot, string | null>;
 }
 
-function layout(angle: DrawnAngle, pose: ChaoPose): Layout {
-  const g = pose.grown ? 1 : 0;
-  const lift = pose.lift;
-  const feetY = 30 + lift;
-  const bodyRy = Math.round((5 + g) * pose.squash);
-  const bodyCy = feetY - bodyRy + 1;
-  const headRy = Math.round((7 + g) * pose.squash);
-  const headRx = angle === 'side' ? 7 + g : 8 + g;
-  const headCy = bodyCy - bodyRy - headRy + 3 + pose.headDrop;
-  return {
-    headCx: 16,
-    headCy,
-    headRx,
-    headRy,
-    bodyCx: angle === 'side' ? 15 : 16,
-    bodyCy,
-    bodyRx: angle === 'side' ? 5 + g : 6 + g,
-    bodyRy,
-    feetY,
-  };
-}
+export const NO_PARTS: Record<PartSlot, string | null> = {
+  ears: null,
+  tail: null,
+  arms: null,
+  back: null,
+};
 
-// ---------- parts ----------
+// ---------- body features ----------
 
 function drawWings(
   pc: PixelCanvas,
   angle: DrawnAngle,
   pose: ChaoPose,
   L: Layout,
-  col: ChaoColors,
+  look: ChaoLook,
   front: boolean,
 ): void {
-  // Wings sit behind the shoulders. From the front they peek out at the sides; from the
-  // back they are the main feature. `front` says whether this call draws the layer behind
-  // or in front of the body.
   const raise = pose.wings === 1 ? 3 : 0;
+  const back = partStyle(look.parts.back);
+  if (back) {
+    drawBack(pc, angle, L, back, raise, front);
+    return;
+  }
+  // Default wings sit behind the shoulders. From the front they peek out at the sides;
+  // from the back they are the main feature.
+  const col = look.colors;
+  const scale = look.shape.wingScale;
   const y = L.headCy + L.headRy - 2 - raise;
   const wing = (cx: number, dir: 1 | -1, big: boolean) => {
-    const w = big ? 4 : 3;
-    const h = big ? 4 : 3;
+    const w = Math.round((big ? 4 : 3) * scale);
+    const h = Math.round((big ? 4 : 3) * scale);
     pc.tri(cx, y + 2, cx + dir * w, y - h, cx + dir * (w + 1), y + 2, col.wing);
     pc.px(cx + dir * 2, y, col.belly);
+    if (scale > 1.2) pc.line(cx + dir, y + 1, cx + dir * (w - 1), y - h + 2, col.belly);
   };
   switch (angle) {
     case 'front':
@@ -340,6 +353,68 @@ function drawCrown(
   }
 }
 
+/** Swim types: small fins on the sides of the head. */
+function drawHeadFins(
+  pc: PixelCanvas,
+  angle: DrawnAngle,
+  L: Layout,
+  col: ChaoColors,
+  size: number,
+): void {
+  if (size <= 0) return;
+  const y = L.headCy;
+  const fin = (x: number, dir: 1 | -1) => {
+    pc.tri(x, y - 2, x, y + 2, x + dir * (2 + size), y - 1, col.shade);
+    pc.px(x + dir, y, col.tip);
+  };
+  switch (angle) {
+    case 'front':
+    case 'back':
+      fin(L.headCx - L.headRx + 1, -1);
+      fin(L.headCx + L.headRx - 1, 1);
+      break;
+    case 'frontQuarter':
+    case 'backQuarter':
+      fin(L.headCx - L.headRx + 1, -1);
+      break;
+    case 'side':
+      fin(L.headCx - L.headRx + 2, -1);
+      break;
+  }
+}
+
+function drawLegs(
+  pc: PixelCanvas,
+  angle: DrawnAngle,
+  pose: ChaoPose,
+  L: Layout,
+  col: ChaoColors,
+): void {
+  if (L.legLength <= 0 || pose.waterline) return;
+  const a = pose.legs === 'stepA' ? -1 : pose.legs === 'stepB' ? 1 : 0;
+  const top = L.bodyCy + L.bodyRy - 2;
+  if (angle === 'side') {
+    pc.rect(L.bodyCx - 2 + a * 2, top, 2, L.legLength + 2, col.shade);
+    pc.rect(L.bodyCx + 1 - a * 2, top, 2, L.legLength + 2, col.shade);
+  } else {
+    const spread = angle === 'front' || angle === 'back' ? 4 : 3;
+    pc.rect(
+      L.bodyCx - spread - 1,
+      top,
+      2,
+      L.legLength + 2 + (pose.legs === 'tucked' ? 0 : a),
+      col.shade,
+    );
+    pc.rect(
+      L.bodyCx + spread - 1,
+      top,
+      2,
+      L.legLength + 2 - (pose.legs === 'tucked' ? 0 : a),
+      col.shade,
+    );
+  }
+}
+
 function drawFeet(
   pc: PixelCanvas,
   angle: DrawnAngle,
@@ -380,11 +455,18 @@ function drawArms(
   angle: DrawnAngle,
   pose: ChaoPose,
   L: Layout,
-  col: ChaoColors,
+  look: ChaoLook,
 ): void {
+  const col = look.colors;
+  const part = partStyle(look.parts.arms);
   const shoulderY = L.bodyCy - L.bodyRy + 2;
-  const hand = (x: number, y: number) => {
-    pc.disc(x, y, 1.6, col.body);
+  const hand = (x: number, y: number, dir: 1 | -1, sx: number) => {
+    if (part) {
+      drawArmPart(pc, sx, shoulderY, x, y, dir, part);
+      return;
+    }
+    pc.line(sx, shoulderY, x, y, col.shade);
+    pc.disc(x, y, 1.6 + look.shape.handBonus, col.body);
     pc.px(x, y + 1, col.tip);
     pc.px(x + 1, y, col.tip);
   };
@@ -411,25 +493,18 @@ function drawArms(
       default:
         break;
     }
-    pc.line(sx, shoulderY, hx, hy, col.shade);
-    hand(hx, hy);
+    hand(hx, hy, dir, sx);
   };
+  const mirror = (p: ArmPose): ArmPose =>
+    p === 'swingA' ? 'swingB' : p === 'swingB' ? 'swingA' : p;
   switch (angle) {
     case 'front':
       armAt(L.bodyCx - L.bodyRx + 1, -1, pose.arms);
-      armAt(
-        L.bodyCx + L.bodyRx - 1,
-        1,
-        pose.arms === 'swingA' ? 'swingB' : pose.arms === 'swingB' ? 'swingA' : pose.arms,
-      );
+      armAt(L.bodyCx + L.bodyRx - 1, 1, mirror(pose.arms));
       break;
     case 'frontQuarter':
       armAt(L.bodyCx - L.bodyRx + 1, -1, pose.arms);
-      armAt(
-        L.bodyCx + L.bodyRx - 2,
-        1,
-        pose.arms === 'swingA' ? 'swingB' : pose.arms === 'swingB' ? 'swingA' : pose.arms,
-      );
+      armAt(L.bodyCx + L.bodyRx - 2, 1, mirror(pose.arms));
       break;
     case 'side':
       armAt(L.bodyCx + 2, 1, pose.arms);
@@ -499,7 +574,6 @@ function drawFace(
       mouthX = L.headCx + 6;
       break;
     case 'backQuarter':
-      // Just the far eye's edge.
       pc.px(L.headCx + L.headRx - 1, eyeY, col.eye);
       pc.px(L.headCx + L.headRx - 1, eyeY + 1, col.eye);
       return;
@@ -531,15 +605,20 @@ function drawFace(
   }
 }
 
-/** Draw one Chao frame into a fresh 32×32 canvas. */
-export function drawChao(angle: DrawnAngle, pose: ChaoPose, col: ChaoColors): PixelCanvas {
+/** Draw one frame into a fresh 32×32 canvas. */
+export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): PixelCanvas {
   const pc = new PixelCanvas(CHAO_SIZE, CHAO_SIZE);
-  const L = layout(angle, pose);
+  const col = look.colors;
+  const L = layout(angle, pose, look.shape);
+  const tail = partStyle(look.parts.tail);
+  const fromFront = angle === 'front' || angle === 'frontQuarter' || angle === 'side';
 
-  // Back layer: wings behind the body for front-ish views.
-  drawWings(pc, angle, pose, L, col, false);
+  // Back layer: wings/back part and tail behind the body for front-ish views.
+  drawWings(pc, angle, pose, L, look, false);
+  if (tail && fromFront) drawTail(pc, angle, L, tail);
 
-  // Body.
+  // Legs and body.
+  drawLegs(pc, angle, pose, L, col);
   if (!pose.waterline) {
     pc.ellipse(L.bodyCx, L.bodyCy, L.bodyRx, L.bodyRy, col.body);
     pc.ellipse(L.bodyCx + 1, L.bodyCy + 1, L.bodyRx - 1, L.bodyRy - 1, col.shade);
@@ -549,17 +628,15 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, col: ChaoColors): Pi
     }
     drawFeet(pc, angle, pose, L, col);
   } else {
-    // In the pond: only the top of the body shows above a ripple.
     pc.ellipse(L.bodyCx, L.bodyCy - 1, L.bodyRx, 2, col.body);
   }
 
-  // Arms (behind the head for back views, in front otherwise handled by order).
-  if (angle === 'back' || angle === 'backQuarter') drawArms(pc, angle, pose, L, col);
+  if (angle === 'back' || angle === 'backQuarter') drawArms(pc, angle, pose, L, look);
 
   // Head.
   drawCrown(pc, angle, pose, L, col);
+  drawHeadFins(pc, angle, L, col, look.shape.headFins);
   pc.ellipse(L.headCx, L.headCy, L.headRx, L.headRy, col.body);
-  // Shade under the head and on the far side.
   pc.ellipse(L.headCx + 1, L.headCy + 2, L.headRx - 1, L.headRy - 1, col.shade);
   pc.ellipse(L.headCx, L.headCy, L.headRx - 1, L.headRy - 1, col.body);
   pc.ellipse(
@@ -570,18 +647,20 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, col: ChaoColors): Pi
     col.belly,
   );
   pc.ellipse(L.headCx, L.headCy, L.headRx - 1, L.headRy - 1, col.body);
-  // Soft highlight.
   pc.px(L.headCx - 3, L.headCy - 4, col.belly);
   pc.px(L.headCx - 4, L.headCy - 3, col.belly);
 
-  if (angle !== 'back' && angle !== 'backQuarter') drawArms(pc, angle, pose, L, col);
+  const ears = partStyle(look.parts.ears);
+  if (ears) drawEars(pc, angle, L, ears);
+
+  if (fromFront) drawArms(pc, angle, pose, L, look);
   drawFace(pc, angle, pose, L, col);
 
-  // Front layer: wings over the body for back views.
-  drawWings(pc, angle, pose, L, col, true);
+  // Front layer: wings over the body for back views, tail in front for back views.
+  drawWings(pc, angle, pose, L, look, true);
+  if (tail && !fromFront) drawTail(pc, angle, L, tail);
 
   if (pose.waterline) {
-    // Ripple line.
     pc.line(L.bodyCx - 7, L.bodyCy - 1, L.bodyCx + 7, L.bodyCy - 1, C.shallows);
     pc.px(L.bodyCx - 8, L.bodyCy, C.white);
     pc.px(L.bodyCx + 8, L.bodyCy, C.white);
@@ -592,35 +671,41 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, col: ChaoColors): Pi
 }
 
 /** Every clip at every drawn angle, baked into one sheet. */
-export function buildChaoSheet(col: ChaoColors, grown = false): SpriteSheet {
+export function buildChaoSheet(look: ChaoLook): SpriteSheet {
   const atlas = new AtlasBuilder(CHAO_SIZE, CHAO_SIZE, 10);
   for (const clip of Object.keys(CLIPS) as ClipName[]) {
     const def = CLIPS[clip];
     for (const angle of DRAWN_ANGLES) {
       for (let f = 0; f < def.frames; f++) {
-        const pose = { ...poseFor(clip, f), grown };
-        atlas.add(frameKey(clip, angle, f), drawChao(angle, pose, col));
+        atlas.add(frameKey(clip, angle, f), drawChao(angle, poseFor(clip, f), look));
       }
     }
   }
-  // Reaction stills.
   for (const angle of DRAWN_ANGLES) {
     atlas.add(
       frameKey('dizzy', angle, 0),
-      drawChao(angle, { ...BASE, eyes: 'dizzy', mouth: 'sad', headDrop: 1, grown }, col),
+      drawChao(angle, { ...BASE, eyes: 'dizzy', mouth: 'sad', headDrop: 1 }, look),
     );
     atlas.add(
       frameKey('surprised', angle, 0),
-      drawChao(angle, { ...BASE, eyes: 'wide', mouth: 'open', lift: -1, arms: 'up', grown }, col),
+      drawChao(angle, { ...BASE, eyes: 'wide', mouth: 'open', lift: -1, arms: 'up' }, look),
     );
     atlas.add(
       frameKey('held', angle, 0),
-      drawChao(
-        angle,
-        { ...BASE, eyes: 'wide', mouth: 'flat', legs: 'tucked', arms: 'out', grown },
-        col,
-      ),
+      drawChao(angle, { ...BASE, eyes: 'wide', mouth: 'flat', legs: 'tucked', arms: 'out' }, look),
     );
   }
   return atlas.build();
 }
+
+/** Convenience for callers that only have colours (gallery, tests). */
+export function lookOf(
+  colors: ChaoColors,
+  type: NubbinType | null = null,
+  second: NubbinType | null = null,
+  parts: Record<PartSlot, string | null> = NO_PARTS,
+): ChaoLook {
+  return { colors, shape: shapeFor(type, second), parts };
+}
+
+export type { PartStyle };

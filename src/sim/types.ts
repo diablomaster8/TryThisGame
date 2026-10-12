@@ -42,6 +42,17 @@ export type Reaction = 'happy' | 'sad' | 'surprised' | 'dizzy' | 'love' | 'confu
 
 export type Mood = 'content' | 'happy' | 'sad' | 'hungry' | 'sleepy' | 'dizzy';
 
+export interface NubbinForm {
+  band: AlignmentBand;
+  type: NubbinType;
+  /** Second evolution: the type trained most after evolving, or null before it happens. */
+  second: NubbinType | null;
+  /** Type lean snapshot at evolution, so the second evolution measures growth since. */
+  leanAtEvolution: Record<NubbinType, number>;
+}
+
+export type GroveKind = 'main' | 'sun' | 'moon';
+
 export interface StatBlock {
   points: number;
   grade: Grade;
@@ -101,7 +112,8 @@ export interface Nubbin {
   alignment: number;
   personality: Personality | null;
   /** Set at evolution. */
-  form: { band: AlignmentBand; type: NubbinType } | null;
+  form: NubbinForm | null;
+  /** Part ids from critters, e.g. "rabbit-ears". The newest critter wins a slot. */
   parts: Record<PartSlot, string | null>;
   hat: string | null;
   rebirths: number;
@@ -197,6 +209,8 @@ export interface World {
   settings: Settings;
   memorials: Memorial[];
   unlocks: { sunGrove: boolean; moonGrove: boolean };
+  /** Which Grove is shown. Sun and Moon are recolours, unlocked by the first adult of that band. */
+  grove: GroveKind;
   nextId: number;
   /** Id of the Nubbin the player has selected, or null. */
   selected: string | null;
@@ -220,10 +234,13 @@ export type Command =
   | { kind: 'shakeHeld' }
   | { kind: 'release'; vel: Vec2 }
   | { kind: 'switchKeeper'; alignment: KeeperAlignment }
+  | { kind: 'setGrove'; grove: GroveKind }
+  | { kind: 'giveCritter'; nubbinId: string; species: string }
+  | { kind: 'giveEssence'; nubbinId: string; type: NubbinType }
   | { kind: 'setSettings'; settings: Settings }
   | { kind: 'rename'; nubbinId: string; name: string }
   // Debug
-  | { kind: 'debugGive'; what: 'shells' | 'fruit'; amount: number }
+  | { kind: 'debugGive'; what: 'shells' | 'fruit' | 'critter' | 'essence'; amount: number }
   | { kind: 'debugFillNeeds'; nubbinId: string }
   | { kind: 'debugForceEvolve'; nubbinId: string }
   | { kind: 'debugForceEndOfLife'; nubbinId: string }
@@ -233,7 +250,18 @@ export type Command =
 
 export type SimEvent =
   | { kind: 'hatched'; nubbinId: string }
-  | { kind: 'evolved'; nubbinId: string; band: AlignmentBand; type: NubbinType }
+  | {
+      kind: 'evolved';
+      nubbinId: string;
+      band: AlignmentBand;
+      type: NubbinType;
+      /** The stat whose grade went up, if any. */
+      upgraded: StatKey | null;
+      groveUnlocked: GroveKind | null;
+    }
+  | { kind: 'secondEvolved'; nubbinId: string; second: NubbinType }
+  | { kind: 'critterGiven'; nubbinId: string; species: string }
+  | { kind: 'essenceGiven'; nubbinId: string; type: NubbinType }
   | { kind: 'reborn'; nubbinId: string }
   | { kind: 'departed'; nubbinId: string; name: string }
   | { kind: 'reaction'; nubbinId: string; reaction: Reaction }

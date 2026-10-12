@@ -68,6 +68,38 @@ export const TYPE_LABELS = {
   power: 'Power',
 } as const;
 
+export const CRITTER_LABELS: Record<string, string> = {
+  penguin: 'Penguin',
+  seal: 'Seal',
+  otter: 'Otter',
+  peacock: 'Peacock',
+  parrot: 'Parrot',
+  condor: 'Condor',
+  cheetah: 'Cheetah',
+  rabbit: 'Rabbit',
+  boar: 'Boar',
+  gorilla: 'Gorilla',
+  bear: 'Bear',
+  tiger: 'Tiger',
+  sheep: 'Sheep',
+  raccoon: 'Raccoon',
+  skunk: 'Skunk',
+};
+
+export const ESSENCE_LABELS = {
+  swim: 'Blue Essence',
+  fly: 'Purple Essence',
+  run: 'Green Essence',
+  power: 'Red Essence',
+  normal: 'Gold Essence',
+} as const;
+
+export const GROVE_LABELS = {
+  main: '🌿 Main Grove',
+  sun: '☀ Sun Grove',
+  moon: '☾ Moon Grove',
+} as const;
+
 export const MOOD_LABELS = {
   content: 'Content',
   happy: 'Happy',
@@ -138,6 +170,18 @@ export const UI_TEXT = {
   debugFillNeeds: 'Fill needs',
   debugReset: 'Reset save',
   debugNoSelection: 'Tap a Nubbin to inspect it.',
+  give: 'Give',
+  giveCritters: 'Critters',
+  giveEssences: 'Essences',
+  nothingToGive: 'Nothing to give yet. Expeditions (M4) bring Critters and Essences.',
+  switchKeeper: 'Switch Keeper',
+  groveButton: 'Grove',
+  // Celebration
+  evolvedTitle: (name: string) => `${name} evolved!`,
+  evolvedForm: (band: string, type: string) => `${band} ${type}`,
+  gradeUp: (stat: string, grade: string) => `${stat} grade is now ${grade}`,
+  groveUnlocked: (grove: string) => `${grove} unlocked!`,
+  secondEvolved: (name: string, type: string) => `${name} grew a ${type} side.`,
   // Toasts
   storageBlocked: 'Saving is blocked in this browser. The Grove will not be kept.',
   saved: 'Saved',

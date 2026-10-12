@@ -197,6 +197,7 @@ export class Game {
     this.camera.update(nowMs);
 
     this.grove.update(nowMs);
+    this.grove.setGrove(this.world.grove);
     this.view.update(this.world, this.camera, this.clock.alpha, nowMs);
     this.pipeline.render(this.grove.scene, this.camera.camera);
 

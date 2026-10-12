@@ -53,8 +53,16 @@ export class DebugPanel {
         () => this.game()?.send({ kind: 'debugGive', what: 'fruit', amount: 5 }),
         'btn btn-small',
       ),
-      button('+critter (M2)', () => undefined, 'btn btn-small'),
-      button('+essence (M2)', () => undefined, 'btn btn-small'),
+      button(
+        '+3 critters',
+        () => this.game()?.send({ kind: 'debugGive', what: 'critter', amount: 3 }),
+        'btn btn-small',
+      ),
+      button(
+        '+3 essences',
+        () => this.game()?.send({ kind: 'debugGive', what: 'essence', amount: 3 }),
+        'btn btn-small',
+      ),
     );
     this.root.appendChild(give);
 

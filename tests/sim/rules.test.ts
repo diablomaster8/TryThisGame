@@ -124,7 +124,7 @@ describe('lifecycle timers', () => {
     expect(n.stage).toBe('cocoon');
     advanceStage(n, LIFECYCLE.cocoonMs, events);
     expect(n.stage).toBe('adult');
-    expect(n.form).toEqual({ band: 'neutral', type: 'normal' });
+    expect(n.form).toMatchObject({ band: 'neutral', type: 'normal', second: null });
     expect(events.some((e) => e.kind === 'evolved')).toBe(true);
   });
 
@@ -133,6 +133,6 @@ describe('lifecycle timers', () => {
     n.alignment = 0.9;
     n.typeLean.fly = 200;
     advanceStage(n, LIFECYCLE.childMs + LIFECYCLE.cocoonMs, []);
-    expect(n.form).toEqual({ band: 'sun', type: 'fly' });
+    expect(n.form).toMatchObject({ band: 'sun', type: 'fly' });
   });
 });

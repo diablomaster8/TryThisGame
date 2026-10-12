@@ -1,35 +1,154 @@
 import { CLIPS, frameKey, type ClipName } from '../render/sprites/animations';
-import { DRAWN_ANGLES } from '../render/sprites/angles';
+import { DRAWN_ANGLES, type DrawnAngle } from '../render/sprites/angles';
 import type { SpriteSheet } from '../render/sprites/atlas';
 import {
   adultColors,
-  buildChaoSheet,
   CHILD_MOON,
   CHILD_NEUTRAL,
   CHILD_SUN,
+  drawChao,
+  lookOf,
+  poseFor,
+  type ChaoLook,
 } from '../render/sprites/chao';
 import { buildCocoonSheet, buildEggSheet, EGG_PALETTES } from '../render/sprites/egg';
 import { buildEmoteSheet, EMOTE_SHAPES } from '../render/sprites/emote';
 import { buildKeeperSheet, MOON_KEEPER, SUN_KEEPER } from '../render/sprites/keeper';
+import type { PixelCanvas } from '../render/sprites/pixel-canvas';
 import { buildPropSheet } from '../render/sprites/props';
+import { CRITTER_SPECIES, partId } from '../sim/critters';
+import { NUBBIN_TYPES, type PartSlot } from '../sim/types';
 
 /**
- * Developer page at `?sprites`: every generated sheet, scaled up, so the art can be
- * checked without playing. Not linked from the game.
+ * Developer page at `?sprites`: every look, scaled up, so the art can be checked without
+ * playing. Chao frames are drawn directly (no atlas) so the page stays quick even with
+ * a hundred variants. Not linked from the game.
  */
 export function mountSpriteGallery(root: HTMLElement, scale = 4): void {
   root.innerHTML = '';
   root.className = 'gallery';
 
-  const section = (title: string, sheet: SpriteSheet, keys: string[]) => {
+  const heading = (title: string) => {
     const h = document.createElement('h2');
     h.textContent = title;
     root.appendChild(h);
     const row = document.createElement('div');
     row.className = 'gallery-row';
-    const image = sheet.texture.image as HTMLCanvasElement;
+    root.appendChild(row);
+    return row;
+  };
+
+  const cell = (row: HTMLElement, pc: PixelCanvas, title: string) => {
+    const c = document.createElement('canvas');
+    c.width = pc.width * scale;
+    c.height = pc.height * scale;
+    c.title = title;
+    const ctx = c.getContext('2d');
+    if (!ctx) return;
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(pc.toCanvas(), 0, 0, c.width, c.height);
+    row.appendChild(c);
+  };
+
+  /** Draw the given (clip, angle, frame) triples for a look. */
+  const chao = (title: string, look: ChaoLook, frames: Array<[string, DrawnAngle, number]>) => {
+    const row = heading(title);
+    for (const [clip, angle, f] of frames) {
+      const pose =
+        clip === 'dizzy'
+          ? { ...poseFor('idle', 0), eyes: 'dizzy' as const, mouth: 'sad' as const, headDrop: 1 }
+          : clip === 'surprised'
+            ? {
+                ...poseFor('idle', 0),
+                eyes: 'wide' as const,
+                mouth: 'open' as const,
+                arms: 'up' as const,
+              }
+            : clip === 'held'
+              ? {
+                  ...poseFor('idle', 0),
+                  eyes: 'wide' as const,
+                  legs: 'tucked' as const,
+                  arms: 'out' as const,
+                }
+              : poseFor(clip as ClipName, f);
+      cell(row, drawChao(angle, pose, look), frameKey(clip, angle, f));
+    }
+  };
+
+  const clipFrames = (clips: ClipName[]): Array<[string, DrawnAngle, number]> => {
+    const out: Array<[string, DrawnAngle, number]> = [];
+    for (const clip of clips) {
+      for (const angle of DRAWN_ANGLES) {
+        for (let f = 0; f < CLIPS[clip].frames; f++) out.push([clip, angle, f]);
+      }
+    }
+    return out;
+  };
+  const idleAngles: Array<[string, DrawnAngle, number]> = DRAWN_ANGLES.map((a) => ['idle', a, 0]);
+  const stills: Array<[string, DrawnAngle, number]> = DRAWN_ANGLES.flatMap((a) => [
+    ['dizzy', a, 0],
+    ['surprised', a, 0],
+    ['held', a, 0],
+  ]);
+
+  const neutral = lookOf(CHILD_NEUTRAL);
+  chao('Child, neutral: idle + walk', neutral, clipFrames(['idle', 'walk']));
+  chao(
+    'Child, neutral: happy, sad, sleep, eat',
+    neutral,
+    clipFrames(['happy', 'sad', 'sleep', 'eat']),
+  );
+  chao('Child, neutral: swim, flap, stills', neutral, [...clipFrames(['swim', 'flap']), ...stills]);
+  chao('Child, Sun-leaning', lookOf(CHILD_SUN), idleAngles);
+  chao('Child, Moon-leaning', lookOf(CHILD_MOON), idleAngles);
+
+  for (const band of ['neutral', 'sun', 'moon'] as const) {
+    for (const type of NUBBIN_TYPES) {
+      chao(`Adult ${band} ${type}`, lookOf(adultColors(band, type), type), [
+        ...idleAngles,
+        ['walk', 'side', 1],
+        ['flap', 'front', 1],
+      ]);
+    }
+  }
+
+  for (const type of NUBBIN_TYPES) {
+    if (type === 'normal') continue;
+    for (const second of NUBBIN_TYPES) {
+      if (second === 'normal' || second === type) continue;
+      chao(
+        `Adult neutral ${type} / ${second}`,
+        lookOf(adultColors('neutral', type), type, second),
+        [
+          ['idle', 'front', 0],
+          ['idle', 'side', 0],
+        ],
+      );
+    }
+  }
+
+  for (const species of CRITTER_SPECIES) {
+    const parts: Record<PartSlot, string | null> = {
+      ears: null,
+      tail: null,
+      arms: null,
+      back: null,
+    };
+    for (const slot of species.parts) parts[slot] = partId(species.id, slot);
+    chao(
+      `Critter parts: ${species.id} (${species.parts.join(' + ')})`,
+      lookOf(CHILD_NEUTRAL, null, null, parts),
+      idleAngles,
+    );
+  }
+
+  // Sheets that are cheap to build whole.
+  const sheet = (title: string, s: SpriteSheet, keys: string[]) => {
+    const row = heading(title);
+    const image = s.texture.image as HTMLCanvasElement;
     for (const key of keys) {
-      const rect = sheet.frames.get(key);
+      const rect = s.frames.get(key);
       if (!rect) continue;
       const c = document.createElement('canvas');
       c.width = rect.w * scale;
@@ -41,46 +160,9 @@ export function mountSpriteGallery(root: HTMLElement, scale = 4): void {
       ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, 0, 0, c.width, c.height);
       row.appendChild(c);
     }
-    root.appendChild(row);
   };
-
-  const chaoKeys = (clips: ClipName[]) => {
-    const keys: string[] = [];
-    for (const clip of clips) {
-      for (const angle of DRAWN_ANGLES) {
-        for (let f = 0; f < CLIPS[clip].frames; f++) keys.push(frameKey(clip, angle, f));
-      }
-    }
-    return keys;
-  };
-  const stills = DRAWN_ANGLES.flatMap((a) => [
-    frameKey('dizzy', a, 0),
-    frameKey('surprised', a, 0),
-    frameKey('held', a, 0),
-  ]);
-
-  section('Child, neutral: idle + walk', buildChaoSheet(CHILD_NEUTRAL), chaoKeys(['idle', 'walk']));
-  section(
-    'Child, neutral: happy, sad, sleep, eat',
-    buildChaoSheet(CHILD_NEUTRAL),
-    chaoKeys(['happy', 'sad', 'sleep', 'eat']),
-  );
-  section('Child, neutral: swim, flap, stills', buildChaoSheet(CHILD_NEUTRAL), [
-    ...chaoKeys(['swim', 'flap']),
-    ...stills,
-  ]);
-  section('Child, Sun-leaning', buildChaoSheet(CHILD_SUN), chaoKeys(['idle']));
-  section('Child, Moon-leaning', buildChaoSheet(CHILD_MOON), chaoKeys(['idle']));
-  for (const band of ['neutral', 'sun', 'moon'] as const) {
-    for (const type of ['normal', 'swim', 'fly', 'run', 'power']) {
-      section(`Adult ${band} ${type}`, buildChaoSheet(adultColors(band, type), true), [
-        frameKey('idle', 'front', 0),
-        frameKey('idle', 'side', 0),
-      ]);
-    }
-  }
   for (const name of Object.keys(EGG_PALETTES)) {
-    section(
+    sheet(
       `Egg ${name}`,
       buildEggSheet(name),
       ['idle', 'wobbleL', 'wobbleR', 'crack1', 'crack2', 'held'].map((f) =>
@@ -88,21 +170,12 @@ export function mountSpriteGallery(root: HTMLElement, scale = 4): void {
       ),
     );
   }
-  section('Cocoon', buildCocoonSheet(), [
-    frameKey('idle', 'front', 0),
-    frameKey('idle', 'front', 1),
-  ]);
-  section(
-    'Sun Keeper',
-    buildKeeperSheet(SUN_KEEPER),
-    chaoKeys(['idle', 'walk']).filter((k) => k.startsWith('idle') || k.startsWith('walk')),
-  );
-  section('Moon Keeper', buildKeeperSheet(MOON_KEEPER), chaoKeys(['idle']));
-  section('Props', buildPropSheet(), [
-    frameKey('fruit', 'front', 0),
-    frameKey('flower', 'front', 0),
-  ]);
-  section(
+  sheet('Cocoon', buildCocoonSheet(), [frameKey('idle', 'front', 0), frameKey('idle', 'front', 1)]);
+  const keeperKeys = (clips: ClipName[]) => clipFrames(clips).map(([c, a, f]) => frameKey(c, a, f));
+  sheet('Sun Keeper', buildKeeperSheet(SUN_KEEPER), keeperKeys(['idle', 'walk']));
+  sheet('Moon Keeper', buildKeeperSheet(MOON_KEEPER), keeperKeys(['idle']));
+  sheet('Props', buildPropSheet(), [frameKey('fruit', 'front', 0), frameKey('flower', 'front', 0)]);
+  sheet(
     'Emotes',
     buildEmoteSheet(),
     EMOTE_SHAPES.flatMap((s) => [frameKey(s, 'front', 0), frameKey(s, 'front', 1)]),

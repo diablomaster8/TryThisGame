@@ -1,15 +1,17 @@
-import type { Nubbin } from '../../sim/types';
+import type { Nubbin, PartSlot } from '../../sim/types';
 import { childHint } from '../../sim/alignment';
 import type { SpriteSheet } from './atlas';
-import { adultColors, buildChaoSheet, CHILD_MOON, CHILD_NEUTRAL, CHILD_SUN } from './chao';
+import { adultColors, buildChaoSheet, CHILD_MOON, CHILD_NEUTRAL, CHILD_SUN, lookOf } from './chao';
 import { buildCocoonSheet, buildEggSheet } from './egg';
 import { buildEmoteSheet } from './emote';
 import { buildKeeperSheet, MOON_KEEPER, SUN_KEEPER } from './keeper';
 import { buildPropSheet } from './props';
 
+const SLOTS: PartSlot[] = ['ears', 'tail', 'arms', 'back'];
+
 /**
- * Sprite sheets are generated on demand and cached by a style key, so eight Nubbins of
- * the same look share one texture. Hand-drawn sheets can later be registered under the
+ * Sprite sheets are generated on demand and cached by a style key, so Nubbins of the
+ * same look share one texture. Hand-drawn sheets can later be registered under the
  * same keys through `register`.
  */
 export class SheetCache {
@@ -35,8 +37,11 @@ export class SheetCache {
   static nubbinKey(n: Nubbin): string {
     if (n.stage === 'egg') return `egg:${n.eggColor}`;
     if (n.stage === 'cocoon') return 'cocoon';
-    if (n.stage === 'adult' && n.form) return `adult:${n.form.band}:${n.form.type}`;
-    return `child:${childHint(n.alignment)}`;
+    const parts = SLOTS.map((s) => n.parts[s] ?? '-').join(',');
+    if (n.stage === 'adult' && n.form) {
+      return `adult:${n.form.band}:${n.form.type}:${n.form.second ?? '-'}:${parts}`;
+    }
+    return `child:${childHint(n.alignment)}:${parts}`;
   }
 
   forNubbin(n: Nubbin): SpriteSheet {
@@ -44,12 +49,14 @@ export class SheetCache {
     return this.get(key, () => {
       if (n.stage === 'egg') return buildEggSheet(n.eggColor);
       if (n.stage === 'cocoon') return buildCocoonSheet();
-      if (n.stage === 'adult' && n.form)
-        return buildChaoSheet(adultColors(n.form.band, n.form.type), true);
+      if (n.stage === 'adult' && n.form) {
+        return buildChaoSheet(
+          lookOf(adultColors(n.form.band, n.form.type), n.form.type, n.form.second, { ...n.parts }),
+        );
+      }
       const hint = childHint(n.alignment);
-      return buildChaoSheet(
-        hint === 'sun' ? CHILD_SUN : hint === 'moon' ? CHILD_MOON : CHILD_NEUTRAL,
-      );
+      const colors = hint === 'sun' ? CHILD_SUN : hint === 'moon' ? CHILD_MOON : CHILD_NEUTRAL;
+      return buildChaoSheet(lookOf(colors, null, null, { ...n.parts }));
     });
   }
 
