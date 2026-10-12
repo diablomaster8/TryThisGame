@@ -2,15 +2,24 @@
 
 Read this with CLAUDE.md at the start of every session.
 
-## Current milestone: M0 Foundation — deployed, waiting on the phone check
+## Current milestone: M0 Foundation — COMPLETE (tagged `m0`, 2026-10-12)
 
 **Done when:** the deployed test scene runs at 60 fps on a phone. Lint, format, typecheck,
-tests and build all pass locally and in CI (2026-10-12). The scene was smoke-tested in the
-desktop browser pane, locally and from the deployed URL: rotate (buttons and Q/E), zoom
-toggle, portrait re-fit, no console errors. Only the 60 fps phone check is left.
+tests and build all pass locally and in CI. The scene was smoke-tested in the desktop
+browser pane, locally and from the deployed URL: rotate (buttons and Q/E), zoom toggle,
+portrait re-fit, no console errors. Maor confirmed the deployed scene runs well on a phone
+(2026-10-12). Next milestone is M1; do not start it without being asked.
 
 **Live:** https://diablomaster8.github.io/TryThisGame/ (repo
 https://github.com/diablomaster8/TryThisGame, Pages source: GitHub Actions).
+
+## Art direction note for M1 sprites (from Maor, 2026-10-12)
+
+Maor wants the Nubbins to evoke Sonic's Chao: the small round toddler body, big eyes, stubby
+limbs and a head-top mood indicator that CLAUDE.md already describes. CLAUDE.md also says
+every creature design must be our own and never copied from Sega. So: match the silhouette,
+proportions and cozy feel, but keep our own elements (leaf or bud instead of the Chao's
+floating emote ball, our palette, our own face and part shapes). Do not reproduce Chao art.
 
 ## What works
 
@@ -84,12 +93,10 @@ https://github.com/diablomaster8/TryThisGame, Pages source: GitHub Actions).
   `$env:Path = "$env:APPDATA\fnm\node-versions\v24.21.0\installation;C:\Program Files\Git\cmd;$env:Path"`.
 - `.claude/launch.json` only attaches to `http://localhost:5173`; start `npm run dev` yourself.
 
-## Next steps (to finish M0)
+## Next steps
 
-1. **Phone check:** open https://diablomaster8.github.io/TryThisGame/ on a phone. Confirm
-   the FPS counter reads 60, rotation (two-finger swipe, buttons) and pinch zoom work, and
-   rotating the phone re-fits the frame.
-2. If it reads 60, tag: `git tag m0 && git push --tags`. If not, profile before changing
-   anything; the likely levers are `RENDER.targetHeight` and the CSS upscale path.
-3. Pushing to `main` needs GitHub credentials. Git Credential Manager caches them after the
+1. **M1 Grove and first Nubbin** (see CLAUDE.md). Start with a plan and wait for approval.
+   Revisit the portrait frame width (125 px) once the Grove scene exists; decide then whether
+   a minimum-width rule in `computeTargetSize` is needed.
+2. Pushing to `main` needs GitHub credentials. Git Credential Manager caches them after the
    first browser sign-in, so later pushes work from a non-interactive shell.
