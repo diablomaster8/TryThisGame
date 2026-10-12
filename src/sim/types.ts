@@ -98,7 +98,12 @@ export interface Nubbin {
   ageMs: number;
   /** Hatch countdown while an egg. */
   hatchRemainingMs: number;
+  /** Egg colour; it becomes the Nubbin's body colour for life. 'plain' is the default look. */
   eggColor: string;
+  /** Rare: extra highlights and a bright outline. */
+  shiny: boolean;
+  /** Two-tone: a second colour for the belly and tips, or null. */
+  tone: string | null;
   pos: Vec2;
   /** Height above ground, for held and thrown Nubbins. */
   y: number;

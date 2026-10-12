@@ -49,8 +49,13 @@ export function buy(world: World, item: ShopItem, rng: Rng, events: SimEvent[]):
     case 'egg': {
       if (rosterCount(world) >= EGG.maxRoster) return fail('roster');
       const rare = rng.chance(SHOP.rareEggChance);
-      const color = rare ? rng.pick(EGG_COLORS.filter((c) => c !== 'plain')) : 'plain';
+      const colours = EGG_COLORS.filter((c) => c !== 'plain');
+      const color = rare ? rng.pick(colours) : 'plain';
       const egg = createEgg(newId(world, 'nub'), freeSpot(world, rng), rng, color);
+      if (rare) {
+        if (rng.chance(SHOP.twoToneChance)) egg.tone = rng.pick(colours.filter((c) => c !== color));
+        if (rng.chance(SHOP.shinyChance)) egg.shiny = true;
+      }
       egg.name = uniqueName(world, egg.name, rng);
       world.nubbins.push(egg);
       break;

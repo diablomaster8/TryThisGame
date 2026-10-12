@@ -170,6 +170,11 @@ describe('shop', () => {
     expect(w.nubbins).toHaveLength(EGG.maxRoster);
     for (const n of w.nubbins) if (n.eggColor !== 'plain') rare += 1;
     expect(rare).toBeGreaterThanOrEqual(0);
+    // Plain eggs are never shiny or two-tone; a two-tone's second colour differs from its first.
+    for (const n of w.nubbins) {
+      if (n.eggColor === 'plain') expect(n.shiny || n.tone).toBeFalsy();
+      if (n.tone) expect(n.tone).not.toBe(n.eggColor);
+    }
     const events: SimEvent[] = [];
     expect(buy(w, 'egg', rng, events)).toBe(false);
     expect(events[0]).toMatchObject({ kind: 'bought', ok: false, reason: 'roster' });

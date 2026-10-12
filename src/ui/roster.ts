@@ -1,4 +1,5 @@
 import {
+  EGG_COLOR_LABELS,
   formatDuration,
   HAT_LABELS,
   NAMES,
@@ -159,6 +160,13 @@ function describe(n: Nubbin): string {
   bits.push(bandLabel, UI_TEXT.age(formatDuration(n.ageMs)));
   if (n.rebirths > 0) bits.push(UI_TEXT.rebirths(n.rebirths));
   if (n.personality) bits.push(PERSONALITY_LABELS[n.personality]);
+  if (n.eggColor !== 'plain') {
+    const colour = EGG_COLOR_LABELS[n.eggColor] ?? n.eggColor;
+    const tone = n.tone ? ` / ${EGG_COLOR_LABELS[n.tone] ?? n.tone}` : '';
+    bits.push(`${n.shiny ? '✨ ' : ''}${colour}${tone}`);
+  } else if (n.shiny) {
+    bits.push('✨ Shiny');
+  }
   if (n.eternal) bits.push(`✦ ${UI_TEXT.eternalLabel}`);
   return bits.join(' · ');
 }

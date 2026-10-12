@@ -20,6 +20,8 @@ export function createEgg(id: string, pos: Vec2, rng: Rng, eggColor: string = 'p
     ageMs: 0,
     hatchRemainingMs: EGG.hatchMs,
     eggColor,
+    shiny: false,
+    tone: null,
     pos: { x: pos.x, z: pos.z },
     y: 0,
     vel: { x: 0, y: 0, z: 0 },

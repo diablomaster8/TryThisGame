@@ -2,7 +2,17 @@ import { describe, expect, it } from 'vitest';
 import { viewAngle, viewIndex } from '../../src/render/sprites/angles';
 import { CLIPS, frameAt, frameKey } from '../../src/render/sprites/animations';
 import { atlasSize, cellRect } from '../../src/render/sprites/atlas';
-import { CHILD_NEUTRAL, drawChao, lookOf, poseFor, shapeFor } from '../../src/render/sprites/chao';
+import {
+  adultColors,
+  CHARACTER_LOOKS,
+  CHILD_NEUTRAL,
+  drawChao,
+  lookOf,
+  poseFor,
+  shapeFor,
+  VARIANT_COLORS,
+  variantColors,
+} from '../../src/render/sprites/chao';
 import { PART_STYLES } from '../../src/render/sprites/parts';
 import { CRITTER_SPECIES, partId } from '../../src/sim/critters';
 import { C } from '../../src/render/sprites/palette';
@@ -126,6 +136,42 @@ describe('drawChao', () => {
         lookOf(CHILD_NEUTRAL, null, null, parts),
       );
       expect(Array.from(withParts.data), species.id).not.toEqual(Array.from(base.data));
+    }
+  });
+
+  it('egg colours recolour the body and survive into adult palettes; shiny and two-tone differ', () => {
+    const sky = variantColors(CHILD_NEUTRAL, 'sky');
+    expect(sky.body).toBe(VARIANT_COLORS.sky!.body);
+    expect(variantColors(CHILD_NEUTRAL, 'plain')).toEqual(CHILD_NEUTRAL);
+    const adult = variantColors(adultColors('sun', 'power'), 'rose', false, null, 'sun');
+    expect(adult.body).toBe(VARIANT_COLORS.rose!.body);
+    expect(adult.belly).toBe(C.white);
+    const twoTone = variantColors(CHILD_NEUTRAL, 'mint', false, 'gold');
+    expect(twoTone.belly).toBe(VARIANT_COLORS.gold!.body);
+    const shiny = variantColors(CHILD_NEUTRAL, 'mint', true);
+    expect(shiny.outline).toBe(C.white);
+    const a = drawChao('front', poseFor('idle', 0), lookOf(twoTone));
+    const b = drawChao('front', poseFor('idle', 0), lookOf(variantColors(CHILD_NEUTRAL, 'mint')));
+    expect(Array.from(a.data)).not.toEqual(Array.from(b.data));
+  });
+
+  it('character looks and hats draw something on the head', () => {
+    const plain = drawChao('front', poseFor('idle', 0), NEUTRAL);
+    for (const id of Object.keys(CHARACTER_LOOKS)) {
+      const withLook = drawChao(
+        'front',
+        poseFor('idle', 0),
+        lookOf(CHARACTER_LOOKS[id]!.colors, null, null, undefined, false, id),
+      );
+      expect(Array.from(withLook.data), id).not.toEqual(Array.from(plain.data));
+    }
+    for (const hat of ['straw', 'crown', 'beanie', 'flower', 'bucket']) {
+      const withHat = drawChao(
+        'front',
+        poseFor('idle', 0),
+        lookOf(CHILD_NEUTRAL, null, null, undefined, false, hat),
+      );
+      expect(Array.from(withHat.data), hat).not.toEqual(Array.from(plain.data));
     }
   });
 

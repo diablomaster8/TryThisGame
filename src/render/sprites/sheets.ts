@@ -7,8 +7,10 @@ import {
   CHILD_MOON,
   CHILD_NEUTRAL,
   CHILD_SUN,
+  CHARACTER_LOOKS,
   eternalColors,
   lookOf,
+  variantColors,
 } from './chao';
 import { buildCocoonSheet, buildEggSheet } from './egg';
 import { buildEmoteSheet } from './emote';
@@ -47,11 +49,12 @@ export class SheetCache {
     if (n.stage === 'cocoon') return `cocoon:${n.cocoonKind ?? 'evolve'}`;
     const parts = SLOTS.map((s) => n.parts[s] ?? '-').join(',');
     const hat = n.hat ?? '-';
+    const variant = `${n.eggColor}:${n.shiny ? 's' : '-'}:${n.tone ?? '-'}`;
     if (n.stage === 'adult' && n.form) {
-      if (n.eternal) return `eternal:${n.eternal}:${parts}:${hat}`;
-      return `adult:${n.form.band}:${n.form.type}:${n.form.second ?? '-'}:${parts}:${hat}`;
+      if (n.eternal) return `eternal:${n.eternal}:${parts}:${hat}:${variant}`;
+      return `adult:${n.form.band}:${n.form.type}:${n.form.second ?? '-'}:${parts}:${hat}:${variant}`;
     }
-    return `child:${childHint(n.alignment)}:${parts}:${hat}`;
+    return `child:${childHint(n.alignment)}:${parts}:${hat}:${variant}`;
   }
 
   forNubbin(n: Nubbin): SpriteSheet {
@@ -59,26 +62,34 @@ export class SheetCache {
     return this.get(key, () => {
       if (n.stage === 'egg') return buildEggSheet(n.eggColor);
       if (n.stage === 'cocoon') return buildCocoonSheet(n.cocoonKind ?? 'evolve');
+      // A character look replaces the palette and adds its accessory as the hat.
+      const look = n.hat ? CHARACTER_LOOKS[n.hat] : undefined;
       if (n.stage === 'adult' && n.form) {
         if (n.eternal) {
+          const colors =
+            look?.colors ??
+            variantColors(eternalColors(n.eternal), n.eggColor, n.shiny, n.tone, n.eternal);
           return buildChaoSheet(
-            lookOf(eternalColors(n.eternal), 'normal', null, { ...n.parts }, true, n.hat),
+            lookOf(colors, 'normal', null, { ...n.parts }, true, n.hat, n.shiny),
           );
         }
-        return buildChaoSheet(
-          lookOf(
+        const colors =
+          look?.colors ??
+          variantColors(
             adultColors(n.form.band, n.form.type),
-            n.form.type,
-            n.form.second,
-            { ...n.parts },
-            false,
-            n.hat,
-          ),
+            n.eggColor,
+            n.shiny,
+            n.tone,
+            n.form.band,
+          );
+        return buildChaoSheet(
+          lookOf(colors, n.form.type, n.form.second, { ...n.parts }, false, n.hat, n.shiny),
         );
       }
       const hint = childHint(n.alignment);
-      const colors = hint === 'sun' ? CHILD_SUN : hint === 'moon' ? CHILD_MOON : CHILD_NEUTRAL;
-      return buildChaoSheet(lookOf(colors, null, null, { ...n.parts }, false, n.hat));
+      const base = hint === 'sun' ? CHILD_SUN : hint === 'moon' ? CHILD_MOON : CHILD_NEUTRAL;
+      const colors = look?.colors ?? variantColors(base, n.eggColor, n.shiny, n.tone, hint);
+      return buildChaoSheet(lookOf(colors, null, null, { ...n.parts }, false, n.hat, n.shiny));
     });
   }
 

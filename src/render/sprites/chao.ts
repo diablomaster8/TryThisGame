@@ -111,6 +111,40 @@ export function adultColors(band: 'sun' | 'moon' | 'neutral', type: string): Cha
   }
 }
 
+/** Body colours by egg colour. The egg's colour is the Nubbin's colour for life. */
+export const VARIANT_COLORS: Record<string, { body: number; shade: number; belly: number }> = {
+  sky: { body: C.water, shade: C.deepWater, belly: C.shallows },
+  rose: { body: C.rose, shade: C.berry, belly: C.blush },
+  mint: { body: C.mint, shade: C.teal, belly: C.pale },
+  gold: { body: C.sunYellow, shade: C.orange, belly: C.cream },
+  violet: { body: C.violet, shade: C.moonPurple, belly: C.lavender },
+};
+
+/**
+ * Apply an egg-colour variant to a palette. Coloured Nubbins keep their colour through
+ * evolution; Sun forms lighten the belly, Moon forms darken the shade. Two-tone takes the
+ * belly and tips from a second colour; shiny brightens the outline and glint.
+ */
+export function variantColors(
+  base: ChaoColors,
+  eggColor: string,
+  shiny = false,
+  tone: string | null = null,
+  band: 'sun' | 'moon' | 'neutral' | null = null,
+): ChaoColors {
+  let out = { ...base };
+  const v = VARIANT_COLORS[eggColor];
+  if (v) {
+    out = { ...out, body: v.body, shade: v.shade, belly: v.belly };
+    if (band === 'sun') out.belly = C.white;
+    if (band === 'moon') out.shade = C.darkPlum;
+  }
+  const t = tone ? VARIANT_COLORS[tone] : undefined;
+  if (t) out = { ...out, belly: t.body, tip: t.body, tipShade: t.shade };
+  if (shiny) out = { ...out, outline: C.white, glint: C.cream, wing: C.white };
+  return out;
+}
+
 /**
  * The Chaos forms: Eternals. Sun is the angelic white-and-gold look with great wings,
  * Moon the devilish black-and-red one, Neutral a silvery, ethereal one.
@@ -287,13 +321,98 @@ export interface ChaoLook {
   parts: Record<PartSlot, string | null>;
   /** Hat id from the shop, or null. */
   hat?: string | null;
+  /** Extra sparkles. */
+  shiny?: boolean;
 }
 
-/** Hats sit on the crown. Five styles, drawn simply enough to read at 32 px. */
+/**
+ * Character looks: the Chao that dressed up as other heroes. Each is a palette plus a
+ * head accessory, worn like a hat from the roster. Won at race tier 3.
+ */
+export const CHARACTER_LOOKS: Record<string, { colors: ChaoColors; label: string }> = {
+  'look-fox': {
+    label: 'Fox look',
+    colors: {
+      ...CHILD_NEUTRAL,
+      body: C.orange,
+      shade: C.ember,
+      belly: C.cream,
+      tip: C.white,
+      tipShade: C.pale,
+      wing: C.cream,
+    },
+  },
+  'look-echidna': {
+    label: 'Echidna look',
+    colors: {
+      ...CHILD_NEUTRAL,
+      body: C.ember,
+      shade: C.berry,
+      belly: C.cream,
+      tip: C.white,
+      tipShade: C.pale,
+      wing: C.rose,
+    },
+  },
+  'look-rose': {
+    label: 'Rose look',
+    colors: {
+      ...CHILD_NEUTRAL,
+      body: C.blush,
+      shade: C.rose,
+      belly: C.cream,
+      tip: C.ember,
+      tipShade: C.berry,
+      wing: C.white,
+    },
+  },
+  'look-dream': {
+    label: 'Dream look',
+    colors: {
+      ...CHILD_NEUTRAL,
+      body: C.violet,
+      shade: C.moonPurple,
+      belly: C.lavender,
+      tip: C.sunYellow,
+      tipShade: C.orange,
+      wing: C.rose,
+    },
+  },
+};
+
+/** Hats sit on the crown. Five styles plus the character accessories. */
 function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: Layout, hat: string): void {
   const top = L.headCy - L.headRy;
   const cx = L.headCx + (angle === 'side' ? -1 : 0);
   switch (hat) {
+    case 'look-fox':
+      // Two bushy tails peeking out behind, drawn low on the sides.
+      pc.ellipse(cx - 9, L.bodyCy + 1, 3, 2, C.orange);
+      pc.ellipse(cx + 9, L.bodyCy + 1, 3, 2, C.orange);
+      pc.px(cx - 11, L.bodyCy + 1, C.white);
+      pc.px(cx + 11, L.bodyCy + 1, C.white);
+      break;
+    case 'look-echidna':
+      // Dreadlock spikes hanging from the crown.
+      for (const dx of [-7, -4, 4, 7]) {
+        pc.line(cx + dx, top + 2, cx + dx * 1.4, top + 10, C.ember);
+        pc.px(cx + dx * 1.4, top + 10, C.berry);
+      }
+      break;
+    case 'look-rose':
+      // A red headband with a bow.
+      pc.rect(cx - 7, top + 1, 15, 2, C.ember);
+      pc.disc(cx + 6, top, 2, C.ember);
+      pc.disc(cx + 9, top + 1, 1.6, C.ember);
+      pc.px(cx + 7, top, C.cream);
+      break;
+    case 'look-dream':
+      // A jester cap with two bells.
+      pc.tri(cx - 7, top + 2, cx + 1, top + 2, cx - 9, top - 6, C.violet);
+      pc.tri(cx - 1, top + 2, cx + 7, top + 2, cx + 9, top - 6, C.moonPurple);
+      pc.disc(cx - 9, top - 6, 1.5, C.sunYellow);
+      pc.disc(cx + 9, top - 6, 1.5, C.sunYellow);
+      break;
     case 'straw':
       pc.rect(cx - 9, top + 1, 19, 2, C.cream);
       pc.rect(cx - 9, top + 2, 19, 1, C.sand);
@@ -746,6 +865,13 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   pc.ellipse(L.headCx, L.headCy, L.headRx - 1, L.headRy - 1, col.body);
   pc.px(L.headCx - 3, L.headCy - 4, col.belly);
   pc.px(L.headCx - 4, L.headCy - 3, col.belly);
+  if (look.shiny) {
+    // Shiny: a sparkle on the head and the body.
+    pc.px(L.headCx + 3, L.headCy - 5, C.white);
+    pc.px(L.headCx + 4, L.headCy - 4, C.white);
+    pc.px(L.headCx + 3, L.headCy - 3, C.white);
+    pc.px(L.bodyCx - 3, L.bodyCy - 2, C.white);
+  }
 
   const ears = partStyle(look.parts.ears);
   if (ears) drawEars(pc, angle, L, ears);
@@ -804,8 +930,9 @@ export function lookOf(
   parts: Record<PartSlot, string | null> = NO_PARTS,
   eternal = false,
   hat: string | null = null,
+  shiny = false,
 ): ChaoLook {
-  return { colors, shape: shapeFor(type, second, eternal), parts, hat };
+  return { colors, shape: shapeFor(type, second, eternal), parts, hat, shiny };
 }
 
 export type { PartStyle };

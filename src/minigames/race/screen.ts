@@ -180,10 +180,12 @@ export class RaceScreen {
   private showResults(race: RaceState): void {
     const placement = playerPlacement(race);
     const shells = prizeFor(placement, race.tier);
-    const hat =
-      placement === 1 && this.hatRoll < RACE.hatChanceOnWin
-        ? (HAT_PRIZES[race.tier - 1] ?? null)
-        : null;
+    let hat: string | null = null;
+    if (placement === 1 && this.hatRoll < RACE.hatChanceOnWin) {
+      const lookIndex = Math.floor((this.hatRoll / RACE.hatChanceOnWin) * LOOK_PRIZES.length);
+      hat =
+        race.tier === 3 ? (LOOK_PRIZES[lookIndex] ?? null) : (HAT_PRIZES[race.tier - 1] ?? null);
+    }
     this.outcome = { placement, shells, hat };
     this.resultsBody.innerHTML = '';
     this.resultsBody.appendChild(el('p', 'celebrate-form', UI_TEXT.place(placement)));
@@ -318,5 +320,6 @@ const SECTION_LABELS = {
   stretch: 'STAMINA',
 } as const;
 
-/** Hat prizes by tier (index 0 = tier 1). */
-export const HAT_PRIZES = ['straw', 'beanie', 'crown'] as const;
+/** Hat prizes by tier (index 0 = tier 1); tier 3 pays a character look. */
+export const HAT_PRIZES = ['straw', 'beanie', 'look-fox'] as const;
+export const LOOK_PRIZES = ['look-fox', 'look-echidna', 'look-rose', 'look-dream'] as const;

@@ -6,10 +6,13 @@ import {
   CHILD_MOON,
   CHILD_NEUTRAL,
   CHILD_SUN,
+  CHARACTER_LOOKS,
   drawChao,
   eternalColors,
   lookOf,
   poseFor,
+  VARIANT_COLORS,
+  variantColors,
   type ChaoLook,
 } from '../render/sprites/chao';
 import { buildCocoonSheet, buildEggSheet, EGG_PALETTES } from '../render/sprites/egg';
@@ -112,6 +115,65 @@ export function mountSpriteGallery(root: HTMLElement, scale = 4): void {
         ['flap', 'front', 1],
       ]);
     }
+  }
+
+  for (const colour of Object.keys(VARIANT_COLORS)) {
+    chao(`Egg colour ${colour}: child`, lookOf(variantColors(CHILD_NEUTRAL, colour)), [
+      ['idle', 'front', 0],
+      ['idle', 'side', 0],
+    ]);
+    const row = heading(`  …two-tone ${colour}/gold, shiny ${colour}, Sun adult, Moon adult`);
+    const idle = poseFor('idle', 0);
+    cell(
+      row,
+      drawChao('front', idle, lookOf(variantColors(CHILD_NEUTRAL, colour, false, 'gold'))),
+      'two-tone',
+    );
+    cell(
+      row,
+      drawChao(
+        'front',
+        idle,
+        lookOf(
+          variantColors(CHILD_NEUTRAL, colour, true),
+          null,
+          null,
+          undefined,
+          false,
+          null,
+          true,
+        ),
+      ),
+      'shiny',
+    );
+    cell(
+      row,
+      drawChao(
+        'front',
+        idle,
+        lookOf(variantColors(adultColors('sun', 'swim'), colour, false, null, 'sun'), 'swim'),
+      ),
+      'sun adult',
+    );
+    cell(
+      row,
+      drawChao(
+        'front',
+        idle,
+        lookOf(variantColors(adultColors('moon', 'power'), colour, false, null, 'moon'), 'power'),
+      ),
+      'moon adult',
+    );
+  }
+  for (const [id, look] of Object.entries(CHARACTER_LOOKS)) {
+    chao(
+      `Character: ${look.label}`,
+      lookOf(look.colors, 'normal', null, undefined, false, id),
+      idleAngles,
+    );
+  }
+  for (const hat of ['straw', 'crown', 'beanie', 'flower', 'bucket']) {
+    chao(`Hat: ${hat}`, lookOf(CHILD_NEUTRAL, null, null, undefined, false, hat), idleAngles);
   }
 
   for (const band of ['sun', 'moon', 'neutral'] as const) {

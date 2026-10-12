@@ -106,6 +106,19 @@ export const HAT_LABELS: Record<string, string> = {
   beanie: 'Beanie',
   flower: 'Flower',
   bucket: 'Bucket hat',
+  'look-fox': 'Fox look',
+  'look-echidna': 'Echidna look',
+  'look-rose': 'Rose look',
+  'look-dream': 'Dream look',
+};
+
+export const EGG_COLOR_LABELS: Record<string, string> = {
+  plain: 'Plain',
+  sky: 'Sky',
+  rose: 'Rose',
+  mint: 'Mint',
+  gold: 'Gold',
+  violet: 'Violet',
 };
 
 export const PERSONALITY_LABELS = {

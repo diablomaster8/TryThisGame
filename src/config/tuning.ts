@@ -316,6 +316,9 @@ export const SHOP = {
   egg: 60,
   /** Chance a bought egg is a rare colour. */
   rareEggChance: 0.15,
+  /** Of the rare eggs: chance of a two-tone, and of a shiny. */
+  twoToneChance: 0.3,
+  shinyChance: 0.2,
   hat: 40,
   toy: 30,
   /** How many toys can lie in the Grove at once. */
