@@ -9,7 +9,16 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
-## Current milestone: M3 Life cycle — COMPLETE (2026-10-12, tag `m3`)
+## Current milestone: M4 Expedition and shop — COMPLETE (2026-10-12, tag `m4`)
+
+**Done when:** a run is fun on a phone and its rewards reach the Grove. Rewards verified
+in the browser (results screen → Shells, Essences and Critters in the inventory) and in
+`tests/sim/expedition.test.ts`; the run logic is deterministic, a tap jumps and a hold
+jumps higher, obstacles cost Shells and never end the run. The "fun on a phone" half
+still needs Maor's thumb on the deployed build (see Next steps). 109 tests, lint, build
+pass.
+
+## M3 Life cycle — COMPLETE (2026-10-12, tag `m3`)
 
 **Done when:** egg → adult → rebirth → adult keeps everything correctly, and Eternal
 follows the rules exactly. Verified by `tests/sim/lifecycle.test.ts` (a full life at
@@ -107,15 +116,26 @@ Check any sheet at `?sprites` (developer gallery).
   palettes with great wings for Eternal Sun / Moon / Neutral (+ a star emote), memorial
   flower sprites, toasts and away-screen lines for cocoons, rebirths, departures,
   Eternals and waiting Nubbins; the sheet shows ✦ Eternal and "Waiting for you".
-- **Tests**: 97 Vitest cases (sim rules, growth, life cycle, world determinism, save
-  round-trip, offline modes incl. the 7-day < 3 s check, sprite math and parts).
+- **Expedition (M4)**: `src/minigames/expedition/run.ts` is pure, seeded, fixed-step
+  logic (scroll with a gentle speed ramp, variable-height jump, patterns of shells,
+  obstacles with shell arcs, essences, critters in bubbles). `screen.ts` draws it on a
+  low-res 2D canvas (height 270, width from the aspect, letterboxed) with parallax
+  clouds, hills, a grassy ground row; the runner is the selected Nubbin's own side-view
+  walk/flap frames. Tap or hold the canvas, or space/↑/W. Results screen → `addRewards`.
+  The Grove keeps simulating underneath with rendering paused.
+- **Shop (M4)**: `sim/shop.ts` (fruit, egg with a 15 % rare colour chance and the roster
+  cap of 8, hat into the collection, ball toy with a cap of 3) and `ui/shop.ts`.
+- **Toys (M4)**: `play` behavior: walk to the ball, bat it around, a little happiness.
+- **Tests**: 109 Vitest cases (sim rules, growth, life cycle, expedition, shop, world
+  determinism, save round-trip, offline modes incl. the 7-day < 3 s check, sprite math
+  and parts).
 
 ## What's stubbed
 
-- `play` behavior waits for toys (M4).
-- Critters and Essences only come from the debug panel until the Expedition (M4).
-- Shiny/jewel/two-tone colour variants and egg colours in the shop: M4.
-- Character Chao looks, hats, roster, races, personality, sound, PWA: M5.
+- Hats are bought into `inventory.hats` but worn only in M5.
+- Shiny/jewel/two-tone colour variants: the egg colours exist (6); body colour variants
+  are M5 polish with the hats.
+- Character Chao looks, roster screen, races, personality, sound, PWA: M5.
 
 ## Known bugs / open items
 
@@ -153,9 +173,11 @@ Check any sheet at `?sprites` (developer gallery).
 
 ## Next steps
 
-1. **M4 Expedition and shop** (see CLAUDE.md): the 45–60 s side-scrolling dash in the
-   same pixel style (tap to jump, hold higher; Shells, Essences, Critters in bubbles;
-   obstacles cost Shells, never end the run; results screen → Grove inventory), the shop
-   (fruit, eggs with rare colours, hats, toys), critter inventory and giving. Done when a
-   run is fun on a phone and its rewards reach the Grove.
-2. Then M5 per CLAUDE.md, under the standing approval above.
+1. **M5 Races, personality, polish** (see CLAUDE.md): races (3 courses of sections
+   checking Swim/Fly/Run/Power/Stamina, 3 tiers with 4–8 seeded rivals, cheer button,
+   prizes, side view with lanes in depth, readable in portrait), personality locked at
+   evolution and shaping idle behavior, the roster with naming and hats (wearing),
+   PWA install, sound (muted until the first tap), reduced motion, a device test pass.
+   Done when every acceptance check in CLAUDE.md passes.
+2. Phone checks owed to Maor: the Expedition's feel on a real phone (tap/hold timing),
+   and the M0 60 fps check with 8 Nubbins.
