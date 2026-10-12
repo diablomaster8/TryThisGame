@@ -44,6 +44,14 @@ body {
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Android Chrome: no grey tap flashes or long-press menus on controls. */
+button,
+#hud {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
 }
 
 #hud {

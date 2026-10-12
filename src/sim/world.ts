@@ -8,7 +8,7 @@ import { createKeeper, keeperPutDown, updateKeeper } from './keeper';
 import { noteCare } from './personality';
 import { addRewards, buy } from './shop';
 import { advanceStage, evolve, hatch, secondEvolve } from './lifecycle';
-import { createEgg, isHeld } from './nubbin';
+import { createEgg, EGG_COLORS, isHeld } from './nubbin';
 import { Rng } from './rng';
 import {
   NUBBIN_TYPES,
@@ -248,7 +248,21 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
     case 'debugGive':
       if (cmd.what === 'shells') world.inventory.shells += cmd.amount;
       else if (cmd.what === 'fruit') world.inventory.fruit += cmd.amount;
-      else if (cmd.what === 'critter') {
+      else if (cmd.what === 'egg') {
+        // Fill the roster for performance checks: free eggs up to the cap.
+        withRng(world, (rng) => {
+          for (let i = 0; i < cmd.amount && world.nubbins.length < EGG.maxRoster; i++) {
+            const egg = createEgg(
+              newId(world, 'nub'),
+              { x: rng.float(-4, 4), z: rng.float(-3, 3) },
+              rng,
+              rng.pick(EGG_COLORS),
+            );
+            egg.name = uniqueName(world, egg.name, rng);
+            world.nubbins.push(egg);
+          }
+        });
+      } else if (cmd.what === 'critter') {
         withRng(world, (rng) => {
           for (let i = 0; i < cmd.amount; i++) {
             const s = rng.pick(CRITTER_SPECIES).id;

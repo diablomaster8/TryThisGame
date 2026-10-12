@@ -51,6 +51,19 @@ function drawToy(): PixelCanvas {
   return pc;
 }
 
+/** A soft round shadow, drawn flat under every sprite. */
+function drawShadow(): PixelCanvas {
+  const pc = new PixelCanvas(PROP_SIZE, PROP_SIZE);
+  pc.ellipse(8, 8, 7, 7, C.ink);
+  return pc;
+}
+
+export function buildShadowSheet(): SpriteSheet {
+  const atlas = new AtlasBuilder(PROP_SIZE, PROP_SIZE, 1);
+  atlas.add(frameKey('shadow', 'front', 0), drawShadow());
+  return atlas.build();
+}
+
 export function buildPropSheet(): SpriteSheet {
   const atlas = new AtlasBuilder(PROP_SIZE, PROP_SIZE, 4);
   atlas.add(frameKey('fruit', 'front', 0), drawFruit());

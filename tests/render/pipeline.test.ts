@@ -9,30 +9,44 @@ describe('computeTargetSize', () => {
     expect(size.scale).toBe(4);
   });
 
-  it('handles portrait phones', () => {
+  it('handles portrait phones with a whole-number upscale', () => {
     const size = computeTargetSize(390, 844, 270);
-    expect(size.height).toBe(270);
-    expect(size.width).toBe(125);
+    expect(size.scale).toBe(3);
+    expect(size.height).toBe(282);
+    expect(size.width).toBe(130);
   });
 
   it('handles landscape phones', () => {
     const size = computeTargetSize(844, 390, 270);
-    expect(size.width).toBe(584);
-    expect(size.height).toBe(270);
+    expect(size.scale).toBe(1);
+    expect(size.width).toBe(844);
+    expect(size.height).toBe(390);
   });
 
-  it('rounds width to whole pixels', () => {
-    const size = computeTargetSize(1000, 700, 270);
-    expect(Number.isInteger(size.width)).toBe(true);
-    expect(size.width).toBe(386);
+  it('always upscales by a whole number and covers the viewport', () => {
+    for (const [w, h] of [
+      [1000, 700],
+      [2560, 1440],
+      [1366, 768],
+      [412, 915],
+    ] as const) {
+      const size = computeTargetSize(w, h, 270);
+      expect(Number.isInteger(size.scale)).toBe(true);
+      expect(size.width * size.scale).toBeGreaterThanOrEqual(w);
+      expect(size.height * size.scale).toBeGreaterThanOrEqual(h);
+      expect(size.height).toBeGreaterThanOrEqual(180);
+      expect(size.height).toBeLessThanOrEqual(405);
+    }
   });
 
   it('never produces a zero-sized frame', () => {
-    expect(computeTargetSize(0, 0, 270)).toEqual({ width: 270, height: 270, scale: 1 / 270 });
+    expect(computeTargetSize(0, 0, 270)).toEqual({ width: 1, height: 1, scale: 1 });
     expect(computeTargetSize(1, 10000, 270).width).toBe(1);
   });
 
-  it('uses the configured default target height', () => {
-    expect(computeTargetSize(1600, 900).height).toBe(270);
+  it('uses the configured default target height to pick the scale', () => {
+    const size = computeTargetSize(1600, 900);
+    expect(size.scale).toBe(3);
+    expect(size.height).toBe(300);
   });
 });

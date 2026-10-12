@@ -277,7 +277,7 @@ export type Command =
   | { kind: 'setSettings'; settings: Settings }
   | { kind: 'rename'; nubbinId: string; name: string }
   // Debug
-  | { kind: 'debugGive'; what: 'shells' | 'fruit' | 'critter' | 'essence'; amount: number }
+  | { kind: 'debugGive'; what: 'shells' | 'fruit' | 'critter' | 'essence' | 'egg'; amount: number }
   | { kind: 'debugFillNeeds'; nubbinId: string }
   | { kind: 'debugForceEvolve'; nubbinId: string }
   | { kind: 'debugForceEndOfLife'; nubbinId: string }

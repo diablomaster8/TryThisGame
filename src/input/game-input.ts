@@ -8,6 +8,8 @@ export interface InputHost {
   camera: OrbitCamera;
   picker: Picker;
   pickables(): Object3D[];
+  /** Hit-test the batched sprites at a screen point (NDC). */
+  pickSprite(ndcX: number, ndcY: number): { kind: 'nubbin' | 'item'; id: string } | null;
   /** Is this Nubbin id something that can be grabbed right now? */
   canGrab(id: string): boolean;
   send(cmd: Command): void;
@@ -105,6 +107,7 @@ export class GameInput {
       e.clientY,
       this.host.camera.camera,
       this.host.pickables(),
+      this.host.pickSprite,
     );
     this.pressed = hit && hit.kind !== 'ground' ? { kind: hit.kind, id: hit.id } : null;
     this.samples = [];
@@ -168,6 +171,7 @@ export class GameInput {
       e.clientY,
       this.host.camera.camera,
       this.host.pickables(),
+      this.host.pickSprite,
     );
     if (!hit) return;
     switch (hit.kind) {

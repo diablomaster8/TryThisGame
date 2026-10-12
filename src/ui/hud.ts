@@ -166,6 +166,12 @@ export function mountHud(
     }
   }
   window.addEventListener('keydown', (e) => {
+    // PC: F toggles fullscreen.
+    if (e.key === 'f' && !(e.target instanceof HTMLInputElement) && !e.repeat) {
+      const el = document.documentElement;
+      if (document.fullscreenElement) void document.exitFullscreen?.();
+      else void el.requestFullscreen?.().catch(() => undefined);
+    }
     if (e.key === '`' && !(e.target instanceof HTMLInputElement)) {
       e.preventDefault();
       debug.toggle();

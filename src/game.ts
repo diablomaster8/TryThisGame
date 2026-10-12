@@ -59,7 +59,8 @@ export class Game {
     this.input = new GameInput(canvas, {
       camera: this.camera,
       picker: this.picker,
-      pickables: () => [...this.view.pickables, ...this.grove.pickables],
+      pickables: () => this.grove.pickables,
+      pickSprite: (ndcX, ndcY) => this.view.pick(ndcX, ndcY, this.camera),
       canGrab: (id) => {
         const n = findNubbin(this.world, id);
         return !!n && n.behavior.state !== 'thrown' && n.stage !== 'cocoon';
@@ -159,7 +160,7 @@ export class Game {
 
   resize(width: number, height: number): void {
     const size = this.pipeline.resize(width, height);
-    this.camera.setAspect(size.width / size.height);
+    this.camera.setFrame(size.width, size.height);
   }
 
   private readonly frame = (nowMs: number): void => {

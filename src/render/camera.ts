@@ -72,6 +72,8 @@ export class OrbitCamera {
   private yaw: number = yawIndexToRadians(CAMERA.initialYawIndex);
   private viewHeight: number;
   private aspect = 1;
+  /** The low-res frame height in pixels; zoom is pixels per unit of this frame. */
+  private frameHeight: number = RENDER.targetHeight;
   private yawTween: Tween | null = null;
   private zoomTween: Tween | null = null;
   private readonly reduceMotion: boolean;
@@ -111,6 +113,14 @@ export class OrbitCamera {
     this.applyProjection();
   }
 
+  /** The frame changed size: keep pixels-per-unit, so the view shows more or less world. */
+  setFrame(width: number, height: number): void {
+    this.frameHeight = height;
+    this.aspect = width / height;
+    if (!this.zoomTween) this.viewHeight = computeViewHeight(height, this.pixelsPerUnit);
+    this.applyProjection();
+  }
+
   /** direction: +1 = clockwise (E), -1 = counter-clockwise (Q). */
   rotate(direction: 1 | -1, nowMs: number = performance.now()): void {
     this.yawIndex = wrapYawIndex(this.yawIndex + direction);
@@ -124,7 +134,7 @@ export class OrbitCamera {
     const clamped = MathUtils.clamp(Math.round(index), 0, CAMERA.pixelsPerUnit.length - 1);
     if (clamped === this.zoomIndex) return;
     this.zoomIndex = clamped;
-    const to = computeViewHeight(RENDER.targetHeight, this.pixelsPerUnit);
+    const to = computeViewHeight(this.frameHeight, this.pixelsPerUnit);
     this.zoomTween = { from: this.viewHeight, to, startMs: nowMs };
     if (this.reduceMotion) this.finishZoomTween();
   }
@@ -166,7 +176,7 @@ export class OrbitCamera {
   }
 
   private finishZoomTween(): void {
-    this.viewHeight = computeViewHeight(RENDER.targetHeight, this.pixelsPerUnit);
+    this.viewHeight = computeViewHeight(this.frameHeight, this.pixelsPerUnit);
     this.zoomTween = null;
     this.applyProjection();
   }

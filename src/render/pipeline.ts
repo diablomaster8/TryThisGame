@@ -6,13 +6,15 @@ export interface TargetSize {
   width: number;
   /** Low-res frame height in pixels. */
   height: number;
-  /** CSS pixels per low-res pixel (non-integer is allowed). */
+  /** CSS pixels per low-res pixel; always a whole number. */
   scale: number;
 }
 
 /**
- * Pure size math: the frame is `targetHeight` pixels tall and its width follows the
- * viewport aspect ratio. Width never drops below 1.
+ * Pure size math. The frame is about `targetHeight` pixels tall, but its exact size is
+ * chosen so that the CSS upscale is a whole number: every low-res pixel becomes a k×k
+ * block, so columns stay even on PC monitors and phones alike. Width follows the
+ * viewport. Neither dimension drops below 1.
  */
 export function computeTargetSize(
   viewportWidth: number,
@@ -21,9 +23,10 @@ export function computeTargetSize(
 ): TargetSize {
   const safeW = Math.max(1, viewportWidth);
   const safeH = Math.max(1, viewportHeight);
-  const height = Math.max(1, Math.round(targetHeight));
-  const width = Math.max(1, Math.round(height * (safeW / safeH)));
-  return { width, height, scale: safeH / height };
+  const scale = Math.max(1, Math.round(safeH / targetHeight));
+  const height = Math.max(1, Math.ceil(safeH / scale));
+  const width = Math.max(1, Math.ceil(safeW / scale));
+  return { width, height, scale };
 }
 
 /**

@@ -63,6 +63,11 @@ export class DebugPanel {
         () => this.game()?.send({ kind: 'debugGive', what: 'essence', amount: 3 }),
         'btn btn-small',
       ),
+      button(
+        'Fill roster (eggs)',
+        () => this.game()?.send({ kind: 'debugGive', what: 'egg', amount: 8 }),
+        'btn btn-small',
+      ),
     );
     this.root.appendChild(give);
 
@@ -128,7 +133,7 @@ export class DebugPanel {
     if (!g) return;
     const n = id ? g.world.nubbins.find((x) => x.id === id) : undefined;
     if (!n) {
-      this.values.textContent = UI_TEXT.debugNoSelection;
+      this.values.textContent = `${UI_TEXT.debugNoSelection}\ndraw calls ${g.pipeline.renderer.info.render.calls}  sprites ${g.view.batch.drawn}  frame ${g.pipeline.currentSize.width}×${g.pipeline.currentSize.height} ×${g.pipeline.currentSize.scale}`;
       return;
     }
     const lines = [
@@ -140,6 +145,7 @@ export class DebugPanel {
         (k) => `${STAT_LABELS[k]} ${n.stats[k].points.toFixed(1)} pts (${n.stats[k].grade})`,
       ),
       `sim t ${Math.round(g.world.timeMs / 1000)} s  rng ${g.world.rngState}`,
+      `draw calls ${g.pipeline.renderer.info.render.calls}  sprites ${g.view.batch.drawn}  frame ${g.pipeline.currentSize.width}×${g.pipeline.currentSize.height} ×${g.pipeline.currentSize.scale}`,
     ];
     this.values.textContent = lines.join('\n');
   }

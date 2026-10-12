@@ -1,17 +1,15 @@
-import { Object3D } from 'three';
+import { Vector3 } from 'three';
 import { EGG, LIFECYCLE, UI } from '../config/tuning';
 import { childHint } from '../sim/alignment';
 import { moodOf } from '../sim/needs';
-import type { Item, Nubbin, SimEvent, Vec2, World } from '../sim/types';
+import type { Nubbin, SimEvent, Vec2, World } from '../sim/types';
 import type { OrbitCamera } from './camera';
-import { SpriteView } from './sprite-view';
+import { SpriteBatch } from './sprite-batch';
 import { CLIPS, frameAt, frameKey, type ClipName } from './sprites/animations';
 import { viewAngle } from './sprites/angles';
-import { CHAO_SIZE } from './sprites/chao';
-import { EGG_SIZE } from './sprites/egg';
-import { EMOTE_SIZE, type EmoteShape } from './sprites/emote';
-import { KEEPER_SIZE } from './sprites/keeper';
-import { PROP_SIZE } from './sprites/props';
+import type { SpriteSheet } from './sprites/atlas';
+import type { EmoteShape } from './sprites/emote';
+import { buildShadowSheet } from './sprites/props';
 import { SheetCache } from './sprites/sheets';
 
 interface Snapshot {
@@ -20,8 +18,6 @@ interface Snapshot {
 }
 
 interface NubbinView {
-  sprite: SpriteView;
-  emote: SpriteView;
   clip: string;
   clipStartMs: number;
   /** A one-off bubble shown for a reaction, with its expiry. */
@@ -29,38 +25,29 @@ interface NubbinView {
   prev: Snapshot;
 }
 
+export interface SpritePick {
+  kind: 'nubbin' | 'item';
+  id: string;
+}
+
 /**
- * Mirrors sim state as sprites. Reads the world, never changes it. Positions are
- * interpolated between the last two sim steps so movement is smooth at any frame rate.
+ * Mirrors sim state as sprites. Reads the world, never changes it. Every sprite goes
+ * through one SpriteBatch (one draw call); positions are interpolated between the last
+ * two sim steps so movement is smooth at any frame rate.
  */
 export class WorldView {
-  readonly root = new Object3D();
+  readonly batch = new SpriteBatch();
   readonly sheets = new SheetCache();
   private readonly nubbins = new Map<string, NubbinView>();
-  private readonly items = new Map<string, { sprite: SpriteView; prev: Snapshot }>();
-  private readonly memorials = new Map<string, SpriteView>();
-  private readonly keeper: SpriteView;
+  private readonly items = new Map<string, Snapshot>();
   private keeperPrev: Snapshot = { pos: { x: 0, z: 0 }, y: 0 };
   private keeperClipStart = 0;
   private keeperMoving = false;
+  private shadowSheet: SpriteSheet | null = null;
+  private readonly tmp = new Vector3();
 
-  constructor() {
-    this.keeper = new SpriteView(KEEPER_SIZE, KEEPER_SIZE, 0.45);
-    this.root.add(this.keeper.root);
-  }
-
-  /** Meshes that can be tapped, each with `userData.pick = { kind, id }`. */
-  get pickables(): Object3D[] {
-    const out: Object3D[] = [];
-    for (const [id, v] of this.nubbins) {
-      v.sprite.mesh.userData.pick = { kind: 'nubbin', id };
-      out.push(v.sprite.mesh);
-    }
-    for (const [id, v] of this.items) {
-      v.sprite.mesh.userData.pick = { kind: 'item', id };
-      out.push(v.sprite.mesh);
-    }
-    return out;
+  get root() {
+    return this.batch.mesh;
   }
 
   /** Call right before stepping the sim, so the next frame can interpolate from here. */
@@ -76,39 +63,125 @@ export class WorldView {
     for (const i of world.items) {
       const v = this.items.get(i.id);
       if (v) {
-        v.prev.pos.x = i.pos.x;
-        v.prev.pos.z = i.pos.z;
-        v.prev.y = i.y;
+        v.pos.x = i.pos.x;
+        v.pos.z = i.pos.z;
+        v.y = i.y;
       }
     }
     this.keeperPrev.pos.x = world.keeper.pos.x;
     this.keeperPrev.pos.z = world.keeper.pos.z;
   }
 
-  /** React to sim events: reaction bubbles and clip restarts. */
+  /** React to sim events: reaction bubbles. */
   onEvents(events: SimEvent[], nowMs: number): void {
     for (const e of events) {
-      if (e.kind === 'reaction') {
-        const v = this.nubbins.get(e.nubbinId);
-        if (!v) continue;
-        const shape: EmoteShape =
-          e.reaction === 'love' || e.reaction === 'happy'
-            ? 'heart'
-            : e.reaction === 'dizzy'
-              ? 'spiral'
-              : e.reaction === 'surprised'
-                ? 'exclaim'
-                : e.reaction === 'confused'
-                  ? 'question'
-                  : 'spiral';
-        v.bubble = { shape, untilMs: nowMs + UI.bubbleMs };
+      if (e.kind !== 'reaction') continue;
+      const v = this.nubbins.get(e.nubbinId);
+      if (!v) continue;
+      const shape: EmoteShape =
+        e.reaction === 'love' || e.reaction === 'happy'
+          ? 'heart'
+          : e.reaction === 'surprised'
+            ? 'exclaim'
+            : e.reaction === 'confused'
+              ? 'question'
+              : 'spiral';
+      v.bubble = { shape, untilMs: nowMs + UI.bubbleMs };
+    }
+  }
+
+  /** Which sprite is under a screen point (NDC), nearest to the camera. */
+  pick(ndcX: number, ndcY: number, camera: OrbitCamera): SpritePick | null {
+    const cam = camera.camera;
+    let best: SpritePick | null = null;
+    let bestDepth = Infinity;
+    for (const q of this.batch.quads) {
+      let minX = Infinity;
+      let maxX = -Infinity;
+      let minY = Infinity;
+      let maxY = -Infinity;
+      let depth = 0;
+      for (const c of q.corners) {
+        this.tmp.copy(c).project(cam);
+        minX = Math.min(minX, this.tmp.x);
+        maxX = Math.max(maxX, this.tmp.x);
+        minY = Math.min(minY, this.tmp.y);
+        maxY = Math.max(maxY, this.tmp.y);
+        depth += this.tmp.z / 4;
+      }
+      // Sprites are axis-aligned on screen, so the bounding box is the quad.
+      if (ndcX < minX || ndcX > maxX || ndcY < minY || ndcY > maxY) continue;
+      if (depth < bestDepth) {
+        bestDepth = depth;
+        best = { kind: q.kind, id: q.id };
       }
     }
+    return best;
   }
 
   update(world: World, camera: OrbitCamera, alpha: number, nowMs: number): void {
     const yaw = camera.currentYaw;
-    const pitch = camera.pitch;
+    const batch = this.batch;
+    batch.begin(yaw, camera.pitch);
+    this.shadowSheet ??= buildShadowSheet();
+    const shadowSheet = this.shadowSheet;
+    const shadowRect = shadowSheet.frames.get(frameKey('shadow', 'front', 0));
+
+    const shadow = (x: number, y: number, z: number, radius: number) => {
+      if (!shadowRect) return;
+      const s = Math.max(0.35, 1 - y * 0.25);
+      batch.draw({
+        sheet: shadowSheet,
+        rect: shadowRect,
+        flip: false,
+        x,
+        y: 0,
+        z,
+        mode: 'flat',
+        w: radius * 2 * s,
+        h: radius * 2 * s,
+        opacity: 0.35 * Math.max(0.3, 1 - y * 0.2),
+      });
+    };
+
+    // Memorial flowers.
+    const props = this.sheets.props();
+    const flower = props.frames.get(frameKey('flower', 'front', 0));
+    for (const m of world.memorials) {
+      if (flower) {
+        batch.draw({
+          sheet: props,
+          rect: flower,
+          flip: false,
+          x: m.pos.x,
+          y: 0,
+          z: m.pos.z,
+          mode: 'billboard',
+        });
+      }
+    }
+
+    // Items.
+    const seenItems = new Set<string>();
+    for (const item of world.items) {
+      seenItems.add(item.id);
+      let prev = this.items.get(item.id);
+      if (!prev) {
+        prev = { pos: { x: item.pos.x, z: item.pos.z }, y: item.y };
+        this.items.set(item.id, prev);
+      }
+      const x = lerp(prev.pos.x, item.pos.x, alpha);
+      const y = lerp(prev.y, item.y, alpha);
+      const z = lerp(prev.pos.z, item.pos.z, alpha);
+      const rect = props.frames.get(frameKey(item.kind, 'front', 0));
+      if (!rect) continue;
+      shadow(x, y, z, 0.25);
+      batch.draw(
+        { sheet: props, rect, flip: false, x, y, z, mode: 'billboard' },
+        { id: item.id, kind: 'item' },
+      );
+    }
+    for (const id of this.items.keys()) if (!seenItems.has(id)) this.items.delete(id);
 
     // Nubbins.
     const seen = new Set<string>();
@@ -116,64 +189,21 @@ export class WorldView {
       seen.add(n.id);
       let v = this.nubbins.get(n.id);
       if (!v) {
-        v = this.createNubbin(n, nowMs);
+        v = {
+          clip: '',
+          clipStartMs: nowMs,
+          bubble: null,
+          prev: { pos: { x: n.pos.x, z: n.pos.z }, y: n.y },
+        };
         this.nubbins.set(n.id, v);
       }
-      this.updateNubbin(v, n, world, yaw, pitch, alpha, nowMs);
+      this.drawNubbin(v, n, world, yaw, alpha, nowMs, shadow);
     }
-    for (const [id, v] of this.nubbins) {
-      if (seen.has(id)) continue;
-      v.sprite.dispose();
-      v.emote.dispose();
-      this.nubbins.delete(id);
-    }
-
-    // Items.
-    const seenItems = new Set<string>();
-    for (const item of world.items) {
-      seenItems.add(item.id);
-      let v = this.items.get(item.id);
-      if (!v) {
-        const sprite = new SpriteView(PROP_SIZE, PROP_SIZE, 0.25);
-        sprite.setShadowRadius(0.25);
-        sprite.setSheet(this.sheets.props());
-        sprite.setFrame(frameKey(item.kind, 'front', 0));
-        this.root.add(sprite.root);
-        v = { sprite, prev: { pos: { x: item.pos.x, z: item.pos.z }, y: item.y } };
-        this.items.set(item.id, v);
-      }
-      this.updateItem(v, item, yaw, pitch, alpha);
-    }
-    for (const [id, v] of this.items) {
-      if (seenItems.has(id)) continue;
-      v.sprite.dispose();
-      this.items.delete(id);
-    }
-
-    // Memorial flowers.
-    const seenMemorials = new Set<string>();
-    for (const m of world.memorials) {
-      seenMemorials.add(m.id);
-      let sprite = this.memorials.get(m.id);
-      if (!sprite) {
-        sprite = new SpriteView(PROP_SIZE, PROP_SIZE, 0.2);
-        sprite.setSheet(this.sheets.props());
-        sprite.setFrame(frameKey('flower', 'front', 0));
-        sprite.setPosition(m.pos.x, 0, m.pos.z);
-        this.root.add(sprite.root);
-        this.memorials.set(m.id, sprite);
-      }
-      sprite.faceCamera(yaw, pitch);
-    }
-    for (const [id, sprite] of this.memorials) {
-      if (seenMemorials.has(id)) continue;
-      sprite.dispose();
-      this.memorials.delete(id);
-    }
+    for (const id of this.nubbins.keys()) if (!seen.has(id)) this.nubbins.delete(id);
 
     // Keeper.
     const k = world.keeper;
-    this.keeper.setSheet(this.sheets.keeper(k.alignment));
+    const ksheet = this.sheets.keeper(k.alignment);
     const kx = lerp(this.keeperPrev.pos.x, k.pos.x, alpha);
     const kz = lerp(this.keeperPrev.pos.z, k.pos.z, alpha);
     const moving =
@@ -184,41 +214,35 @@ export class WorldView {
     }
     const kclip: ClipName = moving ? 'walk' : 'idle';
     const kview = viewAngle(k.facing, yaw);
-    this.keeper.setFrame(
+    const krect = ksheet.frames.get(
       frameKey(kclip, kview.angle, frameAt(CLIPS[kclip], nowMs - this.keeperClipStart)),
-      kview.flip,
     );
-    this.keeper.setPosition(kx, 0, kz);
-    this.keeper.faceCamera(yaw, pitch);
+    shadow(kx, 0, kz, 0.45);
+    if (krect) {
+      batch.draw({
+        sheet: ksheet,
+        rect: krect,
+        flip: kview.flip,
+        x: kx,
+        y: 0,
+        z: kz,
+        mode: 'billboard',
+      });
+    }
+
+    batch.end();
   }
 
-  private createNubbin(n: Nubbin, nowMs: number): NubbinView {
-    const size = n.stage === 'egg' || n.stage === 'cocoon' ? EGG_SIZE : CHAO_SIZE;
-    const sprite = new SpriteView(size, size, 0.55);
-    sprite.setShadowRadius(0.55);
-    const emote = new SpriteView(EMOTE_SIZE, EMOTE_SIZE, 0);
-    emote.shadow.visible = false;
-    this.root.add(sprite.root, emote.root);
-    return {
-      sprite,
-      emote,
-      clip: '',
-      clipStartMs: nowMs,
-      bubble: null,
-      prev: { pos: { x: n.pos.x, z: n.pos.z }, y: n.y },
-    };
-  }
-
-  private updateNubbin(
+  private drawNubbin(
     v: NubbinView,
     n: Nubbin,
     world: World,
     yaw: number,
-    pitch: number,
     alpha: number,
     nowMs: number,
+    shadow: (x: number, y: number, z: number, r: number) => void,
   ): void {
-    v.sprite.setSheet(this.sheets.forNubbin(n));
+    const sheet = this.sheets.forNubbin(n);
     const x = lerp(v.prev.pos.x, n.pos.x, alpha);
     const z = lerp(v.prev.pos.z, n.pos.z, alpha);
     const y = lerp(v.prev.y, n.y, alpha);
@@ -226,6 +250,7 @@ export class WorldView {
     let key: string;
     let flip = false;
     let emote: EmoteShape = 'none';
+    let opacity = 1;
 
     if (n.stage === 'egg') {
       const shaking = world.timeMs - n.lastShakeMs < EGG.shakeCooldownMs * 2;
@@ -234,27 +259,18 @@ export class WorldView {
       else if (shaking) f = Math.floor(nowMs / 90) % 2 === 0 ? 'wobbleL' : 'wobbleR';
       else if (n.hatchRemainingMs < 5000) f = 'crack2';
       else if (n.hatchRemainingMs < 20000) f = 'crack1';
-      else if (n.hatchRemainingMs < EGG.hatchMs * 0.5 && Math.floor(nowMs / 700) % 6 === 0)
+      else if (n.hatchRemainingMs < EGG.hatchMs * 0.5 && Math.floor(nowMs / 700) % 6 === 0) {
         f = 'wobbleL';
+      }
       key = frameKey(f, 'front', 0);
     } else if (n.stage === 'cocoon') {
       key = frameKey('idle', 'front', Math.floor(nowMs / 600) % 2);
-      // A departing cocoon fades softly; a rebirth cocoon pulses.
-      const mat = v.sprite.mesh.material;
       if (n.cocoonKind === 'depart') {
-        const t = Math.min(1, n.stageMs / LIFECYCLE.cocoonMs);
-        mat.alphaTest = 0.05;
-        mat.opacity = 1 - t * 0.85;
-      } else {
-        mat.alphaTest = 0.5;
-        mat.opacity = n.cocoonKind === 'rebirth' ? 0.85 + 0.15 * Math.sin(nowMs / 150) : 1;
+        opacity = 1 - Math.min(1, n.stageMs / LIFECYCLE.cocoonMs) * 0.85;
+      } else if (n.cocoonKind === 'rebirth') {
+        opacity = 0.85 + 0.15 * Math.sin(nowMs / 150);
       }
     } else {
-      const mat = v.sprite.mesh.material;
-      if (mat.opacity !== 1) {
-        mat.opacity = 1;
-        mat.alphaTest = 0.5;
-      }
       const clip = clipFor(n);
       if (clip !== v.clip) {
         v.clip = clip;
@@ -268,47 +284,36 @@ export class WorldView {
       emote = emoteFor(n);
     }
 
-    v.sprite.setFrame(key, flip);
-    v.sprite.setPosition(x, y, z);
-    v.sprite.faceCamera(yaw, pitch);
+    const rect = sheet.frames.get(key) ?? sheet.frames.values().next().value;
+    shadow(x, y, z, 0.55);
+    if (rect) {
+      this.batch.draw(
+        { sheet, rect, flip, x, y, z, mode: 'billboard', opacity },
+        { id: n.id, kind: 'nubbin' },
+      );
+    }
 
-    // Emote ball above the head.
     if (v.bubble && nowMs < v.bubble.untilMs) emote = v.bubble.shape;
     else v.bubble = null;
-    if (emote === 'none' || n.stage === 'egg' || n.stage === 'cocoon') {
-      v.emote.root.visible = false;
-    } else {
-      v.emote.root.visible = true;
-      v.emote.setSheet(this.sheets.emotes());
-      v.emote.setFrame(frameKey(emote, 'front', Math.floor(nowMs / 400) % 2));
-      v.emote.setPosition(x, y + 2.15, z);
-      v.emote.faceCamera(yaw, pitch);
+    if (emote !== 'none' && n.stage !== 'egg' && n.stage !== 'cocoon') {
+      const emotes = this.sheets.emotes();
+      const erect = emotes.frames.get(frameKey(emote, 'front', Math.floor(nowMs / 400) % 2));
+      if (erect) {
+        this.batch.draw({
+          sheet: emotes,
+          rect: erect,
+          flip: false,
+          x,
+          y: y + 2.15,
+          z,
+          mode: 'billboard',
+        });
+      }
     }
-  }
-
-  private updateItem(
-    v: { sprite: SpriteView; prev: Snapshot },
-    item: Item,
-    yaw: number,
-    pitch: number,
-    alpha: number,
-  ): void {
-    v.sprite.setPosition(
-      lerp(v.prev.pos.x, item.pos.x, alpha),
-      lerp(v.prev.y, item.y, alpha),
-      lerp(v.prev.pos.z, item.pos.z, alpha),
-    );
-    v.sprite.faceCamera(yaw, pitch);
   }
 
   dispose(): void {
-    for (const v of this.nubbins.values()) {
-      v.sprite.dispose();
-      v.emote.dispose();
-    }
-    for (const v of this.items.values()) v.sprite.dispose();
-    for (const s of this.memorials.values()) s.dispose();
-    this.keeper.dispose();
+    this.batch.dispose();
     this.sheets.dispose();
   }
 }
@@ -332,6 +337,7 @@ export function clipFor(n: Nubbin): string {
     case 'cry':
       return 'sad';
     case 'greet':
+    case 'play':
       return 'happy';
     case 'held':
     case 'carried':
