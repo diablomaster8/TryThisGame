@@ -1,0 +1,112 @@
+:root {
+  --bg: #0d0a1a;
+  --hud-fg: #fff1c9;
+  --hud-bg: rgba(13, 10, 26, 0.55);
+  --hud-border: rgba(255, 241, 201, 0.35);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--hud-fg);
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+  -webkit-text-size-adjust: 100%;
+  overscroll-behavior: none;
+}
+
+#app {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* The canvas backing store is low-res (about 270px tall). CSS stretches it to the
+   viewport and nearest-neighbor scaling keeps the pixels crisp. */
+#game {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+#hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.fps {
+  position: absolute;
+  top: calc(var(--safe-top) + 8px);
+  left: calc(var(--safe-left) + 8px);
+  padding: 4px 8px;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  background: var(--hud-bg);
+  border: 1px solid var(--hud-border);
+  border-radius: 6px;
+}
+
+.camera-buttons {
+  position: absolute;
+  right: calc(var(--safe-right) + 12px);
+  bottom: calc(var(--safe-bottom) + 12px);
+  display: flex;
+  gap: 10px;
+}
+
+.camera-buttons button {
+  pointer-events: auto;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0 12px;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--hud-fg);
+  background: var(--hud-bg);
+  border: 1px solid var(--hud-border);
+  border-radius: 10px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.camera-buttons button:active {
+  background: rgba(255, 241, 201, 0.25);
+}
+
+.hint {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--safe-bottom) + 16px);
+  transform: translateX(-50%);
+  padding: 4px 10px;
+  font-size: 12px;
+  opacity: 0.8;
+  background: var(--hud-bg);
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .hint {
+    display: none;
+  }
+}
