@@ -10,7 +10,7 @@ import {
 import { isFree } from './nubbin';
 import type { Rng } from './rng';
 import { addPoints } from './stats';
-import type { BehaviorState, Nubbin, Reaction, SimEvent, Vec2, World } from './types';
+import type { BehaviorState, Item, Nubbin, Reaction, SimEvent, Vec2, World } from './types';
 
 const dist = (a: Vec2, b: Vec2): number => Math.hypot(a.x - b.x, a.z - b.z);
 
@@ -79,11 +79,32 @@ function nearestFruit(world: World, from: Vec2): string | null {
   return best;
 }
 
+function nearestToy(world: World, from: Vec2): Item | null {
+  let best: Item | null = null;
+  let bestD = Infinity;
+  for (const item of world.items) {
+    if (item.kind !== 'toy') continue;
+    const d = dist(from, item.pos);
+    if (d < bestD) {
+      bestD = d;
+      best = item;
+    }
+  }
+  return best;
+}
+
 function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
   const keeperNear = dist(n.pos, world.keeper.pos) < BEHAVIOR.greetRadius;
   if (keeperNear && rng.chance(BEHAVIOR.greetChance)) {
     setState(n, 'greet', now, BEHAVIOR.greetMs);
     n.facing = Math.atan2(world.keeper.pos.x - n.pos.x, world.keeper.pos.z - n.pos.z);
+    return;
+  }
+  const toy = nearestToy(world, n.pos);
+  if (toy && rng.chance(BEHAVIOR.playChance)) {
+    setState(n, 'play', now, rng.float(...BEHAVIOR.playMs));
+    n.behavior.itemId = toy.id;
+    n.behavior.target = { x: toy.pos.x, z: toy.pos.z };
     return;
   }
   if (n.stage !== 'egg' && rng.chance(BEHAVIOR.swimChance)) {
@@ -170,11 +191,32 @@ export function updateBehavior(
       }
       break;
     }
+    case 'play': {
+      const toy = world.items.find((i) => i.id === b.itemId);
+      if (!toy) {
+        chooseIdle(n, world, rng, now);
+        break;
+      }
+      if (b.target && !walkToward(n, b.target, BEHAVIOR.walkSpeed, dtMs)) break;
+      b.target = null;
+      // Bat the toy around a little; it rolls a short way.
+      if (rng.chance(0.08)) {
+        const a = rng.float(0, Math.PI * 2);
+        toy.pos.x += Math.cos(a) * 0.6;
+        toy.pos.z += Math.sin(a) * 0.6;
+        clampToWorld(toy.pos);
+        addHappiness(n, BEHAVIOR.playHappiness * 0.25);
+      }
+      if (now >= b.untilMs) {
+        addHappiness(n, BEHAVIOR.playHappiness);
+        chooseIdle(n, world, rng, now);
+      }
+      break;
+    }
     case 'eat':
     case 'sit':
     case 'greet':
     case 'cry':
-    case 'play':
     case 'react': {
       if (now >= b.untilMs) {
         b.reaction = null;

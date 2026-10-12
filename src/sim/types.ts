@@ -135,7 +135,7 @@ export interface Nubbin {
   karateRecord: Record<string, unknown>;
 }
 
-export type ItemKind = 'fruit';
+export type ItemKind = 'fruit' | 'toy';
 
 export interface Item {
   id: string;
@@ -191,7 +191,18 @@ export interface Inventory {
   fruit: number;
   critters: Record<string, number>;
   essences: Record<string, number>;
+  /** Hat ids owned; wearing them is M5. */
+  hats: string[];
 }
+
+/** What an Expedition brings home. */
+export interface Rewards {
+  shells: number;
+  essences: Partial<Record<NubbinType, number>>;
+  critters: Record<string, number>;
+}
+
+export type ShopItem = 'fruit' | 'egg' | 'hat' | 'toy';
 
 export interface Memorial {
   id: string;
@@ -242,6 +253,8 @@ export type Command =
   | { kind: 'setGrove'; grove: GroveKind }
   | { kind: 'giveCritter'; nubbinId: string; species: string }
   | { kind: 'giveEssence'; nubbinId: string; type: NubbinType }
+  | { kind: 'addRewards'; rewards: Rewards }
+  | { kind: 'buy'; item: ShopItem }
   | { kind: 'setSettings'; settings: Settings }
   | { kind: 'rename'; nubbinId: string; name: string }
   // Debug
@@ -281,7 +294,9 @@ export type SimEvent =
   | { kind: 'landed'; nubbinId: string }
   | { kind: 'collected'; itemId: string }
   | { kind: 'treeShaken'; treeId: string }
-  | { kind: 'eggShaken'; nubbinId: string };
+  | { kind: 'eggShaken'; nubbinId: string }
+  | { kind: 'bought'; item: ShopItem; ok: boolean; reason: 'shells' | 'roster' | 'toys' | null }
+  | { kind: 'rewards'; rewards: Rewards };
 
 export interface AwayReport {
   elapsedMs: number;

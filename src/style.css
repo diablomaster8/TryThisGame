@@ -362,6 +362,75 @@ body {
   gap: 6px;
 }
 
+/* ---------- shop ---------- */
+
+.shop-balance {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.shop-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.shop-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--hud-border);
+  border-radius: 10px;
+}
+
+.shop-row small {
+  display: block;
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.shop-note {
+  font-size: 13px;
+  opacity: 0.8;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- expedition ---------- */
+
+.expedition {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0d0a1a;
+  pointer-events: auto;
+}
+
+.expedition-canvas {
+  image-rendering: pixelated;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.expedition-hud {
+  position: absolute;
+  top: calc(var(--safe-top) + 8px);
+  right: calc(var(--safe-right) + 12px);
+  padding: 6px 10px;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  background: var(--hud-bg);
+  border: 1px solid var(--hud-border);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
 /* ---------- celebration ---------- */
 
 .celebrate {

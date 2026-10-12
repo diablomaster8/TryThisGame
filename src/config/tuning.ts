@@ -102,6 +102,8 @@ export const OFFLINE = {
 
 export const EGG = {
   startCount: 2,
+  /** Roster cap: eggs plus Nubbins. */
+  maxRoster: 8,
   hatchMs: 3 * MINUTE,
   /** Each shake while held takes this much off the hatch timer. */
   shakeBonusMs: 15 * SECOND,
@@ -233,6 +235,10 @@ export const BEHAVIOR = {
   greetChance: 0.35,
   swimChance: 0.15,
   sitChance: 0.3,
+  /** Chance to go play with a toy when one is around. */
+  playChance: 0.3,
+  playMs: [4 * SECOND, 8 * SECOND] as const,
+  playHappiness: 4,
   /** Hungry Nubbins only look for fruit within this distance. */
   foodSearchRadius: 30,
 } as const;
@@ -255,6 +261,46 @@ export const THROW = {
   lift: 5,
   /** Held Nubbins float this high above the ground under the pointer. */
   holdHeight: 1.2,
+} as const;
+
+export const SHOP = {
+  fruit: 5,
+  egg: 60,
+  /** Chance a bought egg is a rare colour. */
+  rareEggChance: 0.15,
+  hat: 40,
+  toy: 30,
+  /** How many toys can lie in the Grove at once. */
+  maxToys: 3,
+} as const;
+
+export const EXPEDITION = {
+  durationMs: 50_000,
+  /** Low-res view height; width follows the screen aspect, clamped. */
+  viewH: 270,
+  minViewW: 200,
+  maxViewW: 480,
+  /** Pixels per second, ramping up a little over the run. */
+  speed: 110,
+  speedRamp: 0.8,
+  /** The runner stands this far from the left edge, on this ground line. */
+  runnerX: 72,
+  groundY: 214,
+  gravity: 1100,
+  jumpVelocity: 360,
+  /** Holding the jump cancels this much gravity for up to holdMaxMs. */
+  holdGravityCancel: 650,
+  holdMaxMs: 260,
+  /** Rewards. */
+  shellValue: 1,
+  obstaclePenalty: 5,
+  /** Spawn cadence in pixels of track. */
+  patternGapPx: [140, 260] as const,
+  essenceChance: 0.12,
+  critterChance: 0.09,
+  obstacleChance: 0.45,
+  /** Seconds of invulnerability after a hit. */
+  hitCooldownMs: 700,
 } as const;
 
 export const GROVE = {

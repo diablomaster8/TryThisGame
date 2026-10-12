@@ -133,7 +133,7 @@ function performIntent(world: World, intent: KeeperIntent, events: SimEvent[]): 
     }
     case 'collect': {
       const item = world.items.find((i) => i.id === intent.itemId);
-      if (!item) return;
+      if (!item || item.kind !== 'fruit') return;
       world.items = world.items.filter((i) => i.id !== item.id);
       world.inventory.fruit += 1;
       events.push({ kind: 'collected', itemId: item.id });

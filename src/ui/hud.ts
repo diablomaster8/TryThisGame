@@ -2,9 +2,11 @@ import { INPUT } from '../config/tuning';
 import { GROVE_LABELS, NAMES, TYPE_LABELS, UI_TEXT } from '../config/strings';
 import type { Game, GameHooks } from '../game';
 import type { AwayReport, GroveKind, SimEvent } from '../sim/types';
+import { ExpeditionScreen } from '../minigames/expedition/screen';
 import { AwayScreen } from './away-screen';
 import { Celebration } from './celebration';
 import { DebugPanel } from './debug-panel';
+import { ShopMenu } from './shop';
 import { button, el } from './dom';
 import { SettingsMenu } from './settings';
 import { StatsSheet } from './stats-sheet';
@@ -29,8 +31,41 @@ export function mountHud(
   keeperBtn.title = UI_TEXT.switchKeeper;
   const groveBtn = button(GROVE_LABELS.main, () => cycleGrove(), 'btn btn-small');
   groveBtn.hidden = true;
-  top.append(logo, shells, fruit, groveBtn, keeperBtn, settingsBtn);
+  const shopBtn = button('🛒', () => shop.open(), 'btn btn-icon');
+  shopBtn.setAttribute('aria-label', UI_TEXT.shop);
+  shopBtn.title = UI_TEXT.shop;
+  const expeditionBtn = button('🏃', () => startExpedition(), 'btn btn-icon');
+  expeditionBtn.setAttribute('aria-label', UI_TEXT.expedition);
+  expeditionBtn.title = UI_TEXT.expedition;
+  top.append(logo, shells, fruit, groveBtn, expeditionBtn, shopBtn, keeperBtn, settingsBtn);
   root.appendChild(top);
+
+  function startExpedition(): void {
+    const g = game();
+    if (!g || expedition.isOpen) return;
+    const selected = g.world.selected
+      ? g.world.nubbins.find((n) => n.id === g.world.selected)
+      : null;
+    const runner =
+      (selected && selected.stage !== 'egg' && selected.stage !== 'cocoon' ? selected : null) ??
+      g.world.nubbins.find((n) => n.stage === 'child' || n.stage === 'adult') ??
+      null;
+    if (!runner) {
+      toast(UI_TEXT.expeditionNeedsNubbin);
+      return;
+    }
+    sheet.close();
+    g.renderPaused = true;
+    expedition.start(
+      runner,
+      g.view.sheets.forNubbin(runner),
+      Date.now() % 2147483647,
+      (rewards) => {
+        g.renderPaused = false;
+        g.send({ kind: 'addRewards', rewards });
+      },
+    );
+  }
 
   function switchKeeper(): void {
     const g = game();
@@ -77,6 +112,12 @@ export function mountHud(
   const away = new AwayScreen(root);
   const debug = new DebugPanel(root, game, () => sheet.selectedId);
   const celebration = new Celebration(root, game);
+  const shop = new ShopMenu(root, game, toast);
+  const expedition = new ExpeditionScreen(root);
+  if (import.meta.env.DEV) {
+    // Console access during development, alongside `window.grove`.
+    (window as unknown as { groveUi: unknown }).groveUi = { shop, expedition, sheet, debug };
+  }
 
   // Triple-tap the logo, or press backtick, for the debug panel.
   let logoTaps: number[] = [];
@@ -96,6 +137,7 @@ export function mountHud(
     }
     if (e.key === 'Escape') {
       if (settings.isOpen()) settings.close();
+      else if (shop.isOpen()) shop.close();
       else if (!sheet.root.hidden) sheet.close();
     }
   });
@@ -118,6 +160,7 @@ export function mountHud(
         carryText.textContent = UI_TEXT.carrying(n?.name ?? NAMES.creature);
       }
       if (!sheet.root.hidden) sheet.refresh();
+      shop.refresh();
       debug.refresh();
     }
     refreshTimer = window.setTimeout(refreshLoop, 200);
@@ -149,6 +192,8 @@ export function mountHud(
         } else if (e.kind === 'eternal') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           toast(UI_TEXT.eternal(n?.name ?? NAMES.creature));
+        } else if (e.kind === 'bought') {
+          shop.onBought(e.ok, e.reason, e.item);
         }
       }
     },

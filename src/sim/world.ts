@@ -5,6 +5,7 @@ import { applyDrop, decayNeeds } from './needs';
 import { clampToWorld, putDown, react, sampleAll, startThrow, updateBehavior } from './behavior';
 import { CRITTER_SPECIES, giveCritter, giveEssence } from './critters';
 import { createKeeper, keeperPutDown, updateKeeper } from './keeper';
+import { addRewards, buy } from './shop';
 import { advanceStage, evolve, hatch, secondEvolve } from './lifecycle';
 import { createEgg, isHeld } from './nubbin';
 import { Rng } from './rng';
@@ -42,7 +43,7 @@ export function createWorld(seed: number, wallMs: number): World {
     items: [],
     trees: [],
     keeper: createKeeper(GROVE.keeperStart),
-    inventory: { shells: 0, fruit: 0, critters: {}, essences: {} },
+    inventory: { shells: 0, fruit: 0, critters: {}, essences: {}, hats: [] },
     settings: defaultSettings(),
     memorials: [],
     unlocks: { sunGrove: false, moonGrove: false },
@@ -211,6 +212,12 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
       react(n, 'happy', now, events);
       return;
     }
+    case 'addRewards':
+      addRewards(world, cmd.rewards, events);
+      return;
+    case 'buy':
+      withRng(world, (rng) => buy(world, cmd.item, rng, events));
+      return;
     case 'setSettings':
       world.settings = cmd.settings;
       return;

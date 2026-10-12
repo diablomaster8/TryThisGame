@@ -100,6 +100,13 @@ export const GROVE_LABELS = {
   moon: '☾ Moon Grove',
 } as const;
 
+export const SHOP_ITEMS = {
+  fruit: { name: 'Fruit', help: 'Fills a hungry belly and adds Stamina.' },
+  egg: { name: 'Egg', help: 'A new Nubbin. Sometimes a rare colour!' },
+  hat: { name: 'Hat', help: 'A random hat for the collection.' },
+  toy: { name: 'Ball', help: 'Nubbins play with it in the Grove.' },
+} as const;
+
 export const MOOD_LABELS = {
   content: 'Content',
   happy: 'Happy',
@@ -182,6 +189,20 @@ export const UI_TEXT = {
   give: 'Give',
   giveCritters: 'Critters',
   giveEssences: 'Essences',
+  // Shop
+  shop: 'Shop',
+  bought: (name: string) => `Bought ${name}.`,
+  notEnoughShells: 'Not enough Shells.',
+  rosterFull: 'The Grove is full (8 Nubbins).',
+  tooManyToys: 'Enough toys lying around already.',
+  // Expedition
+  expedition: 'Expedition',
+  expeditionNeedsNubbin: 'Hatch a Nubbin first; it goes on the Expedition.',
+  expeditionResults: 'Expedition results',
+  resultShells: (n: number) => `🐚 ${n} Shells`,
+  resultNothing: 'Nothing this time. Jump for the shells!',
+  backToGrove: 'Back to the Grove',
+  expeditionHint: 'Tap to jump · hold to jump higher',
   nothingToGive: 'Nothing to give yet. Expeditions (M4) bring Critters and Essences.',
   switchKeeper: 'Switch Keeper',
   groveButton: 'Grove',

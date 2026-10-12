@@ -39,9 +39,22 @@ function drawFlower(): PixelCanvas {
   return pc;
 }
 
+/** A striped ball: the toy from the shop. */
+function drawToy(): PixelCanvas {
+  const pc = new PixelCanvas(PROP_SIZE, PROP_SIZE);
+  pc.disc(8, 9, 5.5, C.rose);
+  pc.ellipse(8, 9, 5.5, 2.2, C.cream);
+  pc.disc(8, 9, 1.6, C.water);
+  pc.px(5, 6, C.white);
+  pc.px(6, 5, C.white);
+  pc.outline(C.darkPlum);
+  return pc;
+}
+
 export function buildPropSheet(): SpriteSheet {
   const atlas = new AtlasBuilder(PROP_SIZE, PROP_SIZE, 4);
   atlas.add(frameKey('fruit', 'front', 0), drawFruit());
   atlas.add(frameKey('flower', 'front', 0), drawFlower());
+  atlas.add(frameKey('toy', 'front', 0), drawToy());
   return atlas.build();
 }

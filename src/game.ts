@@ -40,6 +40,8 @@ export class Game {
   private readonly pending: Command[] = [];
   private rafId = 0;
   private running = false;
+  /** While a minigame covers the screen the sim keeps going but the Grove is not drawn. */
+  renderPaused = false;
   private lastFrameMs = 0;
   private lastSaveMs = 0;
   private storageOk = true;
@@ -196,10 +198,12 @@ export class Game {
     this.camera.target.z += (k.pos.z - this.camera.target.z) * t;
     this.camera.update(nowMs);
 
-    this.grove.update(nowMs);
-    this.grove.setGrove(this.world.grove);
-    this.view.update(this.world, this.camera, this.clock.alpha, nowMs);
-    this.pipeline.render(this.grove.scene, this.camera.camera);
+    if (!this.renderPaused) {
+      this.grove.update(nowMs);
+      this.grove.setGrove(this.world.grove);
+      this.view.update(this.world, this.camera, this.clock.alpha, nowMs);
+      this.pipeline.render(this.grove.scene, this.camera.camera);
+    }
 
     if (nowMs - this.lastSaveMs >= SIM.autosaveMs) this.save();
     this.rafId = requestAnimationFrame(this.frame);

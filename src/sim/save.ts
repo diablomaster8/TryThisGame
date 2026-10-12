@@ -56,7 +56,8 @@ export function validateWorld(w: World): World {
   w.items ??= [];
   w.memorials ??= [];
   w.unlocks ??= { sunGrove: false, moonGrove: false };
-  w.inventory ??= { shells: 0, fruit: 0, critters: {}, essences: {} };
+  w.inventory ??= { shells: 0, fruit: 0, critters: {}, essences: {}, hats: [] };
+  w.inventory.hats ??= [];
   w.settings ??= defaultSettings();
   w.settings.offlineAging ??= defaultSettings().offlineAging;
   const oa = w.settings.offlineAging;
