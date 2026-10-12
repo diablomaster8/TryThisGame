@@ -50,7 +50,7 @@ export class LowResPipeline {
       depth: true,
     });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, RENDER.maxPixelRatio));
-    this.renderer.setClearColor(0x0d0a1a, 1);
+    // The clear color comes from scene.background (set by the scene from the palette).
   }
 
   get currentSize(): TargetSize {
