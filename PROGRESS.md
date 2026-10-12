@@ -53,8 +53,8 @@ and where it lands:
 | Adult first evolution: Neutral/Hero/Dark × Normal/Swim/Fly/Run/Power | 15            | M2 ✓      |
 | Adult second evolution: type-pair overlays                        | 60 (75 total)    | M2 ✓      |
 | Chaos Chao: Light, Dark, Neutral (the Eternals)                   | 3                | M3 ✓      |
-| Character Chao (Tails, Knuckles, Amy, NiGHTS…)                    | ~6 unlockables   | M5        |
-| Shiny, jewel, two-tone colour variants                            | palette layers   | M4        |
+| Character looks (fox, echidna, rose, dream)                       | 4 unlockables    | M5 ✓      |
+| Egg colours, shiny and two-tone colour variants                   | 5 colours × 3    | M5 ✓      |
 
 The art is drawn in code from memory (`src/render/sprites/chao.ts`), never from copied
 assets. Reference images dropped into the project would let the drawer be matched closer.
@@ -171,14 +171,22 @@ not crash (the storage wrapper swallows errors and toasts once); no console erro
 names, art or audio from an existing franchise (the Nubbins are Chao-faithful fan art
 by Maor's decision; names, music and sound are original).
 
+- **Colour variants and looks (M5 polish)**: an egg's colour is the Nubbin's body colour
+  for life (`variantColors`), kept through evolution with Sun/Moon adjustments; rare
+  shop eggs can be two-tone (belly and tips from a second colour) or shiny (sparkles,
+  white outline). Four character looks (fox, echidna, rose, dream) are palette + head
+  accessory sets worn like hats and won at race tier 3. The roster shows all of it.
+- **Preview tooling**: `PREVIEW_OUT=path.png npx vitest run tests/tools` renders a
+  contact sheet of looks to a PNG (no browser needed); `tests/tools/png.ts` is the
+  encoder shared with the icon writer.
+
 ## What's stubbed
 
-- Shiny / jewel / two-tone body colour variants: not drawn yet (egg colours are).
-- Character Chao looks (Tails, Knuckles, Amy, NiGHTS…): not drawn yet; they would be
-  hat-like overlays once Maor wants them.
 - `vite-plugin-pwa` 2.0 supports Vite 8 but pulls in workbox; a 40-line service worker
   does the job for v1. Swap if precache manifests are wanted.
 - An on-screen joystick (optional per CLAUDE.md) is not built; tap-to-move covers phones.
+- The character looks use original names (fox, echidna, rose, dream) and silhouettes;
+  closer likenesses are a palette tweak away in `CHARACTER_LOOKS` if wanted.
 
 ## Known bugs / open items
 
