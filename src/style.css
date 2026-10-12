@@ -170,9 +170,30 @@ body {
   position: absolute;
   top: calc(var(--safe-top) + 8px);
   right: calc(var(--safe-right) + 8px);
+  /* Leave the top-left corner to the fps counter; wrap into rows on phones. */
+  max-width: calc(100% - var(--safe-left) - var(--safe-right) - 84px);
   display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+}
+
+@media (max-width: 480px) {
+  .topbar .btn-icon,
+  .topbar .btn-logo {
+    min-width: 44px;
+    padding: 0 8px;
+    font-size: 17px;
+  }
+  .topbar .chip {
+    padding: 5px 8px;
+    font-size: 13px;
+  }
+  .topbar .btn-small {
+    font-size: 12px;
+    padding: 0 8px;
+  }
 }
 
 .btn-logo {
