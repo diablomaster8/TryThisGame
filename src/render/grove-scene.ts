@@ -194,9 +194,9 @@ export class GroveScene {
     const sky = kind === 'sun' ? C.shallows : kind === 'moon' ? C.ink : C.nightBlue;
     this.scene.background = new Color(color(sky));
     for (const m of this.tintable) m.color.set(tint);
-    this.hemi.intensity = kind === 'moon' ? 0.9 : 1.5;
-    this.hemi.color.set(color(kind === 'moon' ? C.moonPurple : C.shallows));
-    this.sun.intensity = kind === 'sun' ? 1.5 : kind === 'moon' ? 0.6 : 1.1;
+    this.hemi.intensity = kind === 'moon' ? 1.3 : 1.5;
+    this.hemi.color.set(color(kind === 'moon' ? C.violet : C.shallows));
+    this.sun.intensity = kind === 'sun' ? 1.5 : kind === 'moon' ? 0.9 : 1.1;
     this.sun.color.set(color(kind === 'moon' ? C.lavender : C.cream));
   }
 

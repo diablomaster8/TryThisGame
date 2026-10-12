@@ -9,11 +9,16 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
-## Current milestone: M1 Grove and first Nubbin — COMPLETE (2026-10-12)
+## Current milestone: M2 Growth — COMPLETE (2026-10-12, tag `m2`)
 
-**Done when:** from a fresh load you can hatch, pet and feed a Nubbin within 60 s, and a
-reload restores the game exactly. Both verified (desktop browser pane + Vitest). Lint,
-format, typecheck, 74 tests and the build pass.
+**Done when:** at ×100, a scripted mix of critters and actions produces the predicted
+adult form. Verified by `tests/sim/growth.test.ts` (3 Penguins + 2 Swim Essences + Sun
+petting → Sun Swim; balanced Run/Power + Moon → Moon Normal) and in the browser (Tiger
+critter → tiger ears and tail, forced evolution → Sun Power with the celebration card,
+Swim grade C → B, Sun Grove unlocked and recoloured). 87 tests, lint, build pass.
+
+M1 (Grove and first Nubbin) was completed earlier the same day, tag `m1`: hatch, pet and
+feed within 60 s, reload restores exactly.
 
 **Live:** https://diablomaster8.github.io/TryThisGame/ (repo
 https://github.com/diablomaster8/TryThisGame, Pages source: GitHub Actions).
@@ -27,8 +32,8 @@ and where it lands:
 | ----------------------------------------------------------------- | ---------------- | --------- |
 | Eggs: normal + shop colour variants                               | 1 + ~20          | M1 / M4   |
 | Child: Neutral, Hero-leaning, Dark-leaning                        | 3                | M1 ✓      |
-| Adult first evolution: Neutral/Hero/Dark × Normal/Swim/Fly/Run/Power | 15            | M2        |
-| Adult second evolution: type-pair overlays                        | 60 (75 total)    | M2        |
+| Adult first evolution: Neutral/Hero/Dark × Normal/Swim/Fly/Run/Power | 15            | M2 ✓      |
+| Adult second evolution: type-pair overlays                        | 60 (75 total)    | M2 ✓      |
 | Chaos Chao: Light, Dark, Neutral                                  | 3                | M3        |
 | Character Chao (Tails, Knuckles, Amy, NiGHTS…)                    | ~6 unlockables   | M5        |
 | Shiny, jewel, two-tone colour variants                            | palette layers   | M4        |
@@ -77,19 +82,28 @@ Check any sheet at `?sprites` (developer gallery).
   carry chip, catch-up overlay.
 - **Game loop** (`src/game.ts`): autosave every 30 s and on hide/pagehide, catch-up on
   load and on tab show, storage failures only toast.
-- **Tests**: 74 Vitest cases (sim rules, world determinism, save round-trip, offline
-  modes incl. the 7-day < 3 s check, sprite math).
+- **Growth (M2)**: `sim/critters.ts` with the 15 species (3 per type, each with its
+  part slots), `giveCritter` / `giveEssence`, type lean; `lifecycle.ts` evolution with
+  the permanent grade upgrade, Sun/Moon Grove unlocks and the second evolution an hour
+  into adult life; `world.grove` + `setGrove`; swimming trains Swim lean slowly.
+- **Sprites (M2)**: `layout.ts` (shared geometry + `ChaoShape`), `parts.ts` (parametric
+  ears/tail/arms/back for every species at all five angles), type silhouettes (Swim
+  head fins, Fly big wings, Run legs, Power wide body and hands), second-evolution
+  lighter touches; sheet keys include type, second and parts.
+- **UI (M2)**: Give section on the stats sheet (critters and essences from the
+  inventory), Keeper switch (☀/☾) and Grove switcher in the top bar (shown once a Grove
+  is unlocked), evolution celebration card, debug +critters / +essences.
+- **Tests**: 87 Vitest cases (sim rules, growth, world determinism, save round-trip,
+  offline modes incl. the 7-day < 3 s check, sprite math and parts).
 
 ## What's stubbed
 
-- Adult forms are recolours of the child shape; the real adult silhouettes, the part
-  slots (critter parts) and the second-evolution overlays are M2.
-- `play` behavior waits for toys (M4). Critters/essences buttons in the debug panel are
-  M2 placeholders.
-- End of life, rebirth, departure, Eternal: M3 (`debugForceEndOfLife` only jumps the
-  stage timer).
-- Sun/Moon Grove recolours, grade upgrade at evolution: M2.
-- Sound, PWA, reduced-motion beyond the camera snap: M5.
+- `play` behavior waits for toys (M4).
+- End of life, rebirth, departure, Eternal, memorial flowers: M3 (`debugForceEndOfLife`
+  only jumps the stage timer).
+- Critters and Essences only come from the debug panel until the Expedition (M4).
+- Shiny/jewel/two-tone colour variants and egg colours in the shop: M4.
+- Character Chao looks, hats, roster, races, personality, sound, PWA: M5.
 
 ## Known bugs / open items
 
@@ -127,9 +141,10 @@ Check any sheet at `?sprites` (developer gallery).
 
 ## Next steps
 
-1. **M2 Growth** (see CLAUDE.md): stats sheet already shows levels/grades; add critters
-   (15 species, parts, type lean), essences, Keeper switching, evolution with all 15
-   forms drawn properly + the 60 second-evolution overlays, grade upgrade with a
-   celebration, Sun/Moon Grove recolours, unit tests. Done when a scripted ×100 run of
-   critters and actions produces the predicted adult form.
-2. Then M3, M4, M5 per CLAUDE.md, under the standing approval above.
+1. **M3 Life cycle** (see CLAUDE.md): adult aging to the 5 h end-of-life check, rebirth
+   (glowing cocoon → egg keeping name, 10 % of points, grade upgrades, affection memory,
+   rebirth count +1, heart greeting) vs departure (soft fading cocoon, memorial flower),
+   Eternal rules, `awaitingKeeper` for offline end of life, the Chaos forms' art, unit
+   tests of a full life at ×1000. Done when egg → adult → rebirth → adult keeps everything
+   correctly and Eternal follows the rules exactly.
+2. Then M4, M5 per CLAUDE.md, under the standing approval above.
