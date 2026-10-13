@@ -16,6 +16,8 @@ import {
   Scene,
   SphereGeometry,
   BoxGeometry,
+  BufferGeometry,
+  Float32BufferAttribute,
   Group,
   type Texture,
 } from 'three';
@@ -27,13 +29,57 @@ import { makeGroundTexture } from './ground';
 import {
   makeBarkTexture,
   makeCliffTexture,
-  makeHillTexture,
   makeLeafTexture,
   makeSkyTexture,
   makeStoneTexture,
+  makeBridgeTexture,
+  makeGrassTopTexture,
   makeWaterfallTexture,
-  makeWaterTexture,
+  makeWaterGlintTexture,
+  makeWaterTexture16,
 } from './textures';
+
+/** A flat ribbon along a polyline, UVs running along it so a tile scrolls downstream. */
+function ribbon(
+  points: ReadonlyArray<{ x: number; z: number }>,
+  width: number,
+  y: number,
+): BufferGeometry {
+  const pos: number[] = [];
+  const uv: number[] = [];
+  const idx: number[] = [];
+  let dist = 0;
+  for (let i = 0; i < points.length; i++) {
+    const p = points[i]!;
+    const prev = points[Math.max(0, i - 1)]!;
+    const next = points[Math.min(points.length - 1, i + 1)]!;
+    const dx = next.x - prev.x;
+    const dz = next.z - prev.z;
+    const len = Math.hypot(dx, dz) || 1;
+    const nx = -dz / len;
+    const nz = dx / len;
+    if (i > 0) dist += Math.hypot(p.x - prev.x, p.z - prev.z);
+    pos.push(
+      p.x + (nx * width) / 2,
+      y,
+      p.z + (nz * width) / 2,
+      p.x - (nx * width) / 2,
+      y,
+      p.z - (nz * width) / 2,
+    );
+    uv.push(0, dist / width, 1, dist / width);
+    if (i > 0) {
+      const a = (i - 1) * 2;
+      idx.push(a, a + 2, a + 1, a + 1, a + 2, a + 3);
+    }
+  }
+  const geo = new BufferGeometry();
+  geo.setAttribute('position', new Float32BufferAttribute(pos, 3));
+  geo.setAttribute('uv', new Float32BufferAttribute(uv, 2));
+  geo.setIndex(idx);
+  geo.computeVertexNormals();
+  return geo;
+}
 
 /** Sky gradients per phase: top colour, bottom colour, clouds. */
 const SKY_GRADIENTS: Record<string, [string, string, boolean]> = {
@@ -62,6 +108,7 @@ export class GroveScene {
   /** Meshes that can be tapped, with `userData.pick = { kind, id }`. */
   readonly pickables: Object3D[] = [];
   private readonly water: Texture;
+  private readonly glint: Texture;
   private readonly falls: Texture;
   private readonly disposables: Array<{ dispose(): void }> = [];
   private readonly hemi: HemisphereLight;
@@ -100,43 +147,109 @@ export class GroveScene {
     this.pickables.push(ground);
     this.disposables.push(groundGeo, groundMat, grass);
 
-    // Pond: a darker rim then the water disc, just above the grass to avoid z-fighting.
+    // Pond: a wet rim, the water disc with a scrolling wave tile, a drifting glint layer
+    // the other way, and a lit shallows ring at the bank. The stream shares the same look.
     const pond = GROVE.pond;
-    const rimGeo = new CircleGeometry(pond.r + 0.5, 24);
-    const rimMat = new MeshLambertMaterial({ color: new Color(color(C.sand)) });
+    const rimGeo = new CircleGeometry(pond.r + 0.4, 32);
+    const rimMat = new MeshLambertMaterial({ color: new Color(color(C.sandDeep)) });
     const rim = new Mesh(rimGeo, rimMat);
     rim.rotation.x = -Math.PI / 2;
     rim.position.set(pond.x, 0.01, pond.z);
     this.groveGroup.add(rim);
-    this.water = makeWaterTexture(8, pond.r);
-    const waterGeo = new CircleGeometry(pond.r, 24);
+    this.water = makeWaterTexture16(pond.r);
+    this.glint = makeWaterGlintTexture(pond.r * 0.9);
     const waterMat = new MeshLambertMaterial({ map: this.water });
+    const glintMat = new MeshBasicMaterial({
+      map: this.glint,
+      transparent: true,
+      opacity: 0.55,
+      depthWrite: false,
+    });
+    const waterGeo = new CircleGeometry(pond.r, 32);
     const water = new Mesh(waterGeo, waterMat);
     water.rotation.x = -Math.PI / 2;
     water.position.set(pond.x, 0.02, pond.z);
     water.userData.pick = { kind: 'ground', id: 'pond' };
-    this.groveGroup.add(water);
+    const glintDisc = new Mesh(waterGeo, glintMat);
+    glintDisc.rotation.x = -Math.PI / 2;
+    glintDisc.position.set(pond.x, 0.025, pond.z);
+    const shallowGeo = new RingGeometry(pond.r - 0.9, pond.r, 32);
+    const shallowMat = new MeshBasicMaterial({
+      color: new Color(color(C.shallows)),
+      transparent: true,
+      opacity: 0.45,
+      depthWrite: false,
+    });
+    const shallows = new Mesh(shallowGeo, shallowMat);
+    shallows.rotation.x = -Math.PI / 2;
+    shallows.position.set(pond.x, 0.028, pond.z);
+    this.groveGroup.add(water, glintDisc, shallows);
     this.pickables.push(water);
-    this.disposables.push(rimGeo, rimMat, waterGeo, waterMat, this.water);
+    this.disposables.push(
+      rimGeo,
+      rimMat,
+      waterGeo,
+      waterMat,
+      glintMat,
+      shallowGeo,
+      shallowMat,
+      this.water,
+      this.glint,
+    );
+
+    // The stream: ribbons from the waterfall pool into the pond and out to the edge.
+    for (const points of [GROVE.river.inflow, GROVE.river.outflow]) {
+      const bank = new Mesh(ribbon(points, GROVE.river.width + 0.8, 0.012), rimMat);
+      const flow = new Mesh(ribbon(points, GROVE.river.width, 0.02), waterMat);
+      const flowGlint = new Mesh(ribbon(points, GROVE.river.width, 0.025), glintMat);
+      flow.userData.pick = { kind: 'ground', id: 'stream' };
+      this.groveGroup.add(bank, flow, flowGlint);
+      this.pickables.push(flow);
+      this.disposables.push(bank.geometry, flow.geometry, flowGlint.geometry);
+    }
+    // A plank bridge where the path crosses the inflow.
+    {
+      const b = GROVE.bridge;
+      const a0 = GROVE.river.inflow[1]!;
+      const a1 = GROVE.river.inflow[2]!;
+      const along = Math.atan2(a1.x - a0.x, a1.z - a0.z);
+      const bridgeTex = makeBridgeTexture();
+      const bridgeGeo = new PlaneGeometry(GROVE.river.width + 1.2, 2.2);
+      const bridgeMat = new MeshLambertMaterial({ map: bridgeTex });
+      const bridge = new Mesh(bridgeGeo, bridgeMat);
+      bridge.rotation.x = -Math.PI / 2;
+      bridge.rotation.z = along;
+      bridge.position.set(b.x, 0.06, b.z);
+      bridge.userData.pick = { kind: 'ground', id: 'bridge' };
+      this.groveGroup.add(bridge);
+      this.pickables.push(bridge);
+      this.disposables.push(bridgeTex, bridgeGeo, bridgeMat);
+    }
 
     // Hills: terraced plateaus, a cliff-face texture on the sides and grass on top.
-    const hillTex = makeHillTexture(8, 6);
-    const cliffTex = makeCliffTexture();
+    const hillTex = makeGrassTopTexture(6);
     const topMat = new MeshLambertMaterial({ map: hillTex, flatShading: true });
-    const cliffMat = new MeshLambertMaterial({ map: cliffTex, flatShading: true });
-    this.tintable.push(topMat, cliffMat);
-    this.disposables.push(hillTex, cliffTex, topMat, cliffMat);
+    this.tintable.push(topMat);
+    this.disposables.push(hillTex, topMat);
     for (const h of GROVE.hills) {
+      // Three tiers, each a little smaller; the cliff tile repeats by circumference so
+      // the rocks keep their size on big and small hills.
       const tiers: Array<[number, number, number]> = [
-        [h.r, h.h * 0.55, 0],
-        [h.r * 0.62, h.h * 0.45, h.h * 0.55],
+        [h.r, h.h * 0.42, 0],
+        [h.r * 0.74, h.h * 0.34, h.h * 0.42],
+        [h.r * 0.5, h.h * 0.24, h.h * 0.76],
       ];
       for (const [r, height, y0] of tiers) {
-        const side = new CylinderGeometry(r * 0.92, r, height, 10, 1, true);
+        const cliffTex = makeCliffTexture();
+        cliffTex.repeat.set(Math.max(2, Math.round((2 * Math.PI * r) / 3)), 1);
+        const cliffMat = new MeshLambertMaterial({ map: cliffTex, flatShading: true });
+        this.tintable.push(cliffMat);
+        this.disposables.push(cliffTex, cliffMat);
+        const side = new CylinderGeometry(r * 0.94, r, height, 14, 1, true);
         const sideMesh = new Mesh(side, cliffMat);
         sideMesh.position.set(h.x, y0 + height / 2, h.z);
         sideMesh.userData.pick = { kind: 'ground', id: 'hill' };
-        const top = new CircleGeometry(r * 0.92, 10);
+        const top = new CircleGeometry(r * 0.94, 14);
         const topMesh = new Mesh(top, topMat);
         topMesh.rotation.x = -Math.PI / 2;
         topMesh.position.set(h.x, y0 + height + 0.01, h.z);
@@ -383,7 +496,8 @@ export class GroveScene {
 
   /** Animate water, the waterfall, swaying canopies and the foam ring. `nowMs` is wall time. */
   update(nowMs: number): void {
-    this.water.offset.set((nowMs / 6000) % 1, (nowMs / 9000) % 1);
+    this.water.offset.set((nowMs / 7000) % 1, (nowMs / 10000) % 1);
+    this.glint.offset.set((-nowMs / 5000) % 1, (nowMs / 12000) % 1);
     this.falls.offset.set(0, (-nowMs / 400) % 1);
     this.canopies.forEach((c, i) => {
       c.rotation.z = Math.sin(nowMs / 1400 + i * 1.7) * 0.03;

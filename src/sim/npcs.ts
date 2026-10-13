@@ -34,18 +34,18 @@ export const EXTRA_LOOKS: Record<string, TrainerLook> = {
 
 /** Where visiting Keepers like to stand. */
 const HOMES: Record<string, Vec2> = {
-  fern: { x: -4, z: -2 },
-  marina: { x: 9, z: 3 },
-  sparks: { x: -3, z: 6 },
-  clover: { x: -7, z: 2 },
-  pixel: { x: 3, z: -5 },
-  luna: { x: -12, z: 11 },
-  ember: { x: 8, z: -5 },
-  byte: { x: 1, z: -11 },
-  dusty: { x: -10, z: 6 },
-  nova: { x: 12, z: 2 },
-  corvin: { x: 2, z: 11 },
-  hazel: { x: 5, z: 1 },
+  fern: { x: -5, z: -2 },
+  marina: { x: 14, z: 5 },
+  sparks: { x: -4, z: 8 },
+  clover: { x: -10, z: 3 },
+  pixel: { x: 2, z: -7 },
+  luna: { x: -14, z: 16 },
+  ember: { x: 14, z: -7 },
+  byte: { x: -8, z: -14 },
+  dusty: { x: -12, z: 8 },
+  nova: { x: 18, z: 9 },
+  corvin: { x: 3, z: 14 },
+  hazel: { x: 5, z: 2 },
 };
 
 export function spawnNpc(world: World, trainer: string): Npc {

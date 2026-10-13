@@ -89,7 +89,7 @@ export const SIM = {
   /** Show a progress indicator when catch-up takes longer than this. */
   catchUpProgressMs: 500,
   /** Grove bounds: entities stay within ±half on both axes. */
-  worldHalf: 14,
+  worldHalf: 22,
 } as const;
 
 export const OFFLINE = {
@@ -297,6 +297,8 @@ export const BEHAVIOR = {
 
 export const KEEPER = {
   speed: 3.5,
+  /** Running multiplies the walking speed. */
+  runMultiplier: 1.8,
   arriveRadius: 0.2,
   /** Distance at which the Keeper can touch, pick up, shake or feed. */
   interactRadius: 1.4,
@@ -359,23 +361,44 @@ export const EXPEDITION = {
 } as const;
 
 export const GROVE = {
-  size: 32,
+  size: 48,
   /** Centre and radius of the pond. */
-  pond: { x: 6, z: 5, r: 4 },
+  pond: { x: 7, z: 6, r: 5 },
   trees: [
-    { x: -6, z: -4 },
-    { x: 5, z: -8 },
+    { x: -8, z: -5 },
+    { x: 6, z: -12 },
+    { x: -15, z: 9 },
+    { x: 16, z: 12 },
   ] as const,
   hills: [
-    { x: -11, z: 8, r: 5, h: 2.2 },
-    { x: 11, z: -11, r: 6, h: 3 },
-    { x: -12, z: -11, r: 4, h: 1.6 },
+    { x: -18, z: 13, r: 6, h: 2.6 },
+    { x: 16, z: -16, r: 7, h: 3.4 },
+    { x: -18, z: -15, r: 5, h: 2 },
+    { x: 20, z: 4, r: 4, h: 1.5 },
   ] as const,
-  waterfall: { x: 11, z: -11, height: 3, width: 1.5 },
-  keeperStart: { x: 0, z: 3 },
+  waterfall: { x: 16, z: -16, height: 3.4, width: 1.6 },
+  /** The stream: from the waterfall pool into the pond, then out to the south edge. */
+  river: {
+    width: 2.2,
+    inflow: [
+      { x: 12.4, z: -10.4 },
+      { x: 10.5, z: -6.5 },
+      { x: 9.2, z: -3 },
+      { x: 7.6, z: 0.4 },
+    ],
+    outflow: [
+      { x: 8.2, z: 11.6 },
+      { x: 9.5, z: 16 },
+      { x: 11, z: 20 },
+      { x: 12, z: 25 },
+    ],
+  },
+  /** Where the path crosses the inflow. */
+  bridge: { x: 9.6, z: -4.2 },
+  keeperStart: { x: 0, z: 4 },
   eggSpots: [
-    { x: -2, z: 0 },
-    { x: 2, z: -1 },
+    { x: -2, z: 1 },
+    { x: 2, z: 0 },
   ] as const,
 } as const;
 

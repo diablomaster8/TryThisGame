@@ -1,7 +1,7 @@
 import type { CanvasTexture } from 'three';
 import { GROVE } from '../config/tuning';
 import { Rng } from '../sim/rng';
-import { BUILDINGS } from './scenery';
+import { BUILDINGS, SCENERY } from './scenery';
 import { C } from './sprites/palette';
 import { PixelCanvas } from './sprites/pixel-canvas';
 
@@ -28,7 +28,7 @@ export function makeGroundTexture(seed = 7): CanvasTexture {
 
   // Base grass with broad light and dark drifts.
   pc.rect(0, 0, size, size, C.grass);
-  for (let i = 0; i < 90; i++) {
+  for (let i = 0; i < 200; i++) {
     const x = rng.float(0, size);
     const y = rng.float(0, size);
     const r = rng.float(8, 26);
@@ -63,6 +63,45 @@ export function makeGroundTexture(seed = 7): CanvasTexture {
   };
   shore(pond.x, pond.z, pond.r);
   shore(GROVE.waterfall.x - 3.6, GROVE.waterfall.z + 5.6, 1.6);
+  // Banks along the stream: sand, a wet band, a dark-grass edge.
+  const bank = (points: ReadonlyArray<{ x: number; z: number }>) => {
+    const w = GROVE.river.width;
+    const stampAlong = (radius: number, colour: number, jitter: number) => {
+      for (let i = 0; i + 1 < points.length; i++) {
+        const a = points[i]!;
+        const b = points[i + 1]!;
+        const steps = Math.ceil(Math.hypot(b.x - a.x, b.z - a.z) * 4);
+        for (let s = 0; s <= steps; s++) {
+          const t = s / steps;
+          pc.disc(
+            toPx(a.x + (b.x - a.x) * t) + rng.float(-jitter, jitter),
+            toPx(a.z + (b.z - a.z) * t) + rng.float(-jitter, jitter),
+            radius * GROUND_PPU,
+            colour,
+          );
+        }
+      }
+    };
+    stampAlong(w / 2 + 1.5, C.leafDeep, 1.4);
+    stampAlong(w / 2 + 1.1, C.sandLight, 1.0);
+    stampAlong(w / 2 + 0.7, C.sand, 0.6);
+    stampAlong(w / 2 + 0.35, C.sandDeep, 0.3);
+  };
+  bank(GROVE.river.inflow);
+  bank(GROVE.river.outflow);
+  // Scree at the foot of each hill.
+  for (const h of GROVE.hills) {
+    const cx = toPx(h.x);
+    const cy = toPx(h.z);
+    for (let i = 0; i < 160; i++) {
+      const a = rng.float(0, Math.PI * 2);
+      const d = (h.r + rng.float(0.1, 1.3)) * GROUND_PPU;
+      const x = cx + Math.cos(a) * d;
+      const y = cy + Math.sin(a) * d;
+      pc.disc(x, y, rng.float(0.6, 1.6), rng.chance(0.6) ? C.leafDeep : C.sandDeep);
+      if (rng.chance(0.3)) pc.dot(x, y, C.greyLight);
+    }
+  }
 
   // Dirt paths: discs along a polyline; a lit centre, a darker rim, then a grass rim.
   const path = (points: Array<{ x: number; z: number }>, width: number) => {
@@ -87,21 +126,42 @@ export function makeGroundTexture(seed = 7): CanvasTexture {
   };
   const start = GROVE.keeperStart;
   const [t1, t2] = GROVE.trees;
+  const bridge = GROVE.bridge;
   path([start, { x: pond.x - pond.r - 1.4, z: pond.z - 1 }], 1.7);
   path([start, { x: t1.x + 1.6, z: t1.z + 1.6 }], 1.2);
-  path([start, { x: t2.x - 1.6, z: t2.z + 1.6 }], 1.2);
-  path([start, { x: BUILDINGS.cottage!.x + 0.2, z: BUILDINGS.cottage!.z - 1.6 }], 1.0);
+  path([start, { x: 3, z: -3 }, { x: bridge.x - 1.6, z: bridge.z - 0.6 }], 1.2);
   path(
     [
+      { x: bridge.x + 1.6, z: bridge.z + 0.6 },
+      { x: 13.5, z: -6.5 },
+      { x: BUILDINGS.dojo!.x - 1, z: BUILDINGS.dojo!.z + 1.8 },
+    ],
+    1.0,
+  );
+  path(
+    [
+      { x: 3, z: -3 },
       { x: t2.x - 1.6, z: t2.z + 1.6 },
-      { x: BUILDINGS.school!.x, z: BUILDINGS.school!.z + 1.8 },
+      { x: BUILDINGS.school!.x + 0.5, z: BUILDINGS.school!.z + 2 },
+    ],
+    1.0,
+  );
+  path(
+    [start, { x: -3, z: 9 }, { x: BUILDINGS.cottage!.x + 0.5, z: BUILDINGS.cottage!.z - 1.8 }],
+    1.1,
+  );
+  path(
+    [
+      { x: -3, z: 9 },
+      { x: BUILDINGS.well!.x - 1.2, z: BUILDINGS.well!.z },
     ],
     0.8,
   );
   path(
     [
-      { x: pond.x + pond.r + 1.5, z: pond.z - 1 },
-      { x: BUILDINGS.dojo!.x - 0.5, z: BUILDINGS.dojo!.z + 1.6 },
+      { x: -8, z: -2 },
+      { x: -13, z: 6 },
+      { x: GROVE.trees[2]!.x + 1.8, z: GROVE.trees[2]!.z + 1.4 },
     ],
     0.9,
   );
@@ -139,7 +199,7 @@ export function makeGroundTexture(seed = 7): CanvasTexture {
   }
 
   // Dense tufts: a V of two or three fine pixels, three tones, everywhere on grass.
-  for (let i = 0; i < 1400; i++) {
+  for (let i = 0; i < 3200; i++) {
     const x = rng.int(1, size - 2);
     const y = rng.int(1, size - 2);
     if (isDirt(x, y) || pc.get(x, y) === C.greyLight) continue;
@@ -151,7 +211,7 @@ export function makeGroundTexture(seed = 7): CanvasTexture {
     if (rng.chance(0.3)) pc.dot(x + 0.5, y - 0.5, c);
   }
   // Clover and flower clusters.
-  for (let i = 0; i < 70; i++) {
+  for (let i = 0; i < 150; i++) {
     const x = rng.float(2, size - 2);
     const y = rng.float(2, size - 2);
     if (isDirt(Math.round(x), Math.round(y))) continue;
@@ -189,18 +249,11 @@ export function makeGroundTexture(seed = 7): CanvasTexture {
     }
   };
   for (const t of GROVE.trees) shade(t.x, t.z + 0.6, 2.4, 220);
-  for (const [x, z] of [
-    [-9, 2],
-    [9.5, 9.5],
-    [-13, -3],
-    [3, 13.5],
-    [10, -4.5],
-    [-8, -8],
-  ] as const) {
-    shade(x, z + 0.3, 1.2, 50);
+  for (const s of SCENERY) {
+    if (s.kind === 'bush' || s.kind === 'bush2') shade(s.x, s.z + 0.3, 1.2, 50);
   }
   // Pebbles along the paths and on the shore.
-  for (let i = 0; i < 260; i++) {
+  for (let i = 0; i < 600; i++) {
     const x = rng.int(0, size - 1);
     const y = rng.int(0, size - 1);
     const under = pc.get(x, y);

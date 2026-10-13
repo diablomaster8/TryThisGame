@@ -466,6 +466,9 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
     case 'debugWeather':
       withRng(world, (rng) => setWeather(world, cmd.weather, rng, events));
       return;
+    case 'setRunning':
+      k.running = cmd.running;
+      return;
     case 'campaignStart':
     case 'sceneDone':
     case 'talk':

@@ -166,6 +166,7 @@ export function validateWorld(w: World): World {
   }
   if (w.keeper.carrying && !w.nubbins.some((n) => n.id === w.keeper.carrying))
     w.keeper.carrying = null;
+  w.keeper.running ??= false;
   w.keeper.input = { x: 0, z: 0 };
   return w;
 }

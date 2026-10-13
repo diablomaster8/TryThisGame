@@ -392,7 +392,11 @@ export class WorldView {
     const kclip: ClipName = moving ? 'walk' : 'idle';
     const kview = viewAngle(k.facing, yaw);
     const krect = ksheet.frames.get(
-      frameKey(kclip, kview.angle, frameAt(CLIPS[kclip], nowMs - this.keeperClipStart)),
+      frameKey(
+        kclip,
+        kview.angle,
+        frameAt(CLIPS[kclip], (nowMs - this.keeperClipStart) * (k.running ? 1.7 : 1)),
+      ),
     );
     shadow(kx, 0, kz, 0.45);
     if (krect) {

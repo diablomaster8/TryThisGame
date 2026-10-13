@@ -22,7 +22,7 @@ describe('world', () => {
     const w = createWorld(1, 0);
     expect(w.nubbins).toHaveLength(2);
     expect(w.nubbins.every((n) => n.stage === 'egg')).toBe(true);
-    expect(w.trees).toHaveLength(2);
+    expect(w.trees).toHaveLength(GROVE.trees.length);
     expect(w.keeper.pos).toBeDefined();
   });
 

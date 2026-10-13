@@ -152,23 +152,128 @@ export function makeSkyTexture(top: string, bottom: string, clouds: boolean): Ca
   return texture;
 }
 
-/** Cliff face: horizontal strata in greys and browns with cracks, repeated around a hill. */
+/** Cliff face: strata in greys and browns, jutting rocks, cracks, moss, a grass lip. */
 export function makeCliffTexture(): CanvasTexture {
-  const pc = new PixelCanvas(16, 16);
-  pc.rect(0, 0, 16, 16, C.greyDeep);
-  for (let y = 0; y < 16; y += 4) {
-    pc.rect(0, y, 16, 2, C.greyLight);
-    pc.rect(0, y + 2, 16, 1, C.bark);
-    for (let x = (y / 4) % 2 === 0 ? 2 : 6; x < 16; x += 8) pc.dot(x, y + 1.5, C.greyDeep);
+  const pc = new PixelCanvas(24, 16);
+  pc.rect(0, 0, 24, 16, C.greyDeep);
+  // Strata bands.
+  for (let y = 2; y < 16; y += 5) {
+    pc.rect(0, y, 24, 2, C.greyLight);
+    pc.rect(0, y + 2, 24, 1, C.bark);
+    for (let x = (y / 5) % 2 === 0 ? 3 : 9; x < 24; x += 12) pc.dot(x, y + 1.5, C.greyDeep);
   }
-  pc.thinLine(3, 0, 5, 7, C.darkBark);
-  pc.thinLine(11, 6, 10, 15, C.darkBark);
-  pc.dot(8, 2, C.pale);
-  pc.dot(13, 10, C.pale);
+  // Jutting rocks with a lit top and a shadow under.
+  for (const [x, y, w] of [
+    [2, 5, 5],
+    [13, 9, 6],
+    [7, 12, 4],
+    [18, 3, 4],
+  ] as const) {
+    pc.rect(x, y, w, 3, C.greyLight);
+    pc.thinLine(x, y, x + w - 0.5, y, C.pale);
+    pc.thinLine(x + 0.5, y + 3, x + w, y + 3, C.darkBark);
+    pc.dot(x + w - 1, y + 1.5, C.greyDeep);
+  }
+  // Cracks and moss.
+  pc.thinLine(5, 0, 6, 7, C.darkBark);
+  pc.thinLine(16, 6, 15, 15, C.darkBark);
+  pc.dot(10, 2, C.leafDeep);
+  pc.dot(21, 11, C.leafDeep);
+  pc.dot(3, 14, C.leafDeep);
   // Grass lip along the top.
-  pc.rect(0, 0, 16, 1, C.leaf);
-  for (let x = 1; x < 16; x += 3) pc.dot(x, 1, C.leafDeep);
+  pc.rect(0, 0, 24, 1, C.leaf);
+  for (let x = 1; x < 24; x += 3) {
+    pc.dot(x, 1, C.leafDeep);
+    pc.dot(x + 0.5, 1.5, C.forest);
+  }
   const texture = pc.toTexture({ repeat: true });
-  texture.repeat.set(4, 1);
   return texture;
+}
+
+/** The pond and stream: a 16×16 tile with wave crests, troughs and a glint, scrolled slowly. */
+export function makeWaterTexture16(repeat: number): CanvasTexture {
+  const pc = new PixelCanvas(16, 16);
+  pc.rect(0, 0, 16, 16, C.water);
+  // Deeper patches.
+  pc.ellipse(4, 4, 3, 1.6, C.deepWater);
+  pc.ellipse(12, 11, 3.2, 1.8, C.deepWater);
+  // Crests: short arcs, lit on top, dark under.
+  const crest = (x: number, y: number, len: number) => {
+    pc.thinLine(x, y + 0.5, x + 1, y, C.shallows);
+    pc.thinLine(x + 1, y, x + len - 1, y, C.shallows);
+    pc.thinLine(x + len - 1, y, x + len, y + 0.5, C.shallows);
+    pc.dot(x + 1.5, y - 0.5, C.skyLight);
+    pc.thinLine(x + 0.5, y + 1, x + len - 0.5, y + 1, C.deepWater);
+  };
+  crest(1, 2, 5);
+  crest(9, 6, 5);
+  crest(3, 10, 4);
+  crest(11, 14, 4);
+  crest(6, 7, 3);
+  pc.dot(14, 2, C.skyLight);
+  pc.dot(1, 13, C.skyLight);
+  const texture = pc.toTexture({ repeat: true });
+  texture.repeat.set(repeat, repeat);
+  return texture;
+}
+
+/** Glints that drift the other way over the water, mostly transparent. */
+export function makeWaterGlintTexture(repeat: number): CanvasTexture {
+  const pc = new PixelCanvas(16, 16);
+  pc.thinLine(2, 3, 5, 3, C.white);
+  pc.dot(6, 2.5, C.pale);
+  pc.thinLine(10, 9, 13, 9, C.white);
+  pc.dot(9, 9.5, C.pale);
+  pc.dot(4, 12, C.white);
+  pc.dot(13, 14, C.white);
+  pc.thinLine(7, 13, 9, 13, C.pale);
+  const texture = pc.toTexture({ repeat: true });
+  texture.repeat.set(repeat, repeat);
+  return texture;
+}
+
+/** Grass for the hill tops: the ground's tuft look on a repeating 16×16 tile. */
+export function makeGrassTopTexture(repeat: number): CanvasTexture {
+  const pc = new PixelCanvas(16, 16);
+  pc.rect(0, 0, 16, 16, C.grass);
+  pc.ellipse(5, 5, 4, 2.5, C.leaf);
+  pc.ellipse(12, 12, 3.5, 2, C.leafLight);
+  const tufts: Array<[number, number, number]> = [
+    [1, 2, C.leafLight],
+    [6, 1, C.forest],
+    [11, 3, C.sprout],
+    [14, 7, C.leafLight],
+    [3, 8, C.forest],
+    [8, 9, C.leafLight],
+    [1, 13, C.sprout],
+    [6, 14, C.forest],
+    [12, 15, C.leafLight],
+    [9, 5, C.sprout],
+  ];
+  for (const [x, y, c] of tufts) {
+    pc.dot(x, y + 0.5, c);
+    pc.dot(x + 0.5, y, c);
+    pc.dot(x + 1, y + 0.5, c);
+  }
+  pc.dot(4, 11, C.white);
+  pc.dot(13, 5, C.sunYellow);
+  const texture = pc.toTexture({ repeat: true });
+  texture.repeat.set(repeat, repeat);
+  return texture;
+}
+
+/** Plank bridge, top-down: boards across, two rails along the sides. */
+export function makeBridgeTexture(): CanvasTexture {
+  const pc = new PixelCanvas(16, 24);
+  pc.rect(0, 0, 16, 24, C.wood);
+  for (let y = 0; y < 24; y += 3) {
+    pc.rect(0, y, 16, 1, C.bark);
+    pc.dot(2, y + 1.5, C.darkBark);
+    pc.dot(13, y + 1.5, C.darkBark);
+  }
+  pc.rect(0, 0, 2, 24, C.bark);
+  pc.rect(14, 0, 2, 24, C.bark);
+  pc.thinLine(0.5, 0, 0.5, 24, C.sand);
+  pc.thinLine(14.5, 0, 14.5, 24, C.sand);
+  return pc.toTexture();
 }

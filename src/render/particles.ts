@@ -149,9 +149,9 @@ export class Particles {
         const rain = env.weather === 'rain';
         this.push({
           kind: rain ? 'rain' : 'snow',
-          x: (this.rnd() - 0.5) * 34,
+          x: (this.rnd() - 0.5) * (GROVE.size + 2),
           y: 7 + this.rnd() * 3,
-          z: (this.rnd() - 0.5) * 34,
+          z: (this.rnd() - 0.5) * (GROVE.size + 2),
           vx: rain ? -0.6 : (this.rnd() - 0.5) * 0.4,
           vy: rain ? -9 : -0.8,
           vz: 0,
@@ -169,8 +169,9 @@ export class Particles {
       const alive = this.pool.filter((p) => p.kind === 'firefly').length;
       if (alive < FIREFLY_COUNT && this.rnd() < 0.08) {
         const nearPond = this.rnd() < 0.5;
-        const x = nearPond ? GROVE.pond.x + (this.rnd() - 0.5) * 10 : (this.rnd() - 0.5) * 22;
-        const z = nearPond ? GROVE.pond.z + (this.rnd() - 0.5) * 10 : (this.rnd() - 0.5) * 22;
+        const span = GROVE.size * 0.7;
+        const x = nearPond ? GROVE.pond.x + (this.rnd() - 0.5) * 10 : (this.rnd() - 0.5) * span;
+        const z = nearPond ? GROVE.pond.z + (this.rnd() - 0.5) * 10 : (this.rnd() - 0.5) * span;
         this.push({
           kind: 'firefly',
           x,

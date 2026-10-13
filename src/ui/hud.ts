@@ -99,6 +99,23 @@ export function mountHud(
   );
   root.appendChild(top);
 
+  // Run: a toggle on screen, or hold Shift on a keyboard.
+  const runBtn = button(`🏃 ${UI_TEXT.run}`, () => setRunning(!runOn), 'btn run-btn');
+  runBtn.title = UI_TEXT.runHelp;
+  let runOn = false;
+  function setRunning(on: boolean): void {
+    runOn = on;
+    runBtn.classList.toggle('active', on);
+    game()?.send({ kind: 'setRunning', running: on });
+  }
+  root.appendChild(runBtn);
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Shift' && !e.repeat && !(e.target instanceof HTMLInputElement)) setRunning(true);
+  });
+  window.addEventListener('keyup', (e) => {
+    if (e.key === 'Shift') setRunning(false);
+  });
+
   /** The Nubbin that goes on Expeditions and races: the selected one, else the first grown one. */
   function pickRunner(): Nubbin | null {
     const g = game();

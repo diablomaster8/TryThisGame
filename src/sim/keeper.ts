@@ -20,6 +20,7 @@ export function createKeeper(pos: Vec2): Keeper {
     input: { x: 0, z: 0 },
     carrying: null,
     intent: null,
+    running: false,
   };
 }
 
@@ -69,8 +70,8 @@ export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): vo
     const len = Math.hypot(k.input.x, k.input.z);
     const nx = k.input.x / len;
     const nz = k.input.z / len;
-    k.pos.x += nx * KEEPER.speed * dt;
-    k.pos.z += nz * KEEPER.speed * dt;
+    k.pos.x += nx * KEEPER.speed * (k.running ? KEEPER.runMultiplier : 1) * dt;
+    k.pos.z += nz * KEEPER.speed * (k.running ? KEEPER.runMultiplier : 1) * dt;
     k.facing = Math.atan2(nx, nz);
     k.moveTarget = null;
     k.intent = null;
@@ -92,7 +93,7 @@ export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): vo
         }
         k.moveTarget = null;
       } else {
-        const step = Math.min(d, KEEPER.speed * dt);
+        const step = Math.min(d, KEEPER.speed * (k.running ? KEEPER.runMultiplier : 1) * dt);
         const dx = (target.x - k.pos.x) / d;
         const dz = (target.z - k.pos.z) / d;
         k.pos.x += dx * step;

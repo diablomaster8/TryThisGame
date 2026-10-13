@@ -1171,3 +1171,12 @@ button,
   border: 2px solid #f2d34c;
   pointer-events: auto;
 }
+
+.run-btn {
+  position: absolute;
+  left: calc(var(--safe-left) + 12px);
+  bottom: calc(var(--safe-bottom) + 12px);
+  min-width: 56px;
+  min-height: 48px;
+  pointer-events: auto;
+}

@@ -15,10 +15,10 @@ export interface SceneryPlacement {
 
 /** Where the buildings stand; also kept clear by decor placement. */
 export const BUILDINGS: Record<string, { x: number; z: number }> = {
-  cottage: { x: -5, z: 10 },
-  school: { x: -2, z: -12.5 },
-  dojo: { x: 12.5, z: 2 },
-  well: { x: 2.5, z: 9 },
+  cottage: { x: -7, z: 14 },
+  school: { x: -3, z: -18 },
+  dojo: { x: 18, z: -4 },
+  well: { x: 3, z: 10 },
 };
 
 export const SCENERY: SceneryPlacement[] = [
@@ -31,14 +31,19 @@ export const SCENERY: SceneryPlacement[] = [
     sway: 0.05,
   })),
   // Bushes at the edges and near the water.
-  { kind: 'bush', x: -9, z: 2, size: 2.2 },
-  { kind: 'bush2', x: 9.5, z: 9.5, size: 2.2 },
-  { kind: 'bush', x: -13, z: -3, size: 2.2 },
-  { kind: 'bush2', x: 3, z: 13.5, size: 2.2 },
-  { kind: 'bush', x: 10, z: -4.5, size: 2.0 },
-  { kind: 'bush2', x: -8, z: -8, size: 2.0 },
-  { kind: 'log', x: 1.5, z: 14, size: 2.4 },
-  { kind: 'log', x: 7.5, z: -5.5, size: 2.4 },
+  { kind: 'bush', x: -11, z: 1, size: 2.2 },
+  { kind: 'bush2', x: 13.5, z: 10.5, size: 2.2 },
+  { kind: 'bush', x: -20, z: -4, size: 2.2 },
+  { kind: 'bush2', x: 2, z: 18, size: 2.2 },
+  { kind: 'bush', x: 13, z: -2.5, size: 2.0 },
+  { kind: 'bush2', x: -10, z: -10, size: 2.0 },
+  { kind: 'bush', x: 20, z: 18, size: 2.2 },
+  { kind: 'bush2', x: -20, z: 20, size: 2.2 },
+  { kind: 'bush', x: 8, z: -20, size: 2.0 },
+  { kind: 'bush2', x: -1, z: -8, size: 1.9 },
+  { kind: 'log', x: -1, z: 20, size: 2.4 },
+  { kind: 'log', x: 3, z: -5, size: 2.4 },
+  { kind: 'log', x: -17, z: 2, size: 2.4 },
   {
     kind: 'cottage',
     x: BUILDINGS.cottage!.x,

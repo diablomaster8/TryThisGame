@@ -238,6 +238,8 @@ export const UI_TEXT = {
   settings: 'Settings',
   close: 'Close',
   pet: 'Pet',
+  run: 'Run',
+  runHelp: 'Hold Shift or tap Run to move faster.',
   pickUp: 'Pick up',
   putDown: 'Put down',
   feed: 'Feed',

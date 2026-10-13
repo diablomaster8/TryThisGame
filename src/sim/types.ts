@@ -200,6 +200,8 @@ export interface Keeper {
   carrying: string | null;
   /** Pending interaction once the Keeper arrives. */
   intent: KeeperIntent | null;
+  /** Running: faster movement (Shift, or the Run toggle). */
+  running: boolean;
 }
 
 /** Extra ways to interact with a Nubbin beyond pet, feed and carry. */
@@ -447,7 +449,8 @@ export type Command =
   /** Whistle: the named Nubbin (or everyone) comes to the Keeper. */
   | { kind: 'call'; nubbinId: string | null }
   /** Throw the ball for a Nubbin to fetch. */
-  | { kind: 'playCatch'; nubbinId: string };
+  | { kind: 'playCatch'; nubbinId: string }
+  | { kind: 'setRunning'; running: boolean };
 
 // ---------- events (sim → render/ui) ----------
 
