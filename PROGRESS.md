@@ -9,7 +9,51 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
-## Current milestone: M5 Races, personality, polish — BUILT (2026-10-12, tag `m5`)
+## After v1: optimisation, optional items, three creature families, ten Keepers (2026-10-12)
+
+Maor's follow-up ask, done in order:
+
+1. **Optimised for PC web and Android.** One mega atlas (2048²) and one `SpriteBatch`
+   mesh draw every sprite in a single draw call (`render/sprite-batch.ts`); CPU picking
+   over projected quads; integer pixel scaling (`computeTargetSize` picks the frame so
+   the CSS upscale is a whole number, e.g. 390×844 → 130×282 at ×3); no tap highlights;
+   F toggles fullscreen on PC; debug shows draw calls and a "Fill roster" button.
+2. **Optional items.** The Keeper stops at the shoreline (`shoreline()` in keeper.ts);
+   an on-screen joystick (Settings, off by default); a quiet procedural music loop under
+   the Sound setting.
+3. **Pocket line** (`sim/species.ts`, family `pocket`): the baby lines Pichu, Cleffa,
+   Igglybuff, Togepi, Tyrogue (branches by type), Smoochum, Elekid, Magby, Azurill,
+   Wynaut with their evolutions, and the fossils Omanyte, Kabuto, Aerodactyl, Lileep,
+   Anorith with theirs: 35 species.
+4. **Digital line** (family `digi`): the 1997 Ver.1 pet, Botamon → Koromon → Agumon /
+   Betamon → seven champions → MetalGreymon / Mamemon / Monzaemon: 14 species. Branches
+   by type; poor care (negative lifetime happiness) gives the slug.
+5. **Ten Keepers** (`sim/trainers.ts`): Fern, Marina, Sparks, Clover, Pixel (Sun) and
+   Luna, Ember, Byte, Dusty, Nova (Moon). Each has a look (hat style + palette) and an
+   egg table by family with a favourite type; new eggs follow the active Keeper. Dusty
+   only hatches fossil lines. The Keepers menu (☀/☾ button) replaces the Sun/Moon toggle.
+
+**How the extra lines map onto the life cycle.** An egg hatches as the line's hatchling.
+A hatchling with a second baby form (Botamon → Koromon) grows into it after 10 minutes.
+Evolution (child → adult) gives the grown form, the second evolution an hour later the
+next one (Pikachu → Raichu, Agumon → Greymon), and champions take their final form three
+hours into adult life (Greymon → MetalGreymon). Rebirth returns to the lineage's
+hatchling. Chao-line rules (bands, types, parts, grades, Eternal) still apply to stats;
+other families change species instead of form.
+
+**Art.** `render/sprites/creature.ts` is a generic chibi drawer (body plans round,
+biped, tall, shell, serpent, slug, stalk + parametric ears, tails, crests, wings, arms,
+legs, eyes, markings); `species-art.ts` holds the 49 specs. They are approximations by
+colour and silhouette, not traced sprites. Preview every species to a PNG with
+`PREVIEW_SPECIES=path.png npx vitest run tests/tools`, or open `?sprites`.
+
+**Names.** In-game species names are original (`SPECIES_LABELS` in strings.ts); the
+inspiration is data in `species.ts`. Switching to the real names is a strings change.
+
+**Risk noted to Maor.** Nintendo and Bandai are not Sega: public fan games using Pokémon
+have been taken down before. The build is public on GitHub Pages at Maor's decision.
+
+## M5 Races, personality, polish — BUILT (2026-10-12, tag `m5`)
 
 **Done when:** every acceptance check in CLAUDE.md passes. The automated ones do (see
 "Acceptance checks" below). The manual device pass is Maor's: iPhone Safari (browser and
@@ -225,8 +269,9 @@ by Maor's decision; names, music and sound are original).
 ## Next steps
 
 1. **Device test pass (Maor):** open https://diablomaster8.github.io/TryThisGame/ on
-   iPhone Safari (and Add to Home Screen), Android Chrome and the desktop browsers.
-   Check fps with 8 Nubbins (buy eggs in the shop with debug Shells), the Expedition's
-   tap/hold feel, a race in portrait, and that nothing logs to the console.
-2. Polish backlog after the pass: body colour variants, character looks, Keeper
-   pond-wading, a joystick if tap-to-move feels wrong on a phone.
+   Android Chrome and desktop browsers (PC web and Android are the targets now). Check
+   fps with 8 creatures (debug "Fill roster"), the Expedition's tap/hold feel, a race
+   in portrait, the joystick if wanted, and that nothing logs to the console.
+2. Likeness pass on the pocket and digital species if any read wrong on a phone: each is
+   a few lines in `species-art.ts`; the species preview PNG makes it quick.
+3. Tests: 134 Vitest cases.

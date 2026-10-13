@@ -6,7 +6,7 @@ This file is the standing brief for this project. Read it at the start of every 
 
 An original virtual-pet garden game that runs in phone and desktop browsers. You hatch a creature, raise it, and shape how it grows. It ages, and it either comes back reborn or gently moves on. You can enter it in races.
 
-The game draws on the depth of classic 3D-platformer pet gardens. **The creatures are Chao-faithful fan art:** draw the Nubbins as close to Sega's Chao as possible, and put every Chao variant in the game (Maor's decision, 2026-10-12; the catalogue and its milestone mapping are in PROGRESS.md). The art is generated in code from memory, never from copied Sega assets or sprite sheets. Names, logo, music and sound effects stay our own. Reusing game mechanics is fine.
+The game draws on the depth of classic 3D-platformer pet gardens. **The creatures are Chao-faithful fan art:** draw the Nubbins as close to Sega's Chao as possible, and put every Chao variant in the game (Maor's decision, 2026-10-12; the catalogue and its milestone mapping are in PROGRESS.md). **Two more families were added the same day at Maor's request:** the "pocket line" (the baby and fossil Pokémon of the first three generations and their evolutions) and the "digital line" (the original 1997 Digimon pet, Botamon through the Ultimates), drawn as chibi approximations by a generic creature drawer. The art is generated in code from memory, never from copied assets or sprite sheets. In-game names, logo, music and sound effects stay our own; the inspiration for each species is recorded in `sim/species.ts` as data and never shown. Reusing game mechanics is fine.
 
 **Working names:**
 
