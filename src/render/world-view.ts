@@ -2,7 +2,7 @@ import { Vector3 } from 'three';
 import { EGG, LIFECYCLE, UI } from '../config/tuning';
 import { childHint } from '../sim/alignment';
 import { moodOf } from '../sim/needs';
-import type { Nubbin, SimEvent, Vec2, World } from '../sim/types';
+import type { Location, Nubbin, SimEvent, Vec2, World } from '../sim/types';
 import type { OrbitCamera } from './camera';
 import type { Daylight } from './daylight';
 import { GROVE } from '../config/tuning';
@@ -93,7 +93,11 @@ export class WorldView {
   private density: 'full' | 'light' | 'off' = 'full';
   private daylight: Daylight | null = null;
   /** The Hollow is always dark and full of fireflies. */
-  location: 'grove' | 'hollow' | 'corvin' = 'grove';
+  location: Location = 'grove';
+  /** Which neighbour is being visited, if any (their Nubbins are render-only). */
+  get visiting(): string | null {
+    return this.location.startsWith('visit:') ? this.location.slice('visit:'.length) : null;
+  }
 
   setDaylight(d: Daylight, reduceMotion: boolean): void {
     this.daylight = d;
@@ -203,7 +207,8 @@ export class WorldView {
       });
     };
 
-    const inGrove = this.location === 'grove';
+    const home = this.location === 'grove';
+    const inGrove = home || this.visiting !== null;
     const props = this.sheets.props();
     // Scenery: trees, bushes, buildings, the well, and fence posts along the main path.
     if (inGrove) {

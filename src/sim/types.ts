@@ -163,6 +163,12 @@ export interface Nubbin {
   generation: number;
   /** Karate bouts. */
   karate: { wins: number; losses: number; belt: number };
+  /** Friendship with other Nubbins, by id. */
+  friends: Record<string, number>;
+  /** Accessories: a dyed scarf and glasses; a dyed hat. */
+  scarf: DyeColor | null;
+  glasses: boolean;
+  hatDye: DyeColor | null;
   lastPetMs: number;
   lastShakeMs: number;
   // Future fields (v2), empty by default so no migration is needed later.
@@ -179,6 +185,10 @@ export interface Item {
   pos: Vec2;
   y: number;
   vel: { x: number; y: number; z: number };
+  /** Toys: which toy. */
+  toy?: ToyKind;
+  /** Fruit: a stat or alignment flavour, or plain. */
+  flavor?: Flavor;
 }
 
 export interface Tree {
@@ -237,6 +247,10 @@ export interface Settings {
   particles: 'full' | 'light' | 'off';
   /** Override the system reduced-motion preference. */
   reducedMotion: 'system' | 'on' | 'off';
+  /** Jukebox: a fixed piece, or null for the automatic score. */
+  jukebox: string | null;
+  /** Ambient sounds (birds, crickets, rain, the stream). */
+  ambience: boolean;
 }
 
 export interface Inventory {
@@ -249,6 +263,72 @@ export interface Inventory {
   heartFruit: number;
   /** Decorations bought and not yet placed. */
   decor: Partial<Record<DecorKind, number>>;
+  /** Gathered materials for the workshop. */
+  wood: number;
+  stone: number;
+  reeds: number;
+  /** Seeds by flavour, from Expeditions and harvests. */
+  seeds: Partial<Record<Flavor, number>>;
+  /** Dyes from the workshop. */
+  dyes: Partial<Record<DyeColor, number>>;
+  /** Toys bought and not yet placed. */
+  toys: Partial<Record<ToyKind, number>>;
+}
+
+/** Stat fruit and seeds: one per stat, plus Sun and Moon fruit that nudge alignment. */
+export type Flavor = 'swim' | 'fly' | 'run' | 'power' | 'stamina' | 'sun' | 'moon';
+export const FLAVORS: readonly Flavor[] = ['swim', 'fly', 'run', 'power', 'stamina', 'sun', 'moon'];
+
+export type ToyKind = 'ball' | 'radio' | 'blocks' | 'mirror' | 'tv';
+export type DyeColor = 'rose' | 'sky' | 'mint' | 'gold' | 'violet' | 'ember';
+export type TileKind = 'grass' | 'dirt' | 'water' | 'flowers' | 'stone';
+export type HabitatKind = 'meadow' | 'rocky' | 'water' | 'thicket';
+
+/** A planted tree or crop row. */
+export interface Plant {
+  id: string;
+  kind: 'tree' | 'crop';
+  flavor: Flavor;
+  pos: Vec2;
+  plantedMs: number;
+  /** 0..1, drops in dry spells; rain or a tap refills it. */
+  water: number;
+  /** 0 seed, 1 sprout, 2 young, 3 grown. */
+  stage: number;
+  /** Grown: ms until the next fruit. */
+  fruitTimerMs: number;
+  /** Crops: ready to harvest. */
+  ripe: boolean;
+}
+
+export interface Quest {
+  id: string;
+  template: string;
+  /** Who asked: a trainer id or a Nubbin name. */
+  from: string;
+  param: string | null;
+  target: number;
+  progress: number;
+  rewardShells: number;
+  rewardEgg: boolean;
+  claimed: boolean;
+}
+
+/** A wild creature drawn to a habitat patch; it settles after enough visits. */
+export interface WildVisitor {
+  id: string;
+  species: string;
+  patch: HabitatKind;
+  pos: Vec2;
+  visits: number;
+  /** Sim time this visit ends. */
+  untilMs: number;
+  fed: boolean;
+}
+
+export interface CoopState {
+  active: boolean;
+  trainer: string;
 }
 
 /** What an Expedition brings home. */
@@ -256,6 +336,8 @@ export interface Rewards {
   shells: number;
   essences: Partial<Record<NubbinType, number>>;
   critters: Record<string, number>;
+  /** Seeds for the orchard, by flavour. */
+  seeds?: Partial<Record<Flavor, number>>;
 }
 
 export type ShopItem = 'fruit' | 'egg' | 'hat' | 'toy' | 'heartFruit';
@@ -284,7 +366,18 @@ export interface Weather {
   intensity: number;
 }
 
-export type DecorKind = 'fence' | 'flowerbed' | 'bench' | 'statue' | 'pathTile' | 'lanternSmall';
+export type DecorKind =
+  | 'fence'
+  | 'flowerbed'
+  | 'bench'
+  | 'statue'
+  | 'pathTile'
+  | 'lanternSmall'
+  | 'nursery'
+  | 'bathhouse'
+  | 'workshop'
+  | 'rockPile'
+  | 'thicket';
 
 export interface PlacedDecor {
   id: string;
@@ -292,7 +385,8 @@ export interface PlacedDecor {
   pos: Vec2;
 }
 
-export type Location = 'grove' | 'hollow' | 'corvin';
+/** The home Grove, the story places, or a neighbour's Grove (`visit:<trainer>`). */
+export type Location = 'grove' | 'hollow' | 'corvin' | `visit:${string}`;
 
 export type LessonId = 'drawing' | 'singing' | 'dance' | 'instrument';
 
@@ -386,6 +480,24 @@ export interface World {
   location: Location;
   /** Karate belts won per tier. */
   karate: { belt: number; wins: number; losses: number };
+  plants: Plant[];
+  /** Painted tiles by "x,z" at half-unit snaps. */
+  tiles: Record<string, TileKind>;
+  achievements: Record<string, number>;
+  /** Keeper title shown on the profile. */
+  title: string | null;
+  quests: Quest[];
+  questDay: string;
+  /** Extra garden plots bought: each adds roster room. */
+  plots: number;
+  wild: WildVisitor[];
+  landmarks: Record<string, number>;
+  coop: CoopState;
+  keeper2: Keeper | null;
+  /** Per neighbour: the last real day a gift was taken. */
+  neighbours: Record<string, { lastGiftDay: string }>;
+  /** Festival banner shown for this season already. */
+  festivalSeen: string;
 }
 
 // ---------- commands (input → sim) ----------
@@ -450,7 +562,31 @@ export type Command =
   | { kind: 'call'; nubbinId: string | null }
   /** Throw the ball for a Nubbin to fetch. */
   | { kind: 'playCatch'; nubbinId: string }
-  | { kind: 'setRunning'; running: boolean };
+  | { kind: 'setRunning'; running: boolean }
+  // Orchards and crops
+  | { kind: 'plant'; plantKind: 'tree' | 'crop'; flavor: Flavor; pos: Vec2 }
+  | { kind: 'waterPlant'; id: string }
+  | { kind: 'harvest'; id: string }
+  // Toys, tiles, crafting, gathering
+  | { kind: 'buyToy'; toy: ToyKind }
+  | { kind: 'placeToy'; toy: ToyKind; pos: Vec2 }
+  | { kind: 'paintTile'; pos: Vec2; tile: TileKind }
+  | { kind: 'craft'; recipe: string }
+  | { kind: 'gather'; what: 'stone' | 'reeds' }
+  | { kind: 'buyPlot' }
+  // Keeper and friends
+  | { kind: 'setTitle'; title: string | null }
+  | { kind: 'claimQuest'; id: string }
+  | { kind: 'visit'; trainer: string | null }
+  | { kind: 'neighbourGift' }
+  | { kind: 'feedWild'; id: string }
+  | { kind: 'dye'; nubbinId: string; slot: 'hat' | 'scarf'; color: DyeColor | null }
+  | { kind: 'wearGlasses'; nubbinId: string; on: boolean }
+  | { kind: 'setCoop'; active: boolean; trainer: string }
+  | { kind: 'keeper2Input'; input: Vec2 }
+  | { kind: 'keeper2Act'; action: 'pet' | 'feed' }
+  | { kind: 'teleport'; pos: Vec2 }
+  | { kind: 'photoTaken'; species: string };
 
 // ---------- events (sim → render/ui) ----------
 
@@ -515,7 +651,31 @@ export type SimEvent =
   | { kind: 'located'; location: Location }
   | { kind: 'interacted'; nubbinId: string; action: Interaction; ok: boolean }
   | { kind: 'called'; count: number }
-  | { kind: 'fetching'; nubbinId: string };
+  | { kind: 'fetching'; nubbinId: string }
+  | { kind: 'planted'; id: string; flavor: Flavor; plantKind: 'tree' | 'crop' }
+  | { kind: 'watered'; id: string }
+  | { kind: 'harvested'; id: string; flavor: Flavor; count: number }
+  | { kind: 'plantGrew'; id: string; stage: number }
+  | { kind: 'tilePainted'; tile: TileKind }
+  | { kind: 'crafted'; recipe: string; ok: boolean }
+  | { kind: 'gathered'; what: 'wood' | 'stone' | 'reeds'; count: number }
+  | { kind: 'toyPlaced'; toy: ToyKind }
+  | { kind: 'plotBought'; plots: number; ok: boolean }
+  | { kind: 'achievement'; id: string; shells: number }
+  | { kind: 'questDone'; id: string }
+  | { kind: 'questClaimed'; id: string; shells: number; egg: boolean }
+  | { kind: 'questsRefreshed' }
+  | { kind: 'friendsMade'; a: string; b: string }
+  | { kind: 'wildArrived'; id: string; species: string; patch: HabitatKind }
+  | { kind: 'wildSettled'; species: string; nubbinId: string }
+  | { kind: 'wildLeft'; id: string }
+  | { kind: 'visiting'; trainer: string | null }
+  | { kind: 'neighbourGift'; trainer: string; shells: number; ok: boolean }
+  | { kind: 'landmarkFound'; id: string }
+  | { kind: 'festival'; season: Season }
+  | { kind: 'sledding'; nubbinId: string }
+  | { kind: 'dyed'; nubbinId: string; slot: 'hat' | 'scarf' }
+  | { kind: 'coop'; active: boolean };
 
 export interface AwayReport {
   elapsedMs: number;

@@ -1,4 +1,6 @@
-import { GROVE, KEEPER, NEEDS, SIM, TREES, TRUST } from '../config/tuning';
+import { GATHER, GROVE, KEEPER, NEEDS, PERKS, SIM, TREES, TRUST } from '../config/tuning';
+import { keeperPerks, keeperSpeedMultiplier } from './perks';
+import { dropFruit, withRng } from './world';
 import { nudgeAlignment } from './alignment';
 import { eat, putDown, react } from './behavior';
 import { addAffection, addHappiness, applyPet } from './needs';
@@ -70,8 +72,10 @@ export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): vo
     const len = Math.hypot(k.input.x, k.input.z);
     const nx = k.input.x / len;
     const nz = k.input.z / len;
-    k.pos.x += nx * KEEPER.speed * (k.running ? KEEPER.runMultiplier : 1) * dt;
-    k.pos.z += nz * KEEPER.speed * (k.running ? KEEPER.runMultiplier : 1) * dt;
+    k.pos.x +=
+      nx * KEEPER.speed * keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) * dt;
+    k.pos.z +=
+      nz * KEEPER.speed * keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) * dt;
     k.facing = Math.atan2(nx, nz);
     k.moveTarget = null;
     k.intent = null;
@@ -81,7 +85,7 @@ export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): vo
     if (k.intent && !target) k.intent = null;
     // The Keeper does not wade: a target in the pond becomes the nearest shoreline point,
     // and a Nubbin in the water is reached from there.
-    if (target) target = shoreline(target);
+    if (target && !keeperPerks(world).wade) target = shoreline(target);
     if (target) {
       const d = dist(k.pos, target);
       // From the shore, a swimming Nubbin is within reach however far out it is.
@@ -93,7 +97,10 @@ export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): vo
         }
         k.moveTarget = null;
       } else {
-        const step = Math.min(d, KEEPER.speed * (k.running ? KEEPER.runMultiplier : 1) * dt);
+        const step = Math.min(
+          d,
+          KEEPER.speed * keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) * dt,
+        );
         const dx = (target.x - k.pos.x) / d;
         const dz = (target.z - k.pos.z) / d;
         k.pos.x += dx * step;
@@ -157,6 +164,16 @@ function performIntent(world: World, intent: KeeperIntent, events: SimEvent[]): 
       if (!tree) return;
       tree.fruitTimerMs = Math.max(0, tree.fruitTimerMs - TREES.shakeBonusMs);
       events.push({ kind: 'treeShaken', treeId: tree.id });
+      // Wood now and then, and a Power-type friend shakes fruit loose at once.
+      withRng(world, (rng) => {
+        if (rng.chance(GATHER.woodChance)) {
+          world.inventory.wood += 1;
+          events.push({ kind: 'gathered', what: 'wood', count: 1 });
+        }
+        if (keeperPerks(world).power) {
+          for (let i = 0; i < PERKS.powerShakeFruit; i++) dropFruit(world, tree, rng, events);
+        }
+      });
       return;
     }
     case 'collect': {

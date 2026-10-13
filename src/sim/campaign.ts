@@ -1,3 +1,4 @@
+import { hasRoom } from './roster';
 import { CHAPTERS, SCENES, type Choice, type Scene } from '../config/story';
 import { GROVE, TRUST } from '../config/tuning';
 import { hatch } from './lifecycle';
@@ -347,7 +348,7 @@ function applyChoice(world: World, c: CampaignState, scene: string, choice: Choi
     world.inventory.shells = Math.max(0, world.inventory.shells - 200);
     const soldId = typeof c.flags.soldId === 'string' ? c.flags.soldId : null;
     const stray = soldId ? world.strays.find((s) => s.nubbin.id === soldId) : undefined;
-    if (stray && world.nubbins.length < 8) {
+    if (stray && hasRoom(world)) {
       world.strays = world.strays.filter((s) => s !== stray);
       const n = stray.nubbin;
       n.pos = { x: world.keeper.pos.x + 1, z: world.keeper.pos.z + 1 };

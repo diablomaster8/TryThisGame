@@ -118,6 +118,9 @@ export const VARIANT_COLORS: Record<string, { body: number; shade: number; belly
   mint: { body: C.mint, shade: C.teal, belly: C.pale },
   gold: { body: C.sunYellow, shade: C.orange, belly: C.cream },
   violet: { body: C.violet, shade: C.moonPurple, belly: C.lavender },
+  // Seasonal eggs: winter frost and autumn ember.
+  frost: { body: C.skyLight, shade: C.skyDeep, belly: C.white },
+  ember: { body: C.ember, shade: C.berry, belly: C.sunLight },
 };
 
 /**

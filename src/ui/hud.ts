@@ -127,6 +127,15 @@ export function mountHud(
     return g.world.nubbins.find((n) => n.stage === 'child' || n.stage === 'adult') ?? null;
   }
 
+  /** A place name, including a neighbour's Grove. */
+  function locationLabel(loc: string): string {
+    if (loc.startsWith('visit:')) {
+      const t = loc.slice('visit:'.length);
+      return `${TL[t]?.name ?? t}’s Grove`;
+    }
+    return (UI_TEXT.location as Record<string, string>)[loc] ?? loc;
+  }
+
   function startExpedition(): void {
     const g = game();
     if (!g || expedition.isOpen) return;
@@ -483,7 +492,7 @@ export function mountHud(
         } else if (e.kind === 'traded') {
           toast(UI_TEXT.traded(e.name));
         } else if (e.kind === 'located') {
-          toast(UI_TEXT.location[e.location]);
+          toast(locationLabel(e.location));
         } else if (e.kind === 'karate') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           if (e.won) toast(`${n?.name ?? NAMES.creature}: ${UI_TEXT.belt(e.belt)}`);

@@ -1,9 +1,11 @@
-import { BREEDING, EGG, GROVE, SHOP } from '../config/tuning';
+import { hasRoom } from './roster';
+import { BREEDING, GROVE, SHOP } from '../config/tuning';
 import { EGG_COLORS, createEgg } from './nubbin';
 import type { Rng } from './rng';
 import { rollEggSpecies, trainerOf } from './trainers';
 import type { Rewards, ShopItem, SimEvent, Vec2, World } from './types';
 import { newId, uniqueName } from './world';
+import { eggPriceMultiplier, rareEggMultiplier, seasonalEggColor } from './seasons';
 
 export const HAT_IDS = ['straw', 'crown', 'beanie', 'flower', 'bucket'] as const;
 
@@ -39,7 +41,7 @@ function freeSpot(world: World, rng: Rng): Vec2 {
 
 /** Spend Shells on an item; returns false when it cannot be bought. */
 export function buy(world: World, item: ShopItem, rng: Rng, events: SimEvent[]): boolean {
-  const price = priceOf(item);
+  const price = Math.round(priceOf(item) * (item === 'egg' ? eggPriceMultiplier(world) : 1));
   const fail = (reason: 'shells' | 'roster' | 'toys') => {
     events.push({ kind: 'bought', item, ok: false, reason });
     return false;
@@ -53,10 +55,11 @@ export function buy(world: World, item: ShopItem, rng: Rng, events: SimEvent[]):
       world.inventory.heartFruit += 1;
       break;
     case 'egg': {
-      if (rosterCount(world) >= EGG.maxRoster) return fail('roster');
-      const rare = rng.chance(SHOP.rareEggChance);
+      if (!hasRoom(world)) return fail('roster');
+      const rare = rng.chance(Math.min(0.9, SHOP.rareEggChance * rareEggMultiplier(world)));
       const colours = EGG_COLORS.filter((c) => c !== 'plain');
-      const color = rare ? rng.pick(colours) : 'plain';
+      const seasonal = seasonalEggColor(world.season);
+      const color = rare ? (seasonal && rng.chance(0.35) ? seasonal : rng.pick(colours)) : 'plain';
       const egg = createEgg(
         newId(world, 'nub'),
         freeSpot(world, rng),
@@ -98,6 +101,11 @@ export function addRewards(world: World, rewards: Rewards, events: SimEvent[]): 
   for (const [type, n] of Object.entries(rewards.essences)) {
     if (!n) continue;
     world.inventory.essences[type] = (world.inventory.essences[type] ?? 0) + n;
+  }
+  for (const [flavor, n] of Object.entries(rewards.seeds ?? {})) {
+    if (!n) continue;
+    const f = flavor as keyof typeof world.inventory.seeds;
+    world.inventory.seeds[f] = (world.inventory.seeds[f] ?? 0) + n;
   }
   for (const [species, n] of Object.entries(rewards.critters)) {
     if (!n) continue;

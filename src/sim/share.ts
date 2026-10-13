@@ -1,3 +1,4 @@
+import { hasRoom } from './roster';
 import type { Nubbin, SimEvent, World } from './types';
 import { newId, uniqueName } from './world';
 import { withRng } from './world';
@@ -57,7 +58,7 @@ export function decodeNubbin(code: string): Nubbin | null {
 
 /** Take a shared Nubbin into the Grove with a fresh id and a free name. */
 export function receiveNubbin(world: World, incoming: Nubbin, events: SimEvent[]): boolean {
-  if (world.nubbins.length >= 8) {
+  if (!hasRoom(world)) {
     events.push({ kind: 'received', name: incoming.name, ok: false });
     return false;
   }

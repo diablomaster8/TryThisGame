@@ -1,3 +1,4 @@
+import { hasRoom } from './roster';
 import { BREEDING, EGG } from '../config/tuning';
 import { createEgg } from './nubbin';
 import type { Rng } from './rng';
@@ -67,7 +68,7 @@ export function stepBreeding(world: World, rng: Rng, events: SimEvent[]): void {
     (n) => n.courtingUntilMs > world.timeMs && canBreed(n) && n.stage === 'adult',
   );
   if (courting.length === 0) return;
-  if (world.nubbins.length >= EGG.maxRoster) return;
+  if (!hasRoom(world)) return;
   for (const a of courting) {
     const partner = world.nubbins.find(
       (b) =>

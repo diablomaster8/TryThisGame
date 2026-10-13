@@ -1,5 +1,6 @@
 import { OFFLINE, TRUST } from '../config/tuning';
 import { createWeather } from './weather';
+import { npcHome } from './npcs';
 import type { World } from './types';
 import { defaultSettings } from './world';
 
@@ -36,6 +37,10 @@ export const MIGRATIONS: Array<(data: Record<string, unknown>) => Record<string,
         n.parents ??= null;
         n.generation ??= 0;
         n.karate ??= { wins: 0, losses: 0, belt: 0 };
+        n.friends ??= {};
+        n.scarf ??= null;
+        n.glasses ??= false;
+        n.hatDye ??= null;
       }
     }
     return data;
@@ -90,6 +95,12 @@ export function validateWorld(w: World): World {
     hats: [],
     heartFruit: 0,
     decor: {},
+    wood: 0,
+    stone: 0,
+    reeds: 0,
+    seeds: {},
+    dyes: {},
+    toys: {},
   };
   w.inventory.hats ??= [];
   w.settings ??= defaultSettings();
@@ -111,6 +122,35 @@ export function validateWorld(w: World): World {
   w.visits ??= { lastDay: '', count: 0 };
   w.location ??= 'grove';
   w.karate ??= { belt: 0, wins: 0, losses: 0 };
+  w.inventory.wood ??= 0;
+  w.inventory.stone ??= 0;
+  w.inventory.reeds ??= 0;
+  w.inventory.seeds ??= {};
+  w.inventory.dyes ??= {};
+  w.inventory.toys ??= {};
+  w.plants ??= [];
+  w.tiles ??= {};
+  w.achievements ??= {};
+  w.title ??= null;
+  w.quests ??= [];
+  w.questDay ??= '';
+  w.plots ??= 0;
+  w.wild ??= [];
+  w.landmarks ??= {};
+  w.coop ??= { active: false, trainer: 'nova' };
+  w.keeper2 ??= null;
+  if (w.keeper2) w.keeper2.running ??= false;
+  w.neighbours ??= {};
+  w.festivalSeen ??= '';
+  w.settings.jukebox ??= null;
+  w.settings.ambience ??= true;
+  // Visiting Keepers keep their home spots in the save; re-home them to the current layout.
+  for (const npc of w.npcs) {
+    const home = npcHome(npc.trainer);
+    npc.home = { ...home };
+    if (Math.hypot(npc.pos.x - home.x, npc.pos.z - home.z) > 6) npc.pos = { ...home };
+    npc.target = null;
+  }
   w.settings.joystick ??= false;
   const oa = w.settings.offlineAging;
   if (oa.mode !== 'indefinite' && oa.mode !== 'capped' && oa.mode !== 'off')

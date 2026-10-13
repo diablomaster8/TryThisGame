@@ -48,8 +48,13 @@ const HOMES: Record<string, Vec2> = {
   hazel: { x: 5, z: 2 },
 };
 
+/** Where a Keeper stands in the current layout. */
+export function npcHome(trainer: string): Vec2 {
+  return HOMES[trainer] ?? { x: 0, z: 6 };
+}
+
 export function spawnNpc(world: World, trainer: string): Npc {
-  const home = HOMES[trainer] ?? { x: 0, z: 6 };
+  const home = npcHome(trainer);
   const npc: Npc = {
     id: `npc-${trainer}`,
     trainer,

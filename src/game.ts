@@ -58,8 +58,9 @@ export class Game {
     const reduce =
       s.reducedMotion === 'on' || (s.reducedMotion === 'system' && this.camera.reduceMotion);
     this.grove.setLit(litLanterns(this.world));
-    this.grove.setLocation(this.world.location);
-    this.grove.setDaylight(d, this.world.location, this.world.weather.kind);
+    const place = this.world.location.startsWith('visit:') ? 'grove' : this.world.location;
+    this.grove.setLocation(place);
+    this.grove.setDaylight(d, place, this.world.weather.kind);
     this.view.location = this.world.location;
     this.view.setDaylight(d, reduce);
     this.view.setWeather(

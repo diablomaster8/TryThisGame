@@ -195,6 +195,12 @@ export function stepRun(run: RunState, dtMs: number): void {
       case 'essence':
         t.taken = true;
         if (t.type) run.rewards.essences[t.type] = (run.rewards.essences[t.type] ?? 0) + 1;
+        // Essences come with a seed of the same flavour now and then.
+        if (t.type && run.rng.chance(0.5)) {
+          run.rewards.seeds ??= {};
+          const f = t.type === 'normal' ? 'stamina' : t.type;
+          run.rewards.seeds[f] = (run.rewards.seeds[f] ?? 0) + 1;
+        }
         run.lastEvent = { kind: 'essence', atMs: run.timeMs };
         break;
       case 'critter':

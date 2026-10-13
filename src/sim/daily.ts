@@ -1,3 +1,4 @@
+import { hasRoom } from './roster';
 import { VISITS } from '../config/tuning';
 import { createEgg, EGG_COLORS } from './nubbin';
 import { removeNpc, spawnNpc } from './npcs';
@@ -37,7 +38,7 @@ export function stepDaily(world: World, wallMs: number, rng: Rng, events: SimEve
   } else if (roll < 0.75) {
     gift = 'fruit';
     world.inventory.fruit += 3;
-  } else if (roll < 0.9 && world.nubbins.length < 8) {
+  } else if (roll < 0.9 && hasRoom(world)) {
     gift = 'egg';
     const colours = EGG_COLORS.filter((c) => c !== 'plain');
     const egg = createEgg(newId(world, 'nub'), { x: 1, z: 4 }, rng, rng.pick(colours));

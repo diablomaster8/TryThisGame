@@ -11,11 +11,14 @@ import { isFree } from './nubbin';
 import { isWary } from './trust';
 import { bestLesson, finishLesson } from './kindergarten';
 import { shelterSpot } from './weather';
+import { applyFlavor } from './plants';
+import { bestFriend } from './friendships';
+import { FRIENDS, SLED } from '../config/tuning';
 import { LESSONS } from '../config/tuning';
 import { idleMultipliers } from './personality';
 import type { Rng } from './rng';
 import { addPoints } from './stats';
-import type { BehaviorState, Item, Nubbin, Reaction, SimEvent, Vec2, World } from './types';
+import type { BehaviorState, Flavor, Item, Nubbin, Reaction, SimEvent, Vec2, World } from './types';
 
 const dist = (a: Vec2, b: Vec2): number => Math.hypot(a.x - b.x, a.z - b.z);
 
@@ -124,6 +127,24 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
       n.behavior.target = { x: other.pos.x + 0.8, z: other.pos.z };
       return;
     }
+  }
+  // Snow: a slide down the hill.
+  if (world.weather.kind === 'snow' && rng.chance(SLED.chance)) {
+    const hill = rng.pick([...GROVE.hills]);
+    setState(n, 'perform', now, SLED.durationMs);
+    n.behavior.itemId = 'sled';
+    n.behavior.target = { x: hill.x + hill.r + 0.8, z: hill.z + 0.5 };
+    addHappiness(n, 3);
+    return;
+  }
+  // Buddies seek each other out for a chat.
+  const buddy = bestFriend(world, n);
+  if (buddy && rng.chance(FRIENDS.chatChance * m.play)) {
+    setState(n, 'greet', now, FRIENDS.chatMs);
+    n.behavior.target = { x: buddy.pos.x + 0.9, z: buddy.pos.z };
+    n.facing = Math.atan2(buddy.pos.x - n.pos.x, buddy.pos.z - n.pos.z);
+    addHappiness(n, 1);
+    return;
   }
   // A schooled Nubbin sometimes shows off what it learned.
   if (bestLesson(n) && rng.chance(LESSONS.performChance * m.play)) {
@@ -249,7 +270,7 @@ export function updateBehavior(
       }
       if (walkToward(n, item.pos, BEHAVIOR.walkSpeed, dtMs)) {
         world.items = world.items.filter((i) => i.id !== item.id);
-        eat(n, now, events);
+        eat(n, now, events, item.flavor);
       }
       break;
     }
@@ -270,7 +291,14 @@ export function updateBehavior(
         addHappiness(n, BEHAVIOR.playHappiness * 0.25);
       }
       if (now >= b.untilMs) {
-        addHappiness(n, BEHAVIOR.playHappiness);
+        // Each toy leaves something different behind.
+        const kind = toy.toy ?? 'ball';
+        addHappiness(n, BEHAVIOR.playHappiness * (kind === 'radio' ? 1.5 : 1));
+        if (kind === 'mirror') n.needs.affection = Math.min(100, n.needs.affection + 2);
+        if (kind === 'tv') n.needs.energy = Math.min(1, n.needs.energy + 0.15);
+        if (kind === 'blocks') n.typeLean.power += 1;
+        if (kind === 'radio' && (n.lessons?.dance ?? 0) < 1)
+          n.lessons = { ...(n.lessons ?? {}), dance: 1 };
         chooseIdle(n, world, rng, now);
       }
       break;
@@ -343,8 +371,9 @@ export function updateBehavior(
   if (!inPond(n.pos) && b.state !== 'swim') clampToWorld(n.pos);
 }
 
-export function eat(n: Nubbin, now: number, events: SimEvent[]): void {
+export function eat(n: Nubbin, now: number, events: SimEvent[], flavor?: Flavor): void {
   applyFruit(n);
+  applyFlavor(n, flavor);
   addPoints(n.stats.stamina, NEEDS.fruitStaminaPoints);
   setState(n, 'eat', now, BEHAVIOR.eatMs);
   events.push({ kind: 'ate', nubbinId: n.id });

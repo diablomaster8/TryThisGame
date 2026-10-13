@@ -1,3 +1,4 @@
+import { hasRoom } from './roster';
 import { GROVE, NEEDS, TRUST } from '../config/tuning';
 import type { Nubbin, SimEvent, Stray, World } from './types';
 
@@ -54,7 +55,7 @@ export function stepTrust(world: World, dtMs: number, events: SimEvent[]): void 
   // Strays come back to the edge of the Grove once there is room.
   for (const s of [...world.strays]) {
     if (world.timeMs < s.returnsAtMs) continue;
-    if (world.nubbins.length >= 8) continue;
+    if (!hasRoom(world)) continue;
     world.strays = world.strays.filter((x) => x !== s);
     const n = s.nubbin;
     const edge = GROVE.size / 2 - 1.5;

@@ -14,6 +14,19 @@ import { buyDecor, placeDecor, removeDecor } from './decorate';
 import { stepCollection } from './collection';
 import { stepDaily } from './daily';
 import { receiveNubbin, tradeAway } from './share';
+import { harvest, plant, stepPlants, waterPlant } from './plants';
+import { buyToy, craft, gather, placeToy, type RecipeId } from './craft';
+import { paintTile } from './tiles';
+import { buyPlot, hasRoom } from './roster';
+import { claimQuest, noteQuest, stepQuests } from './quests';
+import { feedWild, stepHabitats } from './habitats';
+import { neighbourGift, visit } from './neighbourhood';
+import { dye, wearGlasses } from './accessories';
+import { keeper2Act, setCoop, stepKeeper2 } from './coop';
+import { stepLandmarks, teleport } from './landmarks';
+import { stepFriendships } from './friendships';
+import { stepSeasons, racePrizeMultiplier, fruitIntervalMultiplier } from './seasons';
+import { stepAchievements } from './achievements';
 import { applyCampaignCommand, noteCampaign, stepCampaign } from './campaign';
 import { stepNpcs } from './npcs';
 import { addRewards, buy } from './shop';
@@ -25,6 +38,7 @@ import { Rng } from './rng';
 import {
   NUBBIN_TYPES,
   type Command,
+  type DyeColor,
   type Item,
   type Nubbin,
   type Settings,
@@ -50,6 +64,8 @@ export function defaultSettings(): Settings {
     screenShake: true,
     particles: 'full',
     reducedMotion: 'system',
+    jukebox: null,
+    ambience: true,
   };
 }
 
@@ -72,6 +88,12 @@ export function createWorld(seed: number, wallMs: number): World {
       hats: [],
       heartFruit: 0,
       decor: {},
+      wood: 0,
+      stone: 0,
+      reeds: 0,
+      seeds: {},
+      dyes: {},
+      toys: {},
     },
     settings: defaultSettings(),
     memorials: [],
@@ -91,6 +113,19 @@ export function createWorld(seed: number, wallMs: number): World {
     visits: { lastDay: '', count: 0 },
     location: 'grove',
     karate: { belt: 0, wins: 0, losses: 0 },
+    plants: [],
+    tiles: {},
+    achievements: {},
+    title: null,
+    quests: [],
+    questDay: '',
+    plots: 0,
+    wild: [],
+    landmarks: {},
+    coop: { active: false, trainer: 'nova' },
+    keeper2: null,
+    neighbours: {},
+    festivalSeen: '',
   };
   for (const t of GROVE.trees) {
     world.trees.push({
@@ -283,7 +318,8 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
       withRng(world, (rng) => buy(world, cmd.item, rng, events));
       return;
     case 'raceResult': {
-      world.inventory.shells += Math.max(0, cmd.shells);
+      world.inventory.shells += Math.round(Math.max(0, cmd.shells) * racePrizeMultiplier(world));
+      if (cmd.placement === 1) noteQuest(world, 'race', events);
       if (cmd.hat) world.inventory.hats.push(cmd.hat);
       if (cmd.placement === 1) {
         world.races[cmd.course] = Math.max(world.races[cmd.course] ?? 0, cmd.tier);
@@ -313,7 +349,7 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
         // Fill the roster for checks: free eggs of every family up to the cap.
         withRng(world, (rng) => {
           const babies = SPECIES.filter((s) => s.stage === 'baby');
-          for (let i = 0; i < cmd.amount && world.nubbins.length < EGG.maxRoster; i++) {
+          for (let i = 0; i < cmd.amount && hasRoom(world); i++) {
             const egg = createEgg(
               newId(world, 'nub'),
               { x: rng.float(-4, 4), z: rng.float(-3, 3) },
@@ -469,6 +505,71 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
     case 'setRunning':
       k.running = cmd.running;
       return;
+    case 'plant':
+      plant(world, cmd.plantKind, cmd.flavor, cmd.pos, events);
+      return;
+    case 'waterPlant':
+      waterPlant(world, cmd.id, events);
+      return;
+    case 'harvest':
+      withRng(world, (rng) => harvest(world, cmd.id, rng, events));
+      return;
+    case 'buyToy':
+      buyToy(world, cmd.toy, events);
+      return;
+    case 'placeToy':
+      placeToy(world, cmd.toy, cmd.pos, events);
+      return;
+    case 'paintTile':
+      paintTile(world, cmd.pos, cmd.tile, events);
+      return;
+    case 'craft': {
+      const [recipe, dyeColor] = cmd.recipe.split(':');
+      craft(world, recipe as RecipeId, events, dyeColor as DyeColor | undefined);
+      return;
+    }
+    case 'gather':
+      gather(world, cmd.what, events);
+      return;
+    case 'buyPlot':
+      buyPlot(world, events);
+      return;
+    case 'setTitle':
+      world.title = cmd.title;
+      return;
+    case 'claimQuest':
+      withRng(world, (rng) => claimQuest(world, cmd.id, rng, events));
+      return;
+    case 'visit':
+      visit(world, cmd.trainer, events);
+      return;
+    case 'neighbourGift':
+      neighbourGift(world, world.lastWallMs, events);
+      return;
+    case 'feedWild':
+      feedWild(world, cmd.id, events);
+      return;
+    case 'dye':
+      dye(world, cmd.nubbinId, cmd.slot, cmd.color, events);
+      return;
+    case 'wearGlasses':
+      wearGlasses(world, cmd.nubbinId, cmd.on);
+      return;
+    case 'setCoop':
+      setCoop(world, cmd.active, cmd.trainer, events);
+      return;
+    case 'keeper2Input':
+      if (world.keeper2) world.keeper2.input = { x: cmd.input.x, z: cmd.input.z };
+      return;
+    case 'keeper2Act':
+      keeper2Act(world, cmd.action, events);
+      return;
+    case 'teleport':
+      teleport(world, cmd.pos);
+      return;
+    case 'photoTaken':
+      noteQuest(world, 'photo', events, cmd.species);
+      return;
     case 'campaignStart':
     case 'sceneDone':
     case 'talk':
@@ -527,8 +628,16 @@ export function stepWorld(world: World, dtMs: number, wallMs?: number): SimEvent
       stepDaily(world, wallMs, rng, events);
     }
     stepCampaign(world, dtMs, events);
+    stepPlants(world, dtMs, rng, events);
+    stepHabitats(world, dtMs, rng, events);
+    stepKeeper2(world, dtMs);
+    stepQuests(world, wallMs, rng, events);
   });
   stepCollection(world, events);
+  stepFriendships(world, dtMs, events);
+  stepLandmarks(world, events);
+  stepSeasons(world, events);
+  stepAchievements(world, events);
 
   // Lifetime happiness sampling, once a sim second.
   if (Math.floor(world.timeMs / 1000) !== Math.floor((world.timeMs - dtMs) / 1000)) {
@@ -541,7 +650,7 @@ function updateTrees(world: World, dtMs: number, rng: Rng, events: SimEvent[]): 
   for (const tree of world.trees) {
     tree.fruitTimerMs -= dtMs;
     if (tree.fruitTimerMs <= 0) {
-      tree.fruitTimerMs += TREES.fruitIntervalMs;
+      tree.fruitTimerMs += TREES.fruitIntervalMs * fruitIntervalMultiplier(world);
       if (world.items.filter((i) => i.kind === 'fruit').length >= TREES.maxFruitOnGround) continue;
       dropFruit(world, tree, rng, events);
     }
