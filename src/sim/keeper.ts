@@ -1,11 +1,13 @@
 import { GROVE, KEEPER, NEEDS, SIM, TREES, TRUST } from '../config/tuning';
 import { nudgeAlignment } from './alignment';
 import { eat, putDown, react } from './behavior';
-import { applyPet } from './needs';
+import { addAffection, addHappiness, applyPet } from './needs';
+import { isFree } from './nubbin';
+import { giveHeartFruit } from './breeding';
 import { noteCare } from './personality';
-import { addTrust, settleStray } from './trust';
+import { addTrust, isWary, settleStray } from './trust';
 import { noteCampaign } from './campaign';
-import type { Keeper, KeeperIntent, Nubbin, SimEvent, Vec2, World } from './types';
+import type { Interaction, Keeper, KeeperIntent, Nubbin, SimEvent, Vec2, World } from './types';
 
 const dist = (a: Vec2, b: Vec2): number => Math.hypot(a.x - b.x, a.z - b.z);
 
@@ -48,6 +50,8 @@ function intentTarget(world: World, intent: KeeperIntent): Vec2 | null {
     case 'pet':
     case 'pickUp':
     case 'feed':
+    case 'interact':
+    case 'heartFruit':
       return findNubbin(world, intent.nubbinId)?.pos ?? null;
     case 'shakeTree':
       return world.trees.find((t) => t.id === intent.treeId)?.pos ?? null;
@@ -156,13 +160,85 @@ function performIntent(world: World, intent: KeeperIntent, events: SimEvent[]): 
     }
     case 'collect': {
       const item = world.items.find((i) => i.id === intent.itemId);
-      if (!item || item.kind !== 'fruit') return;
+      if (!item || item.kind === 'toy') return;
       world.items = world.items.filter((i) => i.id !== item.id);
-      world.inventory.fruit += 1;
+      if (item.kind === 'fruit') world.inventory.fruit += 1;
+      else if (item.kind === 'notebook' && world.campaign)
+        world.campaign.flags.notebookFound = true;
       events.push({ kind: 'collected', itemId: item.id });
       return;
     }
+    case 'heartFruit': {
+      const n = findNubbin(world, intent.nubbinId);
+      if (n) giveHeartFruit(world, n, events);
+      return;
+    }
+    case 'interact': {
+      const n = findNubbin(world, intent.nubbinId);
+      if (!n || n.stage === 'egg' || n.stage === 'cocoon') return;
+      interact(world, n, intent.action, events);
+      return;
+    }
   }
+}
+
+/**
+ * The gentler interactions. A wary Shadow Nubbin refuses most of them (it is not ready),
+ * which is its own lesson; tucking in and praise always land.
+ */
+export function interact(world: World, n: Nubbin, action: Interaction, events: SimEvent[]): void {
+  const now = world.timeMs;
+  const refused = isWary(n) && action !== 'tuckIn' && action !== 'praise';
+  if (refused) {
+    react(n, 'surprised', now, events);
+    events.push({ kind: 'interacted', nubbinId: n.id, action, ok: false });
+    return;
+  }
+  switch (action) {
+    case 'tickle':
+      addHappiness(n, 4);
+      addTrust(n, 1, events);
+      react(n, 'happy', now, events);
+      break;
+    case 'hug':
+      addAffection(n, 4);
+      addTrust(n, 2.5, events);
+      addHappiness(n, 3);
+      react(n, 'love', now, events);
+      break;
+    case 'groom':
+      addHappiness(n, 3);
+      addAffection(n, 2);
+      addTrust(n, 1.5, events);
+      react(n, 'happy', now, events);
+      break;
+    case 'tuckIn':
+      if (n.needs.energy < 0.6 && isFree(n)) {
+        n.behavior.state = 'nap';
+        n.behavior.sinceMs = now;
+        n.behavior.untilMs = now + NEEDS.napMs;
+        n.behavior.target = null;
+        addTrust(n, 2, events);
+        events.push({ kind: 'napStarted', nubbinId: n.id });
+      } else {
+        react(n, 'confused', now, events);
+      }
+      break;
+    case 'praise':
+      addHappiness(n, 2);
+      addTrust(n, 1, events);
+      nudgeAlignment(n, world.keeper.alignment);
+      react(n, 'happy', now, events);
+      break;
+    case 'highFive':
+      addHappiness(n, 3);
+      addTrust(n, 1, events);
+      react(n, n.personality === 'shy' ? 'confused' : 'happy', now, events);
+      break;
+  }
+  if (n.stray) settleStray(n);
+  noteCampaign(world, 'pet', n.id);
+  events.push({ kind: 'interacted', nubbinId: n.id, action, ok: true });
 }
 
 export function petNubbin(world: World, n: Nubbin, events: SimEvent[]): void {

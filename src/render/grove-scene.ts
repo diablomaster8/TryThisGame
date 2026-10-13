@@ -15,10 +15,12 @@ import {
   RingGeometry,
   Scene,
   SphereGeometry,
+  BoxGeometry,
+  Group,
   type Texture,
 } from 'three';
 import { GROVE } from '../config/tuning';
-import type { GroveKind } from '../sim/types';
+import type { GroveKind, Location, WeatherKind } from '../sim/types';
 import { daylightAt, type Daylight } from './daylight';
 import { C, color } from './sprites/palette';
 import { makeGroundTexture } from './ground';
@@ -49,6 +51,13 @@ const SKY_GRADIENTS: Record<string, [string, string, boolean]> = {
  */
 export class GroveScene {
   readonly scene = new Scene();
+  /** Everything that belongs to the home Grove, hidden in the other places. */
+  private readonly groveGroup = new Group();
+  private readonly hollowGroup = new Group();
+  private readonly corvinGroup = new Group();
+  private location: Location = 'grove';
+  private weather: WeatherKind = 'clear';
+  private groundMat: MeshLambertMaterial | null = null;
   /** Meshes that can be tapped, with `userData.pick = { kind, id }`. */
   readonly pickables: Object3D[] = [];
   private readonly water: Texture;
@@ -81,6 +90,7 @@ export class GroveScene {
     const grass = makeGroundTexture();
     const groundGeo = new PlaneGeometry(size, size);
     const groundMat = new MeshLambertMaterial({ map: grass });
+    this.groundMat = groundMat;
     this.tintable.push(groundMat);
     const ground = new Mesh(groundGeo, groundMat);
     ground.rotation.x = -Math.PI / 2;
@@ -96,7 +106,7 @@ export class GroveScene {
     const rim = new Mesh(rimGeo, rimMat);
     rim.rotation.x = -Math.PI / 2;
     rim.position.set(pond.x, 0.01, pond.z);
-    this.scene.add(rim);
+    this.groveGroup.add(rim);
     this.water = makeWaterTexture(8, pond.r);
     const waterGeo = new CircleGeometry(pond.r, 24);
     const waterMat = new MeshLambertMaterial({ map: this.water });
@@ -104,7 +114,7 @@ export class GroveScene {
     water.rotation.x = -Math.PI / 2;
     water.position.set(pond.x, 0.02, pond.z);
     water.userData.pick = { kind: 'ground', id: 'pond' };
-    this.scene.add(water);
+    this.groveGroup.add(water);
     this.pickables.push(water);
     this.disposables.push(rimGeo, rimMat, waterGeo, waterMat, this.water);
 
@@ -119,7 +129,7 @@ export class GroveScene {
       mesh.scale.set(1, h.h / h.r, 1);
       mesh.position.set(h.x, 0, h.z);
       mesh.userData.pick = { kind: 'ground', id: 'hill' };
-      this.scene.add(mesh);
+      this.groveGroup.add(mesh);
       this.pickables.push(mesh);
       this.disposables.push(geo);
     }
@@ -132,13 +142,13 @@ export class GroveScene {
     const fall = new Mesh(fallGeo, fallMat);
     fall.position.set(wf.x - 3.2, wf.height / 2 + 0.3, wf.z + 4.6);
     fall.rotation.y = Math.PI / 6;
-    this.scene.add(fall);
+    this.groveGroup.add(fall);
     const poolGeo = new CircleGeometry(1.6, 16);
     const poolMat = new MeshLambertMaterial({ color: new Color(color(C.shallows)) });
     const pool = new Mesh(poolGeo, poolMat);
     pool.rotation.x = -Math.PI / 2;
     pool.position.set(wf.x - 3.6, 0.015, wf.z + 5.6);
-    this.scene.add(pool);
+    this.groveGroup.add(pool);
     this.disposables.push(fallGeo, fallMat, this.falls, poolGeo, poolMat);
 
     // Fruit trees: a textured, tapered trunk with roots and a canopy of overlapping
@@ -219,7 +229,7 @@ export class GroveScene {
         tree.add(f);
         this.pickables.push(f);
       }
-      this.scene.add(tree);
+      this.groveGroup.add(tree);
     });
 
     // Foam ring on the pond edge, animated in update().
@@ -233,7 +243,7 @@ export class GroveScene {
     this.foam = new Mesh(foamGeo, foamMat);
     this.foam.rotation.x = -Math.PI / 2;
     this.foam.position.set(pond.x, 0.03, pond.z);
-    this.scene.add(this.foam);
+    this.groveGroup.add(this.foam);
     this.disposables.push(foamGeo, foamMat);
 
     // Lanterns: posts with a glowing top that comes on at dusk (bloom picks it up).
@@ -257,7 +267,7 @@ export class GroveScene {
       glow.position.set(x, 1.75, z);
       glow.visible = false;
       glow.userData.pick = { kind: 'lantern', id: `lantern-${i + 1}` };
-      this.scene.add(post, glow);
+      this.groveGroup.add(post, glow);
       this.lanternGlows.push(glow);
       this.lanternIds.push(`lantern-${i + 1}`);
       this.pickables.push(post, glow);
@@ -298,7 +308,7 @@ export class GroveScene {
         bush.add(lobe);
         this.pickables.push(lobe);
       }
-      this.scene.add(bush);
+      this.groveGroup.add(bush);
     }
     const stone = makeStoneTexture();
     const rockGeo = new IcosahedronGeometry(0.6, 0);
@@ -316,9 +326,119 @@ export class GroveScene {
       rock.scale.set(s, s * 0.7, s);
       rock.rotation.y = ry;
       rock.userData.pick = { kind: 'ground', id: 'rock' };
-      this.scene.add(rock);
+      this.groveGroup.add(rock);
       this.pickables.push(rock);
     }
+
+    this.scene.add(this.groveGroup, this.hollowGroup, this.corvinGroup);
+    this.buildHollow(lobeGeo, leaves, bark);
+    this.buildCorvin();
+  }
+
+  /** The Hollow: a dark wood past the falls, a flat stone where the notebook waits. */
+  private buildHollow(lobeGeo: SphereGeometry, leaves: Texture, bark: Texture): void {
+    const dark = new MeshLambertMaterial({
+      map: leaves,
+      color: new Color(color(C.deepGreen)),
+      flatShading: true,
+    });
+    const trunkMat = new MeshLambertMaterial({ map: bark, flatShading: true });
+    const trunkGeo = new CylinderGeometry(0.35, 0.6, 3.2, 7);
+    const stoneGeo = new BoxGeometry(2.4, 0.5, 1.8);
+    const stoneMat = new MeshLambertMaterial({ color: new Color(color(C.greyLight)) });
+    this.disposables.push(dark, trunkMat, trunkGeo, stoneGeo, stoneMat);
+    const spots: Array<[number, number, number]> = [
+      [-13, -13, 1.3],
+      [-6, -13, 1.1],
+      [1, -13, 1.4],
+      [8, -12, 1.2],
+      [13, -9, 1.3],
+      [-13, -5, 1.2],
+      [13, -2, 1.1],
+      [-13, 3, 1.4],
+      [13, 5, 1.2],
+      [-12, 11, 1.1],
+      [-5, 13, 1.3],
+      [3, 13, 1.1],
+      [10, 12, 1.4],
+      [-8, -6, 1.0],
+      [7, -6, 1.2],
+      [-3, 8, 1.1],
+      [9, 4, 1.0],
+      [-9, 4, 1.2],
+    ];
+    spots.forEach(([x, z, s], i) => {
+      const tree = new Object3D();
+      tree.position.set(x, 0, z);
+      const trunk = new Mesh(trunkGeo, trunkMat);
+      trunk.position.y = 1.6;
+      tree.add(trunk);
+      for (const [dx, dy, dz, ls] of [
+        [0, 3.6, 0, 1.7],
+        [1.1, 3.0, 0.4, 1.1],
+        [-1.0, 3.1, -0.4, 1.1],
+        [0.2, 4.6, 0.3, 1.0],
+      ] as const) {
+        const lobe = new Mesh(lobeGeo, dark);
+        lobe.position.set(dx, dy, dz);
+        lobe.scale.set(ls * s, ls * s * 0.85, ls * s);
+        tree.add(lobe);
+      }
+      tree.rotation.y = i * 0.9;
+      this.hollowGroup.add(tree);
+    });
+    const stone = new Mesh(stoneGeo, stoneMat);
+    stone.position.set(-9, 0.25, -9);
+    stone.rotation.y = 0.4;
+    this.hollowGroup.add(stone);
+    this.hollowGroup.visible = false;
+  }
+
+  /** Corvin's garden: square pens of pale fence, nothing growing. */
+  private buildCorvin(): void {
+    const railGeo = new BoxGeometry(2, 0.12, 0.12);
+    const postGeo = new BoxGeometry(0.16, 1.0, 0.16);
+    const mat = new MeshLambertMaterial({ color: new Color(color(C.lilacGrey)) });
+    this.disposables.push(railGeo, postGeo, mat);
+    const pen = (x0: number, z0: number, w: number, d: number) => {
+      const edge = (ax: number, az: number, bx: number, bz: number) => {
+        const len = Math.hypot(bx - ax, bz - az);
+        const n = Math.max(1, Math.round(len / 2));
+        for (let i = 0; i <= n; i++) {
+          const t = i / n;
+          const post = new Mesh(postGeo, mat);
+          post.position.set(ax + (bx - ax) * t, 0.5, az + (bz - az) * t);
+          this.corvinGroup.add(post);
+          if (i < n) {
+            for (const y of [0.35, 0.8]) {
+              const rail = new Mesh(railGeo, mat);
+              rail.position.set(ax + (bx - ax) * (t + 0.5 / n), y, az + (bz - az) * (t + 0.5 / n));
+              rail.rotation.y = Math.atan2(bx - ax, bz - az) + Math.PI / 2;
+              rail.scale.x = len / n / 2;
+              this.corvinGroup.add(rail);
+            }
+          }
+        }
+      };
+      edge(x0, z0, x0 + w, z0);
+      edge(x0, z0 + d, x0 + w, z0 + d);
+      edge(x0, z0, x0, z0 + d);
+      edge(x0 + w, z0, x0 + w, z0 + d);
+    };
+    pen(-10, -7.5, 20, 3);
+    pen(-10, -4.5, 20, 3);
+    pen(-10, -1.5, 20, 3);
+    this.corvinGroup.visible = false;
+  }
+
+  /** Show the scenery of one place. */
+  setLocation(location: Location): void {
+    if (this.location === location) return;
+    this.location = location;
+    this.groveGroup.visible = location === 'grove';
+    this.hollowGroup.visible = location === 'hollow';
+    this.corvinGroup.visible = location === 'corvin';
+    this.applyLight();
   }
 
   /** Animate water, the waterfall, swaying canopies and the foam ring. `nowMs` is wall time. */
@@ -357,8 +477,17 @@ export class GroveScene {
   }
 
   /** Time of day: sky, light rig and lanterns. The Grove kind layers on top. */
-  setDaylight(d: Daylight): void {
+  setDaylight(
+    d: Daylight,
+    location: Location = this.location,
+    weather: WeatherKind = this.weather,
+  ): void {
     this.daylight = d;
+    this.location = location;
+    this.weather = weather;
+    this.groveGroup.visible = location === 'grove';
+    this.hollowGroup.visible = location === 'hollow';
+    this.corvinGroup.visible = location === 'corvin';
     this.applyLight();
   }
 
@@ -367,11 +496,13 @@ export class GroveScene {
     const kind = this.groveKind;
     // A gradient sky per phase (cached), with clouds by day.
     const key =
-      kind === 'sun' && d.phase === 'day'
-        ? 'sun'
-        : kind === 'moon' && d.phase === 'day'
-          ? 'moon'
-          : d.phase;
+      this.location === 'hollow'
+        ? 'night'
+        : kind === 'sun' && d.phase === 'day'
+          ? 'sun'
+          : kind === 'moon' && d.phase === 'day'
+            ? 'moon'
+            : d.phase;
     let sky = this.skies.get(key);
     if (!sky) {
       const [top, bottom, clouds] = SKY_GRADIENTS[key] ?? SKY_GRADIENTS.day!;
@@ -380,9 +511,28 @@ export class GroveScene {
       this.disposables.push(sky);
     }
     this.scene.background = sky;
-    this.hemi.intensity = d.hemiIntensity * (kind === 'moon' ? 0.85 : 1);
+    const place = this.location;
+    const rain = this.weather === 'rain' ? 0.75 : this.weather === 'snow' ? 1.1 : 1;
+    this.hemi.intensity =
+      d.hemiIntensity * (kind === 'moon' ? 0.85 : 1) * (place === 'hollow' ? 0.45 : 1) * rain;
+    if (this.groundMat) {
+      this.groundMat.color.set(
+        place === 'hollow'
+          ? color(C.deepGreen)
+          : place === 'corvin'
+            ? color(C.lilacGrey)
+            : this.weather === 'snow'
+              ? color(C.pale)
+              : kind === 'sun'
+                ? color(C.cream)
+                : kind === 'moon'
+                  ? color(C.lavender)
+                  : '#ffffff',
+      );
+    }
     this.hemi.color.set(kind === 'moon' && d.phase === 'day' ? color(C.violet) : d.hemiColor);
-    this.sun.intensity = d.sunIntensity * (kind === 'sun' ? 1.3 : 1);
+    this.sun.intensity =
+      d.sunIntensity * (kind === 'sun' ? 1.3 : 1) * (place === 'hollow' ? 0.4 : rain);
     this.sun.color.set(d.sunColor);
     this.lanternGlows.forEach((l, i) => {
       l.visible = d.lanterns || this.lit.has(this.lanternIds[i] ?? '');

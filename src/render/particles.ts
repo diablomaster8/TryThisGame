@@ -27,6 +27,11 @@ export interface ParticleEnvironment {
   leaves: boolean;
   /** 0 day … 1 night. */
   darkness: number;
+  weather: 'clear' | 'rain' | 'snow';
+  /** 0..1 rain or snow strength. */
+  weatherIntensity: number;
+  /** Settings: how many ambient particles. */
+  density: 'full' | 'light' | 'off';
 }
 
 const MAX = 220;
@@ -45,7 +50,14 @@ export class Particles {
   private lastMs = 0;
   private leafTimerMs = 0;
   private sprayTimerMs = 0;
-  env: ParticleEnvironment = { fireflies: false, leaves: true, darkness: 0 };
+  env: ParticleEnvironment = {
+    fireflies: false,
+    leaves: true,
+    darkness: 0,
+    weather: 'clear',
+    weatherIntensity: 0,
+    density: 'full',
+  };
   reduceMotion = false;
 
   get count(): number {
@@ -125,8 +137,33 @@ export class Particles {
 
   /** Ambient spawns: fireflies, leaves, waterfall spray. */
   private ambient(dtMs: number): void {
-    if (this.reduceMotion) return;
+    if (this.reduceMotion || this.env.density === 'off') return;
     const env = this.env;
+    const dens = env.density === 'light' ? 0.4 : 1;
+    // Rain and snow fall across the whole Grove.
+    if (env.weather !== 'clear') {
+      const perStep =
+        (env.weather === 'rain' ? 2.2 : 0.9) * env.weatherIntensity * dens * (dtMs / 16);
+      let n = Math.floor(perStep) + (this.rnd() < perStep % 1 ? 1 : 0);
+      while (n-- > 0) {
+        const rain = env.weather === 'rain';
+        this.push({
+          kind: rain ? 'rain' : 'snow',
+          x: (this.rnd() - 0.5) * 34,
+          y: 7 + this.rnd() * 3,
+          z: (this.rnd() - 0.5) * 34,
+          vx: rain ? -0.6 : (this.rnd() - 0.5) * 0.4,
+          vy: rain ? -9 : -0.8,
+          vz: 0,
+          ageMs: 0,
+          lifeMs: rain ? 1400 : 12000,
+          size: rain ? 0.5 : 0.3,
+          flat: false,
+          seed: this.rnd() * 1000,
+          fadeMs: rain ? 60 : 500,
+        });
+      }
+    }
     // Fireflies hover over the pond and the grass near the lanterns at night.
     if (env.fireflies) {
       const alive = this.pool.filter((p) => p.kind === 'firefly').length;
@@ -242,6 +279,44 @@ export class Particles {
         case 'drop':
           p.vy -= 6 * dt;
           break;
+        case 'rain':
+          if (p.y <= 0.05) {
+            this.pool.splice(i, 1);
+            if (this.rnd() < 0.25) {
+              this.push({
+                kind: 'splash',
+                x: p.x,
+                y: 0.04,
+                z: p.z,
+                vx: 0,
+                vy: 0,
+                vz: 0,
+                ageMs: 0,
+                lifeMs: 260,
+                size: 0.45,
+                flat: true,
+                seed: 0,
+                fadeMs: 80,
+              });
+            }
+            continue;
+          }
+          break;
+        case 'snow':
+          p.vx += Math.sin(t * 1.5 + p.seed) * 0.3 * dt;
+          if (p.y <= 0.05) {
+            p.y = 0.05;
+            p.vy = 0;
+            p.vx = 0;
+            if (p.lifeMs - p.ageMs > 2500) p.lifeMs = p.ageMs + 2500;
+          }
+          break;
+        case 'note':
+          p.vx = Math.sin(t * 3 + p.seed) * 0.3;
+          p.vy = 0.5;
+          break;
+        case 'splash':
+          break;
         case 'ripple':
           break;
       }
@@ -289,7 +364,7 @@ export class Particles {
       const rect = sheet.frames.get(frameKey(p.kind, 'front', frame));
       if (!rect) continue;
       // Light-giving particles stay bright at night; the rest dim with the scene.
-      const glows = p.kind === 'firefly' || p.kind === 'sparkle';
+      const glows = p.kind === 'firefly' || p.kind === 'sparkle' || p.kind === 'note';
       batch.draw({
         sheet,
         rect,

@@ -1,4 +1,5 @@
 import { OFFLINE, TRUST } from '../config/tuning';
+import { createWeather } from './weather';
 import type { World } from './types';
 import { defaultSettings } from './world';
 
@@ -30,6 +31,11 @@ export const MIGRATIONS: Array<(data: Record<string, unknown>) => Record<string,
         n.bond ??= false;
         n.stray ??= false;
         n.lowTrustSinceMs ??= -1;
+        n.lessons ??= {};
+        n.courtingUntilMs ??= 0;
+        n.parents ??= null;
+        n.generation ??= 0;
+        n.karate ??= { wins: 0, losses: 0, belt: 0 };
       }
     }
     return data;
@@ -76,12 +82,35 @@ export function validateWorld(w: World): World {
   w.items ??= [];
   w.memorials ??= [];
   w.unlocks ??= { sunGrove: false, moonGrove: false };
-  w.inventory ??= { shells: 0, fruit: 0, critters: {}, essences: {}, hats: [] };
+  w.inventory ??= {
+    shells: 0,
+    fruit: 0,
+    critters: {},
+    essences: {},
+    hats: [],
+    heartFruit: 0,
+    decor: {},
+  };
   w.inventory.hats ??= [];
   w.settings ??= defaultSettings();
   w.settings.offlineAging ??= defaultSettings().offlineAging;
   w.settings.sound ??= true;
   w.settings.music ??= true;
+  w.settings.musicVolume ??= 0.8;
+  w.settings.sfxVolume ??= 0.8;
+  w.settings.textSpeed ??= 'normal';
+  w.settings.screenShake ??= true;
+  w.settings.particles ??= 'full';
+  w.settings.reducedMotion ??= 'system';
+  w.inventory.heartFruit ??= 0;
+  w.inventory.decor ??= {};
+  w.weather ??= createWeather();
+  w.season ??= 'spring';
+  w.placed ??= [];
+  w.seen ??= {};
+  w.visits ??= { lastDay: '', count: 0 };
+  w.location ??= 'grove';
+  w.karate ??= { belt: 0, wins: 0, losses: 0 };
   w.settings.joystick ??= false;
   const oa = w.settings.offlineAging;
   if (oa.mode !== 'indefinite' && oa.mode !== 'capped' && oa.mode !== 'off')

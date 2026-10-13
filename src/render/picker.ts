@@ -2,7 +2,7 @@ import { Plane, Raycaster, Vector2, Vector3, type Camera, type Object3D } from '
 import type { Vec2 } from '../sim/types';
 
 export interface PickHit {
-  kind: 'nubbin' | 'item' | 'npc' | 'tree' | 'lantern' | 'ground';
+  kind: 'nubbin' | 'item' | 'npc' | 'memorial' | 'decor' | 'tree' | 'lantern' | 'ground';
   id: string;
   /** Where the ray met the ground plane, if it did. */
   ground: Vec2 | null;
@@ -38,7 +38,10 @@ export class Picker {
     clientY: number,
     camera: Camera,
     objects: Object3D[],
-    sprite?: (ndcX: number, ndcY: number) => { kind: 'nubbin' | 'item' | 'npc'; id: string } | null,
+    sprite?: (
+      ndcX: number,
+      ndcY: number,
+    ) => { kind: 'nubbin' | 'item' | 'npc' | 'memorial' | 'decor'; id: string } | null,
   ): PickHit | null {
     this.setRay(clientX, clientY, camera);
     const ground = this.raycaster.ray.intersectPlane(GROUND, this.hit);
@@ -48,7 +51,16 @@ export class Picker {
       const s = sprite(this.ndc.x, this.ndc.y);
       if (s) return { kind: s.kind, id: s.id, ground: groundPos };
     }
-    const hits = this.raycaster.intersectObjects(objects, false);
+    // Hidden scenery (another location) must not catch taps.
+    const shown = objects.filter((o) => {
+      let p: Object3D | null = o;
+      while (p) {
+        if (!p.visible) return false;
+        p = p.parent;
+      }
+      return true;
+    });
+    const hits = this.raycaster.intersectObjects(shown, false);
     for (const h of hits) {
       const pick = h.object.userData.pick as PickHit | undefined;
       if (!pick) continue;

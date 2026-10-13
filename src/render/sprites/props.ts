@@ -153,9 +153,74 @@ function drawDecor(kind: string): PixelCanvas {
       pc.px(5, 5, C.sunYellow);
       break;
     }
+    // Placeable garden pieces (sim/decorate.ts) and story items.
+    case 'fence':
+      pc.rect(2, 6, 1.5, 9, C.wood);
+      pc.rect(12.5, 6, 1.5, 9, C.wood);
+      pc.rect(1, 8, 14, 1.5, C.sand);
+      pc.rect(1, 12, 14, 1.5, C.sand);
+      pc.tri(1.5, 6, 4, 6, 2.75, 4, C.wood);
+      pc.tri(12, 6, 14.5, 6, 13.25, 4, C.wood);
+      break;
+    case 'flowerbed':
+      pc.ellipse(8, 12, 7, 3, C.darkBark);
+      pc.ellipse(8, 11.5, 6, 2.2, C.bark);
+      for (const [x, y, c] of [
+        [4, 8, C.rose],
+        [7, 7, C.sunYellow],
+        [10, 8, C.blush],
+        [12, 9, C.skyLight],
+        [5.5, 10, C.white],
+      ] as const) {
+        pc.thinLine(x, 11, x, y + 1, C.forest);
+        pc.disc(x, y, 1.1, c);
+      }
+      break;
+    case 'bench':
+      pc.rect(2, 7, 12, 2, C.wood);
+      pc.rect(2, 4, 12, 2, C.wood);
+      pc.rect(3, 9, 1.5, 5, C.bark);
+      pc.rect(11.5, 9, 1.5, 5, C.bark);
+      pc.rect(3, 5, 1.5, 2.5, C.bark);
+      pc.rect(11.5, 5, 1.5, 2.5, C.bark);
+      pc.thinLine(2, 7.5, 14, 7.5, C.sand);
+      break;
+    case 'statue':
+      pc.rect(4, 12, 8, 3, C.greyDeep);
+      pc.rect(5, 11, 6, 1, C.greyLight);
+      pc.ellipse(8, 8, 3, 2.4, C.greyLight);
+      pc.ellipse(8, 4, 2.6, 2.4, C.greyLight);
+      pc.tri(7, 2, 9, 2, 8, 0, C.pale);
+      pc.ellipse(7, 4, 0.5, 0.8, C.greyDeep);
+      pc.ellipse(9, 4, 0.5, 0.8, C.greyDeep);
+      pc.tri(4.5, 8, 6, 5, 6, 9, C.pale);
+      pc.tri(11.5, 8, 10, 5, 10, 9, C.pale);
+      break;
+    case 'pathTile':
+      pc.ellipse(8, 8, 7, 4.5, C.sandDeep);
+      pc.ellipse(7.5, 7.5, 5.5, 3.2, C.sand);
+      pc.px(5, 7, C.greyLight);
+      pc.px(10, 9, C.greyLight);
+      break;
+    case 'lanternSmall':
+      pc.rect(7, 9, 2, 6, C.darkBark);
+      pc.rect(5, 3, 6, 6, C.sunYellow);
+      pc.rect(6, 4, 4, 4, C.sunLight);
+      pc.rect(4, 2, 8, 1, C.darkBark);
+      pc.rect(4, 9, 8, 1, C.darkBark);
+      pc.px(7, 1, C.darkBark);
+      break;
+    case 'notebook':
+      pc.rect(3, 4, 10, 9, C.bark);
+      pc.rect(4, 5, 8, 7, C.cream);
+      pc.thinLine(5, 7, 11, 7, C.lilacGrey);
+      pc.thinLine(5, 9, 10, 9, C.lilacGrey);
+      pc.rect(3, 4, 1.5, 9, C.darkBark);
+      break;
   }
-  if (kind !== 'lily') pc.finish(C.darkPlum, [C.white]);
-  else pc.outlineColored(C.deepWater);
+  if (kind === 'lily') pc.outlineColored(C.deepWater);
+  else if (kind === 'pathTile') pc.outlineColored(C.leafDeep);
+  else pc.finish(C.darkPlum, [C.white]);
   return pc;
 }
 
@@ -170,6 +235,13 @@ export const DECOR_FRAMES = [
   'reed',
   'tallgrass',
   'lily',
+  'fence',
+  'flowerbed',
+  'bench',
+  'statue',
+  'pathTile',
+  'lanternSmall',
+  'notebook',
 ] as const;
 
 export function buildPropSheet(): SpriteSheet {

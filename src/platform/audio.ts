@@ -13,12 +13,24 @@
 export type SoundName =
   'tap' | 'pickup' | 'jump' | 'hit' | 'hatch' | 'evolve' | 'pet' | 'buy' | 'cheer' | 'win' | 'sad';
 
-export type SongName = 'title' | 'grove' | 'night' | 'race' | 'expedition' | 'story';
+export type SongName =
+  | 'title'
+  | 'grove'
+  | 'night'
+  | 'race'
+  | 'expedition'
+  | 'story'
+  | 'sorrow'
+  | 'tense'
+  | 'hollow'
+  | 'karate';
 
 let ctx: AudioContext | null = null;
 let unlocked = false;
 let sfxEnabled = true;
 let musicEnabled = true;
+let musicVolume = 0.8;
+let sfxVolume = 0.8;
 let master: GainNode | null = null;
 let musicBus: GainNode | null = null;
 let sfxBus: GainNode | null = null;
@@ -51,10 +63,10 @@ function buildGraph(ac: AudioContext): void {
   master.gain.value = 0.9;
   master.connect(comp).connect(ac.destination);
   musicBus = ac.createGain();
-  musicBus.gain.value = musicEnabled ? 1 : 0;
+  musicBus.gain.value = musicEnabled ? musicVolume : 0;
   musicBus.connect(master);
   sfxBus = ac.createGain();
-  sfxBus.gain.value = sfxEnabled ? 1 : 0;
+  sfxBus.gain.value = sfxEnabled ? sfxVolume : 0;
   sfxBus.connect(master);
   // Echo.
   const delay = ac.createDelay(1.0);
@@ -89,13 +101,26 @@ function buildGraph(ac: AudioContext): void {
 
 export function setSoundEnabled(on: boolean): void {
   sfxEnabled = on;
-  if (sfxBus && ctx) sfxBus.gain.setTargetAtTime(on ? 1 : 0, ctx.currentTime, 0.05);
+  if (sfxBus && ctx) sfxBus.gain.setTargetAtTime(on ? sfxVolume : 0, ctx.currentTime, 0.05);
 }
 
 export function setMusicEnabled(on: boolean): void {
   musicEnabled = on;
-  if (musicBus && ctx) musicBus.gain.setTargetAtTime(on ? 1 : 0, ctx.currentTime, 0.2);
+  if (musicBus && ctx) musicBus.gain.setTargetAtTime(on ? musicVolume : 0, ctx.currentTime, 0.2);
   if (on && unlocked && !current && pendingSong) playSong(pendingSong);
+}
+
+/** 0..1 sliders from Settings. */
+export function setMusicVolume(v: number): void {
+  musicVolume = Math.max(0, Math.min(1, v));
+  if (musicBus && ctx && musicEnabled) {
+    musicBus.gain.setTargetAtTime(musicVolume, ctx.currentTime, 0.1);
+  }
+}
+
+export function setSfxVolume(v: number): void {
+  sfxVolume = Math.max(0, Math.min(1, v));
+  if (sfxBus && ctx && sfxEnabled) sfxBus.gain.setTargetAtTime(sfxVolume, ctx.currentTime, 0.05);
 }
 
 export function isSoundEnabled(): boolean {
@@ -304,6 +329,82 @@ const SONGS: Record<SongName, Song> = {
       ),
       seq('kick', 0.5, 'x r:0.5 x:0.5 r x r:0.5 x:0.5 r '.repeat(4)),
       seq('hat', 0.1, 'r:0.5 x:0.5 '.repeat(32)),
+    ],
+  },
+  // Sorrow: for the rain on the hill and Hazel's goodbye. A slow bell line over minor pads.
+  sorrow: {
+    bpm: 60,
+    beats: 32,
+    tracks: [
+      seq(
+        'bell',
+        0.38,
+        'E5:2 D5:1 C5:1 B4:3 r:1 A4:2 B4:1 C5:1 E5:3 r:1 ' +
+          'D5:2 C5:1 B4:1 A4:3 r:1 G4:2 A4:1 B4:1 A4:4',
+      ),
+      seq('pluck', 0.16, 'r:1 A3:0.5 r:2.5 r:1 E4:0.5 r:2.5 '.repeat(4)),
+      seq('bass', 0.4, 'A2:4 F2:4 C3:4 G2:4 A2:4 F2:4 E2:4 A2:4'),
+      seq(
+        'pad',
+        0.22,
+        'A3+C4+E4:4 F3+A3+C4:4 C4+E4+G4:4 G3+B3+D4:4 A3+C4+E4:4 F3+A3+C4:4 E3+G#3+B3:4 A3+C4+E4:4',
+      ),
+    ],
+  },
+  // Tense: Corvin's scenes. A low pulse, a wary motif, no resolution.
+  tense: {
+    bpm: 100,
+    beats: 32,
+    tracks: [
+      seq(
+        'lead',
+        0.3,
+        'r:2 D4:0.5 Eb4:0.5 D4:1 r:4 r:2 D4:0.5 F4:0.5 Eb4:1 r:4 ' +
+          'r:2 G4:0.5 Ab4:0.5 G4:1 r:4 r:2 F4:0.5 Eb4:0.5 D4:2 r:3',
+      ),
+      seq(
+        'bass',
+        0.5,
+        'D2:0.5 r:0.5 D2:0.5 r:0.5 '.repeat(12) + 'Bb1:0.5 r:0.5 Bb1:0.5 r:0.5 '.repeat(4),
+      ),
+      seq('pad', 0.18, 'D3+F3+A3:8 D3+F3+Ab3:8 G3+Bb3+D4:8 Bb2+D3+F3:8'),
+      seq('kick', 0.35, 'x r:3 '.repeat(8)),
+      seq('hat', 0.06, 'r:0.5 x:0.5 '.repeat(32)),
+    ],
+  },
+  // Hollow: past the falls. Sparse bells, a long pad, something breathing in the dark.
+  hollow: {
+    bpm: 70,
+    beats: 32,
+    tracks: [
+      seq(
+        'bell',
+        0.3,
+        'r:3 F#5:1 r:3 E5:1 r:3 C#5:1 r:3 D5:1 r:3 B4:1 r:3 F#5:1 r:3 E5:1 r:3 C#5:1',
+      ),
+      seq('pluck', 0.14, 'B3:0.5 r:3.5 F#3:0.5 r:3.5 '.repeat(4)),
+      seq('bass', 0.42, 'B2:8 G2:8 A2:8 F#2:8'),
+      seq('pad', 0.22, 'B3+D4+F#4:8 G3+B3+D4:8 A3+C#4+E4:8 F#3+A3+C#4:8'),
+    ],
+  },
+  // Karate: taiko-like kicks and a short, punchy call. The dojo.
+  karate: {
+    bpm: 140,
+    beats: 16,
+    tracks: [
+      seq(
+        'lead',
+        0.32,
+        'A4:0.5 A4:0.5 C5:1 r:1 E5:0.5 D5:0.5 C5:1 r:1 A4:0.5 C5:0.5 D5:1 r:1 E5:1 G5:1 r:2',
+      ),
+      seq(
+        'bass',
+        0.5,
+        'A2:0.5 A2:0.5 r:1 A2:0.5 A2:0.5 r:1 '.repeat(2) +
+          'G2:0.5 G2:0.5 r:1 G2:0.5 G2:0.5 r:1 '.repeat(2),
+      ),
+      seq('kick', 0.6, 'x x:0.5 x:0.5 r x r:0.5 x:0.5 x r '.repeat(2)),
+      seq('snare', 0.3, 'r:3 x:1 '.repeat(4)),
     ],
   },
   // Story: sparse, for the dialogue box. A slow arpeggio and a held pad.

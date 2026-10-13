@@ -164,17 +164,25 @@ export class Dialogue {
     this.shown = 0;
     this.text.textContent = '';
     clearInterval(this.typing);
-    const reduce = g.camera.reduceMotion;
+    const speed = g.world.settings.textSpeed;
+    const reduce =
+      speed === 'instant' ||
+      (g.world.settings.reducedMotion === 'system'
+        ? g.camera.reduceMotion
+        : g.world.settings.reducedMotion === 'on');
     if (reduce) {
       this.shown = this.fullText.length;
       this.text.textContent = this.fullText;
       return;
     }
-    this.typing = window.setInterval(() => {
-      this.shown = Math.min(this.fullText.length, this.shown + 2);
-      this.text.textContent = this.fullText.slice(0, this.shown);
-      if (this.shown >= this.fullText.length) clearInterval(this.typing);
-    }, 18);
+    this.typing = window.setInterval(
+      () => {
+        this.shown = Math.min(this.fullText.length, this.shown + (speed === 'fast' ? 4 : 2));
+        this.text.textContent = this.fullText.slice(0, this.shown);
+        if (this.shown >= this.fullText.length) clearInterval(this.typing);
+      },
+      speed === 'slow' ? 34 : 18,
+    );
   }
 
   private drawPortrait(who: string, g: Game, mood: Mood): void {

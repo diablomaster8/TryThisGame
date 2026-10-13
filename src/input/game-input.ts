@@ -1,15 +1,20 @@
 import { INPUT, THROW } from '../config/tuning';
 import type { OrbitCamera } from '../render/camera';
 import type { Picker } from '../render/picker';
-import type { Command, Vec2 } from '../sim/types';
+import type { Command, DecorKind, Vec2 } from '../sim/types';
 import type { Object3D } from 'three';
 
 export interface InputHost {
   camera: OrbitCamera;
   picker: Picker;
   pickables(): Object3D[];
+  /** Decorating: the piece a ground tap should place, if any. */
+  placing?(): DecorKind | null;
   /** Hit-test the batched sprites at a screen point (NDC). */
-  pickSprite(ndcX: number, ndcY: number): { kind: 'nubbin' | 'item' | 'npc'; id: string } | null;
+  pickSprite(
+    ndcX: number,
+    ndcY: number,
+  ): { kind: 'nubbin' | 'item' | 'npc' | 'memorial' | 'decor'; id: string } | null;
   /** Is this Nubbin id something that can be grabbed right now? */
   canGrab(id: string): boolean;
   send(cmd: Command): void;
@@ -191,11 +196,24 @@ export class GameInput {
       case 'lantern':
         this.host.send({ kind: 'lightLantern', id: hit.id });
         return;
-      case 'ground':
+      case 'memorial':
+        this.host.onSelect(`memorial:${hit.id}`);
+        return;
+      case 'decor':
+        this.host.onSelect(`decor:${hit.id}`);
+        return;
+      case 'ground': {
+        // Decorating: a ground tap places the chosen piece instead of walking.
+        const placing = this.host.placing?.();
+        if (placing && hit.ground) {
+          this.host.send({ kind: 'placeDecor', decor: placing, pos: hit.ground });
+          return;
+        }
         if (hit.ground) this.host.send({ kind: 'moveKeeperTo', pos: hit.ground });
         this.host.send({ kind: 'select', id: null });
         this.host.onSelect(null);
         return;
+      }
     }
   }
 

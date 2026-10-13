@@ -449,6 +449,10 @@ function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: Layout, hat: string): vo
       pc.rect(cx - 9, top + 2, 19, 1, C.sand);
       pc.ellipse(cx, top - 1, 5.5, 3.5, C.cream);
       pc.rect(cx - 5, top + 0, 11, 1, C.ember);
+      // Weave: fine lines across the brim and crown.
+      for (let x = -8; x <= 8; x += 2) pc.dot(cx + x + 0.5, top + 1.5, C.sand);
+      pc.thinLine(cx - 4, top - 2.5, cx + 4, top - 2.5, C.sandLight);
+      pc.thinLine(cx - 5, top - 1, cx + 5, top - 1, C.sand);
       break;
     case 'crown':
       pc.rect(cx - 4, top - 1, 9, 4, C.sunYellow);
@@ -457,11 +461,19 @@ function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: Layout, hat: string): vo
       pc.px(cx, top + 1, C.rose);
       pc.px(cx - 3, top + 1, C.water);
       pc.px(cx + 3, top + 1, C.water);
+      // Jewel glints and a gold rim.
+      pc.dot(cx - 2.5, top + 1, C.white);
+      pc.dot(cx + 0.5, top + 1, C.white);
+      pc.dot(cx + 3.5, top + 1, C.white);
+      pc.thinLine(cx - 4, top + 2.5, cx + 5, top + 2.5, C.sunDeep);
       break;
     case 'beanie':
       pc.ellipse(cx, top + 1, 7.5, 4.5, C.ember);
       pc.rect(cx - 7, top + 2, 15, 2, C.pale);
       pc.disc(cx, top - 3, 2, C.cream);
+      // Knit ribs.
+      for (let x = -6; x <= 6; x += 2) pc.thinLine(cx + x, top + 2, cx + x, top + 3.5, C.lilacGrey);
+      pc.thinLine(cx - 3, top - 1, cx + 3, top - 1, C.roseDeep);
       break;
     case 'flower':
       for (const [dx, dy] of [
@@ -479,6 +491,9 @@ function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: Layout, hat: string): vo
       pc.rect(cx - 6, top - 3, 13, 5, C.teal);
       pc.rect(cx - 8, top + 1, 17, 2, C.teal);
       pc.rect(cx - 6, top - 1, 13, 1, C.mint);
+      // Stitching and a fold highlight.
+      for (let x = -7; x <= 7; x += 2) pc.dot(cx + x + 0.5, top + 1.5, C.tealLight);
+      pc.thinLine(cx - 5, top - 2.5, cx + 5, top - 2.5, C.tealLight);
       break;
     default:
       break;

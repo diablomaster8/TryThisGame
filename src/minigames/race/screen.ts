@@ -1,4 +1,5 @@
 import { RACE, SIM } from '../../config/tuning';
+import { drawShadowText, drawText } from '../../render/sprites/font';
 import { PX } from '../../render/sprites/pixel-canvas';
 import { NAMES, UI_TEXT } from '../../config/strings';
 import { CLIPS, frameAt, frameKey, type ClipName } from '../../render/sprites/animations';
@@ -247,8 +248,7 @@ export class RaceScreen {
       ctx.fillStyle = color(C.darkPlum);
       ctx.fillRect(x0, bandTop - 8, 2, bandBottom - bandTop + 8);
       ctx.fillStyle = color(C.cream);
-      ctx.font = '8px monospace';
-      ctx.fillText(SECTION_LABELS[s.kind], x0 + 5, bandTop - 2);
+      drawText(ctx, SECTION_LABELS[s.kind], x0 + 5, bandTop - 9, color(C.cream));
     }
     // Finish line.
     const fx = Math.round(trackPx - camX);
@@ -281,12 +281,9 @@ export class RaceScreen {
       const sy = Math.round(TRACK_TOP + lane * LANE_GAP - rect.h / PX + 4 - lift);
       ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, sx, sy, rect.w / PX, rect.h / PX);
       // Name tag, the player's in yellow.
-      ctx.fillStyle = color(r.isPlayer ? C.sunYellow : C.cream);
-      ctx.font = '7px monospace';
-      ctx.fillText(r.name, sx + 2, sy - 2);
+      drawText(ctx, r.name, sx + 2, sy - 9, color(r.isPlayer ? C.sunYellow : C.cream));
       if (resting) {
-        ctx.fillStyle = color(C.pale);
-        ctx.fillText('zz', sx + rect.w / PX - 6, sy + 4);
+        drawText(ctx, 'zz', sx + rect.w / PX - 6, sy - 2, color(C.pale));
       }
       if (r.isPlayer) this.drawStamina(r, sx, sy + rect.h / PX + 2);
     }
@@ -302,8 +299,14 @@ export class RaceScreen {
     ctx.fillStyle = color(C.sunYellow);
     ctx.fillRect(8, 8, Math.round(((W - 16) * player.pos) / race.length), 4);
     ctx.fillStyle = color(C.cream);
-    ctx.font = '8px monospace';
-    ctx.fillText(`${NAMES.game} · ${UI_TEXT.tierLabel(race.tier)}`, 8, 24);
+    drawShadowText(
+      ctx,
+      `${NAMES.game} · ${UI_TEXT.tierLabel(race.tier)}`,
+      8,
+      18,
+      color(C.cream),
+      color(C.darkPlum),
+    );
   }
 
   private drawStamina(r: Racer, x: number, y: number): void {

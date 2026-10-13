@@ -294,7 +294,17 @@ export function rebirth(n: Nubbin, events: SimEvent[]): void {
 export function depart(n: Nubbin, events: SimEvent[], world?: World): void {
   if (world) {
     world.nubbins = world.nubbins.filter((x) => x.id !== n.id);
-    world.memorials.push({ id: `memorial-${n.id}`, name: n.name, pos: { x: n.pos.x, z: n.pos.z } });
+    world.memorials.push({
+      id: `memorial-${n.id}`,
+      name: n.name,
+      pos: { x: n.pos.x, z: n.pos.z },
+      species: n.species,
+      form: n.eternal ? `eternal:` : n.form ? `:` : 'child',
+      ageMs: n.ageMs,
+      rebirths: n.rebirths,
+      eggColor: n.eggColor,
+      departedAtMs: world.timeMs,
+    });
     if (world.selected === n.id) world.selected = null;
     if (world.keeper.carrying === n.id) world.keeper.carrying = null;
   }

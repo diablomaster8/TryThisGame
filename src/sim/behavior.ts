@@ -9,6 +9,9 @@ import {
 } from './needs';
 import { isFree } from './nubbin';
 import { isWary } from './trust';
+import { bestLesson, finishLesson } from './kindergarten';
+import { shelterSpot } from './weather';
+import { LESSONS } from '../config/tuning';
 import { idleMultipliers } from './personality';
 import type { Rng } from './rng';
 import { addPoints } from './stats';
@@ -99,6 +102,36 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
   // Personality only shifts the odds of idle choices.
   const m = idleMultipliers(n.personality);
   const keeperNear = dist(n.pos, world.keeper.pos) < BEHAVIOR.greetRadius;
+  // Rain: most Nubbins head for a tree; swimmers would rather be in the pond.
+  if (world.weather.kind === 'rain' && n.stage !== 'egg') {
+    const swimmer = n.form?.type === 'swim' || n.typeLean.swim > 40;
+    if (swimmer && rng.chance(0.6)) {
+      setState(n, 'swim', now, rng.float(...BEHAVIOR.swimMs));
+      n.behavior.target = randomPoint(rng, GROVE.pond, GROVE.pond.r - 0.8);
+      return;
+    }
+    if (!swimmer && rng.chance(0.8)) {
+      setState(n, 'shelter', now, 60_000);
+      n.behavior.target = shelterSpot(n.pos.x, n.pos.z);
+      return;
+    }
+  }
+  // A courting adult drifts toward the nearest other adult.
+  if (n.courtingUntilMs > now && n.stage === 'adult') {
+    const other = world.nubbins.find((o) => o.id !== n.id && o.stage === 'adult' && !o.eternal);
+    if (other) {
+      setState(n, 'court', now, 6000);
+      n.behavior.target = { x: other.pos.x + 0.8, z: other.pos.z };
+      return;
+    }
+  }
+  // A schooled Nubbin sometimes shows off what it learned.
+  if (bestLesson(n) && rng.chance(LESSONS.performChance * m.play)) {
+    setState(n, 'perform', now, LESSONS.performMs);
+    n.behavior.itemId = bestLesson(n);
+    addHappiness(n, 1);
+    return;
+  }
   // A wary Shadow Nubbin never greets; it keeps its distance instead.
   if (isWary(n) && dist(n.pos, world.keeper.pos) < TRUST.avoidRadius) {
     setState(n, 'avoid', now, 2500);
@@ -152,7 +185,8 @@ export function updateBehavior(
   if (!isFree(n)) return;
 
   // Needs can interrupt anything except eating, napping and reacting.
-  const interruptible = b.state !== 'eat' && b.state !== 'nap' && b.state !== 'react';
+  const interruptible =
+    b.state !== 'eat' && b.state !== 'nap' && b.state !== 'react' && b.state !== 'lesson';
   if (interruptible && isExhausted(n)) {
     setState(n, 'nap', now, NEEDS.napMs);
     events.push({ kind: 'napStarted', nubbinId: n.id });
@@ -241,10 +275,53 @@ export function updateBehavior(
       }
       break;
     }
+    case 'lesson': {
+      if (now >= b.untilMs) {
+        finishLesson(world, n, events);
+        chooseIdle(n, world, rng, now);
+      }
+      break;
+    }
+    case 'shelter': {
+      if (b.target) walkToward(n, b.target, BEHAVIOR.walkSpeed * 1.3, dtMs);
+      if (world.weather.kind !== 'rain' || now >= b.untilMs) chooseIdle(n, world, rng, now);
+      break;
+    }
+    case 'court': {
+      if (!b.target || walkToward(n, b.target, BEHAVIOR.walkSpeed, dtMs) || now >= b.untilMs) {
+        chooseIdle(n, world, rng, now);
+      }
+      break;
+    }
+    case 'fetch': {
+      const toy = world.items.find((i) => i.id === b.itemId);
+      if (!toy || now >= b.untilMs) {
+        chooseIdle(n, world, rng, now);
+        break;
+      }
+      if (b.target) {
+        // Run to the ball, then carry it back to the Keeper.
+        if (walkToward(n, b.target, BEHAVIOR.walkSpeed * 1.5, dtMs)) {
+          b.target = null;
+        }
+      } else {
+        toy.pos.x = n.pos.x + Math.sin(n.facing) * 0.4;
+        toy.pos.z = n.pos.z + Math.cos(n.facing) * 0.4;
+        if (
+          walkToward(n, world.keeper.pos, BEHAVIOR.walkSpeed * 1.3, dtMs) ||
+          dist(n.pos, world.keeper.pos) < 1.4
+        ) {
+          addHappiness(n, BEHAVIOR.playHappiness);
+          react(n, 'happy', now, events);
+        }
+      }
+      break;
+    }
     case 'eat':
     case 'sit':
     case 'greet':
     case 'cry':
+    case 'perform':
     case 'react': {
       if (now >= b.untilMs) {
         b.reaction = null;

@@ -11,7 +11,19 @@ export const PARTICLE_SIZE = 8;
  * drawn once and shared through the mega atlas.
  */
 export type ParticleKind =
-  'dust' | 'leaf' | 'sparkle' | 'firefly' | 'ripple' | 'heart' | 'petal' | 'drop' | 'crumb';
+  | 'dust'
+  | 'leaf'
+  | 'sparkle'
+  | 'firefly'
+  | 'ripple'
+  | 'heart'
+  | 'petal'
+  | 'drop'
+  | 'crumb'
+  | 'rain'
+  | 'snow'
+  | 'note'
+  | 'splash';
 
 export const PARTICLE_FRAMES: Record<ParticleKind, number> = {
   dust: 3,
@@ -23,6 +35,10 @@ export const PARTICLE_FRAMES: Record<ParticleKind, number> = {
   petal: 2,
   drop: 1,
   crumb: 1,
+  rain: 1,
+  snow: 2,
+  note: 2,
+  splash: 2,
 };
 
 function draw(kind: ParticleKind, f: number): PixelCanvas {
@@ -107,6 +123,28 @@ function draw(kind: ParticleKind, f: number): PixelCanvas {
     case 'crumb':
       pc.px(c, c, C.orange);
       pc.px(c + 1, c + 1, C.ember);
+      break;
+    case 'rain':
+      pc.thinLine(c + 1, 0, c - 1, 7, C.skyLight);
+      pc.dot(c + 1, 0.5, C.white);
+      break;
+    case 'snow':
+      pc.px(c, c, C.white);
+      if (f === 1) {
+        pc.dot(c - 0.5, c, C.pale);
+        pc.dot(c + 1, c + 0.5, C.pale);
+      }
+      break;
+    case 'note':
+      pc.disc(c - 1, c + 1.5, 1.2, C.sunYellow);
+      pc.thinLine(c, c + 1.5, c, c - 2.5, C.sunYellow);
+      pc.thinLine(c, c - 2.5, c + 2, c - 1.8, C.sunYellow);
+      if (f === 1) pc.dot(c + 2.5, c - 1, C.white);
+      break;
+    case 'splash':
+      pc.ellipse(c, c + 1, f === 0 ? 1.4 : 2.6, 0.7, C.skyLight);
+      pc.dot(c - 1, c - 1, C.white);
+      pc.dot(c + 1.5, c - 0.5, C.white);
       break;
   }
   return pc;

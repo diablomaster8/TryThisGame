@@ -1,3 +1,4 @@
+import { Vector3 } from 'three';
 import { CAMERA, SIM } from './config/tuning';
 import { GameInput } from './input/game-input';
 import { CameraControls } from './input/camera-controls';
@@ -53,11 +54,33 @@ export class Game {
     if (nowMs - this.lastDaylightMs < 3000) return;
     this.lastDaylightMs = nowMs;
     const d = daylightAt(this.hourOverride ?? localHour());
+    const s = this.world.settings;
+    const reduce =
+      s.reducedMotion === 'on' || (s.reducedMotion === 'system' && this.camera.reduceMotion);
     this.grove.setLit(litLanterns(this.world));
-    this.grove.setDaylight(d);
-    this.view.setDaylight(d, this.camera.reduceMotion);
-    this.pipeline.postPass?.apply({ tint: d.tint, tintAmount: d.tintAmount, bloom: d.bloom });
+    this.grove.setLocation(this.world.location);
+    this.grove.setDaylight(d, this.world.location, this.world.weather.kind);
+    this.view.location = this.world.location;
+    this.view.setDaylight(d, reduce);
+    this.view.setWeather(
+      this.world.weather.kind,
+      this.world.weather.intensity,
+      s.particles,
+      reduce,
+    );
+    // Rain greys the grade a little; snow brightens and cools it.
+    const w = this.world.weather.kind;
+    const tint = w === 'rain' ? d.tint.clone().multiply(new Vector3(0.85, 0.9, 1.0)) : d.tint;
+    const tintAmount = w === 'rain' ? Math.max(d.tintAmount, 0.35) : d.tintAmount;
+    this.pipeline.postPass?.apply({
+      tint,
+      tintAmount,
+      bloom: w === 'snow' ? d.bloom + 0.15 : d.bloom,
+    });
   }
+
+  /** Decorating: the piece a ground tap places, or null. */
+  placing: import('./sim/types').DecorKind | null = null;
   private lastFrameMs = 0;
   private lastSaveMs = 0;
   private storageOk = true;
@@ -78,6 +101,7 @@ export class Game {
       picker: this.picker,
       pickables: () => this.grove.pickables,
       pickSprite: (ndcX, ndcY) => this.view.pick(ndcX, ndcY, this.camera),
+      placing: () => this.placing,
       canGrab: (id) => {
         const n = findNubbin(this.world, id);
         return !!n && n.behavior.state !== 'thrown' && n.stage !== 'cocoon';
@@ -208,8 +232,10 @@ export class Game {
       this.view.onEvents(events, nowMs);
       this.hooks.onEvents(events);
       for (const e of events) {
-        if (e.kind === 'landed') this.camera.shake(0.18);
-        else if (e.kind === 'treeShaken') this.camera.shake(0.08);
+        const shake = this.world.settings.screenShake;
+        if (e.kind === 'landed' && shake) this.camera.shake(0.18);
+        else if (e.kind === 'treeShaken' && shake) this.camera.shake(0.08);
+        else if (e.kind === 'weather' || e.kind === 'located') this.lastDaylightMs = -Infinity;
         else if (e.kind === 'lanternLit') this.grove.setLit(litLanterns(this.world));
       }
     }

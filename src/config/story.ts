@@ -147,9 +147,9 @@ export const CHAPTERS: Chapter[] = [
     n: 8,
     title: 'The Hollow',
     opening: 'c8-open',
-    goal: 'expedition',
-    goalText: 'Take a Nubbin on an Expedition and come back.',
-    hint: 'Open the Expedition from the top bar.',
+    goal: 'notebook',
+    goalText: 'Walk the Hollow and find Hazel’s notebook.',
+    hint: 'The Hollow is dark; follow the fireflies to a flat stone and tap the notebook. The Expedition from the top bar runs through the Hollow now too.',
     closing: 'c8-close',
   },
   {

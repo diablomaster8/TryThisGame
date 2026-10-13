@@ -4,7 +4,7 @@ import { hatch } from './lifecycle';
 import { npcNear, removeNpc, spawnNpc } from './npcs';
 import { createEgg } from './nubbin';
 import { TRAINERS } from './trainers';
-import type { CampaignState, Command, Nubbin, SimEvent, World } from './types';
+import type { CampaignState, Command, Location, Nubbin, SimEvent, World } from './types';
 import { newId, uniqueName, withRng } from './world';
 
 /**
@@ -106,6 +106,19 @@ function beginChapter(world: World, c: CampaignState, n: number, events: SimEven
     case 5:
       spawnNpc(world, 'corvin');
       break;
+    case 8: {
+      // Into the Hollow: Hazel's notebook waits on a flat stone past the trees.
+      setLocation(world, 'hollow', events);
+      world.items = world.items.filter((i) => i.kind !== 'notebook');
+      world.items.push({
+        id: newId(world, 'item'),
+        kind: 'notebook',
+        pos: { x: -9, z: -9 },
+        y: 0,
+        vel: { x: 0, y: 0, z: 0 },
+      });
+      break;
+    }
     case 6: {
       const hill = GROVE.hills[0];
       world.memorials.push({
@@ -116,9 +129,11 @@ function beginChapter(world: World, c: CampaignState, n: number, events: SimEven
       break;
     }
     case 9:
+      setLocation(world, 'corvin', events);
       spawnNpc(world, 'corvin');
       break;
     case 10: {
+      setLocation(world, 'grove', events);
       const moss = c.mossId ? world.nubbins.find((x) => x.id === c.mossId) : undefined;
       c.flags.mossFaded = !moss || moss.needs.affection < 40;
       for (const k of Object.keys(c.flags)) if (k.startsWith('lantern:')) delete c.flags[k];
@@ -178,6 +193,7 @@ const GOALS: Record<string, (world: World, c: CampaignState) => boolean> = {
   talkDusty: (_w, c) => Boolean(c.flags[`talked:6:dusty`]),
   sableTrust45: (w, c) => (sable(w, c)?.trust ?? 0) >= 45,
   expedition: (_w, c) => c.stats.expeditions >= 1,
+  notebook: (_w, c) => Boolean(c.flags.notebookFound),
   corvinChoice: (_w, c) => typeof c.flags.corvin === 'string',
   lanternsAgain: (_w, c) => c.flags.lanternsRound === 2 && lanternsLit(c) >= 4,
   threeFriends: (_w, c) => talkedThisChapter(c) >= 3,
@@ -393,6 +409,16 @@ export function applyCampaignCommand(world: World, cmd: Command, events: SimEven
     default:
       return;
   }
+}
+
+/** Travel between the Grove, the Hollow and Corvin's garden. */
+export function setLocation(world: World, location: Location, events: SimEvent[]): void {
+  if (world.location === location) return;
+  world.location = location;
+  world.keeper.pos = { x: GROVE.keeperStart.x, z: GROVE.keeperStart.z };
+  world.keeper.moveTarget = null;
+  world.keeper.intent = null;
+  events.push({ kind: 'located', location });
 }
 
 /** Lanterns lit this round, for the renderer. */

@@ -19,7 +19,7 @@ export class ShopMenu {
     this.balance = el('div', 'shop-balance');
     this.dialog.body.appendChild(this.balance);
     const list = el('div', 'shop-list');
-    for (const item of ['fruit', 'egg', 'hat', 'toy'] as const) {
+    for (const item of ['fruit', 'egg', 'hat', 'toy', 'heartFruit'] as const) {
       const row = el('div', 'shop-row');
       const text = el('div');
       text.append(
@@ -67,6 +67,9 @@ export class ShopMenu {
           break;
         case 'toy':
           row.note.textContent = `×${g.world.items.filter((i) => i.kind === 'toy').length}`;
+          break;
+        case 'heartFruit':
+          row.note.textContent = `×${inv.heartFruit}`;
           break;
       }
     }

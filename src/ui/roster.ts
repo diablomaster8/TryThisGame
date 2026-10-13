@@ -17,6 +17,7 @@ import { bandOf, childHint } from '../sim/alignment';
 import { levelOf } from '../sim/stats';
 import { STAT_KEYS, type Nubbin } from '../sim/types';
 import { button, el, modal } from './dom';
+import { decodeNubbin, encodeNubbin } from '../sim/share';
 
 /**
  * The roster: every Nubbin with a portrait, name (tap to rename), stats, age, rebirth
@@ -106,8 +107,45 @@ export class RosterMenu {
       ),
     );
     body.appendChild(actions);
+    // Share and trade.
+    const share = el('div', 'roster-actions');
+    share.append(
+      button(UI_TEXT.share, () => void this.share(g, n, false), 'btn btn-small'),
+      button(UI_TEXT.tradeAway, () => void this.share(g, n, true), 'btn btn-small btn-danger'),
+    );
+    body.appendChild(share);
     row.appendChild(body);
     return row;
+  }
+
+  /** Copy the Nubbin's code; a trade also sends it away. */
+  private async share(g: Game, n: Nubbin, trade: boolean): Promise<void> {
+    if (trade && !confirm(UI_TEXT.tradeConfirm(n.name))) return;
+    const code = encodeNubbin(n);
+    try {
+      await navigator.clipboard.writeText(code);
+      alert(`${UI_TEXT.codeCopied}\n\n${code.slice(0, 40)}…`);
+    } catch {
+      prompt(UI_TEXT.share, code);
+    }
+    if (trade) {
+      g.send({ kind: 'tradeAway', nubbinId: n.id });
+      setTimeout(() => this.refresh(), 150);
+    }
+  }
+
+  /** Paste a code to take a Nubbin in. */
+  receive(): void {
+    const g = this.game();
+    if (!g) return;
+    const code = prompt(UI_TEXT.receivePrompt);
+    if (!code) return;
+    const n = decodeNubbin(code);
+    if (!n) {
+      alert(UI_TEXT.codeBad);
+      return;
+    }
+    g.send({ kind: 'receiveNubbin', nubbin: n });
   }
 
   /** The idle front frame of the Nubbin's sheet, scaled up. */

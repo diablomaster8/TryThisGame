@@ -10,7 +10,14 @@ import {
 import type { Game, GameHooks } from '../game';
 import type { AwayReport, GroveKind, SimEvent } from '../sim/types';
 import { ExpeditionScreen } from '../minigames/expedition/screen';
-import { playSong, playSound, setMusicEnabled, setSoundEnabled } from '../platform/audio';
+import {
+  playSong,
+  playSound,
+  setMusicEnabled,
+  setMusicVolume,
+  setSfxVolume,
+  setSoundEnabled,
+} from '../platform/audio';
 import { localHour, phaseAt } from '../render/daylight';
 import type { Nubbin } from '../sim/types';
 import { AwayScreen } from './away-screen';
@@ -28,6 +35,14 @@ import { Dialogue } from './dialogue';
 import { Journal } from './journal';
 import { chapterDef } from '../sim/campaign';
 import { STORY_TEXT } from '../config/story';
+import { KindergartenMenu } from './kindergarten';
+import { KarateMenu } from './karate';
+import { CollectionBook, keyLabel, MemorialCard } from './collection';
+import { DecorateMenu } from './decorate';
+import { PhotoMode } from './photo';
+import { PocketMode } from './pocket';
+import { modal } from './dom';
+import { TRAINER_LABELS as TL } from '../config/strings';
 
 /**
  * The HUD: top bar (logo, shells, fruit, settings), carry chip, toasts, and the panels.
@@ -42,6 +57,9 @@ export function mountHud(
   const logo = button(NAMES.game, () => onLogoTap(), 'btn btn-logo');
   const shells = el('span', 'chip', '');
   const fruit = el('span', 'chip', '');
+  const moreBtn = button('⋯', () => more.show(), 'btn btn-icon');
+  moreBtn.setAttribute('aria-label', UI_TEXT.more);
+  moreBtn.title = UI_TEXT.more;
   const settingsBtn = button('⚙', () => settings.open(), 'btn btn-icon');
   settingsBtn.setAttribute('aria-label', UI_TEXT.settings);
   const keeperBtn = button('☀', () => trainers.open(), 'btn btn-icon');
@@ -72,6 +90,7 @@ export function mountHud(
     groveBtn,
     journalBtn,
     rosterBtn,
+    moreBtn,
     expeditionBtn,
     racesBtn,
     shopBtn,
@@ -109,6 +128,7 @@ export function mountHud(
         g.renderPaused = false;
         g.send({ kind: 'addRewards', rewards });
       },
+      g.world.location === 'hollow' || g.world.campaign?.chapter === 8 ? 'hollow' : 'meadow',
     );
   }
 
@@ -156,6 +176,54 @@ export function mountHud(
   const trainers = new TrainersMenu(root, game, toast);
   const dialogue = new Dialogue(root, game);
   const journal = new Journal(root, game);
+  const kindergarten = new KindergartenMenu(root, game, () => sheet.selectedId, toast);
+  const karate = new KarateMenu(root, game, toast, pickRunner);
+  const book = new CollectionBook(root, game);
+  const memorialCard = new MemorialCard(root, game);
+  const decorate = new DecorateMenu(root, game, toast);
+  const photo = new PhotoMode(root, game, () => sheet.selectedId);
+  const pocket = new PocketMode(root, game);
+  // The "More" menu holds everything that does not fit the top bar.
+  const more = modal(root, UI_TEXT.more, UI_TEXT.close);
+  more.body.appendChild(el('p', 'help', UI_TEXT.moreHelp));
+  const moreList = el('div', 'title-menu');
+  for (const [label, open] of [
+    [`🏫 ${UI_TEXT.kindergarten}`, () => kindergarten.open()],
+    [`🥋 ${UI_TEXT.karate}`, () => karate.open()],
+    [`📔 ${UI_TEXT.collection}`, () => book.open()],
+    [`🪴 ${UI_TEXT.decorate}`, () => decorate.open()],
+    [`📷 ${UI_TEXT.photo}`, () => photo.open()],
+    [`👜 ${UI_TEXT.pocket}`, () => pocket.open(sheet.selectedId)],
+    [`🔁 ${UI_TEXT.receive}`, () => roster.receive()],
+  ] as const) {
+    moreList.appendChild(
+      button(
+        label,
+        () => {
+          more.hide();
+          open();
+        },
+        'btn btn-wide',
+      ),
+    );
+  }
+  more.body.appendChild(moreList);
+  // Placing chip while decorating.
+  const placingChip = el('div', 'placing-chip');
+  placingChip.hidden = true;
+  const placingText = el('span');
+  placingChip.append(
+    placingText,
+    button(
+      UI_TEXT.donePlacing,
+      () => {
+        const g = game();
+        if (g) g.placing = null;
+      },
+      'btn btn-small',
+    ),
+  );
+  root.appendChild(placingChip);
   let joystick: Joystick | null = null;
   if (import.meta.env.DEV) {
     // Console access during development, alongside `window.grove`.
@@ -168,6 +236,12 @@ export function mountHud(
       roster,
       dialogue,
       journal,
+      kindergarten,
+      karate,
+      book,
+      decorate,
+      photo,
+      pocket,
     };
   }
 
@@ -200,6 +274,14 @@ export function mountHud(
       else if (roster.isOpen()) roster.close();
       else if (trainers.isOpen()) trainers.close();
       else if (journal.isOpen()) journal.close();
+      else if (kindergarten.isOpen()) kindergarten.close();
+      else if (karate.isOpen()) karate.close();
+      else if (book.isOpen()) book.close();
+      else if (memorialCard.isOpen()) memorialCard.close();
+      else if (decorate.isOpen()) decorate.close();
+      else if (photo.isOpen()) photo.close();
+      else if (pocket.isOpen) pocket.close();
+      else if (more.isOpen()) more.hide();
       else if (!sheet.root.hidden) sheet.close();
     }
   });
@@ -231,15 +313,39 @@ export function mountHud(
       journalBtn.hidden = !c;
       // Which piece plays: story over dialogue, the minigames their own, else the hour's.
       setMusicEnabled(g.world.settings.music);
-      if (dialogue.isOpen) playSong('story');
-      else if (expedition.isOpen) playSong('expedition');
+      setMusicVolume(g.world.settings.musicVolume);
+      setSfxVolume(g.world.settings.sfxVolume);
+      const chapter = c?.chapter ?? 0;
+      if (dialogue.isOpen) {
+        playSong(
+          chapter === 6 || chapter === 11 || chapter === 13
+            ? 'sorrow'
+            : chapter === 5 || chapter === 9
+              ? 'tense'
+              : 'story',
+        );
+      } else if (expedition.isOpen) playSong('expedition');
       else if (races.screen.isOpen) playSong('race');
+      else if (karate.screen.isOpen) playSong('karate');
+      else if (g.world.location === 'hollow') playSong('hollow');
+      else if (g.world.location === 'corvin') playSong('tense');
       else {
         const phase = phaseAt(g.hourOverride ?? localHour()).phase;
         playSong(phase === 'night' || phase === 'dusk' ? 'night' : 'grove');
       }
+      placingChip.hidden = !g.placing;
+      if (g.placing) placingText.textContent = UI_TEXT.placing(UI_TEXT.decorNames[g.placing]);
+      if (kindergarten.isOpen() && Math.random() < 0.1) kindergarten.refresh();
       const next = c?.queue[0];
-      if (next && !dialogue.isOpen && !away.isOpen && !expedition.isOpen && !races.isOpen()) {
+      if (
+        next &&
+        !dialogue.isOpen &&
+        !away.isOpen &&
+        !expedition.isOpen &&
+        !races.isOpen() &&
+        !karate.screen.isOpen &&
+        !pocket.isOpen
+      ) {
         sheet.close();
         dialogue.play(next);
       }
@@ -314,6 +420,56 @@ export function mountHud(
           const npc = g.world.npcs.find((x) => x.id === e.npcId);
           const name = npc ? (TRAINER_LABELS[npc.trainer]?.name ?? npc.trainer) : '';
           toast(STORY_TEXT.talkedTo(name));
+        } else if (e.kind === 'interacted') {
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          const name = n?.name ?? NAMES.creature;
+          toast(e.ok ? UI_TEXT.interacted(name, e.action) : UI_TEXT.interactRefused(name));
+          if (e.ok) playSound('pet');
+        } else if (e.kind === 'called') {
+          toast(UI_TEXT.called(e.count));
+          playSound('tap');
+        } else if (e.kind === 'fetching') {
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          toast(UI_TEXT.fetching(n?.name ?? NAMES.creature));
+        } else if (e.kind === 'courting') {
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          toast(UI_TEXT.courting(n?.name ?? NAMES.creature));
+        } else if (e.kind === 'bred') {
+          toast(UI_TEXT.bred);
+          playSound('hatch');
+        } else if (e.kind === 'lessonDone') {
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          toast(
+            UI_TEXT.lessonDone(n?.name ?? NAMES.creature, UI_TEXT.lessonNames[e.lesson], e.level),
+          );
+          playSound('win');
+        } else if (e.kind === 'weather') {
+          toast(
+            e.weather === 'rain'
+              ? UI_TEXT.weatherRain
+              : e.weather === 'snow'
+                ? UI_TEXT.weatherSnow
+                : UI_TEXT.weatherClear,
+          );
+        } else if (e.kind === 'visitor') {
+          toast(UI_TEXT.visitor(TL[e.trainer]?.name ?? e.trainer, UI_TEXT.giftNames[e.gift]));
+          playSound('buy');
+        } else if (e.kind === 'lanternNight') {
+          toast(UI_TEXT.lanternNight);
+        } else if (e.kind === 'decorPlaced') {
+          toast(UI_TEXT.decorPlaced);
+          playSound('pickup');
+        } else if (e.kind === 'firstSeen') {
+          toast(UI_TEXT.firstSeen(keyLabel(e.key)));
+        } else if (e.kind === 'received') {
+          toast(e.ok ? UI_TEXT.received(e.name) : UI_TEXT.receiveFull);
+        } else if (e.kind === 'traded') {
+          toast(UI_TEXT.traded(e.name));
+        } else if (e.kind === 'located') {
+          toast(UI_TEXT.location[e.location]);
+        } else if (e.kind === 'karate') {
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          if (e.won) toast(`${n?.name ?? NAMES.creature}: ${UI_TEXT.belt(e.belt)}`);
         }
       }
     },
@@ -326,6 +482,17 @@ export function mountHud(
       }, 0);
     },
     onSelect(id) {
+      const g = game();
+      if (id?.startsWith('memorial:') && g) {
+        const m = g.world.memorials.find((x) => x.id === id.slice('memorial:'.length));
+        if (m) memorialCard.show(m);
+        return;
+      }
+      if (id?.startsWith('decor:') && g) {
+        g.send({ kind: 'removeDecor', id: id.slice('decor:'.length) });
+        toast(UI_TEXT.decorPickedUp);
+        return;
+      }
       if (id) sheet.open(id);
       else sheet.close();
     },
@@ -344,6 +511,7 @@ export function mountHud(
     hooks,
     bind() {
       refreshLoop();
+      if (new URLSearchParams(location.search).has('pocket')) pocket.open();
     },
   };
 }

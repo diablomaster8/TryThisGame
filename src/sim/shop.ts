@@ -1,4 +1,4 @@
-import { EGG, GROVE, SHOP } from '../config/tuning';
+import { BREEDING, EGG, GROVE, SHOP } from '../config/tuning';
 import { EGG_COLORS, createEgg } from './nubbin';
 import type { Rng } from './rng';
 import { rollEggSpecies, trainerOf } from './trainers';
@@ -17,6 +17,8 @@ export function priceOf(item: ShopItem): number {
       return SHOP.hat;
     case 'toy':
       return SHOP.toy;
+    case 'heartFruit':
+      return BREEDING.heartFruit;
   }
 }
 
@@ -46,6 +48,9 @@ export function buy(world: World, item: ShopItem, rng: Rng, events: SimEvent[]):
   switch (item) {
     case 'fruit':
       world.inventory.fruit += 1;
+      break;
+    case 'heartFruit':
+      world.inventory.heartFruit += 1;
       break;
     case 'egg': {
       if (rosterCount(world) >= EGG.maxRoster) return fail('roster');

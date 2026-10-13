@@ -126,6 +126,11 @@ export class SheetCache {
     });
   }
 
+  /** The grey Nubbins of the Hollow and Corvin's garden. */
+  ambientShadow(): SpriteSheet {
+    return this.get('ambient:shadow', () => buildChaoSheet(lookOf(shadowColors(CHILD_NEUTRAL))));
+  }
+
   /** A generic adult look for race rivals. */
   rival(band: 'sun' | 'moon' | 'neutral', type: string): SpriteSheet {
     return this.get(`rival:${band}:${type}`, () =>

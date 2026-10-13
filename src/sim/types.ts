@@ -38,6 +38,11 @@ export type BehaviorState =
   | 'swim'
   | 'react'
   | 'avoid'
+  | 'lesson'
+  | 'perform'
+  | 'shelter'
+  | 'court'
+  | 'fetch'
   | 'held'
   | 'carried'
   | 'thrown';
@@ -149,6 +154,15 @@ export interface Nubbin {
   stray: boolean;
   /** Sim time trust fell to rock bottom, or -1. */
   lowTrustSinceMs: number;
+  /** Kindergarten lessons learned: 0..3 per lesson. */
+  lessons: Record<string, number>;
+  /** Breeding: fed a heart fruit, looking for a partner until this sim time. */
+  courtingUntilMs: number;
+  /** Ids of the parents when bred, else null. */
+  parents: [string, string] | null;
+  generation: number;
+  /** Karate bouts. */
+  karate: { wins: number; losses: number; belt: number };
   lastPetMs: number;
   lastShakeMs: number;
   // Future fields (v2), empty by default so no migration is needed later.
@@ -157,7 +171,7 @@ export interface Nubbin {
   karateRecord: Record<string, unknown>;
 }
 
-export type ItemKind = 'fruit' | 'toy';
+export type ItemKind = 'fruit' | 'toy' | 'notebook';
 
 export interface Item {
   id: string;
@@ -188,12 +202,17 @@ export interface Keeper {
   intent: KeeperIntent | null;
 }
 
+/** Extra ways to interact with a Nubbin beyond pet, feed and carry. */
+export type Interaction = 'tickle' | 'hug' | 'groom' | 'tuckIn' | 'praise' | 'highFive';
+
 export type KeeperIntent =
   | { kind: 'pet'; nubbinId: string }
   | { kind: 'pickUp'; nubbinId: string }
   | { kind: 'feed'; nubbinId: string }
   | { kind: 'shakeTree'; treeId: string }
-  | { kind: 'collect'; itemId: string };
+  | { kind: 'collect'; itemId: string }
+  | { kind: 'interact'; nubbinId: string; action: Interaction }
+  | { kind: 'heartFruit'; nubbinId: string };
 
 export type OfflineMode = 'indefinite' | 'capped' | 'off';
 
@@ -208,6 +227,14 @@ export interface Settings {
   joystick: boolean;
   sound: boolean;
   music: boolean;
+  /** 0..1 */
+  musicVolume: number;
+  sfxVolume: number;
+  textSpeed: 'slow' | 'normal' | 'fast' | 'instant';
+  screenShake: boolean;
+  particles: 'full' | 'light' | 'off';
+  /** Override the system reduced-motion preference. */
+  reducedMotion: 'system' | 'on' | 'off';
 }
 
 export interface Inventory {
@@ -217,6 +244,9 @@ export interface Inventory {
   essences: Record<string, number>;
   /** Hat ids owned; wearing them is M5. */
   hats: string[];
+  heartFruit: number;
+  /** Decorations bought and not yet placed. */
+  decor: Partial<Record<DecorKind, number>>;
 }
 
 /** What an Expedition brings home. */
@@ -226,13 +256,43 @@ export interface Rewards {
   critters: Record<string, number>;
 }
 
-export type ShopItem = 'fruit' | 'egg' | 'hat' | 'toy';
+export type ShopItem = 'fruit' | 'egg' | 'hat' | 'toy' | 'heartFruit';
 
 export interface Memorial {
   id: string;
   name: string;
   pos: Vec2;
+  /** Remembered for the memorial card. */
+  species?: string;
+  form?: string;
+  ageMs?: number;
+  rebirths?: number;
+  eggColor?: string;
+  departedAtMs?: number;
 }
+
+export type WeatherKind = 'clear' | 'rain' | 'snow';
+export type Season = 'spring' | 'summer' | 'autumn' | 'winter';
+
+export interface Weather {
+  kind: WeatherKind;
+  /** Sim time the current weather ends. */
+  untilMs: number;
+  /** 0..1 */
+  intensity: number;
+}
+
+export type DecorKind = 'fence' | 'flowerbed' | 'bench' | 'statue' | 'pathTile' | 'lanternSmall';
+
+export interface PlacedDecor {
+  id: string;
+  kind: DecorKind;
+  pos: Vec2;
+}
+
+export type Location = 'grove' | 'hollow' | 'corvin';
+
+export type LessonId = 'drawing' | 'singing' | 'dance' | 'instrument';
 
 /** A Nubbin that ran away; it comes back to the Grove edge later. */
 export interface Stray {
@@ -313,6 +373,17 @@ export interface World {
   strays: Stray[];
   npcs: Npc[];
   campaign: CampaignState | null;
+  weather: Weather;
+  /** From the real calendar, updated each live step. */
+  season: Season;
+  placed: PlacedDecor[];
+  /** Collection book: species ids and Chao form keys, with the sim time first seen. */
+  seen: Record<string, number>;
+  /** Daily visits: the last real day (YYYY-MM-DD) a Keeper came by. */
+  visits: { lastDay: string; count: number };
+  location: Location;
+  /** Karate belts won per tier. */
+  karate: { belt: number; wins: number; losses: number };
 }
 
 // ---------- commands (input → sim) ----------
@@ -360,7 +431,23 @@ export type Command =
   | { kind: 'sceneDone'; scene: string; choice: string | null }
   | { kind: 'talk'; npcId: string }
   | { kind: 'lightLantern'; id: string }
-  | { kind: 'debugChapter'; chapter: number };
+  | { kind: 'debugChapter'; chapter: number }
+  | { kind: 'giveHeartFruit'; nubbinId: string }
+  | { kind: 'startLesson'; nubbinId: string; lesson: LessonId }
+  | { kind: 'payService'; service: 'doctor' | 'fortune'; nubbinId: string }
+  | { kind: 'buyDecor'; decor: DecorKind }
+  | { kind: 'placeDecor'; decor: DecorKind; pos: Vec2 }
+  | { kind: 'removeDecor'; id: string }
+  | { kind: 'karateResult'; nubbinId: string; won: boolean; tier: number; shells: number }
+  | { kind: 'receiveNubbin'; nubbin: Nubbin }
+  | { kind: 'tradeAway'; nubbinId: string }
+  | { kind: 'setLocation'; location: Location }
+  | { kind: 'debugWeather'; weather: WeatherKind }
+  | { kind: 'interact'; nubbinId: string; action: Interaction }
+  /** Whistle: the named Nubbin (or everyone) comes to the Keeper. */
+  | { kind: 'call'; nubbinId: string | null }
+  /** Throw the ball for a Nubbin to fetch. */
+  | { kind: 'playCatch'; nubbinId: string };
 
 // ---------- events (sim → render/ui) ----------
 
@@ -407,7 +494,25 @@ export type SimEvent =
   | { kind: 'chapter'; chapter: number }
   | { kind: 'ending'; ending: string }
   | { kind: 'lanternLit'; id: string }
-  | { kind: 'talked'; npcId: string };
+  | { kind: 'talked'; npcId: string }
+  | { kind: 'courting'; nubbinId: string }
+  | { kind: 'bred'; eggId: string; parents: [string, string] }
+  | { kind: 'lessonStarted'; nubbinId: string; lesson: LessonId }
+  | { kind: 'lessonDone'; nubbinId: string; lesson: LessonId; level: number }
+  | { kind: 'service'; service: 'doctor' | 'fortune'; nubbinId: string; ok: boolean }
+  | { kind: 'weather'; weather: WeatherKind }
+  | { kind: 'visitor'; trainer: string; gift: 'shells' | 'fruit' | 'egg' | 'heartFruit' }
+  | { kind: 'lanternNight' }
+  | { kind: 'decorPlaced'; id: string; decor: DecorKind }
+  | { kind: 'decorBought'; decor: DecorKind; ok: boolean }
+  | { kind: 'firstSeen'; key: string }
+  | { kind: 'traded'; name: string }
+  | { kind: 'received'; name: string; ok: boolean }
+  | { kind: 'karate'; nubbinId: string; won: boolean; belt: number }
+  | { kind: 'located'; location: Location }
+  | { kind: 'interacted'; nubbinId: string; action: Interaction; ok: boolean }
+  | { kind: 'called'; count: number }
+  | { kind: 'fetching'; nubbinId: string };
 
 export interface AwayReport {
   elapsedMs: number;

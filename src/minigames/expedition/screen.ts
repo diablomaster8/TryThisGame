@@ -1,4 +1,5 @@
 import { EXPEDITION, SIM } from '../../config/tuning';
+import { drawShadowText } from '../../render/sprites/font';
 import { PX } from '../../render/sprites/pixel-canvas';
 import { CRITTER_LABELS, ESSENCE_LABELS, NAMES, UI_TEXT } from '../../config/strings';
 import { CLIPS, frameAt, frameKey } from '../../render/sprites/animations';
@@ -38,6 +39,7 @@ export class ExpeditionScreen {
   private accMs = 0;
   private viewW: number = EXPEDITION.maxViewW;
   private onDone: ((rewards: Rewards) => void) | null = null;
+  private theme: 'meadow' | 'hollow' = 'meadow';
   private readonly abort = new AbortController();
 
   constructor(parent: HTMLElement) {
@@ -104,7 +106,9 @@ export class ExpeditionScreen {
     sheet: SpriteSheet,
     seed: number,
     onDone: (rewards: Rewards) => void,
+    theme: 'meadow' | 'hollow' = 'meadow',
   ): void {
+    this.theme = theme;
     this.art ??= buildExpeditionArt();
     this.runner = { sheet, name: runner.name };
     this.run = createRun(seed);
@@ -190,11 +194,15 @@ export class ExpeditionScreen {
     ctx.imageSmoothingEnabled = false;
 
     // Sky bands.
-    ctx.fillStyle = color(C.shallows);
+    const pal =
+      this.theme === 'hollow'
+        ? [C.ink, C.nightBlue, C.deepGreen, C.darkBark, C.ink]
+        : [C.shallows, C.water, C.pale, C.bark, C.darkBark];
+    ctx.fillStyle = color(pal[0]!);
     ctx.fillRect(0, 0, W, H);
-    ctx.fillStyle = color(C.water);
+    ctx.fillStyle = color(pal[1]!);
     ctx.fillRect(0, 0, W, 60);
-    ctx.fillStyle = color(C.pale);
+    ctx.fillStyle = color(pal[2]!);
     ctx.fillRect(0, EXPEDITION.groundY - 70, W, 70);
 
     // Parallax clouds and hills.
@@ -209,13 +217,13 @@ export class ExpeditionScreen {
     }
 
     // Ground: one grassy row, then earth with a few scrolling pebbles.
-    ctx.fillStyle = color(C.bark);
+    ctx.fillStyle = color(pal[3]!);
     ctx.fillRect(0, EXPEDITION.groundY + 16, W, H - EXPEDITION.groundY - 16);
     const groundShift = run.distance % 16;
     for (let x = -groundShift - 16; x < W + 16; x += 16) {
       blit(art.groundTile, x, EXPEDITION.groundY);
     }
-    ctx.fillStyle = color(C.darkBark);
+    ctx.fillStyle = color(pal[4]!);
     const pebbleShift = Math.floor(run.distance) % 48;
     for (let x = -pebbleShift; x < W + 48; x += 48) {
       ctx.fillRect(x + 7, EXPEDITION.groundY + 26, 2, 2);
@@ -284,8 +292,14 @@ export class ExpeditionScreen {
 
     // Name tag.
     ctx.fillStyle = color(C.cream);
-    ctx.font = '8px monospace';
-    ctx.fillText(this.runner?.name ?? NAMES.creature, 8, 24);
+    drawShadowText(
+      ctx,
+      this.runner?.name ?? NAMES.creature,
+      8,
+      18,
+      color(C.cream),
+      color(C.darkPlum),
+    );
   }
 
   dispose(): void {

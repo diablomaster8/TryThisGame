@@ -411,3 +411,78 @@ export const TRUST = {
   /** A stray returns to the Grove edge after this long, hoping to be found. */
   strayReturnMs: 20 * 60_000,
 } as const;
+
+/** Weather rolls on the sim clock; rain and snow change behaviour a little. */
+export const WEATHER = {
+  /** Clear spells last this long (ms), then a roll. */
+  clearMs: [8 * 60_000, 20 * 60_000] as const,
+  rainMs: [3 * 60_000, 8 * 60_000] as const,
+  snowMs: [4 * 60_000, 10 * 60_000] as const,
+  rainChance: 0.35,
+  /** Winter rolls snow instead of rain. */
+  /** Swim lean per second while out in the rain. */
+  rainSwimLeanPerSecond: 0.01,
+  /** Happiness per minute for Nubbins sheltering under a tree in the rain (they like it). */
+  shelterHappinessPerMinute: 0.5,
+} as const;
+
+export const BREEDING = {
+  heartFruit: 80,
+  /** How long a fed adult looks for a partner. */
+  courtMs: 90_000,
+  /** Partner must be within this distance. */
+  reach: 2.5,
+  minAffection: 30,
+  /** Chance a better grade is passed on per stat; else the average. */
+  betterGradeChance: 0.5,
+  shinyIfParentShiny: 0.35,
+  shinyBase: 0.03,
+} as const;
+
+export const LESSONS = {
+  price: 25,
+  durationMs: 45_000,
+  maxLevel: 3,
+  /** Chance per idle choice that a schooled Nubbin performs. */
+  performChance: 0.08,
+  performMs: 4000,
+  happiness: 6,
+} as const;
+
+export const SERVICES = {
+  doctor: 15,
+  fortune: 20,
+} as const;
+
+export const KARATE = {
+  tiers: 3,
+  /** Rounds per bout and base HP. */
+  hp: 100,
+  /** Stat weights. */
+  powerPerLevel: 0.9,
+  staminaPerLevel: 1.2,
+  dodgePerRunLevel: 0.004,
+  prize: [25, 60, 120] as const,
+  rivalLevel: [12, 30, 60] as const,
+  /** A tap in the sweet spot of the timing bar lands a strong strike. */
+  sweetSpot: 0.18,
+} as const;
+
+export const DECOR = {
+  prices: {
+    fence: 10,
+    flowerbed: 15,
+    bench: 25,
+    statue: 60,
+    pathTile: 5,
+    lanternSmall: 20,
+  } as const,
+  maxPlaced: 60,
+} as const;
+
+export const VISITS = {
+  /** A visiting Keeper brings a gift once per real day. */
+  giftShells: 30,
+  /** Saturday is lantern night. */
+  lanternNightDay: 6,
+} as const;

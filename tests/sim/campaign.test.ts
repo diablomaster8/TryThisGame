@@ -101,6 +101,9 @@ function meetGoal(world: World, events: SimEvent[]): void {
         events,
       );
       break;
+    case 'notebook':
+      st.flags.notebookFound = true;
+      break;
     case 'corvinChoice':
       break; // made in the opening scene
     case 'lanternsAgain':

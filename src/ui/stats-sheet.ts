@@ -12,7 +12,13 @@ import {
 } from '../config/strings';
 import { bandOf, childHint } from '../sim/alignment';
 import { levelOf } from '../sim/stats';
-import { STAT_KEYS, type Nubbin, type NubbinType, type World } from '../sim/types';
+import {
+  STAT_KEYS,
+  type Interaction,
+  type Nubbin,
+  type NubbinType,
+  type World,
+} from '../sim/types';
 import type { Game } from '../game';
 import { button, el, meter } from './dom';
 
@@ -35,6 +41,9 @@ export class StatsSheet {
   private readonly carryBtn: HTMLButtonElement;
   private readonly feedBtn: HTMLButtonElement;
   private readonly shakeBtn: HTMLButtonElement;
+  private more!: HTMLDivElement;
+  private heartBtn!: HTMLButtonElement;
+  private catchBtn!: HTMLButtonElement;
 
   constructor(
     parent: HTMLElement,
@@ -81,12 +90,46 @@ export class StatsSheet {
     this.shakeBtn = button(UI_TEXT.shake, () => this.act('shake'));
     this.actions.append(this.petBtn, this.carryBtn, this.feedBtn, this.shakeBtn);
 
+    // The gentler interactions and games; the sim decides what each one does.
+    this.more = el('div', 'sheet-actions sheet-more');
+    const send = (make: (id: string) => Parameters<Game['send']>[0]) => {
+      const g = this.game();
+      if (g && this.id) g.send(make(this.id));
+    };
+    const interact = (action: Interaction, label: string) =>
+      button(
+        label,
+        () => send((id) => ({ kind: 'interact', nubbinId: id, action })),
+        'btn btn-small',
+      );
+    this.heartBtn = button(
+      UI_TEXT.heartFruitGive,
+      () => send((id) => ({ kind: 'giveHeartFruit', nubbinId: id })),
+      'btn btn-small',
+    );
+    this.catchBtn = button(
+      UI_TEXT.playCatch,
+      () => send((id) => ({ kind: 'playCatch', nubbinId: id })),
+      'btn btn-small',
+    );
+    this.more.append(
+      interact('tickle', UI_TEXT.tickle),
+      interact('hug', UI_TEXT.hug),
+      interact('groom', UI_TEXT.groom),
+      interact('highFive', UI_TEXT.highFive),
+      interact('praise', UI_TEXT.praise),
+      interact('tuckIn', UI_TEXT.tuckIn),
+      button(UI_TEXT.call, () => send((id) => ({ kind: 'call', nubbinId: id })), 'btn btn-small'),
+      this.catchBtn,
+      this.heartBtn,
+    );
+
     this.give = el('div', 'sheet-give');
     this.giveTitle = el('div', 'sheet-give-title', UI_TEXT.give);
     this.giveList = el('div', 'sheet-give-list');
     this.give.append(this.giveTitle, this.giveList);
 
-    this.root.append(head, needs, stats, this.actions, this.give);
+    this.root.append(head, needs, stats, this.actions, this.more, this.give);
     parent.appendChild(this.root);
   }
 
@@ -185,6 +228,10 @@ export class StatsSheet {
     this.feedBtn.textContent = `${UI_TEXT.feed} (${world.inventory.fruit})`;
     this.feedBtn.disabled = world.inventory.fruit <= 0;
     this.shakeBtn.hidden = !isEgg;
+    this.more.hidden = isEgg || n.stage === 'cocoon';
+    this.heartBtn.hidden = n.stage !== 'adult' || !!n.eternal;
+    this.heartBtn.disabled = world.inventory.heartFruit <= 0;
+    this.catchBtn.disabled = !world.items.some((i) => i.kind === 'toy');
     this.shakeBtn.disabled = !carried && n.behavior.state !== 'held';
   }
 

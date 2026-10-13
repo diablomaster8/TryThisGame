@@ -35,7 +35,7 @@ interface NubbinView {
 }
 
 export interface SpritePick {
-  kind: 'nubbin' | 'item' | 'npc';
+  kind: 'nubbin' | 'item' | 'npc' | 'memorial' | 'decor';
   id: string;
 }
 
@@ -86,14 +86,39 @@ export class WorldView {
   }
 
   /** Time of day: sprite dimming and the ambient particle layer. */
+  private weather: 'clear' | 'rain' | 'snow' = 'clear';
+  private weatherIntensity = 0;
+  private density: 'full' | 'light' | 'off' = 'full';
+  private daylight: Daylight | null = null;
+  /** The Hollow is always dark and full of fireflies. */
+  location: 'grove' | 'hollow' | 'corvin' = 'grove';
+
   setDaylight(d: Daylight, reduceMotion: boolean): void {
-    this.darkness = d.darkness;
+    this.daylight = d;
+    const hollow = this.location === 'hollow';
+    this.darkness = hollow ? Math.max(0.6, d.darkness) : d.darkness;
     this.particles.env = {
-      fireflies: d.fireflies,
-      leaves: d.phase === 'day' || d.phase === 'dawn',
-      darkness: d.darkness,
+      fireflies: d.fireflies || hollow,
+      leaves: (d.phase === 'day' || d.phase === 'dawn') && this.weather === 'clear',
+      darkness: this.darkness,
+      weather: this.weather,
+      weatherIntensity: this.weatherIntensity,
+      density: this.density,
     };
     this.particles.reduceMotion = reduceMotion;
+  }
+
+  /** Weather and particle density from the sim and Settings; re-applies the daylight. */
+  setWeather(
+    kind: 'clear' | 'rain' | 'snow',
+    intensity: number,
+    density: 'full' | 'light' | 'off',
+    reduceMotion: boolean,
+  ): void {
+    this.weather = kind;
+    this.weatherIntensity = intensity;
+    this.density = density;
+    if (this.daylight) this.setDaylight(this.daylight, reduceMotion);
   }
 
   /** React to sim events: reaction bubbles and particle bursts. */
@@ -176,9 +201,10 @@ export class WorldView {
       });
     };
 
+    const inGrove = this.location === 'grove';
     // Ground dressing, then memorial flowers.
     const props = this.sheets.props();
-    for (const d of this.decor) {
+    for (const d of inGrove ? this.decor : []) {
       const rect = props.frames.get(frameKey(d.frame, 'front', 0));
       if (!rect) continue;
       batch.draw({
@@ -193,24 +219,48 @@ export class WorldView {
       });
     }
     const flower = props.frames.get(frameKey('flower', 'front', 0));
-    for (const m of world.memorials) {
-      if (flower) {
-        batch.draw({
+    // Placed garden pieces, tappable so they can be picked up again.
+    for (const d of inGrove ? world.placed : []) {
+      const rect = props.frames.get(frameKey(d.kind, 'front', 0));
+      if (!rect) continue;
+      const flat = d.kind === 'pathTile';
+      batch.draw(
+        {
           sheet: props,
-          rect: flower,
+          rect,
           flip: false,
-          x: m.pos.x,
-          y: 0,
-          z: m.pos.z,
-          mode: 'billboard',
+          x: d.pos.x,
+          y: flat ? 0.02 : 0,
+          z: d.pos.z,
+          mode: flat ? 'flat' : 'billboard',
           tint: this.dim,
-        });
+        },
+        { id: d.id, kind: 'decor' },
+      );
+    }
+    for (const m of inGrove ? world.memorials : []) {
+      if (flower) {
+        batch.draw(
+          {
+            sheet: props,
+            rect: flower,
+            flip: false,
+            x: m.pos.x,
+            y: 0,
+            z: m.pos.z,
+            mode: 'billboard',
+            tint: this.dim,
+          },
+          { id: m.id, kind: 'memorial' },
+        );
       }
     }
 
     // Items.
     const seenItems = new Set<string>();
-    for (const item of world.items) {
+    for (const item of world.items.filter((i) =>
+      inGrove ? i.kind !== 'notebook' : i.kind === 'notebook',
+    )) {
       seenItems.add(item.id);
       let prev = this.items.get(item.id);
       if (!prev) {
@@ -232,7 +282,7 @@ export class WorldView {
 
     // Nubbins.
     const seen = new Set<string>();
-    for (const n of world.nubbins) {
+    for (const n of inGrove ? world.nubbins : []) {
       seen.add(n.id);
       let v = this.nubbins.get(n.id);
       if (!v) {
@@ -252,7 +302,13 @@ export class WorldView {
     for (const id of this.nubbins.keys()) if (!seen.has(id)) this.nubbins.delete(id);
 
     // Visiting Keepers (campaign).
-    for (const npc of world.npcs) {
+    const npcHere = (t: string) =>
+      this.location === 'grove'
+        ? true
+        : this.location === 'corvin'
+          ? t === 'corvin' || t === 'ember'
+          : t === 'nova';
+    for (const npc of world.npcs.filter((p) => npcHere(p.trainer))) {
       const nsheet = this.sheets.keeper(npc.trainer);
       const moving = npc.target !== null;
       const nclip: ClipName = moving ? 'walk' : 'idle';
@@ -277,6 +333,9 @@ export class WorldView {
         );
       }
     }
+
+    // Ambient creatures of the other places: the Hollow's strays, Corvin's rows.
+    if (!inGrove) this.drawAmbient(nowMs, yaw, shadow);
 
     // Keeper.
     const k = world.keeper;
@@ -323,6 +382,53 @@ export class WorldView {
     this.particles.draw(batch, nowMs);
 
     batch.end();
+  }
+
+  /** Grey Nubbins that live in the other places; render-only dressing. */
+  private drawAmbient(
+    nowMs: number,
+    yaw: number,
+    shadow: (x: number, y: number, z: number, r: number) => void,
+  ): void {
+    const sheet = this.sheets.ambientShadow();
+    const spots: Array<[number, number, string]> =
+      this.location === 'corvin'
+        ? Array.from({ length: 30 }, (_, i): [number, number, string] => [
+            -9 + (i % 10) * 2,
+            -6 + Math.floor(i / 10) * 3,
+            'sit',
+          ])
+        : [
+            [-12, -4, 'sit'],
+            [-7, -11, 'sit'],
+            [4, -12, 'walk'],
+            [10, -3, 'sit'],
+            [12, 8, 'sit'],
+            [-4, 11, 'walk'],
+            [-11, 9, 'sit'],
+            [7, 12, 'sit'],
+          ];
+    spots.forEach(([x, z], i) => {
+      const clip: ClipName = this.location === 'corvin' ? 'idle' : i % 3 === 2 ? 'walk' : 'sad';
+      const facing = this.location === 'corvin' ? Math.PI : (i * 1.3) % (Math.PI * 2);
+      const view = viewAngle(facing, yaw);
+      const rect = sheet.frames.get(
+        frameKey(clip, view.angle, frameAt(CLIPS[clip], nowMs + i * 137)),
+      );
+      shadow(x, 0, z, 0.55);
+      if (rect) {
+        this.batch.draw({
+          sheet,
+          rect,
+          flip: view.flip,
+          x,
+          y: 0,
+          z,
+          mode: 'billboard',
+          tint: this.dim,
+        });
+      }
+    });
   }
 
   /** Sprite brightness for the time of day. */
@@ -682,6 +788,9 @@ export function clipFor(n: Nubbin): string {
 export function emoteFor(n: Nubbin): EmoteShape {
   const mood = moodOf(n);
   if (n.behavior.state === 'nap') return 'zz';
+  if (n.behavior.state === 'lesson') return 'question';
+  if (n.behavior.state === 'perform') return 'star';
+  if (n.behavior.state === 'court') return 'heart';
   // The floating ball is the Chao line's; other species show bubbles only when something is up.
   if (n.species !== 'chao' && mood === 'content') return 'none';
   // A wary Shadow Nubbin shows nothing it does not have to; a bonded one carries a dark heart.

@@ -6,14 +6,21 @@ import { clampToWorld, putDown, react, sampleAll, startThrow, updateBehavior } f
 import { CRITTER_SPECIES, giveCritter, giveEssence } from './critters';
 import { createKeeper, keeperPutDown, updateKeeper } from './keeper';
 import { noteCare } from './personality';
-import { addTrust, stepTrust } from './trust';
+import { addTrust, isWary, stepTrust } from './trust';
+import { createWeather, seasonOf, setWeather, stepWeather } from './weather';
+import { stepBreeding } from './breeding';
+import { payService, startLesson } from './kindergarten';
+import { buyDecor, placeDecor, removeDecor } from './decorate';
+import { stepCollection } from './collection';
+import { stepDaily } from './daily';
+import { receiveNubbin, tradeAway } from './share';
 import { applyCampaignCommand, noteCampaign, stepCampaign } from './campaign';
 import { stepNpcs } from './npcs';
 import { addRewards, buy } from './shop';
 import { SPECIES } from './species';
 import { DEFAULT_TRAINER, rollEggSpecies, TRAINERS, trainerOf } from './trainers';
 import { advanceStage, evolve, hatch, secondEvolve } from './lifecycle';
-import { createEgg, EGG_COLORS, isHeld } from './nubbin';
+import { createEgg, EGG_COLORS, isFree, isHeld } from './nubbin';
 import { Rng } from './rng';
 import {
   NUBBIN_TYPES,
@@ -37,6 +44,12 @@ export function defaultSettings(): Settings {
     joystick: false,
     sound: true,
     music: true,
+    musicVolume: 0.8,
+    sfxVolume: 0.8,
+    textSpeed: 'normal',
+    screenShake: true,
+    particles: 'full',
+    reducedMotion: 'system',
   };
 }
 
@@ -51,7 +64,15 @@ export function createWorld(seed: number, wallMs: number): World {
     items: [],
     trees: [],
     keeper: createKeeper(GROVE.keeperStart),
-    inventory: { shells: 0, fruit: 0, critters: {}, essences: {}, hats: [] },
+    inventory: {
+      shells: 0,
+      fruit: 0,
+      critters: {},
+      essences: {},
+      hats: [],
+      heartFruit: 0,
+      decor: {},
+    },
     settings: defaultSettings(),
     memorials: [],
     unlocks: { sunGrove: false, moonGrove: false },
@@ -63,6 +84,13 @@ export function createWorld(seed: number, wallMs: number): World {
     strays: [],
     npcs: [],
     campaign: null,
+    weather: createWeather(),
+    season: seasonOf(new Date(wallMs)),
+    placed: [],
+    seen: {},
+    visits: { lastDay: '', count: 0 },
+    location: 'grove',
+    karate: { belt: 0, wins: 0, losses: 0 },
   };
   for (const t of GROVE.trees) {
     world.trees.push({
@@ -337,6 +365,107 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
       n.stageMs = LIFECYCLE.adultMs;
       return;
     }
+    case 'giveHeartFruit':
+      if (world.inventory.heartFruit <= 0) return;
+      k.intent = { kind: 'heartFruit', nubbinId: cmd.nubbinId };
+      k.moveTarget = null;
+      return;
+    case 'interact':
+      k.intent = { kind: 'interact', nubbinId: cmd.nubbinId, action: cmd.action };
+      k.moveTarget = null;
+      return;
+    case 'call': {
+      let count = 0;
+      for (const n of world.nubbins) {
+        if (cmd.nubbinId && n.id !== cmd.nubbinId) continue;
+        if (!isFree(n) || isWary(n)) continue;
+        if (n.behavior.state === 'lesson' || n.behavior.state === 'nap') continue;
+        n.behavior.state = 'wander';
+        n.behavior.sinceMs = now;
+        n.behavior.untilMs = now + 8000;
+        n.behavior.itemId = null;
+        n.behavior.target = {
+          x: k.pos.x + Math.sin(k.facing) * 1.2 + (count % 2 ? 0.8 : -0.8),
+          z: k.pos.z + Math.cos(k.facing) * 1.2,
+        };
+        addTrust(n, 0.5, events);
+        count += 1;
+      }
+      events.push({ kind: 'called', count });
+      return;
+    }
+    case 'playCatch': {
+      const n = findNubbin(world, cmd.nubbinId);
+      const toy = world.items.find((i) => i.kind === 'toy');
+      if (!n || !toy || !isFree(n) || isWary(n)) return;
+      // The ball flies from the Keeper's hands; the Nubbin runs after it.
+      withRng(world, (rng) => {
+        const a = k.facing + rng.float(-0.5, 0.5);
+        toy.pos.x = k.pos.x + Math.sin(a) * rng.float(3, 5);
+        toy.pos.z = k.pos.z + Math.cos(a) * rng.float(3, 5);
+        clampToWorld(toy.pos);
+      });
+      n.behavior.state = 'fetch';
+      n.behavior.sinceMs = now;
+      n.behavior.untilMs = now + 20_000;
+      n.behavior.itemId = toy.id;
+      n.behavior.target = { x: toy.pos.x, z: toy.pos.z };
+      events.push({ kind: 'fetching', nubbinId: n.id });
+      return;
+    }
+    case 'startLesson': {
+      const n = findNubbin(world, cmd.nubbinId);
+      if (n) startLesson(world, n, cmd.lesson, events);
+      return;
+    }
+    case 'payService': {
+      const n = findNubbin(world, cmd.nubbinId);
+      if (n) payService(world, cmd.service, n, events);
+      return;
+    }
+    case 'buyDecor':
+      buyDecor(world, cmd.decor, events);
+      return;
+    case 'placeDecor':
+      placeDecor(world, cmd.decor, cmd.pos, events);
+      return;
+    case 'removeDecor':
+      removeDecor(world, cmd.id);
+      return;
+    case 'karateResult': {
+      const n = findNubbin(world, cmd.nubbinId);
+      world.inventory.shells += Math.max(0, cmd.shells);
+      if (cmd.won) {
+        world.karate.wins += 1;
+        world.karate.belt = Math.max(world.karate.belt, cmd.tier);
+      } else world.karate.losses += 1;
+      if (n) {
+        n.karate ??= { wins: 0, losses: 0, belt: 0 };
+        if (cmd.won) n.karate.wins += 1;
+        else n.karate.losses += 1;
+        n.karate.belt = Math.max(n.karate.belt, cmd.won ? cmd.tier : 0);
+        events.push({ kind: 'karate', nubbinId: n.id, won: cmd.won, belt: n.karate.belt });
+      }
+      return;
+    }
+    case 'receiveNubbin':
+      receiveNubbin(world, cmd.nubbin, events);
+      return;
+    case 'tradeAway':
+      tradeAway(world, cmd.nubbinId, events);
+      return;
+    case 'setLocation':
+      if (world.location !== cmd.location) {
+        world.location = cmd.location;
+        k.pos = { x: GROVE.keeperStart.x, z: GROVE.keeperStart.z };
+        k.moveTarget = null;
+        k.intent = null;
+        events.push({ kind: 'located', location: cmd.location });
+      }
+      return;
+    case 'debugWeather':
+      withRng(world, (rng) => setWeather(world, cmd.weather, rng, events));
+      return;
     case 'campaignStart':
     case 'sceneDone':
     case 'talk':
@@ -388,8 +517,15 @@ export function stepWorld(world: World, dtMs: number, wallMs?: number): SimEvent
     updateKeeper(world, dtMs, events);
     stepTrust(world, dtMs, events);
     stepNpcs(world, dtMs, rng);
+    stepWeather(world, dtMs, rng, events);
+    stepBreeding(world, rng, events);
+    if (wallMs !== undefined) {
+      world.season = seasonOf(new Date(wallMs));
+      stepDaily(world, wallMs, rng, events);
+    }
     stepCampaign(world, dtMs, events);
   });
+  stepCollection(world, events);
 
   // Lifetime happiness sampling, once a sim second.
   if (Math.floor(world.timeMs / 1000) !== Math.floor((world.timeMs - dtMs) / 1000)) {

@@ -17,6 +17,12 @@ export class SettingsMenu {
   private readonly departuresRow: HTMLLabelElement;
   private readonly sound: HTMLInputElement;
   private readonly music: HTMLInputElement;
+  private readonly musicVol: HTMLInputElement;
+  private readonly sfxVol: HTMLInputElement;
+  private readonly textSpeed: HTMLSelectElement;
+  private readonly shake: HTMLInputElement;
+  private readonly particles: HTMLSelectElement;
+  private readonly reduced: HTMLSelectElement;
   private readonly joystick: HTMLInputElement;
 
   constructor(
@@ -106,6 +112,61 @@ export class SettingsMenu {
     joyRow.append(this.joystick, jText);
     body.appendChild(joyRow);
 
+    // Sliders and the rest.
+    const slider = (label: string) => {
+      const row = el('label', 'field-row');
+      const input = el('input');
+      input.type = 'range';
+      input.min = '0';
+      input.max = '100';
+      input.step = '5';
+      input.addEventListener('input', () => this.apply());
+      row.append(el('strong', undefined, label), input);
+      body.appendChild(row);
+      return input;
+    };
+    const select = (label: string, options: Record<string, string>) => {
+      const row = el('label', 'field-row');
+      const sel = el('select');
+      for (const [value, text] of Object.entries(options)) {
+        const o = el('option', undefined, text);
+        o.value = value;
+        sel.appendChild(o);
+      }
+      sel.addEventListener('change', () => this.apply());
+      row.append(el('strong', undefined, label), sel);
+      body.appendChild(row);
+      return sel;
+    };
+    this.musicVol = slider(UI_TEXT.musicVolume);
+    this.sfxVol = slider(UI_TEXT.sfxVolume);
+    this.textSpeed = select(UI_TEXT.textSpeed, UI_TEXT.textSpeeds);
+    const shakeRow = el('label', 'check-row');
+    this.shake = el('input');
+    this.shake.type = 'checkbox';
+    this.shake.addEventListener('change', () => this.apply());
+    const shText = el('span');
+    shText.append(
+      el('strong', undefined, UI_TEXT.screenShake),
+      el('small', undefined, UI_TEXT.screenShakeHelp),
+    );
+    shakeRow.append(this.shake, shText);
+    body.appendChild(shakeRow);
+    this.particles = select(UI_TEXT.particlesLabel, UI_TEXT.particleLevels);
+    this.reduced = select(UI_TEXT.reducedMotionLabel, UI_TEXT.reducedMotionLevels);
+    const screen = el('div', 'settings-actions');
+    screen.append(
+      button(UI_TEXT.fullscreen, () => {
+        if (document.fullscreenElement) void document.exitFullscreen?.();
+        else void document.documentElement.requestFullscreen?.().catch(() => undefined);
+      }),
+      button(UI_TEXT.backToTitle, () => {
+        this.game()?.save();
+        location.href = location.pathname;
+      }),
+    );
+    body.appendChild(screen);
+
     const saves = el('div', 'settings-actions');
     saves.append(
       button(UI_TEXT.exportSave, () => this.exportSave()),
@@ -125,6 +186,12 @@ export class SettingsMenu {
     this.departures.checked = s.allowOfflineDepartures;
     this.sound.checked = g.world.settings.sound;
     this.music.checked = g.world.settings.music;
+    this.musicVol.value = String(Math.round(g.world.settings.musicVolume * 100));
+    this.sfxVol.value = String(Math.round(g.world.settings.sfxVolume * 100));
+    this.textSpeed.value = g.world.settings.textSpeed;
+    this.shake.checked = g.world.settings.screenShake;
+    this.particles.value = g.world.settings.particles;
+    this.reduced.value = g.world.settings.reducedMotion;
     this.joystick.checked = g.world.settings.joystick;
     this.syncEnabled(s.mode);
     this.dialog.show();
@@ -169,6 +236,12 @@ export class SettingsMenu {
       ...prev,
       sound: this.sound.checked,
       music: this.music.checked,
+      musicVolume: Number(this.musicVol.value) / 100,
+      sfxVolume: Number(this.sfxVol.value) / 100,
+      textSpeed: this.textSpeed.value as Settings['textSpeed'],
+      screenShake: this.shake.checked,
+      particles: this.particles.value as Settings['particles'],
+      reducedMotion: this.reduced.value as Settings['reducedMotion'],
       joystick: this.joystick.checked,
       offlineAging: {
         mode,
