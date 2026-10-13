@@ -27,6 +27,7 @@ export class ExpeditionScreen {
   private readonly canvas: HTMLCanvasElement;
   private readonly ctx: CanvasRenderingContext2D;
   private readonly hud: HTMLDivElement;
+  private readonly quitBtn: HTMLButtonElement;
   private readonly results: HTMLDivElement;
   private readonly resultsBody: HTMLDivElement;
   private art: ExpeditionArt | null = null;
@@ -57,7 +58,10 @@ export class ExpeditionScreen {
       button(UI_TEXT.backToGrove, () => this.finish(), 'btn btn-primary'),
     );
     this.results.appendChild(card);
-    this.root.append(this.canvas, this.hud, this.results);
+    this.quitBtn = button('✕', () => this.finish(), 'btn btn-icon quit');
+    this.quitBtn.setAttribute('aria-label', UI_TEXT.quitMinigame);
+    this.quitBtn.title = UI_TEXT.quitMinigame;
+    this.root.append(this.canvas, this.hud, this.quitBtn, this.results);
     parent.appendChild(this.root);
 
     const { signal } = this.abort;
@@ -74,6 +78,7 @@ export class ExpeditionScreen {
       'keydown',
       (e) => {
         if (this.root.hidden || e.repeat) return;
+        if (e.key === 'Escape') this.finish();
         if (e.key === ' ' || e.key === 'ArrowUp' || e.key === 'w') press(e);
       },
       { signal },

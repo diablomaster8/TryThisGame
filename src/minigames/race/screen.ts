@@ -40,6 +40,7 @@ export class RaceScreen {
   private readonly ctx: CanvasRenderingContext2D;
   private readonly hud: HTMLDivElement;
   private readonly cheerBtn: HTMLButtonElement;
+  private readonly quitBtn: HTMLButtonElement;
   private readonly results: HTMLDivElement;
   private readonly resultsBody: HTMLDivElement;
   private race: RaceState | null = null;
@@ -72,7 +73,10 @@ export class RaceScreen {
       button(UI_TEXT.backToGrove, () => this.finish(), 'btn btn-primary'),
     );
     this.results.appendChild(card);
-    this.root.append(this.canvas, this.hud, this.cheerBtn, this.results);
+    this.quitBtn = button('✕', () => this.finish(), 'btn btn-icon quit');
+    this.quitBtn.setAttribute('aria-label', UI_TEXT.quitMinigame);
+    this.quitBtn.title = UI_TEXT.quitMinigame;
+    this.root.append(this.canvas, this.hud, this.cheerBtn, this.quitBtn, this.results);
     parent.appendChild(this.root);
 
     const { signal } = this.abort;
@@ -80,6 +84,7 @@ export class RaceScreen {
       'keydown',
       (e) => {
         if (this.root.hidden || e.repeat) return;
+        if (e.key === 'Escape') this.finish();
         if (e.key === ' ') {
           e.preventDefault();
           this.cheer();

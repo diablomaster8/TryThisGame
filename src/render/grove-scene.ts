@@ -22,7 +22,25 @@ import type { GroveKind } from '../sim/types';
 import { daylightAt, type Daylight } from './daylight';
 import { C, color } from './sprites/palette';
 import { makeGroundTexture } from './ground';
-import { makeHillTexture, makeWaterfallTexture, makeWaterTexture } from './textures';
+import {
+  makeBarkTexture,
+  makeHillTexture,
+  makeLeafTexture,
+  makeSkyTexture,
+  makeStoneTexture,
+  makeWaterfallTexture,
+  makeWaterTexture,
+} from './textures';
+
+/** Sky gradients per phase: top colour, bottom colour, clouds. */
+const SKY_GRADIENTS: Record<string, [string, string, boolean]> = {
+  day: [color(C.skyDeep), color(C.skyLight), true],
+  dawn: [color(C.violet), color(C.roseLight), true],
+  dusk: [color(C.moonPurple), color(C.orange), false],
+  night: [color(C.ink), color(C.nightBlue), false],
+  sun: [color(C.skyLight), color(C.cream), true],
+  moon: [color(C.ink), color(C.violetDeep), false],
+};
 
 /**
  * The Grove: a low-poly garden with grass, a pond, hills, two fruit trees and a
@@ -42,6 +60,7 @@ export class GroveScene {
   private readonly tintable: MeshLambertMaterial[] = [];
   private groveKind: GroveKind = 'main';
   private readonly canopies: Mesh[] = [];
+  private readonly skies = new Map<string, Texture>();
   private readonly lanternGlows: Mesh[] = [];
   private readonly lanternIds: string[] = [];
   private lit = new Set<string>();
@@ -122,44 +141,85 @@ export class GroveScene {
     this.scene.add(pool);
     this.disposables.push(fallGeo, fallMat, this.falls, poolGeo, poolMat);
 
-    // Fruit trees.
-    const trunkGeo = new CylinderGeometry(0.28, 0.42, 2.0, 6);
-    const trunkMat = new MeshLambertMaterial({
-      color: new Color(color(C.bark)),
-      flatShading: true,
-    });
-    const canopyGeo = new IcosahedronGeometry(1.7, 0);
-    const canopyMat = new MeshLambertMaterial({
+    // Fruit trees: a textured, tapered trunk with roots and a canopy of overlapping
+    // leaf-textured lobes in two greens, so the crown reads as foliage with depth.
+    const bark = makeBarkTexture(8, 16);
+    const trunkGeo = new CylinderGeometry(0.3, 0.5, 2.2, 7);
+    const trunkMat = new MeshLambertMaterial({ map: bark, flatShading: true });
+    const rootGeo = new ConeGeometry(0.22, 0.7, 4);
+    const leaves = makeLeafTexture(8, 3);
+    const lobeGeo = new SphereGeometry(1, 8, 6);
+    const lobeMat = new MeshLambertMaterial({ map: leaves, flatShading: true });
+    const lobeDarkMat = new MeshLambertMaterial({
+      map: leaves,
       color: new Color(color(C.leaf)),
       flatShading: true,
     });
+    this.tintable.push(lobeMat, lobeDarkMat, trunkMat);
     const fruitGeo = new SphereGeometry(0.22, 6, 4);
     const fruitMat = new MeshLambertMaterial({ color: new Color(color(C.orange)) });
-    this.disposables.push(trunkGeo, trunkMat, canopyGeo, canopyMat, fruitGeo, fruitMat);
+    this.disposables.push(
+      bark,
+      trunkGeo,
+      trunkMat,
+      rootGeo,
+      leaves,
+      lobeGeo,
+      lobeMat,
+      lobeDarkMat,
+      fruitGeo,
+      fruitMat,
+    );
     GROVE.trees.forEach((t, i) => {
       const tree = new Object3D();
       tree.position.set(t.x, 0, t.z);
-      const trunk = new Mesh(trunkGeo, trunkMat);
-      trunk.position.y = 1.0;
-      const canopy = new Mesh(canopyGeo, canopyMat);
-      this.canopies.push(canopy);
-      canopy.position.y = 3.0;
-      canopy.rotation.y = i * 0.7;
       const pick = { kind: 'tree', id: `tree-${i + 1}` };
+      const trunk = new Mesh(trunkGeo, trunkMat);
+      trunk.position.y = 1.1;
       trunk.userData.pick = pick;
-      canopy.userData.pick = pick;
-      tree.add(trunk, canopy);
-      // A few fruit on the canopy for dressing.
-      for (let k = 0; k < 3; k++) {
+      tree.add(trunk);
+      this.pickables.push(trunk);
+      for (let r = 0; r < 4; r++) {
+        const root = new Mesh(rootGeo, trunkMat);
+        const a = (r / 4) * Math.PI * 2 + i * 0.5;
+        root.position.set(Math.cos(a) * 0.45, 0.2, Math.sin(a) * 0.45);
+        root.rotation.z = Math.cos(a) * 0.9;
+        root.rotation.x = -Math.sin(a) * 0.9;
+        tree.add(root);
+      }
+      // The crown: one big lobe, four around it, two on top, the lower ones darker.
+      const canopy = new Object3D();
+      canopy.position.y = 3.1;
+      canopy.rotation.y = i * 0.7;
+      const lobes: Array<[number, number, number, number, boolean]> = [
+        [0, 0, 0, 1.6, false],
+        [1.2, -0.4, 0.3, 1.1, true],
+        [-1.2, -0.3, -0.2, 1.1, true],
+        [0.2, -0.4, 1.2, 1.0, true],
+        [-0.3, -0.5, -1.2, 1.0, true],
+        [0.5, 0.9, 0.2, 1.0, false],
+        [-0.6, 1.0, -0.4, 0.9, false],
+      ];
+      for (const [x, y, z, s, dark] of lobes) {
+        const lobe = new Mesh(lobeGeo, dark ? lobeDarkMat : lobeMat);
+        lobe.position.set(x, y, z);
+        lobe.scale.set(s, s * 0.85, s);
+        lobe.userData.pick = pick;
+        canopy.add(lobe);
+        this.pickables.push(lobe);
+      }
+      this.canopies.push(canopy as unknown as Mesh);
+      tree.add(canopy);
+      // Fruit hanging around the crown.
+      for (let k = 0; k < 5; k++) {
         const f = new Mesh(fruitGeo, fruitMat);
-        const a = (k / 3) * Math.PI * 2 + i;
-        f.position.set(Math.cos(a) * 1.3, 2.8 + Math.sin(a * 2) * 0.4, Math.sin(a) * 1.3);
+        const a = (k / 5) * Math.PI * 2 + i;
+        f.position.set(Math.cos(a) * 1.6, 2.5 + Math.sin(a * 2) * 0.5, Math.sin(a) * 1.6);
         f.userData.pick = pick;
         tree.add(f);
         this.pickables.push(f);
       }
       this.scene.add(tree);
-      this.pickables.push(trunk, canopy);
     });
 
     // Foam ring on the pond edge, animated in update().
@@ -208,24 +268,56 @@ export class GroveScene {
     this.lanternLight.intensity = 6;
     this.scene.add(this.lanternLight);
 
-    // A couple of decorative bushes.
-    const bushGeo = new ConeGeometry(0.9, 1.1, 5);
+    // Bushes: two leaf-textured lobes each, and a few mossy rocks at the hill feet.
     const bushMat = new MeshLambertMaterial({
+      map: leaves,
       color: new Color(color(C.forest)),
       flatShading: true,
     });
-    this.disposables.push(bushGeo, bushMat);
+    this.tintable.push(bushMat);
+    this.disposables.push(bushMat);
     for (const [x, z] of [
       [-9, 2],
       [9, 9],
       [-3, -11],
       [12, 1],
+      [-13, -3],
+      [3, 13],
     ] as const) {
-      const bush = new Mesh(bushGeo, bushMat);
-      bush.position.set(x, 0.5, z);
-      bush.userData.pick = { kind: 'ground', id: 'bush' };
+      const bush = new Object3D();
+      bush.position.set(x, 0, z);
+      for (const [dx, dz, s] of [
+        [0, 0, 0.9],
+        [0.6, 0.3, 0.6],
+        [-0.5, -0.4, 0.55],
+      ] as const) {
+        const lobe = new Mesh(lobeGeo, bushMat);
+        lobe.position.set(dx, s * 0.55, dz);
+        lobe.scale.set(s, s * 0.7, s);
+        lobe.userData.pick = { kind: 'ground', id: 'bush' };
+        bush.add(lobe);
+        this.pickables.push(lobe);
+      }
       this.scene.add(bush);
-      this.pickables.push(bush);
+    }
+    const stone = makeStoneTexture();
+    const rockGeo = new IcosahedronGeometry(0.6, 0);
+    const rockMat = new MeshLambertMaterial({ map: stone, flatShading: true });
+    this.disposables.push(stone, rockGeo, rockMat);
+    for (const [x, z, s, ry] of [
+      [-7, 9, 1, 0.3],
+      [-6.2, 9.6, 0.6, 1.2],
+      [6, -9, 0.9, 0.8],
+      [13, -5, 0.7, 2.1],
+      [-13, 12, 0.8, 0.5],
+    ] as const) {
+      const rock = new Mesh(rockGeo, rockMat);
+      rock.position.set(x, 0.25 * s, z);
+      rock.scale.set(s, s * 0.7, s);
+      rock.rotation.y = ry;
+      rock.userData.pick = { kind: 'ground', id: 'rock' };
+      this.scene.add(rock);
+      this.pickables.push(rock);
     }
   }
 
@@ -273,13 +365,21 @@ export class GroveScene {
   private applyLight(): void {
     const d = this.daylight;
     const kind = this.groveKind;
-    const sky =
+    // A gradient sky per phase (cached), with clouds by day.
+    const key =
       kind === 'sun' && d.phase === 'day'
-        ? color(C.shallows)
+        ? 'sun'
         : kind === 'moon' && d.phase === 'day'
-          ? color(C.ink)
-          : d.sky;
-    this.scene.background = new Color(sky);
+          ? 'moon'
+          : d.phase;
+    let sky = this.skies.get(key);
+    if (!sky) {
+      const [top, bottom, clouds] = SKY_GRADIENTS[key] ?? SKY_GRADIENTS.day!;
+      sky = makeSkyTexture(top, bottom, clouds);
+      this.skies.set(key, sky);
+      this.disposables.push(sky);
+    }
+    this.scene.background = sky;
     this.hemi.intensity = d.hemiIntensity * (kind === 'moon' ? 0.85 : 1);
     this.hemi.color.set(kind === 'moon' && d.phase === 'day' ? color(C.violet) : d.hemiColor);
     this.sun.intensity = d.sunIntensity * (kind === 'sun' ? 1.3 : 1);

@@ -3,10 +3,22 @@ import { Rng } from '../sim/rng';
 
 /** A ground decoration: a prop-sheet frame at a fixed spot. */
 export interface Decoration {
-  frame: 'tuft' | 'mushroom' | 'pebble' | 'daisy' | 'bluebell' | 'stump' | 'sign';
+  frame:
+    | 'tuft'
+    | 'mushroom'
+    | 'pebble'
+    | 'daisy'
+    | 'bluebell'
+    | 'stump'
+    | 'sign'
+    | 'reed'
+    | 'tallgrass'
+    | 'lily';
   x: number;
   z: number;
   flip: boolean;
+  /** Lies on the water instead of standing up. */
+  flat?: boolean;
 }
 
 function clear(x: number, z: number): boolean {
@@ -38,12 +50,45 @@ export function placeDecorations(seed = 11): Decoration[] {
       placed++;
     }
   };
-  tryPlace('tuft', 34);
+  tryPlace('tuft', 40);
   tryPlace('daisy', 14);
   tryPlace('bluebell', 10);
   tryPlace('pebble', 12);
   tryPlace('mushroom', 6);
   tryPlace('stump', 2);
+  // Tall grass along the Grove's edges.
+  for (let i = 0; i < 28; i++) {
+    const side = rng.int(0, 3);
+    const t = rng.float(-spread, spread);
+    const e = spread - rng.float(0, 1.2);
+    const x = side === 0 ? -e : side === 1 ? e : t;
+    const z = side === 2 ? -e : side === 3 ? e : t;
+    if (!clear(x, z)) continue;
+    out.push({ frame: 'tallgrass', x, z, flip: rng.chance(0.5) });
+  }
+  // Reeds on the pond's rim and lily pads on the water.
+  const pond = GROVE.pond;
+  for (let i = 0; i < 9; i++) {
+    const a = rng.float(0, Math.PI * 2);
+    const r = pond.r + rng.float(0.2, 0.7);
+    out.push({
+      frame: 'reed',
+      x: pond.x + Math.cos(a) * r,
+      z: pond.z + Math.sin(a) * r,
+      flip: rng.chance(0.5),
+    });
+  }
+  for (let i = 0; i < 5; i++) {
+    const a = rng.float(0, Math.PI * 2);
+    const r = rng.float(1.2, pond.r - 0.8);
+    out.push({
+      frame: 'lily',
+      x: pond.x + Math.cos(a) * r,
+      z: pond.z + Math.sin(a) * r,
+      flip: rng.chance(0.5),
+      flat: true,
+    });
+  }
   // The signpost greets the Keeper by the start.
   out.push({
     frame: 'sign',

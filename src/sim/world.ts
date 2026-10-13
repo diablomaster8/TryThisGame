@@ -36,6 +36,7 @@ export function defaultSettings(): Settings {
     },
     joystick: false,
     sound: true,
+    music: true,
   };
 }
 

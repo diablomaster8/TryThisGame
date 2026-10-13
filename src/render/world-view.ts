@@ -186,9 +186,9 @@ export class WorldView {
         rect,
         flip: d.flip,
         x: d.x,
-        y: 0,
+        y: d.flat ? 0.03 : 0,
         z: d.z,
-        mode: 'billboard',
+        mode: d.flat ? 'flat' : 'billboard',
         tint: this.dim,
       });
     }

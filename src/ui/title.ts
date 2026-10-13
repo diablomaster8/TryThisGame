@@ -1,5 +1,6 @@
 import { NAMES, TRAINER_LABELS } from '../config/strings';
 import { STORY_TEXT } from '../config/story';
+import { playSong } from '../platform/audio';
 import { hasSave, type SaveSlot } from '../platform/storage';
 import { frameKey } from '../render/sprites/animations';
 import { buildKeeperSheet } from '../render/sprites/keeper';
@@ -20,6 +21,7 @@ export interface TitleChoice {
  */
 export function showTitle(parent: HTMLElement, onChoose: (c: TitleChoice) => void): void {
   const root = el('div', 'title');
+  playSong('title');
   const card = el('div', 'title-card');
   card.appendChild(el('div', 'title-logo', `🌿 ${NAMES.game}`));
   card.appendChild(el('div', 'title-sub', STORY_TEXT.title));

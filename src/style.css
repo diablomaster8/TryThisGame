@@ -1080,3 +1080,13 @@ button,
     animation: none;
   }
 }
+
+/* ---------- leave a minigame ---------- */
+
+.expedition .quit {
+  position: absolute;
+  top: calc(var(--safe-top) + 10px);
+  left: calc(var(--safe-left) + 10px);
+  pointer-events: auto;
+  z-index: 2;
+}

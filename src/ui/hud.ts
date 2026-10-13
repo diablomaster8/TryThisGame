@@ -10,7 +10,8 @@ import {
 import type { Game, GameHooks } from '../game';
 import type { AwayReport, GroveKind, SimEvent } from '../sim/types';
 import { ExpeditionScreen } from '../minigames/expedition/screen';
-import { playSound, setSoundEnabled } from '../platform/audio';
+import { playSong, playSound, setMusicEnabled, setSoundEnabled } from '../platform/audio';
+import { localHour, phaseAt } from '../render/daylight';
 import type { Nubbin } from '../sim/types';
 import { AwayScreen } from './away-screen';
 import { Celebration } from './celebration';
@@ -228,6 +229,15 @@ export function mountHud(
       // Story scenes wait their turn behind other panels.
       const c = g.world.campaign;
       journalBtn.hidden = !c;
+      // Which piece plays: story over dialogue, the minigames their own, else the hour's.
+      setMusicEnabled(g.world.settings.music);
+      if (dialogue.isOpen) playSong('story');
+      else if (expedition.isOpen) playSong('expedition');
+      else if (races.screen.isOpen) playSong('race');
+      else {
+        const phase = phaseAt(g.hourOverride ?? localHour()).phase;
+        playSong(phase === 'night' || phase === 'dusk' ? 'night' : 'grove');
+      }
       const next = c?.queue[0];
       if (next && !dialogue.isOpen && !away.isOpen && !expedition.isOpen && !races.isOpen()) {
         sheet.close();

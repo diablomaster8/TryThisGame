@@ -498,18 +498,25 @@ function drawFace(pc: PixelCanvas, a: Anchors, spec: CreatureSpec, pose: ChaoPos
         pc.ellipse(cx - 0.4, ey - 0.9, 0.45, 0.6, C.white);
         break;
       }
-      case 'angry':
-        pc.rect(cx - 1, ey, 3, 2, col.eye);
-        pc.line(cx - 2, ey - 1, cx + 1, ey - 2, col.outline);
-        pc.px(cx, ey, C.white);
+      case 'angry': {
+        // A narrowed eye under a slanted brow, with an iris and a hard glint.
+        const rx = narrow ? 1.1 : 1.7;
+        pc.ellipse(cx, ey + 0.5, rx, 1.4, col.eye);
+        pc.ellipse(cx + 0.2, ey + 0.7, rx * 0.55, 0.9, shadeOf(col.accent));
+        pc.ellipse(cx + 0.2, ey + 0.8, rx * 0.25, 0.5, col.eye);
+        pc.dot(cx - 0.6, ey, C.white);
+        pc.thinLine(cx - rx - 0.5, ey - 0.6, cx + rx * 0.6, ey - 1.6, col.outline);
         break;
+      }
       case 'stalk':
         pc.line(cx, ey - 2, cx + (cx < a.headCx ? -1 : 1), ey - 6, col.body);
         pc.disc(cx + (cx < a.headCx ? -1 : 1), ey - 7, 1.6, C.white);
         pc.px(cx + (cx < a.headCx ? -1 : 1), ey - 7, col.eye);
         break;
       default:
-        pc.rect(cx, ey, 1, 2, col.eye);
+        // Dot eyes: a small bead with a glint.
+        pc.ellipse(cx + 0.5, ey + 1, 0.8, 1.1, col.eye);
+        pc.dot(cx + 0.2, ey + 0.4, C.white);
     }
   };
   const spread = Math.round(a.headRx * 0.55);

@@ -207,6 +207,7 @@ export interface Settings {
   offlineAging: OfflineAgingSettings;
   joystick: boolean;
   sound: boolean;
+  music: boolean;
 }
 
 export interface Inventory {

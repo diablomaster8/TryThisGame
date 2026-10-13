@@ -81,6 +81,7 @@ export function validateWorld(w: World): World {
   w.settings ??= defaultSettings();
   w.settings.offlineAging ??= defaultSettings().offlineAging;
   w.settings.sound ??= true;
+  w.settings.music ??= true;
   w.settings.joystick ??= false;
   const oa = w.settings.offlineAging;
   if (oa.mode !== 'indefinite' && oa.mode !== 'capped' && oa.mode !== 'off')

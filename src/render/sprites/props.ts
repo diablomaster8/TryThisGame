@@ -123,8 +123,39 @@ function drawDecor(kind: string): PixelCanvas {
       pc.line(4, 6, 9, 6, C.bark);
       pc.px(11, 4, C.ember);
       break;
+    case 'reed':
+      pc.thinLine(5, 15, 4, 4, C.forest);
+      pc.thinLine(8, 15, 8, 2, C.leaf);
+      pc.thinLine(11, 15, 12, 5, C.forest);
+      pc.ellipse(8, 3, 0.9, 2, C.bark);
+      pc.ellipse(4, 5, 0.7, 1.4, C.darkBark);
+      break;
+    case 'tallgrass':
+      for (const [x0, top, c] of [
+        [2, 6, C.forest],
+        [4, 3, C.leaf],
+        [7, 2, C.leafLight],
+        [9, 4, C.leaf],
+        [12, 5, C.forest],
+        [14, 8, C.leaf],
+      ] as const) {
+        pc.thinLine(x0, 15, x0 + 1, top, c);
+      }
+      break;
+    case 'lily': {
+      pc.ellipse(8, 8, 5.5, 3.5, C.leaf);
+      pc.ellipse(7, 7.5, 3.5, 2, C.leafLight);
+      // The wedge: erase a slice so the pad reads as a lily pad.
+      for (let y = 5; y <= 10; y++)
+        for (let x = 9; x <= 14; x++)
+          if (y - 8 < (x - 8) * 0.45 && 8 - y < (x - 8) * 0.45) pc.erase(x, y);
+      pc.disc(5, 5, 1.3, C.blush);
+      pc.px(5, 5, C.sunYellow);
+      break;
+    }
   }
-  pc.finish(C.darkPlum, [C.white]);
+  if (kind !== 'lily') pc.finish(C.darkPlum, [C.white]);
+  else pc.outlineColored(C.deepWater);
   return pc;
 }
 
@@ -136,6 +167,9 @@ export const DECOR_FRAMES = [
   'mushroom',
   'stump',
   'sign',
+  'reed',
+  'tallgrass',
+  'lily',
 ] as const;
 
 export function buildPropSheet(): SpriteSheet {

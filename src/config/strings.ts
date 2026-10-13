@@ -340,8 +340,12 @@ export const UI_TEXT = {
   activeTrainer: 'Active',
   trainerChosen: (name: string) => `${name} tends the Grove now.`,
   // Sound
-  sound: 'Sound',
-  soundHelp: 'Soft music and little blips for taps, pickups and big moments.',
+  sound: 'Sound effects',
+  soundHelp: 'Little blips for taps, pickups and big moments.',
+  music: 'Music',
+  musicHelp:
+    'The Grove’s own score: a waltz by day, a music box at night, themes for the title, races and Expeditions.',
+  quitMinigame: 'Leave (Esc)',
   joystick: 'On-screen joystick',
   joystickHelp: 'A thumb pad for moving the Keeper. Tapping the ground always works too.',
   nothingToGive: 'Nothing to give yet. Expeditions (M4) bring Critters and Essences.',
