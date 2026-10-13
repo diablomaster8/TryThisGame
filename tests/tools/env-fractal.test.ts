@@ -12,6 +12,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { expect, it } from 'vitest';
 import { Rng } from '../../src/sim/rng';
+import { eaveShadow, roofThatch } from './buildings';
 import { fbm, ridged, vnoise, warped } from './noise';
 import { encodePng } from './png';
 import {
@@ -410,44 +411,21 @@ function cottage(r: Raster, rng: Rng): void {
       r.set(x, y, c);
     }
   }
-  // Thatch: a sagging ridge and eaves, thousands of strokes of varying length and colour.
-  const ridgeY = (x: number) =>
-    h.y + 2 + Math.sin(((x - h.x) / h.w) * Math.PI) * -3 + (vnoise(x / 30, 0, 38) - 0.5) * 4;
-  const eaveY = (x: number) => wallTop + 6 + (vnoise(x / 18, 1, 39) - 0.5) * 6;
-  for (let y = h.y - 6; y < wallTop + 12; y++) {
-    for (let x = h.x - 24; x < h.x + h.w + 24; x++) {
-      const tt = clamp01((y - ridgeY(x)) / (eaveY(x) - ridgeY(x)));
-      const halfTop = 12 + (vnoise(y / 9, 2, 40) - 0.5) * 6;
-      const half = halfTop + tt * (h.w / 2 + 16);
-      const dx = Math.abs(x - (h.x + h.w / 2));
-      if (y < ridgeY(x) - 2 || dx > half + (fbm(x / 6, y / 6, 2, 41) - 0.5) * 6) continue;
-      if (tt > 1 && y > eaveY(x) + (fbm(x / 5, 3, 2, 42) - 0.5) * 8) continue;
-      const strand = fbm(x / 3, y / 14, 3, 43);
-      const lit = x < h.x + h.w / 2 - 6 ? 1 : 0.72;
-      let c = mix(hex('#8a5e2a'), hex('#e3b86b'), strand);
-      c = shade(c, (0.75 + tt * 0.1) * lit);
-      if (y > eaveY(x) - 2) c = shade(c, 0.78);
-      r.set(x, y, c);
-    }
-  }
-  for (let i = 0; i < 2600; i++) {
-    const x = h.x - 20 + rng.int(0, h.w + 40);
-    const y = ridgeY(x) + rng.float(0, eaveY(x) - ridgeY(x) + 4);
-    const lit = x < h.x + h.w / 2 - 6;
-    r.line(
-      x,
-      y,
-      x + rng.float(-1, 1),
-      y + rng.int(3, 7),
-      lit ? hex('#f1c875') : hex('#6b4620'),
-      0.4,
-    );
-  }
-  for (let x = h.x - 2; x < h.x + h.w + 2; x++) {
-    const y = ridgeY(x);
-    r.set(x, y, mix(hex('#c99a52'), hex('#f3d088'), vnoise(x / 4, 5, 44)));
-    r.set(x, y + 1, hex('#a07a3a'), 0.7);
-  }
+  // The roof: stepped thatch courses, a woven ridge, an eave shadow on the wall.
+  roofThatch(
+    r,
+    rng,
+    {
+      x0: h.x - 22,
+      x1: h.x + h.w + 22,
+      eaveY: wallTop + 6,
+      rx0: h.x + h.w / 2 - 14,
+      rx1: h.x + h.w / 2 + 14,
+      ridgeY: h.y + 2,
+    },
+    38,
+  );
+  eaveShadow(r, h.x, wallTop + 8, h.w, 10);
   // Chimney of stacked stones with a cap.
   for (let y = h.y - 14; y < h.y + 14; y++) {
     for (let x = h.x + h.w - 36; x < h.x + h.w - 22; x++) {

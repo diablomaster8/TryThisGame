@@ -9,6 +9,42 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Roof redone and five more buildings (2026-10-13, for Maor's pick)
+
+Maor: "try again on the roof art so it's clear what's roof and what is floor. Then
+create 5 other building samples that we can use for other places."
+
+**The roof.** The old thatch was the same value and the same stroke texture as the
+grass, so the two merged. The new `roofThatch` in `tests/tools/buildings.ts` paints
+courses stepped down the slope, each lit at its top with a dark, ragged underside; a
+lit slope and a shaded slope split at the middle; a woven ridge cap with spars; a
+fringe that hangs below the eave line; and `eaveShadow` throws a dark band onto the
+wall under the eave. The cottage in `fractal-day.png` / `fractal-dusk.png` uses it.
+
+**Five buildings** (`tests/tools/buildings.test.ts`, `PREVIEW_BUILDINGS=dir`;
+`docs/samples/building-1.png` … `building-5.png`, `buildings-all.png`), each a
+different wall and roof material so places read differently at a glance:
+
+1. **The school hut** (kindergarten): a round stone wall curving away at the sides, a
+   scalloped slate cone, a bell gable, a painted sign, flower boxes.
+2. **The dojo**: a timber hall on a raised floor with shoji panels, a dark entry with a
+   blue noren and two red lanterns, two tiers of curved ceramic tile roof with heavy
+   ridge beams and upturned ends.
+3. **The workshop**: a plank barn with an open front showing the bench, a shelf of
+   tools and a vice, doors folded open, a barrel and a log pile, a staggered wood
+   shingle roof weathering grey toward the eave, a stone chimney with smoke.
+4. **The bathhouse**: rounded river stones, a cornice, a copper dome gone green with
+   seams and patches of bare copper, a round window, a glowing window, a steaming tub
+   and a towel on a rail.
+5. **The windmill**: a tapering stone tower, a plank drum with a shingled cap, four
+   lattice sails on a hub, a small window, sacks and flowers at the door.
+
+Shared painters in `tests/tools/buildings.ts`: plaster, stone (square or rounded,
+light or dark), plank walls; thatch, slate, tile, shingle and dome roofs; windows with
+wavy glass, plank doors, stone steps, flower boxes, ground shadows, the eave shadow.
+Every building is tracked for the boundary rim. These are the kit for the campaign
+places and the Digimon-style town if those are picked.
+
 ## Organic samples and a procedural dungeon (2026-10-13, for Maor's pick)
 
 Maor: "try again with samples that aren't exactly shape based. Not too triangular or
