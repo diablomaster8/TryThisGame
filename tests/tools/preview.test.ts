@@ -16,9 +16,31 @@ import {
   variantColors,
   type ChaoLook,
 } from '../../src/render/sprites/chao';
+import { drawChaoHiRes } from '../../src/render/sprites/chao-hires';
 import { drawCreature } from '../../src/render/sprites/creature';
+import type { PixelCanvas } from '../../src/render/sprites/pixel-canvas';
 import { SPECIES_ART } from '../../src/render/sprites/species-art';
 import { blitScaled, encodePng, solid } from './png';
+
+it.skipIf(!process.env.PREVIEW_HIRES)('writes the resolution comparison: 32, 48 and 64 px', () => {
+  // Each shown at the same on-screen size (a 1080p monitor): 32 px ×4, 48 px ×3, 64 px ×2.
+  const scaleFor = { 32: 4, 48: 3, 64: 2 } as const;
+  const cellPx = 64 * 2 + 16;
+  const width = cellPx * 3;
+  const height = cellPx + 16;
+  const rgba = solid(width, height, '#3a3550');
+  const sprites: Array<[number, PixelCanvas]> = [
+    [32, drawChao('front', poseFor('idle', 0), lookOf(CHILD_NEUTRAL))],
+    [48, drawChaoHiRes(48)],
+    [64, drawChaoHiRes(64)],
+  ];
+  sprites.forEach(([size, pc], i) => {
+    const s = scaleFor[size as 32 | 48 | 64];
+    blitScaled(rgba, width, pc, i * cellPx + 8, 8, s);
+  });
+  writeFileSync(process.env.PREVIEW_HIRES!, encodePng(width, height, rgba));
+  expect(sprites.length).toBe(3);
+});
 
 it.skipIf(!process.env.PREVIEW_SPECIES)('writes a preview sheet of every species', () => {
   const ids = Object.keys(SPECIES_ART);
