@@ -9,6 +9,36 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Educational mode: review and recommendations (2026-10-13)
+
+Maor asked for an educational mode (age 3–6, age-appropriate mini-games: matching,
+colours, letters, sounds, animals) and a review of leading materials first. Sources read:
+the Head Start Early Learning Outcomes Framework (five domains: Approaches to Learning,
+Social-Emotional, Language and Literacy, Cognition, Perceptual/Motor), kindergarten
+readiness checklists (Kansas City schools, Idaho libraries, Pennsylvania TFEC), app
+roundups naming Khan Academy Kids, PBS Kids Games, Endless Alphabet, ABCmouse, Montessori
+apps, and Sesame Workshop's Play to Learn findings. The ten recommendations are in the
+chat log of 2026-10-13 and summarised here:
+
+1. Age bands 3 / 4 / 5 / 6 with a skills ladder per band, not one difficulty slider.
+2. Guided play: every lesson is a Grove activity (feed by colour, call the Nubbin whose
+   name starts with the letter), never a worksheet.
+3. Letters: names first, then sounds, then first-letter matching (readiness benchmarks:
+   10–15 letters by 5, the child's own name first).
+4. Numbers: count objects up to 5 at age 3, 10 at 5; more/less; shapes circle, square,
+   triangle, then rectangle.
+5. Colours: 5 at age 3, 8 by 5; sort by colour, shape and size.
+6. Phonological awareness: rhyme pairs, first sounds, clapping syllables; the Nubbins'
+   chirps as the sound bank.
+7. Animals and nature: identify by sound and silhouette; the three species lines and the
+   Grove's weather and seasons as the content.
+8. Social-emotional and self-regulation: turn taking, naming feelings (the Nubbins'
+   moods), kindness choices (trust is already a mechanic).
+9. Adaptive difficulty with no fail state: three tries, then a demonstration; stars
+   and stickers, no timers for ages 3–4.
+10. Grown-up gate and co-play: a parent area for age, session length (20–40 minutes),
+    progress by domain, with co-viewing prompts; everything offline and ad-free.
+
 ## Bigger field, stream, water, hills, run (2026-10-13)
 
 Maor: "water graphics and some of the hills aren't up to the standard. Keep upgrading and
