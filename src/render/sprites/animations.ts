@@ -10,8 +10,8 @@ export interface Clip {
 }
 
 export const CLIPS: Record<ClipName, Clip> = {
-  idle: { frames: 2, ms: 550, loop: true },
-  walk: { frames: 4, ms: 140, loop: true },
+  idle: { frames: 8, ms: 150, loop: true },
+  walk: { frames: 6, ms: 100, loop: true },
   happy: { frames: 2, ms: 180, loop: true },
   sad: { frames: 2, ms: 500, loop: true },
   sleep: { frames: 2, ms: 800, loop: true },

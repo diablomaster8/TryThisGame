@@ -79,10 +79,13 @@ function drawKeeper(
   col: KeeperColors,
 ): PixelCanvas {
   const pc = new PixelCanvas(KEEPER_SIZE, KEEPER_SIZE);
-  const bob = clip === 'walk' && frame % 2 === 1 ? -1 : 0;
-  const breathe = clip === 'idle' && frame === 1 ? 1 : 0;
+  // Walk: six frames, contact → push-off → passing for each foot.
+  const phase = clip === 'walk' ? frame % 6 : 0;
+  const bob = clip === 'walk' && (phase === 2 || phase === 5) ? -1 : 0;
+  const breathe = clip === 'idle' && frame % 8 >= 2 && frame % 8 <= 5 ? 1 : 0;
+  const blink = clip === 'idle' && frame % 8 === 7;
   const feetY = 30;
-  const step = clip === 'walk' ? (frame % 2 === 0 ? 2 : -2) : 0;
+  const step = clip === 'walk' ? ([2, 1, 0, -2, -1, 0][phase] ?? 0) : 0;
 
   // Legs / boots.
   const legY = feetY - 5 + bob;
@@ -110,7 +113,7 @@ function drawKeeper(
 
   // Arms.
   const armY = torsoTop + 1;
-  const swing = clip === 'walk' ? (frame % 2 === 0 ? 1 : -1) : 0;
+  const swing = clip === 'walk' ? (phase < 3 ? 1 : -1) : 0;
   if (angle === 'side') {
     pc.rect(16 + swing, armY + 1, 2, 5, col.shirt);
     pc.px(17 + swing, armY + 6, col.skin);
@@ -125,7 +128,9 @@ function drawKeeper(
   const headCy = torsoTop - 4;
   const headCx = 16;
   pc.ellipse(headCx, headCy, 4.5, 4, col.skin);
-  if (angle !== 'back') {
+  if (angle !== 'back' && blink) {
+    pc.px(headCx - 2, headCy, col.skin);
+  } else if (angle !== 'back') {
     const eyeY = headCy;
     if (angle === 'front') {
       pc.px(headCx - 2, eyeY, col.outline);

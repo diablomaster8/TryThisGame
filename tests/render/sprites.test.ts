@@ -44,8 +44,8 @@ describe('viewIndex', () => {
 describe('animations', () => {
   it('loops frames by elapsed time', () => {
     expect(frameAt(CLIPS.walk, 0)).toBe(0);
-    expect(frameAt(CLIPS.walk, 140)).toBe(1);
-    expect(frameAt(CLIPS.walk, 140 * 4)).toBe(0);
+    expect(frameAt(CLIPS.walk, 100)).toBe(1);
+    expect(frameAt(CLIPS.walk, 100 * 6)).toBe(0);
     expect(frameKey('walk', 'side', 2)).toBe('walk:side:2');
   });
 });

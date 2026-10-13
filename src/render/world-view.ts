@@ -7,7 +7,7 @@ import type { OrbitCamera } from './camera';
 import type { Daylight } from './daylight';
 import { GROVE } from '../config/tuning';
 import { Particles } from './particles';
-import { SpriteBatch } from './sprite-batch';
+import { NATIVE_PPU, SpriteBatch } from './sprite-batch';
 import { CLIPS, frameAt, frameKey, type ClipName } from './sprites/animations';
 import { viewAngle } from './sprites/angles';
 import type { SpriteSheet } from './sprites/atlas';
@@ -29,6 +29,8 @@ interface NubbinView {
   /** Last dust puff while walking and last ripple while swimming. */
   lastDustMs: number;
   lastRippleMs: number;
+  /** A short squash (landing) or pop (hatch, evolve) scales the quad at draw time. */
+  pop: { kind: 'squash' | 'pop'; startMs: number } | null;
 }
 
 export interface SpritePick {
@@ -96,6 +98,13 @@ export class WorldView {
   onEvents(events: SimEvent[], nowMs: number): void {
     for (const e of events) {
       this.burstFor(e);
+      if (e.kind === 'landed') {
+        const v = this.nubbins.get(e.nubbinId);
+        if (v) v.pop = { kind: 'squash', startMs: nowMs };
+      } else if (e.kind === 'hatched' || e.kind === 'evolved' || e.kind === 'reborn') {
+        const v = this.nubbins.get(e.nubbinId);
+        if (v) v.pop = { kind: 'pop', startMs: nowMs };
+      }
       if (e.kind !== 'reaction') continue;
       const v = this.nubbins.get(e.nubbinId);
       if (!v) continue;
@@ -218,6 +227,7 @@ export class WorldView {
           prev: { pos: { x: n.pos.x, z: n.pos.z }, y: n.y },
           lastDustMs: 0,
           lastRippleMs: 0,
+          pop: null,
         };
         this.nubbins.set(n.id, v);
       }
@@ -499,8 +509,38 @@ export class WorldView {
     const rect = sheet.frames.get(key) ?? sheet.frames.values().next().value;
     shadow(x, y, z, 0.55);
     if (rect) {
+      // Squash and stretch at draw time: a landing flattens, a hatch or evolution pops.
+      let sw = 1;
+      let sh = 1;
+      if (v.pop) {
+        const dur = v.pop.kind === 'squash' ? 260 : 420;
+        const t = (nowMs - v.pop.startMs) / dur;
+        if (t >= 1) v.pop = null;
+        else {
+          const s = Math.sin(Math.PI * t);
+          if (v.pop.kind === 'squash') {
+            sw = 1 + 0.22 * s;
+            sh = 1 - 0.22 * s;
+          } else {
+            sw = 1 - 0.1 * s;
+            sh = 1 + 0.28 * s;
+          }
+        }
+      }
       this.batch.draw(
-        { sheet, rect, flip, x, y, z, mode: 'billboard', opacity, tint: this.dim },
+        {
+          sheet,
+          rect,
+          flip,
+          x,
+          y,
+          z,
+          mode: 'billboard',
+          opacity,
+          tint: this.dim,
+          w: (rect.w / NATIVE_PPU) * sw,
+          h: (rect.h / NATIVE_PPU) * sh,
+        },
         { id: n.id, kind: 'nubbin' },
       );
     }

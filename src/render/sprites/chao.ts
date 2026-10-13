@@ -258,15 +258,30 @@ const BASE: ChaoPose = {
 /** Poses per clip frame. */
 export function poseFor(clip: ClipName, frame: number): ChaoPose {
   switch (clip) {
-    case 'idle':
-      return { ...BASE, squash: frame === 1 ? 0.94 : 1 };
-    case 'walk':
+    case 'idle': {
+      // A slow breath over eight frames, with a blink on the last one.
+      const breath = [1, 0.99, 0.97, 0.95, 0.94, 0.95, 0.97, 1] as const;
       return {
         ...BASE,
-        legs: frame % 2 === 0 ? 'stepA' : 'stepB',
-        arms: frame % 2 === 0 ? 'swingA' : 'swingB',
-        lift: frame === 1 || frame === 3 ? -1 : 0,
+        squash: breath[frame % 8] ?? 1,
+        eyes: frame % 8 === 7 ? 'closed' : 'open',
       };
+    }
+    case 'walk': {
+      // Six frames: contact, push-off and passing for each foot. The passing frames
+      // lift the body and stretch it a touch; contact frames squash it.
+      const phase = frame % 6;
+      const contact = phase === 0 || phase === 3;
+      const passing = phase === 2 || phase === 5;
+      const left = phase < 3;
+      return {
+        ...BASE,
+        legs: passing ? 'together' : left ? 'stepA' : 'stepB',
+        arms: left ? 'swingA' : 'swingB',
+        lift: passing ? -2 : contact ? 0 : -1,
+        squash: contact ? 0.97 : passing ? 1.02 : 1,
+      };
+    }
     case 'happy':
       return {
         ...BASE,
