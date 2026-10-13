@@ -21,12 +21,8 @@ import { GROVE } from '../config/tuning';
 import type { GroveKind } from '../sim/types';
 import { daylightAt, type Daylight } from './daylight';
 import { C, color } from './sprites/palette';
-import {
-  makeGrassTexture,
-  makeHillTexture,
-  makeWaterfallTexture,
-  makeWaterTexture,
-} from './textures';
+import { makeGroundTexture } from './ground';
+import { makeHillTexture, makeWaterfallTexture, makeWaterTexture } from './textures';
 
 /**
  * The Grove: a low-poly garden with grass, a pond, hills, two fruit trees and a
@@ -61,7 +57,7 @@ export class GroveScene {
 
     // Ground.
     const size = GROVE.size;
-    const grass = makeGrassTexture(8, size);
+    const grass = makeGroundTexture();
     const groundGeo = new PlaneGeometry(size, size);
     const groundMat = new MeshLambertMaterial({ map: grass });
     this.tintable.push(groundMat);

@@ -6,6 +6,7 @@ import type { Nubbin, SimEvent, Vec2, World } from '../sim/types';
 import type { OrbitCamera } from './camera';
 import type { Daylight } from './daylight';
 import { GROVE } from '../config/tuning';
+import { placeDecorations } from './decor';
 import { Particles } from './particles';
 import { NATIVE_PPU, SpriteBatch } from './sprite-batch';
 import { CLIPS, frameAt, frameKey, type ClipName } from './sprites/animations';
@@ -47,6 +48,7 @@ export class WorldView {
   readonly batch = new SpriteBatch();
   readonly sheets = new SheetCache();
   readonly particles = new Particles();
+  private readonly decor = placeDecorations();
   private darkness = 0;
   private keeperDustMs = 0;
   private readonly nubbins = new Map<string, NubbinView>();
@@ -174,8 +176,22 @@ export class WorldView {
       });
     };
 
-    // Memorial flowers.
+    // Ground dressing, then memorial flowers.
     const props = this.sheets.props();
+    for (const d of this.decor) {
+      const rect = props.frames.get(frameKey(d.frame, 'front', 0));
+      if (!rect) continue;
+      batch.draw({
+        sheet: props,
+        rect,
+        flip: d.flip,
+        x: d.x,
+        y: 0,
+        z: d.z,
+        mode: 'billboard',
+        tint: this.dim,
+      });
+    }
     const flower = props.frames.get(frameKey('flower', 'front', 0));
     for (const m of world.memorials) {
       if (flower) {
