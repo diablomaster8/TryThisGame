@@ -22,7 +22,7 @@ import {
   type Texture,
 } from 'three';
 import { GROVE } from '../config/tuning';
-import type { GroveKind, Location, WeatherKind } from '../sim/types';
+import type { GroveKind, Location, TileKind, WeatherKind } from '../sim/types';
 import { daylightAt, type Daylight } from './daylight';
 import { C, color } from './sprites/palette';
 import { makeGroundTexture } from './ground';
@@ -105,6 +105,17 @@ export class GroveScene {
   private location: Location = 'grove';
   private weather: WeatherKind = 'clear';
   private groundMat: MeshLambertMaterial | null = null;
+  private groundTex: Texture | null = null;
+
+  /** Repaint the ground with the painted tiles (terraforming). */
+  setTiles(tiles: Record<string, TileKind>): void {
+    if (!this.groundMat) return;
+    const next = makeGroundTexture(7, tiles);
+    this.groundMat.map = next;
+    this.groundMat.needsUpdate = true;
+    this.groundTex?.dispose();
+    this.groundTex = next;
+  }
   /** Meshes that can be tapped, with `userData.pick = { kind, id }`. */
   readonly pickables: Object3D[] = [];
   private readonly water: Texture;
@@ -139,6 +150,7 @@ export class GroveScene {
     const groundGeo = new PlaneGeometry(size, size);
     const groundMat = new MeshLambertMaterial({ map: grass });
     this.groundMat = groundMat;
+    this.groundTex = grass;
     this.tintable.push(groundMat);
     const ground = new Mesh(groundGeo, groundMat);
     ground.rotation.x = -Math.PI / 2;

@@ -12,7 +12,18 @@ import { PixelCanvas } from './pixel-canvas';
 export const SCENERY_SIZE = 64;
 
 export type SceneryKind =
-  'tree' | 'tree2' | 'bush' | 'bush2' | 'cottage' | 'school' | 'dojo' | 'well' | 'log';
+  | 'tree'
+  | 'tree2'
+  | 'bush'
+  | 'bush2'
+  | 'cottage'
+  | 'school'
+  | 'dojo'
+  | 'well'
+  | 'log'
+  | 'nursery'
+  | 'bathhouse'
+  | 'workshop';
 
 const S = SCENERY_SIZE;
 
@@ -255,8 +266,75 @@ function drawLog(): PixelCanvas {
   return pc;
 }
 
+/** The nursery: a round-roofed hut with an egg on the sign. */
+function drawNursery(): PixelCanvas {
+  const pc = new PixelCanvas(S, S);
+  house(pc, 10, 16, 44, 44, C.roseLight, C.roseDeep, C.cream, C.bark, 16);
+  pc.ellipse(32, 14, 22, 6, C.roseLight);
+  pc.ellipse(32, 12, 20, 4, C.rose);
+  pc.rect(26, 42, 12, 17, C.bark);
+  pc.ellipse(32, 42, 6, 4, C.bark);
+  pc.rect(27, 44, 10, 14, C.wood);
+  // Egg sign.
+  pc.rect(44, 30, 10, 10, C.wood);
+  pc.ellipse(49, 35, 2.5, 3.2, C.skyLight);
+  pc.dot(48, 33.5, C.white);
+  pc.disc(16, 36, 3, C.skyLight);
+  pc.thinLine(14, 36, 18, 36, C.bark);
+  pc.finish(C.darkPlum, [C.white]);
+  return pc;
+}
+
+/** The bathhouse: a low stone house with a steaming tub out front. */
+function drawBathhouse(): PixelCanvas {
+  const pc = new PixelCanvas(S, S);
+  house(pc, 8, 18, 48, 40, C.teal, C.tealDeep, C.greyLight, C.greyDeep, 16);
+  pc.rect(26, 42, 12, 15, C.darkBark);
+  pc.rect(27, 44, 10, 12, C.deepWater);
+  pc.thinLine(29, 46, 35, 46, C.shallows);
+  // Tub and steam.
+  pc.ellipse(14, 56, 7, 3.5, C.wood);
+  pc.ellipse(14, 55, 5.5, 2.2, C.shallows);
+  pc.dot(12, 54, C.white);
+  for (const [x, y] of [
+    [11, 49],
+    [14, 46],
+    [17, 50],
+    [13, 43],
+  ] as const) {
+    pc.ellipse(x, y, 1.6, 1, C.pale);
+  }
+  pc.finish(C.darkPlum, [C.white]);
+  return pc;
+}
+
+/** The workshop: open front, a bench, tools on the wall, a chimney with smoke. */
+function drawWorkshop(): PixelCanvas {
+  const pc = new PixelCanvas(S, S);
+  house(pc, 8, 16, 48, 44, C.darkBark, C.ink, C.sand, C.bark, 18);
+  pc.rect(42, 8, 6, 12, C.greyDeep);
+  pc.ellipse(45, 5, 2.2, 1.6, C.greyLight);
+  pc.ellipse(48, 2, 1.6, 1.2, C.pale);
+  // Open front with a bench and tools.
+  pc.rect(16, 36, 32, 23, C.darkBark);
+  pc.rect(18, 50, 28, 4, C.wood);
+  pc.rect(19, 54, 2, 5, C.bark);
+  pc.rect(43, 54, 2, 5, C.bark);
+  pc.rect(22, 38, 3, 8, C.greyLight);
+  pc.rect(22, 44, 3, 3, C.bark);
+  pc.thinLine(30, 38, 30, 47, C.bark);
+  pc.rect(28, 38, 5, 3, C.greyLight);
+  pc.disc(40, 42, 3, C.greyDeep);
+  pc.disc(40, 42, 1.4, C.darkBark);
+  pc.finish(C.darkPlum, [C.white]);
+  return pc;
+}
+
 export function buildScenerySheet(): SpriteSheet {
   const atlas = new AtlasBuilder(S, S, 5);
+  atlas.add(frameKey('nursery', 'front', 0), drawNursery());
+  atlas.add(frameKey('bathhouse', 'front', 0), drawBathhouse());
+  atlas.add(frameKey('workshop', 'front', 0), drawWorkshop());
   atlas.add(frameKey('tree', 'front', 0), drawTree(1));
   atlas.add(frameKey('tree2', 'front', 0), drawTree(2));
   atlas.add(frameKey('bush', 'front', 0), drawBush(1));
@@ -290,5 +368,11 @@ export function drawScenery(kind: SceneryKind): PixelCanvas {
       return drawWell();
     case 'log':
       return drawLog();
+    case 'nursery':
+      return drawNursery();
+    case 'bathhouse':
+      return drawBathhouse();
+    case 'workshop':
+      return drawWorkshop();
   }
 }

@@ -210,6 +210,110 @@ function drawDecor(kind: string): PixelCanvas {
       pc.rect(4, 9, 8, 1, C.darkBark);
       pc.px(7, 1, C.darkBark);
       break;
+    // Toys.
+    case 'radio':
+      pc.rect(3, 6, 10, 7, C.ember);
+      pc.rect(4, 7, 4, 4, C.greyDeep);
+      pc.disc(6, 9, 1.4, C.greyLight);
+      pc.rect(9, 8, 3, 1, C.cream);
+      pc.rect(9, 10, 3, 1, C.cream);
+      pc.thinLine(11, 6, 14, 1, C.greyDeep);
+      pc.dot(14, 1, C.white);
+      break;
+    case 'blocks':
+      pc.rect(2, 9, 5, 5, C.rose);
+      pc.rect(8, 9, 5, 5, C.water);
+      pc.rect(5, 4, 5, 5, C.sunYellow);
+      pc.thinLine(3, 10, 6, 10, C.blush);
+      pc.thinLine(9, 10, 12, 10, C.shallows);
+      pc.thinLine(6, 5, 9, 5, C.sunLight);
+      pc.dot(4, 11.5, C.white);
+      break;
+    case 'mirror':
+      pc.rect(6, 12, 4, 3, C.wood);
+      pc.ellipse(8, 7, 4.5, 5.5, C.sunDeep);
+      pc.ellipse(8, 7, 3.4, 4.4, C.skyLight);
+      pc.thinLine(6, 5, 7, 4, C.white);
+      pc.thinLine(9, 9, 10, 10, C.shallows);
+      break;
+    case 'tv':
+      pc.rect(2, 4, 12, 9, C.greyDeep);
+      pc.rect(3, 5, 8, 7, C.skyDeep);
+      pc.rect(4, 6, 6, 2, C.skyLight);
+      pc.dot(12, 6, C.sunYellow);
+      pc.dot(12, 8, C.ember);
+      pc.rect(4, 13, 8, 2, C.darkBark);
+      pc.thinLine(5, 4, 3, 0, C.greyDeep);
+      pc.thinLine(10, 4, 12, 0, C.greyDeep);
+      break;
+    // Habitat pieces.
+    case 'rockPile':
+      pc.ellipse(8, 12, 6, 3, C.greyDeep);
+      pc.ellipse(6, 10, 3.5, 3, C.greyLight);
+      pc.ellipse(10.5, 9.5, 3, 2.6, C.greyLight);
+      pc.ellipse(8, 7, 2.6, 2.2, C.pale);
+      pc.dot(5, 9, C.pale);
+      pc.dot(11, 8.5, C.greyDeep);
+      break;
+    case 'thicket':
+      pc.ellipse(8, 11, 7, 4, C.deepGreen);
+      pc.ellipse(5, 9, 3.6, 3.2, C.forest);
+      pc.ellipse(11, 8.5, 3.6, 3.4, C.forest);
+      pc.ellipse(8, 6.5, 3, 2.8, C.leafDeep);
+      pc.dot(4, 7, C.leaf);
+      pc.dot(12, 6.5, C.leaf);
+      pc.dot(9, 4.5, C.leaf);
+      break;
+    // Orchard trees and crop rows by stage.
+    case 'treeStage0':
+      pc.ellipse(8, 13, 3, 1.6, C.darkBark);
+      pc.thinLine(8, 13, 8, 9, C.forest);
+      pc.disc(8, 8.5, 1.3, C.leafLight);
+      break;
+    case 'treeStage1':
+      pc.rect(7.5, 9, 1.5, 6, C.bark);
+      pc.disc(8, 7, 3, C.leaf);
+      pc.disc(7, 6, 1.6, C.leafLight);
+      break;
+    case 'treeStage2':
+      pc.rect(7, 8, 2, 7, C.bark);
+      pc.ellipse(8, 6, 4.5, 4, C.leafDeep);
+      pc.ellipse(7.5, 5, 3.5, 3, C.leaf);
+      pc.disc(6.5, 4, 1.6, C.leafLight);
+      break;
+    case 'treeStage3':
+      pc.rect(7, 7, 2.5, 8, C.bark);
+      pc.ellipse(8, 5.5, 6, 4.6, C.leafDeep);
+      pc.ellipse(7.5, 4.5, 5, 3.6, C.leaf);
+      pc.ellipse(6, 3.2, 2.6, 1.8, C.leafLight);
+      pc.disc(5, 6, 1, C.orange);
+      pc.disc(11, 5, 1, C.orange);
+      break;
+    case 'cropStage0':
+      pc.rect(2, 11, 12, 3, C.darkBark);
+      pc.dot(5, 12, C.sand);
+      pc.dot(9, 12, C.sand);
+      break;
+    case 'cropStage1':
+      pc.rect(2, 11, 12, 3, C.darkBark);
+      for (const x of [4, 7, 10]) pc.thinLine(x, 11, x, 8, C.sprout);
+      break;
+    case 'cropStage2':
+      pc.rect(2, 11, 12, 3, C.darkBark);
+      for (const x of [4, 7, 10]) {
+        pc.thinLine(x, 11, x, 6, C.leaf);
+        pc.dot(x - 1, 8, C.leafLight);
+        pc.dot(x + 1, 7, C.leafLight);
+      }
+      break;
+    case 'cropStage3':
+      pc.rect(2, 11, 12, 3, C.darkBark);
+      for (const x of [4, 7, 10]) {
+        pc.thinLine(x, 11, x, 5, C.leaf);
+        pc.disc(x, 5, 1.4, C.orange);
+        pc.dot(x - 0.5, 4.5, C.sunLight);
+      }
+      break;
     case 'notebook':
       pc.rect(3, 4, 10, 9, C.bark);
       pc.rect(4, 5, 8, 7, C.cream);
@@ -242,7 +346,39 @@ export const DECOR_FRAMES = [
   'pathTile',
   'lanternSmall',
   'notebook',
+  'radio',
+  'blocks',
+  'mirror',
+  'tv',
+  'rockPile',
+  'thicket',
+  'treeStage0',
+  'treeStage1',
+  'treeStage2',
+  'treeStage3',
+  'cropStage0',
+  'cropStage1',
+  'cropStage2',
+  'cropStage3',
 ] as const;
+
+/** Flavoured fruit: the plain fruit recoloured per flavour. */
+const FRUIT_TINTS: Record<string, [number, number]> = {
+  swim: [C.water, C.deepWater],
+  fly: [C.skyLight, C.skyDeep],
+  run: [C.sunYellow, C.orange],
+  power: [C.rose, C.berry],
+  stamina: [C.mint, C.teal],
+  sun: [C.cream, C.sunYellow],
+  moon: [C.violet, C.moonPurple],
+};
+
+function drawFlavouredFruit(flavor: string): PixelCanvas {
+  const pc = drawFruit();
+  const [body, shade] = FRUIT_TINTS[flavor] ?? [C.orange, C.ember];
+  pc.recolor({ [C.orange]: body, [C.ember]: shade });
+  return pc;
+}
 
 export function buildPropSheet(): SpriteSheet {
   const atlas = new AtlasBuilder(PROP_SIZE, PROP_SIZE, 4);
@@ -250,5 +386,8 @@ export function buildPropSheet(): SpriteSheet {
   atlas.add(frameKey('flower', 'front', 0), drawFlower());
   atlas.add(frameKey('toy', 'front', 0), drawToy());
   for (const d of DECOR_FRAMES) atlas.add(frameKey(d, 'front', 0), drawDecor(d));
+  for (const f of ['swim', 'fly', 'run', 'power', 'stamina', 'sun', 'moon']) {
+    atlas.add(frameKey(`fruit-${f}`, 'front', 0), drawFlavouredFruit(f));
+  }
   return atlas.build();
 }

@@ -3,6 +3,7 @@ import { GROVE } from '../config/tuning';
 import { Rng } from '../sim/rng';
 import { BUILDINGS, SCENERY } from './scenery';
 import { C } from './sprites/palette';
+import type { TileKind } from '../sim/types';
 import { PixelCanvas } from './sprites/pixel-canvas';
 
 /** Design pixels per world unit on the ground texture (physical is twice that). */
@@ -15,12 +16,39 @@ export const GROUND_PPU = 8;
  * the trees, pads under the buildings and a crop plot by the cottage. Drawn once from a
  * fixed seed; the plane maps to it 1:1.
  */
-export function makeGroundTexture(seed = 7): CanvasTexture {
+export function makeGroundTexture(seed = 7, tiles: Record<string, TileKind> = {}): CanvasTexture {
   const size = GROVE.size * GROUND_PPU;
   const pc = new PixelCanvas(size, size);
   const rng = new Rng(seed);
   const half = GROVE.size / 2;
   const toPx = (w: number) => (w + half) * GROUND_PPU;
+  const paintTiles = () => {
+    // Painted tiles: half-unit squares of dirt, water, flowers or stone laid on top.
+    for (const [key, tile] of Object.entries(tiles)) {
+      const [xs, zs] = key.split(',');
+      const x = toPx(Number(xs)) - GROUND_PPU * 0.5;
+      const y = toPx(Number(zs)) - GROUND_PPU * 0.5;
+      const w = GROUND_PPU;
+      if (tile === 'dirt') {
+        pc.rect(x, y, w, w, C.sand);
+        pc.dot(x + 1, y + 1, C.sandDeep);
+        pc.dot(x + 2.5, y + 2.5, C.sandLight);
+      } else if (tile === 'water') {
+        pc.rect(x, y, w, w, C.water);
+        pc.thinLine(x + 0.5, y + 1.5, x + 2.5, y + 1.5, C.shallows);
+        pc.dot(x + 3, y + 3, C.deepWater);
+      } else if (tile === 'flowers') {
+        pc.rect(x, y, w, w, C.leaf);
+        pc.dot(x + 1, y + 1, C.rose);
+        pc.dot(x + 3, y + 1.5, C.sunYellow);
+        pc.dot(x + 2, y + 3, C.white);
+      } else if (tile === 'stone') {
+        pc.rect(x, y, w, w, C.greyLight);
+        pc.thinLine(x, y + w - 0.5, x + w, y + w - 0.5, C.greyDeep);
+        pc.dot(x + 1, y + 1, C.pale);
+      }
+    }
+  };
   const isDirt = (x: number, y: number) => {
     const c = pc.get(x, y);
     return c === C.sand || c === C.sandDeep || c === C.sandLight || c === C.darkBark;
@@ -263,6 +291,7 @@ export function makeGroundTexture(seed = 7): CanvasTexture {
     }
   }
 
+  paintTiles();
   const texture = pc.toTexture();
   texture.flipY = true;
   return texture;

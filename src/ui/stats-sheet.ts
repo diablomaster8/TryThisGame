@@ -14,11 +14,14 @@ import { bandOf, childHint } from '../sim/alignment';
 import { levelOf } from '../sim/stats';
 import {
   STAT_KEYS,
+  type DyeColor,
   type Interaction,
   type Nubbin,
   type NubbinType,
   type World,
 } from '../sim/types';
+
+const DYES: DyeColor[] = ['rose', 'sky', 'mint', 'gold', 'violet', 'ember'];
 import type { Game } from '../game';
 import { button, el, meter } from './dom';
 
@@ -124,16 +127,52 @@ export class StatsSheet {
       this.heartBtn,
     );
 
+    // Accessories: dyed hat and scarf, glasses.
+    this.acc = el('div', 'sheet-acc');
+    const dyeSelect = (label: string, slot: 'hat' | 'scarf') => {
+      const sel = el('select');
+      sel.setAttribute('aria-label', label);
+      const none = el('option', undefined, label);
+      none.value = '';
+      sel.appendChild(none);
+      for (const d of DYES) {
+        const o = el('option', undefined, UI_TEXT.dyeNames[d]);
+        o.value = d;
+        sel.appendChild(o);
+      }
+      sel.addEventListener('change', () => {
+        const color = (sel.value || null) as DyeColor | null;
+        send((id) => ({ kind: 'dye', nubbinId: id, slot, color }));
+      });
+      return sel;
+    };
+    this.hatDye = dyeSelect(UI_TEXT.dyeHat, 'hat');
+    this.scarfDye = dyeSelect(UI_TEXT.dyeScarf, 'scarf');
+    this.glassesBtn = button(
+      UI_TEXT.glasses,
+      () => {
+        const g = this.game();
+        const n = g?.world.nubbins.find((x) => x.id === this.id);
+        if (n) send((id) => ({ kind: 'wearGlasses', nubbinId: id, on: !n.glasses }));
+      },
+      'btn btn-small',
+    );
+    this.acc.append(this.hatDye, this.scarfDye, this.glassesBtn);
+
     this.give = el('div', 'sheet-give');
     this.giveTitle = el('div', 'sheet-give-title', UI_TEXT.give);
     this.giveList = el('div', 'sheet-give-list');
     this.give.append(this.giveTitle, this.giveList);
 
-    this.root.append(head, needs, stats, this.actions, this.more, this.give);
+    this.root.append(head, needs, stats, this.actions, this.more, this.acc, this.give);
     parent.appendChild(this.root);
   }
 
   private readonly give: HTMLDivElement;
+  private readonly acc: HTMLDivElement;
+  private readonly hatDye: HTMLSelectElement;
+  private readonly scarfDye: HTMLSelectElement;
+  private readonly glassesBtn: HTMLButtonElement;
   private readonly giveTitle: HTMLDivElement;
   private readonly giveList: HTMLDivElement;
   private giveKey = '';
@@ -233,6 +272,20 @@ export class StatsSheet {
     this.heartBtn.disabled = world.inventory.heartFruit <= 0;
     this.catchBtn.disabled = !world.items.some((i) => i.kind === 'toy');
     this.shakeBtn.disabled = !carried && n.behavior.state !== 'held';
+    // Accessories only on hatched Chao-line Nubbins; dyes need stock.
+    this.acc.hidden = isEgg || n.stage === 'cocoon' || n.species !== 'chao';
+    const dyes = Object.values(world.inventory.dyes).reduce((s, c) => s + (c ?? 0), 0);
+    const hasDye = (d: DyeColor) => (world.inventory.dyes[d] ?? 0) > 0;
+    for (const sel of [this.hatDye, this.scarfDye]) {
+      for (const o of sel.options) {
+        if (o.value) o.disabled = !hasDye(o.value as DyeColor) && o.value !== sel.value;
+      }
+    }
+    if (document.activeElement !== this.hatDye) this.hatDye.value = n.hatDye ?? '';
+    if (document.activeElement !== this.scarfDye) this.scarfDye.value = n.scarf ?? '';
+    this.hatDye.hidden = !n.hat;
+    this.hatDye.title = dyes === 0 ? UI_TEXT.noDye : '';
+    this.glassesBtn.classList.toggle('active', !!n.glasses);
   }
 
   private act(what: 'pet' | 'carry' | 'feed' | 'shake'): void {

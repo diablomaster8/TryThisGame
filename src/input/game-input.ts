@@ -1,7 +1,15 @@
 import { INPUT, THROW } from '../config/tuning';
 import type { OrbitCamera } from '../render/camera';
 import type { Picker } from '../render/picker';
-import type { Command, DecorKind, Vec2 } from '../sim/types';
+import type { Command, DecorKind, Flavor, TileKind, ToyKind, Vec2 } from '../sim/types';
+
+/** What a ground tap places while a panel is in placing mode. */
+export type Placing =
+  | { mode: 'decor'; kind: DecorKind }
+  | { mode: 'tile'; tile: TileKind }
+  | { mode: 'plant'; plantKind: 'tree' | 'crop'; flavor: Flavor }
+  | { mode: 'toy'; toy: ToyKind }
+  | null;
 import type { Object3D } from 'three';
 
 export interface InputHost {
@@ -9,13 +17,13 @@ export interface InputHost {
   picker: Picker;
   pickables(): Object3D[];
   /** Decorating: the piece a ground tap should place, if any. */
-  placing?(): DecorKind | null;
+  placing?(): Placing;
   /** Hit-test the batched sprites at a screen point (NDC). */
   pickSprite(
     ndcX: number,
     ndcY: number,
   ): {
-    kind: 'nubbin' | 'item' | 'npc' | 'memorial' | 'decor' | 'tree' | 'building';
+    kind: 'nubbin' | 'item' | 'npc' | 'memorial' | 'decor' | 'tree' | 'building' | 'plant' | 'wild';
     id: string;
   } | null;
   /** Is this Nubbin id something that can be grabbed right now? */
@@ -49,6 +57,8 @@ export class GameInput {
   private lastDx = 0;
   private reversals: number[] = [];
   private lastInput: Vec2 = { x: 0, z: 0 };
+  private lastInput2: Vec2 = { x: 0, z: 0 };
+  private padHeld = { a: false, b: false };
 
   constructor(
     private readonly surface: HTMLElement,
@@ -84,6 +94,45 @@ export class GameInput {
       this.lastInput = { x, z };
       this.host.send({ kind: 'keeperInput', input: { x, z } });
     }
+    this.pollSecondKeeper(yaw);
+  }
+
+  /** The second Keeper: IJKL and U/O on the keyboard, or the first gamepad. */
+  private pollSecondKeeper(yaw: number): void {
+    let fwd = 0;
+    let right = 0;
+    if (this.keys.has('i')) fwd += 1;
+    if (this.keys.has('k')) fwd -= 1;
+    if (this.keys.has('l')) right += 1;
+    if (this.keys.has('j')) right -= 1;
+    let pet = false;
+    let feed = false;
+    const pads = typeof navigator.getGamepads === 'function' ? navigator.getGamepads() : [];
+    const pad = pads?.[0];
+    if (pad) {
+      const ax = pad.axes[0] ?? 0;
+      const ay = pad.axes[1] ?? 0;
+      if (Math.abs(ax) > 0.25) right += ax;
+      if (Math.abs(ay) > 0.25) fwd -= ay;
+      const a = pad.buttons[0]?.pressed ?? false;
+      const b = pad.buttons[1]?.pressed ?? false;
+      pet = a && !this.padHeld.a;
+      feed = b && !this.padHeld.b;
+      this.padHeld = { a, b };
+    }
+    const len = Math.hypot(fwd, right);
+    if (len > 1) {
+      fwd /= len;
+      right /= len;
+    }
+    const x = -Math.sin(yaw) * fwd + Math.cos(yaw) * right;
+    const z = -Math.cos(yaw) * fwd - Math.sin(yaw) * right;
+    if (x !== this.lastInput2.x || z !== this.lastInput2.z) {
+      this.lastInput2 = { x, z };
+      this.host.send({ kind: 'keeper2Input', input: { x, z } });
+    }
+    if (pet) this.host.send({ kind: 'keeper2Act', action: 'pet' });
+    if (feed) this.host.send({ kind: 'keeper2Act', action: 'feed' });
   }
 
   private readonly onKey = (e: KeyboardEvent): void => {
@@ -95,6 +144,8 @@ export class GameInput {
         this.host.send({ kind: 'shakeHeld' });
         e.preventDefault();
       }
+      if (key === 'u' && !e.repeat) this.host.send({ kind: 'keeper2Act', action: 'pet' });
+      if (key === 'o' && !e.repeat) this.host.send({ kind: 'keeper2Act', action: 'feed' });
     } else {
       this.keys.delete(key);
     }
@@ -205,6 +256,12 @@ export class GameInput {
       case 'building':
         this.host.onSelect(`building:${hit.id}`);
         return;
+      case 'plant':
+        this.host.onSelect(`plant:${hit.id}`);
+        return;
+      case 'wild':
+        this.host.send({ kind: 'feedWild', id: hit.id });
+        return;
       case 'decor':
         this.host.onSelect(`decor:${hit.id}`);
         return;
@@ -212,7 +269,28 @@ export class GameInput {
         // Decorating: a ground tap places the chosen piece instead of walking.
         const placing = this.host.placing?.();
         if (placing && hit.ground) {
-          this.host.send({ kind: 'placeDecor', decor: placing, pos: hit.ground });
+          const pos = hit.ground;
+          if (placing.mode === 'decor')
+            this.host.send({ kind: 'placeDecor', decor: placing.kind, pos });
+          else if (placing.mode === 'tile')
+            this.host.send({ kind: 'paintTile', pos, tile: placing.tile });
+          else if (placing.mode === 'plant') {
+            this.host.send({
+              kind: 'plant',
+              plantKind: placing.plantKind,
+              flavor: placing.flavor,
+              pos,
+            });
+          } else this.host.send({ kind: 'placeToy', toy: placing.toy, pos });
+          return;
+        }
+        // Gathering: rocks give stone, the stream bank gives reeds.
+        if (hit.id === 'rock') {
+          this.host.send({ kind: 'gather', what: 'stone' });
+          return;
+        }
+        if (hit.id === 'stream') {
+          this.host.send({ kind: 'gather', what: 'reeds' });
           return;
         }
         if (hit.ground) this.host.send({ kind: 'moveKeeperTo', pos: hit.ground });

@@ -103,7 +103,7 @@ export function feedWild(world: World, id: string, events: SimEvent[]): boolean 
   world.inventory.fruit -= 1;
   w.fed = true;
   w.untilMs = Math.min(w.untilMs, world.timeMs + 3000);
-  events.push({ kind: 'watered', id: w.id });
+  events.push({ kind: 'wildFed', id: w.id });
   return true;
 }
 

@@ -8,6 +8,7 @@ import type { Daylight } from './daylight';
 import { GROVE } from '../config/tuning';
 import { placeDecorations } from './decor';
 import { fenceSpots, SCENERY } from './scenery';
+import { neighbourGarden } from '../sim/neighbourhood';
 import { Particles } from './particles';
 import { NATIVE_PPU, SpriteBatch } from './sprite-batch';
 import { CLIPS, frameAt, frameKey, type ClipName } from './sprites/animations';
@@ -36,7 +37,7 @@ interface NubbinView {
 }
 
 export interface SpritePick {
-  kind: 'nubbin' | 'item' | 'npc' | 'memorial' | 'decor' | 'tree' | 'building';
+  kind: 'nubbin' | 'item' | 'npc' | 'memorial' | 'decor' | 'tree' | 'building' | 'plant' | 'wild';
   id: string;
 }
 
@@ -266,7 +267,28 @@ export class WorldView {
     }
     const flower = props.frames.get(frameKey('flower', 'front', 0));
     // Placed garden pieces, tappable so they can be picked up again.
-    for (const d of inGrove ? world.placed : []) {
+    const scenerySheet = this.sheets.scenery();
+    for (const d of home ? world.placed : []) {
+      if (d.kind === 'nursery' || d.kind === 'bathhouse' || d.kind === 'workshop') {
+        const brect = scenerySheet.frames.get(frameKey(d.kind, 'front', 0));
+        if (!brect) continue;
+        batch.draw(
+          {
+            sheet: scenerySheet,
+            rect: brect,
+            flip: false,
+            x: d.pos.x,
+            y: 0,
+            z: d.pos.z,
+            mode: 'billboard',
+            w: 3.6,
+            h: 3.6,
+            tint: this.dim,
+          },
+          { id: d.kind, kind: 'building' },
+        );
+        continue;
+      }
       const rect = props.frames.get(frameKey(d.kind, 'front', 0));
       if (!rect) continue;
       const flat = d.kind === 'pathTile';
@@ -284,7 +306,7 @@ export class WorldView {
         { id: d.id, kind: 'decor' },
       );
     }
-    for (const m of inGrove ? world.memorials : []) {
+    for (const m of home ? world.memorials : []) {
       if (flower) {
         batch.draw(
           {
@@ -302,10 +324,119 @@ export class WorldView {
       }
     }
 
+    // Orchard trees and crop rows, tappable to water or harvest.
+    for (const p of home ? world.plants : []) {
+      const rect = props.frames.get(frameKey(`${p.kind}Stage${p.stage}`, 'front', 0));
+      if (!rect) continue;
+      const size = p.kind === 'tree' ? 1 + p.stage * 0.45 : 1.1;
+      const sway = p.kind === 'tree' && p.stage >= 2 ? Math.sin(nowMs / 1500 + p.pos.x) * 0.02 : 0;
+      const dry = p.water < 0.25 ? 0.8 : 1;
+      batch.draw(
+        {
+          sheet: props,
+          rect,
+          flip: false,
+          x: p.pos.x + sway,
+          y: 0,
+          z: p.pos.z,
+          mode: 'billboard',
+          w: size,
+          h: size,
+          tint: this.dim * dry,
+        },
+        { id: p.id, kind: 'plant' },
+      );
+    }
+    // Wild visitors looking around their patch.
+    for (const w of home ? world.wild : []) {
+      const wsheet = this.sheets.species(w.species);
+      const facing = Math.sin(nowMs / 2300 + w.pos.z) * 1.2;
+      const wview = viewAngle(facing, yaw);
+      const wrect = wsheet.frames.get(
+        frameKey('idle', wview.angle, frameAt(CLIPS.idle, nowMs + w.pos.x * 131)),
+      );
+      if (!wrect) continue;
+      const hop = w.fed ? Math.abs(Math.sin(nowMs / 180)) * 0.25 : 0;
+      shadow(w.pos.x, hop, w.pos.z, 0.4);
+      batch.draw(
+        {
+          sheet: wsheet,
+          rect: wrect,
+          flip: wview.flip,
+          x: w.pos.x,
+          y: hop,
+          z: w.pos.z,
+          mode: 'billboard',
+          tint: this.dim,
+        },
+        { id: w.id, kind: 'wild' },
+      );
+      const emotes = this.sheets.emotes(false);
+      const q = emotes.frames.get(frameKey('question', 'front', 0));
+      if (q && !w.fed) {
+        batch.draw({
+          sheet: emotes,
+          rect: q,
+          flip: false,
+          x: w.pos.x,
+          y: 1.25 + Math.sin(nowMs / 400) * 0.04,
+          z: w.pos.z,
+          mode: 'billboard',
+          w: 0.5,
+          h: 0.5,
+        });
+      }
+    }
+    // A neighbour's Grove: their pets and the host, read-only.
+    if (this.visiting) {
+      for (const nb of neighbourGarden(this.visiting)) {
+        const sheet =
+          nb.species === 'chao'
+            ? this.sheets.rival(nb.band, nb.type)
+            : this.sheets.species(nb.species);
+        const facing = Math.sin(nowMs / 3100 + nb.x) * 1.4;
+        const view = viewAngle(facing, yaw);
+        const rect = sheet.frames.get(
+          frameKey('idle', view.angle, frameAt(CLIPS.idle, nowMs + nb.x * 71)),
+        );
+        if (!rect) continue;
+        shadow(nb.x, 0, nb.z, 0.4);
+        batch.draw({
+          sheet,
+          rect,
+          flip: view.flip,
+          x: nb.x,
+          y: 0,
+          z: nb.z,
+          mode: 'billboard',
+          tint: this.dim,
+        });
+      }
+      const hsheet = this.sheets.keeper(this.visiting);
+      const hview = viewAngle(Math.PI, yaw);
+      const hrect = hsheet.frames.get(frameKey('idle', hview.angle, frameAt(CLIPS.idle, nowMs)));
+      if (hrect) {
+        shadow(0, 0, -1.5, 0.45);
+        batch.draw(
+          {
+            sheet: hsheet,
+            rect: hrect,
+            flip: hview.flip,
+            x: 0,
+            y: 0,
+            z: -1.5,
+            mode: 'billboard',
+            tint: this.dim,
+          },
+          { id: 'host', kind: 'building' },
+        );
+      }
+    }
+
     // Items.
     const seenItems = new Set<string>();
     for (const item of world.items.filter((i) =>
-      inGrove ? i.kind !== 'notebook' : i.kind === 'notebook',
+      home ? i.kind !== 'notebook' : !this.visiting && i.kind === 'notebook',
     )) {
       seenItems.add(item.id);
       let prev = this.items.get(item.id);
@@ -316,7 +447,15 @@ export class WorldView {
       const x = lerp(prev.pos.x, item.pos.x, alpha);
       const y = lerp(prev.y, item.y, alpha);
       const z = lerp(prev.pos.z, item.pos.z, alpha);
-      const rect = props.frames.get(frameKey(item.kind, 'front', 0));
+      const frame =
+        item.kind === 'toy' && item.toy && item.toy !== 'ball'
+          ? item.toy
+          : item.kind === 'fruit' && item.flavor
+            ? `fruit-${item.flavor}`
+            : item.kind;
+      const rect =
+        props.frames.get(frameKey(frame, 'front', 0)) ??
+        props.frames.get(frameKey(item.kind, 'front', 0));
       if (!rect) continue;
       shadow(x, y, z, 0.25);
       batch.draw(
@@ -328,7 +467,7 @@ export class WorldView {
 
     // Nubbins.
     const seen = new Set<string>();
-    for (const n of inGrove ? world.nubbins : []) {
+    for (const n of home ? world.nubbins : []) {
       seen.add(n.id);
       let v = this.nubbins.get(n.id);
       if (!v) {
@@ -415,6 +554,27 @@ export class WorldView {
         mode: 'billboard',
         tint: this.dim,
       });
+    }
+    const k2 = world.coop.active ? world.keeper2 : null;
+    if (k2) {
+      const sheet2 = this.sheets.keeper(world.coop.trainer);
+      const moving2 = k2.input.x !== 0 || k2.input.z !== 0;
+      const clip2: ClipName = moving2 ? 'walk' : 'idle';
+      const view2 = viewAngle(k2.facing, yaw);
+      const rect2 = sheet2.frames.get(frameKey(clip2, view2.angle, frameAt(CLIPS[clip2], nowMs)));
+      shadow(k2.pos.x, 0, k2.pos.z, 0.45);
+      if (rect2) {
+        batch.draw({
+          sheet: sheet2,
+          rect: rect2,
+          flip: view2.flip,
+          x: k2.pos.x,
+          y: 0,
+          z: k2.pos.z,
+          mode: 'billboard',
+          tint: this.dim,
+        });
+      }
     }
     if (moving && nowMs - this.keeperDustMs > 260) {
       this.keeperDustMs = nowMs;
@@ -753,6 +913,19 @@ export class WorldView {
         rise: 0.35,
         lifeMs: 380,
         size: 0.35,
+      });
+    } else if (
+      n.behavior.state === 'perform' &&
+      (n.behavior.itemId === 'sled' || n.behavior.itemId === 'bath') &&
+      nowMs - v.lastDustMs > 140
+    ) {
+      v.lastDustMs = nowMs;
+      this.particles.burst(n.behavior.itemId === 'bath' ? 'splash' : 'snow', x, 0.1, z, 2, {
+        spread: 0.25,
+        speed: 0.5,
+        rise: 0.6,
+        lifeMs: 450,
+        size: 0.3,
       });
     } else if (v.clip === 'swim' && nowMs - v.lastRippleMs > 650) {
       v.lastRippleMs = nowMs;

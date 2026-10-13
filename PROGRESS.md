@@ -9,6 +9,65 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## The twenty improvements, built (2026-10-13)
+
+Maor: "Let's move forward to all 20 of the pending items on our improvement list next",
+then "finish the 20 then educational mode". The sim layer landed first (commit `a6c7156`);
+this entry is the render, UI and audio layer on top. Everything below is playable.
+
+**What works:**
+
+- **Orchard and crops** (Decorate → Orchard & crops): seeds by flavour from Expeditions and
+  harvests; plant a tree or a crop row on the grass; four growth stages drawn from the prop
+  sheet (`treeStage0–3`, `cropStage0–3`); grown trees drop flavoured fruit (tinted frames
+  `fruit-<flavor>`); tap a plant to water it, tap a ripe crop to harvest. Dry plants draw
+  darker.
+- **Toys** (Decorate → Toys): ball, radio, blocks, mirror, little TV, each with a prop
+  sprite and its own idle effect; placed with a ground tap.
+- **Paint tiles** (Decorate → Paint tiles): dirt, water, flowers, stone, grass to erase;
+  painted into the ground texture (`makeGroundTexture(seed, tiles)`, repainted on
+  `tilePainted`). Water tiles are swimmable.
+- **Workshop** (Decorate → Workshop, or tap the workshop): wood from shaken trees, stone
+  from a tap on a rock, reeds from a tap on the stream bank; recipes for every garden
+  piece, the three buildings, a ball and dyes (colour picker). Materials shown in the tab.
+- **Buildings as placed pieces**: nursery (bred eggs are laid beside it), bathhouse
+  (glum Nubbins go for a soak: happiness and energy, splash particles), workshop. Drawn
+  from the scenery sheet at 3.6 units, tappable.
+- **Habitats and wild visitors**: rock piles and thickets as props; a wild creature of the
+  pocket or digital line visits a complete patch with a "?" over its head, hops when fed;
+  tap it with fruit in your pocket (`feedWild`, `wildFed` toast); after enough visits or one
+  feeding it settles into the roster.
+- **Requests** (More → Requests): three daily asks with progress and a Claim button; the
+  board refreshes on a new real day; rewards in Shells and sometimes an egg.
+- **Keeper profile** (More → Keeper profile): title picker from earned badges, garden plots
+  (roster room), borrowed moves from loved adults, a badge grid for the twenty-one
+  achievements.
+- **Neighbourhood** (More → Neighbourhood): visit any other Keeper's Grove; their pets are
+  generated from their id and drawn read-only with the host standing by; tap the host (or
+  the panel button) for a daily gift; "Go home". Your own Nubbins, pieces and items stay
+  home while you visit.
+- **Map** (More → Map): found landmarks on a 6×6 grid laid out like the field; tap one to
+  fast-travel.
+- **Accessories** (stats sheet): dye the hat or a scarf with workshop dyes, toggle glasses;
+  drawn on the Chao sprite in every angle (`DYE_COLORS`, recolour of the hat, a scarf
+  under the chin, round frames over the eyes) and keyed into the sheet cache.
+- **Local co-op** (Settings → Second Keeper): a second Keeper with a chosen look; IJKL
+  moves, U pets, O feeds; the first gamepad's left stick and A/B do the same.
+- **Jukebox and ambience** (Settings): pick any piece of the score or leave it automatic;
+  an ambient layer with birds by day, crickets at night, rain hiss and the stream when
+  the Keeper is near the water or the falls (`setAmbience` in `platform/audio.ts`).
+- **Species chirps**: Chao, pocket and digital lines each have a small voice on reactions
+  and when a wild one arrives (`playChirp`).
+- **Sled spray** in snow, **festival** and every other new event has a toast.
+- Photo mode reports the species to the sim for photo requests.
+
+**Checks:** 170 tests pass (5 skipped), lint clean, build OK. Verified in the browser pane:
+plants, toys, buildings, tiles, the wild visitor, the second Keeper, Fern's Grove, the
+accessory photo, the Decorate tabs, Requests, Profile, Map, the Settings additions.
+
+**Known gaps:** the map grid is schematic rather than a drawn map; neighbours' Groves reuse
+the home layout; gamepad input is polled only while the game tab has focus.
+
 ## Educational mode: review and recommendations (2026-10-13)
 
 Maor asked for an educational mode (age 3–6, age-appropriate mini-games: matching,

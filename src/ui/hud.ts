@@ -1,4 +1,5 @@
-import { INPUT } from '../config/tuning';
+import { GROVE, INPUT } from '../config/tuning';
+import { ACHIEVEMENT_LIST } from '../sim/achievements';
 import {
   GROVE_LABELS,
   NAMES,
@@ -11,9 +12,14 @@ import type { Game, GameHooks } from '../game';
 import type { AwayReport, GroveKind, SimEvent } from '../sim/types';
 import { ExpeditionScreen } from '../minigames/expedition/screen';
 import {
+  playChirp,
   playSong,
   playSound,
+  setAmbience,
+  setAmbienceEnabled,
   setMusicEnabled,
+  SONG_NAMES,
+  type SongName,
   setMusicVolume,
   setSfxVolume,
   setSoundEnabled,
@@ -38,7 +44,9 @@ import { STORY_TEXT } from '../config/story';
 import { KindergartenMenu } from './kindergarten';
 import { KarateMenu } from './karate';
 import { CollectionBook, keyLabel, MemorialCard } from './collection';
-import { DecorateMenu } from './decorate';
+import { DecorateMenu, placingLabel } from './decorate';
+import { MapPanel, NeighbourhoodPanel, ProfilePanel, QuestBoard } from './garden-panels';
+import { speciesOf } from '../sim/species';
 import { PhotoMode } from './photo';
 import { PocketMode } from './pocket';
 import { modal } from './dom';
@@ -209,6 +217,10 @@ export function mountHud(
   const decorate = new DecorateMenu(root, game, toast);
   const photo = new PhotoMode(root, game, () => sheet.selectedId);
   const pocket = new PocketMode(root, game);
+  const quests = new QuestBoard(root, game);
+  const profile = new ProfilePanel(root, game);
+  const neighbourhood = new NeighbourhoodPanel(root, game, toast);
+  const map = new MapPanel(root, game, toast);
   // The "More" menu holds everything that does not fit the top bar.
   const more = modal(root, UI_TEXT.more, UI_TEXT.close);
   more.body.appendChild(el('p', 'help', UI_TEXT.moreHelp));
@@ -220,6 +232,10 @@ export function mountHud(
     [`🪴 ${UI_TEXT.decorate}`, () => decorate.open()],
     [`📷 ${UI_TEXT.photo}`, () => photo.open()],
     [`👜 ${UI_TEXT.pocket}`, () => pocket.open(sheet.selectedId)],
+    [`📜 ${UI_TEXT.quests}`, () => quests.open()],
+    [`🎖 ${UI_TEXT.profile}`, () => profile.open()],
+    [`🏡 ${UI_TEXT.neighbourhood}`, () => neighbourhood.open()],
+    [`🗺 ${UI_TEXT.map}`, () => map.open()],
     [`🔁 ${UI_TEXT.receive}`, () => roster.receive()],
   ] as const) {
     moreList.appendChild(
@@ -268,6 +284,11 @@ export function mountHud(
       decorate,
       photo,
       pocket,
+      quests,
+      profile,
+      neighbourhood,
+      map,
+      settings,
     };
   }
 
@@ -307,6 +328,10 @@ export function mountHud(
       else if (decorate.isOpen()) decorate.close();
       else if (photo.isOpen()) photo.close();
       else if (pocket.isOpen) pocket.close();
+      else if (quests.isOpen()) quests.close();
+      else if (profile.isOpen()) profile.close();
+      else if (neighbourhood.isOpen()) neighbourhood.close();
+      else if (map.isOpen()) map.close();
       else if (more.isOpen()) more.hide();
       else if (!sheet.root.hidden) sheet.close();
     }
@@ -353,14 +378,40 @@ export function mountHud(
       } else if (expedition.isOpen) playSong('expedition');
       else if (races.screen.isOpen) playSong('race');
       else if (karate.screen.isOpen) playSong('karate');
-      else if (g.world.location === 'hollow') playSong('hollow');
+      else if (
+        g.world.settings.jukebox &&
+        SONG_NAMES.includes(g.world.settings.jukebox as SongName)
+      ) {
+        playSong(g.world.settings.jukebox as SongName);
+      } else if (g.world.location === 'hollow') playSong('hollow');
       else if (g.world.location === 'corvin') playSong('tense');
       else {
         const phase = phaseAt(g.hourOverride ?? localHour()).phase;
         playSong(phase === 'night' || phase === 'dusk' ? 'night' : 'grove');
       }
+      // The ambient layer follows the hour, the weather and where the Keeper stands.
+      setAmbienceEnabled(g.world.settings.ambience);
+      {
+        const phase = phaseAt(g.hourOverride ?? localHour()).phase;
+        const kp = g.world.keeper.pos;
+        const nearStream =
+          g.world.location === 'grove' &&
+          (Math.hypot(kp.x - GROVE.waterfall.x, kp.z - GROVE.waterfall.z) < 9 ||
+            Math.abs(kp.x - 9) < 3.5);
+        const inSide = g.world.location === 'hollow' || g.world.location === 'corvin';
+        setAmbience(
+          dialogue.isOpen || expedition.isOpen || races.screen.isOpen || karate.screen.isOpen
+            ? null
+            : {
+                phase: phase === 'night' || phase === 'dusk' ? 'night' : 'day',
+                weather: inSide ? 'clear' : g.world.weather.kind,
+                stream: nearStream,
+              },
+        );
+      }
+      if (quests.isOpen() && Math.random() < 0.1) quests.refresh();
       placingChip.hidden = !g.placing;
-      if (g.placing) placingText.textContent = UI_TEXT.placing(UI_TEXT.decorNames[g.placing]);
+      if (g.placing) placingText.textContent = UI_TEXT.placing(placingLabel(g.placing));
       if (kindergarten.isOpen() && Math.random() < 0.1) kindergarten.refresh();
       const next = c?.queue[0];
       if (
@@ -496,6 +547,83 @@ export function mountHud(
         } else if (e.kind === 'karate') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           if (e.won) toast(`${n?.name ?? NAMES.creature}: ${UI_TEXT.belt(e.belt)}`);
+        } else if (e.kind === 'planted') {
+          toast(UI_TEXT.planted);
+          playSound('pickup');
+        } else if (e.kind === 'watered') {
+          toast(UI_TEXT.watered);
+        } else if (e.kind === 'harvested') {
+          toast(UI_TEXT.harvested(e.count, UI_TEXT.flavorNames[e.flavor]));
+          playSound('buy');
+        } else if (e.kind === 'plantGrew') {
+          if (e.stage === 3) toast(UI_TEXT.plantGrew);
+        } else if (e.kind === 'crafted') {
+          if (e.ok) {
+            const name = (UI_TEXT.recipeNames as Record<string, string>)[e.recipe] ?? e.recipe;
+            toast(UI_TEXT.crafted(name));
+            playSound('buy');
+          } else toast(UI_TEXT.needsMaterials);
+        } else if (e.kind === 'gathered') {
+          toast(UI_TEXT.gathered(e.what, e.count));
+          playSound('tap');
+        } else if (e.kind === 'toyPlaced') {
+          toast(UI_TEXT.toyPlaced);
+        } else if (e.kind === 'plotBought') {
+          if (e.ok) {
+            toast(UI_TEXT.plotBought);
+            playSound('buy');
+          }
+        } else if (e.kind === 'achievement') {
+          const a = ACHIEVEMENT_LIST.find((x) => x.id === e.id);
+          toast(UI_TEXT.achievement(a?.title ?? e.id, e.shells));
+          playSound('win');
+        } else if (e.kind === 'questDone') {
+          toast(UI_TEXT.questDone);
+          playSound('cheer');
+        } else if (e.kind === 'questClaimed') {
+          toast(UI_TEXT.questClaimed(e.shells, e.egg));
+          playSound('buy');
+        } else if (e.kind === 'friendsMade') {
+          const a = g.world.nubbins.find((x) => x.id === e.a);
+          const b = g.world.nubbins.find((x) => x.id === e.b);
+          toast(UI_TEXT.friendsMade(a?.name ?? NAMES.creature, b?.name ?? NAMES.creature));
+        } else if (e.kind === 'wildArrived') {
+          toast(UI_TEXT.wildArrived(SPECIES_LABELS[e.species] ?? e.species));
+          playChirp(speciesOf(e.species).family);
+        } else if (e.kind === 'wildSettled') {
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          toast(UI_TEXT.wildSettled(n?.name ?? NAMES.creature));
+          playSound('hatch');
+        } else if (e.kind === 'wildLeft') {
+          toast(UI_TEXT.wildLeft);
+        } else if (e.kind === 'wildFed') {
+          toast(UI_TEXT.wildFed);
+          playSound('pet');
+        } else if (e.kind === 'visiting') {
+          if (e.trainer) toast(UI_TEXT.visitingNow(TL[e.trainer]?.name ?? e.trainer));
+        } else if (e.kind === 'neighbourGift') {
+          if (e.ok) {
+            toast(UI_TEXT.neighbourGiftGot(TL[e.trainer]?.name ?? e.trainer, e.shells));
+            playSound('buy');
+          } else toast(UI_TEXT.giftTaken);
+        } else if (e.kind === 'landmarkFound') {
+          toast(
+            UI_TEXT.landmarkFound((UI_TEXT.landmarkNames as Record<string, string>)[e.id] ?? e.id),
+          );
+          playSound('pickup');
+        } else if (e.kind === 'festival') {
+          toast(UI_TEXT.festival[e.season]);
+          playSound('win');
+        } else if (e.kind === 'coop') {
+          toast(e.active ? UI_TEXT.coopOn : UI_TEXT.coopOff);
+        } else if (e.kind === 'dyed') {
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          toast(UI_TEXT.dyed(n?.name ?? NAMES.creature, e.slot));
+        } else if (e.kind === 'reaction') {
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          if (n && Math.random() < 0.35) {
+            playChirp(speciesOf(n.species).family, e.reaction !== 'sad' && e.reaction !== 'dizzy');
+          }
         }
       }
     },
@@ -514,11 +642,23 @@ export function mountHud(
         if (m) memorialCard.show(m);
         return;
       }
-      if (id?.startsWith('building:')) {
+      if (id?.startsWith('building:') && g) {
         const which = id.slice('building:'.length);
         if (which === 'school') kindergarten.open();
         else if (which === 'dojo') karate.open();
         else if (which === 'cottage') pocket.open(sheet.selectedId);
+        else if (which === 'workshop') decorate.open('workshop');
+        else if (which === 'nursery') toast(UI_TEXT.nurseryTap);
+        else if (which === 'bathhouse') toast(UI_TEXT.bathhouseTap);
+        else if (which === 'host') g.send({ kind: 'neighbourGift' });
+        return;
+      }
+      if (id?.startsWith('plant:') && g) {
+        const p = g.world.plants.find((x) => x.id === id.slice('plant:'.length));
+        if (!p) return;
+        if (p.ripe) g.send({ kind: 'harvest', id: p.id });
+        else if (p.water < 0.9) g.send({ kind: 'waterPlant', id: p.id });
+        else toast(UI_TEXT.plantTap(p.stage, p.water, p.ripe));
         return;
       }
       if (id?.startsWith('decor:') && g) {

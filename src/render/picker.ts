@@ -10,7 +10,8 @@ export interface PickHit {
     | 'decor'
     | 'tree'
     | 'building'
-    | 'tree'
+    | 'plant'
+    | 'wild'
     | 'lantern'
     | 'ground';
   id: string;
@@ -52,7 +53,8 @@ export class Picker {
       ndcX: number,
       ndcY: number,
     ) => {
-      kind: 'nubbin' | 'item' | 'npc' | 'memorial' | 'decor' | 'tree' | 'building';
+      kind:
+        'nubbin' | 'item' | 'npc' | 'memorial' | 'decor' | 'tree' | 'building' | 'plant' | 'wild';
       id: string;
     } | null,
   ): PickHit | null {

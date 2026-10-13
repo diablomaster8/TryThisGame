@@ -888,9 +888,7 @@ button,
   display: flex;
   align-items: center;
   justify-content: center;
-  background:
-    radial-gradient(ellipse at 50% 120%, rgba(40, 90, 60, 0.6), transparent 60%),
-    #0d0a1a;
+  background: radial-gradient(ellipse at 50% 120%, rgba(40, 90, 60, 0.6), transparent 60%), #0d0a1a;
   pointer-events: auto;
   z-index: 20;
 }
@@ -1179,4 +1177,73 @@ button,
   min-width: 56px;
   min-height: 48px;
   pointer-events: auto;
+}
+
+/* ---------- garden panels ---------- */
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.tabs .btn.active {
+  background: var(--accent);
+  color: #1b1326;
+}
+
+.badge-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 6px;
+}
+
+.badge {
+  border: 1px solid var(--hud-border);
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: 12px;
+  opacity: 0.5;
+  text-align: center;
+}
+
+.badge-got {
+  opacity: 1;
+  border-color: var(--accent);
+}
+
+.map-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(6, 44px);
+  gap: 4px;
+  background: linear-gradient(#5a8f4a, #3f7a3e);
+  border-radius: 12px;
+  padding: 8px;
+}
+
+.map-grid .btn {
+  font-size: 11px;
+  padding: 4px;
+  min-height: 40px;
+}
+
+.modal-body h3 {
+  font-size: 14px;
+  margin: 12px 0 6px;
+}
+
+.sheet-acc {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 6px 0;
+}
+
+.sheet-acc select {
+  font: inherit;
+  padding: 4px 6px;
+  border-radius: 8px;
 }

@@ -1,6 +1,6 @@
 import { Vector3 } from 'three';
 import { CAMERA, SIM } from './config/tuning';
-import { GameInput } from './input/game-input';
+import { GameInput, type Placing } from './input/game-input';
 import { CameraControls } from './input/camera-controls';
 import { readSave, writeSave } from './platform/storage';
 import { OrbitCamera } from './render/camera';
@@ -81,7 +81,7 @@ export class Game {
   }
 
   /** Decorating: the piece a ground tap places, or null. */
-  placing: import('./sim/types').DecorKind | null = null;
+  placing: Placing = null;
   private lastFrameMs = 0;
   private lastSaveMs = 0;
   private storageOk = true;
@@ -237,6 +237,7 @@ export class Game {
         if (e.kind === 'landed' && shake) this.camera.shake(0.18);
         else if (e.kind === 'treeShaken' && shake) this.camera.shake(0.08);
         else if (e.kind === 'weather' || e.kind === 'located') this.lastDaylightMs = -Infinity;
+        else if (e.kind === 'tilePainted') this.grove.setTiles(this.world.tiles);
         else if (e.kind === 'lanternLit') this.grove.setLit(litLanterns(this.world));
       }
     }

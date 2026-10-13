@@ -669,6 +669,7 @@ export type SimEvent =
   | { kind: 'wildArrived'; id: string; species: string; patch: HabitatKind }
   | { kind: 'wildSettled'; species: string; nubbinId: string }
   | { kind: 'wildLeft'; id: string }
+  | { kind: 'wildFed'; id: string }
   | { kind: 'visiting'; trainer: string | null }
   | { kind: 'neighbourGift'; trainer: string; shells: number; ok: boolean }
   | { kind: 'landmarkFound'; id: string }

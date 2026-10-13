@@ -37,6 +37,7 @@ export class PhotoMode {
       g.world.nubbins.find((x) => x.stage !== 'egg');
     if (!n) return;
     this.render(g, n);
+    g.send({ kind: 'photoTaken', species: n.species });
     this.dialog.show();
   }
 

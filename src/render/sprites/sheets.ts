@@ -13,6 +13,7 @@ import {
   shadowColors,
   variantColors,
   type ChaoColors,
+  type ChaoLook,
 } from './chao';
 import { speciesOf } from '../../sim/species';
 import { buildCreatureSheet } from './creature';
@@ -60,7 +61,8 @@ export class SheetCache {
     if (n.species !== 'chao') return `species:${n.species}:${sh}`;
     const parts = SLOTS.map((s) => n.parts[s] ?? '-').join(',');
     const hat = n.hat ?? '-';
-    const variant = `${n.eggColor}:${n.shiny ? 's' : '-'}:${n.tone ?? '-'}:${sh}`;
+    const acc = `${n.scarf ?? '-'}:${n.glasses ? 'g' : '-'}:${n.hatDye ?? '-'}`;
+    const variant = `${n.eggColor}:${n.shiny ? 's' : '-'}:${n.tone ?? '-'}:${sh}:${acc}`;
     if (n.stage === 'adult' && n.form) {
       if (n.eternal) return `eternal:${n.eternal}:${parts}:${hat}:${variant}`;
       return `adult:${n.form.band}:${n.form.type}:${n.form.second ?? '-'}:${parts}:${hat}:${variant}`;
@@ -71,6 +73,14 @@ export class SheetCache {
   forNubbin(n: Nubbin): SpriteSheet {
     const key = SheetCache.nubbinKey(n);
     return this.get(key, () => {
+      // Accessories ride on top of whichever look the Nubbin has.
+      const build = (look: ChaoLook): SpriteSheet =>
+        buildChaoSheet({
+          ...look,
+          scarf: n.scarf ?? null,
+          glasses: !!n.glasses,
+          hatDye: n.hatDye ?? null,
+        });
       const family = speciesOf(n.species).family;
       if (n.stage === 'egg') return buildEggSheet(n.eggColor, family);
       if (n.stage === 'cocoon') return buildCocoonSheet(n.cocoonKind ?? 'evolve');
@@ -101,9 +111,7 @@ export class SheetCache {
           const colors =
             look?.colors ??
             variantColors(eternalColors(n.eternal), n.eggColor, n.shiny, n.tone, n.eternal);
-          return buildChaoSheet(
-            lookOf(tone(colors), 'normal', null, { ...n.parts }, true, n.hat, n.shiny),
-          );
+          return build(lookOf(tone(colors), 'normal', null, { ...n.parts }, true, n.hat, n.shiny));
         }
         const colors =
           look?.colors ??
@@ -114,16 +122,14 @@ export class SheetCache {
             n.tone,
             n.form.band,
           );
-        return buildChaoSheet(
+        return build(
           lookOf(tone(colors), n.form.type, n.form.second, { ...n.parts }, false, n.hat, n.shiny),
         );
       }
       const hint = childHint(n.alignment);
       const base = hint === 'sun' ? CHILD_SUN : hint === 'moon' ? CHILD_MOON : CHILD_NEUTRAL;
       const colors = look?.colors ?? variantColors(base, n.eggColor, n.shiny, n.tone, hint);
-      return buildChaoSheet(
-        lookOf(tone(colors), null, null, { ...n.parts }, false, n.hat, n.shiny),
-      );
+      return build(lookOf(tone(colors), null, null, { ...n.parts }, false, n.hat, n.shiny));
     });
   }
 
@@ -149,6 +155,14 @@ export class SheetCache {
         TRAINERS.find((t) => t.id === trainerId)?.look ??
         TRAINERS[0]!.look;
       return buildKeeperSheet(look);
+    });
+  }
+
+  /** A species sprite with no Nubbin behind it: wild visitors and neighbours' pets. */
+  species(id: string): SpriteSheet {
+    return this.get(`species::-`, () => {
+      const art = speciesArt(id);
+      return art ? buildCreatureSheet(art) : buildChaoSheet(lookOf(CHILD_NEUTRAL));
     });
   }
 

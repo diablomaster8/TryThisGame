@@ -1,5 +1,7 @@
 import { OFFLINE } from '../config/tuning';
-import { UI_TEXT } from '../config/strings';
+import { TRAINER_LABELS, UI_TEXT } from '../config/strings';
+import { SONG_NAMES } from '../platform/audio';
+import { TRAINERS } from '../sim/trainers';
 import type { Game } from '../game';
 import { clearSave, downloadText, pickTextFile } from '../platform/storage';
 import { deserialize, SaveError } from '../sim/save';
@@ -24,6 +26,10 @@ export class SettingsMenu {
   private readonly particles: HTMLSelectElement;
   private readonly reduced: HTMLSelectElement;
   private readonly joystick: HTMLInputElement;
+  private readonly jukebox: HTMLSelectElement;
+  private readonly ambience: HTMLInputElement;
+  private readonly coop: HTMLInputElement;
+  private readonly coopTrainer: HTMLSelectElement;
 
   constructor(
     parent: HTMLElement,
@@ -154,6 +160,35 @@ export class SettingsMenu {
     body.appendChild(shakeRow);
     this.particles = select(UI_TEXT.particlesLabel, UI_TEXT.particleLevels);
     this.reduced = select(UI_TEXT.reducedMotionLabel, UI_TEXT.reducedMotionLevels);
+    // Jukebox and ambience.
+    const songs: Record<string, string> = { '': UI_TEXT.jukeboxAuto };
+    for (const s of SONG_NAMES) songs[s] = UI_TEXT.songNames[s] ?? s;
+    this.jukebox = select(UI_TEXT.jukebox, songs);
+    const ambRow = el('label', 'check-row');
+    this.ambience = el('input');
+    this.ambience.type = 'checkbox';
+    this.ambience.addEventListener('change', () => this.apply());
+    const aText = el('span');
+    aText.append(
+      el('strong', undefined, UI_TEXT.ambience),
+      el('small', undefined, UI_TEXT.ambienceHelp),
+    );
+    ambRow.append(this.ambience, aText);
+    body.appendChild(ambRow);
+    // Local co-op.
+    const coopRow = el('label', 'check-row');
+    this.coop = el('input');
+    this.coop.type = 'checkbox';
+    this.coop.addEventListener('change', () => this.applyCoop());
+    const cText = el('span');
+    cText.append(el('strong', undefined, UI_TEXT.coop), el('small', undefined, UI_TEXT.coopHelp));
+    coopRow.append(this.coop, cText);
+    body.appendChild(coopRow);
+    const trainers: Record<string, string> = {};
+    for (const t of TRAINERS) trainers[t.id] = TRAINER_LABELS[t.id]?.name ?? t.id;
+    this.coopTrainer = select(UI_TEXT.coopTrainer, trainers);
+    this.coopTrainer.removeEventListener('change', () => this.apply());
+    this.coopTrainer.addEventListener('change', () => this.applyCoop());
     const screen = el('div', 'settings-actions');
     screen.append(
       button(UI_TEXT.fullscreen, () => {
@@ -193,6 +228,10 @@ export class SettingsMenu {
     this.particles.value = g.world.settings.particles;
     this.reduced.value = g.world.settings.reducedMotion;
     this.joystick.checked = g.world.settings.joystick;
+    this.jukebox.value = g.world.settings.jukebox ?? '';
+    this.ambience.checked = g.world.settings.ambience;
+    this.coop.checked = g.world.coop.active;
+    this.coopTrainer.value = g.world.coop.trainer;
     this.syncEnabled(s.mode);
     this.dialog.show();
   }
@@ -243,6 +282,8 @@ export class SettingsMenu {
       particles: this.particles.value as Settings['particles'],
       reducedMotion: this.reduced.value as Settings['reducedMotion'],
       joystick: this.joystick.checked,
+      jukebox: this.jukebox.value || null,
+      ambience: this.ambience.checked,
       offlineAging: {
         mode,
         capHours: valid ? hours : prev.offlineAging.capHours,
@@ -250,6 +291,12 @@ export class SettingsMenu {
       },
     };
     g.send({ kind: 'setSettings', settings });
+  }
+
+  private applyCoop(): void {
+    const g = this.game();
+    if (!g) return;
+    g.send({ kind: 'setCoop', active: this.coop.checked, trainer: this.coopTrainer.value });
   }
 
   private exportSave(): void {

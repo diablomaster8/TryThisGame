@@ -119,6 +119,15 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
       return;
     }
   }
+  const bath = world.placed.find((d) => d.kind === 'bathhouse');
+  if (bath && n.stage !== 'egg' && n.needs.happiness < 60 && rng.chance(0.08)) {
+    setState(n, 'perform', now, 9000);
+    n.behavior.itemId = 'bath';
+    n.behavior.target = { x: bath.pos.x - 1.4, z: bath.pos.z + 1.6 };
+    addHappiness(n, 6);
+    n.needs.energy = Math.min(1, n.needs.energy + 0.08);
+    return;
+  }
   // A courting adult drifts toward the nearest other adult.
   if (n.courtingUntilMs > now && n.stage === 'adult') {
     const other = world.nubbins.find((o) => o.id !== n.id && o.stage === 'adult' && !o.eternal);

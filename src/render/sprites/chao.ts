@@ -1,4 +1,4 @@
-import type { NubbinType, PartSlot } from '../../sim/types';
+import type { DyeColor, NubbinType, PartSlot } from '../../sim/types';
 import { CLIPS, frameKey, type ClipName } from './animations';
 import { DRAWN_ANGLES, type DrawnAngle } from './angles';
 import { AtlasBuilder, type SpriteSheet } from './atlas';
@@ -357,7 +357,21 @@ export interface ChaoLook {
   hat?: string | null;
   /** Extra sparkles. */
   shiny?: boolean;
+  /** Accessories: a dyed scarf, glasses, a dyed hat. */
+  scarf?: DyeColor | null;
+  glasses?: boolean;
+  hatDye?: DyeColor | null;
 }
+
+/** Palette colour for each dye, and its shade. */
+export const DYE_COLORS: Record<DyeColor, number> = {
+  rose: C.rose,
+  sky: C.water,
+  mint: C.mint,
+  gold: C.sunYellow,
+  violet: C.violet,
+  ember: C.ember,
+};
 
 /**
  * Character looks: the Chao that dressed up as other heroes. Each is a palette plus a
@@ -944,10 +958,60 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
 
   const ears = partStyle(look.parts.ears);
   if (ears) drawEars(pc, angle, L, ears);
-  if (look.hat) drawHat(pc, angle, L, look.hat);
+  if (look.hat) {
+    if (look.hatDye) {
+      // Draw the hat aside, swap its main colours for the dye, then lay it on.
+      const tmp = new PixelCanvas(CHAO_SIZE, CHAO_SIZE);
+      drawHat(tmp, angle, L, look.hat);
+      const d = DYE_COLORS[look.hatDye];
+      const map: Partial<Record<number, number>> = {};
+      for (const c of [
+        C.cream,
+        C.ember,
+        C.sunYellow,
+        C.teal,
+        C.rose,
+        C.violet,
+        C.moonPurple,
+        C.plum,
+        C.orange,
+      ]) {
+        map[c] =
+          c === C.ember || c === C.moonPurple || c === C.plum || c === C.orange ? shadeOf(d) : d;
+      }
+      tmp.recolor(map);
+      pc.blit(tmp, 0, 0);
+    } else drawHat(pc, angle, L, look.hat);
+  }
+  // A scarf around the neck and glasses over the eyes.
+  if (look.scarf && angle !== 'back') {
+    const sc = DYE_COLORS[look.scarf];
+    const ny = L.headCy + L.headRy - 1;
+    pc.ellipse(L.headCx, ny, L.headRx - 1.5, 1.6, sc);
+    pc.thinLine(L.headCx - L.headRx + 2, ny + 0.5, L.headCx + L.headRx - 2, ny + 0.5, shadeOf(sc));
+    pc.rect(L.headCx + 2, ny, 2, 4, sc);
+    pc.dot(L.headCx + 3, ny + 3.5, shadeOf(sc));
+  }
 
   if (fromFront) drawArms(pc, angle, pose, L, look);
   drawFace(pc, angle, pose, L, col);
+  if (look.glasses && angle !== 'back' && angle !== 'backQuarter') {
+    const ey = L.headCy + 1;
+    const xs =
+      angle === 'side'
+        ? [L.headCx + 4]
+        : angle === 'frontQuarter'
+          ? [L.headCx - 1, L.headCx + 5]
+          : [L.headCx - 4, L.headCx + 4];
+    for (const ex of xs) {
+      pc.thinLine(ex - 2.2, ey - 2.6, ex + 2.2, ey - 2.6, C.darkPlum);
+      pc.thinLine(ex - 2.2, ey + 2.6, ex + 2.2, ey + 2.6, C.darkPlum);
+      pc.thinLine(ex - 2.3, ey - 2.6, ex - 2.3, ey + 2.6, C.darkPlum);
+      pc.thinLine(ex + 2.3, ey - 2.6, ex + 2.3, ey + 2.6, C.darkPlum);
+      pc.dot(ex - 1.5, ey - 1.8, C.white);
+    }
+    if (xs.length === 2) pc.thinLine(xs[0]! + 2.3, ey, xs[1]! - 2.3, ey, C.darkPlum);
+  }
 
   // Front layer: wings over the body for back views, tail in front for back views.
   drawWings(pc, angle, pose, L, look, true);

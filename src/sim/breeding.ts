@@ -35,9 +35,12 @@ function mixGrade(a: Grade, b: Grade, rng: Rng): Grade {
 export function breed(world: World, a: Nubbin, b: Nubbin, rng: Rng, events: SimEvent[]): Nubbin {
   const colourParent = rng.chance(0.5) ? a : b;
   const lineParent = rng.chance(0.5) ? a : b;
+  const nursery = world.placed.find((d) => d.kind === 'nursery');
   const egg = createEgg(
     newId(world, 'nub'),
-    { x: (a.pos.x + b.pos.x) / 2, z: (a.pos.z + b.pos.z) / 2 + 0.8 },
+    nursery
+      ? { x: nursery.pos.x + 1.6, z: nursery.pos.z + 1.2 }
+      : { x: (a.pos.x + b.pos.x) / 2, z: (a.pos.z + b.pos.z) / 2 + 0.8 },
     rng,
     colourParent.eggColor,
     lineParent.lineage,

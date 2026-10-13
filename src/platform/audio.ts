@@ -25,6 +25,20 @@ export type SongName =
   | 'hollow'
   | 'karate';
 
+/** Every piece in the score, for the jukebox. */
+export const SONG_NAMES: readonly SongName[] = [
+  'title',
+  'grove',
+  'night',
+  'race',
+  'expedition',
+  'story',
+  'sorrow',
+  'tense',
+  'hollow',
+  'karate',
+];
+
 let ctx: AudioContext | null = null;
 let unlocked = false;
 let sfxEnabled = true;
@@ -753,3 +767,176 @@ export function playSound(name: SoundName): void {
 
 /** For tests: the parsed songs. */
 export const SCORE: Readonly<Record<SongName, Song>> = SONGS;
+
+// ---------------------------------------------------------------- ambience
+
+/** What the garden sounds like right now. */
+export interface AmbienceScene {
+  phase: 'day' | 'night';
+  weather: 'clear' | 'rain' | 'snow';
+  /** Near the stream or the falls. */
+  stream: boolean;
+}
+
+let ambienceEnabled = true;
+let ambienceBus: GainNode | null = null;
+let noiseBuffer: AudioBuffer | null = null;
+let streamGain: GainNode | null = null;
+let rainGain: GainNode | null = null;
+let cricketGain: GainNode | null = null;
+let birdTimer = 0;
+let currentScene: AmbienceScene | null = null;
+
+function noise(ac: AudioContext): AudioBuffer {
+  if (noiseBuffer) return noiseBuffer;
+  const seconds = 2;
+  const buf = ac.createBuffer(1, Math.floor(ac.sampleRate * seconds), ac.sampleRate);
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+  noiseBuffer = buf;
+  return buf;
+}
+
+function ensureAmbience(): boolean {
+  if (!ctx || !sfxBus) return false;
+  if (ambienceBus) return true;
+  const ac = ctx;
+  ambienceBus = ac.createGain();
+  ambienceBus.gain.value = ambienceEnabled ? 1 : 0;
+  ambienceBus.connect(sfxBus);
+  // The stream: band-passed noise with a slow wobble.
+  const stream = ac.createBufferSource();
+  stream.buffer = noise(ac);
+  stream.loop = true;
+  const sbp = ac.createBiquadFilter();
+  sbp.type = 'bandpass';
+  sbp.frequency.value = 700;
+  sbp.Q.value = 0.7;
+  streamGain = ac.createGain();
+  streamGain.gain.value = 0;
+  const lfo = ac.createOscillator();
+  lfo.frequency.value = 0.23;
+  const lfoGain = ac.createGain();
+  lfoGain.gain.value = 0.012;
+  lfo.connect(lfoGain).connect(streamGain.gain);
+  lfo.start();
+  stream.connect(sbp).connect(streamGain).connect(ambienceBus);
+  stream.start();
+  // Rain: bright hissing noise.
+  const rain = ac.createBufferSource();
+  rain.buffer = noise(ac);
+  rain.loop = true;
+  const rhp = ac.createBiquadFilter();
+  rhp.type = 'highpass';
+  rhp.frequency.value = 2200;
+  rainGain = ac.createGain();
+  rainGain.gain.value = 0;
+  rain.connect(rhp).connect(rainGain).connect(ambienceBus);
+  rain.start();
+  // Crickets: a high tone pulsed at about thirty times a second.
+  const cricket = ac.createOscillator();
+  cricket.type = 'triangle';
+  cricket.frequency.value = 4300;
+  const pulse = ac.createOscillator();
+  pulse.type = 'square';
+  pulse.frequency.value = 29;
+  const pulseGain = ac.createGain();
+  pulseGain.gain.value = 0.5;
+  const am = ac.createGain();
+  am.gain.value = 0.5;
+  pulse.connect(pulseGain).connect(am.gain);
+  cricketGain = ac.createGain();
+  cricketGain.gain.value = 0;
+  cricket.connect(am).connect(cricketGain).connect(ambienceBus);
+  cricket.start();
+  pulse.start();
+  return true;
+}
+
+function birdCall(): void {
+  if (!ctx || !ambienceBus || !ambienceEnabled) return;
+  const ac = ctx;
+  const t0 = ac.currentTime + 0.02;
+  const notes = 2 + Math.floor(Math.random() * 3);
+  const base = 2000 + Math.random() * 900;
+  for (let i = 0; i < notes; i++) {
+    const osc = ac.createOscillator();
+    osc.type = 'sine';
+    const start = t0 + i * 0.11;
+    osc.frequency.setValueAtTime(base, start);
+    osc.frequency.exponentialRampToValueAtTime(base * (1.25 + Math.random() * 0.2), start + 0.06);
+    const g = ac.createGain();
+    g.gain.setValueAtTime(0.0001, start);
+    g.gain.exponentialRampToValueAtTime(0.03, start + 0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001, start + 0.08);
+    osc.connect(g).connect(ambienceBus);
+    osc.start(start);
+    osc.stop(start + 0.1);
+  }
+}
+
+function scheduleBird(): void {
+  window.clearTimeout(birdTimer);
+  if (!currentScene || currentScene.phase !== 'day' || currentScene.weather === 'rain') return;
+  birdTimer = window.setTimeout(
+    () => {
+      birdCall();
+      scheduleBird();
+    },
+    1800 + Math.random() * 4200,
+  );
+}
+
+function ramp(g: GainNode | null, v: number): void {
+  if (!g || !ctx) return;
+  g.gain.cancelScheduledValues(ctx.currentTime);
+  g.gain.setTargetAtTime(v, ctx.currentTime, 0.8);
+}
+
+/** Set the ambient layer: birds by day, crickets at night, rain, the stream. Null silences it. */
+export function setAmbience(scene: AmbienceScene | null): void {
+  const changed =
+    !scene ||
+    !currentScene ||
+    scene.phase !== currentScene.phase ||
+    scene.weather !== currentScene.weather ||
+    scene.stream !== currentScene.stream;
+  currentScene = scene ? { ...scene } : null;
+  if (!unlocked || !ensureAmbience()) return;
+  if (!changed) return;
+  try {
+    ramp(streamGain, scene?.stream ? 0.05 : 0);
+    ramp(rainGain, scene?.weather === 'rain' ? 0.045 : 0);
+    ramp(cricketGain, scene?.phase === 'night' && scene.weather !== 'rain' ? 0.012 : 0);
+    scheduleBird();
+  } catch {
+    // Audio problems must never break the game.
+  }
+}
+
+export function setAmbienceEnabled(on: boolean): void {
+  ambienceEnabled = on;
+  if (ambienceBus && ctx) ambienceBus.gain.setTargetAtTime(on ? 1 : 0, ctx.currentTime, 0.3);
+  if (!on) window.clearTimeout(birdTimer);
+  else scheduleBird();
+}
+
+/** A little voice per family when a Nubbin reacts. */
+export function playChirp(family: 'chao' | 'pocket' | 'digi', happy = true): void {
+  if (!sfxEnabled || !unlocked || !ctx) return;
+  try {
+    if (family === 'chao') {
+      tone(happy ? 880 : 520, 0, 70, 'sine', 0.05, happy ? 1320 : 400);
+      if (happy) tone(1180, 80, 90, 'sine', 0.04, 1500);
+    } else if (family === 'pocket') {
+      tone(happy ? 700 : 450, 0, 90, 'triangle', 0.05, happy ? 900 : 380);
+      tone(happy ? 950 : 380, 100, 110, 'triangle', 0.04);
+    } else {
+      tone(happy ? 600 : 400, 0, 50, 'square', 0.035, happy ? 1000 : 300);
+      tone(happy ? 1000 : 300, 60, 50, 'square', 0.035);
+      if (happy) tone(1400, 120, 70, 'square', 0.03);
+    }
+  } catch {
+    // Audio problems must never break the game.
+  }
+}
