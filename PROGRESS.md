@@ -126,6 +126,41 @@ Only the server-side pieces: logins, cloud save, online visiting (see
     form, and a spot where memorial flowers can be visited and read; the departures are
     the game's most emotional moments and deserve a place.
 
+## Ten more recommendations, from Pokémon Pokopia (2026-10-13)
+
+Pokopia (Switch 2, March 2026) is a combat-free life-sim sandbox: you play a Ditto in human
+form, gather wood, stone and fibre, craft furniture, fences, paths and buildings, terraform
+blocks into habitats (forest, water, rocky slope, open field) that attract specific
+Pokémon, borrow their moves (Water Gun waters crops, Leafage grows grass, Cut and punch
+clear trees and rocks, Surf and Glide for travel), farm crops that feed residents, take
+requests from residents (repair a bridge, fix a building), and play drop-in with up to
+four people on a real-time day-night cycle with weather.
+
+1. **Habitats that invite species:** shape patches of the Grove (pond edge, rocky corner,
+   flower meadow, dark thicket) and have wild pocket- and digital-line creatures wander in
+   to settle when the patch suits them, instead of only hatching from eggs.
+2. **Gathering and crafting:** wood from shaken trees, stone from the hill rocks, reeds
+   from the pond, turned into the decor pieces, toys and hats at a workbench, so Shells are
+   not the only economy.
+3. **Terraforming tiles:** a tile painter for grass, dirt, water and flowers on a grid, so
+   the pond and paths can be reshaped; the ground texture already renders from a grid.
+4. **Borrowed moves (Chao-style):** a bonded adult lends its Keeper an ability: a Swim
+   type lets you wade the pond, a Fly type glides off the hills, a Power type shakes whole
+   trees at once, a Run type sprints. Ties the stats to how you play.
+5. **Crops:** till a plot, plant seeds from Expeditions, water it (or let rain do it), harvest
+   stat fruit; Nubbins with a watering lesson help.
+6. **Resident requests:** a board of small asks from Nubbins and visiting Keepers (bring
+   three fruit, fix the fence, find my lost ball), paid in Shells and friendship.
+7. **Buildings:** a workshop, a nursery for eggs and a bathhouse that each unlock features
+   (crafting, faster hatching, grooming), placed like decor and built over sim time.
+8. **Real-time weather tied to activities:** rainy-day lessons, snow-day sledding on the
+   hill, dry-spell watering chores; the weather system already runs.
+9. **Drop-in local co-op on one screen:** a second Keeper on a gamepad or touch split,
+   sharing the Grove; no server needed and a bridge to the multiplayer plan.
+10. **Photo spots and a world map:** landmarks to discover (the stone in the Hollow, the
+    waterfall ledge), each a photo-mode backdrop and a fast-travel point once found.
+
+
 ## Campaign mode and the graphics upgrade (2026-10-13)
 
 Maor approved the plan ("go now"): graphics first, then a full story campaign with at
