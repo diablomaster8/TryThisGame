@@ -9,6 +9,8 @@ import { GROVE } from '../config/tuning';
 import { placeDecorations } from './decor';
 import { fenceSpots, SCENERY } from './scenery';
 import { neighbourGarden } from '../sim/neighbourhood';
+import { isMerged } from '../sim/partners';
+import { townUnlocks } from '../sim/town';
 import { Particles } from './particles';
 import { NATIVE_PPU, SpriteBatch } from './sprite-batch';
 import { CLIPS, frameAt, frameKey, type ClipName } from './sprites/animations';
@@ -294,6 +296,55 @@ export class WorldView {
             tint: this.lightAt(s.x, s.z),
           },
           s.pick,
+        );
+      }
+      // The village square fills in as prosperity grows.
+      const unlocks = townUnlocks(world);
+      const stall = scenery.frames.get(frameKey('stall', 'front', 0));
+      if (stall) {
+        const spots: Array<[number, number, boolean]> = [
+          [-12, 17.5, unlocks.stall],
+          [-9.5, 18.5, unlocks.attendant],
+          [-14.5, 18.8, unlocks.festival],
+        ];
+        for (const [sx, sz, on] of spots) {
+          if (!on) continue;
+          shadow(sx, 0, sz, 0.9);
+          batch.draw({
+            sheet: scenery,
+            rect: stall,
+            flip: false,
+            x: sx,
+            y: 0,
+            z: sz,
+            mode: 'billboard',
+            w: 2.4,
+            h: (2.4 * stall.h) / stall.w,
+            tint: this.lightAt(sx, sz),
+          });
+        }
+      }
+      // Lantern posts: painted, lit at dusk or when the Keeper lights them, tappable.
+      for (const l of this.lanterns()) {
+        const lrect = scenery.frames.get(
+          frameKey(l.lit ? 'lanternPost-lit' : 'lanternPost', 'front', 0),
+        );
+        if (!lrect) continue;
+        shadow(l.x, 0, l.z, 0.3);
+        batch.draw(
+          {
+            sheet: scenery,
+            rect: lrect,
+            flip: false,
+            x: l.x,
+            y: 0,
+            z: l.z,
+            mode: 'billboard',
+            w: 0.9,
+            h: (0.9 * lrect.h) / lrect.w,
+            tint: l.lit ? 1.1 : this.lightAt(l.x, l.z),
+          },
+          { id: l.id, kind: 'lantern' },
         );
       }
       const fence = scenery.frames.get(frameKey('fencePost', 'front', 0));
@@ -893,6 +944,7 @@ export class WorldView {
     shadow: (x: number, y: number, z: number, r: number) => void,
   ): void {
     const sheet = this.sheets.forNubbin(n);
+    const merged = isMerged(world, n.id);
     const x = lerp(v.prev.pos.x, n.pos.x, alpha);
     const z = lerp(v.prev.pos.z, n.pos.z, alpha);
     const y = lerp(v.prev.y, n.y, alpha);
@@ -901,6 +953,7 @@ export class WorldView {
     let flip = false;
     let emote: EmoteShape = 'none';
     let opacity = 1;
+    const glowTint = merged ? 1.35 + 0.15 * Math.sin(nowMs / 120) : 1;
 
     if (n.stage === 'egg') {
       const shaking = world.timeMs - n.lastShakeMs < EGG.shakeCooldownMs * 2;
@@ -965,7 +1018,7 @@ export class WorldView {
           z,
           mode: 'billboard',
           opacity,
-          tint: this.dim,
+          tint: this.dim * glowTint,
           w: (rect.w / NATIVE_PPU) * sw,
           h: (rect.h / NATIVE_PPU) * sh,
         },

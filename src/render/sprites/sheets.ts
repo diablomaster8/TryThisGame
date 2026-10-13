@@ -62,7 +62,8 @@ export class SheetCache {
     const parts = SLOTS.map((s) => n.parts[s] ?? '-').join(',');
     const hat = n.hat ?? '-';
     const acc = `${n.scarf ?? '-'}:${n.glasses ? 'g' : '-'}:${n.hatDye ?? '-'}`;
-    const variant = `${n.eggColor}:${n.shiny ? 's' : '-'}:${n.tone ?? '-'}:${sh}:${acc}`;
+    const shiny = n.shiny || n.heirloom;
+    const variant = `${n.eggColor}:${shiny ? 's' : '-'}:${n.tone ?? '-'}:${sh}:${acc}`;
     if (n.stage === 'adult' && n.form) {
       if (n.eternal) return `eternal:${n.eternal}:${parts}:${hat}:${variant}`;
       return `adult:${n.form.band}:${n.form.type}:${n.form.second ?? '-'}:${parts}:${hat}:${variant}`;
@@ -110,26 +111,53 @@ export class SheetCache {
         if (n.eternal) {
           const colors =
             look?.colors ??
-            variantColors(eternalColors(n.eternal), n.eggColor, n.shiny, n.tone, n.eternal);
-          return build(lookOf(tone(colors), 'normal', null, { ...n.parts }, true, n.hat, n.shiny));
+            variantColors(
+              eternalColors(n.eternal),
+              n.eggColor,
+              n.shiny || n.heirloom,
+              n.tone,
+              n.eternal,
+            );
+          return build(
+            lookOf(
+              tone(colors),
+              'normal',
+              null,
+              { ...n.parts },
+              true,
+              n.hat,
+              n.shiny || n.heirloom,
+            ),
+          );
         }
         const colors =
           look?.colors ??
           variantColors(
             adultColors(n.form.band, n.form.type),
             n.eggColor,
-            n.shiny,
+            n.shiny || n.heirloom,
             n.tone,
             n.form.band,
           );
         return build(
-          lookOf(tone(colors), n.form.type, n.form.second, { ...n.parts }, false, n.hat, n.shiny),
+          lookOf(
+            tone(colors),
+            n.form.type,
+            n.form.second,
+            { ...n.parts },
+            false,
+            n.hat,
+            n.shiny || n.heirloom,
+          ),
         );
       }
       const hint = childHint(n.alignment);
       const base = hint === 'sun' ? CHILD_SUN : hint === 'moon' ? CHILD_MOON : CHILD_NEUTRAL;
-      const colors = look?.colors ?? variantColors(base, n.eggColor, n.shiny, n.tone, hint);
-      return build(lookOf(tone(colors), null, null, { ...n.parts }, false, n.hat, n.shiny));
+      const colors =
+        look?.colors ?? variantColors(base, n.eggColor, n.shiny || n.heirloom, n.tone, hint);
+      return build(
+        lookOf(tone(colors), null, null, { ...n.parts }, false, n.hat, n.shiny || n.heirloom),
+      );
     });
   }
 

@@ -11,11 +11,14 @@ import {
   UI_TEXT,
 } from '../config/strings';
 import { bandOf, childHint } from '../sim/alignment';
+import { dayCount } from '../sim/curfew';
+import { TEN_TEXT } from '../config/strings';
 import { levelOf } from '../sim/stats';
 import {
   STAT_KEYS,
   type DyeColor,
   type Interaction,
+  type Memory,
   type Nubbin,
   type NubbinType,
   type World,
@@ -128,6 +131,22 @@ export class StatsSheet {
     );
 
     // Accessories: dyed hat and scarf, glasses.
+    this.life = el('div', 'sheet-life');
+    this.memorySel = el('select');
+    this.memorySel.setAttribute('aria-label', TEN_TEXT.memoryLabel);
+    for (const [k, label] of Object.entries(TEN_TEXT.memoryNames)) {
+      const o = el('option', undefined, label);
+      o.value = k;
+      this.memorySel.appendChild(o);
+    }
+    this.memorySel.addEventListener('change', () => {
+      send((id) => ({ kind: 'setMemory', nubbinId: id, memory: this.memorySel.value as Memory }));
+    });
+    const memRow = el('label', 'field-row');
+    memRow.append(el('strong', undefined, TEN_TEXT.memoryLabel), this.memorySel);
+    this.life.appendChild(memRow);
+    this.lifeText = el('div', 'help');
+    this.life.appendChild(this.lifeText);
     this.acc = el('div', 'sheet-acc');
     const dyeSelect = (label: string, slot: 'hat' | 'scarf') => {
       const sel = el('select');
@@ -164,12 +183,15 @@ export class StatsSheet {
     this.giveList = el('div', 'sheet-give-list');
     this.give.append(this.giveTitle, this.giveList);
 
-    this.root.append(head, needs, stats, this.actions, this.more, this.acc, this.give);
+    this.root.append(head, needs, stats, this.actions, this.more, this.acc, this.life, this.give);
     parent.appendChild(this.root);
   }
 
   private readonly give: HTMLDivElement;
   private readonly acc: HTMLDivElement;
+  private readonly life: HTMLDivElement;
+  private readonly lifeText: HTMLDivElement;
+  private readonly memorySel: HTMLSelectElement;
   private readonly hatDye: HTMLSelectElement;
   private readonly scarfDye: HTMLSelectElement;
   private readonly glassesBtn: HTMLButtonElement;
@@ -286,6 +308,18 @@ export class StatsSheet {
     this.hatDye.hidden = !n.hat;
     this.hatDye.title = dyes === 0 ? UI_TEXT.noDye : '';
     this.glassesBtn.classList.toggle('active', !!n.glasses);
+    // Life: the day count, slips, past lives, what the next rebirth keeps.
+    this.life.hidden = isEgg;
+    if (document.activeElement !== this.memorySel) this.memorySel.value = n.memory;
+    const dc = dayCount(n);
+    const lines = [TEN_TEXT.dayCount(dc.day, dc.of)];
+    if (n.slips.length === 0) lines.push(TEN_TEXT.noSlips);
+    else {
+      const recent = n.slips.slice(-3).map((s) => TEN_TEXT.slipNames[s.kind] ?? s.kind);
+      lines.push(`${TEN_TEXT.slips}: ${n.slipCount} · ${recent.join(', ')}`);
+    }
+    if (n.ancestry.length > 0) lines.push(TEN_TEXT.ancestry(n.ancestry));
+    this.lifeText.textContent = lines.join(' · ');
   }
 
   private act(what: 'pet' | 'carry' | 'feed' | 'shake'): void {
@@ -326,6 +360,12 @@ function subtitleFor(n: Nubbin, world: World): string {
     n.species === 'chao'
       ? STAGE_LABELS[n.stage]
       : `${SPECIES_LABELS[n.species] ?? n.species} · ${STAGE_LABELS[n.stage]}`;
+  const extra = [
+    n.moody ? TEN_TEXT.moodyTag[n.moody] : null,
+    n.heirloom ? TEN_TEXT.heirloomTag : null,
+  ]
+    .filter(Boolean)
+    .join(' · ');
   const tag = n.shadow
     ? n.bond
       ? UI_TEXT.bondedTag
@@ -347,6 +387,7 @@ function subtitleFor(n: Nubbin, world: World): string {
   const eternal = n.eternal ? ` · ✦ ${UI_TEXT.eternalLabel}` : '';
   const waiting = n.awaitingKeeper ? ` · ${UI_TEXT.waiting}` : '';
   const shadowTag = tag ? ` · ${tag}` : '';
+  const extraTag = extra ? ` · ${extra}` : '';
   void world;
-  return `${stage}${type} · ${bandLabel} · ${UI_TEXT.age(formatDuration(n.ageMs))}${rebirths}${eternal}${waiting}${shadowTag}`;
+  return `${stage}${type} · ${bandLabel} · ${UI_TEXT.age(formatDuration(n.ageMs))}${rebirths}${eternal}${waiting}${shadowTag}${extraTag}`;
 }

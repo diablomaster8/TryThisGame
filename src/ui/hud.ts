@@ -1,5 +1,6 @@
 import { GROVE, INPUT } from '../config/tuning';
 import { ACHIEVEMENT_LIST } from '../sim/achievements';
+import { SKILL_LIST } from '../sim/skills';
 import {
   GROVE_LABELS,
   NAMES,
@@ -47,6 +48,9 @@ import { CollectionBook, keyLabel, MemorialCard } from './collection';
 import { DecorateMenu, placingLabel } from './decorate';
 import { MapPanel, NeighbourhoodPanel, ProfilePanel, QuestBoard } from './garden-panels';
 import { BreakScreen, EduScreen, GrownUpPanel } from './edu';
+import { GymMenu } from './gym';
+import { TankScreen } from '../minigames/tank/screen';
+import { TEN_TEXT, STAT_LABELS } from '../config/strings';
 import { EDU_TEXT } from '../config/strings';
 import { eduBreakDue } from '../sim/edu';
 import { speciesOf } from '../sim/species';
@@ -234,6 +238,24 @@ export function mountHud(
   const edu = new EduScreen(root, game, toast);
   const grownUps = new GrownUpPanel(root, game, toast);
   const breakScreen = new BreakScreen(root, game, () => grownUps.open());
+  const gym = new GymMenu(root, game, toast, pickRunner);
+  const tank = new TankScreen(root);
+  function startTank(): void {
+    const g = game();
+    if (!g || tank.isOpen) return;
+    sheet.close();
+    g.renderPaused = true;
+    tank.start(Date.now() % 2147483647, (s) => {
+      g.renderPaused = false;
+      g.send({
+        kind: 'tankResult',
+        shells: s.cargo.shells,
+        wood: s.cargo.wood,
+        stone: s.cargo.stone,
+        won: s.won,
+      });
+    });
+  }
   // The "More" menu holds everything that does not fit the top bar.
   const more = modal(root, UI_TEXT.more, UI_TEXT.close);
   more.body.appendChild(el('p', 'help', UI_TEXT.moreHelp));
@@ -245,6 +267,8 @@ export function mountHud(
     [`🪴 ${UI_TEXT.decorate}`, () => decorate.open()],
     [`📷 ${UI_TEXT.photo}`, () => photo.open()],
     [`👜 ${UI_TEXT.pocket}`, () => pocket.open(sheet.selectedId)],
+    [`🏋 ${TEN_TEXT.gym}`, () => gym.open()],
+    [`🪲 ${TEN_TEXT.tank}`, () => startTank()],
     [`📜 ${UI_TEXT.quests}`, () => quests.open()],
     [`🎖 ${UI_TEXT.profile}`, () => profile.open()],
     [`🏡 ${UI_TEXT.neighbourhood}`, () => neighbourhood.open()],
@@ -308,6 +332,8 @@ export function mountHud(
       edu,
       grownUps,
       breakScreen,
+      gym,
+      tank,
     };
   }
 
@@ -353,6 +379,7 @@ export function mountHud(
       else if (map.isOpen()) map.close();
       else if (edu.isOpen()) edu.close();
       else if (grownUps.isOpen()) grownUps.close();
+      else if (gym.isOpen()) gym.close();
       else if (more.isOpen()) more.hide();
       else if (!sheet.root.hidden) sheet.close();
     }
@@ -399,6 +426,8 @@ export function mountHud(
       } else if (expedition.isOpen) playSong('expedition');
       else if (races.screen.isOpen) playSong('race');
       else if (karate.screen.isOpen) playSong('karate');
+      else if (gym.screen.isOpen) playSong('karate');
+      else if (tank.isOpen) playSong('expedition');
       else if (
         g.world.settings.jukebox &&
         SONG_NAMES.includes(g.world.settings.jukebox as SongName)
@@ -631,6 +660,53 @@ export function mountHud(
           toast(e.sticker ? EDU_TEXT.sticker : EDU_TEXT.eduResultToast(e.stars));
         } else if (e.kind === 'eduStarted') {
           toast(EDU_TEXT.playHelp);
+        } else if (e.kind === 'recruited') {
+          toast(TEN_TEXT.recruited(e.name, TEN_TEXT.roleNames[e.role] ?? e.role));
+          playSound('buy');
+        } else if (e.kind === 'townGrew') {
+          toast(TEN_TEXT.townGrew(TEN_TEXT.unlockNames[e.unlock] ?? e.unlock));
+          playSound('win');
+        } else if (e.kind === 'slip') {
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          toast(
+            TEN_TEXT.slipToast(n?.name ?? NAMES.creature, TEN_TEXT.slipNames[e.slip] ?? e.slip),
+          );
+        } else if (e.kind === 'wellRaised') {
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          toast(TEN_TEXT.wellRaised(n?.name ?? NAMES.creature));
+          playSound('win');
+        } else if (e.kind === 'trained') {
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          toast(
+            TEN_TEXT.trained(n?.name ?? NAMES.creature, STAT_LABELS[e.stat], e.points, e.rested),
+          );
+          playSound('cheer');
+        } else if (e.kind === 'merged') {
+          const a = g.world.nubbins.find((x) => x.id === e.a);
+          const b = g.world.nubbins.find((x) => x.id === e.b);
+          toast(TEN_TEXT.merged(a?.name ?? NAMES.creature, b?.name ?? NAMES.creature));
+          playSound('evolve');
+        } else if (e.kind === 'unmerged') {
+          toast(TEN_TEXT.unmerged);
+        } else if (e.kind === 'curfew') {
+          toast(e.night ? TEN_TEXT.curfewOn : TEN_TEXT.curfewOff);
+        } else if (e.kind === 'skillBought') {
+          toast(TEN_TEXT.skillBought(SKILL_LIST.find((s) => s.id === e.id)?.name ?? e.id));
+          playSound('buy');
+        } else if (e.kind === 'scanFull') {
+          toast(TEN_TEXT.scanFull(SPECIES_LABELS[e.species] ?? e.species));
+          playSound('pickup');
+        } else if (e.kind === 'converted') {
+          toast(TEN_TEXT.converted(SPECIES_LABELS[e.species] ?? e.species));
+          playSound('hatch');
+        } else if (e.kind === 'teamJoined') {
+          toast(TEN_TEXT.teamJoined(TEN_TEXT.teamNames[e.team] ?? e.team));
+        } else if (e.kind === 'missionDone') {
+          toast(TEN_TEXT.missionDone);
+          playSound('win');
+        } else if (e.kind === 'tankDone') {
+          toast(e.won ? TEN_TEXT.tankWon(e.shells, e.wood, e.stone) : TEN_TEXT.tankLost(e.shells));
+          playSound(e.won ? 'win' : 'sad');
         } else if (e.kind === 'wildFed') {
           toast(UI_TEXT.wildFed);
           playSound('pet');

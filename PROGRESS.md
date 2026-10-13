@@ -9,6 +9,58 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## The Digimon-inspired ten, built (2026-10-13)
+
+Maor: "Go through the next 10 upgrades on the list now." Systems 1–10 of the list below
+are playable; 11 (procedural dungeons) and the campaigns remain.
+
+1. **Village square** (`sim/town.ts`, Profile → Village square): settled wild visitors,
+   returned strays and beaten race or karate rivals move in as recruits; prosperity
+   (12 per recruit, 120 max) opens the stall (shop prices −10%), the gym coach (+20%
+   training), the bathhouse attendant, free fortunes and a standing festival (+15% race
+   prizes). Painted stalls appear by the cottage as the square grows.
+2. **Care slips** (`sim/slips.ts`): a need ignored for two minutes (hungry, exhausted,
+   lonely after the first ten minutes, out in the rain) logs a slip with a toast; the
+   stats sheet shows the count and the last three. Each slip trims the adult span 5%
+   (floor 75%); at evolution, three or more mark the Grumpy or Sleepy tag, none at all
+   earns the well-raised bonus (a second stat steps up a grade). Slips never count
+   during offline catch-up.
+3. **Gym** (`sim/gym.ts`, `ui/gym.ts`, More → Gym): four stations, one per stat; a
+   twenty-second timing bar (tap in the zone); hits × 6 points, × 1.5 when fed and
+   rested, × 1.2 with the square's coach; costs energy.
+4. **Partners and the merge** (`sim/partners.ts`, Profile → Partners): two chosen
+   Nubbins keep near the Keeper and bond faster; two bonded adults merge with a twine
+   (shop, 120 Shells) for a minute: race and karate levels become the pair's best + 2,
+   and the merged pair glows.
+5. **Curfew** (`sim/curfew.ts`): after 22:00 real time Nubbins prefer to nap and tire
+   faster unless lanterns are lit; toasts at dusk and dawn; the sheet shows "Day n of
+   about m" from the line's span.
+6. **Rebirth memories** (`sim/inheritance.ts`, stats sheet → "Rebirth keeps"): a grade
+   (best stat steps up), its parts, its lessons (default) or its accessories; each life
+   is written into the family line ("Past lives: sun swim → …"); three lives earn the
+   heirloom look (shiny).
+7. **Keeper skills** (`sim/skills.ts`, Profile → Keeper skills): 24 nodes in Care,
+   Garden, Games and Story, bought with points from badges and claimed requests; wired:
+   faster hatching, fruit sooner, bigger expedition hauls and an extra seed, race prize
+   bonus, karate HP, cheaper lessons, an extra plot.
+8. **Scan and convert** (`sim/scans.ts`, Collection Book): wild arrivals (+25), their
+   stay (+2/min) and neighbours' pets (+10/visit) fill a scan bar per species; at 100%
+   the Book converts it into an egg.
+9. **Guard teams** (`sim/teams.ts`, Profile → Guard team): Dawn, Dusk or Dew; a weekly
+   seeded mission (expeditions, Shells, race or karate wins); points and ranks; a
+   seeded board of four rivals.
+10. **Beetle Run** (`sim/tank.ts`, `minigames/tank/screen.ts`, More → Beetle Run): a
+    cart through a seeded cave on three lanes, dodging spores, rocks and acid, picking
+    up shells, wood and stone into a limited cargo, through the boss door for a bonus;
+    six hits ends the run; leaving early keeps the haul.
+
+Also fixed in passing: the four Grove lanterns had lost their sprites in the earlier
+lantern change (the script's anchor had moved); they draw and tap again.
+
+Tests: `tests/sim/ten.test.ts` (12 cases). Full suite green, lint clean, build OK;
+seen in the browser: the toasts for every system, the profile sections, the gym and the
+cave.
+
 ## Play-through and debug pass (2026-10-13)
 
 Maor: "Run through the game and debug." Driven in the browser pane from a cleared save:

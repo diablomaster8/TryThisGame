@@ -780,3 +780,138 @@ export const EDU_TEXT = {
   eduResultToast: (stars: number) => `${'⭐'.repeat(stars)} +${stars * 5} Shells`,
   noGames: 'All games are switched off. Ask a grown-up to turn some on.',
 } as const;
+
+/** The Digimon-inspired ten: square, slips, gym, partners, curfew, memories, skills, scans, teams, the Beetle Run. */
+export const TEN_TEXT = {
+  square: 'Village square',
+  squareHelp:
+    'Creatures you win over move into the square: settled wild ones, strays that come home, race and karate rivals you beat. Prosperity opens the stall, the gym bonus, the bathhouse attendant, free fortunes and a standing festival.',
+  prosperity: (p: number, max: number) => `Prosperity ${p} / ${max}`,
+  recruitsLabel: 'Recruits',
+  noRecruits: 'Nobody yet. Feed a wild visitor, bring a stray home, or win a race.',
+  roleNames: {
+    stall: 'runs the stall',
+    gym: 'coaches at the gym',
+    attendant: 'tends the bathhouse',
+    fortune: 'reads fortunes',
+    festival: 'hangs the bunting',
+    guard: 'keeps watch',
+  } as Record<string, string>,
+  unlockNames: {
+    stall: 'Stall (cheaper goods)',
+    gym: 'Gym coach (+20% training)',
+    attendant: 'Bathhouse attendant',
+    fortune: 'Free fortunes',
+    festival: 'Festival (+15% race prizes)',
+  } as Record<string, string>,
+  recruited: (name: string, role: string) => `${name} moved into the square and ${role}.`,
+  townGrew: (unlock: string) => `The square grew: ${unlock}.`,
+  // Slips
+  slips: 'Slips',
+  noSlips: 'No slips. Well raised so far.',
+  slipNames: {
+    hungry: 'went hungry',
+    sleepy: 'stayed up exhausted',
+    lonely: 'felt lonely',
+    wet: 'stood in the rain',
+  } as Record<string, string>,
+  slipToast: (name: string, slip: string) => `${name} ${slip}. (A slip.)`,
+  wellRaised: (name: string) => `${name} was well raised: a second stat gained a grade.`,
+  moodyTag: { grumpy: 'Grumpy', sleepy: 'Sleepy' } as Record<string, string>,
+  dayCount: (day: number, of: number) => `Day ${day} of about ${of}`,
+  // Gym
+  gym: 'Gym',
+  gymHelp:
+    'Four stations, one per stat. Tap when the bar is in the zone; every hit is points. A fed, rested Nubbin gains half again as much. Each round costs energy.',
+  stationNames: {
+    lane: 'Swim lane',
+    rings: 'Fly rings',
+    track: 'Run track',
+    rocks: 'Power rocks',
+  } as Record<string, string>,
+  train: 'Train',
+  tooTired: 'Too tired to train. Let it nap first.',
+  trained: (name: string, stat: string, points: number, rested: boolean) =>
+    `${name}: +${points} ${stat}${rested ? ' (rested bonus)' : ''}`,
+  gymHits: (hits: number) => `Hits: ${hits}`,
+  gymTap: 'Tap in the zone!',
+  gymDone: 'Round over',
+  // Partners
+  partners: 'Partners',
+  partnersHelp:
+    'Two Nubbins who keep near you and bond faster. Two bonded adult partners can merge with a twine for a minute of shared strength in races and bouts.',
+  partnerSlot: (i: number) => `Partner ${i + 1}`,
+  noPartner: 'None',
+  mergeBtn: 'Merge (1 twine)',
+  mergeWhy: {
+    partners: 'Pick two partners first.',
+    adults: 'Both partners must be adults.',
+    bond: 'Both need affection 60 or more.',
+    twine: 'Buy a twine at the shop.',
+    merged: 'Already merged.',
+  } as Record<string, string>,
+  merged: (a: string, b: string) => `${a} and ${b} merged! One minute of shared strength.`,
+  unmerged: 'The merge faded. Both are themselves again.',
+  twineCount: (n: number) => `Twine: ${n}`,
+  // Curfew
+  curfewOn: 'Night has fallen. The Nubbins grow sleepy; light the lanterns to keep them up.',
+  curfewOff: 'Morning. The Grove wakes.',
+  // Memories
+  memoryLabel: 'Rebirth keeps',
+  memoryNames: {
+    grade: 'A grade (best stat steps up)',
+    part: 'Its critter parts',
+    lesson: 'Its lessons',
+    accessory: 'Its hat, scarf and glasses',
+  } as Record<string, string>,
+  ancestry: (lives: string[]) => `Past lives: ${lives.join(' → ')}`,
+  heirloomTag: 'Heirloom',
+  // Skills
+  skills: 'Keeper skills',
+  skillsHelp: 'Badges and finished requests give skill points. Each branch opens in order.',
+  skillPoints: (n: number) => `Skill points: ${n}`,
+  branchNames: { care: 'Care', garden: 'Garden', games: 'Games', story: 'Story' } as Record<
+    string,
+    string
+  >,
+  skillCost: (n: number) => `${n} pt${n === 1 ? '' : 's'}`,
+  skillBought: (name: string) => `Learned: ${name}`,
+  owned: 'Owned',
+  // Scans
+  scan: (p: number) => `Scan ${Math.min(100, p)}%`,
+  convert: 'Convert to egg',
+  scanFull: (species: string) => `${species} scanned in full. Convert it in the Book.`,
+  converted: (species: string) => `An egg of ${species}, from the scans.`,
+  convertWhy: { scan: 'Scan it to 100% first.', roster: 'No room in the roster.' } as Record<
+    string,
+    string
+  >,
+  // Teams
+  team: 'Guard team',
+  teamHelp:
+    'Join a team for a weekly mission; finished missions earn points and ranks. The board shows this week’s rivals.',
+  teamNames: { dawn: 'Dawn', dusk: 'Dusk', dew: 'Dew' } as Record<string, string>,
+  joinTeam: (name: string, leader: string) => `Join ${name} (led by ${leader})`,
+  teamJoined: (name: string) => `You joined team ${name}.`,
+  mission: 'This week’s mission',
+  missionText: {
+    expeditions: (n: number) => `Come back from ${n} Expedition${n > 1 ? 's' : ''}`,
+    shells: (n: number) => `Bring home ${n} Shells from Expeditions`,
+    raceWin: (n: number) => `Win ${n} race${n > 1 ? 's' : ''}`,
+    karateWin: (n: number) => `Win ${n} karate bout${n > 1 ? 's' : ''}`,
+  } as Record<string, (n: number) => string>,
+  missionDone: 'Mission done! Team points earned.',
+  rankLabel: (rank: number, points: number) => `Rank ${rank} · ${points} points`,
+  board: 'Board',
+  // Beetle Run
+  tank: 'Beetle Run',
+  tankHelp:
+    'Drive the cart through the cave. Tap above or below the cart (or press up / down) to change lane, dodge spores, rocks and acid, and fill the cargo with shells, wood and stone before the boss door.',
+  tankCargo: (n: number, max: number) => `Cargo ${n}/${max}`,
+  tankHits: (n: number) => `Hits ${n}/6`,
+  tankWon: (shells: number, wood: number, stone: number) =>
+    `Through the door! +${shells} Shells, +${wood} wood, +${stone} stone`,
+  tankLost: (shells: number) => `The cart limped home with ${shells} Shells.`,
+  tankStart: 'Drive',
+  tankBest: (best: number) => `Best haul: ${best} Shells`,
+} as const;

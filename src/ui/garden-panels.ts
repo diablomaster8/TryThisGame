@@ -1,5 +1,9 @@
-import { NAMES, SPECIES_LABELS, TRAINER_LABELS, UI_TEXT } from '../config/strings';
-import { PLOTS } from '../config/tuning';
+import { NAMES, SPECIES_LABELS, TEN_TEXT, TRAINER_LABELS, UI_TEXT } from '../config/strings';
+import { PLOTS, TOWN } from '../config/tuning';
+import { canMerge } from '../sim/partners';
+import { canBuySkill, SKILL_LIST } from '../sim/skills';
+import { TEAM_LIST, teamBoard } from '../sim/teams';
+import { townUnlocks } from '../sim/town';
 import type { Game } from '../game';
 import { ACHIEVEMENT_LIST, titlesEarned } from '../sim/achievements';
 import { landmarkList } from '../sim/landmarks';
@@ -174,6 +178,10 @@ export class ProfilePanel {
     }
     if (!any) perkList.appendChild(el('span', 'help', UI_TEXT.noPerks));
     this.body.appendChild(perkList);
+    this.square(g);
+    this.partnersSection(g);
+    this.skillsSection(g);
+    this.teamSection(g);
     // Badges.
     this.body.appendChild(el('h3', undefined, UI_TEXT.badges));
     const badges = el('div', 'badge-grid');
@@ -184,6 +192,174 @@ export class ProfilePanel {
       badges.appendChild(b);
     }
     this.body.appendChild(badges);
+  }
+
+  private square(g: Game): void {
+    const w = g.world;
+    this.body.appendChild(el('h3', undefined, TEN_TEXT.square));
+    this.body.appendChild(el('p', 'help', TEN_TEXT.squareHelp));
+    this.body.appendChild(el('div', 'shop-note', TEN_TEXT.prosperity(w.town.prosperity, TOWN.max)));
+    const bar = el('div', 'meter-bar');
+    const fill = el('div');
+    fill.style.width = `${Math.round((w.town.prosperity / TOWN.max) * 100)}%`;
+    bar.appendChild(fill);
+    this.body.appendChild(bar);
+    const unlocks = townUnlocks(w);
+    const list = el('div', 'badge-grid');
+    for (const [key, label] of Object.entries(TEN_TEXT.unlockNames)) {
+      const on = unlocks[key as keyof typeof unlocks];
+      list.appendChild(el('div', `badge${on ? ' badge-got' : ''}`, `${on ? '✓ ' : ''}${label}`));
+    }
+    this.body.appendChild(list);
+    this.body.appendChild(el('h3', undefined, TEN_TEXT.recruitsLabel));
+    if (w.town.recruits.length === 0) this.body.appendChild(el('p', 'help', TEN_TEXT.noRecruits));
+    const rec = el('div', 'shop-list');
+    for (const r of w.town.recruits) {
+      const row = el('div', 'shop-row');
+      const t = el('div');
+      t.append(
+        el('strong', undefined, r.name),
+        el(
+          'small',
+          undefined,
+          `${SPECIES_LABELS[r.species] ?? r.species} · ${TEN_TEXT.roleNames[r.role] ?? r.role}`,
+        ),
+      );
+      row.appendChild(t);
+      rec.appendChild(row);
+    }
+    this.body.appendChild(rec);
+  }
+
+  private partnersSection(g: Game): void {
+    const w = g.world;
+    this.body.appendChild(el('h3', undefined, TEN_TEXT.partners));
+    this.body.appendChild(el('p', 'help', TEN_TEXT.partnersHelp));
+    for (const slot of [0, 1] as const) {
+      const row = el('label', 'field-row');
+      const sel = el('select');
+      const none = el('option', undefined, TEN_TEXT.noPartner);
+      none.value = '';
+      sel.appendChild(none);
+      for (const n of w.nubbins) {
+        if (n.stage === 'egg') continue;
+        const o = el('option', undefined, n.name);
+        o.value = n.id;
+        sel.appendChild(o);
+      }
+      sel.value = w.partners[slot] ?? '';
+      sel.addEventListener('change', () => {
+        g.send({ kind: 'setPartner', slot, nubbinId: sel.value || null });
+        setTimeout(() => this.refresh(), 100);
+      });
+      row.append(el('strong', undefined, TEN_TEXT.partnerSlot(slot)), sel);
+      this.body.appendChild(row);
+    }
+    const why = canMerge(w);
+    const mergeRow = el('div', 'shop-row');
+    const text = el('div');
+    text.append(
+      el('strong', undefined, TEN_TEXT.twineCount(w.inventory.twine)),
+      el('small', undefined, why ? (TEN_TEXT.mergeWhy[why] ?? why) : ''),
+    );
+    const b = button(
+      TEN_TEXT.mergeBtn,
+      () => {
+        g.send({ kind: 'merge' });
+        setTimeout(() => this.refresh(), 100);
+      },
+      'btn btn-small btn-primary',
+    );
+    b.disabled = why !== null;
+    mergeRow.append(text, b);
+    this.body.appendChild(mergeRow);
+  }
+
+  private skillsSection(g: Game): void {
+    const w = g.world;
+    this.body.appendChild(el('h3', undefined, TEN_TEXT.skills));
+    this.body.appendChild(el('p', 'help', TEN_TEXT.skillsHelp));
+    this.body.appendChild(el('div', 'shop-note', TEN_TEXT.skillPoints(w.skillPoints)));
+    for (const branch of ['care', 'garden', 'games', 'story'] as const) {
+      this.body.appendChild(el('div', 'shop-note', TEN_TEXT.branchNames[branch] ?? branch));
+      const grid = el('div', 'skill-grid');
+      for (const s of SKILL_LIST.filter((x) => x.branch === branch)) {
+        const why = canBuySkill(w, s.id);
+        const owned = why === 'owned';
+        const b = button(
+          '',
+          () => {
+            g.send({ kind: 'buySkill', id: s.id });
+            setTimeout(() => this.refresh(), 100);
+          },
+          `btn skill${owned ? ' owned' : why === 'locked' ? ' locked' : ''}`,
+        );
+        b.append(
+          el('strong', undefined, s.name),
+          el(
+            'small',
+            undefined,
+            `${s.blurb} · ${owned ? TEN_TEXT.owned : TEN_TEXT.skillCost(s.cost)}`,
+          ),
+        );
+        b.disabled = why !== null;
+        grid.appendChild(b);
+      }
+      this.body.appendChild(grid);
+    }
+  }
+
+  private teamSection(g: Game): void {
+    const w = g.world;
+    this.body.appendChild(el('h3', undefined, TEN_TEXT.team));
+    this.body.appendChild(el('p', 'help', TEN_TEXT.teamHelp));
+    if (!w.team) {
+      const row = el('div', 'settings-actions');
+      for (const t of TEAM_LIST) {
+        row.appendChild(
+          button(
+            TEN_TEXT.joinTeam(TEN_TEXT.teamNames[t.id] ?? t.id, t.leader),
+            () => {
+              g.send({ kind: 'joinTeam', team: t.id });
+              setTimeout(() => this.refresh(), 100);
+            },
+            'btn btn-small',
+          ),
+        );
+      }
+      this.body.appendChild(row);
+      return;
+    }
+    const t = w.team;
+    this.body.appendChild(
+      el(
+        'div',
+        'shop-note',
+        `${TEN_TEXT.teamNames[t.id] ?? t.id} · ${TEN_TEXT.rankLabel(t.rank, t.points)}`,
+      ),
+    );
+    const m = t.mission;
+    if (m) {
+      const text = TEN_TEXT.missionText[m.kind]?.(m.target) ?? m.kind;
+      this.body.appendChild(
+        el(
+          'div',
+          'shop-row',
+          `${TEN_TEXT.mission}: ${text} · ${Math.min(m.progress, m.target)}/${m.target}${m.done ? ' ✓' : ''}`,
+        ),
+      );
+    }
+    this.body.appendChild(el('div', 'shop-note', TEN_TEXT.board));
+    const board = el('div', 'shop-list');
+    for (const row of teamBoard(w, Date.now())) {
+      const r = el('div', `shop-row${row.you ? ' active' : ''}`);
+      r.append(
+        el('strong', undefined, row.name),
+        el('small', undefined, `${TEN_TEXT.teamNames[row.team] ?? row.team} · ${row.points}`),
+      );
+      board.appendChild(r);
+    }
+    this.body.appendChild(board);
   }
 }
 

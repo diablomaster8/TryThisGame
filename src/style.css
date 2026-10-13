@@ -1438,3 +1438,93 @@ button,
   padding: 8px;
   border-radius: 8px;
 }
+
+/* ---------- gym ---------- */
+
+.gym {
+  position: absolute;
+  inset: 0;
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 50% 0%, rgba(120, 90, 60, 0.45), transparent 60%), #1a1326;
+  pointer-events: auto;
+}
+
+.gym-card {
+  width: min(520px, calc(100% - 20px));
+  padding: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.gym-bar {
+  position: relative;
+  height: 44px;
+  border-radius: 10px;
+  background: #2a2540;
+  border: 2px solid var(--hud-border);
+  overflow: hidden;
+}
+
+.gym-bar.hit {
+  box-shadow: 0 0 0 3px #7ee081 inset;
+}
+
+.gym-bar.miss {
+  box-shadow: 0 0 0 3px #e04a6a inset;
+}
+
+.gym-zone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: rgba(242, 211, 76, 0.55);
+}
+
+.gym-marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  margin-left: -2px;
+  background: #ffffff;
+}
+
+.skill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 6px;
+}
+
+.skill {
+  border: 1px solid var(--hud-border);
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: 12px;
+  text-align: left;
+}
+
+.skill.owned {
+  border-color: var(--accent);
+}
+
+.skill.locked {
+  opacity: 0.45;
+}
+
+.meter-bar {
+  height: 8px;
+  border-radius: 4px;
+  background: #2a2540;
+  overflow: hidden;
+  margin: 4px 0 8px;
+}
+
+.meter-bar > div {
+  height: 100%;
+  background: var(--accent);
+}

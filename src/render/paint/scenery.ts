@@ -21,6 +21,7 @@ import {
   windowPane,
 } from './buildings';
 import { fbm, ridged, vnoise } from './noise';
+import { stamp } from './buildings';
 import { bush, fencePost, lanternPost, LEAF, log, rock, tree, well } from './props';
 import { hex, mix, Raster, rimObjects, shade } from './raster';
 
@@ -49,6 +50,7 @@ export type PaintedKind =
   | 'workshop'
   | 'lanternPost'
   | 'fencePost'
+  | 'stall'
   | 'cottage-lit'
   | 'school-lit'
   | 'dojo-lit'
@@ -496,6 +498,46 @@ function paintWindmill(lit = false): Raster {
   return finish(r);
 }
 
+/** A market stall for the square: a plank counter, posts, a striped awning, goods. */
+function paintStall(): Raster {
+  const r = new Raster(72, 60, null);
+  const rng = new Rng(700);
+  r.tracking = true;
+  for (const px of [10, 62]) {
+    for (let i = 0; i < 40; i++) {
+      stamp(
+        r,
+        px + (vnoise(i / 9, px, 71) - 0.5) * 1.2,
+        56 - i,
+        1.4,
+        mix(hex('#4a2e18'), hex('#8a5a32'), ridged(px, i / 3, 2, 72)),
+      );
+    }
+  }
+  plankWall(r, 8, 36, 56, 20, 73);
+  r.rect(6, 34, 60, 3, hex('#d9a76a'));
+  for (let y = 10; y < 24; y++) {
+    const half = 30 + ((y - 10) / 14) * 6;
+    for (let x = 36 - half; x <= 36 + half; x++) {
+      const stripe = Math.floor((x + y * 0.3) / 6) % 2 === 0;
+      r.set(x, y + Math.sin((x / 72) * Math.PI) * 1.5, stripe ? hex('#e04a6a') : hex('#f4efe6'));
+    }
+  }
+  for (let x = 6; x <= 66; x += 6)
+    r.tri(x - 3, 24, x + 3, 24, x, 29, (x / 6) % 2 === 0 ? hex('#e04a6a') : hex('#f4efe6'));
+  for (let i = 0; i < 6; i++) {
+    r.disc(
+      14 + i * 9 + rng.float(-1, 1),
+      32,
+      2.6,
+      [hex('#ff9a3a'), hex('#8fd262'), hex('#f2d34c'), hex('#e04a6a')][i % 4]!,
+    );
+  }
+  r.tracking = false;
+  rimObjects(r);
+  return r;
+}
+
 /** Build the whole painted scenery sheet (a few hundred milliseconds, once). */
 export function buildPaintedScenery(): SpriteSheet {
   const atlas = new RasterAtlas(2048);
@@ -526,5 +568,6 @@ export function buildPaintedScenery(): SpriteSheet {
   add('nursery-lit', paintNursery(true));
   add('lanternPost-lit', paintLantern(true));
   add('fencePost', paintFencePost());
+  add('stall', paintStall());
   return atlas.build();
 }

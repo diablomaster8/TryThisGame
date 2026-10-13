@@ -1,4 +1,12 @@
-import { formatDuration, NAMES, SPECIES_LABELS, TYPE_LABELS, UI_TEXT } from '../config/strings';
+import {
+  formatDuration,
+  NAMES,
+  SPECIES_LABELS,
+  TEN_TEXT,
+  TYPE_LABELS,
+  UI_TEXT,
+} from '../config/strings';
+import { canConvert } from '../sim/scans';
 import type { Game } from '../game';
 import { frameKey } from '../render/sprites/animations';
 import type { SpriteSheet } from '../render/sprites/atlas';
@@ -135,6 +143,26 @@ export class CollectionBook {
         }
       }
       cell.append(c, el('div', 'book-label', known ? keyLabel(key) : UI_TEXT.unknown));
+      if (!key.startsWith('chao:')) {
+        const scan = g.world.scans[key] ?? 0;
+        const bar = el('div', 'meter-bar');
+        const fill = el('div');
+        fill.style.width = `${Math.min(100, scan)}%`;
+        bar.appendChild(fill);
+        cell.appendChild(bar);
+        const why = canConvert(g.world, key);
+        const b = button(
+          why ? TEN_TEXT.scan(scan) : TEN_TEXT.convert,
+          () => {
+            g.send({ kind: 'convertScan', species: key });
+            setTimeout(() => this.refresh(), 150);
+          },
+          'btn btn-small',
+        );
+        b.disabled = why !== null;
+        if (why === 'roster') b.title = TEN_TEXT.convertWhy.roster ?? '';
+        cell.appendChild(b);
+      }
       this.grid.appendChild(cell);
     }
   }
