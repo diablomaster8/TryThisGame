@@ -9,6 +9,72 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Campaign mode and the graphics upgrade (2026-10-13)
+
+Maor approved the plan ("go now"): graphics first, then a full story campaign with at
+least six endings and a treat-them-well mechanic. Resolution stays 270p (32 px sprites);
+samples at 48/64 px and 96/128/192 px were sent for a decision (`PREVIEW_HIRES=` and
+`PREVIEW_HIRES2=` with `npx vitest run tests/tools`). Moving up would mean redrawing every
+animation set at the chosen size.
+
+**Graphics passes (what works):**
+
+- HD-2D post pass (`render/post.ts`): bloom, tilt-shift, vignette, colour grade, all at
+  frame resolution. Time of day from the real clock (`render/daylight.ts`): dawn/day/
+  dusk/night sky, light rig, grade, lanterns and fireflies; debug buttons force an hour.
+- Particles (`render/particles.ts`, one draw call through the sprite batch): dust on
+  landing and footsteps, hearts on petting, sparkles for hatch/evolve/Eternal, crumbs,
+  leaves and petals from shaken trees, ripples under swimmers, fireflies at night,
+  drifting leaves by day, waterfall spray. Reduced motion drops the ambient layer.
+  Sprites dim with the darkness of the hour.
+- Motion: eight-frame breathing idle with a blink, six-frame walk (contact / push-off /
+  passing with lift and squash), draw-time landing squash and hatch/evolve pop.
+- Environment: one 256×256 ground texture with grass patches, ragged dirt paths from the
+  start to the pond and trees, pebbles and flowers; seeded decorations (tufts, daisies,
+  bluebells, pebbles, mushrooms, stumps, a signpost) drawn as sprites.
+- Pixel UI: 2 px borders, stepped corners and bevels on every panel and button.
+- Palette grew to 48 colours with hue-shifted ramps; every generated sprite gets a light
+  pass and a coloured outline.
+
+**Campaign "Hazel's Grove" (what works):**
+
+- Own save slot (`grove.save.campaign`); the title screen offers Campaign / Free Grove,
+  Continue or New, and the Keeper choice for a new campaign. `?free` skips the title.
+- Trust per Nubbin (`sim/trust.ts`, tuning `TRUST`): pets +3, hand-feeds +4, throws −8,
+  drops −3, starving −1.5/min, crying −0.5/min. Under 15 → **Shadow** (grey coat, ember
+  eyes, dark emote ball, keeps 4 units from the Keeper, never greets; for life). Shadow
+  gains trust at 60% until it **bonds** at 70 (dark heart ball, loves again). Under 5
+  for ten minutes → **runs away** into `world.strays`; strays return to the Grove edge
+  after twenty minutes with `stray: true` and settle when fed or petted. Stats sheet
+  shows a Trust meter and a Shadow / bonded / Stray tag.
+- `sim/campaign.ts`: twelve chapters (`config/story.ts`), each an opening scene, a goal
+  and a closing scene; triggered scenes (first Shadow, run-away, stray return, Sable
+  bonding, first pet of Moss); NPC Keepers (`sim/npcs.ts`: the nine other trainers plus
+  Corvin and Hazel) who potter near a home spot and face you; tap to talk. Lantern posts
+  are tappable (`lightLantern`) and glow once lit. Moss (Eternal Neutral) and Sable (a
+  Shadow stray) are real Nubbins in the roster. Eight endings decided from flags; see
+  `docs/campaign-endings.md` for how to reach each one (also on the Journal's Paths
+  page).
+- UI: dialogue box with portraits (Keeper sheets, Moss and Sable's own sprites),
+  typewriter text (instant under reduced motion), tap/space to advance, choice buttons;
+  Journal (📖) with goal, hint, Sable/Moss trust, friends, chapter list, Paths; ending
+  card; story toasts; debug buttons for chapter jumps, campaign start and Trust −40.
+- Save v2 with a 1→2 migration (trust fields, strays, npcs, campaign).
+- Tests: 155 Vitest cases, including trust/Shadow/run-away/return, the migration, every
+  ending driven through the state machine, story data integrity.
+
+**Stubbed / left out:** parallax sky and weather; a bitmap font (the system font stays);
+Corvin's garden and the Hollow are told in dialogue rather than built as scenes; the
+expedition is not reskinned for chapter 8; music does not change per chapter.
+
+**Known bugs / notes:** the browser pane sometimes grabs a cleared frame right after a
+burst of console-driven frames (a blank blue screenshot); a second screenshot is fine.
+Two stale "500" console errors in the pane came from mid-edit HMR, not from the app.
+
+**Assumptions:** the ten trainers double as the story cast; the player's own Keeper hands
+their lines to an understudy (`UNDERSTUDY` in `config/story.ts`). Adult themes were
+allowed by Maor: Hazel's illness and death, Corvin's cruelty, grief and guilt, no gore.
+
 ## After v1: optimisation, optional items, three creature families, ten Keepers (2026-10-12)
 
 Maor's follow-up ask, done in order:
@@ -268,10 +334,12 @@ by Maor's decision; names, music and sound are original).
 
 ## Next steps
 
+0. **Resolution decision (Maor):** keep 270p, or pick 360p/540p (or a higher tier from
+   the second sample); anything above 32 px means redrawing the animation sets.
 1. **Device test pass (Maor):** open https://diablomaster8.github.io/TryThisGame/ on
    Android Chrome and desktop browsers (PC web and Android are the targets now). Check
    fps with 8 creatures (debug "Fill roster"), the Expedition's tap/hold feel, a race
    in portrait, the joystick if wanted, and that nothing logs to the console.
 2. Likeness pass on the pocket and digital species if any read wrong on a phone: each is
    a few lines in `species-art.ts`; the species preview PNG makes it quick.
-3. Tests: 134 Vitest cases.
+3. Tests: 155 Vitest cases.

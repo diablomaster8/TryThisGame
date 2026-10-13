@@ -82,6 +82,8 @@ export class Dialogue {
     this.scene = sceneId;
     this.lines = scene.lines;
     this.index = 0;
+    this.choices.innerHTML = '';
+    this.next.hidden = false;
     this.afterLines = () => {
       if (scene.choices && scene.choices.length > 0) {
         this.showChoices(scene.choices);
@@ -133,7 +135,7 @@ export class Dialogue {
   }
 
   private advance(): void {
-    if (this.root.hidden) return;
+    if (this.root.hidden || this.choices.childElementCount > 0) return;
     if (this.shown < this.fullText.length) {
       // Finish the line at once.
       clearInterval(this.typing);
@@ -217,7 +219,11 @@ export function speakerName(who: string, g: Game): string {
   return TRAINER_LABELS[who]?.name ?? SPEAKERS[who]?.name ?? who;
 }
 
-function portraitFrame(who: string, g: Game, mood: Mood): { sheet: SpriteSheet | null; key: string } {
+function portraitFrame(
+  who: string,
+  g: Game,
+  mood: Mood,
+): { sheet: SpriteSheet | null; key: string } {
   const sheets = g.view.sheets;
   if (who === 'moss' || who === 'sable') {
     const c = g.world.campaign;
