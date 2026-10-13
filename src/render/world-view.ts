@@ -7,6 +7,7 @@ import type { OrbitCamera } from './camera';
 import type { Daylight } from './daylight';
 import { GROVE } from '../config/tuning';
 import { placeDecorations } from './decor';
+import { fenceSpots, SCENERY } from './scenery';
 import { Particles } from './particles';
 import { NATIVE_PPU, SpriteBatch } from './sprite-batch';
 import { CLIPS, frameAt, frameKey, type ClipName } from './sprites/animations';
@@ -35,7 +36,7 @@ interface NubbinView {
 }
 
 export interface SpritePick {
-  kind: 'nubbin' | 'item' | 'npc' | 'memorial' | 'decor';
+  kind: 'nubbin' | 'item' | 'npc' | 'memorial' | 'decor' | 'tree' | 'building';
   id: string;
 }
 
@@ -49,6 +50,7 @@ export class WorldView {
   readonly sheets = new SheetCache();
   readonly particles = new Particles();
   private readonly decor = placeDecorations();
+  private readonly fences = fenceSpots();
   private darkness = 0;
   private keeperDustMs = 0;
   private readonly nubbins = new Map<string, NubbinView>();
@@ -202,8 +204,47 @@ export class WorldView {
     };
 
     const inGrove = this.location === 'grove';
-    // Ground dressing, then memorial flowers.
     const props = this.sheets.props();
+    // Scenery: trees, bushes, buildings, the well, and fence posts along the main path.
+    if (inGrove) {
+      const scenery = this.sheets.scenery();
+      for (const s of SCENERY) {
+        const rect = scenery.frames.get(frameKey(s.kind, 'front', 0));
+        if (!rect) continue;
+        const sway = s.sway ? Math.sin(nowMs / 1400 + s.x) * s.sway : 0;
+        batch.draw(
+          {
+            sheet: scenery,
+            rect,
+            flip: false,
+            x: s.x + sway,
+            y: 0,
+            z: s.z,
+            mode: 'billboard',
+            w: s.size,
+            h: s.size,
+            tint: this.dim,
+          },
+          s.pick,
+        );
+      }
+      const fence = props.frames.get(frameKey('fence', 'front', 0));
+      if (fence) {
+        for (const f of this.fences) {
+          batch.draw({
+            sheet: props,
+            rect: fence,
+            flip: false,
+            x: f.x,
+            y: 0,
+            z: f.z,
+            mode: 'billboard',
+            tint: this.dim,
+          });
+        }
+      }
+    }
+    // Ground dressing, then memorial flowers.
     for (const d of inGrove ? this.decor : []) {
       const rect = props.frames.get(frameKey(d.frame, 'front', 0));
       if (!rect) continue;

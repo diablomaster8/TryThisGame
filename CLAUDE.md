@@ -85,7 +85,7 @@ tests/sim/
 
 ## Look and feel: 2.5D pixel art
 
-- **The world** is low-poly 3D: grass, a pond, hills, 2 fruit trees and a waterfall. It uses small pixel textures and one shared 32-color palette (`render/sprites/palette.ts`).
+- **The world** is a flat pixel-painted ground (grass, paths, shore, crop plot) with terraced 3D hills, a pond and a waterfall, and pixel-art billboard scenery (trees, bushes, a cottage, the kindergarten hut, the dojo, a well, fences) in the 16-bit top-down RPG manner (Maor, 2026-10-13). One shared 48-color palette (`render/sprites/palette.ts`).
 - **The low-res render:**
   - Draw each frame into a target about 540 px tall (Maor chose the 64 px tier on 2026-10-13; sprites are designed on a 32 px grid and rasterised at 2×, see `PX` in `pixel-canvas.ts`), with its width set by the screen's aspect ratio.
   - Scale it up to fill the screen using nearest-neighbor filtering and `image-rendering: pixelated`.

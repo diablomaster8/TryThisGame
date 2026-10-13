@@ -9,6 +9,40 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Graphics upgrade toward 16-bit top-down RPG art (2026-10-13)
+
+Maor's reference: a professional top-down RPG tileset (dense multi-tone grass, rounded
+dirt paths with rims and pebbles, layered round tree canopies with highlight clusters,
+terraced cliffs, shore bands, cottages with tiled roofs, fences, crop rows, chunky outlined
+characters). What changed:
+
+- **Scenery as pixel sprites** (`render/sprites/scenery.ts`, placements in
+  `render/scenery.ts`): two tree variants (layered lobes, dark underside, highlight
+  clusters, fruit), two bushes, a cottage with a tiled roof, chimney, flower boxes and a
+  round door, the kindergarten hut with a bell gable and sign, the dojo with a double roof,
+  round window and noren curtains, a well, logs. Billboarded through the one sprite batch;
+  trees sway; trees and buildings are tappable (tree → shake; school → Kindergarten,
+  dojo → Karate, cottage → Pocket mode). The 3D lobed trees and bushes are gone from the
+  Grove (the Hollow keeps its dark 3D wood).
+- **Ground** (`render/ground.ts` rewritten): three-tone grass drifts with 1,400 fine tufts,
+  flower and clover clusters, rounded paths with a pale centre, a dark rim and a grass edge,
+  a sand shore with a wet band around the pond and the pool, stone pads under the
+  buildings, a crop plot of soil rows and sprouts by the cottage, shade under trees and
+  bushes, pebbles along the paths and shore, fence posts along the main path.
+- **Hills** are terraced plateaus: two tiers with a strata cliff texture on the sides and
+  grass on top, instead of smooth spheres.
+- **Keeper sprites**: pants seam, lit boot soles, shirt highlight and shade, collar, belt
+  with a buckle, cuffs, hair under the hat and over the ears, eyes with whites, brows, a
+  mouth and a jaw shadow.
+- **Water**: wave crests with lit arcs and dark troughs.
+- Decor placement keeps clear of the buildings and the crop plot.
+- `PREVIEW_SCENERY=path.png npx vitest run tests/tools` renders every scenery piece and a
+  Keeper strip.
+
+**Still thinner than the reference:** no cliff tiles painted into the ground (the hills are
+3D), no roof-side perspective on the buildings (billboards face the camera), the Nubbin
+sprites were not touched in this pass.
+
 ## Everything that was left, the ten recommendations, settings and interactions (2026-10-13)
 
 Maor: "Complete what is not built yet. Then do all 10." Plus mid-turn: settings sliders and

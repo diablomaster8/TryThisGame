@@ -24,10 +24,16 @@ export function makeGrassTexture(tilePx: number, repeat: number): CanvasTexture 
 export function makeWaterTexture(tilePx: number, repeat: number): CanvasTexture {
   const pc = new PixelCanvas(tilePx, tilePx);
   pc.rect(0, 0, tilePx, tilePx, C.water);
-  pc.line(0, 2, 3, 2, C.shallows);
-  pc.line(5, 6, 7, 6, C.shallows);
-  pc.px(2, 5, C.deepWater);
-  pc.px(6, 1, C.deepWater);
+  // Wave crests: short lit arcs with a darker trough under each.
+  pc.thinLine(0, 2, 3, 2, C.shallows);
+  pc.dot(3.5, 1.5, C.skyLight);
+  pc.thinLine(0.5, 3, 3, 3, C.deepWater);
+  pc.thinLine(4.5, 6, 7.5, 6, C.shallows);
+  pc.dot(7.5, 5.5, C.skyLight);
+  pc.thinLine(5, 7, 7.5, 7, C.deepWater);
+  pc.dot(2, 5.5, C.deepWater);
+  pc.dot(6, 1, C.deepWater);
+  pc.dot(1, 7, C.shallows);
   const texture = pc.toTexture({ repeat: true });
   texture.repeat.set(repeat, repeat);
   return texture;
@@ -143,5 +149,26 @@ export function makeSkyTexture(top: string, bottom: string, clouds: boolean): Ca
   texture.minFilter = NearestFilter;
   texture.generateMipmaps = false;
   texture.colorSpace = SRGBColorSpace;
+  return texture;
+}
+
+/** Cliff face: horizontal strata in greys and browns with cracks, repeated around a hill. */
+export function makeCliffTexture(): CanvasTexture {
+  const pc = new PixelCanvas(16, 16);
+  pc.rect(0, 0, 16, 16, C.greyDeep);
+  for (let y = 0; y < 16; y += 4) {
+    pc.rect(0, y, 16, 2, C.greyLight);
+    pc.rect(0, y + 2, 16, 1, C.bark);
+    for (let x = (y / 4) % 2 === 0 ? 2 : 6; x < 16; x += 8) pc.dot(x, y + 1.5, C.greyDeep);
+  }
+  pc.thinLine(3, 0, 5, 7, C.darkBark);
+  pc.thinLine(11, 6, 10, 15, C.darkBark);
+  pc.dot(8, 2, C.pale);
+  pc.dot(13, 10, C.pale);
+  // Grass lip along the top.
+  pc.rect(0, 0, 16, 1, C.leaf);
+  for (let x = 1; x < 16; x += 3) pc.dot(x, 1, C.leafDeep);
+  const texture = pc.toTexture({ repeat: true });
+  texture.repeat.set(4, 1);
   return texture;
 }

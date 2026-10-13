@@ -26,6 +26,7 @@ import { C, color } from './sprites/palette';
 import { makeGroundTexture } from './ground';
 import {
   makeBarkTexture,
+  makeCliffTexture,
   makeHillTexture,
   makeLeafTexture,
   makeSkyTexture,
@@ -118,20 +119,32 @@ export class GroveScene {
     this.pickables.push(water);
     this.disposables.push(rimGeo, rimMat, waterGeo, waterMat, this.water);
 
-    // Hills: flattened spheres with a hill texture, sunk into the ground.
+    // Hills: terraced plateaus, a cliff-face texture on the sides and grass on top.
     const hillTex = makeHillTexture(8, 6);
-    const hillMat = new MeshLambertMaterial({ map: hillTex, flatShading: true });
-    this.tintable.push(hillMat);
-    this.disposables.push(hillTex, hillMat);
+    const cliffTex = makeCliffTexture();
+    const topMat = new MeshLambertMaterial({ map: hillTex, flatShading: true });
+    const cliffMat = new MeshLambertMaterial({ map: cliffTex, flatShading: true });
+    this.tintable.push(topMat, cliffMat);
+    this.disposables.push(hillTex, cliffTex, topMat, cliffMat);
     for (const h of GROVE.hills) {
-      const geo = new SphereGeometry(h.r, 10, 6);
-      const mesh = new Mesh(geo, hillMat);
-      mesh.scale.set(1, h.h / h.r, 1);
-      mesh.position.set(h.x, 0, h.z);
-      mesh.userData.pick = { kind: 'ground', id: 'hill' };
-      this.groveGroup.add(mesh);
-      this.pickables.push(mesh);
-      this.disposables.push(geo);
+      const tiers: Array<[number, number, number]> = [
+        [h.r, h.h * 0.55, 0],
+        [h.r * 0.62, h.h * 0.45, h.h * 0.55],
+      ];
+      for (const [r, height, y0] of tiers) {
+        const side = new CylinderGeometry(r * 0.92, r, height, 10, 1, true);
+        const sideMesh = new Mesh(side, cliffMat);
+        sideMesh.position.set(h.x, y0 + height / 2, h.z);
+        sideMesh.userData.pick = { kind: 'ground', id: 'hill' };
+        const top = new CircleGeometry(r * 0.92, 10);
+        const topMesh = new Mesh(top, topMat);
+        topMesh.rotation.x = -Math.PI / 2;
+        topMesh.position.set(h.x, y0 + height + 0.01, h.z);
+        topMesh.userData.pick = { kind: 'ground', id: 'hill' };
+        this.groveGroup.add(sideMesh, topMesh);
+        this.pickables.push(sideMesh, topMesh);
+        this.disposables.push(side, top);
+      }
     }
 
     // Waterfall on the big hill: a vertical scrolling plane plus a splash pool.
@@ -180,57 +193,7 @@ export class GroveScene {
       fruitGeo,
       fruitMat,
     );
-    GROVE.trees.forEach((t, i) => {
-      const tree = new Object3D();
-      tree.position.set(t.x, 0, t.z);
-      const pick = { kind: 'tree', id: `tree-${i + 1}` };
-      const trunk = new Mesh(trunkGeo, trunkMat);
-      trunk.position.y = 1.1;
-      trunk.userData.pick = pick;
-      tree.add(trunk);
-      this.pickables.push(trunk);
-      for (let r = 0; r < 4; r++) {
-        const root = new Mesh(rootGeo, trunkMat);
-        const a = (r / 4) * Math.PI * 2 + i * 0.5;
-        root.position.set(Math.cos(a) * 0.45, 0.2, Math.sin(a) * 0.45);
-        root.rotation.z = Math.cos(a) * 0.9;
-        root.rotation.x = -Math.sin(a) * 0.9;
-        tree.add(root);
-      }
-      // The crown: one big lobe, four around it, two on top, the lower ones darker.
-      const canopy = new Object3D();
-      canopy.position.y = 3.1;
-      canopy.rotation.y = i * 0.7;
-      const lobes: Array<[number, number, number, number, boolean]> = [
-        [0, 0, 0, 1.6, false],
-        [1.2, -0.4, 0.3, 1.1, true],
-        [-1.2, -0.3, -0.2, 1.1, true],
-        [0.2, -0.4, 1.2, 1.0, true],
-        [-0.3, -0.5, -1.2, 1.0, true],
-        [0.5, 0.9, 0.2, 1.0, false],
-        [-0.6, 1.0, -0.4, 0.9, false],
-      ];
-      for (const [x, y, z, s, dark] of lobes) {
-        const lobe = new Mesh(lobeGeo, dark ? lobeDarkMat : lobeMat);
-        lobe.position.set(x, y, z);
-        lobe.scale.set(s, s * 0.85, s);
-        lobe.userData.pick = pick;
-        canopy.add(lobe);
-        this.pickables.push(lobe);
-      }
-      this.canopies.push(canopy as unknown as Mesh);
-      tree.add(canopy);
-      // Fruit hanging around the crown.
-      for (let k = 0; k < 5; k++) {
-        const f = new Mesh(fruitGeo, fruitMat);
-        const a = (k / 5) * Math.PI * 2 + i;
-        f.position.set(Math.cos(a) * 1.6, 2.5 + Math.sin(a * 2) * 0.5, Math.sin(a) * 1.6);
-        f.userData.pick = pick;
-        tree.add(f);
-        this.pickables.push(f);
-      }
-      this.groveGroup.add(tree);
-    });
+    // Trees are sprites now (render/scenery.ts); the lobe materials still dress the Hollow.
 
     // Foam ring on the pond edge, animated in update().
     const foamGeo = new RingGeometry(pond.r - 0.35, pond.r, 32);
@@ -286,30 +249,7 @@ export class GroveScene {
     });
     this.tintable.push(bushMat);
     this.disposables.push(bushMat);
-    for (const [x, z] of [
-      [-9, 2],
-      [9, 9],
-      [-3, -11],
-      [12, 1],
-      [-13, -3],
-      [3, 13],
-    ] as const) {
-      const bush = new Object3D();
-      bush.position.set(x, 0, z);
-      for (const [dx, dz, s] of [
-        [0, 0, 0.9],
-        [0.6, 0.3, 0.6],
-        [-0.5, -0.4, 0.55],
-      ] as const) {
-        const lobe = new Mesh(lobeGeo, bushMat);
-        lobe.position.set(dx, s * 0.55, dz);
-        lobe.scale.set(s, s * 0.7, s);
-        lobe.userData.pick = { kind: 'ground', id: 'bush' };
-        bush.add(lobe);
-        this.pickables.push(lobe);
-      }
-      this.groveGroup.add(bush);
-    }
+    // Bushes are sprites too (render/scenery.ts).
     const stone = makeStoneTexture();
     const rockGeo = new IcosahedronGeometry(0.6, 0);
     const rockMat = new MeshLambertMaterial({ map: stone, flatShading: true });

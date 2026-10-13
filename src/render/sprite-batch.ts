@@ -34,7 +34,7 @@ export interface SpriteDraw {
 /** A sprite's four corners as drawn, kept for CPU picking. */
 export interface DrawnQuad {
   id: string;
-  kind: 'nubbin' | 'item' | 'npc' | 'memorial' | 'decor';
+  kind: 'nubbin' | 'item' | 'npc' | 'memorial' | 'decor' | 'tree' | 'building';
   corners: [Vector3, Vector3, Vector3, Vector3];
 }
 
@@ -116,7 +116,10 @@ export class SpriteBatch {
 
   draw(
     d: SpriteDraw,
-    pick?: { id: string; kind: 'nubbin' | 'item' | 'npc' | 'memorial' | 'decor' },
+    pick?: {
+      id: string;
+      kind: 'nubbin' | 'item' | 'npc' | 'memorial' | 'decor' | 'tree' | 'building';
+    },
   ): void {
     if (!this.atlas.has(d.sheet) && !this.atlas.place(d.sheet)) return; // atlas full: skip
     const uv = this.atlas.uv(d.sheet, d.rect);

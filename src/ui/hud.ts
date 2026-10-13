@@ -488,6 +488,13 @@ export function mountHud(
         if (m) memorialCard.show(m);
         return;
       }
+      if (id?.startsWith('building:')) {
+        const which = id.slice('building:'.length);
+        if (which === 'school') kindergarten.open();
+        else if (which === 'dojo') karate.open();
+        else if (which === 'cottage') pocket.open(sheet.selectedId);
+        return;
+      }
       if (id?.startsWith('decor:') && g) {
         g.send({ kind: 'removeDecor', id: id.slice('decor:'.length) });
         toast(UI_TEXT.decorPickedUp);

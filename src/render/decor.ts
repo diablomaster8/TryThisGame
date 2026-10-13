@@ -1,5 +1,6 @@
 import { GROVE } from '../config/tuning';
 import { Rng } from '../sim/rng';
+import { BUILDINGS, nearBuilding } from './scenery';
 
 /** A ground decoration: a prop-sheet frame at a fixed spot. */
 export interface Decoration {
@@ -31,6 +32,15 @@ function clear(x: number, z: number): boolean {
   for (const e of GROVE.eggSpots) if (Math.hypot(x - e.x, z - e.z) < 1.5) return false;
   const wf = GROVE.waterfall;
   if (Math.hypot(x - (wf.x - 3.6), z - (wf.z + 5.6)) < 2.5) return false;
+  if (nearBuilding(x, z, 3.2)) return false;
+  // The crop plot by the cottage.
+  if (
+    x > BUILDINGS.cottage!.x - 3.5 &&
+    x < BUILDINGS.cottage!.x + 1.5 &&
+    z > BUILDINGS.cottage!.z + 2.5 &&
+    z < BUILDINGS.cottage!.z + 6.5
+  )
+    return false;
   return Math.abs(x) < GROVE.size / 2 - 1 && Math.abs(z) < GROVE.size / 2 - 1;
 }
 

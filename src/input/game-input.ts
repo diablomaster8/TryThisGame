@@ -14,7 +14,10 @@ export interface InputHost {
   pickSprite(
     ndcX: number,
     ndcY: number,
-  ): { kind: 'nubbin' | 'item' | 'npc' | 'memorial' | 'decor'; id: string } | null;
+  ): {
+    kind: 'nubbin' | 'item' | 'npc' | 'memorial' | 'decor' | 'tree' | 'building';
+    id: string;
+  } | null;
   /** Is this Nubbin id something that can be grabbed right now? */
   canGrab(id: string): boolean;
   send(cmd: Command): void;
@@ -198,6 +201,9 @@ export class GameInput {
         return;
       case 'memorial':
         this.host.onSelect(`memorial:${hit.id}`);
+        return;
+      case 'building':
+        this.host.onSelect(`building:${hit.id}`);
         return;
       case 'decor':
         this.host.onSelect(`decor:${hit.id}`);

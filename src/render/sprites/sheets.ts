@@ -24,6 +24,7 @@ import { EXTRA_LOOKS } from '../../sim/npcs';
 import { C } from './palette';
 import { buildKeeperSheet } from './keeper';
 import { buildPropSheet } from './props';
+import { buildScenerySheet } from './scenery';
 
 const SLOTS: PartSlot[] = ['ears', 'tail', 'arms', 'back'];
 
@@ -153,6 +154,11 @@ export class SheetCache {
 
   props(): SpriteSheet {
     return this.get('props', () => buildPropSheet());
+  }
+
+  /** Trees, bushes and buildings. */
+  scenery(): SpriteSheet {
+    return this.get('scenery', () => buildScenerySheet());
   }
 
   /** The emote ball; Shadow Nubbins carry a dark one. */
