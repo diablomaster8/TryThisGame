@@ -9,6 +9,30 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Bigger field, stream, water, hills, run (2026-10-13)
+
+Maor: "water graphics and some of the hills aren't up to the standard. Keep upgrading and
+increase the size of the field." Plus "give a run option".
+
+- **Field** 32 → 48 units (`GROVE.size`, `SIM.worldHalf` 22). New layout: pond at (7, 6)
+  r 5; four trees; four hills (the big one at (16, -16) carries the waterfall); cottage
+  (-7, 14), school (-3, -18), dojo (18, -4), well (3, 10); NPC homes, bushes, logs and
+  decor spread to match; particle ranges follow the size.
+- **Stream** (`GROVE.river`): an inflow from the waterfall pool into the pond and an
+  outflow to the south edge, built as ribbon meshes (`ribbon()` in `grove-scene.ts`)
+  with UVs along the flow so the wave tile scrolls downstream; painted banks (sand, wet
+  band, dark grass edge) in the ground texture; a plank bridge (`GROVE.bridge`) where the
+  path to the dojo crosses.
+- **Water**: `makeWaterTexture16` (crests with lit tops and dark troughs, deeper patches),
+  a transparent `makeWaterGlintTexture` layer drifting the other way, a lit shallows ring
+  at the bank; the same materials on the pond and the stream.
+- **Hills**: three tiers with `makeCliffTexture` (strata, jutting rocks, cracks, moss, a
+  grass lip) repeated by each tier's circumference, `makeGrassTopTexture` on top, scree
+  painted at the foot.
+- **Run**: `keeper.running` (saved), `setRunning` command, `KEEPER.runMultiplier` 1.8, a
+  🏃 Run toggle bottom-left and Shift hold on keyboards, a faster walk cycle.
+- The path network now reaches every building, the bridge and the far tree.
+
 ## Graphics upgrade toward 16-bit top-down RPG art (2026-10-13)
 
 Maor's reference: a professional top-down RPG tileset (dense multi-tone grass, rounded
