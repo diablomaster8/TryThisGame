@@ -9,6 +9,27 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Bigger sample: directions 3 and 5 combined (2026-10-13, for Maor's pick)
+
+Maor: "Do a bigger example of 3 and 5 combined." `tests/tools/env-combo.test.ts`
+(`PREVIEW_COMBO=dir npx vitest run tests/tools/env-combo.test.ts`) paints a wider scene
+(560×330, written at 2×): the thatched cottage, a lantern post, a big near tree and two
+far trees, a fence, a well, three bushes, a winding path, a larger pond with lily pads,
+and the Keeper with a Nubbin for scale. `docs/samples/combo-day.png` is the painterly
+albedo with the HD-2D frame only (light shafts, tilt-shift, bloom, grade, vignette);
+`docs/samples/combo-dusk.png` adds the light pass first (dusk ambient, a low sun from
+the left with long cast shadows for every prop, window and lantern point lights with
+falloff, fireflies, the lights and the sky reflected in the water), then the same
+frame tuned warmer. The shared raster and post code lives in `tests/tools/raster.ts`.
+
+What it would take in the game: the painterly props are the art cost of direction 2
+(every prop repainted with tone ramps, roughly one to two weeks for the Grove); the
+light pass is a light-map texture drawn per frame from the sun angle and the placed
+lights (windows, lanterns, fireflies) and multiplied over the scene, plus a shadow
+sprite per prop (about a week); the HD-2D frame is tuning of the existing `PostPass`
+(two to three days). The real-clock day cycle and weather already drive the hour, so
+the dusk look would appear every evening by itself.
+
 ## Five environment art directions (2026-10-13, second attempt, for Maor's pick)
 
 Maor: "Try again on the graphics. Not just additional detail but fundamentally upgraded
