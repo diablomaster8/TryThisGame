@@ -16,7 +16,7 @@ function drawFruit(): PixelCanvas {
   pc.line(8, 6, 8, 4, C.bark);
   pc.tri(8, 4, 13, 2, 10, 6, C.leaf);
   pc.px(10, 4, C.sprout);
-  pc.outline(C.darkPlum);
+  pc.finish(C.darkPlum, [C.white]);
   return pc;
 }
 
@@ -35,7 +35,7 @@ function drawFlower(): PixelCanvas {
     pc.disc(8 + dx, 6 + dy, 1.6, C.blush);
   }
   pc.disc(8, 6, 1.6, C.sunYellow);
-  pc.outline(C.darkPlum);
+  pc.finish(C.darkPlum, [C.white]);
   return pc;
 }
 
@@ -47,7 +47,7 @@ function drawToy(): PixelCanvas {
   pc.disc(8, 9, 1.6, C.water);
   pc.px(5, 6, C.white);
   pc.px(6, 5, C.white);
-  pc.outline(C.darkPlum);
+  pc.finish(C.darkPlum, [C.white]);
   return pc;
 }
 

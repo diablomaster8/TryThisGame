@@ -143,7 +143,7 @@ function drawKeeper(
 
   drawHat(pc, col, headCx, headCy);
 
-  pc.outline(col.outline);
+  pc.finish(col.outline, [col.outline, C.white]);
   return pc;
 }
 

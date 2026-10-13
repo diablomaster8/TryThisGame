@@ -675,7 +675,7 @@ export function drawCreature(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSp
   if (pose.waterline) {
     pc.line(a.headCx - 8, a.bodyCy - 1, a.headCx + 8, a.bodyCy - 1, C.shallows);
   }
-  pc.outline(spec.colors.outline);
+  pc.finish(spec.colors.outline, [spec.colors.eye, C.white]);
   return pc;
 }
 

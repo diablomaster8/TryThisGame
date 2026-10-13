@@ -1,5 +1,5 @@
 import { CanvasTexture, NearestFilter, RepeatWrapping, SRGBColorSpace } from 'three';
-import { color } from './palette';
+import { color, lightOf, outlineOf, shadeOf } from './palette';
 
 /**
  * A tiny pixel-plotting surface. Everything generated in code goes through this so
@@ -148,6 +148,66 @@ export class PixelCanvas {
         if (near) this.data[y * w + x] = paletteIndex + 1;
       }
     }
+  }
+
+  /**
+   * Automatic lighting from the top-left: pixels whose upper-left neighbour is empty get
+   * their ramp highlight, pixels whose lower-right neighbour is empty get their ramp
+   * shade. Pixels listed in `keep` (eyes, glints) are left alone.
+   */
+  lightPass(keep: readonly number[] = []): void {
+    const src = this.data.slice();
+    const w = this.width;
+    const h = this.height;
+    const skip = new Set(keep.map((k) => k + 1));
+    const at = (x: number, y: number) =>
+      x < 0 || y < 0 || x >= w || y >= h ? 0 : (src[y * w + x] ?? 0);
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        const v = src[y * w + x] ?? 0;
+        if (v === 0 || skip.has(v)) continue;
+        const litEdge = at(x - 1, y - 1) === 0 && at(x, y - 1) === 0;
+        const darkEdge = at(x + 1, y + 1) === 0 && at(x, y + 1) === 0;
+        if (litEdge && !darkEdge) this.data[y * w + x] = lightOf(v - 1) + 1;
+        else if (darkEdge && !litEdge) this.data[y * w + x] = shadeOf(v - 1) + 1;
+      }
+    }
+  }
+
+  /**
+   * A coloured outline: each outline pixel takes the deep ramp colour of the nearest
+   * opaque neighbour, except along the bottom edge which stays `groundColor` so the
+   * sprite sits on the ground. Reads softer than a flat dark line.
+   */
+  outlineColored(groundColor: number): void {
+    const src = this.data.slice();
+    const w = this.width;
+    const h = this.height;
+    const at = (x: number, y: number) =>
+      x < 0 || y < 0 || x >= w || y >= h ? 0 : (src[y * w + x] ?? 0);
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        if (at(x, y) !== 0) continue;
+        const up = at(x, y - 1);
+        const left = at(x - 1, y);
+        const right = at(x + 1, y);
+        const down = at(x, y + 1);
+        const near = up || left || right || down;
+        if (!near) continue;
+        // Below a sprite: grounding colour.
+        if (up && !down) {
+          this.data[y * w + x] = groundColor + 1;
+          continue;
+        }
+        this.data[y * w + x] = outlineOf(near - 1) + 1;
+      }
+    }
+  }
+
+  /** The standard finish for generated sprites: light pass, then a coloured outline. */
+  finish(groundColor: number, keep: readonly number[] = []): void {
+    this.lightPass(keep);
+    this.outlineColored(groundColor);
   }
 
   /** Swap palette indices in place. */

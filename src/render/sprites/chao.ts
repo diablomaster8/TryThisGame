@@ -890,7 +890,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
     pc.px(L.bodyCx + 8, L.bodyCy, C.white);
   }
 
-  pc.outline(col.outline);
+  pc.finish(col.outline, [col.eye, col.glint, C.white]);
   return pc;
 }
 

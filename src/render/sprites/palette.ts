@@ -1,5 +1,7 @@
-// The one shared 32-color palette. World textures and generated sprites both draw
-// from it so everything reads as one piece.
+// The one shared palette. World textures and generated sprites both draw from it so
+// everything reads as one piece. The first 32 are the base colours; the 16 after are
+// hue-shifted ramp partners (highlights lean warm, shadows lean cool) used by the
+// automatic lighting pass so shading reads as painted rather than merely darker.
 
 export const PALETTE = [
   '#0d0a1a', // 0  ink
@@ -34,6 +36,23 @@ export const PALETTE = [
   '#1e7a74', // 29 teal
   '#3fbfa8', // 30 mint
   '#fff1c9', // 31 cream
+  // ---- ramp partners ----
+  '#cdf0fb', // 32 sky light
+  '#2c5f9c', // 33 sky deep
+  '#ffc8d8', // 34 rose light
+  '#a3365e', // 35 rose deep
+  '#b9e677', // 36 leaf light
+  '#2a5a3c', // 37 leaf deep
+  '#fff3a6', // 38 sun light
+  '#c7862a', // 39 sun deep
+  '#e0c9f7', // 40 violet light
+  '#5b3a8f', // 41 violet deep
+  '#f3d8ae', // 42 sand light
+  '#9f6a3c', // 43 sand deep
+  '#8ae5d2', // 44 teal light
+  '#17564f', // 45 teal deep
+  '#dcd6e6', // 46 grey light
+  '#5c5273', // 47 grey deep
 ] as const;
 
 export type PaletteIndex = number & { readonly __paletteIndex?: never };
@@ -71,10 +90,143 @@ export const C = {
   teal: 29,
   mint: 30,
   cream: 31,
+  skyLight: 32,
+  skyDeep: 33,
+  roseLight: 34,
+  roseDeep: 35,
+  leafLight: 36,
+  leafDeep: 37,
+  sunLight: 38,
+  sunDeep: 39,
+  violetLight: 40,
+  violetDeep: 41,
+  sandLight: 42,
+  sandDeep: 43,
+  tealLight: 44,
+  tealDeep: 45,
+  greyLight: 46,
+  greyDeep: 47,
 } as const;
 
 export function color(index: number): string {
   const hex = PALETTE[index];
   if (hex === undefined) throw new Error(`Palette index out of range: ${index}`);
   return hex;
+}
+
+/** Highlight partner of each colour: the next step up its ramp, hue shifted warm. */
+const LIGHT: Record<number, number> = {
+  [C.ink]: C.darkPlum,
+  [C.darkPlum]: C.plum,
+  [C.plum]: C.dusk,
+  [C.dusk]: C.lilacGrey,
+  [C.lilacGrey]: C.greyLight,
+  [C.pale]: C.white,
+  [C.white]: C.white,
+  [C.deepGreen]: C.forest,
+  [C.forest]: C.leaf,
+  [C.leaf]: C.leafLight,
+  [C.grass]: C.sprout,
+  [C.sprout]: C.sunLight,
+  [C.darkBark]: C.bark,
+  [C.bark]: C.wood,
+  [C.wood]: C.sand,
+  [C.sand]: C.sandLight,
+  [C.nightBlue]: C.skyDeep,
+  [C.deepWater]: C.water,
+  [C.water]: C.shallows,
+  [C.shallows]: C.skyLight,
+  [C.sunYellow]: C.sunLight,
+  [C.orange]: C.sunYellow,
+  [C.ember]: C.orange,
+  [C.berry]: C.rose,
+  [C.rose]: C.roseLight,
+  [C.blush]: C.roseLight,
+  [C.moonPurple]: C.violet,
+  [C.violet]: C.violetLight,
+  [C.lavender]: C.violetLight,
+  [C.teal]: C.mint,
+  [C.mint]: C.tealLight,
+  [C.cream]: C.white,
+  [C.skyLight]: C.white,
+  [C.skyDeep]: C.water,
+  [C.roseLight]: C.white,
+  [C.roseDeep]: C.rose,
+  [C.leafLight]: C.sunLight,
+  [C.leafDeep]: C.leaf,
+  [C.sunLight]: C.white,
+  [C.sunDeep]: C.sunYellow,
+  [C.violetLight]: C.white,
+  [C.violetDeep]: C.violet,
+  [C.sandLight]: C.cream,
+  [C.sandDeep]: C.sand,
+  [C.tealLight]: C.white,
+  [C.tealDeep]: C.teal,
+  [C.greyLight]: C.white,
+  [C.greyDeep]: C.lilacGrey,
+};
+
+/** Shadow partner of each colour: the next step down its ramp, hue shifted cool. */
+const SHADE: Record<number, number> = {
+  [C.ink]: C.ink,
+  [C.darkPlum]: C.ink,
+  [C.plum]: C.darkPlum,
+  [C.dusk]: C.greyDeep,
+  [C.lilacGrey]: C.dusk,
+  [C.pale]: C.lilacGrey,
+  [C.white]: C.pale,
+  [C.deepGreen]: C.ink,
+  [C.forest]: C.leafDeep,
+  [C.leaf]: C.forest,
+  [C.grass]: C.leaf,
+  [C.sprout]: C.grass,
+  [C.darkBark]: C.ink,
+  [C.bark]: C.darkBark,
+  [C.wood]: C.sandDeep,
+  [C.sand]: C.wood,
+  [C.nightBlue]: C.ink,
+  [C.deepWater]: C.nightBlue,
+  [C.water]: C.skyDeep,
+  [C.shallows]: C.water,
+  [C.sunYellow]: C.sunDeep,
+  [C.orange]: C.sunDeep,
+  [C.ember]: C.berry,
+  [C.berry]: C.roseDeep,
+  [C.rose]: C.roseDeep,
+  [C.blush]: C.rose,
+  [C.moonPurple]: C.violetDeep,
+  [C.violet]: C.violetDeep,
+  [C.lavender]: C.violet,
+  [C.teal]: C.tealDeep,
+  [C.mint]: C.teal,
+  [C.cream]: C.sandLight,
+  [C.skyLight]: C.shallows,
+  [C.skyDeep]: C.nightBlue,
+  [C.roseLight]: C.blush,
+  [C.roseDeep]: C.darkPlum,
+  [C.leafLight]: C.grass,
+  [C.leafDeep]: C.deepGreen,
+  [C.sunLight]: C.sunYellow,
+  [C.sunDeep]: C.sandDeep,
+  [C.violetLight]: C.lavender,
+  [C.violetDeep]: C.darkPlum,
+  [C.sandLight]: C.sand,
+  [C.sandDeep]: C.bark,
+  [C.tealLight]: C.mint,
+  [C.tealDeep]: C.deepGreen,
+  [C.greyLight]: C.lilacGrey,
+  [C.greyDeep]: C.plum,
+};
+
+export function lightOf(index: number): number {
+  return LIGHT[index] ?? index;
+}
+
+export function shadeOf(index: number): number {
+  return SHADE[index] ?? index;
+}
+
+/** Two steps down the ramp: the colour of a coloured outline. */
+export function outlineOf(index: number): number {
+  return shadeOf(shadeOf(index));
 }

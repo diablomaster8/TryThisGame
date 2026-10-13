@@ -64,7 +64,7 @@ function drawEgg(frame: EggFrame, colorName: string, family = 'chao'): PixelCanv
       pc.px(cx + 1, cy - 2, C.ink);
     }
   }
-  pc.outline(C.darkPlum);
+  pc.finish(C.darkPlum, [C.white]);
   return pc;
 }
 
@@ -116,7 +116,7 @@ export function buildCocoonSheet(kind: 'evolve' | 'rebirth' | 'depart' = 'evolve
       pc.px(8, cy + 7 + s, C.cream);
       pc.px(24 + s, cy + 9, C.cream);
     }
-    pc.outline(pal.outline);
+    pc.finish(pal.outline, [C.white]);
     atlas.add(frameKey('idle', 'front', f), pc);
   }
   return atlas.build();
