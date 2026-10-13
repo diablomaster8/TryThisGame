@@ -1,5 +1,6 @@
 import { hasRoom } from './roster';
-import { BREEDING, GROVE, SHOP } from '../config/tuning';
+import { BREEDING, GROVE, PARTNERS, SHOP } from '../config/tuning';
+import { shopDiscount } from './town';
 import { EGG_COLORS, createEgg } from './nubbin';
 import type { Rng } from './rng';
 import { rollEggSpecies, trainerOf } from './trainers';
@@ -21,6 +22,8 @@ export function priceOf(item: ShopItem): number {
       return SHOP.toy;
     case 'heartFruit':
       return BREEDING.heartFruit;
+    case 'twine':
+      return PARTNERS.twinePrice;
   }
 }
 
@@ -47,7 +50,9 @@ export function buy(world: World, item: ShopItem, rng: Rng, events: SimEvent[]):
     events.push({ kind: 'bought', item, ok: false, reason: 'shells' });
     return false;
   }
-  const price = Math.round(base * (item === 'egg' ? eggPriceMultiplier(world) : 1));
+  const price = Math.round(
+    base * (item === 'egg' ? eggPriceMultiplier(world) : 1) * shopDiscount(world),
+  );
   const fail = (reason: 'shells' | 'roster' | 'toys') => {
     events.push({ kind: 'bought', item, ok: false, reason });
     return false;
@@ -59,6 +64,9 @@ export function buy(world: World, item: ShopItem, rng: Rng, events: SimEvent[]):
       break;
     case 'heartFruit':
       world.inventory.heartFruit += 1;
+      break;
+    case 'twine':
+      world.inventory.twine += 1;
       break;
     case 'egg': {
       if (!hasRoom(world)) return fail('roster');

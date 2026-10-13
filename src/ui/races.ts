@@ -1,3 +1,4 @@
+import { mergedLevels } from '../sim/partners';
 import { COURSE_LABELS, NAMES, UI_TEXT } from '../config/strings';
 import type { Game } from '../game';
 import { RaceScreen } from '../minigames/race/screen';
@@ -76,13 +77,18 @@ export class RacesMenu {
     }
     this.close();
     const seed = Date.now() % 2147483647;
-    const race = createRace(course, tier, runner, seed);
+    const race = createRace(course, tier, runner, seed, mergedLevels(g.world, runner) ?? undefined);
     const hatRoll = ((seed * 9301 + 49297) % 233280) / 233280;
     g.renderPaused = true;
     this.screen.start(race, g.view.sheets.forNubbin(runner), g.view.sheets, hatRoll, (outcome) => {
       g.renderPaused = false;
+      const best = race.racers
+        .filter((r) => !r.isPlayer && r.finishedAtMs !== null)
+        .sort((a, b) => (a.finishedAtMs ?? 0) - (b.finishedAtMs ?? 0))[0];
       g.send({
         kind: 'raceResult',
+        nubbinId: runner.id,
+        ...(best ? { rival: { name: best.name, species: 'chao' } } : {}),
         course: course.id,
         tier,
         placement: outcome.placement,

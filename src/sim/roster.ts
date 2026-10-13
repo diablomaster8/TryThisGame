@@ -1,4 +1,5 @@
 import { EGG, PLOTS } from '../config/tuning';
+import { hasSkill } from './skills';
 import type { SimEvent, World } from './types';
 
 /** How many Nubbins the Grove holds: the base roster plus bought plots. */
@@ -11,7 +12,8 @@ export function hasRoom(world: World): boolean {
 }
 
 export function buyPlot(world: World, events: SimEvent[]): boolean {
-  const ok = world.plots < PLOTS.max && world.inventory.shells >= PLOTS.price;
+  const max = PLOTS.max + (hasSkill(world, 'bigPlot') ? 1 : 0);
+  const ok = world.plots < max && world.inventory.shells >= PLOTS.price;
   if (ok) {
     world.inventory.shells -= PLOTS.price;
     world.plots += 1;

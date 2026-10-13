@@ -170,6 +170,17 @@ export interface Nubbin {
   scarf: DyeColor | null;
   glasses: boolean;
   hatDye: DyeColor | null;
+  /** Care slips (sim/slips.ts): the last few, the lifetime count, and the running timers. */
+  slips: Array<{ kind: SlipKind; atMs: number }>;
+  slipCount: number;
+  slipTimers?: Partial<Record<SlipKind, number>>;
+  wellRaised: boolean;
+  moody: 'grumpy' | 'sleepy' | null;
+  /** What the next rebirth keeps (sim/inheritance.ts). */
+  memory: Memory;
+  /** Past lives, newest last. */
+  ancestry: string[];
+  heirloom: boolean;
   lastPetMs: number;
   lastShakeMs: number;
   // Future fields (v2), empty by default so no migration is needed later.
@@ -274,6 +285,8 @@ export interface Inventory {
   dyes: Partial<Record<DyeColor, number>>;
   /** Toys bought and not yet placed. */
   toys: Partial<Record<ToyKind, number>>;
+  /** Twine for merging partners. */
+  twine: number;
 }
 
 /** Stat fruit and seeds: one per stat, plus Sun and Moon fruit that nudge alignment. */
@@ -327,6 +340,22 @@ export interface WildVisitor {
   fed: boolean;
 }
 
+export type SlipKind = 'hungry' | 'sleepy' | 'lonely' | 'wet';
+export type Memory = 'grade' | 'part' | 'lesson' | 'accessory';
+export type TownRole = 'stall' | 'gym' | 'attendant' | 'fortune' | 'festival' | 'guard';
+export interface TownState {
+  prosperity: number;
+  recruits: Array<{ name: string; species: string; role: TownRole; atMs: number }>;
+}
+export type TeamId = 'dawn' | 'dusk' | 'dew';
+export interface TeamState {
+  id: TeamId;
+  rank: number;
+  points: number;
+  week: string;
+  mission: { kind: string; target: number; progress: number; done: boolean } | null;
+}
+
 /** Educational mode (sim/edu.ts). Null outside it. */
 export interface EduState {
   age: EduAge;
@@ -355,7 +384,7 @@ export interface Rewards {
   seeds?: Partial<Record<Flavor, number>>;
 }
 
-export type ShopItem = 'fruit' | 'egg' | 'hat' | 'toy' | 'heartFruit';
+export type ShopItem = 'fruit' | 'egg' | 'hat' | 'toy' | 'heartFruit' | 'twine';
 
 export interface Memorial {
   id: string;
@@ -510,6 +539,17 @@ export interface World {
   coop: CoopState;
   keeper2: Keeper | null;
   edu: EduState | null;
+  town: TownState;
+  partners: [string | null, string | null];
+  merge: { a: string; b: string; untilMs: number } | null;
+  skillPoints: number;
+  skills: Record<string, boolean>;
+  /** Scan progress per species (sim/scans.ts). */
+  scans: Record<string, number>;
+  team: TeamState | null;
+  /** Curfew by the real clock. */
+  night: boolean;
+  tank: { runs: number; best: number };
   /** Per neighbour: the last real day a gift was taken. */
   neighbours: Record<string, { lastGiftDay: string }>;
   /** Festival banner shown for this season already. */
@@ -542,11 +582,14 @@ export type Command =
   | { kind: 'buy'; item: ShopItem }
   | {
       kind: 'raceResult';
+      nubbinId: string;
       course: string;
       tier: number;
       placement: number;
       shells: number;
       hat: string | null;
+      /** The best rival, to recruit on a win. */
+      rival?: { name: string; species: string };
     }
   | { kind: 'wearHat'; nubbinId: string; hat: string | null }
   | { kind: 'setSettings'; settings: Settings }
@@ -568,7 +611,14 @@ export type Command =
   | { kind: 'buyDecor'; decor: DecorKind }
   | { kind: 'placeDecor'; decor: DecorKind; pos: Vec2 }
   | { kind: 'removeDecor'; id: string }
-  | { kind: 'karateResult'; nubbinId: string; won: boolean; tier: number; shells: number }
+  | {
+      kind: 'karateResult';
+      nubbinId: string;
+      won: boolean;
+      tier: number;
+      shells: number;
+      rival?: { name: string; species: string };
+    }
   | { kind: 'receiveNubbin'; nubbin: Nubbin }
   | { kind: 'tradeAway'; nubbinId: string }
   | { kind: 'setLocation'; location: Location }
@@ -610,7 +660,17 @@ export type Command =
   | { kind: 'eduSetSession'; minutes: number }
   | { kind: 'eduSetName'; name: string }
   | { kind: 'eduResult'; game: EduGameId; stars: number }
-  | { kind: 'eduResetSession' };
+  | { kind: 'eduResetSession' }
+  // The Digimon-inspired ten
+  | { kind: 'setPartner'; slot: 0 | 1; nubbinId: string | null }
+  | { kind: 'merge' }
+  | { kind: 'trainResult'; nubbinId: string; stat: StatKey; hits: number }
+  | { kind: 'setMemory'; nubbinId: string; memory: Memory }
+  | { kind: 'buySkill'; id: string }
+  | { kind: 'convertScan'; species: string }
+  | { kind: 'joinTeam'; team: TeamId }
+  | { kind: 'tankResult'; shells: number; wood: number; stone: number; won: boolean }
+  | { kind: 'recruit'; name: string; species: string };
 
 // ---------- events (sim → render/ui) ----------
 
@@ -702,7 +762,22 @@ export type SimEvent =
   | { kind: 'dyed'; nubbinId: string; slot: 'hat' | 'scarf' }
   | { kind: 'coop'; active: boolean }
   | { kind: 'eduStarted'; age: EduAge }
-  | { kind: 'eduResult'; game: EduGameId; stars: number; sticker: boolean };
+  | { kind: 'eduResult'; game: EduGameId; stars: number; sticker: boolean }
+  | { kind: 'recruited'; name: string; role: TownRole; prosperity: number }
+  | { kind: 'townGrew'; unlock: string; prosperity: number }
+  | { kind: 'slip'; nubbinId: string; slip: SlipKind }
+  | { kind: 'trained'; nubbinId: string; stat: StatKey; points: number; rested: boolean }
+  | { kind: 'merged'; a: string; b: string }
+  | { kind: 'unmerged'; a: string; b: string }
+  | { kind: 'curfew'; night: boolean }
+  | { kind: 'skillBought'; id: string }
+  | { kind: 'scanFull'; species: string }
+  | { kind: 'converted'; species: string; nubbinId: string }
+  | { kind: 'teamJoined'; team: TeamId }
+  | { kind: 'missionDone'; team: TeamId; points: number }
+  | { kind: 'raceWon'; nubbinId: string; course: string; tier: number }
+  | { kind: 'tankDone'; shells: number; wood: number; stone: number; won: boolean }
+  | { kind: 'wellRaised'; nubbinId: string };
 
 export interface AwayReport {
   elapsedMs: number;

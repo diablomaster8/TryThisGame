@@ -41,6 +41,13 @@ export const MIGRATIONS: Array<(data: Record<string, unknown>) => Record<string,
         n.scarf ??= null;
         n.glasses ??= false;
         n.hatDye ??= null;
+        n.slips ??= [];
+        n.slipCount ??= 0;
+        n.wellRaised ??= false;
+        n.moody ??= null;
+        n.memory ??= 'lesson';
+        n.ancestry ??= [];
+        n.heirloom ??= false;
       }
     }
     return data;
@@ -101,6 +108,7 @@ export function validateWorld(w: World): World {
     seeds: {},
     dyes: {},
     toys: {},
+    twine: 0,
   };
   w.inventory.hats ??= [];
   w.settings ??= defaultSettings();
@@ -140,6 +148,16 @@ export function validateWorld(w: World): World {
   w.coop ??= { active: false, trainer: 'nova' };
   w.keeper2 ??= null;
   w.edu ??= null;
+  w.town ??= { prosperity: 0, recruits: [] };
+  w.partners ??= [null, null];
+  w.merge ??= null;
+  w.skillPoints ??= 0;
+  w.skills ??= {};
+  w.scans ??= {};
+  w.team ??= null;
+  w.night ??= false;
+  w.tank ??= { runs: 0, best: 0 };
+  w.inventory.twine ??= 0;
   if (w.edu) {
     w.edu.playedMs = 0;
     w.edu.childName ??= '';

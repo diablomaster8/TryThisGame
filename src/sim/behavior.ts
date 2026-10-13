@@ -1,4 +1,15 @@
-import { BEHAVIOR, GROVE, NEEDS, SIM, THROW, TRUST, TYPE_LEAN } from '../config/tuning';
+import {
+  BEHAVIOR,
+  CURFEW,
+  GROVE,
+  NEEDS,
+  PARTNERS,
+  SIM,
+  THROW,
+  TRUST,
+  TYPE_LEAN,
+} from '../config/tuning';
+import { isPartner } from './partners';
 import {
   addHappiness,
   applyDrop,
@@ -102,6 +113,24 @@ function nearestToy(world: World, from: Vec2): Item | null {
 }
 
 function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
+  // Curfew: late at night they would rather sleep.
+  if (world.night && n.needs.energy < 0.9 && rng.chance(CURFEW.napChance)) {
+    setState(n, 'nap', now, NEEDS.napMs);
+    return;
+  }
+  // Partners keep near the Keeper.
+  if (
+    isPartner(world, n.id) &&
+    dist(n.pos, world.keeper.pos) > PARTNERS.followDistance &&
+    rng.chance(0.7)
+  ) {
+    setState(n, 'wander', now, 4000);
+    n.behavior.target = {
+      x: world.keeper.pos.x + rng.float(-1.5, 1.5),
+      z: world.keeper.pos.z + rng.float(-1.5, 1.5),
+    };
+    return;
+  }
   // Personality only shifts the odds of idle choices.
   const m = idleMultipliers(n.personality);
   const keeperNear = dist(n.pos, world.keeper.pos) < BEHAVIOR.greetRadius;

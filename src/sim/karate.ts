@@ -1,7 +1,7 @@
 import { KARATE } from '../config/tuning';
 import { Rng } from './rng';
 import { levelOf } from './stats';
-import type { Nubbin } from './types';
+import type { Nubbin, StatKey } from './types';
 
 /**
  * Karate: a bout between two fighters. Power sets how hard a strike lands, Stamina how
@@ -36,11 +36,16 @@ export interface Bout {
 
 export const BELTS = ['white', 'yellow', 'green', 'brown', 'black'] as const;
 
-function fighterFor(n: Nubbin, name = n.name): Fighter {
-  const power = levelOf(n.stats.power.points);
-  const stamina = levelOf(n.stats.stamina.points);
-  const run = levelOf(n.stats.run.points);
-  const maxHp = Math.round(KARATE.hp + stamina * KARATE.staminaPerLevel);
+function fighterFor(
+  n: Nubbin,
+  name = n.name,
+  levels?: Record<StatKey, number>,
+  hpBonus = 0,
+): Fighter {
+  const power = levels?.power ?? levelOf(n.stats.power.points);
+  const stamina = levels?.stamina ?? levelOf(n.stats.stamina.points);
+  const run = levels?.run ?? levelOf(n.stats.run.points);
+  const maxHp = Math.round(KARATE.hp + stamina * KARATE.staminaPerLevel + hpBonus);
   return {
     name,
     hp: maxHp,
@@ -64,11 +69,17 @@ function rivalFor(tier: number, rng: Rng): Fighter {
   };
 }
 
-export function createBout(player: Nubbin, tier: number, seed: number): Bout {
+export function createBout(
+  player: Nubbin,
+  tier: number,
+  seed: number,
+  levels?: Record<StatKey, number>,
+  hpBonus = 0,
+): Bout {
   const rng = Rng.fromSeed(seed);
   return {
     tier,
-    player: fighterFor(player),
+    player: fighterFor(player, player.name, levels, hpBonus),
     rival: rivalFor(tier, rng),
     timeMs: 0,
     bar: 0,

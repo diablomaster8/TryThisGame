@@ -4,6 +4,8 @@ import { lifetimeHappiness } from './needs';
 import { decidePersonality } from './personality';
 import { nextSpecies, speciesOf } from './species';
 import { levelOf, nextGrade } from './stats';
+import { lifespanMs, noteEvolutionSlips } from './slips';
+import { beforeRebirth } from './inheritance';
 import type {
   AlignmentBand,
   CocoonKind,
@@ -81,8 +83,8 @@ export function advanceStage(
         }
       }
     }
-    if (!n.eternal && n.stageMs >= LIFECYCLE.adultMs && world) {
-      n.stageMs = LIFECYCLE.adultMs;
+    if (!n.eternal && n.stageMs >= lifespanMs(n) && world) {
+      n.stageMs = lifespanMs(n);
       runEndOfLife(n, world, offline, events);
     }
   }
@@ -103,9 +105,18 @@ function finishCocoon(n: Nubbin, events: SimEvent[], world?: World): void {
   const kind = n.cocoonKind ?? 'evolve';
   n.cocoonKind = null;
   switch (kind) {
-    case 'evolve':
+    case 'evolve': {
+      const wasChild = n.form === null;
       evolve(n, events, world);
+      if (wasChild && noteEvolutionSlips(n) === 'wellRaised') {
+        // Well raised: a second stat steps up a grade too.
+        const sorted = [...STAT_KEYS].sort((a, b) => n.stats[b].points - n.stats[a].points);
+        const second = sorted.find((k, i) => i > 0 && n.stats[k].grade !== 'S');
+        if (second) n.stats[second].grade = nextGrade(n.stats[second].grade);
+        events.push({ kind: 'wellRaised', nubbinId: n.id });
+      }
       return;
+    }
     case 'rebirth':
       rebirth(n, events);
       return;
@@ -261,6 +272,7 @@ export function secondEvolve(n: Nubbin, events: SimEvent[]): void {
 
 /** Back to an egg: same name, 10 % of points, grades and affection kept, rebirths +1. */
 export function rebirth(n: Nubbin, events: SimEvent[]): void {
+  const keep = beforeRebirth(n);
   n.rebirths += 1;
   n.stage = 'egg';
   n.stageMs = 0;
@@ -269,7 +281,17 @@ export function rebirth(n: Nubbin, events: SimEvent[]): void {
   n.hatchRemainingMs = EGG.hatchMs;
   n.form = null;
   n.species = n.lineage;
-  n.parts = { ears: null, tail: null, arms: null, back: null };
+  if (!keep.keepParts) n.parts = { ears: null, tail: null, arms: null, back: null };
+  if (!keep.keepLessons) n.lessons = {};
+  if (!keep.keepAccessories) {
+    n.hat = null;
+    n.hatDye = null;
+    n.scarf = null;
+    n.glasses = false;
+  }
+  n.slips = [];
+  n.slipCount = 0;
+  n.moody = null;
   n.typeLean = { normal: 0, swim: 0, fly: 0, run: 0, power: 0 };
   n.personality = null;
   n.childCare = { pets: 0, throws: 0, feeds: 0 };

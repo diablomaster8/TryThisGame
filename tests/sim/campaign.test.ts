@@ -81,7 +81,15 @@ function meetGoal(world: World, events: SimEvent[]): void {
     case 'winRace':
       applyCommand(
         world,
-        { kind: 'raceResult', course: 'meadow', tier: 1, placement: 1, shells: 10, hat: null },
+        {
+          kind: 'raceResult',
+          nubbinId: 'n1',
+          course: 'meadow',
+          tier: 1,
+          placement: 1,
+          shells: 10,
+          hat: null,
+        },
         events,
       );
       break;

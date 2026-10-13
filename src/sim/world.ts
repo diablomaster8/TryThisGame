@@ -35,6 +35,20 @@ import { DEFAULT_TRAINER, rollEggSpecies, TRAINERS, trainerOf } from './trainers
 import { advanceStage, evolve, hatch, secondEvolve } from './lifecycle';
 import { createEgg, EGG_COLORS, isFree, isHeld } from './nubbin';
 import { Rng } from './rng';
+import { addRecruit, festivalPrizeMultiplier, stepTown } from './town';
+import { stepSlips } from './slips';
+import { trainResult } from './gym';
+import { merge, setPartner, stepPartners } from './partners';
+import { stepCurfew } from './curfew';
+import { setMemory } from './inheritance';
+import { buySkill, hasSkill, stepSkillPoints } from './skills';
+import { convertScan, stepScans } from './scans';
+import { joinTeam, stepTeams } from './teams';
+
+/** Eggs hatch faster with the Warm hands skill. */
+function hatchSpeed(world: World): number {
+  return hasSkill(world, 'warmHands') ? 1.1 : 1;
+}
 import { resolve } from './obstacles';
 import {
   eduResetSession,
@@ -105,6 +119,7 @@ export function createWorld(seed: number, wallMs: number): World {
       seeds: {},
       dyes: {},
       toys: {},
+      twine: 0,
     },
     settings: defaultSettings(),
     memorials: [],
@@ -136,6 +151,15 @@ export function createWorld(seed: number, wallMs: number): World {
     coop: { active: false, trainer: 'nova' },
     keeper2: null,
     edu: null,
+    town: { prosperity: 0, recruits: [] },
+    partners: [null, null],
+    merge: null,
+    skillPoints: 0,
+    skills: {},
+    scans: {},
+    team: null,
+    night: false,
+    tank: { runs: 0, best: 0 },
     neighbours: {},
     festivalSeen: '',
   };
@@ -330,16 +354,38 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       react(n, 'happy', now, events);
       return;
     }
-    case 'addRewards':
-      addRewards(world, cmd.rewards, events);
+    case 'addRewards': {
+      const r = {
+        ...cmd.rewards,
+        shells: Math.round(cmd.rewards.shells * (hasSkill(world, 'lightFeet') ? 1.1 : 1)),
+      };
+      if (hasSkill(world, 'seedPocket')) {
+        r.seeds = { ...(r.seeds ?? {}) };
+        r.seeds.sun = (r.seeds.sun ?? 0) + 1;
+      }
+      addRewards(world, r, events);
       noteCampaign(world, 'expedition');
       return;
+    }
     case 'buy':
       withRng(world, (rng) => buy(world, cmd.item, rng, events));
       return;
     case 'raceResult': {
-      world.inventory.shells += Math.round(Math.max(0, cmd.shells) * racePrizeMultiplier(world));
-      if (cmd.placement === 1) noteQuest(world, 'race', events);
+      const prize =
+        racePrizeMultiplier(world) *
+        festivalPrizeMultiplier(world) *
+        (hasSkill(world, 'cheerLeader') ? 1.1 : 1);
+      world.inventory.shells += Math.round(Math.max(0, cmd.shells) * prize);
+      if (cmd.placement === 1) {
+        noteQuest(world, 'race', events);
+        events.push({
+          kind: 'raceWon',
+          nubbinId: cmd.nubbinId,
+          course: cmd.course,
+          tier: cmd.tier,
+        });
+        if (cmd.rival) addRecruit(world, cmd.rival.name, cmd.rival.species, events);
+      }
       if (cmd.hat) world.inventory.hats.push(cmd.hat);
       if (cmd.placement === 1) {
         world.races[cmd.course] = Math.max(world.races[cmd.course] ?? 0, cmd.tier);
@@ -494,6 +540,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       if (cmd.won) {
         world.karate.wins += 1;
         world.karate.belt = Math.max(world.karate.belt, cmd.tier);
+        if (cmd.rival) addRecruit(world, cmd.rival.name, cmd.rival.species, events);
       } else world.karate.losses += 1;
       if (n) {
         n.karate ??= { wins: 0, losses: 0, belt: 0 };
@@ -596,6 +643,45 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'eduResetSession':
       eduResetSession(world);
       return;
+    case 'setPartner':
+      setPartner(world, cmd.slot, cmd.nubbinId);
+      return;
+    case 'merge':
+      merge(world, events);
+      return;
+    case 'trainResult':
+      trainResult(world, cmd.nubbinId, cmd.stat, cmd.hits, events);
+      return;
+    case 'setMemory':
+      setMemory(world, cmd.nubbinId, cmd.memory);
+      return;
+    case 'buySkill':
+      buySkill(world, cmd.id, events);
+      return;
+    case 'convertScan':
+      withRng(world, (rng) => convertScan(world, cmd.species, rng, events));
+      return;
+    case 'joinTeam':
+      joinTeam(world, cmd.team, events);
+      return;
+    case 'tankResult': {
+      world.inventory.shells += Math.max(0, cmd.shells);
+      world.inventory.wood += Math.max(0, cmd.wood);
+      world.inventory.stone += Math.max(0, cmd.stone);
+      world.tank.runs += 1;
+      world.tank.best = Math.max(world.tank.best, cmd.shells);
+      events.push({
+        kind: 'tankDone',
+        shells: cmd.shells,
+        wood: cmd.wood,
+        stone: cmd.stone,
+        won: cmd.won,
+      });
+      return;
+    }
+    case 'recruit':
+      addRecruit(world, cmd.name, cmd.species, events);
+      return;
     case 'setCoop':
       setCoop(world, cmd.active, cmd.trainer, events);
       return;
@@ -645,9 +731,9 @@ export function stepWorld(world: World, dtMs: number, wallMs?: number): SimEvent
     for (const n of [...world.nubbins]) {
       if (n.stage === 'egg') {
         if (!isHeld(n) && n.behavior.state !== 'thrown') {
-          n.hatchRemainingMs -= dtMs;
+          n.hatchRemainingMs -= dtMs * hatchSpeed(world);
         } else {
-          n.hatchRemainingMs -= dtMs; // eggs still incubate while carried
+          n.hatchRemainingMs -= dtMs * hatchSpeed(world); // eggs still incubate while carried
         }
         if (n.hatchRemainingMs <= 0 && !isHeld(n) && n.behavior.state !== 'thrown') {
           hatch(n, events, world.timeMs);
@@ -676,6 +762,9 @@ export function stepWorld(world: World, dtMs: number, wallMs?: number): SimEvent
     stepHabitats(world, dtMs, rng, events);
     stepKeeper2(world, dtMs);
     stepEdu(world, dtMs);
+    stepSlips(world, dtMs, events);
+    stepPartners(world, dtMs, events);
+    stepCurfew(world, dtMs, wallMs, events);
     stepQuests(world, wallMs, rng, events);
   });
   stepCollection(world, events);
@@ -683,6 +772,10 @@ export function stepWorld(world: World, dtMs: number, wallMs?: number): SimEvent
   stepLandmarks(world, events);
   stepSeasons(world, events);
   stepAchievements(world, events);
+  stepTown(world, events);
+  stepScans(world, dtMs, events);
+  stepSkillPoints(world, events);
+  stepTeams(world, wallMs, events);
 
   // Lifetime happiness sampling, once a sim second.
   if (Math.floor(world.timeMs / 1000) !== Math.floor((world.timeMs - dtMs) / 1000)) {
@@ -695,7 +788,10 @@ function updateTrees(world: World, dtMs: number, rng: Rng, events: SimEvent[]): 
   for (const tree of world.trees) {
     tree.fruitTimerMs -= dtMs;
     if (tree.fruitTimerMs <= 0) {
-      tree.fruitTimerMs += TREES.fruitIntervalMs * fruitIntervalMultiplier(world);
+      tree.fruitTimerMs +=
+        TREES.fruitIntervalMs *
+        fruitIntervalMultiplier(world) *
+        (hasSkill(world, 'greenThumb') ? 0.9 : 1);
       if (world.items.filter((i) => i.kind === 'fruit').length >= TREES.maxFruitOnGround) continue;
       dropFruit(world, tree, rng, events);
     }

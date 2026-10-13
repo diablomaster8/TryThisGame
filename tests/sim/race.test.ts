@@ -112,12 +112,28 @@ describe('race', () => {
     const events: SimEvent[] = [];
     applyCommand(
       w,
-      { kind: 'raceResult', course: 'meadow', tier: 1, placement: 1, shells: 20, hat: 'crown' },
+      {
+        kind: 'raceResult',
+        nubbinId: 'n1',
+        course: 'meadow',
+        tier: 1,
+        placement: 1,
+        shells: 20,
+        hat: 'crown',
+      },
       events,
     );
     applyCommand(
       w,
-      { kind: 'raceResult', course: 'meadow', tier: 2, placement: 2, shells: 20, hat: null },
+      {
+        kind: 'raceResult',
+        nubbinId: 'n1',
+        course: 'meadow',
+        tier: 2,
+        placement: 2,
+        shells: 20,
+        hat: null,
+      },
       events,
     );
     expect(w.inventory.shells).toBe(40);

@@ -647,3 +647,94 @@ export const LANDMARKS = [
   { id: 'southBend', x: 11, z: 20 },
   { id: 'westHill', x: -12, z: 13 },
 ] as const;
+
+// ---------------------------------------------------------------- the Digimon-inspired ten
+
+/** The village square: recruits raise prosperity; thresholds open the square's services. */
+export const TOWN = {
+  perRecruit: 12,
+  max: 120,
+  unlocks: { stall: 20, gym: 40, attendant: 60, fortune: 80, festival: 100 } as const,
+  stallDiscount: 0.9,
+  festivalPrize: 1.15,
+} as const;
+
+/** Care slips: a need ignored this long logs one; evolution and lifespan read them. */
+export const SLIPS = {
+  afterMs: 120_000,
+  cooldownMs: 300_000,
+  keep: 8,
+  /** Each slip trims the adult span by this fraction, down to the floor. */
+  lifespanPerSlip: 0.05,
+  lifespanFloor: 0.75,
+  /** Slips at evolution that mark the Grumpy / Sleepy looks. */
+  moodyAt: 3,
+} as const;
+
+/** The training gym: timing games at four stations. */
+export const GYM = {
+  pointsPerHit: 6,
+  energyCost: 0.15,
+  restedBonus: 1.5,
+  roundMs: 20_000,
+  minHunger: 0.5,
+  minEnergy: 0.5,
+  /** Timing bar: a sweep this long, hit zone this wide (fraction). */
+  sweepMs: 900,
+  zone: 0.22,
+} as const;
+
+/** Partners and the merged form. */
+export const PARTNERS = {
+  followDistance: 4,
+  bondPerMinute: 1,
+  mergeMs: 60_000,
+  minAffection: 60,
+  twinePrice: 120,
+  mergeLevelBonus: 2,
+} as const;
+
+/** Curfew by the real clock. */
+export const CURFEW = {
+  nightFrom: 22,
+  nightTo: 6,
+  energyDrainMultiplier: 1.6,
+  napChance: 0.5,
+} as const;
+
+/** Rebirth memories and the heirloom look. */
+export const INHERITANCE = {
+  heirloomGenerations: 3,
+} as const;
+
+/** The Keeper skill tree. */
+export const SKILLS = {
+  pointsPerAchievement: 1,
+  pointsPerQuest: 1,
+} as const;
+
+/** Scanning wild and neighbour species toward an egg. */
+export const SCANS = {
+  perArrival: 25,
+  perMinutePresent: 2,
+  perNeighbourVisit: 10,
+  full: 100,
+} as const;
+
+/** Guard teams: weekly missions and a seeded local board. */
+export const TEAMS = {
+  pointsPerMission: 10,
+  rankEvery: 30,
+} as const;
+
+/** The Beetle Run: a cart through a seeded cave. */
+export const TANK = {
+  lanes: 3,
+  speed: 6,
+  lengthUnits: 240,
+  cargo: 8,
+  hazardEvery: [1.4, 2.6] as const,
+  lootEvery: [1.0, 2.2] as const,
+  stunMs: 700,
+  bossBonus: 40,
+} as const;

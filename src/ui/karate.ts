@@ -1,3 +1,5 @@
+import { mergedLevels } from '../sim/partners';
+import { hasSkill } from '../sim/skills';
 import { NAMES, UI_TEXT } from '../config/strings';
 import { KARATE } from '../config/tuning';
 import type { Game } from '../game';
@@ -78,8 +80,15 @@ export class KarateMenu {
     this.close();
     g.renderPaused = true;
     const seed = Date.now() % 2147483647;
+    const bout = createBout(
+      fighter,
+      tier,
+      seed,
+      mergedLevels(g.world, fighter) ?? undefined,
+      hasSkill(g.world, 'thickSkin') ? 10 : 0,
+    );
     this.screen.start(
-      createBout(fighter, tier, seed),
+      bout,
       fighter,
       g.view.sheets.forNubbin(fighter),
       g.view.sheets.rival('moon', 'power'),
@@ -90,7 +99,14 @@ export class KarateMenu {
           return;
         }
         const shells = prizeForBout(tier, won);
-        g.send({ kind: 'karateResult', nubbinId: fighter.id, won, tier, shells });
+        g.send({
+          kind: 'karateResult',
+          nubbinId: fighter.id,
+          won,
+          tier,
+          shells,
+          rival: { name: bout.rival.name, species: 'chao' },
+        });
         this.toast(won ? UI_TEXT.karateWon(fighter.name) : UI_TEXT.karateLost(fighter.name));
       },
     );

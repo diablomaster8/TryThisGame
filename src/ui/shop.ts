@@ -19,7 +19,7 @@ export class ShopMenu {
     this.balance = el('div', 'shop-balance');
     this.dialog.body.appendChild(this.balance);
     const list = el('div', 'shop-list');
-    for (const item of ['fruit', 'egg', 'hat', 'toy', 'heartFruit'] as const) {
+    for (const item of ['fruit', 'egg', 'hat', 'toy', 'heartFruit', 'twine'] as const) {
       const row = el('div', 'shop-row');
       const text = el('div');
       text.append(

@@ -218,6 +218,7 @@ export const SHOP_ITEMS = {
     name: 'Heart fruit',
     help: 'Feed it to a grown Nubbin that loves you; with a partner nearby, an egg follows.',
   },
+  twine: { name: 'Twine', help: 'Binds two partners for a minute of merged strength.' },
 } as const;
 
 export const MOOD_LABELS = {

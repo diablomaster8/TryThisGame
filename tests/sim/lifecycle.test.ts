@@ -1,3 +1,4 @@
+import { lifespanMs } from '../../src/sim/slips';
 import { describe, expect, it } from 'vitest';
 import { EGG, LIFECYCLE, REBIRTH, SIM } from '../../src/config/tuning';
 import { eternalBandFor } from '../../src/sim/lifecycle';
@@ -210,7 +211,7 @@ describe('end of life while away', () => {
     expect(report.events.some((e) => e.kind === 'awaitingKeeper')).toBe(true);
     expect(w.nubbins).toHaveLength(1);
     expect(n.awaitingKeeper).toBe(true);
-    expect(n.stageMs).toBe(LIFECYCLE.adultMs); // frozen there
+    expect(n.stageMs).toBe(lifespanMs(n)); // frozen there (slips may have trimmed the span)
     expect(n.stage).toBe('adult');
     // Live play resumes: the check runs with the cocoon on screen.
     n.needs.hunger = 1;

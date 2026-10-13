@@ -1,4 +1,10 @@
 import { LESSONS, SERVICES } from '../config/tuning';
+import { hasSkill } from './skills';
+
+/** Lessons cost less with the Teacher's pet skill. */
+function lessonPrice(world: World): number {
+  return Math.round(LESSONS.price * (hasSkill(world, 'teachersPet') ? 0.8 : 1));
+}
 import { bandOf, childHint, winningType } from './alignment';
 import { addHappiness } from './needs';
 import type { LessonId, Nubbin, SimEvent, World } from './types';
@@ -18,7 +24,7 @@ export function canTakeLesson(world: World, n: Nubbin, lesson: LessonId): string
   if (n.stage === 'egg' || n.stage === 'cocoon') return 'stage';
   if (n.behavior.state === 'lesson') return 'busy';
   if (lessonLevel(n, lesson) >= LESSONS.maxLevel) return 'max';
-  if (world.inventory.shells < LESSONS.price) return 'shells';
+  if (world.inventory.shells < lessonPrice(world)) return 'shells';
   return null;
 }
 
@@ -29,7 +35,7 @@ export function startLesson(
   events: SimEvent[],
 ): boolean {
   if (canTakeLesson(world, n, lesson)) return false;
-  world.inventory.shells -= LESSONS.price;
+  world.inventory.shells -= lessonPrice(world);
   n.behavior.state = 'lesson';
   n.behavior.sinceMs = world.timeMs;
   n.behavior.untilMs = world.timeMs + LESSONS.durationMs;

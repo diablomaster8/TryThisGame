@@ -148,12 +148,18 @@ const RIVAL_NAMES = [
   'Clover',
 ];
 
-export function createRace(course: Course, tier: number, player: Nubbin, seed: number): RaceState {
+export function createRace(
+  course: Course,
+  tier: number,
+  player: Nubbin,
+  seed: number,
+  levelsOverride?: Record<StatKey, number>,
+): RaceState {
   const rng = Rng.fromSeed(seed);
   const t = Math.max(0, Math.min(2, tier - 1));
   const [minRivals, maxRivals] = RACE.rivals[t]!;
   const [minLvl, maxLvl] = RACE.rivalLevels[t]!;
-  const playerLevels = levelsOf(player);
+  const playerLevels = levelsOverride ?? levelsOf(player);
   const racers: Racer[] = [
     {
       id: player.id,
