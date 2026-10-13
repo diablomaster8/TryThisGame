@@ -2,9 +2,15 @@ import { GROVE, LANDMARKS } from '../config/tuning';
 import { clampToWorld } from './behavior';
 import type { SimEvent, Vec2, World } from './types';
 
+/** Where the Keeper stood at the last check, per world: a still Keeper finds nothing new. */
+const lastChecked = new WeakMap<World, { x: number; z: number }>();
+
 /** Landmarks are found by walking up to them; found ones are fast-travel spots. */
 export function stepLandmarks(world: World, events: SimEvent[]): void {
   if (world.location !== 'grove') return;
+  const at = lastChecked.get(world);
+  if (at && at.x === world.keeper.pos.x && at.z === world.keeper.pos.z) return;
+  lastChecked.set(world, { x: world.keeper.pos.x, z: world.keeper.pos.z });
   for (const l of LANDMARKS) {
     if (world.landmarks[l.id] !== undefined) continue;
     if (Math.hypot(world.keeper.pos.x - l.x, world.keeper.pos.z - l.z) < 2.2) {

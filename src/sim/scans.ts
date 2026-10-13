@@ -20,13 +20,14 @@ export function noteScan(world: World, species: string, amount: number, events: 
 }
 
 export function stepScans(world: World, dtMs: number, events: SimEvent[]): void {
-  for (const e of [...events]) {
-    if (e.kind === 'wildArrived') noteScan(world, e.species, SCANS.perArrival, events);
-    else if (e.kind === 'visiting' && e.trainer) {
-      for (const pet of neighbourGarden(e.trainer))
-        noteScan(world, pet.species, SCANS.perNeighbourVisit, events);
+  if (events.length > 0)
+    for (const e of [...events]) {
+      if (e.kind === 'wildArrived') noteScan(world, e.species, SCANS.perArrival, events);
+      else if (e.kind === 'visiting' && e.trainer) {
+        for (const pet of neighbourGarden(e.trainer))
+          noteScan(world, pet.species, SCANS.perNeighbourVisit, events);
+      }
     }
-  }
   // Each wild one present scans a little per minute.
   const crossed = Math.floor(world.timeMs / 60_000) !== Math.floor((world.timeMs - dtMs) / 60_000);
   if (crossed)

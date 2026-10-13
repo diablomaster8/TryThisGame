@@ -63,6 +63,8 @@ export function mergedLevels(world: World, n: Nubbin): Record<StatKey, number> |
 }
 
 export function stepPartners(world: World, dtMs: number, events: SimEvent[]): void {
+  // Nothing to do for the common case: no partners chosen and no merge running.
+  if (!world.partners[0] && !world.partners[1] && !world.merge) return;
   // Partners' affection grows a little while they are near the Keeper.
   for (const id of world.partners) {
     const n = id ? world.nubbins.find((x) => x.id === id) : undefined;

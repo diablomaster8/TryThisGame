@@ -771,7 +771,7 @@ export function stepWorld(world: World, dtMs: number, wallMs?: number): SimEvent
   stepFriendships(world, dtMs, events);
   stepLandmarks(world, events);
   stepSeasons(world, events);
-  stepAchievements(world, events);
+  stepAchievements(world, events, dtMs);
   stepTown(world, events);
   stepScans(world, dtMs, events);
   stepSkillPoints(world, events);

@@ -62,6 +62,7 @@ export function festivalPrizeMultiplier(world: World): number {
 
 /** Recruits are drawn from the step's events: settled wild visitors and returned strays. */
 export function stepTown(world: World, events: SimEvent[]): void {
+  if (events.length === 0) return;
   for (const e of [...events]) {
     if (e.kind === 'wildSettled') {
       const n = world.nubbins.find((x) => x.id === e.nubbinId);

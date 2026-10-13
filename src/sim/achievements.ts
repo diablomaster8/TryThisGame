@@ -60,7 +60,16 @@ export const ACHIEVEMENT_LIST: Achievement[] = [
   { id: 'storyEnd', title: 'Hazel’s Heir', check: (w) => (w.campaign?.chapter ?? 0) > 12 },
 ];
 
-export function stepAchievements(world: World, events: SimEvent[]): void {
+/**
+ * Event-driven badges are checked whenever something happened; the world-state ones
+ * (book size, plots placed, orchard) once a sim second, since they cannot change
+ * without an event anyway and the check allocates. `dtMs` undefined means "always".
+ */
+export function stepAchievements(world: World, events: SimEvent[], dtMs?: number): void {
+  if (events.length === 0 && dtMs !== undefined) {
+    const second = Math.floor(world.timeMs / 1000) !== Math.floor((world.timeMs - dtMs) / 1000);
+    if (!second) return;
+  }
   for (const a of ACHIEVEMENT_LIST) {
     if (world.achievements[a.id] !== undefined) continue;
     if (!a.check(world, events)) continue;

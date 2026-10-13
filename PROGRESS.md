@@ -57,6 +57,15 @@ are playable; 11 (procedural dungeons) and the campaigns remain.
 Also fixed in passing: the four Grove lanterns had lost their sprites in the earlier
 lantern change (the script's anchor had moved); they draw and tap again.
 
+The first deploy of this failed on the GitHub runner: the full-life timing test took
+3.08 s against its 3 s budget (1.8 s locally). A CPU profile showed the per-step cost
+was mostly old: the collection book rebuilt its key list every step for two badge
+checks, the obstacle list was rebuilt per walker per step, landmarks and world-state
+badges were checked every step. Those are now cached or gated (book keys built once,
+fixed obstacles built once and placed ones cached, landmarks only when the Keeper
+moved, state badges once a sim second, squared-distance early-out in `resolve`). The
+test runs in about 0.5 s now.
+
 Tests: `tests/sim/ten.test.ts` (12 cases). Full suite green, lint clean, build OK;
 seen in the browser: the toasts for every system, the profile sections, the gym and the
 cave.

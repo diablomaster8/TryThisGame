@@ -21,8 +21,11 @@ export function noteSeen(world: World, key: string, events: SimEvent[]): void {
   events.push({ kind: 'firstSeen', key });
 }
 
-/** Every key the book can hold, in display order. */
-export function allKeys(): string[] {
+let keyCache: readonly string[] | null = null;
+
+/** Every key the book can hold, in display order. Built once: the list never changes. */
+export function allKeys(): readonly string[] {
+  if (keyCache) return keyCache;
   const keys: string[] = ['chao:child'];
   for (const band of ['sun', 'moon', 'neutral'] as const) {
     for (const type of ['normal', 'swim', 'fly', 'run', 'power'] as const) {
@@ -31,6 +34,7 @@ export function allKeys(): string[] {
   }
   for (const band of ['sun', 'moon', 'neutral'] as const) keys.push(`chao:eternal:${band}`);
   for (const id of Object.keys(SPECIES)) if (id !== 'chao') keys.push(id);
+  keyCache = keys;
   return keys;
 }
 

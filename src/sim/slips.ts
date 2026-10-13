@@ -7,6 +7,8 @@ import type { Nubbin, SimEvent, SlipKind, World } from './types';
  * at evolution, enough of them mark the Grumpy or Sleepy look; a childhood with none
  * earns the well-raised bonus grade.
  */
+const SLIP_KINDS = ['hungry', 'sleepy', 'lonely', 'wet'] as const;
+
 function wants(n: Nubbin, world: World): SlipKind[] {
   const out: SlipKind[] = [];
   if (n.stage === 'egg' || n.stage === 'cocoon') return out;
@@ -28,9 +30,10 @@ export function stepSlips(world: World, dtMs: number, events: SimEvent[]): void 
   // Only live play counts: catch-up runs in coarse steps and the Keeper was not there.
   if (dtMs > 1000) return;
   for (const n of world.nubbins) {
+    if (n.stage === 'egg' || n.stage === 'cocoon') continue;
     n.slipTimers ??= {};
     const active = wants(n, world);
-    for (const kind of ['hungry', 'sleepy', 'lonely', 'wet'] as const) {
+    for (const kind of SLIP_KINDS) {
       const t = n.slipTimers[kind] ?? 0;
       if (!active.includes(kind)) {
         // Cooling down after a slip, or simply fine: ease the timer back.
