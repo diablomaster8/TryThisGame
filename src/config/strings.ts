@@ -651,6 +651,7 @@ export const UI_TEXT = {
   sledding: (name: string) => `${name} is sledding!`,
   tileHelp: 'Tap the grass.',
   notFromHere: 'Go home to the Grove first.',
+  windmillTap: 'The mill turns when the wind is up. Flour for the bathhouse buns.',
   wildFed: 'It took the fruit. It will be back.',
   noQuests: 'The board is empty until tomorrow.',
   nurseryTap: 'The nursery: courting pairs lay their eggs here, safe and warm.',

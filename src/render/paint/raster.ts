@@ -1,4 +1,11 @@
-/** Shared full-colour raster and post-processing for the art-direction samples. */
+import { CanvasTexture, NearestFilter, SRGBColorSpace } from 'three';
+
+/**
+ * A full-colour raster for the painted art: floats per channel, a coverage mask that
+ * fills while `tracking` is on (so painted things get a boundary rim and an alpha
+ * channel), and the few primitives the painters need. Pure except `toCanvas`, which
+ * needs a DOM canvas, so the painters themselves run in tests too.
+ */
 export type RGB = [number, number, number];
 
 export function hex(h: string): RGB {
@@ -11,31 +18,34 @@ export function mix(a: RGB, b: RGB, t: number): RGB {
 export function shade(c: RGB, f: number): RGB {
   return [Math.min(1, c[0] * f), Math.min(1, c[1] * f), Math.min(1, c[2] * f)];
 }
+/** A stable hash in [0, 1) for scatter and dither. */
 export function hash(x: number, y: number, salt = 0): number {
   let h = (x * 374761393 + y * 668265263 + salt * 1442695041) | 0;
   h = Math.imul(h ^ (h >>> 13), 1274126177);
   return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
 }
 
-/** A small full-colour raster with the few primitives the samples need. */
 export class Raster {
   readonly data: Float32Array;
-  /** Object coverage, filled while `tracking` is on, for the boundary rim. */
+  /** Object coverage, filled while `tracking` is on. */
   readonly mask: Uint8Array;
   tracking = false;
+
   constructor(
     readonly w: number,
     readonly h: number,
-    bg: RGB,
+    bg: RGB | null,
   ) {
     this.data = new Float32Array(w * h * 3);
     this.mask = new Uint8Array(w * h);
-    for (let i = 0; i < w * h; i++) this.data.set(bg, i * 3);
+    if (bg) for (let i = 0; i < w * h; i++) this.data.set(bg, i * 3);
   }
+
   get(x: number, y: number): RGB {
     const i = (y * this.w + x) * 3;
     return [this.data[i] ?? 0, this.data[i + 1] ?? 0, this.data[i + 2] ?? 0];
   }
+
   set(x: number, y: number, c: RGB, a = 1): void {
     x = Math.round(x);
     y = Math.round(y);
@@ -49,9 +59,11 @@ export class Raster {
       this.data[i + 2] = (this.data[i + 2] ?? 0) * (1 - a) + c[2] * a;
     }
   }
+
   rect(x: number, y: number, w: number, h: number, c: RGB, a = 1): void {
     for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) this.set(x + i, y + j, c, a);
   }
+
   ellipse(cx: number, cy: number, rx: number, ry: number, c: RGB, a = 1): void {
     for (let y = Math.floor(cy - ry); y <= Math.ceil(cy + ry); y++) {
       for (let x = Math.floor(cx - rx); x <= Math.ceil(cx + rx); x++) {
@@ -61,19 +73,25 @@ export class Raster {
       }
     }
   }
+
   disc(cx: number, cy: number, r: number, c: RGB, a = 1): void {
     this.ellipse(cx, cy, r, r, c, a);
   }
+
   line(x0: number, y0: number, x1: number, y1: number, c: RGB, a = 1): void {
     const n = Math.max(1, Math.ceil(Math.hypot(x1 - x0, y1 - y0)));
-    for (let i = 0; i <= n; i++) this.set(x0 + ((x1 - x0) * i) / n, y0 + ((y1 - y0) * i) / n, c, a);
+    for (let i = 0; i <= n; i++) {
+      this.set(x0 + ((x1 - x0) * i) / n, y0 + ((y1 - y0) * i) / n, c, a);
+    }
   }
+
   tri(ax: number, ay: number, bx: number, by: number, cx: number, cy: number, c: RGB, a = 1): void {
     const minX = Math.floor(Math.min(ax, bx, cx));
     const maxX = Math.ceil(Math.max(ax, bx, cx));
     const minY = Math.floor(Math.min(ay, by, cy));
     const maxY = Math.ceil(Math.max(ay, by, cy));
     const area = (bx - ax) * (cy - ay) - (cx - ax) * (by - ay);
+    if (area === 0) return;
     for (let y = minY; y <= maxY; y++) {
       for (let x = minX; x <= maxX; x++) {
         const w0 = ((bx - x) * (cy - y) - (cx - x) * (by - y)) / area;
@@ -83,14 +101,14 @@ export class Raster {
       }
     }
   }
-  /** A vertical gradient fill of a rectangle. */
+
   gradient(x: number, y: number, w: number, h: number, top: RGB, bottom: RGB): void {
     for (let j = 0; j < h; j++) {
       const c = mix(top, bottom, j / Math.max(1, h - 1));
       for (let i = 0; i < w; i++) this.set(x + i, y + j, c);
     }
   }
-  /** Dithered gradient: a checker between two colours by threshold. */
+
   dither(x: number, y: number, w: number, h: number, top: RGB, bottom: RGB, steps: number): void {
     for (let j = 0; j < h; j++) {
       const t = j / Math.max(1, h - 1);
@@ -103,11 +121,14 @@ export class Raster {
       }
     }
   }
+
   multiply(x: number, y: number, f: RGB): void {
     const c = this.get(x, y);
     this.set(x, y, [c[0] * f[0], c[1] * f[1], c[2] * f[2]]);
   }
-  toRgba(scale: number): { width: number; height: number; rgba: Uint8Array } {
+
+  /** RGBA bytes, scaled up by an integer; alpha from the mask unless `opaque`. */
+  toRgba(scale = 1, opaque = false): { width: number; height: number; rgba: Uint8Array } {
     const width = this.w * scale;
     const height = this.h * scale;
     const rgba = new Uint8Array(width * height * 4);
@@ -118,14 +139,38 @@ export class Raster {
         rgba[o] = Math.round(Math.min(1, this.data[i * 3] ?? 0) * 255);
         rgba[o + 1] = Math.round(Math.min(1, this.data[i * 3 + 1] ?? 0) * 255);
         rgba[o + 2] = Math.round(Math.min(1, this.data[i * 3 + 2] ?? 0) * 255);
-        rgba[o + 3] = 255;
+        rgba[o + 3] = opaque || this.mask[i] === 1 ? 255 : 0;
       }
     }
     return { width, height, rgba };
   }
+
+  /** A DOM canvas of this raster (browser only). */
+  toCanvas(opaque = false): HTMLCanvasElement {
+    const canvas = document.createElement('canvas');
+    canvas.width = this.w;
+    canvas.height = this.h;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) throw new Error('2D canvas context unavailable');
+    const { rgba } = this.toRgba(1, opaque);
+    const image = ctx.createImageData(this.w, this.h);
+    image.data.set(rgba);
+    ctx.putImageData(image, 0, 0);
+    return canvas;
+  }
+
+  toTexture(opaque = false): CanvasTexture {
+    const texture = new CanvasTexture(this.toCanvas(opaque));
+    texture.magFilter = NearestFilter;
+    texture.minFilter = NearestFilter;
+    texture.generateMipmaps = false;
+    texture.colorSpace = SRGBColorSpace;
+    texture.needsUpdate = true;
+    return texture;
+  }
 }
 
-// ---------------------------------------------------------------- post-processing
+// ---------------------------------------------------------------- post-processing on rasters
 
 export function boxBlur(r: Raster, radius: number, rows: (y: number) => number): void {
   const src = new Float32Array(r.data);

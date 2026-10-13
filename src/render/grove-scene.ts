@@ -5,14 +5,15 @@ import {
   CylinderGeometry,
   DirectionalLight,
   HemisphereLight,
-  IcosahedronGeometry,
+  Path,
+  Shape,
+  ShapeGeometry,
   Mesh,
   MeshBasicMaterial,
   MeshLambertMaterial,
   Object3D,
   PlaneGeometry,
   PointLight,
-  RingGeometry,
   Scene,
   SphereGeometry,
   BoxGeometry,
@@ -26,12 +27,13 @@ import type { GroveKind, Location, TileKind, WeatherKind } from '../sim/types';
 import { daylightAt, type Daylight } from './daylight';
 import { C, color } from './sprites/palette';
 import { makeGroundTexture } from './ground';
+import { pondOutline } from './paint/shore';
+import { BUILDINGS } from './scenery';
 import {
   makeBarkTexture,
   makeCliffTexture,
   makeLeafTexture,
   makeSkyTexture,
-  makeStoneTexture,
   makeBridgeTexture,
   makeGrassTopTexture,
   makeWaterfallTexture,
@@ -91,6 +93,54 @@ const SKY_GRADIENTS: Record<string, [string, string, boolean]> = {
   moon: [color(C.ink), color(C.violetDeep), false],
 };
 
+/** The pond as a flat polygon following the noise shoreline, grown by `grow` units; UVs 0..1 over its box. */
+function pondGeometry(grow: number): ShapeGeometry {
+  const pts = pondOutline(72, grow);
+  const shape = new Shape();
+  pts.forEach((p, i) =>
+    i === 0
+      ? shape.moveTo(p.x - GROVE.pond.x, -(p.z - GROVE.pond.z))
+      : shape.lineTo(p.x - GROVE.pond.x, -(p.z - GROVE.pond.z)),
+  );
+  shape.closePath();
+  const geo = new ShapeGeometry(shape, 1);
+  remapUv(geo, GROVE.pond.r + grow + 2);
+  return geo;
+}
+
+/** A ring between two shoreline offsets. */
+function pondRingGeometry(inner: number, outer: number): ShapeGeometry {
+  const outerPts = pondOutline(72, outer);
+  const innerPts = pondOutline(72, inner);
+  const shape = new Shape();
+  outerPts.forEach((p, i) =>
+    i === 0
+      ? shape.moveTo(p.x - GROVE.pond.x, -(p.z - GROVE.pond.z))
+      : shape.lineTo(p.x - GROVE.pond.x, -(p.z - GROVE.pond.z)),
+  );
+  shape.closePath();
+  const hole = new Path();
+  innerPts.forEach((p, i) =>
+    i === 0
+      ? hole.moveTo(p.x - GROVE.pond.x, -(p.z - GROVE.pond.z))
+      : hole.lineTo(p.x - GROVE.pond.x, -(p.z - GROVE.pond.z)),
+  );
+  hole.closePath();
+  shape.holes.push(hole);
+  const geo = new ShapeGeometry(shape, 1);
+  remapUv(geo, GROVE.pond.r + outer + 2);
+  return geo;
+}
+
+function remapUv(geo: ShapeGeometry, half: number): void {
+  const pos = geo.getAttribute('position');
+  const uv = geo.getAttribute('uv');
+  for (let i = 0; i < pos.count; i++) {
+    uv.setXY(i, (pos.getX(i) + half) / (2 * half), (pos.getY(i) + half) / (2 * half));
+  }
+  uv.needsUpdate = true;
+}
+
 /**
  * The Grove: a low-poly garden with grass, a pond, hills, two fruit trees and a
  * waterfall, all on the shared palette. Static geometry lives here; creatures and items
@@ -133,7 +183,12 @@ export class GroveScene {
   private readonly lanternIds: string[] = [];
   private lit = new Set<string>();
   private readonly lanternLight: PointLight;
-  private readonly foam: Mesh<RingGeometry, MeshBasicMaterial>;
+  private readonly lamps: PointLight[] = [];
+  /** Where the lamps stand, for the view's sprite lighting. */
+  readonly lampSpots: Array<{ x: number; z: number; r: number }> = [];
+  /** True while the lamps are on. */
+  lampsOn = false;
+  private readonly foam: Mesh<ShapeGeometry, MeshBasicMaterial>;
 
   constructor() {
     this.scene.background = new Color(color(C.nightBlue));
@@ -162,7 +217,7 @@ export class GroveScene {
     // Pond: a wet rim, the water disc with a scrolling wave tile, a drifting glint layer
     // the other way, and a lit shallows ring at the bank. The stream shares the same look.
     const pond = GROVE.pond;
-    const rimGeo = new CircleGeometry(pond.r + 0.4, 32);
+    const rimGeo = pondGeometry(0.4);
     const rimMat = new MeshLambertMaterial({ color: new Color(color(C.sandDeep)) });
     const rim = new Mesh(rimGeo, rimMat);
     rim.rotation.x = -Math.PI / 2;
@@ -177,7 +232,7 @@ export class GroveScene {
       opacity: 0.55,
       depthWrite: false,
     });
-    const waterGeo = new CircleGeometry(pond.r, 32);
+    const waterGeo = pondGeometry(0);
     const water = new Mesh(waterGeo, waterMat);
     water.rotation.x = -Math.PI / 2;
     water.position.set(pond.x, 0.02, pond.z);
@@ -185,7 +240,7 @@ export class GroveScene {
     const glintDisc = new Mesh(waterGeo, glintMat);
     glintDisc.rotation.x = -Math.PI / 2;
     glintDisc.position.set(pond.x, 0.025, pond.z);
-    const shallowGeo = new RingGeometry(pond.r - 0.9, pond.r, 32);
+    const shallowGeo = pondRingGeometry(-0.9, 0);
     const shallowMat = new MeshBasicMaterial({
       color: new Color(color(C.shallows)),
       transparent: true,
@@ -240,7 +295,11 @@ export class GroveScene {
 
     // Hills: terraced plateaus, a cliff-face texture on the sides and grass on top.
     const hillTex = makeGrassTopTexture(6);
-    const topMat = new MeshLambertMaterial({ map: hillTex, flatShading: true });
+    const topMat = new MeshLambertMaterial({
+      map: hillTex,
+      color: new Color(0x9ec46a),
+      flatShading: true,
+    });
     this.tintable.push(topMat);
     this.disposables.push(hillTex, topMat);
     for (const h of GROVE.hills) {
@@ -321,7 +380,7 @@ export class GroveScene {
     // Trees are sprites now (render/scenery.ts); the lobe materials still dress the Hollow.
 
     // Foam ring on the pond edge, animated in update().
-    const foamGeo = new RingGeometry(pond.r - 0.35, pond.r, 32);
+    const foamGeo = pondRingGeometry(-0.35, 0);
     const foamMat = new MeshBasicMaterial({
       color: new Color(color(C.skyLight)),
       transparent: true,
@@ -375,24 +434,36 @@ export class GroveScene {
     this.tintable.push(bushMat);
     this.disposables.push(bushMat);
     // Bushes are sprites too (render/scenery.ts).
-    const stone = makeStoneTexture();
-    const rockGeo = new IcosahedronGeometry(0.6, 0);
-    const rockMat = new MeshLambertMaterial({ map: stone, flatShading: true });
-    this.disposables.push(stone, rockGeo, rockMat);
-    for (const [x, z, s, ry] of [
-      [-7, 9, 1, 0.3],
-      [-6.2, 9.6, 0.6, 1.2],
-      [6, -9, 0.9, 0.8],
-      [13, -5, 0.7, 2.1],
-      [-13, 12, 0.8, 0.5],
+    // Rocks are painted sprites (render/scenery.ts); a flat tappable pad marks each for gathering.
+    const rockPadGeo = new CircleGeometry(0.9, 8);
+    const rockPadMat = new MeshBasicMaterial({ visible: false });
+    this.disposables.push(rockPadGeo, rockPadMat);
+    for (const [x, z] of [
+      [-7, 9],
+      [6, -9],
+      [13, -5],
+      [-13, 12],
     ] as const) {
-      const rock = new Mesh(rockGeo, rockMat);
-      rock.position.set(x, 0.25 * s, z);
-      rock.scale.set(s, s * 0.7, s);
-      rock.rotation.y = ry;
-      rock.userData.pick = { kind: 'ground', id: 'rock' };
-      this.groveGroup.add(rock);
-      this.pickables.push(rock);
+      const pad = new Mesh(rockPadGeo, rockPadMat);
+      pad.rotation.x = -Math.PI / 2;
+      pad.position.set(x, 0.015, z);
+      pad.userData.pick = { kind: 'ground', id: 'rock' };
+      this.groveGroup.add(pad);
+      this.pickables.push(pad);
+    }
+    // Lamps in the windows and by the doors, on at dusk; the view lifts sprites near them.
+    for (const [x, z] of [
+      [BUILDINGS.cottage!.x, BUILDINGS.cottage!.z + 1],
+      [BUILDINGS.cottage!.x - 3.2, BUILDINGS.cottage!.z + 1.6],
+      [BUILDINGS.dojo!.x, BUILDINGS.dojo!.z + 1.5],
+      [BUILDINGS.school!.x, BUILDINGS.school!.z + 1.5],
+    ] as const) {
+      const lamp = new PointLight(new Color(color(C.sunLight)), 0, 11, 1.4);
+      lamp.position.set(x, 1.6, z);
+      lamp.visible = false;
+      this.scene.add(lamp);
+      this.lamps.push(lamp);
+      this.lampSpots.push({ x, z, r: 7 });
     }
 
     this.scene.add(this.groveGroup, this.hollowGroup, this.corvinGroup);
@@ -604,6 +675,11 @@ export class GroveScene {
       l.visible = d.lanterns || this.lit.has(this.lanternIds[i] ?? '');
     });
     this.lanternLight.visible = d.lanterns || this.lit.size > 0;
+    this.lampsOn = d.lanterns;
+    for (const lamp of this.lamps) {
+      lamp.visible = d.lanterns;
+      lamp.intensity = 5 * d.darkness;
+    }
   }
 
   dispose(): void {

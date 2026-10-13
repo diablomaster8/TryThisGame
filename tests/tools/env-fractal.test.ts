@@ -12,8 +12,8 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { expect, it } from 'vitest';
 import { Rng } from '../../src/sim/rng';
-import { eaveShadow, roofThatch } from './buildings';
-import { fbm, ridged, vnoise, warped } from './noise';
+import { eaveShadow, roofThatch } from '../../src/render/paint/buildings';
+import { fbm, ridged, vnoise, warped } from '../../src/render/paint/noise';
 import { encodePng } from './png';
 import {
   bloom,
@@ -27,7 +27,7 @@ import {
   shade,
   vignette,
   type RGB,
-} from './raster';
+} from '../../src/render/paint/raster';
 
 const W = 560;
 const H = 330;

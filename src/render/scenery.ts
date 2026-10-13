@@ -1,5 +1,7 @@
 import { GROVE } from '../config/tuning';
-import type { SceneryKind } from './sprites/scenery';
+import type { PaintedKind } from './paint/scenery';
+
+export type SceneryKind = PaintedKind;
 
 /** A placed piece of scenery; `pick` makes it tappable. */
 export interface SceneryPlacement {
@@ -19,53 +21,67 @@ export const BUILDINGS: Record<string, { x: number; z: number }> = {
   school: { x: -3, z: -18 },
   dojo: { x: 18, z: -4 },
   well: { x: 3, z: 10 },
+  windmill: { x: -16, z: -5 },
 };
 
 export const SCENERY: SceneryPlacement[] = [
   ...GROVE.trees.map((t, i) => ({
-    kind: (i % 2 === 0 ? 'tree' : 'tree2') as SceneryKind,
+    kind: `tree-${i + 1}` as SceneryKind,
     x: t.x,
     z: t.z,
-    size: 4.2,
+    size: 7.2,
     pick: { kind: 'tree' as const, id: `tree-${i + 1}` },
     sway: 0.05,
   })),
   // Bushes at the edges and near the water.
-  { kind: 'bush', x: -11, z: 1, size: 2.2 },
-  { kind: 'bush2', x: 13.5, z: 10.5, size: 2.2 },
-  { kind: 'bush', x: -20, z: -4, size: 2.2 },
-  { kind: 'bush2', x: 2, z: 18, size: 2.2 },
-  { kind: 'bush', x: 13, z: -2.5, size: 2.0 },
-  { kind: 'bush2', x: -10, z: -10, size: 2.0 },
-  { kind: 'bush', x: 20, z: 18, size: 2.2 },
-  { kind: 'bush2', x: -20, z: 20, size: 2.2 },
-  { kind: 'bush', x: 8, z: -20, size: 2.0 },
-  { kind: 'bush2', x: -1, z: -8, size: 1.9 },
+  { kind: 'bush-1', x: -11, z: 1, size: 2.4 },
+  { kind: 'bush-2', x: 13.5, z: 10.5, size: 2.4 },
+  { kind: 'bush-3', x: -20, z: -4, size: 2.4 },
+  { kind: 'bush-1', x: 2, z: 18, size: 2.4 },
+  { kind: 'bush-2', x: 13, z: -2.5, size: 2.2 },
+  { kind: 'bush-3', x: -10, z: -10, size: 2.2 },
+  { kind: 'bush-1', x: 20, z: 18, size: 2.4 },
+  { kind: 'bush-2', x: -20, z: 20, size: 2.4 },
+  { kind: 'bush-3', x: 8, z: -20, size: 2.2 },
+  { kind: 'bush-1', x: -1, z: -8, size: 2.1 },
   { kind: 'log', x: -1, z: 20, size: 2.4 },
   { kind: 'log', x: 3, z: -5, size: 2.4 },
   { kind: 'log', x: -17, z: 2, size: 2.4 },
+  { kind: 'rock-1', x: -7, z: 9, size: 1.6 },
+  { kind: 'rock-2', x: -6, z: 9.8, size: 1.0 },
+  { kind: 'rock-1', x: 6, z: -9, size: 1.4 },
+  { kind: 'rock-2', x: 13, z: -5, size: 1.0 },
+  { kind: 'rock-1', x: -13, z: 12, size: 1.3 },
+  { kind: 'lanternPost', x: BUILDINGS.cottage!.x - 3.2, z: BUILDINGS.cottage!.z + 1.6, size: 0.8 },
+  {
+    kind: 'windmill',
+    x: BUILDINGS.windmill!.x,
+    z: BUILDINGS.windmill!.z,
+    size: 6.6,
+    pick: { kind: 'building', id: 'windmill' },
+  },
   {
     kind: 'cottage',
     x: BUILDINGS.cottage!.x,
     z: BUILDINGS.cottage!.z,
-    size: 5.2,
+    size: 7.0,
     pick: { kind: 'building', id: 'cottage' },
   },
   {
     kind: 'school',
     x: BUILDINGS.school!.x,
     z: BUILDINGS.school!.z,
-    size: 5.2,
+    size: 6.0,
     pick: { kind: 'building', id: 'school' },
   },
   {
     kind: 'dojo',
     x: BUILDINGS.dojo!.x,
     z: BUILDINGS.dojo!.z,
-    size: 5.0,
+    size: 8.4,
     pick: { kind: 'building', id: 'dojo' },
   },
-  { kind: 'well', x: BUILDINGS.well!.x, z: BUILDINGS.well!.z, size: 2.6 },
+  { kind: 'well', x: BUILDINGS.well!.x, z: BUILDINGS.well!.z, size: 2.5 },
 ];
 
 /** Fence posts along both sides of the main path from the start to the pond. */

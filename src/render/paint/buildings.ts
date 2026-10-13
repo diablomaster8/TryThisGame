@@ -4,7 +4,7 @@
  * ceramic tiles, staggered wood shingles, a seamed copper dome. Shared by the organic
  * scene and the building contact sheet.
  */
-import { Rng } from '../../src/sim/rng';
+import { Rng } from '../../sim/rng';
 import { fbm, ridged, vnoise } from './noise';
 import { hash, hex, mix, Raster, shade, type RGB } from './raster';
 

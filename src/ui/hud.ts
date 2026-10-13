@@ -686,6 +686,7 @@ export function mountHud(
         else if (which === 'nursery') toast(UI_TEXT.nurseryTap);
         else if (which === 'bathhouse') toast(UI_TEXT.bathhouseTap);
         else if (which === 'host') g.send({ kind: 'neighbourGift' });
+        else if (which === 'windmill') toast(UI_TEXT.windmillTap);
         return;
       }
       if (id?.startsWith('plant:') && g) {

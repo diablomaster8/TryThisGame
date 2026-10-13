@@ -100,6 +100,20 @@ export class WorldView {
     return this.location.startsWith('visit:') ? this.location.slice('visit:'.length) : null;
   }
 
+  /** Lamps that are on: windows and lanterns, with a reach in world units. */
+  lights: Array<{ x: number; z: number; r: number }> = [];
+
+  /** Brightness for a sprite at a spot: the day/night dim, lifted by nearby lamps. */
+  lightAt(x: number, z: number): number {
+    let b = this.dim;
+    if (this.darkness < 0.15) return b;
+    for (const l of this.lights) {
+      const d = Math.hypot(x - l.x, z - l.z) / l.r;
+      if (d < 1) b += (1 - d) * (1 - d) * 0.9 * this.darkness;
+    }
+    return Math.min(1.15, b);
+  }
+
   setDaylight(d: Daylight, reduceMotion: boolean): void {
     this.daylight = d;
     const hollow = this.location === 'hollow';
@@ -214,10 +228,22 @@ export class WorldView {
     // Scenery: trees, bushes, buildings, the well, and fence posts along the main path.
     if (inGrove) {
       const scenery = this.sheets.scenery();
+      const lampsOn = this.lights.length > 0;
       for (const s of SCENERY) {
-        const rect = scenery.frames.get(frameKey(s.kind, 'front', 0));
+        const litKey = lampsOn
+          ? scenery.frames.get(frameKey(`${s.kind}-lit`, 'front', 0))
+          : undefined;
+        const rect = litKey ?? scenery.frames.get(frameKey(s.kind, 'front', 0));
         if (!rect) continue;
         const sway = s.sway ? Math.sin(nowMs / 1400 + s.x) * s.sway : 0;
+        if (!s.kind.startsWith('rock') && !s.kind.startsWith('log')) {
+          shadow(
+            s.x + s.size * 0.08,
+            0,
+            s.z + 0.1,
+            s.size * (s.kind.startsWith('tree') ? 0.3 : 0.42),
+          );
+        }
         batch.draw(
           {
             sheet: scenery,
@@ -228,8 +254,8 @@ export class WorldView {
             z: s.z,
             mode: 'billboard',
             w: s.size,
-            h: s.size,
-            tint: this.dim,
+            h: (s.size * rect.h) / rect.w,
+            tint: this.lightAt(s.x, s.z),
           },
           s.pick,
         );
@@ -270,7 +296,10 @@ export class WorldView {
     const scenerySheet = this.sheets.scenery();
     for (const d of home ? world.placed : []) {
       if (d.kind === 'nursery' || d.kind === 'bathhouse' || d.kind === 'workshop') {
-        const brect = scenerySheet.frames.get(frameKey(d.kind, 'front', 0));
+        const brect =
+          (this.lights.length > 0
+            ? scenerySheet.frames.get(frameKey(`${d.kind}-lit`, 'front', 0))
+            : undefined) ?? scenerySheet.frames.get(frameKey(d.kind, 'front', 0));
         if (!brect) continue;
         batch.draw(
           {
@@ -281,9 +310,11 @@ export class WorldView {
             y: 0,
             z: d.pos.z,
             mode: 'billboard',
-            w: 3.6,
-            h: 3.6,
-            tint: this.dim,
+            w: d.kind === 'workshop' ? 5.8 : d.kind === 'bathhouse' ? 5.6 : 4.4,
+            h:
+              ((d.kind === 'workshop' ? 5.8 : d.kind === 'bathhouse' ? 5.6 : 4.4) * brect.h) /
+              brect.w,
+            tint: this.lightAt(d.pos.x, d.pos.z),
           },
           { id: d.kind, kind: 'building' },
         );

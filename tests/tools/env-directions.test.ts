@@ -13,7 +13,18 @@ import { join } from 'node:path';
 import { expect, it } from 'vitest';
 import { Rng } from '../../src/sim/rng';
 import { encodePng } from './png';
-import { bloom, boxBlur, grade, hash, hex, mix, Raster, shade, vignette, type RGB } from './raster';
+import {
+  bloom,
+  boxBlur,
+  grade,
+  hash,
+  hex,
+  mix,
+  Raster,
+  shade,
+  vignette,
+  type RGB,
+} from '../../src/render/paint/raster';
 
 // ---------------------------------------------------------------- shared layout
 

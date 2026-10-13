@@ -12,9 +12,19 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { expect, it } from 'vitest';
 import { Rng } from '../../src/sim/rng';
-import { fbm, ridged, vnoise, warped } from './noise';
+import { fbm, ridged, vnoise, warped } from '../../src/render/paint/noise';
 import { encodePng } from './png';
-import { bloom, grade, hash, hex, mix, Raster, shade, vignette, type RGB } from './raster';
+import {
+  bloom,
+  grade,
+  hash,
+  hex,
+  mix,
+  Raster,
+  shade,
+  vignette,
+  type RGB,
+} from '../../src/render/paint/raster';
 
 const COLS = 70;
 const ROWS = 42;

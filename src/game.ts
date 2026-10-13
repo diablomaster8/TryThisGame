@@ -63,6 +63,7 @@ export class Game {
     this.grove.setDaylight(d, place, this.world.weather.kind);
     this.view.location = this.world.location;
     this.view.setDaylight(d, reduce);
+    this.view.lights = this.grove.lampsOn ? this.grove.lampSpots : [];
     this.view.setWeather(
       this.world.weather.kind,
       this.world.weather.intensity,

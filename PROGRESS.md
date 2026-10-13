@@ -9,6 +9,46 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## The organic art direction, in the game (2026-10-13)
+
+Maor: "go forward on art. Use the art we designed in the latest - the way the dojo and
+windmill were upgraded." The painted kit from the samples is now the Grove's art.
+
+**What changed:**
+
+- `src/render/paint/`: the sample code moved into the renderer. `raster.ts` (full-colour
+  raster with a coverage mask, boundary rims, `toTexture`), `noise.ts` (value noise, fbm,
+  domain warping, ridged), `buildings.ts` (wall and roof painters), `props.ts` (branching
+  trees, bushes, rocks, logs, fence posts, lantern posts, the well), `shore.ts` (the
+  pond's noise shoreline, cached per angle), `atlas.ts` (packs rasters of any size into
+  one RGBA sheet), `scenery.ts` (paints every scenery frame once at start: four seeded
+  trees, three bushes, logs, rocks, the cottage, school hut, dojo, well, windmill,
+  nursery, bathhouse, workshop, lantern and fence posts, plus lit variants of the
+  buildings for dusk).
+- `render/ground.ts` is repainted in the organic style at 16 texels per unit (768²):
+  warped green drifts and dry patches (coarse fields sampled bilinearly for speed),
+  blades and flower drifts, paths with wandering widths and edges, ruts and stones,
+  stream banks, the noise shoreline with a wet band, hill scree, stone pads, the crop
+  plot, painted tiles. About 0.8 s on this machine; repainted only when tiles change.
+- `render/grove-scene.ts`: the pond, its rim, shallows and foam are polygons that follow
+  the noise shoreline (`pondOutline`); the old 3D rocks are painted sprites with hidden
+  tappable pads for gathering; four point lamps (cottage window and lantern, dojo,
+  school) come on at dusk; the hill tops are tinted to sit with the new ground.
+- `render/world-view.ts`: scenery sprites keep their painted aspect (`size` is the
+  width), get a ground shadow blob, use the `-lit` frame when the lamps are on, and are
+  brightened near lamps (`lightAt`), as are placed buildings and fence posts.
+- `render/scenery.ts`: placements by painted kind, a windmill at (-16, -5) (tappable,
+  a line of flavour text), painted rocks and a lantern post by the cottage door.
+- The tool tests import the painters from `src/render/paint`.
+
+**Checks:** full suite green, lint clean, build OK; seen in the browser by day and at
+dusk (lit windows, lamps, the sprite lift near them).
+
+**Left for later:** the hill cliff texture and the waterfall are still the pixel
+versions; the small pixel decor props (bench, statue, flower bed, mushroom dressing)
+and the four 3D lantern posts have not been repainted; the ground paint could be
+faster still (the path distance loop) and could move to a worker.
+
 ## Roof redone and five more buildings (2026-10-13, for Maor's pick)
 
 Maor: "try again on the roof art so it's clear what's roof and what is floor. Then

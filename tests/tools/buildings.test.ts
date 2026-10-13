@@ -26,10 +26,19 @@ import {
   stoneWall,
   timber,
   windowPane,
-} from './buildings';
-import { fbm, ridged, vnoise, warped } from './noise';
+} from '../../src/render/paint/buildings';
+import { fbm, ridged, vnoise, warped } from '../../src/render/paint/noise';
 import { encodePng } from './png';
-import { bloom, grade, hex, mix, Raster, rimObjects, shade, vignette } from './raster';
+import {
+  bloom,
+  grade,
+  hex,
+  mix,
+  Raster,
+  rimObjects,
+  shade,
+  vignette,
+} from '../../src/render/paint/raster';
 
 const CW = 220;
 const CH = 190;
