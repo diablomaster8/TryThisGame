@@ -9,6 +9,46 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Five environment art directions (2026-10-13, second attempt, for Maor's pick)
+
+Maor: "Try again on the graphics. Not just additional detail but fundamentally upgraded
+each time", pointing at the best-of pixel-art game lists (Octopath Traveler, Eastward,
+Owlboy, Hyper Light Drifter, Celeste, Sea of Stars, Stardew Valley, CrossCode). Each
+sample is a different way of making the scene, rendered in full colour by
+`tests/tools/env-directions.test.ts` (`PREVIEW_DIRECTIONS=dir npx vitest run
+tests/tools/env-directions.test.ts`), PNGs in `docs/samples/dir-1.png` … `dir-5.png`.
+
+1. **Tile-grid 16-bit** (Stardew Valley, Link's Awakening). A real 16 px tileset:
+   autotiled dirt with rounded corners, water tiles with foam on their open sides, a
+   sand ring, the house assembled from wall / roof / window / door tiles, bright
+   saturated colours, dark outlines on objects and none on the ground. Engineering:
+   a tile layer and autotile rules in `ground.ts`, roughly a week; art is fast after
+   that because every scene is tiles.
+2. **Painterly hi-bit** (Owlboy, Eastward). No grid, no outlines; forms carried by value
+   and colour, six-tone ramps, a canopy of 2,600 leaf dabs lit from the upper left,
+   gradient walls, a thatched roof in brush strokes, soft shadows, haze at the top.
+   The most expensive in art time (every prop is a painting) and it needs the palette
+   opened up from 48 colours to per-material ramps; one to two weeks for the Grove.
+3. **HD-2D** (Octopath Traveler, the Dragon Quest remakes). Crisp tile sprites inside a
+   photographic frame: tilt-shift depth of field, bloom, diagonal light shafts, a warm
+   grade, a vignette. Our `PostPass` already has bloom, tilt and grade, so this is two
+   to three days of tuning plus the light shafts and cast shadows.
+4. **Chunky limited palette** (Hyper Light Drifter, Celeste). Half the resolution, twelve
+   colours, no outlines; silhouettes, a hard rim light from one side, dithered sky,
+   teal shadows and magenta accents. Cheapest to produce and strongest identity, but
+   it is a change of the whole look (the 64 px Chao would be redrawn at 32 px, which
+   is the design grid we already draw on). About a week.
+5. **Dynamically lit dusk** (Sea of Stars). The painterly scene as an albedo layer with a
+   real light pass: a dusk ambient, a low warm sun with long cast shadows, point lights
+   from the windows and a lantern with falloff and water reflections, fireflies, bloom.
+   Needs a light map in the renderer (one draw of lights into a texture multiplied over
+   the scene) and shadow shapes per prop; one to two weeks, and it pays off most with
+   the real-clock day cycle we already have.
+
+My recommendation: 5 built on 2 if the goal is "best looking"; 3 if the goal is the
+biggest change for the least time; 1 if the plan is many more areas (the Digimon-style
+campaigns), because tiles scale.
+
 ## Five environment graphics samples at rising effort (2026-10-13, for Maor's pick)
 
 Maor: "provide 5 different samples of upgraded graphics for the environment/buildings/etc.
