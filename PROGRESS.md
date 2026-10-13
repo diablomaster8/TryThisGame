@@ -9,6 +9,129 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Five environment graphics samples at rising effort (2026-10-13, for Maor's pick)
+
+Maor: "provide 5 different samples of upgraded graphics for the environment/buildings/etc.
+at various levels of effort and a quick blurb of each." Rendered from one vignette
+(cottage, tree, path, pond corner, fence, bushes) by `tests/tools/env-samples.test.ts`
+(`PREVIEW_ENV=dir npx vitest run tests/tools/env-samples.test.ts`); the PNGs are in
+`docs/samples/env-1.png` … `env-5.png` and the strip `env-all.png`.
+
+1. **Flat clean-up (about half a day).** Today's shapes with the palette ramps tidied:
+   flat grass, a plain path, a two-tone roof, simple windows. The baseline.
+2. **Texture pass (one to two days).** Grass drifts in three tones with tufts and
+   clover, path rims with a pale worn centre, roof tile rows, wall beams, window
+   mullions, lobe highlights on trees and bushes, ground pads under buildings.
+3. **Fine-grid detail (three to four days).** Uses the 64 px grid fully: individual
+   shingles and a chimney, a stone base course, plaster speckle and braces, shutters
+   and flower boxes, a plank door with a step, pebbles on the path, leaf clusters and
+   fruit in the canopy, berries on bushes, a shallows ring and wave crests on the pond.
+4. **Light and shadow (plus two to three days).** A sun from the upper left: a lit and
+   a shaded roof half, shade under the eaves and on the far wall, cast shadows for the
+   tree, house and fence, dapple under the canopy, glass reflections and a warm window
+   glow, sky reflections on the water. This is the step that makes the scene read as a
+   place rather than a sticker sheet.
+5. **Hero set dressing (plus three to five days, ongoing).** Living detail: chimney
+   smoke, a lantern, a crate, a swing, birds, foam at the bank, lily pads and reeds,
+   flagstones laid into the path, grass blades over its edge, wildflower drifts. The
+   reference-tileset look; the cost is drawing time per prop and a little draw time.
+
+Each level is cumulative; the renderer already supports all of it (the same palette,
+`PixelCanvas` and the one sprite batch), so the choice is art time, not engineering.
+Recommendation: 4 for the whole Grove, with 5 reserved for the cottage, the square and
+the campaign places.
+
+## Next list: inspired by Digimon World and its sequels (2026-10-13, for review)
+
+Maor: "take for inspiration digimon world and the sequels. Recommend multiple campaign
+expansions or alternates (some completely separate, not add ons to the original)."
+Sources: the Wikipedia pages for Digimon World, Digimon World 2, 3, Re:Digitize, Next
+Order, World DS and Dawn/Dusk, plus guides (speedrun.com, Grindosaur, RPGFan). The
+mechanics that define the line: one partner raised through a short lifespan with hidden
+care mistakes deciding its next form; a ruined town rebuilt by recruiting the creatures
+you meet (prosperity); training gyms run by recruits; a real clock with curfews and
+sleep; death and rebirth as an egg with a little carried over; later games add a second
+partner, a merged form, town materials, tamer skill trees, a data-scanning farm, guard
+teams and dungeon tanks, and an MMO-trapped-online story.
+
+**Systems (ten):**
+
+1. **Prosperity and recruits.** A ruined village square beyond the cottage. Every wild
+   visitor, stray and neighbour's Nubbin you befriend (fed, raced against, beaten at
+   karate) can be *recruited*: it moves in, raises a prosperity meter and opens something
+   (a stall, a gym, a bathhouse attendant, a fortune teller). Files-City-style: the
+   town fills in visibly as the meter climbs.
+2. **Care mistakes, made visible.** A gentle version of the hidden counter: ignoring a
+   mood bubble for too long (hungry, sleepy, needs the pond, lonely) logs a "slip"; the
+   stats sheet shows the last few. Slips weight the evolution toward the Grumpy or
+   Sleepy forms (new lower-tier looks per type) and shorten the lifespan a little; a
+   clean childhood unlocks the "well-raised" bonus grade.
+3. **Training gym with mini-games.** Recruits run four stations (Swim lane, Fly rings,
+   Run track, Power rocks): 20-second timing/rhythm games that give points to one stat,
+   cost energy, and give *more* when the Nubbin is rested and fed (so the daily routine
+   matters, like Digimon World's "train while hungry = mistake").
+4. **Two partners and a merged form.** Pick a *partner pair* that follows the Keeper;
+   both gain bond; at full bond with a bought "twine" they can merge for sixty seconds
+   into a glowing ExE-style form for races and karate, then split (stats shared,
+   nothing lost).
+5. **Lifespan clock and curfew.** Nubbins sleep at night by the real clock unless the
+   Keeper lights the lanterns; late play tires them (energy drains faster after
+   midnight); a short "day count" on the sheet shows the age in days and what the
+   typical span is for that line, so rebirth stops being a surprise.
+6. **Rebirth inheritance tree.** Each rebirth keeps a chosen *memory* (one grade, one
+   part, one lesson, one accessory) and records the lineage in a family tree on the
+   profile; three generations of the same line unlock a heirloom look.
+7. **Keeper skill tree.** Tamer-style points from achievements and quests buy small
+   permanent perks (hatch 10% faster, fruit lasts longer, lessons cost less, a second
+   carry slot), 24 nodes in four branches: Care, Garden, Games, Story.
+8. **Scan and convert (DigiFarm-style).** Meeting the same wild species repeatedly fills
+   a scan bar in the Collection Book; at 100% the Book can *convert* the scan into an
+   egg of that species, so every species is reachable without luck.
+9. **Guard-team expeditions.** Three teams (Dawn, Dusk, Dew) with a leader each; join
+   one for weekly missions in the Expedition minigame with team-coloured rewards, a
+   team rank, and a rivalry leaderboard (local, seeded).
+10. **The tank run.** A Digi-Beetle-style vehicle minigame: drive a little cart through
+    a seeded cave with hazards (spores, loose rocks, acid puddles), a limited cargo of
+    items, and a boss door at the end; shells and materials come home.
+
+**Campaign expansions (add-ons to Hazel's Grove):**
+
+- **E1. The Square.** A chapter after the ending: Hazel's letter mentions the old
+  village square; rebuilding it (system 1) is the arc, with Corvin returning as a
+  reformed recruit if the Corvin ending was earned.
+- **E2. Nova's Season.** A twelve-day side story told through the lifespan clock
+  (system 5): a Nubbin with a short span that the Keeper raises right or wrong; both
+  outcomes are written, with a memorial or a rebirth epilogue.
+- **E3. The Twine.** A short arc that teaches the two-partner merge (system 4) through
+  the Hollow's strays; it ends with a karate tournament against the ten Keepers.
+
+**Separate campaigns (new slots, not add-ons):**
+
+- **S1. "The Hundred Days".** A Digimon World-style single-partner campaign: one egg,
+  one real-time lifespan of ~15 days (or ×10 debug), a ruined village to refill by
+  recruiting wild creatures across six areas (meadow, shore, cave, mountain, mire, the
+  old mill), prosperity gates the story, care mistakes shape the partner, and a
+  Machinedramon-style final threat (a Shadow colossus at the mountain). Ending by the
+  partner's final form and the town's prosperity. 8–10 hours.
+- **S2. "Logged In".** A Digimon World 3-style story: the Keeper is a child inside a
+  "Grove Online" game that locks everyone in; three partners in a party, turn-based
+  bouts in a card-like format reusing karate strikes, two mirrored "servers" (Day Grove
+  and Night Grove maps), a mystery about who runs the game (an adult-themed thread
+  about a company and a missing sibling is allowed). 6–8 hours.
+- **S3. "The Beetle Road".** A Digimon World 2-style expedition campaign: a guard
+  team, the tank run (system 10) through seeded cave domains with bosses, DNA-style
+  fusing of two Nubbins into one (a careful, consented version with the breeding sim),
+  a team leader's missions, and a reveal about the Grove's "weather machine". 5–6 hours.
+- **S4. "Dawn & Dusk".** Two mirrored short campaigns picked at the start (Sun Keeper
+  team or Moon Keeper team), each with four species families to serve quests for, tamer
+  rank tests in the dojo, scan-and-convert (system 8) as the collection engine, and a
+  degeneration mystery (Nubbins reverting to eggs) that both sides solve from their
+  angle; the other half unlocks after one is finished. 4 hours each.
+
+Suggested order if all approved: systems 1, 2, 3, 5, 6 with E1 and E2; then S1 as the
+first separate campaign (it reuses the most); then 4, 7, 8 with E3; then S4, S2, S3 and
+systems 9, 10.
+
 ## Learning Grove: the educational mode, built (2026-10-13)
 
 Maor: "finish the 20 then educational mode. Edu mode should give you recommendations on
