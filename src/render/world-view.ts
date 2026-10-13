@@ -296,18 +296,20 @@ export class WorldView {
           s.pick,
         );
       }
-      const fence = props.frames.get(frameKey('fence', 'front', 0));
+      const fence = scenery.frames.get(frameKey('fencePost', 'front', 0));
       if (fence) {
         for (const f of this.fences) {
           batch.draw({
-            sheet: props,
+            sheet: scenery,
             rect: fence,
             flip: false,
             x: f.x,
             y: 0,
             z: f.z,
             mode: 'billboard',
-            tint: this.dim,
+            w: 0.75,
+            h: (0.75 * fence.h) / fence.w,
+            tint: this.lightAt(f.x, f.z),
           });
         }
       }

@@ -9,6 +9,31 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Painted decor props and solid obstacles (2026-10-13)
+
+Maor: "Upgrade the decor props to the new art too" and "make sure I can't walk through
+the elements like a hill".
+
+- **Props** (`src/render/paint/decor.ts`, `buildPaintedProps`): every small thing is
+  painted now at 32 texels per unit: fruit and the seven flavoured fruits, the memorial
+  flower, the ball, notebook, radio, blocks, mirror and little TV; the ground dressing
+  (tufts, daisies, bluebells, pebbles, mushrooms, stumps, signs, reeds, tall grass,
+  lily pads); the placed pieces (fence, flower bed, bench, statue, path stone, garden
+  lantern, rock pile, thicket); orchard trees and crop rows at their four stages. The
+  path fence posts use the painted post from the scenery sheet. The old pixel prop
+  sheet remains only for the shadow blob.
+- **Obstacles** (`src/sim/obstacles.ts`): hills, the four trees, the buildings (their
+  footprints now live in `GROVE.buildings` with a radius; `render/scenery.ts` derives its
+  placements from them), the big rocks (`GROVE.rocks`) and placed buildings (nursery,
+  bathhouse, workshop) are solid circles. The Keeper, the second Keeper, visiting
+  Keepers and hatched Nubbins are pushed out along the edge each step, so nobody
+  walks through a hill; a tap target inside an obstacle is dropped so the Keeper does
+  not push against it forever. The pond still works through the shoreline rule (wading
+  with the perk). Tests: `tests/sim/obstacles.test.ts`. Nubbins pass trees (they eat the fruit
+  under the canopy; the Keeper stops at the trunk), and the third tree moved from the
+  west hill's slope to (-12, 7) so its fruit is reachable; old saves snap their trees to
+  the layout on load.
+
 ## Hills, waterfall and lanterns in the new art; smooth camera; tap and hover feedback (2026-10-13)
 
 Maor: "Upgrade the hills, waterfall and lantern posts to the new art too", "when I move
@@ -74,9 +99,7 @@ windmill were upgraded." The painted kit from the samples is now the Grove's art
 **Checks:** full suite green, lint clean, build OK; seen in the browser by day and at
 dusk (lit windows, lamps, the sprite lift near them).
 
-**Left for later:** the small pixel decor props (bench, statue, flower bed, mushroom
-dressing) have not been repainted (hills, waterfall and lanterns followed in the next
-section); the ground paint could be
+**Left for later:** (the props, hills, waterfall and lanterns followed in the next sections); the ground paint could be
 faster still (the path distance loop) and could move to a worker.
 
 ## Roof redone and five more buildings (2026-10-13, for Maor's pick)

@@ -1,3 +1,4 @@
+import { blocked, resolve } from './obstacles';
 import { GATHER, GROVE, KEEPER, NEEDS, PERKS, SIM, TREES, TRUST } from '../config/tuning';
 import { keeperPerks, keeperSpeedMultiplier } from './perks';
 import { dropFruit, withRng } from './world';
@@ -108,6 +109,11 @@ export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): vo
         k.facing = Math.atan2(dx, dz);
       }
     }
+  }
+  // Solid things: hills, trees, buildings, rocks. A tap target inside one is dropped.
+  if (resolve(k.pos, world) && k.moveTarget && blocked(k.moveTarget, world, 0.3)) {
+    k.moveTarget = null;
+    k.intent = null;
   }
   clampToWorld(k.pos);
 

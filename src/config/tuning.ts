@@ -367,7 +367,7 @@ export const GROVE = {
   trees: [
     { x: -8, z: -5 },
     { x: 6, z: -12 },
-    { x: -15, z: 9 },
+    { x: -12, z: 7 },
     { x: 16, z: 12 },
   ] as const,
   hills: [
@@ -377,6 +377,21 @@ export const GROVE = {
     { x: 20, z: 4, r: 4, h: 1.5 },
   ] as const,
   waterfall: { x: 16, z: -16, height: 3.4, width: 1.6 },
+  /** Where the buildings stand and how wide their footprint is (walkers are kept out). */
+  buildings: {
+    cottage: { x: -7, z: 14, r: 2.8 },
+    school: { x: -3, z: -18, r: 2.4 },
+    dojo: { x: 18, z: -4, r: 3.4 },
+    well: { x: 3, z: 10, r: 0.9 },
+    windmill: { x: -16, z: -5, r: 2.0 },
+  },
+  /** The big rocks, tappable for stone and solid underfoot. */
+  rocks: [
+    { x: -7, z: 9, r: 0.7 },
+    { x: 6, z: -9, r: 0.6 },
+    { x: 13, z: -5, r: 0.5 },
+    { x: -13, z: 12, r: 0.6 },
+  ],
   /** The stream: from the waterfall pool into the pond, then out to the south edge. */
   river: {
     width: 2.2,

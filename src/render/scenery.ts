@@ -16,13 +16,9 @@ export interface SceneryPlacement {
 }
 
 /** Where the buildings stand; also kept clear by decor placement. */
-export const BUILDINGS: Record<string, { x: number; z: number }> = {
-  cottage: { x: -7, z: 14 },
-  school: { x: -3, z: -18 },
-  dojo: { x: 18, z: -4 },
-  well: { x: 3, z: 10 },
-  windmill: { x: -16, z: -5 },
-};
+export const BUILDINGS: Record<string, { x: number; z: number }> = Object.fromEntries(
+  Object.entries(GROVE.buildings).map(([id, b]) => [id, { x: b.x, z: b.z }]),
+);
 
 export const SCENERY: SceneryPlacement[] = [
   ...GROVE.trees.map((t, i) => ({

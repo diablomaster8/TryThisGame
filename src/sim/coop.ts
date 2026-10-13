@@ -1,3 +1,4 @@
+import { resolve } from './obstacles';
 import { KEEPER, NEEDS } from '../config/tuning';
 import { addTrust } from './trust';
 import { createKeeper, petNubbin } from './keeper';
@@ -31,6 +32,7 @@ export function stepKeeper2(world: World, dtMs: number): void {
     k.pos.x += nx * KEEPER.speed * dt;
     k.pos.z += nz * KEEPER.speed * dt;
     k.facing = Math.atan2(nx, nz);
+    resolve(k.pos, world);
   }
 }
 

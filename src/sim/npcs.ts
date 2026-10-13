@@ -1,3 +1,4 @@
+import { resolve } from './obstacles';
 import { GROVE, KEEPER } from '../config/tuning';
 import { clampToWorld } from './behavior';
 import type { Rng } from './rng';
@@ -96,6 +97,7 @@ export function stepNpcs(world: World, dtMs: number, rng: Rng): void {
         const dz = (npc.target.z - npc.pos.z) / d;
         npc.pos.x += dx * step;
         npc.pos.z += dz * step;
+        resolve(npc.pos, world);
         npc.facing = Math.atan2(dx, dz);
       }
     } else {

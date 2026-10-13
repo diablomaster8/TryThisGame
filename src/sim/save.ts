@@ -1,4 +1,4 @@
-import { OFFLINE, TRUST } from '../config/tuning';
+import { GROVE, OFFLINE, TRUST } from '../config/tuning';
 import { createWeather } from './weather';
 import { npcHome } from './npcs';
 import type { World } from './types';
@@ -151,6 +151,11 @@ export function validateWorld(w: World): World {
   w.settings.jukebox ??= null;
   w.settings.ambience ??= true;
   // Visiting Keepers keep their home spots in the save; re-home them to the current layout.
+  // The trees stand where the current layout puts them (a tree once sat on a hill).
+  w.trees.forEach((t, i) => {
+    const g = GROVE.trees[i];
+    if (g) t.pos = { x: g.x, z: g.z };
+  });
   for (const npc of w.npcs) {
     const home = npcHome(npc.trainer);
     npc.home = { ...home };

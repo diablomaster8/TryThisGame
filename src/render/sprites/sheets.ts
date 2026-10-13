@@ -24,7 +24,7 @@ import { TRAINERS } from '../../sim/trainers';
 import { EXTRA_LOOKS } from '../../sim/npcs';
 import { C } from './palette';
 import { buildKeeperSheet } from './keeper';
-import { buildPropSheet } from './props';
+import { buildPaintedProps } from '../paint/decor';
 import { buildPaintedScenery } from '../paint/scenery';
 
 const SLOTS: PartSlot[] = ['ears', 'tail', 'arms', 'back'];
@@ -167,7 +167,7 @@ export class SheetCache {
   }
 
   props(): SpriteSheet {
-    return this.get('props', () => buildPropSheet());
+    return this.get('props', () => buildPaintedProps());
   }
 
   /** Trees, bushes and buildings. */

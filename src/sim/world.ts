@@ -35,6 +35,7 @@ import { DEFAULT_TRAINER, rollEggSpecies, TRAINERS, trainerOf } from './trainers
 import { advanceStage, evolve, hatch, secondEvolve } from './lifecycle';
 import { createEgg, EGG_COLORS, isFree, isHeld } from './nubbin';
 import { Rng } from './rng';
+import { resolve } from './obstacles';
 import {
   eduResetSession,
   eduResult,
@@ -648,7 +649,10 @@ export function stepWorld(world: World, dtMs: number, wallMs?: number): SimEvent
       }
       decayNeeds(n, dtMs);
       advanceStage(n, dtMs, events, world, false);
-      if (world.nubbins.includes(n)) updateBehavior(n, world, dtMs, rng, events);
+      if (world.nubbins.includes(n)) {
+        updateBehavior(n, world, dtMs, rng, events);
+        resolve(n.pos, world, 0.3, true);
+      }
     }
     updateKeeper(world, dtMs, events);
     stepTrust(world, dtMs, events);
