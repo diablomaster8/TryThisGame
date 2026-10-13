@@ -42,7 +42,9 @@ different wall and roof material so places read differently at a glance:
 Shared painters in `tests/tools/buildings.ts`: plaster, stone (square or rounded,
 light or dark), plank walls; thatch, slate, tile, shingle and dome roofs; windows with
 wavy glass, plank doors, stone steps, flower boxes, ground shadows, the eave shadow.
-Every building is tracked for the boundary rim. These are the kit for the campaign
+Every building is tracked for the boundary rim. After Maor's review: the school sign got a fixed dark
+frame, the dojo got three stone steps up to its raised entry, and the windmill's sails
+became solid cloth in wooden frames with a dark outline all round. These are the kit for the campaign
 places and the Digimon-style town if those are picked.
 
 ## Organic samples and a procedural dungeon (2026-10-13, for Maor's pick)

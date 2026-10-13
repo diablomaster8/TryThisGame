@@ -99,6 +99,10 @@ function schoolHut(r: Raster, rng: Rng): void {
   r.rect(cx - 54, base - 36, 2, 36, hex('#4a3018'));
   r.rect(cx - 70, base - 46, 34, 14, hex('#d9a85a'));
   r.rect(cx - 69, base - 45, 32, 12, hex('#f3d088'));
+  r.rect(cx - 71, base - 47, 36, 1, hex('#4a3018'));
+  r.rect(cx - 71, base - 32, 36, 1, hex('#4a3018'));
+  r.rect(cx - 71, base - 47, 1, 16, hex('#4a3018'));
+  r.rect(cx - 36, base - 47, 1, 16, hex('#4a3018'));
   for (let i = 0; i < 4; i++)
     r.rect(
       cx - 66 + i * 8,
@@ -148,6 +152,12 @@ function dojo(r: Raster, rng: Rng): void {
       );
   }
   r.rect(ex, base - 51, 32, 2, hex('#6e4525'));
+  for (let i = 0; i < 3; i++) {
+    const sw = 30 + i * 6;
+    const sy = base - 9 + i * 3;
+    r.rect(ex + 16 - sw / 2, sy, sw, 3, mix(hex('#b4b4bf'), hex('#7a7a88'), i / 2));
+    r.rect(ex + 16 - sw / 2, sy + 2, sw, 1, hex('#45454f'));
+  }
   for (const lx of [ex - 10, ex + 42]) {
     r.rect(lx - 4, base - 44, 8, 11, hex('#e04a3a'));
     r.rect(lx - 3, base - 43, 6, 9, hex('#ff8a5a'));
@@ -383,26 +393,16 @@ function windmill(r: Raster, rng: Rng): void {
     r.line(hx + 1, hy, ex + 1, ey, hex('#5a3a1f'));
     const px = -Math.sin(a);
     const py = Math.cos(a);
-    for (let s = 10; s < 50; s += 2) {
-      const sx = hx + Math.cos(a) * s;
-      const sy = hy + Math.sin(a) * s;
-      const open = Math.floor(s / 8) % 2 === 0;
-      r.line(
-        sx,
-        sy,
-        sx + px * 11,
-        sy + py * 11,
-        open ? hex('#e8e2ee') : hex('#6e4525'),
-        open ? 0.85 : 1,
-      );
+    for (let s = 8; s <= 52; s += 1) {
+      for (let t = 0; t <= 12; t += 1) {
+        const sx = hx + Math.cos(a) * s + px * t;
+        const sy = hy + Math.sin(a) * s + py * t;
+        const edge = t === 0 || t === 12 || s === 8 || s === 52;
+        const bar = s % 11 === 0 || t === 6;
+        const cloth = mix(hex('#d8d0c4'), hex('#f4efe6'), vnoise(s / 4, t / 3, 60 + k));
+        r.set(sx, sy, edge ? hex('#2a1a0e') : bar ? hex('#6e4525') : cloth);
+      }
     }
-    r.line(
-      hx + Math.cos(a) * 10 + px * 11,
-      hy + Math.sin(a) * 10 + py * 11,
-      ex + px * 11,
-      ey + py * 11,
-      hex('#3a2616'),
-    );
   }
   r.disc(hx, hy, 3.5, hex('#3a2616'));
   r.disc(hx, hy, 1.5, hex('#e0b84a'));
