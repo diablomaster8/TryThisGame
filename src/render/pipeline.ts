@@ -1,5 +1,6 @@
-import { WebGLRenderer, type Camera, type Scene } from 'three';
+import { OrthographicCamera, WebGLRenderer, type Camera, type Scene } from 'three';
 import { RENDER } from '../config/tuning';
+import { PostPass } from './post';
 
 export interface TargetSize {
   /** Low-res frame width in pixels. */
@@ -66,13 +67,30 @@ export class LowResPipeline {
     if (next.width !== this.size.width || next.height !== this.size.height) {
       // updateStyle=false: CSS owns the element size, we only size the backing store.
       this.renderer.setSize(next.width, next.height, false);
+      this.post?.resize(next.width, next.height);
     }
     this.size = next;
     return next;
   }
 
   render(scene: Scene, camera: Camera): void {
+    if (this.post && camera instanceof OrthographicCamera) {
+      this.post.render(this.renderer, scene, camera);
+      return;
+    }
     this.renderer.render(scene, camera);
+  }
+
+  /** Attach the HD-2D pass; it follows the frame size. */
+  private post: PostPass | null = null;
+
+  enablePost(): PostPass {
+    this.post ??= new PostPass(this.size.width, this.size.height);
+    return this.post;
+  }
+
+  get postPass(): PostPass | null {
+    return this.post;
   }
 
   dispose(): void {

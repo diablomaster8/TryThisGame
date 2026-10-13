@@ -191,8 +191,25 @@ export class OrbitCamera {
     this.camera.updateProjectionMatrix();
   }
 
+  private shakeAmount = 0;
+  private shakeSeed = 0;
+
+  /** A brief shake, in world units, that decays over a few frames. */
+  shake(amount: number): void {
+    this.shakeAmount = Math.max(this.shakeAmount, amount);
+  }
+
   private applyPose(): void {
     orbitPosition(this.yaw, this.pitch, CAMERA.distance, this.target, this.tmp);
+    if (this.shakeAmount > 0.001) {
+      this.shakeSeed += 1;
+      const s = this.shakeAmount;
+      this.tmp.x += Math.sin(this.shakeSeed * 12.9898) * s;
+      this.tmp.y += Math.cos(this.shakeSeed * 78.233) * s * 0.6;
+      this.shakeAmount *= 0.8;
+    } else {
+      this.shakeAmount = 0;
+    }
     this.camera.position.copy(this.tmp);
     this.camera.lookAt(this.target);
   }

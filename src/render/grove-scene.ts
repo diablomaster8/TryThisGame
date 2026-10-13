@@ -11,12 +11,15 @@ import {
   MeshLambertMaterial,
   Object3D,
   PlaneGeometry,
+  PointLight,
+  RingGeometry,
   Scene,
   SphereGeometry,
   type Texture,
 } from 'three';
 import { GROVE } from '../config/tuning';
 import type { GroveKind } from '../sim/types';
+import { daylightAt, type Daylight } from './daylight';
 import { C, color } from './sprites/palette';
 import {
   makeGrassTexture,
@@ -42,6 +45,10 @@ export class GroveScene {
   /** Textured materials that take the Sun/Moon tint. */
   private readonly tintable: MeshLambertMaterial[] = [];
   private groveKind: GroveKind = 'main';
+  private readonly canopies: Mesh[] = [];
+  private readonly lanternGlows: Mesh[] = [];
+  private readonly lanternLight: PointLight;
+  private readonly foam: Mesh<RingGeometry, MeshBasicMaterial>;
 
   constructor() {
     this.scene.background = new Color(color(C.nightBlue));
@@ -137,6 +144,7 @@ export class GroveScene {
       const trunk = new Mesh(trunkGeo, trunkMat);
       trunk.position.y = 1.0;
       const canopy = new Mesh(canopyGeo, canopyMat);
+      this.canopies.push(canopy);
       canopy.position.y = 3.0;
       canopy.rotation.y = i * 0.7;
       const pick = { kind: 'tree', id: `tree-${i + 1}` };
@@ -155,6 +163,46 @@ export class GroveScene {
       this.scene.add(tree);
       this.pickables.push(trunk, canopy);
     });
+
+    // Foam ring on the pond edge, animated in update().
+    const foamGeo = new RingGeometry(pond.r - 0.35, pond.r, 32);
+    const foamMat = new MeshBasicMaterial({
+      color: new Color(color(C.skyLight)),
+      transparent: true,
+      opacity: 0.4,
+      depthWrite: false,
+    });
+    this.foam = new Mesh(foamGeo, foamMat);
+    this.foam.rotation.x = -Math.PI / 2;
+    this.foam.position.set(pond.x, 0.03, pond.z);
+    this.scene.add(this.foam);
+    this.disposables.push(foamGeo, foamMat);
+
+    // Lanterns: posts with a glowing top that comes on at dusk (bloom picks it up).
+    const postGeo = new CylinderGeometry(0.08, 0.1, 1.6, 5);
+    const postMat = new MeshLambertMaterial({ color: new Color(color(C.darkBark)) });
+    const glowGeo = new SphereGeometry(0.22, 6, 5);
+    const glowMat = new MeshBasicMaterial({ color: new Color(color(C.sunLight)) });
+    this.disposables.push(postGeo, postMat, glowGeo, glowMat);
+    for (const [x, z] of [
+      [-4, 4],
+      [4, -3],
+      [9, 7],
+      [-8, -6],
+    ] as const) {
+      const post = new Mesh(postGeo, postMat);
+      post.position.set(x, 0.8, z);
+      const glow = new Mesh(glowGeo, glowMat);
+      glow.position.set(x, 1.75, z);
+      glow.visible = false;
+      this.scene.add(post, glow);
+      this.lanternGlows.push(glow);
+    }
+    this.lanternLight = new PointLight(new Color(color(C.sunYellow)), 0, 14, 1.2);
+    this.lanternLight.position.set(0, 2.5, 0);
+    this.lanternLight.visible = false;
+    this.lanternLight.intensity = 6;
+    this.scene.add(this.lanternLight);
 
     // A couple of decorative bushes.
     const bushGeo = new ConeGeometry(0.9, 1.1, 5);
@@ -177,10 +225,19 @@ export class GroveScene {
     }
   }
 
-  /** Animate water and the waterfall. `nowMs` is wall time. */
+  /** Animate water, the waterfall, swaying canopies and the foam ring. `nowMs` is wall time. */
   update(nowMs: number): void {
     this.water.offset.set((nowMs / 6000) % 1, (nowMs / 9000) % 1);
     this.falls.offset.set(0, (-nowMs / 400) % 1);
+    this.canopies.forEach((c, i) => {
+      c.rotation.z = Math.sin(nowMs / 1400 + i * 1.7) * 0.03;
+      c.rotation.x = Math.cos(nowMs / 1900 + i) * 0.02;
+    });
+    this.foam.material.opacity = 0.35 + 0.2 * Math.sin(nowMs / 700);
+    this.foam.scale.setScalar(1 + 0.02 * Math.sin(nowMs / 900));
+    for (const l of this.lanternGlows) {
+      l.scale.setScalar(1 + 0.12 * Math.sin(nowMs / 230 + l.position.x));
+    }
   }
 
   /**
@@ -191,13 +248,34 @@ export class GroveScene {
     if (this.groveKind === kind) return;
     this.groveKind = kind;
     const tint = kind === 'sun' ? color(C.cream) : kind === 'moon' ? color(C.lavender) : '#ffffff';
-    const sky = kind === 'sun' ? C.shallows : kind === 'moon' ? C.ink : C.nightBlue;
-    this.scene.background = new Color(color(sky));
     for (const m of this.tintable) m.color.set(tint);
-    this.hemi.intensity = kind === 'moon' ? 1.3 : 1.5;
-    this.hemi.color.set(color(kind === 'moon' ? C.violet : C.shallows));
-    this.sun.intensity = kind === 'sun' ? 1.5 : kind === 'moon' ? 0.9 : 1.1;
-    this.sun.color.set(color(kind === 'moon' ? C.lavender : C.cream));
+    this.applyLight();
+  }
+
+  private daylight: Daylight = daylightAt(12);
+
+  /** Time of day: sky, light rig and lanterns. The Grove kind layers on top. */
+  setDaylight(d: Daylight): void {
+    this.daylight = d;
+    this.applyLight();
+  }
+
+  private applyLight(): void {
+    const d = this.daylight;
+    const kind = this.groveKind;
+    const sky =
+      kind === 'sun' && d.phase === 'day'
+        ? color(C.shallows)
+        : kind === 'moon' && d.phase === 'day'
+          ? color(C.ink)
+          : d.sky;
+    this.scene.background = new Color(sky);
+    this.hemi.intensity = d.hemiIntensity * (kind === 'moon' ? 0.85 : 1);
+    this.hemi.color.set(kind === 'moon' && d.phase === 'day' ? color(C.violet) : d.hemiColor);
+    this.sun.intensity = d.sunIntensity * (kind === 'sun' ? 1.3 : 1);
+    this.sun.color.set(d.sunColor);
+    for (const l of this.lanternGlows) l.visible = d.lanterns;
+    this.lanternLight.visible = d.lanterns;
   }
 
   dispose(): void {

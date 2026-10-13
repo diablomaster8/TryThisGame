@@ -71,6 +71,30 @@ export class DebugPanel {
     );
     this.root.appendChild(give);
 
+    const time = el('div', 'debug-row');
+    time.appendChild(el('span', undefined, 'Time'));
+    for (const [label, hour] of [
+      ['auto', null],
+      ['dawn', 7],
+      ['day', 12],
+      ['dusk', 19],
+      ['night', 23],
+    ] as const) {
+      time.appendChild(
+        button(
+          label,
+          () => {
+            const g = this.game();
+            if (!g) return;
+            g.hourOverride = hour;
+            g['lastDaylightMs'] = -Infinity;
+          },
+          'btn btn-small',
+        ),
+      );
+    }
+    this.root.appendChild(time);
+
     const force = el('div', 'debug-row');
     force.append(
       button(

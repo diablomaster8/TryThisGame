@@ -3,6 +3,7 @@ import { GameInput } from './input/game-input';
 import { CameraControls } from './input/camera-controls';
 import { readSave, writeSave } from './platform/storage';
 import { OrbitCamera } from './render/camera';
+import { daylightAt, localHour } from './render/daylight';
 import { GroveScene } from './render/grove-scene';
 import { Picker } from './render/picker';
 import { LowResPipeline } from './render/pipeline';
@@ -42,6 +43,18 @@ export class Game {
   private running = false;
   /** While a minigame covers the screen the sim keeps going but the Grove is not drawn. */
   renderPaused = false;
+  /** Debug: force an hour (0..24) instead of the real clock; null = real time. */
+  hourOverride: number | null = null;
+  private lastDaylightMs = -Infinity;
+
+  private updateDaylight(nowMs: number): void {
+    // The sky changes slowly: re-evaluate every few seconds.
+    if (nowMs - this.lastDaylightMs < 3000) return;
+    this.lastDaylightMs = nowMs;
+    const d = daylightAt(this.hourOverride ?? localHour());
+    this.grove.setDaylight(d);
+    this.pipeline.postPass?.apply({ tint: d.tint, tintAmount: d.tintAmount, bloom: d.bloom });
+  }
   private lastFrameMs = 0;
   private lastSaveMs = 0;
   private storageOk = true;
@@ -53,6 +66,7 @@ export class Game {
   ) {
     this.hooks = hooks;
     this.pipeline = new LowResPipeline(canvas);
+    this.pipeline.enablePost();
     this.picker = new Picker(canvas);
     this.grove.scene.add(this.view.root);
     this.cameraControls = new CameraControls(this.camera, canvas);
@@ -190,6 +204,10 @@ export class Game {
     if (events.length > 0) {
       this.view.onEvents(events, nowMs);
       this.hooks.onEvents(events);
+      for (const e of events) {
+        if (e.kind === 'landed') this.camera.shake(0.18);
+        else if (e.kind === 'treeShaken') this.camera.shake(0.08);
+      }
     }
 
     // Camera follows the Keeper.
@@ -202,6 +220,7 @@ export class Game {
     if (!this.renderPaused) {
       this.grove.update(nowMs);
       this.grove.setGrove(this.world.grove);
+      this.updateDaylight(nowMs);
       this.view.update(this.world, this.camera, this.clock.alpha, nowMs);
       this.pipeline.render(this.grove.scene, this.camera.camera);
     }
