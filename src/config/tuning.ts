@@ -738,3 +738,45 @@ export const TANK = {
   stunMs: 700,
   bossBonus: 40,
 } as const;
+
+/** The Hollow Below: seeded cave floors under the Grove. */
+export const DUNGEON = {
+  /** World units per grid cell. */
+  cell: 1.5,
+  baseCols: 34,
+  baseRows: 24,
+  growCols: 4,
+  growRows: 2,
+  maxCols: 54,
+  maxRows: 36,
+  maxDepth: 20,
+  /** Loot spots per floor at depth 1, plus this much again per extra floor. */
+  lootBase: 9,
+  lootPerDepth: 1.5,
+  lootMax: 20,
+  straysBase: 2,
+  straysPerDepth: 0.6,
+  straysMax: 6,
+  straySpeed: 1.5,
+  strayFleeSpeed: 3.2,
+  /** Shells a stray snatches when it bumps the Keeper. */
+  straySnatch: 5,
+  strayCooldownMs: 6000,
+  wildPerFloor: 1,
+  pickupRadius: 0.8,
+  useRadius: 1.4,
+  scanRadius: 2.2,
+  chestShells: [30, 60] as const,
+  chestEggChance: 0.25,
+  partySize: 2,
+  followDistance: 1.7,
+  nubbinSpeed: 2.8,
+  fetchRadius: 4,
+  /** Floor light at depth 1 and how much each floor takes away. */
+  lightBase: 0.9,
+  lightPerDepth: 0.06,
+  lightMin: 0.3,
+  torchReach: 6,
+  crystalReach: 4,
+  lampReach: 4.5,
+} as const;

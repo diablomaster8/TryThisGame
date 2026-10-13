@@ -1,0 +1,87 @@
+import { DUNGEON_TEXT, UI_TEXT } from '../config/strings';
+import type { Game } from '../game';
+import { partyPreview } from '../sim/dungeon';
+import type { World } from '../sim/types';
+import { button, el, modal } from './dom';
+
+/**
+ * The Hollow Below: the menu at the cave mouth (today's shared cave or a fresh one,
+ * who comes along, the best depth so far) and the bar shown underground (floor, haul,
+ * and the way home).
+ */
+export class DungeonMenu {
+  private readonly dialog;
+  private readonly info: HTMLDivElement;
+  private readonly bar: HTMLDivElement;
+  private readonly barText: HTMLSpanElement;
+
+  constructor(
+    parent: HTMLElement,
+    private readonly game: () => Game | null,
+  ) {
+    this.dialog = modal(parent, DUNGEON_TEXT.title, UI_TEXT.close);
+    this.dialog.body.appendChild(el('p', 'help', DUNGEON_TEXT.help));
+    this.info = el('div', 'shop-note');
+    this.dialog.body.appendChild(this.info);
+    const list = el('div', 'shop-list');
+    for (const [label, help, daily] of [
+      [DUNGEON_TEXT.today, DUNGEON_TEXT.todayHelp, true],
+      [DUNGEON_TEXT.fresh, DUNGEON_TEXT.freshHelp, false],
+    ] as const) {
+      const row = el('div', 'shop-row');
+      const text = el('div');
+      text.append(el('strong', undefined, label), el('small', undefined, help));
+      row.append(
+        text,
+        button(DUNGEON_TEXT.go, () => this.enter(daily), 'btn btn-small btn-primary'),
+      );
+      list.appendChild(row);
+    }
+    this.dialog.body.appendChild(list);
+
+    this.bar = el('div', 'hollow-bar');
+    this.bar.hidden = true;
+    this.barText = el('span');
+    this.bar.append(
+      this.barText,
+      button(
+        DUNGEON_TEXT.leave,
+        () => this.game()?.send({ kind: 'leaveDungeon' }),
+        'btn btn-small',
+      ),
+    );
+    parent.appendChild(this.bar);
+  }
+
+  open(): void {
+    const g = this.game();
+    if (!g) return;
+    if (g.world.location !== 'grove') return;
+    const names = partyPreview(g.world);
+    this.info.textContent = `${DUNGEON_TEXT.best(g.world.hollow.best, g.world.hollow.runs)} · ${DUNGEON_TEXT.party(names)}`;
+    this.dialog.show();
+  }
+
+  close(): void {
+    this.dialog.hide();
+  }
+
+  isOpen(): boolean {
+    return this.dialog.isOpen();
+  }
+
+  /** Called every frame by the HUD: the underground bar follows the run. */
+  refresh(world: World): void {
+    const run = world.location === 'dungeon' ? world.dungeon : null;
+    this.bar.hidden = !run;
+    if (!run) return;
+    this.barText.textContent = `${DUNGEON_TEXT.floor(run.depth)} · ${DUNGEON_TEXT.haul(run.haul.shells, run.haul.items)}`;
+  }
+
+  private enter(daily: boolean): void {
+    const g = this.game();
+    if (!g) return;
+    this.close();
+    g.send({ kind: 'enterDungeon', daily });
+  }
+}

@@ -49,6 +49,8 @@ export const SCENERY: SceneryPlacement[] = [
   { kind: 'rock-2', x: 13, z: -5, size: 1.0 },
   { kind: 'rock-1', x: -13, z: 12, size: 1.3 },
   { kind: 'lanternPost', x: BUILDINGS.cottage!.x - 3.2, z: BUILDINGS.cottage!.z + 1.6, size: 0.8 },
+  // The Hollow Below opens in the east face of the north-west hill.
+  { kind: 'caveMouth', x: -12.4, z: -13.6, size: 4.0, pick: { kind: 'building', id: 'cave' } },
   {
     kind: 'windmill',
     x: BUILDINGS.windmill!.x,

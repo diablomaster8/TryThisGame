@@ -23,7 +23,7 @@ import {
   Group,
   type Texture,
 } from 'three';
-import { GROVE } from '../config/tuning';
+import { DUNGEON, GROVE } from '../config/tuning';
 import type { GroveKind, Location, TileKind, WeatherKind } from '../sim/types';
 import { daylightAt, type Daylight } from './daylight';
 import { C, color } from './sprites/palette';
@@ -38,6 +38,8 @@ import {
   terraceTop,
 } from './paint/terrain';
 import { BUILDINGS } from './scenery';
+import { cellAt, WALL, type Floor } from '../sim/dungeon';
+import { floorWorldSize, paintFloorTexture } from './paint/dungeon';
 import {
   makeBarkTexture,
   makeLeafTexture,
@@ -162,6 +164,14 @@ export class GroveScene {
   private weather: WeatherKind = 'clear';
   private groundMat: MeshLambertMaterial | null = null;
   private groundTex: Texture | null = null;
+  private ground: Mesh | null = null;
+  /** The Hollow Below: its floor, walls and lights, rebuilt per floor. */
+  private readonly dungeonGroup = new Group();
+  private readonly dungeonLights: PointLight[] = [];
+  private dungeonTorches: Array<{ x: number; z: number }> = [];
+  private dungeonParts: Array<{ dispose(): void }> = [];
+  private dungeonPickables: Object3D[] = [];
+  private cliffMat: MeshLambertMaterial | null = null;
 
   /** Repaint the ground with the painted tiles (terraforming). */
   setTiles(tiles: Record<string, TileKind>): void {
@@ -224,6 +234,7 @@ export class GroveScene {
     ground.userData.pick = { kind: 'ground', id: 'ground' };
     this.scene.add(ground);
     this.pickables.push(ground);
+    this.ground = ground;
     this.disposables.push(groundGeo, groundMat, grass);
 
     // Pond: a wet rim, the water disc with a scrolling wave tile, a drifting glint layer
@@ -465,7 +476,15 @@ export class GroveScene {
       this.lampSpots.push({ x, z, r: 7 });
     }
 
-    this.scene.add(this.groveGroup, this.hollowGroup, this.corvinGroup);
+    this.scene.add(this.groveGroup, this.hollowGroup, this.corvinGroup, this.dungeonGroup);
+    // The Hollow Below: a lamp that follows the Keeper and the torches nearest them.
+    for (let i = 0; i < 6; i++) {
+      const l = new PointLight(new Color(i === 0 ? color(C.sunLight) : '#ff9a3a'), 0, 9, 1.5);
+      l.visible = false;
+      this.dungeonGroup.add(l);
+      this.dungeonLights.push(l);
+    }
+    this.dungeonGroup.visible = false;
     this.buildHollow(lobeGeo, leaves, bark);
     this.buildCorvin();
   }
@@ -573,6 +592,8 @@ export class GroveScene {
     this.groveGroup.visible = location === 'grove';
     this.hollowGroup.visible = location === 'hollow';
     this.corvinGroup.visible = location === 'corvin';
+    this.dungeonGroup.visible = location === 'dungeon';
+    if (this.ground) this.ground.visible = location !== 'dungeon';
     this.applyLight();
   }
 
@@ -621,6 +642,8 @@ export class GroveScene {
     this.groveGroup.visible = location === 'grove';
     this.hollowGroup.visible = location === 'hollow';
     this.corvinGroup.visible = location === 'corvin';
+    this.dungeonGroup.visible = location === 'dungeon';
+    if (this.ground) this.ground.visible = location !== 'dungeon';
     this.applyLight();
   }
 
@@ -629,7 +652,7 @@ export class GroveScene {
     const kind = this.groveKind;
     // A gradient sky per phase (cached), with clouds by day.
     const key =
-      this.location === 'hollow'
+      this.location === 'hollow' || this.location === 'dungeon'
         ? 'night'
         : kind === 'sun' && d.phase === 'day'
           ? 'sun'
@@ -647,7 +670,10 @@ export class GroveScene {
     const place = this.location;
     const rain = this.weather === 'rain' ? 0.75 : this.weather === 'snow' ? 1.1 : 1;
     this.hemi.intensity =
-      d.hemiIntensity * (kind === 'moon' ? 0.85 : 1) * (place === 'hollow' ? 0.45 : 1) * rain;
+      d.hemiIntensity *
+      (kind === 'moon' ? 0.85 : 1) *
+      (place === 'hollow' ? 0.45 : place === 'dungeon' ? 1.5 : 1) *
+      rain;
     if (this.groundMat) {
       this.groundMat.color.set(
         place === 'hollow'
@@ -665,18 +691,217 @@ export class GroveScene {
     }
     this.hemi.color.set(kind === 'moon' && d.phase === 'day' ? color(C.violet) : d.hemiColor);
     this.sun.intensity =
-      d.sunIntensity * (kind === 'sun' ? 1.3 : 1) * (place === 'hollow' ? 0.4 : rain);
+      d.sunIntensity *
+      (kind === 'sun' ? 1.3 : 1) *
+      (place === 'hollow' ? 0.4 : place === 'dungeon' ? 0.1 : rain);
     this.sun.color.set(d.sunColor);
-    this.lanternLight.visible = d.lanterns || this.lit.size > 0;
+    this.lanternLight.visible = (d.lanterns || this.lit.size > 0) && place !== 'dungeon';
     this.lampsOn = d.lanterns;
     this.duskLanterns = d.lanterns;
     for (const lamp of this.lamps) {
-      lamp.visible = d.lanterns;
+      lamp.visible = d.lanterns && place !== 'dungeon';
       lamp.intensity = 5 * d.darkness;
+    }
+  }
+
+  /**
+   * Build (or clear) the Hollow floor: a painted plane, rock blocks where the walls
+   * meet the floor (tops carry the same painting, faces the cliff texture), and the
+   * lights parked until `updateDungeonLights` places them.
+   */
+  setDungeon(floor: Floor | null): void {
+    for (const p of this.dungeonParts) p.dispose();
+    this.dungeonParts = [];
+    for (const o of this.dungeonPickables) {
+      this.dungeonGroup.remove(o);
+      const i = this.pickables.indexOf(o);
+      if (i >= 0) this.pickables.splice(i, 1);
+    }
+    this.dungeonPickables = [];
+    for (const child of [...this.dungeonGroup.children]) {
+      if (!(child instanceof PointLight)) this.dungeonGroup.remove(child);
+    }
+    this.dungeonTorches = [];
+    if (!floor) return;
+    const { w, h } = floorWorldSize(floor);
+    const tex = paintFloorTexture(floor);
+    const mat = new MeshLambertMaterial({ map: tex });
+    const geo = new PlaneGeometry(w, h, 1, 1);
+    const plane = new Mesh(geo, mat);
+    plane.rotation.x = -Math.PI / 2;
+    plane.userData.pick = { kind: 'ground', id: 'ground' };
+    this.dungeonGroup.add(plane);
+    this.pickables.push(plane);
+    this.dungeonPickables.push(plane);
+    this.dungeonParts.push(tex, mat, geo);
+    // Walls: every rock cell within two of the floor gets a block.
+    const cell = DUNGEON.cell;
+    const wallH = 1.4;
+    const tops: number[] = [];
+    const topUv: number[] = [];
+    const sides: number[] = [];
+    const sideUv: number[] = [];
+    const sideN: number[] = [];
+    const quad = (
+      pos: number[],
+      uv: number[],
+      p: Array<[number, number, number]>,
+      t: Array<[number, number]>,
+    ) => {
+      for (const i of [0, 1, 2, 0, 2, 3]) {
+        pos.push(...p[i]!);
+        uv.push(...t[i]!);
+      }
+    };
+    const nearFloor = (cx: number, cy: number) => {
+      for (let dy = -2; dy <= 2; dy++)
+        for (let dx = -2; dx <= 2; dx++) if (cellAt(floor, cx + dx, cy + dy) !== WALL) return true;
+      return false;
+    };
+    for (let cy = 0; cy < floor.rows; cy++) {
+      for (let cx = 0; cx < floor.cols; cx++) {
+        if (cellAt(floor, cx, cy) !== WALL || !nearFloor(cx, cy)) continue;
+        const x0 = (cx - floor.cols / 2) * cell;
+        const z0 = (cy - floor.rows / 2) * cell;
+        const x1 = x0 + cell;
+        const z1 = z0 + cell;
+        const u0 = (x0 + w / 2) / w;
+        const u1 = (x1 + w / 2) / w;
+        const v0 = 1 - (z0 + h / 2) / h;
+        const v1 = 1 - (z1 + h / 2) / h;
+        quad(
+          tops,
+          topUv,
+          [
+            [x0, wallH, z0],
+            [x0, wallH, z1],
+            [x1, wallH, z1],
+            [x1, wallH, z0],
+          ],
+          [
+            [u0, v0],
+            [u0, v1],
+            [u1, v1],
+            [u1, v0],
+          ],
+        );
+        const faces: Array<[number, number, [number, number, number][], [number, number, number]]> =
+          [
+            [
+              0,
+              1,
+              [
+                [x0, 0, z1],
+                [x1, 0, z1],
+                [x1, wallH, z1],
+                [x0, wallH, z1],
+              ],
+              [0, 0, 1],
+            ],
+            [
+              0,
+              -1,
+              [
+                [x1, 0, z0],
+                [x0, 0, z0],
+                [x0, wallH, z0],
+                [x1, wallH, z0],
+              ],
+              [0, 0, -1],
+            ],
+            [
+              1,
+              0,
+              [
+                [x1, 0, z1],
+                [x1, 0, z0],
+                [x1, wallH, z0],
+                [x1, wallH, z1],
+              ],
+              [1, 0, 0],
+            ],
+            [
+              -1,
+              0,
+              [
+                [x0, 0, z0],
+                [x0, 0, z1],
+                [x0, wallH, z1],
+                [x0, wallH, z0],
+              ],
+              [-1, 0, 0],
+            ],
+          ];
+        for (const [dx, dy, p, n] of faces) {
+          if (cellAt(floor, cx + dx, cy + dy) === WALL) continue;
+          const su = (cx * 7 + cy * 3) % 2 === 0 ? 0 : 0.5;
+          quad(sides, sideUv, p as Array<[number, number, number]>, [
+            [su, 0],
+            [su + 0.5, 0],
+            [su + 0.5, 1],
+            [su, 1],
+          ]);
+          for (let i = 0; i < 6; i++) sideN.push(...n);
+        }
+      }
+    }
+    const topGeo = new BufferGeometry();
+    topGeo.setAttribute('position', new Float32BufferAttribute(tops, 3));
+    topGeo.setAttribute('uv', new Float32BufferAttribute(topUv, 2));
+    topGeo.computeVertexNormals();
+    const topMesh = new Mesh(topGeo, mat);
+    this.dungeonGroup.add(topMesh);
+    this.dungeonParts.push(topGeo);
+    if (!this.cliffMat) {
+      const cliffTex = paintCliffTexture();
+      this.cliffMat = new MeshLambertMaterial({
+        map: cliffTex,
+        color: new Color('#8a7a9a'),
+        emissive: new Color(0x3a3048),
+        emissiveMap: cliffTex,
+        side: DoubleSide,
+      });
+      this.disposables.push(cliffTex, this.cliffMat);
+    }
+    const sideGeo = new BufferGeometry();
+    sideGeo.setAttribute('position', new Float32BufferAttribute(sides, 3));
+    sideGeo.setAttribute('uv', new Float32BufferAttribute(sideUv, 2));
+    sideGeo.setAttribute('normal', new Float32BufferAttribute(sideN, 3));
+    const sideMesh = new Mesh(sideGeo, this.cliffMat);
+    this.dungeonGroup.add(sideMesh);
+    this.dungeonParts.push(sideGeo);
+    this.dungeonTorches = floor.torches.map((t) => ({
+      x: (t.x + 0.5 - floor.cols / 2) * cell,
+      z: (t.y + 0.1 - floor.rows / 2) * cell,
+    }));
+  }
+
+  /** The Keeper's lamp and the five torches nearest them, every frame underground. */
+  updateDungeonLights(keeper: { x: number; z: number }): void {
+    const lamp = this.dungeonLights[0];
+    if (!lamp) return;
+    lamp.visible = true;
+    lamp.intensity = 7;
+    lamp.position.set(keeper.x, 1.3, keeper.z);
+    const near = [...this.dungeonTorches]
+      .sort(
+        (a, b) =>
+          Math.hypot(a.x - keeper.x, a.z - keeper.z) - Math.hypot(b.x - keeper.x, b.z - keeper.z),
+      )
+      .slice(0, this.dungeonLights.length - 1);
+    for (let i = 1; i < this.dungeonLights.length; i++) {
+      const l = this.dungeonLights[i]!;
+      const t = near[i - 1];
+      l.visible = !!t;
+      if (t) {
+        l.position.set(t.x, 1.1, t.z);
+        l.intensity = 4 + Math.sin(performance.now() / 90 + i * 1.7) * 0.6;
+      }
     }
   }
 
   dispose(): void {
     for (const d of this.disposables) d.dispose();
+    for (const p of this.dungeonParts) p.dispose();
   }
 }

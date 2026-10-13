@@ -1,8 +1,9 @@
 import { Vector3 } from 'three';
-import { EGG, LIFECYCLE, UI } from '../config/tuning';
+import { DUNGEON, EGG, LIFECYCLE, UI } from '../config/tuning';
 import { childHint } from '../sim/alignment';
 import { moodOf } from '../sim/needs';
-import type { Location, Nubbin, SimEvent, Vec2, World } from '../sim/types';
+import type { DungeonRun, Location, Nubbin, SimEvent, Vec2, World } from '../sim/types';
+import { cellCentre, type Cell, type Floor } from '../sim/dungeon';
 import type { OrbitCamera } from './camera';
 import type { Daylight } from './daylight';
 import { GROVE } from '../config/tuning';
@@ -15,7 +16,7 @@ import { Particles } from './particles';
 import { NATIVE_PPU, SpriteBatch } from './sprite-batch';
 import { CLIPS, frameAt, frameKey, type ClipName } from './sprites/animations';
 import { viewAngle } from './sprites/angles';
-import type { SpriteSheet } from './sprites/atlas';
+import type { FrameRect, SpriteSheet } from './sprites/atlas';
 import type { EmoteShape } from './sprites/emote';
 import { buildShadowSheet } from './sprites/props';
 import { SheetCache } from './sprites/sheets';
@@ -49,7 +50,11 @@ export interface SpritePick {
     | 'building'
     | 'plant'
     | 'wild'
-    | 'lantern';
+    | 'lantern'
+    | 'stairs'
+    | 'chest'
+    | 'stray'
+    | 'loot';
   id: string;
 }
 
@@ -65,6 +70,10 @@ export class WorldView {
   private readonly decor = placeDecorations();
   private readonly fences = fenceSpots();
   private darkness = 0;
+  /** The Hollow floor being shown, and its torch and crystal glow for sprites. */
+  private cave: Floor | null = null;
+  private caveLights: Array<{ x: number; z: number; r: number }> = [];
+  private readonly strayPrev = new Map<string, Vec2>();
   private keeperDustMs = 0;
   private readonly nubbins = new Map<string, NubbinView>();
   private readonly items = new Map<string, Snapshot>();
@@ -125,6 +134,21 @@ export class WorldView {
   /** The lantern posts and whether each is lit (set by the game from the scene). */
   lanterns: () => Array<{ id: string; x: number; z: number; lit: boolean }> = () => [];
 
+  /** The Hollow floor to draw (null above ground). */
+  setDungeon(f: Floor | null): void {
+    this.cave = f;
+    this.strayPrev.clear();
+    this.caveLights = f
+      ? [
+          ...f.torches.map((t) => {
+            const p = cellCentre(f, t);
+            return { x: p.x, z: p.z - DUNGEON.cell * 0.4, r: DUNGEON.torchReach };
+          }),
+          ...f.crystals.map((c) => ({ ...cellCentre(f, c), r: DUNGEON.crystalReach })),
+        ]
+      : [];
+  }
+
   /** The thing under the mouse or just tapped: drawn with a bright halo. */
   setHighlight(hit: { kind: string; id: string } | null): void {
     this.batch.highlight = hit;
@@ -155,10 +179,15 @@ export class WorldView {
   setDaylight(d: Daylight, reduceMotion: boolean): void {
     this.daylight = d;
     const hollow = this.location === 'hollow';
-    this.darkness = hollow ? Math.max(0.6, d.darkness) : d.darkness;
+    const underground = this.location === 'dungeon';
+    this.darkness = hollow
+      ? Math.max(0.6, d.darkness)
+      : underground
+        ? Math.max(0.7, d.darkness)
+        : d.darkness;
     this.particles.env = {
-      fireflies: d.fireflies || hollow,
-      leaves: (d.phase === 'day' || d.phase === 'dawn') && this.weather === 'clear',
+      fireflies: (d.fireflies || hollow) && !underground,
+      leaves: (d.phase === 'day' || d.phase === 'dawn') && this.weather === 'clear' && !underground,
       darkness: this.darkness,
       weather: this.weather,
       weatherIntensity: this.weatherIntensity,
@@ -207,18 +236,46 @@ export class WorldView {
   }
 
   /** Which sprite is under a screen point (NDC), nearest to the camera. */
+  /** Alpha of each sheet's canvas, read once, for taps that test the texel under them. */
+  private readonly alphaMaps = new WeakMap<SpriteSheet, { data: Uint8ClampedArray; w: number }>();
+
+  private opaqueAt(sheet: SpriteSheet, rect: FrameRect, s: number, t: number): boolean {
+    let map = this.alphaMaps.get(sheet);
+    if (!map) {
+      const image = sheet.texture.image as HTMLCanvasElement | undefined;
+      const ctx = image && typeof image.getContext === 'function' ? image.getContext('2d') : null;
+      if (!ctx || !image) return true; // no canvas to read (tests, or an image-backed sheet): the box wins
+      const w = image.width;
+      map = { data: ctx.getImageData(0, 0, w, image.height).data, w };
+      this.alphaMaps.set(sheet, map);
+    }
+    const cx = rect.x + Math.min(rect.w - 1, Math.floor(s * rect.w));
+    const cy = rect.y + Math.min(rect.h - 1, Math.floor(t * rect.h));
+    // A small window, so thin things (a lantern post) are still easy to tap.
+    for (let y = cy - 1; y <= cy + 1; y++) {
+      for (let x = cx - 1; x <= cx + 1; x++) {
+        if (x < rect.x || y < rect.y || x >= rect.x + rect.w || y >= rect.y + rect.h) continue;
+        if ((map.data[(y * map.w + x) * 4 + 3] ?? 0) > 40) return true;
+      }
+    }
+    return false;
+  }
+
   pick(ndcX: number, ndcY: number, camera: OrbitCamera): SpritePick | null {
     const cam = camera.camera;
     let best: SpritePick | null = null;
     let bestDepth = Infinity;
+    const p: Array<[number, number]> = [];
     for (const q of this.batch.quads) {
       let minX = Infinity;
       let maxX = -Infinity;
       let minY = Infinity;
       let maxY = -Infinity;
       let depth = 0;
+      p.length = 0;
       for (const c of q.corners) {
         this.tmp.copy(c).project(cam);
+        p.push([this.tmp.x, this.tmp.y]);
         minX = Math.min(minX, this.tmp.x);
         maxX = Math.max(maxX, this.tmp.x);
         minY = Math.min(minY, this.tmp.y);
@@ -227,6 +284,22 @@ export class WorldView {
       }
       // Sprites are axis-aligned on screen, so the bounding box is the quad.
       if (ndcX < minX || ndcX > maxX || ndcY < minY || ndcY > maxY) continue;
+      // Where in the frame the tap lands (corners: top-left, top-right, bottom-left,
+      // bottom-right), so a tree's empty corner does not steal a tap meant for what
+      // stands behind it.
+      const [p0, p1, p2] = p as [[number, number], [number, number], [number, number]];
+      const ex = p1[0] - p0[0];
+      const ey = p1[1] - p0[1];
+      const fx = p2[0] - p0[0];
+      const fy = p2[1] - p0[1];
+      const det = ex * fy - ey * fx;
+      if (Math.abs(det) < 1e-9) continue;
+      const dx = ndcX - p0[0];
+      const dy = ndcY - p0[1];
+      const s = (dx * fy - dy * fx) / det;
+      const t = (ex * dy - ey * dx) / det;
+      if (s < 0 || s > 1 || t < 0 || t > 1) continue;
+      if (!this.opaqueAt(q.sheet, q.rect, q.flip ? 1 - s : s, t)) continue;
       if (depth < bestDepth) {
         bestDepth = depth;
         best = { kind: q.kind, id: q.id };
@@ -262,6 +335,14 @@ export class WorldView {
 
     const home = this.location === 'grove';
     const inGrove = home || this.visiting !== null;
+    const run = this.location === 'dungeon' ? world.dungeon : null;
+    const cave = run ? this.cave : null;
+    const underground = cave !== null;
+    if (cave) {
+      // Underground the only lights are the torches, the crystals and the Keeper's lamp.
+      const kp = this.keeperDrawPos(world, alpha);
+      this.lights = [...this.caveLights, { x: kp.x, z: kp.z, r: DUNGEON.lampReach }];
+    }
     const props = this.sheets.props();
     // Scenery: trees, bushes, buildings, the well, and fence posts along the main path.
     if (inGrove) {
@@ -553,10 +634,12 @@ export class WorldView {
       }
     }
 
+    if (cave && run) this.drawCave(cave, run, world, nowMs, yaw, alpha, shadow);
+
     // Items.
     const seenItems = new Set<string>();
     for (const item of world.items.filter((i) =>
-      home ? i.kind !== 'notebook' : !this.visiting && i.kind === 'notebook',
+      home ? i.kind !== 'notebook' : !this.visiting && !underground && i.kind === 'notebook',
     )) {
       seenItems.add(item.id);
       let prev = this.items.get(item.id);
@@ -587,7 +670,12 @@ export class WorldView {
 
     // Nubbins.
     const seen = new Set<string>();
-    for (const n of home ? world.nubbins : []) {
+    const shown = home
+      ? world.nubbins
+      : run
+        ? world.nubbins.filter((x) => run.party.includes(x.id))
+        : [];
+    for (const n of shown) {
       seen.add(n.id);
       let v = this.nubbins.get(n.id);
       if (!v) {
@@ -610,9 +698,11 @@ export class WorldView {
     const npcHere = (t: string) =>
       this.location === 'grove'
         ? true
-        : this.location === 'corvin'
-          ? t === 'corvin' || t === 'ember'
-          : t === 'nova';
+        : underground
+          ? false
+          : this.location === 'corvin'
+            ? t === 'corvin' || t === 'ember'
+            : t === 'nova';
     for (const npc of world.npcs.filter((p) => npcHere(p.trainer))) {
       const nsheet = this.sheets.keeper(npc.trainer);
       const moving = npc.target !== null;
@@ -640,7 +730,7 @@ export class WorldView {
     }
 
     // Ambient creatures of the other places: the Hollow's strays, Corvin's rows.
-    if (!inGrove) this.drawAmbient(nowMs, yaw, shadow);
+    if (!inGrove && !underground) this.drawAmbient(nowMs, yaw, shadow);
 
     // Keeper.
     const k = world.keeper;
@@ -714,6 +804,194 @@ export class WorldView {
     batch.end();
   }
 
+  /** The Hollow floor's dressing: stairs, torches, crystals, the chest, loot, strays, the wild one. */
+  private drawCave(
+    f: Floor,
+    run: DungeonRun,
+    world: World,
+    nowMs: number,
+    yaw: number,
+    alpha: number,
+    shadow: (x: number, y: number, z: number, r: number) => void,
+  ): void {
+    const batch = this.batch;
+    const sheet = this.sheets.dungeon();
+    const frame = (k: string) => sheet.frames.get(frameKey(k, 'front', 0));
+    const cell = DUNGEON.cell;
+    // Stair markers lie flat and are tappable.
+    const marks: Array<[Cell, 'up' | 'down']> = [[f.stairsUp, 'up']];
+    if (f.stairsDown) marks.push([f.stairsDown, 'down']);
+    for (const [c, dir] of marks) {
+      const rect = frame(dir === 'up' ? 'stairsUp' : 'stairsDown');
+      if (!rect) continue;
+      const p = cellCentre(f, c);
+      batch.draw(
+        {
+          sheet,
+          rect,
+          flip: false,
+          x: p.x,
+          y: 0.01,
+          z: p.z,
+          mode: 'flat',
+          w: cell,
+          h: cell,
+          tint: 1.1,
+        },
+        { id: dir, kind: 'stairs' },
+      );
+    }
+    // Torches hang on the north wall of their cell and flicker.
+    const torch = frame('torch');
+    if (torch) {
+      f.torches.forEach((t, i) => {
+        const p = cellCentre(f, t);
+        batch.draw({
+          sheet,
+          rect: torch,
+          flip: false,
+          x: p.x,
+          y: 0.55,
+          z: p.z - cell * 0.42,
+          mode: 'billboard',
+          tint: 1.02 + 0.1 * Math.sin(nowMs / 90 + i * 1.7),
+        });
+      });
+    }
+    const crystal = frame('crystal');
+    if (crystal) {
+      for (const c of f.crystals) {
+        const p = cellCentre(f, c);
+        shadow(p.x, 0, p.z, 0.3);
+        batch.draw({
+          sheet,
+          rect: crystal,
+          flip: false,
+          x: p.x,
+          y: 0,
+          z: p.z,
+          mode: 'billboard',
+          tint: 1.05 + 0.08 * Math.sin(nowMs / 420 + p.x),
+        });
+      }
+    }
+    const chest = frame(run.chestOpen ? 'chestOpen' : 'chest');
+    if (chest) {
+      const p = cellCentre(f, f.chest);
+      shadow(p.x, 0, p.z, 0.4);
+      batch.draw(
+        {
+          sheet,
+          rect: chest,
+          flip: false,
+          x: p.x,
+          y: 0,
+          z: p.z,
+          mode: 'billboard',
+          tint: this.lightAt(p.x, p.z),
+        },
+        { id: 'chest', kind: 'chest' },
+      );
+    }
+    // Loot bobs gently until someone walks over it.
+    for (const l of f.loot) {
+      if (run.taken.includes(l.id)) continue;
+      const rect = frame(`loot-${l.kind}`);
+      if (!rect) continue;
+      const p = cellCentre(f, l.cell);
+      const bob = 0.08 + 0.05 * Math.sin(nowMs / 350 + l.cell.x * 0.7);
+      shadow(p.x, bob, p.z, 0.2);
+      batch.draw(
+        {
+          sheet,
+          rect,
+          flip: false,
+          x: p.x,
+          y: bob,
+          z: p.z,
+          mode: 'billboard',
+          tint: this.lightAt(p.x, p.z),
+        },
+        { id: l.id, kind: 'loot' },
+      );
+    }
+    // Shadow strays: grey, sad when they stand, walking otherwise.
+    const grey = this.sheets.ambientShadow();
+    const liveIds = new Set<string>();
+    run.strays.forEach((s, i) => {
+      liveIds.add(s.id);
+      let prev = this.strayPrev.get(s.id);
+      if (!prev) {
+        prev = { x: s.pos.x, z: s.pos.z };
+        this.strayPrev.set(s.id, prev);
+      }
+      const x = lerp(prev.x, s.pos.x, alpha);
+      const z = lerp(prev.z, s.pos.z, alpha);
+      const moving =
+        s.target !== null && Math.hypot(s.target.x - s.pos.x, s.target.z - s.pos.z) > 0.1;
+      const clip: ClipName = moving ? 'walk' : 'sad';
+      const facing = s.target ? Math.atan2(s.target.x - s.pos.x, s.target.z - s.pos.z) : 0;
+      const view = viewAngle(facing, yaw);
+      const rect = grey.frames.get(
+        frameKey(clip, view.angle, frameAt(CLIPS[clip], nowMs + i * 137)),
+      );
+      shadow(x, 0, z, 0.5);
+      if (rect) {
+        batch.draw(
+          {
+            sheet: grey,
+            rect,
+            flip: view.flip,
+            x,
+            y: 0,
+            z,
+            mode: 'billboard',
+            tint: this.lightAt(x, z) * 0.9,
+          },
+          { id: s.id, kind: 'stray' },
+        );
+      }
+    });
+    for (const id of this.strayPrev.keys()) if (!liveIds.has(id)) this.strayPrev.delete(id);
+    // The wild creature keeps to its nook until the Keeper creeps up on it.
+    for (const w of run.wild) {
+      if (w.scanned) continue;
+      const wsheet = this.sheets.species(w.species);
+      const facing = Math.sin(nowMs / 2300 + w.pos.z) * 1.2;
+      const wview = viewAngle(facing, yaw);
+      const wrect = wsheet.frames.get(
+        frameKey('idle', wview.angle, frameAt(CLIPS.idle, nowMs + w.pos.x * 131)),
+      );
+      if (!wrect) continue;
+      shadow(w.pos.x, 0, w.pos.z, 0.4);
+      batch.draw({
+        sheet: wsheet,
+        rect: wrect,
+        flip: wview.flip,
+        x: w.pos.x,
+        y: 0,
+        z: w.pos.z,
+        mode: 'billboard',
+        tint: this.lightAt(w.pos.x, w.pos.z),
+      });
+      const emotes = this.sheets.emotes(false);
+      const q = emotes.frames.get(frameKey('question', 'front', 0));
+      if (q) {
+        batch.draw({
+          sheet: emotes,
+          rect: q,
+          flip: false,
+          x: w.pos.x,
+          y: 1.15 + Math.sin(nowMs / 400) * 0.05,
+          z: w.pos.z,
+          mode: 'billboard',
+          tint: this.lightAt(w.pos.x, w.pos.z),
+        });
+      }
+    }
+    void world;
+  }
+
   /** Grey Nubbins that live in the other places; render-only dressing. */
   private drawAmbient(
     nowMs: number,
@@ -768,6 +1046,12 @@ export class WorldView {
 
   /** Particle bursts for sim events. Positions come from the last snapshot. */
   private burstFor(e: SimEvent): void {
+    if (e.kind === 'dungeonFound' || e.kind === 'chestOpened') {
+      const p =
+        e.kind === 'dungeonFound' && e.by ? this.nubbins.get(e.by)?.prev.pos : this.keeperPrev.pos;
+      if (p) this.sparkle(p.x, p.z);
+      return;
+    }
     const at = (id: string) => this.nubbins.get(id)?.prev;
     const p = this.particles;
     switch (e.kind) {

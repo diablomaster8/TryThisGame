@@ -25,6 +25,7 @@ import { EXTRA_LOOKS } from '../../sim/npcs';
 import { C } from './palette';
 import { buildKeeperSheet } from './keeper';
 import { buildPaintedProps } from '../paint/decor';
+import { buildDungeonProps } from '../paint/dungeon';
 import { buildPaintedScenery } from '../paint/scenery';
 
 const SLOTS: PartSlot[] = ['ears', 'tail', 'arms', 'back'];
@@ -188,7 +189,7 @@ export class SheetCache {
 
   /** A species sprite with no Nubbin behind it: wild visitors and neighbours' pets. */
   species(id: string): SpriteSheet {
-    return this.get(`species::-`, () => {
+    return this.get(`species:${id}`, () => {
       const art = speciesArt(id);
       return art ? buildCreatureSheet(art) : buildChaoSheet(lookOf(CHILD_NEUTRAL));
     });
@@ -196,6 +197,11 @@ export class SheetCache {
 
   props(): SpriteSheet {
     return this.get('props', () => buildPaintedProps());
+  }
+
+  /** Torches, crystals, the chest, stair markers and loot of the Hollow Below. */
+  dungeon(): SpriteSheet {
+    return this.get('dungeon', () => buildDungeonProps());
   }
 
   /** Trees, bushes and buildings. */

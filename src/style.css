@@ -1528,3 +1528,19 @@ button,
   height: 100%;
   background: var(--accent);
 }
+
+/* The Hollow Below: floor and haul while underground, with the way home. */
+.hollow-bar {
+  position: absolute;
+  left: calc(var(--safe-left) + 12px);
+  top: calc(var(--safe-top) + 48px);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 6px 10px;
+  background: var(--px-bg);
+  border: 2px solid #7fe8ff;
+  font-variant-numeric: tabular-nums;
+  pointer-events: auto;
+  z-index: 3;
+}

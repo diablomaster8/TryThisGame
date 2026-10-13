@@ -44,8 +44,16 @@ export interface DrawnQuad {
     | 'building'
     | 'plant'
     | 'wild'
-    | 'lantern';
+    | 'lantern'
+    | 'stairs'
+    | 'chest'
+    | 'stray'
+    | 'loot';
   corners: [Vector3, Vector3, Vector3, Vector3];
+  /** The frame drawn, so a pick can test the texel under the tap instead of the whole box. */
+  sheet: SpriteSheet;
+  rect: FrameRect;
+  flip: boolean;
 }
 
 /**
@@ -142,7 +150,11 @@ export class SpriteBatch {
         | 'building'
         | 'plant'
         | 'wild'
-        | 'lantern';
+        | 'lantern'
+        | 'stairs'
+        | 'chest'
+        | 'stray'
+        | 'loot';
     },
   ): void {
     if (!this.atlas.has(d.sheet) && !this.atlas.place(d.sheet)) return; // atlas full: skip
@@ -188,7 +200,16 @@ export class SpriteBatch {
     const a = d.opacity ?? 1;
     const b = d.tint ?? 1;
     for (let c = 0; c < 4; c++) this.colors.set([b, b, b, a], i * 16 + c * 4);
-    if (pick) this.quads.push({ id: pick.id, kind: pick.kind, corners });
+    if (pick) {
+      this.quads.push({
+        id: pick.id,
+        kind: pick.kind,
+        corners,
+        sheet: d.sheet,
+        rect: d.rect,
+        flip: d.flip,
+      });
+    }
   }
 
   /** Corners in order: top-left, top-right, bottom-left, bottom-right. */

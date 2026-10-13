@@ -8,6 +8,7 @@ import {
   TRAINER_LABELS,
   TYPE_LABELS,
   UI_TEXT,
+  DUNGEON_TEXT,
 } from '../config/strings';
 import type { Game, GameHooks } from '../game';
 import type { AwayReport, GroveKind, SimEvent } from '../sim/types';
@@ -49,6 +50,7 @@ import { DecorateMenu, placingLabel } from './decorate';
 import { MapPanel, NeighbourhoodPanel, ProfilePanel, QuestBoard } from './garden-panels';
 import { BreakScreen, EduScreen, GrownUpPanel } from './edu';
 import { GymMenu } from './gym';
+import { DungeonMenu } from './dungeon';
 import { TankScreen } from '../minigames/tank/screen';
 import { TEN_TEXT, STAT_LABELS } from '../config/strings';
 import { EDU_TEXT } from '../config/strings';
@@ -239,6 +241,7 @@ export function mountHud(
   const grownUps = new GrownUpPanel(root, game, toast);
   const breakScreen = new BreakScreen(root, game, () => grownUps.open());
   const gym = new GymMenu(root, game, toast, pickRunner);
+  const dungeon = new DungeonMenu(root, game);
   const tank = new TankScreen(root);
   function startTank(): void {
     const g = game();
@@ -269,6 +272,7 @@ export function mountHud(
     [`👜 ${UI_TEXT.pocket}`, () => pocket.open(sheet.selectedId)],
     [`🏋 ${TEN_TEXT.gym}`, () => gym.open()],
     [`🪲 ${TEN_TEXT.tank}`, () => startTank()],
+    [`🕳 ${DUNGEON_TEXT.title}`, () => dungeon.open()],
     [`📜 ${UI_TEXT.quests}`, () => quests.open()],
     [`🎖 ${UI_TEXT.profile}`, () => profile.open()],
     [`🏡 ${UI_TEXT.neighbourhood}`, () => neighbourhood.open()],
@@ -334,6 +338,7 @@ export function mountHud(
       breakScreen,
       gym,
       tank,
+      dungeon,
     };
   }
 
@@ -433,7 +438,8 @@ export function mountHud(
         SONG_NAMES.includes(g.world.settings.jukebox as SongName)
       ) {
         playSong(g.world.settings.jukebox as SongName);
-      } else if (g.world.location === 'hollow') playSong('hollow');
+      } else if (g.world.location === 'hollow' || g.world.location === 'dungeon')
+        playSong('hollow');
       else if (g.world.location === 'corvin') playSong('tense');
       else {
         const phase = phaseAt(g.hourOverride ?? localHour()).phase;
@@ -448,7 +454,10 @@ export function mountHud(
           g.world.location === 'grove' &&
           (Math.hypot(kp.x - GROVE.waterfall.x, kp.z - GROVE.waterfall.z) < 9 ||
             Math.abs(kp.x - 9) < 3.5);
-        const inSide = g.world.location === 'hollow' || g.world.location === 'corvin';
+        const inSide =
+          g.world.location === 'hollow' ||
+          g.world.location === 'corvin' ||
+          g.world.location === 'dungeon';
         setAmbience(
           dialogue.isOpen || expedition.isOpen || races.screen.isOpen || karate.screen.isOpen
             ? null
@@ -463,6 +472,7 @@ export function mountHud(
       // Learning Grove: no races or karate; the 🏃 button is the games; breaks on time.
       const isEdu = !!g.world.edu;
       racesBtn.hidden = isEdu;
+      dungeon.refresh(g.world);
       expeditionBtn.title = isEdu ? EDU_TEXT.play : UI_TEXT.expedition;
       expeditionBtn.setAttribute('aria-label', expeditionBtn.title);
       expeditionBtn.textContent = isEdu ? '🎓' : '🏃';
@@ -602,6 +612,26 @@ export function mountHud(
           toast(e.ok ? UI_TEXT.received(e.name) : UI_TEXT.receiveFull);
         } else if (e.kind === 'traded') {
           toast(UI_TEXT.traded(e.name));
+        } else if (e.kind === 'dungeonEntered') {
+          toast(DUNGEON_TEXT.entered(e.daily));
+        } else if (e.kind === 'descended') {
+          toast(DUNGEON_TEXT.descended(e.depth));
+          playSound('pickup');
+        } else if (e.kind === 'dungeonLeft') {
+          toast(DUNGEON_TEXT.left(e.depth, e.shells, e.items));
+        } else if (e.kind === 'dungeonFound') {
+          const who = e.by ? (g.world.nubbins.find((x) => x.id === e.by)?.name ?? null) : null;
+          toast(DUNGEON_TEXT.found(who, DUNGEON_TEXT.lootName(e.loot, e.amount, e.param)));
+          playSound('pickup');
+        } else if (e.kind === 'chestOpened') {
+          toast(DUNGEON_TEXT.chest(e.shells, e.egg));
+          playSound('buy');
+        } else if (e.kind === 'strayFed') {
+          toast(e.ok && e.name ? DUNGEON_TEXT.strayFed(e.name) : DUNGEON_TEXT.strayNeedsFruit);
+        } else if (e.kind === 'strayStartled') {
+          toast(DUNGEON_TEXT.strayStartled(e.shells));
+        } else if (e.kind === 'wildScanned') {
+          toast(DUNGEON_TEXT.wildScanned(keyLabel(e.species)));
         } else if (e.kind === 'located') {
           toast(locationLabel(e.location));
         } else if (e.kind === 'karate') {
@@ -763,6 +793,7 @@ export function mountHud(
         else if (which === 'bathhouse') toast(UI_TEXT.bathhouseTap);
         else if (which === 'host') g.send({ kind: 'neighbourGift' });
         else if (which === 'windmill') toast(UI_TEXT.windmillTap);
+        else if (which === 'cave') dungeon.open();
         return;
       }
       if (id?.startsWith('plant:') && g) {

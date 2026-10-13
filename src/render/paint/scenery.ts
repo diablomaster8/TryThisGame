@@ -56,7 +56,8 @@ export type PaintedKind =
   | 'dojo-lit'
   | 'windmill-lit'
   | 'nursery-lit'
-  | 'lanternPost-lit';
+  | 'lanternPost-lit'
+  | 'caveMouth';
 
 function finish(r: Raster): Raster {
   r.tracking = false;
@@ -569,5 +570,45 @@ export function buildPaintedScenery(): SpriteSheet {
   add('lanternPost-lit', paintLantern(true));
   add('fencePost', paintFencePost());
   add('stall', paintStall());
+  add('caveMouth', paintCaveMouth());
   return atlas.build();
+}
+
+/** The Hollow Below's mouth: a dark arch in the rock with a worn step and a lantern. */
+function paintCaveMouth(): Raster {
+  const r = new Raster(96, 70, null);
+  r.tracking = true;
+  for (let y = 0; y < 70; y++) {
+    for (let x = 0; x < 96; x++) {
+      const dx = (x - 48) / 46;
+      const dy = (y - 50) / 50;
+      const edge = fbm(x / 9, y / 9, 3, 91) - 0.5;
+      // A rough rock lump around the arch.
+      if (dx * dx + dy * dy + edge * 0.45 > 1 || y < 4) continue;
+      const rockN = ridged(x / 11, y / 11, 4, 92);
+      let c = mix(hex('#4a4150'), hex('#a89cb4'), rockN * 0.6 + fbm(x / 20, y / 20, 2, 93) * 0.4);
+      if (ridged(x / 6, y / 9, 3, 94) > 0.82) c = shade(c, 0.55);
+      if (y > 56 && fbm(x / 7, y / 7, 2, 95) > 0.5) c = mix(c, hex('#4f8a3a'), 0.7);
+      // The opening: an arch that goes black inside.
+      const ax = (x - 48) / 22;
+      const ay = (y - 60) / 34;
+      const arch = ax * ax + ay * ay + (vnoise(x / 6, y / 6, 96) - 0.5) * 0.12;
+      if (y >= 26 && arch < 1) {
+        const depth = 1 - arch;
+        c = mix(hex('#2a2238'), hex('#07050a'), Math.min(1, depth * 1.8));
+        if (arch > 0.82) c = mix(c, hex('#8a7a9a'), (arch - 0.82) * 3); // the lit rim
+      }
+      r.set(x, y, c);
+    }
+  }
+  // A worn step at the threshold and a small lantern hung by the opening.
+  r.rect(30, 64, 36, 4, hex('#8a8290'));
+  r.rect(30, 64, 36, 1, hex('#c4bcc6'));
+  r.rect(70, 30, 2, 8, hex('#3a3a44'));
+  r.rect(67, 38, 8, 9, hex('#3a3a44'));
+  r.rect(68, 39, 6, 7, hex('#ffd25a'));
+  r.rect(69, 40, 4, 5, hex('#fff6d0'));
+  r.tracking = false;
+  rimObjects(r);
+  return r;
 }

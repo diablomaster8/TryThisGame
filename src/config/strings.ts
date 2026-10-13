@@ -492,7 +492,12 @@ export const UI_TEXT = {
   lanternNight: 'Lantern night! The lanterns stay lit till morning.',
   more: 'More',
   moreHelp: 'Everything else the Grove offers.',
-  location: { grove: 'The Grove', hollow: 'The Hollow', corvin: 'Corvin’s garden' },
+  location: {
+    grove: 'The Grove',
+    hollow: 'The Hollow',
+    corvin: 'Corvin’s garden',
+    dungeon: 'The Hollow Below',
+  },
   returnToGrove: 'Back to the Grove',
   // Orchard, crops, toys, tiles, crafting
   orchard: 'Orchard & crops',
@@ -585,6 +590,7 @@ export const UI_TEXT = {
     lesson: (n: number) => `Finish ${n} lesson${n > 1 ? 's' : ''}`,
     expedition: (n: number) => `Come back from ${n} Expedition${n > 1 ? 's' : ''}`,
     gather: (n: number) => `Gather ${n} materials`,
+    hollow: (n: number) => `Go down ${n} floor${n > 1 ? 's' : ''} in today's Hollow`,
   },
   questFrom: (who: string) => `from ${who}`,
   claim: 'Claim',
@@ -914,4 +920,60 @@ export const TEN_TEXT = {
   tankLost: (shells: number) => `The cart limped home with ${shells} Shells.`,
   tankStart: 'Drive',
   tankBest: (best: number) => `Best haul: ${best} Shells`,
+} as const;
+
+/** The Hollow Below. */
+export const DUNGEON_TEXT = {
+  title: 'The Hollow Below',
+  help: 'A cave under the Grove, different every time. Walk over what you find; your party of two fetches what it can reach. Shadow strays snatch Shells unless you feed them a fruit. Tap the stairs to go deeper, or the stairs you came down to head home with everything.',
+  today: 'Today’s Hollow',
+  todayHelp: 'The same cave for every Keeper today; the request board asks for its floors.',
+  fresh: 'A new Hollow',
+  freshHelp: 'A cave nobody has walked before.',
+  party: (names: string[]) =>
+    names.length
+      ? `Coming along: ${names.join(' and ')}`
+      : 'Nobody to bring along yet; you go alone.',
+  best: (best: number, runs: number) =>
+    runs === 0
+      ? 'Never been down.'
+      : `Deepest floor ${best} · ${runs} trip${runs === 1 ? '' : 's'}`,
+  floor: (n: number) => `Floor ${n}`,
+  haul: (shells: number, items: number) => `${items} found · ${shells} Shells`,
+  leave: 'Head home',
+  entered: (daily: boolean) =>
+    daily ? 'Today’s Hollow. Mind the strays.' : 'Down into the dark. Mind the strays.',
+  descended: (n: number) => `Floor ${n}. Darker down here.`,
+  left: (depth: number, shells: number, items: number) =>
+    `Home from floor ${depth} with ${items} finds and ${shells} Shells.`,
+  found: (who: string | null, what: string) =>
+    who ? `${who} found ${what}!` : `You found ${what}.`,
+  lootName: (kind: string, n: number, p: string | null): string => {
+    switch (kind) {
+      case 'shells':
+        return `${n} Shells`;
+      case 'stone':
+        return `${n} stone`;
+      case 'seed':
+        return `a ${p ?? ''} seed`;
+      case 'essence':
+        return `a ${p ?? ''} essence`;
+      case 'critter':
+        return `a lost ${p ?? 'critter'}`;
+      default:
+        return 'a lost egg';
+    }
+  },
+  chest: (shells: number, egg: boolean) =>
+    `The chest held ${shells} Shells${egg ? ' and an egg!' : '.'}`,
+  chestEmpty: 'The chest is empty.',
+  strayFed: (name: string) => `${name} stopped being a stray and went up to the square.`,
+  strayNeedsFruit: 'A stray. Bring a fruit to win it over.',
+  strayStartled: (shells: number) => `A stray snatched ${shells} Shells and ran!`,
+  wildScanned: (species: string) => `You crept up on a ${species}. Scanned.`,
+  stairsDown: 'Stairs down',
+  stairsUp: 'The way home',
+  sealed: 'The way down is sealed on this floor.',
+  cave: 'The Hollow Below: a cave mouth in the hill.',
+  go: 'Go down',
 } as const;

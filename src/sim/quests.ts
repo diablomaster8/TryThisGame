@@ -35,6 +35,7 @@ const TEMPLATES: Template[] = [
   { id: 'lesson', target: [1, 2], shells: 35, egg: true },
   { id: 'expedition', target: [1, 2], shells: 30 },
   { id: 'gather', target: [3, 8], shells: 25 },
+  { id: 'hollow', target: [1, 2], shells: 35 },
 ];
 
 export function refreshQuests(world: World, rng: Rng, events: SimEvent[]): void {
@@ -136,6 +137,9 @@ export function stepQuests(
         break;
       case 'rewards':
         bump(world, 'expedition', events);
+        break;
+      case 'descended':
+        if (e.daily) bump(world, 'hollow', events);
         break;
       default:
         break;

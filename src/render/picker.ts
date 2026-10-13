@@ -13,6 +13,10 @@ export interface PickHit {
     | 'plant'
     | 'wild'
     | 'lantern'
+    | 'stairs'
+    | 'chest'
+    | 'stray'
+    | 'loot'
     | 'ground';
   id: string;
   /** Where the ray met the ground plane, if it did. */
@@ -63,7 +67,11 @@ export class Picker {
         | 'building'
         | 'plant'
         | 'wild'
-        | 'lantern';
+        | 'lantern'
+        | 'stairs'
+        | 'chest'
+        | 'stray'
+        | 'loot';
       id: string;
     } | null,
   ): PickHit | null {

@@ -40,6 +40,7 @@ import { stepSlips } from './slips';
 import { trainResult } from './gym';
 import { merge, setPartner, stepPartners } from './partners';
 import { stepCurfew } from './curfew';
+import { dungeonGo, enterDungeon, feedStray, inParty, leaveDungeon, stepDungeon } from './dungeon';
 import { setMemory } from './inheritance';
 import { buySkill, hasSkill, stepSkillPoints } from './skills';
 import { convertScan, stepScans } from './scans';
@@ -160,6 +161,8 @@ export function createWorld(seed: number, wallMs: number): World {
     team: null,
     night: false,
     tank: { runs: 0, best: 0 },
+    dungeon: null,
+    hollow: { runs: 0, best: 0, dailyDay: '', dailyDepth: 0 },
     neighbours: {},
     festivalSeen: '',
   };
@@ -557,6 +560,18 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'tradeAway':
       tradeAway(world, cmd.nubbinId, events);
       return;
+    case 'enterDungeon':
+      withRng(world, (rng) => enterDungeon(world, cmd.daily, rng, events));
+      return;
+    case 'leaveDungeon':
+      leaveDungeon(world, events);
+      return;
+    case 'dungeonGo':
+      dungeonGo(world, cmd.to, events);
+      return;
+    case 'feedStray':
+      feedStray(world, cmd.id, events);
+      return;
     case 'setLocation':
       if (world.location !== cmd.location) {
         world.location = cmd.location;
@@ -743,7 +758,8 @@ export function stepWorld(world: World, dtMs: number, wallMs?: number): SimEvent
       }
       decayNeeds(n, dtMs);
       advanceStage(n, dtMs, events, world, false);
-      if (world.nubbins.includes(n)) {
+      // Party members underground are moved by the Hollow step instead.
+      if (world.nubbins.includes(n) && !inParty(world, n.id)) {
         updateBehavior(n, world, dtMs, rng, events);
         resolve(n.pos, world, 0.3, true);
       }
@@ -766,6 +782,7 @@ export function stepWorld(world: World, dtMs: number, wallMs?: number): SimEvent
     stepPartners(world, dtMs, events);
     stepCurfew(world, dtMs, wallMs, events);
     stepQuests(world, wallMs, rng, events);
+    stepDungeon(world, dtMs, rng, events);
   });
   stepCollection(world, events);
   stepFriendships(world, dtMs, events);

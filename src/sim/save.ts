@@ -157,6 +157,10 @@ export function validateWorld(w: World): World {
   w.team ??= null;
   w.night ??= false;
   w.tank ??= { runs: 0, best: 0 };
+  w.dungeon ??= null;
+  w.hollow ??= { runs: 0, best: 0, dailyDay: '', dailyDepth: 0 };
+  // A save written underground without its run: back to the Grove.
+  if (w.location === 'dungeon' && !w.dungeon) w.location = 'grove';
   w.inventory.twine ??= 0;
   if (w.edu) {
     w.edu.playedMs = 0;

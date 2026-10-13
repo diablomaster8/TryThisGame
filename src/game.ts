@@ -6,6 +6,7 @@ import { readSave, writeSave } from './platform/storage';
 import { OrbitCamera } from './render/camera';
 import { daylightAt, localHour } from './render/daylight';
 import { litLanterns } from './sim/campaign';
+import { runFloor } from './sim/dungeon';
 import { GroveScene } from './render/grove-scene';
 import { Picker } from './render/picker';
 import { LowResPipeline } from './render/pipeline';
@@ -66,7 +67,7 @@ export class Game {
     this.view.setDaylight(d, reduce);
     this.view.lights = this.grove.lampsOn ? this.grove.lampSpots : [];
     this.view.setWeather(
-      this.world.weather.kind,
+      place === 'dungeon' ? 'clear' : this.world.weather.kind,
       this.world.weather.intensity,
       s.particles,
       reduce,
@@ -118,6 +119,14 @@ export class Game {
       onSelect: (id) => this.hooks.onSelect(id),
     });
     this.world = this.load();
+    this.syncDungeon();
+  }
+
+  /** The Hollow floor the scene and view should show, if underground. */
+  private syncDungeon(): void {
+    const f = runFloor(this.world);
+    this.grove.setDungeon(f);
+    this.view.setDungeon(f);
   }
 
   // ---------- persistence ----------
@@ -246,6 +255,8 @@ export class Game {
         else if (e.kind === 'weather' || e.kind === 'located') this.lastDaylightMs = -Infinity;
         else if (e.kind === 'tilePainted') this.grove.setTiles(this.world.tiles);
         else if (e.kind === 'lanternLit') this.grove.setLit(litLanterns(this.world));
+        else if (e.kind === 'dungeonEntered' || e.kind === 'descended' || e.kind === 'dungeonLeft')
+          this.syncDungeon();
       }
     }
 
@@ -258,6 +269,7 @@ export class Game {
     this.camera.update(nowMs);
 
     if (!this.renderPaused) {
+      if (this.world.location === 'dungeon') this.grove.updateDungeonLights(kp);
       this.grove.update(nowMs);
       this.grove.setGrove(this.world.grove);
       this.updateDaylight(nowMs);

@@ -9,6 +9,62 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## The Hollow Below: procedural dungeons, built (2026-10-13)
+
+Maor: "do item 11." The last system of the Digimon-inspired list is in: a seeded cave
+under the Grove, explored in the world with the Keeper and a party of two, painted in
+the organic style.
+
+**What works**
+
+- **The cave mouth** (`caveMouth` in the painted scenery, in the south face of the
+  north-west hill, east face; also More → 🕳 The Hollow Below). Tapping it opens the menu: today's
+  Hollow (one seed for every Keeper, from the day key) or a fresh one, who comes along,
+  the deepest floor so far.
+- **Floors** (`sim/dungeon.ts`, pure, memoised per seed and depth): cellular-automata
+  rock with rooms carved in and wobbly corridors joining them, only what the first room
+  reaches kept; water pockets from a value-noise field; torches on walls that face the
+  floor, crystals in dead-end nooks; the stairs up where you arrive, the chest and the
+  stairs down in the last room. Floors grow (34×24 cells at depth 1 up to 54×36) and
+  darken with depth; floor 20 has no way down. Loot per floor grows too: Shells, stone,
+  seeds, essences, lost critters, and from floor 2 the odd lost egg.
+- **Exploring**: the Keeper walks with grid collision (`resolveDungeon`); a tap in the
+  rock is dropped. The party (partners first, then the first two Nubbins awake, plus
+  whoever is carried) follows at a short distance and fetches any loot within four
+  units, each pickup a sparkle and a toast naming the finder. Tapping the chest or a
+  stair marker walks there and uses it on arrival; a new tap elsewhere cancels. The
+  stairs up, or Head home on the floor bar, return everyone to where they stood in the
+  Grove with the whole haul (nothing is ever lost by leaving).
+- **Shadow strays** wander the floor; one that bumps the Keeper snatches five Shells and
+  runs. Tap one with a fruit in the bag and the Keeper walks over, feeds it, and it moves
+  into the village square as a recruit (system 1).
+- **A wild creature** waits in a nook; creeping up on it fills its scan bar (system 8).
+- **The request board** has a new daily ask, "Go down n floors in today's Hollow".
+- **Rendering** (`render/paint/dungeon.ts`, `GroveScene.setDungeon`): the floor is one
+  painted texture at 12 texels per unit (flagstones with cracks and joints, dust at the
+  walls, moss by the water, the rock faces with a lit lip fading to black, torch and
+  crystal light baked in). Rock cells within two of the floor are blocks: tops carry
+  the same painting, faces the cliff texture. A point light follows the Keeper and five
+  more sit on the nearest torches. Torches flicker, crystals pulse, loot bobs, strays
+  interpolate between steps. The Hollow song plays; weather and fireflies stay above.
+- **Saves**: the run (seed, depth, party, taken loot, strays, haul) is in the save; the
+  floor is regenerated from the seed. A save underground without its run lands in the
+  Grove. Catch-up steps never move strays or count pickups.
+
+Also fixed in passing: the species sprite cache keyed every species the same
+(`species::-`), so every wild visitor and neighbour pet wore the first species' look;
+the key now includes the id. And taps now test the texel under the finger instead of a
+sprite's whole box, so a tree's empty corner no longer steals a tap meant for the cave
+mouth (or anything else) behind it.
+
+Tests: `tests/sim/dungeon.test.ts` (10 cases: determinism and connectivity, growth
+with depth, collision, the daily seed, a full run with pickup and return, party
+fetching and following, chest and stairs and the daily depth, strays snatching and
+settling, the wild scan, saves and catch-up). Full suite green, lint clean, build OK;
+seen in the browser: the cave, pickups, the chest, the stairs, feeding a stray, home.
+
+**Known gaps**: the party does not fight anything and nothing hurts them; strays only
+take Shells. Floors are not themed by depth yet (the same palette throughout).
 ## The Digimon-inspired ten, built (2026-10-13)
 
 Maor: "Go through the next 10 upgrades on the list now." Systems 1–10 of the list below

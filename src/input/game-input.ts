@@ -33,7 +33,11 @@ export interface InputHost {
       | 'building'
       | 'plant'
       | 'wild'
-      | 'lantern';
+      | 'lantern'
+      | 'stairs'
+      | 'chest'
+      | 'stray'
+      | 'loot';
     id: string;
   } | null;
   /** Is this Nubbin id something that can be grabbed right now? */
@@ -295,6 +299,18 @@ export class GameInput {
         return;
       case 'lantern':
         this.host.send({ kind: 'lightLantern', id: hit.id });
+        return;
+      case 'stairs':
+        this.host.send({ kind: 'dungeonGo', to: hit.id === 'down' ? 'down' : 'up' });
+        return;
+      case 'chest':
+        this.host.send({ kind: 'dungeonGo', to: 'chest' });
+        return;
+      case 'stray':
+        this.host.send({ kind: 'feedStray', id: hit.id });
+        return;
+      case 'loot':
+        if (hit.ground) this.host.send({ kind: 'moveKeeperTo', pos: hit.ground });
         return;
       case 'memorial':
         this.host.onSelect(`memorial:${hit.id}`);

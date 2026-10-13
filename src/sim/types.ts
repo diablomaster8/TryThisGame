@@ -430,7 +430,51 @@ export interface PlacedDecor {
 }
 
 /** The home Grove, the story places, or a neighbour's Grove (`visit:<trainer>`). */
-export type Location = 'grove' | 'hollow' | 'corvin' | `visit:${string}`;
+export type Location = 'grove' | 'hollow' | 'corvin' | 'dungeon' | `visit:${string}`;
+
+/** What lies on a Hollow floor. */
+export type DungeonLootKind = 'shells' | 'stone' | 'seed' | 'essence' | 'critter' | 'egg';
+
+/** A Shadow stray wandering a Hollow floor. */
+export interface DungeonStray {
+  id: string;
+  pos: Vec2;
+  target: Vec2 | null;
+  /** Fleeing after a snatch while this counts down. */
+  cooldownMs: number;
+}
+
+/** A wild creature in a nook; walking up to it fills its scan. */
+export interface DungeonWild {
+  id: string;
+  species: string;
+  pos: Vec2;
+  scanned: boolean;
+}
+
+/** One run into the Hollow Below; the floor itself comes from the seed and depth. */
+export interface DungeonRun {
+  seed: number;
+  depth: number;
+  /** The day key when this is today's shared Hollow, else null. */
+  daily: string | null;
+  /** Nubbin ids that came along. */
+  party: string[];
+  returnKeeper: Vec2;
+  returnParty: Record<string, Vec2>;
+  /** Loot ids picked up on this floor. */
+  taken: string[];
+  chestOpen: boolean;
+  strays: DungeonStray[];
+  wild: DungeonWild[];
+  /** 'up', 'down', 'chest' or 'stray:<id>': used on arrival at `pendingPos`. */
+  pending: string | null;
+  pendingPos: Vec2 | null;
+  /** Which loot each party Nubbin is fetching. */
+  fetch: Record<string, string>;
+  haul: { shells: number; items: number };
+  startedMs: number;
+}
 
 export type LessonId = 'drawing' | 'singing' | 'dance' | 'instrument';
 
@@ -550,6 +594,9 @@ export interface World {
   /** Curfew by the real clock. */
   night: boolean;
   tank: { runs: number; best: number };
+  /** The Hollow Below: the current run, if inside. */
+  dungeon: DungeonRun | null;
+  hollow: { runs: number; best: number; dailyDay: string; dailyDepth: number };
   /** Per neighbour: the last real day a gift was taken. */
   neighbours: Record<string, { lastGiftDay: string }>;
   /** Festival banner shown for this season already. */
@@ -670,6 +717,10 @@ export type Command =
   | { kind: 'convertScan'; species: string }
   | { kind: 'joinTeam'; team: TeamId }
   | { kind: 'tankResult'; shells: number; wood: number; stone: number; won: boolean }
+  | { kind: 'enterDungeon'; daily: boolean }
+  | { kind: 'leaveDungeon' }
+  | { kind: 'dungeonGo'; to: 'up' | 'down' | 'chest' }
+  | { kind: 'feedStray'; id: string }
   | { kind: 'recruit'; name: string; species: string };
 
 // ---------- events (sim → render/ui) ----------
@@ -777,6 +828,21 @@ export type SimEvent =
   | { kind: 'missionDone'; team: TeamId; points: number }
   | { kind: 'raceWon'; nubbinId: string; course: string; tier: number }
   | { kind: 'tankDone'; shells: number; wood: number; stone: number; won: boolean }
+  | { kind: 'dungeonEntered'; depth: number; daily: boolean }
+  | { kind: 'dungeonLeft'; depth: number; shells: number; items: number }
+  | { kind: 'descended'; depth: number; daily: boolean }
+  | {
+      kind: 'dungeonFound';
+      loot: DungeonLootKind;
+      amount: number;
+      param: string | null;
+      /** The party Nubbin that found it, or null for the Keeper. */
+      by: string | null;
+    }
+  | { kind: 'chestOpened'; shells: number; egg: boolean }
+  | { kind: 'strayFed'; ok: boolean; name: string | null }
+  | { kind: 'strayStartled'; shells: number }
+  | { kind: 'wildScanned'; species: string }
   | { kind: 'wellRaised'; nubbinId: string };
 
 export interface AwayReport {

@@ -1,4 +1,5 @@
 import { blocked, resolve } from './obstacles';
+import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
 import { GATHER, GROVE, KEEPER, NEEDS, PERKS, SIM, TREES, TRUST } from '../config/tuning';
 import { keeperPerks, keeperSpeedMultiplier } from './perks';
 import { dropFruit, withRng } from './world';
@@ -67,6 +68,7 @@ function intentTarget(world: World, intent: KeeperIntent): Vec2 | null {
 export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): void {
   const k = world.keeper;
   const dt = dtMs / 1000;
+  const dungeonFloor = runFloor(world);
 
   // Direct input wins over tap targets.
   if (k.input.x !== 0 || k.input.z !== 0) {
@@ -86,7 +88,7 @@ export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): vo
     if (k.intent && !target) k.intent = null;
     // The Keeper does not wade: a target in the pond becomes the nearest shoreline point,
     // and a Nubbin in the water is reached from there.
-    if (target && !keeperPerks(world).wade) target = shoreline(target);
+    if (target && !dungeonFloor && !keeperPerks(world).wade) target = shoreline(target);
     if (target) {
       const d = dist(k.pos, target);
       // From the shore, a swimming Nubbin is within reach however far out it is.
@@ -110,12 +112,24 @@ export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): vo
       }
     }
   }
-  // Solid things: hills, trees, buildings, rocks. A tap target inside one is dropped.
-  if (resolve(k.pos, world) && k.moveTarget && blocked(k.moveTarget, world, 0.3)) {
-    k.moveTarget = null;
-    k.intent = null;
+  // Solid things: hills, trees, buildings, rocks, or the Hollow's walls. A tap target
+  // inside one is dropped.
+  if (dungeonFloor) {
+    if (
+      resolveDungeon(k.pos, dungeonFloor, 0.35) &&
+      k.moveTarget &&
+      dungeonBlocked(k.moveTarget, dungeonFloor, 0.3)
+    ) {
+      k.moveTarget = null;
+      k.intent = null;
+    }
+  } else {
+    if (resolve(k.pos, world) && k.moveTarget && blocked(k.moveTarget, world, 0.3)) {
+      k.moveTarget = null;
+      k.intent = null;
+    }
+    clampToWorld(k.pos);
   }
-  clampToWorld(k.pos);
 
   // A carried Nubbin rides above the Keeper's head.
   if (k.carrying) {
