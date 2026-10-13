@@ -4,6 +4,7 @@ import {
   HAT_LABELS,
   NAMES,
   PERSONALITY_LABELS,
+  SPECIES_LABELS,
   STAGE_LABELS,
   STAT_ICONS,
   STAT_LABELS,
@@ -147,7 +148,10 @@ export class RosterMenu {
 }
 
 function describe(n: Nubbin): string {
-  const stage = STAGE_LABELS[n.stage];
+  const stage =
+    n.species === 'chao'
+      ? STAGE_LABELS[n.stage]
+      : `${SPECIES_LABELS[n.species] ?? n.species} · ${STAGE_LABELS[n.stage]}`;
   const band = n.form ? bandOf(n.alignment) : childHint(n.alignment);
   const bandLabel =
     band === 'sun'

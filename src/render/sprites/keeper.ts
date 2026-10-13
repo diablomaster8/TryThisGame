@@ -1,3 +1,4 @@
+import type { TrainerLook } from '../../sim/trainers';
 import { CLIPS, frameKey } from './animations';
 import { DRAWN_ANGLES, type DrawnAngle } from './angles';
 import { AtlasBuilder, type SpriteSheet } from './atlas';
@@ -6,18 +7,8 @@ import { PixelCanvas } from './pixel-canvas';
 
 export const KEEPER_SIZE = 32;
 
-/** The Keeper: a small gardener in a sun hat. Sun and Moon Keepers differ by palette. */
-export interface KeeperColors {
-  skin: number;
-  hat: number;
-  hatBand: number;
-  shirt: number;
-  shirtShade: number;
-  pants: number;
-  boots: number;
-  hair: number;
-  outline: number;
-}
+/** Keeper looks are trainer looks: palette plus a hat style. */
+export type KeeperColors = TrainerLook;
 
 export const SUN_KEEPER: KeeperColors = {
   skin: C.sand,
@@ -29,6 +20,7 @@ export const SUN_KEEPER: KeeperColors = {
   boots: C.bark,
   hair: C.wood,
   outline: C.darkPlum,
+  hatStyle: 'sun',
 };
 
 export const MOON_KEEPER: KeeperColors = {
@@ -41,7 +33,44 @@ export const MOON_KEEPER: KeeperColors = {
   boots: C.ink,
   hair: C.darkBark,
   outline: C.ink,
+  hatStyle: 'hood',
 };
+
+function drawHat(pc: PixelCanvas, col: KeeperColors, headCx: number, headCy: number): void {
+  const brimY = headCy - 3;
+  switch (col.hatStyle) {
+    case 'sun':
+      pc.rect(headCx - 8, brimY, 17, 2, col.hat);
+      pc.rect(headCx - 8, brimY + 1, 17, 1, col.hatBand);
+      pc.ellipse(headCx, brimY - 2, 5, 3, col.hat);
+      pc.rect(headCx - 5, brimY - 1, 11, 1, col.hatBand);
+      break;
+    case 'cap':
+      pc.ellipse(headCx, brimY - 1, 5, 3.5, col.hat);
+      pc.rect(headCx - 2, brimY + 1, 9, 2, col.hatBand);
+      pc.px(headCx, brimY - 4, col.hatBand);
+      break;
+    case 'beanie':
+      pc.ellipse(headCx, brimY - 1, 5.5, 4, col.hat);
+      pc.rect(headCx - 5, brimY + 1, 11, 2, col.hatBand);
+      pc.disc(headCx, brimY - 5, 1.6, col.hatBand);
+      break;
+    case 'hood':
+      pc.ellipse(headCx, headCy - 1, 6.5, 6, col.hat);
+      pc.ellipse(headCx, headCy, 4.5, 4.2, col.skin);
+      pc.px(headCx, headCy - 6, col.hatBand);
+      break;
+    case 'band':
+      pc.ellipse(headCx, brimY - 1, 5, 2.5, col.hair);
+      pc.rect(headCx - 5, brimY + 1, 11, 2, col.hatBand);
+      pc.px(headCx + 4, brimY, col.hat);
+      break;
+    case 'none':
+      pc.ellipse(headCx, brimY, 5, 3, col.hair);
+      pc.px(headCx - 3, brimY + 2, col.hair);
+      break;
+  }
+}
 
 function drawKeeper(
   angle: DrawnAngle,
@@ -76,7 +105,6 @@ function drawKeeper(
   pc.rect(tx, torsoTop, tw, 7 - breathe, col.shirt);
   pc.rect(tx + tw - 3, torsoTop + 1, 3, 6 - breathe, col.shirtShade);
   if (angle === 'front' || angle === 'frontQuarter') {
-    // Apron strap.
     pc.rect(tx + 2, torsoTop + 1, 2, 5 - breathe, col.shirtShade);
   }
 
@@ -95,10 +123,9 @@ function drawKeeper(
 
   // Head.
   const headCy = torsoTop - 4;
-  const headCx = angle === 'side' ? 16 : 16;
+  const headCx = 16;
   pc.ellipse(headCx, headCy, 4.5, 4, col.skin);
   if (angle !== 'back') {
-    // Hair fringe and eyes.
     const eyeY = headCy;
     if (angle === 'front') {
       pc.px(headCx - 2, eyeY, col.outline);
@@ -114,12 +141,7 @@ function drawKeeper(
   }
   if (angle === 'backQuarter') pc.ellipse(headCx - 1, headCy - 1, 4, 3, col.hair);
 
-  // Sun hat: wide brim, domed top.
-  const brimY = headCy - 3;
-  pc.rect(headCx - 8, brimY, 17, 2, col.hat);
-  pc.rect(headCx - 8, brimY + 1, 17, 1, col.hatBand);
-  pc.ellipse(headCx, brimY - 2, 5, 3, col.hat);
-  pc.rect(headCx - 5, brimY - 1, 11, 1, col.hatBand);
+  drawHat(pc, col, headCx, headCy);
 
   pc.outline(col.outline);
   return pc;

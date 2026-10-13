@@ -1,4 +1,11 @@
-import { GROVE_LABELS, NAMES, STAT_LABELS, TYPE_LABELS, UI_TEXT } from '../config/strings';
+import {
+  GROVE_LABELS,
+  NAMES,
+  SPECIES_LABELS,
+  STAT_LABELS,
+  TYPE_LABELS,
+  UI_TEXT,
+} from '../config/strings';
 import type { Game } from '../game';
 import type { SimEvent } from '../sim/types';
 import { button, el } from './dom';
@@ -50,7 +57,13 @@ export class Celebration {
     this.title.textContent = UI_TEXT.evolvedTitle(name);
     this.lines.innerHTML = '';
     this.lines.appendChild(
-      el('p', 'celebrate-form', UI_TEXT.evolvedForm(band, TYPE_LABELS[e.type])),
+      el(
+        'p',
+        'celebrate-form',
+        e.species === 'chao'
+          ? UI_TEXT.evolvedForm(band, TYPE_LABELS[e.type])
+          : `${SPECIES_LABELS[e.species] ?? e.species} · ${band} ${TYPE_LABELS[e.type]}`,
+      ),
     );
     if (e.upgraded && n) {
       this.lines.appendChild(

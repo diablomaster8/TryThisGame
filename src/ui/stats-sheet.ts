@@ -3,6 +3,7 @@ import {
   ESSENCE_LABELS,
   formatDuration,
   NAMES,
+  SPECIES_LABELS,
   STAGE_LABELS,
   STAT_ICONS,
   STAT_LABELS,
@@ -219,7 +220,10 @@ function subtitleFor(n: Nubbin, world: World): string {
   if (n.stage === 'egg') {
     return UI_TEXT.hatchesIn(formatDuration(Math.max(0, n.hatchRemainingMs)));
   }
-  const stage = STAGE_LABELS[n.stage];
+  const stage =
+    n.species === 'chao'
+      ? STAGE_LABELS[n.stage]
+      : `${SPECIES_LABELS[n.species] ?? n.species} · ${STAGE_LABELS[n.stage]}`;
   const band = n.form ? bandOf(n.alignment) : childHint(n.alignment);
   const bandLabel =
     band === 'sun'

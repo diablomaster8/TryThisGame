@@ -12,6 +12,7 @@ import { Joystick } from './joystick';
 import { RacesMenu } from './races';
 import { RosterMenu } from './roster';
 import { ShopMenu } from './shop';
+import { TrainersMenu } from './trainers';
 import { button, el } from './dom';
 import { SettingsMenu } from './settings';
 import { StatsSheet } from './stats-sheet';
@@ -31,9 +32,9 @@ export function mountHud(
   const fruit = el('span', 'chip', '');
   const settingsBtn = button('⚙', () => settings.open(), 'btn btn-icon');
   settingsBtn.setAttribute('aria-label', UI_TEXT.settings);
-  const keeperBtn = button('☀', () => switchKeeper(), 'btn btn-icon');
-  keeperBtn.setAttribute('aria-label', UI_TEXT.switchKeeper);
-  keeperBtn.title = UI_TEXT.switchKeeper;
+  const keeperBtn = button('☀', () => trainers.open(), 'btn btn-icon');
+  keeperBtn.setAttribute('aria-label', UI_TEXT.trainers);
+  keeperBtn.title = UI_TEXT.trainers;
   const groveBtn = button(GROVE_LABELS.main, () => cycleGrove(), 'btn btn-small');
   groveBtn.hidden = true;
   const shopBtn = button('🛒', () => shop.open(), 'btn btn-icon');
@@ -94,14 +95,6 @@ export function mountHud(
     );
   }
 
-  function switchKeeper(): void {
-    const g = game();
-    if (!g) return;
-    g.send({
-      kind: 'switchKeeper',
-      alignment: g.world.keeper.alignment === 'sun' ? 'moon' : 'sun',
-    });
-  }
   function cycleGrove(): void {
     const g = game();
     if (!g) return;
@@ -143,6 +136,7 @@ export function mountHud(
   const expedition = new ExpeditionScreen(root);
   const races = new RacesMenu(root, game, toast, pickRunner);
   const roster = new RosterMenu(root, game, (id) => sheet.open(id));
+  const trainers = new TrainersMenu(root, game, toast);
   let joystick: Joystick | null = null;
   if (import.meta.env.DEV) {
     // Console access during development, alongside `window.grove`.
@@ -183,6 +177,7 @@ export function mountHud(
       else if (shop.isOpen()) shop.close();
       else if (races.isOpen()) races.close();
       else if (roster.isOpen()) roster.close();
+      else if (trainers.isOpen()) trainers.close();
       else if (!sheet.root.hidden) sheet.close();
     }
   });

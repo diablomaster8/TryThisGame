@@ -17,7 +17,8 @@ import { buildCreatureSheet } from './creature';
 import { buildCocoonSheet, buildEggSheet } from './egg';
 import { speciesArt } from './species-art';
 import { buildEmoteSheet } from './emote';
-import { buildKeeperSheet, MOON_KEEPER, SUN_KEEPER } from './keeper';
+import { trainerOf } from '../../sim/trainers';
+import { buildKeeperSheet } from './keeper';
 import { buildPropSheet } from './props';
 
 const SLOTS: PartSlot[] = ['ears', 'tail', 'arms', 'back'];
@@ -110,10 +111,9 @@ export class SheetCache {
     );
   }
 
-  keeper(alignment: 'sun' | 'moon'): SpriteSheet {
-    return this.get(`keeper:${alignment}`, () =>
-      buildKeeperSheet(alignment === 'sun' ? SUN_KEEPER : MOON_KEEPER),
-    );
+  /** The Keeper's look is the active trainer's. */
+  keeper(trainerId: string): SpriteSheet {
+    return this.get(`keeper:${trainerId}`, () => buildKeeperSheet(trainerOf(trainerId).look));
   }
 
   props(): SpriteSheet {

@@ -241,6 +241,8 @@ export interface World {
   grove: GroveKind;
   /** Highest tier won per race course (0 = none). */
   races: Record<string, number>;
+  /** The active trainer (playable Keeper), see sim/trainers.ts. */
+  trainer: string;
   nextId: number;
   /** Id of the Nubbin the player has selected, or null. */
   selected: string | null;
@@ -264,6 +266,7 @@ export type Command =
   | { kind: 'shakeHeld' }
   | { kind: 'release'; vel: Vec2 }
   | { kind: 'switchKeeper'; alignment: KeeperAlignment }
+  | { kind: 'setTrainer'; id: string }
   | { kind: 'setGrove'; grove: GroveKind }
   | { kind: 'giveCritter'; nubbinId: string; species: string }
   | { kind: 'giveEssence'; nubbinId: string; type: NubbinType }

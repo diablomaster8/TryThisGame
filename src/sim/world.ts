@@ -8,6 +8,7 @@ import { createKeeper, keeperPutDown, updateKeeper } from './keeper';
 import { noteCare } from './personality';
 import { addRewards, buy } from './shop';
 import { SPECIES } from './species';
+import { DEFAULT_TRAINER, rollEggSpecies, TRAINERS, trainerOf } from './trainers';
 import { advanceStage, evolve, hatch, secondEvolve } from './lifecycle';
 import { createEgg, EGG_COLORS, isHeld } from './nubbin';
 import { Rng } from './rng';
@@ -52,6 +53,7 @@ export function createWorld(seed: number, wallMs: number): World {
     unlocks: { sunGrove: false, moonGrove: false },
     grove: 'main',
     races: {},
+    trainer: DEFAULT_TRAINER,
     nextId: 1,
     selected: null,
   };
@@ -64,7 +66,13 @@ export function createWorld(seed: number, wallMs: number): World {
   }
   for (let i = 0; i < EGG.startCount; i++) {
     const spot = GROVE.eggSpots[i] ?? { x: i * 2 - 1, z: 0 };
-    const egg = createEgg(newId(world, 'nub'), spot, rng);
+    const egg = createEgg(
+      newId(world, 'nub'),
+      spot,
+      rng,
+      'plain',
+      rollEggSpecies(trainerOf(world.trainer), rng),
+    );
     egg.name = uniqueName(world, egg.name, rng);
     world.nubbins.push(egg);
   }
@@ -188,9 +196,21 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
       }
       return;
     }
-    case 'switchKeeper':
-      k.alignment = cmd.alignment;
+    case 'switchKeeper': {
+      // Legacy toggle: the first trainer of the other side.
+      const t = TRAINERS.find((x) => x.band === cmd.alignment);
+      if (t) {
+        world.trainer = t.id;
+        k.alignment = t.band;
+      }
       return;
+    }
+    case 'setTrainer': {
+      const t = trainerOf(cmd.id);
+      world.trainer = t.id;
+      k.alignment = t.band;
+      return;
+    }
     case 'setGrove':
       if (cmd.grove === 'sun' && !world.unlocks.sunGrove) return;
       if (cmd.grove === 'moon' && !world.unlocks.moonGrove) return;

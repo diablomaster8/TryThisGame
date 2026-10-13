@@ -76,6 +76,7 @@ export function validateWorld(w: World): World {
   w.selected ??= null;
   w.grove ??= 'main';
   w.races ??= {};
+  w.trainer ??= 'fern';
   w.inventory.critters ??= {};
   w.inventory.essences ??= {};
   for (const n of w.nubbins) {

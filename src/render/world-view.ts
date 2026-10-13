@@ -203,7 +203,7 @@ export class WorldView {
 
     // Keeper.
     const k = world.keeper;
-    const ksheet = this.sheets.keeper(k.alignment);
+    const ksheet = this.sheets.keeper(world.trainer);
     const kx = lerp(this.keeperPrev.pos.x, k.pos.x, alpha);
     const kz = lerp(this.keeperPrev.pos.z, k.pos.z, alpha);
     const moving =
@@ -370,6 +370,8 @@ export function clipFor(n: Nubbin): string {
 export function emoteFor(n: Nubbin): EmoteShape {
   const mood = moodOf(n);
   if (n.behavior.state === 'nap') return 'zz';
+  // The floating ball is the Chao line's; other species show bubbles only when something is up.
+  if (n.species !== 'chao' && mood === 'content') return 'none';
   switch (mood) {
     case 'happy':
       return 'heart';

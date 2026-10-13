@@ -17,7 +17,10 @@ import {
 } from '../render/sprites/chao';
 import { buildCocoonSheet, buildEggSheet, EGG_PALETTES } from '../render/sprites/egg';
 import { buildEmoteSheet, EMOTE_SHAPES } from '../render/sprites/emote';
-import { buildKeeperSheet, MOON_KEEPER, SUN_KEEPER } from '../render/sprites/keeper';
+import { drawCreature } from '../render/sprites/creature';
+import { buildKeeperSheet } from '../render/sprites/keeper';
+import { SPECIES_ART } from '../render/sprites/species-art';
+import { TRAINERS } from '../sim/trainers';
 import type { PixelCanvas } from '../render/sprites/pixel-canvas';
 import { buildPropSheet } from '../render/sprites/props';
 import { CRITTER_SPECIES, partId } from '../sim/critters';
@@ -248,8 +251,14 @@ export function mountSpriteGallery(root: HTMLElement, scale = 4): void {
     ]);
   }
   const keeperKeys = (clips: ClipName[]) => clipFrames(clips).map(([c, a, f]) => frameKey(c, a, f));
-  sheet('Sun Keeper', buildKeeperSheet(SUN_KEEPER), keeperKeys(['idle', 'walk']));
-  sheet('Moon Keeper', buildKeeperSheet(MOON_KEEPER), keeperKeys(['idle']));
+  for (const t of TRAINERS) {
+    sheet(`Keeper: ${t.id} (${t.band})`, buildKeeperSheet(t.look), keeperKeys(['idle']));
+  }
+  for (const [id, art] of Object.entries(SPECIES_ART)) {
+    const row = heading(`Species: ${id}`);
+    for (const angle of DRAWN_ANGLES) cell(row, drawCreature(angle, poseFor('idle', 0), art), id);
+    cell(row, drawCreature('side', poseFor('walk', 1), art), `${id} walk`);
+  }
   sheet('Props', buildPropSheet(), [frameKey('fruit', 'front', 0), frameKey('flower', 'front', 0)]);
   sheet(
     'Emotes',

@@ -155,6 +155,20 @@ export const SPECIES_LABELS: Record<string, string> = {
   hugbear: 'Hugbear',
 };
 
+/** The ten playable Keepers. */
+export const TRAINER_LABELS: Record<string, { name: string; blurb: string }> = {
+  fern: { name: 'Fern', blurb: 'The gardener. Grove-line eggs, mostly.' },
+  marina: { name: 'Marina', blurb: 'Tide-pool keeper. Swimmers from the pocket line.' },
+  sparks: { name: 'Sparks', blurb: 'Fast and crackly. Runners from the pocket line.' },
+  clover: { name: 'Clover', blurb: 'Soft-hearted. Gentle pocket-line babies.' },
+  pixel: { name: 'Pixel', blurb: 'Tinkerer. Eggs from the digital line.' },
+  luna: { name: 'Luna', blurb: 'Night gardener. Moon-side Grove eggs.' },
+  ember: { name: 'Ember', blurb: 'Fighter. Brawlers from the pocket line.' },
+  byte: { name: 'Byte', blurb: 'Dark-screen coder. Digital-line eggs.' },
+  dusty: { name: 'Dusty', blurb: 'Fossil hunter. Only ancient pocket-line eggs.' },
+  nova: { name: 'Nova', blurb: 'Wanderer. A bit of everything.' },
+};
+
 export const FAMILY_LABELS = {
   chao: 'Grove line',
   pocket: 'Pocket line',
@@ -313,6 +327,14 @@ export const UI_TEXT = {
   rosterCount: (n: number) => `${n} / 8 Nubbins`,
   noHat: 'No hat',
   find: 'Go to',
+  // Trainers
+  trainers: 'Keepers',
+  trainersHelp: 'Pick who tends the Grove. New eggs follow the active Keeper.',
+  eggsLabel: 'Eggs',
+  favouriteLabel: 'Favours',
+  chooseTrainer: 'Choose',
+  activeTrainer: 'Active',
+  trainerChosen: (name: string) => `${name} tends the Grove now.`,
   // Sound
   sound: 'Sound',
   soundHelp: 'Soft music and little blips for taps, pickups and big moments.',

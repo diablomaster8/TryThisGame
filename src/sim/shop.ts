@@ -1,6 +1,7 @@
 import { EGG, GROVE, SHOP } from '../config/tuning';
 import { EGG_COLORS, createEgg } from './nubbin';
 import type { Rng } from './rng';
+import { rollEggSpecies, trainerOf } from './trainers';
 import type { Rewards, ShopItem, SimEvent, Vec2, World } from './types';
 import { newId, uniqueName } from './world';
 
@@ -51,7 +52,13 @@ export function buy(world: World, item: ShopItem, rng: Rng, events: SimEvent[]):
       const rare = rng.chance(SHOP.rareEggChance);
       const colours = EGG_COLORS.filter((c) => c !== 'plain');
       const color = rare ? rng.pick(colours) : 'plain';
-      const egg = createEgg(newId(world, 'nub'), freeSpot(world, rng), rng, color);
+      const egg = createEgg(
+        newId(world, 'nub'),
+        freeSpot(world, rng),
+        rng,
+        color,
+        rollEggSpecies(trainerOf(world.trainer), rng),
+      );
       if (rare) {
         if (rng.chance(SHOP.twoToneChance)) egg.tone = rng.pick(colours.filter((c) => c !== color));
         if (rng.chance(SHOP.shinyChance)) egg.shiny = true;
