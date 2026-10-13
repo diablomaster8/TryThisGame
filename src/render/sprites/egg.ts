@@ -20,8 +20,17 @@ export const EGG_PALETTES: Record<
 
 export type EggFrame = 'idle' | 'wobbleL' | 'wobbleR' | 'crack1' | 'crack2' | 'held';
 
-function drawEgg(frame: EggFrame, colorName: string): PixelCanvas {
-  const pal = EGG_PALETTES[colorName] ?? EGG_PALETTES.plain!;
+/** Egg looks by family: the pocket line's eggs are cream with green spots, the digital line's grey and striped. */
+const FAMILY_EGGS: Record<string, { shell: number; shade: number; cap: number; spot: number }> = {
+  pocket: { shell: C.cream, shade: C.sand, cap: C.cream, spot: C.leaf },
+  digi: { shell: C.lilacGrey, shade: C.dusk, cap: C.pale, spot: C.plum },
+};
+
+function drawEgg(frame: EggFrame, colorName: string, family = 'chao'): PixelCanvas {
+  const pal =
+    (family !== 'chao' && colorName === 'plain' ? FAMILY_EGGS[family] : undefined) ??
+    EGG_PALETTES[colorName] ??
+    EGG_PALETTES.plain!;
   const pc = new PixelCanvas(EGG_SIZE, EGG_SIZE);
   const tilt = frame === 'wobbleL' ? -2 : frame === 'wobbleR' ? 2 : 0;
   const cx = 16 + tilt * 0.5;
@@ -33,11 +42,15 @@ function drawEgg(frame: EggFrame, colorName: string): PixelCanvas {
   pc.ellipse(cx - 0.5, cy, 5.5, 7.5, pal.shell);
   // The coloured cap near the top.
   pc.ellipse(cx + tilt * 0.4, cy - 6, 4, 2.5, pal.cap);
-  // Spots.
-  pc.px(cx - 3, cy + 1, pal.spot);
-  pc.px(cx + 2, cy - 1, pal.spot);
-  pc.px(cx + 3, cy + 4, pal.spot);
-  pc.px(cx - 4, cy + 4, pal.spot);
+  // Spots, or stripes for the digital line.
+  if (family === 'digi') {
+    for (let i = -1; i <= 1; i++) pc.line(cx - 5, cy + i * 4, cx + 5, cy + i * 4 - 2, pal.spot);
+  } else {
+    pc.disc(cx - 3, cy + 1, family === 'pocket' ? 1.4 : 0.6, pal.spot);
+    pc.disc(cx + 2, cy - 1, family === 'pocket' ? 1.4 : 0.6, pal.spot);
+    pc.px(cx + 3, cy + 4, pal.spot);
+    pc.px(cx - 4, cy + 4, pal.spot);
+  }
   // Highlight.
   pc.px(cx - 3, cy - 4, C.white);
   pc.px(cx - 4, cy - 3, C.white);
@@ -55,10 +68,10 @@ function drawEgg(frame: EggFrame, colorName: string): PixelCanvas {
   return pc;
 }
 
-export function buildEggSheet(colorName: string): SpriteSheet {
+export function buildEggSheet(colorName: string, family = 'chao'): SpriteSheet {
   const atlas = new AtlasBuilder(EGG_SIZE, EGG_SIZE, 6);
   const frames: EggFrame[] = ['idle', 'wobbleL', 'wobbleR', 'crack1', 'crack2', 'held'];
-  for (const f of frames) atlas.add(frameKey(f, 'front', 0), drawEgg(f, colorName));
+  for (const f of frames) atlas.add(frameKey(f, 'front', 0), drawEgg(f, colorName, family));
   return atlas.build();
 }
 

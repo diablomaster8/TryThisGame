@@ -12,7 +12,10 @@ import {
   lookOf,
   variantColors,
 } from './chao';
+import { speciesOf } from '../../sim/species';
+import { buildCreatureSheet } from './creature';
 import { buildCocoonSheet, buildEggSheet } from './egg';
+import { speciesArt } from './species-art';
 import { buildEmoteSheet } from './emote';
 import { buildKeeperSheet, MOON_KEEPER, SUN_KEEPER } from './keeper';
 import { buildPropSheet } from './props';
@@ -45,8 +48,9 @@ export class SheetCache {
 
   /** The style key a Nubbin renders with right now. */
   static nubbinKey(n: Nubbin): string {
-    if (n.stage === 'egg') return `egg:${n.eggColor}`;
+    if (n.stage === 'egg') return `egg:${n.eggColor}:${n.species}`;
     if (n.stage === 'cocoon') return `cocoon:${n.cocoonKind ?? 'evolve'}`;
+    if (n.species !== 'chao') return `species:${n.species}`;
     const parts = SLOTS.map((s) => n.parts[s] ?? '-').join(',');
     const hat = n.hat ?? '-';
     const variant = `${n.eggColor}:${n.shiny ? 's' : '-'}:${n.tone ?? '-'}`;
@@ -60,8 +64,12 @@ export class SheetCache {
   forNubbin(n: Nubbin): SpriteSheet {
     const key = SheetCache.nubbinKey(n);
     return this.get(key, () => {
-      if (n.stage === 'egg') return buildEggSheet(n.eggColor);
+      const family = speciesOf(n.species).family;
+      if (n.stage === 'egg') return buildEggSheet(n.eggColor, family);
       if (n.stage === 'cocoon') return buildCocoonSheet(n.cocoonKind ?? 'evolve');
+      // Other families use the generic creature drawer; their look is the species.
+      const art = family !== 'chao' ? speciesArt(n.species) : undefined;
+      if (art) return buildCreatureSheet(art);
       // A character look replaces the palette and adds its accessory as the hat.
       const look = n.hat ? CHARACTER_LOOKS[n.hat] : undefined;
       if (n.stage === 'adult' && n.form) {

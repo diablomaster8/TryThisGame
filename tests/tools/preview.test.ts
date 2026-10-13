@@ -16,7 +16,31 @@ import {
   variantColors,
   type ChaoLook,
 } from '../../src/render/sprites/chao';
+import { drawCreature } from '../../src/render/sprites/creature';
+import { SPECIES_ART } from '../../src/render/sprites/species-art';
 import { blitScaled, encodePng, solid } from './png';
+
+it.skipIf(!process.env.PREVIEW_SPECIES)('writes a preview sheet of every species', () => {
+  const ids = Object.keys(SPECIES_ART);
+  const cols = 7;
+  const scale = 3;
+  const cell = 34 * scale;
+  const angles = ['front', 'side'] as const;
+  const rows = Math.ceil(ids.length / cols);
+  const width = cell * cols * angles.length;
+  const height = cell * rows;
+  const rgba = solid(width, height, '#3a3550');
+  ids.forEach((id, i) => {
+    const r = Math.floor(i / cols);
+    const c = i % cols;
+    angles.forEach((angle, k) => {
+      const pc = drawCreature(angle, poseFor('idle', 0), SPECIES_ART[id]!);
+      blitScaled(rgba, width, pc, (c * angles.length + k) * cell + scale, r * cell + scale, scale);
+    });
+  });
+  writeFileSync(process.env.PREVIEW_SPECIES!, encodePng(width, height, rgba));
+  expect(ids.length).toBeGreaterThan(40);
+});
 
 it.skipIf(!process.env.PREVIEW_OUT)('writes a preview sheet of looks', () => {
   const rows: ChaoLook[][] = [];
