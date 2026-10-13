@@ -87,6 +87,8 @@ export function validateWorld(w: World): World {
     n.cocoonKind ??= n.stage === 'cocoon' ? 'evolve' : null;
     n.childCare ??= { pets: 0, throws: 0, feeds: 0 };
     n.shiny ??= false;
+    n.species ??= 'chao';
+    n.lineage ??= n.species;
     n.tone ??= null;
     n.personality ??= null;
     n.hat ??= null;

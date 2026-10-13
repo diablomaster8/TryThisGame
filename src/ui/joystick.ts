@@ -28,6 +28,9 @@ export class Joystick {
     this.root.addEventListener('pointermove', this.onMove);
     this.root.addEventListener('pointerup', this.onUp);
     this.root.addEventListener('pointercancel', this.onUp);
+    // Safety nets: a release anywhere, or losing focus, must never leave the Keeper walking.
+    window.addEventListener('pointerup', this.onUp);
+    window.addEventListener('blur', () => this.release());
   }
 
   setVisible(on: boolean): void {

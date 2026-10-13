@@ -100,6 +100,10 @@ export interface Nubbin {
   hatchRemainingMs: number;
   /** Egg colour; it becomes the Nubbin's body colour for life. 'plain' is the default look. */
   eggColor: string;
+  /** Species id (see sim/species.ts); 'chao' is the original line. */
+  species: string;
+  /** The baby species this line started as; rebirth returns to it. */
+  lineage: string;
   /** Rare: extra highlights and a bright outline. */
   shiny: boolean;
   /** Two-tone: a second colour for the belly and tips, or null. */
@@ -295,8 +299,10 @@ export type SimEvent =
       /** The stat whose grade went up, if any. */
       upgraded: StatKey | null;
       groveUnlocked: GroveKind | null;
+      /** The species after evolving (unchanged for the Chao line). */
+      species: string;
     }
-  | { kind: 'secondEvolved'; nubbinId: string; second: NubbinType }
+  | { kind: 'secondEvolved'; nubbinId: string; second: NubbinType; species: string }
   | { kind: 'cocoonStarted'; nubbinId: string; cocoon: CocoonKind }
   | { kind: 'eternal'; nubbinId: string; band: AlignmentBand }
   | { kind: 'awaitingKeeper'; nubbinId: string }

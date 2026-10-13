@@ -2,6 +2,7 @@ import { BEHAVIOR, EGG, ETERNAL, LIFECYCLE, REBIRTH, TYPE_LEAN } from '../config
 import { bandOf, winningType } from './alignment';
 import { lifetimeHappiness } from './needs';
 import { decidePersonality } from './personality';
+import { nextSpecies, speciesOf } from './species';
 import { levelOf, nextGrade } from './stats';
 import type {
   AlignmentBand,
@@ -154,6 +155,9 @@ export function evolve(n: Nubbin, events: SimEvent[], world?: World): void {
   n.form = { band, type, second: null, leanAtEvolution: { ...n.typeLean } };
   // Personality locks in now, from how the child was treated.
   n.personality = decidePersonality(n.childCare);
+  // Other families change species as they grow; the Chao line changes form only.
+  const next = nextSpecies(speciesOf(n.species), type, band, lifetimeHappiness(n));
+  if (next) n.species = next;
   n.stage = 'adult';
   n.stageMs = 0;
   n.cocoonKind = null;
@@ -180,7 +184,15 @@ export function evolve(n: Nubbin, events: SimEvent[], world?: World): void {
       groveUnlocked = 'moon';
     }
   }
-  events.push({ kind: 'evolved', nubbinId: n.id, band, type, upgraded, groveUnlocked });
+  events.push({
+    kind: 'evolved',
+    nubbinId: n.id,
+    band,
+    type,
+    upgraded,
+    groveUnlocked,
+    species: n.species,
+  });
 
   const eternal = eternalBandFor(n, type);
   if (eternal) {
@@ -209,7 +221,18 @@ export function secondEvolve(n: Nubbin, events: SimEvent[]): void {
   if (!n.form) return;
   const second = secondTypeFor(n) ?? 'normal';
   n.form.second = second;
-  events.push({ kind: 'secondEvolved', nubbinId: n.id, second });
+  // A grown species with a final form takes it now (e.g. the mouse line's third stage).
+  const s = speciesOf(n.species);
+  if (s.stage === 'grown') {
+    const next = nextSpecies(
+      s,
+      second === 'normal' ? n.form.type : second,
+      n.form.band,
+      lifetimeHappiness(n),
+    );
+    if (next) n.species = next;
+  }
+  events.push({ kind: 'secondEvolved', nubbinId: n.id, second, species: n.species });
 }
 
 /** Back to an egg: same name, 10 % of points, grades and affection kept, rebirths +1. */
@@ -221,6 +244,7 @@ export function rebirth(n: Nubbin, events: SimEvent[]): void {
   n.cocoonKind = null;
   n.hatchRemainingMs = EGG.hatchMs;
   n.form = null;
+  n.species = n.lineage;
   n.parts = { ears: null, tail: null, arms: null, back: null };
   n.typeLean = { normal: 0, swim: 0, fly: 0, run: 0, power: 0 };
   n.personality = null;

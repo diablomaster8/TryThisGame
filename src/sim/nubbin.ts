@@ -7,7 +7,13 @@ import type { Nubbin, NubbinType, Vec2 } from './types';
 
 export const EGG_COLORS = ['plain', 'sky', 'rose', 'mint', 'gold', 'violet'] as const;
 
-export function createEgg(id: string, pos: Vec2, rng: Rng, eggColor: string = 'plain'): Nubbin {
+export function createEgg(
+  id: string,
+  pos: Vec2,
+  rng: Rng,
+  eggColor: string = 'plain',
+  species: string = 'chao',
+): Nubbin {
   const seed = Math.floor(rng.next() * 4294967296);
   const lean: Record<NubbinType, number> = { normal: 0, swim: 0, fly: 0, run: 0, power: 0 };
   return {
@@ -20,6 +26,8 @@ export function createEgg(id: string, pos: Vec2, rng: Rng, eggColor: string = 'p
     ageMs: 0,
     hatchRemainingMs: EGG.hatchMs,
     eggColor,
+    species,
+    lineage: species,
     shiny: false,
     tone: null,
     pos: { x: pos.x, z: pos.z },
