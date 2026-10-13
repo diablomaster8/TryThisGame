@@ -87,12 +87,12 @@ tests/sim/
 
 - **The world** is low-poly 3D: grass, a pond, hills, 2 fruit trees and a waterfall. It uses small pixel textures and one shared 32-color palette (`render/sprites/palette.ts`).
 - **The low-res render:**
-  - Draw each frame into a target about 270 px tall, with its width set by the screen's aspect ratio.
+  - Draw each frame into a target about 540 px tall (Maor chose the 64 px tier on 2026-10-13; sprites are designed on a 32 px grid and rasterised at 2×, see `PX` in `pixel-canvas.ts`), with its width set by the screen's aspect ratio.
   - Scale it up to fill the screen using nearest-neighbor filtering and `image-rendering: pixelated`.
   - Handle resizing and screen rotation.
 - **Sprites** (Nubbins, the Keeper, items) are flat images that turn to face the camera around the vertical axis only.
   - Draw 5 angles: front, front three-quarter, side, back three-quarter and back. Mirror them for the other 3.
-  - Generate the pixel art in code by drawing onto canvases, roughly 32×32 per frame for a Nubbin.
+  - Generate the pixel art in code by drawing onto canvases, designed at 32×32 per frame for a Nubbin and rasterised at 64×64.
   - Build a Nubbin from layers: body, then 4 part slots (ears, tail, arms, back), then a face, then a hat.
   - Keep the loader able to accept hand-drawn sprite sheets later.
 - **Animations:**

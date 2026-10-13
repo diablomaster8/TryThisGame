@@ -13,9 +13,15 @@ log before coding, still keep the per-milestone commits and checks.
 
 Maor approved the plan ("go now"): graphics first, then a full story campaign with at
 least six endings and a treat-them-well mechanic. Resolution stays 270p (32 px sprites);
-samples at 48/64 px and 96/128/192 px were sent for a decision (`PREVIEW_HIRES=` and
-`PREVIEW_HIRES2=` with `npx vitest run tests/tools`). Moving up would mean redrawing every
-animation set at the chosen size.
+**Decision (Maor, 2026-10-13): 64 px (540p).** Done the cheap way: every drawer keeps its
+32 px design coordinates and `PixelCanvas` rasterises them on a 2× grid (`PX` in
+`pixel-canvas.ts`): curves come out smooth, outlines and highlights are one fine pixel
+wide, and drawers add detail on the fine grid (`dot`, `thinLine`, fractional ellipses).
+The Chao face got an iris, pupil and two glints, a thin smile, cheeks and a belly
+highlight; big and cute creature eyes got an iris too. Frame height 540, pixels per unit
+16/32, mega atlas 4096², post-pass blur radii doubled, minigame canvases draw at 2× with
+art scaled back to design size. The 32 px look remains reachable by setting `PX = 1`.
+The earlier samples (`chao-hires.ts`) were removed once the real drawers hit 64 px.
 
 **Graphics passes (what works):**
 
@@ -334,8 +340,8 @@ by Maor's decision; names, music and sound are original).
 
 ## Next steps
 
-0. **Resolution decision (Maor):** keep 270p, or pick 360p/540p (or a higher tier from
-   the second sample); anything above 32 px means redrawing the animation sets.
+0. ~~Resolution decision~~ Done: 64 px / 540p (see the 2026-10-13 section). Remaining from
+   that: a visual pass on any species whose fine-grid eyes read oddly.
 1. **Device test pass (Maor):** open https://diablomaster8.github.io/TryThisGame/ on
    Android Chrome and desktop browsers (PC web and Android are the targets now). Check
    fps with 8 creatures (debug "Fill roster"), the Expedition's tap/hold feel, a race

@@ -22,7 +22,7 @@ export class MegaAtlas {
   private shelfX = 0;
   private shelfH = 0;
 
-  constructor(readonly size = 2048) {
+  constructor(readonly size = 4096) {
     this.canvas = document.createElement('canvas');
     this.canvas.width = size;
     this.canvas.height = size;

@@ -2,7 +2,7 @@ import { CLIPS, frameKey, type ClipName } from './animations';
 import { DRAWN_ANGLES, type DrawnAngle } from './angles';
 import { AtlasBuilder, type SpriteSheet } from './atlas';
 import { poseFor, type ChaoPose } from './chao';
-import { C } from './palette';
+import { C, shadeOf } from './palette';
 import { PixelCanvas } from './pixel-canvas';
 
 /**
@@ -480,14 +480,24 @@ function drawFace(pc: PixelCanvas, a: Anchors, spec: CreatureSpec, pose: ChaoPos
       return;
     }
     switch (spec.eyes) {
-      case 'big':
-        pc.ellipse(cx, ey, narrow ? 1 : 1.6, pose.eyes === 'half' ? 1.5 : 2.4, col.eye);
-        pc.px(cx - (narrow ? 0 : 1), ey - 1, C.white);
+      case 'big': {
+        const rx = narrow ? 1 : 1.6;
+        const ry = pose.eyes === 'half' ? 1.5 : 2.4;
+        pc.ellipse(cx, ey, rx, ry, col.eye);
+        // Iris, pupil and two glints on the fine grid.
+        pc.ellipse(cx + 0.15, ey + 0.6, rx * 0.6, ry * 0.55, shadeOf(col.accent));
+        pc.ellipse(cx + 0.15, ey + 0.8, rx * 0.3, ry * 0.3, col.eye);
+        pc.ellipse(cx - (narrow ? 0.2 : 0.6), ey - 1.2, narrow ? 0.4 : 0.55, 0.7, C.white);
+        pc.dot(cx + 0.5, ey + 1.1, C.white);
         break;
-      case 'cute':
-        pc.ellipse(cx, ey, narrow ? 0.9 : 1.3, 1.8, col.eye);
-        pc.px(cx, ey - 1, C.white);
+      }
+      case 'cute': {
+        const rx = narrow ? 0.9 : 1.3;
+        pc.ellipse(cx, ey, rx, 1.8, col.eye);
+        pc.ellipse(cx + 0.1, ey + 0.5, rx * 0.55, 1.0, shadeOf(col.accent));
+        pc.ellipse(cx - 0.4, ey - 0.9, 0.45, 0.6, C.white);
         break;
+      }
       case 'angry':
         pc.rect(cx - 1, ey, 3, 2, col.eye);
         pc.line(cx - 2, ey - 1, cx + 1, ey - 2, col.outline);

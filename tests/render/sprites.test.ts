@@ -16,7 +16,7 @@ import {
 import { PART_STYLES } from '../../src/render/sprites/parts';
 import { CRITTER_SPECIES, partId } from '../../src/sim/critters';
 import { C } from '../../src/render/sprites/palette';
-import { PixelCanvas } from '../../src/render/sprites/pixel-canvas';
+import { PixelCanvas, PX } from '../../src/render/sprites/pixel-canvas';
 
 describe('viewIndex', () => {
   it('faces the camera when facing equals the camera yaw', () => {
@@ -68,10 +68,11 @@ describe('PixelCanvas', () => {
     expect(pc.get(3, 3)).toBe(C.grass);
     expect(pc.get(2, 3)).toBe(-1);
     pc.outline(C.ink);
-    expect(pc.get(2, 3)).toBe(C.ink);
-    expect(pc.get(4, 3)).toBe(C.ink);
-    expect(pc.get(2, 2)).toBe(-1); // 4-neighbour only
-    expect(pc.bounds()).toEqual({ x: 2, y: 2, w: 3, h: 3 });
+    // A design pixel is a PX×PX block; the outline is one physical pixel around it.
+    expect(pc.getFine(3 * PX - 1, 3 * PX)).toBe(C.ink);
+    expect(pc.getFine(4 * PX, 3 * PX)).toBe(C.ink);
+    expect(pc.getFine(3 * PX - 1, 3 * PX - 1)).toBe(-1); // 4-neighbour only
+    expect(pc.bounds()).toEqual({ x: 3 * PX - 1, y: 3 * PX - 1, w: PX + 2, h: PX + 2 });
   });
 
   it('mirrors and recolours', () => {
@@ -95,7 +96,7 @@ describe('drawChao', () => {
       expect(b).not.toBeNull();
       expect(b!.h).toBeGreaterThan(18);
       expect(b!.w).toBeGreaterThan(12);
-      expect(b!.y + b!.h - 1).toBe(31); // outline row under the feet
+      expect(b!.y + b!.h - 1).toBe(32 * PX - 1); // outline row under the feet
     }
   });
 

@@ -31,7 +31,7 @@ The game looks like a chunky 3D world drawn in crisp pixel art. The creature is 
 
 - **The world is simple low-poly 3D** — grass, a pond, hills, trees and a waterfall — with small pixel textures and a limited 32-color palette.
 - **Creatures, the keeper and items are flat pixel sprites** that turn to face the camera. Each one is drawn from 5 angles (front, front three-quarter, side, back three-quarter, back) and mirrored to cover all 8 directions.
-- **Each frame is rendered at about 270 pixels tall, then scaled up without smoothing.** This gives the crisp retro look, and it keeps the game fast on phones because there are about a tenth as many pixels to draw.
+- **Each frame is rendered at about 540 pixels tall, then scaled up without smoothing.** This gives the crisp retro look, and it keeps the game fast on phones because there are about a tenth as many pixels to draw.
 - **The camera circles the garden in 45° steps** at a fixed downward angle, with two zoom levels. Snapping to 45° keeps the sprite angles lined up with the camera.
 
 **Tone:** cozy, gentle and kid-friendly. When a Nubbin isn't reborn, it drifts away softly and leaves a memorial flower. Nothing in the game shows death.
@@ -161,7 +161,7 @@ The build is split into six milestones, M0 to M5. Each one ends with something y
 **M0 — Foundation**
 
 1. Set up the project: Vite, TypeScript in strict mode, Three.js and Vitest, plus ESLint and Prettier.
-2. Build the low-res render pipeline: draw each frame at about 270 pixels tall, scale it up crisply to fill the screen, and handle window resizes and phone rotation.
+2. Build the low-res render pipeline: draw each frame at about 540 pixels tall, scale it up crisply to fill the screen, and handle window resizes and phone rotation.
 3. Add a test scene with a ground plane, one tree and one camera-facing sprite, with the camera rotating in 45° steps and zooming.
 4. Add an FPS counter, then deploy to a static host so you can test on your phone.
 

@@ -1,4 +1,5 @@
 import { RACE, SIM } from '../../config/tuning';
+import { PX } from '../../render/sprites/pixel-canvas';
 import { NAMES, UI_TEXT } from '../../config/strings';
 import { CLIPS, frameAt, frameKey, type ClipName } from '../../render/sprites/animations';
 import type { SpriteSheet } from '../../render/sprites/atlas';
@@ -138,8 +139,8 @@ export class RaceScreen {
     const rect = this.root.getBoundingClientRect();
     const aspect = rect.width / Math.max(1, rect.height);
     this.viewW = Math.round(Math.max(200, Math.min(480, VIEW_H * aspect)));
-    this.canvas.width = this.viewW;
-    this.canvas.height = VIEW_H;
+    this.canvas.width = this.viewW * PX;
+    this.canvas.height = VIEW_H * PX;
     const scale = Math.min(rect.width / this.viewW, rect.height / VIEW_H);
     this.canvas.style.width = `${Math.floor(this.viewW * scale)}px`;
     this.canvas.style.height = `${Math.floor(VIEW_H * scale)}px`;
@@ -148,6 +149,8 @@ export class RaceScreen {
   private readonly frame = (nowMs: number): void => {
     const race = this.race;
     if (!race) return;
+    this.ctx.setTransform(PX, 0, 0, PX, 0, 0);
+    this.ctx.imageSmoothingEnabled = false;
     const dt = this.lastMs === 0 ? 0 : Math.min(100, nowMs - this.lastMs);
     this.lastMs = nowMs;
     this.accMs += dt;
@@ -268,19 +271,19 @@ export class RaceScreen {
       const rect = sheet.frames.get(frameKey(clip, 'side', f));
       if (!rect) continue;
       const image = sheet.texture.image as HTMLCanvasElement;
-      const sx = Math.round(r.pos * PX_PER_UNIT - camX - rect.w / 2);
+      const sx = Math.round(r.pos * PX_PER_UNIT - camX - rect.w / (2 * PX));
       const lift = section.kind === 'fly' && !resting ? 18 : section.kind === 'climb' ? 6 : 0;
-      const sy = Math.round(TRACK_TOP + lane * LANE_GAP - rect.h + 4 - lift);
-      ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, sx, sy, rect.w, rect.h);
+      const sy = Math.round(TRACK_TOP + lane * LANE_GAP - rect.h / PX + 4 - lift);
+      ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, sx, sy, rect.w / PX, rect.h / PX);
       // Name tag, the player's in yellow.
       ctx.fillStyle = color(r.isPlayer ? C.sunYellow : C.cream);
       ctx.font = '7px monospace';
       ctx.fillText(r.name, sx + 2, sy - 2);
       if (resting) {
         ctx.fillStyle = color(C.pale);
-        ctx.fillText('zz', sx + rect.w - 6, sy + 4);
+        ctx.fillText('zz', sx + rect.w / PX - 6, sy + 4);
       }
-      if (r.isPlayer) this.drawStamina(r, sx, sy + rect.h + 2);
+      if (r.isPlayer) this.drawStamina(r, sx, sy + rect.h / PX + 2);
     }
 
     // Cheer glow.

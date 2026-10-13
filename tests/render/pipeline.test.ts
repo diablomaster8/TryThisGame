@@ -46,7 +46,7 @@ describe('computeTargetSize', () => {
 
   it('uses the configured default target height to pick the scale', () => {
     const size = computeTargetSize(1600, 900);
-    expect(size.scale).toBe(3);
-    expect(size.height).toBe(300);
+    expect(size.scale).toBe(2);
+    expect(size.height).toBe(450);
   });
 });

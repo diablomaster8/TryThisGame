@@ -2,48 +2,81 @@ import { CanvasTexture, NearestFilter, RepeatWrapping, SRGBColorSpace } from 'th
 import { color, lightOf, outlineOf, shadeOf } from './palette';
 
 /**
+ * Physical pixels per design pixel. The sprites are designed on a 32 px grid; at 2 they
+ * rasterise on a 64 px grid (the 540p look Maor chose): curves come out smoother,
+ * outlines and highlights are one fine pixel wide, and drawers can place detail on the
+ * fine grid with fractional coordinates or the `dot` / `thinLine` primitives.
+ */
+export const PX = 2;
+
+/**
  * A tiny pixel-plotting surface. Everything generated in code goes through this so
  * sprites and textures stay on the palette and stay crisp. Pixels are kept in a plain
  * Uint8 index buffer (palette index + 1, 0 = transparent) and flushed to a canvas, so
  * drawing is cheap, deterministic and testable without a DOM.
+ *
+ * Coordinates passed to the drawing calls are design pixels; `width` and `height`
+ * (and `data`) are physical, `PX` times larger.
  */
 export class PixelCanvas {
   readonly data: Uint8Array;
+  readonly width: number;
+  readonly height: number;
 
   constructor(
-    readonly width: number,
-    readonly height: number,
+    readonly logicalWidth: number,
+    readonly logicalHeight: number,
   ) {
-    this.data = new Uint8Array(width * height);
+    this.width = logicalWidth * PX;
+    this.height = logicalHeight * PX;
+    this.data = new Uint8Array(this.width * this.height);
   }
 
   clear(): void {
     this.data.fill(0);
   }
 
+  /** Palette index at a design pixel (its top-left physical pixel), or -1. */
   get(x: number, y: number): number {
-    if (x < 0 || y < 0 || x >= this.width || y >= this.height) return -1;
-    return (this.data[y * this.width + x] ?? 0) - 1;
+    return this.getFine(Math.round(x) * PX, Math.round(y) * PX);
   }
 
+  /** Palette index at a physical pixel, or -1. */
+  getFine(px: number, py: number): number {
+    if (px < 0 || py < 0 || px >= this.width || py >= this.height) return -1;
+    return (this.data[py * this.width + px] ?? 0) - 1;
+  }
+
+  private set(px: number, py: number, v: number): void {
+    if (px < 0 || py < 0 || px >= this.width || py >= this.height) return;
+    this.data[py * this.width + px] = v;
+  }
+
+  /** One design pixel: a PX×PX block. */
   px(x: number, y: number, paletteIndex: number): void {
-    x = Math.round(x);
-    y = Math.round(y);
-    if (x < 0 || y < 0 || x >= this.width || y >= this.height) return;
-    this.data[y * this.width + x] = paletteIndex + 1;
+    const x0 = Math.round(x * PX);
+    const y0 = Math.round(y * PX);
+    for (let j = 0; j < PX; j++)
+      for (let i = 0; i < PX; i++) this.set(x0 + i, y0 + j, paletteIndex + 1);
+  }
+
+  /** One physical pixel, at design coordinates (so 10.5 is the fine grid). */
+  dot(x: number, y: number, paletteIndex: number): void {
+    this.set(Math.floor(x * PX), Math.floor(y * PX), paletteIndex + 1);
   }
 
   erase(x: number, y: number): void {
-    x = Math.round(x);
-    y = Math.round(y);
-    if (x < 0 || y < 0 || x >= this.width || y >= this.height) return;
-    this.data[y * this.width + x] = 0;
+    const x0 = Math.round(x * PX);
+    const y0 = Math.round(y * PX);
+    for (let j = 0; j < PX; j++) for (let i = 0; i < PX; i++) this.set(x0 + i, y0 + j, 0);
   }
 
   rect(x: number, y: number, w: number, h: number, paletteIndex: number): void {
-    const x0 = Math.round(x);
-    const y0 = Math.round(y);
-    for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) this.px(x0 + i, y0 + j, paletteIndex);
+    const x0 = Math.round(x * PX);
+    const y0 = Math.round(y * PX);
+    const x1 = Math.round((x + w) * PX);
+    const y1 = Math.round((y + h) * PX);
+    for (let j = y0; j < y1; j++) for (let i = x0; i < x1; i++) this.set(i, j, paletteIndex + 1);
   }
 
   /** Filled pixel circle (centre may be fractional for even-sized blobs). */
@@ -53,6 +86,10 @@ export class PixelCanvas {
 
   ellipse(cx: number, cy: number, rx: number, ry: number, paletteIndex: number): void {
     if (rx <= 0 || ry <= 0) return;
+    cx *= PX;
+    cy *= PX;
+    rx *= PX;
+    ry *= PX;
     const x0 = Math.max(0, Math.floor(cx - rx - 1));
     const x1 = Math.min(this.width - 1, Math.ceil(cx + rx + 1));
     const y0 = Math.max(0, Math.floor(cy - ry - 1));
@@ -61,23 +98,46 @@ export class PixelCanvas {
       for (let x = x0; x <= x1; x++) {
         const dx = (x + 0.5 - cx) / rx;
         const dy = (y + 0.5 - cy) / ry;
-        if (dx * dx + dy * dy <= 1) this.px(x, y, paletteIndex);
+        if (dx * dx + dy * dy <= 1) this.set(x, y, paletteIndex + 1);
       }
     }
   }
 
+  /** A line one design pixel thick. */
   line(x0: number, y0: number, x1: number, y1: number, paletteIndex: number): void {
-    x0 = Math.round(x0);
-    y0 = Math.round(y0);
-    x1 = Math.round(x1);
-    y1 = Math.round(y1);
+    this.rasterLine(x0, y0, x1, y1, (px, py) => {
+      for (let j = 0; j < PX; j++)
+        for (let i = 0; i < PX; i++) this.set(px + i, py + j, paletteIndex + 1);
+    });
+  }
+
+  /** A line one physical pixel thick. */
+  thinLine(x0: number, y0: number, x1: number, y1: number, paletteIndex: number): void {
+    this.rasterLine(x0, y0, x1, y1, (px, py) => this.set(px, py, paletteIndex + 1), 1);
+  }
+
+  private rasterLine(
+    x0: number,
+    y0: number,
+    x1: number,
+    y1: number,
+    plot: (px: number, py: number) => void,
+    step = PX,
+  ): void {
+    // Bresenham on the design grid for thick lines (so the weight stays even), on the
+    // physical grid for thin ones.
+    const s = step === PX ? 1 : PX;
+    x0 = Math.round(x0 * s);
+    y0 = Math.round(y0 * s);
+    x1 = Math.round(x1 * s);
+    y1 = Math.round(y1 * s);
     const dx = Math.abs(x1 - x0);
     const dy = -Math.abs(y1 - y0);
     const sx = x0 < x1 ? 1 : -1;
     const sy = y0 < y1 ? 1 : -1;
     let err = dx + dy;
     for (;;) {
-      this.px(x0, y0, paletteIndex);
+      plot(x0 * step, y0 * step);
       if (x0 === x1 && y0 === y1) break;
       const e2 = 2 * err;
       if (e2 >= dy) {
@@ -101,6 +161,12 @@ export class PixelCanvas {
     cy: number,
     paletteIndex: number,
   ): void {
+    ax *= PX;
+    ay *= PX;
+    bx *= PX;
+    by *= PX;
+    cx *= PX;
+    cy *= PX;
     const minX = Math.max(0, Math.floor(Math.min(ax, bx, cx)));
     const maxX = Math.min(this.width - 1, Math.ceil(Math.max(ax, bx, cx)));
     const minY = Math.max(0, Math.floor(Math.min(ay, by, cy)));
@@ -116,24 +182,26 @@ export class PixelCanvas {
         const w0 = edge(ax, ay, bx, by, px, py) / area;
         const w1 = edge(bx, by, cx, cy, px, py) / area;
         const w2 = edge(cx, cy, ax, ay, px, py) / area;
-        if (w0 >= 0 && w1 >= 0 && w2 >= 0) this.px(x, y, paletteIndex);
+        if (w0 >= 0 && w1 >= 0 && w2 >= 0) this.set(x, y, paletteIndex + 1);
       }
     }
   }
 
-  /** Copy another canvas onto this one, optionally mirrored. Transparent pixels skip. */
+  /** Copy another canvas onto this one at design coordinates, optionally mirrored. Transparent pixels skip. */
   blit(src: PixelCanvas, dx: number, dy: number, flipX = false): void {
+    const ox = Math.round(dx * PX);
+    const oy = Math.round(dy * PX);
     for (let y = 0; y < src.height; y++) {
       for (let x = 0; x < src.width; x++) {
         const v = src.data[y * src.width + x] ?? 0;
         if (v === 0) continue;
-        const tx = flipX ? dx + (src.width - 1 - x) : dx + x;
-        this.px(tx, dy + y, v - 1);
+        const tx = flipX ? ox + (src.width - 1 - x) : ox + x;
+        this.set(tx, oy + y, v);
       }
     }
   }
 
-  /** Add a 1px outline around every opaque pixel (4-neighbour). */
+  /** Add a one-physical-pixel outline around every opaque pixel (4-neighbour). */
   outline(paletteIndex: number): void {
     const src = this.data.slice();
     const w = this.width;
@@ -221,12 +289,12 @@ export class PixelCanvas {
   }
 
   mirrored(): PixelCanvas {
-    const out = new PixelCanvas(this.width, this.height);
+    const out = new PixelCanvas(this.logicalWidth, this.logicalHeight);
     out.blit(this, 0, 0, true);
     return out;
   }
 
-  /** Bounding box of opaque pixels, or null when empty. */
+  /** Bounding box of opaque physical pixels, or null when empty. */
   bounds(): { x: number; y: number; w: number; h: number } | null {
     let minX = this.width;
     let minY = this.height;
@@ -245,7 +313,7 @@ export class PixelCanvas {
     return { x: minX, y: minY, w: maxX - minX + 1, h: maxY - minY + 1 };
   }
 
-  /** Paint onto a 2D canvas context at (dx, dy). */
+  /** Paint onto a 2D canvas context at physical (dx, dy). */
   paint(ctx: CanvasRenderingContext2D, dx: number, dy: number): void {
     const image = ctx.createImageData(this.width, this.height);
     const px = image.data;

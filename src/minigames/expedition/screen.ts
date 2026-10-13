@@ -1,4 +1,5 @@
 import { EXPEDITION, SIM } from '../../config/tuning';
+import { PX } from '../../render/sprites/pixel-canvas';
 import { CRITTER_LABELS, ESSENCE_LABELS, NAMES, UI_TEXT } from '../../config/strings';
 import { CLIPS, frameAt, frameKey } from '../../render/sprites/animations';
 import type { SpriteSheet } from '../../render/sprites/atlas';
@@ -126,8 +127,8 @@ export class ExpeditionScreen {
     this.viewW = Math.round(
       Math.max(EXPEDITION.minViewW, Math.min(EXPEDITION.maxViewW, EXPEDITION.viewH * aspect)),
     );
-    this.canvas.width = this.viewW;
-    this.canvas.height = EXPEDITION.viewH;
+    this.canvas.width = this.viewW * PX;
+    this.canvas.height = EXPEDITION.viewH * PX;
     // Letterbox: scale to fit while keeping the low-res aspect.
     const scale = Math.min(rect.width / this.viewW, rect.height / EXPEDITION.viewH);
     this.canvas.style.width = `${Math.floor(this.viewW * scale)}px`;
@@ -137,6 +138,8 @@ export class ExpeditionScreen {
   private readonly frame = (nowMs: number): void => {
     const run = this.run;
     if (!run) return;
+    // The backing canvas is PX times the design size; draw in design units.
+    this.ctx.setTransform(PX, 0, 0, PX, 0, 0);
     const dt = this.lastMs === 0 ? 0 : Math.min(100, nowMs - this.lastMs);
     this.lastMs = nowMs;
     this.accMs += dt;
@@ -173,6 +176,8 @@ export class ExpeditionScreen {
 
   private draw(run: RunState, nowMs: number): void {
     const ctx = this.ctx;
+    const blit = (img: HTMLCanvasElement, x: number, y: number) =>
+      ctx.drawImage(img, x, y, img.width / PX, img.height / PX);
     const art = this.art;
     if (!art) return;
     const W = this.viewW;
@@ -191,11 +196,11 @@ export class ExpeditionScreen {
     const cloudShift = (run.distance * 0.2) % (W + 60);
     for (let i = 0; i < 4; i++) {
       const x = ((i * 150 - cloudShift) % (W + 60)) - 30;
-      ctx.drawImage(art.cloud, x < -40 ? x + W + 60 : x, 20 + (i % 2) * 24);
+      blit(art.cloud, x < -40 ? x + W + 60 : x, 20 + (i % 2) * 24);
     }
     const hillShift = (run.distance * 0.45) % 140;
     for (let x = -hillShift - 140; x < W + 140; x += 140) {
-      ctx.drawImage(art.hill, x, EXPEDITION.groundY - 40);
+      blit(art.hill, x, EXPEDITION.groundY - 40);
     }
 
     // Ground: one grassy row, then earth with a few scrolling pebbles.
@@ -203,7 +208,7 @@ export class ExpeditionScreen {
     ctx.fillRect(0, EXPEDITION.groundY + 16, W, H - EXPEDITION.groundY - 16);
     const groundShift = run.distance % 16;
     for (let x = -groundShift - 16; x < W + 16; x += 16) {
-      ctx.drawImage(art.groundTile, x, EXPEDITION.groundY);
+      blit(art.groundTile, x, EXPEDITION.groundY);
     }
     ctx.fillStyle = color(C.darkBark);
     const pebbleShift = Math.floor(run.distance) % 48;
@@ -219,22 +224,22 @@ export class ExpeditionScreen {
       if (sx + t.w < 0 || sx > W) continue;
       switch (t.kind) {
         case 'shell':
-          ctx.drawImage(art.shell[bob] ?? art.shell[0]!, sx, Math.round(t.y));
+          blit(art.shell[bob] ?? art.shell[0]!, sx, Math.round(t.y));
           break;
         case 'essence':
-          ctx.drawImage(art.essence[t.type ?? 'normal'], sx, Math.round(t.y + (bob ? 1 : 0)));
+          blit(art.essence[t.type ?? 'normal'], sx, Math.round(t.y + (bob ? 1 : 0)));
           break;
         case 'critter':
-          ctx.drawImage(art.bubble[bob] ?? art.bubble[0]!, sx, Math.round(t.y + (bob ? -1 : 1)));
+          blit(art.bubble[bob] ?? art.bubble[0]!, sx, Math.round(t.y + (bob ? -1 : 1)));
           break;
         case 'rock':
-          ctx.drawImage(art.rock, sx, Math.round(t.y));
+          blit(art.rock, sx, Math.round(t.y));
           break;
         case 'log':
-          ctx.drawImage(art.log, sx, Math.round(t.y));
+          blit(art.log, sx, Math.round(t.y));
           break;
         case 'bush':
-          ctx.drawImage(art.bush, sx, Math.round(t.y));
+          blit(art.bush, sx, Math.round(t.y));
           break;
       }
     }
@@ -249,9 +254,9 @@ export class ExpeditionScreen {
         const hit = run.lastEvent?.kind === 'hit' && run.timeMs - run.lastEvent.atMs < 300;
         if (!hit || Math.floor(nowMs / 60) % 2 === 0) {
           const image = sheet.texture.image as HTMLCanvasElement;
-          const dx = Math.round(EXPEDITION.runnerX - rect.w / 2);
+          const dx = Math.round(EXPEDITION.runnerX - rect.w / (2 * PX));
           const dy = Math.round(run.runnerY - RUNNER_H - 4);
-          ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, dx, dy, rect.w, rect.h);
+          ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, dx, dy, rect.w / PX, rect.h / PX);
         }
       }
     }

@@ -7,7 +7,7 @@ const HOUR = 60 * MINUTE;
 
 export const RENDER = {
   /** Height of the low-res frame in pixels. Width follows the screen aspect ratio. */
-  targetHeight: 270,
+  targetHeight: 540,
   /** The low-res target does the heavy lifting, so device pixel ratio is capped at 1. */
   maxPixelRatio: 1,
 } as const;
@@ -24,7 +24,7 @@ export const CAMERA = {
    * Zoom levels, expressed as low-res pixels per world unit. Integer ratios keep
    * pixel art crisp. Index 0 is the farthest view.
    */
-  pixelsPerUnit: [8, 16] as const,
+  pixelsPerUnit: [16, 32] as const,
   initialZoomIndex: 1,
   /** Distance from the orbit target. Only affects clipping for an orthographic camera. */
   distance: 60,

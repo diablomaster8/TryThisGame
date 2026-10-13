@@ -1,5 +1,5 @@
 import type { CanvasTexture } from 'three';
-import { canvasToTexture, type PixelCanvas } from './pixel-canvas';
+import { canvasToTexture, PX, type PixelCanvas } from './pixel-canvas';
 
 export interface FrameRect {
   x: number;
@@ -42,12 +42,18 @@ export function atlasSize(
  */
 export class AtlasBuilder {
   private readonly entries: Array<{ key: string; canvas: PixelCanvas }> = [];
+  /** Physical cell size: the design size times PX. */
+  readonly cellW: number;
+  readonly cellH: number;
 
   constructor(
-    readonly cellW: number,
-    readonly cellH: number,
+    designCellW: number,
+    designCellH: number,
     readonly columns = 8,
-  ) {}
+  ) {
+    this.cellW = designCellW * PX;
+    this.cellH = designCellH * PX;
+  }
 
   add(key: string, canvas: PixelCanvas): void {
     if (canvas.width !== this.cellW || canvas.height !== this.cellH) {

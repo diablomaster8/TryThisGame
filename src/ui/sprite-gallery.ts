@@ -31,7 +31,7 @@ import { NUBBIN_TYPES, type PartSlot } from '../sim/types';
  * playing. Chao frames are drawn directly (no atlas) so the page stays quick even with
  * a hundred variants. Not linked from the game.
  */
-export function mountSpriteGallery(root: HTMLElement, scale = 4): void {
+export function mountSpriteGallery(root: HTMLElement, scale = 2): void {
   root.innerHTML = '';
   root.className = 'gallery';
 

@@ -62,10 +62,10 @@ void main() {
   // Tilt-shift: blur grows toward the top and bottom edges.
   float edge = abs(vUv.y - 0.5) * 2.0;
   float blurAmt = smoothstep(0.55, 1.0, edge) * tilt;
-  vec3 blurred = sampleBlur(vUv, 1.5);
+  vec3 blurred = sampleBlur(vUv, 3.0);
   vec3 col = mix(base, blurred, blurAmt);
   // Bloom: bright neighbours bleed a little.
-  vec3 glow = sampleBlur(vUv, 2.0);
+  vec3 glow = sampleBlur(vUv, 4.0);
   float lum = dot(glow, vec3(0.299, 0.587, 0.114));
   col += glow * smoothstep(0.55, 1.0, lum) * bloom;
   // Grade.

@@ -3,7 +3,7 @@ import { CLIPS, frameKey, type ClipName } from './animations';
 import { DRAWN_ANGLES, type DrawnAngle } from './angles';
 import { AtlasBuilder, type SpriteSheet } from './atlas';
 import { CHILD_SHAPE, layout, type ChaoShape, type Layout } from './layout';
-import { C } from './palette';
+import { C, lightOf, shadeOf } from './palette';
 import { drawArmPart, drawBack, drawEars, drawTail, partStyle, type PartStyle } from './parts';
 import { PixelCanvas } from './pixel-canvas';
 
@@ -776,16 +776,24 @@ function drawFace(
 ): void {
   if (angle === 'back') return;
   const eyeY = L.headCy + 1;
+  // On the fine grid the eye gets an iris, a pupil and two glints.
+  const iris = col.eye === C.ink || col.eye === C.darkPlum ? C.skyDeep : shadeOf(col.eye);
   const eye = (cx: number, narrow: boolean) => {
     const rx = narrow ? 1 : 1.6;
     switch (pose.eyes) {
       case 'open':
-      case 'wide':
-        pc.ellipse(cx, eyeY, rx, pose.eyes === 'wide' ? 3 : 2.6, col.eye);
-        pc.px(cx - (narrow ? 0 : 1), eyeY - 2, col.glint);
+      case 'wide': {
+        const ry = pose.eyes === 'wide' ? 3 : 2.6;
+        pc.ellipse(cx, eyeY, rx, ry, col.eye);
+        pc.ellipse(cx + 0.15, eyeY + 0.7, rx * 0.62, ry * 0.55, iris);
+        pc.ellipse(cx + 0.15, eyeY + 0.9, rx * 0.32, ry * 0.3, col.eye);
+        pc.ellipse(cx - (narrow ? 0.2 : 0.6), eyeY - 1.4, narrow ? 0.4 : 0.55, 0.75, col.glint);
+        pc.dot(cx + (narrow ? 0.3 : 0.6), eyeY + 1.3, col.glint);
         break;
+      }
       case 'half':
         pc.ellipse(cx, eyeY + 1, rx, 1.6, col.eye);
+        pc.ellipse(cx + 0.15, eyeY + 1.5, rx * 0.6, 0.9, iris);
         pc.px(cx - (narrow ? 0 : 1), eyeY, col.glint);
         break;
       case 'closed':
@@ -827,12 +835,22 @@ function drawFace(
     default:
       return;
   }
+  // Soft cheeks.
+  if (angle === 'front') {
+    pc.ellipse(L.headCx - 6, eyeY + 2.6, 1.2, 0.7, C.roseLight);
+    pc.ellipse(L.headCx + 6, eyeY + 2.6, 1.2, 0.7, C.roseLight);
+  } else if (angle === 'frontQuarter') {
+    pc.ellipse(L.headCx - 3.5, eyeY + 2.6, 1.2, 0.7, C.roseLight);
+  }
   const my = eyeY + 4;
   switch (pose.mouth) {
     case 'smile':
-      pc.px(mouthX - 1, my, col.eye);
-      pc.px(mouthX, my + (angle === 'side' ? 0 : 1), col.eye);
-      pc.px(mouthX + 1, my, col.eye);
+      if (angle === 'side') {
+        pc.thinLine(mouthX - 1, my, mouthX + 1.5, my, col.eye);
+      } else {
+        pc.thinLine(mouthX - 1.5, my + 0.3, mouthX, my + 1.3, col.eye);
+        pc.thinLine(mouthX, my + 1.3, mouthX + 1.5, my + 0.3, col.eye);
+      }
       break;
     case 'flat':
       pc.px(mouthX - 1, my, col.eye);
@@ -871,7 +889,9 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
     pc.ellipse(L.bodyCx + 1, L.bodyCy + 1, L.bodyRx - 1, L.bodyRy - 1, col.shade);
     pc.ellipse(L.bodyCx, L.bodyCy, L.bodyRx - 1, L.bodyRy - 1, col.body);
     if (angle === 'front' || angle === 'frontQuarter') {
-      pc.ellipse(L.bodyCx + (angle === 'frontQuarter' ? 1 : 0), L.bodyCy + 1, 3, 2.5, col.belly);
+      const bx = L.bodyCx + (angle === 'frontQuarter' ? 1 : 0);
+      pc.ellipse(bx, L.bodyCy + 1, 3, 2.5, col.belly);
+      pc.ellipse(bx - 0.5, L.bodyCy + 0.5, 1.8, 1.3, lightOf(col.belly));
     }
     drawFeet(pc, angle, pose, L, col);
   } else {
