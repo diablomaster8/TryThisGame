@@ -9,6 +9,47 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Learning Grove: the educational mode, built (2026-10-13)
+
+Maor: "finish the 20 then educational mode. Edu mode should give you recommendations on
+the content but you should be able to add/remove specific mini games at will to
+personalize." Built on the ten recommendations above.
+
+**What works:**
+
+- **Title → Learning Grove (ages 3–6)**: pick the age (big 3 / 4 / 5 / 6 buttons); the
+  mode has its own save slot (`grove.save.edu`, `?edu=4` for dev). It is a Free Grove
+  underneath: the same garden, Nubbins, shop and care, with races and karate hidden and
+  the 🏃 button replaced by 🎓 Play & learn.
+- **Six games** (`minigames/edu/games.ts`, pure and seeded; `ui/edu.ts` draws them):
+  Colours (find it, then "which is not"), Letters (names → first letters of picture words
+  → big/small; the child's own name's letter comes up often), Counting (count icons to
+  3 / 5 / 10, more or fewer, little sums at 6), Shapes (three at 3, up to eight at 6, "how
+  many sides" at 6), Sounds & rhymes (animal sounds at 3, first sounds at 4, rhymes at 5,
+  syllable claps at 6), Animals (names → sounds → homes → babies). Three options at age 3,
+  four above. Five rounds per play; no timers; three tries, then the answer is shown with
+  a teaching line and the round still counts. Stars 3/2/1 by tries, Shells per star, a
+  fruit for a perfect round, a sticker every nine stars.
+- **Recommendations plus personalisation** (`config/edu.ts` `EDU_RECOMMENDED`,
+  `sim/edu.ts`): each age starts with its recommended set; the grown-up area has a
+  checkbox per game tagged "Recommended for age N", any game can be switched on or off,
+  "Reset to recommended", and changing the age re-applies the recommendations.
+- **Grown-up area** (More → Grown-ups, behind a sum gate): age, child's name, session
+  length (10–60 minutes), the game toggles, progress by learning area (Thinking & maths,
+  Letters & reading, Listening & sounds, Animals & nature), stickers, a co-play prompt.
+- **Break screen** after the session length; a grown-up can extend it from the screen.
+- Toasts for stars and stickers. Everything offline, no ads, no external links.
+
+**Checks:** `tests/sim/edu.test.ts` (recommended sets and personalisation, Shells and
+stickers, session clamp and break, save round trip and old-save default, every game at
+every age generates valid rounds, age-3 limits, syllables). Full suite green, lint clean,
+build OK. Verified in the browser pane: title age picker, the picker, a Counting round
+with feedback and Next, the gate, the grown-up panel.
+
+**Known gaps:** the games use emoji for pictures (platform assets, not in-house pixel
+art); there is no read-aloud voice (text only, a grown-up reads); the campaign is not
+offered in the Learning Grove rather than rewritten for it.
+
 ## The twenty improvements, built (2026-10-13)
 
 Maor: "Let's move forward to all 20 of the pending items on our improvement list next",

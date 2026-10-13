@@ -2,9 +2,13 @@
  * localStorage behind try/catch. Private browsing, blocked storage and quota errors
  * must never crash the game; they just mean nothing is kept.
  */
-export type SaveSlot = 'free' | 'campaign';
+export type SaveSlot = 'free' | 'campaign' | 'edu';
 
-const KEYS: Record<SaveSlot, string> = { free: 'grove.save.v1', campaign: 'grove.save.campaign' };
+const KEYS: Record<SaveSlot, string> = {
+  free: 'grove.save.v1',
+  campaign: 'grove.save.campaign',
+  edu: 'grove.save.edu',
+};
 
 let SAVE_KEY = KEYS.free;
 

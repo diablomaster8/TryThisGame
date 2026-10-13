@@ -6,6 +6,8 @@ import { frameKey } from '../render/sprites/animations';
 import { buildKeeperSheet } from '../render/sprites/keeper';
 import { TRAINERS } from '../sim/trainers';
 import { button, el } from './dom';
+import { EDU_AGES, type EduAge } from '../config/edu';
+import { EDU_TEXT } from '../config/strings';
 
 export interface TitleChoice {
   slot: SaveSlot;
@@ -13,6 +15,8 @@ export interface TitleChoice {
   fresh: boolean;
   /** Trainer for a new campaign. */
   trainer: string | null;
+  /** Age band for a new Learning Grove. */
+  age?: EduAge;
 }
 
 /**
@@ -73,6 +77,42 @@ export function showTitle(parent: HTMLElement, onChoose: (c: TitleChoice) => voi
         'btn btn-wide',
       ),
     );
+    // Learning Grove: the educational mode, ages 3 to 6.
+    if (hasSave('edu')) {
+      menu.appendChild(
+        button(
+          EDU_TEXT.continueLearning,
+          () => finish({ slot: 'edu', fresh: false, trainer: null }),
+          'btn btn-wide',
+        ),
+      );
+    }
+    menu.appendChild(
+      button(
+        hasSave('edu') ? EDU_TEXT.newLearning : EDU_TEXT.learningGrove,
+        () => ageMenu(),
+        'btn btn-wide',
+      ),
+    );
+  };
+
+  const ageMenu = () => {
+    if (hasSave('edu') && !confirm(EDU_TEXT.newLearningConfirm)) return;
+    menu.innerHTML = '';
+    menu.appendChild(el('div', 'help', EDU_TEXT.chooseAge));
+    const row = el('div', 'title-ages');
+    for (const age of EDU_AGES) {
+      row.appendChild(
+        button(
+          String(age),
+          () => finish({ slot: 'edu', fresh: true, trainer: null, age }),
+          'btn title-age',
+        ),
+      );
+    }
+    menu.appendChild(row);
+    menu.appendChild(el('div', 'help', EDU_TEXT.ageHelp));
+    menu.appendChild(button('←', () => mainMenu(), 'btn btn-small'));
   };
 
   const keeperMenu = () => {

@@ -1,4 +1,5 @@
 import { Game } from './game';
+import type { EduAge } from './config/edu';
 import { unlockAudio } from './platform/audio';
 import { clearSlot, setSaveSlot } from './platform/storage';
 import { showTitle } from './ui/title';
@@ -20,6 +21,11 @@ const hudRoot = mustGet<HTMLDivElement>('#hud');
 const params = new URLSearchParams(location.search);
 if (params.has('sprites')) {
   mountSpriteGallery(app);
+} else if (params.has('edu')) {
+  // Straight into a fresh Learning Grove at the given age (dev).
+  clearSlot('edu');
+  setSaveSlot('edu');
+  startGame(null, (Number(params.get('edu')) || 4) as EduAge);
 } else if (params.has('free')) {
   // Straight into the Free Grove (dev and old links).
   setSaveSlot('free');
@@ -28,12 +34,15 @@ if (params.has('sprites')) {
   showTitle(hudRoot, (choice) => {
     if (choice.fresh) clearSlot(choice.slot);
     setSaveSlot(choice.slot);
-    startGame(choice.slot === 'campaign' && choice.fresh ? choice.trainer : null);
+    startGame(
+      choice.slot === 'campaign' && choice.fresh ? choice.trainer : null,
+      choice.slot === 'edu' && choice.fresh ? choice.age : undefined,
+    );
   });
 }
 
 /** `newCampaignTrainer` starts the story in a fresh world as that Keeper. */
-function startGame(newCampaignTrainer: string | null): void {
+function startGame(newCampaignTrainer: string | null, eduAge?: EduAge): void {
   const fps = new FpsCounter(hudRoot);
   let game: Game | null = null;
   const hud = mountHud(hudRoot, () => game);
@@ -42,6 +51,7 @@ function startGame(newCampaignTrainer: string | null): void {
     game.send({ kind: 'setTrainer', id: newCampaignTrainer });
     game.send({ kind: 'campaignStart' });
   }
+  if (eduAge) game.send({ kind: 'eduStart', age: eduAge });
   hud.bind(game);
   if (import.meta.env.DEV) {
     // Console access during development: `grove.world`, `grove.send({...})`.

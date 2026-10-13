@@ -1,3 +1,4 @@
+import type { EduAge, EduGameId } from '../config/edu';
 // Game state types. Plain data only: everything here must survive JSON round-trips.
 
 export interface Vec2 {
@@ -326,6 +327,20 @@ export interface WildVisitor {
   fed: boolean;
 }
 
+/** Educational mode (sim/edu.ts). Null outside it. */
+export interface EduState {
+  age: EduAge;
+  /** Which games are switched on; starts as the recommended set for the age. */
+  games: Record<EduGameId, boolean>;
+  sessionMinutes: number;
+  /** The child's name, for the letter games. */
+  childName: string;
+  progress: Record<EduGameId, { plays: number; stars: number }>;
+  stickers: number;
+  /** Live play time this session, toward the break screen. */
+  playedMs: number;
+}
+
 export interface CoopState {
   active: boolean;
   trainer: string;
@@ -494,6 +509,7 @@ export interface World {
   landmarks: Record<string, number>;
   coop: CoopState;
   keeper2: Keeper | null;
+  edu: EduState | null;
   /** Per neighbour: the last real day a gift was taken. */
   neighbours: Record<string, { lastGiftDay: string }>;
   /** Festival banner shown for this season already. */
@@ -586,7 +602,15 @@ export type Command =
   | { kind: 'keeper2Input'; input: Vec2 }
   | { kind: 'keeper2Act'; action: 'pet' | 'feed' }
   | { kind: 'teleport'; pos: Vec2 }
-  | { kind: 'photoTaken'; species: string };
+  | { kind: 'photoTaken'; species: string }
+  // Educational mode
+  | { kind: 'eduStart'; age: EduAge }
+  | { kind: 'eduSetAge'; age: EduAge; resetGames: boolean }
+  | { kind: 'eduSetGame'; game: EduGameId; on: boolean }
+  | { kind: 'eduSetSession'; minutes: number }
+  | { kind: 'eduSetName'; name: string }
+  | { kind: 'eduResult'; game: EduGameId; stars: number }
+  | { kind: 'eduResetSession' };
 
 // ---------- events (sim → render/ui) ----------
 
@@ -676,7 +700,9 @@ export type SimEvent =
   | { kind: 'festival'; season: Season }
   | { kind: 'sledding'; nubbinId: string }
   | { kind: 'dyed'; nubbinId: string; slot: 'hat' | 'scarf' }
-  | { kind: 'coop'; active: boolean };
+  | { kind: 'coop'; active: boolean }
+  | { kind: 'eduStarted'; age: EduAge }
+  | { kind: 'eduResult'; game: EduGameId; stars: number; sticker: boolean };
 
 export interface AwayReport {
   elapsedMs: number;

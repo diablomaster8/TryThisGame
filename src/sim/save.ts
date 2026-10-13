@@ -139,6 +139,12 @@ export function validateWorld(w: World): World {
   w.landmarks ??= {};
   w.coop ??= { active: false, trainer: 'nova' };
   w.keeper2 ??= null;
+  w.edu ??= null;
+  if (w.edu) {
+    w.edu.playedMs = 0;
+    w.edu.childName ??= '';
+    w.edu.stickers ??= 0;
+  }
   if (w.keeper2) w.keeper2.running ??= false;
   w.neighbours ??= {};
   w.festivalSeen ??= '';

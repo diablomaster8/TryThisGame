@@ -36,6 +36,16 @@ import { advanceStage, evolve, hatch, secondEvolve } from './lifecycle';
 import { createEgg, EGG_COLORS, isFree, isHeld } from './nubbin';
 import { Rng } from './rng';
 import {
+  eduResetSession,
+  eduResult,
+  eduSetAge,
+  eduSetGame,
+  eduSetName,
+  eduSetSession,
+  eduStart,
+  stepEdu,
+} from './edu';
+import {
   NUBBIN_TYPES,
   type Command,
   type DyeColor,
@@ -124,6 +134,7 @@ export function createWorld(seed: number, wallMs: number): World {
     landmarks: {},
     coop: { active: false, trainer: 'nova' },
     keeper2: null,
+    edu: null,
     neighbours: {},
     festivalSeen: '',
   };
@@ -555,6 +566,27 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
     case 'wearGlasses':
       wearGlasses(world, cmd.nubbinId, cmd.on);
       return;
+    case 'eduStart':
+      eduStart(world, cmd.age, events);
+      return;
+    case 'eduSetAge':
+      eduSetAge(world, cmd.age, cmd.resetGames);
+      return;
+    case 'eduSetGame':
+      eduSetGame(world, cmd.game, cmd.on);
+      return;
+    case 'eduSetSession':
+      eduSetSession(world, cmd.minutes);
+      return;
+    case 'eduSetName':
+      eduSetName(world, cmd.name);
+      return;
+    case 'eduResult':
+      eduResult(world, cmd.game, cmd.stars, events);
+      return;
+    case 'eduResetSession':
+      eduResetSession(world);
+      return;
     case 'setCoop':
       setCoop(world, cmd.active, cmd.trainer, events);
       return;
@@ -631,6 +663,7 @@ export function stepWorld(world: World, dtMs: number, wallMs?: number): SimEvent
     stepPlants(world, dtMs, rng, events);
     stepHabitats(world, dtMs, rng, events);
     stepKeeper2(world, dtMs);
+    stepEdu(world, dtMs);
     stepQuests(world, wallMs, rng, events);
   });
   stepCollection(world, events);

@@ -46,6 +46,9 @@ import { KarateMenu } from './karate';
 import { CollectionBook, keyLabel, MemorialCard } from './collection';
 import { DecorateMenu, placingLabel } from './decorate';
 import { MapPanel, NeighbourhoodPanel, ProfilePanel, QuestBoard } from './garden-panels';
+import { BreakScreen, EduScreen, GrownUpPanel } from './edu';
+import { EDU_TEXT } from '../config/strings';
+import { eduBreakDue } from '../sim/edu';
 import { speciesOf } from '../sim/species';
 import { PhotoMode } from './photo';
 import { PocketMode } from './pocket';
@@ -78,7 +81,14 @@ export function mountHud(
   const shopBtn = button('🛒', () => shop.open(), 'btn btn-icon');
   shopBtn.setAttribute('aria-label', UI_TEXT.shop);
   shopBtn.title = UI_TEXT.shop;
-  const expeditionBtn = button('🏃', () => startExpedition(), 'btn btn-icon');
+  const expeditionBtn = button(
+    '🏃',
+    () => {
+      if (game()?.world.edu) edu.open();
+      else startExpedition();
+    },
+    'btn btn-icon',
+  );
   expeditionBtn.setAttribute('aria-label', UI_TEXT.expedition);
   expeditionBtn.title = UI_TEXT.expedition;
   const racesBtn = button('🏁', () => races.open(), 'btn btn-icon');
@@ -221,6 +231,9 @@ export function mountHud(
   const profile = new ProfilePanel(root, game);
   const neighbourhood = new NeighbourhoodPanel(root, game, toast);
   const map = new MapPanel(root, game, toast);
+  const edu = new EduScreen(root, game, toast);
+  const grownUps = new GrownUpPanel(root, game, toast);
+  const breakScreen = new BreakScreen(root, game, () => grownUps.open());
   // The "More" menu holds everything that does not fit the top bar.
   const more = modal(root, UI_TEXT.more, UI_TEXT.close);
   more.body.appendChild(el('p', 'help', UI_TEXT.moreHelp));
@@ -237,7 +250,10 @@ export function mountHud(
     [`🏡 ${UI_TEXT.neighbourhood}`, () => neighbourhood.open()],
     [`🗺 ${UI_TEXT.map}`, () => map.open()],
     [`🔁 ${UI_TEXT.receive}`, () => roster.receive()],
+    [`🧑‍🏫 ${EDU_TEXT.grownUps}`, () => grownUps.open()],
   ] as const) {
+    const isEdu = label.includes(EDU_TEXT.grownUps);
+    const isKarate = label.includes(UI_TEXT.karate);
     moreList.appendChild(
       button(
         label,
@@ -245,7 +261,7 @@ export function mountHud(
           more.hide();
           open();
         },
-        'btn btn-wide',
+        `btn btn-wide${isEdu ? ' edu-only' : isKarate ? ' not-edu' : ''}`,
       ),
     );
   }
@@ -289,6 +305,9 @@ export function mountHud(
       neighbourhood,
       map,
       settings,
+      edu,
+      grownUps,
+      breakScreen,
     };
   }
 
@@ -332,6 +351,8 @@ export function mountHud(
       else if (profile.isOpen()) profile.close();
       else if (neighbourhood.isOpen()) neighbourhood.close();
       else if (map.isOpen()) map.close();
+      else if (edu.isOpen()) edu.close();
+      else if (grownUps.isOpen()) grownUps.close();
       else if (more.isOpen()) more.hide();
       else if (!sheet.root.hidden) sheet.close();
     }
@@ -410,6 +431,16 @@ export function mountHud(
         );
       }
       if (quests.isOpen() && Math.random() < 0.1) quests.refresh();
+      // Learning Grove: no races or karate; the 🏃 button is the games; breaks on time.
+      const isEdu = !!g.world.edu;
+      racesBtn.hidden = isEdu;
+      expeditionBtn.title = isEdu ? EDU_TEXT.play : UI_TEXT.expedition;
+      expeditionBtn.setAttribute('aria-label', expeditionBtn.title);
+      expeditionBtn.textContent = isEdu ? '🎓' : '🏃';
+      for (const b of moreList.querySelectorAll<HTMLElement>('.edu-only')) b.hidden = !isEdu;
+      for (const b of moreList.querySelectorAll<HTMLElement>('.not-edu')) b.hidden = isEdu;
+      if (isEdu && eduBreakDue(g.world) && !breakScreen.isOpen() && !edu.isOpen())
+        breakScreen.show();
       placingChip.hidden = !g.placing;
       if (g.placing) placingText.textContent = UI_TEXT.placing(placingLabel(g.placing));
       if (kindergarten.isOpen() && Math.random() < 0.1) kindergarten.refresh();
@@ -596,6 +627,10 @@ export function mountHud(
           playSound('hatch');
         } else if (e.kind === 'wildLeft') {
           toast(UI_TEXT.wildLeft);
+        } else if (e.kind === 'eduResult') {
+          toast(e.sticker ? EDU_TEXT.sticker : EDU_TEXT.eduResultToast(e.stars));
+        } else if (e.kind === 'eduStarted') {
+          toast(EDU_TEXT.playHelp);
         } else if (e.kind === 'wildFed') {
           toast(UI_TEXT.wildFed);
           playSound('pet');
