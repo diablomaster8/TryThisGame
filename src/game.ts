@@ -53,6 +53,7 @@ export class Game {
     this.lastDaylightMs = nowMs;
     const d = daylightAt(this.hourOverride ?? localHour());
     this.grove.setDaylight(d);
+    this.view.setDaylight(d, this.camera.reduceMotion);
     this.pipeline.postPass?.apply({ tint: d.tint, tintAmount: d.tintAmount, bloom: d.bloom });
   }
   private lastFrameMs = 0;

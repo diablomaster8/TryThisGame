@@ -4,6 +4,9 @@ import { childHint } from '../sim/alignment';
 import { moodOf } from '../sim/needs';
 import type { Nubbin, SimEvent, Vec2, World } from '../sim/types';
 import type { OrbitCamera } from './camera';
+import type { Daylight } from './daylight';
+import { GROVE } from '../config/tuning';
+import { Particles } from './particles';
 import { SpriteBatch } from './sprite-batch';
 import { CLIPS, frameAt, frameKey, type ClipName } from './sprites/animations';
 import { viewAngle } from './sprites/angles';
@@ -23,6 +26,9 @@ interface NubbinView {
   /** A one-off bubble shown for a reaction, with its expiry. */
   bubble: { shape: EmoteShape; untilMs: number } | null;
   prev: Snapshot;
+  /** Last dust puff while walking and last ripple while swimming. */
+  lastDustMs: number;
+  lastRippleMs: number;
 }
 
 export interface SpritePick {
@@ -38,6 +44,9 @@ export interface SpritePick {
 export class WorldView {
   readonly batch = new SpriteBatch();
   readonly sheets = new SheetCache();
+  readonly particles = new Particles();
+  private darkness = 0;
+  private keeperDustMs = 0;
   private readonly nubbins = new Map<string, NubbinView>();
   private readonly items = new Map<string, Snapshot>();
   private keeperPrev: Snapshot = { pos: { x: 0, z: 0 }, y: 0 };
@@ -72,9 +81,21 @@ export class WorldView {
     this.keeperPrev.pos.z = world.keeper.pos.z;
   }
 
-  /** React to sim events: reaction bubbles. */
+  /** Time of day: sprite dimming and the ambient particle layer. */
+  setDaylight(d: Daylight, reduceMotion: boolean): void {
+    this.darkness = d.darkness;
+    this.particles.env = {
+      fireflies: d.fireflies,
+      leaves: d.phase === 'day' || d.phase === 'dawn',
+      darkness: d.darkness,
+    };
+    this.particles.reduceMotion = reduceMotion;
+  }
+
+  /** React to sim events: reaction bubbles and particle bursts. */
   onEvents(events: SimEvent[], nowMs: number): void {
     for (const e of events) {
+      this.burstFor(e);
       if (e.kind !== 'reaction') continue;
       const v = this.nubbins.get(e.nubbinId);
       if (!v) continue;
@@ -157,6 +178,7 @@ export class WorldView {
           y: 0,
           z: m.pos.z,
           mode: 'billboard',
+          tint: this.dim,
         });
       }
     }
@@ -177,7 +199,7 @@ export class WorldView {
       if (!rect) continue;
       shadow(x, y, z, 0.25);
       batch.draw(
-        { sheet: props, rect, flip: false, x, y, z, mode: 'billboard' },
+        { sheet: props, rect, flip: false, x, y, z, mode: 'billboard', tint: this.dim },
         { id: item.id, kind: 'item' },
       );
     }
@@ -194,6 +216,8 @@ export class WorldView {
           clipStartMs: nowMs,
           bubble: null,
           prev: { pos: { x: n.pos.x, z: n.pos.z }, y: n.y },
+          lastDustMs: 0,
+          lastRippleMs: 0,
         };
         this.nubbins.set(n.id, v);
       }
@@ -227,10 +251,198 @@ export class WorldView {
         y: 0,
         z: kz,
         mode: 'billboard',
+        tint: this.dim,
+      });
+    }
+    if (moving && nowMs - this.keeperDustMs > 260) {
+      this.keeperDustMs = nowMs;
+      this.particles.burst('dust', kx, 0.05, kz, 1, {
+        spread: 0.15,
+        speed: 0.3,
+        rise: 0.4,
+        lifeMs: 420,
+        size: 0.4,
       });
     }
 
+    // Particles last so they sit over the sprites they decorate.
+    this.particles.update(nowMs);
+    this.particles.draw(batch, nowMs);
+
     batch.end();
+  }
+
+  /** Sprite brightness for the time of day. */
+  private get dim(): number {
+    return 1 - this.darkness * 0.35;
+  }
+
+  /** Particle bursts for sim events. Positions come from the last snapshot. */
+  private burstFor(e: SimEvent): void {
+    const at = (id: string) => this.nubbins.get(id)?.prev;
+    const p = this.particles;
+    switch (e.kind) {
+      case 'landed': {
+        const v = at(e.nubbinId);
+        if (v)
+          p.burst('dust', v.pos.x, 0.05, v.pos.z, 6, {
+            spread: 0.25,
+            speed: 1.2,
+            rise: 0.5,
+            lifeMs: 500,
+            size: 0.45,
+          });
+        break;
+      }
+      case 'reaction': {
+        const v = at(e.nubbinId);
+        if (!v) break;
+        if (e.reaction === 'love') {
+          p.burst('heart', v.pos.x, v.y + 1.6, v.pos.z, 3, {
+            spread: 0.3,
+            speed: 0.1,
+            rise: 0.6,
+            lifeMs: 1100,
+            size: 0.45,
+            fadeMs: 250,
+          });
+        } else if (e.reaction === 'dizzy') {
+          p.burst('sparkle', v.pos.x, v.y + 1.9, v.pos.z, 3, {
+            spread: 0.4,
+            speed: 0.2,
+            rise: 0.1,
+            lifeMs: 600,
+            size: 0.35,
+          });
+        }
+        break;
+      }
+      case 'hatched':
+      case 'reborn':
+      case 'speciesGrew': {
+        const v = at(e.nubbinId);
+        if (v)
+          p.burst('sparkle', v.pos.x, v.y + 0.6, v.pos.z, 14, {
+            spread: 0.5,
+            speed: 1.4,
+            rise: 1.2,
+            lifeMs: 900,
+            size: 0.5,
+            fadeMs: 200,
+          });
+        break;
+      }
+      case 'evolved':
+      case 'secondEvolved': {
+        const v = at(e.nubbinId);
+        if (v) {
+          p.burst('sparkle', v.pos.x, v.y + 0.8, v.pos.z, 24, {
+            spread: 0.8,
+            speed: 1.8,
+            rise: 1.6,
+            lifeMs: 1300,
+            size: 0.55,
+            fadeMs: 250,
+          });
+          p.burst('petal', v.pos.x, v.y + 1.2, v.pos.z, 8, {
+            spread: 0.6,
+            speed: 1.0,
+            rise: 1.0,
+            lifeMs: 1600,
+            size: 0.45,
+            fadeMs: 300,
+          });
+        }
+        break;
+      }
+      case 'eternal': {
+        const v = at(e.nubbinId);
+        if (v)
+          p.burst('sparkle', v.pos.x, v.y + 0.5, v.pos.z, 40, {
+            spread: 1.2,
+            speed: 1.2,
+            rise: 2.0,
+            lifeMs: 2200,
+            size: 0.6,
+            fadeMs: 400,
+          });
+        break;
+      }
+      case 'cocoonStarted': {
+        const v = at(e.nubbinId);
+        if (v)
+          p.burst('sparkle', v.pos.x, v.y + 0.6, v.pos.z, 8, {
+            spread: 0.5,
+            speed: 0.6,
+            rise: 0.5,
+            lifeMs: 1200,
+            size: 0.45,
+            fadeMs: 300,
+          });
+        break;
+      }
+      case 'ate': {
+        const v = at(e.nubbinId);
+        if (v)
+          p.burst('crumb', v.pos.x, v.y + 0.9, v.pos.z, 4, {
+            spread: 0.15,
+            speed: 0.6,
+            rise: 0.3,
+            lifeMs: 450,
+            size: 0.3,
+          });
+        break;
+      }
+      case 'treeShaken': {
+        const i = Number(e.treeId.replace('tree-', '')) - 1;
+        const t = GROVE.trees[i];
+        if (t) {
+          p.burst('leaf', t.x, 2.6, t.z, 10, {
+            spread: 1.4,
+            speed: 0.6,
+            rise: -0.2,
+            lifeMs: 4000,
+            size: 0.45,
+            fadeMs: 300,
+          });
+          p.burst('petal', t.x, 2.8, t.z, 4, {
+            spread: 1.2,
+            speed: 0.5,
+            rise: -0.1,
+            lifeMs: 4000,
+            size: 0.4,
+            fadeMs: 300,
+          });
+        }
+        break;
+      }
+      case 'collected': {
+        const it = this.items.get(e.itemId);
+        if (it)
+          p.burst('sparkle', it.pos.x, it.y + 0.4, it.pos.z, 5, {
+            spread: 0.2,
+            speed: 0.6,
+            rise: 0.8,
+            lifeMs: 500,
+            size: 0.4,
+          });
+        break;
+      }
+      case 'eggShaken': {
+        const v = at(e.nubbinId);
+        if (v)
+          p.burst('dust', v.pos.x, 0.05, v.pos.z, 2, {
+            spread: 0.2,
+            speed: 0.5,
+            rise: 0.3,
+            lifeMs: 400,
+            size: 0.35,
+          });
+        break;
+      }
+      default:
+        break;
+    }
   }
 
   private drawNubbin(
@@ -288,9 +500,24 @@ export class WorldView {
     shadow(x, y, z, 0.55);
     if (rect) {
       this.batch.draw(
-        { sheet, rect, flip, x, y, z, mode: 'billboard', opacity },
+        { sheet, rect, flip, x, y, z, mode: 'billboard', opacity, tint: this.dim },
         { id: n.id, kind: 'nubbin' },
       );
+    }
+
+    // Footstep dust and swimming ripples.
+    if (v.clip === 'walk' && y < 0.05 && nowMs - v.lastDustMs > 300) {
+      v.lastDustMs = nowMs;
+      this.particles.burst('dust', x, 0.05, z, 1, {
+        spread: 0.12,
+        speed: 0.25,
+        rise: 0.35,
+        lifeMs: 380,
+        size: 0.35,
+      });
+    } else if (v.clip === 'swim' && nowMs - v.lastRippleMs > 650) {
+      v.lastRippleMs = nowMs;
+      this.particles.ripple(x, z);
     }
 
     if (v.bubble && nowMs < v.bubble.untilMs) emote = v.bubble.shape;
@@ -315,6 +542,7 @@ export class WorldView {
   dispose(): void {
     this.batch.dispose();
     this.sheets.dispose();
+    this.particles.dispose();
   }
 }
 

@@ -27,6 +27,8 @@ export interface SpriteDraw {
   w?: number;
   h?: number;
   opacity?: number;
+  /** Brightness 0..1 multiplied into the vertex colour (night dimming). */
+  tint?: number;
 }
 
 /** A sprite's four corners as drawn, kept for CPU picking. */
@@ -132,7 +134,8 @@ export class SpriteBatch {
     const right = d.flip ? u0 : u1;
     this.uvs.set([left, v0, right, v0, left, v1, right, v1], i * 8);
     const a = d.opacity ?? 1;
-    for (let c = 0; c < 4; c++) this.colors.set([1, 1, 1, a], i * 16 + c * 4);
+    const b = d.tint ?? 1;
+    for (let c = 0; c < 4; c++) this.colors.set([b, b, b, a], i * 16 + c * 4);
     if (pick) this.quads.push({ id: pick.id, kind: pick.kind, corners });
   }
 
@@ -140,7 +143,7 @@ export class SpriteBatch {
   private cornersFor(d: SpriteDraw, w: number, h: number): [Vector3, Vector3, Vector3, Vector3] {
     const hw = w / 2;
     if (d.mode === 'flat') {
-      const y = 0.012;
+      const y = 0.012 + d.y;
       const hh = h / 2;
       return [
         new Vector3(d.x - hw, y, d.z - hh),

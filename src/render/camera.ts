@@ -76,7 +76,7 @@ export class OrbitCamera {
   private frameHeight: number = RENDER.targetHeight;
   private yawTween: Tween | null = null;
   private zoomTween: Tween | null = null;
-  private readonly reduceMotion: boolean;
+  readonly reduceMotion: boolean;
   private readonly tmp = new Vector3();
 
   constructor() {
