@@ -20,12 +20,16 @@ export function hash(x: number, y: number, salt = 0): number {
 /** A small full-colour raster with the few primitives the samples need. */
 export class Raster {
   readonly data: Float32Array;
+  /** Object coverage, filled while `tracking` is on, for the boundary rim. */
+  readonly mask: Uint8Array;
+  tracking = false;
   constructor(
     readonly w: number,
     readonly h: number,
     bg: RGB,
   ) {
     this.data = new Float32Array(w * h * 3);
+    this.mask = new Uint8Array(w * h);
     for (let i = 0; i < w * h; i++) this.data.set(bg, i * 3);
   }
   get(x: number, y: number): RGB {
@@ -36,6 +40,7 @@ export class Raster {
     x = Math.round(x);
     y = Math.round(y);
     if (x < 0 || y < 0 || x >= this.w || y >= this.h) return;
+    if (this.tracking && a >= 0.5) this.mask[y * this.w + x] = 1;
     const i = (y * this.w + x) * 3;
     if (a >= 1) this.data.set(c, i);
     else {
@@ -189,4 +194,36 @@ export function grade(r: Raster, shadows: RGB, highlights: RGB): void {
       r.set(x, y, [c[0] * tint[0], c[1] * tint[1], c[2] * tint[2]]);
     }
   }
+}
+
+/**
+ * Contrast at every object boundary: the object's edge pixels darken, the background
+ * pixels just outside darken a little, so each thing reads as a separate thing.
+ */
+export function rimObjects(r: Raster, inner = 0.45, outer = 0.78): void {
+  const m = r.mask;
+  const edgeIn: number[] = [];
+  const edgeOut: number[] = [];
+  for (let y = 0; y < r.h; y++) {
+    for (let x = 0; x < r.w; x++) {
+      const i = y * r.w + x;
+      const on = m[i] === 1;
+      let boundary = false;
+      for (const [dx, dy] of [
+        [1, 0],
+        [-1, 0],
+        [0, 1],
+        [0, -1],
+      ] as const) {
+        const xx = x + dx;
+        const yy = y + dy;
+        if (xx < 0 || yy < 0 || xx >= r.w || yy >= r.h) continue;
+        if ((m[yy * r.w + xx] === 1) !== on) boundary = true;
+      }
+      if (!boundary) continue;
+      (on ? edgeIn : edgeOut).push(i);
+    }
+  }
+  for (const i of edgeIn) r.multiply(i % r.w, Math.floor(i / r.w), [inner, inner, inner * 1.05]);
+  for (const i of edgeOut) r.multiply(i % r.w, Math.floor(i / r.w), [outer, outer, outer]);
 }

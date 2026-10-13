@@ -14,7 +14,19 @@ import { expect, it } from 'vitest';
 import { Rng } from '../../src/sim/rng';
 import { fbm, ridged, vnoise, warped } from './noise';
 import { encodePng } from './png';
-import { bloom, boxBlur, grade, hash, hex, mix, Raster, shade, vignette, type RGB } from './raster';
+import {
+  bloom,
+  boxBlur,
+  grade,
+  hash,
+  hex,
+  mix,
+  Raster,
+  rimObjects,
+  shade,
+  vignette,
+  type RGB,
+} from './raster';
 
 const W = 560;
 const H = 330;
@@ -139,7 +151,9 @@ function pond(r: Raster): void {
       const ripple = fbm(x / 16 + y / 60, y / 5, 3, 12);
       if (ripple > 0.66) c = mix(c, hex('#dff2ff'), (ripple - 0.66) * 2);
       if (d > edge - 5) c = mix(c, hex('#a9d9f0'), 0.4);
+      r.tracking = true;
       r.set(x, y, c);
+      r.tracking = false;
     }
   }
   // Reeds and lily pads with ragged edges.
@@ -632,6 +646,8 @@ function albedo(): Raster {
   }
   path(r);
   pond(r);
+  // Everything from here is an object: tracked for the boundary rim, drawn back to front.
+  r.tracking = true;
   rock(r, 430, 150, 14, 8, 80);
   rock(r, 455, 158, 8, 5, 81);
   rock(r, 150, 240, 9, 5, 82);
@@ -654,12 +670,14 @@ function albedo(): Raster {
   fence(r, rng, 330, 118, 9);
   cottage(r, rng);
   well(r, 400, 206);
-  tree(r, rng, 82, 214, 1.1);
+  tree(r, rng, 64, 232, 1.05);
   bush(r, rng, 352, 192, 0.9);
-  bush(r, rng, 122, 300, 1);
+  bush(r, rng, 122, 304, 1);
   bush(r, rng, 300, 252, 0.7);
   keeper(r, 150, 262);
   nubbin(r, 172, 268);
+  r.tracking = false;
+  rimObjects(r);
   return r;
 }
 
@@ -687,7 +705,7 @@ function lightPass(a: Raster): Raster {
   for (let yy = -14; yy <= 14; yy++) {
     for (let xx = 0; xx <= 150; xx++) {
       const rr = Math.hypot((xx - 75) / 75, yy / 14) + (fbm(xx / 12, yy / 5, 2, 90) - 0.5) * 0.6;
-      if (rr < 1) light.set(82 + 40 + xx, 214 + 4 + yy, shadow, 0.8);
+      if (rr < 1) light.set(64 + 40 + xx, 232 + 4 + yy, shadow, 0.8);
     }
   }
   light.ellipse(400 + 30, 208, 30, 7, shadow, 0.7);
@@ -698,7 +716,7 @@ function lightPass(a: Raster): Raster {
     }
   }
   light.ellipse(352 + 28, 193, 26, 6, shadow, 0.7);
-  light.ellipse(122 + 30, 301, 30, 7, shadow, 0.7);
+  light.ellipse(122 + 30, 305, 30, 7, shadow, 0.7);
   light.ellipse(300 + 20, 253, 20, 5, shadow, 0.7);
   light.ellipse(470 + 50, 120, 46, 8, shadow, 0.6);
   light.ellipse(535 + 50, 152, 50, 9, shadow, 0.6);

@@ -34,6 +34,13 @@ recommendation to the list of improvements."
   individual stones, a thatch with a sagging ridge and ragged eaves built from 2,600
   strokes, wavy old glass, a chimney of stacked stones, a crooked lantern post, a
   sagging fence. The far treeline is a fractal silhouette.
+- Boundaries: every object (rocks, trees, bushes, fence, cottage, well, Keeper,
+  Nubbin, the water) is tracked into a coverage mask while it is painted, and
+  `rimObjects` in `tests/tools/raster.ts` darkens each object's edge pixels and, more
+  softly, the background just outside, so each thing reads as a separate thing (Maor,
+  after the first render: "add contrast to the borders of each object"). The green that
+  showed through the roof in that first render was the near tree's canopy drawn over
+  the cottage; objects are now drawn back to front and the tree sits clear of the roof.
 - Shadows in the dusk pass are noise-eaten shapes too. Same light pass and HD-2D
   frame as the combined sample. Shared noise code: `tests/tools/noise.ts` (value noise,
   fbm, domain warping, ridged).
