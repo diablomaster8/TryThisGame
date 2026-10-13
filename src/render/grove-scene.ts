@@ -4,6 +4,7 @@ import {
   ConeGeometry,
   CylinderGeometry,
   DirectionalLight,
+  DoubleSide,
   HemisphereLight,
   Path,
   Shape,
@@ -310,7 +311,12 @@ export class GroveScene {
     this.tintable.push(topMat);
     this.disposables.push(hillTex, topMat);
     const cliffTex = paintCliffTexture();
-    const cliffMat = new MeshLambertMaterial({ map: cliffTex });
+    const cliffMat = new MeshLambertMaterial({
+      map: cliffTex,
+      emissive: new Color(0xb0a8b8),
+      emissiveMap: cliffTex,
+      side: DoubleSide,
+    });
     this.tintable.push(cliffMat);
     this.disposables.push(cliffTex, cliffMat);
     GROVE.hills.forEach((h, hi) => {

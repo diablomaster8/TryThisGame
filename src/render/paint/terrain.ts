@@ -24,7 +24,7 @@ export function paintCliffTexture(): CanvasTexture {
       // Strata: bands that undulate; cracks from ridged noise; a lit lip at the top.
       const band = fbm(x / 40, y / 5 + fbm(x / 20, 0, 2, 61) * 2, 3, 62);
       const rockN = ridged(x / 11, y / 11, 4, 63);
-      let c = mix(hex('#3a3242'), hex('#8a7c90'), band * 0.55 + rockN * 0.45);
+      let c = mix(hex('#5a5066'), hex('#b4a8bc'), band * 0.55 + rockN * 0.45);
       const crack = ridged(x / 6, y / 9, 3, 64);
       if (crack > 0.82) c = shade(c, 0.55);
       if (y < 4) c = mix(c, hex('#b9a8c0'), ((4 - y) / 4) * 0.6);
@@ -82,8 +82,8 @@ export function paintWaterfallTexture(): CanvasTexture {
       const streak = fbm(x / 4, Math.sin(ty) * 3 + Math.cos(ty) * 3, 3, 81);
       const flow = fbm(x / 9 + Math.cos(ty) * 1.5, Math.sin(ty) * 1.5 + 5, 2, 82);
       let c = mix(hex('#2b6fc2'), hex('#7fc0e8'), flow);
-      if (streak > 0.56) c = mix(c, hex('#f4fbff'), Math.min(1, (streak - 0.56) * 3.2));
-      if (streak < 0.38) c = shade(c, 0.7);
+      if (streak > 0.5) c = mix(c, hex('#f4fbff'), Math.min(1, (streak - 0.5) * 3.5));
+      if (streak < 0.42) c = shade(c, 0.6);
       r.set(x, y, c);
     }
   }
