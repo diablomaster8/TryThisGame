@@ -37,6 +37,7 @@ export function advanceStage(
     n.stageMs += dtMs;
     return; // hatching is driven by hatchRemainingMs in world.ts
   }
+  // The baby step above needs the child stage timer, which hatch() resets.
   if (n.awaitingKeeper) {
     // Frozen at the end of its life until live play runs the check.
     if (!offline && world) runEndOfLife(n, world, false, events);
@@ -45,6 +46,18 @@ export function advanceStage(
   n.stageMs += dtMs;
   n.ageMs += dtMs;
 
+  // Hatchlings of some lines grow into a second baby form a few minutes in.
+  if (n.stage === 'child' && n.stageMs >= LIFECYCLE.babyGrowthMs) {
+    const s = speciesOf(n.species);
+    if (
+      s.stage === 'baby' &&
+      s.evolve?.kind === 'fixed' &&
+      speciesOf(s.evolve.to).stage === 'baby'
+    ) {
+      n.species = s.evolve.to;
+      events.push({ kind: 'speciesGrew', nubbinId: n.id, species: n.species });
+    }
+  }
   if (n.stage === 'child' && n.stageMs >= LIFECYCLE.childMs) {
     startCocoon(n, 'evolve', n.stageMs - LIFECYCLE.childMs, events);
   }
@@ -56,6 +69,17 @@ export function advanceStage(
   if (n.stage === 'adult' && n.form) {
     if (n.form.second === null && n.stageMs >= LIFECYCLE.secondEvolutionMs) {
       secondEvolve(n, events);
+    }
+    // Champions take their final form later in adult life.
+    if (n.stageMs >= LIFECYCLE.thirdEvolutionMs) {
+      const s = speciesOf(n.species);
+      if (s.stage === 'champion' && s.evolve) {
+        const next = nextSpecies(s, n.form.type, n.form.band, lifetimeHappiness(n));
+        if (next && next !== n.species) {
+          n.species = next;
+          events.push({ kind: 'speciesGrew', nubbinId: n.id, species: n.species });
+        }
+      }
     }
     if (!n.eternal && n.stageMs >= LIFECYCLE.adultMs && world) {
       n.stageMs = LIFECYCLE.adultMs;
@@ -221,9 +245,9 @@ export function secondEvolve(n: Nubbin, events: SimEvent[]): void {
   if (!n.form) return;
   const second = secondTypeFor(n) ?? 'normal';
   n.form.second = second;
-  // A grown species with a final form takes it now (e.g. the mouse line's third stage).
+  // A grown species takes its next form now (e.g. the mouse line's third stage).
   const s = speciesOf(n.species);
-  if (s.stage === 'grown') {
+  if (s.stage === 'grown' && s.evolve) {
     const next = nextSpecies(
       s,
       second === 'normal' ? n.form.type : second,

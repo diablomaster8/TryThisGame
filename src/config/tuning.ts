@@ -157,6 +157,10 @@ export const LIFECYCLE = {
   adultMs: 5 * HOUR,
   /** How far into adult life the second evolution settles. */
   secondEvolutionMs: 60 * MINUTE,
+  /** Lines with a champion stage take their final form this far into adult life. */
+  thirdEvolutionMs: 3 * HOUR,
+  /** A hatchling with a fixed rule to another baby grows into it after this long. */
+  babyGrowthMs: 10 * MINUTE,
 } as const;
 
 export const REBIRTH = {

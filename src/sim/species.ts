@@ -8,7 +8,11 @@ import type { AlignmentBand, Nubbin, NubbinType } from './types';
  * artist and is never shown.
  */
 export type Family = 'chao' | 'pocket' | 'digi';
-export type SpeciesStage = 'baby' | 'grown' | 'final';
+/**
+ * baby: hatches (a baby with a fixed rule to another baby grows into it after a few
+ * minutes); grown: the first evolution; champion: the second; final: the third.
+ */
+export type SpeciesStage = 'baby' | 'grown' | 'champion' | 'final';
 
 export type EvolutionRule =
   | { kind: 'fixed'; to: string }
@@ -107,13 +111,13 @@ export const SPECIES: readonly Species[] = [
     fallback: 'seaserpent',
     poor: 'slugbert',
   }),
-  D('hornsaur', 'Greymon', 'grown', 'power', { kind: 'fixed', to: 'ironsaur' }),
-  D('redsaur', 'Tyrannomon', 'grown', 'run', { kind: 'fixed', to: 'beanbot' }),
-  D('shadeling', 'Devimon', 'grown', 'fly', { kind: 'fixed', to: 'beanbot' }),
-  D('blazeman', 'Meramon', 'grown', 'power', { kind: 'fixed', to: 'beanbot' }),
-  D('slugbert', 'Numemon', 'grown', 'normal', { kind: 'fixed', to: 'hugbear' }),
-  D('skyserpent', 'Airdramon', 'grown', 'fly', { kind: 'fixed', to: 'beanbot' }),
-  D('seaserpent', 'Seadramon', 'grown', 'swim', { kind: 'fixed', to: 'beanbot' }),
+  D('hornsaur', 'Greymon', 'champion', 'power', { kind: 'fixed', to: 'ironsaur' }),
+  D('redsaur', 'Tyrannomon', 'champion', 'run', { kind: 'fixed', to: 'beanbot' }),
+  D('shadeling', 'Devimon', 'champion', 'fly', { kind: 'fixed', to: 'beanbot' }),
+  D('blazeman', 'Meramon', 'champion', 'power', { kind: 'fixed', to: 'beanbot' }),
+  D('slugbert', 'Numemon', 'champion', 'normal', { kind: 'fixed', to: 'hugbear' }),
+  D('skyserpent', 'Airdramon', 'champion', 'fly', { kind: 'fixed', to: 'beanbot' }),
+  D('seaserpent', 'Seadramon', 'champion', 'swim', { kind: 'fixed', to: 'beanbot' }),
   D('ironsaur', 'MetalGreymon', 'final', 'power'),
   D('beanbot', 'Mamemon', 'final', 'normal'),
   D('hugbear', 'Monzaemon', 'final', 'normal'),

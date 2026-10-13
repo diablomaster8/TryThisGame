@@ -306,6 +306,8 @@ export type SimEvent =
       species: string;
     }
   | { kind: 'secondEvolved'; nubbinId: string; second: NubbinType; species: string }
+  /** A hatchling grew into its next baby form, or a champion took its final form. */
+  | { kind: 'speciesGrew'; nubbinId: string; species: string }
   | { kind: 'cocoonStarted'; nubbinId: string; cocoon: CocoonKind }
   | { kind: 'eternal'; nubbinId: string; band: AlignmentBand }
   | { kind: 'awaitingKeeper'; nubbinId: string }

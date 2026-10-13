@@ -52,18 +52,45 @@ describe('species data', () => {
     expect(new Set(digi.map((s) => s.ref))).toContain('MetalGreymon');
   });
 
-  it('every baby reaches a final form within three steps', () => {
+  it('every baby reaches a final form within four steps', () => {
     for (const baby of SPECIES.filter((s) => s.stage === 'baby')) {
       let s = baby;
       let steps = 0;
-      while (s.evolve && steps < 4) {
+      while (s.evolve && steps < 5) {
         const next = nextSpecies(s, s.type, 'neutral', 50);
         expect(next).not.toBeNull();
         s = speciesOf(next!);
         steps += 1;
       }
       expect(s.evolve === null || s.id === 'chao', baby.id).toBe(true);
+      expect(steps).toBeLessThanOrEqual(4);
     }
+  });
+
+  it('the digital line runs hatchling → baby → grown → champion → final in the world', () => {
+    const w = createWorld(8, 0);
+    const rng = Rng.fromSeed(2);
+    w.nubbins = [createEgg('d', { x: 0, z: 0 }, rng, 'plain', 'fuzzlet')];
+    const n = w.nubbins[0]!;
+    n.typeLean.power = 100;
+    const events: ReturnType<typeof stepWorld> = [];
+    const run = (ms: number) => {
+      for (let i = 0; i < ms / SIM.stepMs; i++) {
+        n.needs.hunger = 1;
+        n.needs.happiness = 60;
+        events.push(...stepWorld(w, SIM.stepMs));
+      }
+    };
+    run(EGG.hatchMs + LIFECYCLE.babyGrowthMs + 1000);
+    expect(n.species).toBe('chompet');
+    run(LIFECYCLE.childMs + LIFECYCLE.cocoonMs);
+    expect(n.species).toBe('dinolet');
+    n.typeLean.power += 100;
+    run(LIFECYCLE.secondEvolutionMs + 1000);
+    expect(n.species).toBe('hornsaur');
+    run(LIFECYCLE.thirdEvolutionMs - LIFECYCLE.secondEvolutionMs + 1000);
+    expect(n.species).toBe('ironsaur');
+    expect(events.filter((e) => e.kind === 'speciesGrew')).toHaveLength(2);
   });
 
   it('branches by type and by poor care', () => {

@@ -1,5 +1,5 @@
 import { INPUT } from '../config/tuning';
-import { GROVE_LABELS, NAMES, TYPE_LABELS, UI_TEXT } from '../config/strings';
+import { GROVE_LABELS, NAMES, SPECIES_LABELS, TYPE_LABELS, UI_TEXT } from '../config/strings';
 import type { Game, GameHooks } from '../game';
 import type { AwayReport, GroveKind, SimEvent } from '../sim/types';
 import { ExpeditionScreen } from '../minigames/expedition/screen';
@@ -231,6 +231,11 @@ export function mountHud(
         } else if (e.kind === 'secondEvolved') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           toast(UI_TEXT.secondEvolved(n?.name ?? NAMES.creature, TYPE_LABELS[e.second]));
+        } else if (e.kind === 'speciesGrew') {
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          toast(
+            UI_TEXT.speciesGrew(n?.name ?? NAMES.creature, SPECIES_LABELS[e.species] ?? e.species),
+          );
         } else if (e.kind === 'cocoonStarted' && e.cocoon !== 'evolve') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           const name = n?.name ?? NAMES.creature;

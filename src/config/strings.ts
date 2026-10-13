@@ -349,6 +349,7 @@ export const UI_TEXT = {
   gradeUp: (stat: string, grade: string) => `${stat} grade is now ${grade}`,
   groveUnlocked: (grove: string) => `${grove} unlocked!`,
   secondEvolved: (name: string, type: string) => `${name} grew a ${type} side.`,
+  speciesGrew: (name: string, species: string) => `${name} grew into a ${species}!`,
   // Toasts
   storageBlocked: 'Saving is blocked in this browser. The Grove will not be kept.',
   saved: 'Saved',
