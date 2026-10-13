@@ -22,6 +22,20 @@ import type { PixelCanvas } from '../../src/render/sprites/pixel-canvas';
 import { SPECIES_ART } from '../../src/render/sprites/species-art';
 import { blitScaled, encodePng, solid } from './png';
 
+it.skipIf(!process.env.PREVIEW_HIRES2)('writes the next tiers: 96, 128 and 192 px', () => {
+  const sizes = [64, 96, 128, 192] as const;
+  const cell = 192 + 16;
+  const width = cell * sizes.length;
+  const height = cell;
+  const rgba = solid(width, height, '#3a3550');
+  sizes.forEach((size, i) => {
+    const pc = drawChaoHiRes(size);
+    blitScaled(rgba, width, pc, i * cell + 8 + (192 - size) / 2, 8 + (192 - size), 1);
+  });
+  writeFileSync(process.env.PREVIEW_HIRES2!, encodePng(width, height, rgba));
+  expect(sizes.length).toBe(4);
+});
+
 it.skipIf(!process.env.PREVIEW_HIRES)('writes the resolution comparison: 32, 48 and 64 px', () => {
   // Each shown at the same on-screen size (a 1080p monitor): 32 px ×4, 48 px ×3, 64 px ×2.
   const scaleFor = { 32: 4, 48: 3, 64: 2 } as const;

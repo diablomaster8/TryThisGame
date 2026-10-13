@@ -9,7 +9,9 @@ import { PixelCanvas } from './pixel-canvas';
  * glints, a softer crown and a proper mouth. This is the sample for choosing the
  * game's resolution; the full animation sets would follow the chosen size.
  */
-export function drawChaoHiRes(size: 48 | 64, col: ChaoColors = CHILD_NEUTRAL): PixelCanvas {
+export type HiResSize = 48 | 64 | 96 | 128 | 192;
+
+export function drawChaoHiRes(size: HiResSize, col: ChaoColors = CHILD_NEUTRAL): PixelCanvas {
   const S = size / 32;
   const pc = new PixelCanvas(size, size);
   const cx = size / 2;
@@ -46,9 +48,30 @@ export function drawChaoHiRes(size: 48 | 64, col: ChaoColors = CHILD_NEUTRAL): P
     );
   }
 
-  // Body with a two-tone belly.
+  // Body with a two-tone belly. From 96 px up the shade becomes a gradient of bands.
   pc.ellipse(cx, bodyCy, bodyRx, bodyRy, col.body);
-  pc.ellipse(cx + 1 * S, bodyCy + 1 * S, bodyRx - 1 * S, bodyRy - 1 * S, col.shade);
+  if (S >= 3) {
+    for (let k = 0; k < 3; k++) {
+      const inset = (k + 1) * 0.45 * S;
+      pc.ellipse(
+        cx + 1.2 * S,
+        bodyCy + 1.2 * S,
+        bodyRx - inset,
+        bodyRy - inset,
+        k === 0 ? col.shade : col.body,
+      );
+      if (k === 1)
+        pc.ellipse(
+          cx + 1.4 * S,
+          bodyCy + 1.4 * S,
+          bodyRx - inset - 0.3 * S,
+          bodyRy - inset - 0.3 * S,
+          col.shade,
+        );
+    }
+  } else {
+    pc.ellipse(cx + 1 * S, bodyCy + 1 * S, bodyRx - 1 * S, bodyRy - 1 * S, col.shade);
+  }
   pc.ellipse(cx, bodyCy, bodyRx - 1 * S, bodyRy - 1 * S, col.body);
   pc.ellipse(cx, bodyCy + 1 * S, 3.4 * S, 2.8 * S, col.belly);
   pc.ellipse(cx - 0.5 * S, bodyCy + 0.5 * S, 2.2 * S, 1.6 * S, C.white);
@@ -94,14 +117,24 @@ export function drawChaoHiRes(size: 48 | 64, col: ChaoColors = CHILD_NEUTRAL): P
   // Soft highlight arc.
   pc.ellipse(cx - 3.5 * S, headCy - 4 * S, 1.6 * S, 1.1 * S, col.belly);
 
-  // Eyes: iris with two glints at this size.
+  // Eyes: iris with two glints; from 96 px an iris ring, a pupil and a lower-lid line.
   const eyeY = headCy + 1 * S;
   for (const d of [-1, 1] as const) {
     const ex = cx + d * 4 * S;
     pc.ellipse(ex, eyeY, 1.7 * S, 2.7 * S, col.eye);
-    if (S >= 1.5) pc.ellipse(ex + d * 0.3 * S, eyeY + 0.6 * S, 1.0 * S, 1.5 * S, C.skyDeep);
-    pc.ellipse(ex - 0.6 * S, eyeY - 1.4 * S, 0.6 * S, 0.8 * S, col.glint);
-    pc.px(ex + 0.6 * S, eyeY + 1.2 * S, col.glint);
+    if (S >= 3) {
+      pc.ellipse(ex + d * 0.3 * S, eyeY + 0.6 * S, 1.1 * S, 1.7 * S, C.skyDeep);
+      pc.ellipse(ex + d * 0.3 * S, eyeY + 0.7 * S, 0.8 * S, 1.3 * S, C.water);
+      pc.ellipse(ex + d * 0.3 * S, eyeY + 0.9 * S, 0.45 * S, 0.8 * S, col.eye);
+      pc.ellipse(ex - 0.6 * S, eyeY - 1.3 * S, 0.65 * S, 0.9 * S, col.glint);
+      pc.ellipse(ex + 0.7 * S, eyeY + 1.3 * S, 0.3 * S, 0.4 * S, col.glint);
+      pc.line(ex - 1.5 * S, eyeY + 2.9 * S, ex + 1.5 * S, eyeY + 2.9 * S, col.shade);
+      if (S >= 4) pc.line(ex - 1.8 * S, eyeY - 2.9 * S, ex + 1.2 * S, eyeY - 3.2 * S, col.outline);
+    } else {
+      if (S >= 1.5) pc.ellipse(ex + d * 0.3 * S, eyeY + 0.6 * S, 1.0 * S, 1.5 * S, C.skyDeep);
+      pc.ellipse(ex - 0.6 * S, eyeY - 1.4 * S, 0.6 * S, 0.8 * S, col.glint);
+      pc.px(ex + 0.6 * S, eyeY + 1.2 * S, col.glint);
+    }
   }
   // Blush and mouth.
   pc.ellipse(cx - 6.2 * S, eyeY + 2.6 * S, 1.2 * S, 0.8 * S, C.blush);
@@ -110,6 +143,24 @@ export function drawChaoHiRes(size: 48 | 64, col: ChaoColors = CHILD_NEUTRAL): P
   pc.line(cx - 1.2 * S, my, cx, my + 0.9 * S, col.eye);
   pc.line(cx, my + 0.9 * S, cx + 1.2 * S, my, col.eye);
 
-  pc.finish(col.outline, [col.eye, col.glint, C.white, C.skyDeep]);
+  // Wing feather lines and a cheek gradient at the top tiers.
+  if (S >= 3) {
+    for (const d of [-1, 1] as const) {
+      const wx = cx + d * (headRx - 1 * S);
+      for (let k = 1; k <= 2; k++) {
+        pc.line(
+          wx + d * k * 1.4 * S,
+          wingY + 1.5 * S,
+          wx + d * (2 + k * 1.1) * S,
+          wingY - 2.6 * S,
+          col.shade,
+        );
+      }
+    }
+    pc.ellipse(cx - 6.2 * S, eyeY + 2.6 * S, 0.7 * S, 0.45 * S, C.roseLight);
+    pc.ellipse(cx + 6.2 * S, eyeY + 2.6 * S, 0.7 * S, 0.45 * S, C.roseLight);
+  }
+
+  pc.finish(col.outline, [col.eye, col.glint, C.white, C.skyDeep, C.water]);
   return pc;
 }
