@@ -81,7 +81,7 @@ export class ShopMenu {
 
   /** Called from the HUD when a `bought` event arrives. */
   onBought(ok: boolean, reason: 'shells' | 'roster' | 'toys' | null, item: ShopItem): void {
-    if (ok) this.toast(UI_TEXT.bought(SHOP_ITEMS[item].name));
+    if (ok) this.toast(UI_TEXT.bought(SHOP_ITEMS[item]?.name ?? item));
     else if (reason === 'roster') this.toast(UI_TEXT.rosterFull);
     else if (reason === 'toys') this.toast(UI_TEXT.tooManyToys);
     else this.toast(UI_TEXT.notEnoughShells);

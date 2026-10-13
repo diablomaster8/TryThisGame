@@ -18,7 +18,7 @@ import { harvest, plant, stepPlants, waterPlant } from './plants';
 import { buyToy, craft, gather, placeToy, type RecipeId } from './craft';
 import { paintTile } from './tiles';
 import { buyPlot, hasRoom } from './roster';
-import { claimQuest, noteQuest, stepQuests } from './quests';
+import { claimQuest, noteQuest, queueQuestEvents, stepQuests } from './quests';
 import { feedWild, stepHabitats } from './habitats';
 import { neighbourGift, visit } from './neighbourhood';
 import { dye, wearGlasses } from './accessories';
@@ -192,6 +192,14 @@ export function withRng<T>(world: World, fn: (rng: Rng) => T): T {
 // ---------- commands ----------
 
 export function applyCommand(world: World, cmd: Command, events: SimEvent[]): void {
+  const start = events.length;
+  applyCommandInner(world, cmd, events);
+  // Events from commands (a visit, a craft, a watering) count toward requests on the
+  // next step, the same as events the step itself produces.
+  if (events.length > start) queueQuestEvents(world, events.slice(start));
+}
+
+function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void {
   const k = world.keeper;
   const now = world.timeMs;
   switch (cmd.kind) {

@@ -85,6 +85,10 @@ export class KarateMenu {
       g.view.sheets.rival('moon', 'power'),
       (won) => {
         g.renderPaused = false;
+        if (won === null) {
+          this.toast(UI_TEXT.karateLeft);
+          return;
+        }
         const shells = prizeForBout(tier, won);
         g.send({ kind: 'karateResult', nubbinId: fighter.id, won, tier, shells });
         this.toast(won ? UI_TEXT.karateWon(fighter.name) : UI_TEXT.karateLost(fighter.name));
@@ -106,7 +110,7 @@ export class KarateScreen {
   private bout: Bout | null = null;
   private player: { name: string; sheet: SpriteSheet } | null = null;
   private rivalSheet: SpriteSheet | null = null;
-  private onDone: ((won: boolean) => void) | null = null;
+  private onDone: ((won: boolean | null) => void) | null = null;
   private rafId = 0;
   private lastMs = 0;
   private viewW = 320;
@@ -158,7 +162,7 @@ export class KarateScreen {
     player: Nubbin,
     playerSheet: SpriteSheet,
     rivalSheet: SpriteSheet,
-    onDone: (won: boolean) => void,
+    onDone: (won: boolean | null) => void,
   ): void {
     this.bout = bout;
     this.player = { name: player.name, sheet: playerSheet };
@@ -178,7 +182,8 @@ export class KarateScreen {
   }
 
   private finish(): void {
-    const won = this.bout?.won ?? false;
+    // A bout left before it ended is abandoned, not lost.
+    const won = this.bout?.finished ? (this.bout.won ?? false) : null;
     cancelAnimationFrame(this.rafId);
     this.root.hidden = true;
     this.bout = null;

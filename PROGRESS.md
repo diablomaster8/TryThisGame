@@ -9,6 +9,38 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Play-through and debug pass (2026-10-13)
+
+Maor: "Run through the game and debug." Driven in the browser pane from a cleared save:
+title → Free Grove, walking and tap-to-move, tree shake, hatching, pet, feed, pick up,
+put down, hug, call, grab/throw, the shop, kindergarten lesson and services, hats,
+renaming, decorating, painting, planting and watering, toys and catch, the workshop and
+dyes, gathering, requests, the profile (plots, title), the map (teleport), a
+neighbour visit and gift, a race, a karate bout, an Expedition, every panel open and
+close, a save round trip, a two-hour offline gap, the campaign's first chapter and
+journal, with a window error hook watching the whole way.
+
+**Fixed:**
+
+- **Buying an unknown shop item emptied the purse.** `buy()` subtracted an undefined
+  price, Shells became NaN, and the HUD's purchase toast threw. The sim now refuses an
+  item with no price and the toast tolerates it. (Regression test added.)
+- **Requests ignored anything done by command.** The board counted only events produced
+  inside a sim step; visits, crafting, watering and gathering by tap come from commands,
+  so those requests never advanced. Command events are now queued and counted on the
+  next step (`queueQuestEvents` in `sim/quests.ts`). (Regression test added.)
+- **Leaving a karate bout early counted as a loss.** Quitting now abandons the bout: no
+  result, no record, a "Left the dojo" toast.
+
+**Checked and fine:** no uncaught errors anywhere in the run; the save round trip is
+exact; obstacles stop the Keeper; the hover halo and tap sparkles; all twelve panels;
+the campaign opens on chapter 1 with its goal in the journal.
+
+**Noted, not changed:** shaking a tree only hurries the next fruit (by design in
+CLAUDE.md) and sometimes gives wood, so a fresh Grove's first fruit comes from the shop
+or a wait; fast-travel to the well lands beside it because the well is solid; karate
+takes the selected Nubbin or, with none selected, the first in the roster.
+
 ## Painted decor props and solid obstacles (2026-10-13)
 
 Maor: "Upgrade the decor props to the new art too" and "make sure I can't walk through

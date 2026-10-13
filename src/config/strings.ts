@@ -424,6 +424,7 @@ export const UI_TEXT = {
   strike: 'Strike!',
   karateWon: (name: string) => `${name} wins the bout!`,
   karateLost: (name: string) => `${name} is knocked down. Train and try again.`,
+  karateLeft: 'Left the dojo. No result recorded.',
   karateResults: 'Dojo results',
   // Collection
   collection: 'Collection book',

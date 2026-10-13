@@ -41,7 +41,13 @@ function freeSpot(world: World, rng: Rng): Vec2 {
 
 /** Spend Shells on an item; returns false when it cannot be bought. */
 export function buy(world: World, item: ShopItem, rng: Rng, events: SimEvent[]): boolean {
-  const price = Math.round(priceOf(item) * (item === 'egg' ? eggPriceMultiplier(world) : 1));
+  const base = priceOf(item);
+  // An unknown item (a stale UI, a bad save, a console typo) must not touch the purse.
+  if (!Number.isFinite(base)) {
+    events.push({ kind: 'bought', item, ok: false, reason: 'shells' });
+    return false;
+  }
+  const price = Math.round(base * (item === 'egg' ? eggPriceMultiplier(world) : 1));
   const fail = (reason: 'shells' | 'roster' | 'toys') => {
     events.push({ kind: 'bought', item, ok: false, reason });
     return false;

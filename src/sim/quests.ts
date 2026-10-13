@@ -75,6 +75,15 @@ function bump(world: World, template: string, events: SimEvent[], n = 1, param?:
 }
 
 /** Per step: refresh on a new real day; count the step's events. */
+/** Events produced by commands, waiting for the next step's count. */
+const queued = new WeakMap<World, SimEvent[]>();
+
+export function queueQuestEvents(world: World, events: SimEvent[]): void {
+  const list = queued.get(world) ?? [];
+  list.push(...events);
+  queued.set(world, list);
+}
+
 export function stepQuests(
   world: World,
   wallMs: number | undefined,
@@ -88,7 +97,9 @@ export function stepQuests(
       refreshQuests(world, rng, events);
     }
   }
-  for (const e of events) {
+  const pending = queued.get(world);
+  queued.delete(world);
+  for (const e of pending ? [...pending, ...events] : events) {
     switch (e.kind) {
       case 'reaction':
         if (e.reaction === 'love') bump(world, 'pet', events);
