@@ -9,6 +9,65 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Score, settings, environment and eye pass (2026-10-13, after the 540p move)
+
+- **Music** (`platform/audio.ts`): an original score on a small Web Audio sequencer. Six
+  pieces in a readable note notation: `grove` (garden waltz, day), `night` (music box),
+  `title` (rising brass motif), `race`, `expedition`, `story` (under dialogue). Synth
+  voices: lead, pluck, bass, pad, bell, brass, kick, snare, hat, through an echo, a
+  generated hall and a compressor. The HUD loop picks the piece (dialogue > minigame >
+  hour). Written in the spirit of the cozy-garden and big-adventure scores Maor named;
+  nothing quoted.
+- **Settings:** Music and Sound effects are separate switches (`settings.music`, defaulted
+  in `validateWorld`, no save version bump). A ✕ Leave button (and Escape) exits the
+  Expedition or a race at any time; an early leave keeps the shells collected so far and
+  counts a race as last place with no prize.
+- **Environment:** gradient sky textures per phase with pixel clouds by day; trees are a
+  bark-textured tapered trunk with roots and a crown of seven leaf-textured lobes (two
+  greens); bushes are leaf-textured lobes; mossy rocks at the hill feet; tall grass along
+  the edges, reeds on the pond rim, lily pads on the water; the ground texture gained
+  blade clusters, clover, damp shade around the water and worn path rims.
+- **Eyes/glitch pass:** angry creature eyes are a narrowed eye with a brow, iris and
+  glint; dot eyes a bead with a glint. `PREVIEW_ANGLES=path.png npx vitest run tests/tools`
+  renders every angle and clip for a few looks; nothing stray showed at 64 px.
+
+## What is not built yet
+
+From CLAUDE.md's v2 list (data fields exist, no features): karate, breeding and genetics,
+the kindergarten (classes, doctor, fortune teller), a pocket mode, online accounts,
+trading, cloud save. From the campaign plan: parallax weather, a bitmap font, Corvin's
+garden and the Hollow as walkable scenes, a reskinned chapter-8 expedition, per-chapter
+music. From the graphics plan: hand-tuned 64 px art for the hats and critter parts (they
+are the 32 px designs rasterised at 2×), and a likeness pass on the pocket and digital
+species at the new size.
+
+## Recommendations (from the games this one grows out of)
+
+1. **Kindergarten lessons (Chao Garden):** drawing, singing, dance and instrument classes
+   that teach a Nubbin a skill it performs idly in the Grove. Cheap to add on the existing
+   `skills` field and the idle state machine; big charm return.
+2. **Karate tournament (Chao Garden):** a third minigame on the race screen's bones, with
+   Power and Stamina deciding the bouts and belts as prizes; `karateRecord` is waiting.
+3. **Breeding with genes (Chao Garden, Monster Rancher):** two adults near a heart fruit
+   produce an egg inheriting colour, shiny and stat grades; the `genes` field exists and
+   the catalogue already has 60+ looks to recombine.
+4. **Collection book (Pokémon's dex, Digimon's field guide):** a page per species and
+   Chao form seen, with hatch and evolution hints; turns the 100+ looks into a goal.
+5. **Garden decorating (Animal Crossing, Viva Piñata):** buy and place fences, paths,
+   flowers and toys; the decor layer and shop are ready, placement needs a drag mode.
+6. **Daily rhythm and events (Animal Crossing, Neko Atsume):** visiting Keepers with
+   gifts on real-clock days, a weekly lantern night, seasonal fruit; the real-clock
+   daylight and NPC system already carry most of it.
+7. **Weather (Stardew Valley):** rain that fills the pond, makes Nubbins shelter under the
+   trees and raises Swim lean; snow in winter; a few particle kinds and a grade tint.
+8. **Doctor and fortune teller (Chao Garden):** a hidden-stats readout for Shells and a
+   naming/personality reading; both are small UI panels over existing data.
+9. **Share codes (Tamagotchi's connection, Digimon's battles):** export a Nubbin as a
+   short code a friend can import as a race rival or a visiting guest, no server needed.
+10. **Photo mode and memorial garden:** a framed snapshot with the Nubbin's name and
+    form, and a spot where memorial flowers can be visited and read; the departures are
+    the game's most emotional moments and deserve a place.
+
 ## Campaign mode and the graphics upgrade (2026-10-13)
 
 Maor approved the plan ("go now"): graphics first, then a full story campaign with at
