@@ -80,7 +80,11 @@ export function showTitle(parent: HTMLElement, onChoose: (c: TitleChoice) => voi
     const grid = el('div', 'title-keepers');
     for (const t of TRAINERS) {
       const label = TRAINER_LABELS[t.id]?.name ?? t.id;
-      const b = button('', () => finish({ slot: 'campaign', fresh: true, trainer: t.id }), 'btn title-keeper');
+      const b = button(
+        '',
+        () => finish({ slot: 'campaign', fresh: true, trainer: t.id }),
+        'btn title-keeper',
+      );
       b.appendChild(portrait(t.id));
       b.appendChild(el('span', undefined, label));
       grid.appendChild(b);

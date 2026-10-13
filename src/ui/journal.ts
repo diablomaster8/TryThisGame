@@ -39,7 +39,13 @@ export class Journal {
     if (!g || !c) return;
     const tabs = el('div', 'race-tiers');
     for (const [id, label] of [
-      ['chapter', STORY_TEXT.chapter(Math.min(c.chapter, 12), chapterDef(Math.min(c.chapter, 12))?.title ?? '')],
+      [
+        'chapter',
+        STORY_TEXT.chapter(
+          Math.min(c.chapter, 12),
+          chapterDef(Math.min(c.chapter, 12))?.title ?? '',
+        ),
+      ],
       ['paths', STORY_TEXT.paths],
     ] as const) {
       const b = button(
@@ -85,7 +91,11 @@ export class Journal {
             : STORY_TEXT.shadow
         : '';
       list.appendChild(
-        el('div', 'roster-line', `${n.name} · ${STORY_TEXT.trust} ${Math.round(n.trust)}${state ? ` · ${state}` : ''}`),
+        el(
+          'div',
+          'roster-line',
+          `${n.name} · ${STORY_TEXT.trust} ${Math.round(n.trust)}${state ? ` · ${state}` : ''}`,
+        ),
       );
     }
     this.body.appendChild(list);
@@ -97,7 +107,10 @@ export class Journal {
       this.body.appendChild(el('div', 'btn-name', STORY_TEXT.friends));
       const row = el('div', 'roster-stats');
       row.textContent = friends
-        .map(([id, v]) => `${TRAINER_LABELS[id]?.name ?? SPEAKERS[id]?.name ?? id} ${v > 0 ? '+' : ''}${v}`)
+        .map(
+          ([id, v]) =>
+            `${TRAINER_LABELS[id]?.name ?? SPEAKERS[id]?.name ?? id} ${v > 0 ? '+' : ''}${v}`,
+        )
         .join(' · ');
       this.body.appendChild(row);
     }
@@ -107,7 +120,11 @@ export class Journal {
       const done = ch.n < c.chapter;
       const current = ch.n === c.chapter;
       chapters.appendChild(
-        el('div', `journal-chapter${done ? ' done' : current ? ' current' : ''}`, `${done ? '✓' : current ? '▶' : '·'} ${STORY_TEXT.chapter(ch.n, ch.title)}`),
+        el(
+          'div',
+          `journal-chapter${done ? ' done' : current ? ' current' : ''}`,
+          `${done ? '✓' : current ? '▶' : '·'} ${STORY_TEXT.chapter(ch.n, ch.title)}`,
+        ),
       );
     }
     this.body.appendChild(chapters);
@@ -117,7 +134,13 @@ export class Journal {
     this.body.appendChild(el('p', 'help', STORY_TEXT.pathsHelp));
     for (const [id, e] of Object.entries(ENDINGS)) {
       const row = el('div', 'journal-path');
-      row.appendChild(el('div', 'btn-name', `${reached === id ? '★ ' : ''}${e.title}${reached === id ? ` · ${STORY_TEXT.reached}` : ''}`));
+      row.appendChild(
+        el(
+          'div',
+          'btn-name',
+          `${reached === id ? '★ ' : ''}${e.title}${reached === id ? ` · ${STORY_TEXT.reached}` : ''}`,
+        ),
+      );
       row.appendChild(el('p', 'help', e.how));
       this.body.appendChild(row);
     }

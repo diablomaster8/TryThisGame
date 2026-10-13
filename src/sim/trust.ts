@@ -80,7 +80,11 @@ export function runAway(world: World, n: Nubbin, events: SimEvent[]): void {
   n.shadow = true;
   n.bond = false;
   n.lowTrustSinceMs = -1;
-  const stray: Stray = { nubbin: n, leftAtMs: world.timeMs, returnsAtMs: world.timeMs + TRUST.strayReturnMs };
+  const stray: Stray = {
+    nubbin: n,
+    leftAtMs: world.timeMs,
+    returnsAtMs: world.timeMs + TRUST.strayReturnMs,
+  };
   world.strays.push(stray);
   events.push({ kind: 'ranAway', nubbinId: n.id, name: n.name });
 }

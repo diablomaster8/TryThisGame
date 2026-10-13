@@ -21,7 +21,9 @@ export const MIGRATIONS: Array<(data: Record<string, unknown>) => Record<string,
       world.strays ??= [];
       world.npcs ??= [];
       world.campaign ??= null;
-      const nubbins = Array.isArray(world.nubbins) ? (world.nubbins as Record<string, unknown>[]) : [];
+      const nubbins = Array.isArray(world.nubbins)
+        ? (world.nubbins as Record<string, unknown>[])
+        : [];
       for (const n of nubbins) {
         n.trust ??= TRUST.start;
         n.shadow ??= false;

@@ -102,11 +102,7 @@ export class DebugPanel {
     );
     for (let ch = 1; ch <= 12; ch++) {
       story.appendChild(
-        button(
-          ``,
-          () => this.game()?.send({ kind: 'debugChapter', chapter: ch }),
-          'btn btn-small',
-        ),
+        button(``, () => this.game()?.send({ kind: 'debugChapter', chapter: ch }), 'btn btn-small'),
       );
     }
     story.appendChild(
