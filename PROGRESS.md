@@ -9,6 +9,69 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Everything that was left, the ten recommendations, settings and interactions (2026-10-13)
+
+Maor: "Complete what is not built yet. Then do all 10." Plus mid-turn: settings sliders and
+missing settings, more Nubbin interactions, and a logins/multiplayer plan (plan only).
+
+**Built (what works):**
+
+- **Weather** (`sim/weather.ts`): clear spells, rain, snow in winter; seasons from the real
+  calendar. In rain most Nubbins shelter under a tree (`shelter` state, a little happiness),
+  swimmers go to the pond and gain Swim lean. Rain streaks and splashes, snow flakes that
+  settle, a cooler grade and a darker rig. Debug: `debugWeather`.
+- **Breeding** (`sim/breeding.ts`): heart fruit in the shop (80 Shells) or from a visitor;
+  feed it to an adult with affection 30+ (never an Eternal); it courts for 90 s and makes an
+  egg with any adult within 2.5 units. The egg takes a parent's colour and lineage, mixes
+  grades (the better one half the time), has a shine chance, records parents and
+  generation. Roster cap applies.
+- **Kindergarten** (`sim/kindergarten.ts`, More → Kindergarten): four lessons at 25 Shells,
+  45 s each, three levels; a schooled Nubbin performs idly (star ball). Doctor (15) prints
+  the hidden numbers; fortune teller (20) reads the likely adult form, personality and
+  whether rebirth is in the cards.
+- **Karate** (`sim/karate.ts`, More → Karate): a timing-bar bout on a dojo canvas; Power,
+  Stamina and Run decide damage, HP and dodges; three tiers, belts, prizes; per-Nubbin and
+  per-Grove records; Leave/Escape; own music.
+- **Collection book** (`sim/collection.ts`, More → Collection): every species and Chao
+  form seen, silhouettes for the rest, toasts on first sightings.
+- **Decorating** (`sim/decorate.ts`, More → Decorate): fence, flower bed, bench, statue,
+  path stone, garden lantern; buy, then tap the grass to place (snaps to half units, keeps
+  off the pond and trees), tap a piece to pick it up; a placing chip with Done.
+- **Daily rhythm** (`sim/daily.ts`): once per real day a Keeper visits with a gift (Shells,
+  fruit, an egg, a heart fruit) and potters about; Saturday is lantern night.
+- **Share codes and trades** (`sim/share.ts`): roster → Share code copies a checksummed
+  code; Trade away sends the Nubbin off for good; More → Receive pastes one in (fresh id,
+  free name, roster cap).
+- **Photo mode** (More → Photo): a framed pixel snapshot with name, form, age and date,
+  saved as PNG. **Memorial cards**: tap a flower to read who it was, what they grew into,
+  how long they lived, rebirths, and how long ago they moved on.
+- **Pocket mode** (More → Pocket, or `?pocket`): one Nubbin close up with meters and
+  quick actions, a picker for the others.
+- **Campaign places**: chapter 8 moves to the Hollow (dark wood, fireflies, strays, Hazel's
+  notebook on a flat stone to tap; the Expedition runs through the Hollow theme), chapter 9
+  to Corvin's garden (pale pens, thirty grey rows, Corvin and Ember). Back to the Grove at
+  chapter 10. Hidden scenery cannot catch taps.
+- **Per-chapter music**: sorrow (6, 11, ending), tense (5, 9, Corvin's garden), hollow,
+  karate; four new pieces in `platform/audio.ts`.
+- **Bitmap font** (`render/sprites/font.ts`): a 5×7 pixel font for the race, Expedition,
+  karate, photo and pocket canvases. The DOM HUD keeps the system font.
+- **Hats** got fine-grid weave, jewels and ribs. Species eyes were done in the previous pass.
+- **Interactions** (stats sheet, pocket mode): tickle, hug, brush, high five, praise, tuck
+  in (only when tired), call (the Nubbin, or everyone, comes running), play catch (throws
+  the ball, the Nubbin fetches it back), heart fruit. A wary Shadow refuses the touchy ones.
+- **Settings**: music and effects volume sliders, story text speed, screen shake, particle
+  density, reduced-motion override, fullscreen, back to title.
+- Tests: 170 Vitest cases.
+
+**Not built, by design:** logins, cloud save and online visiting need a backend; the plan
+is in `docs/multiplayer-plan.md` (Supabase, optional accounts, cloud save by newest,
+read-only visiting with a mailbox, escrowed trades, leaderboards).
+
+**Known gaps:** the pocket mode is a panel, not a home-screen widget; decorations are
+sprites, not collidable; the doctor and fortune teller show their reading in the panel
+right away (the Shells are taken by the sim). The desktop browser pane kept executing a
+stale `kindergarten.ts` after the save-compat fix; the dev server was restarted.
+
 ## Score, settings, environment and eye pass (2026-10-13, after the 540p move)
 
 - **Music** (`platform/audio.ts`): an original score on a small Web Audio sequencer. Six
@@ -33,13 +96,8 @@ log before coding, still keep the per-milestone commits and checks.
 
 ## What is not built yet
 
-From CLAUDE.md's v2 list (data fields exist, no features): karate, breeding and genetics,
-the kindergarten (classes, doctor, fortune teller), a pocket mode, online accounts,
-trading, cloud save. From the campaign plan: parallax weather, a bitmap font, Corvin's
-garden and the Hollow as walkable scenes, a reskinned chapter-8 expedition, per-chapter
-music. From the graphics plan: hand-tuned 64 px art for the hats and critter parts (they
-are the 32 px designs rasterised at 2×), and a likeness pass on the pocket and digital
-species at the new size.
+Only the server-side pieces: logins, cloud save, online visiting (see
+`docs/multiplayer-plan.md`). Everything else from the earlier list is built as of 2026-10-13.
 
 ## Recommendations (from the games this one grows out of)
 
