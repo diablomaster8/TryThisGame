@@ -9,6 +9,59 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Organic samples and a procedural dungeon (2026-10-13, for Maor's pick)
+
+Maor: "try again with samples that aren't exactly shape based. Not too triangular or
+circular - more like real life which is fractal. Then make a sample as well of a
+'dungeon' that is procedurally generated. Add procedural generated dungeons
+recommendation to the list of improvements."
+
+**Organic scene** (`tests/tools/env-fractal.test.ts`, `PREVIEW_FRACTAL=dir`;
+`docs/samples/fractal-day.png`, `fractal-dusk.png`). Nothing is a primitive:
+
+- Trees grow by recursive branching (six segments per branch, two or three children,
+  angles and lengths from the seed, bark from ridged noise, a lit side), and the canopy
+  is a cloud of leaf dabs hung on the twigs with its silhouette eaten by a noise field,
+  so every tree is different and ragged. Bushes the same way, low.
+- The ground is three greens blended by domain-warped noise with dry patches, 16,000
+  blades where a finer field is high, flower drifts in another.
+- The path's width and edge wander along its length and per pixel; ruts and stones
+  come from a wear field; a trodden fringe fades into the grass.
+- The pond's shoreline is a noise function of the angle; the bank and the wet band
+  follow it; ripples are a stretched field; reeds lean; lily pads are noise-cut blobs.
+- Rocks are blobs displaced by ridged noise, shaded by a guessed normal, mossy below.
+- The cottage: warped plaster with cracks, timbers that bend, a stone footing of
+  individual stones, a thatch with a sagging ridge and ragged eaves built from 2,600
+  strokes, wavy old glass, a chimney of stacked stones, a crooked lantern post, a
+  sagging fence. The far treeline is a fractal silhouette.
+- Shadows in the dusk pass are noise-eaten shapes too. Same light pass and HD-2D
+  frame as the combined sample. Shared noise code: `tests/tools/noise.ts` (value noise,
+  fbm, domain warping, ridged).
+
+**Procedural dungeon** (`tests/tools/dungeon.test.ts`, `PREVIEW_DUNGEON=dir`;
+`docs/samples/dungeon-7.png`, `dungeon-2026.png`, and `dungeon-map-*.png` for the
+grid). Seeded and pure (`generate(seed)` uses the sim's `Rng`), with a test that the
+same seed gives the same dungeon and that every floor cell reaches the stairs:
+
+- A 70×42 cave from cellular automata (52% fill, five smoothing passes), four rooms
+  with chipped corners carved in, wobbly corridors joining them, the largest connected
+  region kept, water pockets where a noise field is low, torches on walls that face
+  floor, crystals in dead-end nooks, stairs in the first room, a chest in the last.
+- Rendered per pixel through the grid warped by noise, so the rock faces wander off
+  the cells: a lit lip where rock meets floor, deep rock fading to black, flagstones
+  with dark joints and cracks, dust gathered at the walls, moss near water and in
+  damp corners, pebbles and bones; torches warm and crystals cool as point lights with
+  falloff, dimmed through walls; dust motes in the light; fog in the far corners.
+
+**Recommendation 11 (added to the Digimon-inspired list):** *Procedural dungeons.* A
+"Hollow Below" entrance in the Grove (and the cave domains of S3 "The Beetle Road"):
+each run generates a seeded cave of rooms and corridors with water, torches,
+crystals, a chest and a way down; Nubbins explore with the Keeper, find materials,
+seeds, essences and lost eggs, meet wild creatures and Shadow strays, and can turn
+back any time. Floors get bigger and darker; a daily seed gives everyone the same
+dungeon for the request board. The generator above is the seed of `sim/dungeon.ts`;
+rendering would reuse the ground painter and the light pass.
+
 ## Bigger sample: directions 3 and 5 combined (2026-10-13, for Maor's pick)
 
 Maor: "Do a bigger example of 3 and 5 combined." `tests/tools/env-combo.test.ts`
@@ -154,6 +207,13 @@ teams and dungeon tanks, and an MMO-trapped-online story.
 10. **The tank run.** A Digi-Beetle-style vehicle minigame: drive a little cart through
     a seeded cave with hazards (spores, loose rocks, acid puddles), a limited cargo of
     items, and a boss door at the end; shells and materials come home.
+11. **Procedural dungeons.** A "Hollow Below" entrance in the Grove (and the cave domains
+    of S3): every run generates a seeded cave of rooms, corridors, water, torches,
+    crystals, a chest and a way down; Nubbins explore with the Keeper, find materials,
+    seeds, essences and lost eggs, meet wild creatures and Shadow strays, and can turn
+    back any time. Floors get bigger and darker; a daily seed gives everyone the same
+    dungeon for the request board. The generator in `tests/tools/dungeon.test.ts` is
+    the seed of `sim/dungeon.ts`; see "Organic samples and a procedural dungeon".
 
 **Campaign expansions (add-ons to Hazel's Grove):**
 
