@@ -12,15 +12,53 @@ import {
   drawChao,
   lookOf,
   poseFor,
+  shadowColors,
   VARIANT_COLORS,
   variantColors,
+  type ChaoColors,
   type ChaoLook,
 } from '../../src/render/sprites/chao';
-import { drawChaoHiRes } from '../../src/render/sprites/chao-hires';
+import { drawChaoHiRes, type HiResLook } from '../../src/render/sprites/chao-hires';
+import { C } from '../../src/render/sprites/palette';
 import { drawCreature } from '../../src/render/sprites/creature';
 import type { PixelCanvas } from '../../src/render/sprites/pixel-canvas';
 import { SPECIES_ART } from '../../src/render/sprites/species-art';
 import { blitScaled, encodePng, solid } from './png';
+
+it.skipIf(!process.env.PREVIEW_HIRES3)('writes three more looks at 32, 48 and 64 px', () => {
+  // Rows: Sun adult (Fly), Moon adult (Power), Shadow child. Columns: 32 ×4, 48 ×3, 64 ×2.
+  const looks: Array<[ChaoColors, HiResLook, ChaoLook]> = [
+    [
+      adultColors('sun', 'fly'),
+      { wings: 'feathered', ball: 'halo', iris: C.skyDeep },
+      lookOf(adultColors('sun', 'fly'), 'fly'),
+    ],
+    [
+      adultColors('moon', 'power'),
+      { wings: 'bat', ball: 'spiky', iris: C.berry },
+      lookOf(adultColors('moon', 'power'), 'power'),
+    ],
+    [
+      shadowColors(CHILD_NEUTRAL),
+      { wings: 'small', ball: 'ball', iris: C.ember },
+      lookOf(shadowColors(CHILD_NEUTRAL)),
+    ],
+  ];
+  const cell = 48 * 3 + 16;
+  const width = cell * 3;
+  const height = cell * looks.length;
+  const rgba = solid(width, height, '#3a3550');
+  looks.forEach(([col, hi, look32], r) => {
+    const sprites: Array<[number, PixelCanvas]> = [
+      [4, drawChao('front', poseFor('idle', 0), look32)],
+      [3, drawChaoHiRes(48, col, hi)],
+      [2, drawChaoHiRes(64, col, hi)],
+    ];
+    sprites.forEach(([s, pc], i) => blitScaled(rgba, width, pc, i * cell + 8, r * cell + 8, s));
+  });
+  writeFileSync(process.env.PREVIEW_HIRES3!, encodePng(width, height, rgba));
+  expect(looks.length).toBe(3);
+});
 
 it.skipIf(!process.env.PREVIEW_HIRES2)('writes the next tiers: 96, 128 and 192 px', () => {
   const sizes = [64, 96, 128, 192] as const;
