@@ -23,11 +23,25 @@ export interface InputHost {
     ndcX: number,
     ndcY: number,
   ): {
-    kind: 'nubbin' | 'item' | 'npc' | 'memorial' | 'decor' | 'tree' | 'building' | 'plant' | 'wild';
+    kind:
+      | 'nubbin'
+      | 'item'
+      | 'npc'
+      | 'memorial'
+      | 'decor'
+      | 'tree'
+      | 'building'
+      | 'plant'
+      | 'wild'
+      | 'lantern';
     id: string;
   } | null;
   /** Is this Nubbin id something that can be grabbed right now? */
   canGrab(id: string): boolean;
+  /** The thing under the mouse (or just tapped), for a highlight; null clears it. */
+  hover?(hit: { kind: string; id: string } | null): void;
+  /** A sparkle burst where something was tapped. */
+  sparkle?(pos: Vec2): void;
   send(cmd: Command): void;
   /** Called on a tap that selected or deselected something. */
   onSelect(id: string | null): void;
@@ -67,6 +81,8 @@ export class GameInput {
     const { signal } = this.abort;
     surface.addEventListener('pointerdown', this.onDown, { signal });
     surface.addEventListener('pointermove', this.onMove, { signal });
+    surface.addEventListener('pointermove', this.onHover, { signal });
+    surface.addEventListener('pointerleave', () => this.host.hover?.(null), { signal });
     surface.addEventListener('pointerup', this.onUp, { signal });
     surface.addEventListener('pointercancel', this.onUp, { signal });
     window.addEventListener('keydown', this.onKey, { signal });
@@ -174,6 +190,27 @@ export class GameInput {
     this.lastDx = 0;
   };
 
+  private lastHoverMs = 0;
+  private tapGlow = 0;
+
+  /** With a mouse, the thing under the pointer gets a halo and a pointer cursor. */
+  private readonly onHover = (e: PointerEvent): void => {
+    if (e.pointerType !== 'mouse' || this.pointerId !== null) return;
+    const now = performance.now();
+    if (now - this.lastHoverMs < 50) return;
+    this.lastHoverMs = now;
+    const hit = this.host.picker.pick(
+      e.clientX,
+      e.clientY,
+      this.host.camera.camera,
+      this.host.pickables(),
+      this.host.pickSprite,
+    );
+    const tappable =
+      hit && hit.kind !== 'ground' && hit.kind !== 'tree' ? hit : hit?.kind === 'tree' ? hit : null;
+    this.host.hover?.(tappable ? { kind: tappable.kind, id: tappable.id } : null);
+  };
+
   private readonly onMove = (e: PointerEvent): void => {
     if (e.pointerId !== this.pointerId || this.pointerCount > 1) return;
     const dx = e.clientX - this.downClient.x;
@@ -233,6 +270,15 @@ export class GameInput {
       this.host.pickSprite,
     );
     if (!hit) return;
+    if (hit.kind !== 'ground') {
+      // Feedback for the tap: sparkles where it landed and a short halo (touch has no hover).
+      if (hit.ground) this.host.sparkle?.(hit.ground);
+      this.host.hover?.({ kind: hit.kind, id: hit.id });
+      const stamp = ++this.tapGlow;
+      window.setTimeout(() => {
+        if (this.tapGlow === stamp && e.pointerType !== 'mouse') this.host.hover?.(null);
+      }, 700);
+    }
     switch (hit.kind) {
       case 'nubbin':
         this.host.send({ kind: 'select', id: hit.id });

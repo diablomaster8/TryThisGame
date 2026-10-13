@@ -37,7 +37,17 @@ interface NubbinView {
 }
 
 export interface SpritePick {
-  kind: 'nubbin' | 'item' | 'npc' | 'memorial' | 'decor' | 'tree' | 'building' | 'plant' | 'wild';
+  kind:
+    | 'nubbin'
+    | 'item'
+    | 'npc'
+    | 'memorial'
+    | 'decor'
+    | 'tree'
+    | 'building'
+    | 'plant'
+    | 'wild'
+    | 'lantern';
   id: string;
 }
 
@@ -100,8 +110,34 @@ export class WorldView {
     return this.location.startsWith('visit:') ? this.location.slice('visit:'.length) : null;
   }
 
+  /** The Keeper's position as drawn this frame (between sim steps). */
+  keeperDrawPos(world: World, alpha: number): Vec2 {
+    return {
+      x: lerp(this.keeperPrev.pos.x, world.keeper.pos.x, alpha),
+      z: lerp(this.keeperPrev.pos.z, world.keeper.pos.z, alpha),
+    };
+  }
+
   /** Lamps that are on: windows and lanterns, with a reach in world units. */
   lights: Array<{ x: number; z: number; r: number }> = [];
+  /** The lantern posts and whether each is lit (set by the game from the scene). */
+  lanterns: () => Array<{ id: string; x: number; z: number; lit: boolean }> = () => [];
+
+  /** The thing under the mouse or just tapped: drawn with a bright halo. */
+  setHighlight(hit: { kind: string; id: string } | null): void {
+    this.batch.highlight = hit;
+  }
+
+  /** A burst of sparkles where something was tapped. */
+  sparkle(x: number, z: number, y = 0.4): void {
+    this.particles.burst('note', x, y, z, 6, {
+      spread: 0.35,
+      speed: 0.9,
+      rise: 1.2,
+      lifeMs: 650,
+      size: 0.3,
+    });
+  }
 
   /** Brightness for a sprite at a spot: the day/night dim, lifted by nearby lamps. */
   lightAt(x: number, z: number): number {

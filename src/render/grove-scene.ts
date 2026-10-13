@@ -28,15 +28,20 @@ import { daylightAt, type Daylight } from './daylight';
 import { C, color } from './sprites/palette';
 import { makeGroundTexture } from './ground';
 import { pondOutline } from './paint/shore';
+import {
+  paintCliffTexture,
+  paintGrassTopTexture,
+  paintWaterfallTexture,
+  poolShape,
+  terraceSide,
+  terraceTop,
+} from './paint/terrain';
 import { BUILDINGS } from './scenery';
 import {
   makeBarkTexture,
-  makeCliffTexture,
   makeLeafTexture,
   makeSkyTexture,
   makeBridgeTexture,
-  makeGrassTopTexture,
-  makeWaterfallTexture,
   makeWaterGlintTexture,
   makeWaterTexture16,
 } from './textures';
@@ -179,8 +184,14 @@ export class GroveScene {
   private groveKind: GroveKind = 'main';
   private readonly canopies: Mesh[] = [];
   private readonly skies = new Map<string, Texture>();
-  private readonly lanternGlows: Mesh[] = [];
-  private readonly lanternIds: string[] = [];
+  /** The four lantern posts, for the view. */
+  readonly lanternSpots: Array<{ id: string; x: number; z: number }> = [];
+  private duskLanterns = false;
+
+  /** Lantern states for the view: lit at dusk, or when the Keeper lit them. */
+  lanternStates(): Array<{ id: string; x: number; z: number; lit: boolean }> {
+    return this.lanternSpots.map((s) => ({ ...s, lit: this.duskLanterns || this.lit.has(s.id) }));
+  }
   private lit = new Set<string>();
   private readonly lanternLight: PointLight;
   private readonly lamps: PointLight[] = [];
@@ -294,15 +305,15 @@ export class GroveScene {
     }
 
     // Hills: terraced plateaus, a cliff-face texture on the sides and grass on top.
-    const hillTex = makeGrassTopTexture(6);
-    const topMat = new MeshLambertMaterial({
-      map: hillTex,
-      color: new Color(0x9ec46a),
-      flatShading: true,
-    });
+    const hillTex = paintGrassTopTexture();
+    const topMat = new MeshLambertMaterial({ map: hillTex });
     this.tintable.push(topMat);
     this.disposables.push(hillTex, topMat);
-    for (const h of GROVE.hills) {
+    const cliffTex = paintCliffTexture();
+    const cliffMat = new MeshLambertMaterial({ map: cliffTex });
+    this.tintable.push(cliffMat);
+    this.disposables.push(cliffTex, cliffMat);
+    GROVE.hills.forEach((h, hi) => {
       // Three tiers, each a little smaller; the cliff tile repeats by circumference so
       // the rocks keep their size on big and small hills.
       const tiers: Array<[number, number, number]> = [
@@ -310,17 +321,13 @@ export class GroveScene {
         [h.r * 0.74, h.h * 0.34, h.h * 0.42],
         [h.r * 0.5, h.h * 0.24, h.h * 0.76],
       ];
-      for (const [r, height, y0] of tiers) {
-        const cliffTex = makeCliffTexture();
-        cliffTex.repeat.set(Math.max(2, Math.round((2 * Math.PI * r) / 3)), 1);
-        const cliffMat = new MeshLambertMaterial({ map: cliffTex, flatShading: true });
-        this.tintable.push(cliffMat);
-        this.disposables.push(cliffTex, cliffMat);
-        const side = new CylinderGeometry(r * 0.94, r, height, 14, 1, true);
+      tiers.forEach(([r, height, y0], ti) => {
+        const salt = hi * 10 + ti;
+        const side = terraceSide(r, height, salt);
         const sideMesh = new Mesh(side, cliffMat);
-        sideMesh.position.set(h.x, y0 + height / 2, h.z);
+        sideMesh.position.set(h.x, y0, h.z);
         sideMesh.userData.pick = { kind: 'ground', id: 'hill' };
-        const top = new CircleGeometry(r * 0.94, 14);
+        const top = terraceTop(r, salt);
         const topMesh = new Mesh(top, topMat);
         topMesh.rotation.x = -Math.PI / 2;
         topMesh.position.set(h.x, y0 + height + 0.01, h.z);
@@ -328,20 +335,21 @@ export class GroveScene {
         this.groveGroup.add(sideMesh, topMesh);
         this.pickables.push(sideMesh, topMesh);
         this.disposables.push(side, top);
-      }
-    }
+      });
+    });
 
     // Waterfall on the big hill: a vertical scrolling plane plus a splash pool.
     const wf = GROVE.waterfall;
-    this.falls = makeWaterfallTexture(12, 24);
+    this.falls = paintWaterfallTexture();
+    this.falls.repeat.set(1.5, wf.height / 1.5);
     const fallGeo = new PlaneGeometry(wf.width, wf.height);
     const fallMat = new MeshBasicMaterial({ map: this.falls });
     const fall = new Mesh(fallGeo, fallMat);
     fall.position.set(wf.x - 3.2, wf.height / 2 + 0.3, wf.z + 4.6);
     fall.rotation.y = Math.PI / 6;
     this.groveGroup.add(fall);
-    const poolGeo = new CircleGeometry(1.6, 16);
-    const poolMat = new MeshLambertMaterial({ color: new Color(color(C.shallows)) });
+    const poolGeo = poolShape(1.6, 7);
+    const poolMat = new MeshLambertMaterial({ color: new Color(0x8ad0f0) });
     const pool = new Mesh(poolGeo, poolMat);
     pool.rotation.x = -Math.PI / 2;
     pool.position.set(wf.x - 3.6, 0.015, wf.z + 5.6);
@@ -393,12 +401,7 @@ export class GroveScene {
     this.groveGroup.add(this.foam);
     this.disposables.push(foamGeo, foamMat);
 
-    // Lanterns: posts with a glowing top that comes on at dusk (bloom picks it up).
-    const postGeo = new CylinderGeometry(0.08, 0.1, 1.6, 5);
-    const postMat = new MeshLambertMaterial({ color: new Color(color(C.darkBark)) });
-    const glowGeo = new SphereGeometry(0.22, 6, 5);
-    const glowMat = new MeshBasicMaterial({ color: new Color(color(C.sunLight)) });
-    this.disposables.push(postGeo, postMat, glowGeo, glowMat);
+    // Lanterns: painted posts drawn by the view (tappable sprites); their light lives here.
     (
       [
         [-4, 4],
@@ -407,17 +410,7 @@ export class GroveScene {
         [-8, -6],
       ] as const
     ).forEach(([x, z], i) => {
-      const post = new Mesh(postGeo, postMat);
-      post.position.set(x, 0.8, z);
-      post.userData.pick = { kind: 'lantern', id: `lantern-${i + 1}` };
-      const glow = new Mesh(glowGeo, glowMat);
-      glow.position.set(x, 1.75, z);
-      glow.visible = false;
-      glow.userData.pick = { kind: 'lantern', id: `lantern-${i + 1}` };
-      this.groveGroup.add(post, glow);
-      this.lanternGlows.push(glow);
-      this.lanternIds.push(`lantern-${i + 1}`);
-      this.pickables.push(post, glow);
+      this.lanternSpots.push({ id: `lantern-${i + 1}`, x, z });
     });
     this.lanternLight = new PointLight(new Color(color(C.sunYellow)), 0, 14, 1.2);
     this.lanternLight.position.set(0, 2.5, 0);
@@ -588,9 +581,6 @@ export class GroveScene {
     });
     this.foam.material.opacity = 0.35 + 0.2 * Math.sin(nowMs / 700);
     this.foam.scale.setScalar(1 + 0.02 * Math.sin(nowMs / 900));
-    for (const l of this.lanternGlows) {
-      l.scale.setScalar(1 + 0.12 * Math.sin(nowMs / 230 + l.position.x));
-    }
   }
 
   /**
@@ -671,11 +661,9 @@ export class GroveScene {
     this.sun.intensity =
       d.sunIntensity * (kind === 'sun' ? 1.3 : 1) * (place === 'hollow' ? 0.4 : rain);
     this.sun.color.set(d.sunColor);
-    this.lanternGlows.forEach((l, i) => {
-      l.visible = d.lanterns || this.lit.has(this.lanternIds[i] ?? '');
-    });
     this.lanternLight.visible = d.lanterns || this.lit.size > 0;
     this.lampsOn = d.lanterns;
+    this.duskLanterns = d.lanterns;
     for (const lamp of this.lamps) {
       lamp.visible = d.lanterns;
       lamp.intensity = 5 * d.darkness;

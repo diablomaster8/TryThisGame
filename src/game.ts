@@ -58,6 +58,7 @@ export class Game {
     const reduce =
       s.reducedMotion === 'on' || (s.reducedMotion === 'system' && this.camera.reduceMotion);
     this.grove.setLit(litLanterns(this.world));
+    this.view.lanterns = () => this.grove.lanternStates();
     const place = this.world.location.startsWith('visit:') ? 'grove' : this.world.location;
     this.grove.setLocation(place);
     this.grove.setDaylight(d, place, this.world.weather.kind);
@@ -103,6 +104,11 @@ export class Game {
       picker: this.picker,
       pickables: () => this.grove.pickables,
       pickSprite: (ndcX, ndcY) => this.view.pick(ndcX, ndcY, this.camera),
+      hover: (hit) => {
+        this.view.setHighlight(hit);
+        canvas.style.cursor = hit ? 'pointer' : '';
+      },
+      sparkle: (pos) => this.view.sparkle(pos.x, pos.z),
       placing: () => this.placing,
       canGrab: (id) => {
         const n = findNubbin(this.world, id);
@@ -243,11 +249,12 @@ export class Game {
       }
     }
 
-    // Camera follows the Keeper.
-    const k = this.world.keeper;
+    // Camera follows the Keeper as drawn (interpolated between sim steps), so the
+    // Keeper and the camera move together and nothing judders at the step rate.
+    const kp = this.view.keeperDrawPos(this.world, this.clock.alpha);
     const t = 1 - Math.exp((-CAMERA.followRate * dt) / 1000);
-    this.camera.target.x += (k.pos.x - this.camera.target.x) * t;
-    this.camera.target.z += (k.pos.z - this.camera.target.z) * t;
+    this.camera.target.x += (kp.x - this.camera.target.x) * t;
+    this.camera.target.z += (kp.z - this.camera.target.z) * t;
     this.camera.update(nowMs);
 
     if (!this.renderPaused) {

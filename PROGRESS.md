@@ -9,6 +9,36 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Hills, waterfall and lanterns in the new art; smooth camera; tap and hover feedback (2026-10-13)
+
+Maor: "Upgrade the hills, waterfall and lantern posts to the new art too", "when I move
+around the graphics are jittery", "when you can interact with something make sure it has
+a clear indicator like sparkles or a border when clicking/hovering".
+
+- **Hills** (`paint/terrain.ts`): each terrace is a ring whose radius wanders with warped
+  noise (`terraceSide`, `terraceTop`), so the plateaus are no longer circles; the cliff
+  face is a painted tile (undulating strata, ridged cracks, a lit lip, moss at the foot,
+  lichen) repeated by circumference; the tops use a painted grass tile that wraps.
+- **Waterfall**: a painted scrolling tile of streaks and foam (`paintWaterfallTexture`),
+  the splash pool a noise-edged shape.
+- **Lantern posts**: the four 3D posts and glow spheres are gone; the view draws the
+  painted `lanternPost` sprite, swapping to `lanternPost-lit` at dusk or once the Keeper
+  lights one, tappable as before (`lantern` is now a sprite pick kind). The scene keeps
+  their positions (`lanternSpots`, `lanternStates`) and the shared point light.
+- **Jitter**: the camera followed the Keeper's sim position, which moves ten times a
+  second, while the Keeper sprite is drawn interpolated between steps, so the two
+  disagreed every step. The camera now follows the drawn position
+  (`WorldView.keeperDrawPos`). The camera rig is also snapped to the low-res frame's
+  pixel grid along its own screen axes (`OrbitCamera.applyPose`), so sprites never sit
+  between pixels and shimmer while the view glides.
+- **Feedback**: with a mouse, the thing under the pointer gets a pulsing bright halo
+  (the same frame drawn larger and brighter behind it, `SpriteBatch.highlight`) and a
+  pointer cursor; any tap on a tappable thing (Nubbins, items, Keepers, buildings,
+  trees, plants, wild visitors, lanterns, pieces) bursts sparkles where it landed and
+  shows the halo for a moment (touch has no hover, so the tap halo is the signal).
+
+Checks: tests, lint and build green; seen in the browser by day and at dusk.
+
 ## The organic art direction, in the game (2026-10-13)
 
 Maor: "go forward on art. Use the art we designed in the latest - the way the dojo and
@@ -44,9 +74,9 @@ windmill were upgraded." The painted kit from the samples is now the Grove's art
 **Checks:** full suite green, lint clean, build OK; seen in the browser by day and at
 dusk (lit windows, lamps, the sprite lift near them).
 
-**Left for later:** the hill cliff texture and the waterfall are still the pixel
-versions; the small pixel decor props (bench, statue, flower bed, mushroom dressing)
-and the four 3D lantern posts have not been repainted; the ground paint could be
+**Left for later:** the small pixel decor props (bench, statue, flower bed, mushroom
+dressing) have not been repainted (hills, waterfall and lanterns followed in the next
+section); the ground paint could be
 faster still (the path distance loop) and could move to a worker.
 
 ## Roof redone and five more buildings (2026-10-13, for Maor's pick)

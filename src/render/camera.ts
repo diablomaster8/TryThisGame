@@ -78,6 +78,7 @@ export class OrbitCamera {
   private zoomTween: Tween | null = null;
   readonly reduceMotion: boolean;
   private readonly tmp = new Vector3();
+  private readonly snapped = new Vector3();
 
   constructor() {
     this.viewHeight = computeViewHeight(RENDER.targetHeight, this.pixelsPerUnit);
@@ -210,7 +211,21 @@ export class OrbitCamera {
     } else {
       this.shakeAmount = 0;
     }
+    // Pixel snap: move the whole rig by whole frame pixels along the screen axes.
+    const unit = this.viewHeight / this.frameHeight;
+    const right = new Vector3(Math.cos(this.yaw), 0, -Math.sin(this.yaw));
+    const up = new Vector3(
+      -Math.sin(this.yaw) * Math.sin(this.pitch),
+      Math.cos(this.pitch),
+      -Math.cos(this.yaw) * Math.sin(this.pitch),
+    );
+    const dr = this.tmp.dot(right);
+    const du = this.tmp.dot(up);
+    const snapR = Math.round(dr / unit) * unit - dr;
+    const snapU = Math.round(du / unit) * unit - du;
+    this.tmp.addScaledVector(right, snapR).addScaledVector(up, snapU);
+    this.snapped.copy(this.target).addScaledVector(right, snapR).addScaledVector(up, snapU);
     this.camera.position.copy(this.tmp);
-    this.camera.lookAt(this.target);
+    this.camera.lookAt(this.snapped);
   }
 }

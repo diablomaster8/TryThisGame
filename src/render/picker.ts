@@ -54,7 +54,16 @@ export class Picker {
       ndcY: number,
     ) => {
       kind:
-        'nubbin' | 'item' | 'npc' | 'memorial' | 'decor' | 'tree' | 'building' | 'plant' | 'wild';
+        | 'nubbin'
+        | 'item'
+        | 'npc'
+        | 'memorial'
+        | 'decor'
+        | 'tree'
+        | 'building'
+        | 'plant'
+        | 'wild'
+        | 'lantern';
       id: string;
     } | null,
   ): PickHit | null {

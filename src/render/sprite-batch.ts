@@ -34,7 +34,17 @@ export interface SpriteDraw {
 /** A sprite's four corners as drawn, kept for CPU picking. */
 export interface DrawnQuad {
   id: string;
-  kind: 'nubbin' | 'item' | 'npc' | 'memorial' | 'decor' | 'tree' | 'building' | 'plant' | 'wild';
+  kind:
+    | 'nubbin'
+    | 'item'
+    | 'npc'
+    | 'memorial'
+    | 'decor'
+    | 'tree'
+    | 'building'
+    | 'plant'
+    | 'wild'
+    | 'lantern';
   corners: [Vector3, Vector3, Vector3, Vector3];
 }
 
@@ -47,6 +57,9 @@ export class SpriteBatch {
   readonly mesh: Mesh<BufferGeometry, MeshBasicMaterial>;
   readonly atlas = new MegaAtlas();
   readonly quads: DrawnQuad[] = [];
+  /** When set, the matching sprite is drawn with a bright halo behind it. */
+  highlight: { kind: string; id: string } | null = null;
+  private pulse = 0;
   private capacity = 64;
   private count = 0;
   private positions = new Float32Array(this.capacity * 12);
@@ -105,6 +118,7 @@ export class SpriteBatch {
   begin(yaw: number, pitch: number): void {
     this.count = 0;
     this.quads.length = 0;
+    this.pulse = 0.5 + 0.5 * Math.sin(Date.now() / 160);
     // Camera right on the ground plane, and the tilted-back up vector.
     this.right.set(Math.cos(yaw), 0, -Math.sin(yaw));
     this.up.set(
@@ -118,12 +132,44 @@ export class SpriteBatch {
     d: SpriteDraw,
     pick?: {
       id: string;
-      kind: 'nubbin' | 'item' | 'npc' | 'memorial' | 'decor' | 'tree' | 'building' | 'plant' | 'wild';
+      kind:
+        | 'nubbin'
+        | 'item'
+        | 'npc'
+        | 'memorial'
+        | 'decor'
+        | 'tree'
+        | 'building'
+        | 'plant'
+        | 'wild'
+        | 'lantern';
     },
   ): void {
     if (!this.atlas.has(d.sheet) && !this.atlas.place(d.sheet)) return; // atlas full: skip
     const uv = this.atlas.uv(d.sheet, d.rect);
     if (!uv) return;
+    // The highlight: the same frame, a little larger and bright, drawn first so the real
+    // sprite covers its middle and only a glowing rim shows.
+    if (
+      pick &&
+      this.highlight &&
+      pick.id === this.highlight.id &&
+      pick.kind === this.highlight.kind
+    ) {
+      const hw = (d.w ?? d.rect.w / NATIVE_PPU) * (1.12 + this.pulse * 0.05);
+      const hh = (d.h ?? d.rect.h / NATIVE_PPU) * (1.12 + this.pulse * 0.05);
+      const halo = this.highlight;
+      this.highlight = null;
+      this.draw({
+        ...d,
+        w: hw,
+        h: hh,
+        y: d.y - (d.mode === 'flat' ? 0.001 : hh * 0.05),
+        tint: 1.8 + this.pulse * 0.4,
+        opacity: 0.85,
+      });
+      this.highlight = halo;
+    }
     if (this.count >= this.capacity) this.grow();
     const i = this.count++;
     const w = d.w ?? d.rect.w / NATIVE_PPU;
