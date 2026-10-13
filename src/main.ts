@@ -1,5 +1,7 @@
 import { Game } from './game';
 import { unlockAudio } from './platform/audio';
+import { clearSlot, setSaveSlot } from './platform/storage';
+import { showTitle } from './ui/title';
 import { mountCameraButtons } from './ui/camera-buttons';
 import { FpsCounter } from './ui/fps';
 import { mountHud } from './ui/hud';
@@ -15,17 +17,31 @@ const app = mustGet<HTMLDivElement>('#app');
 const canvas = mustGet<HTMLCanvasElement>('#game');
 const hudRoot = mustGet<HTMLDivElement>('#hud');
 
-if (new URLSearchParams(location.search).has('sprites')) {
+const params = new URLSearchParams(location.search);
+if (params.has('sprites')) {
   mountSpriteGallery(app);
+} else if (params.has('free')) {
+  // Straight into the Free Grove (dev and old links).
+  setSaveSlot('free');
+  startGame(null);
 } else {
-  startGame();
+  showTitle(hudRoot, (choice) => {
+    if (choice.fresh) clearSlot(choice.slot);
+    setSaveSlot(choice.slot);
+    startGame(choice.slot === 'campaign' && choice.fresh ? choice.trainer : null);
+  });
 }
 
-function startGame(): void {
+/** `newCampaignTrainer` starts the story in a fresh world as that Keeper. */
+function startGame(newCampaignTrainer: string | null): void {
   const fps = new FpsCounter(hudRoot);
   let game: Game | null = null;
   const hud = mountHud(hudRoot, () => game);
   game = new Game(canvas, hud.hooks);
+  if (newCampaignTrainer) {
+    game.send({ kind: 'setTrainer', id: newCampaignTrainer });
+    game.send({ kind: 'campaignStart' });
+  }
   hud.bind(game);
   if (import.meta.env.DEV) {
     // Console access during development: `grove.world`, `grove.send({...})`.

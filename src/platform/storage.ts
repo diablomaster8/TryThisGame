@@ -2,7 +2,33 @@
  * localStorage behind try/catch. Private browsing, blocked storage and quota errors
  * must never crash the game; they just mean nothing is kept.
  */
-export const SAVE_KEY = 'grove.save.v1';
+export type SaveSlot = 'free' | 'campaign';
+
+const KEYS: Record<SaveSlot, string> = { free: 'grove.save.v1', campaign: 'grove.save.campaign' };
+
+let SAVE_KEY = KEYS.free;
+
+/** Which save the game reads and writes: the Free Grove or the campaign. */
+export function setSaveSlot(slot: SaveSlot): void {
+  SAVE_KEY = KEYS[slot];
+}
+
+export function hasSave(slot: SaveSlot): boolean {
+  try {
+    return localStorage.getItem(KEYS[slot]) !== null;
+  } catch {
+    return false;
+  }
+}
+
+export function clearSlot(slot: SaveSlot): boolean {
+  try {
+    localStorage.removeItem(KEYS[slot]);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 export function readSave(): string | null {
   try {

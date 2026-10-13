@@ -24,6 +24,10 @@ export class AwayScreen {
     parent.appendChild(this.root);
   }
 
+  get isOpen(): boolean {
+    return !this.root.hidden;
+  }
+
   show(report: AwayReport, world: World): void {
     this.summary.textContent = `${UI_TEXT.awayElapsed(formatDuration(report.elapsedMs))} ${UI_TEXT.awaySimulated(formatDuration(report.simulatedMs))}`;
     this.list.innerHTML = '';

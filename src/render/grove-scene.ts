@@ -43,6 +43,8 @@ export class GroveScene {
   private groveKind: GroveKind = 'main';
   private readonly canopies: Mesh[] = [];
   private readonly lanternGlows: Mesh[] = [];
+  private readonly lanternIds: string[] = [];
+  private lit = new Set<string>();
   private readonly lanternLight: PointLight;
   private readonly foam: Mesh<RingGeometry, MeshBasicMaterial>;
 
@@ -180,20 +182,26 @@ export class GroveScene {
     const glowGeo = new SphereGeometry(0.22, 6, 5);
     const glowMat = new MeshBasicMaterial({ color: new Color(color(C.sunLight)) });
     this.disposables.push(postGeo, postMat, glowGeo, glowMat);
-    for (const [x, z] of [
-      [-4, 4],
-      [4, -3],
-      [9, 7],
-      [-8, -6],
-    ] as const) {
+    (
+      [
+        [-4, 4],
+        [4, -3],
+        [9, 7],
+        [-8, -6],
+      ] as const
+    ).forEach(([x, z], i) => {
       const post = new Mesh(postGeo, postMat);
       post.position.set(x, 0.8, z);
+      post.userData.pick = { kind: 'lantern', id: `lantern-${i + 1}` };
       const glow = new Mesh(glowGeo, glowMat);
       glow.position.set(x, 1.75, z);
       glow.visible = false;
+      glow.userData.pick = { kind: 'lantern', id: `lantern-${i + 1}` };
       this.scene.add(post, glow);
       this.lanternGlows.push(glow);
-    }
+      this.lanternIds.push(`lantern-${i + 1}`);
+      this.pickables.push(post, glow);
+    });
     this.lanternLight = new PointLight(new Color(color(C.sunYellow)), 0, 14, 1.2);
     this.lanternLight.position.set(0, 2.5, 0);
     this.lanternLight.visible = false;
@@ -250,6 +258,12 @@ export class GroveScene {
 
   private daylight: Daylight = daylightAt(12);
 
+  /** Lanterns the player lit (campaign); they glow regardless of the hour. */
+  setLit(ids: Set<string>): void {
+    this.lit = ids;
+    this.applyLight();
+  }
+
   /** Time of day: sky, light rig and lanterns. The Grove kind layers on top. */
   setDaylight(d: Daylight): void {
     this.daylight = d;
@@ -270,8 +284,10 @@ export class GroveScene {
     this.hemi.color.set(kind === 'moon' && d.phase === 'day' ? color(C.violet) : d.hemiColor);
     this.sun.intensity = d.sunIntensity * (kind === 'sun' ? 1.3 : 1);
     this.sun.color.set(d.sunColor);
-    for (const l of this.lanternGlows) l.visible = d.lanterns;
-    this.lanternLight.visible = d.lanterns;
+    this.lanternGlows.forEach((l, i) => {
+      l.visible = d.lanterns || this.lit.has(this.lanternIds[i] ?? '');
+    });
+    this.lanternLight.visible = d.lanterns || this.lit.size > 0;
   }
 
   dispose(): void {

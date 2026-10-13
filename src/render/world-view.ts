@@ -35,7 +35,7 @@ interface NubbinView {
 }
 
 export interface SpritePick {
-  kind: 'nubbin' | 'item';
+  kind: 'nubbin' | 'item' | 'npc';
   id: string;
 }
 
@@ -250,6 +250,33 @@ export class WorldView {
       this.drawNubbin(v, n, world, yaw, alpha, nowMs, shadow);
     }
     for (const id of this.nubbins.keys()) if (!seen.has(id)) this.nubbins.delete(id);
+
+    // Visiting Keepers (campaign).
+    for (const npc of world.npcs) {
+      const nsheet = this.sheets.keeper(npc.trainer);
+      const moving = npc.target !== null;
+      const nclip: ClipName = moving ? 'walk' : 'idle';
+      const nview = viewAngle(npc.facing, yaw);
+      const nrect = nsheet.frames.get(
+        frameKey(nclip, nview.angle, frameAt(CLIPS[nclip], nowMs + npc.pos.x * 97)),
+      );
+      shadow(npc.pos.x, 0, npc.pos.z, 0.45);
+      if (nrect) {
+        batch.draw(
+          {
+            sheet: nsheet,
+            rect: nrect,
+            flip: nview.flip,
+            x: npc.pos.x,
+            y: 0,
+            z: npc.pos.z,
+            mode: 'billboard',
+            tint: this.dim,
+          },
+          { id: npc.id, kind: 'npc' },
+        );
+      }
+    }
 
     // Keeper.
     const k = world.keeper;
@@ -579,7 +606,7 @@ export class WorldView {
     if (v.bubble && nowMs < v.bubble.untilMs) emote = v.bubble.shape;
     else v.bubble = null;
     if (emote !== 'none' && n.stage !== 'egg' && n.stage !== 'cocoon') {
-      const emotes = this.sheets.emotes();
+      const emotes = this.sheets.emotes(n.shadow);
       const erect = emotes.frames.get(frameKey(emote, 'front', Math.floor(nowMs / 400) % 2));
       if (erect) {
         this.batch.draw({
@@ -611,6 +638,7 @@ export function clipFor(n: Nubbin): string {
   switch (n.behavior.state) {
     case 'wander':
     case 'findFood':
+    case 'avoid':
       return 'walk';
     case 'swim':
       return 'swim';
@@ -656,6 +684,9 @@ export function emoteFor(n: Nubbin): EmoteShape {
   if (n.behavior.state === 'nap') return 'zz';
   // The floating ball is the Chao line's; other species show bubbles only when something is up.
   if (n.species !== 'chao' && mood === 'content') return 'none';
+  // A wary Shadow Nubbin shows nothing it does not have to; a bonded one carries a dark heart.
+  if (n.shadow && !n.bond && mood === 'content') return 'none';
+  if (n.shadow && n.bond && mood === 'content') return 'heart';
   switch (mood) {
     case 'happy':
       return 'heart';

@@ -9,7 +9,7 @@ export interface InputHost {
   picker: Picker;
   pickables(): Object3D[];
   /** Hit-test the batched sprites at a screen point (NDC). */
-  pickSprite(ndcX: number, ndcY: number): { kind: 'nubbin' | 'item'; id: string } | null;
+  pickSprite(ndcX: number, ndcY: number): { kind: 'nubbin' | 'item' | 'npc'; id: string } | null;
   /** Is this Nubbin id something that can be grabbed right now? */
   canGrab(id: string): boolean;
   send(cmd: Command): void;
@@ -184,6 +184,12 @@ export class GameInput {
         return;
       case 'tree':
         this.host.send({ kind: 'shakeTree', treeId: hit.id });
+        return;
+      case 'npc':
+        this.host.send({ kind: 'talk', npcId: hit.id });
+        return;
+      case 'lantern':
+        this.host.send({ kind: 'lightLantern', id: hit.id });
         return;
       case 'ground':
         if (hit.ground) this.host.send({ kind: 'moveKeeperTo', pos: hit.ground });

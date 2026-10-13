@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { EGG, GROVE, SIM } from '../../src/config/tuning';
-import { deserialize, serialize, SaveError, worldFingerprint } from '../../src/sim/save';
+import {
+  deserialize,
+  SAVE_VERSION,
+  serialize,
+  SaveError,
+  worldFingerprint,
+} from '../../src/sim/save';
 import type { Command, SimEvent, World } from '../../src/sim/types';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
 
@@ -155,7 +161,7 @@ describe('save', () => {
     run(w, 500, [{ kind: 'moveKeeperTo', pos: { x: -2, z: 4 } }]);
     const json = serialize(w, 123456);
     const loaded = deserialize(json);
-    expect(loaded.version).toBe(1);
+    expect(loaded.version).toBe(SAVE_VERSION);
     expect(loaded.savedAtWallMs).toBe(123456);
     expect(worldFingerprint(loaded.world)).toBe(worldFingerprint(w));
     // And it keeps simulating identically.

@@ -95,6 +95,34 @@ export class DebugPanel {
     }
     this.root.appendChild(time);
 
+    const story = el('div', 'debug-row');
+    story.appendChild(el('span', undefined, 'Story'));
+    story.appendChild(
+      button('Start', () => this.game()?.send({ kind: 'campaignStart' }), 'btn btn-small'),
+    );
+    for (let ch = 1; ch <= 12; ch++) {
+      story.appendChild(
+        button(
+          ``,
+          () => this.game()?.send({ kind: 'debugChapter', chapter: ch }),
+          'btn btn-small',
+        ),
+      );
+    }
+    story.appendChild(
+      button(
+        'Trust -40',
+        () => {
+          const g = this.game();
+          const id = this.selected();
+          const n = id ? g?.world.nubbins.find((x) => x.id === id) : undefined;
+          if (n) n.trust = Math.max(0, n.trust - 40);
+        },
+        'btn btn-small',
+      ),
+    );
+    this.root.appendChild(story);
+
     const force = el('div', 'debug-row');
     force.append(
       button(

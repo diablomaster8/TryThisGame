@@ -190,6 +190,22 @@ export function eternalColors(band: 'sun' | 'moon' | 'neutral'): ChaoColors {
   }
 }
 
+/** A Shadow Nubbin: ash-grey coat, dark ball, an ember glint in the eye. The grey stays. */
+export function shadowColors(base: ChaoColors): ChaoColors {
+  return {
+    ...base,
+    body: C.dusk,
+    shade: C.darkPlum,
+    belly: C.lilacGrey,
+    tip: C.plum,
+    tipShade: C.darkPlum,
+    wing: C.plum,
+    eye: C.ember,
+    glint: C.roseLight,
+    outline: C.ink,
+  };
+}
+
 /** Silhouette by type. Second evolutions add a lighter touch of their type. */
 export function shapeFor(
   type: NubbinType | null,

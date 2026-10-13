@@ -26,7 +26,7 @@ export class StatsSheet {
   private readonly name: HTMLButtonElement;
   private readonly subtitle: HTMLDivElement;
   private readonly meters: Record<
-    'hunger' | 'energy' | 'happiness' | 'affection',
+    'hunger' | 'energy' | 'happiness' | 'affection' | 'trust',
     ReturnType<typeof meter>
   >;
   private readonly statRows = new Map<string, HTMLSpanElement>();
@@ -57,6 +57,7 @@ export class StatsSheet {
       energy: meter(UI_TEXT.energy, '⚡'),
       happiness: meter(UI_TEXT.happiness, '☺'),
       affection: meter(UI_TEXT.affection, '♥'),
+      trust: meter(UI_TEXT.trust, '🤝'),
     };
     for (const m of Object.values(this.meters)) needs.appendChild(m.root);
 
@@ -166,6 +167,7 @@ export class StatsSheet {
     this.meters.energy.set(n.needs.energy);
     this.meters.happiness.set((n.needs.happiness + 100) / 200);
     this.meters.affection.set(n.needs.affection / 100);
+    this.meters.trust.set(n.trust / 100);
 
     for (const key of STAT_KEYS) {
       const s = n.stats[key];
@@ -224,6 +226,13 @@ function subtitleFor(n: Nubbin, world: World): string {
     n.species === 'chao'
       ? STAGE_LABELS[n.stage]
       : `${SPECIES_LABELS[n.species] ?? n.species} · ${STAGE_LABELS[n.stage]}`;
+  const tag = n.shadow
+    ? n.bond
+      ? UI_TEXT.bondedTag
+      : n.stray
+        ? UI_TEXT.strayTag
+        : UI_TEXT.shadowTag
+    : null;
   const band = n.form ? bandOf(n.alignment) : childHint(n.alignment);
   const bandLabel =
     band === 'sun'
@@ -237,6 +246,7 @@ function subtitleFor(n: Nubbin, world: World): string {
   const rebirths = n.rebirths > 0 ? ` · ${UI_TEXT.rebirths(n.rebirths)}` : '';
   const eternal = n.eternal ? ` · ✦ ${UI_TEXT.eternalLabel}` : '';
   const waiting = n.awaitingKeeper ? ` · ${UI_TEXT.waiting}` : '';
+  const shadowTag = tag ? ` · ${tag}` : '';
   void world;
-  return `${stage}${type} · ${bandLabel} · ${UI_TEXT.age(formatDuration(n.ageMs))}${rebirths}${eternal}${waiting}`;
+  return `${stage}${type} · ${bandLabel} · ${UI_TEXT.age(formatDuration(n.ageMs))}${rebirths}${eternal}${waiting}${shadowTag}`;
 }

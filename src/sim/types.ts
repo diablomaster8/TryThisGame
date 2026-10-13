@@ -37,6 +37,7 @@ export type BehaviorState =
   | 'cry'
   | 'swim'
   | 'react'
+  | 'avoid'
   | 'held'
   | 'carried'
   | 'thrown';
@@ -138,6 +139,16 @@ export interface Nubbin {
   eternal: AlignmentBand | null;
   /** Reached end of life while the player was away; check runs in live play. */
   awaitingKeeper: boolean;
+  /** 0..100: how safe it feels with its Keeper (sim/trust.ts). */
+  trust: number;
+  /** Jaded by mistreatment: wary, dark-coated, for life. */
+  shadow: boolean;
+  /** A Shadow Nubbin that learned to love again. */
+  bond: boolean;
+  /** Came back from running away and has not been taken in yet. */
+  stray: boolean;
+  /** Sim time trust fell to rock bottom, or -1. */
+  lowTrustSinceMs: number;
   lastPetMs: number;
   lastShakeMs: number;
   // Future fields (v2), empty by default so no migration is needed later.
@@ -222,6 +233,58 @@ export interface Memorial {
   pos: Vec2;
 }
 
+/** A Nubbin that ran away; it comes back to the Grove edge later. */
+export interface Stray {
+  nubbin: Nubbin;
+  leftAtMs: number;
+  returnsAtMs: number;
+}
+
+/** A visiting Keeper walking the Grove during the campaign. */
+export interface Npc {
+  id: string;
+  trainer: string;
+  pos: Vec2;
+  facing: number;
+  target: Vec2 | null;
+  waitMs: number;
+  home: Vec2;
+}
+
+export interface CampaignStats {
+  pets: number;
+  feeds: number;
+  throws: number;
+  hatched: number;
+  evolved: number;
+  reborn: number;
+  departed: number;
+  races: number;
+  expeditions: number;
+  lanterns: number;
+  talks: number;
+}
+
+/** Campaign progress (sim/campaign.ts). Null outside the campaign. */
+export interface CampaignState {
+  /** 1..12 while playing; 13 once an ending has played. */
+  chapter: number;
+  /** Steps completed within the chapter. */
+  step: number;
+  flags: Record<string, number | boolean | string>;
+  /** Friendship per Keeper id. */
+  friendship: Record<string, number>;
+  /** Scenes waiting to be shown, in order. */
+  queue: string[];
+  seen: string[];
+  chapterStartMs: number;
+  ending: string | null;
+  /** The Shadow Nubbin from chapter 3, and the Eternal elder. */
+  sableId: string | null;
+  mossId: string | null;
+  stats: CampaignStats;
+}
+
 export interface World {
   seed: number;
   rngState: number;
@@ -246,6 +309,9 @@ export interface World {
   nextId: number;
   /** Id of the Nubbin the player has selected, or null. */
   selected: string | null;
+  strays: Stray[];
+  npcs: Npc[];
+  campaign: CampaignState | null;
 }
 
 // ---------- commands (input → sim) ----------
@@ -288,7 +354,12 @@ export type Command =
   | { kind: 'debugFillNeeds'; nubbinId: string }
   | { kind: 'debugForceEvolve'; nubbinId: string }
   | { kind: 'debugForceEndOfLife'; nubbinId: string }
-  | { kind: 'debugHatchNow'; nubbinId: string };
+  | { kind: 'debugHatchNow'; nubbinId: string }
+  | { kind: 'campaignStart' }
+  | { kind: 'sceneDone'; scene: string; choice: string | null }
+  | { kind: 'talk'; npcId: string }
+  | { kind: 'lightLantern'; id: string }
+  | { kind: 'debugChapter'; chapter: number };
 
 // ---------- events (sim → render/ui) ----------
 
@@ -326,7 +397,16 @@ export type SimEvent =
   | { kind: 'treeShaken'; treeId: string }
   | { kind: 'eggShaken'; nubbinId: string }
   | { kind: 'bought'; item: ShopItem; ok: boolean; reason: 'shells' | 'roster' | 'toys' | null }
-  | { kind: 'rewards'; rewards: Rewards };
+  | { kind: 'rewards'; rewards: Rewards }
+  | { kind: 'turnedShadow'; nubbinId: string }
+  | { kind: 'shadowBonded'; nubbinId: string }
+  | { kind: 'ranAway'; nubbinId: string; name: string }
+  | { kind: 'strayReturned'; nubbinId: string; name: string }
+  | { kind: 'scene'; scene: string }
+  | { kind: 'chapter'; chapter: number }
+  | { kind: 'ending'; ending: string }
+  | { kind: 'lanternLit'; id: string }
+  | { kind: 'talked'; npcId: string };
 
 export interface AwayReport {
   elapsedMs: number;

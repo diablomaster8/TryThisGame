@@ -4,6 +4,7 @@ import { CameraControls } from './input/camera-controls';
 import { readSave, writeSave } from './platform/storage';
 import { OrbitCamera } from './render/camera';
 import { daylightAt, localHour } from './render/daylight';
+import { litLanterns } from './sim/campaign';
 import { GroveScene } from './render/grove-scene';
 import { Picker } from './render/picker';
 import { LowResPipeline } from './render/pipeline';
@@ -52,6 +53,7 @@ export class Game {
     if (nowMs - this.lastDaylightMs < 3000) return;
     this.lastDaylightMs = nowMs;
     const d = daylightAt(this.hourOverride ?? localHour());
+    this.grove.setLit(litLanterns(this.world));
     this.grove.setDaylight(d);
     this.view.setDaylight(d, this.camera.reduceMotion);
     this.pipeline.postPass?.apply({ tint: d.tint, tintAmount: d.tintAmount, bloom: d.bloom });
@@ -208,6 +210,7 @@ export class Game {
       for (const e of events) {
         if (e.kind === 'landed') this.camera.shake(0.18);
         else if (e.kind === 'treeShaken') this.camera.shake(0.08);
+        else if (e.kind === 'lanternLit') this.grove.setLit(litLanterns(this.world));
       }
     }
 

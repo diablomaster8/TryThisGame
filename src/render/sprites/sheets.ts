@@ -10,14 +10,18 @@ import {
   CHARACTER_LOOKS,
   eternalColors,
   lookOf,
+  shadowColors,
   variantColors,
+  type ChaoColors,
 } from './chao';
 import { speciesOf } from '../../sim/species';
 import { buildCreatureSheet } from './creature';
 import { buildCocoonSheet, buildEggSheet } from './egg';
 import { speciesArt } from './species-art';
 import { buildEmoteSheet } from './emote';
-import { trainerOf } from '../../sim/trainers';
+import { TRAINERS } from '../../sim/trainers';
+import { EXTRA_LOOKS } from '../../sim/npcs';
+import { C } from './palette';
 import { buildKeeperSheet } from './keeper';
 import { buildPropSheet } from './props';
 
@@ -51,10 +55,11 @@ export class SheetCache {
   static nubbinKey(n: Nubbin): string {
     if (n.stage === 'egg') return `egg:${n.eggColor}:${n.species}`;
     if (n.stage === 'cocoon') return `cocoon:${n.cocoonKind ?? 'evolve'}`;
-    if (n.species !== 'chao') return `species:${n.species}`;
+    const sh = n.shadow ? 'sh' : '-';
+    if (n.species !== 'chao') return `species:${n.species}:${sh}`;
     const parts = SLOTS.map((s) => n.parts[s] ?? '-').join(',');
     const hat = n.hat ?? '-';
-    const variant = `${n.eggColor}:${n.shiny ? 's' : '-'}:${n.tone ?? '-'}`;
+    const variant = `${n.eggColor}:${n.shiny ? 's' : '-'}:${n.tone ?? '-'}:${sh}`;
     if (n.stage === 'adult' && n.form) {
       if (n.eternal) return `eternal:${n.eternal}:${parts}:${hat}:${variant}`;
       return `adult:${n.form.band}:${n.form.type}:${n.form.second ?? '-'}:${parts}:${hat}:${variant}`;
@@ -70,7 +75,24 @@ export class SheetCache {
       if (n.stage === 'cocoon') return buildCocoonSheet(n.cocoonKind ?? 'evolve');
       // Other families use the generic creature drawer; their look is the species.
       const art = family !== 'chao' ? speciesArt(n.species) : undefined;
-      if (art) return buildCreatureSheet(art);
+      if (art) {
+        if (!n.shadow) return buildCreatureSheet(art);
+        // Shadow: ash-grey coat and an ember eye, whatever the species.
+        return buildCreatureSheet({
+          ...art,
+          colors: {
+            ...art.colors,
+            body: C.dusk,
+            shade: C.darkPlum,
+            belly: C.lilacGrey,
+            accent: C.plum,
+            accent2: C.violet,
+            eye: C.ember,
+            outline: C.ink,
+          },
+        });
+      }
+      const tone = (c: ChaoColors): ChaoColors => (n.shadow ? shadowColors(c) : c);
       // A character look replaces the palette and adds its accessory as the hat.
       const look = n.hat ? CHARACTER_LOOKS[n.hat] : undefined;
       if (n.stage === 'adult' && n.form) {
@@ -79,7 +101,7 @@ export class SheetCache {
             look?.colors ??
             variantColors(eternalColors(n.eternal), n.eggColor, n.shiny, n.tone, n.eternal);
           return buildChaoSheet(
-            lookOf(colors, 'normal', null, { ...n.parts }, true, n.hat, n.shiny),
+            lookOf(tone(colors), 'normal', null, { ...n.parts }, true, n.hat, n.shiny),
           );
         }
         const colors =
@@ -92,13 +114,15 @@ export class SheetCache {
             n.form.band,
           );
         return buildChaoSheet(
-          lookOf(colors, n.form.type, n.form.second, { ...n.parts }, false, n.hat, n.shiny),
+          lookOf(tone(colors), n.form.type, n.form.second, { ...n.parts }, false, n.hat, n.shiny),
         );
       }
       const hint = childHint(n.alignment);
       const base = hint === 'sun' ? CHILD_SUN : hint === 'moon' ? CHILD_MOON : CHILD_NEUTRAL;
       const colors = look?.colors ?? variantColors(base, n.eggColor, n.shiny, n.tone, hint);
-      return buildChaoSheet(lookOf(colors, null, null, { ...n.parts }, false, n.hat, n.shiny));
+      return buildChaoSheet(
+        lookOf(tone(colors), null, null, { ...n.parts }, false, n.hat, n.shiny),
+      );
     });
   }
 
@@ -113,15 +137,24 @@ export class SheetCache {
 
   /** The Keeper's look is the active trainer's. */
   keeper(trainerId: string): SpriteSheet {
-    return this.get(`keeper:${trainerId}`, () => buildKeeperSheet(trainerOf(trainerId).look));
+    return this.get(`keeper:${trainerId}`, () => {
+      const look =
+        EXTRA_LOOKS[trainerId] ??
+        TRAINERS.find((t) => t.id === trainerId)?.look ??
+        TRAINERS[0]!.look;
+      return buildKeeperSheet(look);
+    });
   }
 
   props(): SpriteSheet {
     return this.get('props', () => buildPropSheet());
   }
 
-  emotes(): SpriteSheet {
-    return this.get('emotes', () => buildEmoteSheet());
+  /** The emote ball; Shadow Nubbins carry a dark one. */
+  emotes(shadow = false): SpriteSheet {
+    return this.get(shadow ? 'emotes:shadow' : 'emotes', () =>
+      buildEmoteSheet(shadow ? C.plum : undefined),
+    );
   }
 
   dispose(): void {

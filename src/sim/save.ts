@@ -1,8 +1,8 @@
-import { OFFLINE } from '../config/tuning';
+import { OFFLINE, TRUST } from '../config/tuning';
 import type { World } from './types';
 import { defaultSettings } from './world';
 
-export const SAVE_VERSION = 1;
+export const SAVE_VERSION = 2;
 
 export interface SaveFile {
   version: number;
@@ -11,10 +11,28 @@ export interface SaveFile {
 }
 
 /**
- * One migration per version bump: index n upgrades a version-n save to n+1.
- * Version 1 is the first, so the table starts empty.
+ * One migration per version bump: index n-1 upgrades a version-n save to n+1.
  */
-export const MIGRATIONS: Array<(data: Record<string, unknown>) => Record<string, unknown>> = [];
+export const MIGRATIONS: Array<(data: Record<string, unknown>) => Record<string, unknown>> = [
+  // 1 → 2: trust and Shadow, strays, visiting Keepers and the campaign.
+  (data) => {
+    const world = data.world as Record<string, unknown> | undefined;
+    if (world) {
+      world.strays ??= [];
+      world.npcs ??= [];
+      world.campaign ??= null;
+      const nubbins = Array.isArray(world.nubbins) ? (world.nubbins as Record<string, unknown>[]) : [];
+      for (const n of nubbins) {
+        n.trust ??= TRUST.start;
+        n.shadow ??= false;
+        n.bond ??= false;
+        n.stray ??= false;
+        n.lowTrustSinceMs ??= -1;
+      }
+    }
+    return data;
+  },
+];
 
 export function serialize(world: World, savedAtWallMs: number): string {
   const file: SaveFile = { version: SAVE_VERSION, savedAtWallMs, world };
@@ -74,6 +92,9 @@ export function validateWorld(w: World): World {
   }
   oa.allowOfflineDepartures = Boolean(oa.allowOfflineDepartures);
   w.selected ??= null;
+  w.strays ??= [];
+  w.npcs ??= [];
+  w.campaign ??= null;
   w.grove ??= 'main';
   w.races ??= {};
   w.trainer ??= 'fern';
@@ -95,6 +116,11 @@ export function validateWorld(w: World): World {
     n.hat ??= null;
     n.eternal ??= null;
     n.awaitingKeeper ??= false;
+    n.trust ??= TRUST.start;
+    n.shadow ??= false;
+    n.bond ??= false;
+    n.stray ??= false;
+    n.lowTrustSinceMs ??= -1;
     if (n.form) {
       n.form.second ??= null;
       n.form.leanAtEvolution ??= { ...n.typeLean };

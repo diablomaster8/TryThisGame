@@ -2,7 +2,7 @@ import { Plane, Raycaster, Vector2, Vector3, type Camera, type Object3D } from '
 import type { Vec2 } from '../sim/types';
 
 export interface PickHit {
-  kind: 'nubbin' | 'item' | 'tree' | 'ground';
+  kind: 'nubbin' | 'item' | 'npc' | 'tree' | 'lantern' | 'ground';
   id: string;
   /** Where the ray met the ground plane, if it did. */
   ground: Vec2 | null;
@@ -38,7 +38,7 @@ export class Picker {
     clientY: number,
     camera: Camera,
     objects: Object3D[],
-    sprite?: (ndcX: number, ndcY: number) => { kind: 'nubbin' | 'item'; id: string } | null,
+    sprite?: (ndcX: number, ndcY: number) => { kind: 'nubbin' | 'item' | 'npc'; id: string } | null,
   ): PickHit | null {
     this.setRay(clientX, clientY, camera);
     const ground = this.raycaster.ray.intersectPlane(GROUND, this.hit);

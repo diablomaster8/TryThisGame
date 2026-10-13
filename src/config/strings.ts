@@ -245,6 +245,10 @@ export const UI_TEXT = {
   energy: 'Energy',
   happiness: 'Happiness',
   affection: 'Affection',
+  trust: 'Trust',
+  shadowTag: 'Shadow',
+  bondedTag: 'Shadow · bonded',
+  strayTag: 'Stray',
   rebirths: (n: number) => (n === 1 ? '1 rebirth' : `${n} rebirths`),
   fruitCount: (n: number) => `${n}`,
   // Settings

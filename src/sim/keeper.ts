@@ -1,8 +1,10 @@
-import { GROVE, KEEPER, NEEDS, SIM, TREES } from '../config/tuning';
+import { GROVE, KEEPER, NEEDS, SIM, TREES, TRUST } from '../config/tuning';
 import { nudgeAlignment } from './alignment';
 import { eat, putDown, react } from './behavior';
 import { applyPet } from './needs';
 import { noteCare } from './personality';
+import { addTrust, settleStray } from './trust';
+import { noteCampaign } from './campaign';
 import type { Keeper, KeeperIntent, Nubbin, SimEvent, Vec2, World } from './types';
 
 const dist = (a: Vec2, b: Vec2): number => Math.hypot(a.x - b.x, a.z - b.z);
@@ -138,6 +140,9 @@ function performIntent(world: World, intent: KeeperIntent, events: SimEvent[]): 
       if (n.behavior.state === 'thrown') return;
       world.inventory.fruit -= 1;
       eat(n, now, events);
+      addTrust(n, TRUST.feed, events);
+      noteCampaign(world, 'feed', n.id);
+      if (n.stray) settleStray(n);
       nudgeAlignment(n, world.keeper.alignment);
       noteCare(n, 'feeds');
       return;
@@ -163,6 +168,9 @@ function performIntent(world: World, intent: KeeperIntent, events: SimEvent[]): 
 export function petNubbin(world: World, n: Nubbin, events: SimEvent[]): void {
   const now = world.timeMs;
   applyPet(n);
+  addTrust(n, TRUST.pet, events);
+  noteCampaign(world, 'pet', n.id);
+  if (n.stray) settleStray(n);
   nudgeAlignment(n, world.keeper.alignment);
   if (now - n.lastPetMs >= NEEDS.petCooldownMs) noteCare(n, 'pets');
   n.lastPetMs = now;

@@ -1,4 +1,4 @@
-import { BEHAVIOR, GROVE, NEEDS, SIM, THROW, TYPE_LEAN } from '../config/tuning';
+import { BEHAVIOR, GROVE, NEEDS, SIM, THROW, TRUST, TYPE_LEAN } from '../config/tuning';
 import {
   addHappiness,
   applyDrop,
@@ -8,6 +8,7 @@ import {
   sampleHappiness,
 } from './needs';
 import { isFree } from './nubbin';
+import { isWary } from './trust';
 import { idleMultipliers } from './personality';
 import type { Rng } from './rng';
 import { addPoints } from './stats';
@@ -98,7 +99,17 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
   // Personality only shifts the odds of idle choices.
   const m = idleMultipliers(n.personality);
   const keeperNear = dist(n.pos, world.keeper.pos) < BEHAVIOR.greetRadius;
-  if (keeperNear && rng.chance(Math.min(1, BEHAVIOR.greetChance * m.greet))) {
+  // A wary Shadow Nubbin never greets; it keeps its distance instead.
+  if (isWary(n) && dist(n.pos, world.keeper.pos) < TRUST.avoidRadius) {
+    setState(n, 'avoid', now, 2500);
+    const dx = n.pos.x - world.keeper.pos.x;
+    const dz = n.pos.z - world.keeper.pos.z;
+    const len = Math.hypot(dx, dz) || 1;
+    n.behavior.target = { x: n.pos.x + (dx / len) * 4, z: n.pos.z + (dz / len) * 4 };
+    clampToWorld(n.behavior.target);
+    return;
+  }
+  if (keeperNear && !isWary(n) && rng.chance(Math.min(1, BEHAVIOR.greetChance * m.greet))) {
     setState(n, 'greet', now, BEHAVIOR.greetMs);
     n.facing = Math.atan2(world.keeper.pos.x - n.pos.x, world.keeper.pos.z - n.pos.z);
     return;
@@ -157,9 +168,23 @@ export function updateBehavior(
     }
   }
 
+  // The Keeper coming close startles a wary Nubbin out of whatever it was doing.
+  if (
+    isWary(n) &&
+    b.state !== 'avoid' &&
+    b.state !== 'eat' &&
+    b.state !== 'nap' &&
+    b.state !== 'swim' &&
+    dist(n.pos, world.keeper.pos) < TRUST.avoidRadius * 0.6
+  ) {
+    chooseIdle(n, world, rng, now);
+  }
+
   switch (b.state) {
-    case 'wander': {
-      if (!b.target || walkToward(n, b.target, BEHAVIOR.walkSpeed, dtMs) || now >= b.untilMs) {
+    case 'wander':
+    case 'avoid': {
+      const speed = b.state === 'avoid' ? BEHAVIOR.walkSpeed * 1.6 : BEHAVIOR.walkSpeed;
+      if (!b.target || walkToward(n, b.target, speed, dtMs) || now >= b.untilMs) {
         chooseIdle(n, world, rng, now);
       }
       break;

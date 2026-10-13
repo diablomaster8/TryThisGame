@@ -156,6 +156,8 @@ describe('personality', () => {
       for (let i = 0; i < 40; i++) stepWorld(w, SIM.stepMs);
     }
     expect(n.childCare.throws).toBe(7);
+    // Seven throws is enough to make it wary; keep it from running away before it evolves.
+    n.trust = 50;
     expect(n.personality).toBeNull();
     for (let i = 0; i < (LIFECYCLE.childMs + LIFECYCLE.cocoonMs) / SIM.stepMs + 5; i++) {
       n.needs.hunger = 1;

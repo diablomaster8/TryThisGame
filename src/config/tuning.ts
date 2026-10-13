@@ -378,3 +378,36 @@ export const GROVE = {
     { x: 2, z: -1 },
   ] as const,
 } as const;
+
+/** Trust: how safe a Nubbin feels with its Keeper. Low trust turns it Shadow. */
+export const TRUST = {
+  start: 50,
+  min: 0,
+  max: 100,
+  pet: 3,
+  feed: 4,
+  play: 2,
+  throw: -8,
+  drop: -3,
+  /** Per minute while starving. */
+  starvingPerMinute: -1.5,
+  /** Per minute while crying unattended. */
+  cryingPerMinute: -0.5,
+  /** Slow natural settling toward the middle, per minute, while content. */
+  settlePerMinute: 0.05,
+  /** Below this a Nubbin turns Shadow: jaded, wary, keeps its distance. */
+  shadowBelow: 15,
+  /** A Shadow Nubbin that is brought back above this bonds: it loves again. */
+  bondAbove: 70,
+  /** Shadow Nubbins gain trust more slowly until they bond. */
+  shadowGainScale: 0.6,
+  /** Below this a Nubbin keeps away from the Keeper. */
+  wary: 30,
+  /** Keep-away radius. */
+  avoidRadius: 4,
+  /** A Nubbin below `runawayBelow` for this long leaves the Grove. */
+  runawayBelow: 5,
+  runawayAfterMs: 10 * 60_000,
+  /** A stray returns to the Grove edge after this long, hoping to be found. */
+  strayReturnMs: 20 * 60_000,
+} as const;

@@ -1,5 +1,12 @@
 import { INPUT } from '../config/tuning';
-import { GROVE_LABELS, NAMES, SPECIES_LABELS, TYPE_LABELS, UI_TEXT } from '../config/strings';
+import {
+  GROVE_LABELS,
+  NAMES,
+  SPECIES_LABELS,
+  TRAINER_LABELS,
+  TYPE_LABELS,
+  UI_TEXT,
+} from '../config/strings';
 import type { Game, GameHooks } from '../game';
 import type { AwayReport, GroveKind, SimEvent } from '../sim/types';
 import { ExpeditionScreen } from '../minigames/expedition/screen';
@@ -16,6 +23,10 @@ import { TrainersMenu } from './trainers';
 import { button, el } from './dom';
 import { SettingsMenu } from './settings';
 import { StatsSheet } from './stats-sheet';
+import { Dialogue } from './dialogue';
+import { Journal } from './journal';
+import { chapterDef } from '../sim/campaign';
+import { STORY_TEXT } from '../config/story';
 
 /**
  * The HUD: top bar (logo, shells, fruit, settings), carry chip, toasts, and the panels.
@@ -46,6 +57,10 @@ export function mountHud(
   const racesBtn = button('🏁', () => races.open(), 'btn btn-icon');
   racesBtn.setAttribute('aria-label', UI_TEXT.races);
   racesBtn.title = UI_TEXT.races;
+  const journalBtn = button('📖', () => journal.open(), 'btn btn-icon');
+  journalBtn.setAttribute('aria-label', STORY_TEXT.journal);
+  journalBtn.title = STORY_TEXT.journal;
+  journalBtn.hidden = true;
   const rosterBtn = button('📋', () => roster.open(), 'btn btn-icon');
   rosterBtn.setAttribute('aria-label', UI_TEXT.roster);
   rosterBtn.title = UI_TEXT.roster;
@@ -54,6 +69,7 @@ export function mountHud(
     shells,
     fruit,
     groveBtn,
+    journalBtn,
     rosterBtn,
     expeditionBtn,
     racesBtn,
@@ -137,6 +153,8 @@ export function mountHud(
   const races = new RacesMenu(root, game, toast, pickRunner);
   const roster = new RosterMenu(root, game, (id) => sheet.open(id));
   const trainers = new TrainersMenu(root, game, toast);
+  const dialogue = new Dialogue(root, game);
+  const journal = new Journal(root, game);
   let joystick: Joystick | null = null;
   if (import.meta.env.DEV) {
     // Console access during development, alongside `window.grove`.
@@ -147,6 +165,8 @@ export function mountHud(
       debug,
       races,
       roster,
+      dialogue,
+      journal,
     };
   }
 
@@ -178,6 +198,7 @@ export function mountHud(
       else if (races.isOpen()) races.close();
       else if (roster.isOpen()) roster.close();
       else if (trainers.isOpen()) trainers.close();
+      else if (journal.isOpen()) journal.close();
       else if (!sheet.root.hidden) sheet.close();
     }
   });
@@ -204,6 +225,14 @@ export function mountHud(
       if (!sheet.root.hidden) sheet.refresh();
       shop.refresh();
       debug.refresh();
+      // Story scenes wait their turn behind other panels.
+      const c = g.world.campaign;
+      journalBtn.hidden = !c;
+      const next = c?.queue[0];
+      if (next && !dialogue.isOpen && !away.isOpen && !expedition.isOpen && !races.isOpen()) {
+        sheet.close();
+        dialogue.play(next);
+      }
     }
     refreshTimer = window.setTimeout(refreshLoop, 200);
   }
@@ -252,6 +281,29 @@ export function mountHud(
         } else if (e.kind === 'bought') {
           shop.onBought(e.ok, e.reason, e.item);
           if (e.ok) playSound('buy');
+        } else if (e.kind === 'chapter') {
+          const def = chapterDef(e.chapter);
+          if (def) toast(STORY_TEXT.chapterStarted(e.chapter, def.title));
+        } else if (e.kind === 'turnedShadow') {
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          toast(STORY_TEXT.turnedShadow(n?.name ?? NAMES.creature));
+          playSound('sad');
+        } else if (e.kind === 'shadowBonded') {
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          toast(STORY_TEXT.shadowBonded(n?.name ?? NAMES.creature));
+          playSound('evolve');
+        } else if (e.kind === 'ranAway') {
+          toast(STORY_TEXT.ranAway(e.name));
+          playSound('sad');
+        } else if (e.kind === 'strayReturned') {
+          toast(STORY_TEXT.strayReturned(e.name));
+        } else if (e.kind === 'lanternLit') {
+          toast(STORY_TEXT.lanternLit);
+          playSound('pickup');
+        } else if (e.kind === 'talked') {
+          const npc = g.world.npcs.find((x) => x.id === e.npcId);
+          const name = npc ? (TRAINER_LABELS[npc.trainer]?.name ?? npc.trainer) : '';
+          toast(STORY_TEXT.talkedTo(name));
         }
       }
     },

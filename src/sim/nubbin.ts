@@ -1,4 +1,4 @@
-import { EGG, NEEDS } from '../config/tuning';
+import { EGG, NEEDS, TRUST } from '../config/tuning';
 import { NUBBIN_NAMES } from '../config/strings';
 import { createNeeds } from './needs';
 import type { Rng } from './rng';
@@ -50,6 +50,11 @@ export function createEgg(
     gradeUpgrades: {},
     eternal: null,
     awaitingKeeper: false,
+    trust: TRUST.start,
+    shadow: false,
+    bond: false,
+    stray: false,
+    lowTrustSinceMs: -1,
     lastPetMs: -NEEDS.petCooldownMs,
     lastShakeMs: -EGG.shakeCooldownMs,
     genes: {},

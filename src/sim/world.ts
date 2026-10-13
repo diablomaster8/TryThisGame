@@ -1,11 +1,14 @@
 import { NUBBIN_NAMES } from '../config/strings';
-import { EGG, GROVE, LIFECYCLE, OFFLINE, THROW, TREES } from '../config/tuning';
+import { EGG, GROVE, LIFECYCLE, OFFLINE, THROW, TREES, TRUST } from '../config/tuning';
 import { nudgeAlignment } from './alignment';
 import { applyDrop, decayNeeds } from './needs';
 import { clampToWorld, putDown, react, sampleAll, startThrow, updateBehavior } from './behavior';
 import { CRITTER_SPECIES, giveCritter, giveEssence } from './critters';
 import { createKeeper, keeperPutDown, updateKeeper } from './keeper';
 import { noteCare } from './personality';
+import { addTrust, stepTrust } from './trust';
+import { applyCampaignCommand, noteCampaign, stepCampaign } from './campaign';
+import { stepNpcs } from './npcs';
 import { addRewards, buy } from './shop';
 import { SPECIES } from './species';
 import { DEFAULT_TRAINER, rollEggSpecies, TRAINERS, trainerOf } from './trainers';
@@ -56,6 +59,9 @@ export function createWorld(seed: number, wallMs: number): World {
     trainer: DEFAULT_TRAINER,
     nextId: 1,
     selected: null,
+    strays: [],
+    npcs: [],
+    campaign: null,
   };
   for (const t of GROVE.trees) {
     world.trees.push({
@@ -189,9 +195,12 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
       const speed = Math.hypot(cmd.vel.x, cmd.vel.z);
       if (speed >= THROW.minSpeed) {
         noteCare(n, 'throws');
+        addTrust(n, TRUST.throw, events);
+        noteCampaign(world, 'throw', n.id);
         startThrow(n, cmd.vel, now, events);
       } else {
         if (n.stage !== 'egg') applyDrop(n);
+        addTrust(n, TRUST.drop, events);
         putDown(n, now, events);
       }
       return;
@@ -239,6 +248,7 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
     }
     case 'addRewards':
       addRewards(world, cmd.rewards, events);
+      noteCampaign(world, 'expedition');
       return;
     case 'buy':
       withRng(world, (rng) => buy(world, cmd.item, rng, events));
@@ -248,6 +258,7 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
       if (cmd.hat) world.inventory.hats.push(cmd.hat);
       if (cmd.placement === 1) {
         world.races[cmd.course] = Math.max(world.races[cmd.course] ?? 0, cmd.tier);
+        noteCampaign(world, 'raceWin');
       }
       return;
     }
@@ -325,6 +336,13 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
       n.stageMs = LIFECYCLE.adultMs;
       return;
     }
+    case 'campaignStart':
+    case 'sceneDone':
+    case 'talk':
+    case 'lightLantern':
+    case 'debugChapter':
+      applyCampaignCommand(world, cmd, events);
+      return;
     case 'debugHatchNow': {
       const n = findNubbin(world, cmd.nubbinId);
       if (n && n.stage === 'egg') n.hatchRemainingMs = 0;
@@ -367,6 +385,9 @@ export function stepWorld(world: World, dtMs: number, wallMs?: number): SimEvent
       if (world.nubbins.includes(n)) updateBehavior(n, world, dtMs, rng, events);
     }
     updateKeeper(world, dtMs, events);
+    stepTrust(world, dtMs, events);
+    stepNpcs(world, dtMs, rng);
+    stepCampaign(world, dtMs, events);
   });
 
   // Lifetime happiness sampling, once a sim second.
