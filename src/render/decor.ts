@@ -60,14 +60,44 @@ export function placeDecorations(seed = 11): Decoration[] {
       placed++;
     }
   };
-  tryPlace('tuft', 40);
-  tryPlace('daisy', 14);
-  tryPlace('bluebell', 10);
-  tryPlace('pebble', 12);
-  tryPlace('mushroom', 6);
-  tryPlace('stump', 2);
+  // Counts follow the field's area (tuned for 48 units a side).
+  const k = (GROVE.size * GROVE.size) / (48 * 48);
+  tryPlace('tuft', Math.round(40 * k));
+  tryPlace('daisy', Math.round(14 * k));
+  tryPlace('bluebell', Math.round(10 * k));
+  tryPlace('pebble', Math.round(12 * k));
+  tryPlace('mushroom', Math.round(6 * k));
+  tryPlace('stump', Math.round(2 * k));
+  // The west meadow is thick with flowers; the south marsh grows reeds; the wood floor
+  // has mushrooms.
+  const region = (
+    frame: Decoration['frame'],
+    count: number,
+    x0: number,
+    x1: number,
+    z0: number,
+    z1: number,
+  ) => {
+    let placed = 0;
+    for (let tries = 0; tries < count * 10 && placed < count; tries++) {
+      const x = rng.float(x0, x1);
+      const z = rng.float(z0, z1);
+      if (!clear(x, z)) continue;
+      if (out.some((d) => Math.hypot(d.x - x, d.z - z) < 0.9)) continue;
+      out.push({ frame, x, z, flip: rng.chance(0.5) });
+      placed++;
+    }
+  };
+  if (GROVE.size >= 96) {
+    region('daisy', 30, -46, -24, 6, 36);
+    region('bluebell', 18, -46, -24, 6, 36);
+    region('reed', 40, 0, 20, 26, 46);
+    region('tallgrass', 20, -4, 22, 26, 46);
+    region('mushroom', 16, -46, -14, -46, -24);
+    region('pebble', 14, 22, 46, -46, -14);
+  }
   // Tall grass along the Grove's edges.
-  for (let i = 0; i < 28; i++) {
+  for (let i = 0; i < Math.round(28 * Math.sqrt(k)); i++) {
     const side = rng.int(0, 3);
     const t = rng.float(-spread, spread);
     const e = spread - rng.float(0, 1.2);

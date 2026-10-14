@@ -1,4 +1,4 @@
-import type { CanvasTexture } from 'three';
+import { CanvasTexture, NearestFilter, SRGBColorSpace } from 'three';
 import { GROVE } from '../config/tuning';
 import { Rng } from '../sim/rng';
 import type { TileKind } from '../sim/types';
@@ -48,12 +48,23 @@ function segDist(s: Seg, x: number, z: number): [number, number] {
  * stream banks, scree at the hill feet, stone pads under the buildings, a crop plot,
  * and the painted tiles. Drawn once from a fixed seed; the plane maps to it 1:1.
  */
-export function makeGroundTexture(seed = 7, tiles: Record<string, TileKind> = {}): CanvasTexture {
-  const size = GROVE.size * GROUND_PPU;
+export interface GroundPixels {
+  width: number;
+  height: number;
+  rgba: Uint8Array;
+}
+
+/** The painting itself, pure: safe to run in a worker. `ppu` sets the detail. */
+export function paintGround(
+  seed = 7,
+  tiles: Record<string, TileKind> = {},
+  ppu: number = GROUND_PPU,
+): GroundPixels {
+  const size = GROVE.size * ppu;
   const r = new Raster(size, size, hex('#5f9e3c'));
   const half = GROVE.size / 2;
-  const toWorld = (p: number) => p / GROUND_PPU - half;
-  const toPx = (w: number) => (w + half) * GROUND_PPU;
+  const toWorld = (p: number) => p / ppu - half;
+  const toPx = (w: number) => (w + half) * ppu;
 
   const start = GROVE.keeperStart;
   const [t1, t2] = GROVE.trees;
@@ -105,12 +116,71 @@ export function makeGroundTexture(seed = 7, tiles: Record<string, TileKind> = {}
       ],
       0.8,
     ),
+    // The outer ring: tracks out to the wood, the ridge, the marsh and the meadow.
+    ...segments(
+      [
+        { x: BUILDINGS.school!.x - 2, z: BUILDINGS.school!.z - 1 },
+        { x: -12, z: -26 },
+        { x: -22, z: -30 },
+        { x: -30, z: -34 },
+      ],
+      0.8,
+    ),
+    ...segments(
+      [
+        { x: BUILDINGS.dojo!.x + 1, z: BUILDINGS.dojo!.z - 3 },
+        { x: 24, z: -14 },
+        { x: 30, z: -24 },
+      ],
+      0.8,
+    ),
+    ...segments(
+      [
+        { x: BUILDINGS.dojo!.x + 2, z: BUILDINGS.dojo!.z + 3 },
+        { x: 24, z: 10 },
+        { x: 26, z: 22 },
+        { x: 26, z: 34 },
+      ],
+      0.8,
+    ),
+    ...segments(
+      [
+        { x: BUILDINGS.well!.x, z: BUILDINGS.well!.z + 2 },
+        { x: 2, z: 20 },
+        { x: 4, z: 30 },
+        { x: 6, z: 38 },
+      ],
+      0.8,
+    ),
+    ...segments(
+      [
+        { x: BUILDINGS.cottage!.x - 3, z: BUILDINGS.cottage!.z + 4 },
+        { x: -16, z: 22 },
+        { x: -24, z: 18 },
+        { x: -32, z: 16 },
+        { x: -40, z: 22 },
+      ],
+      0.8,
+    ),
   ];
+  // Every segment's box, grown by its reach, so most texels skip most segments.
+  const pathBox = paths.map((s) => ({
+    x0: Math.min(s.ax, s.bx) - s.w - 0.9,
+    x1: Math.max(s.ax, s.bx) + s.w + 0.9,
+    z0: Math.min(s.az, s.bz) - s.w - 0.9,
+    z1: Math.max(s.az, s.bz) + s.w + 0.9,
+  }));
   const banks: Seg[] = [
     ...segments(GROVE.river.inflow, GROVE.river.width / 2),
     ...segments(GROVE.river.outflow, GROVE.river.width / 2),
   ];
   const pool = { x: GROVE.waterfall.x - 3.6, z: GROVE.waterfall.z + 5.6, r: 1.6 };
+  const bankBox = banks.map((s) => ({
+    x0: Math.min(s.ax, s.bx) - s.w - 2.5,
+    x1: Math.max(s.ax, s.bx) + s.w + 2.5,
+    z0: Math.min(s.az, s.bz) - s.w - 2.5,
+    z1: Math.max(s.az, s.bz) + s.w + 2.5,
+  }));
 
   const grassA = hex('#4d9440');
   const grassB = hex('#8fcf62');
@@ -121,6 +191,10 @@ export function makeGroundTexture(seed = 7, tiles: Record<string, TileKind> = {}
   const sandWet = hex('#8c7b55');
   const sandDry = hex('#c9b784');
   const bankEdge = hex('#8f9a62');
+  const marshGreen = hex('#4f6e38');
+  const mudBrown = hex('#5a4a30');
+  const puddle = hex('#4f7a94');
+  const meadowGreen = hex('#7fcb58');
 
   // The slow, smooth fields (the warped drifts and the dry patches) are sampled on a coarse
   // grid and read back bilinearly; only the fine grain is computed per texel.
@@ -158,11 +232,27 @@ export function makeGroundTexture(seed = 7, tiles: Record<string, TileKind> = {}
       let c = mix(grassA, grassB, clamp01((n - 0.3) * 1.8));
       c = mix(c, dry, clamp01((dryN - 0.62) * 4));
       c = shade(c, 0.86 + fine * 0.3);
+      // The outer ring's regions: the south marsh is wetter and darker with mud and
+      // puddles; the west meadow is lusher; the north wood's floor is shaded.
+      const marsh = clamp01((z - 24) / 8) * clamp01(1 - Math.abs(x - 8) / 16);
+      if (marsh > 0) {
+        c = mix(c, marshGreen, marsh * 0.7);
+        const mud = fbm(px / 36 + 50, py / 36, 2, 71);
+        if (mud > 0.6) c = mix(c, mudBrown, marsh * clamp01((mud - 0.6) * 4));
+        if (mud < 0.36 && fine > 0.5) c = mix(c, puddle, marsh * 0.8);
+      }
+      const meadow = clamp01((-x - 22) / 8) * clamp01(1 - Math.abs(z - 20) / 20);
+      if (meadow > 0) c = mix(c, meadowGreen, meadow * 0.45);
+      const wood = clamp01((-z - 22) / 8) * clamp01((-x - 10) / 10);
+      if (wood > 0) c = shade(c, 1 - wood * 0.18);
       // Paths: the nearest segment, with a wandering width and edge.
       let best = 1e9;
       let bestW = 1;
       let bestT = 0;
-      for (const s of paths) {
+      for (let si = 0; si < paths.length; si++) {
+        const box = pathBox[si]!;
+        if (x < box.x0 || x > box.x1 || z < box.z0 || z > box.z1) continue;
+        const s = paths[si]!;
         const [d, t] = segDist(s, x, z);
         if (d < best) {
           best = d;
@@ -188,7 +278,11 @@ export function makeGroundTexture(seed = 7, tiles: Record<string, TileKind> = {}
       }
       // Stream banks and the waterfall pool: sand with a wet band beside the water.
       let bankD = 1e9;
-      for (const s of banks) bankD = Math.min(bankD, segDist(s, x, z)[0] - s.w);
+      for (let bi = 0; bi < banks.length; bi++) {
+        const box = bankBox[bi]!;
+        if (x < box.x0 || x > box.x1 || z < box.z0 || z > box.z1) continue;
+        bankD = Math.min(bankD, segDist(banks[bi]!, x, z)[0] - banks[bi]!.w);
+      }
       bankD = Math.min(bankD, Math.hypot(x - pool.x, z - pool.z) - pool.r);
       const bankNoise = fine;
       if (bankD < 0.9 + bankNoise * 0.5) {
@@ -247,8 +341,8 @@ export function makeGroundTexture(seed = 7, tiles: Record<string, TileKind> = {}
   // Stone pads under the buildings and the well.
   for (const [id, b] of Object.entries(BUILDINGS)) {
     const cx = toPx(b.x);
-    const cy = toPx(b.z) + (id === 'well' ? 0 : 0.6 * GROUND_PPU);
-    const rw = (id === 'well' ? 1.4 : 3.0) * GROUND_PPU;
+    const cy = toPx(b.z) + (id === 'well' ? 0 : 0.6 * ppu);
+    const rw = (id === 'well' ? 1.4 : 3.0) * ppu;
     for (let yy = -rw * 0.6; yy <= rw * 0.6; yy++) {
       for (let xx = -rw; xx <= rw; xx++) {
         const rr =
@@ -267,9 +361,9 @@ export function makeGroundTexture(seed = 7, tiles: Record<string, TileKind> = {}
   {
     const px0 = toPx(BUILDINGS.cottage!.x - 3);
     const py0 = toPx(BUILDINGS.cottage!.z + 3);
-    const w = 4 * GROUND_PPU;
-    const h = 3 * GROUND_PPU;
-    const rowH = GROUND_PPU * 0.75;
+    const w = 4 * ppu;
+    const h = 3 * ppu;
+    const rowH = ppu * 0.75;
     for (let y = -1; y < h + 1; y++) {
       for (let x = -1; x < w + 1; x++) {
         const edge = x < 0 || y < 0 || x >= w || y >= h;
@@ -290,10 +384,10 @@ export function makeGroundTexture(seed = 7, tiles: Record<string, TileKind> = {}
   // Painted tiles: one-unit squares of dirt, water, flowers or stone laid on top.
   for (const [key, tile] of Object.entries(tiles)) {
     const [xs, zs] = key.split(',');
-    const x0 = toPx(Number(xs)) - GROUND_PPU * 0.5;
-    const y0 = toPx(Number(zs)) - GROUND_PPU * 0.5;
-    for (let y = 0; y < GROUND_PPU; y++) {
-      for (let x = 0; x < GROUND_PPU; x++) {
+    const x0 = toPx(Number(xs)) - ppu * 0.5;
+    const y0 = toPx(Number(zs)) - ppu * 0.5;
+    for (let y = 0; y < ppu; y++) {
+      for (let x = 0; x < ppu; x++) {
         const n = fbm((x0 + x) / 5, (y0 + y) / 5, 2, 51);
         let c: RGB;
         if (tile === 'dirt') c = mix(pathDark, pathLight, n);
@@ -308,7 +402,34 @@ export function makeGroundTexture(seed = 7, tiles: Record<string, TileKind> = {}
     }
   }
 
-  const texture = r.toTexture(true);
+  return r.toRgba(1, true);
+}
+
+/** The painting as a texture, on the main thread (the tools and the placeholder). */
+export function makeGroundTexture(
+  seed = 7,
+  tiles: Record<string, TileKind> = {},
+  ppu: number = GROUND_PPU,
+): CanvasTexture {
+  return groundTexture(paintGround(seed, tiles, ppu));
+}
+
+/** Wrap painted pixels (from here or a worker) as the ground texture. */
+export function groundTexture(p: GroundPixels): CanvasTexture {
+  const canvas = document.createElement('canvas');
+  canvas.width = p.width;
+  canvas.height = p.height;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('2D canvas context unavailable');
+  const image = ctx.createImageData(p.width, p.height);
+  image.data.set(p.rgba);
+  ctx.putImageData(image, 0, 0);
+  const texture = new CanvasTexture(canvas);
+  texture.magFilter = NearestFilter;
+  texture.minFilter = NearestFilter;
+  texture.generateMipmaps = false;
+  texture.colorSpace = SRGBColorSpace;
   texture.flipY = true;
+  texture.needsUpdate = true;
   return texture;
 }

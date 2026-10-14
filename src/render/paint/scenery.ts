@@ -23,7 +23,7 @@ import {
 import { fbm, ridged, vnoise } from './noise';
 import { stamp } from './buildings';
 import { bush, fencePost, lanternPost, LEAF, log, rock, tree, well } from './props';
-import { hex, mix, Raster, rimObjects, shade } from './raster';
+import { hex, mix, Raster, rimObjects, shade, type RGB } from './raster';
 
 /** Texels per world unit for painted scenery. */
 export const PAINT_PPU = 24;
@@ -34,6 +34,12 @@ export type PaintedKind =
   | 'tree-2'
   | 'tree-3'
   | 'tree-4'
+  | 'tree-5'
+  | 'tree-6'
+  | 'wild-1'
+  | 'wild-2'
+  | 'wild-3'
+  | 'wild-4'
   | 'bush-1'
   | 'bush-2'
   | 'bush-3'
@@ -65,14 +71,25 @@ function finish(r: Raster): Raster {
   return r;
 }
 
-function paintTree(seed: number, size: number): Raster {
+function paintTree(seed: number, size: number, tones: RGB[] = LEAF): Raster {
   const w = Math.round(190 * size);
   const h = Math.round(200 * size);
   const r = new Raster(w, h, null);
   r.tracking = true;
-  tree(r, new Rng(seed), w / 2, h - 4, size, LEAF);
+  tree(r, new Rng(seed), w / 2, h - 4, size, tones);
   return finish(r);
 }
+
+/** The outer wood's trees: a darker, bluer canopy than the fruit trees. */
+const WILD_LEAF: RGB[] = [
+  '#142f24',
+  '#1d4a33',
+  '#276440',
+  '#357f4e',
+  '#4a9a5c',
+  '#6cb574',
+  '#93cf8e',
+].map(hex);
 
 function paintBush(seed: number): Raster {
   const r = new Raster(64, 40, null);
@@ -546,6 +563,8 @@ export function buildPaintedScenery(): SpriteSheet {
   GROVE.trees.forEach((_, i) =>
     add(`tree-${i + 1}` as PaintedKind, paintTree(101 + i * 7, 1 + (i % 2) * 0.12)),
   );
+  for (let i = 0; i < 4; i++)
+    add(`wild-${i + 1}` as PaintedKind, paintTree(301 + i * 13, 0.95 + (i % 3) * 0.1, WILD_LEAF));
   add('bush-1', paintBush(11));
   add('bush-2', paintBush(12));
   add('bush-3', paintBush(13));

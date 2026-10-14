@@ -1,4 +1,4 @@
-import { GROVE, OFFLINE, TRUST } from '../config/tuning';
+import { GROVE, OFFLINE, TREES, TRUST } from '../config/tuning';
 import { createWeather } from './weather';
 import { npcHome } from './npcs';
 import type { World } from './types';
@@ -178,6 +178,15 @@ export function validateWorld(w: World): World {
     const g = GROVE.trees[i];
     if (g) t.pos = { x: g.x, z: g.z };
   });
+  // A bigger Grove grew more fruit trees: older saves get them.
+  for (let i = w.trees.length; i < GROVE.trees.length; i++) {
+    const g = GROVE.trees[i]!;
+    w.trees.push({
+      id: `tree-grown-${i}`,
+      pos: { x: g.x, z: g.z },
+      fruitTimerMs: TREES.fruitIntervalMs / 2,
+    });
+  }
   for (const npc of w.npcs) {
     const home = npcHome(npc.trainer);
     npc.home = { ...home };

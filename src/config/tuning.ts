@@ -89,7 +89,7 @@ export const SIM = {
   /** Show a progress indicator when catch-up takes longer than this. */
   catchUpProgressMs: 500,
   /** Grove bounds: entities stay within ±half on both axes. */
-  worldHalf: 22,
+  worldHalf: 46,
 } as const;
 
 export const OFFLINE = {
@@ -361,7 +361,12 @@ export const EXPEDITION = {
 } as const;
 
 export const GROVE = {
-  size: 48,
+  /**
+   * 96 units a side (2026-10-13, four times the earlier area). The old 48-unit heart
+   * keeps every position; the outer ring is wilder: the north wood, the east ridge, the
+   * south marsh along the stream, the west meadow.
+   */
+  size: 96,
   /** Centre and radius of the pond. */
   pond: { x: 7, z: 6, r: 5 },
   trees: [
@@ -369,12 +374,22 @@ export const GROVE = {
     { x: 6, z: -12 },
     { x: -12, z: 7 },
     { x: 16, z: 12 },
+    // The outer ring's fruit trees: the west meadow and the far orchard corner.
+    { x: -32, z: 20 },
+    { x: 28, z: 30 },
   ] as const,
   hills: [
     { x: -18, z: 13, r: 6, h: 2.6 },
     { x: 16, z: -16, r: 7, h: 3.4 },
     { x: -18, z: -15, r: 5, h: 2 },
     { x: 20, z: 4, r: 4, h: 1.5 },
+    // The outer ring.
+    { x: 36, z: -34, r: 8, h: 3.8 },
+    { x: -36, z: 34, r: 7, h: 3 },
+    { x: 38, z: 30, r: 5, h: 2 },
+    { x: -38, z: -34, r: 6, h: 2.4 },
+    { x: 2, z: -40, r: 5, h: 2.2 },
+    { x: -34, z: -4, r: 4, h: 1.6 },
   ] as const,
   waterfall: { x: 16, z: -16, height: 3.4, width: 1.6 },
   /** Where the buildings stand and how wide their footprint is (walkers are kept out). */
@@ -391,6 +406,14 @@ export const GROVE = {
     { x: 6, z: -9, r: 0.6 },
     { x: 13, z: -5, r: 0.5 },
     { x: -13, z: 12, r: 0.6 },
+    // The outer ring.
+    { x: -28, z: 8, r: 0.7 },
+    { x: 30, z: 12, r: 0.6 },
+    { x: -6, z: 34, r: 0.6 },
+    { x: 20, z: -32, r: 0.7 },
+    { x: -34, z: -20, r: 0.6 },
+    { x: 36, z: 40, r: 0.5 },
+    { x: -22, z: -40, r: 0.6 },
   ],
   /** The stream: from the waterfall pool into the pond, then out to the south edge. */
   river: {
@@ -406,6 +429,11 @@ export const GROVE = {
       { x: 9.5, z: 16 },
       { x: 11, z: 20 },
       { x: 12, z: 25 },
+      // On through the south marsh to the far edge.
+      { x: 12.6, z: 31 },
+      { x: 11.2, z: 38 },
+      { x: 12.5, z: 44 },
+      { x: 12, z: 49 },
     ],
   },
   /** Where the path crosses the inflow. */
@@ -646,6 +674,12 @@ export const LANDMARKS = [
   { id: 'oldTree', x: -8, z: -3 },
   { id: 'southBend', x: 11, z: 20 },
   { id: 'westHill', x: -12, z: 13 },
+  // The outer ring.
+  { id: 'northWood', x: -28, z: -30 },
+  { id: 'eastRidge', x: 30, z: -24 },
+  { id: 'southMarsh', x: 6, z: 38 },
+  { id: 'westMeadow', x: -32, z: 16 },
+  { id: 'farOrchard', x: 26, z: 34 },
 ] as const;
 
 // ---------------------------------------------------------------- the Digimon-inspired ten

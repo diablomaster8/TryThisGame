@@ -27,7 +27,8 @@ import { DUNGEON, GROVE } from '../config/tuning';
 import type { GroveKind, Location, TileKind, WeatherKind } from '../sim/types';
 import { daylightAt, type Daylight } from './daylight';
 import { C, color } from './sprites/palette';
-import { makeGroundTexture } from './ground';
+import { groundTexture, makeGroundTexture } from './ground';
+import type { GroundJob, GroundResult } from './ground.worker';
 import { pondOutline } from './paint/shore';
 import {
   paintCliffTexture,
@@ -175,8 +176,53 @@ export class GroveScene {
 
   /** Repaint the ground with the painted tiles (terraforming). */
   setTiles(tiles: Record<string, TileKind>): void {
-    if (!this.groundMat) return;
-    const next = makeGroundTexture(7, tiles);
+    this.requestGround(tiles);
+  }
+
+  private groundWorker: Worker | null = null;
+  private groundJob = 0;
+
+  /**
+   * The full painting takes a couple of seconds for the 96-unit field, so it runs in a
+   * worker and swaps in when done; until then the quick low-res painting shows. Where
+   * workers are unavailable it paints on the main thread.
+   */
+  private requestGround(tiles: Record<string, TileKind>): void {
+    const id = ++this.groundJob;
+    const inline = () => this.swapGround(makeGroundTexture(7, tiles));
+    if (typeof Worker === 'undefined') {
+      inline();
+      return;
+    }
+    if (!this.groundWorker) {
+      try {
+        this.groundWorker = new Worker(new URL('./ground.worker.ts', import.meta.url), {
+          type: 'module',
+        });
+        this.groundWorker.onmessage = (e: MessageEvent<GroundResult>) => {
+          if (e.data.id !== this.groundJob) return;
+          this.swapGround(groundTexture(e.data));
+        };
+        this.groundWorker.onerror = () => {
+          this.groundWorker?.terminate();
+          this.groundWorker = null;
+          inline();
+        };
+      } catch {
+        this.groundWorker = null;
+        inline();
+        return;
+      }
+    }
+    const job: GroundJob = { id, seed: 7, tiles };
+    this.groundWorker.postMessage(job);
+  }
+
+  private swapGround(next: Texture): void {
+    if (!this.groundMat) {
+      next.dispose();
+      return;
+    }
     this.groundMat.map = next;
     this.groundMat.needsUpdate = true;
     this.groundTex?.dispose();
@@ -223,7 +269,8 @@ export class GroveScene {
 
     // Ground.
     const size = GROVE.size;
-    const grass = makeGroundTexture();
+    // A quick coarse painting first; the full one arrives from the worker.
+    const grass = makeGroundTexture(7, {}, 4);
     const groundGeo = new PlaneGeometry(size, size);
     const groundMat = new MeshLambertMaterial({ map: grass });
     this.groundMat = groundMat;
@@ -236,6 +283,7 @@ export class GroveScene {
     this.pickables.push(ground);
     this.ground = ground;
     this.disposables.push(groundGeo, groundMat, grass);
+    this.requestGround({});
 
     // Pond: a wet rim, the water disc with a scrolling wave tile, a drifting glint layer
     // the other way, and a lit shallows ring at the bank. The stream shares the same look.
@@ -903,5 +951,7 @@ export class GroveScene {
   dispose(): void {
     for (const d of this.disposables) d.dispose();
     for (const p of this.dungeonParts) p.dispose();
+    this.groundWorker?.terminate();
+    this.groundWorker = null;
   }
 }

@@ -1,5 +1,5 @@
 import { NAMES, SPECIES_LABELS, TEN_TEXT, TRAINER_LABELS, UI_TEXT } from '../config/strings';
-import { PLOTS, TOWN } from '../config/tuning';
+import { GROVE, PLOTS, TOWN } from '../config/tuning';
 import { canMerge } from '../sim/partners';
 import { canBuySkill, SKILL_LIST } from '../sim/skills';
 import { TEAM_LIST, teamBoard } from '../sim/teams';
@@ -496,8 +496,9 @@ export class MapPanel {
       );
       b.disabled = !found;
       // Lay the buttons out roughly where the spots are.
-      b.style.gridColumn = String(Math.round(((l.x + 24) / 48) * 5) + 1);
-      b.style.gridRow = String(Math.round(((l.z + 24) / 48) * 5) + 1);
+      const half = GROVE.size / 2;
+      b.style.gridColumn = String(Math.round(((l.x + half) / GROVE.size) * 5) + 1);
+      b.style.gridRow = String(Math.round(((l.z + half) / GROVE.size) * 5) + 1);
       this.list.appendChild(b);
     }
   }

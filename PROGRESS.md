@@ -9,6 +9,40 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## The field, four times the area (2026-10-13)
+
+Maor: "Expand the area again 4x." `GROVE.size` 48 → 96 (`SIM.worldHalf` 46). The old
+48-unit heart keeps every position (buildings, pond, stream, hills, trees, NPC homes,
+lanterns, the cave mouth); the new outer ring is wilder, in four regions:
+
+- **The north wood** (north-west): nine wild trees (`wild-1..4`, a darker, bluer
+  canopy painted with the same branching tree), bushes, a log, rocks, a shaded floor
+  and mushrooms; a track from the school.
+- **The east ridge**: the biggest hill (r 8), scree pebbles, hardy trees, rocks; a
+  track from the dojo.
+- **The south marsh**: the stream now runs on to the far south edge; the ground is
+  darker and muddier with puddles, reeds and tall grass along it; a track from the
+  well.
+- **The west meadow**: lusher grass thick with daisies and bluebells, a low hill and the
+  fifth fruit tree; a track from the cottage. A sixth fruit tree stands in the far
+  orchard corner (south-east) at the end of the dojo's southern track.
+
+Also: six new hills, seven new tappable rocks, five new landmarks for the map
+(north wood, east ridge, south marsh, west meadow, far orchard), decoration counts
+scaled by area, tall grass along the longer edges. Older saves gain the two fruit
+trees on load.
+
+**The ground paints in a worker.** The 1536² floor painting took about two seconds on
+this PC, which would freeze the first frames on a phone. `paintGround` is now a pure
+pixel pass; `ground.worker.ts` runs it off the main thread (a 96 kB chunk, three.js
+tree-shaken out) and the scene swaps the texture in when it arrives, showing a
+quarter-resolution painting (about 0.15 s) until then. Tile painting goes through the
+same path. Path and bank distance tests now skip segments by bounding box.
+
+Tests: `tests/sim/field.test.ts` (size and walkable half, nothing overlaps or leaves
+the field, the new landmarks stand on open ground, older saves get the trees). Full
+suite green, lint clean, build OK; seen in the browser: all four regions and the
+worker swap.
 ## The Hollow Below: procedural dungeons, built (2026-10-13)
 
 Maor: "do item 11." The last system of the Digimon-inspired list is in: a seeded cave
