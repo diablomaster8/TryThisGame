@@ -122,7 +122,7 @@ function paintDetail(kind: Detail): DetailMaps {
   return maps;
 }
 
-interface SurfaceOpts {
+export interface SurfaceOpts {
   detail: Detail;
   scale?: number;
   amount?: number;
@@ -148,7 +148,7 @@ const TRIPLANAR_PARS = `
   vec3 triW() { vec3 w = pow( abs( vObjNrm ), vec3( 4.0 ) ); return w / ( w.x + w.y + w.z + 1e-5 ); }`;
 
 /** Vertex colours for regions, triplanar detail, sheen/clearcoat, and glow from the attribute. */
-function surfaceMaterial(o: SurfaceOpts): THREE.MeshPhysicalMaterial {
+export function surfaceMaterial(o: SurfaceOpts): THREE.MeshPhysicalMaterial {
   const maps = paintDetail(o.detail);
   const m = new THREE.MeshPhysicalMaterial({
     vertexColors: true,
@@ -217,13 +217,14 @@ function surfaceMaterial(o: SurfaceOpts): THREE.MeshPhysicalMaterial {
  * normal and thinned by a 3D hash, so the silhouette breaks into soft strands and the
  * surface reads as fluff instead of plastic. The strands lighten toward the tips.
  */
-function furShells(
+export function furShells(
   parent: THREE.Object3D,
   mesh: THREE.Mesh,
   layers: number,
   length: number,
   tipLift: number,
   cellFreq = 46,
+  directional = false,
 ): THREE.Mesh[] {
   const shells: THREE.Mesh[] = [];
   for (let i = 1; i <= layers; i++) {
@@ -237,6 +238,7 @@ function furShells(
       alphaTest: 0.5,
       side: THREE.DoubleSide,
     });
+    if (directional) m.defines = { FUR_DIR: '' };
     m.onBeforeCompile = (shader) => {
       shader.uniforms.uShell = { value: f };
       shader.uniforms.uLen = { value: length };
@@ -245,13 +247,18 @@ function furShells(
       shader.vertexShader = shader.vertexShader
         .replace(
           '#include <common>',
-          '#include <common>\nuniform float uShell;\nuniform float uLen;\nvarying vec3 vObjPos;',
+          '#include <common>\nuniform float uShell;\nuniform float uLen;\nvarying vec3 vObjPos;\n#ifdef FUR_DIR\nattribute float furLen;\nattribute vec3 furDir;\n#endif',
         )
         .replace(
           '#include <begin_vertex>',
           `#include <begin_vertex>
            vObjPos = position;
-           transformed += normalize( normal ) * uShell * uLen + vec3( 0.0, -0.35 * uShell * uShell * uLen, 0.0 );`,
+           #ifdef FUR_DIR
+             vec3 grow = normalize( mix( normalize( normal ), normalize( furDir ), 0.65 ) );
+             transformed += grow * uShell * uLen * furLen * 1.6 + vec3( 0.0, -0.25 * uShell * uShell * uLen * furLen, 0.0 );
+           #else
+             transformed += normalize( normal ) * uShell * uLen + vec3( 0.0, -0.35 * uShell * uShell * uLen, 0.0 );
+           #endif`,
         );
       shader.fragmentShader = shader.fragmentShader
         .replace(
@@ -283,10 +290,10 @@ function furShells(
 
 // ---------------------------------------------------------------- colour helpers
 
-type Shade = (p: THREE.Vector3, n: THREE.Vector3, c: THREE.Color, nearest: Prim) => void;
+export type Shade = (p: THREE.Vector3, n: THREE.Vector3, c: THREE.Color, nearest: Prim) => void;
 
 /** Light from above baked in: tops brighter, undersides in shadow; plus a height roll-off. */
-function gradient(top = 1.12, bottom = 0.62, yMin = 0, yMax = 3): Shade {
+export function gradient(top = 1.12, bottom = 0.62, yMin = 0, yMax = 3): Shade {
   return (p, n, c) => {
     const up = THREE.MathUtils.clamp(n.y * 0.5 + 0.5, 0, 1);
     const h = THREE.MathUtils.clamp((p.y - yMin) / (yMax - yMin), 0, 1);
@@ -294,14 +301,14 @@ function gradient(top = 1.12, bottom = 0.62, yMin = 0, yMax = 3): Shade {
   };
 }
 
-function combine(...shades: Shade[]): Shade {
+export function combine(...shades: Shade[]): Shade {
   return (p, n, c, q) => {
     for (const s of shades) s(p, n, c, q);
   };
 }
 
 /** Stripes across an axis, blended toward a colour. */
-function stripes(
+export function stripes(
   axis: 'x' | 'y' | 'z',
   freq: number,
   width: number,
@@ -319,7 +326,13 @@ function stripes(
 }
 
 /** Spots from a value-noise field, blended toward a colour. */
-function spots(scale: number, threshold: number, color: string, tags: string[], seed = 91): Shade {
+export function spots(
+  scale: number,
+  threshold: number,
+  color: string,
+  tags: string[],
+  seed = 91,
+): Shade {
   const col = new THREE.Color(color);
   return (p, _n, c, q) => {
     if (!tags.includes(q.tag ?? '')) return;
@@ -330,7 +343,7 @@ function spots(scale: number, threshold: number, color: string, tags: string[], 
 
 // ---------------------------------------------------------------- parts
 
-function glossy(
+export function glossy(
   color: string,
   extra: Partial<THREE.MeshPhysicalMaterialParameters> = {},
 ): THREE.MeshPhysicalMaterial {
@@ -343,7 +356,13 @@ function glossy(
   });
 }
 
-function add(parent: THREE.Object3D, m: THREE.Mesh, x: number, y: number, z: number): THREE.Mesh {
+export function add(
+  parent: THREE.Object3D,
+  m: THREE.Mesh,
+  x: number,
+  y: number,
+  z: number,
+): THREE.Mesh {
   m.position.set(x, y, z);
   m.castShadow = true;
   m.receiveShadow = true;
@@ -388,7 +407,7 @@ function irisTexture(color: string): THREE.CanvasTexture {
 }
 
 /** A big cartoon eye: glossy white, a painted iris disc, and an upper lid of body colour. */
-function eye(
+export function eye(
   parent: THREE.Object3D,
   x: number,
   y: number,
@@ -432,7 +451,7 @@ function eye(
   const lidMesh = add(
     g,
     new THREE.Mesh(
-      new THREE.SphereGeometry(r * 1.07, 28, 14, 0, Math.PI * 2, 0, Math.PI * lid),
+      new THREE.SphereGeometry(r * 1.07, 28, 14, 0, Math.PI * 2, 0, Math.PI * 0.52),
       new THREE.MeshPhysicalMaterial({ color: lidColor, roughness: 0.6, sheen: 0.3 }),
     ),
     0,
@@ -440,17 +459,21 @@ function eye(
     0,
   );
   lidMesh.scale.set(1, 1.25, 0.78);
+  // The lid is a half-shell hinged at the eye: it rests tilted back by the species' lid
+  // amount and swings down over the eye to blink or sleep.
+  lidMesh.userData.base = -0.9 + lid * 2.2;
+  lidMesh.rotation.x = lidMesh.userData.base;
   parent.add(g);
   return { group: g, lid: lidMesh };
 }
 
-interface Part {
+export interface Part {
   mesh: THREE.Mesh;
   pivot: THREE.Group;
 }
 
 /** A sculpted sub-part hung from a pivot so it can sway. */
-function part(
+export function part(
   parent: THREE.Object3D,
   prims: Prim[],
   blend: number,
@@ -472,17 +495,17 @@ function part(
   return { mesh, pivot };
 }
 
-function breathe(g: THREE.Group, base: number, t: number, rate = 2.2, amount = 0.012): void {
+export function breathe(g: THREE.Group, base: number, t: number, rate = 2.2, amount = 0.012): void {
   g.scale.y = base * (1 + Math.sin(t * rate) * amount);
 }
 
 // ---------------------------------------------------------------- the five
 
 /** A quick blink every few seconds: the lids drop over the eye and lift again. */
-function blink(lids: THREE.Mesh[], t: number, phase: number, every = 4.2): void {
+export function blink(lids: THREE.Mesh[], t: number, phase: number, every = 4.2): void {
   const cycle = (t + phase) % every;
   const k = cycle < 0.2 ? Math.sin((cycle / 0.2) * Math.PI) : 0;
-  for (const l of lids) l.scale.y = 1.25 + k * 1.1;
+  for (const l of lids) l.rotation.x = (l.userData.base as number) + k * 1.5;
 }
 
 /** Thin vein capsules radiating inside a wing, so the membrane reads as a wing. */
@@ -1368,7 +1391,7 @@ function fennel(): Creature {
  * A smoke shell: the body drawn once more, a little larger, as drifting vapour that
  * only shows at the silhouette (a Fresnel term) and breaks up with moving 3D noise.
  */
-function smokeShell(
+export function smokeShell(
   parent: THREE.Object3D,
   mesh: THREE.Mesh,
   color: string,

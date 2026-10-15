@@ -12,6 +12,8 @@ import { fbm, ridged, vnoise } from '../render/paint/noise';
 import { hex, mix, Raster, shade, type RGB } from '../render/paint/raster';
 import { sculptedKeeper, sculptedNubbin } from './sculpted';
 import { buildCreature, type Creature } from './creatures';
+import { buildSpecies, POSES, type PoseName } from './species';
+import { FENNEL_SPEC, NUBBIN_SPEC } from './species-data';
 
 /**
  * The HD-port direction taken to a AAA finish (`?aaa=1..3`): the same valley as the
@@ -859,7 +861,13 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
   let creature: Creature | null = null;
   if (creatureIndex > 0) {
     // One creature on the stage, framed close, facing the camera.
-    creature = buildCreature(creatureIndex - 1);
+    // The Nubbin and Fennel come from the species description format; the rest are hand-built.
+    creature =
+      creatureIndex === 1
+        ? buildSpecies(NUBBIN_SPEC)
+        : creatureIndex === 3
+          ? buildSpecies(FENNEL_SPEC)
+          : buildCreature(creatureIndex - 1);
     creature.group.userData.baseY = groundHeight(0, 0);
     place(creature.group, 0, 0, Math.PI - 0.5);
     // A cool rim light from behind, as a character stage would have.
@@ -928,6 +936,13 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     const a = Math.sin(t * 0.22) * 0.16;
     const ky = groundHeight(0, 0);
     if (creature) {
+      if ('setPose' in creature) {
+        const wanted = new URLSearchParams(location.search).get('pose') as PoseName | null;
+        const rigged = creature as Creature & { setPose(p: PoseName): void };
+        rigged.setPose(
+          wanted && POSES.includes(wanted) ? wanted : POSES[Math.floor(t / 3.5) % POSES.length]!,
+        );
+      }
       creature.animate(t);
       const back = camera.aspect < 1.5 ? 1.25 : 1;
       camera.position.set((2.7 + Math.sin(a) * 0.6) * back, ky + 2.3 * back, -4.1 * back);

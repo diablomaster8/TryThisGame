@@ -9,6 +9,43 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## The species format: rig, poses, marks, mouths, directional fur (2026-10-16)
+
+Maor: "what other improvements can we make before we apply it to others" → the list
+(poses and a rig, markings with intent, mouths that open, directional fur, grounding,
+material tuning, eye tracking), then "go". Built the first four on the Nubbin and
+Fennel as templates, and the format the roster will be written in.
+
+- **`src/samples/species.ts`**: a `SpeciesSpec` describes a creature as data (torso,
+  head and limb parts as blended shapes with pivots and bone names, surface, fur and a
+  fur rule, baked shade, marks, colour rules, eyes, mouth, wings, the ball). The
+  builder sculpts each part, hangs it from its pivot (the head and limbs from the
+  hips), adds eyes and a modelled mouth to the head, shells the furred parts, and
+  returns a `Rigged` creature with `setPose()`.
+- **Poses**: idle, happy (hop, arms or front legs up, open mouth), walk (alternating
+  legs, counter-swinging arms or diagonal pairs, a bob), eat (head down, hands to the
+  mouth, chomping), sleep (lies down, lids close, slow breathing). Blinks, ear
+  twitches, wing flutter and the ball run on top. The stage cycles them every few
+  seconds; `&pose=happy` holds one.
+- **Mouths**: a dark interior that opens, a tongue and (for Fennel) teeth that appear
+  as it does, a lip that lifts. Lids are now half-shells hinged at the eye, tilted back
+  by the species' lid amount and swung down to blink or sleep (the earlier scaled cap
+  never covered the eye).
+- **Marks with intent**: shapes with a colour and a soft edge, baked per vertex: the
+  Nubbin has a heart on its belly, a star on its brow and a crown that darkens to the
+  point; Fennel a mask across the eyes, a chest patch and a tail ring.
+- **Directional fur**: the sculptor bakes fur length and growth direction as vertex
+  attributes from a rule (long on the ruff, chest and tail; short on the muzzle and
+  legs; combed down and back) and the shells follow them (`FUR_DIR` define) instead
+  of puffing straight out.
+- **`docs/species-format.md`** documents the format and how to write a species; a
+  Chao-line evolution is meant to be a small diff on the Nubbin spec.
+- `?aaa=1&creature=1` and `&creature=3` now come from the specs; Mossling, Bolder and
+  Wisp stay hand-built until ported. Screenshots: `docs/samples/pose-*.jpg`.
+
+**Still to do from the list**: grounding (contact shadows, grass parting), material
+tuning per species, eyes that track a point, and then the port of the other three
+and the Keeper.
 ## Five creatures at a modern-console finish (2026-10-15, for Maor's pick)
 
 Maor, with a Palworld roster screenshot: "do the character animation this detailed.

@@ -1,0 +1,510 @@
+import * as THREE from 'three';
+import { stripes } from './creatures';
+import { V } from './sculpted';
+import type { SpeciesSpec } from './species';
+
+/**
+ * Two species written in the description format: the Nubbin (the Chao-faithful hero,
+ * a biped with wings and the emote ball) and Fennel (a furred quadruped). These are
+ * the templates the rest of the roster follows.
+ */
+const nubbinBody = '#9ad0ff';
+const nubbinTip = '#ffd94a';
+
+export const NUBBIN_SPEC: SpeciesSpec = {
+  name: 'Nubbin',
+  scale: 0.78,
+  gait: 'biped',
+  hipY: 0.74,
+  blend: 0.22,
+  surface: {
+    detail: 'smooth',
+    amount: 0.25,
+    bump: 0.25,
+    roughness: 0.52,
+    sheen: 0.6,
+    sheenColor: '#dff2ff',
+    clearcoat: 0.04,
+  },
+  fur: { layers: 2, length: 0.03, lift: 0.2, cell: 220 },
+  torso: {
+    prims: [
+      {
+        kind: 'ellipsoid',
+        a: V(0, 0.74, 0),
+        radii: V(0.72, 0.7, 0.68),
+        r: 0,
+        color: nubbinBody,
+        tag: 'belly',
+      },
+      // A neck stub that sits inside the head, so the join stays soft when the head turns.
+      { kind: 'sphere', a: V(0, 1.4, 0), r: 0.3, color: nubbinBody, tag: 'neck' },
+    ],
+    box: [V(-1.0, 0, -1.0), V(1.0, 1.8, 1.0)],
+  },
+  head: {
+    name: 'head',
+    pivot: V(0, 1.45, 0),
+    prims: [
+      {
+        kind: 'ellipsoid',
+        a: V(0, 1.92, 0),
+        radii: V(0.74, 0.68, 0.7),
+        r: 0,
+        color: nubbinBody,
+        tag: 'head',
+      },
+      {
+        kind: 'cone',
+        a: V(0, 2.35, 0),
+        b: V(0, 3.05, 0),
+        r: 0.42,
+        r2: 0.05,
+        color: nubbinBody,
+        tag: 'crown',
+      },
+      { kind: 'sphere', a: V(0, 3.06, 0), r: 0.1, color: nubbinTip, tag: 'tip' },
+    ],
+    box: [V(-1.0, 1.1, -1.0), V(1.0, 3.3, 1.0)],
+  },
+  parts: [
+    {
+      name: 'armL',
+      pivot: V(-0.6, 1.02, 0.1),
+      prims: [
+        {
+          kind: 'capsule',
+          a: V(-0.6, 1.02, 0.1),
+          b: V(-1.0, 0.76, 0.2),
+          r: 0.15,
+          color: nubbinBody,
+          tag: 'arm',
+        },
+        { kind: 'sphere', a: V(-1.03, 0.73, 0.22), r: 0.19, color: nubbinTip, tag: 'hand' },
+      ],
+      box: [V(-1.4, 0.4, -0.3), V(-0.2, 1.4, 0.6)],
+      resolution: 56,
+    },
+    {
+      name: 'armR',
+      pivot: V(0.6, 1.02, 0.1),
+      prims: [
+        {
+          kind: 'capsule',
+          a: V(0.6, 1.02, 0.1),
+          b: V(1.0, 0.76, 0.2),
+          r: 0.15,
+          color: nubbinBody,
+          tag: 'arm',
+        },
+        { kind: 'sphere', a: V(1.03, 0.73, 0.22), r: 0.19, color: nubbinTip, tag: 'hand' },
+      ],
+      box: [V(0.2, 0.4, -0.3), V(1.4, 1.4, 0.6)],
+      resolution: 56,
+    },
+    {
+      name: 'legL',
+      pivot: V(-0.36, 0.35, 0.1),
+      prims: [
+        {
+          kind: 'capsule',
+          a: V(-0.36, 0.4, 0.1),
+          b: V(-0.36, 0.2, 0.2),
+          r: 0.16,
+          color: nubbinBody,
+          tag: 'leg',
+        },
+        {
+          kind: 'ellipsoid',
+          a: V(-0.36, 0.15, 0.24),
+          radii: V(0.25, 0.15, 0.34),
+          r: 0,
+          color: nubbinTip,
+          tag: 'foot',
+        },
+      ],
+      box: [V(-0.8, -0.1, -0.3), V(0.1, 0.7, 0.8)],
+      resolution: 48,
+    },
+    {
+      name: 'legR',
+      pivot: V(0.36, 0.35, 0.1),
+      prims: [
+        {
+          kind: 'capsule',
+          a: V(0.36, 0.4, 0.1),
+          b: V(0.36, 0.2, 0.2),
+          r: 0.16,
+          color: nubbinBody,
+          tag: 'leg',
+        },
+        {
+          kind: 'ellipsoid',
+          a: V(0.36, 0.15, 0.24),
+          radii: V(0.25, 0.15, 0.34),
+          r: 0,
+          color: nubbinTip,
+          tag: 'foot',
+        },
+      ],
+      box: [V(-0.1, -0.1, -0.3), V(0.8, 0.7, 0.8)],
+      resolution: 48,
+    },
+  ],
+  shade: { top: 1.1, bottom: 0.72, yMax: 3.1 },
+  marks: [
+    // A pale heart on the belly and a star on the brow: deliberate, not noise.
+    {
+      kind: 'ellipsoid',
+      a: V(-0.18, 0.95, 0.56),
+      radii: V(0.22, 0.2, 0.2),
+      color: '#e4f3ff',
+      soft: 0.08,
+    },
+    {
+      kind: 'ellipsoid',
+      a: V(0.18, 0.95, 0.56),
+      radii: V(0.22, 0.2, 0.2),
+      color: '#e4f3ff',
+      soft: 0.08,
+    },
+    {
+      kind: 'ellipsoid',
+      a: V(0, 0.72, 0.62),
+      radii: V(0.3, 0.3, 0.18),
+      color: '#e4f3ff',
+      soft: 0.08,
+    },
+    { kind: 'sphere', a: V(0, 2.42, 0.6), r: 0.09, color: '#fff4b0', soft: 0.03 },
+    // The crown darkens toward the point.
+    { kind: 'capsule', a: V(0, 2.75, 0), b: V(0, 3.1, 0), r: 0.22, color: '#5f9ee8', soft: 0.35 },
+  ],
+  eyes: {
+    x: 0.27,
+    y: 2.0,
+    z: 0.56,
+    r: 0.18,
+    iris: '#2a4fd0',
+    lidColor: nubbinBody,
+    yaw: 0.6,
+    lid: 0.22,
+    irisScale: 0.78,
+  },
+  mouth: { x: 0, y: 1.72, z: 0.7, width: 0.34, lip: '#6a3a5a', teeth: false, tongue: '#ff8aa0' },
+  wings: { x: 0.42, y: 1.15, z: -0.6, size: 1, color: '#f6faff' },
+  ball: { y: 3.5, color: nubbinTip },
+};
+
+const fur = '#f0893a';
+const cream = '#fff3e0';
+const dark = '#5a3a2a';
+
+/** Fur grows longer on the ruff, chest and tail, short on the muzzle and legs, combed back and down. */
+function fennelFur(
+  p: THREE.Vector3,
+  n: THREE.Vector3,
+  q: { tag?: string },
+): { len: number; dir: THREE.Vector3 } {
+  const tag = q.tag ?? '';
+  let len = 0.6;
+  if (tag === 'ruff' || tag === 'bib' || tag === 'cheek') len = 1.0;
+  else if (tag === 'muzzle' || tag === 'paw') len = 0.15;
+  else if (tag === 'leg') len = 0.35;
+  else if (tag === 'tail') len = 1.0;
+  else if (tag === 'head') len = 0.5;
+  else if (tag === 'ear' || tag === 'inner') len = 0.3;
+  // Combed down and back, with a little of the surface normal so it still puffs.
+  const dir = new THREE.Vector3(
+    n.x * 0.4,
+    -0.55 - Math.max(0, n.y) * 0.3,
+    -0.5 + (p.z > 0.8 ? 0.6 : 0),
+  ).normalize();
+  return { len, dir };
+}
+
+export const FENNEL_SPEC: SpeciesSpec = {
+  name: 'Fennel',
+  scale: 0.95,
+  gait: 'quadruped',
+  hipY: 0.98,
+  blend: 0.16,
+  surface: {
+    detail: 'fur',
+    scale: 2.2,
+    amount: 0.55,
+    bump: 0.7,
+    roughness: 0.78,
+    sheen: 1.0,
+    sheenColor: '#ffe6c8',
+  },
+  fur: { layers: 12, length: 0.1, lift: 0.25, cell: 70 },
+  furRule: fennelFur,
+  torso: {
+    prims: [
+      {
+        kind: 'ellipsoid',
+        a: V(0, 0.98, -0.2),
+        radii: V(0.62, 0.6, 0.95),
+        r: 0,
+        color: fur,
+        tag: 'body',
+      },
+      {
+        kind: 'ellipsoid',
+        a: V(0, 0.8, 0.25),
+        radii: V(0.42, 0.45, 0.5),
+        r: 0,
+        color: cream,
+        tag: 'bib',
+      },
+      { kind: 'sphere', a: V(0, 1.35, 0.55), r: 0.3, color: fur, tag: 'neck' },
+      ...Array.from({ length: 10 }, (_, i): import('./sculpted').Prim => {
+        const a = (i / 10) * Math.PI * 2;
+        const r0 = 0.55;
+        return {
+          kind: 'cone',
+          a: V(Math.cos(a) * r0, 1.25 + Math.sin(a) * 0.1, 0.15 + Math.sin(a) * r0 * 0.6),
+          b: V(
+            Math.cos(a) * (r0 + 0.35),
+            1.1 + Math.sin(a) * 0.25,
+            0.05 + Math.sin(a) * (r0 + 0.3) * 0.6,
+          ),
+          r: 0.14,
+          r2: 0.02,
+          color: cream,
+          tag: 'ruff',
+        };
+      }),
+    ],
+    box: [V(-1.3, 0.1, -1.4), V(1.3, 1.9, 1.1)],
+  },
+  head: {
+    name: 'head',
+    pivot: V(0, 1.45, 0.5),
+    prims: [
+      {
+        kind: 'ellipsoid',
+        a: V(0, 1.78, 0.55),
+        radii: V(0.64, 0.56, 0.56),
+        r: 0,
+        color: fur,
+        tag: 'head',
+      },
+      {
+        kind: 'cone',
+        a: V(0, 1.56, 0.9),
+        b: V(0, 1.42, 1.32),
+        r: 0.27,
+        r2: 0.1,
+        color: cream,
+        tag: 'muzzle',
+      },
+      {
+        kind: 'cone',
+        a: V(-0.55, 1.6, 0.7),
+        b: V(-0.95, 1.45, 0.75),
+        r: 0.14,
+        r2: 0.02,
+        color: cream,
+        tag: 'cheek',
+      },
+      {
+        kind: 'cone',
+        a: V(0.55, 1.6, 0.7),
+        b: V(0.95, 1.45, 0.75),
+        r: 0.14,
+        r2: 0.02,
+        color: cream,
+        tag: 'cheek',
+      },
+      {
+        kind: 'cone',
+        a: V(-0.5, 1.45, 0.75),
+        b: V(-0.85, 1.2, 0.8),
+        r: 0.12,
+        r2: 0.02,
+        color: cream,
+        tag: 'cheek',
+      },
+      {
+        kind: 'cone',
+        a: V(0.5, 1.45, 0.75),
+        b: V(0.85, 1.2, 0.8),
+        r: 0.12,
+        r2: 0.02,
+        color: cream,
+        tag: 'cheek',
+      },
+      {
+        kind: 'cone',
+        a: V(-0.14, 2.2, 0.55),
+        b: V(-0.3, 2.45, 0.4),
+        r: 0.1,
+        r2: 0.02,
+        color: fur,
+        tag: 'crest',
+      },
+      {
+        kind: 'cone',
+        a: V(0, 2.2, 0.55),
+        b: V(0, 2.55, 0.4),
+        r: 0.1,
+        r2: 0.02,
+        color: fur,
+        tag: 'crest',
+      },
+      {
+        kind: 'cone',
+        a: V(0.14, 2.2, 0.55),
+        b: V(0.3, 2.45, 0.4),
+        r: 0.1,
+        r2: 0.02,
+        color: fur,
+        tag: 'crest',
+      },
+    ],
+    box: [V(-1.2, 1.0, -0.2), V(1.2, 2.8, 1.6)],
+    resolution: 96,
+  },
+  parts: [
+    ...(['FL', 'FR', 'BL', 'BR'] as const).map((k): import('./species').PartSpec => {
+      const side = k.endsWith('L') ? -1 : 1;
+      const front = k.startsWith('F');
+      const x = side * (front ? 0.4 : 0.4);
+      const z = front ? 0.45 : -0.8;
+      return {
+        name: `leg${k}`,
+        pivot: V(x, 0.85, z),
+        prims: [
+          {
+            kind: 'capsule',
+            a: V(x, 0.9, z),
+            b: V(x, 0.2, z + 0.05),
+            r: front ? 0.14 : 0.15,
+            color: fur,
+            tag: 'leg',
+          },
+          {
+            kind: 'ellipsoid',
+            a: V(x, 0.12, z + 0.15),
+            radii: V(0.19, 0.11, 0.27),
+            r: 0,
+            color: dark,
+            tag: 'paw',
+          },
+        ],
+        box: [V(x - 0.4, -0.1, z - 0.4), V(x + 0.4, 1.2, z + 0.6)],
+        resolution: 44,
+      };
+    }),
+    {
+      name: 'tail',
+      pivot: V(0, 0.9, -1.05),
+      prims: [
+        { kind: 'sphere', a: V(0, 0.9, -1.1), r: 0.26, color: fur, tag: 'tail' },
+        { kind: 'sphere', a: V(0, 1.05, -1.5), r: 0.38, color: fur, tag: 'tail' },
+        { kind: 'sphere', a: V(0, 1.4, -1.9), r: 0.44, color: fur, tag: 'tail' },
+        { kind: 'sphere', a: V(0, 1.85, -2.05), r: 0.36, color: fur, tag: 'tail' },
+        { kind: 'sphere', a: V(0, 2.15, -2.05), r: 0.26, color: cream, tag: 'tailtip' },
+        {
+          kind: 'cone',
+          a: V(0.2, 1.3, -2.1),
+          b: V(0.45, 1.1, -2.45),
+          r: 0.14,
+          r2: 0.02,
+          color: fur,
+          tag: 'tail',
+        },
+        {
+          kind: 'cone',
+          a: V(-0.2, 1.6, -2.2),
+          b: V(-0.5, 1.5, -2.55),
+          r: 0.14,
+          r2: 0.02,
+          color: fur,
+          tag: 'tail',
+        },
+      ],
+      box: [V(-0.9, 0.4, -2.8), V(0.9, 2.6, -0.6)],
+      blend: 0.25,
+      resolution: 80,
+    },
+    ...([-1, 1] as const).map((side): import('./species').PartSpec => {
+      const dx = side * 0.34;
+      return {
+        name: side < 0 ? 'earL' : 'earR',
+        pivot: V(dx, 2.1, 0.45),
+        prims: [
+          {
+            kind: 'cone',
+            a: V(dx, 2.1, 0.45),
+            b: V(dx * 1.4, 3.0, 0.28),
+            r: 0.27,
+            r2: 0.04,
+            color: fur,
+            tag: 'ear',
+          },
+          {
+            kind: 'cone',
+            a: V(dx, 2.22, 0.56),
+            b: V(dx * 1.32, 2.82, 0.42),
+            r: 0.14,
+            r2: 0.02,
+            color: '#ffb6c8',
+            tag: 'inner',
+          },
+          {
+            kind: 'cone',
+            a: V(dx * 1.4, 3.0, 0.28),
+            b: V(dx * 1.5, 3.25, 0.22),
+            r: 0.05,
+            r2: 0.01,
+            color: dark,
+            tag: 'tip',
+          },
+        ],
+        box: [V(dx - 0.7, 1.9, -0.2), V(dx + 0.7, 3.4, 1.0)],
+        blend: 0.05,
+        resolution: 64,
+      };
+    }),
+  ],
+  shade: { top: 1.1, bottom: 0.68, yMax: 2.6 },
+  marks: [
+    // A dark mask across the eyes, a cream chest patch and a dark ring on the tail.
+    {
+      kind: 'ellipsoid',
+      a: V(0, 1.9, 0.95),
+      radii: V(0.62, 0.17, 0.3),
+      color: '#9a5a2a',
+      soft: 0.1,
+    },
+    { kind: 'ellipsoid', a: V(0, 0.95, 0.6), radii: V(0.3, 0.26, 0.2), color: cream, soft: 0.08 },
+    {
+      kind: 'capsule',
+      a: V(0, 1.6, -2.0),
+      b: V(0, 1.75, -2.05),
+      r: 0.5,
+      color: '#b8602a',
+      soft: 0.08,
+    },
+  ],
+  colorRules: (p, n) => {
+    if (n.tag === 'head' && p.y < 1.56 && p.z > 0.7) return cream;
+    if (n.tag === 'leg' && p.y < 0.5) return dark;
+    return null;
+  },
+  extraShades: [stripes('z', 4.5, 0.18, '#c9641f', ['body'], 0.55)],
+  eyes: {
+    x: 0.27,
+    y: 1.88,
+    z: 1.02,
+    r: 0.17,
+    iris: '#4a9a3a',
+    lidColor: fur,
+    yaw: 0.7,
+    lid: 0.3,
+    irisScale: 0.74,
+  },
+  mouth: { x: 0, y: 1.3, z: 1.22, width: 0.3, lip: '#3a2420', teeth: true, tongue: '#ff8a9a' },
+};

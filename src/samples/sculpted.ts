@@ -93,6 +93,8 @@ export interface Sculpt {
   colorAt?: (p: THREE.Vector3, nearest: Prim) => string;
   /** Adjust a surface colour in place from position and normal: gradients, markings. */
   shade?: (p: THREE.Vector3, n: THREE.Vector3, c: THREE.Color, nearest: Prim) => void;
+  /** Fur length (0..1) and growth direction per surface point, written as attributes. */
+  fur?: (p: THREE.Vector3, n: THREE.Vector3, nearest: Prim) => { len: number; dir: THREE.Vector3 };
 }
 
 /** Polygonise a sculpt into one smooth, vertex-coloured mesh. */
@@ -126,6 +128,8 @@ export function sculpt(s: Sculpt, resolution = 112): THREE.BufferGeometry {
   const nrm = new Float32Array(count * 3);
   const col = new Float32Array(count * 3);
   const glow = new Float32Array(count);
+  const furLen = s.fur ? new Float32Array(count) : null;
+  const furDir = s.fur ? new Float32Array(count * 3) : null;
   const posArr = mc.positionArray as Float32Array;
   const nrmArr = mc.normalArray as Float32Array;
   const c = new THREE.Color();
@@ -158,6 +162,14 @@ export function sculpt(s: Sculpt, resolution = 112): THREE.BufferGeometry {
       s.shade(p, nTmp, c, best);
     }
     glow[i] = best.glow ?? 0;
+    if (s.fur && furLen && furDir) {
+      nTmp.set(nrm[i * 3]!, nrm[i * 3 + 1]!, nrm[i * 3 + 2]!);
+      const f = s.fur(p, nTmp, best);
+      furLen[i] = f.len;
+      furDir[i * 3] = f.dir.x;
+      furDir[i * 3 + 1] = f.dir.y;
+      furDir[i * 3 + 2] = f.dir.z;
+    }
     col[i * 3] = c.r;
     col[i * 3 + 1] = c.g;
     col[i * 3 + 2] = c.b;
@@ -168,6 +180,10 @@ export function sculpt(s: Sculpt, resolution = 112): THREE.BufferGeometry {
   geo.setAttribute('normal', new THREE.BufferAttribute(nrm, 3));
   geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
   geo.setAttribute('glow', new THREE.BufferAttribute(glow, 1));
+  if (furLen && furDir) {
+    geo.setAttribute('furLen', new THREE.BufferAttribute(furLen, 1));
+    geo.setAttribute('furDir', new THREE.BufferAttribute(furDir, 3));
+  }
   return geo;
 }
 
