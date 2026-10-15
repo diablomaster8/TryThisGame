@@ -357,3 +357,121 @@ Done: the five-creature roster in the species format with anchored faces; the fa
 In hand: grounding (contact shadow blob, body follows the slope, grass parting) is applied and typechecks but has not been checked in the browser.
 
 Next, in order: planted feet with knee joints; petting and sleep animation with squash and stretch; shape fixes (hands and feet, per-form blend, tufts, Bolder's neck, Mossling's cap, Wisp's core, one roster scale); eye tracking; the Keeper in the format; the Chao variant catalogue in the format; then the real 3D mode (title toggle, `render3d/` scene behind `WorldView`, Lakitu camera, environment port, worker sculpting and geometry cache); then the device pass. The Digimon-list expansions E1–E3 and campaigns S1–S4 wait for Maor's pick. `plan.md` has the subagent briefs.
+
+---
+
+## Story and content: tone, writing style and current plan (Hazel's Grove)
+
+This section governs all story and script work in `src/content/`. Read it, `docs/canon.md`
+and `plan.md` before touching any script. **Order of authority:** `docs/canon.md` → `src/content/STORY-BIBLE.md` → this section → `src/content/STYLE.md` and `EDU-STYLE.md` → anything older.
+
+### Tone decisions
+
+- **The heart.** "A story about slow hands." A grandchild inherits a garden and learns that
+  patience is a kind of strength. Under the cosy surface lies an old history, and an old cold.
+- **Themes, in order:**
+  1. Love is a method (Hazel's three rules).
+  2. The grey stays, and can be loved.
+  3. Pity: spare the wretched one.
+  4. We are made of being remembered.
+  5. Safe is not the same as well.
+  6. Stewardship.
+- **Register.** Tolkien's mix of homely comfort and ancient sorrow, in this game's own voice. Dry,
+  warm, specific, funny; quiet and grave at the turning points. Keep the deep register for Moss's
+  tales and the Long Night, and keep everyday scenes light.
+  - Never write fake-archaic English. Depth comes from rhythm, restraint, concrete images and old
+    names.
+- **Death and loss.** Nubbins fade gently; memorial flowers grow on the hill. Hazel "goes up the
+  hill". In the Learning Grove, death is said plainly and gently, with comfort straight after.
+- **Ratings.** `Audience` is `all` / `main` / `teen` / `adult`:
+  - `all`: the Learning Grove and the main game.
+  - `main`: main game only.
+  - `teen` (13+) and `adult` (18+): behind the **Mature content** setting (Off / 13+ / 18+, Off
+    by default).
+  - The Multiverse and It's Always Sunny are `adult`. Atlas A1, A3 and A4 are `teen`. A21,
+    S23, PA1 and Neopia's darker plots are `main`.
+- **Design rules (Maor):**
+  - No daily or repeatable chores, timers or farms. Every reward is one-time or unlimited.
+  - 20–35% of side stories change the campaign. It's 8 of 31 now (26%): S2, S9, S10, S13, S19,
+    S23, S26 and S27.
+  - Fun quests may quote their originals, except in the Learning Grove. They never trigger during
+    chapters 9–11.
+  - It's Always Sunny is adults-only. No song lyrics, ever.
+  - Art suggestions only for cosmetic rewards.
+  - The Multiverse, Atlas, Pixel's Arcade and Neopia may *read* Grove state, and never write it.
+- **Canon you will trip over** (the full list is in `docs/canon.md`):
+  - Sparks and Pixel are she/her. Dusty is they/them.
+  - Moss sat beside young Hazel a whole winter. She fidgeted and never asked him to speak. At the
+    thaw he said "You'll do."
+  - Briar's flower was the first on the hill.
+  - Chapter 11 spans a few days.
+  - Corvin first comes to the gate in S9; `c11-gate` is his return.
+  - Wisp's ear is torn. Bramble's folds over at the tip.
+  - Nubbins and animals don't speak in the Grove's story. The exceptions are Eternals, the
+    Shadows' half-voice, Sable's one word, the fun quests, S12's hive, Delve and the clockwork
+    parrot, and talking animals inside Atlas and Arcade worlds.
+  - New names: Linnet (S26) and Thimble (S23), as distinct from the valley children Wren and Pip.
+
+### Writing style
+
+- **Voice.** Plain, warm, specific, dry humour.
+  - The narrator speaks in present tense, second person ("You lift the latch.").
+  - The player speaks rarely; most of the player's voice is in choices.
+  - British-leaning spelling.
+  - Don't overuse em dashes.
+- **Shape.**
+  - Every line ≤ 160 characters, most under 100.
+  - Narration lines are at most two sentences.
+  - One idea per line, and every scene must work on a phone.
+  - Use `mood` where the portrait should change.
+- **Choices are real.** Every storyline has a signature choice that pays off three or more quests
+  later. A choice that changes nothing is cut or rewritten.
+- **The Keeper is a guest** in the Atlas, the Arcade and the Multiverse. The source's heroes keep
+  their story; your Nubbin acts, but doesn't speak.
+- **Quotes and lifted text.**
+  - **Public-domain text:** quote verbatim only once it has been checked against the named
+    edition. Otherwise paraphrase.
+  - **Copyrighted sources:** at most three one-sentence quotes per storyline.
+  - **`all` quests:** every quote needs a `childLines` replacement.
+  - **Never** song lyrics or long passages.
+- **Learning Grove.** Follow `EDU-STYLE.md`:
+  - **Bands:** sprout (3–6, read aloud, ≤ 14 words a line) and reader (7–10, ≤ 30 words).
+  - **Lessons:** at least one per scene, with an approved standard. Lessons grow out of the
+    story; never use quiz tone.
+  - **Quotes:** none from the originals.
+- **Format.** Follow `src/content/types.ts` and `STYLE.md`. Ids are kebab-case and unique, and
+  flags carry the line's prefix. Every file exports `_CHECKS` and `_FLAGS`, plus `_VARIANTS`
+  where it has variant scenes.
+- **Validate every content change** with all three:
+  - `npx tsc --noEmit -p .`
+  - `npx eslint src/content tests/tools`
+  - `npx tsx tests/tools/content-check.ts --warnings`, which must report `problems: 0`.
+
+  The warnings (pronouns, timers, line caps) are for a human to judge.
+
+### Current plan (2026-10-15)
+
+- **Done, scripted and checked:**
+  - Campaign v2: 12 chapters and 8 endings, including the new "Open" variant of Hazel's Grove.
+  - Side stories S1–S31.
+  - Fun quests Q1–Q65, Neopia, and the Multiverse (93 storylines and 6 endgames).
+  - Readers and results.
+  - Learning Grove versions, in both bands, of the campaign, S1–S22 and the Python, Bean and
+    Avatar quests. Sunny, Neopia and the Multiverse are never in the Learning Grove.
+  - Hebrew and Japanese questlines.
+  - Atlas pages A11–A21.
+  - The full review and fix pass (`docs/fix-changelog.md`).
+- **Remaining:** the task list, with models and copy-paste prompts, is in `plan.md`.
+  1. Scripting: Atlas A22–A31 and A1–A10, Pixel's Arcade PA1–PA5, fun packs Q66–Q95, and the
+     Learning Grove lines LB and LK.
+  2. Learning Grove versions of the `all` storylines among the new 50.
+  3. Quote verification and cultural-adviser packets.
+  4. Engine work, CV1–CV6 in `docs/grove-backlog-prompt.md`: campaign wiring, endings, the
+     Mature content setting, the Learning Grove mode, language questlines, and the
+     Atlas/Arcade/Multiverse saves.
+- **Open decisions for Maor:**
+  - Seven fun-quest quotes to verify against the shows.
+  - The existing once-a-day gifts in `sim/daily.ts` and `sim/neighbourhood.ts`, which break the
+    no-chores rule.
+  - Licences for the copyrighted Atlas and Arcade sources.
+  - Adviser sign-off for the culture-sensitive pages.

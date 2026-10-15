@@ -1,0 +1,115 @@
+{
+  "title": "Hazel's Grove - The Letter (opening, voice-over sample)",
+  "output": "hazels-grove-intro",
+  "max_seconds": 300,
+
+  "voices": {
+    "hazel":  { "voice": "bf_emma",     "lang": "b", "speed": 0.92, "pitch": 0.93, "fx": "letter" },
+    "fern":   { "voice": "af_heart",    "lang": "a", "speed": 1.0,  "fx": "outdoor" },
+    "sparks": { "voice": "af_bella",    "lang": "a", "speed": 1.08, "fx": "outdoor" },
+    "marina": { "voice": "bf_isabella", "lang": "b", "speed": 0.96, "pitch": 0.97, "fx": "outdoor" },
+    "you":    { "voice": "am_michael",  "lang": "a", "speed": 0.97, "fx": "outdoor" },
+    "corvin": { "voice": "bm_george",   "lang": "b", "speed": 0.86, "pitch": 0.95, "fx": "close" }
+  },
+
+  "pronounce": {
+    "Nubbin": "/nˈʌbɪn/",
+    "Nubbins": "/nˈʌbɪnz/"
+  },
+
+  "moods": {
+    "neutral": { "speed": 1.00, "gain": 0,  "before": 0.30, "sentence": 0.30, "ellipsis": 0.65 },
+    "happy":   { "speed": 1.06, "gain": 1,  "before": 0.18, "sentence": 0.22, "ellipsis": 0.50 },
+    "soft":    { "speed": 0.90, "gain": -3, "before": 0.55, "sentence": 0.48, "ellipsis": 0.95 },
+    "sad":     { "speed": 0.86, "gain": -4, "before": 0.65, "sentence": 0.55, "ellipsis": 1.05 },
+    "think":   { "speed": 0.94, "gain": -1, "before": 0.45, "sentence": 0.42, "ellipsis": 0.85 },
+    "shock":   { "speed": 1.12, "gain": 2,  "before": 0.05, "sentence": 0.16, "ellipsis": 0.40 },
+    "angry":   { "speed": 1.08, "gain": 2,  "before": 0.10, "sentence": 0.20, "ellipsis": 0.45 }
+  },
+
+  "pacing": {
+    "mode": "flow",
+    "final_sentence_slowdown": 0.95,
+    "cut_off_overlap": 0.12,
+    "beat_seconds_per_word": 0.075,
+    "beat_min": 0.7,
+    "beat_max": 3.2,
+    "after_line": 0.25
+  },
+
+  "cues": [
+    { "music": "motif" },
+    { "ambience": "day" },
+    { "beat": "Late spring. The road runs out a little before the Grove does. The last of it is grass, and then a gate." },
+    { "beat": "The gate is stuck. It always was. You lift and push, the way she taught you.", "sfx": "gate" },
+    { "beat": "The Grove is overgrown and quiet. On the signpost, under a stone, a letter in your grandmother's hand." },
+    { "beat": "The cottage. The kettle, cold. One cup, washed and turned upside down. For whoever came next." },
+    { "beat": "You sit down on the step, where she used to sit, and open the letter.", "sfx": "paper" },
+
+    { "who": "hazel", "mood": "soft", "text": "If you're reading this, I've gone up the hill and I'm not coming down for a while. | Don't be dramatic about it." },
+    { "beat": "It is so exactly her that, for a while, you can't read the next bit.", "min": 2.2 },
+    { "who": "hazel", "mood": "soft", "text": "There are two eggs in the long grass. They were waiting for someone with warm hands. | That's *you*." },
+    { "who": "hazel", "mood": "neutral", "text": "Rules. One: feed them before you feed yourself. Two: never, ever throw one. Three: when you don't know what to do, sit down next to them, and wait." },
+    { "who": "hazel", "mood": "neutral", "text": "Moss will be watching from the hill. He's older than the trees, and twice as stubborn. He'll come down when he decides *you're* worth it." },
+    { "who": "hazel", "mood": "happy", "text": "Love, Gran. | P.S. The gate sticks. Lift and push." },
+    { "beat": "You laugh. It comes out the wrong shape. Something small and grey watches from the top of the western hill.", "min": 2.0 },
+
+    { "who": "fern", "mood": "happy", "text": "Hello? Oh! You're Hazel's. You've got her chin. I'm Fern, from next door. I've been keeping the trees alive, badly." },
+    { "beat": "She sees the letter in your hand, and her face changes." },
+    { "who": "you", "mood": "soft", "text": "Is she...?" },
+    { "who": "fern", "mood": "soft", "text": "No. | Not *up* there. Not the way people mean." },
+    { "who": "fern", "mood": "soft", "text": "I go and look at the flowers. Every week. There isn't a new one. I'd know. I *know* all of them." },
+    { "who": "fern", "mood": "neutral", "text": "She went off at the end of the winter. Big coat, bag of fruit, the walking stick she pretends she doesn't need. Said she had some feeding to do." },
+    { "who": "fern", "mood": "neutral", "text": "She told me you'd come. Didn't say when. I put the stone on the letter so it wouldn't blow away. That was my job." },
+    { "who": "fern", "mood": "happy", "text": "I'm very proud of the stone, actually." },
+    { "who": "you", "mood": "happy", "text": "It's a very good stone." },
+    { "who": "fern", "mood": "happy", "text": "Thank you. Nobody ever mentions the stone. It's from the stream. I tried four. This one had the right sort of face." },
+    { "beat": "From the long grass, out by the fourth lantern post, something hums. Low, like a kettle thinking about it.", "sfx": "hum", "min": 2.4 },
+
+    { "ambience": "dusk" },
+    { "beat": "It is warm. Small and damp, and warmer than anything has a right to be. It leans into your hand. Then it leans into it entirely.", "sfx": "hatch", "min": 3.0 },
+    { "who": "sparks", "mood": "shock", "text": "HEY. New Keeper. Don't move. There's a lantern post behind you and I've nearly fixed it." },
+    { "beat": "A crackle, a small blue flash, and the smell of burnt hair.", "sfx": "zap" },
+    { "who": "sparks", "mood": "happy", "text": "Fixed it. Mostly. The hair grows back, before you ask. I'm Sparks. I run the fast ones. Yours is cute. Is it fast? It looks fast." },
+    { "who": "fern", "mood": "neutral", "text": "It is three minutes old, Sparks." },
+    { "who": "sparks", "mood": "neutral", "text": "Potential, Fern. I'm talking about potential." },
+    { "beat": "Your Nubbin sneezes. A tiny blue spark jumps off the end of its nose.", "sfx": "sneeze" },
+    { "who": "sparks", "mood": "happy", "text": "Did you SEE that? It likes *me*. It's caught it off *me*." },
+    { "who": "fern", "mood": "neutral", "text": "That *isn't* how anything works." },
+    { "who": "sparks", "mood": "neutral", "text": "Right. Dusk. Watch this." },
+    { "beat": "One by one, the lanterns come up: the pond, the stream, the old wall. Gold on the water.", "sfx": "lanterns", "min": 3.0 },
+    { "beat": "The fourth, out by the long grass, catches, gutters, and settles into a thin, uncertain flicker.", "sfx": "flicker" },
+    { "who": "sparks", "mood": "angry", "text": "Ugh. That one. New wick, new glass, new everything. Three times." },
+    { "who": "fern", "mood": "neutral", "text": "Has it *ever* worked?" },
+    { "who": "sparks", "mood": "think", "text": "Never has. Not properly. Not since before my time." },
+    { "who": "sparks", "mood": "neutral", "text": "Hazel said to leave it be. She'd stand out there some evenings, with it going like that. Just stand." },
+    { "who": "fern", "mood": "soft", "text": "Like she was waiting for someone to knock." },
+    { "beat": "Nobody says anything for a moment. On the hill, the grey shape has moved one step down.", "sfx": "wind", "min": 3.0 },
+
+    { "ambience": "day" },
+    { "beat": "Morning. Mist on the pond. A woman comes up the lane smelling of salt and weed, with a bucket that slops at every step.", "sfx": "gate", "min": 2.4 },
+    { "who": "marina", "mood": "happy", "text": "Morning. Marina. I keep the tide pools past the ridge. Hazel used to trade me fruit for swimming lessons. For the Nubbins, not for her." },
+    { "who": "marina", "mood": "soft", "text": "She'll be back. She owes me a bag of plums. Hazel doesn't leave debts." },
+    { "who": "marina", "mood": "think", "text": "Oh, and if a man in a grey coat comes by talking about investment, don't sell him anything. Not fruit. Not eggs. Nothing." },
+    { "who": "sparks", "mood": "neutral", "text": "Corvin. Runs the Circuit, up the valley. His lot win everything. They're so fast. They're so quiet." },
+    { "who": "sparks", "mood": "think", "text": "I don't like quiet ones. I like the ones that yell." },
+    { "beat": "Marina looks up the valley the way you would look at weather coming.", "sfx": "wind", "min": 2.4 },
+
+    { "ambience": "afternoon" },
+    { "beat": "Late afternoon. A man in a grey coat stands at the gate. He doesn't lift. He doesn't push. The gate swings open for him, without a sound.", "sfx": "gate-smooth", "min": 3.0 },
+    { "who": "corvin", "mood": "neutral", "text": "Hazel's heir. You have her stubborn little chin. Corvin Vale. I run the Circuit, up the valley. The real races." },
+    { "beat": "He offers his hand. It is cold. Not cool: cold, like a stone lifted out of a winter stream." },
+    { "who": "corvin", "mood": "think", "text": "I knew your grandmother well. I was her student, once. We disagreed about methods. She thought *love* was a method." },
+    { "who": "corvin", "mood": "neutral", "text": "Is there one for *her*? | Up there." },
+    { "who": "you", "mood": "neutral", "text": "No." },
+    { "who": "corvin", "mood": "soft", "text": "No. | There wouldn't be. She'd want to argue with it first." },
+    { "beat": "His hand goes to his coat, to the breast pocket, and rests there." },
+    { "who": "corvin", "mood": "neutral", "text": "Your young one there. Good bones. I will give you two hundred Shells for it, right now, and it will eat better with me than it ever will here." },
+    { "beat": "Your Nubbin has gone very still behind your legs.", "min": 1.6 },
+    { "who": "you", "mood": "neutral", "text": "No. They're not for sale." },
+    { "who": "corvin", "mood": "think", "text": "Of course. | Her chin. | The offer stands. Everyone sells eventually, when things get hard. Things always get hard." },
+    { "beat": "He goes. The gate swings shut behind him, on its own. On the top rail, where his hand rested, a thin grey bloom of frost.", "sfx": "frost", "min": 3.0 },
+    { "beat": "Behind your legs, something small lets out a long breath.", "min": 2.0 },
+    { "music": "motif" }
+  ]
+}

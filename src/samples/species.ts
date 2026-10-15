@@ -170,6 +170,13 @@ export interface Rigged extends Creature {
 
 /** How far the body sinks below the sampled ground, in world units: feet a hair into the grass. */
 const GROUND_SINK = 0.02;
+/**
+ * How far the contact shadow floats above the sampled ground, in world units. The
+ * terrain mesh is a chord of its height function (up to 0.035 above it in a dip at the
+ * stage's 0.5-unit spacing), so less than this z-fights or sinks between vertices.
+ */
+const BLOB_CLEARANCE = 0.05;
+const BLOB_UPRIGHT = new THREE.Quaternion();
 
 let blobTexture: THREE.CanvasTexture | null = null;
 /** A soft radial shadow, painted once. */
@@ -579,12 +586,17 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
     head.add(light);
   }
 
+  // Extras (jaws, a ring, a trail) are part of the figure, so they hang before the feet
+  // are measured.
+  const extrasUpdate = spec.extras?.({ root, hips, bones, meshes, mat }) ?? null;
+
   // Where the feet are: the lowest point of the figure at rest. The specs put their
   // feet near y = 0 but not on it (Bolder's leg tips reach 0.2 below, Mossling stops
   // short), so the stage lifts the root by this much to set the soles on the ground.
   root.updateMatrixWorld(true);
   const corner = new THREE.Vector3();
   let footY = Infinity;
+  let footMesh = "";
   root.traverse((o) => {
     if (!(o instanceof THREE.Mesh)) return;
     const geo = o.geometry as THREE.BufferGeometry;
@@ -592,10 +604,30 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
     const bb = geo.boundingBox!;
     for (let i = 0; i < 8; i++) {
       corner.set(i & 1 ? bb.max.x : bb.min.x, i & 2 ? bb.max.y : bb.min.y, i & 4 ? bb.max.z : bb.min.z);
-      footY = Math.min(footY, corner.applyMatrix4(o.matrixWorld).y);
+      const cy = corner.applyMatrix4(o.matrixWorld).y;
+      if (cy < footY) footMesh = o.uuid;
+      footY = Math.min(footY, cy);
     }
   });
   if (!Number.isFinite(footY)) footY = 0;
+  root.userData.footY = footY;
+  root.userData.footMesh = footMesh;
+  // The contact points: the lowest rest vertex of every part that reaches near the
+  // ground (a sole, a leg tip, the belly of a sitter). Each frame the stage drops the
+  // root until the lowest of them touches the ground beneath it, which a plane fit
+  // through four probes cannot do on ground that curves across the footprint.
+  const contacts: THREE.Vector3[] = [];
+  root.traverse((o) => {
+    if (!(o instanceof THREE.Mesh)) return;
+    const p = (o.geometry as THREE.BufferGeometry).attributes.position as THREE.BufferAttribute;
+    let low: THREE.Vector3 | null = null;
+    for (let i = 0; i < p.count; i++) {
+      corner.fromBufferAttribute(p, i).applyMatrix4(o.matrixWorld);
+      if (corner.y < footY + 0.25 && (!low || corner.y < low.y)) low = corner.clone();
+    }
+    if (low) contacts.push(low);
+  });
+  const contact = new THREE.Vector3();
 
   // The contact shadow: a soft blob on the ground under the body. It lightens and
   // shrinks as the body lifts off (a hop, a hover).
@@ -608,15 +640,23 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
     polygonOffset: true,
     polygonOffsetFactor: -2,
   });
-  const blob = new THREE.Mesh(new THREE.PlaneGeometry(footprint * 2.4, footprint * 2.4), blobMat);
-  blob.rotation.x = -Math.PI / 2;
-  // The root sits a hair below the sampled ground (feet in the grass) and the terrain
-  // mesh is coarser than its height function, so the blob needs real clearance or it
-  // z-fights and sinks between the terrain's vertices. It is a flat shadow: a few
-  // centimetres of float are invisible from the stage camera.
-  blob.position.y = footY + (GROUND_SINK + 0.03) / spec.scale;
+  // The blob is a small grid rather than a card: the ground curves by several
+  // centimetres across a footprint, so a flat card floats on one side and is cut off by
+  // the terrain on the other. With a ground sampler the stage pins it flat in world space
+  // and each vertex takes the height under it (see `animate`); without one it lies
+  // under the feet.
+  const blobGeo = new THREE.PlaneGeometry(footprint * 2.4, footprint * 2.4, 8, 8);
+  blobGeo.rotateX(-Math.PI / 2);
+  const blob = new THREE.Mesh(blobGeo, blobMat);
+  blob.position.y = footY + BLOB_CLEARANCE / spec.scale;
   blob.renderOrder = 1;
+  blob.frustumCulled = false;
+  blob.updateMatrix();
+  blob.matrixAutoUpdate = false;
   root.add(blob);
+  const blobWorld = new THREE.Matrix4();
+  const blobPos = new THREE.Vector3();
+  const blobScale = new THREE.Vector3();
 
   root.scale.setScalar(spec.scale);
   root.userData.footprint = footprint * spec.scale;
@@ -649,7 +689,6 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
         side,
         (i + (side > 0 ? 0.5 : 0)) * 1.57,
       ]);
-  const extrasUpdate = spec.extras?.({ root, hips, bones, meshes, mat }) ?? null;
   const animate = (t: number) => {
     const dt = t - poseSince;
     const s = Math.sin;
@@ -664,7 +703,8 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
         set('head', s(t * 1.1) * 0.05, s(t * 0.7) * 0.14, s(t * 0.9) * 0.07);
         if (spider) {
           for (const [n, side, phase] of SPIDER_LEGS) {
-            const k = s(t * 1.6 + phase);
+            // Lift only: the rest pose has the tips on the ground, so a dip would sink them.
+            const k = Math.max(0, s(t * 1.6 + phase));
             set(n, 0, s(t * 1.1 + phase) * 0.05, side * (k * 0.07 + Math.max(0, k - 0.75) * 0.6));
           }
         } else if (quad) {
@@ -787,9 +827,12 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
     extrasUpdate?.(t, pose);
     // Grounding: the shadow follows the lift, and the body follows the slope under it.
     const lift = THREE.MathUtils.clamp(hips.position.y - spec.hipY, 0, 1.5);
-    blobMat.opacity = 1 - lift * 0.45;
-    blob.scale.setScalar(1 - lift * 0.2);
-    if (rig.ground) {
+    blobMat.opacity = 1 - lift * 0.7;
+    const shrink = 1 - lift * 0.3;
+    if (!rig.ground) {
+      blob.scale.setScalar(shrink);
+      blob.updateMatrix();
+    } else {
       const yaw = root.rotation.y;
       const f = footprint * spec.scale;
       const fx = Math.sin(yaw) * f;
@@ -807,6 +850,28 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
       root.rotation.x = -Math.atan2(hF - hB, 2 * f) * 0.85;
       root.rotation.z = Math.atan2(hR - hL, 2 * f) * 0.85;
       root.position.y = (hF + hB + hR + hL) / 4 - GROUND_SINK - footY * spec.scale;
+      // Then the exact drop: the lowest contact point, carried by the root's yaw and tilt
+      // alone (so a hop still leaves the ground), lands a hair into the grass.
+      if (contacts.length) {
+        root.updateMatrix();
+        let worst = Infinity;
+        for (const c of contacts) {
+          contact.copy(c).applyMatrix4(root.matrix);
+          worst = Math.min(worst, contact.y - rig.ground(contact.x, contact.z));
+        }
+        root.position.y -= worst + GROUND_SINK;
+      }
+      // The blob hugs the ground: its matrix is pinned flat in world space under the
+      // root (whose parent is taken to be untransformed, as on the stage), and each
+      // vertex takes the ground height under it.
+      const bs = spec.scale * shrink;
+      root.updateMatrix();
+      blobWorld.compose(blobPos.set(px, 0, pz), BLOB_UPRIGHT, blobScale.setScalar(bs));
+      blob.matrix.copy(root.matrix).invert().multiply(blobWorld);
+      const bp = blobGeo.attributes.position as THREE.BufferAttribute;
+      for (let i = 0; i < bp.count; i++)
+        bp.setY(i, (rig.ground(px + bp.getX(i) * bs, pz + bp.getZ(i) * bs) + BLOB_CLEARANCE) / bs);
+      bp.needsUpdate = true;
     }
     mouth.open(mouthOpen);
     // The face: the pose's expression (with the species' overrides) eased in over a beat.

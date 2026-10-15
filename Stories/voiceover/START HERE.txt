@@ -1,0 +1,66 @@
+HAZEL'S GROVE - VOICE-OVER BUILDER (WINDOWS) - v3
+=================================================
+
+What's new in v3
+  - Smoother: each line is now spoken in one go, so the voice carries its
+    melody across sentences like a person does (v2 voiced sentence by
+    sentence, which could sound choppy).
+  - You can steer emphasis when the voice stresses the wrong word.
+  - "Takes": hear a line four ways side by side and pick the best by ear.
+  - No more re-downloading: v3 reuses the engine you already installed.
+
+Install without downloading again
+  Copy the files from this zip INTO the folder where you ran v2 (or v1), and
+  choose "Replace" when Windows asks. Then double-click make_voiceover.bat.
+  It finds the engine that's already there and starts straight away.
+  (Unzipped somewhere new, it installs once more into a shared place in your
+  user folder - and every later version will reuse that one.)
+
+Fixing emphasis and flow (edit script.json in Notepad, then run again)
+  The voice reads words but can't tell which one matters in the scene, so
+  you mark it, right inside the line's text:
+
+    *word*    stress this word.      "That's *you*."   "It likes *me*."
+              Works best on small words (you, me, her, is, ever, up).
+    _word_    soften a word it leans on wrongly.   "I _really_ mean it."
+    ~word~    no stress at all on that word.
+    CAPITALS  shouted: stressed and a little louder.  "Did you SEE that?"
+    |         a breath-pause exactly here.  "I'm not coming down for a while. | Don't be dramatic about it."
+
+  A big word can't be stressed MORE than it already is. If the wrong big
+  word is winning, soften that one with _word_ instead.
+
+  Names said wrong? Add them under "pronounce" (Nubbin is already there):
+      "Corvin": "/kˈɔɹvɪn/"
+  (These are the engine's phoneme letters; copy the style of the Nubbin entry.)
+
+Takes (the quickest way to fix a line that sounds off)
+  1. Double-click make_takes.bat. Type the line numbers (from
+     output\pacing-report.txt), e.g. 3,7,12, or just press Enter for the
+     lines the report flags.
+  2. Listen to output\takes:  _a as written,  _b a touch slower,
+     _c sentence by sentence (exact pauses),  _d a touch brisker.
+  3. In script.json, add the one you like to that line, e.g.
+       { "who": "fern", "mood": "soft", "take": "b", "text": "..." }
+     and run make_voiceover.bat again.
+
+Other controls (per line)
+  "mood"    happy, soft, sad, think, shock, angry, neutral
+  "speed"   0.9 slower ... 1.1 faster
+  "before" / "after"   pause in seconds around the line
+  "gain"    louder (+2) or quieter (-2)
+
+Voices (under "voices")
+  Best-sounding: af_heart, af_bella (American women). Others: bf_emma,
+  bf_isabella, bf_alice, bf_lily, bm_george, bm_lewis, bm_daniel, bm_fable,
+  af_nicole, af_sarah, af_aoede, am_michael, am_adam, am_puck, am_fenrir.
+  Blend two for a new voice: "voice": "bf_emma,af_heart"  (add a name twice
+  to weight it more: "bf_emma,bf_emma,af_heart"). "lang": "b" keeps a British
+  accent, "a" American. "pitch" below 1 deepens a voice.
+
+Good to know
+  - The output folder: hazels-grove-intro.mp3, pacing-report.txt, lines\
+    (each spoken line as a WAV for the game), takes\ (if you made takes).
+  - Kokoro is Apache-2.0 licensed: the audio can ship in the game.
+  - Problems? Delete the .venv folder here (or %LOCALAPPDATA%\GroveVoice)
+    and run the .bat again.
