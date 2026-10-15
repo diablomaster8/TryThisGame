@@ -123,7 +123,7 @@ function paintTreeSprite(size: number): Raster {
   return r;
 }
 
-interface Look {
+export interface Look {
   style: RetroStyle;
   texSize: number;
   filter: 'nearest' | 'linear' | 'mip';
@@ -136,7 +136,7 @@ interface Look {
   outlines: boolean;
 }
 
-const LOOKS: Record<RetroStyle, Look> = {
+export const LOOKS: Record<RetroStyle, Look> = {
   n64: {
     style: 'n64',
     texSize: 64,
@@ -340,9 +340,18 @@ class Materials {
 
 // ---------------------------------------------------------------- the valley
 
-interface Build {
+export interface SurfaceMaker {
+  surface(
+    geo: THREE.BufferGeometry,
+    kind: TexKind | 'white',
+    color?: string,
+    shiny?: boolean,
+  ): THREE.Material;
+}
+
+export interface Build {
   scene: THREE.Scene;
-  mats: Materials;
+  mats: SurfaceMaker;
   look: Look;
   sprites: THREE.Sprite[];
 }
@@ -775,7 +784,7 @@ function part(
  * to the pointed crown, big dark eyes with a catchlight, yellow tips on hands and feet,
  * little wings and the emote ball.
  */
-function nubbinFine(b: Build, x: number, z: number, body: string, facing: number): void {
+export function nubbinFine(b: Build, x: number, z: number, body: string, facing: number): void {
   const g = new THREE.Group();
   const tip = '#ffe066';
   part(
@@ -869,7 +878,7 @@ function nubbinFine(b: Build, x: number, z: number, body: string, facing: number
  * straps and buttons, hair under the cap, eyes with pupils and catchlights, a nose,
  * ears, gloves and rounded shoes.
  */
-function keeperFine(b: Build, facing: number): void {
+export function keeperFine(b: Build, facing: number): void {
   const g = new THREE.Group();
   const skin = '#ffd0a8';
   const red = '#e03030';

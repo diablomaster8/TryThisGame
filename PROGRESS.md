@@ -9,6 +9,48 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## The HD port at a AAA finish (2026-10-15, for Maor's pick)
+
+Maor: "step in the right direction. continue to refine. give me examples like a triple
+A game." `?aaa=1..3` (`src/samples/aaa-styles.ts`, lazy-loaded) is the console-era
+valley rebuilt the way a current console game builds a scene, in three moods;
+screenshots in `docs/samples/aaa-*.jpg`.
+
+**What is in the frame**
+
+- A physical sky (Preetham, `three/addons` Sky) lights the whole scene through an
+  environment map; the sun is a directional light with soft 4k shadow maps; fog takes
+  the sky's colour.
+- The valley is a heightmap mesh (192×192) whose material blends grass, dirt and rock
+  by slope and by the path, each with its own painted 512px albedo and a normal map
+  derived from a painted height field, through a small injection into three's
+  standard shader. The cliffs are the same mesh rising past the rim.
+- Twelve thousand instanced grass tufts (alpha cards) sway in the wind; five trees
+  are bark-mapped trunks with branches and canopies of 170 leaf cards each, lit tops
+  lighter, shaded bottoms darker, casting alpha-tested shadows; fruit has clearcoat.
+- The cobbled mound is normal-mapped and roughened; the cottage has plaster, a tiled
+  roof, a chimney and windows that light up (with point lights) after noon.
+- The pond is physical water with refraction and a scrolling normal map.
+- The modelled Keeper and Nubbins wear cloth (sheen) and clearcoat materials.
+- Post: screen-space ambient occlusion, a clamp, bloom, depth of field, ACES filmic
+  tone mapping, a grade with vignette, SMAA anti-aliasing.
+
+**The moods**: `aaa-1-noon.jpg` (high sun, light haze), `aaa-2-golden.jpg` (sun at
+7°, long warm shadows, fireflies, lit windows, stronger bloom), `aaa-3-rain.jpg`
+(overcast, wet clearcoat ground and stone, drizzle, lit windows, desaturated grade).
+`&closeup` frames the characters from the front.
+
+**Lesson learned**: bloom in a scene lit above 1.0 in linear light needs its threshold
+set above the sunlit ground (2.8 here), or the whole frame glows; the first pass of
+this sample was a white haze for that reason. Debug switches stay on the URL:
+`nobloom`, `nossao`, `nodof`, `nofog`.
+
+**Cost**: this is desktop-class (SSAO, DoF, 4k shadows, 12k grass instances) and
+would need a quality ladder for phones: no SSAO, 2k shadows, a third of the grass,
+smaller textures. The art pipeline it implies for the real build: painted PBR texture
+sets (albedo, normal, roughness) per material from the existing noise painters, leaf
+and tuft cards, lathe-and-primitive characters with physical materials, one scene
+per place (Grove, Hollow floors, race courses) behind the same view interface.
 ## Five console-era 3D directions (2026-10-15, for Maor's pick)
 
 Maor, after the first five: "try again with better, think like this" with a Super
