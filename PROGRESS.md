@@ -44,6 +44,21 @@ round cones and tori as primitives) with:
 5. **Wisp** (`creature-5-wisp.jpg`): a hovering violet spirit with a glowing core,
    wisp arms and flame tips, a tail that trails, motes orbiting, a light of its own.
 
+**Second pass** (Maor: "getting much better but still not there"). What was flat is now
+baked and layered: a top-to-underside light gradient and markings (stripes, spots)
+baked into the sculpt colours through a `shade` hook; shell fur on the fox (the body
+drawn ten more times, each shell pushed out along the normal and thinned by a 3D
+hash, so the silhouette breaks into strands); painted anime irises (limbal ring, lit
+crescent, radial streaks, two catchlights) on a disc under a glossy cornea; a cool rim
+light on the stage; and a lot more secondary shape per creature: a ruff of fur tufts, a
+head crest, dark socks, striped back and tufted tail on Fennel; moss tufts, root toes,
+gills under the cap, a sprout and nine collar leaves on Mossling; three overlapping
+shell segments, ridged horns, jointed legs with claws, a third horn and an ember light
+on Bolder; four swaying flame crests, lit arm tips, fangs and an orbit ring on Wisp; a
+lighter belly and a velvet sheen on the Nubbin. Lesson: the marching-cubes add-on
+returns raw gradient normals, not unit vectors; everything downstream (the gradient
+bake, the shell offsets) needs them normalised.
+
 **What this says for the real build.** A species is a short description: a list of
 blended shapes with colour rules and a detail kind, plus which pieces move. The
 current catalogue (~100 looks across the Chao, pocket and digital lines) becomes data

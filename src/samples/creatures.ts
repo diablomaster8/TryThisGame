@@ -5,11 +5,13 @@ import { sculpt, V, type Prim } from './sculpted';
 
 /**
  * Five creatures at a modern-console finish (`?aaa=1&creature=1..5`): each one a
- * sculpted single surface (see `sculpted.ts`) with its own silhouette, a surface
- * detail map projected triplanar (fur, scales, leaf veins, armour plates, a smooth
- * glow) that gives albedo and normal detail without UVs, colour regions, big glossy
- * eyes with irises and catchlights, and articulated pieces (ears, tails, wings, caps,
- * wisps) that idle-animate. The mood, light and post come from the AAA stage.
+ * sculpted single surface (see `sculpted.ts`) with its own silhouette and plenty of
+ * secondary shape (tufts, ruffs, crests, plates, claws), colour that is baked rather
+ * than flat (a light-to-shadow gradient over the body, markings, two-tone fur), a
+ * surface detail map projected triplanar (fur, scales, leaf veins, armour plates, a
+ * smooth glow) for albedo and normal detail without UVs, shell fur on the furred
+ * ones, painted anime irises, and articulated pieces that idle-animate. The mood,
+ * light and post come from the AAA stage.
  */
 export interface Creature {
   group: THREE.Group;
@@ -45,7 +47,6 @@ function paintDetail(kind: Detail): DetailMaps {
       let h: number;
       switch (kind) {
         case 'fur': {
-          // Fine strands running down, clumped by a slower field.
           const strand = Math.abs(vnoise(x / 2.2 + n * 6, y / 26, 82) - 0.5);
           const clump = fbm(x / 30, y / 18, 2, 83);
           v = 0.42 + (strand < 0.08 ? 0.22 : 0) + clump * 0.18;
@@ -123,23 +124,30 @@ function paintDetail(kind: Detail): DetailMaps {
 
 interface SurfaceOpts {
   detail: Detail;
-  /** Repeats per unit. */
   scale?: number;
-  /** How much the detail albedo modulates the colour, 0..1. */
   amount?: number;
   bump?: number;
   roughness?: number;
   sheen?: number;
+  sheenColor?: string;
   clearcoat?: number;
-  glowColor?: string;
   glowStrength?: number;
 }
 
-/**
- * A physical material for a sculpted mesh: vertex colours for the regions, a detail
- * map projected along the three axes for albedo grain and bumps, sheen for fur and
- * cloth, clearcoat for shells, and emissive glow where the `glow` attribute is set.
- */
+const TRIPLANAR_PARS = `
+  uniform sampler2D uDetail;
+  uniform sampler2D uDetailN;
+  uniform float uScale;
+  uniform float uAmount;
+  uniform float uBump;
+  uniform float uGlowStrength;
+  uniform mat3 normalMatrix;
+  varying vec3 vObjPos;
+  varying vec3 vObjNrm;
+  varying float vGlow;
+  vec3 triW() { vec3 w = pow( abs( vObjNrm ), vec3( 4.0 ) ); return w / ( w.x + w.y + w.z + 1e-5 ); }`;
+
+/** Vertex colours for regions, triplanar detail, sheen/clearcoat, and glow from the attribute. */
 function surfaceMaterial(o: SurfaceOpts): THREE.MeshPhysicalMaterial {
   const maps = paintDetail(o.detail);
   const m = new THREE.MeshPhysicalMaterial({
@@ -147,7 +155,7 @@ function surfaceMaterial(o: SurfaceOpts): THREE.MeshPhysicalMaterial {
     roughness: o.roughness ?? 0.6,
     metalness: 0,
     sheen: o.sheen ?? 0.3,
-    sheenColor: new THREE.Color('#ffffff'),
+    sheenColor: new THREE.Color(o.sheenColor ?? '#ffffff'),
     sheenRoughness: 0.7,
     clearcoat: o.clearcoat ?? 0.08,
     clearcoatRoughness: 0.35,
@@ -169,21 +177,7 @@ function surfaceMaterial(o: SurfaceOpts): THREE.MeshPhysicalMaterial {
         '#include <begin_vertex>\nvObjPos = position;\nvObjNrm = normal;\nvGlow = glow;',
       );
     shader.fragmentShader = shader.fragmentShader
-      .replace(
-        '#include <common>',
-        `#include <common>
-         uniform sampler2D uDetail;
-         uniform sampler2D uDetailN;
-         uniform float uScale;
-         uniform float uAmount;
-         uniform float uBump;
-         uniform float uGlowStrength;
-         uniform mat3 normalMatrix;
-         varying vec3 vObjPos;
-         varying vec3 vObjNrm;
-         varying float vGlow;
-         vec3 triW() { vec3 w = pow( abs( vObjNrm ), vec3( 4.0 ) ); return w / ( w.x + w.y + w.z + 1e-5 ); }`,
-      )
+      .replace('#include <common>', `#include <common>\n${TRIPLANAR_PARS}`)
       .replace(
         '#include <map_fragment>',
         `{
@@ -217,6 +211,120 @@ function surfaceMaterial(o: SurfaceOpts): THREE.MeshPhysicalMaterial {
   return m;
 }
 
+/**
+ * Shell fur: the body drawn again several times, each shell pushed out along the
+ * normal and thinned by a 3D hash, so the silhouette breaks into soft strands and the
+ * surface reads as fluff instead of plastic. The strands lighten toward the tips.
+ */
+function furShells(
+  parent: THREE.Object3D,
+  mesh: THREE.Mesh,
+  layers: number,
+  length: number,
+  tipLift: number,
+): THREE.Mesh[] {
+  const shells: THREE.Mesh[] = [];
+  for (let i = 1; i <= layers; i++) {
+    const f = i / layers;
+    const m = new THREE.MeshPhysicalMaterial({
+      vertexColors: true,
+      roughness: 0.85,
+      sheen: 1,
+      sheenColor: new THREE.Color('#fff2e0'),
+      sheenRoughness: 0.6,
+      alphaTest: 0.5,
+      side: THREE.DoubleSide,
+    });
+    m.onBeforeCompile = (shader) => {
+      shader.uniforms.uShell = { value: f };
+      shader.uniforms.uLen = { value: length };
+      shader.uniforms.uLift = { value: tipLift };
+      shader.vertexShader = shader.vertexShader
+        .replace(
+          '#include <common>',
+          '#include <common>\nuniform float uShell;\nuniform float uLen;\nvarying vec3 vObjPos;',
+        )
+        .replace(
+          '#include <begin_vertex>',
+          `#include <begin_vertex>
+           vObjPos = position;
+           transformed += normalize( normal ) * uShell * uLen + vec3( 0.0, -0.35 * uShell * uShell * uLen, 0.0 );`,
+        );
+      shader.fragmentShader = shader.fragmentShader
+        .replace(
+          '#include <common>',
+          '#include <common>\nuniform float uShell;\nuniform float uLift;\nvarying vec3 vObjPos;',
+        )
+        .replace(
+          '#include <alphatest_fragment>',
+          `{
+            vec3 cell = floor( vObjPos * 46.0 );
+            float hsh = fract( sin( dot( cell, vec3( 12.9898, 78.233, 37.719 ) ) ) * 43758.5453 );
+            if ( hsh < uShell * 0.92 ) discard;
+            diffuseColor.rgb *= 1.0 + uLift * uShell;
+          }
+          #include <alphatest_fragment>`,
+        );
+    };
+    const shell = new THREE.Mesh(mesh.geometry, m);
+    shell.position.copy(mesh.position);
+    shell.rotation.copy(mesh.rotation);
+    shell.scale.copy(mesh.scale);
+    shell.castShadow = false;
+    shell.receiveShadow = true;
+    parent.add(shell);
+    shells.push(shell);
+  }
+  return shells;
+}
+
+// ---------------------------------------------------------------- colour helpers
+
+type Shade = (p: THREE.Vector3, n: THREE.Vector3, c: THREE.Color, nearest: Prim) => void;
+
+/** Light from above baked in: tops brighter, undersides in shadow; plus a height roll-off. */
+function gradient(top = 1.12, bottom = 0.62, yMin = 0, yMax = 3): Shade {
+  return (p, n, c) => {
+    const up = THREE.MathUtils.clamp(n.y * 0.5 + 0.5, 0, 1);
+    const h = THREE.MathUtils.clamp((p.y - yMin) / (yMax - yMin), 0, 1);
+    c.multiplyScalar(THREE.MathUtils.lerp(bottom, top, up * 0.65 + h * 0.35));
+  };
+}
+
+function combine(...shades: Shade[]): Shade {
+  return (p, n, c, q) => {
+    for (const s of shades) s(p, n, c, q);
+  };
+}
+
+/** Stripes across an axis, blended toward a colour. */
+function stripes(
+  axis: 'x' | 'y' | 'z',
+  freq: number,
+  width: number,
+  color: string,
+  tags: string[],
+  amount = 0.85,
+): Shade {
+  const col = new THREE.Color(color);
+  return (p, _n, c, q) => {
+    if (!tags.includes(q.tag ?? '')) return;
+    const v = axis === 'x' ? p.x : axis === 'y' ? p.y : p.z;
+    const s = Math.abs(Math.sin(v * freq + fbm(p.x * 2, p.z * 2, 2, 90) * 1.2));
+    if (s < width) c.lerp(col, amount * (1 - s / width));
+  };
+}
+
+/** Spots from a value-noise field, blended toward a colour. */
+function spots(scale: number, threshold: number, color: string, tags: string[], seed = 91): Shade {
+  const col = new THREE.Color(color);
+  return (p, _n, c, q) => {
+    if (!tags.includes(q.tag ?? '')) return;
+    const v = vnoise(p.x * scale + seed, (p.y + p.z * 0.7) * scale, seed);
+    if (v > threshold) c.lerp(col, Math.min(1, (v - threshold) * 6));
+  };
+}
+
 // ---------------------------------------------------------------- parts
 
 function glossy(
@@ -240,7 +348,43 @@ function add(parent: THREE.Object3D, m: THREE.Mesh, x: number, y: number, z: num
   return m;
 }
 
-/** A big cartoon eye: white, iris, pupil, two catchlights, and a lid of body colour. */
+const irisCache = new Map<string, THREE.CanvasTexture>();
+
+/** A painted anime iris: a dark limbal ring, a lit lower crescent, radial streaks, a pupil, catchlights. */
+function irisTexture(color: string): THREE.CanvasTexture {
+  const cached = irisCache.get(color);
+  if (cached) return cached;
+  const s = 96;
+  const r = new Raster(s, s, null);
+  r.tracking = true;
+  const base = hex(color);
+  const c = s / 2;
+  for (let y = 0; y < s; y++) {
+    for (let x = 0; x < s; x++) {
+      const d = Math.hypot(x - c, y - c) / c;
+      if (d > 1) continue;
+      const lit = THREE.MathUtils.clamp((y - c) / c, -1, 1) * 0.5 + 0.5;
+      let k = 0.55 + lit * 0.9;
+      if (d > 0.82) k *= 0.35;
+      const a = Math.atan2(y - c, x - c);
+      if (Math.abs(Math.sin(a * 14)) > 0.93 && d > 0.4 && d < 0.8) k *= 1.25;
+      let col: RGB = [Math.min(1, base[0] * k), Math.min(1, base[1] * k), Math.min(1, base[2] * k)];
+      if (d < 0.36) col = [0.05, 0.05, 0.08];
+      r.set(x, y, col);
+    }
+  }
+  r.disc(c - s * 0.16, c - s * 0.2, s * 0.12, hex('#ffffff'));
+  r.disc(c + s * 0.18, c + s * 0.22, s * 0.05, hex('#ffffff'));
+  r.tracking = false;
+  const t = r.toTexture(false);
+  t.magFilter = THREE.LinearFilter;
+  t.minFilter = THREE.LinearMipmapLinearFilter;
+  t.generateMipmaps = true;
+  irisCache.set(color, t);
+  return t;
+}
+
+/** A big cartoon eye: glossy white, a painted iris disc, and an upper lid of body colour. */
 function eye(
   parent: THREE.Object3D,
   x: number,
@@ -251,57 +395,41 @@ function eye(
   lidColor: string,
   yaw: number,
   lid = 0.25,
+  irisScale = 0.72,
 ): THREE.Group {
   const g = new THREE.Group();
   g.position.set(x, y, z);
   g.rotation.y = yaw;
   const white = add(
     g,
-    new THREE.Mesh(new THREE.SphereGeometry(r, 28, 20), glossy('#ffffff', { roughness: 0.08 })),
+    new THREE.Mesh(new THREE.SphereGeometry(r, 28, 20), glossy('#ffffff', { roughness: 0.06 })),
     0,
     0,
     0,
   );
   white.scale.set(1, 1.25, 0.75);
-  add(
-    g,
-    new THREE.Mesh(new THREE.SphereGeometry(r * 0.62, 24, 18), glossy(iris, { roughness: 0.12 })),
-    0,
-    -r * 0.05,
-    r * 0.45,
-  ).scale.set(1, 1.2, 0.5);
-  add(
-    g,
-    new THREE.Mesh(new THREE.SphereGeometry(r * 0.3, 18, 14), glossy('#0d0d16')),
-    0,
-    -r * 0.05,
-    r * 0.66,
-  ).scale.set(1, 1.2, 0.5);
-  add(
+  const disc = add(
     g,
     new THREE.Mesh(
-      new THREE.SphereGeometry(r * 0.17, 10, 8),
-      new THREE.MeshBasicMaterial({ color: '#ffffff' }),
+      new THREE.CircleGeometry(r * irisScale, 32),
+      new THREE.MeshPhysicalMaterial({
+        map: irisTexture(iris),
+        transparent: true,
+        roughness: 0.05,
+        clearcoat: 1,
+        clearcoatRoughness: 0.05,
+      }),
     ),
-    r * 0.22,
-    r * 0.3,
-    r * 0.78,
+    0,
+    -r * 0.04,
+    r * 0.72,
   );
-  add(
-    g,
-    new THREE.Mesh(
-      new THREE.SphereGeometry(r * 0.08, 8, 6),
-      new THREE.MeshBasicMaterial({ color: '#ffffff' }),
-    ),
-    -r * 0.2,
-    -r * 0.3,
-    r * 0.78,
-  );
-  // The upper lid: a cap of body colour that gives the eye its expression.
+  disc.scale.set(1, 1.28, 1);
+  disc.castShadow = false;
   const lidMesh = add(
     g,
     new THREE.Mesh(
-      new THREE.SphereGeometry(r * 1.06, 28, 14, 0, Math.PI * 2, 0, Math.PI * lid),
+      new THREE.SphereGeometry(r * 1.07, 28, 14, 0, Math.PI * 2, 0, Math.PI * lid),
       new THREE.MeshPhysicalMaterial({ color: lidColor, roughness: 0.6, sheen: 0.3 }),
     ),
     0,
@@ -327,8 +455,9 @@ function part(
   mat: THREE.Material,
   pivotAt: THREE.Vector3,
   res = 72,
+  shade?: Shade,
 ): Part {
-  const geo = sculpt({ prims, blend, min: box[0], max: box[1] }, res);
+  const geo = sculpt({ prims, blend, min: box[0], max: box[1], ...(shade ? { shade } : {}) }, res);
   geo.translate(-pivotAt.x, -pivotAt.y, -pivotAt.z);
   const mesh = new THREE.Mesh(geo, mat);
   mesh.castShadow = true;
@@ -340,9 +469,13 @@ function part(
   return { mesh, pivot };
 }
 
+function breathe(g: THREE.Group, base: number, t: number, rate = 2.2, amount = 0.012): void {
+  g.scale.y = base * (1 + Math.sin(t * rate) * amount);
+}
+
 // ---------------------------------------------------------------- the five
 
-/** 1. Nubbin: the Chao-faithful hero, velvet-smooth with wings and the emote ball. */
+/** 1. Nubbin: the Chao-faithful hero, with a soft top-lit gradient and a velvet skin. */
 function nubbin(): Creature {
   const body = '#9ad0ff';
   const tip = '#ffd94a';
@@ -351,13 +484,36 @@ function nubbin(): Creature {
     detail: 'smooth',
     amount: 0.25,
     bump: 0.25,
-    roughness: 0.5,
-    sheen: 0.6,
+    roughness: 0.48,
+    sheen: 0.7,
+    sheenColor: '#dff2ff',
   });
   const prims: Prim[] = [
-    { kind: 'ellipsoid', a: V(0, 0.74, 0), radii: V(0.72, 0.7, 0.68), r: 0, color: body },
-    { kind: 'ellipsoid', a: V(0, 1.92, 0), radii: V(0.74, 0.68, 0.7), r: 0, color: body },
-    { kind: 'cone', a: V(0, 2.35, 0), b: V(0, 3.05, 0), r: 0.42, r2: 0.05, color: body },
+    {
+      kind: 'ellipsoid',
+      a: V(0, 0.74, 0),
+      radii: V(0.72, 0.7, 0.68),
+      r: 0,
+      color: body,
+      tag: 'belly',
+    },
+    {
+      kind: 'ellipsoid',
+      a: V(0, 1.92, 0),
+      radii: V(0.74, 0.68, 0.7),
+      r: 0,
+      color: body,
+      tag: 'head',
+    },
+    {
+      kind: 'cone',
+      a: V(0, 2.35, 0),
+      b: V(0, 3.05, 0),
+      r: 0.42,
+      r2: 0.05,
+      color: body,
+      tag: 'crown',
+    },
     { kind: 'sphere', a: V(0, 3.06, 0), r: 0.1, color: tip },
     { kind: 'capsule', a: V(-0.62, 1.0, 0.1), b: V(-1.0, 0.76, 0.2), r: 0.15, color: body },
     { kind: 'capsule', a: V(0.62, 1.0, 0.1), b: V(1.0, 0.76, 0.2), r: 0.15, color: body },
@@ -369,7 +525,14 @@ function nubbin(): Creature {
   add(
     g,
     new THREE.Mesh(
-      sculpt({ prims, blend: 0.22, min: V(-1.4, 0, -1.0), max: V(1.4, 3.3, 1.0) }),
+      sculpt({
+        prims,
+        blend: 0.22,
+        min: V(-1.4, 0, -1.0),
+        max: V(1.4, 3.3, 1.0),
+        colorAt: (p, q) => (q.tag === 'belly' && p.z > 0.3 && p.y < 1.2 ? '#cfe9ff' : q.color),
+        shade: gradient(1.1, 0.7, 0, 3.1),
+      }),
       mat,
     ),
     0,
@@ -377,7 +540,7 @@ function nubbin(): Creature {
     0,
   );
   for (const dx of [-0.27, 0.27]) {
-    eye(g, dx, 2.0, 0.56, 0.17, '#1c2b6e', body, dx * 0.6, 0.22);
+    eye(g, dx, 2.0, 0.56, 0.18, '#2a4fd0', body, dx * 0.6, 0.2, 0.78);
     const cheek = add(
       g,
       new THREE.Mesh(
@@ -446,8 +609,7 @@ function nubbin(): Creature {
     group: g,
     name: 'Nubbin',
     animate: (t) => {
-      g.position.y += 0; // stays on the ground
-      g.scale.y = 0.78 * (1 + Math.sin(t * 2.2) * 0.012);
+      breathe(g, 0.78, t);
       ball.position.y = 3.5 + Math.sin(t * 1.6) * 0.08;
       wings.forEach((w, i) => {
         w.rotation.y = -(i === 0 ? -1 : 1) * 0.5 + Math.sin(t * 9 + i) * 0.35 * (i === 0 ? -1 : 1);
@@ -456,11 +618,11 @@ function nubbin(): Creature {
   };
 }
 
-/** 2. Mossling: a round green sprout under a spotted mushroom cap, with a leaf collar. */
+/** 2. Mossling: a sprout with a mossy back, a gilled spotted cap, a leaf collar, root toes. */
 function mossling(): Creature {
-  const body = '#79c56a';
-  const belly = '#d9f0b4';
-  const cap = '#e85a3a';
+  const body = '#6fbf62';
+  const belly = '#e2f3c0';
+  const cap = '#e0502f';
   const g = new THREE.Group();
   const mat = surfaceMaterial({
     detail: 'leaf',
@@ -487,68 +649,131 @@ function mossling(): Creature {
       color: belly,
       tag: 'belly',
     },
-    { kind: 'capsule', a: V(-0.8, 1.1, 0.2), b: V(-1.25, 0.7, 0.45), r: 0.16, color: body },
-    { kind: 'capsule', a: V(0.8, 1.1, 0.2), b: V(1.25, 0.7, 0.45), r: 0.16, color: body },
-    { kind: 'ellipsoid', a: V(-0.4, 0.14, 0.3), radii: V(0.3, 0.14, 0.42), r: 0, color: '#4f8a46' },
-    { kind: 'ellipsoid', a: V(0.4, 0.14, 0.3), radii: V(0.3, 0.14, 0.42), r: 0, color: '#4f8a46' },
+    {
+      kind: 'capsule',
+      a: V(-0.8, 1.1, 0.2),
+      b: V(-1.25, 0.7, 0.45),
+      r: 0.16,
+      color: body,
+      tag: 'arm',
+    },
+    {
+      kind: 'capsule',
+      a: V(0.8, 1.1, 0.2),
+      b: V(1.25, 0.7, 0.45),
+      r: 0.16,
+      color: body,
+      tag: 'arm',
+    },
+    {
+      kind: 'cone',
+      a: V(-1.25, 0.7, 0.45),
+      b: V(-1.45, 0.5, 0.65),
+      r: 0.1,
+      r2: 0.02,
+      color: '#3f7a38',
+    },
+    {
+      kind: 'cone',
+      a: V(1.25, 0.7, 0.45),
+      b: V(1.45, 0.5, 0.65),
+      r: 0.1,
+      r2: 0.02,
+      color: '#3f7a38',
+    },
     {
       kind: 'cone',
       a: V(0, 1.7, 0),
       b: V(0, 2.15, 0),
-      r: 0.26,
-      r2: 0.2,
+      r: 0.28,
+      r2: 0.22,
       color: '#f3e6c8',
       tag: 'stem',
     },
+    { kind: 'sphere', a: V(-0.4, 1.6, -0.5), r: 0.22, color: '#4f9a3a', tag: 'moss' },
+    { kind: 'sphere', a: V(0.45, 1.55, -0.55), r: 0.2, color: '#4f9a3a', tag: 'moss' },
+    { kind: 'sphere', a: V(0.05, 1.3, -0.85), r: 0.24, color: '#4f9a3a', tag: 'moss' },
   ];
+  for (const dx of [-0.45, 0.45]) {
+    for (let i = 0; i < 3; i++) {
+      const a = (i - 1) * 0.5;
+      prims.push({
+        kind: 'cone',
+        a: V(dx, 0.3, 0.3),
+        b: V(dx + Math.sin(a) * 0.5 + dx * 0.4, 0.08, 0.3 + Math.cos(a) * 0.55),
+        r: 0.14,
+        r2: 0.04,
+        color: '#4a7a3a',
+        tag: 'root',
+      });
+    }
+  }
   add(
     g,
     new THREE.Mesh(
-      sculpt({ prims, blend: 0.18, min: V(-1.6, 0, -1.2), max: V(1.6, 2.4, 1.2) }),
+      sculpt({
+        prims,
+        blend: 0.18,
+        min: V(-1.7, 0, -1.3),
+        max: V(1.7, 2.4, 1.3),
+        shade: combine(gradient(1.12, 0.66, 0, 2.2), spots(3.0, 0.68, '#3e8a34', ['body'], 92)),
+      }),
       mat,
     ),
     0,
     0,
     0,
   );
-  // The cap: a dome with white spots, hung from a pivot so it can tilt.
   const capMat = surfaceMaterial({
     detail: 'smooth',
     amount: 0.3,
     bump: 0.3,
-    roughness: 0.4,
-    clearcoat: 0.35,
+    roughness: 0.38,
+    clearcoat: 0.4,
     sheen: 0.1,
   });
   const capPart = part(
     g,
     [
-      { kind: 'ellipsoid', a: V(0, 2.1, 0), radii: V(1.35, 0.62, 1.35), r: 0, color: cap },
-      { kind: 'torus', a: V(0, 1.95, 0), r: 1.15, r2: 0.22, color: '#f3e6c8' },
+      {
+        kind: 'ellipsoid',
+        a: V(0, 2.1, 0),
+        radii: V(1.4, 0.66, 1.4),
+        r: 0,
+        color: cap,
+        tag: 'cap',
+      },
+      { kind: 'torus', a: V(0, 1.93, 0), r: 1.18, r2: 0.2, color: '#f3e6c8', tag: 'rim' },
+      {
+        kind: 'cone',
+        a: V(0.3, 2.7, -0.1),
+        b: V(0.55, 3.25, -0.2),
+        r: 0.1,
+        r2: 0.02,
+        color: '#4fa040',
+        tag: 'sprout',
+      },
+      { kind: 'sphere', a: V(0.62, 3.28, -0.22), r: 0.12, color: '#8fd255', tag: 'sprout' },
     ],
     0.1,
-    [V(-1.7, 1.5, -1.7), V(1.7, 2.9, 1.7)],
+    [V(-1.8, 1.5, -1.8), V(1.8, 3.6, 1.8)],
     capMat,
     V(0, 2.0, 0),
-    80,
+    88,
+    combine(gradient(1.1, 0.75, 1.6, 3.2), spots(2.6, 0.64, '#fff1dc', ['cap'], 93)),
   );
-  // Spots as vertex colour would blur; use small flattened discs instead.
-  for (let i = 0; i < 9; i++) {
-    const a = (i / 9) * Math.PI * 2 + 0.3;
-    const rr = 0.45 + (i % 3) * 0.3;
-    const spot = add(
+  const gillMat = new THREE.MeshPhysicalMaterial({ color: '#f0d8b0', roughness: 0.7 });
+  for (let i = 0; i < 24; i++) {
+    const a = (i / 24) * Math.PI * 2;
+    const gill = add(
       capPart.pivot,
-      new THREE.Mesh(
-        new THREE.SphereGeometry(0.16 - (i % 3) * 0.03, 16, 12),
-        new THREE.MeshPhysicalMaterial({ color: '#fff4e0', roughness: 0.5 }),
-      ),
-      Math.cos(a) * rr,
-      0.62 - rr * rr * 0.28,
-      Math.sin(a) * rr,
+      new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.08, 0.03), gillMat),
+      Math.cos(a) * 0.9,
+      -0.1,
+      Math.sin(a) * 0.9,
     );
-    spot.scale.set(1, 0.35, 1);
+    gill.rotation.y = -a;
   }
-  // A collar of leaves.
   const leafMat = new THREE.MeshPhysicalMaterial({
     color: '#4fa040',
     roughness: 0.5,
@@ -556,24 +781,24 @@ function mossling(): Creature {
     sheen: 0.4,
   });
   const leaves: THREE.Mesh[] = [];
-  for (let i = 0; i < 7; i++) {
-    const a = (i / 7) * Math.PI * 2;
+  for (let i = 0; i < 9; i++) {
+    const a = (i / 9) * Math.PI * 2;
     const shape = new THREE.Shape();
     shape.moveTo(0, 0);
-    shape.quadraticCurveTo(0.22, 0.35, 0, 0.75);
-    shape.quadraticCurveTo(-0.22, 0.35, 0, 0);
+    shape.quadraticCurveTo(0.26, 0.4, 0, 0.9);
+    shape.quadraticCurveTo(-0.26, 0.4, 0, 0);
     const leaf = add(
       g,
       new THREE.Mesh(new THREE.ShapeGeometry(shape, 12), leafMat),
-      Math.cos(a) * 0.72,
-      1.62,
-      Math.sin(a) * 0.72,
+      Math.cos(a) * 0.8,
+      1.6,
+      Math.sin(a) * 0.8,
     );
     leaf.rotation.y = -a + Math.PI / 2;
-    leaf.rotation.x = -0.9;
+    leaf.rotation.x = -1.0;
     leaves.push(leaf);
   }
-  for (const dx of [-0.3, 0.3]) eye(g, dx, 1.15, 0.78, 0.2, '#2f6b2a', body, dx * 0.5, 0.2);
+  for (const dx of [-0.3, 0.3]) eye(g, dx, 1.15, 0.78, 0.21, '#3a8a2a', body, dx * 0.5, 0.2, 0.75);
   const mouth = add(
     g,
     new THREE.Mesh(
@@ -592,31 +817,37 @@ function mossling(): Creature {
     animate: (t) => {
       capPart.pivot.rotation.z = Math.sin(t * 1.3) * 0.08;
       capPart.pivot.rotation.x = Math.cos(t * 1.1) * 0.06;
-      g.scale.y = 0.85 * (1 + Math.sin(t * 2.4) * 0.015);
+      breathe(g, 0.85, t, 2.4, 0.015);
       leaves.forEach((l, i) => {
-        l.rotation.x = -0.9 + Math.sin(t * 1.7 + i) * 0.08;
+        l.rotation.x = -1.0 + Math.sin(t * 1.7 + i) * 0.08;
       });
     },
   };
 }
 
-/** 3. Fennel: a fox with a white bib, tall ears and a bushy swaying tail. */
+/** 3. Fennel: a fox pup in shell fur, with a ruff, socks, a striped back and a white-tipped tail. */
 function fennel(): Creature {
-  const fur = '#f08a3c';
-  const cream = '#fff1dc';
+  const fur = '#f0893a';
+  const cream = '#fff3e0';
+  const dark = '#5a3a2a';
   const g = new THREE.Group();
-  const mat = surfaceMaterial({
+  const furMat = surfaceMaterial({
     detail: 'fur',
     scale: 2.2,
     amount: 0.55,
     bump: 0.7,
-    roughness: 0.75,
+    roughness: 0.78,
     sheen: 1.0,
+    sheenColor: '#ffe6c8',
   });
+  const shade = combine(
+    gradient(1.1, 0.68, 0, 2.6),
+    stripes('z', 4.5, 0.18, '#c9641f', ['body'], 0.55),
+  );
   const prims: Prim[] = [
     {
       kind: 'ellipsoid',
-      a: V(0, 0.95, -0.2),
+      a: V(0, 0.98, -0.2),
       radii: V(0.62, 0.6, 0.95),
       r: 0,
       color: fur,
@@ -632,71 +863,135 @@ function fennel(): Creature {
     },
     {
       kind: 'ellipsoid',
-      a: V(0, 1.75, 0.55),
-      radii: V(0.62, 0.55, 0.55),
+      a: V(0, 1.78, 0.55),
+      radii: V(0.64, 0.56, 0.56),
       r: 0,
       color: fur,
       tag: 'head',
     },
     {
       kind: 'cone',
-      a: V(0, 1.55, 0.9),
-      b: V(0, 1.42, 1.3),
-      r: 0.26,
+      a: V(0, 1.56, 0.9),
+      b: V(0, 1.42, 1.32),
+      r: 0.27,
       r2: 0.1,
       color: cream,
       tag: 'muzzle',
     },
-    { kind: 'capsule', a: V(-0.4, 0.8, 0.45), b: V(-0.4, 0.2, 0.5), r: 0.14, color: fur },
-    { kind: 'capsule', a: V(0.4, 0.8, 0.45), b: V(0.4, 0.2, 0.5), r: 0.14, color: fur },
-    { kind: 'capsule', a: V(-0.38, 0.8, -0.8), b: V(-0.42, 0.2, -0.85), r: 0.15, color: fur },
-    { kind: 'capsule', a: V(0.38, 0.8, -0.8), b: V(0.42, 0.2, -0.85), r: 0.15, color: fur },
+    {
+      kind: 'capsule',
+      a: V(-0.4, 0.8, 0.45),
+      b: V(-0.4, 0.2, 0.5),
+      r: 0.14,
+      color: fur,
+      tag: 'leg',
+    },
+    { kind: 'capsule', a: V(0.4, 0.8, 0.45), b: V(0.4, 0.2, 0.5), r: 0.14, color: fur, tag: 'leg' },
+    {
+      kind: 'capsule',
+      a: V(-0.38, 0.8, -0.8),
+      b: V(-0.42, 0.2, -0.85),
+      r: 0.15,
+      color: fur,
+      tag: 'leg',
+    },
+    {
+      kind: 'capsule',
+      a: V(0.38, 0.8, -0.8),
+      b: V(0.42, 0.2, -0.85),
+      r: 0.15,
+      color: fur,
+      tag: 'leg',
+    },
     {
       kind: 'ellipsoid',
       a: V(-0.42, 0.12, 0.6),
-      radii: V(0.18, 0.1, 0.26),
+      radii: V(0.19, 0.11, 0.27),
       r: 0,
-      color: '#3a2a22',
+      color: dark,
+      tag: 'paw',
     },
-    { kind: 'ellipsoid', a: V(0.42, 0.12, 0.6), radii: V(0.18, 0.1, 0.26), r: 0, color: '#3a2a22' },
+    {
+      kind: 'ellipsoid',
+      a: V(0.42, 0.12, 0.6),
+      radii: V(0.19, 0.11, 0.27),
+      r: 0,
+      color: dark,
+      tag: 'paw',
+    },
     {
       kind: 'ellipsoid',
       a: V(-0.44, 0.12, -0.78),
-      radii: V(0.18, 0.1, 0.26),
+      radii: V(0.19, 0.11, 0.27),
       r: 0,
-      color: '#3a2a22',
+      color: dark,
+      tag: 'paw',
     },
     {
       kind: 'ellipsoid',
       a: V(0.44, 0.12, -0.78),
-      radii: V(0.18, 0.1, 0.26),
+      radii: V(0.19, 0.11, 0.27),
       r: 0,
-      color: '#3a2a22',
+      color: dark,
+      tag: 'paw',
     },
   ];
-  add(
+  for (let i = 0; i < 10; i++) {
+    const a = (i / 10) * Math.PI * 2;
+    const r0 = 0.55;
+    prims.push({
+      kind: 'cone',
+      a: V(Math.cos(a) * r0, 1.25 + Math.sin(a) * 0.1, 0.15 + Math.sin(a) * r0 * 0.6),
+      b: V(
+        Math.cos(a) * (r0 + 0.35),
+        1.1 + Math.sin(a) * 0.25,
+        0.05 + Math.sin(a) * (r0 + 0.3) * 0.6,
+      ),
+      r: 0.14,
+      r2: 0.02,
+      color: cream,
+      tag: 'ruff',
+    });
+  }
+  for (let i = 0; i < 3; i++) {
+    prims.push({
+      kind: 'cone',
+      a: V((i - 1) * 0.14, 2.2, 0.55),
+      b: V((i - 1) * 0.3, 2.55 - Math.abs(i - 1) * 0.1, 0.4),
+      r: 0.1,
+      r2: 0.02,
+      color: fur,
+      tag: 'crest',
+    });
+  }
+  const body = add(
     g,
     new THREE.Mesh(
       sculpt({
         prims,
         blend: 0.16,
         min: V(-1.3, 0, -1.6),
-        max: V(1.3, 2.6, 1.6),
-        colorAt: (p, n) => (n.tag === 'head' && p.y < 1.55 && p.z > 0.7 ? cream : n.color),
+        max: V(1.3, 2.8, 1.6),
+        colorAt: (p, n) => {
+          if (n.tag === 'head' && p.y < 1.56 && p.z > 0.7) return cream;
+          if (n.tag === 'leg' && p.y < 0.5) return dark;
+          return n.color;
+        },
+        shade,
       }),
-      mat,
+      furMat,
     ),
     0,
     0,
     0,
   );
-  // Ears: tall cones with pink insides, on pivots.
+  furShells(g, body, 10, 0.1, 0.25);
   const earMat = surfaceMaterial({
     detail: 'fur',
     scale: 2.2,
     amount: 0.5,
     bump: 0.6,
-    roughness: 0.75,
+    roughness: 0.78,
     sheen: 1.0,
   });
   const ears: Part[] = [];
@@ -707,52 +1002,99 @@ function fennel(): Creature {
         {
           kind: 'cone',
           a: V(dx, 2.1, 0.45),
-          b: V(dx * 1.35, 2.95, 0.3),
-          r: 0.26,
+          b: V(dx * 1.4, 3.0, 0.28),
+          r: 0.27,
           r2: 0.04,
           color: fur,
+          tag: 'ear',
         },
         {
           kind: 'cone',
-          a: V(dx, 2.2, 0.55),
-          b: V(dx * 1.3, 2.8, 0.42),
-          r: 0.13,
+          a: V(dx, 2.22, 0.56),
+          b: V(dx * 1.32, 2.82, 0.42),
+          r: 0.14,
           r2: 0.02,
           color: '#ffb6c8',
+          tag: 'inner',
+        },
+        {
+          kind: 'cone',
+          a: V(dx * 1.4, 3.0, 0.28),
+          b: V(dx * 1.5, 3.25, 0.22),
+          r: 0.05,
+          r2: 0.01,
+          color: dark,
+          tag: 'tip',
         },
       ],
       0.05,
-      [V(dx - 0.7, 1.9, -0.2), V(dx + 0.7, 3.2, 1.0)],
+      [V(dx - 0.7, 1.9, -0.2), V(dx + 0.7, 3.4, 1.0)],
       earMat,
       V(dx, 2.1, 0.45),
       64,
+      gradient(1.05, 0.8, 2, 3.2),
     );
     ears.push(e);
   }
-  // The tail: a bushy chain of spheres on a pivot at the rump.
   const tail = part(
     g,
     [
       { kind: 'sphere', a: V(0, 0.9, -1.1), r: 0.26, color: fur },
-      { kind: 'sphere', a: V(0, 1.05, -1.5), r: 0.36, color: fur },
-      { kind: 'sphere', a: V(0, 1.35, -1.85), r: 0.4, color: fur },
-      { kind: 'sphere', a: V(0, 1.75, -2.0), r: 0.34, color: fur },
-      { kind: 'sphere', a: V(0, 2.05, -2.0), r: 0.24, color: cream },
+      { kind: 'sphere', a: V(0, 1.05, -1.5), r: 0.38, color: fur },
+      { kind: 'sphere', a: V(0, 1.4, -1.9), r: 0.44, color: fur },
+      { kind: 'sphere', a: V(0, 1.85, -2.05), r: 0.36, color: fur },
+      { kind: 'sphere', a: V(0, 2.15, -2.05), r: 0.26, color: cream, tag: 'tip' },
+      { kind: 'cone', a: V(0.2, 1.3, -2.1), b: V(0.45, 1.1, -2.45), r: 0.14, r2: 0.02, color: fur },
+      {
+        kind: 'cone',
+        a: V(-0.2, 1.6, -2.2),
+        b: V(-0.5, 1.5, -2.55),
+        r: 0.14,
+        r2: 0.02,
+        color: fur,
+      },
     ],
     0.25,
-    [V(-0.8, 0.4, -2.6), V(0.8, 2.5, -0.6)],
+    [V(-0.9, 0.4, -2.8), V(0.9, 2.6, -0.6)],
     earMat,
     V(0, 0.9, -1.05),
     80,
+    gradient(1.1, 0.7, 0.6, 2.3),
   );
-  for (const dx of [-0.26, 0.26]) eye(g, dx, 1.85, 1.0, 0.16, '#3a6a2a', fur, dx * 0.7, 0.3);
+  const tailShells = furShells(tail.pivot, tail.mesh, 10, 0.14, 0.3);
+  void tailShells;
+  for (const dx of [-0.27, 0.27]) eye(g, dx, 1.88, 1.02, 0.17, '#4a9a3a', fur, dx * 0.7, 0.3, 0.74);
   add(
     g,
-    new THREE.Mesh(new THREE.SphereGeometry(0.09, 16, 12), glossy('#1a1414')),
+    new THREE.Mesh(new THREE.SphereGeometry(0.095, 16, 12), glossy('#1a1414')),
     0,
     1.46,
-    1.36,
+    1.38,
   ).scale.set(1.2, 0.8, 0.8);
+  for (const dx of [-0.26, 0.26]) {
+    const brow = add(
+      g,
+      new THREE.Mesh(
+        new THREE.CapsuleGeometry(0.025, 0.14, 4, 8),
+        new THREE.MeshPhysicalMaterial({ color: dark }),
+      ),
+      dx,
+      2.1,
+      1.02,
+    );
+    brow.rotation.z = Math.PI / 2 + (dx > 0 ? -0.3 : 0.3);
+    for (let i = 0; i < 3; i++)
+      add(
+        g,
+        new THREE.Mesh(
+          new THREE.SphereGeometry(0.02, 6, 4),
+          new THREE.MeshBasicMaterial({ color: dark }),
+        ),
+        dx * (0.6 + i * 0.25),
+        1.42 - i * 0.03,
+        1.22,
+      );
+  }
   g.scale.setScalar(0.95);
   return {
     group: g,
@@ -763,15 +1105,16 @@ function fennel(): Creature {
       ears.forEach((e, i) => {
         e.pivot.rotation.z = Math.sin(t * 3.1 + i * 2) * 0.1 * (i === 0 ? 1 : -1);
       });
-      g.scale.y = 0.95 * (1 + Math.sin(t * 2.0) * 0.012);
+      breathe(g, 0.95, t, 2.0);
     },
   };
 }
 
-/** 4. Bolder: a six-legged beetle in riveted plates with two horns and ember seams. */
+/** 4. Bolder: a beetle in segmented, riveted plates, horns with ridges, claws and ember seams. */
 function bolder(): Creature {
-  const plate = '#5f6a7a';
-  const under = '#3a3f4a';
+  const plate = '#5c6878';
+  const plateLight = '#8a98aa';
+  const under = '#353a44';
   const ember = '#ff7a2a';
   const g = new THREE.Group();
   const mat = surfaceMaterial({
@@ -779,45 +1122,71 @@ function bolder(): Creature {
     scale: 1.1,
     amount: 0.65,
     bump: 0.9,
-    roughness: 0.42,
+    roughness: 0.4,
     sheen: 0.05,
-    clearcoat: 0.6,
-    glowStrength: 3.5,
+    clearcoat: 0.65,
+    glowStrength: 4,
   });
   const prims: Prim[] = [
     {
       kind: 'ellipsoid',
-      a: V(0, 0.9, -0.1),
-      radii: V(1.2, 0.72, 1.35),
+      a: V(0, 0.95, 0.2),
+      radii: V(1.15, 0.7, 0.9),
       r: 0,
       color: plate,
       tag: 'shell',
     },
     {
       kind: 'ellipsoid',
-      a: V(0, 0.75, 0.9),
-      radii: V(0.7, 0.55, 0.6),
+      a: V(0, 0.92, -0.6),
+      radii: V(1.05, 0.62, 0.7),
+      r: 0,
+      color: plate,
+      tag: 'shell2',
+    },
+    {
+      kind: 'ellipsoid',
+      a: V(0, 0.85, -1.2),
+      radii: V(0.85, 0.5, 0.55),
+      r: 0,
+      color: plate,
+      tag: 'shell3',
+    },
+    {
+      kind: 'ellipsoid',
+      a: V(0, 0.75, 0.95),
+      radii: V(0.72, 0.56, 0.62),
       r: 0,
       color: under,
       tag: 'head',
     },
-    { kind: 'torus', a: V(0, 1.05, -0.1), r: 0.55, r2: 0.09, color: ember, glow: 1, tag: 'seam' },
+    { kind: 'torus', a: V(0, 1.1, 0.2), r: 0.6, r2: 0.08, color: ember, glow: 1, tag: 'seam' },
+    { kind: 'torus', a: V(0, 1.06, -0.6), r: 0.5, r2: 0.07, color: ember, glow: 1, tag: 'seam' },
     {
       kind: 'cone',
-      a: V(-0.35, 1.1, 1.1),
-      b: V(-0.9, 2.2, 0.9),
-      r: 0.18,
+      a: V(-0.35, 1.15, 1.1),
+      b: V(-0.95, 2.3, 0.85),
+      r: 0.2,
       r2: 0.03,
-      color: '#8a8f9a',
+      color: plateLight,
       tag: 'horn',
     },
     {
       kind: 'cone',
-      a: V(0.35, 1.1, 1.1),
-      b: V(0.9, 2.2, 0.9),
-      r: 0.18,
+      a: V(0.35, 1.15, 1.1),
+      b: V(0.95, 2.3, 0.85),
+      r: 0.2,
       r2: 0.03,
-      color: '#8a8f9a',
+      color: plateLight,
+      tag: 'horn',
+    },
+    {
+      kind: 'cone',
+      a: V(0, 1.4, 0.6),
+      b: V(0, 1.95, 0.4),
+      r: 0.14,
+      r2: 0.03,
+      color: plateLight,
       tag: 'horn',
     },
   ];
@@ -827,11 +1196,38 @@ function bolder(): Creature {
       prims.push({
         kind: 'capsule',
         a: V(side * 0.9, 0.6, z),
-        b: V(side * 1.45, 0.15, z - 0.1),
-        r: 0.15,
+        b: V(side * 1.3, 0.75, z - 0.05),
+        r: 0.14,
         color: under,
+        tag: 'leg',
       });
-      prims.push({ kind: 'sphere', a: V(side * 1.5, 0.12, z - 0.1), r: 0.17, color: '#2a2e36' });
+      prims.push({
+        kind: 'capsule',
+        a: V(side * 1.3, 0.75, z - 0.05),
+        b: V(side * 1.55, 0.15, z - 0.1),
+        r: 0.12,
+        color: under,
+        tag: 'leg',
+      });
+      prims.push({
+        kind: 'cone',
+        a: V(side * 1.55, 0.15, z - 0.1),
+        b: V(side * 1.75, 0.02, z + 0.1),
+        r: 0.1,
+        r2: 0.01,
+        color: plateLight,
+        tag: 'claw',
+      });
+    }
+    for (let k = 0; k < 3; k++) {
+      const t = 0.3 + k * 0.22;
+      prims.push({
+        kind: 'sphere',
+        a: V(side * (0.35 + 0.6 * t), 1.15 + 1.15 * t, 1.1 - 0.25 * t),
+        r: 0.11 - k * 0.02,
+        color: plateLight,
+        tag: 'ridge',
+      });
     }
   }
   add(
@@ -839,17 +1235,23 @@ function bolder(): Creature {
     new THREE.Mesh(
       sculpt({
         prims,
-        blend: 0.12,
-        min: V(-1.9, 0, -1.8),
-        max: V(1.9, 2.5, 1.8),
+        blend: 0.1,
+        min: V(-2.0, 0, -2.0),
+        max: V(2.0, 2.6, 1.9),
         colorAt: (p, n) => {
-          // Ember light leaks in the plate seams along the back.
-          if (n.tag === 'shell') {
-            const seam = Math.abs(Math.sin(p.z * 5.2)) < 0.08 && p.y > 0.95;
-            return seam ? ember : plate;
+          if (n.tag?.startsWith('shell')) {
+            const seam = Math.abs(Math.sin(p.x * 4.4)) < 0.07 && p.y > 0.95;
+            return seam
+              ? ember
+              : n.tag === 'shell'
+                ? plate
+                : n.tag === 'shell2'
+                  ? '#54606f'
+                  : '#4c5664';
           }
           return n.color;
         },
+        shade: gradient(1.12, 0.55, 0, 2.3),
       }),
       mat,
     ),
@@ -857,68 +1259,72 @@ function bolder(): Creature {
     0,
     0,
   );
-  for (const dx of [-0.3, 0.3]) eye(g, dx, 0.95, 1.42, 0.14, '#ffb020', under, dx * 0.6, 0.35);
+  for (const dx of [-0.3, 0.3]) eye(g, dx, 0.98, 1.5, 0.14, '#ffb020', under, dx * 0.6, 0.4, 0.8);
   const mandible = new THREE.MeshPhysicalMaterial({
-    color: '#8a8f9a',
+    color: plateLight,
     roughness: 0.4,
     clearcoat: 0.5,
   });
   const jaws: THREE.Mesh[] = [];
-  for (const dx of [-0.22, 0.22]) {
+  for (const dx of [-0.24, 0.24]) {
     const j = add(
       g,
-      new THREE.Mesh(new THREE.ConeGeometry(0.07, 0.4, 10), mandible),
+      new THREE.Mesh(new THREE.ConeGeometry(0.07, 0.45, 10), mandible),
       dx,
       0.55,
-      1.5,
+      1.58,
     );
     j.rotation.x = Math.PI / 2;
-    j.rotation.z = -dx * 1.2;
+    j.rotation.z = -dx * 1.3;
     jaws.push(j);
   }
+  const emberLight = new THREE.PointLight('#ff7a2a', 3, 4, 1.5);
+  emberLight.position.set(0, 1.3, 0);
+  g.add(emberLight);
   g.scale.setScalar(0.95);
   return {
     group: g,
     name: 'Bolder',
     animate: (t) => {
-      g.scale.y = 0.95 * (1 + Math.sin(t * 1.4) * 0.01);
-      (mat as THREE.MeshPhysicalMaterial).emissiveIntensity = 1;
+      breathe(g, 0.95, t, 1.4, 0.01);
       jaws.forEach((j, i) => {
         j.rotation.z =
-          -(i === 0 ? -0.22 : 0.22) * 1.2 + Math.sin(t * 2.2) * 0.1 * (i === 0 ? 1 : -1);
+          -(i === 0 ? -0.24 : 0.24) * 1.3 + Math.sin(t * 2.2) * 0.12 * (i === 0 ? 1 : -1);
       });
+      emberLight.intensity = 2.5 + Math.sin(t * 2.7) * 0.8;
     },
   };
 }
 
-/** 5. Wisp: a hovering spirit, violet smoke with a glowing core and trailing tendrils. */
+/** 5. Wisp: a spirit of violet smoke over a bright core, with flame crests and trailing wisps. */
 function wisp(): Creature {
   const smoke = '#6b3fb0';
   const dark = '#2a1a4a';
-  const core = '#c9f0ff';
+  const core = '#d8f6ff';
   const g = new THREE.Group();
   const mat = surfaceMaterial({
     detail: 'smooth',
     amount: 0.3,
     bump: 0.35,
-    roughness: 0.3,
-    sheen: 0.2,
-    clearcoat: 0.4,
-    glowStrength: 2.6,
+    roughness: 0.28,
+    sheen: 0.25,
+    sheenColor: '#d0a0ff',
+    clearcoat: 0.45,
+    glowStrength: 2.8,
   });
   const prims: Prim[] = [
     {
       kind: 'ellipsoid',
       a: V(0, 1.7, 0),
-      radii: V(0.8, 0.9, 0.78),
+      radii: V(0.82, 0.92, 0.8),
       r: 0,
       color: smoke,
       tag: 'body',
     },
     {
       kind: 'ellipsoid',
-      a: V(0, 1.75, 0.3),
-      radii: V(0.45, 0.5, 0.4),
+      a: V(0, 1.72, 0.32),
+      radii: V(0.46, 0.52, 0.42),
       r: 0,
       color: core,
       glow: 1,
@@ -928,7 +1334,7 @@ function wisp(): Creature {
       kind: 'cone',
       a: V(0, 1.0, 0),
       b: V(0.3, 0.1, -0.2),
-      r: 0.42,
+      r: 0.44,
       r2: 0.03,
       color: dark,
       tag: 'tail',
@@ -936,7 +1342,7 @@ function wisp(): Creature {
     {
       kind: 'cone',
       a: V(-0.7, 1.6, 0.1),
-      b: V(-1.5, 2.2, 0.3),
+      b: V(-1.55, 2.2, 0.3),
       r: 0.2,
       r2: 0.03,
       color: smoke,
@@ -945,71 +1351,117 @@ function wisp(): Creature {
     {
       kind: 'cone',
       a: V(0.7, 1.6, 0.1),
-      b: V(1.5, 2.2, 0.3),
+      b: V(1.55, 2.2, 0.3),
       r: 0.2,
       r2: 0.03,
       color: smoke,
       tag: 'arm',
     },
-    {
-      kind: 'cone',
-      a: V(-0.3, 2.5, -0.1),
-      b: V(-0.6, 3.3, -0.2),
-      r: 0.22,
-      r2: 0.03,
-      color: dark,
-      tag: 'flame',
-    },
-    {
-      kind: 'cone',
-      a: V(0.3, 2.5, -0.1),
-      b: V(0.7, 3.2, -0.1),
-      r: 0.2,
-      r2: 0.03,
-      color: dark,
-      tag: 'flame',
-    },
-    {
-      kind: 'cone',
-      a: V(0, 2.55, 0),
-      b: V(0.1, 3.5, 0),
-      r: 0.24,
-      r2: 0.03,
-      color: smoke,
-      tag: 'flame',
-    },
+    { kind: 'sphere', a: V(-1.55, 2.2, 0.3), r: 0.12, color: core, glow: 0.6, tag: 'armtip' },
+    { kind: 'sphere', a: V(1.55, 2.2, 0.3), r: 0.12, color: core, glow: 0.6, tag: 'armtip' },
   ];
   add(
     g,
     new THREE.Mesh(
-      sculpt({ prims, blend: 0.3, min: V(-1.9, -0.2, -1.4), max: V(1.9, 3.8, 1.4) }),
+      sculpt({
+        prims,
+        blend: 0.3,
+        min: V(-1.9, -0.2, -1.4),
+        max: V(1.9, 3.0, 1.4),
+        shade: combine(gradient(1.15, 0.5, 0, 2.8), spots(2.2, 0.66, '#9a6ad8', ['body'], 94)),
+      }),
       mat,
     ),
     0,
     0,
     0,
   );
-  for (const dx of [-0.26, 0.26]) eye(g, dx, 1.9, 0.78, 0.17, '#b9ff5a', smoke, dx * 0.5, 0.18);
+  const flames: Part[] = [];
+  const flameMat = surfaceMaterial({
+    detail: 'smooth',
+    amount: 0.2,
+    bump: 0.2,
+    roughness: 0.3,
+    clearcoat: 0.3,
+    glowStrength: 2.2,
+  });
+  for (const [x, z, h, lean] of [
+    [0, 0, 1.1, 0.1],
+    [-0.32, -0.12, 0.85, -0.35],
+    [0.34, -0.1, 0.8, 0.4],
+    [-0.1, -0.35, 0.6, -0.1],
+  ] as const) {
+    const f = part(
+      g,
+      [
+        {
+          kind: 'cone',
+          a: V(x, 2.45, z),
+          b: V(x + lean, 2.45 + h, z - 0.1),
+          r: 0.22,
+          r2: 0.03,
+          color: smoke,
+          tag: 'flame',
+        },
+        {
+          kind: 'cone',
+          a: V(x, 2.5, z),
+          b: V(x + lean * 0.7, 2.45 + h * 0.6, z - 0.05),
+          r: 0.1,
+          r2: 0.02,
+          color: core,
+          glow: 0.8,
+          tag: 'inner',
+        },
+      ],
+      0.08,
+      [V(x - 0.8, 2.2, z - 0.8), V(x + 0.8, 2.5 + h + 0.4, z + 0.8)],
+      flameMat,
+      V(x, 2.45, z),
+      56,
+      gradient(1.0, 0.8, 2.4, 3.6),
+    );
+    flames.push(f);
+  }
+  for (const dx of [-0.27, 0.27]) eye(g, dx, 1.9, 0.8, 0.18, '#b9ff5a', smoke, dx * 0.5, 0.16, 0.8);
   const grin = add(
     g,
     new THREE.Mesh(
-      new THREE.TorusGeometry(0.16, 0.03, 8, 20, Math.PI),
+      new THREE.TorusGeometry(0.17, 0.03, 8, 20, Math.PI),
       new THREE.MeshPhysicalMaterial({ color: '#1a0f2e' }),
     ),
     0,
-    1.58,
-    0.84,
+    1.56,
+    0.86,
   );
   grin.rotation.z = Math.PI;
-  // Drifting motes around the core.
+  for (const dx of [-0.1, 0.1])
+    add(
+      g,
+      new THREE.Mesh(
+        new THREE.ConeGeometry(0.035, 0.09, 6),
+        new THREE.MeshPhysicalMaterial({ color: '#f4f0ff' }),
+      ),
+      dx,
+      1.5,
+      0.9,
+    ).rotation.x = Math.PI;
   const motes = new THREE.Group();
   const moteMat = new THREE.MeshBasicMaterial({ color: '#d8f6ff' });
-  for (let i = 0; i < 10; i++) {
-    const m = new THREE.Mesh(new THREE.SphereGeometry(0.04 + (i % 3) * 0.015, 8, 6), moteMat);
-    m.userData.phase = i;
-    motes.add(m);
-  }
+  for (let i = 0; i < 14; i++)
+    motes.add(new THREE.Mesh(new THREE.SphereGeometry(0.035 + (i % 3) * 0.015, 8, 6), moteMat));
   g.add(motes);
+  const ring = add(
+    g,
+    new THREE.Mesh(
+      new THREE.TorusGeometry(1.25, 0.02, 8, 64),
+      new THREE.MeshBasicMaterial({ color: '#b9a0ff', transparent: true, opacity: 0.55 }),
+    ),
+    0,
+    1.3,
+    0,
+  );
+  ring.rotation.x = Math.PI / 2 + 0.3;
   const light = new THREE.PointLight('#9ad8ff', 5, 6, 1.5);
   light.position.set(0, 1.8, 0.4);
   g.add(light);
@@ -1020,14 +1472,19 @@ function wisp(): Creature {
     animate: (t) => {
       g.position.y = g.userData.baseY + 0.55 + Math.sin(t * 1.4) * 0.18;
       g.rotation.z = Math.sin(t * 0.9) * 0.06;
+      flames.forEach((f, i) => {
+        f.pivot.rotation.z = Math.sin(t * 3.2 + i * 1.3) * 0.18;
+        f.pivot.rotation.x = Math.cos(t * 2.4 + i) * 0.12;
+      });
       motes.children.forEach((m, i) => {
-        const a = t * 0.9 + i * 0.63;
+        const a = t * 0.9 + i * 0.45;
         m.position.set(
-          Math.cos(a) * (0.9 + (i % 3) * 0.2),
-          1.6 + Math.sin(a * 1.7) * 0.5,
+          Math.cos(a) * (0.9 + (i % 3) * 0.22),
+          1.6 + Math.sin(a * 1.7) * 0.55,
           Math.sin(a) * 0.9,
         );
       });
+      ring.rotation.z = t * 0.5;
       light.intensity = 4 + Math.sin(t * 3) * 1;
     },
   };

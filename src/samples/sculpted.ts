@@ -26,6 +26,7 @@ export interface Prim {
 
 const tmp = new THREE.Vector3();
 const tmp2 = new THREE.Vector3();
+const nTmp = new THREE.Vector3();
 
 export function sdf(p: THREE.Vector3, q: Prim): number {
   switch (q.kind) {
@@ -90,6 +91,8 @@ export interface Sculpt {
   max: THREE.Vector3;
   /** Pick a colour for a surface point given the nearest primitive. */
   colorAt?: (p: THREE.Vector3, nearest: Prim) => string;
+  /** Adjust a surface colour in place from position and normal: gradients, markings. */
+  shade?: (p: THREE.Vector3, n: THREE.Vector3, c: THREE.Color, nearest: Prim) => void;
 }
 
 /** Polygonise a sculpt into one smooth, vertex-coloured mesh. */
@@ -134,9 +137,11 @@ export function sculpt(s: Sculpt, resolution = 112): THREE.BufferGeometry {
     pos[i * 3] = vx;
     pos[i * 3 + 1] = vy;
     pos[i * 3 + 2] = vz;
-    nrm[i * 3] = nrmArr[i * 3]!;
-    nrm[i * 3 + 1] = nrmArr[i * 3 + 1]!;
-    nrm[i * 3 + 2] = nrmArr[i * 3 + 2]!;
+    // The addon's normals are raw field gradients; unit length is what everything downstream expects.
+    const nl = Math.hypot(nrmArr[i * 3]!, nrmArr[i * 3 + 1]!, nrmArr[i * 3 + 2]!) || 1;
+    nrm[i * 3] = nrmArr[i * 3]! / nl;
+    nrm[i * 3 + 1] = nrmArr[i * 3 + 1]! / nl;
+    nrm[i * 3 + 2] = nrmArr[i * 3 + 2]! / nl;
     p.set(vx, vy, vz);
     let best = s.prims[0]!;
     let bestD = 1e9;
@@ -148,6 +153,10 @@ export function sculpt(s: Sculpt, resolution = 112): THREE.BufferGeometry {
       }
     }
     c.set(s.colorAt ? s.colorAt(p, best) : best.color);
+    if (s.shade) {
+      nTmp.set(nrm[i * 3]!, nrm[i * 3 + 1]!, nrm[i * 3 + 2]!);
+      s.shade(p, nTmp, c, best);
+    }
     glow[i] = best.glow ?? 0;
     col[i * 3] = c.r;
     col[i * 3 + 1] = c.g;

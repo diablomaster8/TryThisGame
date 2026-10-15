@@ -861,6 +861,10 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     creature = buildCreature(creatureIndex - 1);
     creature.group.userData.baseY = groundHeight(0, 0);
     place(creature.group, 0, 0, Math.PI - 0.5);
+    // A cool rim light from behind, as a character stage would have.
+    const rim = new THREE.DirectionalLight('#bfe0ff', 1.8);
+    rim.position.set(-4, 5, 8);
+    scene.add(rim);
   } else {
     place(sculptedNubbin('#ff8ac0'), 4.2, 2.2, closeup ? Math.PI + 0.25 : 0.6);
     place(sculptedNubbin('#ff8ac0'), -3.5, 10.5, 0.1);
