@@ -31,6 +31,9 @@ tiny mouth drawn in the skin low on the face.
 - Data: Nubbin eyes r 0.25, irisScale 0.8, lid 0.12, tall 1.12, mouth width 0.2; Fennel
   eyes r 0.21, irisScale 0.8, tall 1.3, mouth width 0.2.
 - Shots: `docs/samples/face-nubbin.jpg`, `face-fennel.jpg`.
+- Fix (Maor: "mouth on fox is off"): the Fennel mouth point sat under the muzzle, so the
+  projection landed on its underside facing down. It now starts ahead of and below the
+  muzzle tip and lands on the tip's front underside, with a dark nose mark above it.
 
 ## The species format: rig, poses, marks, mouths, directional fur (2026-10-16)
 

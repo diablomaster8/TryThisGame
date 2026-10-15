@@ -482,7 +482,9 @@ export const FENNEL_SPEC: SpeciesSpec = {
   ],
   shade: { top: 1.1, bottom: 0.68, yMax: 2.6 },
   marks: [
-    // A dark mask across the eyes, a cream chest patch and a dark ring on the tail.
+    // A dark mask across the eyes, a dark nose on the muzzle tip, a cream chest patch and
+    // a dark ring on the tail.
+    { kind: 'sphere', a: V(0, 1.47, 1.4), r: 0.085, color: '#2a1a1e', soft: 0.02 },
     {
       kind: 'ellipsoid',
       a: V(0, 1.9, 0.95),
@@ -520,10 +522,11 @@ export const FENNEL_SPEC: SpeciesSpec = {
     tall: 1.3,
   },
   mouth: {
+    // Ahead of and below the muzzle tip, so it lands on the tip's underside front.
     x: 0,
-    y: 1.34,
-    z: 1.3,
-    width: 0.2,
+    y: 1.33,
+    z: 1.52,
+    width: 0.17,
     lip: '#3a2420',
     teeth: true,
     tongue: '#ff8a9a',
