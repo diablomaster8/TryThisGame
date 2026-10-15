@@ -59,6 +59,20 @@ lighter belly and a velvet sheen on the Nubbin. Lesson: the marching-cubes add-o
 returns raw gradient normals, not unit vectors; everything downstream (the gradient
 bake, the shell offsets) needs them normalised.
 
+**Third pass, Bolder and Wisp** (Maor: "I like what you did with spider and purple, keep
+going"). Bolder is now a true spider: a cephalothorax and a big abdomen with an ember
+hourglass baked across its back, plate ridges, two horns with ridge bumps, pedipalps,
+spinnerets, eight jointed legs as separate sculpted parts (hip to knee rising, knee to
+foot dropping, a claw) on hip pivots that shift their weight in turn, short bristles
+(three fine shells), two big amber eyes over a row of six small glowing ones, working
+mandibles, and an ember light inside; the seam glow pulses through the material's
+uniforms. Wisp gained a drifting vapour shell (the body drawn once more, pushed out
+and breathing, shown only at the silhouette through a Fresnel term and broken up by
+moving 3D noise), a marbled surface at two scales, horn tufts curling back, a brow
+ridge, cheek flares, a sixth flame crest, a skirt of six hanging wisps on their own
+pivots, more motes and a pulsing core. `creature-4-bolder(-golden).jpg`,
+`creature-5-wisp(-golden).jpg`. The creature camera backs off on 4:3 panes.
+
 **What this says for the real build.** A species is a short description: a list of
 blended shapes with colour rules and a detail kind, plus which pieces move. The
 current catalogue (~100 looks across the Chao, pocket and digital lines) becomes data

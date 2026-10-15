@@ -161,6 +161,7 @@ function surfaceMaterial(o: SurfaceOpts): THREE.MeshPhysicalMaterial {
     clearcoatRoughness: 0.35,
   });
   m.onBeforeCompile = (shader) => {
+    m.userData.shader = shader;
     shader.uniforms.uDetail = { value: maps.albedo };
     shader.uniforms.uDetailN = { value: maps.normal };
     shader.uniforms.uScale = { value: o.scale ?? 1.6 };
@@ -222,6 +223,7 @@ function furShells(
   layers: number,
   length: number,
   tipLift: number,
+  cellFreq = 46,
 ): THREE.Mesh[] {
   const shells: THREE.Mesh[] = [];
   for (let i = 1; i <= layers; i++) {
@@ -239,6 +241,7 @@ function furShells(
       shader.uniforms.uShell = { value: f };
       shader.uniforms.uLen = { value: length };
       shader.uniforms.uLift = { value: tipLift };
+      shader.uniforms.uCell = { value: cellFreq };
       shader.vertexShader = shader.vertexShader
         .replace(
           '#include <common>',
@@ -258,7 +261,7 @@ function furShells(
         .replace(
           '#include <alphatest_fragment>',
           `{
-            vec3 cell = floor( vObjPos * 46.0 );
+            vec3 cell = floor( vObjPos * uCell );
             float hsh = fract( sin( dot( cell, vec3( 12.9898, 78.233, 37.719 ) ) ) * 43758.5453 );
             if ( hsh < uShell * 0.92 ) discard;
             diffuseColor.rgb *= 1.0 + uLift * uShell;
@@ -1110,148 +1113,224 @@ function fennel(): Creature {
   };
 }
 
-/** 4. Bolder: a beetle in segmented, riveted plates, horns with ridges, claws and ember seams. */
+/**
+ * A smoke shell: the body drawn once more, a little larger, as drifting vapour that
+ * only shows at the silhouette (a Fresnel term) and breaks up with moving 3D noise.
+ */
+function smokeShell(
+  parent: THREE.Object3D,
+  mesh: THREE.Mesh,
+  color: string,
+  time: { value: number },
+): THREE.Mesh {
+  const m = new THREE.MeshPhysicalMaterial({
+    color,
+    transparent: true,
+    opacity: 1,
+    roughness: 1,
+    depthWrite: false,
+    side: THREE.FrontSide,
+    emissive: new THREE.Color(color),
+    emissiveIntensity: 0.6,
+  });
+  m.onBeforeCompile = (shader) => {
+    shader.uniforms.uTime = time;
+    shader.vertexShader = shader.vertexShader
+      .replace(
+        '#include <common>',
+        '#include <common>\nuniform float uTime;\nvarying vec3 vObjPos;',
+      )
+      .replace(
+        '#include <begin_vertex>',
+        `#include <begin_vertex>
+         vObjPos = position;
+         float puff = 0.14 + 0.05 * sin( uTime * 1.7 + position.y * 3.0 );
+         transformed += normalize( normal ) * puff;
+         transformed.y += 0.04 * sin( uTime * 2.3 + position.x * 4.0 );`,
+      );
+    shader.fragmentShader = shader.fragmentShader
+      .replace(
+        '#include <common>',
+        `#include <common>
+         uniform float uTime;
+         varying vec3 vObjPos;
+         float hash3( vec3 p ) { return fract( sin( dot( p, vec3( 12.9898, 78.233, 37.719 ) ) ) * 43758.5453 ); }
+         float noise3( vec3 p ) {
+           vec3 i = floor( p ); vec3 f = fract( p ); f = f * f * ( 3.0 - 2.0 * f );
+           return mix( mix( mix( hash3( i ), hash3( i + vec3( 1, 0, 0 ) ), f.x ), mix( hash3( i + vec3( 0, 1, 0 ) ), hash3( i + vec3( 1, 1, 0 ) ), f.x ), f.y ),
+                       mix( mix( hash3( i + vec3( 0, 0, 1 ) ), hash3( i + vec3( 1, 0, 1 ) ), f.x ), mix( hash3( i + vec3( 0, 1, 1 ) ), hash3( i + vec3( 1, 1, 1 ) ), f.x ), f.y ), f.z );
+         }`,
+      )
+      .replace(
+        '#include <alphatest_fragment>',
+        `{
+          vec3 n = normalize( vNormal );
+          vec3 v = normalize( vViewPosition );
+          float rim = pow( 1.0 - max( dot( n, v ), 0.0 ), 2.2 );
+          float wisps = noise3( vObjPos * 3.5 + vec3( 0.0, -uTime * 0.6, 0.0 ) ) * 0.6 + noise3( vObjPos * 9.0 + vec3( uTime * 0.3 ) ) * 0.4;
+          diffuseColor.a = clamp( rim * 1.4 * smoothstep( 0.35, 0.75, wisps ), 0.0, 0.85 );
+        }
+        #include <alphatest_fragment>`,
+      );
+  };
+  const shell = new THREE.Mesh(mesh.geometry, m);
+  shell.castShadow = false;
+  shell.receiveShadow = false;
+  parent.add(shell);
+  return shell;
+}
+
+/** 4. Bolder: an eight-legged plated spider with jointed legs, bristles, a row of eyes and an ember abdomen. */
 function bolder(): Creature {
-  const plate = '#5c6878';
-  const plateLight = '#8a98aa';
-  const under = '#353a44';
+  const plate = '#56626f';
+  const plateLight = '#92a0b0';
+  const under = '#2e333c';
   const ember = '#ff7a2a';
+  const time = { value: 0 };
   const g = new THREE.Group();
   const mat = surfaceMaterial({
     detail: 'plate',
-    scale: 1.1,
-    amount: 0.65,
-    bump: 0.9,
-    roughness: 0.4,
+    scale: 1.2,
+    amount: 0.7,
+    bump: 1.0,
+    roughness: 0.38,
     sheen: 0.05,
-    clearcoat: 0.65,
+    clearcoat: 0.7,
     glowStrength: 4,
   });
   const prims: Prim[] = [
+    // Cephalothorax and a big abdomen behind it, the head low in front.
     {
       kind: 'ellipsoid',
-      a: V(0, 0.95, 0.2),
-      radii: V(1.15, 0.7, 0.9),
+      a: V(0, 0.95, 0.45),
+      radii: V(0.95, 0.62, 0.8),
       r: 0,
       color: plate,
-      tag: 'shell',
+      tag: 'thorax',
     },
     {
       kind: 'ellipsoid',
-      a: V(0, 0.92, -0.6),
-      radii: V(1.05, 0.62, 0.7),
+      a: V(0, 1.1, -0.95),
+      radii: V(1.15, 0.85, 1.1),
       r: 0,
       color: plate,
-      tag: 'shell2',
+      tag: 'abdomen',
     },
     {
       kind: 'ellipsoid',
-      a: V(0, 0.85, -1.2),
-      radii: V(0.85, 0.5, 0.55),
-      r: 0,
-      color: plate,
-      tag: 'shell3',
-    },
-    {
-      kind: 'ellipsoid',
-      a: V(0, 0.75, 0.95),
-      radii: V(0.72, 0.56, 0.62),
+      a: V(0, 0.72, 1.15),
+      radii: V(0.62, 0.46, 0.5),
       r: 0,
       color: under,
       tag: 'head',
     },
-    { kind: 'torus', a: V(0, 1.1, 0.2), r: 0.6, r2: 0.08, color: ember, glow: 1, tag: 'seam' },
-    { kind: 'torus', a: V(0, 1.06, -0.6), r: 0.5, r2: 0.07, color: ember, glow: 1, tag: 'seam' },
+    // Plate ridges down the back and a collar between the segments.
+    { kind: 'torus', a: V(0, 1.05, -0.2), r: 0.62, r2: 0.09, color: ember, glow: 1, tag: 'seam' },
+    {
+      kind: 'capsule',
+      a: V(0, 1.45, 0.5),
+      b: V(0, 1.9, -0.9),
+      r: 0.09,
+      color: plateLight,
+      tag: 'ridge',
+    },
+    {
+      kind: 'capsule',
+      a: V(-0.45, 1.3, -0.5),
+      b: V(-0.5, 1.6, -1.5),
+      r: 0.06,
+      color: plateLight,
+      tag: 'ridge',
+    },
+    {
+      kind: 'capsule',
+      a: V(0.45, 1.3, -0.5),
+      b: V(0.5, 1.6, -1.5),
+      r: 0.06,
+      color: plateLight,
+      tag: 'ridge',
+    },
+    // Two horns and the pedipalps.
     {
       kind: 'cone',
-      a: V(-0.35, 1.15, 1.1),
-      b: V(-0.95, 2.3, 0.85),
-      r: 0.2,
+      a: V(-0.4, 1.2, 0.95),
+      b: V(-0.95, 2.1, 0.7),
+      r: 0.17,
       r2: 0.03,
       color: plateLight,
       tag: 'horn',
     },
     {
       kind: 'cone',
-      a: V(0.35, 1.15, 1.1),
-      b: V(0.95, 2.3, 0.85),
-      r: 0.2,
+      a: V(0.4, 1.2, 0.95),
+      b: V(0.95, 2.1, 0.7),
+      r: 0.17,
       r2: 0.03,
       color: plateLight,
       tag: 'horn',
     },
     {
+      kind: 'capsule',
+      a: V(-0.3, 0.5, 1.4),
+      b: V(-0.55, 0.35, 1.9),
+      r: 0.08,
+      color: under,
+      tag: 'palp',
+    },
+    {
+      kind: 'capsule',
+      a: V(0.3, 0.5, 1.4),
+      b: V(0.55, 0.35, 1.9),
+      r: 0.08,
+      color: under,
+      tag: 'palp',
+    },
+    // Spinnerets.
+    {
       kind: 'cone',
-      a: V(0, 1.4, 0.6),
-      b: V(0, 1.95, 0.4),
+      a: V(0, 0.9, -2.0),
+      b: V(0, 0.8, -2.35),
       r: 0.14,
       r2: 0.03,
-      color: plateLight,
-      tag: 'horn',
+      color: under,
+      tag: 'spin',
     },
   ];
   for (const side of [-1, 1]) {
-    for (let i = 0; i < 3; i++) {
-      const z = 0.6 - i * 0.7;
-      prims.push({
-        kind: 'capsule',
-        a: V(side * 0.9, 0.6, z),
-        b: V(side * 1.3, 0.75, z - 0.05),
-        r: 0.14,
-        color: under,
-        tag: 'leg',
-      });
-      prims.push({
-        kind: 'capsule',
-        a: V(side * 1.3, 0.75, z - 0.05),
-        b: V(side * 1.55, 0.15, z - 0.1),
-        r: 0.12,
-        color: under,
-        tag: 'leg',
-      });
-      prims.push({
-        kind: 'cone',
-        a: V(side * 1.55, 0.15, z - 0.1),
-        b: V(side * 1.75, 0.02, z + 0.1),
-        r: 0.1,
-        r2: 0.01,
-        color: plateLight,
-        tag: 'claw',
-      });
-    }
-    for (let k = 0; k < 3; k++) {
-      const t = 0.3 + k * 0.22;
+    for (let k = 0; k < 4; k++) {
+      const t = 0.25 + k * 0.18;
       prims.push({
         kind: 'sphere',
-        a: V(side * (0.35 + 0.6 * t), 1.15 + 1.15 * t, 1.1 - 0.25 * t),
-        r: 0.11 - k * 0.02,
+        a: V(side * (0.4 + 0.55 * t), 1.2 + 0.9 * t, 0.95 - 0.25 * t),
+        r: 0.1 - k * 0.015,
         color: plateLight,
         tag: 'ridge',
       });
     }
   }
-  add(
+  const body = add(
     g,
     new THREE.Mesh(
       sculpt({
         prims,
-        blend: 0.1,
-        min: V(-2.0, 0, -2.0),
-        max: V(2.0, 2.6, 1.9),
+        blend: 0.12,
+        min: V(-1.6, 0, -2.6),
+        max: V(1.6, 2.5, 2.2),
         colorAt: (p, n) => {
-          if (n.tag?.startsWith('shell')) {
-            const seam = Math.abs(Math.sin(p.x * 4.4)) < 0.07 && p.y > 0.95;
-            return seam
-              ? ember
-              : n.tag === 'shell'
-                ? plate
-                : n.tag === 'shell2'
-                  ? '#54606f'
-                  : '#4c5664';
+          if (n.tag === 'abdomen') {
+            // An ember hourglass across the back of the abdomen.
+            const lx = Math.abs(p.x);
+            const ly = p.z + 0.95;
+            const hour = lx < 0.12 + Math.abs(ly) * 0.55 && Math.abs(ly) < 0.7 && p.y > 1.05;
+            if (hour) return ember;
+            const seam = Math.abs(Math.sin(p.z * 5.5)) < 0.08 && p.y > 1.2;
+            return seam ? '#7a8898' : plate;
           }
+          if (n.tag === 'thorax')
+            return Math.abs(Math.sin(p.x * 5)) < 0.08 && p.y > 1.1 ? '#7a8898' : plate;
           return n.color;
         },
-        shade: gradient(1.12, 0.55, 0, 2.3),
+        shade: gradient(1.14, 0.5, 0, 2.2),
       }),
       mat,
     ),
@@ -1259,72 +1338,155 @@ function bolder(): Creature {
     0,
     0,
   );
-  for (const dx of [-0.3, 0.3]) eye(g, dx, 0.98, 1.5, 0.14, '#ffb020', under, dx * 0.6, 0.4, 0.8);
-  const mandible = new THREE.MeshPhysicalMaterial({
-    color: plateLight,
-    roughness: 0.4,
+  // Short dark bristles on the abdomen and thorax.
+  furShells(g, body, 3, 0.04, 0.05, 160);
+  // Eight jointed legs on hip pivots: hip to knee rising, knee to foot dropping, a claw.
+  const legMat = surfaceMaterial({
+    detail: 'plate',
+    scale: 2.4,
+    amount: 0.5,
+    bump: 0.6,
+    roughness: 0.45,
     clearcoat: 0.5,
   });
+  const legs: Array<{ part: Part; phase: number; side: number }> = [];
+  for (const side of [-1, 1]) {
+    for (let i = 0; i < 4; i++) {
+      const z = 1.0 - i * 0.6;
+      const spread = 0.85 + Math.abs(i - 1.5) * 0.08;
+      const hip = V(side * 0.75, 0.95, z);
+      const knee = V(
+        side * (0.75 + spread * 0.9),
+        1.75 + (i === 0 || i === 3 ? 0.1 : 0.25),
+        z + (i < 2 ? 0.35 : -0.35) * (i === 0 || i === 3 ? 1.6 : 1),
+      );
+      const foot = V(
+        side * (0.75 + spread * 1.9),
+        0.08,
+        z + (i < 2 ? 0.75 : -0.75) * (i === 0 || i === 3 ? 1.5 : 1),
+      );
+      const leg = part(
+        g,
+        [
+          { kind: 'cone', a: hip, b: knee, r: 0.15, r2: 0.1, color: under, tag: 'leg' },
+          { kind: 'sphere', a: knee, r: 0.13, color: plateLight, tag: 'knee' },
+          { kind: 'cone', a: knee, b: foot, r: 0.1, r2: 0.05, color: under, tag: 'leg' },
+          {
+            kind: 'cone',
+            a: foot,
+            b: V(foot.x + side * 0.22, 0.0, foot.z),
+            r: 0.07,
+            r2: 0.01,
+            color: plateLight,
+            tag: 'claw',
+          },
+        ],
+        0.06,
+        [
+          V(Math.min(hip.x, foot.x) - 0.5, -0.2, Math.min(hip.z, foot.z, knee.z) - 0.5),
+          V(Math.max(hip.x, foot.x) + 0.5, 2.4, Math.max(hip.z, foot.z, knee.z) + 0.5),
+        ],
+        legMat,
+        hip,
+        56,
+        gradient(1.1, 0.6, 0, 2),
+      );
+      legs.push({ part: leg, phase: (i + (side > 0 ? 0.5 : 0)) * 1.57, side });
+    }
+  }
+  // Eyes: two big and a row of six small, all glossy.
+  for (const dx of [-0.26, 0.26])
+    eye(g, dx, 0.92, 1.58, 0.13, '#ffb020', under, dx * 0.6, 0.42, 0.82);
+  for (let i = 0; i < 6; i++) {
+    const dx = -0.42 + i * 0.168;
+    const small = add(
+      g,
+      new THREE.Mesh(
+        new THREE.SphereGeometry(0.05 + (i === 2 || i === 3 ? 0.015 : 0), 14, 10),
+        glossy('#ffb020', { emissive: new THREE.Color('#ff8a20'), emissiveIntensity: 0.6 }),
+      ),
+      dx,
+      1.12 - Math.abs(i - 2.5) * 0.03,
+      1.5 - Math.abs(i - 2.5) * 0.06,
+    );
+    small.castShadow = false;
+  }
+  const mandible = new THREE.MeshPhysicalMaterial({
+    color: plateLight,
+    roughness: 0.35,
+    clearcoat: 0.6,
+  });
   const jaws: THREE.Mesh[] = [];
-  for (const dx of [-0.24, 0.24]) {
+  for (const dx of [-0.22, 0.22]) {
     const j = add(
       g,
-      new THREE.Mesh(new THREE.ConeGeometry(0.07, 0.45, 10), mandible),
+      new THREE.Mesh(new THREE.ConeGeometry(0.075, 0.5, 10), mandible),
       dx,
-      0.55,
-      1.58,
+      0.5,
+      1.6,
     );
-    j.rotation.x = Math.PI / 2;
-    j.rotation.z = -dx * 1.3;
+    j.rotation.x = Math.PI / 2 + 0.3;
+    j.rotation.z = -dx * 1.4;
     jaws.push(j);
   }
-  const emberLight = new THREE.PointLight('#ff7a2a', 3, 4, 1.5);
-  emberLight.position.set(0, 1.3, 0);
+  const emberLight = new THREE.PointLight('#ff7a2a', 3, 4.5, 1.5);
+  emberLight.position.set(0, 1.4, -0.9);
   g.add(emberLight);
-  g.scale.setScalar(0.95);
+  g.scale.setScalar(0.9);
   return {
     group: g,
     name: 'Bolder',
     animate: (t) => {
-      breathe(g, 0.95, t, 1.4, 0.01);
+      time.value = t;
+      breathe(g, 0.9, t, 1.4, 0.01);
+      legs.forEach(({ part: p, phase, side }) => {
+        // A slow shifting of weight: legs flex at the hip, alternating sides.
+        p.pivot.rotation.z = side * Math.sin(t * 1.6 + phase) * 0.07;
+        p.pivot.rotation.y = Math.sin(t * 1.1 + phase) * 0.05;
+      });
       jaws.forEach((j, i) => {
         j.rotation.z =
-          -(i === 0 ? -0.24 : 0.24) * 1.3 + Math.sin(t * 2.2) * 0.12 * (i === 0 ? 1 : -1);
+          -(i === 0 ? -0.22 : 0.22) * 1.4 + Math.sin(t * 2.2) * 0.14 * (i === 0 ? 1 : -1);
       });
-      emberLight.intensity = 2.5 + Math.sin(t * 2.7) * 0.8;
+      emberLight.intensity = 2.5 + Math.sin(t * 2.7) * 0.9;
+      const u = (
+        mat.userData.shader as { uniforms: { uGlowStrength: { value: number } } } | undefined
+      )?.uniforms;
+      if (u) u.uGlowStrength.value = 3.2 + Math.sin(t * 2.7) * 1.2;
     },
   };
 }
 
-/** 5. Wisp: a spirit of violet smoke over a bright core, with flame crests and trailing wisps. */
+/** 5. Wisp: violet smoke over a bright core, marbled, with horn tufts, a skirt of wisps and a vapour shell. */
 function wisp(): Creature {
   const smoke = '#6b3fb0';
   const dark = '#2a1a4a';
   const core = '#d8f6ff';
+  const time = { value: 0 };
   const g = new THREE.Group();
   const mat = surfaceMaterial({
     detail: 'smooth',
     amount: 0.3,
     bump: 0.35,
-    roughness: 0.28,
-    sheen: 0.25,
+    roughness: 0.26,
+    sheen: 0.3,
     sheenColor: '#d0a0ff',
-    clearcoat: 0.45,
-    glowStrength: 2.8,
+    clearcoat: 0.5,
+    glowStrength: 3.0,
   });
   const prims: Prim[] = [
     {
       kind: 'ellipsoid',
       a: V(0, 1.7, 0),
-      radii: V(0.82, 0.92, 0.8),
+      radii: V(0.84, 0.94, 0.82),
       r: 0,
       color: smoke,
       tag: 'body',
     },
     {
       kind: 'ellipsoid',
-      a: V(0, 1.72, 0.32),
-      radii: V(0.46, 0.52, 0.42),
+      a: V(0, 1.72, 0.34),
+      radii: V(0.48, 0.54, 0.44),
       r: 0,
       color: core,
       glow: 1,
@@ -1334,7 +1496,7 @@ function wisp(): Creature {
       kind: 'cone',
       a: V(0, 1.0, 0),
       b: V(0.3, 0.1, -0.2),
-      r: 0.44,
+      r: 0.46,
       r2: 0.03,
       color: dark,
       tag: 'tail',
@@ -1342,7 +1504,7 @@ function wisp(): Creature {
     {
       kind: 'cone',
       a: V(-0.7, 1.6, 0.1),
-      b: V(-1.55, 2.2, 0.3),
+      b: V(-1.6, 2.25, 0.3),
       r: 0.2,
       r2: 0.03,
       color: smoke,
@@ -1351,24 +1513,74 @@ function wisp(): Creature {
     {
       kind: 'cone',
       a: V(0.7, 1.6, 0.1),
-      b: V(1.55, 2.2, 0.3),
+      b: V(1.6, 2.25, 0.3),
       r: 0.2,
       r2: 0.03,
       color: smoke,
       tag: 'arm',
     },
-    { kind: 'sphere', a: V(-1.55, 2.2, 0.3), r: 0.12, color: core, glow: 0.6, tag: 'armtip' },
-    { kind: 'sphere', a: V(1.55, 2.2, 0.3), r: 0.12, color: core, glow: 0.6, tag: 'armtip' },
+    { kind: 'sphere', a: V(-1.6, 2.25, 0.3), r: 0.13, color: core, glow: 0.7, tag: 'armtip' },
+    { kind: 'sphere', a: V(1.6, 2.25, 0.3), r: 0.13, color: core, glow: 0.7, tag: 'armtip' },
+    // Horn tufts curling back from the brow.
+    {
+      kind: 'cone',
+      a: V(-0.5, 2.35, 0.3),
+      b: V(-0.9, 2.95, -0.2),
+      r: 0.14,
+      r2: 0.02,
+      color: dark,
+      tag: 'horn',
+    },
+    {
+      kind: 'cone',
+      a: V(0.5, 2.35, 0.3),
+      b: V(0.9, 2.95, -0.2),
+      r: 0.14,
+      r2: 0.02,
+      color: dark,
+      tag: 'horn',
+    },
+    // A brow ridge and cheek flares.
+    {
+      kind: 'capsule',
+      a: V(-0.45, 2.22, 0.62),
+      b: V(0.45, 2.22, 0.62),
+      r: 0.08,
+      color: dark,
+      tag: 'brow',
+    },
+    {
+      kind: 'cone',
+      a: V(-0.8, 1.6, 0.4),
+      b: V(-1.15, 1.35, 0.55),
+      r: 0.1,
+      r2: 0.02,
+      color: dark,
+      tag: 'flare',
+    },
+    {
+      kind: 'cone',
+      a: V(0.8, 1.6, 0.4),
+      b: V(1.15, 1.35, 0.55),
+      r: 0.1,
+      r2: 0.02,
+      color: dark,
+      tag: 'flare',
+    },
   ];
-  add(
+  const body = add(
     g,
     new THREE.Mesh(
       sculpt({
         prims,
         blend: 0.3,
         min: V(-1.9, -0.2, -1.4),
-        max: V(1.9, 3.0, 1.4),
-        shade: combine(gradient(1.15, 0.5, 0, 2.8), spots(2.2, 0.66, '#9a6ad8', ['body'], 94)),
+        max: V(1.9, 3.2, 1.4),
+        shade: combine(
+          gradient(1.15, 0.45, 0, 2.8),
+          spots(2.2, 0.66, '#9a6ad8', ['body'], 94),
+          spots(5.0, 0.7, '#3a2460', ['body', 'tail'], 95),
+        ),
       }),
       mat,
     ),
@@ -1376,6 +1588,7 @@ function wisp(): Creature {
     0,
     0,
   );
+  smokeShell(g, body, '#8a5ad8', time);
   const flames: Part[] = [];
   const flameMat = surfaceMaterial({
     detail: 'smooth',
@@ -1383,13 +1596,14 @@ function wisp(): Creature {
     bump: 0.2,
     roughness: 0.3,
     clearcoat: 0.3,
-    glowStrength: 2.2,
+    glowStrength: 2.4,
   });
   for (const [x, z, h, lean] of [
-    [0, 0, 1.1, 0.1],
-    [-0.32, -0.12, 0.85, -0.35],
-    [0.34, -0.1, 0.8, 0.4],
-    [-0.1, -0.35, 0.6, -0.1],
+    [0, 0, 1.15, 0.1],
+    [-0.32, -0.12, 0.9, -0.38],
+    [0.34, -0.1, 0.85, 0.42],
+    [-0.1, -0.38, 0.65, -0.1],
+    [0.15, -0.4, 0.55, 0.2],
   ] as const) {
     const f = part(
       g,
@@ -1410,7 +1624,7 @@ function wisp(): Creature {
           r: 0.1,
           r2: 0.02,
           color: core,
-          glow: 0.8,
+          glow: 0.9,
           tag: 'inner',
         },
       ],
@@ -1419,43 +1633,71 @@ function wisp(): Creature {
       flameMat,
       V(x, 2.45, z),
       56,
-      gradient(1.0, 0.8, 2.4, 3.6),
+      gradient(1.0, 0.8, 2.4, 3.8),
     );
     flames.push(f);
   }
-  for (const dx of [-0.27, 0.27]) eye(g, dx, 1.9, 0.8, 0.18, '#b9ff5a', smoke, dx * 0.5, 0.16, 0.8);
+  // A skirt of wisps hanging under the body, each on its own pivot.
+  const skirt: Part[] = [];
+  for (let i = 0; i < 6; i++) {
+    const a = (i / 6) * Math.PI * 2 + 0.3;
+    const x = Math.cos(a) * 0.55;
+    const z = Math.sin(a) * 0.5;
+    const s = part(
+      g,
+      [
+        {
+          kind: 'cone',
+          a: V(x, 1.05, z),
+          b: V(x * 1.6, 0.25 + (i % 2) * 0.2, z * 1.6),
+          r: 0.16,
+          r2: 0.02,
+          color: dark,
+          tag: 'skirt',
+        },
+      ],
+      0.05,
+      [V(x * 1.6 - 0.4, -0.1, z * 1.6 - 0.4), V(x * 1.6 + 0.4, 1.3, z * 1.6 + 0.4)],
+      flameMat,
+      V(x, 1.05, z),
+      40,
+      gradient(1.0, 0.6, 0, 1.2),
+    );
+    skirt.push(s);
+  }
+  for (const dx of [-0.27, 0.27]) eye(g, dx, 1.9, 0.82, 0.19, '#b9ff5a', smoke, dx * 0.5, 0.2, 0.8);
   const grin = add(
     g,
     new THREE.Mesh(
-      new THREE.TorusGeometry(0.17, 0.03, 8, 20, Math.PI),
+      new THREE.TorusGeometry(0.18, 0.03, 8, 20, Math.PI),
       new THREE.MeshPhysicalMaterial({ color: '#1a0f2e' }),
     ),
     0,
     1.56,
-    0.86,
+    0.88,
   );
   grin.rotation.z = Math.PI;
-  for (const dx of [-0.1, 0.1])
+  for (const dx of [-0.11, 0.11])
     add(
       g,
       new THREE.Mesh(
-        new THREE.ConeGeometry(0.035, 0.09, 6),
+        new THREE.ConeGeometry(0.035, 0.1, 6),
         new THREE.MeshPhysicalMaterial({ color: '#f4f0ff' }),
       ),
       dx,
       1.5,
-      0.9,
+      0.92,
     ).rotation.x = Math.PI;
   const motes = new THREE.Group();
   const moteMat = new THREE.MeshBasicMaterial({ color: '#d8f6ff' });
-  for (let i = 0; i < 14; i++)
-    motes.add(new THREE.Mesh(new THREE.SphereGeometry(0.035 + (i % 3) * 0.015, 8, 6), moteMat));
+  for (let i = 0; i < 18; i++)
+    motes.add(new THREE.Mesh(new THREE.SphereGeometry(0.03 + (i % 3) * 0.015, 8, 6), moteMat));
   g.add(motes);
   const ring = add(
     g,
     new THREE.Mesh(
-      new THREE.TorusGeometry(1.25, 0.02, 8, 64),
-      new THREE.MeshBasicMaterial({ color: '#b9a0ff', transparent: true, opacity: 0.55 }),
+      new THREE.TorusGeometry(1.3, 0.02, 8, 64),
+      new THREE.MeshBasicMaterial({ color: '#b9a0ff', transparent: true, opacity: 0.5 }),
     ),
     0,
     1.3,
@@ -1470,22 +1712,32 @@ function wisp(): Creature {
     group: g,
     name: 'Wisp',
     animate: (t) => {
+      time.value = t;
       g.position.y = g.userData.baseY + 0.55 + Math.sin(t * 1.4) * 0.18;
       g.rotation.z = Math.sin(t * 0.9) * 0.06;
       flames.forEach((f, i) => {
         f.pivot.rotation.z = Math.sin(t * 3.2 + i * 1.3) * 0.18;
         f.pivot.rotation.x = Math.cos(t * 2.4 + i) * 0.12;
       });
+      skirt.forEach((s, i) => {
+        s.pivot.rotation.z = Math.sin(t * 2.1 + i * 1.1) * 0.22;
+        s.pivot.rotation.x = Math.cos(t * 1.7 + i * 0.8) * 0.18;
+      });
       motes.children.forEach((m, i) => {
-        const a = t * 0.9 + i * 0.45;
+        const a = t * 0.9 + i * 0.35;
+        const rr = 0.9 + (i % 3) * 0.22;
         m.position.set(
-          Math.cos(a) * (0.9 + (i % 3) * 0.22),
-          1.6 + Math.sin(a * 1.7) * 0.55,
-          Math.sin(a) * 0.9,
+          Math.cos(a) * rr,
+          1.5 + Math.sin(a * 1.7) * 0.6 + (i % 2) * 0.3,
+          Math.sin(a) * rr,
         );
       });
       ring.rotation.z = t * 0.5;
-      light.intensity = 4 + Math.sin(t * 3) * 1;
+      light.intensity = 4 + Math.sin(t * 3) * 1.2;
+      const u = (
+        mat.userData.shader as { uniforms: { uGlowStrength: { value: number } } } | undefined
+      )?.uniforms;
+      if (u) u.uGlowStrength.value = 2.6 + Math.sin(t * 2.2) * 0.9;
     },
   };
 }

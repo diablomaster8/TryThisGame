@@ -928,8 +928,9 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     const ky = groundHeight(0, 0);
     if (creature) {
       creature.animate(t);
-      camera.position.set(2.7 + Math.sin(a) * 0.6, ky + 2.3, -4.1);
-      camera.lookAt(0.05, ky + 1.15, 0.2);
+      const back = camera.aspect < 1.5 ? 1.25 : 1;
+      camera.position.set((2.7 + Math.sin(a) * 0.6) * back, ky + 2.3 * back, -4.1 * back);
+      camera.lookAt(0.05, ky + 1.2, 0.2);
     } else if (closeup) {
       camera.position.set(2.6 + Math.sin(a), ky + 2.1, -4.0);
       camera.lookAt(1.1, ky + 1.45, 0.6);
