@@ -235,51 +235,6 @@ function buildMouth(parent: THREE.Object3D, m: SpeciesSpec['mouth']): Mouth {
   g.position.set(m.x, m.y, m.z);
   g.rotation.x = m.pitch ?? 0;
   const w = m.width;
-  const interior = add(
-    g,
-    new THREE.Mesh(
-      new THREE.SphereGeometry(1, 28, 18),
-      new THREE.MeshPhysicalMaterial({ color: '#3a1424', roughness: 0.7 }),
-    ),
-    0,
-    0,
-    -w * 0.42,
-  );
-  interior.scale.set(w * 0.5, w * 0.03, w * 0.44);
-  interior.castShadow = false;
-  const tongue = add(
-    g,
-    new THREE.Mesh(
-      new THREE.SphereGeometry(1, 16, 12),
-      glossy(m.tongue, { roughness: 0.35, clearcoat: 0.6 }),
-    ),
-    0,
-    -w * 0.1,
-    -w * 0.3,
-  );
-  tongue.scale.set(w * 0.26, w * 0.08, w * 0.3);
-  tongue.visible = false;
-  tongue.castShadow = false;
-  const teeth: THREE.Mesh[] = [];
-  if (m.teeth) {
-    for (const dx of [-0.6, 0.6]) {
-      const t = add(
-        g,
-        new THREE.Mesh(
-          new THREE.ConeGeometry(w * 0.06, w * 0.16, 6),
-          new THREE.MeshPhysicalMaterial({ color: '#fbf6ea', roughness: 0.3 }),
-        ),
-        dx * w * 0.5,
-        w * 0.04,
-        -w * 0.12,
-      );
-      t.rotation.x = Math.PI;
-      t.visible = false;
-      t.castShadow = false;
-      teeth.push(t);
-    }
-  }
-  // The lip line lies on the surface; it widens into a ring as the mouth opens.
   const lipMat = new THREE.MeshPhysicalMaterial({ color: m.lip, roughness: 0.6 });
   // The closed shape: one smile arc, a small ring, or two cat arcs side by side.
   const lip = new THREE.Group();
@@ -306,31 +261,82 @@ function buildMouth(parent: THREE.Object3D, m: SpeciesSpec['mouth']): Mouth {
     a.castShadow = false;
   }
   g.add(lip);
-  const lower = add(
-    g,
-    new THREE.Mesh(new THREE.TorusGeometry(w * 0.47, w * 0.04, 8, 28, Math.PI), lipMat),
+  // The open mouth is drawn on the skin the way the reference does it: a dark rounded
+  // opening under a straight upper lip, growing downward, with a tongue and teeth inside.
+  const open = new THREE.Group();
+  open.visible = false;
+  g.add(open);
+  const halfDisc = (
+    radius: number,
+    color: string,
+    z: number,
+    extra: Partial<THREE.MeshPhysicalMaterialParameters> = {},
+  ) => {
+    const mesh = add(
+      open,
+      new THREE.Mesh(
+        new THREE.CircleGeometry(radius, 24, Math.PI, Math.PI),
+        new THREE.MeshPhysicalMaterial({ color, roughness: 0.7, ...extra }),
+      ),
+      0,
+      w * 0.02,
+      z,
+    );
+    mesh.castShadow = false;
+    return mesh;
+  };
+  const interior = halfDisc(w * 0.5, '#3a1424', 0.004);
+  const rim = add(
+    open,
+    new THREE.Mesh(new THREE.TorusGeometry(w * 0.5, w * 0.045, 8, 28, Math.PI), lipMat),
     0,
     w * 0.02,
-    -w * 0.03,
+    0.004,
   );
-  lower.rotation.z = Math.PI;
-  lower.castShadow = false;
-  lower.visible = false;
+  rim.rotation.z = Math.PI;
+  rim.castShadow = false;
+  const upper = add(
+    open,
+    new THREE.Mesh(new THREE.CapsuleGeometry(w * 0.045, w * 1.0, 3, 8), lipMat),
+    0,
+    w * 0.02,
+    0.004,
+  );
+  upper.rotation.z = Math.PI / 2;
+  upper.castShadow = false;
+  const tongue = halfDisc(w * 0.3, m.tongue, 0.008, { roughness: 0.4, clearcoat: 0.5 });
+  const teeth: THREE.Mesh[] = [];
+  if (m.teeth) {
+    for (const dx of [-0.32, 0.32]) {
+      const t = add(
+        open,
+        new THREE.Mesh(
+          new THREE.ConeGeometry(w * 0.055, w * 0.14, 3),
+          new THREE.MeshPhysicalMaterial({ color: '#fbf6ea', roughness: 0.3 }),
+        ),
+        dx * w,
+        w * 0.02 - w * 0.07,
+        0.007,
+      );
+      t.rotation.z = Math.PI;
+      t.castShadow = false;
+      teeth.push(t);
+    }
+  }
   parent.add(g);
   return {
     group: g,
     open: (amount) => {
       const k = THREE.MathUtils.clamp(amount, 0, 1);
-      interior.scale.y = w * (0.03 + k * 0.34);
-      interior.position.y = -w * k * 0.16;
-      // The closed shape gives way to the open ring as the mouth opens.
-      lip.visible = k < 0.3;
-      lower.visible = k > 0.04;
-      lower.position.y = w * 0.02 - k * w * 0.34;
-      lower.rotation.z = Math.PI + k * Math.PI;
-      lower.scale.set(1, 0.2 + k * 0.8, 1);
-      tongue.visible = k > 0.25;
-      tongue.position.y = -w * (0.1 + k * 0.2);
+      // The closed shape gives way to the opening as the mouth opens.
+      lip.visible = k < 0.2;
+      open.visible = k >= 0.2;
+      const h = 0.15 + k * 0.95;
+      interior.scale.set(1, h, 1);
+      rim.scale.set(1, h, 1);
+      tongue.visible = k > 0.35;
+      tongue.scale.set(1, Math.max(0.05, (k - 0.35) * 1.2), 1);
+      tongue.position.y = w * 0.02 - w * 0.5 * h + w * 0.3 * tongue.scale.y;
       for (const t of teeth) t.visible = k > 0.3;
     },
   };

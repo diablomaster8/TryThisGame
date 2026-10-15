@@ -30,6 +30,11 @@ report back": the face group (items 1, 2, 4, 5, 6, 7) on the Nubbin.
 - Fix (Maor: happy frames "look weird"): the lids over the dome left the iris peeking out
   under a floating arc. A happy shut eye now hides the whole eyeball and lids so the
   head's skin shows, and the lash arc sits on the skin (`EyeRig.ball`).
+- Fix (Maor: "fix the mouth too"): the open mouth was a 3D interior sphere, a flipping
+  lip ring and a tongue blob, which at 0.2 units read as a scribble. It is now drawn on
+  the skin like the reference: a dark half-disc opening under a straight upper lip that
+  grows downward with the open amount, a rim, a tongue half-disc and flat teeth.
+  `expr-fennel-happy.jpg` shows it with teeth.
 - Still open in the face group: eye tracking (item 3). The other four creatures get the
   same rig automatically but have not been tuned (brows on Bolder/Wisp may want hiding).
 
