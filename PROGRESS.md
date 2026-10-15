@@ -9,6 +9,44 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Five console-era 3D directions (2026-10-15, for Maor's pick)
+
+Maor, after the first five: "try again with better, think like this" with a Super
+Mario 64 screenshot (Bob-omb Battlefield): a low camera behind the character, chunky
+textured terrain walled by cliffs, a cobbled mound, billboard trees, vertex lighting,
+soft filtered textures, blob shadows. Five new samples in that spirit, live Three.js at
+`?retro3d=1..5` (`src/samples/retro-styles.ts`, lazy-loaded), screenshots in
+`docs/samples/retro-*.jpg`. Same valley every time; what changes is how the machine
+would have drawn it.
+
+1. **N64** (`retro-1-n64.jpg`). 320×240 upscaled with the console's soft bilinear
+   blur, Gouraud lighting baked per vertex, 64×64 filtered textures, blob shadows,
+   camera-facing tree sprites, the Lakitu camera. The reference's own look; the
+   cheapest to run, and the simple shapes suit the Nubbins.
+2. **PlayStation** (`retro-2-ps1.jpg`). Same resolution but no texture filtering,
+   vertices snapped to the screen grid, affine (warping) texture mapping through a
+   custom shader, ordered dithering down to 15-bit colour. Grittier and more
+   "crunchy"; the jitter is part of the charm and part of the eye strain.
+3. **Nintendo DS** (`retro-3-ds.jpg`). 256×192, two-step toon light with the DS's
+   dark edge marking, tiny unfiltered textures, strong colours. Reads as a cartoon
+   and keeps the pixel sprites' outlines; the lowest fidelity of the five.
+4. **Dreamcast** (`retro-4-dreamcast.jpg`). 640×480, smoother higher-poly shapes,
+   per-pixel Phong with specular highlights on the Nubbins, mipmapped textures,
+   soft real shadows, bright skies. The Chao Garden's own generation, so the closest
+   match to the creatures' home; moderate cost.
+5. **HD port** (`retro-5-hdport.jpg`). The N64 scene's simple shapes and bold colours
+   at native resolution: crisp 256px textures with anisotropy, per-pixel light, soft
+   shadow maps, tone mapping, widescreen. What a modern remaster does with the same
+   assets; the most polished, and the one that scales best to phones and desktops.
+
+The toggle plan stands from the earlier write-up: a Graphics choice on the title and
+in Settings, a second scene behind the same view interface, sim untouched; the
+Lakitu camera would follow the Keeper with the same Q/E orbit steps and a shoulder
+offset, with the top-down camera kept as a third option. Recommendation: build the
+geometry and textures once at N64 simplicity (1), then ship 5 as the default look
+with 1 and 2 as selectable "retro" filters, since they are post-processing on the
+same scene.
+
 ## Five directions for a full-3D Grove (2026-10-15, for Maor's pick)
 
 Maor: "conceptualize an upgrade to the graphics. Leave the existing assets, add a toggle
