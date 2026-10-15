@@ -153,7 +153,21 @@ export const NUBBIN_SPEC: SpeciesSpec = {
   ],
   shade: { top: 1.1, bottom: 0.72, yMax: 3.1 },
   marks: [
-    // A pale heart on the belly and a star on the brow: deliberate, not noise.
+    // Blush under each eye, a pale heart on the belly and a star on the brow: deliberate, not noise.
+    {
+      kind: 'ellipsoid',
+      a: V(-0.4, 1.76, 0.56),
+      radii: V(0.13, 0.075, 0.1),
+      color: '#ffb3c6',
+      soft: 0.1,
+    },
+    {
+      kind: 'ellipsoid',
+      a: V(0.4, 1.76, 0.56),
+      radii: V(0.13, 0.075, 0.1),
+      color: '#ffb3c6',
+      soft: 0.1,
+    },
     {
       kind: 'ellipsoid',
       a: V(-0.18, 0.95, 0.56),

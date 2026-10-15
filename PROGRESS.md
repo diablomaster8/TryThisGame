@@ -9,6 +9,27 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Face group on the Nubbin (2026-10-15)
+
+Maor: "make a full list of improvements ... use the references I sent you as a bible"
+→ `docs/creature-improvements.md` (35 items, six groups). Then "do it for one and then
+report back": the face group (items 1, 2, 4, 5, 6, 7) on the Nubbin.
+
+- `eye()` now returns an `EyeRig`: upper lid, a lower lid hinged from below (squint),
+  an upturned lash arc shown over a closed happy eye, and a brow ridge (skin colour,
+  tilts and lifts). The iris and white carry a little emissive so eyes stay bright in
+  shadow.
+- `species.ts`: an `Expression` per pose (lid, squint, brow tilt, brow lift, arc) with
+  defaults (`EXPRESSIONS`) and a per-species `expressions` override; eased in over 0.3 s
+  (1.2 s for sleep). Happy = eyes shut into ^ ^ arcs, squint, brows soft; eat = squint
+  and knitted brows; sleep = shut, brows dropped.
+- `mouth.shape`: `smile` (default), `o`, `omega` closed shapes; the closed shape gives
+  way to the open ring past 30% open.
+- Nubbin: blush marks under the eyes.
+- Shots: `docs/samples/expr-nubbin-idle/happy/eat/sleep.jpg`, `expr-nubbin-happy-35.jpg`.
+- Still open in the face group: eye tracking (item 3). The other four creatures get the
+  same rig automatically but have not been tuned (brows on Bolder/Wisp may want hiding).
+
 ## The whole roster in the species format (2026-10-15)
 
 Maor: "keep going on fixes for the whole batch of 5 as next sample". Mossling, Bolder and

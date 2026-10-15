@@ -412,6 +412,19 @@ function irisTexture(color: string): THREE.CanvasTexture {
   return t;
 }
 
+/** The movable pieces of one eye, for blinks and expressions. */
+export interface EyeRig {
+  group: THREE.Group;
+  /** Upper lid; `userData.base` is its open tilt, blinking adds up to 1.9. */
+  lid: THREE.Mesh;
+  /** Lower lid; `userData.base` is its open tilt, a squint adds up to ~1. */
+  lower: THREE.Mesh;
+  /** The upturned lash line shown over a closed happy eye. */
+  arc: THREE.Mesh;
+  /** The brow ridge; `userData.baseY` and `userData.r` size its lift and tilt. */
+  brow: THREE.Mesh;
+}
+
 /**
  * A round cartoon eye in the manner of a modern creature collector: a glossy dome
  * sitting proud of the face, a big iris with a large dark pupil that hugs the dome, a
@@ -432,7 +445,7 @@ export function eye(
   irisScale = 0.8,
   pitch = 0,
   tall = 1.2,
-): { group: THREE.Group; lid: THREE.Mesh } {
+): EyeRig {
   const g = new THREE.Group();
   g.position.set(x, y, z);
   g.rotation.set(pitch, yaw, 0);
@@ -442,7 +455,10 @@ export function eye(
   const back = -r * 0.42;
   const white = add(
     g,
-    new THREE.Mesh(new THREE.SphereGeometry(r, 36, 28), glossy('#fbfbff', { roughness: 0.06 })),
+    new THREE.Mesh(
+      new THREE.SphereGeometry(r, 36, 28),
+      glossy('#fbfbff', { roughness: 0.06, emissive: '#ffffff', emissiveIntensity: 0.1 }),
+    ),
     0,
     0,
     back,
@@ -493,6 +509,9 @@ export function eye(
     domeDisc(r * irisScale, tall * 0.96, 0, -r * 0.02, r * 0.012),
     new THREE.MeshPhysicalMaterial({
       map: irisTexture(iris),
+      emissive: '#ffffff',
+      emissiveMap: irisTexture(iris),
+      emissiveIntensity: 0.3,
       transparent: true,
       roughness: 0.05,
       clearcoat: 1,
@@ -523,21 +542,54 @@ export function eye(
   liner.castShadow = false;
   // The lid: a half-shell hinged at the eye, tilted back by the species' lid amount
   // and swung down over the eye to blink or sleep.
-  const lidMesh = add(
-    g,
-    new THREE.Mesh(
-      new THREE.SphereGeometry(r * 1.06, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.52),
-      new THREE.MeshPhysicalMaterial({ color: lidColor, roughness: 0.6, sheen: 0.3 }),
-    ),
-    0,
-    0,
-    back,
-  );
+  const lidGeo = new THREE.SphereGeometry(r * 1.06, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.52);
+  const lidMat = new THREE.MeshPhysicalMaterial({ color: lidColor, roughness: 0.6, sheen: 0.3 });
+  const lidMesh = add(g, new THREE.Mesh(lidGeo, lidMat), 0, 0, back);
   lidMesh.scale.set(1, tall, depth + 0.06);
   lidMesh.userData.base = -1.35 + lid * 2.0;
   lidMesh.rotation.x = lidMesh.userData.base;
+  // The lower lid: the same shell hinged from below, rising a little for a squint.
+  const lowerWrap = new THREE.Group();
+  lowerWrap.rotation.z = Math.PI;
+  g.add(lowerWrap);
+  const lower = add(lowerWrap, new THREE.Mesh(lidGeo, lidMat), 0, 0, back);
+  lower.scale.set(1, tall, depth + 0.06);
+  lower.userData.base = -1.35 + 0.04 * 2.0;
+  lower.rotation.x = lower.userData.base;
+  // The happy arc: the upturned lash line drawn over a closed eye.
+  const arc = add(
+    g,
+    new THREE.Mesh(
+      new THREE.TorusGeometry(r * 0.78, r * 0.065, 8, 24, Math.PI),
+      new THREE.MeshPhysicalMaterial({ color: '#241a24', roughness: 0.5 }),
+    ),
+    0,
+    r * 0.05,
+    r * 0.46,
+  );
+  arc.scale.set(1, tall * 0.9, 0.5);
+  arc.visible = false;
+  arc.castShadow = false;
+  // The brow: a skin ridge above the eye that tilts and lifts with the mood.
+  const brow = add(
+    g,
+    new THREE.Mesh(
+      new THREE.CapsuleGeometry(r * 0.085, r * 0.95, 4, 10),
+      new THREE.MeshPhysicalMaterial({
+        color: new THREE.Color(lidColor).multiplyScalar(0.88),
+        roughness: 0.7,
+      }),
+    ),
+    0,
+    r * tall * 1.1,
+    r * 0.2,
+  );
+  brow.rotation.z = Math.PI / 2;
+  brow.userData.baseY = r * tall * 1.1;
+  brow.userData.r = r;
+  brow.castShadow = false;
   parent.add(g);
-  return { group: g, lid: lidMesh };
+  return { group: g, lid: lidMesh, lower, arc, brow };
 }
 
 export interface Part {

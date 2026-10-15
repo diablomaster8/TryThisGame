@@ -9,6 +9,7 @@ import {
   gradient,
   surfaceMaterial,
   type Creature,
+  type EyeRig,
   type Shade,
   type SurfaceOpts,
 } from './creatures';
@@ -126,13 +127,37 @@ export interface SpeciesSpec {
     tongue: string;
     /** Tilt of the mouth to follow the face, radians; down and out by default. */
     pitch?: number;
+    /** The closed shape: a smile line, a small round 'o', or a cat-like 'omega'. */
+    shape?: 'smile' | 'o' | 'omega';
   };
+  /** Per-pose face overrides: how far the lids close, the squint, the brow, the arc. */
+  expressions?: Partial<Record<PoseName, Partial<Expression>>>;
   wings?: { x: number; y: number; z: number; size: number; color: string };
   /** The Chao emote ball, if the species has one. */
   ball?: { y: number; color: string };
   /** Hip height: the body bobs from here. */
   hipY: number;
 }
+
+/** One face state: lids closed 0..1, lower-lid squint 0..1, brow tilt and lift, the happy arc. */
+export interface Expression {
+  lid: number;
+  squint: number;
+  /** Brow tilt in radians: positive raises the outer end (soft), negative knits it (focused). */
+  brow: number;
+  /** Brow lift in eye radii: up for surprise, down for sleep. */
+  browLift: number;
+  /** Draw the upturned lash arc once the lids are shut (a happy closed eye). */
+  arc: boolean;
+}
+
+const EXPRESSIONS: Record<PoseName, Expression> = {
+  idle: { lid: 0, squint: 0, brow: 0, browLift: 0, arc: false },
+  happy: { lid: 1, squint: 0.3, brow: 0.3, browLift: 0.12, arc: true },
+  walk: { lid: 0, squint: 0, brow: 0.05, browLift: 0, arc: false },
+  eat: { lid: 0.1, squint: 0.45, brow: -0.3, browLift: -0.08, arc: false },
+  sleep: { lid: 1, squint: 0, brow: -0.1, browLift: -0.12, arc: false },
+};
 
 export interface Rigged extends Creature {
   setPose(pose: PoseName): void;
@@ -256,15 +281,31 @@ function buildMouth(parent: THREE.Object3D, m: SpeciesSpec['mouth']): Mouth {
   }
   // The lip line lies on the surface; it widens into a ring as the mouth opens.
   const lipMat = new THREE.MeshPhysicalMaterial({ color: m.lip, roughness: 0.6 });
-  const lip = add(
-    g,
-    new THREE.Mesh(new THREE.TorusGeometry(w * 0.5, w * 0.045, 8, 28, Math.PI), lipMat),
-    0,
-    w * 0.02,
-    -w * 0.02,
-  );
-  lip.rotation.z = Math.PI;
-  lip.castShadow = false;
+  // The closed shape: one smile arc, a small ring, or two cat arcs side by side.
+  const lip = new THREE.Group();
+  lip.position.set(0, w * 0.02, -w * 0.02);
+  const shape = m.shape ?? 'smile';
+  const arcs: Array<[number, number, number]> =
+    shape === 'omega'
+      ? [
+          [-w * 0.25, w * 0.27, Math.PI],
+          [w * 0.25, w * 0.27, Math.PI],
+        ]
+      : shape === 'o'
+        ? [[0, w * 0.22, Math.PI * 2]]
+        : [[0, w * 0.5, Math.PI]];
+  for (const [ax, ar, len] of arcs) {
+    const a = add(
+      lip,
+      new THREE.Mesh(new THREE.TorusGeometry(ar, w * 0.045, 8, 28, len), lipMat),
+      ax,
+      0,
+      0,
+    );
+    a.rotation.z = Math.PI;
+    a.castShadow = false;
+  }
+  g.add(lip);
   const lower = add(
     g,
     new THREE.Mesh(new THREE.TorusGeometry(w * 0.47, w * 0.04, 8, 28, Math.PI), lipMat),
@@ -282,7 +323,8 @@ function buildMouth(parent: THREE.Object3D, m: SpeciesSpec['mouth']): Mouth {
       const k = THREE.MathUtils.clamp(amount, 0, 1);
       interior.scale.y = w * (0.03 + k * 0.34);
       interior.position.y = -w * k * 0.16;
-      // The upper lip stays; the lower lip drops and flips into a ring.
+      // The closed shape gives way to the open ring as the mouth opens.
+      lip.visible = k < 0.3;
       lower.visible = k > 0.04;
       lower.position.y = w * 0.02 - k * w * 0.34;
       lower.rotation.z = Math.PI + k * Math.PI;
@@ -400,6 +442,7 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
   const faceOrigin = onBody ? hipOrigin : headOrigin;
   const facePrims = onBody ? spec.torso.prims : spec.head.prims;
   const lids: THREE.Mesh[] = [];
+  const eyes: EyeRig[] = [];
   const headBlend = (onBody ? spec.torso.blend : spec.head.blend) ?? spec.blend;
   const forward = new THREE.Vector3(0, 0, 1);
   for (const side of [-1, 1]) {
@@ -428,6 +471,8 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
     r.group.rotateY(side * e.yaw);
     r.group.rotateX(e.pitch ?? 0);
     lids.push(r.lid);
+    r.brow.userData.side = side;
+    eyes.push(r);
   }
   for (const x of e.extra ?? []) {
     const at = onSurface(facePrims, headBlend, V(x.x, x.y, x.z));
@@ -665,9 +710,21 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
     }
     extrasUpdate?.(t, pose);
     mouth.open(mouthOpen);
+    // The face: the pose's expression (with the species' overrides) eased in over a beat.
+    const ex = { ...EXPRESSIONS[pose], ...(spec.expressions?.[pose] ?? {}) };
+    const k = pose === 'sleep' ? Math.min(1, dt / 1.2) : Math.min(1, dt / 0.3);
+    lidClose = Math.max(lidClose, ex.lid * k);
     if (lidClose > 0)
       for (const l of lids) l.rotation.x = (l.userData.base as number) + lidClose * 1.9;
     else blink(lids, t, 0.6);
+    for (const e of eyes) {
+      e.lower.rotation.x = (e.lower.userData.base as number) + ex.squint * k * 0.95;
+      e.arc.visible = ex.arc && lidClose > 0.8;
+      const side = e.brow.userData.side as number;
+      const r = e.brow.userData.r as number;
+      e.brow.rotation.z = Math.PI / 2 + ex.brow * k * side;
+      e.brow.position.y = (e.brow.userData.baseY as number) + ex.browLift * k * r;
+    }
   };
   return {
     group: root,
