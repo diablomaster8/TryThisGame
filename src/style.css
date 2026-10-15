@@ -1544,3 +1544,39 @@ button,
   pointer-events: auto;
   z-index: 3;
 }
+
+/* Save slots on the title screen: a section per mode, a row per slot. */
+.title-mode {
+  width: min(360px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.title-mode-name {
+  font-weight: 700;
+  text-align: left;
+  margin-top: 4px;
+}
+
+.title-slot {
+  display: flex;
+  gap: 6px;
+  align-items: stretch;
+}
+
+.title-slot-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  text-align: left;
+  min-height: 44px;
+}
+
+.title-slot-main small {
+  opacity: 0.8;
+  font-weight: 400;
+}

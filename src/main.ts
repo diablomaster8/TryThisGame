@@ -22,21 +22,22 @@ const params = new URLSearchParams(location.search);
 if (params.has('sprites')) {
   mountSpriteGallery(app);
 } else if (params.has('edu')) {
-  // Straight into a fresh Learning Grove at the given age (dev).
-  clearSlot('edu');
-  setSaveSlot('edu');
+  // Straight into a fresh Learning Grove at the given age (dev). `?slot=2` picks a slot.
+  const slot = { mode: 'edu' as const, index: Number(params.get('slot')) || 1 };
+  clearSlot(slot);
+  setSaveSlot(slot);
   startGame(null, (Number(params.get('edu')) || 4) as EduAge);
 } else if (params.has('free')) {
-  // Straight into the Free Grove (dev and old links).
-  setSaveSlot('free');
+  // Straight into the Free Grove (dev and old links). `?slot=2` picks a slot.
+  setSaveSlot({ mode: 'free', index: Number(params.get('slot')) || 1 });
   startGame(null);
 } else {
   showTitle(hudRoot, (choice) => {
     if (choice.fresh) clearSlot(choice.slot);
     setSaveSlot(choice.slot);
     startGame(
-      choice.slot === 'campaign' && choice.fresh ? choice.trainer : null,
-      choice.slot === 'edu' && choice.fresh ? choice.age : undefined,
+      choice.slot.mode === 'campaign' && choice.fresh ? choice.trainer : null,
+      choice.slot.mode === 'edu' && choice.fresh ? choice.age : undefined,
     );
   });
 }

@@ -9,6 +9,31 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Save slots, three per mode (2026-10-15)
+
+Maor: "Add feature for multiple save slots for each game mode."
+
+- **Storage** (`platform/storage.ts`): a slot is `{ mode, index }` with three per mode
+  (Hazel's Grove, the Free Grove, the Learning Grove). Slot 1 of each mode keeps the
+  key the game used before (`grove.save.v1`, `grove.save.campaign`, `grove.save.edu`),
+  so every existing Grove shows up in slot 1; slots 2 and 3 are `grove.save.<mode>.<n>`.
+  `summarize(json)` reads a save's headline without loading it (names of the first
+  three Nubbins, count, Keeper and chapter for the campaign, the age for the Learning
+  Grove, when it was saved); `copySlot` is there for later.
+- **Title screen** (`ui/title.ts`): a section per mode with a row per slot. A filled
+  slot shows Continue with its summary ("Momo, Pebble · yesterday", "Fern · Chapter 4 ·
+  …", "Age 4 · …") plus New (confirm, then the Keeper or age question as before) and ✕
+  Erase (confirm). An empty slot starts new. The old mode-level confirms are gone;
+  each slot confirms for itself.
+- **Settings** shows which slot is playing ("Playing Free Grove, slot 2."); Back to
+  title returns to the slot list. `?free&slot=2` and `?edu=4&slot=3` pick a slot for
+  dev links.
+
+Tests: `tests/sim/slots.test.ts` (legacy keys for slot 1, nine distinct keys, index
+clamping, the summary from a serialized world). Full suite green, lint clean, build
+OK; seen in the browser: a new Free Grove in slot 2 saved under its own key, the
+Settings line, and the title's Continue row with its summary and buttons.
+
 ## The field, four times the area (2026-10-13)
 
 Maor: "Expand the area again 4x." `GROVE.size` 48 → 96 (`SIM.worldHalf` 46). The old

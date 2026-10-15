@@ -1,7 +1,15 @@
-import { NAMES, TRAINER_LABELS } from '../config/strings';
+import { NAMES, SLOT_TEXT, TRAINER_LABELS } from '../config/strings';
 import { STORY_TEXT } from '../config/story';
 import { playSong } from '../platform/audio';
-import { hasSave, type SaveSlot } from '../platform/storage';
+import {
+  clearSlot,
+  hasSave,
+  readSlotSummary,
+  SLOTS_PER_MODE,
+  type SaveMode,
+  type SaveSlot,
+  type SaveSummary,
+} from '../platform/storage';
 import { frameKey } from '../render/sprites/animations';
 import { buildKeeperSheet } from '../render/sprites/keeper';
 import { TRAINERS } from '../sim/trainers';
@@ -19,9 +27,27 @@ export interface TitleChoice {
   age?: EduAge;
 }
 
+const MODES: SaveMode[] = ['campaign', 'free', 'edu'];
+
+/** One line about a save: who, how many, how far, when. */
+function describe(mode: SaveMode, s: SaveSummary, nowMs: number): string {
+  const parts: string[] = [];
+  if (mode === 'campaign' && s.trainer) parts.push(TRAINER_LABELS[s.trainer]?.name ?? s.trainer);
+  if (mode === 'campaign' && s.chapter !== null) parts.push(SLOT_TEXT.chapter(s.chapter));
+  if (mode === 'edu' && s.eduAge !== null) parts.push(SLOT_TEXT.age(s.eduAge));
+  parts.push(s.names.length > 0 ? s.names.join(', ') : SLOT_TEXT.nubbins(s.nubbins));
+  if (s.savedAtWallMs > 0) {
+    const days = Math.floor((nowMs - s.savedAtWallMs) / 86_400_000);
+    parts.push(SLOT_TEXT.ago(days));
+  }
+  return parts.join(' · ');
+}
+
 /**
- * The title screen: Campaign or Free Grove, each with Continue when a save exists. A
- * new campaign asks which Keeper you are first.
+ * The title screen: three save slots for each mode (the campaign, the Free Grove, the
+ * Learning Grove). A filled slot continues, or starts over after a confirm, or is
+ * erased; an empty one starts new. A new campaign asks which Keeper you are first; a
+ * new Learning Grove asks the child's age.
  */
 export function showTitle(parent: HTMLElement, onChoose: (c: TitleChoice) => void): void {
   const root = el('div', 'title');
@@ -40,64 +66,69 @@ export function showTitle(parent: HTMLElement, onChoose: (c: TitleChoice) => voi
     onChoose(c);
   };
 
-  const mainMenu = () => {
-    menu.innerHTML = '';
-    if (hasSave('campaign')) {
-      menu.appendChild(
-        button(
-          STORY_TEXT.continueCampaign,
-          () => finish({ slot: 'campaign', fresh: false, trainer: null }),
-          'btn btn-primary btn-wide',
-        ),
-      );
-    }
-    menu.appendChild(
-      button(
-        hasSave('campaign') ? STORY_TEXT.newCampaign : STORY_TEXT.campaign,
-        () => keeperMenu(),
-        `btn btn-wide${hasSave('campaign') ? '' : ' btn-primary'}`,
-      ),
-    );
-    if (hasSave('free')) {
-      menu.appendChild(
-        button(
-          STORY_TEXT.continueGrove,
-          () => finish({ slot: 'free', fresh: false, trainer: null }),
-          'btn btn-wide',
-        ),
-      );
-    }
-    menu.appendChild(
-      button(
-        hasSave('free') ? STORY_TEXT.newGrove : STORY_TEXT.freeGrove,
-        () => {
-          if (hasSave('free') && !confirm(STORY_TEXT.newGroveConfirm)) return;
-          finish({ slot: 'free', fresh: true, trainer: null });
-        },
-        'btn btn-wide',
-      ),
-    );
-    // Learning Grove: the educational mode, ages 3 to 6.
-    if (hasSave('edu')) {
-      menu.appendChild(
-        button(
-          EDU_TEXT.continueLearning,
-          () => finish({ slot: 'edu', fresh: false, trainer: null }),
-          'btn btn-wide',
-        ),
-      );
-    }
-    menu.appendChild(
-      button(
-        hasSave('edu') ? EDU_TEXT.newLearning : EDU_TEXT.learningGrove,
-        () => ageMenu(),
-        'btn btn-wide',
-      ),
-    );
+  /** Starting new in a slot: the campaign and the Learning Grove ask a question first. */
+  const startNew = (slot: SaveSlot) => {
+    if (slot.mode === 'campaign') keeperMenu(slot);
+    else if (slot.mode === 'edu') ageMenu(slot);
+    else finish({ slot, fresh: true, trainer: null });
   };
 
-  const ageMenu = () => {
-    if (hasSave('edu') && !confirm(EDU_TEXT.newLearningConfirm)) return;
+  const mainMenu = () => {
+    menu.innerHTML = '';
+    const now = Date.now();
+    for (const mode of MODES) {
+      const section = el('div', 'title-mode');
+      section.appendChild(el('div', 'title-mode-name', SLOT_TEXT.modes[mode] ?? mode));
+      for (let index = 1; index <= SLOTS_PER_MODE; index++) {
+        const slot: SaveSlot = { mode, index };
+        const row = el('div', 'title-slot');
+        const filled = hasSave(slot);
+        const summary = filled ? readSlotSummary(slot) : null;
+        if (filled) {
+          const main = button(
+            '',
+            () => finish({ slot, fresh: false, trainer: null }),
+            'btn btn-primary title-slot-main',
+          );
+          main.append(
+            el('strong', undefined, `${SLOT_TEXT.slot(index)} · ${SLOT_TEXT.continue}`),
+            el('small', undefined, summary ? describe(mode, summary, now) : ''),
+          );
+          const fresh = button(
+            SLOT_TEXT.newHere,
+            () => {
+              if (!confirm(SLOT_TEXT.newOverConfirm(index))) return;
+              startNew(slot);
+            },
+            'btn btn-small',
+          );
+          const erase = button(
+            '✕',
+            () => {
+              if (!confirm(SLOT_TEXT.eraseConfirm(index))) return;
+              clearSlot(slot);
+              mainMenu();
+            },
+            'btn btn-small btn-icon',
+          );
+          erase.title = SLOT_TEXT.erase;
+          erase.setAttribute('aria-label', `${SLOT_TEXT.erase} ${SLOT_TEXT.slot(index)}`);
+          row.append(main, fresh, erase);
+        } else {
+          const main = button('', () => startNew(slot), 'btn title-slot-main');
+          main.append(
+            el('strong', undefined, `${SLOT_TEXT.slot(index)} · ${SLOT_TEXT.empty}`),
+            el('small', undefined, SLOT_TEXT.newHere),
+          );
+          row.append(main);
+        }
+        section.appendChild(row);
+      }
+      menu.appendChild(section);
+    }
+  };
+
+  const ageMenu = (slot: SaveSlot) => {
     menu.innerHTML = '';
     menu.appendChild(el('div', 'help', EDU_TEXT.chooseAge));
     const row = el('div', 'title-ages');
@@ -105,7 +136,7 @@ export function showTitle(parent: HTMLElement, onChoose: (c: TitleChoice) => voi
       row.appendChild(
         button(
           String(age),
-          () => finish({ slot: 'edu', fresh: true, trainer: null, age }),
+          () => finish({ slot, fresh: true, trainer: null, age }),
           'btn title-age',
         ),
       );
@@ -115,18 +146,13 @@ export function showTitle(parent: HTMLElement, onChoose: (c: TitleChoice) => voi
     menu.appendChild(button('←', () => mainMenu(), 'btn btn-small'));
   };
 
-  const keeperMenu = () => {
-    if (hasSave('campaign') && !confirm(STORY_TEXT.resetCampaignConfirm)) return;
+  const keeperMenu = (slot: SaveSlot) => {
     menu.innerHTML = '';
     menu.appendChild(el('div', 'help', STORY_TEXT.chooseKeeper));
     const grid = el('div', 'title-keepers');
     for (const t of TRAINERS) {
       const label = TRAINER_LABELS[t.id]?.name ?? t.id;
-      const b = button(
-        '',
-        () => finish({ slot: 'campaign', fresh: true, trainer: t.id }),
-        'btn title-keeper',
-      );
+      const b = button('', () => finish({ slot, fresh: true, trainer: t.id }), 'btn title-keeper');
       b.appendChild(portrait(t.id));
       b.appendChild(el('span', undefined, label));
       grid.appendChild(b);

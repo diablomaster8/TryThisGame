@@ -1,9 +1,9 @@
 import { OFFLINE } from '../config/tuning';
-import { TRAINER_LABELS, UI_TEXT } from '../config/strings';
+import { SLOT_TEXT, TRAINER_LABELS, UI_TEXT } from '../config/strings';
 import { SONG_NAMES } from '../platform/audio';
 import { TRAINERS } from '../sim/trainers';
 import type { Game } from '../game';
-import { clearSave, downloadText, pickTextFile } from '../platform/storage';
+import { clearSave, currentSlot, downloadText, pickTextFile } from '../platform/storage';
 import { deserialize, SaveError } from '../sim/save';
 import type { OfflineMode, Settings } from '../sim/types';
 import { createWorld } from '../sim/world';
@@ -202,6 +202,10 @@ export class SettingsMenu {
     );
     body.appendChild(screen);
 
+    const slot = currentSlot();
+    body.appendChild(
+      el('p', 'help', SLOT_TEXT.current(SLOT_TEXT.modes[slot.mode] ?? slot.mode, slot.index)),
+    );
     const saves = el('div', 'settings-actions');
     saves.append(
       button(UI_TEXT.exportSave, () => this.exportSave()),

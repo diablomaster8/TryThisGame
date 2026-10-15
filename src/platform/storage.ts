@@ -1,25 +1,48 @@
 /**
  * localStorage behind try/catch. Private browsing, blocked storage and quota errors
  * must never crash the game; they just mean nothing is kept.
+ *
+ * Saves live in slots: three per mode (the campaign, the Free Grove, the Learning
+ * Grove). Slot 1 of each mode keeps the key the game used before slots existed, so
+ * nobody loses a Grove.
  */
-export type SaveSlot = 'free' | 'campaign' | 'edu';
+export type SaveMode = 'free' | 'campaign' | 'edu';
 
-const KEYS: Record<SaveSlot, string> = {
+export const SLOTS_PER_MODE = 3;
+
+export interface SaveSlot {
+  mode: SaveMode;
+  /** 1-based. */
+  index: number;
+}
+
+const LEGACY_KEYS: Record<SaveMode, string> = {
   free: 'grove.save.v1',
   campaign: 'grove.save.campaign',
   edu: 'grove.save.edu',
 };
 
-let SAVE_KEY = KEYS.free;
+export function slotKey(slot: SaveSlot): string {
+  const index = Math.max(1, Math.min(SLOTS_PER_MODE, Math.floor(slot.index) || 1));
+  return index === 1 ? LEGACY_KEYS[slot.mode] : `grove.save.${slot.mode}.${index}`;
+}
 
-/** Which save the game reads and writes: the Free Grove or the campaign. */
+let current: SaveSlot = { mode: 'free', index: 1 };
+let SAVE_KEY = slotKey(current);
+
+/** Which save the game reads and writes. */
 export function setSaveSlot(slot: SaveSlot): void {
-  SAVE_KEY = KEYS[slot];
+  current = { mode: slot.mode, index: slot.index };
+  SAVE_KEY = slotKey(current);
+}
+
+export function currentSlot(): SaveSlot {
+  return { ...current };
 }
 
 export function hasSave(slot: SaveSlot): boolean {
   try {
-    return localStorage.getItem(KEYS[slot]) !== null;
+    return localStorage.getItem(slotKey(slot)) !== null;
   } catch {
     return false;
   }
@@ -27,10 +50,70 @@ export function hasSave(slot: SaveSlot): boolean {
 
 export function clearSlot(slot: SaveSlot): boolean {
   try {
-    localStorage.removeItem(KEYS[slot]);
+    localStorage.removeItem(slotKey(slot));
     return true;
   } catch {
     return false;
+  }
+}
+
+/** Copy one slot's save over another (same mode or not). */
+export function copySlot(from: SaveSlot, to: SaveSlot): boolean {
+  try {
+    const json = localStorage.getItem(slotKey(from));
+    if (json === null) return false;
+    localStorage.setItem(slotKey(to), json);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** What the title screen shows for a slot, read from the save without loading it. */
+export interface SaveSummary {
+  savedAtWallMs: number;
+  nubbins: number;
+  /** The first few Nubbin names. */
+  names: string[];
+  trainer: string | null;
+  chapter: number | null;
+  eduAge: number | null;
+  /** Sim time lived in this Grove. */
+  playMs: number;
+}
+
+/** Pure: a summary from a save's JSON, or null when it cannot be read. */
+export function summarize(json: string): SaveSummary | null {
+  try {
+    const data = JSON.parse(json) as { savedAtWallMs?: unknown; world?: unknown };
+    const w = (data.world ?? null) as Record<string, unknown> | null;
+    if (!w || typeof w !== 'object') return null;
+    const nubbins = Array.isArray(w.nubbins) ? (w.nubbins as Array<{ name?: unknown }>) : [];
+    const campaign = (w.campaign ?? null) as { chapter?: unknown } | null;
+    const edu = (w.edu ?? null) as { age?: unknown } | null;
+    return {
+      savedAtWallMs: typeof data.savedAtWallMs === 'number' ? data.savedAtWallMs : 0,
+      nubbins: nubbins.length,
+      names: nubbins
+        .map((n) => (typeof n.name === 'string' ? n.name : ''))
+        .filter((n) => n.length > 0)
+        .slice(0, 3),
+      trainer: typeof w.trainer === 'string' ? w.trainer : null,
+      chapter: campaign && typeof campaign.chapter === 'number' ? campaign.chapter : null,
+      eduAge: edu && typeof edu.age === 'number' ? edu.age : null,
+      playMs: typeof w.timeMs === 'number' ? w.timeMs : 0,
+    };
+  } catch {
+    return null;
+  }
+}
+
+export function readSlotSummary(slot: SaveSlot): SaveSummary | null {
+  try {
+    const json = localStorage.getItem(slotKey(slot));
+    return json === null ? null : summarize(json);
+  } catch {
+    return null;
   }
 }
 

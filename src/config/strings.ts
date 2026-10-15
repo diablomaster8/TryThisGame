@@ -982,3 +982,24 @@ export const DUNGEON_TEXT = {
   cave: 'The Hollow Below: a cave mouth in the hill.',
   go: 'Go down',
 } as const;
+
+/** Save slots on the title screen. */
+export const SLOT_TEXT = {
+  modes: {
+    campaign: 'Hazel’s Grove',
+    free: 'Free Grove',
+    edu: 'Learning Grove (ages 3–6)',
+  } as Record<string, string>,
+  slot: (n: number) => `Slot ${n}`,
+  empty: 'Empty',
+  newHere: 'New',
+  continue: 'Continue',
+  erase: 'Erase',
+  eraseConfirm: (n: number) => `Erase slot ${n}? This cannot be undone.`,
+  newOverConfirm: (n: number) => `Start a new game in slot ${n}? The old one will be erased.`,
+  nubbins: (n: number) => (n === 1 ? '1 Nubbin' : `${n} Nubbins`),
+  chapter: (n: number) => `Chapter ${n}`,
+  age: (n: number) => `Age ${n}`,
+  ago: (days: number) => (days <= 0 ? 'today' : days === 1 ? 'yesterday' : `${days} days ago`),
+  current: (mode: string, n: number) => `Playing ${mode}, slot ${n}.`,
+} as const;
