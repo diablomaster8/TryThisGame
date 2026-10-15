@@ -406,7 +406,11 @@ function irisTexture(color: string): THREE.CanvasTexture {
   return t;
 }
 
-/** A big cartoon eye: glossy white, a painted iris disc, and an upper lid of body colour. */
+/**
+ * An anime-style eye set into the face: a tall almond, the iris filling almost all of
+ * it, a dark liner along the top lid, a wet highlight, and a hinged lid of body
+ * colour. The eyeball is flattened and sunk into the head so only its front shows.
+ */
 export function eye(
   parent: THREE.Object3D,
   x: number,
@@ -417,51 +421,100 @@ export function eye(
   lidColor: string,
   yaw: number,
   lid = 0.25,
-  irisScale = 0.72,
+  irisScale = 0.9,
+  pitch = 0,
 ): { group: THREE.Group; lid: THREE.Mesh } {
   const g = new THREE.Group();
   g.position.set(x, y, z);
-  g.rotation.y = yaw;
+  g.rotation.set(pitch, yaw, 0);
+  const tall = 1.45;
+  // The eyeball: a flattened sphere, most of it inside the head.
   const white = add(
     g,
-    new THREE.Mesh(new THREE.SphereGeometry(r, 28, 20), glossy('#ffffff', { roughness: 0.06 })),
+    new THREE.Mesh(new THREE.SphereGeometry(r, 32, 24), glossy('#fbfbff', { roughness: 0.05 })),
     0,
     0,
-    0,
+    -r * 0.3,
   );
-  white.scale.set(1, 1.25, 0.75);
+  white.scale.set(1, tall, 0.5);
+  white.castShadow = false;
+  // The iris disc covers most of the eye and carries the pupil and catchlights.
   const disc = add(
     g,
     new THREE.Mesh(
-      new THREE.CircleGeometry(r * irisScale, 32),
+      new THREE.CircleGeometry(r * irisScale, 40),
       new THREE.MeshPhysicalMaterial({
         map: irisTexture(iris),
         transparent: true,
-        roughness: 0.05,
+        roughness: 0.04,
         clearcoat: 1,
-        clearcoatRoughness: 0.05,
+        clearcoatRoughness: 0.03,
       }),
     ),
     0,
-    -r * 0.04,
-    r * 0.72,
+    -r * 0.02,
+    r * 0.19,
   );
-  disc.scale.set(1, 1.28, 1);
+  disc.scale.set(1, tall * 0.98, 1);
   disc.castShadow = false;
+  // A soft wet highlight across the upper eye.
+  const gloss = add(
+    g,
+    new THREE.Mesh(
+      new THREE.CircleGeometry(r * 0.42, 24),
+      new THREE.MeshBasicMaterial({ color: '#ffffff', transparent: true, opacity: 0.75 }),
+    ),
+    -r * 0.28,
+    r * 0.52,
+    r * 0.2,
+  );
+  gloss.scale.set(1, 0.55, 1);
+  gloss.castShadow = false;
+  // The liner: a dark arc hugging the top edge, thicker toward the outer corner.
+  const liner = add(
+    g,
+    new THREE.Mesh(
+      new THREE.TorusGeometry(r * 1.0, r * 0.075, 8, 28, Math.PI),
+      new THREE.MeshPhysicalMaterial({ color: '#1a1420', roughness: 0.5 }),
+    ),
+    0,
+    0,
+    r * 0.2,
+  );
+  liner.scale.set(1, tall, 0.6);
+  liner.castShadow = false;
+  const under = add(
+    g,
+    new THREE.Mesh(
+      new THREE.TorusGeometry(r * 0.98, r * 0.03, 6, 28, Math.PI),
+      new THREE.MeshPhysicalMaterial({
+        color: '#3a2a30',
+        roughness: 0.6,
+        transparent: true,
+        opacity: 0.6,
+      }),
+    ),
+    0,
+    0,
+    r * 0.19,
+  );
+  under.scale.set(1, tall, 0.6);
+  under.rotation.z = Math.PI;
+  under.castShadow = false;
+  // The lid: a half-shell hinged at the eye, tilted back by the species' lid amount
+  // and swung down over the eye to blink or sleep.
   const lidMesh = add(
     g,
     new THREE.Mesh(
-      new THREE.SphereGeometry(r * 1.07, 28, 14, 0, Math.PI * 2, 0, Math.PI * 0.52),
+      new THREE.SphereGeometry(r * 1.08, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.52),
       new THREE.MeshPhysicalMaterial({ color: lidColor, roughness: 0.6, sheen: 0.3 }),
     ),
     0,
     0,
-    0,
+    -r * 0.28,
   );
-  lidMesh.scale.set(1, 1.25, 0.78);
-  // The lid is a half-shell hinged at the eye: it rests tilted back by the species' lid
-  // amount and swings down over the eye to blink or sleep.
-  lidMesh.userData.base = -0.9 + lid * 2.2;
+  lidMesh.scale.set(1, tall, 0.55);
+  lidMesh.userData.base = -1.35 + lid * 2.0;
   lidMesh.rotation.x = lidMesh.userData.base;
   parent.add(g);
   return { group: g, lid: lidMesh };
@@ -505,7 +558,7 @@ export function breathe(g: THREE.Group, base: number, t: number, rate = 2.2, amo
 export function blink(lids: THREE.Mesh[], t: number, phase: number, every = 4.2): void {
   const cycle = (t + phase) % every;
   const k = cycle < 0.2 ? Math.sin((cycle / 0.2) * Math.PI) : 0;
-  for (const l of lids) l.rotation.x = (l.userData.base as number) + k * 1.5;
+  for (const l of lids) l.rotation.x = (l.userData.base as number) + k * 1.9;
 }
 
 /** Thin vein capsules radiating inside a wing, so the membrane reads as a wing. */

@@ -43,6 +43,18 @@ Fennel as templates, and the format the roster will be written in.
 - `?aaa=1&creature=1` and `&creature=3` now come from the specs; Mossling, Bolder and
   Wisp stay hand-built until ported. Screenshots: `docs/samples/pose-*.jpg`.
 
+**Eyes and mouths, redone against the reference** (Maor: "the eyes look nothing like the
+image I provided … the mouth also looks like its falling off"). The eye is now set
+into the face: a flattened eyeball sunk into the head with only its front showing, a
+tall almond, the iris disc filling almost the whole eye, a dark liner hugging the
+top lid (thicker toward the outer corner), a faint lower line, a soft wet highlight
+across the upper eye, and the hinged lid tilted well back at rest. Eyes are bigger
+and tilted to follow the face (`pitch`). The mouth sits in the surface: a thin lip
+line on the face, the dark interior behind the surface so it only shows as the mouth
+opens, the lower lip dropping into a ring, the whole mouth tilted down and out to
+follow the face (`pitch`). Shots: `pose-nubbin-idle/happy/sleep.jpg`,
+`pose-fennel-idle.jpg`.
+
 **Still to do from the list**: grounding (contact shadows, grass parting), material
 tuning per species, eyes that track a point, and then the port of the other three
 and the Keeper.

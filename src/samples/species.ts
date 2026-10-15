@@ -85,6 +85,8 @@ export interface SpeciesSpec {
     yaw: number;
     lid: number;
     irisScale: number;
+    /** Tilt of each eye to follow the face, radians. */
+    pitch?: number;
   };
   mouth: {
     x: number;
@@ -94,6 +96,8 @@ export interface SpeciesSpec {
     lip: string;
     teeth: boolean;
     tongue: string;
+    /** Tilt of the mouth to follow the face, radians; down and out by default. */
+    pitch?: number;
   };
   wings?: { x: number; y: number; z: number; size: number; color: string };
   /** The Chao emote ball, if the species has one. */
@@ -135,22 +139,27 @@ interface Mouth {
   open(amount: number): void;
 }
 
-/** A modelled mouth: a dark interior that opens, a tongue, teeth, and a lip. */
+/**
+ * A modelled mouth set into the face: a thin lip line on the surface, and behind it a
+ * dark interior that only shows as the mouth opens, with a tongue and teeth inside.
+ */
 function buildMouth(parent: THREE.Object3D, m: SpeciesSpec['mouth']): Mouth {
   const g = new THREE.Group();
   g.position.set(m.x, m.y, m.z);
+  // Tilt to follow the face: a mouth below the head's centre looks down and out.
+  g.rotation.x = m.pitch ?? 0.28;
   const w = m.width;
   const interior = add(
     g,
     new THREE.Mesh(
-      new THREE.SphereGeometry(1, 24, 16),
-      new THREE.MeshPhysicalMaterial({ color: '#3a1424', roughness: 0.6 }),
+      new THREE.SphereGeometry(1, 28, 18),
+      new THREE.MeshPhysicalMaterial({ color: '#3a1424', roughness: 0.7 }),
     ),
     0,
     0,
-    -w * 0.25,
+    -w * 0.42,
   );
-  interior.scale.set(w * 0.5, w * 0.04, w * 0.42);
+  interior.scale.set(w * 0.5, w * 0.03, w * 0.44);
   interior.castShadow = false;
   const tongue = add(
     g,
@@ -159,11 +168,12 @@ function buildMouth(parent: THREE.Object3D, m: SpeciesSpec['mouth']): Mouth {
       glossy(m.tongue, { roughness: 0.35, clearcoat: 0.6 }),
     ),
     0,
-    -w * 0.08,
-    -w * 0.12,
+    -w * 0.1,
+    -w * 0.3,
   );
   tongue.scale.set(w * 0.26, w * 0.08, w * 0.3);
   tongue.visible = false;
+  tongue.castShadow = false;
   const teeth: THREE.Mesh[] = [];
   if (m.teeth) {
     for (const dx of [-0.6, 0.6]) {
@@ -174,36 +184,48 @@ function buildMouth(parent: THREE.Object3D, m: SpeciesSpec['mouth']): Mouth {
           new THREE.MeshPhysicalMaterial({ color: '#fbf6ea', roughness: 0.3 }),
         ),
         dx * w * 0.5,
-        w * 0.05,
-        w * 0.1,
+        w * 0.04,
+        -w * 0.12,
       );
       t.rotation.x = Math.PI;
       t.visible = false;
+      t.castShadow = false;
       teeth.push(t);
     }
   }
+  // The lip line lies on the surface; it widens into a ring as the mouth opens.
+  const lipMat = new THREE.MeshPhysicalMaterial({ color: m.lip, roughness: 0.6 });
   const lip = add(
     g,
-    new THREE.Mesh(
-      new THREE.TorusGeometry(w * 0.5, w * 0.045, 8, 24, Math.PI),
-      new THREE.MeshPhysicalMaterial({ color: m.lip, roughness: 0.6 }),
-    ),
+    new THREE.Mesh(new THREE.TorusGeometry(w * 0.5, w * 0.03, 8, 28, Math.PI), lipMat),
     0,
     w * 0.02,
-    0,
+    0.005,
   );
   lip.rotation.z = Math.PI;
+  lip.castShadow = false;
+  const lower = add(
+    g,
+    new THREE.Mesh(new THREE.TorusGeometry(w * 0.5, w * 0.03, 8, 28, Math.PI), lipMat),
+    0,
+    w * 0.02,
+    0.005,
+  );
+  lower.rotation.z = Math.PI;
+  lower.castShadow = false;
   parent.add(g);
   return {
     group: g,
     open: (amount) => {
       const k = THREE.MathUtils.clamp(amount, 0, 1);
-      interior.scale.y = w * (0.04 + k * 0.36);
-      interior.position.y = -w * k * 0.18;
-      lip.position.y = w * 0.02 + k * w * 0.05;
-      lip.scale.set(1, 1 + k * 0.5, 1);
+      interior.scale.y = w * (0.03 + k * 0.34);
+      interior.position.y = -w * k * 0.16;
+      // The upper lip stays; the lower lip drops and flips into a ring.
+      lower.position.y = w * 0.02 - k * w * 0.34;
+      lower.rotation.z = Math.PI + k * Math.PI;
+      lower.scale.set(1, 0.2 + k * 0.8, 1);
       tongue.visible = k > 0.25;
-      tongue.position.y = -w * (0.08 + k * 0.22);
+      tongue.position.y = -w * (0.1 + k * 0.2);
       for (const t of teeth) t.visible = k > 0.3;
     },
   };
@@ -310,6 +332,7 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
       side * e.yaw,
       e.lid,
       e.irisScale,
+      e.pitch ?? 0,
     );
     lids.push(r.lid);
   }
@@ -495,7 +518,7 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
     }
     mouth.open(mouthOpen);
     if (lidClose > 0)
-      for (const l of lids) l.rotation.x = (l.userData.base as number) + lidClose * 1.5;
+      for (const l of lids) l.rotation.x = (l.userData.base as number) + lidClose * 1.9;
     else blink(lids, t, 0.6);
   };
   return {
