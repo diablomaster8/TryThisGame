@@ -10,7 +10,7 @@ import { SMAAPass } from 'three/addons/postprocessing/SMAAPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { fbm, ridged, vnoise } from '../render/paint/noise';
 import { hex, mix, Raster, shade, type RGB } from '../render/paint/raster';
-import { keeperFine, LOOKS, nubbinFine, type Build } from './retro-styles';
+import { sculptedKeeper, sculptedNubbin } from './sculpted';
 
 /**
  * The HD-port direction taken to a AAA finish (`?aaa=1..3`): the same valley as the
@@ -839,35 +839,17 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
   const water = buildWater(scene, mood);
   const particles = buildParticles(scene, mood);
 
-  // The characters, in cloth and clearcoat.
+  // The characters: sculpted as single surfaces, stood on the ground.
   const closeup = new URLSearchParams(location.search).has('closeup');
-  const b: Build = {
-    scene,
-    look: LOOKS.hdport,
-    sprites: [],
-    mats: {
-      surface: (_geo, _kind, color = '#ffffff', shiny = false) =>
-        new THREE.MeshPhysicalMaterial({
-          color,
-          roughness: shiny ? 0.28 : 0.6,
-          metalness: 0,
-          clearcoat: shiny ? 0.8 : 0.1,
-          clearcoatRoughness: 0.25,
-          sheen: shiny ? 0 : 0.45,
-          sheenColor: new THREE.Color('#ffffff'),
-          sheenRoughness: 0.75,
-        }),
-    },
+  const place = (g: THREE.Group, x: number, z: number, facing: number) => {
+    g.position.set(x, groundHeight(x, z), z);
+    g.rotation.y = facing;
+    scene.add(g);
   };
-  const lift = (x: number, z: number) => groundHeight(x, z);
-  nubbinFine(b, 4.2, 2.2, '#ff8ac0', closeup ? Math.PI + 0.25 : 0.6);
-  nubbinFine(b, -3.5, 10.5, '#ff8ac0', 0.1);
-  nubbinFine(b, -7, 4, '#9ad0ff', -0.4);
-  keeperFine(b, closeup ? Math.PI - 0.57 : 0);
-  // The builders stand things at y = 0; lift each group onto the ground.
-  for (const o of scene.children) {
-    if (o instanceof THREE.Group) o.position.y += lift(o.position.x, o.position.z);
-  }
+  place(sculptedNubbin('#ff8ac0'), 4.2, 2.2, closeup ? Math.PI + 0.25 : 0.6);
+  place(sculptedNubbin('#ff8ac0'), -3.5, 10.5, 0.1);
+  place(sculptedNubbin('#9ad0ff'), -7, 4, -0.4);
+  place(sculptedKeeper(), 0, 0, closeup ? Math.PI - 0.57 : 0);
 
   const camera = new THREE.PerspectiveCamera(closeup ? 38 : 46, 16 / 9, 0.1, 400);
   const q = new URLSearchParams(location.search);

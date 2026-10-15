@@ -45,6 +45,17 @@ set above the sunlit ground (2.8 here), or the whole frame glows; the first pass
 this sample was a white haze for that reason. Debug switches stay on the URL:
 `nobloom`, `nossao`, `nodof`, `nofog`.
 
+**Sculpted characters** (Maor: "characters still too shapey"). `src/samples/sculpted.ts`
+builds each figure as one surface instead of a stack of primitives: a signed-distance
+field of spheres, capsules and ellipsoids joined with a smooth minimum is polygonised
+with marching cubes (the three add-on, 112³), so the head flows into the neck, the arms
+into the shoulders and the crown into the head like a clay maquette; vertex colours
+come from the nearest primitive (with a few region rules: the overalls' bib, the hair
+behind the face), so cloth, skin and yellow tips stay crisp. The cap, eyes with irises
+and catchlights, brows, mouth, straps, buttons, cheeks, wings and the emote ball sit on
+top as their own glossy pieces. The AAA samples use these; the console samples keep the
+assembled ones for comparison.
+
 **Cost**: this is desktop-class (SSAO, DoF, 4k shadows, 12k grass instances) and
 would need a quality ladder for phones: no SSAO, 2k shadows, a third of the grass,
 smaller textures. The art pipeline it implies for the real build: painted PBR texture
