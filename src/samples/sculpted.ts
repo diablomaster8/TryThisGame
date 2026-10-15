@@ -9,8 +9,12 @@ import { MarchingCubes } from 'three/addons/objects/MarchingCubes.js';
  * maquette or a subdivided game model does. Colour regions are assigned per vertex
  * from the nearest primitive, so cloth, skin and tips stay crisp.
  */
-interface Prim {
-  kind: 'sphere' | 'capsule' | 'ellipsoid';
+export interface Prim {
+  kind: 'sphere' | 'capsule' | 'ellipsoid' | 'cone' | 'torus';
+  /** For a cone: the radius at `b` (the radius at `a` is `r`). For a torus: the tube radius. */
+  r2?: number;
+  /** Emissive strength written to the `glow` vertex attribute. */
+  glow?: number;
   a: THREE.Vector3;
   b?: THREE.Vector3;
   r: number;
@@ -23,10 +27,39 @@ interface Prim {
 const tmp = new THREE.Vector3();
 const tmp2 = new THREE.Vector3();
 
-function sdf(p: THREE.Vector3, q: Prim): number {
+export function sdf(p: THREE.Vector3, q: Prim): number {
   switch (q.kind) {
     case 'sphere':
       return p.distanceTo(q.a) - q.r;
+    case 'cone': {
+      // A round cone between a (radius r) and b (radius r2), after Inigo Quilez.
+      const ba = tmp.copy(q.b!).sub(q.a);
+      const l2 = ba.lengthSq();
+      const rr = q.r - (q.r2 ?? 0);
+      const a2 = l2 - rr * rr;
+      const il2 = 1 / l2;
+      const pa = tmp2.copy(p).sub(q.a);
+      const y = pa.dot(ba);
+      const z = y - l2;
+      const px = pa.x * l2 - ba.x * y;
+      const py = pa.y * l2 - ba.y * y;
+      const pz = pa.z * l2 - ba.z * y;
+      const x2 = px * px + py * py + pz * pz;
+      const y2 = y * y * l2;
+      const z2 = z * z * l2;
+      const k = Math.sign(rr) * rr * rr * x2;
+      if (Math.sign(z) * a2 * z2 > k) return Math.sqrt(x2 + z2) * il2 - (q.r2 ?? 0);
+      if (Math.sign(y) * a2 * y2 < k) return Math.sqrt(x2 + y2) * il2 - q.r;
+      return (Math.sqrt(x2 * a2 * il2) + y * rr) * il2 - q.r;
+    }
+    case 'torus': {
+      // A ring lying flat (around y) at a: major radius r, tube r2.
+      const dx = p.x - q.a.x;
+      const dz = p.z - q.a.z;
+      const qx = Math.hypot(dx, dz) - q.r;
+      const qy = p.y - q.a.y;
+      return Math.hypot(qx, qy) - (q.r2 ?? 0.1);
+    }
     case 'capsule': {
       const ab = tmp.copy(q.b!).sub(q.a);
       const ap = tmp2.copy(p).sub(q.a);
@@ -43,7 +76,7 @@ function sdf(p: THREE.Vector3, q: Prim): number {
   }
 }
 
-function smin(a: number, b: number, k: number): number {
+export function smin(a: number, b: number, k: number): number {
   const h = Math.max(k - Math.abs(a - b), 0) / k;
   return Math.min(a, b) - h * h * k * 0.25;
 }
@@ -89,6 +122,7 @@ export function sculpt(s: Sculpt, resolution = 112): THREE.BufferGeometry {
   const pos = new Float32Array(count * 3);
   const nrm = new Float32Array(count * 3);
   const col = new Float32Array(count * 3);
+  const glow = new Float32Array(count);
   const posArr = mc.positionArray as Float32Array;
   const nrmArr = mc.normalArray as Float32Array;
   const c = new THREE.Color();
@@ -114,6 +148,7 @@ export function sculpt(s: Sculpt, resolution = 112): THREE.BufferGeometry {
       }
     }
     c.set(s.colorAt ? s.colorAt(p, best) : best.color);
+    glow[i] = best.glow ?? 0;
     col[i * 3] = c.r;
     col[i * 3 + 1] = c.g;
     col[i * 3 + 2] = c.b;
@@ -123,10 +158,11 @@ export function sculpt(s: Sculpt, resolution = 112): THREE.BufferGeometry {
   geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
   geo.setAttribute('normal', new THREE.BufferAttribute(nrm, 3));
   geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+  geo.setAttribute('glow', new THREE.BufferAttribute(glow, 1));
   return geo;
 }
 
-const V = (x: number, y: number, z: number) => new THREE.Vector3(x, y, z);
+export const V = (x: number, y: number, z: number) => new THREE.Vector3(x, y, z);
 
 function skinMaterial(): THREE.MeshPhysicalMaterial {
   return new THREE.MeshPhysicalMaterial({

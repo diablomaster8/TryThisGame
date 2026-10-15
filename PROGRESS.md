@@ -9,6 +9,48 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Five creatures at a modern-console finish (2026-10-15, for Maor's pick)
+
+Maor, with a Palworld roster screenshot: "do the character animation this detailed.
+provide 5 samples." `?aaa=1&creature=1..5` (`src/samples/creatures.ts`) puts one
+creature on the AAA stage, framed close and idling; screenshots in
+`docs/samples/creature-*.jpg`.
+
+**How they are made.** Each is a sculpted single surface (`sculpted.ts`, now with
+round cones and tori as primitives) with:
+
+- a surface detail map projected along the three axes (no UVs): fur strands clumped
+  by a slower field, scales, leaf veins, riveted armour plates, or a smooth grain;
+  each gives albedo grain and a normal map through a small injection into three's
+  physical shader, on top of the vertex-colour regions;
+- big cartoon eyes built from a white, an iris, a pupil, two catchlights and an upper
+  lid of body colour that sets the expression;
+- articulated pieces hung from pivots (ears, tail, cap, wings, motes) that
+  idle-animate, plus a breathing scale on the body;
+- material per species: velvet sheen for the Nubbin, full sheen for fur, clearcoat
+  for shell and cap, emissive glow where the `glow` vertex attribute is set (ember
+  seams, the Wisp's core).
+
+**The five**
+
+1. **Nubbin** (`creature-1-nubbin.jpg`): the Chao-faithful hero, velvet-smooth,
+   yellow tips, wings that flutter, the ball bobbing.
+2. **Mossling** (`creature-2-mossling.jpg`): a round sprout with a pale belly under a
+   spotted mushroom cap that tilts, a collar of leaves that stir.
+3. **Fennel** (`creature-3-fennel.jpg`): a fox pup, orange fur with a cream bib and
+   muzzle, tall ears with pink insides that twitch, a bushy tail that sways.
+4. **Bolder** (`creature-4-bolder.jpg`): a six-legged beetle in riveted blue-grey
+   plates with two horns, mandibles that work, and ember seams that glow.
+5. **Wisp** (`creature-5-wisp.jpg`): a hovering violet spirit with a glowing core,
+   wisp arms and flame tips, a tail that trails, motes orbiting, a light of its own.
+
+**What this says for the real build.** A species is a short description: a list of
+blended shapes with colour rules and a detail kind, plus which pieces move. The
+current catalogue (~100 looks across the Chao, pocket and digital lines) becomes data
+of that shape, generated at load, instead of a hundred hand-made models; the
+Chao-line evolutions are mostly colour and part swaps on one body, which this handles
+directly. Animation would move from clip names to pose rigs: the same pivots driven by
+the sim's states (walk, happy, sleep, eat, swim, flap).
 ## The HD port at a AAA finish (2026-10-15, for Maor's pick)
 
 Maor: "step in the right direction. continue to refine. give me examples like a triple

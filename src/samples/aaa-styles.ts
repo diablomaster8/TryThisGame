@@ -11,6 +11,7 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { fbm, ridged, vnoise } from '../render/paint/noise';
 import { hex, mix, Raster, shade, type RGB } from '../render/paint/raster';
 import { sculptedKeeper, sculptedNubbin } from './sculpted';
+import { buildCreature, type Creature } from './creatures';
 
 /**
  * The HD-port direction taken to a AAA finish (`?aaa=1..3`): the same valley as the
@@ -754,7 +755,14 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = mood === 'golden' ? 0.75 : mood === 'rain' ? 0.8 : 0.62;
+  renderer.toneMappingExposure =
+    mood === 'golden'
+      ? 0.75
+      : mood === 'rain'
+        ? 0.8
+        : location.search.includes('creature=')
+          ? 0.55
+          : 0.62;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
 
   const scene = new THREE.Scene();
@@ -846,12 +854,21 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     g.rotation.y = facing;
     scene.add(g);
   };
-  place(sculptedNubbin('#ff8ac0'), 4.2, 2.2, closeup ? Math.PI + 0.25 : 0.6);
-  place(sculptedNubbin('#ff8ac0'), -3.5, 10.5, 0.1);
-  place(sculptedNubbin('#9ad0ff'), -7, 4, -0.4);
-  place(sculptedKeeper(), 0, 0, closeup ? Math.PI - 0.57 : 0);
+  const creatureIndex = Number(new URLSearchParams(location.search).get('creature')) || 0;
+  let creature: Creature | null = null;
+  if (creatureIndex > 0) {
+    // One creature on the stage, framed close, facing the camera.
+    creature = buildCreature(creatureIndex - 1);
+    creature.group.userData.baseY = groundHeight(0, 0);
+    place(creature.group, 0, 0, Math.PI - 0.5);
+  } else {
+    place(sculptedNubbin('#ff8ac0'), 4.2, 2.2, closeup ? Math.PI + 0.25 : 0.6);
+    place(sculptedNubbin('#ff8ac0'), -3.5, 10.5, 0.1);
+    place(sculptedNubbin('#9ad0ff'), -7, 4, -0.4);
+    place(sculptedKeeper(), 0, 0, closeup ? Math.PI - 0.57 : 0);
+  }
 
-  const camera = new THREE.PerspectiveCamera(closeup ? 38 : 46, 16 / 9, 0.1, 400);
+  const camera = new THREE.PerspectiveCamera(closeup || creature ? 36 : 46, 16 / 9, 0.1, 400);
   const q = new URLSearchParams(location.search);
   const composer = new EffectComposer(renderer);
   const renderPass = new RenderPass(scene, camera);
@@ -905,7 +922,11 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     time.value = t;
     const a = Math.sin(t * 0.22) * 0.16;
     const ky = groundHeight(0, 0);
-    if (closeup) {
+    if (creature) {
+      creature.animate(t);
+      camera.position.set(2.7 + Math.sin(a) * 0.6, ky + 2.3, -4.1);
+      camera.lookAt(0.05, ky + 1.15, 0.2);
+    } else if (closeup) {
       camera.position.set(2.6 + Math.sin(a), ky + 2.1, -4.0);
       camera.lookAt(1.1, ky + 1.45, 0.6);
     } else {
