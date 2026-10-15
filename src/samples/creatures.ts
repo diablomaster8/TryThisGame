@@ -256,7 +256,7 @@ function furShells(
       shader.fragmentShader = shader.fragmentShader
         .replace(
           '#include <common>',
-          '#include <common>\nuniform float uShell;\nuniform float uLift;\nvarying vec3 vObjPos;',
+          '#include <common>\nuniform float uShell;\nuniform float uLift;\nuniform float uCell;\nvarying vec3 vObjPos;',
         )
         .replace(
           '#include <alphatest_fragment>',
@@ -399,7 +399,7 @@ function eye(
   yaw: number,
   lid = 0.25,
   irisScale = 0.72,
-): THREE.Group {
+): { group: THREE.Group; lid: THREE.Mesh } {
   const g = new THREE.Group();
   g.position.set(x, y, z);
   g.rotation.y = yaw;
@@ -441,7 +441,7 @@ function eye(
   );
   lidMesh.scale.set(1, 1.25, 0.78);
   parent.add(g);
-  return g;
+  return { group: g, lid: lidMesh };
 }
 
 interface Part {
@@ -478,7 +478,32 @@ function breathe(g: THREE.Group, base: number, t: number, rate = 2.2, amount = 0
 
 // ---------------------------------------------------------------- the five
 
-/** 1. Nubbin: the Chao-faithful hero, with a soft top-lit gradient and a velvet skin. */
+/** A quick blink every few seconds: the lids drop over the eye and lift again. */
+function blink(lids: THREE.Mesh[], t: number, phase: number, every = 4.2): void {
+  const cycle = (t + phase) % every;
+  const k = cycle < 0.2 ? Math.sin((cycle / 0.2) * Math.PI) : 0;
+  for (const l of lids) l.scale.y = 1.25 + k * 1.1;
+}
+
+/** Thin vein capsules radiating inside a wing, so the membrane reads as a wing. */
+function wingVeins(pivot: THREE.Object3D, dx: number, color: string): void {
+  const m = new THREE.MeshPhysicalMaterial({
+    color,
+    roughness: 0.6,
+    transparent: true,
+    opacity: 0.7,
+  });
+  for (let i = 0; i < 3; i++) {
+    const a = 0.35 + i * 0.45;
+    const len = 0.55 - i * 0.08;
+    const v = new THREE.Mesh(new THREE.CapsuleGeometry(0.012, len, 3, 6), m);
+    v.position.set(Math.sin(a) * len * 0.5 * dx, Math.cos(a) * len * 0.5, 0.002);
+    v.rotation.z = -a * dx;
+    pivot.add(v);
+  }
+}
+
+/** 1. Nubbin: the Chao-faithful hero, velvet-fuzzed, with veined wings, lashes and a glowing ball. */
 function nubbin(): Creature {
   const body = '#9ad0ff';
   const tip = '#ffd94a';
@@ -487,8 +512,8 @@ function nubbin(): Creature {
     detail: 'smooth',
     amount: 0.25,
     bump: 0.25,
-    roughness: 0.48,
-    sheen: 0.7,
+    roughness: 0.46,
+    sheen: 0.75,
     sheenColor: '#dff2ff',
   });
   const prims: Prim[] = [
@@ -517,15 +542,43 @@ function nubbin(): Creature {
       color: body,
       tag: 'crown',
     },
-    { kind: 'sphere', a: V(0, 3.06, 0), r: 0.1, color: tip },
-    { kind: 'capsule', a: V(-0.62, 1.0, 0.1), b: V(-1.0, 0.76, 0.2), r: 0.15, color: body },
-    { kind: 'capsule', a: V(0.62, 1.0, 0.1), b: V(1.0, 0.76, 0.2), r: 0.15, color: body },
-    { kind: 'sphere', a: V(-1.03, 0.73, 0.22), r: 0.19, color: tip },
-    { kind: 'sphere', a: V(1.03, 0.73, 0.22), r: 0.19, color: tip },
-    { kind: 'ellipsoid', a: V(-0.36, 0.15, 0.24), radii: V(0.25, 0.15, 0.34), r: 0, color: tip },
-    { kind: 'ellipsoid', a: V(0.36, 0.15, 0.24), radii: V(0.25, 0.15, 0.34), r: 0, color: tip },
+    { kind: 'sphere', a: V(0, 3.06, 0), r: 0.1, color: tip, tag: 'tip' },
+    {
+      kind: 'capsule',
+      a: V(-0.62, 1.0, 0.1),
+      b: V(-1.0, 0.76, 0.2),
+      r: 0.15,
+      color: body,
+      tag: 'arm',
+    },
+    {
+      kind: 'capsule',
+      a: V(0.62, 1.0, 0.1),
+      b: V(1.0, 0.76, 0.2),
+      r: 0.15,
+      color: body,
+      tag: 'arm',
+    },
+    { kind: 'sphere', a: V(-1.03, 0.73, 0.22), r: 0.19, color: tip, tag: 'hand' },
+    { kind: 'sphere', a: V(1.03, 0.73, 0.22), r: 0.19, color: tip, tag: 'hand' },
+    {
+      kind: 'ellipsoid',
+      a: V(-0.36, 0.15, 0.24),
+      radii: V(0.25, 0.15, 0.34),
+      r: 0,
+      color: tip,
+      tag: 'foot',
+    },
+    {
+      kind: 'ellipsoid',
+      a: V(0.36, 0.15, 0.24),
+      radii: V(0.25, 0.15, 0.34),
+      r: 0,
+      color: tip,
+      tag: 'foot',
+    },
   ];
-  add(
+  const bodyMesh = add(
     g,
     new THREE.Mesh(
       sculpt({
@@ -534,7 +587,13 @@ function nubbin(): Creature {
         min: V(-1.4, 0, -1.0),
         max: V(1.4, 3.3, 1.0),
         colorAt: (p, q) => (q.tag === 'belly' && p.z > 0.3 && p.y < 1.2 ? '#cfe9ff' : q.color),
-        shade: gradient(1.1, 0.7, 0, 3.1),
+        shade: combine(gradient(1.1, 0.72, 0, 3.1), (p, _n, c, q) => {
+          // The yellow tips fade into the body instead of stopping dead.
+          if (q.tag === 'hand' || q.tag === 'foot' || q.tag === 'tip') {
+            const d = p.distanceTo(q.a) / (q.kind === 'sphere' ? q.r : 0.3);
+            c.lerp(new THREE.Color(body), THREE.MathUtils.clamp((d - 0.7) * 1.6, 0, 0.6));
+          }
+        }),
       }),
       mat,
     ),
@@ -542,8 +601,26 @@ function nubbin(): Creature {
     0,
     0,
   );
+  // A velvet fuzz: two very short, very fine shells.
+  furShells(g, bodyMesh, 2, 0.03, 0.2, 220);
+  const lids: THREE.Mesh[] = [];
   for (const dx of [-0.27, 0.27]) {
-    eye(g, dx, 2.0, 0.56, 0.18, '#2a4fd0', body, dx * 0.6, 0.2, 0.78);
+    const e = eye(g, dx, 2.0, 0.56, 0.18, '#2a4fd0', body, dx * 0.6, 0.22, 0.78);
+    lids.push(e.lid);
+    // Lashes on the outer upper corner.
+    for (let i = 0; i < 3; i++) {
+      const lash = add(
+        e.group,
+        new THREE.Mesh(
+          new THREE.CapsuleGeometry(0.012, 0.07, 3, 6),
+          new THREE.MeshPhysicalMaterial({ color: '#1a2040' }),
+        ),
+        Math.sign(dx) * (0.12 + i * 0.03),
+        0.2 - i * 0.03,
+        0.08,
+      );
+      lash.rotation.z = -Math.sign(dx) * (0.6 + i * 0.3);
+    }
     const cheek = add(
       g,
       new THREE.Mesh(
@@ -576,8 +653,8 @@ function nubbin(): Creature {
   for (const dx of [-1, 1]) {
     const shape = new THREE.Shape();
     shape.moveTo(0, 0);
-    shape.quadraticCurveTo(0.42 * dx, 0.5, 0.14 * dx, 0.95);
-    shape.quadraticCurveTo(-0.16 * dx, 0.55, 0, 0);
+    shape.quadraticCurveTo(0.46 * dx, 0.5, 0.16 * dx, 1.0);
+    shape.quadraticCurveTo(-0.18 * dx, 0.55, 0, 0);
     const pivot = new THREE.Group();
     pivot.position.set(dx * 0.42, 1.15, -0.6);
     pivot.rotation.y = -dx * 0.5;
@@ -587,45 +664,50 @@ function nubbin(): Creature {
         new THREE.MeshPhysicalMaterial({
           color: '#f6faff',
           transparent: true,
-          opacity: 0.85,
+          opacity: 0.8,
           side: THREE.DoubleSide,
-          roughness: 0.25,
-          transmission: 0.25,
+          roughness: 0.2,
+          transmission: 0.3,
         }),
       ),
     );
+    wingVeins(pivot, dx, '#9ab8e0');
     g.add(pivot);
     wings.push(pivot);
   }
-  const ball = add(
-    g,
-    new THREE.Mesh(
-      new THREE.SphereGeometry(0.17, 24, 18),
-      glossy(tip, { emissive: new THREE.Color('#7a5a10'), emissiveIntensity: 1.2 }),
-    ),
-    0,
-    3.5,
-    0,
-  );
+  const ballMat = glossy(tip, { emissive: new THREE.Color('#9a7010'), emissiveIntensity: 1.6 });
+  const ball = add(g, new THREE.Mesh(new THREE.SphereGeometry(0.17, 24, 18), ballMat), 0, 3.5, 0);
+  const ballLight = new THREE.PointLight('#ffe08a', 1.2, 2.5, 1.6);
+  ballLight.position.set(0, 3.5, 0);
+  g.add(ballLight);
   g.scale.setScalar(0.78);
   return {
     group: g,
     name: 'Nubbin',
     animate: (t) => {
       breathe(g, 0.78, t);
-      ball.position.y = 3.5 + Math.sin(t * 1.6) * 0.08;
+      g.rotation.z = Math.sin(t * 0.8) * 0.03;
+      ball.position.set(
+        Math.sin(t * 0.7) * 0.08,
+        3.5 + Math.sin(t * 1.6) * 0.08,
+        Math.cos(t * 0.7) * 0.08,
+      );
+      ballLight.position.copy(ball.position);
+      ballMat.emissiveIntensity = 1.3 + Math.sin(t * 2.4) * 0.5;
       wings.forEach((w, i) => {
         w.rotation.y = -(i === 0 ? -1 : 1) * 0.5 + Math.sin(t * 9 + i) * 0.35 * (i === 0 ? -1 : 1);
       });
+      blink(lids, t, 0.6);
     },
   };
 }
 
-/** 2. Mossling: a sprout with a mossy back, a gilled spotted cap, a leaf collar, root toes. */
+/** 2. Mossling: a sprout with vines and moss, a gilled spotted cap with dew, swaying arms and drifting spores. */
 function mossling(): Creature {
   const body = '#6fbf62';
   const belly = '#e2f3c0';
   const cap = '#e0502f';
+  const vine = '#3d8a3a';
   const g = new THREE.Group();
   const mat = surfaceMaterial({
     detail: 'leaf',
@@ -653,38 +735,6 @@ function mossling(): Creature {
       tag: 'belly',
     },
     {
-      kind: 'capsule',
-      a: V(-0.8, 1.1, 0.2),
-      b: V(-1.25, 0.7, 0.45),
-      r: 0.16,
-      color: body,
-      tag: 'arm',
-    },
-    {
-      kind: 'capsule',
-      a: V(0.8, 1.1, 0.2),
-      b: V(1.25, 0.7, 0.45),
-      r: 0.16,
-      color: body,
-      tag: 'arm',
-    },
-    {
-      kind: 'cone',
-      a: V(-1.25, 0.7, 0.45),
-      b: V(-1.45, 0.5, 0.65),
-      r: 0.1,
-      r2: 0.02,
-      color: '#3f7a38',
-    },
-    {
-      kind: 'cone',
-      a: V(1.25, 0.7, 0.45),
-      b: V(1.45, 0.5, 0.65),
-      r: 0.1,
-      r2: 0.02,
-      color: '#3f7a38',
-    },
-    {
       kind: 'cone',
       a: V(0, 1.7, 0),
       b: V(0, 2.15, 0),
@@ -696,6 +746,55 @@ function mossling(): Creature {
     { kind: 'sphere', a: V(-0.4, 1.6, -0.5), r: 0.22, color: '#4f9a3a', tag: 'moss' },
     { kind: 'sphere', a: V(0.45, 1.55, -0.55), r: 0.2, color: '#4f9a3a', tag: 'moss' },
     { kind: 'sphere', a: V(0.05, 1.3, -0.85), r: 0.24, color: '#4f9a3a', tag: 'moss' },
+    // A vine winding round the body with little leaves.
+    {
+      kind: 'capsule',
+      a: V(-0.9, 0.5, 0.2),
+      b: V(-0.5, 1.1, -0.7),
+      r: 0.05,
+      color: vine,
+      tag: 'vine',
+    },
+    {
+      kind: 'capsule',
+      a: V(-0.5, 1.1, -0.7),
+      b: V(0.5, 1.45, -0.6),
+      r: 0.05,
+      color: vine,
+      tag: 'vine',
+    },
+    {
+      kind: 'capsule',
+      a: V(0.5, 1.45, -0.6),
+      b: V(0.95, 1.2, 0.1),
+      r: 0.05,
+      color: vine,
+      tag: 'vine',
+    },
+    {
+      kind: 'ellipsoid',
+      a: V(-0.72, 0.85, -0.25),
+      radii: V(0.14, 0.06, 0.22),
+      r: 0,
+      color: '#5fb050',
+      tag: 'leaf',
+    },
+    {
+      kind: 'ellipsoid',
+      a: V(0.1, 1.5, -0.75),
+      radii: V(0.2, 0.06, 0.13),
+      r: 0,
+      color: '#5fb050',
+      tag: 'leaf',
+    },
+    {
+      kind: 'ellipsoid',
+      a: V(0.85, 1.3, -0.2),
+      radii: V(0.12, 0.06, 0.2),
+      r: 0,
+      color: '#5fb050',
+      tag: 'leaf',
+    },
   ];
   for (const dx of [-0.45, 0.45]) {
     for (let i = 0; i < 3; i++) {
@@ -711,7 +810,7 @@ function mossling(): Creature {
       });
     }
   }
-  add(
+  const bodyMesh = add(
     g,
     new THREE.Mesh(
       sculpt({
@@ -727,12 +826,65 @@ function mossling(): Creature {
     0,
     0,
   );
+  // Mossy fuzz on the moss tufts and back.
+  furShells(g, bodyMesh, 3, 0.05, 0.1, 140);
+  // Arms on shoulder pivots.
+  const armMat = surfaceMaterial({
+    detail: 'leaf',
+    scale: 1.4,
+    amount: 0.4,
+    bump: 0.4,
+    roughness: 0.55,
+    sheen: 0.35,
+  });
+  const arms: Part[] = [];
+  for (const dx of [-1, 1]) {
+    const a = part(
+      g,
+      [
+        {
+          kind: 'capsule',
+          a: V(dx * 0.8, 1.1, 0.2),
+          b: V(dx * 1.25, 0.7, 0.45),
+          r: 0.16,
+          color: body,
+          tag: 'arm',
+        },
+        {
+          kind: 'cone',
+          a: V(dx * 1.25, 0.7, 0.45),
+          b: V(dx * 1.45, 0.5, 0.65),
+          r: 0.1,
+          r2: 0.02,
+          color: '#3f7a38',
+        },
+        {
+          kind: 'cone',
+          a: V(dx * 1.22, 0.72, 0.5),
+          b: V(dx * 1.3, 0.45, 0.8),
+          r: 0.08,
+          r2: 0.02,
+          color: '#3f7a38',
+        },
+      ],
+      0.06,
+      [
+        V(Math.min(dx * 0.8, dx * 1.5) - 0.3, 0.2, -0.2),
+        V(Math.max(dx * 0.8, dx * 1.5) + 0.3, 1.5, 1.1),
+      ],
+      armMat,
+      V(dx * 0.8, 1.1, 0.2),
+      48,
+      gradient(1.08, 0.72, 0.3, 1.3),
+    );
+    arms.push(a);
+  }
   const capMat = surfaceMaterial({
     detail: 'smooth',
     amount: 0.3,
     bump: 0.3,
-    roughness: 0.38,
-    clearcoat: 0.4,
+    roughness: 0.36,
+    clearcoat: 0.45,
     sheen: 0.1,
   });
   const capPart = part(
@@ -765,6 +917,29 @@ function mossling(): Creature {
     88,
     combine(gradient(1.1, 0.75, 1.6, 3.2), spots(2.6, 0.64, '#fff1dc', ['cap'], 93)),
   );
+  // Dew on the cap.
+  const dewMat = new THREE.MeshPhysicalMaterial({
+    color: '#ffffff',
+    roughness: 0.02,
+    transmission: 0.9,
+    thickness: 0.2,
+    ior: 1.33,
+    transparent: true,
+    opacity: 0.95,
+  });
+  for (let i = 0; i < 8; i++) {
+    const a = (i / 8) * Math.PI * 2 + 0.7;
+    const rr = 0.35 + (i % 3) * 0.3;
+    const drop = add(
+      capPart.pivot,
+      new THREE.Mesh(new THREE.SphereGeometry(0.06 + (i % 2) * 0.03, 14, 10), dewMat),
+      Math.cos(a) * rr,
+      0.6 - rr * rr * 0.28,
+      Math.sin(a) * rr,
+    );
+    drop.scale.set(1, 0.7, 1);
+    drop.castShadow = false;
+  }
   const gillMat = new THREE.MeshPhysicalMaterial({ color: '#f0d8b0', roughness: 0.7 });
   for (let i = 0; i < 24; i++) {
     const a = (i / 24) * Math.PI * 2;
@@ -801,7 +976,9 @@ function mossling(): Creature {
     leaf.rotation.x = -1.0;
     leaves.push(leaf);
   }
-  for (const dx of [-0.3, 0.3]) eye(g, dx, 1.15, 0.78, 0.21, '#3a8a2a', body, dx * 0.5, 0.2, 0.75);
+  const lids: THREE.Mesh[] = [];
+  for (const dx of [-0.3, 0.3])
+    lids.push(eye(g, dx, 1.15, 0.78, 0.21, '#3a8a2a', body, dx * 0.5, 0.22, 0.75).lid);
   const mouth = add(
     g,
     new THREE.Mesh(
@@ -813,6 +990,16 @@ function mossling(): Creature {
     0.95,
   );
   mouth.rotation.z = Math.PI;
+  // Spores drifting up from the gills.
+  const spores = new THREE.Group();
+  const sporeMat = new THREE.MeshBasicMaterial({
+    color: '#d8ffb0',
+    transparent: true,
+    opacity: 0.8,
+  });
+  for (let i = 0; i < 16; i++)
+    spores.add(new THREE.Mesh(new THREE.SphereGeometry(0.025 + (i % 3) * 0.01, 6, 5), sporeMat));
+  g.add(spores);
   g.scale.setScalar(0.85);
   return {
     group: g,
@@ -824,11 +1011,26 @@ function mossling(): Creature {
       leaves.forEach((l, i) => {
         l.rotation.x = -1.0 + Math.sin(t * 1.7 + i) * 0.08;
       });
+      arms.forEach((a, i) => {
+        a.pivot.rotation.z = Math.sin(t * 1.9 + i * 2.1) * 0.18 * (i === 0 ? 1 : -1);
+        a.pivot.rotation.x = Math.cos(t * 1.4 + i) * 0.1;
+      });
+      spores.children.forEach((s, i) => {
+        const life = (t * 0.25 + i * 0.37) % 1;
+        const a = i * 1.7 + t * 0.3;
+        s.position.set(
+          Math.cos(a) * (0.6 + life * 0.8),
+          1.7 + life * 1.6,
+          Math.sin(a) * (0.6 + life * 0.8),
+        );
+        s.scale.setScalar(1 - life * 0.7);
+      });
+      blink(lids, t, 1.9, 5.1);
     },
   };
 }
 
-/** 3. Fennel: a fox pup in shell fur, with a ruff, socks, a striped back and a white-tipped tail. */
+/** 3. Fennel: a fox pup in shell fur with whiskers, cheek tufts, flecked back, swaying tail and twitching ears. */
 function fennel(): Creature {
   const fur = '#f0893a';
   const cream = '#fff3e0';
@@ -846,6 +1048,7 @@ function fennel(): Creature {
   const shade = combine(
     gradient(1.1, 0.68, 0, 2.6),
     stripes('z', 4.5, 0.18, '#c9641f', ['body'], 0.55),
+    spots(6, 0.74, '#ffd9a8', ['body', 'head'], 96),
   );
   const prims: Prim[] = [
     {
@@ -880,6 +1083,43 @@ function fennel(): Creature {
       r2: 0.1,
       color: cream,
       tag: 'muzzle',
+    },
+    // Cheek tufts.
+    {
+      kind: 'cone',
+      a: V(-0.55, 1.6, 0.7),
+      b: V(-0.95, 1.45, 0.75),
+      r: 0.14,
+      r2: 0.02,
+      color: cream,
+      tag: 'cheek',
+    },
+    {
+      kind: 'cone',
+      a: V(0.55, 1.6, 0.7),
+      b: V(0.95, 1.45, 0.75),
+      r: 0.14,
+      r2: 0.02,
+      color: cream,
+      tag: 'cheek',
+    },
+    {
+      kind: 'cone',
+      a: V(-0.5, 1.45, 0.75),
+      b: V(-0.85, 1.2, 0.8),
+      r: 0.12,
+      r2: 0.02,
+      color: cream,
+      tag: 'cheek',
+    },
+    {
+      kind: 'cone',
+      a: V(0.5, 1.45, 0.75),
+      b: V(0.85, 1.2, 0.8),
+      r: 0.12,
+      r2: 0.02,
+      color: cream,
+      tag: 'cheek',
     },
     {
       kind: 'capsule',
@@ -988,7 +1228,7 @@ function fennel(): Creature {
     0,
     0,
   );
-  furShells(g, body, 10, 0.1, 0.25);
+  furShells(g, body, 12, 0.11, 0.25, 70);
   const earMat = surfaceMaterial({
     detail: 'fur',
     scale: 2.2,
@@ -1037,6 +1277,7 @@ function fennel(): Creature {
       64,
       gradient(1.05, 0.8, 2, 3.2),
     );
+    furShells(e.pivot, e.mesh, 5, 0.06, 0.2, 90);
     ears.push(e);
   }
   const tail = part(
@@ -1064,9 +1305,10 @@ function fennel(): Creature {
     80,
     gradient(1.1, 0.7, 0.6, 2.3),
   );
-  const tailShells = furShells(tail.pivot, tail.mesh, 10, 0.14, 0.3);
-  void tailShells;
-  for (const dx of [-0.27, 0.27]) eye(g, dx, 1.88, 1.02, 0.17, '#4a9a3a', fur, dx * 0.7, 0.3, 0.74);
+  furShells(tail.pivot, tail.mesh, 12, 0.16, 0.3, 60);
+  const lids: THREE.Mesh[] = [];
+  for (const dx of [-0.27, 0.27])
+    lids.push(eye(g, dx, 1.88, 1.02, 0.17, '#4a9a3a', fur, dx * 0.7, 0.3, 0.74).lid);
   add(
     g,
     new THREE.Mesh(new THREE.SphereGeometry(0.095, 16, 12), glossy('#1a1414')),
@@ -1074,29 +1316,31 @@ function fennel(): Creature {
     1.46,
     1.38,
   ).scale.set(1.2, 0.8, 0.8);
-  for (const dx of [-0.26, 0.26]) {
+  const whiskerMat = new THREE.MeshPhysicalMaterial({ color: '#f4e8d8', roughness: 0.6 });
+  for (const dx of [-1, 1]) {
     const brow = add(
       g,
       new THREE.Mesh(
         new THREE.CapsuleGeometry(0.025, 0.14, 4, 8),
         new THREE.MeshPhysicalMaterial({ color: dark }),
       ),
-      dx,
+      dx * 0.26,
       2.1,
       1.02,
     );
     brow.rotation.z = Math.PI / 2 + (dx > 0 ? -0.3 : 0.3);
-    for (let i = 0; i < 3; i++)
-      add(
+    for (let i = 0; i < 3; i++) {
+      const w = add(
         g,
-        new THREE.Mesh(
-          new THREE.SphereGeometry(0.02, 6, 4),
-          new THREE.MeshBasicMaterial({ color: dark }),
-        ),
-        dx * (0.6 + i * 0.25),
-        1.42 - i * 0.03,
-        1.22,
+        new THREE.Mesh(new THREE.CapsuleGeometry(0.008, 0.5, 3, 6), whiskerMat),
+        dx * 0.45,
+        1.42 - i * 0.05,
+        1.18,
       );
+      w.rotation.z = dx * (Math.PI / 2 - 0.15 + i * 0.18);
+      w.rotation.y = -dx * 0.3;
+      w.castShadow = false;
+    }
   }
   g.scale.setScalar(0.95);
   return {
@@ -1106,9 +1350,16 @@ function fennel(): Creature {
       tail.pivot.rotation.y = Math.sin(t * 2.6) * 0.45;
       tail.pivot.rotation.x = Math.sin(t * 1.3) * 0.12;
       ears.forEach((e, i) => {
-        e.pivot.rotation.z = Math.sin(t * 3.1 + i * 2) * 0.1 * (i === 0 ? 1 : -1);
+        const twitch =
+          (t + i * 1.3) % 3.1 < 0.25
+            ? Math.sin((((t + i * 1.3) % 3.1) / 0.25) * Math.PI) * 0.25
+            : 0;
+        e.pivot.rotation.z =
+          Math.sin(t * 3.1 + i * 2) * 0.08 * (i === 0 ? 1 : -1) + twitch * (i === 0 ? 1 : -1);
       });
       breathe(g, 0.95, t, 2.0);
+      g.rotation.y = (g.userData.yaw ?? 0) + Math.sin(t * 0.5) * 0.05;
+      blink(lids, t, 2.7, 3.6);
     },
   };
 }
@@ -1308,7 +1559,7 @@ function bolder(): Creature {
       });
     }
   }
-  const body = add(
+  add(
     g,
     new THREE.Mesh(
       sculpt({
@@ -1339,7 +1590,6 @@ function bolder(): Creature {
     0,
   );
   // Short dark bristles on the abdomen and thorax.
-  furShells(g, body, 3, 0.04, 0.05, 160);
   // Eight jointed legs on hip pivots: hip to knee rising, knee to foot dropping, a claw.
   const legMat = surfaceMaterial({
     detail: 'plate',
@@ -1395,8 +1645,9 @@ function bolder(): Creature {
     }
   }
   // Eyes: two big and a row of six small, all glossy.
+  const lids: THREE.Mesh[] = [];
   for (const dx of [-0.26, 0.26])
-    eye(g, dx, 0.92, 1.58, 0.13, '#ffb020', under, dx * 0.6, 0.42, 0.82);
+    lids.push(eye(g, dx, 0.92, 1.58, 0.13, '#ffb020', under, dx * 0.6, 0.42, 0.82).lid);
   for (let i = 0; i < 6; i++) {
     const dx = -0.42 + i * 0.168;
     const small = add(
@@ -1441,7 +1692,9 @@ function bolder(): Creature {
       breathe(g, 0.9, t, 1.4, 0.01);
       legs.forEach(({ part: p, phase, side }) => {
         // A slow shifting of weight: legs flex at the hip, alternating sides.
-        p.pivot.rotation.z = side * Math.sin(t * 1.6 + phase) * 0.07;
+        const s = Math.sin(t * 1.6 + phase);
+        // Each leg lifts in turn at the top of its cycle and sets down again.
+        p.pivot.rotation.z = side * (s * 0.07 + Math.max(0, s - 0.75) * 0.6);
         p.pivot.rotation.y = Math.sin(t * 1.1 + phase) * 0.05;
       });
       jaws.forEach((j, i) => {
@@ -1449,6 +1702,7 @@ function bolder(): Creature {
           -(i === 0 ? -0.22 : 0.22) * 1.4 + Math.sin(t * 2.2) * 0.14 * (i === 0 ? 1 : -1);
       });
       emberLight.intensity = 2.5 + Math.sin(t * 2.7) * 0.9;
+      blink(lids, t, 3.3, 6.5);
       const u = (
         mat.userData.shader as { uniforms: { uGlowStrength: { value: number } } } | undefined
       )?.uniforms;
@@ -1665,7 +1919,19 @@ function wisp(): Creature {
     );
     skirt.push(s);
   }
-  for (const dx of [-0.27, 0.27]) eye(g, dx, 1.9, 0.82, 0.19, '#b9ff5a', smoke, dx * 0.5, 0.2, 0.8);
+  const lids: THREE.Mesh[] = [];
+  for (const dx of [-0.27, 0.27])
+    lids.push(eye(g, dx, 1.9, 0.82, 0.19, '#b9ff5a', smoke, dx * 0.5, 0.2, 0.8).lid);
+  // A trail of fading motes behind the tail.
+  const trail = new THREE.Group();
+  const trailMat = new THREE.MeshBasicMaterial({
+    color: '#c8b0ff',
+    transparent: true,
+    opacity: 0.7,
+  });
+  for (let i = 0; i < 8; i++)
+    trail.add(new THREE.Mesh(new THREE.SphereGeometry(0.09 - i * 0.009, 8, 6), trailMat));
+  g.add(trail);
   const grin = add(
     g,
     new THREE.Mesh(
@@ -1734,6 +2000,15 @@ function wisp(): Creature {
       });
       ring.rotation.z = t * 0.5;
       light.intensity = 4 + Math.sin(t * 3) * 1.2;
+      trail.children.forEach((m, i) => {
+        const k = i / 8;
+        m.position.set(
+          0.3 + k * 0.9 + Math.sin(t * 2 + k * 6) * 0.15,
+          0.1 - k * 0.9 + Math.sin(t * 1.4 + k * 4) * 0.1,
+          -0.2 - k * 0.6,
+        );
+      });
+      blink(lids, t, 0.2, 4.8);
       const u = (
         mat.userData.shader as { uniforms: { uGlowStrength: { value: number } } } | undefined
       )?.uniforms;

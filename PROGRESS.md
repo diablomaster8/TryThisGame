@@ -73,6 +73,19 @@ ridge, cheek flares, a sixth flame crest, a skirt of six hanging wisps on their 
 pivots, more motes and a pulsing core. `creature-4-bolder(-golden).jpg`,
 `creature-5-wisp(-golden).jpg`. The creature camera backs off on 4:3 panes.
 
+**Fourth pass, all five** (Maor: "keep going and carry over to all 5 samples"). Every
+creature now blinks (the lids drop and lift every few seconds, each on its own
+rhythm). The Nubbin has a velvet fuzz (two very short, very fine shells), lashes, the
+yellow tips fading into the body, veined wings and a glowing, orbiting ball with its
+own light. Mossling has mossy fuzz on its back, a vine winding round it with small
+leaves, arms on shoulder pivots that sway, dew drops on the cap and spores drifting
+up from the gills. Fennel has twelve finer fur shells, furred ears, cheek tufts,
+real whiskers, cream flecks on its back, a periodic ear twitch and a slow look
+around. Bolder steps: each leg lifts in turn at the top of its cycle; its bristles are
+gone, they read as speckle on the plates. Wisp trails a line of fading motes behind its tail.
+The stage records each creature's facing so idle turns add to it instead of replacing
+it.
+
 **What this says for the real build.** A species is a short description: a list of
 blended shapes with colour rules and a detail kind, plus which pieces move. The
 current catalogue (~100 looks across the Chao, pocket and digital lines) becomes data

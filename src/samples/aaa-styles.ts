@@ -852,6 +852,7 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
   const place = (g: THREE.Group, x: number, z: number, facing: number) => {
     g.position.set(x, groundHeight(x, z), z);
     g.rotation.y = facing;
+    g.userData.yaw = facing;
     scene.add(g);
   };
   const creatureIndex = Number(new URLSearchParams(location.search).get('creature')) || 0;
