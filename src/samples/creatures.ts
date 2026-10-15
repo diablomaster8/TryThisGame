@@ -423,6 +423,8 @@ export interface EyeRig {
   arc: THREE.Mesh;
   /** The brow ridge; `userData.baseY` and `userData.r` size its lift and tilt. */
   brow: THREE.Mesh;
+  /** Everything that makes the open eye: hidden when the eye shuts into the arc, so the skin shows. */
+  ball: THREE.Object3D[];
 }
 
 /**
@@ -565,7 +567,7 @@ export function eye(
     ),
     0,
     r * 0.05,
-    r * 0.46,
+    r * 0.12,
   );
   arc.scale.set(1, tall * 0.9, 0.5);
   arc.visible = false;
@@ -589,7 +591,14 @@ export function eye(
   brow.userData.r = r;
   brow.castShadow = false;
   parent.add(g);
-  return { group: g, lid: lidMesh, lower, arc, brow };
+  return {
+    group: g,
+    lid: lidMesh,
+    lower,
+    arc,
+    brow,
+    ball: [white, disc, gloss, liner, lidMesh, lowerWrap],
+  };
 }
 
 export interface Part {

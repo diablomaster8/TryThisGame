@@ -27,6 +27,9 @@ report back": the face group (items 1, 2, 4, 5, 6, 7) on the Nubbin.
   way to the open ring past 30% open.
 - Nubbin: blush marks under the eyes.
 - Shots: `docs/samples/expr-nubbin-idle/happy/eat/sleep.jpg`, `expr-nubbin-happy-35.jpg`.
+- Fix (Maor: happy frames "look weird"): the lids over the dome left the iris peeking out
+  under a floating arc. A happy shut eye now hides the whole eyeball and lids so the
+  head's skin shows, and the lash arc sits on the skin (`EyeRig.ball`).
 - Still open in the face group: eye tracking (item 3). The other four creatures get the
   same rig automatically but have not been tuned (brows on Bolder/Wisp may want hiding).
 

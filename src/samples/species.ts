@@ -719,7 +719,10 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
     else blink(lids, t, 0.6);
     for (const e of eyes) {
       e.lower.rotation.x = (e.lower.userData.base as number) + ex.squint * k * 0.95;
-      e.arc.visible = ex.arc && lidClose > 0.8;
+      // A happy shut eye is the skin with a lash arc on it, not lids over a dome.
+      const shut = ex.arc && lidClose > 0.8;
+      e.arc.visible = shut;
+      for (const p of e.ball) p.visible = !shut;
       const side = e.brow.userData.side as number;
       const r = e.brow.userData.r as number;
       e.brow.rotation.z = Math.PI / 2 + ex.brow * k * side;
