@@ -53,6 +53,44 @@ export interface PartSpec {
   shades?: Shade[];
   /** Leave the shell fur off this part. */
   noFur?: boolean;
+  /**
+   * A lower segment hung from this one at a joint: the shin under a knee. It is sculpted
+   * on its own (put a ball at the knee in both so the join stays round as it bends) and
+   * its bone sits under this part's bone. The walk plants the feet of parts named
+   * `leg…` that have one.
+   */
+  joint?: {
+    /** The knee, in body space. */
+    pivot: THREE.Vector3;
+    /** kneeL/kneeR, kneeFL/FR/BL/BR, knee1L..knee4R. */
+    name: string;
+    prims: Prim[];
+    box: [THREE.Vector3, THREE.Vector3];
+    blend?: number;
+    resolution?: number;
+  };
+}
+
+/** A jointed leg as the walk solves it: hip and knee bones, the rest chain, its stride phase. */
+interface LegChain {
+  hip: THREE.Group;
+  knee: THREE.Group;
+  /** Knee from hip at rest, in the hip's frame. */
+  u: THREE.Vector3;
+  /** Foot from knee at rest, in the knee's frame. */
+  v: THREE.Vector3;
+  /** The bend plane's normal: the knee turns about it. */
+  n: THREE.Vector3;
+  /** The foot at rest, in root space. */
+  foot: THREE.Vector3;
+  /** Where the last walk frame put the foot, in root space. */
+  placed: THREE.Vector3;
+  l1: number;
+  l2: number;
+  /** Angle between the two segments at rest. */
+  theta0: number;
+  /** Where in the stride this leg starts: 0 or 0.5. */
+  phase: number;
 }
 
 /** What `extras` get to hang hand-built decorations on. */
@@ -166,6 +204,13 @@ export interface Rigged extends Creature {
   bones: Record<string, THREE.Group>;
   /** Set by the stage: ground height at a world x,z, so the body follows the slope. */
   ground?: (x: number, z: number) => number;
+  /**
+   * How far the body advances per walk cycle, in world units, and how long a cycle
+   * takes in seconds: move the root by `strideLength / stridePeriod` per second while
+   * the pose is `walk` and the planted feet stay where they touched down.
+   */
+  strideLength: number;
+  stridePeriod: number;
 }
 
 /** How far the body sinks below the sampled ground, in world units: feet a hair into the grass. */
@@ -411,6 +456,7 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
   const bones: Record<string, THREE.Group> = {};
   const meshes: Record<string, THREE.Mesh> = {};
   const furred: Array<{ parent: THREE.Object3D; mesh: THREE.Mesh }> = [];
+  const legs: LegChain[] = [];
 
   // Hips carry the torso; everything else hangs from the torso or the hips.
   const hips = new THREE.Group();
@@ -453,6 +499,54 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
     bones[ps.name] = pivot;
     meshes[ps.name] = mesh;
     if (!ps.noFur) furred.push({ parent: pivot, mesh });
+    if (ps.joint) {
+      // The lower segment hangs from the knee, which hangs from this part's bone.
+      const j = ps.joint;
+      const lowGeo = sculptPart(
+        spec,
+        j.prims,
+        j.box,
+        j.blend ?? ps.blend ?? spec.blend,
+        j.resolution ?? ps.resolution ?? 80,
+        ps.shades ?? [],
+      );
+      lowGeo.translate(-j.pivot.x, -j.pivot.y, -j.pivot.z);
+      const low = new THREE.Mesh(lowGeo, mesh.material);
+      low.castShadow = true;
+      low.receiveShadow = true;
+      const knee = new THREE.Group();
+      knee.position.copy(j.pivot).sub(ps.pivot);
+      knee.add(low);
+      pivot.add(knee);
+      bones[j.name] = knee;
+      meshes[j.name] = low;
+      if (!ps.noFur) furred.push({ parent: knee, mesh: low });
+      if (ps.name.startsWith('leg')) {
+        // The foot is the lowest point of the lower segment. Straight legs (no bend at
+        // rest) take the knee forward, as a standing animal's does.
+        const lp = lowGeo.attributes.position as THREE.BufferAttribute;
+        const v = new THREE.Vector3(0, Infinity, 0);
+        for (let i = 0; i < lp.count; i++) if (lp.getY(i) < v.y) v.fromBufferAttribute(lp, i);
+        const u = knee.position.clone();
+        const n = new THREE.Vector3().crossVectors(u, v);
+        if (n.lengthSq() < 1e-6) n.set(1, 0, 0);
+        n.normalize();
+        const foot = ps.pivot.clone().add(u).add(v);
+        legs.push({
+          hip: pivot,
+          knee,
+          u,
+          v,
+          n,
+          foot,
+          placed: foot.clone(),
+          l1: u.length(),
+          l2: v.length(),
+          theta0: u.angleTo(v),
+          phase: /^leg(L|FL|BR|1L|3L|2R|4R)$/.test(ps.name) ? 0 : 0.5,
+        });
+      }
+    }
     return pivot;
   };
   const hipOrigin = new THREE.Vector3(0, spec.hipY, 0);
@@ -692,11 +786,64 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
         side,
         (i + (side > 0 ? 0.5 : 0)) * 1.57,
       ]);
+  // The walk. The body advances `stride.length` per `stride.period`; a foot is planted
+  // for the `duty` share of the cycle, sliding back under the body at exactly that
+  // speed, then swings forward on an arc of height `lift`. Two bones per leg are solved
+  // so the foot lands where asked; the hips crouch just enough that the extremes of the
+  // step stay within reach of a straightened leg.
+  const legLen = legs.reduce((m, l) => Math.max(m, l.l1 + l.l2), 0) || spec.hipY * 0.6;
+  const stride = {
+    length: legLen * (spider ? 0.25 : 1),
+    period: spider ? 0.7 : 0.8,
+    lift: legLen * (spider ? 0.08 : 0.25),
+    duty: spider ? 0.5 : 0.6,
+  };
+  const WALK_BOB = 0.03;
+  let crouch = 0;
+  {
+    const half = (stride.length * stride.duty) / 2;
+    const d = new THREE.Vector3();
+    for (const leg of legs) {
+      const reach = (leg.l1 + leg.l2) * 0.985;
+      let c = 0;
+      while (c < legLen * 0.5) {
+        d.copy(leg.u)
+          .add(leg.v)
+          .add(new THREE.Vector3(0, c - WALK_BOB, half));
+        if (d.length() <= reach) break;
+        c += 0.005;
+      }
+      crouch = Math.max(crouch, c);
+    }
+  }
+  const hipsInv = new THREE.Matrix4();
+  const footTarget = new THREE.Vector3();
+  const dVec = new THREE.Vector3();
+  const vBent = new THREE.Vector3();
+  const e1 = new THREE.Vector3();
+  const qKnee = new THREE.Quaternion();
+  /** Put a leg's foot at a root-space point: bend the knee for the distance, swing the hip to aim. */
+  const solveLeg = (leg: LegChain, target: THREE.Vector3) => {
+    dVec.copy(target).applyMatrix4(hipsInv).sub(leg.hip.position);
+    if (dVec.lengthSq() < 1e-8) return;
+    const reach = (leg.l1 + leg.l2) * 0.995;
+    const dist = THREE.MathUtils.clamp(dVec.length(), Math.abs(leg.l1 - leg.l2) + 1e-3, reach);
+    const cosB = (leg.l1 * leg.l1 + leg.l2 * leg.l2 - dist * dist) / (2 * leg.l1 * leg.l2);
+    const theta = Math.PI - Math.acos(THREE.MathUtils.clamp(cosB, -1, 1));
+    qKnee.setFromAxisAngle(leg.n, theta - leg.theta0);
+    leg.knee.quaternion.copy(qKnee);
+    vBent.copy(leg.v).applyQuaternion(qKnee);
+    e1.copy(leg.u).add(vBent).normalize();
+    dVec.normalize();
+    leg.hip.quaternion.setFromUnitVectors(e1, dVec);
+    leg.placed.copy(dVec).multiplyScalar(dist).add(leg.hip.position).applyMatrix4(hips.matrix);
+  };
   const animate = (t: number) => {
     const dt = t - poseSince;
     const s = Math.sin;
     hips.position.y = spec.hipY;
     hips.rotation.set(0, 0, 0);
+    for (const leg of legs) leg.knee.rotation.set(0, 0, 0);
     let lidClose = 0;
     let mouthOpen = 0;
     switch (pose) {
@@ -746,12 +893,38 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
         break;
       }
       case 'walk': {
-        const w = t * 7;
-        hips.position.y = spec.hipY + Math.abs(s(w)) * 0.05;
+        const cycle = t / stride.period;
+        const w = cycle * Math.PI * 2;
+        hips.position.y = spec.hipY - crouch + Math.abs(s(w)) * WALK_BOB;
         hips.rotation.x = -0.06;
         hips.rotation.z = s(w) * 0.03;
         set('head', s(w * 2) * 0.03, 0, 0);
-        if (spider) {
+        if (legs.length) {
+          hips.updateMatrix();
+          hipsInv.copy(hips.matrix).invert();
+          const half = (stride.length * stride.duty) / 2;
+          for (const leg of legs) {
+            const ph = (cycle + leg.phase) % 1;
+            let dz: number;
+            let dy = 0;
+            if (ph < stride.duty) {
+              dz = half - (ph / stride.duty) * 2 * half;
+            } else {
+              const p = (ph - stride.duty) / (1 - stride.duty);
+              dz = -half + p * p * (3 - 2 * p) * 2 * half;
+              dy = stride.lift * s(p * Math.PI);
+            }
+            footTarget.copy(leg.foot);
+            footTarget.y += dy;
+            footTarget.z += dz;
+            solveLeg(leg, footTarget);
+          }
+          if (quad) set('tail', 0.15, s(w * 0.5) * 0.3, 0);
+          else if (!spider) {
+            set('armL', -s(w) * 0.4, 0, 0.15);
+            set('armR', s(w) * 0.4, 0, -0.15);
+          }
+        } else if (spider) {
           // Alternating tetrapod: legs 1 and 3 on one side step with 2 and 4 on the other.
           for (const [n, side, phase] of SPIDER_LEGS) {
             const swing = s(w + phase * 2);
@@ -864,6 +1037,16 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
         }
         root.position.y -= worst + GROUND_SINK;
       }
+      // Planted feet: no foot the walk placed may sink into a slope either.
+      if (pose === 'walk' && legs.length) {
+        root.updateMatrix();
+        let sink = 0;
+        for (const leg of legs) {
+          contact.copy(leg.placed).applyMatrix4(root.matrix);
+          sink = Math.max(sink, rig.ground(contact.x, contact.z) - GROUND_SINK - contact.y);
+        }
+        root.position.y += sink;
+      }
       // The blob hugs the ground: its matrix is pinned flat in world space under the
       // root (whose parent is taken to be untransformed, as on the stage), and each
       // vertex takes the ground height under it.
@@ -900,6 +1083,8 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
     group: root,
     name: spec.name,
     bones,
+    strideLength: stride.length * spec.scale,
+    stridePeriod: stride.period,
     animate,
     setPose: (p) => {
       if (p !== pose) {

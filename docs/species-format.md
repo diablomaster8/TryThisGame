@@ -18,15 +18,30 @@ spec says and what the builder does with it.
 | `mouth` | Position (projected onto the skin like the eyes) and width, lip colour, whether it has teeth, tongue colour. `shape` picks the closed look: `smile`, `o` or `omega`. The mouth is modelled: a dark interior that opens, a tongue and teeth that appear as it does, and a lip that lifts. |
 | `wings`, `ball`, `hipY` | Species extras (translucent wings that flutter, the emote ball with its own light) and the hip height the body bobs from. |
 | `face`, `hover`, `extras` | `face: 'torso'` puts the eyes and mouth on the body instead of the head part; `hover` is the float height for a hovering gait; `extras(rig)` hangs hand-built decorations on the rig (bones, meshes, the material) and may return a per-frame update. |
+| `joint` (on a `leg…` part) | A second segment under a knee: `{ name, pivot, prims, box, blend?, resolution? }`. The builder sculpts it on its own, hangs its bone under the part's bone, and takes its lowest vertex as the foot. Put a ball at the knee in both segments (the lower one a touch larger) so the join stays round as it bends. A straight leg at rest bends with the knee forward; give the knee a small offset to choose the bend (behind on a front leg, ahead on a hind leg). |
 | `footprint` | Radius of the contact shadow and of the slope probes, in body units; defaults to 0.85 × the torso box half-width. Grounding needs no other field: the builder measures the figure at rest (its lowest vertex per 0.3-unit cell of the ground plan) and, given the stage's `ground` sampler, drops the root until the lowest contact point sits 0.02 into the grass, tilts the body to the slope, and lays the shadow blob over the terrain. |
 | `expressions` | Per-pose face overrides: `lid` (0..1 shut), `squint` (lower lid), `brow` (tilt, + soft / - knitted), `browLift`, `arc` (the ^ ^ lash line over shut eyes). Defaults: happy shuts the eyes into arcs, eat squints and knits, sleep shuts and drops the brows. |
 
 ## Bone names the poser knows
 
 `hips` (the torso), `head`, `armL`/`armR`, `legL`/`legR` (bipeds), `legFL`/`legFR`/
-`legBL`/`legBR` (quadrupeds), `tail`, `earL`/`earR`, `wingL`/`wingR`. A part with
-any other name is still sculpted and hung from the hips; it just does not move in
-the stock poses.
+`legBL`/`legBR` (quadrupeds), `leg1L`..`leg4R` (spiders), `tail`, `earL`/`earR`,
+`wingL`/`wingR`, and under a jointed leg its knee: `kneeL`/`kneeR`, `kneeFL`/`kneeFR`/
+`kneeBL`/`kneeBR`, `knee1L`..`knee4R`. A part with any other name is still sculpted and
+hung from the hips; it just does not move in the stock poses.
+
+## The walk and the stride
+
+A jointed leg plants its foot. Each leg is on the ground for a share of the cycle (0.6
+for bipeds and quadrupeds, 0.5 for spiders; diagonal pairs and the alternating tetrapod
+step together), sliding back under the body at the body's speed, then swings forward on
+an arc. Hip and knee are solved together so the foot lands where asked, and the hips
+crouch just enough that the step's extremes stay in reach. The rig exposes
+`strideLength` (world units per cycle) and `stridePeriod` (seconds): move the root by
+`strideLength / stridePeriod` per second while the pose is `walk` and nothing slides.
+The stage does this for `&creature=N&pose=walk`, the camera walking along. A foot the
+walk placed is also checked against `ground`, so a slope never swallows one. Legs
+without a joint (the Nubbin's stubs) keep the old swing at the hip.
 
 ## The poses
 
@@ -56,7 +71,6 @@ a small diff on the base spec.
 
 ## Where it is seen
 
-`?aaa=1&creature=1` (Nubbin) and `&creature=3` (Fennel) on the AAA stage, cycling
-through the poses every few seconds; `&pose=happy` (or `idle`, `walk`, `eat`, `sleep`)
-holds one. Mossling, Bolder and Wisp are still hand-built in `creatures.ts` and will
-be ported to the format next.
+`?aaa=1&creature=1..5` on the AAA stage, cycling through the poses every few seconds;
+`&pose=happy` (or `idle`, `walk`, `eat`, `sleep`) holds one. Fennel (`3`) and Bolder
+(`4`) have jointed legs; the Nubbin, Mossling and Wisp do not.

@@ -413,36 +413,51 @@ function bolderLeg(side: number, i: number): SpeciesSpec['parts'][number] {
     0.08,
     z + (i < 2 ? 0.75 : -0.75) * (i === 0 || i === 3 ? 1.5 : 1),
   );
+  const suffix = i + 1 + (side < 0 ? 'L' : 'R');
+  const surface = {
+    detail: 'plate' as const,
+    scale: 2.4,
+    amount: 0.5,
+    bump: 0.6,
+    roughness: 0.45,
+    clearcoat: 0.5,
+  };
+  // The thigh rises to the knee ball; the shin, on its own bone under the knee, drops
+  // to the claw. Both carry the ball so the join stays round as the knee bends.
   return {
-    name: 'leg' + (i + 1) + (side < 0 ? 'L' : 'R'),
+    name: 'leg' + suffix,
     pivot: hip,
     prims: [
       { kind: 'cone', a: hip, b: knee, r: 0.15, r2: 0.1, color: under, tag: 'leg' },
-      { kind: 'sphere', a: knee, r: 0.13, color: plateLight, tag: 'knee' },
-      { kind: 'cone', a: knee, b: foot, r: 0.1, r2: 0.05, color: under, tag: 'leg' },
-      {
-        kind: 'cone',
-        a: foot,
-        b: V(foot.x + side * 0.22, 0.0, foot.z),
-        r: 0.07,
-        r2: 0.01,
-        color: plateLight,
-        tag: 'claw',
-      },
+      { kind: 'sphere', a: knee, r: 0.12, color: plateLight, tag: 'knee' },
     ],
     box: [
-      V(Math.min(hip.x, foot.x) - 0.5, -0.2, Math.min(hip.z, foot.z, knee.z) - 0.5),
-      V(Math.max(hip.x, foot.x) + 0.5, 2.4, Math.max(hip.z, foot.z, knee.z) + 0.5),
+      V(Math.min(hip.x, knee.x) - 0.5, hip.y - 0.4, Math.min(hip.z, knee.z) - 0.5),
+      V(Math.max(hip.x, knee.x) + 0.5, 2.4, Math.max(hip.z, knee.z) + 0.5),
     ],
     blend: 0.06,
     resolution: 56,
-    surface: {
-      detail: 'plate',
-      scale: 2.4,
-      amount: 0.5,
-      bump: 0.6,
-      roughness: 0.45,
-      clearcoat: 0.5,
+    surface,
+    joint: {
+      name: 'knee' + suffix,
+      pivot: knee,
+      prims: [
+        { kind: 'sphere', a: knee, r: 0.13, color: plateLight, tag: 'knee' },
+        { kind: 'cone', a: knee, b: foot, r: 0.1, r2: 0.05, color: under, tag: 'leg' },
+        {
+          kind: 'cone',
+          a: foot,
+          b: V(foot.x + side * 0.22, 0.0, foot.z),
+          r: 0.07,
+          r2: 0.01,
+          color: plateLight,
+          tag: 'claw',
+        },
+      ],
+      box: [
+        V(Math.min(knee.x, foot.x) - 0.5, -0.2, Math.min(knee.z, foot.z) - 0.5),
+        V(Math.max(knee.x, foot.x) + 0.5, knee.y + 0.4, Math.max(knee.z, foot.z) + 0.5),
+      ],
     },
   };
 }

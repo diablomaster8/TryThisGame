@@ -2,6 +2,30 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## The whole roster in the species format (2026-10-15)
+
+Maor: "keep going on fixes for the whole batch of 5 as next sample". Mossling, Bolder and
+Wisp now come from specs too (`src/samples/species-roster.ts`, `ROSTER` = all five), so
+every creature has the anchored round eyes, a modelled mouth in the skin and the five poses.
+
+- Builder additions in `species.ts`: a part can have its own `surface`, extra `shades`
+  and `noFur`; `face: 'torso'` puts the eyes and mouth on the body (Mossling's cap is its
+  "head", Wisp's flame crown too); `eyes.extra` adds small bead eyes set in the skin
+  (Bolder's row of six); gait `spider` (legs `leg1L..leg4R`, weight-shift idle,
+  alternating-tetrapod walk, front legs raised to eat, tucked to sleep); gait `hover` bobs
+  the hips at `hover` height; `extras(rig)` hangs hand-built decorations (dew, gills,
+  leaves, spores; mandibles and the ember light; the smoke shell, motes, ring, trail,
+  inner light) and returns a per-frame update.
+- Stage: every `&creature=N` builds from `ROSTER`; `&creature=all` lines the five up
+  facing the camera (`&pose=`, `&turn=` still apply). `buildCreature` (hand-built) is no
+  longer used by the stage but stays in `creatures.ts` as reference.
+- A stale-console lesson: the browser pane keeps console errors across page loads, so an
+  old shader error (the `uCell` one) looked current. Reload and read the tail of the log
+  in order before chasing it.
+- Shots: `docs/samples/roster-idle.jpg`, `roster-happy.jpg`, `face-mossling.jpg`,
+  `face-mossling-happy.jpg`, `face-bolder.jpg`, `face-bolder-walk.jpg`, `face-wisp.jpg`,
+  `face-wisp-40.jpg`.
+
 ## Faces anchored to the surface, round pupil eyes (2026-10-15)
 
 Reference: Maor's Palworld pet-animation video (Tanzee, Foxparks, Chikipi, Teafant frames).

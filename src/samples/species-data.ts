@@ -395,29 +395,37 @@ export const FENNEL_SPEC: SpeciesSpec = {
       const front = k.startsWith('F');
       const x = side * (front ? 0.4 : 0.4);
       const z = front ? 0.45 : -0.8;
+      // Two segments: the knee sits a little behind the line on a front leg (an elbow)
+      // and a little ahead on a hind leg (a stifle), so the walk bends each the right way.
+      const r = front ? 0.14 : 0.15;
+      const knee = V(x, 0.5, z + (front ? -0.04 : 0.06));
       return {
         name: `leg${k}`,
         pivot: V(x, 0.85, z),
         prims: [
-          {
-            kind: 'capsule',
-            a: V(x, 0.9, z),
-            b: V(x, 0.2, z + 0.05),
-            r: front ? 0.14 : 0.15,
-            color: fur,
-            tag: 'leg',
-          },
-          {
-            kind: 'ellipsoid',
-            a: V(x, 0.12, z + 0.15),
-            radii: V(0.19, 0.11, 0.27),
-            r: 0,
-            color: dark,
-            tag: 'paw',
-          },
+          { kind: 'capsule', a: V(x, 0.9, z), b: knee, r, color: fur, tag: 'leg' },
+          { kind: 'sphere', a: knee, r: r * 0.98, color: fur, tag: 'leg' },
         ],
-        box: [V(x - 0.4, -0.1, z - 0.4), V(x + 0.4, 1.2, z + 0.6)],
+        box: [V(x - 0.4, 0.3, z - 0.4), V(x + 0.4, 1.2, z + 0.5)],
         resolution: 44,
+        joint: {
+          name: `knee${k}`,
+          pivot: knee,
+          prims: [
+            { kind: 'sphere', a: knee, r: r * 1.05, color: fur, tag: 'leg' },
+            { kind: 'capsule', a: knee, b: V(x, 0.2, z + 0.05), r, color: fur, tag: 'leg' },
+            {
+              kind: 'ellipsoid',
+              a: V(x, 0.12, z + 0.15),
+              radii: V(0.19, 0.11, 0.27),
+              r: 0,
+              color: dark,
+              tag: 'paw',
+            },
+          ],
+          box: [V(x - 0.4, -0.1, z - 0.4), V(x + 0.4, 0.75, z + 0.6)],
+          resolution: 44,
+        },
       };
     }),
     {

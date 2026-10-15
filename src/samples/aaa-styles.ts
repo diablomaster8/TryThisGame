@@ -978,8 +978,11 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
 
   let raf = 0;
   const t0 = performance.now();
+  let lastT = 0;
   const loop = () => {
     const t = (performance.now() - t0) / 1000;
+    const dt = Math.min(0.5, t - lastT);
+    lastT = t;
     time.value = t;
     const a = Math.sin(t * 0.22) * 0.16;
     const ky = groundHeight(0, 0);
@@ -1007,10 +1010,28 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
       camera.lookAt(0, ky + 1.1, 0);
     } else if (creature) {
       if ('setPose' in creature) (creature as Rigged).setPose(poseNow);
+      // A walking creature covers ground at its stride speed, so the planted feet stay
+      // put; the camera walks with it, and after a few units it starts the lap again.
+      const g = creature.group;
+      if (poseNow === 'walk' && 'strideLength' in creature) {
+        const r = creature as Rigged;
+        const v = (r.strideLength / r.stridePeriod) * dt;
+        g.position.x += Math.sin(g.rotation.y) * v;
+        g.position.z += Math.cos(g.rotation.y) * v;
+        if (g.position.x * g.position.x + g.position.z * g.position.z > 25) {
+          g.position.x -= Math.sin(g.rotation.y) * 10;
+          g.position.z -= Math.cos(g.rotation.y) * 10;
+        }
+      }
       creature.animate(t);
       const back = camera.aspect < 1.5 ? 1.25 : 1;
-      camera.position.set((2.7 + Math.sin(a) * 0.6) * back, ky + 2.3 * back, -4.1 * back);
-      camera.lookAt(0.05, ky + 1.2, 0.2);
+      const cy = groundHeight(g.position.x, g.position.z);
+      camera.position.set(
+        g.position.x + (2.7 + Math.sin(a) * 0.6) * back,
+        cy + 2.3 * back,
+        g.position.z - 4.1 * back,
+      );
+      camera.lookAt(g.position.x + 0.05, cy + 1.2, g.position.z + 0.2);
     } else if (closeup) {
       camera.position.set(2.6 + Math.sin(a), ky + 2.1, -4.0);
       camera.lookAt(1.1, ky + 1.45, 0.6);

@@ -9,7 +9,7 @@ new pass goes in at line 12 and the file is long, move the oldest section to
 Shipped and deployed: v1, the organic painted Grove, the Digimon-inspired ten, the Hollow
 Below dungeons, the 96-unit field, three save slots per mode. In progress: the full-3D
 mode, currently as samples behind `?aaa=1` with the five-creature roster in the species
-format. Latest pass: grounding verified in the browser (plan.md Part 1). Waiting on Maor:
+format. Latest pass: knee joints and planted feet (item 22). Waiting on Maor:
 the pick from expansions E1–E3 and campaigns S1–S4, and his device pass. Subagent briefs
 with model picks: `plan.md`. Improvement backlog against the Palworld references:
 `docs/creature-improvements.md`. Story content pack: `src/content/`, `script-book/`,
@@ -22,6 +22,30 @@ with model picks: `plan.md`. Improvement backlog against the Palworld references
 going until you hit the session limit." So after each milestone passes its done-when
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
+
+## Knee joints and planted feet (2026-10-15)
+
+Item 22 of `docs/creature-improvements.md`: the walk rotated whole legs at the hip, so
+the feet slid. Now a `PartSpec` may carry `joint: { name, pivot, prims, box }`, a lower
+segment sculpted on its own and hung under the part's bone (`kneeFL`.., `kneeL/R`,
+`knee1L`..`knee4R`). Each jointed leg's foot is the lowest vertex of its shin; the walk
+keeps the foot still for the stance share of the cycle (0.6, spiders 0.5) while the
+body advances, then swings it forward on an arc, with hip and knee solved together
+(two-bone, bending about the rest chain's plane) and a crouch sized so the step's
+extremes stay in reach. `Rigged` exposes `strideLength` and `stridePeriod`; the stage
+moves a `&pose=walk` creature at that speed and the camera walks with it, lapping every
+ten units. Each placed foot is also checked against `ground` so a slope cannot swallow
+it. Fennel and Bolder are ported (knee a touch behind the line on a front leg, ahead on a
+hind leg; Bolder's knee ball in both segments). Checked in the browser by sampling every
+foot's world position per frame: Bolder's eight feet move under 0.0005 units per frame
+while planted with the body moving 0.024; Fennel's the same in the fast-frame bursts the
+pane managed. Shots: `docs/samples/walk-fennel.jpg`, `walk-bolder.jpg`.
+
+**Stubbed:** the Nubbin, Mossling and Wisp keep the hip-only swing; knees stay straight
+in the other poses (sleep and happy would look better folded). **Known:** the browser
+pane runs this stage at 3–15 fps, so its frame gaps can hold a whole swing; a frame
+longer than 0.5 s is clamped by the stage and lets the feet creep by that much. The sim
+does not yet drive the body by the stride (the 3D mode is not wired to the sim).
 
 ## Story pack moved into the repo (2026-10-15, Task B0)
 
@@ -112,28 +136,3 @@ report back": the face group (items 1, 2, 4, 5, 6, 7) on the Nubbin.
   `expr-fennel-happy.jpg` shows it with teeth.
 - Still open in the face group: eye tracking (item 3). The other four creatures get the
   same rig automatically but have not been tuned (brows on Bolder/Wisp may want hiding).
-
-## The whole roster in the species format (2026-10-15)
-
-Maor: "keep going on fixes for the whole batch of 5 as next sample". Mossling, Bolder and
-Wisp now come from specs too (`src/samples/species-roster.ts`, `ROSTER` = all five), so
-every creature has the anchored round eyes, a modelled mouth in the skin and the five poses.
-
-- Builder additions in `species.ts`: a part can have its own `surface`, extra `shades`
-  and `noFur`; `face: 'torso'` puts the eyes and mouth on the body (Mossling's cap is its
-  "head", Wisp's flame crown too); `eyes.extra` adds small bead eyes set in the skin
-  (Bolder's row of six); gait `spider` (legs `leg1L..leg4R`, weight-shift idle,
-  alternating-tetrapod walk, front legs raised to eat, tucked to sleep); gait `hover` bobs
-  the hips at `hover` height; `extras(rig)` hangs hand-built decorations (dew, gills,
-  leaves, spores; mandibles and the ember light; the smoke shell, motes, ring, trail,
-  inner light) and returns a per-frame update.
-- Stage: every `&creature=N` builds from `ROSTER`; `&creature=all` lines the five up
-  facing the camera (`&pose=`, `&turn=` still apply). `buildCreature` (hand-built) is no
-  longer used by the stage but stays in `creatures.ts` as reference.
-- A stale-console lesson: the browser pane keeps console errors across page loads, so an
-  old shader error (the `uCell` one) looked current. Reload and read the tail of the log
-  in order before chasing it.
-- Shots: `docs/samples/roster-idle.jpg`, `roster-happy.jpg`, `face-mossling.jpg`,
-  `face-mossling-happy.jpg`, `face-bolder.jpg`, `face-bolder-walk.jpg`, `face-wisp.jpg`,
-  `face-wisp-40.jpg`.
-
