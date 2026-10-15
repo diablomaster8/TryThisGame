@@ -604,10 +604,14 @@ function populate(b: Build): void {
   tree(b, 22, 7, 1);
   tree(b, -24, 8, 1.2);
   tree(b, 8, 24, 1.1);
-  nubbin(b, 4.2, 2.2, '#ff2a88', 0.6);
-  nubbin(b, -3.5, 10.5, '#ff2a88', 0.1);
-  nubbin(b, -7, 4, '#4aa0ff', -0.4);
-  keeper(b);
+  const fine = b.look.style === 'hdport' || b.look.style === 'dreamcast';
+  const closeup = fine && new URLSearchParams(location.search).has('closeup');
+  const nub = fine ? nubbinFine : nubbin;
+  nub(b, 4.2, 2.2, '#ff8ac0', closeup ? Math.PI + 0.25 : 0.6);
+  nub(b, -3.5, 10.5, '#ff8ac0', 0.1);
+  nub(b, -7, 4, '#9ad0ff', -0.4);
+  if (fine) keeperFine(b, closeup ? Math.PI - 0.57 : 0);
+  else keeper(b);
 }
 
 // ---------------------------------------------------------------- mounting
@@ -676,7 +680,8 @@ export function mountRetroSample(canvas: HTMLCanvasElement, style: RetroStyle): 
   }
 
   // The Lakitu camera: low, behind the Keeper, drifting a little.
-  const camera = new THREE.PerspectiveCamera(50, 16 / 9, 0.1, 220);
+  const closeup = new URLSearchParams(location.search).has('closeup');
+  const camera = new THREE.PerspectiveCamera(closeup ? 40 : 50, 16 / 9, 0.1, 220);
 
   // Low-res rendering through a render target, blitted to the canvas.
   let rt: THREE.WebGLRenderTarget | null = null;
@@ -715,8 +720,13 @@ export function mountRetroSample(canvas: HTMLCanvasElement, style: RetroStyle): 
   const loop = () => {
     const t = (performance.now() - t0) / 1000;
     const a = Math.sin(t * 0.25) * 0.18;
-    camera.position.set(Math.sin(a) * -7.5, 3.1, Math.cos(a) * -7.5);
-    camera.lookAt(Math.sin(a) * 2, 1.6, 6);
+    if (closeup) {
+      camera.position.set(2.6 + Math.sin(a), 2.1, -4.0);
+      camera.lookAt(1.1, 1.45, 0.6);
+    } else {
+      camera.position.set(Math.sin(a) * -7.5, 3.1, Math.cos(a) * -7.5);
+      camera.lookAt(Math.sin(a) * 2, 1.6, 6);
+    }
     for (const s of b.sprites) s.material.rotation = 0;
     if (rt) {
       renderer.setRenderTarget(rt);
@@ -735,4 +745,234 @@ export function mountRetroSample(canvas: HTMLCanvasElement, style: RetroStyle): 
     rt?.dispose();
     renderer.dispose();
   };
+}
+
+// ---------------------------------------------------------------- the modelled characters
+
+/** A smooth solid of revolution from a radius profile (radius, height), y up. */
+function lathe(profile: Array<[number, number]>, segments = 32): THREE.LatheGeometry {
+  const pts = profile.map(([r, y]) => new THREE.Vector2(r, y));
+  const g = new THREE.LatheGeometry(pts, segments);
+  g.computeVertexNormals();
+  return g;
+}
+
+function part(
+  b: Build,
+  g: THREE.Group,
+  geo: THREE.BufferGeometry,
+  color: string,
+  shiny = false,
+): THREE.Mesh {
+  const m = mesh(b, geo, 'white', color, shiny);
+  b.scene.remove(m);
+  g.add(m);
+  return m;
+}
+
+/**
+ * A Chao-faithful Nubbin: a round belly that tucks in at the neck, a head that rises
+ * to the pointed crown, big dark eyes with a catchlight, yellow tips on hands and feet,
+ * little wings and the emote ball.
+ */
+function nubbinFine(b: Build, x: number, z: number, body: string, facing: number): void {
+  const g = new THREE.Group();
+  const tip = '#ffe066';
+  part(
+    b,
+    g,
+    lathe([
+      [0, 0.05],
+      [0.42, 0.08],
+      [0.66, 0.4],
+      [0.7, 0.7],
+      [0.6, 1.05],
+      [0.38, 1.3],
+      [0.3, 1.38],
+      [0, 1.4],
+    ]),
+    body,
+    true,
+  );
+  const head = part(
+    b,
+    g,
+    lathe([
+      [0, 0],
+      [0.5, 0.1],
+      [0.7, 0.42],
+      [0.72, 0.7],
+      [0.62, 1.0],
+      [0.4, 1.25],
+      [0.18, 1.5],
+      [0.06, 1.75],
+      [0, 1.85],
+    ]),
+    body,
+    true,
+  );
+  head.position.y = 1.3;
+  const crownTip = part(b, g, new THREE.SphereGeometry(0.1, 12, 10), tip);
+  crownTip.position.y = 3.1;
+  for (const dx of [-0.25, 0.25]) {
+    const eye = part(b, g, new THREE.SphereGeometry(0.15, 18, 14), '#141a3a', true);
+    eye.scale.set(1, 1.6, 0.55);
+    eye.position.set(dx, 2.0, 0.6);
+    eye.rotation.y = dx * 0.5;
+    const light = part(b, g, new THREE.SphereGeometry(0.05, 10, 8), '#ffffff');
+    light.position.set(dx - 0.04, 2.12, 0.72);
+  }
+  for (const dx of [-0.4, 0.4]) {
+    const cheek = part(b, g, new THREE.SphereGeometry(0.09, 12, 10), '#ffb3c8');
+    cheek.scale.set(1, 0.6, 0.4);
+    cheek.position.set(dx, 1.82, 0.58);
+  }
+  const smile = part(b, g, new THREE.TorusGeometry(0.1, 0.02, 8, 16, Math.PI), '#6a3a4a');
+  smile.position.set(0, 1.78, 0.7);
+  smile.rotation.z = Math.PI;
+  for (const dx of [-1, 1]) {
+    const arm = part(b, g, new THREE.CapsuleGeometry(0.13, 0.42, 6, 14), body, true);
+    arm.position.set(dx * 0.72, 0.85, 0.15);
+    arm.rotation.z = dx * 1.1;
+    const hand = part(b, g, new THREE.SphereGeometry(0.17, 14, 12), tip, true);
+    hand.position.set(dx * 0.98, 0.72, 0.2);
+    const foot = part(b, g, new THREE.SphereGeometry(0.24, 16, 12), tip, true);
+    foot.scale.set(1, 0.6, 1.3);
+    foot.position.set(dx * 0.34, 0.14, 0.22);
+    const wingShape = new THREE.Shape();
+    wingShape.moveTo(0, 0);
+    wingShape.quadraticCurveTo(0.35, 0.5, 0.1, 0.8);
+    wingShape.quadraticCurveTo(-0.15, 0.5, 0, 0);
+    const wing = part(b, g, new THREE.ShapeGeometry(wingShape, 12), '#ffffff');
+    wing.material = new THREE.MeshStandardMaterial({
+      color: '#eef6ff',
+      transparent: true,
+      opacity: 0.85,
+      side: THREE.DoubleSide,
+    });
+    wing.position.set(dx * 0.45, 1.0, -0.62);
+    wing.rotation.y = dx * -0.7;
+    wing.scale.x = dx;
+  }
+  const ball = part(b, g, new THREE.SphereGeometry(0.17, 18, 14), tip, true);
+  ball.position.y = 3.55;
+  (ball.material as THREE.MeshStandardMaterial).emissive = new THREE.Color('#6a5010');
+  g.position.set(x, 0, z);
+  g.rotation.y = facing;
+  g.scale.setScalar(0.72);
+  b.scene.add(g);
+  blob(b, x, z, 0.8);
+}
+
+/**
+ * The Keeper, modelled: a cartoon head on a lathe-built shirt and overalls with
+ * straps and buttons, hair under the cap, eyes with pupils and catchlights, a nose,
+ * ears, gloves and rounded shoes.
+ */
+function keeperFine(b: Build, facing: number): void {
+  const g = new THREE.Group();
+  const skin = '#ffd0a8';
+  const red = '#e03030';
+  const blue = '#2a4ad0';
+  part(
+    b,
+    g,
+    lathe([
+      [0.36, 0.55],
+      [0.5, 0.6],
+      [0.56, 0.95],
+      [0.52, 1.3],
+      [0.44, 1.5],
+      [0.4, 1.56],
+      [0, 1.56],
+    ]),
+    blue,
+  );
+  part(
+    b,
+    g,
+    lathe([
+      [0.4, 1.5],
+      [0.52, 1.58],
+      [0.58, 1.78],
+      [0.54, 1.98],
+      [0.34, 2.08],
+      [0, 2.08],
+    ]),
+    red,
+  );
+  for (const dx of [-0.22, 0.22]) {
+    const strap = part(b, g, new THREE.BoxGeometry(0.13, 0.6, 0.08), blue);
+    strap.position.set(dx, 1.78, 0.46);
+    strap.rotation.x = 0.25;
+    const button = part(b, g, new THREE.CylinderGeometry(0.06, 0.06, 0.03, 12), '#ffe066', true);
+    button.rotation.x = Math.PI / 2;
+    button.position.set(dx, 1.52, 0.56);
+  }
+  const head = part(b, g, new THREE.SphereGeometry(0.62, 32, 24), skin);
+  head.position.y = 2.6;
+  head.scale.set(1, 0.95, 0.98);
+  for (const dx of [-1, 1]) {
+    const side = part(b, g, new THREE.SphereGeometry(0.17, 14, 12), '#6a3a18');
+    side.scale.set(0.6, 1.1, 0.9);
+    side.position.set(dx * 0.56, 2.62, -0.12);
+  }
+  const back = part(b, g, new THREE.SphereGeometry(0.42, 18, 14), '#6a3a18');
+  back.scale.set(1.1, 0.7, 0.7);
+  back.position.set(0, 2.62, -0.42);
+  for (const dx of [-0.3, 0, 0.3]) {
+    const fringe = part(b, g, new THREE.SphereGeometry(0.12, 12, 10), '#6a3a18');
+    fringe.scale.set(1, 0.5, 0.7);
+    fringe.position.set(dx, 2.96, 0.52);
+  }
+  const cap = part(
+    b,
+    g,
+    new THREE.SphereGeometry(0.66, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.48),
+    red,
+  );
+  cap.position.set(0, 2.78, -0.02);
+  const brim = part(b, g, new THREE.CylinderGeometry(0.5, 0.5, 0.07, 24), red);
+  brim.scale.set(1, 1, 0.7);
+  brim.position.set(0, 3.0, 0.5);
+  brim.rotation.x = -0.15;
+  const badge = part(b, g, new THREE.CylinderGeometry(0.13, 0.13, 0.04, 16), '#ffffff');
+  badge.rotation.x = Math.PI / 2 - 0.3;
+  badge.position.set(0, 3.12, 0.6);
+  for (const dx of [-0.2, 0.2]) {
+    const white = part(b, g, new THREE.SphereGeometry(0.13, 18, 14), '#ffffff');
+    white.scale.set(0.8, 1.3, 0.6);
+    white.position.set(dx, 2.68, 0.6);
+    const pupil = part(b, g, new THREE.SphereGeometry(0.07, 14, 12), '#1a3a9a', true);
+    pupil.scale.set(0.9, 1.2, 0.6);
+    pupil.position.set(dx + (dx > 0 ? -0.02 : 0.02), 2.67, 0.68);
+    const light = part(b, g, new THREE.SphereGeometry(0.03, 8, 6), '#ffffff');
+    light.position.set(dx + 0.02, 2.74, 0.73);
+    const ear = part(b, g, new THREE.SphereGeometry(0.11, 12, 10), skin);
+    ear.scale.set(0.5, 1, 0.8);
+    ear.position.set(dx * 3.1, 2.56, -0.02);
+  }
+  const nose = part(b, g, new THREE.SphereGeometry(0.15, 16, 12), '#ffc090');
+  nose.scale.set(1, 0.85, 1);
+  nose.position.set(0, 2.5, 0.68);
+  const mouth = part(b, g, new THREE.TorusGeometry(0.12, 0.025, 8, 16, Math.PI), '#8a3a3a');
+  mouth.position.set(0, 2.3, 0.6);
+  mouth.rotation.z = Math.PI;
+  mouth.rotation.x = -0.3;
+  for (const dx of [-1, 1]) {
+    const arm = part(b, g, new THREE.CapsuleGeometry(0.15, 0.55, 6, 16), red);
+    arm.position.set(dx * 0.7, 1.55, 0.08);
+    arm.rotation.z = dx * 0.75;
+    const glove = part(b, g, new THREE.SphereGeometry(0.21, 18, 14), '#ffffff');
+    glove.position.set(dx * 0.98, 1.2, 0.14);
+    const leg = part(b, g, new THREE.CapsuleGeometry(0.19, 0.3, 6, 16), blue);
+    leg.position.set(dx * 0.26, 0.42, 0);
+    const shoe = part(b, g, new THREE.SphereGeometry(0.26, 18, 14), '#6a3010');
+    shoe.scale.set(1, 0.62, 1.35);
+    shoe.position.set(dx * 0.28, 0.16, 0.1);
+  }
+  g.rotation.y = facing;
+  g.scale.setScalar(0.78);
+  b.scene.add(g);
+  blob(b, 0, 0, 0.7);
 }

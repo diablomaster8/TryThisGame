@@ -47,6 +47,17 @@ geometry and textures once at N64 simplicity (1), then ship 5 as the default loo
 with 1 and 2 as selectable "retro" filters, since they are post-processing on the
 same scene.
 
+Maor liked 5 but found the character "too blocky, not a great sprite". The HD port (and
+the Dreamcast sample) now carry modelled characters (`nubbinFine`, `keeperFine` in
+`retro-styles.ts`): the Keeper is a cartoon head on lathe-built shirt and overalls
+with straps and buttons, a cap with a badge and brim, sideburns and a fringe, eyes
+with pupils and catchlights, a nose, ears, a smile, gloves and rounded shoes; the
+Nubbins are Chao-faithful, a round belly tucking in at the neck, a head drawn up to
+the pointed crown, big dark almond eyes with a catchlight, cheeks, a smile, yellow
+tips on hands and feet, wings and the emote ball. `?retro3d=5&closeup` frames them
+from the front (`docs/samples/retro-5-closeup.jpg`); the Lakitu view is
+`retro-5-hdport.jpg` again.
+
 ## Five directions for a full-3D Grove (2026-10-15, for Maor's pick)
 
 Maor: "conceptualize an upgrade to the graphics. Leave the existing assets, add a toggle
