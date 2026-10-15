@@ -395,14 +395,19 @@ function buildGrass(scene: THREE.Scene, tex: Tex, time: { value: number }): void
          transformed.x += sway;
          transformed.z += sway * 0.5;
          // Blades near a creature part away from it and flatten, more so toward the tip.
-         for ( int i = 0; i < ; i++ ) {
+         for ( int i = 0; i < ${PUSHERS.length}; i++ ) {
            vec2 d = ip.xz - uPush[ i ].xy;
            float r = uPush[ i ].z;
            float l = length( d );
            if ( r > 0.0 && l < r ) {
              float k = ( 1.0 - l / r ) * uv.y;
              vec2 dir = l > 0.001 ? d / l : vec2( 1.0, 0.0 );
-             vec3 dl = vec3( dir.x, 0.0, dir.y ) * mat3( instanceMatrix );
+             // The push is a world-space offset; "transformed" is still in the blade's own
+             // space, so bring it through the inverse rotation and undo the instance scale
+             // (the matrix is a rotation times a scale, so M^T v is the scale times R^-1 v,
+             // and the instance matrix applies the scale again on the way out).
+             vec3 dl = ( vec3( dir.x, 0.0, dir.y ) * mat3( instanceMatrix ) ) /
+               dot( instanceMatrix[ 0 ].xyz, instanceMatrix[ 0 ].xyz );
              transformed.xz += dl.xz * k * r * 0.8;
              transformed.y -= k * 0.4 * uv.y;
            }
@@ -914,6 +919,10 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     place(sculptedNubbin('#9ad0ff'), -7, 4, -0.4);
     place(sculptedKeeper(), 0, 0, closeup ? Math.PI - 0.57 : 0);
   }
+
+  // The stage on `window.groveStage`, so a console can measure the creatures in place
+  // (foot height, tilt, shadow) instead of guessing from a screenshot.
+  Object.assign(window, { groveStage: { scene, cast, creature, groundHeight } });
 
   const camera = new THREE.PerspectiveCamera(
     closeup || creature || lineup ? 36 : 46,

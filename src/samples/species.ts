@@ -168,6 +168,9 @@ export interface Rigged extends Creature {
   ground?: (x: number, z: number) => number;
 }
 
+/** How far the body sinks below the sampled ground, in world units: feet a hair into the grass. */
+const GROUND_SINK = 0.02;
+
 let blobTexture: THREE.CanvasTexture | null = null;
 /** A soft radial shadow, painted once. */
 function shadowBlob(): THREE.CanvasTexture {
@@ -576,6 +579,24 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
     head.add(light);
   }
 
+  // Where the feet are: the lowest point of the figure at rest. The specs put their
+  // feet near y = 0 but not on it (Bolder's leg tips reach 0.2 below, Mossling stops
+  // short), so the stage lifts the root by this much to set the soles on the ground.
+  root.updateMatrixWorld(true);
+  const corner = new THREE.Vector3();
+  let footY = Infinity;
+  root.traverse((o) => {
+    if (!(o instanceof THREE.Mesh)) return;
+    const geo = o.geometry as THREE.BufferGeometry;
+    if (!geo.boundingBox) geo.computeBoundingBox();
+    const bb = geo.boundingBox!;
+    for (let i = 0; i < 8; i++) {
+      corner.set(i & 1 ? bb.max.x : bb.min.x, i & 2 ? bb.max.y : bb.min.y, i & 4 ? bb.max.z : bb.min.z);
+      footY = Math.min(footY, corner.applyMatrix4(o.matrixWorld).y);
+    }
+  });
+  if (!Number.isFinite(footY)) footY = 0;
+
   // The contact shadow: a soft blob on the ground under the body. It lightens and
   // shrinks as the body lifts off (a hop, a hover).
   const footprint = spec.footprint ?? spec.torso.box[1].x * 0.85;
@@ -589,12 +610,20 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
   });
   const blob = new THREE.Mesh(new THREE.PlaneGeometry(footprint * 2.4, footprint * 2.4), blobMat);
   blob.rotation.x = -Math.PI / 2;
-  blob.position.y = 0.012;
+  // The root sits a hair below the sampled ground (feet in the grass) and the terrain
+  // mesh is coarser than its height function, so the blob needs real clearance or it
+  // z-fights and sinks between the terrain's vertices. It is a flat shadow: a few
+  // centimetres of float are invisible from the stage camera.
+  blob.position.y = footY + (GROUND_SINK + 0.03) / spec.scale;
   blob.renderOrder = 1;
   root.add(blob);
 
   root.scale.setScalar(spec.scale);
   root.userData.footprint = footprint * spec.scale;
+  // Yaw first, then pitch and roll in the body's own frame: with the default XYZ order
+  // the slope tilt would turn about the world axes and point the wrong way once the
+  // creature is turned.
+  root.rotation.order = 'YXZ';
 
   // ---- poses ----
   let pose: PoseName = 'idle';
@@ -773,9 +802,11 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
       const hB = rig.ground(px - fx, pz - fz);
       const hR = rig.ground(px + rx, pz + rz);
       const hL = rig.ground(px - rx, pz - rz);
+      // Positive rotation.x drops the nose (local +z), so a higher front pitches it up
+      // with the negative sign; positive rotation.z lifts the local +x side.
       root.rotation.x = -Math.atan2(hF - hB, 2 * f) * 0.85;
       root.rotation.z = Math.atan2(hR - hL, 2 * f) * 0.85;
-      root.position.y = (hF + hB + hR + hL) / 4 - 0.02;
+      root.position.y = (hF + hB + hR + hL) / 4 - GROUND_SINK - footY * spec.scale;
     }
     mouth.open(mouthOpen);
     // The face: the pose's expression (with the species' overrides) eased in over a beat.
