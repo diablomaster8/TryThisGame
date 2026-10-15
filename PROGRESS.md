@@ -34,6 +34,10 @@ tiny mouth drawn in the skin low on the face.
 - Fix (Maor: "mouth on fox is off"): the Fennel mouth point sat under the muzzle, so the
   projection landed on its underside facing down. It now starts ahead of and below the
   muzzle tip and lands on the tip's front underside, with a dark nose mark above it.
+- Angles (`&turn=<degrees>` on the stage): at three-quarter and side views the eye domes
+  stood off the head, so the dome now sits deeper (centre 0.42 r behind the skin, 0.28 r
+  proud) and aims only 22% toward straight ahead; liner shrunk to the visible rim. Shots
+  `face-fennel-45.jpg`, `face-fennel-side.jpg`, `face-fennel-happy.jpg`, `face-nubbin-40.jpg`.
 
 ## The species format: rig, poses, marks, mouths, directional fur (2026-10-16)
 

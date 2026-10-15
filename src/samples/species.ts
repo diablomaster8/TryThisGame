@@ -367,7 +367,7 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
     r.group.position.copy(at.pos).sub(headOrigin);
     r.group.quaternion.setFromUnitVectors(
       forward,
-      at.normal.addScaledVector(forward, 0.45).normalize(),
+      at.normal.addScaledVector(forward, 0.22).normalize(),
     );
     r.group.rotateY(side * e.yaw);
     r.group.rotateX(e.pitch ?? 0);

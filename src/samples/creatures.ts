@@ -438,8 +438,8 @@ export function eye(
   g.rotation.set(pitch, yaw, 0);
   // The dome: a flattened eyeball whose centre sits a little behind the face, so the
   // rim is buried and only the front shows.
-  const depth = 0.72;
-  const back = -r * 0.3;
+  const depth = 0.7;
+  const back = -r * 0.42;
   const white = add(
     g,
     new THREE.Mesh(new THREE.SphereGeometry(r, 36, 28), glossy('#fbfbff', { roughness: 0.06 })),
@@ -512,7 +512,7 @@ export function eye(
   const liner = add(
     g,
     new THREE.Mesh(
-      new THREE.TorusGeometry(r * 0.9, r * 0.045, 8, 32, Math.PI),
+      new THREE.TorusGeometry(r * 0.8, r * 0.045, 8, 32, Math.PI),
       new THREE.MeshPhysicalMaterial({ color: '#241a24', roughness: 0.5 }),
     ),
     0,

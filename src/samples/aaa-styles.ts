@@ -869,7 +869,9 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
           ? buildSpecies(FENNEL_SPEC)
           : buildCreature(creatureIndex - 1);
     creature.group.userData.baseY = groundHeight(0, 0);
-    place(creature.group, 0, 0, Math.PI - 0.5);
+    // `&turn=<degrees>` turns the creature on the spot, to view it from other angles.
+    const turn = (Number(new URLSearchParams(location.search).get('turn')) || 0) * (Math.PI / 180);
+    place(creature.group, 0, 0, Math.PI - 0.5 + turn);
     // A cool rim light from behind, as a character stage would have.
     const rim = new THREE.DirectionalLight('#bfe0ff', 1.8);
     rim.position.set(-4, 5, 8);
