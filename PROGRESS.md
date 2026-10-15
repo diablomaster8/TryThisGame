@@ -9,6 +9,63 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Five directions for a full-3D Grove (2026-10-15, for Maor's pick)
+
+Maor: "conceptualize an upgrade to the graphics. Leave the existing assets, add a toggle
+at the start for full 3D. Same story, fully 3D (not necessarily pixelated). Five
+options with a small quick sample of each."
+
+The samples are live Three.js scenes, not paintings: `?style3d=1..5` on the dev server
+builds the same little Grove (ground, a terraced hill, the pond, three fruit trees, the
+cottage, the well, two Nubbins and the Keeper) with each direction's geometry,
+materials, light rig and post, slowly orbiting. `src/samples/three-styles.ts`,
+lazy-loaded so the game bundle does not carry it. Screenshots in `docs/samples/3d-*.jpg`.
+
+1. **Low-poly, flat-shaded** (`3d-1-lowpoly.jpg`). Faceted icosahedron canopies,
+   six-sided trunks, a gently bumpy floor, flat shading, soft shadows, pastel sky
+   and fog. Reads instantly as "3D indie cosy", runs on anything, and the Nubbins'
+   round-but-faceted bodies suit the toddler proportions. Least art per asset: every
+   model is a handful of primitives, so the whole species catalogue is quick to
+   build. The risk is looking generic.
+2. **Toon with outlines** (`3d-2-toon.jpg`). Three-step cel shading (a gradient
+   map), saturated colours, an inverted-hull dark outline on every prop and creature,
+   no cast shadows. The closest to the Chao Garden spirit and to the current pixel
+   sprites' chunky outlines, so the two modes would feel like one game. Outlines
+   need per-model tuning (thin parts, wings) and the flat look wants more texture
+   detail on big surfaces.
+3. **Cosy stylised PBR** (`3d-3-cozy.jpg`). Smooth high-segment shapes, physically
+   based materials with ACES tone mapping, soft PCF shadows, a warm key and a cool
+   sky fill plus a rim light, bloom and a touch of depth of field for a diorama
+   feel, transmissive water with a glint. The most "modern cosy" (Animal Crossing,
+   Tiny Glade) and the most work: it rewards real surface detail (grass tufts,
+   wood grain, roof tiles) that the sample does not have, and it costs the most on
+   phones (post passes, shadow maps).
+4. **Painterly textures on 3D** (`3d-4-painterly.jpg`). The organic painted
+   direction Maor picked for the 2D Grove, wrapped onto geometry: the same noise
+   painters make tiling grass, bark, leaf, roof-tile, stone and water textures and
+   the meshes carry them with simple Lambert light. Continuous with the current
+   look, so the toggle feels like the same world stepping into depth; cheap to run.
+   The sample's tiles repeat visibly at this scale and the models are plain; it
+   needs painted detail maps per model and softer edges to shine.
+5. **Voxel** (`3d-5-voxel.jpg`). Everything built from little cubes with hard
+   shadows and an orthographic camera: the pixel sprites' honest 3D cousin. Every
+   current sprite converts almost mechanically (each pixel a voxel), so the whole
+   catalogue of species, hats and buildings comes across fast and stays
+   recognisable. Chunky and charming, but it is the least "upgrade" of the five
+   and the ground reads flat without height variation.
+
+**How the toggle would work**: a Graphics choice on the title screen (and in
+Settings), saved per device, not per slot. The sim is untouched; `render/` gets a
+second scene implementation behind the same `WorldView` interface (positions,
+clips, events in; pixels out), so the story, the Hollow, races and every system
+run the same. Sprites keep their pick ids; 3D picks come from raycasts. The
+species catalogue is the long pole in every direction: ~100 looks, hats and parts,
+so directions 1, 2 and 5 (primitives, toon primitives, voxels) finish months
+earlier than 3 and 4.
+
+**Recommendation**: 2 (toon) for the look that matches the game's soul, built on 1's
+cheap geometry so it ships; 4 if the painted world should stay the star; 5 only if
+the goal is maximum reuse of the existing pixel art.
 ## Save slots, three per mode (2026-10-15)
 
 Maor: "Add feature for multiple save slots for each game mode."

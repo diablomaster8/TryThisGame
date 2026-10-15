@@ -21,6 +21,10 @@ const hudRoot = mustGet<HTMLDivElement>('#hud');
 const params = new URLSearchParams(location.search);
 if (params.has('sprites')) {
   mountSpriteGallery(app);
+} else if (params.has('style3d')) {
+  // Art-direction samples for a full-3D Grove (`?style3d=1..5`).
+  const i = Math.max(1, Math.min(5, Number(params.get('style3d')) || 1));
+  void import('./samples/three-styles').then((m) => m.mountStyleSample(canvas, m.STYLES[i - 1]!));
 } else if (params.has('edu')) {
   // Straight into a fresh Learning Grove at the given age (dev). `?slot=2` picks a slot.
   const slot = { mode: 'edu' as const, index: Number(params.get('slot')) || 1 };
