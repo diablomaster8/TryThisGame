@@ -27,6 +27,7 @@ export interface Prim {
 const tmp = new THREE.Vector3();
 const tmp2 = new THREE.Vector3();
 const nTmp = new THREE.Vector3();
+const aoTmp = new THREE.Vector3();
 
 export function sdf(p: THREE.Vector3, q: Prim): number {
   switch (q.kind) {
@@ -95,6 +96,11 @@ export interface Sculpt {
   shade?: (p: THREE.Vector3, n: THREE.Vector3, c: THREE.Color, nearest: Prim) => void;
   /** Fur length (0..1) and growth direction per surface point, written as attributes. */
   fur?: (p: THREE.Vector3, n: THREE.Vector3, nearest: Prim) => { len: number; dir: THREE.Vector3 };
+  /**
+   * Painted ambient occlusion baked into the vertex colours (0 off, 1 full): creases
+   * where forms meet go darker, the way the reference art paints them. On by default.
+   */
+  ao?: number;
 }
 
 /** Polygonise a sculpt into one smooth, vertex-coloured mesh. */
@@ -160,6 +166,25 @@ export function sculpt(s: Sculpt, resolution = 112): THREE.BufferGeometry {
     if (s.shade) {
       nTmp.set(nrm[i * 3]!, nrm[i * 3 + 1]!, nrm[i * 3 + 2]!);
       s.shade(p, nTmp, c, best);
+    }
+    // Occlusion: walk out along the normal and see how much the field falls short of
+    // the distance walked; a crease closes in on the probe, open skin does not.
+    const aoStrength = s.ao ?? 1;
+    if (aoStrength > 0) {
+      let occ = 0;
+      for (let k = 0; k < 4; k++) {
+        const step = 0.07 + k * 0.11;
+        aoTmp.set(
+          vx + nrm[i * 3]! * step,
+          vy + nrm[i * 3 + 1]! * step,
+          vz + nrm[i * 3 + 2]! * step,
+        );
+        let d = 1e9;
+        for (const q of s.prims) d = smin(d, sdf(aoTmp, q), s.blend);
+        occ += Math.max(0, step - d) / step / (1 + k);
+      }
+      const open = THREE.MathUtils.clamp(1 - occ * 1.1, 0, 1);
+      c.multiplyScalar(1 - aoStrength * (1 - open) * 0.55);
     }
     glow[i] = best.glow ?? 0;
     if (s.fur && furLen && furDir) {

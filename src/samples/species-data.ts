@@ -19,14 +19,12 @@ export const NUBBIN_SPEC: SpeciesSpec = {
   blend: 0.22,
   surface: {
     detail: 'smooth',
-    amount: 0.25,
-    bump: 0.25,
-    roughness: 0.52,
-    sheen: 0.6,
+    amount: 0.12,
+    bump: 0.15,
+    roughness: 0.66,
+    sheen: 0.7,
     sheenColor: '#dff2ff',
-    clearcoat: 0.04,
   },
-  fur: { layers: 2, length: 0.03, lift: 0.2, cell: 220 },
   torso: {
     prims: [
       {
@@ -256,8 +254,8 @@ export const FENNEL_SPEC: SpeciesSpec = {
   surface: {
     detail: 'fur',
     scale: 2.2,
-    amount: 0.55,
-    bump: 0.7,
+    amount: 0.4,
+    bump: 0.4,
     roughness: 0.78,
     sheen: 1.0,
     sheenColor: '#ffe6c8',

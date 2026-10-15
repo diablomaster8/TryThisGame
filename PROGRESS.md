@@ -9,6 +9,22 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Painted look (2026-10-15)
+
+Items 16, 17, 18, 20, 21 of `docs/creature-improvements.md`, on every creature at once.
+
+- `sculpt()` bakes ambient occlusion into the vertex colours (`ao` option, on by
+  default): four probes out along the normal measure how much the field closes in, and
+  creases go up to 55% darker. Fur shells share the geometry so the fur darkens too.
+- Speckle: the Nubbin's two fine shell layers (cell 220) were the salt-and-pepper; a Chao
+  is smooth, so the Nubbin has no shells now, a lower detail amount and a matte, velvety
+  surface (roughness 0.66, sheen 0.7, no clearcoat). Fennel's fur grain is calmer under
+  the shells (amount 0.4, bump 0.4).
+- Fur tips are lit lighter and warmer in the shell shader.
+- The creature stage grades at saturation 1.05 instead of 1.2 so the grass stops
+  washing the creatures.
+- Shots: `docs/samples/paint-nubbin.jpg`, `paint-fennel.jpg`, `paint-roster.jpg`.
+
 ## Face group on the Nubbin (2026-10-15)
 
 Maor: "make a full list of improvements ... use the references I sent you as a bible"

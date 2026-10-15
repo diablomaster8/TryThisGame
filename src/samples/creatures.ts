@@ -271,7 +271,7 @@ export function furShells(
             vec3 cell = floor( vObjPos * uCell );
             float hsh = fract( sin( dot( cell, vec3( 12.9898, 78.233, 37.719 ) ) ) * 43758.5453 );
             if ( hsh < uShell * 0.92 ) discard;
-            diffuseColor.rgb *= 1.0 + uLift * uShell;
+            diffuseColor.rgb *= ( 1.0 + uLift * uShell ) * mix( vec3( 1.0 ), vec3( 1.12, 1.06, 0.96 ), uShell );
           }
           #include <alphatest_fragment>`,
         );

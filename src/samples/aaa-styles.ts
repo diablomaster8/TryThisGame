@@ -928,7 +928,7 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
   grade.uniforms.uTint!.value.set(
     mood === 'golden' ? '#ffe9d0' : mood === 'rain' ? '#dfe8f0' : '#ffffff',
   );
-  grade.uniforms.uSaturation!.value = mood === 'rain' ? 0.92 : 1.2;
+  grade.uniforms.uSaturation!.value = mood === 'rain' ? 0.92 : creature || lineup ? 1.05 : 1.2;
   composer.addPass(grade);
   const smaa = new SMAAPass();
   composer.addPass(smaa);
