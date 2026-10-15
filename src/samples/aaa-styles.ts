@@ -366,6 +366,9 @@ function buildTerrain(
   return mesh;
 }
 
+/** Creatures pushing the grass: x, z, radius per slot; radius 0 is an empty slot. */
+const PUSHERS = Array.from({ length: 6 }, () => new THREE.Vector4(0, 0, 0, 0));
+
 function buildGrass(scene: THREE.Scene, tex: Tex, time: { value: number }): void {
   const count = 12000;
   const geo = new THREE.PlaneGeometry(0.7, 0.6);
@@ -378,15 +381,32 @@ function buildGrass(scene: THREE.Scene, tex: Tex, time: { value: number }): void
   });
   mat.onBeforeCompile = (shader) => {
     shader.uniforms.uTime = time;
+    shader.uniforms.uPush = { value: PUSHERS };
     shader.vertexShader = shader.vertexShader
-      .replace('#include <common>', '#include <common>\nuniform float uTime;')
+      .replace(
+        '#include <common>',
+        '#include <common>\nuniform float uTime;\nuniform vec4 uPush[' + PUSHERS.length + '];',
+      )
       .replace(
         '#include <begin_vertex>',
         `#include <begin_vertex>
          vec3 ip = vec3( instanceMatrix[3][0], instanceMatrix[3][1], instanceMatrix[3][2] );
          float sway = sin( uTime * 1.6 + ip.x * 0.9 + ip.z * 0.7 ) * 0.09 * uv.y;
          transformed.x += sway;
-         transformed.z += sway * 0.5;`,
+         transformed.z += sway * 0.5;
+         // Blades near a creature part away from it and flatten, more so toward the tip.
+         for ( int i = 0; i < ; i++ ) {
+           vec2 d = ip.xz - uPush[ i ].xy;
+           float r = uPush[ i ].z;
+           float l = length( d );
+           if ( r > 0.0 && l < r ) {
+             float k = ( 1.0 - l / r ) * uv.y;
+             vec2 dir = l > 0.001 ? d / l : vec2( 1.0, 0.0 );
+             vec3 dl = vec3( dir.x, 0.0, dir.y ) * mat3( instanceMatrix );
+             transformed.xz += dl.xz * k * r * 0.8;
+             transformed.y -= k * 0.4 * uv.y;
+           }
+         }`,
       );
   };
   let seed = 11;
@@ -869,6 +889,7 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     // `&creature=all`: the whole roster in a row, facing the camera.
     ROSTER.forEach((spec, i) => {
       const c = buildSpecies(spec);
+      c.ground = groundHeight;
       const x = (i - 2) * 2.45;
       c.group.userData.baseY = groundHeight(x, 0);
       place(c.group, x, 0, Math.PI - 0.5 + turn);
@@ -879,6 +900,7 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     if (creatureIndex > 0) {
       // One creature on the stage, framed close, facing the camera.
       creature = buildSpecies(ROSTER[Math.min(creatureIndex, ROSTER.length) - 1]!);
+      (creature as Rigged).ground = groundHeight;
       creature.group.userData.baseY = groundHeight(0, 0);
       place(creature.group, 0, 0, Math.PI - 0.5 + turn);
     }
@@ -955,6 +977,17 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     const wanted = new URLSearchParams(location.search).get('pose') as PoseName | null;
     const poseNow =
       wanted && POSES.includes(wanted) ? wanted : POSES[Math.floor(t / 3.5) % POSES.length]!;
+    for (const p of PUSHERS) p.set(0, 0, 0, 0);
+    const pushers = lineup ? cast : creature ? [creature] : [];
+    pushers.forEach((c, i) => {
+      if (i < PUSHERS.length)
+        PUSHERS[i]!.set(
+          c.group.position.x,
+          c.group.position.z,
+          (c.group.userData.footprint as number) ?? 0,
+          0,
+        );
+    });
     if (lineup) {
       for (const c of cast) {
         c.setPose(poseNow);

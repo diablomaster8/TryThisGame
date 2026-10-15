@@ -9,6 +9,15 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Grounding applied, unverified (2026-10-15)
+
+Contact shadow blob (`shadowBlob`, `spec.footprint`, `root.userData.footprint`), a `ground`
+sampler on `Rigged` that tilts the body to the slope, and grass parting (`PUSHERS` →
+`uPush` in the grass vertex shader) are applied and typecheck, but were not rendered in
+the browser before Maor asked for the planning documents. `plan.md` Part 1 verifies them.
+Also added: CLAUDE.md sections on decisions, constraints, standards and the current plan;
+`plan.md` with twelve subagent briefs and model picks.
+
 ## Painted look (2026-10-15)
 
 Items 16, 17, 18, 20, 21 of `docs/creature-improvements.md`, on every creature at once.

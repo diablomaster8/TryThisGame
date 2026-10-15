@@ -137,6 +137,8 @@ export interface SpeciesSpec {
   ball?: { y: number; color: string };
   /** Hip height: the body bobs from here. */
   hipY: number;
+  /** Radius of the contact shadow and the slope probe, in body units; from the torso box by default. */
+  footprint?: number;
 }
 
 /** One face state: lids closed 0..1, lower-lid squint 0..1, brow tilt and lift, the happy arc. */
@@ -162,6 +164,27 @@ const EXPRESSIONS: Record<PoseName, Expression> = {
 export interface Rigged extends Creature {
   setPose(pose: PoseName): void;
   bones: Record<string, THREE.Group>;
+  /** Set by the stage: ground height at a world x,z, so the body follows the slope. */
+  ground?: (x: number, z: number) => number;
+}
+
+let blobTexture: THREE.CanvasTexture | null = null;
+/** A soft radial shadow, painted once. */
+function shadowBlob(): THREE.CanvasTexture {
+  if (blobTexture) return blobTexture;
+  const s = 128;
+  const canvas = document.createElement('canvas');
+  canvas.width = s;
+  canvas.height = s;
+  const ctx = canvas.getContext('2d')!;
+  const grad = ctx.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2);
+  grad.addColorStop(0, 'rgba(0,0,0,0.6)');
+  grad.addColorStop(0.55, 'rgba(0,0,0,0.3)');
+  grad.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, s, s);
+  blobTexture = new THREE.CanvasTexture(canvas);
+  return blobTexture;
 }
 
 // ---------------------------------------------------------------- marks and fur
@@ -553,7 +576,25 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
     head.add(light);
   }
 
+  // The contact shadow: a soft blob on the ground under the body. It lightens and
+  // shrinks as the body lifts off (a hop, a hover).
+  const footprint = spec.footprint ?? spec.torso.box[1].x * 0.85;
+  const blobMat = new THREE.MeshBasicMaterial({
+    map: shadowBlob(),
+    transparent: true,
+    depthWrite: false,
+    opacity: 1,
+    polygonOffset: true,
+    polygonOffsetFactor: -2,
+  });
+  const blob = new THREE.Mesh(new THREE.PlaneGeometry(footprint * 2.4, footprint * 2.4), blobMat);
+  blob.rotation.x = -Math.PI / 2;
+  blob.position.y = 0.012;
+  blob.renderOrder = 1;
+  root.add(blob);
+
   root.scale.setScalar(spec.scale);
+  root.userData.footprint = footprint * spec.scale;
 
   // ---- poses ----
   let pose: PoseName = 'idle';
@@ -715,6 +756,27 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
       hips.rotation.z += s(t * 0.9) * 0.06;
     }
     extrasUpdate?.(t, pose);
+    // Grounding: the shadow follows the lift, and the body follows the slope under it.
+    const lift = THREE.MathUtils.clamp(hips.position.y - spec.hipY, 0, 1.5);
+    blobMat.opacity = 1 - lift * 0.45;
+    blob.scale.setScalar(1 - lift * 0.2);
+    if (rig.ground) {
+      const yaw = root.rotation.y;
+      const f = footprint * spec.scale;
+      const fx = Math.sin(yaw) * f;
+      const fz = Math.cos(yaw) * f;
+      const rx = Math.cos(yaw) * f;
+      const rz = -Math.sin(yaw) * f;
+      const px = root.position.x;
+      const pz = root.position.z;
+      const hF = rig.ground(px + fx, pz + fz);
+      const hB = rig.ground(px - fx, pz - fz);
+      const hR = rig.ground(px + rx, pz + rz);
+      const hL = rig.ground(px - rx, pz - rz);
+      root.rotation.x = -Math.atan2(hF - hB, 2 * f) * 0.85;
+      root.rotation.z = Math.atan2(hR - hL, 2 * f) * 0.85;
+      root.position.y = (hF + hB + hR + hL) / 4 - 0.02;
+    }
     mouth.open(mouthOpen);
     // The face: the pose's expression (with the species' overrides) eased in over a beat.
     const ex = { ...EXPRESSIONS[pose], ...(spec.expressions?.[pose] ?? {}) };
@@ -735,7 +797,7 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
       e.brow.position.y = (e.brow.userData.baseY as number) + ex.browLift * k * r;
     }
   };
-  return {
+  const rig: Rigged = {
     group: root,
     name: spec.name,
     bones,
@@ -747,6 +809,7 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
       }
     },
   };
+  return rig;
 }
 
 export { V };

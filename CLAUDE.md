@@ -314,3 +314,46 @@ Each milestone ends with something playable on a phone.
 - Blocked storage doesn't crash the game.
 - No console errors.
 - No names, art or audio from an existing franchise.
+
+---
+
+## Architectural decisions (standing, as of 2026-10-15)
+
+These were made with Maor during the 3D direction work and stand until he changes them.
+
+- **Two renderers behind one interface.** The shipped 2.5D pixel renderer (`src/render/`) stays as it is. The full-3D mode is additive: a Graphics toggle on the title screen picks a second scene that implements the same `WorldView` interface and reads the same sim. The sim never learns which renderer is on. Until the toggle exists, the 3D work lives in `src/samples/` behind URL flags (`?aaa=1..3`, `&creature=N|all`, `&pose=`, `&turn=`, `&closeup`, debug `nobloom/nossao/nodof/nofog`).
+- **Art direction: the Palworld references are the bible.** The roster screenshot (overall look), the Palworld Mobile short (creatures in a scene) and the "All Pet Animations" video (faces, petting, idle) that Maor supplied. Nubbins stay Chao-faithful. The look is the "HD port at a AAA finish" (`src/samples/aaa-styles.ts`): physical sky with a PMREM environment, slope-blended normal-mapped terrain, instanced grass, physical water, SSAO, depth of field, grade and SMAA; bloom only at golden hour with a threshold above the lit scene.
+- **Creatures are data, never meshes.** A `SpeciesSpec` (`src/samples/species.ts`, data in `species-data.ts` and `species-roster.ts`, format in `docs/species-format.md`) describes a creature as blended SDF primitives, a surface, fur, marks, eyes, mouth, poses, expressions and extras. `buildSpecies` turns it into a rigged figure: marching cubes sculpt per part with baked vertex colour (gradient, marks, painted ambient occlusion), shell fur with a directional rule, eyes and mouth projected onto the skin by `onSurface`, an eye rig (lids, lash arc, brow), a mouth drawn on the skin, five poses and a per-pose expression table. Everything on the roster (Nubbin, Mossling, Fennel, Bolder, Wisp) comes from this format. Hand-built creatures in `creatures.ts` are reference only.
+- **Painted look over physically noisy.** Ambient occlusion is baked into vertex colours; skin is matte with sheen; gloss only on eyes, claws, plates and the mushroom cap; no triplanar speckle on smooth skin; fur tips lit warm.
+- **Faces carry the mood.** Expressions come from lids, squint, brows and the lash arc, not from the mouth; a happy shut eye hides the eyeball and draws the arc on the skin.
+- **Improvement backlog:** `docs/creature-improvements.md` (35 items against the references, in the order to do them). `plan.md` breaks the remaining work into parts for subagents.
+- **Performance plan for the 3D mode:** sculpting is CPU-heavy (about 0.5–2 s per species at resolution 104), so the 3D mode must sculpt in a Web Worker (as the ground painter does) and cache baked geometry per species and variant, with a lower resolution on phones.
+
+## Constraints
+
+- The pixel mode must keep working at every commit; 3D is additive behind a toggle.
+- Sim and render stay apart; no Three.js in `src/sim/`; no `Math.random` in the sim.
+- Three.js is pinned at 0.186.1. Note: `vColor` is a `vec4` in its fragment shaders, and MarchingCubes normals are unnormalised gradients.
+- No imported art, sprite sheets or audio from any franchise; names stay original; inspiration is data in `sim/species.ts` and never shown.
+- `npm run lint`, `npm test` and `npm run build` must pass before a push; GitHub Pages deploys on every push to `main`. The full-life timing test has a 3 s budget on a CI runner about 1.7× slower than Maor's PC.
+- Phone targets: 60 fps with 8 Nubbins, 30 fps floor.
+- Maor's standing approval (recorded in PROGRESS.md): proceed through the work without stopping to ask, log each pass, keep per-milestone commits and checks.
+
+## Coding standards
+
+- TypeScript `strict` with `exactOptionalPropertyTypes`: use conditional spreads (`...(x ? { x } : {})`) for optional fields, never `undefined` assignments.
+- ESLint and Prettier (100 columns) run clean; format before committing and before grepping for patch anchors.
+- Comments say why, in plain sentences; a file starts with a short paragraph on what it is for.
+- Shader hooks go through `onBeforeCompile`; expose `material.userData.shader` for live uniforms; declare every uniform in the stage that uses it.
+- Each new spec field ships with one species using it and a row in `docs/species-format.md`.
+- Each pass gets a PROGRESS.md section (inserted at line 12, newest first) with what changed, what was learned and the screenshot names, and its screenshots in `docs/samples/` named by pass.
+- Commits: imperative title under 72 characters, a short body when the why is not obvious, and the line `Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>`.
+- Tooling on this machine: Git Bash with fnm Node 24; multi-line source edits as perl scripts written with the Write tool (shell `${}` breaks heredocs); `[ -s out ]` guard before copying a patched file back; dev server `npm run dev -- --port 5173`; the browser pane keeps console errors across page loads, so read the log tail in order.
+
+## Current plan (2026-10-15)
+
+Done: the five-creature roster in the species format with anchored faces; the face group (lids, arc, brows, squint, blush, mouth shapes, emissive eyes) on the Nubbin; the painted look (baked AO, no speckle, matte skin, warm fur tips, calmer grade) on all five.
+
+In hand: grounding (contact shadow blob, body follows the slope, grass parting) is applied and typechecks but has not been checked in the browser.
+
+Next, in order: planted feet with knee joints; petting and sleep animation with squash and stretch; shape fixes (hands and feet, per-form blend, tufts, Bolder's neck, Mossling's cap, Wisp's core, one roster scale); eye tracking; the Keeper in the format; the Chao variant catalogue in the format; then the real 3D mode (title toggle, `render3d/` scene behind `WorldView`, Lakitu camera, environment port, worker sculpting and geometry cache); then the device pass. The Digimon-list expansions E1–E3 and campaigns S1–S4 wait for Maor's pick. `plan.md` has the subagent briefs.
