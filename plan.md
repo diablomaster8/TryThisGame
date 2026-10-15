@@ -55,7 +55,7 @@ screenshot or log names and anything left out.
 # Track A — Graphics and the 3D mode
 
 Status: the five-creature roster is in the species format with anchored faces; the face group
-is done on the Nubbin; the painted look is on all five; grounding is applied but unverified.
+is done on the Nubbin; the painted look is on all five; grounding is verified in the browser (Part G1 done).
 Backlog against the references: `docs/creature-improvements.md`.
 
 ## Part G1 — Verify and land grounding

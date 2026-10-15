@@ -9,7 +9,7 @@ new pass goes in at line 12 and the file is long, move the oldest section to
 Shipped and deployed: v1, the organic painted Grove, the Digimon-inspired ten, the Hollow
 Below dungeons, the 96-unit field, three save slots per mode. In progress: the full-3D
 mode, currently as samples behind `?aaa=1` with the five-creature roster in the species
-format. Latest pass: grounding applied but not rendered (plan.md Part 1). Waiting on Maor:
+format. Latest pass: grounding verified in the browser (plan.md Part 1). Waiting on Maor:
 the pick from expansions E1–E3 and campaigns S1–S4, and his device pass. Subagent briefs
 with model picks: `plan.md`. Improvement backlog against the Palworld references:
 `docs/creature-improvements.md`.
@@ -21,14 +21,37 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
-## Grounding applied, unverified (2026-10-15)
+## Grounding verified (2026-10-15)
 
-Contact shadow blob (`shadowBlob`, `spec.footprint`, `root.userData.footprint`), a `ground`
-sampler on `Rigged` that tilts the body to the slope, and grass parting (`PUSHERS` →
-`uPush` in the grass vertex shader) are applied and typecheck, but were not rendered in
-the browser before Maor asked for the planning documents. `plan.md` Part 1 verifies them.
-Also added: CLAUDE.md sections on decisions, constraints, standards and the current plan;
-`plan.md` with twelve subagent briefs and model picks.
+Items 29, 30, 31 of `docs/creature-improvements.md`, checked in the browser (plan.md Part 1).
+What was wrong and what changed:
+
+- The grass vertex shader did not compile: the push loop's bound was empty (`i < ;`, a
+  `${}` lost to a shell heredoc), so no grass drew at all. Fixed; the push is now a true
+  world-space offset (it used to scale with the blade's instance scale squared).
+- The slope tilt used the default XYZ Euler order, so pitch and roll turned about the
+  world axes after the yaw. The root now rotates `YXZ`. The signs were right: a higher
+  front pitches the nose up (checked numerically on the stage).
+- The blob sat below the sampled ground and was a flat card, while the terrain curves up to
+  0.07 across a footprint and its mesh is a chord up to 0.035 above the height function:
+  it z-fought, floated on one side or was cut off on the other. It is now an 8×8 grid
+  pinned flat in world space whose vertices take the ground height under them plus 0.05.
+  It lightens to about 0.85 on the hop and 0.6 under the hovering Wisp, and shrinks.
+- Feet: the specs' lowest points are not at y = 0 (Bolder's leg tips 0.2 below, Mossling
+  0.03 above, Nubbin 0.05 below), and a plane through four probes misses the curvature
+  under a wide belly or a wide leg span. `buildSpecies` now measures the figure at rest:
+  the lowest vertex per 0.3-unit cell of the ground plan is a contact point, and each
+  frame the root drops until the lowest contact point (carried by yaw and tilt only, so a
+  hop still leaves the ground) sits 0.02 into the grass. Measured sink on the single stage
+  at turns 0–270°: 0.02 for Nubbin, Mossling and Fennel, 0.027 for Bolder (its idle roll),
+  the Wisp hovering 0.45 above.
+- Bolder's idle leg sway is lift-only now; the dip put its tips 0.13 into the ground.
+- `window.groveStage` exposes the stage (scene, cast, creature, groundHeight) so a console
+  can measure creatures in place; the checks above were done that way.
+- Left for the knee-joint pass: on bumpy ground a rigid body touches at its lowest point
+  and the other feet can float a little; the Wisp's light trail dips under the ground.
+
+Shots: `docs/samples/ground-roster.jpg`, `ground-fennel.jpg`, `ground-wisp.jpg`.
 
 ## Painted look (2026-10-15)
 
@@ -98,34 +121,4 @@ every creature has the anchored round eyes, a modelled mouth in the skin and the
 - Shots: `docs/samples/roster-idle.jpg`, `roster-happy.jpg`, `face-mossling.jpg`,
   `face-mossling-happy.jpg`, `face-bolder.jpg`, `face-bolder-walk.jpg`, `face-wisp.jpg`,
   `face-wisp-40.jpg`.
-
-## Faces anchored to the surface, round pupil eyes (2026-10-15)
-
-Reference: Maor's Palworld pet-animation video (Tanzee, Foxparks, Chikipi, Teafant frames).
-What the reference shows: round eyes sitting proud of the face, a big iris that is mostly
-dark pupil with a thin white ring around it, one bold catchlight, hardly any liner, and a
-tiny mouth drawn in the skin low on the face.
-
-- `species.ts` `onSurface(prims, blend, from)`: walks the head's signed distance field to the
-  nearest surface point and its normal. Eyes and the mouth are placed there and aimed along
-  the normal (eyes pulled 45% toward straight ahead), so nothing floats or sinks whatever
-  the head shape. Spec `eyes.yaw`/`pitch` and `mouth.pitch` are now extra tilt only.
-- `creatures.ts` `eye()`: a flattened dome eyeball with its centre behind the face; the iris
-  and the catchlight are discs of concentric rings bent onto the dome (a flat fan hid behind
-  the dome, found with a red-disc test), a thin liner at the top rim, lid as before; new
-  `tall` parameter (1.2 default) replaces the fixed 1.45 almond.
-- `irisTexture`: 128 px, pupil to 56% of the iris with a soft edge, iris ring lit from below,
-  two catchlights.
-- `buildMouth`: lip line half-buried in the skin; the lower lip is hidden when closed and
-  offset so it no longer z-fights the upper one (the "falling off" flicker).
-- Data: Nubbin eyes r 0.25, irisScale 0.8, lid 0.12, tall 1.12, mouth width 0.2; Fennel
-  eyes r 0.21, irisScale 0.8, tall 1.3, mouth width 0.2.
-- Shots: `docs/samples/face-nubbin.jpg`, `face-fennel.jpg`.
-- Fix (Maor: "mouth on fox is off"): the Fennel mouth point sat under the muzzle, so the
-  projection landed on its underside facing down. It now starts ahead of and below the
-  muzzle tip and lands on the tip's front underside, with a dark nose mark above it.
-- Angles (`&turn=<degrees>` on the stage): at three-quarter and side views the eye domes
-  stood off the head, so the dome now sits deeper (centre 0.42 r behind the skin, 0.28 r
-  proud) and aims only 22% toward straight ahead; liner shrunk to the visible rim. Shots
-  `face-fennel-45.jpg`, `face-fennel-side.jpg`, `face-fennel-happy.jpg`, `face-nubbin-40.jpg`.
 

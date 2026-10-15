@@ -596,37 +596,40 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
   root.updateMatrixWorld(true);
   const corner = new THREE.Vector3();
   let footY = Infinity;
-  let footMesh = "";
   root.traverse((o) => {
     if (!(o instanceof THREE.Mesh)) return;
     const geo = o.geometry as THREE.BufferGeometry;
     if (!geo.boundingBox) geo.computeBoundingBox();
     const bb = geo.boundingBox!;
     for (let i = 0; i < 8; i++) {
-      corner.set(i & 1 ? bb.max.x : bb.min.x, i & 2 ? bb.max.y : bb.min.y, i & 4 ? bb.max.z : bb.min.z);
-      const cy = corner.applyMatrix4(o.matrixWorld).y;
-      if (cy < footY) footMesh = o.uuid;
-      footY = Math.min(footY, cy);
+      corner.set(
+        i & 1 ? bb.max.x : bb.min.x,
+        i & 2 ? bb.max.y : bb.min.y,
+        i & 4 ? bb.max.z : bb.min.z,
+      );
+      footY = Math.min(footY, corner.applyMatrix4(o.matrixWorld).y);
     }
   });
   if (!Number.isFinite(footY)) footY = 0;
   root.userData.footY = footY;
-  root.userData.footMesh = footMesh;
-  // The contact points: the lowest rest vertex of every part that reaches near the
-  // ground (a sole, a leg tip, the belly of a sitter). Each frame the stage drops the
-  // root until the lowest of them touches the ground beneath it, which a plane fit
-  // through four probes cannot do on ground that curves across the footprint.
-  const contacts: THREE.Vector3[] = [];
+  // The contact points: the lowest rest vertex in each 0.3-unit cell of the ground plan
+  // of every part that reaches near the ground (soles, leg tips, a sitter's belly). Each
+  // frame the stage drops the root until the lowest of them touches the ground beneath
+  // it, which a plane fit through four probes cannot do on ground that curves across the
+  // footprint, and which one point per part misses under a wide belly.
+  const cells = new Map<string, THREE.Vector3>();
   root.traverse((o) => {
     if (!(o instanceof THREE.Mesh)) return;
     const p = (o.geometry as THREE.BufferGeometry).attributes.position as THREE.BufferAttribute;
-    let low: THREE.Vector3 | null = null;
     for (let i = 0; i < p.count; i++) {
       corner.fromBufferAttribute(p, i).applyMatrix4(o.matrixWorld);
-      if (corner.y < footY + 0.25 && (!low || corner.y < low.y)) low = corner.clone();
+      if (corner.y >= footY + 0.25) continue;
+      const key = Math.floor(corner.x / 0.3) + ',' + Math.floor(corner.z / 0.3);
+      const low = cells.get(key);
+      if (!low || corner.y < low.y) cells.set(key, corner.clone());
     }
-    if (low) contacts.push(low);
   });
+  const contacts = [...cells.values()];
   const contact = new THREE.Vector3();
 
   // The contact shadow: a soft blob on the ground under the body. It lightens and

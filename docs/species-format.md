@@ -18,6 +18,7 @@ spec says and what the builder does with it.
 | `mouth` | Position (projected onto the skin like the eyes) and width, lip colour, whether it has teeth, tongue colour. `shape` picks the closed look: `smile`, `o` or `omega`. The mouth is modelled: a dark interior that opens, a tongue and teeth that appear as it does, and a lip that lifts. |
 | `wings`, `ball`, `hipY` | Species extras (translucent wings that flutter, the emote ball with its own light) and the hip height the body bobs from. |
 | `face`, `hover`, `extras` | `face: 'torso'` puts the eyes and mouth on the body instead of the head part; `hover` is the float height for a hovering gait; `extras(rig)` hangs hand-built decorations on the rig (bones, meshes, the material) and may return a per-frame update. |
+| `footprint` | Radius of the contact shadow and of the slope probes, in body units; defaults to 0.85 × the torso box half-width. Grounding needs no other field: the builder measures the figure at rest (its lowest vertex per 0.3-unit cell of the ground plan) and, given the stage's `ground` sampler, drops the root until the lowest contact point sits 0.02 into the grass, tilts the body to the slope, and lays the shadow blob over the terrain. |
 | `expressions` | Per-pose face overrides: `lid` (0..1 shut), `squint` (lower lid), `brow` (tilt, + soft / - knitted), `browLift`, `arc` (the ^ ^ lash line over shut eyes). Defaults: happy shuts the eyes into arcs, eat squints and knits, sleep shuts and drops the brows. |
 
 ## Bone names the poser knows

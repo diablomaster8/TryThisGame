@@ -2,6 +2,36 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Faces anchored to the surface, round pupil eyes (2026-10-15)
+
+Reference: Maor's Palworld pet-animation video (Tanzee, Foxparks, Chikipi, Teafant frames).
+What the reference shows: round eyes sitting proud of the face, a big iris that is mostly
+dark pupil with a thin white ring around it, one bold catchlight, hardly any liner, and a
+tiny mouth drawn in the skin low on the face.
+
+- `species.ts` `onSurface(prims, blend, from)`: walks the head's signed distance field to the
+  nearest surface point and its normal. Eyes and the mouth are placed there and aimed along
+  the normal (eyes pulled 45% toward straight ahead), so nothing floats or sinks whatever
+  the head shape. Spec `eyes.yaw`/`pitch` and `mouth.pitch` are now extra tilt only.
+- `creatures.ts` `eye()`: a flattened dome eyeball with its centre behind the face; the iris
+  and the catchlight are discs of concentric rings bent onto the dome (a flat fan hid behind
+  the dome, found with a red-disc test), a thin liner at the top rim, lid as before; new
+  `tall` parameter (1.2 default) replaces the fixed 1.45 almond.
+- `irisTexture`: 128 px, pupil to 56% of the iris with a soft edge, iris ring lit from below,
+  two catchlights.
+- `buildMouth`: lip line half-buried in the skin; the lower lip is hidden when closed and
+  offset so it no longer z-fights the upper one (the "falling off" flicker).
+- Data: Nubbin eyes r 0.25, irisScale 0.8, lid 0.12, tall 1.12, mouth width 0.2; Fennel
+  eyes r 0.21, irisScale 0.8, tall 1.3, mouth width 0.2.
+- Shots: `docs/samples/face-nubbin.jpg`, `face-fennel.jpg`.
+- Fix (Maor: "mouth on fox is off"): the Fennel mouth point sat under the muzzle, so the
+  projection landed on its underside facing down. It now starts ahead of and below the
+  muzzle tip and lands on the tip's front underside, with a dark nose mark above it.
+- Angles (`&turn=<degrees>` on the stage): at three-quarter and side views the eye domes
+  stood off the head, so the dome now sits deeper (centre 0.42 r behind the skin, 0.28 r
+  proud) and aims only 22% toward straight ahead; liner shrunk to the visible rim. Shots
+  `face-fennel-45.jpg`, `face-fennel-side.jpg`, `face-fennel-happy.jpg`, `face-nubbin-40.jpg`.
+
 ## The species format: rig, poses, marks, mouths, directional fur (2026-10-16)
 
 Maor: "what other improvements can we make before we apply it to others" → the list
