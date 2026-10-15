@@ -22,7 +22,7 @@ import { sculpt, sdf, smin, V, type Prim } from './sculpted';
  * poses the sim can drive: idle, happy, walk, eat, sleep. The whole roster is meant
  * to be written in this format rather than modelled by hand.
  */
-export type Gait = 'biped' | 'quadruped' | 'hover';
+export type Gait = 'biped' | 'quadruped' | 'hover' | 'spider';
 export type PoseName = 'idle' | 'happy' | 'walk' | 'eat' | 'sleep';
 export const POSES: PoseName[] = ['idle', 'happy', 'walk', 'eat', 'sleep'];
 
@@ -46,6 +46,21 @@ export interface PartSpec {
   box: [THREE.Vector3, THREE.Vector3];
   blend?: number;
   resolution?: number;
+  /** A material of its own, when the part is not the body's surface (a mushroom cap). */
+  surface?: SurfaceOpts;
+  /** Extra colour bakes for this part only. */
+  shades?: Shade[];
+  /** Leave the shell fur off this part. */
+  noFur?: boolean;
+}
+
+/** What `extras` get to hang hand-built decorations on. */
+export interface RigContext {
+  root: THREE.Group;
+  hips: THREE.Group;
+  bones: Record<string, THREE.Group>;
+  meshes: Record<string, THREE.Mesh>;
+  mat: THREE.MeshPhysicalMaterial;
 }
 
 export interface SpeciesSpec {
@@ -69,6 +84,15 @@ export interface SpeciesSpec {
   };
   head: PartSpec;
   parts: PartSpec[];
+  /** Which part carries the eyes and mouth; the head unless the face is on the body. */
+  face?: 'head' | 'torso';
+  /** Height above the ground a hovering species floats at. */
+  hover?: number;
+  /**
+   * Decorations the format has no word for yet (dew, spores, a smoke shell, a trail),
+   * built by hand onto the rig; may return a per-frame update.
+   */
+  extras?: (rig: RigContext) => ((t: number, pose: PoseName) => void) | void;
   /** Blend radius for the body sculpts. */
   blend: number;
   shade: { top: number; bottom: number; yMax: number };
@@ -89,6 +113,8 @@ export interface SpeciesSpec {
     pitch?: number;
     /** Height of the eye relative to its width; 1 is round. */
     tall?: number;
+    /** Extra small eyes (a spider's row), glossy beads set in the skin. */
+    extra?: Array<{ x: number; y: number; z: number; r: number }>;
   };
   mouth: {
     x: number;
@@ -276,10 +302,12 @@ function sculptPart(
   box: [THREE.Vector3, THREE.Vector3],
   blend: number,
   res: number,
+  extra: Shade[] = [],
 ): THREE.BufferGeometry {
   const shades: Shade[] = [gradient(spec.shade.top, spec.shade.bottom, 0, spec.shade.yMax)];
   if (spec.marks.length) shades.push(markShade(spec.marks));
   if (spec.extraShades) shades.push(...spec.extraShades);
+  shades.push(...extra);
   return sculpt(
     {
       prims,
@@ -300,6 +328,7 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
   const root = new THREE.Group();
   const mat = surfaceMaterial(spec.surface);
   const bones: Record<string, THREE.Group> = {};
+  const meshes: Record<string, THREE.Mesh> = {};
   const furred: Array<{ parent: THREE.Object3D; mesh: THREE.Mesh }> = [];
 
   // Hips carry the torso; everything else hangs from the torso or the hips.
@@ -320,12 +349,20 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
   torso.receiveShadow = true;
   hips.add(torso);
   bones.torso = hips;
+  meshes.torso = torso;
   furred.push({ parent: hips, mesh: torso });
 
   const hang = (ps: PartSpec, parent: THREE.Group, parentOrigin: THREE.Vector3): THREE.Group => {
-    const geo = sculptPart(spec, ps.prims, ps.box, ps.blend ?? spec.blend, ps.resolution ?? 80);
+    const geo = sculptPart(
+      spec,
+      ps.prims,
+      ps.box,
+      ps.blend ?? spec.blend,
+      ps.resolution ?? 80,
+      ps.shades ?? [],
+    );
     geo.translate(-ps.pivot.x, -ps.pivot.y, -ps.pivot.z);
-    const mesh = new THREE.Mesh(geo, mat);
+    const mesh = new THREE.Mesh(geo, ps.surface ? surfaceMaterial(ps.surface) : mat);
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     const pivot = new THREE.Group();
@@ -333,7 +370,8 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
     pivot.add(mesh);
     parent.add(pivot);
     bones[ps.name] = pivot;
-    furred.push({ parent: pivot, mesh });
+    meshes[ps.name] = mesh;
+    if (!ps.noFur) furred.push({ parent: pivot, mesh });
     return pivot;
   };
   const hipOrigin = new THREE.Vector3(0, spec.hipY, 0);
@@ -353,18 +391,36 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
       );
   }
 
-  // The face: eyes and the mouth hang from the head.
+  // The face: eyes and the mouth hang from the head, or from the body when the face is
+  // on the body (a mushroom with its cap for a head).
   const e = spec.eyes;
   const headOrigin = spec.head.pivot;
+  const onBody = spec.face === 'torso';
+  const facePart = onBody ? hips : head;
+  const faceOrigin = onBody ? hipOrigin : headOrigin;
+  const facePrims = onBody ? spec.torso.prims : spec.head.prims;
   const lids: THREE.Mesh[] = [];
-  const headBlend = spec.head.blend ?? spec.blend;
+  const headBlend = (onBody ? spec.torso.blend : spec.head.blend) ?? spec.blend;
   const forward = new THREE.Vector3(0, 0, 1);
   for (const side of [-1, 1]) {
     // Each eye sits in the skin where the spec's point lands on the face, aimed along
     // the surface normal pulled a little toward straight ahead.
-    const at = onSurface(spec.head.prims, headBlend, V(side * e.x, e.y, e.z));
-    const r = eye(head, 0, 0, 0, e.r, e.iris, e.lidColor, 0, e.lid, e.irisScale, 0, e.tall ?? 1.2);
-    r.group.position.copy(at.pos).sub(headOrigin);
+    const at = onSurface(facePrims, headBlend, V(side * e.x, e.y, e.z));
+    const r = eye(
+      facePart,
+      0,
+      0,
+      0,
+      e.r,
+      e.iris,
+      e.lidColor,
+      0,
+      e.lid,
+      e.irisScale,
+      0,
+      e.tall ?? 1.2,
+    );
+    r.group.position.copy(at.pos).sub(faceOrigin);
     r.group.quaternion.setFromUnitVectors(
       forward,
       at.normal.addScaledVector(forward, 0.22).normalize(),
@@ -373,16 +429,25 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
     r.group.rotateX(e.pitch ?? 0);
     lids.push(r.lid);
   }
-  const mouthAt = onSurface(
-    spec.head.prims,
-    headBlend,
-    V(spec.mouth.x, spec.mouth.y, spec.mouth.z),
-  );
-  const mouth = buildMouth(head, {
+  for (const x of e.extra ?? []) {
+    const at = onSurface(facePrims, headBlend, V(x.x, x.y, x.z));
+    const bead = new THREE.Mesh(
+      new THREE.SphereGeometry(x.r, 16, 12),
+      glossy(e.iris, { emissive: new THREE.Color(e.iris), emissiveIntensity: 0.5 }),
+    );
+    bead.position
+      .copy(at.pos)
+      .addScaledVector(at.normal, -x.r * 0.35)
+      .sub(faceOrigin);
+    bead.castShadow = false;
+    facePart.add(bead);
+  }
+  const mouthAt = onSurface(facePrims, headBlend, V(spec.mouth.x, spec.mouth.y, spec.mouth.z));
+  const mouth = buildMouth(facePart, {
     ...spec.mouth,
-    x: mouthAt.pos.x - headOrigin.x,
-    y: mouthAt.pos.y - headOrigin.y,
-    z: mouthAt.pos.z - headOrigin.z,
+    x: mouthAt.pos.x - faceOrigin.x,
+    y: mouthAt.pos.y - faceOrigin.y,
+    z: mouthAt.pos.z - faceOrigin.z,
     pitch: 0,
   });
   mouth.group.quaternion.setFromUnitVectors(forward, mouthAt.normal);
@@ -451,6 +516,19 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
     b.rotation.set(r.x + x, r.y + y, r.z + z);
   };
   const quad = spec.gait === 'quadruped';
+  const spider = spec.gait === 'spider';
+  const hover = spec.gait === 'hover';
+  // Eight legs: leg1..leg4 on each side, leg1 at the front. Lifting is a turn about z
+  // away from the body; swinging fore and aft is a turn about y.
+  const SPIDER_LEGS: Array<[string, number, number]> = [];
+  for (const side of [-1, 1])
+    for (let i = 0; i < 4; i++)
+      SPIDER_LEGS.push([
+        'leg' + (i + 1) + (side < 0 ? 'L' : 'R'),
+        side,
+        (i + (side > 0 ? 0.5 : 0)) * 1.57,
+      ]);
+  const extrasUpdate = spec.extras?.({ root, hips, bones, meshes, mat }) ?? null;
   const animate = (t: number) => {
     const dt = t - poseSince;
     const s = Math.sin;
@@ -463,7 +541,12 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
         hips.position.y = spec.hipY + s(t * 2.2) * 0.02;
         hips.rotation.z = s(t * 0.8) * 0.02;
         set('head', s(t * 1.1) * 0.05, s(t * 0.7) * 0.14, s(t * 0.9) * 0.07);
-        if (quad) {
+        if (spider) {
+          for (const [n, side, phase] of SPIDER_LEGS) {
+            const k = s(t * 1.6 + phase);
+            set(n, 0, s(t * 1.1 + phase) * 0.05, side * (k * 0.07 + Math.max(0, k - 0.75) * 0.6));
+          }
+        } else if (quad) {
           for (const n of ['legFL', 'legFR', 'legBL', 'legBR']) set(n, 0, 0, 0);
           set('tail', s(t * 1.3) * 0.12, s(t * 2.6) * 0.45, 0);
         } else {
@@ -480,7 +563,10 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
         hips.position.y = spec.hipY + hop * 0.22;
         hips.rotation.z = s(t * 6) * 0.06;
         set('head', -0.08, 0, s(t * 6) * 0.22);
-        if (quad) {
+        if (spider) {
+          for (const [n, side, phase] of SPIDER_LEGS)
+            set(n, 0, s(t * 6 + phase) * 0.1, side * hop * 0.35);
+        } else if (quad) {
           set('legFL', -0.6 * hop, 0, 0);
           set('legFR', -0.6 * hop, 0, 0);
           set('legBL', 0.2 * hop, 0, 0);
@@ -501,7 +587,13 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
         hips.rotation.x = -0.06;
         hips.rotation.z = s(w) * 0.03;
         set('head', s(w * 2) * 0.03, 0, 0);
-        if (quad) {
+        if (spider) {
+          // Alternating tetrapod: legs 1 and 3 on one side step with 2 and 4 on the other.
+          for (const [n, side, phase] of SPIDER_LEGS) {
+            const swing = s(w + phase * 2);
+            set(n, 0, swing * 0.3 * side, side * Math.max(0, swing) * 0.4);
+          }
+        } else if (quad) {
           set('legFL', s(w) * 0.55, 0, 0);
           set('legBR', s(w) * 0.55, 0, 0);
           set('legFR', -s(w) * 0.55, 0, 0);
@@ -519,7 +611,10 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
       case 'eat': {
         const chomp = Math.max(0, s(t * 5));
         set('head', 0.42 + chomp * 0.08, 0, s(t * 0.9) * 0.05);
-        if (quad) {
+        if (spider) {
+          for (const [n, side] of SPIDER_LEGS) set(n, 0, 0, n.startsWith('leg1') ? side * 0.5 : 0);
+          hips.rotation.x = 0.1;
+        } else if (quad) {
           set('legFL', 0.15, 0, 0);
           set('legFR', 0.15, 0, 0);
           hips.rotation.x = 0.08;
@@ -536,7 +631,10 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
         hips.position.y = spec.hipY - (quad ? 0.28 : 0.1) * ease + s(t * 1.1) * 0.015;
         hips.rotation.x = (quad ? 0.05 : 0.22) * ease;
         set('head', 0.5 * ease, 0, 0.12 * ease);
-        if (quad) {
+        if (spider) {
+          for (const [n, side] of SPIDER_LEGS) set(n, 0, 0, -side * 0.3 * ease);
+          hips.position.y = spec.hipY - 0.35 * ease;
+        } else if (quad) {
           for (const n of ['legFL', 'legFR']) set(n, -1.2 * ease, 0, 0);
           for (const n of ['legBL', 'legBR']) set(n, 1.2 * ease, 0, 0);
           set('tail', 0.6 * ease, 0.9 * ease, 0);
@@ -561,6 +659,11 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
         spec.ball!.y - headOrigin.y + s(t * 1.6) * 0.08 + (pose === 'happy' ? 0.15 : 0);
       ballMat.emissiveIntensity = (pose === 'sleep' ? 0.5 : 1.3) + s(t * 2.4) * 0.4;
     }
+    if (hover) {
+      hips.position.y += (spec.hover ?? 0.5) + s(t * 1.4) * 0.18 * (pose === 'sleep' ? 0.3 : 1);
+      hips.rotation.z += s(t * 0.9) * 0.06;
+    }
+    extrasUpdate?.(t, pose);
     mouth.open(mouthOpen);
     if (lidClose > 0)
       for (const l of lids) l.rotation.x = (l.userData.base as number) + lidClose * 1.9;

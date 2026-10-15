@@ -11,9 +11,9 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { fbm, ridged, vnoise } from '../render/paint/noise';
 import { hex, mix, Raster, shade, type RGB } from '../render/paint/raster';
 import { sculptedKeeper, sculptedNubbin } from './sculpted';
-import { buildCreature, type Creature } from './creatures';
-import { buildSpecies, POSES, type PoseName } from './species';
-import { FENNEL_SPEC, NUBBIN_SPEC } from './species-data';
+import type { Creature } from './creatures';
+import { buildSpecies, POSES, type PoseName, type Rigged } from './species';
+import { ROSTER } from './species-roster';
 
 /**
  * The HD-port direction taken to a AAA finish (`?aaa=1..3`): the same valley as the
@@ -857,21 +857,31 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     g.userData.yaw = facing;
     scene.add(g);
   };
-  const creatureIndex = Number(new URLSearchParams(location.search).get('creature')) || 0;
+  const creatureParam = new URLSearchParams(location.search).get('creature');
+  const lineup = creatureParam === 'all';
+  const creatureIndex = lineup ? 0 : Number(creatureParam) || 0;
   let creature: Creature | null = null;
-  if (creatureIndex > 0) {
-    // One creature on the stage, framed close, facing the camera.
-    // The Nubbin and Fennel come from the species description format; the rest are hand-built.
-    creature =
-      creatureIndex === 1
-        ? buildSpecies(NUBBIN_SPEC)
-        : creatureIndex === 3
-          ? buildSpecies(FENNEL_SPEC)
-          : buildCreature(creatureIndex - 1);
-    creature.group.userData.baseY = groundHeight(0, 0);
-    // `&turn=<degrees>` turns the creature on the spot, to view it from other angles.
-    const turn = (Number(new URLSearchParams(location.search).get('turn')) || 0) * (Math.PI / 180);
-    place(creature.group, 0, 0, Math.PI - 0.5 + turn);
+  // Every sample creature comes from the species description format.
+  const cast: Rigged[] = [];
+  // `&turn=<degrees>` turns the creature on the spot, to view it from other angles.
+  const turn = (Number(new URLSearchParams(location.search).get('turn')) || 0) * (Math.PI / 180);
+  if (lineup) {
+    // `&creature=all`: the whole roster in a row, facing the camera.
+    ROSTER.forEach((spec, i) => {
+      const c = buildSpecies(spec);
+      const x = (i - 2) * 2.45;
+      c.group.userData.baseY = groundHeight(x, 0);
+      place(c.group, x, 0, Math.PI - 0.5 + turn);
+      cast.push(c);
+    });
+  }
+  if (creatureIndex > 0 || lineup) {
+    if (creatureIndex > 0) {
+      // One creature on the stage, framed close, facing the camera.
+      creature = buildSpecies(ROSTER[Math.min(creatureIndex, ROSTER.length) - 1]!);
+      creature.group.userData.baseY = groundHeight(0, 0);
+      place(creature.group, 0, 0, Math.PI - 0.5 + turn);
+    }
     // A cool rim light from behind, as a character stage would have.
     const rim = new THREE.DirectionalLight('#bfe0ff', 1.8);
     rim.position.set(-4, 5, 8);
@@ -883,7 +893,12 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     place(sculptedKeeper(), 0, 0, closeup ? Math.PI - 0.57 : 0);
   }
 
-  const camera = new THREE.PerspectiveCamera(closeup || creature ? 36 : 46, 16 / 9, 0.1, 400);
+  const camera = new THREE.PerspectiveCamera(
+    closeup || creature || lineup ? 36 : 46,
+    16 / 9,
+    0.1,
+    400,
+  );
   const q = new URLSearchParams(location.search);
   const composer = new EffectComposer(renderer);
   const renderPass = new RenderPass(scene, camera);
@@ -937,14 +952,19 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     time.value = t;
     const a = Math.sin(t * 0.22) * 0.16;
     const ky = groundHeight(0, 0);
-    if (creature) {
-      if ('setPose' in creature) {
-        const wanted = new URLSearchParams(location.search).get('pose') as PoseName | null;
-        const rigged = creature as Creature & { setPose(p: PoseName): void };
-        rigged.setPose(
-          wanted && POSES.includes(wanted) ? wanted : POSES[Math.floor(t / 3.5) % POSES.length]!,
-        );
+    const wanted = new URLSearchParams(location.search).get('pose') as PoseName | null;
+    const poseNow =
+      wanted && POSES.includes(wanted) ? wanted : POSES[Math.floor(t / 3.5) % POSES.length]!;
+    if (lineup) {
+      for (const c of cast) {
+        c.setPose(poseNow);
+        c.animate(t);
       }
+      const back = camera.aspect < 1.5 ? 1.3 : 1;
+      camera.position.set(0.4 * back, ky + 2.5 * back, -10.4 * back);
+      camera.lookAt(0, ky + 1.1, 0);
+    } else if (creature) {
+      if ('setPose' in creature) (creature as Rigged).setPose(poseNow);
       creature.animate(t);
       const back = camera.aspect < 1.5 ? 1.25 : 1;
       camera.position.set((2.7 + Math.sin(a) * 0.6) * back, ky + 2.3 * back, -4.1 * back);
