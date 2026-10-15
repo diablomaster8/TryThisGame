@@ -372,11 +372,11 @@ export function add(
 
 const irisCache = new Map<string, THREE.CanvasTexture>();
 
-/** A painted anime iris: a dark limbal ring, a lit lower crescent, radial streaks, a pupil, catchlights. */
+/** A painted iris: a big dark pupil, a coloured ring lit from below, a dark limbal rim, catchlights. */
 function irisTexture(color: string): THREE.CanvasTexture {
   const cached = irisCache.get(color);
   if (cached) return cached;
-  const s = 96;
+  const s = 128;
   const r = new Raster(s, s, null);
   r.tracking = true;
   const base = hex(color);
@@ -386,17 +386,23 @@ function irisTexture(color: string): THREE.CanvasTexture {
       const d = Math.hypot(x - c, y - c) / c;
       if (d > 1) continue;
       const lit = THREE.MathUtils.clamp((y - c) / c, -1, 1) * 0.5 + 0.5;
-      let k = 0.55 + lit * 0.9;
-      if (d > 0.82) k *= 0.35;
+      let k = 0.45 + lit * 1.0;
+      if (d > 0.86) k *= 0.3;
       const a = Math.atan2(y - c, x - c);
-      if (Math.abs(Math.sin(a * 14)) > 0.93 && d > 0.4 && d < 0.8) k *= 1.25;
+      if (Math.abs(Math.sin(a * 12)) > 0.94 && d > 0.58 && d < 0.84) k *= 1.2;
       let col: RGB = [Math.min(1, base[0] * k), Math.min(1, base[1] * k), Math.min(1, base[2] * k)];
-      if (d < 0.36) col = [0.05, 0.05, 0.08];
+      // A large pupil with a soft edge.
+      const pupil = THREE.MathUtils.clamp((0.56 - d) / 0.05, 0, 1);
+      col = [
+        col[0] + (0.04 - col[0]) * pupil,
+        col[1] + (0.04 - col[1]) * pupil,
+        col[2] + (0.06 - col[2]) * pupil,
+      ];
       r.set(x, y, col);
     }
   }
-  r.disc(c - s * 0.16, c - s * 0.2, s * 0.12, hex('#ffffff'));
-  r.disc(c + s * 0.18, c + s * 0.22, s * 0.05, hex('#ffffff'));
+  r.disc(c - s * 0.2, c - s * 0.22, s * 0.13, hex('#ffffff'));
+  r.disc(c + s * 0.2, c + s * 0.22, s * 0.055, hex('#ffffff'));
   r.tracking = false;
   const t = r.toTexture(false);
   t.magFilter = THREE.LinearFilter;
@@ -407,9 +413,11 @@ function irisTexture(color: string): THREE.CanvasTexture {
 }
 
 /**
- * An anime-style eye set into the face: a tall almond, the iris filling almost all of
- * it, a dark liner along the top lid, a wet highlight, and a hinged lid of body
- * colour. The eyeball is flattened and sunk into the head so only its front shows.
+ * A round cartoon eye in the manner of a modern creature collector: a glossy dome
+ * sitting proud of the face, a big iris with a large dark pupil that hugs the dome, a
+ * thin ring of white around it, a bold catchlight, a thin dark line along the top lid,
+ * and a hinged lid of body colour. The group's +z is the direction the eye faces, so a
+ * caller places it on the face and aims it along the surface normal.
  */
 export function eye(
   parent: THREE.Object3D,
@@ -421,99 +429,111 @@ export function eye(
   lidColor: string,
   yaw: number,
   lid = 0.25,
-  irisScale = 0.9,
+  irisScale = 0.8,
   pitch = 0,
+  tall = 1.2,
 ): { group: THREE.Group; lid: THREE.Mesh } {
   const g = new THREE.Group();
   g.position.set(x, y, z);
   g.rotation.set(pitch, yaw, 0);
-  const tall = 1.45;
-  // The eyeball: a flattened sphere, most of it inside the head.
+  // The dome: a flattened eyeball whose centre sits a little behind the face, so the
+  // rim is buried and only the front shows.
+  const depth = 0.72;
+  const back = -r * 0.3;
   const white = add(
     g,
-    new THREE.Mesh(new THREE.SphereGeometry(r, 32, 24), glossy('#fbfbff', { roughness: 0.05 })),
+    new THREE.Mesh(new THREE.SphereGeometry(r, 36, 28), glossy('#fbfbff', { roughness: 0.06 })),
     0,
     0,
-    -r * 0.3,
+    back,
   );
-  white.scale.set(1, tall, 0.5);
+  white.scale.set(1, tall, depth);
   white.castShadow = false;
-  // The iris disc covers most of the eye and carries the pupil and catchlights.
-  const disc = add(
-    g,
-    new THREE.Mesh(
-      new THREE.CircleGeometry(r * irisScale, 40),
-      new THREE.MeshPhysicalMaterial({
-        map: irisTexture(iris),
-        transparent: true,
-        roughness: 0.04,
-        clearcoat: 1,
-        clearcoatRoughness: 0.03,
-      }),
-    ),
-    0,
-    -r * 0.02,
-    r * 0.19,
+  // A disc of concentric rings bent onto the dome, so the iris and its catchlight hug
+  // the eyeball instead of cutting through it.
+  const domeDisc = (radius: number, sy: number, ox: number, oy: number, lift: number) => {
+    const rings = 12;
+    const segs = 48;
+    const pos: number[] = [];
+    const uv: number[] = [];
+    const idx: number[] = [];
+    const push = (x: number, y: number) => {
+      const px = x + ox;
+      const py = y * sy + oy;
+      const q = Math.max(0, r * r - px * px - (py / tall) * (py / tall));
+      pos.push(px, py, back + depth * Math.sqrt(q) + lift);
+      uv.push((x / radius) * 0.5 + 0.5, (y / radius) * 0.5 + 0.5);
+    };
+    push(0, 0);
+    for (let j = 1; j <= rings; j++) {
+      const rr = (radius * j) / rings;
+      for (let i = 0; i < segs; i++) {
+        const a = (i / segs) * Math.PI * 2;
+        push(Math.cos(a) * rr, Math.sin(a) * rr);
+      }
+    }
+    for (let i = 0; i < segs; i++) idx.push(0, 1 + i, 1 + ((i + 1) % segs));
+    for (let j = 1; j < rings; j++) {
+      for (let i = 0; i < segs; i++) {
+        const a = 1 + (j - 1) * segs + i;
+        const b = 1 + (j - 1) * segs + ((i + 1) % segs);
+        const c = a + segs;
+        const d = b + segs;
+        idx.push(a, c, d, a, d, b);
+      }
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    geo.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+    geo.setIndex(idx);
+    geo.computeVertexNormals();
+    return geo;
+  };
+  const disc = new THREE.Mesh(
+    domeDisc(r * irisScale, tall * 0.96, 0, -r * 0.02, r * 0.012),
+    new THREE.MeshPhysicalMaterial({
+      map: irisTexture(iris),
+      transparent: true,
+      roughness: 0.05,
+      clearcoat: 1,
+      clearcoatRoughness: 0.04,
+    }),
   );
-  disc.scale.set(1, tall * 0.98, 1);
   disc.castShadow = false;
-  // A soft wet highlight across the upper eye.
-  const gloss = add(
-    g,
-    new THREE.Mesh(
-      new THREE.CircleGeometry(r * 0.42, 24),
-      new THREE.MeshBasicMaterial({ color: '#ffffff', transparent: true, opacity: 0.75 }),
-    ),
-    -r * 0.28,
-    r * 0.52,
-    r * 0.2,
+  g.add(disc);
+  // The catchlight: a bold white spot high on the eye, slightly over the iris edge.
+  const gloss = new THREE.Mesh(
+    domeDisc(r * 0.17, 0.8, -r * 0.34, r * 0.4, r * 0.02),
+    new THREE.MeshBasicMaterial({ color: '#ffffff', transparent: true, opacity: 0.92 }),
   );
-  gloss.scale.set(1, 0.55, 1);
   gloss.castShadow = false;
-  // The liner: a dark arc hugging the top edge, thicker toward the outer corner.
+  g.add(gloss);
+  // The liner: a thin dark line where the top lid meets the eye.
   const liner = add(
     g,
     new THREE.Mesh(
-      new THREE.TorusGeometry(r * 1.0, r * 0.075, 8, 28, Math.PI),
-      new THREE.MeshPhysicalMaterial({ color: '#1a1420', roughness: 0.5 }),
+      new THREE.TorusGeometry(r * 0.9, r * 0.045, 8, 32, Math.PI),
+      new THREE.MeshPhysicalMaterial({ color: '#241a24', roughness: 0.5 }),
     ),
     0,
     0,
-    r * 0.2,
+    r * 0.03,
   );
-  liner.scale.set(1, tall, 0.6);
+  liner.scale.set(1, tall, 0.4);
   liner.castShadow = false;
-  const under = add(
-    g,
-    new THREE.Mesh(
-      new THREE.TorusGeometry(r * 0.98, r * 0.03, 6, 28, Math.PI),
-      new THREE.MeshPhysicalMaterial({
-        color: '#3a2a30',
-        roughness: 0.6,
-        transparent: true,
-        opacity: 0.6,
-      }),
-    ),
-    0,
-    0,
-    r * 0.19,
-  );
-  under.scale.set(1, tall, 0.6);
-  under.rotation.z = Math.PI;
-  under.castShadow = false;
   // The lid: a half-shell hinged at the eye, tilted back by the species' lid amount
   // and swung down over the eye to blink or sleep.
   const lidMesh = add(
     g,
     new THREE.Mesh(
-      new THREE.SphereGeometry(r * 1.08, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.52),
+      new THREE.SphereGeometry(r * 1.06, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.52),
       new THREE.MeshPhysicalMaterial({ color: lidColor, roughness: 0.6, sheen: 0.3 }),
     ),
     0,
     0,
-    -r * 0.28,
+    back,
   );
-  lidMesh.scale.set(1, tall, 0.55);
+  lidMesh.scale.set(1, tall, depth + 0.06);
   lidMesh.userData.base = -1.35 + lid * 2.0;
   lidMesh.rotation.x = lidMesh.userData.base;
   parent.add(g);

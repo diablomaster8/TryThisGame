@@ -14,8 +14,8 @@ spec says and what the builder does with it.
 | `fur`, `furRule` | Shell fur over every part (layers, length, lift, cell size), and a rule giving fur length and growth direction per surface point, baked as vertex attributes so the shells comb instead of puffing. |
 | `torso`, `head`, `parts` | The body as blended shapes: each is a list of primitives (sphere, capsule, ellipsoid, round cone, torus) with a colour and a tag, a bounding box, a blend radius and a sculpt resolution. `head` and every part have a `pivot` and a bone `name` the poser knows. |
 | `shade`, `marks`, `colorRules`, `extraShades` | Colour baked into the vertices: a top-to-underside light gradient; deliberate markings as shapes with a colour and a soft edge; rules that recolour a region of a primitive (a cream muzzle on the head, dark socks on the legs); extra bakes such as stripes. |
-| `eyes` | Position, size, iris colour, lid colour, the outward yaw, how far the lid sits, and the iris disc size. Each eye is a glossy white, a painted iris disc (limbal ring, lit crescent, streaks, two catchlights) and a lid that blinks and closes for sleep. |
-| `mouth` | Position and width, lip colour, whether it has teeth, tongue colour. The mouth is modelled: a dark interior that opens, a tongue and teeth that appear as it does, and a lip that lifts. |
+| `eyes` | Position (projected onto the skin by the builder, aimed along the surface normal), size, `tall` (height over width; 1 is round), iris colour, lid colour, extra yaw and pitch, how far the lid sits, and the iris disc size. Each eye is a glossy dome, a painted iris bent onto it (big pupil, ring lit from below, two catchlights), a thin liner and a lid that blinks and closes for sleep. |
+| `mouth` | Position (projected onto the skin like the eyes) and width, lip colour, whether it has teeth, tongue colour. The mouth is modelled: a dark interior that opens, a tongue and teeth that appear as it does, and a lip that lifts. |
 | `wings`, `ball`, `hipY` | Species extras (translucent wings that flutter, the emote ball with its own light) and the hip height the body bobs from. |
 
 ## Bone names the poser knows

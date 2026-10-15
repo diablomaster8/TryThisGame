@@ -9,6 +9,29 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Faces anchored to the surface, round pupil eyes (2026-10-15)
+
+Reference: Maor's Palworld pet-animation video (Tanzee, Foxparks, Chikipi, Teafant frames).
+What the reference shows: round eyes sitting proud of the face, a big iris that is mostly
+dark pupil with a thin white ring around it, one bold catchlight, hardly any liner, and a
+tiny mouth drawn in the skin low on the face.
+
+- `species.ts` `onSurface(prims, blend, from)`: walks the head's signed distance field to the
+  nearest surface point and its normal. Eyes and the mouth are placed there and aimed along
+  the normal (eyes pulled 45% toward straight ahead), so nothing floats or sinks whatever
+  the head shape. Spec `eyes.yaw`/`pitch` and `mouth.pitch` are now extra tilt only.
+- `creatures.ts` `eye()`: a flattened dome eyeball with its centre behind the face; the iris
+  and the catchlight are discs of concentric rings bent onto the dome (a flat fan hid behind
+  the dome, found with a red-disc test), a thin liner at the top rim, lid as before; new
+  `tall` parameter (1.2 default) replaces the fixed 1.45 almond.
+- `irisTexture`: 128 px, pupil to 56% of the iris with a soft edge, iris ring lit from below,
+  two catchlights.
+- `buildMouth`: lip line half-buried in the skin; the lower lip is hidden when closed and
+  offset so it no longer z-fights the upper one (the "falling off" flicker).
+- Data: Nubbin eyes r 0.25, irisScale 0.8, lid 0.12, tall 1.12, mouth width 0.2; Fennel
+  eyes r 0.21, irisScale 0.8, tall 1.3, mouth width 0.2.
+- Shots: `docs/samples/face-nubbin.jpg`, `face-fennel.jpg`.
+
 ## The species format: rig, poses, marks, mouths, directional fur (2026-10-16)
 
 Maor: "what other improvements can we make before we apply it to others" → the list

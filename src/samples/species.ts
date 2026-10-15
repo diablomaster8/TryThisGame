@@ -12,7 +12,7 @@ import {
   type Shade,
   type SurfaceOpts,
 } from './creatures';
-import { sculpt, sdf, V, type Prim } from './sculpted';
+import { sculpt, sdf, smin, V, type Prim } from './sculpted';
 
 /**
  * The species description format: a creature as data. A spec names the body parts
@@ -85,8 +85,10 @@ export interface SpeciesSpec {
     yaw: number;
     lid: number;
     irisScale: number;
-    /** Tilt of each eye to follow the face, radians. */
+    /** Extra tilt of each eye beyond the face normal, radians. */
     pitch?: number;
+    /** Height of the eye relative to its width; 1 is round. */
+    tall?: number;
   };
   mouth: {
     x: number;
@@ -140,14 +142,47 @@ interface Mouth {
 }
 
 /**
+ * The nearest point on a sculpted part's surface to `from`, and the outward normal
+ * there, found by walking down the signed distance field. Eyes and the mouth are set
+ * on the face with this, so they sit in the skin whatever the head's shape.
+ */
+function onSurface(
+  prims: Prim[],
+  blend: number,
+  from: THREE.Vector3,
+): { pos: THREE.Vector3; normal: THREE.Vector3 } {
+  const field = (p: THREE.Vector3): number => {
+    let d = 1e9;
+    for (const q of prims) d = smin(d, sdf(p, q), blend);
+    return d;
+  };
+  const pos = from.clone();
+  const normal = new THREE.Vector3();
+  const t = new THREE.Vector3();
+  const e = 0.004;
+  for (let i = 0; i < 10; i++) {
+    const d = field(pos);
+    normal
+      .set(
+        field(t.set(pos.x + e, pos.y, pos.z)) - field(t.set(pos.x - e, pos.y, pos.z)),
+        field(t.set(pos.x, pos.y + e, pos.z)) - field(t.set(pos.x, pos.y - e, pos.z)),
+        field(t.set(pos.x, pos.y, pos.z + e)) - field(t.set(pos.x, pos.y, pos.z - e)),
+      )
+      .normalize();
+    pos.addScaledVector(normal, -d);
+    if (Math.abs(d) < 1e-4) break;
+  }
+  return { pos, normal };
+}
+
+/**
  * A modelled mouth set into the face: a thin lip line on the surface, and behind it a
  * dark interior that only shows as the mouth opens, with a tongue and teeth inside.
  */
 function buildMouth(parent: THREE.Object3D, m: SpeciesSpec['mouth']): Mouth {
   const g = new THREE.Group();
   g.position.set(m.x, m.y, m.z);
-  // Tilt to follow the face: a mouth below the head's centre looks down and out.
-  g.rotation.x = m.pitch ?? 0.28;
+  g.rotation.x = m.pitch ?? 0;
   const w = m.width;
   const interior = add(
     g,
@@ -197,22 +232,23 @@ function buildMouth(parent: THREE.Object3D, m: SpeciesSpec['mouth']): Mouth {
   const lipMat = new THREE.MeshPhysicalMaterial({ color: m.lip, roughness: 0.6 });
   const lip = add(
     g,
-    new THREE.Mesh(new THREE.TorusGeometry(w * 0.5, w * 0.03, 8, 28, Math.PI), lipMat),
+    new THREE.Mesh(new THREE.TorusGeometry(w * 0.5, w * 0.045, 8, 28, Math.PI), lipMat),
     0,
     w * 0.02,
-    0.005,
+    -w * 0.02,
   );
   lip.rotation.z = Math.PI;
   lip.castShadow = false;
   const lower = add(
     g,
-    new THREE.Mesh(new THREE.TorusGeometry(w * 0.5, w * 0.03, 8, 28, Math.PI), lipMat),
+    new THREE.Mesh(new THREE.TorusGeometry(w * 0.47, w * 0.04, 8, 28, Math.PI), lipMat),
     0,
     w * 0.02,
-    0.005,
+    -w * 0.03,
   );
   lower.rotation.z = Math.PI;
   lower.castShadow = false;
+  lower.visible = false;
   parent.add(g);
   return {
     group: g,
@@ -221,6 +257,7 @@ function buildMouth(parent: THREE.Object3D, m: SpeciesSpec['mouth']): Mouth {
       interior.scale.y = w * (0.03 + k * 0.34);
       interior.position.y = -w * k * 0.16;
       // The upper lip stays; the lower lip drops and flips into a ring.
+      lower.visible = k > 0.04;
       lower.position.y = w * 0.02 - k * w * 0.34;
       lower.rotation.z = Math.PI + k * Math.PI;
       lower.scale.set(1, 0.2 + k * 0.8, 1);
@@ -320,28 +357,36 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
   const e = spec.eyes;
   const headOrigin = spec.head.pivot;
   const lids: THREE.Mesh[] = [];
+  const headBlend = spec.head.blend ?? spec.blend;
+  const forward = new THREE.Vector3(0, 0, 1);
   for (const side of [-1, 1]) {
-    const r = eye(
-      head,
-      side * e.x - headOrigin.x,
-      e.y - headOrigin.y,
-      e.z - headOrigin.z,
-      e.r,
-      e.iris,
-      e.lidColor,
-      side * e.yaw,
-      e.lid,
-      e.irisScale,
-      e.pitch ?? 0,
+    // Each eye sits in the skin where the spec's point lands on the face, aimed along
+    // the surface normal pulled a little toward straight ahead.
+    const at = onSurface(spec.head.prims, headBlend, V(side * e.x, e.y, e.z));
+    const r = eye(head, 0, 0, 0, e.r, e.iris, e.lidColor, 0, e.lid, e.irisScale, 0, e.tall ?? 1.2);
+    r.group.position.copy(at.pos).sub(headOrigin);
+    r.group.quaternion.setFromUnitVectors(
+      forward,
+      at.normal.addScaledVector(forward, 0.45).normalize(),
     );
+    r.group.rotateY(side * e.yaw);
+    r.group.rotateX(e.pitch ?? 0);
     lids.push(r.lid);
   }
+  const mouthAt = onSurface(
+    spec.head.prims,
+    headBlend,
+    V(spec.mouth.x, spec.mouth.y, spec.mouth.z),
+  );
   const mouth = buildMouth(head, {
     ...spec.mouth,
-    x: spec.mouth.x - headOrigin.x,
-    y: spec.mouth.y - headOrigin.y,
-    z: spec.mouth.z - headOrigin.z,
+    x: mouthAt.pos.x - headOrigin.x,
+    y: mouthAt.pos.y - headOrigin.y,
+    z: mouthAt.pos.z - headOrigin.z,
+    pitch: 0,
   });
+  mouth.group.quaternion.setFromUnitVectors(forward, mouthAt.normal);
+  mouth.group.rotateX(spec.mouth.pitch ?? 0);
 
   // Wings and the ball are species extras.
   const wings: THREE.Group[] = [];
