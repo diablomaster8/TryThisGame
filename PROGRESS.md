@@ -24,22 +24,6 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
-## 3D load: sculpt spec, geometry cache, device grid, loading bar (2026-10-16)
-
-Works: each surface goes to a worker as plain data (`samples/sculpt-spec.ts`); hooks are
-named rules (`sculpt-rules.ts`, row note in species-format.md). Workers read IndexedDB
-(`render3d/sculpt-cache.ts`, key look#index@res, version = code hash + spec hash) and the
-page writes in one batch after loading. `sculpt()` now welds before baking (17 MB cache, was
-79) and fills far blocks of the grid (exact: tested on 852 surfaces). `settings.sculptRes`
-comes from a boot benchmark (`sculpt-res.ts`, `SCULPT_RES`); saved creatures start in
-`prewarm.ts` before the scene is built; a veil with a bar waits for every figure.
-Measured on Maor's PC, hidden pane, frames driven by hand, Keeper + 8 Nubbins (7 looks):
-before 4.2 s from first frame to all rigged (about 5.9 s from page start); now fresh device
-(grid 104) 4.05 s and second load 3.17 s from page start; grid 64: 3.32 s and 2.95 s.
-Every load still pays the scene constructor (1.65 s) and its first render (0.7 s).
-Not verified: any phone. The phone grid (64) assumes a phone 4x slower; the done-when
-(4 s fresh, 1 s second load on a 2022 phone) is not met on the page as a whole.
-
 ## Part G8b: matching the "Chao World" line-up (2026-10-16)
 
 The reference is `docs/reference/chao-world-lineup.jpg` (the YouTube thumbnail, seven
@@ -50,7 +34,11 @@ Steps, newest first, one commit each:
 `nubbin-lineup-kit.ts` (394 lines: the shared helpers, exported), `nubbin-variants-lineup.ts`
 (511: the six line-up looks as `LINEUP_LOOKS`) and `nubbin-variants-special.ts` (286: Eternals,
 Shadow, and `SPECIAL_VARIANTS` spreading the looks in the same order). Checked by serialising all
-ten variants (ids, order, every field, `patch` source) before and after: identical.
+ten variants (ids, order, every field, `patch` source) before and after: identical. Lint, tests
+(228 pass) and build pass; the line-up URL still renders as `match-lineup.jpg` with no console
+errors. Nothing stubbed, no new bugs. Commit c193b3c. The section "3D load: sculpt spec, geometry
+cache, device grid, loading bar" (2026-10-16) moved to `docs/progress-archive.md` to keep this
+file under 150 lines.
 
 5. **The group shot** (`docs/samples/match-lineup.jpg`, plain stage). Two small stage flags:
    `&ids=a,b,c` in `sheetVariants` lines up exactly those variants (reversed inside, since the

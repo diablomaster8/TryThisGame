@@ -2,6 +2,22 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## 3D load: sculpt spec, geometry cache, device grid, loading bar (2026-10-16)
+
+Works: each surface goes to a worker as plain data (`samples/sculpt-spec.ts`); hooks are
+named rules (`sculpt-rules.ts`, row note in species-format.md). Workers read IndexedDB
+(`render3d/sculpt-cache.ts`, key look#index@res, version = code hash + spec hash) and the
+page writes in one batch after loading. `sculpt()` now welds before baking (17 MB cache, was
+79) and fills far blocks of the grid (exact: tested on 852 surfaces). `settings.sculptRes`
+comes from a boot benchmark (`sculpt-res.ts`, `SCULPT_RES`); saved creatures start in
+`prewarm.ts` before the scene is built; a veil with a bar waits for every figure.
+Measured on Maor's PC, hidden pane, frames driven by hand, Keeper + 8 Nubbins (7 looks):
+before 4.2 s from first frame to all rigged (about 5.9 s from page start); now fresh device
+(grid 104) 4.05 s and second load 3.17 s from page start; grid 64: 3.32 s and 2.95 s.
+Every load still pays the scene constructor (1.65 s) and its first render (0.7 s).
+Not verified: any phone. The phone grid (64) assumes a phone 4x slower; the done-when
+(4 s fresh, 1 s second load on a 2022 phone) is not met on the page as a whole.
+
 ## Longer strides in the species format (2026-10-16)
 
 New field `stride?: { length, period, duty }` on `SpeciesSpec` (row in
