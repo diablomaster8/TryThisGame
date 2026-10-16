@@ -69,6 +69,13 @@ evolutions already resolved. The pocket and digital lines sculpt from the pixel 
 recipe (`render3d/art-species.ts`: plan, ears, crest, tail, arms, legs, wings, eyes, marks,
 palette), scaled by the recipe's size. Egg shells wear the egg colour. Shots
 `docs/samples/mode3d-forward-{species,tints}.jpg`.
+**Step 2b, motion and weather.** `cry` lays a droop over idle (head hung, arms in, a
+sob; undone each frame before `animate`); `swim` paddles with the walk at 0.6 speed, sunk
+to the shoulders over deep water with a ring spreading round it. Toys by kind
+(`render3d/toys.ts`: striped ball, radio, blocks, hand mirror, glowing TV). Snow is its own
+slow, drifting white cloud. `Bursts` (`render3d/bursts.ts`) throws leaves and petals from a
+shaken tree and dust where a Nubbin lands; both shake the 3D camera (`GROVE3D.shake`, off
+with the Settings switch). Shot `docs/samples/mode3d-forward-poses.jpg`.
 
 ## Special forms after the "Chao World" line-up (2026-10-16)
 

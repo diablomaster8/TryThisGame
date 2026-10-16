@@ -7,6 +7,8 @@ import type { Item, Nubbin, Vec2, World } from '../sim/types';
 import { CreaturePool, keeperLook, nubbinLook, type Look } from './creature-pool';
 import { EGG_COLOURS } from '../samples/nubbin-variants-colour';
 import { stubOnce } from './stubs';
+import { WATER_LEVEL, groveHeight } from './terrain';
+import { buildToy } from './toys';
 
 /**
  * Everything that moves in the 3D Grove: the Nubbins and the Keeper as pooled rigs,
@@ -27,6 +29,10 @@ interface Actor {
   /** The look still being sculpted, and the soft stand-in shown until it is ready. */
   look: Look | null;
   stand: THREE.Mesh | null;
+  /** Rotations laid over the pose this frame (the cry's droop), undone before the next. */
+  overlay: Array<{ o: THREE.Object3D; x: number; z: number }>;
+  /** The ring spreading on the water around a swimmer. */
+  ripple: THREE.Mesh | null;
   prev: Snapshot;
   pose: PoseName;
   emote: THREE.Sprite;
@@ -34,6 +40,9 @@ interface Actor {
 }
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+
+/** How far a swimmer sinks, as a fraction of its scale (the sculpt is about 3 units tall). */
+const GROVE3D_SINK = 1.1;
 
 /** Sim behaviour and handling, mapped to the species format's poses. */
 export function poseFor(n: Nubbin, moving: boolean, petted: boolean): PoseName {
@@ -54,11 +63,11 @@ export function poseFor(n: Nubbin, moving: boolean, petted: boolean): PoseName {
     case 'fetch':
       return 'happy';
     case 'cry':
-      stubOnce('pose:sad', 'cry shows the idle pose');
+      // The format has no sad pose; idle with a droop laid over it (see `overlay`).
       return 'idle';
     case 'swim':
-      stubOnce('pose:swim', 'swimming shows the walk pose');
-      return moving ? 'walk' : 'idle';
+      // Paddling: the walk, with the body sunk to the shoulders in the water.
+      return 'walk';
     case 'thrown':
       return 'idle';
     default:
@@ -70,7 +79,10 @@ export class Actors {
   readonly group = new THREE.Group();
   readonly pool = new CreaturePool();
   private readonly nubbins = new Map<string, Actor>();
-  private readonly items = new Map<string, { mesh: THREE.Mesh; prev: Snapshot }>();
+  private readonly items = new Map<
+    string,
+    { mesh: THREE.Object3D; lift: number; prev: Snapshot }
+  >();
   private readonly memorials = new Map<string, THREE.Group>();
   private keeper: { key: string; look: Look; rig: Rigged | null; stand: THREE.Mesh | null } | null =
     null;
@@ -279,6 +291,8 @@ export class Actors {
       shell: null,
       look: null,
       stand: null,
+      overlay: [],
+      ripple: null,
       prev: { pos: { x: n.pos.x, z: n.pos.z }, y: n.y },
       pose: 'idle',
       emote,
@@ -321,11 +335,57 @@ export class Actors {
     this.group.add(rig.group);
   }
 
+  /** The cry: head hung and arms in, with a small sob, laid over the idle pose. */
+  private droop(a: Actor, rig: Rigged, t: number): void {
+    const lay = (name: string, x: number, z: number) => {
+      const o = rig.bones[name];
+      if (!o) return;
+      o.rotation.x += x;
+      o.rotation.z += z;
+      a.overlay.push({ o, x, z });
+    };
+    lay('head', 0.42 + Math.sin(t * 9) * 0.04, 0);
+    lay('armL', 0.2, -0.35);
+    lay('armR', 0.2, 0.35);
+  }
+
+  private rippleGeo: THREE.RingGeometry | null = null;
+
+  /** A ring that swells and fades on the water around a swimmer. */
+  private ripple(a: Actor, on: boolean, x: number, z: number, t: number): void {
+    if (!on) {
+      if (a.ripple) a.ripple.visible = false;
+      return;
+    }
+    if (!a.ripple) {
+      this.rippleGeo ??= new THREE.RingGeometry(0.42, 0.5, 32);
+      a.ripple = new THREE.Mesh(
+        this.rippleGeo,
+        new THREE.MeshBasicMaterial({ color: '#ffffff', transparent: true, depthWrite: false }),
+      );
+      a.ripple.rotation.x = -Math.PI / 2;
+      this.group.add(a.ripple);
+    }
+    const k = (t * 0.8) % 1;
+    a.ripple.visible = true;
+    a.ripple.position.set(x, WATER_LEVEL + 0.02, z);
+    a.ripple.scale.setScalar(0.8 + k * 1.2);
+    (a.ripple.material as THREE.MeshBasicMaterial).opacity = 0.5 * (1 - k);
+  }
+
+  /** Where a Nubbin is drawn, for bursts at its feet. */
+  nubbinPosition(id: string): Vec2 | null {
+    const a = this.nubbins.get(id);
+    const o = a?.rig?.group ?? a?.shell ?? a?.stand;
+    return o ? { x: o.position.x, z: o.position.z } : null;
+  }
+
   private drop(id: string): void {
     const a = this.nubbins.get(id);
     if (!a) return;
     if (a.rig) this.pool.release(a.key, a.rig);
     a.stand?.removeFromParent();
+    a.ripple?.removeFromParent();
     a.shell?.removeFromParent();
     a.emote.removeFromParent();
     this.nubbins.delete(id);
@@ -355,19 +415,15 @@ export class Actors {
     return null;
   }
 
-  private itemMesh(i: Item): THREE.Mesh {
+  /** An item's model and how high its origin sits above the ground. */
+  private itemMesh(i: Item): { mesh: THREE.Object3D; lift: number } {
+    if (i.kind === 'toy') return { mesh: buildToy(i.toy), lift: 0 };
     let mesh: THREE.Mesh;
     if (i.kind === 'fruit') {
       mesh = new THREE.Mesh(
         new THREE.SphereGeometry(0.2, 14, 10),
         new THREE.MeshPhysicalMaterial({ color: '#ff8a2a', roughness: 0.35, clearcoat: 0.6 }),
       );
-    } else if (i.kind === 'toy') {
-      mesh = new THREE.Mesh(
-        new THREE.SphereGeometry(0.22, 14, 10),
-        new THREE.MeshStandardMaterial({ color: '#e04a6a', roughness: 0.6 }),
-      );
-      stubOnce('item:toy', 'every toy is a red ball');
     } else {
       mesh = new THREE.Mesh(
         new THREE.BoxGeometry(0.36, 0.06, 0.46),
@@ -375,7 +431,7 @@ export class Actors {
       );
     }
     mesh.castShadow = true;
-    return mesh;
+    return { mesh, lift: 0.2 };
   }
 
   update(world: World, alpha: number, nowMs: number, dt: number, cameraPos: THREE.Vector3): void {
@@ -413,12 +469,23 @@ export class Actors {
           a.pose = pose;
           a.rig.setPose(pose);
         }
-        o.position.set(x, gy + y, z);
-        a.rig.ground = y > 0.01 ? () => gy + y : this.ground;
+        // A swimmer over deep water sinks to the shoulders, feet free of the bed.
+        const swimming = n.behavior.state === 'swim' && groveHeight(x, z) < WATER_LEVEL - 0.15;
+        const sink = swimming ? o.scale.y * GROVE3D_SINK : 0;
+        o.position.set(x, gy + y - sink, z);
+        const footY = gy + y - sink;
+        a.rig.ground = y > 0.01 || swimming ? () => footY : this.ground;
         a.rig.face(n.facing);
         a.rig.lookAt =
           pose === 'pet' ? this.tmp.set(keeper.pos.x, gy + 1.0, keeper.pos.z).clone() : null;
-        a.rig.animate(t);
+        for (const u of a.overlay) {
+          u.o.rotation.x -= u.x;
+          u.o.rotation.z -= u.z;
+        }
+        a.overlay.length = 0;
+        a.rig.animate(swimming ? t * 0.6 : t);
+        if (n.behavior.state === 'cry') this.droop(a, a.rig, t);
+        this.ripple(a, swimming, x, z, t);
       } else if (a.stand) {
         o.position.set(x, gy + y + o.scale.y * 0.9, z);
       } else if (a.shell) {
@@ -481,13 +548,13 @@ export class Actors {
       liveItems.add(i.id);
       let v = this.items.get(i.id);
       if (!v) {
-        v = { mesh: this.itemMesh(i), prev: { pos: { x: i.pos.x, z: i.pos.z }, y: i.y } };
+        v = { ...this.itemMesh(i), prev: { pos: { x: i.pos.x, z: i.pos.z }, y: i.y } };
         this.group.add(v.mesh);
         this.items.set(i.id, v);
       }
       const x = lerp(v.prev.pos.x, i.pos.x, alpha);
       const z = lerp(v.prev.pos.z, i.pos.z, alpha);
-      v.mesh.position.set(x, this.ground(x, z) + 0.2 + lerp(v.prev.y, i.y, alpha), z);
+      v.mesh.position.set(x, this.ground(x, z) + v.lift + lerp(v.prev.y, i.y, alpha), z);
     }
     for (const [id, v] of [...this.items]) {
       if (liveItems.has(id)) continue;

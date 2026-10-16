@@ -23,6 +23,7 @@ import {
 import type { Floor } from '../sim/dungeon';
 import type { Location, SimEvent, Vec2, WeatherKind, World } from '../sim/types';
 import { Actors } from './actors';
+import { Bursts } from './bursts';
 import { buildGroveProps, buildGroveTrees, type GroveProps } from './props';
 import { GroveSky } from './sky';
 import { stubOnce } from './stubs';
@@ -88,8 +89,15 @@ export class Grove3dScene {
   private readonly actors: Actors;
   private readonly dungeonFloor: THREE.Mesh;
   private rain: THREE.Points | null = null;
+  private snow: THREE.Points | null = null;
+  private readonly bursts: Bursts;
+  /** Camera shake in world units, decaying; set by `landed` and `treeShaken`. */
+  private shakeAmount = 0;
+  private shakeSeed = 0;
+  private pendingShake = 0;
   private fireflies: THREE.Points | null = null;
   private treesBuilt = false;
+  private readonly treeAt = new Map<string, Vec2>();
   private location: Location = 'grove';
   private lit = new Set<string>();
   private lampsOn = false;
@@ -145,6 +153,7 @@ export class Grove3dScene {
       return done;
     };
     this.actors.ground = standHeight;
+    this.bursts = new Bursts(this.scene);
     // Underground: a plain dark floor, until the Hollow gets its own 3D rooms.
     this.dungeonFloor = new THREE.Mesh(
       new THREE.PlaneGeometry(80, 80),
@@ -245,12 +254,22 @@ export class Grove3dScene {
     this.props.windows.material.emissiveIntensity = this.lampsOn ? 2.5 : 0;
     for (const w of this.props.windows.lights) w.intensity = this.lampsOn ? 4 : 0;
     // Weather and fireflies, built on first need.
-    const wantRain = grove && weather !== 'clear' && particles !== 'off';
-    if (wantRain && !this.rain) {
-      this.rain = buildParticles(this.scene, 'rain');
-      if (weather === 'snow') stubOnce('weather:snow', 'snow falls as rain');
-    }
+    const wantRain = grove && weather === 'rain' && particles !== 'off';
+    if (wantRain && !this.rain) this.rain = buildParticles(this.scene, 'rain');
     if (this.rain) this.rain.visible = wantRain;
+    // Snow: the rain cloud's layout, white, fat and slow, drifting as it falls.
+    const wantSnow = grove && weather === 'snow' && particles !== 'off';
+    if (wantSnow && !this.snow) {
+      this.snow = buildParticles(this.scene, 'rain');
+      if (this.snow) {
+        const m = this.snow.material as THREE.PointsMaterial;
+        m.color.set('#ffffff');
+        m.size = 0.13;
+        m.opacity = 0.9;
+        this.snow.geometry.setDrawRange(0, particles === 'light' ? 600 : 1500);
+      }
+    }
+    if (this.snow) this.snow.visible = wantSnow;
     const wantFlies = grove && d.fireflies && particles !== 'off';
     if (wantFlies && !this.fireflies) this.fireflies = buildParticles(this.scene, 'golden');
     if (this.fireflies) this.fireflies.visible = wantFlies;
@@ -264,13 +283,31 @@ export class Grove3dScene {
     return this.actors.keeperDrawPos(world, alpha);
   }
 
-  /** Sim events: the pixel view bursts particles here; the 3D scene only notes what it skips. */
+  /** Sim events: leaves from a shaken tree, dust where a Nubbin lands, and the shake. */
   onEvents(events: SimEvent[]): void {
+    const ground = this.location === 'grove' ? standHeight : () => 0;
     for (const e of events) {
-      if (e.kind === 'tilePainted' || e.kind === 'decorPlaced')
-        stubOnce(`event:${e.kind}`, 'tiles and placed decor are not drawn');
-      else if (e.kind === 'treeShaken' || e.kind === 'landed')
-        stubOnce(`event:${e.kind}`, 'no leaf or dust burst yet');
+      if (e.kind === 'treeShaken') {
+        const tree = this.treeAt.get(e.treeId);
+        if (!tree) continue;
+        const at = new THREE.Vector3(tree.x, ground(tree.x, tree.z) + GROVE3D.treeCrown, tree.z);
+        const o = { spread: 1.4, speed: 0.6, rise: -0.2, lifeMs: 4000 };
+        this.bursts.burst('leaf', at, 10, o, this.lastMs);
+        this.bursts.burst('petal', at, 4, { ...o, spread: 1.2, speed: 0.5 }, this.lastMs);
+        this.pendingShake = Math.max(this.pendingShake, GROVE3D.shake.tree);
+      } else if (e.kind === 'landed') {
+        const p = this.actors.nubbinPosition(e.nubbinId);
+        if (!p) continue;
+        const at = new THREE.Vector3(p.x, ground(p.x, p.z) + 0.05, p.z);
+        this.bursts.burst(
+          'dust',
+          at,
+          8,
+          { spread: 0.3, speed: 1.4, rise: 0.6, lifeMs: 600 },
+          this.lastMs,
+        );
+        this.pendingShake = Math.max(this.pendingShake, GROVE3D.shake.landed);
+      }
     }
   }
 
@@ -292,6 +329,7 @@ export class Grove3dScene {
   private ensureTrees(world: World): void {
     if (this.treesBuilt) return;
     this.treesBuilt = true;
+    for (const t of world.trees) this.treeAt.set(t.id, { x: t.pos.x, z: t.pos.z });
     buildGroveTrees(this.world3d, this.tex, world.trees, this.pickables);
     this.actors.warm(world);
   }
@@ -323,8 +361,21 @@ export class Grove3dScene {
     this.camPos.lerp(want, dt === 0 ? 1 : k);
     const floor = (this.location === 'grove' ? groveHeight(this.camPos.x, this.camPos.z) : 0) + 0.9;
     if (this.camPos.y < floor) this.camPos.y = floor;
+    // Shake: the same rule as the pixel camera (the Settings switch), in 3D units.
+    if (this.pendingShake > 0) {
+      if (world.settings.screenShake)
+        this.shakeAmount = Math.max(this.shakeAmount, this.pendingShake);
+      this.pendingShake = 0;
+    }
     this.camera.position.copy(this.camPos);
+    if (this.shakeAmount > 0.001) {
+      this.shakeSeed += 1;
+      this.camera.position.x += Math.sin(this.shakeSeed * 12.9898) * this.shakeAmount;
+      this.camera.position.y += Math.cos(this.shakeSeed * 78.233) * this.shakeAmount * 0.6;
+      this.shakeAmount *= Math.exp(-12 * dt);
+    } else this.shakeAmount = 0;
     this.camera.lookAt(this.camTarget);
+    this.bursts.update(nowMs, dt, ground);
 
     // Grass parting under the creatures nearest the camera.
     for (const p of PUSHERS) p.set(0, 0, 0, 0);
@@ -347,6 +398,18 @@ export class Grove3dScene {
       }
       p.needsUpdate = true;
       this.rain.position.set(this.camTarget.x, 0, this.camTarget.z - 6);
+    }
+    if (this.snow?.visible) {
+      const p = this.snow.geometry.attributes.position as THREE.BufferAttribute;
+      const t = this.time.value;
+      for (let i = 0; i < p.count; i++) {
+        let y = p.getY(i) - 1.1 * dt;
+        if (y < 0) y += 14;
+        p.setY(i, y);
+        p.setX(i, p.getX(i) + Math.sin(t * 0.9 + i) * 0.4 * dt);
+      }
+      p.needsUpdate = true;
+      this.snow.position.set(this.camTarget.x, 0, this.camTarget.z - 6);
     }
     if (this.fireflies?.visible) {
       const p = this.fireflies.geometry.attributes.position as THREE.BufferAttribute;

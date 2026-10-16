@@ -67,6 +67,10 @@ export const GROVE3D = {
   sunsetHour: 18.5,
   /** Bloom is on only while the sun is this low (golden hour), in degrees. */
   bloomBelowDeg: 16,
+  /** Camera shake in world units: a Nubbin landing, a tree shaken (pixel: 0.18 / 0.08). */
+  shake: { landed: 0.12, tree: 0.05 },
+  /** Height above a fruit tree's foot where its leaves burst from when shaken. */
+  treeCrown: 3.0,
   /** The dirt paths as polylines across the field (the pixel ground paints its own). */
   paths: [
     [
