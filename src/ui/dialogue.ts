@@ -1,5 +1,5 @@
 import { TRAINER_LABELS } from '../config/strings';
-import { ENDINGS, SPEAKERS, STORY_TEXT, type Line, type Mood } from '../config/story';
+import { ENDINGS, SPEAKERS, STORY_TEXT, type Line, type Mood, type Scene } from '../config/story';
 import type { Game } from '../game';
 import type { Lesson } from '../content/types';
 import {
@@ -39,6 +39,10 @@ export class Dialogue {
   private lessonsDone = new Set<string>();
   /** True while a lesson's own lines play (no lesson can start inside another). */
   private inLesson = false;
+  /** Set while a side save's scene plays: it answers here instead of the sim. */
+  private external: ((choice: string | null) => void) | null = null;
+  /** Names for the side save's own speakers. */
+  private names: Record<string, string> = {};
 
   constructor(
     parent: HTMLElement,
@@ -92,6 +96,27 @@ export class Dialogue {
     const g = this.game();
     const scene = g ? sceneFor(g.world, sceneId) : undefined;
     if (!scene || !g) return;
+    this.external = null;
+    this.names = {};
+    this.start(sceneId, scene);
+  }
+
+  /**
+   * Play a scene from a side save (the Atlas, a cartridge): its own speakers' names, and
+   * `onDone` instead of the Grove's sim, which never hears of it (canon 21).
+   */
+  playScene(
+    scene: Scene,
+    names: Record<string, string>,
+    onDone: (choice: string | null) => void,
+  ): void {
+    if (!this.game()) return;
+    this.external = onDone;
+    this.names = names;
+    this.start(scene.id, { ...scene, lessons: [] });
+  }
+
+  private start(sceneId: string, scene: PlayScene): void {
     this.scene = sceneId;
     this.playing = scene;
     this.lessonsDone.clear();
@@ -145,6 +170,12 @@ export class Dialogue {
     stopSpeaking();
     const playing = this.playing;
     this.playing = null;
+    const external = this.external;
+    this.external = null;
+    if (external) {
+      external(choice);
+      return;
+    }
     if (g && scene)
       g.send({
         kind: 'sceneDone',
@@ -186,7 +217,7 @@ export class Dialogue {
     if (!line || !g) return;
     const who = line.who;
     const chorus = who === 'chorus';
-    this.name.textContent = speakerName(who, g);
+    this.name.textContent = this.names[who] ?? speakerName(who, g);
     this.name.hidden = who === 'narrator';
     this.root.classList.toggle('narration', who === 'narrator');
     // The chorus (everyone singing) has no portrait and is shown in italics.

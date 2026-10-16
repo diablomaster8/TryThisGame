@@ -60,6 +60,10 @@ import { PhotoMode } from './photo';
 import { PocketMode } from './pocket';
 import { modal } from './dom';
 import { mountPanelStack } from './panel-stack';
+import { ATLAS_TEXT } from '../config/strings';
+import { ARCADE_CARTS, loadAtlas } from '../sim/atlas';
+import { currentSlot } from '../platform/storage';
+import { announceFestivals, StoryShelf } from './atlas';
 import { TRAINER_LABELS as TL } from '../config/strings';
 
 /**
@@ -252,6 +256,20 @@ export function mountHud(
   const gym = new GymMenu(root, game, toast, pickRunner);
   const dungeon = new DungeonMenu(root, game);
   const tank = new TankScreen(root);
+  const atlas = new StoryShelf(root, game, dialogue, toast, {
+    which: 'atlas',
+    title: ATLAS_TEXT.atlas,
+    help: ATLAS_TEXT.atlasHelp,
+    empty: ATLAS_TEXT.noPages,
+    load: loadAtlas,
+  });
+  const cabinet = new StoryShelf(root, game, dialogue, toast, {
+    which: 'arcade',
+    title: ATLAS_TEXT.cabinet,
+    help: ATLAS_TEXT.cabinetHelp,
+    empty: ATLAS_TEXT.noCarts,
+    load: () => Promise.resolve(ARCADE_CARTS),
+  });
   function startTank(): void {
     const g = game();
     if (!g || tank.isOpen) return;
@@ -282,6 +300,8 @@ export function mountHud(
     [`🏋 ${TEN_TEXT.gym}`, () => gym.open()],
     [`🪲 ${TEN_TEXT.tank}`, () => startTank()],
     [`🕳 ${DUNGEON_TEXT.title}`, () => dungeon.open()],
+    [`📕 ${ATLAS_TEXT.atlas}`, () => atlas.open()],
+    [`🕹 ${ATLAS_TEXT.cabinet}`, () => cabinet.open()],
     [`📜 ${UI_TEXT.quests}`, () => quests.open()],
     [`🎖 ${UI_TEXT.profile}`, () => profile.open()],
     [`🏡 ${UI_TEXT.neighbourhood}`, () => neighbourhood.open()],
@@ -291,6 +311,8 @@ export function mountHud(
   ] as const) {
     const isEdu = label.includes(EDU_TEXT.grownUps);
     const isKarate = label.includes(UI_TEXT.karate);
+    const isSide = label.includes(ATLAS_TEXT.atlas) || label.includes(ATLAS_TEXT.cabinet);
+    const isCabinet = label.includes(ATLAS_TEXT.cabinet);
     moreList.appendChild(
       button(
         label,
@@ -298,7 +320,7 @@ export function mountHud(
           more.hide();
           open();
         },
-        `btn btn-wide${isEdu ? ' edu-only' : isKarate ? ' not-edu' : ''}`,
+        `btn btn-wide${isEdu ? ' edu-only' : isKarate || isSide ? ' not-edu' : ''}${isCabinet ? ' cabinet' : ''}`,
       ),
     );
   }
@@ -320,6 +342,8 @@ export function mountHud(
   );
   root.appendChild(placingChip);
   let joystick: Joystick | null = null;
+  // The Grove whose festivals were last checked against the side saves.
+  let festivalsFor: unknown = null;
   if (import.meta.env.DEV) {
     // Console access during development, alongside `window.grove`.
     (window as unknown as { groveUi: unknown }).groveUi = {
@@ -348,6 +372,8 @@ export function mountHud(
       gym,
       tank,
       dungeon,
+      atlas,
+      cabinet,
     };
   }
 
@@ -372,6 +398,8 @@ export function mountHud(
     { isOpen: () => map.isOpen(), close: () => map.close() },
     { isOpen: () => grownUps.isOpen(), close: () => grownUps.close() },
     { isOpen: () => gym.isOpen(), close: () => gym.close() },
+    { isOpen: () => atlas.isOpen(), close: () => atlas.close() },
+    { isOpen: () => cabinet.isOpen(), close: () => cabinet.close() },
     { isOpen: () => more.isOpen(), close: () => more.hide() },
     { isOpen: () => !sheet.root.hidden, close: () => sheet.close() },
     { isOpen: () => expedition.isOpen },
@@ -513,6 +541,14 @@ export function mountHud(
       expeditionBtn.textContent = isEdu ? '🎓' : '🏃';
       for (const b of moreList.querySelectorAll<HTMLElement>('.edu-only')) b.hidden = !isEdu;
       for (const b of moreList.querySelectorAll<HTMLElement>('.not-edu')) b.hidden = isEdu;
+      // Pixel's cabinet: after chapter 5 in Hazel's Grove (canon 29), from the start in the Free Grove.
+      const cabinetOpen =
+        !isEdu && (currentSlot().mode === 'free' || (g.world.campaign?.chapter ?? 0) > 5);
+      for (const b of moreList.querySelectorAll<HTMLElement>('.cabinet')) b.hidden = !cabinetOpen;
+      if (festivalsFor !== g) {
+        festivalsFor = g;
+        announceFestivals(g, toast);
+      }
       if (isEdu && eduBreakDue(g.world) && !breakScreen.isOpen() && !edu.isOpen())
         breakScreen.show();
       placingChip.hidden = !g.placing;

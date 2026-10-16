@@ -1,3 +1,6 @@
+import { ATLAS_TEXT } from '../config/strings';
+import { atlasPagesDone } from '../sim/cross-saves';
+import { readCrossSaves } from './atlas';
 import { TRAINER_LABELS } from '../config/strings';
 import { CHAPTERS, ENDINGS, SPEAKERS, STORY_TEXT } from '../config/story';
 import type { Game } from '../game';
@@ -144,6 +147,7 @@ export class Journal {
   /** What the stories left you: every keepsake, newest first, with its story's words. */
   private renderMemories(g: Game): void {
     const kept = g.world.inventory.keepsakes;
+    this.renderAtlasShelf();
     if (kept.length === 0) return;
     this.body.appendChild(el('div', 'btn-name', STORY_TEXT.memories));
     this.body.appendChild(el('p', 'help', STORY_TEXT.memoriesHelp));
@@ -156,6 +160,15 @@ export class Journal {
       );
       this.body.appendChild(el('p', 'help', found.reward.description));
     }
+  }
+
+  /** Finished Atlas pages, read from the Atlas save; nothing is copied into the Grove. */
+  private renderAtlasShelf(): void {
+    const done = atlasPagesDone(readCrossSaves());
+    if (done.length === 0) return;
+    this.body.appendChild(el('div', 'btn-name', ATLAS_TEXT.fromAtlas));
+    this.body.appendChild(el('p', 'help', ATLAS_TEXT.fromAtlasHelp));
+    for (const id of done) this.body.appendChild(el('p', undefined, ATLAS_TEXT.pages[id] ?? id));
   }
 
   private renderChapter(g: Game): void {

@@ -205,6 +205,7 @@ export function validateWorld(w: World): World {
   if (w.keeper2) w.keeper2.running ??= false;
   w.neighbours ??= {};
   w.festivalSeen ??= '';
+  w.atlasFestivals ??= [];
   w.settings.jukebox ??= null;
   w.settings.ambience ??= true;
   // Visiting Keepers keep their home spots in the save; re-home them to the current layout.

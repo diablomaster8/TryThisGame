@@ -669,6 +669,8 @@ export interface World {
   neighbours: Record<string, { lastGiftDay: string }>;
   /** Festival banner shown for this season already. */
   festivalSeen: string;
+  /** Atlas and Arcade festivals already announced in this Grove (sim/atlas.ts), by id. */
+  atlasFestivals: string[];
 }
 
 // ---------- commands (input → sim) ----------
@@ -798,6 +800,7 @@ export type Command =
   | { kind: 'leaveDungeon' }
   | { kind: 'dungeonGo'; to: 'up' | 'down' | 'chest' }
   | { kind: 'feedStray'; id: string }
+  | { kind: 'atlasFestival'; id: string }
   | { kind: 'recruit'; name: string; species: string };
 
 // ---------- events (sim → render/ui) ----------

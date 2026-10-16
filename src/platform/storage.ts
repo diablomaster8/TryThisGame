@@ -208,3 +208,60 @@ export function writeGraphicsPref(mode: 'pixel' | '3d'): boolean {
     return false;
   }
 }
+
+// ---------- the side saves (canon 21, 29, 30) ----------
+
+/**
+ * The Atlas, Pixel's Arcade and the Multiverse each keep one save of their own on this
+ * device, apart from every Grove slot above. They may read a Grove save; nothing here
+ * ever writes one.
+ */
+export type SideSave = 'atlas' | 'arcade' | 'multiverse';
+
+export const SIDE_SAVES: readonly SideSave[] = ['atlas', 'arcade', 'multiverse'];
+
+export function sideKey(which: SideSave): string {
+  return `grove.side.${which}`;
+}
+
+export function readSide(which: SideSave): string | null {
+  try {
+    return localStorage.getItem(sideKey(which));
+  } catch {
+    return null;
+  }
+}
+
+export function writeSide(which: SideSave, json: string): boolean {
+  try {
+    localStorage.setItem(sideKey(which), json);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function clearSide(which: SideSave): boolean {
+  try {
+    localStorage.removeItem(sideKey(which));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** Every Grove save on this device that a side save may read (never the Learning Grove). */
+export function readGroveSaves(): string[] {
+  const out: string[] = [];
+  for (const mode of ['free', 'campaign'] as const) {
+    for (let index = 1; index <= SLOTS_PER_MODE; index++) {
+      try {
+        const json = localStorage.getItem(slotKey({ mode, index }));
+        if (json !== null) out.push(json);
+      } catch {
+        // Blocked storage reads as no save.
+      }
+    }
+  }
+  return out;
+}

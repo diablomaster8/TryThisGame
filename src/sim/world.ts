@@ -173,6 +173,7 @@ export function createWorld(seed: number, wallMs: number): World {
     hollow: { runs: 0, best: 0, dailyDay: '', dailyDepth: 0 },
     neighbours: {},
     festivalSeen: '',
+    atlasFestivals: [],
   };
   for (const t of GROVE.trees) {
     world.trees.push({
@@ -585,6 +586,10 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'feedStray':
       feedStray(world, cmd.id, events);
+      return;
+    case 'atlasFestival':
+      // The festival itself reads the Atlas; the Grove only remembers it was announced.
+      if (!world.atlasFestivals.includes(cmd.id)) world.atlasFestivals.push(cmd.id);
       return;
     case 'setLocation':
       if (world.location !== cmd.location) {
