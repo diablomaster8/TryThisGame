@@ -59,6 +59,7 @@ import { speciesOf } from '../sim/species';
 import { PhotoMode } from './photo';
 import { PocketMode } from './pocket';
 import { modal } from './dom';
+import { mountPanelStack } from './panel-stack';
 import { TRAINER_LABELS as TL } from '../config/strings';
 
 /**
@@ -203,6 +204,12 @@ export function mountHud(
   // Toasts.
   const toasts = el('div', 'toasts');
   root.appendChild(toasts);
+  // The toast row sits under the top bar, which wraps to two rows on a phone.
+  const placeToasts = (): void =>
+    root.style.setProperty('--toast-top', `${Math.ceil(top.getBoundingClientRect().bottom) + 6}px`);
+  new ResizeObserver(placeToasts).observe(top);
+  window.addEventListener('resize', placeToasts);
+  placeToasts();
   function toast(text: string): void {
     const t = el('div', 'toast', text);
     toasts.appendChild(t);
@@ -217,7 +224,9 @@ export function mountHud(
   const sheet = new StatsSheet(root, game);
   const settings = new SettingsMenu(root, game, toast);
   const away = new AwayScreen(root);
-  const debug = new DebugPanel(root, game, () => sheet.selectedId);
+  // The debug panel only mounts in dev builds, or in a production build opened with `?debug`.
+  const debugEnabled = import.meta.env.DEV || new URLSearchParams(location.search).has('debug');
+  const debug = debugEnabled ? new DebugPanel(root, game, () => sheet.selectedId) : null;
   const celebration = new Celebration(root, game);
   const shop = new ShopMenu(root, game, toast);
   const expedition = new ExpeditionScreen(root);
@@ -342,6 +351,32 @@ export function mountHud(
     };
   }
 
+  // One full panel at a time (B3). Story scenes, the away screen and celebrations are
+  // deliberately layered and stay outside the stack.
+  mountPanelStack(root, [
+    { isOpen: () => settings.isOpen(), close: () => settings.close() },
+    { isOpen: () => shop.isOpen(), close: () => shop.close() },
+    { isOpen: () => races.isOpen(), close: () => races.close() },
+    { isOpen: () => roster.isOpen(), close: () => roster.close() },
+    { isOpen: () => trainers.isOpen(), close: () => trainers.close() },
+    { isOpen: () => journal.isOpen(), close: () => journal.close() },
+    { isOpen: () => kindergarten.isOpen(), close: () => kindergarten.close() },
+    { isOpen: () => karate.isOpen(), close: () => karate.close() },
+    { isOpen: () => book.isOpen(), close: () => book.close() },
+    { isOpen: () => decorate.isOpen(), close: () => decorate.close() },
+    { isOpen: () => photo.isOpen(), close: () => photo.close() },
+    { isOpen: () => pocket.isOpen, close: () => pocket.close() },
+    { isOpen: () => quests.isOpen(), close: () => quests.close() },
+    { isOpen: () => profile.isOpen(), close: () => profile.close() },
+    { isOpen: () => neighbourhood.isOpen(), close: () => neighbourhood.close() },
+    { isOpen: () => map.isOpen(), close: () => map.close() },
+    { isOpen: () => grownUps.isOpen(), close: () => grownUps.close() },
+    { isOpen: () => gym.isOpen(), close: () => gym.close() },
+    { isOpen: () => more.isOpen(), close: () => more.hide() },
+    { isOpen: () => !sheet.root.hidden, close: () => sheet.close() },
+    { isOpen: () => expedition.isOpen },
+  ]);
+
   // Triple-tap the logo, or press backtick, for the debug panel.
   let logoTaps: number[] = [];
   function onLogoTap(): void {
@@ -350,7 +385,7 @@ export function mountHud(
     logoTaps.push(now);
     if (logoTaps.length >= 3) {
       logoTaps = [];
-      debug.toggle();
+      debug?.toggle();
     }
   }
   window.addEventListener('keydown', (e) => {
@@ -362,7 +397,7 @@ export function mountHud(
     }
     if (e.key === '`' && !(e.target instanceof HTMLInputElement)) {
       e.preventDefault();
-      debug.toggle();
+      debug?.toggle();
     }
     if (e.key === 'Escape') {
       if (settings.isOpen()) settings.close();
@@ -411,7 +446,7 @@ export function mountHud(
       }
       if (!sheet.root.hidden) sheet.refresh();
       shop.refresh();
-      debug.refresh();
+      debug?.refresh();
       // Story scenes wait their turn behind other panels.
       const c = g.world.campaign;
       journalBtn.hidden = !c;

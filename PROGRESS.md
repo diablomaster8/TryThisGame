@@ -17,6 +17,14 @@ Waiting on Maor: the expansion pick E1–E3 / S1–S4, the daily-gift decision, 
 fun-quest quotes, whether Full 3D becomes the default, his phone rows in the device pass.
 Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
 
+## 2026-10-16: B2 debug panel guard, B3 panel stack
+
+**Works:** B2 was real: the debug panel mounted in the production build and opened on backtick or a triple-tap of the logo. It now mounts only when `import.meta.env.DEV` or the URL has `?debug` (`ui/hud.ts`); otherwise `debug` is null and both openers do nothing. Checked in `vite preview`: no `.debug` node without the flag, panel opens with it. B3: `ui/panel-stack.ts` keeps one full panel open at a time (menus, stats sheet, Journal; the newest wins) and refuses to open any over a running Expedition. Toasts take their row from the measured top-bar bottom (`--toast-top`), above panels, no pointer events. The Expedition counter now sits beside the close button. Checked at 375x812 in pixel and Full 3D (the HUD is shared DOM). Manual steps: `docs/device-pass.md` (no `tests/e2e/` yet).
+
+**Stubbed:** no Playwright test; the checks are manual until G11 creates `tests/e2e/`. Story scenes, the away screen and celebrations stay outside the stack on purpose.
+
+**Known bugs:** I could not reproduce the exact "counter under the close button" overlap at 375 wide (the old CSS had them on opposite sides); the new layout rules it out whichever way it arose. Assumption: this section sits after the Status block rather than at literal line 12, which is inside it.
+
 ## 2026-10-16: content ratings (CV6 audience items)
 
 **Works:** `Settings.matureContent` (`off` | `teen` | `adult`, default `off`) and `riftConfirmed`, save v3 with a migration (v2 saves get `off`/false; bad values clamp to `off`). `sim/audience.ts` holds the pure filter: Learning Grove offers only `all`; the main game offers `all` and `main`, `teen` at 13+ or 18+, `adult` at 18+; fun quests Q1-Q65 are blocked in chapters 9-11. Settings > Mature content control (hidden when the slot mode is `edu`). `confirmRift` command sets `riftConfirmed` and turns on 18+. `ui/rift-confirm.ts` is the one-time age dialog. Tests: `tests/sim/audience.test.ts`.

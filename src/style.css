@@ -307,9 +307,11 @@ button,
 
 .toasts {
   position: absolute;
-  top: calc(var(--safe-top) + 60px);
+  top: var(--toast-top, calc(var(--safe-top) + 60px));
   left: 50%;
   transform: translateX(-50%);
+  z-index: 30;
+  pointer-events: none;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -520,8 +522,13 @@ button,
 
 .expedition-hud {
   position: absolute;
-  top: calc(var(--safe-top) + 8px);
-  right: calc(var(--safe-right) + 12px);
+  /* Beside the close button, never under it: both sit in the top row. */
+  top: calc(var(--safe-top) + 10px);
+  left: calc(var(--safe-left) + 64px);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
   padding: 6px 10px;
   font-size: 15px;
   font-variant-numeric: tabular-nums;
