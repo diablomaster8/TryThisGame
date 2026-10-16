@@ -21,6 +21,7 @@ export { prewarmCreatures } from './prewarm';
 import { Bursts } from './bursts';
 import { CrownFade } from './crowns';
 import { Garden } from './garden';
+import { Halo } from './halo';
 import { Hollow } from './hollow';
 import { buildGroveProps, buildGroveTrees, type GroveProps } from './props';
 import { GroveTextures } from './grove-textures';
@@ -153,6 +154,8 @@ export class Grove3dScene {
   private readonly bursts: Bursts;
   private readonly garden: Garden;
   private readonly hollow: Hollow;
+  private readonly halo: Halo;
+  private highlightKey = '';
   private floor: Floor | null = null;
   private groveKind: World['grove'] = 'main';
   private lastWorld: World | null = null;
@@ -217,6 +220,7 @@ export class Grove3dScene {
     this.bursts = new Bursts(this.scene);
     this.garden = new Garden(this.world3d);
     this.hollow = new Hollow(this.scene);
+    this.halo = new Halo(this.scene);
     // Underground: a plain dark floor, until the Hollow gets its own 3D rooms.
     this.dungeonFloor = new THREE.Mesh(
       new THREE.PlaneGeometry(80, 80),
@@ -456,7 +460,32 @@ export class Grove3dScene {
   }
 
   setHighlight(hit: { kind: string; id: string } | null): void {
-    this.actors.setHighlight(hit);
+    const key = hit ? `${hit.kind}:${hit.id}` : '';
+    if (key === this.highlightKey) return;
+    this.highlightKey = key;
+    if (!hit || hit.kind === 'ground') {
+      this.halo.show('', []);
+      this.actors.setHighlight(null);
+      return;
+    }
+    const { kind, id } = hit;
+    // Still props (buildings, lanterns, decor, trees) get the pixel view's rim; everything
+    // else gets the ground ring, which follows it.
+    const parts = this.pickables.filter((o) => {
+      const p = o.userData.pick as { kind: string; id: string } | undefined;
+      return p?.kind === kind && p.id === id && o.visible && o !== this.terrain.mesh;
+    });
+    if (parts.length) {
+      this.world3d.traverse((o) => {
+        const h = o.userData.halo as { kind: string; id: string } | undefined;
+        if (h?.kind === kind && h.id === id) parts.push(o);
+      });
+      this.halo.show(key, parts);
+      this.actors.setHighlight(null);
+      return;
+    }
+    this.halo.show('', []);
+    this.actors.setHighlight(hit, () => this.garden.spot(kind, id) ?? this.hollow.spot(kind, id));
   }
 
   sparkle(x: number, z: number, y = 0.4): void {
@@ -575,6 +604,7 @@ export class Grove3dScene {
     mid.copy(this.camTarget);
     head.copy(this.camTarget).setY(this.camTarget.y + 0.7);
     this.crowns.update(this.camera.position, this.keeperMarks, dt);
+    this.halo.update(this.time.value);
     this.bursts.update(nowMs, dt, ground);
 
     // Grass parting under the creatures nearest the camera.

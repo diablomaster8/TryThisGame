@@ -379,6 +379,13 @@ export class Garden {
     }
   }
 
+  /** Where a plant or story prop stands and its reach, for the tap highlight. */
+  spot(kind: string, id: string): { x: number; z: number; r: number } | null {
+    if (!this.group.visible) return null;
+    const p = this.picks.find(([, k, i]) => k === kind && i === id);
+    return p ? { x: p[0].position.x, z: p[0].position.z, r: p[3] } : null;
+  }
+
   pick(ray: THREE.Ray): { kind: GardenPickKind; id: string; d: number } | null {
     const sphere = new THREE.Sphere();
     const hit = new THREE.Vector3();

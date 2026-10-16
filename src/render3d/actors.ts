@@ -117,6 +117,8 @@ export class Actors {
   private readonly pops = new Map<string, { kind: 'squash' | 'pop'; startMs: number }>();
   private readonly highlight: THREE.Mesh;
   private highlightId: string | null = null;
+  /** For a highlighted thing that is not a Nubbin or an item: where it is now, and how wide. */
+  private highlightSpot: (() => { x: number; z: number; r: number } | null) | null = null;
   private readonly sparks: Array<{ p: THREE.Vector3; v: THREE.Vector3; born: number }> = [];
   private readonly sparkPoints: THREE.Points;
   private readonly sparkPos: THREE.BufferAttribute;
@@ -222,8 +224,27 @@ export class Actors {
     };
   }
 
-  setHighlight(hit: { kind: string; id: string } | null): void {
+  /**
+   * Ring the thing under the pointer, as the pixel view haloes every pick: Nubbins and
+   * items here, memorials and the crowd here too, anything else through `spot` (the
+   * scene's finder for props, plants, stairs, chests and loot).
+   */
+  setHighlight(
+    hit: { kind: string; id: string } | null,
+    spot: (() => { x: number; z: number; r: number } | null) | null = null,
+  ): void {
     this.highlightId = hit && (hit.kind === 'nubbin' || hit.kind === 'item') ? hit.id : null;
+    const id = hit?.id ?? '';
+    const memorial = hit?.kind === 'memorial' ? this.memorials.get(id) : undefined;
+    this.highlightSpot = this.highlightId
+      ? null
+      : memorial
+        ? () => ({ x: memorial.position.x, z: memorial.position.z, r: 0.35 })
+        : hit && ['npc', 'wild', 'stray'].includes(hit.kind)
+          ? () => this.crowd.spot(id)
+          : hit?.kind === 'building' && id === 'host'
+            ? () => this.crowd.spot(id)
+            : spot;
   }
 
   sparkle(x: number, z: number, y: number, nowMs: number): void {
@@ -785,13 +806,15 @@ export class Actors {
         this.nubbins.get(hl)?.stand ??
         this.items.get(hl)?.mesh)
       : null;
-    this.highlight.visible = !!target;
-    if (target) {
-      this.highlight.position.set(
-        target.position.x,
-        this.ground(target.position.x, target.position.z) + 0.04,
-        target.position.z,
-      );
+    // The ring is sized for a Nubbin; anything else scales it to its own reach.
+    const spot = target
+      ? { x: target.position.x, z: target.position.z, r: 0 }
+      : (this.highlightSpot?.() ?? null);
+    this.highlight.visible = !!spot;
+    if (spot) {
+      this.highlight.position.set(spot.x, this.ground(spot.x, spot.z) + 0.04, spot.z);
+      const k = spot.r ? Math.min(GROVE3D.highlightMaxScale, Math.max(0.6, spot.r / 0.6)) : 1;
+      this.highlight.scale.setScalar(k);
       (this.highlight.material as THREE.MeshBasicMaterial).opacity = 0.6 + Math.sin(t * 6) * 0.25;
     }
 

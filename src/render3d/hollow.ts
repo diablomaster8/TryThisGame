@@ -313,6 +313,13 @@ export class Hollow {
     return best;
   }
 
+  /** Where stairs, the chest or a piece of loot sits and its reach, for the tap highlight. */
+  spot(kind: string, id: string): { x: number; z: number; r: number } | null {
+    if (!this.group.visible) return null;
+    const p = this.picks.find(([, k, i]) => k === kind && i === id);
+    return p ? { x: p[0].x, z: p[0].z, r: p[3] } : null;
+  }
+
   /** Ambient light for the floor: 0..1, deeper floors darker. */
   get light(): number {
     return this.floor?.light ?? 1;

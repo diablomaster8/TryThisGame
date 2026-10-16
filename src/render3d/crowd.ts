@@ -295,6 +295,14 @@ export class Crowd {
     return best;
   }
 
+  /** Where a figure stands and how wide it is, for the tap highlight. */
+  spot(id: string): { x: number; z: number; r: number } | null {
+    const m = this.members.get(id);
+    return m && m.kind !== 'ambient'
+      ? { x: m.pos.x, z: m.pos.z, r: Math.max(0.5, m.look.height * 0.45) }
+      : null;
+  }
+
   /** Feet on the grass, for the pushers. */
   positions(): Array<{ x: number; z: number; r: number }> {
     return [...this.members.values()]

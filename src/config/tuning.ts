@@ -75,6 +75,10 @@ export const GROVE3D = {
    * `delayMs` it dims over `ms` (and brightens back as fast once the place draws).
    */
   placeFade: { delayMs: 60, ms: 180 },
+  /** The tap ring grows to a thing's reach, up to this many times a Nubbin's ring. */
+  highlightMaxScale: 3,
+  /** The tap halo round a still prop: how far it stands out from the surface, world units. */
+  haloRim: 0.1,
   /** Downward tilt of the camera behind the Keeper, in degrees (gentler than the pixel 35°). */
   pitchDeg: 24,
   /** Orbit distance for each zoom level (index 0 is the farthest, as in CAMERA). */

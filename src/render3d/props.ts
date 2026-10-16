@@ -313,6 +313,10 @@ export function buildGroveTrees(
     // The leaf cards are the one instanced part; the box covers every card.
     const crown = parts.find((p): p is THREE.InstancedMesh => p instanceof THREE.InstancedMesh);
     if (!crown) return;
+    // The branches share the trunk's tap halo (the leaf cards sway in their shader, so a
+    // copy would not follow them).
+    for (const p of parts)
+      if (p !== trunk && p !== crown) p.userData.halo = { kind: 'tree', id: t.id };
     crown.computeBoundingBox();
     const box = crown.boundingBox!;
     const size = box.getSize(new THREE.Vector3());
