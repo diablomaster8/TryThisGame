@@ -568,9 +568,9 @@ function irisTexture(color: string): THREE.CanvasTexture {
 /** The movable pieces of one eye, for blinks and expressions. */
 export interface EyeRig {
   group: THREE.Group;
-  /** Upper lid; `userData.base` is its open tilt, blinking adds up to 1.9. */
+  /** Upper lid: a shell on the dome that `setLid` grows down over it, 0 open to 1 shut. */
   lid: THREE.Mesh;
-  /** Lower lid; `userData.base` is its open tilt, a squint adds up to ~1. */
+  /** Lower lid: the same shell from below; a squint raises it toward the middle. */
   lower: THREE.Mesh;
   /** The upturned lash line shown over a closed happy eye. */
   arc: THREE.Mesh;
@@ -706,24 +706,27 @@ export function eye(
   );
   liner.scale.set(1, tall, 0.4);
   liner.castShadow = false;
-  // The lid: a half-shell hinged at the eye, tilted back by the species' lid amount
-  // and swung down over the eye to blink or sleep.
-  const lidGeo = new THREE.SphereGeometry(r * 1.06, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.52);
+  // The lid: a shell a tenth outside the dome (room for an iris that has slid to look),
+  // with the dome's own proportions, that starts as a cap at the top (the species' `lid`
+  // amount hanging at rest) and closes by growing down over the eye. A shell that hugs the dome never pokes the white out
+  // or bulges forward, which a tilted rigid cap did on tall eyes.
   const lidMat = flat(
     new THREE.MeshPhysicalMaterial({ color: lidColor, roughness: 0.6, sheen: 0.3 }),
   );
-  const lidMesh = add(g, new THREE.Mesh(lidGeo, lidMat), 0, 0, back);
-  lidMesh.scale.set(1, tall, depth + 0.06);
-  lidMesh.userData.base = -1.35 + lid * 2.0;
-  lidMesh.rotation.x = lidMesh.userData.base;
-  // The lower lid: the same shell hinged from below, rising a little for a squint.
+  const lidMesh = add(g, new THREE.Mesh(lidShell(r * 1.1), lidMat), 0, 0, back);
+  lidMesh.scale.set(1, tall, depth + 0.07);
+  lidMesh.userData.open = (0.05 + lid * 0.5) * Math.PI;
+  lidMesh.userData.closed = LID_SHUT;
+  setLid(lidMesh, 0);
+  // The lower lid: the same shell from below, rising a little for a squint.
   const lowerWrap = new THREE.Group();
   lowerWrap.rotation.z = Math.PI;
   g.add(lowerWrap);
-  const lower = add(lowerWrap, new THREE.Mesh(lidGeo, lidMat), 0, 0, back);
-  lower.scale.set(1, tall, depth + 0.06);
-  lower.userData.base = -1.35 + 0.04 * 2.0;
-  lower.rotation.x = lower.userData.base;
+  const lower = add(lowerWrap, new THREE.Mesh(lidShell(r * 1.1), lidMat), 0, 0, back);
+  lower.scale.set(1, tall, depth + 0.07);
+  lower.userData.open = 0.07 * Math.PI;
+  lower.userData.closed = LID_SHUT;
+  setLid(lower, 0);
   // The happy arc: the upturned lash line drawn over a closed eye.
   const arc = add(
     g,
@@ -808,7 +811,51 @@ export function breathe(g: THREE.Group, base: number, t: number, rate = 2.2, amo
 export function blink(lids: THREE.Mesh[], t: number, phase: number, every = 4.2): void {
   const cycle = (t + phase) % every;
   const k = cycle < 0.2 ? Math.sin((cycle / 0.2) * Math.PI) : 0;
-  for (const l of lids) l.rotation.x = (l.userData.base as number) + k * 1.9;
+  for (const l of lids) setLid(l, k);
+}
+
+/** The polar reach of a shut lid: past the equator, so the dome's whole front is covered. */
+const LID_SHUT = 0.92 * Math.PI;
+const LID_SEGS = 24;
+const LID_ROWS = 10;
+
+/** A lid's shell: a sphere cap whose rows `setLid` moves down the dome as it closes. */
+function lidShell(radius: number): THREE.BufferGeometry {
+  const geo = new THREE.SphereGeometry(radius, LID_SEGS, LID_ROWS, 0, Math.PI * 2, 0, 0.1);
+  geo.userData.radius = radius;
+  return geo;
+}
+
+/**
+ * Close a lid (from `eye`) by `k`, 0 open to 1 shut: its cap grows from the species'
+ * resting reach (`userData.open`) down to `userData.closed`, hugging the dome the whole
+ * way. Rows are rewritten in place, so a lid that has not moved costs nothing.
+ */
+export function setLid(lid: THREE.Mesh, k: number): void {
+  const open = lid.userData.open as number;
+  const closed = lid.userData.closed as number;
+  const reach = open + Math.min(1, Math.max(0, k)) * (closed - open);
+  if (lid.userData.reach === reach) return;
+  lid.userData.reach = reach;
+  const geo = lid.geometry;
+  const R = geo.userData.radius as number;
+  const pos = geo.attributes.position as THREE.BufferAttribute;
+  const nor = geo.attributes.normal as THREE.BufferAttribute;
+  let i = 0;
+  for (let iy = 0; iy <= LID_ROWS; iy++) {
+    const theta = (iy / LID_ROWS) * reach;
+    const st = Math.sin(theta);
+    const ct = Math.cos(theta);
+    for (let ix = 0; ix <= LID_SEGS; ix++, i++) {
+      const phi = (ix / LID_SEGS) * Math.PI * 2;
+      const x = -Math.cos(phi) * st;
+      const z = Math.sin(phi) * st;
+      pos.setXYZ(i, x * R, ct * R, z * R);
+      nor.setXYZ(i, x, ct, z);
+    }
+  }
+  pos.needsUpdate = true;
+  nor.needsUpdate = true;
 }
 
 /** Thin vein capsules radiating inside a wing, so the membrane reads as a wing. */

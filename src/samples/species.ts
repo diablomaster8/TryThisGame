@@ -7,6 +7,7 @@ import {
   furShells,
   glossy,
   gradient,
+  setLid,
   surfaceMaterial,
   TOON,
   TOON_OUTLINE,
@@ -1411,8 +1412,14 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
         const lie = Math.max(0, bellyY - footY - 0.03);
         set('head', (quad ? 0.45 : 0.6) * ease, 0, 0.12 * ease);
         if (spider) {
-          for (const [n, side] of SPIDER_LEGS) set(n, 0, 0, -side * 0.3 * ease);
-          for (const leg of legs) bendKnee(leg, 0.9 * ease);
+          // The legs tuck under the dropped body: the thighs come down to level and sweep
+          // in (front pairs back, hind pairs forward), and the knees fold tight so the
+          // shins lie back under the thighs instead of standing up over the back.
+          for (const [n, side] of SPIDER_LEGS) {
+            const front = /^leg[12]/.test(n);
+            set(n, 0, (front ? 1 : -1) * side * 0.45 * ease, -side * 1.0 * ease);
+          }
+          for (const leg of legs) bendKnee(leg, 1.5 * ease);
           hips.position.y = spec.hipY - 0.35 * ease;
         } else if (quad) {
           hips.position.y = spec.hipY - lie * ease;
@@ -1570,11 +1577,10 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
     const ex = { ...EXPRESSIONS[pose], ...(spec.expressions?.[pose] ?? {}) };
     const k = pose === 'sleep' ? Math.min(1, dt / 1.2) : Math.min(1, dt / 0.3);
     lidClose = Math.max(lidClose, ex.lid * k);
-    if (lidClose > 0)
-      for (const l of lids) l.rotation.x = (l.userData.base as number) + lidClose * 1.9;
+    if (lidClose > 0) for (const l of lids) setLid(l, lidClose);
     else blink(lids, t, 0.6);
     for (const e of eyes) {
-      e.lower.rotation.x = (e.lower.userData.base as number) + ex.squint * k * 0.95;
+      setLid(e.lower, ex.squint * k * 0.5);
       // A happy shut eye is the skin with a lash arc on it, not lids over a dome.
       const shut = ex.arc && lidClose > 0.8;
       e.arc.visible = shut;
