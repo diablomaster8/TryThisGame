@@ -632,7 +632,7 @@ export interface World {
   /** Collection book: species ids and Chao form keys, with the sim time first seen. */
   seen: Record<string, number>;
   /** Daily visits: the last real day (YYYY-MM-DD) a Keeper came by. */
-  visits: { lastDay: string; count: number };
+  visits: { lastDay: string; count: number; gifted: string[] };
   location: Location;
   /** Karate belts won per tier. */
   karate: { belt: number; wins: number; losses: number };
@@ -666,7 +666,7 @@ export interface World {
   dungeon: DungeonRun | null;
   hollow: { runs: number; best: number; dailyDay: string; dailyDepth: number };
   /** Per neighbour: the last real day a gift was taken. */
-  neighbours: Record<string, { lastGiftDay: string }>;
+  neighbours: Record<string, { gifted: boolean }>;
   /** Festival banner shown for this season already. */
   festivalSeen: string;
   /** Atlas and Arcade festivals already announced in this Grove (sim/atlas.ts), by id. */
@@ -858,7 +858,7 @@ export type SimEvent =
   | { kind: 'lessonDone'; nubbinId: string; lesson: LessonId; level: number }
   | { kind: 'service'; service: 'doctor' | 'fortune'; nubbinId: string; ok: boolean }
   | { kind: 'weather'; weather: WeatherKind }
-  | { kind: 'visitor'; trainer: string; gift: 'shells' | 'fruit' | 'egg' | 'heartFruit' }
+  | { kind: 'visitor'; trainer: string; gift: 'shells' | 'fruit' | 'egg' | 'heartFruit' | null }
   | { kind: 'lanternNight' }
   | { kind: 'decorPlaced'; id: string; decor: DecorKind }
   | { kind: 'decorBought'; decor: DecorKind; ok: boolean }

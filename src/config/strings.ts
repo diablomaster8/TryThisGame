@@ -501,6 +501,7 @@ export const UI_TEXT = {
   weatherSnow: 'Snow is falling.',
   weatherClear: 'The sky clears.',
   visitor: (name: string, gift: string) => `${name} stopped by with ${gift}!`,
+  visitorNoGift: (name: string) => `${name} stopped by to say hello.`,
   giftNames: {
     shells: 'a bag of Shells',
     fruit: 'some fruit',
@@ -633,11 +634,12 @@ export const UI_TEXT = {
   plotBought: 'A new plot! More room for Nubbins.',
   achievement: (title: string, shells: number) => `Badge earned: ${title} (+${shells} Shells)`,
   neighbourhood: 'Neighbourhood',
-  neighbourhoodHelp: 'Walk around the other Keepers’ Groves. Tap the host for a gift, once a day.',
+  neighbourhoodHelp:
+    'Walk around the other Keepers’ Groves. Tap the host for a gift. Each neighbour has one to give.',
   visitBtn: 'Visit',
   goHome: 'Go home',
   giftBtn: 'Ask for a gift',
-  giftTaken: 'Already got one today.',
+  giftTaken: 'You already have their gift.',
   neighbourGiftGot: (name: string, shells: number) => `${name} gave you ${shells} Shells.`,
   visitingNow: (name: string) => `Visiting ${name}’s Grove`,
   map: 'Map',

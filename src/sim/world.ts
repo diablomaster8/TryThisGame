@@ -145,7 +145,7 @@ export function createWorld(seed: number, wallMs: number): World {
     season: seasonOf(new Date(wallMs)),
     placed: [],
     seen: {},
-    visits: { lastDay: '', count: 0 },
+    visits: { lastDay: '', count: 0, gifted: [] },
     location: 'grove',
     karate: { belt: 0, wins: 0, losses: 0 },
     plants: [],
@@ -645,7 +645,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       visit(world, cmd.trainer, events);
       return;
     case 'neighbourGift':
-      neighbourGift(world, world.lastWallMs, events);
+      neighbourGift(world, events);
       return;
     case 'feedWild':
       feedWild(world, cmd.id, events);

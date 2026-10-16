@@ -8,9 +8,10 @@ import type { SimEvent, World } from './types';
 import { newId, uniqueName } from './world';
 
 /**
- * The daily rhythm, on the real calendar: once a day a Keeper visits with a gift and
- * potters about for a while, and Saturday is lantern night. Outside the campaign the
- * visitor is the only NPC in the Grove.
+ * The calendar rhythm: a Keeper may drop by on a new real day and potter about for a
+ * while, and Saturday is lantern night. Outside the campaign the visitor is the only NPC
+ * in the Grove. Canon 22: nothing here is a timer-gated reward. Each Keeper brings one
+ * story gift, the first time they visit, and never again; later visits are company only.
  */
 export function dayKey(date: Date): string {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
@@ -31,8 +32,11 @@ export function stepDaily(world: World, wallMs: number, rng: Rng, events: SimEve
   const others = TRAINERS.filter((t) => t.id !== world.trainer);
   const trainer = rng.pick(others).id;
   const roll = rng.next();
-  let gift: 'shells' | 'fruit' | 'egg' | 'heartFruit';
-  if (roll < 0.5) {
+  let gift: 'shells' | 'fruit' | 'egg' | 'heartFruit' | null = null;
+  const firstVisit = !world.visits.gifted.includes(trainer);
+  if (!firstVisit) {
+    // Already brought their gift: company only.
+  } else if (roll < 0.5) {
     gift = 'shells';
     world.inventory.shells += VISITS.giftShells;
   } else if (roll < 0.75) {
@@ -48,6 +52,7 @@ export function stepDaily(world: World, wallMs: number, rng: Rng, events: SimEve
     gift = 'heartFruit';
     world.inventory.heartFruit += 1;
   }
+  if (gift) world.visits.gifted.push(trainer);
   // The visitor stays the day unless the campaign already fills the Grove with Keepers.
   if (!world.campaign) {
     for (const npc of [...world.npcs]) removeNpc(world, npc.trainer);

@@ -670,8 +670,11 @@ export function mountHud(
                 : UI_TEXT.weatherClear,
           );
         } else if (e.kind === 'visitor') {
-          toast(UI_TEXT.visitor(TL[e.trainer]?.name ?? e.trainer, UI_TEXT.giftNames[e.gift]));
-          playSound('buy');
+          const who = TL[e.trainer]?.name ?? e.trainer;
+          toast(
+            e.gift ? UI_TEXT.visitor(who, UI_TEXT.giftNames[e.gift]) : UI_TEXT.visitorNoGift(who),
+          );
+          if (e.gift) playSound('buy');
         } else if (e.kind === 'lanternNight') {
           toast(UI_TEXT.lanternNight);
         } else if (e.kind === 'decorPlaced') {

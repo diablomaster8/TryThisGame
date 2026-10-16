@@ -656,7 +656,7 @@ export const DECOR = {
 } as const;
 
 export const VISITS = {
-  /** A visiting Keeper brings a gift once per real day. */
+  /** Each Keeper brings one story gift, once, ever; the neighbour host gives the same. */
   giftShells: 30,
   /** Saturday is lantern night. */
   lanternNightDay: 6,

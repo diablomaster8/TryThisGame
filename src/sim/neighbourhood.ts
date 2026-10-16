@@ -1,5 +1,4 @@
 import { VISITS } from '../config/tuning';
-import { dayKey } from './daily';
 import { Rng } from './rng';
 import { SPECIES } from './species';
 import { TRAINERS, trainerOf } from './trainers';
@@ -7,8 +6,8 @@ import type { SimEvent, World } from './types';
 
 /**
  * The neighbourhood: the other Keepers' Groves, generated from their id, visited
- * offline. A visit shows their Nubbins (render-only), the host, and a gift once per
- * real day. The player's own Grove keeps simulating underneath.
+ * offline. A visit shows their Nubbins (render-only), the host, and a one-time story
+ * gift per neighbour. The player's own Grove keeps simulating underneath.
  */
 export interface NeighbourNubbin {
   name: string;
@@ -93,15 +92,14 @@ export function visit(world: World, trainer: string | null, events: SimEvent[]):
   events.push({ kind: 'visiting', trainer });
 }
 
-/** The host's gift, once per real day per neighbour. */
-export function neighbourGift(world: World, wallMs: number, events: SimEvent[]): boolean {
+/** The host's gift: one-time per neighbour, ever. It never resets with the calendar. */
+export function neighbourGift(world: World, events: SimEvent[]): boolean {
   const trainer = visitingTrainer(world);
   if (!trainer) return false;
-  const day = dayKey(new Date(wallMs));
-  const rec = world.neighbours[trainer] ?? { lastGiftDay: '' };
-  const ok = rec.lastGiftDay !== day;
+  const rec = world.neighbours[trainer] ?? { gifted: false };
+  const ok = !rec.gifted;
   if (ok) {
-    rec.lastGiftDay = day;
+    rec.gifted = true;
     world.neighbours[trainer] = rec;
     world.inventory.shells += VISITS.giftShells;
   }

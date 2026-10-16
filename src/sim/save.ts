@@ -157,7 +157,8 @@ export function validateWorld(w: World): World {
   w.season ??= 'spring';
   w.placed ??= [];
   w.seen ??= {};
-  w.visits ??= { lastDay: '', count: 0 };
+  w.visits ??= { lastDay: '', count: 0, gifted: [] };
+  w.visits.gifted ??= [];
   w.location ??= 'grove';
   w.karate ??= { belt: 0, wins: 0, losses: 0 };
   w.inventory.wood ??= 0;
@@ -204,6 +205,11 @@ export function validateWorld(w: World): World {
   }
   if (w.keeper2) w.keeper2.running ??= false;
   w.neighbours ??= {};
+  // Older saves kept a last-gift day; any past gift now counts as the one-time gift.
+  for (const rec of Object.values(w.neighbours) as { gifted?: boolean; lastGiftDay?: string }[]) {
+    rec.gifted ??= Boolean(rec.lastGiftDay);
+    delete rec.lastGiftDay;
+  }
   w.festivalSeen ??= '';
   w.atlasFestivals ??= [];
   w.settings.jukebox ??= null;
