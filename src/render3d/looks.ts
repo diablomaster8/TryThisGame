@@ -7,6 +7,9 @@ import { NUBBIN_SPEC } from '../samples/species-data';
 import { ROSTER } from '../samples/species-roster';
 import { variantById } from '../samples/nubbin-variant-catalogue';
 import { speciesArt } from '../render/sprites/species-art';
+import { color } from '../render/sprites/palette';
+import { EXTRA_LOOKS } from '../sim/npcs';
+import { TRAINERS } from '../sim/trainers';
 import { artSpec } from './art-species';
 
 /**
@@ -95,13 +98,39 @@ function ashen(base: SpeciesSpec): SpeciesSpec {
   return spec;
 }
 
+/**
+ * A visiting Keeper: the Keeper's figure with the clothes turned to the trainer's shirt
+ * colour. Skin (warm, light, low-saturation hues) and near-greys stay as they are.
+ */
+function dressed(base: SpeciesSpec, trainer: string): SpeciesSpec {
+  const look = EXTRA_LOOKS[trainer] ?? TRAINERS.find((t) => t.id === trainer)?.look;
+  if (!look) return base;
+  const spec = cloneSpec(base);
+  const shirt = new Color(color(look.shirt)).getHSL({ h: 0, s: 0, l: 0 });
+  const hsl = { h: 0, s: 0, l: 0 };
+  const c = new Color();
+  const dye = (hex: string): string => {
+    c.set(hex).getHSL(hsl);
+    const skin = hsl.h > 0.02 && hsl.h < 0.12 && hsl.l > 0.55 && hsl.s < 0.75;
+    if (hsl.s < 0.3 || skin) return hex;
+    return `#${c.setHSL(shirt.h, Math.max(hsl.s, shirt.s * 0.8), hsl.l).getHexString()}`;
+  };
+  const prims = spec.torso.prims.concat(spec.head.prims);
+  for (const part of spec.parts) prims.push(...part.prims, ...(part.joint?.prims ?? []));
+  for (const p of prims) p.color = dye(p.color);
+  for (const m of spec.marks) m.color = dye(m.color);
+  return spec;
+}
+
 /** The spec a look key builds; the base Nubbin when the key is unknown. */
 export function specForKey(key: string): SpeciesSpec {
   let spec = cache.get(key);
   if (!spec) {
     const [baseKey = '', ...mods] = key.split('~');
     spec = resolve(baseKey) ?? NUBBIN_SPEC;
-    const colour = mods.filter((m) => m !== 'shadow');
+    const colour = mods.filter((m) => m !== 'shadow' && !m.startsWith('npc:'));
+    const npc = mods.find((m) => m.startsWith('npc:'));
+    if (npc) spec = dressed(spec, npc.slice(4));
     if (colour.length) spec = tint(spec, baseKey, colour);
     if (mods.includes('shadow')) spec = ashen(spec);
     cache.set(key, spec);

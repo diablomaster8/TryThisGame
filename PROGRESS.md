@@ -85,6 +85,22 @@ to the shoulders over deep water with a ring spreading round it. Toys by kind
 slow, drifting white cloud. `Bursts` (`render3d/bursts.ts`) throws leaves and petals from a
 shaken tree and dust where a Nubbin lands; both shake the 3D camera (`GROVE3D.shake`, off
 with the Settings switch). Shot `docs/samples/mode3d-forward-poses.jpg`.
+**Step 2c, places and people.** `Crowd` (`render3d/crowd.ts`) draws everyone besides the
+Keeper and the Nubbins from the shared pool: visiting Keepers (`keeper-<band>~npc:<trainer>`,
+clothes dyed to the trainer's shirt), wild visitors and the Hollow's wild one (art looks),
+the Shadow strays (`variant:shadow`, sad when still) and the grey Nubbins of the story
+Hollow and Corvin's rows at the pixel view's spots. `Garden` (`garden.ts`) builds placed
+decor (all eleven kinds, the three buildings at the pixel widths), plants by stage (dry
+ones yellow, fruit when ready) and painted tiles (instanced quads, flowers dotted),
+rebuilt on a signature check. `Hollow` (`hollow.ts`) builds a floor from `sim/dungeon.ts`:
+edge walls, water, stairs up and down, the chest (lid opens), torches with four roaming
+lamps, crystals and loot (hidden once taken). Underground the sky goes dark. Sun, Moon and
+Corvin are grades (`GROVE3D.groveTint`). Picks cover npc, wild, stray, memorial, decor,
+building, plant, stairs, chest and loot. Shots `mode3d-forward-{garden-moon,hollow}.jpg`.
+**Still stubbed:** `location:visit` (a neighbour's Grove is a bare floor);
+`form:<band-type>` only if a variant id is ever missing. Known: the Sun/Moon grade follows
+`setDaylight`, so it changes on the next sim step; a crowd of one new look (Corvin's 30)
+rigs one per frame, 100-200 ms each.
 
 ## Special forms after the "Chao World" line-up (2026-10-16)
 

@@ -3,10 +3,11 @@ import { buildEmoteSheet, type EmoteShape } from '../render/sprites/emote';
 import { frameKey } from '../render/sprites/animations';
 import { emoteFor } from '../render/world-view';
 import type { PoseName, Rigged } from '../samples/species';
-import type { Item, Nubbin, Vec2, World } from '../sim/types';
+import type { Floor } from '../sim/dungeon';
+import type { Item, Location, Nubbin, Vec2, World } from '../sim/types';
 import { CreaturePool, keeperLook, nubbinLook, type Look } from './creature-pool';
 import { EGG_COLOURS } from '../samples/nubbin-variants-colour';
-import { stubOnce } from './stubs';
+import { Crowd, crowdFor } from './crowd';
 import { WATER_LEVEL, groveHeight } from './terrain';
 import { buildToy } from './toys';
 
@@ -106,12 +107,17 @@ export class Actors {
   private readonly sparkPoints: THREE.Points;
   private readonly sparkPos: THREE.BufferAttribute;
   private readonly tmp = new THREE.Vector3();
+  /** Where the scene is and the Hollow floor, if any: the crowd depends on both. */
+  location: Location = 'grove';
+  floor: Floor | null = null;
+  private readonly crowd: Crowd;
   /** Ground height for feet: the terrain in the Grove, flat elsewhere. */
   ground: (x: number, z: number) => number = () => 0;
 
   constructor(scene: THREE.Scene) {
     scene.add(this.group);
     this.group.name = 'actors';
+    this.crowd = new Crowd(this.group, this.pool, (look) => this.standIn(look));
     // The emote ball frames come from the pixel sheet, one sprite material per frame.
     const sheet = buildEmoteSheet();
     const image = sheet.texture.image as HTMLCanvasElement;
@@ -217,17 +223,20 @@ export class Actors {
     }
   }
 
-  /** Nubbins picked by a ray: the nearest sphere around a figure, if any. */
-  pick(ray: THREE.Ray): { kind: 'nubbin' | 'item'; id: string } | null {
+  /** What a ray passes through first: a Nubbin, an item, a memorial or the crowd. */
+  pick(ray: THREE.Ray): {
+    kind: 'nubbin' | 'item' | 'memorial' | 'npc' | 'wild' | 'stray';
+    id: string;
+    d: number;
+  } | null {
     const sphere = new THREE.Sphere();
-    let best: { kind: 'nubbin' | 'item'; id: string; d: number } | null = null;
-    const test = (
-      kind: 'nubbin' | 'item',
-      id: string,
-      o: THREE.Object3D,
-      r: number,
-      lift: number,
-    ) => {
+    type Hit = {
+      kind: 'nubbin' | 'item' | 'memorial' | 'npc' | 'wild' | 'stray';
+      id: string;
+      d: number;
+    };
+    let best: Hit | null = null;
+    const test = (kind: Hit['kind'], id: string, o: THREE.Object3D, r: number, lift: number) => {
       sphere.center.copy(o.position);
       sphere.center.y += lift;
       sphere.radius = r;
@@ -247,9 +256,11 @@ export class Actors {
       test('nubbin', id, o, r, a.rig ? 0.6 : 0.4);
     }
     for (const [id, i] of this.items) test('item', id, i.mesh, 0.4, 0.1);
-    return best
-      ? { kind: (best as { kind: 'nubbin' | 'item' }).kind, id: (best as { id: string }).id }
-      : null;
+    for (const [id, m] of this.memorials) test('memorial', id, m, 0.35, 0.4);
+    const c = this.crowd.pick(ray);
+    const b = best as Hit | null;
+    if (c && c.kind !== 'ambient' && (!b || c.d < b.d)) return { kind: c.kind, id: c.id, d: c.d };
+    return b;
   }
 
   private shell(stage: 'egg' | 'cocoon', n: Nubbin): THREE.Mesh {
@@ -310,7 +321,7 @@ export class Actors {
   }
 
   /** A stand-in sized to a look: the height it will have, as a soft capsule. */
-  private standIn(look: Look): THREE.Mesh {
+  standIn(look: Look): THREE.Mesh {
     const m = new THREE.Mesh(this.standGeo, this.standMat);
     m.scale.set(look.height * 0.32, look.height * 0.5, look.height * 0.32);
     this.group.add(m);
@@ -383,6 +394,10 @@ export class Actors {
   private drop(id: string): void {
     const a = this.nubbins.get(id);
     if (!a) return;
+    for (const u of a.overlay) {
+      u.o.rotation.x -= u.x;
+      u.o.rotation.z -= u.z;
+    }
     if (a.rig) this.pool.release(a.key, a.rig);
     a.stand?.removeFromParent();
     a.ripple?.removeFromParent();
@@ -441,14 +456,8 @@ export class Actors {
     // The Keeper first: when it and a hatchling are both waiting, the Keeper is built.
     const rig = this.ensureKeeper(world);
     const petting = keeper.intent?.kind === 'pet' ? keeper.intent.nubbinId : null;
-    // Pixel-mode layers without a 3D counterpart yet, noted once each.
-    if (world.npcs.length > 0) stubOnce('npcs', 'visiting trainers are not drawn');
-    if (world.strays.length > 0) stubOnce('strays', 'Shadow strays are not drawn');
-    if (world.plants.length > 0) stubOnce('plants', 'planted beds are not drawn');
-    if (world.placed.length > 0) stubOnce('decor:placed', 'placed decor is not drawn');
-    if (Object.keys(world.tiles).length > 0) stubOnce('tiles', 'painted tiles are not drawn');
-    if (world.grove !== 'main')
-      stubOnce(`grove:${world.grove}`, 'the Sun and Moon Groves use the main colours');
+    // Visitors, wild ones, the Hollow's strays and the story places' grey Nubbins.
+    this.crowd.update(crowdFor(world, this.location, this.floor, nowMs), this.ground, t, dt);
 
     // Nubbins.
     const live = new Set<string>();
@@ -632,6 +641,7 @@ export class Actors {
         r: ((g.userData.footprint as number) ?? 0.4) * g.scale.x * 1.6,
       });
     }
+    out.push(...this.crowd.positions());
     for (const a of this.nubbins.values()) {
       if (!a.rig) continue;
       const g = a.rig.group;
@@ -646,6 +656,7 @@ export class Actors {
 
   dispose(): void {
     for (const id of [...this.nubbins.keys()]) this.drop(id);
+    this.crowd.dispose();
     this.pool.dispose();
     this.standGeo.dispose();
     this.standMat.dispose();

@@ -24,6 +24,8 @@ import type { Floor } from '../sim/dungeon';
 import type { Location, SimEvent, Vec2, WeatherKind, World } from '../sim/types';
 import { Actors } from './actors';
 import { Bursts } from './bursts';
+import { Garden } from './garden';
+import { Hollow } from './hollow';
 import { buildGroveProps, buildGroveTrees, type GroveProps } from './props';
 import { GroveSky } from './sky';
 import { stubOnce } from './stubs';
@@ -71,6 +73,24 @@ class Picker3d extends Picker {
   }
 }
 
+/** What a tap can land on in 3D: the pick kinds the input knows from the pixel view. */
+export interface Pick3d {
+  kind:
+    | 'nubbin'
+    | 'item'
+    | 'npc'
+    | 'wild'
+    | 'stray'
+    | 'memorial'
+    | 'decor'
+    | 'building'
+    | 'plant'
+    | 'stairs'
+    | 'chest'
+    | 'loot';
+  id: string;
+}
+
 export class Grove3dScene {
   readonly renderer: THREE.WebGLRenderer;
   readonly scene = new THREE.Scene();
@@ -91,6 +111,11 @@ export class Grove3dScene {
   private rain: THREE.Points | null = null;
   private snow: THREE.Points | null = null;
   private readonly bursts: Bursts;
+  private readonly garden: Garden;
+  private readonly hollow: Hollow;
+  private floor: Floor | null = null;
+  private groveKind: World['grove'] = 'main';
+  private lastWorld: World | null = null;
   /** Camera shake in world units, decaying; set by `landed` and `treeShaken`. */
   private shakeAmount = 0;
   private shakeSeed = 0;
@@ -154,6 +179,8 @@ export class Grove3dScene {
     };
     this.actors.ground = standHeight;
     this.bursts = new Bursts(this.scene);
+    this.garden = new Garden(this.world3d);
+    this.hollow = new Hollow(this.scene);
     // Underground: a plain dark floor, until the Hollow gets its own 3D rooms.
     this.dungeonFloor = new THREE.Mesh(
       new THREE.PlaneGeometry(80, 80),
@@ -213,11 +240,9 @@ export class Grove3dScene {
   }
 
   setDungeon(f: Floor | null): void {
-    if (f)
-      stubOnce(
-        'dungeon:floor',
-        'the Hollow is a flat dark floor; rooms, torches and loot are not drawn',
-      );
+    this.floor = f;
+    this.hollow.set(f);
+    this.actors.floor = f;
   }
 
   setDaylight(
@@ -230,12 +255,30 @@ export class Grove3dScene {
     const grove = place === 'grove';
     if (place !== this.location) {
       this.location = place;
-      if (!grove) stubOnce(`location:${place}`, 'drawn as the Grove sky over a bare floor');
+      if (place.startsWith('visit:'))
+        stubOnce('location:visit', "a neighbour's Grove is drawn as a bare floor");
     }
+    this.actors.location = place;
     this.world3d.visible = grove;
-    this.dungeonFloor.visible = !grove;
+    const cave = place === 'dungeon' || place === 'hollow';
+    this.dungeonFloor.visible = !grove && !(place === 'dungeon' && this.floor);
+    (this.dungeonFloor.material as THREE.MeshStandardMaterial).color.set(
+      place === 'corvin' ? '#5a5e58' : '#2a2630',
+    );
     this.actors.ground = grove ? standHeight : () => 0;
     this.sky.set(hour, d, grove ? weather : 'clear', this.camTarget);
+    // Underground there is no sky: a dark vault, a little cold fill, the torches.
+    this.sky.sky.visible = !cave;
+    if (cave) {
+      const light = place === 'dungeon' ? this.hollow.light : 0.6;
+      this.scene.background = new THREE.Color('#07060c');
+      this.scene.environmentIntensity = 0.08 + light * 0.1;
+      this.sky.sun.intensity = 0.15 + light * 0.25;
+      this.sky.sun.color.set('#9aa8d8');
+      this.sky.hemi.intensity = 0.15 + light * 0.25;
+      this.sky.fog.color.set('#07060c');
+      this.sky.fog.density = 0.03;
+    } else this.scene.background = null;
     const elevation = this.sky.elevationDeg;
     this.bloom.enabled = elevation < GROVE3D.bloomBelowDeg;
     this.bloom.strength = elevation < -2 ? 0.25 : 0.35;
@@ -244,6 +287,17 @@ export class Grove3dScene {
     this.grade.uniforms.uTint!.value.set(
       elevation < -2 ? '#c8d4ff' : elevation < GROVE3D.bloomBelowDeg ? '#ffe9d0' : '#ffffff',
     );
+    // The Sun and Moon Groves are recolours, as in the pixel mode (cream and lavender on
+    // the lit materials); here a grade over the whole frame. Corvin's rows are drained.
+    const tint =
+      grove && this.groveKind === 'sun'
+        ? GROVE3D.groveTint.sun
+        : grove && this.groveKind === 'moon'
+          ? GROVE3D.groveTint.moon
+          : place === 'corvin'
+            ? GROVE3D.groveTint.corvin
+            : null;
+    if (tint) (this.grade.uniforms.uTint!.value as THREE.Color).multiply(new THREE.Color(tint));
     // Lamps come on with the pixel scene's rule: dusk, night, or a lit campaign lantern.
     this.lampsOn = d.lanterns || d.darkness > 0.5;
     for (const l of this.props.lanterns) {
@@ -320,9 +374,17 @@ export class Grove3dScene {
   }
 
   /** Creatures under a screen point (NDC), nearest first. */
-  pick(ndcX: number, ndcY: number): { kind: 'nubbin' | 'item'; id: string } | null {
+  pick(ndcX: number, ndcY: number): Pick3d | null {
     this.raycaster.setFromCamera(new THREE.Vector2(ndcX, ndcY), this.camera);
-    return this.actors.pick(this.raycaster.ray);
+    const ray = this.raycaster.ray;
+    const hits = [
+      this.actors.pick(ray),
+      this.garden.pick(ray),
+      this.hollow.pick(ray, this.lastWorld?.dungeon ?? null),
+    ].filter((h): h is NonNullable<typeof h> => !!h);
+    hits.sort((a, b) => a.d - b.d);
+    const h = hits[0];
+    return h ? { kind: h.kind, id: h.id } : null;
   }
 
   /** Build the trees once the world is known, so taps reach the sim's tree ids. */
@@ -339,7 +401,16 @@ export class Grove3dScene {
     this.lastMs = nowMs;
     this.time.value = nowMs / 1000;
     this.ensureTrees(world);
+    this.groveKind = world.grove;
+    this.lastWorld = world;
     this.actors.update(world, alpha, nowMs, dt, this.camPos);
+    const home = this.location === 'grove';
+    this.garden.update(world, standHeight, nowMs, home);
+    this.hollow.update(
+      this.location === 'dungeon' ? world.dungeon : null,
+      world.keeper.pos,
+      nowMs / 1000,
+    );
 
     // The Lakitu camera: orbit the Keeper at the snapped yaw, eased, never underground.
     const ground = this.location === 'grove' ? standHeight : () => 0;
