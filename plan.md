@@ -196,6 +196,32 @@ Task: express the Nubbin variants as species specs derived from NUBBIN_SPEC in a
 Screenshots: docs/samples/variants-<family>.jpg. Lint, test, build; log at line 12 of PROGRESS.md; commit with "Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"; push. Report which variants are placeholders.
 ```
 
+## Part G8b — Match the "Chao World" line-up
+
+**Model:** Fable 5.1 for the toon stage mode, the reference overlay and the first character; Sonnet 5.5 for the remaining six characters from that first one. **Waits for:** Part G8 (done 2026-10-16). **Size:** two to three days, one character at a time.
+
+```
+You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des. Read CLAUDE.md and the Status block of PROGRESS.md, then docs/species-format.md and the "Variants as diffs" section in it. The rules were changed on 2026-10-16: the creatures are matched directly against Maor's reference images, as close to identical as the code can get; only importing game files, model rips, sprite sheets or audio stays off limits. Names stay original.
+
+Context rules: keep your context small. Never read a source file over 400 lines whole: grep for the names in CLAUDE.md's "Where things are" table and read that line range. Do not open creatures-legacy.ts or docs/progress-archive.md.
+
+The target: Maor's "Chao World" line-up, the YouTube thumbnail https://i.ytimg.com/vi/qYg-Q32x2BY/maxresdefault.jpg (also linked from the tier list and the DeviantArt pages in PROGRESS.md's "Variants after the references" section). Save it to docs/reference/chao-world-lineup.jpg once, from the browser pane, and compare against it at every step. Seven figures, left to right: a blue one with big rounded quills, white gloves, red shoes with white stripes and mech-like lower legs; a rose-red one with huge round white ears, a white headband and a green ball; an orange one with aviator goggles, a white chest and twin tails; a purple-and-magenta one with a tall swept jester point, a pale mask and a chest star; a lime-green dragon with orange horns, claws and a tail; a black cat with pointed ears, white cheek tufts and chest, slanted eyes; a dark purple one covered in lilac crystal spikes. In our catalogue these are look-quills, look-echidna, look-fox, look-dream, eternal-neutral, look-shade and eternal-moon in src/samples/nubbin-variants-special.ts.
+
+Task, in this order, each step committed on its own:
+
+1. Toon stage mode. Add `&toon` to the AAA stage (src/samples/aaa-styles.ts, creature block near `const creatureParam`): creatures use a two-band toon ramp (MeshToonMaterial with a 3-step gradient map, or a ramp in the existing onBeforeCompile hook in surfaceMaterial in src/samples/creatures.ts) with flat saturated vertex colours and no triplanar grain, no sheen; a dark outline through an inverted-hull back-face pass (about 0.025 units, colour #1a1026) on every creature mesh including eyes and mouth; SSAO, bloom, depth of field, fog and the grade off; exposure 0.85; the sky and grass as they are. The eye rig draws a thick dark lash line (eyes.r × 0.22) and the mouth a solid dark line. `&toon` must not change anything when absent.
+
+2. Reference overlay. `&ref=<path>` draws an image from docs/reference/ as a 45% overlay across the stage, and `&ref=...&refx=<n>` crops it to the n-th of seven figures (equal-width slices). `&creature=variant:<id>&toon&ref=chao-world-lineup.jpg&refx=1` is the tuning view.
+
+3. The first character, look-quills, matched against slice 1 until it reads as the same figure: head about 48% of standing height (scale the head part and move the eyes, mouth, crown and ball with it; add a `headScale` override to variant() if that is simplest), eyes 1.35× with the ^ ^ closed shape in the happy pose, limbs shorter and thicker, shoes a third larger with the white stripe as geometry (a flattened ellipsoid), mech lower legs as grey capsules with a red ring, the quills as five rounded cones with a dark inner shade mark, the peach muzzle as a raised ellipsoid, white gloves as spheres with a cuff. Flat colours: body #2c58e0, belly #f5c99a, shoes #d8302a, gloves #ffffff. Take docs/samples/match-quills.jpg as a side-by-side (stage left, reference slice right; a `&split` flag that renders the stage into the left half and the reference into the right half is the easiest way).
+
+4. The other six, one commit each, same loop: look-echidna (slice 2), look-fox (3), look-dream (4), eternal-neutral (5), look-shade (6), eternal-moon (7). Reuse the helpers from step 3; add new ones (roundEar sizes, goggles with a glass highlight, crystal spikes with glow) to the special file, never to the templates.
+
+5. Group shot. `&creature=variants&family=special&filter=look&toon` plus the two Eternals in the line-up order of the reference, camera at eye level, taken as docs/samples/match-lineup.jpg next to the reference.
+
+Checks before each commit: npx prettier --write on touched files, npm run lint, npm test, npm run build; no console errors on the stage. Add the new fields (headScale, any toon flag on SurfaceOpts) to docs/species-format.md. Log each step at the top of the pass list in PROGRESS.md (keep the file under 150 lines by moving the oldest section to docs/progress-archive.md). Commit with "Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>" and push after each step. Report, per character, what still differs from the reference and why.
+```
+
 ## Part G9 — The real 3D mode: architecture and title toggle
 
 **Model:** Fable 5.1 for the design and first scene; Opus 5.5 can then carry the port.

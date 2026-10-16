@@ -6,7 +6,7 @@ This file is the standing brief for this project. Read it at the start of every 
 
 An original virtual-pet garden game that runs in phone and desktop browsers. You hatch a creature, raise it, and shape how it grows. It ages, and it either comes back reborn or gently moves on. You can enter it in races.
 
-The game draws on the depth of classic 3D-platformer pet gardens. **The creatures are Chao-faithful fan art:** draw the Nubbins as close to Sega's Chao as possible, and put every Chao variant in the game (Maor's decision, 2026-10-12; the catalogue and its milestone mapping are in PROGRESS.md). **Two more families were added the same day at Maor's request:** the "pocket line" (the baby and fossil Pokémon of the first three generations and their evolutions) and the "digital line" (the original 1997 Digimon pet, Botamon through the Ultimates), drawn as chibi approximations by a generic creature drawer. The art is generated in code from memory, never from copied assets or sprite sheets. In-game names, logo, music and sound effects stay our own; the inspiration for each species is recorded in `sim/species.ts` as data and never shown. Reusing game mechanics is fine.
+The game draws on the depth of classic 3D-platformer pet gardens. **The creatures are Chao-faithful fan art:** draw the Nubbins as close to Sega's Chao as possible, and put every Chao variant in the game (Maor's decision, 2026-10-12; the catalogue and its milestone mapping are in PROGRESS.md). **Two more families were added the same day at Maor's request:** the "pocket line" (the baby and fossil Pokémon of the first three generations and their evolutions) and the "digital line" (the original 1997 Digimon pet, Botamon through the Ultimates), drawn as chibi approximations by a generic creature drawer. The art is generated in code and matched directly against the reference images and footage Maor supplies, as close to identical as the code can get (Maor's decision, 2026-10-16, replacing the earlier "from memory" rule); game files, model rips, sprite sheets and audio from any franchise are never imported. In-game names, logo, music and sound effects stay our own; the inspiration for each species is recorded in `sim/species.ts` as data and never shown. Reusing game mechanics is fine.
 
 **Working names:**
 
@@ -313,7 +313,7 @@ Each milestone ends with something playable on a phone.
 - 60 fps with 8 Nubbins.
 - Blocked storage doesn't crash the game.
 - No console errors.
-- No names, art or audio from an existing franchise.
+- No names or audio from an existing franchise, and no imported art files; code-drawn art matched to the references is the goal.
 
 ---
 
@@ -322,9 +322,9 @@ Each milestone ends with something playable on a phone.
 These were made with Maor during the 3D direction work and stand until he changes them.
 
 - **Two renderers behind one interface.** The shipped 2.5D pixel renderer (`src/render/`) stays as it is. The full-3D mode is additive: a Graphics toggle on the title screen picks a second scene that implements the same `WorldView` interface and reads the same sim. The sim never learns which renderer is on. Until the toggle exists, the 3D work lives in `src/samples/` behind URL flags (`?aaa=1..3`, `&creature=N|all`, `&pose=`, `&turn=`, `&closeup`, debug `nobloom/nossao/nodof/nofog`).
-- **Art direction: the Palworld references are the bible.** The roster screenshot (overall look), the Palworld Mobile short (creatures in a scene) and the "All Pet Animations" video (faces, petting, idle) that Maor supplied. Nubbins stay Chao-faithful. The look is the "HD port at a AAA finish" (`src/samples/aaa-styles.ts`): physical sky with a PMREM environment, slope-blended normal-mapped terrain, instanced grass, physical water, SSAO, depth of field, grade and SMAA; bloom only at golden hour with a threshold above the lit scene.
+- **Art direction: the Palworld references are the bible.** The roster screenshot (overall look), the Palworld Mobile short (creatures in a scene) and the "All Pet Animations" video (faces, petting, idle) that Maor supplied. **For the Nubbins this is overridden by Maor's "Chao World" line-up reference (2026-10-16): match it as closely as the code can, including its flat-shaded, hard-edged, outlined render style, through a toon stage mode (`plan.md` Part G8b).** For the rest the look is the "HD port at a AAA finish" (`src/samples/aaa-styles.ts`): physical sky with a PMREM environment, slope-blended normal-mapped terrain, instanced grass, physical water, SSAO, depth of field, grade and SMAA; bloom only at golden hour with a threshold above the lit scene.
 - **Creatures are data, never meshes.** A `SpeciesSpec` (`src/samples/species.ts`, data in `species-data.ts` and `species-roster.ts`, format in `docs/species-format.md`) describes a creature as blended SDF primitives, a surface, fur, marks, eyes, mouth, poses, expressions and extras. `buildSpecies` turns it into a rigged figure: marching cubes sculpt per part with baked vertex colour (gradient, marks, painted ambient occlusion), shell fur with a directional rule, eyes and mouth projected onto the skin by `onSurface`, an eye rig (lids, lash arc, brow), a mouth drawn on the skin, five poses and a per-pose expression table. Everything on the roster (Nubbin, Mossling, Fennel, Bolder, Wisp) comes from this format. Hand-built creatures in `creatures.ts` are reference only.
-- **Painted look over physically noisy.** Ambient occlusion is baked into vertex colours; skin is matte with sheen; gloss only on eyes, claws, plates and the mushroom cap; no triplanar speckle on smooth skin; fur tips lit warm.
+- **Painted look over physically noisy** (except where a reference calls for flat toon shading, as the Nubbin looks now do). Ambient occlusion is baked into vertex colours; skin is matte with sheen; gloss only on eyes, claws, plates and the mushroom cap; no triplanar speckle on smooth skin; fur tips lit warm.
 - **Faces carry the mood.** Expressions come from lids, squint, brows and the lash arc, not from the mouth; a happy shut eye hides the eyeball and draws the arc on the skin.
 - **Improvement backlog:** `docs/creature-improvements.md` (35 items against the references, in the order to do them). `plan.md` breaks the remaining work into parts for subagents.
 - **Performance plan for the 3D mode:** sculpting is CPU-heavy (about 0.5–2 s per species at resolution 104), so the 3D mode must sculpt in a Web Worker (as the ground painter does) and cache baked geometry per species and variant, with a lower resolution on phones.
@@ -334,7 +334,7 @@ These were made with Maor during the 3D direction work and stand until he change
 - The pixel mode must keep working at every commit; 3D is additive behind a toggle.
 - Sim and render stay apart; no Three.js in `src/sim/`; no `Math.random` in the sim.
 - Three.js is pinned at 0.186.1. Note: `vColor` is a `vec4` in its fragment shaders, and MarchingCubes normals are unnormalised gradients.
-- No imported art, sprite sheets or audio from any franchise; names stay original; inspiration is data in `sim/species.ts` and never shown.
+- No imported art files, model rips, sprite sheets or audio from any franchise; code-drawn art matched to reference images is wanted, not avoided. Names stay original; inspiration is data in `sim/species.ts` and never shown.
 - `npm run lint`, `npm test` and `npm run build` must pass before a push; GitHub Pages deploys on every push to `main`. The full-life timing test has a 3 s budget on a CI runner about 1.7× slower than Maor's PC.
 - Phone targets: 60 fps with 8 Nubbins, 30 fps floor.
 - Maor's standing approval (recorded in PROGRESS.md): proceed through the work without stopping to ask, log each pass, keep per-milestone commits and checks.

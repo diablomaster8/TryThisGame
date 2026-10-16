@@ -14,7 +14,7 @@ older passes are in `docs/progress-archive.md` (search it, never read it whole).
 
 ## What we are building
 
-An original virtual-pet garden game for phone and desktop browsers (TypeScript strict, Vite, Three.js 0.186.1 pinned, Vitest). Hatch a Nubbin, raise it, shape how it grows; it ages and is reborn or departs. The shipped game is 2.5D pixel art. A full-3D mode is being built additively behind a title toggle. Names, art, music are original; the Nubbins are Chao-faithful fan art and other families are chibi approximations drawn in code; the inspiration is data in `sim/species.ts` and never shown.
+An original virtual-pet garden game for phone and desktop browsers (TypeScript strict, Vite, Three.js 0.186.1 pinned, Vitest). Hatch a Nubbin, raise it, shape how it grows; it ages and is reborn or departs. The shipped game is 2.5D pixel art. A full-3D mode is being built additively behind a title toggle. Names, logo, music and sound stay original. The creatures are fan art built in code to match their references as closely as the code can get, working directly from the images and footage Maor supplies (his decision, 2026-10-16); game files, model rips, sprite sheets and audio from any franchise are never imported. The inspiration is data in `sim/species.ts` and never shown.
 
 ## Architecture (the rules that never bend)
 
@@ -22,7 +22,7 @@ An original virtual-pet garden game for phone and desktop browsers (TypeScript s
 - One clock (`clock.ts`), offline catch-up with the "aging while closed" setting, versioned saves with migrations, three save slots per mode, every storage call in try/catch.
 - Two renderers behind one `WorldView` interface: the pixel renderer in `src/render/` (ships, must keep working at every commit) and the 3D mode (today in `src/samples/` behind URL flags; later `src/render3d/`). The sim never learns which is on.
 - Creatures in 3D are data, never meshes: a `SpeciesSpec` → `buildSpecies` (SDF primitives, marching cubes, baked vertex colour with ambient occlusion, shell fur, eyes and mouth projected onto the skin, eye rig, poses, expressions, extras hook). Format doc: `docs/species-format.md`.
-- Art direction: the Palworld references Maor supplied are the bible (roster screenshot, Palworld Mobile short, "All Pet Animations" video). Backlog ordered against them: `docs/creature-improvements.md`. Subagent briefs: `plan.md`.
+- Art direction: for the Nubbins, Maor's "Chao World" line-up (2026-10-16) is the bible: match it, including its flat-shaded, hard-edged, outlined render style, through a toon stage mode (`plan.md` Part G8b). For the other creatures and the stage, the Palworld references Maor supplied (roster screenshot, Palworld Mobile short, "All Pet Animations" video). Backlog ordered against them: `docs/creature-improvements.md`. Subagent briefs: `plan.md`.
 - Every tunable number lives in `src/config/tuning.ts`; every player-facing string in `src/config/strings.ts`.
 
 ## Where things are (grep, do not browse)
