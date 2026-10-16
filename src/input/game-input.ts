@@ -1,5 +1,4 @@
 import { INPUT, THROW } from '../config/tuning';
-import type { OrbitCamera } from '../render/camera';
 import type { Picker } from '../render/picker';
 import type { Command, DecorKind, Flavor, TileKind, ToyKind, Vec2 } from '../sim/types';
 
@@ -10,10 +9,11 @@ export type Placing =
   | { mode: 'plant'; plantKind: 'tree' | 'crop'; flavor: Flavor }
   | { mode: 'toy'; toy: ToyKind }
   | null;
-import type { Object3D } from 'three';
+import type { Camera, Object3D } from 'three';
 
 export interface InputHost {
-  camera: OrbitCamera;
+  /** The orbit yaw (keys move relative to it) and the camera that rays are cast from. */
+  camera: { readonly currentYaw: number; readonly camera: Camera };
   picker: Picker;
   pickables(): Object3D[];
   /** Decorating: the piece a ground tap should place, if any. */

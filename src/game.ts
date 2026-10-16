@@ -9,12 +9,13 @@ import { litLanterns } from './sim/campaign';
 import { runFloor } from './sim/dungeon';
 import { GroveScene } from './render/grove-scene';
 import { Picker } from './render/picker';
-import { LowResPipeline } from './render/pipeline';
+import { LowResPipeline, type FrameStats } from './render/pipeline';
 import { WorldView } from './render/world-view';
+import type { Grove3dScene } from './render3d/grove-3d-scene';
 import { Clock } from './sim/clock';
 import { catchUp, coarseStep } from './sim/offline';
 import { deserialize, serialize } from './sim/save';
-import type { AwayReport, Command, SimEvent, World } from './sim/types';
+import type { AwayReport, Command, GraphicsMode, SimEvent, World } from './sim/types';
 import { applyCommand, createWorld, findNubbin, stepWorld } from './sim/world';
 
 export interface GameHooks {
@@ -34,9 +35,15 @@ export interface GameHooks {
 export class Game {
   world: World;
   readonly clock = new Clock();
-  readonly pipeline: LowResPipeline;
+  /** Draw-call and frame-size stats from whichever renderer is on. */
+  readonly pipeline: FrameStats;
+  /** The pixel renderer and scene; null when the 3D scene is on. */
+  private readonly lowRes: LowResPipeline | null;
+  readonly grove: GroveScene | null;
+  /** The full-3D scene, when the Graphics setting picked it. */
+  readonly scene3d: Grove3dScene | null;
   readonly camera = new OrbitCamera();
-  readonly grove = new GroveScene();
+  /** Sprite sheets and the pixel world; in 3D mode only its sheets serve the UI portraits. */
   readonly view = new WorldView();
   readonly picker: Picker;
   readonly input: GameInput;
@@ -58,8 +65,23 @@ export class Game {
     const s = this.world.settings;
     const reduce =
       s.reducedMotion === 'on' || (s.reducedMotion === 'system' && this.camera.reduceMotion);
+    if (this.scene3d) {
+      const place3d = this.world.location.startsWith('visit:') ? 'grove' : this.world.location;
+      this.scene3d.setLit(litLanterns(this.world));
+      this.view.lanterns = () => this.scene3d!.lanternStates();
+      this.scene3d.setDaylight(
+        this.hourOverride ?? localHour(),
+        d,
+        place3d,
+        this.world.weather.kind,
+        s.particles,
+      );
+      return;
+    }
+    if (!this.grove || !this.lowRes) return;
     this.grove.setLit(litLanterns(this.world));
-    this.view.lanterns = () => this.grove.lanternStates();
+    const grove = this.grove;
+    this.view.lanterns = () => grove.lanternStates();
     const place = this.world.location.startsWith('visit:') ? 'grove' : this.world.location;
     this.grove.setLocation(place);
     this.grove.setDaylight(d, place, this.world.weather.kind);
@@ -76,7 +98,7 @@ export class Game {
     const w = this.world.weather.kind;
     const tint = w === 'rain' ? d.tint.clone().multiply(new Vector3(0.85, 0.9, 1.0)) : d.tint;
     const tintAmount = w === 'rain' ? Math.max(d.tintAmount, 0.35) : d.tintAmount;
-    this.pipeline.postPass?.apply({
+    this.lowRes.postPass?.apply({
       tint,
       tintAmount,
       bloom: w === 'snow' ? d.bloom + 0.15 : d.bloom,
@@ -93,23 +115,37 @@ export class Game {
   constructor(
     readonly canvas: HTMLCanvasElement,
     hooks: GameHooks,
+    readonly graphics: GraphicsMode = 'pixel',
+    scene3d: Grove3dScene | null = null,
   ) {
     this.hooks = hooks;
-    this.pipeline = new LowResPipeline(canvas);
-    this.pipeline.enablePost();
-    this.picker = new Picker(canvas);
-    this.grove.scene.add(this.view.root);
+    this.scene3d = graphics === '3d' ? scene3d : null;
+    if (this.scene3d) {
+      this.lowRes = null;
+      this.grove = null;
+      this.pipeline = this.scene3d;
+      this.picker = this.scene3d.picker(canvas);
+    } else {
+      this.lowRes = new LowResPipeline(canvas);
+      this.lowRes.enablePost();
+      this.pipeline = this.lowRes;
+      this.grove = new GroveScene();
+      this.picker = new Picker(canvas);
+      this.grove.scene.add(this.view.root);
+    }
+    const s3 = this.scene3d;
     this.cameraControls = new CameraControls(this.camera, canvas);
     this.input = new GameInput(canvas, {
-      camera: this.camera,
+      camera: s3 ? s3.cameraRig(this.camera) : this.camera,
       picker: this.picker,
-      pickables: () => this.grove.pickables,
-      pickSprite: (ndcX, ndcY) => this.view.pick(ndcX, ndcY, this.camera),
+      pickables: () => this.grove?.pickables ?? s3!.pickables,
+      pickSprite: (ndcX, ndcY) =>
+        s3 ? s3.pick(ndcX, ndcY) : this.view.pick(ndcX, ndcY, this.camera),
       hover: (hit) => {
-        this.view.setHighlight(hit);
+        (s3 ?? this.view).setHighlight(hit);
         canvas.style.cursor = hit ? 'pointer' : '';
       },
-      sparkle: (pos) => this.view.sparkle(pos.x, pos.z),
+      sparkle: (pos) => (s3 ?? this.view).sparkle(pos.x, pos.z),
       placing: () => this.placing,
       canGrab: (id) => {
         const n = findNubbin(this.world, id);
@@ -119,13 +155,16 @@ export class Game {
       onSelect: (id) => this.hooks.onSelect(id),
     });
     this.world = this.load();
+    // The save mirrors the device-wide renderer choice made on the title screen.
+    this.world.settings.graphics = graphics;
     this.syncDungeon();
   }
 
   /** The Hollow floor the scene and view should show, if underground. */
   private syncDungeon(): void {
     const f = runFloor(this.world);
-    this.grove.setDungeon(f);
+    this.grove?.setDungeon(f);
+    this.scene3d?.setDungeon(f);
     this.view.setDungeon(f);
   }
 
@@ -217,7 +256,12 @@ export class Game {
   }
 
   resize(width: number, height: number): void {
-    const size = this.pipeline.resize(width, height);
+    if (this.scene3d) {
+      this.scene3d.resize(width, height);
+      this.camera.setFrame(width, height);
+      return;
+    }
+    const size = this.lowRes!.resize(width, height);
     this.camera.setFrame(size.width, size.height);
   }
 
@@ -235,7 +279,7 @@ export class Game {
     const events: SimEvent[] = [];
     const wall = Date.now();
     if (steps > 0 || this.pending.length > 0) {
-      this.view.snapshot(this.world);
+      (this.scene3d ?? this.view).snapshot(this.world);
       for (const cmd of this.pending.splice(0)) applyCommand(this.world, cmd, events);
       for (let i = 0; i < steps; i++) events.push(...stepWorld(this.world, SIM.stepMs, wall));
       // Far behind (very high time scale): finish the backlog in coarse steps.
@@ -246,35 +290,48 @@ export class Game {
       }
     }
     if (events.length > 0) {
-      this.view.onEvents(events, nowMs);
+      if (this.scene3d) this.scene3d.onEvents(events);
+      else this.view.onEvents(events, nowMs);
       this.hooks.onEvents(events);
       for (const e of events) {
         const shake = this.world.settings.screenShake;
         if (e.kind === 'landed' && shake) this.camera.shake(0.18);
         else if (e.kind === 'treeShaken' && shake) this.camera.shake(0.08);
         else if (e.kind === 'weather' || e.kind === 'located') this.lastDaylightMs = -Infinity;
-        else if (e.kind === 'tilePainted') this.grove.setTiles(this.world.tiles);
-        else if (e.kind === 'lanternLit') this.grove.setLit(litLanterns(this.world));
-        else if (e.kind === 'dungeonEntered' || e.kind === 'descended' || e.kind === 'dungeonLeft')
+        else if (e.kind === 'tilePainted') this.grove?.setTiles(this.world.tiles);
+        else if (e.kind === 'lanternLit') {
+          this.grove?.setLit(litLanterns(this.world));
+          this.scene3d?.setLit(litLanterns(this.world));
+        } else if (
+          e.kind === 'dungeonEntered' ||
+          e.kind === 'descended' ||
+          e.kind === 'dungeonLeft'
+        )
           this.syncDungeon();
       }
     }
 
     // Camera follows the Keeper as drawn (interpolated between sim steps), so the
     // Keeper and the camera move together and nothing judders at the step rate.
-    const kp = this.view.keeperDrawPos(this.world, this.clock.alpha);
+    const kp = (this.scene3d ?? this.view).keeperDrawPos(this.world, this.clock.alpha);
     const t = 1 - Math.exp((-CAMERA.followRate * dt) / 1000);
     this.camera.target.x += (kp.x - this.camera.target.x) * t;
     this.camera.target.z += (kp.z - this.camera.target.z) * t;
     this.camera.update(nowMs);
 
     if (!this.renderPaused) {
-      if (this.world.location === 'dungeon') this.grove.updateDungeonLights(kp);
-      this.grove.update(nowMs);
-      this.grove.setGrove(this.world.grove);
-      this.updateDaylight(nowMs);
-      this.view.update(this.world, this.camera, this.clock.alpha, nowMs);
-      this.pipeline.render(this.grove.scene, this.camera.camera);
+      if (this.scene3d) {
+        this.updateDaylight(nowMs);
+        this.scene3d.update(this.world, this.camera, this.clock.alpha, nowMs);
+        this.scene3d.render();
+      } else if (this.grove && this.lowRes) {
+        if (this.world.location === 'dungeon') this.grove.updateDungeonLights(kp);
+        this.grove.update(nowMs);
+        this.grove.setGrove(this.world.grove);
+        this.updateDaylight(nowMs);
+        this.view.update(this.world, this.camera, this.clock.alpha, nowMs);
+        this.lowRes.render(this.grove.scene, this.camera.camera);
+      }
     }
 
     if (nowMs - this.lastSaveMs >= SIM.autosaveMs) this.save();

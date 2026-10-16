@@ -47,7 +47,7 @@ export const MOODS: Mood[] = ['noon', 'golden', 'rain'];
 
 // ---------------------------------------------------------------- painted PBR textures
 
-type Kind = 'grass' | 'rock' | 'dirt' | 'bark' | 'cobble' | 'plaster' | 'roof' | 'wood';
+export type Kind = 'grass' | 'rock' | 'dirt' | 'bark' | 'cobble' | 'plaster' | 'roof' | 'wood';
 
 interface Painted {
   albedo: Raster;
@@ -175,12 +175,12 @@ function normalMap(p: Painted, strength: number): THREE.DataTexture {
   return t;
 }
 
-interface Surface {
+export interface Surface {
   map: THREE.Texture;
   normal: THREE.DataTexture;
 }
 
-function surface(kind: Kind, size: number, strength: number): Surface {
+export function surface(kind: Kind, size: number, strength: number): Surface {
   const p = paint(kind, size);
   const map = p.albedo.toTexture(true);
   map.wrapS = THREE.RepeatWrapping;
@@ -193,7 +193,7 @@ function surface(kind: Kind, size: number, strength: number): Surface {
 }
 
 /** A card of overlapping leaves with alpha, for the instanced canopies. */
-function leafCard(size: number): THREE.CanvasTexture {
+export function leafCard(size: number): THREE.CanvasTexture {
   const r = new Raster(size, size, null);
   r.tracking = true;
   const rng = { v: 7, next: () => (rng.v = (rng.v * 16807) % 2147483647) / 2147483647 };
@@ -216,7 +216,7 @@ function leafCard(size: number): THREE.CanvasTexture {
 }
 
 /** A tuft of grass blades with alpha. */
-function tuftCard(size: number): THREE.CanvasTexture {
+export function tuftCard(size: number): THREE.CanvasTexture {
   const r = new Raster(size, size, null);
   r.tracking = true;
   for (let i = 0; i < 9; i++) {
@@ -270,7 +270,7 @@ function pathDistance(x: number, z: number): number {
   return best;
 }
 
-interface Tex {
+export interface Tex {
   grass: Surface;
   rock: Surface;
   dirt: Surface;
@@ -283,7 +283,7 @@ interface Tex {
   tuft: THREE.CanvasTexture;
 }
 
-function terrainMaterial(
+export function terrainMaterial(
   tex: Tex,
   wet: boolean,
   time: { value: number },
@@ -376,10 +376,35 @@ function buildTerrain(
 }
 
 /** Creatures pushing the grass: x, z, radius per slot; radius 0 is an empty slot. */
-const PUSHERS = Array.from({ length: 6 }, () => new THREE.Vector4(0, 0, 0, 0));
+export const PUSHERS = Array.from({ length: 6 }, () => new THREE.Vector4(0, 0, 0, 0));
 
-function buildGrass(scene: THREE.Scene, tex: Tex, time: { value: number }): void {
-  const count = 12000;
+/** Where grass may grow: ground height, the half-size of the square, its centre, and a test a tuft must pass. */
+export interface GrassField {
+  ground: (x: number, z: number) => number;
+  half: number;
+  centreZ: number;
+  allow: (x: number, z: number, y: number) => boolean;
+  count: number;
+}
+
+const SAMPLE_GRASS: GrassField = {
+  ground: groundHeight,
+  half: 35,
+  centreZ: 6,
+  allow: (x, z, y) =>
+    !(y > 2.2 || pathDistance(x, z) < 1.3 || Math.hypot(x + 1, z - 9) < 8.4) &&
+    Math.hypot(x, z) >= 1.2,
+  count: 12000,
+};
+
+export function buildGrass(
+  scene: THREE.Object3D,
+  tex: Tex,
+  time: { value: number },
+  field: GrassField = SAMPLE_GRASS,
+): THREE.InstancedMesh[] {
+  const count = field.count;
+  const built: THREE.InstancedMesh[] = [];
   const geo = new THREE.PlaneGeometry(0.7, 0.6);
   geo.translate(0, 0.3, 0);
   const mat = new THREE.MeshStandardMaterial({
@@ -435,11 +460,10 @@ function buildGrass(scene: THREE.Scene, tex: Tex, time: { value: number }): void
     let placed = 0;
     seed = 11 + pass * 977;
     while (placed < count) {
-      const x = (rnd() - 0.5) * 70;
-      const z = (rnd() - 0.5) * 70 + 6;
-      const y = groundHeight(x, z);
-      if (y > 2.2 || pathDistance(x, z) < 1.3 || Math.hypot(x + 1, z - 9) < 8.4) continue;
-      if (Math.hypot(x, z) < 1.2) continue;
+      const x = (rnd() - 0.5) * field.half * 2;
+      const z = (rnd() - 0.5) * field.half * 2 + field.centreZ;
+      const y = field.ground(x, z);
+      if (!field.allow(x, z, y)) continue;
       p.set(x, y - 0.03, z);
       q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), rnd() * Math.PI + pass * (Math.PI / 2));
       const sc = 0.7 + rnd() * 0.8;
@@ -452,10 +476,12 @@ function buildGrass(scene: THREE.Scene, tex: Tex, time: { value: number }): void
     }
     inst.receiveShadow = true;
     scene.add(inst);
+    built.push(inst);
   }
+  return built;
 }
 
-function pbr(
+export function pbr(
   map: Surface,
   opts: { color?: string; rough?: number; repeat?: number; scale?: number } = {},
 ): THREE.MeshStandardMaterial {
@@ -470,27 +496,33 @@ function pbr(
   return m;
 }
 
-function repeatUv(geo: THREE.BufferGeometry, ru: number, rv: number): THREE.BufferGeometry {
+export function repeatUv(geo: THREE.BufferGeometry, ru: number, rv: number): THREE.BufferGeometry {
   const uv = geo.attributes.uv as THREE.BufferAttribute;
   for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) * ru, uv.getY(i) * rv);
   return geo;
 }
 
-function shadowed(m: THREE.Mesh): THREE.Mesh {
+export function shadowed(m: THREE.Mesh): THREE.Mesh {
   m.castShadow = true;
   m.receiveShadow = true;
   return m;
 }
 
-function buildTree(
-  scene: THREE.Scene,
+export function buildTree(
+  scene: THREE.Object3D,
   tex: Tex,
   x: number,
   z: number,
   scale: number,
   seedBase: number,
-): void {
-  const y0 = groundHeight(x, z);
+  ground: (x: number, z: number) => number = groundHeight,
+): THREE.Object3D[] {
+  const y0 = ground(x, z);
+  const made: THREE.Object3D[] = [];
+  const add = (o: THREE.Object3D) => {
+    scene.add(o);
+    made.push(o);
+  };
   const trunk = shadowed(
     new THREE.Mesh(
       repeatUv(new THREE.CylinderGeometry(0.28 * scale, 0.5 * scale, 3.2 * scale, 14, 4), 2, 2),
@@ -498,7 +530,7 @@ function buildTree(
     ),
   );
   trunk.position.set(x, y0 + 1.5 * scale, z);
-  scene.add(trunk);
+  add(trunk);
   for (let i = 0; i < 3; i++) {
     const a = (i / 3) * Math.PI * 2 + seedBase;
     const br = shadowed(
@@ -509,7 +541,7 @@ function buildTree(
     );
     br.position.set(x + Math.cos(a) * 0.7 * scale, y0 + 3.4 * scale, z + Math.sin(a) * 0.7 * scale);
     br.rotation.set(Math.sin(a) * 0.7, 0, -Math.cos(a) * 0.7);
-    scene.add(br);
+    add(br);
   }
   // The canopy: a cloud of leaf cards, each turned its own way.
   const count = 170;
@@ -555,7 +587,7 @@ function buildTree(
     map: tex.leaf,
     alphaTest: 0.5,
   });
-  scene.add(inst);
+  add(inst);
   // Fruit.
   for (let i = 0; i < 5; i++) {
     const a = rnd() * Math.PI * 2;
@@ -570,8 +602,9 @@ function buildTree(
       cy - 0.6 * scale + rnd() * 1.6 * scale,
       z + Math.sin(a) * 2.2 * scale,
     );
-    scene.add(f);
+    add(f);
   }
+  return made;
 }
 
 function buildProps(scene: THREE.Scene, tex: Tex, mood: Mood): void {
@@ -712,7 +745,7 @@ function buildWater(scene: THREE.Scene, mood: Mood): THREE.Mesh {
   return water;
 }
 
-function buildParticles(scene: THREE.Scene, mood: Mood): THREE.Points | null {
+export function buildParticles(scene: THREE.Scene, mood: Mood): THREE.Points | null {
   if (mood === 'noon') return null;
   const count = mood === 'rain' ? 2500 : 220;
   const pos = new Float32Array(count * 3);
@@ -737,7 +770,7 @@ function buildParticles(scene: THREE.Scene, mood: Mood): THREE.Points | null {
 
 // ---------------------------------------------------------------- mounting
 
-const CLAMP = {
+export const CLAMP = {
   uniforms: { tDiffuse: { value: null as THREE.Texture | null } },
   vertexShader: /* glsl */ `
     varying vec2 vUv;
@@ -753,7 +786,7 @@ const CLAMP = {
   `,
 };
 
-const GRADE = {
+export const GRADE = {
   uniforms: {
     tDiffuse: { value: null as THREE.Texture | null },
     uTint: { value: new THREE.Color('#ffffff') },

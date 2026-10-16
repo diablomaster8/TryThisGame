@@ -1,7 +1,8 @@
 import { Game } from './game';
 import type { EduAge } from './config/edu';
 import { unlockAudio } from './platform/audio';
-import { clearSlot, setSaveSlot } from './platform/storage';
+import { clearSlot, readGraphicsPref, setSaveSlot } from './platform/storage';
+import type { Grove3dScene } from './render3d/grove-3d-scene';
 import { showTitle } from './ui/title';
 import { mountCameraButtons } from './ui/camera-buttons';
 import { FpsCounter } from './ui/fps';
@@ -58,10 +59,23 @@ if (params.has('sprites')) {
 
 /** `newCampaignTrainer` starts the story in a fresh world as that Keeper. */
 function startGame(newCampaignTrainer: string | null, eduAge?: EduAge): void {
+  // The 3D scene is a separate chunk, loaded only when the title picked it.
+  if (readGraphicsPref() === '3d') {
+    void import('./render3d/grove-3d-scene').then((m) =>
+      boot(newCampaignTrainer, eduAge, new m.Grove3dScene(canvas)),
+    );
+  } else boot(newCampaignTrainer, eduAge, null);
+}
+
+function boot(
+  newCampaignTrainer: string | null,
+  eduAge: EduAge | undefined,
+  scene3d: Grove3dScene | null,
+): void {
   const fps = new FpsCounter(hudRoot);
   let game: Game | null = null;
   const hud = mountHud(hudRoot, () => game);
-  game = new Game(canvas, hud.hooks);
+  game = new Game(canvas, hud.hooks, scene3d ? '3d' : 'pixel', scene3d);
   if (newCampaignTrainer) {
     game.send({ kind: 'setTrainer', id: newCampaignTrainer });
     game.send({ kind: 'campaignStart' });

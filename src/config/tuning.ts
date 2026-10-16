@@ -36,6 +36,63 @@ export const CAMERA = {
   followRate: 6,
 } as const;
 
+/** The full-3D Grove: its Lakitu camera, the heightfield and the dressing built from GROVE. */
+export const GROVE3D = {
+  /** Downward tilt of the camera behind the Keeper, in degrees (gentler than the pixel 35°). */
+  pitchDeg: 24,
+  /** Orbit distance for each zoom level (index 0 is the farthest, as in CAMERA). */
+  distance: [15, 8.5] as const,
+  /** Where the camera looks: this far above the Keeper's feet. */
+  lookHeight: 1.1,
+  fovDeg: 42,
+  near: 0.3,
+  far: 260,
+  /** Depth of the pond and the stream channel below the meadow. */
+  pondDepth: 0.9,
+  riverDepth: 0.5,
+  /** Beyond this radius the field rises into a rim so the edge reads as a bowl. */
+  rimStart: 42,
+  rimHeight: 9,
+  /** Instanced grass tufts (12 000 on the sample stage; fewer here for the bigger field). */
+  grassCount: 9000,
+  /** Grass grows this far from the centre on each axis (the heart, where play happens). */
+  grassHalf: 30,
+  /** Figure heights in world units: the species format sculpts at about 3 to 4 units. */
+  keeperHeight: 1.6,
+  nubbinHeight: 1.0,
+  adultHeight: 1.2,
+  /** Sun elevation at local noon, degrees, and the hours the sun rises and sets. */
+  noonElevationDeg: 62,
+  sunriseHour: 6,
+  sunsetHour: 18.5,
+  /** Bloom is on only while the sun is this low (golden hour), in degrees. */
+  bloomBelowDeg: 16,
+  /** The dirt paths as polylines across the field (the pixel ground paints its own). */
+  paths: [
+    [
+      [0, 4],
+      [-3, 9],
+      [-6.5, 11.5],
+    ],
+    [
+      [0, 4],
+      [4, 1],
+      [9.6, -4.2],
+      [14, -5],
+    ],
+    [
+      [0, 4],
+      [-1, -4],
+      [-2.5, -15.5],
+    ],
+    [
+      [0, 4],
+      [3, 8],
+    ],
+  ] as ReadonlyArray<ReadonlyArray<readonly [number, number]>>,
+  pathWidth: 1.1,
+} as const;
+
 export const TEST_SCENE = {
   groundSize: 32,
   /** Ground texture tiles per world unit. */

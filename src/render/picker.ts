@@ -1,4 +1,4 @@
-import { Plane, Raycaster, Vector2, Vector3, type Camera, type Object3D } from 'three';
+import { Plane, Raycaster, Vector2, Vector3, type Camera, type Object3D, type Ray } from 'three';
 import type { Vec2 } from '../sim/types';
 
 export interface PickHit {
@@ -40,6 +40,12 @@ export class Picker {
       -((clientY - rect.top) / rect.height) * 2 + 1,
     );
     this.raycaster.setFromCamera(this.ndc, camera);
+  }
+
+  /** The pick ray for a screen point, for subclasses that test it against other ground. */
+  protected rayFrom(clientX: number, clientY: number, camera: Camera): Ray {
+    this.setRay(clientX, clientY, camera);
+    return this.raycaster.ray.clone();
   }
 
   groundPoint(clientX: number, clientY: number, camera: Camera): Vec2 | null {

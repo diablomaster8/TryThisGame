@@ -40,7 +40,13 @@ export function computeTargetSize(
  * If non-integer CSS scaling ever looks uneven, the swap is contained here: render to a
  * WebGLRenderTarget and blit it through a full-screen quad instead.
  */
-export class LowResPipeline {
+/** What the debug panel reads from either renderer: draw-call info and the frame size. */
+export interface FrameStats {
+  readonly renderer: WebGLRenderer;
+  readonly currentSize: TargetSize;
+}
+
+export class LowResPipeline implements FrameStats {
   readonly renderer: WebGLRenderer;
   private size: TargetSize = { width: 1, height: 1, scale: 1 };
 

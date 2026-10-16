@@ -2,6 +2,58 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Crisp marks, reference notes, format doc (2026-10-15)
+
+Item 35 of `docs/creature-improvements.md` and the format doc. `Mark.soft: 0` is a crisp edge: `markShade` now takes the
+sculpt's vertex spacing (the box's longest side × 1.08 over the grid, the same number
+`sculpt` uses) and ramps a zero-soft mark over one cell centred on its edge, so a face
+patch, sock or belly split reads sharp without stair-steps. Fennel's nose and chest patch
+use it (`docs/samples/marks-fennel.jpg`, `?aaa=1&creature=3&closeup`). `SpeciesSpec.notes`
+(optional string, never shown) records which reference frame and pass each species was
+last tuned against; filled for all five from the 2026-10-15 passes (the Palworld roster
+screenshot for the shape pass, the All Pet Animations video for eyes, petting and the
+walk). `docs/species-format.md` rewritten: one row per field of `SpeciesSpec`, `PartSpec`,
+`Prim`, `Mark`, `SurfaceOpts`, the eyes, the mouth and `Expression`, each with its default
+and an example, plus the stock expression table and the pose table. Lint, 210 tests and
+build pass; no console errors on the Fennel closeup.
+
+Not verified: the crisp edge on the other species (none uses `soft: 0` yet) and at the
+far camera distance, where one cell is under a pixel. Known: the closeup frames the face,
+so the chest patch is only half in `marks-fennel.jpg`.
+
+## Shape pass: digits, per-form blend, tufts (2026-10-15)
+
+Items 9–15 and 32. New: `Prim.blend` (a primitive's own blend radius, in `sculpted.ts`;
+`onSurface` honours it too) and `src/samples/species-kit.ts` (`digits`, `tuft`, `tuftRow`).
+
+- **Nubbin.** Before: feet and hands were blobs. After: three yellow toes and a pad on each
+  foot, a three-finger mitt on each hand, a crisper crown (blend 0.14 against the body's 0.22).
+- **Mossling.** Before: the cap overhung and could hide the eyes in nods. After: cap radius
+  1.2 × 1.05 (was 1.4), raised 0.12 and set back 0.2 (`CAP_Z`), rim and sprout crisp; dew
+  and gills follow it. Root toes and hand mitts come from `digits`.
+- **Fennel.** Before: small head, close-set eyes, fuzzy cheek cones. After: head radii 0.78 ×
+  0.68 × 0.66 (was 0.64 × 0.56 × 0.56), eyes wider (x 0.36) and lower (y 1.78), ears
+  spread, crisp cheek, crest, chest-ruff and tail-tip tufts (`tuftRow`), three toes and a
+  pad per paw. Shells remain for the short underfur.
+- **Bolder.** Before: 0.9 scale, a leg span wider than the whole line-up, a seam between
+  head and thorax. After: scale 0.72 (big by design: widest, not tallest), the head's
+  ellipsoid also sits in the torso sculpt so the thorax blends into it (no seam), horns and
+  palps crisp (0.04), two-toed claws from `digits`.
+- **Wisp.** Before: the core ellipsoid lay inside the body and never showed. After: it sits
+  on the belly, poking 0.27 through, plus a mesh with its own emissive material (pulsing,
+  not tone-mapped); glowing three-finger hands.
+- **Tried and dropped:** repeating the thorax in the head sculpt for the neck made the
+  horns vanish; the torso-side fillet alone does the job.
+- **Grove unit** is the standing Nubbin (about 2.7 world units tall). Scales are by eye
+  against that; the roster line-up is `docs/samples/shape-roster.jpg`.
+- Screenshots: `docs/samples/shape-<name>.jpg` (turn 30°) and `shape-roster.jpg`.
+- Not verified: every pose at all three angles by eye (done for idle, happy and the 0, 30,
+  45 and 90 degree turns on a subset); no device test. At turn 30 Fennel's far brow juts
+  past the cheek (pre-existing).
+- `npm run lint` and the `tsc` half of `npm run build` fail on `src/content/atlas-a01.ts`
+  and `atlas-a06.ts`, untracked files from the content sessions (not mine, not committed);
+  `eslint src/samples`, `npm test` (210 pass) and `vite build` are clean.
+
 ## Eyes that look (2026-10-15)
 
 Item 3 of the brief: the irises follow. `eye()` returns `iris` (the disc in its own group;
