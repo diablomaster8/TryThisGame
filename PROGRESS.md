@@ -20,6 +20,55 @@ Waiting on Maor: the expansion pick E1–E3 / S1–S4, the daily-gift decision, 
 fun-quest quotes, whether Full 3D becomes the default, his phone rows in the device pass.
 Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
 
+## Pixel vs Full 3D parity pass (2026-10-16)
+
+Method: one seeded Free Grove save (`?free&slot=3`, snapshot reloaded for each mode) played
+in the browser pane at 375x812, driven by hand at x10: 15 actions (hatch, give, pet, feed,
+shake tree, hug, pick up, put down, Moon Keeper, snow, force evolve, Hollow Below in and
+out, end of life), 12,000 frames per mode (twenty minutes at x10), plus an Expedition, a
+race, a campaign scene and the Learning Grove (`?edu=4&slot=3`). Both runs fired the same
+events (hatch, evolve, second evolve, departure); they started 36 game minutes apart, so
+positions differ. Frame times (`gl.finish` round each frame, this PC, dpr 1): Pixel p50
+0.7 ms, p95 1.1 ms; Full 3D p50 3.0 ms, p95 5.3 ms. Entering the Hollow Below: Pixel
+484 ms, Full 3D 3,261 ms the first time (about 400 ms later). `docs/device-pass.md` holds
+no frame times; the only earlier figure is the archive's 2.9 ms for Full 3D at 1024x768.
+
+Works (fixed, one commit each):
+- 3D reaction bubbles (heart, !, ?, spiral) via shared `bubbleFor`, the two-frame emote
+  flip and the plum Shadow sheet (dcf72b9).
+- 3D portrait view: vertical field of view widens to keep `GROVE3D.minHFovDeg` (34)
+  across; at 375x812 it was about 20 degrees and Nubbins sat off the edge (1af54fe).
+- 3D memorial flowers only in the Grove and removed with their memorial (d48cb1f).
+- 3D canvas scales smoothly, not nearest-neighbour (landed inside 0867344: another
+  session's CV3 commit took the staged file during a git lock clash; the change is right).
+- 3D items follow the pixel rule: no Grove fruit in the Hollow Below, notebooks only in
+  story places (778e471).
+- Same in both (checked): HUD, toasts, panels, camera buttons and gestures, picking (every
+  kind; 3D uses coarse spheres); Expedition, races, Beetle Run and the Learning Grove
+  minigames pause the 3D render.
+
+Open, with estimates:
+1. Event bursts: 3D has only tree leaves and landing dust; no sparkle, hearts, crumbs or
+   petals for hatch, evolve, rebirth, Eternal, cocoon, eating, chests; no squash. 2-3 h.
+2. Hollow Below entry stall in 3D (its lamps recompile every material, by design):
+   compile asynchronously behind a fade. 1.5-2 h.
+3. Camera inside tree crowns at the close zoom hides the Keeper; fade crowns between
+   camera and Keeper. 1-2 h.
+4. Highlight on non-creature picks (lantern, tree, building, stairs, chest, loot). 1-2 h.
+5. Story Hollow and Corvin's garden sets (a plain floor and a colour in 3D). 3-4 h.
+6. Hollow Below: no Keeper lamp, generic loot, no "?" over wild ones (Grove too). 1.5-2 h.
+7. Village stalls and path fence posts missing in 3D. 1-1.5 h.
+8. Merged glow, cocoon fade, fruit flavours missing in 3D. 1-1.5 h.
+9. 3D weather ignores intensity and reduced motion; no leaves, no grade. 1 h.
+10. Both modes: the race screen in portrait starts with runners and names clipped at the
+    left edge. 30-60 min.
+11. Expedition and races are pixel art in both modes: a style jump in Full 3D (Maor's call).
+
+Shots: `docs/samples/parity-hollow-{pixel,3d}.png`, `parity-3d-portrait.png` (after the
+field-of-view fix), `parity-3d-crown.png` (item 3).
+
+Stubbed: none new. Known bugs: items 2, 3 and 10 above.
+
 ## CV3 language questlines: Hebrew and Japanese in the Learning Grove (2026-10-16)
 
 Works:
@@ -78,51 +127,6 @@ Works:
   pane on `?edu=4&slot=3`: c1-letter closed once and stayed closed.
 
 Stubbed: none. Known bugs: none new.
-
-## CV4/CV5 Atlas, Arcade and Multiverse saves (2026-10-16)
-
-Works:
-- Side saves (canon 21, 29, 30): one device-wide save each for the Atlas, the Arcade and
-  the Multiverse (`grove.side.atlas|arcade|multiverse`, `readSide`/`writeSide`/`clearSide`
-  in `platform/storage.ts`), apart from the three Grove slots per mode. Versioned with a
-  migration list (`sim/side-saves.ts`); broken or too-new saves read as fresh; blocked
-  storage is harmless. `readGroveSaves()` reads the Free and Hazel's Grove slots, never edu.
-- Atlas runner (`sim/atlas.ts`): every page keeps its own progress and flags in the Atlas
-  save, so pages play in any order. Step scene → "Do it" goal → done scene → complete
-  scene; `requires` chains within a page; variants picked by flag value (`<scene>-<value>`).
-  A page is hidden unless its strictest quest is allowed (teen pages behind Mature 13+;
-  only `all` in the Learning Grove). Pages are found by file name (`sim/atlas-catalogue.ts`,
-  a lazy chunk), so A1–A10 and A22–A31 join when their scripts are committed.
-- Entry points: "Nova's atlas" and "Pixel's cabinet" in the More menu (`ui/atlas.ts`
-  `StoryShelf`; scenes play in the dialogue box through `Dialogue.playScene`, which answers
-  the shelf, not the sim). The cabinet shows in Hazel's Grove from chapter 6 and in the
-  Free Grove from the start; neither appears in the Learning Grove.
-- Read-only lookups (`sim/cross-saves.ts`): a frozen `CrossSaves` snapshot with
-  `atlasDone(id)` (page or quest), `atlasFlag(page, flag)`, `arcadeDone(id)`,
-  `longGrassLantern()` (any Hazel's Grove save has seen `c10-dawn`). The journal shows a
-  "From the atlas" shelf from it; nothing is copied into the Grove save.
-- Festivals by sets of pages: the five in `docs/more-stories.md`, any two lines of a set
-  (`ATLAS_FESTIVALS`, `festivalsUnlocked`). The Grove toasts each once and remembers it in
-  `world.atlasFestivals` (command `atlasFestival`).
-- E6 (`sim/reflection.ts`, `openLastEndgame`/`endLastEndgameEternal` in `ui/atlas.ts`): the
-  oldest living Eternal across the Grove saves is reflected (name, look, age) into the
-  Multiverse save only; the `eternal` ending loses only the reflection, never remade.
-- Tests: `tests/sim/side-saves.test.ts` (19): key separation, Grove keys untouched by
-  side writes and lookups, blocked storage, migration, pages in any order, every
-  committed page plays to its end, ratings, frozen snapshot, festival thresholds, E6.
-
-Stubbed:
-- Pixel's cartridges PA1–PA5 are not scripted: the cabinet's shelf is empty (`ARCADE_CARTS`).
-- Festival scenes and rewards (Remembering Tree, sailable pond, Charter board, Long Table,
-  cabinet tournament): only the unlock and the toast exist.
-- E6 has no caller yet: the rift and the Multiverse runner land with their own milestone.
-- Atlas step goals are "Do it" buttons; no page has its own world or minigame yet.
-- Atlas pages have no Learning Grove versions yet (the atlas is hidden there).
-
-Assumptions: High Score Night unlocks with any two of PA1–PA5; the Free Grove has the atlas
-and the cabinet from the start; "after chapter 5" means the campaign is in chapter 6 or later.
-
-Known bugs: none found. Not checked in the browser pane this pass.
 
 ## Standing approval (Maor, 2026-10-12)
 

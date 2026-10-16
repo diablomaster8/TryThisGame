@@ -2,6 +2,51 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## CV4/CV5 Atlas, Arcade and Multiverse saves (2026-10-16)
+
+Works:
+- Side saves (canon 21, 29, 30): one device-wide save each for the Atlas, the Arcade and
+  the Multiverse (`grove.side.atlas|arcade|multiverse`, `readSide`/`writeSide`/`clearSide`
+  in `platform/storage.ts`), apart from the three Grove slots per mode. Versioned with a
+  migration list (`sim/side-saves.ts`); broken or too-new saves read as fresh; blocked
+  storage is harmless. `readGroveSaves()` reads the Free and Hazel's Grove slots, never edu.
+- Atlas runner (`sim/atlas.ts`): every page keeps its own progress and flags in the Atlas
+  save, so pages play in any order. Step scene → "Do it" goal → done scene → complete
+  scene; `requires` chains within a page; variants picked by flag value (`<scene>-<value>`).
+  A page is hidden unless its strictest quest is allowed (teen pages behind Mature 13+;
+  only `all` in the Learning Grove). Pages are found by file name (`sim/atlas-catalogue.ts`,
+  a lazy chunk), so A1–A10 and A22–A31 join when their scripts are committed.
+- Entry points: "Nova's atlas" and "Pixel's cabinet" in the More menu (`ui/atlas.ts`
+  `StoryShelf`; scenes play in the dialogue box through `Dialogue.playScene`, which answers
+  the shelf, not the sim). The cabinet shows in Hazel's Grove from chapter 6 and in the
+  Free Grove from the start; neither appears in the Learning Grove.
+- Read-only lookups (`sim/cross-saves.ts`): a frozen `CrossSaves` snapshot with
+  `atlasDone(id)` (page or quest), `atlasFlag(page, flag)`, `arcadeDone(id)`,
+  `longGrassLantern()` (any Hazel's Grove save has seen `c10-dawn`). The journal shows a
+  "From the atlas" shelf from it; nothing is copied into the Grove save.
+- Festivals by sets of pages: the five in `docs/more-stories.md`, any two lines of a set
+  (`ATLAS_FESTIVALS`, `festivalsUnlocked`). The Grove toasts each once and remembers it in
+  `world.atlasFestivals` (command `atlasFestival`).
+- E6 (`sim/reflection.ts`, `openLastEndgame`/`endLastEndgameEternal` in `ui/atlas.ts`): the
+  oldest living Eternal across the Grove saves is reflected (name, look, age) into the
+  Multiverse save only; the `eternal` ending loses only the reflection, never remade.
+- Tests: `tests/sim/side-saves.test.ts` (19): key separation, Grove keys untouched by
+  side writes and lookups, blocked storage, migration, pages in any order, every
+  committed page plays to its end, ratings, frozen snapshot, festival thresholds, E6.
+
+Stubbed:
+- Pixel's cartridges PA1–PA5 are not scripted: the cabinet's shelf is empty (`ARCADE_CARTS`).
+- Festival scenes and rewards (Remembering Tree, sailable pond, Charter board, Long Table,
+  cabinet tournament): only the unlock and the toast exist.
+- E6 has no caller yet: the rift and the Multiverse runner land with their own milestone.
+- Atlas step goals are "Do it" buttons; no page has its own world or minigame yet.
+- Atlas pages have no Learning Grove versions yet (the atlas is hidden there).
+
+Assumptions: High Score Night unlocks with any two of PA1–PA5; the Free Grove has the atlas
+and the cabinet from the start; "after chapter 5" means the campaign is in chapter 6 or later.
+
+Known bugs: none found. Not checked in the browser pane this pass.
+
 ## CV2 Learning Grove language switch (2026-10-16)
 
 Works:
