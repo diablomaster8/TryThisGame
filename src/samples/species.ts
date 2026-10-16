@@ -281,6 +281,12 @@ export interface Rigged extends Creature {
   /** Set by the stage: ground height at a world x,z, so the body follows the slope. */
   ground?: (x: number, z: number) => number;
   /**
+   * Set by the stage: how far above the ground the body is carried or flying, in world
+   * units. The body rises by it after the grounding; the contact shadow stays on the
+   * ground under it, fainter and smaller the higher the body is.
+   */
+  lift?: number;
+  /**
    * Set by the stage: a world point the creature attends to (the Keeper's hand). The
    * `pet` pose turns and leans the head toward it; null looks straight ahead.
    */
@@ -1531,8 +1537,10 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       (sp.material as THREE.MeshBasicMaterial).opacity = Math.sin(q * Math.PI);
     });
     extrasUpdate?.(t, pose);
-    // Grounding: the shadow follows the lift, and the body follows the slope under it.
-    const lift = THREE.MathUtils.clamp(hips.position.y - spec.hipY, 0, 1.5);
+    // Grounding: the shadow follows the lift (a hop of the pose, or the stage carrying
+    // the body), and the body follows the slope under it.
+    const airLift = (rig.lift ?? 0) / spec.scale;
+    const lift = THREE.MathUtils.clamp(hips.position.y - spec.hipY + airLift, 0, 1.5);
     blobMat.opacity = 1 - lift * 0.7;
     const shrink = 1 - lift * 0.3;
     if (!rig.ground) {
@@ -1577,6 +1585,8 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
         }
         root.position.y += sink;
       }
+      // Then the stage's lift: a carried or thrown body floats above all of that.
+      root.position.y += rig.lift ?? 0;
       // The blob hugs the ground: its matrix is pinned flat in world space under the
       // root (whose parent is taken to be untransformed, as on the stage), and each
       // vertex takes the ground height under it.

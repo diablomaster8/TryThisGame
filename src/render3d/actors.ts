@@ -11,6 +11,7 @@ import { Crowd, crowdFor } from './crowd';
 import { gaitTime } from './gait';
 import { WATER_LEVEL, groveHeight } from './terrain';
 import { buildToy } from './toys';
+import { THROW } from '../config/tuning';
 import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
 
 /**
@@ -34,6 +35,8 @@ interface Actor {
   stand: THREE.Mesh | null;
   /** Rotations laid over the pose this frame (the cry's droop), undone before the next. */
   overlay: Array<{ o: THREE.Object3D; x: number; z: number }>;
+  /** While thrown: when the flight began and how long it should last, for the tumble. */
+  flight: { startMs: number; totalMs: number } | null;
   /** The ring spreading on the water around a swimmer. */
   ripple: THREE.Mesh | null;
   prev: Snapshot;
@@ -319,6 +322,7 @@ export class Actors {
       look: null,
       stand: null,
       overlay: [],
+      flight: null,
       ripple: null,
       prev: { pos: { x: n.pos.x, z: n.pos.z }, y: n.y },
       pose: 'idle',
@@ -363,6 +367,26 @@ export class Actors {
   }
 
   /** The cry: head hung and arms in, with a small sob, laid over the idle pose. */
+  /**
+   * A thrown Nubbin rolls once about its side axis over the flight, so it is upright
+   * again as it lands. The flight time comes from the sim's launch speed and height; the
+   * rig re-poses the body every frame, so the roll is laid on after `animate`.
+   */
+  private tumble(a: Actor, n: Nubbin, o: THREE.Object3D, nowMs: number): void {
+    if (n.behavior.state !== 'thrown') {
+      a.flight = null;
+      return;
+    }
+    if (!a.flight) {
+      const g = THROW.gravity;
+      const vy = n.vel.y;
+      const totalS = (vy + Math.sqrt(vy * vy + 2 * g * Math.max(0, n.y))) / g;
+      a.flight = { startMs: nowMs, totalMs: Math.max(200, totalS * 1000) };
+    }
+    const k = Math.min(1, (nowMs - a.flight.startMs) / a.flight.totalMs);
+    o.rotateX(k * Math.PI * 2);
+  }
+
   private droop(a: Actor, rig: Rigged, t: number): void {
     const lay = (name: string, x: number, z: number) => {
       const o = rig.bones[name];
@@ -520,7 +544,10 @@ export class Actors {
         const sink = swimming ? o.scale.y * GROVE3D_SINK : 0;
         o.position.set(x, gy + y - sink, z);
         const footY = gy + y - sink;
-        a.rig.ground = y > 0.01 || swimming ? () => footY : this.ground;
+        // A swimmer stands on a flat floor at its sunk height; a held or thrown body is
+        // lifted off the real ground so its shadow blob stays down there under it.
+        a.rig.ground = swimming ? () => footY : this.ground;
+        a.rig.lift = swimming ? 0 : Math.max(0, y);
         a.rig.face(n.facing);
         a.rig.lookAt = pose === 'pet' ? hand : null;
         if (n.behavior.state === 'pet' && near) petted = true;
@@ -531,6 +558,7 @@ export class Actors {
         a.overlay.length = 0;
         a.rig.animate(gaitTime(a.rig, x, z, t, dt, pose === 'walk', swimming ? 0.6 : 1));
         if (n.behavior.state === 'cry') this.droop(a, a.rig, t);
+        this.tumble(a, n, o, nowMs);
         this.ripple(a, swimming, x, z, t);
       } else if (a.stand) {
         o.position.set(x, gy + y + o.scale.y * 0.9, z);
