@@ -11,7 +11,7 @@ import { Crowd, crowdFor } from './crowd';
 import { gaitTime } from './gait';
 import { WATER_LEVEL, groveHeight } from './terrain';
 import { buildToy } from './toys';
-import { THROW } from '../config/tuning';
+import { GROVE, GROVE3D, THROW } from '../config/tuning';
 import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
 
 /**
@@ -450,6 +450,16 @@ export class Actors {
    * The Keeper's rig, or null while it is still being sculpted (a stand-in shows then).
    * Switching Keepers keeps the old rig on screen until the new one is ready.
    */
+  /**
+   * The ground under the Keeper. In the pond (which the sim only allows with the Swim
+   * perk) the Keeper wades: it stands on the bed, at most `wadeDepth` under the water.
+   */
+  private keeperGround(x: number, z: number): number {
+    if (this.location === 'grove' && Math.hypot(x - GROVE.pond.x, z - GROVE.pond.z) < GROVE.pond.r)
+      return Math.max(groveHeight(x, z), WATER_LEVEL - GROVE3D.wadeDepth);
+    return this.ground(x, z);
+  }
+
   /** Where the Keeper's stroking hand is, in world space (a fresh vector). */
   private keeperHand(rig: Rigged | null, keeper: World['keeper']): THREE.Vector3 {
     const elbow = rig?.bones.elbowR;
@@ -475,7 +485,7 @@ export class Actors {
     if (rig) {
       if (k?.rig) this.pool.release(k.key, k.rig);
       k?.stand?.removeFromParent();
-      rig.ground = this.ground;
+      rig.ground = (x, z) => this.keeperGround(x, z);
       rig.setPose('idle');
       rig.group.userData.pose = 'idle';
       this.group.add(rig.group);
@@ -603,7 +613,7 @@ export class Actors {
         rig.group.userData.pose = kPose;
         rig.setPose(kPose);
       }
-      rig.group.position.set(kp.x, this.ground(kp.x, kp.z), kp.z);
+      rig.group.position.set(kp.x, this.keeperGround(kp.x, kp.z), kp.z);
       rig.face(keeper.facing);
       rig.animate(gaitTime(rig, kp.x, kp.z, t, dt, kPose === 'walk'));
     } else if (this.keeper?.stand) {

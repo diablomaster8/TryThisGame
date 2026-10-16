@@ -81,6 +81,16 @@ describe('world', () => {
     expect(n.behavior.state).not.toBe('pet');
   });
 
+  it('direct input stops the Keeper at the shoreline too', () => {
+    const w = createWorld(9, 0);
+    w.keeper.pos = { x: GROVE.pond.x - GROVE.pond.r - 2, z: GROVE.pond.z };
+    w.keeper.input = { x: 1, z: 0 };
+    run(w, 100);
+    const d = Math.hypot(w.keeper.pos.x - GROVE.pond.x, w.keeper.pos.z - GROVE.pond.z);
+    expect(d).toBeGreaterThanOrEqual(GROVE.pond.r);
+    expect(d).toBeLessThan(GROVE.pond.r + 1.5);
+  });
+
   it('the Keeper stops at the shoreline instead of wading', () => {
     const w = createWorld(9, 0);
     run(w, 200, [{ kind: 'moveKeeperTo', pos: { x: GROVE.pond.x, z: GROVE.pond.z } }]);

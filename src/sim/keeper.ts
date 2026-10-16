@@ -82,6 +82,13 @@ export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): vo
     k.facing = Math.atan2(nx, nz);
     k.moveTarget = null;
     k.intent = null;
+    // Without the Swim perk the Keeper does not wade: a step into the pond stops at the
+    // shore, as a tap target in the pond does below.
+    if (!dungeonFloor && !keeperPerks(world).wade) {
+      const s = shoreline(k.pos);
+      k.pos.x = s.x;
+      k.pos.z = s.z;
+    }
   } else {
     let target = k.moveTarget;
     if (k.intent) target = intentTarget(world, k.intent);

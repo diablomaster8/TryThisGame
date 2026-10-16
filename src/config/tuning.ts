@@ -108,6 +108,8 @@ export const GROVE3D = {
    * Walking needs 2.45 for the Keeper and 1.8 for a child; 4 keeps Fennel (3.9) planted.
    */
   maxCadence: 4,
+  /** How deep a wading Keeper (Swim perk) sinks below the water surface, in world units. */
+  wadeDepth: 0.38,
   /** Frame grades for the recoloured places (pixel: cream and lavender on lit materials). */
   groveTint: { sun: '#fff0d0', moon: '#d8c8ff', corvin: '#c4c8cc' },
   /** The dirt paths as polylines across the field (the pixel ground paints its own). */
@@ -944,6 +946,10 @@ export const STORY = {
   vigilLullAt: 0.5,
   /** Which lantern post each wave blows out (assumed mapping; the scene only names them). */
   vigilWaveLanterns: ['lantern-2', 'lantern-4'],
+  /** Where Wisp settles as a stray: under the cottage step (canon 16). */
+  wispHome: { x: -7, z: 10.4 },
+  /** Ember's friendship for finding Ash's name (S6). */
+  s6Friendship: 5,
   /** Shells Corvin asks in S27's buy-back, the same as c9-open's bargain. */
   buyBackShells: 200,
 } as const;
