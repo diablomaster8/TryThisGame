@@ -131,7 +131,6 @@ does not yet drive the body by the stride (the 3D mode is not wired to the sim).
   a `DEV` guard nearby, verify); **B3** panels overlap (Journal over stats sheet, toasts over
   the HUD on portrait, Expedition counter under ✕).
 
-
 ## Grounding verified (2026-10-15)
 
 Items 29, 30, 31 of `docs/creature-improvements.md`, checked in the browser (plan.md Part 1).
@@ -163,7 +162,6 @@ What was wrong and what changed:
   and the other feet can float a little; the Wisp's light trail dips under the ground.
 
 Shots: `docs/samples/ground-roster.jpg`, `ground-fennel.jpg`, `ground-wisp.jpg`.
-
 
 ## Painted look (2026-10-15)
 
