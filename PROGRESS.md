@@ -12,12 +12,63 @@ Graphics setting (`src/render3d/`, worker sculpting, geometry cache, boot work, 
 polish pass: pet state, knees, lids, tumble, shoreline, dressed visits) with the pixel mode
 unchanged. Story content pack in `src/content/` with CV1 wired (campaign v2,
 endings, the runner for all 31 side stories and the fun quests, story props, keepsakes;
-side stories as a lazy chunk). In the
+side stories and the campaign as lazy chunks; grass placed in a worker). In the
 working tree, unreviewed and uncommitted: Atlas A1–A10 and A22–A31 (plan.md Task B-R1).
 Review of everything done and open, and the v3 plan with briefs: `plan.md` (2026-10-16).
 Waiting on Maor: the expansion pick E1–E3 / S1–S4, the daily-gift decision, seven
 fun-quest quotes, whether Full 3D becomes the default, his phone rows in the device pass.
 Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
+
+## G14 bundle diet: campaign chunk, sample stage split, grass in a worker (2026-10-16)
+
+Works:
+- The v2 campaign script (`content/campaign-book1..3.ts`) is its own chunk, like the side
+  stories. `config/story.ts` keeps `CHAPTERS`, `SCENES`, `ENDINGS` empty until
+  `registerCampaign` (sim/story-scenes.ts) fills them and adds Wisp to `SPEAKERS`;
+  `loadStoryScripts()` fetches both chunks together and registers the campaign first (a
+  campaign scene still wins a shared id). `main.ts` starts it during the title and awaits it
+  before `boot`. Tests register both up front (`tests/setup-side-stories.ts`);
+  `side-story-chunk.test.ts` checks repeat registration and `c1-letter`. The content checker
+  and script book read Wisp from `CAMPAIGN_SPEAKERS`.
+- `src/render3d/` and `src/samples/` load only when chosen (no static import outside them;
+  checked in the build's import graph). New: the 3D chunk no longer drags in the `?aaa=`
+  stage. What render3d builds with moved from `samples/aaa-styles.ts` to `samples/aaa-kit.ts`
+  (textures, terrain material, grass, trees, particles, CLAMP/GRADE); the stage keeps its
+  valley, props, water and `mountAaaSample` and imports the kit.
+- Grass placement runs in `render3d/grass-worker.ts`: `samples/grass-place.ts` is the pure
+  scatter (same three maths as before), `render3d/grass-field.ts` the Grove's keep-out field,
+  `render3d/grass.ts` builds the meshes empty (colour attribute up front, so the program does
+  not change) and pours the matrices in; `loadState` waits for `props.grass.ready`, so the
+  veil lifts on the full meadow. Page fallback without workers. Checked tuft for tuft against
+  HEAD's loop (identical matrices and colours); `tests/render/grass-place.test.ts` pins the
+  checksum. Shots: `docs/samples/g14-grass-head.jpg` vs `g14-grass-worker.jpg` (same meadow).
+
+Sizes (minified, `vite build`; before = HEAD 0a96ecc):
+
+| Chunk | Before | After |
+| --- | --- | --- |
+| index (main) | 1,336.9 kB (392.2 gz) | 1,155.9 kB (331.6 gz) |
+| campaign | in index | 180.9 kB (60.8 gz) |
+| side-story-content | 1,065.2 kB | 1,065.3 kB |
+| 3D on demand: grove-3d-scene + shared | 75.7 + aaa-styles 237.1 + BokehPass 26.0 = 338.8 kB | 76.1 + Sky 207.8 + OutputPass 18.9 = 302.8 kB |
+| `?aaa=` stage | 237.1 kB | aaa-styles 30.3 kB (+ shared) |
+| sculpt-worker | 432.3 kB | 252.5 kB |
+| grass-worker | none | 90.6 kB |
+
+Boot times (`vite preview`, browser pane, warm cache): title card 25–42 ms after page start
+(HEAD); `?free` pixel boot 402–451 ms HEAD vs 422–460 ms now (both chunks land by ~55 ms; the
+spread is noise). Grass placement was 90–111 ms of the 3D constructor (9,000 tufts × 2, timed
+in Node); it now runs off the page. Full 3D veil times are not comparable in the pane (it only
+draws frames while captured: HEAD read 13.4 s cold).
+
+Stubbed / known:
+- The main chunk is 1.156 MB, a little above the 1.13 MB estimate (the campaign was 181 kB,
+  not 175 kB, and the index grew since that estimate). The next large piece is Three.js itself.
+- Rollup names the shared 3D chunk after a module in it (`Sky-*.js`); it holds the species
+  builder and the kit, not just the sky.
+- `aaa-styles.ts` is 841 lines, still past the ~800 split guide.
+- Not checked: the no-worker grass fallback; 3D boot on a phone.
+- This section sits after the Status block, as the ones below do; literal line 12 is inside it.
 
 ## B-C3: every side story runs; fun quests, props, keepsakes (2026-10-16)
 
@@ -84,57 +135,6 @@ S8's three evenings of fruit are one night's "Do it"; midnight is 0.9 of the sto
 "frost" 0.95; `s31-sable30` is Sable's trust at 30 when Gourd Night begins.
 
 Known bugs: none known.
-
-## G13: the 3D stub list, one commit each (2026-10-16)
-
-Checked on the stage and in Full 3D (`?free`, Graphics = Full 3D); shots `docs/samples/polish-*.jpg`.
-Works:
-- `pet` behaviour state (`BEHAVIOR.petMs`): `petNubbin` puts a free Nubbin into it facing the
-  Keeper. The pixel clip stays `happy` with its hearts; the 3D rig holds the pet pose with the
-  Keeper's right hand (`KEEPER_HAND_FROM_ELBOW` through the elbow bone) as `lookAt`, and the
-  Keeper strokes for as long as the state lasts. On land the Keeper now walks to arm's length
-  first; the pond's long reach applies only to a target pulled back to the shore. `polish-1`.
-- Knees: the Nubbin's stubs and two new legs on the Mossling are two-segment `joint` legs with
-  planted feet and short quick strides (the body crouches about 12% walking); bipeds tuck their
-  knees on the happy hop. The Wisp hovers on its vapour skirt and has nothing to bend, so it
-  keeps no legs (my reading of the brief). Variant looks that replace leg prims drop the joint.
-  `polish-2`.
-- Lids are shells that hug the dome and close by growing down it (`setLid(lid, k)`,
-  `lidShell`): the old tilted cap let a tall eye's white through and bulged when shut. Fennel's
-  eyes close asleep; Bolder's sleep drops the thighs level, sweeps the legs in and folds the
-  knees so they tuck under. `polish-3`, `polish-3-fennel`.
-- Hearts and Zzz are camera-facing quads (`glyphQuad`, depth-tested, turned in onBeforeRender).
-  The stub's claim did not reproduce: Sprites were already hidden by an opaque body on the
-  stage, so this is the form the brief asked for rather than a visible fix. `polish-4`.
-- A thrown Nubbin rolls once about its side axis over the flight (`Actors.tumble`, the time
-  from the sim's launch speed and height) and lands upright; `Rigged.lift` carries a held or
-  flying body above the real ground so the shadow blob stays on the terrain. `polish-5`.
-- Shoreline: direct input clamps to the shore as tap targets did (unit test in
-  `world.test.ts`); with the Swim perk the 3D Keeper wades on the pond bed, at most
-  `GROVE3D.wadeDepth` under the surface. `polish-6`.
-- `visit:<trainer>`: `render3d/visit.ts` dresses a neighbour's Grove (grass round, three trees,
-  a fence with a gate gap, the house with its roof in the neighbour's alignment colour); the
-  crowd adds their Nubbins (`first-<band>-<type>` looks, or their line's recipe) and the host
-  (pick `building`/`host`, as in the pixel view); the player's Nubbins and items stay home.
-  `game.ts` passes the real location to the 3D scene now. `polish-7`.
-
-Stubbed / known:
-- The visit ground is one grass texture repeated and tiles visibly; the home terrain's blended
-  surface is not reused. No ripple round a wading Keeper. The emote ball is still a Sprite.
-- The pixel mode draws a wading Keeper as before; only the sim change (the shoreline) reaches it.
-- The browser pane ran at about 1 fps, so motion (tumble, gait, petting) was judged from frames
-  driven by hand with `grove.frame()`; smoothness on a real device is unverified.
-- The shared working tree held another session's half-finished sim edits (`side-rules-late.ts`
-  did not compile), so every gate and screenshot ran in the `.idx-check` export of HEAD plus
-  this pass (`tests`: 219 sim tests pass there).
-
-## 2026-10-16: content ratings (CV6 audience items)
-
-**Works:** `Settings.matureContent` (`off` | `teen` | `adult`, default `off`) and `riftConfirmed`, save v3 with a migration (v2 saves get `off`/false; bad values clamp to `off`). `sim/audience.ts` holds the pure filter: Learning Grove offers only `all`; the main game offers `all` and `main`, `teen` at 13+ or 18+, `adult` at 18+; fun quests Q1-Q65 are blocked in chapters 9-11. Settings > Mature content control (hidden when the slot mode is `edu`). `confirmRift` command sets `riftConfirmed` and turns on 18+. `ui/rift-confirm.ts` is the one-time age dialog. Tests: `tests/sim/audience.test.ts`.
-
-**Stubbed:** nothing calls `questAvailable` yet, because no fun-quest, Atlas or Multiverse offering engine exists (CV1/CV4 and later); `askRift` has no caller until the rift is built. Learning Grove comes from slot mode `edu` in the UI; the sim takes it as a parameter. Assumption: the rift confirmation lives in `settings.riftConfirmed`.
-
-**Known bugs:** none known. Lowering the setting only hides quests; nothing stores quest progress yet to prove it end to end.
 
 ## Standing approval (Maor, 2026-10-12)
 

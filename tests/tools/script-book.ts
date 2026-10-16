@@ -25,7 +25,7 @@ const packs: [string, string, Quest[]][] = [
   ['19a-lang-hebrew', "Learning Grove: Ori's Alef-Bet, Hebrew (LH1–LH6)", C.LANG_HEBREW],
   ['19b-lang-japanese', "Learning Grove: Hana's Hiragana, Japanese (LJ1–LJ6)", C.LANG_JAPANESE],
 ];
-const nameOf = (q: Quest, who: string) => q.speakers.find((s) => s.id === who)?.name ?? SPEAKERS[who]?.name ?? who;
+const nameOf = (q: Quest, who: string) => q.speakers.find((s) => s.id === who)?.name ?? SPEAKERS[who]?.name ?? C.CAMPAIGN_SPEAKERS[who]?.name ?? who;
 function scene(q: Quest, s: Scene, title: string): string {
   const out: string[] = [`#### ${title} \`${s.id}\``, ''];
   for (const l of s.lines) {

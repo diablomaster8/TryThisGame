@@ -25,7 +25,7 @@ for (const [pack, list] of Object.entries(packs)) {
     quests++;
     if (questIds.has(q.id)) problems.push(`dup quest id ${q.id}`);
     questIds.add(q.id);
-    const declared = new Set([...Object.keys(SPEAKERS), ...q.speakers.map((s) => s.id)]);
+    const declared = new Set([...Object.keys(SPEAKERS), ...Object.keys(C.CAMPAIGN_SPEAKERS), ...q.speakers.map((s) => s.id)]);
     const sc = scenesOf(q);
     const byId = new Map(sc.map((s) => [s.id, s]));
     for (const s of sc) {

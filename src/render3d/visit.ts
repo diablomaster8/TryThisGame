@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { buildTree, pbr, repeatUv, type Tex } from '../samples/aaa-styles';
+import { buildTree, pbr, repeatUv, type Tex } from '../samples/aaa-kit';
 import { trainerOf } from '../sim/trainers';
 import { building, decorModel } from './garden';
 

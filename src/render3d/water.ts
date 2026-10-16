@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { GROVE } from '../config/tuning';
-import { surface } from '../samples/aaa-styles';
+import { surface } from '../samples/aaa-kit';
 import { WATER_LEVEL, groveHeight } from './terrain';
 
 /**

@@ -10,7 +10,7 @@ import type { OrbitCamera } from '../render/camera';
 import type { Daylight } from '../render/daylight';
 import { Picker } from '../render/picker';
 import type { TargetSize } from '../render/pipeline';
-import { CLAMP, GRADE, PUSHERS, buildParticles, type Tex } from '../samples/aaa-styles';
+import { CLAMP, GRADE, PUSHERS, buildParticles, type Tex } from '../samples/aaa-kit';
 import type { Floor } from '../sim/dungeon';
 import type { Location, SimEvent, Vec2, WeatherKind, World } from '../sim/types';
 import { Actors } from './actors';
@@ -405,7 +405,13 @@ export class Grove3dScene {
     const a = this.actors.loadState();
     return {
       progress: a.progress * 0.8 + this.textures.progress * 0.15 + (this.compiled ? 0.05 : 0),
-      done: a.done && this.textures.done && this.terrain.ready && this.sky.ready && this.compiled,
+      done:
+        a.done &&
+        this.textures.done &&
+        this.terrain.ready &&
+        this.props.grass.ready &&
+        this.sky.ready &&
+        this.compiled,
     };
   }
 

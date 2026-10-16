@@ -7,13 +7,6 @@
  * Keeper is "you"; the Keeper picked on the title screen only sets the player's sprite.
  */
 
-import {
-  CAMPAIGN_CHAPTERS,
-  CAMPAIGN_ENDINGS,
-  CAMPAIGN_SCENES,
-  CAMPAIGN_SPEAKERS,
-} from '../content/campaign';
-
 export type Mood = 'neutral' | 'happy' | 'sad' | 'angry' | 'think' | 'shock' | 'soft';
 
 export interface Line {
@@ -69,13 +62,17 @@ export const SPEAKERS: Record<string, { name: string; kind: 'keeper' | 'nubbin' 
   byte: { name: 'Byte', kind: 'keeper' },
   dusty: { name: 'Dusty', kind: 'keeper' },
   nova: { name: 'Nova', kind: 'keeper' },
-  ...CAMPAIGN_SPEAKERS,
+  // The campaign adds its own (Wisp) when its chunk registers (`registerCampaign`).
 };
 
-/** The campaign v2 (src/content/campaign.ts): twelve chapters, their scenes and the eight endings. */
-export const CHAPTERS: Chapter[] = CAMPAIGN_CHAPTERS;
-export const SCENES: Scene[] = CAMPAIGN_SCENES;
-export const ENDINGS: Record<string, { title: string; how: string }> = CAMPAIGN_ENDINGS;
+/**
+ * The campaign v2 (src/content/campaign.ts): twelve chapters, their scenes and the eight
+ * endings. The script is its own chunk, so these start empty and `registerCampaign` in
+ * sim/story-scenes.ts fills them before boot (tests register it up front).
+ */
+export const CHAPTERS: Chapter[] = [];
+export const SCENES: Scene[] = [];
+export const ENDINGS: Record<string, { title: string; how: string }> = {};
 
 export const STORY_TEXT = {
   campaign: 'Campaign',

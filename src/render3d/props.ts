@@ -1,7 +1,8 @@
 import * as THREE from 'three';
-import { GROVE, GROVE3D, LANTERN_POSTS } from '../config/tuning';
-import { buildGrass, buildTree, pbr, repeatUv, shadowed, type Tex } from '../samples/aaa-styles';
-import { groveHeight, pathDistance, riverDistance } from './terrain';
+import { GROVE, LANTERN_POSTS } from '../config/tuning';
+import { buildTree, pbr, repeatUv, shadowed, type Tex } from '../samples/aaa-kit';
+import { buildGroveGrass, type GroveGrass } from './grass';
+import { groveHeight } from './terrain';
 
 /**
  * The Grove's dressing in 3D, placed from the same GROVE numbers the pixel scenery
@@ -23,7 +24,7 @@ export interface GroveProps {
   lanterns: Lantern[];
   windows: { material: THREE.MeshPhysicalMaterial; lights: THREE.PointLight[] };
   blades: THREE.Group;
-  grass: THREE.InstancedMesh[];
+  grass: GroveGrass;
 }
 
 /** The four lantern posts, in the pixel scene's places and with its ids. */
@@ -283,24 +284,8 @@ export function buildGroveProps(
     pick(arch, 'building', 'cave', pickables);
   }
 
-  // Grass over the meadow, kept off the paths, the water, the buildings and the rim.
-  const keepOut = [
-    ...Object.values(b).map((p) => ({ x: p.x, z: p.z, r: p.r + 0.6 })),
-    { x: GROVE.pond.x, z: GROVE.pond.z, r: GROVE.pond.r + 1 },
-  ];
-  const grass = buildGrass(scene, tex, time, {
-    ground: groveHeight,
-    half: GROVE3D.grassHalf,
-    centreZ: 0,
-    count: GROVE3D.grassCount,
-    allow: (x, z, y) => {
-      if (y > 3.5 || y < -0.2) return false;
-      if (pathDistance(x, z) < GROVE3D.pathWidth + 0.3) return false;
-      if (riverDistance(x, z) < GROVE.river.width * 0.5 + 0.6) return false;
-      for (const k of keepOut) if (Math.hypot(x - k.x, z - k.z) < k.r) return false;
-      return true;
-    },
-  });
+  // Grass over the meadow, placed in a worker (`grass.ts`).
+  const grass = buildGroveGrass(scene, tex, time);
 
   return {
     group,

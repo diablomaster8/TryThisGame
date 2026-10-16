@@ -1,5 +1,5 @@
 import type * as THREE from 'three';
-import { cardFrom, rgbaCanvas, surfaceFrom, type Surface, type Tex } from '../samples/aaa-styles';
+import { cardFrom, rgbaCanvas, surfaceFrom, type Surface, type Tex } from '../samples/aaa-kit';
 import { paintJob, type PaintJob, type PaintedBytes } from '../samples/surface-paint';
 import { SculptFarm } from './sculpt-farm';
 import type { PaintReply, PaintRequest } from './surface-worker';

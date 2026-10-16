@@ -1,12 +1,28 @@
-import { SCENES, type Line, type Scene } from '../config/story';
+import {
+  CHAPTERS,
+  ENDINGS,
+  SCENES,
+  SPEAKERS,
+  type Chapter,
+  type Line,
+  type Scene,
+} from '../config/story';
 import type { EduBand, Quest, Reward } from '../content/types';
 import type { CampaignState, World } from './types';
 
 /**
- * Every scene the Grove's story can queue: the campaign's, and (once registered) every
+ * Every scene the Grove's story can queue, once registered: the campaign's, and every
  * Grove side story's steps, done and complete scenes, and their variant scenes. `sceneFor`
  * applies the line swaps the scene notes ask for, read from flags when the scene is shown.
  */
+
+/** The campaign v2 script, loaded as its own chunk (see `loadStoryScripts`). */
+export interface CampaignContent {
+  chapters: Chapter[];
+  scenes: Scene[];
+  endings: Record<string, { title: string; how: string }>;
+  speakers: typeof SPEAKERS;
+}
 
 /** The side-story scripts, loaded as their own chunk (see `loadSideStories`). */
 export interface SideStoryContent {
@@ -33,7 +49,20 @@ export function rewardById(id: string): { quest: string; reward: Reward } | unde
 function add(s: Scene | undefined): void {
   if (s && !SCENE_BY_ID.has(s.id)) SCENE_BY_ID.set(s.id, s);
 }
-for (const s of SCENES) add(s);
+
+/**
+ * Fill the campaign's chapters, scenes, endings and speakers (config/story.ts) and add its
+ * scenes to the registry. It runs before the side stories register, so a campaign scene
+ * wins any shared id, as it did when the script was synchronous. Safe to repeat.
+ */
+export function registerCampaign(content: CampaignContent): void {
+  if (SCENES.length) return;
+  CHAPTERS.push(...content.chapters);
+  SCENES.push(...content.scenes);
+  Object.assign(ENDINGS, content.endings);
+  Object.assign(SPEAKERS, content.speakers);
+  for (const s of SCENES) add(s);
+}
 
 /**
  * Add the side stories' quests, step scenes and variant scenes to the registry. The app
@@ -57,10 +86,33 @@ export function registerSideStories(content: SideStoryContent): void {
 
 let loading: Promise<void> | null = null;
 
-/** Load the side-story chunk once and register it. */
-export function loadSideStories(): Promise<void> {
-  loading ??= import('./side-story-content').then((m) => registerSideStories(m.SIDE_STORY_CONTENT));
+/**
+ * Load the campaign and side-story chunks once (both fetches start together) and register
+ * them, campaign first. The app awaits this before a save loads.
+ */
+export function loadStoryScripts(): Promise<void> {
+  loading ??= Promise.all([import('../content/campaign'), import('./side-story-content')]).then(
+    ([campaign, side]) => {
+      registerCampaign(campaignContent(campaign));
+      registerSideStories(side.SIDE_STORY_CONTENT);
+    },
+  );
   return loading;
+}
+
+/** The campaign module's exports as the registry takes them. */
+export function campaignContent(m: {
+  CAMPAIGN_CHAPTERS: Chapter[];
+  CAMPAIGN_SCENES: Scene[];
+  CAMPAIGN_ENDINGS: CampaignContent['endings'];
+  CAMPAIGN_SPEAKERS: CampaignContent['speakers'];
+}): CampaignContent {
+  return {
+    chapters: m.CAMPAIGN_CHAPTERS,
+    scenes: m.CAMPAIGN_SCENES,
+    endings: m.CAMPAIGN_ENDINGS,
+    speakers: m.CAMPAIGN_SPEAKERS,
+  };
 }
 
 export function sceneById(id: string): Scene | undefined {

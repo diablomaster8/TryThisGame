@@ -35,7 +35,8 @@ An original virtual-pet garden game for phone and desktop browsers (TypeScript s
 | Creature toolkit | `src/samples/creatures.ts`: `surfaceMaterial`, `furShells`, `smokeShell`, `eye` (`EyeRig`), `irisTexture`, `gradient`/`stripes`/`spots`, `part`, `blink`, `breathe` |
 | SDF sculpting | `src/samples/sculpted.ts`: `Prim`, `sdf`, `smin`, `sculpt` (AO bake inside), `V` |
 | 3D creature loading | `samples/sculpt-spec.ts` (serialisable surface, cache key), `sculpt-rules.ts` (named hooks); `render3d/sculpt-farm.ts` (workers), `sculpt-cache.ts` (IndexedDB), `sculpt-res.ts` (device grid), `prewarm.ts`; `ui/loading-bar.ts` |
-| 3D stage (environment, post, creature placement, line-up, grass `PUSHERS`) | `src/samples/aaa-styles.ts`: `buildTerrain`, `buildGrass`, `buildWater`, `mountAaaSample` (creature block near `const creatureParam`, loop near `const poseNow`) |
+| 3D stage (environment, post, creature placement, line-up) | `src/samples/aaa-styles.ts`: `buildTerrain`, `buildWater`, `mountAaaSample` (creature block near `const creatureParam`, loop near `const poseNow`) |
+| What the 3D Grove builds with (textures, terrain material, grass and `PUSHERS`, trees, post passes) | `src/samples/aaa-kit.ts`; grass scatter `samples/grass-place.ts`, run in `render3d/grass-worker.ts` |
 | Stage URLs | `?aaa=1..3` (noon, golden, rain), `&creature=1..5|all|variant:<id>|variants` (`&family=`, `&filter=`, `&ids=a,b,c` for an exact order, `&eye` for an eye-level camera), `&creature=keeper|keeper-moon` (the Keeper stage), `&pose=idle|happy|pet|walk|eat|sleep|carry|throw`, `&turn=<deg>`, `&closeup`, `nobloom nossao nodof nofog`, `&toon` (the line-up look), `&ref=<file>&refx=<n>` and `&split` (reference overlay and side-by-side) |
 | Pixel world and picking | `src/render/world-view.ts`, `grove-scene.ts`, painters in `src/render/paint/` |
 | Sim entry points | `src/sim/world.ts` (commands, events), `dungeon.ts`, `town.ts`, `lifecycle.ts` |

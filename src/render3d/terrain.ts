@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { terrainMaterial, type Tex } from '../samples/aaa-styles';
+import { terrainMaterial, type Tex } from '../samples/aaa-kit';
 import type { TerrainReply } from './terrain-worker';
 import { terrainArrays, type TerrainArrays } from './terrain-shape';
 
