@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { DUNGEON } from '../config/tuning';
+import { DUNGEON, GROVE3D } from '../config/tuning';
 import { cellAt, cellCentre, WALL, WATER, type Floor } from '../sim/dungeon';
 import type { DungeonRun } from '../sim/types';
 
@@ -7,27 +7,100 @@ import type { DungeonRun } from '../sim/types';
  * A Hollow Below floor in 3D, built from the sim's `Floor` (`sim/dungeon.ts`): rock walls
  * on the cells that border the open ground, a stone floor, still water in the wet cells,
  * the stairs up and down, the chest (open once looted), torches and glowing crystals, and
- * the loot still lying about. Torch light comes from four point lights that follow the
- * torches nearest the Keeper, so the light count never changes while underground. Their
+ * the loot still lying about (shaped as the pixel view paints it, `render/paint/dungeon.ts`).
+ * Light comes from five point lights: the Keeper's own lamp, as in the pixel view, and four
+ * that follow the torches nearest the Keeper, so the light count never changes while
+ * underground. Their
  * programs differ from the Grove's (four more lights, no lanterns), so the scene links
  * them in the background with `withLamps` and the hidden `samples` (see grove-3d-scene.ts).
  * Picks use the pixel view's kinds: `stairs` (`up`/`down`), `chest`, `loot`.
  */
 const CELL = DUNGEON.cell;
 const WALL_H = 2.4;
-const LAMPS = 4;
+/** The Keeper's lamp and the four torch lamps. */
+const LAMPS = 5;
 
 const mat = (color: string, o: THREE.MeshStandardMaterialParameters = {}) =>
   new THREE.MeshStandardMaterial({ color, roughness: 0.9, ...o });
 
-const LOOT_COLORS: Record<string, string> = {
-  shells: '#ffb0c8',
-  stone: '#8a8680',
-  seed: '#9a6a3e',
-  essence: '#8ae0ff',
-  critter: '#b8f0ff',
-  egg: '#f3efe2',
-};
+/** Loot as the pixel floor paints it: a little heap of shells, a grey stone, a sprouting
+ * seed, a violet essence crystal, a critter in a bubble, a speckled egg. */
+function lootModel(kind: string): THREE.Object3D {
+  const g = new THREE.Group();
+  const add = (geo: THREE.BufferGeometry, m: THREE.Material, x = 0, y = 0, z = 0) => {
+    const o = new THREE.Mesh(geo, m);
+    o.position.set(x, y, z);
+    o.castShadow = true;
+    g.add(o);
+    return o;
+  };
+  if (kind === 'shells') {
+    const gold = mat('#f2d34c', { metalness: 0.6, roughness: 0.35 });
+    const geo = new THREE.SphereGeometry(0.09, 10, 8);
+    for (const [x, z] of [
+      [-0.1, 0.05],
+      [0.08, 0.09],
+      [-0.02, -0.08],
+      [0.12, -0.06],
+    ] as const)
+      add(geo, gold, x, -0.12, z).scale.set(1, 0.45, 0.8);
+  } else if (kind === 'stone') {
+    add(new THREE.DodecahedronGeometry(0.16), mat('#8a8a98', { flatShading: true })).scale.set(
+      1,
+      0.7,
+      0.85,
+    );
+  } else if (kind === 'seed') {
+    add(new THREE.SphereGeometry(0.11, 12, 10), mat('#8a5a32', { roughness: 0.6 })).scale.set(
+      0.85,
+      1.1,
+      0.85,
+    );
+    add(new THREE.CylinderGeometry(0.015, 0.015, 0.14, 5), mat('#4a9c42'), 0.03, 0.17, 0);
+    add(new THREE.SphereGeometry(0.05, 8, 6), mat('#8fd262'), 0.07, 0.24, 0).scale.set(
+      1.4,
+      0.5,
+      0.8,
+    );
+  } else if (kind === 'essence') {
+    const glow = { emissive: '#b58cff', emissiveIntensity: 0.9, roughness: 0.25 };
+    add(new THREE.ConeGeometry(0.11, 0.34, 6), mat('#b58cff', glow), 0, 0.02, 0);
+    add(new THREE.CylinderGeometry(0.13, 0.13, 0.03, 12), mat('#7a5ad0'), 0, -0.16, 0);
+  } else if (kind === 'critter') {
+    add(new THREE.SphereGeometry(0.08, 10, 8), mat('#3a3346'));
+    const eye = mat('#ffffff', { emissive: '#ffffff', emissiveIntensity: 0.4 });
+    const dot = new THREE.SphereGeometry(0.018, 6, 4);
+    add(dot, eye, -0.03, 0.02, 0.07);
+    add(dot, eye, 0.03, 0.02, 0.07);
+    const bubble = add(
+      new THREE.SphereGeometry(0.2, 16, 12),
+      mat('#9ad0ff', {
+        emissive: '#9ad0ff',
+        emissiveIntensity: 0.5,
+        roughness: 0.1,
+        transparent: true,
+        opacity: 0.45,
+        depthWrite: false,
+      }),
+    );
+    bubble.castShadow = false;
+  } else {
+    add(new THREE.SphereGeometry(0.2, 14, 10), mat('#f3efe2', { roughness: 0.5 })).scale.set(
+      0.85,
+      1.1,
+      0.85,
+    );
+    const speck = mat('#c9a0ff');
+    const geo = new THREE.SphereGeometry(0.025, 6, 4);
+    for (let i = 0; i < 6; i++) {
+      const a = i * 2.4;
+      const y = -0.1 + (i % 3) * 0.09;
+      const r = Math.sqrt(Math.max(0, 1 - (y / 0.22) ** 2)) * 0.165;
+      add(geo, speck, Math.cos(a) * r, y, Math.sin(a) * r);
+    }
+  }
+  return g;
+}
 
 export class Hollow {
   readonly group = new THREE.Group();
@@ -237,29 +310,8 @@ export class Hollow {
     }
     for (const l of f.loot) {
       const p = cellCentre(f, l.cell);
-      const c = LOOT_COLORS[l.kind] ?? '#ffffff';
-      const glow = l.kind === 'essence' || l.kind === 'critter';
-      const m = new THREE.Mesh(
-        l.kind === 'egg'
-          ? new THREE.SphereGeometry(0.2, 14, 10)
-          : l.kind === 'essence'
-            ? new THREE.OctahedronGeometry(0.18)
-            : new THREE.DodecahedronGeometry(0.16),
-        mat(
-          c,
-          glow
-            ? {
-                emissive: c,
-                emissiveIntensity: 0.8,
-                transparent: l.kind === 'critter',
-                opacity: 0.7,
-              }
-            : { roughness: 0.5 },
-        ),
-      );
-      if (l.kind === 'egg') m.scale.set(0.85, 1.1, 0.85);
+      const m = lootModel(l.kind);
       m.position.set(p.x, 0.25, p.z);
-      m.castShadow = true;
       this.group.add(m);
       this.loot.set(l.id, m);
       this.picks.push([m.position, 'loot', l.id, 0.45]);
@@ -280,15 +332,20 @@ export class Hollow {
       m.rotation.y = t * 0.8;
     }
     if (this.chestLid) this.chestLid.rotation.x = run.chestOpen ? -1.9 : 0;
-    // The four lamps go to the torches nearest the Keeper, flickering a little.
+    // The Keeper carries a lamp, as in the pixel view; the other four go to the torches
+    // nearest the Keeper, flickering a little.
+    const own = this.lamps[0]!;
+    own.color.set('#fff0d0');
+    own.position.set(keeper.x, 1.8, keeper.z);
+    own.intensity = GROVE3D.keeperLamp;
     const near = [...this.torchAt]
       .sort(
         (a, b) =>
           Math.hypot(a.x - keeper.x, a.z - keeper.z) - Math.hypot(b.x - keeper.x, b.z - keeper.z),
       )
-      .slice(0, LAMPS);
+      .slice(0, LAMPS - 1);
     near.forEach((p, i) => {
-      const l = this.lamps[i]!;
+      const l = this.lamps[i + 1]!;
       l.position.copy(p);
       l.intensity = 16 + Math.sin(t * 13 + i * 2) * 2;
     });

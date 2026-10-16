@@ -31,6 +31,8 @@ export interface Figure {
   sad?: boolean;
   /** A little hop in place (a fed wild visitor). */
   hop?: boolean;
+  /** A "?" over the head, as the pixel view draws it: an unfed wild visitor, a floor's wild one. */
+  ask?: boolean;
 }
 
 const SHADOW_LOOK = (height: number): Look => ({ key: 'variant:shadow', height });
@@ -154,6 +156,7 @@ export function crowdFor(
         facing: Math.sin(nowMs / 2300 + w.pos.z) * 1.2,
         pose: w.fed ? 'happy' : 'idle',
         hop: w.fed,
+        ask: !w.fed,
       });
   const run = world.dungeon;
   if (underground && run && floor) {
@@ -168,16 +171,20 @@ export function crowdFor(
         pose: s.target ? 'walk' : 'idle',
         sad: !s.target,
       });
+    // The floor's wild one keeps to its nook until the Keeper creeps up on it, then is gone
+    // (the pixel view stops drawing it once scanned).
     for (const w of run.wild)
-      out.push({
-        id: w.id,
-        kind: 'wild',
-        look: artLook(w.species),
-        x: w.pos.x,
-        z: w.pos.z,
-        facing: Math.sin(nowMs / 2300 + w.pos.z) * 1.2,
-        pose: w.scanned ? 'happy' : 'idle',
-      });
+      if (!w.scanned)
+        out.push({
+          id: w.id,
+          kind: 'wild',
+          look: artLook(w.species),
+          x: w.pos.x,
+          z: w.pos.z,
+          facing: Math.sin(nowMs / 2300 + w.pos.z) * 1.2,
+          pose: 'idle',
+          ask: true,
+        });
   }
   if (location === 'hollow' || location === 'corvin') out.push(...ambient(location));
   const visiting = visitingTrainer(world);
@@ -194,6 +201,7 @@ interface Member {
   pose: PoseName | null;
   kind: Figure['kind'];
   overlay: Array<{ o: THREE.Object3D; x: number; z: number }>;
+  ask: THREE.Sprite | null;
 }
 
 export class Crowd {
@@ -205,6 +213,8 @@ export class Crowd {
     private readonly group: THREE.Group,
     private readonly pool: CreaturePool,
     private readonly standIn: (look: Look) => THREE.Object3D,
+    /** The "?" emote frame (the pixel sheet's), for `Figure.ask`. */
+    private readonly askMat: () => THREE.SpriteMaterial | undefined = () => undefined,
   ) {}
 
   update(figures: Figure[], ground: (x: number, z: number) => number, t: number, dt: number): void {
@@ -226,6 +236,7 @@ export class Crowd {
           pose: null,
           kind: f.kind,
           overlay: [],
+          ask: null,
         };
         this.members.set(f.id, m);
       }
@@ -276,6 +287,16 @@ export class Crowd {
       } else if (m.stand) {
         m.stand.position.set(m.pos.x, gy + m.stand.scale.y * 0.9, m.pos.z);
       }
+      const mat = f.ask ? this.askMat() : undefined;
+      if (mat && !m.ask) {
+        m.ask = new THREE.Sprite(mat);
+        m.ask.scale.setScalar(0.42);
+        this.group.add(m.ask);
+      } else if (!mat && m.ask) {
+        m.ask.removeFromParent();
+        m.ask = null;
+      }
+      m.ask?.position.set(m.pos.x, gy + m.look.height + 0.35 + Math.sin(t * 2.5) * 0.04, m.pos.z);
     }
     for (const id of [...this.members.keys()]) if (!live.has(id)) this.drop(id);
   }
@@ -321,6 +342,7 @@ export class Crowd {
       this.pool.release(m.key, m.rig);
     }
     m.stand?.removeFromParent();
+    m.ask?.removeFromParent();
     this.members.delete(id);
   }
 

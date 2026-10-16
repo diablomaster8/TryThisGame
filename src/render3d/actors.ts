@@ -136,7 +136,12 @@ export class Actors {
   constructor(scene: THREE.Scene) {
     scene.add(this.group);
     this.group.name = 'actors';
-    this.crowd = new Crowd(this.group, this.pool, (look) => this.standIn(look));
+    this.crowd = new Crowd(
+      this.group,
+      this.pool,
+      (look) => this.standIn(look),
+      () => this.emoteMats.get(frameKey('question', 'front', 0)),
+    );
     // The emote ball frames come from the pixel sheets (the plain one and the Shadow plum
     // one), one sprite material per frame.
     for (const shadow of [false, true]) this.addEmoteSheet(shadow);

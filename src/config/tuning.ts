@@ -79,6 +79,8 @@ export const GROVE3D = {
   highlightMaxScale: 3,
   /** The tap halo round a still prop: how far it stands out from the surface, world units. */
   haloRim: 0.1,
+  /** The lamp the Keeper carries in the Hollow Below (the torches burn at about 16). */
+  keeperLamp: 5,
   /** Downward tilt of the camera behind the Keeper, in degrees (gentler than the pixel 35°). */
   pitchDeg: 24,
   /** Orbit distance for each zoom level (index 0 is the farthest, as in CAMERA). */
