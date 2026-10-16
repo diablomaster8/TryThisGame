@@ -306,6 +306,8 @@ export interface Inventory {
   toys: Partial<Record<ToyKind, number>>;
   /** Twine for merging partners. */
   twine: number;
+  /** Story rewards kept: items, cosmetics, memories and unlocks, by reward id. */
+  keepsakes: string[];
 }
 
 /** Stat fruit and seeds: one per stat, plus Sun and Moon fruit that nudge alignment. */
@@ -554,6 +556,8 @@ export interface CampaignState {
   /** Sim time the current chapter's opening was seen, and its goal first seen met. */
   openedMs: number | null;
   goalMetMs: number | null;
+  /** Fun quests Q1–Q65 the runner drives (sim/fun-quests.ts), by quest id. */
+  fun: Record<string, SideStoryState>;
 }
 
 /** One side story's progress. Steps are 0-based indexes into the quest's steps. */
@@ -708,6 +712,8 @@ export type Command =
   | { kind: 'debugChapter'; chapter: number }
   /** Do the current step of a side story (journal button; see sim/side-stories.ts). */
   | { kind: 'sideAct'; story: string }
+  /** A tap on a story prop (the old trowel, the flat stone...), by prop id. */
+  | { kind: 'storyProp'; prop: string }
   | { kind: 'giveHeartFruit'; nubbinId: string }
   | { kind: 'startLesson'; nubbinId: string; lesson: LessonId }
   | { kind: 'payService'; service: 'doctor' | 'fortune'; nubbinId: string }
@@ -826,6 +832,7 @@ export type SimEvent =
   | { kind: 'lanternLit'; id: string }
   | { kind: 'lanternOut'; id: string }
   | { kind: 'sideStory'; story: string; status: 'open' | 'done' | 'closed' }
+  | { kind: 'keepsake'; id: string; quest: string }
   | { kind: 'talked'; npcId: string }
   | { kind: 'courting'; nubbinId: string }
   | { kind: 'bred'; eggId: string; parents: [string, string] }

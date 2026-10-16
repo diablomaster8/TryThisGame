@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { GROVE, GROVE3D } from '../config/tuning';
+import { GROVE, GROVE3D, LANTERN_POSTS } from '../config/tuning';
 import { buildGrass, buildTree, pbr, repeatUv, shadowed, type Tex } from '../samples/aaa-styles';
 import { groveHeight, pathDistance, riverDistance } from './terrain';
 
@@ -27,12 +27,7 @@ export interface GroveProps {
 }
 
 /** The four lantern posts, in the pixel scene's places and with its ids. */
-const LANTERNS = [
-  [-4, 4],
-  [4, -3],
-  [9, 7],
-  [-8, -6],
-] as const;
+const LANTERNS = LANTERN_POSTS.map((p) => [p.x, p.z] as const);
 
 function pick(o: THREE.Object3D, kind: string, id: string, into: THREE.Object3D[]): void {
   o.userData.pick = { kind, id };

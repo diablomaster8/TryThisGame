@@ -1,5 +1,5 @@
 import { SCENES, type Line, type Scene } from '../config/story';
-import type { Quest } from '../content/types';
+import type { Quest, Reward } from '../content/types';
 import type { World } from './types';
 
 /**
@@ -24,6 +24,12 @@ export function sideStory(id: string): Quest | undefined {
 }
 
 const SCENE_BY_ID = new Map<string, Scene>();
+const REWARD_BY_ID = new Map<string, { quest: string; reward: Reward }>();
+
+/** A side-story or fun-quest reward by its id, with the quest that gives it. */
+export function rewardById(id: string): { quest: string; reward: Reward } | undefined {
+  return REWARD_BY_ID.get(id);
+}
 function add(s: Scene | undefined): void {
   if (s && !SCENE_BY_ID.has(s.id)) SCENE_BY_ID.set(s.id, s);
 }
@@ -44,6 +50,7 @@ export function registerSideStories(content: SideStoryContent): void {
       add(step.done);
     }
     add(q.complete);
+    for (const r of q.rewards) REWARD_BY_ID.set(r.id, { quest: q.id, reward: r });
   }
   for (const s of content.variants) add(s);
 }

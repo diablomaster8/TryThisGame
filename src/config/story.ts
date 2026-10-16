@@ -96,6 +96,9 @@ export const STORY_TEXT = {
   reached: 'Reached',
   friends: 'Friends',
   sideStories: 'Stories',
+  memories: 'Memories',
+  memoriesHelp: 'What the stories left you.',
+  keepsakeKept: (label: string) => `Kept: ${label}`,
   doStep: 'Do it',
   waitStep: 'When the time comes, it will.',
   registerOnLoan:

@@ -3,7 +3,7 @@ import { CHAPTERS, ENDINGS, SPEAKERS, STORY_TEXT } from '../config/story';
 import type { Game } from '../game';
 import { chapterDef, goalMet } from '../sim/campaign';
 import { RUNNER_STORIES, sideActable } from '../sim/side-stories';
-import { sideStory } from '../sim/story-scenes';
+import { rewardById, sideStory } from '../sim/story-scenes';
 import { button, el, modal } from './dom';
 
 /** The campaign journal: chapter, goal and hint, friends, and the Paths page of endings. */
@@ -101,6 +101,23 @@ export class Journal {
     }
   }
 
+  /** What the stories left you: every keepsake, newest first, with its story's words. */
+  private renderMemories(g: Game): void {
+    const kept = g.world.inventory.keepsakes;
+    if (kept.length === 0) return;
+    this.body.appendChild(el('div', 'btn-name', STORY_TEXT.memories));
+    this.body.appendChild(el('p', 'help', STORY_TEXT.memoriesHelp));
+    for (const id of [...kept].reverse()) {
+      const found = rewardById(id);
+      if (!found) continue;
+      const quest = sideStory(found.quest);
+      this.body.appendChild(
+        el('p', undefined, `${found.reward.label}${quest ? ` · ${quest.title}` : ''}`),
+      );
+      this.body.appendChild(el('p', 'help', found.reward.description));
+    }
+  }
+
   private renderChapter(g: Game): void {
     const c = g.world.campaign!;
     const def = chapterDef(Math.min(c.chapter, 12));
@@ -116,6 +133,7 @@ export class Journal {
       this.body.appendChild(el('p', 'help', def.hint));
     }
     this.renderSideStories(g);
+    this.renderMemories(g);
     // Sable and Moss at a glance.
     const list = el('div', 'journal-cast');
     for (const id of [c.sableId, c.mossId]) {

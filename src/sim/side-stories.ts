@@ -1,7 +1,12 @@
 import type { Quest } from '../content/types';
 import { hatch } from './lifecycle';
 import { createEgg } from './nubbin';
+import { EARLY_RULES } from './side-rules-early';
+import { LATE_RULES } from './side-rules-late';
+import { MID_RULES } from './side-rules-mid';
+import { commandMeets, dawnSince, duskSince, type StoryRule, watchCheck } from './side-rule-kit';
 import { nextGrade } from './stats';
+import { grantRewards } from './story-rewards';
 import { sideStory } from './story-scenes';
 import {
   collectorRoute,
@@ -13,43 +18,23 @@ import {
   seen,
   wispSaved,
 } from './story-state';
-import type { CampaignState, SideStoryState, SimEvent, World } from './types';
+import type { CampaignState, Command, SideStoryState, SimEvent, World } from './types';
 import { newId, withRng } from './world';
 
 /**
- * The side-story runner. It drives the five stories the campaign waits on (S5, S9, S10,
- * S27 and S28): when each opens, when each step's scene may play, when each check is met,
- * which variant scene plays, and when an unfinished story closes. Scenes go through the
- * campaign queue, one at a time, and the dialogue box plays them like any other.
+ * The side-story runner. It drives every Grove side story: when each opens, when each
+ * step's scene may play, when each check is met, which variant scene plays, and when an
+ * unfinished story closes. Scenes go through the campaign queue, one at a time, and the
+ * dialogue box plays them like any other. The five stories the campaign waits on (S5, S9,
+ * S10, S27 and S28) are written here; the other 26 live in side-rules-early/mid/late.ts
+ * and share the kit in side-rule-kit.ts.
  *
- * Checks the sim can watch (a dusk passing, a race entered, chapter 12 arriving) are met
- * on their own. The rest (carry Fossil to the cliff, find the wire coil…) need places and
- * minigames that do not exist yet, so the journal offers the step as an action
- * (`sideAct`), which meets it. Each story's notes are the source for the rules below.
+ * Checks the sim can watch (a dusk passing, a talk, a race entered, chapter 12 arriving)
+ * are met on their own (`watchCheck`, `noteSideCommand`). The rest (carry Fossil to the
+ * cliff, find the wire coil…) need places and minigames that do not exist yet, so the
+ * journal offers the step as an action (`sideAct`), which meets it. Each story's notes
+ * are the source for the rules.
  */
-
-interface StoryRule {
-  id: string;
-  opens(world: World, c: CampaignState): boolean;
-  /** Close an open story unfinished (its window has passed). */
-  closes?(world: World, c: CampaignState, st: SideStoryState): boolean;
-  /** Jumps the notes allow (wishes lapsing, S9 skipping to the gate). */
-  adjust?(world: World, c: CampaignState, st: SideStoryState): void;
-  /** May step `i`'s scene play yet. Defaults to straight away. */
-  gate?(world: World, c: CampaignState, st: SideStoryState, i: number): boolean;
-  /** Scenes to play just before step `i`'s scene. */
-  before?(world: World, c: CampaignState, i: number): string[];
-  /** Step `i`'s check, met without the Keeper's action. */
-  auto?(world: World, c: CampaignState, st: SideStoryState, i: number): boolean;
-  /** Steps whose check only the sim can meet (no journal action). */
-  autoOnly?: number[];
-  completeGate?(world: World, c: CampaignState): boolean;
-  /** The scene to play in place of `scene`. */
-  variant?(world: World, c: CampaignState, scene: string): string;
-}
-
-const dawnSince = (w: World, st: SideStoryState) => w.timeMs >= nextDawn(st.sinceMs);
-const duskSince = (w: World, st: SideStoryState) => w.timeMs >= nextDusk(st.sinceMs);
 
 /** S9's family gate: two or more of six ties to the valley (canon 27). */
 export function familyCount(c: CampaignState): number {
@@ -225,7 +210,7 @@ const S9: StoryRule = {
 };
 
 /** In the order they are stepped. */
-const RULES: StoryRule[] = [S5, S27, S28, S10, S9];
+const RULES: StoryRule[] = [S5, S27, S28, S10, S9, ...EARLY_RULES, ...MID_RULES, ...LATE_RULES];
 const RULE_BY_ID = new Map(RULES.map((r) => [r.id, r]));
 
 /** The stories the runner drives, by quest id. */
@@ -260,6 +245,19 @@ export function sideAct(c: CampaignState, id: string): void {
 export function noteSideRace(c: CampaignState): void {
   const st = c.side.s10;
   if (st?.status === 'open' && st.step === 1 && st.stage === 'check') st.acted = true;
+}
+
+/**
+ * A Keeper command may be the very thing an open step waits for (a talk with the person
+ * named, a visit, a tap on a story prop). Called from applyCommand for every command.
+ */
+export function noteSideCommand(world: World, c: CampaignState, cmd: Command): void {
+  for (const rule of RULES) {
+    const st = c.side[rule.id];
+    if (!st || st.status !== 'open' || st.stage !== 'check' || st.acted) continue;
+    const step = sideStory(rule.id)?.steps[st.step];
+    if (step && commandMeets(step.check, cmd, world)) st.acted = true;
+  }
 }
 
 /** Advance one story by at most one queued scene. */
@@ -321,7 +319,12 @@ function stepOne(
       continue;
     }
     if (st.stage === 'check' && step) {
-      if (!st.acted && !(rule.auto?.(world, c, st, st.step) ?? false)) return;
+      if (
+        !st.acted &&
+        !(rule.auto?.(world, c, st, st.step) ?? false) &&
+        !watchCheck(world, c, st, step.check)
+      )
+        return;
       if (step.done) {
         if (!free()) return;
         const id = variantOf(world, c, rule, step.done.id);
@@ -354,6 +357,7 @@ function stepOne(
       if (st.pending && c.queue.includes(st.pending)) return;
       st.status = 'done';
       if (quest.sets) Object.assign(c.flags, quest.sets);
+      grantRewards(world, c, quest, events);
       events.push({ kind: 'sideStory', story: rule.id, status: 'done' });
       return;
     }

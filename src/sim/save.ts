@@ -6,7 +6,7 @@ import type { World } from './types';
 import { sanitizeMatureContent } from './audience';
 import { defaultSettings } from './world';
 
-export const SAVE_VERSION = 3;
+export const SAVE_VERSION = 4;
 
 export interface SaveFile {
   version: number;
@@ -62,6 +62,15 @@ export const MIGRATIONS: Array<(data: Record<string, unknown>) => Record<string,
       settings.matureContent ??= 'off';
       settings.riftConfirmed ??= false;
     }
+    return data;
+  },
+  // 3 → 4: story keepsakes and the fun-quest runner's state.
+  (data) => {
+    const world = data.world as Record<string, unknown> | undefined;
+    const inventory = world?.inventory as Record<string, unknown> | undefined;
+    if (inventory) inventory.keepsakes ??= [];
+    const campaign = world?.campaign as Record<string, unknown> | null | undefined;
+    if (campaign) campaign.fun ??= {};
     return data;
   },
 ];
@@ -121,8 +130,10 @@ export function validateWorld(w: World): World {
     dyes: {},
     toys: {},
     twine: 0,
+    keepsakes: [],
   };
   w.inventory.hats ??= [];
+  w.inventory.keepsakes ??= [];
   w.settings ??= defaultSettings();
   w.settings.offlineAging ??= defaultSettings().offlineAging;
   w.settings.matureContent = sanitizeMatureContent(w.settings.matureContent);
@@ -230,6 +241,7 @@ export function validateWorld(w: World): World {
     // the old script that no longer exist are dropped so the queue never stalls.
     const c = w.campaign;
     c.side ??= {};
+    c.fun ??= {};
     c.vigil ??= null;
     c.openedMs ??= null;
     c.goalMetMs ??= null;

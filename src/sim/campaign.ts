@@ -65,6 +65,7 @@ function freshState(nowMs: number): CampaignState {
       talks: 0,
     },
     side: {},
+    fun: {},
     vigil: null,
     openedMs: null,
     goalMetMs: null,

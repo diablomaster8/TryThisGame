@@ -29,6 +29,7 @@ import { stepFriendships } from './friendships';
 import { stepSeasons, racePrizeMultiplier, fruitIntervalMultiplier } from './seasons';
 import { stepAchievements } from './achievements';
 import { applyCampaignCommand, noteCampaign, stepCampaign } from './campaign';
+import { noteSideCommand } from './side-stories';
 import { stepNpcs } from './npcs';
 import { addRewards, buy } from './shop';
 import { SPECIES } from './species';
@@ -126,6 +127,7 @@ export function createWorld(seed: number, wallMs: number): World {
       dyes: {},
       toys: {},
       twine: 0,
+      keepsakes: [],
     },
     settings: defaultSettings(),
     memorials: [],
@@ -226,6 +228,8 @@ export function withRng<T>(world: World, fn: (rng: Rng) => T): T {
 export function applyCommand(world: World, cmd: Command, events: SimEvent[]): void {
   const start = events.length;
   applyCommandInner(world, cmd, events);
+  // A side-story step waiting on this very action (a talk, a visit, a tap) is met.
+  if (world.campaign) noteSideCommand(world, world.campaign, cmd);
   // Events from commands (a visit, a craft, a watering) count toward requests on the
   // next step, the same as events the step itself produces.
   if (events.length > start) queueQuestEvents(world, events.slice(start));
@@ -728,6 +732,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'debugChapter':
     case 'sideAct':
       applyCampaignCommand(world, cmd, events);
+      return;
+    case 'storyProp':
+      // Nothing to change in the world: the side-story runner reads it in applyCommand.
       return;
     case 'debugHatchNow': {
       const n = findNubbin(world, cmd.nubbinId);

@@ -23,7 +23,7 @@ import {
   Group,
   type Texture,
 } from 'three';
-import { DUNGEON, GROVE } from '../config/tuning';
+import { DUNGEON, GROVE, LANTERN_POSTS } from '../config/tuning';
 import type { GroveKind, Location, TileKind, WeatherKind } from '../sim/types';
 import { daylightAt, type Daylight } from './daylight';
 import { C, color } from './sprites/palette';
@@ -467,16 +467,7 @@ export class GroveScene {
     this.disposables.push(foamGeo, foamMat);
 
     // Lanterns: painted posts drawn by the view (tappable sprites); their light lives here.
-    (
-      [
-        [-4, 4],
-        [4, -3],
-        [9, 7],
-        [-8, -6],
-      ] as const
-    ).forEach(([x, z], i) => {
-      this.lanternSpots.push({ id: `lantern-${i + 1}`, x, z });
-    });
+    for (const { id, x, z } of LANTERN_POSTS) this.lanternSpots.push({ id, x, z });
     this.lanternLight = new PointLight(new Color(color(C.sunYellow)), 0, 14, 1.2);
     this.lanternLight.position.set(0, 2.5, 0);
     this.lanternLight.visible = false;
