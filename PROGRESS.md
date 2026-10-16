@@ -24,6 +24,21 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Longer strides in the species format (2026-10-16)
+
+New field `stride?: { length, period, duty }` on `SpeciesSpec` (row in
+`docs/species-format.md`). Jointed legs: `length` scales the step from one leg length, the
+hips crouch as far as its extremes need, `duty` is the planted share (below 0.5 a jog, less
+crouch). Unjointed legs (every Nubbin) now report the stride their hip swing really covers
+(2π · hip height · swing) and `length` widens the swing. `Rigged.strideLength` is in rig
+units now (gait.ts was undercounting any spec with `scale` ≠ 1, the Nubbin by 0.78).
+Keeper `{ 2.2, 0.7 s, 0.45 }`: 21% crouch, no slip, 2.45x its pace at KEEPER.speed (was
+6.2x, capped at 4), 3.5 Hz. Nubbin `{ length: 1.3 }`: 1.8x at walkSpeed (adults 1.6-1.7x).
+`maxCadence` stays 4: walking no longer reaches it, and Fennel (3.9x) needs it; the running
+Keeper (4.4x) and Mossling (5.6x) still cap. Checked with side-view renders and a foot-slip
+probe, not live in the Grove (the pane was hidden). Known: the pool's scale replaces
+`spec.scale`, so a Nubbin draws 1.28 tall, not `GROVE3D.nubbinHeight`.
+
 ## Part G8b: matching the "Chao World" line-up (2026-10-16)
 
 The reference is `docs/reference/chao-world-lineup.jpg` (the YouTube thumbnail, seven

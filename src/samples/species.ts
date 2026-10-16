@@ -229,6 +229,14 @@ export interface SpeciesSpec {
   ball?: { y: number; color: string; shape?: 'ball' | 'halo' | 'spikes'; glow?: string };
   /** Hip height: the body bobs from here. */
   hipY: number;
+  /**
+   * The walk's step: `length` scales how far the body advances per cycle (1 is one leg
+   * length, the default; for unjointed legs it widens the hip swing), `period` is the
+   * cycle in seconds (0.8 by default), `duty` the share of it a jointed foot is planted
+   * (0.6). Longer steps let a short-legged figure keep up with the sim at a sane cadence;
+   * jointed hips crouch as far as the extremes need, and a lower duty needs less.
+   */
+  stride?: { length?: number; period?: number; duty?: number };
   /** Radius of the contact shadow and the slope probe, in body units; from the torso box by default. */
   footprint?: number;
   /** Which reference frame or pass the species was last tuned against, for the next pass. */
@@ -271,9 +279,10 @@ export interface Rigged extends Creature {
   /** Turn to face a world yaw: eased over 0.4 s with a lean into the turn, not a snap. */
   face(yaw: number): void;
   /**
-   * How far the body advances per walk cycle, in world units, and how long a cycle
-   * takes in seconds: move the root by `strideLength / stridePeriod` per second while
-   * the pose is `walk` and the planted feet stay where they touched down.
+   * How far the body advances per walk cycle, in the rig's own units (times
+   * `group.scale` for world units), and how long a cycle takes in seconds: move the root
+   * by `strideLength * group.scale.x / stridePeriod` per second while the pose is `walk`
+   * and the planted feet stay where they touched down.
    */
   strideLength: number;
   stridePeriod: number;
@@ -1100,11 +1109,20 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
   // so the foot lands where asked; the hips crouch just enough that the extremes of the
   // step stay within reach of a straightened leg.
   const legLen = legs.reduce((m, l) => Math.max(m, l.l1 + l.l2), 0) || spec.hipY * 0.6;
+  const stepScale = spec.stride?.length ?? 1;
+  // Unjointed legs swing from the hip instead. At the bottom of the swing the foot moves
+  // at r·legSwing·2π per cycle (r the hip's height over the foot), so that is the stride.
+  const swingLegs =
+    legs.length || spider || hover ? [] : spec.parts.filter((p) => p.name.startsWith('leg'));
+  const legSwing = Math.min(1, 0.55 * stepScale);
+  const swingR = swingLegs.reduce((m, p) => m + p.pivot.y - footY, 0) / (swingLegs.length || 1);
   const stride = {
-    length: legLen * (spider ? 0.25 : 1),
-    period: spider ? 0.7 : 0.8,
+    length: swingLegs.length
+      ? 2 * Math.PI * swingR * legSwing
+      : legLen * (spider ? 0.25 : 1) * stepScale,
+    period: spec.stride?.period ?? (spider ? 0.7 : 0.8),
     lift: legLen * (spider ? 0.08 : 0.25),
-    duty: spider ? 0.5 : 0.6,
+    duty: spec.stride?.duty ?? (spider ? 0.5 : 0.6),
   };
   const WALK_BOB = 0.03;
   let crouch = 0;
@@ -1331,14 +1349,14 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
             set(n, 0, swing * 0.3 * side, side * Math.max(0, swing) * 0.4);
           }
         } else if (quad) {
-          set('legFL', s(w) * 0.55, 0, 0);
-          set('legBR', s(w) * 0.55, 0, 0);
-          set('legFR', -s(w) * 0.55, 0, 0);
-          set('legBL', -s(w) * 0.55, 0, 0);
+          set('legFL', s(w) * legSwing, 0, 0);
+          set('legBR', s(w) * legSwing, 0, 0);
+          set('legFR', -s(w) * legSwing, 0, 0);
+          set('legBL', -s(w) * legSwing, 0, 0);
           set('tail', 0.15, s(w * 0.5) * 0.3, 0);
         } else {
-          set('legL', s(w) * 0.55, 0, 0);
-          set('legR', -s(w) * 0.55, 0, 0);
+          set('legL', s(w) * legSwing, 0, 0);
+          set('legR', -s(w) * legSwing, 0, 0);
           set('armL', -s(w) * 0.4, 0, 0.15);
           set('armR', s(w) * 0.4, 0, -0.15);
         }
@@ -1583,7 +1601,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
     group: root,
     name: spec.name,
     bones,
-    strideLength: stride.length * spec.scale,
+    strideLength: stride.length,
     stridePeriod: stride.period,
     animate,
     lookAt: null,

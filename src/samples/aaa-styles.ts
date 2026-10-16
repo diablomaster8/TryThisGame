@@ -1175,7 +1175,7 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
   // the camera walks with it, and after a few units it starts the lap again.
   const lap = (r: Rigged, dt: number) => {
     const g = r.group;
-    const v = (r.strideLength / r.stridePeriod) * dt;
+    const v = ((r.strideLength * g.scale.x) / r.stridePeriod) * dt;
     g.position.x += Math.sin(g.rotation.y) * v;
     g.position.z += Math.cos(g.rotation.y) * v;
     if (g.position.x * g.position.x + g.position.z * g.position.z > 25) {

@@ -32,8 +32,9 @@ class GaitClock {
     let rate = rateScale;
     if (walking) {
       const natural = (rig.strideLength * rig.group.scale.x) / Math.max(0.05, rig.stridePeriod);
-      // Capped: the figures' strides are short for the sim's speeds (a Keeper walks at
-      // 6x its natural pace, a child at 9x), and past 4x the legs blur into a buzz.
+      // Capped, as past 4x the legs blur into a buzz. With their long strides (`stride` on
+      // the spec) a walking Keeper needs 2.5x and a Nubbin under 2x; the running Keeper
+      // and the short-legged roster (Fennel 3.9x, Mossling 5.6x) are what still reach it.
       if (natural > 1e-4) rate = Math.min(GROVE3D.maxCadence, Math.max(0.35, this.speed / natural));
     }
     this.clock += dt * rate;

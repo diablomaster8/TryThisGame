@@ -17,6 +17,8 @@ export const NUBBIN_SPEC: SpeciesSpec = {
   scale: 0.78,
   gait: 'biped',
   hipY: 0.74,
+  // A wider toddle than the stock swing, so a child keeps up with BEHAVIOR.walkSpeed.
+  stride: { length: 1.3 },
   blend: 0.22,
   surface: {
     detail: 'smooth',

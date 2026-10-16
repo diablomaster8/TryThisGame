@@ -385,6 +385,10 @@ export function keeperSpec(c: KeeperColors, name = 'Keeper'): SpeciesSpec {
     scale: 1,
     gait: 'biped',
     hipY: 1.0,
+    // Long, brisk strides: the Keeper covers KEEPER.speed at 3.5 cycles a second (2.45x
+    // this pace) instead of a 6x buzz. The jog's short stance keeps the knee bend to a
+    // fifth of the leg; at the stock 0.6 this stride crouches to over a third.
+    stride: { length: 2.2, period: 0.7, duty: 0.45 },
     blend: 0.14,
     surface: {
       detail: 'smooth',
