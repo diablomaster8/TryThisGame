@@ -10,7 +10,7 @@ import { CHILD, variant, type NubbinColors, type NubbinVariant } from './nubbin-
 
 type Palette = Partial<NubbinColors>;
 
-interface EggColour {
+export interface EggColour {
   name: string;
   body: string;
   crownShade: string;
@@ -20,7 +20,7 @@ interface EggColour {
   pad?: string;
 }
 
-const EGG_COLOURS: EggColour[] = [
+export const EGG_COLOURS: EggColour[] = [
   { name: 'sky', body: '#4a9be0', crownShade: '#2e5ca8', belly: '#8fd6f0' },
   { name: 'rose', body: '#e85a7a', crownShade: '#9e2b3f', belly: '#f7a3c2' },
   { name: 'mint', body: '#3fbfa8', crownShade: '#1e7a74', belly: '#e8e2ee' },
@@ -88,7 +88,7 @@ const entry = (
   ...(placeholder ? { placeholder } : {}),
 });
 
-const SHINY_FINISH = {
+export const SHINY_FINISH = {
   surface: { roughness: 0.3, clearcoat: 0.6, sheen: 1, sheenColor: '#ffffff' },
   ball: { glow: '#e0c060' },
   // A small pale star on the brow, the one hint mark a shiny wears.

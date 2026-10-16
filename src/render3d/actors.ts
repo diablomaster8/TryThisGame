@@ -5,6 +5,7 @@ import { emoteFor } from '../render/world-view';
 import type { PoseName, Rigged } from '../samples/species';
 import type { Item, Nubbin, Vec2, World } from '../sim/types';
 import { CreaturePool, keeperLook, nubbinLook, type Look } from './creature-pool';
+import { EGG_COLOURS } from '../samples/nubbin-variants-colour';
 import { stubOnce } from './stubs';
 
 /**
@@ -31,19 +32,6 @@ interface Actor {
   emote: THREE.Sprite;
   emoteShape: EmoteShape;
 }
-
-const EGG_COLORS: Record<string, string> = {
-  plain: '#f3efe2',
-  red: '#f08a7a',
-  blue: '#8ab8f0',
-  yellow: '#f0dc7a',
-  green: '#9ad08a',
-  pink: '#f0a0c8',
-  purple: '#b89af0',
-  black: '#4a4a58',
-  white: '#ffffff',
-  orange: '#f0b070',
-};
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
@@ -253,7 +241,9 @@ export class Actors {
   }
 
   private shell(stage: 'egg' | 'cocoon', n: Nubbin): THREE.Mesh {
-    const color = stage === 'egg' ? (EGG_COLORS[n.eggColor] ?? '#f3efe2') : '#d8c8f0';
+    // Egg colours are the Nubbin's colours for life, so the shell wears the body colour.
+    const egg = EGG_COLOURS.find((c) => c.name === n.eggColor);
+    const color = stage === 'egg' ? (egg?.body ?? '#f3efe2') : '#d8c8f0';
     const mesh = new THREE.Mesh(
       new THREE.SphereGeometry(0.42, 20, 16),
       new THREE.MeshPhysicalMaterial({
@@ -300,7 +290,6 @@ export class Actors {
     } else {
       actor.look = nubbinLook(n);
       this.tryRig(actor);
-      if (n.shiny || n.tone) stubOnce('look:shiny-or-tone', 'colour variants use the base look');
     }
     this.nubbins.set(n.id, actor);
     return actor;

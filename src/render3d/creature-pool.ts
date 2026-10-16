@@ -11,7 +11,8 @@ import { buildSpecies, type Rigged } from '../samples/species';
 import { ROSTER } from '../samples/species-roster';
 import { variantById } from '../samples/nubbin-variant-catalogue';
 import type { Keeper, Nubbin } from '../sim/types';
-import { specForKey } from './looks';
+import { speciesArt } from '../render/sprites/species-art';
+import { specForKey, tintMods } from './looks';
 import { SculptFarm } from './sculpt-farm';
 import { stubOnce } from './stubs';
 
@@ -31,14 +32,23 @@ export interface Look {
   height: number;
 }
 
-/** Which look a Nubbin wears: the child, a first evolution, or another line's species. */
+/** Which look a Nubbin wears: the child, an evolution, an Eternal, or another line's species. */
 export function nubbinLook(n: Nubbin): Look {
   const height = n.stage === 'adult' ? GROVE3D.adultHeight : GROVE3D.nubbinHeight;
+  const tints = tintMods(n);
   if (n.species !== 'chao') {
+    // Other lines keep their own colours; only the Shadow's grey reaches them.
+    const shade = n.shadow ? '~shadow' : '';
     const roster = ROSTER.find((s) => s.name.toLowerCase() === n.species.toLowerCase());
-    if (roster) return { key: `roster:${roster.name}`, height };
-    stubOnce(`species:${n.species}`, 'drawn as the base Nubbin');
-    return { key: 'nubbin', height };
+    if (roster) return { key: `roster:${roster.name}${shade}`, height };
+    const art = speciesArt(n.species);
+    if (art) return { key: `art:${n.species}${shade}`, height: GROVE3D.nubbinHeight * art.size };
+    stubOnce(`species:${n.species}`, 'no recipe; drawn as the base Nubbin');
+    return { key: `nubbin${shade}`, height };
+  }
+  if (n.stage === 'adult' && n.eternal) {
+    const id = `eternal-${n.eternal}`;
+    if (variantById(id)) return { key: `variant:${id}${tints}`, height };
   }
   if (n.stage === 'adult' && n.form) {
     const ids = [
@@ -47,15 +57,15 @@ export function nubbinLook(n: Nubbin): Look {
     ];
     for (const id of ids) {
       if (!id) continue;
-      const v = variantById(id);
-      if (v) return { key: `variant:${id}`, height };
+      if (variantById(id)) return { key: `variant:${id}${tints}`, height };
     }
     stubOnce(`form:${n.form.band}-${n.form.type}`, 'no variant found; base Nubbin');
-    return { key: 'nubbin', height };
+    return { key: `nubbin${tints}`, height };
   }
   const id = n.alignment > 0.25 ? 'child-sun' : n.alignment < -0.25 ? 'child-moon' : 'child';
-  const v = variantById(id);
-  return v ? { key: `variant:${id}`, height } : { key: 'nubbin', height };
+  return variantById(id)
+    ? { key: `variant:${id}${tints}`, height }
+    : { key: `nubbin${tints}`, height };
 }
 
 export function keeperLook(k: Keeper): Look {

@@ -40,6 +40,14 @@ every material in the Grove: the 500-900 ms hitch at every hatch). `?free` in Fu
 Keeper back from the workers in 1.5-2.7 s, rigs 100-220 ms on the page, worst frame after
 the first 227 ms (was 900 ms; the first frame's own compile is 650 ms). `?aaa=` stages still
 build synchronously.
+**Step 2a, looks.** Look keys take tint modifiers (`~egg:<colour>`, `~tone:<colour>`,
+`~shiny`, `~shadow`; `looks.ts`) that recolour any Nubbin spec the way the pixel
+`variantColors` does (Sun keeps a white belly, Moon a dark crown shade; shiny wears
+`SHINY_FINISH`); `~shadow` ashes any species. Eternals use `variant:eternal-<band>`; second
+evolutions already resolved. The pocket and digital lines sculpt from the pixel drawer's
+recipe (`render3d/art-species.ts`: plan, ears, crest, tail, arms, legs, wings, eyes, marks,
+palette), scaled by the recipe's size. Egg shells wear the egg colour. Shots
+`docs/samples/mode3d-forward-{species,tints}.jpg`.
 
 ## Special forms after the "Chao World" line-up (2026-10-16)
 
