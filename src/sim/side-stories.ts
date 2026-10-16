@@ -5,6 +5,7 @@ import { EARLY_RULES } from './side-rules-early';
 import { LATE_RULES } from './side-rules-late';
 import { MID_RULES } from './side-rules-mid';
 import { commandMeets, dawnSince, duskSince, type StoryRule, watchCheck } from './side-rule-kit';
+import { STORY } from '../config/tuning';
 import { nextGrade } from './stats';
 import { grantRewards } from './story-rewards';
 import { sideStory } from './story-scenes';
@@ -16,6 +17,7 @@ import {
   queueScene,
   sableBonded,
   seen,
+  seenAt,
   wispSaved,
 } from './story-state';
 import type { CampaignState, Command, SideStoryState, SimEvent, World } from './types';
@@ -242,6 +244,31 @@ export function sideAct(world: World, c: CampaignState, id: string): void {
   if (sideActable(world, c, id)) c.side[id]!.acted = true;
 }
 
+/**
+ * Chapter 10's opening waits for the three nights before the Long Night (S23's window,
+ * and S6's and S14's): three story dawns after c9-close, and longer while S23 is still
+ * moving, so an ignored S23 lapses and a played one is never cut off.
+ */
+export function sideHoldsOpening(world: World, c: CampaignState): boolean {
+  if (c.chapter !== 10) return false;
+  const closed = seenAt(c, 'c9-close');
+  if (closed === null) return false;
+  if (world.timeMs < nextDawn(closed) + (STORY.nightsBeforeLongNight - 1) * STORY.dayMs)
+    return true;
+  const s23 = c.side.s23;
+  return s23?.status === 'open' && world.timeMs < s23.sinceMs + 2 * STORY.dayMs;
+}
+
+/** A rule file asked the chapter machine to wait (the notes' "hold chapter N" rules). */
+export function sideHolds(world: World, c: CampaignState, what: 'next' | 'close'): boolean {
+  return RULES.some((rule) => {
+    const st = c.side[rule.id];
+    if (!st || st.status !== 'open') return false;
+    const hold = what === 'next' ? rule.holdsNext : rule.holdsClose;
+    return hold?.(world, c, st) ?? false;
+  });
+}
+
 /** A race was entered: S10's second wish. */
 export function noteSideRace(c: CampaignState): void {
   const st = c.side.s10;
@@ -300,12 +327,14 @@ function stepOne(
   for (let guard = 0; guard < 6; guard++) {
     const step = quest.steps[st.step];
     if (st.stage === 'wait' && step) {
-      if (!(rule.gate?.(world, c, st, st.step) ?? true) || !free()) return;
+      if (!free()) return;
+      // Scenes due before the step come first: its gate may wait on one of them.
       const extra = (rule.before?.(world, c, st.step) ?? []).filter((s) => !seen(c, s));
       if (extra.length > 0) {
         for (const s of extra) queueScene(c, s);
         return;
       }
+      if (!(rule.gate?.(world, c, st, st.step) ?? true)) return;
       const id = variantOf(world, c, rule, step.scene.id);
       st.stage = 'scene';
       st.pending = id;

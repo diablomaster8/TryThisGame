@@ -3,7 +3,7 @@ import { seen } from '../../src/sim/story-state';
 import { spawnNpc } from '../../src/sim/npcs';
 import { applyCommand } from '../../src/sim/world';
 import { c } from './campaign-driver';
-import { expectStoryDone, runUntil, status } from './side-driver';
+import { begun, expectStoryDone, runUntil, status } from './side-driver';
 
 /**
  * The side stories of chapters 3 to 5. For each: it is not open before its window, it
@@ -16,7 +16,7 @@ describe('early side stories: windows', () => {
     expect(status(r, 's21')).toBeUndefined();
     runUntil((w) => status(r, 's21') !== undefined || c(w).chapter >= 4, [], {}, r);
     expect(status(r, 's21')).toBe('open');
-    runUntil((w) => c(w).chapter >= 6, [], {}, r);
+    runUntil(begun(6), [], {}, r);
     expect(status(r, 's21')).toBe('closed');
     expect(c(r.world).flags.s21Done).toBeUndefined();
   });
@@ -25,7 +25,7 @@ describe('early side stories: windows', () => {
     const r = runUntil((w) => c(w).chapter >= 3 && c(w).step >= 1);
     runUntil((w) => status(r, 's25') !== undefined || c(w).chapter >= 4, [], {}, r);
     expect(status(r, 's25')).toBe('open');
-    runUntil((w) => c(w).chapter >= 9, [], {}, r);
+    runUntil(begun(9), [], {}, r);
     expect(status(r, 's25')).toBe('closed');
   });
 
@@ -34,7 +34,7 @@ describe('early side stories: windows', () => {
     expect(status(r, 's2')).toBeUndefined();
     runUntil((w) => status(r, 's2') !== undefined || c(w).chapter >= 4, [], {}, r);
     expect(status(r, 's2')).toBe('open');
-    runUntil((w) => c(w).chapter >= 8, [], {}, r);
+    runUntil(begun(8), [], {}, r);
     expect(status(r, 's2')).toBe('closed');
     expect(c(r.world).flags.wisp).toBeUndefined();
   });
@@ -45,10 +45,10 @@ describe('early side stories: windows', () => {
     expect(status(r, 's3')).toBeUndefined();
     runUntil((w) => seen(c(w), 'c4-close'), [], {}, r);
     runUntil(() => status(r, 's1') === 'open' && status(r, 's3') === 'open', [], {}, r);
-    runUntil((w) => c(w).chapter >= 10, [], {}, r);
+    runUntil(begun(10), [], {}, r);
     expect(status(r, 's1')).toBe('closed');
     expect(status(r, 's3')).toBe('open');
-    runUntil((w) => c(w).chapter >= 12, [], {}, r);
+    runUntil(begun(12), [], {}, r);
     expect(status(r, 's3')).toBe('closed');
   });
 
@@ -57,7 +57,7 @@ describe('early side stories: windows', () => {
     expect(status(r, 's29')).toBeUndefined();
     runUntil((w) => status(r, 's29') !== undefined || c(w).chapter >= 6, [], {}, r);
     expect(status(r, 's29')).toBe('open');
-    runUntil((w) => c(w).chapter >= 8, [], {}, r);
+    runUntil(begun(8), [], {}, r);
     expect(status(r, 's29')).toBe('closed');
   });
 
@@ -75,18 +75,18 @@ describe('early side stories: windows', () => {
     runUntil((w) => seen(c(w), 'c6-open'), [], {}, r);
     runUntil((w) => status(r, 's4') !== undefined || c(w).chapter >= 7, [], {}, r);
     expect(status(r, 's4')).toBe('open');
-    runUntil((w) => c(w).chapter >= 8, [], {}, r);
+    runUntil(begun(8), [], {}, r);
     for (const id of ['s4', 's11', 's15']) expect(status(r, id), id).toBe('closed');
   });
 });
 
 describe('early side stories: full runs', () => {
   it('S21 runs to its end', () => {
-    expectStoryDone('s21', {}, (w) => c(w).chapter >= 6);
+    expectStoryDone('s21', {}, begun(6));
   });
 
   it('S25 runs to its end; the kept toy plays the kept variants', () => {
-    const r = expectStoryDone('s25', { 's25-bundle': 'kept' }, (w) => c(w).chapter >= 9);
+    const r = expectStoryDone('s25', { 's25-bundle': 'kept' }, begun(9));
     const seenIds = c(r.world).seen;
     expect(seenIds).toContain('s25-shed-kept');
     expect(seenIds).toContain('s25-line');
@@ -95,14 +95,14 @@ describe('early side stories: full runs', () => {
   });
 
   it('S2 runs to its end and sets wisp from the night choice', () => {
-    const r = expectStoryDone('s2', { 's2-night': 'driven' }, (w) => c(w).chapter >= 8);
+    const r = expectStoryDone('s2', { 's2-night': 'driven' }, begun(8));
     expect(['spared', 'driven', 'sable']).toContain(c(r.world).flags.wisp);
     const complete = c(r.world).seen.filter((s) => s.startsWith('s2-complete'));
     expect(complete).toHaveLength(1);
   });
 
   it('S1 runs to its end after chapter 9 closes', () => {
-    const r = expectStoryDone('s1', {}, (w) => c(w).chapter >= 11);
+    const r = expectStoryDone('s1', {}, begun(11));
     expect(c(r.world).seen.indexOf('s1-cinder')).toBeGreaterThan(
       c(r.world).seen.indexOf('c9-close'),
     );
@@ -120,14 +120,14 @@ describe('early side stories: full runs', () => {
     expect(c(r.world).flags['s3-asked-sun']).toBe(true);
     expect(c(r.world).flags['s3-asked-moon']).toBe(true);
     runUntil((w) => c(w).side.s3!.step >= 1, [], {}, r);
-    expectStoryDone('s3', {}, (w) => c(w).chapter > 12, r);
+    expectStoryDone('s3', {}, begun(13), r);
     const seenIds = c(r.world).seen;
     expect(seenIds.indexOf('s3-stands')).toBeGreaterThan(seenIds.indexOf('c5-open'));
     expect(seenIds.indexOf('s3-moot')).toBeGreaterThan(seenIds.indexOf('c11-open'));
   });
 
   it('S29 runs to its end with the gift’s variants', () => {
-    const r = expectStoryDone('s29', { 's29-lessons-done': 'bell' }, (w) => c(w).chapter >= 8);
+    const r = expectStoryDone('s29', { 's29-lessons-done': 'bell' }, begun(8));
     const seenIds = c(r.world).seen;
     if (c(r.world).flags['s29-gift'] === 'bell') {
       expect(seenIds).toContain('s29-night-bell');
@@ -138,6 +138,6 @@ describe('early side stories: full runs', () => {
   });
 
   it('S4, S11 and S15 run to their ends before chapter 8', () => {
-    for (const id of ['s4', 's11', 's15']) expectStoryDone(id, {}, (w) => c(w).chapter >= 8);
+    for (const id of ['s4', 's11', 's15']) expectStoryDone(id, {}, begun(8));
   });
 });

@@ -44,7 +44,7 @@ export function runUntil(
       if (!s || s.status !== 'open') return false;
       // A queued scene always resolves; a wait or check gets a day from the later of the
       // step's start and the chapter's opening (the longest gap a note asks for), then on.
-      if (s.stage === 'scene' || s.stage === 'done' || s.stage === 'complete') return true;
+      if (s.pending !== null) return true;
       return w.timeMs < Math.max(s.sinceMs, st.openedMs ?? 0) + 2 * STORY.dayMs + 1000;
     });
   }
@@ -71,4 +71,9 @@ export function expectStoryDone(
   const played = c(r.world).seen.filter((s) => s.startsWith(id + '-')).length;
   expect(played, `${id}: scenes played`).toBeGreaterThanOrEqual(quest.steps.length);
   return r;
+}
+
+/** Chapter `n` has begun: its opening scene has played (the number alone can run ahead). */
+export function begun(n: number): (w: World) => boolean {
+  return (w) => c(w).chapter > n || (c(w).chapter === n && c(w).step >= 1);
 }

@@ -31,8 +31,10 @@ export interface StoryRule {
   note?(world: World, c: CampaignState, st: SideStoryState, i: number, cmd: Command): void;
   /** The scene to play in place of `scene`. */
   variant?(world: World, c: CampaignState, scene: string): string;
-  /** A hold on the chapter machine while the story is open (the chapter the notes name). */
-  holdsChapter?(world: World, c: CampaignState, st: SideStoryState): boolean;
+  /** Hold the next chapter's opening while this is true of the open story. */
+  holdsNext?(world: World, c: CampaignState, st: SideStoryState): boolean;
+  /** Hold this chapter's closing scene while this is true of the open story. */
+  holdsClose?(world: World, c: CampaignState, st: SideStoryState): boolean;
 }
 
 // ------------------------------------------------------------------ the story clock
@@ -110,11 +112,19 @@ export function openedToday(w: World, c: CampaignState, ...ids: string[]): boole
 export const inChapter = (c: CampaignState, a: number, b = a): boolean =>
   c.chapter >= a && c.chapter <= b;
 
+/**
+ * Chapter `n` has begun: its opening scene has played. The chapter number itself can
+ * move on earlier while the opening is held (the three nights before the Long Night).
+ */
+export function chapterBegun(c: CampaignState, n: number): boolean {
+  return c.chapter > n || (c.chapter === n && c.step >= 1);
+}
+
 /** The story closes unfinished once chapter `n` has begun. */
 export const closesAtChapter =
   (n: number) =>
   (_w: World, c: CampaignState): boolean =>
-    c.chapter >= n;
+    chapterBegun(c, n);
 
 /** The story closes unfinished once scene `id` has been seen. */
 export const closesAtScene =

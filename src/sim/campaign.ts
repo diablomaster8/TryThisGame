@@ -8,6 +8,8 @@ import { createEgg } from './nubbin';
 import {
   noteSideRace,
   sideAct,
+  sideHolds,
+  sideHoldsOpening,
   sideOpen,
   sideSceneDone,
   sideState,
@@ -267,7 +269,8 @@ export function s9HadItsChance(c: CampaignState): boolean {
 }
 
 /** Side stories that hold this chapter's closing scene. */
-function closingHeld(c: CampaignState): boolean {
+function closingHeld(world: World, c: CampaignState): boolean {
+  if (sideHolds(world, c, 'close')) return true;
   switch (c.chapter) {
     case 5: {
       // S5 must finish before c5-close: c6-open is Fossil's farewell.
@@ -282,7 +285,8 @@ function closingHeld(c: CampaignState): boolean {
 }
 
 /** Side stories that hold the start of the next chapter. */
-function nextChapterHeld(c: CampaignState): boolean {
+function nextChapterHeld(world: World, c: CampaignState): boolean {
+  if (sideHolds(world, c, 'next')) return true;
   switch (c.chapter) {
     case 8: {
       // S27 closes before chapter 9 opens; S28's autumn steps (1–10) hold c9-open.
@@ -373,6 +377,7 @@ function stepChapter(world: World, c: CampaignState, events: SimEvent[]): void {
   if (c.step === 0) {
     // Chapter 12 opens once S9's dawn gate scene has played.
     if (c.chapter === 12 && sideOpen(c, 's9')) return;
+    if (sideHoldsOpening(world, c)) return;
     if (!seen(c, def.opening)) {
       queueOpening(world, c);
       return;
@@ -383,7 +388,7 @@ function stepChapter(world: World, c: CampaignState, events: SimEvent[]): void {
   if (c.step === 1) {
     if (!goalMet(world, c)) return;
     c.goalMetMs ??= world.timeMs;
-    if (closingHeld(c)) return;
+    if (closingHeld(world, c)) return;
     c.step = 2;
     if (c.chapter === 10) {
       // The fellowship scene, then the vigil; c10-close comes at the end of the night.
@@ -420,7 +425,7 @@ function stepChapter(world: World, c: CampaignState, events: SimEvent[]): void {
     events.push({ kind: 'ending', ending });
     return;
   }
-  if (nextChapterHeld(c)) return;
+  if (nextChapterHeld(world, c)) return;
   // The opening queues on the next tick, once any side story due first has had its turn.
   beginChapter(world, c, c.chapter + 1, events);
 }

@@ -931,6 +931,10 @@ export const STORY = {
   lateNightAt: 0.95,
   /** A "sit with them a while" step takes this long on the story clock. */
   shortWaitMs: 20_000,
+  /** The nights between chapter 9's close and the Long Night (S23's three visitors). */
+  nightsBeforeLongNight: 3,
+  /** Story days in "a week later": a story day is two minutes, so a week is three. */
+  weekDays: 3,
   /** How near a lantern post counts as having walked Moss to it. */
   lanternReach: 2.5,
   /** Chapter 10's vigil: total lit time to reach dawn, and the waves of cold. */
