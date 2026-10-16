@@ -726,8 +726,11 @@ export class Grove3dScene {
       quad.dispose();
       this.compiled = true;
       this.warmed.add(this.lightSet());
-      // Then, in the background, the other places' sets: the Hollow Below's first.
-      void this.warm('cave').then(() => this.warm('plain'));
+      // Then, in the background, the other places' sets, the Hollow Below's first (a game
+      // that boots in a story place or a visit still needs the Grove's for the way home).
+      void this.warm('cave')
+        .then(() => this.warm('plain'))
+        .then(() => this.warm('grove'));
     });
   }
 
@@ -762,11 +765,13 @@ export class Grove3dScene {
     }
   }
 
-  /** Link `set`'s programs for everything outside the Grove's own props; once per set. */
+  /** Link `set`'s programs for everything it can show; once per set. */
   private warm(set: LightSet): Promise<void> {
     let p = this.warms.get(set);
     if (!p) {
-      const objects = this.scene.children.filter((c) => c !== this.world3d);
+      // Off the home ground the Grove's own props are hidden, so they are left out.
+      const objects =
+        set === 'grove' ? [this.scene] : this.scene.children.filter((c) => c !== this.world3d);
       p = this.compileAs(set, objects).then(() => void this.warmed.add(set));
       this.warms.set(set, p);
     }
