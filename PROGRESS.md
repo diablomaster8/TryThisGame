@@ -79,9 +79,9 @@ and horns; cyan-green crest) and six modelled looks (fox, echidna, rose, dream, 
 replace the four palette placeholders, so only the seven jewels remain placeholders (flat
 gloss). Tests: the tells, `mixHex`, and a geometry sanity sweep over all 116 variants.
 Screenshots re-shot: `variants-first.jpg`, `variants-second.jpg`, `variants-special.jpg`.
-Known: the hue blend at 0.4 is subtle on the Normal-based pairs; the Sun tells are pale by
-design and read best up close. Lint, 216 tests and `vite build` pass on this pass's files;
-`tsc` currently reports errors only in another session's unfinished `main.ts` and `render3d/`.
+Same day, at Maor's "fix it": the blend raised to 0.55 with the half-strength tells in the
+second type's own colour, and the Sun accents lifted only 10% toward white, so both read on
+the sheets; `variants-first.jpg` and `variants-second.jpg` re-shot. Lint, 216 tests and build pass.
 
 ## The Nubbin variants as specs (2026-10-15)
 

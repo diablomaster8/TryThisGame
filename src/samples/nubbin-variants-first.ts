@@ -56,8 +56,9 @@ export function bandColors(band: Band, hue: Hue): Pick<VariantOverrides, 'colors
       return { colors: { body, crownShade: shade, belly } };
     case 'sun':
       return {
-        accent: mixHex(body, WHITE, 0.35),
-        colors: { tip: mixHex(body, WHITE, 0.45), pad: body, crownShade: mixHex(body, WHITE, 0.7) },
+        // The references keep the Sun tells fairly saturated: only a light lift toward white.
+        accent: mixHex(body, WHITE, 0.1),
+        colors: { tip: mixHex(body, WHITE, 0.25), pad: body, crownShade: mixHex(body, WHITE, 0.5) },
       };
     case 'moon':
       return {
