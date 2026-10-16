@@ -174,27 +174,28 @@ function gogglesUp(glass: string, rim: string): { prims: Prim[]; marks: Mark[] }
   return { prims: parts, marks };
 }
 
-/** Crystal spikes for the Eternal Moon: faceted-looking cones with a faint glow. */
-function crystals(color: string): { head: Prim[]; torso: Prim[] } {
-  const c = (a: Prim['a'], b: Prim['a'], r: number): Prim => ({
-    ...cone(a, b, r, 0.03, color, 'spike', 0.05),
-    glow: 0.5,
-  });
-  return {
-    head: [
-      c(V(0, 2.4, -0.05), V(0, 3.35, -0.25), 0.3),
-      c(V(-0.45, 2.3, -0.2), V(-1.05, 2.8, -0.5), 0.2),
-      c(V(0.45, 2.3, -0.2), V(1.05, 2.8, -0.5), 0.2),
-      c(V(0, 2.2, -0.5), V(0, 2.6, -1.3), 0.22),
-      c(V(-0.6, 1.85, 0.25), V(-1.0, 1.75, 0.45), 0.13),
-      c(V(0.6, 1.85, 0.25), V(1.0, 1.75, 0.45), 0.13),
-    ],
-    torso: [
-      c(V(-0.55, 1.2, -0.25), V(-1.1, 1.65, -0.55), 0.17),
-      c(V(0.55, 1.2, -0.25), V(1.1, 1.65, -0.55), 0.17),
-      c(V(0, 0.9, -0.6), V(0, 1.25, -1.25), 0.17),
-    ],
-  };
+/** A crystal spike: a thin cone that glows a little, for the Eternal Moon's shoulders and feet. */
+const crystalSpike = (a: Prim['a'], b: Prim['a'], r: number, color: string, glow = 0.5): Prim => ({
+  ...cone(a, b, r, 0.03, color, 'spike', 0.04),
+  glow,
+});
+
+/** The cluster of lilac crystals the Eternal Moon stands in: four around each foot. */
+function footCrystals(color: string): Prim[] {
+  const out: Prim[] = [];
+  for (const dx of [-1, 1])
+    for (const [ox, oz, h] of [
+      [0.28, 0.1, 0.5],
+      [-0.28, 0.05, 0.42],
+      [0.05, 0.42, 0.34],
+      [0.0, -0.25, 0.46],
+    ] as const) {
+      const x = dx * 0.38 + ox;
+      out.push(
+        crystalSpike(V(x, 0.02, 0.2 + oz), V(x + ox * 0.8, h, 0.2 + oz * 1.1), 0.1, color, 0.7),
+      );
+    }
+  return out;
 }
 
 const chestMark = (color: string, y = 1.05, rx = 0.3) => ({
@@ -292,31 +293,87 @@ const ETERNAL_SUN = variant(SUN_ADULT, 'Nubbin (Eternal Sun)', {
   notes: 'Eternal Sun: pure white with a green cast, a swept two-cone crown, a halo.',
 });
 
+/** The Eternal Moon look's flats. */
+const MOON_BODY = '#2e2660';
+const MOON_DEEP = '#1c1640';
+const MOON_ICE = '#9aa8e8';
+const MOON_CREST = '#5468d0';
+const MOON_CRYSTAL = '#a860e0';
+
 const ETERNAL_MOON = variant(MOON_ADULT, 'Nubbin (Eternal Moon)', {
+  // Flat dark indigo armour, an icy crest and shoulder spikes, lilac crystals underfoot.
   colors: {
-    body: '#3a1a6a',
-    belly: '#5b2a8f',
-    tip: '#b08ae8',
-    pad: '#7a4fc0',
-    crownShade: '#1a0a30',
+    body: MOON_BODY,
+    belly: MOON_DEEP,
+    tip: MOON_BODY,
+    pad: MOON_BODY,
+    crownShade: MOON_BODY,
+    blush: MOON_BODY,
+    star: MOON_BODY,
     iris: '#e0562e',
-    wing: '#5b2a8f',
+    wing: MOON_BODY,
   },
-  crown: 'none',
-  ball: { shape: 'spikes', color: '#1a0a30', glow: '#7a4fc0' },
-  wings: { shape: 'bat', size: 2.0 },
-  eyes: { lid: 0.3 },
-  scale: 0.9,
+  // Small blue horns at the top corners of the head; the crest is painted between them.
+  crown: [-1, 1].map((dx) =>
+    cone(V(dx * 0.72, 2.45, -0.05), V(dx * 0.85, 2.85, -0.1), 0.13, 0.02, MOON_ICE, 'horn', 0.04),
+  ),
+  wings: null,
+  ball: { shape: 'spikes', color: '#2a1a60', glow: '#7a4fc0' },
+  slots: {
+    arms: [
+      gloveArm(-1, MOON_BODY, MOON_BODY, { y: 1.2, reach: 1.0, hand: 0.3 }),
+      gloveArm(1, MOON_BODY, MOON_BODY, { y: 1.2, reach: 1.0, hand: 0.3 }),
+    ],
+  },
+  hints: [
+    // White oval eyes under the closed arcs.
+    ...[-1, 1].map((dx) => ({
+      kind: 'ellipsoid' as const,
+      a: V(dx * 0.42, 2.0, 0.82),
+      radii: V(0.24, 0.32, 0.2),
+      color: WHITE,
+      soft: 0.01,
+    })),
+    // The blue crest down the middle of the head, and the pale bat-shaped chest mark.
+    {
+      kind: 'ellipsoid' as const,
+      a: V(0, 2.65, 0.45),
+      radii: V(0.3, 0.55, 0.5),
+      color: MOON_CREST,
+      soft: 0.01,
+    },
+    {
+      kind: 'ellipsoid' as const,
+      a: V(0, 1.12, 0.62),
+      radii: V(0.36, 0.14, 0.14),
+      color: '#c8d8f0',
+      soft: 0.01,
+    },
+  ],
+  headScale: 1.15,
+  eyes: { x: 0.42, y: 2.0, r: 0.24, tall: 1.4, lidColor: WHITE, brow: false },
+  mouth: { shape: 'o', width: 0.07, y: 1.66, z: 1.0, line: '#6a1a2a' },
   surface: { ...GLASS, glowStrength: 1.4 },
   patch: (spec) => {
-    const c = crystals('#b08ae8');
-    spec.head.prims.push(...c.head);
-    spec.torso.prims.push(...c.torso);
-    widen(spec.head, { x: 1.4, z: -1.5 });
-    widen(spec.torso, { x: 1.4, z: -1.5 });
+    const dome = spec.head.prims.find((p) => p.tag === 'head')!;
+    dome.a.set(0, 2.0, 0);
+    dome.radii!.set(1.1, 0.85, 0.95);
+    spec.shade = { top: 1.0, bottom: 0.94, yMax: 3.5 };
+    // Icy spikes out of the shoulders, two a side, and the crystals round the feet.
+    spec.torso.prims.push(
+      ...[-1, 1].flatMap((dx) => [
+        crystalSpike(V(dx * 0.62, 1.2, -0.1), V(dx * 1.1, 1.55, -0.15), 0.15, MOON_ICE),
+        crystalSpike(V(dx * 0.62, 1.05, -0.2), V(dx * 1.05, 1.1, -0.35), 0.12, MOON_ICE),
+      ]),
+      ...footCrystals(MOON_CRYSTAL),
+    );
+    widen(spec.head, { x: 1.5, z: -1.2 });
+    widen(spec.torso, { x: 1.5, z: -1.2 });
     dress(spec, { chunky: 1.2 });
   },
-  notes: 'Eternal Moon: deep purple with glowing lilac crystal spikes, slanted eyes, bat wings.',
+  notes:
+    'Line-up figure 7 (Part G8b): dark indigo armour, a blue crest and small horns, white oval ' +
+    'eyes, icy shoulder spikes, a pale chest mark, a spiked ball and lilac crystals underfoot.',
 });
 
 /** The Eternal Neutral look's flats. */
