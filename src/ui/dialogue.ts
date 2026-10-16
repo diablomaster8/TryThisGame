@@ -13,6 +13,7 @@ import { renderDo, renderLineText, renderOptions, speakLine, stopSpeaking } from
 import { frameKey } from '../render/sprites/animations';
 import type { SpriteSheet } from '../render/sprites/atlas';
 import { button, el } from './dom';
+import { SceneReplayGuard } from './scene-replay-guard';
 
 /**
  * The story dialogue box: portrait, name, typewriter text, tap to advance, choices.
@@ -43,6 +44,8 @@ export class Dialogue {
   private external: ((choice: string | null) => void) | null = null;
   /** Names for the side save's own speakers. */
   private names: Record<string, string> = {};
+  /** Holds back a scene whose `sceneDone` the sim has not applied yet. */
+  private readonly replayGuard = new SceneReplayGuard();
 
   constructor(
     parent: HTMLElement,
@@ -89,6 +92,11 @@ export class Dialogue {
 
   get isOpen(): boolean {
     return !this.root.hidden;
+  }
+
+  /** Whether the campaign queue head may be played now; call it on every queue check. */
+  shouldPlay(head: string | undefined): boolean {
+    return this.replayGuard.shouldPlay(head);
   }
 
   /** Show a scene by id. The sim is told when it is done. */
@@ -176,12 +184,14 @@ export class Dialogue {
       external(choice);
       return;
     }
-    if (g && scene)
+    if (g && scene) {
+      this.replayGuard.markFinished(scene);
       g.send({
         kind: 'sceneDone',
         scene,
         choice: playing ? choiceToSend(playing, choice) : choice,
       });
+    }
     if (scene?.startsWith('end-')) {
       const ending = ENDINGS[scene.slice(4)];
       this.endTitle.textContent = STORY_TEXT.endingReached(ending?.title ?? scene);

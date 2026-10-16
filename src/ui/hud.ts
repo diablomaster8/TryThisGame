@@ -556,6 +556,7 @@ export function mountHud(
       if (kindergarten.isOpen() && Math.random() < 0.1) kindergarten.refresh();
       const next = c?.queue[0];
       if (
+        dialogue.shouldPlay(next) &&
         next &&
         !dialogue.isOpen &&
         !away.isOpen &&
