@@ -914,3 +914,22 @@ export const DUNGEON = {
   crystalReach: 4,
   lampReach: 4.5,
 } as const;
+
+/**
+ * The campaign's story clock (sim/campaign.ts, sim/side-stories.ts). The sim has no
+ * time of day of its own, so a story day is a fixed span of sim time: dawn at its start,
+ * dusk at `duskAt` of the way through. "The next dusk" is the next such point.
+ */
+export const STORY = {
+  dayMs: 120_000,
+  duskAt: 0.75,
+  /** Chapter 10's vigil: total lit time to reach dawn, and the waves of cold. */
+  vigilMs: 90_000,
+  /** Fractions of the vigil at which a wave blows a lantern out (stream, then long grass). */
+  vigilWaves: [0.3, 0.65],
+  vigilLullAt: 0.5,
+  /** Which lantern post each wave blows out (assumed mapping; the scene only names them). */
+  vigilWaveLanterns: ['lantern-2', 'lantern-4'],
+  /** Shells Corvin asks in S27's buy-back, the same as c9-open's bargain. */
+  buyBackShells: 200,
+} as const;

@@ -391,6 +391,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
         });
         if (cmd.rival) addRecruit(world, cmd.rival.name, cmd.rival.species, events);
       }
+      noteCampaign(world, 'raceEntered');
       if (cmd.hat) world.inventory.hats.push(cmd.hat);
       if (cmd.placement === 1) {
         world.races[cmd.course] = Math.max(world.races[cmd.course] ?? 0, cmd.tier);
@@ -719,6 +720,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'talk':
     case 'lightLantern':
     case 'debugChapter':
+    case 'sideAct':
       applyCampaignCommand(world, cmd, events);
       return;
     case 'debugHatchNow': {

@@ -2,6 +2,111 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Part G8b: matching the "Chao World" line-up (2026-10-16)
+
+The reference is `docs/reference/chao-world-lineup.jpg` (the YouTube thumbnail, seven
+figures left to right: quills, echidna, fox, dream, Eternal Neutral, shade, Eternal Moon).
+Steps, newest first, one commit each:
+
+**Split `nubbin-variants-special.ts` (no behaviour change).** The 1,132-line file is now three:
+`nubbin-lineup-kit.ts` (394 lines: the shared helpers, exported), `nubbin-variants-lineup.ts`
+(511: the six line-up looks as `LINEUP_LOOKS`) and `nubbin-variants-special.ts` (286: Eternals,
+Shadow, and `SPECIAL_VARIANTS` spreading the looks in the same order). Checked by serialising all
+ten variants (ids, order, every field, `patch` source) before and after: identical. Lint, tests
+(228 pass) and build pass; the line-up URL still renders as `match-lineup.jpg` with no console
+errors. Nothing stubbed, no new bugs. Commit c193b3c. The section "3D load: sculpt spec, geometry
+cache, device grid, loading bar" (2026-10-16) moved to `docs/progress-archive.md` to keep this
+file under 150 lines.
+
+5. **The group shot** (`docs/samples/match-lineup.jpg`, plain stage). Two small stage flags:
+   `&ids=a,b,c` in `sheetVariants` lines up exactly those variants (reversed inside, since the
+   camera looks along +z and x runs right to left on screen, so the list reads left to right as
+   written) and `&eye` puts a sheet's camera at the figures' eye height. View:
+   `?aaa=1&creature=variants&ids=look-quills,look-echidna,look-fox,look-dream,eternal-neutral,look-shade,eternal-moon&toon&pose=happy&turn=29&eye`.
+   Reads as the reference's line-up; the fox's eyes are shut by the happy pose (open in the
+   thumbnail), and the stage's pastel grass and sky stay as the brief kept them. (The split of
+   `nubbin-variants-special.ts` this slice flagged is done; see the entry at the top.)
+4f. **eternal-moon against slice 7** (`docs/samples/match-eternal-moon.jpg`). Flat indigo
+   `#2e2660` armour, a blue crest panel down the crown between two small icy horns, white oval
+   eyes under the happy arcs, icy shoulder spikes, a pale chest mark, a spiked ball, and lilac
+   crystals standing round the feet (`crystalSpike` with glow, `footCrystals`, new; they replace
+   `crystals`). No wings (the thumbnail has none). Still differs: the thumbnail's armour is
+   a plated, textured surface with blue highlights where ours is flat indigo; its raised fists
+   and wide shoulder spikes read clearly, ours are lost in the hop; its foot crystals are a
+   dense jagged ring, ours a few cones; the crystals' glow does not show in toon mode.
+4e. **look-shade against slice 6** (`docs/samples/match-shade.jpg`). A near-black `#2c2a34` cat
+   suit (a little lifted so the toon bands show), tall pointed ears with grey inner cones
+   (`catEar`, new), three white spikes standing up behind the crown, white oval eyes with the
+   white slash over the left, a small red mouth, arms folded across the chest (`foldedArm`,
+   new), a white collar with a lilac diamond, white shoes on black legs, a spiked grey ball.
+   Not the brief's cheek tufts: the thumbnail has none. Still differs: the thumbnail's
+   figure is leaning and three-quarter, ours faces front; its ears are shorter and set
+   further apart; the diamond is a rotated square, ours a lilac oval; the crown spikes sit
+   at the back in the thumbnail, ours stand on top; the grey of the ball is lost (stage ball).
+4d. **eternal-neutral against slice 5** (`docs/samples/match-eternal-neutral.jpg`). A flat lime
+   `#7ee02c` dragon with a yellow-green belly patch, salmon hands and toes (marks on the feet),
+   a small crown spike and two small horns tipped salmon, white oval eyes with the happy ^
+   (white marks under the arcs, as in the dream look), a gold chain (a torus collar plus a row
+   of beads), no wings, scale back to the template's (the Eternals' 0.9 only made the stage
+   crop the figure). `gloveArm` gained `hand` (glove size) and became a function declaration:
+   the Eternals run `variant()` at import, before a `const` further down the file exists.
+   Still differs: the chain should drape across the chest in a U, ours is a collar; the thumbnail
+   body is wider and flatter with arms held out, ours has a rounder body and the happy pose
+   drops the arms; the toes' gradient from green to pink is a soft mark; the pink ball is
+   cropped (and the stage's ball is glassy); no scale ridges on the belly.
+4c. **look-dream against slice 4** (`docs/samples/match-dream.jpg`). Again not the brief's jester
+   point: the figure is a flat magenta `#a82a8c` with an onion-shaped head (a wide dome and a
+   narrow cone melted into it), tiny ear points, a gold horn on the forehead, big white oval eyes
+   with the happy ^ across them (white ellipsoid marks under the arcs), a dark smudge on the
+   belly, grey studded bracers (`braceletArm`, new), arms out and long pointed teardrop legs, no
+   shoes. Still differs: the thumbnail's peak is lower and its head broader and flatter-bottomed;
+   our ball is the stage's glassy pearl, not the reference's black one (the spec colour does
+   not reach its material); the bracers' studs are two gold beads, not a row; the happy hop
+   tilts the figure, which the still thumbnail does not.
+4b. **look-fox against slice 3** (`docs/samples/match-fox.jpg`, idle pose: the reference's eyes are open
+   and our happy pose shuts them). The line-up's third figure is not the orange fox the brief
+   described: it is a black hood edged by a pink V over a cream face, big navy eyes, an orange
+   crown with a white stripe, goggles pushed up on the right, an orange vest with black sides
+   and a gold bell, white gloves and cream shoes; the look follows the image. New:
+   `gogglesUp` (rim, glass, highlight, as prims and as marks), the V as short capsule marks that
+   follow the dome (a straight chord cuts inside the skin and paints nothing; marks paint
+   every surface, so the goggle marks are re-laid after the hood), eyes with a cream `lidColor`.
+   Still differs: the hood's top is a flat black mass where the thumbnail shows orange and
+   white stripes; the V is thinner and the cream chin shorter; no hood side flaps; our eyes
+   keep the glossy sky catchlight; the twin tails are kept (not visible from the front).
+4a. **look-echidna against slice 2** (`docs/samples/match-echidna.jpg`). Crimson `#b8344f`; head
+   ×1.2 with a wide low dome (1.12 × 0.8 × 0.92), a white muzzle ellipsoid, five white tuft
+   spikes (the crown slot; `crownShade` white so the baked crown ring does not stain them),
+   `bigEar` (new: a pale disc over a body-coloured lobe), a green `halo` ball, a white belly
+   patch with a green dot, `gloveArm` (new `y`, `reach`) and `mechLegs` (new `size`) with white
+   shoes. Still differs: no headband (the reference has none; the brief's was a misread of the
+   tuft); the eyes are our dark arcs, the thumbnail's are pale crescents; the ears sit a little
+   wider and rounder; the gloves hang where the happy pose drops them, the reference's are raised.
+3. **look-quills against slice 1** (`docs/samples/match-quills.jpg`, stage left, reference
+   right). New in the format: `headScale` on `variant()` grows everything above the neck about
+   the head's pivot (primitives, box, eyes, mouth, ball, ears, marks) before the `eyes`,
+   `mouth` and `patch` overrides; `eyes.brow: false` leaves the brow ridge off; `mouth.line`
+   is the toon line colour for a mouth (the painted red `o`). The look: head ×1.25 and the
+   dome reshaped wider than tall (radii 1.0 × 0.8 × 0.9), eyes r 0.34 with no brows, a
+   peach muzzle ellipsoid raised off the face, the quill ball as five rounded cones in a
+   darker navy with underside shade marks (`quillCluster`, `quillShades`) plus yellow ear
+   tips, the body a small ball held clear of the legs with the mech emblem (yellow ring,
+   dark disc) on the belly patch, arms straight out ending in glove balls with a cuff ball
+   (`gloveArm`), mech lower legs as grey capsules with a red torus ring under red shoes a
+   third larger with the white stripe as a flattened ellipsoid standing proud of the top
+   (`mechLegs`), and a flat baked shade (top 1.0, bottom 0.94). Toon lighting fix found
+   here by zeroing each light in turn from the console: the sky's environment map carries
+   the sun disc, so even a twentieth of it washed every flat to pastel and no band showed;
+   the toon shader now drops `lights_fragment_maps` (no image-based light at all; the
+   material's `envMapIntensity` made no difference), the sun alone draws the bands (lit
+   0.95, shade 0.62 below a 0.3 dot product, nothing from lights behind the surface) and
+   the hemisphere light is the fill. Still differs from the reference: the dome's top is
+   rounder than the line-up's flattened one; the quill ball sits on the dome rather than
+   behind it; the closed happy eyes are our dark arcs where the thumbnail shows white
+   crescents; the emblem is a disc, not a hexagon; the ball above the head stays (the
+   reference crops it); the muzzle's edge is softer than the flat-shaded original.
+1–2. Toon stage mode (`&toon`) and the reference overlay (`&ref`): moved to `docs/progress-archive.md`.
+
 ## 3D boot: textures in workers, programs compiled ahead (2026-10-16)
 
 Works: the Grove's ten painted textures paint in workers (`render3d/surface-worker.ts`,

@@ -538,6 +538,40 @@ export interface CampaignState {
   sableId: string | null;
   mossId: string | null;
   stats: CampaignStats;
+  /** Side stories the runner drives (sim/side-stories.ts), by quest id. */
+  side: Record<string, SideStoryState>;
+  /** Chapter 10's timed vigil; null until it starts. */
+  vigil: VigilState | null;
+  /** Sim time the current chapter's opening was seen, and its goal first seen met. */
+  openedMs: number | null;
+  goalMetMs: number | null;
+}
+
+/** One side story's progress. Steps are 0-based indexes into the quest's steps. */
+export interface SideStoryState {
+  status: 'open' | 'done' | 'closed';
+  step: number;
+  /**
+   * wait: the step's scene waits for its gate; scene: it is queued; check: waiting for
+   * the step's check; done: the done scene is queued; complete: the complete scene is.
+   */
+  stage: 'wait' | 'scene' | 'check' | 'done' | 'complete';
+  /** The scene id (after variant choice) the stage waits on. */
+  pending: string | null;
+  /** Sim time the story opened, and the time the current stage began. */
+  openedMs: number;
+  sinceMs: number;
+  /** The Keeper did the step's action (the journal's "do it" for checks the sim can't watch). */
+  acted: boolean;
+}
+
+/** Hold the four lanterns until dawn: progress only runs while all four are lit. */
+export interface VigilState {
+  progressMs: number;
+  /** Waves of cold already through (each blows a lantern out). */
+  waves: number;
+  lull: boolean;
+  done: boolean;
 }
 
 export interface World {
@@ -662,6 +696,8 @@ export type Command =
   | { kind: 'talk'; npcId: string }
   | { kind: 'lightLantern'; id: string }
   | { kind: 'debugChapter'; chapter: number }
+  /** Do the current step of a side story (journal button; see sim/side-stories.ts). */
+  | { kind: 'sideAct'; story: string }
   | { kind: 'giveHeartFruit'; nubbinId: string }
   | { kind: 'startLesson'; nubbinId: string; lesson: LessonId }
   | { kind: 'payService'; service: 'doctor' | 'fortune'; nubbinId: string }
@@ -778,6 +814,8 @@ export type SimEvent =
   | { kind: 'chapter'; chapter: number }
   | { kind: 'ending'; ending: string }
   | { kind: 'lanternLit'; id: string }
+  | { kind: 'lanternOut'; id: string }
+  | { kind: 'sideStory'; story: string; status: 'open' | 'done' | 'closed' }
   | { kind: 'talked'; npcId: string }
   | { kind: 'courting'; nubbinId: string }
   | { kind: 'bred'; eggId: string; parents: [string, string] }

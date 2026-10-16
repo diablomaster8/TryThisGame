@@ -1026,7 +1026,8 @@ button,
   cursor: pointer;
 }
 
-.dialogue.narration .dialogue-box {
+.dialogue.narration .dialogue-box,
+.dialogue.chorus .dialogue-box {
   grid-template-columns: 1fr auto;
   font-style: italic;
 }
@@ -1038,7 +1039,8 @@ button,
   align-self: end;
 }
 
-.dialogue.narration .dialogue-portrait {
+.dialogue.narration .dialogue-portrait,
+.dialogue.chorus .dialogue-portrait {
   display: none;
 }
 

@@ -1,7 +1,7 @@
 import { TRAINER_LABELS } from '../config/strings';
-import { ENDINGS, SPEAKERS, STORY_TEXT, UNDERSTUDY, type Line, type Mood } from '../config/story';
+import { ENDINGS, SPEAKERS, STORY_TEXT, type Line, type Mood } from '../config/story';
 import type { Game } from '../game';
-import { sceneById } from '../sim/campaign';
+import { sceneFor } from '../sim/story-scenes';
 import { frameKey } from '../render/sprites/animations';
 import type { SpriteSheet } from '../render/sprites/atlas';
 import { button, el } from './dom';
@@ -76,8 +76,8 @@ export class Dialogue {
 
   /** Show a scene by id. The sim is told when it is done. */
   play(sceneId: string): void {
-    const scene = sceneById(sceneId);
     const g = this.game();
+    const scene = g ? sceneFor(g.world, sceneId) : undefined;
     if (!scene || !g) return;
     this.scene = sceneId;
     this.lines = scene.lines;
@@ -95,7 +95,7 @@ export class Dialogue {
     this.showLine();
   }
 
-  private showChoices(choices: NonNullable<ReturnType<typeof sceneById>>['choices']): void {
+  private showChoices(choices: NonNullable<ReturnType<typeof sceneFor>>['choices']): void {
     this.choices.innerHTML = '';
     this.next.hidden = true;
     for (const c of choices ?? []) {
@@ -155,11 +155,18 @@ export class Dialogue {
     const line = this.lines[this.index];
     const g = this.game();
     if (!line || !g) return;
-    const who = resolveSpeaker(line.who, g.world.trainer);
+    const who = line.who;
+    const chorus = who === 'chorus';
     this.name.textContent = speakerName(who, g);
     this.name.hidden = who === 'narrator';
     this.root.classList.toggle('narration', who === 'narrator');
-    this.drawPortrait(who, g, line.mood ?? 'neutral');
+    // The chorus (everyone singing) has no portrait and is shown in italics.
+    this.root.classList.toggle('chorus', chorus);
+    this.drawPortrait(
+      chorus ? 'narrator' : resolveSpeaker(who, g.world.trainer),
+      g,
+      line.mood ?? 'neutral',
+    );
     this.fullText = line.text;
     this.shown = 0;
     this.text.textContent = '';
@@ -210,11 +217,9 @@ export class Dialogue {
   }
 }
 
-/** The player's Keeper is "you"; a Keeper the player is playing hands their lines to an understudy. */
+/** Whose portrait a line shows: "you" wears the player's chosen Keeper; everyone else is themselves. */
 export function resolveSpeaker(who: string, playerTrainer: string): string {
-  if (who === 'you') return playerTrainer;
-  if (who === playerTrainer) return UNDERSTUDY[who] ?? 'fern';
-  return who;
+  return who === 'you' ? playerTrainer : who;
 }
 
 export function speakerName(who: string, g: Game): string {
@@ -233,9 +238,9 @@ function portraitFrame(
   mood: Mood,
 ): { sheet: SpriteSheet | null; key: string } {
   const sheets = g.view.sheets;
-  if (who === 'moss' || who === 'sable') {
+  if (who === 'moss' || who === 'sable' || who === 'wisp') {
     const c = g.world.campaign;
-    const id = who === 'moss' ? c?.mossId : c?.sableId;
+    const id = who === 'moss' ? c?.mossId : who === 'sable' ? c?.sableId : null;
     const n = id ? g.world.nubbins.find((x) => x.id === id) : undefined;
     const clip = mood === 'happy' || mood === 'soft' ? 'happy' : mood === 'sad' ? 'sad' : 'idle';
     if (n) return { sheet: sheets.forNubbin(n), key: frameKey(clip, 'front', 0) };

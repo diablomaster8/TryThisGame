@@ -1,0 +1,403 @@
+import type { Quest } from '../content/types';
+import { hatch } from './lifecycle';
+import { createEgg } from './nubbin';
+import { nextGrade } from './stats';
+import { sideStory } from './story-scenes';
+import {
+  collectorRoute,
+  mossInWorld,
+  nextDawn,
+  nextDusk,
+  queueScene,
+  sableBonded,
+  seen,
+  wispSaved,
+} from './story-state';
+import type { CampaignState, SideStoryState, SimEvent, World } from './types';
+import { newId, withRng } from './world';
+
+/**
+ * The side-story runner. It drives the five stories the campaign waits on (S5, S9, S10,
+ * S27 and S28): when each opens, when each step's scene may play, when each check is met,
+ * which variant scene plays, and when an unfinished story closes. Scenes go through the
+ * campaign queue, one at a time, and the dialogue box plays them like any other.
+ *
+ * Checks the sim can watch (a dusk passing, a race entered, chapter 12 arriving) are met
+ * on their own. The rest (carry Fossil to the cliff, find the wire coil…) need places and
+ * minigames that do not exist yet, so the journal offers the step as an action
+ * (`sideAct`), which meets it. Each story's notes are the source for the rules below.
+ */
+
+interface StoryRule {
+  id: string;
+  opens(world: World, c: CampaignState): boolean;
+  /** Close an open story unfinished (its window has passed). */
+  closes?(world: World, c: CampaignState, st: SideStoryState): boolean;
+  /** Jumps the notes allow (wishes lapsing, S9 skipping to the gate). */
+  adjust?(world: World, c: CampaignState, st: SideStoryState): void;
+  /** May step `i`'s scene play yet. Defaults to straight away. */
+  gate?(world: World, c: CampaignState, st: SideStoryState, i: number): boolean;
+  /** Scenes to play just before step `i`'s scene. */
+  before?(world: World, c: CampaignState, i: number): string[];
+  /** Step `i`'s check, met without the Keeper's action. */
+  auto?(world: World, c: CampaignState, st: SideStoryState, i: number): boolean;
+  /** Steps whose check only the sim can meet (no journal action). */
+  autoOnly?: number[];
+  completeGate?(world: World, c: CampaignState): boolean;
+  /** The scene to play in place of `scene`. */
+  variant?(world: World, c: CampaignState, scene: string): string;
+}
+
+const dawnSince = (w: World, st: SideStoryState) => w.timeMs >= nextDawn(st.sinceMs);
+const duskSince = (w: World, st: SideStoryState) => w.timeMs >= nextDusk(st.sinceMs);
+
+/** S9's family gate: two or more of six ties to the valley (canon 27). */
+export function familyCount(c: CampaignState): number {
+  const f = c.flags;
+  return [
+    f.corvin === 'reconciled',
+    Boolean(f.s3Done),
+    Boolean(f.s6Done),
+    Boolean(f.s8Done),
+    f.millLetter === 'kept',
+    Boolean(f.visitors),
+  ].filter(Boolean).length;
+}
+
+/** The S10 foot-of-the-hill scene: m (Moss can walk), s (Sable), c (Corvin), in order. */
+export function s10FootScene(world: World, c: CampaignState): string {
+  const tag = [
+    mossInWorld(c) ? 'm' : '',
+    sableBonded(world, c) ? 's' : '',
+    c.flags.corvinGate === 'family' ? 'c' : '',
+  ].join('');
+  return tag ? `s10-foot-${tag}` : 's10-foot';
+}
+
+const S5: StoryRule = {
+  id: 's5',
+  // The first morning after c5-open.
+  opens: (w, c) => c.chapter === 5 && c.openedMs !== null && w.timeMs >= nextDawn(c.openedMs),
+  closes: (_w, c) => c.chapter > 5,
+  // Step 4: sit with them until dark.
+  auto: (w, _c, st, i) => i === 3 && duskSince(w, st),
+  autoOnly: [3],
+};
+
+const S27: StoryRule = {
+  id: 's27',
+  // Simplified: the Circuit visit after c5-close is chapter 6 onwards.
+  opens: (_w, c) => c.chapter >= 6 && c.chapter <= 8 && seen(c, 'c5-close'),
+  // c8-close with the homecoming (step 11) not done closes it unfinished.
+  closes: (_w, c, st) => seen(c, 'c8-close') && st.step <= 10,
+  gate: (w, c, st, i) => {
+    if (i === 2) return dawnSince(w, st); // s27-wait: the next Circuit visit, a day later
+    if (i === 4 || i === 6) return duskSince(w, st); // the two nights at the pens
+    if (i === 8) return seen(c, 'c7-open'); // the Autumn Show
+    if (i === 11) return typeof c.flags.wisp === 'string' || c.chapter >= 8; // the egg sac
+    return true;
+  },
+  // Step 5: be at the pens at first light.
+  auto: (w, _c, st, i) => i === 4 && dawnSince(w, st),
+  autoOnly: [4],
+  variant: (_w, c, scene) => {
+    const sold = Boolean(c.flags['s27-sold']);
+    if (sold && scene === 's27-row') return 's27-row-sold';
+    if (sold && scene === 's27-words') return 's27-words-sold';
+    if (sold && scene === 's27-letgo') return 's27-home';
+    if (sold && scene === 's27-gate') return 's27-gate-sold';
+    if (scene === 's27-midnight' && c.flags['s27-truth'] === 'shield') return 's27-midnight-shield';
+    if (scene === 's27-carry') {
+      if (wispSaved(c)) return 's27-carry-wisp';
+      if (c.flags.s21Done) return 's27-carry-clank';
+    }
+    return scene;
+  },
+};
+
+const S28: StoryRule = {
+  id: 's28',
+  opens: (_w, c) => c.chapter === 8 && seen(c, 'c8-nova'),
+  closes: (_w, c) => c.chapter >= 12,
+  gate: (w, c, st, i) => {
+    if (i === 0) return w.timeMs >= nextDawn(st.openedMs); // the morning after the notebook
+    if (i === 4) return dawnSince(w, st); // elevenses, the first morning after step 4
+    // Steps 11–13: the second morning after the Long Night.
+    if (i === 10)
+      return c.chapter === 11 && c.openedMs !== null && w.timeMs >= nextDawn(c.openedMs);
+    return true;
+  },
+  variant: (_w, c, scene) => {
+    const f = c.flags;
+    const column = f['s28-column'];
+    if (scene === 's28-logged' && column === 'unverified') return 's28-logged-unverified';
+    if (scene === 's28-logged' && column === 'none') return 's28-logged-none';
+    if (scene === 's28-bench' && f.s8Reunited) return 's28-bench-bramble';
+    if (scene === 's28-why' && f['s28-told'] === false) return 's28-why-untold';
+    if (scene === 's28-grue-back' && f['s28-offer'] === 'weed') return 's28-grue-back-weed';
+    if (scene === 's28-grue-back' && f['s28-offer'] === 'stare') return 's28-grue-back-stare';
+    if (scene === 's28-complete' && column === 'unverified') return 's28-complete-unverified';
+    if (scene === 's28-complete' && column === 'none') return 's28-complete-none';
+    // s28-null-minder needs S7's Minder, which no runner tracks yet: s28-null plays.
+    return scene;
+  },
+};
+
+const S10: StoryRule = {
+  id: 's10',
+  // Hazel's first evening home.
+  opens: (w, c) => c.chapter === 11 && c.openedMs !== null && w.timeMs >= nextDusk(c.openedMs),
+  closes: (_w, c) => c.chapter > 12,
+  adjust: (_w, c, st) => {
+    // Wishes still open on the eve of chapter 12 lapse; step 4's scene plays anyway.
+    if (st.step < 3 && (seen(c, 'c11-close') || c.chapter >= 12)) {
+      st.step = 3;
+      st.stage = 'wait';
+      st.pending = null;
+    }
+  },
+  gate: (w, c, st, i) => {
+    if (i === 1 || i === 2) return dawnSince(w, st); // later chapter 11 days
+    if (i === 3) {
+      // The eve of chapter 12: after c11-close, and after c11-gate when it plays.
+      const gateDue = seen(c, 's9-ask') && !c.flags.keptStone;
+      return seen(c, 'c11-close') && (!gateDue || seen(c, 'c11-gate'));
+    }
+    return true;
+  },
+  // Step 2's race is reported by noteSideRace; step 4 is the walk after c12-open.
+  auto: (_w, c, _st, i) =>
+    i === 3 &&
+    c.chapter === 12 &&
+    seen(c, 'c12-open') &&
+    (typeof c.flags.hazel !== 'string' || seen(c, 'c12-foot-told') || seen(c, 'c12-foot-secret')),
+  autoOnly: [1, 3],
+  completeGate: (_w, c) => seen(c, 'c12-close'),
+  variant: (w, c, scene) => {
+    const told = c.flags.hazel === 'told';
+    if (scene === 's10-lanterns' && c.flags.keptStone) return 's10-lanterns-kept';
+    if (scene === 's10-night' && told) return 's10-night-told';
+    if (scene === 's10-letter' && told) return 's10-letter-told';
+    if (scene === 's10-foot-msc') return s10FootScene(w, c);
+    return scene;
+  },
+};
+
+const S9: StoryRule = {
+  id: 's9',
+  // Hazel's second evening home, and only once the stone has been unmade.
+  opens: (w, c) =>
+    c.chapter === 11 &&
+    !c.flags.keptStone &&
+    c.openedMs !== null &&
+    w.timeMs >= nextDusk(nextDusk(c.openedMs)),
+  closes: (_w, c) => Boolean(c.flags.keptStone),
+  adjust: (w, c, st) => {
+    // An ignored S9 never holds chapter 11: still on step 1 or 2 at the dusk after
+    // threeFriends (and after S9 opened), c11-close plays, c11-gate is skipped, and S9
+    // jumps to its dawn gate scene.
+    if (st.step >= 2) return;
+    // Waiting at the gate for step 2's dusk: that dusk is s9-ask, not a jump.
+    if (seen(c, 's9-ask')) return;
+    if (st.step === 1 && (st.stage === 'check' || st.stage === 'done') && c.chapter === 11) return;
+    const since = Math.max(c.goalMetMs ?? Infinity, st.openedMs);
+    if (c.chapter >= 12 || (c.chapter === 11 && w.timeMs >= nextDusk(since))) {
+      st.step = 2;
+      st.stage = 'check';
+      st.pending = null;
+      st.acted = false;
+      c.flags.s9Jumped = true;
+    }
+  },
+  before: (_w, c, i) => (i === 1 && c.flags.millLetter === 'kept' ? ['s13-letter-given'] : []),
+  gate: (_w, c, _st, i) => i !== 1 || c.flags.millLetter !== 'kept' || seen(c, 's13-letter-given'),
+  auto: (w, c, st, i) => {
+    // Step 2: the next dusk, offered only once threeFriends is met.
+    if (i === 1)
+      return c.goalMetMs !== null && w.timeMs >= nextDusk(Math.max(st.sinceMs, c.goalMetMs));
+    // Step 3: chapter 12's first light.
+    if (i === 2) return c.chapter >= 12;
+    return false;
+  },
+  autoOnly: [1, 2],
+  variant: (_w, c, scene) =>
+    scene === 's9-gate' && familyCount(c) >= 2 ? 's9-gate-family' : scene,
+};
+
+/** In the order they are stepped. */
+const RULES: StoryRule[] = [S5, S27, S28, S10, S9];
+const RULE_BY_ID = new Map(RULES.map((r) => [r.id, r]));
+
+/** The stories the runner drives, by quest id. */
+export const RUNNER_STORIES = RULES.map((r) => r.id);
+
+export function sideState(c: CampaignState, id: string): SideStoryState | undefined {
+  return c.side[id];
+}
+
+export function sideOpen(c: CampaignState, id: string): boolean {
+  return c.side[id]?.status === 'open';
+}
+
+function variantOf(world: World, c: CampaignState, rule: StoryRule, scene: string): string {
+  return rule.variant?.(world, c, scene) ?? scene;
+}
+
+/** Can the journal offer step `st.step` as an action now. */
+export function sideActable(c: CampaignState, id: string): boolean {
+  const st = c.side[id];
+  const rule = RULE_BY_ID.get(id);
+  if (!st || !rule || st.status !== 'open' || st.stage !== 'check' || st.acted) return false;
+  return !(rule.autoOnly ?? []).includes(st.step);
+}
+
+/** The Keeper does the current step (the journal's button). */
+export function sideAct(c: CampaignState, id: string): void {
+  if (sideActable(c, id)) c.side[id]!.acted = true;
+}
+
+/** A race was entered: S10's second wish. */
+export function noteSideRace(c: CampaignState): void {
+  const st = c.side.s10;
+  if (st?.status === 'open' && st.step === 1 && st.stage === 'check') st.acted = true;
+}
+
+/** Advance one story by at most one queued scene. */
+function stepOne(
+  world: World,
+  c: CampaignState,
+  rule: StoryRule,
+  quest: Quest,
+  events: SimEvent[],
+): void {
+  let st = c.side[rule.id];
+  if (!st) {
+    if (!rule.opens(world, c)) return;
+    st = {
+      status: 'open',
+      step: 0,
+      stage: 'wait',
+      pending: null,
+      openedMs: world.timeMs,
+      sinceMs: world.timeMs,
+      acted: false,
+    };
+    c.side[rule.id] = st;
+    if (rule.id === 's27') c.flags['s27-sold'] = collectorRoute(c);
+    events.push({ kind: 'sideStory', story: rule.id, status: 'open' });
+  }
+  if (st.status !== 'open') return;
+  if (rule.closes?.(world, c, st)) {
+    st.status = 'closed';
+    events.push({ kind: 'sideStory', story: rule.id, status: 'closed' });
+    return;
+  }
+  rule.adjust?.(world, c, st);
+  const now = world.timeMs;
+  const free = () => c.queue.length === 0;
+  // A few transitions per tick; stop once something is queued.
+  for (let guard = 0; guard < 6; guard++) {
+    const step = quest.steps[st.step];
+    if (st.stage === 'wait' && step) {
+      if (!(rule.gate?.(world, c, st, st.step) ?? true) || !free()) return;
+      const extra = (rule.before?.(world, c, st.step) ?? []).filter((s) => !seen(c, s));
+      if (extra.length > 0) {
+        for (const s of extra) queueScene(c, s);
+        return;
+      }
+      const id = variantOf(world, c, rule, step.scene.id);
+      st.stage = 'scene';
+      st.pending = id;
+      st.sinceMs = now;
+      if (queueScene(c, id)) return;
+      continue;
+    }
+    if (st.stage === 'scene') {
+      if (st.pending && c.queue.includes(st.pending)) return;
+      st.stage = 'check';
+      st.pending = null;
+      st.sinceMs = now;
+      st.acted = false;
+      continue;
+    }
+    if (st.stage === 'check' && step) {
+      if (!st.acted && !(rule.auto?.(world, c, st, st.step) ?? false)) return;
+      if (step.done) {
+        if (!free()) return;
+        const id = variantOf(world, c, rule, step.done.id);
+        st.stage = 'done';
+        st.pending = id;
+        st.sinceMs = now;
+        if (queueScene(c, id)) return;
+        continue;
+      }
+      st.stage = 'done';
+      st.pending = null;
+      continue;
+    }
+    if (st.stage === 'done') {
+      if (st.pending && c.queue.includes(st.pending)) return;
+      st.step += 1;
+      st.pending = null;
+      st.sinceMs = now;
+      st.acted = false;
+      st.stage = st.step < quest.steps.length ? 'wait' : 'complete';
+      continue;
+    }
+    if (st.stage === 'complete') {
+      if (st.pending === null) {
+        if (!(rule.completeGate?.(world, c) ?? true) || !free()) return;
+        const id = variantOf(world, c, rule, quest.complete.id);
+        st.pending = id;
+        if (queueScene(c, id)) return;
+      }
+      if (st.pending && c.queue.includes(st.pending)) return;
+      st.status = 'done';
+      if (quest.sets) Object.assign(c.flags, quest.sets);
+      events.push({ kind: 'sideStory', story: rule.id, status: 'done' });
+      return;
+    }
+    return;
+  }
+}
+
+/** Once a sim second, after the chapter machine. */
+export function stepSideStories(world: World, c: CampaignState, events: SimEvent[]): void {
+  for (const rule of RULES) {
+    const quest = sideStory(rule.id);
+    if (quest) stepOne(world, c, rule, quest, events);
+  }
+}
+
+/** World side effects of side-story scenes (the buy-back lives in campaign.ts). */
+export function sideSceneDone(world: World, c: CampaignState, scene: string): void {
+  if (scene === 's5-gift') {
+    // Fossil's secret wish: the youngest Nubbin's Stamina grade goes up one, for good.
+    const youngest = world.nubbins
+      .filter((n) => n.id !== c.mossId && n.id !== c.sableId && n.stage !== 'egg')
+      .sort((a, b) => a.ageMs - b.ageMs)[0];
+    if (youngest) {
+      youngest.stats.stamina.grade = nextGrade(youngest.stats.stamina.grade);
+      youngest.gradeUpgrades.stamina = (youngest.gradeUpgrades.stamina ?? 0) + 1;
+    }
+  }
+  if (scene === 's27-letgo') {
+    // The runner path: Nine arrives at the gate as a grey stray you can take in.
+    const name =
+      typeof c.flags['s27-nine-name'] === 'string' && c.flags['s27-nine-name']
+        ? c.flags['s27-nine-name']
+        : 'Tansy';
+    withRng(world, (rng) => {
+      const nine = createEgg(newId(world, 'nub'), { x: 0, z: 0 }, rng, 'plain');
+      nine.name = name;
+      hatch(nine, [], world.timeMs);
+      nine.stage = 'adult';
+      nine.stageMs = 0;
+      nine.shadow = true;
+      nine.trust = 20;
+      nine.typeLean.run += 50;
+      nine.stats.run.points += 300;
+      world.strays.push({ nubbin: nine, leftAtMs: world.timeMs, returnsAtMs: world.timeMs });
+    });
+  }
+}

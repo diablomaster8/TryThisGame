@@ -2,6 +2,8 @@ import { TRAINER_LABELS } from '../config/strings';
 import { CHAPTERS, ENDINGS, SPEAKERS, STORY_TEXT } from '../config/story';
 import type { Game } from '../game';
 import { chapterDef, goalMet } from '../sim/campaign';
+import { RUNNER_STORIES, sideActable } from '../sim/side-stories';
+import { sideStory } from '../sim/story-scenes';
 import { button, el, modal } from './dom';
 
 /** The campaign journal: chapter, goal and hint, friends, and the Paths page of endings. */
@@ -64,6 +66,41 @@ export class Journal {
     else this.renderChapter(g);
   }
 
+  /** The side stories the runner drives: each open story's current step. */
+  private renderSideStories(g: Game): void {
+    const c = g.world.campaign!;
+    const open = RUNNER_STORIES.filter((id) => c.side[id]?.status === 'open');
+    if (open.length === 0) return;
+    this.body.appendChild(el('div', 'btn-name', STORY_TEXT.sideStories));
+    for (const id of open) {
+      const quest = sideStory(id);
+      const st = c.side[id]!;
+      const step = quest?.steps[Math.min(st.step, (quest?.steps.length ?? 1) - 1)];
+      if (!quest || !step) continue;
+      this.body.appendChild(el('p', undefined, `${quest.title}: ${step.goal}`));
+      // S18 lent the register to the museum; Delve has brought it back.
+      const hint =
+        id === 's10' && st.step === 0 && c.flags['s18-centre'] === 'register'
+          ? STORY_TEXT.registerOnLoan
+          : step.hint;
+      this.body.appendChild(el('p', 'help', hint));
+      if (sideActable(c, id)) {
+        this.body.appendChild(
+          button(
+            STORY_TEXT.doStep,
+            () => {
+              g.send({ kind: 'sideAct', story: id });
+              this.refresh();
+            },
+            'btn btn-small',
+          ),
+        );
+      } else if (st.stage === 'check') {
+        this.body.appendChild(el('p', 'help', STORY_TEXT.waitStep));
+      }
+    }
+  }
+
   private renderChapter(g: Game): void {
     const c = g.world.campaign!;
     const def = chapterDef(Math.min(c.chapter, 12));
@@ -78,6 +115,7 @@ export class Journal {
       this.body.appendChild(el('div', 'btn-name', STORY_TEXT.hint));
       this.body.appendChild(el('p', 'help', def.hint));
     }
+    this.renderSideStories(g);
     // Sable and Moss at a glance.
     const list = el('div', 'journal-cast');
     for (const id of [c.sableId, c.mossId]) {

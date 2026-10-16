@@ -1,4 +1,5 @@
 import { GROVE, OFFLINE, TREES, TRUST } from '../config/tuning';
+import { sceneById } from './story-scenes';
 import { createWeather } from './weather';
 import { npcHome } from './npcs';
 import type { World } from './types';
@@ -211,6 +212,16 @@ export function validateWorld(w: World): World {
   w.strays ??= [];
   w.npcs ??= [];
   w.campaign ??= null;
+  if (w.campaign) {
+    // Campaign v2: side-story progress, the vigil and the chapter's timings; scenes from
+    // the old script that no longer exist are dropped so the queue never stalls.
+    const c = w.campaign;
+    c.side ??= {};
+    c.vigil ??= null;
+    c.openedMs ??= null;
+    c.goalMetMs ??= null;
+    c.queue = c.queue.filter((id) => sceneById(id) !== undefined);
+  }
   w.grove ??= 'main';
   w.races ??= {};
   w.trainer ??= 'fern';

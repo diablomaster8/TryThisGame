@@ -1,32 +1,43 @@
 import { hasRoom } from './roster';
-import { CHAPTERS, SCENES, type Choice, type Scene } from '../config/story';
-import { GROVE, TRUST } from '../config/tuning';
+import { CHAPTERS, type Choice } from '../config/story';
+import { GROVE, STORY, TRUST } from '../config/tuning';
+import { endingScenes, followUps, openingFor, walkScene } from './campaign-routes';
 import { hatch } from './lifecycle';
 import { npcNear, removeNpc, spawnNpc } from './npcs';
 import { createEgg } from './nubbin';
+import {
+  noteSideRace,
+  sideAct,
+  sideOpen,
+  sideSceneDone,
+  sideState,
+  stepSideStories,
+} from './side-stories';
+import { sceneById } from './story-scenes';
+import { collectorRoute, queueScene, sableOf, seen } from './story-state';
 import { TRAINERS } from './trainers';
-import type { CampaignState, Command, Location, Nubbin, SimEvent, World } from './types';
+import type { CampaignState, Command, Location, SimEvent, World } from './types';
 import { newId, uniqueName, withRng } from './world';
 
 /**
  * The campaign state machine. Chapters open with a scene, wait for a goal, and close
  * with a scene. Scenes are queued here and shown by the UI, which answers with
- * `sceneDone`. Triggers (a Nubbin going Shadow, Sable bonding) queue extra scenes.
- * The ending is decided from flags when chapter 12 closes. Pure sim: no DOM, no
- * randomness outside the world's Rng.
+ * `sceneDone`; what follows each scene comes from campaign-routes.ts. Triggers (a Nubbin
+ * going Shadow, Sable bonding) queue extra scenes. Side stories the campaign waits on
+ * (side-stories.ts) can hold a chapter's close or the next chapter's start. The ending
+ * is decided from flags when chapter 12 closes. Pure sim: no DOM, no randomness outside
+ * the world's Rng.
  */
 
-const SCENE_BY_ID = new Map<string, Scene>(SCENES.map((s) => [s.id, s]));
-
-export function sceneById(id: string): Scene | undefined {
-  return SCENE_BY_ID.get(id);
-}
+export { sceneById };
 
 export function chapterDef(n: number) {
   return CHAPTERS.find((c) => c.n === n);
 }
 
 export const FINAL_CHAPTER = 12;
+
+const LANTERNS = ['lantern-1', 'lantern-2', 'lantern-3', 'lantern-4'];
 
 function freshState(nowMs: number): CampaignState {
   return {
@@ -53,13 +64,11 @@ function freshState(nowMs: number): CampaignState {
       lanterns: 0,
       talks: 0,
     },
+    side: {},
+    vigil: null,
+    openedMs: null,
+    goalMetMs: null,
   };
-}
-
-function queue(c: CampaignState, scene: string): void {
-  if (!SCENE_BY_ID.has(scene)) return;
-  if (c.queue.includes(scene) || c.seen.includes(scene)) return;
-  c.queue.push(scene);
 }
 
 /** Begin (or restart) the campaign in this world. */
@@ -92,12 +101,15 @@ export function startCampaign(world: World, events: SimEvent[]): void {
     c.mossId = moss.id;
   });
   beginChapter(world, c, 1, events);
+  queueOpening(world, c);
 }
 
 function beginChapter(world: World, c: CampaignState, n: number, events: SimEvent[]): void {
   c.chapter = n;
   c.step = 0;
   c.chapterStartMs = world.timeMs;
+  c.openedMs = null;
+  c.goalMetMs = null;
   const def = chapterDef(n);
   if (!def) return;
   switch (n) {
@@ -139,6 +151,7 @@ function beginChapter(world: World, c: CampaignState, n: number, events: SimEven
       c.flags.mossFaded = !moss || moss.needs.affection < 40;
       for (const k of Object.keys(c.flags)) if (k.startsWith('lantern:')) delete c.flags[k];
       c.flags.lanternsRound = 2;
+      c.vigil = null;
       removeNpc(world, 'corvin');
       break;
     }
@@ -149,8 +162,20 @@ function beginChapter(world: World, c: CampaignState, n: number, events: SimEven
     default:
       break;
   }
-  queue(c, def.opening);
   events.push({ kind: 'chapter', chapter: n });
+}
+
+/**
+ * Queue the chapter's opening (or its variant, marking the plain id seen so the
+ * chapter machine moves on once the variant has played).
+ */
+function queueOpening(world: World, c: CampaignState): void {
+  const def = chapterDef(c.chapter);
+  if (!def || seen(c, def.opening) || c.queue.includes(def.opening)) return;
+  const { before, opening } = openingFor(c, c.chapter, def.opening);
+  for (const s of before) queueScene(c, s);
+  queueScene(c, opening);
+  if (opening !== def.opening) c.seen.push(def.opening);
 }
 
 function spawnSable(world: World, c: CampaignState): void {
@@ -172,10 +197,6 @@ function spawnSable(world: World, c: CampaignState): void {
   });
 }
 
-function sable(world: World, c: CampaignState): Nubbin | undefined {
-  return c.sableId ? world.nubbins.find((n) => n.id === c.sableId) : undefined;
-}
-
 function lanternsLit(c: CampaignState): number {
   return Object.keys(c.flags).filter((k) => k.startsWith('lantern:') && c.flags[k]).length;
 }
@@ -188,11 +209,11 @@ function talkedThisChapter(c: CampaignState): number {
 const GOALS: Record<string, (world: World, c: CampaignState) => boolean> = {
   firstHatch: (_w, c) => c.stats.hatched >= 1 && c.stats.pets >= 1,
   feedTwice: (_w, c) => c.stats.feeds >= 2,
-  sableTrust20: (w, c) => (sable(w, c)?.trust ?? 0) >= 20,
+  sableTrust20: (w, c) => (sableOf(w, c)?.trust ?? 0) >= 20,
   lanternsAndMoss: (_w, c) => lanternsLit(c) >= 4 && Boolean(c.flags.mossPetted),
   winRace: (_w, c) => c.stats.races >= 1,
   talkDusty: (_w, c) => Boolean(c.flags[`talked:6:dusty`]),
-  sableTrust45: (w, c) => (sable(w, c)?.trust ?? 0) >= 45,
+  sableTrust45: (w, c) => (sableOf(w, c)?.trust ?? 0) >= 45,
   expedition: (_w, c) => c.stats.expeditions >= 1,
   notebook: (_w, c) => Boolean(c.flags.notebookFound),
   corvinChoice: (_w, c) => typeof c.flags.corvin === 'string',
@@ -208,24 +229,80 @@ export function goalMet(world: World, c: CampaignState): boolean {
   return GOALS[def.goal]?.(world, c) ?? false;
 }
 
-/** Which ending the flags add up to. Checked when chapter 12 closes. */
+/**
+ * Moss has faded: his affection was under 40 when chapter 10 began, or he carried the
+ * stone into the Wellspring and did not come back out.
+ */
+export function mossFaded(c: CampaignState): boolean {
+  if (c.flags.mossFaded) return true;
+  return c.flags.stoneUnmadeBy === 'moss' && c.flags.mossReturned !== true;
+}
+
+/** Which ending the flags add up to, in the bible's order. Checked when chapter 12 closes. */
 export function endingFor(world: World, c: CampaignState): string {
-  const s = sable(world, c);
+  const s = sableOf(world, c);
   const bonded = Boolean(s?.bond);
-  if (c.flags.soldNubbin && !c.flags.boughtBack) return 'collector';
+  if (collectorRoute(c) || c.flags.keptStone) return 'collector';
   if (!s) return 'empty-lantern';
   if (c.flags.eternalRaised && bonded) return 'eternal-dawn';
   if (c.flags.freedByForce && c.flags.letThemGo) return 'wild-grove';
-  if (bonded && c.flags.corvin === 'reconciled' && !c.flags.mossFaded) return 'hazels-grove';
-  if (bonded && c.flags.mossFaded) return 'moss-sleeps';
+  // Either final choice: "Open" plays a body variant (endingScenes).
+  if (bonded && c.flags.corvin === 'reconciled' && !mossFaded(c)) return 'hazels-grove';
+  if (bonded && mossFaded(c)) return 'moss-sleeps';
   if (bonded) return 'shadow-keeper';
   return 'long-road';
+}
+
+/**
+ * S9 has had its chance, so chapter 11 may close: s9-ask and s9-word have played, or S9
+ * jumped to its dawn gate scene, or it cannot run (the stone was kept).
+ */
+export function s9HadItsChance(c: CampaignState): boolean {
+  if (c.flags.keptStone) return true;
+  const st = sideState(c, 's9');
+  if (!st) return false;
+  return st.status !== 'open' || (st.step >= 2 && st.stage !== 'wait' && st.stage !== 'scene');
+}
+
+/** Side stories that hold this chapter's closing scene. */
+function closingHeld(c: CampaignState): boolean {
+  switch (c.chapter) {
+    case 5: {
+      // S5 must finish before c5-close: c6-open is Fossil's farewell.
+      const st = sideState(c, 's5');
+      return !st || st.status === 'open';
+    }
+    case 11:
+      return !s9HadItsChance(c);
+    default:
+      return false;
+  }
+}
+
+/** Side stories that hold the start of the next chapter. */
+function nextChapterHeld(c: CampaignState): boolean {
+  switch (c.chapter) {
+    case 8: {
+      // S27 closes before chapter 9 opens; S28's autumn steps (1–10) hold c9-open.
+      if (sideOpen(c, 's27')) return true;
+      const s28 = sideState(c, 's28');
+      return !s28 || (s28.status === 'open' && s28.step <= 9);
+    }
+    case 11: {
+      // S10's step 4 scene plays on the eve of chapter 12, before it begins.
+      const s10 = sideState(c, 's10');
+      if (!s10 || s10.status !== 'open') return false;
+      return s10.step < 3 || (s10.step === 3 && (s10.stage === 'wait' || s10.stage === 'scene'));
+    }
+    default:
+      return false;
+  }
 }
 
 /** Counters the rest of the sim reports into. */
 export function noteCampaign(
   world: World,
-  what: 'pet' | 'feed' | 'throw' | 'raceWin' | 'expedition',
+  what: 'pet' | 'feed' | 'throw' | 'raceWin' | 'raceEntered' | 'expedition',
   nubbinId?: string,
 ): void {
   const c = world.campaign;
@@ -235,7 +312,8 @@ export function noteCampaign(
       c.stats.pets += 1;
       if (nubbinId && nubbinId === c.mossId) {
         c.flags.mossPetted = true;
-        queue(c, 't-moss-first-pet');
+        // Before c4-open he has not spoken yet.
+        queueScene(c, c.chapter < 4 ? 't-moss-first-pet-early' : 't-moss-first-pet');
       }
       break;
     case 'feed':
@@ -247,10 +325,102 @@ export function noteCampaign(
     case 'raceWin':
       c.stats.races += 1;
       break;
+    case 'raceEntered':
+      noteSideRace(c);
+      break;
     case 'expedition':
       c.stats.expeditions += 1;
       break;
   }
+}
+
+/** Chapter 10's vigil: hold all four lanterns until dawn; the cold blows them out. */
+function stepVigil(world: World, c: CampaignState, dtMs: number, events: SimEvent[]): void {
+  const v = c.vigil;
+  if (!v || v.done || c.queue.length > 0) return;
+  if (LANTERNS.every((id) => c.flags[`lantern:${id}`])) v.progressMs += dtMs;
+  const t = v.progressMs / STORY.vigilMs;
+  const wave = STORY.vigilWaves[v.waves];
+  if (wave !== undefined && t >= wave) {
+    // Wave one blows out the stream lantern; wave two shrinks the Long-Grass lantern to
+    // a blue bead (it stays lit, and renders low until dawn).
+    const id = STORY.vigilWaveLanterns[v.waves];
+    if (v.waves === 0 && id) {
+      delete c.flags[`lantern:${id}`];
+      events.push({ kind: 'lanternOut', id });
+    } else if (id) {
+      c.flags[`lanternLow:${id}`] = true;
+    }
+    v.waves += 1;
+  }
+  if (!v.lull && t >= STORY.vigilLullAt) {
+    v.lull = true;
+    queueScene(c, 'c10-lull');
+  }
+  if (t >= 1) {
+    v.done = true;
+    for (const k of Object.keys(c.flags)) if (k.startsWith('lanternLow:')) delete c.flags[k];
+    queueScene(c, 'c10-falls');
+  }
+}
+
+/** The chapter machine, once a sim second while no scene is waiting. */
+function stepChapter(world: World, c: CampaignState, events: SimEvent[]): void {
+  const def = chapterDef(c.chapter);
+  if (!def) return;
+  if (c.step === 0) {
+    // Chapter 12 opens once S9's dawn gate scene has played.
+    if (c.chapter === 12 && sideOpen(c, 's9')) return;
+    if (!seen(c, def.opening)) {
+      queueOpening(world, c);
+      return;
+    }
+    c.step = 1;
+    c.openedMs = world.timeMs;
+  }
+  if (c.step === 1) {
+    if (!goalMet(world, c)) return;
+    c.goalMetMs ??= world.timeMs;
+    if (closingHeld(c)) return;
+    c.step = 2;
+    if (c.chapter === 10) {
+      // The fellowship scene, then the vigil; c10-close comes at the end of the night.
+      queueScene(c, 'c10-vigil');
+      return;
+    }
+    if (c.chapter !== FINAL_CHAPTER) {
+      queueScene(c, def.closing);
+      return;
+    }
+  }
+  if (c.step !== 2) return;
+  if (c.chapter === 10 && seen(c, 'c10-vigil') && !c.vigil) {
+    c.vigil = { progressMs: 0, waves: 0, lull: false, done: false };
+    return;
+  }
+  if (c.chapter === FINAL_CHAPTER && !seen(c, def.closing)) {
+    // The walk (after S10's foot-of-the-hill choice, if S10 is still running), then c12-close.
+    const s10 = sideState(c, 's10');
+    if (s10?.status === 'open' && s10.step < 4) return;
+    const walk = walkScene(c);
+    if (!seen(c, walk)) queueScene(c, walk);
+    else queueScene(c, def.closing);
+    return;
+  }
+  if (!seen(c, def.closing)) return;
+  if (c.chapter === FINAL_CHAPTER) {
+    // S10's letter plays the morning after, before the ending.
+    if (sideOpen(c, 's10')) return;
+    const ending = endingFor(world, c);
+    c.ending = ending;
+    c.chapter = FINAL_CHAPTER + 1;
+    for (const s of endingScenes(world, c, ending)) queueScene(c, s);
+    events.push({ kind: 'ending', ending });
+    return;
+  }
+  if (nextChapterHeld(c)) return;
+  // The opening queues on the next tick, once any side story due first has had its turn.
+  beginChapter(world, c, c.chapter + 1, events);
 }
 
 /** Per step: fold events into stats and triggers, then advance the chapter machine. */
@@ -275,46 +445,57 @@ export function stepCampaign(world: World, dtMs: number, events: SimEvent[]): vo
         if (e.nubbinId !== c.mossId) c.flags.eternalRaised = true;
         break;
       case 'turnedShadow':
-        if (e.nubbinId !== c.sableId) queue(c, 't-first-shadow');
+        if (e.nubbinId !== c.sableId) queueScene(c, 't-first-shadow');
         break;
       case 'ranAway':
-        queue(c, 't-ran-away');
+        queueScene(c, 't-ran-away');
         break;
       case 'strayReturned':
-        queue(c, 't-stray-returned');
+        queueScene(c, 't-stray-returned');
         break;
       case 'shadowBonded':
-        if (e.nubbinId === c.sableId) queue(c, 't-sable-bonded');
+        if (e.nubbinId === c.sableId) queueScene(c, 't-sable-bonded');
         break;
       default:
         break;
     }
   }
   if (c.chapter > FINAL_CHAPTER) return;
-  // Once a sim second, and only while no scene is waiting.
+  stepVigil(world, c, dtMs, events);
+  // Once a sim second.
   const crossed = Math.floor(world.timeMs / 1000) !== Math.floor((world.timeMs - dtMs) / 1000);
-  if (!crossed || c.queue.length > 0) return;
-  const def = chapterDef(c.chapter);
-  if (!def) return;
-  if (c.step === 0 && c.seen.includes(def.opening)) c.step = 1;
-  if (c.step === 1 && goalMet(world, c)) {
-    c.step = 2;
-    queue(c, def.closing);
-  }
-  if (c.step === 2 && c.seen.includes(def.closing)) {
-    if (c.chapter === FINAL_CHAPTER) {
-      const ending = endingFor(world, c);
-      c.ending = ending;
-      c.chapter = FINAL_CHAPTER + 1;
-      queue(c, `end-${ending}`);
-      events.push({ kind: 'ending', ending });
-    } else {
-      beginChapter(world, c, c.chapter + 1, events);
-    }
-  }
+  if (!crossed) return;
+  if (c.queue.length === 0) stepChapter(world, c, events);
+  stepSideStories(world, c, events);
 }
 
-function applyChoice(world: World, c: CampaignState, scene: string, choice: Choice): void {
+/** Bring the sold Nubbin home from the strays (c9-open's bargain, S27's buy-back). */
+function bringSoldHome(world: World, c: CampaignState): void {
+  const soldId = typeof c.flags.soldId === 'string' ? c.flags.soldId : null;
+  const stray = soldId ? world.strays.find((s) => s.nubbin.id === soldId) : undefined;
+  if (!stray) return;
+  if (!hasRoom(world)) {
+    // The Grove is full: it waits in the strays and walks to the gate once there is room.
+    stray.nubbin.trust = 20;
+    stray.returnsAtMs = world.timeMs;
+    return;
+  }
+  world.strays = world.strays.filter((s) => s !== stray);
+  const n = stray.nubbin;
+  n.pos = { x: world.keeper.pos.x + 1, z: world.keeper.pos.z + 1 };
+  n.trust = 20;
+  n.stray = false;
+  n.behavior.state = 'sit';
+  world.nubbins.push(n);
+}
+
+function applyChoice(
+  world: World,
+  c: CampaignState,
+  scene: string,
+  choice: Choice,
+  before: { collector: boolean },
+): void {
   if (choice.set) Object.assign(c.flags, choice.set);
   for (const [id, d] of Object.entries(choice.friendship ?? {})) {
     c.friendship[id] = (c.friendship[id] ?? 0) + d;
@@ -336,7 +517,7 @@ function applyChoice(world: World, c: CampaignState, scene: string, choice: Choi
     world.inventory.shells += 200;
   }
   if (scene === 'c3-open') {
-    const s = sable(world, c);
+    const s = sableOf(world, c);
     const bonus = Number(c.flags.sableTrustBonus ?? 0);
     if (s) s.trust = Math.max(TRUST.min, Math.min(TRUST.max, s.trust + bonus));
     if (s && choice.id === 'grab') {
@@ -344,19 +525,53 @@ function applyChoice(world: World, c: CampaignState, scene: string, choice: Choi
       s.pos = { x: edge * 0.8, z: -edge * 0.8 };
     }
   }
-  if (scene === 'c9-open' && choice.id === 'bargain') {
+  if ((scene === 'c9-open' || scene === 'c9-open-sold') && choice.id === 'bargain') {
     world.inventory.shells = Math.max(0, world.inventory.shells - 200);
-    const soldId = typeof c.flags.soldId === 'string' ? c.flags.soldId : null;
-    const stray = soldId ? world.strays.find((s) => s.nubbin.id === soldId) : undefined;
-    if (stray && hasRoom(world)) {
-      world.strays = world.strays.filter((s) => s !== stray);
-      const n = stray.nubbin;
-      n.pos = { x: world.keeper.pos.x + 1, z: world.keeper.pos.z + 1 };
-      n.trust = 20;
-      n.stray = false;
-      n.behavior.state = 'sit';
-      world.nubbins.push(n);
+    bringSoldHome(world, c);
+  }
+  // S27's buy-back: only on the sold path, judged before the choice wrote boughtBack.
+  if (scene === 's27-home' && (choice.id === 'pay' || choice.id === 'hat') && before.collector) {
+    if (choice.id === 'pay') {
+      world.inventory.shells = Math.max(0, world.inventory.shells - STORY.buyBackShells);
     }
+    bringSoldHome(world, c);
+  }
+}
+
+/** Moss leaves the world (faded at dawn, or never came up from the Wellspring). */
+function removeMoss(world: World, c: CampaignState): void {
+  if (!c.mossId) return;
+  world.nubbins = world.nubbins.filter((n) => n.id !== c.mossId);
+  if (world.selected === c.mossId) world.selected = null;
+  if (world.keeper.carrying === c.mossId) world.keeper.carrying = null;
+}
+
+/** His flower: on the hill, by the flat stone where he always sat. */
+function mossFlower(world: World): void {
+  if (world.memorials.some((m) => m.id === 'memorial-moss')) return;
+  const hill = GROVE.hills[0];
+  world.memorials.push({
+    id: 'memorial-moss',
+    name: 'Moss',
+    pos: { x: hill.x + 2.5, z: hill.z - 2.5 },
+  });
+}
+
+/** World side effects of the campaign's own scenes. */
+function campaignSceneDone(world: World, c: CampaignState, scene: string): void {
+  switch (scene) {
+    case 'c10-bank-moss-gone':
+      removeMoss(world, c);
+      break;
+    case 'c10-moss-fades':
+      removeMoss(world, c);
+      mossFlower(world);
+      break;
+    case 'c10-moss-mourned':
+      mossFlower(world);
+      break;
+    default:
+      break;
   }
 }
 
@@ -368,13 +583,17 @@ export function applyCampaignCommand(world: World, cmd: Command, events: SimEven
     case 'sceneDone': {
       const c = world.campaign;
       if (!c) return;
-      const scene = SCENE_BY_ID.get(cmd.scene);
+      const scene = sceneById(cmd.scene);
       c.queue = c.queue.filter((s) => s !== cmd.scene);
       if (!c.seen.includes(cmd.scene)) c.seen.push(cmd.scene);
       if (!scene) return;
+      const before = { collector: collectorRoute(c) };
       if (scene.set) Object.assign(c.flags, scene.set);
       const choice = scene.choices?.find((ch) => ch.id === cmd.choice);
-      if (choice) applyChoice(world, c, cmd.scene, choice);
+      if (choice) applyChoice(world, c, cmd.scene, choice, before);
+      campaignSceneDone(world, c, cmd.scene);
+      sideSceneDone(world, c, cmd.scene);
+      for (const next of followUps(world, c, cmd.scene)) queueScene(c, next);
       return;
     }
     case 'talk': {
@@ -400,11 +619,17 @@ export function applyCampaignCommand(world: World, cmd: Command, events: SimEven
       events.push({ kind: 'lanternLit', id: cmd.id });
       return;
     }
+    case 'sideAct': {
+      const c = world.campaign;
+      if (c) sideAct(c, cmd.story);
+      return;
+    }
     case 'debugChapter': {
       const c = world.campaign;
       if (!c) return;
       c.queue = [];
       beginChapter(world, c, Math.max(1, Math.min(FINAL_CHAPTER, cmd.chapter)), events);
+      queueOpening(world, c);
       return;
     }
     default:
