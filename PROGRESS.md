@@ -9,7 +9,7 @@ new pass goes in at line 12 and the file is long, move the oldest section to
 Shipped and deployed: v1, the organic painted Grove, the Digimon-inspired ten, the Hollow
 Below dungeons, the 96-unit field, three save slots per mode. In progress: the full-3D
 mode, currently as samples behind `?aaa=1` with the five-creature roster in the species
-format. Latest pass: petting, sleep and the life pass (items 23–28). Waiting on Maor:
+format. Latest pass: crisp marks, reference notes and the format doc rewrite. Waiting on Maor:
 the pick from expansions E1–E3 and campaigns S1–S4, and his device pass. Subagent briefs
 with model picks: `plan.md`. Improvement backlog against the Palworld references:
 `docs/creature-improvements.md`. Story content pack: `src/content/`, `script-book/`,
@@ -22,6 +22,25 @@ with model picks: `plan.md`. Improvement backlog against the Palworld references
 going until you hit the session limit." So after each milestone passes its done-when
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
+
+## Crisp marks, reference notes, format doc (2026-10-15)
+
+Item 35 of `docs/creature-improvements.md` and the format doc. `Mark.soft: 0` is a crisp edge: `markShade` now takes the
+sculpt's vertex spacing (the box's longest side × 1.08 over the grid, the same number
+`sculpt` uses) and ramps a zero-soft mark over one cell centred on its edge, so a face
+patch, sock or belly split reads sharp without stair-steps. Fennel's nose and chest patch
+use it (`docs/samples/marks-fennel.jpg`, `?aaa=1&creature=3&closeup`). `SpeciesSpec.notes`
+(optional string, never shown) records which reference frame and pass each species was
+last tuned against; filled for all five from the 2026-10-15 passes (the Palworld roster
+screenshot for the shape pass, the All Pet Animations video for eyes, petting and the
+walk). `docs/species-format.md` rewritten: one row per field of `SpeciesSpec`, `PartSpec`,
+`Prim`, `Mark`, `SurfaceOpts`, the eyes, the mouth and `Expression`, each with its default
+and an example, plus the stock expression table and the pose table. Lint, 210 tests and
+build pass; no console errors on the Fennel closeup.
+
+Not verified: the crisp edge on the other species (none uses `soft: 0` yet) and at the
+far camera distance, where one cell is under a pixel. Known: the closeup frames the face,
+so the chest patch is only half in `marks-fennel.jpg`.
 
 ## Shape pass: digits, per-form blend, tufts (2026-10-15)
 
@@ -119,17 +138,4 @@ in the other poses (sleep and happy would look better folded). **Known:** the br
 pane runs this stage at 3–15 fps, so its frame gaps can hold a whole swing; a frame
 longer than 0.5 s is clamped by the stage and lets the feet creep by that much. The sim
 does not yet drive the body by the stride (the 3D mode is not wired to the sim).
-
-## Story pack moved into the repo (2026-10-15, Task B0)
-
-- Works: `Stories/` moved by `git mv` to `src/content/`, `tests/tools/content-check.ts` and
-  `script-book.ts`, `script-book/`, `voiceover/`, and `docs/` (atlas, canon, more-stories,
-  fix-changelog, grove-backlog-prompt, briefs, logs). The 11 duplicate tools were identical
-  and dropped; the pack's CLAUDE.md, plan.md and README.md were dropped (already folded in).
-- Backlog prompt steps 2–4: index in `docs/content-index.md`; the no-chores rule was already in
-  CLAUDE.md. Step 5 (the "Already have" audit against the code) is left for CV1.
-- Known bugs, reported 2026-10-13 and not re-checked: **B1** the understudy swaps the speaker
-  but not Keeper names in the text; **B2** the debug panel in production (`ui/hud.ts` now has
-  a `DEV` guard nearby, verify); **B3** panels overlap (Journal over stats sheet, toasts over
-  the HUD on portrait, Expedition counter under ✕).
 

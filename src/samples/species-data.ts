@@ -256,6 +256,10 @@ export const NUBBIN_SPEC: SpeciesSpec = {
   },
   wings: { x: 0.42, y: 1.15, z: -0.6, size: 1, color: '#f6faff' },
   ball: { y: 3.5, color: nubbinTip },
+  notes:
+    'Shape pass 2026-10-15 against the Palworld roster screenshot (toes, mitts, crisp crown); ' +
+    'eyes and petting against the All Pet Animations video (docs/samples/look-nubbin.jpg, ' +
+    'pet-nubbin.jpg).',
 };
 
 const fur = '#f0893a';
@@ -554,7 +558,7 @@ export const FENNEL_SPEC: SpeciesSpec = {
   marks: [
     // A dark mask across the eyes, a dark nose on the muzzle tip, a cream chest patch and
     // a dark ring on the tail.
-    { kind: 'sphere', a: V(0, 1.45, 1.5), r: 0.085, color: '#2a1a1e', soft: 0.02 },
+    { kind: 'sphere', a: V(0, 1.45, 1.5), r: 0.085, color: '#2a1a1e', soft: 0 },
     {
       kind: 'ellipsoid',
       a: V(0, 1.82, 1.0),
@@ -562,7 +566,7 @@ export const FENNEL_SPEC: SpeciesSpec = {
       color: '#9a5a2a',
       soft: 0.1,
     },
-    { kind: 'ellipsoid', a: V(0, 0.95, 0.6), radii: V(0.3, 0.26, 0.2), color: cream, soft: 0.08 },
+    { kind: 'ellipsoid', a: V(0, 0.95, 0.6), radii: V(0.3, 0.26, 0.2), color: cream, soft: 0 },
     {
       kind: 'capsule',
       a: V(0, 1.6, -2.0),
@@ -602,4 +606,8 @@ export const FENNEL_SPEC: SpeciesSpec = {
     tongue: '#ff8a9a',
     pitch: 0,
   },
+  notes:
+    'Shape pass 2026-10-15 against the Palworld roster screenshot (bigger head, eyes wide and ' +
+    'low, tufts, docs/samples/shape-fennel.jpg); the planted walk against the All Pet ' +
+    'Animations video (walk-fennel.jpg); crisp nose and chest patch (marks-fennel.jpg).',
 };

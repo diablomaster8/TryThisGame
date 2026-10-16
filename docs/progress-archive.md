@@ -2,6 +2,20 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Story pack moved into the repo (2026-10-15, Task B0)
+
+- Works: `Stories/` moved by `git mv` to `src/content/`, `tests/tools/content-check.ts` and
+  `script-book.ts`, `script-book/`, `voiceover/`, and `docs/` (atlas, canon, more-stories,
+  fix-changelog, grove-backlog-prompt, briefs, logs). The 11 duplicate tools were identical
+  and dropped; the pack's CLAUDE.md, plan.md and README.md were dropped (already folded in).
+- Backlog prompt steps 2–4: index in `docs/content-index.md`; the no-chores rule was already in
+  CLAUDE.md. Step 5 (the "Already have" audit against the code) is left for CV1.
+- Known bugs, reported 2026-10-13 and not re-checked: **B1** the understudy swaps the speaker
+  but not Keeper names in the text; **B2** the debug panel in production (`ui/hud.ts` now has
+  a `DEV` guard nearby, verify); **B3** panels overlap (Journal over stats sheet, toasts over
+  the HUD on portrait, Expedition counter under ✕).
+
+
 ## Grounding verified (2026-10-15)
 
 Items 29, 30, 31 of `docs/creature-improvements.md`, checked in the browser (plan.md Part 1).

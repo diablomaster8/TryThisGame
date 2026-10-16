@@ -36,6 +36,10 @@ export interface Mark {
   r?: number;
   radii?: THREE.Vector3;
   color: string;
+  /**
+   * Edge width in body units (0.06 by default). `0` is a crisp edge: anti-aliased over one
+   * vertex spacing of the sculpt, for face patches, socks and belly splits.
+   */
   soft?: number;
 }
 
@@ -178,6 +182,8 @@ export interface SpeciesSpec {
   hipY: number;
   /** Radius of the contact shadow and the slope probe, in body units; from the torso box by default. */
   footprint?: number;
+  /** Which reference frame or pass the species was last tuned against, for the next pass. */
+  notes?: string;
 }
 
 /** One face state: lids closed 0..1, lower-lid squint 0..1, brow tilt and lift, the happy arc. */
@@ -345,7 +351,12 @@ function shadowBlob(): THREE.CanvasTexture {
 
 // ---------------------------------------------------------------- marks and fur
 
-function markShade(marks: Mark[]): Shade {
+/**
+ * Bake the marks into the vertex colours. `cell` is the sculpt's vertex spacing: a mark
+ * with `soft: 0` ramps over one cell centred on its edge, the narrowest edge that still
+ * reads without stair-steps.
+ */
+function markShade(marks: Mark[], cell: number): Shade {
   const colors = marks.map((m) => new THREE.Color(m.color));
   const prims: Prim[] = marks.map((m) => ({
     kind: m.kind,
@@ -359,7 +370,11 @@ function markShade(marks: Mark[]): Shade {
     for (let i = 0; i < prims.length; i++) {
       const d = sdf(p, prims[i]!);
       const soft = marks[i]!.soft ?? 0.06;
-      if (d < soft) c.lerp(colors[i]!, THREE.MathUtils.clamp(1 - d / soft, 0, 1));
+      if (soft > 0) {
+        if (d < soft) c.lerp(colors[i]!, THREE.MathUtils.clamp(1 - d / soft, 0, 1));
+      } else if (d < cell * 0.5) {
+        c.lerp(colors[i]!, THREE.MathUtils.clamp(0.5 - d / cell, 0, 1));
+      }
     }
   };
 }
@@ -532,7 +547,12 @@ function sculptPart(
   extra: Shade[] = [],
 ): THREE.BufferGeometry {
   const shades: Shade[] = [gradient(spec.shade.top, spec.shade.bottom, 0, spec.shade.yMax)];
-  if (spec.marks.length) shades.push(markShade(spec.marks));
+  if (spec.marks.length) {
+    // The same spacing `sculpt` uses: the box's longest side, padded 8%, over the grid.
+    const size = box[1].clone().sub(box[0]);
+    const cell = (Math.max(size.x, size.y, size.z) * 1.08) / res;
+    shades.push(markShade(spec.marks, cell));
+  }
   if (spec.extraShades) shades.push(...spec.extraShades);
   shades.push(...extra);
   return sculpt(

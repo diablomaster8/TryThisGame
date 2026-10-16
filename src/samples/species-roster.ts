@@ -333,6 +333,9 @@ export const MOSSLING_SPEC: SpeciesSpec = {
   mouth: { x: 0, y: 0.86, z: 0.95, width: 0.2, lip: '#3a5a2a', teeth: false, tongue: '#ff9ab0' },
   extras: mosslingExtras,
   hipY: MOSSLING_HIP,
+  notes:
+    'Shape pass 2026-10-15 against the Palworld roster screenshot: cap smaller, raised and set ' +
+    'back so the eyes show from the stage camera (docs/samples/shape-mossling.jpg).',
 };
 
 // ---------------------------------------------------------------- Bolder
@@ -634,6 +637,10 @@ export const BOLDER_SPEC: SpeciesSpec = {
   mouth: { x: 0, y: 0.5, z: 1.62, width: 0.26, lip: '#1e2228', teeth: true, tongue: '#c03a4a' },
   extras: bolderExtras,
   hipY: BOLDER_HIP,
+  notes:
+    'Shape pass 2026-10-15 against the Palworld roster screenshot: scale 0.72, thorax blended ' +
+    'into the head, crisp horns (docs/samples/shape-bolder.jpg); the planted walk against the ' +
+    'All Pet Animations video (walk-bolder.jpg).',
 };
 
 // ---------------------------------------------------------------- Wisp
@@ -948,6 +955,9 @@ export const WISP_SPEC: SpeciesSpec = {
   mouth: { x: 0, y: 1.56, z: 0.88, width: 0.3, lip: '#1a0f2e', teeth: true, tongue: '#ff6a9a' },
   extras: wispExtras,
   hipY: WISP_HIP,
+  notes:
+    'Shape pass 2026-10-15 against the Palworld roster screenshot: the core sits on the belly ' +
+    'with its own emissive glow, glowing three-finger hands (docs/samples/shape-wisp.jpg).',
 };
 
 /** The five sample creatures, in stage order. */
