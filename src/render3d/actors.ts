@@ -669,8 +669,10 @@ export class Actors {
       this.items.delete(id);
     }
 
-    // Memorial flowers on the hill.
-    for (const m of world.memorials) {
+    // Memorial flowers on the hill: only in the Grove (as the pixel view draws them), and
+    // removed when their memorial is gone (a reset or an imported save).
+    const memorials = this.location === 'grove' ? world.memorials : [];
+    for (const m of memorials) {
       if (this.memorials.has(m.id)) continue;
       const g = new THREE.Group();
       const stem = new THREE.Mesh(
@@ -691,6 +693,18 @@ export class Actors {
       g.position.set(m.pos.x, this.ground(m.pos.x, m.pos.z), m.pos.z);
       this.group.add(g);
       this.memorials.set(m.id, g);
+    }
+    const liveMemorials = new Set(memorials.map((m) => m.id));
+    for (const [id, g] of [...this.memorials]) {
+      if (liveMemorials.has(id)) continue;
+      g.removeFromParent();
+      g.traverse((o) => {
+        if (o instanceof THREE.Mesh) {
+          o.geometry.dispose();
+          (o.material as THREE.Material).dispose();
+        }
+      });
+      this.memorials.delete(id);
     }
 
     // The highlight ring.
