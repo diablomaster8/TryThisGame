@@ -9,7 +9,7 @@ new pass goes in at line 12 and the file is long, move the oldest section to
 Shipped and deployed: v1, the organic painted Grove, the Digimon-inspired ten, the Hollow
 Below dungeons, the 96-unit field, three save slots per mode. In progress: the full-3D
 mode, currently as samples behind `?aaa=1` with the five-creature roster in the species
-format. Latest pass: knee joints and planted feet (item 22). Waiting on Maor:
+format. Latest pass: petting, sleep and the life pass (items 23–28). Waiting on Maor:
 the pick from expansions E1–E3 and campaigns S1–S4, and his device pass. Subagent briefs
 with model picks: `plan.md`. Improvement backlog against the Palworld references:
 `docs/creature-improvements.md`. Story content pack: `src/content/`, `script-book/`,
@@ -22,6 +22,34 @@ with model picks: `plan.md`. Improvement backlog against the Palworld references
 going until you hit the session limit." So after each milestone passes its done-when
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
+
+## Petting, sleep and the life pass (2026-10-15)
+
+Items 23–28 of `docs/creature-improvements.md`, after the Palworld "All Pet Animations"
+reference. A `pet` pose: the creature turns to `Rigged.lookAt` (the stage sets it to a
+hand in front of the camera), leans the head in with a tilt, shuts the eyes into arcs,
+folds its ears back, wags, and seven painted heart sprites (canvas textures, no assets)
+rise and fade from the crown. Squash and stretch on the happy hop (hips 1.06/0.94 at the
+top, 0.94/1.06 on landing, the hips moved so the feet stay planted) and a forward head
+stretch on the eat chomp. Breathing is a chest scale (1.5% at 0.25 Hz; the torso now
+sits in its own `chest` group so the head and feet do not move with it), slower and
+deeper asleep. Sleep lies down fully: the belly drops to the grass (measured from the
+torso sculpt), quadrupeds fold their legs with the knees bent, bipeds curl over theirs,
+and a Zzz of three painted glyphs drifts up every 3.2 s. `Rigged.face(yaw)` eases the
+facing over 0.4 s with a lean into the turn; the stage calls it every frame (the pet pose
+turns each creature to the camera and back) and `groveStage.turnTo(deg)` turns the
+line-up from the console. Ear flicks fire at irregular intervals from a generator seeded
+by the species name; the happy tail curls up over the back. Pose timing now runs on the
+stage clock (`setPose` compared `performance.now()` with the stage's relative `t`
+before, so every ease-in started a fraction late). Screenshots:
+`docs/samples/pet-roster.jpg`, `sleep-roster.jpg`, `pet-nubbin.jpg`. Format doc updated.
+
+Stubbed: the sim has no `pet` command yet, so the pose is reached only on the stage
+(`&pose=pet`), and the hand is a point in front of the camera, not a Keeper. Known bugs:
+Fennel's lids do not cover its eyes asleep (they turn the stock 1.9 rad but sit higher
+than the Nubbin's; the same before this pass); Bolder's folded legs fan upward rather
+than tuck under; the hearts and Zzz are plain sprites, so a creature standing between
+them and the camera does not hide them.
 
 ## Knee joints and planted feet (2026-10-15)
 
@@ -107,32 +135,3 @@ Items 16, 17, 18, 20, 21 of `docs/creature-improvements.md`, on every creature a
 - The creature stage grades at saturation 1.05 instead of 1.2 so the grass stops
   washing the creatures.
 - Shots: `docs/samples/paint-nubbin.jpg`, `paint-fennel.jpg`, `paint-roster.jpg`.
-
-## Face group on the Nubbin (2026-10-15)
-
-Maor: "make a full list of improvements ... use the references I sent you as a bible"
-→ `docs/creature-improvements.md` (35 items, six groups). Then "do it for one and then
-report back": the face group (items 1, 2, 4, 5, 6, 7) on the Nubbin.
-
-- `eye()` now returns an `EyeRig`: upper lid, a lower lid hinged from below (squint),
-  an upturned lash arc shown over a closed happy eye, and a brow ridge (skin colour,
-  tilts and lifts). The iris and white carry a little emissive so eyes stay bright in
-  shadow.
-- `species.ts`: an `Expression` per pose (lid, squint, brow tilt, brow lift, arc) with
-  defaults (`EXPRESSIONS`) and a per-species `expressions` override; eased in over 0.3 s
-  (1.2 s for sleep). Happy = eyes shut into ^ ^ arcs, squint, brows soft; eat = squint
-  and knitted brows; sleep = shut, brows dropped.
-- `mouth.shape`: `smile` (default), `o`, `omega` closed shapes; the closed shape gives
-  way to the open ring past 30% open.
-- Nubbin: blush marks under the eyes.
-- Shots: `docs/samples/expr-nubbin-idle/happy/eat/sleep.jpg`, `expr-nubbin-happy-35.jpg`.
-- Fix (Maor: happy frames "look weird"): the lids over the dome left the iris peeking out
-  under a floating arc. A happy shut eye now hides the whole eyeball and lids so the
-  head's skin shows, and the lash arc sits on the skin (`EyeRig.ball`).
-- Fix (Maor: "fix the mouth too"): the open mouth was a 3D interior sphere, a flipping
-  lip ring and a tongue blob, which at 0.2 units read as a scribble. It is now drawn on
-  the skin like the reference: a dark half-disc opening under a straight upper lip that
-  grows downward with the open amount, a rim, a tongue half-disc and flat teeth.
-  `expr-fennel-happy.jpg` shows it with teeth.
-- Still open in the face group: eye tracking (item 3). The other four creatures get the
-  same rig automatically but have not been tuned (brows on Bolder/Wisp may want hiding).

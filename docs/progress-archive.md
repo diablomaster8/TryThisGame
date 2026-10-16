@@ -2,6 +2,35 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Face group on the Nubbin (2026-10-15)
+
+Maor: "make a full list of improvements ... use the references I sent you as a bible"
+→ `docs/creature-improvements.md` (35 items, six groups). Then "do it for one and then
+report back": the face group (items 1, 2, 4, 5, 6, 7) on the Nubbin.
+
+- `eye()` now returns an `EyeRig`: upper lid, a lower lid hinged from below (squint),
+  an upturned lash arc shown over a closed happy eye, and a brow ridge (skin colour,
+  tilts and lifts). The iris and white carry a little emissive so eyes stay bright in
+  shadow.
+- `species.ts`: an `Expression` per pose (lid, squint, brow tilt, brow lift, arc) with
+  defaults (`EXPRESSIONS`) and a per-species `expressions` override; eased in over 0.3 s
+  (1.2 s for sleep). Happy = eyes shut into ^ ^ arcs, squint, brows soft; eat = squint
+  and knitted brows; sleep = shut, brows dropped.
+- `mouth.shape`: `smile` (default), `o`, `omega` closed shapes; the closed shape gives
+  way to the open ring past 30% open.
+- Nubbin: blush marks under the eyes.
+- Shots: `docs/samples/expr-nubbin-idle/happy/eat/sleep.jpg`, `expr-nubbin-happy-35.jpg`.
+- Fix (Maor: happy frames "look weird"): the lids over the dome left the iris peeking out
+  under a floating arc. A happy shut eye now hides the whole eyeball and lids so the
+  head's skin shows, and the lash arc sits on the skin (`EyeRig.ball`).
+- Fix (Maor: "fix the mouth too"): the open mouth was a 3D interior sphere, a flipping
+  lip ring and a tongue blob, which at 0.2 units read as a scribble. It is now drawn on
+  the skin like the reference: a dark half-disc opening under a straight upper lip that
+  grows downward with the open amount, a rim, a tongue half-disc and flat teeth.
+  `expr-fennel-happy.jpg` shows it with teeth.
+- Still open in the face group: eye tracking (item 3). The other four creatures get the
+  same rig automatically but have not been tuned (brows on Bolder/Wisp may want hiding).
+
 ## The whole roster in the species format (2026-10-15)
 
 Maor: "keep going on fixes for the whole batch of 5 as next sample". Mossling, Bolder and
@@ -105,6 +134,7 @@ follow the face (`pitch`). Shots: `pose-nubbin-idle/happy/sleep.jpg`,
 **Still to do from the list**: grounding (contact shadows, grass parting), material
 tuning per species, eyes that track a point, and then the port of the other three
 and the Keeper.
+
 ## Five creatures at a modern-console finish (2026-10-15, for Maor's pick)
 
 Maor, with a Palworld roster screenshot: "do the character animation this detailed.
@@ -189,6 +219,7 @@ of that shape, generated at load, instead of a hundred hand-made models; the
 Chao-line evolutions are mostly colour and part swaps on one body, which this handles
 directly. Animation would move from clip names to pose rigs: the same pivots driven by
 the sim's states (walk, happy, sleep, eat, swim, flap).
+
 ## The HD port at a AAA finish (2026-10-15, for Maor's pick)
 
 Maor: "step in the right direction. continue to refine. give me examples like a triple
@@ -242,6 +273,7 @@ smaller textures. The art pipeline it implies for the real build: painted PBR te
 sets (albedo, normal, roughness) per material from the existing noise painters, leaf
 and tuft cards, lathe-and-primitive characters with physical materials, one scene
 per place (Grove, Hollow floors, race courses) behind the same view interface.
+
 ## Five console-era 3D directions (2026-10-15, for Maor's pick)
 
 Maor, after the first five: "try again with better, think like this" with a Super
@@ -348,6 +380,7 @@ earlier than 3 and 4.
 **Recommendation**: 2 (toon) for the look that matches the game's soul, built on 1's
 cheap geometry so it ships; 4 if the painted world should stay the star; 5 only if
 the goal is maximum reuse of the existing pixel art.
+
 ## Save slots, three per mode (2026-10-15)
 
 Maor: "Add feature for multiple save slots for each game mode."
@@ -407,6 +440,7 @@ Tests: `tests/sim/field.test.ts` (size and walkable half, nothing overlaps or le
 the field, the new landmarks stand on open ground, older saves get the trees). Full
 suite green, lint clean, build OK; seen in the browser: all four regions and the
 worker swap.
+
 ## The Hollow Below: procedural dungeons, built (2026-10-13)
 
 Maor: "do item 11." The last system of the Digimon-inspired list is in: a seeded cave
@@ -463,6 +497,7 @@ seen in the browser: the cave, pickups, the chest, the stairs, feeding a stray, 
 
 **Known gaps**: the party does not fight anything and nothing hurts them; strays only
 take Shells. Floors are not themed by depth yet (the same palette throughout).
+
 ## The Digimon-inspired ten, built (2026-10-13)
 
 Maor: "Go through the next 10 upgrades on the list now." Systems 1–10 of the list below
@@ -738,7 +773,7 @@ same seed gives the same dungeon and that every floor cell reaches the stairs:
   damp corners, pebbles and bones; torches warm and crystals cool as point lights with
   falloff, dimmed through walls; dust motes in the light; fog in the far corners.
 
-**Recommendation 11 (added to the Digimon-inspired list):** *Procedural dungeons.* A
+**Recommendation 11 (added to the Digimon-inspired list):** _Procedural dungeons._ A
 "Hollow Below" entrance in the Grove (and the cave domains of S3 "The Beetle Road"):
 each run generates a seeded cave of rooms and corridors with water, torches,
 crystals, a chest and a way down; Nubbins explore with the Keeper, find materials,
@@ -857,7 +892,7 @@ teams and dungeon tanks, and an MMO-trapped-online story.
 
 1. **Prosperity and recruits.** A ruined village square beyond the cottage. Every wild
    visitor, stray and neighbour's Nubbin you befriend (fed, raced against, beaten at
-   karate) can be *recruited*: it moves in, raises a prosperity meter and opens something
+   karate) can be _recruited_: it moves in, raises a prosperity meter and opens something
    (a stall, a gym, a bathhouse attendant, a fortune teller). Files-City-style: the
    town fills in visibly as the meter climbs.
 2. **Care mistakes, made visible.** A gentle version of the hidden counter: ignoring a
@@ -867,9 +902,9 @@ teams and dungeon tanks, and an MMO-trapped-online story.
    clean childhood unlocks the "well-raised" bonus grade.
 3. **Training gym with mini-games.** Recruits run four stations (Swim lane, Fly rings,
    Run track, Power rocks): 20-second timing/rhythm games that give points to one stat,
-   cost energy, and give *more* when the Nubbin is rested and fed (so the daily routine
+   cost energy, and give _more_ when the Nubbin is rested and fed (so the daily routine
    matters, like Digimon World's "train while hungry = mistake").
-4. **Two partners and a merged form.** Pick a *partner pair* that follows the Keeper;
+4. **Two partners and a merged form.** Pick a _partner pair_ that follows the Keeper;
    both gain bond; at full bond with a bought "twine" they can merge for sixty seconds
    into a glowing ExE-style form for races and karate, then split (stats shared,
    nothing lost).
@@ -877,14 +912,14 @@ teams and dungeon tanks, and an MMO-trapped-online story.
    Keeper lights the lanterns; late play tires them (energy drains faster after
    midnight); a short "day count" on the sheet shows the age in days and what the
    typical span is for that line, so rebirth stops being a surprise.
-6. **Rebirth inheritance tree.** Each rebirth keeps a chosen *memory* (one grade, one
+6. **Rebirth inheritance tree.** Each rebirth keeps a chosen _memory_ (one grade, one
    part, one lesson, one accessory) and records the lineage in a family tree on the
    profile; three generations of the same line unlock a heirloom look.
 7. **Keeper skill tree.** Tamer-style points from achievements and quests buy small
    permanent perks (hatch 10% faster, fruit lasts longer, lessons cost less, a second
    carry slot), 24 nodes in four branches: Care, Garden, Games, Story.
 8. **Scan and convert (DigiFarm-style).** Meeting the same wild species repeatedly fills
-   a scan bar in the Collection Book; at 100% the Book can *convert* the scan into an
+   a scan bar in the Collection Book; at 100% the Book can _convert_ the scan into an
    egg of that species, so every species is reachable without luck.
 9. **Guard-team expeditions.** Three teams (Dawn, Dusk, Dew) with a leader each; join
    one for weekly missions in the Expedition minigame with team-coloured rewards, a
@@ -1277,7 +1312,6 @@ four people on a real-time day-night cycle with weather.
 10. **Photo spots and a world map:** landmarks to discover (the stone in the Hollow, the
     waterfall ledge), each a photo-mode backdrop and a fast-travel point once found.
 
-
 ## Campaign mode and the graphics upgrade (2026-10-13)
 
 Maor approved the plan ("go now"): graphics first, then a full story campaign with at
@@ -1416,10 +1450,11 @@ pass.
 follows the rules exactly. Verified by `tests/sim/lifecycle.test.ts` (a full life at
 ×1000: name, 10 % of points, grades, affection and rebirth count kept, heart greeting;
 departure leaves a memorial; Eternal only with 2+ rebirths, Normal type and alignment
+
 > 0.8 / < −0.8 / within 0.1 of 0, and never otherwise; Eternals never age; offline end
-of life waits with departures off, departs with it on, rebirths always happen) and in
-the browser (forced end of life → fading cocoon → flower; loved adult → golden cocoon →
-egg → hatch with a heart). 97 tests, lint, build pass.
+> of life waits with departures off, departs with it on, rebirths always happen) and in
+> the browser (forced end of life → fading cocoon → flower; loved adult → golden cocoon →
+> egg → hatch with a heart). 97 tests, lint, build pass.
 
 Earlier the same day: M1 (tag `m1`) and M2 (tag `m2`), see the sections below.
 
@@ -1431,15 +1466,15 @@ https://github.com/diablomaster8/TryThisGame, Pages source: GitHub Actions).
 The Nubbins are Chao-faithful fan art (CLAUDE.md was updated). The full Chao catalogue
 and where it lands:
 
-| Forms                                                             | Count            | Milestone |
-| ----------------------------------------------------------------- | ---------------- | --------- |
-| Eggs: normal + shop colour variants                               | 1 + ~20          | M1 / M4   |
-| Child: Neutral, Hero-leaning, Dark-leaning                        | 3                | M1 ✓      |
+| Forms                                                                | Count         | Milestone |
+| -------------------------------------------------------------------- | ------------- | --------- |
+| Eggs: normal + shop colour variants                                  | 1 + ~20       | M1 / M4   |
+| Child: Neutral, Hero-leaning, Dark-leaning                           | 3             | M1 ✓      |
 | Adult first evolution: Neutral/Hero/Dark × Normal/Swim/Fly/Run/Power | 15            | M2 ✓      |
-| Adult second evolution: type-pair overlays                        | 60 (75 total)    | M2 ✓      |
-| Chaos Chao: Light, Dark, Neutral (the Eternals)                   | 3                | M3 ✓      |
-| Character looks (fox, echidna, rose, dream)                       | 4 unlockables    | M5 ✓      |
-| Egg colours, shiny and two-tone colour variants                   | 5 colours × 3    | M5 ✓      |
+| Adult second evolution: type-pair overlays                           | 60 (75 total) | M2 ✓      |
+| Chaos Chao: Light, Dark, Neutral (the Eternals)                      | 3             | M3 ✓      |
+| Character looks (fox, echidna, rose, dream)                          | 4 unlockables | M5 ✓      |
+| Egg colours, shiny and two-tone colour variants                      | 5 colours × 3 | M5 ✓      |
 
 The art is drawn in code from memory (`src/render/sprites/chao.ts`), never from copied
 assets. Reference images dropped into the project would let the drawer be matched closer.
@@ -1535,7 +1570,7 @@ Check any sheet at `?sprites` (developer gallery).
 - **Sound (M5)**: `platform/audio.ts` synthesizes blips (no audio assets); muted until
   the first tap or click; a Sound toggle in Settings lives in the save.
 - **PWA (M5)**: `public/manifest.webmanifest`, generated icons (`tests/tools/
-  make-icons.test.ts` with `MAKE_ICONS=1`), hand-rolled `public/sw.js` (stale-while-
+make-icons.test.ts` with `MAKE_ICONS=1`), hand-rolled `public/sw.js` (stale-while-
   revalidate, offline shell), registered only on the built site.
 - **Reduced motion**: instant camera snaps, no toast/celebration animation, no meter
   transition.

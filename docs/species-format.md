@@ -7,20 +7,20 @@ spec says and what the builder does with it.
 
 ## What a spec contains
 
-| Field | What it is |
-| --- | --- |
-| `name`, `scale`, `gait` | Display name, overall size, and `biped`, `quadruped` or `hover`, which picks the pose set; `spider` drives eight legs named `leg1L`..`leg4R`. |
-| `surface` | The physical material: a detail kind (`fur`, `scale`, `leaf`, `plate`, `smooth`) projected along the three axes for grain and bumps, roughness, sheen, clearcoat, glow strength. |
-| `fur`, `furRule` | Shell fur over every part (layers, length, lift, cell size), and a rule giving fur length and growth direction per surface point, baked as vertex attributes so the shells comb instead of puffing. |
-| `torso`, `head`, `parts` | The body as blended shapes: each is a list of primitives (sphere, capsule, ellipsoid, round cone, torus) with a colour and a tag, a bounding box, a blend radius and a sculpt resolution. `head` and every part have a `pivot` and a bone `name` the poser knows. Each part may also carry its own `surface` material, extra `shades`, and `noFur`. |
-| `shade`, `marks`, `colorRules`, `extraShades` | Colour baked into the vertices: a top-to-underside light gradient; deliberate markings as shapes with a colour and a soft edge; rules that recolour a region of a primitive (a cream muzzle on the head, dark socks on the legs); extra bakes such as stripes. |
-| `eyes` | Position (projected onto the skin by the builder, aimed along the surface normal), size, `tall` (height over width; 1 is round), iris colour, lid colour, extra yaw and pitch, how far the lid sits, and the iris disc size. `extra` lists small bead eyes (a spider's row). Each eye is a glossy dome, a painted iris bent onto it (big pupil, ring lit from below, two catchlights), a thin liner and a lid that blinks and closes for sleep. |
-| `mouth` | Position (projected onto the skin like the eyes) and width, lip colour, whether it has teeth, tongue colour. `shape` picks the closed look: `smile`, `o` or `omega`. The mouth is modelled: a dark interior that opens, a tongue and teeth that appear as it does, and a lip that lifts. |
-| `wings`, `ball`, `hipY` | Species extras (translucent wings that flutter, the emote ball with its own light) and the hip height the body bobs from. |
-| `face`, `hover`, `extras` | `face: 'torso'` puts the eyes and mouth on the body instead of the head part; `hover` is the float height for a hovering gait; `extras(rig)` hangs hand-built decorations on the rig (bones, meshes, the material) and may return a per-frame update. |
-| `joint` (on a `leg…` part) | A second segment under a knee: `{ name, pivot, prims, box, blend?, resolution? }`. The builder sculpts it on its own, hangs its bone under the part's bone, and takes its lowest vertex as the foot. Put a ball at the knee in both segments (the lower one a touch larger) so the join stays round as it bends. A straight leg at rest bends with the knee forward; give the knee a small offset to choose the bend (behind on a front leg, ahead on a hind leg). |
-| `footprint` | Radius of the contact shadow and of the slope probes, in body units; defaults to 0.85 × the torso box half-width. Grounding needs no other field: the builder measures the figure at rest (its lowest vertex per 0.3-unit cell of the ground plan) and, given the stage's `ground` sampler, drops the root until the lowest contact point sits 0.02 into the grass, tilts the body to the slope, and lays the shadow blob over the terrain. |
-| `expressions` | Per-pose face overrides: `lid` (0..1 shut), `squint` (lower lid), `brow` (tilt, + soft / - knitted), `browLift`, `arc` (the ^ ^ lash line over shut eyes). Defaults: happy shuts the eyes into arcs, eat squints and knits, sleep shuts and drops the brows. |
+| Field                                         | What it is                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `name`, `scale`, `gait`                       | Display name, overall size, and `biped`, `quadruped` or `hover`, which picks the pose set; `spider` drives eight legs named `leg1L`..`leg4R`.                                                                                                                                                                                                                                                                                                                      |
+| `surface`                                     | The physical material: a detail kind (`fur`, `scale`, `leaf`, `plate`, `smooth`) projected along the three axes for grain and bumps, roughness, sheen, clearcoat, glow strength.                                                                                                                                                                                                                                                                                   |
+| `fur`, `furRule`                              | Shell fur over every part (layers, length, lift, cell size), and a rule giving fur length and growth direction per surface point, baked as vertex attributes so the shells comb instead of puffing.                                                                                                                                                                                                                                                                |
+| `torso`, `head`, `parts`                      | The body as blended shapes: each is a list of primitives (sphere, capsule, ellipsoid, round cone, torus) with a colour and a tag, a bounding box, a blend radius and a sculpt resolution. `head` and every part have a `pivot` and a bone `name` the poser knows. Each part may also carry its own `surface` material, extra `shades`, and `noFur`.                                                                                                                |
+| `shade`, `marks`, `colorRules`, `extraShades` | Colour baked into the vertices: a top-to-underside light gradient; deliberate markings as shapes with a colour and a soft edge; rules that recolour a region of a primitive (a cream muzzle on the head, dark socks on the legs); extra bakes such as stripes.                                                                                                                                                                                                     |
+| `eyes`                                        | Position (projected onto the skin by the builder, aimed along the surface normal), size, `tall` (height over width; 1 is round), iris colour, lid colour, extra yaw and pitch, how far the lid sits, and the iris disc size. `extra` lists small bead eyes (a spider's row). Each eye is a glossy dome, a painted iris bent onto it (big pupil, ring lit from below, two catchlights), a thin liner and a lid that blinks and closes for sleep.                    |
+| `mouth`                                       | Position (projected onto the skin like the eyes) and width, lip colour, whether it has teeth, tongue colour. `shape` picks the closed look: `smile`, `o` or `omega`. The mouth is modelled: a dark interior that opens, a tongue and teeth that appear as it does, and a lip that lifts.                                                                                                                                                                           |
+| `wings`, `ball`, `hipY`                       | Species extras (translucent wings that flutter, the emote ball with its own light) and the hip height the body bobs from.                                                                                                                                                                                                                                                                                                                                          |
+| `face`, `hover`, `extras`                     | `face: 'torso'` puts the eyes and mouth on the body instead of the head part; `hover` is the float height for a hovering gait; `extras(rig)` hangs hand-built decorations on the rig (bones, meshes, the material) and may return a per-frame update.                                                                                                                                                                                                              |
+| `joint` (on a `leg…` part)                    | A second segment under a knee: `{ name, pivot, prims, box, blend?, resolution? }`. The builder sculpts it on its own, hangs its bone under the part's bone, and takes its lowest vertex as the foot. Put a ball at the knee in both segments (the lower one a touch larger) so the join stays round as it bends. A straight leg at rest bends with the knee forward; give the knee a small offset to choose the bend (behind on a front leg, ahead on a hind leg). |
+| `footprint`                                   | Radius of the contact shadow and of the slope probes, in body units; defaults to 0.85 × the torso box half-width. Grounding needs no other field: the builder measures the figure at rest (its lowest vertex per 0.3-unit cell of the ground plan) and, given the stage's `ground` sampler, drops the root until the lowest contact point sits 0.02 into the grass, tilts the body to the slope, and lays the shadow blob over the terrain.                        |
+| `expressions`                                 | Per-pose face overrides: `lid` (0..1 shut), `squint` (lower lid), `brow` (tilt, + soft / - knitted), `browLift`, `arc` (the ^ ^ lash line over shut eyes). Defaults: happy and pet shut the eyes into arcs, eat squints and knits, sleep shuts and drops the brows.                                                                                                                                                                                                |
 
 ## Bone names the poser knows
 
@@ -45,10 +45,38 @@ without a joint (the Nubbin's stubs) keep the old swing at the hip.
 
 ## The poses
 
-`idle`, `happy`, `walk`, `eat`, `sleep`, chosen with `setPose()`. The sim's states
-map onto these: wander and findFood → walk, greet and play → happy, eat → eat, nap →
-sleep, everything else → idle. Blinking, ear twitches, wing flutter and the ball's bob
-run on top of every pose; sleep closes the lids instead.
+`idle`, `happy`, `pet`, `walk`, `eat`, `sleep`, chosen with `setPose()`. The sim's
+states map onto these: wander and findFood → walk, greet and play → happy, petting →
+pet, eat → eat, nap → sleep, everything else → idle. On top of every pose: blinking, a
+slow breath (the chest scales 1.5% at 0.25 Hz, slower and deeper asleep; the torso sits
+in its own `chest` group so the head and feet stay put), ear sways with a flick at
+irregular intervals (from a generator seeded by the species name, so a line-up does not
+flick in step), wing flutter and the ball's bob.
+
+- `pet` is the Keeper's hand: the creature turns to `lookAt` (below), leans its head in
+  with a tilt and a slow nuzzle, shuts its eyes into the ^ ^ arcs, folds its ears back a
+  little, wags fast, and seven painted heart sprites (canvas textures, no assets) rise
+  and fade from the crown, one every 0.22 s.
+- `happy` hops with squash and stretch (the hips 1.06 tall and 0.94 wide at the top of
+  the hop, 0.94 tall and 1.06 wide on landing, the hips moved with the scale so the feet
+  stay on the ground) and curls the tail up over the back.
+- `eat` chomps with the whole head, which stretches forward and thins a little on each
+  bite, volume kept.
+- `sleep` lies down fully: the belly comes to the grass (the builder measures it from
+  the torso sculpt), quadrupeds fold their legs with the knees bent, bipeds curl forward
+  over theirs, hovering species sink to half their float; a Zzz of three painted glyphs
+  drifts up from the head every 3.2 s.
+
+## What the rig exposes
+
+`Rigged` adds to a built creature: `setPose(pose)`, `bones`, `ground` (set by the
+stage), `strideLength` / `stridePeriod` (the walk), `lookAt` (a world point, or null,
+that the `pet` pose turns and leans the head toward, the yaw and pitch clamped to 0.7
+and 0.4 rad; the stage sets it to a hand in front of the camera) and `face(yaw)`, which
+turns the creature to a world yaw over 0.4 s with a lean into the turn instead of a snap
+of `rotation.y`. The stage calls `face` every frame with the creature's resting yaw
+(the pet pose turns it to the camera and back), and `window.groveStage.turnTo(deg)`
+turns the whole stage from the console to watch the ease.
 
 ## How to write a new species
 
@@ -72,5 +100,5 @@ a small diff on the base spec.
 ## Where it is seen
 
 `?aaa=1&creature=1..5` on the AAA stage, cycling through the poses every few seconds;
-`&pose=happy` (or `idle`, `walk`, `eat`, `sleep`) holds one. Fennel (`3`) and Bolder
+`&pose=happy` (or `idle`, `pet`, `walk`, `eat`, `sleep`) holds one. Fennel (`3`) and Bolder
 (`4`) have jointed legs; the Nubbin, Mossling and Wisp do not.

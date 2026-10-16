@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import {
   add,
   blink,
+  breathe,
   combine,
   eye,
   furShells,
@@ -24,8 +25,8 @@ import { sculpt, sdf, smin, V, type Prim } from './sculpted';
  * to be written in this format rather than modelled by hand.
  */
 export type Gait = 'biped' | 'quadruped' | 'hover' | 'spider';
-export type PoseName = 'idle' | 'happy' | 'walk' | 'eat' | 'sleep';
-export const POSES: PoseName[] = ['idle', 'happy', 'walk', 'eat', 'sleep'];
+export type PoseName = 'idle' | 'happy' | 'pet' | 'walk' | 'eat' | 'sleep';
+export const POSES: PoseName[] = ['idle', 'happy', 'pet', 'walk', 'eat', 'sleep'];
 
 /** A deliberate marking: a shape in body space, a colour, and how soft its edge is. */
 export interface Mark {
@@ -194,6 +195,7 @@ export interface Expression {
 const EXPRESSIONS: Record<PoseName, Expression> = {
   idle: { lid: 0, squint: 0, brow: 0, browLift: 0, arc: false },
   happy: { lid: 1, squint: 0.3, brow: 0.3, browLift: 0.12, arc: true },
+  pet: { lid: 1, squint: 0.35, brow: 0.35, browLift: 0.1, arc: true },
   walk: { lid: 0, squint: 0, brow: 0.05, browLift: 0, arc: false },
   eat: { lid: 0.1, squint: 0.45, brow: -0.3, browLift: -0.08, arc: false },
   sleep: { lid: 1, squint: 0, brow: -0.1, browLift: -0.12, arc: false },
@@ -205,12 +207,107 @@ export interface Rigged extends Creature {
   /** Set by the stage: ground height at a world x,z, so the body follows the slope. */
   ground?: (x: number, z: number) => number;
   /**
+   * Set by the stage: a world point the creature attends to (the Keeper's hand). The
+   * `pet` pose turns and leans the head toward it; null looks straight ahead.
+   */
+  lookAt: THREE.Vector3 | null;
+  /** Turn to face a world yaw: eased over 0.4 s with a lean into the turn, not a snap. */
+  face(yaw: number): void;
+  /**
    * How far the body advances per walk cycle, in world units, and how long a cycle
    * takes in seconds: move the root by `strideLength / stridePeriod` per second while
    * the pose is `walk` and the planted feet stay where they touched down.
    */
   strideLength: number;
   stridePeriod: number;
+}
+
+/** Hearts over a petted head, and how long each one rises for. */
+const HEART_COUNT = 7;
+const HEART_LIFE = 1.6;
+/** Seconds between Zzz puffs while asleep. */
+const Z_EVERY = 3.2;
+/** Seconds a turn in place takes. */
+const TURN_TIME = 0.4;
+/** Breathing: 0.25 Hz as radians per second. */
+const BREATH_RATE = Math.PI * 2 * 0.25;
+/** How far the head may turn and tilt toward the look point, radians. */
+const LOOK_YAW = 0.7;
+const LOOK_PITCH = 0.4;
+
+const smooth = (k: number) => k * k * (3 - 2 * k);
+
+/** A tiny seeded generator for render-side jitter (ear flicks), keyed by a name. */
+function seeded(name: string): () => number {
+  let h = 2166136261;
+  for (let i = 0; i < name.length; i++) h = Math.imul(h ^ name.charCodeAt(i), 16777619);
+  let x = h >>> 0 || 1;
+  return () => {
+    x ^= x << 13;
+    x >>>= 0;
+    x ^= x >>> 17;
+    x ^= x << 5;
+    x >>>= 0;
+    return x / 4294967296;
+  };
+}
+
+let heartTex: THREE.CanvasTexture | null = null;
+/** A soft painted heart: pink fill, white rim, a highlight, a glow round it. */
+function heartTexture(): THREE.CanvasTexture {
+  if (heartTex) return heartTex;
+  const c = document.createElement('canvas');
+  c.width = c.height = 64;
+  const g = c.getContext('2d')!;
+  const heart = (x: number, y: number, r: number) => {
+    g.beginPath();
+    g.moveTo(x, y + r * 0.95);
+    g.bezierCurveTo(x - r * 1.15, y + r * 0.2, x - r * 0.95, y - r * 0.9, x, y - r * 0.35);
+    g.bezierCurveTo(x + r * 0.95, y - r * 0.9, x + r * 1.15, y + r * 0.2, x, y + r * 0.95);
+    g.closePath();
+  };
+  const glow = g.createRadialGradient(32, 32, 4, 32, 32, 31);
+  glow.addColorStop(0, 'rgba(255,150,200,0.5)');
+  glow.addColorStop(1, 'rgba(255,150,200,0)');
+  g.fillStyle = glow;
+  g.fillRect(0, 0, 64, 64);
+  heart(32, 31, 19);
+  g.fillStyle = '#ff7fb4';
+  g.fill();
+  g.lineWidth = 2.5;
+  g.strokeStyle = 'rgba(255,255,255,0.9)';
+  g.stroke();
+  g.beginPath();
+  g.ellipse(25, 23, 4, 2.6, -0.6, 0, Math.PI * 2);
+  g.fillStyle = 'rgba(255,255,255,0.85)';
+  g.fill();
+  heartTex = new THREE.CanvasTexture(c);
+  heartTex.colorSpace = THREE.SRGBColorSpace;
+  return heartTex;
+}
+
+let zTex: THREE.CanvasTexture | null = null;
+/** A painted Z glyph for the sleeping Zzz: pale blue with a white edge and a soft halo. */
+function zTexture(): THREE.CanvasTexture {
+  if (zTex) return zTex;
+  const c = document.createElement('canvas');
+  c.width = c.height = 64;
+  const g = c.getContext('2d')!;
+  g.font = 'bold 44px sans-serif';
+  g.textAlign = 'center';
+  g.textBaseline = 'middle';
+  g.shadowColor = 'rgba(200,225,255,0.9)';
+  g.shadowBlur = 8;
+  g.lineWidth = 6;
+  g.lineJoin = 'round';
+  g.strokeStyle = 'rgba(255,255,255,0.95)';
+  g.strokeText('Z', 32, 34);
+  g.shadowBlur = 0;
+  g.fillStyle = '#b8d8ff';
+  g.fillText('Z', 32, 34);
+  zTex = new THREE.CanvasTexture(c);
+  zTex.colorSpace = THREE.SRGBColorSpace;
+  return zTex;
 }
 
 /** How far the body sinks below the sampled ground, in world units: feet a hair into the grass. */
@@ -474,10 +571,17 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
   const torso = new THREE.Mesh(torsoGeo, mat);
   torso.castShadow = true;
   torso.receiveShadow = true;
-  hips.add(torso);
+  // The chest group carries the torso and its fur alone, so breathing scales the body
+  // without moving the head or lifting the feet.
+  const chest = new THREE.Group();
+  chest.add(torso);
+  hips.add(chest);
   bones.torso = hips;
   meshes.torso = torso;
-  furred.push({ parent: hips, mesh: torso });
+  furred.push({ parent: chest, mesh: torso });
+  torsoGeo.computeBoundingBox();
+  // Where the belly is at rest, in root space: a sleeping body lies down to here.
+  const bellyY = torsoGeo.boundingBox!.min.y + spec.hipY;
 
   const hang = (ps: PartSpec, parent: THREE.Group, parentOrigin: THREE.Vector3): THREE.Group => {
     const geo = sculptPart(
@@ -680,6 +784,31 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
     head.add(light);
   }
 
+  // Hearts for the pet pose and the Zzz for sleep: painted sprites hung over the head.
+  // The crown and the head's half-width, in head space: ears and crown points are
+  // part of the head mesh, so the crown is capped a head-radius above the eyes.
+  const headGeo = meshes.head!.geometry;
+  headGeo.computeBoundingBox();
+  const hb = headGeo.boundingBox!;
+  const headR = Math.max(0.1, (hb.max.x - hb.min.x) / 2);
+  const crownY = onBody ? hb.max.y : Math.min(hb.max.y, e.y - headOrigin.y + headR * 1.1);
+  const hearts: THREE.Sprite[] = [];
+  const zs: THREE.Sprite[] = [];
+  for (let i = 0; i < HEART_COUNT + 3; i++) {
+    const heart = i < HEART_COUNT;
+    const sp = new THREE.Sprite(
+      new THREE.SpriteMaterial({
+        map: heart ? heartTexture() : zTexture(),
+        transparent: true,
+        depthWrite: false,
+      }),
+    );
+    sp.visible = false;
+    sp.renderOrder = 2;
+    head.add(sp);
+    (heart ? hearts : zs).push(sp);
+  }
+
   // Extras (jaws, a ring, a trail) are part of the figure, so they hang before the feet
   // are measured.
   const extrasUpdate = spec.extras?.({ root, hips, bones, meshes, mat }) ?? null;
@@ -765,6 +894,26 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
   // ---- poses ----
   let pose: PoseName = 'idle';
   let poseSince = 0;
+  let now = 0;
+  let lastFrame = 0;
+  const headRest = head.position.clone();
+  // Turning in place: once `face` has been called the root eases from yawFrom to yawTo.
+  let faced = false;
+  let yawFrom = 0;
+  let yawTo = 0;
+  let turnAt = -10;
+  // Ear flicks at irregular intervals, seeded by the species name so each creature has
+  // its own rhythm. Render code: the sim's no-Math.random rule does not reach here, but
+  // a seed keeps a line-up from flicking in step.
+  const flickRng = seeded(spec.name);
+  let nextFlick = 1 + flickRng() * 4;
+  let flickAt = -10;
+  let flickSide = 1;
+  // The look point in hip space, as a yaw and pitch for the head, eased in and out.
+  const look = new THREE.Vector3();
+  let lookYaw = 0;
+  let lookPitch = 0;
+  let lookK = 0;
   const rest: Record<string, THREE.Euler> = {};
   for (const [k, b] of Object.entries(bones)) rest[k] = b.rotation.clone();
   const set = (name: string, x: number, y: number, z: number) => {
@@ -838,14 +987,32 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
     leg.hip.quaternion.setFromUnitVectors(e1, dVec);
     leg.placed.copy(dVec).multiplyScalar(dist).add(leg.hip.position).applyMatrix4(hips.matrix);
   };
+  /** Bend a jointed leg's knee by an angle in its natural direction (as solveLeg does). */
+  const bendKnee = (leg: LegChain, angle: number) => {
+    leg.knee.quaternion.setFromAxisAngle(leg.n, angle);
+  };
   const animate = (t: number) => {
+    const fdt = Math.min(0.1, Math.max(0, t - lastFrame));
+    lastFrame = t;
+    now = t;
     const dt = t - poseSince;
     const s = Math.sin;
     hips.position.y = spec.hipY;
     hips.rotation.set(0, 0, 0);
+    hips.scale.set(1, 1, 1);
+    head.position.copy(headRest);
+    head.scale.set(1, 1, 1);
     for (const leg of legs) leg.knee.rotation.set(0, 0, 0);
     let lidClose = 0;
     let mouthOpen = 0;
+    if (rig.lookAt && pose === 'pet') {
+      look.copy(rig.lookAt);
+      hips.worldToLocal(look).sub(headRest);
+      lookYaw = THREE.MathUtils.clamp(Math.atan2(look.x, look.z), -LOOK_YAW, LOOK_YAW);
+      const flat = Math.hypot(look.x, look.z);
+      lookPitch = THREE.MathUtils.clamp(-Math.atan2(look.y, flat), -LOOK_PITCH, LOOK_PITCH);
+      lookK = Math.min(1, lookK + fdt / 0.35);
+    } else lookK = Math.max(0, lookK - fdt / 0.35);
     switch (pose) {
       case 'idle': {
         hips.position.y = spec.hipY + s(t * 2.2) * 0.02;
@@ -871,7 +1038,11 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
       }
       case 'happy': {
         const hop = Math.abs(s(t * 6));
-        hips.position.y = spec.hipY + hop * 0.22;
+        // Squash and stretch: long at the top of the hop, flat on the landing, with the
+        // hips moved by the scale so the feet stay on the ground.
+        const sq = (hop * 2 - 1) * 0.06;
+        hips.scale.set(1 - sq, 1 + sq, 1 - sq);
+        hips.position.y = spec.hipY + hop * 0.22 + (spec.hipY - footY) * sq;
         hips.rotation.z = s(t * 6) * 0.06;
         set('head', -0.08, 0, s(t * 6) * 0.22);
         if (spider) {
@@ -882,14 +1053,51 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
           set('legFR', -0.6 * hop, 0, 0);
           set('legBL', 0.2 * hop, 0, 0);
           set('legBR', 0.2 * hop, 0, 0);
-          set('tail', 0.3, s(t * 7) * 0.7, 0);
+          set('tail', 0.85, s(t * 7) * 0.7, 0);
         } else {
+          set('tail', 0.85, s(t * 7) * 0.7, 0);
           set('armL', 0, 0, 1.3 + s(t * 7) * 0.35);
           set('armR', 0, 0, -1.3 - s(t * 7 + 1) * 0.35);
           set('legL', -0.3 * hop, 0, 0);
           set('legR', -0.3 * hop, 0, 0);
         }
         mouthOpen = 0.75;
+        break;
+      }
+      case 'pet': {
+        // The signature moment: turn to the Keeper, lean the head into the hand, shut
+        // the eyes into arcs, wag, and let the hearts rise.
+        const ease = smooth(Math.min(1, dt / 0.5));
+        const nuzzle = s(t * 2.6) * 0.06;
+        hips.position.y = spec.hipY + s(t * 2.2) * 0.02;
+        hips.rotation.z = s(t * 1.3) * 0.03;
+        hips.rotation.x = -0.04 * ease;
+        set(
+          'head',
+          lookPitch * lookK + (0.12 + nuzzle) * ease,
+          lookYaw * lookK,
+          s(t * 1.7) * 0.08 + 0.16 * ease,
+        );
+        // Lean in: the head slides toward the hand.
+        head.position.x += Math.sin(lookYaw * lookK) * 0.08 * ease;
+        head.position.z += Math.cos(lookYaw * lookK) * 0.08 * ease;
+        head.position.y += nuzzle * 0.5;
+        set('tail', 0.55, s(t * 12) * 0.8, 0);
+        if (spider) {
+          for (const [n, side, phase] of SPIDER_LEGS)
+            set(n, 0, s(t * 2 + phase) * 0.04, side * 0.03 * ease);
+        } else if (quad) {
+          set('legFL', -0.1 * ease, 0, 0);
+          set('legFR', -0.1 * ease, 0, 0);
+          set('legBL', 0, 0, 0);
+          set('legBR', 0, 0, 0);
+        } else {
+          set('armL', -0.3 * ease, 0, 0.5 * ease + s(t * 3) * 0.08);
+          set('armR', -0.3 * ease, 0, -0.5 * ease - s(t * 3 + 1) * 0.08);
+          set('legL', 0, 0, 0);
+          set('legR', 0, 0, 0);
+        }
+        mouthOpen = 0.3;
         break;
       }
       case 'walk': {
@@ -948,6 +1156,9 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
       case 'eat': {
         const chomp = Math.max(0, s(t * 5));
         set('head', 0.42 + chomp * 0.08, 0, s(t * 0.9) * 0.05);
+        // The chomp stretches the head forward and thins it a little, volume kept.
+        head.scale.set(1 - chomp * 0.035, 1 - chomp * 0.035, 1 + chomp * 0.08);
+        head.position.z += chomp * 0.03;
         if (spider) {
           for (const [n, side] of SPIDER_LEGS) set(n, 0, 0, n.startsWith('leg1') ? side * 0.5 : 0);
           hips.rotation.x = 0.1;
@@ -964,20 +1175,34 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
         break;
       }
       case 'sleep': {
-        const ease = Math.min(1, dt / 1.2);
-        hips.position.y = spec.hipY - (quad ? 0.28 : 0.1) * ease + s(t * 1.1) * 0.015;
-        hips.rotation.x = (quad ? 0.05 : 0.22) * ease;
-        set('head', 0.5 * ease, 0, 0.12 * ease);
+        const ease = smooth(Math.min(1, dt / 1.2));
+        // Lie down fully: the belly comes to the grass and the legs fold under it
+        // (knees bent where there are knees); bipeds curl forward over their knees.
+        const lie = Math.max(0, bellyY - footY - 0.03);
+        set('head', (quad ? 0.45 : 0.6) * ease, 0, 0.12 * ease);
         if (spider) {
           for (const [n, side] of SPIDER_LEGS) set(n, 0, 0, -side * 0.3 * ease);
+          for (const leg of legs) bendKnee(leg, 0.9 * ease);
           hips.position.y = spec.hipY - 0.35 * ease;
         } else if (quad) {
-          for (const n of ['legFL', 'legFR']) set(n, -1.2 * ease, 0, 0);
-          for (const n of ['legBL', 'legBR']) set(n, 1.2 * ease, 0, 0);
+          hips.position.y = spec.hipY - lie * ease;
+          hips.rotation.x = 0.05 * ease;
+          for (const n of ['legFL', 'legFR']) set(n, -1.0 * ease, 0, 0);
+          for (const n of ['legBL', 'legBR']) set(n, 1.1 * ease, 0, 0);
+          for (const leg of legs) bendKnee(leg, 1.7 * ease);
           set('tail', 0.6 * ease, 0.9 * ease, 0);
-        } else {
+        } else if (hover) {
+          hips.rotation.x = 0.22 * ease;
           set('armL', -0.3 * ease, 0, 0.3 * ease);
           set('armR', -0.3 * ease, 0, -0.3 * ease);
+        } else {
+          hips.position.y = spec.hipY - Math.min(lie, spec.hipY * 0.55) * ease;
+          hips.rotation.x = 0.35 * ease;
+          set('legL', -1.3 * ease, 0, 0.15 * ease);
+          set('legR', -1.3 * ease, 0, -0.15 * ease);
+          for (const leg of legs) bendKnee(leg, 1.6 * ease);
+          set('armL', -0.5 * ease, 0, 0.35 * ease);
+          set('armR', -0.5 * ease, 0, -0.35 * ease);
         }
         lidClose = ease;
         mouthOpen = 0.08;
@@ -985,8 +1210,17 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
       }
     }
     // Ears, wings, the ball and the blink run on top of every pose.
-    set('earL', 0, 0, s(t * 3.1) * 0.08 + (pose === 'sleep' ? -0.3 : 0));
-    set('earR', 0, 0, -s(t * 3.1 + 2) * 0.08 + (pose === 'sleep' ? 0.3 : 0));
+    // Ear flicks: one ear snaps out and back over a quarter second at irregular
+    // intervals; a petted creature folds its ears back a little, a sleeping one more.
+    if (t > nextFlick) {
+      flickAt = t;
+      flickSide = flickRng() < 0.5 ? -1 : 1;
+      nextFlick = t + 2 + flickRng() * 5;
+    }
+    const flick = t - flickAt < 0.25 ? s(((t - flickAt) / 0.25) * Math.PI) * 0.5 : 0;
+    const earFold = pose === 'sleep' ? 0.3 : pose === 'pet' ? 0.18 : 0;
+    set('earL', 0, 0, s(t * 3.1) * 0.08 - earFold - (flickSide < 0 ? flick : 0));
+    set('earR', 0, 0, -s(t * 3.1 + 2) * 0.08 + earFold + (flickSide > 0 ? flick : 0));
     wings.forEach((w, i) => {
       const flap = pose === 'happy' ? 0.7 : pose === 'sleep' ? 0.08 : 0.35;
       w.rotation.y = -(i === 0 ? -1 : 1) * 0.5 + s(t * 9 + i) * flap * (i === 0 ? -1 : 1);
@@ -997,9 +1231,51 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
       ballMat.emissiveIntensity = (pose === 'sleep' ? 0.5 : 1.3) + s(t * 2.4) * 0.4;
     }
     if (hover) {
-      hips.position.y += (spec.hover ?? 0.5) + s(t * 1.4) * 0.18 * (pose === 'sleep' ? 0.3 : 1);
+      hips.position.y +=
+        (spec.hover ?? 0.5) * (pose === 'sleep' ? 0.55 : 1) +
+        s(t * 1.4) * 0.18 * (pose === 'sleep' ? 0.3 : 1);
       hips.rotation.z += s(t * 0.9) * 0.06;
     }
+    // Breathing under every pose: a slow chest scale, slower and deeper asleep.
+    breathe(chest, 1, t, pose === 'sleep' ? 0.9 : BREATH_RATE, pose === 'sleep' ? 0.022 : 0.015);
+    // Turning in place: the yaw eases over TURN_TIME, the body leaning into the turn
+    // and lagging it a touch.
+    if (faced) {
+      const k = Math.min(1, (t - turnAt) / TURN_TIME);
+      const delta = yawTo - yawFrom;
+      root.rotation.y = yawFrom + delta * smooth(k);
+      if (k < 1) {
+        const w = s(k * Math.PI);
+        hips.rotation.z += w * Math.sign(delta) * Math.min(0.14, Math.abs(delta) * 0.25);
+        hips.rotation.y -= w * delta * 0.15;
+      }
+    }
+    // Hearts rise and fade from the head while petted; the Zzz drifts up while asleep.
+    hearts.forEach((sp, i) => {
+      const life = pose === 'pet' ? dt - i * 0.22 : -1;
+      sp.visible = life >= 0;
+      if (life < 0) return;
+      const p = (life % HEART_LIFE) / HEART_LIFE;
+      const drift = Math.sin(i * 2.4) * 0.7;
+      sp.position.set(
+        headR * (drift + Math.sin(p * 6 + i) * 0.08),
+        crownY + headR * (0.15 + p * 1.1),
+        headR * 0.3,
+      );
+      const size = headR * (0.45 + p * 0.3) * (0.85 + 0.15 * (i % 3));
+      sp.scale.set(size, size, 1);
+      (sp.material as THREE.SpriteMaterial).opacity = Math.min(1, p * 5) * (1 - p * p);
+    });
+    zs.forEach((sp, i) => {
+      const life = pose === 'sleep' ? dt - 1.2 - i * 0.4 : -1;
+      const q = life < 0 ? 1 : (life % Z_EVERY) / Z_EVERY / 0.7;
+      sp.visible = q < 1;
+      if (q >= 1) return;
+      sp.position.set(headR * (0.6 + q * 0.6), hb.max.y + headR * (0.1 + q * 1.2), headR * 0.2);
+      const size = headR * (0.4 + q * 0.45);
+      sp.scale.set(size, size, 1);
+      (sp.material as THREE.SpriteMaterial).opacity = Math.sin(q * Math.PI);
+    });
     extrasUpdate?.(t, pose);
     // Grounding: the shadow follows the lift, and the body follows the slope under it.
     const lift = THREE.MathUtils.clamp(hips.position.y - spec.hipY, 0, 1.5);
@@ -1086,11 +1362,22 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
     strideLength: stride.length * spec.scale,
     stridePeriod: stride.period,
     animate,
+    lookAt: null,
     setPose: (p) => {
       if (p !== pose) {
         pose = p;
-        poseSince = performance.now() / 1000;
+        poseSince = now;
       }
+    },
+    face: (yaw) => {
+      const from = faced ? root.rotation.y : (yawFrom = yawTo = root.rotation.y);
+      faced = true;
+      // The shortest way round from where the turn is now.
+      const delta = Math.atan2(Math.sin(yaw - yawTo), Math.cos(yaw - yawTo));
+      if (Math.abs(delta) < 1e-4) return;
+      yawFrom = from;
+      yawTo = from + Math.atan2(Math.sin(yaw - from), Math.cos(yaw - from));
+      turnAt = now;
     },
   };
   return rig;

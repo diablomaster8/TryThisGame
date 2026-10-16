@@ -922,7 +922,12 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
 
   // The stage on `window.groveStage`, so a console can measure the creatures in place
   // (foot height, tilt, shadow) instead of guessing from a screenshot.
-  Object.assign(window, { groveStage: { scene, cast, creature, groundHeight } });
+  // `turnTo(deg)` turns every creature on the stage in place, to see the eased turn.
+  const turnTo = (deg: number) => {
+    const all = lineup ? cast : creature && 'face' in creature ? [creature as Rigged] : [];
+    for (const c of all) c.group.userData.yaw = Math.PI - 0.5 + (deg * Math.PI) / 180;
+  };
+  Object.assign(window, { groveStage: { scene, cast, creature, groundHeight, turnTo } });
 
   const camera = new THREE.PerspectiveCamera(
     closeup || creature || lineup ? 36 : 46,
@@ -976,6 +981,25 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
   resize();
   window.addEventListener('resize', resize);
 
+  // The Keeper's hand for the pet pose: a point in front of the creature on the
+  // camera's side, at head height. The creature turns to it and leans in; otherwise it
+  // eases back to the facing the stage gave it.
+  const attend = (c: Rigged, petting: boolean) => {
+    const g = c.group;
+    if (!petting) {
+      c.lookAt = null;
+      c.face(g.userData.yaw as number);
+      return;
+    }
+    const dx = camera.position.x - g.position.x;
+    const dz = camera.position.z - g.position.z;
+    const d = Math.hypot(dx, dz) || 1;
+    const hand = c.lookAt ?? new THREE.Vector3();
+    hand.set(g.position.x + (dx / d) * 1.1, g.position.y + 1.0, g.position.z + (dz / d) * 1.1);
+    c.lookAt = hand;
+    c.face(Math.atan2(dx, dz));
+  };
+
   let raf = 0;
   const t0 = performance.now();
   let lastT = 0;
@@ -1002,6 +1026,7 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     });
     if (lineup) {
       for (const c of cast) {
+        attend(c, poseNow === 'pet');
         c.setPose(poseNow);
         c.animate(t);
       }
@@ -1009,7 +1034,10 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
       camera.position.set(0.4 * back, ky + 2.5 * back, -10.4 * back);
       camera.lookAt(0, ky + 1.1, 0);
     } else if (creature) {
-      if ('setPose' in creature) (creature as Rigged).setPose(poseNow);
+      if ('setPose' in creature) {
+        attend(creature as Rigged, poseNow === 'pet');
+        (creature as Rigged).setPose(poseNow);
+      }
       // A walking creature covers ground at its stride speed, so the planted feet stay
       // put; the camera walks with it, and after a few units it starts the lap again.
       const g = creature.group;
