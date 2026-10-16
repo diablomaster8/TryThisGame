@@ -7,7 +7,8 @@ import {
   type Line,
   type Scene,
 } from '../config/story';
-import type { EduBand, EduScene, Lesson, Quest, Reward } from '../content/types';
+import type { EduBand, EduScene, LanguageCourse, Lesson, Quest, Reward } from '../content/types';
+import { registerLangCourses, registerLangQuests } from './lang';
 import type { CampaignState, World } from './types';
 
 /**
@@ -116,6 +117,29 @@ export function eduContent(): EduContent | null {
 export function registerEduContent(m: EduContent): void {
   eduModule = m;
   registerEduScenes(m.eduSceneFor);
+  registerLanguageQuests(m.EDU_LANG_QUESTS, m.EDU_LANG_COURSES);
+}
+
+/**
+ * The language questlines (CV3): their quests and scenes join the registry like the side
+ * stories, and the courses join `sim/lang.ts`. Only the edu chunk carries them, so the
+ * main game never knows they exist. Safe to repeat.
+ */
+export function registerLanguageQuests(quests: Quest[], courses: LanguageCourse[]): void {
+  registerLangCourses(courses);
+  registerLangQuests(quests);
+  for (const q of quests) {
+    if (QUEST_BY_ID.has(q.id)) continue;
+    QUEST_BY_ID.set(q.id, q);
+    // Ori and Hana are not campaign speakers; their name plates come from the quest.
+    for (const s of q.speakers) SPEAKERS[s.id] ??= { name: s.name, kind: s.kind };
+    for (const step of q.steps) {
+      add(step.scene);
+      add(step.done);
+    }
+    add(q.complete);
+    for (const r of q.rewards) REWARD_BY_ID.set(r.id, { quest: q.id, reward: r });
+  }
 }
 
 /**

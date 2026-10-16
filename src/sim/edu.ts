@@ -29,6 +29,8 @@ export function createEdu(age: EduAge, band: EduBand = 'sprout'): EduState {
     storyLanguage: 'learning',
     lessons: {},
     readAloud: true,
+    words: {},
+    courses: { hebrew: false, japanese: false },
   };
 }
 

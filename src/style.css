@@ -1687,3 +1687,80 @@ button,
   opacity: 0.8;
   font-weight: 400;
 }
+
+/* Language courses (CV3): Hebrew isolated right to left, Japanese words kept whole. */
+.lang-he {
+  font-family: 'Noto Sans Hebrew', 'Arial Hebrew', sans-serif;
+  unicode-bidi: isolate;
+  /* Room for niqqud under the letters. */
+  line-height: 1.7;
+}
+.lang-ja {
+  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+  word-break: keep-all;
+}
+.ja-word {
+  white-space: nowrap;
+}
+.lang-word {
+  cursor: pointer;
+  border-bottom: 2px dotted currentColor;
+  border-radius: 2px;
+}
+.lang-word:focus-visible {
+  outline: 2px solid #d9822b;
+}
+.lang-postcard {
+  font-style: italic;
+}
+.lang-course {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+.lang-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.lang-actions .btn,
+.lang-row {
+  min-height: 44px;
+}
+.lang-row {
+  width: 100%;
+  text-align: left;
+}
+.lang-native {
+  font-size: 1.25em;
+}
+.trace-card {
+  max-width: min(92vw, 420px);
+}
+.trace-word {
+  font-size: 2.2rem;
+  text-align: center;
+  letter-spacing: 0.15em;
+}
+.trace-word span {
+  opacity: 0.35;
+}
+.trace-word span.done {
+  opacity: 0.8;
+}
+.trace-word span.now {
+  opacity: 1;
+  color: #d9822b;
+}
+.trace-board {
+  display: block;
+  width: min(80vw, 52vh, 320px);
+  aspect-ratio: 1;
+  margin: 8px auto;
+  background: #fbf6ea;
+  border-radius: 12px;
+  touch-action: none;
+  image-rendering: auto;
+}

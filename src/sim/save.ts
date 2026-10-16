@@ -202,6 +202,8 @@ export function validateWorld(w: World): World {
     w.edu.storyLanguage ??= 'learning';
     w.edu.lessons ??= {};
     w.edu.readAloud ??= true;
+    w.edu.words ??= {};
+    w.edu.courses ??= { hebrew: false, japanese: false };
   }
   if (w.keeper2) w.keeper2.running ??= false;
   w.neighbours ??= {};

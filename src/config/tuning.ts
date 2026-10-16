@@ -974,6 +974,22 @@ export const FUN = {
   someStatLevel: 5,
 } as const;
 
+/** The Learning Grove's language courses (sim/lang.ts, CV3). */
+export const LANG = {
+  /** A course's next quest waits this long after the last one ends, then for a morning. */
+  nextQuestAfterMs: 120_000,
+  /** A word counts as learned once used, or once heard this many times. */
+  learnedAfterHeard: 3,
+  /** Nubbins this close to the Keeper react to a learned word, at most this many. */
+  reactRadius: 9,
+  reactMax: 3,
+  /** Tracing (ui/trace.ts), on a 0-100 board: how far from a stroke still counts. */
+  traceRadius: 14,
+  /** Share of a stroke's points the finger must pass near, and of a letter's ink covered. */
+  strokeCover: 0.7,
+  inkCover: 0.5,
+} as const;
+
 /** The four lantern posts, lantern-1..4: pond, stream, wall and long grass. */
 export const LANTERN_POSTS = [
   { id: 'lantern-1', x: -4, z: 4 },

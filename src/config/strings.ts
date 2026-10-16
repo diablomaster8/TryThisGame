@@ -854,6 +854,56 @@ export const EDU_STORY_TEXT = {
   } as Record<string, string>,
 } as const;
 
+/** The Learning Grove's language courses (CV3): Nova's postcard, word lists, tracing. */
+export const LANG_TEXT = {
+  postcard: 'Nova’s postcard',
+  postcardBlurb: 'Two friends are coming to stay.',
+  postcardBody:
+    'Nova writes: “Two friends of mine are coming to the valley. Ori speaks Hebrew and Hana speaks Japanese. Who would you like to meet first?”',
+  needStory: 'The friends arrive once the story has begun.',
+  meet: (name: string) => `Meet ${name}`,
+  carryOn: (name: string) => `Visit ${name}`,
+  friends: { hebrew: 'Ori', japanese: 'Hana' } as Record<string, string>,
+  languages: { hebrew: 'Hebrew', japanese: 'Japanese' } as Record<string, string>,
+  progress: (done: number, total: number, words: number) =>
+    `Quests ${done} of ${total} · ${words} words learned`,
+  arriving: 'On the way! Look out for the gate.',
+  words: 'Words',
+  wordsTitle: (lang: string) => `${lang} words`,
+  noWordsYet: 'No words yet. They appear here once you have met them in the story.',
+  tapToHear: 'Tap a word to hear it.',
+  placeholderClip:
+    'Recordings by native speakers are on their way. Until a word has one, tapping it plays a chime.',
+  back: 'Back',
+  // The grown-up area
+  grownUpTitle: 'Language words',
+  grownUpHelp:
+    'Heard: the word came up in a scene, or your child tapped it. Used: your child traced it or picked it in a choice.',
+  heardUsed: (heard: number, used: number) => `heard ${heard} · used ${used}`,
+  notMet: 'not met yet',
+  // Tracing
+  trace: 'Trace it',
+  traceTitle: 'Tracing',
+  traceHelpHe: 'Hebrew goes from right to left. Start each letter on its right side.',
+  traceHelpJa: 'Follow the numbered strokes in order, starting at the dot.',
+  traceAgain: 'Nearly! Start at the dot and follow the line.',
+  traceMore: 'Keep going over the letter.',
+  traceDone: 'Beautiful tracing!',
+  traceClose: 'Stop',
+  /** A Nubbin's reaction to a word it knows, shown as a caption. */
+  gestures: {
+    wave: 'waves',
+    bow: 'bows',
+    nod: 'nods',
+    yawn: 'yawns',
+    'look-up': 'looks up',
+    smile: 'smiles',
+    droop: 'droops',
+    point: 'points',
+  } as Record<string, string>,
+  reacted: (name: string, gesture: string, word: string) => `${name} ${gesture} at ${word}`,
+} as const;
+
 /** The Digimon-inspired ten: square, slips, gym, partners, curfew, memories, skills, scans, teams, the Beetle Run. */
 export const TEN_TEXT = {
   square: 'Village square',

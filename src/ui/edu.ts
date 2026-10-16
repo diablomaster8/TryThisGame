@@ -16,6 +16,8 @@ import { enabledGames } from '../sim/edu';
 import { Rng } from '../sim/rng';
 import { button, el, modal } from './dom';
 import { storyPickButton, storyProgress, storySettings } from './edu-story';
+import { LangPanel, langProgress } from './lang';
+import { langCourses } from '../sim/lang';
 
 /**
  * The Learning Grove screens: the game picker, a round screen with big targets and no
@@ -24,6 +26,7 @@ import { storyPickButton, storyProgress, storySettings } from './edu-story';
  */
 export class EduScreen {
   private readonly picker;
+  private readonly lang: LangPanel;
   private readonly root: HTMLDivElement;
   private readonly card: HTMLDivElement;
   private round: EduRound | null = null;
@@ -39,6 +42,7 @@ export class EduScreen {
     private readonly toast: (text: string) => void,
   ) {
     this.picker = modal(parent, EDU_TEXT.play, EDU_TEXT.leave);
+    this.lang = new LangPanel(parent, game_, toast);
     this.picker.body.appendChild(el('p', 'help', EDU_TEXT.playHelp));
     this.root = el('div', 'edu');
     this.root.hidden = true;
@@ -56,6 +60,8 @@ export class EduScreen {
     // The story first (CV2): it is always there, whatever games are switched on.
     const storyGrid = el('div', 'edu-grid');
     storyGrid.appendChild(storyPickButton(g, () => this.close(), this.toast));
+    // Nova's postcard (CV3): the language courses, once their scripts have loaded.
+    if (langCourses().length > 0) storyGrid.appendChild(this.lang.pickButton(() => this.close()));
     body.appendChild(storyGrid);
     const games = enabledGames(g.world);
     if (games.length === 0) {
@@ -450,6 +456,7 @@ export class GrownUpPanel {
     }
     this.body.appendChild(list);
     storyProgress(this.body, g);
+    langProgress(this.body, g);
     this.body.appendChild(el('p', 'help', EDU_TEXT.stickers(e.stickers)));
     this.body.appendChild(
       el('p', 'help', EDU_TEXT.coPlay[Math.floor(Math.random() * EDU_TEXT.coPlay.length)] ?? ''),

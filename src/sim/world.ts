@@ -30,6 +30,7 @@ import { stepSeasons, racePrizeMultiplier, fruitIntervalMultiplier } from './sea
 import { stepAchievements } from './achievements';
 import { applyCampaignCommand, noteCampaign, stepCampaign } from './campaign';
 import { noteSideCommand } from './side-stories';
+import { langStart, langTraced, noteWord } from './lang';
 import { stepNpcs } from './npcs';
 import { addRewards, buy } from './shop';
 import { SPECIES } from './species';
@@ -670,6 +671,16 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'eduLesson':
       eduLesson(world, cmd.id, cmd.best);
+      return;
+    case 'langStart':
+      langStart(world, cmd.course);
+      return;
+    case 'langWord':
+      noteWord(world, cmd.word, cmd.how, events);
+      return;
+    case 'langTraced':
+      // The step itself is met by the quest's rule in noteSideCommand, after this.
+      langTraced(world, cmd.quest, events);
       return;
     case 'eduSetAge':
       eduSetAge(world, cmd.age, cmd.resetGames);

@@ -13,6 +13,9 @@ import { renderDo, renderLineText, renderOptions, speakLine, stopSpeaking } from
 import { frameKey } from '../render/sprites/animations';
 import type { SpriteSheet } from '../render/sprites/atlas';
 import { button, el } from './dom';
+import { hasScript } from '../sim/lang-text';
+import { langWord } from '../sim/lang';
+import { playWord } from '../platform/lang-audio';
 import { SceneReplayGuard } from './scene-replay-guard';
 
 /**
@@ -240,6 +243,8 @@ export class Dialogue {
     this.fullText = line.text;
     this.shown = 0;
     this.text.textContent = '';
+    // Left to right always, never auto: many language lines open with a Hebrew word (CV3).
+    this.text.dir = 'ltr';
     clearInterval(this.typing);
     const speed = g.world.settings.textSpeed;
     const reduce =
@@ -248,7 +253,8 @@ export class Dialogue {
         ? g.camera.reduceMotion
         : g.world.settings.reducedMotion === 'on');
     if (textBandOf(g.world) === 'sprout' && g.world.edu?.readAloud) speakLine(line.text);
-    if (reduce) {
+    // Half-typed Hebrew would sit unisolated, so a line with script appears whole.
+    if (reduce || hasScript(this.fullText)) {
       this.shown = this.fullText.length;
       this.finishText();
       return;
@@ -274,15 +280,27 @@ export class Dialogue {
       band === 'reader' && this.scene
         ? (eduContent()?.eduGlossary('reader', this.scene) ?? null)
         : null;
-    renderLineText(this.text, this.fullText, glossary, band === 'sprout', (word, meaning) => {
-      this.text.querySelector('.edu-gloss-pop')?.remove();
-      const pop = el('span', 'edu-gloss-pop', `${word}: ${meaning}`);
-      pop.addEventListener('click', (e) => {
-        e.stopPropagation();
-        pop.remove();
-      });
-      this.text.appendChild(pop);
-    });
+    renderLineText(
+      this.text,
+      this.fullText,
+      glossary,
+      band === 'sprout',
+      (word, meaning) => {
+        this.text.querySelector('.edu-gloss-pop')?.remove();
+        const pop = el('span', 'edu-gloss-pop', `${word}: ${meaning}`);
+        pop.addEventListener('click', (e) => {
+          e.stopPropagation();
+          pop.remove();
+        });
+        this.text.appendChild(pop);
+      },
+      (ids) => {
+        // A tapped course word: its native-speaker clip, and it counts as heard.
+        const first = ids[0] && langWord(ids[0]);
+        if (first) playWord(first.audio);
+        for (const id of ids) g?.send({ kind: 'langWord', word: id, how: 'heard' });
+      },
+    );
   }
 
   /** A lesson written to play after the current main line, not yet played. */

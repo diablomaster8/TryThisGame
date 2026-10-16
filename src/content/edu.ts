@@ -32,6 +32,12 @@ import { EDU_LANG_HEBREW_SPROUT } from './edu-lang-hebrew-sprout';
 import { EDU_LANG_HEBREW_READER } from './edu-lang-hebrew-reader';
 import { EDU_LANG_JAPANESE_SPROUT } from './edu-lang-japanese-sprout';
 import { EDU_LANG_JAPANESE_READER } from './edu-lang-japanese-reader';
+import { HEBREW_COURSE, LANG_HEBREW } from './lang-hebrew';
+import { JAPANESE_COURSE, LANG_JAPANESE } from './lang-japanese';
+
+/** The language questlines' base scripts and courses (CV3), carried by this chunk only. */
+export const EDU_LANG_QUESTS = [...LANG_HEBREW, ...LANG_JAPANESE];
+export const EDU_LANG_COURSES = [HEBREW_COURSE, JAPANESE_COURSE];
 
 export const EDU_BANDS: readonly EduBand[] = ['sprout', 'reader'];
 export const EDU_BAND_INFO: Record<EduBand, { label: string; ages: string; readAloud: boolean }> = {

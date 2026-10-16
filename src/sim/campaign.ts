@@ -15,7 +15,8 @@ import {
   sideState,
   stepSideStories,
 } from './side-stories';
-import { sceneById } from './story-scenes';
+import { noteSceneWords } from './lang';
+import { sceneById, sceneFor } from './story-scenes';
 import { collectorRoute, queueScene, sableOf, seen } from './story-state';
 import { TRAINERS } from './trainers';
 import type { CampaignState, Command, Location, SimEvent, World } from './types';
@@ -604,6 +605,13 @@ export function applyCampaignCommand(world: World, cmd: Command, events: SimEven
       if (choice) applyChoice(world, c, cmd.scene, choice, before);
       campaignSceneDone(world, c, cmd.scene);
       sideSceneDone(world, c, cmd.scene);
+      if (world.edu) {
+        // The course words in the version the child saw (CV3); a picked choice uses its words.
+        const shown = sceneFor(world, cmd.scene);
+        const picked = shown?.choices?.find((ch) => ch.id === cmd.choice);
+        const lines = [...(shown?.lines ?? []), ...(picked?.then ?? [])];
+        noteSceneWords(world, lines, picked?.label ?? null, events);
+      }
       for (const next of followUps(world, c, cmd.scene)) queueScene(c, next);
       return;
     }

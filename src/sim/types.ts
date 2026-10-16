@@ -398,7 +398,16 @@ export interface EduState {
   lessons: Record<string, { best: boolean | null }>;
   /** Little Sprouts: speak each line with the device's voice (once sound is on). */
   readAloud: boolean;
+  /** Language course words (CV3), by vocab id: times heard in a scene or tapped, times used. */
+  words: Record<string, { heard: number; used: number }>;
+  /** The language courses the child has started from Nova's postcard. */
+  courses: Record<LangCourseId, boolean>;
 }
+
+export type LangCourseId = 'hebrew' | 'japanese';
+
+/** How a Nubbin shows it knows a course word (CV3). */
+export type LangGesture = 'wave' | 'bow' | 'nod' | 'yawn' | 'look-up' | 'smile' | 'droop' | 'point';
 
 export interface CoopState {
   active: boolean;
@@ -781,6 +790,9 @@ export type Command =
   | { kind: 'eduSetLanguage'; language: EduState['storyLanguage'] }
   | { kind: 'eduLesson'; id: string; best: boolean | null }
   | { kind: 'eduSetReadAloud'; on: boolean }
+  | { kind: 'langStart'; course: LangCourseId }
+  | { kind: 'langWord'; word: string; how: 'heard' | 'used' }
+  | { kind: 'langTraced'; quest: string }
   | { kind: 'eduSetAge'; age: EduAge; resetGames: boolean }
   | { kind: 'eduSetGame'; game: EduGameId; on: boolean }
   | { kind: 'eduSetSession'; minutes: number }
@@ -829,6 +841,7 @@ export type SimEvent =
   | { kind: 'reborn'; nubbinId: string }
   | { kind: 'departed'; nubbinId: string; name: string }
   | { kind: 'reaction'; nubbinId: string; reaction: Reaction }
+  | { kind: 'langReact'; nubbinId: string; word: string; gesture: LangGesture }
   | { kind: 'fruitDropped'; treeId: string; itemId: string }
   | { kind: 'ate'; nubbinId: string }
   | { kind: 'napStarted'; nubbinId: string }

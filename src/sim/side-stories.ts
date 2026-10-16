@@ -15,6 +15,7 @@ import {
 import { SPEAKERS, STORY_TEXT } from '../config/story';
 import { FUN, STORY } from '../config/tuning';
 import { funQuests, funRule } from './fun-quests';
+import { isLangQuestCode, langQuestIds, langRule } from './lang';
 import { nextGrade } from './stats';
 import { grantRewards } from './story-rewards';
 import { sceneById, sideStory } from './story-scenes';
@@ -261,7 +262,7 @@ const FUN_RULES = new Map<string, StoryRule>();
 function funRuleFor(quest: Quest): StoryRule {
   let rule = FUN_RULES.get(quest.id);
   if (!rule) {
-    rule = funRule(quest);
+    rule = isLangQuestCode(quest.code) ? langRule(quest) : funRule(quest);
     FUN_RULES.set(quest.id, rule);
   }
   return rule;
@@ -493,9 +494,18 @@ export function stepSideStories(world: World, c: CampaignState, events: SimEvent
 function stepFunQuests(world: World, c: CampaignState, events: SimEvent[]): void {
   let open = 0;
   for (const [id, st] of Object.entries(c.fun)) {
-    if (st.status === 'open') open += 1;
     const quest = sideStory(id);
+    if (st.status === 'open' && quest && !isLangQuestCode(quest.code)) open += 1;
     if (quest) stepOne(world, c, funRuleFor(quest), quest, events, c.fun);
+  }
+  // The language courses (CV3, Learning Grove only) offer their next quest on their own.
+  if (world.edu && c.queue.length === 0) {
+    for (const id of langQuestIds()) {
+      const quest = sideStory(id);
+      if (!quest || c.fun[id]) continue;
+      const rule = funRuleFor(quest);
+      if (rule.opens(world, c)) stepOne(world, c, rule, quest, events, c.fun);
+    }
   }
   if (open >= FUN.maxOpen || c.queue.length > 0) return;
   if (c.openedMs === null || world.timeMs < c.openedMs + FUN.offerAfterMs) return;

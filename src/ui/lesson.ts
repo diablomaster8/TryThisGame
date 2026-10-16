@@ -8,12 +8,14 @@ import { EDU_STORY_TEXT } from '../config/strings';
 import type { Lesson, LessonOption } from '../content/types';
 import { isAudioUnlocked, isSoundEnabled } from '../platform/audio';
 import { button, el } from './dom';
+import { appendScriptText, withoutScript } from './lang-dom';
 
 const PROMPT = /\([^)]*\)/g;
 
 /**
  * Fill `box` with a finished line: bracketed prompts (sprout) in their own style, and each
- * glossary word (reader) underlined and tappable. `onWord` shows its meaning.
+ * glossary word (reader) underlined and tappable. `onWord` shows its meaning. Hebrew and
+ * Japanese runs are isolated (ui/lang-dom.ts); `onLangWord` gets the course words tapped.
  */
 export function renderLineText(
   box: HTMLElement,
@@ -21,8 +23,10 @@ export function renderLineText(
   glossary: Map<string, string> | null,
   showPrompts: boolean,
   onWord: (word: string, meaning: string) => void,
+  onLangWord?: (ids: string[]) => void,
 ): void {
   box.textContent = '';
+  const plain = (t: string) => appendScriptText(box, t, onLangWord);
   const parts = showPrompts ? splitPrompts(text) : [{ text, prompt: false }];
   const words = glossary && glossary.size > 0 ? glossaryPattern(glossary) : null;
   for (const p of parts) {
@@ -31,13 +35,13 @@ export function renderLineText(
       continue;
     }
     if (!words || !glossary) {
-      box.appendChild(document.createTextNode(p.text));
+      plain(p.text);
       continue;
     }
     let last = 0;
     for (const m of p.text.matchAll(words)) {
       const at = m.index ?? 0;
-      if (at > last) box.appendChild(document.createTextNode(p.text.slice(last, at)));
+      if (at > last) plain(p.text.slice(last, at));
       const meaning = glossary.get(m[0].toLowerCase()) ?? '';
       const w = el('button', 'edu-gloss', m[0]);
       w.type = 'button';
@@ -48,7 +52,7 @@ export function renderLineText(
       box.appendChild(w);
       last = at + m[0].length;
     }
-    if (last < p.text.length) box.appendChild(document.createTextNode(p.text.slice(last)));
+    if (last < p.text.length) plain(p.text.slice(last));
   }
 }
 
@@ -81,13 +85,15 @@ function glossaryPattern(glossary: Map<string, string>): RegExp {
 
 /**
  * Speak a sprout line with the device's voice, once sound is on. The bracketed prompts are
- * for the grown-up, so they are left out. Silently does nothing without speech support.
+ * for the grown-up, so they are left out, and so are Hebrew and Japanese words: those are
+ * only ever heard from native-speaker clips (tap the word). Silently does nothing without
+ * speech support.
  */
 export function speakLine(text: string): void {
   try {
     const synth = window.speechSynthesis;
     if (!synth || !isAudioUnlocked() || !isSoundEnabled()) return;
-    const said = text.replace(PROMPT, ' ').replace(/\s+/g, ' ').trim();
+    const said = withoutScript(text.replace(PROMPT, ' ')).replace(/\s+/g, ' ').trim();
     synth.cancel();
     if (!said) return;
     const u = new SpeechSynthesisUtterance(said);

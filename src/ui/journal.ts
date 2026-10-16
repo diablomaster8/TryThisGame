@@ -9,6 +9,10 @@ import { funQuestIds, RUNNER_STORIES, sideActable } from '../sim/side-stories';
 import type { SideStoryState } from '../sim/types';
 import { eduContent, rewardById, sideStory, textBandOf } from '../sim/story-scenes';
 import { button, el, modal } from './dom';
+import { LANG_TEXT } from '../config/strings';
+import { TRACE_TARGETS } from '../sim/lang';
+import { scriptParagraph } from './lang-dom';
+import { TraceGame } from './trace';
 
 /**
  * The band's journal text in a Learning Grove save on the Learning story language (CV2):
@@ -38,7 +42,11 @@ export class Journal {
     this.dialog = modal(parent, STORY_TEXT.journal, 'Close');
     this.body = el('div');
     this.dialog.body.appendChild(this.body);
+    this.trace = new TraceGame(parent, game);
   }
+
+  /** The language courses' tracing game (CV3), opened from a tracing step. */
+  private readonly trace: TraceGame;
 
   open(): void {
     this.refresh();
@@ -120,14 +128,27 @@ export class Journal {
       if (!quest || !step) continue;
       const edu = eduJournal(g)?.goal(id, step.id);
       const title = eduJournal(g)?.title(id) ?? quest.title;
-      this.body.appendChild(el('p', undefined, `${title}: ${edu?.goal ?? step.goal}`));
+      this.body.appendChild(scriptParagraph(undefined, `${title}: ${edu?.goal ?? step.goal}`));
       // S18 lent the register to the museum; Delve has brought it back.
       const hint =
         id === 's10' && st.step === 0 && c.flags['s18-centre'] === 'register'
           ? STORY_TEXT.registerOnLoan
           : (edu?.hint ?? step.hint);
-      this.body.appendChild(el('p', 'help', hint));
-      if (sideActable(g.world, c, id)) {
+      this.body.appendChild(scriptParagraph('help', hint));
+      const trace = TRACE_TARGETS[step.check];
+      if (trace && sideActable(g.world, c, id)) {
+        // A tracing step (CV3): the game meets it, not a plain button.
+        this.body.appendChild(
+          button(
+            LANG_TEXT.trace,
+            () => {
+              this.dialog.hide();
+              this.trace.open(id, trace, () => this.open());
+            },
+            'btn btn-small',
+          ),
+        );
+      } else if (sideActable(g.world, c, id)) {
         this.body.appendChild(
           button(
             STORY_TEXT.doStep,

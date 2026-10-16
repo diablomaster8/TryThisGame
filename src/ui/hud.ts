@@ -61,6 +61,8 @@ import { PocketMode } from './pocket';
 import { modal } from './dom';
 import { mountPanelStack } from './panel-stack';
 import { ATLAS_TEXT } from '../config/strings';
+import { LANG_TEXT } from '../config/strings';
+import { langWord } from '../sim/lang';
 import { ARCADE_CARTS, loadAtlas } from '../sim/atlas';
 import { currentSlot } from '../platform/storage';
 import { announceFestivals, StoryShelf } from './atlas';
@@ -635,6 +637,16 @@ export function mountHud(
         } else if (e.kind === 'lanternLit') {
           toast(STORY_TEXT.lanternLit);
           playSound('pickup');
+        } else if (e.kind === 'langReact' && events.find((x) => x.kind === 'langReact') === e) {
+          // One caption per word, for the nearest Nubbin; the faces show on every one.
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          toast(
+            LANG_TEXT.reacted(
+              n?.name ?? NAMES.creature,
+              LANG_TEXT.gestures[e.gesture] ?? '',
+              langWord(e.word)?.roman ?? e.word,
+            ),
+          );
         } else if (e.kind === 'talked') {
           const npc = g.world.npcs.find((x) => x.id === e.npcId);
           const name = npc ? (TRAINER_LABELS[npc.trainer]?.name ?? npc.trainer) : '';

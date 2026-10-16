@@ -152,6 +152,9 @@ export class Grove3dScene {
       powerPreference: 'high-performance',
     });
     this.renderer.setPixelRatio(Math.min(1.5, window.devicePixelRatio));
+    // The page CSS scales the pixel mode's low-res canvas with nearest-neighbour; the 3D
+    // backing store stops at 1.5x, so on a 2x or 3x phone that would turn edges to blocks.
+    canvas.style.imageRendering = 'auto';
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
