@@ -18,7 +18,8 @@ working tree, unreviewed and uncommitted: Atlas A1–A10 and A22–A31 (plan.md 
 Review of everything done and open, and the v3 plan with briefs: `plan.md` (2026-10-16).
 Waiting on Maor: the expansion pick E1–E3 / S1–S4, the daily-gift decision, seven
 fun-quest quotes, whether Full 3D becomes the default, his phone rows in the device pass.
-Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
+Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`. Full 3D parity gaps left:
+plan.md Part G16 (eleven fixes and the renderer brief, about 12-17 h).
 
 ## Full 3D: event bursts and tree crowns (2026-10-16)
 
@@ -39,7 +40,7 @@ Works:
   no recompile; the shadow stays. Shots `parity-3d-crown-{before,after,blocked}.jpg`.
 
 Stubbed: none. Known bugs: a trunk can still hide a Keeper standing right behind it; the
-dressed visit gardens (`visit.ts`) build trees without the fade.
+dressed visit gardens (`visit.ts`) build trees without the fade (plan.md G16.8, G16.9).
 
 ## Pixel vs Full 3D parity pass (2026-10-16)
 
@@ -68,7 +69,7 @@ Works (fixed, one commit each):
   kind; 3D uses coarse spheres); Expedition, races, Beetle Run and the Learning Grove
   minigames pause the 3D render.
 
-Open, with estimates:
+Open, with estimates (all now tracked in plan.md Part G16):
 1. Done (8089255): event bursts, squash and pop in 3D (section above).
 2. Hollow Below entry stall in 3D (its lamps recompile every material, by design):
    compile asynchronously behind a fade. 1.5-2 h.

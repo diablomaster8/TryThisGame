@@ -35,7 +35,8 @@ A1–A10 and A22–A31 (twenty files, logs in `docs/logs/script-a*.md`, index an
   not cover its eyes asleep; Bolder's folded legs fan up; hearts and Zzz sprites are not
   occluded; a thrown Nubbin does not tumble; the Keeper walks through the pond. The main
   bundle is 1.3 MB with the v2 campaign script synchronous (another 175 kB could lazy-load).
-  Whether Full 3D becomes the default is Maor's call.
+  Whether Full 3D becomes the default is Maor's call. The parity gaps left after G15 are
+  Part G16.
 - **Track B.** Review of the twenty Atlas pages; the Arcade PA1–PA5, lines LB and LK, fun packs
   Q66–Q95; Learning Grove versions of S24–S31 and of every `all` Atlas and Arcade page; quote
   verification, adviser packets, the canon audit; engine CV2–CV6 plus the rest of CV1's scope
@@ -169,7 +170,9 @@ Run lint, test, build; log at line 12 of PROGRESS.md with the measured sizes and
 
 ## Part G15 — Pixel versus Full 3D parity audit and the default-renderer brief
 
-**Model:** Fable 5.1. **After:** G11 and G13.
+**Model:** Fable 5.1. **After:** G11 and G13. **Status:** done 2026-10-16 (PROGRESS.md, "Pixel vs
+Full 3D parity pass"; items 1 and 3 closed in "Full 3D: event bursts and tree crowns"). The
+run's brief left out `docs/renderer-decision.md`; it is G16.12.
 
 ```
 You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des (Git Bash, fnm Node 24).
@@ -177,6 +180,35 @@ You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des (G
 Context rules: read CLAUDE.md and the Status block of PROGRESS.md, then docs/device-pass.md. Never read a source file over 400 lines whole; grep for names from CLAUDE.md's "Where things are" table.
 
 Task: play the same seeded save (`?free&slot=3`) in Pixel and in Full 3D for twenty minutes each at x10 and list every difference a player would notice: things drawn in one mode and not the other (emote balls, halos, sparkles, toasts, dungeon props, race and Expedition screens, the Learning Grove and campaign scenes), picking and controls, readability on a phone-sized window (375x812), frame times from docs/device-pass.md. Fix the small gaps (under an hour each) in their own commits; list the rest with an estimate. Finish with docs/renderer-decision.md: a one-page brief for Maor on whether Full 3D should become the default, with the evidence, the risks (phones, bundle, workers) and a recommendation. Run lint, test, build; log at line 12 of PROGRESS.md; commit with "Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"; push. Report the recommendation in one paragraph.
+```
+
+## Part G16 — Full 3D parity: the remaining gaps
+
+**Model:** Opus. **After:** G15. One commit per item; each checked in the browser pane on
+`?free&slot=3` with Graphics set to Full 3D at 375x812 against the same view in Pixel.
+
+| # | Gap a player notices | Where | Size |
+| --- | --- | --- | --- |
+| G16.1 | Entering the Hollow Below stalls 3.3 s the first time: its four lamps recompile every material. Compile asynchronously behind a fade on the stairs | `render3d/hollow.ts` (lamps), `grove-3d-scene.ts` (`compileScene`) | 1.5–2 h |
+| G16.2 | Only Nubbins and items get the tap highlight; the pixel view also rings lanterns, trees, buildings, decor, plants, NPCs, wild ones, strays, memorials, stairs, chests and loot | `render3d/actors.ts` (highlight ring); pixel `SpriteBatch.highlight` | 1–2 h |
+| G16.3 | The story Hollow and Corvin's garden are a plain floor and a colour in 3D | pixel `buildHollow`, `buildCorvin` in `render/grove-scene.ts`; `grove-3d-scene.ts` location sets | 3–4 h |
+| G16.4 | Hollow Below dressing: no Keeper lamp, loot as generic shapes, no "?" over an unfed wild one (the Grove's wild visitor too) | `render3d/hollow.ts`, `crowd.ts`; pixel `render/paint/dungeon.ts`, `drawCave` | 1.5–2 h |
+| G16.5 | Village square stalls (`townUnlocks`) and the path fence posts are missing | pixel `render/world-view.ts`; `render3d/props.ts` | 1–1.5 h |
+| G16.6 | No merged glow, no cocoon fade, every fruit the same orange sphere | pixel `world-view.ts` (`isMerged`, cocoon opacity, fruit flavour frames); `render3d/actors.ts` | 1–1.5 h |
+| G16.7 | Weather ignores intensity and reduced motion; no daytime leaves, no fireflies in the story Hollow, no rain or snow grade | pixel `world-view.ts` particles, `game.ts` `updateDaylight`; `grove-3d-scene.ts` rain | 1 h |
+| G16.8 | A trunk can still hide a Keeper standing right behind it | `render3d/crowns.ts` | 30–60 min |
+| G16.9 | The dressed visit gardens build trees without the crown fade | `render3d/visit.ts` | 30 min |
+| G16.10 | Both modes: the race screen in portrait starts with runners and names clipped at the left edge | `ui/races.ts`, the race screen | 30–60 min |
+| G16.11 | Story scenes, the away screen and the photo panel leave the 3D render running behind them (battery on phones) | `game.renderPaused` callers in `src/ui/` | 15–30 min |
+| G16.12 | `docs/renderer-decision.md`: the one-page brief for Maor on Full 3D as the default (evidence from G15 and G16, risks: phones, bundle, workers; recommendation) | new doc | 30 min |
+| — | Expedition and races are pixel art in both modes, a style jump in Full 3D | Maor decides | — |
+
+```
+You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des (Git Bash, fnm Node 24).
+
+Context rules: read CLAUDE.md and the Status block of PROGRESS.md, then the two parity sections of PROGRESS.md ("Pixel vs Full 3D parity pass" and "Full 3D: event bursts and tree crowns"). Never read a source file over 400 lines whole; grep for the names in plan.md Part G16's table.
+
+Task: close the Full 3D parity gaps in plan.md Part G16, G16.1 to G16.11 in table order, one commit each, each matching the pixel view on the same seeded save (`?free&slot=3`, Graphics Full 3D, 375x812; the hidden browser pane pauses rAF, so drive `grove.frame()` by hand). Keep 3D work inside src/render3d/; the sim never learns which renderer is on. Stop and list what is left if an item runs past twice its estimate. Then write G16.12, docs/renderer-decision.md. The checkout is shared: build each commit from HEAD in a scratch `git checkout-index` export and stage and commit in one command. Screenshots in docs/samples/parity2-<item>.jpg. Run lint, test, build; log at line 12 of PROGRESS.md and tick the items off in Part G16; commit; push. Report what closed, what is left, and the recommendation in one paragraph.
 ```
 
 ## Part G12 — Expansions and campaigns (waiting for Maor's pick)
@@ -613,14 +645,16 @@ touch `src/ui/` panels, so B-B23 first; B-C6 and any further save work share
    B-V2 once scripting is done; B-V3 once scripting and edu are done.
 3. **Engine, one at a time after G13 lands:** B-C3 → B-C6 → B-C4 → B-C5 → B-C7 (once Maor
    decides the daily gifts).
-4. **Graphics close-out:** G15 after G11 and G13, then Maor's renderer decision.
+4. **Graphics close-out:** G15 (done 2026-10-16), then G16 (the remaining parity gaps), then
+   Maor's renderer decision.
 5. **B-H** after each content batch. **G12** when Maor picks from E1–E3 and S1–S4.
 
 ## What Maor decides
 
 - The daily gifts (B-C7): one-time story gifts, unlimited visits with no timer, or removed.
 - The seven fun-quest quotes B-V1 reports.
-- Whether Full 3D becomes the default (G15's brief).
+- Whether Full 3D becomes the default (G16.12's brief).
+- Whether the Expedition and races stay pixel art in Full 3D (G16).
 - The expansion pick: E1 The Square, E2 Nova's Season, E3 The Twine; campaigns S1 "The
   Hundred Days", S2 "Logged In", S3 "The Beetle Road", S4 "Dawn & Dusk".
 - The phone rows of `docs/device-pass.md`.
