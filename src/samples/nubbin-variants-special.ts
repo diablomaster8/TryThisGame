@@ -217,6 +217,38 @@ const chestMark = (color: string, y = 1.05, rx = 0.3) => ({
   soft: 0.02,
 });
 
+/**
+ * A short arm with a grey studded bracer at the wrist and a body-coloured fist (the dream
+ * look): the band is a capsule a hair wider than the arm, the studs gold beads on it.
+ */
+const braceletArm = (dx: number, body: string): PartSpec => ({
+  name: dx < 0 ? 'armL' : 'armR',
+  pivot: V(dx * 0.55, 1.15, 0.1),
+  prims: [
+    {
+      kind: 'capsule',
+      a: V(dx * 0.55, 1.15, 0.1),
+      b: V(dx * 1.0, 1.05, 0.14),
+      r: 0.16,
+      color: body,
+      tag: 'arm',
+    },
+    {
+      kind: 'capsule',
+      a: V(dx * 0.82, 1.09, 0.13),
+      b: V(dx * 1.0, 1.05, 0.14),
+      r: 0.22,
+      color: '#aeb3bf',
+      tag: 'band',
+      blend: 0.02,
+    },
+    ball(V(dx * 0.9, 1.08, 0.36), 0.05, '#e6b84a', 'stud'),
+    ball(V(dx * 0.98, 1.06, 0.36), 0.05, '#e6b84a', 'stud'),
+    { ...ball(V(dx * 1.28, 1.0, 0.16), 0.3, body, 'hand'), blend: 0.06 },
+  ],
+  box: [V(dx < 0 ? -1.75 : 0.2, 0.5, -0.4), V(dx < 0 ? -0.2 : 1.75, 1.7, 0.7)],
+});
+
 // ---- the Eternals ----
 
 const ETERNAL_SUN = variant(SUN_ADULT, 'Nubbin (Eternal Sun)', {
@@ -454,6 +486,9 @@ const QUILLS_NAVY = '#2443c4';
 const QUILLS_CLUSTER = quillCluster(QUILLS_NAVY);
 
 /** The echidna look's body: a deep crimson-maroon, darker than the flat red of the quills' shoes. */
+/** The dream look's body: a saturated magenta. */
+const DREAM_BODY = '#a82a8c';
+
 /** The fox look's flats: orange vest, cream face and feet, black hood, pink trim, navy eyes. */
 const FOX_ORANGE = '#f08a1c';
 const FOX_CREAM = '#f6e2b4';
@@ -717,31 +752,82 @@ export const SPECIAL_VARIANTS: NubbinVariant[] = [
     notes: 'Pink with round ears, a red headband and bow, white gloves and pink shoes.',
   }),
   look('look-dream', 'Nubbin (Dream look)', {
+    // Flat magenta all over; a darker centre on the belly, a gold horn, a black ball above.
     colors: {
-      body: '#7a2fb0',
-      belly: '#e0c9f7',
-      tip: '#c02a8a',
-      pad: '#5b1f80',
-      crownShade: '#5b1f80',
+      body: DREAM_BODY,
+      belly: DREAM_BODY,
+      tip: '#e6b84a',
+      pad: DREAM_BODY,
+      iris: '#2a1a4a',
+      blush: DREAM_BODY,
+      star: DREAM_BODY,
+      crownShade: DREAM_BODY,
     },
+    // An onion dome: a wide cone that melts into the head, tiny ear points and the gold horn.
     crown: [
-      cone(V(0, 2.35, 0), V(0, 3.45, -0.55), 0.34, 0.04, '#c02a8a', 'crown', 0.1),
-      cone(V(0, 2.3, 0.1), V(0.1, 2.95, 0.4), 0.18, 0.03, '#c02a8a', 'crown', 0.08),
-      ball(V(0, 3.47, -0.57), 0.09, '#ffd94a'),
+      cone(V(0, 2.5, 0), V(0, 3.2, -0.05), 0.58, 0.04, DREAM_BODY, 'crown', 0.1),
+      ...[-1, 1].map((dx) =>
+        cone(
+          V(dx * 0.9, 2.28, -0.1),
+          V(dx * 1.12, 2.55, -0.15),
+          0.13,
+          0.02,
+          DREAM_BODY,
+          'ear',
+          0.05,
+        ),
+      ),
+      cone(V(0, 2.4, 0.6), V(0, 2.82, 0.78), 0.13, 0.02, '#e6b84a', 'tip', 0.03),
     ],
+    slots: {
+      arms: [braceletArm(-1, DREAM_BODY), braceletArm(1, DREAM_BODY)],
+    },
+    ball: { color: '#1a1424', glow: '#3a2a50' },
     hints: [
-      // A pale mask across the eyes and a white chest star.
+      // The eyes are white ovals the closed arcs are drawn on.
+      ...[-1, 1].map((dx) => ({
+        kind: 'ellipsoid' as const,
+        a: V(dx * 0.46, 1.86, 0.86),
+        radii: V(0.34, 0.42, 0.2),
+        color: WHITE,
+        soft: 0.01,
+      })),
+      // The dark smudge in the middle of the belly.
       {
         kind: 'ellipsoid',
-        a: V(0, 2.05, 0.5),
-        radii: V(0.66, 0.24, 0.34),
-        color: '#b08ae8',
-        soft: 0.03,
+        a: V(0, 1.0, 0.5),
+        radii: V(0.4, 0.42, 0.3),
+        color: '#5a1250',
+        soft: 0.12,
       },
-      chestMark(WHITE, 1.05, 0.26),
     ],
-    patch: (spec) => dress(spec, { gloves: '#c02a8a', shoes: '#c02a8a' }),
-    notes: 'Purple and magenta with a tall swept jester point, a pale mask and a white chest star.',
+    headScale: 1.2,
+    // A closed eye stays a white oval with a dark ^ across it.
+    eyes: { x: 0.42, y: 1.78, r: 0.3, tall: 1.3, lidColor: WHITE, brow: false },
+    mouth: { shape: 'smile', width: 0.12, y: 1.62, z: 1.0, line: '#d0508a' },
+    patch: (spec) => {
+      const dome = spec.head.prims.find((p) => p.tag === 'head')!;
+      dome.a.set(0, 2.0, 0);
+      dome.radii!.set(1.2, 0.78, 0.95);
+      const belly = spec.torso.prims.find((p) => p.tag === 'belly')!;
+      belly.a.set(0, 1.0, 0);
+      belly.radii!.set(0.6, 0.55, 0.56);
+      spec.shade = { top: 1.0, bottom: 0.94, yMax: 3.5 };
+      widen(spec.head, { x: 1.4, z: -1.2 });
+      // Long pointed teardrop legs in place of legs and shoes.
+      for (const ps of spec.parts) {
+        if (!ps.name.startsWith('leg')) continue;
+        const x = (ps.name === 'legL' ? -1 : 1) * 0.36;
+        ps.prims = [
+          cone(V(x, 0.78, 0.05), V(x * 1.4, 0.08, 0.3), 0.36, 0.14, DREAM_BODY, 'foot', 0.1),
+        ];
+        ps.box = [V(x - 0.8, -0.2, -0.5), V(x + 0.8, 1.0, 0.8)];
+        ps.resolution = 56;
+      }
+    },
+    notes:
+      'Line-up figure 4 (Part G8b): an onion-domed magenta head with tiny ear points and a gold ' +
+      'horn, big white oval eyes, grey studded bracers, a dark belly centre, pointed legs.',
   }),
   look('look-quills', 'Nubbin (Quills look)', {
     // Flat line-up colours; the blush, star and crown shade take the body colour so no

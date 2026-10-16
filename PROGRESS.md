@@ -45,6 +45,15 @@ The reference is `docs/reference/chao-world-lineup.jpg` (the YouTube thumbnail, 
 figures left to right: quills, echidna, fox, dream, Eternal Neutral, shade, Eternal Moon).
 Steps, newest first, one commit each:
 
+4c. **look-dream against slice 4** (`docs/samples/match-dream.jpg`). Again not the brief's jester
+   point: the figure is a flat magenta `#a82a8c` with an onion-shaped head (a wide dome and a
+   narrow cone melted into it), tiny ear points, a gold horn on the forehead, big white oval eyes
+   with the happy ^ across them (white ellipsoid marks under the arcs), a dark smudge on the
+   belly, grey studded bracers (`braceletArm`, new), arms out and long pointed teardrop legs, no
+   shoes. Still differs: the thumbnail's peak is lower and its head broader and flatter-bottomed;
+   our ball is the stage's glassy pearl, not the reference's black one (the spec colour does
+   not reach its material); the bracers' studs are two gold beads, not a row; the happy hop
+   tilts the figure, which the still thumbnail does not.
 4b. **look-fox against slice 3** (`docs/samples/match-fox.jpg`, idle pose: the reference's eyes are open
    and our happy pose shuts them). The line-up's third figure is not the orange fox the brief
    described: it is a black hood edged by a pink V over a cream face, big navy eyes, an orange
