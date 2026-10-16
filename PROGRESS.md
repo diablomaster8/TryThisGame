@@ -79,8 +79,8 @@ Works:
   still applies the original scene's flags; the dialogue sends `choiceToSend`. A scene
   with no edu version reads its quest's `childLines` in any Learning Grove save.
 - Dialogue (`ui/lesson.ts`): ask = big options, the best gets a star, then the reply;
-  notice = its lines; do = its lines and a card. Reader glossary words are underlined,
-  tap for the meaning. Sprout bracketed prompts are styled apart and read-aloud uses the
+  notice = its lines; do = its lines and a card. Reader glossary words are underlined in
+  the scene that introduces them (the entry's `scene`), tap for the meaning. Sprout bracketed prompts are styled apart and read-aloud uses the
   device voice once sound is on (prompts not spoken). Journal shows the band's chapter
   and quest goals. Grown-up progress: story lessons by area and by standard, latest
   parent notes.
@@ -95,7 +95,12 @@ Stubbed:
 Known bugs / assumptions:
 - Assumed: the Learning Grove story starts with `TRAINERS[0]` (no Keeper menu there).
 - Read-aloud is the browser voice (`en-GB`), not recordings; untested on iOS in this pass.
-- Not checked in the browser pane this pass; tests, lint, build and content-check pass.
+- Checked in the browser pane (Full 3D, `?edu=4` and `?edu=8`): c1-letter in both bands,
+  prompts, a do card, a think question, a starred ask, glossary taps, lessons recorded,
+  no console errors.
+- Pre-existing, not CV2: with the pane in the background (1 fps) a finished scene can
+  play a second time, because the HUD's 200 ms loop replays `queue[0]` before the next
+  frame applies `sceneDone`. Lessons keep their first answer, so nothing double counts.
 
 ## G14 bundle diet: campaign chunk, sample stage split, grass in a worker (2026-10-16)
 

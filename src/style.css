@@ -1103,9 +1103,11 @@ button,
 
 /* ---------- Learning Grove story beats (CV2) ---------- */
 
-/* Sprout: the grown-up's bracketed prompts, set apart from the read-aloud text. */
+/* Sprout: the grown-up's bracketed prompts, set apart from the read-aloud text by weight
+   and style as well as colour (narration is already italic). */
 .edu-prompt {
-  font-style: italic;
+  font-style: normal;
+  font-weight: 700;
   color: #9fd3ff;
   font-size: 0.9em;
 }

@@ -260,7 +260,10 @@ export class Dialogue {
   private finishText(): void {
     const g = this.game();
     const band = g ? textBandOf(g.world) : 'main';
-    const glossary = band === 'reader' ? (eduContent()?.eduGlossary('reader') ?? null) : null;
+    const glossary =
+      band === 'reader' && this.scene
+        ? (eduContent()?.eduGlossary('reader', this.scene) ?? null)
+        : null;
     renderLineText(this.text, this.fullText, glossary, band === 'sprout', (word, meaning) => {
       this.text.querySelector('.edu-gloss-pop')?.remove();
       const pop = el('span', 'edu-gloss-pop', `${word}: ${meaning}`);

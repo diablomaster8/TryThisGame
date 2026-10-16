@@ -4,7 +4,7 @@
  * choices and lessons in place of the original, and still applies the ORIGINAL scene's `set`
  * flags and any choice flags (EduScene has no scene-level `set`). See EDU-STYLE.md.
  */
-import type { EduBand, EduCampaign, EduQuest, EduScene, Lesson } from './types';
+import type { EduBand, EduCampaign, EduQuest, EduScene, GlossaryEntry, Lesson } from './types';
 import { EDU_CAMPAIGN_1_SPROUT } from './edu-campaign-1-sprout';
 import { EDU_CAMPAIGN_1_READER } from './edu-campaign-1-reader';
 import { EDU_CAMPAIGN_2_SPROUT } from './edu-campaign-2-sprout';
@@ -107,17 +107,31 @@ export function eduSceneFor(band: EduBand, originalId: string): EduScene | undef
   return m.get(originalId);
 }
 
-/** The band's reader glossary: lower-case word → meaning (sprout has none). */
-export function eduGlossary(band: EduBand): Map<string, string> {
-  const m = new Map<string, string>();
-  const add = (g: { word: string; meaning: string }[] | undefined) => {
-    for (const e of g ?? [])
-      if (!m.has(e.word.toLowerCase())) m.set(e.word.toLowerCase(), e.meaning);
-  };
-  for (const c of EDU_CAMPAIGN[band]) add(c.glossary);
-  for (const q of EDU_QUESTS[band]) add(q.glossary);
-  return m;
+/**
+ * The band's reader glossary for one scene: lower-case word → meaning. A word is underlined
+ * in the scene that introduces it (its entry's `scene`), not every time it comes up.
+ */
+export function eduGlossary(band: EduBand, sceneId: string): Map<string, string> {
+  let byScene = glossaryCache.get(band);
+  if (!byScene) {
+    byScene = new Map();
+    glossaryCache.set(band, byScene);
+    const add = (g: GlossaryEntry[] | undefined) => {
+      for (const e of g ?? []) {
+        // Entries name their scene either by the original id or as `<band>:<id>`.
+        const scene = e.scene.replace(/^(sprout|reader):/, '');
+        let m = byScene!.get(scene);
+        if (!m) byScene!.set(scene, (m = new Map()));
+        if (!m.has(e.word.toLowerCase())) m.set(e.word.toLowerCase(), e.meaning);
+      }
+    };
+    for (const c of EDU_CAMPAIGN[band]) add(c.glossary);
+    for (const q of EDU_QUESTS[band]) add(q.glossary);
+  }
+  return byScene.get(sceneId) ?? NO_WORDS;
 }
+const glossaryCache = new Map<EduBand, Map<string, Map<string, string>>>();
+const NO_WORDS = new Map<string, string>();
 
 /** The band's journal text for a campaign chapter, if a slice covers it. */
 export function eduChapterText(
