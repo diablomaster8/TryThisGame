@@ -48,9 +48,14 @@ export interface VariantOverrides {
   slots?: Partial<Record<Slot, PartSpec[]>>;
   /** Extra marks painted after the base's: alignment hints, patches, rings. */
   hints?: Mark[];
-  /** The type silhouette at full strength, and a second type at half. */
+  /**
+   * The type tells at full strength (quills, a crest and flippers, a long crown and big
+   * wings, horns and a wide body) and a second type at half strength.
+   */
   type?: NubbinType;
   second?: NubbinType;
+  /** The colour the type tells take; the body colour by default (Sun and Moon pass a tint). */
+  accent?: string;
   scale?: number;
   surface?: Partial<SpeciesSpec['surface']>;
   eyes?: Partial<SpeciesSpec['eyes']>;
@@ -290,18 +295,134 @@ function lift(spec: SpeciesSpec, d: number): void {
   spec.shade.yMax += d;
 }
 
-function applyType(spec: SpeciesSpec, type: NubbinType, k: number, palette: NubbinColors): void {
+/**
+ * The five type colours, after the neutral evolution chart: the Neutral adult's body, and
+ * the accent the Sun (lightened) and Moon (deepened) forms carry on their tells.
+ */
+export const TYPE_COLORS: Record<NubbinType, { body: string; shade: string; belly: string }> = {
+  normal: { body: '#3ec9d6', shade: '#1a8fa6', belly: '#d2f6ff' },
+  swim: { body: '#86d94a', shade: '#3f9a2a', belly: '#e6ffb8' },
+  fly: { body: '#ff86c2', shade: '#c84d8f', belly: '#ffd9ec' },
+  run: { body: '#3b6cf0', shade: '#1f3db0', belly: '#c0d4ff' },
+  power: { body: '#ff6a2a', shade: '#b8360e', belly: '#ffd2a6' },
+};
+
+/** Mix two hex colours: `t` 0 gives `a`, 1 gives `b`. For the second evolutions' hue blends. */
+export function mixHex(a: string, b: string, t: number): string {
+  const ca = parseInt(a.slice(1), 16);
+  const cb = parseInt(b.slice(1), 16);
+  const ch = (shift: number) => {
+    const x = (ca >> shift) & 255;
+    const y = (cb >> shift) & 255;
+    return Math.round(x + (y - x) * t);
+  };
+  return '#' + [16, 8, 0].map((s) => ch(s).toString(16).padStart(2, '0')).join('');
+}
+
+/** Quills swept back from the head, the Run tell: three at full strength, two at half. */
+export function quills(color: string, k = 1): Prim[] {
+  const q = (a: THREE.Vector3, b: THREE.Vector3, r: number): Prim => ({
+    kind: 'cone',
+    a,
+    b,
+    r,
+    r2: 0.03,
+    color,
+    tag: 'quill',
+    blend: 0.08,
+  });
+  const len = 0.55 + 0.45 * k;
+  const out = [
+    q(V(-0.32, 2.25, -0.3), V(-0.6, 2.55 + 0.2 * k, -0.3 - 0.75 * len), 0.16),
+    q(V(0.32, 2.25, -0.3), V(0.6, 2.55 + 0.2 * k, -0.3 - 0.75 * len), 0.16),
+  ];
+  if (k >= 1) out.push(q(V(0, 2.45, -0.3), V(0, 2.95, -0.3 - 0.8 * len), 0.17));
+  return out;
+}
+
+/** Two short horns on the brow, the Power tell. */
+export function horns(color: string, k = 1): Prim[] {
+  return [-1, 1].map((dx) => ({
+    kind: 'cone',
+    a: V(dx * 0.36, 2.4, 0.15),
+    b: V(dx * (0.5 + 0.08 * k), 2.72 + 0.18 * k, 0.1),
+    r: 0.11,
+    r2: 0.02,
+    color,
+    tag: 'horn',
+    blend: 0.06,
+  }));
+}
+
+/** Flipper arms in place of the mitts, the Swim tell. */
+export function flipperArms(body: string, accent: string): PartSpec[] {
+  return [-1, 1].map((dx) => ({
+    name: dx < 0 ? 'armL' : 'armR',
+    pivot: V(dx * 0.6, 1.02, 0.1),
+    prims: [
+      {
+        kind: 'capsule',
+        a: V(dx * 0.6, 1.02, 0.1),
+        b: V(dx * 0.95, 0.78, 0.2),
+        r: 0.14,
+        color: body,
+        tag: 'arm',
+      },
+      {
+        kind: 'ellipsoid',
+        a: V(dx * 1.12, 0.7, 0.26),
+        radii: V(0.3, 0.08, 0.22),
+        r: 0,
+        color: accent,
+        tag: 'hand',
+        blend: 0.06,
+      },
+    ],
+    box: [V(dx < 0 ? -1.6 : 0.2, 0.3, -0.3), V(dx < 0 ? -0.2 : 1.6, 1.4, 0.7)],
+    resolution: 56,
+  }));
+}
+
+function setCrown(spec: SpeciesSpec, crown: CrownKind | Prim[], body: string, tip: string): void {
+  const keep = spec.head.prims.filter((p) => p.tag !== 'crown' && p.tag !== 'tip');
+  const prims = Array.isArray(crown) ? crown.map(clonePrim) : crownPrims(crown, body, tip);
+  spec.head.prims = [...keep, ...prims];
+}
+
+/**
+ * The type tells, after the neutral evolution chart. At full strength (`k` 1) the type
+ * also sets the crown; at half strength it adds its tell more quietly and keeps the crown.
+ */
+function applyType(
+  spec: SpeciesSpec,
+  type: NubbinType,
+  k: number,
+  palette: NubbinColors,
+  accent: string,
+): void {
+  const head = spec.head;
   switch (type) {
     case 'swim':
-      setSlot(spec, 'ears', headFins(palette.body, 0.55 + 0.45 * k));
+      if (k >= 1) setCrown(spec, 'fin', accent, palette.tip);
+      setSlot(spec, 'ears', headFins(accent, 0.55 + 0.45 * k));
+      if (k >= 1) setSlot(spec, 'arms', flipperArms(palette.body, accent));
       break;
     case 'fly':
-      if (spec.wings) spec.wings.size *= 1 + 0.7 * k;
+      if (k >= 1) setCrown(spec, 'tall', palette.body, accent);
+      if (spec.wings) {
+        spec.wings.size *= 1 + 0.7 * k;
+        spec.wings.color = mixHex(accent, '#ffffff', 0.45);
+      }
       break;
     case 'run':
+      if (k >= 1) setCrown(spec, 'none', palette.body, palette.tip);
+      head.prims.push(...quills(accent, k));
+      head.box[0].z = Math.min(head.box[0].z, -1.4);
       lift(spec, 0.24 * k);
       break;
     case 'power':
+      if (k >= 1) setCrown(spec, 'stub', palette.body, palette.tip);
+      head.prims.push(...horns(accent, k));
       for (const p of spec.torso.prims)
         if (p.radii) {
           p.radii.x *= 1 + 0.16 * k;
@@ -332,13 +453,7 @@ export function variant(base: SpeciesSpec, name: string, o: VariantOverrides): S
   const from = paletteOf(base);
   const palette: NubbinColors = { ...from, ...o.colors };
   if (o.colors) recolor(spec, from, palette);
-  if (o.crown !== undefined) {
-    const keep = spec.head.prims.filter((p) => p.tag !== 'crown' && p.tag !== 'tip');
-    const crown = Array.isArray(o.crown)
-      ? o.crown.map(clonePrim)
-      : crownPrims(o.crown, palette.body, palette.tip);
-    spec.head.prims = [...keep, ...crown];
-  }
+  if (o.crown !== undefined) setCrown(spec, o.crown, palette.body, palette.tip);
   if (o.ball === null) delete spec.ball;
   else if (o.ball) spec.ball = { y: 3.5, color: palette.tip, ...spec.ball, ...o.ball };
   if (o.wings === null) delete spec.wings;
@@ -352,8 +467,9 @@ export function variant(base: SpeciesSpec, name: string, o: VariantOverrides): S
       ...spec.wings,
       ...o.wings,
     };
-  if (o.type) applyType(spec, o.type, 1, palette);
-  if (o.second && o.second !== o.type) applyType(spec, o.second, 0.5, palette);
+  const accent = o.accent ?? palette.body;
+  if (o.type) applyType(spec, o.type, 1, palette, accent);
+  if (o.second && o.second !== o.type) applyType(spec, o.second, 0.5, palette, accent);
   if (o.slots)
     for (const [slot, parts] of Object.entries(o.slots)) setSlot(spec, slot as Slot, parts);
   if (o.hints) spec.marks.push(...o.hints.map(cloneMark));

@@ -3,23 +3,30 @@ import {
   MOON_ADULT,
   NEUTRAL_ADULT,
   SUN_ADULT,
+  TYPE_COLORS,
+  mixHex,
   variant,
-  type CrownKind,
-  type NubbinColors,
   type NubbinVariant,
+  type VariantOverrides,
 } from './nubbin-variants';
 import type { SpeciesSpec } from './species';
 
 /**
  * The 15 first evolutions of the Nubbin: three alignment bands (Sun, Moon, Neutral) times
  * five types (Normal, Swim, Fly, Run, Power). Each is a small diff on its band's adult
- * template: the type silhouette (head fins, bigger wings, longer legs, a wider body) comes
- * from the helper's `type` override, and only the body, crown shade and belly colours change
- * by type. The Normal forms are the templates themselves. The second evolutions derive from
- * these through `firstSpec`.
+ * template. The helper's `type` override draws the silhouette (quills, a crest with flippers,
+ * a long crown with big wings, horns with a wide body); the colours follow the reference chart.
+ * Neutral wears its type hue as the body, Sun stays white and Moon stays black with the hue on
+ * the tells only. The Normal forms are the templates themselves. The second evolutions derive
+ * from these through `firstSpec`, sharing `bandColors`.
  */
 
-type Band = 'sun' | 'moon' | 'neutral';
+export type Band = 'sun' | 'moon' | 'neutral';
+export interface Hue {
+  body: string;
+  shade: string;
+  belly: string;
+}
 
 const BANDS: Band[] = ['sun', 'moon', 'neutral'];
 const TYPES: NubbinType[] = ['normal', 'swim', 'fly', 'run', 'power'];
@@ -29,8 +36,8 @@ const TEMPLATE: Record<Band, SpeciesSpec> = {
   moon: MOON_ADULT,
   neutral: NEUTRAL_ADULT,
 };
-const BAND_LABEL: Record<Band, string> = { sun: 'Sun', moon: 'Moon', neutral: 'Neutral' };
-const TYPE_LABEL: Record<NubbinType, string> = {
+export const BAND_LABEL: Record<Band, string> = { sun: 'Sun', moon: 'Moon', neutral: 'Neutral' };
+export const TYPE_LABEL: Record<NubbinType, string> = {
   normal: 'Normal',
   swim: 'Swim',
   fly: 'Fly',
@@ -38,50 +45,43 @@ const TYPE_LABEL: Record<NubbinType, string> = {
   power: 'Power',
 };
 
-/** Neutral crowns by type; Sun and Moon keep the template crown, and Normal keeps the droop. */
-const NEUTRAL_CROWN: Partial<Record<NubbinType, CrownKind>> = {
-  swim: 'fin',
-  fly: 'tall',
-  run: 'point',
-  power: 'stub',
-};
+const WHITE = '#ffffff';
+const BLACK = '#000000';
 
-/**
- * Colours by band and type, from the pixel game's adult palette. The Sun fly body is white
- * like the template belly, so its belly (and the sheen that shares the white) is nudged
- * darker to keep the belly patch readable.
- */
-const COLOURS: Record<Band, Partial<Record<NubbinType, Partial<NubbinColors>>>> = {
-  sun: {
-    swim: { body: '#8fd6f0', crownShade: '#4a9be0' },
-    fly: { body: '#ffffff', crownShade: '#cdb1f0', belly: '#e3ecfa', sheen: '#e3ecfa' },
-    run: { body: '#fff1c9', crownShade: '#d9a66c' },
-    power: { body: '#e8e2ee', crownShade: '#f29c2e' },
-  },
-  moon: {
-    swim: { body: '#16284a', crownShade: '#0d0a1a' },
-    fly: { body: '#5b3a8f', crownShade: '#2b2440' },
-    run: { body: '#1d3b2a', crownShade: '#0d0a1a' },
-    power: { body: '#9e2b3f', crownShade: '#2b2440' },
-  },
-  neutral: {
-    swim: { body: '#4a9be0', crownShade: '#2e5ca8', belly: '#8fd6f0' },
-    fly: { body: '#cdb1f0', crownShade: '#9b5de5', belly: '#e8e2ee' },
-    run: { body: '#c6ec6a', crownShade: '#86c94a', belly: '#fff1c9' },
-    power: { body: '#f29c2e', crownShade: '#e0562e', belly: '#d9a66c' },
-  },
+/** The colours and tell accent one band gives a hue: Neutral wears it, Sun lightens, Moon deepens. */
+export function bandColors(band: Band, hue: Hue): Pick<VariantOverrides, 'colors' | 'accent'> {
+  const { body, shade, belly } = hue;
+  switch (band) {
+    case 'neutral':
+      return { colors: { body, crownShade: shade, belly } };
+    case 'sun':
+      return {
+        accent: mixHex(body, WHITE, 0.35),
+        colors: { tip: mixHex(body, WHITE, 0.45), pad: body, crownShade: mixHex(body, WHITE, 0.7) },
+      };
+    case 'moon':
+      return {
+        accent: mixHex(body, BLACK, 0.25),
+        colors: { tip: mixHex(body, BLACK, 0.15), pad: shade, crownShade: '#0d0a1a' },
+      };
+  }
+}
+
+const NOTES: Record<Band, string> = {
+  sun: 'a white body with the type hue on tip, hands and tells',
+  moon: 'a black body with slanted eyes and the type hue on tells',
+  neutral: 'the type hue as the whole body',
 };
 
 function build(band: Band, type: NubbinType): NubbinVariant {
   const id = `first-${band}-${type}`;
   const base = TEMPLATE[band];
   if (type === 'normal') return { id, family: 'first', spec: base };
-  const crown = band === 'neutral' ? NEUTRAL_CROWN[type] : undefined;
   const spec = variant(base, `Nubbin (${BAND_LABEL[band]} ${TYPE_LABEL[type]})`, {
     type,
-    colors: COLOURS[band][type] ?? {},
-    ...(crown ? { crown } : {}),
-    notes: `First evolution, ${BAND_LABEL[band]} band, ${TYPE_LABEL[type]} type: derived from the ${BAND_LABEL[band]} template.`,
+    ...bandColors(band, TYPE_COLORS[type]),
+    ...(band === 'moon' ? { eyes: { lid: 0.3 } } : {}),
+    notes: `First evolution, ${BAND_LABEL[band]} ${TYPE_LABEL[type]}: ${NOTES[band]}.`,
   });
   return { id, family: 'first', spec };
 }

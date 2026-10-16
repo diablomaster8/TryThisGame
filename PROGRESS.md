@@ -9,7 +9,7 @@ new pass goes in at line 12 and the file is long, move the oldest section to
 Shipped and deployed: v1, the organic painted Grove, the Digimon-inspired ten, the Hollow
 Below dungeons, the 96-unit field, three save slots per mode. In progress: the full-3D
 mode, currently as samples behind `?aaa=1` with the five-creature roster in the species
-format. Latest pass: the Nubbin variant catalogue as specs derived from the base (Part G8). Waiting on Maor:
+format. Latest pass: the Nubbin variants brought in line with Maor's references (colours, type tells, looks). Waiting on Maor:
 the pick from expansions E1–E3 and campaigns S1–S4, and his device pass. Subagent briefs
 with model picks: `plan.md`. Improvement backlog against the Palworld references:
 `docs/creature-improvements.md`. Story content pack: `src/content/`, `script-book/`,
@@ -22,6 +22,27 @@ with model picks: `plan.md`. Improvement backlog against the Palworld references
 going until you hit the session limit." So after each milestone passes its done-when
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
+
+## Variants after the references (2026-10-15)
+
+Maor supplied three reference pages (the neutral evolution chart, a filled-gardens shot and
+a community tier list) and approved the four-step pass plus the pixel palette. Type colours
+corrected in `TYPE_COLORS` (`nubbin-variants.ts`): Normal cyan, Swim green, Fly pink, Run
+blue, Power orange-red; `adultColors` in `render/sprites/chao.ts` realigned the same way (Sun
+forms pale with the hue in the shade, Moon forms dark with the hue in the body). Type tells:
+`applyType` now sets the crown and adds quills (Run), a crest with side fins and flipper arms
+(Swim), a long crown with bigger tinted wings (Fly), horns with a wider body (Power); `accent`
+colours the tells and `mixHex` blends hues. Sun forms keep a white body with pastel accents,
+Moon forms a black body with deepened accents and slanted eyes (`bandColors` in the first
+family file). Second evolutions blend the two type colours (0.4 toward the second) in place of
+the belly patch. Special: the Eternals retuned (swept crown and a green cast; navy with quills
+and horns; cyan-green crest) and six modelled looks (fox, echidna, rose, dream, quills, shade)
+replace the four palette placeholders, so only the seven jewels remain placeholders (flat
+gloss). Tests: the tells, `mixHex`, and a geometry sanity sweep over all 116 variants.
+Screenshots re-shot: `variants-first.jpg`, `variants-second.jpg`, `variants-special.jpg`.
+Known: the hue blend at 0.4 is subtle on the Normal-based pairs; the Sun tells are pale by
+design and read best up close. Lint, 216 tests and `vite build` pass on this pass's files;
+`tsc` currently reports errors only in another session's unfinished `main.ts` and `render3d/`.
 
 ## The Nubbin variants as specs (2026-10-15)
 
@@ -124,15 +145,3 @@ Items 9–15 and 32. New: `Prim.blend` (a primitive's own blend radius, in `scul
 - `npm run lint` and the `tsc` half of `npm run build` fail on `src/content/atlas-a01.ts`
   and `atlas-a06.ts`, untracked files from the content sessions (not mine, not committed);
   `eslint src/samples`, `npm test` (210 pass) and `vite build` are clean.
-
-## Eyes that look (2026-10-15)
-
-Item 3 of the brief: the irises follow. `eye()` returns `iris` (the disc in its own group;
-the catchlight stays in the eye group as a reflection). In `buildSpecies`, each frame every
-eye takes `Rigged.lookAt` in its own frame and eases its iris toward it at 6 per second,
-at most 0.22 of the eye radius, dropping with the dome so it never floats; per-eye aiming
-makes the pair converge on a near point. With no `lookAt` the iris wanders slowly.
-`lookAt` already existed (null or a Vector3, head turn still gated to the `pet` pose); the
-stage now sets it to the camera for closeup and lineup views. Check:
-`?aaa=1&creature=1&closeup&pose=idle&turn=30`, `docs/samples/look-nubbin.jpg`. Lint,
-210 tests and build pass. Not checked: the other four species by eye.

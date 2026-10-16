@@ -920,7 +920,7 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     const cols = Math.min(specs.length, 8);
     const rows = Math.ceil(specs.length / cols);
     // Capped so a deep sheet never puts the camera inside the hills; it rises instead.
-    sheetBack = Math.min(2.5, Math.max(1, cols / 5 + (rows - 1) * 0.45));
+    sheetBack = Math.min(2, Math.max(1, cols / 5 + (rows - 1) * 0.45));
     sheetRows = rows;
     specs.forEach((spec, i) => {
       const c = buildSpecies(spec);
@@ -1214,7 +1214,7 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
       }
       const back = (camera.aspect < 1.5 ? 1.3 : 1) * sheetBack;
       // A sheet with more rows is seen from higher up, aimed at its middle row.
-      const rise = (sheetRows - 1) * 3;
+      const rise = (sheetRows - 1) * 3.6;
       camera.position.set(0.4 * back, ky + 2.5 * back + rise, -10.4 * back);
       camera.lookAt(0, ky + 1.1, (sheetRows - 1) * 1.6);
     } else if (creature) {

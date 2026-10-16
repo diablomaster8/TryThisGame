@@ -69,14 +69,17 @@ export const CHILD_MOON: ChaoColors = {
 /** Adult palettes by alignment band and type: the 15 first-evolution looks. */
 export function adultColors(band: 'sun' | 'moon' | 'neutral', type: string): ChaoColors {
   const base = band === 'sun' ? CHILD_SUN : band === 'moon' ? CHILD_MOON : CHILD_NEUTRAL;
+  // Hues after the neutral evolution chart (2026-10-15): Swim green, Fly pink, Run blue,
+  // Power orange-red, Normal cyan; Sun forms stay pale with the hue in the shade, Moon
+  // forms stay dark with the hue in the body.
   if (band === 'neutral') {
     switch (type) {
       case 'swim':
-        return { ...base, body: C.water, shade: C.deepWater, belly: C.shallows };
-      case 'fly':
-        return { ...base, body: C.lavender, shade: C.violet, belly: C.pale };
-      case 'run':
         return { ...base, body: C.sprout, shade: C.grass, belly: C.cream };
+      case 'fly':
+        return { ...base, body: C.rose, shade: C.roseDeep, belly: C.roseLight };
+      case 'run':
+        return { ...base, body: C.water, shade: C.deepWater, belly: C.shallows };
       case 'power':
         return { ...base, body: C.orange, shade: C.ember, belly: C.sand };
       default:
@@ -86,11 +89,11 @@ export function adultColors(band: 'sun' | 'moon' | 'neutral', type: string): Cha
   if (band === 'sun') {
     switch (type) {
       case 'swim':
-        return { ...base, body: C.shallows, shade: C.water };
+        return { ...base, body: C.pale, shade: C.sprout };
       case 'fly':
-        return { ...base, body: C.white, shade: C.lavender };
+        return { ...base, body: C.white, shade: C.blush };
       case 'run':
-        return { ...base, body: C.cream, shade: C.sand };
+        return { ...base, body: C.pale, shade: C.water };
       case 'power':
         return { ...base, body: C.pale, shade: C.orange };
       default:
@@ -99,11 +102,11 @@ export function adultColors(band: 'sun' | 'moon' | 'neutral', type: string): Cha
   }
   switch (type) {
     case 'swim':
-      return { ...base, body: C.nightBlue, shade: C.ink };
+      return { ...base, body: C.deepGreen, shade: C.ink };
     case 'fly':
       return { ...base, body: C.moonPurple, shade: C.darkPlum };
     case 'run':
-      return { ...base, body: C.deepGreen, shade: C.ink };
+      return { ...base, body: C.nightBlue, shade: C.ink };
     case 'power':
       return { ...base, body: C.berry, shade: C.darkPlum };
     default:

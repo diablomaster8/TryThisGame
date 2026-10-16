@@ -272,8 +272,12 @@ tongue, wing, sheen; a variant of a variant keeps working because each derived s
 its palette), `crown` picks a stock crown (`point`, `tall`, `hook`, `fin`, `stub`, `droop`,
 `none`) or takes custom primitives, `ball` and `wings` merge fields or remove the extra with
 `null`, `slots` replaces the ears, tail, arms or back parts, `hints` adds marks, `type` and
-`second` apply a type silhouette at full and half strength (head fins, bigger wings, longer
-legs, a wider body), and `patch` does the rest. One known limit: two roles that share a colour
+`second` apply a type's tells at full and half strength (after the neutral evolution chart:
+Swim a crest, side fins and flipper arms; Fly a long crown and bigger wings; Run quills and
+longer legs; Power horns, a wider body and bigger hands; at full strength the type also sets
+the crown), `accent` is the colour those tells take (the body by default; Sun and Moon forms
+pass a tint of the type colour from `TYPE_COLORS`, and the second evolutions blend two type
+colours with `mixHex`), and `patch` does the rest. One known limit: two roles that share a colour
 value swap together, so give them different values. The templates (child, Sun, Moon and
 Neutral adults) are in that file; the families (first and second evolutions, special forms,
 colours) are in `nubbin-variants-*.ts` and meet in `nubbin-variant-catalogue.ts`.
