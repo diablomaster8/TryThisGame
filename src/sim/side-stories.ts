@@ -229,16 +229,17 @@ function variantOf(world: World, c: CampaignState, rule: StoryRule, scene: strin
 }
 
 /** Can the journal offer step `st.step` as an action now. */
-export function sideActable(c: CampaignState, id: string): boolean {
+export function sideActable(world: World, c: CampaignState, id: string): boolean {
   const st = c.side[id];
   const rule = RULE_BY_ID.get(id);
   if (!st || !rule || st.status !== 'open' || st.stage !== 'check' || st.acted) return false;
-  return !(rule.autoOnly ?? []).includes(st.step);
+  if ((rule.autoOnly ?? []).includes(st.step)) return false;
+  return rule.canAct?.(world, c, st, st.step) ?? true;
 }
 
 /** The Keeper does the current step (the journal's button). */
-export function sideAct(c: CampaignState, id: string): void {
-  if (sideActable(c, id)) c.side[id]!.acted = true;
+export function sideAct(world: World, c: CampaignState, id: string): void {
+  if (sideActable(world, c, id)) c.side[id]!.acted = true;
 }
 
 /** A race was entered: S10's second wish. */
@@ -256,7 +257,9 @@ export function noteSideCommand(world: World, c: CampaignState, cmd: Command): v
     const st = c.side[rule.id];
     if (!st || st.status !== 'open' || st.stage !== 'check' || st.acted) continue;
     const step = sideStory(rule.id)?.steps[st.step];
-    if (step && commandMeets(step.check, cmd, world)) st.acted = true;
+    if (!step) continue;
+    rule.note?.(world, c, st, st.step, cmd);
+    if (!st.acted && commandMeets(step.check, cmd, world)) st.acted = true;
   }
 }
 
@@ -349,7 +352,7 @@ function stepOne(
     }
     if (st.stage === 'complete') {
       if (st.pending === null) {
-        if (!(rule.completeGate?.(world, c) ?? true) || !free()) return;
+        if (!(rule.completeGate?.(world, c, st) ?? true) || !free()) return;
         const id = variantOf(world, c, rule, quest.complete.id);
         st.pending = id;
         if (queueScene(c, id)) return;

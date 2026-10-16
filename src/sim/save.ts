@@ -70,7 +70,10 @@ export const MIGRATIONS: Array<(data: Record<string, unknown>) => Record<string,
     const inventory = world?.inventory as Record<string, unknown> | undefined;
     if (inventory) inventory.keepsakes ??= [];
     const campaign = world?.campaign as Record<string, unknown> | null | undefined;
-    if (campaign) campaign.fun ??= {};
+    if (campaign) {
+      campaign.fun ??= {};
+      campaign.seenMs ??= {};
+    }
     return data;
   },
 ];
@@ -242,6 +245,7 @@ export function validateWorld(w: World): World {
     const c = w.campaign;
     c.side ??= {};
     c.fun ??= {};
+    c.seenMs ??= {};
     c.vigil ??= null;
     c.openedMs ??= null;
     c.goalMetMs ??= null;

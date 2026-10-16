@@ -1,5 +1,5 @@
 import { LANTERN_POSTS, STORY } from '../config/tuning';
-import { nextDawn, nextDusk, seen } from './story-state';
+import { nextDawn, nextDusk, seen, seenAt } from './story-state';
 import type { CampaignState, Command, SideStoryState, World } from './types';
 
 /**
@@ -24,7 +24,11 @@ export interface StoryRule {
   auto?(world: World, c: CampaignState, st: SideStoryState, i: number): boolean;
   /** Steps whose check only the sim can meet (no journal action). */
   autoOnly?: number[];
-  completeGate?(world: World, c: CampaignState): boolean;
+  completeGate?(world: World, c: CampaignState, st: SideStoryState): boolean;
+  /** May the journal offer step `i`'s action now (a place that only exists later). */
+  canAct?(world: World, c: CampaignState, st: SideStoryState, i: number): boolean;
+  /** Custom reading of a Keeper command while step `i` waits on its check. */
+  note?(world: World, c: CampaignState, st: SideStoryState, i: number, cmd: Command): void;
   /** The scene to play in place of `scene`. */
   variant?(world: World, c: CampaignState, scene: string): string;
   /** A hold on the chapter machine while the story is open (the chapter the notes name). */
@@ -69,6 +73,18 @@ export function isMorning(ms: number): boolean {
 export function isAfternoon(ms: number): boolean {
   const f = ms % STORY.dayMs;
   return f >= STORY.morningEndsAt * STORY.dayMs && f < STORY.duskAt * STORY.dayMs;
+}
+
+/** The first dawn after scene `id` was seen has passed (false until it is seen). */
+export function morningAfterScene(w: World, c: CampaignState, id: string): boolean {
+  const at = seenAt(c, id);
+  return at !== null && w.timeMs >= nextDawn(at);
+}
+
+/** The first dusk after scene `id` was seen has passed (false until it is seen). */
+export function duskAfterScene(w: World, c: CampaignState, id: string): boolean {
+  const at = seenAt(c, id);
+  return at !== null && w.timeMs >= nextDusk(at);
 }
 
 /** The sim time the chapter's opening scene was seen, if it has been. */

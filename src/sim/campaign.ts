@@ -47,6 +47,7 @@ function freshState(nowMs: number): CampaignState {
     friendship: {},
     queue: [],
     seen: [],
+    seenMs: {},
     chapterStartMs: nowMs,
     ending: null,
     sableId: null,
@@ -586,7 +587,10 @@ export function applyCampaignCommand(world: World, cmd: Command, events: SimEven
       if (!c) return;
       const scene = sceneById(cmd.scene);
       c.queue = c.queue.filter((s) => s !== cmd.scene);
-      if (!c.seen.includes(cmd.scene)) c.seen.push(cmd.scene);
+      if (!c.seen.includes(cmd.scene)) {
+        c.seen.push(cmd.scene);
+        c.seenMs[cmd.scene] = world.timeMs;
+      }
       if (!scene) return;
       const before = { collector: collectorRoute(c) };
       if (scene.set) Object.assign(c.flags, scene.set);
@@ -622,7 +626,7 @@ export function applyCampaignCommand(world: World, cmd: Command, events: SimEven
     }
     case 'sideAct': {
       const c = world.campaign;
-      if (c) sideAct(c, cmd.story);
+      if (c) sideAct(world, c, cmd.story);
       return;
     }
     case 'debugChapter': {

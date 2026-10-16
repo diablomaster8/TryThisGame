@@ -84,7 +84,7 @@ export class Journal {
           ? STORY_TEXT.registerOnLoan
           : step.hint;
       this.body.appendChild(el('p', 'help', hint));
-      if (sideActable(c, id)) {
+      if (sideActable(g.world, c, id)) {
         this.body.appendChild(
           button(
             STORY_TEXT.doStep,

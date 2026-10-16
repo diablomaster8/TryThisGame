@@ -543,6 +543,8 @@ export interface CampaignState {
   /** Scenes waiting to be shown, in order. */
   queue: string[];
   seen: string[];
+  /** Sim time each scene was first seen, for "the morning after" rules. */
+  seenMs: Record<string, number>;
   chapterStartMs: number;
   ending: string | null;
   /** The Shadow Nubbin from chapter 3, and the Eternal elder. */

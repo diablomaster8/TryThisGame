@@ -157,7 +157,7 @@ export function idle(world: World, events: SimEvent[], opts: DriveOptions = {}):
   let acted = false;
   for (const id of RUNNER_STORIES) {
     if (opts.skip?.includes(id)) continue;
-    if (sideActable(st, id)) {
+    if (sideActable(world, st, id)) {
       applyCommand(world, { kind: 'sideAct', story: id }, events);
       acted = true;
     }

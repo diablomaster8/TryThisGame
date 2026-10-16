@@ -31,6 +31,12 @@ export function seen(c: CampaignState, id: string): boolean {
   return c.seen.includes(id);
 }
 
+/** When scene `id` was first seen, or null. Scenes seen before this was recorded read as 0. */
+export function seenAt(c: CampaignState, id: string): number | null {
+  if (!c.seen.includes(id)) return null;
+  return c.seenMs[id] ?? 0;
+}
+
 export function sableOf(world: World, c: CampaignState): Nubbin | undefined {
   return c.sableId ? world.nubbins.find((n) => n.id === c.sableId) : undefined;
 }
