@@ -30,6 +30,29 @@ The reference is `docs/reference/chao-world-lineup.jpg` (the YouTube thumbnail, 
 figures left to right: quills, echidna, fox, dream, Eternal Neutral, shade, Eternal Moon).
 Steps, newest first, one commit each:
 
+3. **look-quills against slice 1** (`docs/samples/match-quills.jpg`, stage left, reference
+   right). New in the format: `headScale` on `variant()` grows everything above the neck about
+   the head's pivot (primitives, box, eyes, mouth, ball, ears, marks) before the `eyes`,
+   `mouth` and `patch` overrides; `eyes.brow: false` leaves the brow ridge off; `mouth.line`
+   is the toon line colour for a mouth (the painted red `o`). The look: head ×1.25 and the
+   dome reshaped wider than tall (radii 1.0 × 0.8 × 0.9), eyes r 0.34 with no brows, a
+   peach muzzle ellipsoid raised off the face, the quill ball as five rounded cones in a
+   darker navy with underside shade marks (`quillCluster`, `quillShades`) plus yellow ear
+   tips, the body a small ball held clear of the legs with the mech emblem (yellow ring,
+   dark disc) on the belly patch, arms straight out ending in glove balls with a cuff ball
+   (`gloveArm`), mech lower legs as grey capsules with a red torus ring under red shoes a
+   third larger with the white stripe as a flattened ellipsoid standing proud of the top
+   (`mechLegs`), and a flat baked shade (top 1.0, bottom 0.94). Toon lighting fix found
+   here by zeroing each light in turn from the console: the sky's environment map carries
+   the sun disc, so even a twentieth of it washed every flat to pastel and no band showed;
+   the toon shader now drops `lights_fragment_maps` (no image-based light at all; the
+   material's `envMapIntensity` made no difference), the sun alone draws the bands (lit
+   0.95, shade 0.62 below a 0.3 dot product, nothing from lights behind the surface) and
+   the hemisphere light is the fill. Still differs from the reference: the dome's top is
+   rounder than the line-up's flattened one; the quill ball sits on the dome rather than
+   behind it; the closed happy eyes are our dark arcs where the thumbnail shows white
+   crescents; the emblem is a disc, not a hexagon; the ball above the head stays (the
+   reference crops it); the muzzle's edge is softer than the flat-shaded original.
 2. **Reference overlay.** `mountReference` in `aaa-styles.ts`: `&ref=<file>` lays an image
    from `docs/reference/` over the stage at 45% (served from the repo in dev, never built);
    `&refx=<n>` crops it to the n-th of seven equal-width slices and scales that figure to
@@ -114,31 +137,3 @@ first frame 650-900 ms (scene programs), worst frame after it 228 ms with three 
 a wild visitor and an NPC rigging in; Keeper on screen 1.5-3 s after load (stand-in until
 then). Not checked: a phone, Firefox and Safari module workers (the farm falls back to the
 page if a worker cannot start).
-
-## Special forms after the "Chao World" line-up (2026-10-16)
-
-Maor sent a line-up of seven character forms as the target ("get models closer"). The
-looks are now built like toys in `nubbin-variants-special.ts`: `dress()` gives every look
-bigger mitts and feet with gloves and shoes in their own colours; `roundEar`, `pointEar`,
-`twinTail`, `bigQuills` (five rounded quills), `goggles` (strap and lenses), `crystals`
-(glowing cone spikes on head and torso) and `chestMark` are the shared pieces. Fox: orange,
-goggles, pointed ears, twin white-tipped tails, red shoes. Echidna look is now the rose-red
-one: big round white ears, a white headband, white gloves, a green ball. Rose: pink with
-round ears, red headband and bow. Dream: purple and magenta with a tall swept point, a pale
-eye mask and a chest star. Quills: blue with five big quills, white gloves, red striped
-shoes. Shade: a black cat with pointed ears, white cheek tufts and chest, slanted green
-eyes. Eternal Neutral is a lime dragon (orange horns, claws, a long tail), Eternal Moon deep
-purple with glowing lilac crystals, Eternal Sun as before with chunkier hands. Headbands and
-the goggle strap hug the skull (torus radius 0.62). Shots: `variants-looks.jpg`,
-`variants-eternals.jpg`, `variants-special.jpg`. Lint, 216 tests and build pass.
-
-## Jewel facets (2026-10-16)
-
-The last variant placeholders are gone. `facet` is a sixth surface detail kind in
-`creatures.ts` (`paintDetail`): a jittered, seamlessly tiling lattice of cells, each a flat
-plane with its own tilt so the baked normal breaks at every cell edge, and a bright line
-along the edges; row added to the `SurfaceOpts` table in `docs/species-format.md`. The
-seven `jewel-*` entries in `nubbin-variants-colour.ts` wear it at `scale` 0.55 (about four
-facets per body unit; 2.4 read as glitter) with a hard clearcoat. Shots:
-`docs/samples/variants-jewel-closeup.jpg` (`?aaa=1&creature=variant:jewel-ruby&closeup`) and
-`variants-colour.jpg` re-shot. Lint, 216 tests and build pass.

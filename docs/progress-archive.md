@@ -2,6 +2,34 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Special forms after the "Chao World" line-up (2026-10-16)
+
+Maor sent a line-up of seven character forms as the target ("get models closer"). The
+looks are now built like toys in `nubbin-variants-special.ts`: `dress()` gives every look
+bigger mitts and feet with gloves and shoes in their own colours; `roundEar`, `pointEar`,
+`twinTail`, `bigQuills` (five rounded quills), `goggles` (strap and lenses), `crystals`
+(glowing cone spikes on head and torso) and `chestMark` are the shared pieces. Fox: orange,
+goggles, pointed ears, twin white-tipped tails, red shoes. Echidna look is now the rose-red
+one: big round white ears, a white headband, white gloves, a green ball. Rose: pink with
+round ears, red headband and bow. Dream: purple and magenta with a tall swept point, a pale
+eye mask and a chest star. Quills: blue with five big quills, white gloves, red striped
+shoes. Shade: a black cat with pointed ears, white cheek tufts and chest, slanted green
+eyes. Eternal Neutral is a lime dragon (orange horns, claws, a long tail), Eternal Moon deep
+purple with glowing lilac crystals, Eternal Sun as before with chunkier hands. Headbands and
+the goggle strap hug the skull (torus radius 0.62). Shots: `variants-looks.jpg`,
+`variants-eternals.jpg`, `variants-special.jpg`. Lint, 216 tests and build pass.
+
+## Jewel facets (2026-10-16)
+
+The last variant placeholders are gone. `facet` is a sixth surface detail kind in
+`creatures.ts` (`paintDetail`): a jittered, seamlessly tiling lattice of cells, each a flat
+plane with its own tilt so the baked normal breaks at every cell edge, and a bright line
+along the edges; row added to the `SurfaceOpts` table in `docs/species-format.md`. The
+seven `jewel-*` entries in `nubbin-variants-colour.ts` wear it at `scale` 0.55 (about four
+facets per body unit; 2.4 read as glitter) with a hard clearcoat. Shots:
+`docs/samples/variants-jewel-closeup.jpg` (`?aaa=1&creature=variant:jewel-ruby&closeup`) and
+`variants-colour.jpg` re-shot. Lint, 216 tests and build pass.
+
 ## The full-3D mode, for real (2026-10-15)
 
 **Graphics setting** (Pixel | Full 3D, default Pixel): a select on the title screen and in

@@ -139,6 +139,7 @@ follow `lookAt` when the stage sets it.
 | `irisScale` | Iris disc size as a fraction of the eye.                                 | required | `irisScale: 0.8`                               |
 | `pitch`     | Extra tilt of each eye beyond the face normal, radians.                  | 0        | `pitch: 0`                                     |
 | `tall`      | Height over width; 1 is round.                                           | 1.2      | `tall: 1.3`                                    |
+| `brow`      | `false` leaves the brow ridge off (the line-up figures have none).       | on       | `brow: false`                                  |
 | `extra`     | Small bead eyes set in the skin (a spider's row): `{ x, y, z, r }` each. | none     | `extra: [{ x: 0.5, y: 0.7, z: 1.4, r: 0.07 }]` |
 
 ## Mouth
@@ -147,16 +148,17 @@ follow `lookAt` when the stage sets it.
 lip line on the surface and behind it a dark interior that only shows as it opens, with a
 tongue and teeth that appear as it does. `happy` and `eat` open it.
 
-| Field    | What it is                                                                  | Default   | Example             |
-| -------- | --------------------------------------------------------------------------- | --------- | ------------------- |
-| `x`      | Sideways offset; 0 for a centred mouth.                                     | required  | `x: 0`              |
-| `y`, `z` | Height and depth before projection. Put it ahead of and below a muzzle tip. | required  | `y: 1.31, z: 1.62`  |
-| `width`  | Half-width of the lip line.                                                 | required  | `width: 0.17`       |
-| `lip`    | Lip colour.                                                                 | required  | `lip: '#3a2420'`    |
-| `teeth`  | Whether teeth show as it opens.                                             | required  | `teeth: true`       |
-| `tongue` | Tongue colour.                                                              | required  | `tongue: '#ff8a9a'` |
-| `pitch`  | Tilt to follow the face, radians; down and out by default.                  | 0         | `pitch: 0`          |
-| `shape`  | The closed look: `smile`, a small round `o`, or a cat-like `omega`.         | `'smile'` | `shape: 'omega'`    |
+| Field    | What it is                                                                  | Default            | Example             |
+| -------- | --------------------------------------------------------------------------- | ------------------ | ------------------- |
+| `x`      | Sideways offset; 0 for a centred mouth.                                     | required           | `x: 0`              |
+| `y`, `z` | Height and depth before projection. Put it ahead of and below a muzzle tip. | required           | `y: 1.31, z: 1.62`  |
+| `width`  | Half-width of the lip line.                                                 | required           | `width: 0.17`       |
+| `lip`    | Lip colour.                                                                 | required           | `lip: '#3a2420'`    |
+| `teeth`  | Whether teeth show as it opens.                                             | required           | `teeth: true`       |
+| `tongue` | Tongue colour.                                                              | required           | `tongue: '#ff8a9a'` |
+| `pitch`  | Tilt to follow the face, radians; down and out by default.                  | 0                  | `pitch: 0`          |
+| `shape`  | The closed look: `smile`, a small round `o`, or a cat-like `omega`.         | `'smile'`          | `shape: 'omega'`    |
+| `line`   | The toon mode's line colour for this mouth (a painted red `o`).             | the outline colour | `line: '#d8302a'`   |
 
 ## Expression
 
@@ -278,7 +280,9 @@ Swim a crest, side fins and flipper arms; Fly a long crown and bigger wings; Run
 longer legs; Power horns, a wider body and bigger hands; at full strength the type also sets
 the crown), `accent` is the colour those tells take (the body by default; Sun and Moon forms
 pass a tint of the type colour from `TYPE_COLORS`, and the second evolutions blend two type
-colours with `mixHex`), and `patch` does the rest. One known limit: two roles that share a colour
+colours with `mixHex`), `headScale` grows everything above the neck about the head's pivot (its
+primitives and box, the eyes, mouth and ball, ears and marks above the neck; the `eyes` and `mouth`
+overrides and `patch` run after it, written for the grown head), and `patch` does the rest. One known limit: two roles that share a colour
 value swap together, so give them different values. The templates (child, Sun, Moon and
 Neutral adults) are in that file; the families (first and second evolutions, special forms,
 colours) are in `nubbin-variants-*.ts` and meet in `nubbin-variant-catalogue.ts`.

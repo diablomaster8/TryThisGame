@@ -184,6 +184,8 @@ export interface SpeciesSpec {
     pitch?: number;
     /** Height of the eye relative to its width; 1 is round. */
     tall?: number;
+    /** `false` leaves the brow ridge off (the line-up's figures have none). */
+    brow?: boolean;
     /** Extra small eyes (a spider's row), glossy beads set in the skin. */
     extra?: Array<{ x: number; y: number; z: number; r: number }>;
   };
@@ -199,6 +201,8 @@ export interface SpeciesSpec {
     pitch?: number;
     /** The closed shape: a smile line, a small round 'o', or a cat-like 'omega'. */
     shape?: 'smile' | 'o' | 'omega';
+    /** The toon mode's line colour for this mouth (a painted red 'o'); the outline colour by default. */
+    line?: string;
   };
   /** Per-pose face overrides: how far the lids close, the squint, the brow, the arc. */
   expressions?: Partial<Record<PoseName, Partial<Expression>>>;
@@ -478,7 +482,7 @@ function buildMouth(parent: THREE.Object3D, m: SpeciesSpec['mouth']): Mouth {
   const w = m.width;
   // The toon mode draws the mouth as one solid dark line, as the line-up does.
   const lipMat = new THREE.MeshPhysicalMaterial({
-    color: TOON.on ? TOON_OUTLINE.color : m.lip,
+    color: TOON.on ? (m.line ?? TOON_OUTLINE.color) : m.lip,
     roughness: 0.6,
   });
   if (TOON.on) toonMaterial(lipMat);
@@ -827,6 +831,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
     r.group.rotateX(e.pitch ?? 0);
     lids.push(r.lid);
     r.brow.userData.side = side;
+    if (e.brow === false) r.brow.visible = false;
     eyes.push(r);
   }
   for (const x of e.extra ?? []) {

@@ -10,7 +10,7 @@ import {
   type NubbinVariant,
   type VariantOverrides,
 } from './nubbin-variants';
-import type { PartSpec, SpeciesSpec } from './species';
+import type { Mark, PartSpec, SpeciesSpec } from './species';
 
 /**
  * The special Nubbin forms: the three Eternals (the rare immortal adults, glassy and jewel-like,
@@ -83,16 +83,6 @@ function dress(spec: SpeciesSpec, o: { gloves?: string; shoes?: string; chunky?:
   }
 }
 
-/** A white stripe across each shoe. */
-const shoeStripes = (color = WHITE) =>
-  [-1, 1].map((dx) => ({
-    kind: 'ellipsoid' as const,
-    a: V(dx * 0.36, 0.2, 0.42),
-    radii: V(0.3, 0.05, 0.16),
-    color,
-    soft: 0.02,
-  }));
-
 // ---- head and body additions ----
 
 /** Big round ears on the sides of the head, hinged at the head. */
@@ -136,17 +126,6 @@ const twinTail = (name: string, dx: number, color: string): PartSpec => ({
 });
 
 /** Big rounded quills swept back from the head: three high, two low. */
-function bigQuills(color: string): Prim[] {
-  const q = (a: Prim['a'], b: Prim['a'], r: number) => cone(a, b, r, 0.06, color, 'quill', 0.09);
-  return [
-    q(V(0, 2.45, -0.25), V(0, 3.0, -1.25), 0.28),
-    q(V(-0.36, 2.3, -0.3), V(-0.8, 2.6, -1.2), 0.25),
-    q(V(0.36, 2.3, -0.3), V(0.8, 2.6, -1.2), 0.25),
-    q(V(-0.5, 1.9, -0.35), V(-0.9, 1.85, -1.05), 0.2),
-    q(V(0.5, 1.9, -0.35), V(0.9, 1.85, -1.05), 0.2),
-  ];
-}
-
 /** Aviator goggles pushed up on the brow: a strap and two lenses. */
 function goggles(strap: string, lens: string): Prim[] {
   return [
@@ -309,6 +288,135 @@ const SHADOW = variant(CHILD, 'Nubbin (Shadow)', {
 
 // ---- the character looks ----
 
+// ---- the line-up match (Part G8b): pieces tuned against docs/reference/chao-world-lineup.jpg ----
+
+/** Darker shade on the underside of each quill, so the cluster reads as separate spikes. */
+function quillShades(quills: Prim[], color: string): Mark[] {
+  return quills.map((q) => {
+    const d = q.b!.clone().sub(q.a).normalize();
+    // The underside: straight down, less the part of down that runs along the quill.
+    const under = V(0, -1, 0)
+      .addScaledVector(d, -d.y)
+      .normalize()
+      .multiplyScalar(q.r * 0.55);
+    return {
+      kind: 'capsule' as const,
+      a: q.a
+        .clone()
+        .add(under)
+        .addScaledVector(d, q.r * 0.3),
+      b: q.a.clone().lerp(q.b!, 0.72).add(under),
+      r: q.r * 0.7,
+      color,
+      soft: 0.03,
+    };
+  });
+}
+
+/**
+ * A short arm ending in a big round glove with a cuff: the glove is a ball, the cuff a
+ * smaller ball stepping out of the sleeve, so the outline draws the cuff's edge.
+ */
+const gloveArm = (dx: number, body: string, glove: string): PartSpec => ({
+  name: dx < 0 ? 'armL' : 'armR',
+  // The arms stick straight out sideways in the line-up.
+  pivot: V(dx * 0.55, 1.0, 0.1),
+  prims: [
+    {
+      kind: 'capsule',
+      a: V(dx * 0.55, 1.0, 0.1),
+      b: V(dx * 1.0, 0.98, 0.14),
+      r: 0.13,
+      color: body,
+      tag: 'arm',
+    },
+    ball(V(dx * 1.03, 0.98, 0.14), 0.2, glove, 'cuff'),
+    { ...ball(V(dx * 1.3, 0.98, 0.16), 0.3, glove, 'hand'), blend: 0.06 },
+  ],
+  box: [V(dx < 0 ? -1.75 : 0.2, 0.5, -0.4), V(dx < 0 ? -0.2 : 1.75, 1.45, 0.6)],
+});
+
+/**
+ * Mech lower legs under big shoes: a grey capsule with a red ring, a red shoe a third
+ * larger than the toy foot, and the white stripe as a flattened ellipsoid standing proud
+ * of the shoe's top. Replaces the leg parts' primitives in place (final coordinates).
+ */
+function mechLegs(
+  spec: SpeciesSpec,
+  o: { leg: string; ring: string; shoe: string; stripe: string },
+): void {
+  for (const ps of spec.parts) {
+    if (!ps.name.startsWith('leg')) continue;
+    const x = (ps.name === 'legL' ? -1 : 1) * 0.4;
+    ps.pivot.set(x, 0.45, 0.1);
+    ps.prims = [
+      {
+        kind: 'capsule',
+        a: V(x, 0.62, 0.1),
+        b: V(x, 0.14, 0.2),
+        r: 0.12,
+        color: o.leg,
+        tag: 'leg',
+      },
+      {
+        kind: 'torus',
+        a: V(x, 0.33, 0.14),
+        r: 0.13,
+        r2: 0.05,
+        color: o.ring,
+        tag: 'ring',
+        blend: 0.02,
+      },
+      {
+        kind: 'ellipsoid',
+        a: V(x, 0.1, 0.3),
+        r: 0,
+        radii: V(0.37, 0.28, 0.52),
+        color: o.shoe,
+        tag: 'foot',
+        blend: 0.05,
+      },
+      {
+        kind: 'ellipsoid',
+        a: V(x, 0.28, 0.68),
+        r: 0,
+        radii: V(0.4, 0.07, 0.17),
+        color: o.stripe,
+        tag: 'stripe',
+        blend: 0.02,
+      },
+    ];
+    ps.box = [V(x - 0.6, -0.2, -0.3), V(x + 0.6, 0.8, 1.05)];
+    ps.resolution = 56;
+  }
+}
+
+/** The quills cluster on the back of the head, in the base head's coordinates. */
+function quillCluster(color: string): Prim[] {
+  const q = (a: Prim['a'], b: Prim['a'], r: number) => cone(a, b, r, 0.07, color, 'quill', 0.09);
+  return [
+    // A spiky ball sitting on the top-back of the dome: one up, two up and out, two back.
+    q(V(0, 2.55, -0.3), V(0, 3.3, -0.55), 0.3),
+    q(V(-0.3, 2.5, -0.35), V(-0.85, 3.1, -0.7), 0.27),
+    q(V(0.3, 2.5, -0.35), V(0.85, 3.1, -0.7), 0.27),
+    q(V(-0.45, 2.3, -0.45), V(-0.95, 2.55, -1.1), 0.24),
+    q(V(0.45, 2.3, -0.45), V(0.95, 2.55, -1.1), 0.24),
+  ];
+}
+
+/** The small yellow ear tips at the sides of the dome where the quills begin. */
+const earTips = (color: string): Prim[] =>
+  [-1, 1].map((dx) =>
+    cone(V(dx * 0.72, 2.4, -0.1), V(dx * 0.98, 2.72, -0.15), 0.13, 0.02, color, 'tip', 0.04),
+  );
+
+const QUILLS_BODY = '#2c58e0';
+const QUILLS_BELLY = '#f5c99a';
+const QUILLS_SHOE = '#d8302a';
+/** The quill ball is a shade darker than the dome in the line-up. */
+const QUILLS_NAVY = '#2443c4';
+const QUILLS_CLUSTER = quillCluster(QUILLS_NAVY);
+
 const look = (id: string, name: string, o: VariantOverrides): NubbinVariant => ({
   id,
   family: 'special',
@@ -416,15 +524,57 @@ export const SPECIAL_VARIANTS: NubbinVariant[] = [
     notes: 'Purple and magenta with a tall swept jester point, a pale mask and a white chest star.',
   }),
   look('look-quills', 'Nubbin (Quills look)', {
-    colors: { body: '#2f5fe6', belly: '#ffd2a6', tip: '#ffd2a6', pad: '#1f3db0', iris: '#1e7a74' },
-    crown: 'none',
-    hints: [...shoeStripes(), chestMark('#ffd2a6', 1.05, 0.32)],
-    patch: (spec) => {
-      spec.head.prims.push(...bigQuills('#2f5fe6'));
-      widen(spec.head, { x: 1.2, z: -1.7 });
-      dress(spec, { gloves: WHITE, shoes: '#e0562e', chunky: 1.35 });
+    // Flat line-up colours; the blush, star and crown shade take the body colour so no
+    // soft marks show on the flat head.
+    colors: {
+      body: QUILLS_BODY,
+      belly: QUILLS_BELLY,
+      tip: QUILLS_BELLY,
+      pad: '#1f3db0',
+      iris: '#1e7a74',
+      blush: QUILLS_BODY,
+      star: QUILLS_BODY,
+      crownShade: QUILLS_BODY,
     },
-    notes: 'Blue with five big rounded quills, a peach belly, white gloves and red striped shoes.',
+    crown: [...QUILLS_CLUSTER, ...earTips('#f2c94c')],
+    hints: [
+      ...quillShades(QUILLS_CLUSTER, '#17289a'),
+      chestMark(QUILLS_BELLY, 0.92, 0.3),
+      // The mech emblem on the belly: a yellow ring around a dark hexagon-like disc.
+      { kind: 'sphere', a: V(0, 0.9, 0.5), r: 0.2, color: '#f2c94c', soft: 0.01 },
+      { kind: 'sphere', a: V(0, 0.9, 0.52), r: 0.13, color: '#1a1026', soft: 0.01 },
+    ],
+    slots: { arms: [gloveArm(-1, QUILLS_BODY, WHITE), gloveArm(1, QUILLS_BODY, WHITE)] },
+    // The head is about half the standing height in the line-up.
+    headScale: 1.25,
+    eyes: { r: 0.34, tall: 1.15, brow: false },
+    mouth: { shape: 'o', width: 0.24, y: 1.74, z: 1.0, line: QUILLS_SHOE },
+    patch: (spec) => {
+      // The dome is wider than it is tall, and the body a small ball held clear of the legs.
+      const dome = spec.head.prims.find((p) => p.tag === 'head')!;
+      dome.a.set(0, 2.02, 0);
+      dome.radii!.set(1.0, 0.8, 0.9);
+      const belly = spec.torso.prims.find((p) => p.tag === 'belly')!;
+      belly.a.set(0, 1.05, 0);
+      belly.radii!.set(0.56, 0.5, 0.54);
+      // Flat colour top to bottom: the line-up's figures carry no painted gradient.
+      spec.shade = { top: 1.0, bottom: 0.94, yMax: 3.5 };
+      // The peach muzzle, raised off the face around the mouth.
+      spec.head.prims.push({
+        kind: 'ellipsoid',
+        a: V(0, 1.74, 0.76),
+        r: 0,
+        radii: V(0.4, 0.24, 0.28),
+        color: QUILLS_BELLY,
+        tag: 'muzzle',
+        blend: 0.08,
+      });
+      widen(spec.head, { x: 1.4, z: -1.75 });
+      mechLegs(spec, { leg: '#8e95a3', ring: QUILLS_SHOE, shoe: QUILLS_SHOE, stripe: WHITE });
+    },
+    notes:
+      'Line-up figure 1 (Part G8b): head half the height, five quills with shade marks, a peach ' +
+      'muzzle, glove balls with cuffs, mech lower legs with a red ring, red striped shoes.',
   }),
   look('look-shade', 'Nubbin (Shade look)', {
     colors: {

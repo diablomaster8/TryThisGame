@@ -190,13 +190,9 @@ export const TOON_OUTLINE = { color: '#1a1026', width: 0.025 };
 
 /**
  * The two bands on the light's dot product: where the lit band ends, and how bright each
- * band is. The lit band sits well under full sun so the flats keep their colour instead
- * of blowing out to pastel under the stage's exposure.
+ * band is against the stage's sun. Lights behind the surface give nothing.
  */
-const TOON_BAND = { edge: 0.38, lit: 0.6, shade: 0.33 };
-
-/** How much of the sky's ambient a toon surface takes: less, so the bands show. */
-const TOON_ENV = 0.45;
+const TOON_BAND = { edge: 0.3, lit: 0.95, shade: 0.62 };
 
 /**
  * Patch a physical shader into the toon ramp: direct light in two bands, no specular, and
@@ -205,10 +201,13 @@ const TOON_ENV = 0.45;
 export function toonShader(shader: { fragmentShader: string }): void {
   const physical = THREE.ShaderChunk.lights_physical_pars_fragment.replace(
     'vec3 irradiance = dotNL * directLight.color;',
-    `vec3 irradiance = ( dotNL < ${TOON_BAND.edge.toFixed(3)} ? ${TOON_BAND.shade.toFixed(3)} : ${TOON_BAND.lit.toFixed(3)} ) * directLight.color;`,
+    `vec3 irradiance = ( dotNL <= 0.0 ? 0.0 : dotNL < ${TOON_BAND.edge.toFixed(3)} ? ${TOON_BAND.shade.toFixed(3)} : ${TOON_BAND.lit.toFixed(3)} ) * directLight.color;`,
   );
   shader.fragmentShader = shader.fragmentShader
     .replace('#include <lights_physical_pars_fragment>', physical)
+    // No image-based light: the sky map carries the sun disc, and even a twentieth of it
+    // washes every flat to pastel and hides the bands. The hemisphere light stays as fill.
+    .replace('#include <lights_fragment_maps>', '')
     .replace(
       '#include <lights_fragment_end>',
       `#include <lights_fragment_end>
@@ -231,7 +230,6 @@ export function toonMaterial(m: THREE.MeshPhysicalMaterial): THREE.MeshPhysicalM
   m.clearcoat = 0;
   m.sheen = 0;
   m.specularIntensity = 0;
-  m.envMapIntensity = TOON_ENV;
   m.onBeforeCompile = (shader) => toonShader(shader);
   return m;
 }
@@ -307,7 +305,6 @@ export function surfaceMaterial(o: SurfaceOpts): THREE.MeshPhysicalMaterial {
     clearcoatRoughness: 0.35,
     ...(toon ? { specularIntensity: 0 } : {}),
   });
-  if (toon) m.envMapIntensity = TOON_ENV;
   m.onBeforeCompile = (shader) => {
     m.userData.shader = shader;
     shader.uniforms.uDetail = { value: maps.albedo };

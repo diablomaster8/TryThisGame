@@ -58,6 +58,12 @@ export interface VariantOverrides {
   accent?: string;
   scale?: number;
   surface?: Partial<SpeciesSpec['surface']>;
+  /**
+   * Grow the head about the neck: its primitives and box, the eyes, mouth and ball, any
+   * mark or part that sits above the neck (ears, a crown's shade). Runs before the `eyes`
+   * and `mouth` overrides and the `patch`, which are written for the grown head.
+   */
+  headScale?: number;
   eyes?: Partial<SpeciesSpec['eyes']>;
   mouth?: Partial<SpeciesSpec['mouth']>;
   notes?: string;
@@ -445,6 +451,34 @@ function setSlot(spec: SpeciesSpec, slot: Slot, parts: PartSpec[]): void {
   spec.parts.push(...parts.map(clonePart));
 }
 
+/** Scale everything above the neck about the head's pivot (see `headScale`). */
+function scaleHead(spec: SpeciesSpec, k: number): void {
+  const o = spec.head.pivot;
+  const pt = (p: THREE.Vector3) => p.sub(o).multiplyScalar(k).add(o);
+  const prim = (p: Prim | Mark) => {
+    pt(p.a);
+    if (p.b) pt(p.b);
+    if (p.r !== undefined) p.r *= k;
+    if (p.radii) p.radii.multiplyScalar(k);
+  };
+  const part = (ps: PartSpec) => {
+    ps.prims.forEach(prim);
+    ps.box.forEach(pt);
+  };
+  part(spec.head);
+  for (const ps of spec.parts)
+    if (ps.pivot.y > o.y) {
+      part(ps);
+      pt(ps.pivot);
+    }
+  for (const m of spec.marks) if (m.a.y > o.y) prim(m);
+  const e = spec.eyes;
+  spec.eyes = { ...e, x: e.x * k, y: o.y + (e.y - o.y) * k, z: e.z * k, r: e.r * k };
+  const m = spec.mouth;
+  spec.mouth = { ...m, x: m.x * k, y: o.y + (m.y - o.y) * k, z: m.z * k, width: m.width * k };
+  if (spec.ball) spec.ball.y = o.y + (spec.ball.y - o.y) * k;
+}
+
 // ---- the helper ----
 
 export function variant(base: SpeciesSpec, name: string, o: VariantOverrides): SpeciesSpec {
@@ -475,6 +509,7 @@ export function variant(base: SpeciesSpec, name: string, o: VariantOverrides): S
   if (o.hints) spec.marks.push(...o.hints.map(cloneMark));
   if (o.scale !== undefined) spec.scale = o.scale;
   if (o.surface) spec.surface = { ...spec.surface, ...o.surface };
+  if (o.headScale !== undefined && o.headScale !== 1) scaleHead(spec, o.headScale);
   if (o.eyes) spec.eyes = { ...spec.eyes, ...o.eyes };
   if (o.mouth) spec.mouth = { ...spec.mouth, ...o.mouth };
   if (o.notes !== undefined) spec.notes = o.notes;
