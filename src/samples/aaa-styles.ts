@@ -1331,7 +1331,9 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
       const back = (camera.aspect < 1.5 ? 1.3 : 1) * sheetBack;
       // A sheet with more rows is seen from higher up, aimed at its middle row.
       const rise = (sheetRows - 1) * 3.6;
-      camera.position.set(0.4 * back, ky + 2.5 * back + rise, -10.4 * back);
+      // `&eye`: the camera at the figures' eye height, as the line-up reference was shot.
+      const camY = new URLSearchParams(location.search).has('eye') ? 1.15 : 2.5 * back;
+      camera.position.set(0.4 * back, ky + camY + rise, -10.4 * back);
       camera.lookAt(0, ky + 1.1, (sheetRows - 1) * 1.6);
     } else if (creature) {
       if ('setPose' in creature) {

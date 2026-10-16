@@ -29,6 +29,16 @@ export const variantById = (id: string): NubbinVariant | null =>
 
 /** The specs a `&creature=variants` sheet lines up: one family, filtered and capped. */
 export function sheetVariants(query: URLSearchParams): NubbinVariant[] {
+  // `&ids=a,b,c` lines up exactly these variants. The stage camera looks along +z, so x runs
+  // right to left on screen: the list is reversed here to read left to right as written
+  // (the order of the line-up reference).
+  const ids = query.get('ids');
+  if (ids)
+    return ids
+      .split(',')
+      .map((id) => variantById(id.trim()))
+      .filter((v): v is NubbinVariant => v !== null)
+      .reverse();
   const family = (query.get('family') ?? 'child') as VariantFamily;
   const filter = query.get('filter') ?? '';
   const max = Math.max(1, Number(query.get('max')) || 16);
