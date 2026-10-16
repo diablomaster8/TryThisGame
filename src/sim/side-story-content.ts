@@ -1,0 +1,57 @@
+import type { SideStoryContent } from './story-scenes';
+import { SIDE_STORIES_FUN } from '../content/side-stories-fun';
+import { SIDE_STORIES_FUN_2, SIDE_STORIES_FUN_2_VARIANTS } from '../content/side-stories-fun-2';
+import { SIDE_STORIES_MAIN, SIDE_STORIES_MAIN_VARIANTS } from '../content/side-stories-main';
+import { SIDE_STORIES_NEW_1 } from '../content/side-stories-new-1';
+import { SIDE_STORIES_NEW_2 } from '../content/side-stories-new-2';
+import { SIDE_STORIES_NEW_3, SIDE_STORIES_NEW_3_VARIANTS } from '../content/side-stories-new-3';
+import { SIDE_STORIES_NEW_4 } from '../content/side-stories-new-4';
+import { SIDE_STORY_S23, SIDE_STORY_S23_VARIANTS } from '../content/side-stories-s23';
+import { SIDE_STORY_S24, SIDE_STORY_S24_VARIANTS } from '../content/side-stories-s24';
+import { SIDE_STORY_S25, SIDE_STORY_S25_VARIANTS } from '../content/side-stories-s25';
+import { SIDE_STORY_S26, SIDE_STORY_S26_VARIANTS } from '../content/side-stories-s26';
+import { SIDE_STORY_S27, SIDE_STORY_S27_VARIANTS } from '../content/side-stories-s27';
+import { SIDE_STORY_S28, SIDE_STORY_S28_VARIANTS } from '../content/side-stories-s28';
+import { SIDE_STORY_S29, SIDE_STORY_S29_VARIANTS } from '../content/side-stories-s29';
+import { SIDE_STORY_S30, SIDE_STORY_S30_VARIANTS } from '../content/side-stories-s30';
+import { SIDE_STORY_S31, SIDE_STORY_S31_VARIANTS } from '../content/side-stories-s31';
+
+/**
+ * Every Grove side-story script (S1–S31) and its variant scenes. This module is its own
+ * chunk: story-scenes.ts loads it with `loadSideStories` and registers it, so the scripts
+ * stay out of the main bundle. Tests import it directly.
+ */
+export const SIDE_STORY_CONTENT: SideStoryContent = {
+  quests: [
+    ...SIDE_STORIES_FUN,
+    ...SIDE_STORIES_MAIN,
+    ...SIDE_STORIES_FUN_2,
+    ...SIDE_STORIES_NEW_1,
+    ...SIDE_STORIES_NEW_2,
+    ...SIDE_STORIES_NEW_3,
+    ...SIDE_STORIES_NEW_4,
+    ...SIDE_STORY_S23,
+    ...SIDE_STORY_S24,
+    ...SIDE_STORY_S25,
+    ...SIDE_STORY_S26,
+    ...SIDE_STORY_S27,
+    ...SIDE_STORY_S28,
+    ...SIDE_STORY_S29,
+    ...SIDE_STORY_S30,
+    ...SIDE_STORY_S31,
+  ],
+  variants: [
+    ...SIDE_STORIES_MAIN_VARIANTS,
+    ...SIDE_STORIES_FUN_2_VARIANTS,
+    ...SIDE_STORIES_NEW_3_VARIANTS,
+    ...SIDE_STORY_S23_VARIANTS,
+    ...SIDE_STORY_S24_VARIANTS,
+    ...SIDE_STORY_S25_VARIANTS,
+    ...SIDE_STORY_S26_VARIANTS,
+    ...SIDE_STORY_S27_VARIANTS,
+    ...SIDE_STORY_S28_VARIANTS,
+    ...SIDE_STORY_S29_VARIANTS,
+    ...SIDE_STORY_S30_VARIANTS,
+    ...SIDE_STORY_S31_VARIANTS,
+  ],
+};

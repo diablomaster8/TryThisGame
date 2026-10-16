@@ -18,6 +18,8 @@ export default defineConfig({
   },
   test: {
     include: ['tests/**/*.test.ts'],
+    // The app loads the side-story scripts as a chunk at boot; tests register them up front.
+    setupFiles: ['tests/setup-side-stories.ts'],
     environment: 'node',
   },
 });

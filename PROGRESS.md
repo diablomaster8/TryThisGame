@@ -24,6 +24,27 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Side stories as a lazy chunk (2026-10-16)
+
+Works:
+- The side-story scripts (S1–S31 and their variants) are their own chunk,
+  `src/sim/side-story-content.ts`. `story-scenes.ts` keeps the campaign scenes synchronous and
+  adds the side stories through `registerSideStories`; `loadSideStories()` imports and
+  registers the chunk once. `main.ts` starts the fetch while the title is up and awaits it
+  before `boot`, so save.ts's queue filter knows every side-story id when a save loads.
+- Tests register the chunk up front (`tests/setup-side-stories.ts`, a Vitest setup file);
+  `tests/sim/side-story-chunk.test.ts` checks a queued `s9-ask` survives save and load.
+  Checked in the browser too: a save queued on `s9-ask` boots straight into S9's scene.
+- Main chunk: 2,022 kB → 1,304 kB minified (632 → 382 kB gzip); the side-story chunk is
+  716 kB (250 kB gzip).
+
+Stubbed / known:
+- The index is still above the 1.14 MB it was before CV1: the remaining ~175 kB is the v2
+  campaign script (`content/campaign-book1..3.ts`), which stays synchronous by design.
+  Lazy-loading it the same way would bring the index near 1.13 MB.
+- Code that runs before `loadSideStories` resolves sees an empty `GROVE_SIDE_STORIES`;
+  today nothing does.
+
 ## CV1: campaign v2, its sim changes and the side-story runner (2026-10-16)
 
 Works:

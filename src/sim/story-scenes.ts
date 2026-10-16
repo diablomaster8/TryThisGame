@@ -1,65 +1,23 @@
 import { SCENES, type Line, type Scene } from '../config/story';
 import type { Quest } from '../content/types';
-import { SIDE_STORIES_FUN } from '../content/side-stories-fun';
-import { SIDE_STORIES_FUN_2, SIDE_STORIES_FUN_2_VARIANTS } from '../content/side-stories-fun-2';
-import { SIDE_STORIES_MAIN, SIDE_STORIES_MAIN_VARIANTS } from '../content/side-stories-main';
-import { SIDE_STORIES_NEW_1 } from '../content/side-stories-new-1';
-import { SIDE_STORIES_NEW_2 } from '../content/side-stories-new-2';
-import { SIDE_STORIES_NEW_3, SIDE_STORIES_NEW_3_VARIANTS } from '../content/side-stories-new-3';
-import { SIDE_STORIES_NEW_4 } from '../content/side-stories-new-4';
-import { SIDE_STORY_S23, SIDE_STORY_S23_VARIANTS } from '../content/side-stories-s23';
-import { SIDE_STORY_S24, SIDE_STORY_S24_VARIANTS } from '../content/side-stories-s24';
-import { SIDE_STORY_S25, SIDE_STORY_S25_VARIANTS } from '../content/side-stories-s25';
-import { SIDE_STORY_S26, SIDE_STORY_S26_VARIANTS } from '../content/side-stories-s26';
-import { SIDE_STORY_S27, SIDE_STORY_S27_VARIANTS } from '../content/side-stories-s27';
-import { SIDE_STORY_S28, SIDE_STORY_S28_VARIANTS } from '../content/side-stories-s28';
-import { SIDE_STORY_S29, SIDE_STORY_S29_VARIANTS } from '../content/side-stories-s29';
-import { SIDE_STORY_S30, SIDE_STORY_S30_VARIANTS } from '../content/side-stories-s30';
-import { SIDE_STORY_S31, SIDE_STORY_S31_VARIANTS } from '../content/side-stories-s31';
 import type { World } from './types';
 
 /**
- * Every scene the Grove's story can queue: the campaign's, every Grove side story's
- * steps, done and complete scenes, and their variant scenes. `sceneFor` applies the line
- * swaps the scene notes ask for, read from flags at the moment the scene is shown.
+ * Every scene the Grove's story can queue: the campaign's, and (once registered) every
+ * Grove side story's steps, done and complete scenes, and their variant scenes. `sceneFor`
+ * applies the line swaps the scene notes ask for, read from flags when the scene is shown.
  */
 
-/** The Grove's side stories S1–S31, by quest id ('s9'). */
-export const GROVE_SIDE_STORIES: Quest[] = [
-  ...SIDE_STORIES_FUN,
-  ...SIDE_STORIES_MAIN,
-  ...SIDE_STORIES_FUN_2,
-  ...SIDE_STORIES_NEW_1,
-  ...SIDE_STORIES_NEW_2,
-  ...SIDE_STORIES_NEW_3,
-  ...SIDE_STORIES_NEW_4,
-  ...SIDE_STORY_S23,
-  ...SIDE_STORY_S24,
-  ...SIDE_STORY_S25,
-  ...SIDE_STORY_S26,
-  ...SIDE_STORY_S27,
-  ...SIDE_STORY_S28,
-  ...SIDE_STORY_S29,
-  ...SIDE_STORY_S30,
-  ...SIDE_STORY_S31,
-];
+/** The side-story scripts, loaded as their own chunk (see `loadSideStories`). */
+export interface SideStoryContent {
+  quests: Quest[];
+  variants: Scene[];
+}
 
-const SIDE_VARIANTS: Scene[] = [
-  ...SIDE_STORIES_MAIN_VARIANTS,
-  ...SIDE_STORIES_FUN_2_VARIANTS,
-  ...SIDE_STORIES_NEW_3_VARIANTS,
-  ...SIDE_STORY_S23_VARIANTS,
-  ...SIDE_STORY_S24_VARIANTS,
-  ...SIDE_STORY_S25_VARIANTS,
-  ...SIDE_STORY_S26_VARIANTS,
-  ...SIDE_STORY_S27_VARIANTS,
-  ...SIDE_STORY_S28_VARIANTS,
-  ...SIDE_STORY_S29_VARIANTS,
-  ...SIDE_STORY_S30_VARIANTS,
-  ...SIDE_STORY_S31_VARIANTS,
-];
+/** The Grove's side stories S1–S31, by quest id ('s9'). Empty until registered. */
+export const GROVE_SIDE_STORIES: Quest[] = [];
 
-const QUEST_BY_ID = new Map<string, Quest>(GROVE_SIDE_STORIES.map((q) => [q.id, q]));
+const QUEST_BY_ID = new Map<string, Quest>();
 
 export function sideStory(id: string): Quest | undefined {
   return QUEST_BY_ID.get(id);
@@ -70,14 +28,33 @@ function add(s: Scene | undefined): void {
   if (s && !SCENE_BY_ID.has(s.id)) SCENE_BY_ID.set(s.id, s);
 }
 for (const s of SCENES) add(s);
-for (const q of GROVE_SIDE_STORIES) {
-  for (const step of q.steps) {
-    add(step.scene);
-    add(step.done);
+
+/**
+ * Add the side stories' quests, step scenes and variant scenes to the registry. The app
+ * calls it (through `loadSideStories`) before a save loads, since save.ts drops queued
+ * scene ids the registry does not know; tests call it straight away. Safe to repeat.
+ */
+export function registerSideStories(content: SideStoryContent): void {
+  if (GROVE_SIDE_STORIES.length) return;
+  GROVE_SIDE_STORIES.push(...content.quests);
+  for (const q of content.quests) {
+    QUEST_BY_ID.set(q.id, q);
+    for (const step of q.steps) {
+      add(step.scene);
+      add(step.done);
+    }
+    add(q.complete);
   }
-  add(q.complete);
+  for (const s of content.variants) add(s);
 }
-for (const s of SIDE_VARIANTS) add(s);
+
+let loading: Promise<void> | null = null;
+
+/** Load the side-story chunk once and register it. */
+export function loadSideStories(): Promise<void> {
+  loading ??= import('./side-story-content').then((m) => registerSideStories(m.SIDE_STORY_CONTENT));
+  return loading;
+}
 
 export function sceneById(id: string): Scene | undefined {
   return SCENE_BY_ID.get(id);

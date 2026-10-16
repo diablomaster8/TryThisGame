@@ -2,6 +2,7 @@ import { Game } from './game';
 import type { EduAge } from './config/edu';
 import { unlockAudio } from './platform/audio';
 import { clearSlot, readGraphicsPref, setSaveSlot } from './platform/storage';
+import { loadSideStories } from './sim/story-scenes';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
 import { showTitle } from './ui/title';
 import { mountCameraButtons } from './ui/camera-buttons';
@@ -48,6 +49,8 @@ if (params.has('sprites')) {
   setSaveSlot({ mode: 'free', index: Number(params.get('slot')) || 1 });
   startGame(null);
 } else {
+  // Fetch the side-story chunk while the title is up.
+  void loadSideStories();
   showTitle(hudRoot, (choice) => {
     if (choice.fresh) clearSlot(choice.slot);
     setSaveSlot(choice.slot);
@@ -60,14 +63,18 @@ if (params.has('sprites')) {
 
 /** `newCampaignTrainer` starts the story in a fresh world as that Keeper. */
 function startGame(newCampaignTrainer: string | null, eduAge?: EduAge): void {
+  // The side-story scripts are their own chunk; the save cannot load until they are
+  // registered, or it would drop a queued side-story scene.
+  const sideStories = loadSideStories();
   // The 3D scene is a separate chunk, loaded only when the title picked it.
   if (readGraphicsPref() === '3d') {
-    void import('./render3d/grove-3d-scene').then((m) => {
+    void import('./render3d/grove-3d-scene').then(async (m) => {
       // The saved creatures start sculpting in workers while the scene builds.
       m.prewarmCreatures();
+      await sideStories;
       boot(newCampaignTrainer, eduAge, new m.Grove3dScene(canvas));
     });
-  } else boot(newCampaignTrainer, eduAge, null);
+  } else void sideStories.then(() => boot(newCampaignTrainer, eduAge, null));
 }
 
 function boot(
