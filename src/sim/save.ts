@@ -3,9 +3,10 @@ import { sceneById } from './story-scenes';
 import { createWeather } from './weather';
 import { npcHome } from './npcs';
 import type { World } from './types';
+import { sanitizeMatureContent } from './audience';
 import { defaultSettings } from './world';
 
-export const SAVE_VERSION = 2;
+export const SAVE_VERSION = 3;
 
 export interface SaveFile {
   version: number;
@@ -50,6 +51,16 @@ export const MIGRATIONS: Array<(data: Record<string, unknown>) => Record<string,
         n.ancestry ??= [];
         n.heirloom ??= false;
       }
+    }
+    return data;
+  },
+  // 2 → 3: the "Mature content" setting and the one-time rift confirmation.
+  (data) => {
+    const world = data.world as Record<string, unknown> | undefined;
+    const settings = world?.settings as Record<string, unknown> | undefined;
+    if (settings) {
+      settings.matureContent ??= 'off';
+      settings.riftConfirmed ??= false;
     }
     return data;
   },
@@ -114,6 +125,8 @@ export function validateWorld(w: World): World {
   w.inventory.hats ??= [];
   w.settings ??= defaultSettings();
   w.settings.offlineAging ??= defaultSettings().offlineAging;
+  w.settings.matureContent = sanitizeMatureContent(w.settings.matureContent);
+  w.settings.riftConfirmed = w.settings.riftConfirmed === true;
   w.settings.sound ??= true;
   w.settings.music ??= true;
   w.settings.musicVolume ??= 0.8;

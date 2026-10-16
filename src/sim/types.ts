@@ -246,8 +246,15 @@ export interface OfflineAgingSettings {
   allowOfflineDepartures: boolean;
 }
 
+/** The "Mature content" setting: Off, 13+ (teen) or 18+ (adult). */
+export type MatureContent = 'off' | 'teen' | 'adult';
+
 export interface Settings {
   offlineAging: OfflineAgingSettings;
+  /** Which quest audiences the main game offers. Off by default; never read in the Learning Grove. */
+  matureContent: MatureContent;
+  /** True once the player has confirmed their age at the Multiverse rift (one time only). */
+  riftConfirmed: boolean;
   joystick: boolean;
   sound: boolean;
   music: boolean;
@@ -684,6 +691,7 @@ export type Command =
     }
   | { kind: 'wearHat'; nubbinId: string; hat: string | null }
   | { kind: 'setSettings'; settings: Settings }
+  | { kind: 'confirmRift' }
   | { kind: 'rename'; nubbinId: string; name: string }
   // Debug
   | { kind: 'debugGive'; what: 'shells' | 'fruit' | 'critter' | 'essence' | 'egg'; amount: number }

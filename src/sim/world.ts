@@ -1,6 +1,7 @@
 import { NUBBIN_NAMES } from '../config/strings';
 import { EGG, GROVE, LIFECYCLE, OFFLINE, THROW, TREES, TRUST } from '../config/tuning';
 import { nudgeAlignment } from './alignment';
+import { confirmRift } from './audience';
 import { applyDrop, decayNeeds } from './needs';
 import { clampToWorld, putDown, react, sampleAll, startThrow, updateBehavior } from './behavior';
 import { CRITTER_SPECIES, giveCritter, giveEssence } from './critters';
@@ -81,6 +82,8 @@ export function defaultSettings(): Settings {
       capHours: OFFLINE.defaultCapHours,
       allowOfflineDepartures: OFFLINE.defaultAllowDepartures,
     },
+    matureContent: 'off',
+    riftConfirmed: false,
     joystick: false,
     sound: true,
     music: true,
@@ -408,6 +411,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     }
     case 'setSettings':
       world.settings = cmd.settings;
+      return;
+    case 'confirmRift':
+      confirmRift(world.settings);
       return;
     case 'rename': {
       const n = findNubbin(world, cmd.nubbinId);

@@ -11,7 +11,8 @@ import {
   writeGraphicsPref,
 } from '../platform/storage';
 import { deserialize, SaveError } from '../sim/save';
-import type { OfflineMode, Settings } from '../sim/types';
+import { matureControlVisible } from '../sim/audience';
+import type { MatureContent, OfflineMode, Settings } from '../sim/types';
 import { createWorld } from '../sim/world';
 import { button, el, modal } from './dom';
 
@@ -27,6 +28,8 @@ export class SettingsMenu {
   private readonly music: HTMLInputElement;
   private readonly musicVol: HTMLInputElement;
   private readonly sfxVol: HTMLInputElement;
+  private readonly matureSection: HTMLFieldSetElement;
+  private readonly matureInputs = new Map<MatureContent, HTMLInputElement>();
   private readonly textSpeed: HTMLSelectElement;
   private readonly shake: HTMLInputElement;
   private readonly particles: HTMLSelectElement;
@@ -94,6 +97,30 @@ export class SettingsMenu {
     this.departuresRow.append(this.departures, dText);
     section.appendChild(this.departuresRow);
     body.appendChild(section);
+
+    // Never shown in a Learning Grove save: that mode only ever offers `all` stories.
+    this.matureSection = el('fieldset', 'settings-section');
+    this.matureSection.appendChild(el('legend', undefined, UI_TEXT.matureTitle));
+    this.matureSection.appendChild(el('p', 'help', UI_TEXT.matureHelp));
+    const matureOptions: Array<[MatureContent, string, string]> = [
+      ['off', UI_TEXT.matureOff, UI_TEXT.matureOffHelp],
+      ['teen', UI_TEXT.matureTeen, UI_TEXT.matureTeenHelp],
+      ['adult', UI_TEXT.matureAdult, UI_TEXT.matureAdultHelp],
+    ];
+    for (const [value, label, help] of matureOptions) {
+      const row = el('label', 'radio-row');
+      const input = el('input');
+      input.type = 'radio';
+      input.name = 'mature-content';
+      input.value = value;
+      input.addEventListener('change', () => this.apply());
+      this.matureInputs.set(value, input);
+      const text = el('span');
+      text.append(el('strong', undefined, label), el('small', undefined, help));
+      row.append(input, text);
+      this.matureSection.appendChild(row);
+    }
+    body.appendChild(this.matureSection);
 
     const musicRow = el('label', 'check-row');
     this.music = el('input');
@@ -232,6 +259,11 @@ export class SettingsMenu {
     this.capInput.value = String(s.capHours);
     this.capError.hidden = true;
     this.departures.checked = s.allowOfflineDepartures;
+    for (const [value, input] of this.matureInputs)
+      input.checked = value === g.world.settings.matureContent;
+    this.matureSection.hidden = !matureControlVisible({
+      learningGrove: currentSlot().mode === 'edu',
+    });
     this.sound.checked = g.world.settings.sound;
     this.music.checked = g.world.settings.music;
     this.musicVol.value = String(Math.round(g.world.settings.musicVolume * 100));
@@ -263,6 +295,11 @@ export class SettingsMenu {
     return OFFLINE.defaultMode;
   }
 
+  private currentMature(fallback: MatureContent): MatureContent {
+    for (const [value, input] of this.matureInputs) if (input.checked) return value;
+    return fallback;
+  }
+
   private syncEnabled(mode: OfflineMode): void {
     this.capInput.disabled = mode !== 'capped';
     // With mode off no time passes, so the toggle has no effect: show it disabled.
@@ -287,6 +324,7 @@ export class SettingsMenu {
     this.capError.hidden = valid || mode !== 'capped';
     const settings: Settings = {
       ...prev,
+      matureContent: this.currentMature(prev.matureContent),
       sound: this.sound.checked,
       music: this.music.checked,
       musicVolume: Number(this.musicVol.value) / 100,

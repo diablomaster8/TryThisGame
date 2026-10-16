@@ -17,6 +17,14 @@ Waiting on Maor: the expansion pick E1–E3 / S1–S4, the daily-gift decision, 
 fun-quest quotes, whether Full 3D becomes the default, his phone rows in the device pass.
 Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
 
+## 2026-10-16: content ratings (CV6 audience items)
+
+**Works:** `Settings.matureContent` (`off` | `teen` | `adult`, default `off`) and `riftConfirmed`, save v3 with a migration (v2 saves get `off`/false; bad values clamp to `off`). `sim/audience.ts` holds the pure filter: Learning Grove offers only `all`; the main game offers `all` and `main`, `teen` at 13+ or 18+, `adult` at 18+; fun quests Q1-Q65 are blocked in chapters 9-11. Settings > Mature content control (hidden when the slot mode is `edu`). `confirmRift` command sets `riftConfirmed` and turns on 18+. `ui/rift-confirm.ts` is the one-time age dialog. Tests: `tests/sim/audience.test.ts`.
+
+**Stubbed:** nothing calls `questAvailable` yet, because no fun-quest, Atlas or Multiverse offering engine exists (CV1/CV4 and later); `askRift` has no caller until the rift is built. Learning Grove comes from slot mode `edu` in the UI; the sim takes it as a parameter. Assumption: the rift confirmation lives in `settings.riftConfirmed`.
+
+**Known bugs:** none known. Lowering the setting only hides quests; nothing stores quest progress yet to prove it end to end.
+
 ## Standing approval (Maor, 2026-10-12)
 
 "When you finish, proceed straight through to the next development. I'm approving it. Keep

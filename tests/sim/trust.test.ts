@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { SIM, TRUST } from '../../src/config/tuning';
 import { hatch } from '../../src/sim/lifecycle';
-import { deserialize, serialize } from '../../src/sim/save';
+import { deserialize, SAVE_VERSION, serialize } from '../../src/sim/save';
 import { addTrust, isWary } from '../../src/sim/trust';
 import type { SimEvent } from '../../src/sim/types';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
@@ -107,7 +107,7 @@ describe('trust and Shadow', () => {
       delete n.bond;
     }
     const file = deserialize(JSON.stringify(v1));
-    expect(file.version).toBe(2);
+    expect(file.version).toBe(SAVE_VERSION);
     expect(file.world.strays).toEqual([]);
     expect(file.world.campaign).toBeNull();
     expect(file.world.nubbins[0]!.trust).toBe(TRUST.start);
