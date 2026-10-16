@@ -17,7 +17,13 @@ export interface Creature {
 
 // ---------------------------------------------------------------- surface detail
 
-type Detail = 'fur' | 'scale' | 'leaf' | 'plate' | 'smooth';
+type Detail = 'fur' | 'scale' | 'leaf' | 'plate' | 'smooth' | 'facet';
+
+/** A repeatable 0..1 value per cell, so the facet lattice tiles without a seam. */
+function cellHash(a: number, b: number, salt: number): number {
+  const n = Math.sin(a * 127.1 + b * 311.7 + salt * 74.7) * 43758.5453;
+  return n - Math.floor(n);
+}
 
 interface DetailMaps {
   albedo: THREE.CanvasTexture;
@@ -73,6 +79,41 @@ function paintDetail(kind: Detail): DetailMaps {
           h = seam ? 0.1 : rivet ? 0.9 : 0.55 + fbm(x / 12, y / 12, 2, 87) * 0.2;
           break;
         }
+        case 'facet': {
+          // A jittered lattice of cells, each a flat plane with its own tilt, so the normal
+          // breaks at every cell edge like a cut stone; the edges catch a bright line.
+          const cs = 32;
+          const cells = s / cs;
+          const cx = Math.floor(x / cs);
+          const cy = Math.floor(y / cs);
+          let d1 = 1e9;
+          let d2 = 1e9;
+          let plane = 0.5;
+          let tone = 0;
+          for (let j = -1; j <= 1; j++) {
+            for (let i = -1; i <= 1; i++) {
+              const gx = cx + i;
+              const gy = cy + j;
+              const kx = ((gx % cells) + cells) % cells;
+              const ky = ((gy % cells) + cells) % cells;
+              const sx = (gx + 0.2 + cellHash(kx, ky, 1) * 0.6) * cs;
+              const sy = (gy + 0.2 + cellHash(kx, ky, 2) * 0.6) * cs;
+              const d = Math.hypot(x - sx, y - sy);
+              if (d < d1) {
+                d2 = d1;
+                d1 = d;
+                const tx = (cellHash(kx, ky, 3) - 0.5) * 0.05;
+                const ty = (cellHash(kx, ky, 4) - 0.5) * 0.05;
+                plane = 0.5 + (x - sx) * tx + (y - sy) * ty;
+                tone = cellHash(kx, ky, 5) - 0.5;
+              } else if (d < d2) d2 = d;
+            }
+          }
+          const edge = d2 - d1 < 2.4;
+          v = edge ? 0.92 : 0.48 + tone * 0.14;
+          h = edge ? plane - 0.1 : plane;
+          break;
+        }
         default:
           v = 0.5 + (n - 0.5) * 0.1;
           h = 0.5 + (n - 0.5) * 0.3;
@@ -89,7 +130,8 @@ function paintDetail(kind: Detail): DetailMaps {
   albedo.minFilter = THREE.LinearMipmapLinearFilter;
   albedo.generateMipmaps = true;
   const data = new Uint8Array(s * s * 4);
-  const strength = kind === 'plate' ? 5 : kind === 'scale' ? 4 : kind === 'fur' ? 2.5 : 2;
+  const strength =
+    kind === 'facet' ? 9 : kind === 'plate' ? 5 : kind === 'scale' ? 4 : kind === 'fur' ? 2.5 : 2;
   const hh = (x: number, y: number) => height[((y + s) % s) * s + ((x + s) % s)]!;
   const nv = new THREE.Vector3();
   for (let y = 0; y < s; y++) {

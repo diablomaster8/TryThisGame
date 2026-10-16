@@ -96,12 +96,14 @@ const SHINY_FINISH = {
 };
 
 const JEWEL_FINISH = {
-  detail: 'smooth' as const,
+  detail: 'facet' as const,
+  scale: 0.55,
   roughness: 0.12,
   clearcoat: 1,
   sheen: 0.6,
   sheenColor: '#ffffff',
-  amount: 0.04,
+  amount: 0.3,
+  bump: 1,
 };
 
 const PLAIN = EGG_COLOURS.map((c) =>
@@ -133,9 +135,8 @@ const JEWEL = JEWELS.map((j) =>
     `jewel-${j.name}`,
     `Nubbin (${cap(j.name)})`,
     { body: j.body, crownShade: j.crownShade, belly: j.belly, tip: j.tip },
-    `Gemstone finish in ${j.name}: a hard gloss over the plain child shape.`,
+    `Gemstone finish in ${j.name}: cut facets and a hard gloss over the plain child shape.`,
     { surface: JEWEL_FINISH, eyes: { iris: j.crownShade } },
-    'facets are a flat gloss; a facet detail kind does not exist yet',
   ),
 );
 

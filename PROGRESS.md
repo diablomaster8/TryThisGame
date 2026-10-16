@@ -9,7 +9,7 @@ new pass goes in at line 12 and the file is long, move the oldest section to
 Shipped and deployed: v1, the organic painted Grove, the Digimon-inspired ten, the Hollow
 Below dungeons, the 96-unit field, three save slots per mode. In progress: the full-3D
 mode, now a real Graphics setting (Pixel | Full 3D) with `src/render3d/`; the pixel mode
-ships unchanged. Latest pass: the 3D mode made real (stubs listed below). Waiting on Maor:
+ships unchanged. Latest pass: the jewel facets, the last variant placeholders. Waiting on Maor:
 the pick from expansions E1–E3 and campaigns S1–S4, and his device pass. Subagent briefs
 with model picks: `plan.md`. Improvement backlog against the Palworld references:
 `docs/creature-improvements.md`. Story content pack: `src/content/`, `script-book/`,
@@ -22,6 +22,17 @@ with model picks: `plan.md`. Improvement backlog against the Palworld references
 going until you hit the session limit." So after each milestone passes its done-when
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
+
+## Jewel facets (2026-10-16)
+
+The last variant placeholders are gone. `facet` is a sixth surface detail kind in
+`creatures.ts` (`paintDetail`): a jittered, seamlessly tiling lattice of cells, each a flat
+plane with its own tilt so the baked normal breaks at every cell edge, and a bright line
+along the edges; row added to the `SurfaceOpts` table in `docs/species-format.md`. The
+seven `jewel-*` entries in `nubbin-variants-colour.ts` wear it at `scale` 0.55 (about four
+facets per body unit; 2.4 read as glitter) with a hard clearcoat. Shots:
+`docs/samples/variants-jewel-closeup.jpg` (`?aaa=1&creature=variant:jewel-ruby&closeup`) and
+`variants-colour.jpg` re-shot. Lint, 216 tests and build pass.
 
 ## The full-3D mode, for real (2026-10-15)
 

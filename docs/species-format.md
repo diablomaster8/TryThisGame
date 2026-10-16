@@ -106,17 +106,17 @@ It paints every part the shape touches, so a chest patch can cross from torso to
 
 The material, from `creatures.ts`. A part may carry its own.
 
-| Field          | What it is                                                        | Default  | Example                 |
-| -------------- | ----------------------------------------------------------------- | -------- | ----------------------- |
-| `detail`       | `fur`, `scale`, `leaf`, `plate` or `smooth`: the triplanar grain. | required | `detail: 'fur'`         |
-| `scale`        | Grain size.                                                       | 1.6      | `scale: 2.2`            |
-| `amount`       | Grain strength in the colour.                                     | 0.6      | `amount: 0.4`           |
-| `bump`         | Grain strength in the normal.                                     | 0.6      | `bump: 0.4`             |
-| `roughness`    | Physical roughness.                                               | 0.6      | `roughness: 0.78`       |
-| `sheen`        | Fabric-like sheen strength.                                       | 0.3      | `sheen: 0.5`            |
-| `sheenColor`   | Sheen tint.                                                       | white    | `sheenColor: '#ffe0c0'` |
-| `clearcoat`    | Glossy coat strength (shells, plates, the cap).                   | 0.08     | `clearcoat: 0.6`        |
-| `glowStrength` | How bright the `glow` vertex attribute renders.                   | 0        | `glowStrength: 2`       |
+| Field          | What it is                                                                                                                                   | Default  | Example                 |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ----------------------- |
+| `detail`       | `fur`, `scale`, `leaf`, `plate`, `smooth` or `facet` (a lattice of flat tilted cells with bright edges, for gemstones): the triplanar grain. | required | `detail: 'fur'`         |
+| `scale`        | Grain size.                                                                                                                                  | 1.6      | `scale: 2.2`            |
+| `amount`       | Grain strength in the colour.                                                                                                                | 0.6      | `amount: 0.4`           |
+| `bump`         | Grain strength in the normal.                                                                                                                | 0.6      | `bump: 0.4`             |
+| `roughness`    | Physical roughness.                                                                                                                          | 0.6      | `roughness: 0.78`       |
+| `sheen`        | Fabric-like sheen strength.                                                                                                                  | 0.3      | `sheen: 0.5`            |
+| `sheenColor`   | Sheen tint.                                                                                                                                  | white    | `sheenColor: '#ffe0c0'` |
+| `clearcoat`    | Glossy coat strength (shells, plates, the cap).                                                                                              | 0.08     | `clearcoat: 0.6`        |
+| `glowStrength` | How bright the `glow` vertex attribute renders.                                                                                              | 0        | `glowStrength: 2`       |
 
 ## Eyes
 
