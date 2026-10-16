@@ -131,14 +131,14 @@ Run npm run lint, npm test, npm run build. Log at line 12 of PROGRESS.md. Commit
 
 ## Part G16 — Full 3D parity: the remaining gaps
 
-**Model:** Opus. **Independent.** G16.1 (event bursts) and G16.3 (crown fade) are done; one commit per remaining item; each checked in the browser pane on
+**Model:** Opus. **Independent.** The event bursts and the crown fade from the parity list are done; the twelve rows below are what is left, one commit each; each checked in the browser pane on
 `?free&slot=3` with Graphics set to Full 3D at 375x812 against the same view in Pixel.
 
 | # | Gap a player notices | Where | Size |
 | --- | --- | --- | --- |
-| G16.1 | Done (8089255: the bursts; the Hollow stall below is still open) · Entering the Hollow Below stalls 3.3 s the first time: its four lamps recompile every material. Compile asynchronously behind a fade on the stairs | `render3d/hollow.ts` (lamps), `grove-3d-scene.ts` (`compileScene`) | 1.5–2 h |
+| G16.1 | Entering the Hollow Below stalls 3.3 s the first time: its four lamps recompile every material. Compile asynchronously behind a fade on the stairs | `render3d/hollow.ts` (lamps), `grove-3d-scene.ts` (`compileScene`) | 1.5–2 h |
 | G16.2 | Only Nubbins and items get the tap highlight; the pixel view also rings lanterns, trees, buildings, decor, plants, NPCs, wild ones, strays, memorials, stairs, chests and loot | `render3d/actors.ts` (highlight ring); pixel `SpriteBatch.highlight` | 1–2 h |
-| G16.3 | Done? No: this row is the story Hollow set (the crown fade, fb96dd3, was the other item 3 in PROGRESS). The story Hollow and Corvin's garden are a plain floor and a colour in 3D | pixel `buildHollow`, `buildCorvin` in `render/grove-scene.ts`; `grove-3d-scene.ts` location sets | 3–4 h |
+| G16.3 | The story Hollow and Corvin's garden are a plain floor and a colour in 3D | pixel `buildHollow`, `buildCorvin` in `render/grove-scene.ts`; `grove-3d-scene.ts` location sets | 3–4 h |
 | G16.4 | Hollow Below dressing: no Keeper lamp, loot as generic shapes, no "?" over an unfed wild one (the Grove's wild visitor too) | `render3d/hollow.ts`, `crowd.ts`; pixel `render/paint/dungeon.ts`, `drawCave` | 1.5–2 h |
 | G16.5 | Village square stalls (`townUnlocks`) and the path fence posts are missing | pixel `render/world-view.ts`; `render3d/props.ts` | 1–1.5 h |
 | G16.6 | No merged glow, no cocoon fade, every fruit the same orange sphere | pixel `world-view.ts` (`isMerged`, cocoon opacity, fruit flavour frames); `render3d/actors.ts` | 1–1.5 h |
