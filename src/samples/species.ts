@@ -25,8 +25,10 @@ import { sculpt, sdf, smin, V, type Prim } from './sculpted';
  * to be written in this format rather than modelled by hand.
  */
 export type Gait = 'biped' | 'quadruped' | 'hover' | 'spider';
-export type PoseName = 'idle' | 'happy' | 'pet' | 'walk' | 'eat' | 'sleep';
+export type PoseName = 'idle' | 'happy' | 'pet' | 'walk' | 'eat' | 'sleep' | 'carry' | 'throw';
+/** The creature cycle on the stage. `carry` and `throw` are the Keeper's: see `KEEPER_POSES`. */
 export const POSES: PoseName[] = ['idle', 'happy', 'pet', 'walk', 'eat', 'sleep'];
+export const ALL_POSES: PoseName[] = [...POSES, 'carry', 'throw'];
 
 /** A deliberate marking: a shape in body space, a colour, and how soft its edge is. */
 export interface Mark {
@@ -96,6 +98,28 @@ interface LegChain {
   theta0: number;
   /** Where in the stride this leg starts: 0 or 0.5. */
   phase: number;
+}
+
+/**
+ * What a species' own pose (`poses` on the spec) gets to move each frame. The builder
+ * has already put every bone back at rest; the pose adds to that, as the stock ones do.
+ */
+export interface PoseContext {
+  /** Stage time in seconds, and the time since this pose began. */
+  t: number;
+  dt: number;
+  /** Turn a bone from its rest rotation by x, y, z radians. Unknown names are ignored. */
+  set(bone: string, x: number, y: number, z: number): void;
+  /** Bend a jointed leg's knee (by its hip bone name) in its natural direction. */
+  bend(leg: string, angle: number): void;
+  hips: THREE.Group;
+  head: THREE.Group;
+  /** The head bone's rest position: slide the head by adding to `head.position`. */
+  headRest: THREE.Vector3;
+  /** `lookAt` as a head yaw and pitch in hip space, with its ease-in `k` (0 when nothing is looked at). */
+  look: { yaw: number; pitch: number; k: number };
+  /** How far the mouth opens, 0..1. */
+  mouth(open: number): void;
 }
 
 /** What `extras` get to hang hand-built decorations on. */
@@ -175,6 +199,13 @@ export interface SpeciesSpec {
   };
   /** Per-pose face overrides: how far the lids close, the squint, the brow, the arc. */
   expressions?: Partial<Record<PoseName, Partial<Expression>>>;
+  /**
+   * A species' own poses, replacing the stock one of the same name: the Keeper reaches
+   * out for `pet` where a creature leans in, and is the only one with `carry` and `throw`.
+   */
+  poses?: Partial<Record<PoseName, (c: PoseContext) => void>>;
+  /** Whether hearts rise while petted; off for the one doing the petting. */
+  hearts?: boolean;
   wings?: { x: number; y: number; z: number; size: number; color: string };
   /** The Chao emote ball, if the species has one. */
   ball?: { y: number; color: string };
@@ -205,6 +236,8 @@ const EXPRESSIONS: Record<PoseName, Expression> = {
   walk: { lid: 0, squint: 0, brow: 0.05, browLift: 0, arc: false },
   eat: { lid: 0.1, squint: 0.45, brow: -0.3, browLift: -0.08, arc: false },
   sleep: { lid: 1, squint: 0, brow: -0.1, browLift: -0.12, arc: false },
+  carry: { lid: 0.15, squint: 0.2, brow: 0.2, browLift: 0.04, arc: false },
+  throw: { lid: 0, squint: 0.3, brow: -0.25, browLift: 0.06, arc: false },
 };
 
 export interface Rigged extends Creature {
@@ -1016,6 +1049,24 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
   const bendKnee = (leg: LegChain, angle: number) => {
     leg.knee.quaternion.setFromAxisAngle(leg.n, angle);
   };
+  // What a species' own pose works with; filled in per frame.
+  let ownMouth = 0;
+  const poseCtx: PoseContext = {
+    t: 0,
+    dt: 0,
+    set,
+    bend: (name, angle) => {
+      const leg = legs.find((l) => l.hip === bones[name]);
+      if (leg) bendKnee(leg, angle);
+    },
+    hips,
+    head,
+    headRest,
+    look: { yaw: 0, pitch: 0, k: 0 },
+    mouth: (open) => {
+      ownMouth = open;
+    },
+  };
   const animate = (t: number) => {
     const fdt = Math.min(0.1, Math.max(0, t - lastFrame));
     lastFrame = t;
@@ -1038,7 +1089,22 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
       lookPitch = THREE.MathUtils.clamp(-Math.atan2(look.y, flat), -LOOK_PITCH, LOOK_PITCH);
       lookK = Math.min(1, lookK + fdt / 0.35);
     } else lookK = Math.max(0, lookK - fdt / 0.35);
-    switch (pose) {
+    const own = spec.poses?.[pose];
+    if (own) {
+      poseCtx.t = t;
+      poseCtx.dt = dt;
+      poseCtx.look.yaw = lookYaw;
+      poseCtx.look.pitch = lookPitch;
+      poseCtx.look.k = lookK;
+      own(poseCtx);
+      mouthOpen = ownMouth;
+    }
+    switch (own ? null : pose) {
+      case null:
+        break;
+      // A species without its own `carry` and `throw` just stands.
+      case 'carry':
+      case 'throw':
       case 'idle': {
         hips.position.y = spec.hipY + s(t * 2.2) * 0.02;
         hips.rotation.z = s(t * 0.8) * 0.02;
@@ -1277,7 +1343,7 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
     }
     // Hearts rise and fade from the head while petted; the Zzz drifts up while asleep.
     hearts.forEach((sp, i) => {
-      const life = pose === 'pet' ? dt - i * 0.22 : -1;
+      const life = pose === 'pet' && spec.hearts !== false ? dt - i * 0.22 : -1;
       sp.visible = life >= 0;
       if (life < 0) return;
       const p = (life % HEART_LIFE) / HEART_LIFE;

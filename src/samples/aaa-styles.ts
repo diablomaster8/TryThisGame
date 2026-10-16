@@ -12,8 +12,16 @@ import { fbm, ridged, vnoise } from '../render/paint/noise';
 import { hex, mix, Raster, shade, type RGB } from '../render/paint/raster';
 import { sculptedKeeper, sculptedNubbin } from './sculpted';
 import type { Creature } from './creatures';
-import { buildSpecies, POSES, type PoseName, type Rigged } from './species';
+import { ALL_POSES, buildSpecies, POSES, type PoseName, type Rigged } from './species';
 import { ROSTER } from './species-roster';
+import { NUBBIN_SPEC } from './species-data';
+import {
+  KEEPER_MOON_SPEC,
+  KEEPER_POSES,
+  KEEPER_SPEC,
+  KEEPER_THROW,
+  KEEPER_WRIST,
+} from './keeper-spec';
 
 /**
  * The HD-port direction taken to a AAA finish (`?aaa=1..3`): the same valley as the
@@ -884,8 +892,13 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
   };
   const creatureParam = new URLSearchParams(location.search).get('creature');
   const lineup = creatureParam === 'all';
-  const creatureIndex = lineup ? 0 : Number(creatureParam) || 0;
+  // `&creature=keeper` (or `keeper-moon`): the Keeper beside a Nubbin, petting, carrying
+  // and throwing it as the poses cycle.
+  const keeperStage = creatureParam === 'keeper' || creatureParam === 'keeper-moon';
+  const creatureIndex = lineup || keeperStage ? 0 : Number(creatureParam) || 0;
   let creature: Creature | null = null;
+  let keeper: Rigged | null = null;
+  let nub: Rigged | null = null;
   // Every sample creature comes from the species description format.
   const cast: Rigged[] = [];
   // `&turn=<degrees>` turns the creature on the spot, to view it from other angles.
@@ -901,7 +914,25 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
       cast.push(c);
     });
   }
-  if (creatureIndex > 0 || lineup) {
+  if (keeperStage) {
+    // Side by side across the camera's view, each turned a little toward the lens, the
+    // Keeper on the left looking at the Nubbin on the right.
+    keeper = buildSpecies(creatureParam === 'keeper-moon' ? KEEPER_MOON_SPEC : KEEPER_SPEC);
+    nub = buildSpecies(NUBBIN_SPEC);
+    const spots: Array<[Rigged, number, number, number]> = [
+      [keeper, -0.75, -0.5, 1.6],
+      [nub, 0.66, 0.44, 3.53],
+    ];
+    for (const [c, x, z, yaw] of spots) {
+      c.ground = groundHeight;
+      c.group.userData.baseY = groundHeight(x, z);
+      c.group.userData.homeX = x;
+      c.group.userData.homeZ = z;
+      place(c.group, x, z, yaw + turn);
+    }
+    creature = keeper;
+  }
+  if (creatureIndex > 0 || lineup || keeperStage) {
     if (creatureIndex > 0) {
       // One creature on the stage, framed close, facing the camera.
       creature = buildSpecies(ROSTER[Math.min(creatureIndex, ROSTER.length) - 1]!);
@@ -1002,6 +1033,117 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     c.face(Math.atan2(dx, dz));
   };
 
+  // A walking creature covers ground at its stride speed, so the planted feet stay put;
+  // the camera walks with it, and after a few units it starts the lap again.
+  const lap = (r: Rigged, dt: number) => {
+    const g = r.group;
+    const v = (r.strideLength / r.stridePeriod) * dt;
+    g.position.x += Math.sin(g.rotation.y) * v;
+    g.position.z += Math.cos(g.rotation.y) * v;
+    if (g.position.x * g.position.x + g.position.z * g.position.z > 25) {
+      g.position.x -= Math.sin(g.rotation.y) * 10;
+      g.position.z -= Math.cos(g.rotation.y) * 10;
+    }
+  };
+  // The Keeper stage, one frame: the Keeper takes the pose; the Nubbin answers it. Petted,
+  // it leans to the Keeper's right hand; carried, it rides in the cradle of the arms;
+  // thrown, it leaves the hands on the release beat, flies an arc, lands, and slides back
+  // into the arms as the cycle restarts.
+  const handL = new THREE.Vector3();
+  const handR = new THREE.Vector3();
+  const hands = new THREE.Vector3();
+  const nubHead = new THREE.Vector3();
+  const keeperHead = new THREE.Vector3();
+  const launch = new THREE.Vector3();
+  const landing = new THREE.Vector3();
+  let keeperPose: PoseName = 'idle';
+  let keeperSince = 0;
+  const keeperFrame = (k: Rigged, n: Rigged, pose: PoseName, t: number, dt: number) => {
+    if (pose !== keeperPose) {
+      keeperPose = pose;
+      keeperSince = t;
+    }
+    const kdt = t - keeperSince;
+    const kg = k.group;
+    const ng = n.group;
+    const baseYaw = (g: THREE.Group) => g.userData.yaw as number;
+    n.bones.head!.getWorldPosition(nubHead);
+    k.bones.head!.getWorldPosition(keeperHead);
+    k.lookAt = (k.lookAt ?? new THREE.Vector3()).copy(nubHead);
+    const toward = (from: THREE.Group, to: THREE.Vector3) =>
+      Math.atan2(to.x - from.position.x, to.z - from.position.z);
+    k.setPose(pose);
+    if (pose === 'pet') k.face(toward(kg, nubHead));
+    else k.face(baseYaw(kg));
+    if (pose === 'walk') lap(k, dt);
+    k.animate(t);
+    kg.updateWorldMatrix(true, true);
+    k.bones.elbowL!.localToWorld(handL.set(-KEEPER_WRIST.x, KEEPER_WRIST.y, KEEPER_WRIST.z));
+    k.bones.elbowR!.localToWorld(handR.copy(KEEPER_WRIST));
+    hands.addVectors(handL, handR).multiplyScalar(0.5);
+    // Ahead of the hands by the Nubbin's own radius, so it rides against the chest.
+    hands.x += Math.sin(kg.rotation.y) * 0.5;
+    hands.z += Math.cos(kg.rotation.y) * 0.5;
+    const T = KEEPER_THROW;
+    const ph = kdt % T.period;
+    const held = pose === 'carry' || (pose === 'throw' && ph < T.release);
+    n.ground = groundHeight;
+    n.lookAt = (n.lookAt ?? new THREE.Vector3()).copy(keeperHead);
+    if (held) {
+      const y = hands.y + 0.04;
+      ng.position.x = hands.x;
+      ng.position.z = hands.z;
+      n.ground = () => y;
+      n.face(kg.rotation.y);
+      n.setPose('pet');
+      launch.set(hands.x, y, hands.z);
+      landing.set(
+        hands.x + Math.sin(kg.rotation.y) * 3.2,
+        0,
+        hands.z + Math.cos(kg.rotation.y) * 3.2,
+      );
+      landing.y = groundHeight(landing.x, landing.z);
+    } else if (pose === 'throw') {
+      const tau = ph - T.release;
+      if (tau < T.flight) {
+        // The arc: a straight line from the hands to the landing spot, lifted by a hump.
+        const u = tau / T.flight;
+        ng.position.x = THREE.MathUtils.lerp(launch.x, landing.x, u);
+        ng.position.z = THREE.MathUtils.lerp(launch.z, landing.z, u);
+        const y = THREE.MathUtils.lerp(launch.y, landing.y, u) + 4 * 1.3 * u * (1 - u);
+        n.ground = () => y;
+        n.setPose('idle');
+      } else if (ph > T.period - 0.5) {
+        // Back into the arms for the next throw: a quick hop along the way.
+        const u = (ph - (T.period - 0.5)) / 0.5;
+        ng.position.x = THREE.MathUtils.lerp(landing.x, launch.x, u);
+        ng.position.z = THREE.MathUtils.lerp(landing.z, launch.z, u);
+        const y = THREE.MathUtils.lerp(landing.y, launch.y, u) + 0.6 * Math.sin(u * Math.PI);
+        n.ground = () => y;
+        n.setPose('happy');
+      } else {
+        ng.position.x = landing.x;
+        ng.position.z = landing.z;
+        n.setPose('idle');
+      }
+      n.face(baseYaw(ng));
+    } else {
+      // Back to its own spot after being carried or thrown, easing in over about a second.
+      const k = Math.min(1, dt * 3);
+      ng.position.x += ((ng.userData.homeX as number) - ng.position.x) * k;
+      ng.position.z += ((ng.userData.homeZ as number) - ng.position.z) * k;
+      if (pose === 'pet') {
+        n.lookAt.copy(handR);
+        n.face(toward(ng, keeperHead));
+        n.setPose('pet');
+      } else {
+        n.face(baseYaw(ng));
+        n.setPose(pose === 'sleep' ? 'sleep' : 'idle');
+      }
+    }
+    n.animate(t);
+  };
+
   let raf = 0;
   const t0 = performance.now();
   let lastT = 0;
@@ -1013,10 +1155,13 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     const a = Math.sin(t * 0.22) * 0.16;
     const ky = groundHeight(0, 0);
     const wanted = new URLSearchParams(location.search).get('pose') as PoseName | null;
+    const cycle = keeperStage ? KEEPER_POSES : POSES;
     const poseNow =
-      wanted && POSES.includes(wanted) ? wanted : POSES[Math.floor(t / 3.5) % POSES.length]!;
+      wanted && (keeperStage ? ALL_POSES : POSES).includes(wanted)
+        ? wanted
+        : cycle[Math.floor(t / 3.5) % cycle.length]!;
     for (const p of PUSHERS) p.set(0, 0, 0, 0);
-    const pushers = lineup ? cast : creature ? [creature] : [];
+    const pushers = lineup ? cast : keeper && nub ? [keeper, nub] : creature ? [creature] : [];
     pushers.forEach((c, i) => {
       if (i < PUSHERS.length)
         PUSHERS[i]!.set(
@@ -1026,7 +1171,20 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
           0,
         );
     });
-    if (lineup) {
+    if (keeper && nub) {
+      keeperFrame(keeper, nub, poseNow, t, dt);
+      const kg = keeper.group;
+      const ng = nub.group;
+      // Frame the Keeper, pulled toward the Nubbin (which may be flying or left behind).
+      const cx =
+        kg.position.x + THREE.MathUtils.clamp((ng.position.x - kg.position.x) * 0.5, -1.4, 1.4);
+      const cz =
+        kg.position.z + THREE.MathUtils.clamp((ng.position.z - kg.position.z) * 0.5, -1.4, 1.4);
+      const back = camera.aspect < 1.5 ? 1.3 : 1;
+      const cy = groundHeight(cx, cz);
+      camera.position.set(cx + (3.3 + Math.sin(a) * 0.5) * back, cy + 2.8 * back, cz - 5.1 * back);
+      camera.lookAt(cx, cy + 1.5, cz);
+    } else if (lineup) {
       for (const c of cast) {
         attend(c, poseNow === 'pet');
         c.setPose(poseNow);
@@ -1040,19 +1198,8 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
         attend(creature as Rigged, poseNow === 'pet');
         (creature as Rigged).setPose(poseNow);
       }
-      // A walking creature covers ground at its stride speed, so the planted feet stay
-      // put; the camera walks with it, and after a few units it starts the lap again.
       const g = creature.group;
-      if (poseNow === 'walk' && 'strideLength' in creature) {
-        const r = creature as Rigged;
-        const v = (r.strideLength / r.stridePeriod) * dt;
-        g.position.x += Math.sin(g.rotation.y) * v;
-        g.position.z += Math.cos(g.rotation.y) * v;
-        if (g.position.x * g.position.x + g.position.z * g.position.z > 25) {
-          g.position.x -= Math.sin(g.rotation.y) * 10;
-          g.position.z -= Math.cos(g.rotation.y) * 10;
-        }
-      }
+      if (poseNow === 'walk' && 'strideLength' in creature) lap(creature as Rigged, dt);
       creature.animate(t);
       const back = camera.aspect < 1.5 ? 1.25 : 1;
       const cy = groundHeight(g.position.x, g.position.z);

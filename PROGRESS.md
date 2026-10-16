@@ -23,6 +23,28 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## The Keeper in the species format (2026-10-15)
+
+`src/samples/keeper-spec.ts`: `keeperSpec(colours)` builds the Keeper as a `SpeciesSpec`;
+`KEEPER_SPEC` (Sun) and `KEEPER_MOON_SPEC` are the same figure in two colour sets. Proportions
+from `sculptedKeeper` (head about 39% of the height, soft and friendly); jointed arms
+(`elbowL`/`elbowR`) and legs, hands with four fingers and a thumb, hair as sculpted tufts with
+goggles pushed up on it (a torus band and two lenses), and the outfit after the three
+kid-adventurer references Maor sent mid-pass (tee under an open vest, shorts, wristbands,
+chunky sneakers) as colour splits between primitives plus crisp marks. Format additions:
+`SpeciesSpec.poses` (a species' own pose functions over a `PoseContext`: `set`, `bend`, hips,
+head, look, mouth), `SpeciesSpec.hearts`, the pose names `carry` and `throw` (stock: stand;
+`ALL_POSES` has all eight, `POSES` stays the creature cycle), and elbow joints on arms. The
+Keeper's own poses: pet reaches to `lookAt` with the right hand and strokes; carry is a hug
+hold; throw is a 3.6 s cycle (`KEEPER_THROW`); sleep sits cross-legged and nods off; idle and
+walk are stock. Stage: `?aaa=1&creature=keeper` (or `keeper-moon`) puts the Keeper beside a
+Nubbin that answers each pose (leans to the hand, rides in the arms, flies the arc and lands,
+eases back home). Screenshots `docs/samples/keeper-idle.jpg`, `keeper-pet.jpg`, `keeper-45.jpg`.
+Lint, 215 tests and build pass; no console errors on the Keeper stage. Stubbed: the Keeper is
+not in `ROSTER` or the pixel game. Known: the thrown Nubbin stays upright (no tumble) and its
+shadow blob rides with it in flight; the Keeper's contact points are the standing soles, so a
+posed foot is not re-planted (fine for the sit, which is flat).
+
 ## Crisp marks, reference notes, format doc (2026-10-15)
 
 Item 35 of `docs/creature-improvements.md` and the format doc. `Mark.soft: 0` is a crisp edge: `markShade` now takes the
@@ -114,28 +136,3 @@ Fennel's lids do not cover its eyes asleep (they turn the stock 1.9 rad but sit 
 than the Nubbin's; the same before this pass); Bolder's folded legs fan upward rather
 than tuck under; the hearts and Zzz are plain sprites, so a creature standing between
 them and the camera does not hide them.
-
-## Knee joints and planted feet (2026-10-15)
-
-Item 22 of `docs/creature-improvements.md`: the walk rotated whole legs at the hip, so
-the feet slid. Now a `PartSpec` may carry `joint: { name, pivot, prims, box }`, a lower
-segment sculpted on its own and hung under the part's bone (`kneeFL`.., `kneeL/R`,
-`knee1L`..`knee4R`). Each jointed leg's foot is the lowest vertex of its shin; the walk
-keeps the foot still for the stance share of the cycle (0.6, spiders 0.5) while the
-body advances, then swings it forward on an arc, with hip and knee solved together
-(two-bone, bending about the rest chain's plane) and a crouch sized so the step's
-extremes stay in reach. `Rigged` exposes `strideLength` and `stridePeriod`; the stage
-moves a `&pose=walk` creature at that speed and the camera walks with it, lapping every
-ten units. Each placed foot is also checked against `ground` so a slope cannot swallow
-it. Fennel and Bolder are ported (knee a touch behind the line on a front leg, ahead on a
-hind leg; Bolder's knee ball in both segments). Checked in the browser by sampling every
-foot's world position per frame: Bolder's eight feet move under 0.0005 units per frame
-while planted with the body moving 0.024; Fennel's the same in the fast-frame bursts the
-pane managed. Shots: `docs/samples/walk-fennel.jpg`, `walk-bolder.jpg`.
-
-**Stubbed:** the Nubbin, Mossling and Wisp keep the hip-only swing; knees stay straight
-in the other poses (sleep and happy would look better folded). **Known:** the browser
-pane runs this stage at 3–15 fps, so its frame gaps can hold a whole swing; a frame
-longer than 0.5 s is clamped by the stage and lets the feet creep by that much. The sim
-does not yet drive the body by the stride (the 3D mode is not wired to the sim).
-

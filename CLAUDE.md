@@ -30,11 +30,11 @@ An original virtual-pet garden game for phone and desktop browsers (TypeScript s
 | Need | File, function |
 | --- | --- |
 | Species format types and builder | `src/samples/species.ts`: `SpeciesSpec`, `PartSpec`, `Expression`, `EXPRESSIONS`, `onSurface`, `buildMouth`, `buildSpecies`, poses in `animate` |
-| Species data | `species-data.ts` (`NUBBIN_SPEC`, `FENNEL_SPEC`), `species-roster.ts` (`MOSSLING_SPEC`, `BOLDER_SPEC`, `WISP_SPEC`, `ROSTER`) |
+| Species data | `species-data.ts` (`NUBBIN_SPEC`, `FENNEL_SPEC`), `species-roster.ts` (`MOSSLING_SPEC`, `BOLDER_SPEC`, `WISP_SPEC`, `ROSTER`), `keeper-spec.ts` (`keeperSpec`, `KEEPER_SPEC`, `KEEPER_MOON_SPEC`, its own poses) |
 | Creature toolkit | `src/samples/creatures.ts`: `surfaceMaterial`, `furShells`, `smokeShell`, `eye` (`EyeRig`), `irisTexture`, `gradient`/`stripes`/`spots`, `part`, `blink`, `breathe` |
 | SDF sculpting | `src/samples/sculpted.ts`: `Prim`, `sdf`, `smin`, `sculpt` (AO bake inside), `V` |
 | 3D stage (environment, post, creature placement, line-up, grass `PUSHERS`) | `src/samples/aaa-styles.ts`: `buildTerrain`, `buildGrass`, `buildWater`, `mountAaaSample` (creature block near `const creatureParam`, loop near `const poseNow`) |
-| Stage URLs | `?aaa=1..3` (noon, golden, rain), `&creature=1..5|all`, `&pose=idle|happy|pet|walk|eat|sleep`, `&turn=<deg>`, `&closeup`, `nobloom nossao nodof nofog` |
+| Stage URLs | `?aaa=1..3` (noon, golden, rain), `&creature=1..5|all`, `&creature=keeper|keeper-moon` (the Keeper stage), `&pose=idle|happy|pet|walk|eat|sleep|carry|throw`, `&turn=<deg>`, `&closeup`, `nobloom nossao nodof nofog` |
 | Pixel world and picking | `src/render/world-view.ts`, `grove-scene.ts`, painters in `src/render/paint/` |
 | Sim entry points | `src/sim/world.ts` (commands, events), `dungeon.ts`, `town.ts`, `lifecycle.ts` |
 | Saves and slots | `src/platform/storage.ts` (`SaveSlot`, `slotKey`, `summarize`), `src/ui/title.ts` |

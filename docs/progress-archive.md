@@ -2,6 +2,30 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Knee joints and planted feet (2026-10-15)
+
+Item 22 of `docs/creature-improvements.md`: the walk rotated whole legs at the hip, so
+the feet slid. Now a `PartSpec` may carry `joint: { name, pivot, prims, box }`, a lower
+segment sculpted on its own and hung under the part's bone (`kneeFL`.., `kneeL/R`,
+`knee1L`..`knee4R`). Each jointed leg's foot is the lowest vertex of its shin; the walk
+keeps the foot still for the stance share of the cycle (0.6, spiders 0.5) while the
+body advances, then swings it forward on an arc, with hip and knee solved together
+(two-bone, bending about the rest chain's plane) and a crouch sized so the step's
+extremes stay in reach. `Rigged` exposes `strideLength` and `stridePeriod`; the stage
+moves a `&pose=walk` creature at that speed and the camera walks with it, lapping every
+ten units. Each placed foot is also checked against `ground` so a slope cannot swallow
+it. Fennel and Bolder are ported (knee a touch behind the line on a front leg, ahead on a
+hind leg; Bolder's knee ball in both segments). Checked in the browser by sampling every
+foot's world position per frame: Bolder's eight feet move under 0.0005 units per frame
+while planted with the body moving 0.024; Fennel's the same in the fast-frame bursts the
+pane managed. Shots: `docs/samples/walk-fennel.jpg`, `walk-bolder.jpg`.
+
+**Stubbed:** the Nubbin, Mossling and Wisp keep the hip-only swing; knees stay straight
+in the other poses (sleep and happy would look better folded). **Known:** the browser
+pane runs this stage at 3–15 fps, so its frame gaps can hold a whole swing; a frame
+longer than 0.5 s is clamped by the stage and lets the feet creep by that much. The sim
+does not yet drive the body by the stride (the 3D mode is not wired to the sim).
+
 ## Story pack moved into the repo (2026-10-15, Task B0)
 
 - Works: `Stories/` moved by `git mv` to `src/content/`, `tests/tools/content-check.ts` and
