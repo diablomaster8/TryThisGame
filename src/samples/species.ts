@@ -9,6 +9,9 @@ import {
   glossy,
   gradient,
   surfaceMaterial,
+  TOON,
+  TOON_OUTLINE,
+  toonMaterial,
   type Creature,
   type EyeRig,
   type Shade,
@@ -473,7 +476,13 @@ function buildMouth(parent: THREE.Object3D, m: SpeciesSpec['mouth']): Mouth {
   g.position.set(m.x, m.y, m.z);
   g.rotation.x = m.pitch ?? 0;
   const w = m.width;
-  const lipMat = new THREE.MeshPhysicalMaterial({ color: m.lip, roughness: 0.6 });
+  // The toon mode draws the mouth as one solid dark line, as the line-up does.
+  const lipMat = new THREE.MeshPhysicalMaterial({
+    color: TOON.on ? TOON_OUTLINE.color : m.lip,
+    roughness: 0.6,
+  });
+  if (TOON.on) toonMaterial(lipMat);
+  const lipR = w * (TOON.on ? 0.1 : 0.045);
   // The closed shape: one smile arc, a small ring, or two cat arcs side by side.
   const lip = new THREE.Group();
   lip.position.set(0, w * 0.02, -w * 0.02);
@@ -490,7 +499,7 @@ function buildMouth(parent: THREE.Object3D, m: SpeciesSpec['mouth']): Mouth {
   for (const [ax, ar, len] of arcs) {
     const a = add(
       lip,
-      new THREE.Mesh(new THREE.TorusGeometry(ar, w * 0.045, 8, 28, len), lipMat),
+      new THREE.Mesh(new THREE.TorusGeometry(ar, lipR, 8, 28, len), lipMat),
       ax,
       0,
       0,

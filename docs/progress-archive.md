@@ -2,6 +2,56 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Variants after the references (2026-10-15)
+
+Maor supplied three reference pages (the neutral evolution chart, a filled-gardens shot and
+a community tier list) and approved the four-step pass plus the pixel palette. Type colours
+corrected in `TYPE_COLORS` (`nubbin-variants.ts`): Normal cyan, Swim green, Fly pink, Run
+blue, Power orange-red; `adultColors` in `render/sprites/chao.ts` realigned the same way (Sun
+forms pale with the hue in the shade, Moon forms dark with the hue in the body). Type tells:
+`applyType` now sets the crown and adds quills (Run), a crest with side fins and flipper arms
+(Swim), a long crown with bigger tinted wings (Fly), horns with a wider body (Power); `accent`
+colours the tells and `mixHex` blends hues. Sun forms keep a white body with pastel accents,
+Moon forms a black body with deepened accents and slanted eyes (`bandColors` in the first
+family file). Second evolutions blend the two type colours (0.4 toward the second) in place of
+the belly patch. Special: the Eternals retuned (swept crown and a green cast; navy with quills
+and horns; cyan-green crest) and six modelled looks (fox, echidna, rose, dream, quills, shade)
+replace the four palette placeholders, so only the seven jewels remain placeholders (flat
+gloss). Tests: the tells, `mixHex`, and a geometry sanity sweep over all 116 variants.
+Screenshots re-shot: `variants-first.jpg`, `variants-second.jpg`, `variants-special.jpg`.
+Same day, at Maor's "fix it": the blend raised to 0.55 with the half-strength tells in the
+second type's own colour, and the Sun accents lifted only 10% toward white, so both read on
+the sheets; `variants-first.jpg` and `variants-second.jpg` re-shot. Lint, 216 tests and build pass.
+
+
+## The Nubbin variants as specs (2026-10-15)
+
+Part G8. `src/samples/nubbin-variants.ts`: `variant(base, name, overrides)` deep-copies a
+spec and changes only what the overrides name: colours by role (every colour the base uses
+is swapped, and a variant of a variant works because each derived spec remembers its
+palette), the crown (`point`, `tall`, `hook`, `fin`, `stub`, `droop`, `none` or custom
+prims), the ball and wings (merge, or `null` to remove), the four part slots, hint marks,
+the type silhouette (`type` at full strength, `second` at half: head fins, bigger wings,
+longer legs by lifting the body, a wider body and bigger hands) and a `patch` hook. Two spec
+fields added with rows in the format doc: `ball.shape` (`halo`, `spikes`) with `ball.glow`,
+and `wings.shape` (`feather`, `bat`). Templates: the child (neutral, Sun-leaning and
+Moon-leaning as colour hints), the Sun adult (white and blue, spire, halo, feathered wings),
+the Moon adult (black and purple, hooked crown, spiked ball, bat wings), the Neutral adult
+(mint, nodding crown). Families: `nubbin-variants-first.ts` (15), `-second.ts` (60: a first
+evolution with the second type at half strength and a belly patch in its colour),
+`-special.ts` (three Eternals with custom crowns and a glassy finish, the Shadow stray, four
+character looks), `-colour.ts` (7 egg colours × plain, two-tone and shiny, plus 7 jewels);
+`nubbin-variant-catalogue.ts` lists them (114 ids, unique by test). Stage:
+`&creature=variant:<id>`, and `&creature=variants&family=…&filter=…&max=…` lines a family
+up in staggered rows of eight with the camera rising per row and capped before the hills.
+Screenshots `docs/samples/variants-{templates,child,first,second,special,colour}.jpg`.
+**Placeholders:** the four `look-*` entries (palette only, no head accessory yet) and the
+seven `jewel-*` entries (a flat gloss; no facet detail kind yet). **Known limits:** two
+palette roles sharing one colour value swap together (Sun Fly sets its belly and sheen apart
+for this); the type silhouettes are first approximations by eye, not yet tuned against
+references; a 28-figure sheet sculpts for about a minute. Lint, 215 tests and build pass; no
+console errors on the sheets.
+
 ## The Keeper in the species format (2026-10-15)
 
 `src/samples/keeper-spec.ts`: `keeperSpec(colours)` builds the Keeper as a `SpeciesSpec`;

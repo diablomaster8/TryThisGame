@@ -170,6 +170,113 @@ export interface SurfaceOpts {
   sheenColor?: string;
   clearcoat?: number;
   glowStrength?: number;
+  /** Flat two-band toon shading for this surface; the stage's `&toon` flag when left out. */
+  toon?: boolean;
+}
+
+// ---------------------------------------------------------------- the toon mode
+
+/**
+ * The toon stage mode (`&toon`): the hard-edged, flat-shaded, outlined look of Maor's
+ * "Chao World" line-up. Direct light falls in two bands, specular, sheen and the triplanar
+ * grain are gone, the lash and mouth lines are thick and dark, and every opaque creature
+ * mesh carries an inverted-hull outline. The stage sets `on` before it builds its
+ * creatures; it is off by default, so nothing changes without the flag.
+ */
+export const TOON = { on: false };
+
+/** The outline's colour (also the lash and mouth lines) and its thickness in world units. */
+export const TOON_OUTLINE = { color: '#1a1026', width: 0.025 };
+
+/**
+ * The two bands on the light's dot product: where the lit band ends, and how bright each
+ * band is. The lit band sits well under full sun so the flats keep their colour instead
+ * of blowing out to pastel under the stage's exposure.
+ */
+const TOON_BAND = { edge: 0.38, lit: 0.6, shade: 0.33 };
+
+/** How much of the sky's ambient a toon surface takes: less, so the bands show. */
+const TOON_ENV = 0.45;
+
+/**
+ * Patch a physical shader into the toon ramp: direct light in two bands, no specular, and
+ * the vertex colours a touch more saturated so the flats read like painted plastic.
+ */
+export function toonShader(shader: { fragmentShader: string }): void {
+  const physical = THREE.ShaderChunk.lights_physical_pars_fragment.replace(
+    'vec3 irradiance = dotNL * directLight.color;',
+    `vec3 irradiance = ( dotNL < ${TOON_BAND.edge.toFixed(3)} ? ${TOON_BAND.shade.toFixed(3)} : ${TOON_BAND.lit.toFixed(3)} ) * directLight.color;`,
+  );
+  shader.fragmentShader = shader.fragmentShader
+    .replace('#include <lights_physical_pars_fragment>', physical)
+    .replace(
+      '#include <lights_fragment_end>',
+      `#include <lights_fragment_end>
+      reflectedLight.directSpecular = vec3( 0.0 );
+      reflectedLight.indirectSpecular = vec3( 0.0 );`,
+    )
+    .replace(
+      '#include <map_fragment>',
+      `#include <map_fragment>
+      {
+        float lum = dot( diffuseColor.rgb, vec3( 0.299, 0.587, 0.114 ) );
+        diffuseColor.rgb = clamp( mix( vec3( lum ), diffuseColor.rgb, 1.2 ), 0.0, 1.0 );
+      }`,
+    );
+}
+
+/** Turn a plain physical material (an eye, a lid, a lip) into a flat toon surface. */
+export function toonMaterial(m: THREE.MeshPhysicalMaterial): THREE.MeshPhysicalMaterial {
+  m.roughness = 1;
+  m.clearcoat = 0;
+  m.sheen = 0;
+  m.specularIntensity = 0;
+  m.envMapIntensity = TOON_ENV;
+  m.onBeforeCompile = (shader) => toonShader(shader);
+  return m;
+}
+
+/** A material is `toonMaterial`-ed only when the mode is on; otherwise left as built. */
+const flat = (m: THREE.MeshPhysicalMaterial): THREE.MeshPhysicalMaterial =>
+  TOON.on ? toonMaterial(m) : m;
+
+/**
+ * The inverted-hull outline: every opaque mesh under `root` gets a back-face copy of its
+ * geometry pushed out along the normals in view space, so the silhouette and every crease
+ * between parts carry a dark line of the same width whatever the part's scale.
+ */
+export function outline(
+  root: THREE.Object3D,
+  width = TOON_OUTLINE.width,
+  color = TOON_OUTLINE.color,
+): void {
+  const mat = new THREE.MeshBasicMaterial({ color, side: THREE.BackSide });
+  mat.onBeforeCompile = (shader) => {
+    shader.uniforms.uWidth = { value: width };
+    shader.vertexShader = shader.vertexShader
+      .replace('#include <common>', '#include <common>\nuniform float uWidth;')
+      .replace(
+        '#include <project_vertex>',
+        `vec4 mvPosition = modelViewMatrix * vec4( transformed, 1.0 );
+        mvPosition.xyz += normalize( normalMatrix * normal ) * uWidth;
+        gl_Position = projectionMatrix * mvPosition;`,
+      );
+  };
+  const hosts: THREE.Mesh[] = [];
+  root.traverse((o) => {
+    if (!(o instanceof THREE.Mesh) || o.userData.hull || o.userData.noOutline) return;
+    const m = o.material as THREE.Material | THREE.Material[];
+    if (Array.isArray(m) || m.transparent) return;
+    hosts.push(o);
+  });
+  for (const o of hosts) {
+    const hull = new THREE.Mesh(o.geometry, mat);
+    hull.userData.hull = true;
+    hull.castShadow = false;
+    hull.receiveShadow = false;
+    hull.frustumCulled = o.frustumCulled;
+    o.add(hull);
+  }
 }
 
 const TRIPLANAR_PARS = `
@@ -188,24 +295,29 @@ const TRIPLANAR_PARS = `
 /** Vertex colours for regions, triplanar detail, sheen/clearcoat, and glow from the attribute. */
 export function surfaceMaterial(o: SurfaceOpts): THREE.MeshPhysicalMaterial {
   const maps = paintDetail(o.detail);
+  const toon = o.toon ?? TOON.on;
   const m = new THREE.MeshPhysicalMaterial({
     vertexColors: true,
-    roughness: o.roughness ?? 0.6,
+    roughness: toon ? 1 : (o.roughness ?? 0.6),
     metalness: 0,
-    sheen: o.sheen ?? 0.3,
+    sheen: toon ? 0 : (o.sheen ?? 0.3),
     sheenColor: new THREE.Color(o.sheenColor ?? '#ffffff'),
     sheenRoughness: 0.7,
-    clearcoat: o.clearcoat ?? 0.08,
+    clearcoat: toon ? 0 : (o.clearcoat ?? 0.08),
     clearcoatRoughness: 0.35,
+    ...(toon ? { specularIntensity: 0 } : {}),
   });
+  if (toon) m.envMapIntensity = TOON_ENV;
   m.onBeforeCompile = (shader) => {
     m.userData.shader = shader;
     shader.uniforms.uDetail = { value: maps.albedo };
     shader.uniforms.uDetailN = { value: maps.normal };
     shader.uniforms.uScale = { value: o.scale ?? 1.6 };
-    shader.uniforms.uAmount = { value: o.amount ?? 0.6 };
-    shader.uniforms.uBump = { value: o.bump ?? 0.6 };
+    // The toon ramp wants flat colour: no grain, no bump.
+    shader.uniforms.uAmount = { value: toon ? 0 : (o.amount ?? 0.6) };
+    shader.uniforms.uBump = { value: toon ? 0 : (o.bump ?? 0.6) };
     shader.uniforms.uGlowStrength = { value: o.glowStrength ?? 0 };
+    if (toon) toonShader(shader);
     shader.vertexShader = shader.vertexShader
       .replace(
         '#include <common>',
@@ -499,12 +611,16 @@ export function eye(
     g,
     new THREE.Mesh(
       new THREE.SphereGeometry(r, 36, 28),
-      glossy('#fbfbff', { roughness: 0.06, emissive: '#ffffff', emissiveIntensity: 0.1 }),
+      flat(glossy('#fbfbff', { roughness: 0.06, emissive: '#ffffff', emissiveIntensity: 0.1 })),
     ),
     0,
     0,
     back,
   );
+  // In the toon mode the lash line and the happy arc are thick and dark, as the line-up
+  // draws them; otherwise a thin liner.
+  const line = TOON.on ? 0.11 : 0.045;
+  const lineColor = TOON.on ? TOON_OUTLINE.color : '#241a24';
   white.scale.set(1, tall, depth);
   white.castShadow = false;
   // A disc of concentric rings bent onto the dome, so the iris and its catchlight hug
@@ -578,8 +694,8 @@ export function eye(
   const liner = add(
     g,
     new THREE.Mesh(
-      new THREE.TorusGeometry(r * 0.8, r * 0.045, 8, 32, Math.PI),
-      new THREE.MeshPhysicalMaterial({ color: '#241a24', roughness: 0.5 }),
+      new THREE.TorusGeometry(r * 0.8, r * line, 8, 32, Math.PI),
+      flat(new THREE.MeshPhysicalMaterial({ color: lineColor, roughness: 0.5 })),
     ),
     0,
     0,
@@ -590,7 +706,9 @@ export function eye(
   // The lid: a half-shell hinged at the eye, tilted back by the species' lid amount
   // and swung down over the eye to blink or sleep.
   const lidGeo = new THREE.SphereGeometry(r * 1.06, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.52);
-  const lidMat = new THREE.MeshPhysicalMaterial({ color: lidColor, roughness: 0.6, sheen: 0.3 });
+  const lidMat = flat(
+    new THREE.MeshPhysicalMaterial({ color: lidColor, roughness: 0.6, sheen: 0.3 }),
+  );
   const lidMesh = add(g, new THREE.Mesh(lidGeo, lidMat), 0, 0, back);
   lidMesh.scale.set(1, tall, depth + 0.06);
   lidMesh.userData.base = -1.35 + lid * 2.0;
@@ -607,8 +725,8 @@ export function eye(
   const arc = add(
     g,
     new THREE.Mesh(
-      new THREE.TorusGeometry(r * 0.78, r * 0.065, 8, 24, Math.PI),
-      new THREE.MeshPhysicalMaterial({ color: '#241a24', roughness: 0.5 }),
+      new THREE.TorusGeometry(r * 0.78, r * Math.max(line, 0.065), 8, 24, Math.PI),
+      flat(new THREE.MeshPhysicalMaterial({ color: lineColor, roughness: 0.5 })),
     ),
     0,
     r * 0.05,
@@ -622,10 +740,12 @@ export function eye(
     g,
     new THREE.Mesh(
       new THREE.CapsuleGeometry(r * 0.085, r * 0.95, 4, 10),
-      new THREE.MeshPhysicalMaterial({
-        color: new THREE.Color(lidColor).multiplyScalar(0.88),
-        roughness: 0.7,
-      }),
+      flat(
+        new THREE.MeshPhysicalMaterial({
+          color: new THREE.Color(lidColor).multiplyScalar(0.88),
+          roughness: 0.7,
+        }),
+      ),
     ),
     0,
     r * tall * 1.1,

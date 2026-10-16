@@ -11,7 +11,7 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { fbm, ridged, vnoise } from '../render/paint/noise';
 import { hex, mix, Raster, shade, type RGB } from '../render/paint/raster';
 import { sculptedKeeper, sculptedNubbin } from './sculpted';
-import type { Creature } from './creatures';
+import { outline, TOON, type Creature } from './creatures';
 import { ALL_POSES, buildSpecies, POSES, type PoseName, type Rigged } from './species';
 import { ROSTER } from './species-roster';
 import { sheetVariants, variantById } from './nubbin-variant-catalogue';
@@ -824,8 +824,13 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure =
-    mood === 'golden'
+  // `&toon`: the flat, outlined look of the "Chao World" line-up (see `TOON` in
+  // creatures.ts). Set before any creature is built, since the materials read it.
+  const toon = new URLSearchParams(location.search).has('toon');
+  TOON.on = toon;
+  renderer.toneMappingExposure = toon
+    ? 0.85
+    : mood === 'golden'
       ? 0.75
       : mood === 'rain'
         ? 0.8
@@ -864,7 +869,7 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
   scene.environmentIntensity = mood === 'rain' ? 0.4 : mood === 'golden' ? 0.7 : 0.7;
   pmrem.dispose();
   const fogColor = mood === 'rain' ? '#9aa6ad' : mood === 'golden' ? '#e8b58a' : '#c9dcf0';
-  if (!new URLSearchParams(location.search).has('nofog'))
+  if (!new URLSearchParams(location.search).has('nofog') && !toon)
     scene.fog = new THREE.FogExp2(
       fogColor,
       mood === 'rain' ? 0.02 : mood === 'golden' ? 0.011 : 0.006,
@@ -1006,6 +1011,10 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     place(sculptedKeeper(), 0, 0, closeup ? Math.PI - 0.57 : 0);
   }
 
+  // The toon outline goes on after the figures are measured and placed, so the hulls
+  // never count toward the feet or the footprint.
+  if (toon) for (const c of new Set([...cast, creature, keeper, nub])) if (c) outline(c.group);
+
   // The stage on `window.groveStage`, so a console can measure the creatures in place
   // (foot height, tilt, shadow) instead of guessing from a screenshot.
   // `turnTo(deg)` turns every creature on the stage in place, to see the eased turn.
@@ -1029,13 +1038,14 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
   ssao.kernelRadius = 10;
   ssao.minDistance = 0.0008;
   ssao.maxDistance = 0.08;
-  if (!q.has('nossao')) composer.addPass(ssao);
+  // The toon mode is flat by design: no occlusion, bloom, depth of field or grade.
+  if (!q.has('nossao') && !toon) composer.addPass(ssao);
   // The sun disc is thousands of times brighter than the ground: clamp the frame before
   // bloom so only lamps, catchlights and the sky's rim glow, not the whole picture.
   composer.addPass(new ShaderPass(CLAMP));
   // Bloom earns its place at golden hour (lamps, fireflies, the low sun); by day and in
   // the rain it only softens the picture, so those moods skip it.
-  if (!q.has('nobloom') && mood === 'golden')
+  if (!q.has('nobloom') && mood === 'golden' && !toon)
     composer.addPass(
       new UnrealBloomPass(new THREE.Vector2(1, 1), mood === 'golden' ? 0.35 : 0.12, 0.4, 2.8),
     );
@@ -1044,14 +1054,14 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     aperture: closeup ? 0.00012 : 0.0001,
     maxblur: 0.007,
   });
-  if (!q.has('nodof')) composer.addPass(bokeh);
+  if (!q.has('nodof') && !toon) composer.addPass(bokeh);
   composer.addPass(new OutputPass());
   const grade = new ShaderPass(GRADE);
   grade.uniforms.uTint!.value.set(
     mood === 'golden' ? '#ffe9d0' : mood === 'rain' ? '#dfe8f0' : '#ffffff',
   );
   grade.uniforms.uSaturation!.value = mood === 'rain' ? 0.92 : creature || lineup ? 1.05 : 1.2;
-  composer.addPass(grade);
+  if (!toon) composer.addPass(grade);
   const smaa = new SMAAPass();
   composer.addPass(smaa);
 
@@ -1298,5 +1308,6 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     window.removeEventListener('resize', resize);
     composer.dispose();
     renderer.dispose();
+    TOON.on = false;
   };
 }

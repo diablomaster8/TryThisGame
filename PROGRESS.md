@@ -9,7 +9,7 @@ new pass goes in at line 12 and the file is long, move the oldest section to
 Shipped and deployed: v1, the organic painted Grove, the Digimon-inspired ten, the Hollow
 Below dungeons, the 96-unit field, three save slots per mode. In progress: the full-3D
 mode, now a real Graphics setting (Pixel | Full 3D) with `src/render3d/`; the pixel mode
-ships unchanged. Latest pass: the special forms rebuilt like toys after Maor's line-up reference. Waiting on Maor:
+ships unchanged. Latest pass: Part G8b, the toon stage mode and the line-up match, in progress. Waiting on Maor:
 the pick from expansions E1–E3 and campaigns S1–S4, and his device pass. Subagent briefs
 with model picks: `plan.md`. Improvement backlog against the Palworld references:
 `docs/creature-improvements.md`. Story content pack: `src/content/`, `script-book/`,
@@ -22,6 +22,27 @@ with model picks: `plan.md`. Improvement backlog against the Palworld references
 going until you hit the session limit." So after each milestone passes its done-when
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
+
+## Part G8b: matching the "Chao World" line-up (2026-10-16)
+
+The reference is `docs/reference/chao-world-lineup.jpg` (the YouTube thumbnail, seven
+figures left to right: quills, echidna, fox, dream, Eternal Neutral, shade, Eternal Moon).
+Steps, newest first, one commit each:
+
+1. **Toon stage mode, `&toon`.** `TOON` in `creatures.ts` is set by the stage before any
+   creature is built. `surfaceMaterial` (and `SurfaceOpts.toon` per surface) then drops the
+   triplanar grain, bump, sheen, clearcoat and specular, takes less of the sky's ambient
+   (`TOON_ENV`), and `toonShader` patches the physical shader so direct light falls in two
+   bands (`TOON_BAND`: lit 0.6, shade 0.33 at a 0.38 dot product; the lit band sits under
+   full sun so the flats keep their colour) with the vertex colours a touch more saturated.
+   `toonMaterial` flattens the eye white, lids, brow, liner, arc and lips the same way; the
+   lash line and happy arc are thick (tube 0.11 of the eye radius) and the mouth one solid
+   line, both in `TOON_OUTLINE.color` (#1a1026). `outline(group)` adds an inverted-hull
+   back-face copy of every opaque mesh (0.025 world units, pushed in view space so the
+   width is the same whatever the part's scale); the stage adds it after the figures are
+   measured, so the hulls never count toward the feet. Post: SSAO, bloom, depth of field,
+   fog and the grade off; exposure 0.85; sky and grass unchanged. Without the flag nothing
+   changes. Tuning view: `?aaa=1&creature=variant:look-quills&toon&pose=happy`.
 
 ## The 3D mode carried forward (2026-10-16)
 
@@ -115,52 +136,3 @@ colours). **Known limits:** no camera shake in 3D; walking feet slide (sim speed
 differ); the Hollow has no rooms; the sim's ground is flat so hill-top taps land a little
 short; no device pass yet. One sim touch: `Settings.graphics` with its default and
 migration.
-
-## Variants after the references (2026-10-15)
-
-Maor supplied three reference pages (the neutral evolution chart, a filled-gardens shot and
-a community tier list) and approved the four-step pass plus the pixel palette. Type colours
-corrected in `TYPE_COLORS` (`nubbin-variants.ts`): Normal cyan, Swim green, Fly pink, Run
-blue, Power orange-red; `adultColors` in `render/sprites/chao.ts` realigned the same way (Sun
-forms pale with the hue in the shade, Moon forms dark with the hue in the body). Type tells:
-`applyType` now sets the crown and adds quills (Run), a crest with side fins and flipper arms
-(Swim), a long crown with bigger tinted wings (Fly), horns with a wider body (Power); `accent`
-colours the tells and `mixHex` blends hues. Sun forms keep a white body with pastel accents,
-Moon forms a black body with deepened accents and slanted eyes (`bandColors` in the first
-family file). Second evolutions blend the two type colours (0.4 toward the second) in place of
-the belly patch. Special: the Eternals retuned (swept crown and a green cast; navy with quills
-and horns; cyan-green crest) and six modelled looks (fox, echidna, rose, dream, quills, shade)
-replace the four palette placeholders, so only the seven jewels remain placeholders (flat
-gloss). Tests: the tells, `mixHex`, and a geometry sanity sweep over all 116 variants.
-Screenshots re-shot: `variants-first.jpg`, `variants-second.jpg`, `variants-special.jpg`.
-Same day, at Maor's "fix it": the blend raised to 0.55 with the half-strength tells in the
-second type's own colour, and the Sun accents lifted only 10% toward white, so both read on
-the sheets; `variants-first.jpg` and `variants-second.jpg` re-shot. Lint, 216 tests and build pass.
-
-## The Nubbin variants as specs (2026-10-15)
-
-Part G8. `src/samples/nubbin-variants.ts`: `variant(base, name, overrides)` deep-copies a
-spec and changes only what the overrides name: colours by role (every colour the base uses
-is swapped, and a variant of a variant works because each derived spec remembers its
-palette), the crown (`point`, `tall`, `hook`, `fin`, `stub`, `droop`, `none` or custom
-prims), the ball and wings (merge, or `null` to remove), the four part slots, hint marks,
-the type silhouette (`type` at full strength, `second` at half: head fins, bigger wings,
-longer legs by lifting the body, a wider body and bigger hands) and a `patch` hook. Two spec
-fields added with rows in the format doc: `ball.shape` (`halo`, `spikes`) with `ball.glow`,
-and `wings.shape` (`feather`, `bat`). Templates: the child (neutral, Sun-leaning and
-Moon-leaning as colour hints), the Sun adult (white and blue, spire, halo, feathered wings),
-the Moon adult (black and purple, hooked crown, spiked ball, bat wings), the Neutral adult
-(mint, nodding crown). Families: `nubbin-variants-first.ts` (15), `-second.ts` (60: a first
-evolution with the second type at half strength and a belly patch in its colour),
-`-special.ts` (three Eternals with custom crowns and a glassy finish, the Shadow stray, four
-character looks), `-colour.ts` (7 egg colours × plain, two-tone and shiny, plus 7 jewels);
-`nubbin-variant-catalogue.ts` lists them (114 ids, unique by test). Stage:
-`&creature=variant:<id>`, and `&creature=variants&family=…&filter=…&max=…` lines a family
-up in staggered rows of eight with the camera rising per row and capped before the hills.
-Screenshots `docs/samples/variants-{templates,child,first,second,special,colour}.jpg`.
-**Placeholders:** the four `look-*` entries (palette only, no head accessory yet) and the
-seven `jewel-*` entries (a flat gloss; no facet detail kind yet). **Known limits:** two
-palette roles sharing one colour value swap together (Sun Fly sets its belly and sheen apart
-for this); the type silhouettes are first approximations by eye, not yet tuned against
-references; a 28-figure sheet sculpts for about a minute. Lint, 215 tests and build pass; no
-console errors on the sheets.
