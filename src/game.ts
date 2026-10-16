@@ -66,13 +66,12 @@ export class Game {
     const reduce =
       s.reducedMotion === 'on' || (s.reducedMotion === 'system' && this.camera.reduceMotion);
     if (this.scene3d) {
-      const place3d = this.world.location.startsWith('visit:') ? 'grove' : this.world.location;
       this.scene3d.setLit(litLanterns(this.world));
       this.view.lanterns = () => this.scene3d!.lanternStates();
       this.scene3d.setDaylight(
         this.hourOverride ?? localHour(),
         d,
-        place3d,
+        this.world.location,
         this.world.weather.kind,
         s.particles,
       );

@@ -23,7 +23,7 @@ import { Hollow } from './hollow';
 import { buildGroveProps, buildGroveTrees, type GroveProps } from './props';
 import { GroveTextures } from './grove-textures';
 import { GroveSky } from './sky';
-import { stubOnce } from './stubs';
+import { VisitSet } from './visit';
 import { buildGroveTerrain, groveHeight, standHeight, type GroveTerrain } from './terrain';
 import { buildGroveWater, type GroveWater } from './water';
 
@@ -82,7 +82,8 @@ export interface Pick3d {
     | 'plant'
     | 'stairs'
     | 'chest'
-    | 'loot';
+    | 'loot'
+    | 'storyProp';
   id: string;
 }
 
@@ -108,6 +109,8 @@ export class Grove3dScene {
   private readonly water: GroveWater;
   private readonly actors: Actors;
   private readonly dungeonFloor: THREE.Mesh;
+  /** A neighbour's Grove, dressed, for `visit:<trainer>`. */
+  private readonly visit: VisitSet;
   private rain: THREE.Points | null = null;
   private snow: THREE.Points | null = null;
   private readonly bursts: Bursts;
@@ -183,6 +186,7 @@ export class Grove3dScene {
     this.dungeonFloor.userData.pick = { kind: 'ground', id: 'ground' };
     this.scene.add(this.dungeonFloor);
     this.pickables.push(this.dungeonFloor);
+    this.visit = new VisitSet(this.scene, this.tex, this.pickables);
 
     this.composer = new EffectComposer(this.renderer);
     this.composer.addPass(new RenderPass(this.scene, this.camera));
@@ -244,15 +248,14 @@ export class Grove3dScene {
     particles: 'full' | 'light' | 'off',
   ): void {
     const grove = place === 'grove';
-    if (place !== this.location) {
-      this.location = place;
-      if (place.startsWith('visit:'))
-        stubOnce('location:visit', "a neighbour's Grove is drawn as a bare floor");
-    }
+    this.location = place;
     this.actors.location = place;
     this.world3d.visible = grove;
+    // A neighbour's Grove gets its dressed set; the story places keep the plain floor.
+    const visiting = place.startsWith('visit:') ? place.slice('visit:'.length) : null;
+    this.visit.show(visiting, this.tex);
     const cave = place === 'dungeon' || place === 'hollow';
-    this.dungeonFloor.visible = !grove && !(place === 'dungeon' && this.floor);
+    this.dungeonFloor.visible = !grove && !visiting && !(place === 'dungeon' && this.floor);
     (this.dungeonFloor.material as THREE.MeshStandardMaterial).color.set(
       place === 'corvin' ? '#5a5e58' : '#2a2630',
     );

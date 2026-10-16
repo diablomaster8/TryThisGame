@@ -244,13 +244,13 @@ export class Actors {
 
   /** What a ray passes through first: a Nubbin, an item, a memorial or the crowd. */
   pick(ray: THREE.Ray): {
-    kind: 'nubbin' | 'item' | 'memorial' | 'npc' | 'wild' | 'stray';
+    kind: 'nubbin' | 'item' | 'memorial' | 'npc' | 'wild' | 'stray' | 'building';
     id: string;
     d: number;
   } | null {
     const sphere = new THREE.Sphere();
     type Hit = {
-      kind: 'nubbin' | 'item' | 'memorial' | 'npc' | 'wild' | 'stray';
+      kind: 'nubbin' | 'item' | 'memorial' | 'npc' | 'wild' | 'stray' | 'building';
       id: string;
       d: number;
     };
@@ -530,9 +530,10 @@ export class Actors {
     // Visitors, wild ones, the Hollow's strays and the story places' grey Nubbins.
     this.crowd.update(crowdFor(world, this.location, this.floor, nowMs), this.ground, t, dt);
 
-    // Nubbins.
+    // Nubbins. On a visit the Keeper's own stay at home, as do the items.
+    const away = this.location.startsWith('visit:');
     const live = new Set<string>();
-    for (const n of world.nubbins) {
+    for (const n of away ? [] : world.nubbins) {
       live.add(n.id);
       const a = this.ensureNubbin(n);
       this.tryRig(a);
@@ -625,7 +626,7 @@ export class Actors {
 
     // Items.
     const liveItems = new Set<string>();
-    for (const i of world.items) {
+    for (const i of away ? [] : world.items) {
       liveItems.add(i.id);
       let v = this.items.get(i.id);
       if (!v) {

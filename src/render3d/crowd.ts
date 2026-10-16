@@ -3,7 +3,10 @@ import { GROVE3D } from '../config/tuning';
 import type { PoseName, Rigged } from '../samples/species';
 import { speciesArt } from '../render/sprites/species-art';
 import type { Floor } from '../sim/dungeon';
-import { TRAINERS } from '../sim/trainers';
+import { neighbourGarden, visitingTrainer, type NeighbourNubbin } from '../sim/neighbourhood';
+import { ROSTER } from '../samples/species-roster';
+import { variantById } from '../samples/nubbin-variant-catalogue';
+import { TRAINERS, trainerOf } from '../sim/trainers';
 import type { Location, World } from '../sim/types';
 import type { CreaturePool, Look } from './creature-pool';
 import { gaitTime } from './gait';
@@ -17,8 +20,8 @@ import { gaitTime } from './gait';
  */
 export interface Figure {
   id: string;
-  /** The pick kind the input expects for a tap on this figure. */
-  kind: 'npc' | 'wild' | 'stray' | 'ambient';
+  /** The pick kind the input expects for a tap on this figure (`building` is the host). */
+  kind: 'npc' | 'wild' | 'stray' | 'ambient' | 'building';
   look: Look;
   x: number;
   z: number;
@@ -71,6 +74,42 @@ const artLook = (species: string): Look => ({
   key: speciesArt(species) ? `art:${species}` : 'nubbin',
   height: GROVE3D.nubbinHeight * (speciesArt(species)?.size ?? 1),
 });
+
+/** A neighbour's Nubbin: the adult form for its band and type, or its own line's recipe. */
+function neighbourLook(nb: NeighbourNubbin): Look {
+  if (nb.species !== 'chao') {
+    const roster = ROSTER.find((s) => s.name.toLowerCase() === nb.species.toLowerCase());
+    return roster
+      ? { key: `roster:${roster.name}`, height: GROVE3D.adultHeight }
+      : artLook(nb.species);
+  }
+  const id = `first-${nb.band}-${nb.type}`;
+  return { key: variantById(id) ? `variant:${id}` : 'nubbin', height: GROVE3D.adultHeight };
+}
+
+/** The neighbour's pets and the host, read-only, where the pixel view puts them. */
+function neighbours(trainer: string, nowMs: number): Figure[] {
+  const out: Figure[] = neighbourGarden(trainer).map((nb, i) => ({
+    id: `nb-${i}`,
+    kind: 'ambient' as const,
+    look: neighbourLook(nb),
+    x: nb.x,
+    z: nb.z,
+    facing: Math.sin(nowMs / 3100 + nb.x) * 1.4,
+    pose: 'idle' as const,
+  }));
+  const band = trainerOf(trainer).band === 'moon' ? 'moon' : 'sun';
+  out.push({
+    id: 'host',
+    kind: 'building',
+    look: { key: `keeper-${band}~npc:${trainer}`, height: GROVE3D.keeperHeight },
+    x: 0,
+    z: -1.5,
+    facing: Math.PI,
+    pose: 'idle',
+  });
+  return out;
+}
 
 /** Who stands in the scene besides the Keeper and the Nubbins, for this place and moment. */
 export function crowdFor(
@@ -141,6 +180,8 @@ export function crowdFor(
       });
   }
   if (location === 'hollow' || location === 'corvin') out.push(...ambient(location));
+  const visiting = visitingTrainer(world);
+  if (visiting && location.startsWith('visit:')) out.push(...neighbours(visiting, nowMs));
   return out;
 }
 

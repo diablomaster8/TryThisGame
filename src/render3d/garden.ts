@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { visibleStoryProps, type StoryPropKind } from '../sim/story-props';
 import type { DecorKind, Plant, TileKind, World } from '../sim/types';
 
 /**
@@ -43,7 +44,7 @@ function ball(r: number, m: THREE.Material, x = 0, y = 0, z = 0, detail = 1) {
 }
 
 /** A small house for the nursery, bathhouse and workshop, sized like the pixel ones. */
-function building(width: number, roof: THREE.Material): THREE.Group {
+export function building(width: number, roof: THREE.Material): THREE.Group {
   const g = new THREE.Group();
   const d = width * 0.7;
   const h = width * 0.45;
@@ -128,6 +129,85 @@ export function decorModel(kind: DecorKind): THREE.Group {
   return g;
 }
 
+type GardenPickKind = 'decor' | 'building' | 'plant' | 'storyProp';
+
+/** A side-story prop (sim/story-props.ts) in the same plain style as the decor. */
+export function storyPropModel(kind: StoryPropKind): THREE.Group {
+  const g = new THREE.Group();
+  switch (kind) {
+    case 'trowel': {
+      const handle = box(0.05, 0.05, 0.3, MATS.darkWood, -0.1, 0.03, 0);
+      const blade = new THREE.Mesh(new THREE.ConeGeometry(0.09, 0.3, 4), MATS.stone);
+      blade.rotation.x = -Math.PI / 2;
+      blade.position.set(-0.1, 0.05, 0.3);
+      g.add(handle, blade);
+      break;
+    }
+    case 'register':
+      g.add(box(0.36, 0.1, 0.28, MATS.darkStone));
+      g.add(box(0.32, 0.08, 0.24, MATS.stone, 0, 0.1));
+      break;
+    case 'handLantern':
+      g.add(box(0.05, 0.9, 0.05, MATS.darkWood));
+      g.add(box(0.18, 0.2, 0.18, MATS.glow, 0, 0.6));
+      g.add(box(0.22, 0.04, 0.22, MATS.darkWood, 0, 0.8));
+      break;
+    case 'flatStone':
+      g.add(box(1.3, 0.16, 0.9, MATS.stone));
+      break;
+    case 'gardenDoor':
+      for (const x of [-0.75, 0.75]) g.add(box(0.5, 1.5, 0.5, MATS.darkStone, x));
+      g.add(box(2.0, 0.18, 0.56, MATS.stone, 0, 1.5));
+      g.add(box(1.0, 1.35, 0.1, MATS.wood, 0, 0, 0.18));
+      g.add(ball(0.05, MATS.darkStone, 0.35, 0.7, 0.26, 0));
+      break;
+    case 'oldBench':
+      g.add(box(1.1, 0.08, 0.36, MATS.darkWood, 0, 0.36));
+      g.add(box(1.1, 0.3, 0.06, MATS.darkWood, 0, 0.44, -0.16));
+      for (const x of [-0.45, 0.45]) g.add(box(0.08, 0.36, 0.3, MATS.darkWood, x));
+      break;
+    case 'chair':
+      g.add(box(0.5, 0.06, 0.5, MATS.wood, 0, 0.4));
+      g.add(box(0.5, 0.5, 0.05, MATS.wood, 0, 0.46, -0.22));
+      for (const [x, z] of [
+        [-0.2, -0.2],
+        [0.2, -0.2],
+        [-0.2, 0.2],
+        [0.2, 0.2],
+      ] as const)
+        g.add(box(0.05, 0.4, 0.05, MATS.darkWood, x, 0, z));
+      break;
+    case 'shed':
+      g.add(box(1.8, 1.4, 1.4, MATS.wood));
+      g.add(box(2.0, 0.12, 1.6, MATS.darkWood, 0, 1.4));
+      g.add(box(0.5, 1.0, 0.06, MATS.darkWood, 0.3, 0, 0.72));
+      g.add(box(0.4, 0.36, 0.04, MATS.glow, -0.45, 0.7, 0.72));
+      break;
+    case 'barn': {
+      g.add(box(3.6, 2.2, 2.6, MATS.wood));
+      const roof = new THREE.Mesh(new THREE.ConeGeometry(2.4, 1.4, 4), MATS.darkWood);
+      roof.position.y = 2.9;
+      roof.rotation.y = Math.PI / 4;
+      roof.scale.z = 0.8;
+      g.add(roof);
+      g.add(box(1.2, 1.7, 0.08, MATS.darkWood, 0, 0, 1.32));
+      break;
+    }
+    case 'shelf':
+      g.add(box(0.7, 0.05, 0.22, MATS.wood, 0, 0.9));
+      g.add(box(0.14, 0.14, 0.14, MATS.glow, -0.2, 0.95));
+      g.add(box(0.2, 0.12, 0.16, MATS.darkStone, 0.15, 0.95));
+      break;
+  }
+  g.traverse((o) => {
+    if ((o as THREE.Mesh).isMesh) {
+      o.castShadow = true;
+      o.receiveShadow = true;
+    }
+  });
+  return g;
+}
+
 /** A plant at its stage: seed mound, sprout, young and grown (with fruit when ready). */
 export function plantModel(p: Plant): THREE.Group {
   const g = new THREE.Group();
@@ -190,8 +270,7 @@ export class Garden {
   private sig = '';
   private checkedMs = -1e9;
   /** Pick targets: [object, pick kind, pick id, radius]. */
-  private readonly picks: Array<[THREE.Object3D, 'decor' | 'building' | 'plant', string, number]> =
-    [];
+  private readonly picks: Array<[THREE.Object3D, GardenPickKind, string, number]> = [];
 
   constructor(parent: THREE.Object3D) {
     this.group.name = 'garden';
@@ -213,6 +292,9 @@ export class Garden {
         .join('|'),
       Object.entries(world.tiles)
         .map(([k, v]) => `${k}=${v}`)
+        .join('|'),
+      visibleStoryProps(world)
+        .map((p) => p.id)
         .join('|'),
     ].join('#');
     if (sig === this.sig) return;
@@ -243,6 +325,13 @@ export class Garden {
       m.position.set(p.pos.x, ground(p.pos.x, p.pos.z), p.pos.z);
       this.group.add(m);
       this.picks.push([m, 'plant', p.id, p.kind === 'tree' ? 0.4 + p.stage * 0.3 : 0.45]);
+    }
+    for (const p of visibleStoryProps(world)) {
+      const m = storyPropModel(p.kind);
+      m.position.set(p.x, ground(p.x, p.z), p.z);
+      this.group.add(m);
+      const reach = p.kind === 'barn' ? 2 : p.kind === 'shed' ? 1.2 : 0.55;
+      this.picks.push([m, 'storyProp', p.id, reach]);
     }
     this.buildTiles(world, ground);
   }
@@ -290,10 +379,10 @@ export class Garden {
     }
   }
 
-  pick(ray: THREE.Ray): { kind: 'decor' | 'building' | 'plant'; id: string; d: number } | null {
+  pick(ray: THREE.Ray): { kind: GardenPickKind; id: string; d: number } | null {
     const sphere = new THREE.Sphere();
     const hit = new THREE.Vector3();
-    let best: { kind: 'decor' | 'building' | 'plant'; id: string; d: number } | null = null;
+    let best: { kind: GardenPickKind; id: string; d: number } | null = null;
     if (!this.group.visible) return null;
     for (const [o, kind, id, r] of this.picks) {
       sphere.center.copy(o.position);
