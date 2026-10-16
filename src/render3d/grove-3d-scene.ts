@@ -19,6 +19,7 @@ import { pickSculptRes, qualityForRes } from './sculpt-res';
 
 export { prewarmCreatures } from './prewarm';
 import { Bursts } from './bursts';
+import { CrownFade } from './crowns';
 import { Garden } from './garden';
 import { Hollow } from './hollow';
 import { buildGroveProps, buildGroveTrees, type GroveProps } from './props';
@@ -148,6 +149,9 @@ export class Grove3dScene {
   private fireflies: THREE.Points | null = null;
   private treesBuilt = false;
   private readonly treeAt = new Map<string, Vec2>();
+  private readonly crowns = new CrownFade();
+  /** The Keeper's middle and head, which the crowns keep clear of (see crowns.ts). */
+  private readonly keeperMarks = [new THREE.Vector3(), new THREE.Vector3()];
   private location: Location = 'grove';
   private lit = new Set<string>();
   private lampsOn = false;
@@ -499,7 +503,8 @@ export class Grove3dScene {
     if (this.treesBuilt) return;
     this.treesBuilt = true;
     for (const t of world.trees) this.treeAt.set(t.id, { x: t.pos.x, z: t.pos.z });
-    buildGroveTrees(this.world3d, this.tex, world.trees, this.pickables);
+    for (const t of buildGroveTrees(this.world3d, this.tex, world.trees, this.pickables))
+      this.crowns.add(t);
     this.actors.warm(world);
   }
 
@@ -553,6 +558,10 @@ export class Grove3dScene {
       this.shakeAmount *= Math.exp(-12 * dt);
     } else this.shakeAmount = 0;
     this.camera.lookAt(this.camTarget);
+    const [mid, head] = this.keeperMarks as [THREE.Vector3, THREE.Vector3];
+    mid.copy(this.camTarget);
+    head.copy(this.camTarget).setY(this.camTarget.y + 0.7);
+    this.crowns.update(this.camera.position, this.keeperMarks, dt);
     this.bursts.update(nowMs, dt, ground);
 
     // Grass parting under the creatures nearest the camera.

@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { GROVE, LANTERN_POSTS } from '../config/tuning';
 import { buildTree, pbr, repeatUv, shadowed, type Tex } from '../samples/aaa-kit';
+import type { GroveTree } from './crowns';
 import { buildGroveGrass, type GroveGrass } from './grass';
 import { groveHeight } from './terrain';
 
@@ -303,13 +304,25 @@ export function buildGroveTrees(
   tex: Tex,
   trees: ReadonlyArray<{ id: string; pos: { x: number; z: number } }>,
   pickables: THREE.Object3D[],
-): THREE.Object3D[] {
-  const made: THREE.Object3D[] = [];
+): GroveTree[] {
+  const made: GroveTree[] = [];
   trees.forEach((t, i) => {
     const parts = buildTree(scene, tex, t.pos.x, t.pos.z, 1.05, i + 1, groveHeight);
     const trunk = parts[0];
     if (trunk) pick(trunk, 'tree', t.id, pickables);
-    made.push(...parts);
+    // The leaf cards are the one instanced part; the box covers every card.
+    const crown = parts.find((p): p is THREE.InstancedMesh => p instanceof THREE.InstancedMesh);
+    if (!crown) return;
+    crown.computeBoundingBox();
+    const box = crown.boundingBox!;
+    const size = box.getSize(new THREE.Vector3());
+    made.push({
+      crown,
+      inner: parts.filter((p) => p !== trunk && p !== crown),
+      centre: box.getCenter(new THREE.Vector3()),
+      rx: Math.max(size.x, size.z) / 2,
+      ry: size.y / 2,
+    });
   });
   return made;
 }
