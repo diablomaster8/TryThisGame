@@ -5,9 +5,10 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { SMAAPass } from 'three/addons/postprocessing/SMAAPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
-import { GROVE3D } from '../config/tuning';
+import { GROVE3D, UI } from '../config/tuning';
 import type { OrbitCamera } from '../render/camera';
 import type { Daylight } from '../render/daylight';
+import { bubbleFor } from '../render/sprites/emote';
 import { Picker } from '../render/picker';
 import type { TargetSize } from '../render/pipeline';
 import { CLAMP, GRADE, PUSHERS, buildParticles, type Tex } from '../samples/aaa-kit';
@@ -331,7 +332,8 @@ export class Grove3dScene {
     return this.actors.keeperDrawPos(world, alpha);
   }
 
-  /** Sim events: leaves from a shaken tree, dust where a Nubbin lands, and the shake. */
+  /** Sim events: leaves from a shaken tree, dust where a Nubbin lands, the shake, and
+   * reaction bubbles. */
   onEvents(events: SimEvent[]): void {
     const ground = this.location === 'grove' ? standHeight : () => 0;
     for (const e of events) {
@@ -355,6 +357,8 @@ export class Grove3dScene {
           this.lastMs,
         );
         this.pendingShake = Math.max(this.pendingShake, GROVE3D.shake.landed);
+      } else if (e.kind === 'reaction') {
+        this.actors.react(e.nubbinId, bubbleFor(e.reaction), this.lastMs + UI.bubbleMs);
       }
     }
   }

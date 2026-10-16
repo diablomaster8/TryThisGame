@@ -18,7 +18,7 @@ import { NATIVE_PPU, SpriteBatch } from './sprite-batch';
 import { CLIPS, frameAt, frameKey, type ClipName } from './sprites/animations';
 import { viewAngle } from './sprites/angles';
 import type { FrameRect, SpriteSheet } from './sprites/atlas';
-import type { EmoteShape } from './sprites/emote';
+import { bubbleFor, type EmoteShape } from './sprites/emote';
 import { buildShadowSheet } from './sprites/props';
 import { SheetCache } from './sprites/sheets';
 
@@ -225,15 +225,7 @@ export class WorldView {
       if (e.kind !== 'reaction') continue;
       const v = this.nubbins.get(e.nubbinId);
       if (!v) continue;
-      const shape: EmoteShape =
-        e.reaction === 'love' || e.reaction === 'happy'
-          ? 'heart'
-          : e.reaction === 'surprised'
-            ? 'exclaim'
-            : e.reaction === 'confused'
-              ? 'question'
-              : 'spiral';
-      v.bubble = { shape, untilMs: nowMs + UI.bubbleMs };
+      v.bubble = { shape: bubbleFor(e.reaction), untilMs: nowMs + UI.bubbleMs };
     }
   }
 

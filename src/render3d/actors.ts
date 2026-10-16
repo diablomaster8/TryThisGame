@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { buildEmoteSheet, type EmoteShape } from '../render/sprites/emote';
+import { C } from '../render/sprites/palette';
 import { frameKey } from '../render/sprites/animations';
 import { emoteFor } from '../render/world-view';
 import type { PoseName, Rigged } from '../samples/species';
@@ -42,7 +43,8 @@ interface Actor {
   prev: Snapshot;
   pose: PoseName;
   emote: THREE.Sprite;
-  emoteShape: EmoteShape;
+  /** The emote frame showing (Shadow sheet prefix, shape, flip frame), or '' for none. */
+  emoteKey: string;
 }
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
@@ -107,6 +109,8 @@ export class Actors {
   private keeperPrev: Vec2 = { x: 0, z: 0 };
   private keeperMoving = false;
   private readonly emoteMats = new Map<string, THREE.SpriteMaterial>();
+  /** Reaction bubbles (heart, !, ?, spiral) by Nubbin id, shown over the ball until expiry. */
+  private readonly bubbles = new Map<string, { shape: EmoteShape; untilMs: number }>();
   private readonly highlight: THREE.Mesh;
   private highlightId: string | null = null;
   private readonly sparks: Array<{ p: THREE.Vector3; v: THREE.Vector3; born: number }> = [];
@@ -127,22 +131,9 @@ export class Actors {
     scene.add(this.group);
     this.group.name = 'actors';
     this.crowd = new Crowd(this.group, this.pool, (look) => this.standIn(look));
-    // The emote ball frames come from the pixel sheet, one sprite material per frame.
-    const sheet = buildEmoteSheet();
-    const image = sheet.texture.image as HTMLCanvasElement;
-    for (const [key, rect] of sheet.frames) {
-      const c = document.createElement('canvas');
-      c.width = rect.w;
-      c.height = rect.h;
-      const ctx = c.getContext('2d');
-      ctx?.drawImage(image, rect.x, rect.y, rect.w, rect.h, 0, 0, rect.w, rect.h);
-      const tex = new THREE.CanvasTexture(c);
-      tex.magFilter = THREE.NearestFilter;
-      tex.minFilter = THREE.NearestFilter;
-      tex.colorSpace = THREE.SRGBColorSpace;
-      this.emoteMats.set(key, new THREE.SpriteMaterial({ map: tex, depthTest: true, fog: false }));
-    }
-    sheet.dispose();
+    // The emote ball frames come from the pixel sheets (the plain one and the Shadow plum
+    // one), one sprite material per frame.
+    for (const shadow of [false, true]) this.addEmoteSheet(shadow);
     this.highlight = new THREE.Mesh(
       new THREE.RingGeometry(0.55, 0.72, 32),
       new THREE.MeshBasicMaterial({
@@ -303,6 +294,30 @@ export class Actors {
     return mesh;
   }
 
+  private addEmoteSheet(shadow: boolean): void {
+    const sheet = buildEmoteSheet(shadow ? C.plum : undefined);
+    const image = sheet.texture.image as HTMLCanvasElement;
+    for (const [key, rect] of sheet.frames) {
+      const c = document.createElement('canvas');
+      c.width = rect.w;
+      c.height = rect.h;
+      const ctx = c.getContext('2d');
+      ctx?.drawImage(image, rect.x, rect.y, rect.w, rect.h, 0, 0, rect.w, rect.h);
+      const tex = new THREE.CanvasTexture(c);
+      tex.magFilter = THREE.NearestFilter;
+      tex.minFilter = THREE.NearestFilter;
+      tex.colorSpace = THREE.SRGBColorSpace;
+      const mat = new THREE.SpriteMaterial({ map: tex, depthTest: true, fog: false });
+      this.emoteMats.set(`${shadow ? 'shadow:' : ''}${key}`, mat);
+    }
+    sheet.dispose();
+  }
+
+  /** A reaction bubble over a Nubbin until `untilMs` (the pixel view's rule and timing). */
+  react(id: string, shape: EmoteShape, untilMs: number): void {
+    this.bubbles.set(id, { shape, untilMs });
+  }
+
   private ensureNubbin(n: Nubbin): Actor {
     const want = n.stage === 'egg' || n.stage === 'cocoon' ? `shell:${n.stage}` : nubbinLook(n).key;
     let a = this.nubbins.get(n.id);
@@ -327,7 +342,7 @@ export class Actors {
       prev: { pos: { x: n.pos.x, z: n.pos.z }, y: n.y },
       pose: 'idle',
       emote,
-      emoteShape: 'none',
+      emoteKey: '',
     };
     if (n.stage === 'egg' || n.stage === 'cocoon') {
       actor.shell = this.shell(n.stage, n);
@@ -578,12 +593,22 @@ export class Actors {
         if (n.stage === 'egg') o.rotation.z = Math.sin(t * 2.2 + x) * 0.06;
         else o.rotation.y = t * 0.4;
       }
-      // The emote ball over the head: the same choice the pixel view makes.
-      const shape = n.stage === 'egg' || n.stage === 'cocoon' ? 'none' : emoteFor(n);
-      if (shape !== a.emoteShape) {
-        a.emoteShape = shape;
-        const mat = this.emoteMats.get(frameKey(shape, 'front', 0));
-        a.emote.visible = shape !== 'none' && !!mat;
+      // The emote ball over the head: the same choice the pixel view makes, a reaction
+      // bubble over it for a moment, two frames flipping every 400 ms, plum for a Shadow.
+      let bubble = this.bubbles.get(n.id);
+      if (bubble && nowMs >= bubble.untilMs) {
+        this.bubbles.delete(n.id);
+        bubble = undefined;
+      }
+      const shape: EmoteShape =
+        n.stage === 'egg' || n.stage === 'cocoon' ? 'none' : (bubble?.shape ?? emoteFor(n));
+      const flip = Math.floor(nowMs / 400) % 2;
+      const key =
+        shape === 'none' ? '' : `${n.shadow ? 'shadow:' : ''}${frameKey(shape, 'front', flip)}`;
+      if (key !== a.emoteKey) {
+        a.emoteKey = key;
+        const mat = key ? this.emoteMats.get(key) : undefined;
+        a.emote.visible = !!mat;
         if (mat) a.emote.material = mat;
       }
       if (a.emote.visible) {

@@ -2,6 +2,7 @@ import { frameKey } from './animations';
 import { AtlasBuilder, type SpriteSheet } from './atlas';
 import { C } from './palette';
 import { PixelCanvas } from './pixel-canvas';
+import type { Reaction } from '../../sim/types';
 
 export const EMOTE_SIZE = 12;
 
@@ -109,6 +110,14 @@ function drawEmote(shape: EmoteShape, frame: number, tint: number): PixelCanvas 
   }
   if (shape !== 'none') pc.outline(C.darkPlum);
   return pc;
+}
+
+/** The bubble a reaction shows over the head for a moment; both renderers use it. */
+export function bubbleFor(reaction: Reaction): EmoteShape {
+  if (reaction === 'love' || reaction === 'happy') return 'heart';
+  if (reaction === 'surprised') return 'exclaim';
+  if (reaction === 'confused') return 'question';
+  return 'spiral';
 }
 
 export function buildEmoteSheet(tint: number = C.sunYellow): SpriteSheet {
