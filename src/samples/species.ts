@@ -389,6 +389,29 @@ function zTexture(): THREE.CanvasTexture {
   return zTex;
 }
 
+const QUAD = new THREE.PlaneGeometry(1, 1);
+const quadQ = new THREE.Quaternion();
+/**
+ * A camera-facing quad in world space for a heart or a Z. A `Sprite` is not hidden by a
+ * body between it and the camera on this stage, so the glyph is an ordinary transparent
+ * mesh that turns to the camera as it is drawn and is depth-tested like everything else.
+ */
+function glyphQuad(map: THREE.Texture): THREE.Mesh {
+  const m = new THREE.Mesh(
+    QUAD,
+    new THREE.MeshBasicMaterial({ map, transparent: true, depthWrite: false }),
+  );
+  m.castShadow = false;
+  m.onBeforeRender = (_renderer, _scene, camera) => {
+    // Face the camera in world space whatever the head bone is doing.
+    if (m.parent) m.quaternion.copy(m.parent.getWorldQuaternion(quadQ).invert());
+    else m.quaternion.identity();
+    m.quaternion.multiply(camera.quaternion);
+    m.updateMatrixWorld(true);
+  };
+  return m;
+}
+
 /** How far the body sinks below the sampled ground, in world units: feet a hair into the grass. */
 const GROUND_SINK = 0.02;
 /**
@@ -978,17 +1001,11 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
   const hb = headGeo.boundingBox!;
   const headR = Math.max(0.1, (hb.max.x - hb.min.x) / 2);
   const crownY = onBody ? hb.max.y : Math.min(hb.max.y, e.y - headOrigin.y + headR * 1.1);
-  const hearts: THREE.Sprite[] = [];
-  const zs: THREE.Sprite[] = [];
+  const hearts: THREE.Mesh[] = [];
+  const zs: THREE.Mesh[] = [];
   for (let i = 0; i < HEART_COUNT + 3; i++) {
     const heart = i < HEART_COUNT;
-    const sp = new THREE.Sprite(
-      new THREE.SpriteMaterial({
-        map: heart ? heartTexture() : zTexture(),
-        transparent: true,
-        depthWrite: false,
-      }),
-    );
+    const sp = glyphQuad(heart ? heartTexture() : zTexture());
     sp.visible = false;
     sp.renderOrder = 2;
     head.add(sp);
@@ -1501,7 +1518,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       );
       const size = headR * (0.45 + p * 0.3) * (0.85 + 0.15 * (i % 3));
       sp.scale.set(size, size, 1);
-      (sp.material as THREE.SpriteMaterial).opacity = Math.min(1, p * 5) * (1 - p * p);
+      (sp.material as THREE.MeshBasicMaterial).opacity = Math.min(1, p * 5) * (1 - p * p);
     });
     zs.forEach((sp, i) => {
       const life = pose === 'sleep' ? dt - 1.2 - i * 0.4 : -1;
@@ -1511,7 +1528,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       sp.position.set(headR * (0.6 + q * 0.6), hb.max.y + headR * (0.1 + q * 1.2), headR * 0.2);
       const size = headR * (0.4 + q * 0.45);
       sp.scale.set(size, size, 1);
-      (sp.material as THREE.SpriteMaterial).opacity = Math.sin(q * Math.PI);
+      (sp.material as THREE.MeshBasicMaterial).opacity = Math.sin(q * Math.PI);
     });
     extrasUpdate?.(t, pose);
     // Grounding: the shadow follows the lift, and the body follows the slope under it.
