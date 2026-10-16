@@ -26,6 +26,7 @@ import { Hollow } from './hollow';
 import { buildGroveProps, buildGroveTrees, type GroveProps } from './props';
 import { GroveTextures } from './grove-textures';
 import { GroveSky } from './sky';
+import { StorySets } from './story-sets';
 import { VisitSet } from './visit';
 import { buildGroveTerrain, groveHeight, standHeight, type GroveTerrain } from './terrain';
 import { buildGroveWater, type GroveWater } from './water';
@@ -149,6 +150,8 @@ export class Grove3dScene {
   private readonly dungeonFloor: THREE.Mesh;
   /** A neighbour's Grove, dressed, for `visit:<trainer>`. */
   private readonly visit: VisitSet;
+  /** The story Hollow and Corvin's garden, dressed as in the pixel view. */
+  private readonly story: StorySets;
   private rain: THREE.Points | null = null;
   private snow: THREE.Points | null = null;
   private readonly bursts: Bursts;
@@ -233,6 +236,7 @@ export class Grove3dScene {
     this.scene.add(this.dungeonFloor);
     this.pickables.push(this.dungeonFloor);
     this.visit = new VisitSet(this.scene, this.tex, this.pickables);
+    this.story = new StorySets(this.scene, this.tex, this.pickables);
 
     this.composer = new EffectComposer(this.renderer);
     this.composer.addPass(new RenderPass(this.scene, this.camera));
@@ -297,14 +301,14 @@ export class Grove3dScene {
     this.location = place;
     this.actors.location = place;
     this.world3d.visible = grove;
-    // A neighbour's Grove gets its dressed set; the story places keep the plain floor.
+    // A neighbour's Grove and the two story places get their dressed sets; anywhere else
+    // off the home ground keeps the plain floor.
     const visiting = place.startsWith('visit:') ? place.slice('visit:'.length) : null;
     this.visit.show(visiting, this.tex);
+    this.story.show(place);
     const cave = place === 'dungeon' || place === 'hollow';
-    this.dungeonFloor.visible = !grove && !visiting && !(place === 'dungeon' && this.floor);
-    (this.dungeonFloor.material as THREE.MeshStandardMaterial).color.set(
-      place === 'corvin' ? '#5a5e58' : '#2a2630',
-    );
+    this.dungeonFloor.visible =
+      !grove && !visiting && !this.story.showing && !(place === 'dungeon' && this.floor);
     this.actors.ground = grove ? standHeight : () => 0;
     this.sky.set(hour, d, grove ? weather : 'clear', this.camTarget);
     // Underground there is no sky: a dark vault, a little cold fill, the torches.
