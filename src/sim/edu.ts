@@ -1,4 +1,5 @@
 import { EDU, EDU_GAMES, EDU_RECOMMENDED, type EduAge, type EduGameId } from '../config/edu';
+import type { EduBand } from '../content/types';
 import type { EduState, SimEvent, World } from './types';
 
 /**
@@ -13,7 +14,7 @@ export function recommendedGames(age: EduAge): Record<EduGameId, boolean> {
   return out;
 }
 
-export function createEdu(age: EduAge): EduState {
+export function createEdu(age: EduAge, band: EduBand = 'sprout'): EduState {
   const progress = {} as EduState['progress'];
   for (const g of EDU_GAMES) progress[g] = { plays: 0, stars: 0 };
   return {
@@ -24,11 +25,20 @@ export function createEdu(age: EduAge): EduState {
     progress,
     stickers: 0,
     playedMs: 0,
+    band,
+    storyLanguage: 'learning',
+    lessons: {},
+    readAloud: true,
   };
 }
 
-export function eduStart(world: World, age: EduAge, events: SimEvent[]): void {
-  world.edu = createEdu(age);
+export function eduStart(
+  world: World,
+  age: EduAge,
+  events: SimEvent[],
+  band: EduBand = 'sprout',
+): void {
+  world.edu = createEdu(age, band);
   events.push({ kind: 'eduStarted', age });
 }
 
@@ -89,4 +99,14 @@ export function eduBreakDue(world: World): boolean {
 
 export function eduResetSession(world: World): void {
   if (world.edu) world.edu.playedMs = 0;
+}
+
+/**
+ * A lesson beat finished in a story scene. Every beat counts once; a later play of the same
+ * beat keeps the first answer, so the grown-up view shows what the child did first time.
+ */
+export function eduLesson(world: World, id: string, best: boolean | null): void {
+  const e = world.edu;
+  if (!e || e.lessons[id]) return;
+  e.lessons[id] = { best };
 }

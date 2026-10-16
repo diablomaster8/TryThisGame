@@ -1,4 +1,5 @@
 import type { EduAge, EduGameId } from '../config/edu';
+import type { EduBand } from '../content/types';
 // Game state types. Plain data only: everything here must survive JSON round-trips.
 
 export interface Vec2 {
@@ -389,6 +390,14 @@ export interface EduState {
   stickers: number;
   /** Live play time this session, toward the break screen. */
   playedMs: number;
+  /** Which educational text the story plays in (CV2): Little Sprouts or Grove Readers. */
+  band: EduBand;
+  /** The grown-up's "Story language" switch: the band's text, or the main text with childLines. */
+  storyLanguage: 'learning' | 'standard';
+  /** Lessons played, by lesson id; `best` is null for notice and do beats and think questions. */
+  lessons: Record<string, { best: boolean | null }>;
+  /** Little Sprouts: speak each line with the device's voice (once sound is on). */
+  readAloud: boolean;
 }
 
 export interface CoopState {
@@ -765,7 +774,11 @@ export type Command =
   | { kind: 'teleport'; pos: Vec2 }
   | { kind: 'photoTaken'; species: string }
   // Educational mode
-  | { kind: 'eduStart'; age: EduAge }
+  | { kind: 'eduStart'; age: EduAge; band?: EduBand }
+  | { kind: 'eduSetBand'; band: EduBand }
+  | { kind: 'eduSetLanguage'; language: EduState['storyLanguage'] }
+  | { kind: 'eduLesson'; id: string; best: boolean | null }
+  | { kind: 'eduSetReadAloud'; on: boolean }
   | { kind: 'eduSetAge'; age: EduAge; resetGames: boolean }
   | { kind: 'eduSetGame'; game: EduGameId; on: boolean }
   | { kind: 'eduSetSession'; minutes: number }

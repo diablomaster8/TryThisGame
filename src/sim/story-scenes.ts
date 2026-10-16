@@ -7,7 +7,7 @@ import {
   type Line,
   type Scene,
 } from '../config/story';
-import type { EduBand, Quest, Reward } from '../content/types';
+import type { EduBand, EduScene, Lesson, Quest, Reward } from '../content/types';
 import type { CampaignState, World } from './types';
 
 /**
@@ -80,6 +80,8 @@ export function registerSideStories(content: SideStoryContent): void {
     }
     add(q.complete);
     for (const r of q.rewards) REWARD_BY_ID.set(r.id, { quest: q.id, reward: r });
+    if (q.audience === 'all')
+      for (const [key, text] of Object.entries(q.childLines ?? {})) CHILD_LINES.set(key, text);
   }
   for (const s of content.variants) add(s);
 }
@@ -98,6 +100,31 @@ export function loadStoryScripts(): Promise<void> {
     },
   );
   return loading;
+}
+
+/** The Learning Grove's content module (lines, lessons, glossary, journal text). */
+export type EduContent = typeof import('../content/edu');
+let eduModule: EduContent | null = null;
+let eduLoading: Promise<void> | null = null;
+
+/** The loaded edu chunk, or null outside a Learning Grove save (or before it loads). */
+export function eduContent(): EduContent | null {
+  return eduModule;
+}
+
+/** Register an edu module straight away (tests, and the loader below). */
+export function registerEduContent(m: EduContent): void {
+  eduModule = m;
+  registerEduScenes(m.eduSceneFor);
+}
+
+/**
+ * Load the Learning Grove's educational scenes once, as their own chunk, and register
+ * them. Only a Learning Grove save asks for it, so the main game never downloads it.
+ */
+export function loadEduScripts(): Promise<void> {
+  eduLoading ??= import('../content/edu').then(registerEduContent);
+  return eduLoading;
 }
 
 /** The campaign module's exports as the registry takes them. */
@@ -137,11 +164,40 @@ const textFor = (t: BandText, band: TextBand): string =>
  * chunk (CV2), so the lookup is registered by whoever loads it; until then every band
  * reads the main scene.
  */
-let eduLookup: ((band: EduBand, id: string) => { lines: Line[] } | undefined) | null = null;
+let eduLookup: ((band: EduBand, id: string) => EduScene | undefined) | null = null;
 export function registerEduScenes(
-  lookup: (band: EduBand, id: string) => { lines: Line[] } | undefined,
+  lookup: (band: EduBand, id: string) => EduScene | undefined,
 ): void {
   eduLookup = lookup;
+}
+
+/**
+ * The Learning Grove's single-line replacements (`Quest.childLines`), by
+ * `"<scene id>#<line index>"`, from every audience-'all' quest. They apply to a scene that
+ * has no educational version, so quests scripted after the edu pass still read gently.
+ */
+const CHILD_LINES = new Map<string, string>();
+
+/**
+ * The text a world's story plays in: the main game's, or (in a Learning Grove save with the
+ * story language on Learning) the save's band.
+ */
+export function textBandOf(world: World): TextBand {
+  const e = world.edu;
+  return e && e.storyLanguage === 'learning' ? e.band : 'main';
+}
+
+/** A scene ready to play: its lines, the band's choices, and the lessons pinned to lines. */
+export interface PlayScene extends Scene {
+  /** Each lesson's `after` is the index in `lines` it plays after, after the line swaps. */
+  lessons: Lesson[];
+  /** The choice the sim takes when this version offers none of the original's. */
+  defaultChoice?: string;
+}
+
+/** The choice id to report when a scene ends: the one picked, else the band's default. */
+export function choiceToSend(scene: PlayScene, picked: string | null): string | null {
+  return picked ?? scene.defaultChoice ?? null;
 }
 
 /** The line swaps the scene notes ask for, by scene: each works from the campaign flags. */
@@ -309,6 +365,12 @@ class Swapper {
     this.insert(at, [{ who, text: textFor(text, this.band), ...(mood ? { mood } : {}) }]);
   }
 
+  /** Where the base line `i` sits now (lines added after it come later). */
+  position(i: number): number {
+    const at = this.origins.indexOf(i);
+    return at < 0 ? i : at;
+  }
+
   /** Splice another scene's lines (the band's version where it has one) after `anchor`. */
   spliceScene(anchor: string, id: string): void {
     const at = this.index(anchor);
@@ -320,16 +382,30 @@ class Swapper {
 }
 
 /**
- * The scene as it should be shown now, in the given band: the Learning Grove's lines
- * where the band has them (else the main lines), with the line swaps from the scene
- * notes applied to that band's text.
+ * The scene as it should be shown now, in the given band (by default the world's own; see
+ * `textBandOf`): the Learning Grove's lines, choices and lessons where the band has them,
+ * else the main lines (with `childLines` in a Learning Grove save), with the line swaps
+ * from the scene notes applied to that band's text. Flags are not here: `sceneDone` always
+ * applies the ORIGINAL scene's `set` and choice flags, so every band sets the same ones.
  */
-export function sceneFor(world: World, id: string, band: TextBand = 'main'): Scene | undefined {
+export function sceneFor(
+  world: World,
+  id: string,
+  band: TextBand = textBandOf(world),
+): PlayScene | undefined {
   const scene = SCENE_BY_ID.get(id);
   const c = world.campaign;
   if (!scene) return undefined;
   const edu = band !== 'main' ? eduLookup?.(band, id) : undefined;
-  const base = edu ? { ...scene, lines: edu.lines } : scene;
+  const base: PlayScene = edu
+    ? {
+        ...scene,
+        lines: edu.lines,
+        choices: edu.choices ?? [],
+        lessons: edu.lessons,
+        ...(edu.defaultChoice !== undefined ? { defaultChoice: edu.defaultChoice } : {}),
+      }
+    : { ...scene, lines: world.edu ? childLinesOf(id, scene.lines) : scene.lines, lessons: [] };
   if (!c) return base;
   const s = new Swapper(scene.lines, band, base.lines);
   SWAPS[id]?.(c, s);
@@ -337,5 +413,21 @@ export function sceneFor(world: World, id: string, band: TextBand = 'main'): Sce
     for (const [prefix, from, to] of S24_STILL)
       if (id === prefix || id.startsWith(`${prefix}-`)) s.swap(from, { main: to });
   }
-  return s.lines === base.lines ? base : { ...base, lines: s.lines };
+  if (s.lines === base.lines) return base;
+  // A swap may add lines; each lesson still plays after the line it was written for.
+  const lessons = base.lessons.map((l) => ({ ...l, after: s.position(l.after) }));
+  return { ...base, lines: s.lines, lessons };
+}
+
+/** The main lines with the Learning Grove's single-line replacements for this scene. */
+function childLinesOf(id: string, lines: Line[]): Line[] {
+  if (CHILD_LINES.size === 0) return lines;
+  let out = lines;
+  lines.forEach((l, i) => {
+    const text = CHILD_LINES.get(`${id}#${i}`);
+    if (text === undefined) return;
+    if (out === lines) out = [...lines];
+    out[i] = { ...l, text };
+  });
+  return out;
 }

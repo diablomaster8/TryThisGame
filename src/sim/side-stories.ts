@@ -479,7 +479,9 @@ export function stepSideStories(world: World, c: CampaignState, events: SimEvent
   stepPostGame(world, c);
   for (const rule of RULES) {
     const quest = sideStory(rule.id);
-    if (quest) stepOne(world, c, rule, quest, events);
+    // A Learning Grove save never opens a story outside audience 'all' (S23 is 'main').
+    if (quest && (world.edu === null || quest.audience === 'all'))
+      stepOne(world, c, rule, quest, events);
   }
   stepFunQuests(world, c, events);
 }

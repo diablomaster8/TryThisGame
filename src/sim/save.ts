@@ -196,6 +196,11 @@ export function validateWorld(w: World): World {
     w.edu.playedMs = 0;
     w.edu.childName ??= '';
     w.edu.stickers ??= 0;
+    // CV2: saves from before the language switch were Little Sprouts.
+    w.edu.band ??= 'sprout';
+    w.edu.storyLanguage ??= 'learning';
+    w.edu.lessons ??= {};
+    w.edu.readAloud ??= true;
   }
   if (w.keeper2) w.keeper2.running ??= false;
   w.neighbours ??= {};

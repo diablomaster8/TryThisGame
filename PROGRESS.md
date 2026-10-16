@@ -10,14 +10,47 @@ Shipped and deployed: v1, the organic painted Grove, the Digimon-inspired ten, t
 Below dungeons, the 96-unit field, three save slots per mode, and the Full 3D mode as a
 Graphics setting (`src/render3d/`, worker sculpting, geometry cache, boot work, the G13
 polish pass: pet state, knees, lids, tumble, shoreline, dressed visits) with the pixel mode
-unchanged. Story content pack in `src/content/` with CV1 wired (campaign v2,
+unchanged. Story content pack in `src/content/` with CV1 and CV2 wired (campaign v2,
 endings, the runner for all 31 side stories and the fun quests, story props, keepsakes;
-side stories and the campaign as lazy chunks; grass placed in a worker). In the
+side stories and the campaign as lazy chunks; grass placed in a worker; the Learning
+Grove's story in Little Sprouts and Grove Readers). In the
 working tree, unreviewed and uncommitted: Atlas A1–A10 and A22–A31 (plan.md Task B-R1).
 Review of everything done and open, and the v3 plan with briefs: `plan.md` (2026-10-16).
 Waiting on Maor: the expansion pick E1–E3 / S1–S4, the daily-gift decision, seven
 fun-quest quotes, whether Full 3D becomes the default, his phone rows in the device pass.
 Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
+
+## CV2 Learning Grove language switch (2026-10-16)
+
+Works:
+- Bands: the title's age menu adds "7–10" (Grove Readers, minigames at age 6); `EduState`
+  has `band`, `storyLanguage` (Learning / Standard), `readAloud` and `lessons`, filled into
+  older saves on load. The grown-up area switches all three (`ui/edu-story.ts`).
+- The story: the Learning Grove picker has a Story entry that starts the campaign with the
+  first Keeper. Fun quests and side stories are offered only at audience `all` (S23 never
+  opens there). `content/edu.ts` loads as its own chunk for edu saves only.
+- `sceneFor` (default band from `textBandOf(world)`) returns the band's lines, choices,
+  `defaultChoice` and lessons; lessons follow their line through the swaps. `sceneDone`
+  still applies the original scene's flags; the dialogue sends `choiceToSend`. A scene
+  with no edu version reads its quest's `childLines` in any Learning Grove save.
+- Dialogue (`ui/lesson.ts`): ask = big options, the best gets a star, then the reply;
+  notice = its lines; do = its lines and a card. Reader glossary words are underlined,
+  tap for the meaning. Sprout bracketed prompts are styled apart and read-aloud uses the
+  device voice once sound is on (prompts not spoken). Journal shows the band's chapter
+  and quest goals. Grown-up progress: story lessons by area and by standard, latest
+  parent notes.
+- Tests `tests/sim/edu-story.test.ts`: same flags in every band, valid choices, no sprout
+  Collector (static and a full run), childLines, lesson anchoring, save round trip.
+
+Stubbed:
+- `do` beats: only `edu:count:<thing>:<n>` has an interaction (tap to count); every other
+  verb is one "We did it!" button. Real Grove actions behind the check strings come later.
+- Band ending titles (`EduCampaign.endings`) are not shown yet; the end card uses main.
+
+Known bugs / assumptions:
+- Assumed: the Learning Grove story starts with `TRAINERS[0]` (no Keeper menu there).
+- Read-aloud is the browser voice (`en-GB`), not recordings; untested on iOS in this pass.
+- Not checked in the browser pane this pass; tests, lint, build and content-check pass.
 
 ## G14 bundle diet: campaign chunk, sample stage split, grass in a worker (2026-10-16)
 
@@ -69,72 +102,6 @@ Stubbed / known:
 - `aaa-styles.ts` is 841 lines, still past the ~800 split guide.
 - Not checked: the no-worker grass fallback; 3D boot on a phone.
 - This section sits after the Status block, as the ones below do; literal line 12 is inside it.
-
-## B-C3: every side story runs; fun quests, props, keepsakes (2026-10-16)
-
-Works:
-- All 31 Grove side stories run (`sim/side-stories.ts`, rules in `side-rules-early/mid/late.ts`,
-  the shared kit in `side-rule-kit.ts`): chapter windows and closes, step gates, every
-  `_VARIANTS` scene chosen by its flags, scenes queued before and after steps, the holds the
-  notes ask for (S30's last day and S31's Gourd Night hold the next chapter, S8's complete
-  scene holds c11-close), and chapter 10's opening waits three story nights after c9-close
-  (longer while S23 is moving) so S6, S14 and S23 have their window. "Chapter N begins"
-  means its opening scene has played.
-- Checks the sim watches on its own: waits and sits by their time words, `night:`,
-  `chapter:N:end`, choices, talks with the Keeper named, visits, pets, feeds, shakes,
-  crafts, races, placed decor or cosmetics, Moss's lantern walks (the Keeper near a post),
-  and taps on story props. Everything else is the journal's "Do it".
-- The campaign hooks the stories feed (`visitors`, `hushGarden`, `millLetter`, `cinder`,
-  `wisp`, `s8Reunited`) are set by the scripts and read where the bible says; tests cover
-  the lane scenes, S9's family count, the garden splice, the letter hand-over.
-- CV1 left-overs: `s28-null-minder` while S7's Minder ticks, S27's spring scene on the
-  first post-game morning, Wisp as a stray under the cottage step after `c10-bank-wisp`
-  (`STORY.wispHome`), S6's Ember friendship. Post-game mornings now step the runner (S24).
-- Props: eleven in `STORY_PROPS` (tuning) with names in strings; `sim/story-props.ts` says
-  which stand; painted `prop-*` frames in `paint/decor.ts`, boxes in `render3d/garden.ts`
-  (`storyPropModel`); pick kind `storyProp` sends a command that meets the matching step.
-- Rewards: `grantRewards` on completion. Hats the wardrobe knows go to the inventory,
-  flags are set, everything else is kept by id in `inventory.keepsakes` (save version 4)
-  and listed in the journal under Memories; `storyTitles` for the profile.
-- Fun quests Q1–Q65 (`sim/fun-quests.ts`, state in `campaign.fun`, journal "Capers"):
-  each `when` text read as time of day, weather, season, weekday or market or festival
-  day, chapter, the quests it follows and a few Grove facts; one offered at a time, a story
-  day into a chapter, once only, never in chapters 9–11, Sunny behind the 18+ setting.
-  They never write a campaign flag (a test checks every set).
-- Line swaps in every band: `sceneFor(world, id, band)` applies the scene notes' swaps to
-  the main lines or a Learning Grove band's (matched by line position), with band
-  versions of the short inserts; `registerEduScenes` lets the edu chunk register its
-  lookup (CV2), so the edu content stays out of the main bundle. New: S3's Fern line after
-  S8, S24's kept-stone lines. Fixes a CV1 deadlock (a gate waiting on a scene the runner
-  queued only after the gate).
-- Tests: `side-stories-{early,mid,late}`, `story-rewards`, `story-props`, `fun-quests`,
-  `line-swaps` over the driver in `tests/sim/side-driver.ts` (a chapter hold while a kept
-  story moves). 331 pass; sim time is stepped directly, which is the ×100 run.
-
-Stubbed:
-- "Do it" verbs: minigame, find, walk (except lantern posts), carry, inspect, explore,
-  escort, climb, build, puzzle, deliver, swim, write, tally, sneak, show, resolve, release,
-  catch, listen, open, float, follow, develop, host, candle, collect, give, and `watch`
-  without a time word.
-- Fun-quest phrases the sim cannot see read as "any time": a shooting star, the murky
-  stream, fruit gone missing, the morning after a storm, pears at the gate, bought from the
-  shop; "karate unlocked" is always true; "race day" is any race run. Fun quests run in the
-  campaign only (the Free Grove later). Market days are Wednesday and Saturday by the clock.
-- Feature rewards (Nubbin Jobs, deep swim, rowing, the museum, the mill, river and
-  snowfield sections, the Midsummer Cup, Clank as helper, night glide, Hazel's margin
-  notes) are keepsakes only. Not built: Wisp's torn ear, Spindle's spiders, S29's Brock
-  door, S30's after-talk lines, S31's ambient scenes, S24's lecture, S12's naming box.
-  `c12-wall-garden` has no band versions (the main text is spliced). Places outside the
-  Grove (the mill, the Tooth, the Workyard, the river, Clover's cottage, Fern's orchard)
-  are scene text only. The props' look is unit-tested as data, not yet checked in the
-  browser.
-
-Assumptions: a "week" is three story days (`STORY.weekDays`); S2 opens the first morning
-of chapter 3 (no "fruit left for Sable" fact exists); S15's market morning is any morning;
-S8's three evenings of fruit are one night's "Do it"; midnight is 0.9 of the story day and
-"frost" 0.95; `s31-sable30` is Sable's trust at 30 when Gourd Night begins.
-
-Known bugs: none known.
 
 ## Standing approval (Maor, 2026-10-12)
 

@@ -15,6 +15,7 @@ import { playSound } from '../platform/audio';
 import { enabledGames } from '../sim/edu';
 import { Rng } from '../sim/rng';
 import { button, el, modal } from './dom';
+import { storyPickButton, storyProgress, storySettings } from './edu-story';
 
 /**
  * The Learning Grove screens: the game picker, a round screen with big targets and no
@@ -52,6 +53,10 @@ export class EduScreen {
     if (!g?.world.edu) return;
     const body = this.picker.body;
     body.querySelectorAll('.edu-grid, .help.none').forEach((n) => n.remove());
+    // The story first (CV2): it is always there, whatever games are switched on.
+    const storyGrid = el('div', 'edu-grid');
+    storyGrid.appendChild(storyPickButton(g, () => this.close(), this.toast));
+    body.appendChild(storyGrid);
     const games = enabledGames(g.world);
     if (games.length === 0) {
       body.appendChild(el('p', 'help none', EDU_TEXT.noGames));
@@ -390,6 +395,7 @@ export class GrownUpPanel {
     sessRow.append(el('strong', undefined, EDU_TEXT.sessionLabel), sess);
     this.body.appendChild(sessRow);
     this.body.appendChild(el('p', 'help', EDU_TEXT.sessionHelp));
+    storySettings(this.body, g);
     // Games: toggles with the recommendation tag.
     this.body.appendChild(el('h3', undefined, EDU_TEXT.gamesLabel));
     for (const id of EDU_GAMES) {
@@ -443,6 +449,7 @@ export class GrownUpPanel {
       list.appendChild(row);
     }
     this.body.appendChild(list);
+    storyProgress(this.body, g);
     this.body.appendChild(el('p', 'help', EDU_TEXT.stickers(e.stickers)));
     this.body.appendChild(
       el('p', 'help', EDU_TEXT.coPlay[Math.floor(Math.random() * EDU_TEXT.coPlay.length)] ?? ''),

@@ -1,8 +1,9 @@
 import { Game } from './game';
 import type { EduAge } from './config/edu';
 import { unlockAudio } from './platform/audio';
-import { clearSlot, readGraphicsPref, setSaveSlot } from './platform/storage';
-import { loadStoryScripts } from './sim/story-scenes';
+import type { EduBand } from './content/types';
+import { clearSlot, currentSlot, readGraphicsPref, setSaveSlot } from './platform/storage';
+import { loadEduScripts, loadStoryScripts } from './sim/story-scenes';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
 import { showTitle } from './ui/title';
 import { mountCameraButtons } from './ui/camera-buttons';
@@ -43,7 +44,12 @@ if (params.has('sprites')) {
   const slot = { mode: 'edu' as const, index: Number(params.get('slot')) || 1 };
   clearSlot(slot);
   setSaveSlot(slot);
-  startGame(null, (Number(params.get('edu')) || 4) as EduAge);
+  // `?edu=7` and up is a Grove Readers save (the minigames stay at age 6).
+  const age = Number(params.get('edu')) || 4;
+  startGame(null, {
+    age: Math.max(3, Math.min(6, age)) as EduAge,
+    band: age >= 7 ? 'reader' : 'sprout',
+  });
 } else if (params.has('free')) {
   // Straight into the Free Grove (dev and old links). `?slot=2` picks a slot.
   setSaveSlot({ mode: 'free', index: Number(params.get('slot')) || 1 });
@@ -56,16 +62,28 @@ if (params.has('sprites')) {
     setSaveSlot(choice.slot);
     startGame(
       choice.slot.mode === 'campaign' && choice.fresh ? choice.trainer : null,
-      choice.slot.mode === 'edu' && choice.fresh ? choice.age : undefined,
+      choice.slot.mode === 'edu' && choice.fresh && choice.age
+        ? { age: choice.age, band: choice.band ?? 'sprout' }
+        : undefined,
     );
   });
 }
 
+/** A fresh Learning Grove: the minigames' age and the story's band. */
+interface NewEdu {
+  age: EduAge;
+  band: EduBand;
+}
+
 /** `newCampaignTrainer` starts the story in a fresh world as that Keeper. */
-function startGame(newCampaignTrainer: string | null, eduAge?: EduAge): void {
+function startGame(newCampaignTrainer: string | null, eduAge?: NewEdu): void {
   // The campaign and side-story scripts are their own chunks; the save cannot load until
-  // they are registered, or it would drop a queued story scene.
-  const sideStories = loadStoryScripts();
+  // they are registered, or it would drop a queued story scene. A Learning Grove save
+  // also needs its educational scenes (CV2) before the first scene plays.
+  const sideStories =
+    currentSlot().mode === 'edu'
+      ? Promise.all([loadStoryScripts(), loadEduScripts()]).then(() => undefined)
+      : loadStoryScripts();
   // The 3D scene is a separate chunk, loaded only when the title picked it.
   if (readGraphicsPref() === '3d') {
     void import('./render3d/grove-3d-scene').then(async (m) => {
@@ -79,7 +97,7 @@ function startGame(newCampaignTrainer: string | null, eduAge?: EduAge): void {
 
 function boot(
   newCampaignTrainer: string | null,
-  eduAge: EduAge | undefined,
+  eduAge: NewEdu | undefined,
   scene3d: Grove3dScene | null,
 ): void {
   const fps = new FpsCounter(hudRoot);
@@ -90,7 +108,7 @@ function boot(
     game.send({ kind: 'setTrainer', id: newCampaignTrainer });
     game.send({ kind: 'campaignStart' });
   }
-  if (eduAge) game.send({ kind: 'eduStart', age: eduAge });
+  if (eduAge) game.send({ kind: 'eduStart', age: eduAge.age, band: eduAge.band });
   hud.bind(game);
   if (import.meta.env.DEV) {
     // Console access during development: `grove.world`, `grove.send({...})`.

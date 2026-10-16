@@ -137,6 +137,11 @@ export function setSfxVolume(v: number): void {
   if (sfxBus && ctx && sfxEnabled) sfxBus.gain.setTargetAtTime(sfxVolume, ctx.currentTime, 0.05);
 }
 
+/** True once the first tap or click has turned sound on (read-aloud waits for it too). */
+export function isAudioUnlocked(): boolean {
+  return unlocked;
+}
+
 export function isSoundEnabled(): boolean {
   return sfxEnabled;
 }

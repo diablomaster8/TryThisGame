@@ -4,7 +4,7 @@
  * choices and lessons in place of the original, and still applies the ORIGINAL scene's `set`
  * flags and any choice flags (EduScene has no scene-level `set`). See EDU-STYLE.md.
  */
-import type { EduBand, EduCampaign, EduQuest, EduScene } from './types';
+import type { EduBand, EduCampaign, EduQuest, EduScene, Lesson } from './types';
 import { EDU_CAMPAIGN_1_SPROUT } from './edu-campaign-1-sprout';
 import { EDU_CAMPAIGN_1_READER } from './edu-campaign-1-reader';
 import { EDU_CAMPAIGN_2_SPROUT } from './edu-campaign-2-sprout';
@@ -41,7 +41,12 @@ export const EDU_BAND_INFO: Record<EduBand, { label: string; ages: string; readA
 
 export const EDU_CAMPAIGN: Record<EduBand, EduCampaign[]> = {
   sprout: [EDU_CAMPAIGN_1_SPROUT, EDU_CAMPAIGN_2_SPROUT, EDU_CAMPAIGN_3_SPROUT],
-  reader: [EDU_CAMPAIGN_1_READER, EDU_CAMPAIGN_2_READER, EDU_CAMPAIGN_3A_READER, EDU_CAMPAIGN_3B_READER],
+  reader: [
+    EDU_CAMPAIGN_1_READER,
+    EDU_CAMPAIGN_2_READER,
+    EDU_CAMPAIGN_3A_READER,
+    EDU_CAMPAIGN_3B_READER,
+  ],
 };
 
 /**
@@ -79,7 +84,11 @@ export const EDU_QUESTS: Record<EduBand, EduQuest[]> = {
 /** Side-story variant scenes (S2, S9, S10, S13, S19 branches). */
 export const EDU_VARIANTS: Record<EduBand, EduScene[]> = {
   sprout: [...EDU_SIDE_1_SPROUT_VARIANTS, ...EDU_SIDE_NEW_B_SPROUT_VARIANTS],
-  reader: [...EDU_SIDE_1_READER_VARIANTS, ...EDU_SIDE_2_READER_VARIANTS, ...EDU_SIDE_NEW_3_READER_VARIANTS],
+  reader: [
+    ...EDU_SIDE_1_READER_VARIANTS,
+    ...EDU_SIDE_2_READER_VARIANTS,
+    ...EDU_SIDE_NEW_3_READER_VARIANTS,
+  ],
 };
 
 /** Every educational scene of a band, keyed by the ORIGINAL scene id. */
@@ -96,4 +105,48 @@ export function eduSceneFor(band: EduBand, originalId: string): EduScene | undef
   let m = cache.get(band);
   if (!m) cache.set(band, (m = eduScenes(band)));
   return m.get(originalId);
+}
+
+/** The band's reader glossary: lower-case word → meaning (sprout has none). */
+export function eduGlossary(band: EduBand): Map<string, string> {
+  const m = new Map<string, string>();
+  const add = (g: { word: string; meaning: string }[] | undefined) => {
+    for (const e of g ?? [])
+      if (!m.has(e.word.toLowerCase())) m.set(e.word.toLowerCase(), e.meaning);
+  };
+  for (const c of EDU_CAMPAIGN[band]) add(c.glossary);
+  for (const q of EDU_QUESTS[band]) add(q.glossary);
+  return m;
+}
+
+/** The band's journal text for a campaign chapter, if a slice covers it. */
+export function eduChapterText(
+  band: EduBand,
+  n: number,
+): { title?: string; goalText: string; hint: string } | undefined {
+  for (const c of EDU_CAMPAIGN[band]) if (c.chapters[n]) return c.chapters[n];
+  return undefined;
+}
+
+/** The band's journal goal for a quest step (by original quest id and step id). */
+export function eduGoal(
+  band: EduBand,
+  questId: string,
+  stepId: string,
+): { goal: string; hint: string } | undefined {
+  return EDU_QUESTS[band].find((q) => q.of === questId)?.goals[stepId];
+}
+
+/** The band's title for a quest, when it has its own. */
+export function eduQuestTitle(band: EduBand, questId: string): string | undefined {
+  return EDU_QUESTS[band].find((q) => q.of === questId)?.title;
+}
+
+const lessonCache = new Map<string, Lesson>();
+/** A lesson by id, in either band, for the grown-up progress view. */
+export function eduLesson(id: string): Lesson | undefined {
+  if (lessonCache.size === 0)
+    for (const band of EDU_BANDS)
+      for (const s of eduScenes(band).values()) for (const l of s.lessons) lessonCache.set(l.id, l);
+  return lessonCache.get(id);
 }

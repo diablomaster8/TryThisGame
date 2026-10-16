@@ -60,6 +60,7 @@ import {
   eduSetGame,
   eduSetName,
   eduSetSession,
+  eduLesson,
   eduStart,
   stepEdu,
 } from './edu';
@@ -651,7 +652,19 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       wearGlasses(world, cmd.nubbinId, cmd.on);
       return;
     case 'eduStart':
-      eduStart(world, cmd.age, events);
+      eduStart(world, cmd.age, events, cmd.band);
+      return;
+    case 'eduSetBand':
+      if (world.edu) world.edu.band = cmd.band;
+      return;
+    case 'eduSetLanguage':
+      if (world.edu) world.edu.storyLanguage = cmd.language;
+      return;
+    case 'eduSetReadAloud':
+      if (world.edu) world.edu.readAloud = cmd.on;
+      return;
+    case 'eduLesson':
+      eduLesson(world, cmd.id, cmd.best);
       return;
     case 'eduSetAge':
       eduSetAge(world, cmd.age, cmd.resetGames);

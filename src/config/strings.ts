@@ -727,7 +727,7 @@ export function formatDuration(ms: number): string {
 
 /** Educational mode ("Learning Grove") text. */
 export const EDU_TEXT = {
-  learningGrove: 'Learning Grove (ages 3–6)',
+  learningGrove: 'Learning Grove (ages 3–10)',
   newLearning: 'New Learning Grove',
   continueLearning: 'Continue Learning Grove',
   newLearningConfirm: 'Start a new Learning Grove? The old one will be erased.',
@@ -808,6 +808,48 @@ export const EDU_TEXT = {
   breakDone: 'All done for now',
   eduResultToast: (stars: number) => `${'⭐'.repeat(stars)} +${stars * 5} Shells`,
   noGames: 'All games are switched off. Ask a grown-up to turn some on.',
+} as const;
+
+/** The Learning Grove's story (CV2): the band switch, lesson beats, glossary, progress. */
+export const EDU_STORY_TEXT = {
+  readerAges: '7–10',
+  bands: {
+    sprout: 'Little Sprouts (3–6, read aloud)',
+    reader: 'Grove Readers (7–10, reads alone)',
+  },
+  story: 'Story',
+  storyBlurb: 'Hazel’s Grove, told for your age.',
+  storyContinue: 'The story is under way. Look in the journal for what comes next.',
+  bandLabel: 'Story band',
+  languageLabel: 'Story language',
+  languages: { learning: 'Learning', standard: 'Standard' },
+  languageHelp:
+    'Learning plays each scene in the band’s words, with lessons. Standard plays the main game’s words, with gentler lines where a quest has them.',
+  readAloudLabel: 'Read aloud (Little Sprouts)',
+  readAloudHelp:
+    'Uses the device’s own voice once sound is on. Grown-up prompts in brackets are not read.',
+  replay: 'Read it again',
+  weDidIt: 'We did it!',
+  countTap: (n: number, of: number) => (n === 0 ? 'Tap to count' : `${n} of ${of}`),
+  bestStar: '⭐',
+  next: 'Go on',
+  glossaryClose: 'Got it',
+  progressTitle: 'Story lessons',
+  progressNone: 'No story lessons yet. They come up as the story plays.',
+  byDomain: 'By area',
+  byStandard: 'By standard',
+  recentNotes: 'What your child practised',
+  lessonCount: (n: number) => `${n} ${n === 1 ? 'lesson' : 'lessons'}`,
+  lessonDomains: {
+    maths: 'Maths',
+    literacy: 'Reading & words',
+    science: 'Science',
+    'social-studies': 'People & places',
+    sel: 'Feelings & friends',
+    music: 'Music',
+    art: 'Art',
+    health: 'Health & body',
+  } as Record<string, string>,
 } as const;
 
 /** The Digimon-inspired ten: square, slips, gym, partners, curfew, memories, skills, scans, teams, the Beetle Run. */
@@ -1006,7 +1048,7 @@ export const SLOT_TEXT = {
   modes: {
     campaign: 'Hazel’s Grove',
     free: 'Free Grove',
-    edu: 'Learning Grove (ages 3–6)',
+    edu: 'Learning Grove (ages 3–10)',
   } as Record<string, string>,
   slot: (n: number) => `Slot ${n}`,
   empty: 'Empty',

@@ -164,8 +164,8 @@ export function audienceContext(world: World): {
   matureContent: World['settings']['matureContent'];
   learningGrove: boolean;
 } {
-  // The Learning Grove mode lands with CV4; until then every save is the main game.
-  return { matureContent: world.settings.matureContent, learningGrove: false };
+  // A Learning Grove save carries `edu`; only audience 'all' is offered there (CV2).
+  return { matureContent: world.settings.matureContent, learningGrove: world.edu !== null };
 }
 
 /** The fun quests in the registry, by quest id ('q21'). */

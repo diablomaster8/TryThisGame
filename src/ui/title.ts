@@ -17,7 +17,8 @@ import { buildKeeperSheet } from '../render/sprites/keeper';
 import { TRAINERS } from '../sim/trainers';
 import { button, el } from './dom';
 import { EDU_AGES, type EduAge } from '../config/edu';
-import { EDU_TEXT, UI_TEXT } from '../config/strings';
+import type { EduBand } from '../content/types';
+import { EDU_STORY_TEXT, EDU_TEXT, UI_TEXT } from '../config/strings';
 
 export interface TitleChoice {
   slot: SaveSlot;
@@ -27,6 +28,8 @@ export interface TitleChoice {
   trainer: string | null;
   /** Age band for a new Learning Grove. */
   age?: EduAge;
+  /** The story's band for a new Learning Grove (Grove Readers picks age 6 for the games). */
+  band?: EduBand;
 }
 
 const MODES: SaveMode[] = ['campaign', 'free', 'edu'];
@@ -152,11 +155,19 @@ export function showTitle(parent: HTMLElement, onChoose: (c: TitleChoice) => voi
       row.appendChild(
         button(
           String(age),
-          () => finish({ slot, fresh: true, trainer: null, age }),
+          () => finish({ slot, fresh: true, trainer: null, age, band: 'sprout' }),
           'btn title-age',
         ),
       );
     }
+    // Grove Readers (7–10): the story in the reader band; the six games stay at their top age.
+    row.appendChild(
+      button(
+        EDU_STORY_TEXT.readerAges,
+        () => finish({ slot, fresh: true, trainer: null, age: 6, band: 'reader' }),
+        'btn title-age',
+      ),
+    );
     menu.appendChild(row);
     menu.appendChild(el('div', 'help', EDU_TEXT.ageHelp));
     menu.appendChild(button('←', () => mainMenu(), 'btn btn-small'));

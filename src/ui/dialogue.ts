@@ -1,7 +1,15 @@
 import { TRAINER_LABELS } from '../config/strings';
 import { ENDINGS, SPEAKERS, STORY_TEXT, type Line, type Mood } from '../config/story';
 import type { Game } from '../game';
-import { sceneFor } from '../sim/story-scenes';
+import type { Lesson } from '../content/types';
+import {
+  choiceToSend,
+  eduContent,
+  sceneFor,
+  textBandOf,
+  type PlayScene,
+} from '../sim/story-scenes';
+import { renderDo, renderLineText, renderOptions, speakLine, stopSpeaking } from './lesson';
 import { frameKey } from '../render/sprites/animations';
 import type { SpriteSheet } from '../render/sprites/atlas';
 import { button, el } from './dom';
@@ -26,6 +34,11 @@ export class Dialogue {
   private fullText = '';
   private shown = 0;
   private afterLines: (() => void) | null = null;
+  /** The scene playing (its band's lessons and default choice), and lessons already played. */
+  private playing: PlayScene | null = null;
+  private lessonsDone = new Set<string>();
+  /** True while a lesson's own lines play (no lesson can start inside another). */
+  private inLesson = false;
 
   constructor(
     parent: HTMLElement,
@@ -45,7 +58,7 @@ export class Dialogue {
     box.append(this.portrait, body, this.next);
     this.root.appendChild(box);
     this.root.addEventListener('click', (e) => {
-      if ((e.target as HTMLElement).closest('.dialogue-choices')) return;
+      if ((e.target as HTMLElement).closest('.dialogue-choices, .edu-gloss')) return;
       this.advance();
     });
     window.addEventListener('keydown', (e) => {
@@ -80,6 +93,9 @@ export class Dialogue {
     const scene = g ? sceneFor(g.world, sceneId) : undefined;
     if (!scene || !g) return;
     this.scene = sceneId;
+    this.playing = scene;
+    this.lessonsDone.clear();
+    this.inLesson = false;
     this.lines = scene.lines;
     this.index = 0;
     this.choices.innerHTML = '';
@@ -126,7 +142,15 @@ export class Dialogue {
     this.root.hidden = true;
     this.scene = null;
     clearInterval(this.typing);
-    if (g && scene) g.send({ kind: 'sceneDone', scene, choice });
+    stopSpeaking();
+    const playing = this.playing;
+    this.playing = null;
+    if (g && scene)
+      g.send({
+        kind: 'sceneDone',
+        scene,
+        choice: playing ? choiceToSend(playing, choice) : choice,
+      });
     if (scene?.startsWith('end-')) {
       const ending = ENDINGS[scene.slice(4)];
       this.endTitle.textContent = STORY_TEXT.endingReached(ending?.title ?? scene);
@@ -140,7 +164,12 @@ export class Dialogue {
       // Finish the line at once.
       clearInterval(this.typing);
       this.shown = this.fullText.length;
-      this.text.textContent = this.fullText;
+      this.finishText();
+      return;
+    }
+    const lesson = this.dueLesson();
+    if (lesson) {
+      this.runLesson(lesson);
       return;
     }
     this.index += 1;
@@ -177,19 +206,95 @@ export class Dialogue {
       (g.world.settings.reducedMotion === 'system'
         ? g.camera.reduceMotion
         : g.world.settings.reducedMotion === 'on');
+    if (textBandOf(g.world) === 'sprout' && g.world.edu?.readAloud) speakLine(line.text);
     if (reduce) {
       this.shown = this.fullText.length;
-      this.text.textContent = this.fullText;
+      this.finishText();
       return;
     }
     this.typing = window.setInterval(
       () => {
         this.shown = Math.min(this.fullText.length, this.shown + (speed === 'fast' ? 4 : 2));
         this.text.textContent = this.fullText.slice(0, this.shown);
-        if (this.shown >= this.fullText.length) clearInterval(this.typing);
+        if (this.shown >= this.fullText.length) {
+          clearInterval(this.typing);
+          this.finishText();
+        }
       },
       speed === 'slow' ? 34 : 18,
     );
+  }
+
+  /** The whole line, with the reader glossary underlined and sprout prompts set apart. */
+  private finishText(): void {
+    const g = this.game();
+    const band = g ? textBandOf(g.world) : 'main';
+    const glossary = band === 'reader' ? (eduContent()?.eduGlossary('reader') ?? null) : null;
+    renderLineText(this.text, this.fullText, glossary, band === 'sprout', (word, meaning) => {
+      this.text.querySelector('.edu-gloss-pop')?.remove();
+      const pop = el('span', 'edu-gloss-pop', `${word}: ${meaning}`);
+      pop.addEventListener('click', (e) => {
+        e.stopPropagation();
+        pop.remove();
+      });
+      this.text.appendChild(pop);
+    });
+  }
+
+  /** A lesson written to play after the current main line, not yet played. */
+  private dueLesson(): Lesson | undefined {
+    const p = this.playing;
+    if (!p || this.inLesson || this.lines !== p.lines) return undefined;
+    const last = this.lines.length - 1;
+    return p.lessons.find(
+      (l) => !this.lessonsDone.has(l.id) && Math.min(Math.max(l.after, 0), last) === this.index,
+    );
+  }
+
+  /** Play a run of lines inside the scene, then come back to where it was. */
+  private playSub(lines: readonly Line[], then: () => void): void {
+    if (lines.length === 0) {
+      then();
+      return;
+    }
+    const saved = { lines: this.lines, index: this.index, after: this.afterLines };
+    this.lines = [...lines];
+    this.index = 0;
+    this.afterLines = () => {
+      this.lines = saved.lines;
+      this.index = saved.index;
+      this.afterLines = saved.after;
+      then();
+    };
+    this.showLine();
+  }
+
+  /** ask: prompt, big options, the reply · notice: its lines · do: its lines and the card. */
+  private runLesson(l: Lesson): void {
+    this.lessonsDone.add(l.id);
+    this.inLesson = true;
+    const done = (best: boolean | null) => {
+      this.inLesson = false;
+      this.next.hidden = false;
+      this.game()?.send({ kind: 'eduLesson', id: l.id, best });
+      this.advance();
+    };
+    const card = (fill: () => void) => {
+      this.next.hidden = true;
+      fill();
+    };
+    if (l.kind === 'ask')
+      this.playSub(l.prompt ?? [], () =>
+        card(() =>
+          renderOptions(this.choices, l, (o, best) => {
+            this.next.hidden = false;
+            this.playSub(o.reply, () => done(best));
+          }),
+        ),
+      );
+    else if (l.kind === 'do')
+      this.playSub(l.lines ?? [], () => card(() => renderDo(this.choices, l, () => done(null))));
+    else this.playSub(l.lines ?? [], () => done(null));
   }
 
   private drawPortrait(who: string, g: Game, mood: Mood): void {

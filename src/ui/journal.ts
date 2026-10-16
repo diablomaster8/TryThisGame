@@ -4,8 +4,23 @@ import type { Game } from '../game';
 import { chapterDef, goalMet } from '../sim/campaign';
 import { funQuestIds, RUNNER_STORIES, sideActable } from '../sim/side-stories';
 import type { SideStoryState } from '../sim/types';
-import { rewardById, sideStory } from '../sim/story-scenes';
+import { eduContent, rewardById, sideStory, textBandOf } from '../sim/story-scenes';
 import { button, el, modal } from './dom';
+
+/**
+ * The band's journal text in a Learning Grove save on the Learning story language (CV2):
+ * the chapter's title, goal and hint, and each quest's title and step goals.
+ */
+function eduJournal(g: Game) {
+  const band = textBandOf(g.world);
+  const m = eduContent();
+  if (band === 'main' || !m) return null;
+  return {
+    chapter: (n: number) => m.eduChapterText(band, n),
+    goal: (quest: string, step: string) => m.eduGoal(band, quest, step),
+    title: (quest: string) => m.eduQuestTitle(band, quest),
+  };
+}
 
 /** The campaign journal: chapter, goal and hint, friends, and the Paths page of endings. */
 export class Journal {
@@ -46,7 +61,9 @@ export class Journal {
         'chapter',
         STORY_TEXT.chapter(
           Math.min(c.chapter, 12),
-          chapterDef(Math.min(c.chapter, 12))?.title ?? '',
+          eduJournal(g)?.chapter(Math.min(c.chapter, 12))?.title ??
+            chapterDef(Math.min(c.chapter, 12))?.title ??
+            '',
         ),
       ],
       ['paths', STORY_TEXT.paths],
@@ -98,12 +115,14 @@ export class Journal {
       const st = store[id]!;
       const step = quest?.steps[Math.min(st.step, (quest?.steps.length ?? 1) - 1)];
       if (!quest || !step) continue;
-      this.body.appendChild(el('p', undefined, `${quest.title}: ${step.goal}`));
+      const edu = eduJournal(g)?.goal(id, step.id);
+      const title = eduJournal(g)?.title(id) ?? quest.title;
+      this.body.appendChild(el('p', undefined, `${title}: ${edu?.goal ?? step.goal}`));
       // S18 lent the register to the museum; Delve has brought it back.
       const hint =
         id === 's10' && st.step === 0 && c.flags['s18-centre'] === 'register'
           ? STORY_TEXT.registerOnLoan
-          : step.hint;
+          : (edu?.hint ?? step.hint);
       this.body.appendChild(el('p', 'help', hint));
       if (sideActable(g.world, c, id)) {
         this.body.appendChild(
@@ -148,10 +167,11 @@ export class Journal {
       this.body.appendChild(el('p', 'help', STORY_TEXT.endingReached(ending?.title ?? '')));
     } else {
       const met = goalMet(g.world, c);
+      const edu = eduJournal(g)?.chapter(c.chapter);
       this.body.appendChild(el('div', 'btn-name', `${STORY_TEXT.goal}${met ? ' ✓' : ''}`));
-      this.body.appendChild(el('p', undefined, def.goalText));
+      this.body.appendChild(el('p', undefined, edu?.goalText ?? def.goalText));
       this.body.appendChild(el('div', 'btn-name', STORY_TEXT.hint));
-      this.body.appendChild(el('p', 'help', def.hint));
+      this.body.appendChild(el('p', 'help', edu?.hint ?? def.hint));
     }
     this.renderSideStories(g);
     this.renderMemories(g);
