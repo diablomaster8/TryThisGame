@@ -30,6 +30,14 @@ The reference is `docs/reference/chao-world-lineup.jpg` (the YouTube thumbnail, 
 figures left to right: quills, echidna, fox, dream, Eternal Neutral, shade, Eternal Moon).
 Steps, newest first, one commit each:
 
+4a. **look-echidna against slice 2** (`docs/samples/match-echidna.jpg`). Crimson `#b8344f`; head
+   ×1.2 with a wide low dome (1.12 × 0.8 × 0.92), a white muzzle ellipsoid, five white tuft
+   spikes (the crown slot; `crownShade` white so the baked crown ring does not stain them),
+   `bigEar` (new: a pale disc over a body-coloured lobe), a green `halo` ball, a white belly
+   patch with a green dot, `gloveArm` (new `y`, `reach`) and `mechLegs` (new `size`) with white
+   shoes. Still differs: no headband (the reference has none; the brief's was a misread of the
+   tuft); the eyes are our dark arcs, the thumbnail's are pale crescents; the ears sit a little
+   wider and rounder; the gloves hang where the happy pose drops them, the reference's are raised.
 3. **look-quills against slice 1** (`docs/samples/match-quills.jpg`, stage left, reference
    right). New in the format: `headScale` on `variant()` grows everything above the neck about
    the head's pivot (primitives, box, eyes, mouth, ball, ears, marks) before the `eyes`,

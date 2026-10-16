@@ -94,6 +94,36 @@ const roundEar = (dx: number, color: string, r = 0.32): PartSpec => ({
   resolution: 40,
 });
 
+/**
+ * A huge flat-faced round ear: a pale front disc over a darker back lobe, so the outline
+ * reads as the pale cap sitting on a body-coloured ear (in the head's pre-scale coordinates).
+ */
+const bigEar = (dx: number, front: string, back: string): PartSpec => ({
+  name: dx < 0 ? 'earL' : 'earR',
+  pivot: V(dx * 0.7, 2.2, -0.1),
+  prims: [
+    {
+      kind: 'ellipsoid',
+      a: V(dx * 0.95, 2.32, -0.25),
+      r: 0,
+      radii: V(0.33, 0.42, 0.28),
+      color: back,
+      tag: 'ear',
+    },
+    {
+      kind: 'ellipsoid',
+      a: V(dx * 0.99, 2.34, -0.04),
+      r: 0,
+      radii: V(0.27, 0.36, 0.23),
+      color: front,
+      tag: 'ear',
+      blend: 0.04,
+    },
+  ],
+  box: [V(dx < 0 ? -2.0 : 0.2, 1.6, -0.9), V(dx < 0 ? -0.2 : 2.0, 3.1, 0.6)],
+  resolution: 48,
+});
+
 /** A pointed ear: a cone from the crown's base up and slightly out, hinged at its base. */
 const pointEar = (dx: number, color: string, len = 0.7): PartSpec => ({
   name: dx < 0 ? 'earL' : 'earR',
@@ -317,24 +347,34 @@ function quillShades(quills: Prim[], color: string): Mark[] {
  * A short arm ending in a big round glove with a cuff: the glove is a ball, the cuff a
  * smaller ball stepping out of the sleeve, so the outline draws the cuff's edge.
  */
-const gloveArm = (dx: number, body: string, glove: string): PartSpec => ({
-  name: dx < 0 ? 'armL' : 'armR',
-  // The arms stick straight out sideways in the line-up.
-  pivot: V(dx * 0.55, 1.0, 0.1),
-  prims: [
-    {
-      kind: 'capsule',
-      a: V(dx * 0.55, 1.0, 0.1),
-      b: V(dx * 1.0, 0.98, 0.14),
-      r: 0.13,
-      color: body,
-      tag: 'arm',
-    },
-    ball(V(dx * 1.03, 0.98, 0.14), 0.2, glove, 'cuff'),
-    { ...ball(V(dx * 1.3, 0.98, 0.16), 0.3, glove, 'hand'), blend: 0.06 },
-  ],
-  box: [V(dx < 0 ? -1.75 : 0.2, 0.5, -0.4), V(dx < 0 ? -0.2 : 1.75, 1.45, 0.6)],
-});
+const gloveArm = (
+  dx: number,
+  body: string,
+  glove: string,
+  o: { y?: number; reach?: number } = {},
+): PartSpec => {
+  // The arms stick straight out sideways in the quills' line-up; `y` lifts them and `reach`
+  // pulls the glove in or out.
+  const y = o.y ?? 1.0;
+  const k = o.reach ?? 1;
+  return {
+    name: dx < 0 ? 'armL' : 'armR',
+    pivot: V(dx * 0.55, y, 0.1),
+    prims: [
+      {
+        kind: 'capsule',
+        a: V(dx * 0.55, y, 0.1),
+        b: V(dx * (0.55 + 0.45 * k), y - 0.02, 0.14),
+        r: 0.13,
+        color: body,
+        tag: 'arm',
+      },
+      ball(V(dx * (0.55 + 0.48 * k), y - 0.02, 0.14), 0.2, glove, 'cuff'),
+      { ...ball(V(dx * (0.55 + 0.75 * k), y - 0.02, 0.16), 0.3, glove, 'hand'), blend: 0.06 },
+    ],
+    box: [V(dx < 0 ? -1.75 : 0.2, 0.5, -0.4), V(dx < 0 ? -0.2 : 1.75, 1.8, 0.6)],
+  };
+};
 
 /**
  * Mech lower legs under big shoes: a grey capsule with a red ring, a red shoe a third
@@ -343,8 +383,9 @@ const gloveArm = (dx: number, body: string, glove: string): PartSpec => ({
  */
 function mechLegs(
   spec: SpeciesSpec,
-  o: { leg: string; ring: string; shoe: string; stripe: string },
+  o: { leg: string; ring: string; shoe: string; stripe: string; size?: number },
 ): void {
+  const k = o.size ?? 1;
   for (const ps of spec.parts) {
     if (!ps.name.startsWith('leg')) continue;
     const x = (ps.name === 'legL' ? -1 : 1) * 0.4;
@@ -371,16 +412,16 @@ function mechLegs(
         kind: 'ellipsoid',
         a: V(x, 0.1, 0.3),
         r: 0,
-        radii: V(0.37, 0.28, 0.52),
+        radii: V(0.37 * k, 0.28 * k, 0.52 * k),
         color: o.shoe,
         tag: 'foot',
         blend: 0.05,
       },
       {
         kind: 'ellipsoid',
-        a: V(x, 0.28, 0.68),
+        a: V(x, 0.28 * (0.5 + 0.5 * k), 0.3 + 0.38 * k),
         r: 0,
-        radii: V(0.4, 0.07, 0.17),
+        radii: V(0.4 * k, 0.07, 0.17 * k),
         color: o.stripe,
         tag: 'stripe',
         blend: 0.02,
@@ -417,6 +458,9 @@ const QUILLS_SHOE = '#d8302a';
 const QUILLS_NAVY = '#2443c4';
 const QUILLS_CLUSTER = quillCluster(QUILLS_NAVY);
 
+/** The echidna look's body: a deep crimson-maroon, darker than the flat red of the quills' shoes. */
+const ECHIDNA_BODY = '#b8344f';
+
 const look = (id: string, name: string, o: VariantOverrides): NubbinVariant => ({
   id,
   family: 'special',
@@ -442,23 +486,78 @@ export const SPECIAL_VARIANTS: NubbinVariant[] = [
     notes: 'Orange and white with goggles on the brow, pointed ears and twin white-tipped tails.',
   }),
   look('look-echidna', 'Nubbin (Echidna look)', {
-    colors: { body: '#e0304a', belly: WHITE, tip: WHITE, pad: '#e0304a', crownShade: '#9e2b3f' },
-    slots: { ears: [roundEar(-1, WHITE), roundEar(1, WHITE)] },
-    ball: { color: '#3fbfa8', glow: '#1e7a74' },
-    hints: [chestMark(WHITE, 1.05, 0.34)],
-    patch: (spec) => {
-      spec.head.prims.push({
-        kind: 'torus',
-        a: V(0, 2.32, 0),
-        r: 0.63,
-        r2: 0.07,
-        color: WHITE,
-        tag: 'band',
-        blend: 0.04,
-      });
-      dress(spec, { gloves: WHITE, shoes: '#e0304a' });
+    colors: {
+      body: ECHIDNA_BODY,
+      belly: WHITE,
+      tip: WHITE,
+      pad: ECHIDNA_BODY,
+      iris: '#1e7a74',
+      blush: ECHIDNA_BODY,
+      star: ECHIDNA_BODY,
+      crownShade: WHITE,
     },
-    notes: 'Rose red with big round white ears, a white headband, white gloves and a green ball.',
+    // A low white tuft of short spikes on the top of the dome, in place of the crown.
+    crown: [
+      cone(V(0, 2.6, 0.1), V(0, 2.98, 0.05), 0.26, 0.03, WHITE, 'crown', 0.03),
+      cone(V(-0.3, 2.58, 0.1), V(-0.64, 2.86, 0), 0.22, 0.03, WHITE, 'crown', 0.03),
+      cone(V(0.3, 2.58, 0.1), V(0.64, 2.86, 0), 0.22, 0.03, WHITE, 'crown', 0.03),
+      cone(V(-0.15, 2.55, 0.35), V(-0.32, 2.9, 0.55), 0.2, 0.03, WHITE, 'crown', 0.03),
+      cone(V(0.15, 2.55, 0.35), V(0.32, 2.9, 0.55), 0.2, 0.03, WHITE, 'crown', 0.03),
+    ],
+    slots: {
+      ears: [bigEar(-1, WHITE, ECHIDNA_BODY), bigEar(1, WHITE, ECHIDNA_BODY)],
+      arms: [
+        gloveArm(-1, ECHIDNA_BODY, WHITE, { y: 1.3, reach: 0.8 }),
+        gloveArm(1, ECHIDNA_BODY, WHITE, { y: 1.3, reach: 0.8 }),
+      ],
+    },
+    // The reference's ball is a flat green ring floating over the head.
+    ball: { shape: 'halo', color: '#2fa84a', glow: '#1e7a3a' },
+    hints: [
+      // A big white belly patch with a green dot.
+      {
+        kind: 'ellipsoid',
+        a: V(0, 0.98, 0.5),
+        radii: V(0.36, 0.36, 0.3),
+        color: WHITE,
+        soft: 0.01,
+      },
+      { kind: 'sphere', a: V(0, 1.2, 0.52), r: 0.1, color: '#4cc47a', soft: 0.01 },
+    ],
+    headScale: 1.2,
+    eyes: { r: 0.34, tall: 1.15, brow: false },
+    mouth: { shape: 'smile', width: 0.26, y: 1.72, z: 1.0, line: '#c8203a' },
+    patch: (spec) => {
+      // A wide, low dome and a small body, as in the line-up.
+      const dome = spec.head.prims.find((p) => p.tag === 'head')!;
+      dome.a.set(0, 2.0, 0);
+      dome.radii!.set(1.12, 0.8, 0.92);
+      const belly = spec.torso.prims.find((p) => p.tag === 'belly')!;
+      belly.a.set(0, 1.0, 0);
+      belly.radii!.set(0.56, 0.5, 0.54);
+      spec.shade = { top: 1.0, bottom: 0.94, yMax: 3.5 };
+      // The white muzzle across the lower face.
+      spec.head.prims.push({
+        kind: 'ellipsoid',
+        a: V(0, 1.72, 0.72),
+        r: 0,
+        radii: V(0.58, 0.3, 0.3),
+        color: WHITE,
+        tag: 'muzzle',
+        blend: 0.08,
+      });
+      widen(spec.head, { x: 1.7, z: -1.2 });
+      mechLegs(spec, {
+        leg: ECHIDNA_BODY,
+        ring: ECHIDNA_BODY,
+        shoe: WHITE,
+        stripe: WHITE,
+        size: 0.8,
+      });
+    },
+    notes:
+      'Line-up figure 2 (Part G8b): crimson, a wide low head with a white tuft, huge white ears, ' +
+      'a white muzzle and belly patch with a green dot, white gloves and shoes, a green ring above.',
   }),
   look('look-rose', 'Nubbin (Rose look)', {
     colors: {
