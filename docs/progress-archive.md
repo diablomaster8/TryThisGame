@@ -2,6 +2,82 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## 3D boot: terrain in a worker, the sky's first bake warmed (2026-10-16)
+
+Works: the terrain's heights, normals and rock/dirt blend are sampled in a worker
+(`render3d/terrain-worker.ts`; the samplers and `terrainArrays` moved unchanged to the pure
+`terrain-shape.ts`, which `terrain.ts` re-exports). The mesh starts on a one-triangle
+placeholder with the same attributes, so programs key as before, and the buffers are poured
+in as a new geometry when they land. The sky's first PMREM bake linked four programs
+synchronously in the first `setDaylight`: 70–115 ms (305 ms with the browser's shader cache
+cold). `GroveSky` now compiles them with `compileAsync` at construction (reaching into the
+pinned PMREMGenerator's internals) and holds a blank target of the same shape as the
+environment until they link, then bakes (12–31 ms, no compile). `loadState` waits for both.
+Measured on Maor's PC (dev build, preview, seeded free slot 3, frames driven by hand, three
+warm runs each, HEAD vs this pass): constructor 393–407 ms → 189–261 ms (terrain mark
+258–276 → 18–32 ms; props rose 92–95 → 132–193 ms, its height sampler is no longer warmed
+by the terrain loop); first `setDaylight` 70–115 ms → 0. Look: two frozen views (11:00 and
+18:30, windmill blades pinned, creatures hidden) are pixel-identical to HEAD; both builds
+link the same 49 programs. Not done: props (grass placement) still on the page. Not
+verified: the no-worker fallbacks; any phone. No new stubs or known bugs. The earlier boot
+pass (textures in workers, compile ahead) is in `docs/progress-archive.md`.
+
+## CV1: campaign v2, its sim changes and the side-story runner (2026-10-16)
+
+Works:
+
+- `config/story.ts` takes `CHAPTERS`, `SCENES`, `ENDINGS` and the speakers (Wisp, `chorus`) from
+  `src/content/campaign.ts`. `UNDERSTUDY` is gone (fixes B1): the Keeper picked on the title
+  only sets the player's portrait, and "you" is named You. Chorus lines show in italics with no
+  portrait.
+- `sim/story-scenes.ts` registers every campaign scene, every Grove side-story scene (S1–S31) and
+  every `_VARIANTS` scene. `sceneFor` applies the line swaps from the notes: `c11-close` (S8's
+  empty arm, the `s9-ask` evening line), `c12-open` (S26's walled garden spliced in), the S10
+  letters with Open, the S6 register on loan and S17's nursery line. The dialogue box uses it.
+- `sim/campaign-routes.ts` holds the scene-notes routing: chapter 4's tale, `c5-circuit` and
+  `c5-considered`, `c5-sold`, `c6-open-walked`, the stillness parts, `c8-ledge(-s4)`, `c8-nova`,
+  `c9-partner` and `c9-open-sold`, the four shard scenes, the whole Long Night, the chapter 11
+  Moss add-ons, `c11-gate`, the chapter 12 foot and walk scenes, and `endingScenes` (body variant,
+  then wisp, gate, visitors, mill, walk, cinder, told or secret, garden, then `-last`).
+- The chapter 10 vigil (`stepVigil`, `STORY` in tuning): progress runs only while all four
+  lanterns are lit; wave one blows out the stream lantern, wave two marks the Long-Grass one low;
+  `c10-lull` halfway; `c10-falls` at dawn. No fail state. Moss leaves the world after
+  `c10-bank-moss-gone` and `c10-moss-fades`; his flower goes by the flat stone.
+- `endingFor` follows the bible: the Collector also comes from `keptStone`; Hazel's Grove ignores
+  the final choice, and with `letThemGo` plays `end-hazels-grove-open`; `mossFaded()` includes
+  "carried the stone in and did not come back".
+- `sim/side-stories.ts` runs S5, S9, S10, S27 and S28: opening, step gates (story dawns and
+  dusks), checks, variants, unfinished closes, S10's lapse and S9's jump to the dawn gate. The
+  holds: S5 holds `c5-close`; S27 and S28's autumn steps hold chapter 9; `c11-close` waits for S9
+  (or `keptStone`, or the dusk after `threeFriends`); S10's night holds chapter 12; S9's gate
+  scene plays before `c12-open`; S10's letter plays before the ending.
+- S27's buy-back (`applyChoice`, scene `s27-home`, pay or hat, only on the sold path) brings the
+  `soldId` stray home, or sets it walking to the gate when the Grove is full. The runner path
+  creates Nine as a grey stray.
+- The journal lists the open side stories with their goal and hint, and a "Do it" button.
+- Saves: old campaign saves gain the new fields; queued ids the v2 script lacks are dropped.
+- Tests: `tests/sim/campaign-v2.test.ts` (25), including `endingFor` against the bible's order
+  over every flag combination (1,000+), Open, the Long Night branches, each hold, the buy-back
+  and the line swaps. The run driver moved to `tests/sim/campaign-driver.ts`.
+
+Stubbed:
+
+- Side-story checks the sim can't watch (carry, find, minigames) are met by the journal's "Do
+  it". Places, props, items (old trowel, Hazel's lantern) and side-story rewards aren't built.
+- Only these five stories run. The other `_VARIANTS` (S2, S8, S13, S19, S23–S26, S29–S31) are
+  registered but not chosen. The campaign-side hooks those stories feed (`visitors`,
+  `hushGarden`, `millLetter`, `cinder`, `wisp`) are read wherever their flags are set.
+- `s28-null-minder` (needs S7), S27's spring scene, Wisp's stray spawn after `c10-bank-wisp`,
+  and per-line voice clips (none exist yet).
+
+Assumptions: a story day is `STORY.dayMs` (120 s) of sim time with dusk at 75%, since the sim
+has no time of day of its own. `c5-circuit` plays straight after `c5-open` (the note's
+fallback). S27 opens in chapter 6 rather than "the first Circuit visit". The vigil's wave
+lanterns (`lantern-2` stream, `lantern-4` Long Grass) are a guessed mapping.
+
+Known issues: the main bundle grew from 1.14 MB to 2.02 MB (minified), because the scene registry
+bundles all the Grove side-story scripts. Lazy-loading them is a follow-up.
+
 ## Part G8b: matching the "Chao World" line-up (2026-10-16)
 
 The reference is `docs/reference/chao-world-lineup.jpg` (the YouTube thumbnail, seven
@@ -26,7 +102,7 @@ file under 150 lines.
    Reads as the reference's line-up; the fox's eyes are shut by the happy pose (open in the
    thumbnail), and the stage's pastel grass and sky stay as the brief kept them. (The split of
    `nubbin-variants-special.ts` this slice flagged is done; see the entry at the top.)
-4f. **eternal-moon against slice 7** (`docs/samples/match-eternal-moon.jpg`). Flat indigo
+   4f. **eternal-moon against slice 7** (`docs/samples/match-eternal-moon.jpg`). Flat indigo
    `#2e2660` armour, a blue crest panel down the crown between two small icy horns, white oval
    eyes under the happy arcs, icy shoulder spikes, a pale chest mark, a spiked ball, and lilac
    crystals standing round the feet (`crystalSpike` with glow, `footCrystals`, new; they replace
@@ -34,7 +110,7 @@ file under 150 lines.
    a plated, textured surface with blue highlights where ours is flat indigo; its raised fists
    and wide shoulder spikes read clearly, ours are lost in the hop; its foot crystals are a
    dense jagged ring, ours a few cones; the crystals' glow does not show in toon mode.
-4e. **look-shade against slice 6** (`docs/samples/match-shade.jpg`). A near-black `#2c2a34` cat
+   4e. **look-shade against slice 6** (`docs/samples/match-shade.jpg`). A near-black `#2c2a34` cat
    suit (a little lifted so the toon bands show), tall pointed ears with grey inner cones
    (`catEar`, new), three white spikes standing up behind the crown, white oval eyes with the
    white slash over the left, a small red mouth, arms folded across the chest (`foldedArm`,
@@ -43,7 +119,7 @@ file under 150 lines.
    figure is leaning and three-quarter, ours faces front; its ears are shorter and set
    further apart; the diamond is a rotated square, ours a lilac oval; the crown spikes sit
    at the back in the thumbnail, ours stand on top; the grey of the ball is lost (stage ball).
-4d. **eternal-neutral against slice 5** (`docs/samples/match-eternal-neutral.jpg`). A flat lime
+   4d. **eternal-neutral against slice 5** (`docs/samples/match-eternal-neutral.jpg`). A flat lime
    `#7ee02c` dragon with a yellow-green belly patch, salmon hands and toes (marks on the feet),
    a small crown spike and two small horns tipped salmon, white oval eyes with the happy ^
    (white marks under the arcs, as in the dream look), a gold chain (a torus collar plus a row
@@ -54,7 +130,7 @@ file under 150 lines.
    body is wider and flatter with arms held out, ours has a rounder body and the happy pose
    drops the arms; the toes' gradient from green to pink is a soft mark; the pink ball is
    cropped (and the stage's ball is glassy); no scale ridges on the belly.
-4c. **look-dream against slice 4** (`docs/samples/match-dream.jpg`). Again not the brief's jester
+   4c. **look-dream against slice 4** (`docs/samples/match-dream.jpg`). Again not the brief's jester
    point: the figure is a flat magenta `#a82a8c` with an onion-shaped head (a wide dome and a
    narrow cone melted into it), tiny ear points, a gold horn on the forehead, big white oval eyes
    with the happy ^ across them (white ellipsoid marks under the arcs), a dark smudge on the
@@ -63,7 +139,7 @@ file under 150 lines.
    our ball is the stage's glassy pearl, not the reference's black one (the spec colour does
    not reach its material); the bracers' studs are two gold beads, not a row; the happy hop
    tilts the figure, which the still thumbnail does not.
-4b. **look-fox against slice 3** (`docs/samples/match-fox.jpg`, idle pose: the reference's eyes are open
+   4b. **look-fox against slice 3** (`docs/samples/match-fox.jpg`, idle pose: the reference's eyes are open
    and our happy pose shuts them). The line-up's third figure is not the orange fox the brief
    described: it is a black hood edged by a pink V over a cream face, big navy eyes, an orange
    crown with a white stripe, goggles pushed up on the right, an orange vest with black sides
@@ -74,7 +150,7 @@ file under 150 lines.
    Still differs: the hood's top is a flat black mass where the thumbnail shows orange and
    white stripes; the V is thinner and the cream chin shorter; no hood side flaps; our eyes
    keep the glossy sky catchlight; the twin tails are kept (not visible from the front).
-4a. **look-echidna against slice 2** (`docs/samples/match-echidna.jpg`). Crimson `#b8344f`; head
+   4a. **look-echidna against slice 2** (`docs/samples/match-echidna.jpg`). Crimson `#b8344f`; head
    ×1.2 with a wide low dome (1.12 × 0.8 × 0.92), a white muzzle ellipsoid, five white tuft
    spikes (the crown slot; `crownShade` white so the baked crown ring does not stain them),
    `bigEar` (new: a pale disc over a body-coloured lobe), a green `halo` ball, a white belly
@@ -82,7 +158,7 @@ file under 150 lines.
    shoes. Still differs: no headband (the reference has none; the brief's was a misread of the
    tuft); the eyes are our dark arcs, the thumbnail's are pale crescents; the ears sit a little
    wider and rounder; the gloves hang where the happy pose drops them, the reference's are raised.
-3. **look-quills against slice 1** (`docs/samples/match-quills.jpg`, stage left, reference
+6. **look-quills against slice 1** (`docs/samples/match-quills.jpg`, stage left, reference
    right). New in the format: `headScale` on `variant()` grows everything above the neck about
    the head's pivot (primitives, box, eyes, mouth, ball, ears, marks) before the `eyes`,
    `mouth` and `patch` overrides; `eyes.brow: false` leaves the brow ridge off; `mouth.line`
@@ -105,7 +181,7 @@ file under 150 lines.
    behind it; the closed happy eyes are our dark arcs where the thumbnail shows white
    crescents; the emblem is a disc, not a hexagon; the ball above the head stays (the
    reference crops it); the muzzle's edge is softer than the flat-shaded original.
-1–2. Toon stage mode (`&toon`) and the reference overlay (`&ref`): moved to `docs/progress-archive.md`.
+   1–2. Toon stage mode (`&toon`) and the reference overlay (`&ref`): moved to `docs/progress-archive.md`.
 
 ## 3D boot: textures in workers, programs compiled ahead (2026-10-16)
 
@@ -158,8 +234,7 @@ Moved from the "Part G8b" section of PROGRESS.md, which keeps steps 3 onward.
 Works: each surface goes to a worker as plain data (`samples/sculpt-spec.ts`); hooks are
 named rules (`sculpt-rules.ts`, row note in species-format.md). Workers read IndexedDB
 (`render3d/sculpt-cache.ts`, key look#index@res, version = code hash + spec hash) and the
-page writes in one batch after loading. `sculpt()` now welds before baking (17 MB cache, was
-79) and fills far blocks of the grid (exact: tested on 852 surfaces). `settings.sculptRes`
+page writes in one batch after loading. `sculpt()` now welds before baking (17 MB cache, was 79) and fills far blocks of the grid (exact: tested on 852 surfaces). `settings.sculptRes`
 comes from a boot benchmark (`sculpt-res.ts`, `SCULPT_RES`); saved creatures start in
 `prewarm.ts` before the scene is built; a veil with a bar waits for every figure.
 Measured on Maor's PC, hidden pane, frames driven by hand, Keeper + 8 Nubbins (7 looks):

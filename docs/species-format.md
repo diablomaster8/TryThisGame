@@ -251,7 +251,9 @@ without a joint keep the old swing at the hip; every roster biped and quadruped 
 `Rigged` adds to a built creature: `setPose(pose)`, `bones`, `ground` (set by the stage:
 height at a world x,z; the builder drops the root until the lowest contact point sits 0.02
 into the grass, tilts the body to the slope, and lays the shadow blob over the terrain),
-`strideLength` / `stridePeriod`, `lookAt` (a world point or null; the `pet` pose turns and
+`strideLength` / `stridePeriod`, `lift` (set by the stage: how far a held or flying body is
+carried above the ground, in world units; the body rises by it after the grounding and the
+shadow blob stays down on the terrain, fainter the higher it is), `lookAt` (a world point or null; the `pet` pose turns and
 leans the head toward it, the yaw and pitch clamped to 0.7 and 0.4 rad, and the irises
 follow it in every pose) and `face(yaw)`, which turns the creature to a world yaw over
 0.4 s with a lean into the turn. `window.groveStage.turnTo(deg)` turns the whole stage

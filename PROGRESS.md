@@ -8,14 +8,58 @@ new pass goes in at line 12 and the file is long, move the oldest section to
 
 Shipped and deployed: v1, the organic painted Grove, the Digimon-inspired ten, the Hollow
 Below dungeons, the 96-unit field, three save slots per mode, and the Full 3D mode as a
-Graphics setting (`src/render3d/`, worker sculpting, geometry cache, boot work) with the
-pixel mode unchanged. Story content pack in `src/content/` with CV1 wired (campaign v2,
+Graphics setting (`src/render3d/`, worker sculpting, geometry cache, boot work, the G13
+polish pass: pet state, knees, lids, tumble, shoreline, dressed visits) with the pixel mode
+unchanged. Story content pack in `src/content/` with CV1 wired (campaign v2,
 endings, the runner for S5, S9, S10, S27, S28; side stories as a lazy chunk). In the
 working tree, unreviewed and uncommitted: Atlas A1–A10 and A22–A31 (plan.md Task B-R1).
 Review of everything done and open, and the v3 plan with briefs: `plan.md` (2026-10-16).
 Waiting on Maor: the expansion pick E1–E3 / S1–S4, the daily-gift decision, seven
 fun-quest quotes, whether Full 3D becomes the default, his phone rows in the device pass.
 Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
+
+## G13: the 3D stub list, one commit each (2026-10-16)
+
+Checked on the stage and in Full 3D (`?free`, Graphics = Full 3D); shots `docs/samples/polish-*.jpg`.
+Works:
+- `pet` behaviour state (`BEHAVIOR.petMs`): `petNubbin` puts a free Nubbin into it facing the
+  Keeper. The pixel clip stays `happy` with its hearts; the 3D rig holds the pet pose with the
+  Keeper's right hand (`KEEPER_HAND_FROM_ELBOW` through the elbow bone) as `lookAt`, and the
+  Keeper strokes for as long as the state lasts. On land the Keeper now walks to arm's length
+  first; the pond's long reach applies only to a target pulled back to the shore. `polish-1`.
+- Knees: the Nubbin's stubs and two new legs on the Mossling are two-segment `joint` legs with
+  planted feet and short quick strides (the body crouches about 12% walking); bipeds tuck their
+  knees on the happy hop. The Wisp hovers on its vapour skirt and has nothing to bend, so it
+  keeps no legs (my reading of the brief). Variant looks that replace leg prims drop the joint.
+  `polish-2`.
+- Lids are shells that hug the dome and close by growing down it (`setLid(lid, k)`,
+  `lidShell`): the old tilted cap let a tall eye's white through and bulged when shut. Fennel's
+  eyes close asleep; Bolder's sleep drops the thighs level, sweeps the legs in and folds the
+  knees so they tuck under. `polish-3`, `polish-3-fennel`.
+- Hearts and Zzz are camera-facing quads (`glyphQuad`, depth-tested, turned in onBeforeRender).
+  The stub's claim did not reproduce: Sprites were already hidden by an opaque body on the
+  stage, so this is the form the brief asked for rather than a visible fix. `polish-4`.
+- A thrown Nubbin rolls once about its side axis over the flight (`Actors.tumble`, the time
+  from the sim's launch speed and height) and lands upright; `Rigged.lift` carries a held or
+  flying body above the real ground so the shadow blob stays on the terrain. `polish-5`.
+- Shoreline: direct input clamps to the shore as tap targets did (unit test in
+  `world.test.ts`); with the Swim perk the 3D Keeper wades on the pond bed, at most
+  `GROVE3D.wadeDepth` under the surface. `polish-6`.
+- `visit:<trainer>`: `render3d/visit.ts` dresses a neighbour's Grove (grass round, three trees,
+  a fence with a gate gap, the house with its roof in the neighbour's alignment colour); the
+  crowd adds their Nubbins (`first-<band>-<type>` looks, or their line's recipe) and the host
+  (pick `building`/`host`, as in the pixel view); the player's Nubbins and items stay home.
+  `game.ts` passes the real location to the 3D scene now. `polish-7`.
+
+Stubbed / known:
+- The visit ground is one grass texture repeated and tiles visibly; the home terrain's blended
+  surface is not reused. No ripple round a wading Keeper. The emote ball is still a Sprite.
+- The pixel mode draws a wading Keeper as before; only the sim change (the shoreline) reaches it.
+- The browser pane ran at about 1 fps, so motion (tumble, gait, petting) was judged from frames
+  driven by hand with `grove.frame()`; smoothness on a real device is unverified.
+- The shared working tree held another session's half-finished sim edits (`side-rules-late.ts`
+  did not compile), so every gate and screenshot ran in the `.idx-check` export of HEAD plus
+  this pass (`tests`: 219 sim tests pass there).
 
 ## 2026-10-16: B2 debug panel guard, B3 panel stack
 
@@ -60,78 +104,3 @@ Stubbed / known:
   Lazy-loading it the same way would bring the index near 1.13 MB.
 - Code that runs before `loadSideStories` resolves sees an empty `GROVE_SIDE_STORIES`;
   today nothing does.
-
-## CV1: campaign v2, its sim changes and the side-story runner (2026-10-16)
-
-Works:
-- `config/story.ts` takes `CHAPTERS`, `SCENES`, `ENDINGS` and the speakers (Wisp, `chorus`) from
-  `src/content/campaign.ts`. `UNDERSTUDY` is gone (fixes B1): the Keeper picked on the title
-  only sets the player's portrait, and "you" is named You. Chorus lines show in italics with no
-  portrait.
-- `sim/story-scenes.ts` registers every campaign scene, every Grove side-story scene (S1–S31) and
-  every `_VARIANTS` scene. `sceneFor` applies the line swaps from the notes: `c11-close` (S8's
-  empty arm, the `s9-ask` evening line), `c12-open` (S26's walled garden spliced in), the S10
-  letters with Open, the S6 register on loan and S17's nursery line. The dialogue box uses it.
-- `sim/campaign-routes.ts` holds the scene-notes routing: chapter 4's tale, `c5-circuit` and
-  `c5-considered`, `c5-sold`, `c6-open-walked`, the stillness parts, `c8-ledge(-s4)`, `c8-nova`,
-  `c9-partner` and `c9-open-sold`, the four shard scenes, the whole Long Night, the chapter 11
-  Moss add-ons, `c11-gate`, the chapter 12 foot and walk scenes, and `endingScenes` (body variant,
-  then wisp, gate, visitors, mill, walk, cinder, told or secret, garden, then `-last`).
-- The chapter 10 vigil (`stepVigil`, `STORY` in tuning): progress runs only while all four
-  lanterns are lit; wave one blows out the stream lantern, wave two marks the Long-Grass one low;
-  `c10-lull` halfway; `c10-falls` at dawn. No fail state. Moss leaves the world after
-  `c10-bank-moss-gone` and `c10-moss-fades`; his flower goes by the flat stone.
-- `endingFor` follows the bible: the Collector also comes from `keptStone`; Hazel's Grove ignores
-  the final choice, and with `letThemGo` plays `end-hazels-grove-open`; `mossFaded()` includes
-  "carried the stone in and did not come back".
-- `sim/side-stories.ts` runs S5, S9, S10, S27 and S28: opening, step gates (story dawns and
-  dusks), checks, variants, unfinished closes, S10's lapse and S9's jump to the dawn gate. The
-  holds: S5 holds `c5-close`; S27 and S28's autumn steps hold chapter 9; `c11-close` waits for S9
-  (or `keptStone`, or the dusk after `threeFriends`); S10's night holds chapter 12; S9's gate
-  scene plays before `c12-open`; S10's letter plays before the ending.
-- S27's buy-back (`applyChoice`, scene `s27-home`, pay or hat, only on the sold path) brings the
-  `soldId` stray home, or sets it walking to the gate when the Grove is full. The runner path
-  creates Nine as a grey stray.
-- The journal lists the open side stories with their goal and hint, and a "Do it" button.
-- Saves: old campaign saves gain the new fields; queued ids the v2 script lacks are dropped.
-- Tests: `tests/sim/campaign-v2.test.ts` (25), including `endingFor` against the bible's order
-  over every flag combination (1,000+), Open, the Long Night branches, each hold, the buy-back
-  and the line swaps. The run driver moved to `tests/sim/campaign-driver.ts`.
-
-Stubbed:
-- Side-story checks the sim can't watch (carry, find, minigames) are met by the journal's "Do
-  it". Places, props, items (old trowel, Hazel's lantern) and side-story rewards aren't built.
-- Only these five stories run. The other `_VARIANTS` (S2, S8, S13, S19, S23–S26, S29–S31) are
-  registered but not chosen. The campaign-side hooks those stories feed (`visitors`,
-  `hushGarden`, `millLetter`, `cinder`, `wisp`) are read wherever their flags are set.
-- `s28-null-minder` (needs S7), S27's spring scene, Wisp's stray spawn after `c10-bank-wisp`,
-  and per-line voice clips (none exist yet).
-
-Assumptions: a story day is `STORY.dayMs` (120 s) of sim time with dusk at 75%, since the sim
-has no time of day of its own. `c5-circuit` plays straight after `c5-open` (the note's
-fallback). S27 opens in chapter 6 rather than "the first Circuit visit". The vigil's wave
-lanterns (`lantern-2` stream, `lantern-4` Long Grass) are a guessed mapping.
-
-Known issues: the main bundle grew from 1.14 MB to 2.02 MB (minified), because the scene registry
-bundles all the Grove side-story scripts. Lazy-loading them is a follow-up.
-
-
-## 3D boot: terrain in a worker, the sky's first bake warmed (2026-10-16)
-
-Works: the terrain's heights, normals and rock/dirt blend are sampled in a worker
-(`render3d/terrain-worker.ts`; the samplers and `terrainArrays` moved unchanged to the pure
-`terrain-shape.ts`, which `terrain.ts` re-exports). The mesh starts on a one-triangle
-placeholder with the same attributes, so programs key as before, and the buffers are poured
-in as a new geometry when they land. The sky's first PMREM bake linked four programs
-synchronously in the first `setDaylight`: 70–115 ms (305 ms with the browser's shader cache
-cold). `GroveSky` now compiles them with `compileAsync` at construction (reaching into the
-pinned PMREMGenerator's internals) and holds a blank target of the same shape as the
-environment until they link, then bakes (12–31 ms, no compile). `loadState` waits for both.
-Measured on Maor's PC (dev build, preview, seeded free slot 3, frames driven by hand, three
-warm runs each, HEAD vs this pass): constructor 393–407 ms → 189–261 ms (terrain mark
-258–276 → 18–32 ms; props rose 92–95 → 132–193 ms, its height sampler is no longer warmed
-by the terrain loop); first `setDaylight` 70–115 ms → 0. Look: two frozen views (11:00 and
-18:30, windmill blades pinned, creatures hidden) are pixel-identical to HEAD; both builds
-link the same 49 programs. Not done: props (grass placement) still on the page. Not
-verified: the no-worker fallbacks; any phone. No new stubs or known bugs. The earlier boot
-pass (textures in workers, compile ahead) is in `docs/progress-archive.md`.
