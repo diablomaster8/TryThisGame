@@ -20,6 +20,27 @@ Waiting on Maor: the expansion pick E1–E3 / S1–S4, the daily-gift decision, 
 fun-quest quotes, whether Full 3D becomes the default, his phone rows in the device pass.
 Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
 
+## Full 3D: event bursts and tree crowns (2026-10-16)
+
+Closes parity items 1 and 3 below. Checked in the browser pane on `?free&slot=3`, Full 3D,
+375x812, frames driven by hand from a HEAD export.
+
+Works:
+- Event bursts as in the pixel `burstFor` (8089255): sparkles for hatch, rebirth, growth,
+  evolution (with petals), Eternal, cocoons and the find sparkle for dungeons and chests;
+  hearts for love, sparkles for dizzy, crumbs for meals, dust for a shaken egg, a sparkle
+  where an item is collected; the squash on landing and the pop on hatch, evolve and
+  rebirth (pixel timings). `render3d/bursts.ts` draws three point clouds (dots, glowing
+  stars, hearts). Heights are fractions of the body, feet to head. Like the pixel side,
+  bursts ignore reduced motion. Shots `docs/samples/parity-3d-bursts-{evolve,love}.jpg`.
+- Tree crowns (fb96dd3): `render3d/crowns.ts` dithers a crown out when the camera is inside
+  it and thins it to `GROVE3D.crownFade.blocked` when it stands between the camera and the
+  Keeper (middle and head), hiding branches and fruit below half. A per-crown uniform, so
+  no recompile; the shadow stays. Shots `parity-3d-crown-{before,after,blocked}.jpg`.
+
+Stubbed: none. Known bugs: a trunk can still hide a Keeper standing right behind it; the
+dressed visit gardens (`visit.ts`) build trees without the fade.
+
 ## Pixel vs Full 3D parity pass (2026-10-16)
 
 Method: one seeded Free Grove save (`?free&slot=3`, snapshot reloaded for each mode) played
@@ -48,12 +69,10 @@ Works (fixed, one commit each):
   minigames pause the 3D render.
 
 Open, with estimates:
-1. Event bursts: 3D has only tree leaves and landing dust; no sparkle, hearts, crumbs or
-   petals for hatch, evolve, rebirth, Eternal, cocoon, eating, chests; no squash. 2-3 h.
+1. Done (8089255): event bursts, squash and pop in 3D (section above).
 2. Hollow Below entry stall in 3D (its lamps recompile every material, by design):
    compile asynchronously behind a fade. 1.5-2 h.
-3. Camera inside tree crowns at the close zoom hides the Keeper; fade crowns between
-   camera and Keeper. 1-2 h.
+3. Done (fb96dd3): crowns between the camera and the Keeper fade (section above).
 4. Highlight on non-creature picks (lantern, tree, building, stairs, chest, loot). 1-2 h.
 5. Story Hollow and Corvin's garden sets (a plain floor and a colour in 3D). 3-4 h.
 6. Hollow Below: no Keeper lamp, generic loot, no "?" over wild ones (Grove too). 1.5-2 h.
@@ -67,7 +86,7 @@ Open, with estimates:
 Shots: `docs/samples/parity-hollow-{pixel,3d}.png`, `parity-3d-portrait.png` (after the
 field-of-view fix), `parity-3d-crown.png` (item 3).
 
-Stubbed: none new. Known bugs: items 2, 3 and 10 above.
+Stubbed: none new. Known bugs: items 2 and 10 above.
 
 ## CV3 language questlines: Hebrew and Japanese in the Learning Grove (2026-10-16)
 
@@ -116,17 +135,6 @@ Assumptions: words are learned per Grove, not per Nubbin; Japanese learned words
 (the course note: "bow … at any word they have learned").
 
 Known bugs: none found.
-
-## Story scene replay fix (2026-10-16)
-
-Works:
-- A finished story scene no longer plays a second time. `Dialogue.finish` sends `sceneDone`,
-  which the sim applies on the next frame; at a low frame rate the HUD's 200 ms loop still
-  saw the old queue head and replayed it. `ui/scene-replay-guard.ts` holds the finished id
-  back until the queue head changes (tests in `tests/ui/`). Checked in the hidden browser
-  pane on `?edu=4&slot=3`: c1-letter closed once and stayed closed.
-
-Stubbed: none. Known bugs: none new.
 
 ## Standing approval (Maor, 2026-10-12)
 

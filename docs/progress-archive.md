@@ -2,6 +2,17 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Story scene replay fix (2026-10-16)
+
+Works:
+- A finished story scene no longer plays a second time. `Dialogue.finish` sends `sceneDone`,
+  which the sim applies on the next frame; at a low frame rate the HUD's 200 ms loop still
+  saw the old queue head and replayed it. `ui/scene-replay-guard.ts` holds the finished id
+  back until the queue head changes (tests in `tests/ui/`). Checked in the hidden browser
+  pane on `?edu=4&slot=3`: c1-letter closed once and stayed closed.
+
+Stubbed: none. Known bugs: none new.
+
 ## CV4/CV5 Atlas, Arcade and Multiverse saves (2026-10-16)
 
 Works:
