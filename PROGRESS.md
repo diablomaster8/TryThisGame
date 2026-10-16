@@ -9,7 +9,8 @@ new pass goes in at line 12 and the file is long, move the oldest section to
 Shipped and deployed: v1, the organic painted Grove, the Digimon-inspired ten, the Hollow
 Below dungeons, the 96-unit field, three save slots per mode. In progress: the full-3D
 mode, now a real Graphics setting (Pixel | Full 3D) with `src/render3d/`; the pixel mode
-ships unchanged. Latest pass: Part G8b, the toon stage mode and the line-up match, in progress. Waiting on Maor:
+ships unchanged; it now sculpts in workers and draws every species, place and stub
+(see "The 3D mode carried forward"). Latest pass: Part G8b, the toon stage mode and the line-up match, in progress. Waiting on Maor:
 the pick from expansions E1–E3 and campaigns S1–S4, and his device pass. Subagent briefs
 with model picks: `plan.md`. Improvement backlog against the Palworld references:
 `docs/creature-improvements.md`. Story content pack: `src/content/`, `script-book/`,
@@ -101,6 +102,18 @@ building, plant, stairs, chest and loot. Shots `mode3d-forward-{garden-moon,holl
 `form:<band-type>` only if a variant id is ever missing. Known: the Sun/Moon grade follows
 `setDaylight`, so it changes on the next sim step; a crowd of one new look (Corvin's 30)
 rigs one per frame, 100-200 ms each.
+**Step 3, known limits.** Feet: each rig keeps its own animation clock (`gait.ts`) that
+runs at real speed off the walk and at the sim's speed over the format's stride
+(`strideLength * scale / stridePeriod`) on it, capped at `GROVE3D.maxCadence` (4x): the
+figures' strides are short for the sim (the Keeper walks 6x its natural pace, a child 9x),
+so feet still slip a little at full speed; a stride-length field in the format would close
+it. Hill-top taps: measured, not a bug any more: `Picker3d` marches the heightfield, worst
+error 0.04 units over a 20x20 grid of taps against a 0.01-step march (the sim's flat
+ground only means walks ignore slope). **Final numbers, this PC, `?free` in Full 3D:**
+first frame 650-900 ms (scene programs), worst frame after it 228 ms with three children,
+a wild visitor and an NPC rigging in; Keeper on screen 1.5-3 s after load (stand-in until
+then). Not checked: a phone, Firefox and Safari module workers (the farm falls back to the
+page if a worker cannot start).
 
 ## Special forms after the "Chao World" line-up (2026-10-16)
 
@@ -129,42 +142,3 @@ seven `jewel-*` entries in `nubbin-variants-colour.ts` wear it at `scale` 0.55 (
 facets per body unit; 2.4 read as glitter) with a hard clearcoat. Shots:
 `docs/samples/variants-jewel-closeup.jpg` (`?aaa=1&creature=variant:jewel-ruby&closeup`) and
 `variants-colour.jpg` re-shot. Lint, 216 tests and build pass.
-
-## The full-3D mode, for real (2026-10-15)
-
-**Graphics setting** (Pixel | Full 3D, default Pixel): a select on the title screen and in
-Settings. It is a device-wide preference (`grove.graphics` in localStorage, read before any
-save is open) mirrored into `settings.graphics` on load; changing it in Settings saves and
-reloads. The pixel path is unchanged: `Game` takes `(canvas, hooks, graphics, scene3d)` and
-only branches on `scene3d`; `main.ts` lazy-loads the 3D chunk. **`src/render3d/`:**
-`Grove3dScene` (the WorldView members the Game drives plus `render`/`resize`): a heightfield
-from GROVE's hills with the pond and stream cut in and a rim at the edge (`terrain.ts`),
-slope-and-path blended material, 9 000 instanced grass tufts with `PUSHERS`, leaf-card fruit
-trees from the sim's tree list (tappable), physical water for the pond, the stream ribbons and
-the waterfall sheet, the cottage, school, dojo, well and windmill (sails turn), rocks, the
-four lantern posts (same ids as the pixel scene, lit by the same rule), the bridge and the
-cave mouth (`props.ts`); a Preetham sky with a PMREM environment re-baked when the sun moves
-(`sky.ts`), sun elevation from the hour, lamps and fireflies at night, rain as the sample's
-particles, bloom only below 16° (`GROVE3D.bloomBelowDeg`), SMAA. `CreaturePool` builds each
-look once with `buildSpecies`, scales it to `GROVE3D.{keeper,nubbin,adult}Height` and reuses
-rigs; `Actors` maps behaviour states to poses (held/carried/petted → `pet`, nap → `sleep`,
-eat, play/greet/court/perform/fetch → `happy`, moving → `walk`), eggs and cocoons as shells,
-fruit/toys/notebooks as props, memorial flowers, the pixel emote ball as a sprite over the
-head, a highlight ring and tap sparkles. Lakitu camera: the OrbitCamera's yaw snaps and two
-zoom levels map to orbit and `GROVE3D.distance`, eased, never under the ground; ground taps
-ray-march the heightfield (`Picker3d`); creatures pick by sphere. Screenshots
-`docs/samples/mode3d-{noon,golden,title}.jpg`. **Frame time on this PC** (1024×768, dpr 1,
-gl.finish loop; the browser pane pauses rAF while hidden so the FPS counter is not usable
-there): 2.9 ms full, 1.6 ms without shadows, 1.4 ms without water, 1.6 ms without grass.
-First builds on the main thread: Keeper 2.8–4.1 s, child 1.1–1.6 s, base Nubbin 1.1–1.5 s
-(the known stall at first load; worker sculpting is the next step).
-**Stubs** (each logs `[3d stub] …` once): `species:<id>` (pocket and digital lines draw as
-the base Nubbin), `form:<band-type>` (no variant found), `look:shiny-or-tone`, `pose:sad`
-(cry), `pose:swim`, `item:toy` (every toy a red ball), `weather:snow` (falls as rain),
-`dungeon:floor` and `location:<hollow|corvin|dungeon>` (a bare dark floor under the Grove
-sky), `event:tilePainted`, `event:decorPlaced`, `event:treeShaken`, `event:landed` (no
-bursts), `npcs`, `strays`, `plants`, `decor:placed`, `tiles`, `grove:<sun|moon>` (main
-colours). **Known limits:** no camera shake in 3D; walking feet slide (sim speed and stride
-differ); the Hollow has no rooms; the sim's ground is flat so hill-top taps land a little
-short; no device pass yet. One sim touch: `Settings.graphics` with its default and
-migration.

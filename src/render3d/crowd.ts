@@ -6,6 +6,7 @@ import type { Floor } from '../sim/dungeon';
 import { TRAINERS } from '../sim/trainers';
 import type { Location, World } from '../sim/types';
 import type { CreaturePool, Look } from './creature-pool';
+import { gaitTime } from './gait';
 
 /**
  * Everyone in the 3D scene who is not the Keeper or one of the Keeper's Nubbins: visiting
@@ -218,7 +219,7 @@ export class Crowd {
         m.rig.group.position.set(m.pos.x, gy + hop, m.pos.z);
         m.rig.ground = hop > 0 ? () => gy + hop : ground;
         m.rig.face(f.facing);
-        m.rig.animate(t + m.pos.x * 0.37);
+        m.rig.animate(gaitTime(m.rig, m.pos.x, m.pos.z, t + m.pos.x * 0.37, dt, f.pose === 'walk'));
         if (f.sad) {
           const lay = (name: string, x: number, z: number) => {
             const o = m.rig!.bones[name];

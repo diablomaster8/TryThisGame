@@ -2,6 +2,45 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## The full-3D mode, for real (2026-10-15)
+
+**Graphics setting** (Pixel | Full 3D, default Pixel): a select on the title screen and in
+Settings. It is a device-wide preference (`grove.graphics` in localStorage, read before any
+save is open) mirrored into `settings.graphics` on load; changing it in Settings saves and
+reloads. The pixel path is unchanged: `Game` takes `(canvas, hooks, graphics, scene3d)` and
+only branches on `scene3d`; `main.ts` lazy-loads the 3D chunk. **`src/render3d/`:**
+`Grove3dScene` (the WorldView members the Game drives plus `render`/`resize`): a heightfield
+from GROVE's hills with the pond and stream cut in and a rim at the edge (`terrain.ts`),
+slope-and-path blended material, 9 000 instanced grass tufts with `PUSHERS`, leaf-card fruit
+trees from the sim's tree list (tappable), physical water for the pond, the stream ribbons and
+the waterfall sheet, the cottage, school, dojo, well and windmill (sails turn), rocks, the
+four lantern posts (same ids as the pixel scene, lit by the same rule), the bridge and the
+cave mouth (`props.ts`); a Preetham sky with a PMREM environment re-baked when the sun moves
+(`sky.ts`), sun elevation from the hour, lamps and fireflies at night, rain as the sample's
+particles, bloom only below 16° (`GROVE3D.bloomBelowDeg`), SMAA. `CreaturePool` builds each
+look once with `buildSpecies`, scales it to `GROVE3D.{keeper,nubbin,adult}Height` and reuses
+rigs; `Actors` maps behaviour states to poses (held/carried/petted → `pet`, nap → `sleep`,
+eat, play/greet/court/perform/fetch → `happy`, moving → `walk`), eggs and cocoons as shells,
+fruit/toys/notebooks as props, memorial flowers, the pixel emote ball as a sprite over the
+head, a highlight ring and tap sparkles. Lakitu camera: the OrbitCamera's yaw snaps and two
+zoom levels map to orbit and `GROVE3D.distance`, eased, never under the ground; ground taps
+ray-march the heightfield (`Picker3d`); creatures pick by sphere. Screenshots
+`docs/samples/mode3d-{noon,golden,title}.jpg`. **Frame time on this PC** (1024×768, dpr 1,
+gl.finish loop; the browser pane pauses rAF while hidden so the FPS counter is not usable
+there): 2.9 ms full, 1.6 ms without shadows, 1.4 ms without water, 1.6 ms without grass.
+First builds on the main thread: Keeper 2.8–4.1 s, child 1.1–1.6 s, base Nubbin 1.1–1.5 s
+(the known stall at first load; worker sculpting is the next step).
+**Stubs** (each logs `[3d stub] …` once): `species:<id>` (pocket and digital lines draw as
+the base Nubbin), `form:<band-type>` (no variant found), `look:shiny-or-tone`, `pose:sad`
+(cry), `pose:swim`, `item:toy` (every toy a red ball), `weather:snow` (falls as rain),
+`dungeon:floor` and `location:<hollow|corvin|dungeon>` (a bare dark floor under the Grove
+sky), `event:tilePainted`, `event:decorPlaced`, `event:treeShaken`, `event:landed` (no
+bursts), `npcs`, `strays`, `plants`, `decor:placed`, `tiles`, `grove:<sun|moon>` (main
+colours). **Known limits:** no camera shake in 3D; walking feet slide (sim speed and stride
+differ); the Hollow has no rooms; the sim's ground is flat so hill-top taps land a little
+short; no device pass yet. One sim touch: `Settings.graphics` with its default and
+migration.
+
 ## Variants after the references (2026-10-15)
 
 Maor supplied three reference pages (the neutral evolution chart, a filled-gardens shot and

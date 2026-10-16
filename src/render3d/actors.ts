@@ -8,6 +8,7 @@ import type { Item, Location, Nubbin, Vec2, World } from '../sim/types';
 import { CreaturePool, keeperLook, nubbinLook, type Look } from './creature-pool';
 import { EGG_COLOURS } from '../samples/nubbin-variants-colour';
 import { Crowd, crowdFor } from './crowd';
+import { gaitTime } from './gait';
 import { WATER_LEVEL, groveHeight } from './terrain';
 import { buildToy } from './toys';
 
@@ -492,7 +493,7 @@ export class Actors {
           u.o.rotation.z -= u.z;
         }
         a.overlay.length = 0;
-        a.rig.animate(swimming ? t * 0.6 : t);
+        a.rig.animate(gaitTime(a.rig, x, z, t, dt, pose === 'walk', swimming ? 0.6 : 1));
         if (n.behavior.state === 'cry') this.droop(a, a.rig, t);
         this.ripple(a, swimming, x, z, t);
       } else if (a.stand) {
@@ -543,7 +544,7 @@ export class Actors {
       }
       rig.group.position.set(kp.x, this.ground(kp.x, kp.z), kp.z);
       rig.face(keeper.facing);
-      rig.animate(t);
+      rig.animate(gaitTime(rig, kp.x, kp.z, t, dt, kPose === 'walk'));
     } else if (this.keeper?.stand) {
       const s = this.keeper.stand;
       s.position.set(kp.x, this.ground(kp.x, kp.z) + s.scale.y * 0.9, kp.z);

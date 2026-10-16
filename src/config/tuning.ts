@@ -71,6 +71,8 @@ export const GROVE3D = {
   shake: { landed: 0.12, tree: 0.05 },
   /** Height above a fruit tree's foot where its leaves burst from when shaken. */
   treeCrown: 3.0,
+  /** Most a walk cycle is sped up to keep feet planted at the sim's speed (see gait.ts). */
+  maxCadence: 4,
   /** Frame grades for the recoloured places (pixel: cream and lavender on lit materials). */
   groveTint: { sun: '#fff0d0', moon: '#d8c8ff', corvin: '#c4c8cc' },
   /** The dirt paths as polylines across the field (the pixel ground paints its own). */
