@@ -649,9 +649,14 @@ export class Actors {
     // Stand-ins breathe while they wait.
     this.standMat.emissiveIntensity = 0.35 + Math.sin(t * 3) * 0.2;
 
-    // Items.
+    // Items, by the pixel view's rule: the Grove shows everything but notebooks, the story
+    // places show only their notebooks, and the Hollow Below and visits show none.
     const liveItems = new Set<string>();
-    for (const i of away ? [] : world.items) {
+    const home = this.location === 'grove';
+    const story = !home && !away && this.location !== 'dungeon';
+    for (const i of world.items.filter((it) =>
+      home ? it.kind !== 'notebook' : story && it.kind === 'notebook',
+    )) {
       liveItems.add(i.id);
       let v = this.items.get(i.id);
       if (!v) {
