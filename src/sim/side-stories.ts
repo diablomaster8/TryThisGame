@@ -13,7 +13,8 @@ import {
   watchCheck,
 } from './side-rule-kit';
 import { SPEAKERS, STORY_TEXT } from '../config/story';
-import { STORY } from '../config/tuning';
+import { FUN, STORY } from '../config/tuning';
+import { funQuests, funRule } from './fun-quests';
 import { nextGrade } from './stats';
 import { grantRewards } from './story-rewards';
 import { sceneById, sideStory } from './story-scenes';
@@ -244,18 +245,46 @@ function variantOf(world: World, c: CampaignState, rule: StoryRule, scene: strin
   return sceneById(chosen) ? chosen : scene;
 }
 
+/** A story or fun quest by id: its state and rule, whichever store holds it. */
+function lookup(c: CampaignState, id: string): { st: SideStoryState; rule: StoryRule } | null {
+  const rule = RULE_BY_ID.get(id);
+  if (rule) {
+    const st = c.side[id];
+    return st ? { st, rule } : null;
+  }
+  const st = c.fun[id];
+  const quest = sideStory(id);
+  return st && quest ? { st, rule: funRuleFor(quest) } : null;
+}
+
+const FUN_RULES = new Map<string, StoryRule>();
+function funRuleFor(quest: Quest): StoryRule {
+  let rule = FUN_RULES.get(quest.id);
+  if (!rule) {
+    rule = funRule(quest);
+    FUN_RULES.set(quest.id, rule);
+  }
+  return rule;
+}
+
+/** The fun quests that are open or done, for the journal. */
+export function funQuestIds(c: CampaignState): string[] {
+  return Object.keys(c.fun);
+}
+
 /** Can the journal offer step `st.step` as an action now. */
 export function sideActable(world: World, c: CampaignState, id: string): boolean {
-  const st = c.side[id];
-  const rule = RULE_BY_ID.get(id);
-  if (!st || !rule || st.status !== 'open' || st.stage !== 'check' || st.acted) return false;
+  const found = lookup(c, id);
+  if (!found) return false;
+  const { st, rule } = found;
+  if (st.status !== 'open' || st.stage !== 'check' || st.acted) return false;
   if ((rule.autoOnly ?? []).includes(st.step)) return false;
   return rule.canAct?.(world, c, st, st.step) ?? true;
 }
 
 /** The Keeper does the current step (the journal's button). */
 export function sideAct(world: World, c: CampaignState, id: string): void {
-  if (sideActable(world, c, id)) c.side[id]!.acted = true;
+  if (sideActable(world, c, id)) lookup(c, id)!.st.acted = true;
 }
 
 /**
@@ -296,25 +325,28 @@ export function noteSideRace(c: CampaignState): void {
  * named, a visit, a tap on a story prop). Called from applyCommand for every command.
  */
 export function noteSideCommand(world: World, c: CampaignState, cmd: Command): void {
-  for (const rule of RULES) {
-    const st = c.side[rule.id];
-    if (!st || st.status !== 'open' || st.stage !== 'check' || st.acted) continue;
-    const step = sideStory(rule.id)?.steps[st.step];
+  for (const id of [...RULES.map((r) => r.id), ...Object.keys(c.fun)]) {
+    const found = lookup(c, id);
+    if (!found) continue;
+    const { st, rule } = found;
+    if (st.status !== 'open' || st.stage !== 'check' || st.acted) continue;
+    const step = sideStory(id)?.steps[st.step];
     if (!step) continue;
     rule.note?.(world, c, st, st.step, cmd);
     if (!st.acted && commandMeets(step.check, cmd, world)) st.acted = true;
   }
 }
 
-/** Advance one story by at most one queued scene. */
+/** Advance one story by at most one queued scene. `store` is c.side or c.fun. */
 function stepOne(
   world: World,
   c: CampaignState,
   rule: StoryRule,
   quest: Quest,
   events: SimEvent[],
+  store: Record<string, SideStoryState> = c.side,
 ): void {
-  let st = c.side[rule.id];
+  let st = store[rule.id];
   if (!st) {
     if (!rule.opens(world, c)) return;
     st = {
@@ -326,7 +358,7 @@ function stepOne(
       sinceMs: world.timeMs,
       acted: false,
     };
-    c.side[rule.id] = st;
+    store[rule.id] = st;
     if (rule.id === 's27') c.flags['s27-sold'] = collectorRoute(c);
     events.push({ kind: 'sideStory', story: rule.id, status: 'open' });
   }
@@ -448,6 +480,29 @@ export function stepSideStories(world: World, c: CampaignState, events: SimEvent
   for (const rule of RULES) {
     const quest = sideStory(rule.id);
     if (quest) stepOne(world, c, rule, quest, events);
+  }
+  stepFunQuests(world, c, events);
+}
+
+/**
+ * The fun quests: the open ones step like any story; a new one is offered only when
+ * none is open, the queue is empty, and the chapter has had its first story day.
+ */
+function stepFunQuests(world: World, c: CampaignState, events: SimEvent[]): void {
+  let open = 0;
+  for (const [id, st] of Object.entries(c.fun)) {
+    if (st.status === 'open') open += 1;
+    const quest = sideStory(id);
+    if (quest) stepOne(world, c, funRuleFor(quest), quest, events, c.fun);
+  }
+  if (open >= FUN.maxOpen || c.queue.length > 0) return;
+  if (c.openedMs === null || world.timeMs < c.openedMs + FUN.offerAfterMs) return;
+  for (const quest of funQuests()) {
+    if (c.fun[quest.id]) continue;
+    const rule = funRuleFor(quest);
+    if (!rule.opens(world, c)) continue;
+    stepOne(world, c, rule, quest, events, c.fun);
+    return;
   }
 }
 

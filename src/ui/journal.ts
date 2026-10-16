@@ -2,7 +2,8 @@ import { TRAINER_LABELS } from '../config/strings';
 import { CHAPTERS, ENDINGS, SPEAKERS, STORY_TEXT } from '../config/story';
 import type { Game } from '../game';
 import { chapterDef, goalMet } from '../sim/campaign';
-import { RUNNER_STORIES, sideActable } from '../sim/side-stories';
+import { funQuestIds, RUNNER_STORIES, sideActable } from '../sim/side-stories';
+import type { SideStoryState } from '../sim/types';
 import { rewardById, sideStory } from '../sim/story-scenes';
 import { button, el, modal } from './dom';
 
@@ -66,15 +67,35 @@ export class Journal {
     else this.renderChapter(g);
   }
 
-  /** The side stories the runner drives: each open story's current step. */
+  /** The side stories the runner drives, then the open fun quests: each one's current step. */
   private renderSideStories(g: Game): void {
     const c = g.world.campaign!;
-    const open = RUNNER_STORIES.filter((id) => c.side[id]?.status === 'open');
+    this.renderQuestList(
+      g,
+      STORY_TEXT.sideStories,
+      RUNNER_STORIES.filter((id) => c.side[id]?.status === 'open'),
+      c.side,
+    );
+    this.renderQuestList(
+      g,
+      STORY_TEXT.funQuests,
+      funQuestIds(c).filter((id) => c.fun[id]?.status === 'open'),
+      c.fun,
+    );
+  }
+
+  private renderQuestList(
+    g: Game,
+    title: string,
+    open: string[],
+    store: Record<string, SideStoryState>,
+  ): void {
+    const c = g.world.campaign!;
     if (open.length === 0) return;
-    this.body.appendChild(el('div', 'btn-name', STORY_TEXT.sideStories));
+    this.body.appendChild(el('div', 'btn-name', title));
     for (const id of open) {
       const quest = sideStory(id);
-      const st = c.side[id]!;
+      const st = store[id]!;
       const step = quest?.steps[Math.min(st.step, (quest?.steps.length ?? 1) - 1)];
       if (!quest || !step) continue;
       this.body.appendChild(el('p', undefined, `${quest.title}: ${step.goal}`));

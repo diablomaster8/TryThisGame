@@ -1,5 +1,4 @@
 import { STORY_PROPS } from '../config/tuning';
-import { hasKeepsake } from './story-rewards';
 import type { CampaignState, World } from './types';
 
 /**
@@ -33,6 +32,8 @@ export interface StoryPropDef {
 }
 
 const step = (c: CampaignState, id: string): number => c.side[id]?.step ?? -1;
+// Read here rather than from story-rewards.ts, which would close an import cycle at load.
+const hasKeepsake = (world: World, id: string): boolean => world.inventory.keepsakes.includes(id);
 
 /** Whether `id` stands in the Grove right now. Props not listed stand always. */
 function standing(world: World, c: CampaignState, id: string): boolean {

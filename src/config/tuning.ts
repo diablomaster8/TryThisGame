@@ -956,6 +956,21 @@ export const STORY = {
 
 import type { StoryPropDef } from '../sim/story-props';
 
+/** Fun quests Q1-Q65 (sim/fun-quests.ts): how they offer themselves. */
+export const FUN = {
+  /** One at a time, and never in a chapter's first story day (the campaign speaks first). */
+  maxOpen: 1,
+  offerAfterMs: 120_000,
+  /** Market days, as JavaScript weekdays (Wednesday and Saturday). */
+  marketDays: [3, 6],
+  /** "Midday" is this much of a story day either side of noon. */
+  middayHalfWidth: 0.08,
+  /** A Nubbin counts as tired below this energy. */
+  tiredBelow: 0.3,
+  /** "Some Swim" or "a Fly-leaning Nubbin": a stat at this level or more. */
+  someStatLevel: 5,
+} as const;
+
 /** The four lantern posts, lantern-1..4: pond, stream, wall and long grass. */
 export const LANTERN_POSTS = [
   { id: 'lantern-1', x: -4, z: 4 },

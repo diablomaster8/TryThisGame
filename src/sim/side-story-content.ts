@@ -1,4 +1,8 @@
 import type { SideStoryContent } from './story-scenes';
+import { QUESTS_AVATAR } from '../content/quests-avatar';
+import { QUESTS_BEAN } from '../content/quests-bean';
+import { QUESTS_PYTHON } from '../content/quests-python';
+import { QUESTS_SUNNY } from '../content/quests-sunny';
 import { SIDE_STORIES_FUN } from '../content/side-stories-fun';
 import { SIDE_STORIES_FUN_2, SIDE_STORIES_FUN_2_VARIANTS } from '../content/side-stories-fun-2';
 import { SIDE_STORIES_MAIN, SIDE_STORIES_MAIN_VARIANTS } from '../content/side-stories-main';
@@ -39,6 +43,10 @@ export const SIDE_STORY_CONTENT: SideStoryContent = {
     ...SIDE_STORY_S29,
     ...SIDE_STORY_S30,
     ...SIDE_STORY_S31,
+    ...QUESTS_PYTHON,
+    ...QUESTS_BEAN,
+    ...QUESTS_SUNNY,
+    ...QUESTS_AVATAR,
   ],
   variants: [
     ...SIDE_STORIES_MAIN_VARIANTS,
