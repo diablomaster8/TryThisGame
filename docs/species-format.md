@@ -296,7 +296,10 @@ primitives and box, the eyes, mouth and ball, ears and marks above the neck; the
 overrides and `patch` run after it, written for the grown head), and `patch` does the rest. One known limit: two roles that share a colour
 value swap together, so give them different values. The templates (child, Sun, Moon and
 Neutral adults) are in that file; the families (first and second evolutions, special forms,
-colours) are in `nubbin-variants-*.ts` and meet in `nubbin-variant-catalogue.ts`.
+colours) are in `nubbin-variants-*.ts` and meet in `nubbin-variant-catalogue.ts`. The special
+family is split three ways: `nubbin-variants-special.ts` (the Eternals and the Shadow, then the
+looks), `nubbin-variants-lineup.ts` (the six line-up character looks) and `nubbin-lineup-kit.ts`
+(the shared pieces: ears, tails, gloves, goggles, quills, crystals, `widen`, `dress`).
 
 ## Where it is seen
 

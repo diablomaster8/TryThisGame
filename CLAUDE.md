@@ -31,6 +31,7 @@ An original virtual-pet garden game for phone and desktop browsers (TypeScript s
 | --- | --- |
 | Species format types and builder | `src/samples/species.ts`: `SpeciesSpec`, `PartSpec`, `Expression`, `EXPRESSIONS`, `onSurface`, `buildMouth`, `buildSpecies`, poses in `animate` |
 | Species data | `species-data.ts` (`NUBBIN_SPEC`, `FENNEL_SPEC`), `species-roster.ts` (`MOSSLING_SPEC`, `BOLDER_SPEC`, `WISP_SPEC`, `ROSTER`), `keeper-spec.ts` (`keeperSpec`, `KEEPER_SPEC`, `KEEPER_MOON_SPEC`, its own poses) |
+| Nubbin variants | `src/samples/nubbin-variants.ts` (`variant()`, templates), `nubbin-variants-{first,second,colour}.ts`, `nubbin-variants-special.ts` (Eternals, Shadow), `nubbin-variants-lineup.ts` (six line-up looks), `nubbin-lineup-kit.ts` (shared ears, tails, gloves, goggles, quills), `nubbin-variant-catalogue.ts` |
 | Creature toolkit | `src/samples/creatures.ts`: `surfaceMaterial`, `furShells`, `smokeShell`, `eye` (`EyeRig`), `irisTexture`, `gradient`/`stripes`/`spots`, `part`, `blink`, `breathe` |
 | SDF sculpting | `src/samples/sculpted.ts`: `Prim`, `sdf`, `smin`, `sculpt` (AO bake inside), `V` |
 | 3D creature loading | `samples/sculpt-spec.ts` (serialisable surface, cache key), `sculpt-rules.ts` (named hooks); `render3d/sculpt-farm.ts` (workers), `sculpt-cache.ts` (IndexedDB), `sculpt-res.ts` (device grid), `prewarm.ts`; `ui/loading-bar.ts` |

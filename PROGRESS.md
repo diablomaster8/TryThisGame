@@ -46,15 +46,20 @@ The reference is `docs/reference/chao-world-lineup.jpg` (the YouTube thumbnail, 
 figures left to right: quills, echidna, fox, dream, Eternal Neutral, shade, Eternal Moon).
 Steps, newest first, one commit each:
 
+**Split `nubbin-variants-special.ts` (no behaviour change).** The 1,132-line file is now three:
+`nubbin-lineup-kit.ts` (394 lines: the shared helpers, exported), `nubbin-variants-lineup.ts`
+(511: the six line-up looks as `LINEUP_LOOKS`) and `nubbin-variants-special.ts` (286: Eternals,
+Shadow, and `SPECIAL_VARIANTS` spreading the looks in the same order). Checked by serialising all
+ten variants (ids, order, every field, `patch` source) before and after: identical.
+
 5. **The group shot** (`docs/samples/match-lineup.jpg`, plain stage). Two small stage flags:
    `&ids=a,b,c` in `sheetVariants` lines up exactly those variants (reversed inside, since the
    camera looks along +z and x runs right to left on screen, so the list reads left to right as
    written) and `&eye` puts a sheet's camera at the figures' eye height. View:
    `?aaa=1&creature=variants&ids=look-quills,look-echidna,look-fox,look-dream,eternal-neutral,look-shade,eternal-moon&toon&pose=happy&turn=29&eye`.
    Reads as the reference's line-up; the fox's eyes are shut by the happy pose (open in the
-   thumbnail), and the stage's pastel grass and sky stay as the brief kept them. The seven looks
-   all sit in `nubbin-variants-special.ts`, now over 1,000 lines: splitting the line-up pieces
-   into their own file is the next tidy-up.
+   thumbnail), and the stage's pastel grass and sky stay as the brief kept them. (The split of
+   `nubbin-variants-special.ts` this slice flagged is done; see the entry at the top.)
 4f. **eternal-moon against slice 7** (`docs/samples/match-eternal-moon.jpg`). Flat indigo
    `#2e2660` armour, a blue crest panel down the crown between two small icy horns, white oval
    eyes under the happy arcs, icy shoulder spikes, a pale chest mark, a spiked ball, and lilac
