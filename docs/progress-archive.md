@@ -2,6 +2,28 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## The Keeper in the species format (2026-10-15)
+
+`src/samples/keeper-spec.ts`: `keeperSpec(colours)` builds the Keeper as a `SpeciesSpec`;
+`KEEPER_SPEC` (Sun) and `KEEPER_MOON_SPEC` are the same figure in two colour sets. Proportions
+from `sculptedKeeper` (head about 39% of the height, soft and friendly); jointed arms
+(`elbowL`/`elbowR`) and legs, hands with four fingers and a thumb, hair as sculpted tufts with
+goggles pushed up on it (a torus band and two lenses), and the outfit after the three
+kid-adventurer references Maor sent mid-pass (tee under an open vest, shorts, wristbands,
+chunky sneakers) as colour splits between primitives plus crisp marks. Format additions:
+`SpeciesSpec.poses` (a species' own pose functions over a `PoseContext`: `set`, `bend`, hips,
+head, look, mouth), `SpeciesSpec.hearts`, the pose names `carry` and `throw` (stock: stand;
+`ALL_POSES` has all eight, `POSES` stays the creature cycle), and elbow joints on arms. The
+Keeper's own poses: pet reaches to `lookAt` with the right hand and strokes; carry is a hug
+hold; throw is a 3.6 s cycle (`KEEPER_THROW`); sleep sits cross-legged and nods off; idle and
+walk are stock. Stage: `?aaa=1&creature=keeper` (or `keeper-moon`) puts the Keeper beside a
+Nubbin that answers each pose (leans to the hand, rides in the arms, flies the arc and lands,
+eases back home). Screenshots `docs/samples/keeper-idle.jpg`, `keeper-pet.jpg`, `keeper-45.jpg`.
+Lint, 215 tests and build pass; no console errors on the Keeper stage. Stubbed: the Keeper is
+not in `ROSTER` or the pixel game. Known: the thrown Nubbin stays upright (no tumble) and its
+shadow blob rides with it in flight; the Keeper's contact points are the standing soles, so a
+posed foot is not re-planted (fine for the sit, which is flat).
+
 ## Crisp marks, reference notes, format doc (2026-10-15)
 
 Item 35 of `docs/creature-improvements.md` and the format doc. `Mark.soft: 0` is a crisp edge: `markShade` now takes the

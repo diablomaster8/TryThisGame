@@ -9,7 +9,7 @@ new pass goes in at line 12 and the file is long, move the oldest section to
 Shipped and deployed: v1, the organic painted Grove, the Digimon-inspired ten, the Hollow
 Below dungeons, the 96-unit field, three save slots per mode. In progress: the full-3D
 mode, now a real Graphics setting (Pixel | Full 3D) with `src/render3d/`; the pixel mode
-ships unchanged. Latest pass: the jewel facets, the last variant placeholders. Waiting on Maor:
+ships unchanged. Latest pass: the special forms rebuilt like toys after Maor's line-up reference. Waiting on Maor:
 the pick from expansions E1–E3 and campaigns S1–S4, and his device pass. Subagent briefs
 with model picks: `plan.md`. Improvement backlog against the Palworld references:
 `docs/creature-improvements.md`. Story content pack: `src/content/`, `script-book/`,
@@ -22,6 +22,23 @@ with model picks: `plan.md`. Improvement backlog against the Palworld references
 going until you hit the session limit." So after each milestone passes its done-when
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
+
+## Special forms after the "Chao World" line-up (2026-10-16)
+
+Maor sent a line-up of seven character forms as the target ("get models closer"). The
+looks are now built like toys in `nubbin-variants-special.ts`: `dress()` gives every look
+bigger mitts and feet with gloves and shoes in their own colours; `roundEar`, `pointEar`,
+`twinTail`, `bigQuills` (five rounded quills), `goggles` (strap and lenses), `crystals`
+(glowing cone spikes on head and torso) and `chestMark` are the shared pieces. Fox: orange,
+goggles, pointed ears, twin white-tipped tails, red shoes. Echidna look is now the rose-red
+one: big round white ears, a white headband, white gloves, a green ball. Rose: pink with
+round ears, red headband and bow. Dream: purple and magenta with a tall swept point, a pale
+eye mask and a chest star. Quills: blue with five big quills, white gloves, red striped
+shoes. Shade: a black cat with pointed ears, white cheek tufts and chest, slanted green
+eyes. Eternal Neutral is a lime dragon (orange horns, claws, a long tail), Eternal Moon deep
+purple with glowing lilac crystals, Eternal Sun as before with chunkier hands. Headbands and
+the goggle strap hug the skull (torus radius 0.62). Shots: `variants-looks.jpg`,
+`variants-eternals.jpg`, `variants-special.jpg`. Lint, 216 tests and build pass.
 
 ## Jewel facets (2026-10-16)
 
@@ -121,25 +138,3 @@ palette roles sharing one colour value swap together (Sun Fly sets its belly and
 for this); the type silhouettes are first approximations by eye, not yet tuned against
 references; a 28-figure sheet sculpts for about a minute. Lint, 215 tests and build pass; no
 console errors on the sheets.
-
-## The Keeper in the species format (2026-10-15)
-
-`src/samples/keeper-spec.ts`: `keeperSpec(colours)` builds the Keeper as a `SpeciesSpec`;
-`KEEPER_SPEC` (Sun) and `KEEPER_MOON_SPEC` are the same figure in two colour sets. Proportions
-from `sculptedKeeper` (head about 39% of the height, soft and friendly); jointed arms
-(`elbowL`/`elbowR`) and legs, hands with four fingers and a thumb, hair as sculpted tufts with
-goggles pushed up on it (a torus band and two lenses), and the outfit after the three
-kid-adventurer references Maor sent mid-pass (tee under an open vest, shorts, wristbands,
-chunky sneakers) as colour splits between primitives plus crisp marks. Format additions:
-`SpeciesSpec.poses` (a species' own pose functions over a `PoseContext`: `set`, `bend`, hips,
-head, look, mouth), `SpeciesSpec.hearts`, the pose names `carry` and `throw` (stock: stand;
-`ALL_POSES` has all eight, `POSES` stays the creature cycle), and elbow joints on arms. The
-Keeper's own poses: pet reaches to `lookAt` with the right hand and strokes; carry is a hug
-hold; throw is a 3.6 s cycle (`KEEPER_THROW`); sleep sits cross-legged and nods off; idle and
-walk are stock. Stage: `?aaa=1&creature=keeper` (or `keeper-moon`) puts the Keeper beside a
-Nubbin that answers each pose (leans to the hand, rides in the arms, flies the arc and lands,
-eases back home). Screenshots `docs/samples/keeper-idle.jpg`, `keeper-pet.jpg`, `keeper-45.jpg`.
-Lint, 215 tests and build pass; no console errors on the Keeper stage. Stubbed: the Keeper is
-not in `ROSTER` or the pixel game. Known: the thrown Nubbin stays upright (no tumble) and its
-shadow blob rides with it in flight; the Keeper's contact points are the standing soles, so a
-posed foot is not re-planted (fine for the sit, which is flat).
