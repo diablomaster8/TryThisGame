@@ -10,7 +10,7 @@ Shipped and deployed: v1, the organic painted Grove, the Digimon-inspired ten, t
 Below dungeons, the 96-unit field, three save slots per mode. In progress: the full-3D
 mode, now a real Graphics setting (Pixel | Full 3D) with `src/render3d/`; the pixel mode
 ships unchanged; it now sculpts in workers and draws every species, place and stub
-(see "The 3D mode carried forward"). Latest pass: Part G8b, the toon stage mode and the line-up match, in progress. Waiting on Maor:
+(see "The 3D mode carried forward" in docs/progress-archive.md). Latest pass: Part G8b, the toon stage mode and the line-up match, in progress. Waiting on Maor:
 the pick from expansions E1–E3 and campaigns S1–S4, and his device pass. Subagent briefs
 with model picks: `plan.md`. Improvement backlog against the Palworld references:
 `docs/creature-improvements.md`. Story content pack: `src/content/`, `script-book/`,
@@ -30,6 +30,17 @@ The reference is `docs/reference/chao-world-lineup.jpg` (the YouTube thumbnail, 
 figures left to right: quills, echidna, fox, dream, Eternal Neutral, shade, Eternal Moon).
 Steps, newest first, one commit each:
 
+4b. **look-fox against slice 3** (`docs/samples/match-fox.jpg`, idle pose: the reference's eyes are open
+   and our happy pose shuts them). The line-up's third figure is not the orange fox the brief
+   described: it is a black hood edged by a pink V over a cream face, big navy eyes, an orange
+   crown with a white stripe, goggles pushed up on the right, an orange vest with black sides
+   and a gold bell, white gloves and cream shoes; the look follows the image. New:
+   `gogglesUp` (rim, glass, highlight, as prims and as marks), the V as short capsule marks that
+   follow the dome (a straight chord cuts inside the skin and paints nothing; marks paint
+   every surface, so the goggle marks are re-laid after the hood), eyes with a cream `lidColor`.
+   Still differs: the hood's top is a flat black mass where the thumbnail shows orange and
+   white stripes; the V is thinner and the cream chin shorter; no hood side flaps; our eyes
+   keep the glossy sky catchlight; the twin tails are kept (not visible from the front).
 4a. **look-echidna against slice 2** (`docs/samples/match-echidna.jpg`). Crimson `#b8344f`; head
    ×1.2 with a wide low dome (1.12 × 0.8 × 0.92), a white muzzle ellipsoid, five white tuft
    spikes (the crown slot; `crownShade` white so the baked crown ring does not stain them),
@@ -84,64 +95,3 @@ Steps, newest first, one commit each:
    measured, so the hulls never count toward the feet. Post: SSAO, bloom, depth of field,
    fog and the grade off; exposure 0.85; sky and grass unchanged. Without the flag nothing
    changes. Tuning view: `?aaa=1&creature=variant:look-quills&toon&pose=happy`.
-
-## The 3D mode carried forward (2026-10-16)
-
-Plan: (1) sculpt in workers with a geometry cache and stand-ins; (2) work down the stub
-list; (3) foot sliding and hill-top taps. One commit per step.
-**Step 1, worker sculpting.** `buildSpecies(spec, sculpted?)` takes surfaces marched
-elsewhere, in `speciesSurfaces(spec)` order (`sculptSurface` marches one). `SculptFarm`
-(`render3d/sculpt-farm.ts`) fans each look's surfaces across up to four workers
-(`sculpt-worker.ts` rebuilds the spec from its look key via `looks.ts`) and caches the
-result by key, so a second Nubbin with a look never marches; with no workers it marches on
-the page, one surface per task. `CreaturePool.acquire` returns null until a look is ready
-(Actors shows a soft breathing capsule), builds at most one rig a frame, compiles the
-rig's programs with `compileAsync` against the composer's target before first draw, and
-strips the emote ball's point light (each one changed the light count and recompiled
-every material in the Grove: the 500-900 ms hitch at every hatch). `?free` in Full 3D, this PC:
-Keeper back from the workers in 1.5-2.7 s, rigs 100-220 ms on the page, worst frame after
-the first 227 ms (was 900 ms; the first frame's own compile is 650 ms). `?aaa=` stages still
-build synchronously.
-**Step 2a, looks.** Look keys take tint modifiers (`~egg:<colour>`, `~tone:<colour>`,
-`~shiny`, `~shadow`; `looks.ts`) that recolour any Nubbin spec the way the pixel
-`variantColors` does (Sun keeps a white belly, Moon a dark crown shade; shiny wears
-`SHINY_FINISH`); `~shadow` ashes any species. Eternals use `variant:eternal-<band>`; second
-evolutions already resolved. The pocket and digital lines sculpt from the pixel drawer's
-recipe (`render3d/art-species.ts`: plan, ears, crest, tail, arms, legs, wings, eyes, marks,
-palette), scaled by the recipe's size. Egg shells wear the egg colour. Shots
-`docs/samples/mode3d-forward-{species,tints}.jpg`.
-**Step 2b, motion and weather.** `cry` lays a droop over idle (head hung, arms in, a
-sob; undone each frame before `animate`); `swim` paddles with the walk at 0.6 speed, sunk
-to the shoulders over deep water with a ring spreading round it. Toys by kind
-(`render3d/toys.ts`: striped ball, radio, blocks, hand mirror, glowing TV). Snow is its own
-slow, drifting white cloud. `Bursts` (`render3d/bursts.ts`) throws leaves and petals from a
-shaken tree and dust where a Nubbin lands; both shake the 3D camera (`GROVE3D.shake`, off
-with the Settings switch). Shot `docs/samples/mode3d-forward-poses.jpg`.
-**Step 2c, places and people.** `Crowd` (`render3d/crowd.ts`) draws everyone besides the
-Keeper and the Nubbins from the shared pool: visiting Keepers (`keeper-<band>~npc:<trainer>`,
-clothes dyed to the trainer's shirt), wild visitors and the Hollow's wild one (art looks),
-the Shadow strays (`variant:shadow`, sad when still) and the grey Nubbins of the story
-Hollow and Corvin's rows at the pixel view's spots. `Garden` (`garden.ts`) builds placed
-decor (all eleven kinds, the three buildings at the pixel widths), plants by stage (dry
-ones yellow, fruit when ready) and painted tiles (instanced quads, flowers dotted),
-rebuilt on a signature check. `Hollow` (`hollow.ts`) builds a floor from `sim/dungeon.ts`:
-edge walls, water, stairs up and down, the chest (lid opens), torches with four roaming
-lamps, crystals and loot (hidden once taken). Underground the sky goes dark. Sun, Moon and
-Corvin are grades (`GROVE3D.groveTint`). Picks cover npc, wild, stray, memorial, decor,
-building, plant, stairs, chest and loot. Shots `mode3d-forward-{garden-moon,hollow}.jpg`.
-**Still stubbed:** `location:visit` (a neighbour's Grove is a bare floor);
-`form:<band-type>` only if a variant id is ever missing. Known: the Sun/Moon grade follows
-`setDaylight`, so it changes on the next sim step; a crowd of one new look (Corvin's 30)
-rigs one per frame, 100-200 ms each.
-**Step 3, known limits.** Feet: each rig keeps its own animation clock (`gait.ts`) that
-runs at real speed off the walk and at the sim's speed over the format's stride
-(`strideLength * scale / stridePeriod`) on it, capped at `GROVE3D.maxCadence` (4x): the
-figures' strides are short for the sim (the Keeper walks 6x its natural pace, a child 9x),
-so feet still slip a little at full speed; a stride-length field in the format would close
-it. Hill-top taps: measured, not a bug any more: `Picker3d` marches the heightfield, worst
-error 0.04 units over a 20x20 grid of taps against a 0.01-step march (the sim's flat
-ground only means walks ignore slope). **Final numbers, this PC, `?free` in Full 3D:**
-first frame 650-900 ms (scene programs), worst frame after it 228 ms with three children,
-a wild visitor and an NPC rigging in; Keeper on screen 1.5-3 s after load (stand-in until
-then). Not checked: a phone, Firefox and Safari module workers (the farm falls back to the
-page if a worker cannot start).

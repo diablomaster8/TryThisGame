@@ -2,6 +2,67 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## The 3D mode carried forward (2026-10-16)
+
+Plan: (1) sculpt in workers with a geometry cache and stand-ins; (2) work down the stub
+list; (3) foot sliding and hill-top taps. One commit per step.
+**Step 1, worker sculpting.** `buildSpecies(spec, sculpted?)` takes surfaces marched
+elsewhere, in `speciesSurfaces(spec)` order (`sculptSurface` marches one). `SculptFarm`
+(`render3d/sculpt-farm.ts`) fans each look's surfaces across up to four workers
+(`sculpt-worker.ts` rebuilds the spec from its look key via `looks.ts`) and caches the
+result by key, so a second Nubbin with a look never marches; with no workers it marches on
+the page, one surface per task. `CreaturePool.acquire` returns null until a look is ready
+(Actors shows a soft breathing capsule), builds at most one rig a frame, compiles the
+rig's programs with `compileAsync` against the composer's target before first draw, and
+strips the emote ball's point light (each one changed the light count and recompiled
+every material in the Grove: the 500-900 ms hitch at every hatch). `?free` in Full 3D, this PC:
+Keeper back from the workers in 1.5-2.7 s, rigs 100-220 ms on the page, worst frame after
+the first 227 ms (was 900 ms; the first frame's own compile is 650 ms). `?aaa=` stages still
+build synchronously.
+**Step 2a, looks.** Look keys take tint modifiers (`~egg:<colour>`, `~tone:<colour>`,
+`~shiny`, `~shadow`; `looks.ts`) that recolour any Nubbin spec the way the pixel
+`variantColors` does (Sun keeps a white belly, Moon a dark crown shade; shiny wears
+`SHINY_FINISH`); `~shadow` ashes any species. Eternals use `variant:eternal-<band>`; second
+evolutions already resolved. The pocket and digital lines sculpt from the pixel drawer's
+recipe (`render3d/art-species.ts`: plan, ears, crest, tail, arms, legs, wings, eyes, marks,
+palette), scaled by the recipe's size. Egg shells wear the egg colour. Shots
+`docs/samples/mode3d-forward-{species,tints}.jpg`.
+**Step 2b, motion and weather.** `cry` lays a droop over idle (head hung, arms in, a
+sob; undone each frame before `animate`); `swim` paddles with the walk at 0.6 speed, sunk
+to the shoulders over deep water with a ring spreading round it. Toys by kind
+(`render3d/toys.ts`: striped ball, radio, blocks, hand mirror, glowing TV). Snow is its own
+slow, drifting white cloud. `Bursts` (`render3d/bursts.ts`) throws leaves and petals from a
+shaken tree and dust where a Nubbin lands; both shake the 3D camera (`GROVE3D.shake`, off
+with the Settings switch). Shot `docs/samples/mode3d-forward-poses.jpg`.
+**Step 2c, places and people.** `Crowd` (`render3d/crowd.ts`) draws everyone besides the
+Keeper and the Nubbins from the shared pool: visiting Keepers (`keeper-<band>~npc:<trainer>`,
+clothes dyed to the trainer's shirt), wild visitors and the Hollow's wild one (art looks),
+the Shadow strays (`variant:shadow`, sad when still) and the grey Nubbins of the story
+Hollow and Corvin's rows at the pixel view's spots. `Garden` (`garden.ts`) builds placed
+decor (all eleven kinds, the three buildings at the pixel widths), plants by stage (dry
+ones yellow, fruit when ready) and painted tiles (instanced quads, flowers dotted),
+rebuilt on a signature check. `Hollow` (`hollow.ts`) builds a floor from `sim/dungeon.ts`:
+edge walls, water, stairs up and down, the chest (lid opens), torches with four roaming
+lamps, crystals and loot (hidden once taken). Underground the sky goes dark. Sun, Moon and
+Corvin are grades (`GROVE3D.groveTint`). Picks cover npc, wild, stray, memorial, decor,
+building, plant, stairs, chest and loot. Shots `mode3d-forward-{garden-moon,hollow}.jpg`.
+**Still stubbed:** `location:visit` (a neighbour's Grove is a bare floor);
+`form:<band-type>` only if a variant id is ever missing. Known: the Sun/Moon grade follows
+`setDaylight`, so it changes on the next sim step; a crowd of one new look (Corvin's 30)
+rigs one per frame, 100-200 ms each.
+**Step 3, known limits.** Feet: each rig keeps its own animation clock (`gait.ts`) that
+runs at real speed off the walk and at the sim's speed over the format's stride
+(`strideLength * scale / stridePeriod`) on it, capped at `GROVE3D.maxCadence` (4x): the
+figures' strides are short for the sim (the Keeper walks 6x its natural pace, a child 9x),
+so feet still slip a little at full speed; a stride-length field in the format would close
+it. Hill-top taps: measured, not a bug any more: `Picker3d` marches the heightfield, worst
+error 0.04 units over a 20x20 grid of taps against a 0.01-step march (the sim's flat
+ground only means walks ignore slope). **Final numbers, this PC, `?free` in Full 3D:**
+first frame 650-900 ms (scene programs), worst frame after it 228 ms with three children,
+a wild visitor and an NPC rigging in; Keeper on screen 1.5-3 s after load (stand-in until
+then). Not checked: a phone, Firefox and Safari module workers (the farm falls back to the
+page if a worker cannot start).
+
 ## Special forms after the "Chao World" line-up (2026-10-16)
 
 Maor sent a line-up of seven character forms as the target ("get models closer"). The
@@ -89,7 +150,6 @@ Screenshots re-shot: `variants-first.jpg`, `variants-second.jpg`, `variants-spec
 Same day, at Maor's "fix it": the blend raised to 0.55 with the half-strength tells in the
 second type's own colour, and the Sun accents lifted only 10% toward white, so both read on
 the sheets; `variants-first.jpg` and `variants-second.jpg` re-shot. Lint, 216 tests and build pass.
-
 
 ## The Nubbin variants as specs (2026-10-15)
 

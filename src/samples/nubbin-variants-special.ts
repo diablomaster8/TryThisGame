@@ -155,40 +155,35 @@ const twinTail = (name: string, dx: number, color: string): PartSpec => ({
   resolution: 40,
 });
 
-/** Big rounded quills swept back from the head: three high, two low. */
-/** Aviator goggles pushed up on the brow: a strap and two lenses. */
-function goggles(strap: string, lens: string): Prim[] {
-  return [
-    {
-      kind: 'torus',
-      a: V(0, 2.5, 0.02),
-      r: 0.62,
-      r2: 0.07,
-      color: strap,
-      tag: 'band',
-      blend: 0.04,
-    },
-    ball(V(-0.3, 2.55, 0.66), 0.19, lens, 'goggle'),
-    ball(V(0.3, 2.55, 0.66), 0.19, lens, 'goggle'),
-    {
-      kind: 'torus',
-      a: V(-0.3, 2.55, 0.66),
-      r: 0.19,
-      r2: 0.045,
-      color: strap,
-      tag: 'band',
-      blend: 0.03,
-    },
-    {
-      kind: 'torus',
-      a: V(0.3, 2.55, 0.66),
-      r: 0.19,
-      r2: 0.045,
-      color: strap,
-      tag: 'band',
-      blend: 0.03,
-    },
+/**
+ * Aviator goggles pushed up on the right side of the hood: a dark rim, a glass lens and a
+ * small bright highlight standing off the glass (final head coordinates, after `headScale`).
+ */
+function gogglesUp(glass: string, rim: string): { prims: Prim[]; marks: Mark[] } {
+  const at = V(0.62, 2.78, 0.42);
+  const lens = (c: Prim['a'], radii: Prim['a'], color: string, tag: string): Prim => ({
+    kind: 'ellipsoid',
+    a: c,
+    r: 0,
+    radii,
+    color,
+    tag,
+    blend: 0.02,
+  });
+  const parts = [
+    lens(at, V(0.26, 0.21, 0.12), rim, 'band'),
+    lens(at.clone().add(V(0, 0, 0.06)), V(0.2, 0.16, 0.12), glass, 'goggle'),
+    lens(at.clone().add(V(0.07, 0.06, 0.15)), V(0.08, 0.05, 0.05), WHITE, 'goggle'),
   ];
+  // The same three as marks, for a look that paints a hood over the head afterwards.
+  const marks = parts.map((q) => ({
+    kind: 'ellipsoid' as const,
+    a: q.a.clone(),
+    radii: q.radii!.clone().multiplyScalar(1.05),
+    color: q.color,
+    soft: 0.01,
+  }));
+  return { prims: parts, marks };
 }
 
 /** Crystal spikes for the Eternal Moon: faceted-looking cones with a faint glow. */
@@ -459,6 +454,13 @@ const QUILLS_NAVY = '#2443c4';
 const QUILLS_CLUSTER = quillCluster(QUILLS_NAVY);
 
 /** The echidna look's body: a deep crimson-maroon, darker than the flat red of the quills' shoes. */
+/** The fox look's flats: orange vest, cream face and feet, black hood, pink trim, navy eyes. */
+const FOX_ORANGE = '#f08a1c';
+const FOX_CREAM = '#f6e2b4';
+const FOX_HOOD = '#16121f';
+const FOX_PINK = '#d02a72';
+const FOX_NAVY = '#1c2a58';
+
 const ECHIDNA_BODY = '#b8344f';
 
 const look = (id: string, name: string, o: VariantOverrides): NubbinVariant => ({
@@ -473,17 +475,136 @@ export const SPECIAL_VARIANTS: NubbinVariant[] = [
   { id: 'eternal-neutral', family: 'special', spec: ETERNAL_NEUTRAL },
   { id: 'shadow', family: 'special', spec: SHADOW },
   look('look-fox', 'Nubbin (Fox look)', {
-    colors: { body: '#f29c2e', belly: WHITE, tip: WHITE, pad: '#e0562e', crownShade: '#c06a10' },
+    // Flat line-up colours: an orange vest over a black hood with a cream face, cream hands
+    // and feet. The role colours the base paints as marks all take the orange or cream.
+    colors: {
+      body: FOX_ORANGE,
+      belly: FOX_ORANGE,
+      tip: FOX_CREAM,
+      pad: FOX_CREAM,
+      iris: FOX_NAVY,
+      blush: FOX_CREAM,
+      star: FOX_ORANGE,
+      crownShade: FOX_HOOD,
+    },
+    crown: 'none',
     slots: {
-      ears: [pointEar(-1, '#f29c2e', 0.55), pointEar(1, '#f29c2e', 0.55)],
-      tail: [twinTail('tail', -1, '#f29c2e'), twinTail('tail2', 1, '#f29c2e')],
+      ears: [],
+      tail: [twinTail('tail', -1, FOX_ORANGE), twinTail('tail2', 1, FOX_ORANGE)],
+      arms: [
+        gloveArm(-1, FOX_ORANGE, WHITE, { y: 1.1, reach: 0.55 }),
+        gloveArm(1, FOX_ORANGE, WHITE, { y: 1.1, reach: 0.55 }),
+      ],
     },
-    hints: [chestMark(WHITE, 1.0, 0.34)],
+    ball: { color: '#f29c2e', glow: '#b86a10' },
+    hints: [
+      // Black sides to the vest and the gold bell under it.
+      ...[-1, 1].map((dx) => ({
+        kind: 'ellipsoid' as const,
+        a: V(dx * 0.5, 0.85, 0.3),
+        radii: V(0.16, 0.3, 0.22),
+        color: FOX_HOOD,
+        soft: 0.01,
+      })),
+      { kind: 'sphere' as const, a: V(0, 0.55, 0.58), r: 0.09, color: '#f2c94c', soft: 0.01 },
+    ],
+    headScale: 1.2,
+    eyes: {
+      x: 0.5,
+      y: 2.12,
+      r: 0.17,
+      tall: 1.4,
+      irisScale: 1,
+      iris: FOX_NAVY,
+      lidColor: FOX_CREAM,
+      lid: 0,
+      brow: false,
+    },
+    mouth: { shape: 'smile', width: 0.14, y: 1.8, z: 1.0, line: '#b8895a' },
     patch: (spec) => {
-      spec.head.prims.push(...goggles('#5a3a2a', '#8fd6f0'));
-      dress(spec, { gloves: WHITE, shoes: '#e0562e' });
+      const dome = spec.head.prims.find((p) => p.tag === 'head')!;
+      dome.a.set(0, 2.25, 0);
+      dome.radii!.set(0.95, 0.85, 0.9);
+      // The face is cream; the hood is painted over the top of it, down to a pink V.
+      dome.color = FOX_CREAM;
+      const belly = spec.torso.prims.find((p) => p.tag === 'belly')!;
+      belly.a.set(0, 1.02, 0);
+      belly.radii!.set(0.58, 0.5, 0.55);
+      spec.shade = { top: 1.0, bottom: 0.94, yMax: 3.5 };
+      // A point on the dome's skin at (x, y), pushed a hair out.
+      const onDome = (x: number, y: number, out = 0.03): ReturnType<typeof V> =>
+        V(x, y, 0.9 * Math.sqrt(Math.max(0, 1 - (x / 0.95) ** 2 - ((y - 2.25) / 0.85) ** 2)) + out);
+      // The V: from the temples at y 2.25 down to an apex at y 1.72, as short capsules that
+      // follow the dome (a straight chord would cut inside it and paint nothing).
+      const vLine = (r: number, lift: number, color: string): Mark[] => {
+        const out: Mark[] = [];
+        for (const dx of [-1, 1])
+          for (let i = 0; i < 4; i++) {
+            const x0 = (i / 4) * 0.94;
+            const x1 = ((i + 1) / 4) * 0.94;
+            const y = (x: number) => 2.0 + 0.64 * x + lift;
+            out.push({
+              kind: 'capsule',
+              a: onDome(dx * x0, y(x0)),
+              b: onDome(dx * x1, y(x1)),
+              r,
+              color,
+              soft: 0.01,
+            });
+          }
+        return out;
+      };
+      spec.marks.push(
+        // The hood: black over the back and crown, and thick black capsules riding above the
+        // V line so their lower edge is the V.
+        {
+          kind: 'ellipsoid',
+          a: V(0, 3.05, -0.2),
+          radii: V(1.1, 0.7, 1.0),
+          color: FOX_HOOD,
+          soft: 0.01,
+        },
+        {
+          kind: 'ellipsoid',
+          a: V(0, 2.3, -0.9),
+          radii: V(0.9, 0.8, 0.3),
+          color: FOX_HOOD,
+          soft: 0.01,
+        },
+        ...vLine(0.5, 0.5, FOX_HOOD),
+        ...vLine(0.1, 0, FOX_PINK),
+        // The orange crown with a pale stripe.
+        {
+          kind: 'ellipsoid',
+          a: V(-0.1, 3.12, 0.05),
+          radii: V(0.7, 0.3, 0.6),
+          color: FOX_ORANGE,
+          soft: 0.01,
+        },
+        {
+          kind: 'capsule',
+          a: V(-0.4, 3.1, 0.25),
+          b: V(0.3, 3.1, -0.1),
+          r: 0.06,
+          color: WHITE,
+          soft: 0.01,
+        },
+      );
+      const gg = gogglesUp('#bfe8ff', '#4a3a30');
+      spec.head.prims.push(...gg.prims);
+      spec.marks.push(...gg.marks);
+      widen(spec.head, { x: 1.4, z: -1.2 });
+      mechLegs(spec, {
+        leg: FOX_ORANGE,
+        ring: FOX_CREAM,
+        shoe: FOX_CREAM,
+        stripe: FOX_CREAM,
+        size: 0.9,
+      });
     },
-    notes: 'Orange and white with goggles on the brow, pointed ears and twin white-tipped tails.',
+    notes:
+      'Line-up figure 3 (Part G8b): a cream face under a black hood edged by a pink V, an orange ' +
+      'crown, big navy eyes, goggles pushed up on the right, an orange vest, cream shoes, twin tails.',
   }),
   look('look-echidna', 'Nubbin (Echidna look)', {
     colors: {
