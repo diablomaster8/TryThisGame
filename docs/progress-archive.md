@@ -2,6 +2,34 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Petting, sleep and the life pass (2026-10-15)
+
+Items 23–28 of `docs/creature-improvements.md`, after the Palworld "All Pet Animations"
+reference. A `pet` pose: the creature turns to `Rigged.lookAt` (the stage sets it to a
+hand in front of the camera), leans the head in with a tilt, shuts the eyes into arcs,
+folds its ears back, wags, and seven painted heart sprites (canvas textures, no assets)
+rise and fade from the crown. Squash and stretch on the happy hop (hips 1.06/0.94 at the
+top, 0.94/1.06 on landing, the hips moved so the feet stay planted) and a forward head
+stretch on the eat chomp. Breathing is a chest scale (1.5% at 0.25 Hz; the torso now
+sits in its own `chest` group so the head and feet do not move with it), slower and
+deeper asleep. Sleep lies down fully: the belly drops to the grass (measured from the
+torso sculpt), quadrupeds fold their legs with the knees bent, bipeds curl over theirs,
+and a Zzz of three painted glyphs drifts up every 3.2 s. `Rigged.face(yaw)` eases the
+facing over 0.4 s with a lean into the turn; the stage calls it every frame (the pet pose
+turns each creature to the camera and back) and `groveStage.turnTo(deg)` turns the
+line-up from the console. Ear flicks fire at irregular intervals from a generator seeded
+by the species name; the happy tail curls up over the back. Pose timing now runs on the
+stage clock (`setPose` compared `performance.now()` with the stage's relative `t`
+before, so every ease-in started a fraction late). Screenshots:
+`docs/samples/pet-roster.jpg`, `sleep-roster.jpg`, `pet-nubbin.jpg`. Format doc updated.
+
+Stubbed: the sim has no `pet` command yet, so the pose is reached only on the stage
+(`&pose=pet`), and the hand is a point in front of the camera, not a Keeper. Known bugs:
+Fennel's lids do not cover its eyes asleep (they turn the stock 1.9 rad but sit higher
+than the Nubbin's; the same before this pass); Bolder's folded legs fan upward rather
+than tuck under; the hearts and Zzz are plain sprites, so a creature standing between
+them and the camera does not hide them.
+
 ## Knee joints and planted feet (2026-10-15)
 
 Item 22 of `docs/creature-improvements.md`: the walk rotated whole legs at the hip, so

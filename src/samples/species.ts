@@ -206,9 +206,20 @@ export interface SpeciesSpec {
   poses?: Partial<Record<PoseName, (c: PoseContext) => void>>;
   /** Whether hearts rise while petted; off for the one doing the petting. */
   hearts?: boolean;
-  wings?: { x: number; y: number; z: number; size: number; color: string };
-  /** The Chao emote ball, if the species has one. */
-  ball?: { y: number; color: string };
+  /** Translucent wings: the fairy pair by default, a feathered lobe or a scalloped bat wing. */
+  wings?: {
+    x: number;
+    y: number;
+    z: number;
+    size: number;
+    color: string;
+    shape?: 'fairy' | 'feather' | 'bat';
+  };
+  /**
+   * The Chao emote ball, if the species has one: a plain ball, a flat halo ring or a
+   * spiked ball; `glow` tints its emissive and its light (warm gold by default).
+   */
+  ball?: { y: number; color: string; shape?: 'ball' | 'halo' | 'spikes'; glow?: string };
   /** Hip height: the body bobs from here. */
   hipY: number;
   /** Radius of the contact shadow and the slope probe, in body units; from the torso box by default. */
@@ -798,9 +809,24 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
     const w = spec.wings;
     for (const dx of [-1, 1]) {
       const shape = new THREE.Shape();
+      const k = w.size;
       shape.moveTo(0, 0);
-      shape.quadraticCurveTo(0.46 * dx * w.size, 0.5 * w.size, 0.16 * dx * w.size, 1.0 * w.size);
-      shape.quadraticCurveTo(-0.18 * dx * w.size, 0.55 * w.size, 0, 0);
+      if (w.shape === 'feather') {
+        // A rounded angel lobe with two soft scallops on the trailing edge.
+        shape.quadraticCurveTo(0.7 * dx * k, 0.35 * k, 0.55 * dx * k, 1.05 * k);
+        shape.quadraticCurveTo(0.35 * dx * k, 0.75 * k, 0.22 * dx * k, 0.95 * k);
+        shape.quadraticCurveTo(0.08 * dx * k, 0.6 * k, -0.1 * dx * k, 0.55 * k);
+        shape.quadraticCurveTo(-0.1 * dx * k, 0.2 * k, 0, 0);
+      } else if (w.shape === 'bat') {
+        // Two fingers with a scalloped membrane between them.
+        shape.lineTo(0.75 * dx * k, 0.9 * k);
+        shape.quadraticCurveTo(0.45 * dx * k, 0.45 * k, 0.4 * dx * k, 0.15 * k);
+        shape.quadraticCurveTo(0.2 * dx * k, 0.35 * k, 0.08 * dx * k, 0.05 * k);
+        shape.lineTo(0, 0);
+      } else {
+        shape.quadraticCurveTo(0.46 * dx * k, 0.5 * k, 0.16 * dx * k, 1.0 * k);
+        shape.quadraticCurveTo(-0.18 * dx * k, 0.55 * k, 0, 0);
+      }
       const pivot = new THREE.Group();
       pivot.position.set(dx * w.x, w.y - spec.hipY, w.z);
       pivot.rotation.y = -dx * 0.5;
@@ -822,21 +848,41 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
       bones[dx < 0 ? 'wingL' : 'wingR'] = pivot;
     }
   }
-  let ball: THREE.Mesh | null = null;
+  let ball: THREE.Object3D | null = null;
   let ballMat: THREE.MeshPhysicalMaterial | null = null;
   if (spec.ball) {
-    ballMat = glossy(spec.ball.color, {
-      emissive: new THREE.Color('#9a7010'),
-      emissiveIntensity: 1.4,
-    });
-    ball = add(
-      head,
-      new THREE.Mesh(new THREE.SphereGeometry(0.17, 24, 18), ballMat),
-      0,
-      spec.ball.y - headOrigin.y,
-      0,
+    const glow = new THREE.Color(spec.ball.glow ?? '#9a7010');
+    ballMat = glossy(spec.ball.color, { emissive: glow, emissiveIntensity: 1.4 });
+    if (spec.ball.shape === 'halo') {
+      // A flat ring, lying level over the crown.
+      ball = new THREE.Mesh(new THREE.TorusGeometry(0.24, 0.045, 12, 36), ballMat);
+      ball.rotation.x = Math.PI / 2;
+    } else if (spec.ball.shape === 'spikes') {
+      // A smaller ball with eight short spikes around it.
+      const g = new THREE.Group();
+      g.add(new THREE.Mesh(new THREE.SphereGeometry(0.14, 24, 18), ballMat));
+      const spike = new THREE.ConeGeometry(0.045, 0.14, 8);
+      spike.translate(0, 0.19, 0);
+      const dirs = [V(0, 1, 0), V(0, -1, 0), V(1, 0, 0), V(-1, 0, 0), V(0, 0, 1), V(0, 0, -1)];
+      dirs.push(V(0.7, 0.7, 0), V(-0.7, 0.7, 0));
+      for (const d of dirs) {
+        const m = new THREE.Mesh(spike, ballMat);
+        m.quaternion.setFromUnitVectors(V(0, 1, 0), d.normalize());
+        g.add(m);
+      }
+      ball = g;
+    } else {
+      ball = new THREE.Mesh(new THREE.SphereGeometry(0.17, 24, 18), ballMat);
+    }
+    ball.position.set(0, spec.ball.y - headOrigin.y, 0);
+    head.add(ball);
+    // The light takes the glow tint, lifted toward white so it still reads as a lamp.
+    const light = new THREE.PointLight(
+      glow.clone().lerp(new THREE.Color('#ffffff'), 0.55),
+      1.2,
+      2.5,
+      1.6,
     );
-    const light = new THREE.PointLight('#ffe08a', 1.2, 2.5, 1.6);
     light.position.copy(ball.position);
     head.add(light);
   }

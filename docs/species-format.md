@@ -36,8 +36,8 @@ left out, and an example as it appears in a spec.
 | `poses`       | A species' own poses, keyed by pose name, each `(c: PoseContext) => void` (see PoseContext below). It replaces the stock pose of that name; the stock `carry` and `throw` just stand, so a species that wants them writes them. | the stock poses                         | `poses: { pet, carry, throw: throwPose, sleep: sleepSitting }` (the Keeper)            |
 | `hearts`      | Whether hearts rise from the head during `pet`. The one doing the petting turns them off.                                                                                                                                       | `true`                                  | `hearts: false` (the Keeper)                                                           |
 | `expressions` | Per-pose overrides of the Expression table, partial: only the fields given change.                                                                                                                                              | the stock table below                   | `expressions: { eat: { squint: 0.6 } }`                                                |
-| `wings`       | Translucent wings that flutter: position of the right root (mirrored for the left), `size` and `color`.                                                                                                                         | none                                    | `wings: { x: 0.42, y: 1.15, z: -0.6, size: 1, color: '#f6faff' }`                      |
-| `ball`        | The emote ball over the head, with its own light: height and colour.                                                                                                                                                            | none                                    | `ball: { y: 3.5, color: '#ffd94a' }`                                                   |
+| `wings`       | Translucent wings that flutter: position of the right root (mirrored for the left), `size`, `color` and `shape` (`fairy` by default, a rounded `feather` lobe, a scalloped `bat` wing).                                         | none                                    | `wings: { x: 0.42, y: 1.15, z: -0.6, size: 1, color: '#f6faff' }`                      |
+| `ball`        | The emote ball over the head, with its own light: height, colour, `shape` (a plain `ball`, a flat `halo` ring, a `spikes` ball) and `glow`, the emissive tint that also colours its light (warm gold by default).               | none                                    | `ball: { y: 3.5, color: '#ffd94a', shape: 'halo', glow: '#c08a10' }`                   |
 | `hipY`        | Hip height: the body bobs, crouches and squashes from here.                                                                                                                                                                     | required                                | `hipY: 0.98`                                                                           |
 | `footprint`   | Radius of the contact shadow and of the slope probes.                                                                                                                                                                           | 0.85 × the torso box's half-width       | `footprint: 1.1`                                                                       |
 | `notes`       | Which reference frame or pass the species was last tuned against, for the next pass. Never shown.                                                                                                                               | none                                    | `notes: 'Shape pass 2026-10-15 against the Palworld roster screenshot…'`               |
@@ -202,7 +202,7 @@ every bone back at rest and worked out the look; the pose adds to that, as the s
 
 `hips` (the torso), `head`, `armL`/`armR`, `legL`/`legR` (bipeds), `legFL`/`legFR`/
 `legBL`/`legBR` (quadrupeds), `leg1L`..`leg4R` (spiders), `tail`, `earL`/`earR`,
-`wingL`/`wingR`, under a jointed leg its knee: `kneeL`/`kneeR`, `kneeFL`/`kneeFR`/
+`wingL`/`wingR`, and under a jointed leg its knee: `kneeL`/`kneeR`, `kneeFL`/`kneeFR`/
 `kneeBL`/`kneeBR`, `knee1L`..`knee4R`, and under a jointed arm its elbow: `elbowL`/`elbowR`.
 
 ## The poses
@@ -263,9 +263,24 @@ A Chao-line evolution is the Nubbin spec with different colours, a different cro
 and extra parts (halo, spikes, tails): the format is meant to express that as a small diff
 on the base spec.
 
+## Variants as diffs
+
+`src/samples/nubbin-variants.ts` turns a spec into a variant without copying it:
+`variant(base, name, overrides)` deep-copies the base and changes only what the overrides name.
+`colors` swaps every colour by role (body, tip, pad, belly, blush, star, crownShade, iris, lip,
+tongue, wing, sheen; a variant of a variant keeps working because each derived spec remembers
+its palette), `crown` picks a stock crown (`point`, `tall`, `hook`, `fin`, `stub`, `droop`,
+`none`) or takes custom primitives, `ball` and `wings` merge fields or remove the extra with
+`null`, `slots` replaces the ears, tail, arms or back parts, `hints` adds marks, `type` and
+`second` apply a type silhouette at full and half strength (head fins, bigger wings, longer
+legs, a wider body), and `patch` does the rest. One known limit: two roles that share a colour
+value swap together, so give them different values. The templates (child, Sun, Moon and
+Neutral adults) are in that file; the families (first and second evolutions, special forms,
+colours) are in `nubbin-variants-*.ts` and meet in `nubbin-variant-catalogue.ts`.
+
 ## Where it is seen
 
-`?aaa=1&creature=1..5` on the AAA stage, cycling through the poses every few seconds;
+`?aaa=1&creature=1..5` on the AAA stage; `&creature=variant:<id>` stages one Nubbin variant and `&creature=variants&family=child|first|second|special|colour|templates` lines up a family (`&filter=<id part>`, `&max=<n>`, rows of eight), cycling through the poses every few seconds;
 `&pose=happy` (or `idle`, `pet`, `walk`, `eat`, `sleep`) holds one; `&closeup` frames the
 face; `&turn=<deg>` turns the creature. Fennel (`3`) and Bolder (`4`) have jointed legs;
 the Nubbin, Mossling and Wisp do not. `&creature=keeper` (or `keeper-moon`) is the Keeper

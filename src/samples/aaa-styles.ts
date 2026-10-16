@@ -14,6 +14,7 @@ import { sculptedKeeper, sculptedNubbin } from './sculpted';
 import type { Creature } from './creatures';
 import { ALL_POSES, buildSpecies, POSES, type PoseName, type Rigged } from './species';
 import { ROSTER } from './species-roster';
+import { sheetVariants, variantById } from './nubbin-variant-catalogue';
 import { NUBBIN_SPEC } from './species-data';
 import {
   KEEPER_MOON_SPEC,
@@ -890,8 +891,15 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     g.userData.yaw = facing;
     scene.add(g);
   };
-  const creatureParam = new URLSearchParams(location.search).get('creature');
-  const lineup = creatureParam === 'all';
+  const query = new URLSearchParams(location.search);
+  const creatureParam = query.get('creature');
+  // `&creature=variants` lines up a family of Nubbin variants (`&family=child|first|second|
+  // special|colour`, `&filter=<id part>`, `&max=<n>`); `&creature=variant:<id>` stages one.
+  const sheet = creatureParam === 'variants' ? sheetVariants(query).map((v) => v.spec) : null;
+  const oneVariant = creatureParam?.startsWith('variant:')
+    ? variantById(creatureParam.slice('variant:'.length))
+    : null;
+  const lineup = creatureParam === 'all' || sheet !== null;
   // `&creature=keeper` (or `keeper-moon`): the Keeper beside a Nubbin, petting, carrying
   // and throwing it as the poses cycle.
   const keeperStage = creatureParam === 'keeper' || creatureParam === 'keeper-moon';
@@ -903,14 +911,26 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
   const cast: Rigged[] = [];
   // `&turn=<degrees>` turns the creature on the spot, to view it from other angles.
   const turn = (Number(new URLSearchParams(location.search).get('turn')) || 0) * (Math.PI / 180);
+  // How far the line-up camera backs off: rows of up to eight, further rows behind.
+  let sheetBack = 1;
+  let sheetRows = 1;
   if (lineup) {
-    // `&creature=all`: the whole roster in a row, facing the camera.
-    ROSTER.forEach((spec, i) => {
+    // `&creature=all`: the whole roster in a row, facing the camera; a variant sheet in rows.
+    const specs = sheet ?? ROSTER;
+    const cols = Math.min(specs.length, 8);
+    const rows = Math.ceil(specs.length / cols);
+    // Capped so a deep sheet never puts the camera inside the hills; it rises instead.
+    sheetBack = Math.min(2.5, Math.max(1, cols / 5 + (rows - 1) * 0.45));
+    sheetRows = rows;
+    specs.forEach((spec, i) => {
       const c = buildSpecies(spec);
       c.ground = groundHeight;
-      const x = (i - 2) * 2.45;
-      c.group.userData.baseY = groundHeight(x, 0);
-      place(c.group, x, 0, Math.PI - 0.5 + turn);
+      // Back rows sit half a column across, so they show between the figures in front.
+      const row = Math.floor(i / cols);
+      const x = ((i % cols) - (cols - 1) / 2 + (row % 2) * 0.5) * 2.45;
+      const z = row * 3.2;
+      c.group.userData.baseY = groundHeight(x, z);
+      place(c.group, x, z, Math.PI - 0.5 + turn);
       cast.push(c);
     });
   }
@@ -932,10 +952,12 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     }
     creature = keeper;
   }
-  if (creatureIndex > 0 || lineup || keeperStage) {
-    if (creatureIndex > 0) {
+  if (creatureIndex > 0 || lineup || keeperStage || oneVariant) {
+    if (creatureIndex > 0 || oneVariant) {
       // One creature on the stage, framed close, facing the camera.
-      creature = buildSpecies(ROSTER[Math.min(creatureIndex, ROSTER.length) - 1]!);
+      creature = buildSpecies(
+        oneVariant?.spec ?? ROSTER[Math.min(creatureIndex, ROSTER.length) - 1]!,
+      );
       (creature as Rigged).ground = groundHeight;
       creature.group.userData.baseY = groundHeight(0, 0);
       place(creature.group, 0, 0, Math.PI - 0.5 + turn);
@@ -1190,9 +1212,11 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
         c.setPose(poseNow);
         c.animate(t);
       }
-      const back = camera.aspect < 1.5 ? 1.3 : 1;
-      camera.position.set(0.4 * back, ky + 2.5 * back, -10.4 * back);
-      camera.lookAt(0, ky + 1.1, 0);
+      const back = (camera.aspect < 1.5 ? 1.3 : 1) * sheetBack;
+      // A sheet with more rows is seen from higher up, aimed at its middle row.
+      const rise = (sheetRows - 1) * 3;
+      camera.position.set(0.4 * back, ky + 2.5 * back + rise, -10.4 * back);
+      camera.lookAt(0, ky + 1.1, (sheetRows - 1) * 1.6);
     } else if (creature) {
       if ('setPose' in creature) {
         attend(creature as Rigged, poseNow === 'pet');

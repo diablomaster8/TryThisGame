@@ -9,7 +9,7 @@ new pass goes in at line 12 and the file is long, move the oldest section to
 Shipped and deployed: v1, the organic painted Grove, the Digimon-inspired ten, the Hollow
 Below dungeons, the 96-unit field, three save slots per mode. In progress: the full-3D
 mode, currently as samples behind `?aaa=1` with the five-creature roster in the species
-format. Latest pass: crisp marks, reference notes and the format doc rewrite. Waiting on Maor:
+format. Latest pass: the Nubbin variant catalogue as specs derived from the base (Part G8). Waiting on Maor:
 the pick from expansions E1–E3 and campaigns S1–S4, and his device pass. Subagent briefs
 with model picks: `plan.md`. Improvement backlog against the Palworld references:
 `docs/creature-improvements.md`. Story content pack: `src/content/`, `script-book/`,
@@ -22,6 +22,34 @@ with model picks: `plan.md`. Improvement backlog against the Palworld references
 going until you hit the session limit." So after each milestone passes its done-when
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
+
+## The Nubbin variants as specs (2026-10-15)
+
+Part G8. `src/samples/nubbin-variants.ts`: `variant(base, name, overrides)` deep-copies a
+spec and changes only what the overrides name: colours by role (every colour the base uses
+is swapped, and a variant of a variant works because each derived spec remembers its
+palette), the crown (`point`, `tall`, `hook`, `fin`, `stub`, `droop`, `none` or custom
+prims), the ball and wings (merge, or `null` to remove), the four part slots, hint marks,
+the type silhouette (`type` at full strength, `second` at half: head fins, bigger wings,
+longer legs by lifting the body, a wider body and bigger hands) and a `patch` hook. Two spec
+fields added with rows in the format doc: `ball.shape` (`halo`, `spikes`) with `ball.glow`,
+and `wings.shape` (`feather`, `bat`). Templates: the child (neutral, Sun-leaning and
+Moon-leaning as colour hints), the Sun adult (white and blue, spire, halo, feathered wings),
+the Moon adult (black and purple, hooked crown, spiked ball, bat wings), the Neutral adult
+(mint, nodding crown). Families: `nubbin-variants-first.ts` (15), `-second.ts` (60: a first
+evolution with the second type at half strength and a belly patch in its colour),
+`-special.ts` (three Eternals with custom crowns and a glassy finish, the Shadow stray, four
+character looks), `-colour.ts` (7 egg colours × plain, two-tone and shiny, plus 7 jewels);
+`nubbin-variant-catalogue.ts` lists them (114 ids, unique by test). Stage:
+`&creature=variant:<id>`, and `&creature=variants&family=…&filter=…&max=…` lines a family
+up in staggered rows of eight with the camera rising per row and capped before the hills.
+Screenshots `docs/samples/variants-{templates,child,first,second,special,colour}.jpg`.
+**Placeholders:** the four `look-*` entries (palette only, no head accessory yet) and the
+seven `jewel-*` entries (a flat gloss; no facet detail kind yet). **Known limits:** two
+palette roles sharing one colour value swap together (Sun Fly sets its belly and sheen apart
+for this); the type silhouettes are first approximations by eye, not yet tuned against
+references; a 28-figure sheet sculpts for about a minute. Lint, 215 tests and build pass; no
+console errors on the sheets.
 
 ## The Keeper in the species format (2026-10-15)
 
@@ -108,31 +136,3 @@ makes the pair converge on a near point. With no `lookAt` the iris wanders slowl
 stage now sets it to the camera for closeup and lineup views. Check:
 `?aaa=1&creature=1&closeup&pose=idle&turn=30`, `docs/samples/look-nubbin.jpg`. Lint,
 210 tests and build pass. Not checked: the other four species by eye.
-
-## Petting, sleep and the life pass (2026-10-15)
-
-Items 23–28 of `docs/creature-improvements.md`, after the Palworld "All Pet Animations"
-reference. A `pet` pose: the creature turns to `Rigged.lookAt` (the stage sets it to a
-hand in front of the camera), leans the head in with a tilt, shuts the eyes into arcs,
-folds its ears back, wags, and seven painted heart sprites (canvas textures, no assets)
-rise and fade from the crown. Squash and stretch on the happy hop (hips 1.06/0.94 at the
-top, 0.94/1.06 on landing, the hips moved so the feet stay planted) and a forward head
-stretch on the eat chomp. Breathing is a chest scale (1.5% at 0.25 Hz; the torso now
-sits in its own `chest` group so the head and feet do not move with it), slower and
-deeper asleep. Sleep lies down fully: the belly drops to the grass (measured from the
-torso sculpt), quadrupeds fold their legs with the knees bent, bipeds curl over theirs,
-and a Zzz of three painted glyphs drifts up every 3.2 s. `Rigged.face(yaw)` eases the
-facing over 0.4 s with a lean into the turn; the stage calls it every frame (the pet pose
-turns each creature to the camera and back) and `groveStage.turnTo(deg)` turns the
-line-up from the console. Ear flicks fire at irregular intervals from a generator seeded
-by the species name; the happy tail curls up over the back. Pose timing now runs on the
-stage clock (`setPose` compared `performance.now()` with the stage's relative `t`
-before, so every ease-in started a fraction late). Screenshots:
-`docs/samples/pet-roster.jpg`, `sleep-roster.jpg`, `pet-nubbin.jpg`. Format doc updated.
-
-Stubbed: the sim has no `pet` command yet, so the pose is reached only on the stage
-(`&pose=pet`), and the hand is a point in front of the camera, not a Keeper. Known bugs:
-Fennel's lids do not cover its eyes asleep (they turn the stock 1.9 rad but sit higher
-than the Nubbin's; the same before this pass); Bolder's folded legs fan upward rather
-than tuck under; the hearts and Zzz are plain sprites, so a creature standing between
-them and the camera does not hide them.
