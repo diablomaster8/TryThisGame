@@ -332,6 +332,8 @@ export function mechLegs(
     if (!ps.name.startsWith('leg')) continue;
     const x = (ps.name === 'legL' ? -1 : 1) * 0.4;
     ps.pivot.set(x, 0.45, 0.1);
+    // One rigid mech leg: the Nubbin's knee goes with its prims.
+    delete ps.joint;
     ps.prims = [
       {
         kind: 'capsule',

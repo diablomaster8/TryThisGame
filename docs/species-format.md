@@ -244,7 +244,7 @@ shorts, bare shin, sneaker) plus crisp marks (vest panels and trim, stripes, wri
 On top of every pose: blinking, a slow breath (the chest scales 1.5% at 0.25 Hz, slower
 and deeper asleep; the torso sits in its own `chest` group so the head and feet stay put),
 ear sways with a flick at irregular intervals, wing flutter and the ball's bob. Legs
-without a joint (the Nubbin's stubs) keep the old swing at the hip.
+without a joint keep the old swing at the hip; every roster biped and quadruped has knees now.
 
 ## What the rig exposes
 
@@ -306,8 +306,8 @@ looks), `nubbin-variants-lineup.ts` (the six line-up character looks) and `nubbi
 `?aaa=1&creature=1..5` on the AAA stage; `&creature=variant:<id>` stages one Nubbin variant and `&creature=variants&family=child|first|second|special|colour|templates` lines up a family (`&filter=<id part>`, `&max=<n>`, rows of eight), cycling through the poses every few seconds;
 `&toon` is the flat outlined look of the "Chao World" line-up and `&ref=<file>&refx=<n>` (`&split`) lays a reference image from `docs/reference/` over or beside the stage (see `mountReference`);
 `&pose=happy` (or `idle`, `pet`, `walk`, `eat`, `sleep`) holds one; `&closeup` frames the
-face; `&turn=<deg>` turns the creature. Fennel (`3`) and Bolder (`4`) have jointed legs;
-the Nubbin, Mossling and Wisp do not. `&creature=keeper` (or `keeper-moon`) is the Keeper
+face; `&turn=<deg>` turns the creature. The Nubbin (`1`), Mossling (`2`), Fennel (`3`) and
+Bolder (`4`) have jointed legs; the Wisp hovers on a vapour skirt and has none. `&creature=keeper` (or `keeper-moon`) is the Keeper
 stage: the Keeper beside a Nubbin, cycling idle, walk, pet, carry, throw and sleep, the Nubbin
 answering each (leaning to the hand, riding in the arms, flying the arc and landing);
 `&pose=carry` or `throw` holds one (`docs/samples/keeper-idle.jpg`, `keeper-pet.jpg`,

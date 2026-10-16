@@ -246,6 +246,54 @@ function mosslingExtras({ hips, bones }: RigContext): (t: number) => void {
 
 const MOSSLING_HIP = 0.95;
 
+/**
+ * One short jointed leg under the Mossling's round body: a mossy thigh and shin with a
+ * knee ball, and a pale three-toed foot poking out in front. Added so it walks on planted
+ * feet and folds its legs asleep instead of sliding on its belly.
+ */
+function mosslingLeg(side: -1 | 1): SpeciesSpec['parts'][number] {
+  const x = side * 0.38;
+  const hip = V(x, 0.55, 0.2);
+  const knee = V(x, 0.3, 0.38);
+  const ankle = V(x, 0.16, 0.46);
+  return {
+    name: side < 0 ? 'legL' : 'legR',
+    pivot: V(x, 0.5, 0.25),
+    prims: [
+      { kind: 'capsule', a: hip, b: knee, r: 0.17, color: mossBody, tag: 'leg' },
+      { kind: 'sphere', a: knee, r: 0.165, color: mossBody, tag: 'leg' },
+    ],
+    box: [V(x - 0.5, 0.05, -0.2), V(x + 0.5, 0.85, 0.7)],
+    resolution: 40,
+    joint: {
+      name: side < 0 ? 'kneeL' : 'kneeR',
+      pivot: knee,
+      prims: [
+        { kind: 'sphere', a: knee, r: 0.175, color: mossBody, tag: 'leg' },
+        { kind: 'capsule', a: knee, b: ankle, r: 0.15, color: mossBody, tag: 'leg' },
+        {
+          kind: 'ellipsoid',
+          a: V(x, 0.13, 0.52),
+          radii: V(0.24, 0.13, 0.32),
+          r: 0,
+          color: mossBelly,
+          tag: 'foot',
+        },
+        ...digits(V(x, 0.1, 0.72), {
+          count: 3,
+          spread: 0.28,
+          length: 0.14,
+          r: 0.07,
+          color: mossBelly,
+          tag: 'foot',
+        }),
+      ],
+      box: [V(x - 0.5, -0.1, 0.0), V(x + 0.5, 0.55, 1.05)],
+      resolution: 48,
+    },
+  };
+}
+
 export const MOSSLING_SPEC: SpeciesSpec = {
   name: 'Mossling',
   scale: 0.85,
@@ -314,7 +362,9 @@ export const MOSSLING_SPEC: SpeciesSpec = {
     shades: [spots(2.6, 0.64, '#fff1dc', ['cap'], 93)],
     noFur: true,
   },
-  parts: [mosslingArm(-1), mosslingArm(1)],
+  parts: [mosslingArm(-1), mosslingArm(1), mosslingLeg(-1), mosslingLeg(1)],
+  // Short legs, quick light steps (one leg length a cycle) so the body barely crouches.
+  stride: { length: 1, period: 0.55, duty: 0.5 },
   face: 'torso',
   shade: { top: 1.12, bottom: 0.66, yMax: 2.2 },
   marks: [],

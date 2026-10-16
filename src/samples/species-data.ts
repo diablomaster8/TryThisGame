@@ -13,13 +13,64 @@ import type { SpeciesSpec } from './species';
 const nubbinBody = '#9ad0ff';
 const nubbinTip = '#ffd94a';
 
+/**
+ * One stubby leg with a knee: a thigh from the hip to a knee ball, and a shin on its own
+ * bone under it ending in the yellow-tipped foot with three toes. The knee sits a touch
+ * forward of the hip so the leg bends like a standing toddler's, and the walk plants the
+ * feet.
+ */
+function nubbinLeg(side: -1 | 1): SpeciesSpec['parts'][number] {
+  const x = side * 0.36;
+  const hip = V(x, 0.46, 0.06);
+  const knee = V(x, 0.28, 0.15);
+  const ankle = V(x, 0.17, 0.22);
+  return {
+    name: side < 0 ? 'legL' : 'legR',
+    pivot: V(x, 0.42, 0.08),
+    prims: [
+      { kind: 'capsule', a: hip, b: knee, r: 0.16, color: nubbinBody, tag: 'leg' },
+      { kind: 'sphere', a: knee, r: 0.155, color: nubbinBody, tag: 'leg' },
+    ],
+    box: [V(x - 0.45, 0.0, -0.3), V(x + 0.45, 0.75, 0.5)],
+    resolution: 40,
+    joint: {
+      name: side < 0 ? 'kneeL' : 'kneeR',
+      pivot: knee,
+      prims: [
+        { kind: 'sphere', a: knee, r: 0.165, color: nubbinBody, tag: 'leg' },
+        { kind: 'capsule', a: knee, b: ankle, r: 0.15, color: nubbinBody, tag: 'leg' },
+        {
+          kind: 'ellipsoid',
+          a: V(x, 0.15, 0.24),
+          radii: V(0.25, 0.15, 0.34),
+          r: 0,
+          color: nubbinTip,
+          tag: 'foot',
+        },
+        ...digits(V(x, 0.11, 0.48), {
+          count: 3,
+          spread: 0.3,
+          length: 0.16,
+          r: 0.075,
+          color: nubbinTip,
+          pad: { color: '#e8b830', r: 0.14 },
+          tag: 'foot',
+        }),
+      ],
+      box: [V(x - 0.45, -0.1, -0.2), V(x + 0.45, 0.5, 0.8)],
+      resolution: 48,
+    },
+  };
+}
+
 export const NUBBIN_SPEC: SpeciesSpec = {
   name: 'Nubbin',
   scale: 0.78,
   gait: 'biped',
   hipY: 0.74,
-  // A wider toddle than the stock swing, so a child keeps up with BEHAVIOR.walkSpeed.
-  stride: { length: 1.3 },
+  // Quick short steps on jointed legs (1.2 leg lengths a cycle, a light jog), so a child keeps
+  // up with BEHAVIOR.walkSpeed without the cadence cap sliding its feet.
+  stride: { length: 1.2, period: 0.5, duty: 0.5 },
   blend: 0.22,
   surface: {
     detail: 'smooth',
@@ -125,72 +176,8 @@ export const NUBBIN_SPEC: SpeciesSpec = {
       box: [V(0.2, 0.4, -0.3), V(1.4, 1.4, 0.6)],
       resolution: 56,
     },
-    {
-      name: 'legL',
-      pivot: V(-0.36, 0.35, 0.1),
-      prims: [
-        {
-          kind: 'capsule',
-          a: V(-0.36, 0.4, 0.1),
-          b: V(-0.36, 0.2, 0.2),
-          r: 0.16,
-          color: nubbinBody,
-          tag: 'leg',
-        },
-        {
-          kind: 'ellipsoid',
-          a: V(-0.36, 0.15, 0.24),
-          radii: V(0.25, 0.15, 0.34),
-          r: 0,
-          color: nubbinTip,
-          tag: 'foot',
-        },
-        ...digits(V(-0.36, 0.11, 0.48), {
-          count: 3,
-          spread: 0.3,
-          length: 0.16,
-          r: 0.075,
-          color: nubbinTip,
-          pad: { color: '#e8b830', r: 0.14 },
-          tag: 'foot',
-        }),
-      ],
-      box: [V(-0.8, -0.1, -0.3), V(0.1, 0.7, 0.8)],
-      resolution: 48,
-    },
-    {
-      name: 'legR',
-      pivot: V(0.36, 0.35, 0.1),
-      prims: [
-        {
-          kind: 'capsule',
-          a: V(0.36, 0.4, 0.1),
-          b: V(0.36, 0.2, 0.2),
-          r: 0.16,
-          color: nubbinBody,
-          tag: 'leg',
-        },
-        {
-          kind: 'ellipsoid',
-          a: V(0.36, 0.15, 0.24),
-          radii: V(0.25, 0.15, 0.34),
-          r: 0,
-          color: nubbinTip,
-          tag: 'foot',
-        },
-        ...digits(V(0.36, 0.11, 0.48), {
-          count: 3,
-          spread: 0.3,
-          length: 0.16,
-          r: 0.075,
-          color: nubbinTip,
-          pad: { color: '#e8b830', r: 0.14 },
-          tag: 'foot',
-        }),
-      ],
-      box: [V(-0.1, -0.1, -0.3), V(0.8, 0.7, 0.8)],
-      resolution: 48,
-    },
+    nubbinLeg(-1),
+    nubbinLeg(1),
   ],
   shade: { top: 1.1, bottom: 0.72, yMax: 3.1 },
   marks: [

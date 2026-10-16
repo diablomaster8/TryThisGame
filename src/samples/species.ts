@@ -1288,6 +1288,8 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
           set('armR', 0, 0, -1.3 - s(t * 7 + 1) * 0.35);
           set('legL', -0.3 * hop, 0, 0);
           set('legR', -0.3 * hop, 0, 0);
+          // Knees tuck up under the body at the top of the hop.
+          for (const leg of legs) bendKnee(leg, 0.9 * hop);
         }
         mouthOpen = 0.75;
         break;

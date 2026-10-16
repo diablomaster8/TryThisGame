@@ -367,6 +367,7 @@ export const LINEUP_LOOKS: NubbinVariant[] = [
       for (const ps of spec.parts) {
         if (!ps.name.startsWith('leg')) continue;
         const x = (ps.name === 'legL' ? -1 : 1) * 0.36;
+        delete ps.joint;
         ps.prims = [
           cone(V(x, 0.78, 0.05), V(x * 1.4, 0.08, 0.3), 0.36, 0.14, DREAM_BODY, 'foot', 0.1),
         ];
