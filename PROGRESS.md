@@ -4,22 +4,21 @@ Read this with CLAUDE.md at the start of every session. Keep it under 150 lines:
 new pass goes in at line 12 and the file is long, move the oldest section to
 `docs/progress-archive.md` (newest first there too).
 
-## Status (2026-10-16)
+## Status (2026-10-16, evening)
 
-Shipped and deployed: v1, the organic painted Grove, the Digimon-inspired ten, the Hollow
-Below dungeons, the 96-unit field, three save slots per mode, and the Full 3D mode as a
-Graphics setting (`src/render3d/`, worker sculpting, geometry cache, boot work, the G13
-polish pass: pet state, knees, lids, tumble, shoreline, dressed visits) with the pixel mode
-unchanged. Story content pack in `src/content/` with CV1, CV2 and CV3 wired (campaign v2,
-endings, the runner for all 31 side stories and the fun quests, story props, keepsakes;
-side stories and the campaign as lazy chunks; grass placed in a worker; the Learning
-Grove's story in Little Sprouts and Grove Readers). In the
-working tree, unreviewed and uncommitted: Atlas A1–A10 and A22–A31 (plan.md Task B-R1).
-Review of everything done and open, and the v3 plan with briefs: `plan.md` (2026-10-16).
-Waiting on Maor: the expansion pick E1–E3 / S1–S4, the daily-gift decision, seven
-fun-quest quotes, whether Full 3D becomes the default, his phone rows in the device pass.
-Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`. Full 3D parity gaps left:
-plan.md Part G16 (eleven fixes and the renderer brief, about 12-17 h).
+Shipped and deployed (https://diablomaster8.github.io/TryThisGame/): v1, the organic
+painted Grove, the Digimon-inspired ten, the Hollow Below, the 96-unit field, three save
+slots per mode, and the Full 3D mode as a Graphics setting (`src/render3d/`, workers and
+caches, the G13 polish, the G14 bundle diet, the G15 parity fixes) with the pixel mode
+unchanged. Story content pack in `src/content/`; engine CV1–CV6 wired (campaign v2 and
+endings, all 31 side stories and the fun quests running, props and keepsakes, the Learning
+Grove switch, Hebrew and Japanese, Atlas/Arcade/Multiverse saves, Mature content setting,
+one-time gifts). Uncommitted in the working tree: Atlas A1–A10 and A22–A31 (plan Task B-R1)
+and the edits dropping the Co-Authored-By commit line. Plan v4 (`plan.md`): G11 device pass,
+G16 parity gaps, Track B writing and review tasks, and Part Z, the independent full review
+that runs last. Waiting on Maor: the expansion pick E1–E3 / S1–S4, seven fun-quest quotes,
+Full 3D as default, his phone rows. Backlogs: `docs/creature-improvements.md`,
+`docs/content-index.md`.
 
 ## Full 3D: event bursts and tree crowns (2026-10-16)
 
