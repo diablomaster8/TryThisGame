@@ -2,6 +2,35 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## 2026-10-16: B2 debug panel guard, B3 panel stack
+
+**Works:** B2 was real: the debug panel mounted in the production build and opened on backtick or a triple-tap of the logo. It now mounts only when `import.meta.env.DEV` or the URL has `?debug` (`ui/hud.ts`); otherwise `debug` is null and both openers do nothing. Checked in `vite preview`: no `.debug` node without the flag, panel opens with it. B3: `ui/panel-stack.ts` keeps one full panel open at a time (menus, stats sheet, Journal; the newest wins) and refuses to open any over a running Expedition. Toasts take their row from the measured top-bar bottom (`--toast-top`), above panels, no pointer events. The Expedition counter now sits beside the close button. Checked at 375x812 in pixel and Full 3D (the HUD is shared DOM). Manual steps: `docs/device-pass.md` (no `tests/e2e/` yet).
+
+**Stubbed:** no Playwright test; the checks are manual until G11 creates `tests/e2e/`. Story scenes, the away screen and celebrations stay outside the stack on purpose.
+
+**Known bugs:** I could not reproduce the exact "counter under the close button" overlap at 375 wide (the old CSS had them on opposite sides); the new layout rules it out whichever way it arose. Assumption: this section sits after the Status block rather than at literal line 12, which is inside it.
+
+## Side stories as a lazy chunk (2026-10-16)
+
+Works:
+- The side-story scripts (S1–S31 and their variants) are their own chunk,
+  `src/sim/side-story-content.ts`. `story-scenes.ts` keeps the campaign scenes synchronous and
+  adds the side stories through `registerSideStories`; `loadSideStories()` imports and
+  registers the chunk once. `main.ts` starts the fetch while the title is up and awaits it
+  before `boot`, so save.ts's queue filter knows every side-story id when a save loads.
+- Tests register the chunk up front (`tests/setup-side-stories.ts`, a Vitest setup file);
+  `tests/sim/side-story-chunk.test.ts` checks a queued `s9-ask` survives save and load.
+  Checked in the browser too: a save queued on `s9-ask` boots straight into S9's scene.
+- Main chunk: 2,022 kB → 1,304 kB minified (632 → 382 kB gzip); the side-story chunk is
+  716 kB (250 kB gzip).
+
+Stubbed / known:
+- The index is still above the 1.14 MB it was before CV1: the remaining ~175 kB is the v2
+  campaign script (`content/campaign-book1..3.ts`), which stays synchronous by design.
+  Lazy-loading it the same way would bring the index near 1.13 MB.
+- Code that runs before `loadSideStories` resolves sees an empty `GROVE_SIDE_STORIES`;
+  today nothing does.
+
 ## 3D boot: terrain in a worker, the sky's first bake warmed (2026-10-16)
 
 Works: the terrain's heights, normals and rock/dirt blend are sampled in a worker

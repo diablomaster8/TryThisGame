@@ -11,12 +11,79 @@ Below dungeons, the 96-unit field, three save slots per mode, and the Full 3D mo
 Graphics setting (`src/render3d/`, worker sculpting, geometry cache, boot work, the G13
 polish pass: pet state, knees, lids, tumble, shoreline, dressed visits) with the pixel mode
 unchanged. Story content pack in `src/content/` with CV1 wired (campaign v2,
-endings, the runner for S5, S9, S10, S27, S28; side stories as a lazy chunk). In the
+endings, the runner for all 31 side stories and the fun quests, story props, keepsakes;
+side stories as a lazy chunk). In the
 working tree, unreviewed and uncommitted: Atlas A1–A10 and A22–A31 (plan.md Task B-R1).
 Review of everything done and open, and the v3 plan with briefs: `plan.md` (2026-10-16).
 Waiting on Maor: the expansion pick E1–E3 / S1–S4, the daily-gift decision, seven
 fun-quest quotes, whether Full 3D becomes the default, his phone rows in the device pass.
 Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
+
+## B-C3: every side story runs; fun quests, props, keepsakes (2026-10-16)
+
+Works:
+- All 31 Grove side stories run (`sim/side-stories.ts`, rules in `side-rules-early/mid/late.ts`,
+  the shared kit in `side-rule-kit.ts`): chapter windows and closes, step gates, every
+  `_VARIANTS` scene chosen by its flags, scenes queued before and after steps, the holds the
+  notes ask for (S30's last day and S31's Gourd Night hold the next chapter, S8's complete
+  scene holds c11-close), and chapter 10's opening waits three story nights after c9-close
+  (longer while S23 is moving) so S6, S14 and S23 have their window. "Chapter N begins"
+  means its opening scene has played.
+- Checks the sim watches on its own: waits and sits by their time words, `night:`,
+  `chapter:N:end`, choices, talks with the Keeper named, visits, pets, feeds, shakes,
+  crafts, races, placed decor or cosmetics, Moss's lantern walks (the Keeper near a post),
+  and taps on story props. Everything else is the journal's "Do it".
+- The campaign hooks the stories feed (`visitors`, `hushGarden`, `millLetter`, `cinder`,
+  `wisp`, `s8Reunited`) are set by the scripts and read where the bible says; tests cover
+  the lane scenes, S9's family count, the garden splice, the letter hand-over.
+- CV1 left-overs: `s28-null-minder` while S7's Minder ticks, S27's spring scene on the
+  first post-game morning, Wisp as a stray under the cottage step after `c10-bank-wisp`
+  (`STORY.wispHome`), S6's Ember friendship. Post-game mornings now step the runner (S24).
+- Props: eleven in `STORY_PROPS` (tuning) with names in strings; `sim/story-props.ts` says
+  which stand; painted `prop-*` frames in `paint/decor.ts`, boxes in `render3d/garden.ts`
+  (`storyPropModel`); pick kind `storyProp` sends a command that meets the matching step.
+- Rewards: `grantRewards` on completion. Hats the wardrobe knows go to the inventory,
+  flags are set, everything else is kept by id in `inventory.keepsakes` (save version 4)
+  and listed in the journal under Memories; `storyTitles` for the profile.
+- Fun quests Q1–Q65 (`sim/fun-quests.ts`, state in `campaign.fun`, journal "Capers"):
+  each `when` text read as time of day, weather, season, weekday or market or festival
+  day, chapter, the quests it follows and a few Grove facts; one offered at a time, a story
+  day into a chapter, once only, never in chapters 9–11, Sunny behind the 18+ setting.
+  They never write a campaign flag (a test checks every set).
+- Line swaps in every band: `sceneFor(world, id, band)` applies the scene notes' swaps to
+  the main lines or a Learning Grove band's (matched by line position), with band
+  versions of the short inserts; `registerEduScenes` lets the edu chunk register its
+  lookup (CV2), so the edu content stays out of the main bundle. New: S3's Fern line after
+  S8, S24's kept-stone lines. Fixes a CV1 deadlock (a gate waiting on a scene the runner
+  queued only after the gate).
+- Tests: `side-stories-{early,mid,late}`, `story-rewards`, `story-props`, `fun-quests`,
+  `line-swaps` over the driver in `tests/sim/side-driver.ts` (a chapter hold while a kept
+  story moves). 331 pass; sim time is stepped directly, which is the ×100 run.
+
+Stubbed:
+- "Do it" verbs: minigame, find, walk (except lantern posts), carry, inspect, explore,
+  escort, climb, build, puzzle, deliver, swim, write, tally, sneak, show, resolve, release,
+  catch, listen, open, float, follow, develop, host, candle, collect, give, and `watch`
+  without a time word.
+- Fun-quest phrases the sim cannot see read as "any time": a shooting star, the murky
+  stream, fruit gone missing, the morning after a storm, pears at the gate, bought from the
+  shop; "karate unlocked" is always true; "race day" is any race run. Fun quests run in the
+  campaign only (the Free Grove later). Market days are Wednesday and Saturday by the clock.
+- Feature rewards (Nubbin Jobs, deep swim, rowing, the museum, the mill, river and
+  snowfield sections, the Midsummer Cup, Clank as helper, night glide, Hazel's margin
+  notes) are keepsakes only. Not built: Wisp's torn ear, Spindle's spiders, S29's Brock
+  door, S30's after-talk lines, S31's ambient scenes, S24's lecture, S12's naming box.
+  `c12-wall-garden` has no band versions (the main text is spliced). Places outside the
+  Grove (the mill, the Tooth, the Workyard, the river, Clover's cottage, Fern's orchard)
+  are scene text only. The props' look is unit-tested as data, not yet checked in the
+  browser.
+
+Assumptions: a "week" is three story days (`STORY.weekDays`); S2 opens the first morning
+of chapter 3 (no "fruit left for Sable" fact exists); S15's market morning is any morning;
+S8's three evenings of fruit are one night's "Do it"; midnight is 0.9 of the story day and
+"frost" 0.95; `s31-sable30` is Sable's trust at 30 when Gourd Night begins.
+
+Known bugs: none known.
 
 ## G13: the 3D stub list, one commit each (2026-10-16)
 
@@ -61,14 +128,6 @@ Stubbed / known:
   did not compile), so every gate and screenshot ran in the `.idx-check` export of HEAD plus
   this pass (`tests`: 219 sim tests pass there).
 
-## 2026-10-16: B2 debug panel guard, B3 panel stack
-
-**Works:** B2 was real: the debug panel mounted in the production build and opened on backtick or a triple-tap of the logo. It now mounts only when `import.meta.env.DEV` or the URL has `?debug` (`ui/hud.ts`); otherwise `debug` is null and both openers do nothing. Checked in `vite preview`: no `.debug` node without the flag, panel opens with it. B3: `ui/panel-stack.ts` keeps one full panel open at a time (menus, stats sheet, Journal; the newest wins) and refuses to open any over a running Expedition. Toasts take their row from the measured top-bar bottom (`--toast-top`), above panels, no pointer events. The Expedition counter now sits beside the close button. Checked at 375x812 in pixel and Full 3D (the HUD is shared DOM). Manual steps: `docs/device-pass.md` (no `tests/e2e/` yet).
-
-**Stubbed:** no Playwright test; the checks are manual until G11 creates `tests/e2e/`. Story scenes, the away screen and celebrations stay outside the stack on purpose.
-
-**Known bugs:** I could not reproduce the exact "counter under the close button" overlap at 375 wide (the old CSS had them on opposite sides); the new layout rules it out whichever way it arose. Assumption: this section sits after the Status block rather than at literal line 12, which is inside it.
-
 ## 2026-10-16: content ratings (CV6 audience items)
 
 **Works:** `Settings.matureContent` (`off` | `teen` | `adult`, default `off`) and `riftConfirmed`, save v3 with a migration (v2 saves get `off`/false; bad values clamp to `off`). `sim/audience.ts` holds the pure filter: Learning Grove offers only `all`; the main game offers `all` and `main`, `teen` at 13+ or 18+, `adult` at 18+; fun quests Q1-Q65 are blocked in chapters 9-11. Settings > Mature content control (hidden when the slot mode is `edu`). `confirmRift` command sets `riftConfirmed` and turns on 18+. `ui/rift-confirm.ts` is the one-time age dialog. Tests: `tests/sim/audience.test.ts`.
@@ -84,23 +143,3 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
-## Side stories as a lazy chunk (2026-10-16)
-
-Works:
-- The side-story scripts (S1–S31 and their variants) are their own chunk,
-  `src/sim/side-story-content.ts`. `story-scenes.ts` keeps the campaign scenes synchronous and
-  adds the side stories through `registerSideStories`; `loadSideStories()` imports and
-  registers the chunk once. `main.ts` starts the fetch while the title is up and awaits it
-  before `boot`, so save.ts's queue filter knows every side-story id when a save loads.
-- Tests register the chunk up front (`tests/setup-side-stories.ts`, a Vitest setup file);
-  `tests/sim/side-story-chunk.test.ts` checks a queued `s9-ask` survives save and load.
-  Checked in the browser too: a save queued on `s9-ask` boots straight into S9's scene.
-- Main chunk: 2,022 kB → 1,304 kB minified (632 → 382 kB gzip); the side-story chunk is
-  716 kB (250 kB gzip).
-
-Stubbed / known:
-- The index is still above the 1.14 MB it was before CV1: the remaining ~175 kB is the v2
-  campaign script (`content/campaign-book1..3.ts`), which stays synchronous by design.
-  Lazy-loading it the same way would bring the index near 1.13 MB.
-- Code that runs before `loadSideStories` resolves sees an empty `GROVE_SIDE_STORIES`;
-  today nothing does.
