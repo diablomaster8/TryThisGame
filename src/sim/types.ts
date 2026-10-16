@@ -263,7 +263,12 @@ export interface Settings {
   jukebox: string | null;
   /** Ambient sounds (birds, crickets, rain, the stream). */
   ambience: boolean;
+  /** How the Grove is drawn: the pixel-art scene or the full-3D scene. */
+  graphics: GraphicsMode;
 }
+
+/** The two renderers; the save mirrors the device-wide choice made on the title screen. */
+export type GraphicsMode = 'pixel' | '3d';
 
 export interface Inventory {
   shells: number;

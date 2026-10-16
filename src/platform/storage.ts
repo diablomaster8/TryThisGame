@@ -183,3 +183,28 @@ export function pickTextFile(accept = 'application/json,.json'): Promise<string 
     input.click();
   });
 }
+
+// ---------- device-wide preferences ----------
+
+const GRAPHICS_KEY = 'grove.graphics';
+
+/**
+ * The renderer chosen on the title screen: a device-wide preference, because it is
+ * picked before any save is open. The save's `settings.graphics` mirrors it.
+ */
+export function readGraphicsPref(): 'pixel' | '3d' {
+  try {
+    return localStorage.getItem(GRAPHICS_KEY) === '3d' ? '3d' : 'pixel';
+  } catch {
+    return 'pixel';
+  }
+}
+
+export function writeGraphicsPref(mode: 'pixel' | '3d'): boolean {
+  try {
+    localStorage.setItem(GRAPHICS_KEY, mode);
+    return true;
+  } catch {
+    return false;
+  }
+}

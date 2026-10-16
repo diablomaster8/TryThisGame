@@ -4,7 +4,9 @@ import { playSong } from '../platform/audio';
 import {
   clearSlot,
   hasSave,
+  readGraphicsPref,
   readSlotSummary,
+  writeGraphicsPref,
   SLOTS_PER_MODE,
   type SaveMode,
   type SaveSlot,
@@ -15,7 +17,7 @@ import { buildKeeperSheet } from '../render/sprites/keeper';
 import { TRAINERS } from '../sim/trainers';
 import { button, el } from './dom';
 import { EDU_AGES, type EduAge } from '../config/edu';
-import { EDU_TEXT } from '../config/strings';
+import { EDU_TEXT, UI_TEXT } from '../config/strings';
 
 export interface TitleChoice {
   slot: SaveSlot;
@@ -58,6 +60,20 @@ export function showTitle(parent: HTMLElement, onChoose: (c: TitleChoice) => voi
   card.appendChild(el('div', 'title-tag', STORY_TEXT.tagline));
   const menu = el('div', 'title-menu');
   card.appendChild(menu);
+  // The renderer: a device-wide choice, made here because no save is open yet.
+  const graphicsRow = el('label', 'field-row title-graphics');
+  const graphicsSel = el('select');
+  for (const [value, text] of Object.entries(UI_TEXT.graphicsLevels)) {
+    const o = el('option', undefined, text);
+    o.value = value;
+    graphicsSel.appendChild(o);
+  }
+  graphicsSel.value = readGraphicsPref();
+  graphicsSel.addEventListener('change', () => {
+    writeGraphicsPref(graphicsSel.value === '3d' ? '3d' : 'pixel');
+  });
+  graphicsRow.append(el('strong', undefined, UI_TEXT.graphicsLabel), graphicsSel);
+  card.appendChild(graphicsRow);
   root.appendChild(card);
   parent.appendChild(root);
 

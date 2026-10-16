@@ -118,6 +118,7 @@ export function validateWorld(w: World): World {
   w.settings.musicVolume ??= 0.8;
   w.settings.sfxVolume ??= 0.8;
   w.settings.textSpeed ??= 'normal';
+  w.settings.graphics ??= 'pixel';
   w.settings.screenShake ??= true;
   w.settings.particles ??= 'full';
   w.settings.reducedMotion ??= 'system';

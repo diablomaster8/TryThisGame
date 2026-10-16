@@ -3,7 +3,13 @@ import { SLOT_TEXT, TRAINER_LABELS, UI_TEXT } from '../config/strings';
 import { SONG_NAMES } from '../platform/audio';
 import { TRAINERS } from '../sim/trainers';
 import type { Game } from '../game';
-import { clearSave, currentSlot, downloadText, pickTextFile } from '../platform/storage';
+import {
+  clearSave,
+  currentSlot,
+  downloadText,
+  pickTextFile,
+  writeGraphicsPref,
+} from '../platform/storage';
 import { deserialize, SaveError } from '../sim/save';
 import type { OfflineMode, Settings } from '../sim/types';
 import { createWorld } from '../sim/world';
@@ -25,6 +31,7 @@ export class SettingsMenu {
   private readonly shake: HTMLInputElement;
   private readonly particles: HTMLSelectElement;
   private readonly reduced: HTMLSelectElement;
+  private readonly graphics: HTMLSelectElement;
   private readonly joystick: HTMLInputElement;
   private readonly jukebox: HTMLSelectElement;
   private readonly ambience: HTMLInputElement;
@@ -160,6 +167,8 @@ export class SettingsMenu {
     body.appendChild(shakeRow);
     this.particles = select(UI_TEXT.particlesLabel, UI_TEXT.particleLevels);
     this.reduced = select(UI_TEXT.reducedMotionLabel, UI_TEXT.reducedMotionLevels);
+    this.graphics = select(UI_TEXT.graphicsLabel, UI_TEXT.graphicsLevels);
+    body.appendChild(el('div', 'help', UI_TEXT.graphicsHelp));
     // Jukebox and ambience.
     const songs: Record<string, string> = { '': UI_TEXT.jukeboxAuto };
     for (const s of SONG_NAMES) songs[s] = UI_TEXT.songNames[s] ?? s;
@@ -231,6 +240,7 @@ export class SettingsMenu {
     this.shake.checked = g.world.settings.screenShake;
     this.particles.value = g.world.settings.particles;
     this.reduced.value = g.world.settings.reducedMotion;
+    this.graphics.value = g.world.settings.graphics;
     this.joystick.checked = g.world.settings.joystick;
     this.jukebox.value = g.world.settings.jukebox ?? '';
     this.ambience.checked = g.world.settings.ambience;
@@ -285,6 +295,7 @@ export class SettingsMenu {
       screenShake: this.shake.checked,
       particles: this.particles.value as Settings['particles'],
       reducedMotion: this.reduced.value as Settings['reducedMotion'],
+      graphics: this.graphics.value === '3d' ? '3d' : 'pixel',
       joystick: this.joystick.checked,
       jukebox: this.jukebox.value || null,
       ambience: this.ambience.checked,
@@ -295,6 +306,13 @@ export class SettingsMenu {
       },
     };
     g.send({ kind: 'setSettings', settings });
+    // The renderer is picked when the game starts, so a change saves and reloads.
+    if (settings.graphics !== prev.graphics) {
+      writeGraphicsPref(settings.graphics);
+      g.world.settings = settings;
+      g.save();
+      location.reload();
+    }
   }
 
   private applyCoop(): void {
