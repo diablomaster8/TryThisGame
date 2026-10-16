@@ -77,6 +77,9 @@ export const GROVE3D = {
   /** Where the camera looks: this far above the Keeper's feet. */
   lookHeight: 1.1,
   fovDeg: 42,
+  /** In portrait the vertical field of view widens until the view is at least this wide,
+   * in degrees; at 42 alone a phone held upright sees about 20 degrees across. */
+  minHFovDeg: 34,
   near: 0.3,
   far: 260,
   /** Depth of the pond and the stream channel below the meadow. */

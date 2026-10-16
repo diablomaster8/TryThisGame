@@ -69,6 +69,14 @@ class Picker3d extends Picker {
   }
 }
 
+/** Vertical field of view for an aspect: the tuned one, widened in portrait so the view
+ * keeps `minHFovDeg` across and a Nubbin beside the Keeper stays on screen. */
+function fovFor(aspect: number): number {
+  const half = THREE.MathUtils.degToRad(GROVE3D.minHFovDeg) / 2;
+  const need = THREE.MathUtils.radToDeg(2 * Math.atan(Math.tan(half) / aspect));
+  return Math.max(GROVE3D.fovDeg, need);
+}
+
 /** What a tap can land on in 3D: the pick kinds the input knows from the pixel view. */
 export interface Pick3d {
   kind:
@@ -588,6 +596,7 @@ export class Grove3dScene {
     this.renderer.setSize(w, h, false);
     this.composer.setSize(w, h);
     this.camera.aspect = w / h;
+    this.camera.fov = fovFor(w / h);
     this.camera.updateProjectionMatrix();
     const pr = this.renderer.getPixelRatio();
     this.size = { width: Math.round(w * pr), height: Math.round(h * pr), scale: 1 / pr };
