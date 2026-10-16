@@ -467,12 +467,13 @@ export function stepCampaign(world: World, dtMs: number, events: SimEvent[]): vo
         break;
     }
   }
-  if (c.chapter > FINAL_CHAPTER) return;
-  stepVigil(world, c, dtMs, events);
+  // After the ending the chapter machine is done, but the spring stories still run.
+  const over = c.chapter > FINAL_CHAPTER;
+  if (!over) stepVigil(world, c, dtMs, events);
   // Once a sim second.
   const crossed = Math.floor(world.timeMs / 1000) !== Math.floor((world.timeMs - dtMs) / 1000);
   if (!crossed) return;
-  if (c.queue.length === 0) stepChapter(world, c, events);
+  if (!over && c.queue.length === 0) stepChapter(world, c, events);
   stepSideStories(world, c, events);
 }
 

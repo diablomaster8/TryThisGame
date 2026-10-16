@@ -4,11 +4,19 @@ import { createEgg } from './nubbin';
 import { EARLY_RULES } from './side-rules-early';
 import { LATE_RULES } from './side-rules-late';
 import { MID_RULES } from './side-rules-mid';
-import { commandMeets, dawnSince, duskSince, type StoryRule, watchCheck } from './side-rule-kit';
+import {
+  commandMeets,
+  dawnSince,
+  duskSince,
+  postGameMorning,
+  type StoryRule,
+  watchCheck,
+} from './side-rule-kit';
+import { SPEAKERS, STORY_TEXT } from '../config/story';
 import { STORY } from '../config/tuning';
 import { nextGrade } from './stats';
 import { grantRewards } from './story-rewards';
-import { sideStory } from './story-scenes';
+import { sceneById, sideStory } from './story-scenes';
 import {
   collectorRoute,
   mossInWorld,
@@ -116,6 +124,10 @@ const S28: StoryRule = {
   },
   variant: (_w, c, scene) => {
     const f = c.flags;
+    // Pixel's Minder still ticking: S7 has reached it and nobody has stopped it.
+    const s7 = c.side.s7;
+    if (scene === 's28-null' && s7 && s7.step >= 2 && !f.s7Done && !f['s7-stopped'])
+      return 's28-null-minder';
     const column = f['s28-column'];
     if (scene === 's28-logged' && column === 'unverified') return 's28-logged-unverified';
     if (scene === 's28-logged' && column === 'none') return 's28-logged-none';
@@ -227,7 +239,9 @@ export function sideOpen(c: CampaignState, id: string): boolean {
 }
 
 function variantOf(world: World, c: CampaignState, rule: StoryRule, scene: string): string {
-  return rule.variant?.(world, c, scene) ?? scene;
+  const chosen = rule.variant?.(world, c, scene) ?? scene;
+  // A variant the scripts have not written yet falls back to the scene as written.
+  return sceneById(chosen) ? chosen : scene;
 }
 
 /** Can the journal offer step `st.step` as an action now. */
@@ -256,7 +270,9 @@ export function sideHoldsOpening(world: World, c: CampaignState): boolean {
   if (world.timeMs < nextDawn(closed) + (STORY.nightsBeforeLongNight - 1) * STORY.dayMs)
     return true;
   const s23 = c.side.s23;
-  return s23?.status === 'open' && world.timeMs < s23.sinceMs + 2 * STORY.dayMs;
+  if (s23?.status !== 'open') return false;
+  // Its last morning plays before c10-open; otherwise it lapses after two idle days.
+  return s23.step >= 13 || world.timeMs < s23.sinceMs + 2 * STORY.dayMs;
 }
 
 /** A rule file asked the chapter machine to wait (the notes' "hold chapter N" rules). */
@@ -344,6 +360,14 @@ function stepOne(
     }
     if (st.stage === 'scene') {
       if (st.pending && c.queue.includes(st.pending)) return;
+      // Scenes due straight after the step's scene (a letter in a coat, a stowaway).
+      const extra = (rule.after?.(world, c, st.step) ?? []).filter((s) => !seen(c, s));
+      if (extra.length > 0) {
+        if (!free()) return;
+        for (const s of extra) queueScene(c, s);
+        st.pending = extra[extra.length - 1]!;
+        return;
+      }
       st.stage = 'check';
       st.pending = null;
       st.sinceMs = now;
@@ -382,11 +406,25 @@ function stepOne(
     if (st.stage === 'complete') {
       if (st.pending === null) {
         if (!(rule.completeGate?.(world, c, st) ?? true) || !free()) return;
+        const extra = (rule.before?.(world, c, quest.steps.length) ?? []).filter(
+          (s) => !seen(c, s),
+        );
+        if (extra.length > 0) {
+          for (const s of extra) queueScene(c, s);
+          return;
+        }
         const id = variantOf(world, c, rule, quest.complete.id);
         st.pending = id;
         if (queueScene(c, id)) return;
       }
       if (st.pending && c.queue.includes(st.pending)) return;
+      const coda = (rule.after?.(world, c, quest.steps.length) ?? []).filter((s) => !seen(c, s));
+      if (coda.length > 0) {
+        if (!free()) return;
+        for (const s of coda) queueScene(c, s);
+        st.pending = coda[coda.length - 1]!;
+        return;
+      }
       st.status = 'done';
       if (quest.sets) Object.assign(c.flags, quest.sets);
       grantRewards(world, c, quest, events);
@@ -397,8 +435,16 @@ function stepOne(
   }
 }
 
+/** The first spring morning after the ending: Spindle's egg sac hatches (S27). */
+function stepPostGame(world: World, c: CampaignState): void {
+  if (!postGameMorning(world, c) || c.queue.length > 0 || !c.flags.s27Done) return;
+  if (seen(c, 's27-spring') || seen(c, 's27-spring-wisp')) return;
+  queueScene(c, c.flags['s27-carrier'] === 'wisp' ? 's27-spring-wisp' : 's27-spring');
+}
+
 /** Once a sim second, after the chapter machine. */
 export function stepSideStories(world: World, c: CampaignState, events: SimEvent[]): void {
+  stepPostGame(world, c);
   for (const rule of RULES) {
     const quest = sideStory(rule.id);
     if (quest) stepOne(world, c, rule, quest, events);
@@ -407,6 +453,21 @@ export function stepSideStories(world: World, c: CampaignState, events: SimEvent
 
 /** World side effects of side-story scenes (the buy-back lives in campaign.ts). */
 export function sideSceneDone(world: World, c: CampaignState, scene: string): void {
+  if (scene === 's6-complete') c.friendship.ember = (c.friendship.ember ?? 0) + STORY.s6Friendship;
+  if (scene === 'c10-bank-wisp' && wispSaved(c) && !c.flags.wispHome) {
+    // Wisp, who unmade the stone, settles under the cottage step as a stray you can take in.
+    c.flags.wispHome = true;
+    withRng(world, (rng) => {
+      const wisp = createEgg(newId(world, 'nub'), { ...STORY.wispHome }, rng, 'plain');
+      wisp.name = SPEAKERS.wisp?.name ?? STORY_TEXT.wispName;
+      hatch(wisp, [], world.timeMs);
+      wisp.stage = 'adult';
+      wisp.stageMs = 0;
+      wisp.shadow = true;
+      wisp.trust = 30;
+      world.strays.push({ nubbin: wisp, leftAtMs: world.timeMs, returnsAtMs: world.timeMs });
+    });
+  }
   if (scene === 's5-gift') {
     // Fossil's secret wish: the youngest Nubbin's Stamina grade goes up one, for good.
     const youngest = world.nubbins

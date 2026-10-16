@@ -197,7 +197,7 @@ export function drive(
       hooks[st.chapter]?.(world, events);
     }
     if (st.queue.length > 0) answer(world, events, choices);
-    else if (st.chapter > FINAL_CHAPTER) return;
+    else if (st.chapter > FINAL_CHAPTER && !opts.until) return;
     else idle(world, events, opts);
     tick(world, events, 1.1);
   }

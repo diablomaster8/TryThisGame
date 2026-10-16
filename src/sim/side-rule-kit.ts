@@ -18,8 +18,10 @@ export interface StoryRule {
   adjust?(world: World, c: CampaignState, st: SideStoryState): void;
   /** May step `i`'s scene play yet. Defaults to straight away. */
   gate?(world: World, c: CampaignState, st: SideStoryState, i: number): boolean;
-  /** Scenes to play just before step `i`'s scene. */
+  /** Scenes to play just before step `i`'s scene (`i` = steps.length: before the complete scene). */
   before?(world: World, c: CampaignState, i: number): string[];
+  /** Scenes to play straight after step `i`'s scene (`i` = steps.length: after the complete scene). */
+  after?(world: World, c: CampaignState, i: number): string[];
   /** Step `i`'s check, met without the Keeper's action (on top of `watchCheck`). */
   auto?(world: World, c: CampaignState, st: SideStoryState, i: number): boolean;
   /** Steps whose check only the sim can meet (no journal action). */
@@ -87,6 +89,13 @@ export function morningAfterScene(w: World, c: CampaignState, id: string): boole
 export function duskAfterScene(w: World, c: CampaignState, id: string): boolean {
   const at = seenAt(c, id);
   return at !== null && w.timeMs >= nextDusk(at);
+}
+
+/** The first morning after the ending has played: the post-game spring. */
+export function postGameMorning(w: World, c: CampaignState): boolean {
+  if (c.chapter <= 12 || !c.ending) return false;
+  const last = seenAt(c, `end-${c.ending}-last`);
+  return last !== null && w.timeMs >= nextDawn(last);
 }
 
 /** The sim time the chapter's opening scene was seen, if it has been. */

@@ -97,6 +97,7 @@ export const STORY_TEXT = {
   friends: 'Friends',
   sideStories: 'Stories',
   memories: 'Memories',
+  wispName: 'Wisp',
   memoriesHelp: 'What the stories left you.',
   keepsakeKept: (label: string) => `Kept: ${label}`,
   doStep: 'Do it',
