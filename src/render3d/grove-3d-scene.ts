@@ -135,6 +135,15 @@ export class Grove3dScene {
     this.pickables.push(...this.props.pickables);
     this.water = buildGroveWater(this.world3d);
     this.actors = new Actors(this.scene);
+    // Compile against the composer's target: the game draws into it (linear, no tone
+    // mapping), and programs compiled for the canvas would not be the ones it uses.
+    this.actors.pool.compile = (o) => {
+      const prev = this.renderer.getRenderTarget();
+      this.renderer.setRenderTarget(this.composer.readBuffer);
+      const done = this.renderer.compileAsync(o, this.camera, this.scene);
+      this.renderer.setRenderTarget(prev);
+      return done;
+    };
     this.actors.ground = standHeight;
     // Underground: a plain dark floor, until the Hollow gets its own 3D rooms.
     this.dungeonFloor = new THREE.Mesh(

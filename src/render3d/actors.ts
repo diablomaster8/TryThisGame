@@ -4,7 +4,7 @@ import { frameKey } from '../render/sprites/animations';
 import { emoteFor } from '../render/world-view';
 import type { PoseName, Rigged } from '../samples/species';
 import type { Item, Nubbin, Vec2, World } from '../sim/types';
-import { CreaturePool, keeperLook, nubbinLook } from './creature-pool';
+import { CreaturePool, keeperLook, nubbinLook, type Look } from './creature-pool';
 import { stubOnce } from './stubs';
 
 /**
@@ -23,6 +23,9 @@ interface Actor {
   rig: Rigged | null;
   /** The egg or cocoon shell shown instead of a rig for those stages. */
   shell: THREE.Mesh | null;
+  /** The look still being sculpted, and the soft stand-in shown until it is ready. */
+  look: Look | null;
+  stand: THREE.Mesh | null;
   prev: Snapshot;
   pose: PoseName;
   emote: THREE.Sprite;
@@ -81,7 +84,19 @@ export class Actors {
   private readonly nubbins = new Map<string, Actor>();
   private readonly items = new Map<string, { mesh: THREE.Mesh; prev: Snapshot }>();
   private readonly memorials = new Map<string, THREE.Group>();
-  private keeper: { key: string; rig: Rigged } | null = null;
+  private keeper: { key: string; look: Look; rig: Rigged | null; stand: THREE.Mesh | null } | null =
+    null;
+  /** Stand-ins for figures still in the sculpt workers: one soft, breathing capsule. */
+  private readonly standGeo = new THREE.CapsuleGeometry(0.5, 0.6, 6, 16);
+  private readonly standMat = new THREE.MeshStandardMaterial({
+    color: '#e8f0ff',
+    emissive: '#a8c8ff',
+    emissiveIntensity: 0.4,
+    roughness: 0.6,
+    transparent: true,
+    opacity: 0.55,
+    depthWrite: false,
+  });
   private keeperPrev: Vec2 = { x: 0, z: 0 };
   private keeperMoving = false;
   private readonly emoteMats = new Map<string, THREE.SpriteMaterial>();
@@ -221,7 +236,7 @@ export class Actors {
       if (!best || d < best.d) best = { kind, id, d };
     };
     for (const [id, a] of this.nubbins) {
-      const o = a.rig?.group ?? a.shell;
+      const o = a.rig?.group ?? a.shell ?? a.stand;
       if (!o) continue;
       const r = a.rig
         ? Math.max(
@@ -272,6 +287,8 @@ export class Actors {
       key: want,
       rig: null,
       shell: null,
+      look: null,
+      stand: null,
       prev: { pos: { x: n.pos.x, z: n.pos.z }, y: n.y },
       pose: 'idle',
       emote,
@@ -281,39 +298,72 @@ export class Actors {
       actor.shell = this.shell(n.stage, n);
       this.group.add(actor.shell);
     } else {
-      actor.rig = this.pool.acquire(nubbinLook(n));
-      actor.rig.ground = this.ground;
-      actor.rig.setPose('idle');
-      this.group.add(actor.rig.group);
+      actor.look = nubbinLook(n);
+      this.tryRig(actor);
       if (n.shiny || n.tone) stubOnce('look:shiny-or-tone', 'colour variants use the base look');
     }
     this.nubbins.set(n.id, actor);
     return actor;
   }
 
+  /** A stand-in sized to a look: the height it will have, as a soft capsule. */
+  private standIn(look: Look): THREE.Mesh {
+    const m = new THREE.Mesh(this.standGeo, this.standMat);
+    m.scale.set(look.height * 0.32, look.height * 0.5, look.height * 0.32);
+    this.group.add(m);
+    return m;
+  }
+
+  /** Swap a Nubbin's stand-in for its rig once the pool can build it. */
+  private tryRig(a: Actor): void {
+    if (a.rig || !a.look) return;
+    const rig = this.pool.acquire(a.look);
+    if (!rig) {
+      a.stand ??= this.standIn(a.look);
+      return;
+    }
+    a.rig = rig;
+    a.look = null;
+    a.stand?.removeFromParent();
+    a.stand = null;
+    a.pose = 'idle';
+    rig.ground = this.ground;
+    rig.setPose('idle');
+    this.group.add(rig.group);
+  }
+
   private drop(id: string): void {
     const a = this.nubbins.get(id);
     if (!a) return;
     if (a.rig) this.pool.release(a.key, a.rig);
+    a.stand?.removeFromParent();
     a.shell?.removeFromParent();
     a.emote.removeFromParent();
     this.nubbins.delete(id);
   }
 
-  private ensureKeeper(world: World): Rigged {
+  /**
+   * The Keeper's rig, or null while it is still being sculpted (a stand-in shows then).
+   * Switching Keepers keeps the old rig on screen until the new one is ready.
+   */
+  private ensureKeeper(world: World): Rigged | null {
     const look = keeperLook(world.keeper);
-    if (this.keeper && this.keeper.key !== look.key) {
-      this.pool.release(this.keeper.key, this.keeper.rig);
-      this.keeper = null;
-    }
-    if (!this.keeper) {
-      const rig = this.pool.acquire(look);
+    const k = this.keeper;
+    if (k && k.key === look.key && k.rig) return k.rig;
+    const rig = this.pool.acquire(look);
+    if (rig) {
+      if (k?.rig) this.pool.release(k.key, k.rig);
+      k?.stand?.removeFromParent();
       rig.ground = this.ground;
       rig.setPose('idle');
+      rig.group.userData.pose = 'idle';
       this.group.add(rig.group);
-      this.keeper = { key: look.key, rig };
+      this.keeper = { key: look.key, look, rig, stand: null };
+      return rig;
     }
-    return this.keeper.rig;
+    if (k?.rig) return k.rig;
+    if (!k) this.keeper = { key: look.key, look, rig: null, stand: this.standIn(look) };
+    return null;
   }
 
   private itemMesh(i: Item): THREE.Mesh {
@@ -342,6 +392,9 @@ export class Actors {
   update(world: World, alpha: number, nowMs: number, dt: number, cameraPos: THREE.Vector3): void {
     const t = nowMs / 1000;
     const keeper = world.keeper;
+    this.pool.frame();
+    // The Keeper first: when it and a hatchling are both waiting, the Keeper is built.
+    const rig = this.ensureKeeper(world);
     const petting = keeper.intent?.kind === 'pet' ? keeper.intent.nubbinId : null;
     // Pixel-mode layers without a 3D counterpart yet, noted once each.
     if (world.npcs.length > 0) stubOnce('npcs', 'visiting trainers are not drawn');
@@ -357,11 +410,12 @@ export class Actors {
     for (const n of world.nubbins) {
       live.add(n.id);
       const a = this.ensureNubbin(n);
+      this.tryRig(a);
       const x = lerp(a.prev.pos.x, n.pos.x, alpha);
       const z = lerp(a.prev.pos.z, n.pos.z, alpha);
       const y = lerp(a.prev.y, n.y, alpha);
       const gy = this.ground(x, z);
-      const o = a.rig?.group ?? a.shell!;
+      const o = a.rig?.group ?? a.shell ?? a.stand!;
       const moving = Math.hypot(n.pos.x - a.prev.pos.x, n.pos.z - a.prev.pos.z) > 0.004;
       if (a.rig) {
         const near = Math.hypot(keeper.pos.x - n.pos.x, keeper.pos.z - n.pos.z) < 1.5;
@@ -376,6 +430,8 @@ export class Actors {
         a.rig.lookAt =
           pose === 'pet' ? this.tmp.set(keeper.pos.x, gy + 1.0, keeper.pos.z).clone() : null;
         a.rig.animate(t);
+      } else if (a.stand) {
+        o.position.set(x, gy + y + o.scale.y * 0.9, z);
       } else if (a.shell) {
         o.position.set(x, gy + 0.46 + y, z);
         if (n.stage === 'egg') o.rotation.z = Math.sin(t * 2.2 + x) * 0.06;
@@ -400,7 +456,6 @@ export class Actors {
     for (const id of [...this.nubbins.keys()]) if (!live.has(id)) this.drop(id);
 
     // The Keeper.
-    const rig = this.ensureKeeper(world);
     const kp = this.keeperDrawPos(world, alpha);
     const kMoving =
       Math.hypot(keeper.pos.x - this.keeperPrev.x, keeper.pos.z - this.keeperPrev.z) > 0.004;
@@ -416,13 +471,20 @@ export class Actors {
         : this.keeperMoving
           ? 'walk'
           : 'idle';
-    if (kPose !== (rig.group.userData.pose as PoseName | undefined)) {
-      rig.group.userData.pose = kPose;
-      rig.setPose(kPose);
+    if (rig) {
+      if (kPose !== (rig.group.userData.pose as PoseName | undefined)) {
+        rig.group.userData.pose = kPose;
+        rig.setPose(kPose);
+      }
+      rig.group.position.set(kp.x, this.ground(kp.x, kp.z), kp.z);
+      rig.face(keeper.facing);
+      rig.animate(t);
+    } else if (this.keeper?.stand) {
+      const s = this.keeper.stand;
+      s.position.set(kp.x, this.ground(kp.x, kp.z) + s.scale.y * 0.9, kp.z);
     }
-    rig.group.position.set(kp.x, this.ground(kp.x, kp.z), kp.z);
-    rig.face(keeper.facing);
-    rig.animate(t);
+    // Stand-ins breathe while they wait.
+    this.standMat.emissiveIntensity = 0.35 + Math.sin(t * 3) * 0.2;
 
     // Items.
     const liveItems = new Set<string>();
@@ -473,6 +535,7 @@ export class Actors {
     const target = hl
       ? (this.nubbins.get(hl)?.rig?.group ??
         this.nubbins.get(hl)?.shell ??
+        this.nubbins.get(hl)?.stand ??
         this.items.get(hl)?.mesh)
       : null;
     this.highlight.visible = !!target;
@@ -505,7 +568,7 @@ export class Actors {
   /** Creatures pushing the grass: positions and footprints, nearest to the camera first. */
   pushers(): Array<{ x: number; z: number; r: number }> {
     const out: Array<{ x: number; z: number; r: number }> = [];
-    if (this.keeper) {
+    if (this.keeper?.rig) {
       const g = this.keeper.rig.group;
       out.push({
         x: g.position.x,
@@ -527,6 +590,9 @@ export class Actors {
 
   dispose(): void {
     for (const id of [...this.nubbins.keys()]) this.drop(id);
+    this.pool.dispose();
+    this.standGeo.dispose();
+    this.standMat.dispose();
     for (const m of this.emoteMats.values()) {
       m.map?.dispose();
       m.dispose();

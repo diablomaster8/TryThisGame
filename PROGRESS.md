@@ -23,6 +23,24 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## The 3D mode carried forward (2026-10-16)
+
+Plan: (1) sculpt in workers with a geometry cache and stand-ins; (2) work down the stub
+list; (3) foot sliding and hill-top taps. One commit per step.
+**Step 1, worker sculpting.** `buildSpecies(spec, sculpted?)` takes surfaces marched
+elsewhere, in `speciesSurfaces(spec)` order (`sculptSurface` marches one). `SculptFarm`
+(`render3d/sculpt-farm.ts`) fans each look's surfaces across up to four workers
+(`sculpt-worker.ts` rebuilds the spec from its look key via `looks.ts`) and caches the
+result by key, so a second Nubbin with a look never marches; with no workers it marches on
+the page, one surface per task. `CreaturePool.acquire` returns null until a look is ready
+(Actors shows a soft breathing capsule), builds at most one rig a frame, compiles the
+rig's programs with `compileAsync` against the composer's target before first draw, and
+strips the emote ball's point light (each one changed the light count and recompiled
+every material in the Grove: the 500-900 ms hitch at every hatch). `?free` in Full 3D, this PC:
+Keeper back from the workers in 1.5-2.7 s, rigs 100-220 ms on the page, worst frame after
+the first 227 ms (was 900 ms; the first frame's own compile is 650 ms). `?aaa=` stages still
+build synchronously.
+
 ## Special forms after the "Chao World" line-up (2026-10-16)
 
 Maor sent a line-up of seven character forms as the target ("get models closer"). The

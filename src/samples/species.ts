@@ -615,7 +615,66 @@ function sculptPart(
   );
 }
 
-export function buildSpecies(spec: SpeciesSpec): Rigged {
+/** One surface `buildSpecies` sculpts: the torso, a part or a part's lower segment. */
+export interface Surface {
+  prims: Prim[];
+  box: [THREE.Vector3, THREE.Vector3];
+  blend: number;
+  res: number;
+  extra: Shade[];
+}
+
+const torsoSurface = (spec: SpeciesSpec): Surface => ({
+  prims: spec.torso.prims,
+  box: spec.torso.box,
+  blend: spec.torso.blend ?? spec.blend,
+  res: spec.torso.resolution ?? 104,
+  extra: [],
+});
+const partSurface = (spec: SpeciesSpec, ps: PartSpec): Surface => ({
+  prims: ps.prims,
+  box: ps.box,
+  blend: ps.blend ?? spec.blend,
+  res: ps.resolution ?? 80,
+  extra: ps.shades ?? [],
+});
+const jointSurface = (spec: SpeciesSpec, ps: PartSpec): Surface => {
+  const j = ps.joint!;
+  return {
+    prims: j.prims,
+    box: j.box,
+    blend: j.blend ?? ps.blend ?? spec.blend,
+    res: j.resolution ?? ps.resolution ?? 80,
+    extra: ps.shades ?? [],
+  };
+};
+
+/**
+ * Every surface `buildSpecies` sculpts, in the order it sculpts them, so the marching
+ * can run elsewhere (a worker) and the build take the results.
+ */
+export function speciesSurfaces(spec: SpeciesSpec): Surface[] {
+  const out = [torsoSurface(spec)];
+  for (const ps of [spec.head, ...spec.parts]) {
+    out.push(partSurface(spec, ps));
+    if (ps.joint) out.push(jointSurface(spec, ps));
+  }
+  return out;
+}
+
+/** March one surface of a species: the slow part of a build. */
+export function sculptSurface(spec: SpeciesSpec, s: Surface): THREE.BufferGeometry {
+  return sculptPart(spec, s.prims, s.box, s.blend, s.res, s.extra);
+}
+
+/**
+ * Build a rigged figure. `sculpted`, when given, holds the surfaces already marched in
+ * `speciesSurfaces` order (from a worker or a cache) and the build skips the marching.
+ */
+export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[]): Rigged {
+  let next = 0;
+  const surface = (s: Surface): THREE.BufferGeometry =>
+    sculpted ? sculpted[next++]! : sculptSurface(spec, s);
   const root = new THREE.Group();
   const mat = surfaceMaterial(spec.surface);
   const bones: Record<string, THREE.Group> = {};
@@ -628,13 +687,7 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
   hips.position.set(0, spec.hipY, 0);
   root.add(hips);
   bones.hips = hips;
-  const torsoGeo = sculptPart(
-    spec,
-    spec.torso.prims,
-    spec.torso.box,
-    spec.torso.blend ?? spec.blend,
-    spec.torso.resolution ?? 104,
-  );
+  const torsoGeo = surface(torsoSurface(spec));
   torsoGeo.translate(0, -spec.hipY, 0);
   const torso = new THREE.Mesh(torsoGeo, mat);
   torso.castShadow = true;
@@ -652,14 +705,7 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
   const bellyY = torsoGeo.boundingBox!.min.y + spec.hipY;
 
   const hang = (ps: PartSpec, parent: THREE.Group, parentOrigin: THREE.Vector3): THREE.Group => {
-    const geo = sculptPart(
-      spec,
-      ps.prims,
-      ps.box,
-      ps.blend ?? spec.blend,
-      ps.resolution ?? 80,
-      ps.shades ?? [],
-    );
+    const geo = surface(partSurface(spec, ps));
     geo.translate(-ps.pivot.x, -ps.pivot.y, -ps.pivot.z);
     const mesh = new THREE.Mesh(geo, ps.surface ? surfaceMaterial(ps.surface) : mat);
     mesh.castShadow = true;
@@ -674,14 +720,7 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
     if (ps.joint) {
       // The lower segment hangs from the knee, which hangs from this part's bone.
       const j = ps.joint;
-      const lowGeo = sculptPart(
-        spec,
-        j.prims,
-        j.box,
-        j.blend ?? ps.blend ?? spec.blend,
-        j.resolution ?? ps.resolution ?? 80,
-        ps.shades ?? [],
-      );
+      const lowGeo = surface(jointSurface(spec, ps));
       lowGeo.translate(-j.pivot.x, -j.pivot.y, -j.pivot.z);
       const low = new THREE.Mesh(lowGeo, mesh.material);
       low.castShadow = true;
@@ -724,6 +763,8 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
   const hipOrigin = new THREE.Vector3(0, spec.hipY, 0);
   const head = hang(spec.head, hips, hipOrigin);
   for (const ps of spec.parts) hang(ps, hips, hipOrigin);
+  if (sculpted && next !== sculpted.length)
+    throw new Error(`${spec.name}: ${sculpted.length} surfaces given, ${next} used`);
 
   if (spec.fur) {
     for (const f of furred)
