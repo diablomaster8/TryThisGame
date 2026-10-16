@@ -4,18 +4,18 @@ Read this with CLAUDE.md at the start of every session. Keep it under 150 lines:
 new pass goes in at line 12 and the file is long, move the oldest section to
 `docs/progress-archive.md` (newest first there too).
 
-## Status (2026-10-15)
+## Status (2026-10-16)
 
 Shipped and deployed: v1, the organic painted Grove, the Digimon-inspired ten, the Hollow
-Below dungeons, the 96-unit field, three save slots per mode. In progress: the full-3D
-mode, now a real Graphics setting (Pixel | Full 3D) with `src/render3d/`; the pixel mode
-ships unchanged; it now sculpts in workers and draws every species, place and stub
-(see "The 3D mode carried forward" in docs/progress-archive.md). Latest passes: CV1 (campaign v2, its sim changes and the side-story runner for S5, S9, S10, S27, S28) and the 3D boot work. Waiting on Maor:
-the pick from expansions E1–E3 and campaigns S1–S4, and his device pass. Subagent briefs
-with model picks: `plan.md`. Improvement backlog against the Palworld references:
-`docs/creature-improvements.md`. Story content pack: `src/content/`, `script-book/`,
-`voiceover/`; backlog index (CV1–CV6, B1–B3, OW, F, S, Q, Multiverse, Neopia, Atlas, Part M):
-`docs/content-index.md`.
+Below dungeons, the 96-unit field, three save slots per mode, and the Full 3D mode as a
+Graphics setting (`src/render3d/`, worker sculpting, geometry cache, boot work) with the
+pixel mode unchanged. Story content pack in `src/content/` with CV1 wired (campaign v2,
+endings, the runner for S5, S9, S10, S27, S28; side stories as a lazy chunk). In the
+working tree, unreviewed and uncommitted: Atlas A1–A10 and A22–A31 (plan.md Task B-R1).
+Review of everything done and open, and the v3 plan with briefs: `plan.md` (2026-10-16).
+Waiting on Maor: the expansion pick E1–E3 / S1–S4, the daily-gift decision, seven
+fun-quest quotes, whether Full 3D becomes the default, his phone rows in the device pass.
+Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
 
 ## Standing approval (Maor, 2026-10-12)
 

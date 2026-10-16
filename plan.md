@@ -1,10 +1,52 @@
-# Plan: the remaining work, in two tracks, cut for subagents
+# Plan: the remaining work, in two tracks, cut for subagents (v3, 2026-10-16)
 
-**Track A — Graphics and the 3D mode** (Parts G1–G12) and **Track B — Story and content**
-(Tasks B0, B-S3…B-H). Each part is one brief you can hand to a Claude Code session on its own:
-it names a model, says why, and has a prompt ready to paste. Track B's tasks come from the
-content pack's own plan (written 2026-10-15 alongside the pack, now at `Stories/` in the repo)
-and keep their numbering with a `B-` prefix, so the pack's docs and logs still line up.
+**Track A — Graphics and the 3D mode** (Parts G11–G15) and **Track B — Story and content**
+(Tasks B-R1, B-S5a…B-H). Each part is one brief you can hand to a Claude Code session on its
+own: it names a model, says why, and has a prompt ready to paste. This version follows a
+review of everything in the repo on 2026-10-16 (134 commits, 255 tests passing, the content
+checker at `problems: 0`); the done work is listed first so nothing is briefed twice.
+
+## Review: what is complete
+
+| Area | Done | Evidence |
+| --- | --- | --- |
+| **v1 game** (M0–M5) | Scaffold, low-res pipeline, Grove, sprites, Keeper, eggs, needs, stats, grades, critters, essences, alignment, evolution with 15 forms, Sun and Moon Groves, life cycle with rebirth and departure, Eternals, Expedition, shop, races, personality, roster, hats, PWA, sound, reduced motion, debug panel; deployed on GitHub Pages | archive sections M3–M5, "Acceptance checks" |
+| **Post-v1 content and systems** | Campaign "Hazel's Grove", the twenty improvements, the ten recommendations, Learning Grove (educational mode), settings and interactions, score, 540p render, three creature families (Chao-faithful Nubbins, pocket line, digital line), ten Keepers | archive 2026-10-12/13 |
+| **Environment** | Organic painted Grove (buildings, hills, waterfall, lanterns, decor, collision), 96-unit field, smooth camera, tap and hover feedback | archive 2026-10-13 |
+| **Digimon-inspired ten** | Village square, care slips, gym, partners and merge, curfew, rebirth memories, Keeper skills, scan and convert, guard teams, Beetle Run | commit 132e098, c02c6b0 |
+| **The Hollow Below** | Procedural dungeons with party, loot, strays, chest, stairs, daily seed | commit e175cbc |
+| **Save slots** | Three per mode, title Continue/New/Erase | commit 7176612 |
+| **3D direction** | Five style samples, five console-era samples, the AAA stage (sky, terrain, grass, water, post), sculpted SDF creatures, five hand-built creatures | `?style3d`, `?retro3d`, `?aaa` |
+| **Species format** | SDF rig with poses, expressions, anchored faces, baked AO, painted look, grounding, knee joints and planted feet, pet and sleep and breathing, eyes that look, digits and tufts, crisp marks, species notes, the Keeper, the Nubbin variant catalogue (all Chao forms, jewel facets, special forms), the "Chao World" line-up match, stride field | Parts G1–G8, G8b; `docs/species-format.md` |
+| **Full-3D mode** | Graphics setting (Pixel / Full 3D), `src/render3d/` behind the same WorldView: terrain, sky, water, garden, buildings, crowd, Hollow floors, toys, weather, bursts, camera shake, picking, every species and tint, worker sculpting with a geometry cache and device grid, textures painted in workers, programs compiled ahead, terrain sampled in a worker, loading bar | Parts G9, G10, "3D boot" passes |
+| **Story content pack** | Moved into `src/content/` with checker, script book and voice-over builder; campaign v2 (12 chapters, 8 endings), S1–S31, Q1–Q65, Neopia, Multiverse, readers, results, Learning Grove bands for the campaign, S1–S22 and three fun packs, Hebrew and Japanese questlines, Atlas A11–A21; fix pass of 241 items | Task B0; `docs/content-index.md` |
+| **Engine CV1** | Campaign v2 wired with its sim changes, ending order from the bible, chapter holds, line swaps, variant selection, S27 buy-back, the side-story runner for S5, S9, S10, S27 and S28, journal "Do it", save migration, 25 tests; side stories as a lazy chunk (main bundle 2.0 → 1.3 MB) | Task B-C1; commits 00437ac, 4490787 |
+
+**Scripted, wired, not yet reviewed or committed (in the working tree on 2026-10-16):** Atlas
+A1–A10 and A22–A31 (twenty files, logs in `docs/logs/script-a*.md`, index and checker updated,
+`problems: 0`). Task B-R1 reviews and commits them.
+
+## Review: what is open
+
+- **Track A.** The device pass (phones, Firefox and Safari module workers, the no-worker
+  fallbacks) has never run. Grass placement still runs on the page at boot. The 3D stubs:
+  no `pet` command in the sim (the pose exists only on the stage); a neighbour's Grove in
+  `location:visit` is a bare floor; knees for the Nubbin, Mossling and Wisp; Fennel's lids do
+  not cover its eyes asleep; Bolder's folded legs fan up; hearts and Zzz sprites are not
+  occluded; a thrown Nubbin does not tumble; the Keeper walks through the pond. The main
+  bundle is 1.3 MB with the v2 campaign script synchronous (another 175 kB could lazy-load).
+  Whether Full 3D becomes the default is Maor's call.
+- **Track B.** Review of the twenty Atlas pages; the Arcade PA1–PA5, lines LB and LK, fun packs
+  Q66–Q95; Learning Grove versions of S24–S31 and of every `all` Atlas and Arcade page; quote
+  verification, adviser packets, the canon audit; engine CV2–CV6 plus the rest of CV1's scope
+  (the other 26 side stories run, places, props, items and rewards for them, `s28-null-minder`,
+  S27's spring scene, Wisp's stray after `c10-bank-wisp`, voice clips); the Mature content
+  setting; the no-chores clean-up. Known bugs B2 (debug panel in production, verify) and B3
+  (panel overlaps) from 2026-10-13 are unchecked; B1 is fixed by CV1.
+- **Waiting on Maor:** the pick from expansions E1–E3 and campaigns S1–S4; the daily-gift
+  decision for B-C7; the seven fun-quest quotes; whether Full 3D is the default; his own
+  device pass. Online pieces (logins, cloud save, visiting; `docs/multiplayer-plan.md`) stay
+  out of scope until he says otherwise.
 
 ## How to use this file
 
@@ -17,8 +59,8 @@ and keep their numbering with a `B-` prefix, so the pack's docs and logs still l
    `docs/progress-archive.md`, and the two giant content outlines
    (`docs/grove-backlog-prompt.md`, `docs/more-stories.md`) are never read whole.
 3. Parts marked **independent** can run at the same time in separate worktrees; the others name
-   what they wait for. Two writers never share files. The running order at the end of this file
-   says what can overlap across the two tracks.
+   what they wait for. Two writers never share files. The running order at the end says what
+   can overlap across the two tracks.
 4. A scripting subagent uses roughly 250k–400k tokens of its own, so a 10-subagent wave is
    about 3–4M. If a usage limit cuts a wave short, re-run the same prompt and tell it which ids
    are already done.
@@ -27,9 +69,9 @@ and keep their numbering with a `B-` prefix, so the pack's docs and logs still l
 
 | Model | Use it for | Why |
 | --- | --- | --- |
-| **Fable 5.1** | Anything judged by eye or held whole in one mind: shape and animation feel against the references, the 3D mode's architecture, the Keeper, the campaign wiring (B-C1) and the whole-canon audit (B-V3). | The top tier: it looks at a render or a canon and changes the right thing. The most expensive. |
-| **Opus 5.5** | Engineering with a clear spec and a testable outcome (rigs, workers, caches, settings, the engine milestones B-C3…C6), and writing at the campaign's quality bar (every Atlas, Arcade and Learning Grove scripting task, and the reviews). | Strong and careful; does not need taste decisions or the whole canon at once. |
-| **Sonnet 5.5** | Well-specified work from a template: wiring, docs, tests, fun packs, edu drafts, quote verification with the web, the device checklist. | Fast and cheap when the template exists. |
+| **Fable 5.1** | Anything judged by eye or held whole in one mind: the 3D polish against the references, the renderer-default decision brief, the whole-canon audit (B-V3). | The top tier: it looks at a render or a canon and changes the right thing. The most expensive. |
+| **Opus 5.5** | Engineering with a clear spec and a testable outcome (the device pass fixes, the bundle diet, engine milestones B-C2…C6) and writing at the campaign's quality bar (Atlas and Arcade scripting, Learning Grove versions, the reviews). | Strong and careful; does not need taste decisions or the whole canon at once. |
+| **Sonnet 5.5** | Well-specified work from a template: wiring, docs, tests, fun packs, edu drafts, quote verification with the web, the device checklist rows. | Fast and cheap when the template exists. |
 | **Haiku 5.5** | Mechanical upkeep: script-book regeneration, status tables, moving screenshots. | Not worth more. |
 
 Model names and prices change; check the current list before a wave. If Fable is not on your
@@ -37,16 +79,18 @@ plan, use Opus wherever this file says Fable.
 
 ## The checks
 
-- **Track A (code):** `npm run lint`, `npm test`, `npm run build` before every push; the stage is
-  `npm run dev -- --port 5173` at `http://localhost:5173/?aaa=1&creature=all&pose=idle`, single
-  creatures with `&creature=1..5&closeup&pose=idle|happy|walk|eat|sleep&turn=<degrees>`.
+- **Track A (code):** `npm run lint`, `npm test`, `npm run build` before every push. The 3D
+  game runs at `http://localhost:5173/?free` with Graphics set to Full 3D (or `?free&slot=3`
+  seeded); the creature stage is `?aaa=1&creature=all&pose=idle`, single creatures with
+  `&creature=1..5&closeup&pose=idle|happy|walk|eat|sleep|pet&turn=<degrees>`, variants with
+  `&creature=variants&family=<f>` and `&toon`.
 - **Track B (content):** the three content checks (`npx tsc --noEmit -p .`,
   `npx eslint src/content tests/tools`, `npx tsx tests/tools/content-check.ts --warnings` with
   `problems: 0`), plus the Track A gate for anything that touches `src/sim/` or `src/ui/`.
 
 Common tail for every brief (already inside each prompt): run the checks; log the pass at line
-12 of `PROGRESS.md` (keep it under 150 lines); put screenshots in `docs/samples/` named by pass;
-commit with an imperative title and the line
+12 of `PROGRESS.md` (keep it under 150 lines, moving the oldest section to the archive); put
+screenshots in `docs/samples/` named by pass; commit with an imperative title and the line
 `Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>`; push to `main`; report with the
 screenshot or log names and anything left out.
 
@@ -54,220 +98,85 @@ screenshot or log names and anything left out.
 
 # Track A — Graphics and the 3D mode
 
-Status: the five-creature roster is in the species format with anchored faces; the face group
-is done on the Nubbin; the painted look is on all five; grounding is verified in the browser (Part G1 done).
-Backlog against the references: `docs/creature-improvements.md`.
+Done: G1 grounding, G2 knees, G3 petting and sleep, G4 eyes that look, G5 shape pass, G6 crisp
+marks and format doc, G7 the Keeper, G8 the variant catalogue, G8b the "Chao World" line-up
+match, G9 the real 3D mode, G10 worker sculpting and the geometry cache, plus the two 3D boot
+passes. Left: the device pass, the 3D polish backlog, the bundle diet, the renderer decision,
+and the expansions when Maor picks.
 
-## Part G1 — Verify and land grounding
+| Part | Task | Model | After | Size |
+| --- | --- | --- | --- | --- |
+| G11 | Device pass: phones, Firefox and Safari, workers, both renderers | Opus, then Sonnet rows | none | one day plus Maor's phones |
+| G13 | 3D polish: the stub list against the references | Fable | none | one to two days |
+| G14 | Bundle diet: lazy campaign script, chunking, grass placement in a worker | Opus | none | half a day |
+| G15 | Pixel versus Full 3D parity audit and the default-renderer brief | Fable | G11, G13 | half a day |
+| G12 | Expansions E1–E3 and campaigns S1–S4 | Fable | Maor's pick | large |
 
-**Model:** Opus 5.5. **Independent.** **Size:** half a day.
+## Part G11 — Device pass across both renderers
 
-The contact shadow, slope-following body and grass parting are applied in `src/samples/species.ts`
-and `src/samples/aaa-styles.ts` (the last commit on `main`) but were never rendered.
-
-```
-You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des (Git Bash, fnm Node 24). Read CLAUDE.md, the Status block of PROGRESS.md and docs/creature-improvements.md first.
-
-Context rules: keep your context small. Read CLAUDE.md and the Status block at the top of PROGRESS.md, then only the doc this brief names. Never read a source file over 400 lines whole: grep for the function or field named here and read that line range (the "Where things are" table in CLAUDE.md maps names to files). Do not open creatures-legacy.ts or docs/progress-archive.md. Aim for under 50k tokens of context before your first edit.
-
-Task: verify and finish the grounding pass (items 29, 30, 31 of docs/creature-improvements.md). The code is already applied but unverified: in src/samples/species.ts, `buildSpecies` adds a contact-shadow blob (`shadowBlob`, `spec.footprint`), a `ground` sampler on `Rigged` that tilts the root to the slope, and `root.userData.footprint`; in src/samples/aaa-styles.ts, `PUSHERS` feed `uPush` into the grass vertex shader and the stage sets `ground` on each creature.
-
-Do this:
-1. Start the dev server (`npm run dev -- --port 5173`) and open http://localhost:5173/?aaa=1&creature=all&pose=idle and &creature=3&closeup&pose=happy&turn=-30. Read the browser console tail in order (it keeps old errors across loads).
-2. Fix whatever is wrong: a shader compile error, a blob that z-fights the ground, a tilt with the wrong sign (front higher must pitch the nose up), grass that moves the wrong way. The blob must sit under the body, lighten and shrink on the happy hop and under the hovering Wisp, and never show through the body.
-3. Make the feet touch: on the single-creature stage the body must not float above or sink into the terrain at any `turn`.
-4. Screenshots: docs/samples/ground-roster.jpg, ground-fennel.jpg, ground-wisp.jpg.
-5. Run npm run lint, npm test, npm run build. Log the pass at line 12 of PROGRESS.md (what changed, what was wrong, screenshot names). Commit with an imperative title and the line "Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>", push to main.
-
-Do not touch src/render or src/sim. Report the screenshot names and anything you left out.
-```
-
-## Part G2 — Knee joints and planted feet
-
-**Model:** Fable 5.1 (rig design matters) or Opus 5.5 if the design below is enough.
-**Waits for:** Part G1. **Size:** one day.
+**Model:** Opus 5.5 for the automation and the fixes it finds; Sonnet 5.5 can fill the desktop
+rows. **Independent.**
 
 ```
-You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des. Read CLAUDE.md, the Status block of PROGRESS.md, docs/species-format.md and docs/creature-improvements.md (item 22) first.
+You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des (Git Bash, fnm Node 24).
 
-Context rules: keep your context small. Read CLAUDE.md and the Status block at the top of PROGRESS.md, then only the doc this brief names. Never read a source file over 400 lines whole: grep for the function or field named here and read that line range (the "Where things are" table in CLAUDE.md maps names to files). Do not open creatures-legacy.ts or docs/progress-archive.md. Aim for under 50k tokens of context before your first edit.
+Context rules: read CLAUDE.md and the Status block of PROGRESS.md, then the "Platform and accessibility" and "Acceptance checks" sections of docs/brief.md (grep for them). Never read a source file over 400 lines whole; grep for names from CLAUDE.md's "Where things are" table. Do not open creatures-legacy.ts or docs/progress-archive.md except by grep.
 
-Task: give the species format two-segment legs so walking plants the feet.
-
-Design: a `PartSpec` may declare `joint: { pivot: Vector3; name: string }` for a child segment (the lower leg) hung from the upper one; `buildSpecies` sculpts the two segments separately and nests the lower pivot under the upper. Add bone names `kneeFL/FR/BL/BR` (quadruped), `kneeL/R` (biped) and `knee1L..knee4R` (spider). In the walk pose, drive hip and knee together so each foot follows an arc: lift on the forward swing, plant and stay still on the back swing, with the body moving forward by the stride (expose `strideLength` and `stridePeriod` on `Rigged` so the sim can match ground speed). Add a foot-contact check against `ground` so no foot sinks.
-
-Port Fennel (src/samples/species-data.ts) and Bolder (src/samples/species-roster.ts) to jointed legs; Nubbin keeps stubs. Check on http://localhost:5173/?aaa=1&creature=3&closeup&pose=walk&turn=-60 and &creature=4: feet must not slide while on the ground.
-
-Screenshots: docs/samples/walk-fennel.jpg, walk-bolder.jpg. Add the new fields to docs/species-format.md. Run lint, test, build; log at line 12 of PROGRESS.md; commit with the Co-Authored-By line; push. Report what you could not make stick.
+Task: the device pass, in both graphics modes (Pixel and Full 3D).
+1. Automation first: a `?bench` flag that drives the game for 10 s with 8 Nubbins and logs average and worst frame time, first-frame time and (in Full 3D) Keeper-on-screen time to the debug panel and the console; a Playwright smoke test (tests/e2e/) that loads, hatches, pets, feeds, opens the journal, switches Graphics, and reloads, in both modes, asserting no console errors.
+2. Firefox and Safari: module workers (render3d/sculpt-worker.ts, terrain-worker.ts, the texture workers, render/ground.worker.ts) and their no-worker fallbacks. Fix what breaks; the fallbacks must produce the same picture.
+3. Write docs/device-pass.md: a checklist for iPhone Safari (browser and home screen), Android Chrome, desktop Chrome, Firefox and Safari, both modes: frame rate with 8 Nubbins, first load and second load times, portrait and landscape, one-thumb reach of every control, blocked storage, reduced motion, no console errors, the three save slots. Fill the desktop rows yourself with the bench numbers; leave the phone rows for Maor with exact steps and the URLs to open.
+4. Fix anything the desktop rows fail, in small commits.
+Run npm run lint, npm test, npm run build. Log at line 12 of PROGRESS.md. Commit with "Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>", push to main. Report the bench numbers per browser and the rows left for Maor.
 ```
 
-## Part G3 — Petting, sleep, squash and stretch
+## Part G13 — 3D polish: the stub list against the references
 
-**Model:** Opus 5.5. **Waits for:** Part G1 (shadow and ground). **Size:** one day.
-
-```
-You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des. Read CLAUDE.md, the Status block of PROGRESS.md, docs/species-format.md and docs/creature-improvements.md (items 23–28) first. The reference is the Palworld "All Pet Animations" video: a petted Pal turns to the Keeper, leans its head into the hand, shuts its eyes into ^ ^ arcs, wags, and hearts rise.
-
-Context rules: keep your context small. Read CLAUDE.md and the Status block at the top of PROGRESS.md, then only the doc this brief names. Never read a source file over 400 lines whole: grep for the function or field named here and read that line range (the "Where things are" table in CLAUDE.md maps names to files). Do not open creatures-legacy.ts or docs/progress-archive.md. Aim for under 50k tokens of context before your first edit.
-
-Task, in src/samples/species.ts:
-1. A new pose `pet`: turn the head toward a `lookAt` point set on `Rigged`, lean the head in, use the happy expression (arc eyes), wag the tail, and spawn 6–8 soft heart sprites (a painted canvas texture, no assets) that rise and fade from above the head. Add `pet` to POSES and the stage's pose cycle.
-2. Squash and stretch: scale the hips 1.06/0.94 at the top of the happy hop and 0.94/1.06 on landing; stretch the head forward on the eat chomp. Keep volumes plausible.
-3. Breathing: a slow chest scale (1.5% at 0.25 Hz) under every pose, not only the hip bob.
-4. Sleep: quadrupeds fold their legs and lower fully, bipeds curl; a "Zzz" of three painted glyph sprites drifts up every few seconds; breath slows.
-5. Turn in place: when the stage changes `turn`, ease the facing over 0.4 s with a small lean instead of snapping (expose `face(yaw)` on Rigged).
-6. Ear flicks at random intervals (seeded by species name, no Math.random in sim code; this is render code, so Math.random is allowed here) and a tail curl in happy.
-
-Check every pose on all five at http://localhost:5173/?aaa=1&creature=all&pose=pet (and happy, sleep). Screenshots: docs/samples/pet-roster.jpg, sleep-roster.jpg, pet-nubbin.jpg. Document the new pose and fields in docs/species-format.md. Lint, test, build; log at line 12 of PROGRESS.md; commit with the Co-Authored-By line; push. Report.
-```
-
-## Part G4 — Eye tracking
-
-**Model:** Sonnet 5.5. **Independent** (small, isolated). **Size:** two hours.
+**Model:** Fable 5.1. **Independent** (touches `src/samples/species*.ts`, `src/render3d/`, and
+one sim command).
 
 ```
-You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des. Read CLAUDE.md and docs/creature-improvements.md item 3 first.
+You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des (Git Bash, fnm Node 24).
 
-Context rules: keep your context small. Read CLAUDE.md and the Status block at the top of PROGRESS.md, then only the doc this brief names. Never read a source file over 400 lines whole: grep for the function or field named here and read that line range (the "Where things are" table in CLAUDE.md maps names to files). Do not open creatures-legacy.ts or docs/progress-archive.md. Aim for under 50k tokens of context before your first edit.
+Context rules: read CLAUDE.md and the Status block of PROGRESS.md, then docs/species-format.md and docs/creature-improvements.md. Never read a source file over 400 lines whole; grep for names from CLAUDE.md's "Where things are" table. Judge every visual change by eye against the Palworld references named in CLAUDE.md and the "Chao World" line-up at docs/reference/.
 
-Task: eyes that look. In src/samples/creatures.ts `eye()` returns an EyeRig; add `iris: THREE.Object3D` (the disc plus the catchlight in one group) to it. In src/samples/species.ts, add `lookAt?: THREE.Vector3` on `Rigged` (world space). Each frame, if set, slide each iris group a bounded amount (at most 0.22 of the eye radius) toward the look point projected into the eye's plane, with both eyes converging slightly, eased at about 6 per second. The catchlight does not move with the iris (it is a reflection), so keep it in place. When `lookAt` is unset, drift the iris with a slow idle wander. The stage (src/samples/aaa-styles.ts) sets `lookAt` to the camera position for the closeup and lineup views.
-
-Check at http://localhost:5173/?aaa=1&creature=1&closeup&pose=idle&turn=30 — the Nubbin should look at the camera. Screenshot docs/samples/look-nubbin.jpg. Lint, test, build; log at line 12 of PROGRESS.md; commit with "Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"; push. Report.
+Task: work down the 3D stub list, one commit each, checking each on the stage and in the Full 3D game (`?free`, Graphics = Full 3D):
+1. `pet` in the sim: a `pet` command and behaviour state so the 3D (and pixel) Nubbin reaches the pet pose when the Keeper pets it, with the Keeper's hand as the lookAt point; hearts rise. The pixel mode keeps its existing petting feedback.
+2. Knees for the Nubbin, Mossling and Wisp (the format's two-segment legs), folded in sleep and happy.
+3. Fennel's lids cover its eyes asleep; Bolder's folded legs tuck under instead of fanning up.
+4. Hearts and Zzz as depth-tested quads in world space so a body in front hides them.
+5. A thrown Nubbin tumbles (one slow roll about its side axis, upright on landing); its shadow blob stays on the ground under it.
+6. The Keeper stops at the shoreline or wades visibly (sim change in src/sim/behavior.ts or the Keeper mover; both modes).
+7. `location:visit`: a neighbour's Grove gets a simple dressed set (ground, three trees, a fence, the neighbour's building) instead of a bare floor.
+Screenshots: docs/samples/polish-<item>.jpg for each. Add any new spec field to docs/species-format.md with one species using it. Run lint, test, build; log at line 12 of PROGRESS.md; commit per item with "Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"; push. Report.
 ```
 
-## Part G5 — Shape fixes against the references
+## Part G14 — Bundle diet and the last boot work
 
-**Model:** Fable 5.1. **Waits for:** Part G2 (so legs are not reshaped twice). **Size:** one to two days.
-
-```
-You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des. Read CLAUDE.md, the Status block of PROGRESS.md, docs/species-format.md and docs/creature-improvements.md (items 9–15 and 32) first. Judge every change by eye against the Palworld references named in CLAUDE.md: one primary form, crisp secondary forms, toes and fingers, clumped fur on the outline, heads about 40% of body height on small species.
-
-Context rules: keep your context small. Read CLAUDE.md and the Status block at the top of PROGRESS.md, then only the doc this brief names. Never read a source file over 400 lines whole: grep for the function or field named here and read that line range (the "Where things are" table in CLAUDE.md maps names to files). Do not open creatures-legacy.ts or docs/progress-archive.md. Aim for under 50k tokens of context before your first edit.
-
-Task, in the species format (src/samples/species.ts, species-data.ts, species-roster.ts):
-1. `digits`: a helper that stamps toes, fingers or mitts and paw pads from one line per limb. Give every creature feet with toes and hands or paws.
-2. Per-form blend: let a primitive carry its own `blend` so ears, horns, the Mossling cap and the Bolder horns stand off the body while fur and bellies stay soft.
-3. `tufts`: sculpted fur clumps (short cones along the fur direction) on the outline: cheek tufts, chest ruff, tail tip, crown. Shells stay for short underfur only.
-4. Proportions: Fennel's head larger, eyes wide and low; Bolder scaled to the roster (pick a Grove unit; big by design only).
-5. Bolder: hide the neck crease (collar primitive or blend the head into the torso and keep only the jaws on the head bone). Mossling: tilt the cap back and shrink it so the eyes always show from the stage camera. Wisp: restore the bright core with its own emissive material.
-
-Check every creature at idle and happy from the front, 45° and the side (`&turn=`). Screenshots: docs/samples/shape-<name>.jpg for all five and shape-roster.jpg. Update docs/species-format.md for every new field. Lint, test, build; log at line 12 of PROGRESS.md; commit with the Co-Authored-By line; push. Report with a before/after note per creature.
-```
-
-## Part G6 — Crisp marks, species notes, format doc
-
-**Model:** Sonnet 5.5. **Independent.** **Size:** two hours.
+**Model:** Opus 5.5. **Independent.**
 
 ```
-You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des. Read CLAUDE.md and docs/species-format.md first.
+You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des (Git Bash, fnm Node 24).
 
-Context rules: keep your context small. Read CLAUDE.md and the Status block at the top of PROGRESS.md, then only the doc this brief names. Never read a source file over 400 lines whole: grep for the function or field named here and read that line range (the "Where things are" table in CLAUDE.md maps names to files). Do not open creatures-legacy.ts or docs/progress-archive.md. Aim for under 50k tokens of context before your first edit.
+Context rules: read CLAUDE.md and the Status block of PROGRESS.md, then the "Side stories as a lazy chunk" section of PROGRESS.md. Never read a source file over 400 lines whole; grep for names (`loadSideStories`, `registerSideStories`, `src/content/campaign-book1..3.ts`, `config/story.ts`, `render3d/props`, `terrain-worker.ts`).
 
-Task: (1) In src/samples/species.ts `markShade`, support `soft: 0` as a crisp anti-aliased edge (one vertex-spacing wide) for face patches, socks and belly splits; use it on Fennel's chest patch and nose. (2) Add `notes?: string` to SpeciesSpec and fill it for all five species with which reference frame each was tuned against (see PROGRESS.md sections from 2026-10-15). (3) Rewrite docs/species-format.md so every field in SpeciesSpec, PartSpec, Mark, Expression and the mouth has a row, with the default and one example, and the pose and expression tables are listed. Keep the prose plain.
-
-Check Fennel at http://localhost:5173/?aaa=1&creature=3&closeup. Screenshot docs/samples/marks-fennel.jpg. Lint, test, build; log at line 12 of PROGRESS.md; commit with "Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"; push. Report.
+Task:
+1. Lazy-load the v2 campaign script (src/content/campaign-book1..3.ts) the way the side stories are, keeping the campaign scenes available before boot finishes (fetch during the title, await before `boot`), so the main chunk drops to about 1.13 MB minified. Tests register it up front like tests/setup-side-stories.ts.
+2. Chunking: the 3D renderer (src/render3d/) and the samples (src/samples/) load only when chosen; verify with `npm run build` output and list the chunk sizes before and after in PROGRESS.md.
+3. Grass placement off the page: move the instanced grass placement loop in render3d (height sampling and transforms) into the terrain worker or its own worker, pouring in the instance matrices when ready; the first frame must look the same as HEAD.
+Run lint, test, build; log at line 12 of PROGRESS.md with the measured sizes and boot times; commit with "Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"; push. Report the numbers.
 ```
 
-## Part G7 — The Keeper in the species format
+## Part G15 — Pixel versus Full 3D parity audit and the default-renderer brief
 
-**Model:** Fable 5.1. **Waits for:** Parts G2 and G5. **Size:** one day.
-
-```
-You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des. Read CLAUDE.md, docs/species-format.md and src/samples/sculpted.ts (`sculptedKeeper`, the current hand-built Keeper) first.
-
-Context rules: keep your context small. Read CLAUDE.md and the Status block at the top of PROGRESS.md, then only the doc this brief names. Never read a source file over 400 lines whole: grep for the function or field named here and read that line range (the "Where things are" table in CLAUDE.md maps names to files). Do not open creatures-legacy.ts or docs/progress-archive.md. Aim for under 50k tokens of context before your first edit.
-
-Task: write KEEPER_SPEC (Sun and Moon variants as colour sets) in a new src/samples/keeper-spec.ts using the species format: biped with jointed legs and arms, hands with fingers, a head with the face rig, hair as sculpted tufts, the Keeper's outfit as marks and crisp colour splits, and poses idle, walk, pet (reaching out), carry (holding a creature), throw and sleep. Match the proportions of the existing `sculptedKeeper` (head about a third of the height, soft and friendly, no realism). Put the Keeper on the stage as `&creature=keeper` next to a Nubbin in the pet pose.
-
-Screenshots: docs/samples/keeper-idle.jpg, keeper-pet.jpg, keeper-45.jpg. Document any new field in docs/species-format.md. Lint, test, build; log at line 12 of PROGRESS.md; commit with the Co-Authored-By line; push. Report.
-```
-
-## Part G8 — The Chao variant catalogue as specs
-
-**Model:** Fable 5.1 for the first three templates (child, Sun adult, Moon adult), then Sonnet 5.5 for the rest from those templates. **Waits for:** Part G5. **Size:** two days, parallelisable by family.
+**Model:** Fable 5.1. **After:** G11 and G13.
 
 ```
-You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des. Read CLAUDE.md, docs/species-format.md, src/sim/species.ts (the catalogue with its inspiration data) and PROGRESS.md's Chao variant catalogue section first. The in-game names are original; the inspiration field is data and is never shown.
+You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des (Git Bash, fnm Node 24).
 
-Context rules: keep your context small. Read CLAUDE.md and the Status block at the top of PROGRESS.md, then only the doc this brief names. Never read a source file over 400 lines whole: grep for the function or field named here and read that line range (the "Where things are" table in CLAUDE.md maps names to files). Do not open creatures-legacy.ts or docs/progress-archive.md. Aim for under 50k tokens of context before your first edit.
+Context rules: read CLAUDE.md and the Status block of PROGRESS.md, then docs/device-pass.md. Never read a source file over 400 lines whole; grep for names from CLAUDE.md's "Where things are" table.
 
-Task: express the Nubbin variants as species specs derived from NUBBIN_SPEC in a new src/samples/nubbin-variants.ts: a `variant(base, overrides)` helper that changes colours, the crown and ball shape, wings, part slots (ears, tail, arms, back) and alignment hints without copying the whole spec. Cover [FAMILY: child forms | the 15 first evolutions | the 60 second evolutions | the three special forms | the colour variants]. Each variant is a few lines. Add a stage view `&creature=variant:<id>` and a sheet view `&creature=variants` that lines up a family.
-
-Screenshots: docs/samples/variants-<family>.jpg. Lint, test, build; log at line 12 of PROGRESS.md; commit with "Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"; push. Report which variants are placeholders.
-```
-
-## Part G8b — Match the "Chao World" line-up
-
-**Model:** Fable 5.1 for the toon stage mode, the reference overlay and the first character; Sonnet 5.5 for the remaining six characters from that first one. **Waits for:** Part G8 (done 2026-10-16). **Size:** two to three days, one character at a time.
-
-```
-You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des. Read CLAUDE.md and the Status block of PROGRESS.md, then docs/species-format.md and the "Variants as diffs" section in it. The rules were changed on 2026-10-16: the creatures are matched directly against Maor's reference images, as close to identical as the code can get; only importing game files, model rips, sprite sheets or audio stays off limits. Names stay original.
-
-Context rules: keep your context small. Never read a source file over 400 lines whole: grep for the names in CLAUDE.md's "Where things are" table and read that line range. Do not open creatures-legacy.ts or docs/progress-archive.md.
-
-The target: Maor's "Chao World" line-up, the YouTube thumbnail https://i.ytimg.com/vi/qYg-Q32x2BY/maxresdefault.jpg (also linked from the tier list and the DeviantArt pages in PROGRESS.md's "Variants after the references" section). Save it to docs/reference/chao-world-lineup.jpg once, from the browser pane, and compare against it at every step. Seven figures, left to right: a blue one with big rounded quills, white gloves, red shoes with white stripes and mech-like lower legs; a rose-red one with huge round white ears, a white headband and a green ball; an orange one with aviator goggles, a white chest and twin tails; a purple-and-magenta one with a tall swept jester point, a pale mask and a chest star; a lime-green dragon with orange horns, claws and a tail; a black cat with pointed ears, white cheek tufts and chest, slanted eyes; a dark purple one covered in lilac crystal spikes. In our catalogue these are look-quills, look-echidna, look-fox, look-dream, eternal-neutral, look-shade and eternal-moon in src/samples/nubbin-variants-special.ts.
-
-Task, in this order, each step committed on its own:
-
-1. Toon stage mode. Add `&toon` to the AAA stage (src/samples/aaa-styles.ts, creature block near `const creatureParam`): creatures use a two-band toon ramp (MeshToonMaterial with a 3-step gradient map, or a ramp in the existing onBeforeCompile hook in surfaceMaterial in src/samples/creatures.ts) with flat saturated vertex colours and no triplanar grain, no sheen; a dark outline through an inverted-hull back-face pass (about 0.025 units, colour #1a1026) on every creature mesh including eyes and mouth; SSAO, bloom, depth of field, fog and the grade off; exposure 0.85; the sky and grass as they are. The eye rig draws a thick dark lash line (eyes.r × 0.22) and the mouth a solid dark line. `&toon` must not change anything when absent.
-
-2. Reference overlay. `&ref=<path>` draws an image from docs/reference/ as a 45% overlay across the stage, and `&ref=...&refx=<n>` crops it to the n-th of seven figures (equal-width slices). `&creature=variant:<id>&toon&ref=chao-world-lineup.jpg&refx=1` is the tuning view.
-
-3. The first character, look-quills, matched against slice 1 until it reads as the same figure: head about 48% of standing height (scale the head part and move the eyes, mouth, crown and ball with it; add a `headScale` override to variant() if that is simplest), eyes 1.35× with the ^ ^ closed shape in the happy pose, limbs shorter and thicker, shoes a third larger with the white stripe as geometry (a flattened ellipsoid), mech lower legs as grey capsules with a red ring, the quills as five rounded cones with a dark inner shade mark, the peach muzzle as a raised ellipsoid, white gloves as spheres with a cuff. Flat colours: body #2c58e0, belly #f5c99a, shoes #d8302a, gloves #ffffff. Take docs/samples/match-quills.jpg as a side-by-side (stage left, reference slice right; a `&split` flag that renders the stage into the left half and the reference into the right half is the easiest way).
-
-4. The other six, one commit each, same loop: look-echidna (slice 2), look-fox (3), look-dream (4), eternal-neutral (5), look-shade (6), eternal-moon (7). Reuse the helpers from step 3; add new ones (roundEar sizes, goggles with a glass highlight, crystal spikes with glow) to the special file, never to the templates.
-
-5. Group shot. `&creature=variants&family=special&filter=look&toon` plus the two Eternals in the line-up order of the reference, camera at eye level, taken as docs/samples/match-lineup.jpg next to the reference.
-
-Checks before each commit: npx prettier --write on touched files, npm run lint, npm test, npm run build; no console errors on the stage. Add the new fields (headScale, any toon flag on SurfaceOpts) to docs/species-format.md. Log each step at the top of the pass list in PROGRESS.md (keep the file under 150 lines by moving the oldest section to docs/progress-archive.md). Commit with "Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>" and push after each step. Report, per character, what still differs from the reference and why.
-```
-
-## Part G9 — The real 3D mode: architecture and title toggle
-
-**Model:** Fable 5.1 for the design and first scene; Opus 5.5 can then carry the port.
-**Waits for:** Part G1; benefits from Parts G2 and G3. **Size:** three to five days.
-
-```
-You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des. Read CLAUDE.md, the Status block of PROGRESS.md, src/render/world-view.ts (the WorldView interface the game drives), src/render/grove-scene.ts, src/ui/title.ts, src/config/tuning.ts (GROVE: the 96-unit field, hills, trees, rocks, river, landmarks, buildings) and src/samples/aaa-styles.ts first.
-
-Context rules: keep your context small. Read CLAUDE.md and the Status block at the top of PROGRESS.md, then only the doc this brief names. Never read a source file over 400 lines whole: grep for the function or field named here and read that line range (the "Where things are" table in CLAUDE.md maps names to files). Do not open creatures-legacy.ts or docs/progress-archive.md. Aim for under 50k tokens of context before your first edit.
-
-Task: make the full-3D mode real, additively.
-1. A Graphics setting (Pixel | 3D) on the title screen and in Settings, stored in the save's settings; default Pixel. The pixel mode must be byte-for-byte unchanged in behaviour.
-2. src/render3d/: a `Grove3dScene` that implements the same WorldView interface as the pixel scene and reads the same sim, so main.ts picks one or the other and nothing else changes. Build the environment from GROVE tuning (terrain heightfield from the hills, the pond, river and waterfall, paths, trees, buildings, lantern posts, the cave mouth) using the aaa-styles techniques (sky and PMREM, slope-blended terrain, instanced grass with PUSHERS, leaf-card trees, physical water, post stack with bloom only at golden hour). Time of day follows the sim clock.
-3. Creatures and the Keeper come from the species format via a `CreaturePool` that builds each species once and clones; map sim behaviour states to poses (idle, walk, happy, pet, eat, sleep).
-4. A Lakitu camera behind the Keeper with the pixel mode's 45° snaps and two zoom levels mapped to orbit and distance; picking by raycast against creature bounds.
-5. Everything the pixel mode shows (emote balls, halos, sparkles, dungeon floors) gets a 3D counterpart or a stub that logs once; list the stubs in PROGRESS.md.
-
-Keep the sim untouched. Check with `?free` in both modes. Screenshots: docs/samples/mode3d-noon.jpg, mode3d-golden.jpg, mode3d-title.jpg. Lint, test, build; log at line 12 of PROGRESS.md; commit per step with the Co-Authored-By line; push. Report the stub list and frame times on your machine.
-```
-
-## Part G10 — Sculpting off the main thread and a geometry cache
-
-**Model:** Opus 5.5. **Waits for:** Part G9 (the pool exists). **Size:** one to two days.
-
-```
-You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des. Read CLAUDE.md, src/render/ground.ts and ground.worker.ts (the existing worker pattern), src/samples/sculpted.ts and src/samples/species.ts first.
-
-Context rules: keep your context small. Read CLAUDE.md and the Status block at the top of PROGRESS.md, then only the doc this brief names. Never read a source file over 400 lines whole: grep for the function or field named here and read that line range (the "Where things are" table in CLAUDE.md maps names to files). Do not open creatures-legacy.ts or docs/progress-archive.md. Aim for under 50k tokens of context before your first edit.
-
-Task: (1) Move `sculpt()` into a Web Worker: the worker takes a serialisable spec (primitives, blend, box, resolution, mark and shade parameters; functions such as furRule and colorRules must become data or named rules) and returns transferable position, normal, colour, glow and fur attribute buffers. (2) Cache baked geometry per species, variant and resolution in IndexedDB with a version key derived from the spec hash and the sculpt code version; wrap every storage call in try/catch and fall back to building. (3) Pick a resolution per device from a quick benchmark at first run (phone about 64, desktop 104) stored in the save's settings. (4) Show a progress bar while the pool builds.
-
-Done when a fresh load of the 3D mode on a mid-range 2022 phone reaches play in under 4 s with 8 Nubbins and the Keeper, and a second load is under 1 s. Add tests for the spec serialiser and the cache key in tests/. Lint, test, build; log at line 12 of PROGRESS.md; commit with "Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"; push. Report the measured times.
-```
-
-## Part G11 — Device pass
-
-**Model:** Sonnet 5.5. **Waits for:** Part G10. **Size:** half a day plus Maor's phones.
-
-```
-You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des. Read CLAUDE.md and the "Platform and accessibility" and "Acceptance checks" sections of docs/brief.md first.
-
-Context rules: keep your context small. Read CLAUDE.md and the Status block at the top of PROGRESS.md, then only the doc this brief names. Never read a source file over 400 lines whole: grep for the function or field named here and read that line range (the "Where things are" table in CLAUDE.md maps names to files). Do not open creatures-legacy.ts or docs/progress-archive.md. Aim for under 50k tokens of context before your first edit.
-
-Task: produce docs/device-pass.md: a checklist for iPhone Safari (browser and home screen), Android Chrome, and desktop Chrome, Safari and Firefox, in both graphics modes: frame rate with 8 Nubbins, portrait and landscape, one-thumb reach of every control, blocked storage, reduced motion, no console errors, the three save slots per mode. Automate what can be automated (a `?bench` flag that logs average frame time for 10 s to the debug panel, and a Playwright smoke test for load, hatch, pet, feed and reload in both modes). Fill in the desktop rows yourself; leave the phone rows for Maor with exact steps.
-
-Lint, test, build; log at line 12 of PROGRESS.md; commit with the Co-Authored-By line; push. Report which rows you filled.
+Task: play the same seeded save (`?free&slot=3`) in Pixel and in Full 3D for twenty minutes each at x10 and list every difference a player would notice: things drawn in one mode and not the other (emote balls, halos, sparkles, toasts, dungeon props, race and Expedition screens, the Learning Grove and campaign scenes), picking and controls, readability on a phone-sized window (375x812), frame times from docs/device-pass.md. Fix the small gaps (under an hour each) in their own commits; list the rest with an estimate. Finish with docs/renderer-decision.md: a one-page brief for Maor on whether Full 3D should become the default, with the evidence, the risks (phones, bundle, workers) and a recommendation. Run lint, test, build; log at line 12 of PROGRESS.md; commit with "Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"; push. Report the recommendation in one paragraph.
 ```
 
 ## Part G12 — Expansions and campaigns (waiting for Maor's pick)
@@ -285,14 +194,15 @@ Context rules: keep your context small. Read CLAUDE.md and the Status block at t
 
 ---
 
+
+---
+
 # Track B — Story and content (Hazel's Grove)
 
-The content pack (campaign v2, side stories S1–S31, fun quests, Neopia, the Multiverse, the
-Learning Grove bands, the language questlines, Atlas A11–A21, the checker and the script book)
-was written in its own session and now sits inside the repo at `Stories/`. Task B0 moves it into
-place. Its canon and rules are summarised in CLAUDE.md ("Story and content") and in full in
-`docs/brief.md`; the order of authority is `docs/canon.md` → `src/content/STORY-BIBLE.md` →
-the CLAUDE.md section → `STYLE.md` and `EDU-STYLE.md`.
+The content pack lives in `src/content/` with its checker (`tests/tools/content-check.ts`),
+the script book (`script-book/`) and the voice-over builder (`voiceover/`). Rules, in order of
+authority: `docs/canon.md` → `src/content/STORY-BIBLE.md` → the "Story and content" section of
+CLAUDE.md and `docs/brief.md` → `STYLE.md` and `EDU-STYLE.md`.
 
 **The three content checks** (all must pass after every content task):
 
@@ -303,135 +213,69 @@ npx tsx tests/tools/content-check.ts --warnings    # must print "problems": 0
 ```
 
 **Context rules for this track.** `docs/grove-backlog-prompt.md` (700 KB) and
-`docs/more-stories.md` (470 KB) are never read whole: grep for the id or the "CV" heading and read
-that range. A scripting subagent uses roughly 250k–400k tokens of its own; the main session that
-starts them stays small if it only reads the task's section of this file.
+`docs/more-stories.md` (470 KB) are never read whole: grep for the id or the "CV" heading and
+read that range. **After every scripting task, run B-W (wiring), then B-R (review).** Do not
+start the next wave until B-R reports 0 must-fix items. Engine tasks (B-C2…C7) are milestones:
+plan first and wait for Maor's approval.
 
-**After every scripting task, run B-W (wiring), then B-R (review).** Do not start the next wave
-until B-R reports 0 must-fix items and the checks are clean. Engine tasks (B-C1…C7) are
-milestones: plan first and wait for Maor's approval, as the pack's authors specified.
+## Where the content stands (2026-10-16)
 
-## Where the content stands (2026-10-15)
-
-- **Scripted and checked:** campaign v2 (12 chapters, 8 endings); side stories S1–S31; fun quests Q1–Q65; Neopia; the Multiverse (93 storylines, 6 endgames); readers and results; Atlas A11–A21; Learning Grove versions of the campaign, S1–S22 and the Python, Bean and Avatar quests; the Hebrew and Japanese questlines; the full review and fix pass (`docs/fix-changelog.md`).
-- **Outlined, not scripted:** Atlas A1–A10 (`docs/atlas.md`); A22–A31, Arcade PA1–PA5, fun packs Q66–Q95, lines LB and LK (`docs/more-stories.md`).
-- **Not in the engine yet:** CV1–CV6 in `docs/grove-backlog-prompt.md`.
-- **Open decisions for Maor:** seven fun-quest quotes to verify against the shows; what the once-a-day gifts in `sim/daily.ts` and `sim/neighbourhood.ts` become under the no-chores rule; the stray copies of the pack's `CLAUDE.md` and `plan.md` one folder up (`C:\Users\God\Downloads\Test Des\`) can be deleted, since this file and CLAUDE.md already fold them in.
+- **Scripted, wired, checked and committed:** campaign v2; S1–S31; Q1–Q65; Neopia; the
+  Multiverse; readers and results; Atlas A11–A21; Learning Grove versions of the campaign,
+  S1–S22 and the Python, Bean and Avatar quests; the Hebrew and Japanese questlines; the fix
+  pass. Engine: CV1 (campaign v2, endings, holds, line swaps, variants, S27 buy-back, the runner
+  for S5, S9, S10, S27, S28), side stories as a lazy chunk.
+- **Scripted and wired, uncommitted, unreviewed:** Atlas A1–A10 and A22–A31 (`src/content/atlas-a01..a10.ts`, `atlas-a22..a31.ts`, logs in `docs/logs/`). Task B-R1 first.
+- **Outlined, not scripted:** Arcade PA1–PA5, lines LB and LK, fun packs Q66–Q95
+  (`docs/more-stories.md`).
+- **Not in the engine yet:** CV2–CV6, the rest of CV1's scope (26 side stories that are
+  registered but never chosen; places, props, items and rewards; `s28-null-minder`; S27's
+  spring scene; Wisp's stray after `c10-bank-wisp`; voice clips), the Mature content setting,
+  the no-chores clean-up. Bugs B2 and B3 unchecked.
+- **Open decisions for Maor:** the once-a-day gifts in `sim/daily.ts` and
+  `sim/neighbourhood.ts`; the seven fun-quest quotes (B-V1 reports them).
 
 ## Task list
 
 | ID | Task | Model | After | Size |
 | --- | --- | --- | --- | --- |
-| B0 | Move the pack into the repo and run the checks | Opus (main session) | none | small |
-| B-S3 | Script Atlas A22–A31 | Opus ×10 | B0 | large |
-| B-S4 | Script Atlas A1–A10 | Opus ×10 | B-S3 + R | large |
-| B-S5a | Script Arcade PA1–PA5 and lines LB, LK | Opus ×7 | B-S4 + R | large |
-| B-S5b | Script fun packs Q66–Q95 | Sonnet ×3 | B-S4 + R | medium |
+| B-R1 | Review and commit the twenty Atlas pages now in the working tree | Opus | none | medium |
+| B-S5a | Script Arcade PA1–PA5 and lines LB, LK | Opus ×7 | B-R1 | large |
+| B-S5b | Script fun packs Q66–Q95 | Sonnet ×3 | B-R1 | medium |
 | B-W | Wire new files (index, checker, edu registry, script book) | Sonnet | each S/E task | small |
 | B-R | Review a wave, fix mode | Opus | each W | medium |
-| B-E1 | Learning Grove versions of S24–S31 | Opus ×8 | B0 | large |
-| B-E2 | Learning Grove versions of the `all` Atlas and Arcade pages | Sonnet ×N, then Opus R | the matching S task | large |
+| B-E1 | Learning Grove versions of S24–S31 | Opus ×8 | none | large |
+| B-E2 | Learning Grove versions of the `all` Atlas and Arcade pages | Sonnet ×N, then Opus R | B-R1, B-S5a | large |
 | B-V1 | Verify the public-domain quotes | Sonnet (web) | any | medium |
 | B-V2 | Cultural-adviser review packets | Sonnet | after scripting | small |
 | B-V3 | Whole-canon continuity audit | Fable | all S and E | large |
-| B-C1 | Engine: campaign v2, endings, chapter holds (CV1 + campaign half of CV6) | Fable or Opus | B0 | large |
-| B-C2 | Engine: audiences and the Mature content setting | Sonnet | B0 | small |
-| B-C3 | Engine: side-story and fun-quest triggers, variants, line swaps | Opus | B-C1 | large |
-| B-C4 | Engine: the Learning Grove mode (CV2) | Opus | B-C1 | large |
+| B-C2 | Engine: audiences and the Mature content setting | Sonnet | none | small |
+| B-C3 | Engine: every side story runs; fun-quest triggers; places, props, items, rewards | Opus | B-C2 | large |
+| B-C4 | Engine: the Learning Grove mode (CV2) | Opus | B-C3 | large |
 | B-C5 | Engine: the language questlines (CV3) | Opus | B-C4 | medium |
-| B-C6 | Engine: Atlas, Arcade and Multiverse saves; cross-save reads (CV4, CV5) | Opus | B-C1 | large |
+| B-C6 | Engine: Atlas, Arcade and Multiverse saves; cross-save reads (CV4, CV5) | Opus | B-C3 | large |
 | B-C7 | Engine: no-chores clean-up | Sonnet | Maor's decision | small |
-| B-H | Housekeeping (script book, PROGRESS.md status) | Haiku | anytime | small |
+| B-B23 | Bugs B2 and B3: debug panel in production, panel overlaps | Sonnet | none | small |
+| B-H | Housekeeping (script book, content index, PROGRESS status) | Haiku | anytime | small |
 
 ---
 
-## Task B0. Move the pack into the repo
+## Task B-R1. Review and commit the twenty Atlas pages
 
-**Model:** Opus, as the main session. **Independent.**
+**Model:** Opus. **Independent.** Twenty scripted pages sit uncommitted in the working tree
+with their logs; the wiring is in place and the checker passes.
 
 ```text
-You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des (Git Bash, fnm Node 24). Read CLAUDE.md and the Status block of PROGRESS.md. Do not read docs/grove-backlog-prompt.md or docs/more-stories.md whole at any point; grep them.
+Content task, not a milestone. Context rules: read CLAUDE.md ("Story and content"), docs/canon.md and docs/briefs/review.md; then only the twenty files listed and their logs in docs/logs/script-a*.md. Do not read docs/more-stories.md or docs/atlas.md whole; grep an id when you need its outline.
 
-The story content pack sits at Stories/ inside the repo. Move it into place:
-1. git mv Stories/src/content → src/content (new folder; nothing exists there yet).
-2. git mv Stories/tests/tools/content-check.ts and Stories/tests/tools/script-book.ts → tests/tools/. Every other file in Stories/tests/tools is a copy of one already in tests/tools: diff each; if identical, drop the copy; if different, keep ours and list the difference for Maor.
-3. git mv Stories/script-book → script-book, Stories/voiceover → voiceover, Stories/docs/* → docs/ (atlas.md, canon.md, more-stories.md, fix-changelog.md, grove-backlog-prompt.md, briefs/, logs/). None of these names exist in docs/ yet; if one does, stop and report.
-4. Do NOT copy Stories/CLAUDE.md or Stories/plan.md: their content is already folded into CLAUDE.md, docs/brief.md and plan.md. Delete the Stories/ folder once empty.
-5. Follow docs/grove-backlog-prompt.md "What to do" steps 2–5 only where they are not already done (the PROGRESS.md backlog index and the CLAUDE.md no-chores rule; check first, do not duplicate). Keep PROGRESS.md under 150 lines by putting the long index in docs/content-index.md and linking it from the Status block.
-6. Run the three content checks and npm run lint, npm test, npm run build. The pack type-checked against commit 97b38a7, so fix only what the move or newer repo code broke; report anything else.
-Commit with an imperative title and "Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>", push to main, and report the check results and anything you left for Maor.
-```
+First, `git status`: confirm the uncommitted set is src/content/atlas-a01.ts … atlas-a10.ts and atlas-a22.ts … atlas-a31.ts, their docs/logs entries, and the wiring edits to src/content/index.ts, tests/tools/content-check.ts, docs/content-index.md and script-book/. If anything else is modified, stop and report it before touching it.
 
-## Task B-S3. Script Atlas pages A22–A31
-
-**Model:** Opus, 10 subagents in parallel. **After:** B0.
-
-```text
-This is a content task, not a milestone, so no plan approval is needed. Start 10 subagents in
-parallel, each with model "opus". Give each one this prompt, filling in <ID>, <FILE>, <NAME> and
-<EXTRAS> from the table below:
-
----
-Context rules: read CLAUDE.md ("Story and content"), docs/canon.md and docs/briefs/script.md. Find your outline in docs/more-stories.md by grepping for your id; never read that file whole.
-Follow docs/briefs/script.md exactly. Your line is <ID>, an Atlas page; its outline is in
-docs/more-stories.md (find the section by its id).
-File: src/content/<FILE>   NAME: <NAME>
-<EXTRAS>
----
-
-| ID | FILE | NAME | EXTRAS |
-| A22 The Candle (Encanto) | atlas-a22.ts | ATLAS_A22 | It reads the Long-Grass lantern state (flickering, dark, lit, warm, and the kept-stone line) through variants, and describes a read-only longGrassLantern() helper under SIM. Pedro's death is told, not shown, and the war is never named. Copyrighted: at most 3 quotes, from the outline. No lyrics. Name the Colombian advisers needed. |
-| A23 Remember Who You Are (The Lion King) | atlas-a23.ts | ATLAS_A23 | You are with Zazu during the stampede, so the death is never seen, and Scar's end is offscreen. Flag the Swahili words for an East African adviser. Copyrighted: at most 3 quotes. No lyrics; "hakuna matata" appears only as the everyday phrase. |
-| A24 The Law of the Jungle (Kipling) | atlas-a24.ts | ATLAS_A24 | Public domain: lift the outline's verified passages only. "The White Seal" is a coda. Keep the care notes on Kipling's imperialism and on the Unangax̂ seal hunters. |
-| A25 The Nothing (The Neverending Story) | atlas-a25.ts | ATLAS_A25 | Covers both halves of the novel. It reads s6Done (Ash's true name, her three whistled notes). Copyrighted: at most the 2 lines in Ende's German with our own English, as in the outline. |
-| A26 The Wall of Uruk (Gilgamesh) | atlas-a26.ts | ATLAS_A26 | Lifted text only as the outline allows (Thompson 1928, with its copyright caveat). Moss joins only after chapter 4, and never after the Moss Sleeps ending. Audience 'all'; stage Humbaba and the Bull of Heaven gently. |
-| A27 The White-Haired Prince (Zal and the Simurgh) | atlas-a27.ts | ATLAS_A27 | Lift from Zimmern 1883 only where verified. Keep the albinism care note; Persian heritage is treated with respect. |
-| A28 The Box of Stories (Anansi) | atlas-a28.ts | ATLAS_A28 | Rattray 1930 passages only where verified; retell the Sky-god story. Wisp and Anansi trade, badly, if wisp is spared. Akan advisers. |
-| A29 The Honmoon (KPop Demon Hunters) | atlas-a29.ts | ATLAS_A29 | No quotes, no lyrics and no song titles at all. It reads Sable's trust stage. Korean cultural care: jeoseung saja, gat, and the folk-painting tiger and magpie. |
-| A30 The Word on the Brow (the Golem of Prague) | atlas-a30.ts | ATLAS_A30 | Uses the same letters as the Hebrew questline LH2 (emet אמת, met מת). Give both versions of the legend (the word on the brow, the Name in the mouth). Lift only the verified Jewish Encyclopedia 1904–06 and JPS 1917 passages. Treat Rabbi Judah Loew with respect; Jewish advisers. |
-| A31 The Hero Twins (Popol Vuh) | atlas-a31.ts | ATLAS_A31 | Spence 1908 passages only where verified. It reads s3Done (the Sun and Moon ribbons). K'iche' Maya advisers decide which twin becomes the Sun; present it as a living tradition. |
-
-When all 10 have finished, list each subagent's 3-line reply and the log path. Then run the three
-checks and report them. Don't fix other agents' files.
-```
-
-## Task B-S4. Script Atlas pages A1–A10 (Part L)
-
-**Model:** Opus, 10 subagents in parallel. **After:** B-S3 + R. Three pages are `teen`.
-
-```text
-This is a content task, not a milestone. Start 10 subagents in parallel, each with model "opus".
-Give each one this prompt, filling in the placeholders from the table:
-
----
-Context rules: read CLAUDE.md ("Story and content"), docs/canon.md and docs/briefs/script.md. Find your outline in docs/atlas.md by grepping for your id.
-Follow docs/briefs/script.md exactly. Your line is <ID>, an Atlas page from Part L; its outline is
-in docs/atlas.md. Part L outlines are shorter than Part M's: expand each quest into concrete
-scenes. Keep its quest list, signature choice, rewards and care notes. Every source here is either
-copyrighted or uses unverified translations, so don't lift text verbatim: write original dialogue,
-with at most 3 one-sentence quotes for a copyrighted source.
-File: src/content/<FILE>   NAME: <NAME>   Audience: <AUD>
-<EXTRAS>
----
-
-| ID | FILE | NAME | AUD | EXTRAS |
-| A1 The Brothers' Bargain (Fullmetal Alchemist) | atlas-a01.ts | ATLAS_A01 | teen | Tucker's chimera is offscreen and implied. Combat isn't graphic. Follow Brotherhood's episode order. |
-| A2 The Monkey and the Monk (Journey to the West) | atlas-a02.ts | ATLAS_A02 | all | Follow the novel's order as fixed in docs/atlas.md. The Buddha and Guanyin are wise and kind, never mocked. The cloud-somersault reward is unlimited (no timer). |
-| A3 Forty-Nine Days (Along with the Gods) | atlas-a03.ts | ATLAS_A03 | teen | Suicide is only ever "the worst night": never depicted or explained. Korean afterlife advisers. |
-| A4 The Waterfall Prince (Baahubali) | atlas-a04.ts | ATLAS_A04 | teen | Heroic, not graphic. Bhallaladeva's end is offscreen. Present the kingdoms as the films' fiction. Indian advisers; mind the Telugu and Tamil versions. |
-| A5 The Lion of Mali (Sundiata) | atlas-a05.ts | ATLAS_A05 | all | The griot frame (Balla Fasséké). Give versions where the tellings differ. West African advisers. |
-| A6 Seven Voyages (Sinbad) | atlas-a06.ts | ATLAS_A06 | all | The ivory is a real choice, and every ending lets the elephants be. Baghdad is a city of learning. Soften voyages 3 and 4. Arab and Persian heritage advisers. |
-| A7 The Marigold Bridge (Coco) | atlas-a07.ts | ATLAS_A07 | all | No lyrics; any songs are original. Día de Muertos is a living tradition, with Mexican consultants. The ofrenda holds your Nubbins' photos; the Remembering Tree (canon 35) holds their stories. |
-| A8 The Twelve Tasks (Asterix) | atlas-a08.ts | ATLAS_A08 | all | Use the verified task order in docs/atlas.md. The national jokes stay affectionate. Permit A38 is the centrepiece. |
-| A9 The Comet (Comet in Moominland) | atlas-a09.ts | ATLAS_A09 | all | Verified details: the Hemulen hunts butterflies; the octopus (the Snork Maiden rescues Moomintroll); the tornado and the Hemulen's dress used as a glider; the comet is due on 7 October at 8:42 in the evening. |
-| A10 The Heart of the Island (Moana) | atlas-a10.ts | ATLAS_A10 | all | No film songs; Gramma's song is original. Maui is a revered figure. Pacific Islander advisers. Your Nubbin stows away on the canoe. |
-
-When all 10 have finished, report each reply and log path, then run the three checks.
+Then start two subagents with model "opus", one per wave, each following docs/briefs/review.md in "fix" mode: batch "wave-L" (A1–A10) and batch "wave-M" (A22–A31). When both finish, run the three content checks, regenerate the script book (npx tsx tests/tools/script-book.ts script-book), and commit the whole set in two commits (one per wave) with "Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>". Push to main. Update docs/content-index.md's status and the Status block of PROGRESS.md (keep it under 150 lines). Report the counts, the "For Maor" items and the check results.
 ```
 
 ## Task B-S5a. Script Pixel's Arcade PA1–PA5 and lines LB and LK
 
-**Model:** Opus, 7 subagents. **After:** B-S4 + R.
+**Model:** Opus, 7 subagents. **After:** B-R1.
 
 ```text
 This is a content task, not a milestone. Start 7 subagents in parallel, each with model "opus".
@@ -460,7 +304,7 @@ When all 7 have finished, report each reply and log path, then run the three che
 
 ## Task B-S5b. Script the fun packs Q66–Q95
 
-**Model:** Sonnet, 3 subagents. **After:** B-S4 + R.
+**Model:** Sonnet, 3 subagents. **After:** B-R1.
 
 ```text
 This is a content task, not a milestone. Start 3 subagents in parallel, each with model "sonnet".
@@ -526,7 +370,7 @@ When it's done, show me the counts, the "For Maor" items and the three check res
 
 ## Task B-E1. Learning Grove versions of S24–S31
 
-**Model:** Opus, 8 subagents. **After:** B0. S23 is `main`, so it gets none.
+**Model:** Opus, 8 subagents. **Independent.** S23 is `main`, so it gets none.
 
 ```text
 Content task, not a milestone. Start 8 subagents in parallel, each with model "opus". Give each one
@@ -633,32 +477,11 @@ Group your findings by storyline, and give an exact fix for each.
 These are milestones: plan first and wait for approval. The specs are in
 `docs/grove-backlog-prompt.md` (CV1–CV6: grep the "CV" headings and read that range only) and the
 bible's "Sim changes". They touch `src/sim/`, `src/ui/` and the title and settings screens, so
-run them one at a time, and not at the same time as Track A Part G9 (which also edits the title
-screen and settings).
-
-### B-C1. Campaign v2, endings and chapter holds (CV1 + the campaign half of CV6)
-
-**Model:** Fable or Opus. **After:** B0.
-
-```text
-Milestone CV1 (with the campaign items of CV6). Context rules: read CLAUDE.md, docs/canon.md, the "Sim changes" section of src/content/STORY-BIBLE.md (grep for it), and only the CV1 and CV6 sections of docs/grove-backlog-prompt.md (grep "CV1." and "CV6"); grep src/sim/campaign.ts for the functions you change rather than reading it whole if it is long.
-
-Then give me a plan and wait.
-
-The scope is:
-- The campaign: swap in campaign v2 (src/content/campaign*.ts), store the new flags, and implement the vigil step.
-- The ending order: follow the bible, with hazels-grove no longer requiring "keep" and end-hazels-grove-open as the "Open" body variant.
-- Chapter holds: c11-close waits until S9 has had its chance (the CV6 way out included); c9-open waits for S27 and S28 to close; S5 holds c5-close.
-- Line swaps written in notes (c11-close when s8Done, and the others listed in CV6).
-- Variant scene selection from the side-story _VARIANTS arrays.
-- S27's buy-back, which moves the soldId stray home.
-
-Add Vitest tests for endingFor covering every flag combination in the bible, including bonded Sable with Open. npm test and npm run build must pass. Commit with "Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>".
-```
+run them one at a time; G13 lands first because it also touches the sim's behaviour states.
 
 ### B-C2. Audiences and the Mature content setting
 
-**Model:** Sonnet. **After:** B0. Small, and it unblocks safe testing, so do it first.
+**Model:** Sonnet. **Independent.** Small, and it unblocks safe testing, so do it first.
 
 ```text
 Milestone: content ratings. Context rules: read CLAUDE.md, docs/canon.md (items 20 and 37) and only the audience items in the CV6 section of docs/grove-backlog-prompt.md (grep "CV6" then "audience"). Give me a plan, then wait.
@@ -671,25 +494,40 @@ Scope:
 Add tests. npm test and npm run build must pass. Commit with the Co-Authored-By line.
 ```
 
-### B-C3. Side-story and fun-quest engine
+### B-C3. Every side story runs; fun-quest triggers; places, props, items and rewards
 
-**Model:** Opus. **After:** B-C1.
+**Model:** Opus. **After:** B-C2. CV1 built the runner for five stories; this finishes the
+scope: the other 26 stories, the fun-quest triggers, and the things the stories point at.
 
 ```text
-Milestone: side stories. Context rules: read CLAUDE.md, docs/canon.md, the bible's side-story table (grep src/content/STORY-BIBLE.md) and the side-story items in CV6 (grep docs/grove-backlog-prompt.md). Give me a plan, then wait.
+Milestone: side stories, complete. Context rules: read CLAUDE.md, docs/canon.md, the "CV1" section of PROGRESS.md or docs/progress-archive.md (grep "side-story runner"), the bible's side-story table (grep src/content/STORY-BIBLE.md) and the side-story items in CV6 (grep docs/grove-backlog-prompt.md for "CV6"). Grep src/sim/side-stories.ts and src/sim/story-scenes.ts for the functions you extend rather than reading them whole. Give me a plan, then wait.
 
 Scope:
-- Story windows: open and close each story by its chapter window (S1–S31).
-- Steps and flags: run quest steps and their checks (stub any check verb the sim can't measure yet, and list them), and set sNDone and the story's flags.
-- Variants and line swaps: pick variant scenes by flag, and apply the line swaps written in notes, in both Learning Grove bands too.
-- Fun quests: trigger them by their `when` text rules, with requires chains.
+- Story windows and steps for the 26 stories the runner does not drive yet (S1–S4, S6–S8, S11–S26, S29–S31): open and close by chapter window, step gates, checks (stub any verb the sim cannot watch yet and list them; the journal's "Do it" stays as the fallback), sNDone and each story's flags; pick their _VARIANTS by flag and apply their line swaps in both Learning Grove bands.
+- The campaign-side hooks those stories feed (`visitors`, `hushGarden`, `millLetter`, `cinder`, `wisp`) set where the bible says.
+- The left-overs from CV1: `s28-null-minder` (needs S7), S27's spring scene, Wisp's stray spawn after `c10-bank-wisp`.
+- Places, props and items the stories name (the old trowel, Hazel's lantern, the flat stone, the walled garden, and the rest from the bible's list): data in tuning and strings, drawn in both renderers (pixel painters in src/render/paint, 3D in src/render3d/garden.ts or props), picked where a step needs a tap.
+- Side-story rewards delivered (items, cosmetics, memories) through the existing inventory and journal.
+- Fun quests Q1–Q65 triggered by their `when` text rules with requires chains, never daily and never in chapters 9–11; they never set campaign flags.
 
-Tests and build must pass. Commit with the Co-Authored-By line.
+Tests for each story's window and at least one full run per story at x100 in a Vitest driver; npm test and npm run build must pass. Commit per group of stories with "Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"; push.
+```
+
+### B-B23. Bugs B2 and B3
+
+**Model:** Sonnet. **Independent.**
+
+```text
+Milestone: two old bugs. Context rules: read CLAUDE.md and the Status block of PROGRESS.md; grep src/ui/hud.ts for the debug panel guard and src/ui for the journal, stats sheet, toasts and the Expedition counter. Give me a plan, then wait.
+
+B2: confirm the debug panel never mounts in a production build (`npm run build && npm run preview`, open the site, press backtick and triple-tap the logo); if it does, guard it behind import.meta.env.DEV and a `?debug` flag.
+B3: panel overlaps on a 375x812 portrait viewport: the Journal over the stats sheet, toasts over the HUD, the Expedition counter under the close button. Fix with a single panel stack (one open panel at a time, toasts in their own safe-area row). Check both renderers.
+Add a Playwright check for each in tests/e2e/ if G11 has created that folder, otherwise a manual note in docs/device-pass.md. Lint, test, build; log at line 12 of PROGRESS.md; commit with the Co-Authored-By line; push.
 ```
 
 ### B-C4. The Learning Grove mode (CV2)
 
-**Model:** Opus. **After:** B-C1.
+**Model:** Opus. **After:** B-C3.
 
 ```text
 Milestone CV2. Context rules: read CLAUDE.md, src/content/EDU-STYLE.md, src/content/edu.ts and only the CV2 section of docs/grove-backlog-prompt.md (grep "CV2."). Give me a plan, then wait.
@@ -713,7 +551,7 @@ Tests and build must pass. Commit with the Co-Authored-By line.
 
 ### B-C6. Atlas, Arcade and Multiverse saves; cross-save reads (CV4, CV5)
 
-**Model:** Opus. **After:** B-C1.
+**Model:** Opus. **After:** B-C3.
 
 ```text
 Milestone CV4/CV5. Context rules: read CLAUDE.md, docs/canon.md (items 21, 29 and 30), src/platform/storage.ts (the save slots) and only the "How to build it (backlog item CV4)" and "(CV5)" sections of docs/grove-backlog-prompt.md by grep. Give me a plan, then wait.
@@ -757,21 +595,32 @@ Don't change any content.
 
 ---
 
+
+---
+
 # Running order across both tracks
 
-The two tracks touch different files and can run side by side: Track A lives in `src/samples/`
-and later `src/render3d/`; Track B in `src/content/`, `tests/tools/`, `docs/` and, for the engine
-tasks, `src/sim/` and `src/ui/`. Two places overlap, so sequence them: the title and settings
-screens (Track A Part G9 and Track B C2) and `src/platform/storage.ts` (G10's geometry cache and
-C6's extra saves). Give every parallel session its own worktree and merge in this order.
+The tracks touch different files and run side by side: Track A in `src/samples/`, `src/render3d/`
+and the device docs; Track B in `src/content/`, `tests/tools/`, `docs/` and, for the engine
+tasks, `src/sim/` and `src/ui/`. Overlaps to sequence: G13 item 1 (the `pet` command) and
+B-C3 both touch `src/sim/behavior.ts`, so land G13 before B-C3 starts; B-B23 and G15 both
+touch `src/ui/` panels, so B-B23 first; B-C6 and any further save work share
+`src/platform/storage.ts`. Give every parallel session its own worktree and merge in this order.
 
-1. **Now, in parallel:** A-G1 (Opus) · B0 (Opus) · A-G4 and A-G6 (Sonnet).
-2. **Content waves:** B-S3 → W → R, then B-S4 → W → R, then B-S5a + B-S5b → W → R. B-E1 → W → R
-   alongside, then B-E2 in batches. B-V1 and B-V2 any time; B-V3 once scripting and edu are done.
-3. **Graphics:** A-G2 (Fable) with A-G3 (Opus) in parallel once G1 lands; then A-G5; then A-G7
-   and A-G8 in parallel.
-4. **Engine, one at a time:** B-C2 → B-C1 → B-C3 → B-C6 → B-C4 → B-C5 → B-C7, with B-C2 landed
-   before A-G9 starts on the title screen.
-5. **The 3D mode:** A-G9 (Fable, then Opus) → A-G10 (Opus) → A-G11 (Sonnet).
-6. **B-H** after each content batch; **A-G12** and the remaining Digimon-list expansions when
-   Maor picks.
+1. **Now, in parallel:** B-R1 (Opus) · G11 (Opus) · G13 (Fable) · G14 (Opus) · B-C2 (Sonnet) ·
+   B-B23 (Sonnet) · B-E1 (Opus ×8) · B-V1 (Sonnet, web).
+2. **Content waves:** B-S5a + B-S5b → B-W → B-R; then B-E2 in batches of ten → B-W → B-R.
+   B-V2 once scripting is done; B-V3 once scripting and edu are done.
+3. **Engine, one at a time after G13 lands:** B-C3 → B-C6 → B-C4 → B-C5 → B-C7 (once Maor
+   decides the daily gifts).
+4. **Graphics close-out:** G15 after G11 and G13, then Maor's renderer decision.
+5. **B-H** after each content batch. **G12** when Maor picks from E1–E3 and S1–S4.
+
+## What Maor decides
+
+- The daily gifts (B-C7): one-time story gifts, unlimited visits with no timer, or removed.
+- The seven fun-quest quotes B-V1 reports.
+- Whether Full 3D becomes the default (G15's brief).
+- The expansion pick: E1 The Square, E2 Nova's Season, E3 The Twine; campaigns S1 "The
+  Hundred Days", S2 "Logged In", S3 "The Beetle Road", S4 "Dawn & Dusk".
+- The phone rows of `docs/device-pass.md`.
