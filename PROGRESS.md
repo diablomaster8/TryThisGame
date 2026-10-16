@@ -23,6 +23,39 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Shape pass: digits, per-form blend, tufts (2026-10-15)
+
+Items 9–15 and 32. New: `Prim.blend` (a primitive's own blend radius, in `sculpted.ts`;
+`onSurface` honours it too) and `src/samples/species-kit.ts` (`digits`, `tuft`, `tuftRow`).
+
+- **Nubbin.** Before: feet and hands were blobs. After: three yellow toes and a pad on each
+  foot, a three-finger mitt on each hand, a crisper crown (blend 0.14 against the body's 0.22).
+- **Mossling.** Before: the cap overhung and could hide the eyes in nods. After: cap radius
+  1.2 × 1.05 (was 1.4), raised 0.12 and set back 0.2 (`CAP_Z`), rim and sprout crisp; dew
+  and gills follow it. Root toes and hand mitts come from `digits`.
+- **Fennel.** Before: small head, close-set eyes, fuzzy cheek cones. After: head radii 0.78 ×
+  0.68 × 0.66 (was 0.64 × 0.56 × 0.56), eyes wider (x 0.36) and lower (y 1.78), ears
+  spread, crisp cheek, crest, chest-ruff and tail-tip tufts (`tuftRow`), three toes and a
+  pad per paw. Shells remain for the short underfur.
+- **Bolder.** Before: 0.9 scale, a leg span wider than the whole line-up, a seam between
+  head and thorax. After: scale 0.72 (big by design: widest, not tallest), the head's
+  ellipsoid also sits in the torso sculpt so the thorax blends into it (no seam), horns and
+  palps crisp (0.04), two-toed claws from `digits`.
+- **Wisp.** Before: the core ellipsoid lay inside the body and never showed. After: it sits
+  on the belly, poking 0.27 through, plus a mesh with its own emissive material (pulsing,
+  not tone-mapped); glowing three-finger hands.
+- **Tried and dropped:** repeating the thorax in the head sculpt for the neck made the
+  horns vanish; the torso-side fillet alone does the job.
+- **Grove unit** is the standing Nubbin (about 2.7 world units tall). Scales are by eye
+  against that; the roster line-up is `docs/samples/shape-roster.jpg`.
+- Screenshots: `docs/samples/shape-<name>.jpg` (turn 30°) and `shape-roster.jpg`.
+- Not verified: every pose at all three angles by eye (done for idle, happy and the 0, 30,
+  45 and 90 degree turns on a subset); no device test. At turn 30 Fennel's far brow juts
+  past the cheek (pre-existing).
+- `npm run lint` and the `tsc` half of `npm run build` fail on `src/content/atlas-a01.ts`
+  and `atlas-a06.ts`, untracked files from the content sessions (not mine, not committed);
+  `eslint src/samples`, `npm test` (210 pass) and `vite build` are clean.
+
 ## Eyes that look (2026-10-15)
 
 Item 3 of the brief: the irises follow. `eye()` returns `iris` (the disc in its own group;
@@ -100,50 +133,3 @@ does not yet drive the body by the stride (the 3D mode is not wired to the sim).
   a `DEV` guard nearby, verify); **B3** panels overlap (Journal over stats sheet, toasts over
   the HUD on portrait, Expedition counter under ✕).
 
-## Grounding verified (2026-10-15)
-
-Items 29, 30, 31 of `docs/creature-improvements.md`, checked in the browser (plan.md Part 1).
-What was wrong and what changed:
-
-- The grass vertex shader did not compile: the push loop's bound was empty (`i < ;`, a
-  `${}` lost to a shell heredoc), so no grass drew at all. Fixed; the push is now a true
-  world-space offset (it used to scale with the blade's instance scale squared).
-- The slope tilt used the default XYZ Euler order, so pitch and roll turned about the
-  world axes after the yaw. The root now rotates `YXZ`. The signs were right: a higher
-  front pitches the nose up (checked numerically on the stage).
-- The blob sat below the sampled ground and was a flat card, while the terrain curves up to
-  0.07 across a footprint and its mesh is a chord up to 0.035 above the height function:
-  it z-fought, floated on one side or was cut off on the other. It is now an 8×8 grid
-  pinned flat in world space whose vertices take the ground height under them plus 0.05.
-  It lightens to about 0.85 on the hop and 0.6 under the hovering Wisp, and shrinks.
-- Feet: the specs' lowest points are not at y = 0 (Bolder's leg tips 0.2 below, Mossling
-  0.03 above, Nubbin 0.05 below), and a plane through four probes misses the curvature
-  under a wide belly or a wide leg span. `buildSpecies` now measures the figure at rest:
-  the lowest vertex per 0.3-unit cell of the ground plan is a contact point, and each
-  frame the root drops until the lowest contact point (carried by yaw and tilt only, so a
-  hop still leaves the ground) sits 0.02 into the grass. Measured sink on the single stage
-  at turns 0–270°: 0.02 for Nubbin, Mossling and Fennel, 0.027 for Bolder (its idle roll),
-  the Wisp hovering 0.45 above.
-- Bolder's idle leg sway is lift-only now; the dip put its tips 0.13 into the ground.
-- `window.groveStage` exposes the stage (scene, cast, creature, groundHeight) so a console
-  can measure creatures in place; the checks above were done that way.
-- Left for the knee-joint pass: on bumpy ground a rigid body touches at its lowest point
-  and the other feet can float a little; the Wisp's light trail dips under the ground.
-
-Shots: `docs/samples/ground-roster.jpg`, `ground-fennel.jpg`, `ground-wisp.jpg`.
-
-## Painted look (2026-10-15)
-
-Items 16, 17, 18, 20, 21 of `docs/creature-improvements.md`, on every creature at once.
-
-- `sculpt()` bakes ambient occlusion into the vertex colours (`ao` option, on by
-  default): four probes out along the normal measure how much the field closes in, and
-  creases go up to 55% darker. Fur shells share the geometry so the fur darkens too.
-- Speckle: the Nubbin's two fine shell layers (cell 220) were the salt-and-pepper; a Chao
-  is smooth, so the Nubbin has no shells now, a lower detail amount and a matte, velvety
-  surface (roughness 0.66, sheen 0.7, no clearcoat). Fennel's fur grain is calmer under
-  the shells (amount 0.4, bump 0.4).
-- Fur tips are lit lighter and warmer in the shell shader.
-- The creature stage grades at saturation 1.05 instead of 1.2 so the grass stops
-  washing the creatures.
-- Shots: `docs/samples/paint-nubbin.jpg`, `paint-fennel.jpg`, `paint-roster.jpg`.

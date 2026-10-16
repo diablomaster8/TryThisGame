@@ -3,6 +3,7 @@ import { add, smokeShell, spots } from './creatures';
 import { V, type Prim } from './sculpted';
 import type { RigContext, SpeciesSpec } from './species';
 import { FENNEL_SPEC, NUBBIN_SPEC } from './species-data';
+import { digits } from './species-kit';
 
 /**
  * The rest of the sample roster in the species description format: Mossling (a mushroom
@@ -17,6 +18,9 @@ const mossBody = '#6fbf62';
 const mossBelly = '#e2f3c0';
 const mossCap = '#e0502f';
 const mossVine = '#3d8a3a';
+
+/** The cap sits a little behind the body's centre so the face is never under its brim. */
+const CAP_Z = -0.2;
 
 function mosslingTorso(): Prim[] {
   const prims: Prim[] = [
@@ -100,18 +104,18 @@ function mosslingTorso(): Prim[] {
   ];
   // Root toes splayed on the ground.
   for (const dx of [-0.45, 0.45]) {
-    for (let i = 0; i < 3; i++) {
-      const a = (i - 1) * 0.5;
-      prims.push({
-        kind: 'cone',
-        a: V(dx, 0.3, 0.3),
-        b: V(dx + Math.sin(a) * 0.5 + dx * 0.4, 0.08, 0.3 + Math.cos(a) * 0.55),
-        r: 0.14,
-        r2: 0.04,
+    prims.push(
+      ...digits(V(dx, 0.15, 0.42), {
+        count: 3,
+        spread: 0.5,
+        length: 0.5,
+        r: 0.12,
         color: '#4a7a3a',
+        dir: V(dx * 0.3, 0, 1),
+        pad: { color: '#3a6a30', r: 0.2 },
         tag: 'root',
-      });
-    }
+      }),
+    );
   }
   return prims;
 }
@@ -129,22 +133,17 @@ function mosslingArm(dx: number): SpeciesSpec['parts'][number] {
         color: mossBody,
         tag: 'arm',
       },
-      {
-        kind: 'cone',
-        a: V(dx * 1.25, 0.7, 0.45),
-        b: V(dx * 1.45, 0.5, 0.65),
-        r: 0.1,
-        r2: 0.02,
+      { kind: 'sphere', a: V(dx * 1.27, 0.68, 0.48), r: 0.14, color: '#3f7a38', tag: 'hand' },
+      ...digits(V(dx * 1.27, 0.66, 0.5), {
+        count: 3,
+        spread: 0.22,
+        length: 0.24,
+        r: 0.07,
         color: '#3f7a38',
-      },
-      {
-        kind: 'cone',
-        a: V(dx * 1.22, 0.72, 0.5),
-        b: V(dx * 1.3, 0.45, 0.8),
-        r: 0.08,
-        r2: 0.02,
-        color: '#3f7a38',
-      },
+        style: 'mitt',
+        dir: V(dx * 0.35, -0.45, 0.8),
+        tag: 'hand',
+      }),
     ],
     box: [
       V(Math.min(dx * 0.8, dx * 1.5) - 0.3, 0.2, -0.2),
@@ -176,8 +175,8 @@ function mosslingExtras({ hips, bones }: RigContext): (t: number) => void {
       cap,
       new THREE.Mesh(new THREE.SphereGeometry(0.06 + (i % 2) * 0.03, 14, 10), dewMat),
       Math.cos(a) * rr,
-      0.6 - rr * rr * 0.28,
-      Math.sin(a) * rr,
+      0.6 - rr * rr * 0.28 + 0.12,
+      Math.sin(a) * rr * 0.85 + CAP_Z,
     );
     drop.scale.set(1, 0.7, 1);
     drop.castShadow = false;
@@ -188,9 +187,9 @@ function mosslingExtras({ hips, bones }: RigContext): (t: number) => void {
     const gill = add(
       cap,
       new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.08, 0.03), gillMat),
-      Math.cos(a) * 0.9,
-      -0.1,
-      Math.sin(a) * 0.9,
+      Math.cos(a) * 0.8,
+      0.02,
+      Math.sin(a) * 0.7 + CAP_Z,
     );
     gill.rotation.y = -a;
   }
@@ -266,23 +265,39 @@ export const MOSSLING_SPEC: SpeciesSpec = {
     prims: [
       {
         kind: 'ellipsoid',
-        a: V(0, 2.1, 0),
-        radii: V(1.4, 0.66, 1.4),
+        a: V(0, 2.22, CAP_Z),
+        radii: V(1.2, 0.58, 1.05),
         r: 0,
         color: mossCap,
         tag: 'cap',
       },
-      { kind: 'torus', a: V(0, 1.93, 0), r: 1.18, r2: 0.2, color: '#f3e6c8', tag: 'rim' },
+      {
+        kind: 'torus',
+        a: V(0, 2.07, CAP_Z),
+        r: 0.9,
+        r2: 0.17,
+        color: '#f3e6c8',
+        tag: 'rim',
+        blend: 0.06,
+      },
       {
         kind: 'cone',
-        a: V(0.3, 2.7, -0.1),
-        b: V(0.55, 3.25, -0.2),
+        a: V(0.3, 2.7, -0.3),
+        b: V(0.55, 3.2, -0.4),
         r: 0.1,
         r2: 0.02,
         color: '#4fa040',
         tag: 'sprout',
+        blend: 0.05,
       },
-      { kind: 'sphere', a: V(0.62, 3.28, -0.22), r: 0.12, color: '#8fd255', tag: 'sprout' },
+      {
+        kind: 'sphere',
+        a: V(0.62, 3.23, -0.42),
+        r: 0.12,
+        color: '#8fd255',
+        tag: 'sprout',
+        blend: 0.05,
+      },
     ],
     box: [V(-1.8, 1.5, -1.8), V(1.8, 3.6, 1.8)],
     blend: 0.1,
@@ -444,15 +459,15 @@ function bolderLeg(side: number, i: number): SpeciesSpec['parts'][number] {
       prims: [
         { kind: 'sphere', a: knee, r: 0.13, color: plateLight, tag: 'knee' },
         { kind: 'cone', a: knee, b: foot, r: 0.1, r2: 0.05, color: under, tag: 'leg' },
-        {
-          kind: 'cone',
-          a: foot,
-          b: V(foot.x + side * 0.22, 0.0, foot.z),
-          r: 0.07,
-          r2: 0.01,
+        ...digits(foot, {
+          count: 2,
+          spread: 0.14,
+          length: 0.24,
+          r: 0.045,
           color: plateLight,
+          dir: V(side * 0.9, -0.2, 0.3),
           tag: 'claw',
-        },
+        }),
       ],
       box: [
         V(Math.min(knee.x, foot.x) - 0.5, -0.2, Math.min(knee.z, foot.z) - 0.5),
@@ -501,9 +516,19 @@ function bolderExtras({ hips, bones, mat }: RigContext): (t: number) => void {
 
 const BOLDER_HIP = 0.95;
 
+/** The head's ellipsoid, also in the torso sculpt: the thorax blends into it there, so the neck has a fillet instead of a seam. */
+const bolderSkull: Prim = {
+  kind: 'ellipsoid',
+  a: V(0, 0.72, 1.15),
+  radii: V(0.62, 0.46, 0.5),
+  r: 0,
+  color: under,
+  tag: 'head',
+};
+
 export const BOLDER_SPEC: SpeciesSpec = {
   name: 'Bolder',
-  scale: 0.9,
+  scale: 0.72,
   gait: 'spider',
   surface: {
     detail: 'plate',
@@ -517,7 +542,7 @@ export const BOLDER_SPEC: SpeciesSpec = {
   },
   blend: 0.12,
   torso: {
-    prims: bolderTorso(),
+    prims: [...bolderTorso(), bolderSkull],
     box: [V(-1.6, 0, -2.6), V(1.6, 2.5, 2.2)],
     resolution: 104,
   },
@@ -526,14 +551,7 @@ export const BOLDER_SPEC: SpeciesSpec = {
     name: 'head',
     pivot: V(0, 0.8, 0.95),
     prims: [
-      {
-        kind: 'ellipsoid',
-        a: V(0, 0.72, 1.15),
-        radii: V(0.62, 0.46, 0.5),
-        r: 0,
-        color: under,
-        tag: 'head',
-      },
+      bolderSkull,
       {
         kind: 'cone',
         a: V(-0.4, 1.2, 0.95),
@@ -542,6 +560,7 @@ export const BOLDER_SPEC: SpeciesSpec = {
         r2: 0.03,
         color: plateLight,
         tag: 'horn',
+        blend: 0.04,
       },
       {
         kind: 'cone',
@@ -551,6 +570,7 @@ export const BOLDER_SPEC: SpeciesSpec = {
         r2: 0.03,
         color: plateLight,
         tag: 'horn',
+        blend: 0.04,
       },
       {
         kind: 'capsule',
@@ -559,6 +579,7 @@ export const BOLDER_SPEC: SpeciesSpec = {
         r: 0.08,
         color: under,
         tag: 'palp',
+        blend: 0.04,
       },
       {
         kind: 'capsule',
@@ -567,6 +588,7 @@ export const BOLDER_SPEC: SpeciesSpec = {
         r: 0.08,
         color: under,
         tag: 'palp',
+        blend: 0.04,
       },
     ],
     box: [V(-1.3, 0, 0.3), V(1.3, 2.4, 2.2)],
@@ -692,6 +714,23 @@ function wispExtras({ hips, bones, meshes, mat }: RigContext): (t: number) => vo
     0,
   );
   ring.rotation.x = Math.PI / 2 + 0.3;
+  // The core has a material of its own, so the body's glow strength cannot dim it.
+  const coreMat = new THREE.MeshStandardMaterial({
+    color: core,
+    emissive: new THREE.Color(core),
+    emissiveIntensity: 2.2,
+    roughness: 0.4,
+    toneMapped: false,
+  });
+  const coreMesh = add(
+    hips,
+    new THREE.Mesh(new THREE.SphereGeometry(1, 24, 16), coreMat),
+    0,
+    1.1 - WISP_HIP,
+    0.55,
+  );
+  coreMesh.scale.set(0.3, 0.28, 0.26);
+  coreMesh.castShadow = false;
   const light = new THREE.PointLight('#9ad8ff', 5, 6, 1.5);
   light.position.set(0, 1.8 - WISP_HIP, 0.4);
   hips.add(light);
@@ -713,6 +752,7 @@ function wispExtras({ hips, bones, meshes, mat }: RigContext): (t: number) => vo
     });
     ring.rotation.z = t * 0.5;
     light.intensity = 4 + Math.sin(t * 3) * 1.2;
+    coreMat.emissiveIntensity = 2.2 + Math.sin(t * 2.6) * 0.7;
     trail.children.forEach((m, i) => {
       const k = i / 8;
       m.position.set(
@@ -756,12 +796,13 @@ export const WISP_SPEC: SpeciesSpec = {
       },
       {
         kind: 'ellipsoid',
-        a: V(0, 1.72, 0.34),
-        radii: V(0.48, 0.54, 0.44),
+        a: V(0, 1.1, 0.5),
+        radii: V(0.38, 0.36, 0.4),
         r: 0,
         color: core,
         glow: 1,
         tag: 'core',
+        blend: 0.1,
       },
       {
         kind: 'cone',
@@ -792,6 +833,19 @@ export const WISP_SPEC: SpeciesSpec = {
       },
       { kind: 'sphere', a: V(-1.6, 2.25, 0.3), r: 0.13, color: core, glow: 0.7, tag: 'armtip' },
       { kind: 'sphere', a: V(1.6, 2.25, 0.3), r: 0.13, color: core, glow: 0.7, tag: 'armtip' },
+      ...[-1, 1].flatMap((s) =>
+        digits(V(s * 1.62, 2.28, 0.32), {
+          count: 3,
+          spread: 0.26,
+          length: 0.26,
+          r: 0.055,
+          color: core,
+          glow: 0.8,
+          style: 'fingers',
+          dir: V(s * 0.55, 0.75, 0.3),
+          tag: 'armtip',
+        }),
+      ),
       // Horn tufts curling back from the brow, a brow ridge and cheek flares.
       {
         kind: 'cone',

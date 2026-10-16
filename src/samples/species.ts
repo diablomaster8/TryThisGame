@@ -383,7 +383,7 @@ function onSurface(
 ): { pos: THREE.Vector3; normal: THREE.Vector3 } {
   const field = (p: THREE.Vector3): number => {
     let d = 1e9;
-    for (const q of prims) d = smin(d, sdf(p, q), blend);
+    for (const q of prims) d = smin(d, sdf(p, q), q.blend ?? blend);
     return d;
   };
   const pos = from.clone();

@@ -14,6 +14,8 @@ export interface Prim {
   /** For a cone: the radius at `b` (the radius at `a` is `r`). For a torus: the tube radius. */
   r2?: number;
   /** Emissive strength written to the `glow` vertex attribute. */
+  /** Blend radius of this form against the rest, when it should stand off the body (a horn, an ear) instead of melting into it. */
+  blend?: number;
   glow?: number;
   a: THREE.Vector3;
   b?: THREE.Vector3;
@@ -123,7 +125,7 @@ export function sculpt(s: Sculpt, resolution = 112): THREE.BufferGeometry {
           ((z + 0.5) / n - 0.5) * extent + centre.z,
         );
         let d = 1e9;
-        for (const q of s.prims) d = smin(d, sdf(p, q), s.blend);
+        for (const q of s.prims) d = smin(d, sdf(p, q), q.blend ?? s.blend);
         field[z * n * n + y * n + x] = iso + (-d / extent) * 900;
       }
     }
@@ -180,7 +182,7 @@ export function sculpt(s: Sculpt, resolution = 112): THREE.BufferGeometry {
           vz + nrm[i * 3 + 2]! * step,
         );
         let d = 1e9;
-        for (const q of s.prims) d = smin(d, sdf(aoTmp, q), s.blend);
+        for (const q of s.prims) d = smin(d, sdf(aoTmp, q), q.blend ?? s.blend);
         occ += Math.max(0, step - d) / step / (1 + k);
       }
       const open = THREE.MathUtils.clamp(1 - occ * 1.1, 0, 1);

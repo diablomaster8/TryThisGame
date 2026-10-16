@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { stripes } from './creatures';
 import { V } from './sculpted';
+import { digits, tuftRow } from './species-kit';
 import type { SpeciesSpec } from './species';
 
 /**
@@ -60,6 +61,7 @@ export const NUBBIN_SPEC: SpeciesSpec = {
         r2: 0.05,
         color: nubbinBody,
         tag: 'crown',
+        blend: 0.14,
       },
       { kind: 'sphere', a: V(0, 3.06, 0), r: 0.1, color: nubbinTip, tag: 'tip' },
     ],
@@ -79,6 +81,16 @@ export const NUBBIN_SPEC: SpeciesSpec = {
           tag: 'arm',
         },
         { kind: 'sphere', a: V(-1.03, 0.73, 0.22), r: 0.19, color: nubbinTip, tag: 'hand' },
+        ...digits(V(-1.03, 0.7, 0.24), {
+          count: 3,
+          spread: 0.2,
+          length: 0.2,
+          r: 0.07,
+          color: nubbinTip,
+          style: 'mitt',
+          dir: V(-0.35, -0.45, 0.8),
+          tag: 'hand',
+        }),
       ],
       box: [V(-1.4, 0.4, -0.3), V(-0.2, 1.4, 0.6)],
       resolution: 56,
@@ -96,6 +108,16 @@ export const NUBBIN_SPEC: SpeciesSpec = {
           tag: 'arm',
         },
         { kind: 'sphere', a: V(1.03, 0.73, 0.22), r: 0.19, color: nubbinTip, tag: 'hand' },
+        ...digits(V(1.03, 0.7, 0.24), {
+          count: 3,
+          spread: 0.2,
+          length: 0.2,
+          r: 0.07,
+          color: nubbinTip,
+          style: 'mitt',
+          dir: V(0.35, -0.45, 0.8),
+          tag: 'hand',
+        }),
       ],
       box: [V(0.2, 0.4, -0.3), V(1.4, 1.4, 0.6)],
       resolution: 56,
@@ -120,6 +142,15 @@ export const NUBBIN_SPEC: SpeciesSpec = {
           color: nubbinTip,
           tag: 'foot',
         },
+        ...digits(V(-0.36, 0.11, 0.48), {
+          count: 3,
+          spread: 0.3,
+          length: 0.16,
+          r: 0.075,
+          color: nubbinTip,
+          pad: { color: '#e8b830', r: 0.14 },
+          tag: 'foot',
+        }),
       ],
       box: [V(-0.8, -0.1, -0.3), V(0.1, 0.7, 0.8)],
       resolution: 48,
@@ -144,6 +175,15 @@ export const NUBBIN_SPEC: SpeciesSpec = {
           color: nubbinTip,
           tag: 'foot',
         },
+        ...digits(V(0.36, 0.11, 0.48), {
+          count: 3,
+          spread: 0.3,
+          length: 0.16,
+          r: 0.075,
+          color: nubbinTip,
+          pad: { color: '#e8b830', r: 0.14 },
+          tag: 'foot',
+        }),
       ],
       box: [V(-0.1, -0.1, -0.3), V(0.8, 0.7, 0.8)],
       resolution: 48,
@@ -231,7 +271,8 @@ function fennelFur(
   const tag = q.tag ?? '';
   let len = 0.6;
   if (tag === 'ruff' || tag === 'bib' || tag === 'cheek') len = 1.0;
-  else if (tag === 'muzzle' || tag === 'paw') len = 0.15;
+  else if (tag === 'muzzle' || tag === 'paw' || tag === 'digit') len = 0.15;
+  else if (tag === 'tuft' || tag === 'crest') len = 0.2;
   else if (tag === 'leg') len = 0.35;
   else if (tag === 'tail') len = 1.0;
   else if (tag === 'head') len = 0.5;
@@ -298,8 +339,9 @@ export const FENNEL_SPEC: SpeciesSpec = {
           tag: 'ruff',
         };
       }),
+      ...tuftRow(V(-0.3, 1.0, 0.6), V(0.3, 1.0, 0.6), 5, V(0, -0.75, 0.45), 0.3, 0.11, cream, 0.8),
     ],
-    box: [V(-1.3, 0.1, -1.4), V(1.3, 1.9, 1.1)],
+    box: [V(-1.3, 0.1, -1.4), V(1.3, 1.9, 1.3)],
   },
   head: {
     name: 'head',
@@ -307,16 +349,17 @@ export const FENNEL_SPEC: SpeciesSpec = {
     prims: [
       {
         kind: 'ellipsoid',
-        a: V(0, 1.78, 0.55),
-        radii: V(0.64, 0.56, 0.56),
+        a: V(0, 1.8, 0.55),
+        radii: V(0.78, 0.68, 0.66),
         r: 0,
         color: fur,
         tag: 'head',
       },
       {
         kind: 'cone',
-        a: V(0, 1.56, 0.9),
-        b: V(0, 1.42, 1.32),
+        a: V(0, 1.56, 1.0),
+        b: V(0, 1.4, 1.42),
+        blend: 0.1,
         r: 0.27,
         r2: 0.1,
         color: cream,
@@ -324,69 +367,57 @@ export const FENNEL_SPEC: SpeciesSpec = {
       },
       {
         kind: 'cone',
-        a: V(-0.55, 1.6, 0.7),
-        b: V(-0.95, 1.45, 0.75),
+        a: V(-0.66, 1.65, 0.7),
+        b: V(-1.15, 1.5, 0.78),
         r: 0.14,
         r2: 0.02,
         color: cream,
         tag: 'cheek',
+        blend: 0.07,
       },
       {
         kind: 'cone',
-        a: V(0.55, 1.6, 0.7),
-        b: V(0.95, 1.45, 0.75),
+        a: V(0.66, 1.65, 0.7),
+        b: V(1.15, 1.5, 0.78),
         r: 0.14,
         r2: 0.02,
         color: cream,
         tag: 'cheek',
+        blend: 0.07,
       },
       {
         kind: 'cone',
-        a: V(-0.5, 1.45, 0.75),
-        b: V(-0.85, 1.2, 0.8),
+        a: V(-0.62, 1.5, 0.78),
+        b: V(-1.0, 1.22, 0.85),
         r: 0.12,
         r2: 0.02,
         color: cream,
         tag: 'cheek',
+        blend: 0.07,
       },
       {
         kind: 'cone',
-        a: V(0.5, 1.45, 0.75),
-        b: V(0.85, 1.2, 0.8),
+        a: V(0.62, 1.5, 0.78),
+        b: V(1.0, 1.22, 0.85),
         r: 0.12,
         r2: 0.02,
         color: cream,
         tag: 'cheek',
+        blend: 0.07,
       },
-      {
-        kind: 'cone',
-        a: V(-0.14, 2.2, 0.55),
-        b: V(-0.3, 2.45, 0.4),
-        r: 0.1,
-        r2: 0.02,
-        color: fur,
-        tag: 'crest',
-      },
-      {
-        kind: 'cone',
-        a: V(0, 2.2, 0.55),
-        b: V(0, 2.55, 0.4),
-        r: 0.1,
-        r2: 0.02,
-        color: fur,
-        tag: 'crest',
-      },
-      {
-        kind: 'cone',
-        a: V(0.14, 2.2, 0.55),
-        b: V(0.3, 2.45, 0.4),
-        r: 0.1,
-        r2: 0.02,
-        color: fur,
-        tag: 'crest',
-      },
+      ...tuftRow(
+        V(-0.17, 2.36, 0.5),
+        V(0.17, 2.36, 0.5),
+        3,
+        V(0, 0.9, -0.35),
+        0.42,
+        0.1,
+        fur,
+        0.8,
+        'crest',
+      ),
     ],
-    box: [V(-1.2, 1.0, -0.2), V(1.2, 2.8, 1.6)],
+    box: [V(-1.4, 1.0, -0.2), V(1.4, 3.0, 1.9)],
     resolution: 96,
   },
   parts: [
@@ -416,12 +447,21 @@ export const FENNEL_SPEC: SpeciesSpec = {
             { kind: 'capsule', a: knee, b: V(x, 0.2, z + 0.05), r, color: fur, tag: 'leg' },
             {
               kind: 'ellipsoid',
-              a: V(x, 0.12, z + 0.15),
-              radii: V(0.19, 0.11, 0.27),
+              a: V(x, 0.12, z + 0.08),
+              radii: V(0.17, 0.1, 0.2),
               r: 0,
               color: dark,
               tag: 'paw',
             },
+            ...digits(V(x, 0.09, z + 0.2), {
+              count: 3,
+              spread: 0.2,
+              length: 0.18,
+              r: 0.055,
+              color: dark,
+              pad: { color: '#7a4a4a', r: 0.1 },
+              tag: 'paw',
+            }),
           ],
           box: [V(x - 0.4, -0.1, z - 0.4), V(x + 0.4, 0.75, z + 0.6)],
           resolution: 44,
@@ -437,6 +477,16 @@ export const FENNEL_SPEC: SpeciesSpec = {
         { kind: 'sphere', a: V(0, 1.4, -1.9), r: 0.44, color: fur, tag: 'tail' },
         { kind: 'sphere', a: V(0, 1.85, -2.05), r: 0.36, color: fur, tag: 'tail' },
         { kind: 'sphere', a: V(0, 2.15, -2.05), r: 0.26, color: cream, tag: 'tailtip' },
+        ...tuftRow(
+          V(-0.18, 2.3, -2.05),
+          V(0.18, 2.3, -2.05),
+          4,
+          V(0, 0.8, -0.4),
+          0.38,
+          0.11,
+          cream,
+          0.7,
+        ),
         {
           kind: 'cone',
           a: V(0.2, 1.3, -2.1),
@@ -456,12 +506,12 @@ export const FENNEL_SPEC: SpeciesSpec = {
           tag: 'tail',
         },
       ],
-      box: [V(-0.9, 0.4, -2.8), V(0.9, 2.6, -0.6)],
+      box: [V(-0.9, 0.4, -2.8), V(0.9, 3.0, -0.6)],
       blend: 0.25,
       resolution: 80,
     },
     ...([-1, 1] as const).map((side): import('./species').PartSpec => {
-      const dx = side * 0.34;
+      const dx = side * 0.42;
       return {
         name: side < 0 ? 'earL' : 'earR',
         pivot: V(dx, 2.1, 0.45),
@@ -504,11 +554,11 @@ export const FENNEL_SPEC: SpeciesSpec = {
   marks: [
     // A dark mask across the eyes, a dark nose on the muzzle tip, a cream chest patch and
     // a dark ring on the tail.
-    { kind: 'sphere', a: V(0, 1.47, 1.4), r: 0.085, color: '#2a1a1e', soft: 0.02 },
+    { kind: 'sphere', a: V(0, 1.45, 1.5), r: 0.085, color: '#2a1a1e', soft: 0.02 },
     {
       kind: 'ellipsoid',
-      a: V(0, 1.9, 0.95),
-      radii: V(0.62, 0.17, 0.3),
+      a: V(0, 1.82, 1.0),
+      radii: V(0.76, 0.17, 0.3),
       color: '#9a5a2a',
       soft: 0.1,
     },
@@ -529,10 +579,10 @@ export const FENNEL_SPEC: SpeciesSpec = {
   },
   extraShades: [stripes('z', 4.5, 0.18, '#c9641f', ['body'], 0.55)],
   eyes: {
-    x: 0.26,
-    y: 1.9,
-    z: 1.02,
-    r: 0.21,
+    x: 0.36,
+    y: 1.78,
+    z: 1.08,
+    r: 0.23,
     iris: '#4a9a3a',
     lidColor: fur,
     yaw: 0,
@@ -544,8 +594,8 @@ export const FENNEL_SPEC: SpeciesSpec = {
   mouth: {
     // Ahead of and below the muzzle tip, so it lands on the tip's underside front.
     x: 0,
-    y: 1.33,
-    z: 1.52,
+    y: 1.31,
+    z: 1.62,
     width: 0.17,
     lip: '#3a2420',
     teeth: true,

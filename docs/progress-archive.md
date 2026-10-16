@@ -2,6 +2,55 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Grounding verified (2026-10-15)
+
+Items 29, 30, 31 of `docs/creature-improvements.md`, checked in the browser (plan.md Part 1).
+What was wrong and what changed:
+
+- The grass vertex shader did not compile: the push loop's bound was empty (`i < ;`, a
+  `${}` lost to a shell heredoc), so no grass drew at all. Fixed; the push is now a true
+  world-space offset (it used to scale with the blade's instance scale squared).
+- The slope tilt used the default XYZ Euler order, so pitch and roll turned about the
+  world axes after the yaw. The root now rotates `YXZ`. The signs were right: a higher
+  front pitches the nose up (checked numerically on the stage).
+- The blob sat below the sampled ground and was a flat card, while the terrain curves up to
+  0.07 across a footprint and its mesh is a chord up to 0.035 above the height function:
+  it z-fought, floated on one side or was cut off on the other. It is now an 8×8 grid
+  pinned flat in world space whose vertices take the ground height under them plus 0.05.
+  It lightens to about 0.85 on the hop and 0.6 under the hovering Wisp, and shrinks.
+- Feet: the specs' lowest points are not at y = 0 (Bolder's leg tips 0.2 below, Mossling
+  0.03 above, Nubbin 0.05 below), and a plane through four probes misses the curvature
+  under a wide belly or a wide leg span. `buildSpecies` now measures the figure at rest:
+  the lowest vertex per 0.3-unit cell of the ground plan is a contact point, and each
+  frame the root drops until the lowest contact point (carried by yaw and tilt only, so a
+  hop still leaves the ground) sits 0.02 into the grass. Measured sink on the single stage
+  at turns 0–270°: 0.02 for Nubbin, Mossling and Fennel, 0.027 for Bolder (its idle roll),
+  the Wisp hovering 0.45 above.
+- Bolder's idle leg sway is lift-only now; the dip put its tips 0.13 into the ground.
+- `window.groveStage` exposes the stage (scene, cast, creature, groundHeight) so a console
+  can measure creatures in place; the checks above were done that way.
+- Left for the knee-joint pass: on bumpy ground a rigid body touches at its lowest point
+  and the other feet can float a little; the Wisp's light trail dips under the ground.
+
+Shots: `docs/samples/ground-roster.jpg`, `ground-fennel.jpg`, `ground-wisp.jpg`.
+
+
+## Painted look (2026-10-15)
+
+Items 16, 17, 18, 20, 21 of `docs/creature-improvements.md`, on every creature at once.
+
+- `sculpt()` bakes ambient occlusion into the vertex colours (`ao` option, on by
+  default): four probes out along the normal measure how much the field closes in, and
+  creases go up to 55% darker. Fur shells share the geometry so the fur darkens too.
+- Speckle: the Nubbin's two fine shell layers (cell 220) were the salt-and-pepper; a Chao
+  is smooth, so the Nubbin has no shells now, a lower detail amount and a matte, velvety
+  surface (roughness 0.66, sheen 0.7, no clearcoat). Fennel's fur grain is calmer under
+  the shells (amount 0.4, bump 0.4).
+- Fur tips are lit lighter and warmer in the shell shader.
+- The creature stage grades at saturation 1.05 instead of 1.2 so the grass stops
+  washing the creatures.
+- Shots: `docs/samples/paint-nubbin.jpg`, `paint-fennel.jpg`, `paint-roster.jpg`.
+
 ## Face group on the Nubbin (2026-10-15)
 
 Maor: "make a full list of improvements ... use the references I sent you as a bible"
