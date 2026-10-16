@@ -2194,7 +2194,7 @@ export const ATLAS_A15: Quest[] = [
             D('We’ve come for what you promised us. The Wicked Witch is gone.'),
             O('Is she really gone?', 'shock'),
             D('Yes. I melted her with a bucket of water.'),
-            O('Goodness. Melted. Well… come back tomorrow. I shall need a little time to think it over.'),
+            O('Goodness. Melted. Well… give me a day. I shall need a little time to think it over.'),
             TW('You have had weeks to think!', 'angry'),
             SC('Not one more day. Not one.', 'angry'),
             L('I think… I think I should roar now.', 'think'),
@@ -2305,7 +2305,7 @@ export const ATLAS_A15: Quest[] = [
         },
         done: {
           id: 'a15-14-secret-done',
-          lines: [O('Come back tomorrow, all of you. I shall have something for each of you. I always do.')],
+          lines: [O('Come to me in the morning, all of you. I shall have something for each of you. I always do.')],
         },
       },
     ],

@@ -6225,7 +6225,7 @@ _That afternoon Byte is at the gate with a clipboard, a pencil behind each ear, 
 > _For grown-ups: Made a tally chart from a list of events (1, 1, 1, 2, 14) and found the largest category._
 
 **Byte**: He’s a kettle on a wheel who wants to help. That is exactly how accidents introduce themselves.  
-**Byte**: Next time it’s a Nubbin he waters. Or drops. Pixel should switch him off. Tonight. Before he hurts someone.  
+**Byte**: Next time it’s a Nubbin he waters. Or drops. Pixel should switch Clank off. Tonight. Before he hurts someone.  
 _Behind you, a small whistle starts to rise, and stops halfway._  
 _Clank is at the top of the cottage step. He has heard all of it. His chimney-light has gone very dim._  
 _He reverses. He goes off the step backwards, lands in the thyme, and doesn’t announce anything at all._  
@@ -14916,7 +14916,7 @@ _Hana is asleep on the bench. Her pencil is still moving, drawing a line off the
 **Nova**: Right now it’s morning at Hana’s home in Japan. Her family is just waking up.  
 
 > **Lesson** (science, 1-ESS1-1, notice): why it is night here and day somewhere else  
-> **Nova**: The Earth spins round once a day. When our side turns away from the Sun, it gets dark here.  
+> **Nova**: The Earth spins all the way round every day. When our side turns away from the Sun, it gets dark here.  
 > **Nova**: At the same time, the other side of the world is turning towards the Sun, and it’s morning there.  
 > _For grown-ups: Learned that the spinning Earth makes day and night, so it can be night in one country and morning in another._
 

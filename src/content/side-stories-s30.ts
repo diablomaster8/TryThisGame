@@ -605,7 +605,7 @@ export const SIDE_STORY_S30: Quest[] = [
             N('The basket comes up over the lip. Clover has Dimple out of it before it has stopped swinging.'),
             N('She cries all over her: into her fur, on the cushion, on her ears. Dimple lets her, ball blue and gold, quite still for once.'),
             CL('Look at me. I’m worse than she is. I’m a disgrace. Somebody give me a hanky.', 'sad'),
-            N('Dusty gives her a sock. It’s clean, mostly.'),
+            N('Dusty gives Clover a sock. It’s clean, mostly.'),
             // Lifted text 2 (Inside Out, 2015: Sadness). childLines below.
             CL('Crying helps me slow down and obsess over the weight of life’s problems.', 'happy'),
             N('She laughs at herself, and blows her nose on the sock, and laughs harder. Dimple watches her face the whole time.'),

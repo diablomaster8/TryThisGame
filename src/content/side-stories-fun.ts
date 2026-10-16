@@ -1041,7 +1041,7 @@ export const SIDE_STORIES_FUN: Quest[] = [
             DU('Look at her. That’s the stroke. The little sideways one. Like she’s late for something.', 'happy'),
             DU('To the reeds and back, Fos. Then you can be smug about it.'),
             N('She swims to the reeds and back. It takes a long time, and nobody hurries her.'),
-            N('When you lift her out she is shivering, and her eyes are bright. She isn’t looking at Dusty; she’s looking at the Grove.'),
+            N('When you lift Fossil out she is shivering, and her eyes are bright. She isn’t looking at Dusty; she’s looking at the Grove.'),
             DU('…That’s not the list. She’s got a list of her own.', 'think'),
           ],
         },

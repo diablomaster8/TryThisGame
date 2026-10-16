@@ -201,7 +201,7 @@ const WAYFARER_CHOICES: Choice[] = [
     then: [
       N('You sit down on the end of her bed, next to the bag, and say nothing at all.'),
       N('Marina folds another jumper, and another. Then she stops with one half folded, and looks at you sitting there.'),
-      N('Dusty sits down on her other side. The three of you sit while the light goes, and nobody lights the lamp.'),
+      N('Dusty sits down on Marina’s other side. The three of you sit while the light goes, and nobody lights the lamp.'),
       MA('…Hazel used to do that. Just sit. It used to drive me spare.', 'soft'),
       N('After a long time, she puts the jumper down.'),
     ],
@@ -552,7 +552,7 @@ export const SIDE_STORY_S29: Quest[] = [
             DU('That’s mine. I can smell it. Earth, and old tea, and… it’s mine. I haven’t been back. Not since the rain.', 'sad'),
             DU('Marina! Marina, wait—'),
             MA('Come on, you two! Supper! I’m starving, and it’s getting dark!', 'happy'),
-            N('She hasn’t heard; she’s already round the bend. Dusty looks after her, and up at the door, and after her again.'),
+            N('Marina hasn’t heard; she’s already round the bend. Dusty looks after Marina, and up at the door, and after her again.'),
             N('Then they sit down on an old stump by the path, put their face in their hands, and cry.'),
           ],
         },

@@ -388,7 +388,7 @@ const LJ1_SCENES: EduScene[] = [
         kind: 'notice',
         after: 5,
         lines: [
-          NO('The Earth spins round once a day. When our side turns away from the Sun, it gets dark here.'),
+          NO('The Earth spins all the way round every day. When our side turns away from the Sun, it gets dark here.'),
           NO('At the same time, the other side of the world is turning towards the Sun, and it’s morning there.'),
         ],
         parentNote: 'Learned that the spinning Earth makes day and night, so it can be night in one country and morning in another.',

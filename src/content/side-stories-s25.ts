@@ -401,7 +401,7 @@ export const SIDE_STORY_S25: Quest[] = [
             N('There is a short silence. In it, Fern looks at the toy properly for the first time.'),
             FE('…Right. Yes. I see. Then I owe him an apology. Possibly several.', 'think'),
             FE('And I’m going to do it properly, because Hazel would have, and because your Nubbin is looking at me like that.'),
-            FE('Come back tomorrow. Bring him. I’m getting the good cups out.'),
+            FE('Come round for tea, and bring him. I’m getting the good cups out.'),
           ],
         },
         done: {

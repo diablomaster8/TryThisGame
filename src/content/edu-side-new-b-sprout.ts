@@ -2091,7 +2091,7 @@ const S21: EduQuest = quest(
         N('Byte comes with a clipboard and a pencil behind each ear.'),
         BY('One wet cat. One duck-shaped tree. One old Nubbin, zoomed.'),
         BY('He means to help. But next time, someone could get hurt.', 'think'),
-        BY('Pixel should switch him off. Tonight.'),
+        BY('Pixel should switch Clank off. Tonight.'),
         N('Behind you, a little whistle starts, then stops.'),
         N('Clank heard. His light goes very dim.'),
         N('He rolls backwards, off the step. Bump. He doesn’t say a thing.'),

@@ -781,7 +781,7 @@ export const SIDE_STORIES_NEW_4: Quest[] = [
             BY('Incident log. Since breakfast: one wet cat. One duck-shaped tree. One elderly Nubbin, moved at roughly eleven miles an hour.'),
             BY('Two falls down the step. Fourteen declarations of best friendship. One of them to a bucket.'),
             BY('He’s a kettle on a wheel with a stated intention to help. That is exactly how accidents introduce themselves.', 'think'),
-            BY('Next time it’s a Nubbin he waters. Or drops. Pixel should switch him off. Tonight. Before he hurts someone.'),
+            BY('Next time it’s a Nubbin he waters. Or drops. Pixel should switch Clank off. Tonight. Before he hurts someone.'),
             N('Behind you, a small whistle starts to rise, and stops halfway.'),
             N('Clank is at the top of the cottage step. He has heard all of it. His chimney-light has gone very dim.'),
             N('He reverses. He goes off the step backwards, lands in the thyme, and doesn’t announce anything at all.'),

@@ -4402,7 +4402,7 @@ _Then he walks all the way back up the hill. Slowly._
 _Byte comes with a clipboard and a pencil behind each ear._  
 **Byte**: One wet cat. One duck-shaped tree. One old Nubbin, zoomed.  
 **Byte**: He means to help. But next time, someone could get hurt.  
-**Byte**: Pixel should switch him off. Tonight.  
+**Byte**: Pixel should switch Clank off. Tonight.  
 _Behind you, a little whistle starts, then stops._  
 _Clank heard. His light goes very dim._  
 _He rolls backwards, off the step. Bump. He doesn’t say a thing._  

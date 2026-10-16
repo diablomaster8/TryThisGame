@@ -771,7 +771,7 @@ _Then, very slowly, she kicks._
 **Dusty** _(happy)_: Look at her. That’s the stroke. The little sideways one. Like she’s late for something.  
 **Dusty**: To the reeds and back, Fos. Then you can be smug about it.  
 _She swims to the reeds and back. It takes a long time, and nobody hurries her._  
-_When you lift her out she is shivering, and her eyes are bright. She isn’t looking at Dusty; she’s looking at the Grove._  
+_When you lift Fossil out she is shivering, and her eyes are bright. She isn’t looking at Dusty; she’s looking at the Grove._  
 **Dusty** _(think)_: …That’s not the list. She’s got a list of her own.  
 
 ### Step 4: Sit with them until dark.
@@ -3508,7 +3508,7 @@ _That afternoon Byte is at the gate with a clipboard, a pencil behind each ear, 
 **Byte**: Incident log. Since breakfast: one wet cat. One duck-shaped tree. One elderly Nubbin, moved at roughly eleven miles an hour.  
 **Byte**: Two falls down the step. Fourteen declarations of best friendship. One of them to a bucket.  
 **Byte** _(think)_: He’s a kettle on a wheel with a stated intention to help. That is exactly how accidents introduce themselves.  
-**Byte**: Next time it’s a Nubbin he waters. Or drops. Pixel should switch him off. Tonight. Before he hurts someone.  
+**Byte**: Next time it’s a Nubbin he waters. Or drops. Pixel should switch Clank off. Tonight. Before he hurts someone.  
 _Behind you, a small whistle starts to rise, and stops halfway._  
 _Clank is at the top of the cottage step. He has heard all of it. His chimney-light has gone very dim._  
 _He reverses. He goes off the step backwards, lands in the thyme, and doesn’t announce anything at all._  
