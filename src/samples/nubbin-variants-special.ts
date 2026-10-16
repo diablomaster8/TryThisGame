@@ -4,7 +4,6 @@ import {
   MOON_ADULT,
   NEUTRAL_ADULT,
   SUN_ADULT,
-  horns,
   tailStub,
   variant,
   type NubbinVariant,
@@ -301,30 +300,120 @@ const ETERNAL_MOON = variant(MOON_ADULT, 'Nubbin (Eternal Moon)', {
   notes: 'Eternal Moon: deep purple with glowing lilac crystal spikes, slanted eyes, bat wings.',
 });
 
+/** The Eternal Neutral look's flats. */
+const NEUTRAL_LIME = '#7ee02c';
+const NEUTRAL_BELLY = '#d2e640';
+const NEUTRAL_SALMON = '#f0707c';
+const NEUTRAL_TIP = '#f0a070';
+
 const ETERNAL_NEUTRAL = variant(NEUTRAL_ADULT, 'Nubbin (Eternal Neutral)', {
+  // Flat lime green with a yellow-green belly and salmon hands and feet, as in the line-up.
   colors: {
-    body: '#86d94a',
-    belly: '#fff1c9',
-    tip: '#f29c2e',
-    pad: '#e0562e',
-    crownShade: '#3f9a2a',
+    body: NEUTRAL_LIME,
+    belly: NEUTRAL_BELLY,
+    tip: NEUTRAL_SALMON,
+    pad: NEUTRAL_SALMON,
+    crownShade: NEUTRAL_LIME,
+    blush: NEUTRAL_LIME,
+    star: NEUTRAL_LIME,
     iris: '#1e7a74',
-    wing: '#c6ec6a',
+    wing: NEUTRAL_LIME,
   },
+  // A single small spike on the crown and two horns at the sides, each tipped salmon.
   crown: [
-    cone(V(0, 2.35, 0), V(0, 3.1, -0.55), 0.32, 0.05, '#86d94a', 'crown', 0.12),
-    ball(V(0, 3.12, -0.57), 0.08, '#f29c2e'),
+    cone(V(0, 2.65, 0), V(0, 3.1, -0.05), 0.2, 0.03, NEUTRAL_LIME, 'crown', 0.1),
+    cone(V(0, 2.95, -0.04), V(0, 3.12, -0.05), 0.07, 0.02, NEUTRAL_TIP, 'crown', 0.02),
+    ...[-1, 1].flatMap((dx) => [
+      cone(
+        V(dx * 0.72, 2.4, -0.05),
+        V(dx * 0.95, 2.9, -0.1),
+        0.14,
+        0.03,
+        NEUTRAL_LIME,
+        'horn',
+        0.05,
+      ),
+      cone(
+        V(dx * 0.92, 2.78, -0.09),
+        V(dx * 0.95, 2.92, -0.1),
+        0.07,
+        0.02,
+        NEUTRAL_TIP,
+        'horn',
+        0.02,
+      ),
+    ]),
   ],
-  slots: { tail: tailStub('#86d94a', 1.0) },
-  ball: { color: '#f29c2e', glow: '#b86a10' },
-  wings: { shape: 'fairy', size: 1.8 },
-  scale: 0.9,
-  surface: GLASS,
-  patch: (spec) => {
-    spec.head.prims.push(...horns('#f29c2e'));
-    dress(spec, { chunky: 1.25 });
+  slots: {
+    tail: tailStub(NEUTRAL_LIME, 0.8),
+    arms: [
+      gloveArm(-1, NEUTRAL_LIME, NEUTRAL_SALMON, { y: 1.0, reach: 1.2, hand: 0.2 }),
+      gloveArm(1, NEUTRAL_LIME, NEUTRAL_SALMON, { y: 1.0, reach: 1.2, hand: 0.2 }),
+    ],
   },
-  notes: 'Eternal Neutral: a lime-green dragon look with orange horns, claws and a long tail.',
+  ball: { color: '#e0309a', glow: '#a02070' },
+  wings: null,
+  // The closed eye is a white oval with a grey ^; the lids carry the white.
+  eyes: { x: 0.46, y: 2.02, r: 0.27, tall: 1.3, lidColor: WHITE, brow: false },
+  mouth: { shape: 'smile', width: 0.1, y: 1.7, z: 1.0, line: NEUTRAL_LIME },
+  surface: GLASS,
+  hints: [
+    ...[-1, 1].map((dx) => ({
+      kind: 'ellipsoid' as const,
+      a: V(dx * 0.46, 2.06, 0.8),
+      radii: V(0.27, 0.34, 0.2),
+      color: WHITE,
+      soft: 0.01,
+    })),
+    // The belly patch, and the salmon toes.
+    {
+      kind: 'ellipsoid',
+      a: V(0, 0.88, 0.62),
+      radii: V(0.45, 0.5, 0.3),
+      color: NEUTRAL_BELLY,
+      soft: 0.01,
+    },
+    ...[-1, 1].map((dx) => ({
+      kind: 'ellipsoid' as const,
+      a: V(dx * 0.36, 0.1, 0.55),
+      radii: V(0.3, 0.2, 0.3),
+      color: NEUTRAL_SALMON,
+      soft: 0.08,
+    })),
+  ],
+  patch: (spec) => {
+    const dome = spec.head.prims.find((p) => p.tag === 'head')!;
+    dome.a.set(0, 2.0, 0);
+    dome.radii!.set(0.95, 0.85, 0.9);
+    const belly = spec.torso.prims.find((p) => p.tag === 'belly')!;
+    belly.radii!.set(0.86, 0.66, 0.72);
+    spec.shade = { top: 1.0, bottom: 0.94, yMax: 3.5 };
+    widen(spec.head, { x: 1.5, z: -1.2 });
+    // The gold chain: a ring where the head meets the body, with beads along the front.
+    const gold = '#e8c030';
+    spec.torso.prims.push({
+      kind: 'torus',
+      a: V(0, 1.3, 0.1),
+      r: 0.58,
+      r2: 0.05,
+      color: gold,
+      tag: 'band',
+      blend: 0.03,
+    });
+    for (let i = -3; i <= 3; i++)
+      spec.torso.prims.push({
+        kind: 'sphere',
+        a: V(i * 0.17, 1.33 - 0.04 * Math.abs(i), 0.64 - 0.03 * i * i * 0.3),
+        r: 0.065,
+        color: gold,
+        tag: 'band',
+        blend: 0.02,
+      });
+    dress(spec, { gloves: NEUTRAL_SALMON, shoes: NEUTRAL_LIME, chunky: 1.2 });
+  },
+  notes:
+    'Line-up figure 5 (Part G8b): a lime-green dragon with a crown spike and two salmon-tipped ' +
+    'horns, white oval eyes, a gold chain, a yellow-green belly, salmon hands and toes, a pink ball.',
 });
 
 const SHADOW = variant(CHILD, 'Nubbin (Shadow)', {
@@ -374,16 +463,17 @@ function quillShades(quills: Prim[], color: string): Mark[] {
  * A short arm ending in a big round glove with a cuff: the glove is a ball, the cuff a
  * smaller ball stepping out of the sleeve, so the outline draws the cuff's edge.
  */
-const gloveArm = (
+function gloveArm(
   dx: number,
   body: string,
   glove: string,
-  o: { y?: number; reach?: number } = {},
-): PartSpec => {
+  o: { y?: number; reach?: number; hand?: number } = {},
+): PartSpec {
   // The arms stick straight out sideways in the quills' line-up; `y` lifts them and `reach`
   // pulls the glove in or out.
   const y = o.y ?? 1.0;
   const k = o.reach ?? 1;
+  const h = o.hand ?? 0.3;
   return {
     name: dx < 0 ? 'armL' : 'armR',
     pivot: V(dx * 0.55, y, 0.1),
@@ -396,12 +486,12 @@ const gloveArm = (
         color: body,
         tag: 'arm',
       },
-      ball(V(dx * (0.55 + 0.48 * k), y - 0.02, 0.14), 0.2, glove, 'cuff'),
-      { ...ball(V(dx * (0.55 + 0.75 * k), y - 0.02, 0.16), 0.3, glove, 'hand'), blend: 0.06 },
+      ball(V(dx * (0.55 + 0.48 * k), y - 0.02, 0.14), (h * 2) / 3, glove, 'cuff'),
+      { ...ball(V(dx * (0.55 + 0.75 * k), y - 0.02, 0.16), h, glove, 'hand'), blend: 0.06 },
     ],
     box: [V(dx < 0 ? -1.75 : 0.2, 0.5, -0.4), V(dx < 0 ? -0.2 : 1.75, 1.8, 0.6)],
   };
-};
+}
 
 /**
  * Mech lower legs under big shoes: a grey capsule with a red ring, a red shoe a third

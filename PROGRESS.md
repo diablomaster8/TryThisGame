@@ -45,6 +45,17 @@ The reference is `docs/reference/chao-world-lineup.jpg` (the YouTube thumbnail, 
 figures left to right: quills, echidna, fox, dream, Eternal Neutral, shade, Eternal Moon).
 Steps, newest first, one commit each:
 
+4d. **eternal-neutral against slice 5** (`docs/samples/match-eternal-neutral.jpg`). A flat lime
+   `#7ee02c` dragon with a yellow-green belly patch, salmon hands and toes (marks on the feet),
+   a small crown spike and two small horns tipped salmon, white oval eyes with the happy ^
+   (white marks under the arcs, as in the dream look), a gold chain (a torus collar plus a row
+   of beads), no wings, scale back to the template's (the Eternals' 0.9 only made the stage
+   crop the figure). `gloveArm` gained `hand` (glove size) and became a function declaration:
+   the Eternals run `variant()` at import, before a `const` further down the file exists.
+   Still differs: the chain should drape across the chest in a U, ours is a collar; the thumbnail
+   body is wider and flatter with arms held out, ours has a rounder body and the happy pose
+   drops the arms; the toes' gradient from green to pink is a soft mark; the pink ball is
+   cropped (and the stage's ball is glassy); no scale ridges on the belly.
 4c. **look-dream against slice 4** (`docs/samples/match-dream.jpg`). Again not the brief's jester
    point: the figure is a flat magenta `#a82a8c` with an onion-shaped head (a wide dome and a
    narrow cone melted into it), tiny ear points, a gold horn on the forehead, big white oval eyes
