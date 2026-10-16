@@ -23,6 +23,18 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## Eyes that look (2026-10-15)
+
+Item 3 of the brief: the irises follow. `eye()` returns `iris` (the disc in its own group;
+the catchlight stays in the eye group as a reflection). In `buildSpecies`, each frame every
+eye takes `Rigged.lookAt` in its own frame and eases its iris toward it at 6 per second,
+at most 0.22 of the eye radius, dropping with the dome so it never floats; per-eye aiming
+makes the pair converge on a near point. With no `lookAt` the iris wanders slowly.
+`lookAt` already existed (null or a Vector3, head turn still gated to the `pet` pose); the
+stage now sets it to the camera for closeup and lineup views. Check:
+`?aaa=1&creature=1&closeup&pose=idle&turn=30`, `docs/samples/look-nubbin.jpg`. Lint,
+210 tests and build pass. Not checked: the other four species by eye.
+
 ## Petting, sleep and the life pass (2026-10-15)
 
 Items 23–28 of `docs/creature-improvements.md`, after the Palworld "All Pet Animations"

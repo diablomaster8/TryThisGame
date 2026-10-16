@@ -233,6 +233,10 @@ const TURN_TIME = 0.4;
 const BREATH_RATE = Math.PI * 2 * 0.25;
 /** How far the head may turn and tilt toward the look point, radians. */
 const LOOK_YAW = 0.7;
+/** Furthest an iris slides from centre, as a fraction of the eye radius. */
+const IRIS_TRAVEL = 0.22;
+/** Eased rate (per second) at which the irises follow their target. */
+const IRIS_EASE = 6;
 const LOOK_PITCH = 0.4;
 
 const smooth = (k: number) => k * k * (3 - 2 * k);
@@ -911,6 +915,7 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
   let flickSide = 1;
   // The look point in hip space, as a yaw and pitch for the head, eased in and out.
   const look = new THREE.Vector3();
+  const gaze = new THREE.Vector3();
   let lookYaw = 0;
   let lookPitch = 0;
   let lookK = 0;
@@ -1354,6 +1359,38 @@ export function buildSpecies(spec: SpeciesSpec): Rigged {
       e.brow.rotation.z = Math.PI / 2 + ex.brow * k * side;
       e.brow.position.y = (e.brow.userData.baseY as number) + ex.browLift * k * r;
     }
+    // The irises: each eye takes the look point in its own frame, so the pair converge on
+    // a near point by themselves; with nothing to look at they drift in a slow wander.
+    if (rig.lookAt) root.updateWorldMatrix(true, true);
+    const ease = 1 - Math.exp(-IRIS_EASE * fdt);
+    eyes.forEach((e, i) => {
+      const u = e.iris.userData as { r: number; tall: number; depth: number };
+      let tx: number;
+      let ty: number;
+      if (rig.lookAt) {
+        gaze.copy(rig.lookAt);
+        e.group.worldToLocal(gaze);
+        const len = gaze.length() || 1;
+        // Direction sines scaled so about 30 degrees off-axis already reaches the limit.
+        tx = (gaze.x / len) * 2 * IRIS_TRAVEL;
+        ty = (gaze.y / len) * 2 * IRIS_TRAVEL;
+        const m = Math.hypot(tx, ty);
+        if (m > IRIS_TRAVEL) {
+          tx *= IRIS_TRAVEL / m;
+          ty *= IRIS_TRAVEL / m;
+        }
+      } else {
+        tx = Math.sin(t * 0.37 + i * 0.4) * 0.09;
+        ty = Math.sin(t * 0.53 + 1.3 + i * 0.4) * 0.06;
+      }
+      const ox = e.iris.position.x / u.r;
+      const oy = e.iris.position.y / u.r;
+      const nx = ox + (tx - ox) * ease;
+      const ny = oy + (ty - oy) * ease;
+      // The disc follows the dome down as it slides, so it never floats off the eyeball.
+      const dz = (-u.depth * (nx * nx + (ny / u.tall) * (ny / u.tall)) * u.r) / 2;
+      e.iris.position.set(nx * u.r, ny * u.r, dz);
+    });
   };
   const rig: Rigged = {
     group: root,

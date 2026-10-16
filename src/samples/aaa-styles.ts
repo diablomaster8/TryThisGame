@@ -987,7 +987,9 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
   const attend = (c: Rigged, petting: boolean) => {
     const g = c.group;
     if (!petting) {
-      c.lookAt = null;
+      // Close-up and line-up views: the eyes (not the head) follow the camera.
+      if (closeup || lineup) c.lookAt = (c.lookAt ?? new THREE.Vector3()).copy(camera.position);
+      else c.lookAt = null;
       c.face(g.userData.yaw as number);
       return;
     }

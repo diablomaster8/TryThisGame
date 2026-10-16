@@ -419,6 +419,8 @@ export interface EyeRig {
   arc: THREE.Mesh;
   /** The brow ridge; `userData.baseY` and `userData.r` size its lift and tilt. */
   brow: THREE.Mesh;
+  /** The iris disc in its own group, slid about the eye to look; the catchlight is not in it. */
+  iris: THREE.Object3D;
   /** Everything that makes the open eye: hidden when the eye shuts into the arc, so the skin shows. */
   ball: THREE.Object3D[];
 }
@@ -517,7 +519,12 @@ export function eye(
     }),
   );
   disc.castShadow = false;
-  g.add(disc);
+  // The iris group slides about on the dome to look at things; the catchlight below stays
+  // put in the eye group because it is a reflection of the sky, not part of the iris.
+  const irisGroup = new THREE.Group();
+  irisGroup.userData = { r, tall, depth };
+  irisGroup.add(disc);
+  g.add(irisGroup);
   // The catchlight: a bold white spot high on the eye, slightly over the iris edge.
   const gloss = new THREE.Mesh(
     domeDisc(r * 0.17, 0.8, -r * 0.34, r * 0.4, r * 0.02),
@@ -593,6 +600,7 @@ export function eye(
     lower,
     arc,
     brow,
+    iris: irisGroup,
     ball: [white, disc, gloss, liner, lidMesh, lowerWrap],
   };
 }
