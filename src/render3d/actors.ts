@@ -11,6 +11,7 @@ import { Crowd, crowdFor } from './crowd';
 import { gaitTime } from './gait';
 import { WATER_LEVEL, groveHeight } from './terrain';
 import { buildToy } from './toys';
+import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
 
 /**
  * Everything that moves in the 3D Grove: the Nubbins and the Keeper as pooled rigs,
@@ -52,6 +53,7 @@ export function poseFor(n: Nubbin, moving: boolean, petted: boolean): PoseName {
   switch (n.behavior.state) {
     case 'held':
     case 'carried':
+    case 'pet':
       return 'pet';
     case 'nap':
     case 'shelter':
@@ -108,6 +110,9 @@ export class Actors {
   private readonly sparkPoints: THREE.Points;
   private readonly sparkPos: THREE.BufferAttribute;
   private readonly tmp = new THREE.Vector3();
+  private readonly tmp2 = new THREE.Vector3();
+  private readonly tmp3 = new THREE.Vector3();
+  private readonly tmpQ = new THREE.Quaternion();
   /** Where the scene is and the Hollow floor, if any: the crowd depends on both. */
   location: Location = 'grove';
   floor: Floor | null = null;
@@ -421,6 +426,23 @@ export class Actors {
    * The Keeper's rig, or null while it is still being sculpted (a stand-in shows then).
    * Switching Keepers keeps the old rig on screen until the new one is ready.
    */
+  /** Where the Keeper's stroking hand is, in world space (a fresh vector). */
+  private keeperHand(rig: Rigged | null, keeper: World['keeper']): THREE.Vector3 {
+    const elbow = rig?.bones.elbowR;
+    if (elbow) {
+      elbow.getWorldPosition(this.tmp);
+      const off = this.tmp2.copy(KEEPER_HAND_FROM_ELBOW).multiply(elbow.getWorldScale(this.tmp3));
+      off.applyQuaternion(elbow.getWorldQuaternion(this.tmpQ));
+      return this.tmp.add(off).clone();
+    }
+    const gy = this.ground(keeper.pos.x, keeper.pos.z);
+    return new THREE.Vector3(
+      keeper.pos.x + Math.sin(keeper.facing) * 0.5,
+      gy + 1.0,
+      keeper.pos.z + Math.cos(keeper.facing) * 0.5,
+    );
+  }
+
   private ensureKeeper(world: World): Rigged | null {
     const look = keeperLook(world.keeper);
     const k = this.keeper;
@@ -467,6 +489,10 @@ export class Actors {
     // The Keeper first: when it and a hatchling are both waiting, the Keeper is built.
     const rig = this.ensureKeeper(world);
     const petting = keeper.intent?.kind === 'pet' ? keeper.intent.nubbinId : null;
+    // The hand the petted Nubbin looks at: the Keeper's right hand when the rig is up,
+    // else a point at chest height in front of the Keeper.
+    const hand = this.keeperHand(rig, keeper);
+    let petted = false;
     // Visitors, wild ones, the Hollow's strays and the story places' grey Nubbins.
     this.crowd.update(crowdFor(world, this.location, this.floor, nowMs), this.ground, t, dt);
 
@@ -496,8 +522,8 @@ export class Actors {
         const footY = gy + y - sink;
         a.rig.ground = y > 0.01 || swimming ? () => footY : this.ground;
         a.rig.face(n.facing);
-        a.rig.lookAt =
-          pose === 'pet' ? this.tmp.set(keeper.pos.x, gy + 1.0, keeper.pos.z).clone() : null;
+        a.rig.lookAt = pose === 'pet' ? hand : null;
+        if (n.behavior.state === 'pet' && near) petted = true;
         for (const u of a.overlay) {
           u.o.rotation.x -= u.x;
           u.o.rotation.z -= u.z;
@@ -536,13 +562,10 @@ export class Actors {
     const kMoving =
       Math.hypot(keeper.pos.x - this.keeperPrev.x, keeper.pos.z - this.keeperPrev.z) > 0.004;
     this.keeperMoving = kMoving;
+    // The Keeper strokes for as long as the Nubbin at its feet holds the pet state.
     const kPose: PoseName = keeper.carrying
       ? 'carry'
-      : petting &&
-          Math.hypot(
-            keeper.pos.x - (world.nubbins.find((n) => n.id === petting)?.pos.x ?? 1e9),
-            0,
-          ) < 1.5
+      : petted
         ? 'pet'
         : this.keeperMoving
           ? 'walk'

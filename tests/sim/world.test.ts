@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { EGG, GROVE, SIM } from '../../src/config/tuning';
+import { BEHAVIOR, EGG, GROVE, SIM } from '../../src/config/tuning';
 import {
   deserialize,
   SAVE_VERSION,
@@ -65,10 +65,20 @@ describe('world', () => {
     run(w, EGG.hatchMs / SIM.stepMs + 5);
     const n = w.nubbins[0]!;
     const before = n.needs.affection;
-    const events = run(w, 100, [{ kind: 'pet', nubbinId: n.id }]);
+    // Step until the hand lands: the Nubbin then holds the pet pose, facing the Keeper.
+    const events: SimEvent[] = [];
+    applyCommand(w, { kind: 'pet', nubbinId: n.id }, events);
+    for (let i = 0; i < 100 && !events.some((e) => e.kind === 'reaction'); i++)
+      events.push(...stepWorld(w, SIM.stepMs));
     expect(n.needs.affection).toBeGreaterThan(before);
     expect(n.alignment).toBeGreaterThan(0);
     expect(events.some((e) => e.kind === 'reaction' && e.reaction === 'love')).toBe(true);
+    expect(n.behavior.state).toBe('pet');
+    const toKeeper = Math.atan2(w.keeper.pos.x - n.pos.x, w.keeper.pos.z - n.pos.z);
+    expect(Math.abs(n.facing - toKeeper)).toBeLessThan(0.01);
+    // Then it goes back to its day.
+    run(w, BEHAVIOR.petMs / SIM.stepMs + 2);
+    expect(n.behavior.state).not.toBe('pet');
   });
 
   it('the Keeper stops at the shoreline instead of wading', () => {

@@ -4,7 +4,7 @@ import { GATHER, GROVE, KEEPER, NEEDS, PERKS, SIM, TREES, TRUST } from '../confi
 import { keeperPerks, keeperSpeedMultiplier } from './perks';
 import { dropFruit, withRng } from './world';
 import { nudgeAlignment } from './alignment';
-import { eat, putDown, react } from './behavior';
+import { eat, pet, putDown, react } from './behavior';
 import { addAffection, addHappiness, applyPet } from './needs';
 import { isFree } from './nubbin';
 import { giveHeartFruit } from './breeding';
@@ -88,11 +88,17 @@ export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): vo
     if (k.intent && !target) k.intent = null;
     // The Keeper does not wade: a target in the pond becomes the nearest shoreline point,
     // and a Nubbin in the water is reached from there.
+    const raw = target;
     if (target && !dungeonFloor && !keeperPerks(world).wade) target = shoreline(target);
     if (target) {
       const d = dist(k.pos, target);
-      // From the shore, a swimming Nubbin is within reach however far out it is.
-      const reach = k.intent ? KEEPER.interactRadius + GROVE.pond.r : KEEPER.arriveRadius;
+      // On land the Keeper walks up to arm's length; from the shore, a swimming Nubbin is
+      // within reach however far out it is.
+      const reach = !k.intent
+        ? KEEPER.arriveRadius
+        : target !== raw
+          ? KEEPER.interactRadius + GROVE.pond.r
+          : KEEPER.interactRadius;
       if (d <= reach) {
         if (k.intent) {
           performIntent(world, k.intent, events);
@@ -288,7 +294,7 @@ export function petNubbin(world: World, n: Nubbin, events: SimEvent[]): void {
   nudgeAlignment(n, world.keeper.alignment);
   if (now - n.lastPetMs >= NEEDS.petCooldownMs) noteCare(n, 'pets');
   n.lastPetMs = now;
-  react(n, 'love', now, events);
+  pet(n, world.keeper.pos, now, events);
 }
 
 /** Put a carried Nubbin down at the Keeper's feet. */

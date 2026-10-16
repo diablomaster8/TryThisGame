@@ -81,6 +81,8 @@ export const KEEPER_THROW = { period: 3.6, windup: 0.9, release: 1.45, flight: 0
 
 /** The wrist from the elbow pivot, in body space (right side; mirror x for the left). */
 export const KEEPER_WRIST = V(0.18, -0.48, 0.14);
+/** The right hand's centre from the elbow, in body space: where a petted Nubbin looks. */
+export const KEEPER_HAND_FROM_ELBOW = KEEPER_WRIST.clone().add(V(0.03, -0.09, 0.05));
 
 const smooth = (k: number) => k * k * (3 - 2 * k);
 

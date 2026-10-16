@@ -1385,6 +1385,7 @@ export function clipFor(n: Nubbin): string {
       return 'sad';
     case 'greet':
     case 'play':
+    case 'pet':
       return 'happy';
     case 'held':
     case 'carried':

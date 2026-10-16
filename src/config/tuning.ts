@@ -382,6 +382,8 @@ export const BEHAVIOR = {
   cryMs: 3 * SECOND,
   swimMs: [5 * SECOND, 12 * SECOND] as const,
   reactMs: 1200,
+  /** How long a petted Nubbin leans into the hand before going back to its day. */
+  petMs: 1800,
   /** The Nubbin notices the Keeper within this distance. */
   greetRadius: 2.2,
   greetChance: 0.35,

@@ -49,7 +49,7 @@ function setState(n: Nubbin, state: BehaviorState, now: number, durationMs: numb
   n.behavior.untilMs = now + durationMs;
   n.behavior.target = null;
   n.behavior.itemId = null;
-  if (state !== 'react') n.behavior.reaction = null;
+  if (state !== 'react' && state !== 'pet') n.behavior.reaction = null;
 }
 
 export function react(n: Nubbin, reaction: Reaction, now: number, events: SimEvent[]): void {
@@ -61,6 +61,24 @@ export function react(n: Nubbin, reaction: Reaction, now: number, events: SimEve
     n.behavior.reaction = reaction;
   }
   events.push({ kind: 'reaction', nubbinId: n.id, reaction });
+}
+
+/**
+ * The Keeper's hand on the head: a free Nubbin turns to the Keeper and holds the pet
+ * pose for a moment (the renderers lean it into the hand and raise hearts); a held one
+ * only shows the face, as with any reaction.
+ */
+export function pet(n: Nubbin, from: Vec2, now: number, events: SimEvent[]): void {
+  if (!isFree(n)) {
+    react(n, 'love', now, events);
+    return;
+  }
+  setState(n, 'pet', now, BEHAVIOR.petMs);
+  n.behavior.reaction = 'love';
+  const dx = from.x - n.pos.x;
+  const dz = from.z - n.pos.z;
+  if (Math.hypot(dx, dz) > 1e-3) n.facing = Math.atan2(dx, dz);
+  events.push({ kind: 'reaction', nubbinId: n.id, reaction: 'love' });
 }
 
 function randomPoint(rng: Rng, around: Vec2, radius: number): Vec2 {
@@ -245,7 +263,11 @@ export function updateBehavior(
 
   // Needs can interrupt anything except eating, napping and reacting.
   const interruptible =
-    b.state !== 'eat' && b.state !== 'nap' && b.state !== 'react' && b.state !== 'lesson';
+    b.state !== 'eat' &&
+    b.state !== 'nap' &&
+    b.state !== 'react' &&
+    b.state !== 'pet' &&
+    b.state !== 'lesson';
   if (interruptible && isExhausted(n)) {
     setState(n, 'nap', now, NEEDS.napMs);
     events.push({ kind: 'napStarted', nubbinId: n.id });
@@ -388,6 +410,7 @@ export function updateBehavior(
     case 'greet':
     case 'cry':
     case 'perform':
+    case 'pet':
     case 'react': {
       if (now >= b.untilMs) {
         b.reaction = null;

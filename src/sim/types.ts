@@ -38,6 +38,8 @@ export type BehaviorState =
   | 'cry'
   | 'swim'
   | 'react'
+  /** Being petted: faces the Keeper and leans into the hand for a moment. */
+  | 'pet'
   | 'avoid'
   | 'lesson'
   | 'perform'
