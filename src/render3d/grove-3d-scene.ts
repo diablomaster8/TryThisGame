@@ -38,6 +38,19 @@ import { buildGroveWater, type GroveWater } from './water';
  * snaps, the keys and the on-screen buttons all keep working); this scene turns them
  * into a perspective camera that trails the Keeper and never dips under the ground.
  */
+/** Burst shapes, after the pixel view's numbers (3D sparkles live a little longer). */
+const BURST = {
+  dizzy: { spread: 0.4, speed: 0.2, rise: 0.1, lifeMs: 600 },
+  hatch: { spread: 0.5, speed: 1.4, rise: 1.2, lifeMs: 900 },
+  evolve: { spread: 0.8, speed: 1.8, rise: 1.6, lifeMs: 1300 },
+  evolvePetals: { spread: 0.6, speed: 1.0, rise: 1.0, lifeMs: 1600 },
+  eternal: { spread: 1.2, speed: 1.2, rise: 2.0, lifeMs: 2200 },
+  cocoon: { spread: 0.5, speed: 0.6, rise: 0.5, lifeMs: 1200 },
+  crumbs: { spread: 0.15, speed: 0.6, rise: 0.3, lifeMs: 450 },
+  collected: { spread: 0.2, speed: 0.6, rise: 0.8, lifeMs: 500 },
+  eggDust: { spread: 0.2, speed: 0.5, rise: 0.3, lifeMs: 400 },
+};
+
 class Picker3d extends Picker {
   constructor(
     canvas: HTMLCanvasElement,
@@ -343,11 +356,33 @@ export class Grove3dScene {
     return this.actors.keeperDrawPos(world, alpha);
   }
 
-  /** Sim events: leaves from a shaken tree, dust where a Nubbin lands, the shake, and
-   * reaction bubbles. */
+  /**
+   * Sim events, by the pixel view's `burstFor`: leaves from a shaken tree, dust where a
+   * Nubbin lands, sparkles for a hatch, an evolution, a rebirth, Eternal, a cocoon and a
+   * find, hearts for love, crumbs for a meal; the squash and pop; the shake; and reaction
+   * bubbles. Heights are fractions of the body (feet to head), since 3D Nubbins vary.
+   */
   onEvents(events: SimEvent[]): void {
     const ground = this.location === 'grove' ? standHeight : () => 0;
+    const now = this.lastMs;
+    const b = this.bursts;
+    /** A point up a Nubbin's body: 0 at the feet, 1 at the head. */
+    const up = (id: string, k: number): THREE.Vector3 | null => {
+      const s = this.actors.nubbinSpot(id);
+      return s ? s.feet.lerp(s.head, k) : null;
+    };
     for (const e of events) {
+      if (e.kind === 'landed') this.actors.pop(e.nubbinId, 'squash', now);
+      else if (e.kind === 'hatched' || e.kind === 'evolved' || e.kind === 'reborn')
+        this.actors.pop(e.nubbinId, 'pop', now);
+      if (e.kind === 'dungeonFound' || e.kind === 'chestOpened') {
+        const p =
+          e.kind === 'dungeonFound' && e.by
+            ? this.actors.nubbinPosition(e.by)
+            : this.actors.keeperPosition();
+        if (p) this.sparkle(p.x, p.z);
+        continue;
+      }
       if (e.kind === 'treeShaken') {
         const tree = this.treeAt.get(e.treeId);
         if (!tree) continue;
@@ -370,6 +405,35 @@ export class Grove3dScene {
         this.pendingShake = Math.max(this.pendingShake, GROVE3D.shake.landed);
       } else if (e.kind === 'reaction') {
         this.actors.react(e.nubbinId, bubbleFor(e.reaction), this.lastMs + UI.bubbleMs);
+        const head = up(e.nubbinId, 1.05);
+        if (!head) continue;
+        if (e.reaction === 'love')
+          b.burst('heart', head, 3, { spread: 0.3, speed: 0.1, rise: 0.6, lifeMs: 1100 }, now);
+        else if (e.reaction === 'dizzy')
+          b.burst('sparkle', head.setY(head.y + 0.2), 3, BURST.dizzy, now);
+      } else if (e.kind === 'hatched' || e.kind === 'reborn' || e.kind === 'speciesGrew') {
+        const at = up(e.nubbinId, 0.4);
+        if (at) b.burst('sparkle', at, 14, BURST.hatch, now);
+      } else if (e.kind === 'evolved' || e.kind === 'secondEvolved') {
+        const at = up(e.nubbinId, 0.5);
+        if (!at) continue;
+        b.burst('sparkle', at, 24, BURST.evolve, now);
+        b.burst('petal', at.setY(at.y + 0.4), 8, BURST.evolvePetals, now);
+      } else if (e.kind === 'eternal') {
+        const at = up(e.nubbinId, 0.3);
+        if (at) b.burst('sparkle', at, 40, BURST.eternal, now);
+      } else if (e.kind === 'cocoonStarted') {
+        const at = up(e.nubbinId, 0.4);
+        if (at) b.burst('sparkle', at, 8, BURST.cocoon, now);
+      } else if (e.kind === 'ate') {
+        const at = up(e.nubbinId, 0.6);
+        if (at) b.burst('crumb', at, 4, BURST.crumbs, now);
+      } else if (e.kind === 'collected') {
+        const at = this.actors.itemPosition(e.itemId);
+        if (at) b.burst('sparkle', at.setY(at.y + 0.3), 5, BURST.collected, now);
+      } else if (e.kind === 'eggShaken') {
+        const at = up(e.nubbinId, 0);
+        if (at) b.burst('dust', at.setY(at.y + 0.05), 2, BURST.eggDust, now);
       }
     }
   }

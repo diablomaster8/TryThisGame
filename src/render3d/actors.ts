@@ -40,6 +40,8 @@ interface Actor {
   flight: { startMs: number; totalMs: number } | null;
   /** The ring spreading on the water around a swimmer. */
   ripple: THREE.Mesh | null;
+  /** The scale a squash or pop was laid over this frame, put back before the next. */
+  squash: { o: THREE.Object3D; base: THREE.Vector3 } | null;
   prev: Snapshot;
   pose: PoseName;
   emote: THREE.Sprite;
@@ -111,6 +113,8 @@ export class Actors {
   private readonly emoteMats = new Map<string, THREE.SpriteMaterial>();
   /** Reaction bubbles (heart, !, ?, spiral) by Nubbin id, shown over the ball until expiry. */
   private readonly bubbles = new Map<string, { shape: EmoteShape; untilMs: number }>();
+  /** A short squash (landing) or pop (hatch, evolve, rebirth) by Nubbin id. */
+  private readonly pops = new Map<string, { kind: 'squash' | 'pop'; startMs: number }>();
   private readonly highlight: THREE.Mesh;
   private highlightId: string | null = null;
   private readonly sparks: Array<{ p: THREE.Vector3; v: THREE.Vector3; born: number }> = [];
@@ -339,6 +343,7 @@ export class Actors {
       overlay: [],
       flight: null,
       ripple: null,
+      squash: null,
       prev: { pos: { x: n.pos.x, z: n.pos.z }, y: n.y },
       pose: 'idle',
       emote,
@@ -439,6 +444,62 @@ export class Actors {
     (a.ripple.material as THREE.MeshBasicMaterial).opacity = 0.5 * (1 - k);
   }
 
+  /** Start a squash (a landing flattens) or a pop (a hatch or evolution stretches up). */
+  pop(id: string, kind: 'squash' | 'pop', nowMs: number): void {
+    this.pops.set(id, { kind, startMs: nowMs });
+  }
+
+  /**
+   * Lay the squash or pop over a body's scale, with the pixel view's timing and amounts.
+   * The rig's origin is at its feet, so the body squashes onto the ground.
+   */
+  private squash(a: Actor, id: string, o: THREE.Object3D, nowMs: number): void {
+    const p = this.pops.get(id);
+    if (!p) return;
+    const dur = p.kind === 'squash' ? 260 : 420;
+    const t = (nowMs - p.startMs) / dur;
+    if (t >= 1 || t < 0) {
+      if (t >= 1) this.pops.delete(id);
+      return;
+    }
+    const s = Math.sin(Math.PI * t);
+    const sw = p.kind === 'squash' ? 1 + 0.22 * s : 1 - 0.1 * s;
+    const sh = p.kind === 'squash' ? 1 - 0.22 * s : 1 + 0.28 * s;
+    a.squash = { o, base: o.scale.clone() };
+    o.scale.set(a.squash.base.x * sw, a.squash.base.y * sh, a.squash.base.z * sw);
+  }
+
+  private unsquash(a: Actor): void {
+    if (!a.squash) return;
+    a.squash.o.scale.copy(a.squash.base);
+    a.squash = null;
+  }
+
+  /** A Nubbin's feet and the top of its head in world space, for bursts round it. */
+  nubbinSpot(id: string): { feet: THREE.Vector3; head: THREE.Vector3 } | null {
+    const a = this.nubbins.get(id);
+    const o = a?.rig?.group ?? a?.shell ?? a?.stand;
+    if (!a || !o) return null;
+    const feet = new THREE.Vector3(
+      o.position.x,
+      this.ground(o.position.x, o.position.z),
+      o.position.z,
+    );
+    const head = a.rig?.bones.head;
+    if (head) return { feet, head: head.getWorldPosition(new THREE.Vector3()) };
+    return { feet, head: feet.clone().setY(o.position.y + 0.45) };
+  }
+
+  /** Where an item is drawn, or null once it is gone. */
+  itemPosition(id: string): THREE.Vector3 | null {
+    return this.items.get(id)?.mesh.position.clone() ?? null;
+  }
+
+  /** Where the Keeper stands (its last snapshot). */
+  keeperPosition(): Vec2 {
+    return { x: this.keeperPrev.x, z: this.keeperPrev.z };
+  }
+
   /** Where a Nubbin is drawn, for bursts at its feet. */
   nubbinPosition(id: string): Vec2 | null {
     const a = this.nubbins.get(id);
@@ -453,6 +514,7 @@ export class Actors {
       u.o.rotation.x -= u.x;
       u.o.rotation.z -= u.z;
     }
+    this.unsquash(a);
     if (a.rig) this.pool.release(a.key, a.rig);
     a.stand?.removeFromParent();
     a.ripple?.removeFromParent();
@@ -551,6 +613,7 @@ export class Actors {
     for (const n of away ? [] : world.nubbins) {
       live.add(n.id);
       const a = this.ensureNubbin(n);
+      this.unsquash(a);
       this.tryRig(a);
       const x = lerp(a.prev.pos.x, n.pos.x, alpha);
       const z = lerp(a.prev.pos.z, n.pos.z, alpha);
@@ -593,6 +656,7 @@ export class Actors {
         if (n.stage === 'egg') o.rotation.z = Math.sin(t * 2.2 + x) * 0.06;
         else o.rotation.y = t * 0.4;
       }
+      this.squash(a, n.id, o, nowMs);
       // The emote ball over the head: the same choice the pixel view makes, a reaction
       // bubble over it for a moment, two frames flipping every 400 ms, plum for a Shadow.
       let bubble = this.bubbles.get(n.id);
@@ -620,6 +684,7 @@ export class Actors {
       }
     }
     for (const id of [...this.nubbins.keys()]) if (!live.has(id)) this.drop(id);
+    for (const id of [...this.pops.keys()]) if (!live.has(id)) this.pops.delete(id);
 
     // The Keeper.
     const kp = this.keeperDrawPos(world, alpha);
