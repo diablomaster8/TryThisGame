@@ -29,6 +29,15 @@ The reference is `docs/reference/chao-world-lineup.jpg` (the YouTube thumbnail, 
 figures left to right: quills, echidna, fox, dream, Eternal Neutral, shade, Eternal Moon).
 Steps, newest first, one commit each:
 
+2. **Reference overlay.** `mountReference` in `aaa-styles.ts`: `&ref=<file>` lays an image
+   from `docs/reference/` over the stage at 45% (served from the repo in dev, never built);
+   `&refx=<n>` crops it to the n-th of seven equal-width slices and scales that figure to
+   about the size the stage draws one (the line-up's figures stand 0.4 of the image tall
+   with their middle at 0.7 of its height), `&refz=<k>` zooms it, `&refc=<0..1>` moves the
+   slice centre when a figure is off its seventh (the thumbnail's figures sit at about
+   0.10, 0.23, 0.36, 0.49, 0.62, 0.75 and 0.90); `&split` gives the stage the left half of
+   the window and the reference the right, opaque, for the side-by-side shots. Tuning
+   view: `?aaa=1&creature=variant:look-quills&toon&pose=happy&ref=chao-world-lineup.jpg&refx=1`.
 1. **Toon stage mode, `&toon`.** `TOON` in `creatures.ts` is set by the stage before any
    creature is built. `surfaceMaterial` (and `SurfaceOpts.toon` per surface) then drops the
    triplanar grain, bump, sheen, clearcoat and specular, takes less of the sky's ambient

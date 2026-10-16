@@ -814,7 +814,80 @@ export const GRADE = {
   `,
 };
 
+/**
+ * The reference view for matching a creature against Maor's images: `&ref=<file>` lays an
+ * image from `docs/reference/` over the stage at 45%; `&refx=<n>` crops it to the n-th of
+ * seven figures (equal-width slices, or around `&refc=<0..1>`) and scales that figure to
+ * about the size the stage draws one, `&refz=<k>` zooms that; `&split` instead gives the stage the left half of the
+ * window and the reference the right, opaque, for a side-by-side shot. Dev only: the
+ * images are served from the repo, not the build.
+ */
+function mountReference(canvas: HTMLCanvasElement): (() => void) | null {
+  const q = new URLSearchParams(location.search);
+  const file = q.get('ref');
+  if (!file) return null;
+  const split = q.has('split');
+  const slice = Math.max(0, Math.min(7, Number(q.get('refx')) || 0));
+  const zoom = Number(q.get('refz')) || 1;
+  // Where the figure sits across the image, when it is off its seventh.
+  const centre = q.has('refc') ? Number(q.get('refc')) : null;
+  const el = document.createElement('div');
+  Object.assign(el.style, {
+    position: 'fixed',
+    top: '0',
+    bottom: '0',
+    right: '0',
+    left: split ? '50%' : '0',
+    pointerEvents: 'none',
+    opacity: split ? '1' : '0.45',
+    background: split ? '#000' : 'transparent',
+    backgroundRepeat: 'no-repeat',
+    zIndex: '5',
+  });
+  if (split) canvas.style.width = '50%';
+  const img = new Image();
+  const layout = () => {
+    if (!img.naturalWidth) return;
+    const w = el.clientWidth;
+    const h = el.clientHeight;
+    const W = img.naturalWidth;
+    const H = img.naturalHeight;
+    let scale: number;
+    let cx = 0.5;
+    let cy = 0.5;
+    let at = 0.5;
+    if (slice > 0) {
+      // One figure: the line-up's figures stand about 0.4 of the image tall with their
+      // middle at 0.7 of its height; the stage draws a single creature about 0.75 of the
+      // frame tall, centred a little above the middle.
+      cx = centre ?? (slice - 0.5) / 7;
+      cy = 0.7;
+      at = 0.55;
+      scale = ((0.75 * h) / (0.4 * H)) * zoom;
+    } else {
+      scale = Math.min(w / W, h / H) * zoom;
+    }
+    el.style.backgroundSize = `${W * scale}px ${H * scale}px`;
+    el.style.backgroundPosition = `${w / 2 - cx * W * scale}px ${at * h - cy * H * scale}px`;
+  };
+  img.onload = () => {
+    el.style.backgroundImage = `url("${img.src}")`;
+    layout();
+  };
+  img.src = new URL(`docs/reference/${file}`, location.href).toString();
+  window.addEventListener('resize', layout);
+  document.body.appendChild(el);
+  return () => {
+    window.removeEventListener('resize', layout);
+    el.remove();
+    canvas.style.width = '';
+  };
+}
+
 export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => void {
+  // The reference overlay goes in first so a split view sizes the canvas before the
+  // renderer measures it.
+  const unmountReference = mountReference(canvas);
   const renderer = new THREE.WebGLRenderer({
     canvas,
     antialias: false,
@@ -1308,6 +1381,7 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     window.removeEventListener('resize', resize);
     composer.dispose();
     renderer.dispose();
+    unmountReference?.();
     TOON.on = false;
   };
 }

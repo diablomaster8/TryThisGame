@@ -286,6 +286,7 @@ colours) are in `nubbin-variants-*.ts` and meet in `nubbin-variant-catalogue.ts`
 ## Where it is seen
 
 `?aaa=1&creature=1..5` on the AAA stage; `&creature=variant:<id>` stages one Nubbin variant and `&creature=variants&family=child|first|second|special|colour|templates` lines up a family (`&filter=<id part>`, `&max=<n>`, rows of eight), cycling through the poses every few seconds;
+`&toon` is the flat outlined look of the "Chao World" line-up and `&ref=<file>&refx=<n>` (`&split`) lays a reference image from `docs/reference/` over or beside the stage (see `mountReference`);
 `&pose=happy` (or `idle`, `pet`, `walk`, `eat`, `sleep`) holds one; `&closeup` frames the
 face; `&turn=<deg>` turns the creature. Fennel (`3`) and Bolder (`4`) have jointed legs;
 the Nubbin, Mossling and Wisp do not. `&creature=keeper` (or `keeper-moon`) is the Keeper
