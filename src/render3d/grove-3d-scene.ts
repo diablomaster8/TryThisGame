@@ -39,6 +39,13 @@ import { buildGroveWater, type GroveWater } from './water';
  * snaps, the keys and the on-screen buttons all keep working); this scene turns them
  * into a perspective camera that trails the Keeper and never dips under the ground.
  */
+/**
+ * The light sets a frame can be drawn with: the Grove (sun, sky and the lanterns), the
+ * Hollow Below (no lanterns, four torch lamps) and every other place (neither). Each set
+ * takes its own programs for every lit material, so each is linked before it is drawn.
+ */
+type LightSet = 'grove' | 'cave' | 'plain';
+
 /** Burst shapes, after the pixel view's numbers (3D sparkles live a little longer). */
 const BURST = {
   dizzy: { spread: 0.4, speed: 0.2, rise: 0.1, lifeMs: 600 },
@@ -127,6 +134,13 @@ export class Grove3dScene {
   /** Whether the scene's programs are linked; until then `render` draws nothing. */
   private compiled = false;
   private compiling = false;
+  /** Light sets whose programs are linked, and the compiles under way (see `warm`). */
+  private readonly warmed = new Set<LightSet>();
+  private readonly warms = new Map<LightSet, Promise<void>>();
+  /** How long `render` has held the last frame for a place still linking, and the dimming. */
+  private holdMs = 0;
+  private fade = 0;
+  private lastRenderMs = 0;
   private readonly world3d = new THREE.Group();
   private readonly props: GroveProps;
   private readonly water: GroveWater;
@@ -193,12 +207,11 @@ export class Grove3dScene {
     this.actors = new Actors(this.scene);
     // Compile against the composer's target: the game draws into it (linear, no tone
     // mapping), and programs compiled for the canvas would not be the ones it uses.
+    // A rig compiles for the light set it is shown in and for every set already linked,
+    // so walking into the Hollow Below with it does not stall either.
     this.actors.pool.compile = (o) => {
-      const prev = this.renderer.getRenderTarget();
-      this.renderer.setRenderTarget(this.composer.readBuffer);
-      const done = this.renderer.compileAsync(o, this.camera, this.scene);
-      this.renderer.setRenderTarget(prev);
-      return done;
+      const sets = new Set([this.lightSet(), ...this.warmed]);
+      return Promise.all([...sets].map((set) => this.compileAs(set, [o])));
     };
     this.actors.ground = standHeight;
     this.bursts = new Bursts(this.scene);
@@ -615,6 +628,21 @@ export class Grove3dScene {
       return;
     }
     const t0 = performance.now();
+    const dt = Math.min(100, t0 - (this.lastRenderMs || t0));
+    this.lastRenderMs = t0;
+    // A place whose light set is not linked yet (the first trip down the stairs, if the
+    // background warm-up has not finished): keep the last frame up, dim it after a beat,
+    // and draw again once the programs are ready, rather than stall on linking them.
+    const set = this.lightSet();
+    const hold = !this.warmed.has(set);
+    if (hold) void this.warm(set);
+    this.holdMs = hold ? this.holdMs + dt : 0;
+    const { delayMs, ms } = GROVE3D.placeFade;
+    const step = dt / ms;
+    this.fade =
+      hold && this.holdMs > delayMs ? Math.min(1, this.fade + step) : Math.max(0, this.fade - step);
+    this.canvas.style.filter = this.fade > 0 ? `brightness(${(1 - this.fade).toFixed(3)})` : '';
+    if (hold) return;
     this.composer.render();
     this.frameMs.push(performance.now() - t0);
     if (this.frameMs.length > 120) this.frameMs.shift();
@@ -663,7 +691,52 @@ export class Grove3dScene {
     void Promise.all(done).then(() => {
       quad.dispose();
       this.compiled = true;
+      this.warmed.add(this.lightSet());
+      // Then, in the background, the other places' sets: the Hollow Below's first.
+      void this.warm('cave').then(() => this.warm('plain'));
     });
+  }
+
+  /** The light set the scene is in right now (see `LightSet`). */
+  private lightSet(): LightSet {
+    return this.world3d.visible ? 'grove' : this.hollow.lit ? 'cave' : 'plain';
+  }
+
+  /**
+   * Compile `objects` as they would be drawn with `set`'s lights, without blocking: the
+   * Grove's lanterns sit in `world3d`, so hiding it drops them; the lamps are switched in
+   * for the cave. Both are put back before this returns, so no frame sees the change.
+   */
+  private compileAs(set: LightSet, objects: THREE.Object3D[]): Promise<unknown> {
+    const shown = this.world3d.visible;
+    this.world3d.visible = set === 'grove';
+    const prev = this.renderer.getRenderTarget();
+    this.renderer.setRenderTarget(this.composer.readBuffer);
+    const fog = this.scene.fog;
+    try {
+      return this.hollow.withLamps(set === 'cave', () => {
+        const done = objects.map((o) => this.renderer.compileAsync(o, this.camera, this.scene));
+        // The shadow pass draws its depth with no fog.
+        this.scene.fog = null;
+        done.push(this.renderer.compileAsync(this.hollow.shadowSamples, this.camera, this.scene));
+        return Promise.all(done);
+      });
+    } finally {
+      this.scene.fog = fog;
+      this.renderer.setRenderTarget(prev);
+      this.world3d.visible = shown;
+    }
+  }
+
+  /** Link `set`'s programs for everything outside the Grove's own props; once per set. */
+  private warm(set: LightSet): Promise<void> {
+    let p = this.warms.get(set);
+    if (!p) {
+      const objects = this.scene.children.filter((c) => c !== this.world3d);
+      p = this.compileAs(set, objects).then(() => void this.warmed.add(set));
+      this.warms.set(set, p);
+    }
+    return p;
   }
 
   resize(width: number, height: number): TargetSize {

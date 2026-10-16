@@ -8,7 +8,9 @@ import type { DungeonRun } from '../sim/types';
  * on the cells that border the open ground, a stone floor, still water in the wet cells,
  * the stairs up and down, the chest (open once looted), torches and glowing crystals, and
  * the loot still lying about. Torch light comes from four point lights that follow the
- * torches nearest the Keeper, so the light count never changes and nothing recompiles.
+ * torches nearest the Keeper, so the light count never changes while underground. Their
+ * programs differ from the Grove's (four more lights, no lanterns), so the scene links
+ * them in the background with `withLamps` and the hidden `samples` (see grove-3d-scene.ts).
  * Picks use the pixel view's kinds: `stairs` (`up`/`down`), `chest`, `loot`.
  */
 const CELL = DUNGEON.cell;
@@ -35,6 +37,13 @@ export class Hollow {
   private chestLid: THREE.Object3D | null = null;
   private readonly loot = new Map<string, THREE.Object3D>();
   private readonly picks: Array<[THREE.Vector3, 'stairs' | 'chest' | 'loot', string, number]> = [];
+  /**
+   * One hidden mesh per program kind a floor uses (plain, flat-shaded and plain
+   * instanced), so the cave programs can link before the first floor exists.
+   */
+  readonly samples = new THREE.Group();
+  /** The shadow pass's depth programs for those (never drawn, never in the scene). */
+  readonly shadowSamples = new THREE.Group();
 
   constructor(parent: THREE.Object3D) {
     this.group.name = 'hollow';
@@ -47,6 +56,38 @@ export class Hollow {
       l.visible = false;
       this.lamps.push(l);
       parent.add(l);
+    }
+    const box = new THREE.BoxGeometry(0.1, 0.1, 0.1);
+    this.samples.add(
+      new THREE.Mesh(box, mat('#4a4450')),
+      new THREE.InstancedMesh(box, mat('#3a3440', { flatShading: true }), 1),
+      new THREE.InstancedMesh(box, mat('#2a5a8a'), 1),
+    );
+    this.samples.traverse((o) => (o.castShadow = o.receiveShadow = true));
+    // And a textured sprite, as the emote balls are, which may first appear underground.
+    const dot = new THREE.DataTexture(new Uint8Array([255, 255, 255, 255]), 1, 1);
+    this.samples.add(new THREE.Sprite(new THREE.SpriteMaterial({ map: dot, fog: false })));
+    // The shadow pass draws casters with its own depth material (back faces), which
+    // `compile` never sees; these match it when compiled as the pass draws (see the scene).
+    const depth = new THREE.MeshDepthMaterial({ side: THREE.BackSide });
+    this.shadowSamples.add(new THREE.Mesh(box, depth), new THREE.InstancedMesh(box, depth, 1));
+    this.samples.visible = false;
+    parent.add(this.samples);
+  }
+
+  /** Whether the torch lamps are on (a floor is showing). */
+  get lit(): boolean {
+    return this.lamps[0]!.visible;
+  }
+
+  /** Run `fn` with the lamps counted as on or off; for compiling another place's set. */
+  withLamps<T>(on: boolean, fn: () => T): T {
+    const was = this.lamps.map((l) => l.visible);
+    for (const l of this.lamps) l.visible = on;
+    try {
+      return fn();
+    } finally {
+      this.lamps.forEach((l, i) => (l.visible = was[i]!));
     }
   }
 

@@ -70,6 +70,11 @@ export const SCULPT_RES = {
 
 /** The full-3D Grove: its Lakitu camera, the heightfield and the dressing built from GROVE. */
 export const GROVE3D = {
+  /**
+   * Entering a place whose programs are still linking keeps the last frame up; after
+   * `delayMs` it dims over `ms` (and brightens back as fast once the place draws).
+   */
+  placeFade: { delayMs: 60, ms: 180 },
   /** Downward tilt of the camera behind the Keeper, in degrees (gentler than the pixel 35°). */
   pitchDeg: 24,
   /** Orbit distance for each zoom level (index 0 is the farthest, as in CAMERA). */
