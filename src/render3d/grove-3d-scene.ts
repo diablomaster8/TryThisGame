@@ -10,16 +10,7 @@ import type { OrbitCamera } from '../render/camera';
 import type { Daylight } from '../render/daylight';
 import { Picker } from '../render/picker';
 import type { TargetSize } from '../render/pipeline';
-import {
-  CLAMP,
-  GRADE,
-  PUSHERS,
-  buildParticles,
-  leafCard,
-  surface,
-  tuftCard,
-  type Tex,
-} from '../samples/aaa-styles';
+import { CLAMP, GRADE, PUSHERS, buildParticles, type Tex } from '../samples/aaa-styles';
 import type { Floor } from '../sim/dungeon';
 import type { Location, SimEvent, Vec2, WeatherKind, World } from '../sim/types';
 import { Actors } from './actors';
@@ -30,6 +21,7 @@ import { Bursts } from './bursts';
 import { Garden } from './garden';
 import { Hollow } from './hollow';
 import { buildGroveProps, buildGroveTrees, type GroveProps } from './props';
+import { GroveTextures } from './grove-textures';
 import { GroveSky } from './sky';
 import { stubOnce } from './stubs';
 import { buildGroveTerrain, groveHeight, standHeight } from './terrain';
@@ -106,6 +98,10 @@ export class Grove3dScene {
   private readonly sky: GroveSky;
   private readonly time = { value: 0 };
   private readonly tex: Tex;
+  private readonly textures: GroveTextures;
+  /** Whether the scene's programs are linked; until then `render` draws nothing. */
+  private compiled = false;
+  private compiling = false;
   private readonly world3d = new THREE.Group();
   private readonly props: GroveProps;
   private readonly water: GroveWater;
@@ -150,18 +146,9 @@ export class Grove3dScene {
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.camera = new THREE.PerspectiveCamera(GROVE3D.fovDeg, 16 / 9, GROVE3D.near, GROVE3D.far);
     this.sky = new GroveSky(this.renderer, this.scene);
-    this.tex = {
-      grass: surface('grass', 512, 2.2),
-      rock: surface('rock', 512, 5),
-      dirt: surface('dirt', 256, 2.5),
-      bark: surface('bark', 256, 4),
-      cobble: surface('cobble', 512, 5),
-      plaster: surface('plaster', 256, 1.5),
-      roof: surface('roof', 256, 4),
-      wood: surface('wood', 256, 3),
-      leaf: leafCard(256),
-      tuft: tuftCard(128),
-    };
+    // Painted in workers while the scene boots; the veil waits for them (`loadState`).
+    this.textures = new GroveTextures((t) => this.renderer.initTexture(t));
+    this.tex = this.textures.tex;
     this.scene.add(this.world3d);
     buildGroveTerrain(this.world3d, this.tex, this.time);
     const terrain = this.world3d.children[0]!;
@@ -411,7 +398,11 @@ export class Grove3dScene {
 
   /** How far the opening build has got, for the loading bar. */
   loadState(): { progress: number; done: boolean } {
-    return this.actors.loadState();
+    const a = this.actors.loadState();
+    return {
+      progress: a.progress * 0.8 + this.textures.progress * 0.15 + (this.compiled ? 0.05 : 0),
+      done: a.done && this.textures.done && this.compiled,
+    };
   }
 
   /** Build the trees once the world is known, so taps reach the sim's tree ids. */
@@ -521,10 +512,60 @@ export class Grove3dScene {
   }
 
   render(): void {
+    if (!this.compiled) {
+      this.compileScene();
+      return;
+    }
     const t0 = performance.now();
     this.composer.render();
     this.frameMs.push(performance.now() - t0);
     if (this.frameMs.length > 120) this.frameMs.shift();
+  }
+
+  /**
+   * Link every program the Grove needs before its first frame, without blocking: with
+   * KHR_parallel_shader_compile the driver compiles in the background while the page
+   * keeps running, where a first `render` stalled on the whole set. The first call comes
+   * after the first `update`, so the trees are in. Compiled against the composer's
+   * target, where the scene is drawn (as for the creatures, see the constructor).
+   */
+  private compileScene(): void {
+    if (this.compiling) return;
+    this.compiling = true;
+    // The post chain's full-screen materials too, bloom's included (it wakes at golden
+    // hour). Each draws into one of the composer's targets; the last pass also draws to
+    // the screen, which takes its own program, so its materials compile both ways.
+    // The composer's own full-screen triangle (position and uv, no normals): the
+    // attributes are part of a program's key.
+    const quad = new THREE.BufferGeometry();
+    quad.setAttribute(
+      'position',
+      new THREE.Float32BufferAttribute([-1, 3, 0, -1, -1, 0, 3, -1, 0], 3),
+    );
+    quad.setAttribute('uv', new THREE.Float32BufferAttribute([0, 2, 0, 0, 2, 0], 2));
+    const post = new THREE.Scene();
+    const screen = new THREE.Scene();
+    const passes = this.composer.passes;
+    for (const pass of passes)
+      for (const v of Object.values(pass) as unknown[])
+        for (const m of Array.isArray(v) ? (v as unknown[]) : [v])
+          if (m instanceof THREE.Material) {
+            post.add(new THREE.Mesh(quad, m));
+            if (pass === passes[passes.length - 1]) screen.add(new THREE.Mesh(quad, m));
+          }
+    const prev = this.renderer.getRenderTarget();
+    this.renderer.setRenderTarget(this.composer.readBuffer);
+    const done = [
+      this.renderer.compileAsync(this.scene, this.camera),
+      this.renderer.compileAsync(post, this.camera),
+    ];
+    this.renderer.setRenderTarget(null);
+    done.push(this.renderer.compileAsync(screen, this.camera));
+    this.renderer.setRenderTarget(prev);
+    void Promise.all(done).then(() => {
+      quad.dispose();
+      this.compiled = true;
+    });
   }
 
   resize(width: number, height: number): TargetSize {

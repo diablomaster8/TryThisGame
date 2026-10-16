@@ -24,6 +24,24 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
+## 3D boot: textures in workers, programs compiled ahead (2026-10-16)
+
+Works: the Grove's ten painted textures paint in workers (`render3d/surface-worker.ts`,
+`grove-textures.ts`; the painters moved unchanged from `aaa-styles.ts` to the pure
+`samples/surface-paint.ts`). The scene gets the texture objects at once (one placeholder pixel,
+the real settings) and the bytes are poured in as they land (dispose, new image, `initTexture`).
+`render()` draws nothing until `compileScene` has linked the scene's and the post chain's
+programs with `compileAsync` (KHR_parallel_shader_compile); `loadState` waits for both.
+Measured on Maor's PC (dev build, preview, seeded Keeper + 8 Nubbins, frames driven by hand,
+3 runs each): constructor 1.58–1.63 s → 0.41–0.59 s (textures were 1.1–1.2 s of it, now 2 ms);
+first render 0.59–0.66 s → compile call 0.06–0.08 s + first frame 0.07–0.16 s; together
+about 2.2 s → 0.57–0.81 s. Constructor start to veil lifted: 3.0 s → 1.5–1.6 s. Look: two
+frozen views (11:00, creatures hidden) are pixel-identical before and after. Still paid: the
+terrain heightfield (0.26–0.35 s) and props (0.1 s) in the constructor; two shadow-depth
+programs and the OutputPass in the first frame; the sky's PMREM bake in the first
+`setDaylight` (not measured). Not verified: the no-worker fallback (paints on the page, one per
+task); any phone. No new stubs or known bugs.
+
 ## Part G8b: matching the "Chao World" line-up (2026-10-16)
 
 The reference is `docs/reference/chao-world-lineup.jpg` (the YouTube thumbnail, seven
@@ -127,26 +145,4 @@ file under 150 lines.
    behind it; the closed happy eyes are our dark arcs where the thumbnail shows white
    crescents; the emblem is a disc, not a hexagon; the ball above the head stays (the
    reference crops it); the muzzle's edge is softer than the flat-shaded original.
-2. **Reference overlay.** `mountReference` in `aaa-styles.ts`: `&ref=<file>` lays an image
-   from `docs/reference/` over the stage at 45% (served from the repo in dev, never built);
-   `&refx=<n>` crops it to the n-th of seven equal-width slices and scales that figure to
-   about the size the stage draws one (the line-up's figures stand 0.4 of the image tall
-   with their middle at 0.7 of its height), `&refz=<k>` zooms it, `&refc=<0..1>` moves the
-   slice centre when a figure is off its seventh (the thumbnail's figures sit at about
-   0.10, 0.23, 0.36, 0.49, 0.62, 0.75 and 0.90); `&split` gives the stage the left half of
-   the window and the reference the right, opaque, for the side-by-side shots. Tuning
-   view: `?aaa=1&creature=variant:look-quills&toon&pose=happy&ref=chao-world-lineup.jpg&refx=1`.
-1. **Toon stage mode, `&toon`.** `TOON` in `creatures.ts` is set by the stage before any
-   creature is built. `surfaceMaterial` (and `SurfaceOpts.toon` per surface) then drops the
-   triplanar grain, bump, sheen, clearcoat and specular, takes less of the sky's ambient
-   (`TOON_ENV`), and `toonShader` patches the physical shader so direct light falls in two
-   bands (`TOON_BAND`: lit 0.6, shade 0.33 at a 0.38 dot product; the lit band sits under
-   full sun so the flats keep their colour) with the vertex colours a touch more saturated.
-   `toonMaterial` flattens the eye white, lids, brow, liner, arc and lips the same way; the
-   lash line and happy arc are thick (tube 0.11 of the eye radius) and the mouth one solid
-   line, both in `TOON_OUTLINE.color` (#1a1026). `outline(group)` adds an inverted-hull
-   back-face copy of every opaque mesh (0.025 world units, pushed in view space so the
-   width is the same whatever the part's scale); the stage adds it after the figures are
-   measured, so the hulls never count toward the feet. Post: SSAO, bloom, depth of field,
-   fog and the grade off; exposure 0.85; sky and grass unchanged. Without the flag nothing
-   changes. Tuning view: `?aaa=1&creature=variant:look-quills&toon&pose=happy`.
+1–2. Toon stage mode (`&toon`) and the reference overlay (`&ref`): moved to `docs/progress-archive.md`.

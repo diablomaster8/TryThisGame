@@ -2,6 +2,34 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Part G8b, steps 1–2 (2026-10-16)
+
+Moved from the "Part G8b" section of PROGRESS.md, which keeps steps 3 onward.
+
+2. **Reference overlay.** `mountReference` in `aaa-styles.ts`: `&ref=<file>` lays an image
+   from `docs/reference/` over the stage at 45% (served from the repo in dev, never built);
+   `&refx=<n>` crops it to the n-th of seven equal-width slices and scales that figure to
+   about the size the stage draws one (the line-up's figures stand 0.4 of the image tall
+   with their middle at 0.7 of its height), `&refz=<k>` zooms it, `&refc=<0..1>` moves the
+   slice centre when a figure is off its seventh (the thumbnail's figures sit at about
+   0.10, 0.23, 0.36, 0.49, 0.62, 0.75 and 0.90); `&split` gives the stage the left half of
+   the window and the reference the right, opaque, for the side-by-side shots. Tuning
+   view: `?aaa=1&creature=variant:look-quills&toon&pose=happy&ref=chao-world-lineup.jpg&refx=1`.
+1. **Toon stage mode, `&toon`.** `TOON` in `creatures.ts` is set by the stage before any
+   creature is built. `surfaceMaterial` (and `SurfaceOpts.toon` per surface) then drops the
+   triplanar grain, bump, sheen, clearcoat and specular, takes less of the sky's ambient
+   (`TOON_ENV`), and `toonShader` patches the physical shader so direct light falls in two
+   bands (`TOON_BAND`: lit 0.6, shade 0.33 at a 0.38 dot product; the lit band sits under
+   full sun so the flats keep their colour) with the vertex colours a touch more saturated.
+   `toonMaterial` flattens the eye white, lids, brow, liner, arc and lips the same way; the
+   lash line and happy arc are thick (tube 0.11 of the eye radius) and the mouth one solid
+   line, both in `TOON_OUTLINE.color` (#1a1026). `outline(group)` adds an inverted-hull
+   back-face copy of every opaque mesh (0.025 world units, pushed in view space so the
+   width is the same whatever the part's scale); the stage adds it after the figures are
+   measured, so the hulls never count toward the feet. Post: SSAO, bloom, depth of field,
+   fog and the grade off; exposure 0.85; sky and grass unchanged. Without the flag nothing
+   changes. Tuning view: `?aaa=1&creature=variant:look-quills&toon&pose=happy`.
+
 ## 3D load: sculpt spec, geometry cache, device grid, loading bar (2026-10-16)
 
 Works: each surface goes to a worker as plain data (`samples/sculpt-spec.ts`); hooks are
