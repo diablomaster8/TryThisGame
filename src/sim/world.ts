@@ -93,6 +93,7 @@ export function defaultSettings(): Settings {
     jukebox: null,
     ambience: true,
     graphics: 'pixel',
+    sculptRes: null,
   };
 }
 

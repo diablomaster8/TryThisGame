@@ -265,6 +265,11 @@ export interface Settings {
   ambience: boolean;
   /** How the Grove is drawn: the pixel-art scene or the full-3D scene. */
   graphics: GraphicsMode;
+  /**
+   * The 3D mode's sculpt grid for this device (a torso resolution, 48 to 104), picked by
+   * a benchmark the first time the 3D mode opens; null until then.
+   */
+  sculptRes: number | null;
 }
 
 /** The two renderers; the save mirrors the device-wide choice made on the title screen. */

@@ -395,6 +395,7 @@ export const UI_TEXT = {
   graphicsLabel: 'Graphics',
   graphicsLevels: { pixel: 'Pixel art', '3d': 'Full 3D' },
   graphicsHelp: 'Full 3D is new and heavier on phones. Changing it reloads the Grove.',
+  loading3d: 'Shaping the Grove',
   reducedMotionLabel: 'Reduced motion',
   reducedMotionLevels: { system: 'Follow system', on: 'On', off: 'Off' },
   fullscreen: 'Fullscreen',

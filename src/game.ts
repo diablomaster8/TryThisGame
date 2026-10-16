@@ -157,6 +157,13 @@ export class Game {
     this.world = this.load();
     // The save mirrors the device-wide renderer choice made on the title screen.
     this.world.settings.graphics = graphics;
+    if (this.scene3d) {
+      // The sculpt grid is picked once per save by a quick benchmark, then kept.
+      this.world.settings.sculptRes ??= this.scene3d.pickSculptRes();
+      this.scene3d.setSculptRes(this.world.settings.sculptRes);
+      // Start reading the cache and marching now, while the rest of the page loads.
+      this.scene3d.prewarm(this.world);
+    }
     this.syncDungeon();
   }
 

@@ -23,6 +23,9 @@ import {
 import type { Floor } from '../sim/dungeon';
 import type { Location, SimEvent, Vec2, WeatherKind, World } from '../sim/types';
 import { Actors } from './actors';
+import { pickSculptRes, qualityForRes } from './sculpt-res';
+
+export { prewarmCreatures } from './prewarm';
 import { Bursts } from './bursts';
 import { Garden } from './garden';
 import { Hollow } from './hollow';
@@ -385,6 +388,30 @@ export class Grove3dScene {
     hits.sort((a, b) => a.d - b.d);
     const h = hits[0];
     return h ? { kind: h.kind, id: h.id } : null;
+  }
+
+  /**
+   * The sculpt grid for this device, as the torso resolution the save picked
+   * (`settings.sculptRes`); every surface scales by the same share of its authored grid.
+   * Set before the first `update`, which starts the build.
+   */
+  setSculptRes(res: number): void {
+    this.actors.pool.quality = qualityForRes(res);
+  }
+
+  /** First run on a device: time a small march and pick the grid (see `sculpt-res.ts`). */
+  pickSculptRes(): number {
+    return pickSculptRes();
+  }
+
+  /** Start the opening creatures before the first frame (the frame builds the trees too). */
+  prewarm(world: World): void {
+    this.actors.warm(world);
+  }
+
+  /** How far the opening build has got, for the loading bar. */
+  loadState(): { progress: number; done: boolean } {
+    return this.actors.loadState();
   }
 
   /** Build the trees once the world is known, so taps reach the sim's tree ids. */

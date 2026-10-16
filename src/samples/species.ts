@@ -3,7 +3,6 @@ import {
   add,
   blink,
   breathe,
-  combine,
   eye,
   furShells,
   glossy,
@@ -17,7 +16,16 @@ import {
   type Shade,
   type SurfaceOpts,
 } from './creatures';
-import { sculpt, sdf, smin, V, type Prim } from './sculpted';
+import { sdf, smin, V, type Prim } from './sculpted';
+import { defineRule } from './sculpt-rules';
+import {
+  primData,
+  primFromData,
+  refOf,
+  sculptData,
+  type PrimData,
+  type SculptData,
+} from './sculpt-spec';
 
 /**
  * The species description format: a creature as data. A spec names the body parts
@@ -416,16 +424,24 @@ function shadowBlob(): THREE.CanvasTexture {
  * with `soft: 0` ramps over one cell centred on its edge, the narrowest edge that still
  * reads without stair-steps.
  */
-function markShade(marks: Mark[], cell: number): Shade {
-  const colors = marks.map((m) => new THREE.Color(m.color));
-  const prims: Prim[] = marks.map((m) => ({
+/** A mark as plain data: its shape as a primitive, and its edge width. */
+type MarkData = PrimData & { soft?: number };
+
+const markData = (m: Mark): MarkData => ({
+  ...primData({
     kind: m.kind,
     a: m.a,
     ...(m.b ? { b: m.b } : {}),
     r: m.r ?? 0,
     ...(m.radii ? { radii: m.radii } : {}),
     color: m.color,
-  }));
+  }),
+  ...(m.soft !== undefined ? { soft: m.soft } : {}),
+});
+
+const markShade = defineRule('marks', (marks: MarkData[], cell: number): Shade => {
+  const colors = marks.map((m) => new THREE.Color(m.color));
+  const prims: Prim[] = marks.map(primFromData);
   return (p, _n, c) => {
     for (let i = 0; i < prims.length; i++) {
       const d = sdf(p, prims[i]!);
@@ -437,7 +453,7 @@ function markShade(marks: Mark[], cell: number): Shade {
       }
     }
   };
-}
+});
 
 // ---------------------------------------------------------------- the mouth
 
@@ -604,37 +620,39 @@ function buildMouth(parent: THREE.Object3D, m: SpeciesSpec['mouth']): Mouth {
 
 // ---------------------------------------------------------------- the builder
 
-function sculptPart(
-  spec: SpeciesSpec,
-  prims: Prim[],
-  box: [THREE.Vector3, THREE.Vector3],
-  blend: number,
-  res: number,
-  extra: Shade[] = [],
-): THREE.BufferGeometry {
+/**
+ * The rules `surfaceData` adds on its own. The sculpt worker imports this list: a worker
+ * that only marches never calls `surfaceData`, and a bundler would otherwise drop these
+ * registrations along with it.
+ */
+export const BUILDER_RULES = [gradient, markShade] as const;
+
+/**
+ * One surface as a serialisable sculpt (see `sculpt-spec.ts`): the baked light, the
+ * marks, the species' extra shades and the part's own, then colour and fur rules.
+ * `quality` scales the grid (a phone marches at about 0.6 of the authored resolution).
+ */
+export function surfaceData(spec: SpeciesSpec, s: Surface, quality = 1): SculptData {
+  const res = Math.max(24, Math.round(s.res * quality));
   const shades: Shade[] = [gradient(spec.shade.top, spec.shade.bottom, 0, spec.shade.yMax)];
   if (spec.marks.length) {
     // The same spacing `sculpt` uses: the box's longest side, padded 8%, over the grid.
-    const size = box[1].clone().sub(box[0]);
+    const size = s.box[1].clone().sub(s.box[0]);
     const cell = (Math.max(size.x, size.y, size.z) * 1.08) / res;
-    shades.push(markShade(spec.marks, cell));
+    shades.push(markShade(spec.marks.map(markData), cell));
   }
   if (spec.extraShades) shades.push(...spec.extraShades);
-  shades.push(...extra);
-  return sculpt(
-    {
-      prims,
-      blend,
-      min: box[0],
-      max: box[1],
-      ...(spec.colorRules
-        ? { colorAt: (p: THREE.Vector3, q: Prim) => spec.colorRules!(p, q) ?? q.color }
-        : {}),
-      shade: combine(...shades),
-      ...(spec.furRule ? { fur: spec.furRule } : {}),
-    },
+  shades.push(...s.extra);
+  return {
+    prims: s.prims.map(primData),
+    blend: s.blend,
+    min: [s.box[0].x, s.box[0].y, s.box[0].z],
+    max: [s.box[1].x, s.box[1].y, s.box[1].z],
     res,
-  );
+    ...(spec.colorRules ? { color: refOf(spec.colorRules, `${spec.name} colorRules`) } : {}),
+    shades: shades.map((f) => refOf(f, `a shade on ${spec.name}`)),
+    ...(spec.furRule ? { fur: refOf(spec.furRule, `${spec.name} furRule`) } : {}),
+  };
 }
 
 /** One surface `buildSpecies` sculpts: the torso, a part or a part's lower segment. */
@@ -686,7 +704,7 @@ export function speciesSurfaces(spec: SpeciesSpec): Surface[] {
 
 /** March one surface of a species: the slow part of a build. */
 export function sculptSurface(spec: SpeciesSpec, s: Surface): THREE.BufferGeometry {
-  return sculptPart(spec, s.prims, s.box, s.blend, s.res, s.extra);
+  return sculptData(surfaceData(spec, s));
 }
 
 /**

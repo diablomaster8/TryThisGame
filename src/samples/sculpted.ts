@@ -105,6 +105,12 @@ export interface Sculpt {
   ao?: number;
 }
 
+/**
+ * The narrow band in `sculpt`: off evaluates every voxel (the reference the tests compare
+ * against); `margin` is the extra distance, in voxels, a block must clear to be filled.
+ */
+export const SCULPT_BAND = { on: true, margin: 4 };
+
 /** Polygonise a sculpt into one smooth, vertex-coloured mesh. */
 export function sculpt(s: Sculpt, resolution = 112): THREE.BufferGeometry {
   const mc = new MarchingCubes(resolution, new THREE.MeshBasicMaterial(), false, false, 400000);
@@ -116,30 +122,61 @@ export function sculpt(s: Sculpt, resolution = 112): THREE.BufferGeometry {
   // The addon's surface sits where the field crosses `isolation`; inside is above it.
   const iso = mc.isolation;
   const field = mc.field as Float32Array;
-  for (let z = 0; z < n; z++) {
-    for (let y = 0; y < n; y++) {
-      for (let x = 0; x < n; x++) {
-        p.set(
-          ((x + 0.5) / n - 0.5) * extent + centre.x,
-          ((y + 0.5) / n - 0.5) * extent + centre.y,
-          ((z + 0.5) / n - 0.5) * extent + centre.z,
-        );
-        let d = 1e9;
-        for (const q of s.prims) d = smin(d, sdf(p, q), q.blend ?? s.blend);
-        field[z * n * n + y * n + x] = iso + (-d / extent) * 900;
+  const at = (v: number) => (v / n - 0.5) * extent;
+  const dist = (q: THREE.Vector3): number => {
+    let d = 1e9;
+    for (const prim of s.prims) d = smin(d, sdf(q, prim), prim.blend ?? s.blend);
+    return d;
+  };
+  // Most of the grid is far from the surface. Sample once per block of B³ voxels: where
+  // the distance there exceeds the block's half-diagonal plus a margin, no voxel in the
+  // block is near the surface (a distance field changes no faster than the distance
+  // walked), so the block takes that one value and only blocks near the surface are
+  // evaluated voxel by voxel. The margin keeps every voxel the marching or its normals
+  // read exact, so the mesh is the one a full evaluation makes (`SCULPT_BAND.on` = false).
+  const B = 4;
+  const reach = ((Math.sqrt(3) * B) / 2 + SCULPT_BAND.margin) * (extent / n);
+  for (let bz = 0; bz < n; bz += B) {
+    for (let by = 0; by < n; by += B) {
+      for (let bx = 0; bx < n; bx += B) {
+        const zEnd = Math.min(n, bz + B);
+        const yEnd = Math.min(n, by + B);
+        const xEnd = Math.min(n, bx + B);
+        let far: number | null = null;
+        if (SCULPT_BAND.on) {
+          p.set(at(bx + B / 2) + centre.x, at(by + B / 2) + centre.y, at(bz + B / 2) + centre.z);
+          const d = dist(p);
+          if (Math.abs(d) > reach) far = iso + (-d / extent) * 900;
+        }
+        for (let z = bz; z < zEnd; z++) {
+          for (let y = by; y < yEnd; y++) {
+            const row = z * n * n + y * n;
+            if (far !== null) {
+              field.fill(far, row + bx, row + xEnd);
+              continue;
+            }
+            for (let x = bx; x < xEnd; x++) {
+              p.set(at(x + 0.5) + centre.x, at(y + 0.5) + centre.y, at(z + 0.5) + centre.z);
+              field[row + x] = iso + (-dist(p) / extent) * 900;
+            }
+          }
+        }
       }
     }
   }
   mc.update();
-  const count = mc.count;
+  // Marching cubes emits a triangle soup with each vertex about six times over; weld it
+  // first so the colour, AO and fur bake below runs once per vertex, not six.
+  const welded = weldIndex(mc.positionArray as Float32Array, mc.count);
+  const count = welded.unique;
   const pos = new Float32Array(count * 3);
   const nrm = new Float32Array(count * 3);
   const col = new Float32Array(count * 3);
   const glow = new Float32Array(count);
   const furLen = s.fur ? new Float32Array(count) : null;
   const furDir = s.fur ? new Float32Array(count * 3) : null;
-  const posArr = mc.positionArray as Float32Array;
-  const nrmArr = mc.normalArray as Float32Array;
+  const posArr = gather(mc.positionArray as Float32Array, welded.first, count);
+  const nrmArr = gather(mc.normalArray as Float32Array, welded.first, count);
   const c = new THREE.Color();
   for (let i = 0; i < count; i++) {
     // Marching-cubes space is a [-1, 1] cube centred on the figure's box.
@@ -211,7 +248,63 @@ export function sculpt(s: Sculpt, resolution = 112): THREE.BufferGeometry {
     geo.setAttribute('furLen', new THREE.BufferAttribute(furLen, 1));
     geo.setAttribute('furDir', new THREE.BufferAttribute(furDir, 3));
   }
+  geo.setIndex(
+    new THREE.BufferAttribute(count < 65536 ? new Uint16Array(welded.index) : welded.index, 1),
+  );
   return geo;
+}
+
+/**
+ * Index a triangle soup by exact position. Shared edge vertices in marching cubes are
+ * computed from the same corners, so their copies are bit-identical and merging them is
+ * lossless. `first[u]` is the soup vertex that unique vertex `u` came from.
+ */
+export function weldIndex(
+  pos: Float32Array,
+  n: number,
+): { first: Uint32Array; index: Uint32Array; unique: number } {
+  const bits = new Uint32Array(pos.buffer, pos.byteOffset, n * 3);
+  let size = 16;
+  while (size < n * 2) size <<= 1;
+  const mask = size - 1;
+  const table = new Int32Array(size).fill(-1);
+  const first = new Uint32Array(n);
+  const index = new Uint32Array(n);
+  let unique = 0;
+  for (let i = 0; i < n; i++) {
+    const x = bits[i * 3]!;
+    const y = bits[i * 3 + 1]!;
+    const z = bits[i * 3 + 2]!;
+    let h = (Math.imul(x, 73856093) ^ Math.imul(y, 19349663) ^ Math.imul(z, 83492791)) & mask;
+    for (;;) {
+      const u = table[h]!;
+      if (u < 0) {
+        table[h] = unique;
+        first[unique] = i;
+        index[i] = unique++;
+        break;
+      }
+      const j = first[u]! * 3;
+      if (bits[j] === x && bits[j + 1] === y && bits[j + 2] === z) {
+        index[i] = u;
+        break;
+      }
+      h = (h + 1) & mask;
+    }
+  }
+  return { first, index, unique };
+}
+
+/** The xyz triples of the unique vertices, in welded order. */
+function gather(src: Float32Array, first: Uint32Array, unique: number): Float32Array {
+  const out = new Float32Array(unique * 3);
+  for (let u = 0; u < unique; u++) {
+    const s = first[u]! * 3;
+    out[u * 3] = src[s]!;
+    out[u * 3 + 1] = src[s + 1]!;
+    out[u * 3 + 2] = src[s + 2]!;
+  }
+  return out;
 }
 
 export const V = (x: number, y: number, z: number) => new THREE.Vector3(x, y, z);

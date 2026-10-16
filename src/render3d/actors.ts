@@ -5,7 +5,7 @@ import { emoteFor } from '../render/world-view';
 import type { PoseName, Rigged } from '../samples/species';
 import type { Floor } from '../sim/dungeon';
 import type { Item, Location, Nubbin, Vec2, World } from '../sim/types';
-import { CreaturePool, keeperLook, nubbinLook, type Look } from './creature-pool';
+import { keeperLook, nubbinLook, openingLooks, takePool, type Look } from './creature-pool';
 import { EGG_COLOURS } from '../samples/nubbin-variants-colour';
 import { Crowd, crowdFor } from './crowd';
 import { gaitTime } from './gait';
@@ -79,7 +79,7 @@ export function poseFor(n: Nubbin, moving: boolean, petted: boolean): PoseName {
 
 export class Actors {
   readonly group = new THREE.Group();
-  readonly pool = new CreaturePool();
+  readonly pool = takePool();
   private readonly nubbins = new Map<string, Actor>();
   private readonly items = new Map<
     string,
@@ -169,16 +169,26 @@ export class Actors {
 
   /** Build the Keeper and the child first, so the opening seconds do not stall. */
   warm(world: World): void {
-    const looks = [keeperLook(world.keeper)];
-    for (const n of world.nubbins) looks.push(nubbinLook(n));
-    const seen = new Set<string>();
-    this.pool.warm(
-      looks.filter((l) => {
-        if (seen.has(l.key)) return false;
-        seen.add(l.key);
-        return true;
-      }),
-    );
+    this.warmed = true;
+    this.pool.warm(openingLooks(world));
+  }
+
+  private warmed = false;
+
+  /**
+   * The opening build, for the loading bar: surfaces back (most of the wait) and figures
+   * rigged. Done once the Keeper and every Nubbin stand as themselves, no stand-ins left.
+   */
+  loadState(): { progress: number; done: boolean } {
+    if (!this.warmed || !this.keeper) return { progress: 0, done: false };
+    const figures = [!!this.keeper.rig];
+    for (const a of this.nubbins.values()) figures.push(!!(a.rig || a.shell));
+    const rigged = figures.filter(Boolean).length;
+    if (rigged === figures.length && this.pool.burst) this.pool.loaded();
+    return {
+      progress: this.pool.warmProgress * 0.85 + (rigged / figures.length) * 0.15,
+      done: rigged === figures.length,
+    };
   }
 
   snapshot(world: World): void {

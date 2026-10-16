@@ -72,6 +72,49 @@ button,
   border-radius: 6px;
 }
 
+/* The 3D mode's opening build: a soft veil with a bar until every figure is sculpted. */
+.load-veil {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: var(--bg);
+  color: var(--hud-fg);
+  font-size: 15px;
+  transition: opacity 0.4s ease;
+}
+
+.load-veil.is-done {
+  opacity: 0;
+}
+
+.load-bar {
+  width: min(60vw, 280px);
+  height: 10px;
+  border: 1px solid var(--hud-border);
+  border-radius: 6px;
+  background: var(--hud-bg);
+  overflow: hidden;
+}
+
+.load-bar > span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--hud-fg);
+  transition: width 0.15s linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .load-veil,
+  .load-bar > span {
+    transition: none;
+  }
+}
+
 .camera-buttons {
   position: absolute;
   right: calc(var(--safe-right) + 12px);

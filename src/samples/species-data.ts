@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { stripes } from './creatures';
 import { V } from './sculpted';
+import { namedRule } from './sculpt-rules';
 import { digits, tuftRow } from './species-kit';
 import type { SpeciesSpec } from './species';
 
@@ -269,28 +270,31 @@ const cream = '#fff3e0';
 const dark = '#5a3a2a';
 
 /** Fur grows longer on the ruff, chest and tail, short on the muzzle and legs, combed back and down. */
-function fennelFur(
-  p: THREE.Vector3,
-  n: THREE.Vector3,
-  q: { tag?: string },
-): { len: number; dir: THREE.Vector3 } {
-  const tag = q.tag ?? '';
-  let len = 0.6;
-  if (tag === 'ruff' || tag === 'bib' || tag === 'cheek') len = 1.0;
-  else if (tag === 'muzzle' || tag === 'paw' || tag === 'digit') len = 0.15;
-  else if (tag === 'tuft' || tag === 'crest') len = 0.2;
-  else if (tag === 'leg') len = 0.35;
-  else if (tag === 'tail') len = 1.0;
-  else if (tag === 'head') len = 0.5;
-  else if (tag === 'ear' || tag === 'inner') len = 0.3;
-  // Combed down and back, with a little of the surface normal so it still puffs.
-  const dir = new THREE.Vector3(
-    n.x * 0.4,
-    -0.55 - Math.max(0, n.y) * 0.3,
-    -0.5 + (p.z > 0.8 ? 0.6 : 0),
-  ).normalize();
-  return { len, dir };
-}
+const fennelFur = namedRule(
+  'fennel.fur',
+  function fennelFur(
+    p: THREE.Vector3,
+    n: THREE.Vector3,
+    q: { tag?: string },
+  ): { len: number; dir: THREE.Vector3 } {
+    const tag = q.tag ?? '';
+    let len = 0.6;
+    if (tag === 'ruff' || tag === 'bib' || tag === 'cheek') len = 1.0;
+    else if (tag === 'muzzle' || tag === 'paw' || tag === 'digit') len = 0.15;
+    else if (tag === 'tuft' || tag === 'crest') len = 0.2;
+    else if (tag === 'leg') len = 0.35;
+    else if (tag === 'tail') len = 1.0;
+    else if (tag === 'head') len = 0.5;
+    else if (tag === 'ear' || tag === 'inner') len = 0.3;
+    // Combed down and back, with a little of the surface normal so it still puffs.
+    const dir = new THREE.Vector3(
+      n.x * 0.4,
+      -0.55 - Math.max(0, n.y) * 0.3,
+      -0.5 + (p.z > 0.8 ? 0.6 : 0),
+    ).normalize();
+    return { len, dir };
+  },
+);
 
 export const FENNEL_SPEC: SpeciesSpec = {
   name: 'Fennel',
@@ -578,11 +582,11 @@ export const FENNEL_SPEC: SpeciesSpec = {
       soft: 0.08,
     },
   ],
-  colorRules: (p, n) => {
+  colorRules: namedRule('fennel.colors', (p, n) => {
     if (n.tag === 'head' && p.y < 1.56 && p.z > 0.7) return cream;
     if (n.tag === 'leg' && p.y < 0.5) return dark;
     return null;
-  },
+  }),
   extraShades: [stripes('z', 4.5, 0.18, '#c9641f', ['body'], 0.55)],
   eyes: {
     x: 0.36,

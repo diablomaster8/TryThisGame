@@ -10,7 +10,7 @@ import { GROVE3D } from '../config/tuning';
 import { buildSpecies, type Rigged } from '../samples/species';
 import { ROSTER } from '../samples/species-roster';
 import { variantById } from '../samples/nubbin-variant-catalogue';
-import type { Keeper, Nubbin } from '../sim/types';
+import type { Keeper, Nubbin, World } from '../sim/types';
 import { speciesArt } from '../render/sprites/species-art';
 import { specForKey, tintMods } from './looks';
 import { SculptFarm } from './sculpt-farm';
@@ -91,6 +91,23 @@ export class CreaturePool {
   compile: ((o: Object3D) => Promise<unknown>) | null = null;
   /** Build times by key, in ms, for the debug readout: marching (worker) and rigging. */
   readonly buildMs = new Map<string, { march: number; rig: number }>();
+  /**
+   * Grid quality for every sculpt, 1 = the authored resolution. The scene sets it from
+   * the save's `sculptRes` before the first `warm` (a phone marches at about 0.6).
+   */
+  quality = 1;
+  /**
+   * While the loading veil is up nobody sees a hitch, so every look whose surfaces are back
+   * rigs at once and compiles in parallel; after it lifts, one rig a frame again.
+   */
+  burst = true;
+  /** Surfaces the warm looks need, and how many have landed: the loading bar. */
+  private warmSurfaces = 0;
+  private landed = 0;
+
+  constructor() {
+    this.farm.onSurface = () => this.landed++;
+  }
 
   /** Call once a frame, before any `acquire`. */
   frame(): void {
@@ -109,7 +126,7 @@ export class CreaturePool {
       this.request(look.key);
       return null;
     }
-    if (this.builtThisFrame > 0 || this.compiling > 0) return null;
+    if (!this.burst && (this.builtThisFrame > 0 || this.compiling > 0)) return null;
     this.builtThisFrame++;
     const t0 = performance.now();
     const rig = buildSpecies(
@@ -155,7 +172,28 @@ export class CreaturePool {
 
   /** Start marching the looks a Grove needs first, in order (the Keeper leads). */
   warm(looks: Look[]): void {
-    for (const look of looks) this.request(look.key);
+    for (const look of looks) {
+      if (this.asked.has(look.key)) continue;
+      this.warmSurfaces += this.farm.surfaceCount(look.key);
+      this.request(look.key);
+    }
+  }
+
+  /** Share of the warm looks' surfaces back from the cache or the workers, 0..1. */
+  get warmProgress(): number {
+    return this.warmSurfaces ? Math.min(1, this.landed / this.warmSurfaces) : 0;
+  }
+
+  /** Surfaces read from the IndexedDB cache and surfaces marched since load. */
+  get sculptStats(): { cached: number; marched: number } {
+    return this.farm.stats;
+  }
+
+  /** The opening Grove is built: one rig a frame from now on, and the cache may be written. */
+  loaded(): void {
+    this.burst = false;
+    this.farm.holdWrites = false;
+    this.farm.saveSoon();
   }
 
   /** Whether a look's surfaces are back, so `acquire` can build it. */
@@ -175,7 +213,7 @@ export class CreaturePool {
     if (this.asked.has(key)) return;
     this.asked.add(key);
     const t0 = performance.now();
-    this.farm.surfaces(key).then(
+    this.farm.surfaces(key, this.quality).then(
       (geos) => {
         this.ready.set(key, geos);
         const march = performance.now() - t0;
@@ -191,4 +229,28 @@ export class CreaturePool {
       },
     );
   }
+}
+
+/** The looks a Grove opens with, the Keeper first, each once. */
+export function openingLooks(world: Pick<World, 'keeper' | 'nubbins'>): Look[] {
+  const looks = [keeperLook(world.keeper), ...world.nubbins.map(nubbinLook)];
+  const seen = new Set<string>();
+  return looks.filter((l) => !seen.has(l.key) && !!seen.add(l.key));
+}
+
+let early: CreaturePool | null = null;
+
+/**
+ * The pool the scene will use, made before the scene so its workers can march while the
+ * page builds everything else (see `prewarmCreatures`).
+ */
+export function earlyPool(): CreaturePool {
+  return (early ??= new CreaturePool());
+}
+
+/** Hand the early pool to the scene, or a fresh one when nothing started early. */
+export function takePool(): CreaturePool {
+  const pool = earlyPool();
+  early = null;
+  return pool;
 }

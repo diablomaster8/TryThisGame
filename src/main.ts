@@ -6,6 +6,7 @@ import type { Grove3dScene } from './render3d/grove-3d-scene';
 import { showTitle } from './ui/title';
 import { mountCameraButtons } from './ui/camera-buttons';
 import { FpsCounter } from './ui/fps';
+import { LoadingBar } from './ui/loading-bar';
 import { mountHud } from './ui/hud';
 import { mountSpriteGallery } from './ui/sprite-gallery';
 
@@ -61,9 +62,11 @@ if (params.has('sprites')) {
 function startGame(newCampaignTrainer: string | null, eduAge?: EduAge): void {
   // The 3D scene is a separate chunk, loaded only when the title picked it.
   if (readGraphicsPref() === '3d') {
-    void import('./render3d/grove-3d-scene').then((m) =>
-      boot(newCampaignTrainer, eduAge, new m.Grove3dScene(canvas)),
-    );
+    void import('./render3d/grove-3d-scene').then((m) => {
+      // The saved creatures start sculpting in workers while the scene builds.
+      m.prewarmCreatures();
+      boot(newCampaignTrainer, eduAge, new m.Grove3dScene(canvas));
+    });
   } else boot(newCampaignTrainer, eduAge, null);
 }
 
@@ -101,8 +104,15 @@ function boot(
 
   // ---------- fps + lifecycle ----------
 
+  // The 3D Grove opens behind a loading bar until its creatures are sculpted.
+  const loading = scene3d ? new LoadingBar(hudRoot) : null;
+
   function fpsLoop(now: number): void {
     if (!document.hidden) fps.tick(now);
+    if (loading && scene3d && !loading.done) {
+      const s = scene3d.loadState();
+      loading.update(s.progress, s.done);
+    }
     requestAnimationFrame(fpsLoop);
   }
   requestAnimationFrame(fpsLoop);

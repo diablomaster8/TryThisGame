@@ -43,6 +43,16 @@ left out, and an example as it appears in a spec.
 | `footprint`   | Radius of the contact shadow and of the slope probes.                                                                                                                                                                                                                                                                                                                                                                                                                     | 0.85 × the torso box's half-width       | `footprint: 1.1`                                                                       |
 | `notes`       | Which reference frame or pass the species was last tuned against, for the next pass. Never shown.                                                                                                                                                                                                                                                                                                                                                                         | none                                    | `notes: 'Shape pass 2026-10-15 against the Palworld roster screenshot…'`               |
 
+**Hooks must be named rules.** `furRule`, `colorRules`, `extraShades` and a part's `shades` are
+functions, and the 3D mode sculpts in workers and caches by a hash of the spec, so each one
+must be made by a rule registered in `src/samples/sculpt-rules.ts`: the stock `stripes`,
+`spots` and `gradient` already are; a one-off is wrapped as
+`namedRule('fennel.colors', (p, n) => ...)` and a parameterised one with `defineRule`. Rule
+arguments must be plain data. An unnamed hook throws when the spec is serialised (the
+`sculpt-spec` test serialises every species). Editing a rule's code invalidates the cached
+geometry that used it; a change to a constant it closes over does not, so bump
+`SCULPT_VERSION` in `sculpt-spec.ts` for that.
+
 ## PartSpec
 
 A part is sculpted on its own and hung from the hips (or, for the head, wherever its pivot

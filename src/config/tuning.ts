@@ -36,6 +36,38 @@ export const CAMERA = {
   followRate: 6,
 } as const;
 
+/**
+ * The 3D mode's sculpt grid per device. A first-run benchmark marches a small test surface
+ * and picks the finest torso resolution whose opening build fits the budget; the save
+ * keeps the answer in `settings.sculptRes`. Parts scale by the same share of their own grid.
+ */
+export const SCULPT_RES = {
+  /** The resolution species are authored at (the torso default in `species.ts`). */
+  authored: 104,
+  /** The choices, finest first: desktop, mid, phone, slow phone. */
+  steps: [104, 80, 64, 48] as const,
+  /** Grid of the benchmark surface (the Nubbin's torso). */
+  benchRes: 24,
+  /**
+   * How marching time grows with the grid: the narrow band and the per-vertex bake make
+   * it nearer the square than the cube (2.84x from 64 to 104, measured 2026-10-16).
+   */
+  exponent: 2.2,
+  /**
+   * Marching work of an opening Grove (the Keeper and 8 Nubbins in 7 looks, 54 surfaces)
+   * in benchmark surfaces at the benchmark's grid. The benchmark runs at boot, when it
+   * reads about 3.5x slower than on an idle page (20 ms against 6 on Maor's PC); the
+   * opening marched in 540 ms on 4 workers at grid 63 there, 2026-10-16.
+   */
+  openingWork: 15,
+  /**
+   * Marching time the opening may take, in ms. It runs in workers while the page builds
+   * the scene and compiles its shaders (2.4 s on Maor's PC, several times that on a
+   * phone), so time inside this is hidden; the cache makes it a one-off.
+   */
+  budgetMs: 3000,
+} as const;
+
 /** The full-3D Grove: its Lakitu camera, the heightfield and the dressing built from GROVE. */
 export const GROVE3D = {
   /** Downward tilt of the camera behind the Keeper, in degrees (gentler than the pixel 35°). */

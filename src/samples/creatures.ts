@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { fbm, ridged, vnoise } from '../render/paint/noise';
 import { hex, Raster, type RGB } from '../render/paint/raster';
 import { sculpt, type Prim } from './sculpted';
+import { defineRule } from './sculpt-rules';
 
 /**
  * The creature toolkit the species format builds with: triplanar surface materials,
@@ -440,13 +441,18 @@ export function furShells(
 export type Shade = (p: THREE.Vector3, n: THREE.Vector3, c: THREE.Color, nearest: Prim) => void;
 
 /** Light from above baked in: tops brighter, undersides in shadow; plus a height roll-off. */
-export function gradient(top = 1.12, bottom = 0.62, yMin = 0, yMax = 3): Shade {
+function gradientShade(top = 1.12, bottom = 0.62, yMin = 0, yMax = 3): Shade {
   return (p, n, c) => {
     const up = THREE.MathUtils.clamp(n.y * 0.5 + 0.5, 0, 1);
     const h = THREE.MathUtils.clamp((p.y - yMin) / (yMax - yMin), 0, 1);
     c.multiplyScalar(THREE.MathUtils.lerp(bottom, top, up * 0.65 + h * 0.35));
   };
 }
+
+// Named, so a sculpt that uses them can be posted to a worker (see sculpt-rules.ts).
+export const gradient = defineRule('gradient', gradientShade);
+export const stripes = defineRule('stripes', stripesShade);
+export const spots = defineRule('spots', spotsShade);
 
 export function combine(...shades: Shade[]): Shade {
   return (p, n, c, q) => {
@@ -455,7 +461,7 @@ export function combine(...shades: Shade[]): Shade {
 }
 
 /** Stripes across an axis, blended toward a colour. */
-export function stripes(
+function stripesShade(
   axis: 'x' | 'y' | 'z',
   freq: number,
   width: number,
@@ -473,7 +479,7 @@ export function stripes(
 }
 
 /** Spots from a value-noise field, blended toward a colour. */
-export function spots(
+function spotsShade(
   scale: number,
   threshold: number,
   color: string,

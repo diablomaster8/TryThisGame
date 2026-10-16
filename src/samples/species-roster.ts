@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { add, smokeShell, spots } from './creatures';
 import { V, type Prim } from './sculpted';
+import { namedRule } from './sculpt-rules';
 import type { RigContext, SpeciesSpec } from './species';
 import { FENNEL_SPEC, NUBBIN_SPEC } from './species-data';
 import { digits } from './species-kit';
@@ -601,7 +602,7 @@ export const BOLDER_SPEC: SpeciesSpec = {
   parts: [0, 1, 2, 3].flatMap((i) => [bolderLeg(-1, i), bolderLeg(1, i)]),
   shade: { top: 1.14, bottom: 0.5, yMax: 2.2 },
   marks: [],
-  colorRules: (p, n) => {
+  colorRules: namedRule('bolder.colors', (p, n) => {
     if (n.tag === 'abdomen') {
       // An ember hourglass across the back of the abdomen, plate seams either side.
       const lx = Math.abs(p.x);
@@ -614,7 +615,7 @@ export const BOLDER_SPEC: SpeciesSpec = {
     if (n.tag === 'thorax')
       return Math.abs(Math.sin(p.x * 5)) < 0.08 && p.y > 1.1 ? '#7a8898' : plate;
     return null;
-  },
+  }),
   eyes: {
     x: 0.26,
     y: 0.92,
