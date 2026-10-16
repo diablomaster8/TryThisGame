@@ -45,6 +45,15 @@ The reference is `docs/reference/chao-world-lineup.jpg` (the YouTube thumbnail, 
 figures left to right: quills, echidna, fox, dream, Eternal Neutral, shade, Eternal Moon).
 Steps, newest first, one commit each:
 
+4e. **look-shade against slice 6** (`docs/samples/match-shade.jpg`). A near-black `#2c2a34` cat
+   suit (a little lifted so the toon bands show), tall pointed ears with grey inner cones
+   (`catEar`, new), three white spikes standing up behind the crown, white oval eyes with the
+   white slash over the left, a small red mouth, arms folded across the chest (`foldedArm`,
+   new), a white collar with a lilac diamond, white shoes on black legs, a spiked grey ball.
+   Not the brief's cheek tufts: the thumbnail has none. Still differs: the thumbnail's
+   figure is leaning and three-quarter, ours faces front; its ears are shorter and set
+   further apart; the diamond is a rotated square, ours a lilac oval; the crown spikes sit
+   at the back in the thumbnail, ours stand on top; the grey of the ball is lost (stage ball).
 4d. **eternal-neutral against slice 5** (`docs/samples/match-eternal-neutral.jpg`). A flat lime
    `#7ee02c` dragon with a yellow-green belly patch, salmon hands and toes (marks on the feet),
    a small crown spike and two small horns tipped salmon, white oval eyes with the happy ^

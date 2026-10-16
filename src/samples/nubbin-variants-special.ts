@@ -123,17 +123,6 @@ const bigEar = (dx: number, front: string, back: string): PartSpec => ({
   resolution: 48,
 });
 
-/** A pointed ear: a cone from the crown's base up and slightly out, hinged at its base. */
-const pointEar = (dx: number, color: string, len = 0.7): PartSpec => ({
-  name: dx < 0 ? 'earL' : 'earR',
-  pivot: V(dx * 0.45, 2.3, -0.1),
-  prims: [
-    cone(V(dx * 0.42, 2.25, -0.1), V(dx * 0.72, 2.25 + len, -0.2), 0.24, 0.03, color, 'ear', 0.06),
-  ],
-  box: [V(dx < 0 ? -1.1 : 0.1, 2.0, -0.6), V(dx < 0 ? -0.1 : 1.1, 3.4, 0.4)],
-  resolution: 40,
-});
-
 /** One of the twin tails: a capsule sweeping back and up, ending in a white ball. */
 const twinTail = (name: string, dx: number, color: string): PartSpec => ({
   name,
@@ -246,6 +235,36 @@ const braceletArm = (dx: number, body: string): PartSpec => ({
     { ...ball(V(dx * 1.28, 1.0, 0.16), 0.3, body, 'hand'), blend: 0.06 },
   ],
   box: [V(dx < 0 ? -1.75 : 0.2, 0.5, -0.4), V(dx < 0 ? -0.2 : 1.75, 1.7, 0.7)],
+});
+
+/** A tall cat ear: a pointed black cone with a grey inner cone on its face (head pre-scale coordinates). */
+const catEar = (dx: number, outer: string, inner: string): PartSpec => ({
+  name: dx < 0 ? 'earL' : 'earR',
+  pivot: V(dx * 0.55, 2.3, -0.05),
+  prims: [
+    cone(V(dx * 0.5, 2.25, -0.05), V(dx * 1.0, 2.85, -0.15), 0.36, 0.03, outer, 'ear', 0.04),
+    cone(V(dx * 0.52, 2.35, 0.12), V(dx * 0.95, 2.75, 0.0), 0.22, 0.02, inner, 'ear', 0.02),
+  ],
+  box: [V(dx < 0 ? -1.4 : 0.1, 1.9, -0.7), V(dx < 0 ? -0.1 : 1.4, 3.4, 0.6)],
+  resolution: 48,
+});
+
+/** An arm folded in across the chest, the fist tucked under the collar. */
+const foldedArm = (dx: number, body: string): PartSpec => ({
+  name: dx < 0 ? 'armL' : 'armR',
+  pivot: V(dx * 0.55, 1.05, 0.1),
+  prims: [
+    {
+      kind: 'capsule',
+      a: V(dx * 0.55, 1.05, 0.1),
+      b: V(dx * 0.25, 0.95, 0.58),
+      r: 0.17,
+      color: body,
+      tag: 'arm',
+    },
+    { ...ball(V(dx * 0.18, 0.95, 0.64), 0.22, body, 'hand'), blend: 0.06 },
+  ],
+  box: [V(dx < 0 ? -0.9 : -0.1, 0.5, -0.2), V(dx < 0 ? 0.1 : 0.9, 1.5, 1.0)],
 });
 
 // ---- the Eternals ----
@@ -576,6 +595,10 @@ const QUILLS_NAVY = '#2443c4';
 const QUILLS_CLUSTER = quillCluster(QUILLS_NAVY);
 
 /** The echidna look's body: a deep crimson-maroon, darker than the flat red of the quills' shoes. */
+/** The shade look's flats: near-black suit, grey inner ears. */
+const SHADE_BLACK = '#2c2a34';
+const SHADE_GREY = '#8c8a96';
+
 /** The dream look's body: a saturated magenta. */
 const DREAM_BODY = '#a82a8c';
 
@@ -973,28 +996,80 @@ export const SPECIAL_VARIANTS: NubbinVariant[] = [
       'muzzle, glove balls with cuffs, mech lower legs with a red ring, red striped shoes.',
   }),
   look('look-shade', 'Nubbin (Shade look)', {
+    // A black cat suit: flat near-black, grey inner ears, a white collar with a lilac diamond.
     colors: {
-      body: '#0d0a1a',
-      belly: WHITE,
-      tip: WHITE,
-      pad: '#2b2440',
-      iris: '#3fbfa8',
-      blush: '#2b2440',
+      body: SHADE_BLACK,
+      belly: SHADE_BLACK,
+      tip: SHADE_BLACK,
+      pad: SHADE_BLACK,
+      iris: '#2a2a3a',
+      blush: SHADE_BLACK,
+      star: SHADE_BLACK,
+      crownShade: SHADE_BLACK,
     },
-    crown: 'none',
-    eyes: { lid: 0.3 },
-    slots: { ears: [pointEar(-1, '#0d0a1a', 0.6), pointEar(1, '#0d0a1a', 0.6)] },
+    // A few white spikes standing up behind the crown.
+    crown: [
+      cone(V(-0.25, 2.65, -0.35), V(-0.4, 2.95, -0.5), 0.15, 0.02, WHITE, 'crown', 0.03),
+      cone(V(0.05, 2.7, -0.35), V(0.1, 3.05, -0.5), 0.17, 0.02, WHITE, 'crown', 0.03),
+      cone(V(0.35, 2.65, -0.3), V(0.5, 2.9, -0.45), 0.13, 0.02, WHITE, 'crown', 0.03),
+    ],
+    slots: {
+      ears: [catEar(-1, SHADE_BLACK, SHADE_GREY), catEar(1, SHADE_BLACK, SHADE_GREY)],
+      arms: [foldedArm(-1, SHADE_BLACK), foldedArm(1, SHADE_BLACK)],
+    },
+    ball: { shape: 'spikes', color: '#3a3840', glow: '#201e26' },
     hints: [
-      chestMark(WHITE, 1.1, 0.3),
+      // White oval eyes with a white slash over the left one.
       ...[-1, 1].map((dx) => ({
         kind: 'ellipsoid' as const,
-        a: V(dx * 0.64, 1.78, 0.28),
-        radii: V(0.2, 0.14, 0.16),
+        a: V(dx * 0.42, 2.0, 0.8),
+        radii: V(0.2, 0.3, 0.2),
         color: WHITE,
-        soft: 0.02,
+        soft: 0.01,
       })),
+      {
+        kind: 'capsule' as const,
+        a: V(-0.62, 2.28, 0.6),
+        b: V(-0.3, 1.82, 0.84),
+        r: 0.05,
+        color: WHITE,
+        soft: 0.01,
+      },
+      // The white collar and the lilac diamond on the chest.
+      {
+        kind: 'ellipsoid' as const,
+        a: V(0, 1.4, 0.55),
+        radii: V(0.34, 0.1, 0.22),
+        color: WHITE,
+        soft: 0.01,
+      },
+      {
+        kind: 'ellipsoid' as const,
+        a: V(0, 1.26, 0.66),
+        radii: V(0.13, 0.18, 0.1),
+        color: '#d070e0',
+        soft: 0.01,
+      },
     ],
-    patch: (spec) => dress(spec, { gloves: WHITE, shoes: '#2b2440' }),
-    notes: 'A black cat: pointed ears, white cheek tufts, chest and gloves, slanted green eyes.',
+    headScale: 1.15,
+    eyes: { x: 0.42, y: 2.0, r: 0.22, tall: 1.4, lidColor: WHITE, brow: false },
+    mouth: { shape: 'o', width: 0.07, y: 1.66, z: 1.0, line: '#d02a3a' },
+    patch: (spec) => {
+      const dome = spec.head.prims.find((p) => p.tag === 'head')!;
+      dome.a.set(0, 2.0, 0);
+      dome.radii!.set(1.05, 0.88, 0.92);
+      spec.shade = { top: 1.0, bottom: 0.94, yMax: 3.5 };
+      widen(spec.head, { x: 1.4, z: -1.2 });
+      mechLegs(spec, {
+        leg: SHADE_BLACK,
+        ring: SHADE_BLACK,
+        shoe: WHITE,
+        stripe: WHITE,
+        size: 0.95,
+      });
+    },
+    notes:
+      'Line-up figure 6 (Part G8b): a black cat suit, tall pointed ears with grey insides, white ' +
+      'spikes behind the crown, white oval eyes, a white collar with a lilac diamond, white shoes.',
   }),
 ];
