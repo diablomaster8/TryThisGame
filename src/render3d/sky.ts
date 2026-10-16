@@ -21,6 +21,10 @@ export class GroveSky {
   private readonly envSky: Sky;
   private bakedElevation = Infinity;
   private bakedWeather: WeatherKind | null = null;
+  /** A blank environment of the baked one's shape, held until the first bake. */
+  private placeholder: THREE.WebGLRenderTarget | null = null;
+  private warmed = false;
+  private bakeWanted = false;
   /** Sun elevation in degrees, for the post stack (bloom at golden hour). */
   elevationDeg = 60;
 
@@ -34,6 +38,7 @@ export class GroveSky {
     this.envSky.scale.setScalar(900);
     this.envScene.add(this.envSky);
     this.pmrem = new THREE.PMREMGenerator(renderer);
+    this.warm(renderer);
     this.sun.castShadow = true;
     this.sun.shadow.mapSize.set(2048, 2048);
     const sc = this.sun.shadow.camera;
@@ -88,8 +93,8 @@ export class GroveSky {
     if (Math.abs(elevation - this.bakedElevation) > 2.5 || weather !== this.bakedWeather) {
       this.bakedElevation = elevation;
       this.bakedWeather = weather;
-      this.scene.environment?.dispose();
-      this.scene.environment = this.pmrem.fromScene(this.envScene, 0.02).texture;
+      if (this.warmed) this.bake();
+      else this.bakeWanted = true;
     }
     this.scene.environmentIntensity = night
       ? 0.12
@@ -120,8 +125,75 @@ export class GroveSky {
     this.fog.density = weather === 'rain' ? 0.016 : elevation < 15 ? 0.009 : 0.006;
   }
 
+  /** Whether the environment map has been baked once (the loading veil waits for it). */
+  get ready(): boolean {
+    return this.placeholder === null;
+  }
+
+  private bake(): void {
+    this.bakeWanted = false;
+    if (this.placeholder) {
+      this.placeholder.dispose();
+      this.placeholder = null;
+    } else this.scene.environment?.dispose();
+    this.scene.environment = this.pmrem.fromScene(this.envScene, 0.02).texture;
+  }
+
+  /**
+   * The first bake links four programs (the sky seen by the cube camera, the bake's
+   * background box, its blur and GGX filters) and each one stalled the page at first use:
+   * 70–115 ms on Maor's PC with the browser's shader cache warm, 305 ms cold. Compile
+   * them with `compileAsync` instead and bake when they are linked; until then the scene
+   * holds a blank target of the baked one's shape, so the scene's own programs key exactly
+   * as they will after the bake. This reaches into PMREMGenerator internals, which is safe
+   * only because three is pinned (0.186.1).
+   */
+  private warm(renderer: THREE.WebGLRenderer): void {
+    const p = this.pmrem as unknown as PmremInternals;
+    p._setSize(256); // fromScene's default size
+    this.placeholder = p._allocateTargets();
+    this.scene.environment = this.placeholder.texture;
+    // The same background box fromScene would make on first use.
+    p._backgroundBox = new THREE.Mesh(
+      new THREE.BoxGeometry(),
+      new THREE.MeshBasicMaterial({
+        name: 'PMREM.Background',
+        side: THREE.BackSide,
+        depthWrite: false,
+        depthTest: false,
+      }),
+    );
+    const lod = p._lodMeshes[0]!.geometry;
+    const filters = new THREE.Scene();
+    filters.add(new THREE.Mesh(lod, p._blurMaterial), new THREE.Mesh(lod, p._ggxMaterial));
+    const box = new THREE.Scene();
+    box.add(p._backgroundBox);
+    const cam = new THREE.PerspectiveCamera(90, 1, 0.1, 100);
+    // Every bake pass draws into a linear target with no tone mapping, as these will.
+    const prev = renderer.getRenderTarget();
+    renderer.setRenderTarget(this.placeholder);
+    const done = [filters, box, this.envScene].map((s) => renderer.compileAsync(s, cam));
+    renderer.setRenderTarget(prev);
+    void Promise.all(done).then(() => {
+      box.remove(p._backgroundBox!);
+      this.warmed = true;
+      if (this.bakeWanted) this.bake();
+    });
+  }
+
   dispose(): void {
     this.pmrem.dispose();
+    this.placeholder?.dispose();
     this.scene.environment?.dispose();
   }
+}
+
+/** The PMREMGenerator members the warm-up reaches (three 0.186.1). */
+interface PmremInternals {
+  _setSize(cubeSize: number): void;
+  _allocateTargets(): THREE.WebGLRenderTarget;
+  _lodMeshes: THREE.Mesh[];
+  _blurMaterial: THREE.Material;
+  _ggxMaterial: THREE.Material;
+  _backgroundBox: THREE.Mesh | null;
 }

@@ -24,23 +24,25 @@ going until you hit the session limit." So after each milestone passes its done-
 checks, start the next one without waiting. Still plan each one briefly in the session
 log before coding, still keep the per-milestone commits and checks.
 
-## 3D boot: textures in workers, programs compiled ahead (2026-10-16)
+## 3D boot: terrain in a worker, the sky's first bake warmed (2026-10-16)
 
-Works: the Grove's ten painted textures paint in workers (`render3d/surface-worker.ts`,
-`grove-textures.ts`; the painters moved unchanged from `aaa-styles.ts` to the pure
-`samples/surface-paint.ts`). The scene gets the texture objects at once (one placeholder pixel,
-the real settings) and the bytes are poured in as they land (dispose, new image, `initTexture`).
-`render()` draws nothing until `compileScene` has linked the scene's and the post chain's
-programs with `compileAsync` (KHR_parallel_shader_compile); `loadState` waits for both.
-Measured on Maor's PC (dev build, preview, seeded Keeper + 8 Nubbins, frames driven by hand,
-3 runs each): constructor 1.58–1.63 s → 0.41–0.59 s (textures were 1.1–1.2 s of it, now 2 ms);
-first render 0.59–0.66 s → compile call 0.06–0.08 s + first frame 0.07–0.16 s; together
-about 2.2 s → 0.57–0.81 s. Constructor start to veil lifted: 3.0 s → 1.5–1.6 s. Look: two
-frozen views (11:00, creatures hidden) are pixel-identical before and after. Still paid: the
-terrain heightfield (0.26–0.35 s) and props (0.1 s) in the constructor; two shadow-depth
-programs and the OutputPass in the first frame; the sky's PMREM bake in the first
-`setDaylight` (not measured). Not verified: the no-worker fallback (paints on the page, one per
-task); any phone. No new stubs or known bugs.
+Works: the terrain's heights, normals and rock/dirt blend are sampled in a worker
+(`render3d/terrain-worker.ts`; the samplers and `terrainArrays` moved unchanged to the pure
+`terrain-shape.ts`, which `terrain.ts` re-exports). The mesh starts on a one-triangle
+placeholder with the same attributes, so programs key as before, and the buffers are poured
+in as a new geometry when they land. The sky's first PMREM bake linked four programs
+synchronously in the first `setDaylight`: 70–115 ms (305 ms with the browser's shader cache
+cold). `GroveSky` now compiles them with `compileAsync` at construction (reaching into the
+pinned PMREMGenerator's internals) and holds a blank target of the same shape as the
+environment until they link, then bakes (12–31 ms, no compile). `loadState` waits for both.
+Measured on Maor's PC (dev build, preview, seeded free slot 3, frames driven by hand, three
+warm runs each, HEAD vs this pass): constructor 393–407 ms → 189–261 ms (terrain mark
+258–276 → 18–32 ms; props rose 92–95 → 132–193 ms, its height sampler is no longer warmed
+by the terrain loop); first `setDaylight` 70–115 ms → 0. Look: two frozen views (11:00 and
+18:30, windmill blades pinned, creatures hidden) are pixel-identical to HEAD; both builds
+link the same 49 programs. Not done: props (grass placement) still on the page. Not
+verified: the no-worker fallbacks; any phone. No new stubs or known bugs. The earlier boot
+pass (textures in workers, compile ahead) is in `docs/progress-archive.md`.
 
 ## Part G8b: matching the "Chao World" line-up (2026-10-16)
 

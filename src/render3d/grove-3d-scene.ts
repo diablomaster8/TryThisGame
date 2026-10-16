@@ -24,7 +24,7 @@ import { buildGroveProps, buildGroveTrees, type GroveProps } from './props';
 import { GroveTextures } from './grove-textures';
 import { GroveSky } from './sky';
 import { stubOnce } from './stubs';
-import { buildGroveTerrain, groveHeight, standHeight } from './terrain';
+import { buildGroveTerrain, groveHeight, standHeight, type GroveTerrain } from './terrain';
 import { buildGroveWater, type GroveWater } from './water';
 
 /**
@@ -99,6 +99,7 @@ export class Grove3dScene {
   private readonly time = { value: 0 };
   private readonly tex: Tex;
   private readonly textures: GroveTextures;
+  private readonly terrain: GroveTerrain;
   /** Whether the scene's programs are linked; until then `render` draws nothing. */
   private compiled = false;
   private compiling = false;
@@ -150,10 +151,10 @@ export class Grove3dScene {
     this.textures = new GroveTextures((t) => this.renderer.initTexture(t));
     this.tex = this.textures.tex;
     this.scene.add(this.world3d);
-    buildGroveTerrain(this.world3d, this.tex, this.time);
-    const terrain = this.world3d.children[0]!;
-    terrain.userData.pick = { kind: 'ground', id: 'ground' };
-    this.pickables.push(terrain);
+    // Sampled in a worker too; the mesh is in place at once and filled when it lands.
+    this.terrain = buildGroveTerrain(this.world3d, this.tex, this.time);
+    this.terrain.mesh.userData.pick = { kind: 'ground', id: 'ground' };
+    this.pickables.push(this.terrain.mesh);
     this.props = buildGroveProps(this.world3d, this.tex, this.time);
     this.pickables.push(...this.props.pickables);
     this.water = buildGroveWater(this.world3d);
@@ -401,7 +402,7 @@ export class Grove3dScene {
     const a = this.actors.loadState();
     return {
       progress: a.progress * 0.8 + this.textures.progress * 0.15 + (this.compiled ? 0.05 : 0),
-      done: a.done && this.textures.done && this.compiled,
+      done: a.done && this.textures.done && this.terrain.ready && this.sky.ready && this.compiled,
     };
   }
 

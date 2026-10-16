@@ -2,6 +2,24 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## 3D boot: textures in workers, programs compiled ahead (2026-10-16)
+
+Works: the Grove's ten painted textures paint in workers (`render3d/surface-worker.ts`,
+`grove-textures.ts`; the painters moved unchanged from `aaa-styles.ts` to the pure
+`samples/surface-paint.ts`). The scene gets the texture objects at once (one placeholder pixel,
+the real settings) and the bytes are poured in as they land (dispose, new image, `initTexture`).
+`render()` draws nothing until `compileScene` has linked the scene's and the post chain's
+programs with `compileAsync` (KHR_parallel_shader_compile); `loadState` waits for both.
+Measured on Maor's PC (dev build, preview, seeded Keeper + 8 Nubbins, frames driven by hand,
+3 runs each): constructor 1.58–1.63 s → 0.41–0.59 s (textures were 1.1–1.2 s of it, now 2 ms);
+first render 0.59–0.66 s → compile call 0.06–0.08 s + first frame 0.07–0.16 s; together
+about 2.2 s → 0.57–0.81 s. Constructor start to veil lifted: 3.0 s → 1.5–1.6 s. Look: two
+frozen views (11:00, creatures hidden) are pixel-identical before and after. Still paid: the
+terrain heightfield (0.26–0.35 s) and props (0.1 s) in the constructor; two shadow-depth
+programs and the OutputPass in the first frame; the sky's PMREM bake in the first
+`setDaylight` (not measured). Not verified: the no-worker fallback (paints on the page, one per
+task); any phone. No new stubs or known bugs.
+
 ## Part G8b, steps 1–2 (2026-10-16)
 
 Moved from the "Part G8b" section of PROGRESS.md, which keeps steps 3 onward.
