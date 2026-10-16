@@ -37,7 +37,8 @@ export interface InputHost {
       | 'stairs'
       | 'chest'
       | 'stray'
-      | 'loot';
+      | 'loot'
+      | 'storyProp';
     id: string;
   } | null;
   /** Is this Nubbin id something that can be grabbed right now? */
@@ -326,6 +327,9 @@ export class GameInput {
         return;
       case 'decor':
         this.host.onSelect(`decor:${hit.id}`);
+        return;
+      case 'storyProp':
+        this.host.send({ kind: 'storyProp', prop: hit.id });
         return;
       case 'ground': {
         // Decorating: a ground tap places the chosen piece instead of walking.

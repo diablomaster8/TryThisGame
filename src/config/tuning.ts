@@ -954,6 +954,8 @@ export const STORY = {
   buyBackShells: 200,
 } as const;
 
+import type { StoryPropDef } from '../sim/story-props';
+
 /** The four lantern posts, lantern-1..4: pond, stream, wall and long grass. */
 export const LANTERN_POSTS = [
   { id: 'lantern-1', x: -4, z: 4 },
@@ -961,3 +963,27 @@ export const LANTERN_POSTS = [
   { id: 'lantern-3', x: 9, z: 7 },
   { id: 'lantern-4', x: -8, z: -6 },
 ] as const;
+
+/**
+ * The things the side stories point at (sim/story-props.ts says when each stands):
+ * where it stands, how it is drawn, and which step checks a tap on it meets.
+ */
+export const STORY_PROPS: readonly StoryPropDef[] = [
+  { id: 'old-trowel', kind: 'trowel', x: -6.2, z: 10.6, meets: ['old-trowel'] },
+  { id: 'hatch-register', kind: 'register', x: -7.9, z: 10.7, meets: ['hatch-register'] },
+  { id: 'hazels-lantern', kind: 'handLantern', x: -5.4, z: 11.2, meets: ['s24-hazels-lantern'] },
+  { id: 'sunrise-shelf', kind: 'shelf', x: -8.6, z: 11.4, meets: ['sunrise-shelf'] },
+  { id: 'flat-stone', kind: 'flatStone', x: -11, z: 12.2, meets: ['s24-hill'] },
+  { id: 'hazels-bench', kind: 'oldBench', x: -2.4, z: 5.6, meets: ['hazel-bench'] },
+  { id: 'corvins-chair', kind: 'chair', x: -1, z: 6.3, meets: [] },
+  { id: 'lantern-shed', kind: 'shed', x: 6.4, z: -1.2, meets: ['s27-shed-window', 's7-minder'] },
+  { id: 'old-barn', kind: 'barn', x: 15, z: 12, meets: ['s18-centre-case'] },
+  {
+    id: 'walled-garden-door',
+    kind: 'gardenDoor',
+    x: 10.6,
+    z: 5.4,
+    meets: ['s26-door', 's26-garden'],
+  },
+  { id: 'hush-bench', kind: 'oldBench', x: 12.2, z: 4.4, meets: ['s26-hush-bench', 'hush-bench'] },
+];

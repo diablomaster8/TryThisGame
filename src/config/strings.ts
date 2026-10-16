@@ -1021,3 +1021,18 @@ export const SLOT_TEXT = {
   ago: (days: number) => (days <= 0 ? 'today' : days === 1 ? 'yesterday' : `${days} days ago`),
   current: (mode: string, n: number) => `Playing ${mode}, slot ${n}.`,
 } as const;
+
+/** The side-story props, by id (sim/story-props.ts). */
+export const STORY_PROP_NAMES: Record<string, string> = {
+  'old-trowel': 'The old trowel',
+  'hatch-register': 'Hazel’s hatch register',
+  'hazels-lantern': 'Hazel’s lantern',
+  'sunrise-shelf': 'The Sunrise Shelf',
+  'flat-stone': 'The flat stone',
+  'hazels-bench': 'Hazel’s bench',
+  'corvins-chair': 'Corvin’s chair',
+  'lantern-shed': 'The lantern shed',
+  'old-barn': 'Hazel’s old barn',
+  'walled-garden-door': 'The door in the Old Wall',
+  'hush-bench': 'Hush’s bench',
+};

@@ -628,6 +628,166 @@ function cropStage(stage: number): Raster {
   return finish(r);
 }
 
+// ---------------------------------------------------------------- the side stories' props
+
+const WOOD: [RGB, RGB] = [hex('#8a5a32'), hex('#d9a76a')];
+const PLANK_DARK = hex('#4a2e18');
+
+/** Horizontal planks with a grain, shaded a little darker toward the bottom. */
+function planks(r: Raster, x: number, y: number, w: number, h: number, salt: number): void {
+  for (let yy = 0; yy < h; yy++) {
+    for (let xx = 0; xx < w; xx++) {
+      const seam = yy % 6 === 5;
+      const c = mix(WOOD[0], WOOD[1], ridged((x + xx) / 7, (y + yy) / 3, 2, salt));
+      r.set(x + xx, y + yy, seam ? shade(c, 0.6) : shade(c, 1 - (yy / h) * 0.25));
+    }
+  }
+}
+
+/** A plank with a grain, shaded on its bottom row. */
+function plank(r: Raster, x: number, y: number, w: number, h: number, salt: number): void {
+  for (let xx = 0; xx < w; xx++)
+    for (let yy = 0; yy < h; yy++)
+      r.set(
+        x + xx,
+        y + yy,
+        shade(mix(WOOD[0], WOOD[1], ridged((x + xx) / 4, yy, 2, salt)), yy === h - 1 ? 0.7 : 1),
+      );
+}
+
+/** Roof shingles in dark wood, one darker course every fifth row. */
+function shingle(r: Raster, x: number, y: number, salt: number): void {
+  const c = mix(hex('#4a3a2a'), hex('#7a6248'), ridged(x / 6, y / 3, 2, salt));
+  r.set(x, y, shade(c, y % 5 === 4 ? 0.65 : 1));
+}
+
+function trowel(): Raster {
+  const r = begin(22, 22);
+  // The handle, worn pale; the blade, dull steel with a bright edge.
+  for (let i = 0; i < 9; i++)
+    stamp(r, 5 + i * 0.7, 18 - i * 1.1, 1.3, mix(PLANK_DARK, WOOD[1], i / 9));
+  r.tri(10, 9, 20, 4, 17, 14, hex('#8f8f9a'));
+  r.line(20, 4, 17, 14, hex('#d8d8e0'));
+  r.set(12, 9, hex('#45454f'));
+  return finish(r);
+}
+
+function register(): Raster {
+  const r = begin(26, 20);
+  r.rect(2, 6, 22, 12, hex('#2f4a3a'));
+  r.rect(4, 4, 20, 12, hex('#3d6a4e'));
+  r.rect(5, 16, 18, 2, hex('#f1e6c8'));
+  r.rect(6, 8, 10, 1, hex('#f1e6c8'));
+  r.rect(6, 10, 7, 1, hex('#f1e6c8'));
+  r.rect(21, 4, 2, 12, hex('#c94f3d'));
+  return finish(r);
+}
+
+function handLantern(): Raster {
+  const r = begin(18, 30);
+  stamp(r, 9, 27, 1.2, hex('#2a2030'));
+  for (let i = 0; i < 20; i++) stamp(r, 9, 26 - i, 0.9, hex('#2a2030'));
+  r.rect(4, 6, 10, 10, hex('#3a2a30'));
+  r.rect(5, 7, 8, 8, hex('#fff1b8'));
+  r.disc(9, 11, 2, hex('#ffd27a'));
+  r.tri(2, 6, 16, 6, 9, 1, hex('#2a2030'));
+  r.rect(6, 16, 6, 1, hex('#2a2030'));
+  return finish(r);
+}
+
+function flatStone(): Raster {
+  const r = begin(44, 18);
+  blob(r, 22, 11, 19, 5, hex('#c6c6d0'), hex('#6f6f7a'), 90);
+  for (let x = 8; x < 36; x += 5) r.set(x, 9 + (x % 3), hex('#8f8f9a'));
+  return finish(r);
+}
+
+function gardenDoor(): Raster {
+  const r = begin(64, 52);
+  // Two stretches of the Old Wall, and an arched door between them.
+  for (const x0 of [0, 42]) {
+    for (let y = 8; y < 50; y++) {
+      for (let x = x0; x < x0 + 22; x++) {
+        const edge = ridged(x / 4, y / 3, 2, 91) > 0.82;
+        const tone = vnoise(Math.floor(x / 7), Math.floor(y / 5), 92);
+        r.set(x, y, edge ? hex('#45454f') : mix(hex('#8f8f9a'), hex('#c6c6d0'), tone));
+      }
+    }
+  }
+  r.rect(0, 6, 64, 3, hex('#b4b4bf'));
+  for (let y = 16; y < 50; y++) {
+    for (let x = 23; x < 41; x++) {
+      const dy = y - 24;
+      if (dy < 0 && Math.hypot(x - 32, dy * 1.1) > 9) continue;
+      const seam = (x - 23) % 6 === 5 ? 0.7 : 0;
+      r.set(x, y, mix(WOOD[0], PLANK_DARK, seam + (y / 50) * 0.3));
+    }
+  }
+  r.rect(26, 22, 12, 1, hex('#2a2030'));
+  r.rect(26, 40, 12, 1, hex('#2a2030'));
+  r.disc(37, 33, 1.4, hex('#2a2030'));
+  return finish(r);
+}
+
+function chair(): Raster {
+  const r = begin(22, 32);
+  for (const px of [5, 16]) for (let i = 0; i < 10; i++) stamp(r, px, 30 - i, 1, PLANK_DARK);
+  plank(r, 3, 19, 16, 3, 93);
+  for (const x0 of [4, 15])
+    for (let y = 4; y < 19; y++)
+      for (let x = x0; x < x0 + 3; x++) r.set(x, y, mix(WOOD[0], WOOD[1], ridged(x, y / 4, 2, 94)));
+  r.rect(4, 7, 14, 2, shade(WOOD[1], 0.9));
+  r.rect(4, 12, 14, 2, shade(WOOD[1], 0.9));
+  return finish(r);
+}
+
+function shed(): Raster {
+  const r = begin(64, 60);
+  planks(r, 4, 20, 56, 38, 96);
+  // A lean-to roof, a door, and the window the frost writes on.
+  for (let x = 0; x < 64; x++) {
+    const top = 14 - Math.floor(x / 9);
+    for (let y = top; y < top + 7; y++) shingle(r, x, y, 97);
+  }
+  r.rect(40, 32, 12, 26, PLANK_DARK);
+  r.rect(42, 34, 8, 22, mix(WOOD[0], PLANK_DARK, 0.5));
+  r.set(48, 46, hex('#2a2030'));
+  r.rect(12, 30, 14, 12, hex('#2a2030'));
+  r.rect(13, 31, 12, 10, hex('#cfe3ef'));
+  r.rect(18, 31, 1, 10, hex('#2a2030'));
+  r.rect(13, 36, 12, 1, hex('#2a2030'));
+  return finish(r);
+}
+
+function barn(): Raster {
+  const r = begin(96, 86);
+  planks(r, 6, 34, 84, 50, 98);
+  // A gable roof in dark shingles, a wide door and a loft hatch.
+  for (let y = 4; y < 36; y++) {
+    const half = Math.floor(((y - 4) / 32) * 46) + 4;
+    for (let x = 48 - half; x < 48 + half; x++) shingle(r, x, y, 99);
+  }
+  r.rect(36, 50, 24, 34, PLANK_DARK);
+  r.rect(38, 52, 9, 32, mix(WOOD[0], PLANK_DARK, 0.5));
+  r.rect(49, 52, 9, 32, mix(WOOD[0], PLANK_DARK, 0.5));
+  r.rect(44, 16, 8, 10, PLANK_DARK);
+  r.rect(45, 17, 6, 8, mix(WOOD[0], PLANK_DARK, 0.4));
+  return finish(r);
+}
+
+function shelf(): Raster {
+  const r = begin(28, 20);
+  plank(r, 2, 12, 24, 3, 100);
+  r.tri(4, 15, 10, 15, 4, 19, PLANK_DARK);
+  r.tri(18, 15, 24, 15, 24, 19, PLANK_DARK);
+  // Hazel's lantern, a shell and a pebble on the Sunrise Shelf.
+  r.rect(5, 5, 6, 7, hex('#3a2a30'));
+  r.rect(6, 6, 4, 5, hex('#fff1b8'));
+  r.ellipse(17, 10, 3, 2, hex('#f1e6c8'));
+  r.disc(23, 10, 1.6, hex('#8f8f9a'));
+  return finish(r);
+}
+
 export function buildPaintedProps(): SpriteSheet {
   const atlas = new RasterAtlas(2048);
   const add = (key: string, raster: Raster) => atlas.add(frameKey(key, 'front', 0), raster);
@@ -662,5 +822,15 @@ export function buildPaintedProps(): SpriteSheet {
     add(`treeStage${s}`, treeStage(s));
     add(`cropStage${s}`, cropStage(s));
   }
+  add('prop-trowel', trowel());
+  add('prop-register', register());
+  add('prop-handLantern', handLantern());
+  add('prop-flatStone', flatStone());
+  add('prop-gardenDoor', gardenDoor());
+  add('prop-oldBench', bench());
+  add('prop-chair', chair());
+  add('prop-shed', shed());
+  add('prop-barn', barn());
+  add('prop-shelf', shelf());
   return atlas.build();
 }

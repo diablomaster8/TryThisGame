@@ -11,6 +11,7 @@ import { placeDecorations } from './decor';
 import { fenceSpots, SCENERY } from './scenery';
 import { neighbourGarden } from '../sim/neighbourhood';
 import { isMerged } from '../sim/partners';
+import { visibleStoryProps } from '../sim/story-props';
 import { townUnlocks } from '../sim/town';
 import { Particles } from './particles';
 import { NATIVE_PPU, SpriteBatch } from './sprite-batch';
@@ -54,7 +55,8 @@ export interface SpritePick {
     | 'stairs'
     | 'chest'
     | 'stray'
-    | 'loot';
+    | 'loot'
+    | 'storyProp';
   id: string;
 }
 
@@ -505,6 +507,24 @@ export class WorldView {
           tint: this.dim,
         },
         { id: d.id, kind: 'decor' },
+      );
+    }
+    // The side stories' props: the trowel on the step, the door in the Old Wall...
+    for (const p of home ? visibleStoryProps(world) : []) {
+      const rect = props.frames.get(frameKey(`prop-${p.kind}`, 'front', 0));
+      if (!rect) continue;
+      batch.draw(
+        {
+          sheet: props,
+          rect,
+          flip: false,
+          x: p.x,
+          y: 0,
+          z: p.z,
+          mode: 'billboard',
+          tint: this.lightAt(p.x, p.z),
+        },
+        { id: p.id, kind: 'storyProp' },
       );
     }
     for (const m of home ? world.memorials : []) {

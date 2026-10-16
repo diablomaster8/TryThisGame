@@ -48,7 +48,8 @@ export interface DrawnQuad {
     | 'stairs'
     | 'chest'
     | 'stray'
-    | 'loot';
+    | 'loot'
+    | 'storyProp';
   corners: [Vector3, Vector3, Vector3, Vector3];
   /** The frame drawn, so a pick can test the texel under the tap instead of the whole box. */
   sheet: SpriteSheet;
@@ -154,7 +155,8 @@ export class SpriteBatch {
         | 'stairs'
         | 'chest'
         | 'stray'
-        | 'loot';
+        | 'loot'
+        | 'storyProp';
     },
   ): void {
     if (!this.atlas.has(d.sheet) && !this.atlas.place(d.sheet)) return; // atlas full: skip

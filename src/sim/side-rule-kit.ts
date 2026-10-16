@@ -1,4 +1,5 @@
 import { LANTERN_POSTS, STORY } from '../config/tuning';
+import { storyPropMeets } from './story-props';
 import { nextDawn, nextDusk, seen, seenAt } from './story-state';
 import type { CampaignState, Command, SideStoryState, World } from './types';
 
@@ -232,7 +233,7 @@ export function commandMeets(check: string, cmd: Command, world: World): boolean
     case 'wearHat':
       return tokens[0] === 'place' && tokens[1] === 'cosmetic';
     case 'storyProp':
-      return tokens.includes(cmd.prop);
+      return storyPropMeets(cmd.prop, tokens);
     default:
       return false;
   }

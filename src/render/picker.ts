@@ -17,6 +17,7 @@ export interface PickHit {
     | 'chest'
     | 'stray'
     | 'loot'
+    | 'storyProp'
     | 'ground';
   id: string;
   /** Where the ray met the ground plane, if it did. */
@@ -77,7 +78,8 @@ export class Picker {
         | 'stairs'
         | 'chest'
         | 'stray'
-        | 'loot';
+        | 'loot'
+        | 'storyProp';
       id: string;
     } | null,
   ): PickHit | null {
