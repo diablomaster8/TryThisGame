@@ -601,6 +601,8 @@ export class Grove3dScene {
     mid.copy(this.camTarget);
     head.copy(this.camTarget).setY(this.camTarget.y + 0.7);
     this.crowns.update(this.camera.position, this.keeperMarks, dt);
+    if (this.location.startsWith('visit:'))
+      this.visit.crowns.update(this.camera.position, this.keeperMarks, dt);
     this.halo.update(this.time.value);
     this.bursts.update(nowMs, dt, ground);
 

@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { buildTree, pbr, repeatUv, type Tex } from '../samples/aaa-kit';
 import { trainerOf } from '../sim/trainers';
+import { CrownFade, treeOf } from './crowns';
 import { building, decorModel } from './garden';
 
 /**
@@ -10,13 +11,16 @@ import { building, decorModel } from './garden';
  * with its roof in their alignment's colour. House and trees sit outside the camera's
  * orbit round the arrival spot, so the view never ends up inside one. The neighbour's
  * Nubbins and the host come from the crowd; everyone walks on y = 0. Dressed once per
- * trainer and kept until the next neighbour is visited.
+ * trainer and kept until the next neighbour is visited. The trees fade out of the
+ * camera's way as the home Grove's do (`crowns`, run by the scene).
  */
 export class VisitSet {
   readonly group = new THREE.Group();
   private readonly ground: THREE.Mesh;
   private dressed: THREE.Object3D[] = [];
   private trainer: string | null = null;
+  /** The dressed trees' fade, as for the home Grove's (see crowns.ts). */
+  readonly crowns = new CrownFade();
 
   constructor(scene: THREE.Object3D, tex: Tex, pickables: THREE.Object3D[]) {
     const geo = repeatUv(new THREE.CircleGeometry(VISIT_RADIUS, 56), 14, 14);
@@ -47,6 +51,7 @@ export class VisitSet {
   private dress(trainer: string, tex: Tex): void {
     for (const o of this.dressed) o.removeFromParent();
     this.dressed = [];
+    this.crowns.clear();
     const flat = () => 0;
     // Three trees, out of the way of where the neighbour's Nubbins wander (|x| < 8, z in -6..8).
     const trees: Array<[number, number, number]> = [
@@ -54,8 +59,12 @@ export class VisitSet {
       [13, -9, 2],
       [-12, 12, 3],
     ];
-    for (const [x, z, seed] of trees)
-      this.dressed.push(...buildTree(this.group, tex, x, z, 1.05, seed, flat));
+    for (const [x, z, seed] of trees) {
+      const parts = buildTree(this.group, tex, x, z, 1.05, seed, flat);
+      this.dressed.push(...parts);
+      const tree = treeOf(parts);
+      if (tree) this.crowns.add(tree);
+    }
     // The front fence with a gate gap in the middle, where the Keeper stands on arrival.
     for (let i = -7; i <= 7; i++) {
       if (Math.abs(i) < 1) continue;
