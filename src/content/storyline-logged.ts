@@ -14,8 +14,15 @@
  * SPEAKERS. Warden, the game's moderator voice; Juno, eleven, another locked-in player;
  * Root, the founder's recorded voice.
  *
- * FLAGS. `party` (three ids, comma-joined), `area` (day | night), `l-sister`
- * (the sibling thread was read), `l-root` (expose | spare), `l-juno` (stayed | left).
+ * BEATS. Between each chapter's opening and its goal: Warden's tips as the eggs hatch,
+ * Juno's talks on the story clock (`days:` from the chapter's start), the bout counts
+ * between the ranks, a lost partner, and the teen thread. Each plays once, in order,
+ * only while its chapter is open.
+ *
+ * FLAGS. `party` (three ids, comma-joined), `area` (day | night), `l-told` (sister |
+ * quiet: what you told Juno about who you miss), `l-sister` (the sibling thread was
+ * read), `l-paid` (teen: the deleted post), `l-root` (expose | spare), `l-juno`
+ * (stayed | left).
  */
 import type { Line, Mood, Scene } from '../config/story';
 import type { Speaker, Storyline, StorylineChapter } from './types';
@@ -85,6 +92,40 @@ export const LOGGED_CHAPTERS: StorylineChapter[] = [
         WARDEN('Party formed. Tutorial bout available at the Day Grove lobby.'),
       ],
     },
+    [
+      {
+        when: 'stat:hatched:>=1',
+        scene: {
+          id: 'l-c1-first',
+          lines: [
+            N(
+              'The first one hatches with a small polite chime, as if the meadow were pleased with itself.',
+            ),
+            WARDEN(
+              'Starter hatched. Two remaining. Tip: hold the egg and shake it. Tip: not like that.',
+            ),
+            N('The hatchling looks at the green tick over its own head and tries to eat it.'),
+          ],
+        },
+      },
+      {
+        when: 'stat:hatched:>=2',
+        scene: {
+          id: 'l-c1-second',
+          lines: [
+            N(
+              'The second looks at the first for a long moment, the way you look at someone who has your face.',
+            ),
+            WARDEN(
+              'Starter hatched. One remaining. Tip: partners who hatch together bout together.',
+            ),
+            N(
+              'Somewhere off in the meadow, far too faint, someone is calling a name that is not yours.',
+            ),
+          ],
+        },
+      },
+    ],
   ),
   ch(
     2,
@@ -113,6 +154,39 @@ export const LOGGED_CHAPTERS: StorylineChapter[] = [
         ),
       ],
     },
+    [
+      {
+        when: 'days:>=1',
+        scene: {
+          id: 'l-c2-still',
+          lines: [
+            N(
+              'The other players do not move much. One has stood at the scoreboard since you arrived, reading the same line.',
+            ),
+            JUNO(
+              'Don’t stare. Some of them are asleep out there. The game keeps the shape standing. It’s polite like that.',
+            ),
+            JUNO(
+              'I poked one once. It said “please enjoy your stay”. In her voice. I stopped poking.',
+            ),
+          ],
+        },
+      },
+      {
+        when: 'stat:feeds:>=1',
+        scene: {
+          id: 'l-c2-fruit',
+          lines: [
+            N(
+              'The fruit tastes of the word “fruit”. Your partner eats it as if it tasted of fruit.',
+            ),
+            WARDEN(
+              'Tip: a fed partner strikes true. Tip: the trees never run out. Tip: please do not test this.',
+            ),
+          ],
+        },
+      },
+    ],
   ),
   ch(
     3,
@@ -142,6 +216,52 @@ export const LOGGED_CHAPTERS: StorylineChapter[] = [
         ),
       ],
     },
+    [
+      {
+        when: 'count:partyBout:>=2',
+        scene: {
+          id: 'l-c3-second',
+          lines: [
+            JUNO(
+              'Two. Your middle one guards before it’s told. That’s rare. Mine just hit things and apologised.',
+            ),
+            N('She says “mine” and then does not say anything else for a while.'),
+          ],
+        },
+      },
+      {
+        when: 'days:>=2',
+        scene: {
+          id: 'l-c3-meals',
+          lines: [
+            JUNO(
+              'Day ten, for me. I count by meals. The game feeds you if you forget. It tastes of the word “food”.',
+            ),
+            JUNO(
+              'I’ve got a mum and a cat out there. The cat will be fine. The cat is always fine.',
+            ),
+            JUNO('Who’ve you got?'),
+          ],
+          choices: [
+            {
+              id: 'sister',
+              label: 'A sister. She works on games. Worked.',
+              set: { 'l-told': 'sister' },
+              then: [
+                JUNO('Worked. Right.', 'think'),
+                N('She looks at the board by the gate, and then away from it, quickly.'),
+              ],
+            },
+            {
+              id: 'quiet',
+              label: 'Nobody you want to talk about in here.',
+              set: { 'l-told': 'quiet' },
+              then: [JUNO('Fair. In here’s not the place. Nothing in here is the place.')],
+            },
+          ],
+        },
+      },
+    ],
   ),
   ch(
     4,
@@ -179,6 +299,30 @@ export const LOGGED_CHAPTERS: StorylineChapter[] = [
           ],
         },
       },
+      {
+        when: 'area:night&count:partyBout:>=4',
+        scene: {
+          id: 'l-c4-dark-bout',
+          lines: [
+            N(
+              'A night bout. The foes come out of the blue grass with no chime at all, and your three stand closer before the first turn.',
+            ),
+            JUNO('Told you. Harder. Also quieter. I don’t know which I mind more.'),
+          ],
+        },
+      },
+      {
+        when: 'days:>=2',
+        scene: {
+          id: 'l-c4-sleepers',
+          lines: [
+            N(
+              'By night the still players are harder to see, and easier to hear. Some of them breathe.',
+            ),
+            JUNO('They’re not dead. I checked. I check every night. Somebody should.', 'soft'),
+          ],
+        },
+      },
     ],
   ),
   ch(
@@ -210,12 +354,39 @@ export const LOGGED_CHAPTERS: StorylineChapter[] = [
     },
     [
       {
+        when: 'flag:l-told:sister',
+        scene: {
+          id: 'l-c5-told',
+          lines: [
+            JUNO(
+              'You said a sister, who worked on games. I saw the name two nights ago. I didn’t want to say till you’d seen it.',
+            ),
+            JUNO('I’d have wanted to find it myself. Was that right?'),
+            Y('It was right.'),
+          ],
+        },
+      },
+      {
+        when: 'flag:l-told:quiet',
+        scene: {
+          id: 'l-c5-quiet',
+          lines: [
+            JUNO(
+              'You never said who you were missing. I think I know now. I’m sorry. I’ll stand here while you read.',
+            ),
+            N(
+              'She stands there. The board hums faintly, like something kept switched on too long.',
+            ),
+          ],
+        },
+      },
+      {
         when: 'mature:teen&act:read-the-board',
         scene: {
           id: 'l-c5-thread',
           lines: [
             N(
-              'Further down, a post she deleted and the board kept. The company knew the lock-in was possible. They shipped the build anyway, and paid the testers to stay quiet.',
+              'Further down, a post she deleted and the board kept. The company knew the lock-in was possible. They shipped anyway, and paid the testers to stay quiet.',
             ),
             JUNO(
               'They paid her. And then they lost her in here and said nothing to anyone.',
@@ -256,6 +427,65 @@ export const LOGGED_CHAPTERS: StorylineChapter[] = [
         ),
       ],
     },
+    [
+      {
+        when: 'count:departed:>=1',
+        scene: {
+          id: 'l-c6-lost',
+          lines: [
+            N(
+              'One of the three does not get up after the bout. The game offers a fade, polite, like a light going to bed, and then a flower on the too-green grass.',
+            ),
+            JUNO(
+              'It does that. It did it to mine on day six. I didn’t tell you because you’d have looked at yours differently.',
+              'sad',
+            ),
+            N(
+              'Two stand either side of the flower for a while. Then they stand either side of you.',
+            ),
+          ],
+        },
+      },
+      {
+        when: 'count:partyBout:>=6',
+        scene: {
+          id: 'l-c6-day-win',
+          lines: [
+            N(
+              'A win by day. The scoreboard flickers and puts your name one line higher than it has ever been.',
+            ),
+            WARDEN('Mirror progress: one of two. Tip: the other server is the other server.'),
+          ],
+        },
+      },
+      {
+        when: 'count:partyBout:>=7',
+        scene: {
+          id: 'l-c6-night-win',
+          lines: [
+            N(
+              'A win by night, with no chime. The blue grass lies down flat where the foes stood and does not get up.',
+            ),
+            JUNO(
+              'One more. Anywhere. I’ll be at the lobby door. I want to see it open from the front.',
+            ),
+          ],
+        },
+      },
+      {
+        when: 'mature:teen&flag:l-paid',
+        scene: {
+          id: 'l-c6-wage',
+          lines: [
+            JUNO(
+              'If they paid her to keep quiet, they’re paying someone now to keep this running. Somebody is on a wage while we’re in here.',
+            ),
+            Y('Somebody is on a wage.'),
+            JUNO('Rank four. Then the root. Then we find out whose.', 'angry'),
+          ],
+        },
+      },
+    ],
   ),
   ch(
     7,
@@ -334,6 +564,49 @@ export const LOGGED_CHAPTERS: StorylineChapter[] = [
         { id: 'left', label: 'Say goodbye properly.', set: { 'l-juno': 'left' } },
       ],
     },
+    [
+      {
+        when: 'flag:l-root:expose',
+        scene: {
+          id: 'l-c8-loud',
+          lines: [
+            JUNO(
+              'Everyone wakes. Say it like that, in your head, every turn. It helps. It helped me on day six.',
+            ),
+            N(
+              'Your three line up without being told. The middle one guards first, as it always has.',
+            ),
+          ],
+        },
+      },
+      {
+        when: 'flag:l-root:spare',
+        scene: {
+          id: 'l-c8-quiet',
+          lines: [
+            JUNO('I said I’d post next to you. I will. I don’t have to like the word.'),
+            N(
+              'She does not look at you. She looks at the still players, and counts them, the way she does every night.',
+            ),
+          ],
+        },
+      },
+      {
+        when: 'count:partyBout:>=9',
+        scene: {
+          id: 'l-c8-nine',
+          lines: [
+            N(
+              'One down. The company’s foes do not regroup so much as reload, and come back with the same faces.',
+            ),
+            JUNO('Rally. Now. Don’t wait for two of them to be low, they won’t be. Trust me.'),
+            WARDEN(
+              'Warden is not permitted to offer a tip at this rank. Warden suggests you guard.',
+            ),
+          ],
+        },
+      },
+    ],
   ),
 ];
 
@@ -413,15 +686,21 @@ export const STORYLINE_LOGGED: Storyline = {
   extra: LOGGED_EXTRA,
   notes:
     'Areas: day, night (the Sun and Moon Grove recolours, both unlocked by the rule). The ' +
-    'bout button opens the party bout panel at the chapter’s tier. l-c5-thread is teen.',
+    'bout button opens the party bout panel at the chapter’s tier. l-c5-thread and l-c6-wage ' +
+    'are teen. The lost-partner beat (l-c6-lost) is in chapter 6 only, so a loss elsewhere is ' +
+    'carried by the ending.',
 };
 
 export const STORYLINE_LOGGED_FLAGS: string[] = [
   'party',
   'area',
+  'l-told',
   'l-sister',
   'l-paid',
   'l-root',
   'l-juno',
 ];
-export const STORYLINE_LOGGED_CHECKS: string[] = LOGGED_CHAPTERS.map((c) => c.goal);
+export const STORYLINE_LOGGED_CHECKS: string[] = [
+  ...LOGGED_CHAPTERS.map((c) => c.goal),
+  ...LOGGED_CHAPTERS.flatMap((c) => (c.beats ?? []).map((b) => b.when)),
+];
