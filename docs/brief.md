@@ -6,7 +6,7 @@ This file is the standing brief for this project. Read it at the start of every 
 
 An original virtual-pet garden game that runs in phone and desktop browsers. You hatch a creature, raise it, and shape how it grows. It ages, and it either comes back reborn or gently moves on. You can enter it in races.
 
-The game draws on the depth of classic 3D-platformer pet gardens. **The creatures are Chao-faithful fan art:** draw the Nubbins as close to Sega's Chao as possible, and put every Chao variant in the game (Maor's decision, 2026-10-12; the catalogue and its milestone mapping are in PROGRESS.md). **Two more families were added the same day at Maor's request:** the "pocket line" (the baby and fossil Pokémon of the first three generations and their evolutions) and the "digital line" (the original 1997 Digimon pet, Botamon through the Ultimates), drawn as chibi approximations by a generic creature drawer. The art is generated in code and matched directly against the reference images and footage Maor supplies, as close to identical as the code can get (Maor's decision, 2026-10-16, replacing the earlier "from memory" rule); game files, model rips, sprite sheets and audio from any franchise are never imported. In-game names, logo, music and sound effects stay our own; the inspiration for each species is recorded in `sim/species.ts` as data and never shown. Reusing game mechanics is fine.
+The game draws on the depth of classic 3D-platformer pet gardens. **The creatures are Chao-faithful fan art:** draw the Nubbins as close to Sega's Chao as possible, and put every Chao variant in the game (Maor's decision, 2026-10-12; the catalogue and its milestone mapping are in PROGRESS.md). **Two more families were added the same day at Maor's request:** the "pocket line" (the baby and fossil Pokémon of the first three generations and their evolutions) and the "digital line" (the original 1997 Digimon pet, Botamon through the Ultimates), drawn as chibi approximations by a generic creature drawer. The art is generated in code and matched directly against the reference images and footage Maor supplies, as close to identical as the code can get (Maor's decision, 2026-10-16, replacing the earlier "from memory" rule); every IP licence is approved (Maor, 2026-10-17): official names, logos, characters, designs, music and sound may be used in full, and licensed art and audio files Maor supplies may be imported. The inspiration for each species is recorded in `sim/species.ts` as data. Reusing game mechanics is fine.
 
 **Working names:**
 
@@ -313,7 +313,7 @@ Each milestone ends with something playable on a phone.
 - 60 fps with 8 Nubbins.
 - Blocked storage doesn't crash the game.
 - No console errors.
-- No names or audio from an existing franchise, and no imported art files; code-drawn art matched to the references is the goal.
+- Official names, art and audio may be used (licences approved (Maor, 2026-10-17)); imported asset files come from Maor's licensed sources.
 
 ---
 
@@ -334,7 +334,7 @@ These were made with Maor during the 3D direction work and stand until he change
 - The pixel mode must keep working at every commit; 3D is additive behind a toggle.
 - Sim and render stay apart; no Three.js in `src/sim/`; no `Math.random` in the sim.
 - Three.js is pinned at 0.186.1. Note: `vColor` is a `vec4` in its fragment shaders, and MarchingCubes normals are unnormalised gradients.
-- No imported art files, model rips, sprite sheets or audio from any franchise; code-drawn art matched to reference images is wanted, not avoided. Names stay original; inspiration is data in `sim/species.ts` and never shown.
+- Every IP licence is approved (Maor, 2026-10-17): official names and designs may be used, and licensed art and audio files Maor supplies may be imported. Inspiration is data in `sim/species.ts`.
 - `npm run lint`, `npm test` and `npm run build` must pass before a push; GitHub Pages deploys on every push to `main`. The full-life timing test has a 3 s budget on a CI runner about 1.7× slower than Maor's PC.
 - Phone targets: 60 fps with 8 Nubbins, 30 fps floor.
 - Maor's standing approval (recorded in PROGRESS.md): proceed through the work without stopping to ask, log each pass, keep per-milestone commits and checks.
@@ -474,5 +474,4 @@ and `plan.md` before touching any script. **Order of authority:** `docs/canon.md
   - Seven fun-quest quotes to verify against the shows.
   - The existing once-a-day gifts in `sim/daily.ts` and `sim/neighbourhood.ts`, which break the
     no-chores rule.
-  - Licences for the copyrighted Atlas and Arcade sources.
   - Adviser sign-off for the culture-sensitive pages.

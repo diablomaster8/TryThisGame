@@ -3251,10 +3251,11 @@ flood); and how to be a friend to someone gloomy: sit with them.
 **Care notes:**
 - **Copyright.** The 1926 and 1928 texts are public domain in the US (since 2022 and 2024), and in
   the UK from 1 January 2027 (Milne died in 1956), so don't ship this page in the UK before then.
-  E. H. Shepard's illustrations stay in UK copyright until 2047: all art is original.
-- **Disney.** No red shirt, no Gopher, no Disney designs, songs or names (no "Lumpy"). Disney holds
-  trade marks in the name and its drawings, so keep "Winnie-the-Pooh" out of the page title and
-  marketing, and get a legal check.
+  E. H. Shepard's illustrations stay in UK copyright until 2047, but the official designs may be
+  used (licences approved 2026-10-17).
+- **Disney.** The Disney licence is approved (2026-10-17): the official Disney names and designs
+  (the red shirt, Gopher, "Lumpy") may be used, though this page still follows the 1926 and 1928
+  books' plot. Disney songs are never used as lyrics.
 - Christopher Robin's model was Milne's real son. No commentary on the real family. Audience
   `all`; nothing sad happens but the goodbye, and it is Milne's, gentle and unexplained.
 - The Forest's animals talk, as Milne's do: the Atlas is not the Grove. Your Nubbin never talks.
@@ -4339,7 +4340,7 @@ few French words: *renard*, *rose*, *étoile*, *puits*.
   and never ask the player to come back tomorrow.
 - The prince's grown-ups are gentle satire. Keep them comic, not cruel. The drinker is played as
   sad, not funny.
-- Saint-Exupéry's own drawings are copyrighted too. All art is original.
+- Saint-Exupéry's own drawings may be used (licence approved 2026-10-17).
 - Audience `all`; the Learning Grove version is for the older band only and stops at the well.
 - The fox, the snake and the flowers talk, as the book's do: the Atlas is not the Grove. Sable
   and your Nubbin never talk.
@@ -4438,7 +4439,7 @@ and can see the spirits before you can.
 - **Reads:** `s1Done` (above), and the ending id, only for the Moss Sleeps line.
 
 **Lifted text** (copyrighted: at most three one-sentence lines. The lines below are from the
-Disney 2005 English dub as widely quoted. Check them against the licensed track, since the 1989
+Disney 2005 English dub as widely quoted. Check them against the track, since the 1989
 Streamline dub words them differently. Rechecked 2026-10-14: both match the quote list on Ranker,
 a secondary source, so both stay [unverified] until checked against the track):
 
@@ -4478,8 +4479,8 @@ the rainy season.
     normal life, not as quaint.
   - Use *onee-chan* and *obaa-chan* correctly, and keep the 1950s countryside real: no generic
     "old Japan" mix of other eras.
-- Totoro, the Catbus and the soot sprites are Ghibli's designs. The spirits must look exactly as
-  licensed, or not appear; there are no Grove versions of them.
+- Totoro, the Catbus and the soot sprites are Ghibli's designs. The Ghibli licence is approved
+  (2026-10-17), so the official designs may be used.
 - Audience `all`, and gentle throughout.
 
 ## S27. Some Nubbin (*Charlotte's Web*, Grove side story)
@@ -4739,7 +4740,8 @@ travelled with labels, and why welcome matters.
 
 **Care notes:** The evacuee and refugee echo is real. Keep it warm and never sad for effect. Parcel
 is never in danger in the snow for long. Mr Grue is a grump, not a villain. Keep Paddington's own
-name, hat and duffle coat out of the art: this is a homage, not a licensed character. Parcel never
+name, hat and duffle coat out of the art: the licence is approved (2026-10-17), so Paddington's own
+name, hat and duffle coat may be used. Parcel never
 speaks: it is polite by bow, stare and gesture. Audience `all`. Marmalade-making is a one-time
 quest, not a chore. Parcel's tag is in Hazel's hand, but nobody sees Hazel or learns how she is
 before dawn in chapter 10.
@@ -4844,8 +4846,8 @@ Nubbin lives among the Chao and gets on with them at once, the way cousins do.
 - **Reads:** `cinder` (quest 18) and `s21Done` (Clank on the cabinet).
 
 **Lifted text** (*Sonic Adventure* and its characters are © and ™ Sega. There are at most two
-short lines, each one sentence, and all other dialogue is new. A commercial build needs a Sega
-licence; without one, rename everything and keep only the shape of the story.)
+short lines, each one sentence, and all other dialogue is new. The Sega licence is approved
+(2026-10-17).)
 
 - From Tikal's prayer: "The servers are the seven Chaos." Tikal says it in quest 7.
   [unverified: Chao Island's wiki prints "The servers are the 7 Chaos."]
@@ -4857,15 +4859,14 @@ licence; without one, rename everything and keep only the shape of the story.)
 **Rewards:** Tikal's flower crown (cosmetic); a little shrine pool with seven coloured pebbles
 (decoration); the cabinet's high-score plate with your name (feature, for High Score Night).
 
-**Learning Grove version:** no, because of the licence. If it's ever licensed, the topics would
-be water and floods, and why game worlds borrow real places' names.
+**Learning Grove version:** possible; the licence is approved (2026-10-17). Topics: water and floods, and why game worlds borrow real places' names.
 
 **Care notes:** The clan's destruction and Gamma's end are offscreen. Perfect Chaos's flood is
 spectacle, with no one shown drowning. "Tikal" is a real Maya city and "Pachacamac" a real Andean
 deity and site. Use them only as Sega does, and add no further real sacred material. Chaos is never
 called evil: it is grief. The Chao and the creatures never speak; Tikal and the people of the
-game do, as Sega wrote them. Audience `main`: all ages, but no Learning Grove version while the
-licence question stands.
+game do, as Sega wrote them. Audience `main`: all ages; a Learning Grove version is possible now
+that the licence is approved (2026-10-17).
 
 ## S29. The Gates of Dawn (*The Wind in the Willows*, Grove side story)
 
@@ -5263,8 +5264,7 @@ doors, open pods, and stand at the edge of the storm. You don't battle.
 
 **Lifted text** (*Pokémon* is © Nintendo, Game Freak and Creatures, and the film is © The
 Pokémon Company and its producers; at most three one-sentence lines, and all other dialogue is
-new. A commercial build needs a licence from The Pokémon Company; without one, rename
-everything and keep only the story's shape):
+new. The licence from The Pokémon Company is approved (2026-10-17)):
 
 1. Mewtwo, in quest 16: "I see now that the circumstances of one's birth are irrelevant." (The
    4Kids English dub, as printed in *The Art of Pokémon, The First Movie*.)
@@ -5274,7 +5274,7 @@ Only one line is used. The film's songs, including the end-credits song, are not
 **Rewards:** a tuft-of-fluff locket for your Nubbin (cosmetic); Miranda's storm lantern
 (decoration); a pink-bubble emote; the cabinet's high-score plate.
 
-**Learning Grove version:** no, because of the licence. If it's ever licensed: what twins and
+**Learning Grove version:** possible; the licence is approved (2026-10-17). Topics: what twins and
 clones share and don't, why storms close harbours, and how stories about tears and healing turn
 up in many cultures.
 
@@ -5397,8 +5397,8 @@ size of the small dragons, which is useful and occasionally embarrassing.
     you have to wait for twice."
 
 **Lifted text** (the film is © DreamWorks Animation, now part of Universal; the books are ©
-Cressida Cowell. At most three one-sentence lines, and all other dialogue is new. A licence from
-DreamWorks Animation is needed to ship):
+Cressida Cowell. At most three one-sentence lines, and all other dialogue is new. The licence from
+DreamWorks Animation is approved (2026-10-17)):
 
 1. Hiccup's opening narration, in quest 1: "It's twelve days north of Hopeless, and a few
    degrees south of Freezing to Death."
@@ -5406,7 +5406,7 @@ DreamWorks Animation is needed to ship):
    was."
 
 Both are from the 2010 film as widely quoted (Sideshow's quote list); check them against the
-licensed script. No music is used. Nothing is taken from Cowell's books.
+script. No music is used. Nothing is taken from Cowell's books.
 
 **Rewards:** the tail-fin saddle (Tier 2, above); a page from Hiccup's sketchbook, Toothless in
 charcoal (decoration); a fish basket by the pond (decoration); a dragon-scale shield over the
@@ -5545,7 +5545,7 @@ nobody in charge."
   quests 6 and 12); `s1Done` (Moss's opening in quest 8).
 
 **Lifted text** (copyrighted: at most three one-sentence lines. Checked against Shmoop's
-*Inside Out* quote pages. Check against the licensed film before scripting):
+*Inside Out* quote pages. Check against the film before scripting):
 
 1. Clover, laughing through tears, in quest 14: "Crying helps me slow down and obsess over the
    weight of life's problems." (Sadness's line in the film.)
@@ -6187,7 +6187,7 @@ Stark, who is as frightened as it is.
   Moss faded (the keepsake); `atlasDone('A21')` from the Grove.
 
 **Lifted text** (copyrighted: at most three one-sentence lines, from the English subtitles as
-quoted by Reactor. Check against the licensed Crunchyroll track before scripting):
+quoted by Reactor. Check against the Crunchyroll track before scripting):
 
 1. Frieren, at the funeral (quest 2): "Why didn't I try to get to know him better?"
 2. Himmel, in flashback (quest 13): "I pose for these statues so you won't feel alone in the
@@ -6211,7 +6211,7 @@ Fern (a cosmetic, her choice); the Night of Remembering bookmark.
 - Heiter's death and Himmel's are of old age, and gentle. Keep the funeral quiet.
 - Exam injuries are softened: struck down, bottles broken, carried out safe.
 - The Goddess is the story's own faith, not a real one.
-- The characters must look exactly as licensed. There are no Grove versions of them.
+- The official character designs may be used; the licence is approved (2026-10-17).
 
 ## A22. The Candle (*Encanto*, Disney, 2021; Colombia; the Atlas)
 
@@ -6305,7 +6305,7 @@ one who understands it, and he tells you, with great relish, what it thinks of y
 - **Reads:** the Long-Grass lantern state (quests 4, 13 and 16); `keptStone` (quest 14).
 
 **Lifted text** (copyrighted: at most three one-sentence lines. Checked against Save the Cat's
-*Encanto* beat sheet. Check against the licensed film before scripting):
+*Encanto* beat sheet. Check against the film before scripting):
 
 1. Abuela, remembered at Mirabel's own ceremony (quest 3): "Whatever Gift awaits will be just as
    special as you."
@@ -6530,7 +6530,7 @@ teaches you one Swahili word early, *polepole* (slowly), and uses it whenever yo
 - **Reads:** whether chapter 12 is over (quest 14); `atlasDone('A23')` from the Grove.
 
 **Lifted text** (copyrighted: at most three one-sentence lines. Checked against Wikiquote's *The
-Lion King* page; check against the licensed film before scripting):
+Lion King* page; check against the film before scripting):
 
 1. Mufasa, under the stars (quest 7): "I'm only brave when I have to be."
 2. Mufasa, under the stars (quest 7): "The great kings of the past look down on us from those
@@ -6716,7 +6716,8 @@ Kotick's guide, died out in the 1700s because it was hunted.
   rock; the Cold Lairs and Red Dog fights have no wounds; Akela's death is gentle, like Fossil's;
   Kotick's fights are shoving matches. "The King's Ankus" (men killing each other over treasure)
   is left out. Rated All, with care.
-- **Disney.** No Disney names, designs, songs or characters (no King Louie).
+- **Disney.** The Disney licence is approved (2026-10-17), so Disney's names, designs and characters
+  (King Louie) may be used. Songs are never used as lyrics.
 
 ## A25. The Nothing (*The Neverending Story*, Michael Ende, 1979; Germany; the Atlas)
 
@@ -6884,8 +6885,8 @@ live a very long time; how sphinxes appear in Egyptian and Greek stories; a few 
 - **The Nothing.** It frightens small children. It is shown as missing pieces of the picture, not
   as a monster, and the music drops out near it. No jump scares.
 - **No game mechanic of wishing.** The player never makes a wish with AURYN. AURYN's design and
-  the book's cover art belong to the estate and publisher; license them or draw an original
-  two-snake emblem.
+  the book's cover art belong to the estate and publisher; the licence is approved (2026-10-17), so the official
+  emblem and cover art may be used.
 
 ## A26. The Wall of Uruk (*The Epic of Gilgamesh*, Mesopotamia, now Iraq; the Atlas)
 
@@ -7021,7 +7022,7 @@ is Uruk):
 and the EU (life plus 70 years), and in the US, where works published in 1928 entered the public
 domain on 1 January 2024. It may still be in copyright in countries with longer terms, such as
 Mexico (life plus 100 years, so until the end of 2041). The sacred-texts page still calls it
-"formally" in US copyright, which is out of date. Get a legal check. If needed, swap the lifted
+"formally" in US copyright, which is out of date. If ever needed, swap the lifted
 lines for Jastrow and Clay's *An Old Babylonian Version of the Gilgamesh Epic* (1920, Project
 Gutenberg #11000; both translators died by 1925) for the early tablets, or for our own words.
 
@@ -7301,7 +7302,7 @@ is the first thing in Hallownest to make the Knight tilt its head.
 - **Reads:** `s21Done` only (Clank on the cabinet). The plan names no other flags.
 
 **Lifted text** (*Hollow Knight* is © Team Cherry; at most three one-sentence lines, and all
-other dialogue is new. A commercial build needs Team Cherry's licence):
+other dialogue is new. The Team Cherry licence is approved (2026-10-17)):
 
 1. Hornet, in quest 4: "Come no closer, ghost."
 2. The memorial plaque, in quest 7: "Through its sacrifice Hallownest lasts eternal."
@@ -7314,7 +7315,7 @@ against the game before use. No music or song is used.
 (decoration; the grub went home); the Delicate Flower in a pot, which never wilts (decoration);
 Quirrel's nail on the cottage wall (decoration); the high-score plate.
 
-**Learning Grove version:** no, because of the licence. If it's ever licensed: how real grubs
+**Learning Grove version:** possible; the licence is approved (2026-10-17). Topics: how real grubs
 become beetles (metamorphosis), what moths do at night, and why caves stay the same temperature
 all year.
 
@@ -7440,7 +7441,7 @@ and MERCY. Your Nubbin is a monster as far as the Underground is concerned, and 
   - `s21Done`: Clank on the cabinet.
 
 **Lifted text** (*Undertale* is © Toby Fox; at most three one-sentence lines, and all other
-dialogue is new. A commercial build needs Toby Fox's licence):
+dialogue is new. The Toby Fox licence is approved (2026-10-17)):
 
 1. Flowey, in quest 2: "In this world, it's kill or be killed." Asriel's whole arc answers it.
 2. Papyrus's laugh, "NYEH HEH HEH!", in quests 6 and 7. It's a laugh, not a line, but count it
@@ -7453,7 +7454,7 @@ even as a hum.
 (decoration); a burnt saucepan from the cooking lesson (decoration); a MERCY button that does
 nothing when pressed, mended with tape (decoration); the high-score plate.
 
-**Learning Grove version:** no, because of the licence. If it's ever licensed: kind words when
+**Learning Grove version:** possible; the licence is approved (2026-10-17). Topics: kind words when
 someone is angry, how echoes work, and what a volcano's heat does (Hotland).
 
 **Care notes:**
@@ -7748,8 +7749,8 @@ they should hide.
 - **The gat** is a real traditional hat with its own history. Show it correctly, and only on the
   Saja Boys.
 - **Folk painting.** The tiger and magpie come from Korean minhwa (the tiger-and-magpie pictures).
-  Derpy and Sussie are the film's licensed designs: use them exactly as licensed, or not at all.
-  The Grove screen is a new, original painting in the old style.
+  Derpy and Sussie are the film's official designs; the licence is approved (2026-10-17), so they
+  may be used. The Grove screen is a new, original painting in the old style.
 - **The first hunters** draw on women's song and ritual in Korean shamanism. Show them with
   dignity, not as spooky witches, and don't copy real ritual.
 - **Rated All.** The film is PG. Q13 cuts Rumi's darkest request to Celine; she leaves angry,
@@ -7857,7 +7858,7 @@ Nubbin is the best Korok-finder in Hyrule.
 - **Reads:** `s21Done` only (Clank on the cabinet). The plan names no other flags.
 
 **Lifted text** (*The Legend of Zelda* is © Nintendo; at most three one-sentence lines, and all
-other dialogue is new. A commercial build needs Nintendo's licence):
+other dialogue is new. The Nintendo licence is approved (2026-10-17)):
 
 1. Zelda's voice, in quest 1: "Open your eyes."
 2. Zelda, after the credits in quest 18 (only after every memory): "I think I can accept that."
@@ -7870,7 +7871,7 @@ campfire (decoration); a paraglider for gliding off the hill (a feature in the G
 section); the twelve photographs in a frame on the cottage wall, filled in as you found them;
 the high-score plate.
 
-**Learning Grove version:** no, because of the licence. If it's ever licensed: why food is warming
+**Learning Grove version:** possible; the licence is approved (2026-10-17). Topics: why food is warming
 (chillies and spices), how gliders and birds stay up, and how photographs help us remember.
 
 **Care notes:**
@@ -7985,7 +7986,7 @@ flying ace.
   Long-Grass lantern state (the post-dawn ambient line).
 
 **Lifted text** (copyrighted: at most three one-sentence lines. Checked against the Peanuts
-Wiki and the Halloween Specials Wiki; check against the special's licensed soundtrack before
+Wiki and the Halloween Specials Wiki; check against the special's soundtrack before
 scripting):
 
 1. Tam, in quest 2: "There are three things that I've learned never to discuss with people:
@@ -8117,7 +8118,7 @@ keep their story. Your Nubbin follows the golem everywhere, a step behind, like 
 New York, 1904, by Ludwig Blau, Joseph Jacobs and Judah David Eisenstein, checked against
 JewishEncyclopedia.com; and the Jewish Publication Society's 1917 translation of the Psalms,
 checked against Bible Hub's copy. Both are US works out of copyright in the US, and in the UK by
-the shorter-term rule; confirm with legal):
+the shorter-term rule):
 
 1. "The Shem was written on a piece of paper and inserted either in the mouth or in the forehead
    of the golem." (The rabbi, Q6, as a fact about older tellings. Adapted: "Some say the word goes
@@ -8667,9 +8668,9 @@ long before anyone else; and why the sun and the moon seem to take turns.
      S28's cart-stop and glasshouse scenes now sit in early winter, before chapter 9, so they
      never clash with S23.
 5. **Rights:**
-   - These need a licence to ship: *Up*, *Charlotte's Web*, *Paddington*, *The Little Prince*,
-     *My Neighbor Totoro* and *Sonic Adventure*. The quote limits cover the text, not the
-     characters.
+   - The licences for all of these are approved (2026-10-17): *Up*, *Charlotte's Web*,
+     *Paddington*, *The Little Prince*, *My Neighbor Totoro* and *Sonic Adventure*. The quote
+     limits still cover the text.
    - *Winnie-the-Pooh*: hold A11 in the UK until 1 January 2027.
 6. **Quotes still to recheck before scripting.** On 2026-10-14 every Lifted text line was
    rechecked. Gutenberg's pages were cut off at about 100,000 characters here, and Wikisource and
@@ -8683,7 +8684,7 @@ long before anyone else; and why the sun and the moon seem to take turns.
    - Butler's *Odyssey*, Books IX to XXIII (six lines);
    - Baum, chapters XV, XX and XXIII (five passages);
    - *The Wind in the Willows*, chapters V and VII (four lines);
-   - the *Totoro* dub lines and Tikal's prayer, against the licensed English tracks.
+   - the *Totoro* dub lines and Tikal's prayer, against the English tracks.
 
 ## How to build it (backlog item CV5)
 

@@ -18,7 +18,7 @@ Task B-R1; reports `docs/logs/review-wave-L.md` and `review-wave-M.md`). Plan v4
 (`plan.md`): G11 device pass, Track B writing and review tasks, and Part Z, the
 independent full review that runs last. Waiting on Maor: the expansion pick E1–E3 / S1–S4,
 seven fun-quest quotes, Full 3D as default (brief: `docs/renderer-decision.md`), his phone
-rows, the Atlas licence, quote, adviser and audience items in the two wave reports, and
+rows, the Atlas quote, adviser and audience items in the two wave reports, and
 the Arcade and LB/LK decisions in the section below.
 Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
 
@@ -40,9 +40,7 @@ Decisions waiting on Maor:
 - Quotes to verify: PA1 Tikal's prayer x2 (English script), PA2 Mewtwo's "circumstances
   of one's birth" (art book), PA3's three, PA4 Flowey's "kill or be killed" and Papyrus's
   laugh, PA5 "Open your eyes." and "I think I can accept that." (the game).
-- Licences for a commercial build: Sega (PA1, or a full rename), The Pokémon Company (PA2),
-  Team Cherry (PA3), Toby Fox (PA4, and a credits note that the neutral ending is not
-  shown), Nintendo (PA5).
+- PA4 credits: note that the neutral ending is not shown. (All licences approved (Maor, 2026-10-17).)
 - Byte is "he" in PA2 (two pronoun warnings); confirm against canon.
 
 SIM needs (details in the logs): PA1-17's other check when the gate was locked; PA2's

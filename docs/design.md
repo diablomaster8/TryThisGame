@@ -13,7 +13,7 @@ We are building an original virtual-pet garden game for phone and desktop browse
 - You can hatch, pet and feed a creature within 60 seconds of first opening the game, on an iPhone or on desktop.
 - One creature can be taken through its whole life — egg, child, adult, rebirth — and its stats, looks and alignment carry over correctly.
 - It holds 60 fps on a mid-range phone (30 fps minimum) with 8 creatures in the garden.
-- Every name, design and sound is original. Nothing is copied from Sega or any other franchise.
+- Official names, designs and sounds may be used: every IP licence is approved (Maor, 2026-10-17).
 - It is built in Claude Code over five milestones, one focused session each where possible.
 
 ## Creative direction
@@ -274,7 +274,7 @@ v1 ships when every box below is checked on real devices.
 - [ ] Turning off or blocking browser storage doesn't crash the game
 - [ ] No errors in the browser console during a full play session
 - [ ] Every tap target is at least 44px; color is never the only signal; reduced motion is respected
-- [ ] No names, art or audio from an existing franchise
+- [ ] Every imported asset file comes from Maor's licensed sources
 
 ## Roadmap after v1
 
@@ -299,7 +299,7 @@ The biggest risks are pixel art drawn in code looking flat, and Safari deleting 
 | Scope creep | v2 features drift into v1 and it never ships | Hold milestones fixed. New ideas go into the roadmap table, not the current milestone. |
 | Timing feels wrong | Real-time life cycles may feel too slow or too fast | Every duration lives in `tuning.ts`; adjust after a week of play |
 | Using up the Claude allowance | A milestone runs over a session | One milestone per session, start each with an empty conversation, keep progress in PROGRESS.md, revert with git instead of rebuilding |
-| IP | Designs drift toward the original Chao | Keep original designs and names, and review sprites against this doc |
+| IP | None open: every licence is approved (Maor, 2026-10-17) | Keep imported assets traceable to Maor's licensed sources |
 
 **Open decisions**
 
