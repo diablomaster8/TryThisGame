@@ -5,9 +5,10 @@ import { GROVE3D } from '../config/tuning';
  * Fruit-tree crowns that step aside for the camera. At the close zoom the Lakitu camera
  * can sit inside a crown, or a crown can stand between it and the Keeper; then that
  * crown dithers out (a screen-door discard on its leaf cards) and its branches and fruit
- * hide, and it fills back in once the view is clear. The dither is a uniform on each
- * crown's own material, so fading never recompiles a program, and the leaves' shadow
- * (a separate depth material) stays on the ground.
+ * hide, and it fills back in once the view is clear. A trunk standing between the camera
+ * and the Keeper thins the same way. The dither is a uniform on each tree's own
+ * materials, so fading never recompiles a program, and the shadows (a separate depth
+ * material) stay on the ground.
  */
 export interface GroveTree {
   /** The leaf cards. */
@@ -18,10 +19,45 @@ export interface GroveTree {
   centre: THREE.Vector3;
   rx: number;
   ry: number;
+  /** The trunk: its mesh, the foot of its axis, its height and its widest radius. */
+  trunk?: { mesh: THREE.Mesh; foot: THREE.Vector3; height: number; r: number };
 }
 
 interface Faded extends GroveTree {
   fade: { value: number };
+  trunkFade: { value: number } | null;
+}
+
+/**
+ * The fadeable parts of an `aaa-kit` `buildTree`: its first part is the trunk (a 3.2-unit
+ * cylinder, 0.5 wide at the foot, at the scale given), the instanced part is the crown,
+ * the rest are branches and fruit. Null if the parts have no crown.
+ */
+export function treeOf(parts: THREE.Object3D[], scale = 1.05): GroveTree | null {
+  const trunk = parts[0] as THREE.Mesh | undefined;
+  const crown = parts.find((p): p is THREE.InstancedMesh => p instanceof THREE.InstancedMesh);
+  if (!crown) return null;
+  crown.computeBoundingBox();
+  const box = crown.boundingBox!;
+  const size = box.getSize(new THREE.Vector3());
+  const height = 3.2 * scale;
+  return {
+    crown,
+    inner: parts.filter((p) => p !== trunk && p !== crown),
+    centre: box.getCenter(new THREE.Vector3()),
+    rx: Math.max(size.x, size.z) / 2,
+    ry: size.y / 2,
+    ...(trunk?.isMesh
+      ? {
+          trunk: {
+            mesh: trunk,
+            foot: trunk.position.clone().setY(trunk.position.y - height / 2),
+            height,
+            r: 0.5 * scale,
+          },
+        }
+      : {}),
+  };
 }
 
 /**
@@ -54,7 +90,30 @@ export class CrownFade {
 
   add(tree: GroveTree): void {
     const mat = tree.crown.material as THREE.Material;
-    this.trees.push({ ...tree, fade: ditherable(mat) });
+    const trunk = tree.trunk ? ditherable(tree.trunk.mesh.material as THREE.Material) : null;
+    this.trees.push({ ...tree, fade: ditherable(mat), trunkFade: trunk });
+  }
+
+  /** Forget every tree (a visit garden is redressed for each neighbour). */
+  clear(): void {
+    this.trees.length = 0;
+  }
+
+  /**
+   * Does the segment pass the trunk? Sampled along its length: a point at trunk height
+   * within the trunk's radius (and a little more, for the Keeper's width) of its axis.
+   */
+  private hitsTrunk(t: Faded, from: THREE.Vector3, to: THREE.Vector3): boolean {
+    const k = t.trunk;
+    if (!k) return false;
+    const steps = 16;
+    for (let i = 1; i < steps; i++) {
+      const p = this.a.lerpVectors(from, to, i / steps);
+      if (p.y < k.foot.y || p.y > k.foot.y + k.height) continue;
+      if (Math.hypot(p.x - k.foot.x, p.z - k.foot.z) < k.r + GROVE3D.crownFade.trunkMargin)
+        return true;
+    }
+    return false;
   }
 
   /** Is the point inside the crown's ellipsoid? */
@@ -99,6 +158,12 @@ export class CrownFade {
       t.fade.value = Math.abs(v - goal) < 0.01 ? goal : v;
       const show = t.fade.value > f.innerBelow;
       for (const o of t.inner) o.visible = show;
+      const tf = t.trunkFade;
+      if (tf) {
+        const want = targets.some((p) => this.hitsTrunk(t, camera, p)) ? f.blocked : 1;
+        const w = tf.value + (want - tf.value) * k;
+        tf.value = Math.abs(w - want) < 0.01 ? want : w;
+      }
     }
   }
 }

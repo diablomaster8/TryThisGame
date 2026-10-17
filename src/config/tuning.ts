@@ -120,9 +120,10 @@ export const GROVE3D = {
   /**
    * A crown in the camera's way (see crowns.ts): how much of it stays with the camera
    * inside it or with it between the camera and the Keeper, how fast it eases (per
-   * second), and below which its branches and fruit hide.
+   * second), and below which its branches and fruit hide. A trunk thins to `blocked` too
+   * when the line to the Keeper passes within its radius plus `trunkMargin`.
    */
-  crownFade: { inside: 0, blocked: 0.2, rate: 10, innerBelow: 0.5 },
+  crownFade: { inside: 0, blocked: 0.2, rate: 10, innerBelow: 0.5, trunkMargin: 0.25 },
   /**
    * Most a walk cycle is sped up to keep feet planted at the sim's speed (see gait.ts).
    * Walking needs 2.45 for the Keeper and 1.8 for a child; 4 keeps Fennel (3.9) planted.
