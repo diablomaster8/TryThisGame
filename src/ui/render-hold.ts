@@ -10,7 +10,9 @@ import type { Game } from '../game';
 let held = false;
 
 export function holdRenderWhile(g: Game, covered: boolean): void {
-  const want = covered && !!g.scene3d;
+  // Not while the 3D Grove is still loading: its build advances on frames, and the away
+  // screen often opens at boot, over the loading bar.
+  const want = covered && !!g.scene3d && g.scene3d.loadState().done;
   if (want && !held && !g.renderPaused) {
     g.renderPaused = true;
     held = true;
