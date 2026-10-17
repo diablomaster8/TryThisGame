@@ -2,6 +2,7 @@ import type { Storyline } from '../content/types';
 import { STORYLINE_HUNDRED } from '../content/storyline-hundred';
 import { STORYLINE_LOGGED } from '../content/storyline-logged';
 import { STORYLINE_BEETLE } from '../content/storyline-beetle';
+import { STORYLINE_DAWN, STORYLINE_DUSK } from '../content/storyline-dawndusk';
 
 /**
  * The separate campaigns' scripts (S1–S4), as their own chunk: story-scenes.ts loads
@@ -12,4 +13,6 @@ export const STORYLINE_CONTENT: Storyline[] = [
   STORYLINE_HUNDRED,
   STORYLINE_LOGGED,
   STORYLINE_BEETLE,
+  STORYLINE_DAWN,
+  STORYLINE_DUSK,
 ];

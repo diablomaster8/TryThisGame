@@ -2,7 +2,13 @@ import { Game } from './game';
 import type { EduAge } from './config/edu';
 import { unlockAudio } from './platform/audio';
 import type { EduBand } from './content/types';
-import { clearSlot, currentSlot, readGraphicsPref, setSaveSlot } from './platform/storage';
+import {
+  clearSlot,
+  currentSlot,
+  readGraphicsPref,
+  setSaveSlot,
+  storylineFinished,
+} from './platform/storage';
 import { loadEduScripts, loadStoryScripts } from './sim/story-scenes';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
 import { showTitle } from './ui/title';
@@ -115,8 +121,12 @@ function boot(
   game = new Game(canvas, hud.hooks, scene3d ? '3d' : 'pixel', scene3d);
   if (newCampaignTrainer) {
     game.send({ kind: 'setTrainer', id: newCampaignTrainer });
-    if (storyline) game.send({ kind: 'storylineStart', id: storyline });
-    else game.send({ kind: 'campaignStart' });
+    if (storyline) {
+      // Dawn & Dusk: a half started after the other reached an ending sees the whole day.
+      const other = storyline === 'dawn' ? 'dusk' : storyline === 'dusk' ? 'dawn' : null;
+      const flags = other && storylineFinished('dawndusk', other) ? { 'dd-other-done': true } : {};
+      game.send({ kind: 'storylineStart', id: storyline, flags });
+    } else game.send({ kind: 'campaignStart' });
   }
   if (eduAge) game.send({ kind: 'eduStart', age: eduAge.age, band: eduAge.band });
   hud.bind(game);

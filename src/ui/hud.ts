@@ -43,6 +43,7 @@ import { StatsSheet } from './stats-sheet';
 import { Dialogue } from './dialogue';
 import { Journal } from './journal';
 import { PartyBoutPanel } from './party-bout';
+import { STORYLINE_TEXT } from '../config/strings';
 import { boutTier, loggedPartyIds } from '../sim/storyline-rules-logged';
 import { chapterTitle } from '../sim/storyline';
 import { STORY_TEXT } from '../config/story';
@@ -645,6 +646,12 @@ export function mountHud(
           playSound('sad');
         } else if (e.kind === 'strayReturned') {
           toast(STORY_TEXT.strayReturned(e.name));
+        } else if (e.kind === 'degenerated') {
+          toast(STORYLINE_TEXT.degenerated(e.name));
+          playSound('sad');
+        } else if (e.kind === 'restored') {
+          toast(STORYLINE_TEXT.restored(e.name));
+          playSound('evolve');
         } else if (e.kind === 'lanternLit') {
           toast(STORY_TEXT.lanternLit);
           playSound('pickup');

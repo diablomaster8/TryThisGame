@@ -739,7 +739,7 @@ export type Command =
   /** Do the current step of a side story (journal button; see sim/side-stories.ts). */
   | { kind: 'sideAct'; story: string }
   /** Start a separate campaign (sim/storyline.ts) in this world. */
-  | { kind: 'storylineStart'; id: string }
+  | { kind: 'storylineStart'; id: string; flags?: Record<string, number | boolean | string> }
   /** Travel to one of a storyline's areas (S1's six places). */
   | { kind: 'storyArea'; area: string }
   /** The journal's Do-it for a storyline goal that waits on `act:<label>`. */
@@ -881,6 +881,8 @@ export type SimEvent =
   | { kind: 'areaChanged'; area: string }
   | { kind: 'partyBout'; won: boolean; tier: number; shells: number }
   | { kind: 'fused'; keptId: string; keptName: string; goneName: string }
+  | { kind: 'degenerated'; nubbinId: string; name: string }
+  | { kind: 'restored'; nubbinId: string; name: string }
   | { kind: 'keepsake'; id: string; quest: string }
   | { kind: 'talked'; npcId: string }
   | { kind: 'courting'; nubbinId: string }

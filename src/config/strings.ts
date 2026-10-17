@@ -1145,6 +1145,8 @@ export const STORYLINE_TEXT = {
   } as Record<string, string>,
   actions: { bout: 'Fight a bout', fuse: 'Fuse the partners' } as Record<string, string>,
   arrived: (area: string) => `You come to ${area.toLowerCase()}.`,
+  degenerated: (name: string) => `${name} has gone back to an egg.`,
+  restored: (name: string) => `${name} is grown again, and remembers.`,
 } as const;
 
 /** S2's party bouts (ui/party-bout.ts). */

@@ -614,7 +614,7 @@ export function applyCampaignCommand(world: World, cmd: Command, events: SimEven
       startCampaign(world, events);
       return;
     case 'storylineStart':
-      startStoryline(world, freshState(world.timeMs), cmd.id, events);
+      startStoryline(world, freshState(world.timeMs), cmd.id, events, cmd.flags ?? {});
       return;
     case 'storyArea':
     case 'storyAct': {

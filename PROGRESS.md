@@ -22,6 +22,31 @@ rows, the Atlas quote, adviser and audience items in the two wave reports, and
 the Arcade and LB/LK decisions (section "Pixel's Arcade PA1–PA5" in `docs/progress-archive.md`).
 Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
 
+## G12 X7: S4 "Dawn & Dusk" with the reverting (2026-10-17)
+
+The fourth separate campaign, in the `dawndusk` save mode: two mirrored halves built from
+one template (`src/content/storyline-dawndusk.ts`, 7 chapters and 3 endings each; the
+Penhallow twins and Teodor Vask), rules for both in `sim/storyline-rules-dawndusk.ts`, and
+the new `sim/degeneration.ts`.
+
+Works:
+- The title asks Dawn or Dusk; Dusk is locked until Dawn has an ending in any slot
+  (`storylineFinished`), and a half started after the other finished is told so
+  (`storylineStart.flags` → `dd-other-done`), which opens the Whole Day ending.
+- Goals on the collection engine and the dojo: a full scan, a second scan plus one
+  conversion (`count:converted`), the three rank tests as belts (`karate:belt`), and the
+  cause choice, which differs by half (lamp or scanner by day; bell or mist by night).
+- Degeneration: when chapter 3 opens the oldest grown Nubbin reverts to its own egg
+  (name, stats, grades and rebirths kept; form and age stashed in `genes.degenerated`).
+  Naming the real cause restores it if it is still that egg; the wrong cause lets it
+  hatch small and grow again. Events `degenerated` and `restored` with HUD toasts.
+- Endings per half: First Light / Last Light, a Fixed Shadow (wrong cause), the Whole Day.
+- Tests: `tests/sim/storyline-dawndusk.test.ts` (degenerate and restore, both halves to
+  their endings, the other-half flag).
+
+Stubbed: the four houses are narrated; serving them is the scan count, not four named
+species. The twins never appear on the map.
+
 ## G12 X6: S3 "The Beetle Road" with fusion (2026-10-17)
 
 The third separate campaign, in the `beetle` save mode. Script
@@ -76,67 +101,6 @@ Works:
 Stubbed: the bout panel is text rows and buttons, no sprites or animation; the "card-like
 format" is the move set, not drawn cards. Other locked-in players are narrated (Juno),
 not NPCs on the map.
-
-## G12 X4: S1 "The Hundred Days" (2026-10-17)
-
-The first separate campaign, in the `hundred` save mode (title screen → The Hundred Days →
-pick a Keeper). Script `src/content/storyline-hundred.ts` (10 chapters, 4 endings, Ida
-Brack and Sorrel), rule `sim/storyline-rules-hundred.ts`, registered through
-`sim/storyline-content.ts` (the script chunk) and `sim/storyline-rules-index.ts` (imported
-by campaign.ts for its side effects).
-
-Works:
-- Setup: the roster becomes one egg, named partner, `spanScale` 72 so its adult span is
-  about fifteen real days (`STORYLINES.hundredSpanScale`; ×10 to ×1000 in the debug panel).
-- Six areas from the journal’s Where To: meadow and shore are the Grove, the cave starts a
-  Hollow run, the mountain is the story Hollow set, the mire is Corvin’s garden in rain,
-  the mill the same set in clear weather. Arriving spawns one wild visitor of the area’s
-  habitat pool, so each area has something to win over for the Fold.
-- Goals: hatch; recruits 1, 2, 3 (shore), a Hollow run, the partner’s evolution, recruits
-  5 (mire), prosperity 60 at the mill, the Hush (a dojo win during chapter 9), the last
-  day. Two choices (naming, the loft lamp) are flagged for later use.
-- Endings: Bright Fold (prosperity 100, no moody partner), the Fold, Quiet Fold
-  (prosperity under 60), a Grey Lamp (a moody or Shadow partner).
-- Tests: `tests/sim/storyline-hundred.test.ts` plays all ten chapters to each of the four
-  endings through the real commands (`storyArea`, `leaveDungeon`, `karateResult`,
-  `debugHatchNow`), with `tests/sim/storyline-driver.ts` shared by the S2–S4 tests.
-
-Stubbed: the Hush is the ordinary top-tier dojo rival with the chapter’s framing (no
-colossus sprite or special fighter); the length is a session, not the brief’s 8–10 hours,
-and a writing pass could add beats between the recruit goals. The chapter-9 bout counts a
-win anywhere, not only at the mountain.
-
-## G12 X1–X3: expansions E1 The Square, E2 Nova’s Season, E3 The Twine (2026-10-17)
-
-Three post-ending add-ons to Hazel’s Grove, written as side stories on the existing runner
-(`src/content/expansion-e{1,2,3}.ts`, rules in `sim/side-rules-expansions.ts`), opening on
-post-game mornings. Their checks use the storyline grammar, so the sim meets them on its
-own and the journal’s Do-it only appears for E1’s first walk.
-
-Works:
-- E1 (7 steps): Hazel’s second page, Old Pell on the square; steps 2–7 follow prosperity
-  (first recruit, stall 20, gym 40, bathhouse 60, fortune 80, festival 100). On the
-  `hazels-grove` ending with Corvin reconciled, step 5’s done scene is
-  `e1-attendant-corvin`: Corvin comes back as an NPC and a recruit of species `keeper`.
-  Title: Square Warden.
-- E2 (5 steps): Nova’s egg from a short line. The rule spawns Dandy with
-  `spanScale` 2.2 so the whole life is twelve days of the lifespan clock; visits gate on
-  day 4, 8 and 11 (`dayCount`); the day-4 scene swaps for two or more care slips, the
-  day-8 scene for a moody evolution; the complete scene is the rebirth or the departure
-  one by what happened. Title: Twelve Days.
-- E3 (5 steps): feed a Hollow stray, name two partners, buy twine, merge, then the
-  bracket: three dojo wins after it goes up (`EXPANSIONS.tournamentWins`), with a merged
-  variant of the done scene. Title: Twine Champion.
-- Engine: `StoryRule.sceneDone` hook; command events now reach the campaign counters
-  (`noteCampaignEvents` in `applyCommand`), so karate wins, merges and conversions count
-  for storyline goals too; grammar gains `twine:` and `partners:set`.
-- Tests: `tests/sim/expansions.test.ts` (script sanity, E1 to the festival with Corvin,
-  E2 both outcomes at day eleven, E3 through the merged bracket).
-
-Stubbed: E3’s “ten Keepers” are narrated as rounds; the dojo fights its usual rivals. E1–E3
-are not yet in `content/index.ts` or `tests/tools/content-check.ts` (both files are mid-edit
-by the Learning Grove session); the expansions test covers the same checks for them.
-No render work: the square, Nova and the bracket use the existing scenes, NPCs and dojo.
 
 ## Standing approval (Maor, 2026-10-12)
 

@@ -52,6 +52,8 @@ const COUNTED = new Set<SimEvent['kind']>([
   'collected',
   'partyBout',
   'fused',
+  'degenerated',
+  'restored',
 ]);
 
 export function storylineOf(c: CampaignState | null | undefined): Storyline | undefined {
@@ -73,10 +75,12 @@ export function startStoryline(
   c: CampaignState,
   id: string,
   events: SimEvent[],
+  flags: Record<string, number | boolean | string> = {},
 ): boolean {
   const s = storylineById(id);
   if (!s) return false;
   c.storyline = id;
+  Object.assign(c.flags, flags);
   world.campaign = c;
   storylineRule(id)?.setup?.(world, c, events);
   beginStoryChapter(world, c, 1, events);
