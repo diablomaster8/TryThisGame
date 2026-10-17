@@ -351,7 +351,7 @@ neopia freebie: Coltzan's Shrine, once per Nubbin, ever, rebirth does not reset 
 | `outcome:fill` | {name} suddenly feels full, rested and very well looked after. |  |
 | `outcome:shells` | Shells appear at the foot of the shrine, as if they'd always been there. |  |
 | `outcome:rare` | The shrine blazes gold. {name} feels wiser and braver, all at once. |  |
-| `outcome:nothing` | The shrine is quiet today. You feel peaceful, which is something. |  |
+| `outcome:nothing` | The shrine is quiet. You feel peaceful, which is something. |  |
 | `outcome:nothing` | Nothing happens. {name} bows anyway, out of good manners. |  |
 | `outcome:nothing` | A breeze, a hush, and then nothing at all. Perhaps the old king was napping. |  |
 | `outcome:taken` | {name} has already been blessed here. Once, ever, is plenty. |  |
@@ -365,7 +365,7 @@ neopia freebie: Snowager, one-time (outcome: asleep, asleep-nothing, asleep-boob
 | `outcome:asleep` | The Snowager snores. You tiptoe out with {item} and your heart in your mouth. |  |
 | `outcome:asleep` | Fast asleep! You lift {item} from the pile on the quietest feet in Neopia. |  |
 | `outcome:asleep` | The great ice worm sleeps on. You take {item} and a souvenir icicle. |  |
-| `outcome:asleep-nothing` | It's asleep, but the treasure pile is just snow today. You take some snow. |  |
+| `outcome:asleep-nothing` | It's asleep, but the treasure pile is just snow this time. You take some snow. |  |
 | `outcome:asleep-booby` | You sneak in and grab... a frozen sock. Treasure is relative. |  |
 | `outcome:woken` | The Snowager opens one eye. Then the other. {name} is gently, thoroughly frosted. |  |
 | `outcome:woken` | A blast of icy breath! {name} is now a small, surprised snowman. Thaws in a minute. |  |
@@ -438,7 +438,7 @@ neopia freebie: Wheel of Misfortune, one-time (outcome: booby, lose-shells, stat
 | `outcome:nothing` | Nothing happens, which in the Haunted Woods counts as luck. |  |
 | `outcome:dizzy` | The wheel spins {name} instead. Dizzy, but delighted. |  |
 | `outcome:prize` | Against all odds, a prize! {item}, slightly dusty. |  |
-| `outcome:rare` | Misfortune smiles on you today. {item}, and an eerie round of applause. |  |
+| `outcome:rare` | Misfortune smiles on you. {item}, and an eerie round of applause. |  |
 | `outcome:taken` | One spin, ever. The wheel creaks in a way that suggests you leave. |  |
 
 ## underwater-fishing
@@ -471,7 +471,7 @@ neopia freebie: Anchor Management, one-time (outcome: win, rare, booby, miss, no
 | `outcome:booby` | The Krawken retreats, and the pirates pay you in one very wet button. |  |
 | `outcome:miss` | You miss. The anchor splashes. The Krawken waves a tentacle, mockingly. |  |
 | `outcome:miss` | Your swing goes wide and lands in a seagull's lunch. The seagull is unimpressed. |  |
-| `outcome:nothing` | The Krawken is out today. You stand holding an anchor for no reason. |  |
+| `outcome:nothing` | The Krawken is out. You stand holding an anchor for no reason. |  |
 | `outcome:taken` | Once, ever. The Krawken has had quite enough of you. |  |
 
 ## deserted-tomb
@@ -521,7 +521,7 @@ neopia freebie: Soup Kitchen, no limit (outcome: fed, not-poor, not-hungry)
 | `outcome:fed` | {name} has soup on the nose and doesn't care one bit. |  |
 | `outcome:fed` | A bowl each and a bread roll to share. Nobody fights over the crust. That's the one rule of the Soup Kitchen. |  |
 | `outcome:fed` | The soup is mostly carrot, partly kindness, slightly too hot. |  |
-| `outcome:fed` | Fed and warm. Shells can wait until tomorrow. |  |
+| `outcome:fed` | Fed and warm. Shells can wait; the kettle never closes. |  |
 | `outcome:not-poor` | You have enough shells to get by. The cook smiles and saves the soup for someone who needs it. |  |
 | `outcome:not-hungry` | Your Nubbins are already full. They wave at the soup pot anyway. |  |
 

@@ -131,13 +131,14 @@ White-Haired Prince · 31 PA3 The Hollow Kingdom · 32 PA4 Mercy · 33 A28 The B
 A29 The Honmoon · 35 PA5 The Hundred-Year Sleep · 36 S31 The Great Gourd · 37 A30 The Word on
 the Brow · 38 Q86–Q95 The Hodja's Donkey · 39 LK1–LK10 Mouse-Deer · 40 A31 The Hero Twins
 
-## Content pack status (2026-10-15)
+## Content pack status (2026-10-16)
 
-Scripted and checked in `src/content/` and `script-book/`: campaign v2, S1–S31, Q1–Q65,
-Neopia, the Multiverse, readers and results, Learning Grove versions (both bands) of the
-campaign, S1–S22 and the Python, Bean and Avatar quests, LH and LJ, Atlas A11–A21. Still to
-script: A1–A10, A22–A31, PA1–PA5, Q66–Q95, LB, LK (plan.md Track B). Nothing is wired into the
-game yet: that is CV1–CV6.
+Scripted and checked in `src/content/`: campaign v2, S1–S31, Q1–Q65, Neopia, the Multiverse,
+readers and results, Learning Grove versions (both bands) of the campaign, S1–S22 and the
+Python, Bean and Avatar quests, LH and LJ, and the whole Atlas, A1–A31. A1–A10 and A22–A31
+were reviewed and fixed in waves L and M (`docs/logs/review-wave-L.md`, `review-wave-M.md`);
+their open licence, quote and adviser items are listed there. Still to script: PA1–PA5,
+Q66–Q95, LB, LK (plan.md Track B). `script-book/` does not yet print S23–S31 or the Atlas.
 
 ## Suggested order
 

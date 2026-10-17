@@ -13,11 +13,12 @@ caches, the G13 polish, the G14 bundle diet, the G15 parity fixes) with the pixe
 unchanged. Story content pack in `src/content/`; engine CV1–CV6 wired (campaign v2 and
 endings, all 31 side stories and the fun quests running, props and keepsakes, the Learning
 Grove switch, Hebrew and Japanese, Atlas/Arcade/Multiverse saves, Mature content setting,
-one-time gifts). Uncommitted in the working tree: Atlas A1–A10 and A22–A31 (plan Task B-R1)
-and the edits dropping the Co-Authored-By commit line. Plan v4 (`plan.md`): G11 device pass,
-G16 parity gaps, Track B writing and review tasks, and Part Z, the independent full review
-that runs last. Waiting on Maor: the expansion pick E1–E3 / S1–S4, seven fun-quest quotes,
-Full 3D as default, his phone rows. Backlogs: `docs/creature-improvements.md`,
+one-time gifts). Atlas A1–A31 all scripted; A1–A10 and A22–A31 reviewed and fixed (plan
+Task B-R1; reports `docs/logs/review-wave-L.md` and `review-wave-M.md`). Plan v4
+(`plan.md`): G11 device pass, G16 parity gaps, Track B writing and review tasks, and Part Z,
+the independent full review that runs last. Waiting on Maor: the expansion pick E1–E3 /
+S1–S4, seven fun-quest quotes, Full 3D as default, his phone rows, and the Atlas licence,
+quote, adviser and audience items in the two wave reports. Backlogs: `docs/creature-improvements.md`,
 `docs/content-index.md`.
 
 ## Full 3D: event bursts and tree crowns (2026-10-16)
