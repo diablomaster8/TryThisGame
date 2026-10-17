@@ -9,7 +9,7 @@ const packs: Record<string, Quest[]> = {
   sideMain: C.SIDE_STORIES_MAIN, sideFun: C.SIDE_STORIES_FUN, sideFun2: C.SIDE_STORIES_FUN_2, new1: C.SIDE_STORIES_NEW_1, new2: C.SIDE_STORIES_NEW_2, new3: C.SIDE_STORIES_NEW_3, new4: C.SIDE_STORIES_NEW_4, npLine: C.NEOPIA_LINE, npQuests: C.NEOPIA_QUESTS,
   im: C.MV_IRONMAN, ca: C.MV_CAP, ff: C.MV_DOOM, ul: C.MV_ULTRON, mk: C.MV_MOONKNIGHT, sp: C.MV_SPAWN,
   langHe: C.LANG_HEBREW, langJa: C.LANG_JAPANESE, db: C.MV_DRAGONBALL, ts: C.MV_TOYSTORY, eg: C.MV_ENDGAMES,
-  // Part L and Part M (no Learning Grove versions yet, so not in eduPacks)
+  // Part L and Part M (only those with Learning Grove versions are in eduPacks)
   s23: C.SIDE_STORY_S23, s24: C.SIDE_STORY_S24, s25: C.SIDE_STORY_S25, s26: C.SIDE_STORY_S26, s27: C.SIDE_STORY_S27, s28: C.SIDE_STORY_S28, s29: C.SIDE_STORY_S29, s30: C.SIDE_STORY_S30, s31: C.SIDE_STORY_S31, a01: C.ATLAS_A01, a02: C.ATLAS_A02, a03: C.ATLAS_A03, a04: C.ATLAS_A04, a05: C.ATLAS_A05, a06: C.ATLAS_A06, a07: C.ATLAS_A07, a08: C.ATLAS_A08, a09: C.ATLAS_A09, a10: C.ATLAS_A10, a11: C.ATLAS_A11, a12: C.ATLAS_A12, a13: C.ATLAS_A13, a14: C.ATLAS_A14, a15: C.ATLAS_A15, a16: C.ATLAS_A16, a17: C.ATLAS_A17, a18: C.ATLAS_A18, a19: C.ATLAS_A19, a20: C.ATLAS_A20, a21: C.ATLAS_A21, a22: C.ATLAS_A22, a23: C.ATLAS_A23, a24: C.ATLAS_A24, a25: C.ATLAS_A25, a26: C.ATLAS_A26, a27: C.ATLAS_A27, a28: C.ATLAS_A28, a29: C.ATLAS_A29, a30: C.ATLAS_A30, a31: C.ATLAS_A31,
   alice: C.QUESTS_ALICE, holmes: C.QUESTS_HOLMES, hodja: C.QUESTS_HODJA,
   pa1: C.ARCADE_PA1, pa2: C.ARCADE_PA2, pa3: C.ARCADE_PA3, pa4: C.ARCADE_PA4, pa5: C.ARCADE_PA5,
@@ -68,7 +68,7 @@ for (const s of C.CAMPAIGN_SCENES) {
 }
 for (const v of [...C.SIDE_STORIES_MAIN_VARIANTS, ...C.SIDE_STORIES_NEW_3_VARIANTS, ...C.SIDE_STORIES_FUN_2_VARIANTS]) { if (campIds.has(v.id)) problems.push(`variant id clashes with campaign ${v.id}`); }
 for (const v of C.SIDE_STORIES_MAIN_VARIANTS) if (sceneIds.has(v.id) && !v.id.startsWith('s')) problems.push(`variant clash ${v.id}`);
-const NEW_VARIANTS = [...C.SIDE_STORY_S23_VARIANTS, ...C.SIDE_STORY_S24_VARIANTS, ...C.SIDE_STORY_S25_VARIANTS, ...C.SIDE_STORY_S26_VARIANTS, ...C.SIDE_STORY_S27_VARIANTS, ...C.SIDE_STORY_S28_VARIANTS, ...C.SIDE_STORY_S29_VARIANTS, ...C.SIDE_STORY_S30_VARIANTS, ...C.SIDE_STORY_S31_VARIANTS, ...C.ATLAS_A01_VARIANTS, ...C.ATLAS_A02_VARIANTS, ...C.ATLAS_A03_VARIANTS, ...C.ATLAS_A04_VARIANTS, ...C.ATLAS_A05_VARIANTS, ...C.A06_VARIANTS, ...C.ATLAS_A07_VARIANTS, ...C.ATLAS_A08_VARIANTS, ...C.ATLAS_A09_VARIANTS, ...C.A10_VARIANTS, ...C.A11_VARIANTS, ...C.A12_VARIANTS, ...C.A13_VARIANTS, ...C.A14_VARIANTS, ...C.ATLAS_A15_VARIANTS, ...C.ATLAS_A16_VARIANTS, ...C.A17_VARIANTS, ...C.ATLAS_A18_VARIANTS, ...C.A19_VARIANTS, ...C.ATLAS_A20_VARIANTS, ...C.A21_VARIANTS, ...C.A22_VARIANTS, ...C.A23_VARIANTS, ...C.ATLAS_A24_VARIANTS, ...C.ATLAS_A25_VARIANTS, ...C.A26_VARIANTS, ...C.ATLAS_A27_VARIANTS, ...C.ATLAS_A28_VARIANTS, ...C.ATLAS_A29_VARIANTS, ...C.ATLAS_A30_VARIANTS, ...C.A31_VARIANTS, ...C.PA1_VARIANTS, ...C.ARCADE_PA2_VARIANTS, ...C.PA3_VARIANTS, ...C.ARCADE_PA4_VARIANTS, ...C.PA5_VARIANTS, ...C.LINE_LB_VARIANTS, ...C.LINE_LK_VARIANTS];
+const NEW_VARIANTS = [...C.SIDE_STORY_S23_VARIANTS, ...C.SIDE_STORY_S24_VARIANTS, ...C.SIDE_STORY_S25_VARIANTS, ...C.SIDE_STORY_S26_VARIANTS, ...C.SIDE_STORY_S27_VARIANTS, ...C.SIDE_STORY_S28_VARIANTS, ...C.SIDE_STORY_S29_VARIANTS, ...C.SIDE_STORY_S30_VARIANTS, ...C.SIDE_STORY_S31_VARIANTS, ...C.ATLAS_A01_VARIANTS, ...C.ATLAS_A02_VARIANTS, ...C.ATLAS_A03_VARIANTS, ...C.ATLAS_A04_VARIANTS, ...C.ATLAS_A05_VARIANTS, ...C.A06_VARIANTS, ...C.ATLAS_A07_VARIANTS, ...C.ATLAS_A08_VARIANTS, ...C.ATLAS_A09_VARIANTS, ...C.A10_VARIANTS, ...C.A11_VARIANTS, ...C.A12_VARIANTS, ...C.A13_VARIANTS, ...C.A21_VARIANTS, ...C.PA1_VARIANTS, ...C.ARCADE_PA2_VARIANTS, ...C.PA3_VARIANTS, ...C.ARCADE_PA4_VARIANTS, ...C.PA5_VARIANTS, ...C.LINE_LB_VARIANTS, ...C.LINE_LK_VARIANTS];
 for (const v of NEW_VARIANTS) { if (campIds.has(v.id) && !/^(c\d+|end)-/.test(v.id)) problems.push(`new variant id clashes with campaign ${v.id}`); if (sceneIds.has(v.id)) problems.push(`new variant id clashes with a quest scene ${v.id}`); }
 { const seenV = new Set<string>(); for (const v of NEW_VARIANTS) { if (seenV.has(v.id)) problems.push(`dup new variant ${v.id}`); seenV.add(v.id); } }
 
@@ -93,11 +93,19 @@ for (const m of styleMd.matchAll(/`(D2\.[^`]+)`/g)) approved.add(m[1]!);
 for (const m of styleMd.matchAll(/\| ([A-Z0-9][A-Za-z0-9.-]+) \|/g)) approved.add(m[1]!);
 const mainScenes = new Map<string, Scene>();
 for (const s of C.CAMPAIGN_SCENES) mainScenes.set(s.id, s);
-const eduPacks = { sideMain: 1, sideFun: 1, sideFun2: 1, new1: 1, new2: 1, new3: 1, new4: 1, python: 1, bean: 1, avatar: 1, langHe: 1, langJa: 1, lb: 1, lk: 1, s24: 1, s25: 1, s26: 1, s27: 1, s28: 1, s29: 1, s30: 1, s31: 1 } as const;
+const eduPacks = { sideMain: 1, sideFun: 1, sideFun2: 1, new1: 1, new2: 1, new3: 1, new4: 1, python: 1, bean: 1, avatar: 1, langHe: 1, langJa: 1, lb: 1, lk: 1, s24: 1, s25: 1, s26: 1, s27: 1, s28: 1, s29: 1, s30: 1, s31: 1, a02: 1, a05: 1, a06: 1, a07: 1, a08: 1, a09: 1, a10: 1, a11: 1, a12: 1, a13: 1 } as const;
 for (const k of Object.keys(eduPacks)) for (const q of packs[k]!) for (const s of scenesOf(q)) mainScenes.set(s.id, s);
 // only audience 'all' reaches the Learning Grove; 'main', 'teen' and 'adult' never do
-for (const k of Object.keys(eduPacks)) for (const q of packs[k]!) if (q.audience !== 'all') problems.push(`${q.id}: audience ${q.audience} in a Learning Grove pack`);
-for (const s of [...C.SIDE_STORIES_MAIN_VARIANTS, ...C.SIDE_STORIES_NEW_3_VARIANTS, ...C.SIDE_STORIES_FUN_2_VARIANTS, ...C.LINE_LB_VARIANTS, ...C.LINE_LK_VARIANTS, ...C.SIDE_STORY_S24_VARIANTS, ...C.SIDE_STORY_S25_VARIANTS, ...C.SIDE_STORY_S26_VARIANTS, ...C.SIDE_STORY_S27_VARIANTS, ...C.SIDE_STORY_S28_VARIANTS, ...C.SIDE_STORY_S29_VARIANTS, ...C.SIDE_STORY_S30_VARIANTS, ...C.SIDE_STORY_S31_VARIANTS]) mainScenes.set(s.id, s);
+// Intentional partial Learning Grove coverage (per the storyline outlines): a16 has no sprout version and its reader
+// version stops at the well (A16-16, A16-17, their variants and the a16-grove-* scenes); a23 has no edu version of
+// its main-audience quests A23-8 and A23-15; a25 is reader-only and covers Part One only (A25-1 to A25-14 and variant
+// a25-13-empress-ash), so A25-15 onward, a25-margin-hazel and a25-grove-ember are left out; a29 is reader-only (every scene).
+const eduExempt = (band: string, id: string): boolean =>
+  /^a23-(08|15)(-|$)/.test(id) ||
+  (band === 'sprout' && /^(a16|a25|a29)-/.test(id)) ||
+  (band === 'reader' && (/^a16-(16|17)(-|$)|^a16-grove-/.test(id) || /^a25-(1[5-9]|[2-9]\d)(-|$)|^a25-(margin-hazel|grove-ember)(-|$)/.test(id)));
+for (const k of Object.keys(eduPacks)) for (const q of packs[k]!) if (q.audience !== 'all') if (!eduExempt('reader', q.id)) problems.push(`${q.id}: audience ${q.audience} in a Learning Grove pack`);
+for (const s of [...C.SIDE_STORIES_MAIN_VARIANTS, ...C.SIDE_STORIES_NEW_3_VARIANTS, ...C.SIDE_STORIES_FUN_2_VARIANTS, ...C.LINE_LB_VARIANTS, ...C.LINE_LK_VARIANTS, ...C.SIDE_STORY_S24_VARIANTS, ...C.SIDE_STORY_S25_VARIANTS, ...C.SIDE_STORY_S26_VARIANTS, ...C.SIDE_STORY_S27_VARIANTS, ...C.SIDE_STORY_S28_VARIANTS, ...C.SIDE_STORY_S29_VARIANTS, ...C.SIDE_STORY_S30_VARIANTS, ...C.SIDE_STORY_S31_VARIANTS, ...C.ATLAS_A02_VARIANTS, ...C.ATLAS_A05_VARIANTS, ...C.A06_VARIANTS, ...C.ATLAS_A07_VARIANTS, ...C.ATLAS_A08_VARIANTS, ...C.ATLAS_A09_VARIANTS, ...C.A10_VARIANTS, ...C.A11_VARIANTS, ...C.A12_VARIANTS, ...C.A13_VARIANTS]) mainScenes.set(s.id, s);
 const eduTexts: { band: string; id: string; text: string }[] = [];
 const edu: Record<string, { scenes: number; lessons: number; lines: number; words: number; byDomain: Record<string, number> }> = {};
 for (const band of C.EDU_BANDS) {
@@ -142,7 +150,7 @@ for (const band of C.EDU_BANDS) {
     }
   }
   // coverage: every main scene in scope has a version (Sunny, Neopia, Multiverse are out of scope)
-  for (const id of mainScenes.keys()) if (!seenOf.has(id)) problems.push(`edu ${band}: missing ${id}`);
+  for (const id of mainScenes.keys()) if (!seenOf.has(id) && !eduExempt(band, id)) problems.push(`edu ${band}: missing ${id}`);
   // quests: goals for every step
   for (const q of C.EDU_QUESTS[band]) {
     const orig = allQuests.find((x) => x.id === q.of);

@@ -48,6 +48,26 @@ import { EDU_S30_SPROUT, EDU_S30_SPROUT_VARIANTS } from './edu-s30-sprout';
 import { EDU_S30_READER, EDU_S30_READER_VARIANTS } from './edu-s30-reader';
 import { EDU_S31_SPROUT, EDU_S31_SPROUT_VARIANTS } from './edu-s31-sprout';
 import { EDU_S31_READER, EDU_S31_READER_VARIANTS } from './edu-s31-reader';
+import { EDU_A02_SPROUT, EDU_A02_SPROUT_VARIANTS } from './edu-a02-sprout';
+import { EDU_A02_READER, EDU_A02_READER_VARIANTS } from './edu-a02-reader';
+import { EDU_A05_SPROUT, EDU_A05_SPROUT_VARIANTS } from './edu-a05-sprout';
+import { EDU_A05_READER, EDU_A05_READER_VARIANTS } from './edu-a05-reader';
+import { EDU_A06_SPROUT, EDU_A06_SPROUT_VARIANTS } from './edu-a06-sprout';
+import { EDU_A06_READER, EDU_A06_READER_VARIANTS } from './edu-a06-reader';
+import { EDU_A07_SPROUT, EDU_A07_SPROUT_VARIANTS } from './edu-a07-sprout';
+import { EDU_A07_READER, EDU_A07_READER_VARIANTS } from './edu-a07-reader';
+import { EDU_A08_SPROUT, EDU_A08_SPROUT_VARIANTS } from './edu-a08-sprout';
+import { EDU_A08_READER, EDU_A08_READER_VARIANTS } from './edu-a08-reader';
+import { EDU_A09_SPROUT, EDU_A09_SPROUT_VARIANTS } from './edu-a09-sprout';
+import { EDU_A09_READER, EDU_A09_READER_VARIANTS } from './edu-a09-reader';
+import { EDU_A10_SPROUT, EDU_A10_SPROUT_VARIANTS } from './edu-a10-sprout';
+import { EDU_A10_READER, EDU_A10_READER_VARIANTS } from './edu-a10-reader';
+import { EDU_A11_SPROUT, EDU_A11_SPROUT_VARIANTS } from './edu-a11-sprout';
+import { EDU_A11_READER, EDU_A11_READER_VARIANTS } from './edu-a11-reader';
+import { EDU_A12_SPROUT, EDU_A12_SPROUT_VARIANTS } from './edu-a12-sprout';
+import { EDU_A12_READER, EDU_A12_READER_VARIANTS } from './edu-a12-reader';
+import { EDU_A13_SPROUT, EDU_A13_SPROUT_VARIANTS } from './edu-a13-sprout';
+import { EDU_A13_READER, EDU_A13_READER_VARIANTS } from './edu-a13-reader';
 import { HEBREW_COURSE, LANG_HEBREW } from './lang-hebrew';
 import { JAPANESE_COURSE, LANG_JAPANESE } from './lang-japanese';
 import { LINE_LB_EDU, LINE_LB_EDU_VARIANTS } from './lines-lb';
@@ -74,7 +94,7 @@ export const EDU_CAMPAIGN: Record<EduBand, EduCampaign[]> = {
 };
 
 /**
- * Side stories S1–S22 and S24–S31, the fun quests (Python, Bean, Avatar; Sunny is adults-only: none) and the
+ * Side stories S1–S22 and S24–S31, Atlas A02 and A05–A13, the fun quests (Python, Bean, Avatar; Sunny is adults-only: none) and the
  * Learning Grove-only language questlines (Hebrew LH1–LH6, Japanese LJ1–LJ6) and the Learning
  * Grove lines LB (Play) and LK (Mouse-Deer).
  */
@@ -96,6 +116,16 @@ export const EDU_QUESTS: Record<EduBand, EduQuest[]> = {
     ...EDU_S29_SPROUT,
     ...EDU_S30_SPROUT,
     ...EDU_S31_SPROUT,
+    ...EDU_A02_SPROUT,
+    ...EDU_A05_SPROUT,
+    ...EDU_A06_SPROUT,
+    ...EDU_A07_SPROUT,
+    ...EDU_A08_SPROUT,
+    ...EDU_A09_SPROUT,
+    ...EDU_A10_SPROUT,
+    ...EDU_A11_SPROUT,
+    ...EDU_A12_SPROUT,
+    ...EDU_A13_SPROUT,
     ...LINE_LB_EDU.sprout,
     ...LINE_LK_EDU.sprout,
   ],
@@ -121,6 +151,16 @@ export const EDU_QUESTS: Record<EduBand, EduQuest[]> = {
     ...EDU_S29_READER,
     ...EDU_S30_READER,
     ...EDU_S31_READER,
+    ...EDU_A02_READER,
+    ...EDU_A05_READER,
+    ...EDU_A06_READER,
+    ...EDU_A07_READER,
+    ...EDU_A08_READER,
+    ...EDU_A09_READER,
+    ...EDU_A10_READER,
+    ...EDU_A11_READER,
+    ...EDU_A12_READER,
+    ...EDU_A13_READER,
     ...LINE_LB_EDU.reader,
     ...LINE_LK_EDU.reader,
   ],
@@ -139,6 +179,16 @@ export const EDU_VARIANTS: Record<EduBand, EduScene[]> = {
     ...EDU_S29_SPROUT_VARIANTS,
     ...EDU_S30_SPROUT_VARIANTS,
     ...EDU_S31_SPROUT_VARIANTS,
+    ...EDU_A02_SPROUT_VARIANTS,
+    ...EDU_A05_SPROUT_VARIANTS,
+    ...EDU_A06_SPROUT_VARIANTS,
+    ...EDU_A07_SPROUT_VARIANTS,
+    ...EDU_A08_SPROUT_VARIANTS,
+    ...EDU_A09_SPROUT_VARIANTS,
+    ...EDU_A10_SPROUT_VARIANTS,
+    ...EDU_A11_SPROUT_VARIANTS,
+    ...EDU_A12_SPROUT_VARIANTS,
+    ...EDU_A13_SPROUT_VARIANTS,
     ...LINE_LB_EDU_VARIANTS.sprout,
     ...LINE_LK_EDU_VARIANTS.sprout,
   ],
@@ -154,6 +204,16 @@ export const EDU_VARIANTS: Record<EduBand, EduScene[]> = {
     ...EDU_S29_READER_VARIANTS,
     ...EDU_S30_READER_VARIANTS,
     ...EDU_S31_READER_VARIANTS,
+    ...EDU_A02_READER_VARIANTS,
+    ...EDU_A05_READER_VARIANTS,
+    ...EDU_A06_READER_VARIANTS,
+    ...EDU_A07_READER_VARIANTS,
+    ...EDU_A08_READER_VARIANTS,
+    ...EDU_A09_READER_VARIANTS,
+    ...EDU_A10_READER_VARIANTS,
+    ...EDU_A11_READER_VARIANTS,
+    ...EDU_A12_READER_VARIANTS,
+    ...EDU_A13_READER_VARIANTS,
     ...LINE_LB_EDU_VARIANTS.reader,
     ...LINE_LK_EDU_VARIANTS.reader,
   ],
