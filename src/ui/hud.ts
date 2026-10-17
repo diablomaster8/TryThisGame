@@ -33,6 +33,7 @@ import { Celebration } from './celebration';
 import { DebugPanel } from './debug-panel';
 import { Joystick } from './joystick';
 import { RacesMenu } from './races';
+import { holdRenderWhile } from './render-hold';
 import { RosterMenu } from './roster';
 import { ShopMenu } from './shop';
 import { TrainersMenu } from './trainers';
@@ -523,6 +524,7 @@ export function mountHud(
           g.world.location === 'hollow' ||
           g.world.location === 'corvin' ||
           g.world.location === 'dungeon';
+        holdRenderWhile(g, dialogue.isOpen || away.isOpen || photo.isOpen());
         setAmbience(
           dialogue.isOpen || expedition.isOpen || races.screen.isOpen || karate.screen.isOpen
             ? null
