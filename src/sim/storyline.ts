@@ -50,6 +50,7 @@ const COUNTED = new Set<SimEvent['kind']>([
   'interacted',
   'ate',
   'collected',
+  'partyBout',
 ]);
 
 export function storylineOf(c: CampaignState | null | undefined): Storyline | undefined {
@@ -151,6 +152,7 @@ export function stepStoryline(world: World, c: CampaignState, events: SimEvent[]
 export function foldCounters(c: CampaignState, events: SimEvent[]): void {
   for (const e of events) {
     if (e.kind === 'strayFed' && !e.ok) continue;
+    if (e.kind === 'partyBout' && !e.won) continue;
     if (COUNTED.has(e.kind)) c.flags[`n:${e.kind}`] = Number(c.flags[`n:${e.kind}`] ?? 0) + 1;
     if (e.kind === 'karate' && e.won)
       c.flags['n:karateWon'] = Number(c.flags['n:karateWon'] ?? 0) + 1;

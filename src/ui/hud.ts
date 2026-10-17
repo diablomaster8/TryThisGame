@@ -42,6 +42,8 @@ import { SettingsMenu } from './settings';
 import { StatsSheet } from './stats-sheet';
 import { Dialogue } from './dialogue';
 import { Journal } from './journal';
+import { PartyBoutPanel } from './party-bout';
+import { boutTier, loggedPartyIds } from '../sim/storyline-rules-logged';
 import { chapterTitle } from '../sim/storyline';
 import { STORY_TEXT } from '../config/story';
 import { KindergartenMenu } from './kindergarten';
@@ -242,6 +244,12 @@ export function mountHud(
   const trainers = new TrainersMenu(root, game, toast);
   const dialogue = new Dialogue(root, game);
   const journal = new Journal(root, game);
+  const partyBout = new PartyBoutPanel(root, game, toast);
+  journal.openers.partyBout = () => {
+    const g = game();
+    const c = g?.world.campaign;
+    if (g && c) partyBout.open(loggedPartyIds(c), boutTier(c));
+  };
   const kindergarten = new KindergartenMenu(root, game, () => sheet.selectedId, toast);
   const karate = new KarateMenu(root, game, toast, pickRunner);
   const book = new CollectionBook(root, game);
@@ -389,6 +397,7 @@ export function mountHud(
     { isOpen: () => roster.isOpen(), close: () => roster.close() },
     { isOpen: () => trainers.isOpen(), close: () => trainers.close() },
     { isOpen: () => journal.isOpen(), close: () => journal.close() },
+    { isOpen: () => partyBout.isOpen(), close: () => partyBout.close() },
     { isOpen: () => kindergarten.isOpen(), close: () => kindergarten.close() },
     { isOpen: () => karate.isOpen(), close: () => karate.close() },
     { isOpen: () => book.isOpen(), close: () => book.close() },

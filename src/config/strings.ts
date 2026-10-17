@@ -1140,9 +1140,29 @@ export const STORYLINE_TEXT = {
     mountain: 'The mountain',
     mire: 'The mire',
     mill: 'The old mill',
+    day: 'Day Grove',
+    night: 'Night Grove',
   } as Record<string, string>,
-  actions: {} as Record<string, string>,
+  actions: { bout: 'Fight a bout' } as Record<string, string>,
   arrived: (area: string) => `You come to ${area.toLowerCase()}.`,
+} as const;
+
+/** S2's party bouts (ui/party-bout.ts). */
+export const BOUT_TEXT = {
+  title: 'Party bout',
+  leave: 'Leave',
+  left: 'You left the bout.',
+  noParty: 'Nobody in the party has hatched yet.',
+  round: (n: number, tier: number) => `Round ${n} · Tier ${tier}`,
+  party: 'Your party',
+  foes: 'Their side',
+  hp: 'HP',
+  guarding: 'guarding',
+  down: 'down',
+  moves: { strike: 'Strike', guard: 'Guard', rally: 'Rally' } as Record<string, string>,
+  won: 'The party wins.',
+  lost: 'The party is down.',
+  done: 'Done',
 } as const;
 
 /** The side-story props, by id (sim/story-props.ts). */

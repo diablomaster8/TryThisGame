@@ -744,6 +744,8 @@ export type Command =
   | { kind: 'storyArea'; area: string }
   /** The journal's Do-it for a storyline goal that waits on `act:<label>`. */
   | { kind: 'storyAct'; label: string }
+  /** S2's party bout finished in the panel (sim/party-bout.ts). */
+  | { kind: 'partyBoutResult'; won: boolean; tier: number; shells: number }
   /** A tap on a story prop (the old trowel, the flat stone...), by prop id. */
   | { kind: 'storyProp'; prop: string }
   | { kind: 'giveHeartFruit'; nubbinId: string }
@@ -875,6 +877,7 @@ export type SimEvent =
   | { kind: 'sideStory'; story: string; status: 'open' | 'done' | 'closed' }
   | { kind: 'storylineStarted'; id: string }
   | { kind: 'areaChanged'; area: string }
+  | { kind: 'partyBout'; won: boolean; tier: number; shells: number }
   | { kind: 'keepsake'; id: string; quest: string }
   | { kind: 'talked'; npcId: string }
   | { kind: 'courting'; nubbinId: string }

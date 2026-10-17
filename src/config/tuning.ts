@@ -1055,4 +1055,17 @@ export const STORY_PROPS: readonly StoryPropDef[] = [
 export const STORYLINES = {
   /** S1: the partner's adult span, as a multiple of the usual one (5 h × 72 ≈ 15 days). */
   hundredSpanScale: 72,
+  /** S2: foes per bout and their levels by tier. */
+} as const;
+
+/** S2's party bouts (sim/party-bout.ts). */
+export const PARTY_BOUT = {
+  foesPerTier: 3,
+  foeLevel: [8, 20, 40] as const,
+  foeNames: ['Glitch', 'Proxy', 'Null', 'Daemon', 'Cursor', 'Packet'] as const,
+  foeGuardChance: 0.15,
+  guardFactor: 0.5,
+  rallyHeal: 0.15,
+  logLines: 6,
+  prize: [20, 50, 110] as const,
 } as const;

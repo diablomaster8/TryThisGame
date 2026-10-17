@@ -9,6 +9,8 @@ import type { CampaignState, Command, SimEvent, World } from './types';
 export interface StoryAction {
   /** Looked up in STORYLINE_TEXT.actions for its label. */
   id: string;
+  /** A panel the journal opens instead of sending the command ('partyBout'). */
+  ui?: string;
   command: Command;
   enabled: boolean;
 }

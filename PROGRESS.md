@@ -22,6 +22,35 @@ rows, the Atlas quote, adviser and audience items in the two wave reports, and
 the Arcade and LB/LK decisions (section "Pixel's Arcade PA1–PA5" in `docs/progress-archive.md`).
 Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
 
+## G12 X5: S2 "Logged In" with party bouts (2026-10-17)
+
+The second separate campaign, in the `logged` save mode. Script
+`src/content/storyline-logged.ts` (8 chapters, 3 endings; Warden, Juno and Root), rule
+`sim/storyline-rules-logged.ts`, and a new minigame: the turn-based party bout.
+
+Works:
+- Setup: three starter eggs rolled from the chosen Keeper’s line are the party (flag
+  `party`); both Grove recolours are unlocked so the Day and Night servers are the Sun and
+  Moon Groves (Where To: Day Grove, Night Grove; the night one refuses until chapter 4).
+- `sim/party-bout.ts`: three partners against three seeded foes, one move each per round
+  (strike, guard halves the next hit, rally heals the party 15%), foes strike the weakest
+  or guard; karate’s stat maths (Power, Stamina, Run). `ui/party-bout.ts` is a plain DOM
+  panel opened from the journal’s Fight a bout button (`StoryAction.ui` + `Journal.openers`,
+  wired in hud.ts) and reports `partyBoutResult`; won bouts count (`count:partyBout`) and
+  pay shells by tier (`PARTY_BOUT`).
+- Goals: hatch three; bouts 1, 3, 5 (two of them after crossing to the night server), the
+  board (Do-it), 8, the root-node choice, 10. The sibling-and-company thread is a
+  `mature:teen` beat (`l-c5-thread`), so it never plays with the setting Off.
+- Endings: Everyone Wakes (Root’s word, party intact), the Quiet Exit (the company’s word),
+  One Short (Root’s word after a partner departed).
+- Tests: `tests/sim/party-bout.test.ts` (seeded, strong wins, weak loses, turn order, guard
+  and rally) and `tests/sim/storyline-logged.test.ts` (setup, the mature gate both ways,
+  all three endings).
+
+Stubbed: the bout panel is text rows and buttons, no sprites or animation; the "card-like
+format" is the move set, not drawn cards. Other locked-in players are narrated (Juno),
+not NPCs on the map.
+
 ## G12 X4: S1 "The Hundred Days" (2026-10-17)
 
 The first separate campaign, in the `hundred` save mode (title screen → The Hundred Days →
@@ -82,42 +111,6 @@ Stubbed: E3’s “ten Keepers” are narrated as rounds; the dojo fights its us
 are not yet in `content/index.ts` or `tests/tools/content-check.ts` (both files are mid-edit
 by the Learning Grove session); the expansions test covers the same checks for them.
 No render work: the square, Nova and the bracket use the existing scenes, NPCs and dojo.
-
-## G12 X0: the storyline engine for the separate campaigns (2026-10-17)
-
-Maor picked everything on the Digimon-inspired list: expansions E1–E3 and campaigns
-S1–S4 (plan Part G12). X0 is the engine they all run on; X1–X3 add the expansions,
-X4–X7 the campaigns, one commit each.
-
-Works:
-- `content/types.ts` `Storyline`: chapters with an opening scene, a goal check string, a
-  closing scene and optional beats (a scene that plays once when its check is met), plus
-  endings and extra scenes. `sim/storyline.ts` runs them through the campaign state the
-  dialogue box, journal and away screen already read (`CampaignState.storyline`), so a
-  separate campaign needs no new UI for its scenes. Endings register as `<id>-<ending>`
-  in ENDINGS so the end card finds `end-<id>-<ending>`.
-- `sim/storyline-checks.ts`: the goal grammar (`recruits:>=3`, `prosperity:40`,
-  `partner:adult`, `area:cave&act:light`, `days:>=1`, `count:converted:2`, `|` and `&`).
-  Counters fold from events as `n:<kind>` flags; `act:<label>` is the journal's Do-it.
-- `sim/storyline-rules.ts`: the per-campaign code hook (setup, onChapter, onScene,
-  onEvent, onArea, holdsClose, variant, endingFor, actions). Commands `storylineStart`,
-  `storyArea`, `storyAct`; events `storylineStarted`, `areaChanged`.
-- Save version 5 (`campaign.storyline`), four new save modes with three slots each
-  (`hundred`, `logged`, `beetle`, `dawndusk`) on the title screen; Dawn & Dusk asks for a
-  side and locks Dusk until Dawn has an ending in any slot (`storylineFinished`). The
-  journal shows either campaign through `journalView` (goal, Do-it, travel, actions,
-  the storyline's own Paths). `Nubbin.spanScale` stretches an adult span (S1's partner).
-- Tests: `tests/sim/storyline-engine.test.ts` drives a three-chapter test storyline end
-  to end (counters, areas, beats, acts, days, a choice-driven ending, save round trip,
-  the v4→v5 migration, the check grammar).
-
-Stubbed: `sim/storyline-content.ts` is empty until X4–X7, so the four title modes start
-without a script (the slot plays as a Free Grove). Render: no new scenery; areas map to
-the locations, Grove recolours and weather both renderers already draw.
-
-Known bugs: `tests/sim/edu-story.test.ts` and `line-swaps.test.ts` fail at HEAD before
-this pass (the Learning Grove A-series session is mid-edit in `src/content/edu.ts`); the
-gate for this commit ran in a clean worktree with only these files copied in.
 
 ## Standing approval (Maor, 2026-10-12)
 

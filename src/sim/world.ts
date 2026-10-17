@@ -575,6 +575,11 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       }
       return;
     }
+    case 'partyBoutResult': {
+      if (cmd.won) world.inventory.shells += cmd.shells;
+      events.push({ kind: 'partyBout', won: cmd.won, tier: cmd.tier, shells: cmd.shells });
+      return;
+    }
     case 'receiveNubbin':
       receiveNubbin(world, cmd.nubbin, events);
       return;

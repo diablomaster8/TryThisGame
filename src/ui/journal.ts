@@ -50,6 +50,9 @@ export class Journal {
   /** The language courses' tracing game (CV3), opened from a tracing step. */
   private readonly trace: TraceGame;
 
+  /** Panels a storyline action opens (hud.ts fills these in), by StoryAction.ui. */
+  readonly openers: Record<string, () => void> = {};
+
   open(): void {
     this.refresh();
     this.dialog.show();
@@ -277,8 +280,14 @@ export class Journal {
       const b = button(
         STORYLINE_TEXT.actions[a.id] ?? a.id,
         () => {
-          g.send(a.command);
-          this.refresh();
+          const open = a.ui ? this.openers[a.ui] : undefined;
+          if (open) {
+            this.close();
+            open();
+          } else {
+            g.send(a.command);
+            this.refresh();
+          }
         },
         'btn btn-small',
       );
