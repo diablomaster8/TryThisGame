@@ -104,7 +104,7 @@ Done: G1–G10, G8b, G13 (the 3D polish stubs), G14 (bundle diet and grass in a 
 | --- | --- | --- | --- | --- |
 | G11 | Device pass: phones, Firefox and Safari, workers, both renderers | Opus, then Sonnet rows | none | one day plus Maor's phones |
 | G16 | Full 3D parity: the remaining gaps and the renderer brief (done 2026-10-16) | Opus | none | 12–17 h |
-| G12 | Expansions E1–E3 and campaigns S1–S4 | Fable | Maor's pick | large |
+| G12 | Expansions E1–E3 and campaigns S1–S4 | Fable | done 2026-10-17 (X0–X7) | large |
 
 ## Part G11 — Device pass across both renderers
 
@@ -155,7 +155,7 @@ Context rules: read CLAUDE.md and the Status block of PROGRESS.md, then the two 
 Task: close the Full 3D parity gaps in plan.md Part G16, G16.1 to G16.11 in table order, one commit each, each matching the pixel view on the same seeded save (`?free&slot=3`, Graphics Full 3D, 375x812; the hidden browser pane pauses rAF, so drive `grove.frame()` by hand). Keep 3D work inside src/render3d/; the sim never learns which renderer is on. Stop and list what is left if an item runs past twice its estimate. Then write G16.12, docs/renderer-decision.md. The checkout is shared: build each commit from HEAD in a scratch `git checkout-index` export and stage and commit in one command. Screenshots in docs/samples/parity2-<item>.jpg. Run lint, test, build; log at line 12 of PROGRESS.md and tick the items off in Part G16; commit; push. Report what closed, what is left, and the recommendation in one paragraph.
 ```
 
-## Part G12 — Expansions and campaigns (waiting for Maor's pick)
+## Part G12 — Expansions and campaigns (done 2026-10-17, X0–X7; see PROGRESS.md and the archive)
 
 **Model:** Fable 5.1. **Blocked** until Maor picks from E1–E3 and S1–S4 in PROGRESS.md.
 

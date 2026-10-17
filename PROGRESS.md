@@ -16,7 +16,7 @@ Grove switch, Hebrew and Japanese, Atlas/Arcade/Multiverse saves, Mature content
 one-time gifts). Atlas A1–A31 all scripted; A1–A10 and A22–A31 reviewed and fixed (plan
 Task B-R1; reports `docs/logs/review-wave-L.md` and `review-wave-M.md`). Plan v4
 (`plan.md`): G11 device pass, Track B writing and review tasks, and Part Z, the
-independent full review that runs last. Maor picked all of E1–E3 and S1–S4 (plan G12, in progress below). Waiting on Maor:
+independent full review that runs last. Plan G12 is built and pushed (2026-10-17): the storyline engine, expansions E1–E3 and the four separate campaigns S1–S4, sections below and in the archive. Waiting on Maor:
 seven fun-quest quotes, Full 3D as default (brief: `docs/renderer-decision.md`), his phone
 rows, the Atlas quote, adviser and audience items in the two wave reports, and
 the Arcade and LB/LK decisions (section "Pixel's Arcade PA1–PA5" in `docs/progress-archive.md`).
