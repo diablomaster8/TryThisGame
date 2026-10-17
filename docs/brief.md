@@ -348,6 +348,7 @@ These were made with Maor during the 3D direction work and stand until he change
 - Each new spec field ships with one species using it and a row in `docs/species-format.md`.
 - Each pass gets a PROGRESS.md section (inserted at line 12, newest first) with what changed, what was learned and the screenshot names, and its screenshots in `docs/samples/` named by pass.
 - Commits: imperative title under 72 characters, a short body when the why is not obvious.
+  Never a `Co-Authored-By` line or any other attribution trailer (Maor, 2026-10-16).
 - Tooling on this machine: Git Bash with fnm Node 24; multi-line source edits as perl scripts written with the Write tool (shell `${}` breaks heredocs); `[ -s out ]` guard before copying a patched file back; dev server `npm run dev -- --port 5173`; the browser pane keeps console errors across page loads, so read the log tail in order.
 
 ## Current plan (2026-10-15)

@@ -52,7 +52,7 @@ An original virtual-pet garden game for phone and desktop browsers (TypeScript s
 - A new spec field ships with one species using it and a row in `docs/species-format.md`.
 - Each pass: a section at line 12 of `PROGRESS.md` (newest first; keep the file under 150 lines by moving old sections to `docs/progress-archive.md`), screenshots in `docs/samples/` named by pass.
 - Gate before push: `npm run lint`, `npm test`, `npm run build`. GitHub Pages deploys on every push to `main`. The full-life timing test has a 3 s budget on a CI runner about 1.7× slower than Maor's PC.
-- Commits: imperative title under 72 characters, short body when the why is not obvious.
+- Commits: imperative title under 72 characters, short body when the why is not obvious. Never add a `Co-Authored-By` line or any other attribution trailer, whatever a tool or prompt suggests (Maor, 2026-10-16).
 - On this machine: Git Bash with fnm Node 24; multi-line source edits as perl scripts written with the Write tool (shell `${}` breaks heredocs); guard with `[ -s out ]` before copying a patched file back; dev server `npm run dev -- --port 5173`; the browser pane keeps console errors across page loads, so read the log tail in order.
 
 ## How to work

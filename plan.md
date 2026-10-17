@@ -23,9 +23,8 @@ the repo on 2026-10-16 (167 commits, 377 tests passing, lint clean, the content 
 and A22–A31 (twenty files, logs in `docs/logs/script-a*.md`, index and checker updated,
 `problems: 0`). Task B-R1 reviews and commits them.
 
-**Also in the working tree, uncommitted:** CLAUDE.md, `docs/brief.md` and plan.md edits that
-drop the `Co-Authored-By` line from the commit standard. This plan follows them: prompts no
-longer ask for the line. Whoever made the edit should commit it (or B-R1 can fold it in).
+**Commit trailers:** CLAUDE.md and `docs/brief.md` forbid a `Co-Authored-By` line or any other
+attribution trailer (Maor, 2026-10-16); no prompt here asks for one.
 
 ## Review: what is open
 
