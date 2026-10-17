@@ -13,8 +13,14 @@
  * SPEAKERS. Hob, the guard's quartermaster; Ottoline Vane, the engineer who built the
  * machine. The team leader is whichever team the Keeper joins (Marina, Luna or Fern).
  *
- * FLAGS. `b-boss-1`, `b-boss-2` (dojo wins in chapters 4 and 8), `b-fusion`
- * (fused | refused), `b-machine` (stop | keep), `b-vane` (stayed | left).
+ * BEATS. Between each chapter's opening and its goal: the banners, the leader's errands
+ * (`count:missionDone`), the first stair and the torches, the Beetle's second run and the
+ * third floor, the two partners, and chapter 8's look back at the fusion and the lever.
+ * Each plays once, in order, only while its chapter is open.
+ *
+ * FLAGS. `b-boss-1`, `b-boss-2` (dojo wins in chapters 4 and 8), `b-torch` (left | kept:
+ * fruit for whoever lights the torches), `b-fusion` (fused | refused), `b-machine`
+ * (stop | keep), `b-vane` (stayed | left).
  */
 import type { Line, Mood, Scene } from '../config/story';
 import type { Speaker, Storyline, StorylineChapter } from './types';
@@ -80,6 +86,37 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
         ),
       ],
     },
+    [
+      {
+        when: 'days:>=1',
+        scene: {
+          id: 'b-c1-banners',
+          lines: [
+            N(
+              'Three banners. Dawn’s is gold and torn. Dusk’s is blue and mended. Dew’s is green and has, you think, been washed.',
+            ),
+            HOB(
+              'Marina’s lot shout. Luna’s lot brood. Fern’s lot knit. Any of them gets you down the road.',
+            ),
+            HOB('None of them gets you back up. That’s the Beetle’s job, and mine.'),
+          ],
+        },
+      },
+      {
+        when: 'days:>=3',
+        scene: {
+          id: 'b-c1-ledger',
+          lines: [
+            N(
+              'Hob writes in a ledger while you decide. Every so often he reads a line back to himself and nods.',
+            ),
+            HOB(
+              'Forty years of who went down and who came up. Same number in each column. I check it most mornings.',
+            ),
+          ],
+        },
+      },
+    ],
   ),
   ch(
     2,
@@ -110,6 +147,36 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
         ),
       ],
     },
+    [
+      {
+        when: 'days:>=1',
+        scene: {
+          id: 'b-c2-tarp',
+          lines: [
+            HOB('She was my father’s. He drove her thirty years and dented her twice.'),
+            HOB(
+              'I’ve dented her forty times and driven her ten. Draw your own conclusions, I’ve drawn mine.',
+            ),
+            N('He pats the dent nearest him. It is, you notice, the one he keeps polished.'),
+          ],
+        },
+      },
+      {
+        when: 'count:missionDone:>=1',
+        scene: {
+          id: 'b-c2-errand',
+          lines: [
+            N(
+              'Your leader’s first errand is small and particular: a message to the lamp room, a bag of nails, a look at the weather vane.',
+            ),
+            HOB(
+              'Errand done? Good. Write it in the book. The book’s how the road knows you were here.',
+            ),
+            N('You write it. Your hand is the newest in forty years of hands.'),
+          ],
+        },
+      },
+    ],
   ),
   ch(
     3,
@@ -135,6 +202,66 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
         HOB('Somebody drew that before the guard existed. Think about that and then don’t.'),
       ],
     },
+    [
+      {
+        when: 'count:descended:>=1',
+        scene: {
+          id: 'b-c3-stair',
+          lines: [
+            N(
+              'The first stair down. The air changes at the fourth step, the way it does in a cellar, and your Nubbins notice before you do.',
+            ),
+            N(
+              'A torch burns in a bracket at the bottom. It has been lit recently. There is nobody here.',
+            ),
+          ],
+        },
+      },
+      {
+        when: 'hollow:runs:>=1',
+        scene: {
+          id: 'b-c3-back-up',
+          lines: [
+            HOB('First floor and back. That’s a map of the first floor. I want the second.'),
+            HOB(
+              'Go again. Take more fruit. The strays down there have opinions about the way down and they’ll trade them.',
+            ),
+          ],
+        },
+      },
+      {
+        when: 'count:strayFed:>=1',
+        scene: {
+          id: 'b-c3-torches',
+          lines: [
+            N(
+              'A stray by one of the torches nobody admits to lighting. It eats, and then it goes and sits by the torch as if it had lit it.',
+            ),
+            N('You have one piece of fruit left.'),
+          ],
+          choices: [
+            {
+              id: 'left',
+              label: 'Leave it by the torch, for whoever lights them.',
+              set: { 'b-torch': 'left' },
+              then: [
+                N('You set it on the bracket. The stray watches you do it, and does not take it.'),
+              ],
+            },
+            {
+              id: 'kept',
+              label: 'Keep it for the next stray.',
+              set: { 'b-torch': 'kept' },
+              then: [
+                N(
+                  'The next nook has a thinner one in it. It was the right call. It still felt like a choice.',
+                ),
+              ],
+            },
+          ],
+        },
+      },
+    ],
   ),
   ch(
     4,
@@ -162,6 +289,32 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
         HOB('Rain. Down there. Write that down, I’m not going to.'),
       ],
     },
+    [
+      {
+        when: 'days:>=1',
+        scene: {
+          id: 'b-c4-wait',
+          lines: [
+            HOB('It’s not hurrying. It’s had four hundred years. You can have a day.'),
+            N(
+              'Your Nubbins train in the yard. The one you have in mind for the door knows it, and stands a little taller.',
+            ),
+          ],
+        },
+      },
+      {
+        when: 'count:missionDone:>=3',
+        scene: {
+          id: 'b-c4-errands',
+          lines: [
+            HOB('Three errands. The leader says you’re all right.'),
+            HOB(
+              'The leader says that about everyone and means it about four. Congratulations, you’re one of the four.',
+            ),
+          ],
+        },
+      },
+    ],
   ),
   ch(
     5,
@@ -221,6 +374,32 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
           set: { 'b-fusion': 'refused' },
         },
       },
+      {
+        when: 'partners',
+        scene: {
+          id: 'b-c5-two',
+          lines: [
+            N(
+              'Two names on the partner slots. They stand either side of you in the guard yard, which is how they always stand, you realise.',
+            ),
+            N('They have been waiting for you to notice.'),
+            VANE('Don’t decide tonight. Nobody decides anything right sat on the Beetle’s bonnet.'),
+          ],
+        },
+      },
+      {
+        when: 'days:>=2',
+        scene: {
+          id: 'b-c5-notebook',
+          lines: [
+            VANE(
+              'I did it once. Two of mine, the year of the machine. I kept the name of the one who was louder.',
+            ),
+            VANE('I still catch myself calling it the other name. It still turns round.', 'soft'),
+            HOB('She tells everyone that. It’s true every time.'),
+          ],
+        },
+      },
     ],
   ),
   ch(
@@ -246,6 +425,44 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
         ),
       ],
     },
+    [
+      {
+        when: 'tank:runs:>=2',
+        scene: {
+          id: 'b-c6-second-run',
+          lines: [
+            N('The second run goes down the new slope. The lamp finds rain before it finds rock.'),
+            HOB('Wet cargo. Weighs more, worth the same. I’ll allow it.'),
+          ],
+        },
+      },
+      {
+        when: 'hollow:best:>=3',
+        scene: {
+          id: 'b-c6-third-floor',
+          lines: [
+            N(
+              'The third floor is a staircase pretending to be a floor. At the bottom of it, a sound like a roof in weather.',
+            ),
+            N(
+              'Your Nubbins stop on the last step and listen, ears up, to rain they have never been under.',
+            ),
+          ],
+        },
+      },
+      {
+        when: 'hollow:best:>=3&flag:b-torch:left',
+        scene: {
+          id: 'b-c6-torch',
+          lines: [
+            N(
+              'By the third-floor stair, a torch is lit, and beside it your fruit, eaten to the core, the core set down tidily on the bracket.',
+            ),
+            N('Whoever lights them says thank you the only way the Hollow allows.'),
+          ],
+        },
+      },
+    ],
   ),
   ch(
     7,
@@ -319,6 +536,53 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
         { id: 'left', label: 'Leave her to the gauges.', set: { 'b-vane': 'left' } },
       ],
     },
+    [
+      {
+        when: 'flag:b-machine:stop',
+        scene: {
+          id: 'b-c8-dry',
+          lines: [
+            N(
+              'The rain on the fourth floor has stopped. The drips take a while to understand this.',
+            ),
+            VANE('Listen. That’s what forty years sounds like, finishing.'),
+          ],
+        },
+      },
+      {
+        when: 'flag:b-machine:keep',
+        scene: {
+          id: 'b-c8-wet',
+          lines: [
+            N('The rain on the fourth floor goes on, light and even, out of its ceiling of pipes.'),
+            VANE('I thought I’d mind. I find I’d mind more if it stopped. Don’t tell Hob.'),
+            HOB('I counted that. I count everything.'),
+          ],
+        },
+      },
+      {
+        when: 'flag:b-fusion:fused',
+        scene: {
+          id: 'b-c8-one',
+          lines: [
+            N(
+              'The one who was two walks ahead of you to the last door, and stops, and waits, which both of them always did.',
+            ),
+            Y('You say both names, quietly. It turns round for both.'),
+          ],
+        },
+      },
+      {
+        when: 'flag:b-fusion:refused',
+        scene: {
+          id: 'b-c8-two',
+          lines: [
+            N('Two of them at the last door, either side of you, in the way they always stand.'),
+            VANE('Narrower way. Longer road. You got here all the same. Write that in Hob’s book.'),
+          ],
+        },
+      },
+    ],
   ),
 ];
 
@@ -388,14 +652,19 @@ export const STORYLINE_BEETLE: Storyline = {
   extra: BEETLE_EXTRA,
   notes:
     'Bosses are dojo wins while chapters 4 and 8 are open (the rule flags them). Fusion ' +
-    'is the journal’s Fuse button on two partners (sim/fusion.ts); refusing is the Do-it.',
+    'is the journal’s Fuse button on two partners (sim/fusion.ts); refusing is the Do-it. ' +
+    'The errand beats count the guard’s missions (`count:missionDone`), which are never goals.',
 };
 
 export const STORYLINE_BEETLE_FLAGS: string[] = [
   'b-boss-1',
   'b-boss-2',
+  'b-torch',
   'b-fusion',
   'b-machine',
   'b-vane',
 ];
-export const STORYLINE_BEETLE_CHECKS: string[] = BEETLE_CHAPTERS.map((c) => c.goal);
+export const STORYLINE_BEETLE_CHECKS: string[] = [
+  ...BEETLE_CHAPTERS.map((c) => c.goal),
+  ...BEETLE_CHAPTERS.flatMap((c) => (c.beats ?? []).map((b) => b.when)),
+];
