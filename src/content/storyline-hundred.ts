@@ -15,8 +15,14 @@
  * SPEAKERS. Ida Brack, the last warden of the Fold; Sorrel, a tinker who comes back as
  * the Fold refills. The Keeper is whichever trainer was picked at the title.
  *
+ * BEATS. Each chapter has scenes between its opening and its goal, keyed on what the
+ * player does (a visitor fed, a care slip, the first stair down) or on the story clock
+ * (`days:` counts from the chapter's start; a story day is two minutes at ×1). They play
+ * once each, in order, and only while the chapter is open.
+ *
  * FLAGS. `partnerId` (set by the rule), `area`, `hush-wins-at`, `hush-beaten`,
- * `h-first-name` (how Ida took the news of the partner's name), `h-mill` (lit | left).
+ * `h-first-name` (how Ida took the news of the partner's name), `h-mill` (lit | left),
+ * `h-drawing` (ida | box: what became of the drawing in the cave chest).
  */
 import type { Line, Mood, Scene } from '../config/story';
 import type { Speaker, Storyline, StorylineChapter } from './types';
@@ -91,6 +97,36 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
         { id: 'slow', label: 'Take a while over it.', set: { 'h-first-name': 'slow' } },
       ],
     },
+    [
+      {
+        when: 'days:>=1',
+        scene: {
+          id: 'h-c1-wait',
+          lines: [
+            N(
+              'The egg is warm and slow about it. Ida watches you turn it, and watches the road, in about equal measure.',
+            ),
+            IDA('Shaking helps. Not too much. You want it keen, not seasick.'),
+            IDA(
+              'I had one once. Before the leaving. You don’t ask what came of it and I don’t tell you, and that’s us getting on.',
+            ),
+          ],
+        },
+      },
+      {
+        when: 'days:>=3',
+        scene: {
+          id: 'h-c1-step',
+          lines: [
+            IDA(
+              'The step you’re sat on was the bakery. The one with the hole was the school. I taught in it, nine years.',
+            ),
+            N('She says it to the egg, not to you. The egg, for its part, rocks once.'),
+            IDA('Nine years and not one of them could spell “February”. I miss every one.', 'soft'),
+          ],
+        },
+      },
+    ],
   ),
   ch(
     2,
@@ -121,6 +157,48 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
         ),
       ],
     },
+    [
+      {
+        when: 'count:wildArrived:>=1',
+        scene: {
+          id: 'h-c2-visitor',
+          lines: [
+            N(
+              'Something wild comes to the edge of the meadow and stops where the grass goes long. It looks at your partner, not at you.',
+            ),
+            IDA('Don’t go to it. Let it come. Put fruit down and look at something else.'),
+            N(
+              'You look at the sky. Your partner looks straight at it, which is apparently allowed.',
+            ),
+          ],
+        },
+      },
+      {
+        when: 'count:wildFed:>=1',
+        scene: {
+          id: 'h-c2-fed',
+          lines: [
+            N('It takes the fruit from the ground, and then, after a long think, from your hand.'),
+            IDA(
+              'There. A few more visits like that and it’ll pick a doorway. They always pick the worst one.',
+            ),
+          ],
+        },
+      },
+      {
+        when: 'partner:slips:>=1',
+        scene: {
+          id: 'h-c2-slip',
+          lines: [
+            N(
+              'A morning you are late with the fruit. Your partner sits by the empty bowl and does not cry, which is worse.',
+            ),
+            IDA('That’s one. I’m not counting. It is.'),
+            N('You feed it. It eats as if nothing happened, and remembers anyway.'),
+          ],
+        },
+      },
+    ],
   ),
   ch(
     3,
@@ -149,6 +227,49 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
         IDA('Shore’s that way. Mind the mud, it remembers feet.'),
       ],
     },
+    [
+      {
+        when: 'count:wildArrived:>=2',
+        scene: {
+          id: 'h-c3-second',
+          lines: [
+            N(
+              'A second wild one, a flier, lands on the post that has no fence and folds its wings as if it owned the post.',
+            ),
+            IDA(
+              'That one’s particular. Feed it twice before it believes you. Three times before it believes me.',
+            ),
+          ],
+        },
+      },
+      {
+        when: 'partner:affection:>=30',
+        scene: {
+          id: 'h-c3-fond',
+          lines: [
+            N(
+              'Your partner has started waiting at the gate with no fence, in the exact spot it last saw you.',
+            ),
+            IDA('That’s fondness. It’s cheap to earn and dear to keep. Keep it.'),
+          ],
+        },
+      },
+      {
+        when: 'days:>=3',
+        scene: {
+          id: 'h-c3-evening',
+          lines: [
+            N(
+              'Evening in the Fold. Ida lights one lamp, the only one, and sets it in the window that still has glass.',
+            ),
+            IDA(
+              'One lamp. When there were sixty I thought it was too bright. I’d have it too bright again.',
+            ),
+            N('Your partner falls asleep against the broom. Ida does not move the broom.'),
+          ],
+        },
+      },
+    ],
   ),
   ch(
     4,
@@ -189,6 +310,34 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
           ],
         },
       },
+      {
+        when: 'area:shore&partner:happiness:>=60',
+        scene: {
+          id: 'h-c4-paddle',
+          lines: [
+            N(
+              'Your partner goes into the shallows up to the knees, stops, and looks back at you with the face of something that has discovered water.',
+            ),
+            N(
+              'It stays there until the sea comes up a hand’s width and makes the decision for it.',
+            ),
+          ],
+        },
+      },
+      {
+        when: 'area:shore&count:wildFed:>=3',
+        scene: {
+          id: 'h-c4-jetty',
+          lines: [
+            N(
+              'The swimmer eats from the jetty, one plank over from you, and then from the water, which is cheating.',
+            ),
+            N(
+              'Ida, up on the dune where the mud cannot reach her, nods once as if a sum had come out.',
+            ),
+          ],
+        },
+      },
     ],
   ),
   ch(
@@ -221,6 +370,60 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
         N('Sorrel takes a roof with a hole in it and starts, that evening, on the hole.'),
       ],
     },
+    [
+      {
+        when: 'count:descended:>=1',
+        scene: {
+          id: 'h-c5-stairs',
+          lines: [
+            N(
+              'The stairs go down into a cold that smells of iron. Your partner takes them one at a time and counts them, you are fairly sure.',
+            ),
+            N('Somewhere below, something drops a shell on stone and listens to it.'),
+          ],
+        },
+      },
+      {
+        when: 'count:strayFed:>=1',
+        scene: {
+          id: 'h-c5-stray',
+          lines: [
+            N(
+              'A stray in a nook, thin, with the look of a thing that was somebody’s once. It takes the fruit without coming out.',
+            ),
+            N(
+              'Your partner sits down outside the nook and waits, and after a while the stray eats where it can be seen.',
+            ),
+          ],
+        },
+      },
+      {
+        when: 'count:chestOpened:>=1',
+        scene: {
+          id: 'h-c5-chest',
+          lines: [
+            N(
+              'A box under the third stair, shut for years. Shells in it, and a child’s drawing of a village with all its roofs on.',
+            ),
+            N('Sixty-odd houses, counted carefully, and a lamp in every window, drawn as a dot.'),
+          ],
+          choices: [
+            {
+              id: 'ida',
+              label: 'Take the drawing up for Ida.',
+              set: { 'h-drawing': 'ida' },
+              then: [Y('She’ll know whose it was. She knew all of them.')],
+            },
+            {
+              id: 'box',
+              label: 'Leave it in the box, where it was kept.',
+              set: { 'h-drawing': 'box' },
+              then: [N('You put the lid back on. Some things are kept by being left.')],
+            },
+          ],
+        },
+      },
+    ],
   ),
   ch(
     6,
@@ -246,6 +449,54 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
         IDA('There it is, then. That’s the one that sees the hundredth day.', 'soft'),
       ],
     },
+    [
+      {
+        when: 'partner:trust:>=40',
+        scene: {
+          id: 'h-c6-trust',
+          lines: [
+            N(
+              'It brings you things now. A stone. The kettle lid. Once, with great ceremony, a beetle, alive, which you give back.',
+            ),
+            IDA('That’s trust. It thinks you need looking after. It’s not wrong.'),
+          ],
+        },
+      },
+      {
+        when: 'partner:slips:>=3',
+        scene: {
+          id: 'h-c6-slips',
+          lines: [
+            IDA(
+              'Three times it’s gone without. I said I wasn’t counting. I lied, I count everything, it’s what’s left of teaching.',
+            ),
+            IDA(
+              'It’ll come up grumpy if this goes on. Grumpy’s not the end. It’s a lamp with a dirty glass.',
+            ),
+            N(
+              'Your partner, hearing its name in her voice, comes and leans on her boot. She lets it.',
+            ),
+          ],
+        },
+      },
+      {
+        when: 'partner:stage:cocoon',
+        scene: {
+          id: 'h-c6-cocoon',
+          lines: [
+            N(
+              'It stops in the middle of the square one afternoon and goes still, and a shell of light closes round it like a held breath.',
+            ),
+            IDA(
+              'Don’t touch it. Sit. It’s doing the hardest thing it’ll ever do and it can’t see you.',
+            ),
+            N(
+              'You sit. Sorrel comes out of his roof and sits too, with the kettle, for something to hold.',
+            ),
+          ],
+        },
+      },
+    ],
   ),
   ch(
     7,
@@ -272,6 +523,36 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
         ),
       ],
     },
+    [
+      {
+        when: 'area:mire',
+        scene: {
+          id: 'h-c7-rain',
+          lines: [
+            N(
+              'The mire. Rain on reed and black water, and a path that is only a path if you believe in it.',
+            ),
+            N(
+              'Your partner, grown, walks it as if it had been here before. Perhaps the mire is in all of them.',
+            ),
+          ],
+        },
+      },
+      {
+        when: 'recruits:>=4',
+        scene: {
+          id: 'h-c7-four',
+          lines: [
+            N(
+              'Four. The fourth is a thicket thing with its ears full of rain, and it moves into the house with the best roof as if it had booked it.',
+            ),
+            SORREL('That’s my roof. That’s the roof I mended.'),
+            N('He looks at the thicket thing. The thicket thing drips.'),
+            SORREL('Fine. Fine. There’s a hole in the one next door.'),
+          ],
+        },
+      },
+    ],
   ),
   ch(
     8,
@@ -306,6 +587,47 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
         { id: 'left', label: 'Leave it dark.', set: { 'h-mill': 'left' } },
       ],
     },
+    [
+      {
+        when: 'area:mill',
+        scene: {
+          id: 'h-c8-wheel',
+          lines: [
+            N(
+              'Close to, the wheel is taller than the house. Moss on the paddles, a nest in the hub, the brake rusted the colour of the stream.',
+            ),
+            SORREL('Don’t pull that. I mean it. It’s not the lever, it’s what it’s holding back.'),
+          ],
+        },
+      },
+      {
+        when: 'prosperity:>=20',
+        scene: {
+          id: 'h-c8-stall',
+          lines: [
+            N(
+              'A stall on the square: a trestle, four kinds of fruit, and nobody to take your shells but a box.',
+            ),
+            IDA(
+              'Honesty box. There was one before. It was the last thing to go and the first thing I put back.',
+            ),
+          ],
+        },
+      },
+      {
+        when: 'prosperity:>=40',
+        scene: {
+          id: 'h-c8-yard',
+          lines: [
+            N(
+              'Somebody has cleared the yard behind the bathhouse: a lane, a beam, a bar. The square’s creatures queue for it at dawn.',
+            ),
+            SORREL('I didn’t do that. I was going to. I’d like to know who beat me to it.'),
+            N('Ida, sweeping, does not look up, and does not stop looking pleased.'),
+          ],
+        },
+      },
+    ],
   ),
   ch(
     9,
@@ -346,6 +668,31 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
           ],
         },
       },
+      {
+        when: 'area:mountain&flag:h-mill:lit',
+        scene: {
+          id: 'h-c9-lamp-lit',
+          lines: [
+            N(
+              'Far below, the loft lamp. One light in the whole dark valley, and the thing on the path turns its head toward it.',
+            ),
+            Y('You lit it. Whatever comes down now comes down to a lit house.'),
+            N('Your partner stops between the Hush and the lamp, and plants its feet.'),
+          ],
+        },
+      },
+      {
+        when: 'area:mountain&flag:h-mill:left',
+        scene: {
+          id: 'h-c9-lamp-left',
+          lines: [
+            N(
+              'Below, the Fold is dark. You chose that: nothing to draw it down. So it walks the mountain with no light to go toward, and goes toward you.',
+            ),
+            N('Your partner steps in front. It is not quiet. It has never once been quiet.'),
+          ],
+        },
+      },
     ],
   ),
   ch(
@@ -371,6 +718,75 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
         ),
       ],
     },
+    [
+      {
+        when: 'flag:h-first-name:quick',
+        scene: {
+          id: 'h-c10-name-quick',
+          lines: [
+            IDA(
+              'You named it in a breath. I thought, that’s a child who’ll lose interest by Tuesday.',
+            ),
+            IDA('I was wrong, and I’m glad to say so. I don’t often get the chance.', 'soft'),
+          ],
+        },
+      },
+      {
+        when: 'flag:h-first-name:slow',
+        scene: {
+          id: 'h-c10-name-slow',
+          lines: [
+            IDA(
+              'You took an hour over the name. I thought, that’s one who’ll fuss over everything.',
+            ),
+            IDA('You did. Look where fussing got us.', 'soft'),
+          ],
+        },
+      },
+      {
+        when: 'flag:h-drawing:ida',
+        scene: {
+          id: 'h-c10-drawing-ida',
+          lines: [
+            N(
+              'The drawing from the cave is pinned inside Ida’s window, beside the lamp. Sixty-odd roofs, every window a dot.',
+            ),
+            IDA(
+              'Tam drew that. Year before the cold. I set it out this morning and counted. We’re short a few roofs.',
+            ),
+            IDA('Short’s not the same as missing. I had to be old to learn that.'),
+          ],
+        },
+      },
+      {
+        when: 'flag:h-drawing:box',
+        scene: {
+          id: 'h-c10-drawing-box',
+          lines: [
+            N(
+              'Under the third stair in the cave, in a box you shut, a drawing of a village with all its roofs on.',
+            ),
+            N(
+              'It is wrong now by only a few roofs. You find you are glad nobody but you knows that.',
+            ),
+          ],
+        },
+      },
+      {
+        when: 'partner:moody',
+        scene: {
+          id: 'h-c10-moody',
+          lines: [
+            N(
+              'Your partner sits on the far side of the square from the others, as it has since the cocoon, and watches you with its grey face.',
+            ),
+            IDA(
+              'It came up the way the days made it. So did I. Go and sit with it. That’s the whole method.',
+            ),
+          ],
+        },
+      },
+    ],
   ),
 ];
 
@@ -457,7 +873,8 @@ export const STORYLINE_HUNDRED: Storyline = {
   notes:
     'Areas: meadow, shore, cave, mountain, mire, mill (STORYLINE_TEXT.areas). The rule maps ' +
     'them to the Grove, the Hollow run, the story Hollow set and Corvin’s garden with rain. ' +
-    'The Hush is the dojo bout fought in chapter 9.',
+    'The Hush is the dojo bout fought in chapter 9. Beats key on the storyline counters; the ' +
+    '`days:` ones are the story clock from the chapter’s start.',
 };
 
 export const STORYLINE_HUNDRED_FLAGS: string[] = [
@@ -465,7 +882,11 @@ export const STORYLINE_HUNDRED_FLAGS: string[] = [
   'area',
   'h-first-name',
   'h-mill',
+  'h-drawing',
   'hush-wins-at',
   'hush-beaten',
 ];
-export const STORYLINE_HUNDRED_CHECKS: string[] = HUNDRED_CHAPTERS.map((c) => c.goal);
+export const STORYLINE_HUNDRED_CHECKS: string[] = [
+  ...HUNDRED_CHAPTERS.map((c) => c.goal),
+  ...HUNDRED_CHAPTERS.flatMap((c) => (c.beats ?? []).map((b) => b.when)),
+];
