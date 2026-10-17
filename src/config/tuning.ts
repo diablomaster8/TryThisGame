@@ -1058,6 +1058,13 @@ export const STORYLINES = {
   /** S2: foes per bout and their levels by tier. */
 } as const;
 
+/** S3's fusion (sim/fusion.ts): what both partners must be sure of before they can agree. */
+export const FUSION = {
+  minAffection: 80,
+  minTrust: 60,
+  affectionGain: 10,
+} as const;
+
 /** S2's party bouts (sim/party-bout.ts). */
 export const PARTY_BOUT = {
   foesPerTier: 3,

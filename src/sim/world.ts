@@ -43,6 +43,7 @@ import { addRecruit, festivalPrizeMultiplier, stepTown } from './town';
 import { stepSlips } from './slips';
 import { trainResult } from './gym';
 import { merge, setPartner, stepPartners } from './partners';
+import { fuse } from './fusion';
 import { stepCurfew } from './curfew';
 import { dungeonGo, enterDungeon, feedStray, inParty, leaveDungeon, stepDungeon } from './dungeon';
 import { setMemory } from './inheritance';
@@ -573,6 +574,11 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
         n.karate.belt = Math.max(n.karate.belt, cmd.won ? cmd.tier : 0);
         events.push({ kind: 'karate', nubbinId: n.id, won: cmd.won, belt: n.karate.belt });
       }
+      return;
+    }
+    case 'fuse': {
+      const [a, b] = world.partners;
+      if (a && b) fuse(world, a, b, events);
       return;
     }
     case 'partyBoutResult': {

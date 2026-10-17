@@ -51,6 +51,7 @@ const COUNTED = new Set<SimEvent['kind']>([
   'ate',
   'collected',
   'partyBout',
+  'fused',
 ]);
 
 export function storylineOf(c: CampaignState | null | undefined): Storyline | undefined {

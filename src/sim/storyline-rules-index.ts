@@ -4,3 +4,4 @@
  */
 import './storyline-rules-hundred';
 import './storyline-rules-logged';
+import './storyline-rules-beetle';

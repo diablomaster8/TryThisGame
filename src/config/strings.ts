@@ -1143,7 +1143,7 @@ export const STORYLINE_TEXT = {
     day: 'Day Grove',
     night: 'Night Grove',
   } as Record<string, string>,
-  actions: { bout: 'Fight a bout' } as Record<string, string>,
+  actions: { bout: 'Fight a bout', fuse: 'Fuse the partners' } as Record<string, string>,
   arrived: (area: string) => `You come to ${area.toLowerCase()}.`,
 } as const;
 
