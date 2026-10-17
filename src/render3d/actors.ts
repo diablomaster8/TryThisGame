@@ -12,7 +12,9 @@ import { Crowd, crowdFor } from './crowd';
 import { gaitTime } from './gait';
 import { WATER_LEVEL, groveHeight } from './terrain';
 import { buildToy } from './toys';
-import { GROVE, GROVE3D, THROW } from '../config/tuning';
+import { GROVE, GROVE3D, LIFECYCLE, THROW } from '../config/tuning';
+import { isMerged } from '../sim/partners';
+import { FRUIT_COLOURS, FRUIT_PLAIN, MergedGlow } from './glow';
 import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
 
 /**
@@ -116,6 +118,7 @@ export class Actors {
   /** A short squash (landing) or pop (hatch, evolve, rebirth) by Nubbin id. */
   private readonly pops = new Map<string, { kind: 'squash' | 'pop'; startMs: number }>();
   private readonly highlight: THREE.Mesh;
+  private readonly glow: MergedGlow;
   private highlightId: string | null = null;
   /** For a highlighted thing that is not a Nubbin or an item: where it is now, and how wide. */
   private highlightSpot: (() => { x: number; z: number; r: number } | null) | null = null;
@@ -155,6 +158,7 @@ export class Actors {
         depthWrite: false,
       }),
     );
+    this.glow = new MergedGlow(this.group);
     this.highlight.rotation.x = -Math.PI / 2;
     this.highlight.visible = false;
     this.group.add(this.highlight);
@@ -317,6 +321,8 @@ export class Actors {
         thickness: 0.6,
         emissive: stage === 'egg' ? '#000000' : '#8a70c0',
         emissiveIntensity: stage === 'egg' ? 0 : 0.5,
+        // A cocoon fades or shimmers (see `update`).
+        transparent: stage === 'cocoon',
       }),
     );
     mesh.scale.set(0.85, 1.1, 0.85);
@@ -607,7 +613,11 @@ export class Actors {
     if (i.kind === 'fruit') {
       mesh = new THREE.Mesh(
         new THREE.SphereGeometry(0.2, 14, 10),
-        new THREE.MeshPhysicalMaterial({ color: '#ff8a2a', roughness: 0.35, clearcoat: 0.6 }),
+        new THREE.MeshPhysicalMaterial({
+          color: i.flavor ? FRUIT_COLOURS[i.flavor] : FRUIT_PLAIN,
+          roughness: 0.35,
+          clearcoat: 0.6,
+        }),
       );
     } else {
       mesh = new THREE.Mesh(
@@ -680,9 +690,20 @@ export class Actors {
       } else if (a.shell) {
         o.position.set(x, gy + 0.46 + y, z);
         if (n.stage === 'egg') o.rotation.z = Math.sin(t * 2.2 + x) * 0.06;
-        else o.rotation.y = t * 0.4;
+        else {
+          o.rotation.y = t * 0.4;
+          // As the pixel cocoon: a departing one fades as it closes, a rebirth one shimmers.
+          (a.shell.material as THREE.MeshPhysicalMaterial).opacity =
+            n.cocoonKind === 'depart'
+              ? 1 - Math.min(1, n.stageMs / LIFECYCLE.cocoonMs) * 0.85
+              : n.cocoonKind === 'rebirth'
+                ? 0.85 + 0.15 * Math.sin(nowMs / 150)
+                : 1;
+        }
       }
       this.squash(a, n.id, o, nowMs);
+      const tall = a.rig ? (a.look?.height ?? GROVE3D.nubbinHeight) : 0.9;
+      this.glow.set(n.id, isMerged(world, n.id), o.position, tall, nowMs);
       // The emote ball over the head: the same choice the pixel view makes, a reaction
       // bubble over it for a moment, two frames flipping every 400 ms, plum for a Shadow.
       let bubble = this.bubbles.get(n.id);
@@ -711,6 +732,7 @@ export class Actors {
     }
     for (const id of [...this.nubbins.keys()]) if (!live.has(id)) this.drop(id);
     for (const id of [...this.pops.keys()]) if (!live.has(id)) this.pops.delete(id);
+    this.glow.keep(live);
 
     // The Keeper.
     const kp = this.keeperDrawPos(world, alpha);
