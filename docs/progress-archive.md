@@ -2,6 +2,32 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Pixel's Arcade PA1–PA5 and lines LB, LK scripted (2026-10-16)
+
+Seven script agents, one file each: `src/content/arcade-pa1.ts` … `arcade-pa5.ts`,
+`lines-lb.ts`, `lines-lk.ts` (LB and LK carry both Learning Grove bands in the same file).
+All seven are registered in `index.ts`. tsc, eslint and content-check pass with
+`problems: 0` (882 quests). Logs: `docs/logs/script-{pa1..pa5,lb,lk}.md`. Not committed.
+`content-check.ts` has a new commented exemption for one quote clash it flagged by mistake.
+
+Decisions waiting on Maor:
+- LK8: "the King in the river" became a tiger, so no king who could be read as the
+  Prophet Sulaiman is pictured. Confirm.
+- LK: Malay and Indonesian advisers for words, counting audio, clothes, lamp, puppets
+  and food; Siti and Wulan's evening idle lines are still to write with them.
+- LB: Ned Larkin (4) shares a name with S31's valley boy Ned (9). Keep both or rename?
+- LB: is "inspired by Bluey" the credit wanted?
+- Quotes to verify: PA1 Tikal's prayer x2 (English script), PA2 Mewtwo's "circumstances
+  of one's birth" (art book), PA3's three, PA4 Flowey's "kill or be killed" and Papyrus's
+  laugh, PA5 "Open your eyes." and "I think I can accept that." (the game).
+- PA4 credits: note that the neutral ending is not shown. (All licences approved (Maor, 2026-10-17).)
+- Byte is "he" in PA2 (two pronoun warnings); confirm against canon.
+
+SIM needs (details in the logs): PA1-17's other check when the gate was locked; PA2's
+name box for the clone, its sprite and a lasting attract screen; PA3's breakable flower,
+the save before the Abyss and how the ending is chosen; PA5's memory-site tracking and the
+one-time thirteenth memory.
+
 ## Full 3D parity gaps, plan Part G16 (2026-10-16)
 
 Closes G16.1 to G16.11 and writes G16.12. Each checked in the browser pane on `?free&slot=3`,

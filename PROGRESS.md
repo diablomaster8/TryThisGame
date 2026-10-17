@@ -19,8 +19,37 @@ Task B-R1; reports `docs/logs/review-wave-L.md` and `review-wave-M.md`). Plan v4
 independent full review that runs last. Maor picked all of E1–E3 and S1–S4 (plan G12, in progress below). Waiting on Maor:
 seven fun-quest quotes, Full 3D as default (brief: `docs/renderer-decision.md`), his phone
 rows, the Atlas quote, adviser and audience items in the two wave reports, and
-the Arcade and LB/LK decisions in the section below.
+the Arcade and LB/LK decisions (section "Pixel's Arcade PA1–PA5" in `docs/progress-archive.md`).
 Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
+
+## G12 X4: S1 "The Hundred Days" (2026-10-17)
+
+The first separate campaign, in the `hundred` save mode (title screen → The Hundred Days →
+pick a Keeper). Script `src/content/storyline-hundred.ts` (10 chapters, 4 endings, Ida
+Brack and Sorrel), rule `sim/storyline-rules-hundred.ts`, registered through
+`sim/storyline-content.ts` (the script chunk) and `sim/storyline-rules-index.ts` (imported
+by campaign.ts for its side effects).
+
+Works:
+- Setup: the roster becomes one egg, named partner, `spanScale` 72 so its adult span is
+  about fifteen real days (`STORYLINES.hundredSpanScale`; ×10 to ×1000 in the debug panel).
+- Six areas from the journal’s Where To: meadow and shore are the Grove, the cave starts a
+  Hollow run, the mountain is the story Hollow set, the mire is Corvin’s garden in rain,
+  the mill the same set in clear weather. Arriving spawns one wild visitor of the area’s
+  habitat pool, so each area has something to win over for the Fold.
+- Goals: hatch; recruits 1, 2, 3 (shore), a Hollow run, the partner’s evolution, recruits
+  5 (mire), prosperity 60 at the mill, the Hush (a dojo win during chapter 9), the last
+  day. Two choices (naming, the loft lamp) are flagged for later use.
+- Endings: Bright Fold (prosperity 100, no moody partner), the Fold, Quiet Fold
+  (prosperity under 60), a Grey Lamp (a moody or Shadow partner).
+- Tests: `tests/sim/storyline-hundred.test.ts` plays all ten chapters to each of the four
+  endings through the real commands (`storyArea`, `leaveDungeon`, `karateResult`,
+  `debugHatchNow`), with `tests/sim/storyline-driver.ts` shared by the S2–S4 tests.
+
+Stubbed: the Hush is the ordinary top-tier dojo rival with the chapter’s framing (no
+colossus sprite or special fighter); the length is a session, not the brief’s 8–10 hours,
+and a writing pass could add beats between the recruit goals. The chapter-9 bout counts a
+win anywhere, not only at the mountain.
 
 ## G12 X1–X3: expansions E1 The Square, E2 Nova’s Season, E3 The Twine (2026-10-17)
 
@@ -89,32 +118,6 @@ the locations, Grove recolours and weather both renderers already draw.
 Known bugs: `tests/sim/edu-story.test.ts` and `line-swaps.test.ts` fail at HEAD before
 this pass (the Learning Grove A-series session is mid-edit in `src/content/edu.ts`); the
 gate for this commit ran in a clean worktree with only these files copied in.
-
-## Pixel's Arcade PA1–PA5 and lines LB, LK scripted (2026-10-16)
-
-Seven script agents, one file each: `src/content/arcade-pa1.ts` … `arcade-pa5.ts`,
-`lines-lb.ts`, `lines-lk.ts` (LB and LK carry both Learning Grove bands in the same file).
-All seven are registered in `index.ts`. tsc, eslint and content-check pass with
-`problems: 0` (882 quests). Logs: `docs/logs/script-{pa1..pa5,lb,lk}.md`. Not committed.
-`content-check.ts` has a new commented exemption for one quote clash it flagged by mistake.
-
-Decisions waiting on Maor:
-- LK8: "the King in the river" became a tiger, so no king who could be read as the
-  Prophet Sulaiman is pictured. Confirm.
-- LK: Malay and Indonesian advisers for words, counting audio, clothes, lamp, puppets
-  and food; Siti and Wulan's evening idle lines are still to write with them.
-- LB: Ned Larkin (4) shares a name with S31's valley boy Ned (9). Keep both or rename?
-- LB: is "inspired by Bluey" the credit wanted?
-- Quotes to verify: PA1 Tikal's prayer x2 (English script), PA2 Mewtwo's "circumstances
-  of one's birth" (art book), PA3's three, PA4 Flowey's "kill or be killed" and Papyrus's
-  laugh, PA5 "Open your eyes." and "I think I can accept that." (the game).
-- PA4 credits: note that the neutral ending is not shown. (All licences approved (Maor, 2026-10-17).)
-- Byte is "he" in PA2 (two pronoun warnings); confirm against canon.
-
-SIM needs (details in the logs): PA1-17's other check when the gate was locked; PA2's
-name box for the clone, its sprite and a lasting attract screen; PA3's breakable flower,
-the save before the Abyss and how the ending is chosen; PA5's memory-site tracking and the
-one-time thirteenth memory.
 
 ## Standing approval (Maor, 2026-10-12)
 

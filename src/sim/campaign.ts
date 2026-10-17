@@ -19,6 +19,7 @@ import { noteSceneWords } from './lang';
 import { sceneById, sceneFor } from './story-scenes';
 import { collectorRoute, queueScene, sableOf, seen } from './story-state';
 import { TRAINERS } from './trainers';
+import './storyline-rules-index';
 import {
   applyStorylineCommand,
   startStoryline,
