@@ -263,7 +263,7 @@ export {
   EDU_S31_READER_VARIANTS,
   CHECKS as EDU_S31_READER_CHECKS,
 } from './edu-s31-reader';
-// Learning Grove versions of Atlas A02, A05-A20 and A22-A24 (wired in edu.ts; bare CHECKS renamed here)
+// Learning Grove versions of Atlas A02, A05-A20 and A22-A31 (wired in edu.ts; bare CHECKS renamed here)
 export {
   EDU_A02_SPROUT,
   EDU_A02_SPROUT_VARIANTS,
@@ -459,3 +459,63 @@ export {
   EDU_A24_READER_VARIANTS,
   CHECKS as EDU_A24_READER_CHECKS,
 } from './edu-a24-reader';
+export {
+  EDU_A25_READER,
+  EDU_A25_READER_VARIANTS,
+  CHECKS as EDU_A25_READER_CHECKS,
+} from './edu-a25-reader';
+export {
+  EDU_A26_SPROUT,
+  EDU_A26_SPROUT_VARIANTS,
+  CHECKS as EDU_A26_SPROUT_CHECKS,
+} from './edu-a26-sprout';
+export {
+  EDU_A26_READER,
+  EDU_A26_READER_VARIANTS,
+  CHECKS as EDU_A26_READER_CHECKS,
+} from './edu-a26-reader';
+export {
+  EDU_A27_SPROUT,
+  EDU_A27_SPROUT_VARIANTS,
+  CHECKS as EDU_A27_SPROUT_CHECKS,
+} from './edu-a27-sprout';
+export {
+  EDU_A27_READER,
+  EDU_A27_READER_VARIANTS,
+  CHECKS as EDU_A27_READER_CHECKS,
+} from './edu-a27-reader';
+export {
+  EDU_A28_SPROUT,
+  EDU_A28_SPROUT_VARIANTS,
+  CHECKS as EDU_A28_SPROUT_CHECKS,
+} from './edu-a28-sprout';
+export {
+  EDU_A28_READER,
+  EDU_A28_READER_VARIANTS,
+  CHECKS as EDU_A28_READER_CHECKS,
+} from './edu-a28-reader';
+export {
+  EDU_A29_READER,
+  EDU_A29_READER_VARIANTS,
+  CHECKS as EDU_A29_READER_CHECKS,
+} from './edu-a29-reader';
+export {
+  EDU_A30_SPROUT,
+  EDU_A30_SPROUT_VARIANTS,
+  CHECKS as EDU_A30_SPROUT_CHECKS,
+} from './edu-a30-sprout';
+export {
+  EDU_A30_READER,
+  EDU_A30_READER_VARIANTS,
+  CHECKS as EDU_A30_READER_CHECKS,
+} from './edu-a30-reader';
+export {
+  EDU_A31_SPROUT,
+  EDU_A31_SPROUT_VARIANTS,
+  CHECKS as EDU_A31_SPROUT_CHECKS,
+} from './edu-a31-sprout';
+export {
+  EDU_A31_READER,
+  EDU_A31_READER_VARIANTS,
+  CHECKS as EDU_A31_READER_CHECKS,
+} from './edu-a31-reader';

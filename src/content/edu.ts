@@ -87,6 +87,18 @@ import { EDU_A23_SPROUT, EDU_A23_SPROUT_VARIANTS } from './edu-a23-sprout';
 import { EDU_A23_READER, EDU_A23_READER_VARIANTS } from './edu-a23-reader';
 import { EDU_A24_SPROUT, EDU_A24_SPROUT_VARIANTS } from './edu-a24-sprout';
 import { EDU_A24_READER, EDU_A24_READER_VARIANTS } from './edu-a24-reader';
+import { EDU_A25_READER, EDU_A25_READER_VARIANTS } from './edu-a25-reader';
+import { EDU_A26_SPROUT, EDU_A26_SPROUT_VARIANTS } from './edu-a26-sprout';
+import { EDU_A26_READER, EDU_A26_READER_VARIANTS } from './edu-a26-reader';
+import { EDU_A27_SPROUT, EDU_A27_SPROUT_VARIANTS } from './edu-a27-sprout';
+import { EDU_A27_READER, EDU_A27_READER_VARIANTS } from './edu-a27-reader';
+import { EDU_A28_SPROUT, EDU_A28_SPROUT_VARIANTS } from './edu-a28-sprout';
+import { EDU_A28_READER, EDU_A28_READER_VARIANTS } from './edu-a28-reader';
+import { EDU_A29_READER, EDU_A29_READER_VARIANTS } from './edu-a29-reader';
+import { EDU_A30_SPROUT, EDU_A30_SPROUT_VARIANTS } from './edu-a30-sprout';
+import { EDU_A30_READER, EDU_A30_READER_VARIANTS } from './edu-a30-reader';
+import { EDU_A31_SPROUT, EDU_A31_SPROUT_VARIANTS } from './edu-a31-sprout';
+import { EDU_A31_READER, EDU_A31_READER_VARIANTS } from './edu-a31-reader';
 import { HEBREW_COURSE, LANG_HEBREW } from './lang-hebrew';
 import { JAPANESE_COURSE, LANG_JAPANESE } from './lang-japanese';
 import { LINE_LB_EDU, LINE_LB_EDU_VARIANTS } from './lines-lb';
@@ -113,7 +125,7 @@ export const EDU_CAMPAIGN: Record<EduBand, EduCampaign[]> = {
 };
 
 /**
- * Side stories S1–S22 and S24–S31, Atlas A02, A05–A20 and A22–A24 (A16 reader only), the fun quests (Python, Bean, Avatar; Sunny is adults-only: none) and the
+ * Side stories S1–S22 and S24–S31, Atlas A02, A05–A20 and A22–A31 (A16, A25 and A29 reader only), the fun quests (Python, Bean, Avatar; Sunny is adults-only: none) and the
  * Learning Grove-only language questlines (Hebrew LH1–LH6, Japanese LJ1–LJ6) and the Learning
  * Grove lines LB (Play) and LK (Mouse-Deer).
  */
@@ -154,6 +166,11 @@ export const EDU_QUESTS: Record<EduBand, EduQuest[]> = {
     ...EDU_A22_SPROUT,
     ...EDU_A23_SPROUT,
     ...EDU_A24_SPROUT,
+    ...EDU_A26_SPROUT,
+    ...EDU_A27_SPROUT,
+    ...EDU_A28_SPROUT,
+    ...EDU_A30_SPROUT,
+    ...EDU_A31_SPROUT,
     ...LINE_LB_EDU.sprout,
     ...LINE_LK_EDU.sprout,
   ],
@@ -199,6 +216,13 @@ export const EDU_QUESTS: Record<EduBand, EduQuest[]> = {
     ...EDU_A22_READER,
     ...EDU_A23_READER,
     ...EDU_A24_READER,
+    ...EDU_A25_READER,
+    ...EDU_A26_READER,
+    ...EDU_A27_READER,
+    ...EDU_A28_READER,
+    ...EDU_A29_READER,
+    ...EDU_A30_READER,
+    ...EDU_A31_READER,
     ...LINE_LB_EDU.reader,
     ...LINE_LK_EDU.reader,
   ],
@@ -236,6 +260,11 @@ export const EDU_VARIANTS: Record<EduBand, EduScene[]> = {
     ...EDU_A22_SPROUT_VARIANTS,
     ...EDU_A23_SPROUT_VARIANTS,
     ...EDU_A24_SPROUT_VARIANTS,
+    ...EDU_A26_SPROUT_VARIANTS,
+    ...EDU_A27_SPROUT_VARIANTS,
+    ...EDU_A28_SPROUT_VARIANTS,
+    ...EDU_A30_SPROUT_VARIANTS,
+    ...EDU_A31_SPROUT_VARIANTS,
     ...LINE_LB_EDU_VARIANTS.sprout,
     ...LINE_LK_EDU_VARIANTS.sprout,
   ],
@@ -271,6 +300,13 @@ export const EDU_VARIANTS: Record<EduBand, EduScene[]> = {
     ...EDU_A22_READER_VARIANTS,
     ...EDU_A23_READER_VARIANTS,
     ...EDU_A24_READER_VARIANTS,
+    ...EDU_A25_READER_VARIANTS,
+    ...EDU_A26_READER_VARIANTS,
+    ...EDU_A27_READER_VARIANTS,
+    ...EDU_A28_READER_VARIANTS,
+    ...EDU_A29_READER_VARIANTS,
+    ...EDU_A30_READER_VARIANTS,
+    ...EDU_A31_READER_VARIANTS,
     ...LINE_LB_EDU_VARIANTS.reader,
     ...LINE_LK_EDU_VARIANTS.reader,
   ],
