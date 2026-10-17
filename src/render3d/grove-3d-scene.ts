@@ -13,6 +13,7 @@ import { Picker } from '../render/picker';
 import type { TargetSize } from '../render/pipeline';
 import { CLAMP, GRADE, PUSHERS, buildParticles, type Tex } from '../samples/aaa-kit';
 import type { Floor } from '../sim/dungeon';
+import { townUnlocks } from '../sim/town';
 import type { Location, SimEvent, Vec2, WeatherKind, World } from '../sim/types';
 import { Actors } from './actors';
 import { pickSculptRes, qualityForRes } from './sculpt-res';
@@ -27,6 +28,7 @@ import { buildGroveProps, buildGroveTrees, type GroveProps } from './props';
 import { GroveTextures } from './grove-textures';
 import { GroveSky } from './sky';
 import { StorySets } from './story-sets';
+import { Village } from './village';
 import { VisitSet } from './visit';
 import { buildGroveTerrain, groveHeight, standHeight, type GroveTerrain } from './terrain';
 import { buildGroveWater, type GroveWater } from './water';
@@ -145,6 +147,8 @@ export class Grove3dScene {
   private lastRenderMs = 0;
   private readonly world3d = new THREE.Group();
   private readonly props: GroveProps;
+  /** The square's stalls and the path's fence posts. */
+  private readonly village: Village;
   private readonly water: GroveWater;
   private readonly actors: Actors;
   private readonly dungeonFloor: THREE.Mesh;
@@ -209,6 +213,7 @@ export class Grove3dScene {
     this.pickables.push(this.terrain.mesh);
     this.props = buildGroveProps(this.world3d, this.tex, this.time);
     this.pickables.push(...this.props.pickables);
+    this.village = new Village(this.world3d, this.tex, groveHeight);
     this.water = buildGroveWater(this.world3d);
     this.actors = new Actors(this.scene);
     // Compile against the composer's target: the game draws into it (linear, no tone
@@ -558,6 +563,7 @@ export class Grove3dScene {
     const dt = this.lastMs === 0 ? 0 : Math.min(0.1, (nowMs - this.lastMs) / 1000);
     this.lastMs = nowMs;
     this.time.value = nowMs / 1000;
+    this.village.update(townUnlocks(world));
     this.ensureTrees(world);
     this.groveKind = world.grove;
     this.lastWorld = world;
