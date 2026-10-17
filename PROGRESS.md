@@ -18,8 +18,37 @@ Task B-R1; reports `docs/logs/review-wave-L.md` and `review-wave-M.md`). Plan v4
 (`plan.md`): G11 device pass, Track B writing and review tasks, and Part Z, the
 independent full review that runs last. Waiting on Maor: the expansion pick E1–E3 / S1–S4,
 seven fun-quest quotes, Full 3D as default (brief: `docs/renderer-decision.md`), his phone
-rows, and the Atlas licence, quote, adviser and audience items in the two wave reports.
+rows, the Atlas licence, quote, adviser and audience items in the two wave reports, and
+the Arcade and LB/LK decisions in the section below.
 Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
+
+## Pixel's Arcade PA1–PA5 and lines LB, LK scripted (2026-10-16)
+
+Seven script agents, one file each: `src/content/arcade-pa1.ts` … `arcade-pa5.ts`,
+`lines-lb.ts`, `lines-lk.ts` (LB and LK carry both Learning Grove bands in the same file).
+All seven are registered in `index.ts`. tsc, eslint and content-check pass with
+`problems: 0` (882 quests). Logs: `docs/logs/script-{pa1..pa5,lb,lk}.md`. Not committed.
+`content-check.ts` has a new commented exemption for one quote clash it flagged by mistake.
+
+Decisions waiting on Maor:
+- LK8: "the King in the river" became a tiger, so no king who could be read as the
+  Prophet Sulaiman is pictured. Confirm.
+- LK: Malay and Indonesian advisers for words, counting audio, clothes, lamp, puppets
+  and food; Siti and Wulan's evening idle lines are still to write with them.
+- LB: Ned Larkin (4) shares a name with S31's valley boy Ned (9). Keep both or rename?
+- LB: is "inspired by Bluey" the credit wanted?
+- Quotes to verify: PA1 Tikal's prayer x2 (English script), PA2 Mewtwo's "circumstances
+  of one's birth" (art book), PA3's three, PA4 Flowey's "kill or be killed" and Papyrus's
+  laugh, PA5 "Open your eyes." and "I think I can accept that." (the game).
+- Licences for a commercial build: Sega (PA1, or a full rename), The Pokémon Company (PA2),
+  Team Cherry (PA3), Toby Fox (PA4, and a credits note that the neutral ending is not
+  shown), Nintendo (PA5).
+- Byte is "he" in PA2 (two pronoun warnings); confirm against canon.
+
+SIM needs (details in the logs): PA1-17's other check when the gate was locked; PA2's
+name box for the clone, its sprite and a lasting attract screen; PA3's breakable flower,
+the save before the Abyss and how the ending is chosen; PA5's memory-site tracking and the
+one-time thirteenth memory.
 
 ## Full 3D parity gaps, plan Part G16 (2026-10-16)
 
@@ -76,53 +105,6 @@ Works:
 
 Stubbed: none. Known bugs: a trunk could still hide a Keeper standing right behind it; the
 dressed visit gardens built trees without the fade (both closed in G16.8 and G16.9).
-
-## Pixel vs Full 3D parity pass (2026-10-16)
-
-Method: one seeded Free Grove save (`?free&slot=3`, snapshot reloaded for each mode) played
-in the browser pane at 375x812, driven by hand at x10: 15 actions (hatch, give, pet, feed,
-shake tree, hug, pick up, put down, Moon Keeper, snow, force evolve, Hollow Below in and
-out, end of life), 12,000 frames per mode (twenty minutes at x10), plus an Expedition, a
-race, a campaign scene and the Learning Grove (`?edu=4&slot=3`). Both runs fired the same
-events (hatch, evolve, second evolve, departure); they started 36 game minutes apart, so
-positions differ. Frame times (`gl.finish` round each frame, this PC, dpr 1): Pixel p50
-0.7 ms, p95 1.1 ms; Full 3D p50 3.0 ms, p95 5.3 ms. Entering the Hollow Below: Pixel
-484 ms, Full 3D 3,261 ms the first time (about 400 ms later). `docs/device-pass.md` holds
-no frame times; the only earlier figure is the archive's 2.9 ms for Full 3D at 1024x768.
-
-Works (fixed, one commit each):
-- 3D reaction bubbles (heart, !, ?, spiral) via shared `bubbleFor`, the two-frame emote
-  flip and the plum Shadow sheet (dcf72b9).
-- 3D portrait view: vertical field of view widens to keep `GROVE3D.minHFovDeg` (34)
-  across; at 375x812 it was about 20 degrees and Nubbins sat off the edge (1af54fe).
-- 3D memorial flowers only in the Grove and removed with their memorial (d48cb1f).
-- 3D canvas scales smoothly, not nearest-neighbour (landed inside 0867344: another
-  session's CV3 commit took the staged file during a git lock clash; the change is right).
-- 3D items follow the pixel rule: no Grove fruit in the Hollow Below, notebooks only in
-  story places (778e471).
-- Same in both (checked): HUD, toasts, panels, camera buttons and gestures, picking (every
-  kind; 3D uses coarse spheres); Expedition, races, Beetle Run and the Learning Grove
-  minigames pause the 3D render.
-
-Open, with estimates (all tracked in plan.md Part G16; 2-10 closed in the G16 pass above):
-1. Done (8089255): event bursts, squash and pop in 3D (section above).
-2. Hollow Below entry stall in 3D (its lamps recompile every material, by design):
-   compile asynchronously behind a fade. 1.5-2 h.
-3. Done (fb96dd3): crowns between the camera and the Keeper fade (section above).
-4. Highlight on non-creature picks (lantern, tree, building, stairs, chest, loot). 1-2 h.
-5. Story Hollow and Corvin's garden sets (a plain floor and a colour in 3D). 3-4 h.
-6. Hollow Below: no Keeper lamp, generic loot, no "?" over wild ones (Grove too). 1.5-2 h.
-7. Village stalls and path fence posts missing in 3D. 1-1.5 h.
-8. Merged glow, cocoon fade, fruit flavours missing in 3D. 1-1.5 h.
-9. 3D weather ignores intensity and reduced motion; no leaves, no grade. 1 h.
-10. Both modes: the race screen in portrait starts with runners and names clipped at the
-    left edge. 30-60 min.
-11. Expedition and races are pixel art in both modes: a style jump in Full 3D (Maor's call).
-
-Shots: `docs/samples/parity-hollow-{pixel,3d}.png`, `parity-3d-portrait.png` (after the
-field-of-view fix), `parity-3d-crown.png` (item 3).
-
-Stubbed: none new. Known bugs: items 2 and 10 above (both closed in G16).
 
 ## Standing approval (Maor, 2026-10-12)
 

@@ -54,6 +54,13 @@ Generated from `src/content/`. One file per pack.
 - [Atlas, page A29: The Honmoon](22-atlas-a29.md): 16 quests, 17 variant scenes
 - [Atlas, page A30: The Word on the Brow](22-atlas-a30.md): 13 quests, 20 variant scenes
 - [Atlas, page A31: The Hero Twins](22-atlas-a31.md): 17 quests, 23 variant scenes
+- [Pixel's Arcade, cartridge PA1: The Chao Altar](23-arcade-pa1.md): 18 quests, 9 variant scenes
+- [Pixel's Arcade, cartridge PA2: The Clone Island](23-arcade-pa2.md): 18 quests, 8 variant scenes
+- [Pixel's Arcade, cartridge PA3: The Hollow Kingdom](23-arcade-pa3.md): 18 quests, 14 variant scenes
+- [Pixel's Arcade, cartridge PA4: Mercy](23-arcade-pa4.md): 19 quests, 27 variant scenes
+- [Pixel's Arcade, cartridge PA5: The Hundred-Year Sleep](23-arcade-pa5.md): 18 quests, 15 variant scenes
+- [Learning Grove line LB: Play (LB1–LB12)](24-line-lb.md): 12 quests, 9 variant scenes
+- [Learning Grove line LK: Mouse-Deer (LK1–LK10)](25-line-lk.md): 10 quests, 4 variant scenes
 - [Learning Grove, Little Sprouts (ages 3–6, read aloud): campaign](20a-edu-sprout-campaign.md)
 - [Learning Grove, Little Sprouts (ages 3–6, read aloud): side stories and fun quests](20b-edu-sprout-stories.md)
 - [Learning Grove, Grove Readers (ages 7–10): campaign](21a-edu-reader-campaign.md)

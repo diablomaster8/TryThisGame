@@ -10,6 +10,24 @@ export { QUESTS_BEAN } from './quests-bean';
 export { QUESTS_SUNNY } from './quests-sunny';
 export { QUESTS_AVATAR } from './quests-avatar';
 export {
+  QUESTS_ALICE,
+  QUESTS_ALICE_VARIANTS,
+  QUESTS_ALICE_FLAGS,
+  QUESTS_ALICE_CHECKS,
+} from './quests-alice';
+export {
+  QUESTS_HOLMES,
+  QUESTS_HOLMES_VARIANTS,
+  QUESTS_HOLMES_FLAGS,
+  QUESTS_HOLMES_CHECKS,
+} from './quests-holmes';
+export {
+  QUESTS_HODJA,
+  QUESTS_HODJA_VARIANTS,
+  QUESTS_HODJA_FLAGS,
+  QUESTS_HODJA_CHECKS,
+} from './quests-hodja';
+export {
   CAMPAIGN_CHAPTERS,
   CAMPAIGN_SCENES,
   CAMPAIGN_ENDINGS,
@@ -18,7 +36,11 @@ export {
   CAMPAIGN_NOTES,
   BOOKS,
 } from './campaign';
-export { SIDE_STORIES_MAIN, SIDE_STORIES_MAIN_VARIANTS, SIDE_STORIES_MAIN_FLAGS } from './side-stories-main';
+export {
+  SIDE_STORIES_MAIN,
+  SIDE_STORIES_MAIN_VARIANTS,
+  SIDE_STORIES_MAIN_FLAGS,
+} from './side-stories-main';
 export { SIDE_STORIES_FUN } from './side-stories-fun';
 export { SIDE_STORIES_FUN_2, SIDE_STORIES_FUN_2_VARIANTS } from './side-stories-fun-2';
 export { SIDE_STORIES_NEW_1 } from './side-stories-new-1';
@@ -50,15 +72,60 @@ export {
   eduSceneFor,
 } from './edu';
 // Part L and Part M storylines (scripted 2026-10-15; no Learning Grove versions yet)
-export { SIDE_STORY_S23, SIDE_STORY_S23_VARIANTS, SIDE_STORY_S23_FLAGS, SIDE_STORY_S23_CHECKS } from './side-stories-s23';
-export { SIDE_STORY_S24, SIDE_STORY_S24_VARIANTS, SIDE_STORY_S24_FLAGS, SIDE_STORY_S24_CHECKS } from './side-stories-s24';
-export { SIDE_STORY_S25, SIDE_STORY_S25_VARIANTS, SIDE_STORY_S25_FLAGS, SIDE_STORY_S25_CHECKS } from './side-stories-s25';
-export { SIDE_STORY_S26, SIDE_STORY_S26_VARIANTS, SIDE_STORY_S26_FLAGS, SIDE_STORY_S26_CHECKS } from './side-stories-s26';
-export { SIDE_STORY_S27, SIDE_STORY_S27_VARIANTS, SIDE_STORY_S27_FLAGS, SIDE_STORY_S27_CHECKS } from './side-stories-s27';
-export { SIDE_STORY_S28, SIDE_STORY_S28_VARIANTS, SIDE_STORY_S28_FLAGS, SIDE_STORY_S28_CHECKS } from './side-stories-s28';
-export { SIDE_STORY_S29, SIDE_STORY_S29_VARIANTS, SIDE_STORY_S29_FLAGS, SIDE_STORY_S29_CHECKS } from './side-stories-s29';
-export { SIDE_STORY_S30, SIDE_STORY_S30_VARIANTS, SIDE_STORY_S30_FLAGS, SIDE_STORY_S30_CHECKS } from './side-stories-s30';
-export { SIDE_STORY_S31, SIDE_STORY_S31_VARIANTS, SIDE_STORY_S31_FLAGS, SIDE_STORY_S31_CHECKS } from './side-stories-s31';
+export {
+  SIDE_STORY_S23,
+  SIDE_STORY_S23_VARIANTS,
+  SIDE_STORY_S23_FLAGS,
+  SIDE_STORY_S23_CHECKS,
+} from './side-stories-s23';
+export {
+  SIDE_STORY_S24,
+  SIDE_STORY_S24_VARIANTS,
+  SIDE_STORY_S24_FLAGS,
+  SIDE_STORY_S24_CHECKS,
+} from './side-stories-s24';
+export {
+  SIDE_STORY_S25,
+  SIDE_STORY_S25_VARIANTS,
+  SIDE_STORY_S25_FLAGS,
+  SIDE_STORY_S25_CHECKS,
+} from './side-stories-s25';
+export {
+  SIDE_STORY_S26,
+  SIDE_STORY_S26_VARIANTS,
+  SIDE_STORY_S26_FLAGS,
+  SIDE_STORY_S26_CHECKS,
+} from './side-stories-s26';
+export {
+  SIDE_STORY_S27,
+  SIDE_STORY_S27_VARIANTS,
+  SIDE_STORY_S27_FLAGS,
+  SIDE_STORY_S27_CHECKS,
+} from './side-stories-s27';
+export {
+  SIDE_STORY_S28,
+  SIDE_STORY_S28_VARIANTS,
+  SIDE_STORY_S28_FLAGS,
+  SIDE_STORY_S28_CHECKS,
+} from './side-stories-s28';
+export {
+  SIDE_STORY_S29,
+  SIDE_STORY_S29_VARIANTS,
+  SIDE_STORY_S29_FLAGS,
+  SIDE_STORY_S29_CHECKS,
+} from './side-stories-s29';
+export {
+  SIDE_STORY_S30,
+  SIDE_STORY_S30_VARIANTS,
+  SIDE_STORY_S30_FLAGS,
+  SIDE_STORY_S30_CHECKS,
+} from './side-stories-s30';
+export {
+  SIDE_STORY_S31,
+  SIDE_STORY_S31_VARIANTS,
+  SIDE_STORY_S31_FLAGS,
+  SIDE_STORY_S31_CHECKS,
+} from './side-stories-s31';
 export { ATLAS_A01, ATLAS_A01_VARIANTS, ATLAS_A01_FLAGS, ATLAS_A01_CHECKS } from './atlas-a01';
 export { ATLAS_A02, ATLAS_A02_VARIANTS, ATLAS_A02_FLAGS, ATLAS_A02_CHECKS } from './atlas-a02';
 export { ATLAS_A03, ATLAS_A03_VARIANTS, ATLAS_A03_FLAGS, ATLAS_A03_CHECKS } from './atlas-a03';
@@ -90,3 +157,109 @@ export { ATLAS_A28, ATLAS_A28_VARIANTS, ATLAS_A28_FLAGS, ATLAS_A28_CHECKS } from
 export { ATLAS_A29, ATLAS_A29_VARIANTS, ATLAS_A29_FLAGS, ATLAS_A29_CHECKS } from './atlas-a29';
 export { ATLAS_A30, ATLAS_A30_VARIANTS, ATLAS_A30_FLAGS, ATLAS_A30_CHECKS } from './atlas-a30';
 export { ATLAS_A31, A31_VARIANTS, ATLAS_A31_FLAGS, ATLAS_A31_CHECKS } from './atlas-a31';
+// Pixel's Arcade cartridges (Part M, scripted 2026-10-16; no Learning Grove versions: licence)
+export { ARCADE_PA1, PA1_VARIANTS, ARCADE_PA1_FLAGS, ARCADE_PA1_CHECKS } from './arcade-pa1';
+export { ARCADE_PA2, ARCADE_PA2_VARIANTS, ARCADE_PA2_FLAGS, ARCADE_PA2_CHECKS } from './arcade-pa2';
+export { ARCADE_PA3, PA3_VARIANTS, ARCADE_PA3_FLAGS, ARCADE_PA3_CHECKS } from './arcade-pa3';
+export { ARCADE_PA4, ARCADE_PA4_VARIANTS, ARCADE_PA4_FLAGS, ARCADE_PA4_CHECKS } from './arcade-pa4';
+export { ARCADE_PA5, PA5_VARIANTS, ARCADE_PA5_FLAGS, ARCADE_PA5_CHECKS } from './arcade-pa5';
+// Learning Grove lines (Learning Grove only; their edu versions are wired in edu.ts)
+export {
+  LINE_LB,
+  LINE_LB_VARIANTS,
+  LINE_LB_FLAGS,
+  LINE_LB_CHECKS,
+  LINE_LB_EDU,
+  LINE_LB_EDU_VARIANTS,
+  LINE_LB_EDU_CHECKS,
+} from './lines-lb';
+export {
+  LINE_LK,
+  LINE_LK_VARIANTS,
+  LINE_LK_FLAGS,
+  LINE_LK_CHECKS,
+  LINE_LK_EDU,
+  LINE_LK_EDU_VARIANTS,
+  LINE_LK_EDU_CHECKS,
+} from './lines-lk';
+// Learning Grove versions of S24-S31 (wired in edu.ts; the files each export a bare CHECKS, renamed here)
+export {
+  EDU_S24_SPROUT,
+  EDU_S24_SPROUT_VARIANTS,
+  CHECKS as EDU_S24_SPROUT_CHECKS,
+} from './edu-s24-sprout';
+export {
+  EDU_S24_READER,
+  EDU_S24_READER_VARIANTS,
+  CHECKS as EDU_S24_READER_CHECKS,
+} from './edu-s24-reader';
+export {
+  EDU_S25_SPROUT,
+  EDU_S25_SPROUT_VARIANTS,
+  CHECKS as EDU_S25_SPROUT_CHECKS,
+} from './edu-s25-sprout';
+export {
+  EDU_S25_READER,
+  EDU_S25_READER_VARIANTS,
+  CHECKS as EDU_S25_READER_CHECKS,
+} from './edu-s25-reader';
+export {
+  EDU_S26_SPROUT,
+  EDU_S26_SPROUT_VARIANTS,
+  CHECKS as EDU_S26_SPROUT_CHECKS,
+} from './edu-s26-sprout';
+export {
+  EDU_S26_READER,
+  EDU_S26_READER_VARIANTS,
+  CHECKS as EDU_S26_READER_CHECKS,
+} from './edu-s26-reader';
+export {
+  EDU_S27_SPROUT,
+  EDU_S27_SPROUT_VARIANTS,
+  CHECKS as EDU_S27_SPROUT_CHECKS,
+} from './edu-s27-sprout';
+export {
+  EDU_S27_READER,
+  EDU_S27_READER_VARIANTS,
+  CHECKS as EDU_S27_READER_CHECKS,
+} from './edu-s27-reader';
+export {
+  EDU_S28_SPROUT,
+  EDU_S28_SPROUT_VARIANTS,
+  CHECKS as EDU_S28_SPROUT_CHECKS,
+} from './edu-s28-sprout';
+export {
+  EDU_S28_READER,
+  EDU_S28_READER_VARIANTS,
+  CHECKS as EDU_S28_READER_CHECKS,
+} from './edu-s28-reader';
+export {
+  EDU_S29_SPROUT,
+  EDU_S29_SPROUT_VARIANTS,
+  CHECKS as EDU_S29_SPROUT_CHECKS,
+} from './edu-s29-sprout';
+export {
+  EDU_S29_READER,
+  EDU_S29_READER_VARIANTS,
+  CHECKS as EDU_S29_READER_CHECKS,
+} from './edu-s29-reader';
+export {
+  EDU_S30_SPROUT,
+  EDU_S30_SPROUT_VARIANTS,
+  CHECKS as EDU_S30_SPROUT_CHECKS,
+} from './edu-s30-sprout';
+export {
+  EDU_S30_READER,
+  EDU_S30_READER_VARIANTS,
+  CHECKS as EDU_S30_READER_CHECKS,
+} from './edu-s30-reader';
+export {
+  EDU_S31_SPROUT,
+  EDU_S31_SPROUT_VARIANTS,
+  CHECKS as EDU_S31_SPROUT_CHECKS,
+} from './edu-s31-sprout';
+export {
+  EDU_S31_READER,
+  EDU_S31_READER_VARIANTS,
+  CHECKS as EDU_S31_READER_CHECKS,
+} from './edu-s31-reader';

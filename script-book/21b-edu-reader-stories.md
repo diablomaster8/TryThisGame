@@ -15916,6 +15916,7062 @@ _Dumpling eats a りんご before Hana has finished saying the word._
 - **あめ (ame)**: Rain.
 - **ゆき (yuki)**: Snow.
 
+## S24. The Adventure Book
+
+- `s24-step1`: Sit with Nova by Hazel’s flower on the hill. · _Nova is at the top of the western hill, by the newest flower. Walk up and sit beside her._
+- `s24-step2`: Look at the first pages of Nova’s atlas. · _Nova has the atlas open on her knees. Stay sitting beside her and look._
+- `s24-step3`: Fetch Hazel’s lantern from its hook by the cottage door. · _It hangs on the hook by the cottage door. Tap it to take it down._
+- `s24-step4`: Load Nova’s pack onto the carrier’s cart. Something under the tarp is giggling. · _The carrier’s cart waits at the end of the lane. Lift the tarp at the back._
+- `s24-step5`: Climb the scree path beside the falls. · _Follow your Nubbin. It finds the dry stones; step where it steps._
+- `s24-step6`: Something has stolen a lantern bun. Meet the thief without frightening it. · _Choose: hold out a bun on your flat hand, or sit down on the path and let it come to you._
+- `s24-step7`: Follow the bird’s tracks up to the camp in the cloud. · _Three-toed tracks, very far apart. Your Nubbin will find the next one._
+- `s24-step8`: Stay at the camp till dusk. · _Wait by the tarpaulin as the light goes. Keep Hazel’s lantern unlit for now._
+- `s24-step9`: Light Hazel’s lantern and give it to Nova. · _Sit with her first. Then light the lantern and put it in her hands._
+- `s24-step10`: Stay with Nova. Let it take as long as it takes. · _Don’t hurry her, and don’t move. There is no wrong amount of time._
+- `s24-step11`: Help Nova build a cairn of Hazel’s things. · _Flat stones at the bottom. Nova will hand you each thing. Take your time._
+- `s24-step12`: Follow Tilly’s whistle up the ridge by lantern light. · _Walk towards the whistle. Keep the lantern low so it doesn’t dazzle anything._
+- `s24-step13`: Free Fairweather’s boot from her net, one loop at a time. · _Work from the outside in. Your Nubbin will sit on the net’s end so it can’t slide._
+- `s24-step14`: Set Hazel’s lantern, lit, on the Sunrise Shelf as the sun comes up. · _Put it on the lip of the rock, facing the Grove. Then wait for the sun._
+- `s24-step15`: Write the first line on the atlas’s last page. · _Choose what to write, then write it with Hazel’s pencil stub._
+
+#### `s24-tea`
+
+_Spring. The memorial flowers on the hill have opened all at once, as if somebody gave a signal._  
+_Hazel’s is the untidy one near Briar’s. It still faces the Grove, very firmly._  
+_Somebody comes over the far ridge in the early light, under a pack so big it looks like a walking hedge._  
+_It is Nova. She comes straight up the hill path, and at the top she stops, which is new._  
+**Nova**: Morning. Don’t get up. I was passing. I’m always passing.  
+**Nova**: I thought I’d sit here a minute and not pass.  
+_She sits down by Hazel’s flower with her pack still on, like a tortoise that has decided to stay a while._  
+
+> **Lesson** (literacy, L.4.5, ask): similes: comparing with “like”  
+> _Nova sits “like a tortoise that has decided to stay a while”. That’s a simile: a comparison using “like”._  
+> _What does it tell you?_  
+> - ✅ Her big pack is like a shell, and she isn’t moving. → Exactly. Two words, “a tortoise”, and you can see the pack, the slowness and the staying.
+> - She has turned into a tortoise. → Not really! A simile only compares. She’s still Nova. The pack is like a shell, and she’s staying put, the way a tortoise does.
+> _For grown-ups: Explained what a simile shows about a character._
+
+_Your Nubbin runs to her, then back to you, then to her again, to check you are both still there._  
+**Nova**: Is there tea? There’s usually tea. I usually say no.  
+**You**: There’s tea.  
+**Nova**: Then I’ll have some. I’d like to stay for tea.  
+_Nobody in the valley can remember Nova staying for tea. Down by the hedge, Fern drops a whole tray of seedlings._  
+
+#### `s24-tea-done`
+
+_You bring the pot up the hill. Nova drinks two cups, and holds the third without drinking it, for the warmth._  
+**Nova**: She asked me in every time. Every single time. I always said I couldn’t stop.  
+**Nova**: I could have stopped.  
+
+> **Lesson** (literacy, RL.3.3, ask): a character’s motives  
+> _Why do you think Nova always said no to tea?_  
+> - She was always in a hurry to get somewhere new. → That fits. She calls herself “always passing”. Stopping was hard for her.
+> - She thought there would always be another time. → A lot of people think that. It’s why her “I could have stopped” hurts so much.
+> - Staying felt too close, somehow. → That’s a thoughtful answer. Some people find kindness easier to visit than to sit inside.
+> _For grown-ups: Thought about the reasons behind a character’s choices._
+
+_That is regret: wishing you had done something differently, when you can’t go back and do it._  
+_Your Nubbin leans against Nova’s boot, the way it leans against yours._  
+_She looks at the flower for a while. Then she undoes the top of her pack._  
+
+#### `s24-pages`
+
+_The atlas comes out wrapped in oilcloth. It is fat with maps and tickets and pressed leaves, and tied shut with a bootlace._  
+**Nova**: You’ve seen the middle. The stories. Everybody has. I don’t show anyone the front.  
+_She unties the bootlace. The first pages are not maps: they are a list, in pencil, in a young hand that presses hard._  
+_At the top, underlined twice: PLACES I’LL GO. Underneath, smaller and crosser: (and nobody is to stop me)._  
+**Nova**: Hazel wrote that. She was nineteen. Before the Grove. Before Moss decided she’d do.  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): older people were young once, with plans of their own  
+> _It’s strange to think of Hazel at nineteen: cross, impatient, with a list of places and nobody to stop her._  
+> _Every older person you know was young once, with plans. Ask one what was on their list. The answers can surprise you._  
+> _For grown-ups: Thought about how older people were once young, with hopes and plans of their own._
+
+_“A sea with no other side”; “a city with trams”; “somewhere it snows in June”; “a mountain nobody can pronounce”._  
+
+> **Lesson** (science, 3-ESS2-1, ask): seasons are opposite in the two halves of the world  
+> _“Somewhere it snows in June.” Where could that be?_  
+> - ✅ Somewhere in the southern half of the world. → Yes. When it’s summer in the north, it’s winter in the south. Very high mountains can have snow in June too.
+> - Nowhere. June is summer. → It is in the north! But in the southern half of the world, June is winter. Very high mountains can have snow in June too.
+> _For grown-ups: Learned that the seasons are opposite in the northern and southern halves of the world._
+
+_Every line has a tick beside it, in ink, in a different hand. Some of the ticks are very old, and some are not._  
+**Nova**: Mine. Every tick. She asked me to come back and tell her about each one after. So I did.  
+**Nova**: I was twelve. I came through on the carrier’s cart, between one place and the next. It was raining.  
+**Nova**: She gave me tea, which I refused, and this, which I didn’t. She said, “You go. One of us should.”  
+
+#### `s24-pages-done`
+
+_One line, at the very bottom, has no tick: “The Sunrise Shelf. See the whole valley at once. Take someone.”_  
+**Nova**: It’s on the far ridge. A day’s walk. I’ve seen a sea with no other side, and never went a day’s walk from her door.  
+
+> **Lesson** (maths, 4.MD.A.2, ask): distance from speed and time  
+> **Nova**: A day’s walk, uphill. On a steep path I manage about 3 kilometres an hour.  
+> **Nova**: If we walk for 8 hours, how far could we get?  
+> - ✅ 24 kilometres → That’s it. 3 kilometres, 8 times over: 24. A good long day.
+> - 11 kilometres → That’s 3 add 8. But it’s 3 kilometres every hour, for 8 hours: 3 times 8 is 24.
+> - 38 kilometres → Too far for my legs! 3 kilometres an hour, for 8 hours: 3 times 8 is 24.
+> _For grown-ups: Multiplied speed by time to find a distance (3 km an hour for 8 hours = 24 km)._
+
+_Nova runs her finger along the line, the way you might stroke a cat that isn’t sure about you._  
+**Nova**: It says take someone. I never had anyone to take.  
+**Nova**: …I might have someone now. If someone’s free.  
+_Your Nubbin is already sitting on your boot, ready to go._  
+
+#### `s24-lantern`
+
+**Nova**: One more thing. Can we take her lantern? And light it up there, at sunrise?  
+
+> **Lesson** (science, 1-ESS1-2, notice): daylight changes through the year  
+> **Nova**: Sunrise comes a little earlier every morning in spring. The days are stretching out.  
+> **Nova**: By midsummer the sun is up before nearly everyone. After that, the mornings slowly get later again.  
+> _For grown-ups: Learned that the time of sunrise changes through the year._
+
+**Nova**: So she sees it. From wherever she is, being difficult about something.  
+_Hazel’s lantern hangs on the hook by the cottage door, where it has hung since somebody brought it down off the hill._  
+_You haven’t lit it since. You dust it, and tell yourself you are waiting for a good reason._  
+_Your Nubbin sits under it and looks up, the way it looks up at the fruit trees._  
+**Nova**: Is that all right? It’s yours now. I can stop asking for things. I’m out of practice anyway.  
+
+#### `s24-lantern-done`
+
+_The lantern is lighter than you remember. It was nearly always her carrying it._  
+
+> **Lesson** (literacy, L.3.4, ask): multiple-meaning words: light  
+> _“The lantern is lighter than you remember.” What does “lighter” mean here?_  
+> - ✅ It weighs less. → Yes. “Light” can mean not heavy, or it can mean brightness. Here it’s weight. A lantern makes it a good joke.
+> - It shines more brightly. → Good thinking, it IS a lantern! But it isn’t lit yet. Here “lighter” means it weighs less. “Light” has both meanings.
+> _For grown-ups: Worked out which meaning of a multiple-meaning word fits._
+
+_Unlit, it weighs hardly anything at all. Funny how something can be light in your hands and heavy everywhere else._  
+**Nova**: Right. Now I need a carrier who doesn’t ask questions.  
+_Your Nubbin trots beside you, keeping one eye on the lantern._  
+_Down the lane, the carrier’s cart is waiting, and its horse is eating somebody’s hedge._  
+_Nova goes ahead to argue with the carrier about the price._  
+
+#### `s24-stowaway`
+
+_The carrier’s cart goes up the ridge road on Tuesdays, and takes anyone who can lift their own luggage._  
+_Nova can just about lift hers. The cart’s springs go down with a groan._  
+_Under the tarp at the back, something says “ow”. Then, much more quietly: “Nobody heard that.”_  
+_Sparks comes down the lane at a run, which is how Sparks comes down a lane, waving both arms._  
+**Sparks**: Is she in there? She’s in there. Course she is. Sorry. SORRY. She’s my cousin.  
+**Sparks**: Tilly. Nine. Easter holidays. She heard “ridge” and “sunrise” and went off like a cork.  
+_You lift the tarp. A girl in big wellies glares up at you, with a sash across her chest covered in home-made badges._  
+**Tilly**: This is a stowaway situation. You can’t send a stowaway back. That’s the law of the sea.  
+**Nova**: We’re not at sea.  
+**Tilly**: It’s the law of carts, then. It’s the same law.  
+
+> **Lesson** (social-studies, D2.Civ.8.K-2, ask): real rules and made-up rules  
+> _Is “the law of carts” a real rule?_  
+> - ✅ No. Tilly made it up to get her own way. → Yes. Real rules are agreed so things are fair for everyone. Tilly’s rule is fair to exactly one person: Tilly.
+> - Yes. Stowaways can’t be sent back. → Tilly says it so firmly that it sounds real! But she invented it on the spot. Real rules are agreed so things are fair for everyone, not just for the person saying them.
+> _For grown-ups: Told the difference between a real, fair rule and one made up to suit one person._
+
+
+#### `s24-badges`
+
+**Tilly**: I need a badge. I’ve got Knots (Mostly), Brave at the Dentist, Goose Handling, and an old tin one.  
+**Tilly**: I need Helping Someone Sad. Somebody here is sad. I can tell. I’m very good at it.  
+_She looks straight at Nova. Nova looks at the cart’s back wheel as if it has said something interesting._  
+_In the top of Tilly’s left welly there is a folded square of paper, damp at one corner._  
+_You know what it is. Hazel left Tilly a short note, just her name on the front, and Tilly has never opened it._  
+_Your Nubbin sniffs the welly politely, then sits down and looks at you._  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): respecting someone’s privacy  
+> _Tilly keeps the note close and closed. What do you think you should do?_  
+> - Leave it. It’s hers. → That respects her privacy. Sometimes saying nothing tells someone you understand.
+> - Gently check she’s all right. → That’s caring. She may not want to talk, and that’s her choice, but now she knows you noticed.
+> - I’m not sure. → That’s honest. Both are kind. The trick is to watch the person, and let them lead.
+> _For grown-ups: Thought about how to respect someone’s privacy while still caring about them._
+
+
+**Choices**
+
+- **Say nothing about the note.**
+    - You say nothing about it. Tilly notices you saying nothing, and stands up a bit straighter in the cart.
+    - **Tilly**: You can come on my adventure. You’re allowed.
+- **Ask her if she’s all right.**
+    - **Tilly**: I’m FINE. That’s private. It’s from Gran Hazel. It isn’t for opening. It’s for having.
+    - She pushes it down out of sight. Then she pats the welly, once, to check.
+
+#### `s24-pack`
+
+_The cart leaves you at the foot of the falls path, where the road gives up and the water takes over._  
+_Nova gets her pack onto her back in three goes. It clanks, and it is the size of a small shed._  
+**You**: What’s in it?  
+**Nova**: Keepsakes. Her things. Things she gave me.  
+**Nova**: A tin cup. A scarf she knitted a sleeve too long. Every postcard I sent her, and every one she sent back.  
+
+> **Lesson** (maths, 4.MD.A.1, ask): grams and kilograms  
+> _A postcard weighs about 5 grams. Say Nova has 200 postcards in there. How much do they weigh?_  
+> - ✅ 1,000 grams, which is 1 kilogram → Yes. 200 times 5 is 1,000 grams, and 1,000 grams make 1 kilogram. That’s just the postcards!
+> - 205 grams → That’s 200 add 5. But each card weighs 5 grams: 200 times 5 is 1,000 grams. That’s 1 kilogram.
+> - 40 grams → That’s 200 shared by 5. We need 200 lots of 5 grams: 1,000 grams, or 1 kilogram.
+> _For grown-ups: Multiplied to find a total mass and converted 1,000 grams to 1 kilogram._
+
+**Nova**: A shell I gave her, which she gave back, and I gave her again. Twice.  
+_You offer to take a strap, and she says no. Tilly offers to take a strap, and she says no, more kindly._  
+**Nova**: I’ll manage. I always manage. It’s only heavy when you think about it.  
+_Fern has sent a paper bag of lantern buns. It sits on top of everything, the only light thing in there._  
+_Your Nubbin is already halfway up the first stretch of stones, looking back to see why you are all so slow._  
+
+#### `s24-falls-top`
+
+_The path climbs beside the falls, not behind them, through spray and roar. The stones are wet and loose._  
+_This slope of loose, broken stone is called scree. Your Nubbin finds the dry stones._  
+
+> **Lesson** (science, 4-ESS2-1, notice): weathering: how frost breaks rock into scree  
+> **Nova**: Know where scree comes from? Water seeps into cracks in the cliff and freezes. Ice takes up more room than water.  
+> **Nova**: Freeze, thaw, freeze, thaw. Year after year the cracks widen, until bits break off and tumble down here.  
+> **Nova**: That’s weathering. Slow, but it never stops.  
+> _For grown-ups: Learned how freezing and thawing water breaks rock apart (weathering)._
+
+_It runs up, waits on each, runs back to you, and goes up again._  
+_At the top Tilly climbs onto a boulder, spreads her arms at the whole wet sky, and yells at the top of her voice._  
+**Tilly**: The whole world’s up here! The WHOLE WORLD!  
+**Nova**: …It is, isn’t it.  
+_Nova is red in the face and bent nearly double under the pack. She is also, very slightly, smiling._  
+
+#### `s24-bird`
+
+_Above the falls the ridge goes up into cloud, and the cloud is full of birdsong you don’t know._  
+_You stop to eat, and set Fern’s bag of lantern buns on a rock. Then it is a bag of lantern buns minus one._  
+_Something enormous is standing in the mist three strides off, with a bun in its beak._  
+_It is taller than Nova and striped like a humbug, with legs like stilts and a little crest that won’t lie flat._  
+
+> **Lesson** (science, 4-LS1-1, notice): body parts that help an animal survive  
+> **Nova**: Look at those legs. Long legs mean long strides, and a head high enough to see over anything.  
+> **Nova**: And the stripes. In mist and shadow, stripes break up an animal’s outline, so it’s harder to spot.  
+> _For grown-ups: Learned how long legs and a striped pattern can help an animal survive._
+
+**Tilly**: Oh. Oh. Oh, he’s BEAUTIFUL.  
+**Tilly**: He’s called Sir Reginald. That’s decided. Nobody else gets a go.  
+_Sir Reginald swallows the bun whole. You can watch it go all the way down._  
+_It looks at the bag, and then at you. It takes one step forward and two steps back._  
+**Nova**: Don’t grab. Whatever you do. A thing like that, you only see once if you grab.  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): gentleness with wild animals  
+> _Why does Nova say not to grab?_  
+> - ✅ Grabbing frightens wild animals, and then they stop trusting people. → Yes. A wild animal that gets grabbed learns that people mean danger. Slow and gentle earns trust.
+> - Because the bird might bite. → It might! But the bigger reason is trust. A wild animal that gets grabbed learns that people mean danger, and won’t come close again.
+> _For grown-ups: Thought about why grabbing a wild animal breaks its trust._
+
+
+**Choices**
+
+- **Hold out a bun on your flat hand.**
+    - You hold out a bun, flat on your palm, and keep your arm very still.
+    - It takes a long time. Then the bird lowers its head and takes the bun so gently you hardly feel the beak.
+    - Afterwards it follows you a few steps, hopefully, in case your hand does that again.
+- **Sit down on the path and wait for it to come to you.**
+    - You sit down on the wet path. Your Nubbin sits down beside you and keeps still.
+    - After a long while the bird comes and stands over you both, and looks down at the top of your Nubbin’s head.
+    - Then it bends and tidies a tuft of fur there with its beak, very carefully, as if it has been bothering it.
+
+#### `s24-bird-done`
+
+_Then something calls from higher up, a creaky two-note call. The bird turns its head, and is gone into the cloud._  
+
+> **Lesson** (science, 4-LS1-2, notice): animals use calls to communicate  
+> _Birds call to each other to say where they are, to warn of danger, or to call their young. That call meant something, and the bird heard it._  
+> _For grown-ups: Learned that birds use calls to send messages, and listen for them._
+
+**Tilly**: He’s got somewhere to be. You can tell.  
+_For a moment nobody says anything. The cloud drips off the end of your nose._  
+_Nova is standing very still, with her mouth open._  
+**Nova**: That’s a… no. That can’t be. That’s out of a picture paper.  
+**Tilly**: What’s a picture paper?  
+**Nova**: A newspaper full of drawings. Before your time. Before mine, nearly.  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): how people got news in the past  
+> _Long ago, before radio or television, people got their news from newspapers, often filled with drawings of faraway places._  
+> _For grown-ups: Learned how people got news and pictures of the world before modern screens._
+
+
+#### `s24-tracks`
+
+_The tracks are three-toed, enormous and very far apart. Your Nubbin runs from one to the next and sits in each to show you._  
+_Each track is about two metres from the last. That bird takes very big steps._  
+
+> **Lesson** (maths, 3.OA.A.1, ask): multiplication as equal groups  
+> _If each of the bird’s steps is 2 metres, how far does it go in 10 steps?_  
+> - ✅ 20 metres → Yes. 10 groups of 2 metres is 20 metres. About the length of two buses.
+> - 12 metres → That’s 10 add 2. It’s 10 steps of 2 metres each: 10 times 2 is 20 metres.
+> _For grown-ups: Used multiplication as equal groups (10 steps of 2 metres = 20 metres)._
+
+**Tilly**: We’re tracking him. That’s a tracking badge. I’m getting two badges today.  
+_Higher up, the tracks cross a lot of other tracks: boots, very old ones, going round and round in the same circles._  
+_Then a tarpaulin in the cloud, roped to the rock. A washing line, a row of flags, and a great many notebooks under a tin lid._  
+_And a very old woman with a telescope, a hat with a feather in it, and a voice like a door that wants oiling._  
+**Augusta Fairweather**: Stand still. Stand STILL. You’ll frighten it off, and then you’ll say it was never here. They always do.  
+
+#### `s24-camp`
+
+**Augusta Fairweather**: Augusta Fairweather. Explorer. You won’t have heard of me. Nobody has, for fifty years.  
+_Nova makes a noise like a kettle just before it gets going._  
+**Nova**: THE Fairweather? From the picture papers? Hazel had your picture on her wall when she was a girl. She told me.  
+**Augusta Fairweather**: Did she. Then she was one of four thousand children who believed me, before they were told not to.  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): imagining how someone else feels  
+> _Four thousand children believed Fairweather, “before they were told not to”. How do you think that felt, for fifty years?_  
+> - Lonely. Like nobody was on her side. → That’s probably right. It might be why she lives up here, alone.
+> - Angry, and she wanted to prove them wrong. → She says so herself, soon. Anger can keep a person going for a very long time.
+> - Both, and maybe a bit embarrassed. → A thoughtful answer. Big feelings often come mixed together.
+> _For grown-ups: Imagined the feelings of someone who was not believed._
+
+_Fairweather’s eye falls on Tilly’s sash, on the old tin badge, and stays there._  
+**Augusta Fairweather**: That’s one of mine. The Young Explorers. Where did you get that?  
+**Tilly**: Gran Hazel. It was hers when she was little. She gave it me. It’s my oldest one.  
+**Augusta Fairweather**: …Of course it was. I heard somebody shout my old motto up at the falls today. I thought I’d dreamed it.  
+**Nova**: She wrote her list because of you. All of it. Every place.  
+
+#### `s24-cage`
+
+**Augusta Fairweather**: I came down off this ridge with one striped feather and a story. The papers called me a liar in letters this high.  
+**Augusta Fairweather**: So I came back up to prove it. I’ve been proving it ever since.  
+_Behind the tarpaulin is a cage of bent ash and wire, beautifully made, and big enough for a bird taller than Nova._  
+
+> **Lesson** (science, K-ESS3-1, ask): why a cage is no home for a wild bird  
+> _Even a beautiful cage is a bad place for a wild bird. Why?_  
+> - ✅ It can’t find its own food, roam, or look after its young. → Yes. A wild animal’s home is its whole habitat: its food, its space and its family. A cage holds none of those.
+> - Because the cage isn’t pretty enough. → This one is very well made! The problem isn’t the look. A wild bird needs its own food, room to roam and its family. A cage holds none of those.
+> _For grown-ups: Learned that wild animals need their whole habitat, not just shelter._
+
+**Augusta Fairweather**: For the bird. Your girl’s name for it is better than mine. I’ve called it Proof for fifty years.  
+**Augusta Fairweather**: One night in that, down in the valley square where everyone can see. Then I can stop.  
+**Nova**: Stop what?  
+**Augusta Fairweather**: Being the liar on the ridge. Being up here. Being…  
+_She doesn’t finish. She folds a net over her arm, carefully, the way you fold a shirt somebody ironed for you._  
+**Tilly**: You can’t put Sir Reginald in a CAGE. That’s the worst rule I ever heard.  
+**Augusta Fairweather**: I didn’t make the rule, child. The papers did.  
+**Augusta Fairweather**: It comes down to drink at the spring above the camp at dusk. It always has. Tonight I shall be ready.  
+
+> **Lesson** (social-studies, D2.Civ.8.K-2, ask): fairness: does one unfairness justify another?  
+> _Fairweather was treated unfairly. Does that make it fair to put the bird in a cage?_  
+> - No. The bird didn’t do anything to her. → That’s a strong point. Being hurt doesn’t give us the right to hurt someone else.
+> - It’s not fair, but I understand why she wants to. → That’s a fair answer. You can understand someone and still disagree with what they mean to do.
+> - Maybe, if it’s only for one night. → That’s honest. Tilly would argue! Ask yourself: what would one night cost the bird, and her chicks?
+> _For grown-ups: Thought about fairness: whether being treated unfairly makes it fair to do something unfair._
+
+
+**Choices**
+
+- **Tell her the bird doesn’t owe anyone proof.**
+    - **Augusta Fairweather**: Nor did I. They wanted it anyway.
+- **Say nothing. Sit down near the cage.**
+    - You sit down near the cage. Fairweather watches you do it, and something in her face goes tired.
+
+#### `s24-net`
+
+_Dusk. The bird comes down to the spring, all stripes and stilts, and bends to drink._  
+
+> **Lesson** (science, 5-ESS1-2, notice): day and night come from Earth spinning  
+> _Dusk is the dim time just after sunset. It comes because Earth spins, and our side is turning away from the Sun._  
+> _For grown-ups: Learned that dusk and night happen because Earth spins._
+
+_The net goes over it with a sound like a sail filling. Fairweather is faster than anyone that old has a right to be._  
+_The bird bolts up the ridge into the dark, dragging net and old woman both. Tilly is after them before anyone can catch her collar._  
+_Nova lunges. Her pack swings, slides on the wet rock, and goes towards the drop._  
+_She grabs the pack. She grabs it with both arms._  
+_When she looks up, Tilly is gone into the dark._  
+
+#### `s24-rock`
+
+_Nova sits down on the rock with the pack in her arms, and doesn’t move._  
+_Your Nubbin is off up the ridge into the dark before you can call it. A moment later it comes back, calm, and sits at your feet._  
+_Then, from high up the ridge, a whistle: two fingers, rising at the end. Hazel’s supper call._  
+**Tilly**: I’M FINE. I’M WITH SIR REGINALD. NOBODY COME, YOU’LL SCARE HIM.  
+**Nova**: She’s all right. She’s all right.  
+**Nova**: I grabbed the pack. She was right there, and I grabbed the pack.  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): mistakes don’t make someone a bad person  
+> _Nova grabbed the pack, not Tilly. Does that make her a bad person?_  
+> - No. People grab without thinking when they’re frightened. → That’s true. A mistake made in a frightened second doesn’t decide who you are.
+> - It was a mistake, and she knows it. → Yes. Feeling bad about it shows she cares. What matters is what she does next.
+> - I think she should have grabbed Tilly. → That’s a fair thing to think, and Nova thinks it too. Owning a mistake is the first step to putting it right.
+> _For grown-ups: Thought about mistakes, guilt and what makes someone a good person._
+
+_It is too dark for the ridge path now, and too steep to hurry on. The whistle comes again, cross and steady._  
+_You sit down next to Nova, and you don’t say anything. You wait._  
+
+#### `s24-light`
+
+_You light Hazel’s lantern. It comes up small and gold, and the rock and the pack and Nova’s face come out of the dark._  
+
+> **Lesson** (science, 4-PS3-2, notice): a flame changes stored energy into light and heat  
+> _A lantern flame turns the energy stored in its fuel into light and heat. That’s why the glass grows warm while it glows._  
+> _For grown-ups: Learned that a flame changes stored energy into light and heat._
+
+_The light makes a small gold room in the dark, just big enough for two people and a Nubbin._  
+_You put it in her hands, and she holds it a long time. Then she sets the pack down, so she can hold it properly._  
+**Nova**: I’ll read her list. I always read her list when it’s bad. It’s the only thing that works.  
+_Up the ridge, the whistle comes again, cross and steady._  
+_She opens the atlas from the wrong end. The back pages fall open in the lantern light._  
+
+#### `s24-back-pages`
+
+_The back pages are in pencil too, in an older hand than the list. It doesn’t press so hard now._  
+**Nova**: These aren’t mine. I never… I never turned to the back. Why would you turn to the back?  
+**Nova**: “Nova came. Twelve, all knees. Gave her the book. She’ll never bring it back. Good.”  
+**Nova**: “Nova came. Tea (refused).”  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): keeping a memory book for someone  
+> _Hazel kept a diary in the back of Nova’s book: a line or two about ordinary days._  
+> _Small notes like these, about weather and visits, become a memory book. Someone can open it years later and find they were loved._  
+> _For grown-ups: Learned how a diary of small, ordinary moments can become a memory book for someone._
+
+_She laughs. It comes out wrong._  
+**Nova**: “Nova came. Brought a shell. Tea (refused).” “Nova came. Took the shell back. Tea (refused).”  
+**Nova**: She left my pack by her door while I walked the valley. She must have taken this out and written in it. Every time.  
+_Pages of it: rain, frost, Fern’s trees, the weather, and who came to the gate, and who didn’t._  
+**Nova**: “Sun. Moss sat on my foot all afternoon. Got nothing done. Best day this year.”  
+**Nova**: “Nova came. Taller. Ticked off a sea. Tea (refused). Don’t mind. She’ll stop for tea when she’s ready.”  
+**Nova**: “Nova came. I nearly told her. Didn’t. She’d have stayed, and hated it, and so would I.”  
+_Nova can’t read the last one out. She turns the book round and holds the lantern so you can see._  
+**Gran Hazel**: “Thank you for every bit of it. Now off you go, and find somewhere new!”  
+_Nova cries. All of it, at once, with her whole face, the lantern shaking in her hands._  
+
+#### `s24-crying`
+
+_Your Nubbin climbs into her lap, on top of the book, and leans its whole weight against her._  
+_You keep still. Up the ridge, every so often, the supper whistle comes, cross and steady, and nobody hurries anything._  
+_It takes as long as it takes. Then a little longer._  
+_Grief is the big sadness after someone dies. It comes in waves, and crying is one of the ways it moves through._  
+_Nobody tells Nova to stop. Nobody says it will be all right. You just stay._  
+
+> **Lesson** (sel, CASEL: Relationship skills, ask): helping someone who is grieving  
+> _What helps most when someone is grieving?_  
+> - ✅ Staying close, and letting them take their time. → Yes. You don’t have to fix it. Being there, and not hurrying them, is the help.
+> - Changing the subject quickly, to cheer them up. → That comes from a kind place! But hurrying sadness can make it feel unwelcome. Staying close, and letting them take their time, helps more.
+> _For grown-ups: Learned that being present and patient is one of the best ways to help someone who is grieving._
+
+**Nova**: “Tea (refused).” Every time. She wrote it down every time.  
+
+#### `s24-cairn`
+
+_When she has finished, Nova wipes her face on her sleeve, both sides, thoroughly, like someone cleaning a window._  
+**Nova**: She didn’t want me carrying her about. She wanted me to go and get rained on somewhere new.  
+_She opens the pack and empties it onto the rock, carefully, one thing at a time._  
+_A tin cup, a scarf a sleeve too long, a shell, and bundles of postcards in string, in two hands, going both ways._  
+**Nova**: I’m leaving them here. Up here, where she never got to. On the way to the Shelf.  
+_You build a cairn together by lantern light, flat stones first. Every thing she puts in, she puts in properly._  
+
+> **Lesson** (science, 3-PS2-1, notice): balanced forces keep a stack standing  
+> _A cairn stands because its forces balance. Wide, flat stones at the bottom spread the weight, and each stone sits flat on the one below._  
+> _For grown-ups: Learned how balanced forces and a wide base keep a stack of stones standing._
+
+**Nova**: She’d say I was being dramatic.  
+**You**: She’d be right.  
+**Nova**: She would. She’d be insufferable about it.  
+_With the cairn nearly done, Nova stops, with the last two things in her lap: the tin cup and the scarf._  
+
+> **Lesson** (literacy, RL.4.2, ask): theme: what we keep of someone  
+> _What should Nova keep of Hazel, and what can she leave on the ridge?_  
+> - Keep one thing she’ll use. Leave the rest. → That’s a practical answer. A thing you use every day keeps a person close.
+> - Keep the book. It has Hazel talking in it. → That’s a lovely reason. Words can hold a person better than things.
+> - It doesn’t matter. She keeps Hazel anyway. → That might be the deepest answer. What we carry of people isn’t really in a pack.
+> _For grown-ups: Thought about the story’s question: what we keep of someone we love._
+
+
+**Choices**
+
+- **“Keep the tin cup.”**
+    - **Nova**: For tea. Which I’ll have, from now on. Whenever it’s offered.
+- **“Keep the scarf.”**
+    - **Nova**: It’s too long. It was always too long. She said I’d grow into it. I didn’t.
+    - She puts it round her neck anyway, twice, and there is still some left over.
+- **“Leave them both. Keep the book.”**
+    - **Nova**: Just the book. Yes. It’s the only one with her in it, talking.
+
+#### `s24-cairn-done`
+
+_The pack is empty. Nova picks it up with one finger, and it swings, and she laughs at it._  
+**Nova**: Oh. Oh, that’s much better.  
+_A weight off her shoulders, people would say. For once it is true both ways._  
+
+> **Lesson** (literacy, L.4.5, ask): figurative language: a weight off your shoulders  
+> _“A weight off your shoulders” usually isn’t about a real weight. What does it mean?_  
+> - ✅ Feeling relieved, as if a worry has gone. → Yes. Nova has put down a real weight and a worry at the same time. That’s why it’s “true both ways”.
+> - Having very strong shoulders. → Ha! Not quite. It means feeling relieved, as if a worry has gone. Nova put down a real weight and a worry at the same time.
+> _For grown-ups: Explained the meaning of a figurative phrase._
+
+_Your Nubbin climbs onto the top of the cairn and sits there like a small, proud flag._  
+_Up the ridge the whistle comes again. This time it sounds fed up._  
+**Nova**: Right. Let’s go and fetch our stowaway.  
+
+#### `s24-whistle`
+
+_You go on up towards the whistle with the lantern held low, so it lights the path and doesn’t dazzle anything._  
+_Your Nubbin runs ahead into the dark, and back, and ahead, as if it is pulling you along on a string._  
+_Nova’s empty pack slaps on her back. Every few steps she turns to check the cairn is still there, a pale heap in the dark._  
+**Nova**: It’s fine. It’s just stones. I know it’s just stones.  
+_The whistle again, much closer, and very fed up._  
+
+> **Lesson** (science, 4-PS3-2, notice): sound is energy carried by vibrations  
+> _Sound is energy carried by vibrations in the air. It spreads out as it travels, so it fades with distance. Louder means nearer._  
+> _For grown-ups: Learned that sound is energy carried by vibrations, and fades with distance._
+
+**Tilly**: I CAN SEE YOUR LANTERN. YOU’RE GOING THE LONG WAY.  
+
+#### `s24-nest-fed`
+
+_Under an overhang of rock there is a nest the size of a cart wheel, made of heather and string and most of somebody’s washing line._  
+_In it are four striped chicks like knitted tea cosies. Beside it sits Tilly, perfectly safe and extremely cross._  
+_Her badge sash is wound round the smallest chick, badges and all, so it doesn’t get cold._  
+
+> **Lesson** (science, 3-LS1-1, notice): a bird’s life cycle, and why chicks need a parent  
+> **Nova**: Egg, chick, adult, and then new eggs. That’s a bird’s whole life cycle, round and round.  
+> **Nova**: Newly hatched chicks often can’t keep themselves warm yet. A parent sits over them, like a feather duvet.  
+> **Nova**: Cage the mother, and the chicks get cold. That’s the real reason wild birds stay wild.  
+> _For grown-ups: Learned the stages of a bird’s life cycle and why chicks need a parent nearby._
+
+**Tilly**: You took AGES. I’ve been whistling for about a hundred years.  
+**Tilly**: Sir Reginald’s a mother. That’s allowed. She can still be Sir.  
+_Fairweather’s cage stands open and empty at the edge of the overhang. Out in the dark, a creaky two-note call._  
+_You remember the flat hand. You lay a trail of buns from the dark to the nest, one by one, and step back._  
+_After a long while a striped head comes out of the dark, eating its way along your trail, bun by bun, all the way home._  
+_She stands over her chicks and looks at you. You are fairly sure she remembers your hand._  
+**Nova**: There. She came straight home.  
+
+#### `s24-edge`
+
+_At the edge of the overhang, where the rock stops and the dark begins, somebody says, quite calmly, “I wonder if anyone might help.”_  
+_Augusta Fairweather is sitting at the very edge with one boot wound up in her own net. The net is caught on a spike of rock._  
+**Augusta Fairweather**: Don’t hurry. Hurrying is how one gets into nets.  
+
+> **Lesson** (sel, CASEL: Self-management, ask): slowing down to solve a problem  
+> _“Hurrying is how one gets into nets.” What does Fairweather mean?_  
+> - ✅ Rushing causes mistakes. Slow and careful works better. → Yes. Tangles, sums and arguments all go better with slow hands.
+> - Nets are only dangerous for fast people. → It’s funnier than that! She means rushing causes mistakes. She rushed after the bird, and got tangled. Slow and careful works better.
+> _For grown-ups: Thought about how slowing down helps solve problems._
+
+**Augusta Fairweather**: I went after it in the dark. Fifty years of patience, thrown away in one evening. Rather a waste.  
+_You and Nova kneel on either side of her, and set the lantern down where it lights the knots._  
+**Nova**: One loop at a time. Like her scarf, when it went wrong.  
+
+#### `s24-proof`
+
+_Nobody hurries, and nobody falls. Your Nubbin sits on the end of the net so it can’t slide, and the last loop comes free._  
+_Fairweather tries to stand, and can’t, and sits back against the rock. She is very tired, and very old._  
+**Augusta Fairweather**: I shall just sit, I think. For a moment.  
+_So she sits, and waits, and so do you all. The mother bird steps out from the nest and walks past her, close enough to touch._  
+_Fairweather’s hand comes up off her knee and stays in the air a moment. Then it goes back down._  
+
+> **Lesson** (literacy, RL.3.3, ask): a character’s change of heart  
+> _Fairweather’s hand stops in the air. Why do you think she doesn’t touch the bird?_  
+> - Seeing it up close was enough. She didn’t need anyone else to believe her. → That fits what she says next. The proof she needed was for herself.
+> - She didn’t want to frighten the mother away from her chicks. → A kind reason. She’s been watching this bird for fifty years. She knows it better than anyone.
+> - She was too tired. → She is very tired! But her hand came up and went down on purpose. Something changed in her.
+> _For grown-ups: Thought about why a character changes her mind._
+
+**Augusta Fairweather**: That’ll do. That’s proof enough for me.  
+_She takes an old striped feather out of her hatband, the one the papers laughed at, and puts it in your hand._  
+**Augusta Fairweather**: I shan’t need it now. Go and see your sunrise. I’ve seen eighteen thousand. I’ll mind the children.  
+
+> **Lesson** (maths, ask): estimating with large numbers  
+> _“I’ve seen eighteen thousand.” A year has 365 sunrises. About how many are there in 50 years?_  
+> - ✅ About 18,000 → Yes. 365 times 50 is 18,250. She’s been counting, or near enough.
+> - About 1,800 → That would be only about 5 years. 365 times 50 is 18,250: about 18,000.
+> - About 180,000 → That would be about 500 years! 365 times 50 is 18,250: about 18,000.
+> _For grown-ups: Estimated a large product (365 × 50 ≈ 18,000)._
+
+
+#### `s24-shelf`
+
+_The Sunrise Shelf is ten minutes on from the nest: a flat ledge of rock on the far ridge, with nothing in front of it but air._  
+_You get there in the last of the dark. The valley below is one big blue shadow with nothing in it you can name._  
+**Tilly**: Is this it? It’s just dark. I was promised a whole valley.  
+**Nova**: Wait. That’s the whole trick of it. You wait.  
+_Nova gives you back Hazel’s lantern._  
+**Nova**: You do it. She’d want it to be you. She’d pretend she wanted it to be anybody.  
+_The sky over the far rim is going thin and pale, the way milk goes when you pour it into tea._  
+
+> **Lesson** (science, 2-ESS2-2, do): finding east, and the other compass points from it  
+> **Nova**: The sun comes up in the east. Roughly, anyway: exactly east only in spring and autumn.  
+> **Nova**: Point to the pale sky. That’s east. Now, if you face east, north is on your left and south is on your right.  
+> **Nova**: West is behind you, where the sun will go down tonight.  
+> Check: `edu:point:compass:east`
+> _For grown-ups: Found east from the sunrise and worked out the other compass points._
+
+
+#### `s24-lights`
+
+_The sun comes over the far rim and runs down into the valley one place at a time, as if it is calling a register._  
+_The Tooth, then the Circuit’s square roofs, then the falls, smoking white; the Hollow, where the paths stop; the tide pools, flashing._  
+
+> **Lesson** (science, 5-ESS1-2, notice): why high places catch the sunrise first  
+> _At sunrise the Sun sits very low, so its light skims sideways across the land._  
+> _The tallest places poke up into it first. The valley floor stays in shadow until the Sun climbs higher._  
+> _For grown-ups: Learned why the tops of hills light up before the valley at sunrise._
+
+_Then the Grove: the pond, the cottage, the hill. All of it at once, small and bright, exactly as she wrote it._  
+**Tilly**: Oh.  
+**Nova**: There. The whole valley. At once.  
+_Down in the Grove, four small lights are still burning, one at each post, as if somebody left them on for you._  
+_You lift Hazel’s lantern as high as it will go. Nova puts her hand under your elbow, to help hold it up._  
+
+#### `s24-tick`
+
+_Nova sits on the lip of the Shelf with the atlas open at the front, and a stub of pencil worn almost to nothing._  
+**Nova**: This was hers. The one she wrote the list with. She gave it me with the book. I’ve never once used it.  
+_She ticks the last line. It is a very small tick, and it takes her a long time._  
+**Nova**: Take someone. Done. I took two, and a stowaway.  
+_She pours tea from a flask into Hazel’s tin cup, drinks half, and hands you the rest._  
+**Nova**: Tea. Accepted.  
+_Then she ties the pencil stub to a bit of string, and hangs it round Tilly’s neck._  
+**Nova**: Helping Someone Sad. You earned it. You were very annoying about it, but you earned it.  
+**Tilly**: …It’s the best badge I’ve got.  
+_Tilly checks the top of her welly, the way she always does, and leaves the note where it is._  
+_Nova turns the atlas to its very last page, which is blank, and holds it out to you._  
+**Nova**: Your turn.  
+
+> **Lesson** (literacy, RL.4.2, ask): theme: what counts as an adventure  
+> _Hazel wrote a list of faraway places. Then she spent most of her life in one garden._  
+> _What do you think: did she miss her adventure, or have a different one?_  
+> - She had a different one: the Grove, and everyone in it. → That’s how Nova reads it now. The back of the book is full of ordinary days, and Hazel called them the best.
+> - She missed it, a bit. But she sent Nova instead. → That’s a fair answer, and a kind one. She gave the list away so somebody would go. That counts for something.
+> - Both. You can miss one thing and love another. → A wise answer. People can be glad and sorry about the same life. Hazel probably was.
+> _For grown-ups: Thought about the story’s theme: an ordinary life with people you love can be the adventure._
+
+
+**Choices**
+
+- **Write: “The Sunrise Shelf, again. Take someone.”**
+    - **Nova**: Good. Somebody has to keep it in use.
+- **Write: “Wherever Nova goes next. Tea after.”**
+    - **Nova**: Then you’ll have to come and find me. I’ll leave the kettle on. Probably.
+- **Write: “Here. Every morning.”**
+    - **Nova**: That’s the hardest one on any list. She managed it forty years.
+
+#### `s24-written`
+
+_You write it in pencil, with the stub, which Tilly lends you on the strict understanding that it is hers._  
+_Then she borrows it straight back, and letters a badge for you on a bit of cereal box: HELPING SOMEONE SAD (ADVANCED)._  
+**Tilly**: You were all right. For a grown-up.  
+_Nova reads your line upside down, and nods, as if you have passed something._  
+_You count the lines on the page. Twenty, and you have used one._  
+
+> **Lesson** (maths, 1.OA.A.1, ask): subtraction within 20  
+> _Twenty lines, and one used. How many are left for new places?_  
+> - ✅ 19 → Yes. 20 take away 1 is 19. Nineteen more places to go.
+> - 21 → That would be one more line, not one fewer. 20 take away 1 is 19.
+> _For grown-ups: Subtracted within 20._
+
+_Under your line there is room for a great many more._  
+
+#### `s24-home`
+
+_You come down off the ridge in the afternoon, slowly, because Augusta Fairweather is coming too, on Nova’s arm._  
+**Augusta Fairweather**: Fifty years. I don’t suppose anybody has kept my room.  
+_She takes the empty cottage at the foot of the falls path, for a week, she says. Nobody believes her, kindly._  
+_That night you light Hazel’s lantern by the cottage table and open the atlas, to read her list again._  
+_In the margins there is writing, in faint pencil. It wasn’t there before, or it was, and it needed this light._  
+_It is on every page. Beside a boy and a dragon: “I’d have fed the dragon.” Beside a building of endless counters: “Ha. Typical.”_  
+_She read every story Nova ever brought her, and had something to say about all of them. Of course she did._  
+_Nova stays three days, and has tea every afternoon. On the fourth she goes over the far ridge with a pack you could lift with a finger._  
+_At the top she turns and waves, and doesn’t wait to see whether you wave back. She knows._  
+
+> **Lesson** (literacy, RL.4.2, ask): finding the theme of a story  
+> _Nova set off to see one last faraway place. What do you think this story is really about?_  
+> - ✅ Learning that everyday life with people you love can be the adventure. → Yes. The list was the adventure Hazel planned. The back pages were the one she had.
+> - Climbing a very tall ridge. → The climb happens! But it carries a bigger idea. The list was the adventure Hazel planned. The back pages, full of ordinary days, were the one she had.
+> - Catching a rare bird. → Fairweather wanted that, and gave it up. The bigger idea is in the book. Ordinary days with people you love can be the adventure.
+> _For grown-ups: Worked out the theme of the story._
+
+
+### Glossary
+
+- **memorial**: Something that helps people remember a person who has died.
+- **regret**: Wishing you had done something differently, when it is too late to change it.
+- **atlas**: A book of maps.
+- **stowaway**: Someone who hides on a cart, ship or plane to travel without being invited.
+- **relieved**: Glad because a worry has gone away.
+- **keepsake**: A small thing you keep to help you remember someone.
+- **scree**: A slope of loose, broken stones at the bottom of a cliff or on a mountainside.
+- **telescope**: A tube with lenses that makes faraway things look closer.
+- **explorer**: Someone who travels to unknown places to find out about them.
+- **motto**: A short saying that sums up what a person or group believes.
+- **proof**: Facts or evidence that show something is true.
+- **dusk**: The dim time of evening just after the sun has set.
+- **diary**: A book where you write about what happens each day.
+- **grief**: The deep sadness people feel when someone they love dies.
+- **cairn**: A pile of stones built as a marker or a memorial.
+- **insufferable**: So annoying, or so pleased with yourself, that people can hardly bear it. Often said fondly.
+- **dazzle**: To shine so brightly in someone’s eyes that they can’t see properly.
+- **overhang**: A part of a rock or cliff that sticks out over the space below.
+- **ledge**: A narrow, flat shelf of rock.
+- **margin**: The blank space round the edge of a page.
+- **wick**: The string in a lamp or candle that soaks up fuel and holds the flame.
+- **plaque**: A flat sign, often on a wall, that tells people about something.
+
+## S25. Real
+
+- `s25-step1`: Open the parcel in Hazel’s hand under the loft eaves. · _It’s on the trunk under the little window. Pull the right end of the string._
+- `s25-step2`: Help Pixel get the loft lamp working. · _Hold the lamp steady while Pixel winds. Pass her the small cog, not the shiny one._
+- `s25-step3`: Stay on the window seat until Moss has finished. · _Don’t get up, and don’t tap anything else. He’s slow, and he’s nearly done._
+- `s25-step4`: Give your Nubbin something to hold. · _Take the knitted toy off the window seat and put it in the basket._
+- `s25-step5`: Find the toy before it gets too dark. Your Nubbin won’t sleep without it. · _Take a lantern. Start by the pond._
+- `s25-step6`: Go back to Fern’s for tea, with the toy, so she can apologise properly. · _Let your Nubbin carry him in._
+- `s25-step7`: Let the wild Nubbins have a look at the toy. · _Stand by Moss and keep still. Wild ones notice movement._
+- `s25-step8`: Find the right page in Hazel’s book. · _The book is on the window seat. The page you want has the old horse on it._
+- `s25-step9`: Hold the toy steady while Clover darns his elbow. · _Your Nubbin won’t let go, so hold them both._
+- `s25-step10`: Sit up with your Nubbin through the night. · _Stay by the basket, and give it water when it wakes. Clover will look in._
+- `s25-step11`: Carry the rag bundle out to the shed. · _It goes by the shed door for the rag cart._
+- `s25-step12`: See the night through, and go and look in the morning. · _Stay at the window seat until it’s light._
+- `s25-step13`: Tell Moss about the warm water behind the falls. · _Sit on the window seat beside his ledge._
+
+#### `s25-loft`
+
+_Early-summer rain, steady and warm. The loft lamp has died, and Sparks says it’s the small, fiddly kind of broken._  
+_Small and fiddly is Pixel’s department. Pixel is coming after lunch._  
+_You go up the ladder first, to clear a space, and because you were never once allowed up there as a child._  
+_The loft smells of apples, dust and mothballs. Rain ticks on the roof just above your head._  
+_Hazel’s things are up here: seed trays, a broken umbrella labelled STILL GOOD, and forty years of Lantern Night programmes._  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): old objects are clues to life in the past  
+> _Forty years of programmes is forty years of Lantern Nights. You could read them in order and see what changed._  
+> _Historians do this too. Old letters, tickets and labels are clues to how people lived._  
+> _For grown-ups: Noticed that everyday old objects are evidence about life in the past._
+
+_Your Nubbin climbs up behind you, sneezes at the dust, and sets off to investigate a hatbox._  
+_Under the eaves, on a trunk, is a soft parcel in brown paper, faded pale where the sun has reached it for years._  
+_On the front, in Hazel’s hand: “For when they come back. (They’ll have grown. It won’t mind.)”_  
+_The string is tied in her bow: the one that falls open if you pull the right end, and never if you pull the wrong one._  
+
+#### `s25-name`
+
+_Inside, in tissue paper: a knitted Nubbin, lumpy, in grey-brown wool. The bobble on top is a little crooked._  
+_One button eye is sewn on tight. The other hangs on a long loose thread, as if it were looking at something far off._  
+_Under it is a thin book with a rabbit on the cover, its spine mended twice with brown tape._  
+_You remember, though not all at once. The smell comes first: wool and peppermint. Then her kitchen, and being three._  
+
+> **Lesson** (science, 4-LS1-2, notice): senses send messages to the brain, and smell can bring back memories  
+> _Your nose sends messages to your brain, and the brain links smells with places and times._  
+> _That’s why a smell can bring back a memory before you even know what you’re remembering._  
+> _For grown-ups: Learned that the senses send information to the brain, and that smells can trigger memories._
+
+_She made it for you, and you took it everywhere for one summer. Then you went home and grew, and it stayed._  
+_You called it something. You’re nearly sure you did._  
+
+**Choices**
+
+- **“Button.” For the eye.**
+    - Button. You said it all that summer, mostly to the eye that was loose.
+    - Your Nubbin looks up from the hatbox, considers the toy, and goes back to the hatbox.
+- **“Bobble.” For the bobble.**
+    - Bobble. You carried it by the bobble everywhere, which is why the bobble is crooked.
+    - Your Nubbin looks up from the hatbox, considers the toy, and goes back to the hatbox.
+- **“Mister.” Just Mister.**
+    - Mister. Hazel called the postman Mister, and at three you thought it was the most polite word there was.
+    - Your Nubbin looks up from the hatbox, considers the toy, and goes back to the hatbox.
+
+#### `s25-lamp`
+
+_After lunch Pixel comes up the ladder with a toolbox in her teeth and a biscuit tin under each arm._  
+**Pixel**: Afternoon. Don’t touch the tins. Nothing in them is dangerous. Some of it is just enthusiastic.  
+**Pixel**: The lamp’s fine. It’s the winder. It’s lost the will to wind. I’ve brought it some friends.  
+_Out of the tins come her bits: a clockwork moth, a brass fan the size of a thumbnail, and a little cog._  
+
+> **Lesson** (science, 4-PS3-4, notice): a wound spring stores energy and turns it into movement  
+> **Pixel**: Clockwork is simple, really. When you turn the key, you coil a spring up tight. The spring stores the energy of your turning.  
+> **Pixel**: Let it go, and the spring uncoils, a little at a time, and turns the gears. Your winding becomes the moth’s flying.  
+> _For grown-ups: Learned how a clockwork spring stores energy and changes it into motion._
+
+_Sparks and Fern come up the ladder too, because three people in a loft is an event._  
+**Sparks**: Ooh. Does any of it explode?  
+**Pixel**: Not on purpose.  
+_The moth whirrs up off Pixel’s palm, flies one wobbly circle round the rafters, and lands on Fern’s head._  
+**Fern**: Oh, it’s beautiful. I can’t keep a moth alive and you’ve gone and made one.  
+_Your Nubbin chases the flashes off the brass fan across the floorboards, squeaking at every one._  
+_On the trunk, where you put it down to make room, the knitted toy watches all of it with its one good eye._  
+
+#### `s25-sill`
+
+_The lamp comes on: a warm ring of light, and a small, satisfied tick every second._  
+_Everyone goes down the ladder talking about the moth. You go last, with the toy and the book, and set them on the window seat for now._  
+_For now turns into a week, and then a fortnight. The toy sits on the sill and gets the afternoon sun._  
+
+> **Lesson** (maths, 3.OA.A.1, ask): a fortnight is two groups of seven days  
+> _A fortnight is two weeks. How many days is that?_  
+> - ✅ 14 days → Yes. Two groups of seven: 2 × 7 = 14. The word comes from an old way of saying “fourteen nights”.
+> - 10 days → A week has seven days, so two weeks is 7 + 7. That makes 14.
+> - 2 days → That would be two days, not two weeks. Two weeks is 2 × 7 = 14 days.
+> _For grown-ups: Worked out a fortnight as two equal groups of seven days._
+
+_Nobody looks at it. You don’t either, though you mean to._  
+_Out of the window, on top of the western hill, the little grey one is looking this way._  
+
+#### `s25-real`
+
+_One morning the top of the western hill is empty._  
+_Moss is on the outside ledge of the window seat, in the sun. The toy is on the inside sill, with the window open between them._  
+_It is a long way down from the hill for him. He must have set out before it was light._  
+**Moss**: Don’t mention it. I’m not here.  
+_You sit on the window seat and wait, because that is the rule. A bee comes in, considers them both, and leaves._  
+**Moss**: She knitted that in a week, with her feet on the fender. She dropped a stitch every night.  
+**Moss**: You were three. You carried it by the bobble and you wouldn’t let anyone else hold it. Not even her.  
+**Moss**: She read you that book on this seat, every night of one wet August. I sat on this ledge and heard every word.  
+_He turns, not to you, but to the toy._  
+**Moss**: Real isn’t in the stitches. It grows on you slowly, the way moss grows on a wall.  
+**Moss**: Somebody has to love you for ages and ages, properly, and not just for games. That’s how it starts.  
+
+> **Lesson** (literacy, RL.4.2, ask): theme: thinking about what a story is saying  
+> _Moss has his own idea about what makes something Real. What do you think?_  
+> - Being loved for a long time. → That’s Moss’s answer too. Keep it in mind; the story will test it.
+> - Being alive. → That’s a fair answer. But Moss is talking to a knitted toy. Watch whether he changes your mind.
+> - Being made very carefully. → Good makers matter. Moss thinks the making is only the start, though.
+> - I’m still deciding. → That’s a wise answer. This whole story is about that question.
+> _For grown-ups: Thought about the story’s big question, what makes something Real, and gave their own view._
+
+_The toy, being knitted, takes this well._  
+
+**Choices**
+
+- **Ask him: does it hurt?**
+    - **You**: Does it hurt?
+    - Moss doesn’t answer you. He answers the toy.
+- **Ask him: does it happen quickly?**
+    - **You**: Does it happen quickly?
+    - Moss doesn’t answer you. He answers the toy.
+- **Say nothing. Sit with them both.**
+    - You say nothing. After a while Moss nods, very slightly, and goes on as if somebody had asked.
+
+#### `s25-hurt`
+
+**Moss**: Sometimes it does. But once you’re Real, a little hurt doesn’t frighten you so much.  
+**Moss**: It isn’t quick. It’s slow, like a tree getting tall. You hardly see it happening.  
+**Moss**: It takes longer for anyone with sharp edges, or anyone kept up on a high shelf where nobody can hug them.  
+
+> **Lesson** (literacy, L.4.5, ask): similes and metaphors  
+> _“Slow, like a tree getting tall” is a simile: it compares two things using “like”._  
+> _When Moss says “sharp edges”, does he mean real, pointy edges?_  
+> - ✅ No. He means people who are prickly and hard to get close to. → Yes. That’s a metaphor: it says one thing is another, without “like”. Nobody is really sharp.
+> - Yes. He means things with corners. → It sounds that way! But Moss is talking about people. “Sharp edges” is a metaphor for being prickly or hard to hug.
+> _For grown-ups: Told a simile from a metaphor and worked out what a metaphor meant._
+
+_Then he climbs down off the ledge, one careful foot at a time, and sets off back to the hill. It will take him until supper._  
+**Moss**: He has a good face, your toy. Don’t put him on a high shelf.  
+
+#### `s25-storm`
+
+_Later that week, Sable comes past the window seat on her way to nowhere in particular._  
+_She stops. She looks up at the toy on the sill for a long time, with her ears flat._  
+_Sharp edges, Moss said. She has them._  
+_Then she lies down on the path under the window, a tail’s length from it, and goes to sleep. She doesn’t take it._  
+_In the morning there is frost on the path where she lay, and none at all on the toy._  
+_Then, at the end of a hot week, a storm. It comes over the hill at bedtime, all at once, like a dropped tray._  
+_Your Nubbin won’t settle. It goes from the basket to the hearth to the door and back, ears flat at every bang._  
+_You look for the old sock it likes, and can’t find it. You warm a stone by the fire, and it pushes the stone away._  
+_A flash, then thunder right overhead. The window seat lights up white, and the knitted toy on its sill with it._  
+
+> **Lesson** (science, 4-PS3-2, notice): light travels faster than sound, so we see lightning before we hear thunder  
+> _Lightning and thunder happen at the same moment. You see the flash first because light travels far faster than sound._  
+> _Sound takes about three seconds to travel one kilometre. So you can count the gap to tell how far away the storm is._  
+> _For grown-ups: Learned that light travels faster than sound, which is why the flash comes before the thunder._
+
+
+> **Lesson** (maths, 3.OA.A.3, ask): divide by 3 in a word problem  
+> _Say you count six seconds between a flash and its thunder. About how far away is the storm?_  
+> - ✅ About 2 kilometres → Yes. Six seconds, three seconds for each kilometre: 6 ÷ 3 = 2.
+> - About 6 kilometres → Close thinking, but sound needs about three seconds per kilometre. 6 ÷ 3 = 2 kilometres.
+> - About 18 kilometres → That’s 6 × 3. We need to share the seconds into groups of three: 6 ÷ 3 = 2 kilometres.
+> _For grown-ups: Used division to turn the flash-to-thunder gap into a distance._
+
+
+#### `s25-sleeps`
+
+_You put the toy in the basket. Your Nubbin looks at it, then climbs in and curls all the way round it, nose to tail._  
+_Thunder. It doesn’t even twitch._  
+
+> **Lesson** (sel, CASEL: Self-management, notice): comfort objects and calming down  
+> _Lots of children, and some grown-ups, have a comfort object: a blanket, a toy, a soft jumper._  
+> _Holding something soft and familiar can slow your breathing and help a scared body feel safe enough to sleep._  
+> _For grown-ups: Learned that comfort objects can help calm big feelings._
+
+_In the morning it is still curled round the toy, which is damp at one ear where it was held all night._  
+_From then on, the toy is your Nubbin’s._  
+
+#### `s25-everywhere`
+
+_From then on the toy goes everywhere. It is carried by one ear, or the bobble, or not at all when it’s been dropped._  
+_It goes to the pond, and comes back wet to the knees, if a toy has knees._  
+_It goes to Sparks’s picnic and comes home with jam on it, like everybody else._  
+_It has its bath when your Nubbin has its bath. It has views about cats, according to your Nubbin._  
+_Then one dusk, at bedtime, the basket has your Nubbin in it, standing up, and nothing else._  
+_It looks at you, and at the door. It does not lie down._  
+_The toy is out in the Grove somewhere. It’s getting dark, and the dew is coming down._  
+
+> **Lesson** (science, 2-PS1-4, notice): dew forms when water vapour cools and condenses  
+> _Air holds water you can’t see, called water vapour. At night the grass cools down._  
+> _When the vapour touches the cold grass, it turns back into tiny drops: dew. This is called condensation._  
+> _In the morning sun, the dew warms up and turns back into vapour. It’s a change that can go both ways._  
+> _For grown-ups: Learned how dew forms by condensation, and that it can evaporate again._
+
+
+#### `s25-lantern`
+
+_You take a lantern. You find the toy face down in the grass by the pond, soaked with dew, its loose eye trailing._  
+_Your Nubbin is still standing up in the basket when you get back, as if it never once doubted you._  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): trust is built by keeping promises  
+> _Your Nubbin waited because it trusted you to come back._  
+> _Trust grows each time someone does what they said they would, especially when it’s dark, wet and inconvenient._  
+> _For grown-ups: Talked about how trust is built by being reliable._
+
+_It takes the toy in both arms, lies down, and is asleep before you’ve blown out the lantern._  
+_You stand there a moment longer, in the dark, feeling quite important._  
+
+#### `s25-fern`
+
+_You take your Nubbin round to Fern’s, and the toy comes too. The toy always comes too._  
+_Your Nubbin climbs onto Fern’s good chair and sets the toy upright beside it, as if it were company._  
+**Fern**: Oh, not on the cushion, love. It’s only a toy. It can go on the floor with the shoes.  
+_She reaches for it. Your Nubbin makes a sound you have never heard it make: a squeak so fierce the cups rattle._  
+_Fern takes her hand back. Your Nubbin stands in front of the toy, very small and very large, and looks at you._  
+
+> **Lesson** (literacy, RL.3.3, ask): a character’s motive  
+> _Your Nubbin is usually gentle. Why does it squeak so fiercely at Fern?_  
+> - ✅ It is protecting something it loves. → Yes. Its motive is love: it doesn’t want its friend put on the floor. Even gentle creatures stand up for what they love.
+> - It is cross that it has no biscuit. → The biscuits come later! Look at where it stands: in front of the toy. It’s protecting him.
+> - It doesn’t like Fern. → It likes Fern well enough. Its squeak is about the toy, which it loves and wants to protect.
+> _For grown-ups: Worked out a character’s motive from their actions._
+
+**You**: He’s not just a toy. He’s Real, to us!  
+_There is a short silence. In it, Fern looks at the toy properly for the first time._  
+**Fern**: …Right. Yes. I see. Then I owe him an apology. Possibly several.  
+**Fern**: And I’m going to do it properly, because Hazel would have. Come round tomorrow, and bring him.  
+
+#### `s25-apology`
+
+_Fern has the good cups out, a cushion on the good chair, and a very small cup on the cushion._  
+**Fern**: Sir. I said you were only a toy. That was wrong, and rude, and in front of your friend. I apologise unreservedly.  
+
+> **Lesson** (sel, CASEL: Relationship skills, ask): the parts of a good apology  
+> _A good apology has parts: say what you did, say why it was wrong, and make it right. Which part is the cushion?_  
+> - ✅ Making it right → Yes. The cushion and the tiny cup show Fern means it. Words, then actions.
+> - Saying what she did → She does that in words: “I said you were only a toy.” The cushion is her making it right.
+> - Saying why it was wrong → She says that too: “wrong, and rude”. The cushion is her making it right.
+> _For grown-ups: Identified the parts of a sincere apology._
+
+**Fern**: I am, as everybody knows, only a neighbour. You are clearly a great deal more than that.  
+_Your Nubbin considers this. Then it sets him on the cushion, and accepts a biscuit on his behalf._  
+**Fern**: Hazel made me do this once. With a cat. I was in the wrong that time too.  
+
+#### `s25-grass`
+
+_A hot, still afternoon. Your Nubbin carries the toy down to the edge of the long grass, where the wild ones live, to show him off._  
+_Moss has come as far as the flat stone at the foot of the hill. He looks as though he’s been there for a century._  
+**Moss**: I have not. I came down this morning. It only feels like a century, at my speed.  
+_Your Nubbin sets the toy down in the grass, upright, facing outwards, and steps back._  
+**Moss**: Keep still. Let them look. They’ll be rude. They’re young.  
+
+> **Lesson** (science, 4-LS1-2, notice): many animals notice movement, so keeping still helps  
+> _Many small animals have eyes that are very good at spotting movement. It helps them notice danger quickly._  
+> _That’s why wildlife watchers keep still. A still shape is easy to ignore; a moving one means “run”._  
+> _For grown-ups: Learned that many animals’ senses are tuned to movement, so watchers keep still._
+
+_The grass moves, here and there, with no wind in it._  
+
+#### `s25-wild`
+
+_Three wild Nubbins come out of the grass. They sniff the toy, bounce away, come back, and sniff him again._  
+**Moss**: That one thinks he can’t hop. That one thinks he smells of indoors.  
+**Moss**: That one wants to know what he’s for. It doesn’t mean it unkindly. It really wants to know.  
+_They lose interest all at once, the way young ones do, and are gone. Your Nubbin picks the toy up and holds him tighter._  
+**Moss**: They think Real is hopping. I thought so too, at their age. I gave up hopping a long time ago.  
+
+> **Lesson** (science, 3-LS4-3, notice): body features help animals survive in their habitat  
+> _For a wild creature in long grass, hopping matters: it gets you out of trouble fast and lets you see over the stems._  
+> _Animals that suit their habitat survive better in it. No wonder the wild ones judge everything by hops._  
+> _For grown-ups: Linked a body feature (hopping) to surviving in a habitat._
+
+
+#### `s25-clank`
+
+_A wet afternoon. Moss is on the window ledge again; he says the hill is too damp for his knees._  
+_You were not aware he had knees. You decide not to raise it._  
+_Something squeaks up the path, whistling, and stops under the window. It’s Clank, with a watering can, in the rain._  
+**Clank**: Announcement: I am watering the rain! It is going very well!  
+**Clank**: Announcement: what is THAT? On the sill. Is it a Nubbin? Is it a new best friend?  
+**You**: It’s a toy. Hazel knitted him. He’s a toy, mostly. It’s complicated.  
+**Clank**: Knitted. Somebody made him. Like Pixel made me.  
+
+> **Lesson** (sel, RL.3.6, ask): thinking about what makes something alive or Real  
+> _Clank was made, like the toy. Can something that was made become Real?_  
+> - Yes, if it is loved for long enough. → That’s what Moss would say. Clank is hoping so too.
+> - No, made things stay made things. → Some people think that. Hold on to your answer, and see what Moss says next.
+> - It depends what “Real” means. → That’s a very careful answer. Clank is about to find out that the words matter.
+> _For grown-ups: Gave their own view on a big question and compared it with the characters’ views._
+
+_Clank rolls closer, until his chimney nearly touches the glass. His whistle goes very quiet._  
+**Clank**: Is there a book? There’s a book. Is there a me in it?  
+
+#### `s25-page`
+
+_There is a page about clockwork toys in a nursery, and an old horse who has watched them come and go. You read it to him._  
+_It says the clockwork toys were sure they would stay clockwork for ever, and never be anything more._  
+_Clank’s whistle drops, all the way down, like a kettle taken off the heat._  
+**Moss**: The horse was wrong about that. I’m older than the horse.  
+
+> **Lesson** (literacy, RL.3.6, notice): you can disagree with what a book says  
+> _Moss has just disagreed with a book. Readers are allowed to do that._  
+> _A book shows one point of view. You can compare it with your own, and decide what you think._  
+> _For grown-ups: Learned that a reader can compare their own view with a book’s and disagree._
+
+_You pass it on, word for word. Clank’s chimney-light comes up one notch._  
+**Clank**: Is Real the word? The one I couldn’t find?  
+**Moss**: No. It lives next door to it. Keep looking.  
+_You pass that on too. Clank thinks about it for so long that the rain stops._  
+**Clank**: Next door. Announcement: I am going to look next door.  
+
+#### `s25-shabby`
+
+_High summer goes by, carried by one ear. The toy goes grey at the seams, and his bobble is loved clean off._  
+_Clover comes by with a basket of wool, sees him, and puts her hand over her mouth._  
+**Clover**: Oh, look at him. Look at his poor seams. He’s gone right through at the elbow, if that’s an elbow.  
+
+> **Lesson** (science, 2-PS1-1, notice): wool, knitting and why things wear thin  
+> **Clover**: Wool starts as a sheep’s fleece. It’s spun into yarn: lots of short, curly fibres twisted into one long strand.  
+> **Clover**: Knitting is that one strand looped through itself, row after row. Rub it for a whole summer and the fibres wear away.  
+> _For grown-ups: Learned where wool comes from, how knitting works, and why worn wool goes thin._
+
+**Clover**: I could knit you a new one. Same pattern. I’ve got wool in the exact grey.  
+_Your Nubbin looks at the new wool. Then it sits down on the old toy, firmly, and looks at nothing._  
+_Up on the window ledge, Moss makes a small dry sound that might be a laugh._  
+**Moss**: Once you’re Real, the worn-out bits stop mattering. They’re just where the love went.  
+_Clover can’t hear him, and doesn’t need to. She looks at your Nubbin sitting on its toy, and puts the wool away._  
+**Clover**: No. You’re right. Nobody’s getting a new one. But I’ll darn his elbow, if he’ll let me. In grey.  
+
+#### `s25-darned`
+
+_Clover darns his elbow in grey, weaving new yarn over and under across the hole, with your Nubbin watching every stitch._  
+_She knots it, bites the thread, and gives him back. Your Nubbin checks the elbow all over, and decides to allow it._  
+**Clover**: There. Mended isn’t the same as new. It’s better. Hazel told me that over a teacup. I didn’t believe her either.  
+
+> **Lesson** (science, 3-5-ETS1-2, ask): comparing two solutions to a problem  
+> _The problem: a worn-out toy. Solution one: knit a new one. Solution two: darn the old one. Which solves it better for your Nubbin?_  
+> - ✅ Darning the old one → Yes. It fixes the hole and keeps the toy your Nubbin loves. It uses less wool too.
+> - Knitting a new one → A new one would be neat and strong. But your Nubbin sat on the old one. The best solution fits the person who needs it.
+> _For grown-ups: Compared two solutions to a problem and judged which met the need best._
+
+
+#### `s25-chill`
+
+_A few days after the rain on the hill, your Nubbin sneezes at breakfast. Then again._  
+_It is warm to the touch and droopy, and it doesn’t want its plum._  
+_You have your boots on to fetch somebody before you know you’re doing it. Clover is already at the gate._  
+**Clover**: It’s a chill. Only a chill. I’m saying it first, so you don’t have to wonder.  
+**Clover**: After a wet week they all get them. Warm, quiet, water little and often, and somebody to sit up with it.  
+**Clover**: It’ll be right as rain by morning. Well. Right as the day after rain.  
+
+> **Lesson** (health, CASEL: Responsible decision-making, notice): caring for someone with a mild illness, and asking for help  
+> _A chill is a mild cold. Rest lets the body spend its energy on getting better; sips of water stop it drying out._  
+> _Going for help straight away was the right call. Telling a grown-up early is always a good idea._  
+> _For grown-ups: Learned how to care for a mild illness and why asking for help early matters._
+
+_Your Nubbin climbs into its basket with the toy, curls round him, and shuts its eyes._  
+
+#### `s25-better`
+
+_Clover looks in at midnight with a cup of something, and again at two, and at four, passing by each time, she says._  
+
+> **Lesson** (maths, 3.MD.A.1, ask): time intervals  
+> _Clover looked in at midnight, two o’clock and four o’clock. How long between each visit?_  
+> - ✅ 2 hours → Yes. Midnight to two is two hours, and two to four is two more. Very regular, for someone “passing by”.
+> - 4 hours → Four hours is midnight to four, the whole time. Each gap is two hours.
+> - 1 hour → Count on from midnight: one o’clock, two o’clock. That’s two hours each time.
+> _For grown-ups: Worked out the time interval between events._
+
+_By morning your Nubbin is cool and hungry and cross about it. It eats two plums and half of yours._  
+**Clover**: Told you. Right as the day after rain.  
+**Clover**: Now. Everything it slept on gets boiled. Hazel’s rule, and her mother’s, and frankly mine.  
+
+#### `s25-bundle`
+
+_The copper in the wash-house is lit by ten. In go the blankets, the basket cushion, and the old sock, which turns up at last._  
+
+> **Lesson** (health, CASEL: Responsible decision-making, notice): why bedding is washed hot after illness  
+> _Germs from a cold can stay on bedding. Washing it in very hot water gets rid of most of them, so nobody else catches it._  
+> _For grown-ups: Learned why bedding is washed in hot water after someone has been ill._
+
+_Then Clover holds her hand out for the toy, and stops._  
+**Clover**: Oh. Oh, no. Not him. Old wool in a hot copper comes out the size of a walnut. Felted solid.  
+
+> **Lesson** (science, 2-PS1-4, ask): some changes from heating cannot be undone  
+> _Wool fibres have tiny scales. Heat and rubbing make them tangle and lock tight: that’s felting._  
+> _If the toy felts, can you un-felt him?_  
+> - ✅ No. Felting can’t be undone. → Right. Like a baked cake, it can’t go back. That’s why Clover stopped.
+> - Yes. Just stretch him back out. → Sadly not. Once the fibres lock together, they stay locked. Some changes only go one way.
+> _For grown-ups: Learned that some changes caused by heating, like felting wool, cannot be reversed._
+
+**Clover**: What we can’t boil goes out with the rags, by the shed. The rag cart takes it. That’s how Hazel always did it.  
+**Clover**: Or. Cold water, by hand, a whole evening, and you never wring him. He’d come out smaller. But he’d come out.  
+_Your Nubbin is better, and asleep in the sun on the step, with nothing in its arms for the first time since the storm._  
+_The toy is in your hands. He is grey at the seams, darned at one elbow, and his loose eye turns slowly on its thread._  
+
+**Choices**
+
+- **Let him go with the bundle.**
+    - You put him on top of the rag bundle, the right way up, with his good eye to the sky.
+    - **Clover**: That’s a kind way to do it. Hazel always put the soft things on top, too.
+- **Wash him yourself, by hand, in cold water.**
+    - Clover fills the tin bath from the pump, sits on the step, and tells you what not to do, which is most things.
+    - **Clover**: Squeeze. Don’t wring. Don’t rush him. You’ll want to rush him. Don’t.
+
+#### `s25-shed`
+
+_You carry the bundle out and set it by the shed door, the toy on top._  
+_The sun goes down behind the hill, and the shadows of the fence posts stretch out long across the lawn._  
+
+> **Lesson** (science, 5-ESS1-2, notice): sunset happens because the Earth turns  
+> _The sun doesn’t really go down. The Earth is turning, and your bit of it is turning away from the sun._  
+> _As the sun gets lower in the sky, shadows get longer. At noon, when it’s highest, they’re shortest._  
+> _For grown-ups: Learned that sunset is caused by the Earth turning, and how shadows change length._
+
+_Your Nubbin, asleep on the step, doesn’t wake. You don’t wake it._  
+
+#### `s25-dew`
+
+_That night you can’t sleep. You sit on the window seat in the dark, where he used to sit, and look out at the shed._  
+_The dew comes down. The bundle by the shed door goes silver at the edges._  
+_A drop of it runs off his button eye, slowly, and falls into the wet grass._  
+_Where it lands, something small and pale lifts out of the grass: a light, no bigger than a thimble._  
+
+> **Lesson** (literacy, L.4.5, ask): how size comparisons help a reader picture something  
+> _The light is “no bigger than a thimble”. Why does the writer compare it to a thimble?_  
+> - ✅ So you can picture exactly how tiny it is. → Yes. A thimble fits on a fingertip. Comparing it to something real helps you see it in your head.
+> - Because the light is made of metal. → It isn’t metal! The thimble is only there to show its size: fingertip-small.
+> _For grown-ups: Explained how a comparison helps the reader picture the size of something._
+
+_It rises the way Moss says the first ones came up out of the spring: not quickly, as if it had been asked._  
+_It goes low across the lawn, past the pond, and into the long grass, and is gone among the wild ones._  
+_You don’t go out. It seems like something you aren’t meant to follow._  
+
+#### `s25-gap`
+
+_In the morning there is a gap in the top of the rag bundle, the shape of a small lumpy Nubbin. Nothing else is disturbed._  
+_In the wet grass by the shed is a button on a long loose thread. You put it in your pocket._  
+_After breakfast your Nubbin goes to the edge of the long grass and sits there a while. Then it comes back and eats its plum._  
+_It doesn’t look sad. It looks like somebody who has just waved somebody off._  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): reading feelings, and mixed feelings at goodbyes  
+> _How do you think your Nubbin feels?_  
+> - Sad, but all right. → That’s a thoughtful answer. You can miss someone and still be all right.
+> - Happy for the toy. → That fits too. Sometimes a goodbye is the start of something good for the other person.
+> - A bit of both. → Lots of goodbyes feel like that: two feelings at once. Both are allowed.
+> _For grown-ups: Thought about how a character feels after a goodbye, including mixed feelings._
+
+_Up on the hill, Moss is looking at the long grass. He doesn’t say anything all day._  
+
+#### `s25-falls`
+
+_You come home from the Hollow with the notebook inside your coat. It’s late, and the cottage smells of cold ashes._  
+_Moss is on the window ledge. He doesn’t ask about the notebook, and you don’t tell him yet._  
+_On the window seat, where the toy used to sit, there is a patch of faded cushion the shape of a small lumpy Nubbin._  
+_There is one thing you do want to tell him._  
+_You went along the ledge behind the falls today. You put your hand on the rock, and the rock was warm._  
+
+> **Lesson** (science, 4-PS3-2, notice): warm springs are heated from deep underground  
+> _Deep under the ground, the rock is very hot. Rainwater can soak down a long way, get warmed, and rise again._  
+> _Where it comes out, you get a warm spring. Heat from inside the Earth like this is called geothermal heat._  
+> _For grown-ups: Learned that warm springs are heated by geothermal heat from deep underground._
+
+
+#### `s25-twice`
+
+**You**: There’s a pool behind the falls. Warm. Steaming a bit. Lit from underneath, by nothing.  
+**Moss**: The Wellspring. Yes.  
+**Moss**: The first ones came up out of the warm water as small lights. Nobody ever told me where the lights came from.  
+_He looks out across the dark lawn, past the pond, to the long grass._  
+**Moss**: I’ve a guess.  
+_He doesn’t say what it is. You think you know where he’s looking._  
+
+> **Lesson** (literacy, RL.3.3, ask): making an inference from clues  
+> _Moss doesn’t say what his guess is. What do you think he is guessing?_  
+> - That the lights were things that were loved a long time. → That fits the clues: the toy, the little light, and where Moss is looking. Moss would say you’re a good listener.
+> - That the lights came from the warm water itself. → That’s a fair reading too. The water is warm and strange. Moss leaves room for more than one answer.
+> - I don’t know yet. → That’s an honest answer. Moss doesn’t know either. That’s why it’s only a guess.
+> _For grown-ups: Used clues in the story to make a guess about what a character was thinking._
+
+
+#### `s25-complete`
+
+_He asks you to write it down, so you do: a new page in the journal, on the window seat, by the last of the lamplight._  
+_At the top, in capitals: HOW TOYS BECOME REAL._  
+_Underneath, what Moss said, as near as you can get it._  
+**Moss**: Twice round, and loved the whole way, and settled in itself.  
+**You**: What does that mean?  
+**Moss**: It means what it says. I am old, and it is late, and the hill is a long way up.  
+_He climbs down off the ledge and sets off into the dark. It will take him until morning, and he says he likes it._  
+_The page says nothing more. You leave the next one blank, in case._  
+
+> **Lesson** (literacy, RL.4.2, ask): theme: what a whole story is about  
+> _Every story has a theme: a big idea under the events. Which is closest to this one’s?_  
+> - ✅ Being loved for a long time changes you. → Yes. The toy, Clank, even Moss: the story keeps showing that love, given slowly, is what makes things Real.
+> - Never let toys get dirty. → The story says the opposite! The toy gets worn because he’s loved. The theme is that love makes things Real.
+> - Storms are scary. → The storm is one event. The big idea under all of them is that being loved for a long time makes things Real.
+> _For grown-ups: Identified the theme of a story from its events._
+
+
+### Glossary
+
+- **eaves**: The edges of a roof that hang out over the walls; inside a loft, the low corners under them.
+- **clockwork**: Machinery driven by a spring you wind up with a key.
+- **fortnight**: Two weeks, or fourteen days.
+- **metaphor**: Saying one thing is another to describe it, like calling a prickly person “sharp-edged”.
+- **condensation**: When water vapour in the air cools and turns into liquid drops, like dew.
+- **unreservedly**: Completely, with nothing held back.
+- **habitat**: The natural home of an animal or plant, where it finds what it needs.
+- **darn**: To mend a hole by weaving new yarn over and under across it.
+- **chill**: A mild cold that makes you shivery and tired for a short while.
+- **felt**: To shrink wool into a thick, tight mat with heat and rubbing; it can’t be undone.
+- **thimble**: A small metal cap worn on a fingertip to push a needle when sewing.
+- **geothermal**: Heat that comes from deep inside the Earth.
+
+## S26. The Walled Garden
+
+- `s26-step1`: Find out what the robin on the old wall post wants from you. · _It wants feeding, obviously. Hold out a crumb by the old wall post and keep still._
+- `s26-step2`: Say hello to the girl at Old Tobin’s gate. · _Tobin’s cottage is at the bottom of the lane, by the shiny lamp post. Let her set the pace._
+- `s26-step3`: Follow the robin along the old wall with Linnet. · _Watch where the robin scratches. Leave the ground round the lantern post alone; you know why._
+- `s26-step4`: Fetch Dusty to the hidden garden. Dusty will know if anything in it is alive. · _Dusty is up on the cliff. Bring them along the old wall to the ivy door._
+- `s26-step5`: Decide, with Linnet, how she gets down the three steps. · _Ask her first. It’s her garden as much as anyone’s._
+- `s26-step6`: Wait in the garden at dusk and catch whoever has been pruning the roses. · _Sit on the stone bench as the light goes, and keep still. Watch the top of the far wall._
+- `s26-step7`: Help Linnet choose a patch of the garden for her own. · _Stop at each corner so she can see it. She’ll know it when she sees it._
+- `s26-step8`: Sit on the stone bench with Moss and hear the garden’s story. · _The bench is in the middle of the garden. Sit down, and let him take his time._
+- `s26-step9`: Plant the autumn bulbs in Linnet’s raised beds. · _The bulb sack is inside the door. Your Nubbin will carry some. Some._
+- `s26-step10`: Bring Tobin into the garden instead of hiding it from him. · _Don’t send him away. Get him onto Hush’s bench, and let the garden do the rest._
+- `s26-step11`: Find Linnet in the walled garden. · _Follow her wheel tracks in the snow, along the old wall to the ivy door._
+- `s26-step12`: Walk Linnet’s mum up to the walled garden. · _Along the old wall to the ivy door. Don’t tell her anything on the way. Let her hear it._
+- `s26-step13`: Decide what happens to the garden key. · _There’s no wrong answer. The door stays open whichever you choose._
+
+#### `s26-robin`
+
+_Late summer. The rain has stopped at last, and Fossil’s flower is a few days old on the hill._  
+_Dusty hasn’t come down from the cliff since._  
+_A robin has taken over the old wall lantern post. It sits on top like a lid._  
+_Wherever you go, it goes: the pond, the woodpile, the cottage step. It never comes closer than a spade’s length._  
+
+> **Lesson** (science, K-LS1-1, notice): robins follow diggers to find food  
+> **Fern**: Robins follow gardeners on purpose, you know. A spade turns up worms and grubs.  
+> **Fern**: So a robin stays near anyone who looks as if they might dig. It’s not friendship. It’s lunch.  
+> _For grown-ups: Learned that robins follow people who dig because digging turns up worms and grubs to eat._
+
+_It looks at you the way a landlord looks at a tenant who owes the rent._  
+**Fern**: It’s decided you owe it something. Robins do that. One followed me for a whole spring over a raisin.  
+**Fern**: I never found out which raisin.  
+_Your Nubbin sits under the post and stares up at it. The robin stares back. Neither of them blinks first._  
+
+#### `s26-robin-fed`
+
+_You hold out a crumb of one of Fern’s lantern buns. The robin considers it, and you, and the crumb again._  
+_Then it takes it off your palm, quick as a pinch, and goes back to the post._  
+
+> **Lesson** (science, K-LS1-1, ask): what robins eat  
+> _A bun crumb is a treat. What do robins mostly eat in the wild?_  
+> - ✅ Worms, insects, spiders, berries and seeds → Right. Robins eat small creatures most of the year, and berries and seeds in winter.
+> - Mostly bread → Bread is only a snack, and not a very good one. Robins mostly eat worms, insects, spiders, berries and seeds.
+> - Grass → Robins don’t graze like sheep. They eat worms, insects and spiders, plus berries and seeds.
+> _For grown-ups: Learned what wild robins eat: small creatures, berries and seeds, with bread only a snack._
+
+_It hops from the post onto the ivy, and looks at you over its shoulder._  
+_Then it sets off down the lane. Your Nubbin follows it. You follow your Nubbin._  
+**You**: I think I’ve just been hired.  
+_The robin doesn’t look back to check. It knows._  
+
+#### `s26-linnet`
+
+_The robin leads you down the lane to a cottage with a lamp post outside it, polished like a medal._  
+_An old man in a lamplighter’s coat is getting a wheelchair over the doorstep. The girl in it is telling him how, very loudly._  
+**Linnet**: No. Back wheels first. Grandad. Back. Wheels. First.  
+**Old Tobin**: I know which wheels, love, I’ve been doing wheels since before—  
+_He gets it over the step. She takes the rims herself the moment it lands, and spins round to look at you._  
+**Old Tobin**: Hazel’s grandchild! You’ve her chin. I’m Tobin. I lit the lamps in this valley for fifty-one years.  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): life in the past: the lamplighter’s job  
+> **Old Tobin**: Before the lamps were wired up, every one had a real flame. Someone had to light it, every single evening.  
+> **Old Tobin**: That was me. A long pole, a ladder for the stubborn ones, and out again at dawn. Fifty-one years of it.  
+> _For grown-ups: Learned how street lamps were once lit and put out by hand by a lamplighter._
+
+**Old Tobin**: This is Linnet. My granddaughter. Here till winter, while her mum works the coast boats.  
+**Linnet**: He means I’m kept here till winter.  
+**Old Tobin**: She’s eleven. She’s very— she’s eleven.  
+**Linnet**: Nothing in this valley is flat. Did you know that? Nothing. Somebody should be told.  
+**Old Tobin**: Mind yourself on the lane, love.  
+**Linnet**: There. That. That’s the other thing everybody says.  
+
+> **Lesson** (literacy, RL.3.3, ask): character motives: why Linnet is sour  
+> _Why does “mind yourself” make Linnet so cross?_  
+> - ✅ Everyone treats her as if she might break, so nobody lets her do anything. → Yes. Her sourness comes from being kept, not from her chair. Being told to be careful all day can feel like being told you can’t.
+> - She doesn’t love her grandad. → She does. Look how she bosses him. Her crossness is about being kept in, not about him.
+> - She just likes being rude. → She is rude, a bit. But listen to her: she’s cross about being kept, not let.
+> _For grown-ups: Explained a character’s feelings and motives using clues from what she says._
+
+
+**Choices**
+
+- **Agree. Whoever built this valley did it badly.**
+    - **Linnet**: Thank you. Finally. Somebody with eyes.
+    - It is very nearly a smile. She puts it away quickly, before anyone can use it against her.
+- **Ask if she’d like a push up the lane.**
+    - **Linnet**: No.
+    - **You**: All right.
+    - She looks at you, surprised that “no” was allowed to be the end of it.
+    - **Linnet**: …You asked, though. Nobody asks. They just grab the handles.
+- **Say nothing. Wait and see which way she goes.**
+    - She goes up the lane, hard, the rims slapping her palms. You walk beside her at her pace, which is faster than yours.
+    - **Linnet**: You’re not going to tell me to mind myself?
+    - **You**: Do you need telling?
+    - **Linnet**: No.
+
+#### `s26-linnet-robin`
+
+_The robin lands on the lamp post, right above Linnet’s head._  
+**Linnet**: That’s following you. Is it yours?  
+**You**: I think I’m its.  
+**Linnet**: Where does it live?  
+**You**: On the old wall, at the top of the Grove. In the ivy, mostly.  
+
+> **Lesson** (science, K-ESS3-1, notice): robins keep a territory  
+> _A robin keeps a patch of its own, called a territory, with enough food and cover to live on._  
+> _It sings to say “mine”, and chases other robins out. This one has decided its patch includes you._  
+> _For grown-ups: Learned that a robin keeps a territory where its needs are met, and defends it._
+
+**Linnet**: Is the lane flat? To the old wall?  
+_You think about it. It is, almost: the only lane in the valley that is._  
+**Linnet**: Then show me. Tomorrow. Before Grandad thinks of a reason.  
+
+#### `s26-key`
+
+_Next morning Linnet is waiting at the top of the lane: early, cross, and slightly out of breath. Tobin is not with her._  
+**Linnet**: He thinks I’m reading. I am. I’m reading the valley.  
+_The old wall runs along the north side of the Grove, tumbled and deep in ivy. The robin goes ahead, post to bush to stone._  
+_Near the lantern post it drops onto a fresh molehill and scratches, as if it has lost something and is cross about it._  
+
+> **Lesson** (science, K-ESS2-2, notice): moles change the ground they live in  
+> _A molehill is the spoil heap from a mole’s tunnel. Moles dig with big, spade-shaped front paws and push the loose earth up._  
+> _So a mole can bring up things that have been buried for years. Today it brought up a key._  
+> _For grown-ups: Learned that moles dig tunnels and push soil up into molehills, changing the ground._
+
+_Something in the earth goes clink._  
+**Linnet**: Dig. Go on. It’s pointing.  
+_You kneel, and lift out an iron key, black with age. Its bow, the round part you hold, is as wide as your palm._  
+
+> **Lesson** (literacy, L.3.4, ask): multiple-meaning words: bow  
+> _“Bow” has several meanings. Which one fits here, on a key?_  
+> - ✅ The round handle you hold → Yes. On a key, the bow is the loop or ring at the top.
+> - A ribbon tied in loops → That’s another bow! Here, the bow is the round handle at the top of the key.
+> - Bending forward to say hello → That’s a bow too, said differently. On a key, it’s the round handle you hold.
+> _For grown-ups: Used context to choose the right meaning of a word with several meanings._
+
+_The lantern post beside you is warm under your hand, the way the three good posts always are._  
+_You know from Moss’s tale what sleeps under this one. You put the earth back with your hands, and press it flat._  
+**Linnet**: What? What was that face?  
+**You**: Nothing. Something old. It’s asleep.  
+**Linnet**: Everything here is old and asleep.  
+
+#### `s26-door`
+
+_Then the wind comes along the wall, and lifts the ivy like a curtain._  
+_Under it, exactly at the height of Linnet’s eyes, is a round iron knob._  
+**Linnet**: There. There! You lot stand too tall to see anything.  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): different points of view notice different things  
+> _Why did Linnet spot the knob when nobody else had, for years?_  
+> - ✅ Her eyes were at exactly the right height, and she was looking. → Yes. From where she sits, she sees things taller people walk past. Different people notice different things. That’s why it helps to have everyone.
+> - Pure luck. → Partly the wind. But her eyes were at the knob’s height, and she was looking hard. Different views spot different things.
+> _For grown-ups: Talked about how people’s different points of view help them notice different things._
+
+_You hold back the ivy and find the edge of a door, and under the knob, a keyhole._  
+_The key goes in as if it has been waiting. It takes both your hands to turn it, and then Linnet’s as well._  
+_Something inside the lock gives a deep, rusty clunk._  
+
+#### `s26-inside`
+
+_The door opens inwards, slowly, scraping a fan in a hundred years of leaves._  
+_Three stone steps lead down from the doorway into a garden walled on all four sides._  
+_Everything is grey: grey tangles, grey canes, bare roses climbing the walls and falling off them again. In the middle, a stone bench._  
+
+> **Lesson** (science, K-PS3-1, notice): walls soak up the sun’s warmth  
+> _Gardeners have built walled gardens for hundreds of years. The walls keep the wind off._  
+> _Stone soaks up the sun’s warmth by day and gives it back at night, so fruit and flowers grow well beside it._  
+> _For grown-ups: Learned that walls block wind and that stone warmed by the sun keeps a garden warmer._
+
+**Linnet**: Listen. There isn’t one single sound in here. Not a bee.  
+**Linnet**: I bet these walls haven’t heard a voice since before Grandad was born.  
+_Nothing moves. Even the robin lands without a sound._  
+**Linnet**: …Is it dead? All of it?  
+**You**: I don’t know. I know someone who would.  
+**Linnet**: Then fetch them. I’ll wait here. I’m very good at the tops of things.  
+_She folds her arms in the doorway at the top of the three steps, and guards a garden nobody has wanted for a hundred years._  
+
+#### `s26-wick`
+
+_Dusty comes with a spade over one shoulder, stops in the doorway, and doesn’t say anything for a while._  
+**Dusty**: After Fossil, I said I’d go and dig something up. I went. I stood on the cliff with the spade for an hour.  
+**Dusty**: First time it hasn’t worked.  
+_They go down the steps, take a grey cane, and scratch it gently with a thumbnail. Under the grey it is green: wet, bright green._  
+**Dusty**: There. That one’s living. It’s been dormant, that’s all.  
+
+> **Lesson** (science, K-LS1-1, notice): the scratch test for a living stem  
+> **Dusty**: Scratch the bark, gently. Green and damp underneath means the stem is alive.  
+> **Dusty**: Brown and dry right through means dead wood. Dead wood snaps; living wood bends.  
+> _For grown-ups: Learned the gardener’s scratch test: green and damp under the bark means a stem is alive._
+
+**Dusty**: This one’s good. That one. Not that one, that’s firewood. But most of this lot has only been resting.  
+**Linnet**: Then wake it up.  
+**Dusty**: …Yeah.  
+**Dusty**: Yeah. I want to dig this. I didn’t think I’d want to dig anything for a bit.  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): grief comes and goes, and doing something you love can help  
+> _When someone you love dies, sadness doesn’t stop on a timetable. Some days nothing helps._  
+> _Then one day, something does: a job you love, a friend, a green stem. It doesn’t mean you’ve stopped missing them._  
+> _For grown-ups: Talked about how grief changes over time, and how a loved activity can help without replacing the person._
+
+
+#### `s26-steps`
+
+_Dusty comes back up, earth to the elbow. Linnet is still at the top of the three steps._  
+_Three steps: steep, worn in the middle, a little slippery with moss. Built by somebody who walked._  
+**Linnet**: Well. That’s that, then. Somebody built three stupid steps and walked off.  
+_Sparks comes along the wall with a coil of wire for the old wall lantern. She sees the open door, and stops._  
+**Sparks**: Ooh. I didn’t know that was there. NOBODY knew that was there!  
+**Sparks**: Want me to lift you down? Chair and all. I lift generators. You’re lighter than a generator.  
+_Dusty looks at the steps, and then at the spade, measuring something._  
+**Dusty**: Or we dig them out into a slope. You and me. A few evenings’ work.  
+_Everyone looks at you. You look at Linnet._  
+**You**: What do you want?  
+**Linnet**: I don’t mind being lifted.  
+_Her face minds. Her face minds very much._  
+
+> **Lesson** (sel, CASEL: Social awareness, notice): notice when words and faces disagree  
+> _People sometimes say “I don’t mind” to be polite, or because they’re tired of asking._  
+> _Asking first is good. Watching the answer, not just hearing it, is better._  
+> _For grown-ups: Noticed that what someone says and what their face shows can differ, and talked about asking well._
+
+
+> **Lesson** (science, 3-5-ETS1-2, ask): compare two solutions to a problem  
+> _Two answers to one problem. A lift is quick, but needs a lifter every time. A ramp is slow to build, but always there._  
+> _Which matters more here? There’s no wrong answer. Think about it from Linnet’s side._  
+> - Getting into the garden today. → Fair. Today matters, and the garden is right there. A quick fix can be a kind fix. Keep an eye on what happens when the lifter is busy, though.
+> - Getting in and out on her own, any day she likes. → Fair. A fix that works without anyone else gives her the say over her own days. It does mean waiting. Slow hands take time.
+> - Whatever Linnet decides. → That’s a strong answer: it’s her garden and her body. She’s told you a bit, and her face has told you more.
+> _For grown-ups: Compared two solutions (quick but dependent, slow but lasting) and explained which mattered more, and why._
+
+
+**Choices**
+
+- **Dig the steps into a ramp. Dusty and you, three evenings.**
+    - **Linnet**: Three evenings. Of watching you two dig.
+    - **Linnet**: …Fine. Somebody has to tell you where.
+    - **Sparks**: Shout if you change your mind. I’m only ever a shout away. A loud shout.
+    - Sparks leaves her coil of wire at the top, just in case. Linnet sits beside it and looks down at the garden.
+- **Ask Sparks to lift Linnet and her chair down. Now.**
+    - **Sparks**: Right! How do you want it? Tell me everything. I break things when I guess.
+    - **Linnet**: Front and back, not the sides. Don’t tip me back. I’m not a wheelbarrow.
+    - Sparks does exactly as she’s told, which nobody has ever seen before. Linnet’s wheels touch the garden path.
+    - **Linnet**: Thank you.
+    - She says it carefully, like a coin she has had to count out. Then she is off among the roses.
+
+#### `s26-pruned`
+
+_The garden wakes slowly, the way a cat does: one leg at a time, and complaining._  
+_Dusty clears the dead wood, and you cart it out. Your Nubbin and the robin supervise from the stone bench._  
+
+> **Lesson** (science, K-ESS3-3, notice): how pruning helps a rose  
+> **Dusty**: Pruning means cutting bits off a plant to help it. First the dead wood, then anything crossing or crowded.  
+> **Dusty**: That lets light and air into the middle, and the rose puts its strength into new shoots. Cut just above a bud.  
+> _For grown-ups: Learned what pruning is and why it helps a rose: more light and air, and strength for new growth._
+
+_Then Linnet spots a rose by the far wall that has been cut back. Badly, but not long ago._  
+**Linnet**: Look. Somebody’s been in here. That cut’s from this summer. The wood’s still pale.  
+
+> **Lesson** (literacy, RL.3.3, ask): use evidence to reach a conclusion  
+> _How does Linnet know somebody was here this summer?_  
+> - ✅ The cut wood is still pale, not weathered grey. → Yes. Fresh cuts are pale; old ones go grey. She read the evidence like a detective.
+> - She guessed. → She didn’t need to. The cut wood was still pale: fresh. Old cuts weather grey.
+> _For grown-ups: Used a clue in the text to explain how a character worked something out._
+
+**Dusty**: Right. And whoever did it held the shears upside down.  
+**Linnet**: So somebody’s got another key. Or somebody comes over the top.  
+_All three of you look up at the top of the wall at the same moment, the way people do in plays._  
+_Nobody is there. On the coping, the flat top of the wall, there is a snapped rose twig and a flattened patch of moss._  
+**Linnet**: Dusk, then. Nobody prunes in daylight unless they want to be caught.  
+
+#### `s26-moss-wall`
+
+_Dusk. A blackbird says its last word._  
+_Then something small and green and very slow comes over the top of the far wall._  
+_It has a rose twig in its mouth, held crossways, like a dog with a stick. It is Moss._  
+**Moss**: …  
+_He takes the twig out of his mouth with great dignity, as if he had meant to be seen with it._  
+**Moss**: Good evening. I was pruning.  
+**Linnet**: You were doing it upside down.  
+**Moss**: I have hands the size of buttons, child. With shears, everything is upside down.  
+**Linnet**: …You talk.  
+**Moss**: When there is something worth the wear.  
+**Dusty**: Moss. How long have you been coming in here?  
+**Moss**: Once a year. On this day, as it happens. For longer than any of you have been alive. Put together.  
+
+> **Lesson** (literacy, RL.3.3, ask): think about a character’s motive  
+> _Moss comes once a year, on one particular day, and tells nobody. Why do you think he does that?_  
+> - It’s a day to remember someone. → That’s a good reading. Some people keep one day a year for someone they miss.
+> - He likes having a secret. → Maybe a little. Some feelings are easier kept quiet. Moss is not a talker.
+> - He doesn’t want anyone to fuss. → That fits Moss. He would hate a fuss. Keep it in mind for later.
+> _For grown-ups: Suggested reasons for a character’s private habit, using what they know about him._
+
+**Linnet**: So I wasn’t the first to say anything in here.  
+**Moss**: You were the first who expected an answer. I only talk to the roses. They never keep up their end.  
+
+#### `s26-earth-ask`
+
+_Moss is on the wall again before anyone else, pretending he has always been there._  
+_Linnet watches him for a long time. She is not used to wanting things out loud, and it shows._  
+**Linnet**: Moss. It’s your garden, isn’t it? Or it’s somebody’s, and you look after it.  
+**Moss**: It was somebody’s. I cut the roses once a year. That isn’t the same as looking after.  
+**Linnet**: Can I have a piece of it? A patch, with edges. Mine.  
+**Moss**: A patch. What for?  
+**Linnet**: Growing. Sowing things and seeing which ones come up. Because I looked after them.  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): asking out loud for what you want  
+> _Asking for something you really want can feel risky. If they say no, it stings more._  
+> _Linnet asked anyway, plainly. That’s a skill, and it gets easier with practice._  
+> _For grown-ups: Talked about how hard, and how useful, it is to ask plainly for something you want._
+
+_Moss is quiet for so long that Dusty stops digging to look._  
+**Moss**: Have whatever patch you choose. There has been nobody to ask for one in a very long while.  
+**Moss**: There was another who loved growing things, once. You’d have argued with each other beautifully.  
+**Moss**: Choose well. Then get it going.  
+
+> **Lesson** (science, 2-LS2-1, ask): plants need light and water  
+> **Moss**: Before you choose, what will a patch need, for seeds to grow well?  
+> - ✅ Light and water, and good soil → Yes. Light to make food, water to drink, and soil to root in.
+> - Nothing; seeds do it all themselves → Seeds carry a little food to start. After that, plants need light, water and soil.
+> - As much shade as possible → Some plants like shade, but most need light to make their food. Find some sun.
+> _For grown-ups: Explained that plants need light, water and soil to grow well._
+
+
+#### `s26-earth-pick`
+
+_You walk the garden for her twice, wall to wall, stopping at every corner so she can see it._  
+_She turns most of it down on sight._  
+**Linnet**: Too shady. Too stony. Too near the door; people would tread on it. Too— what do you think?  
+_The sun is low in the south. Its light lies longest along the foot of the south wall._  
+
+> **Lesson** (science, 5-ESS1-2, notice): the Sun is in the south at midday, so south walls get most sun  
+> _In our half of the world, the Sun crosses the southern part of the sky. At midday it is due south._  
+> _So the ground in front of a south-facing wall gets the most sunshine. Gardeners love it._  
+> _For grown-ups: Learned that the Sun is due south at midday in the northern half of the world, so south-facing spots get the most sun._
+
+_Under the oldest rose, the cane Dusty scratched is still showing its green._  
+**You**: Let me think.  
+
+> **Lesson** (maths, 3.MD.D.8, ask): perimeter  
+> **Linnet**: My patch will be 3 metres long and 2 metres wide. String goes all the way round.  
+> **Linnet**: How much string do I need?  
+> - ✅ 10 metres → Yes. 3 + 2 + 3 + 2 = 10. All the way round is called the perimeter.
+> - 6 metres → That’s 3 times 2, the area. String goes round the edges: 3 + 2 + 3 + 2 = 10 metres.
+> - 5 metres → That’s only one long side and one short side. Go all the way round: 3 + 2 + 3 + 2 = 10.
+> _For grown-ups: Found the perimeter of a 3 m by 2 m rectangle by adding all four sides._
+
+
+**Choices**
+
+- **The corner by the south wall. The sun stays there longest.**
+    - **Linnet**: Obviously. I was testing you.
+    - She marks it out with four sticks and a length of string, perfectly straight.
+- **Under the oldest rose, where Dusty found the green.**
+    - **Linnet**: Next to the living one. Yes. Then it’s got company.
+    - She marks it out with four sticks and a length of string, perfectly straight.
+- **Wherever you like. It’s your patch.**
+    - **Linnet**: …Nobody’s ever said that. About anything.
+    - She takes the sunny corner by the south wall, and marks it out with four sticks and string, perfectly straight.
+
+#### `s26-bench`
+
+_That evening the light goes long and gold across the garden. Moss comes down off the wall at last, the slow way._  
+
+> **Lesson** (science, 5-ESS1-2, notice): evening light and long shadows  
+> _In the evening the Sun is low, so its light comes in sideways and shadows stretch out long._  
+> _The light looks gold because it travels through more air to reach you, which scatters away much of the blue._  
+> _For grown-ups: Learned why shadows are long and light looks golden in the evening, when the Sun is low._
+
+_He climbs onto the stone bench and sits, as if he has sat there before. He has._  
+**Moss**: It was Hush’s. The bench, the roses, the wall. All of it.  
+**Linnet**: Who’s Hush?  
+**Moss**: A friend of mine. The quiet one. She kept the griefs nobody else had room for.  
+_Linnet puts her brake on, and Dusty sits down on the path. You sit on the end of the bench, and wait._  
+
+#### `s26-hush`
+
+**Moss**: After the White Year, some of the stilled ones never moved again. Hush brought them in here, out of the wind.  
+**Moss**: She planted roses up every wall, so they would have something to look at. So it wasn’t only grey.  
+**Moss**: Every day she sat with them. She didn’t try to wake them. She kept them company.  
+**Moss**: The last of them faded on a winter morning, by this wall, with Hush beside it.  
+_Faded is the Grove’s word. It means died: the body stops working, and it doesn’t start again._  
+**Moss**: She locked the door and put the key in the ground. Later, when she had carried it as far as she could, she faded too.  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): grief, said plainly, and what comforts  
+> _This is a sad part. Feeling sad, or quiet, while you read it is all right._  
+> _What helps: the roses Hush planted are still alive, and Moss still comes. Remembering someone keeps them close._  
+> _For grown-ups: Heard about death said plainly, and talked about remembering as a comfort._
+
+_Nobody says anything. The robin turns round twice on the back of the bench, and settles._  
+**Linnet**: Not even Hazel knew? About in here?  
+**Moss**: Hazel had enough doors.  
+_Then Moss looks at the patch of bare earth beside the bench, the way he looks at the hill where the memorial flowers grow._  
+**Moss**: If I ever have a flower, I’d like a bit of it here.  
+**Moss**: Don’t go telling people. They’d make a speech.  
+_Linnet sets a white pebble on the bare patch to mark it, and says nothing at all. For Linnet, that is a speech._  
+
+> **Lesson** (literacy, RL.4.2, ask): theme: keeping someone company  
+> _Hush couldn’t make the still ones better. She sat with them anyway. Was that helping? Think about it; there’s no wrong answer._  
+> - Yes. Being with someone matters even when you can’t fix things. → Many people would agree. Company can be the help, when nothing else will work.
+> - Not really. Helping means fixing. → That’s an honest answer. Fixing is one kind of help. Ask yourself what the still ones would have felt, alone.
+> - It helped Hush, as well as them. → That’s a thoughtful answer. Keeping someone company can comfort both people.
+> _For grown-ups: Thought about a story’s theme: whether staying with someone is a way of helping._
+
+
+#### `s26-beds`
+
+_Autumn: the valley goes gold, then brown. For the first time in a hundred years, the garden has people in it most days._  
+_Dusty builds raised beds along the south wall: deep wooden boxes at exactly the height of Linnet’s hands._  
+**Dusty**: Measured twice. Measured you, I mean. Your arms. Tell me if it’s wrong. It won’t be.  
+**Linnet**: It’s not wrong.  
+
+> **Lesson** (social-studies, D2.Civ.8.K-2, notice): designing places so everyone can use them  
+> _Dusty didn’t change Linnet. Dusty changed the beds, to fit Linnet._  
+> _Good designers do this everywhere: ramps, wide doors, low counters. A place built for everyone is fairer, and often better for all._  
+> _For grown-ups: Talked about accessible design: changing places so that everyone can use them._
+
+**Linnet**: Right. Dusty: compost. You: bulbs. The Nubbin: carry. The robin: look important. Moss: stop helping.  
+**Moss**: I haven’t touched anything.  
+**Linnet**: You were about to.  
+_Linnet runs the garden like a ship. Nobody minds: she is good at it, and nearly always right._  
+_Tobin thinks she spends her afternoons at the library van. The library van comes on Thursdays._  
+**Linnet**: What goes in my bed first? You choose. I’ll overrule you if it’s wrong.  
+
+> **Lesson** (science, 3-LS1-1, notice): bulbs in the life cycle of a plant  
+> **Dusty**: A bulb is a plant’s packed lunch: a store of food underground, wrapped in fleshy leaves.  
+> **Dusty**: Plant them in autumn, pointy end up, about twice as deep as the bulb is tall. Most need a cold winter.  
+> **Dusty**: Come late winter and spring, they spend that store on leaves and flowers. Then they fill up again for next year.  
+> _For grown-ups: Learned how bulbs store food, are planted in autumn and flower after a cold winter._
+
+
+**Choices**
+
+- **Snowdrops. They come up first, before anyone thinks it’s worth it.**
+    - **Linnet**: First. Yes. Before anybody’s ready for them.
+- **Crocuses. Purple ones. Loud.**
+    - **Linnet**: Loud. Good. This garden’s been quiet long enough.
+- **Some of everything, and see what wins.**
+    - **Linnet**: A race. I’ll win, obviously. My bulbs will, I mean.
+
+#### `s26-cheeks`
+
+_Your Nubbin carries the bulbs very seriously, two at a time, one in each cheek._  
+_It plants about half of them. The other half it hides all over the garden, in places it seems to choose by feel._  
+
+> **Lesson** (maths, 3.NF.A.1, ask): unit fractions: one half  
+> _Your Nubbin carried 20 bulbs and planted half of them. How many did it plant?_  
+> - ✅ 10 → Yes. Half of 20 is 10: two equal groups of 10. The other 10 are hidden.
+> - 2 → Two is how many it carries at once. Half of 20 is 10, two equal groups.
+> - 20 → That’s all of them. Half means two equal parts: 10 and 10.
+> _For grown-ups: Found one half of 20 by splitting it into two equal groups._
+
+**Linnet**: Your Nubbin has no sense of order whatsoever.  
+_She watches it bury one under the bench, pat it flat, and look round to see if anyone noticed._  
+**Linnet**: …I like it.  
+**Dusty**: Squirrels do that with nuts. Half the oak trees in the valley are acorns a squirrel forgot.  
+
+> **Lesson** (science, 2-LS2-2, notice): animals that bury seeds help plants spread  
+> _Squirrels and jays bury nuts and acorns to eat in winter. They never find them all._  
+> _The forgotten ones can sprout, far from the parent tree. So a forgetful animal plants a wood._  
+> _For grown-ups: Learned that animals that bury seeds and forget some of them help plants spread._
+
+
+#### `s26-tobin-finds`
+
+_It ends on a Thursday, when the library van comes and Linnet isn’t at it._  
+_Tobin finds the ivy door by following her wheel tracks. He comes through it the way you would come into a burning house._  
+**Old Tobin**: Linnet! Away from that— off that— is that a SPADE?  
+**Old Tobin**: She’ll catch her death out here. She’ll tip. That wall could come down on her!  
+_Linnet goes sour all at once, like milk in thunder. The whole busy, bossy afternoon goes out of her face._  
+**Linnet**: Everybody keeps me. Nobody lets me.  
+**Linnet**: I’ve been kept in every room in this valley. This is the first place anyone’s let me do anything.  
+**Old Tobin**: I only want you safe, love.  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): think question: is safe the same as well?  
+> _Tobin wants Linnet safe. Linnet wants to live. Is keeping someone safe the same as letting them be well?_  
+> _There is no wrong answer. Think about both of them._  
+> - No. You can be safe and still unhappy. → That’s fair. A kept bird is safe in a cage. Is it well?
+> - Mostly yes. Safety comes first. → That’s fair too. Tobin loves her, and some dangers are real. The question is how much keeping is too much.
+> - They need each other: safe enough, and free enough. → That’s a thoughtful answer. Most families spend years finding that balance.
+> _For grown-ups: Thought about whether keeping someone safe is the same as letting them live well._
+
+_Up on the wall, Moss shifts, as if a word he knows very well has been said in front of him._  
+_You could send Tobin home and hide the door again. Linnet looks at you as if she thinks you might._  
+
+**Choices**
+
+- **Ask Tobin to sit on Hush’s bench. Just for a minute.**
+    - **Old Tobin**: Sit? I— well. A minute. One.
+    - He sits. The stone is warm from the afternoon, and he looks very surprised by that.
+- **Tell Linnet to show him round. It’s her garden too.**
+    - **Linnet**: …Fine. Grandad. Come here. No, here. Look at this.
+    - She shows him everything: the living canes, the raised beds, the pebble by the bench. She is cross the whole way round, and very thorough.
+    - At the end he sits down on Hush’s bench, because his legs have decided for him.
+
+#### `s26-tobin-bench`
+
+**Old Tobin**: This puts me in mind of a story. There was a winter, the year of the Three Hats, when—  
+**Old Tobin**: …when the snow came up to the lamp posts, and I went round lighting them from underneath, and…  
+_He stops, and looks at the roses. Then he looks at Linnet, up to her elbows in a raised bed, and not tipping._  
+**Old Tobin**: Where was I.  
+_He doesn’t find his place. He sits on, and stops arguing, and watches her work until it’s dark._  
+_On the way out, at the door, he puts his hand flat on the old wall._  
+**Old Tobin**: My old gaffer used to say: put a rose where your worry sits, and the worry has to go and sit somewhere else.  
+
+> **Lesson** (literacy, L.4.5, ask): understand a metaphor  
+> _Worries don’t really sit on chairs. What does Tobin’s old saying mean?_  
+> - ✅ Fill your mind with something good to look after, and there’s less room for worrying. → Yes. It’s a metaphor: it talks about worry as if it were a person needing a seat. Tobin has just done it. He watched Linnet garden, and his worry had nowhere to sit.
+> - Roses scare worries away with their thorns. → Ha. Nice picture, but it’s a metaphor, not a fact about thorns. It means: give your mind something good to tend, and the worry has less room.
+> _For grown-ups: Explained what a metaphor about worry means, using what had just happened in the story._
+
+**Old Tobin**: He was a terrible gardener. He was right about that, though.  
+
+#### `s26-snow`
+
+_The Long Night is over. The days after it are short and white, and the valley is snowed in to the hedge tops._  
+
+> **Lesson** (science, 1-ESS1-2, notice): winter days are short  
+> _In winter the Sun rises late, stays low, and sets early, so the days are short and the nights are long._  
+> _Linnet went out at first light, which in deep winter isn’t very early at all._  
+> _For grown-ups: Learned that winter days have fewer hours of daylight._
+
+_Tobin comes up the lane at a sort of run, in two scarves and the wrong boots._  
+**Old Tobin**: She’s gone out. First light. The chair tracks go up the lane and I can’t keep up with them.  
+**Old Tobin**: I know where. I know exactly where. It’s my knees, in this.  
+**Old Tobin**: Will you go and find her? Not fetch her. Find her.  
+_You notice the difference. So, from his face, does he._  
+
+> **Lesson** (literacy, RL.3.3, ask): how a character changes: find, not fetch  
+> _Tobin says “find her”, not “fetch her”. What has changed in him?_  
+> - ✅ He trusts her to be out on her own now. → Yes. “Fetch” means bring her back. “Find” means check she’s all right, and leave her be.
+> - Nothing; the words mean the same. → Look closer. “Fetch” means bring her home. “Find” means see she’s fine. He’s learning to let her.
+> _For grown-ups: Used one word choice to explain how a character had changed._
+
+
+#### `s26-snowdrops`
+
+_Her tracks go along the old wall, through the open door and straight down the ramp: two neat lines in the snow._  
+_Linnet is by Hush’s bench in three blankets, with the robin on her knee like a hot coal._  
+**Linnet**: You took your time. Look. LOOK.  
+_Snowdrops. All round Hush’s bench, white heads bowed, as if they came up to listen._  
+
+> **Lesson** (science, 3-LS1-1, notice): snowdrops flower in late winter  
+> _Snowdrops are among the first flowers of the year, often out in January and February, even through snow._  
+> _Their bulbs stored food all autumn, so they can flower before the trees have leaves to shade them._  
+> _For grown-ups: Learned that snowdrops flower in late winter, using food stored in their bulbs._
+
+_Some are in Linnet’s bed, in a dead straight row. The rest are everywhere: under the bench, in the path, one right in the middle of the ramp._  
+**Linnet**: Your Nubbin’s. It can’t count and it can’t plant, and they all came up anyway.  
+**Linnet**: I came in on my own. Nearly in the dark. Nobody had to come and do anything.  
+_She says it lightly, like a fact about the weather._  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): quiet pride in doing something yourself  
+> _Linnet doesn’t want a fuss. She wants it noticed, once, and then left alone._  
+> _That’s what pride can feel like when something finally fits: ordinary, in the best way._  
+> _For grown-ups: Talked about the quiet pride of doing something on your own._
+
+
+#### `s26-mum`
+
+_A few days later, a woman comes up the valley road with a kitbag and a coat that smells of the sea._  
+_She has Linnet’s chin exactly, and Linnet’s way of looking at a hill as if it owes her money._  
+
+> **Lesson** (science, 1-LS3-1, ask): children are like their parents, but not the same  
+> _Linnet has her mum’s chin. Why do children often look a bit like their parents?_  
+> - ✅ They inherit features from their parents. → Yes. Some features are passed down in families, like a chin. But each child is still their own mix.
+> - They copy their parents’ faces on purpose. → Ha. You can copy a frown, but not a chin! Features like that are inherited from parents.
+> _For grown-ups: Learned that children inherit some features from their parents but are not identical to them._
+
+**Linnet’s mum**: I’m Linnet’s mum. The boats are laid up for the winter. Dad says she’s never at home. Dad says she’s up here.  
+**Linnet’s mum**: Dad also says she’s been gardening. My Linnet once posted a houseplant out of a window because it was looking at her.  
+**Linnet’s mum**: Is she all right? Really?  
+**You**: Come and see.  
+
+#### `s26-race`
+
+_Halfway along the old wall she stops. From behind the ivy comes a noise like a kettle boiling over._  
+_Laughing. Linnet, and Dusty, and somebody shrieking “NOT the snowdrops”, which is also Linnet._  
+**Linnet’s mum**: …That’s her.  
+_She lifts the ivy. Linnet is just inside, at the top of the ramp, and when she sees her mum her face does something enormous._  
+**Linnet**: Mum! Race you. To the bench. GO.  
+_Her mum drops the kitbag and runs. Linnet goes down the ramp and along the path like a hare, the rims singing._  
+
+> **Lesson** (science, 3-PS2-1, notice): gravity speeds you up on a slope  
+> _On a slope, gravity pulls downhill more than friction holds you back. The forces are unbalanced, so you speed up._  
+> _That’s why the ramp is long and gentle: fast enough to be fun, slow enough to stop._  
+> _For grown-ups: Learned that unbalanced forces on a slope make things speed up._
+
+_Linnet wins by a length. It would have been two if she hadn’t looked back to gloat._  
+_Nobody makes a speech about it. Dusty has been warned._  
+**Linnet**: It fits me now. The garden. It didn’t, and now it does.  
+
+> **Lesson** (literacy, RL.4.2, ask): theme: what changed  
+> _“It fits me now.” What changed in this story: Linnet, or the garden?_  
+> - ✅ The garden. Linnet is the same as she always was. → Yes. Nobody changed Linnet. The steps became a ramp, the beds came up to her hands. The place was made to fit.
+> - Linnet. She got better. → Look again. Linnet is exactly as she was: bossy, funny, right. It’s the garden that changed to fit her.
+> _For grown-ups: Identified the story’s theme: the place changed to fit the person, not the other way round._
+
+
+#### `s26-key-choice`
+
+_That evening, when the others have gone in for tea, there is only you and Linnet and the robin, and the key._  
+_It hangs on a nail inside the door, where it has hung since the morning you dug it up._  
+**Linnet**: Mum says we’ll come every summer. Grandad says every summer and Christmas. Grandad’s outnumbered.  
+**Linnet**: So. The key. It was Hush’s, and then the ground’s, and then the robin’s, and then yours.  
+**Linnet**: Somebody has to decide. Not me. I’d only make it about me.  
+_She holds it out on her open palm. It is black and heavy and older than anybody._  
+
+> **Lesson** (social-studies, D2.Civ.8.K-2, ask): think question: who is a special place for?  
+> _Should a special place be kept by the person who loves it most, shared with anyone, or never locked at all? No wrong answer._  
+> - Kept by the person who loves it most. → Fair. Someone who cares will look after it. The question is whether they’ll let others in.
+> - Shared with anyone who wants to come. → Fair. Shared places, like parks and libraries, belong to everyone. They need everyone to be careful.
+> - Never locked at all. → Fair. An open door says “welcome” without anyone having to decide each time.
+> _For grown-ups: Weighed different ways of looking after a special place, and explained their choice._
+
+
+**Choices**
+
+- **Give it to Linnet. She asked for her patch first.**
+    - **Linnet**: Me? I just said— oh, you’re impossible.
+    - She closes her hand round it. Then she goes very quiet.
+    - **Linnet**: Then I’m keeping it so nobody can ever lock it. That’s what it’s for now.
+- **Hang it on the old wall post, for anyone who wants to come in.**
+    - You hang it on the hook under the old wall lantern. The post is warm against your knuckles.
+    - **Linnet**: Anyone? Even people who are rubbish at gardening?
+    - **Linnet**: …Good. They can be taught.
+- **Leave it in the door. It’s never going to be locked again.**
+    - You put it in the keyhole, turn it once to open, and leave it there.
+    - **Linnet**: Somebody will steal it.
+    - **You**: Then they’ll have the key to a door that doesn’t lock.
+    - **Linnet**: …Ha.
+
+#### `s26-complete`
+
+_Winter sun comes over the old wall and lies along the beds. The garden is still mostly bare, but it is not grey._  
+_Dusty is hanging the ivy on a rail over the door, so it swings like a curtain. The robin is supervising._  
+_Linnet wears the key on a bootlace round her neck. It is far too big and bangs on her chest when she races, and she races anyway._  
+**Dusty**: The stone from the old steps is still in a heap. I’m making you a bench out of it, like Hush’s. For the Grove.  
+
+> **Lesson** (science, K-ESS3-3, notice): reusing materials  
+> _The old steps become a new bench. Reusing stone saves digging new stone out of the ground and carting it in._  
+> _Reusing what you have is one of the simplest ways to look after the land._  
+> _For grown-ups: Talked about reusing materials as a way of caring for the environment._
+
+**Dusty**: And this. I wore it every day Fossil and I went digging. It’s yours now. You dig like you mean it.  
+_It is a gardener’s apron, with earth worked into every seam. Linnet crowns you with snowdrops._  
+**Linnet**: You can’t take them off until tea. I’ll be checking.  
+_Linnet’s mum sits on Hush’s bench with Tobin. They argue about which of them she gets her chin from._  
+**Linnet**: Me. I get it from me.  
+_The robin has decided it lives with you now, in a general sort of way. The door stays open behind you._  
+_On the way out you look back: the bench, the beds, the white pebble by the bare patch, and the snowdrops in the path._  
+
+### Glossary
+
+- **landlord**: Someone who owns a house or room and rents it to other people.
+- **tenant**: Someone who pays rent to live in a place they don’t own.
+- **lamplighter**: Someone whose job was to light the street lamps every evening and put them out at dawn.
+- **territory**: The area an animal lives in and defends from others of its kind.
+- **molehill**: A small heap of earth pushed up by a mole digging its tunnels.
+- **canes**: The long, woody stems of a rose or a raspberry bush.
+- **dormant**: Alive but resting, not growing for now, like a plant in winter.
+- **coping**: The flat top layer of stones along a wall.
+- **pruning**: Cutting bits off a plant on purpose, to help it grow well.
+- **dignity**: Behaving in a calm, serious way that earns respect.
+- **perimeter**: The total distance all the way round the edge of a shape.
+- **memorial**: Something that helps people remember someone who has died.
+- **compost**: Rotted-down plant waste that makes soil rich for growing.
+- **raised bed**: A garden bed built up in a box, so the soil is higher than the ground.
+- **catch your death**: An old saying for catching a very bad cold.
+- **gaffer**: An old word for a boss, or for an old man.
+- **laid up**: Taken out of use for a while, like boats over winter.
+- **gloat**: To show off unkindly about winning.
+- **exaggerate**: To make something sound bigger or more exciting than it really was.
+- **generator**: A machine that makes electricity.
+- **evergreen**: Keeping its green leaves all year round.
+- **rosehip**: The round red fruit a rose grows after its flower, with seeds inside.
+- **buttonhole**: The slit for a button; a flower worn there is also called a buttonhole.
+- **vibration**: A very fast shaking movement, back and forth.
+
+## S27. Some Nubbin
+
+- `s27-step1`: Fetch a coil of copper wire for Sparks from the Circuit’s old lantern shed. · _The shed is behind the finishing straight. Bottom drawer of the cabinet under the window._
+- `s27-step2`: Ask the stable lad about the little grey runner at the end of the row. · _Tam does the buckets by the pens. He’s the only one up here who whistles._
+- `s27-step3`: Sit down by the shed window, and wait with the spider. · _Sit on the upturned crate by the window and don’t do anything. It takes as long as it takes._
+- `s27-step4`: Ask Fern, Clover, Luna and Byte for one word each, and bring them back to Spindle. · _Fern is in her orchard, Clover by the pond, Luna in her night garden and Byte wherever there is a clipboard._
+- `s27-step5`: Be at the pens at first light, to see what Spindle wrote in the night. · _Come up the valley before dawn. The frost shows the silk only for the first hour._
+- `s27-step6`: Corvin wants a word with you by the pens. · _He’s at the end of the row, by the rail with the name on it._
+- `s27-step7`: At dusk, carry Spindle to the main railing by the finishing straight. · _Bring the matchbox and keep it in an inside pocket, where it’s warm._
+- `s27-step8`: Carry Spindle in Sparks’s toolbox to the shaded pen behind the house. · _Walk slowly past the house. Nobody stops someone carrying a toolbox._
+- `s27-step9`: Go up to the Circuit for the Autumn Show. · _The Show is on the first autumn morning. Spindle rides in your hat brim. Don’t bend down suddenly._
+- `s27-step10`: Hold the lantern low for Spindle while she writes her last word. · _Stay by the finishing straight and keep the light steady on the rail. She’ll tell you when she’s done._
+- `s27-step11`: Walk the little grey runner home to the Grove. · _Go slowly. It has never walked further than the end of the straight._
+- `s27-step12`: Get Spindle’s egg sac down from the shed rafters, and take it somewhere warm for the winter. · _It’s too high to reach from the crate. Somebody small and careful will have to climb._
+- `s27-step13`: Sit with Spindle in the shed window. · _Take the crate by the window. There’s nothing to do. That’s the point._
+- `s27-step14`: Tell Sparks. · _She’s at the start lamp. She may already know. Tell her anyway._
+
+#### `s27-wire`
+
+_High summer at the Circuit. The sand is hot enough to fry an egg on._  
+_And yet the white railings are furred with frost._  
+
+> **Lesson** (science, 2-ESS2-3, notice): frost forms when surfaces are below freezing  
+> _Frost forms when a surface is colder than 0°C (32°F), the temperature at which water freezes._  
+> _Water vapour in the air touches the cold surface and turns straight into tiny ice crystals._  
+> _That usually happens on clear winter nights. Frost on a hot August day is very strange indeed._  
+> _For grown-ups: Learned that frost forms on surfaces below freezing, and that summer frost is unusual._
+
+_Sparks is on her back under the start lamp, with a screwdriver in her teeth._  
+**Sparks**: Start lamp’s gone again. I need wire. Thin copper wire, a coil about this big.  
+
+> **Lesson** (science, 4-PS3-2, notice): copper wire carries electricity  
+> **Sparks**: Copper’s my favourite. Electricity flows through it easily, so the lamp gets all the power it needs.  
+> **Sparks**: No wire, no circuit. No circuit, no light. Simple.  
+> _For grown-ups: Learned that copper wire carries electricity to complete a circuit._
+
+**Sparks**: There’s a cabinet of mine in the old lantern shed, behind the straight. Bottom drawer.  
+**Sparks**: He doesn’t like people in there. He’s never been in himself. Not once in eleven years.  
+**Sparks**: It’s the only place up here with dust in it. I love it. Don’t tell him.  
+_Your Nubbin climbs into your coat pocket for the walk. It doesn’t like the cold rails either._  
+
+#### `s27-evening`
+
+_The lantern shed smells of paraffin and warm wood. Dust turns slowly in the light from one small window._  
+_Under the window is Sparks’s cabinet, every drawer labelled in square capitals: FUSES, WICKS, SPARE._  
+_You find the wire. When you stand up, there is a web across the corner of the window._  
+_It isn’t a new web. You just hadn’t looked. In the middle of it, very small, is a word._  
+_EVENING._  
+_A grey-brown spider no bigger than a fingernail sits beside it. She lifts two front legs at you, politely._  
+
+> **Lesson** (science, 4-LS1-1, ask): spiders have eight legs and two body parts, so they are not insects  
+> _Is the spider an insect? Count her legs before you decide._  
+> - ✅ No. She has eight legs. → Right. Insects have six legs and three body parts. Spiders have eight legs and two body parts. Spiders belong to a different group, the arachnids, along with scorpions and mites.
+> - Yes. She’s small and creepy-crawly. → Lots of people think so! But count again: eight legs. Insects only have six. Spiders are arachnids, with eight legs and two body parts, not three.
+> _For grown-ups: Learned how to tell a spider from an insect: eight legs and two body parts._
+
+_It is eleven in the morning. To your own surprise, you lift a hand back._  
+
+#### `s27-row`
+
+_Through the shed window, past the spider and her word, you can see the runners’ pens._  
+_One pen to each runner, in a straight row, every rail white with frost._  
+_Every runner is grey, and none of them is moving._  
+_At the very end of the row is the smallest. It is the only one facing the wrong way._  
+_It is just looking out, down the valley, the way you might watch weather coming._  
+
+> **Lesson** (literacy, RL.3.3, ask): reading how a character feels from what they do  
+> _The runner never makes a sound. What clues tell you how it might feel?_  
+> - ✅ It faces away from the others and stares towards somewhere else. → Good reading. Facing away and staring into the distance often means lonely, or longing to be elsewhere.
+> - Nothing. It hasn’t said anything. → It hasn’t said a word, true. But bodies talk too. It faces the wrong way, alone, looking down the valley. That’s a clue it feels lonely.
+> _For grown-ups: Used actions and body language as clues to a character’s feelings._
+
+_There is a number painted on its side in neat white paint. 9._  
+_Outside, a lad with two buckets goes along the pens, whistling. He stops whistling at the end of the row._  
+
+#### `s27-tam`
+
+**Tam**: That’s Nine. Smallest we’ve got. Last every time. Not slow, exactly. It just doesn’t see the point.  
+**Tam**: I’m Tam. I do the buckets. I’m not meant to whistle. I forget.  
+_He fills Nine’s trough. Nine doesn’t look round. Tam stands there a moment longer than the trough needs._  
+**Tam**: The Autumn Show’s at the first frost that isn’t his. Anything that doesn’t place goes over the pass.  
+
+> **Lesson** (literacy, L.3.4, ask): words with more than one meaning: place  
+> _Tam says “anything that doesn’t place.” What does “place” mean here?_  
+> - ✅ Finish in the top places of a race, like first, second or third. → Yes. In racing, to “place” means to finish near the front and win a prize.
+> - Put something down somewhere. → That’s another true meaning: “place the cup on the table.” But in a race, to “place” means to finish near the front. Same word, different job.
+> _For grown-ups: Used context to work out the racing meaning of “place”._
+
+**Tam**: A dealer comes for them. Mr Tull. He’s all right, as dealers go. They don’t come back, is all.  
+**Tam**: Nine’s never placed. Not once.  
+
+> **Lesson** (sel, CASEL: Social awareness, notice): noticing care in small actions  
+> _Tam lingers at the trough, and his whistle stops. He never says he cares. His actions say it for him._  
+> _For grown-ups: Noticed how small actions can show that someone cares._
+
+_In the shed window behind you, the spider has gone very still in the middle of her web._  
+
+#### `s27-wait`
+
+_The next time you come up to the Circuit, you go to the shed first. You didn’t decide to._  
+_EVENING has gone. In its place, in the middle of the web, is a new word._  
+_WAIT._  
+
+> **Lesson** (literacy, L.3.4, ask): homophones: wait and weight  
+> _Which word sounds exactly like WAIT, but means something different?_  
+> - ✅ Weight → Yes. WAIT means stay a while. WEIGHT means how heavy something is. Same sound, different spelling.
+> - Water → Close in sound, but not the same. WEIGHT is the one: it sounds just like WAIT, but means how heavy.
+> - White → Listen: wait, white. Different middles! WEIGHT sounds exactly like WAIT. Words like that are homophones.
+> _For grown-ups: Found a homophone for “wait”._
+
+_The spider sits at the edge of the web with her legs drawn in. She isn’t looking at you. She is thinking._  
+_You know that kind of thinking. You’ve watched someone in your family do it on a cottage step for hours._  
+_There is an upturned crate under the window. It is exactly the right height for sitting next to someone._  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): keeping someone company while they think  
+> _Sometimes the most helpful thing isn’t a question or advice. It’s just sitting nearby, quietly, until they’re ready._  
+> _For grown-ups: Thought about how quiet company can help someone who is thinking something through._
+
+
+#### `s27-spindle`
+
+_You sit, and the spider thinks, and the dust turns in the light. Your Nubbin falls asleep in your pocket._  
+_After a long time the door bangs open, and Sparks comes in to find out where her wire went._  
+**Sparks**: There you are. I’ve been holding a lamp together with my— oh.  
+_She looks at you, and the crate, and the web, and the word. She sits down on the floor without being asked._  
+**Sparks**: She writes. Course she writes. She’s been learning off my drawer labels for years. Look at her, the little clerk.  
+**Sparks**: She wants a name. Anyone who can spell wants a name. Spindle. All legs, and she winds things.  
+
+> **Lesson** (literacy, L.3.4, notice): where a name comes from: a spindle spins thread  
+> **Sparks**: A spindle’s a stick for spinning wool into thread. You twist it, and the thread winds round it.  
+> **Sparks**: Thin, all legs, and spins thread. It fits her perfectly.  
+> _For grown-ups: Learned what a spindle is, and why it suits a spider._
+
+_The spider considers this. Then she lifts two legs, politely, once at Sparks and once at you._  
+**Sparks**: That’s a yes. I’m going to cry, and then I’m going to fix the start lamp.  
+
+> **Lesson** (science, 4-LS1-1, notice): spiders make silk in their bodies and spin it from spinnerets  
+> _A spider makes silk inside her body. It comes out of tiny nozzles at the back, called spinnerets._  
+> _It starts as a liquid and turns into a strong, stretchy thread as she pulls it out._  
+> _For grown-ups: Learned that spiders make silk inside their bodies and spin it from spinnerets._
+
+
+#### `s27-labels`
+
+_Over the next few days Spindle practises. FUSES appears in the web, and then WICKS, and then SPARE._  
+_They are very good, and the S’s are beautiful. They are also no use to anybody._  
+**Sparks**: That’s the trouble with learning off a cabinet. She can tell you where everything is, but not how anyone feels.  
+
+> **Lesson** (literacy, RL.1.4, ask): words that show feelings  
+> _Which of these words tells you how someone feels, not where something is kept?_  
+> - FUSES → FUSES is a label for a drawer. It names a thing. Try LONELY: that one names a feeling.
+> - WICKS → WICKS names a thing in a drawer. LONELY is the feeling word.
+> - ✅ LONELY → Yes. LONELY names a feeling. Labels tell you where things are. Feeling words tell you about people.
+> _For grown-ups: Told the difference between naming words and feeling words._
+
+_Spindle spins a short line, cuts it, then sits looking at the gap where a word ought to go._  
+_She looks through the window at the end of the row, then back at you, and lifts one leg._  
+**Sparks**: She wants words. Proper ones. And she can’t exactly go down the valley asking.  
+**Sparks**: Ask around. Everyone’s got one word they’d save for something that mattered.  
+
+#### `s27-words`
+
+_Fern is up a ladder in her orchard, losing an argument with a plum tree._  
+**Fern**: A word? For a spider? Easy. Somebody’s. As in, this one belongs to somebody.  
+**Fern**: When Bramble went, people said she was only a Nubbin. She wasn’t only. She was mine.  
+_Clover listens with her head on one side, the way she listens to the shy ones._  
+**Clover**: Warm. You can’t make a grey one stop being grey. But you can make it warm.  
+_Luna is asleep in a deckchair in her night garden at noon. She answers without opening her eyes._  
+**Luna**: Home. Everything in my garden grows towards it in the dark.  
+_Byte goes away to think, and comes back with a sheet of paper._  
+**Byte**: “Statistically above average.” It’s accurate. It’s kind. It’s the nicest thing I know how to say.  
+_You read the four words to the shed window. Spindle listens to each one, like a judge._  
+_At Byte’s, she points one leg, very politely, along the whole length of the rail._  
+
+> **Lesson** (maths, 2.OA.A.1, ask): subtract to compare word lengths  
+> _“Statistically above average” has 25 letters. SOMEBODY’S has 9 letters, plus its apostrophe._  
+> _How many more letters is Byte’s word?_  
+> - ✅ 16 → Yes: 25 − 9 = 16. Sixteen extra letters is a lot of extra rail.
+> - 14 → Nearly. Count up from 9 to 25: that’s 16. So 25 − 9 = 16.
+> - 34 → That’s 25 + 9. We want the difference: 25 − 9 = 16 more letters.
+> _For grown-ups: Subtracted to find the difference between two word lengths._
+
+**Sparks**: She’s saying it won’t fit. Break it to Byte gently. He loves his long words.  
+_Then she does something new. She points at you, and then at the end of the row._  
+**Sparks**: She’s asking what it’s called. Nine isn’t a name. Nine’s a number. You can’t save a number.  
+_The little grey runner is still looking down the valley. It has never had a name to look up at._  
+
+**Choices**
+
+- **“Tansy.” Small, yellow, and very hard to get rid of.**
+    - **Sparks**: Tansy. Grows in the cracks where nobody planted it. Oh, that’s good. That’s really good.
+    - Spindle writes it once, small, in the corner of the window, to practise. She gets it right first time.
+- **“Button.” Because it’s small, and it holds things together.**
+    - **Sparks**: Button. You’re soft. I like that. Never let anyone up here find out.
+    - Spindle writes it once, small, in the corner of the window, to practise. She gets it right first time.
+- **Give it a name of your own.**
+    - You think about it properly, the way you’d name anything you meant to keep. Then you say it out loud.
+    - **Sparks**: …Yeah. That’s its name. It sounds like it was always waiting there.
+    - Spindle writes it once, small, in the corner of the window, to practise. She gets it right first time.
+
+#### `s27-first-night`
+
+_At dusk Spindle comes to the edge of the web and waits, quite plainly, to be carried._  
+_You hold out a matchbox. She walks into it the way a duchess steps into a carriage._  
+
+> **Lesson** (literacy, L.4.5, ask): similes compare using “like” or “as”  
+> _“She walks into it the way a duchess steps into a carriage.” What does that comparison tell you?_  
+> - ✅ She is calm and dignified, as if she expects it. → Yes. A duchess steps in grandly, as if the carriage were made for her. That’s Spindle exactly.
+> - She is a real duchess. → Ha! She isn’t really. The comparison tells us how she moves: grandly, calmly, as if it’s her right.
+> _For grown-ups: Worked out what a comparison tells us about a character._
+
+_You carry her across the yard in the blue light to the last pen, and open the box on the rail._  
+_The rail is so cold it smokes. Spindle steps out onto it without any fuss._  
+
+> **Lesson** (science, 4-LS1-1, notice): garden spiders spin fresh webs and recycle silk  
+> _Many garden spiders build a fresh web often, sometimes every night. Some even eat the old silk, to reuse it._  
+> _For grown-ups: Learned that many garden spiders rebuild their webs often and recycle the silk._
+
+_Inside the pen, the little grey runner watches the spider. It is the first thing you’ve seen it watch._  
+_You go home. It turns out to be the hardest part: going home and leaving someone to work._  
+
+#### `s27-first-word`
+
+_First light. Your Nubbin keeps watch with you from your pocket, nose out. Your breath hangs in the air._  
+_The Circuit’s summer frost has come down in the night, as it always does. Every rail is white._  
+_On the rail of the last pen, every thread of Spindle’s web has caught the frost. It stands out white as chalk._  
+
+> **Lesson** (science, 2-ESS2-3, notice): why frost shows up on thin threads  
+> _Thin things like silk threads lose their heat quickly, so they get cold fast._  
+> _Ice crystals grow along each thread. The web, nearly invisible yesterday, is suddenly as bright as a chalk drawing._  
+> _For grown-ups: Learned why frost gathers on thin threads and makes a web easy to see._
+
+_It isn’t a number. It’s a name, in letters the height of your hand: its name._  
+_Fern has come up the valley with you. She reads it out first, loudly, then again, louder._  
+**Fern**: That’s its NAME. Look. It’s got a NAME. Everybody, it’s got a—  
+_Inside the pen, the little grey runner turns round. For the first time, it is facing the right way._  
+_Corvin’s runners have numbers. This one has a name, and now everybody knows it._  
+
+> **Lesson** (social-studies, D2.Civ.8.K-2, notice): a name is a sign of respect  
+> _A number tells you which one. A name tells you who. That’s why people get names, and parcels get numbers._  
+> _For grown-ups: Thought about the difference between a number and a name._
+
+
+#### `s27-odd-things`
+
+_Corvin comes out of the house at seven, as he always does, with his ledger under his arm._  
+_He stops at the end of the row. He looks at the rail for a long time._  
+**Corvin Vale**: Frost does odd things.  
+
+> **Lesson** (literacy, RL.3.3, notice): what a character says versus what he means  
+> _Frost can’t write names. Corvin knows that. So why say it? Sometimes people say something easy so they don’t have to say something hard._  
+> _For grown-ups: Thought about why a character might say something he doesn’t really believe._
+
+_He writes something in the ledger, and goes in._  
+_By noon there are twelve people at the Circuit fence who have never come up the valley before._  
+_By three o’clock, there are twice as many. A man with a bicycle says he was only passing, and stays all afternoon._  
+
+> **Lesson** (maths, 3.OA.A.3, ask): doubling: multiply by 2  
+> _Twelve people at noon. Twice as many by three o’clock. How many people is that?_  
+> - ✅ 24 → Yes: 12 × 2 = 24. That’s a lot of people for a quiet Circuit.
+> - 14 → That’s 12 + 2. “Twice as many” means two lots of 12: 12 × 2 = 24.
+> - 22 → Close! Two lots of 12: 12 + 12 = 24.
+> _For grown-ups: Doubled 12 to get 24._
+
+_The frost is long gone from the rail. They have come to look at a small grey runner whose name they know._  
+_Corvin comes out again and looks at the fence. Then he looks across the yard, at you._  
+
+#### `s27-was-it-you`
+
+_He walks over without hurrying. His hands are bare, and blue at the knuckles._  
+**Corvin Vale**: Hazel’s heir. A straight question, and I’d like a straight answer. She always gave me one.  
+**Corvin Vale**: Somebody wrote on my rail in the night. I don’t care for things written on my rails. Was it you?  
+_Behind you, through the shed window, you can feel a very small person holding very still._  
+_Corvin waits. He is the kind of man who can wait a long time for an answer._  
+_You could protect her with a fib. You could tell the truth, sideways. Or you could say nothing at all._  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): thinking about honesty and protecting a friend  
+> _Is it ever right to say something untrue to protect a friend? What do you think?_  
+> - Yes, if it keeps someone safe from harm. → That’s a fair answer. Lots of people believe protecting someone matters most. The cost is that a fib can grow, and the person you fibbed to may stop trusting you.
+> - No. The truth is always best. → That’s a fair answer too. Honesty builds trust. But the truth can sometimes put someone at risk. That’s why this is a hard choice.
+> - It depends who is asking, and why. → A thoughtful answer. Wise people ask: who could get hurt? What will happen next? Corvin is asking. What do you think he would do?
+> _For grown-ups: Thought about whether a kind fib is ever right, and what honesty costs and gives._
+
+
+**Choices**
+
+- **“Yes. It was me.”**
+    - **You**: Yes. It was me.
+    - **Corvin Vale**: In frost. At four in the morning. In letters a hand high, in a spider’s silk.
+    - **You**: I’ve got very steady hands.
+    - Corvin looks at you for a long moment, the way he looks at a runner that started late.
+    - **Corvin Vale**: Hazel used to lie like that. Badly, and always for somebody else. I’ll be watching my rails, then.
+    - You kept Spindle safe. But Corvin will be watching you now, and he knows you didn’t tell the truth.
+- **“Ask the frost.”**
+    - **You**: Ask the frost. It’s yours, isn’t it? It’s been on your rails all summer.
+    - Corvin’s hand goes to his breast pocket, stops halfway, and comes down again.
+    - **Corvin Vale**: …Frost doesn’t spell.
+    - **You**: This frost does.
+    - He looks past you, at the shed he has never once been into. He doesn’t say anything else.
+- **Say nothing. Just wait.**
+    - You say nothing, and Corvin waits. You learned waiting from better people than him, and he can tell.
+    - After a while he stops looking at you, and looks past you, at the shed window, for a long time.
+    - **Corvin Vale**: Hm.
+    - He goes back to the house. This time he doesn’t write anything in the ledger.
+
+#### `s27-second-night`
+
+_Spindle has been working on the second word all day. You can tell from the web: well used, a little ragged._  
+_She points one leg, quite firmly, past the pens and out at the finishing straight._  
+**Sparks**: The main rail? With the stands right there? She’s not shy, is she. I love her. I’m terrified.  
+_In the house, a lamp is lit in an upstairs window. It stays lit._  
+_At dusk, Spindle walks into her matchbox. You put it in your inside pocket, against your shirt, where it’s warm._  
+
+> **Lesson** (science, 4-LS1-1, notice): spiders take on the temperature around them  
+> _A spider can’t make its own body heat the way you do. It warms up or cools down with the air around it._  
+> _That’s why Spindle rides next to you. Your body heat keeps her moving._  
+> _For grown-ups: Learned that spiders take their temperature from their surroundings._
+
+_You cross the yard to the straight in the last of the light, as if you were only going for a walk._  
+
+#### `s27-somebodys`
+
+_Dawn. All along the main rail, opposite the empty stands, in white: SOMEBODY’S._  
+_Fern’s word. Fern, at the fence, has both hands over her mouth._  
+
+> **Lesson** (literacy, L.2.4, notice): compound words and the apostrophe for belonging  
+> _SOMEBODY is a compound word: SOME + BODY, two words joined to make a new one._  
+> _The apostrophe and S in SOMEBODY’S show belonging. It means “this one belongs to somebody”._  
+> _For grown-ups: Found the two words inside a compound word, and learned how an apostrophe shows belonging._
+
+_That morning a cart comes over the pass a week early. Mr Tull gets down and walks along the rail, reading it._  
+**Mr Tull**: Mr Vale. I heard you had a runner with a name. I didn’t think you held with names.  
+**Corvin Vale**: I don’t. It’s the frost. It does odd things up here.  
+**Mr Tull**: So I see. It’s a lot of odd, for one rail.  
+_He doesn’t stay. He climbs back onto his cart and frowns all the way up the pass. He looks uneasy._  
+_By noon, the little grey runner has been moved to a pen behind the house, where the public can’t see._  
+
+#### `s27-toolbox`
+
+**Sparks**: Behind the house? That’s the coldest pen up here. The tap’s frozen in August. He’s hiding it.  
+
+> **Lesson** (science, K-PS3-1, ask): sunlight warms the ground; shade stays cold  
+> _Why is the pen behind the house the coldest place at the Circuit?_  
+> - ✅ The house shades it, so sunlight can’t warm it. → Yes. Sunlight warms whatever it lands on. A spot in the shade all day stays cold.
+> - Because it’s further from the stands. → Distance from the stands doesn’t matter. It’s the shade: the house blocks the sunlight that would warm it.
+> _For grown-ups: Explained why shaded places stay colder than sunny ones._
+
+**Sparks**: Right. Nobody looks twice at a toolbox. I’ve walked into the judges’ tent with one.  
+_She empties the top tray and lines it with a clean rag, the first clean rag you’ve ever seen her own._  
+_Spindle walks in and settles between a spool of fuse wire and a very small spanner._  
+_You go past the house at dusk with the toolbox swinging. The lamp in the upstairs window is still lit._  
+_Nobody stops you. Sparks was right: nobody looks twice at a toolbox._  
+
+#### `s27-warm`
+
+_Behind the house, the frost is thickest. The inside pen’s rail is so cold your breath crackles on it._  
+_At first light, across it, the third word: WARM._  
+_Corvin comes round the corner of the house in his shirtsleeves, as if he had been waiting up._  
+_He stands at the rail. Then he lays his bare hand flat on the word._  
+
+> **Lesson** (science, 2-PS1-4, ask): heat melts ice, and cold freezes water again  
+> _A person’s hand is much warmer than 0°C (32°F). What should happen to frost under a warm hand?_  
+> - ✅ It should melt into water. → Yes. Heat melts ice into water, and cold can freeze it again. That change can go both ways. So why doesn’t this frost melt? The story doesn’t say. Keep watching Corvin’s hands.
+> - It should grow thicker. → Only cold makes frost grow. Warmth melts it into water. So it should melt. It doesn’t. The story is giving you a clue about Corvin.
+> _For grown-ups: Predicted that warmth melts ice, and noticed a story clue when it didn’t._
+
+_You wait for the frost to melt under his palm. It doesn’t. Not a single letter._  
+_He takes his hand away and looks at it. Then he touches his breast pocket, once, and goes back inside._  
+
+#### `s27-ready`
+
+_The first autumn dawn. The frost in the Grove is real frost now, and the leaves have started to let go._  
+
+> **Lesson** (science, 1-ESS1-2, notice): in autumn the days get shorter and leaves fall  
+> _After midsummer, each day has a little less daylight. By autumn the nights are noticeably longer._  
+> _Many trees respond by dropping their leaves to rest through winter. Those trees are called deciduous._  
+> _For grown-ups: Learned that days shorten in autumn and deciduous trees drop their leaves._
+
+_Clover comes up the valley with you and helps you brush the little grey runner through the rail._  
+**Clover**: Gently. Grey ones are thin-skinned. Long strokes, and stop when it leans in. That means more.  
+_It leans in. Clover stops brushing and lets it._  
+
+> **Lesson** (sel, CASEL: Social awareness, notice): reading an animal’s signals: stopping when it wants more or less  
+> **Clover**: Animals can’t say yes or no in words. So we watch. Leaning in means yes. Pulling away means stop.  
+> _For grown-ups: Learned to read an animal’s body language and respect it._
+
+_Byte is at the rail. His newest stopwatch has a tiny web across the strap, and in it, one word: ABOVE._  
+**Byte**: It isn’t accurate. There’s no data. I’m keeping it.  
+**Byte**: I’ve worked out its chances of placing. To three decimal places. I’m not going to tell you the number.  
+_Spindle will not be left in the shed. She makes this very clear by walking up your sleeve._  
+_In the end she rides in the brim of your hat, which is the best seat at the Circuit, and she knows it._  
+
+#### `s27-show`
+
+_The Autumn Show. Flags, a brass band of three, and more people at the fence than the Circuit has ever had._  
+_Most of them aren’t here for the racing. They are here to see a small grey runner with a name._  
+_Eight runners line up. Corvin’s champion, the big grey Number One, wins as it always does._  
+_The little grey runner comes last. It spends the whole race looking at the people who came._  
+_It doesn’t place. The judge pins three rosettes on three grey runners who don’t look down at them._  
+
+> **Lesson** (maths, 1.OA.A.1, ask): subtraction within 20  
+> _Eight runners raced. Three won rosettes. How many runners didn’t place?_  
+> - ✅ 5 → Yes: 8 − 3 = 5. Five runners, and Mr Tull is waiting for all of them.
+> - 11 → That’s 8 + 3. We take the winners away: 8 − 3 = 5.
+> - 4 → Count down from 8: seven, six, five. 8 − 3 = 5.
+> _For grown-ups: Subtracted to find how many runners did not place._
+
+_Mr Tull’s cart waits by the gate. He is eating a sandwich, and looks as if he wishes he weren’t there._  
+_In your hat brim, Spindle sits very still. Then she taps the brim twice, which you’ve learned means: tonight._  
+
+#### `s27-home-word`
+
+_That night Spindle doesn’t walk into the matchbox. She walks onto your hand, and stays there._  
+_You carry her to the very start of the finishing straight. She looks down the whole length of the rail._  
+_Then she starts: not one letter, but one stroke of one letter, from the top rail to the bottom._  
+_Your watch says nine o’clock. It is going to be the biggest word she has ever written. It will take all night._  
+_You hold the lantern low, so she can see, and walk beside her down the rail, a step at a time._  
+
+> **Lesson** (science, 1-PS4-2, notice): we see things when light bounces off them into our eyes  
+> _In total darkness, nobody can see anything. Light has to hit an object and bounce into your eyes._  
+> _Holding the lantern low puts the light right on the rail, where the work is._  
+> _For grown-ups: Learned that we see objects when light reflects off them into our eyes._
+
+_Your Nubbin falls asleep in your pocket, wakes, and sleeps again. The lantern hisses._  
+
+#### `s27-midnight`
+
+_At midnight the house door opens. You shutter the lantern and step back into the shed doorway, out of sight._  
+_Corvin comes down the straight in his coat, with a lamp. He is looking for something, and he finds it._  
+_Halfway along the rail, in the lamplight, a grey-brown spider is halfway through a letter._  
+_He stands over her for a long time. Then he lifts his hand, the cold one, over the web._  
+_He holds it there, and you don’t breathe. Spindle doesn’t stop working, not for a single thread._  
+_He lowers his hand._  
+**Corvin Vale**: Spell it right, then.  
+_He goes back to the house, and the door shuts quietly. It is the first right thing you have seen him do._  
+
+> **Lesson** (literacy, RL.3.3, ask): thinking about a character’s motive  
+> _Corvin could have wiped the web away. Why do you think he lowered his hand?_  
+> - He was moved that she kept working, even with him there. → That’s a fair reading. Brave, patient work can change how people feel.
+> - He was embarrassed. The whole valley was watching. → That’s fair too. Sometimes people do right because others are watching, and then find it was right anyway.
+> - Part of him wanted the runner to have a name. → Interesting. People can be lonely and grumpy outside, and still want good things inside.
+> _For grown-ups: Thought about the reasons behind a character’s change of heart._
+
+_You come out, open the lantern, and hold it low again. She works on until nearly dawn, about five o’clock._  
+
+> **Lesson** (maths, 3.MD.A.1, ask): time intervals in hours  
+> _Spindle started at nine o’clock and finished at about five in the morning. How long did she work?_  
+> - ✅ 8 hours → Yes. Nine to midnight is 3 hours, midnight to five is 5 more. 3 + 5 = 8.
+> - 4 hours → That’s 9 − 5, but clocks go round! Nine to midnight is 3, midnight to five is 5. 8 hours.
+> - 14 hours → That’s 9 + 5. Count round the clock: 3 hours to midnight, then 5 more. 8 hours.
+> _For grown-ups: Worked out a time interval across midnight._
+
+
+#### `s27-letgo`
+
+_By breakfast, half the valley is at the Circuit fence. Nobody arranged it. People just came._  
+_All along the finishing straight, in letters as tall as a Nubbin, the frost says: HOME._  
+**Fern**: HOME! Look at the size of it. She must have run out of rail!  
+_Mr Tull is at the gate with his cart. He reads the rail, then the faces along the fence._  
+**Mr Tull**: Morning, Mr Vale. I’ve come for whatever didn’t place. But I won’t take that one.  
+**Mr Tull**: Its name has been on your rails all summer. Half this valley would come asking after it.  
+**Mr Tull**: I sell runners. I don’t sell the ones people ask after. Good day to you.  
+
+> **Lesson** (literacy, RL.4.2, ask): finding a story’s theme  
+> _Mr Tull won’t take a runner people ask after. What is the story saying about names?_  
+> - ✅ When people know your name, they look out for you. → Yes. That’s a theme: being known and remembered keeps us safe. Four words saved a runner.
+> - Names don’t matter. Only winning does. → The runner never won anything. It was saved anyway, because people knew its name. So the story seems to say the opposite: names, and being remembered, matter a great deal.
+> _For grown-ups: Worked out a theme: being known and remembered matters._
+
+_He tips his hat to the fence, quite politely, and drives away over the pass._  
+_Tam is at the pen behind the house. He opens his mouth to say “Nine”, stops, and says its name instead._  
+_He says it carefully, like a word in another language. Corvin pretends not to hear._  
+**Corvin Vale**: Take it. It’s no use to me famous.  
+_He says it to the rail, not to you, and goes back to the house without looking round._  
+_The little grey runner looks at the open pen for a long time. Then it follows you, three steps behind._  
+
+#### `s27-gate`
+
+_At the Grove gate you lift and push. The little grey runner stops on the threshold._  
+_It looks at the gate as if a gate is a thing that might shut on it._  
+_Your Nubbin hops out of your pocket, goes through, and sits on the far side, waiting._  
+_You don’t pull. You don’t call. You just wait too._  
+
+> **Lesson** (sel, CASEL: Social awareness, notice): patience with someone who is frightened of a new place  
+> _Pulling someone through a door they fear can make the fear bigger. Waiting lets them choose to be brave._  
+> _For grown-ups: Learned how patience helps someone face something new._
+
+_After a long while, the runner comes through. It sits down by the gatepost and looks at everything._  
+_Nothing at the Circuit was ever its own. Here, slowly, something might be._  
+
+#### `s27-egg-sac`
+
+_Autumn comes on properly. At the Circuit, the shed window has fogged at the corners, and the swallows have gone._  
+_Spindle is slower now. She sits in the sun on the sill more than she sits in her web._  
+_High in the rafters, where the roof meets the wall, is something new: a little round sac of silk, the colour of straw._  
+_It is the best thing she has ever made. You can see that from the floor._  
+**Sparks**: Her eggs. Hundreds, likely. They sleep in there all winter and come out in the spring.  
+
+> **Lesson** (science, 3-LS1-1, notice): the life cycle of a garden spider  
+> _A garden spider’s life cycle: egg, then spiderling, then adult. Spiderlings shed their skin several times as they grow._  
+> _In autumn, the mother lays hundreds of eggs and wraps them in a silk egg sac to protect them through the winter._  
+> _For grown-ups: Learned the stages of a spider’s life cycle and what an egg sac is for._
+
+**Sparks**: But it’ll freeze up there, come winter. And she can’t carry it. Not now.  
+_In the web, very small, a new word: PLEASE._  
+
+#### `s27-carry`
+
+_Sparks carries her long ladder in sideways, muttering at the door frame._  
+**Sparks**: Rafters are your job. I’ve got the knees of an eighty-year-old and the opinions to match.  
+_Your Nubbin looks at the ladder, then at the sac, then at you. Then it climbs, one rung at a time._  
+_There are twelve rungs, each 25 centimetres apart. Your Nubbin counts every one with its feet._  
+
+> **Lesson** (maths, 4.MD.A.1, ask): multiply and convert centimetres to metres  
+> _Twelve rungs, 25 centimetres apart. About how high does your Nubbin climb?_  
+> - ✅ 3 metres → Yes: 12 × 25 = 300 centimetres, and 100 centimetres make a metre. 300 cm = 3 m.
+> - 37 centimetres → That’s 12 + 25. We need twelve lots of 25: 300 centimetres, which is 3 metres.
+> - 30 metres → That would be taller than a house! 12 × 25 = 300 centimetres, which is 3 metres.
+> _For grown-ups: Multiplied to find a height, then converted centimetres to metres._
+
+_It comes down backwards, holding the sac against its chest like an egg that might hatch today._  
+_Spindle watches every rung, and doesn’t relax until it is on the floor. You don’t either._  
+**Sparks**: Grove lantern shed. Top shelf, over the warm pipe. Nothing up there ever freezes.  
+_You carry it home down the valley in your cupped hands. Spindle stays in her window._  
+
+#### `s27-last-evening`
+
+_The next evening you go up to the shed with nothing to fetch and nowhere to be._  
+_Spindle is on the sill in the last of the sun, with her legs drawn in. She lifts one to say hello._  
+_You sit on the crate. The light goes orange, then gold, then the colour of the inside of a shell._  
+_You want to say something. You think of everything she did with words, and how few you have._  
+_Hazel would know what to say. She would also tell you: say the true thing, and say it plainly._  
+**You**: I’m so glad it was you in the window, Spindle.  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): saying important feelings plainly  
+> _When something matters, simple words are often the strongest. You don’t need a speech. One true sentence will do._  
+> _For grown-ups: Thought about telling someone plainly what they mean to us._
+
+_Spindle is quiet for a long time. Then she climbs, very slowly, to the corner of her web._  
+_She writes one more word, the smallest she has ever written. It is just for you._  
+_WELL._  
+
+> **Lesson** (literacy, L.3.4, notice): a word with more than one meaning: well  
+> _WELL can mean healthy. It can mean “done properly”. It can also mean “all is good”._  
+> _Spindle chose a word that means all three at once._  
+> _For grown-ups: Explored the different meanings of “well”._
+
+
+#### `s27-walk-home`
+
+_You walk home in the dark with your Nubbin asleep in your pocket._  
+_You don’t look back at the window. You think she would prefer it that way. She was always very polite._  
+_The lane is cold. The first stars are out over the valley._  
+_You feel full and empty at the same time, which you didn’t know a person could._  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): recognising mixed feelings  
+> _It’s normal to feel two opposite things at once: grateful and sad, happy and worried. Naming both helps._  
+> _For grown-ups: Learned that mixed feelings are normal, and that naming them helps._
+
+_Your Nubbin shifts in its sleep and presses against your side. It helps, a bit._  
+_You keep walking until you see the Grove gate._  
+
+#### `s27-empty-web`
+
+_In the morning, the frost is on the rails as usual. You go to the shed first._  
+_The web in the window is still there. The sun comes through it and lays a pattern on the bench._  
+_It is empty. The last word is still in the corner, very small: WELL._  
+_Spindle has died. She was old, for a spider, and her body stopped working. It won’t start again._  
+
+> **Lesson** (science, 3-LS1-1, notice): living things have a life span; garden spiders live about a year  
+> _Garden spiders usually live about a year. They hatch in spring, grow all summer, and lay eggs in autumn._  
+> _Spindle lived a whole spider life, and finished her best work first. Her eggs are safe for the winter._  
+> _For grown-ups: Learned, gently, about a garden spider’s life span, and that Spindle’s eggs carry her life on._
+
+_Your Nubbin climbs out of your pocket, sits on the bench under the web, and looks up at it._  
+_It doesn’t do anything. It just sits next to it, the way you sat next to her._  
+_You stand in the doorway for a while. Then you go to find Sparks._  
+
+#### `s27-leave-it`
+
+_Sparks doesn’t say anything for a long time, which for Sparks is a very long time._  
+**Sparks**: Leave it.  
+**Sparks**: The web. Leave it up. Nobody sweeps that window. Nobody touches it. Not ever.  
+_She puts an arm round you. Neither of you says anything for a while, and that is all right._  
+**Sparks**: We’ll tell people about her. Every word. That’s how she stays.  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): grief: what helps when someone dies  
+> _Sparks wants to keep the web and tell Spindle’s story. Why might that help?_  
+> - ✅ Remembering together keeps her part of our lives. → Yes. Grief is love with nowhere to go. Remembering together gives it somewhere.
+> - It doesn’t help. It’s better to forget. → Some people try to forget, because remembering hurts. But many find that sharing memories helps the hurt soften. Spindle is remembered, so part of her stays.
+> _For grown-ups: Talked about grief and how remembering together helps._
+
+_Nobody does sweep it. It stays in the corner of the shed window, empty, catching the light._  
+_Corvin never has it swept._  
+
+#### `s27-complete`
+
+_A week later Sparks comes down the valley with something in her fist. She opens it on your kitchen table._  
+_It is a drawer label off her old cabinet, in her square capitals: SPARE._  
+**Sparks**: She learned her S’s off that one. Every S she ever wrote. Somebody’s. That one.  
+_Fern has sewn SOMEBODY’S onto strips of ribbon, a bit crooked, and given one to everybody who stood at the fence._  
+_Pixel has made a pane for the Grove lantern shed window. On frosty mornings, a name comes up on it in white._  
+_Up at the Circuit, Tam has started calling the runners by names. He makes them up, and some are terrible._  
+_Corvin pretends not to notice. Once, passing the pens, he is heard to say “Morning, Gravel” to the third from the end._  
+
+> **Lesson** (social-studies, D2.Civ.8.K-2, ask): how one small act can change the rules of a place  
+> _Nobody made a new rule at the Circuit. So why does Tam now use names?_  
+> - ✅ Spindle’s words showed everyone the runners mattered. → Yes. Sometimes a place changes because people’s hearts change first, and the habits follow.
+> - Corvin ordered him to. → Corvin only pretends not to notice! Nobody ordered it. Spindle’s words changed how people saw the runners, and the habit of names followed.
+> _For grown-ups: Thought about how respect can spread and change the way a place works._
+
+
+### Glossary
+
+- **copper**: A reddish-brown metal that electricity flows through easily.
+- **circuit**: A loop that electricity flows round; break the loop and the power stops.
+- **paraffin**: An oil that is burned in lamps and lanterns to make light.
+- **arachnid**: An animal with eight legs and two body parts, like a spider or a scorpion.
+- **dealer**: Someone whose job is buying and selling things, or animals.
+- **homophone**: A word that sounds the same as another but has a different meaning or spelling.
+- **spinnerets**: The tiny nozzles at the back of a spider’s body that silk comes out of.
+- **clerk**: Someone whose job is writing things down and keeping records tidy.
+- **statistically**: Measured by counting and comparing numbers.
+- **duchess**: A woman of very high rank, like a lady in a grand house.
+- **ledger**: A book where someone records money, sales or other numbers.
+- **heir**: The person who receives what someone leaves behind, like a house or a garden.
+- **compound word**: A word made by joining two smaller words, like somebody or toolbox.
+- **uneasy**: Worried, as if something isn’t quite right.
+- **deciduous**: Describes trees that drop all their leaves in autumn.
+- **rosette**: A ribbon gathered into a round badge, given as a prize.
+- **motive**: The reason a person does something.
+- **theme**: The big idea a story is about, underneath what happens.
+- **threshold**: The strip at the bottom of a doorway or gate that you step over.
+- **rafters**: The sloping beams that hold up a roof.
+- **life span**: How long a living thing usually lives.
+- **regret**: Feeling sorry about something you did, and wishing you had chosen differently.
+- **ballooning**: How spiderlings travel: floating on silk threads carried by the wind.
+
+## S28. The Nubbin with the Tag
+
+- `s28-step1`: Take the stray from the carrier’s cart to Byte’s house. · _Walk slowly and it will follow you. Byte’s house is the one with the very straight hedge, next to the glasshouse._
+- `s28-step2`: Fetch Hazel’s marmalade from her pantry for the stray. · _The jars are on the top shelf of the pantry in Hazel’s cottage. Carry them to Byte’s house._
+- `s28-step3`: Help Byte with Parcel’s bath, and then with the water. · _Mop from the bathroom outwards, towards the front door. The water is heading for the garden fence._
+- `s28-step4`: Be at Byte’s when Mr Grue comes round about his garden. · _Go to Byte’s house in the morning. You won’t have to do anything. Probably._
+- `s28-step5`: Follow Parcel when it sets off at eleven with half a sandwich. · _Walk behind Parcel, not beside it: it likes to lead. It goes towards the foot of the hill._
+- `s28-step6`: See how Parcel gets on with Null. · _Null is at Byte’s house. Sit back and watch: Parcel will do the introducing._
+- `s28-step7`: Go to market day with Byte to buy Parcel a coat, and keep an eye on Parcel. · _Follow the noise across the square. Parcel likes looking at the tops of things._
+- `s28-step8`: Find Parcel. It wasn’t in its basket at bedtime. · _Look for a light next door. Mr Grue keeps a lamp burning in his glasshouse in winter._
+- `s28-step9`: Make marmalade with Byte and Parcel from Mr Grue’s oranges. · _Follow Hazel’s card or Byte’s thermometer: either works. Test the set before you pour it into jars._
+- `s28-step10`: Find Parcel in the snow. · _Small prints, close together, going down the lane towards the valley road. Follow them before the snow fills them in._
+- `s28-step11`: Follow Parcel up to the cottage. · _Parcel has seen the smoke from Hazel’s chimney. Walk with Byte; it is heading for the bench by the cottage door._
+- `s28-step12`: Stay with Byte while he talks to Hazel. · _Sit on the step by the bench. There’s no hurry._
+- `s28-step13`: Get Mr Grue’s watch back together after Parcel’s trick. · _Gather every piece from the napkin, the floor and the jam, and take them to Pixel at the kitchen table._
+
+#### `s28-cart`
+
+_The morning after the Hollow. You slept badly, with Hazel’s notebook under your pillow._  
+_Hooves in the lane. The carrier’s cart pulls up at the gate, and the carter leans down without getting off._  
+**The carter**: Morning. Got a passenger for this end of the valley. Wouldn’t give its name.  
+_On a crate in the back sits a small brown Nubbin, very upright, with a basket on its knees._  
+_It sees you, and bows. Not a nod: a proper bow, from the middle._  
+_Round its neck, on a piece of string, hangs a luggage tag._  
+_“Please be kind to this small one. It has come a long way.”_  
+_Underneath, smaller: “For Byte. H.”_  
+
+> **Lesson** (social-studies, D2.Geo.2.K-2, ask): what labels and addresses are for  
+> _A label usually says who a thing is for and where it should go. What is missing from this one?_  
+> - ✅ An address: it doesn’t say where Byte lives. → Exactly. A name says who; an address says where. Luckily the carter only had one end of the valley to try.
+> - The name of the person it’s for. → Look again: “For Byte.” The name is there. What’s missing is the address, the where.
+> - Nothing at all. → It has a name, but no address: no house, no lane, no village. Without one, a parcel relies on someone who knows.
+> _For grown-ups: Thought about what a label needs: a name to say who, and an address to say where._
+
+**The carter**: Never saw who put it on. It was sat on the milestone at the ford, with a plum on its head for the fare.  
+_You know that handwriting. You have read a letter in it so many times the folds have gone soft._  
+_The ink has run a little, in some old rain. It doesn’t say where she is, or how she is._  
+_The Nubbin climbs down off the cart with great care, one step at a time, and waits by your boot._  
+
+#### `s28-for-byte`
+
+_Byte opens his door before you knock. He has a pencil behind each ear, in case one runs out._  
+**Byte**: That’s a Nubbin. Why have you brought me a Nubbin? I didn’t order a Nubbin.  
+_The Nubbin bows to him, from the middle. After a long moment Byte bows back, very slightly, in case it’s a trick._  
+_He reads the tag, then the back of the tag, which is blank, then the front again._  
+**Byte**: “For Byte. H.” Who’s H.?  
+_You think you know. But you can’t prove it, and you don’t know where she is._  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): honesty and when to share what you know  
+> _A think question, with no wrong answer._  
+> _Is keeping what you suspect to yourself the same as lying?_  
+> - No. You can wait until you’re sure. → That’s a fair answer. A guess said too soon can hurt, and waiting to be sure can be kind.
+> - Sort of. Byte has a right to know. → That’s a fair answer too. It’s his parcel, and his question. Hiding a clue can feel like a fib.
+> - It depends why you keep it. → A thoughtful answer. Keeping quiet to protect someone is different from keeping quiet to trick them.
+> _For grown-ups: Thought about the difference between keeping something to yourself and being dishonest._
+
+
+**Choices**
+
+- **Tell him it’s Hazel’s hand.**
+    - **You**: It’s Hazel’s writing. I’d know it anywhere.
+    - Byte goes very still. He holds the tag up to the window, as if her hand might show through the card.
+    - **Byte**: She’s been gone since the snow. Where did it get on?
+    - **You**: The ford. That’s all the carter knows.
+    - **Byte**: Then that’s all we know. Right. I’ll want to work out the rest.
+- **Keep it to yourself for now.**
+    - You let the question go by. It’s only an initial; there must be dozens of H’s in the valley.
+    - **Byte**: Unknown sender. I’ll make a list of everyone with an H. It’ll be a short list.
+    - It won’t be. He will be very thorough about it.
+
+#### `s28-one-jar`
+
+_In the Nubbin’s basket there is a scarf, a dried apple ring and an empty jar, licked very clean._  
+_The jar has a label, in the same leaning hand: “Marmalade. Hollow. Last of.”_  
+**Byte**: It’s lived on this. All the way down the valley. On one jar.  
+**Byte**: Nubbins eat fruit. Fruit. It’s in every book. Nobody writes “marmalade” in a book.  
+_The Nubbin holds the jar out to him upside down, to show him it’s empty. Then it waits, politely, in case he has another._  
+_You remember a shelf in Hazel’s pantry. Preserves in jars with paper lids and string, all in a row, all the same orange._  
+
+> **Lesson** (science, L.3.4, notice): sugar preserves fruit; one word with more than one meaning  
+> _To “preserve” something means to keep it safe from spoiling. “Preserves” are jams and marmalades._  
+> _They keep for months because they are full of sugar. Moulds and germs find it very hard to grow in that much sugar._  
+> _For grown-ups: Learned the two meanings of “preserve”, and why sugary jams keep for so long._
+
+**You**: I think I know where there’s more.  
+**Byte**: How many?  
+**You**: Some.  
+**Byte**: “Some” isn’t a number. Go and get “some”. I’ll make a note.  
+
+#### `s28-received`
+
+_Six jars, with paper lids and string. Under the sixth, a recipe card in Hazel’s hand, spotted with old orange._  
+_Byte files the card under R, then counts the jars. Then he counts them again, in case one moved._  
+**Byte**: Six. Right. And you’re… one. Received.  
+**Byte**: Parcel. That’s your name. Parcel, received. I’ll sign for you.  
+_He writes PARCEL in his notebook and underlines it. Parcel bows._  
+**Byte**: Fifteen spoons a jar, near enough. One spoon a day. I’ll want a plan.  
+
+> **Lesson** (maths, 3.OA.A.3, ask): multiplying equal groups  
+> **Byte**: Six jars, fifteen spoons in each. How many spoons is that?  
+> - ✅ 90 spoons → Ninety. Six fifteens: 15, 30, 45, 60, 75, 90. That’s ninety days at a spoon a day.
+> - 21 spoons → That’s 6 + 15. We need six lots of fifteen: 15, 30, 45, 60, 75, 90. Ninety.
+> - 60 spoons → That’s only four jars’ worth. Count on two more: 75, 90. Ninety spoons.
+> _For grown-ups: Multiplied 6 × 15 by counting in fifteens._
+
+_Your own Nubbin has its face in the open jar. When it comes out it looks alarmed, and goes straight back in._  
+**Byte**: That’s one spoon unaccounted for already.  
+
+#### `s28-bath`
+
+_Parcel came down from the Hollow on a cart, and a good deal of the Hollow came with it._  
+**Byte**: It’s muddy to the knees. Has it got knees? It’s muddy to where knees would be.  
+**Byte**: Bath. Standard procedure. I’ll run it. You find a towel.  
+_Byte puts the plug in, shows Parcel the taps, and goes to look for the bath thermometer._  
+_Parcel, wishing to be helpful, turns both taps on full._  
+_Then it sits on the edge of the bath, very upright, and waits to be told when to stop._  
+_Nobody tells it._  
+_By the time you find a towel, the bath is full. By the time Byte finds the thermometer, so is the landing._  
+**Byte**: WHY IS THE HALL WET?  
+_The water goes down the stairs, along the hall, under the front door and out into the garden. It keeps going._  
+_Next door is a very tidy garden, and water likes a tidy garden. It goes under the fence to see._  
+
+> **Lesson** (science, 2-PS1-1, ask): sorting materials by how well they absorb water  
+> _You need to soak up a flood fast. Which is most absorbent?_  
+> - ✅ A thick cotton towel → Yes. Cotton is full of tiny gaps between its fibres, and water creeps into them.
+> - A plastic tray → Plastic is waterproof: water runs straight off it. Good for carrying, useless for soaking. The towel wins.
+> - A metal bucket lid → Metal doesn’t soak anything up. The towel’s fibres hold water in their gaps.
+> _For grown-ups: Compared materials by how well they soak up water._
+
+
+#### `s28-nubbin`
+
+_A head comes up over the fence, then the rest of a man: a cardigan, a moustache and an expression._  
+**Mr Grue**: NUBBIN!  
+_Mr Grue, from next door. He doesn’t say anything else, and he doesn’t need to._  
+**Mr Grue**: Send it back where it came from!  
+**Byte**: It stays until I’ve verified the sender. That’s procedure.  
+_Upstairs, Parcel has turned the taps off by itself. It appears at the bathroom window, clean and pleased, and bows to Mr Grue._  
+**Mr Grue**: Don’t you bow at me.  
+
+> **Lesson** (sel, CASEL: Relationship skills, ask): putting things right with a neighbour  
+> _Your side made the mess, even by accident. What would a good neighbour do first?_  
+> - ✅ Say sorry, and offer to help clear up. → Yes. An accident is nobody’s fault, but it’s still your mess. Sorry plus help is what mends a fence.
+> - Explain that it was Parcel, not you. → That may be true, but Mr Grue’s lettuces are still drowned. Saying sorry and helping comes first; explaining can come after.
+> - Stay inside until he calms down. → Giving someone space can help. But a quick sorry and an offer of help usually calms things faster.
+> _For grown-ups: Thought about how to put things right with a neighbour after an accident._
+
+
+#### `s28-compensation`
+
+_Next morning Mr Grue is on Byte’s step, with a sheet of paper, a pencil and his best cardigan._  
+**Mr Grue**: I’ve made a list. I want compensation.  
+**Byte**: So have I. Mine’s longer. Go on.  
+**Mr Grue**: Item. Lettuces, drowned. Item. Path, unlevelled. Item. One pair of slippers, left on the step to air, now soup.  
+**Mr Grue**: Item. My peace of mind. I’ll want something for that. I’ll be generous. I’ll take it in coal.  
+_Parcel comes out from behind Byte’s legs. It stands on the step, very upright, and looks at Mr Grue._  
+_It doesn’t blink or move. It just looks, long and level, the way a lighthouse looks at the sea._  
+
+> **Lesson** (literacy, L.4.5, ask): similes  
+> _“The way a lighthouse looks at the sea” is a simile. What does it tell you about Parcel’s stare?_  
+> - ✅ It is steady and patient, and it doesn’t give up. → Yes. A lighthouse never blinks or looks away, however rough the sea gets. That’s Parcel.
+> - Parcel’s eyes are shining like a lamp. → Nice idea, but the simile is about how it looks, not how bright. A lighthouse is steady, patient and unmoving.
+> - Parcel is standing by the sea. → Not quite: it’s on Byte’s step. A simile compares two things. Parcel’s stare is as steady as a lighthouse.
+> _For grown-ups: Explained what a simile (“like a lighthouse”) shows about a character._
+
+_Byte, without taking his eyes off it, starts counting under his breath._  
+
+#### `s28-eleven-seconds`
+
+_Mr Grue stops. Mr Grue starts again, and stops._  
+**Mr Grue**: Well. I…  
+_He folds the list and puts it in his cardigan pocket. He goes home, and shuts his gate very quietly._  
+**Byte**: Eleven seconds.  
+**Byte**: Eleven. I’ve never seen anybody hold one past four. Not even Ember.  
+_That evening Byte opens a fresh notebook and writes on the cover, in neat capitals: PARCEL: INCIDENTS._  
+_Inside, he rules a column, INCIDENT, and a second, TIME. Then he looks at you over the top of it._  
+
+> **Lesson** (literacy, L.3.4, notice): words with more than one meaning  
+> _A “column” can be a tall stone pillar holding up a roof._  
+> _In a notebook or a chart, it means a tall strip of boxes going down the page. Both are tall and upright, like Parcel._  
+> _For grown-ups: Learned two meanings of the word “column”._
+
+**Byte**: Any other columns? I don’t usually ask. I’m asking.  
+
+**Choices**
+
+- **Suggest a column called “Good things”.**
+    - **Byte**: “Good things.” That isn’t a measurement.
+    - He rules it anyway, at the end, narrower than the others. You notice he leaves room to widen it.
+- **Suggest a column called “Unverified”.**
+    - **Byte**: Yes. Good. For anything I can’t prove yet.
+    - He rules it wide, and letters it in his best capitals. It is, you suspect, his favourite word.
+- **Leave it. It’s his log.**
+    - **You**: It’s your log, Byte.
+    - **Byte**: …Yes. It is. Right.
+    - He looks at his two columns for a while, as if one were missing and he couldn’t think which.
+
+#### `s28-sandwich`
+
+_A week on, Parcel has a routine. Byte has written it down, with times._  
+**Byte**: Up at seven. Bows to the kettle. Marmalade. Tidies its basket. Bows to the kettle again.  
+**Byte**: And at eleven it makes a sandwich, cuts it in half, and goes out with one half. Comes back without it.  
+**Byte**: I’ve followed it twice. It loses me at the wall. I think it does it on purpose.  
+_The clock in the hall says five to eleven. In the kitchen, a knife goes down._  
+
+> **Lesson** (maths, 2.MD.C.7, ask): telling time to the nearest five minutes  
+> _“Five to eleven.” How would a digital clock show that?_  
+> - ✅ 10:55 → Yes. Five minutes before eleven o’clock is 55 minutes past ten: 10:55.
+> - 11:05 → That’s five past eleven, after it. Five to eleven is before: 10:55.
+> - 11:55 → That would be nearly noon! Five to eleven is still in the ten o’clock hour: 10:55.
+> _For grown-ups: Converted “five to eleven” into digital time (10:55)._
+
+_Parcel comes out with half a marmalade sandwich held in front of it in both paws, like a tray. It bows to you on the way past._  
+**Byte**: Go on. You’re less noticeable than me. Everyone’s less noticeable than me.  
+
+#### `s28-elevenses`
+
+_The low wall at the foot of the hill, in thin autumn sun. Moss sits on it; these days you can see a little of the wall through him._  
+_Parcel climbs up beside him, sets the half sandwich on the stone between them, very precisely, and bows._  
+**Moss**: Elevenses.  
+**Moss**: It brings one every morning. I don’t eat. It knows that. It brings one anyway. Somebody raised it properly.  
+**Moss**: Plenty have come down that road with a label and a small case, you know. Most of the good ones did.  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): how the past is remembered: children evacuated with labels, and the families who welcomed them  
+> _In 1939, when war came to Britain, many city children were sent to the countryside to be safer. They were called evacuees._  
+> _They travelled by train with a small case and a label pinned to their coats, with their name on it._  
+> _Some were homesick. Many were welcomed by kind families, and some stayed friends with them for life. A welcome made all the difference._  
+> _For grown-ups: Learned about the children evacuated in 1939 with name labels, and why a kind welcome mattered._
+
+**Moss**: People think precious things shine. Mostly they’re a bit worn. They’ve been held a lot.  
+
+> **Lesson** (literacy, L.4.5, ask): understanding a metaphor  
+> _Moss says precious things are “a bit worn” because they’ve “been held a lot”. What does he mean?_  
+> - ✅ Things and people we love get worn from being loved, and that’s what makes them precious. → Yes. A teddy with no fur left on its ear has been hugged the most. Moss is talking about more than teddies.
+> - Old things should be thrown away. → Moss means the opposite: the worn things are the precious ones, because they’ve been loved and used.
+> _For grown-ups: Explained a metaphor: being worn from love is what makes something precious._
+
+_Footsteps. Byte comes round the end of the wall at four minutes past eleven, out of breath._  
+**Moss**: His lace.  
+_You look at Byte. You don’t say anything; you don’t have to. Byte can’t hear Moss, but he can read your face._  
+**Byte**: It’s untied, isn’t it. He’s said it. You’ve got the face.  
+_Byte ties it. Moss watches him tie it with great interest._  
+**Moss**: Other one.  
+
+#### `s28-null`
+
+_Byte’s garden, late afternoon. Null comes out of the hedge after a moth, with a leaf on its head, as usual._  
+**Byte**: Null, this is Parcel. Parcel, Null. Null chases things. Parcel bows at things. You’ll have a lot to talk about.  
+_Parcel bows. Null has never been bowed at: it thinks about it, and falls over backwards, which is nearly the same._  
+_Then Null sees the sandwich: cut into triangles, on a saucer, carried out by Parcel to share._  
+_Null doesn’t want the bread. It takes only the marmalade, off the top, in one long lick, and runs._  
+_Parcel looks at the bare bread, then at Null, long and level. Null looks straight back, chewing._  
+_Nobody has ever held the stare before, and Parcel seems delighted. It gives Null the rest of the bread._  
+**Byte**: They’ve adopted each other. I couldn’t tell you which one did it first. I wasn’t quick enough.  
+
+> **Lesson** (sel, CASEL: Relationship skills, ask): how friendships start  
+> _Null stole the marmalade, and Parcel gave it the bread anyway. Why might that start a friendship?_  
+> - ✅ Parcel was generous instead of cross, so Null felt safe. → Yes. Answering cheekiness with kindness tells someone “you’re welcome here”.
+> - Null only wanted free food. → Maybe at first! But staying to stare back, and being given more, turned a snack into a friend.
+> _For grown-ups: Thought about how generosity can turn a cheeky moment into a friendship._
+
+
+#### `s28-logged`
+
+_That night Byte writes it up. He lets you watch over his shoulder, which is new._  
+_He writes it under INCIDENT. Then he stops, and writes it again, smaller, under GOOD THINGS._  
+
+> **Lesson** (literacy, L.2.4, notice): working out what a word means from the sentence around it  
+> _An “incident” is something that happens, usually something that goes a bit wrong._  
+> _Byte’s log was built for incidents. Null and Parcel becoming friends doesn’t fit there neatly, which is the point._  
+> _For grown-ups: Learned the word “incident” from how Byte uses it._
+
+**Byte**: It can be both. I’ve checked. There’s nothing in the rules.  
+_He looks at the two entries, side by side, as if they might argue._  
+_They don’t. They sit there quite happily._  
+_He closes the notebook carefully, so the page won’t smudge._  
+
+#### `s28-market`
+
+_Market day. The square below the bridge is all awnings and shouting and the smell of hot chestnuts._  
+**Byte**: It shivers in the mornings. I’ve logged it. It needs a coat. Something with fastenings it can manage.  
+**Byte**: I’ve put the stalls in order of efficiency. We’ll do them in that order.  
+_You do the first stall in that order. When you turn round from the second, Parcel isn’t there._  
+**Byte**: Where is it? It was there. I had it at the edge of my vision. I have very good edges.  
+_Somewhere across the square there is a noise like a xylophone falling downstairs._  
+
+> **Lesson** (science, 1-PS4-1, notice): sound is made by vibrations  
+> _Every clink is a jar wobbling very fast when it’s struck. Those quick wobbles are vibrations._  
+> _The vibrations shake the air, the air carries them to your ears, and you hear a sound. Lots of jars, lots of clinks._  
+> _For grown-ups: Learned that sounds are made by vibrations that travel through the air._
+
+_Your Nubbin is off towards it already, nose first. It knows that smell: oranges, boiled with sugar._  
+
+#### `s28-jam-stall`
+
+_A preserves stall. There was a pyramid of jars on it, very tall, very proud, with one orange-coloured jar on top._  
+_There is now a slope of jars. Parcel is at the bottom, holding the top jar up in both paws, unbroken._  
+_Nothing has broken. Everything has simply rolled, very far, in every direction._  
+**Dot Amblin**: My PYRAMID. Three hours, that pyramid took!  
+_A crowd has gathered, so Parcel bows to it. The crowd claps, and starts picking up jars, and paying for them._  
+**Dot Amblin**: Well. That’s the bramble jelly gone. And the damson. Oh, go on, then, take the plum.  
+_By noon the stall has sold out. Dot Amblin sits on her empty table with her cash tin, looking at Parcel as if it were weather._  
+
+> **Lesson** (social-studies, D2.Eco.1.K-2, ask): buying and selling at a market; when goods run out  
+> _Dot’s stall sold out by noon. What does “sold out” mean for the next person who wants jam?_  
+> - ✅ There’s none left, so they’ll have to choose something else or wait. → Yes. When something runs out, people have to choose: another stall, another jam, or next market.
+> - Dot will make more jam straight away. → Not today: jam takes hours to make. When goods run out, buyers have to choose something else or wait.
+> _For grown-ups: Thought about what happens when goods sell out, and the choices buyers then make._
+
+**Dot Amblin**: Keep that one, little one. Apricot. On the house. Come back next market, and bring your bow.  
+_Byte buys a knitted coat with toggles, brown, Parcel-sized. Then a second, smaller, for your Nubbin._  
+**Byte**: Parity. If one of them has a coat, they both have a coat. I’ve done the maths on fair.  
+
+#### `s28-graph`
+
+_Early winter, and frost on Byte’s very straight hedge. He meets you at the door with a sheet of squared paper._  
+**Byte**: Ninety spoons, one a day. Ninety days. That gets you to midwinter with a spoon to spare. I worked it out the week it came.  
+**Byte**: This is what actually happened. The last spoon went on day sixty.  
+
+> **Lesson** (maths, 2.OA.A.1, ask): subtraction word problems within 100  
+> **Byte**: Planned: ninety days. Actual: sixty. How many days short is that?  
+> - ✅ 30 days → Thirty. 90 − 60 = 30. A whole month of marmalade, given away.
+> - 150 days → That’s 90 + 60. We want the difference: 90 − 60 = 30.
+> - 6 days → Six is the number of jars. The gap in days is 90 − 60 = 30.
+> _For grown-ups: Subtracted 60 from 90 to compare a plan with what really happened._
+
+_The line on the graph goes down like a dropped scarf. In the margin, in capitals: MOSS, ROBINS, YOUR NUBBIN (TWICE), MR GRUE’S STEP???_  
+**Byte**: It shares. It feeds everyone before it feeds itself. That isn’t in any book either.  
+_You know that rule. You have it in a letter, in the same leaning hand as the tag._  
+_On the kitchen table stands the last jar: empty, washed, its lid beside it. Parcel has put it there very neatly._  
+**Byte**: It washed it and put it out. Like a milk bottle. In case somebody comes.  
+_That night, Parcel isn’t in its basket._  
+
+#### `s28-glasshouse`
+
+_At the bottom of Mr Grue’s tidy garden the glasshouse is lit. Steam on the glass, and a lamp held up._  
+_Inside, a tree in a tub: dark leaves, and small, rough, bright oranges. The only one in the valley._  
+_Parcel is under it with an orange in both paws. Over it stands Mr Grue, with the lamp._  
+**Mr Grue**: Thief. In my glasshouse. In the night. I’ll have the—  
+
+> **Lesson** (sel, D2.Civ.8.K-2, ask): fairness and intention  
+> _A think question, with no wrong answer._  
+> _Parcel took an orange without asking. Perhaps it only wanted more marmalade to share. Is Parcel a thief?_  
+> - Yes. It took something that wasn’t its own. → That’s a fair answer. Taking without asking is still taking, whatever the reason. Mr Grue would agree.
+> - No. It didn’t understand the rules. → That’s fair too. Parcel came from the Hollow, where nobody owns the fruit. Not knowing a rule is different from breaking it on purpose.
+> - It needs to put it right either way. → A wise answer. Whatever we call it, Mr Grue is owed something, and that’s what happens next.
+> _For grown-ups: Discussed whether taking something is wrong if you didn’t know the rule, and how to put it right._
+
+_Byte comes through the gap in the hedge in his dressing gown and slippers, and steps between them._  
+**Byte**: It’s in my care. Anything it’s done is my responsibility. Send me the bill.  
+_You have never seen Byte stand in front of anything that wasn’t a number. From his face, neither has Byte._  
+**Mr Grue**: …Those are Seville. Bitter. You can’t eat them raw. It’s in for a nasty surprise.  
+**Mr Grue**: My mother brought the pip over the pass in her coat pocket. Grew it in a teacup. Sixty years, and nobody’s ever wanted them.  
+
+> **Lesson** (science, 3-LS1-1, notice): a seed grows into a plant that makes fruit and seeds: a life cycle  
+> _One pip, in a teacup: that’s a whole life cycle. Seed, seedling, young tree, flowers, fruit, and new pips inside the fruit._  
+> _Sixty years on, the same tree is still making seeds. Each one could start a tree of its own._  
+> _For grown-ups: Followed the life cycle of an orange tree from a single pip._
+
+**Mr Grue**: Well? What’s on offer? I’m not giving them away.  
+
+**Choices**
+
+- **Promise him the first jar of marmalade.**
+    - **You**: The first jar we make. It’s yours.
+    - **Mr Grue**: The first jar. Not the second. I’ll know.
+    - He puts five oranges in a paper bag, then a sixth, scowling at it as if it jumped in on its own.
+- **Offer to weed his glasshouse for a morning.**
+    - **You**: I’ll weed the glasshouse. A whole morning.
+    - **Mr Grue**: There aren’t any weeds. …There are some weeds. Saturday. Early.
+    - He fills a paper bag with oranges, then holds the lamp for you all the way back to the hedge.
+- **Give him a hard stare of your own.**
+    - You look at Mr Grue, long and level. You think about lighthouses.
+    - **Mr Grue**: Oh, not you as well.
+    - He lasts six seconds. Then he pushes a bag of oranges into Byte’s hands and goes in, muttering.
+
+#### `s28-kitchen`
+
+_Byte’s kitchen, on a Saturday. Oranges cut, pips in a muslin bag, and the whole house smelling like a brighter house._  
+
+> **Lesson** (science, 2-PS1-1, notice): why marmalade uses Seville oranges  
+> _Seville oranges are named after Seville, a city in Spain. They’re too bitter to eat raw, but perfect for marmalade._  
+> _Their peel and pips are rich in pectin, a natural stuff that helps jam set. That’s why the pips go in the muslin bag, not the bin._  
+> _For grown-ups: Learned why bitter Seville oranges, rich in pectin, make good marmalade._
+
+**Byte**: Setting point is a hundred and four and a half degrees. I’ve calibrated the thermometer. Twice.  
+
+> **Lesson** (maths, 4.MD.A.2, ask): measuring temperature, and finding a difference  
+> **Byte**: Water boils at 100 °C (212 °F). Setting point is 104.5 °C (about 220 °F). How much hotter is that?  
+> - ✅ 4.5 degrees Celsius → Four and a half. 104.5 − 100 = 4.5. Sugar lets the mixture get hotter than plain water can.
+> - 204.5 degrees → That’s adding them. We want the difference: 104.5 − 100 = 4.5 degrees.
+> - 45 degrees → Watch the point. It’s four and a half, not forty-five: 104.5 − 100 = 4.5.
+> _For grown-ups: Found the difference between two temperatures, including a half._
+
+_Hazel’s recipe card leans on the sugar bag. Under “boil hard” she has written: “Cold saucer, push it, see if it wrinkles.”_  
+**Byte**: “See if it wrinkles.” That isn’t a test. That’s a feeling.  
+_Parcel has put a saucer out on the frosty windowsill. It sits beside it, guarding it, in case someone steals the cold._  
+_Byte turns the card over, looking for the rest of the method. On the back, in the same hand, is one line._  
+**Byte**: “Mind your manners, mind your neighbours, and always save some for the next one.”  
+**Byte**: That isn’t a recipe.  
+**You**: It’s on the recipe card.  
+**Byte**: Then it’s an ingredient. Unverified.  
+_He props the card back against the sugar bag. Writing side out._  
+
+#### `s28-wrinkle`
+
+_The thermometer says a hundred and four and a half. At the same moment, on the cold saucer, the marmalade wrinkles under Parcel’s paw._  
+**Byte**: They agree. The feeling and the thermometer agree.  
+**Byte**: I don’t know how I feel about that.  
+_Nine jars glow on the table like a row of small windows. Parcel bows to each one._  
+
+> **Lesson** (science, 2-PS1-4, ask): some changes from heating and cooling can be reversed, and some can’t  
+> _The cold saucer cools a drop of hot marmalade so it thickens and wrinkles. Could you turn the marmalade back into oranges and sugar?_  
+> - ✅ No. Cooking changed it for good. → Right. Boiling changed the fruit and sugar into something new. Like a baked cake, it can’t be un-made.
+> - Yes, if you froze it. → Freezing would make it hard, and warming would soften it again. But it would still be marmalade. Cooking can’t be undone.
+> _For grown-ups: Learned that some changes caused by heating, like cooking marmalade, cannot be reversed._
+
+_The first jar goes over the hedge to Mr Grue, promised or not. He takes it at arm’s length._  
+**Mr Grue**: I’m taking this as evidence.  
+_He doesn’t carry it home at arm’s length. He carries it the way you’d carry an egg._  
+
+#### `s28-first-snow`
+
+_The first snow comes in the night, quietly, the way it always means to._  
+_In the morning Byte is at the fence with Mr Grue. They are both pretending to talk about the weather._  
+**Mr Grue**: So it’s staying, then, your delivery. You’ve verified your sender.  
+**Byte**: No. I haven’t. I never asked for it, Mr Grue. It just came. I never asked for it—  
+_Behind him, on the step, Parcel puts down its half sandwich. It picks up its basket._  
+_By the time Byte has found the end of his sentence, there is nobody on the step to hear it._  
+**Mr Grue**: Your… it’s gone. Down the lane. Had that tag held out in front of it, like a ticket.  
+**Mr Grue**: Well, don’t stand there! Go on! It’s snowing!  
+**Byte**: I hadn’t finished. I hadn’t FINISHED.  
+
+> **Lesson** (literacy, RL.3.3, ask): a character’s motive, from what they hear  
+> _Why did Parcel leave?_  
+> - ✅ It overheard half a sentence and thought Byte didn’t want it. → Yes. “I never asked for it” sounds like a goodbye if you don’t hear the end. Parcel didn’t wait for the end.
+> - It wanted to see the snow. → It took its basket and its tag, as if it were going back. It thought it wasn’t wanted, from half a sentence.
+> - Mr Grue told it to go. → Not this time: Mr Grue is shouting at Byte to go after it. Parcel left because of what it overheard.
+> _For grown-ups: Worked out a character’s motive from what it overheard._
+
+
+#### `s28-cart-stop`
+
+_The cart stop on the valley road is a sign, a bench and a milestone. The cart doesn’t run in the snow._  
+_Parcel is under the sign, very upright, with snow on its head. It is holding its tag out, to be sent back._  
+_It sees you both, and bows. It doesn’t put the tag down._  
+_A tag with a name but no address can only be sent back. One with an address can be sent home._  
+_Byte’s pencil is already out._  
+
+> **Lesson** (social-studies, D2.Geo.2.K-2, ask): the parts of an address  
+> _Byte is about to write Parcel a proper address. Which of these does an address need?_  
+> - ✅ A name, a house, a road or lane, and a town or village. → Yes. Most addresses also have a postcode. Together they lead from the whole country down to one front door.
+> - Just a name. → A name says who, not where. An address adds the house, the lane and the village, so anyone can find the door.
+> - A favourite food. → Marmalade, obviously. But an address needs a name, a house, a lane or road, and a village or town.
+> _For grown-ups: Learned the parts of an address and how they narrow down to one home._
+
+_The snow is falling softly. Parcel’s coat is warm, and it has only been here a little while._  
+
+**Choices**
+
+- **Sit down in the snow beside Parcel.**
+    - You sit. The snow is very cold, very fast; Parcel looks at you, then at the road, and doesn’t move away.
+    - After a moment Byte sits down on its other side, in the snow, in his good trousers.
+    - **Byte**: …and I’m keeping it.
+    - **Byte**: That was the end of the sentence. I never asked for it, and I’m keeping it. You left before the end.
+    - He takes the tag gently, turns it over, and writes on the blank back with the pencil from behind his ear.
+    - His own name, his own house, “Next to Mr Grue’s”, and under it, in neat capitals: RECEIVED.
+    - Parcel looks at the back of its tag for a long time. Then it bows, and lets Byte carry it home inside his coat.
+- **Hang back. Let Byte go.**
+    - You stop at the bend. Byte doesn’t: he goes all the way to the sign and crouches in the snow, in his good trousers.
+    - **Byte**: …and I’m keeping it.
+    - **Byte**: That was the end of the sentence. I never asked for it, and I’m keeping it. You left before the end.
+    - He takes the tag gently, turns it over, and writes on the blank back with the pencil from behind his ear.
+    - His own name, his own house, “Next to Mr Grue’s”, and under it, in neat capitals: RECEIVED.
+    - Parcel looks at the back of its tag for a long time. Then it bows, and lets Byte carry it home inside his coat.
+
+#### `s28-crust`
+
+_The second morning after the Long Night. The Grove is soft with snow, and nobody has slept enough yet._  
+_Byte is at your gate, early, with Parcel in its coat and a matchbox in his hand._  
+**Byte**: I want to tell you something. It isn’t data. I’m going to say it anyway.  
+**Byte**: Three hours and twelve minutes in. The third cold. The one where nobody talked.  
+**Byte**: My hands were shaking so hard I couldn’t write. I couldn’t write anything down. That has never happened.  
+**Byte**: And Parcel came along the line of us, at knee height. With half a sandwich. It gave it to me.  
+**Byte**: And my hands stopped. I don’t know why. It doesn’t make sense. I’ve stopped needing it to.  
+
+> **Lesson** (sel, CASEL: Self-management, ask): how fear shows in the body, and what helps  
+> _Fear made Byte’s hands shake. What helps a body calm down when it’s frightened?_  
+> - ✅ Someone close by, something warm, and slow breaths. → Yes. A friend nearby tells your body it isn’t alone. Shaking hands often settle when someone kind is close.
+> - Pretending you aren’t scared. → Lots of people try that. But fear is easier to calm when it’s noticed and shared, like Byte’s was.
+> - Running away by yourself. → Sometimes moving away from danger is right. But being alone can make fear bigger. A friend nearby helps.
+> _For grown-ups: Talked about how fear shows in the body and what helps it calm down._
+
+_He opens the matchbox. Inside, on cotton wool, is a sandwich crust._  
+**Byte**: I’ve kept it. It’s a keepsake. Don’t say anything.  
+_You don’t. Parcel looks up the lane at Hazel’s chimney, smoking, and sets off without either of you._  
+
+#### `s28-bench`
+
+_Hazel is on the bench by the cottage door, in three coats, awake. The thin grey Nubbin sleeps in the crook of her arm._  
+
+> **Lesson** (science, 2-PS1-1, notice): layers trap air, which keeps heat in  
+> _Three coats are warmer than one thick one. Air gets trapped between the layers, and still air is very slow to let heat escape._  
+> _Birds do the same thing when they fluff up their feathers in winter._  
+> _For grown-ups: Learned that layers of clothing trap air, which keeps body heat in._
+
+_Parcel walks up the path, stops at her boot, and bows. Lower than it has ever bowed to anyone._  
+**Gran Hazel**: Hello again, you. Look at that coat. Somebody’s been looking after you.  
+_Parcel undoes one toggle, takes out half a sandwich, and holds it up to the thin grey Nubbin._  
+_The thin grey Nubbin wakes and sniffs. It takes one corner, very carefully, and eats it._  
+**Gran Hazel**: Two days it took me, with an apple. You turn up with a sandwich and do it in one go. Show-off.  
+
+#### `s28-why`
+
+_Byte has been standing at the gate. Now he comes up the path with his notebook held in front of him, like a ticket._  
+**Byte**: Hazel. I’ve a theory. Can I say it before you say anything? It’s tidier.  
+**Gran Hazel**: Go on, love.  
+**Byte**: You couldn’t keep it. Not where you were. You knew you might not be there to see it fed.  
+**Byte**: So you needed it written down. Every day, every spoon. By somebody who’d notice if a day went missing.  
+**Byte**: So you sent it to the one person in the valley who writes everything down.  
+_Hazel looks at him for a long time. Then she nods, once._  
+**Gran Hazel**: You count things, love. I needed someone who’d count this one.  
+
+> **Lesson** (literacy, RL.3.6, ask): your point of view and a character’s  
+> _A think question, with no wrong answer._  
+> _Hazel says she needed someone who’d “count this one”. Why do you think she chose Byte, not you?_  
+> - Because Byte notices small things nobody else does. → That’s a fair answer. Counting every spoon is a kind of paying attention, and attention is a kind of love.
+> - Because Byte needed Parcel as much as Parcel needed him. → A thoughtful answer. Hazel may have been looking after two strays at once.
+> - Because you already had your hands full with the Grove. → That’s fair too. Hazel knows how much you carry. And you still kept turning up.
+> _For grown-ups: Thought about a character’s reasons and compared them with their own view._
+
+_Byte opens his notebook, finds the page, and writes VERIFIED. He doesn’t cross it out._  
+_Then he sits down on the step, not suddenly. He has had since the autumn to get used to the idea._  
+
+#### `s28-on-the-step`
+
+_You sit on the step beside Byte, with Parcel between you. Nobody says anything for a while, which is the best thing anyone says all morning._  
+_Hazel is very poorly now, and the doctors can’t make her better. She sleeps a lot, and wakes up for the good bits._  
+_She falls asleep in the middle of looking at the three of you. The thin grey Nubbin falls asleep in the middle of her._  
+_It’s all right to feel sad about Hazel and happy to be here, both at once._  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): holding two feelings at once, and the comfort of quiet company  
+> _People often feel two things together: sad and glad, worried and loved. Neither feeling cancels the other._  
+> _Sitting quietly with someone is one of the oldest ways of saying “I’m here”. Nobody on the step needs to talk._  
+> _For grown-ups: Learned that it’s normal to feel two feelings at once, and that quiet company is a comfort._
+
+**Byte**: I’m going to throw it a party. A welcome party.  
+**Byte**: It’s very late for a welcome party. I’ve checked. There’s no rule.  
+
+#### `s28-party`
+
+_Byte’s front room, decorated: bunting cut from squared paper, and a cake with PARCEL on it, iced in very straight capitals._  
+**Pixel**: Hi! I brought a cake stand. It rotates. You don’t have to use the rotate.  
+_Mr Grue has come “for procedure”, in his best cardigan. He sits on the edge of his chair as if it might go off._  
+**Byte**: And now. Parcel has prepared a trick. I wasn’t told what. I’m finding that difficult.  
+_Parcel walks up to Mr Grue and bows. Then it holds out one paw towards his waistcoat pocket, and waits._  
+**Mr Grue**: My watch? What does it want my watch for?  
+_Everyone looks at him, so he hands the watch over. It was his father’s, he says, twice, on the way._  
+_Parcel wraps the watch in a napkin, taps the napkin with a spoon, and unwraps it. The watch has gone._  
+_Applause, and a whistle from Pixel. Mr Grue claps three times, against his will._  
+_Parcel taps the napkin again and unwraps it. The watch is back, in eleven pieces._  
+**Byte**: Eleven.  
+**Mr Grue**: MY FATHER’S WATCH!  
+_Mr Grue goes out of the front door so hard that the bunting comes down._  
+**Pixel**: Give me all the bits. All of them. Nobody sneeze.  
+
+> **Lesson** (science, 4-PS3-4, notice): a wound spring stores energy that makes a watch move  
+> **Pixel**: Look: the mainspring. Winding the watch coils it tight, and a tight spring stores energy.  
+> **Pixel**: As it slowly uncoils, the gears pass that energy along, a tiny bit at a time, and the hands move. Stored energy into movement.  
+> _For grown-ups: Learned how a wound spring stores energy and gears turn it into the movement of a watch’s hands._
+
+
+#### `s28-grue-back`
+
+_Half an hour later the watch is ticking in Pixel’s palm. It was losing four minutes a day, she says, and it isn’t now._  
+
+> **Lesson** (maths, 3.OA.A.3, ask): multiplication as equal groups, with time  
+> **Pixel**: Before I fixed it, it lost four minutes every day. How many minutes would it lose in a week?  
+> - ✅ 28 minutes → Yes! Seven days, four minutes each: 7 × 4 = 28. Nearly half an hour late by Sunday.
+> - 11 minutes → That’s 7 + 4. We want seven lots of four: 4, 8, 12, 16, 20, 24, 28. So 28 minutes.
+> - 4 minutes → That’s just one day. A week is seven days of four minutes: 7 × 4 = 28.
+> _For grown-ups: Multiplied 7 × 4 to work out how far a slow watch drifts in a week._
+
+_There is a knock. Mr Grue is on the step, holding a paper bag._  
+**Mr Grue**: I’ve come for the marmalade. That’s all. Not the party.  
+_He holds out the bag. Oranges, small and rough and bright, from the tree that started in a teacup._  
+**Mr Grue**: For the next lot. You’ll want to start early. Don’t read anything into it.  
+_Parcel bows to him, lower than to anyone but Hazel. It is the nearest thing to sorry a Nubbin has._  
+_Pixel hands Mr Grue the watch. He holds it to his ear for a long time, then sits down, properly, all the way back in the chair._  
+
+#### `s28-complete`
+
+_When the cake is crumbs, Byte stands up with his notebook, PARCEL: INCIDENTS. It has got quite fat since the autumn._  
+**Byte**: I’m going to read the log. It’s procedure. Also, I want to.  
+**Byte**: Incidents. Bath, flood. Fence, Grue. Pyramid, jam. Glasshouse, oranges. Snow. Watch, eleven pieces.  
+_Then he turns the notebook sideways. The last column has grown so wide that it runs onto the facing page._  
+**Byte**: Good things. Bowed to the kettle. Took Moss elevenses. Shared. Shared. Shared. Washed the jar. Gave me half a sandwich.  
+**Byte**: The good column is longer. I measured it. It’s longer by a page and a half.  
+_Parcel climbs down off its chair and gives you Hazel’s jar from the Hollow, the empty one, washed. Then it bows._  
+_Byte gives your Nubbin a rain hat with room under it for half a sandwich. Parcel already has one: parity._  
+_And a luggage tag on string, lettered by Byte in neat capitals: RECEIVED._  
+_At the door, Mr Grue gives you a cutting from the orange tree in damp newspaper, and says it probably won’t take._  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): reading feelings from actions; gifts that carry a memory  
+> _Mr Grue says the cutting probably won’t take. Why do you think he wrapped it so carefully anyway?_  
+> - ✅ Because it matters to him, and he wants it to matter to you. → Yes. That tree came over the pass in his mother’s pocket. Grumpy words, careful hands: the hands are telling the truth.
+> - Because he wants it back later. → He might ask how it’s doing! But careful wrapping usually means “this is precious, and so are you”.
+> _For grown-ups: Read a character’s feelings from his actions rather than his words, and thought about gifts that carry a memory._
+
+_It will. You can tell from how carefully he wrapped it._  
+
+> **Lesson** (literacy, RL.4.2, ask): finding the theme of a story  
+> _Byte started the log to count Parcel’s mistakes. What do you think this whole story is saying?_  
+> - ✅ Kindness counts, even when you can’t measure it. → That’s the heart of it. Byte’s best column is the one that isn’t a measurement.
+> - Never let a stranger in. → Parcel was a stranger, and look what Byte would have missed. The story says the opposite: welcome matters.
+> - Marmalade is the best food. → Your Nubbin would agree! But the story is really about how kindness counts, even when it can’t be measured.
+> _For grown-ups: Worked out the theme of the story: kindness matters even when it can’t be measured._
+
+
+### Glossary
+
+- **carrier**: Someone whose job is carrying goods and passengers from place to place, often by cart.
+- **thorough**: Careful to do every part of a job, leaving nothing out.
+- **preserves**: Jams, jellies and marmalades: fruit cooked with sugar so it keeps for a long time.
+- **procedure**: The proper, step-by-step way of doing something.
+- **absorbent**: Able to soak up liquid, like a sponge or a towel.
+- **verified**: Checked and proved to be true.
+- **compensation**: Something given to make up for a loss or damage.
+- **routine**: The things you do in the same order, at the same times, most days.
+- **evacuee**: Someone moved away from a dangerous place to keep them safe.
+- **incident**: Something that happens, often something that goes a bit wrong.
+- **efficiency**: Doing something with the least wasted time or effort.
+- **parity**: Being equal: the same for everyone.
+- **responsibility**: Something that is your job to look after, and to put right if it goes wrong.
+- **calibrated**: Checked against a known measurement, so it reads correctly.
+- **pectin**: A natural substance in fruit, especially peel and pips, that helps jam set.
+- **keepsake**: A small thing you keep to help you remember someone or something.
+- **theory**: An idea that tries to explain why something happened.
+
+## S29. The Gates of Dawn
+
+- `s29-step1`: Help Marina carry her mended boat down to the water. · _The boat is upside down on the bank below the Grove. Take one end; Marina takes the other._
+- `s29-step2`: Go down the stream with Marina to the backwater, and have the picnic. · _Vest on, and sit still in the middle while Marina rows. Leaning over to look at fish doesn’t count as still._
+- `s29-step3`: Fish the picnic out of the river and get everyone back to the bank. · _Your Nubbins can swim; let them. Grab what floats: the basket, the rug, the oars._
+- `s29-step4`: Take Marina’s rowing lesson, then find something to give Portly. · _Pull with your back, not your arms, and look where you’ve been. Portly will be close by._
+- `s29-step5`: Go into the Wild Wood with Marina and find Dusty. · _Keep to the path and keep talking. If you lose the path, stand still and listen for Dusty._
+- `s29-step6`: Find shelter in the Wild Wood before the lantern goes out. · _Look for anything people made: a step, a scraper, a door. Old stones mean old houses._
+- `s29-step7`: Follow Granny Brock out of the Wood the back way. · _Keep one hand on the wall and your head down. The old culvert comes out by the fields._
+- `s29-step8`: Row up the river to the weir pool with Marina and Dusty. · _Take an oar each. Where it’s too shallow to row, everyone gets out and carries._
+- `s29-step9`: Catch Marina up on the river path and tell her what’s wrong. · _She’s gone on ahead towards the boathouse. She walks fast when she’s hungry. Run._
+- `s29-step10`: Fetch dry kindling for Dusty’s stove. · _The woodpile is round the side of the cliff house. The top layer is wet; dig down._
+- `s29-step11`: Go down to the ford at dusk and see the old otter. · _The ford is below the backwater, where the stepping stones cross. Go quietly, and not too close._
+- `s29-step12`: Row up the river in the dark and look for Portly. · _Row slowly and keep the lantern low. Watch the banks, the reeds and the mud, and listen._
+- `s29-step13`: Row Portly home to the ford. · _Downstream all the way. Let the current do the work, and keep him warm._
+- `s29-step14`: Get to Marina’s boathouse before she goes. · _The boathouse is past the tide pools, where the river meets the sea. Go with Dusty._
+- `s29-step15`: Haul Marina’s boat up the bank for the winter, under the willows. · _Logs under the keel for rollers, and all three of you. She goes upside down, so the rain runs off._
+
+#### `s29-digging`
+
+_The week after Lantern Night. Down by the stream, the air smells of cut grass and warm mud._  
+_Marina has her boat upside down on two trestles. She is painting its bottom blue and humming._  
+_A few steps away, the turf heaves. It heaves again and splits, and two earthy hands push up through it._  
+_Then a head, covered in soil, blinking at the sun as if the sun had done it on purpose._  
+**Dusty**: Oh, crumbs! Oh, rubble!  
+_Dusty climbs out, shakes off about a bucketful of earth, and glares back down the hole._  
+**Dusty**: I’ve been clearing out my burrow since March. Every time I finish a room, the room next door falls in.  
+
+> **Lesson** (science, 4-LS1-1, notice): body parts that help animals survive: a mole’s digging paws  
+> **Marina**: Real moles dig all their lives. Their front paws are broad and turned outwards, like a pair of spades.  
+> **Marina**: One mole’s tunnels can run for a long way under a single field.  
+> _For grown-ups: Learned how a mole’s spade-shaped front paws help it dig its burrow._
+
+**Dusty**: That’s it. No more digging. Not today!  
+
+> **Lesson** (sel, CASEL: Self-management, ask): managing frustration when a job keeps going wrong  
+> _Dusty is fed up. What’s a good move when a job keeps going wrong?_  
+> - ✅ Take a break, do something else, and come back fresh. → Yes. A break isn’t giving up. Dusty’s about to get one in a boat.
+> - Keep going, crosser and crosser, until it’s done. → Sometimes that works. But being cross makes mistakes. A break often helps more.
+> - Never try again. → That feels true when you’re fed up. Usually a break is enough, and you try again.
+> _For grown-ups: Thought about handling frustration by taking a break and coming back to a task._
+
+**Marina**: Well. Nobody in this valley ever thought they’d hear you say that.  
+**Marina**: She’s mended. Grab an end, both of you. You’ve never been in a boat, have you, Dusty?  
+**Dusty**: I’ve been in a hole. Is it much different?  
+**Marina**: Opposite, mostly.  
+
+#### `s29-launch`
+
+_The boat goes into the stream with a smack and a wobble, and sits there looking pleased with itself._  
+_Your Nubbin is in before anyone else, and takes the very front: the little pointed seat._  
+**Marina**: That’s the bow. The back end’s the stern. And that’s a Nubbin who knows what’s what.  
+**Dusty**: It’s moving. It’s just sitting there, and it’s moving. Is it meant to do that?  
+**Marina**: That’s the whole idea, love.  
+**Dusty**: But it’s heavy. Heavy things sink. I dropped a trowel in this stream once. It sank like a stone.  
+
+> **Lesson** (science, 3-PS2-1, notice): why boats float: balanced forces  
+> **Marina**: A boat pushes water out of the way, and the water pushes back up on it.  
+> **Marina**: When that push up is as big as the boat’s weight, the forces balance, and she floats.  
+> **Marina**: A trowel’s small and solid. It can’t push enough water aside, so down it goes.  
+> _For grown-ups: Learned that a boat floats when the water’s upward push balances its weight._
+
+
+#### `s29-boats`
+
+**Marina**: Vests on. Cork, see? Nobody gets in my boat without one. Not you, not Dusty, not me, not the King.  
+_The vests are old and stiff, and smell faintly of the sea._  
+
+> **Lesson** (science, 2-PS1-1, notice): materials and their properties: why cork floats  
+> **Marina**: Cork comes from the bark of the cork oak. It’s full of tiny pockets of air.  
+> **Marina**: That makes it very light for its size. It has lots of buoyancy: it floats, and it holds you up.  
+> _For grown-ups: Learned that cork floats because it is full of tiny air pockets, which is why it is used in life vests._
+
+_Dusty puts theirs on back to front, then the right way round, then back to front again._  
+_Marina pushes off. The bank slides away, and the stream takes the boat as if it had been waiting all morning._  
+
+> **Lesson** (health, ask): water safety: never on the water alone  
+> **Marina**: My other rule: nobody goes out on the water alone. Not even me. Why do you think that is?  
+> - ✅ If something goes wrong, someone can help or fetch help. → Exactly. Water’s lovely, and it doesn’t care about you. Friends do.
+> - So there’s someone to row. → Handy, but that’s not it. If anything goes wrong, someone’s there to help.
+> - Because it’s boring alone. → Never boring! But if anything goes wrong, you need someone there to help.
+> _For grown-ups: Learned two water-safety rules: always wear a life vest, and never go on the water alone._
+
+**Dusty**: So what is it you actually do? In a boat? All day?  
+_Marina stops rowing and looks at Dusty very seriously, as if she has waited years for somebody to ask._  
+**Marina**: Honestly? Pottering about in a boat is the best thing there is. Nothing else comes close.  
+**Dusty**: That’s not an answer.  
+**Marina**: It’s the only answer. Duck. Low branch.  
+_In the bow, your Nubbin leans out with its ears blown flat, like a figurehead that has seen something wonderful._  
+
+#### `s29-picnic`
+
+_The stream runs into the river, and the river turns off into a backwater: still and green, with a willow leaning over it._  
+_Marina ties up to the willow, hauls out a wicker basket and starts unpacking onto a blue-and-white rug._  
+
+> **Lesson** (science, 2-ESS2-2, notice): river features: a backwater  
+> **Marina**: This is a backwater: a quiet arm off the side of the river, where the water hardly moves.  
+> **Marina**: Calm water is good for little fish. Little fish are good for otters.  
+> _For grown-ups: Learned what a backwater is: a quiet, slow side-arm of a river._
+
+**Marina**: Cold chicken. Ham. Two loaves. Three cheeses. Gherkins. Seed cake. Ginger beer. Lemonade…  
+**Dusty**: Wait! Stop! Nobody could eat all that!  
+**Marina**: It’s a picnic, Dusty. Too much is the amount.  
+_Out in the middle, a line of bubbles comes up. Then a flat brown head, whiskered, watching you._  
+_Then a second head, much smaller and rounder. It isn’t watching you; it’s watching the gherkins._  
+**Marina**: Otters. Keep still. That’s the old one, and that’s his kit. I call the kit Portly. You’ll see why.  
+
+> **Lesson** (science, 4-LS1-1, notice): how otters’ bodies suit river life  
+> _Otters have thick fur that keeps water off their skin, and webbed feet for swimming._  
+> _Their whiskers feel for fish in muddy water. They need clean rivers with plenty of fish._  
+> _For grown-ups: Learned how an otter’s fur, feet and whiskers help it live in rivers._
+
+_The little one comes ashore, walks straight up the rug, takes the biggest gherkin, and goes before anyone can move._  
+**Dusty**: He took a gherkin. He looked me in the eye and he took it.  
+**Marina**: He does that. Last summer it was a whole pork pie. He couldn’t lift it. He tried for an hour.  
+
+#### `s29-oars`
+
+_After lunch, with the sun gone soft and the basket much lighter, Marina rows you back out of the backwater._  
+**Dusty**: Let me have a go.  
+**Marina**: Not today. Next time, when you’ve watched a bit more.  
+**Dusty**: I’ve watched loads. You just pull. Anyone can pull. I pull roots out of cliffs.  
+_Before she can stop them, Dusty grabs both oars, stands up, and digs them hard into the river._  
+_One oar bites. The other skims the top of the water, and Dusty goes over backwards, boots in the air._  
+
+> **Lesson** (science, 3-PS2-1, ask): unbalanced forces change motion  
+> _One oar pushed hard on the water. The other pushed on nothing. What does a boat do when only one side pushes?_  
+> - ✅ It swings round, because the forces aren’t balanced. → Yes. Push on one side only and the boat turns. Rowers keep both oars even to go straight.
+> - It goes faster in a straight line. → Straight lines need both oars pulling evenly. With one, the forces are unbalanced and the boat turns.
+> - Nothing happens. → Something always happens when a force pushes! With one oar, the boat swings round.
+> _For grown-ups: Reasoned that unbalanced forces (one oar pulling) make a boat turn._
+
+**Marina**: You’ve caught a crab. That’s what it’s called. Sit down. SIT—  
+
+> **Lesson** (literacy, L.3.4, notice): multiple-meaning words and idioms: “catch a crab”  
+> _“Catching a crab” has nothing to do with crabs. Rowers say it when an oar blade slips or sticks in the water._  
+> _For grown-ups: Learned the rowing phrase “catch a crab” and that words can mean different things in different places._
+
+_Dusty grabs the side, and the whole boat turns over, quite slowly, as if it has thought about it first._  
+_Green water, bubbles, a great deal of noise. Then the cork vests do their job, and you all bob up like corks._  
+_Your Nubbins paddle past you to the bank in a neat line, as if they’d planned to swim home all along._  
+
+#### `s29-fire`
+
+_Marina gets everything ashore: you, Dusty, the basket, the rug and both oars. Then she swims back for the boat._  
+_She lights a fire in a ring of stones and sits Dusty in front of it, wrapped in the rug._  
+
+> **Lesson** (science, 4-PS3-2, notice): heat moves from warm bodies into cold water  
+> **Marina**: Out of the wet things and close to the fire. Cold water pulls heat out of your body much faster than cold air does.  
+> _For grown-ups: Learned that cold water draws heat from the body fast, so you get dry and warm quickly after a dip._
+
+**Dusty**: I’m so sorry. Your boat. Your lovely picnic. I’m an idiot.  
+**Marina**: Never mind. Honestly. Never mind.  
+**Dusty**: The cheese is in the river.  
+**Marina**: Never mind the cheese. The fish will have a lovely afternoon. Never mind.  
+_She says it until Dusty believes it. It takes most of an hour, and a whole pot of tea._  
+
+> **Lesson** (sel, CASEL: Relationship skills, ask): forgiving, and helping someone forgive themselves  
+> _Marina says “never mind” again and again. Why so many times?_  
+> - ✅ Dusty feels so bad they need to hear it more than once. → Yes. Forgiving someone once is quick. Helping them believe it takes longer, and a pot of tea.
+> - She forgot she’d already said it. → Ha! No, she means it each time. Dusty needs to hear it until it sinks in.
+> - She’s secretly cross. → Look at her face: she’s smiling. She keeps saying it so Dusty can believe it.
+> _For grown-ups: Thought about forgiveness, and why someone who feels bad may need to hear it more than once._
+
+**Marina**: Tomorrow I’ll teach you properly. Both of you. Then at least you’ll fall in the right way.  
+
+#### `s29-lessons`
+
+**Marina**: Lesson one: sit down. Lesson two: stay sat down. Most people never get past two.  
+**Marina**: Feet braced. Pull with your back. Blades in, pull, out, turn them flat. Rowing is all looking behind you.  
+**Dusty**: That seems like a design fault.  
+**Marina**: Take it up with the river.  
+_By the afternoon you can both go in a straight line, mostly. Dusty only catches one more crab, and keeps their seat._  
+**Marina**: And one for the little one. Cut it down from an old one. Arms up.  
+_Marina buckles a tiny cork vest onto your Nubbin. It stands very still, deeply proud, then marches about so everyone can see._  
+_All afternoon a small brown head has followed the boat. Wherever you row, it rows too, more or less._  
+**Marina**: Portly. He’s adopted you. He does that, then forgets, then does it again.  
+**Marina**: Give him something, if you like. Not food. Something he can keep.  
+
+> **Lesson** (science, K-ESS3-3, ask): looking after wild animals: no human food  
+> _Why does Marina say not food?_  
+> - ✅ Our food isn’t good for wild animals, and they can start to depend on people. → That’s it. A wild otter should catch his own fish. Bread and pies make him poorly, and pushy.
+> - Otters don’t eat. → Otters eat loads! Fish, mostly. That’s the point: they should eat their own food, not ours.
+> - She wants to keep the gherkins. → Well, yes. But really: our food isn’t good for wild animals, and they learn to beg.
+> _For grown-ups: Learned why we don’t feed wild animals human food._
+
+
+**Choices**
+
+- **A blue glass bead from your pocket.**
+    - You hold it out on a flat palm. Portly comes up the bank, sniffs it, and takes it in his teeth very carefully, like an egg.
+    - He rolls it about on a flat stone for ten minutes, watching the light go through it.
+    - **Marina**: Magpie. He’ll have that till he’s grey.
+- **A red ribbon off the picnic basket.**
+    - You lay it on the bank. Portly takes one end and swims off with it trailing behind him like a flag.
+    - **Dusty**: Well, we’ll see him coming a mile off now.
+    - **Marina**: Half a mile. That’ll do.
+- **A tiny brass bell off an old collar.**
+    - Marina threads it on a loop of soft cord, loose enough to slip off if it catches. Portly lets you put it over his head.
+    - He shakes, and it rings. He shakes again, astonished, and then can’t stop.
+    - **Marina**: Well. We’ll always know where he is now. Whether we want to or not.
+
+#### `s29-lessons-done`
+
+_Portly takes his present home along the bank in the evening light, very slowly, stopping to look at it._  
+**Dusty**: He’s never pinched anything off you. Have you noticed? That’s how you can tell he likes you.  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): think question: how we show we like someone  
+> _Dusty thinks not pinching your things is Portly’s way of liking you. How do you show someone you like them?_  
+> - I share things with them. → Sharing says “you matter to me”. Portly would approve, as long as it isn’t gherkins.
+> - I spend time with them. → Time is a big present. Portly followed the boat all afternoon. That’s his way.
+> - I make them laugh. → A good laugh together is a real bond. Dusty and Marina know all about that.
+> _For grown-ups: Thought about the different ways people (and animals) show they like someone._
+
+**Marina**: Same time next week. If either of you stands up in my boat again, I’ll sink you myself.  
+**Dusty**: She won’t. She says that to everybody.  
+_Your Nubbin walks home in its cork vest, though there is no water anywhere near._  
+_Behind you, the river goes on being the river, and doesn’t mind at all._  
+
+#### `s29-wildwood`
+
+_August, and there is frost on the grass at dusk. Nobody can say why. It seems to creep down off the slope below the Circuit._  
+
+> **Lesson** (science, 2-ESS2-3, notice): how frost forms  
+> _Frost is frozen water. On a clear, still night, grass and leaves can cool below 0 °C (32 °F)._  
+> _Then water vapour in the air freezes straight onto them as tiny ice crystals. In August, that’s very odd._  
+> _For grown-ups: Learned that frost forms when water vapour freezes onto surfaces colder than 0 °C._
+
+_Marina is at your gate with a lantern and a stout stick. She doesn’t lift and push; she shouts._  
+**Marina**: Dusty’s gone into the Wild Wood. On their own. At teatime. They’ve been restless all week.  
+**Marina**: I said don’t, it’s getting dark. They said they only wanted a look.  
+_Later, Dusty will tell it like this._  
+_It was quiet under the first trees, and cold. The path went in, the light went out, and the frost crunched._  
+_And then Dusty started seeing things in the dark._  
+_Little shapes in the holes between the roots, gone whenever Dusty looked straight at them._  
+_Then a pattering: behind, ahead, either side, like rain that hadn’t decided where to fall._  
+_Dusty ran, which is the wrong thing. They ran until they tumbled into the hollow of an old beech, and stayed there._  
+**Marina**: Rules of the Wood. Keep to the path. Don’t run. Keep talking. If you run out of things to say, say anything.  
+
+> **Lesson** (health, CASEL: Responsible decision-making, ask): staying safe when lost  
+> _Marina says running is the wrong thing to do when you’re lost. Why?_  
+> - ✅ You get more lost and can get hurt. Staying put helps people find you. → Right. Stop, stay, and call out. Searchers find people who stay put.
+> - Running makes you tired. → True, but the big reason: you get more lost, and harder to find. Stay put and call.
+> - It isn’t. Running gets you out faster. → Only if you know the way. Lost and running usually means more lost. Stay put and call.
+> _For grown-ups: Talked about what to do if lost: stop, stay put, and call for help._
+
+**Marina**: Shopping lists. Times tables. Anything. Come on.  
+
+#### `s29-beech`
+
+_You go in talking. Marina names every rock pool on the coast from west to east, and you do your times tables._  
+**Marina**: Seven sixes?  
+**You**: Er…  
+
+> **Lesson** (maths, 3.OA.A.3, ask): multiplication facts: 7 × 6  
+> _Seven sixes: seven groups of six. Help out. How many?_  
+> - ✅ 42 → Forty-two. Lovely. Keep going: eight sixes?
+> - 36 → That’s six sixes. One more six makes forty-two.
+> - 48 → That’s eight sixes. Take one six away: forty-two.
+> _For grown-ups: Worked out 7 × 6 = 42 as seven equal groups of six._
+
+_The faces, if they are faces, keep to the edge of the lantern light. The pattering keeps pace, and stops when you stop._  
+
+> **Lesson** (science, 4-LS1-2, notice): animals’ senses: eyeshine in the dark  
+> **Marina**: Lots of night animals have a shiny layer at the back of their eyes. It helps them see in dim light.  
+> **Marina**: That’s why eyes shine back at a lantern. Most things watching you in a wood are only curious.  
+> _For grown-ups: Learned that many nocturnal animals have a reflective layer in their eyes that helps them see in the dark._
+
+_Your Nubbin rides inside your coat with only its eyes showing. It doesn’t like the Wood, and it doesn’t make a sound._  
+_At last, in the hollow of a great beech, something says “Ow” very quietly. Dusty is curled in the dead leaves, white with frost._  
+**Dusty**: I only wanted a look.  
+**Dusty**: I know. I know. Don’t say it.  
+**Marina**: Wasn’t going to. You’re frozen. Up you get.  
+_But the frost has thickened while you searched. The path has gone under it, and the lantern is guttering._  
+**Marina**: We’re not getting home tonight. Not that way.  
+
+#### `s29-door`
+
+_You go on slowly, holding one another’s sleeves, with Dusty in the middle._  
+_Dusty trips over something, hard, and sits down in the frost holding their shin._  
+**Dusty**: Ow. Something with an edge. In the middle of a wood. Who leaves an edge in a wood?  
+_Marina scrapes the frost away with her stick. It’s an iron boot-scraper, very old, set into a stone step._  
+**Marina**: A scraper means a step. A step means a door. Dig, Dusty. You’re good at that.  
+
+> **Lesson** (social-studies, D2.His.2.K-2, ask): objects as clues to how people lived  
+> _Marina worked out there was a door from one rusty object. How?_  
+> - ✅ Boot-scrapers sit by doors, so someone must live, or once lived, nearby. → Exactly. Archaeologists do the same: one object can tell you a whole story about people.
+> - She guessed. → It was more than a guess. A boot-scraper only belongs by a door. That’s a clue.
+> - She’d been there before. → She hadn’t! She read the clue: scrapers live by doors.
+> _For grown-ups: Used an object as a clue about the people who lived there, the way archaeologists do._
+
+**Dusty**: Fine. Yes. Digging. I take it all back.  
+_Under the frost there is a doormat, and beyond it a little green door set into a bank under old stones._  
+_Marina pulls a bell-pull. Deep in the bank, a long way off, a bell clanks._  
+_Nothing. Then, very slowly, bolts going back: one, two, three, and a fourth, rusty, that takes some persuading._  
+
+#### `s29-kitchen`
+
+_The door opens a crack. An old woman with a candle glares out, in a quilted dressing gown and a soot-black apron._  
+**Granny Brock**: Who’s ringing my bell at this hour? Nobody rings it at any hour. That’s why it’s there.  
+**Marina**: Granny Brock. It’s Marina, from the river. We’re lost, and this one’s frozen.  
+**Granny Brock**: Marina. Hm. And a frozen one. And somebody’s grandchild, by the chin on it. And what’s that, in your coat?  
+_Your Nubbin looks out at her, and she looks back. Neither of them blinks first, and something is settled._  
+**Granny Brock**: In. All of you. Boots off. Not you, you’ve not got boots. In.  
+_The passage opens into a kitchen older than the Wood: stone flags, a red fire, hams on hooks, and carved words nobody can read now._  
+**Granny Brock**: Sit. Eat. Then talk, if you must. Better if you mustn’t.  
+_She feeds you soup, and bread, and more soup. She puts Dusty nearest the fire and drops a blanket on them without looking._  
+
+> **Lesson** (literacy, RL.3.3, ask): character traits from actions, not just words  
+> _Granny Brock grumbles at everyone. But what does she actually do?_  
+> - ✅ Lets you in, feeds you and keeps you warm. → Yes. Her words are prickly; her actions are kind. Actions usually tell you more.
+> - Sends you away. → She says “In. All of you.” Watch what she does: soup, fire, blanket. That’s kindness.
+> _For grown-ups: Worked out a character’s true nature from her actions rather than her grumpy words._
+
+**Granny Brock**: My people burned charcoal in this wood before your grandmothers were born. There was a town here once. Now there’s me.  
+
+> **Lesson** (science, 2-PS1-4, notice): charcoal: a heating change that can’t be undone  
+> **Granny Brock**: Charcoal’s wood, baked slow in a covered heap with hardly any air, so it can’t burn away.  
+> **Granny Brock**: What’s left is black and light, and burns hotter and cleaner than wood. And it never turns back into wood. Not ever.  
+> _For grown-ups: Learned how charcoal is made from wood, and that some heating changes can’t be reversed._
+
+**Granny Brock**: People come and go. The Wood stays. So do I.  
+_Dusty listens to every word, very hard, the way you listen to someone old when someone at home is getting old too._  
+_When the fire gets low, Granny Brock puts another log on without being asked. Nobody goes to sleep for a long time._  
+
+#### `s29-culvert`
+
+_First light. Granny Brock is up before any of you, in boots and a coat older than her door._  
+**Granny Brock**: Not back through the Wood. Not with that one. The Wood’s had its look at them already.  
+**Granny Brock**: There’s an old way. A drain from the old town. Goes under the lot and comes out by the fields. Mind your heads.  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): life in the past: how old towns dealt with water  
+> **Granny Brock**: Towns have needed drains as long as there’ve been towns. Rain has to go somewhere.  
+> **Granny Brock**: Folk built this with bricks and their own hands. It’s outlasted every one of them.  
+> _For grown-ups: Learned how people in the past built drains and culverts to carry water away from towns._
+
+_She takes a lantern and a ring of keys off a nail, and leads you down a passage, then down some steps, then down some more._  
+_The culvert is low and round and dry, made of old brick. Your Nubbin runs ahead into the dark, then runs back to check on you._  
+**Granny Brock**: That one’s sensible. Goes ahead, comes back. More than I can say for some.  
+_Brick by brick, the tunnel curves gently upward. Somewhere above you are the roots of the whole Wild Wood._  
+
+#### `s29-fields`
+
+_Daylight, round and white at the end of the tunnel. You come out among nettles at the edge of a hayfield, blinking._  
+_Behind you the Wood stands dark and quiet, and doesn’t look at all as if it was looking at anyone._  
+**Granny Brock**: Go home. Don’t come in after dark. Come in the day, if you like. Bring cake. Don’t ring the bell.  
+_She goes back into the culvert. Somewhere inside, a gate shuts, and four bolts._  
+**Dusty**: I’m a river person now. I’ve decided. Rivers are flat. You can see what’s coming.  
+**Dusty**: Nothing looks at you from a river.  
+
+> **Lesson** (literacy, RL.2.3, ask): how a character responds to events  
+> _How has the night in the Wood changed Dusty?_  
+> - ✅ Dusty has learned the Wood isn’t for them, and feels safe by the river. → Yes. A scary night taught Dusty where they belong, at least for now.
+> - Dusty wants to go back in tonight. → Look at what Dusty says: “I’m a river person now.” The Wood has put them off.
+> - Nothing has changed. → Something has! Dusty has made a new decision about who they are.
+> _For grown-ups: Described how a character changed after a frightening event._
+
+**Marina**: Otters do.  
+**Dusty**: Otters are allowed.  
+
+#### `s29-low-river`
+
+_Summer’s end. Since the rain on the hill, Dusty has been sleeping in Marina’s boathouse, and nobody has said a word about it._  
+_Marina wants to show you the top of the river before the weather turns. Dusty takes an oar without being asked, and sits down first._  
+**Marina**: Look at that. Sitting down. I’ve made a sailor of you.  
+_Above the backwater the river is wrong. The banks stand high and dry, and weed lies flat on stones that should be under water._  
+**Marina**: A hand too low. It’s been a hand too low all summer. Something upstream’s having it.  
+
+> **Lesson** (maths, 4.MD.A.1, ask): units of length: old and metric  
+> _A “hand” is an old measure, still used for horses. It’s four inches, or about 10 centimetres._  
+> _So about how far has the river dropped?_  
+> - ✅ About 10 cm → About ten centimetres. Doesn’t sound much, but a whole river’s worth is a lot of water.
+> - About 1 metre → A metre would be about ten hands. Just the one hand: roughly ten centimetres.
+> - About 1 cm → That’s a fingernail. A hand is about ten centimetres.
+> _For grown-ups: Converted an old unit (a hand) into centimetres._
+
+_Halfway up, the boat grounds on gravel. There’s nothing for it: out, all of you, and carry._  
+_The water round your ankles is cold enough to make your teeth hurt._  
+**Dusty**: Cold. In August.  
+**Marina**: It was cold in July, too. Nobody listened then either.  
+
+#### `s29-weir`
+
+_At the top, the river comes over the weir in one long glassy fold, roars, and spreads into a wide brown pool._  
+**Marina**: A weir’s a low wall built across a river. It holds the water back upstream, deep enough for boats and mills.  
+_Just above the weir, where the river splits to go round it, there is an island: willows, and a little bank of long grass._  
+**Marina**: Nobody lands there.  
+**Dusty**: Why not?  
+**Marina**: Don’t know. Nobody does. My gran didn’t, and her gran didn’t. There’s nothing on it but grass.  
+**Marina**: There’s a spring on it, warm all winter. Same water as behind the falls, my gran reckoned.  
+**Marina**: This river starts up in the hills, at its source, and ends at the sea. We’re about halfway.  
+**Marina**: Come on, it’s getting on. We’ll leave her at the landing under the cliff and walk the last bit.  
+
+> **Lesson** (science, 2-ESS2-2, do): mapping a river: source, backwater, ford, weir, island  
+> _Marina scratches the river into the mud with her stick. Label her map: source, backwater, ford, weir, island._  
+> **Marina**: Source at the top, where it starts. The sea at the bottom. Everything else in between.  
+> Check: `edu:label:river-map:5`
+> _For grown-ups: Labelled a river map with five river features: source, backwater, ford, weir and island._
+
+
+#### `s29-dusk`
+
+_Dusk on the river path. Above you rises a cliff striped like a cake: brown, red, grey, brown._  
+
+> **Lesson** (science, 4-ESS1-1, notice): rock layers show the past  
+> _Those stripes are rock layers. Each was laid down as mud or sand, a very long time ago, one on top of another._  
+> _The bottom layers are usually the oldest, so reading a cliff is a bit like reading a book from the back._  
+> _For grown-ups: Learned that rock layers form one on top of another, so lower layers are usually older._
+
+_Marina walks ahead, fast, talking about supper. Halfway along, Dusty stops dead, as if somebody has called their name._  
+**Dusty**: Oh.  
+_They are looking up the cliff, at a small round door in the rock and a window with no light in it._  
+**Dusty**: That’s mine. I can smell it. Earth, and old tea, and… it’s mine. I haven’t been back. Not since the rain.  
+**Dusty**: Marina! Marina, wait—  
+**Marina**: Come on, you two! Supper! I’m starving, and it’s getting dark!  
+_Marina hasn’t heard; she’s already round the bend. Dusty looks after Marina, and up at the door, and along the path again._  
+_Then they sit down on an old stump by the path, put their face in their hands, and cry._  
+
+#### `s29-turnback`
+
+_You catch Marina up at the bend. You don’t have to say much: you say “Dusty”, and point._  
+_She turns round at once, in the middle of a word, and goes back down the path at a run._  
+**Marina**: Dusty. Oh, Dusty. What is it?  
+**Dusty**: It’s the house. It’s only the house. I can’t go in. Everything in it is hers.  
+**Dusty**: And I can’t walk past it either. I tried. My feet won’t.  
+**Marina**: Then we won’t walk past it. I’m an idiot. I was thinking about my supper.  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): think question: not noticing a friend  
+> _Marina rushed on and didn’t notice Dusty. Was that unkind?_  
+> - No. She just didn’t notice. → That’s fair. Not noticing isn’t the same as not caring. She turned round the moment she knew.
+> - A bit. She should have looked back. → That’s fair too. Marina thinks so herself: she called herself an idiot.
+> - What matters is what she did next. → A thoughtful answer. Everyone misses things. Marina ran straight back, and that counts.
+> _For grown-ups: Thought about the difference between not noticing someone and not caring, and about putting things right._
+
+**Marina**: Right. Up we go. All of us. I’m not leaving you on a stump.  
+_Dusty is homesick and heartsore at once: missing the house, and missing who used to be in it._  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): homesickness: naming it and what helps  
+> _Homesickness is missing a place, or the people in it. It can arrive suddenly, from a smell or a sound._  
+> _It helps to name it, to have company, and to go back gently, a little at a time._  
+> _For grown-ups: Learned what homesickness is and what helps a friend who feels it._
+
+
+#### `s29-cliffhouse`
+
+_Inside, Dusty’s house is cold, dusty and dark: a round room cut from the rock, a stove, two chairs and a great many trowels._  
+**Marina**: Look at it. A proper little house, this. Snug as an egg. And you’ve been sleeping in my boathouse with the nets.  
+**Dusty**: It’s not snug. It’s cold. There’s nothing to eat.  
+**Marina**: There’s always something to eat. You: kindling, the dry stuff, round the side. Dusty: sit. I’ll do the cupboards.  
+_Dusty sits. Marina goes through the cupboards like weather, opening everything and talking to all of it._  
+
+> **Lesson** (literacy, L.4.5, ask): similes  
+> _“Snug as an egg” is a simile. So is “through the cupboards like weather”. What does that one tell you about Marina?_  
+> - ✅ She’s fast, noisy and everywhere at once. → Yes. Like a gust of wind and rain, she gets into every corner.
+> - She’s wet. → Ha! Not that kind of weather. It means she’s quick, loud and into everything.
+> - She’s cold. → Think of a stormy day: busy, noisy, everywhere. That’s Marina in a cupboard.
+> _For grown-ups: Explained what a simile (“like weather”) says about a character._
+
+**Marina**: Biscuits. Ancient. They’ll do. Tea. A jar of… pickled onions? They’ll do. Candles!  
+
+#### `s29-supper`
+
+_You come back with your arms full. Soon the stove is roaring, the room has gone gold, and even the dust looks cosy._  
+_Marina lays out biscuits, onions and tea on an upturned crate as if it were a banquet._  
+_Beside the stove is a round basket with a cushion in it, flattened in the middle. Nobody sits on that side of the stove._  
+**Dusty**: Fossil’s. She liked it there. Twenty years by that stove, and she never once let me have the warm side.  
+**Dusty**: I couldn’t come in with her basket there. And I couldn’t move it. So I didn’t come in.  
+**Marina**: Leave it where it is. It’s hers. It can be hers and still be in your house.  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): grief: keeping what reminds us  
+> _Fossil died. Her body stopped working, and it won’t start again. Dusty misses her very much._  
+> _Keeping something of hers isn’t silly. It’s one way of keeping her close, and friends help with the rest._  
+> _For grown-ups: Talked about grief, and how keeping a loved one’s things can be a comfort._
+
+_Outside: feet on the cliff path, whispering, and a great deal of shushing. A lantern on a pole bobs up past the window._  
+_Dusty opens the door. Half the valley’s children are on the step in their wellies, red-nosed, holding the lantern high._  
+**Valley children**: We heard you were home. It’s not Lantern Night, we know. We practised one verse anyway.  
+_They sing a verse of the Lantern Song, the one for people who are gone. It ends like this:_  
+**Valley children**: we are made of the ones who remember us here,  
+**Valley children**: so we gather, we gather, we gather each year.  
+
+> **Lesson** (literacy, RL.2.4, ask): rhyme and repeated words in a song  
+> _Listen to the end of the children’s verse. Which two words rhyme?_  
+> - ✅ “here” and “year” → Yes. Here and year. And “we gather” comes three times, so everyone can join in.
+> - “made” and “remember” → They both have an m, but they don’t rhyme. Listen to the line ends: here, year.
+> - “ones” and “us” → Close, but no. Rhymes usually sit at the ends of lines: here and year.
+> _For grown-ups: Found the rhyming pair in a verse and noticed a repeated phrase._
+
+**Dusty**: Thank you. Thank you. Come in, all of you. There’s biscuits. They’re very old.  
+_That night Dusty stays at home, in their own bed, with the stove ticking and the basket where it always was._  
+
+#### `s29-missing`
+
+_The last days of summer. The swallows are lining up on the wires, and the evenings smell of smoke._  
+
+> **Lesson** (science, 1-ESS1-2, notice): seasons: shorter days and migrating birds  
+> _Swallows gather on wires before they migrate. Britain’s swallows fly all the way to southern Africa for the winter._  
+> _As summer ends, the days grow shorter and the nights colder. That’s their signal to go._  
+> _For grown-ups: Learned that swallows migrate south as the days shorten at the end of summer._
+
+_Marina comes up the lane early, without her boat, without a basket and without a joke._  
+**Marina**: Portly’s gone. Three days now. Nobody’s seen him on the river, up or down.  
+**Marina**: He wanders. He always has, and he’s always turned up. But never this long, and the nights are getting cold.  
+**Marina**: His dad won’t make a fuss. Otters don’t. That’s how you know it’s bad.  
+**You**: Where does the old one go?  
+**Marina**: The ford. Where Portly learned to swim. Come and see.  
+
+#### `s29-ford-watch`
+
+_At the ford the water runs shallow and loud over the stepping stones. On the flattest stone sits the old otter, quite still._  
+
+> **Lesson** (social-studies, D2.Geo.2.K-2, notice): places and their names: fords  
+> _A ford is a shallow place where people and animals can cross a river on foot._  
+> _Many English towns grew up beside fords and kept the word in their names: Oxford, Bradford, Stratford._  
+> _For grown-ups: Learned what a ford is, and how it shows up in place names like Oxford._
+
+_He doesn’t look at you. He looks upstream, the way the water comes, and doesn’t move, and doesn’t eat._  
+**Marina**: Every night, and every morning before it’s light, he sits right there. Waiting for the water to bring him back.  
+_Dusty comes down the bank with a flask and a blanket, sits a little way off from the old otter, and stays._  
+**Dusty**: Somebody ought to sit with him. I know about sitting.  
+**Marina**: Tonight we go up. You and me, in the boat, all the way to the weir if we have to.  
+**Marina**: Bring a lantern. And bring that one of yours. They see better in the dark than we do.  
+**Marina**: Dusty stays on the bank, so somebody knows where we’ve gone. That’s the rule on the water at night.  
+
+> **Lesson** (health, ask): water safety: someone on shore knows your plan  
+> _Why does Marina want Dusty on the bank?_  
+> - ✅ So someone knows where they are and can raise the alarm. → That’s it. Tell someone where you’re going and when you’ll be back. Every time.
+> - Because Dusty capsizes boats. → Fair point! But the real reason: someone on shore can fetch help if we need it.
+> _For grown-ups: Learned to always tell someone where you are going on the water, and when you will be back._
+
+
+#### `s29-upriver`
+
+_Night. The river is black and smooth, and the lantern makes a small gold room on it that goes where you go._  
+
+> **Lesson** (science, 1-PS4-2, ask): we see things when light reaches our eyes  
+> _Outside the lantern’s gold room, you can’t see the bank at all. Why not?_  
+> - ✅ We only see things when light bounces off them into our eyes. → Yes. No light on the bank, nothing to bounce, nothing to see. Hence lanterns.
+> - The bank has gone away at night. → It’s still there! It just has no light bouncing off it into your eyes.
+> - Our eyes are tired. → Not this time. Without light to bounce off things, nobody can see them.
+> _For grown-ups: Learned that we see objects only when light from them reaches our eyes._
+
+_Marina rows. You hold the lantern out over the bow, where your Nubbin sits in its cork vest with its ears up._  
+**Marina**: Keep it low. Look at the edges: mud, reeds, roots. He’ll be somewhere a kit thinks is a good idea.  
+_Owls, a fish jumping, once a dog far off. The river makes small noises, and every one of them is not Portly._  
+**Marina**: He’s a good swimmer. I taught him. Well. He taught himself, and I watched and said well done.  
+**Marina**: Vest done up? Right. We go on till we find him or the river runs out.  
+
+#### `s29-night`
+
+_Something winks in the lantern beam, down on a mudbank. Your Nubbin sees it first, and nearly goes over the side._  
+_It’s the blue glass bead, pressed into the mud. Round it, small webbed prints lead off upstream._  
+
+> **Lesson** (science, 4-LS1-1, notice): webbed feet help otters swim  
+> **Marina**: Webbed feet. Skin stretched between the toes, like a paddle. That’s an otter, and a small one.  
+> **Marina**: Webs push more water with every kick. That’s why otters swim so well.  
+> _For grown-ups: Read animal tracks and learned how webbed feet help otters swim._
+
+**Marina**: He was here. He put it down. He never puts it down.  
+_You put the bead in your pocket and row on, following the prints until the mud runs out at the weir._  
+_You haul the boat up the old slipway beside the weir and put her in again above it. Up here the water is very still._  
+_Then you hear it. Not music, exactly._  
+_Like wind in reeds, if wind could mean something. Like the weir, if the weir could sing._  
+_Marina stops rowing. The oars drip, and she doesn’t notice._  
+**Marina**: Do you hear that?  
+_Your Nubbin is standing up in the bow, facing upstream. It isn’t frightened; it’s listening with its whole body._  
+_Ahead, where the river splits round the island, the sky has gone the colour of the inside of a shell. It is nearly dawn._  
+
+#### `s29-island`
+
+_Marina rows on, not as if she has decided to. The boat touches the island with a soft sound, and you step out._  
+
+> **Lesson** (science, 1-ESS1-1, notice): the Sun rises in the east  
+> _Dawn is when the Sun comes up. It rises in the east, so the eastern sky turns pale first._  
+> _For grown-ups: Learned that dawn is sunrise, and that the Sun rises in the east._
+
+_The air is warm, warmer than any night this summer. It smells of wet stone, deep water and something green._  
+_Among the willows there is a hollow in the long grass, pressed flat, as if something large had sat there all night._  
+_In the middle of it, curled nose to tail, is Portly. Asleep, round and safe, his sides going up and down._  
+_Your Nubbin walks to the edge of the hollow and stops. The ball above its head begins to glow, softly, the colour of the sky._  
+**Marina**: Scared? Here? Don’t be daft. Nobody could be scared of a place like this.  
+_She is holding your sleeve, tight._  
+**Marina**: …I am, though. A bit. And I don’t mind at all. Isn’t that strange?  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): think question: mixed feelings  
+> _Marina is scared and not scared, both at once. Have you ever felt two feelings together?_  
+> - Yes: excited and nervous. → That’s a very common pair. Big days often bring both.
+> - Yes: happy and sad. → That happens at goodbyes and endings. Both feelings are real.
+> - I’m not sure. → That’s fine. Next time a big moment comes, notice if more than one feeling turns up.
+> _For grown-ups: Reflected on mixed feelings and when two feelings can be true at once._
+
+_None of you looks up. It seems important, all at once, to look only at Portly and the grass and your own feet._  
+_Then a small warm wind comes off the water, goes over the island once, through your hair, and away._  
+_You are standing on an island at dawn, and you can’t think why you’re both so quiet._  
+**Marina**: Well, look at that. There he is. Fast asleep, the little beggar.  
+_Whatever there was to remember, you’ve been kindly let off remembering it. Your Nubbin yawns, and its light is just a light._  
+_Marina lifts Portly into the boat, still asleep, and wraps him in her scarf._  
+
+#### `s29-ford`
+
+_The sun is up when you come round the bend to the ford. The old otter is still on his stone, and so is Dusty._  
+_Portly wakes all at once, sees where he is, and goes over the side in one wriggle._  
+_Two brown heads in the shallows, close together, turning round and round each other. The old otter makes no sound at all._  
+**Dusty**: Oh. Oh, look at them.  
+_Marina is wiping her face with her sleeve, again and again. It doesn’t seem to be working._  
+**Marina**: Don’t know what’s the matter with me. Must’ve been the early start.  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): tears of relief: people cry for more than sadness  
+> _People cry when they’re sad. They also cry when they’re relieved, or very happy, or after being worried for a long time._  
+> _Tears can be how a big feeling gets out. Marina doesn’t need a reason, and neither do you._  
+> _For grown-ups: Learned that people cry from relief and happiness as well as sadness._
+
+_Before they go, Portly comes back up the bank. You put the blue bead down on the stone for him._  
+_He looks at it, and at you. Then he noses it back to your boot, puts a wet pebble beside it, and goes._  
+**Dusty**: He’s giving it back. That’s a thank-you, that is.  
+**Marina**: That’s him saying he’s done with it. Same thing, with otters.  
+**Dusty**: Where was he, in the end?  
+**Marina**: On the island. Asleep in the grass. That’s all.  
+_She says it as if there was something else, a moment ago, that she has put down somewhere and can’t find._  
+_The old otter looks at you once from the water. Then the two of them go off downstream, under the bank._  
+
+> **Lesson** (science, 3-LS4-4, notice): cleaner rivers brought otters back  
+> _In the 1960s and 1970s, otters almost vanished from English rivers, poisoned by farm chemicals washing into the water._  
+> _When those chemicals were banned and rivers were cleaned up, otters came back. Now they live in every county in England._  
+> _For grown-ups: Learned how banning harmful chemicals and cleaning rivers brought otters back to England._
+
+
+#### `s29-seafarer`
+
+_Autumn. The leaves are turning, and one morning the swallows have gone without saying goodbye._  
+_A man comes up the valley road with a pack on his back: brown as a walnut, a gold ring in one ear, eyes creased from sun on water._  
+**The seafarer**: Afternoon. Is this the river that comes down off the falls? I’ve followed it all the way up from the sea.  
+
+> **Lesson** (science, 2-ESS2-2, notice): rivers flow from source to mouth  
+> _Rivers flow downhill, from their source in the hills to their mouth, where they meet the sea._  
+> _So walking “up” a river means walking towards its source. The seafarer has walked against the flow all the way._  
+> _For grown-ups: Learned that rivers flow downhill from source to mouth._
+
+_Marina is mending nets on the bank. He sits down beside her to rest his feet, and doesn’t get up again until the light goes._  
+**The seafarer**: South of here the sea’s the colour of a bottle. The harbours are full of boats painted every colour you can name.  
+**The seafarer**: Nights on deck, you lie on your back and the stars swing over the mast like a lamp on a chain.  
+**The seafarer**: I’ve been everywhere you can get to by water. And there’s always more water. That’s the beauty of it.  
+_Marina doesn’t say anything. She has stopped mending, and the net lies in her lap with the needle stuck in it._  
+
+> **Lesson** (literacy, RL.3.3, ask): inferring a character’s feelings from what she does  
+> _Marina says nothing, but she has stopped mending. What does that tell you?_  
+> - ✅ His stories have got hold of her. She’s far away in her head. → Yes. Hands go still when minds go wandering.
+> - She’s finished the net. → The needle’s still stuck in it! She’s stopped because she’s listening, and dreaming.
+> - She’s bored. → Bored people fidget. Marina’s gone still: she’s caught up in his stories.
+> _For grown-ups: Inferred a character’s feelings from her actions._
+
+**The seafarer**: Well. I’ll be on. There’s a ship at the river mouth at the end of the week, and tides don’t wait.  
+_He’s a wayfarer, and off he goes, down to the coast. Marina watches until he’s a speck, and then until he isn’t._  
+
+#### `s29-packing`
+
+_At dusk Dusty comes running up to your gate, out of breath. Together you reach the boathouse just as the lamps come on._  
+_Marina is moving about quickly and quietly, folding jumpers into a bag on the bed, and not looking at either of you._  
+_Her eyes have gone grey-green, like the sea in a picture. She looks straight through you, at something a long way south._  
+**Marina**: I’m only going to have a look. A season. Two. Down the coast, and then on. I’ve never been anywhere.  
+**Marina**: All my life, the same river. Up to the weir and back. Up to the weir and back.  
+**Dusty**: You love the river! You told me. You said it was the best thing there is!  
+_She doesn’t stop folding._  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): think question: a friend’s choice, and how far to go to stop them  
+> _Marina is a grown-up, and it’s her choice. But her friends think she isn’t herself. What should a friend do?_  
+> - Hold on, and not let go. → That would keep her here. It also means not listening when she says “let go”. That has a cost.
+> - Stay close, and wait. → That leaves the choice with her, and shows you care. It might take a long time.
+> - Help her think about what she loves here. → That reminds her of her own reasons, without forcing anything. Clever and kind.
+> _For grown-ups: Weighed different ways of helping a friend who may be making a choice they will regret._
+
+
+**Choices**
+
+- **Hold on to her, Dusty’s way, and don’t let go.**
+    - Dusty sits down on the bag. You take one of Marina’s arms, and Dusty takes the other.
+    - **Marina**: Let go. Let GO. I mean it. You don’t understand, either of you.
+    - She pulls, and you hold. She pulls harder, and you hold, and nobody says anything.
+    - Then all at once she sits down on the floor between you, and the grey-green goes out of her eyes.
+    - **Marina**: …What was I doing? What was I doing with that bag?
+- **Sit down beside her. Don’t say anything.**
+    - You sit down on the end of her bed, next to the bag, and say nothing at all.
+    - Marina folds another jumper, and another. Then she stops with one half folded, and looks at you.
+    - Dusty sits down on Marina’s other side. The three of you sit while the light goes, and nobody lights the lamp.
+    - **Marina**: …Hazel used to do that. Just sit. It used to drive me spare.
+    - After a long time, she puts the jumper down.
+- **Put a pencil in her hand. Ask her to draw you the tide pools.**
+    - You find a pencil on the windowsill and the brown paper off a parcel, and put them both in her hands.
+    - **You**: Draw me the tide pools. Before you go. I’ll never remember them right.
+    - **Marina**: Now? It’s getting dark. I’ll do it when I… fine. Fine. Quickly.
+    - She draws the top pool, then the next, then the one with the anemone that never shuts and the crab under the green stone.
+    - By the bottom pool she is drawing slowly, and her eyes are her own colour again. She has forgotten the bag.
+    - **Marina**: There’s one I’ve never drawn. Hang on. Pass me another sheet.
+
+#### `s29-laidup`
+
+_A grey, blowy morning near the end of autumn. The willows are dropping their leaves into the river by the handful._  
+**Marina**: Time she came out, before the hard frosts. You don’t leave a boat in over winter. Not one you love.  
+_You lay three round logs on the bank for rollers. Dusty takes the bow rope; you and Marina push from the stern._  
+
+> **Lesson** (science, 3-PS2-1, notice): rollers reduce friction  
+> **Marina**: Drag a boat over grass and it fights you every inch. That’s friction.  
+> **Marina**: Put her on rollers and they turn instead of scraping. Much less friction, much less heave.  
+> _For grown-ups: Learned that rollers reduce friction, making heavy things easier to move._
+
+**Dusty**: Nobody told me boats were this heavy when they’re not floating. It feels like a trick.  
+
+> **Lesson** (science, 3-PS2-1, ask): buoyancy: water carried the boat’s weight  
+> _Why does the boat feel so much heavier out of the water?_  
+> - ✅ In the water, the water was pushing up and holding most of her weight. → Yes. Out here, nothing pushes up but you three. It’s not a trick; it’s buoyancy.
+> - She soaked up water all summer. → A little, maybe. But mostly the river was holding her up, and now you are.
+> _For grown-ups: Explained that water’s upward push carries much of a boat’s weight._
+
+**Marina**: Heave. And heave. Mind your toes on the rollers.  
+_Your Nubbin rides in the bow all the way up the bank and refuses to get out, so that it is still, technically, boating._  
+
+#### `s29-complete`
+
+_Under the willows you turn her over, gently, and lay her keel-up on the trestles where Marina painted her in the summer._  
+_The three of you stand and look at her. She looks like a beetle having a rest._  
+**Marina**: I was cross with you both for a whole day after. Did you notice? I slammed doors.  
+**Dusty**: We noticed. The boathouse has one door. You slammed it a lot.  
+**Marina**: Thank you. For not letting go. I’d have hated it, I think: somewhere far off and warm, wishing I was cold here.  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): two true feelings: angry and grateful  
+> _Marina was angry, and she is grateful. Both are true._  
+> _Holding on worked this time. It also didn’t ask her. Good friends talk about that afterwards, the way she just did._  
+> _For grown-ups: Reflected that a friend can be angry and grateful about the same thing, and that talking it through matters._
+
+**Marina**: Here. Take the rug. It’s got gherkin on it. It’ll always have gherkin on it.  
+**Marina**: Her little sister’s in the boathouse: the flat one, for winter water. We’ll take her out together. Vests on.  
+**Dusty**: Same time next summer?  
+**Marina**: Before. March, if it’s mild. You get the vests down from the loft and smell them. That’s the first day of the year.  
+_Down at the ford a brown head comes up, looks at the three of you for a while, and goes under without a ripple._  
+
+### Glossary
+
+- **burrow**: A hole or tunnel an animal digs in the ground to live in.
+- **bow**: The front end of a boat.
+- **stern**: The back end of a boat.
+- **buoyancy**: The upward push of water that makes things float.
+- **figurehead**: A carved figure on the front of an old sailing ship.
+- **backwater**: A quiet side-arm of a river where the water hardly moves.
+- **kit**: A young otter; also called a cub or a pup.
+- **catch a crab**: In rowing, when an oar slips or sticks in the water and throws the rower off balance.
+- **adopted**: Took someone in as their own; here, Portly has decided you are his.
+- **water vapour**: Water as an invisible gas mixed into the air.
+- **guttering**: Of a flame: flickering low, about to go out.
+- **archaeologist**: Someone who learns about the past by studying old objects and places.
+- **charcoal**: Black fuel made by heating wood slowly with very little air.
+- **culvert**: A tunnel that carries water under a road, a field or a town.
+- **weir**: A low wall across a river that holds water back and lets it spill over the top.
+- **source**: The place where a river begins.
+- **homesick**: Sad because you miss your home, or the people in it.
+- **simile**: A comparison using “like” or “as”, such as “snug as an egg”.
+- **kindling**: Small, dry sticks for starting a fire.
+- **migrate**: To travel a long way to another place when the seasons change.
+- **ford**: A shallow place where you can cross a river on foot.
+- **mouth**: Where a river ends and flows into the sea.
+- **wayfarer**: Someone who travels, usually on foot.
+- **friction**: The force that slows things down when they rub against each other.
+
+## S30. What Sad Is For
+
+- `s30-step1`: Go down the lane to Clover’s cottage for tea, and meet her Nubbins. · _Clover’s is past Fern’s, with the deep windowsill and the rain butt by the door._
+- `s30-step2`: Go out to the rain butt and see what Dimple is doing to Drizzle. · _The yard is round the back. Go quietly; Flinch is asleep in the bucket._
+- `s30-step3`: Run Dimple’s Bounce Party: the streamer race, the hat toss and the cake. · _Three party games. Nobody can lose, Sparks says._
+- `s30-step4`: Watch Dimple with each of her five favourite things. · _The sill and the hum at Clover’s, puddles in the yard, Sparks’s racers at the pond, and Byte._
+- `s30-step5`: Wait by Dusty’s hole by the stream and see what happens. · _Don’t dig and don’t call them out. Stand at the edge for a while._
+- `s30-step6`: Go up the hill path with Luna at three in the morning. · _No lantern: Luna says the Moon is enough, and Dimple would see a light._
+- `s30-step7`: Look closely at Hush’s flat stone in the old wall. · _It’s low down by the wall lantern. Brush the frost off with your sleeve._
+- `s30-step8`: Come back to Clover’s at dusk and see how Fidget is settling in. · _Get there before the yard goes white with frost._
+- `s30-step9`: Open the shed without frightening Fidget. · _Hang the blanket across the doorway, stand the bucket on its hem, leave a gap underneath._
+- `s30-step10`: Follow Dimple’s trail and find her. · _She is dropping her toys as she goes. Follow the toys._
+- `s30-step11`: Stay at the spoon hole until Dimple stops. · _Don’t call to her and don’t pull her out. This takes as long as it takes._
+- `s30-step12`: Stay at the rim while Clover tells you how Dimple and Fossil met. · _Just listen._
+- `s30-step13`: Haul the basket up out of the spoon hole. · _Pull steady, hand over hand. Jerk it and the basket spins._
+- `s30-step14`: Sit with Dimple by Fossil’s flower. · _Sit down near her on the hilltop and stay._
+
+#### `s30-smile`
+
+_The morning after the rain, the whole valley drips. Somebody is rattling your gate, pushing without lifting._  
+_It’s Clover. A small gold Nubbin is bouncing on her shoulder like a kettle just before it boils._  
+
+> **Lesson** (literacy, L.4.5, ask): similes  
+> _“Like a kettle just before it boils.” What does that simile tell you about Dimple?_  
+> - ✅ She is full of fizz and can’t keep still → Yes. A kettle about to boil rattles and steams. Dimple is all jiggle and fizz.
+> - She is hot and wet → Ha! Not really. A simile borrows one feeling, not every fact: the rattling, about-to-burst fizz.
+> - She is made of metal → No. Similes compare one quality. Here it’s the rattle and fizz of a kettle about to boil.
+> _For grown-ups: Worked out what a simile tells us about a character._
+
+**Clover**: I know, I know. Lift and push. I never remember till I’m standing here pushing.  
+**Clover**: This is Dimple. One of mine. She’s smiled ever since the hill. Since Dusty’s Fossil.  
+_Fossil faded at the end of the summer. In the Grove, that means she died. Her flower grows on the hill now._  
+_Dimple beams at you. She beams at the gatepost, and at a slug on the gatepost, with exactly the same beam._  
+**Clover**: At least somebody’s cheerful.  
+_Behind Clover, four more Nubbins sit in a damp heap on the path, as if somebody had dropped them there._  
+**Clover**: Drizzle, Bristle, Flinch, and her ladyship, who only eats red things. They’ve taken it hard.  
+**Clover**: Come down for tea. I want somebody to look at Dimple who isn’t me.  
+_Your Nubbin studies Dimple’s smile for a long moment. Then, carefully, it puts one on._  
+
+#### `s30-sill`
+
+_Clover’s kitchen is warm and loud and full of steam. Bristle is stamping on a saucepan lid; Flinch has jumped into the bread bin._  
+**Clover**: Hazel said my kitchen was like the inside of somebody’s head. Everybody shouting, nobody in charge.  
+_On the deep windowsill is a flat old cushion with a dent in it, the shape of somebody small and round._  
+**Clover**: Fossil’s. She sat there every digging day for years. I can’t bring myself to plump it.  
+_Dimple has filled the dent with every toy she owns: a cotton reel, a pine cone, a sock and half a wooden peg._  
+_Drizzle climbs the curtain, very slowly, and lays one pale-blue hand in the last gap._  
+_Dimple is there at once. She takes Drizzle by the wrist and pulls her off the sill, still smiling._  
+**Dimple**: …  
+_Then you see the ball above Dimple’s head. It has gone pale and thin, like a soap bubble that has been out too long._  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): a face and a feeling can be different  
+> _Dimple’s face and Dimple’s ball are saying different things. Which one would you trust more, and why?_  
+> - ✅ The ball: you can’t put it on like a smile → Good thinking. A face can be put on for other people. The ball shows what’s inside.
+> - The face: she’s smiling, so she’s fine → Most of the time a smile means happy. But a smile can be put on, and the ball can’t.
+> _For grown-ups: Discussed how a smile can hide a different feeling inside._
+
+**Clover**: See? Not a cloud on her. She’s my good one, this week.  
+_Clover is looking at the smile. She isn’t looking up._  
+
+**Choices**
+
+- **Point out Dimple’s ball to Clover.**
+    - **Clover**: Balls flicker. It’s been a big week for everybody. Look at that face, though.
+    - She means it kindly. She goes on looking at the face.
+- **Say nothing yet. Keep watching.**
+    - You drink your tea and watch the ball, and the ball doesn’t change.
+    - Dimple sees you looking, and smiles harder.
+
+#### `s30-acorns`
+
+_Next afternoon you’re back at Clover’s, holding a skein of wool while she winds it. It is drizzling, which Drizzle would love._  
+**Clover**: Sparks came by. Sparks says what Dimple needs is a party. Sparks says that about most things.  
+**Clover**: She might be right, mind. She’s got streamers. She’s got a cake tin shaped like a cake.  
+_Through the window, something is happening in the yard, by the rain butt._  
+_Dimple is herding Drizzle into the corner, arms wide, a lot of bouncing, the way you herd a hen._  
+_The yard is scattered with acorns from the big oak over the wall._  
+
+> **Lesson** (science, 2-LS2-2, notice): animals spread seeds  
+> _An acorn is an oak’s seed. Squirrels and jays carry acorns off and bury them to eat in winter._  
+> _They never find them all. The forgotten ones can sprout, so animals help plant new oak trees._  
+> _For grown-ups: Learned how squirrels and jays spread acorns and help new oaks grow._
+
+**Clover**: Look at them, playing. Go and see, if you like. I’ll wind.  
+
+#### `s30-ring`
+
+_Drizzle sits in the corner under the drip from the rain butt. Round her, Dimple has laid a neat ring of acorns._  
+_Drizzle puts one foot over the acorns. Dimple bounces over and nudges her back in, smiling, quick and kind and firm._  
+_Drizzle tries again, and again: nudge, nudge. Each time, Dimple adds another acorn to the ring._  
+
+> **Lesson** (literacy, RL.3.3, ask): a character’s motive  
+> _Why do you think Dimple keeps Drizzle inside the ring?_  
+> - ✅ To keep sad Drizzle away from everyone → That’s a strong guess. Drizzle is the sad one. Maybe Dimple wants sad kept in a corner.
+> - Because she’s being mean → She doesn’t seem mean: she’s gentle and smiling. Maybe she wants sad kept in a corner.
+> - It’s just a game → It might look like one. But Drizzle wants out. Maybe Dimple wants sad kept in a corner.
+> _For grown-ups: Used clues to work out why a character acts as she does._
+
+_Your Nubbin starts fetching acorns too, to help. It doesn’t know what for._  
+_Drizzle looks at you over the ring. She looks like someone waiting to be let out of a room._  
+**Drizzle**: …  
+
+**Choices**
+
+- **Step over the acorns and lift Drizzle out.**
+    - You lift her out. She is cool and heavy, like a stone from a stream.
+    - She goes straight back to the drip and sits under it, outside the ring, with her face turned up.
+    - Dimple stares at the gap. Then she fills it, very fast, with nobody inside, and bounces off indoors.
+- **Sit down on the wet grass outside the ring, next to Drizzle.**
+    - You sit down outside the acorns. Drizzle shuffles to the edge of the ring and leans towards you.
+    - Dimple builds a second ring round the two of you, and smiles the whole while.
+    - Then she looks at it as if she can’t remember what it was for, and bounces off indoors.
+- **Leave it. She’s trying so hard. Go and help with Sparks’s party plan.**
+    - You leave the ring be. Dimple is trying so hard; it seems unkind to spoil it.
+    - Sparks is at the gate with a crate of streamers. You go and hold the other end of things.
+    - Behind you, Drizzle watches you go. She doesn’t try the acorns again.
+
+#### `s30-party-ask`
+
+**Sparks**: PARTY. Saturday. Clover’s yard. Dimple’s the guest of honour and attendance is compulsory and fun.  
+**Sparks**: Streamers. Races. Bunting. A cake shaped like a cake. It’s a sponge. It looks like a sponge.  
+**Sparks**: Nothing cheers a Nubbin up like being cheered at. That’s science. Byte, tell them it’s science.  
+**Byte**: It isn’t science. Science is when you test it. I’m coming, though. I’m bringing a chart.  
+**Ember**: I got dragged. I’m here under protest. Where’s the cake?  
+_By Saturday, bunting runs from the shed to the rain butt: two metres of string, a flag every twenty centimetres._  
+
+> **Lesson** (maths, 4.MD.A.2, ask): measurement word problems  
+> **Sparks**: Two metres of string, a flag every twenty centimetres. How many flags did I sew?  
+> - ✅ 10 → Ten! Two metres is 200 centimetres, and 200 ÷ 20 = 10. Ten flags!
+> - 40 → That’s 2 × 20. Change metres to centimetres first: 200 cm, then 200 ÷ 20 = 10.
+> - 20 → Close. Two metres is 200 centimetres, and 200 ÷ 20 = 10. Ten flags!
+> _For grown-ups: Changed metres to centimetres and divided to count the flags (2 m = 200 cm; 200 ÷ 20 = 10)._
+
+_Dimple is in the middle of it in a paper hat, bouncing so high that her hat keeps landing on other people._  
+
+#### `s30-party`
+
+_Dimple wins the streamer race and the hat toss. She bounces round the cake eleven times before anyone can cut it._  
+_Your Nubbin copies every bounce, a beat behind. By the end it is worn out, and Dimple is not._  
+**Sparks**: LOOK AT HER GO. That’s a happy Nubbin. That’s a party working.  
+**Ember**: That’s not happy. That’s busy.  
+**Sparks**: …What?  
+**Ember**: I know busy. I was busy for a whole year, once. Cleaned the house twice a day. Nobody could get a word in.  
+
+> **Lesson** (literacy, RL.2.3, notice): how characters respond to the same event  
+> _Three Keepers, one party, three ways of seeing it. Sparks sees fun. Ember sees busy. Byte sees numbers._  
+> _Each one notices what they already know best. Ember knows busy from her own hard year._  
+> _For grown-ups: Compared how three characters respond to the same event._
+
+**Byte**: Two hundred and twelve smiles an hour. I counted. And her ball hasn’t gone above a two all afternoon.  
+**Byte**: Out of ten. On my scale. I made a scale.  
+**Byte**: The face and the ball disagree. And balls can’t be wrong. They haven’t got the muscles for it.  
+
+> **Lesson** (maths, 2.MD.D.10, do): read a bar chart  
+> **Byte**: My chart. Dimple’s ball, out of ten: streamer race 2, hat toss 2, cake 1. Draw the bars.  
+> **Byte**: Highest bar? Two. A happy ball would be up near eight. The bars don’t lie.  
+> Check: `edu:chart:bar:dimple-ball`
+> _For grown-ups: Drew and read a bar chart of Byte’s mood-ball scores._
+
+_He seems very annoyed about this, as if Dimple has done it on purpose to spoil his numbers._  
+
+#### `s30-list`
+
+_Next morning Clover is on your step with a list, written on the back of a seed packet and underlined in three places._  
+**Clover**: Ember’s wrong. She’s fine. But I’ve written down her favourite things, so we can check. Just to show Ember.  
+**Clover**: One, the windowsill. Two, stamping puddles with Drizzle. Three, chasing Sparks’s fast ones round the pond.  
+**Clover**: Four, Byte’s shoelaces. She pulls them undone. He pretends to mind.  
+**Clover**: Five, the hum at bedtime. I hum, she sways. Every night since she hatched.  
+
+> **Lesson** (maths, 3.NF.A.1, ask): unit fractions  
+> **Clover**: Five things on my list. What fraction of the list is the bedtime hum, all on its own?  
+> - ✅ One fifth (1/5) → One fifth. One thing out of five equal parts. I like fractions; they sit still.
+> - One half (1/2) → A half would mean two things on the list. There are five, so it’s one fifth.
+> - Five (5) → Five is the whole list. One thing out of five is one fifth: 1/5.
+> _For grown-ups: Named one item out of five as the unit fraction 1/5._
+
+**Clover**: If she’s doing those, she’s fine. Five out of five. That’s fine, isn’t it?  
+
+#### `s30-five`
+
+_The sill: Dimple won’t climb up. She sits underneath it and smiles at the skirting board._  
+_The puddles: Drizzle stamps one, hopefully. Dimple smiles at the splash and doesn’t move._  
+_Sparks’s fast ones go tearing round the pond, slowing down each time they pass her. She doesn’t chase._  
+_At bedtime Clover hums. Dimple lies in her basket and smiles at the ceiling, quite still._  
+_Last, Byte, on Clover’s step with his boots stuck out. Dimple looks at his laces for a long time._  
+_Then she smiles at them, and goes back indoors._  
+
+> **Lesson** (maths, 3.MD.B.3, do): tally chart  
+> _(Make Clover’s tally: a column for “did it”, a column for “didn’t”. One mark for each favourite thing.)_  
+> _Did it: no marks. Didn’t: five, the gate of four with one across. Nought out of five._  
+> Check: `edu:tally:five-things:0-of-5`
+> _For grown-ups: Recorded five observations in a tally chart._
+
+**Byte**: …She didn’t pull them.  
+**Byte**: I’ve been tying them in single knots. For weeks. So she could get them undone. I didn’t tell anyone that.  
+
+> **Lesson** (literacy, RL.3.3, notice): character motives  
+> _Byte acts grumpy about his laces, but he was secretly making them easier to pull._  
+> _What a character does in secret can tell you more than what they say out loud._  
+> _For grown-ups: Inferred a character’s real feelings from what he did in secret._
+
+**Clover**: Nought out of five.  
+_Clover sits down next to Byte on the step, and neither of them says anything for a while._  
+
+#### `s30-hole`
+
+_By the stream there is a hole that wasn’t there yesterday. It is very deep, it is getting deeper, and it is singing._  
+_That’s Dusty, at the bottom of it, singing a digging song with a lot of extra verses._  
+**Dusty**: Morning! Lovely morning. Grand day for a hole. I’m not digging for anything. That’s what makes it relaxing.  
+**Dusty**: Look at that soil. Look at that worm. Hello, worm. Everything’s fine, worm.  
+_Dimple has followed you. She takes one look at the hole, dives in, and starts scooping earth out with both hands._  
+_Dusty digs faster, so Dimple digs faster. They grin at each other across the hole like two people winning an argument._  
+_Your Nubbin flings soil about on the bank, to be part of it. Most of it lands on you._  
+**Dusty**: See? She gets it. Keep your hands busy and the rest of you can’t catch up.  
+
+> **Lesson** (literacy, L.4.5, ask): figurative language  
+> _“Keep your hands busy and the rest of you can’t catch up.” What is Dusty really saying?_  
+> - ✅ If I stay busy, I won’t have to feel sad → Yes. The “rest of you” is Dusty’s feelings. Busy hands keep the sadness behind them, for now.
+> - Digging makes your legs slower → Not quite. It isn’t about legs. The “rest of you” means Dusty’s feelings, kept behind by busy hands.
+> _For grown-ups: Explained the hidden meaning in a figure of speech._
+
+
+#### `s30-drizzle`
+
+_Then Drizzle comes down the bank, slowly, the way she does everything. She sits at the edge of the hole and says nothing._  
+_Dusty’s spade stops. Dimple goes on scooping for a while on her own, and then she stops too._  
+**Dusty**: …She used to sit like that. Fossil. On the edge, while I dug. Just there.  
+**Dusty**: I dug her out with a spoon, you know. Two days. Twenty years and a bit. I was still counting the bit.  
+_Dusty sits down in the bottom of the hole, spade across their knees, and cries properly for the first time since the hill._  
+_Drizzle climbs down and leans on them, without patting or fussing. She leans with her whole weight, like a sandbag._  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): sitting with a sad friend without fixing  
+> _Drizzle doesn’t say “cheer up” or try to fix anything. She stays, and lets Dusty be sad._  
+> _Sometimes the kindest help is just keeping someone company while the feeling passes._  
+> _For grown-ups: Saw how to support a grieving friend by staying with them, not fixing._
+
+_…_  
+_After a long time Dusty wipes their face with the back of a muddy wrist, which makes it worse._  
+**Dusty**: There. That’s a bit better. Not mended. Better.  
+_Up on the bank, Dimple is watching. Her smile slips at one corner; she puts it back, and it slips again._  
+
+#### `s30-luna`
+
+_Dawn. Somebody knocks very quietly, which in this valley means Luna, on her way to bed._  
+**Luna**: Sorry. My evening, your morning. I wouldn’t, only it’s three nights now.  
+**Luna**: I start on the hill at eleven at night. At three in the morning, three nights running, Clover’s gold one has been on the path.  
+
+> **Lesson** (maths, 3.MD.A.1, ask): time intervals  
+> **Luna**: I start at 11 p.m. I see Dimple at 3 a.m. How many hours in between?  
+> - ✅ 4 hours → Four. Eleven to midnight is one hour, then three more to 3 a.m. Count across midnight.
+> - 8 hours → That’s 11 take away 3. But the clock goes round: 11 to 12 is one hour, 12 to 3 is three more. Four.
+> - 3 hours → Don’t forget the hour from eleven to midnight. One plus three makes four hours.
+> _For grown-ups: Worked out a time interval across midnight (11 p.m. to 3 a.m. = 4 hours)._
+
+**Luna**: She goes up towards Fossil’s flower. Halfway, she stops, and turns round, and goes home.  
+**Luna**: She doesn’t bounce up there. That’s what got me. I didn’t know she could walk.  
+**Luna**: Things look like what they are, at night. Nobody’s watching, so nobody bothers. Come up with me tonight.  
+
+#### `s30-path`
+
+_Three in the morning. The hill is grey and silver: wet grass, a thin crescent of moon, the smell of Luna’s night stocks._  
+
+> **Lesson** (science, 1-ESS1-1, notice): moon phases  
+> **Luna**: A crescent tonight. The Moon doesn’t change shape; we see a different slice of its sunlit side as it goes round us.  
+> **Luna**: From new moon to full and back takes about a month.  
+> _For grown-ups: Learned why the Moon seems to change shape over about a month._
+
+_Halfway up the path, there she is. Dimple, walking slowly uphill, on her own._  
+_She isn’t smiling. Her face is just a face, and the ball above it is darker than any ball you have seen except Sable’s._  
+**Luna**: That’s where she stops. Every night.  
+_Dimple stops and looks up the hill towards the flower. Then she turns round, and sees you._  
+_For a second her face does nothing at all._  
+_Then the smile goes on like a lamp, and she bolts down the hill past you, and home._  
+**Luna**: Did you see her face? Before?  
+**Luna**: That’s her. That’s the one who needs finding. The other one’s for us.  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): why people hide feelings  
+> **Luna**: Here’s what I keep wondering. Why do you think Dimple smiles all day, but not up here on her own?  
+> - She doesn’t want to worry Clover → That’s kind of her, and sad. Hiding to protect someone. People do that too.
+> - She thinks sad is bad and must be hidden → I think that might be it. Nobody told her sad is allowed.
+> - Up here nobody needs her to be cheerful → Yes. At night there’s no one to perform for. You get to be just you.
+> - She is scared of how big the sad is → That makes sense. Big feelings can be scary. Maybe walking halfway is all she can do yet.
+> _For grown-ups: Thought about why someone might hide sadness from the people around them (a think question with no single answer)._
+
+
+#### `s30-wall`
+
+_The frosts have come, and the Grove is white at dawn round the fourth post._  
+
+> **Lesson** (science, 2-ESS2-3, notice): frost: water vapour freezing  
+> _Air always holds some invisible water, called water vapour. On a clear, freezing night it turns straight to ice on cold surfaces._  
+> _That’s frost. When the sun warms it above 0 °C (32 °F), it melts back into liquid water._  
+> _For grown-ups: Learned that frost is water vapour frozen onto cold surfaces, and melts above 0 °C._
+
+_You find Moss at the old wall, by Hush’s lantern post, with frost on his back that he hasn’t bothered to shake off._  
+**Moss**: Clover’s gold one. Luna told me. Luna tells me things at dawn, when I am too tired to argue.  
+**Moss**: Hush. The quiet one. You have heard her name in the tale. I did not tell you her job.  
+**Moss**: After the White Year, some of the stilled Nubbins never moved again. They had died. Hush sat with them, every one, every day.  
+**Moss**: Grief was her job. She kept the valley’s griefs, so they did not get dropped all over the valley.  
+**Moss**: People thought that made her a sad thing. They were wrong about which part was sad.  
+**Moss**: Low in the wall. The flat stone, by your foot. Look at it properly. She meant it to be looked at.  
+
+#### `s30-stone`
+
+_You brush the frost off. The stone is covered in marks scratched fine as hair: rings and lines, hundreds of them._  
+**Moss**: A ring for a joy kept. A line for a grief kept. That was her way of counting.  
+_There are a few plain rings, and a few plain lines. Nearly all the rest are both: a ring with a line through it._  
+**Moss**: Most things are both. She knew that before any of us.  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): records from the past  
+> _Long before notebooks, people kept records by scratching marks into bone, wood and stone, a bit like a tally._  
+> _Hush’s stone is a record like that. Reading it tells you what mattered to someone long ago._  
+> _For grown-ups: Learned how people recorded events with marks before writing was common._
+
+**Moss**: Briar thought Hush was gloomy. Hush thought Briar was loud. They were never more than a field apart, those two.  
+**You**: What did she think sad was for?  
+**Moss**: Sad is a lantern, she said. It shows people where you are.  
+**Moss**: A Nubbin smiling on the outside is a Nubbin in the dark with its lantern out. Nobody can find it. It thinks that is a kindness.  
+
+> **Lesson** (literacy, L.4.5, ask): metaphors  
+> _“Sad is a lantern.” That’s a metaphor. What does Hush mean?_  
+> - ✅ Showing you’re sad helps people find you and help → Yes. A lantern in the dark says “here I am”. So does sad.
+> - Being sad makes you glow → Not glow. A lantern shows people where you are. So does letting your sad show.
+> - You should carry a lantern when sad → Ha. Only if it’s dark. She meant sad works like a lantern: it shows people where you are.
+> _For grown-ups: Explained a metaphor: sadness, like a lantern, helps others find you._
+
+_Moss lays one small hand flat on the stone, over the marks, the way you would warm your hand on a mug._  
+
+#### `s30-fidget`
+
+_The first frost week. Clover sends Bristle up the lane to fetch you, which Bristle does by stamping on your doormat._  
+_In Clover’s kitchen, in a nest of tea towels by the range, an egg is rocking. Then it is in pieces, and something orange is running._  
+
+> **Lesson** (science, 3-LS1-1, notice): life cycles  
+> _Every living thing has a life cycle. A Nubbin goes egg, child, cocoon, adult, a bit like a butterfly._  
+> _Birds and most reptiles start as eggs too, warmed until they hatch. That’s why the egg was by the range._  
+> _For grown-ups: Compared a Nubbin’s life cycle with real animals that hatch from eggs._
+
+**Clover**: Oh! Oh, look at her. She hasn’t stopped since she cracked. Not once.  
+_The new one is very small and very orange. She runs to the door, then the window, then under the table, then the door again._  
+_She checks every Nubbin in the kitchen, one by one, as if she were counting them. Then she checks them all again._  
+**Clover**: Fidget. That’s her name. She named herself, really.  
+**Clover**: Finally, someone who fusses more than me.  
+_Dimple bounces over to welcome her, beaming. Fidget counts Dimple twice._  
+
+#### `s30-shed`
+
+_At dusk the frost comes down over the yard like a cloth over a cage. Fidget goes very still for one second, then gets to work._  
+_She herds the whole household into the shed: Bristle, Flinch, the fussy one, Drizzle, Dimple. She pushes from behind with her head._  
+_Then she drags the slop bucket across the yard, an inch at a time, and shoves it hard against the shed door._  
+**Fidget**: …  
+**Clover**: Every night since the frost. In they go, and the bucket.  
+_From inside the shed comes Dimple, louder than ever: bounce, bounce, bounce off the walls._  
+_Nothing else. The others have gone quiet in there, the way pot plants go in a cupboard._  
+
+> **Lesson** (literacy, L.4.5, notice): similes  
+> _“The way pot plants go in a cupboard.” Plants in the dark go pale and droop. The simile shows the Nubbins wilting without light._  
+> _For grown-ups: Explained a simile using what plants need to grow._
+
+**Clover**: She just wants them safe. I know how she feels. I’ve felt it every night of my life.  
+**Clover**: Safe is not the same as well.  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): worry tries to keep us safe  
+> _“Safe is not the same as well.” What does Clover mean?_  
+> - ✅ You can be kept safe and still not be happy or healthy → Yes. The shed is safe from frost, but the Nubbins inside are wilting. Worry can try too hard.
+> - Being safe is bad → Not bad. Safe matters. But too much safe, like a shut shed, can stop you living well.
+> _For grown-ups: Talked about how worry protects us, and how too much protecting can stop us doing well._
+
+_Clover hears herself say it. She sits down, quite suddenly, on the bucket._  
+**Clover**: That’s Moss’s. And I said it like it was mine. Well. It is now.  
+
+#### `s30-blanket-ask`
+
+**Clover**: I can’t just kick the bucket over. She’d go to pieces. She’s a week old and she’s doing her best.  
+**Clover**: And I can’t leave them in there. Listen to Dimple. Listen to the others not.  
+_Fidget sits by the bucket, guarding it. Her ball is whirling so fast it looks like a little orange wheel._  
+_Your Nubbin sits down beside her and looks hard at the bucket too, to be helpful._  
+**Clover**: Help me open it without her knowing it’s open. Hazel was good at that sort of thing.  
+_There’s a blanket frozen stiff on the washing line. There’s the bucket, and the shed door, which opens outwards._  
+
+> **Lesson** (science, 3-5-ETS1-2, ask): compare solutions to a problem  
+> **Clover**: Three ideas. Which one solves both problems: Fidget needs “shut”, the others need “open”?  
+> - ✅ Hang the blanket in the doorway with a gap under it → Yes. Fidget sees it shut; the others can slip underneath. Both problems, one fix.
+> - Kick the bucket away → That opens it, but Fidget would panic. It only solves half the problem.
+> - Leave the door shut → That keeps Fidget calm, but the others stay stuck. Half again.
+> _For grown-ups: Compared three solutions against two needs and chose the one that met both._
+
+
+#### `s30-blanket`
+
+_You open the door while Fidget is counting something else, and hang the stiff blanket across the doorway like a curtain._  
+_You stand the bucket on one corner of the hem. Underneath, there is a gap a Nubbin could push through._  
+_Fidget comes back, inspects the blanket and the bucket, and pushes the bucket one inch further. Shut. She sits down._  
+_A minute later Drizzle’s nose comes out under the hem. Then the fussy one, then Flinch, who jumps at the blanket, and then doesn’t._  
+_They go in and out as they please all evening. Fidget counts them every time, and seems to find the number acceptable._  
+**Clover**: Look at that. Shut, and open. Both. Hazel would have called that a fudge.  
+**Clover**: She liked a fudge. She said most of the good things are fudges.  
+
+> **Lesson** (literacy, L.3.4, ask): multiple-meaning words  
+> _“Fudge” can be a soft sweet. What does Hazel’s “fudge” mean here?_  
+> - ✅ A clever in-between answer that suits everyone → Yes. A fudge is a bit of both: shut enough for Fidget, open enough for the others.
+> - A sweet you eat → That’s the other meaning! Here it means an in-between answer: shut and open at once.
+> _For grown-ups: Used context to choose the right meaning of a word with two meanings._
+
+_Dimple doesn’t come out. When you look under the hem, she is sitting at the back of the dark shed, smiling at nobody._  
+
+#### `s30-gone`
+
+_Early autumn. Clover is at your gate before it is light, in her dressing gown and wellies, with Drizzle under one arm._  
+
+> **Lesson** (science, 1-ESS1-2, notice): daylight changes through the year  
+> _In summer, it was light long before breakfast. Now, in early autumn, the sun rises later every day._  
+> _The days shorten until midwinter, then lengthen again towards midsummer. It’s the Earth’s tilt as it goes round the Sun._  
+> _For grown-ups: Noticed that daylight shrinks in autumn and grows again after midwinter._
+
+**Clover**: She’s gone. Dimple. Her basket was cold when I got up.  
+**Clover**: She’s taken nothing but the cushion off the sill. Fossil’s cushion, toys and all.  
+_Drizzle wriggles out from under Clover’s arm, drops to the path, and sets off down the lane on her own, slow and certain._  
+**Clover**: Drizzle? Drizzle! She never goes anywhere on her own. She hates hurrying.  
+_Dusty is coming up the lane with a spade on one shoulder. One look at Clover, and they put the spade down._  
+**Dusty**: She’s going back to where the happy was. I would. I’ve been trying to all summer.  
+_You go after Drizzle, all three of you, down the lane in the half dark._  
+
+#### `s30-trail`
+
+_Under Clover’s window there is a cotton reel in the frost. At the end of the lane, a pine cone; at the stile, half a wooden peg._  
+_One toy at a time, the trail runs out of the lane and east along the stream, towards the striped cliff._  
+
+> **Lesson** (science, 2-ESS2-2, ask): compass directions  
+> _The trail runs east, and it’s just after dawn. Where would you look to see the sun?_  
+> - ✅ Straight ahead, along the trail → Yes. The sun rises in the east, so you’re walking towards the sunrise.
+> - Behind you → Behind you is west. The sun rises in the east, straight ahead along the trail.
+> _For grown-ups: Used the sunrise in the east to find a direction._
+
+**Dusty**: The cliff. She came with us once or twice. Rode on Fossil, mostly, which Fossil allowed. Nobody else ever got to.  
+_At the foot of the cliff the rock is striped like a cake. Where it meets the ground, there is a hollow, dug down and in._  
+
+> **Lesson** (science, 4-ESS1-1, notice): rock layers and fossils  
+> _Stripes in a cliff are rock layers, laid down one on top of another over a very long time._  
+> _Lower layers are usually older. Fossils in them show what lived long ago; Fossil’s egg came from one._  
+> _For grown-ups: Learned that rock layers stack up over time, oldest at the bottom._
+
+**Dusty**: That’s it. The spoon hole. Where I dug her out. Two days, with a spoon.  
+_Dimple is down in it, on Fossil’s cushion, scraping at the back of the hollow as if there might be another egg._  
+_The hollow is only waist-deep on you, but on a Nubbin the lip is a cliff. She can’t climb out, and she hasn’t tried._  
+**Dimple**: …  
+
+#### `s30-hollow`
+
+_Before anybody else can move, Drizzle walks to the lip of the hollow and slides down into it, slowly, unasked._  
+_She sits close to Dimple: not touching, but close. She says nothing at all._  
+_Dimple turns, and the smile goes on like a lamp. She bounces, and offers Drizzle a pebble, a root, a handful of dust._  
+_Drizzle doesn’t take any of it. She stays._  
+
+> **Lesson** (sel, CASEL: Relationship skills, ask): patience and presence  
+> _Dimple keeps offering things. Why do you think Drizzle doesn’t take them?_  
+> - ✅ Taking them would join in the pretending → Yes. Drizzle won’t play “everything’s fine”. She just stays, so Dimple can stop.
+> - She doesn’t like pebbles → Maybe! But mostly, taking them would join the act. She stays, so Dimple can stop.
+> _For grown-ups: Thought about how staying calm and present helps a friend stop pretending._
+
+**Clover**: Shall I go down? I should go down. I’m her… I should…  
+**Dusty**: Leave them a minute. That one knows what she’s doing. Look at her.  
+_Up at the rim you sit down in the frosty grass, because standing feels like hurrying somebody._  
+
+#### `s30-stopped`
+
+_And then Dimple stops, in the middle of a bounce, almost. She sits down hard on Fossil’s cushion, and the smile goes._  
+_Not off, like a lamp. It goes the way frost goes off a window, from the edges in, until there is only her face._  
+
+> **Lesson** (literacy, L.4.5, ask): similes that show change  
+> _The smile goes “the way frost goes off a window, from the edges in”. So does it go fast or slowly?_  
+> - ✅ Slowly, a little at a time → Yes. Frost melts gradually from the edges. The smile fades bit by bit, not all at once.
+> - All at once → That would be “like a lamp”, and the line says “not like a lamp”. Frost melts slowly, edge by edge.
+> _For grown-ups: Used a simile to work out how fast something happens._
+
+**Dimple**: …  
+_Up at the rim, Clover puts both hands over her mouth._  
+_Dimple’s face and her feeling match now. It looks like sad, because it is sad._  
+_Nobody tells her to cheer up. Everybody stays._  
+
+#### `s30-thunder`
+
+_Clover sits down at the rim. She doesn’t take her eyes off the hollow._  
+**Clover**: Do you know how they met? Dimple and Fossil? I never told anyone. It didn’t seem like a story.  
+**Clover**: Dimple hatched in a thunderstorm, under my kitchen table. First night of her life, and the sky fell in.  
+
+> **Lesson** (science, 4-PS3-2, notice): light travels faster than sound  
+> _In a storm you see the lightning before you hear the thunder, because light travels far faster than sound._  
+> _Count the seconds between flash and boom: about three seconds for every kilometre away the storm is._  
+> _For grown-ups: Learned that light outruns sound, and how to estimate a storm’s distance._
+
+**Clover**: She wailed. Hours. I tried everything. Milk, humming, the lot. Nothing.  
+**Clover**: And Fossil came down off the sill. She never came down off the sill. She walked across my kitchen and sat beside her.  
+**Clover**: Didn’t lick her. Didn’t fuss. Just sat, the whole storm, till it blew over. I made three pots of tea and drank none.  
+**Clover**: After that they shared the sill every digging day, for years. Gold one and sand one in the window, like two loaves.  
+**Dusty**: I never knew that. Twenty years, and I never knew that.  
+**Clover**: Her best thing started on her worst day.  
+
+> **Lesson** (literacy, RL.4.2, notice): theme  
+> _“Her best thing started on her worst day.” Good things and hard things are often tangled together. That’s a theme of this whole story._  
+> _For grown-ups: Identified a theme: joy and sorrow are often bound together._
+
+
+#### `s30-blue-gold`
+
+_Down in the hollow, Dimple’s ball goes blue. Not pale: deep blue, like the sky an hour after sunset._  
+_Then she cries the way Nubbins cry. A thin, high whistle like wind across a bottle, and a shaking from her ears to her feet._  
+
+> **Lesson** (science, 1-PS4-1, notice): vibrations make sound  
+> _Blow across the top of a bottle and the air inside shakes very fast. That shaking, or vibration, is the whistle you hear._  
+> _For grown-ups: Learned that a whistle is air vibrating._
+
+_She leans sideways until she is leaning on somebody, and stays there, and whistles._  
+_Nobody moves. Up at the rim Clover is crying too, without a sound, and Dusty has a hand on her back._  
+_…_  
+_When it stops, Dimple’s ball is still blue. And it is gold as well, the two colours turning slowly round each other._  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): mixed feelings  
+> _Blue and gold at once: missing Fossil and loving her, both together. Feelings like that are called bittersweet._  
+> _Feeling two things at the same time is normal. Neither one cancels the other._  
+> _For grown-ups: Learned the word “bittersweet” and that mixed feelings are normal._
+
+**Dusty**: I’ve never seen that. Twenty years, and I have never once seen a ball do that.  
+**Clover**: Neither have I.  
+_Dimple looks up at the rim, and doesn’t smile. She looks at you all like somebody who has been found._  
+
+#### `s30-rope`
+
+**Dusty**: Right. Basket.  
+_Dusty has a coil of rope over one shoulder and a log basket on the end. Nobody knows where Dusty keeps rope, but they always have some._  
+**Dusty**: Never go near a hole without a rope. First thing Hazel ever told me. Second thing was, give that spoon back.  
+_Anybody with long enough legs climbs out. The rest go in the basket: Dimple with Fossil’s cushion, and anyone small._  
+**Clover**: Gently. Gently! She’s had a morning.  
+**Dusty**: Two on the rope. You pull, I’ll count. I’m good at counting. I count bits.  
+
+> **Lesson** (science, 3-PS2-1, ask): balanced and unbalanced forces  
+> **Dusty**: The basket’s weight pulls down. We pull up. When does it start to rise?  
+> - ✅ When our pull is stronger than its weight → Spot on. Unbalanced forces: up wins, up it goes. Pull steady.
+> - When our pull equals its weight → Equal pulls are balanced: it just hangs there. Pull a bit harder than its weight, and up it comes.
+> _For grown-ups: Learned that an object moves when the forces on it are unbalanced._
+
+
+#### `s30-rim`
+
+_The basket comes up over the lip. Clover has Dimple out of it before it has stopped swinging._  
+_She cries all over her: into her fur, on the cushion, on her ears. Dimple lets her, ball blue and gold, quite still for once._  
+**Clover**: Look at me. I’m worse than she is. I’m a disgrace. Somebody give me a hanky.  
+_Dusty gives Clover a sock. It’s clean, mostly._  
+**Clover**: Crying slows me right down, so I can feel it properly. I think that’s what it’s for.  
+
+> **Lesson** (health, notice): crying is a healthy way to let feelings out  
+> _Crying is something every human body can do. Many people feel calmer after a good cry._  
+> _Laughing and crying at once, like Clover, is normal too. Afterwards, a drink of water and a rest help._  
+> _For grown-ups: Talked about crying as a normal, healthy response to big feelings._
+
+_She laughs at herself, and blows her nose on the sock, and laughs harder. Dimple watches her face the whole time._  
+**Dusty**: You can keep the sock.  
+
+#### `s30-hill`
+
+_That afternoon Dimple walks up the hill. Not on anyone’s shoulder: up the path, past the halfway place, on her own feet._  
+_Drizzle walks beside her, slower still. Dusty walks behind with Fossil’s cushion under one arm, and doesn’t hurry anybody._  
+_At the top is Fossil’s flower, sandstone-coloured, a little bent by the frost. Dimple sits down in front of it._  
+_Drizzle sits on one side of her. Dusty sits on the other, cross-legged, and sets the cushion in the grass, dent up._  
+_Nobody does anything. The wind goes over, and down in the valley somebody is burning leaves._  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): grief and remembering  
+> _Going to a special place to remember someone is one way people grieve. It doesn’t make the missing stop._  
+> _But it gives the missing somewhere to sit, with friends beside you._  
+> _For grown-ups: Talked about visiting a special place as one way to remember someone who has died._
+
+_Your Nubbin, who has copied Dimple all autumn, comes and sits down too. It copies the sitting perfectly._  
+
+#### `s30-fidget-hill`
+
+_Then a noise comes up the path: small feet, very fast, and a thin worried squeak. Fidget._  
+_She has woken in the kitchen and found everybody gone. She has come all the way up the hill alone, checking every bush._  
+_At the top she spins round and round in the grass, looking for everybody at once. Her ball is whirling like a top._  
+**Fidget**: …  
+_Clover comes puffing up the path behind her, too late, in one welly._  
+_Before anybody else can move, Dimple gets up. She goes to Fidget and sits down right beside her, and stays._  
+_She doesn’t smile at her, or bounce. She sits, the way she was sat with._  
+_Fidget spins slower, and slower. Then she stops, and leans on Dimple, and her ball settles to a small warm orange._  
+
+> **Lesson** (health, do): calming down  
+> _(Help Fidget slow down. Breathe in for four, out for four, three times, as her ball slows.)_  
+> Check: `edu:breathe:slow:4-in-4-out`
+> _For grown-ups: Practised slow breathing as a way to calm big feelings._
+
+**Clover**: Where did she learn that?  
+**Dusty**: Under your kitchen table. In a thunderstorm.  
+
+> **Lesson** (literacy, RL.3.3, ask): making inferences  
+> _Dusty says Dimple learned it “under your kitchen table, in a thunderstorm”. What does Dusty mean?_  
+> - ✅ Fossil sat with her then, so now she knows how → Yes. Kindness passes on. Fossil sat with baby Dimple; now Dimple sits with Fidget.
+> - Dimple took lessons under the table → Not lessons. Fossil sat with her in the storm, and she learned by being sat with.
+> _For grown-ups: Inferred how a kindness received was passed on to someone else._
+
+
+#### `s30-complete`
+
+_On the way home you stop at the old wall. Clover holds the paper flat; you rub over Hush’s stone with a stub of charcoal._  
+_The marks come up black and fine under your hand: rings, and lines, and rings with lines through them._  
+
+> **Lesson** (art, do): texture rubbing  
+> _(Rub the charcoal over the paper on the stone.)_  
+> _A rubbing copies texture: the raised parts catch the charcoal, the scratches stay pale. Try it on a leaf or a coin at home._  
+> Check: `edu:rub:texture:hush-stone`
+> _For grown-ups: Learned how a rubbing records the texture of a surface._
+
+**Clover**: Dimple ought to have a mark of her own. On her page. A proper one.  
+_In the clean corner of the paper, you draw it for her: a ring with a line through it._  
+_Beside it, small and close, you draw Drizzle’s: a plain ring, just touching._  
+**Clover**: That’s the both one. That’s her now.  
+_That night you write it up: Hush’s stone, and a page for each of your Nubbins, ringed and lined from what you remember._  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): reflecting on feelings  
+> _If you made a mark for today, which would it be?_  
+> - A ring: a joy kept → A good day to keep. Hush would have scratched it carefully.
+> - A line: a grief kept → That’s allowed. A line kept is a lantern lit. Someone will find you.
+> - Both: a ring with a line through it → Like Dimple. Like most things, Moss would say.
+> _For grown-ups: Reflected on their own feelings using Hush’s marks (no single right answer)._
+
+_In the morning there is a parcel on your step: a pale-blue rain hat, and Fossil’s cushion, plumped for the first time in years._  
+_The note says Fossil would want it sat on, not kept. Sparks has added a blue-and-gold ribbon, dyed twice._  
+
+### Glossary
+
+- **beams**: Smiles a big, wide smile.
+- **relieved**: Glad because a worry has gone away.
+- **plump**: To shake and pat a cushion so it is round and full again.
+- **skein**: A long loose coil of wool or thread.
+- **herding**: Moving a group of animals along together, like a sheepdog does.
+- **compulsory**: Something you have to do; it is not a choice.
+- **under protest**: Doing something while saying clearly that you don’t want to.
+- **scale**: A row of numbers used to measure something, like 0 to 10.
+- **observation**: Watching carefully and noting what you see.
+- **relaxing**: Helping you feel calm and loose, not tense.
+- **crescent**: The thin curved shape of the Moon when only a sliver is lit.
+- **grief**: The deep sadness you feel when someone you love has died.
+- **record**: Something kept so that people can know later what happened.
+- **metaphor**: Saying one thing is another, to show how they are alike: “Sad is a lantern.”
+- **range**: A big old-fashioned kitchen stove that stays warm all day.
+- **wilt**: To droop and go limp, like a plant without water or light.
+- **compromise**: An answer where everyone gets some of what they need. Hazel called it a fudge.
+- **acceptable**: Good enough; all right.
+- **certain**: Sure; not doubting at all.
+- **hollow**: A small dip or hole in the ground or in rock.
+- **unasked**: Without anybody asking.
+- **bittersweet**: Happy and sad at the same time.
+- **vibration**: A very fast shaking movement, which can make sound.
+- **unbalanced**: When one push or pull is stronger than the other, so something moves.
+- **disgrace**: Here, a joke: a messy, embarrassing state.
+- **inference**: Working something out from clues, when nobody says it straight.
+- **rubbing**: A copy of a bumpy surface made by rubbing crayon or charcoal over paper laid on it.
+
+## S31. The Great Gourd
+
+- `s31-step1`: Help Tam spell his letter to the Great Gourd. · _Tam is on the Grove wall by the gate. He will argue about some of the spellings._
+- `s31-step2`: Go with Tam and the lane children to Fern’s gourd patch. · _Fern’s patch is over the wall next door, past the hens. Ivy walks fast on purpose._
+- `s31-step3`: Carve a gourd lantern with Tam: a smaller, kinder one. · _Pick a small gourd from Fern’s patch. A kind face takes longer than a fierce one._
+- `s31-step4`: Witness Ivy’s promise, and watch Ned take his kick. · _Ned is on the green at the end of the lane with a ball and a great deal of hope._
+- `s31-step5`: Find out whether Ned is really invited to Sparks’s party. · _Sparks is up a ladder outside her workshop at the top of the lane._
+- `s31-step6`: Help Tam put up his sign in the patch he has chosen. · _Tam has chosen the long grass by the fourth lantern post. The hammer is in the shed._
+- `s31-step7`: Get your Nubbin ready for Gourd Night in Sparks’s goggles and scarf. · _Tap your Nubbin and choose Dress._
+- `s31-step8`: Decide where you’ll spend Gourd Night. · _Ivy is in the lane, Sparks at her workshop, and Tam in the long grass. Choose one; the others will manage._
+- `s31-step9`: Find out how the guising went. · _Ned will want to show you what he got._
+- `s31-step10`: Your Nubbin is having its own night. Guide it to the party. · _Keep low along the hedges and out of the frosty grass._
+- `s31-step11`: Midnight: Tam is still waiting in the long grass. · _There’s nothing to do but wait. That is the hard part._
+- `s31-step12`: Before dawn, the frost comes in over the long grass. · _Keep your Nubbins at the edge, out of the white grass._
+- `s31-step13`: See Tam safely home, then wait for the light. · _Ivy is coming at four, as promised._
+- `s31-step14`: Find Tam at the Grove wall. · _He’s on the wall by the gate, where he wrote the letter._
+
+#### `s31-wall`
+
+_The plums have gone soft, and the wind smells of bonfires two gardens away. Autumn is coming in at the edges._  
+_A small boy is sitting on your Grove wall, wrapped in a patchwork quilt, writing very hard with his tongue out._  
+_The quilt goes right down to his boots. Some of its patches have patches._  
+**Tam**: Don’t look. It’s private. …You can look a bit. I need a speller.  
+**Tam**: I’m Tam. I live in the lane. I’m seven, and I’m writing to the Great Gourd.  
+**You**: The what?  
+**Tam**: Every Gourd Night he rises out of the most sincere gourd patch in the valley and flies over, bringing toys.  
+**Tam**: Not the biggest patch. Not the tidiest. The most sincere one. He can tell.  
+**Tam**: Nobody else believes in him. That’s all right. He only needs one patch.  
+_He holds out the letter. It begins DEAR GRAET GORD, and it has been rubbed out so hard in three places that there are holes._  
+
+> **Lesson** (literacy, L.3.4, ask): homophones: words that sound the same but are spelt differently  
+> **Tam**: GRAET looks wrong. Is it GREAT or GRATE? They sound exactly the same.  
+> - ✅ GREAT, meaning very big or very good → GREAT. Because he is. GREAT and GRATE are homophones. A grate is the metal bit in a fireplace. He’s not that.
+> - GRATE → Good ear: they are homophones, words that sound the same. But a grate is in a fireplace, and to grate cheese is to shred it. For “very big and important” it’s GREAT.
+> _For grown-ups: Told apart the homophones “great” and “grate” by their meanings._
+
+
+#### `s31-letter`
+
+_Between you, GRAET becomes GREAT. Tam keeps GORD for a while on principle, then gives it up._  
+**Tam**: Now the important bit. What to ask for. You choose. He might take a grown-up more seriously.  
+
+> **Lesson** (sel, CASEL: Social awareness, notice): thinking about other people’s needs when you ask for something  
+> _A letter like this is a chance to think about who needs what. Yourself, someone hungry, or even the one you’re writing to._  
+> _None of these is wrong. Each one shows a different kind of kindness._  
+> _For grown-ups: Thought about whose needs a request could serve: your own, others’, or the reader’s._
+
+
+**Choices**
+
+- **Toys. It’s what he brings. Ask for toys.**
+    - **You**: Ask for toys. He’s bringing them anyway.
+    - **Tam**: Toys. Yes. Not greedy ones. Medium toys.
+    - He writes A MEDIUM AMOUNT OF TOYS PLEASE, and underlines PLEASE twice.
+- **Something for the strays in the Hollow.**
+    - **Tam**: The strays?
+    - **You**: The ones past the falls. Nobody brings them anything.
+    - **Tam**: He’d like that. He’s flying over anyway.
+    - He writes SOMETHING FOR THE STRAYS IN THE HOLLOW. Then, smaller: THEY ARE NOT GREEDY.
+- **Tell him, very politely, that he needn’t come if he’s busy.**
+    - **Tam**: Not come?
+    - **You**: Very politely. In case he’s busy. It’s a long night.
+    - **Tam**: …That’s very thoughtful. Nobody ever thinks he might be tired.
+    - He writes YOU NEEDN’T COME IF YOU ARE BUSY, WE WILL UNDERSTAND. Then, after a long think: MOSTLY.
+
+#### `s31-creed`
+
+_Tam folds the letter into four and posts it down the front of his quilt, for safekeeping._  
+_Two more children come down the lane: a girl with a straight fringe and a clipboard, and a boy with a round, worried face._  
+**Ivy**: Tam. Are you writing to that pumpkin again?  
+**Tam**: Gourd. He’s a gourd. A pumpkin is only one kind of gourd. Fern told me.  
+
+> **Lesson** (science, notice): pumpkins belong to the gourd family of plants  
+> _Tam is right about this bit. Pumpkins, squashes, courgettes, cucumbers and melons all belong to one plant family._  
+> _Gardeners often call the hard-shelled, knobbly ones gourds. They are cousins: alike, but not the same._  
+> _For grown-ups: Learned that pumpkins, squashes, cucumbers and melons belong to one plant family, with variety inside it._
+
+**Ivy**: This is my brother. I’m Ivy. I’m ten, and I’m sorry about him in advance.  
+**Ned**: I’m Ned. Hello. Is it true he flies? Ivy says it isn’t. I’m only asking.  
+_Ivy laughs. Ned laughs too, a beat late because Ivy is, and then looks as if he wishes he hadn’t._  
+_Tam draws himself up, quilt and all, to very nearly the height of the gatepost._  
+**Tam**: Some things I don’t argue about with anybody. The Great Gourd is the top one, and the second, and the third.  
+**Nettie**: I believe him. I’m Nettie. I’m six. I believe everything Tam says.  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): being a good friend to someone who believes something you don’t  
+> _Think: Ivy laughed. Nettie believed. Ned wasn’t sure. What would you have done, standing there?_  
+> - Asked Tam more about the Great Gourd. → That’s generous. Asking questions shows you take someone seriously, even if you end up disagreeing.
+> - Said kindly that I don’t believe it, but I’d help with the letter anyway. → That’s honest and kind at once. You don’t have to agree with a friend to stand by them.
+> - Kept quiet, like Ned. → That’s fair. Sometimes you need time to make up your mind. Not laughing is already a kindness.
+> _For grown-ups: Thought about how to be kind and honest with someone who believes something you don’t._
+
+**Ivy**: You believed the hens could read. Come on. Mum wants the biggest gourd in Fern’s patch, and Tam’s carrying it.  
+
+#### `s31-patch`
+
+_Fern’s gourd patch is vines going in every direction at once. The gourds are lumpy and leaning, and several are warty._  
+**Fern**: Sorry. Sorry about the patch. I grow them badly on purpose. It’s a style.  
+
+> **Lesson** (science, 2-LS2-2, notice): how gourds grow: flowers, pollination by bees, fruit  
+> **Fern**: Each plant starts from one seed in late spring. By summer the vines are everywhere, covered in big yellow flowers.  
+> **Fern**: Some flowers make pollen. Others have a tiny gourd at the bottom, no bigger than a thumb.  
+> **Fern**: Bees carry pollen from one kind of flower to the other. Only then does the tiny gourd swell up and grow.  
+> _For grown-ups: Learned how bees pollinate squash flowers so the fruit can grow._
+
+_Ivy walks straight to the biggest gourd there is: orange, enormous, and the shape of a sat-on cushion._  
+**Ivy**: That one. Tam, lift.  
+**Tam**: It’s bigger than me.  
+
+> **Lesson** (maths, 2.OA.A.1, ask): compare lengths by subtracting  
+> _Tam is 120 cm tall. The gourd is 50 cm tall. Is it really bigger than him? How much taller is Tam?_  
+> - ✅ Tam is 70 cm taller → Yes: 120 − 50 = 70. The gourd is not taller than Tam. It’s just very, very wide.
+> - Tam is 170 cm taller → That’s 120 + 50. To find the difference, take away: 120 − 50 = 70 cm.
+> - The gourd is taller → It feels that way to Tam! But 50 cm is less than 120 cm. Tam is 70 cm taller.
+> _For grown-ups: Found the difference between two heights by subtracting (120 − 50)._
+
+**Ivy**: Then you’ll have to be bigger than it. Go on.  
+
+#### `s31-carve`
+
+_Tam carries the gourd all the way up the lane, very slowly, like a man carrying a sleeping relative._  
+_At the cottage step, Ivy fetches a big knife, and Mum comes out to keep an eye on it._  
+**Tam**: What’s that for?  
+**Ivy**: It’s nearly Gourd Night. You carve them. Everyone carves them. You put a candle in.  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): the history of carved lanterns: turnips before pumpkins  
+> _Carving lanterns is an old custom. Long ago, in Scotland and Ireland, children carved them from turnips, not pumpkins._  
+> _A turnip is small and very hard. Hollowing one out took a long time, and the faces came out wonky._  
+> _When families from Scotland and Ireland moved to North America, they found pumpkins: bigger, softer and much easier to carve._  
+> _For grown-ups: Learned that lanterns were once carved from turnips in Scotland and Ireland, before pumpkins._
+
+_She cuts the top off in one go. Tam makes a noise like a kettle._  
+**Tam**: Nobody told me. Nobody TOLD me you cut them.  
+**Ivy**: It’s a gourd, Tam. It hasn’t got relatives. It’s got seeds.  
+_She carves a face with jagged teeth and one eyebrow higher than the other. It looks a lot like Ivy._  
+_Tam sits on the step with his quilt over his head. Nettie sits beside him with a tea towel over hers, to be fair._  
+
+#### `s31-kinder`
+
+_The gourd you choose is the most lopsided one in Fern’s patch. You carve it slowly, on the step beside the quilt._  
+_Round eyes, no teeth, and a mouth that is mostly thinking about smiling._  
+
+> **Lesson** (maths, 4.G.A.3, ask): lines of symmetry  
+> _Your face has a line of symmetry straight down the middle: the left half matches the right half._  
+> _Ivy’s gourd has one eyebrow higher than the other. Does it have a line of symmetry?_  
+> - ✅ No, the two halves don’t match → Right. Fold it down the middle and the eyebrows wouldn’t line up. Lopsided on purpose, like Ivy.
+> - Yes, down the middle → Try folding it in your head. One eyebrow is higher, so the halves don’t match. No line of symmetry.
+> _For grown-ups: Checked two carved faces for a line of symmetry._
+
+_After a while, one corner of the quilt lifts._  
+**Tam**: …That one’s kind. He won’t mind that one.  
+**Tam**: You keep it. Put it somewhere he’ll see it from the air.  
+
+#### `s31-ball`
+
+_Next morning, on the green at the end of the lane, Ivy is holding a ball upright on the grass with one finger._  
+**Ivy**: Ned. I’ll hold it. You run up and kick it. I won’t pull it away.  
+**Ned**: You pulled it away last time.  
+**Ivy**: That was last time. This time I’ve written it down.  
+_She holds out the clipboard: I PROMISE NOT TO PULL THE BALL AWAY, SIGNED IVY. Underneath is a line marked WITNESS._  
+**Ned**: Will you witness it? Please. A grown-up. Then it counts.  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): trust and broken promises  
+> _Think: Ivy has broken this promise before. Should Ned trust her again?_  
+> - Yes. People can change, and he should give her a chance. → That’s a hopeful answer. Giving second chances is how trust gets rebuilt.
+> - No. She’s shown what she does. → That’s fair. Trust is earned by what people do, not by what they write down.
+> - Maybe, but he should watch carefully. → A wise middle path: hope for the best, and keep your eyes open.
+> _For grown-ups: Thought about when it makes sense to trust someone who has broken a promise before._
+
+
+**Choices**
+
+- **Sign as witness.**
+    - You sign. Ned looks at your name on the line as if it were a bridge over a river.
+    - **Ned**: Right. Right. This is it.
+- **Sign, and tell Ned quietly to watch her finger.**
+    - You sign, and tell Ned quietly to watch her finger.
+    - **Ned**: I will. I’ll watch it the whole way.
+    - **Ivy**: Witnesses aren’t allowed to coach.
+- **Don’t sign. Tell Ned not to do it.**
+    - **You**: Don’t do it, Ned.
+    - **Ned**: But she’s written it down.
+    - He signs the witness line himself, in very small letters, and backs off for his run-up.
+
+#### `s31-kick`
+
+_Ned runs with everything he has. At the very last moment Ivy lifts her finger, and the ball rolls gently away._  
+_Ned kicks the air, goes up, and comes down flat on his back with a sound like a dropped sack._  
+
+> **Lesson** (science, 3-PS2-1, notice): unbalanced forces: a kick that meets nothing  
+> _A kick is a push. When Ned’s foot hits the ball, the ball pushes back and slows his leg down._  
+> _With no ball there, nothing balances that push. His leg keeps swinging up, and the rest of Ned goes with it._  
+> _For grown-ups: Learned that a push with nothing to push against is an unbalanced force that keeps things moving._
+
+**Ned**: …You promised. It was witnessed.  
+**Ivy**: By a biased party. Look at them. They’re obviously on your side. It doesn’t count.  
+_She tucks the clipboard under her arm and walks off._  
+_Ned lies on the grass and looks at the sky, which at least stays put._  
+
+#### `s31-lists`
+
+_Ned is still on the green when you come back past. He is holding a card cut in the shape of a cog._  
+**Ned**: Sparks asked me to her Gourd Night party. Me. On a card.  
+**Ivy**: Sparks keeps two lists. Everybody knows. One of who to ask, and one of who not to ask.  
+**Ivy**: She’ll have muddled them up. You’re on the wrong one. I’m only saying it to help.  
+_Ned looks at the card. The card looks back, cheerfully, being a cog._  
+**Ned**: I didn’t think it was a mistake. I thought it was a card.  
+
+> **Lesson** (literacy, RL.3.3, ask): characters’ motives; telling a rumour from a fact  
+> _“Everybody knows” is what people say about a rumour. Why might Ivy be telling Ned this?_  
+> - ✅ She likes being the one who knows things, and teasing Ned → That fits Ivy. A rumour can make the teller feel important. The way to check is to ask the person it’s about.
+> - She has seen both lists → Has she? She doesn’t show them. When someone says “everybody knows” without proof, it’s worth checking.
+> - She really wants to help → She says so. But the card is real, and the lists aren’t shown. Checking with Sparks is the fair test.
+> _For grown-ups: Thought about Ivy’s motive and how to check a rumour against the facts._
+
+**Tam**: Ask her. That’s what you do. You ask.  
+**Ned**: I can’t ask. What if she says?  
+_He holds the card out to you very carefully, as if it might go off._  
+
+#### `s31-everybody`
+
+_Sparks is up a ladder with a string of bulbs in her teeth. She takes them out to hear the question, and goes red._  
+**Sparks**: TWO LISTS? Who said two lists? There’s one list. ONE.  
+_She points at her workshop door, where it is chalked in letters a foot high: GOURD NIGHT, EVERYBODY._  
+
+> **Lesson** (maths, 4.MD.A.1, notice): units of length: a foot is about 30 centimetres  
+> _A foot is an old unit of length: 12 inches, or about 30 centimetres. Roughly the length of a school ruler._  
+> _So each chalk letter on Sparks’s door is about as tall as a ruler. You could read it from the green._  
+> _For grown-ups: Learned that a foot is about 30 centimetres._
+
+**Sparks**: I wrote it on the door so I couldn’t lose it. Tell Ned. No, I’ll tell Ned. NED!  
+_Down the lane, a small figure on the green sits up very fast._  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): including everybody  
+> _Sparks didn’t have to choose who to leave out. She decided once, and wrote it where everyone could see._  
+> _For grown-ups: Noticed how Sparks makes sure nobody is left out._
+
+_Sparks climbs back up the ladder, still muttering about lists._  
+
+#### `s31-sincere`
+
+_Tam has been all round the valley looking at gourd patches. He comes back with his quilt full of burrs and his mind made up._  
+_He walks past three lantern posts, lit and neat, and stops at the fourth._  
+_The fourth post stands dark at the edge of the long grass. There isn’t a gourd anywhere near it._  
+
+> **Lesson** (maths, 3.OA.A.3, ask): gaps between posts: multiplication word problem  
+> _The lantern posts stand 15 metres apart. How far is it from the first post to the fourth?_  
+> - ✅ 45 metres → Yes. Four posts have only three gaps between them: 3 × 15 = 45 metres.
+> - 60 metres → That’s 4 × 15. But count the gaps, not the posts: four posts have three gaps. 3 × 15 = 45 metres.
+> - 19 metres → That adds 15 and 4. Each gap is 15 metres, and there are three gaps: 3 × 15 = 45 metres.
+> _For grown-ups: Worked out that four posts have three gaps, so 3 × 15 = 45 metres._
+
+**Tam**: This one.  
+**You**: There aren’t any gourds here.  
+**Tam**: No. But it isn’t pretending. Everywhere else is tidy, for people. This one’s just itself.  
+_His sign is painted on the back of a tea tray: WELCOME GREAT GOURD. The R is backwards, on purpose, for luck._  
+_He also has a toffee apple in a hanky, for the Great Gourd, in case he’s hungry from flying._  
+
+#### `s31-moss`
+
+_You knock the sign in by the dark post. Tam sets the toffee apple on top and looks at it all the way people look at cathedrals._  
+_Moss comes past along the hill path, slowly, the grass hardly bending under him. He stops to read the sign._  
+**Tam**: Moss. You’re very old. Is the Great Gourd real?  
+**Moss**: I have never seen it. Then again, there are a great many real things I have never seen.  
+_Tam nods slowly, as if that settles it in his favour. Moss goes on up the hill, and you think he might be smiling._  
+
+> **Lesson** (literacy, RL.4.2, ask): thinking about a character’s words and the story’s theme  
+> _Think: Moss didn’t say yes and didn’t say no. Can something be real if you’ve never seen it?_  
+> - Yes. I’ve never seen the wind, only what it moves. → A good example. Air, sound and magnetism are real, and we only notice what they do.
+> - Maybe. But you’d want some kind of sign. → That’s how scientists think: look for evidence. Tam thinks so too; that’s why he’s waiting to see.
+> - No. If nobody has ever seen it, it probably isn’t there. → That’s a careful answer. Moss would probably smile at it, and still leave Tam his hope.
+> _For grown-ups: Thought about evidence, belief, and why Moss answered the way he did._
+
+_Then Clover comes over the stile with three folded blankets, puts them down by the sign, and turns straight round._  
+**Clover**: I’m not discussing it. Three. One each and a spare. Don’t look at me like that.  
+
+#### `s31-dusk`
+
+_Gourd Night. The sun goes down orange behind the hill, and all down the lane the gourds light up on the steps, one by one._  
+
+> **Lesson** (science, 1-ESS1-2, notice): why autumn nights grow longer: the Earth’s tilt  
+> _Every evening this autumn the sun has set a little earlier. The nights are growing longer._  
+> _The Earth is tilted. From midsummer to midwinter, our half of the Earth leans further away from the Sun._  
+> _So the Sun takes a lower, shorter path across our sky, and the days shrink until midwinter._  
+> _For grown-ups: Learned that the Earth’s tilt makes autumn days shorter and nights longer._
+
+_Ivy comes out in a pointed hat and a black cloak, with a broom she is clearly going to hit people with._  
+**Ivy**: I’m a witch. A costume should be the opposite of your personality. Everyone knows that.  
+_Ned is a ghost. His sheet has so many eyeholes that it is more hole than sheet._  
+**Ned**: I had some trouble with the scissors. I can see really well, though.  
+_Sparks runs down the lane with a pair of old welding goggles and a long red scarf, and drops them in your arms._  
+**Sparks**: For your Nubbin! Every Gourd Night needs a flying ace. I wore those for twelve years.  
+_Tam is already in the long grass in his quilt, sitting very straight beside his sign. Nettie sits beside him, holding his hand._  
+
+#### `s31-ace`
+
+_The goggles go on top. The scarf goes round twice and still trails on the ground._  
+_Your Nubbin looks up at the darkening sky, very slowly, as if it has a score to settle with it._  
+_It is a flying ace now: the best pilot in the sky, at least in its own head._  
+
+> **Lesson** (literacy, L.2.4, notice): meaning of a new phrase from context  
+> _A flying ace is a pilot who is very, very skilled. People also say “ace” for anyone brilliant at something._  
+> _For grown-ups: Learned the phrase “flying ace” and the word “ace”._
+
+
+#### `s31-long-grass`
+
+_The guisers stop at the edge of the long grass on their way out: a witch, a ghost mostly made of holes, and three small bats._  
+**Ivy**: Tam. You’re going to sit in a field all night, in the cold, for a pumpkin.  
+**Tam**: Gourd. And it’s a patch, not a field.  
+**Ned**: You could come guising. There are toffee apples. You could come back after.  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): a Scottish autumn custom: guising  
+> _Guising is an old Scottish custom. Children dress up, go door to door, and do a party piece, like a joke or a poem._  
+> _In return they are given treats: nuts, fruit, toffee. The costume is a disguise, which is where the name comes from._  
+> _For grown-ups: Learned about guising, an old Scottish custom of costumes and party pieces._
+
+**Tam**: If I’m not here when he rises, he’ll think nobody meant it. I mean it.  
+_Nettie looks at the guisers, and at the bag in Ivy’s hand. Then she sits back down, firmly, next to Tam._  
+**Nettie**: I’m staying. I mean it too. I think.  
+**Ivy**: Fine. I’m fetching you both at four. I’ve told Mum. I’ve told Clover. Clover’s told everyone.  
+_Up the lane, Clover’s window has a lamp in it. It stays lit all night._  
+**Ivy**: Keeper. I need a grown-up for the lane. Some of the bats are very small.  
+**Sparks**: KEEPER! PARTY! You’re on the list! Everyone is!  
+_Tam doesn’t ask you anything. He just looks at the dark post, and waits._  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): choosing between good things; responsibility to others  
+> _Think: Ivy needs help, Sparks wants you, and Tam is waiting. Who needs you most tonight?_  
+> - The small bats. Children in the lane at night need a grown-up. → That’s responsible. Keeping little ones safe is a real job.
+> - Sparks. I said I’d go, and keeping your word matters. → That’s fair. Showing up when you’ve said you would is a kind of loyalty.
+> - Tam. He’s the one nobody else is staying for. → That’s kind. Sometimes the person who needs you most is the one who won’t ask.
+> _For grown-ups: Weighed three good reasons and thought about who needed them most._
+
+
+**Choices**
+
+- **Go guising with Ivy. Somebody has to mind the bats.**
+    - You take the smallest bat’s hand. It is sticky already.
+    - **Tam**: Go on. When he comes, I’ll tell him you were busy. He’ll understand. Probably.
+    - From the lane you look back once: two small shapes in the long grass, a sign, and the dark post.
+- **Go to Sparks’s party. You did say you would.**
+    - **Sparks**: YES! The Keeper’s coming! Pixel, play something faster!
+    - **Tam**: Bring Nettie a sandwich. She won’t ask. She’ll want one.
+    - You go up the lane towards the light. The long grass behind you gets darker as the music gets louder.
+- **Sit down next to Tam and wait.**
+    - You sit down in the long grass beside Tam. It is wet, and it is going to stay wet.
+    - **You**: My gran had a rule for this. Her third one.
+    - **You**: When you don’t know what to do, sit down next to them and wait.
+    - **Tam**: That’s a rule? Good. I like rules.
+    - Ivy looks at the three of you, opens her mouth, and shuts it again.
+    - **Ivy**: Fine. Four o’clock.
+
+#### `s31-guising`
+
+_The lane is all lit gourds and cold noses. At every door the guisers tell a joke, and hold out their bags._  
+_At the first door, Ivy gets a toffee apple and the bats get nuts. Ned looks in his bag for a long moment._  
+_There is a rock in it._  
+_At the second door and the third: pennies and toffee for everyone, and for Ned, a rock. Then another rock._  
+**Ned**: …Maybe they’re running out of things.  
+_At Fern’s door there are honey cakes. Fern gives everyone a honey cake, then looks at Ned, and gives him a rock._  
+**Fern**: I’m so sorry. I panicked. It seemed to be the custom.  
+_At Byte’s door, Byte looks at them all and goes back in for something. He comes out with a rock with a paper label._  
+_Ned doesn’t look in his bag any more. He just holds it open, and waits for the clunk._  
+
+> **Lesson** (maths, 1.OA.A.1, ask): compare totals and find the difference  
+> _Ivy has a toffee apple, pennies, toffee and a honey cake: 4 treats. Ned has 5 rocks. Who has more things, and by how many?_  
+> - ✅ Ned, by 1 → Yes: 5 − 4 = 1. Ned has the most things. Just not the best ones.
+> - Ivy, by 1 → Count again: Ivy has 4, Ned has 5. 5 − 4 = 1, so Ned has one more. Not that it helps him.
+> - They have the same → Close! Ivy has 4 and Ned has 5. Ned has 1 more thing.
+> _For grown-ups: Compared two totals and found the difference (5 − 4 = 1)._
+
+
+#### `s31-rock`
+
+_Ned holds up the rock with the label, so you can read it. In Byte’s small square capitals: BASALT._  
+
+> **Lesson** (science, 2-PS1-4, notice): basalt forms when lava cools quickly  
+> _Basalt is a dark rock made from lava, melted rock that pours out of a volcano. It cooled fast, so its crystals are tiny._  
+> _Melting rock and cooling it again is a change that can happen both ways, but it takes enormous heat._  
+> _At the Giant’s Causeway in Northern Ireland, cooling basalt cracked into about 40,000 tall stone columns._  
+> _For grown-ups: Learned that basalt is cooled lava, with an example from the Giant’s Causeway._
+
+**Ned**: Five doors. Five rocks. I think the rocks have found me on purpose.  
+**Ned**: But Byte wrote what it is. Nobody ever writes down what my things are.  
+**Ned**: You have it. For being the witness. I know it didn’t count.  
+_It is heavy and cold and very ordinary. You put it in your pocket, and find you keep checking it’s there._  
+
+#### `s31-ace-roof`
+
+_Meanwhile, on the roof of the end cottage, a small figure in goggles and a long red scarf is playing a very serious game._  
+_Your Nubbin is the flying ace. It stands on the ridge tiles and stares into the dark at an enemy only it can see._  
+_It ducks and weaves and shakes one paw at the sky. Then something only it can hear goes wrong with its engine._  
+_It spins three times, slides down the slates, and drops into the water butt with a small, heroic splash._  
+_It climbs out, wrings its scarf out with great dignity, and looks about for cover._  
+_Far off across the hedges, Sparks’s workshop glows like a lighthouse on a dark sea._  
+
+> **Lesson** (literacy, L.4.5, ask): similes  
+> _“The workshop glows like a lighthouse on a dark sea.” That’s a simile. Why might the writer choose a lighthouse?_  
+> - ✅ Because a lighthouse guides lost travellers home → Exactly. The Nubbin is “lost behind the lines”, and the workshop is the light that guides it in.
+> - Because the workshop is by the sea → It isn’t, really. A simile compares two different things. A lighthouse guides lost sailors home, like the workshop guides the Nubbin.
+> _For grown-ups: Explained why a writer chose a particular simile._
+
+
+#### `s31-ace-party`
+
+_Your Nubbin crawls the last hedge on its belly, slips into the party between everyone’s boots, and hides in the apple-bobbing tub._  
+_Ivy, back from guising, puts her hands behind her back and plunges her face in for an apple. She comes up with a lick instead._  
+
+> **Lesson** (science, 2-PS1-1, notice): floating and sinking: why apples float  
+> _Apple-bobbing only works because apples float. About a quarter of an apple is air, trapped between its cells._  
+> _That makes an apple lighter than the same amount of water, so it bobs at the top. A rock, like Ned’s, would sink._  
+> _For grown-ups: Learned that apples float because they contain air, and compared them with rocks, which sink._
+
+**Ivy**: Something LICKED me. Something in the TUB licked me.  
+_Pixel plays old tunes on the pianola. Your Nubbin, dripping, is merry for a jig, tragic for a slow one, and merry again._  
+
+> **Lesson** (music, notice): tempo and mood in music  
+> _Musicians call the speed of a tune its tempo. A quick tempo tends to sound merry; a slow one can sound sad or thoughtful._  
+> _For grown-ups: Learned the word “tempo” and how speed changes the mood of music._
+
+_Then it howls, once, by accident, and looks shocked at itself._  
+_Before anyone can say anything, it slinks out into the dark, scarf trailing._  
+
+#### `s31-if`
+
+_Nearly midnight. Three lanterns burn steady across the Grove, and the fourth post stands dark over the long grass._  
+_The cold has come up out of the ground. Your knees have stopped being knees and become opinions._  
+_The spare blanket stays folded on top of the sign. Tam says it’s for the Great Gourd, in case he’s cold from flying._  
+**Nettie**: Tam. My feet have gone.  
+**Nettie**: Tam. What if he isn’t coming?  
+**Tam**: He’s coming. And when he comes, I’ll put in a good word for everybody. You. Ivy, even. The Keeper.  
+**Tam**: If he comes, I’ll ask him to…  
+_He stops. He heard it too._  
+**Tam**: …If. I said “if”. Out loud. In the patch. He’ll have heard it.  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): doubt and hope can live together  
+> _Think: does saying “if” mean Tam has stopped believing?_  
+> - No. You can hope for something and still be unsure. → That’s wise. Hope and doubt often sit side by side, especially at midnight.
+> - A bit. Part of him is starting to wonder. → That’s honest. Wondering isn’t giving up. It’s just thinking out loud.
+> - It means he’s tired and cold. → Very true. Big feelings get bigger when we’re tired. That isn’t the same as not believing.
+> _For grown-ups: Thought about how doubt and hope can be felt at the same time._
+
+_He pulls the quilt up over his head. From under it comes a small sniff, and then a much bigger one._  
+
+**Choices**
+
+- **“Everyone says ‘if’. Even about things they’re sure of.”**
+    - **You**: Everyone says “if”, Tam. Even about things they’re sure of.
+    - **Tam**: …Even you?
+    - **You**: Especially me.
+    - The quilt comes down as far as his eyes.
+- **Say nothing. Shift a little closer.**
+    - You say nothing. You shift a little closer, until your shoulder is against the quilt.
+    - After a while, the quilt leans back.
+
+#### `s31-midnight`
+
+_Midnight comes and goes. Nothing rises out of the long grass except the cold._  
+_An owl goes over, very low, without a sound, and has a look at the sign._  
+**Nettie**: Is that him?  
+**Tam**: That’s an owl.  
+_The owl lands on the third post, turns its head almost all the way round, and stares at the toffee apple._  
+_Then it drifts off over the hedge, still without a sound._  
+
+> **Lesson** (science, 4-LS1-1, notice): owls’ adaptations for hunting at night  
+> _Most owls are nocturnal: they hunt at night and rest by day._  
+> _The edges of their wing feathers are soft and fringed, which hushes the air. That’s why it made no sound._  
+> _Their huge eyes gather what little light there is, and their sharp ears can find a mouse moving under grass._  
+> _For grown-ups: Learned how owls’ feathers, eyes and ears help them hunt at night._
+
+
+#### `s31-frost`
+
+_In the small hours the frost comes, the way it has every dawn this autumn._  
+_It creeps out of the long grass in a long white tongue, straight for the dark post. The grass goes stiff and silver._  
+
+> **Lesson** (science, 2-ESS2-3, notice): how frost forms, and why it gathers in low places  
+> _On a clear, still night, the ground loses its warmth to the sky. When the grass cools below 0 °C (32 °F), frost can form._  
+> _Water vapour in the air freezes straight onto the cold blades as tiny ice crystals._  
+> _Cold air is heavier than warm air, so it slides downhill and pools in low places. That’s why the frost creeps in like a tongue._  
+> _For grown-ups: Learned how frost forms below freezing and why cold air pools in low ground._
+
+_Tam is awake. He has been awake all night, out of principle._  
+_Nettie is asleep against him with her mouth open and one boot off._  
+**Tam**: Here it comes. Here he comes. That’s what the cold is. It’s him, getting near.  
+_Out in the white grass, by the post, something moves._  
+
+#### `s31-shape`
+
+_A shape rises at the edge of the white grass, where the frost hasn’t reached. Round, and goggled, and trailing a scarf._  
+_Tam takes one look, says “Oh,” very politely, and faints clean away._  
+_He comes round almost at once, says he is perfectly fine, and falls fast asleep in his quilt._  
+
+> **Lesson** (health, notice): what fainting is and what helps  
+> _A big fright can make some people faint: for a moment, not enough blood reaches the brain._  
+> _Lying flat helps the blood get back, which is why fainters usually come round quickly. Tam is tired, cold and fine._  
+> _For grown-ups: Learned simply what fainting is and that lying flat helps._
+
+_It is your Nubbin, home from the war. It climbs into your lap, still damp from the water butt, and falls asleep too._  
+**Nettie**: He does that. He fainted at a goose once. Leave him; he likes it.  
+
+#### `s31-four`
+
+_At four o’clock exactly, a lantern comes bobbing down the lane, grumbling._  
+**Ivy**: Four o’clock. I said four. Look at the state of you all.  
+
+> **Lesson** (maths, 3.MD.A.1, ask): time intervals across midnight  
+> _Tam sat down at six o’clock in the evening. It is now four o’clock in the morning. How long has he waited?_  
+> - ✅ 10 hours → Yes. Six in the evening to midnight is 6 hours, and midnight to four is 4 more. 6 + 4 = 10 hours.
+> - 2 hours → That’s 6 − 4. But the clock goes past midnight. Six to midnight is 6 hours, then 4 more: 10 hours.
+> - 4 hours → That’s just from midnight. Add the 6 hours from six o’clock to midnight: 10 hours.
+> _For grown-ups: Worked out a time interval that crosses midnight (6 + 4 = 10 hours)._
+
+_She looks at Tam, asleep in his quilt, and doesn’t laugh. She hands her lantern to Nettie and lifts him, quilt and all._  
+_He doesn’t wake. His boots hang down, and she hitches him up and doesn’t complain once._  
+_She has a blanket over her arm, brought for him. On the way past, she drops it on you without looking._  
+**Ivy**: You look frozen. It’s very stupid, sitting out all night. I’m not saying anything nice about it.  
+_For Ivy, that is something nice._  
+
+> **Lesson** (literacy, RL.3.3, notice): reading a character’s actions, not just her words  
+> _Ivy’s words are prickly. Her actions are careful. When those two don’t match, the actions usually tell you more._  
+> _For grown-ups: Noticed that Ivy’s actions show her care more than her words do._
+
+_She goes off up the lane with Tam, and Nettie trots after with the lantern, yawning, very small._  
+
+#### `s31-light`
+
+_Up the lane, a light goes on in the end cottage. Ivy gets Tam up the stairs, takes his boots off, and tucks him in._  
+_Then she walks back to her own room and shuts the door. Nobody ever hears about it from her._  
+_In the long grass it gets light, slowly. The frost comes off the post in a thin steam._  
+
+> **Lesson** (science, K-PS3-1, notice): sunlight warms surfaces and melts frost  
+> _As the sun climbs, its light warms the post and the grass, and the ice melts._  
+> _Some of the water evaporates, then cools again in the chilly air into a thin mist of tiny drops: that’s the steam._  
+> _For grown-ups: Learned that sunlight warms surfaces and melts frost._
+
+_Tam’s sign is still standing, WELCOME GREAT GOURD, with the R still backwards for luck._  
+
+> **Lesson** (science, 3-LS4-3, notice): why frost ends the gourd season  
+> _Fern’s gourd vines will be black and limp by lunchtime. Frost is the end of their year._  
+> _Squash plants are tender. When the water inside their leaves freezes, sharp ice crystals break the leaves apart._  
+> _That’s why growers pick every gourd before the first frost. Hardier plants, like kale, can survive it._  
+> _For grown-ups: Learned why frost kills tender plants like squashes, and why gourds are picked before it comes._
+
+
+#### `s31-next-year`
+
+_Tam sleeps until lunchtime. Then he is back on the Grove wall in his quilt, looking at the long grass, with his chin out._  
+_Ned is sitting beside him, with a bit of ghost sheet still tucked into his collar, trying to help._  
+**Ned**: I’ve done loads of silly things. I tried to kick a ball Ivy was holding. Nine times. Ten, now.  
+**Ned**: So you mustn’t feel bad. About waiting in a patch all night for nothing.  
+**Tam**: Silly?  
+**Tam**: He didn’t come because somebody said “if”. That’s a technical problem. That isn’t silly.  
+_Along the lane, Nettie walks past the end of the wall with her nose in the air, and does not look at Tam at all._  
+**Tam**: And Nettie’s crosser than anybody. She gave up a whole night of guising to sit with me.  
+**Tam**: He’ll come next year. Next Gourd Night. I’ll find a patch so sincere he can’t help himself.  
+_He goes on saying so for some time. Ned, who is kind, listens to all of it._  
+
+> **Lesson** (literacy, RL.3.6, ask): different points of view on the same event  
+> _Think: Ned calls the night silly. Tam calls it a technical problem. What do you call it?_  
+> - Brave. He stuck to what he believed all night. → That’s a generous view, and Tam would agree with you completely.
+> - A bit silly, but kind of wonderful too. → Two things can be true at once. Lots of the best nights are both.
+> - Sad. He waited and nothing came. → That’s honest. It was sad, and he wasn’t alone in it, which helps.
+> _For grown-ups: Compared characters’ points of view with their own._
+
+
+#### `s31-promise`
+
+_When Ned has gone home, Tam turns round on the wall, quilt and all, and looks at you._  
+**Tam**: You sat. All night. Even the cold bit.  
+**Tam**: Next year. Will you wait with me again?  
+
+> **Lesson** (maths, 4.MD.A.1, ask): units of time: months and weeks in a year  
+> _Next Gourd Night is one year away. About how many weeks is that?_  
+> - ✅ 52 weeks → Yes. A year is 12 months, 52 weeks, or 365 days. A long time to practise sitting.
+> - 12 weeks → 12 is the number of months. A year has 52 weeks.
+> - 100 weeks → That’s nearly two years! One year has 52 weeks.
+> _For grown-ups: Recalled that a year has 12 months, 52 weeks and 365 days._
+
+
+**Choices**
+
+- **“Yes.”**
+    - **You**: Yes.
+    - **Tam**: Good. I’ll put you on the list. There’s only one list. It says everybody, but you’re at the top.
+    - His sign stays by the long grass all winter, and nobody moves it. The frost comes to it every morning, and goes again.
+- **“Yes. And I’m bringing my own blanket.”**
+    - **You**: Yes. And I’m bringing my own blanket.
+    - **Tam**: That’s fair. The spare one’s his.
+    - His sign stays by the long grass all winter, and nobody moves it. The frost comes to it every morning, and goes again.
+
+#### `s31-complete`
+
+_Next morning, Tam is down at the long grass before anyone else is up. By the foot of his sign, someone has left something._  
+_One acorn. Just one, very round and very shiny, set exactly in front of the sign._  
+
+> **Lesson** (science, 3-LS1-1, notice): an acorn’s life cycle; animals spread seeds  
+> _An acorn is an oak tree’s seed. Planted, it becomes a seedling, then a sapling, then an oak that can live for hundreds of years._  
+> _Jays and squirrels bury acorns to eat in winter, and forget some of them. Many oak woods were planted that way._  
+> _For grown-ups: Learned the oak’s life cycle and how animals help spread acorns._
+
+**Tam**: It’s a toy. A medium toy. He read the letter.  
+**Tam**: He couldn’t come, so he sent a deposit.  
+_Up on the hill, Moss is sitting very still, with the look of someone who has never in his life been near an acorn._  
+_Sparks won’t take the goggles back. She says they’ve seen action now, and it would be wrong._  
+_Your gourd lantern goes on the wall by the gate, where it can be seen from the air._  
+
+### Glossary
+
+- **sincere**: Meaning what you say and being truly yourself, without pretending.
+- **homophone**: A word that sounds the same as another but is spelt differently and means something else, like great and grate.
+- **pollen**: A fine yellow powder that flowers make; bees carry it from flower to flower so fruit and seeds can grow.
+- **custom**: Something people in a place have done the same way for a long time.
+- **symmetry**: When one half of a shape is a mirror image of the other half.
+- **witness**: Someone who sees something happen and can say truly that it did.
+- **biased**: Leaning towards one side unfairly, instead of judging both sides equally.
+- **rumour**: A story passed from person to person that may or may not be true.
+- **tilt**: A lean to one side; the Earth leans a little as it travels round the Sun.
+- **ace**: A pilot who is extremely skilled; also anyone who is brilliant at something.
+- **guising**: An old Scottish custom of dressing up and going door to door on an autumn night, doing a party piece for treats.
+- **basalt**: A dark, fine-grained rock made when lava cools quickly.
+- **lava**: Melted rock that comes out of a volcano.
+- **simile**: A comparison that uses “like” or “as”, such as “glows like a lighthouse”.
+- **tempo**: The speed of a piece of music.
+- **nocturnal**: Awake and active at night, asleep in the day.
+- **vapour**: Water as an invisible gas in the air.
+- **deposit**: A small part of something given now, as a promise that the rest will come later.
+- **thorough**: Careful to do every part of something properly.
+
+## LB1. Boxes
+
+- `lb01-s1`: Help the Larkins carry their boxes from the post van into the cottage past Fern’s. · _Pick up a box at the van’s back doors and carry it into the front room._
+- `lb01-s2`: Help Ned choose one empty box to keep. · _Talk to Ned in the front room and pick a box with him._
+
+#### `lb01-van`
+
+_A red post van is parked crooked in the lane past Fern’s. Its back doors are open, and it is full of somebody’s whole life._  
+**Ama Larkin**: Hello! You must be next door. Well, next door but one. I’m Ama. I drive the post van.  
+
+> **Lesson** (literacy, L.2.4, ask): working out a phrase from context  
+> _Ama says you live “next door but one”. Fern’s house is between yours and theirs. What does it mean?_  
+> - ✅ Two houses along → Exactly. Next door is Fern. Next door but one is you.
+> - Right next door → Not quite. Fern is right next door. “But one” means skip one more house.
+> - Very far away → It’s close! Just one house in between, so two houses along.
+> _For grown-ups: Your child worked out what “next door but one” means from the scene._
+
+**Ama Larkin**: It isn’t usually full of our own socks. Usually it’s everyone else’s parcels.  
+**Sam Larkin**: Sam. Hello. Sorry. We’ve been up since four.  
+_A girl in a paper crown marches past with a lampshade. A small boy follows her, carrying nothing, very carefully._  
+**Maisie**: I’m Maisie. I’m six, so I do the rules. That’s Ned. He’s four.  
+**Ned**: I’m in charge of not dropping things.  
+_Your Nubbin trots up to Ned. They stare at each other, both delighted._  
+**Sam Larkin**: If you’ve got a spare pair of arms, we’ve got about forty boxes.  
+
+#### `lb01-unpacked`
+
+_By lunchtime the van is empty and the front room is full of boxes. Most of the boxes are empty too._  
+**Ama Larkin**: That’s the lot. The kettle was in the box marked SHOES, so that’s one mystery solved.  
+_Maisie and Ned look at the empty boxes the way other children look at cake._  
+**Maisie**: Twelve boxes are exactly the same size. We need towers. Equal ones, or it isn’t fair.  
+
+> **Lesson** (maths, 3.OA.A.1, do): multiplication as equal groups  
+> _Stack the 12 boxes into equal towers. Find three different ways._  
+> **Maisie**: 2 towers of 6. 3 towers of 4. 4 towers of 3. All twelve!  
+> _2 × 6, 3 × 4 and 4 × 3 all make 12. Multiplying is just counting equal groups._  
+> Check: `edu:sort:boxes:equal-piles`
+> _For grown-ups: Your child stacked 12 boxes into equal piles three different ways._
+
+
+#### `lb01-boxes`
+
+_Ama folds the empty boxes flat for the recycling. Ned watches each one fold up like a small, sad animal._  
+**Ned**: Not that one! Or that one!  
+**Ama Larkin**: Ned, love, we can’t keep forty boxes. We’d have to live in the garden.  
+**Sam Larkin**: One box, then. One box for keeps.  
+_Ned knocks on each box, like knocking on a door. Then he climbs into one and goes quiet._  
+**Maisie**: He’s sad about his old bedroom. It had glow-in-the-dark stars on the ceiling.  
+**Ned**: They wouldn’t come off. I tried.  
+**Sam Larkin**: They’re still up there, mate. Glowing away for whoever sleeps there next.  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): mixed feelings  
+> _Moving day is exciting. Ned has boxes and a new friend. So why can a happy day still feel sad?_  
+> - Because new things mean leaving old things → That’s a wise answer. You can love the new and still miss the old.
+> - Because he’s tired → That’s fair. Tired makes every feeling bigger, and he was up at four.
+> - Feelings can mix → Yes. Happy and sad can sit side by side, like two people on one bench.
+> _For grown-ups: Your child thought about how a happy day can hold a sad feeling too._
+
+_Ned thinks about that for a long time. Then he climbs out, points at three boxes, and looks at you._  
+**Ned**: You pick. You’re the grown-up next door.  
+
+**Choices**
+
+- **The big one. You could live in it.**
+    - Ned climbs into the big box and pulls the flaps shut over his head.
+    - **Ned**: It’s got a ROOF.
+- **The long one. It’s the shape of a boat.**
+    - Ned lies down in the long box. It fits him exactly, with room at the end for your Nubbin.
+- **The tall one. It’s nearly as tall as Ned.**
+    - Ned stands inside the tall box. Only his eyes show over the top.
+    - **Ned**: It goes UP.
+
+#### `lb01-complete`
+
+_Ama writes NED on the box in marker pen, in letters as big as Ned’s hand._  
+
+> **Lesson** (science, 2-PS1-1, notice): properties of cardboard  
+> **Ama Larkin**: Cardboard is made from wood, mashed up into paper and pressed into layers. Light, stiff, strong enough to stand in.  
+> **Ama Larkin**: Its one weakness is water. Keep Ned’s box out of the rain, or it goes soft and floppy.  
+> _For grown-ups: Your child learned what cardboard is made of and what it is good and bad at._
+
+**Ama Larkin**: There. Officially his. Thank you for today. I’d have been making tea in a shoe box till August.  
+**Sam Larkin**: Come round whenever you like. They’ll need a customer for something soon. They always do.  
+**Maisie**: Can we borrow your Nubbin for games sometimes? We’ll always ask, and we’ll always give it back.  
+_Ned waves at your Nubbin from inside his box until you reach the lane._  
+
+### Glossary
+
+- **recycling**: Collecting used things, like boxes, so they can be made into something new.
+- **officially**: Properly and for real, as if it had been written down and agreed.
+
+## LB2. Shops
+
+- `lb02-s1`: Buy a leaf from Ned’s shop on the Larkins’ step. · _Talk to Ned and pay for a leaf. You will get your Shells back._
+- `lb02-s2`: Help Maisie and Ned share the shop. · _Talk to Maisie and Ned at the step and help them take turns._
+
+#### `lb02-shop`
+
+_A cardboard sign on the Larkins’ step says SHOP, with the S backwards. The shop is open._  
+_Leaves sit in rows on a tea towel. One has a hole in it, which Ned says is a window._  
+**Ned**: Welcome to the shop. Everything is leaves.  
+**You**: How much is this one?  
+**Ned**: Five Shells. No. A hundred. No. Two.  
+_Prices in Ned’s shop change as often as the wind. Your Nubbin guards the till, which is a biscuit tin._  
+
+> **Lesson** (social-studies, D2.Eco.1.K-2, notice): prices and choices  
+> _A price is what something costs. The shopkeeper sets it; the customer decides if it’s worth it._  
+> _Real shops change prices too, just not every four seconds._  
+> _For grown-ups: Your child learned that a price is what something costs, and buyers choose what to spend on._
+
+**Ned**: The window leaf is thirteen. It’s the best one. You can look through it.  
+
+**Choices**
+
+- **Thirteen Shells it is.**
+    - **Ned**: Good. I only have change from twenty.
+- **Do you do discounts?**
+    - **Ned**: Yes. It’s fourteen.
+    - You decide thirteen was a bargain.
+- **Could my Nubbin buy one too?**
+    - **Ned**: Nubbins are free. Nubbins get a leaf for nothing.
+    - Your Nubbin holds its leaf up like a flag.
+
+#### `lb02-bought`
+
+_You hand Ned twenty Shells for the thirteen-Shell leaf. He looks at them very hard._  
+**Ned**: Now I give you change. That’s the best bit.  
+_Ned counts change out of the biscuit tin, slowly, with his tongue out._  
+
+> **Lesson** (maths, 2.OA.A.1, do): working out change  
+> _You paid 20 for a 13-Shell leaf. How much change? Count up from 13 to 20._  
+> **Ned**: Fourteen, fifteen… twenty! Seven Shells change!  
+> Check: `edu:count:shells:change-7`
+> _For grown-ups: Your child worked out the change from 20 for a 13-Shell leaf (7)._
+
+_Then he gives you all twenty back anyway, because in Ned’s shop change is the best bit and nobody leaves without all of it._  
+
+#### `lb02-turns`
+
+_Maisie comes out with a second tea towel and a sign of her own. Hers says SHOP TOO._  
+**Maisie**: I’m the shopkeeper now. Ned’s had ages.  
+**Ned**: It’s MY shop. I made the S.  
+_Ned hugs the biscuit tin. Maisie folds her arms. The leaves blow about, unsupervised._  
+**Sam Larkin**: Is there a way two shopkeepers could work this out?  
+_Sam is leaning out of the shed window, holding a chair leg he has been sanding all morning._  
+**Maisie**: He could be the customer. Customers are important too.  
+**Ned**: Customers don’t get the tin.  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): sharing and turn-taking  
+> _When two people want the same thing, a fair plan helps: who goes first, for how long, and what happens next._  
+> _For grown-ups: Your child saw how a fair plan for turns can solve a disagreement._
+
+
+**Choices**
+
+- **Ned sells one thing, then you swap.**
+    - **Maisie**: One each. Fine. But I’m having the window leaf.
+- **Two shops, side by side. I’ll shop at both.**
+    - Maisie sets up next to Ned. The step now has a high street.
+- **Whoever’s selling holds the tin.**
+    - **Ned**: And then I get it back?
+    - **Maisie**: Then you get it back.
+
+#### `lb02-complete`
+
+_Maisie runs the shop for a while. Ned is a customer, and finds out something surprising._  
+**Ned**: Buying is ALSO good.  
+
+> **Lesson** (literacy, RL.2.3, ask): how a character changes  
+> _Ned didn’t want to be the customer. Now he loves it. What changed?_  
+> - He tried it → Yes. Sometimes you don’t know you like something until you try it.
+> - He got change every time → Ha! That helped. Getting things back is Ned’s favourite.
+> - He felt included → That’s thoughtful. Being part of the game mattered more than which part.
+> _For grown-ups: Your child noticed how Ned’s feelings changed when he tried a new role._
+
+_He buys the window leaf six times. Maisie gives him change every time, because that is how this shop works now._  
+**Sam Larkin**: Two shopkeepers, one tin, nobody crying. That’s a good day’s trading.  
+_When you go, Ned presses a leaf into your hand. It is free, he says, because you are a regular._  
+
+### Glossary
+
+- **customer**: A person who buys something from a shop.
+- **change**: The money you get back when you pay more than something costs.
+
+## LB3. Don’t Touch the Grass
+
+- `lb03-s1`: Help lay the cushions across the Larkins’ lawn. · _Carry cushions from the back door and drop them in a line to the fence._
+- `lb03-s2`: Cross the lawn to the fence without touching the grass. · _Hop from cushion to cushion. If you touch grass, start again._
+
+#### `lb03-rules`
+
+_Every cushion in the Larkins’ house is out on the lawn, and so is Sam, flat on his back in the long grass._  
+**Maisie**: The rules. The grass is a pond. You can only stand on cushions.  
+
+> **Lesson** (literacy, L.4.5, notice): metaphor  
+> _“The grass is a pond” isn’t true, but it makes the game. Saying one thing IS another is called a metaphor._  
+> _For grown-ups: Your child learned that saying one thing IS another (the grass is a pond) is a metaphor._
+
+**Maisie**: And something lives in the pond. It has tickly fingers.  
+_Somewhere in the long grass, a hand waves slowly, like pondweed._  
+**Sam Larkin**: Bloop.  
+**Ned**: That’s Dad. But it’s also NOT Dad.  
+**Maisie**: We need a path of cushions from the back door to the fence. The fence is the island.  
+
+#### `lb03-laid`
+
+_The cushions wobble across the lawn in a crooked line. Most are close together. One gap is enormous._  
+**Maisie**: That gap is the hard bit. It’s meant to be hard.  
+**Ned**: How big is it?  
+_Sam’s tape measure is in his shed. Maisie fetches it at a run._  
+
+> **Lesson** (maths, 2.MD.A.1, do): measuring with a tape  
+> _Hold the tape at the edge of one cushion and read where the next begins. Start from zero, not from the metal tab._  
+> **Maisie**: The gap is 90 centimetres. My best jump is 110. Ned’s is 60.  
+> _Ned’s jump is 30 centimetres short. Can that be fixed without changing Ned?_  
+> Check: `edu:measure:jump:tape`
+> _For grown-ups: Your child measured the gap and the biggest jump with a tape measure, in centimetres._
+
+
+#### `lb03-crossing`
+
+_Maisie crosses first, fast and sure, arms out like a tightrope walker._  
+_Ned goes second. He stops on a cushion with his toes over the edge, looking at the long gap._  
+**Ned**: It’s too far.  
+_The grass rustles. Two fingers appear, wiggling, and go away again._  
+**Maisie**: You can do it, Ned. Big jump.  
+**Ned**: My legs are only small.  
+
+> **Lesson** (science, K-2-ETS1-1, notice): defining the problem  
+> _Engineers start by saying the problem exactly. Here: the gap is 90 cm and Ned can jump 60._  
+> _So the fix must close 30 cm, or help Ned across it._  
+> _For grown-ups: Your child stated the problem clearly before solving it: the gap is longer than Ned’s jump._
+
+
+**Choices**
+
+- **Put down one more cushion, halfway.**
+    - You slide a cushion into the gap. Two small jumps instead of one big one.
+    - **Maisie**: That’s allowed. Islands can grow.
+- **Hold out a hand from the next cushion.**
+    - You lean out from the far cushion. Ned grabs your fingers and jumps.
+    - **Ned**: I did a huge one!
+- **Let your Nubbin show him how.**
+    - Your Nubbin flaps its small wings and bounces across. Ned copies it exactly, flaps and all.
+
+#### `lb03-complete`
+
+_Everyone reaches the fence. Then everyone goes back, because that is how this game works._  
+_On the third crossing the tickly fingers catch Ned’s ankle. He tumbles into the grass and laughs till he hiccups._  
+**Sam Larkin**: Got one. The pond monster is satisfied. The pond monster would also like a cup of tea.  
+**Maisie**: Pond monsters don’t drink tea.  
+**Sam Larkin**: This one does. It’s been a long week in the pond.  
+
+> **Lesson** (literacy, RL.3.3, ask): character motive  
+> _Sam has worked all week. Why do you think he chose to be the monster who lies in the grass?_  
+> - So he can rest and still play → That’s sharp. Lying down is the most restful part going, and he’s still in the game.
+> - Because it’s funny → True. A dad who goes “bloop” is very funny.
+> - Because the children asked → Yes. He says yes to games, even tired. That matters to them.
+> _For grown-ups: Your child thought about why Sam plays the game lying down, and what he gets from it._
+
+_Ned brings his dad a pretend tea in a flowerpot. Sam drinks every pretend drop._  
+
+### Glossary
+
+- **metaphor**: Saying one thing is another to make a picture in your head, like “the grass is a pond”.
+- **centimetre**: A small unit of length; 100 centimetres make a metre.
+
+## LB4. Sleeping Giant
+
+- `lb04-s1`: Find the sleeping giant in the Larkins’ garden. · _The giant is in the deckchair under the apple tree._
+- `lb04-s2`: Creep up on the giant, and freeze whenever he turns. · _Move slowly. When the newspaper twitches, stop and hold still._
+
+#### `lb04-giant`
+
+_Sam is asleep in a deckchair under the apple tree, a newspaper over his face. It rises and falls as he breathes._  
+**Maisie**: Shh. He’s the giant. He’s guarding the treasure.  
+_The treasure is a biscuit, on the arm of the deckchair, beside his hand._  
+**Ned**: He made two chairs this week. Giants get very tired.  
+
+> **Lesson** (health, K-LS1-1, notice): sleep and rest  
+> _Sleep isn’t lazy. While you sleep, your body repairs itself and your brain sorts out the day._  
+> _Children need more sleep than grown-ups, but everyone needs it._  
+> _For grown-ups: Your child learned that sleep helps bodies recover, for grown-ups as well as children._
+
+**Maisie**: You creep up. When the giant turns his head, you freeze like a statue.  
+**Maisie**: If he sees you move, back to the start. First to touch the biscuit wins.  
+
+#### `lb04-start`
+
+_You line up by the gate: you, Maisie, Ned and your Nubbin, who doesn’t understand the rules but loves a line._  
+**Sam Larkin**: Fee. Fi. Hmm. Fo.  
+
+> **Lesson** (literacy, RL.2.4, notice): old stories and repeated lines  
+> _Sam is borrowing from Jack and the Beanstalk, an English fairy tale hundreds of years old. Its giant has a famous chant._  
+> _Repeated sounds like fee, fi, fo make stories easy to remember and fun to say._  
+> _For grown-ups: Your child heard that Sam borrows the giant’s chant from an old fairy tale, Jack and the Beanstalk._
+
+**Maisie**: That means go.  
+_Ned giggles, then clamps both hands over his mouth._  
+
+#### `lb04-creep`
+
+_Maisie runs, and the newspaper twitches. Sam turns his head, and Maisie is still wobbling._  
+**Sam Larkin**: I see a Maisie. Back to the gate, Maisie.  
+**Maisie**: I was nearly STILL!  
+_Ned goes so slowly that a bee lands on his shoulder and leaves again. When Sam turns, Ned is a perfect statue._  
+
+> **Lesson** (sel, CASEL: Self-management, do): self-control  
+> _Your turn. Tiny steps, then freeze when the paper twitches. Why do slow, careful moves win here?_  
+> _Because fast bodies wobble when they stop. Slow ones are already nearly still._  
+> Check: `edu:order:steps:slow`
+> _For grown-ups: Your child practised slow, careful movement and thought about why patience wins this game._
+
+**Sam Larkin**: Hmm. Just a garden ornament. A very small one.  
+_Ned beams, then remembers statues can’t beam, and stops._  
+
+> **Lesson** (science, 3-PS2-1, notice): balanced forces  
+> _A statue stays still because the forces on it are balanced: gravity pulls down, the ground pushes up._  
+> _Running is unbalanced: your feet push, you speed up, and stopping takes another push._  
+> _For grown-ups: Your child learned that a still statue has balanced forces, and a push starts movement._
+
+
+**Choices**
+
+- **Go slow, like Ned.**
+    - You take tiny steps. The grass hardly moves.
+- **Try a quick dash.**
+    - You dash. The newspaper lifts.
+    - **Sam Larkin**: I see a grown-up. Back you go.
+    - **Maisie**: Told you. Slow wins.
+- **Send your Nubbin in first.**
+    - Your Nubbin waddles straight up and sits by Sam’s feet. Nobody can tell if it’s cheating.
+
+#### `lb04-complete`
+
+_In the end it is Ned. One slow foot at a time, he reaches the deckchair and puts one finger on the biscuit._  
+**Ned**: Got it.  
+_Sam lifts the newspaper. He has been awake for some of it and asleep for some of it, and he isn’t saying which._  
+**Sam Larkin**: Beaten by the smallest statue in the valley. One more go?  
+_Ned breaks the biscuit into four pieces, one for each player. Your Nubbin’s is the biggest, because Ned says it was the quietest._  
+
+> **Lesson** (maths, 3.NF.A.1, ask): unit fractions need equal parts  
+> _Four pieces, one each. Is each piece a quarter of the biscuit?_  
+> - ✅ Not quite: they aren’t equal → Right. A quarter means one of four EQUAL parts. Ned’s pieces are four parts, but one is bigger.
+> - Yes, there are four → There are four pieces, but quarters must be equal. The Nubbin’s is bigger, so they aren’t quite quarters.
+> _For grown-ups: Your child learned that quarters must be equal parts, so Ned’s four pieces aren’t quite quarters._
+
+
+### Glossary
+
+- **statue**: A figure that stands perfectly still, often made of stone or metal.
+- **balanced**: Even on every side, so nothing moves or tips.
+
+## LB5. Nubbin Doctor
+
+- `lb05-s1`: Take your Nubbin to Maisie’s pretend clinic in the Larkins’ shed. · _Walk your Nubbin to the shed. It is not ill; it is playing a patient._
+- `lb05-s2`: Help Ned bandage your Nubbin, kindly. · _Talk to Ned at the workbench. He has the wrong foot._
+
+#### `lb05-clinic`
+
+_The shed has been cleared for the clinic. The workbench is a bed, with a tea towel for a sheet._  
+**Maisie**: Next patient, please. Ah. A Nubbin. What seems to be the trouble?  
+
+> **Lesson** (science, K-LS1-1, notice): what animals need to live  
+> **Maisie**: First question for every patient: food, water, air, a safe place to rest. Every animal needs those to live.  
+> **Maisie**: Nubbins also need cuddles. That’s not science. That’s just true.  
+> _For grown-ups: Your child learned the basic needs of every animal: food, water, air and shelter._
+
+**You**: Nothing, really. It’s very well.  
+**Maisie**: That’s what they all say. Up on the bed, please.  
+_Your Nubbin lies flat on its back. It is not ill, just very good at lying still._  
+**Ned**: I’m the nurse. I’ve got the bandages.  
+_Ned holds up a whole roll of toilet paper, like a trophy._  
+
+#### `lb05-checkup`
+
+_Maisie listens to your Nubbin’s chest through a funnel. Your Nubbin does its best to have a chest worth listening to._  
+**Maisie**: Good heart. Good ears. Wings a bit small, but that’s normal.  
+
+> **Lesson** (science, 4-LS1-1, notice): the heart  
+> _Your heart is a muscle that pumps blood round your body, carrying air and food to every part._  
+> _A funnel gathers its quiet thump into your ear. Real stethoscopes work in a similar way._  
+> _For grown-ups: Your child learned what the heart does and why a doctor listens to it._
+
+**Maisie**: Has it been eating? Drinking? Sleeping? Getting cuddles?  
+**You**: All four. Lots of the last one.  
+
+#### `lb05-bandage`
+
+**Maisie**: The patient has a sore left foot. Nurse, bandage please.  
+_Ned winds the toilet paper round your Nubbin’s right foot, tongue out, very carefully._  
+_Maisie opens her mouth to say something. Then she sees Ned’s face and closes it again._  
+**Maisie**: How do you tell somebody they’ve done it wrong without making them sad?  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): kind correction  
+> _Think about Ned’s face. Which way of telling him would you want, if you were Ned?_  
+> - Praise first, then ask for the other foot → That keeps his pride and fixes the bandage. Clever.
+> - Ask him a question so he spots it himself → Lovely. Finding your own mistake feels much better than being told.
+> - Just say “wrong foot” gently → Honest and quick. With a kind voice, that can work too.
+> _For grown-ups: Your child weighed different ways to point out a mistake kindly._
+
+_Your Nubbin lies quite still, wrapped up to the knee, enjoying the attention._  
+
+**Choices**
+
+- **“That’s brilliant. Could this foot have one too?”**
+    - **Ned**: Two bandages! It’s VERY poorly.
+    - Now both feet are bandaged, which covers it either way.
+- **“Which foot did the doctor say, Ned?”**
+    - **Ned**: The… other one?
+    - Ned looks at his own feet and works it out. He starts again on the left, proudly.
+- **Let your Nubbin wiggle the left foot.**
+    - Your Nubbin wiggles its left foot, gently. Ned gasps: the patient has told him.
+
+#### `lb05-complete`
+
+_Your Nubbin walks home with both feet in toilet paper, like small white boots. It won’t let you take them off for an hour._  
+**Maisie**: Bring it back if it gets any worse. Or any better.  
+**Ned**: It was a very patient patient.  
+
+> **Lesson** (literacy, L.3.4, ask): multiple-meaning words  
+> _Ned says “a very patient patient”. Why is that funny?_  
+> - ✅ Patient means two things → Yes! A patient is someone a doctor looks after. Patient also means calm and good at waiting.
+> - It’s just said twice → It is, but each one means something different: a doctor’s patient, and calm while waiting.
+> _For grown-ups: Your child spotted that “patient” has two meanings: someone a doctor treats, and calm while waiting._
+
+_Sam comes in for a pencil and gets a check-up too. Maisie prescribes a nap._  
+**Sam Larkin**: Best medicine I’ve heard of all week.  
+
+### Glossary
+
+- **patient**: Someone a doctor looks after; also, able to wait calmly.
+- **prescribe**: When a doctor says what medicine or treatment you should have.
+
+## LB6. Den Day
+
+- `lb06-s1`: Gather chairs and blankets for a den in the Larkins’ front room. · _Blankets are in the cupboard; chairs are in Sam’s shed. Ned’s box is already there._
+- `lb06-s2`: Sit in the den with the Larkins while the rain goes on. · _Crawl in and sit down. There is nothing to do but listen._
+
+#### `lb06-rain`
+
+_Rain all day. The lane is a stream and the Larkins’ windows are fogged with small fingerprints._  
+**Maisie**: It was sunny yesterday. It’s not fair. Weather should take turns properly.  
+
+> **Lesson** (science, 3-ESS2-1, do): recording weather over time  
+> _Maisie wants proof the weather isn’t taking turns. Help her tally the week on the fridge chart._  
+> **Maisie**: Sunny: 3. Cloudy: 2. Rainy: 2. So rain has had two turns and sun has had three!  
+> _Scientists collect weather data like this for years to find each season’s pattern._  
+> Check: `edu:tally:weather:week`
+> _For grown-ups: Your child kept a week’s weather tally and looked for a pattern._
+
+**Ama Larkin**: It’s Saturday and I’m not driving anywhere. So. Den?  
+**Ned**: DEN.  
+_Ama empties the blanket cupboard. Sam brings four chairs from the shed, all his own work, all slightly different._  
+**Sam Larkin**: Mind that one, it wobbles. So it’s perfect for a den.  
+
+#### `lb06-built`
+
+_The den goes up: four chairs, three blankets, a sheet for a roof, and pegs from the washing line._  
+_Twice the roof sheet slides off. Twice everyone groans._  
+
+> **Lesson** (science, 3-5-ETS1-2, ask): comparing solutions  
+> _The sheet keeps sliding off the chairs. Which fix is best?_  
+> - ✅ Peg it to the chair backs → Pegs grip the sheet, so it can’t slide. Done. Comparing fixes and testing the best one is how engineers work.
+> - Pile books on top → Books would weigh it down, but the roof would sag onto heads. Pegs work better.
+> - Hold it up by hand → That works till your arms ache. Pegs don’t get tired.
+> _For grown-ups: Your child compared ways to stop the den roof sliding off and chose the best._
+
+**Ama Larkin**: Every den needs a door.  
+_Ned is already dragging his box across the rug, the one with NED on the side._  
+
+#### `lb06-inside`
+
+_Inside the den the light is blue and soft. Everyone’s knees touch, and nobody minds._  
+_Rain taps on the window. From in here it sounds further away and friendlier._  
+**Maisie**: The rug in here is three metres long and two metres wide. I measured it with Dad’s tape.  
+
+> **Lesson** (maths, 3.MD.D.8, do): perimeter  
+> _Ned wants to walk all the way round the rug edge. How far is that?_  
+> _3 + 2 + 3 + 2 = 10 metres. The distance round a shape is its perimeter._  
+> Check: `edu:measure:rug:perimeter`
+> _For grown-ups: Your child found the distance round a 3 m by 2 m rug: 10 metres._
+
+**Ned**: And Mum’s head is a circle.  
+**Ama Larkin**: Thank you, Ned.  
+_Your Nubbin curls up on Ned’s feet. Ned holds very still, so as not to wake it._  
+
+**Choices**
+
+- **Tell a story about a den in the rain.**
+    - You tell a story about a den that floats down the lane and comes home for tea. Ned makes you tell it twice.
+- **Just listen to the rain.**
+    - Nobody says anything for a while. The rain does the talking.
+    - **Maisie**: This is the quietest Ned has ever been.
+- **Count the drips from the gutter.**
+    - You count drips together. At forty-one they go too fast, and you all give up laughing.
+
+#### `lb06-complete`
+
+_The rain stops at teatime. Nobody wants to come out._  
+**Ama Larkin**: Tell you what. The den can stay up as long as it likes.  
+**Maisie**: Forever?  
+**Ama Larkin**: Till we need the chairs. Which, given your dad, could be a while.  
+**Sam Larkin**: I’ll make more chairs.  
+
+> **Lesson** (sel, CASEL: Social awareness, notice): noticing generosity  
+> _Sam will make more chairs so the den can stay. Ama gives away a blanket. Small gifts say “you matter to us”._  
+> _For grown-ups: Your child noticed how the Larkins share what they have._
+
+_Ama folds a spare blanket and hands it to you: a den for your own Grove, for the next rainy day._  
+
+### Glossary
+
+- **tally**: A quick way of counting with lines, where every fifth line crosses the four before it.
+- **perimeter**: The total distance all the way round the edge of a shape.
+
+## LB7. Shadow Show
+
+- `lb07-s1`: Find a torch for the shadow show. · _Try the box marked SHOES from moving day._
+- `lb07-s2`: Watch the shadow show, and put on a shadow of your own. · _Sit on the rug. When it’s your turn, step into the light._
+
+#### `lb07-sheet`
+
+_Ama pegs a white bedsheet across the front room, from the curtain rail to the top of the bookcase._  
+**Maisie**: It’s a theatre. Tonight only. Tickets are free, but you have to clap.  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): shadow theatre around the world  
+> **Ama Larkin**: People have made shadow plays for hundreds of years. In Indonesia it’s called wayang kulit, with leather puppets.  
+> **Ama Larkin**: China and Turkey have their own old shadow theatres too. We’re in good company.  
+> _For grown-ups: Your child learned that shadow puppet theatre is an old art in many countries._
+
+**Ned**: I’m doing a rabbit.  
+_Ned makes a rabbit with his fingers. It looks a lot like a hand._  
+**Ama Larkin**: A shadow show needs a light. There’s a torch in one of the boxes.  
+**Ama Larkin**: If I know us, it’s in the one marked SHOES.  
+
+#### `lb07-lights`
+
+_The torch is in the box marked SHOES, under the bread bin. Sam switches off the big light._  
+_The torch makes a bright circle on the sheet. Everything else in the room goes soft and dark._  
+**Ned**: Where does the light come from?  
+
+> **Lesson** (science, 4-PS3-4, notice): energy changing form  
+> **Sam Larkin**: The battery stores energy. Switch on, and electricity flows to the bulb, which turns it into light, and a bit of heat.  
+> _For grown-ups: Your child learned that a torch changes the battery’s stored energy into light._
+
+
+#### `lb07-show`
+
+_Ned stands between the torch and the sheet and holds up his rabbit. On the sheet it is taller than the bookcase._  
+**Ned**: A GIANT rabbit!  
+**Maisie**: Go nearer the sheet, Ned.  
+_Ned steps back towards the sheet. The rabbit shrinks and shrinks until it is the size of a real one._  
+**Ned**: Now it’s a baby. Where did the big one go?  
+**Sam Larkin**: Walk back towards the torch, mate, and see what happens.  
+_Ned walks to and fro. The rabbit grows and shrinks. He could do this all night._  
+
+> **Lesson** (science, 1-PS4-2, do): how shadows form and change size  
+> _Light travels in straight lines. Ned’s hand blocks some, so a dark patch, a shadow, lands on the sheet._  
+> _Near the torch, his hand blocks a wide cone of light: big shadow. Near the sheet, only a little: small shadow._  
+> Check: `edu:order:shadows:size`
+> _For grown-ups: Your child explained shadows: light travels in straight lines, and a hand near the torch blocks more of it._
+
+**Maisie**: Your turn. What are you making?  
+
+**Choices**
+
+- **A bird, flapping.**
+    - Your hands flap across the sheet. Ned tries to catch the bird, and it flies over his head.
+- **Put your Nubbin in the light.**
+    - Your Nubbin sees its shape on the sheet and stares. It waves a wing. So does the shadow.
+- **A friendly monster.**
+    - You make a big shadow with claws. It waves, very politely.
+    - **Ned**: Hello, monster.
+
+#### `lb07-complete`
+
+_The show ends with the whole family in the light at once: one big shadow with far too many arms._  
+
+> **Lesson** (science, 2-PS1-1, ask): opaque and see-through materials  
+> _Ned tries to make a shadow with a glass of water. It barely shows. Why?_  
+> - ✅ Light goes through glass → Yes. Glass is transparent: light passes through. Hands are opaque: they block light and make dark shadows.
+> - The glass is too small → Size isn’t it. Light passes straight through glass. Opaque things, like hands, block it.
+> _For grown-ups: Your child worked out that only light-blocking (opaque) things make dark shadows._
+
+**Maisie**: That was the best show ever made. Clap now.  
+_Everyone claps. On the sheet, so do the shadows._  
+**Ama Larkin**: Keep the sheet. We’ve got more sheets than beds, it turns out.  
+_You take home the sheet on two poles and the torch on a stand, for shows in your own Grove._  
+
+### Glossary
+
+- **opaque**: Not letting light through, so you can’t see through it.
+- **theatre**: A place, or a show, where stories are acted out for an audience.
+
+## LB8. Treasure Map
+
+- `lb08-s1`: Follow Ama’s map down the lane to the X. · _In order: the pond, your gate, the big oak, then six big steps to the X._
+- `lb08-s2`: Find where Maisie really hid the treasure. · _Use the compass on the map. Maisie says it went north, along the wall._
+
+#### `lb08-map`
+
+_Ama spreads a sheet of paper on the kitchen table. It is a map of the lane, drawn in post-van detail._  
+**Ama Larkin**: Every house, every gate, every pothole. I know this lane better than my own feet.  
+_There is your pond, your gate that sticks, the big oak, and a red X by the old wall._  
+_In one corner Ama has drawn a compass, with a fancy N at the top._  
+
+> **Lesson** (science, 2-ESS2-2, do): maps and compass directions  
+> **Ama Larkin**: The compass shows north at the top. Clockwise round it: north, east, south, west.  
+> **Ama Larkin**: Up the valley, where the river comes from, is north. East is to its right, and west to its left.  
+> _Put the landmarks in order on the map: pond, gate, oak, X._  
+> Check: `edu:order:map:lane`
+> _For grown-ups: Your child used the map’s compass: north, east, south and west._
+
+**Maisie**: Follow the map. The pond first, then the gate, then the tree, then the X.  
+**Ned**: What’s the treasure?  
+**Maisie**: A secret. It’s raisins.  
+
+#### `lb08-x`
+
+_Pond, gate, tree, then six big steps past the oak to the X. Ned digs with a spoon._  
+
+> **Lesson** (maths, 4.MD.A.1, ask): converting centimetres to metres  
+> _Each of your big steps is about 50 centimetres. Six steps is how far in metres?_  
+> - ✅ 3 metres → Yes. 6 × 50 = 300 cm, and 100 cm make a metre, so 3 metres.
+> - 30 metres → Too far! 6 × 50 = 300 cm. Divide by 100 to get metres: 3.
+> - 300 metres → 300 is right in centimetres! In metres it’s 3, because 100 cm is 1 metre.
+> _For grown-ups: Your child worked out that six 50 cm steps make 300 cm, which is 3 metres._
+
+_There is nothing there but soil and one surprised worm._  
+**Ned**: The treasure’s gone!  
+
+#### `lb08-moved`
+
+**Maisie**: It’s not gone. I moved it, after Mum drew the map.  
+**Maisie**: Treasure that’s exactly where the map says is too easy.  
+**Ned**: That’s not FAIR.  
+_Ned sits down in the lane with his spoon. The worm, sensibly, leaves._  
+
+> **Lesson** (literacy, RL.3.6, ask): your view and a character’s view  
+> _Maisie thinks tricky is fun. Ned thinks a map should be true. What do YOU think?_  
+> - Fair: games should surprise you → Maisie would agree. Surprises are half the fun of treasure hunts.
+> - Not fair: Ned trusted the map → Ned would agree. Trusting something and finding it untrue feels bad.
+> - Fair only if everyone knows the rule → That’s a careful answer. A trick can be fun, if everyone agreed tricks were allowed.
+> _For grown-ups: Your child compared their own view of fairness with Maisie’s and Ned’s._
+
+**Maisie**: It’s still close. It went north, the way the river comes from.  
+_Ned looks at you. He wants to know whose side you are on._  
+
+**Choices**
+
+- **“Treasure hunts are meant to be a bit tricky.”**
+    - **Maisie**: See? Tricky is the fun bit.
+    - **Ned**: Tricky is the CROSS bit.
+- **“A map’s a kind of promise, Maisie.”**
+    - **Maisie**: …I suppose.
+    - Maisie borrows her mum’s pen and draws a small, honest X further along the wall.
+- **Ask Maisie why she moved it.**
+    - **Maisie**: I wanted to be the one who knew something. Ned always finds things first.
+
+#### `lb08-complete`
+
+_The tin is under a flat stone at the foot of the wall, a few steps north. Ned finds it first, of course._  
+**Ned**: Raisins!  
+_He shares them out in fours: four for Maisie, four for you, four for your Nubbin and four for him._  
+
+> **Lesson** (maths, 3.OA.A.1, do): equal groups  
+> _Four people, four raisins each. How many raisins were in the tin?_  
+> _4 × 4 = 16. Ned shared them into four equal groups._  
+> Check: `edu:count:raisins:16`
+> _For grown-ups: Your child worked out that 4 groups of 4 raisins make 16._
+
+**Maisie**: Next time I’ll tell Mum where I really put it. Probably.  
+**Ama Larkin**: A map is for keeping, once you’ve used it.  
+_Ama frames the map and gives it to you. It has a second X now, in a six-year-old’s writing._  
+
+### Glossary
+
+- **compass**: A tool, or a drawing on a map, that shows north, south, east and west.
+- **landmark**: Something easy to spot that helps you find your way, like a big oak.
+
+## LB9. Café Larkin
+
+- `lb09-s1`: Lay the café table: one plate for each person. · _Four are eating: you, Sam, your Nubbin and Ama. One plate at each chair._
+- `lb09-s2`: Order lunch at Café Larkin, and be a kind customer. · _Talk to Ned, the waiter. Whatever arrives, be kind._
+
+#### `lb09-cafe`
+
+_A sign is chalked on the back of a tea tray: CAFÉ LARKIN, OPEN, NUBBINS WELCOME._  
+
+> **Lesson** (literacy, L.2.4, notice): borrowed words  
+> _“Café” is a French word English borrowed. The little mark on the é tells you to say “caff-ay”._  
+> _For grown-ups: Your child learned that “café” is borrowed from French, and the accent shows how to say it._
+
+_The café is the garden table, with the good tablecloth on it. Ama doesn’t know about the tablecloth yet._  
+**Maisie**: I’m the chef. Ned’s the waiter. You’re a customer, and so is Dad.  
+**Sam Larkin**: I’ll be the customer who sits down. I’m very good at that.  
+**Maisie**: Your Nubbin’s a customer. And Mum, when she’s back from her round. One plate each, please.  
+**Ned**: How many persons is that?  
+
+#### `lb09-laid`
+
+_Four plates, from the toy box and the kitchen: a blue one, a chipped china one, a tin one, and one that is really a frisbee._  
+_Your Nubbin sits on a cushion on the fourth chair. It has been given the frisbee, and it approves._  
+**Ned**: Can I drop the tin one? To check?  
+
+> **Lesson** (science, 2-PS1-1, ask): properties of materials  
+> _Which plate is safest for Ned to carry, in case he drops it?_  
+> - ✅ The tin one or the frisbee → Yes. Tin and plastic are tough and don’t shatter. China is hard but brittle, so it can break.
+> - The china one → China is hard but brittle: it can crack if dropped. Tin or plastic is safer for Ned.
+> _For grown-ups: Your child chose materials by property: tin bends, china can break, plastic is light and tough._
+
+
+#### `lb09-order`
+
+_Ned brings a menu: a drawing of a cake, a drawing of a sandwich, and a drawing nobody can identify._  
+**Ned**: What would you like? Cake is 4 Shells. Sandwich is also 4. The mystery is free.  
+**You**: The sandwich, please. And three cakes to share.  
+
+> **Lesson** (maths, 3.OA.A.3, do): multiplication word problem  
+> _Three cakes at 4 Shells each. What’s the bill for the cakes?_  
+> _3 × 4 = 12 Shells. Ned will give it all back as change anyway._  
+> Check: `edu:count:cakes:12`
+> _For grown-ups: Your child worked out the bill for three cakes at 4 Shells each (12)._
+
+**Ned**: One sandwich.  
+_He goes into the kitchen, which is the shed, and returns with great ceremony. On your plate is a pine cone._  
+**Ned**: Here is your cake.  
+_Sam ordered tea and got a stick. Your Nubbin ordered nothing and got three leaves, which it likes best of all._  
+
+> **Lesson** (sel, CASEL: Relationship skills, ask): handling a mistake kindly  
+> _The waiter got it wrong. What do you say?_  
+> - Thank him, then ask nicely for the sandwich → Kind and clear. Ned feels thanked, and you still get your sandwich.
+> - Enjoy what came → Generous. Sometimes the mix-up is more fun than the order.
+> - Explain politely there’s a mix-up → Honest and gentle. Blaming “a mix-up”, not Ned, keeps it kind.
+> _For grown-ups: Your child thought about what to say when someone gets your order wrong._
+
+
+**Choices**
+
+- **“Thank you! Could I have the sandwich as well?”**
+    - **Ned**: Oh! The sandwich! Coming right up.
+    - He comes back with a second pine cone. This one, he says, is the sandwich.
+- **Eat the pine cone with great pleasure.**
+    - You pretend to eat the pine cone, slowly, eyes closed. Ned watches every bite.
+    - **You**: Best cake I’ve ever had.
+- **“Excuse me. I think there’s been a little mix-up.”**
+    - **Ned**: Is it the wrong one?
+    - **You**: It’s a lovely cake. I ordered the sandwich, that’s all.
+    - **Ned**: I’ll tell the chef. She’ll be cross with the kitchen, not me.
+
+#### `lb09-complete`
+
+_Ama comes home and sits down at the fourth plate, still in her post-office jacket._  
+**Ama Larkin**: Table for one, please. Anything that comes with tea.  
+_Ned brings her a real cup of tea, which Sam made, and a pine cone, which Ned made. She is delighted with both._  
+**Ama Larkin**: Is that my good tablecloth?  
+**Maisie**: Café Larkin is closed now. The chef has to go.  
+
+> **Lesson** (literacy, RL.3.3, ask): character motive  
+> _Why does Maisie close the café so suddenly?_  
+> - ✅ She took the good tablecloth without asking → Yes! She’s escaping before Mum works it out. Ama is smiling, though.
+> - The chef got tired → Maybe, but look at the timing: right after Ama spots the tablecloth.
+> _For grown-ups: Your child worked out why Maisie suddenly closes the café._
+
+_Later, Ama paints the tea-tray sign properly and gives it to you for your gate._  
+
+### Glossary
+
+- **menu**: A list of the food and drink you can order.
+- **brittle**: Hard, but likely to crack or snap rather than bend.
+
+## LB10. Boats
+
+- `lb10-s1`: Test which of Ned’s things float in the pond. · _Put the cork, the leaf, the pebble and the teaspoon in the shallows, one at a time._
+- `lb10-s2`: Sail the boats across the Grove pond. · _Pick a boat and set it on the water by the reeds._
+
+#### `lb10-pond`
+
+_The Larkins come through your gate for the first time, in a line, all lifting and pushing at once._  
+**Maisie**: We’re making boats. For your pond. We brought things.  
+_Ned empties his pockets onto the bank: a cork, a big leaf, a pebble, and a metal teaspoon from the kitchen drawer._  
+**Sam Larkin**: That’s my good teaspoon.  
+**Ned**: It’s a boat now.  
+**Ama Larkin**: Which ones will float, do you think? Let’s predict before we test.  
+
+> **Lesson** (science, 2-PS1-1, ask): predicting  
+> _Make a prediction. Will the metal teaspoon float or sink?_  
+> - Float → A fair prediction. Testing will tell us.
+> - Sink → A fair prediction. Testing will tell us.
+> _For grown-ups: Your child made a prediction to test, the way scientists do._
+
+
+#### `lb10-test`
+
+_One at a time, the things go in the shallows. The cork bobs, and the leaf spins and floats._  
+_The pebble goes plop and sits on the bottom. The teaspoon goes plip and joins it._  
+
+> **Lesson** (science, 2-PS1-1, do): sorting by property  
+> _Sort them: floats (cork, leaf) and sinks (pebble, teaspoon)._  
+> _Cork is full of tiny air pockets, so it’s lighter than the same amount of water. Stone and metal are heavier, so they sink._  
+> Check: `edu:sort:boats:float`
+> _For grown-ups: Your child sorted materials into floaters and sinkers and explained why._
+
+**Ned**: The spoon’s a submarine.  
+**Sam Larkin**: The spoon is coming out, thank you.  
+
+#### `lb10-sail`
+
+_The boats are built on the bank: a cork with a leaf sail, a bark raft with a twig mast, and a walnut shell with a petal._  
+
+> **Lesson** (science, 3-PS2-1, notice): forces on a sailing boat  
+> _The wind pushes on the sail. If that push is bigger than the water’s drag, the force is unbalanced, and the boat moves._  
+> _For grown-ups: Your child learned that wind pushing on a sail is an unbalanced force that moves the boat._
+
+**Maisie**: A race! First one across the pond wins.  
+_Your Nubbin wades in up to its middle, ready to help. Nubbins love the pond._  
+**Ama Larkin**: Which one are you sailing?  
+
+**Choices**
+
+- **The cork, with the leaf sail.**
+    - The cork boat leans into the breeze and sets off, steady as a duck.
+- **The bark raft.**
+    - The raft is slow and flat and sensible. It goes exactly where the breeze tells it.
+- **The walnut shell, with Ned.**
+    - The walnut spins in slow circles and goes nowhere at all. Ned thinks it is the best boat of the lot.
+
+#### `lb10-complete`
+
+_The raft wins, in the end, by drifting. Nobody minds, because the walnut is still spinning and Ned is still cheering it._  
+
+> **Lesson** (literacy, L.4.5, notice): simile  
+> _“Steady as a duck” compares a boat to a duck using “as”. A comparison with “like” or “as” is called a simile._  
+> _For grown-ups: Your child spotted a simile: “steady as a duck”._
+
+_Your Nubbin tows the walnut home, very gently, with its nose._  
+**Ama Larkin**: What a pond. You’re lucky, having this on your doorstep.  
+**Sam Larkin**: My good teaspoon is still in it.  
+_Your Nubbin dives for the teaspoon and brings it back. Sam shakes its wing, very solemnly._  
+
+### Glossary
+
+- **predict**: To say what you think will happen before you find out.
+- **simile**: A comparison using “like” or “as”, such as “steady as a duck”.
+
+## LB11. The Big Race
+
+- `lb11-s1`: Judge five races and keep a tally of the winners. · _Stand at the skipping-rope finish. One line for every win._
+- `lb11-s2`: Decide how to run the last race. · _Talk to Ned, face down in the grass._
+
+#### `lb11-course`
+
+_Maisie marks out a racecourse in the field: flowerpots for the start and a skipping rope for the finish._  
+**Maisie**: Five races. Me, Ned and your Nubbin. You’re the judge. Dad’s the crowd.  
+**Sam Larkin**: Hooray.  
+_Sam is lying beside the finish line, which Maisie says still counts as a crowd._  
+**Maisie**: Judges keep a tally. One line for every win.  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, notice): fair judging  
+> _A fair judge watches the finish, not the favourite. Even if you like one runner best, you write down what really happened._  
+> _For grown-ups: Your child thought about what a fair judge does._
+
+**Maisie**: Ready, steady…  
+
+#### `lb11-five`
+
+_Maisie wins the first race, and the second. Your Nubbin wins the third by flapping, and the fourth by accident._  
+_Maisie wins the fifth. Ned comes last in every one._  
+
+> **Lesson** (maths, 2.MD.D.10, do): tally charts and comparing  
+> _Your tally: Maisie |||, Nubbin ||, Ned none. That’s 3 + 2 + 0 = 5 races._  
+> _How many more wins has Maisie than your Nubbin? 3 − 2 = 1. And Ned? He hasn’t got a line yet._  
+> Check: `edu:tally:races:5`
+> _For grown-ups: Your child made a tally chart of five races and compared the totals._
+
+_After the fifth race, Ned lies face down on the grass and does not get up._  
+
+#### `lb11-facedown`
+
+**Maisie**: Come on, Ned. One more race.  
+**Ned**: No. I’m never racing again. I’m staying here.  
+_His voice comes out muffled, straight into the grass._  
+**Maisie**: It’s only a game.  
+**Ned**: It’s only a game for WINNERS.  
+_Maisie looks at you. She is six, she has won every race she’s ever run, and she doesn’t know what to do._  
+
+> **Lesson** (literacy, RL.2.3, ask): how characters respond to events  
+> _Maisie and Ned both feel something about the races. How is each one responding?_  
+> - Ned hides; Maisie is puzzled → Well read. Ned shuts out the world. Maisie has never lost, so she can’t imagine it.
+> - Ned is cross; Maisie is impatient → Fair. “It’s only a game” is easy to say when you’re winning.
+> - They both want to fix it → Kind answer. Maisie keeps asking him back. That’s her way of caring.
+> _For grown-ups: Your child compared how Maisie and Ned each respond to winning and losing._
+
+**Sam Larkin**: Nobody likes losing, mate. Even in a game.  
+
+**Choices**
+
+- **Race properly. Ned can finish, even if he’s last.**
+    - Ned gets up, slowly. He runs the whole race and comes last, but this time he runs all the way, and you cheer him in.
+    - **Ned**: I came last, but I came ALL the way!
+- **Everyone slows down so Ned wins.**
+    - Everyone jogs, Maisie very slowly and with a face. Ned wins by a mile.
+    - **Ned**: I WON! I’m the fastest in the valley!
+    - **Maisie**: It wasn’t a real race.
+    - Maisie says it quietly, so Ned won’t hear. Then she lets him have it.
+- **Race holding hands, all together.**
+    - Maisie holds out her hand to Ned, and he takes it. You all run the last race in a line, holding hands.
+    - Nobody wins. Everybody crosses the rope at once.
+    - **Maisie**: That’s a draw. Draws are allowed.
+
+#### `lb11-complete`
+
+**Sam Larkin**: Right. The crowd needs a sit-down.  
+_Sam sits up in the grass. Ned climbs into his lap with grass stuck to his face._  
+**Sam Larkin**: You know what I like about racing with you lot? Somebody always gets up again.  
+
+> **Lesson** (literacy, RL.4.2, ask): theme  
+> _Sam says somebody always gets up again. What do you think the race story is really about?_  
+> - Losing is part of playing → Yes. You can’t have races without someone losing, and that someone is still a player.
+> - Getting up again is brave → That’s the heart of it. Ned got up. That counts more than the tally.
+> - Families look after each other → Lovely. Every choice had someone looking after Ned.
+> _For grown-ups: Your child thought about the big idea of the race story: getting up again matters more than winning._
+
+**Maisie**: Next time I’m inventing a game where losing is the winning.  
+_Ned picks the grass off his face one bit at a time, and gives every bit to your Nubbin._  
+
+### Glossary
+
+- **tally chart**: A table where you count things by drawing a line for each one.
+- **judge**: Someone who watches carefully and decides fairly who won.
+
+## LB12. The Long Grass Campout
+
+- `lb12-s1`: Bring a sleeping bag to the Larkins’ long grass at dusk. · _Carry a sleeping bag from your cottage through the Larkins’ gate before dark._
+- `lb12-s2`: Lie still in the long grass and wait for the first star. · _Lie down with the Larkins and keep still. The stars come when they come._
+
+#### `lb12-tired`
+
+_Late summer. The evenings are long and gold, and the swallows fly low over the Larkins’ field._  
+**Ama Larkin**: Sam’s asleep. Before tea. On the sofa, with one shoe on.  
+**Ama Larkin**: He finished a whole table this week. He’s allowed.  
+**Maisie**: We need a game where Dad has to lie down.  
+
+> **Lesson** (sel, CASEL: Social awareness, notice): understanding others’ needs  
+> _Maisie doesn’t try to fix Dad’s tiredness. She makes a game that fits it. Noticing what someone needs is a kind of love._  
+> _For grown-ups: Your child saw Maisie invent a game that fits what her tired dad needs._
+
+**Ned**: Dad already lies down.  
+**Maisie**: A game where lying down IS the game.  
+_Maisie explains it at speed: sleeping bags, the long grass, everyone very still, first to see a star wins._  
+**Ama Larkin**: Camping in the garden? Go on, then. Bring your Nubbin, and a sleeping bag.  
+
+#### `lb12-arrive`
+
+_At dusk you carry your sleeping bag through the Larkins’ gate. Sam is awake now, in pyjamas, holding a torch._  
+**Sam Larkin**: I hear there’s a game where I have to lie down. I’ve been practising all day.  
+**Ama Larkin**: Sunset was at twenty to nine. Stars by quarter past, if we’re lucky.  
+
+> **Lesson** (maths, 3.MD.A.1, ask): time intervals  
+> _From 8:40 to 9:15, how long will everyone have to lie still?_  
+> - ✅ 35 minutes → Yes. 8:40 to 9:00 is 20 minutes, and 9:00 to 9:15 is 15 more. 35 minutes.
+> - 25 minutes → Close. 8:40 to 9:00 is 20, then 15 more to 9:15. That makes 35.
+> - An hour → Not quite that long. 20 minutes to nine o’clock, then 15 more: 35 minutes.
+> _For grown-ups: Your child worked out the time from 8:40 to 9:15 (35 minutes)._
+
+
+#### `lb12-waiting`
+
+_Everyone lies in a row in the long grass: Ama, Sam, Maisie, Ned, you, and your Nubbin, already half asleep._  
+_The sky goes from gold to pink to a deep, slow blue. A bat flickers over the hedge._  
+**Maisie**: The rules. Nobody talks. Nobody wriggles. The first to see a star says STAR.  
+_For a long time nobody does anything. It is the stillest the Larkins have ever been._  
+**Sam Larkin**: It’s winter in Brisbane now. My mum’s wearing a jumper.  
+**Ned**: Why?  
+**Sam Larkin**: The Earth is tilted. While our half leans towards the Sun, her half leans away. Then they swap.  
+
+> **Lesson** (science, 1-ESS1-2, notice): why the hemispheres have opposite seasons  
+> _Brisbane is in Australia, in the southern hemisphere. The valley is in the northern one._  
+> _The Earth’s axis is tilted. When the north leans towards the Sun it’s summer here, and winter in the south._  
+> _For grown-ups: Your child learned that the Earth’s tilt gives the north and south opposite seasons._
+
+
+**Choices**
+
+- **Make a quiet wish for the Larkins.**
+    - You make a wish. You don’t say it out loud, because that is the rule with wishes.
+- **Hum something very quietly.**
+    - You hum a tune you half remember. After a while Ama hums it too, and gets the end right.
+- **Watch your Nubbin fall asleep.**
+    - Your Nubbin’s emote ball dims to a soft glow, then goes out. It is asleep.
+
+#### `lb12-star`
+
+_Ned sees it first: one bright point over the hedge, low in the west._  
+**Ned**: STAR!  
+**Ama Larkin**: That might be a planet, actually. Never mind. It counts.  
+
+> **Lesson** (science, 1-ESS1-1, notice): stars in day and night  
+> **Ama Larkin**: The first bright “star” is sometimes a planet, like Venus, shining with reflected sunlight.  
+> **Ama Larkin**: And the stars never go away in the daytime. The Sun is just so bright that we can’t see them.  
+> _For grown-ups: Your child learned the stars are always there; the Sun’s brightness hides them by day._
+
+_Then another star, and another, until there are too many to say STAR about, so everyone just looks._  
+
+#### `lb12-complete`
+
+_Sam is asleep again in the long grass, with Ned asleep on his arm. Maisie is trying very hard not to be._  
+**Maisie**: That was the best game we ever made up.  
+**Ama Larkin**: It was. Lying still together. It’s hard, and you all did it.  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): what makes time together special  
+> _No winners, no prizes, nobody moved. Why was lying still together the best game of the summer?_  
+> - Everyone was included, even tired Sam → Yes. It was the one game the whole family could play at once.
+> - Waiting made the stars special → That’s true. Things you wait for can feel bigger when they come.
+> - It was calm after a busy summer → Wise. After shops and races and dens, quiet can be the treat.
+> _For grown-ups: Your child thought about why the stillest game of the summer was the best one._
+
+_Your Nubbin is asleep in Ned’s box. Ama looks at it, and then at you._  
+**Ama Larkin**: That box should stay out here for good, I think. It’s earned its place.  
+_In the morning there is a small painted box on your doorstep, with a note: FOR YOUR NUBBIN FROM NED (HE DID THE N)._  
+
+### Glossary
+
+- **hemisphere**: Half of the Earth, such as the northern half or the southern half.
+- **tilted**: Leaning to one side instead of standing straight.
+
+## LK1. The Shadow Screen
+
+- `lk01-s1`: Help Siti and Wulan put up their shadow screen by the pond. · _Hold the second pole steady while the cloth is tied._
+- `lk01-s2`: Meet the mouse-deer and choose whose way to hear the tales first. · _Talk to Siti or Wulan by the screen._
+
+#### `lk01-dusk`
+
+_Summer is nearly over. At dusk, two women come down the lane with a long roll of white cloth and a wooden box._  
+_They stop at the pond and study it the way builders study a wall._  
+**Mak Cik Siti**: This is the spot. Flat ground, still water, and a bank for the children to sit on.  
+**Mak Cik Siti**: I’m Siti. The little ones call me Mak Cik Siti, which means Auntie Siti. I’m from Melaka, in Malaysia.  
+**Bu Wulan**: And I’m Wulan. Bu Wulan, to be polite. I’m from Yogyakarta, in Indonesia.  
+
+> **Lesson** (social-studies, D2.Geo.2.K-2, notice): finding Malaysia and Indonesia on a map  
+> **Mak Cik Siti**: Melaka is an old port town on the coast of Malaysia. Ships have stopped there for hundreds of years.  
+> **Bu Wulan**: Yogyakarta is on Java, one of the thousands of islands that make up Indonesia.  
+> **Bu Wulan**: Between us is the sea. On a map, we’re neighbours.  
+> _For grown-ups: Your child placed Melaka and Yogyakarta on a map and saw the two countries are neighbours._
+
+**Bu Wulan**: We met on a boat forty years ago, and we’ve argued ever since.  
+**Mak Cik Siti**: Lovingly.  
+**Bu Wulan**: Mostly lovingly. Will you hold that pole while Siti ties the cloth?  
+_Your Nubbin takes the other pole without being asked. The pole is taller than it by quite a lot._  
+
+> **Lesson** (art, notice): shadow-puppet theatre  
+> **Bu Wulan**: In Java, shadow-puppet theatre is called wayang. My puppets are wayang kancil: tales of the mouse-deer.  
+> **Mak Cik Siti**: We have shadow puppets in Malaysia too, called wayang kulit. Kelantan is famous for them.  
+> _For grown-ups: Your child learned about wayang, the shadow-puppet theatre of Indonesia and Malaysia._
+
+
+#### `lk01-lamp`
+
+_The screen goes up, tight as a drum. Wulan lights a lamp behind it, and the cloth glows warm gold._  
+**Mak Cik Siti**: There. Now nothing can hide. Not even a shadow.  
+_Your Nubbin walks between the lamp and the cloth. Its shadow stretches across the screen, enormous._  
+_It stares at the giant shadow, then waves. The shadow waves back._  
+**Bu Wulan**: Shadows are honest. They copy you exactly, only bigger or smaller.  
+**Bu Wulan**: Here. Try it with a puppet.  
+
+> **Lesson** (science, 1-PS4-2, do): how shadows form and change size  
+> **Bu Wulan**: Hold the puppet close to the lamp. It blocks a lot of light, so the shadow is huge.  
+> **Bu Wulan**: Move it close to the screen. It blocks less light, and the shadow shrinks.  
+> _Put three puppet shadows in order, from smallest to largest._  
+> Check: `edu:order:shadows:size`
+> _For grown-ups: Your child moved a puppet between a lamp and a screen and ordered the shadows by size._
+
+
+#### `lk01-names`
+
+_Siti opens the box. Inside are flat leather puppets on sticks: a crocodile, a tiger, an elephant, a snail._  
+_Last of all she lifts out a tiny deer with thin legs and a clever face. It fits in her hand._  
+
+> **Lesson** (science, 4-LS1-1, notice): body parts that help the mouse-deer survive  
+> **Bu Wulan**: Real mouse-deer live in the forests of South-East Asia. They’re about the size of a rabbit and weigh about 2 kilograms.  
+> **Mak Cik Siti**: They’re among the smallest hoofed animals in the world. Not a mouse, and not quite a deer.  
+> **Bu Wulan**: Thin legs make them quick, and their brown coat hides them among dead leaves.  
+> _For grown-ups: Your child learned what a real mouse-deer is: a tiny hoofed forest animal of South-East Asia._
+
+**Mak Cik Siti**: This is Sang Kancil, the mouse-deer. The smallest animal in the forest, and the cleverest.  
+**Bu Wulan**: Si Kancil.  
+**Mak Cik Siti**: Sang Kancil. That’s what my grandmother called him.  
+**Bu Wulan**: And mine called him Si Kancil, and she was never wrong about anything, including the weather.  
+**Mak Cik Siti**: He belongs to both of us. To Singapore and Brunei too. To every child who ever heard him.  
+**Bu Wulan**: Fine. But somebody has to tell the first tale.  
+_They both look at you. So does your Nubbin, which has climbed into the puppet box._  
+
+**Choices**
+
+- **Siti’s way first: Sang Kancil.**
+    - **Mak Cik Siti**: Sang Kancil it is. Wulan, you may sulk.
+    - **Bu Wulan**: I never sulk. I wait.
+- **Wulan’s way first: Si Kancil.**
+    - **Bu Wulan**: Si Kancil it is. Siti, you can do the crocodile voices.
+    - **Mak Cik Siti**: I always do the crocodile voices. Nobody else can.
+
+#### `lk01-complete`
+
+_Wulan hands the little puppet to your Nubbin. It holds it up to the lamp very carefully, as if it might wake._  
+**Bu Wulan**: One tale at a time. Your Nubbin will be Kancil behind the screen. Small, quick, and no talking.  
+**Mak Cik Siti**: We’ll do the talking. We’re very good at it.  
+_Your Nubbin nods, solemn. It has never been better suited to a part._  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): two people can both be right  
+> _Siti says Sang Kancil. Wulan says Si Kancil. Can they both be right?_  
+> - Yes, both. → That’s what we think too. Different places, different words, the same little deer.
+> - No, only one. → Lots of people think so at first. But a name can be right in two languages at once.
+> - It doesn’t matter. → Maybe not to Kancil! But it matters to us, because our grandmothers said it.
+> _For grown-ups: Your child thought about how two people can say something differently and both be right._
+
+**Bu Wulan**: Come back at dusk. Bring the children. Bring the whole valley, if it fits on the bank.  
+**Mak Cik Siti**: And bring an appetite. I make kuih.  
+
+### Glossary
+
+- **wayang**: Shadow-puppet theatre from Indonesia and Malaysia, with flat puppets behind a lit screen.
+- **mouse-deer**: A tiny forest animal with hooves, about the size of a rabbit; not a mouse and not a true deer.
+
+## LK2. Kancil Is Hungry
+
+- `lk02-s1`: Watch the first tale from the bank: Kancil is hungry. · _Come to the pond at dusk and sit on the bank._
+- `lk02-s2`: Look at the stream with your Nubbin: how could a small deer get across? · _Walk down to the stream that runs into the pond._
+
+#### `lk02-hungry`
+
+_Dusk again. The lamp is lit, and the bank is full of valley children sitting on their hands to keep still._  
+**Mak Cik Siti**: Long ago, in the forest, when the rains were late, Kancil woke up hungry.  
+_Your Nubbin trots the puppet across the screen. Its shadow hops, quick and light._  
+**Kancil**: My tummy is growling louder than a tiger. Somebody find me breakfast.  
+
+> **Lesson** (literacy, RL.1.4, ask): words that show feelings or senses  
+> **Bu Wulan**: Which word tells you Kancil is really hungry?  
+> - ✅ Growling → Yes. A growling tummy is a very hungry tummy. You can almost hear it.
+> - Breakfast → Close! But “growling” is the word that lets you hear his hunger.
+> _For grown-ups: Your child picked out the word that shows how hungry Kancil is._
+
+**Bu Wulan**: Kancil looked everywhere. The bushes were bare. The berries were gone.  
+**Kancil**: And over there, across the river, the trees are heavy with fruit. Ripe and sweet and swinging.  
+**Mak Cik Siti**: But the river was wide, and Kancil was small. And the river was full of crocodiles.  
+_Siti slides a long, lumpy shadow along the bottom of the screen, then another. The children go very quiet._  
+
+#### `lk02-ripples`
+
+_Wulan flicks water from the pond onto the screen. The shadow river ripples._  
+**Bu Wulan**: Rivers in the forest are never empty. Fish, frogs, birds and crocodiles, all of them hungry too.  
+
+> **Lesson** (science, 2-LS4-1, notice): why rainforest rivers are full of life  
+> **Bu Wulan**: A rainforest is warm and wet all year, so plants grow fast and never stop.  
+> **Bu Wulan**: Lots of plants means lots of food, so the rivers are crowded with fish, frogs, birds and crocodiles.  
+> **Mak Cik Siti**: Each of them has found its habitat: the place that gives it what it needs.  
+> _For grown-ups: Your child learned why warm, wet rainforests support so many animals._
+
+**Kancil**: Then I shall have to be clever. Being big isn’t an option.  
+
+#### `lk02-plan`
+
+_The tale stops there. Wulan leans out from behind the screen._  
+**Bu Wulan**: Every good tale has a question in the middle. How does a very small deer cross a very big river?  
+**Mak Cik Siti**: Don’t tell them, Wulan.  
+**Bu Wulan**: I’m not telling them. I’m asking them.  
+_A boy at the front says Kancil should swim, and a girl says build a boat. Somebody says “ask a bird”._  
+
+> **Lesson** (science, 3-5-ETS1-2, ask): comparing solutions to a problem  
+> **Bu Wulan**: Swim, build a boat, or ask a bird. Which plan would you try?  
+> - Swim → Brave! But a small deer in a crocodile river is risky. What would make it safer?
+> - Build a boat → Clever. It takes time and tools, though, and Kancil is hungry now.
+> - Ask a bird → Nice idea. Could a bird carry a deer? Maybe a very big bird!
+> _For grown-ups: Your child compared three ways to cross a river and weighed up each one._
+
+**Mak Cik Siti**: All good ideas. Come back at dusk and see what Kancil does.  
+_Your Nubbin is already at the stream, staring at the far side the way Kancil stared at the fruit._  
+
+#### `lk02-complete`
+
+_The children walk home arguing about boats._  
+**Mak Cik Siti**: That’s how you know a tale is working. They take it home with them.  
+**Bu Wulan**: My grandmother stopped every tale on a question. We never slept.  
+
+> **Lesson** (sel, CASEL: Self-management, ask): waiting for something you want  
+> **Mak Cik Siti**: The tale stops on a question, and you have to wait for the answer. What helps you wait?  
+> - Guessing what happens → Good one. Guessing turns waiting into a game.
+> - Doing something else → Wise. Busy hands make waiting shorter.
+> - Waiting is hard → It is hard. That’s all right. Grown-ups find it hard too.
+> _For grown-ups: Your child thought about what helps them wait._
+
+_Your Nubbin is still at the stream, counting something on its fingers._  
+
+### Glossary
+
+- **ripe**: Ready to eat: soft, sweet and fully grown.
+- **habitat**: The natural home of an animal or plant, where it finds food, water and shelter.
+
+## LK3. Counting the Crocodiles
+
+- `lk03-s1`: Watch Kancil call the crocodiles to the bank. · _Sit on the bank at dusk for the second tale._
+- `lk03-s2`: Count the crocodiles as your Nubbin hops across the line. · _Count each hop: once in ones, then in twos._
+- `lk03-s3`: Decide what Kancil does on the far bank. · _Talk to Siti and Wulan by the screen._
+
+#### `lk03-river`
+
+**Mak Cik Siti**: Kancil walked right up to the edge of the river, where the water was dark and still.  
+**Kancil**: Crocodiles! Crocodiles of the river! Wake up! I have a message from the King!  
+_Siti raises the crocodile puppet. It has a great many leather teeth and a very grumpy eye._  
+
+> **Lesson** (science, 4-LS1-1, notice): body parts that help crocodiles survive  
+> **Mak Cik Siti**: A real crocodile’s eyes and nostrils sit high on top of its head.  
+> **Bu Wulan**: So it can lie almost under the water, still seeing and still breathing, and hardly anyone notices.  
+> _For grown-ups: Your child learned why a crocodile’s eyes and nostrils sit on top of its head._
+
+**Crocodile**: Who is shouting? Some of us were asleep. Some of us were dreaming about lunch.  
+**Kancil**: The King wants to know how many crocodiles live in this river. Every single one. I’ve come to count you.  
+**Crocodile**: Count us? Nobody has ever counted us.  
+**Kancil**: Then line up from this bank to that one, nose to tail, so I don’t miss anyone.  
+**Crocodile**: Hmm. Well. If it’s for the King.  
+_One by one, shadow crocodiles slide out across the screen, until there is a bumpy bridge from side to side._  
+
+#### `lk03-lined`
+
+_Siti stops. She looks out at the pond, then at the Grove’s Nubbins splashing in the shallows._  
+**Mak Cik Siti**: Do you know, I think this tale wants to be played for real.  
+_The Nubbins look at each other. Then, one at a time, they float out into the stream and line up, nose to tail._  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): working as a team  
+> **Bu Wulan**: Look at that. Not one Nubbin could make a bridge alone. Ten of them can.  
+> **Mak Cik Siti**: A team is just a lot of small helps, all lined up.  
+> _For grown-ups: Your child saw how a team of small helpers can do something none could do alone._
+
+
+#### `lk03-count`
+
+_Ten Nubbins bob in a line across the stream, all pretending very hard to be crocodiles._  
+_One of them practises a grumpy face. It mostly looks sleepy._  
+**Bu Wulan**: Kancil steps onto the first back. Count with him, everyone!  
+_Your Nubbin hops onto the first Nubbin, wobbles and holds out its arms. Then it hops again._  
+**Mak Cik Siti**: One, two, three, four, five!  
+**Bu Wulan**: Six, seven, eight, nine, ten!  
+_Ten hops, and your Nubbin lands on the far bank with a squelch and a look of enormous pride._  
+
+> **Lesson** (maths, 1.OA.A.1, do): counting in twos and adding on  
+> **Bu Wulan**: Count the line again in twos this time: two, four, six, eight, ten.  
+> **Mak Cik Siti**: Oh, look! Four more Nubbins swim up and join the end. How many crocodiles now?  
+> _Count on from ten: eleven, twelve, thirteen, fourteen. Fourteen crocodiles!_  
+> Check: `edu:count:crocodiles:10`
+> _For grown-ups: Your child counted ten crocodiles in twos, then added four more to make fourteen._
+
+**Mak Cik Siti**: Now in my language. Satu, dua, tiga, empat, lima, enam, tujuh, lapan, sembilan, sepuluh!  
+**Bu Wulan**: Mine is the same, all but one. Satu, dua, tiga, empat, lima, enam, tujuh, delapan, sembilan, sepuluh!  
+**Mak Cik Siti**: Lapan.  
+**Bu Wulan**: Delapan.  
+_The children shout both, very loudly, at once._  
+
+> **Lesson** (literacy, notice): the same numbers in two languages  
+> **Mak Cik Siti**: In Malay, eight is lapan. In Indonesian, it’s delapan.  
+> **Bu Wulan**: All the other numbers from one to ten are the same in both. Our languages are close cousins.  
+> _For grown-ups: Your child heard the numbers one to ten in Malay and Indonesian, where only eight differs._
+
+
+#### `lk03-over`
+
+**Kancil**: Ten crocodiles! The King will be delighted. And look at that, I seem to be on the other side.  
+**Crocodile**: Wait. Was that counting? Or was that crossing?  
+_Behind the screen, Siti laughs so hard the crocodile puppet shakes._  
+
+> **Lesson** (maths, 2.OA.C.3, ask): odd and even  
+> **Bu Wulan**: Ten crocodiles. Is ten odd or even? Pair them up and see.  
+> - ✅ Even → Even! Five pairs, and nobody left over.
+> - Odd → Let’s pair them: two, four, six, eight, ten. Five pairs, none left over, so ten is even.
+> _For grown-ups: Your child paired up ten crocodiles to show that ten is even._
+
+
+#### `lk03-turn`
+
+**Bu Wulan**: So. Kancil is safe on the far bank, with the fruit trees right behind him.  
+**Bu Wulan**: And ten crocodiles are in the water, slowly working out that there was no count, and no King waiting.  
+**Mak Cik Siti**: Our grandmothers told this next part differently. So does everybody.  
+**Mak Cik Siti**: So you tell us. What does Kancil do?  
+
+> **Lesson** (literacy, RL.3.3, ask): a character’s motive  
+> **Mak Cik Siti**: Before you choose: why did Kancil trick the crocodiles?  
+> - ✅ He was hungry and needed to cross. → That’s his motive: the reason he did it. Hunger, and a river in the way.
+> - He wanted to be mean. → Maybe a bit cheeky! But the tale says he was hungry. That was his reason.
+> _For grown-ups: Your child named the reason behind Kancil’s trick._
+
+_Your Nubbin stands on the far bank holding the puppet, waiting to be told._  
+_Out in the stream, ten Nubbins wait too, still being crocodiles._  
+
+**Choices**
+
+- **Kancil turns back and says thank you.**
+    - **Kancil**: Thank you, crocodiles! That was the best bridge in the whole forest.
+    - **Crocodile**: Well. You’re welcome, I suppose.
+    - In the stream, the Nubbin crocodiles look very pleased with themselves.
+- **Kancil says sorry for the trick.**
+    - **Kancil**: Crocodiles, I’m sorry. There was no count. I was hungry and scared, and I tricked you.
+    - **Crocodile**: Hmph. At least you said so.
+    - The Nubbin crocodiles bob about, thinking it over.
+- **Kancil laughs and runs off into the trees.**
+    - **Kancil**: Ha! Silly crocodiles! Too slow, too slow!
+    - **Crocodile**: Come back here, you little...!
+    - The Nubbin crocodiles splash, very offended. One of them sulks under a lily pad.
+
+#### `lk03-complete`
+
+_The Nubbins paddle back to the shallows, very pleased with themselves for being such good crocodiles._  
+**Mak Cik Siti**: Ten crocodiles, ten hops. Some tales are made of numbers.  
+**Bu Wulan**: Leave a bridge across the stream. The children will want to count it again.  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): how stories carry the past  
+> **Mak Cik Siti**: Families in Malaysia, Indonesia, Singapore and Brunei have told this tale for generations.  
+> **Bu Wulan**: It travelled from mouth to ear, grandmother to grandchild. That’s called an oral tradition.  
+> _For grown-ups: Your child learned that the Kancil tales were passed down by word of mouth for generations._
+
+_By morning someone has painted ten flat stones with grumpy crocodile faces and set them in a line across the stream._  
+_Your Nubbin crosses on them twice, nodding once at every stone._  
+
+### Glossary
+
+- **nostrils**: The two openings in the nose that air goes in and out of.
+- **even**: A number that can be split into pairs with none left over, like 2, 4, 6, 8 and 10.
+- **motive**: The reason someone does something.
+- **tradition**: Something people have done or told for a very long time, passed from older people to younger ones.
+
+## LK4. The Crocodile Remembers
+
+- `lk04-s1`: Watch Kancil go down to the river for a drink. · _Sit on the bank at dusk for the third tale._
+- `lk04-s2`: Find a stick by the pond and lay it beside your Nubbin’s leg. · _Sticks wash up at the pond’s edge._
+
+#### `lk04-grab`
+
+**Bu Wulan**: Some days later, Kancil was thirsty, so he went down to the river for a drink.  
+_Your Nubbin bends the puppet down to the shadow water. Its little nose nearly touches the ripples._  
+_A long shadow slides up underneath, and snap! The crocodile puppet has Kancil by the leg._  
+**Crocodile**: I remember you. You’re the one who counted us.  
+**Crocodile**: You were polite about it, I’ll give you that. But a crocodile still has to eat.  
+
+> **Lesson** (literacy, RL.3.3, ask): why a character acts  
+> **Bu Wulan**: Why do you think the crocodile was waiting at that spot?  
+> - ✅ It remembered Kancil’s trick. → Yes. Crocodiles in our tales have long memories, and an empty tummy helps.
+> - It just wanted a drink. → Maybe! But it said “I remember you”. It was waiting for Kancil.
+> _For grown-ups: Your child worked out why the crocodile was waiting for Kancil._
+
+**Kancil**: Oh, crocodile. Is that my leg you’ve caught?  
+**Kancil**: That isn’t my leg at all! That’s an old stick. Silly crocodile, you’ve caught a stick!  
+_The crocodile lets go, quick as anything, and snaps at a stick floating past._  
+
+#### `lk04-free`
+
+_Kancil is up the bank and gone before the crocodile notices it’s chewing a stick._  
+**Crocodile**: ...This is a stick.  
+
+> **Lesson** (science, 4-LS1-2, notice): animals’ senses  
+> **Mak Cik Siti**: Real crocodiles have tiny bumps along their jaws that feel the smallest ripple in the water.  
+> **Bu Wulan**: A drinking mouse-deer makes ripples. That’s how a crocodile knows someone has arrived.  
+> _For grown-ups: Your child learned that crocodiles feel tiny ripples with sense organs on their jaws._
+
+**Mak Cik Siti**: It certainly is.  
+
+#### `lk04-stick`
+
+_After the tale, Wulan holds up the crocodile puppet and looks it in the eye._  
+**Bu Wulan**: Poor thing. Tricked twice. I’d be cross too.  
+**Mak Cik Siti**: Kancil had to save himself. A crocodile had him by the leg!  
+**Bu Wulan**: I didn’t say he was wrong. I said I’d be cross.  
+_The children argue about it all down the bank. Your Nubbin goes looking for a stick to compare with its own leg._  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): was the trick fair?  
+> **Bu Wulan**: So. Was Kancil’s stick trick fair?  
+> - Yes, he had to escape. → That’s a fair answer. When someone grabs you, getting free matters most.
+> - No, it was a fib. → That’s fair too. It was a fib, even if it was a fib to save his leg.
+> - A bit of both. → That’s what I think, most days. A trick can be clever and unfair at once.
+> _For grown-ups: Your child weighed up whether a trick to escape danger is fair._
+
+**Mak Cik Siti**: Bring it here. Let’s see if a crocodile could really mix them up.  
+
+#### `lk04-complete`
+
+_Your Nubbin lays the stick beside its leg. The stick is much longer, and a lot less wriggly._  
+**Bu Wulan**: So it wasn’t a very good stick to mistake for a leg.  
+
+> **Lesson** (maths, 2.OA.A.1, ask): comparing lengths by subtracting  
+> _The stick is 60 centimetres long. Your Nubbin’s leg is 15 centimetres. How much longer is the stick?_  
+> - ✅ 45 centimetres → Yes! 60 take away 15 is 45. That’s a lot of extra stick.
+> - 75 centimetres → That’s adding them together. To compare, take away: 60 minus 15 is 45.
+> - 15 centimetres → That’s the leg. The difference is 60 minus 15, which is 45.
+> _For grown-ups: Your child found the difference between two lengths by subtracting._
+
+**Mak Cik Siti**: It was dark. The crocodile was hungry. Hungry makes everyone silly.  
+_The crocodile puppet goes back into the box looking, if anything, slightly embarrassed._  
+
+### Glossary
+
+- **sense**: One of the ways a body finds out about the world, like seeing, hearing or feeling.
+
+## LK5. The Buffalo and the Crocodile
+
+- `lk05-s1`: Watch the buffalo help the crocodile out from under a log. · _Sit on the bank at dusk for the fourth tale._
+- `lk05-s2`: Help Kancil see exactly how things were: put the log back where it lay. · _Roll the shadow log back when the crocodile is in place._
+
+#### `lk05-log`
+
+**Mak Cik Siti**: One day a great storm blew through the forest, and a tree fell across the riverbank.  
+_Siti drops a long shadow log across the screen. Underneath it, the crocodile puppet thrashes its tail._  
+**Crocodile**: Help! Help! I’m stuck under this log and I can’t get out!  
+_Wulan brings on the buffalo, slow and heavy, with wide curved horns._  
+**Buffalo**: Poor crocodile. Hold still. I’ll get you out.  
+_The buffalo wedges a long branch under the log and leans on the other end with its horns. The log rolls away._  
+
+> **Lesson** (science, 3-PS2-1, notice): a lever helps lift heavy things  
+> **Bu Wulan**: See how the buffalo used a branch? A long branch pushed under a heavy log is called a lever.  
+> **Mak Cik Siti**: Push down on the long end, and the short end lifts far more than you could lift alone.  
+> _For grown-ups: Your child learned how a long branch used as a lever lifts a heavy log._
+
+**Crocodile**: Free! Thank you, buffalo. Thank you so much. And now...  
+_Snap! The crocodile grabs the buffalo by the leg._  
+**Buffalo**: But I helped you!  
+**Crocodile**: And now I’m hungry. Helping makes a crocodile hungry.  
+
+#### `lk05-judge`
+
+_Your Nubbin trots Kancil onto the screen, and the children cheer as if he were a famous footballer._  
+**Buffalo**: Kancil! Kancil! Tell this crocodile it isn’t fair!  
+**Kancil**: Hmm. I can’t judge something I haven’t seen. Show me exactly how it was, from the beginning.  
+
+> **Lesson** (social-studies, D2.Civ.8.K-2, notice): fairness: hear both sides  
+> **Bu Wulan**: That’s what a good judge does. Listen to both sides and look at the facts before deciding.  
+> **Mak Cik Siti**: Deciding first and looking afterwards is how unfair things happen.  
+> _For grown-ups: Your child learned that a fair judge listens to both sides and looks at the facts first._
+
+
+#### `lk05-before`
+
+**Crocodile**: It was like this. I was lying here, and the log was on top of me.  
+**Kancil**: On top of you? Show me. I can’t picture it.  
+_Grumbling, the crocodile lets go of the buffalo’s leg and crawls back to where it was._  
+
+> **Lesson** (literacy, RL.3.3, ask): a character’s motive  
+> **Mak Cik Siti**: Why did the crocodile agree to go back under the log?  
+> - ✅ It was sure it would win. → Yes. It was so sure it was right, it didn’t stop to think.
+> - It liked it under there. → Nobody likes being under a log! It went back because it wanted to win the argument.
+> _For grown-ups: Your child explained why the crocodile walked into Kancil’s plan._
+
+**Kancil**: And the log? Where exactly was the log?  
+_The buffalo rolls the log back, right on top of the crocodile. Thump._  
+**Crocodile**: Like this! You see? Now judge!  
+**Kancil**: I see perfectly. Buffalo, you may go home. Crocodile, you were stuck when this began, so stay as you began.  
+_The buffalo walks home slowly, on all four legs. The crocodile thinks it over under the log._  
+
+#### `lk05-complete`
+
+**Bu Wulan**: Kancil didn’t trick anyone in that one. He only asked to see it properly.  
+**Mak Cik Siti**: The crocodile tricked itself. It was so sure it was right, it climbed back under.  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): was the judgement fair?  
+> **Bu Wulan**: Was Kancil’s judgement fair?  
+> - Yes. The crocodile broke its promise. → That’s fair reasoning. The crocodile turned a kindness into a trap.
+> - No. It was another trick. → That’s a fair answer too. He did let the crocodile trick itself.
+> - Fair to the buffalo, hard on the crocodile. → That’s very thoughtful. Being fair to one can feel hard to another.
+> _For grown-ups: Your child weighed up whether Kancil’s judgement was fair to everyone._
+
+_A small girl asks if the crocodile stays there forever._  
+**Bu Wulan**: Until somebody kind comes along. Let’s hope it says thank you properly that time.  
+
+### Glossary
+
+- **lever**: A long bar or branch that turns on a point to help lift something heavy.
+- **judge**: To decide what is fair or true after looking carefully; also the person who decides.
+
+## LK6. The Race with the Snails
+
+- `lk06-s1`: Watch Kancil boast to a snail. · _Sit on the bank at dusk for the fifth tale._
+- `lk06-s2`: Watch the race along the riverbank. · _Help Siti set the ten snail puppets along the screen._
+
+#### `lk06-boast`
+
+**Bu Wulan**: Kancil had begun to boast. He was getting rather pleased with himself. Too pleased.  
+**Kancil**: I am the cleverest animal in the forest. And the fastest. Probably the handsomest.  
+_Wulan holds up the snail puppet. It is round and patient and very, very small._  
+**Kancil**: Look at you, snail. You’re so slow, the moss grows on you while you walk!  
+_On the bank some children laugh, and a few don’t. A small boy at the back looks down at his own feet._  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): why laughing at someone is unkind  
+> **Mak Cik Siti**: Why is it unkind to laugh at someone for being slow?  
+> - It makes them feel small. → Yes. And small is how that boy at the back looks right now.
+> - Everyone is slow at something. → So true. Even Kancil. He just hasn’t found his slow thing yet.
+> - It’s only a joke. → Jokes are only funny if everyone’s laughing. Look at the boy at the back. He isn’t.
+> _For grown-ups: Your child thought about how it feels to be laughed at for being slow._
+
+**Snail**: I may be slow. But I’ll race you, Kancil. Along the river, all the way to the big rock.  
+**Kancil**: Race me? A snail? This will take no time at all.  
+
+#### `lk06-line`
+
+_Behind the screen, Wulan whispers something to the snail puppet. Siti hides a smile._  
+**Mak Cik Siti**: That night the snail told all its cousins. And every snail in the river came out to help.  
+
+> **Lesson** (science, 4-LS1-1, notice): body parts that help snails survive  
+> **Bu Wulan**: A snail’s shell protects its soft body, and it can pull right inside when danger comes.  
+> **Mak Cik Siti**: It glides on one muscly foot over a ribbon of slime, which helps it cross rough ground.  
+> _For grown-ups: Your child learned how a snail’s shell and muscly foot help it survive._
+
+
+#### `lk06-race`
+
+_Siti sets ten little snail puppets along the bottom of the screen, far apart, like posts in a fence._  
+**Kancil**: Ready, snail? Go!  
+_Your Nubbin whips the Kancil puppet along the screen. After a while it stops for breath._  
+**Kancil**: Ha! Where are you, slow snail?  
+**Snail**: Here I am, just ahead of you!  
+_Your Nubbin runs again, faster and further._  
+**Kancil**: Where are you now, snail?  
+**Snail**: Still ahead of you!  
+_Ten times Kancil runs, and ten times a snail answers just ahead of him, until he flops down on the bank, worn out._  
+**Kancil**: All right. All right! You win. I give up.  
+
+> **Lesson** (maths, 3.OA.A.3, do): counting in fives; distance word problems  
+> **Bu Wulan**: The snails sat one every 5 metres, from 5 metres all the way to 50.  
+> **Mak Cik Siti**: So how many snails were there? And how long was the race?  
+> _Count in fives: 5, 10, 15… up to 50. That’s 10 snails, and a race of 50 metres._  
+> Check: `edu:count:snails:10`
+> _For grown-ups: Your child counted snails placed every 5 metres to find how many there were and how long the race was._
+
+
+#### `lk06-complete`
+
+**Bu Wulan**: Ten snails along the bank, and not one of them moved a step.  
+**Mak Cik Siti**: Kancil tricked the crocodiles with counting. The snails tricked Kancil with counting. It comes round, doesn’t it?  
+_The small boy at the back is smiling now. He has been helping Wulan move the snails._  
+**Bu Wulan**: Slow isn’t silly. Slow is just slow. And a lot of slow friends together can be very quick indeed.  
+
+> **Lesson** (literacy, RL.2.3, ask): how a character responds to events  
+> **Mak Cik Siti**: How did Kancil feel when he flopped down and gave up?  
+> - ✅ Tired, and a bit silly. → Yes. Tired legs and a red face. He’d learned something.
+> - Proud. → Not this time! He’d boasted and lost. He felt tired and silly.
+> _For grown-ups: Your child described how Kancil felt when he lost the race._
+
+
+### Glossary
+
+- **boast**: To talk proudly about how good you are, to show off.
+
+## LK7. The Cucumber Garden
+
+- `lk07-s1`: Watch the tale of the cucumber garden. · _Sit on the bank at dusk for the sixth tale._
+- `lk07-s2`: Help Kancil put the garden right: plant cucumber seeds by the screen. · _Take the seed pot by the lamp._
+
+#### `lk07-garden`
+
+_Tonight Wulan sits at the lamp. She has brought a new puppet: a farmer in a wide straw hat._  
+**Bu Wulan**: This is the tale I heard before any other. Kancil and the cucumbers.  
+**Bu Wulan**: There was a farmer called Pak Tani, and he grew the best cucumbers in the whole village.  
+
+> **Lesson** (science, 2-LS2-1, notice): why plants need water and light  
+> **Bu Wulan**: Cucumber vines drink water through their roots, and their leaves use sunlight to make food.  
+> **Mak Cik Siti**: That’s why the vines climb. Higher up, the leaves catch more sun.  
+> _For grown-ups: Your child learned that plants take in water through roots and make food with sunlight in their leaves._
+
+**Pak Tani**: My cucumbers! Somebody has been eating my cucumbers again!  
+_Your Nubbin creeps the Kancil puppet along the bottom of the screen, nibbling an invisible cucumber._  
+**Bu Wulan**: So Pak Tani made a scarecrow, and he painted it all over with sticky sap from a tree.  
+**Kancil**: Who’s this, standing in the garden? Out of my way, please. I’m busy eating.  
+_Kancil pushes the scarecrow, and his hoof sticks. He pushes with the other, and that sticks too._  
+**Pak Tani**: Got you, cucumber thief!  
+**Mak Cik Siti**: Wait, wait. That’s not how my grandmother told it.  
+
+#### `lk07-endings`
+
+_The two of them have a short, polite, very fierce whisper behind the screen._  
+**Bu Wulan**: In the old tale, Kancil tricks the farmer’s dog into getting stuck in his place. Then off he runs.  
+**Mak Cik Siti**: And now, mostly, children hear it the other way. Kancil says sorry and helps put the garden right.  
+**Bu Wulan**: Both are true. One is just older.  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): which ending is better?  
+> **Bu Wulan**: Which ending is better: the old trick or the new sorry? Why?  
+> - The trick. It’s clever. → That’s fair. It shows how quick he is. Was it fair to the dog, though?
+> - Sorry. It’s kind. → That’s fair. The new ending mends what he broke.
+> - Both, for different reasons. → That’s what we think. One teaches you to be quick, one teaches you to be good.
+> _For grown-ups: Your child compared a clever ending with a kind one and said which they prefer and why._
+
+
+#### `lk07-sorry`
+
+**Mak Cik Siti**: Tonight we’ll end it the new way.  
+_Kancil is still stuck fast to the scarecrow. Pak Tani stands over him with his hands on his hips._  
+**Pak Tani**: Well? What have you got to say for yourself?  
+**Kancil**: I’m sorry, Pak Tani. I was hungry, and I took what wasn’t mine.  
+**Pak Tani**: Hmph. Sorry doesn’t grow cucumbers.  
+**Kancil**: Then let me help you plant some more. I’m small, but I’m good at digging.  
+_Pak Tani unsticks him, one hoof at a time. Together they plant three rows of seeds, four in each row._  
+
+> **Lesson** (maths, 3.OA.A.1, ask): multiplication as equal groups  
+> _Kancil and Pak Tani plant 3 rows, with 4 seeds in each row. How many seeds?_  
+> - ✅ 12 → Twelve! Three groups of four: 4, 8, 12.
+> - 7 → That’s 3 add 4. But it’s 3 rows OF 4: 4, 8, 12. Twelve seeds.
+> _For grown-ups: Your child worked out 3 rows of 4 seeds as 12._
+
+_Behind the screen, your Nubbin is pressing real seeds into a pot by the lamp._  
+
+#### `lk07-complete`
+
+_Siti and Wulan build a little trellis of split bamboo beside the screen for the vine to climb._  
+**Mak Cik Siti**: The old ending is clever. The new ending is kind.  
+**Bu Wulan**: My grandmother would say Kancil got off lightly. Then she’d give him a cucumber anyway.  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): how stories change over time  
+> **Bu Wulan**: Tales passed on by word of mouth change a little with each teller.  
+> **Mak Cik Siti**: That isn’t a mistake. It’s how old stories stay alive.  
+> _For grown-ups: Your child learned that tales passed by word of mouth change a little with each teller._
+
+_Within a few days the vine has climbed halfway up. There is one small cucumber on it, and nobody touches it._  
+
+### Glossary
+
+- **sap**: The sticky liquid inside a tree or plant.
+
+## LK8. The Tiger at the River
+
+- `lk08-s1`: Watch the tiger corner Kancil by the water. · _Sit on the bank at dusk for the seventh tale._
+- `lk08-s2`: Look at your Nubbin’s reflection in the still pond. · _Find a calm spot at the pond’s edge and look in._
+
+#### `lk08-tiger`
+
+**Mak Cik Siti**: Late one afternoon, Kancil was walking beside a still, quiet pool.  
+_Wulan brings on the tiger puppet. It is striped and enormous, and its shadow fills half the screen._  
+
+> **Lesson** (science, 4-LS1-1, notice): stripes as camouflage  
+> **Mak Cik Siti**: Tigers really do live in the forests of Malaysia and Indonesia.  
+> **Bu Wulan**: Their stripes break up their shape in long grass and shadow. That’s called camouflage.  
+> _For grown-ups: Your child learned how a tiger’s stripes help it hide, and where tigers live in Malaysia and Indonesia._
+
+**Tiger**: Well, well. A mouse-deer. Just the right size for supper.  
+_Your Nubbin backs the Kancil puppet right up to the edge of the shadow water._  
+**Kancil**: You could eat me, tiger. But I’d be careful if I were you.  
+**Tiger**: Careful? Of you?  
+**Kancil**: Not of me. Of the tiger who lives in this pool. He’s bigger than you, and he’s been watching you all along.  
+
+#### `lk08-look`
+
+**Tiger**: Nonsense. Show me this tiger.  
+_The tiger leans over the shadow pool. Wulan tips a second tiger puppet upside down beneath it, nose to nose._  
+**Tiger**: Grrr! Who are you? Go away! This is MY forest!  
+
+> **Lesson** (science, 1-PS4-2, notice): why still water reflects  
+> **Bu Wulan**: Still water is smooth, so light bounces straight back off it, like a mirror. That picture is a reflection.  
+> **Mak Cik Siti**: Ripples scatter the light in all directions, and the picture breaks up.  
+> _For grown-ups: Your child learned why still water reflects like a mirror and rippled water doesn’t._
+
+
+#### `lk08-splash`
+
+_The tiger roars at the tiger in the water. The tiger in the water roars back, exactly the same._  
+**Tiger**: Right. That does it.  
+_Splash, the tiger leaps into the pool! Wulan flicks a cupful of real pond water over the screen._  
+_The tiger climbs out, soaked from ears to tail. The other tiger has vanished._  
+**Tiger**: Where did he go? And where did that mouse-deer go?  
+**Mak Cik Siti**: Kancil was long gone, home before the tiger had even shaken his ears.  
+_On the bank, the children want to know how the second tiger came and went. Wulan points at the pond._  
+**Bu Wulan**: Look in. Very still. Don’t splash.  
+
+> **Lesson** (maths, 4.G.A.3, do): lines of symmetry  
+> **Bu Wulan**: Look at a tree and its reflection together. There’s a line where the water meets the bank.  
+> **Mak Cik Siti**: Tap that line. Everything above it is mirrored below it.  
+> _That’s a line of symmetry: fold along it, and both halves match._  
+> Check: `edu:tap:shape:reflection`
+> _For grown-ups: Your child found the line of symmetry where a reflection meets the real thing._
+
+
+#### `lk08-complete`
+
+_Your Nubbin leans over the edge of the pond, and another Nubbin leans up to meet it._  
+_It waves, and the other one waves back. It pokes the water, and the other Nubbin wobbles away in rings._  
+**Bu Wulan**: The tiger was fighting himself. Plenty of people do that.  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): noticing when we are cross for no reason  
+> **Bu Wulan**: The tiger got cross with a tiger who wasn’t really there. Have you ever been cross at nothing much?  
+> - Yes, sometimes. → Most of us have. Noticing it is the first step to letting it go.
+> - No, never. → Lucky you! Watch out for it. It sneaks up on everyone.
+> - I’m not sure. → That’s honest. Next time you’re cross, ask: is the thing really there?
+> _For grown-ups: Your child thought about getting cross at something that isn’t really there._
+
+**Mak Cik Siti**: Nobody was hurt. The tiger only got wet, and a little embarrassed.  
+
+### Glossary
+
+- **camouflage**: Colours or patterns that help an animal blend in with what is around it.
+- **reflection**: The picture you see in a mirror or in still water.
+- **symmetry**: When one half of a shape is a mirror image of the other half.
+
+## LK9. The Pit
+
+- `lk09-s1`: Watch Kancil fall into the hunters’ pit. · _Sit on the bank at dusk for the eighth tale._
+- `lk09-s2`: Decide how the tale ends. · _Talk to Siti by the screen._
+
+#### `lk09-pit`
+
+**Mak Cik Siti**: Kancil was running through the forest, not looking where he was going. And then, whoomp.  
+_Siti sweeps a deep, dark hole across the screen. Your Nubbin drops the Kancil puppet into it._  
+**Mak Cik Siti**: It was a pit, dug by hunters, and the sides were steep and slippery.  
+**Kancil**: Help! Hello? Anybody? Oh, this is not good.  
+_Kancil jumps and jumps, but he is much too small to reach the top._  
+_Then the ground thumps. Wulan brings on the elephant, huge and grey, with ears like washing on a line._  
+
+> **Lesson** (science, 4-LS1-1, notice): an elephant’s trunk  
+> **Bu Wulan**: Asian elephants live in the forests of Malaysia and Indonesia too.  
+> **Mak Cik Siti**: A trunk is a nose and an upper lip joined together. It can lift a log or pick up a single fruit.  
+> _For grown-ups: Your child learned what an elephant’s trunk is and that Asian elephants live in Malaysia and Indonesia._
+
+**Elephant**: What are you doing down there, little one?  
+**Kancil**: Haven’t you heard, Elephant? The sky is falling! This pit is the only safe place in the forest!  
+**Elephant**: The sky? Falling? Make room! Make room!  
+
+#### `lk09-out`
+
+_Thump: the elephant climbs into the pit. Kancil hops onto its back, then onto its head, and out._  
+**Kancil**: Thank you, Elephant! Do stay as long as you like!  
+_The elephant sits in the pit, looking up at the sky, which isn’t falling at all._  
+
+> **Lesson** (literacy, RL.3.3, ask): describing a character’s traits  
+> **Mak Cik Siti**: Which word describes the elephant best?  
+> - ✅ Trusting → Yes. He believed Kancil at once, and climbed right in.
+> - Sneaky → That’s Kancil! The elephant was trusting. He believed every word.
+> _For grown-ups: Your child chose a word to describe the elephant: trusting._
+
+
+#### `lk09-ending`
+
+_Siti stops. She lowers the puppets and looks at them for a moment._  
+**Mak Cik Siti**: In my grandmother’s tale, it ends there. Kancil runs off, and the elephant stays in the pit.  
+**Bu Wulan**: And then?  
+**Mak Cik Siti**: And then nothing. That’s where she stopped.  
+_A little girl on the bank puts her hand up. She wants to know what happens to the elephant._  
+**Mak Cik Siti**: So. Do we end it the old way, or help Kancil find a way to get Elephant out?  
+
+> **Lesson** (science, K-2-ETS1-1, ask): defining a problem and finding solutions  
+> **Bu Wulan**: What exactly is the problem? And what are two ways to solve it?  
+> - ✅ The sides are too steep. A ramp, or ropes. → Exactly. Name the problem first: steep, slippery sides. Then a log ramp, or ropes to pull with.
+> - Elephant is too big. → He is big! But the real problem is the steep sides. A ramp would fix that.
+> _For grown-ups: Your child named the real problem (steep sides) and two ways to solve it._
+
+
+**Choices**
+
+- **End it the old way. It’s Siti’s grandmother’s tale.**
+    - **Mak Cik Siti**: Then it ends there. Kancil was clever, and the elephant was trusting, and that was all.
+    - The little girl thinks about it for a long time. Then she asks to hold the elephant puppet, and Siti lets her.
+    - **Bu Wulan**: Old tales don’t always comfort you. Sometimes they tell you to be careful who you trust.
+- **Help Kancil get Elephant out.**
+    - **Kancil**: Elephant! I’m sorry. The sky isn’t falling. Wait there, I’ll get help!
+    - Your Nubbin rolls six logs from the woodpile and leans them in a ramp against the shadow pit.
+    - The elephant climbs out, one big step at a time, while the children count the logs out loud.
+
+#### `lk09-complete`
+
+**Bu Wulan**: That’s a hard one. A clever trick can be a cruel one, if you never look back.  
+**Mak Cik Siti**: My grandmother told it to make us careful. The children here tell it to put things right. Both are good reasons.  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): choosing how to tell a story  
+> **Bu Wulan**: If you told this tale to a little brother or sister, which ending would you choose?  
+> - The old one. → That’s fair. It warns them to be careful who they trust.
+> - The new one. → That’s fair. It shows a trick can be put right.
+> - I’d let them choose. → Now that’s a storyteller talking.
+> _For grown-ups: Your child chose which ending they would tell a younger child, and why._
+
+_Your Nubbin puts the elephant puppet back in the box, very gently, on top of everything else._  
+
+### Glossary
+
+- **trusting**: Ready to believe what someone tells you.
+
+## LK10. The Night of Stories
+
+- `lk10-s1`: Line up the Grove’s Nubbins across the stream for the last crossing. · _Call your Nubbins to the stream by the screen._
+- `lk10-s2`: Cross the stream with your Nubbin and count every crocodile. · _Along one line and back along the other._
+
+#### `lk10-line`
+
+_The last evening of summer. The whole valley is on the bank, with mats and cushions and far too much food._  
+**Mak Cik Siti**: Kuih! Who wants kuih? I made the green ones and the stripy ones.  
+**Bu Wulan**: And kue from me. Same idea, different spelling, better coconut.  
+
+> **Lesson** (social-studies, D2.Geo.2.K-2, notice): shared food and words  
+> **Mak Cik Siti**: Kuih is the Malay word for small cakes and snacks, sweet or savoury.  
+> **Bu Wulan**: In Indonesia we say kue. Same idea, different spelling, and we argue about the coconut.  
+> _For grown-ups: Your child learned that kuih and kue are snacks shared by Malaysia and Indonesia._
+
+**Pixel**: I’ve rigged a second lamp so the people at the back can see. It won’t blow up. Probably.  
+_Your Nubbin is Kancil tonight, for real: no puppet, just itself in the lamplight._  
+**Bu Wulan**: Crocodiles! The last crossing! Line up, please!  
+_The Grove’s Nubbins slide into the stream at once. They remember that Kancil was kind to them._  
+_There are a great many of them this time: two lines side by side, nose to tail, from bank to bank._  
+
+#### `lk10-count`
+
+**Mak Cik Siti**: We count the way you heard it first. Ready? Satu!  
+_Your Nubbin hops. The whole bank counts with it._  
+**Mak Cik Siti**: Dua, tiga, empat, lima, enam, tujuh...  
+_At eight the children all shout “Delapan!”, the Indonesian word, as loud as they can. Wulan bows._  
+**Mak Cik Siti**: Lapan. Sembilan, sepuluh! And back along the second line!  
+_Your Nubbin hops back along the second line, ten more, and lands on the home bank with a squelch._  
+
+> **Lesson** (maths, 2.OA.A.1, do): adding tens  
+> **Bu Wulan**: Two lines of ten crocodiles. How many crocodiles in all?  
+> **Mak Cik Siti**: Ten and ten make twenty. Or two tens, if you like your times tables.  
+> Check: `edu:count:crocodiles:20`
+> _For grown-ups: Your child added two lines of ten crocodiles to make twenty._
+
+**Bu Wulan**: Twenty crocodiles. The King would be delighted.  
+
+#### `lk10-complete`
+
+_Afterwards the children sit in a heap on the bank, full of kuih and kue, and nobody wants to go home._  
+**Mak Cik Siti**: So. What did Kancil learn this summer?  
+_A boy says be clever, and a girl says say thank you. The small boy who helped the snails says don’t laugh at slow people._  
+
+> **Lesson** (literacy, RL.4.2, ask): finding the theme  
+> **Mak Cik Siti**: What did Kancil learn this summer? What is the big idea of all his tales?  
+> - Being small is fine if you think. → That’s a strong theme. Brains beat size, over and over.
+> - Clever isn’t enough. Be kind too. → That’s the one I’d pick. Every trick needed a thank you after.
+> - Don’t boast. → The snails would agree with you.
+> _For grown-ups: Your child named the big idea running through the Kancil tales._
+
+**Bu Wulan**: All true. My grandmother would have liked you lot.  
+**Mak Cik Siti**: We’re leaving the screen by the pond. It belongs here now.  
+**Bu Wulan**: And we’re staying a while. We like your valley. It argues nearly as well as we do.  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): reflecting on your own learning  
+> **Bu Wulan**: And you? What did you learn this summer?  
+> - Counting in Malay and Indonesian. → Satu, dua, tiga! You’ll never forget lapan and delapan now.
+> - That stories change. → They do. And you’ll change them too, when you tell them.
+> - Something else. → Tell us. We like hearing what people take home.
+> _For grown-ups: Your child said what they learned over the summer of tales._
+
+_Your Nubbin sits by the screen with the little Kancil puppet and makes it hop, one, two, three, all on its own._  
+
+### Glossary
+
+- **theme**: The big idea or message that runs through a story.
+
 ## Variant scenes
 
 #### `s2-complete-sable`
@@ -16752,3 +23808,2396 @@ _You sit there a long time. Up on the lip, Marina lets you._
 > _Marina doesn’t call you down. She waits. Sometimes the kindest help is giving someone time._  
 > _For grown-ups: Learned that people grieve in different ways, and that giving someone quiet time can be a kindness._
 
+
+#### `s24-tea-moss`
+
+_Spring. The memorial flowers on the hill have opened all at once, as if somebody gave a signal._  
+_Hazel’s is the untidy one near Briar’s. It still faces the Grove, very firmly._  
+_Somebody comes over the far ridge in the early light, under a pack so big it looks like a walking hedge._  
+_It is Nova. She comes straight up the hill path, and at the top she stops, which is new._  
+**Nova**: Morning. Don’t get up. I was passing. I’m always passing.  
+**Nova**: I thought I’d sit here a minute and not pass.  
+_She sits down by Hazel’s flower with her pack still on, like a tortoise that has decided to stay a while._  
+_Moss is on the flat stone by the path, where he always sits. He watches Nova sit down, and then he climbs your leg, slowly._  
+**Moss**: I’m coming. Wherever this is going.  
+**Moss**: Don’t look like that. I’ve decided.  
+
+> **Lesson** (literacy, RL.3.3, ask): what a character’s words show about them  
+> _“Don’t look like that. I’ve decided.” What does this tell you about Moss?_  
+> - ✅ He has made up his own mind, and won’t be talked out of it. → Yes. Moss chooses rarely, and when he does, it’s settled. Rather like the day he chose Hazel.
+> - Somebody told him he had to come. → Nobody tells Moss anything! “I’ve decided” means the choice is his own.
+> _For grown-ups: Used a character’s words to describe his personality._
+
+_He settles on your shoulder, light as a hat, and shuts his eyes._  
+_Your Nubbin runs to her, then back to you, then to her again, to check you are both still there._  
+**Nova**: Is there tea? There’s usually tea. I usually say no.  
+**You**: There’s tea.  
+**Nova**: Then I’ll have some. I’d like to stay for tea.  
+_Nobody in the valley can remember Nova staying for tea. Down by the hedge, Fern drops a whole tray of seedlings._  
+
+#### `s24-tea-moss-stayed`
+
+_Spring. The memorial flowers on the hill have opened all at once, as if somebody gave a signal._  
+_Hazel’s is the untidy one near Briar’s. It still faces the Grove, very firmly._  
+_Somebody comes over the far ridge in the early light, under a pack so big it looks like a walking hedge._  
+_It is Nova. She comes straight up the hill path, and at the top she stops, which is new._  
+**Nova**: Morning. Don’t get up. I was passing. I’m always passing.  
+**Nova**: I thought I’d sit here a minute and not pass.  
+_Beside Hazel’s flower, so close the two of them lean together, is a small grey-green one by the flat stone where Moss always sat._  
+_Moss faded up here, beside her. That means he died. His flower came up close to hers._  
+_There is just room between them for one person, if she tucks her knees up. Nova does, pack and all._  
+**Nova**: Both of you. Right. I’ll sit in the middle and not take sides.  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): humour as a way of coping  
+> _Missing two people at once is a lot to carry. Nova makes a small joke to help carry it. Humour is one way people cope with sadness._  
+> _For grown-ups: Noticed that people sometimes use humour to cope with sad feelings._
+
+_Your Nubbin runs to her, then back to you, then to her again, to check you are both still there._  
+**Nova**: Is there tea? There’s usually tea. I usually say no.  
+**You**: There’s tea.  
+**Nova**: Then I’ll have some. I’d like to stay for tea.  
+_Nobody in the valley can remember Nova staying for tea. Down by the hedge, Fern drops a whole tray of seedlings._  
+
+#### `s24-tea-sable`
+
+_Spring. The memorial flowers on the hill have opened all at once, as if somebody gave a signal._  
+_Hazel’s is the untidy one near Briar’s. It still faces the Grove, very firmly._  
+_Somebody comes over the far ridge in the early light, under a pack so big it looks like a walking hedge._  
+_It is Nova. She comes straight up the hill path, and at the top she stops, which is new._  
+**Nova**: Morning. Don’t get up. I was passing. I’m always passing.  
+**Nova**: I thought I’d sit here a minute and not pass.  
+_She sits down by Hazel’s flower with her pack still on, like a tortoise that has decided to stay a while._  
+_Sable comes up the path behind you and sits down two steps from Nova, facing the far ridge._  
+**Nova**: Hello, grey one. That’s where I came from. Are you thinking of going?  
+_Sable says nothing. Her ears stay up._  
+
+> **Lesson** (science, 4-LS1-2, notice): animals use their ears to gather information  
+> _Many animals can turn their ears towards a sound. Ears held up and forward usually mean an animal is alert and paying attention._  
+> _For grown-ups: Learned how animals use their ears, and what ear positions can tell us._
+
+_Your Nubbin runs to her, then back to you, then to her again, to check you are both still there._  
+**Nova**: Is there tea? There’s usually tea. I usually say no.  
+**You**: There’s tea.  
+**Nova**: Then I’ll have some. I’d like to stay for tea.  
+_Nobody in the valley can remember Nova staying for tea. Down by the hedge, Fern drops a whole tray of seedlings._  
+
+#### `s24-moss-kept`
+
+_Higher up, on the crown of the hill, Moss sits with his back to the Grove, the way he has sat since the Long Night._  
+**Nova**: Hello, Moss.  
+_He doesn’t turn round. After a while Nova stops waiting for him to, and looks at the flower instead._  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): giving someone space  
+> _Nova stops waiting for Moss to turn round. Was that the right thing to do?_  
+> - Yes. He might need space. → That’s thoughtful. Giving space can be a kindness, as long as the door stays open.
+> - No. She should keep trying. → That’s caring too. Notice she says she’ll come back later. She does a bit of both.
+> - I’m not sure. → That’s honest. It’s a hard one. Sometimes you only find out by trying gently, and watching.
+> _For grown-ups: Thought about when to give someone space and when to keep trying._
+
+_Some sadness looks like tears. Some looks like a back turned to everyone._  
+**Nova**: …I’ll sit with you later, then.  
+_Moss doesn’t answer. But he doesn’t move away, either._  
+
+#### `s24-lantern-corvin`
+
+**Nova**: One more thing. Can we take her lantern? And light it up there, at sunrise?  
+**Nova**: So she sees it. From wherever she is, being difficult about something.  
+_It is Sunday, so Corvin is by the pond, saying nothing, badly. He gets up when he sees where you are looking._  
+_Hazel’s lantern hangs on the hook by the cottage door. He takes it down before you can, the way he does every Sunday._  
+_He trims the wick with a penknife. His hands are steady now. He takes a long time about it, and doesn’t apologise._  
+**Corvin Vale**: The far ridge. For the sunrise.  
+_He holds it out to you. When you take hold of it, he doesn’t let go straight away._  
+**Corvin Vale**: Bring it back lit.  
+
+> **Lesson** (literacy, RL.3.3, ask): reading a character’s words for hidden meaning  
+> _Why do you think Corvin says “Bring it back lit”, not just “Bring it back”?_  
+> - A lit lantern would mean the trip went well. → That fits. A light still burning is a good sign: nobody gave up.
+> - He wants Hazel’s light kept going. → A lovely reading. He looked after her lantern every Sunday. It matters to him.
+> - He’s just fussy about lanterns. → He might be! But he holds on a moment too long. There’s more in it than fuss.
+> _For grown-ups: Looked for the meaning behind a character’s short words._
+
+
+#### `s24-stowaway-knows`
+
+_The carrier’s cart goes up the ridge road on Tuesdays, and takes anyone who can lift their own luggage._  
+_Nova can just about lift hers. The cart’s springs go down with a groan._  
+_Under the tarp at the back, something says “ow”. Then, much more quietly: “Nobody heard that.”_  
+_Then the tarp lifts, and a girl in big wellies, with a sash of home-made badges, sits up among the sacks and points at you._  
+**Tilly**: It’s you. From Keeps & Critters. You sat next to the dragon.  
+**Tilly**: This is a stowaway situation. You can’t send a stowaway back. That’s the law of the sea.  
+**Nova**: We’re not at sea.  
+**Tilly**: It’s the law of carts, then. It’s the same law.  
+_Sparks comes down the lane at a run, waving both arms, and slows right down when she sees who Tilly has found._  
+
+> **Lesson** (literacy, RL.2.3, ask): how a character’s feelings change  
+> _How does Sparks feel when she starts running, and how does she feel when she sees who found Tilly?_  
+> - ✅ Worried at first, then relieved. → Yes. She runs flat out, then slows right down. Her body shows the change before she speaks.
+> - Cross the whole time. → She might be a bit cross with Tilly! But watch her slow down. She goes from worried to relieved when she sees Tilly is with someone she trusts.
+> _For grown-ups: Described how a character’s feelings change, using clues from the text._
+
+**Sparks**: Oh, it’s YOU. Fine. Good. Take her. Bring her back with the same number of wellies.  
+
+#### `s24-bun-moss`
+
+_Before the cart goes, Nova climbs back up the hill on her own, with one of Fern’s lantern buns._  
+_She puts it on the flat stone where Moss always sat, by his flower, and stands there with her hands in her pockets._  
+_Moss faded. That means he died, and he isn’t coming back. His flower is how the valley keeps him._  
+**Nova**: He told me once I walked like someone being chased. I said I was. He said, “By what?” I never answered.  
+
+> **Lesson** (literacy, RL.3.3, ask): inferring a character’s feelings  
+> _Nova “walked like someone being chased”. What do you think was chasing her?_  
+> - Sadness she didn’t want to stop and feel. → That fits this whole story. Stopping for tea might have meant feeling things.
+> - Wanting to see absolutely everything. → That’s true of Nova too. Hazel’s list sent her everywhere.
+> - Being lonely. → A thoughtful answer. Remember: “I never had anyone to take.”
+> _For grown-ups: Inferred what lies behind a character’s behaviour._
+
+**Nova**: I’ll tell him when I get back.  
+_Lots of people talk to someone who has died. It doesn’t need an answer to help._  
+
+#### `s24-eternal-watch`
+
+_On the western hill your Eternal sits where it always sits, and watches the cart go, very carefully._  
+_It doesn’t follow, and it doesn’t need to. It already knows which way you’ll come home._  
+_Eternals never grow old. In the Grove’s stories, that is what makes them so rare._  
+
+> **Lesson** (science, 3-LS1-1, notice): every living thing has a life cycle  
+> _Eternals are a Grove story idea. Real living things all have a life cycle: they are born, grow, may have young, and die._  
+> _That cycle is part of what makes each life precious._  
+> _For grown-ups: Learned that all real living things have a life cycle, and told story from fact._
+
+_You wave. It doesn’t wave back, exactly. It blinks, slowly, which is the same thing._  
+_The cart turns the corner, and the hill goes out of sight._  
+_Nova settles against her pack and shuts her eyes._  
+
+#### `s24-bird-collector`
+
+_Above the falls the ridge goes up into cloud, and the cloud is full of birdsong you don’t know._  
+_You stop to eat, and set Fern’s bag of lantern buns on a rock. Then it is a bag of lantern buns minus one._  
+_Something enormous is standing in the mist three strides off, with a bun in its beak._  
+_It is taller than Nova and striped like a humbug, with legs like stilts and a little crest that won’t lie flat._  
+
+> **Lesson** (science, 4-LS1-1, notice): body parts that help an animal survive  
+> **Nova**: Look at those legs. Long legs mean long strides, and a head high enough to see over anything.  
+> **Nova**: And the stripes. In mist and shadow, stripes break up an animal’s outline, so it’s harder to spot.  
+> _For grown-ups: Learned how long legs and a striped pattern can help an animal survive._
+
+**Tilly**: Oh. Oh. Oh, he’s BEAUTIFUL.  
+**Tilly**: He’s called Sir Reginald. That’s decided. Nobody else gets a go.  
+_Sir Reginald swallows the bun whole. You can watch it go all the way down._  
+_It looks at the bag, and then at you. It takes one step forward and two steps back._  
+**Nova**: Don’t grab. Whatever you do. A thing like that, you only see once if you grab.  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): gentleness with wild animals  
+> _Why does Nova say not to grab?_  
+> - ✅ Grabbing frightens wild animals, and then they stop trusting people. → Yes. A wild animal that gets grabbed learns that people mean danger. Slow and gentle earns trust.
+> - Because the bird might bite. → It might! But the bigger reason is trust. A wild animal that gets grabbed learns that people mean danger, and won’t come close again.
+> _For grown-ups: Thought about why grabbing a wild animal breaks its trust._
+
+
+**Choices**
+
+- **Hold out a bun on your flat hand.**
+    - You hold out a bun on your flat hand. The bird looks at your hand for a long time, and takes one step back.
+    - Nova holds out a bun of her own without thinking. The bird walks straight past you and takes it from her.
+    - **Tilly**: It doesn’t like you. That’s weird. Everything likes Keepers.
+    - You think of your pens at home, full of fast grey runners that never make a sound. You don’t say anything.
+- **Sit down on the path and wait for it to come to you.**
+    - You sit down on the wet path. The bird stays where it is, three strides off, and comes no nearer.
+    - Nova sits down too, a little way off. After a long while the bird goes and stands over her instead.
+    - **Tilly**: It doesn’t like you. That’s weird. Everything likes Keepers.
+    - You think of your pens at home, full of fast grey runners that never make a sound. You don’t say anything.
+
+#### `s24-bird-collector-kept`
+
+_Above the falls the ridge goes up into cloud, and the cloud is full of birdsong you don’t know._  
+_You stop to eat, and set Fern’s bag of lantern buns on a rock. Then it is a bag of lantern buns minus one._  
+_Something enormous is standing in the mist three strides off, with a bun in its beak._  
+_It is taller than Nova and striped like a humbug, with legs like stilts and a little crest that won’t lie flat._  
+
+> **Lesson** (science, 4-LS1-1, notice): body parts that help an animal survive  
+> **Nova**: Look at those legs. Long legs mean long strides, and a head high enough to see over anything.  
+> **Nova**: And the stripes. In mist and shadow, stripes break up an animal’s outline, so it’s harder to spot.  
+> _For grown-ups: Learned how long legs and a striped pattern can help an animal survive._
+
+**Tilly**: Oh. Oh. Oh, he’s BEAUTIFUL.  
+**Tilly**: He’s called Sir Reginald. That’s decided. Nobody else gets a go.  
+_Sir Reginald swallows the bun whole. You can watch it go all the way down._  
+_It looks at the bag, and then at you. It takes one step forward and two steps back._  
+**Nova**: Don’t grab. Whatever you do. A thing like that, you only see once if you grab.  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): gentleness with wild animals  
+> _Why does Nova say not to grab?_  
+> - ✅ Grabbing frightens wild animals, and then they stop trusting people. → Yes. A wild animal that gets grabbed learns that people mean danger. Slow and gentle earns trust.
+> - Because the bird might bite. → It might! But the bigger reason is trust. A wild animal that gets grabbed learns that people mean danger, and won’t come close again.
+> _For grown-ups: Thought about why grabbing a wild animal breaks its trust._
+
+
+**Choices**
+
+- **Hold out a bun on your flat hand.**
+    - You hold out a bun on your flat hand. The bird looks at your hand for a long time, and takes one step back.
+    - Nova holds out a bun of her own without thinking. The bird walks straight past you and takes it from her.
+    - **Tilly**: It doesn’t like your hands. Why are your hands cold? It’s nearly summer.
+    - You put your hands in your pockets. One pocket is colder than the other, and you don’t say anything.
+- **Sit down on the path and wait for it to come to you.**
+    - You sit down on the wet path. The bird stays where it is, three strides off, and comes no nearer.
+    - Nova sits down too, a little way off. After a long while the bird goes and stands over her instead.
+    - **Tilly**: It doesn’t like your hands. Why are your hands cold? It’s nearly summer.
+    - You put your hands in your pockets. One pocket is colder than the other, and you don’t say anything.
+
+#### `s24-nest-waited`
+
+_Under an overhang of rock there is a nest the size of a cart wheel, made of heather and string and most of somebody’s washing line._  
+_In it are four striped chicks like knitted tea cosies. Beside it sits Tilly, perfectly safe and extremely cross._  
+_Her badge sash is wound round the smallest chick, badges and all, so it doesn’t get cold._  
+
+> **Lesson** (science, 3-LS1-1, notice): a bird’s life cycle, and why chicks need a parent  
+> **Nova**: Egg, chick, adult, and then new eggs. That’s a bird’s whole life cycle, round and round.  
+> **Nova**: Newly hatched chicks often can’t keep themselves warm yet. A parent sits over them, like a feather duvet.  
+> **Nova**: Cage the mother, and the chicks get cold. That’s the real reason wild birds stay wild.  
+> _For grown-ups: Learned the stages of a bird’s life cycle and why chicks need a parent nearby._
+
+**Tilly**: You took AGES. I’ve been whistling for about a hundred years.  
+**Tilly**: Sir Reginald’s a mother. That’s allowed. She can still be Sir.  
+_Fairweather’s cage stands open and empty at the edge of the overhang. Out in the dark, a creaky two-note call._  
+_You remember the wet path. You sit down by the nest with your Nubbin beside you, and you wait._  
+_After a long while the mother comes out of the dark on her own, and stands over her chicks, and over your Nubbin._  
+_She tidies the tuft on its head again. It wasn’t bothering it, and she does it anyway._  
+**Nova**: There. She came straight home.  
+
+#### `s24-nest-fed-collector`
+
+_Under an overhang of rock there is a nest the size of a cart wheel, made of heather and string and most of somebody’s washing line._  
+_In it are four striped chicks like knitted tea cosies. Beside it sits Tilly, perfectly safe and extremely cross._  
+_Her badge sash is wound round the smallest chick, badges and all, so it doesn’t get cold._  
+
+> **Lesson** (science, 3-LS1-1, notice): a bird’s life cycle, and why chicks need a parent  
+> **Nova**: Egg, chick, adult, and then new eggs. That’s a bird’s whole life cycle, round and round.  
+> **Nova**: Newly hatched chicks often can’t keep themselves warm yet. A parent sits over them, like a feather duvet.  
+> **Nova**: Cage the mother, and the chicks get cold. That’s the real reason wild birds stay wild.  
+> _For grown-ups: Learned the stages of a bird’s life cycle and why chicks need a parent nearby._
+
+**Tilly**: You took AGES. I’ve been whistling for about a hundred years.  
+**Tilly**: Sir Reginald’s a mother. That’s allowed. She can still be Sir.  
+_Fairweather’s cage stands open and empty at the edge of the overhang. Out in the dark, a creaky two-note call._  
+_The bird won’t come while you are near. You give Nova the buns and stand back in the dark by the rock._  
+_Nova lays the trail and sits down at the end of it. After a long while a striped head comes eating its way home to her._  
+**Nova**: There. She came straight home.  
+
+#### `s24-nest-waited-collector`
+
+_Under an overhang of rock there is a nest the size of a cart wheel, made of heather and string and most of somebody’s washing line._  
+_In it are four striped chicks like knitted tea cosies. Beside it sits Tilly, perfectly safe and extremely cross._  
+_Her badge sash is wound round the smallest chick, badges and all, so it doesn’t get cold._  
+
+> **Lesson** (science, 3-LS1-1, notice): a bird’s life cycle, and why chicks need a parent  
+> **Nova**: Egg, chick, adult, and then new eggs. That’s a bird’s whole life cycle, round and round.  
+> **Nova**: Newly hatched chicks often can’t keep themselves warm yet. A parent sits over them, like a feather duvet.  
+> **Nova**: Cage the mother, and the chicks get cold. That’s the real reason wild birds stay wild.  
+> _For grown-ups: Learned the stages of a bird’s life cycle and why chicks need a parent nearby._
+
+**Tilly**: You took AGES. I’ve been whistling for about a hundred years.  
+**Tilly**: Sir Reginald’s a mother. That’s allowed. She can still be Sir.  
+_Fairweather’s cage stands open and empty at the edge of the overhang. Out in the dark, a creaky two-note call._  
+_The bird won’t come while you are near. You stand back in the dark by the rock, and Nova sits down by the nest alone._  
+_After a long while the mother comes out of the dark and stands over her chicks, and over Nova, and stays._  
+**Nova**: There. She came straight home.  
+
+#### `s24-lights-told`
+
+_The sun comes over the far rim and runs down into the valley one place at a time, as if it is calling a register._  
+_The Tooth, then the Circuit’s square roofs, then the falls, smoking white; the Hollow, where the paths stop; the tide pools, flashing._  
+
+> **Lesson** (science, 5-ESS1-2, notice): why high places catch the sunrise first  
+> _At sunrise the Sun sits very low, so its light skims sideways across the land._  
+> _The tallest places poke up into it first. The valley floor stays in shadow until the Sun climbs higher._  
+> _For grown-ups: Learned why the tops of hills light up before the valley at sunrise._
+
+_Then the Grove: the pond, the cottage, the hill. All of it at once, small and bright, exactly as she wrote it._  
+**Tilly**: Oh.  
+**Nova**: There. The whole valley. At once.  
+_Down in the Grove, four small lights are still burning, one at each post, as if somebody left them on for you._  
+_Then more lights, all the way up the western hill: lanterns, a long line of them, climbing in the last of the dark._  
+_The valley has walked up her hill to watch the far ridge. Fern saw the cart go, and Sparks told everyone else._  
+**Nova**: They came. They all came up.  
+
+> **Lesson** (sel, CASEL: Social awareness, notice): showing up for each other  
+> _Nobody asked them to come. They noticed, and they came. Sometimes that is the whole of being kind._  
+> _For grown-ups: Thought about how simply turning up can show someone they are not alone._
+
+_You lift Hazel’s lantern as high as it will go. Nova puts her hand under your elbow, to help hold it up._  
+
+#### `s24-lights-kept`
+
+_The sun comes over the far rim and runs down into the valley one place at a time, as if it is calling a register._  
+_The Tooth, then the Circuit’s square roofs, then the falls, smoking white; the Hollow, where the paths stop; the tide pools, flashing._  
+
+> **Lesson** (science, 5-ESS1-2, notice): why high places catch the sunrise first  
+> _At sunrise the Sun sits very low, so its light skims sideways across the land._  
+> _The tallest places poke up into it first. The valley floor stays in shadow until the Sun climbs higher._  
+> _For grown-ups: Learned why the tops of hills light up before the valley at sunrise._
+
+_Then the Grove: the pond, the cottage, the hill. All of it at once, small and bright, exactly as she wrote it._  
+**Tilly**: Oh.  
+**Nova**: There. The whole valley. At once.  
+_Down in the Grove, small lights still burn at the posts: three steady, and one by the long grass that only flickers._  
+_You lift Hazel’s lantern as high as it will go. Nova puts her hand under your elbow, to help hold it up._  
+
+#### `s24-lights-told-kept`
+
+_The sun comes over the far rim and runs down into the valley one place at a time, as if it is calling a register._  
+_The Tooth, then the Circuit’s square roofs, then the falls, smoking white; the Hollow, where the paths stop; the tide pools, flashing._  
+
+> **Lesson** (science, 5-ESS1-2, notice): why high places catch the sunrise first  
+> _At sunrise the Sun sits very low, so its light skims sideways across the land._  
+> _The tallest places poke up into it first. The valley floor stays in shadow until the Sun climbs higher._  
+> _For grown-ups: Learned why the tops of hills light up before the valley at sunrise._
+
+_Then the Grove: the pond, the cottage, the hill. All of it at once, small and bright, exactly as she wrote it._  
+**Tilly**: Oh.  
+**Nova**: There. The whole valley. At once.  
+_Down in the Grove, small lights still burn at the posts: three steady, and one by the long grass that only flickers._  
+_Then more lights, all the way up the western hill: lanterns, a long line of them, climbing in the last of the dark._  
+_The valley has walked up her hill to watch the far ridge. Fern saw the cart go, and Sparks told everyone else._  
+**Nova**: They came. They all came up.  
+
+> **Lesson** (sel, CASEL: Social awareness, notice): showing up for each other  
+> _Nobody asked them to come. They noticed, and they came. Sometimes that is the whole of being kind._  
+> _For grown-ups: Thought about how simply turning up can show someone they are not alone._
+
+_You lift Hazel’s lantern as high as it will go. Nova puts her hand under your elbow, to help hold it up._  
+
+#### `s24-shelf-moss`
+
+_Moss has slept on your shoulder most of the way up. He wakes now, and looks for a long time without saying anything._  
+**Moss**: Forty years I sat on that hill and looked at this ridge. I never once thought to look back the other way.  
+
+> **Lesson** (literacy, RL.3.6, ask): point of view  
+> _Moss only ever looked one way. Is there something you have only seen from one side?_  
+> - A place I’ve only seen from inside. → Try it from outside sometime. Moss would approve.
+> - An argument, from my side only. → That’s a brave answer. The other side often looks different from over there.
+> - A person I think I know well. → Lovely. People can surprise you, like Hazel at nineteen.
+> _For grown-ups: Thought about how a different point of view can change what we see._
+
+**Moss**: She’d have liked it. She’d have talked all the way through it.  
+_You look back the way he is looking: the western hill, the flat stone, very small._  
+_Seeing a place from far away can make you see it new._  
+_Moss shuts his eyes again, but he doesn’t sleep._  
+
+#### `s24-shelf-sable`
+
+_Sable has walked two steps ahead of you the whole way up, waiting at every bend._  
+_Now she sits at the very edge of the Shelf, facing the Grove, and the sun comes up on her too._  
+_She stays grey. She looks warm anyway._  
+
+> **Lesson** (literacy, L.4.5, ask): words with more than one meaning: warm  
+> _“She stays grey. She looks warm anyway.” What kind of “warm” is this?_  
+> - ✅ Warm as in content and safe, not just the temperature. → Yes. Her colour hasn’t changed, but something inside her has settled. That’s “warm” used figuratively.
+> - Warm as in hot from the sun. → The sun is on her, so that’s true too! But the line means more: she looks content and safe. That’s “warm” used figuratively.
+> _For grown-ups: Explained a word used with a figurative meaning._
+
+_Nova sits a little way off, and doesn’t make a fuss of her. Sable seems to like that._  
+_Down in the valley the light reaches the Grove, and her ears come up._  
+_Then she lies down, chin on her paws, and watches it all._  
+
+#### `s24-tick-scarf`
+
+_Nova sits on the lip of the Shelf with the atlas open at the front, and a stub of pencil worn almost to nothing._  
+**Nova**: This was hers. The one she wrote the list with. She gave it me with the book. I’ve never once used it.  
+_She ticks the last line. It is a very small tick, and it takes her a long time._  
+**Nova**: Take someone. Done. I took two, and a stowaway.  
+_Tilly is shivering. Nova unwinds the long scarf and winds it round her, three times, and there is still some left._  
+**Tilly**: It’s too long.  
+**Nova**: It was always too long. You’ll grow into it.  
+_Then she ties the pencil stub to a bit of string, and hangs it round Tilly’s neck._  
+**Nova**: Helping Someone Sad. You earned it. You were very annoying about it, but you earned it.  
+**Tilly**: …It’s the best badge I’ve got.  
+_Tilly checks the top of her welly, the way she always does, and leaves the note where it is._  
+_Nova turns the atlas to its very last page, which is blank, and holds it out to you._  
+**Nova**: Your turn.  
+
+> **Lesson** (literacy, RL.4.2, ask): theme: what counts as an adventure  
+> _Hazel wrote a list of faraway places. Then she spent most of her life in one garden._  
+> _What do you think: did she miss her adventure, or have a different one?_  
+> - She had a different one: the Grove, and everyone in it. → That’s how Nova reads it now. The back of the book is full of ordinary days, and Hazel called them the best.
+> - She missed it, a bit. But she sent Nova instead. → That’s a fair answer, and a kind one. She gave the list away so somebody would go. That counts for something.
+> - Both. You can miss one thing and love another. → A wise answer. People can be glad and sorry about the same life. Hazel probably was.
+> _For grown-ups: Thought about the story’s theme: an ordinary life with people you love can be the adventure._
+
+
+**Choices**
+
+- **Write: “The Sunrise Shelf, again. Take someone.”**
+    - **Nova**: Good. Somebody has to keep it in use.
+- **Write: “Wherever Nova goes next. Tea after.”**
+    - **Nova**: Then you’ll have to come and find me. I’ll leave the kettle on. Probably.
+- **Write: “Here. Every morning.”**
+    - **Nova**: That’s the hardest one on any list. She managed it forty years.
+
+#### `s24-tick-book`
+
+_Nova sits on the lip of the Shelf with the atlas open at the front, and a stub of pencil worn almost to nothing._  
+**Nova**: This was hers. The one she wrote the list with. She gave it me with the book. I’ve never once used it.  
+_She ticks the last line. It is a very small tick, and it takes her a long time._  
+**Nova**: Take someone. Done. I took two, and a stowaway.  
+_Her hands are empty except for the book. She doesn’t seem to know what to do with them, so she holds Tilly’s._  
+**Tilly**: Your hand’s cold.  
+**Nova**: It’ll warm up. They do.  
+_Then she ties the pencil stub to a bit of string, and hangs it round Tilly’s neck._  
+**Nova**: Helping Someone Sad. You earned it. You were very annoying about it, but you earned it.  
+**Tilly**: …It’s the best badge I’ve got.  
+_Tilly checks the top of her welly, the way she always does, and leaves the note where it is._  
+_Nova turns the atlas to its very last page, which is blank, and holds it out to you._  
+**Nova**: Your turn.  
+
+> **Lesson** (literacy, RL.4.2, ask): theme: what counts as an adventure  
+> _Hazel wrote a list of faraway places. Then she spent most of her life in one garden._  
+> _What do you think: did she miss her adventure, or have a different one?_  
+> - She had a different one: the Grove, and everyone in it. → That’s how Nova reads it now. The back of the book is full of ordinary days, and Hazel called them the best.
+> - She missed it, a bit. But she sent Nova instead. → That’s a fair answer, and a kind one. She gave the list away so somebody would go. That counts for something.
+> - Both. You can miss one thing and love another. → A wise answer. People can be glad and sorry about the same life. Hazel probably was.
+> _For grown-ups: Thought about the story’s theme: an ordinary life with people you love can be the adventure._
+
+
+**Choices**
+
+- **Write: “The Sunrise Shelf, again. Take someone.”**
+    - **Nova**: Good. Somebody has to keep it in use.
+- **Write: “Wherever Nova goes next. Tea after.”**
+    - **Nova**: Then you’ll have to come and find me. I’ll leave the kettle on. Probably.
+- **Write: “Here. Every morning.”**
+    - **Nova**: That’s the hardest one on any list. She managed it forty years.
+
+#### `s24-home-eternal`
+
+_You come down off the ridge in the afternoon, slowly, because Augusta Fairweather is coming too, on Nova’s arm._  
+**Augusta Fairweather**: Fifty years. I don’t suppose anybody has kept my room.  
+_She takes the empty cottage at the foot of the falls path, for a week, she says. Nobody believes her, kindly._  
+_Your Eternal is on the cottage step when you get in, as if it had been there all along. It probably had._  
+_That night you light Hazel’s lantern by the cottage table and open the atlas, to read her list again._  
+_In the margins there is writing, in faint pencil. It wasn’t there before, or it was, and it needed this light._  
+_It is on every page. Beside a boy and a dragon: “I’d have fed the dragon.” Beside a building of endless counters: “Ha. Typical.”_  
+_She read every story Nova ever brought her, and had something to say about all of them. Of course she did._  
+_Nova stays three days, and has tea every afternoon. On the fourth she goes over the far ridge with a pack you could lift with a finger._  
+_At the top she turns and waves, and doesn’t wait to see whether you wave back. She knows._  
+
+> **Lesson** (literacy, RL.4.2, ask): finding the theme of a story  
+> _Nova set off to see one last faraway place. What do you think this story is really about?_  
+> - ✅ Learning that everyday life with people you love can be the adventure. → Yes. The list was the adventure Hazel planned. The back pages were the one she had.
+> - Climbing a very tall ridge. → The climb happens! But it carries a bigger idea. The list was the adventure Hazel planned. The back pages, full of ordinary days, were the one she had.
+> - Catching a rare bird. → Fairweather wanted that, and gave it up. The bigger idea is in the book. Ordinary days with people you love can be the adventure.
+> _For grown-ups: Worked out the theme of the story._
+
+
+#### `s24-home-corvin`
+
+_Corvin is by the pond when you come in, though it isn’t Sunday. He looks at the lantern, lit in broad daylight._  
+**Corvin Vale**: Good.  
+
+> **Lesson** (sel, CASEL: Relationship skills, ask): trust and keeping promises  
+> _Corvin says only “Good.” What do you think he means by it?_  
+> - Thank you for keeping your promise. → Probably. For Corvin, one word can carry a lot.
+> - He’s glad everyone came home safe. → A kind reading. A lit lantern means the night went well.
+> - He trusts you a bit more now. → That might be the biggest meaning. Trust grows from small promises kept.
+> _For grown-ups: Thought about how keeping promises builds trust._
+
+_He hangs it back on its hook himself, and doesn’t trim the wick. It doesn’t need it._  
+_A promise kept is a small thing. It is also how trust gets built, one small thing at a time._  
+_Your Nubbin sits under the hook and looks up at it, the way it did before._  
+_Corvin stays by the pond until the light goes, which he never does on a weekday._  
+
+#### `s24-lecture`
+
+_The museum is full, which it never is. Somebody has put out every chair, and some of the Nubbins have brought their own._  
+**Professor Delve**: A lecture. Every plaque in this museum must be true. This one has taken fifty years to become so.  
+**Augusta Fairweather**: I was called a liar. I have been wrong about a great many things. I was not wrong about the bird.  
+**Augusta Fairweather**: I shan’t tell you where she nests. That is the whole of the lecture. Thank you.  
+
+> **Lesson** (science, K-ESS3-3, notice): protecting the nests of rare birds  
+> _Real wildlife experts often keep the nest sites of rare birds secret._  
+> _That way, nobody disturbs the parents or takes the eggs. Sometimes the kindest thing to share is nothing._  
+> _For grown-ups: Learned why the nest sites of rare birds are often kept secret._
+
+_Professor Delve hangs the new plaque himself, on tiptoe, with his spectacles on the end of his nose._  
+**Professor Delve**: “A tall striped bird nests on the far ridge. Augusta Fairweather saw it first. She was right.”  
+**Professor Delve**: True. Entirely true. I checked.  
+_Everyone claps. Fairweather sits down rather suddenly, and doesn’t say anything for a while._  
+
+#### `s25-sill-late`
+
+_The lamp comes on: a warm ring of light, and a small, satisfied tick every second._  
+_Everyone goes down the ladder talking about the moth. You go last, with the toy and the book, and set them on the window seat for now._  
+_For now turns into a week, and then a fortnight. The toy sits on the sill and gets the afternoon sun._  
+
+> **Lesson** (maths, 3.OA.A.1, ask): a fortnight is two groups of seven days  
+> _A fortnight is two weeks. How many days is that?_  
+> - ✅ 14 days → Yes. Two groups of seven: 2 × 7 = 14. The word comes from an old way of saying “fourteen nights”.
+> - 10 days → A week has seven days, so two weeks is 7 + 7. That makes 14.
+> - 2 days → That would be two days, not two weeks. Two weeks is 2 × 7 = 14 days.
+> _For grown-ups: Worked out a fortnight as two equal groups of seven days._
+
+_Nobody looks at it. You don’t either, though you mean to._  
+_Out of the window, on top of the western hill, Moss is looking this way. He would tell you he was looking at the weather._  
+
+#### `s25-storm-nosable`
+
+_Later that week your Nubbin finds the toy on the sill. It sniffs it, sneezes, and goes off after a moth._  
+_Not yet, then._  
+_Then, at the end of a hot week, a storm. It comes over the hill at bedtime, all at once, like a dropped tray._  
+_Your Nubbin won’t settle. It goes from the basket to the hearth to the door and back, ears flat at every bang._  
+_You look for the old sock it likes, and can’t find it. You warm a stone by the fire, and it pushes the stone away._  
+_A flash, then thunder right overhead. The window seat lights up white, and the knitted toy on its sill with it._  
+
+> **Lesson** (science, 4-PS3-2, notice): light travels faster than sound, so we see lightning before we hear thunder  
+> _Lightning and thunder happen at the same moment. You see the flash first because light travels far faster than sound._  
+> _Sound takes about three seconds to travel one kilometre. So you can count the gap to tell how far away the storm is._  
+> _For grown-ups: Learned that light travels faster than sound, which is why the flash comes before the thunder._
+
+
+> **Lesson** (maths, 3.OA.A.3, ask): divide by 3 in a word problem  
+> _Say you count six seconds between a flash and its thunder. About how far away is the storm?_  
+> - ✅ About 2 kilometres → Yes. Six seconds, three seconds for each kilometre: 6 ÷ 3 = 2.
+> - About 6 kilometres → Close thinking, but sound needs about three seconds per kilometre. 6 ÷ 3 = 2 kilometres.
+> - About 18 kilometres → That’s 6 × 3. We need to share the seconds into groups of three: 6 ÷ 3 = 2 kilometres.
+> _For grown-ups: Used division to turn the flash-to-thunder gap into a distance._
+
+
+#### `s25-page-found`
+
+_There is a page about clockwork toys in a nursery, and an old horse who has watched them come and go. You read it to him._  
+_It says the clockwork toys were sure they would stay clockwork for ever, and never be anything more._  
+_Clank listens with his chimney-light steady. His whistle doesn’t drop at all._  
+**Moss**: The horse was wrong about that. I’m older than the horse.  
+_You pass it on. Clank does a small spin on his one wheel, the way he does when he knew something already._  
+**Clank**: Announcement: I found my word already. In Nova’s book. Next to a wooden boy.  
+**Clank**: Is Real the same word? I don’t think it is the same word.  
+**Moss**: No. It lives next door to it. He’s already knocked.  
+
+> **Lesson** (literacy, L.3.4, notice): words with close but different meanings  
+> _Some words live “next door” to each other: close in meaning, but not the same. Think of “glad” and “joyful”, or “alive” and “Real”._  
+> _Finding exactly the right word, not just a nearby one, is something good writers work hard at._  
+> _For grown-ups: Explored words with close but different meanings._
+
+_You pass that on. Clank’s whistle rises, just a little, and holds._  
+**Clank**: Next door. Announcement: I have a neighbour.  
+
+#### `s25-byte`
+
+_A wet afternoon. Moss is on the window ledge again; he says the hill is too damp for his knees._  
+_You were not aware he had knees. You decide not to raise it._  
+_Byte comes up the path under an umbrella, with his clipboard in a plastic bag, to return a pencil Hazel lent him nine years ago._  
+**Byte**: She said bring it back when I’d finished with it. I’ve finished with it. It took longer than projected.  
+_He sees the toy on the sill, and stops._  
+**Byte**: Fern says your Nubbin made her apologise to that. Formally. With the good cups.  
+**Byte**: And that you said it was Real. I’d like to know what you meant. Ideally in a unit.  
+
+> **Lesson** (maths, 4.MD.A.1, ask): choosing the right unit  
+> **Byte**: A unit is what you measure in. If I want to log how long the toy gets held, which unit should I use?  
+> - ✅ Hours and minutes → Correct. Time is measured in hours, minutes and seconds. Noted.
+> - Kilograms → Kilograms measure mass: how heavy. For how long, I need hours and minutes.
+> - Metres → Metres measure length. How long in time needs hours and minutes. Confusing word, “long”.
+> _For grown-ups: Matched a measurement to the right unit (time in hours and minutes)._
+
+**Byte**: Hazel had a book for everything. Is there a book?  
+
+#### `s25-page-byte`
+
+_You find the page where the old horse explains it, and read it out. Byte writes it all down._  
+_Then he reads back what he’s written, and frowns at it._  
+**Byte**: There isn’t a single number on this page. Not one. How is anybody meant to check it?  
+**Byte**: Can it be measured? Ask him. I know you can hear him. I’ve stopped pretending I think you can’t.  
+**Moss**: Tell him to try.  
+_You tell him. Byte looks at the toy for a long time, then at his clipboard, then turns to a clean page._  
+**Byte**: Fine. A log. Hours held. Times carried. Times dropped, and gone back for in the dark. I’ll let you know.  
+
+> **Lesson** (maths, 3.MD.B.3, do): reading a tally chart and finding a difference  
+> **Byte**: A week later, the tally chart: carried 23 times, dropped 7 times, gone back for 7 times out of 7.  
+> **Byte**: Read it with me. How many more times carried than dropped? 23 − 7 = 16. And every drop was gone back for.  
+> Check: `edu:read:tally:s25-log`
+> _For grown-ups: Read a tally chart and worked out a difference by subtracting._
+
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): thinking about what can and can’t be measured  
+> _Byte’s numbers show something. Can they measure love?_  
+> - Yes, a bit: they show care. → That’s a fair answer. Going back every time is a kind of evidence.
+> - No. Love is a feeling, not a number. → Many people agree. Numbers can show what someone does, but not quite how they feel.
+> - Some of it, but not all. → That’s a careful answer. Byte might even agree, eventually.
+> _For grown-ups: Thought about what numbers can and can’t tell us about feelings._
+
+
+#### `s25-shed-kept`
+
+_You carry the bundle out to the shed without him. He is in the tin bath, under the cold water, waiting for your hands._  
+_A whole slow evening: cold water, a sliver of soap, and squeezing, and never wringing. Clover checks, and says “again”._  
+_Your hands go numb, and then they go patient._  
+
+> **Lesson** (sel, CASEL: Self-management, notice): patience with slow, careful work  
+> _Some jobs can’t be hurried. Rushing would felt the wool, and then there’d be no going back._  
+> _Patience isn’t just waiting. It’s choosing to keep going carefully, even when you’d like to be finished._  
+> _For grown-ups: Talked about patience as choosing to work carefully, not quickly._
+
+
+#### `s25-line`
+
+_It is past dark when Clover says that will do. Your fingers are white and wrinkled, and you can’t feel them._  
+_You roll him in a towel and press, and never twist. Clover nods, which from Clover is a medal._  
+
+> **Lesson** (science, 2-PS1-1, ask): materials that absorb water  
+> _Why does rolling him in a towel and pressing help?_  
+> - ✅ The towel absorbs the water from the wool. → Yes. Towels are made of loops that soak up water, so pressing moves the water out of the toy and into the towel.
+> - The towel keeps him warm. → It might, a little. But mostly the towel absorbs the water, pulling it out of the wool.
+> _For grown-ups: Explained how an absorbent material soaks up water._
+
+**Clover**: Now you leave him. Overnight, flat, by the range. Not too near. Wool doesn’t like being rushed any more than the rest of us.  
+_His loose eye came off in the rinse. Clover holds out her palm for it._  
+**Clover**: I’ll sew it back tomorrow, with proper thread. It’ll outlast both of us.  
+_Your Nubbin wakes on the step, looks round for him, and finds him on the towel by the range._  
+_It lies down beside the towel: not on it, beside it._  
+
+#### `s25-line-dry`
+
+_In the morning you peg him on the line by his ears. By noon he’s dry: a size smaller, lumpier, and somehow more himself._  
+
+> **Lesson** (science, K-PS3-1, notice): sunlight and wind dry wet things by evaporation  
+> _Sunlight warms the wet wool, and the water in it turns into vapour and drifts away. That’s evaporation._  
+> _A breeze helps by carrying the damp air off, so drier air can take its place. Sun plus wind is the best drying day._  
+> _For grown-ups: Learned that sunlight and wind dry wet things by evaporation._
+
+_Clover sews his eye back on, tight, and gives you a spare button from her tin, the same brown, for your Nubbin to wear._  
+_He goes back on your Nubbin’s bed, and stays there for good._  
+_At teatime Moss comes down to the ledge and looks through the window at him on the bed for a long while._  
+**Moss**: Then he’s Real to you. That’s how it ends for most of them. It’s the better ending, mostly.  
+
+#### `s25-falls-kept`
+
+_You come home from the Hollow with the notebook inside your coat. It’s late, and the cottage smells of cold ashes._  
+_Moss is on the window ledge. He doesn’t ask about the notebook, and you don’t tell him yet._  
+_On your Nubbin’s bed the toy is waiting, a size smaller, with both eyes on tight._  
+_There is one thing you do want to tell him._  
+_You went along the ledge behind the falls today. You put your hand on the rock, and the rock was warm._  
+
+> **Lesson** (science, 4-PS3-2, notice): warm springs are heated from deep underground  
+> _Deep under the ground, the rock is very hot. Rainwater can soak down a long way, get warmed, and rise again._  
+> _Where it comes out, you get a warm spring. Heat from inside the Earth like this is called geothermal heat._  
+> _For grown-ups: Learned that warm springs are heated by geothermal heat from deep underground._
+
+
+#### `s25-twice-kept`
+
+**You**: There’s a pool behind the falls. Warm. Steaming a bit. Lit from underneath, by nothing.  
+**Moss**: The Wellspring. Yes.  
+**Moss**: The first ones came up out of the warm water as small lights. Nobody ever told me where the lights came from.  
+_He looks through the window at your Nubbin, asleep on its bed with its arms round the toy._  
+**Moss**: I’ve a guess. It’s only a guess.  
+**Moss**: He can stay where he is while I think about it.  
+
+> **Lesson** (literacy, RL.3.3, ask): making an inference from clues  
+> _Moss doesn’t say what his guess is. What do you think he is guessing?_  
+> - That the lights were things that were loved a long time. → That fits the clues: the toy, the little light, and where Moss is looking. Moss would say you’re a good listener.
+> - That the lights came from the warm water itself. → That’s a fair reading too. The water is warm and strange. Moss leaves room for more than one answer.
+> - I don’t know yet. → That’s an honest answer. Moss doesn’t know either. That’s why it’s only a guess.
+> _For grown-ups: Used clues in the story to make a guess about what a character was thinking._
+
+
+#### `s25-coda-wild-button`
+
+_Spring. The flowers on the hill are open, and the long grass at the edge of the Grove is new and green._  
+
+> **Lesson** (science, 1-ESS1-2, notice): daylight grows longer in spring  
+> _In spring the days grow longer and the sun climbs higher, so the ground warms up._  
+> _More light and warmth wake the seeds and buds that waited through the winter._  
+> _For grown-ups: Linked spring growth to longer days and more sunlight._
+
+_A wild Nubbin is sitting right at the edge, where the mown grass stops. You haven’t seen it before._  
+_Its coat is grey-brown, soft and a little lumpy, like knitting with a dropped stitch here and there._  
+_The tuft on its head is a bit crooked. One of its eyes catches the light like a button._  
+**You**: Button?  
+_It turns its head._  
+_It doesn’t come in, and it doesn’t run away. It looks at you the way you look at someone you’re nearly sure you know._  
+_Then it hops, twice, high and neat, as if to show you that it can._  
+_It goes back into the long grass. After that, in the mornings, it is often at the edge._  
+
+#### `s25-coda-wild-bobble`
+
+_Spring. The flowers on the hill are open, and the long grass at the edge of the Grove is new and green._  
+
+> **Lesson** (science, 1-ESS1-2, notice): daylight grows longer in spring  
+> _In spring the days grow longer and the sun climbs higher, so the ground warms up._  
+> _More light and warmth wake the seeds and buds that waited through the winter._  
+> _For grown-ups: Linked spring growth to longer days and more sunlight._
+
+_A wild Nubbin is sitting right at the edge, where the mown grass stops. You haven’t seen it before._  
+_Its coat is grey-brown, soft and a little lumpy, like knitting with a dropped stitch here and there._  
+_The tuft on its head is a bit crooked. One of its eyes catches the light like a button._  
+**You**: Bobble?  
+_It turns its head._  
+_It doesn’t come in, and it doesn’t run away. It looks at you the way you look at someone you’re nearly sure you know._  
+_Then it hops, twice, high and neat, as if to show you that it can._  
+_It goes back into the long grass. After that, in the mornings, it is often at the edge._  
+
+#### `s25-coda-wild-mister`
+
+_Spring. The flowers on the hill are open, and the long grass at the edge of the Grove is new and green._  
+
+> **Lesson** (science, 1-ESS1-2, notice): daylight grows longer in spring  
+> _In spring the days grow longer and the sun climbs higher, so the ground warms up._  
+> _More light and warmth wake the seeds and buds that waited through the winter._  
+> _For grown-ups: Linked spring growth to longer days and more sunlight._
+
+_A wild Nubbin is sitting right at the edge, where the mown grass stops. You haven’t seen it before._  
+_Its coat is grey-brown, soft and a little lumpy, like knitting with a dropped stitch here and there._  
+_The tuft on its head is a bit crooked. One of its eyes catches the light like a button._  
+**You**: Mister?  
+_It turns its head._  
+_It doesn’t come in, and it doesn’t run away. It looks at you the way you look at someone you’re nearly sure you know._  
+_Then it hops, twice, high and neat, as if to show you that it can._  
+_It goes back into the long grass. After that, in the mornings, it is often at the edge._  
+
+#### `s25-coda-coat-button`
+
+_Spring. Fern and Clover come up the lane together with a parcel, which is suspicious, because they never agree about wrapping._  
+**Fern**: We couldn’t decide whose idea it was. So it’s both of ours, and any mistakes are Clover’s.  
+**Clover**: There aren’t any mistakes. There are three, and they’re on purpose.  
+_Inside is a knitted coat, just Nubbin-sized, in grey-brown wool, with a crooked bobble on the hood._  
+_It’s the toy’s own pattern. Clover counted his stitches while he was drying on the line._  
+
+> **Lesson** (maths, 4.OA.C.5, ask): continue a pattern that follows a rule  
+> **Clover**: The cuffs are rib: knit two, purl two, over and over. Knit, knit, purl, purl, knit, knit…  
+> **Clover**: What comes next?  
+> - ✅ Purl, purl → Exactly. Two and two, all the way round. That’s what makes a cuff stretchy.
+> - Knit, knit → Not quite. The rule is two knits, then two purls. So after knit, knit comes purl, purl.
+> - Knit, purl → That’s a different rib. Mine goes two and two, so next is purl, purl.
+> _For grown-ups: Continued a repeating pattern by finding its rule._
+
+**Fern**: Inside the collar. Look.  
+_Stitched inside the collar, in Fern’s wobbly red cross-stitch: BUTTON._  
+_Your Nubbin puts it on, and goes and sits on its bed beside the toy, so everybody can see they match._  
+**Clover**: Matching. Oh, I could cry. I am crying. Don’t look.  
+
+#### `s25-coda-coat-bobble`
+
+_Spring. Fern and Clover come up the lane together with a parcel, which is suspicious, because they never agree about wrapping._  
+**Fern**: We couldn’t decide whose idea it was. So it’s both of ours, and any mistakes are Clover’s.  
+**Clover**: There aren’t any mistakes. There are three, and they’re on purpose.  
+_Inside is a knitted coat, just Nubbin-sized, in grey-brown wool, with a crooked bobble on the hood._  
+_It’s the toy’s own pattern. Clover counted his stitches while he was drying on the line._  
+
+> **Lesson** (maths, 4.OA.C.5, ask): continue a pattern that follows a rule  
+> **Clover**: The cuffs are rib: knit two, purl two, over and over. Knit, knit, purl, purl, knit, knit…  
+> **Clover**: What comes next?  
+> - ✅ Purl, purl → Exactly. Two and two, all the way round. That’s what makes a cuff stretchy.
+> - Knit, knit → Not quite. The rule is two knits, then two purls. So after knit, knit comes purl, purl.
+> - Knit, purl → That’s a different rib. Mine goes two and two, so next is purl, purl.
+> _For grown-ups: Continued a repeating pattern by finding its rule._
+
+**Fern**: Inside the collar. Look.  
+_Stitched inside the collar, in Fern’s wobbly red cross-stitch: BOBBLE._  
+_Your Nubbin puts it on, and goes and sits on its bed beside the toy, so everybody can see they match._  
+**Clover**: Matching. Oh, I could cry. I am crying. Don’t look.  
+
+#### `s25-coda-coat-mister`
+
+_Spring. Fern and Clover come up the lane together with a parcel, which is suspicious, because they never agree about wrapping._  
+**Fern**: We couldn’t decide whose idea it was. So it’s both of ours, and any mistakes are Clover’s.  
+**Clover**: There aren’t any mistakes. There are three, and they’re on purpose.  
+_Inside is a knitted coat, just Nubbin-sized, in grey-brown wool, with a crooked bobble on the hood._  
+_It’s the toy’s own pattern. Clover counted his stitches while he was drying on the line._  
+
+> **Lesson** (maths, 4.OA.C.5, ask): continue a pattern that follows a rule  
+> **Clover**: The cuffs are rib: knit two, purl two, over and over. Knit, knit, purl, purl, knit, knit…  
+> **Clover**: What comes next?  
+> - ✅ Purl, purl → Exactly. Two and two, all the way round. That’s what makes a cuff stretchy.
+> - Knit, knit → Not quite. The rule is two knits, then two purls. So after knit, knit comes purl, purl.
+> - Knit, purl → That’s a different rib. Mine goes two and two, so next is purl, purl.
+> _For grown-ups: Continued a repeating pattern by finding its rule._
+
+**Fern**: Inside the collar. Look.  
+_Stitched inside the collar, in Fern’s wobbly red cross-stitch: MISTER._  
+_Your Nubbin puts it on, and goes and sits on its bed beside the toy, so everybody can see they match._  
+**Clover**: Matching. Oh, I could cry. I am crying. Don’t look.  
+
+#### `s25-moss-kept`
+
+_Moss is watching your Nubbin drag the toy through the daisies by one ear._  
+
+> **Lesson** (science, 2-LS2-2, notice): a daisy head is many tiny flowers, visited by insects  
+> _A daisy looks like one flower, but the yellow middle is made of many tiny flowers packed together._  
+> _Bees and hoverflies visit them, carrying pollen from one to the next, so new daisies can grow._  
+> _For grown-ups: Learned that a daisy head is many small flowers, pollinated by insects._
+
+**Moss**: He’s getting shabbier. Good. Keep it up.  
+
+#### `s25-moss-gone`
+
+_Moss is looking at the long grass again._  
+**Moss**: Nothing. I’m only looking. I’m allowed to look at grass. It is most of what I do.  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): remembering as a way of missing someone  
+> _Sometimes looking at a place is how we remember someone. It’s a quiet way of missing them, and that’s all right._  
+> _For grown-ups: Noticed a quiet, healthy way of missing someone._
+
+
+#### `s25-clank-next-door`
+
+**Clank**: Announcement: I live next door to a word. Moss says so.  
+**Clank**: Next door is a very good place to live. You can wave.  
+
+> **Lesson** (social-studies, D2.Civ.8.K-2, notice): neighbours and community  
+> _Neighbours wave, lend pencils, and return them, eventually. Small kindnesses like that are what make a community._  
+> _For grown-ups: Talked about the small kindnesses that make a community._
+
+
+#### `s26-door-thrums`
+
+_Then the wind comes along the wall, and lifts the ivy like a curtain._  
+_Under it, exactly at the height of Linnet’s eyes, is a round iron knob._  
+**Linnet**: There. There! You lot stand too tall to see anything.  
+_The hum in the old wall is loudest here. Every little round door in the mortar has a face in it, watching._  
+
+> **Lesson** (science, 1-PS4-1, notice): sound is vibration, and travels through solids  
+> _A hum is a vibration: something shaking back and forth very fast. Put your hand on your throat and hum to feel it._  
+> _Sound travels through solid stone as well as air. That’s why the whole wall seems to hum._  
+> _For grown-ups: Learned that sound is made by vibrations and can travel through solids like stone._
+
+**The Thrums**: Good morning, Keeper. Yes. That is a door. We have lived beside it for ever.  
+**The Thrums**: Nobody asked us about it. We did not like to mention it. We are now checking whether we should have.  
+**Linnet**: Is the wall talking?  
+**You**: Mostly it’s agreeing with itself.  
+_The key goes in as if it has been waiting. It takes both your hands to turn it, and then Linnet’s as well._  
+
+#### `s26-ramp-1`
+
+_First evening of the ramp. Dusty takes the top step out in one go, and stands back, pleased._  
+**Linnet**: That’s not a ramp. That’s a hole with ambitions.  
+**Dusty**: Give it time.  
+_Linnet sits at the top, beside Sparks’s coil of wire, and tells you where every barrow of earth goes._  
+_She is right about all of it._  
+**Dusty**: Each step’s fifteen centimetres high. I measured. Twice.  
+
+> **Lesson** (maths, 3.OA.A.3, ask): multiply to find a total height  
+> **Linnet**: Three steps, fifteen centimetres each. So how high does the ramp have to drop, top to bottom?  
+> - ✅ 45 cm → Yes. 3 × 15 = 45. Forty-five centimetres. Write it down, Dusty.
+> - 18 cm → That’s 15 + 3. It’s three lots of 15: 15 + 15 + 15 = 45 centimetres.
+> - 30 cm → That’s only two steps. Three lots of 15 is 45 centimetres.
+> _For grown-ups: Multiplied 3 × 15 to find the total height of three steps._
+
+
+#### `s26-ramp-2`
+
+_Second evening. It is nearly a ramp now, and Dusty wants to call it done._  
+**Linnet**: It’s too steep. I’d go down that in one second flat, straight into the rose.  
+**Dusty**: It’s fine. I walked down it.  
+**Linnet**: You walked down it. Dig it longer.  
+
+> **Lesson** (maths, 3.OA.D.8, ask): two-step multiplication with a ramp rule  
+> _Builders often use a rule for wheelchair ramps: at least 12 centimetres along for every 1 centimetre down._  
+> **Linnet**: The drop is 45 centimetres. How long does my ramp need to be? Hint: 45 × 10, then add 45 × 2.  
+> - ✅ 540 cm → Yes. 450 + 90 = 540 centimetres. That’s five metres and forty. Told you. Dig it longer.
+> - 57 cm → That’s 45 + 12. We need 12 lots of 45: 450 + 90 = 540 centimetres.
+> - 450 cm → That’s 45 × 10. Add 45 × 2 = 90 as well: 540 centimetres.
+> _For grown-ups: Used a two-step multiplication (45 × 10 + 45 × 2) to find the length a ramp needs._
+
+_Dusty digs it longer. It takes the rest of the evening._  
+_Afterwards Dusty admits that Linnet was right._  
+
+#### `s26-ramp-3`
+
+_Third evening, and the last barrow goes in. The ramp runs from the door to the path, long and shallow and tamped hard._  
+_Linnet goes down it before anyone can offer anything._  
+_At the bottom she doesn’t say a word. She goes straight to the living rose and puts her hand on it._  
+_Dusty leans on the spade and looks at nothing in particular, for quite a long time._  
+**You**: All right, Dusty?  
+**Dusty**: Fine. Dust in the eye. Big garden. Lot of dust.  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): read feelings people don’t say out loud  
+> _Neither Linnet nor Dusty says how they feel. What do you think is going on?_  
+> - ✅ They’re both moved, and don’t want a fuss. → That’s how it reads. Sometimes the biggest feelings come out as silence, or a joke about dust.
+> - They’re bored. → Look again: Linnet’s hand on the rose, Dusty staring at nothing. That’s a big feeling kept quiet.
+> _For grown-ups: Read characters’ feelings from their actions when they didn’t say them out loud._
+
+
+#### `s26-lift-1`
+
+_Next evening Sparks lifts Linnet down again: front and back, never the sides, exactly as instructed._  
+**Sparks**: Smooth! Like a generator. A small, rude generator.  
+**Linnet**: Thank you.  
+_She says it every time. It seems to cost her a little more every time._  
+_Down in the garden she works hard and fast, as if the minutes are counted._  
+_In a way, they are. Somebody else decides when she goes home._  
+
+> **Lesson** (sel, CASEL: Social awareness, notice): having a say over your own day  
+> _Thank you is good manners. But needing to ask, every single time, wears people down._  
+> _Most of us like deciding for ourselves when we come and go. Linnet is no different._  
+> _For grown-ups: Talked about how it feels to depend on others for everyday things, and why independence matters._
+
+
+#### `s26-lift-2`
+
+_Second evening. Sparks is late: a fuse at the pond lantern._  
+_Linnet waits at the top of the steps for half an hour, watching you and Dusty work below._  
+**Linnet**: I don’t mind.  
+_She minds. She has pulled every ivy leaf within reach off the wall, and laid them out in order of size._  
+
+> **Lesson** (science, 4-LS1-1, notice): how ivy climbs and stays green  
+> _Ivy is evergreen: it keeps its leaves all winter. That’s why it was the only green thing on the wall._  
+> _It climbs with tiny roots along its stems that grip the stone, so it can reach the light without a trunk._  
+> _For grown-ups: Learned how ivy climbs with tiny gripping roots and stays green all winter._
+
+**Sparks**: Sorry! Sorry! Right. Front and back.  
+_Linnet leaves the row of leaves behind her, smallest to biggest, perfectly straight._  
+
+#### `s26-lift-3`
+
+_Third evening. Sparks lifts her down, and then has to go, and says she’ll be back to lift her up again._  
+**Linnet**: What if you’re not?  
+**Sparks**: Then I’ll be back later!  
+_Linnet doesn’t answer that._  
+_She goes to the living rose and stays there, as far from the steps as the garden allows._  
+_Every so often she looks up at the door._  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): name a “what if” worry  
+> _Linnet’s “what if you’re not?” is a worry. What is she really worried about?_  
+> - ✅ Being stuck in the garden until someone comes. → Yes. Her way out depends on someone else turning up. “What if” worries are normal, and worth saying aloud.
+> - That Sparks will drop her. → Sparks lifts carefully, as told. The worry is about getting back up the steps if nobody comes.
+> _For grown-ups: Identified a character’s “what if” worry and talked about saying worries aloud._
+
+
+#### `s26-tobin-bench-cellar`
+
+**Old Tobin**: This puts me in mind of a story. Hazel’s grandchild here came down the mill cellar with me. Five levels.  
+**Old Tobin**: Six. Eels as long as your arm. Rats in hats. A wheel the size of the moon. Go on, tell her.  
+**You**: Four levels. The eels were annoyed. Nobody had a hat.  
+
+> **Lesson** (literacy, RL.3.3, ask): spot exaggeration  
+> _Tobin says six levels and rats in hats. You say four levels and no hats. What is Tobin doing?_  
+> - ✅ Exaggerating, to make a better story. → Yes. Storytellers often stretch the truth for fun. Listeners learn to tell a tall tale from a true one.
+> - Telling the exact truth. → You were there: four levels, no hats. He’s exaggerating, the way storytellers do.
+> _For grown-ups: Recognised exaggeration in a character’s storytelling._
+
+**Old Tobin**: That’s the dull version. Where was I.  
+_He stops. He looks at the roses, and at Linnet, up to her elbows in a raised bed, and not tipping._  
+**Old Tobin**: I kept a door shut once, for twenty years. I thought I was sparing people. It got heavy.  
+_He sits on, and stops arguing, and watches her work until it’s dark._  
+_On the way out, at the door, he puts his hand flat on the old wall._  
+**Old Tobin**: My old gaffer used to say: put a rose where your worry sits, and the worry has to go and sit somewhere else.  
+**Old Tobin**: He was a terrible gardener. He was right about that, though.  
+
+> **Lesson** (literacy, L.4.5, ask): understand a metaphor  
+> _Worries don’t really sit on chairs. What does Tobin’s old saying mean?_  
+> - ✅ Fill your mind with something good to look after, and there’s less room for worrying. → Yes. It’s a metaphor: it talks about worry as if it were a person needing a seat. Tobin has just done it. He watched Linnet garden, and his worry had nowhere to sit.
+> - Roses scare worries away with their thorns. → Ha. Nice picture, but it’s a metaphor, not a fact about thorns. It means: give your mind something good to tend, and the worry has less room.
+> _For grown-ups: Explained what a metaphor about worry means, using what had just happened in the story._
+
+
+#### `s26-snowdrops-lifted`
+
+_Her tracks go along the old wall to the open door, and stop._  
+_Linnet is at the top of the three steps. They are under a foot of snow. Nobody cleared them; nobody thought anyone would come._  
+**Linnet**: An HOUR. I’ve been here an hour. I can see them from here. Look at them.  
+_Down by Hush’s bench, through the snow, there are snowdrops. She has been looking at them for an hour._  
+**Linnet**: Sparks is at the falls. Dusty’s up the cliff. Grandad can’t. Everyone who lifts is somewhere else.  
+**Linnet**: It isn’t me that’s stuck. It’s these stupid steps.  
+
+> **Lesson** (science, K-2-ETS1-1, ask): define the real problem  
+> _Linnet says the steps are stuck, not her. Is she right about where the problem is?_  
+> - ✅ Yes. The steps are the problem. Change them. → Yes. Engineers start by defining the problem properly. Here it’s a step, not a person.
+> - No. The problem is Linnet. → Look again: with a ramp she’d have gone straight in. The problem is the steps, and that’s what gets fixed.
+> _For grown-ups: Defined a problem correctly: the barrier, not the person._
+
+**You**: Then let’s get rid of them.  
+**Linnet**: Now? In this?  
+**You**: Now. You tell me where.  
+_So you dig, in the snow, with frozen hands and Dusty’s spare spade, while Linnet directs from the top like an admiral._  
+**Linnet**: Shallower. Shallower! I’ll go over backwards on that. Make it longer, not steeper. LONGER.  
+
+> **Lesson** (sel, CASEL: Self-management, notice): anger at an unfair barrier is fair  
+> _Linnet is furious, and she has a right to be. She doesn’t just stew: she puts it to work and directs the dig._  
+> _Big feelings can be used well. Hers built a ramp._  
+> _For grown-ups: Talked about anger at something unfair, and turning it into useful action._
+
+_It takes all morning, and it isn’t pretty. When it’s done she goes down it before you can offer, and doesn’t look back._  
+_Snowdrops, all round Hush’s bench. Some in Linnet’s straight row, the rest wherever your Nubbin hid them._  
+**Linnet**: I’d have got in on my own. If anybody had built it so I could.  
+
+#### `s26-complete-post`
+
+_Winter sun comes over the old wall and lies along the beds. The garden is still mostly bare, but it is not grey._  
+_Dusty is hanging the ivy on a rail over the door, so it swings like a curtain. The robin is supervising._  
+_The key hangs on the old wall post, under the lantern. By the end of the week, three people you have never met have been in to look._  
+
+> **Lesson** (social-studies, D2.Civ.8.K-2, notice): shared places and their unwritten rules  
+> _A garden anyone can open is a shared place, like a park or a library. It belongs to all, so everyone looks after it._  
+> _Shared places run on simple rules: close the gate, don’t pick what isn’t yours, and let others have a turn._  
+> _For grown-ups: Talked about shared public places and the rules that keep them fair for everyone._
+
+**Dusty**: The stone from the old steps is still in a heap. I’m making you a bench out of it, like Hush’s. For the Grove.  
+**Dusty**: And this. I wore it every day Fossil and I went digging. It’s yours now. You dig like you mean it.  
+_It is a gardener’s apron, with earth worked into every seam. Linnet crowns you with snowdrops._  
+**Linnet**: You can’t take them off until tea. I’ll be checking.  
+_Linnet’s mum sits on Hush’s bench with Tobin. They argue about which of them she gets her chin from._  
+**Linnet**: Me. I get it from me.  
+_The robin has decided it lives with you now, in a general sort of way. The door stays open behind you._  
+
+#### `s26-complete-door`
+
+_Winter sun comes over the old wall and lies along the beds. The garden is still mostly bare, but it is not grey._  
+_Dusty is hanging the ivy on a rail over the door, so it swings like a curtain. The robin is supervising._  
+_The key sits in the door, turned to open. Snow settles on its bow, and nobody brushes it off, and nobody turns it._  
+
+> **Lesson** (literacy, RL.4.2, notice): an object as a symbol  
+> _A key that never turns is not much use as a key any more. It has become a symbol: a sign that means something._  
+> _This one means: this place is open, and it’s staying that way._  
+> _For grown-ups: Noticed how an object in a story can become a symbol of an idea._
+
+**Dusty**: The stone from the old steps is still in a heap. I’m making you a bench out of it, like Hush’s. For the Grove.  
+**Dusty**: And this. I wore it every day Fossil and I went digging. It’s yours now. You dig like you mean it.  
+_It is a gardener’s apron, with earth worked into every seam. Linnet crowns you with snowdrops._  
+**Linnet**: You can’t take them off until tea. I’ll be checking.  
+_Linnet’s mum sits on Hush’s bench with Tobin. They argue about which of them she gets her chin from._  
+**Linnet**: Me. I get it from me.  
+_The robin has decided it lives with you now, in a general sort of way. The door stays open behind you._  
+
+#### `c12-wall-garden`
+
+_At the old wall, Hazel stops._  
+_The door in the wall stands open. She has walked past this wall for forty years, and never once seen a door in it._  
+_She goes in, slowly, one hand on the stone, and down the ramp without thinking about it, the way you do with a good one._  
+_Bare roses, pruned. Snowdrops round the bench, and a few in odd places, where somebody lost count._  
+_The robin comes down onto the back of Hush’s bench, and looks at her as if she owes it something._  
+_She stands among the roses for a long while, and says nothing. It is a different nothing from the pond._  
+_Then she picks one rosehip off a cane, and puts it in her buttonhole._  
+
+> **Lesson** (science, 3-LS1-1, notice): the rose’s life cycle: flower, hip, seed  
+> _A rosehip is a rose’s fruit. After the flower fades, the hip swells and ripens red, with seeds inside._  
+> _Birds eat the hips in winter and spread the seeds. Flower, fruit, seed, new plant: a whole life cycle on one cane._  
+> _For grown-ups: Learned the life cycle of a rose, from flower to rosehip to seed._
+
+_On the way out she touches the old wall post, and keeps her hand there a little longer than at the others._  
+
+> **Lesson** (literacy, RL.1.4, ask): reading a silence  
+> _“A different nothing from the pond.” Hazel says nothing both times. How could two silences be different?_  
+> - ✅ One can be sad or worried, the other peaceful. → Yes. Silence can carry different feelings. Here, among the roses, it reads as peaceful.
+> - They can’t. Silence is just silence. → Think of a quiet hug and a quiet sulk. Both are silent; they feel very different. This one is a peaceful one.
+> _For grown-ups: Explained how a silence can show different feelings in a story._
+
+
+#### `end-moss-sleeps-garden`
+
+_Moss faded. That means he died: his body stopped working, and it won’t start again._  
+_His flower came up on the hill, by the flat stone where he always sat._  
+_Linnet says that by midsummer its seed will be over the old wall, the way he went once a year._  
+_Into the patch by Hush’s bench, the one he chose, where her white pebble still is._  
+_She says the robin will see to it. Nobody argues, and nobody makes a speech._  
+
+> **Lesson** (science, 2-LS2-2, notice): seeds are spread by wind and animals  
+> _Plants can’t walk, so their seeds travel. Some float on the wind; some ride inside birds that eat fruit and drop the seeds far away._  
+> _Linnet might be right about the robin. Seeds cross walls all the time._  
+> _For grown-ups: Learned how seeds are carried to new places by wind and animals._
+
+_He would have liked that. Both of his places, growing._  
+
+#### `end-epi-garden`
+
+_The door in the old wall isn’t locked any more. Linnet comes every summer and tells everyone where to dig._  
+_Hush’s roses come out in June, all at once, as if somebody told them to. Somebody did._  
+_Some years the robin nests in the ivy. Some years it just supervises._  
+_The ramp is still there. Nobody remembers the steps._  
+_Hush grew roses for the ones who could only sit and look. Now it is a garden for anyone who comes._  
+_It took one key, three evenings, and a lot of patience._  
+
+> **Lesson** (literacy, RL.4.2, ask): reflect on a story’s ending  
+> _“Somebody did.” Who told the roses to come out, do you think?_  
+> - Linnet, the boss of the garden. → That’s the joke, and it’s a good one. Linnet tells everything where to go.
+> - Everyone who looked after the garden. → A lovely reading. The pruning, the digging and the waiting all told the roses it was time.
+> - Nobody. Roses flower in summer anyway. → True: roses flower in early summer by themselves. The line is half a joke, half a thank you.
+> _For grown-ups: Gave their own interpretation of a playful line in the ending._
+
+
+#### `end-epi-garden-cold`
+
+_The door in the old wall stands open, and none of yours go in. They sit outside it in the sun, quite still._  
+_Linnet came the first summer. She looked at them for a long time, and asked what was wrong with them._  
+_You said they were safe. She went home a week early, and didn’t come again._  
+_The roses come out in June anyway, for nobody._  
+_Safe is not the same as well. Linnet knew that better than anyone._  
+
+> **Lesson** (literacy, RL.4.2, ask): theme: safe is not the same as well  
+> _Why do you think Linnet went home early? Think about what happened to her in the garden. No wrong answer._  
+> - It reminded her of being kept. → That’s a strong reading. She knew what it felt like to be safe but not allowed to live.
+> - She was sad for the Nubbins. → That’s kind, and likely true. Still and safe isn’t the same as happy.
+> - There was nobody to garden with. → Fair. A garden is better with company. Hers had always been full.
+> _For grown-ups: Thought about a story’s theme, safety versus wellbeing, through a character’s choice._
+
+_The door is still open. It always will be._  
+
+#### `s27-row-sold`
+
+_Through the shed window, past the spider and her word, you can see the runners’ pens._  
+_One pen to each runner, in a straight row, every rail white with frost. None of the grey runners is moving._  
+_At the very end of the row is one facing the wrong way. It is looking down the valley, towards the Grove._  
+_You know the shape of it. You knew it before you knew you were looking._  
+_It was yours, and you sold it in the spring for two hundred Shells. There is a number painted on its side: 9._  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): regret: feeling sorry about a past choice  
+> _Regret is the heavy feeling of wishing you had chosen differently. It hurts, but it can also show you what matters._  
+> _You can’t change the spring. You might still be able to change what happens next._  
+> _For grown-ups: Talked about regret, and how it can point us towards putting things right._
+
+_Outside, a lad with two buckets goes along the pens, whistling. He stops whistling at the end of the row._  
+
+#### `s27-words-sold`
+
+_Fern is up a ladder in her orchard, losing an argument with a plum tree._  
+**Fern**: A word? For a spider? Easy. Somebody’s. As in, this one belongs to somebody.  
+**Fern**: When Bramble went, people said she was only a Nubbin. She wasn’t only. She was mine.  
+_Clover listens with her head on one side, the way she listens to the shy ones._  
+**Clover**: Warm. You can’t make a grey one stop being grey. But you can make it warm.  
+_Luna is asleep in a deckchair in her night garden at noon. She answers without opening her eyes._  
+**Luna**: Home. Everything in my garden grows towards it in the dark.  
+_Byte goes away to think, and comes back with a sheet of paper._  
+**Byte**: “Statistically above average.” It’s accurate. It’s kind. It’s the nicest thing I know how to say.  
+_You read the four words to the shed window. Spindle listens to each one, like a judge._  
+_At Byte’s, she points one leg, very politely, along the whole length of the rail._  
+**Sparks**: She’s saying it won’t fit. Break it to Byte gently. He loves his long words.  
+
+> **Lesson** (literacy, do): alphabetical order by first and second letters  
+> **Sparks**: Help me file these words the way I file my drawers: alphabetical order. HOME, SOMEBODY’S, STATISTICALLY, WARM.  
+> **Sparks**: Two start with S, so you look at the second letter. O comes before T.  
+> Check: `edu:order:words:alphabet`
+> _For grown-ups: Put words in alphabetical order, using the second letter when the first matches._
+
+_Then she points at you, and then at the end of the row, and waits._  
+**Sparks**: She wants to know what it’s called. Its real name. Not the paint.  
+_You tell her the name you gave it the day it hatched. It is strange to say it out loud up here._  
+_Spindle writes it once, small, in the corner of the window, to practise. She gets it right first time._  
+
+#### `s27-midnight-shield`
+
+_At midnight a lamp comes on in the upstairs window of the house, and stays on._  
+_Corvin is sitting at the window, watching you: Hazel’s heir, with a lantern, at his rail, in the middle of the night._  
+_He watches you all night. He watches your hands, and the lantern, and the way you walk the rail a step at a time._  
+_He never once looks at the rail itself. He thinks he knows who is writing on it. He is wrong, and you let him be._  
+_Spindle works on below the lantern, a thread at a time, and Corvin never sees her. Up here, she is your secret._  
+_At five o’clock the upstairs lamp goes out, and Spindle ties off the last thread. You can’t feel your fingers._  
+
+> **Lesson** (maths, 3.MD.A.1, ask): time intervals in hours  
+> _Corvin’s lamp came on at midnight and went out at five o’clock. How long did he watch?_  
+> - ✅ 5 hours → Yes. From midnight to five o’clock is 5 hours. A long, cold watch for both of you.
+> - 7 hours → Count on from midnight: one, two, three, four, five. That’s 5 hours.
+> _For grown-ups: Worked out a time interval in hours._
+
+
+> **Lesson** (sel, CASEL: Responsible decision-making, notice): what a fib costs, even a kind one  
+> _Your fib kept Spindle hidden. It also means Corvin never gets the chance to choose kindness towards her. Every choice has a cost._  
+> _For grown-ups: Thought about the trade-offs of protecting someone with an untruth._
+
+
+#### `s27-home`
+
+_By breakfast, half the valley is at the Circuit fence. Nobody arranged it. People just came._  
+_All along the finishing straight, in letters as tall as a Nubbin, the frost says: HOME._  
+**Fern**: HOME! Look at the size of it. She must have run out of rail!  
+_Mr Tull is at the gate with his cart. He reads the rail, then the faces along the fence._  
+**Mr Tull**: Morning, Mr Vale. I’ve come for whatever didn’t place. But I won’t take that one.  
+**Mr Tull**: Its name has been on your rails all summer. Half this valley would come asking after it.  
+**Mr Tull**: I sell runners. I don’t sell the ones people ask after. Good day to you.  
+_He tips his hat to the fence, quite politely, and drives away over the pass._  
+_Tam is at the pen behind the house. He opens his mouth to say “Nine”, stops, and says its real name instead._  
+**Corvin Vale**: It was yours, I believe. Before.  
+**Corvin Vale**: Two hundred Shells. What I gave you for it. Not a Shell more. I won’t make a profit off Hazel’s heir.  
+
+> **Lesson** (maths, 3.OA.A.1, ask): equal groups: counting in tens  
+> _Corvin always counts Shells in piles of ten. How many piles make two hundred?_  
+> - ✅ 20 piles → Yes: 20 × 10 = 200. Twenty neat piles on the rail.
+> - 10 piles → Ten piles of ten is only 100. We need twice that: 20 piles.
+> - 2 piles → Two piles of ten is 20. For 200 we need 20 piles of ten.
+> _For grown-ups: Used equal groups of ten to make 200._
+
+
+> **Lesson** (social-studies, D2.Civ.8.K-2, notice): fairness in a deal  
+> _Corvin could charge more, now the runner is famous. He asks only what he paid. That’s his idea of fair._  
+> _For grown-ups: Thought about what makes a price fair._
+
+
+**Choices**
+
+- **Count out two hundred Shells.**
+    - You count the Shells into his cold palm in piles of ten. He doesn’t close his hand until the last one.
+    - **Corvin Vale**: Paid in full. It’s yours.
+    - It was always yours. Neither of you says so.
+    - Tam opens the pen. Your Nubbin steps out, and stops, and looks at you across the sand.
+    - Then it comes, the whole way, not hurrying, the 9 still white on its side.
+    - It leans against your leg, the way it did the week it hatched. It is cold, and it is yours.
+- **Let the Keepers pass a hat.**
+    - **Sparks**: Hat. HAT. Somebody give me a hat. Mine’s full of fuses.
+    - Sparks borrows Byte’s and goes along the fence with it, and it comes back heavy. Fern puts in a button.
+    - **Fern**: It’s a good button. It’s off my good coat.
+    - Corvin counts the hat out on the rail, in silence. Two hundred Shells exactly, and a button.
+    - **Corvin Vale**: …There’s a button.
+    - **Fern**: It’s a very good button.
+    - He looks at it. Then he puts it in his coat pocket: not the breast pocket, the other one.
+    - Tam opens the pen. Your Nubbin steps out, and stops, and looks at you across the sand.
+    - Then it comes, the whole way, not hurrying, the 9 still white on its side.
+    - It leans against your leg, the way it did the week it hatched. It is cold, and it is yours.
+
+#### `s27-gate-sold`
+
+_At the Grove gate, before you can lift and push, your old Nubbin noses at the bottom bar, the way it used to._  
+_It remembers the gate sticks. It remembers._  
+_It sits down by the gatepost and looks at the Grove for a long time, as if checking it is all still there._  
+_You crouch beside it. You don’t say sorry out loud, but you stay, and it lets you._  
+_The 9 on its side will wash off by the spring. You don’t hurry it._  
+_Some mistakes can be mended. Mending takes time, and staying._  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): repairing a relationship after a mistake  
+> _Putting things right isn’t one big moment. It’s lots of small ones: showing up, being patient, staying close._  
+> _For grown-ups: Thought about how relationships are mended through patience and small acts._
+
+
+#### `s27-carry-clank`
+
+_Clank has followed you up the valley, because somebody said the word “ladder” where he could hear._  
+**Clank**: Announcement! I cannot climb! I have one wheel! But I am VERY good at steady!  
+_Sparks carries her long ladder in sideways, muttering at the door frame._  
+**Sparks**: Rafters are your job. I’ve got the knees of an eighty-year-old and the opinions to match.  
+_Your Nubbin looks at the ladder, then at the sac, then at you. Then it climbs, one rung at a time._  
+_At the bottom, Clank holds the ladder with both arms and does not move one single bolt._  
+
+> **Lesson** (science, 3-PS2-1, notice): balanced forces keep a ladder still  
+> **Clank**: Explanation! The ladder’s foot wants to slide outwards. I push back exactly as hard. Balanced forces. No sliding!  
+> _For grown-ups: Learned how balanced forces keep a ladder from slipping._
+
+**Clank**: Steady. Steady. Announcement, but quietly: steady.  
+_It comes down backwards, holding the sac against its chest like an egg that might hatch today._  
+_Spindle watches every rung, and doesn’t relax until it is on the floor. You don’t either._  
+**Sparks**: Grove lantern shed. Top shelf, over the warm pipe. Nothing up there ever freezes.  
+_You carry it home down the valley in your cupped hands. Spindle stays in her window._  
+
+#### `s27-carry-wisp`
+
+_Something grey drops from the shed beam beside the sac, so quietly that Sparks yelps._  
+_Wisp. He has trailed you up the valley, three hedges behind, the way he follows anything warm._  
+_He has his torn ear against the sac. It has been in the sun on that beam all afternoon._  
+**Wisp**: warm. sun-warm.  
+**Wisp**: mine. warm. mine.  
+**You**: Not yours. Hers. But you could keep it warm for her. Under your step, all winter. Till spring.  
+_Wisp thinks about this with his whole body. It is the kind of bargain he understands: he gets to hold the warm thing._  
+**Wisp**: …keep it warm. warm is keeping. yes.  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): a fair bargain: everyone gets something they need  
+> _A good bargain gives each side what it needs. Wisp gets a warm thing to hold. The eggs get a warm place to sleep._  
+> _For grown-ups: Thought about what makes a bargain fair to both sides._
+
+_He carries it down the wall in his mouth, the way you would carry the last warm thing in the world._  
+_Spindle watches every step he takes, then lifts two legs at him, politely. Wisp hisses, and is pleased._  
+
+> **Lesson** (science, K-ESS3-1, notice): a sheltered place protects eggs from hard frost  
+> _Under a step, out of the wind and rain, the cold is gentler. Many animals tuck their eggs into sheltered spots like that._  
+> _For grown-ups: Learned why sheltered places help eggs survive the winter._
+
+
+#### `s27-spring`
+
+_The first spring. The snow has gone from the lane, and the wind comes up the valley smelling of wet earth._  
+_On the warm shelf in the lantern shed, the little straw-coloured sac has opened._  
+_Out come spiders, hundreds of them, each smaller than a crumb and perfectly sure of itself._  
+_They climb the shed wall, and the gatepost, and the top bar of the gate that sticks. They line up along it._  
+_Then, one by one, each lets out a thread into the wind, and lifts, and floats away over the valley._  
+
+> **Lesson** (science, 3-LS1-1, notice): spiderlings disperse by ballooning  
+> _This is called ballooning. A spiderling lets out silk until the breeze catches it, then floats away._  
+> _Some travel many kilometres. Spreading out means they don’t all compete for the same food._  
+> _For grown-ups: Learned how spiderlings spread out by ballooning on silk threads._
+
+_You stand at the gate and watch them go until they are just glints. It takes all morning, and you don’t mind._  
+_Three stay._  
+_The next morning, in the corner of the lantern shed window, there is a web no bigger than a thumbnail. It says EVENING._  
+_You laugh out loud, on your own, in the shed. Then you say it back: “Evening.”_  
+
+> **Lesson** (literacy, RL.4.2, notice): how a story ends where it began  
+> _The story began with one word in a window: EVENING. It ends with the same word, written by her children._  
+> _Ending where you began shows that something goes on. Life cycles do that too._  
+> _For grown-ups: Noticed how a story’s ending echoes its beginning, like a life cycle._
+
+_Not many friends can spell. Not many spellers stay up all night for a friend. Spindle did both._  
+
+#### `s27-spring-wisp`
+
+_The first spring. The snow has gone from the lane, and the wind comes up the valley smelling of wet earth._  
+_Under the cottage step, where Wisp has hoarded it all winter like treasure, the little straw-coloured sac has opened._  
+_The first thing the spiders see is a grey head with one torn ear, very close, watching them with enormous care._  
+_Wisp lets them climb over his nose, and doesn’t hiss once. Then they climb the gate and line up along the top bar._  
+_One by one, each lets out a thread into the wind, and lifts, and floats away over the valley._  
+
+> **Lesson** (science, 3-LS1-1, notice): spiderlings disperse by ballooning  
+> _This is called ballooning. A spiderling lets out silk until the breeze catches it, then floats away._  
+> _Some travel many kilometres, to find a place of their own._  
+> _For grown-ups: Learned how spiderlings spread out by ballooning on silk threads._
+
+_Wisp watches them go until they are just glints. Then he goes back under the step and sulks, magnificently._  
+
+> **Lesson** (sel, CASEL: Self-management, notice): letting go of something you love  
+> _Wisp kept them safe all winter, and still let them go. Caring for something sometimes means letting it leave._  
+> _For grown-ups: Thought about how caring sometimes means letting go._
+
+_Three stay._  
+_The next morning, in the corner of the lantern shed window, there is a web no bigger than a thumbnail. It says EVENING._  
+_You laugh out loud, on your own, in the shed. Then you say it back: “Evening.”_  
+_Not many friends can spell. Not many spellers stay up all night for a friend. Spindle did both._  
+
+#### `s28-null-minder`
+
+_Byte’s front room. The Minder ticks on the shelf: the clock face, the three little bells, the chute._  
+_Null sits in the little bed under it, perfectly upright, waiting. Its blue has gone thin at the edges._  
+**Byte**: This is Null. It’s on a schedule. Don’t mind the clock. It’s an experiment. It’s going very well.  
+_Parcel bows to Null, but Null doesn’t look up. It is watching the bell._  
+_Parcel considers this. Then it climbs into the bed beside Null, folds its paws, sits very upright, and waits for the bell too._  
+_Byte goes pale, then paler. You didn’t know he had another shade in him._  
+**Byte**: No. Not that one. That one isn’t…  
+**Byte**: It isn’t mine. It’s on loan. You don’t put a thing that isn’t yours on a clock.  
+_He lifts Parcel out, gently, and carries it into the kitchen. Then he comes back and stands looking at the lever on the side of the Minder._  
+_He doesn’t pull it, not yet. But he looks at it for a long time._  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): fairness and consent for animals  
+> _A think question, with no wrong answer._  
+> _Null can’t say yes or no to the schedule. Is it fair to decide an animal’s whole day for it?_  
+> - No. Null needs to choose some things for itself. → That’s a fair answer. Animals can’t speak, so the people who keep them have to watch for what they need.
+> - Sometimes. Pets do need routines. → That’s fair too. Regular meals help. The question is whether the routine is for Null, or for the clock.
+> - Only if Null seems happy. → A thoughtful answer. Look at Null’s thin blue and its watching eyes. What do you think they say?
+> _For grown-ups: Thought about fairness and consent for animals who can’t speak for themselves._
+
+
+#### `s28-logged-unverified`
+
+_That night Byte writes it up. He lets you watch over his shoulder, which is new._  
+_He writes it under INCIDENT. Then, after a while, he writes it again under UNVERIFIED, and underlines it twice._  
+
+> **Lesson** (literacy, L.2.4, notice): working out what a word means from the sentence around it  
+> _An “incident” is something that happens, usually something that goes a bit wrong._  
+> _Byte’s log was built for incidents. Null and Parcel becoming friends doesn’t fit there neatly, which is the point._  
+> _For grown-ups: Learned the word “incident” from how Byte uses it._
+
+**Byte**: Twice means I hope it’s true. Once means I’m checking. Don’t tell anyone that.  
+_“Unverified” means not proven yet. Byte likes to be sure before he believes anything._  
+_But the second line under it is wobbly, as if his hand were hoping._  
+_He closes the notebook carefully, so the page won’t smudge._  
+
+#### `s28-logged-none`
+
+_That night Byte writes it up. He lets you watch over his shoulder, which is new._  
+_He writes it under INCIDENT, in very small letters, as if it might not count._  
+
+> **Lesson** (literacy, L.2.4, notice): working out what a word means from the sentence around it  
+> _An “incident” is something that happens, usually something that goes a bit wrong._  
+> _Byte’s log was built for incidents. Null and Parcel becoming friends doesn’t fit there neatly, which is the point._  
+> _For grown-ups: Learned the word “incident” from how Byte uses it._
+
+**Byte**: It isn’t really an incident. There isn’t a column for what it is.  
+_He taps the pencil on the page, where a third column might go._  
+_Then he puts the pencil back behind his ear._  
+_He closes the notebook carefully, so the page won’t smudge._  
+
+#### `s28-bench-bramble`
+
+_Hazel is on the bench by the cottage door, in three coats, awake. Bramble’s youngest sleeps in the crook of her arm._  
+
+> **Lesson** (science, 2-PS1-1, notice): layers trap air, which keeps heat in  
+> _Three coats are warmer than one thick one. Air gets trapped between the layers, and still air is very slow to let heat escape._  
+> _Birds do the same thing when they fluff up their feathers in winter._  
+> _For grown-ups: Learned that layers of clothing trap air, which keeps body heat in._
+
+_Parcel walks up the path, stops at her boot, and bows. Lower than it has ever bowed to anyone._  
+**Gran Hazel**: Hello again, you. Look at that coat. Somebody’s been looking after you.  
+_Parcel undoes one toggle, takes out half a sandwich, and holds it up to the little grey one with the folded ear._  
+_Bramble’s youngest wakes and sniffs. It takes one corner, very carefully, and eats it._  
+**Gran Hazel**: Two days it took me, with an apple. You turn up with a sandwich and do it in one go. Show-off.  
+**Gran Hazel**: Fern will want to hear about this. Fern wants to hear about everything this one does.  
+
+#### `s28-why-untold`
+
+_Byte has been standing at the gate. Now he comes up the path slowly, looking from Parcel to Hazel and back._  
+_Hazel sees the tag round Parcel’s neck, with Byte’s writing on the back of hers, and smiles at it._  
+**Gran Hazel**: Byte. I hoped it’d be you that read it.  
+_Byte looks at the tag: at the H, at the leaning hand. Then at Hazel’s hand, resting on the thin grey Nubbin’s back._  
+**Byte**: H.  
+**Byte**: I had a list. Forty-one people. I had Mr Grue on it. His first name’s Horace. I interviewed him.  
+_He sits down on the step all at once, as if somebody had taken the step away and put it back lower._  
+**Byte**: Why me? I don’t… I count things. That’s all I do.  
+**Gran Hazel**: You count things, love. I needed someone who’d count this one.  
+_Byte puts his face in his notebook for a while. Nobody minds._  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): big surprises and what helps  
+> _Byte had to sit down all at once. What do you think he is feeling?_  
+> - ✅ Surprised, glad and a bit wobbly, all at once. → Yes. A big surprise, even a happy one, can make your legs go. Sitting down and taking a minute is wise.
+> - Cross that nobody told him. → Maybe a little! Mostly he looks amazed and glad. Big surprises can make anyone need to sit down.
+> _For grown-ups: Named mixed feelings after a big surprise, and what helps._
+
+
+#### `s28-grue-back-weed`
+
+_Half an hour later the watch is ticking in Pixel’s palm. It was losing four minutes a day, she says, and it isn’t now._  
+
+> **Lesson** (maths, 3.OA.A.3, ask): multiplication as equal groups, with time  
+> **Pixel**: Before I fixed it, it lost four minutes every day. How many minutes would it lose in a week?  
+> - ✅ 28 minutes → Yes! Seven days, four minutes each: 7 × 4 = 28. Nearly half an hour late by Sunday.
+> - 11 minutes → That’s 7 + 4. We want seven lots of four: 4, 8, 12, 16, 20, 24, 28. So 28 minutes.
+> - 4 minutes → That’s just one day. A week is seven days of four minutes: 7 × 4 = 28.
+> _For grown-ups: Multiplied 7 × 4 to work out how far a slow watch drifts in a week._
+
+_There is a knock. Mr Grue is on the step, holding a kitchen chair._  
+**Mr Grue**: I’ve come for the marmalade. That’s all. Not the party.  
+**Mr Grue**: Brought my own chair. Yours are all too low. You weeded round my tree as if it mattered. I’ll sit at the back.  
+_Parcel bows to him, lower than to anyone but Hazel. It is the nearest thing to sorry a Nubbin has._  
+_Pixel hands Mr Grue the watch. He holds it to his ear for a long time._  
+_Then he puts his chair at the front, and sits down in it, properly, all the way back._  
+
+#### `s28-grue-back-stare`
+
+_Half an hour later the watch is ticking in Pixel’s palm. It was losing four minutes a day, she says, and it isn’t now._  
+
+> **Lesson** (maths, 3.OA.A.3, ask): multiplication as equal groups, with time  
+> **Pixel**: Before I fixed it, it lost four minutes every day. How many minutes would it lose in a week?  
+> - ✅ 28 minutes → Yes! Seven days, four minutes each: 7 × 4 = 28. Nearly half an hour late by Sunday.
+> - 11 minutes → That’s 7 + 4. We want seven lots of four: 4, 8, 12, 16, 20, 24, 28. So 28 minutes.
+> - 4 minutes → That’s just one day. A week is seven days of four minutes: 7 × 4 = 28.
+> _For grown-ups: Multiplied 7 × 4 to work out how far a slow watch drifts in a week._
+
+_There is a knock. Mr Grue is on the step, empty-handed._  
+**Mr Grue**: I’ve come for the marmalade. That’s all. Not the party.  
+_Parcel bows to him, lower than to anyone but Hazel. It is the nearest thing to sorry a Nubbin has._  
+_He hasn’t brought anything. He takes his watch from Pixel, holds it to his ear, and says nothing at all._  
+_But he stays. Right to the end, past the last of the cake, and he helps Byte put the bunting back up._  
+
+#### `s28-complete-unverified`
+
+_When the cake is crumbs, Byte stands up with his notebook, PARCEL: INCIDENTS. It has got quite fat since the autumn._  
+**Byte**: I’m going to read the log. It’s procedure. Also, I want to.  
+**Byte**: Incidents. Bath, flood. Fence, Grue. Pyramid, jam. Glasshouse, oranges. Snow. Watch, eleven pieces.  
+**Byte**: Unverified. Kind to Moss. Shares on purpose. Was missed, when it went.  
+_He stops, and with the pencil from behind his ear crosses out UNVERIFIED by the first one. Then the next, and then all of them, one by one._  
+**Byte**: There. Verified. All of it. I should have done that in the autumn.  
+
+> **Lesson** (literacy, RL.2.3, ask): how a character changes  
+> _In the autumn, Byte wanted proof of everything. What has changed?_  
+> - ✅ He trusts what he has seen with his own heart, not only what he can prove. → Yes. He still loves proof. But he has learned that some true things don’t fit in a column.
+> - He has stopped writing things down. → He hasn’t: he’s still holding the notebook! What changed is what he’s willing to believe without proof.
+> _For grown-ups: Described how Byte changed over the story._
+
+_Parcel climbs down off its chair and gives you Hazel’s jar from the Hollow, the empty one, washed. Then it bows._  
+_Byte gives your Nubbin a rain hat with room under it for half a sandwich. Parcel already has one: parity._  
+_And a luggage tag on string, lettered by Byte in neat capitals: RECEIVED._  
+_At the door, Mr Grue gives you a cutting from the orange tree in damp newspaper, and says it probably won’t take._  
+_It will. You can tell from how carefully he wrapped it._  
+
+> **Lesson** (literacy, RL.4.2, ask): finding the theme of a story  
+> _Byte started the log to count Parcel’s mistakes. What do you think this whole story is saying?_  
+> - ✅ Kindness counts, even when you can’t measure it. → That’s the heart of it. Byte’s best column is the one that isn’t a measurement.
+> - Never let a stranger in. → Parcel was a stranger, and look what Byte would have missed. The story says the opposite: welcome matters.
+> - Marmalade is the best food. → Your Nubbin would agree! But the story is really about how kindness counts, even when it can’t be measured.
+> _For grown-ups: Worked out the theme of the story: kindness matters even when it can’t be measured._
+
+
+#### `s28-complete-none`
+
+_When the cake is crumbs, Byte stands up with his notebook, PARCEL: INCIDENTS. It has got quite fat since the autumn._  
+**Byte**: I’m going to read the log. It’s procedure. Also, I want to.  
+**Byte**: Incidents. Bath, flood. Fence, Grue. Pyramid, jam. Glasshouse, oranges. Snow. Watch, eleven pieces.  
+_He reads three pages of incidents. It takes a while, and Mr Grue checks his watch, which works now, twice._  
+_Then Byte stops, and looks at the page for a long time. He rules a new column down the edge, there and then._  
+**Byte**: Good things. It needed one. I didn’t know what to call it in the autumn.  
+_He fills it in while you all watch. It takes longer than the incidents did._  
+
+> **Lesson** (literacy, RL.2.3, ask): how a character changes  
+> _Nobody told Byte to add the column. Why do you think he did it now?_  
+> - ✅ He noticed his log was only telling half the story. → Yes. Three pages of incidents, and none of the best bits. He saw the gap himself, which is how it sticks.
+> - Mr Grue told him to. → Mr Grue was busy checking his watch! Byte worked it out himself: the log was missing the good half.
+> _For grown-ups: Explained why a character changed his mind on his own._
+
+_Parcel climbs down off its chair and gives you Hazel’s jar from the Hollow, the empty one, washed. Then it bows._  
+_Byte gives your Nubbin a rain hat with room under it for half a sandwich. Parcel already has one: parity._  
+_And a luggage tag on string, lettered by Byte in neat capitals: RECEIVED._  
+_At the door, Mr Grue gives you a cutting from the orange tree in damp newspaper, and says it probably won’t take._  
+_It will. You can tell from how carefully he wrapped it._  
+
+> **Lesson** (literacy, RL.4.2, ask): finding the theme of a story  
+> _Byte started the log to count Parcel’s mistakes. What do you think this whole story is saying?_  
+> - ✅ Kindness counts, even when you can’t measure it. → That’s the heart of it. Byte’s best column is the one that isn’t a measurement.
+> - Never let a stranger in. → Parcel was a stranger, and look what Byte would have missed. The story says the opposite: welcome matters.
+> - Marmalade is the best food. → Your Nubbin would agree! But the story is really about how kindness counts, even when it can’t be measured.
+> _For grown-ups: Worked out the theme of the story: kindness matters even when it can’t be measured._
+
+
+#### `s28-byte-barks`
+
+**Byte**: Parcel bowed to the gatepost this morning. I bowed back. Don’t log that.  
+**Byte**: I’ve stopped timing Parcel’s naps. I know roughly. Roughly is, it turns out, fine.  
+**Byte**: Mr Grue says hello. He didn’t. But he meant to. I could tell.  
+**Byte**: Marmalade? It’s the good batch. They’re all the good batch.  
+**Byte**: I’ve started leaving a bit of room at the end of every page. In case.  
+
+> **Lesson** (literacy, RL.3.3, notice): reading a character through what he says  
+> _“Leaving room at the end of every page, in case” is Byte’s way of saying he’s ready for more good things._  
+> _Writers often show a change in a character through small habits like this, instead of saying it straight out._  
+> _For grown-ups: Noticed how a small habit shows that a character has changed._
+
+**Byte**: Parcel shared its breakfast with a robin. Then the robin brought its friends. I’ve ordered more bread.  
+
+#### `s29-kitchen-after`
+
+_The door opens a crack. An old woman with a candle glares out, in a quilted dressing gown and a soot-black apron._  
+**Granny Brock**: Who’s ringing my bell at this hour? Nobody rings it at any hour. That’s why it’s there.  
+**Marina**: Granny Brock. It’s Marina, from the river. We’re lost, and this one’s frozen.  
+**Granny Brock**: Marina. Hm. And a frozen one. And somebody’s grandchild, by the chin on it. And what’s that, in your coat?  
+_Your Nubbin looks out at her, and she looks back. Neither of them blinks first, and something is settled._  
+**Granny Brock**: In. All of you. Boots off. Not you, you’ve not got boots. In.  
+_The passage opens into a kitchen older than the Wood: stone flags, a red fire, hams on hooks, and carved words nobody can read now._  
+**Granny Brock**: Sit. Eat. Then talk, if you must. Better if you mustn’t.  
+_She feeds you soup, and bread, and more soup. She puts Dusty nearest the fire and drops a blanket on them without looking._  
+**Granny Brock**: My people burned charcoal in this wood before your grandmothers were born. There was a town here once. Now there’s me.  
+
+> **Lesson** (science, 2-PS1-4, notice): charcoal: a heating change that can’t be undone  
+> **Granny Brock**: Charcoal’s wood, baked slow in a covered heap with hardly any air, so it can’t burn away.  
+> **Granny Brock**: What’s left is black and light, and burns hotter and cleaner than wood. And it never turns back into wood. Not ever.  
+> _For grown-ups: Learned how charcoal is made from wood, and that some heating changes can’t be reversed._
+
+**Granny Brock**: People come and go. The Wood stays. So do I.  
+_Dusty listens to every word, very hard. Someone old at Dusty’s home has died, not long ago._  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): grief comes in waves  
+> _Being near someone old can bring a loss back, all at once. Grief often comes in waves like that._  
+> _A warm room and quiet company help. Nobody here asks Dusty to talk, and that helps too._  
+> _For grown-ups: Learned that grief can come in waves, and that quiet company helps._
+
+_When the fire gets low, Granny Brock puts another log on without being asked. Nobody goes to sleep for a long time._  
+
+#### `s29-low-river-full`
+
+_Summer’s end. Since the rain on the hill, Dusty has been sleeping in Marina’s boathouse, and nobody has said a word about it._  
+_Marina wants to show you the top of the river before the weather turns. Dusty takes an oar without being asked, and sits down first._  
+**Marina**: Look at that. Sitting down. I’ve made a sailor of you.  
+_The river is full to its banks, running fast and clear the way it ought to at the end of a summer._  
+**Marina**: Look at her go. Since a certain gate got opened, she’s been running like she means it.  
+_You row clean up through the shallows without touching bottom once. Dusty keeps time under their breath._  
+**Dusty**: In, pull, out. In, pull, out. I’m doing it. I’m actually doing it. Don’t look at me, I’ll stop.  
+
+> **Lesson** (maths, 4.OA.C.5, ask): repeating patterns that follow a rule  
+> _Dusty’s pattern goes in, pull, out, in, pull, out… What is the 10th word?_  
+> - ✅ in → Yes. Every third word is “out”: the 3rd, 6th and 9th. So the 10th starts again: in.
+> - pull → Close. “Out” falls on 3, 6 and 9, so 10 starts a new round: in.
+> - out → “Out” is the 9th. The 10th starts the pattern again: in.
+> _For grown-ups: Used the rule of a repeating three-part pattern to predict the 10th term._
+
+**Marina**: Not looking. Eyes on the weir. Not looking at all.  
+
+#### `s29-supper-walk`
+
+_You come back with your arms full. Soon the stove is roaring, the room has gone gold, and even the dust looks cosy._  
+_Marina lays out biscuits, onions and tea on an upturned crate as if it were a banquet._  
+_Beside the stove is a round basket with a cushion in it, flattened in the middle. Nobody sits on that side of the stove._  
+**Dusty**: Fossil’s. You know. You carried her. The cliff, and the tree, and the water.  
+**Dusty**: That was her last good day. I think about it a lot. That one, not the day she died.  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): choosing which memories to hold  
+> _Dusty chooses to think about Fossil’s last good day, not the day she died. How might that help?_  
+> - ✅ Happy memories can comfort us when we miss someone. → Yes. The sad day still happened. But the good day is there to hold on to.
+> - It means Dusty has forgotten the sad day. → Dusty hasn’t forgotten. They’re choosing which memory to keep close.
+> _For grown-ups: Talked about how holding on to happy memories can comfort us in grief._
+
+**Dusty**: I couldn’t come in with that basket there. And I couldn’t move it either.  
+**Marina**: Leave it where it is. It’s hers. It can be hers and still be in your house.  
+_Outside: feet on the cliff path, whispering, and a great deal of shushing. A lantern on a pole bobs up past the window._  
+_Dusty opens the door. Half the valley’s children are on the step in their wellies, red-nosed, holding the lantern high._  
+**Valley children**: We heard you were home. It’s not Lantern Night, we know. We practised one verse anyway.  
+_They sing a verse of the Lantern Song, the one for people who are gone. It ends like this:_  
+**Valley children**: we are made of the ones who remember us here,  
+**Valley children**: so we gather, we gather, we gather each year.  
+
+> **Lesson** (literacy, RL.2.4, ask): rhyme and repeated words in a song  
+> _Listen to the end of the children’s verse. Which two words rhyme?_  
+> - ✅ “here” and “year” → Yes. Here and year. And “we gather” comes three times, so everyone can join in.
+> - “made” and “remember” → They both have an m, but they don’t rhyme. Listen to the line ends: here, year.
+> - “ones” and “us” → Close, but no. Rhymes usually sit at the ends of lines: here and year.
+> _For grown-ups: Found the rhyming pair in a verse and noticed a repeated phrase._
+
+**Dusty**: Thank you. Thank you. Come in, all of you. There’s biscuits. They’re very old.  
+_That night Dusty stays at home, in their own bed, with the stove ticking and the basket where it always was._  
+
+#### `s29-night-ribbon`
+
+_Near the weir, something red is streaming out of the reeds, rippling in the current._  
+_It’s the ribbon, caught fast on a reed stem and pulled long and thin by the moving water._  
+
+> **Lesson** (science, 3-PS2-1, ask): a current pushes things with it  
+> _The ribbon is caught on the reed. Which way does its loose end point?_  
+> - ✅ Downstream, the way the water flows. → Yes. The current pushes the ribbon along with it, so the free end trails downstream.
+> - Upstream. → The water is flowing down, so it pushes the ribbon down too. The loose end trails downstream.
+> - Straight up in the air. → Ribbons don’t stand up on their own! The current pulls the free end downstream.
+> _For grown-ups: Reasoned that a river current pushes objects downstream._
+
+**Marina**: He came this way. Up past the weir. Little idiot. Brave little idiot.  
+_You work it free and put it in your pocket. Then you row on, towards the roar of the weir._  
+_You haul the boat up the old slipway beside the weir and put her in again above it. Up here the water is very still._  
+_Then you hear it. Not music, exactly._  
+_Like wind in reeds, if wind could mean something. Like the weir, if the weir could sing._  
+_Marina stops rowing. The oars drip, and she doesn’t notice._  
+**Marina**: Do you hear that?  
+_Your Nubbin is standing up in the bow, facing upstream. It isn’t frightened; it’s listening with its whole body._  
+_Ahead, where the river splits round the island, the sky has gone the colour of the inside of a shell. It is nearly dawn._  
+
+#### `s29-night-bell`
+
+_Far off, over the water, a tiny bell rings once._  
+**Marina**: Stop. Listen.  
+_Nothing. Then again, from upstream, from beyond the weir: one small brass ring, and quiet after._  
+
+> **Lesson** (science, 1-PS4-1, notice): vibrations make sound  
+> **Marina**: A bell rings because the metal shivers, very fast, when something knocks it. That shiver is a vibration.  
+> **Marina**: It shakes the air, and the air carries it to us. Having two ears is how we tell which way it came from.  
+> _For grown-ups: Learned that sound is made by vibrations and carried through the air to our ears._
+
+**Marina**: That’s him. That’s his bell. He’s alive, and he’s up there.  
+_You haul the boat up the old slipway beside the weir and put her in again above it. Up here the water is very still._  
+_Then you hear it. Not music, exactly._  
+_Like wind in reeds, if wind could mean something. Like the weir, if the weir could sing._  
+_Marina stops rowing. The oars drip, and she doesn’t notice._  
+**Marina**: Do you hear that?  
+_Your Nubbin is standing up in the bow, facing upstream. It isn’t frightened; it’s listening with its whole body._  
+_Ahead, where the river splits round the island, the sky has gone the colour of the inside of a shell. It is nearly dawn._  
+
+#### `s29-ford-ribbon`
+
+_The sun is up when you come round the bend to the ford. The old otter is still on his stone, and so is Dusty._  
+_Portly wakes all at once, sees where he is, and goes over the side in one wriggle._  
+_Two brown heads in the shallows, close together, turning round and round each other. The old otter makes no sound at all._  
+**Dusty**: Oh. Oh, look at them.  
+_Marina is wiping her face with her sleeve, again and again. It doesn’t seem to be working._  
+**Marina**: Don’t know what’s the matter with me. Must’ve been the early start.  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): tears of relief: people cry for more than sadness  
+> _People cry when they’re sad. They also cry when they’re relieved, or very happy, or after being worried for a long time._  
+> _Tears can be how a big feeling gets out. Marina doesn’t need a reason, and neither do you._  
+> _For grown-ups: Learned that people cry from relief and happiness as well as sadness._
+
+_Before they go, Portly comes back up the bank. You hold out the red ribbon, muddy now, from your pocket._  
+_He sniffs it, and noses it back into your hand. Then he puts a wet pebble on your palm beside it, and goes._  
+
+> **Lesson** (science, K-ESS3-3, notice): litter in rivers harms wildlife  
+> **Marina**: Good. You keep that. Ribbon and fishing line in a river can wrap round a bird’s leg or an otter’s neck.  
+> **Marina**: Whatever we bring to the river, we take home again.  
+> _For grown-ups: Learned how litter like string and fishing line can harm river animals._
+
+**Dusty**: He’s giving it back. That’s a thank-you, that is.  
+**Marina**: That’s him saying he’s done with it. Same thing, with otters.  
+**Dusty**: Where was he, in the end?  
+**Marina**: On the island. Asleep in the grass. That’s all.  
+_She says it as if there was something else, a moment ago, that she has put down somewhere and can’t find._  
+_The old otter looks at you once from the water. Then the two of them go off downstream, under the bank._  
+
+#### `s29-ford-bell`
+
+_The sun is up when you come round the bend to the ford. The old otter is still on his stone, and so is Dusty._  
+_Portly wakes all at once, sees where he is, and goes over the side in one wriggle._  
+_Two brown heads in the shallows, close together, turning round and round each other. The old otter makes no sound at all._  
+**Dusty**: Oh. Oh, look at them.  
+_Marina is wiping her face with her sleeve, again and again. It doesn’t seem to be working._  
+**Marina**: Don’t know what’s the matter with me. Must’ve been the early start.  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): tears of relief: people cry for more than sadness  
+> _People cry when they’re sad. They also cry when they’re relieved, or very happy, or after being worried for a long time._  
+> _Tears can be how a big feeling gets out. Marina doesn’t need a reason, and neither do you._  
+> _For grown-ups: Learned that people cry from relief and happiness as well as sadness._
+
+_Before they go, Portly comes back up the bank and shakes himself, and the bell rings. He shrugs it off over his head with one paw._  
+_He leaves it on your boot with a wet pebble beside it. Then he goes after his dad, quiet for the first time all summer._  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): fairness to animals: nothing that traps or hurts  
+> _Marina made the bell’s loop loose enough to slip off. Why does that matter?_  
+> - ✅ So it can never catch on something and hurt him. → Yes. A gift for a wild animal must never trap it. Portly could take it off whenever he liked.
+> - So it rings louder. → It rang well enough! The loose loop meant it could never snag and hurt him.
+> _For grown-ups: Thought about being fair and safe with wild animals: never giving them anything that could trap them._
+
+**Dusty**: He’s giving it back. That’s a thank-you, that is.  
+**Marina**: That’s him saying he’s done with it. Same thing, with otters.  
+**Dusty**: Where was he, in the end?  
+**Marina**: On the island. Asleep in the grass. That’s all.  
+_She says it as if there was something else, a moment ago, that she has put down somewhere and can’t find._  
+_The old otter looks at you once from the water. Then the two of them go off downstream, under the bank._  
+
+#### `s29-complete-sat`
+
+_Under the willows you turn her over, gently, and lay her keel-up on the trestles where Marina painted her in the summer._  
+_The three of you stand and look at her. She looks like a beetle having a rest._  
+_Marina says nothing; she hasn’t said much since the night of the bag. She leans on you a little, and stays leaning._  
+_Dusty leans on Marina’s other side. The three of you stand like that until the wind gets into your collars._  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): being there: quiet company  
+> _Sometimes the kindest thing isn’t to fix or argue, but simply to be there._  
+> _Sitting with Marina let her come back to herself, in her own time. Nobody had to win._  
+> _For grown-ups: Reflected on how quiet company can help a friend more than arguing._
+
+**Marina**: Here. Take the rug. It’s got gherkin on it. It’ll always have gherkin on it.  
+**Marina**: Her little sister’s in the boathouse: the flat one, for winter water. We’ll take her out together. Vests on.  
+**Dusty**: Same time next summer?  
+**Marina**: Before. March, if it’s mild. You get the vests down from the loft and smell them. That’s the first day of the year.  
+_Down at the ford a brown head comes up, looks at the three of you for a while, and goes under without a ripple._  
+
+#### `s29-complete-pencil`
+
+_Under the willows you turn her over, gently, and lay her keel-up on the trestles where Marina painted her in the summer._  
+_The three of you stand and look at her. She looks like a beetle having a rest._  
+_On the boathouse wall, pinned up with four tacks, is a pencil drawing on brown paper: every tide pool, from the top to the sea._  
+_In the bottom corner, very small, there is a boat with three people in it and a Nubbin in the bow._  
+**Marina**: I’m doing the river next. All of it, source to sea. It’ll take me years.  
+
+> **Lesson** (art, 2-ESS2-2, do): drawing a map of a river with a key  
+> _Draw your own map of the river, source to sea. Mark the backwater, the ford, the weir and the island._  
+> **Marina**: Don’t forget a key. And put yourself in it somewhere.  
+> Check: `edu:draw:map:river`
+> _For grown-ups: Drew a river map from source to sea, with labelled features and a key._
+
+**Marina**: Here. Take the rug. It’s got gherkin on it. It’ll always have gherkin on it.  
+**Marina**: Her little sister’s in the boathouse: the flat one, for winter water. We’ll take her out together. Vests on.  
+**Dusty**: Same time next summer?  
+**Marina**: Before. March, if it’s mild. You get the vests down from the loft and smell them. That’s the first day of the year.  
+_Down at the ford a brown head comes up, looks at the three of you for a while, and goes under without a ripple._  
+
+#### `s29-brock-knock`
+
+_You knock on the little green door. A long way back in the bank, somebody grumbles, and bolts go back: one, two, three, four._  
+**Granny Brock**: Daytime. Good. You can come in for ten minutes and get warm. Then I’m busy.  
+_Ten minutes turns into an hour by the red fire._  
+
+> **Lesson** (maths, 3.MD.A.1, ask): time intervals: minutes in an hour  
+> _Ten minutes turned into an hour. How many lots of ten minutes is that?_  
+> - ✅ 6 → Yes. An hour is 60 minutes, and 60 is six tens.
+> - 10 → Ten lots of ten would be 100 minutes. An hour is 60: six tens.
+> - 4 → Four tens is 40 minutes. An hour is 60, so six tens.
+> _For grown-ups: Worked out that an hour is six lots of ten minutes._
+
+_She doesn’t say much, and neither do you, and it suits you both._  
+**Granny Brock**: Charcoal’s cooling in the yard. Don’t touch it. It looks cold, and it isn’t.  
+_When you leave, she says nothing at all, which from Granny Brock is practically a hug._  
+
+#### `s30-wall-s1`
+
+_The frosts have come, and the Grove is white at dawn round the fourth post._  
+_You find Moss at the old wall, by Hush’s lantern post, with frost on his back that he hasn’t bothered to shake off._  
+**Moss**: Clover’s gold one. Luna told me. Luna tells me things at dawn, when I am too tired to argue.  
+**Moss**: You know she sat with the still ones, the ones who had died. You walked here with me, and heard her ask to be kept.  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): oral history  
+> _Moss remembers Hush and tells her story aloud. Passing history on by telling it is called oral history._  
+> _For most of history, that was how families and villages remembered their past._  
+> _For grown-ups: Learned what oral history is and how stories carry the past._
+
+**Moss**: I never told you what she thought sad was for.  
+**Moss**: People thought it made her a sad thing, the sitting. They were wrong about which part was sad.  
+**Moss**: Low in the wall. The flat stone, by your foot. Look at it properly. She meant it to be looked at.  
+
+#### `s30-hole-youngest`
+
+_Then your youngest Nubbin comes down the bank: the one Fossil sat with until dark. It climbs into the hole and sits on Dusty’s boot._  
+**Dusty**: Oh, not you as well.  
+_Dusty laughs, wetly, gets mud in their mouth, and laughs at that too._  
+**Dusty**: She trained you both. Didn’t she. The old madam. Sat on a sill for twenty years and trained the lot of you.  
+_Fossil never said a word. She taught by doing, and they learned by watching._  
+
+> **Lesson** (sel, CASEL: Social awareness, notice): learning from example  
+> _We often learn kindness the way these Nubbins did: by seeing it done, and having it done to us._  
+> _For grown-ups: Discussed how kindness is learned by example._
+
+_Dusty wipes their eyes again. This time it doesn’t make it worse._  
+
+#### `s30-gone-helped`
+
+_Early autumn. Clover is at your gate before it is light, in her dressing gown and wellies._  
+**Clover**: She’s gone. Dimple. Her basket was cold when I got up.  
+**Clover**: She’s taken nothing but the cushion off the sill. Fossil’s cushion, toys and all.  
+**Clover**: What does she want with it? She’s done nothing but pile rubbish on it for weeks.  
+**Clover**: Drizzle’s under the rain butt and won’t budge. The others are in a heap. I didn’t know who else to come to.  
+_Dusty is coming up the lane with a spade on one shoulder. One look at Clover, and they put the spade down._  
+**Dusty**: She’s going back to where the happy was. I would. I’ve been trying to all summer.  
+
+> **Lesson** (literacy, RL.3.3, ask): inference  
+> _“Back to where the happy was.” Where do you think Dimple has gone?_  
+> - ✅ Somewhere she was happy with Fossil → That’s a good inference. She took Fossil’s cushion, so it’s somewhere Fossil belonged.
+> - To a party → A fair guess after Sparks! But she took Fossil’s cushion, so it’s somewhere Fossil belonged.
+> _For grown-ups: Made an inference from clues (the cushion, Dusty’s words)._
+
+_The three of you set off down the lane in the half dark._  
+
+#### `s30-trail-s5`
+
+_On the bank of your pond, where you held Fossil up in the shallows, there is a sock, laid out neatly._  
+_Under Hazel’s crooked tree, half a wooden peg, just where the wrinkled fruit once fell into Fossil’s lap._  
+**Dusty**: She’s doing the walk. Fossil’s walk. Backwards. The water, the tree, the cliff.  
+
+> **Lesson** (maths, 4.OA.C.5, ask): reversing a sequence  
+> _Fossil’s walk went cliff, tree, water. Dimple walks it backwards. Which place is second for both of them?_  
+> - ✅ The tree → Yes. Reverse a list of three, and the middle stays in the middle.
+> - The cliff → The cliff was first for Fossil and last for Dimple. The middle one, the tree, stays put.
+> _For grown-ups: Reversed a sequence and noticed the middle stays in place._
+
+**Dusty**: I told it at Clover’s table every night for a fortnight. I thought she was asleep under the sill.  
+_From the tree the trail runs east along the stream, a pine cone, then a cotton reel, towards the striped cliff._  
+_At the foot of the cliff the rock is striped like a cake. Where it meets the ground, there is a hollow, dug down and in._  
+**Dusty**: That’s it. The spoon hole. Where I dug her out. Two days, with a spoon.  
+_Dimple is down in it, on Fossil’s cushion, scraping at the back of the hollow as if there might be another egg._  
+_The hollow is only waist-deep on you, but on a Nubbin the lip is a cliff. She can’t climb out, and she hasn’t tried._  
+**Dimple**: …  
+
+#### `s30-hollow-helped`
+
+_Drizzle is at home under the rain butt. So it is you who climbs down, carefully, and sits in the dust at the back of the hollow._  
+_Dimple turns, and the smile goes on like a lamp. She bounces at you, and offers you a pebble, a root, a handful of dust._  
+_She performs. She runs the streamer race on her own in a space the size of a bath, and does the hat toss without a hat._  
+_You don’t clap, and you don’t stop her. Your knees go cold, and then numb._  
+
+> **Lesson** (sel, CASEL: Relationship skills, ask): staying without fixing  
+> _Why might it help not to clap, and not to stop her either?_  
+> - ✅ So she doesn’t have to perform, and doesn’t feel told off → Yes. Clapping keeps the show going; stopping her feels like a scolding. Staying lets her stop herself.
+> - Because clapping is rude → Not rude. But clapping keeps the show going. Staying quietly lets her stop when she’s ready.
+> _For grown-ups: Thought about how to be with a friend without pushing or fixing._
+
+**Clover**: Shall I come down? I should come down. I’m her… I should…  
+**Dusty**: Leave them a minute. Look at her. She’s nearly out of tricks.  
+_It takes a long time. It takes longer than the party did._  
+
+#### `s30-hollow-youngest`
+
+_Your youngest Nubbin goes over the lip after them, sliding down on its bottom, and sits on Dimple’s other side._  
+_Fossil sat with it once, until dark. It seems to remember how._  
+**Dusty**: Course it does.  
+_Two small shapes now, one on each side of Dimple, like bookends._  
+
+> **Lesson** (literacy, L.4.5, notice): similes  
+> _Bookends hold up the books between them from both sides. The simile shows Dimple held up, one friend each side._  
+> _For grown-ups: Explained a simile about support._
+
+_Nobody up at the rim says anything. Clover holds Dusty’s sleeve, and Dusty lets her._  
+_Down in the hollow, the three of them sit very still, and wait for whatever comes next._  
+
+#### `s30-hill-helped`
+
+_That afternoon Dimple walks up the hill. Not on anyone’s shoulder: up the path, past the halfway place, on her own feet._  
+_You walk beside her, and every few steps she checks you are still there. Dusty walks behind with Fossil’s cushion._  
+_At the top is Fossil’s flower, sandstone-coloured, a little bent by the frost. Dimple sits down in front of it._  
+_You sit on one side of her. Dusty sits on the other, cross-legged, and sets the cushion in the grass, dent up._  
+_Nobody does anything. The wind goes over, and down in the valley somebody is burning leaves._  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): grief and remembering  
+> _Going to a special place to remember someone is one way people grieve. It doesn’t make the missing stop._  
+> _But it gives the missing somewhere to sit, with friends beside you._  
+> _For grown-ups: Talked about visiting a special place as one way to remember someone who has died._
+
+_Your Nubbin, who has copied Dimple all autumn, comes and sits down too. It copies the sitting perfectly._  
+
+#### `s30-complete-helped`
+
+_On the way home you stop at the old wall. Clover holds the paper flat; you rub over Hush’s stone with a stub of charcoal._  
+_The marks come up black and fine under your hand: rings, and lines, and rings with lines through them._  
+
+> **Lesson** (art, do): texture rubbing  
+> _(Rub the charcoal over the paper on the stone.)_  
+> _A rubbing copies texture: the raised parts catch the charcoal, the scratches stay pale. Try it on a leaf or a coin at home._  
+> Check: `edu:rub:texture:hush-stone`
+> _For grown-ups: Learned how a rubbing records the texture of a surface._
+
+**Clover**: Dimple ought to have a mark of her own. On her page. A proper one.  
+_In the clean corner of the paper, you draw it for her: a ring with a line through it._  
+_Clover takes the charcoal and draws one more beside it, small and close: a plain ring, just touching. Yours._  
+**Clover**: That’s the both one. That’s her now.  
+_That night you write it up: Hush’s stone, and a page for each of your Nubbins, ringed and lined from what you remember._  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): reflecting on feelings  
+> _If you made a mark for today, which would it be?_  
+> - A ring: a joy kept → A good day to keep. Hush would have scratched it carefully.
+> - A line: a grief kept → That’s allowed. A line kept is a lantern lit. Someone will find you.
+> - Both: a ring with a line through it → Like Dimple. Like most things, Moss would say.
+> _For grown-ups: Reflected on their own feelings using Hush’s marks (no single right answer)._
+
+_In the morning there is a parcel on your step: a pale-blue rain hat, and Fossil’s cushion, plumped for the first time in years._  
+_The note says Fossil would want it sat on, not kept. Sparks has added a blue-and-gold ribbon, dyed twice._  
+
+#### `s30-after-clover`
+
+_Clover’s shed door stands half shut every dusk now. Fidget sees to it herself; she has decided half is the right amount._  
+
+> **Lesson** (maths, 1.G.A.3, notice): halves  
+> _Half shut is also half open: two equal halves make the whole doorway. Fidget’s fudge, in fractions._  
+> _For grown-ups: Saw that two halves make a whole._
+
+_On the deep kitchen sill, Dimple and Drizzle sleep in the sun, gold and pale blue, one pressed against the other._  
+**Clover**: She still smiles most of the day. I wouldn’t change it. And now when she isn’t, I know where to look.  
+**Clover**: I look at the ball now as well as the face. Took me long enough.  
+_Fidget trots past with a tea towel, counting. She counts you twice, to be sure._  
+**Clover**: She’s settling. Half shut. That’s progress, that is.  
+
+#### `s30-after-dusty`
+
+**Dusty**: I go up and sit with Fossil on Thursdays. Dimple comes. Gets there first, some weeks. Waits for me.  
+**Dusty**: We don’t do anything. It’s the best bit of the week. Don’t tell Clover. She’ll bring a flask.  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): remembering together  
+> _Remembering someone with a friend can make the missing feel lighter. Dusty and Dimple carry it between them._  
+> _For grown-ups: Talked about sharing memories of someone with a friend._
+
+_Dusty turns a striped pebble over in their fingers, a little piece of the cliff._  
+**Dusty**: I still count the bit, you know. Twenty years and a bit. The bit’s getting longer.  
+**Dusty**: That’s all right. It’s meant to.  
+_They put the pebble back in their pocket, carefully, like a letter._  
+
+#### `s30-after-byte`
+
+**Byte**: I’m keeping the chart. For science. Dimple’s ball, every time I see her.  
+**Byte**: Mostly gold. Sometimes blue. Sometimes both, which my scale didn’t cover, so I drew a new column. It’s my favourite column.  
+
+> **Lesson** (maths, 3.MD.B.3, ask): reading a scaled bar chart  
+> **Byte**: This week: gold 12, blue 4, both 6. How many more gold than both?  
+> - ✅ 6 → Six. 12 − 6 = 6. Logged.
+> - 8 → That’s gold minus blue: 12 − 4. Gold minus both is 12 − 6 = 6.
+> - 18 → That’s gold plus both. “How many more” means subtract: 12 − 6 = 6.
+> _For grown-ups: Compared two bars on a chart by subtracting (12 − 6 = 6)._
+
+**Byte**: Also she pulled my laces on Tuesday. Both of them. I’ve logged it as a result.  
+_He shows you the chart. The “both” column has been drawn in twice, in two colours of pencil._  
+**Byte**: Single knots, still. Obviously. For science.  
+_He tucks the chart away before you can say anything about it._  
+
+#### `s30-after-sparks`
+
+**Sparks**: I sat still! On the hill! With Dimple! For…  
+**Sparks**: Fifty-one seconds. Byte timed it. Nearly a minute. That’s a personal best. That’s a valley record.  
+
+> **Lesson** (maths, 4.MD.A.1, ask): seconds in a minute  
+> **Sparks**: A minute is sixty seconds. How many more seconds would I need for a whole minute?  
+> - ✅ 9 → Nine! 60 − 51 = 9. Next time. Probably. Maybe.
+> - 19 → Count up from 51: 52, 53… 60. That’s nine. 60 − 51 = 9.
+> - 49 → That’s too many! Count up from 51 to 60: just nine seconds.
+> _For grown-ups: Used 1 minute = 60 seconds to find a difference (60 − 51 = 9)._
+
+**Sparks**: It was really nice. It was horrible. It was really nice.  
+_Sparks is bouncing on her toes as she says it, which rather spoils the effect._  
+**Sparks**: Next time, a whole minute. I’m training. I sat through a boiled egg yesterday.  
+**Sparks**: Dimple didn’t even need a party. She just needed someone to stay. Who knew?  
+
+#### `s31-guising-sat`
+
+_Late in the evening a ghost comes back up the lane on its own, dragging its bag. It stops at the edge of the long grass._  
+**Ned**: Hello. I came to see if he’d come yet.  
+**Tam**: Not yet. He’s busy being sincere somewhere.  
+**Nettie**: What did you get? Did you get toffee? I didn’t want any. I’m only asking.  
+_Ned turns his bag upside down. Five rocks come out, one after another, with a sound like somebody walking on a beach._  
+
+> **Lesson** (maths, 4.MD.A.2, ask): multiply and convert grams to kilograms  
+> **Ned**: Each rock weighs about 200 grams. I’ve got five. How heavy is my bag?  
+> - ✅ 1 kilogram → Yes. 5 × 200 g = 1,000 g, and 1,000 grams is 1 kilogram. A whole bag of sugar, in rocks.
+> - 205 grams → That adds 5 and 200. But there are five rocks of 200 g each: 5 × 200 = 1,000 g, which is 1 kilogram.
+> - 100 grams → Lighter than one rock! Five rocks of 200 g make 1,000 g. That’s 1 kilogram.
+> _For grown-ups: Multiplied 5 × 200 g and converted 1,000 grams to 1 kilogram._
+
+_One of them has a little paper label tied on with string._  
+
+#### `s31-guising-party`
+
+_Halfway through the party, the guisers come in on a gust of cold air: a witch, three bats, and a ghost made mostly of holes._  
+_The bats and the witch tip their bags out on Sparks’s workbench. Toffee apples, nuts, pennies, a whole honey cake._  
+_Ned tips his out last. Five rocks come out, one after another, and roll in among the spanners._  
+**Sparks**: Oh, Ned.  
+_Pixel stops playing the pianola in the middle of a tune, out of respect._  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): empathy: helping someone who feels left out  
+> _Everyone is looking at Ned’s rocks. What could the others do that would actually help him?_  
+> - ✅ Share some treats, without making a fuss about it → Yes. Quiet sharing helps without making Ned feel more singled out.
+> - Laugh, so it feels like a joke → Sometimes laughing together helps, but Ned isn’t laughing. Quietly sharing treats is kinder.
+> - Pretend not to notice → That avoids embarrassing him, which is thoughtful. Sharing a few treats as well would help even more.
+> _For grown-ups: Thought about how to help a friend who feels left out without embarrassing him._
+
+_One of the rocks has a little paper label tied on with string._  
+
+#### `s31-if-away`
+
+_Nearly midnight. Three lanterns burn steady across the Grove, and the fourth post stands dark over the long grass._  
+_Two small shapes sit beside it under a patchwork quilt and a borrowed blanket. The spare blanket stays folded on the sign._  
+_Along the far hedge Luna’s lantern moves slowly, as it does every night. Tonight it passes the long grass more often than usual._  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): staying safe: grown-ups knowing where you are  
+> _Who knows exactly where Tam and Nettie are tonight?_  
+> - ✅ Ivy, Mum, Clover and Luna → Right. Ivy told Mum and Clover, Clover’s lamp is lit, and Luna keeps passing. Being alone in the dark isn’t the same as being unwatched.
+> - Nobody → Look again: Ivy told Mum and Clover, and Luna’s lantern keeps passing. Lots of people know.
+> _For grown-ups: Noticed how the grown-ups kept the children safe by knowing where they were._
+
+**Nettie**: Tam. What if he isn’t coming?  
+**Tam**: He’s coming. When he comes, I’ll put in a good word for everybody. The Keeper, even. Even though they went.  
+**Tam**: If he comes, I’ll ask… If. I said “if”. Out loud. In the patch.  
+_He pulls the quilt over his head. Nettie pats it, the way you pat a dog that has been told off._  
+
+#### `s31-midnight-wisp`
+
+_Just after midnight, something thin and grey comes out of the dark under the hedge. One of its ears is torn to a fringe._  
+_It goes straight to the sign, takes Tam’s toffee apple off the top, hanky and all, and carries it a little way off._  
+_Then it sits down in full view and eats it, very loudly, with its back to them._  
+**Tam**: Is that him?  
+**Nettie**: That’s a thief.  
+_Wisp licks the hanky clean, thanks nobody, and goes back under the hedge._  
+
+> **Lesson** (social-studies, D2.Civ.8.K-2, ask): fairness, need and taking  
+> _Think: the toffee apple was left out for someone hungry. Wisp was hungry. Was it stealing?_  
+> - Yes. It wasn’t meant for him. → That’s a fair point. Things can be meant for someone in particular.
+> - No. It was left out for a hungry visitor, and he was one. → A generous reading. Tam might even come round to it, one day.
+> - It’s complicated. Animals don’t know our rules. → True. Fairness is a human idea; Wisp only knows hungry and not hungry.
+> _For grown-ups: Thought about fairness, need, and whether animals can steal._
+
+
+#### `s31-shape-sable`
+
+_A grey shape rises out of the white grass by the post. It comes slowly, and the frost doesn’t seem to touch it at all._  
+_Tam takes one look, says “Oh,” very politely, and faints clean away._  
+_It is Sable. The frost can’t do anything more to her than it has already done._  
+_She looks at Tam, flat out in his quilt. Then she looks at you, for a long time._  
+_Then she sits down beside you, close enough to touch, and faces the dark lane with you._  
+_Sable says nothing. Her ears stay up._  
+
+> **Lesson** (sel, CASEL: Social awareness, notice): reading body language; trust  
+> _Animals can’t tell you how they feel, but their bodies can. Ears up and sitting close means calm and paying attention._  
+> _Sable has chosen to sit near you. With a wary animal, that is a big thing. The kindest answer is to stay still._  
+> _For grown-ups: Learned to read an animal’s body language and to respond calmly to its trust._
+
+_You don’t say anything either._  
+
+#### `s31-shape-away`
+
+_A shape rises at the edge of the white grass, where the frost hasn’t reached. Round, and goggled, and trailing a scarf._  
+_Tam takes one look, says “Oh,” very politely, and faints clean away._  
+_You come back down the lane with a lantern before it’s light. Tam is asleep in his quilt, and your Nubbin is asleep on top of him._  
+**Nettie**: Your Nubbin came out of the grass in its glasses, and he FAINTED, and I’ve been the only one awake for HOURS.  
+**Nettie**: I didn’t get any toffee. I didn’t get ANYTHING. I sat in a field.  
+
+> **Lesson** (sel, CASEL: Self-management, ask): managing big feelings: tiredness makes anger bigger  
+> _Nettie is furious, cold and very tired. What would help her most right now?_  
+> - ✅ Listen, say sorry you weren’t there, and get her warm → Yes. Tired, cold anger needs listening and a blanket more than arguments.
+> - Explain why you went → Explaining can wait. First she needs to be heard, and warmed up.
+> - Tell her to calm down → Being told to calm down rarely works. Listening and a blanket help much more.
+> _For grown-ups: Thought about what helps someone who is angry, tired and cold._
+
+
+#### `s31-four-sable`
+
+_At four o’clock exactly, a lantern comes bobbing down the lane, grumbling._  
+**Ivy**: Four o’clock. I said four. Look at the state of…  
+_She sees Sable. Ivy has an opinion on everything, and she hasn’t got one about this._  
+_She hands her lantern to Nettie and lifts Tam, quilt and all. He doesn’t wake._  
+_On the way past, she drops a blanket on you without looking._  
+**Ivy**: You look frozen. It’s very stupid, sitting out all night. I’m not saying anything nice about it.  
+_Sable doesn’t move. She lets Ivy pass within an arm’s length, and only her ears turn._  
+
+> **Lesson** (science, 4-LS1-2, notice): animals’ senses: moveable ears  
+> _Many animals can swivel their ears to point at a sound, while their head stays still._  
+> _It lets them track a footstep without moving. Your ears can’t turn, so you have to turn your whole head._  
+> _For grown-ups: Learned that many animals can turn their ears to track sounds._
+
+_Ivy goes off up the lane with Tam, and Nettie trots after with the lantern, yawning, very small._  
+
+#### `s31-four-away`
+
+_At four o’clock exactly, a lantern comes bobbing down the lane, grumbling._  
+**Ivy**: Four o’clock. I said four. Look at the state of him.  
+_She looks at Tam, asleep in his quilt, and doesn’t laugh. She lifts him, quilt and all._  
+_She doesn’t look at you. There is a blanket over her arm, and she keeps it._  
+
+> **Lesson** (literacy, RL.2.3, ask): how a character responds to events  
+> _Ivy keeps the blanket this time. Why might she?_  
+> - ✅ She’s cross that the Keeper left the children alone → That fits. Ivy shows what she thinks through what she does, not what she says.
+> - She’s cold herself → Maybe! But she doesn’t look at you, either. It’s more likely she’s cross you went.
+> _For grown-ups: Explained a character’s action by her feelings about what happened._
+
+**Ivy**: Nettie. Home.  
+_Nettie stamps off up the lane after them with the lantern, furious all the way, and very small._  
+
+#### `s31-light-sable`
+
+_Up the lane, a light goes on in the end cottage. Ivy gets Tam up the stairs, takes his boots off, and tucks him in._  
+_Sable stays beside you until it is light. Neither of you moves._  
+_When the sun reaches the top of the hill, she gets up, shakes the frost off her back, and goes to see about breakfast._  
+
+> **Lesson** (science, 3-LS4-3, notice): why frost ends the gourd season  
+> _Fern’s gourd vines will be black and limp by lunchtime. Frost is the end of their year._  
+> _Squash plants are tender. When the water inside their leaves freezes, sharp ice crystals break the leaves apart._  
+> _That’s why growers pick every gourd before the first frost. Hardier plants, like kale, can survive it._  
+> _For grown-ups: Learned why frost kills tender plants like squashes, and why gourds are picked before it comes._
+
+_Tam’s sign is still standing, WELCOME GREAT GOURD, with the R still backwards for luck._  
+
+#### `s31-promise-went`
+
+_When Ned has gone home, Tam turns round on the wall and looks at you, and then looks away._  
+**Tam**: I don’t need anybody, you know. To wait. I can do it on my own. I nearly did.  
+**Tam**: Nettie doesn’t count. She was asleep for the important bit.  
+_He gets down off the wall and goes home, holding his quilt up off the mud._  
+_Next morning there is a second sign in the long grass, smaller, beside the first. It is painted on the lid of a biscuit tin._  
+_It says: SEAT FOR A KEEPER (IF)._  
+
+> **Lesson** (literacy, RL.3.3, ask): what a character says versus what he means  
+> _Tam says he doesn’t need anybody. Then he paints a seat for you. What does the “(IF)” tell you?_  
+> - ✅ He hopes you’ll come, but he’s scared to count on it → Yes. The sign is an invitation, and the brackets protect him in case you don’t.
+> - He doesn’t want you there → Then why paint a seat? The “(IF)” is him being careful with his hopes.
+> _For grown-ups: Inferred a character’s real feelings from his actions and a small detail._
+
+
+#### `s31-complete-strays`
+
+_Next morning, Tam is down at the long grass before anyone else is up. By the foot of his sign, someone has left something._  
+_A small heap of fruit: six windfall plums, two apples, and a pear with one bite out of it. Someone has left it for the strays._  
+
+> **Lesson** (maths, 3.OA.A.3, ask): total and share equally  
+> _Six plums, two apples and a pear. If three strays share all of it equally, how many pieces does each get?_  
+> - ✅ 3 each → Yes. 6 + 2 + 1 = 9 pieces, and 9 ÷ 3 = 3 each. The bitten pear counts.
+> - 2 each → Count them all first: 6 + 2 + 1 = 9. Then 9 ÷ 3 = 3 each.
+> - 9 each → 9 is the whole heap. Shared between three strays, 9 ÷ 3 = 3 each.
+> _For grown-ups: Added three groups to make 9, then divided 9 equally by 3._
+
+**Tam**: He got the letter. He couldn’t carry it all the way to the Hollow, so he left it here for us to take.  
+_You put it out at the edge of the Grove that evening. By morning it has all gone, and nobody saw who ate it._  
+_Sparks won’t take the goggles back. She says they’ve seen action now, and it would be wrong._  
+_Your gourd lantern goes on the wall by the gate, where it can be seen from the air._  
+
+#### `s31-complete-busy`
+
+_Next morning, Tam is down at the long grass before anyone else is up. By the foot of his sign, someone has left something._  
+_…Or hasn’t. There is nothing at all: just the sign, the frost going off it, and the long grass._  
+**Tam**: Nothing. He didn’t come and he didn’t send anything. Because we said he needn’t, if he was busy.  
+**Tam**: So he was busy. And he was polite back. That’s proof, that is.  
+
+> **Lesson** (literacy, RL.3.6, ask): evidence and reasoning: what counts as proof  
+> _Think: Tam says nothing turning up is proof. Is it?_  
+> - Not really. Nothing would turn up either way. → A sharp answer. Proof should be something that wouldn’t happen if you were wrong.
+> - For Tam, yes. It fits what he asked for. → That’s kind. It does match his letter, even if it can’t prove it.
+> - It doesn’t matter. It makes him happy. → Sometimes that is the point. Moss would probably agree with you.
+> _For grown-ups: Thought about what counts as proof, and when it matters._
+
+_Sparks won’t take the goggles back. She says they’ve seen action now, and it would be wrong._  
+_Your gourd lantern goes on the wall by the gate, where it can be seen from the air._  
+
+#### `s31-ambient-tam`
+
+**Tam**: I’m practising sitting. For next year. You have to start early or your knees go.  
+
+> **Lesson** (health, notice): keeping joints warm and moving in the cold  
+> _Tam is half right. Muscles and joints feel stiff when they’re cold and still. Moving about now and then keeps them comfortable._  
+> _For grown-ups: Learned that cold, still muscles stiffen and moving helps._
+
+
+#### `s31-ambient-ivy`
+
+**Ivy**: I’ve told Tam the Great Gourd isn’t real eleven times. He writes it down each time. I think he’s keeping score.  
+
+> **Lesson** (maths, 2.MD.D.10, do): tally marks in groups of five  
+> _Draw Tam’s tally of eleven: two gates of five (four lines and one across), then one more line._  
+> Check: `edu:tally:times:11`
+> _For grown-ups: Drew eleven as tally marks in groups of five._
+
+
+#### `s31-ambient-ned`
+
+**Ned**: I gave my best rock away. Byte says I can start again. He’s bringing me a granite.  
+
+> **Lesson** (science, 2-PS1-1, notice): granite and basalt: slow and fast cooling make different crystals  
+> _Granite also starts as melted rock, but it cools slowly, deep underground, so its crystals grow big enough to see._  
+> _Basalt cools fast, so its crystals stay tiny. Same start, different speed, different rock._  
+> _For grown-ups: Compared granite and basalt by how fast they cooled._
+
+
+#### `s31-ambient-nettie`
+
+**Nettie**: I’m going guising next year. I’ve decided. Unless Tam says.  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): making your own decisions  
+> _Nettie is learning that she can choose for herself. It’s fine to listen to a friend, and fine to decide differently._  
+> _For grown-ups: Talked about making your own decisions while still caring about friends._
+
+
+#### `s31-ambient-lantern`
+
+**Tam**: Did you see? The fourth one lit. By itself. At dawn. Nobody touched it.  
+**Tam**: It was him. The Great Gourd. I told you that patch was sincere.  
+**Tam**: Ivy says he’s very late. I say he’s very thorough.  
+
+> **Lesson** (literacy, L.3.4, notice): word choice changes meaning  
+> _“Late” and “thorough” describe the same wait. One makes it sound like a failure; the other makes it sound careful._  
+> _For grown-ups: Noticed how choosing a word changes how something sounds._
+
+
+#### `lb06-door-big`
+
+_The big box goes on its side at the front of the den, flaps open. You can crawl through without bending your neck._  
+
+> **Lesson** (maths, K.G.A.2, notice): turning a shape  
+> _On its side, the box is still a cuboid. Turning a shape doesn’t change what it is, only how it looks._  
+> _For grown-ups: Your child noticed that a box on its side is the same shape, just turned._
+
+**Ned**: It’s a front door. With a roof on the door.  
+**Maisie**: You have to knock first. That’s the rule.  
+
+#### `lb06-door-long`
+
+_The long box lies flat at the front of the den, open at both ends. You crawl through it like a tunnel._  
+
+> **Lesson** (literacy, L.4.5, notice): simile  
+> _“Like a tunnel” is a simile: it compares the box to something else using “like”._  
+> _For grown-ups: Your child spotted a simile: crawling through “like a tunnel”._
+
+**Ned**: It’s a tunnel door. You have to wriggle.  
+_Your Nubbin wriggles through first, gets stuck halfway, then gets unstuck._  
+
+#### `lb06-door-tall`
+
+_The tall box stands at the front of the den with a hole cut low in one side. You step in, then duck down into the den._  
+**Ned**: It’s a lift. It goes DOWN to the den.  
+
+> **Lesson** (literacy, L.3.4, notice): multiple-meaning words  
+> _“Lift” has two meanings: a little room that carries people up and down, or to pick something up._  
+> _For grown-ups: Your child noticed that “lift” can mean a machine that carries people, or to raise something._
+
+**Maisie**: Lifts don’t… Fine. It’s a lift.  
+
+#### `lb12-ned-proper`
+
+_Ned arrives at a run, in his pyjamas, shouting. He has been proud of himself all week._  
+**Ned**: I’m here! I’m the one who came last ALL the way!  
+
+> **Lesson** (literacy, RL.3.3, notice): character traits  
+> _Ned lost, but he finished. Now he is proud of his effort, and loud about it._  
+> _For grown-ups: Your child saw how finishing the race changed Ned: proud of effort, not the result._
+
+**Sam Larkin**: Loudest camper in the valley. Love it. Shh now.  
+
+#### `lb12-ned-let-win`
+
+_Ned strolls in with his sleeping bag over his shoulder like a cape, a bit too pleased with himself._  
+**Ned**: Make way for the fastest boy in the valley.  
+**Maisie**: He’s been saying that for a week.  
+_Maisie lets him say it once more. Then she gives him a look, and he stops, mostly._  
+
+> **Lesson** (literacy, RL.3.3, notice): consequences of choices  
+> _Letting Ned win made him happy, but now he believes he’s the fastest. Maisie is patient about it. Kindness can have a cost._  
+> _For grown-ups: Your child saw the cost of letting Ned win: he believes something untrue, and Maisie puts up with it._
+
+
+#### `lb12-ned-hand`
+
+_Ned arrives holding Maisie’s hand. He has hardly let go of it since the race, Ama says._  
+**Ned**: We’re a team. Teams hold hands.  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): teamwork  
+> _Holding hands in the race turned two rivals into a team. Nobody lost, so nobody had to get over it._  
+> _For grown-ups: Your child saw how racing together turned rivals into a team._
+
+**Maisie**: Only sometimes. But tonight, yes.  
+
+#### `lb12-box-big`
+
+_Ned’s box is out in the long grass, on its side, with a tea towel for a curtain. Tonight it is a house._  
+
+> **Lesson** (literacy, L.4.5, notice): metaphor in play  
+> _In LB1 you chose the big box because you could live in it. “Tonight it is a house” is a metaphor come true._  
+> _For grown-ups: Your child noticed the box becoming a house: play works like metaphor._
+
+**Ned**: It’s our house. You can sleep in it if you’re small.  
+_Your Nubbin is small. It goes straight in._  
+
+#### `lb12-box-long`
+
+_Ned’s box lies in the long grass with a broom-handle mast and a pillowcase sail. Tonight it is a boat._  
+
+> **Lesson** (literacy, L.4.5, notice): metaphor in play  
+> _In LB1 you chose the long box, shaped like a boat. “Tonight it is a boat” is a metaphor come true._  
+> _For grown-ups: Your child noticed the box becoming a boat: play works like metaphor._
+
+**Ned**: We’re sailing to the stars. Everybody get in.  
+_Nobody fits but Ned and your Nubbin. Everyone else sails alongside, lying very still._  
+
+#### `lb12-box-tall`
+
+_Ned’s box stands in the long grass with a paper cone on top and NED ROCKET down the side. Tonight it is a rocket._  
+**Ned**: Ten, nine… seven… one. Blast off!  
+
+> **Lesson** (maths, notice): counting backwards  
+> _Ned skipped eight, three and a few more. A full countdown goes 10, 9, 8, 7, 6, 5, 4, 3, 2, 1._  
+> _For grown-ups: Your child noticed Ned skipped numbers in his countdown and filled in the gaps._
+
+_Ned lies down next to it. The rocket stays exactly where it is, which is how the best rockets work._  
+
+#### `lk04-grab-laughed`
+
+**Bu Wulan**: Some days later, Kancil was thirsty, so he went down to the river for a drink.  
+_Your Nubbin bends the puppet down to the shadow water. Its little nose nearly touches the ripples._  
+_A long shadow slides up underneath, and snap! The crocodile puppet has Kancil by the leg._  
+**Crocodile**: I remember you. You’re the one who laughed at us.  
+**Crocodile**: I’ve waited at this spot every evening since, and I haven’t stopped being cross once.  
+
+> **Lesson** (literacy, RL.3.3, ask): why a character acts  
+> **Bu Wulan**: Why is the crocodile so much crosser this time?  
+> - ✅ Kancil laughed at it. → Yes. Being laughed at stings for a long time, even for a crocodile.
+> - It’s hungrier. → Maybe! But it says it remembers being laughed at. That’s what made it cross.
+> _For grown-ups: Your child worked out why the crocodile was so cross with Kancil._
+
+**Kancil**: Oh, crocodile. Is that my leg you’ve caught?  
+**Kancil**: That isn’t my leg at all! That’s an old stick. Silly crocodile, you’ve caught a stick!  
+_The crocodile lets go, quick as anything, and snaps at a stick floating past._  
+
+#### `lk07-garden-siti`
+
+_Tonight Siti sits at the lamp. She has borrowed Wulan’s new puppet: a farmer in a wide straw hat._  
+**Mak Cik Siti**: This is Wulan’s tale really. But she told the first tale, so this one is mine.  
+**Mak Cik Siti**: There was a farmer, Pak Tani, as Wulan calls him, and he grew the best cucumbers in the whole village.  
+
+> **Lesson** (science, 2-LS2-1, notice): why plants need water and light  
+> **Mak Cik Siti**: Cucumber vines drink water through their roots, and their leaves use sunlight to make food.  
+> **Bu Wulan**: That’s why the vines climb. Higher up, the leaves catch more sun.  
+> _For grown-ups: Your child learned that plants take in water through roots and make food with sunlight in their leaves._
+
+**Pak Tani**: My cucumbers! Somebody has been eating my cucumbers again!  
+_Your Nubbin creeps the Kancil puppet along the bottom of the screen, nibbling an invisible cucumber._  
+**Mak Cik Siti**: So Pak Tani made a scarecrow, and he painted it all over with sticky sap from a tree.  
+**Kancil**: Who’s this, standing in the garden? Out of my way, please. I’m busy eating.  
+_Kancil pushes the scarecrow, and his hoof sticks. He pushes with the other, and that sticks too._  
+**Pak Tani**: Got you, cucumber thief!  
+**Bu Wulan**: Wait, wait. That’s not how my grandmother told it.  
+
+#### `lk10-line-laughed`
+
+_The last evening of summer. The whole valley is on the bank, with mats and cushions and far too much food._  
+**Mak Cik Siti**: Kuih! Who wants kuih? I made the green ones and the stripy ones.  
+**Bu Wulan**: And kue from me. Same idea, different spelling, better coconut.  
+**Pixel**: I’ve rigged a second lamp so the people at the back can see. It won’t blow up. Probably.  
+_Your Nubbin is Kancil tonight, for real: no puppet, just itself in the lamplight._  
+**Bu Wulan**: Crocodiles! The last crossing! Line up, please!  
+_The Grove’s Nubbins float in the shallows with their arms folded. Nobody lines up._  
+**Mak Cik Siti**: Ah. They remember the last time. Kancil laughed at them and ran.  
+_Your Nubbin looks at you. It can’t say a word, and tonight it needs some._  
+
+> **Lesson** (sel, CASEL: Relationship skills, ask): mending a friendship  
+> **Mak Cik Siti**: What could help the Nubbins trust Kancil again?  
+> - ✅ Say sorry and ask nicely. → Yes. A real sorry, and a please. Then let them decide.
+> - Order them to line up. → Orders don’t mend things. A sorry and a please might.
+> _For grown-ups: Your child thought about what helps someone trust you again after you hurt them._
+
+**You**: Kancil is sorry he laughed. Will you be his bridge one more time, please?  
+_A long pause. Then, one by one, the Nubbins slide into two lines across the stream._  
+
+#### `lk10-count-wulan`
+
+**Bu Wulan**: We count the way you heard it first. Ready? Satu!  
+_Your Nubbin hops. The whole bank counts with it._  
+**Bu Wulan**: Dua, tiga, empat, lima, enam, tujuh...  
+_At eight the children all shout “Lapan!”, the Malay word, as loud as they can. Siti bows._  
+**Bu Wulan**: Delapan. Sembilan, sepuluh! And back along the second line!  
+_Your Nubbin hops back along the second line, ten more, and lands on the home bank with a squelch._  
+
+> **Lesson** (maths, 2.OA.A.1, do): adding tens  
+> **Bu Wulan**: Two lines of ten crocodiles. How many crocodiles in all?  
+> **Mak Cik Siti**: Ten and ten make twenty. Or two tens, if you like your times tables.  
+> Check: `edu:count:crocodiles:20`
+> _For grown-ups: Your child added two lines of ten crocodiles to make twenty._
+
+**Mak Cik Siti**: Twenty crocodiles. The King would be delighted.  

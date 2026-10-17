@@ -100,9 +100,17 @@ const ATLAS: [Quest[], Scene[], string][] = [
   [C.ATLAS_A29, C.ATLAS_A29_VARIANTS, 'The Honmoon'], [C.ATLAS_A30, C.ATLAS_A30_VARIANTS, 'The Word on the Brow'],
   [C.ATLAS_A31, C.A31_VARIANTS, 'The Hero Twins'],
 ];
+const ARCADE: [Quest[], Scene[], string][] = [
+  [C.ARCADE_PA1, C.PA1_VARIANTS, 'The Chao Altar'], [C.ARCADE_PA2, C.ARCADE_PA2_VARIANTS, 'The Clone Island'],
+  [C.ARCADE_PA3, C.PA3_VARIANTS, 'The Hollow Kingdom'], [C.ARCADE_PA4, C.ARCADE_PA4_VARIANTS, 'Mercy'],
+  [C.ARCADE_PA5, C.PA5_VARIANTS, 'The Hundred-Year Sleep'],
+];
 const withVariants: [string, string, Quest[], Scene[]][] = [
   ['01c-side-stories-s23-s31', "Hazel's Grove side stories (S23–S31)", S23_31.flat(), S23_31_VARIANTS.flat()],
   ...ATLAS.map(([list, variants, name], i): [string, string, Quest[], Scene[]] => [`22-atlas-a${String(i + 1).padStart(2, '0')}`, `Atlas, page A${i + 1}: ${name}`, list, variants]),
+  ...ARCADE.map(([list, variants, name], i): [string, string, Quest[], Scene[]] => [`23-arcade-pa${i + 1}`, `Pixel's Arcade, cartridge PA${i + 1}: ${name}`, list, variants]),
+  ['24-line-lb', 'Learning Grove line LB: Play (LB1–LB12)', C.LINE_LB, C.LINE_LB_VARIANTS],
+  ['25-line-lk', 'Learning Grove line LK: Mouse-Deer (LK1–LK10)', C.LINE_LK, C.LINE_LK_VARIANTS],
 ];
 for (const [file, title, list, variants] of [...packs.map(([f, t, l]): [string, string, Quest[], Scene[]] => [f, t, l, []]), ...withVariants]) {
   const md: string[] = [`# ${title}`, ''];
@@ -131,7 +139,7 @@ for (const [file, title, list, variants] of [...packs.map(([f, t, l]): [string, 
 {
   type ES = import('../../src/content/types').EduScene;
   const allSpeakers = new Map<string, string>();
-  for (const q of [...Object.values(packs).flatMap((p) => p[2])]) for (const sp of q.speakers) allSpeakers.set(sp.id, sp.name);
+  for (const q of [...Object.values(packs).flatMap((p) => p[2]), ...withVariants.flatMap((p) => p[2])]) for (const sp of q.speakers) allSpeakers.set(sp.id, sp.name);
   const who = (id: string) => allSpeakers.get(id) ?? SPEAKERS[id]?.name ?? C.CAMPAIGN_SPEAKERS[id]?.name ?? id;
   const line = (l: { who: string; text: string; mood?: string }) => {
     const n = who(l.who);
@@ -174,7 +182,7 @@ for (const [file, title, list, variants] of [...packs.map(([f, t, l]): [string, 
     }
     const qs: string[] = [`# Learning Grove · ${head}: side stories and fun quests`, ''];
     for (const q of C.EDU_QUESTS[band]) {
-      const orig = Object.values(packs).flatMap((p) => p[2]).find((x) => x.id === q.of);
+      const orig = [...packs, ...withVariants].flatMap((p) => p[2]).find((x) => x.id === q.of);
       qs.push(`## ${orig?.code ?? ''}. ${q.title ?? orig?.title ?? q.of}`, '');
       for (const [sid, g] of Object.entries(q.goals)) qs.push(`- \`${sid}\`: ${g.goal} · _${g.hint}_`);
       qs.push('');
