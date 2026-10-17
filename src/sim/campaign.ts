@@ -24,6 +24,7 @@ import {
   startStoryline,
   stepStoryline,
   stepStorylineEvents,
+  foldCounters,
   storyGoalMet,
   storySceneDone,
 } from './storyline';
@@ -456,6 +457,7 @@ export function stepCampaign(world: World, dtMs: number, events: SimEvent[]): vo
     if (tick && c.queue.length === 0) stepStoryline(world, c, events);
     return;
   }
+  foldCounters(c, events);
   for (const e of events) {
     switch (e.kind) {
       case 'hatched':
@@ -638,7 +640,7 @@ export function applyCampaignCommand(world: World, cmd: Command, events: SimEven
         return;
       }
       campaignSceneDone(world, c, cmd.scene);
-      sideSceneDone(world, c, cmd.scene);
+      sideSceneDone(world, c, cmd.scene, events);
       if (world.edu) {
         // The course words in the version the child saw (CV3); a picked choice uses its words.
         const shown = sceneFor(world, cmd.scene);

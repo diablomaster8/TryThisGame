@@ -3,6 +3,7 @@ import { hatch } from './lifecycle';
 import { createEgg } from './nubbin';
 import { EARLY_RULES } from './side-rules-early';
 import { LATE_RULES } from './side-rules-late';
+import { EXPANSION_RULES } from './side-rules-expansions';
 import { MID_RULES } from './side-rules-mid';
 import {
   commandMeets,
@@ -226,7 +227,17 @@ const S9: StoryRule = {
 };
 
 /** In the order they are stepped. */
-const RULES: StoryRule[] = [S5, S27, S28, S10, S9, ...EARLY_RULES, ...MID_RULES, ...LATE_RULES];
+const RULES: StoryRule[] = [
+  S5,
+  S27,
+  S28,
+  S10,
+  S9,
+  ...EARLY_RULES,
+  ...MID_RULES,
+  ...LATE_RULES,
+  ...EXPANSION_RULES,
+];
 const RULE_BY_ID = new Map(RULES.map((r) => [r.id, r]));
 
 /** The stories the runner drives, by quest id. */
@@ -519,7 +530,14 @@ function stepFunQuests(world: World, c: CampaignState, events: SimEvent[]): void
 }
 
 /** World side effects of side-story scenes (the buy-back lives in campaign.ts). */
-export function sideSceneDone(world: World, c: CampaignState, scene: string): void {
+export function sideSceneDone(
+  world: World,
+  c: CampaignState,
+  scene: string,
+  events: SimEvent[] = [],
+): void {
+  for (const rule of RULES)
+    if (c.side[rule.id]?.status === 'open') rule.sceneDone?.(world, c, scene, events);
   if (scene === 's6-complete') c.friendship.ember = (c.friendship.ember ?? 0) + STORY.s6Friendship;
   if (scene === 'c10-bank-wisp' && wispSaved(c) && !c.flags.wispHome) {
     // Wisp, who unmade the stone, settles under the cottage step as a stray you can take in.

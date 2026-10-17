@@ -1,4 +1,7 @@
 import type { SideStoryContent } from './story-scenes';
+import { EXPANSION_E1, EXPANSION_E1_VARIANTS } from '../content/expansion-e1';
+import { EXPANSION_E2, EXPANSION_E2_VARIANTS } from '../content/expansion-e2';
+import { EXPANSION_E3, EXPANSION_E3_VARIANTS } from '../content/expansion-e3';
 import { QUESTS_AVATAR } from '../content/quests-avatar';
 import { QUESTS_BEAN } from '../content/quests-bean';
 import { QUESTS_PYTHON } from '../content/quests-python';
@@ -47,6 +50,9 @@ export const SIDE_STORY_CONTENT: SideStoryContent = {
     ...QUESTS_BEAN,
     ...QUESTS_SUNNY,
     ...QUESTS_AVATAR,
+    ...EXPANSION_E1,
+    ...EXPANSION_E2,
+    ...EXPANSION_E3,
   ],
   variants: [
     ...SIDE_STORIES_MAIN_VARIANTS,
@@ -61,5 +67,8 @@ export const SIDE_STORY_CONTENT: SideStoryContent = {
     ...SIDE_STORY_S29_VARIANTS,
     ...SIDE_STORY_S30_VARIANTS,
     ...SIDE_STORY_S31_VARIANTS,
+    ...EXPANSION_E1_VARIANTS,
+    ...EXPANSION_E2_VARIANTS,
+    ...EXPANSION_E3_VARIANTS,
   ],
 };

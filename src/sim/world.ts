@@ -30,6 +30,7 @@ import { stepSeasons, racePrizeMultiplier, fruitIntervalMultiplier } from './sea
 import { stepAchievements } from './achievements';
 import { applyCampaignCommand, noteCampaign, stepCampaign } from './campaign';
 import { noteSideCommand } from './side-stories';
+import { noteCampaignEvents } from './storyline';
 import { langStart, langTraced, noteWord } from './lang';
 import { stepNpcs } from './npcs';
 import { addRewards, buy } from './shop';
@@ -235,7 +236,11 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
   if (world.campaign) noteSideCommand(world, world.campaign, cmd);
   // Events from commands (a visit, a craft, a watering) count toward requests on the
   // next step, the same as events the step itself produces.
-  if (events.length > start) queueQuestEvents(world, events.slice(start));
+  if (events.length > start) {
+    queueQuestEvents(world, events.slice(start));
+    // The campaign counters (storyline goals, the expansions) see command events too.
+    if (world.campaign) noteCampaignEvents(world, world.campaign, events.slice(start));
+  }
 }
 
 function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void {

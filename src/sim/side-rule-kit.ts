@@ -1,7 +1,7 @@
 import { LANTERN_POSTS, STORY } from '../config/tuning';
 import { storyPropMeets } from './story-props';
 import { nextDawn, nextDusk, seen, seenAt } from './story-state';
-import type { CampaignState, Command, SideStoryState, World } from './types';
+import type { CampaignState, Command, SideStoryState, SimEvent, World } from './types';
 
 /**
  * The shared pieces of a side-story rule: the rule shape, the story clock, chapter windows,
@@ -38,6 +38,8 @@ export interface StoryRule {
   holdsNext?(world: World, c: CampaignState, st: SideStoryState): boolean;
   /** Hold this chapter's closing scene while this is true of the open story. */
   holdsClose?(world: World, c: CampaignState, st: SideStoryState): boolean;
+  /** World side effects once `scene` has been seen while the story is open. */
+  sceneDone?(world: World, c: CampaignState, scene: string, events: SimEvent[]): void;
 }
 
 // ------------------------------------------------------------------ the story clock

@@ -854,6 +854,17 @@ export const PARTNERS = {
 } as const;
 
 /** Curfew by the real clock. */
+/** The post-ending expansions E1–E3 (sim/side-rules-expansions.ts). */
+export const EXPANSIONS = {
+  /** E2: Dandy's adult span as a multiple of the usual one, so the whole life is twelve days of the clock. */
+  novaSpanScale: 2.2,
+  /** E2: the days Nova's visits are gated on. */
+  novaDays: [4, 8, 11] as const,
+  novaSlipsForVariant: 2,
+  /** E3: dojo wins after the bracket goes up. */
+  tournamentWins: 3,
+} as const;
+
 export const CURFEW = {
   nightFrom: 22,
   nightTo: 6,

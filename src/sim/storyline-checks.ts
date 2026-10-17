@@ -126,6 +126,10 @@ function term(world: World, c: CampaignState, text: string): boolean {
       if (!world.team) return false;
       if (t[1] === 'joined') return true;
       return cmp(t[1] === 'rank' ? world.team.rank : world.team.points, t[2]);
+    case 'twine':
+      return cmp(world.inventory.twine, t[1]);
+    case 'partners':
+      return world.partners[0] !== null && world.partners[1] !== null;
     case 'merged':
       return world.merge !== null || counter(c, 'merged') > 0;
     case 'fused':

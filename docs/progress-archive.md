@@ -2,6 +2,62 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Full 3D parity gaps, plan Part G16 (2026-10-16)
+
+Closes G16.1 to G16.11 and writes G16.12. Each checked in the browser pane on `?free&slot=3`,
+Full 3D against Pixel, 375x812, frames driven by hand from a HEAD export (`.idx-g16`); one
+commit each; shots `docs/samples/parity2-<item>.jpg` (pixel left, 3D right where both apply).
+
+Works:
+- G16.1 (a440e86, 814b356): the cave and plain light sets link in the background after the
+  Grove compiles (hidden samples for the floor's material kinds, the shadow depth programs
+  and the emote sprites); a place still linking holds the last frame behind a dim. First
+  trip down the stairs: 695 ms first frame here (3.3 s in G15) to 47 ms.
+- G16.2 (fef9994): buildings, lanterns, decor and trees get a pixel-style rim (`halo.ts`);
+  memorials, visitors, wild ones, strays, plants, story props, stairs, chests and loot the
+  ground ring sized to their reach.
+- G16.3 (505b0d5): the story Hollow and Corvin's garden sets (`story-sets.ts`).
+- G16.4 (60139a6): the Keeper's lamp underground, pixel-shaped loot, the "?" over unfed wild
+  ones; a floor's wild one goes once scanned, as in the pixel view.
+- G16.5 (41db953): market stalls by `townUnlocks` (`village.ts`). The path fence rule is in,
+  but `fenceSpots()` is empty on today's layout, so neither view draws posts.
+- G16.6 (dd1ead6): merged glow, cocoon fade and shimmer, fruit flavour colours (`glow.ts`).
+- G16.7 (af9b708): weather moved to `weather.ts` (the scene was past 800 lines): pixel gates
+  for reduced motion, density and intensity; daytime leaves; story-Hollow fireflies; grade.
+- G16.8 and G16.9 (3efc6eb, 24bf933): trunks thin when they hide the Keeper; the visit
+  gardens' trees fade too (`treeOf` in `crowns.ts`).
+- G16.10 (3a83021): the race camera starts before the line; tags sit on their lane rows.
+- G16.11 (429ddee, 73dac41): `ui/render-hold.ts` pauses Full 3D behind story scenes, the away
+  screen and the photo panel, once the opening load is done (the away screen opens at boot).
+- G16.12: `docs/renderer-decision.md`. Recommendation: Pixel stays the default until G11's
+  phone rows pass, then Full 3D by device. Render-only frame now p50 2.4 ms, p95 3.1 ms.
+
+Stubbed: none new. Known: coming home from a visit still links some Grove-only programs (one
+frame of about 170 ms); leaf cards get no halo; the merged aura is soft in daylight. This
+PC's browser reports prefers-reduced-motion, so under 'system' the pane shows no weather.
+The full suite once timed out the "every Atlas page" test at 5 s under load (1.1 s alone).
+
+## Full 3D: event bursts and tree crowns (2026-10-16)
+
+Closes parity items 1 and 3 below. Checked in the browser pane on `?free&slot=3`, Full 3D,
+375x812, frames driven by hand from a HEAD export.
+
+Works:
+- Event bursts as in the pixel `burstFor` (8089255): sparkles for hatch, rebirth, growth,
+  evolution (with petals), Eternal, cocoons and the find sparkle for dungeons and chests;
+  hearts for love, sparkles for dizzy, crumbs for meals, dust for a shaken egg, a sparkle
+  where an item is collected; the squash on landing and the pop on hatch, evolve and
+  rebirth (pixel timings). `render3d/bursts.ts` draws three point clouds (dots, glowing
+  stars, hearts). Heights are fractions of the body, feet to head. Like the pixel side,
+  bursts ignore reduced motion. Shots `docs/samples/parity-3d-bursts-{evolve,love}.jpg`.
+- Tree crowns (fb96dd3): `render3d/crowns.ts` dithers a crown out when the camera is inside
+  it and thins it to `GROVE3D.crownFade.blocked` when it stands between the camera and the
+  Keeper (middle and head), hiding branches and fruit below half. A per-crown uniform, so
+  no recompile; the shadow stays. Shots `parity-3d-crown-{before,after,blocked}.jpg`.
+
+Stubbed: none. Known bugs: a trunk could still hide a Keeper standing right behind it; the
+dressed visit gardens built trees without the fade (both closed in G16.8 and G16.9).
+
 ## Pixel vs Full 3D parity pass (2026-10-16)
 
 Method: one seeded Free Grove save (`?free&slot=3`, snapshot reloaded for each mode) played

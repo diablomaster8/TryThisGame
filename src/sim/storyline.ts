@@ -147,21 +147,38 @@ export function stepStoryline(world: World, c: CampaignState, events: SimEvent[]
   events.push({ kind: 'ending', ending: `${s.id}-${ending}` });
 }
 
-/** Fold the step's events into the counters and the rule, then run the machine. */
-export function stepStorylineEvents(world: World, c: CampaignState, events: SimEvent[]): void {
-  const rule = storylineRule(c.storyline ?? '');
+/** Fold the step's events into the `n:<kind>` counters (both kinds of campaign read them). */
+export function foldCounters(c: CampaignState, events: SimEvent[]): void {
   for (const e of events) {
+    if (e.kind === 'strayFed' && !e.ok) continue;
     if (COUNTED.has(e.kind)) c.flags[`n:${e.kind}`] = Number(c.flags[`n:${e.kind}`] ?? 0) + 1;
-    if (e.kind === 'hatched') c.stats.hatched += 1;
-    else if (e.kind === 'evolved') c.stats.evolved += 1;
-    else if (e.kind === 'reborn') c.stats.reborn += 1;
-    else if (e.kind === 'departed') c.stats.departed += 1;
     if (e.kind === 'karate' && e.won)
       c.flags['n:karateWon'] = Number(c.flags['n:karateWon'] ?? 0) + 1;
     if (e.kind === 'descended')
       c.flags['n:deepest'] = Math.max(Number(c.flags['n:deepest'] ?? 0), e.depth);
+  }
+}
+
+/**
+ * Fold events into the counters and the storyline rule: the step's own events (from
+ * stepCampaign) and the ones a command produced (from applyCommand), for either campaign.
+ */
+export function noteCampaignEvents(world: World, c: CampaignState, events: SimEvent[]): void {
+  const rule = storylineRule(c.storyline ?? '');
+  foldCounters(c, events);
+  if (!c.storyline) return;
+  for (const e of events) {
+    if (e.kind === 'hatched') c.stats.hatched += 1;
+    else if (e.kind === 'evolved') c.stats.evolved += 1;
+    else if (e.kind === 'reborn') c.stats.reborn += 1;
+    else if (e.kind === 'departed') c.stats.departed += 1;
     rule?.onEvent?.(world, c, e, events);
   }
+}
+
+/** The step's events, then the machine. */
+export function stepStorylineEvents(world: World, c: CampaignState, events: SimEvent[]): void {
+  noteCampaignEvents(world, c, events);
 }
 
 /** After a storyline scene is seen (flags and the choice already applied). */
