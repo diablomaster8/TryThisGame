@@ -73,7 +73,15 @@ const notice = (
   standard: string | null,
   lines: Line[],
   parentNote: string,
-): Beat => ({ domain, skill, ...(standard ? { standard } : {}), kind: 'notice', after, lines, parentNote });
+): Beat => ({
+  domain,
+  skill,
+  ...(standard ? { standard } : {}),
+  kind: 'notice',
+  after,
+  lines,
+  parentNote,
+});
 
 const doIt = (
   after: number,
@@ -114,7 +122,7 @@ const sc = (
 // ================================================================== shared pieces
 // ---------------------------------------------------------------- step 1: tea on the hill
 const TEA_OPEN: Line[] = [
-  N('It is spring. The flowers on the hill are open.'),
+  N('Look! The flowers on the hill are open, all at once.'),
   N('This one is Gran Hazel’s flower. It’s a bit untidy, like her.'),
   N('Gran Hazel died. Her flower grows here, so we remember her.'),
   N('Here comes Nova, with a great big bag. She always walks on by.'),
@@ -123,8 +131,7 @@ const TEA_OPEN: Line[] = [
 const TEA_SIT = N('Nova sits down by the flower. Her big bag stays on her back.');
 const TEA_RUN = N('Your Nubbin runs to Nova. Then back to you. Then to Nova again!');
 const TEA_CLOSE: Line[] = [
-  NO('Is there tea? I always say no to tea.', 'think'),
-  NO('Today I’ll say yes. Yes, please!', 'happy'),
+  NO('Is there tea? I always say no. Today I’ll say yes, please!', 'happy'),
 ];
 const TEA_SPRING = ask(
   0,
@@ -134,7 +141,10 @@ const TEA_SPRING = ask(
   [N('The flowers have opened. What time of year is it?')],
   [
     opt('Spring', [N('Yes! Spring. The days get warmer, and the flowers open.')], true),
-    opt('Winter', [N('Winter is cold, with hardly any flowers.'), N('Warm days and new flowers mean spring!')]),
+    opt('Winter', [
+      N('Winter is cold, with hardly any flowers.'),
+      N('Warm days and new flowers mean spring!'),
+    ]),
   ],
   'Your child linked opening flowers to spring.',
 );
@@ -251,7 +261,10 @@ const BIRD_LESSONS: Beat[] = [
     'science',
     'shy animals need slow, quiet people',
     'K-ESS3-3',
-    [N('Shy animals get scared by fast moves and loud noises.'), N('Slow and quiet helps them feel safe.')],
+    [
+      N('Shy animals get scared by fast moves and loud noises.'),
+      N('Slow and quiet helps them feel safe.'),
+    ],
     'Your child heard how to be gentle around a shy wild animal.',
   ),
 ];
@@ -290,7 +303,11 @@ const NEST_PAYOFF: Record<'fed' | 'waited' | 'fed-collector' | 'waited-collector
   ],
 };
 const nestScene = (of: string, payoff: keyof typeof NEST_PAYOFF): EduScene => {
-  const lines = [...NEST_OPEN, ...NEST_PAYOFF[payoff], NO('There. She came straight home.', 'soft')];
+  const lines = [
+    ...NEST_OPEN,
+    ...NEST_PAYOFF[payoff],
+    NO('There. She came straight home.', 'soft'),
+  ];
   return sc(of, lines, [
     doIt(
       1,
@@ -298,7 +315,10 @@ const nestScene = (of: string, payoff: keyof typeof NEST_PAYOFF): EduScene => {
       'count to 4',
       'K.CC.B.5',
       'edu:count:chicks:4',
-      [N('(Count the chicks together: one, two, three, four.)'), TI('Four! I counted them loads of times.', 'happy')],
+      [
+        N('(Count the chicks together: one, two, three, four.)'),
+        TI('Four! I counted them loads of times.', 'happy'),
+      ],
       'Your child counted four chicks.',
     ),
     notice(
@@ -318,7 +338,7 @@ const nestScene = (of: string, payoff: keyof typeof NEST_PAYOFF): EduScene => {
 // ---------------------------------------------------------------- step 14: sunrise
 const SUNRISE: Line[] = [
   N('The sun peeps over the hills. The light runs down into the valley.'),
-  N('First the tall rock called the Tooth. Then the roofs. Then the waterfall.'),
+  N('First the tall rock called the Tooth, then the roofs, then the waterfall.'),
   N('Then the tide pools, flash! Then the Grove: the pond, the cottage, the hill.'),
   TI('Oh!', 'shock'),
   NO('There. The whole valley, all at once.', 'soft'),
@@ -326,13 +346,18 @@ const SUNRISE: Line[] = [
 const POSTS_LIT = N('Down in the Grove, four little lights shine, one on each post.');
 const POSTS_KEPT = N('Down in the Grove, three lights shine steady. One only flickers.');
 const VALLEY_CLIMBS: Line[] = [
-  N('Then more lights climb the far hill: lanterns! Lots of them!'),
-  N('Everyone in the valley walked up the hill to wave back.'),
+  N('Then more lights climb Gran Hazel’s hill: lanterns! Lots of them!'),
+  N('Everyone in the valley walked up her hill to watch.'),
   NO('They came. They all came.', 'shock'),
 ];
 const LANTERN_HIGH = N('You hold Gran Hazel’s lantern up high. Nova helps you hold it.');
 const lightsScene = (of: string, told: boolean, kept: boolean): EduScene => {
-  const lines = [...SUNRISE, kept ? POSTS_KEPT : POSTS_LIT, ...(told ? VALLEY_CLIMBS : []), LANTERN_HIGH];
+  const lines = [
+    ...SUNRISE,
+    kept ? POSTS_KEPT : POSTS_LIT,
+    ...(told ? VALLEY_CLIMBS : []),
+    LANTERN_HIGH,
+  ];
   const count = kept
     ? ask(
         5,
@@ -352,7 +377,10 @@ const lightsScene = (of: string, told: boolean, kept: boolean): EduScene => {
         'count to 4, even when things look small',
         'K.CC.B.5',
         'edu:count:posts:4',
-        [N('(Point and count the tiny lights: one, two, three, four.)'), NO('Four. All lit. Good.', 'soft')],
+        [
+          N('(Point and count the tiny lights: one, two, three, four.)'),
+          NO('Four. All lit. Good.', 'soft'),
+        ],
         'Your child counted four lights, even far away.',
       );
   return sc(of, lines, [count]);
@@ -453,7 +481,11 @@ const homeScene = (of: string, eternal: boolean): EduScene => {
       'RL.K.3',
       [N('What happened first, on this big adventure?')],
       [
-        opt('Tea on the hill', [N('Yes! First tea, then the cart, the bird, the lantern… and last, the sunrise.')], true),
+        opt(
+          'Tea on the hill',
+          [N('Yes! First tea, then the lantern, the cart, the bird… and last, the sunrise.')],
+          true,
+        ),
         opt('The sunrise', [N('The sunrise came last! First was tea on the hill, with Nova.')]),
       ],
       'Your child retold what happened first and last in the story.',
@@ -483,7 +515,10 @@ const S24_SCENES: EduScene[] = [
         'count to 3',
         'K.CC.B.5',
         'edu:count:cups:3',
-        [N('(Count Nova’s cups of tea together: one, two, three.)'), NO('Three cups. That’s a record for me.', 'happy')],
+        [
+          N('(Count Nova’s cups of tea together: one, two, three.)'),
+          NO('Three cups. That’s a record for me.', 'happy'),
+        ],
         'Your child counted three cups.',
       ),
     ],
@@ -510,10 +545,14 @@ const S24_SCENES: EduScene[] = [
         'D2.His.2.K-2',
         [N('Gran Hazel was old. Was she ever young, like you?')],
         [
-          opt('Yes, once!', [
-            N('Yes! Every old person was a baby, then a child, then young.'),
-            N('Gran Hazel was nineteen when she wrote this list!'),
-          ], true),
+          opt(
+            'Yes, once!',
+            [
+              N('Yes! Every old person was a baby, then a child, then young.'),
+              N('Gran Hazel was nineteen when she wrote this list!'),
+            ],
+            true,
+          ),
           opt('No, never', [
             N('Every grown-up was a child once. Even Gran Hazel!'),
             N('She was nineteen when she wrote this list.'),
@@ -540,7 +579,10 @@ const S24_SCENES: EduScene[] = [
         'a tick on a list means “done”',
         'ELOF: Literacy',
         'edu:draw:shape:tick',
-        [N('A tick means “done”. No tick means “not done yet”.'), N('(Draw a tick in the air with your finger.)')],
+        [
+          N('A tick means “done”. No tick means “not done yet”.'),
+          N('(Draw a tick in the air with your finger.)'),
+        ],
         'Your child learned how a tick marks something done on a list.',
       ),
     ],
@@ -623,7 +665,10 @@ const S24_SCENES: EduScene[] = [
         'count to 4',
         'K.CC.B.5',
         'edu:count:badges:4',
-        [N('(Count Tilly’s badges on your fingers: one, two, three, four.)'), TI('Four! One more makes five.', 'happy')],
+        [
+          N('(Count Tilly’s badges on your fingers: one, two, three, four.)'),
+          TI('Four! One more makes five.', 'happy'),
+        ],
         'Your child counted four badges and heard that one more makes five.',
       ),
     ],
@@ -668,10 +713,19 @@ const S24_SCENES: EduScene[] = [
         'sel',
         'letting friends help',
         'ELOF: Social and Emotional Development',
-        [N('Nova’s bag is too heavy. But she says no to help.'), N('Is it OK to let a friend help?')],
         [
-          opt('Yes, friends can help', [N('Yes. Letting a friend help is fine. It makes heavy things lighter.')], true),
-          opt('No, do it alone', [N('Some things are too heavy for one. Friends can help, and that’s OK.')]),
+          N('Nova’s bag is too heavy. But she says no to help.'),
+          N('Is it OK to let a friend help?'),
+        ],
+        [
+          opt(
+            'Yes, friends can help',
+            [N('Yes. Letting a friend help is fine. It makes heavy things lighter.')],
+            true,
+          ),
+          opt('No, do it alone', [
+            N('Some things are too heavy for one. Friends can help, and that’s OK.'),
+          ]),
         ],
         'Your child talked about letting friends help with something hard.',
       ),
@@ -720,7 +774,10 @@ const S24_SCENES: EduScene[] = [
         'birds call to each other',
         'ELOF: Scientific Reasoning',
         'edu:copy:sound:creak-creak',
-        [N('(Make the bird’s call together: creak-creak!)'), N('Birds call to tell each other, “Here I am!”')],
+        [
+          N('(Make the bird’s call together: creak-creak!)'),
+          N('Birds call to tell each other, “Here I am!”'),
+        ],
         'Your child copied a bird call and heard that birds call to each other.',
       ),
     ],
@@ -798,8 +855,15 @@ const S24_SCENES: EduScene[] = [
         'K-ESS3-1',
         [N('Where is the best home for a wild bird?')],
         [
-          opt('Outside, where it lives', [N('Yes. Wild birds need space, their own food, and their families.')], true),
-          opt('In a cage', [N('A cage is too small for a wild bird.'), N('It needs to be free, near its family.')]),
+          opt(
+            'Outside, where it lives',
+            [N('Yes. Wild birds need space, their own food, and their families.')],
+            true,
+          ),
+          opt('In a cage', [
+            N('A cage is too small for a wild bird.'),
+            N('It needs to be free, near its family.'),
+          ]),
         ],
         'Your child learned that wild animals need to live free in their own homes.',
       ),
@@ -839,8 +903,14 @@ const S24_SCENES: EduScene[] = [
         'CASEL: Responsible decision-making',
         [N('Tilly ran off in the dark. On a walk, what should children do?')],
         [
-          opt('Stay close to their grown-up', [N('Yes. Staying close keeps everyone safe, and nobody gets lost.')], true),
-          opt('Run off on their own', [N('Running off can mean getting lost. Stay close to your grown-up.')]),
+          opt(
+            'Stay close to their grown-up',
+            [N('Yes. Staying close keeps everyone safe, and nobody gets lost.')],
+            true,
+          ),
+          opt('Run off on their own', [
+            N('Running off can mean getting lost. Stay close to your grown-up.'),
+          ]),
         ],
         'Your child talked about staying close to a grown-up on walks.',
       ),
@@ -867,7 +937,11 @@ const S24_SCENES: EduScene[] = [
         'ELOF: Social and Emotional Development',
         [N('Nova feels awful. What can a friend do?')],
         [
-          opt('Sit with her, and wait', [N('Yes. Sitting close says, “I’m here.” You don’t need words.')], true),
+          opt(
+            'Sit with her, and wait',
+            [N('Yes. Sitting close says, “I’m here.” You don’t need words.')],
+            true,
+          ),
           opt('Tell her to cheer up', [
             N('Cheering up takes time. Sitting close, and waiting, helps more.'),
           ]),
@@ -894,8 +968,14 @@ const S24_SCENES: EduScene[] = [
         '1-PS4-2',
         [N('Why can we see Nova’s face now?')],
         [
-          opt('The lantern makes light', [N('Yes! We need light to see. In the dark, we can’t see much.')], true),
-          opt('Nova got bigger', [N('Nova is the same size! The lantern makes light, so now we can see.')]),
+          opt(
+            'The lantern makes light',
+            [N('Yes! We need light to see. In the dark, we can’t see much.')],
+            true,
+          ),
+          opt('Nova got bigger', [
+            N('Nova is the same size! The lantern makes light, so now we can see.'),
+          ]),
         ],
         'Your child learned that we need light to see things.',
       ),
@@ -913,7 +993,7 @@ const S24_SCENES: EduScene[] = [
       NO('“Sunny. Moss sat on my foot all day. Best day this year.”', 'soft'),
       N('The very last page has one more line, just for Nova.'),
       H('“Thank you for all of it. Now go and find somewhere new!”', 'soft'),
-      N('Nova cries and cries. That’s all right. Crying lets sad feelings out.'),
+      N('Nova cries and cries. Crying lets sad feelings out, and that’s all right.'),
       N('Your Nubbin leans on her. You stay close.'),
     ],
     [
@@ -948,10 +1028,11 @@ const S24_SCENES: EduScene[] = [
         'ELOF: Social and Emotional Development',
         [N('Nova is crying. How does she feel?')],
         [
-          opt('Sad. She misses Gran Hazel.', [
-            N('Yes. Missing someone can make us cry.'),
-            N('A hug and a friend close by help.'),
-          ], true),
+          opt(
+            'Sad. She misses Gran Hazel.',
+            [N('Yes. Missing someone can make us cry.'), N('A hug and a friend close by help.')],
+            true,
+          ),
           opt('Cross', [N('Not cross. She is sad. She misses Gran Hazel. A friend helps.')]),
         ],
         'Your child named sadness and missing someone, and what helps.',
@@ -979,8 +1060,14 @@ const S24_SCENES: EduScene[] = [
         'K-2-ETS1-1',
         [N('Which stones go at the bottom: big flat ones, or small round ones?')],
         [
-          opt('Big flat ones', [N('Yes! Big flat stones make a strong base. Round ones would roll.')], true),
-          opt('Small round ones', [N('Round ones roll away! Big flat stones at the bottom keep the pile steady.')]),
+          opt(
+            'Big flat ones',
+            [N('Yes! Big flat stones make a strong base. Round ones would roll.')],
+            true,
+          ),
+          opt('Small round ones', [
+            N('Round ones roll away! Big flat stones at the bottom keep the pile steady.'),
+          ]),
         ],
         'Your child worked out how to build a steady pile.',
       ),
@@ -1079,7 +1166,10 @@ const S24_SCENES: EduScene[] = [
         'calming down with slow breaths',
         'CASEL: Self-management',
         'edu:breathe:slow:untangle',
-        [N('(Take a slow breath with Nova. In… and out.)'), N('Slow hands untangle knots. Fast hands make more!')],
+        [
+          N('(Take a slow breath with Nova. In… and out.)'),
+          N('Slow hands untangle knots. Fast hands make more!'),
+        ],
         'Your child practised slow breathing to stay calm and careful.',
       ),
     ],
@@ -1103,7 +1193,11 @@ const S24_SCENES: EduScene[] = [
         'K-ESS3-3',
         [N('The wild bird walks close. Should Fairweather grab her?')],
         [
-          opt('No, just look', [N('Yes. With wild animals, we look, and keep our hands to ourselves.')], true),
+          opt(
+            'No, just look',
+            [N('Yes. With wild animals, we look, and keep our hands to ourselves.')],
+            true,
+          ),
           opt('Yes, grab her', [N('Grabbing would scare her. With wild animals, we just look.')]),
         ],
         'Your child learned to look at wild animals without touching.',
@@ -1128,7 +1222,10 @@ const S24_SCENES: EduScene[] = [
         'social-studies',
         'the sun comes up in the east',
         'D2.Geo.2.K-2',
-        [NO('The sun comes up on the same side every morning.'), NO('That side has a name. Do you know it?')],
+        [
+          NO('The sun comes up on the same side every morning.'),
+          NO('That side has a name. Do you know it?'),
+        ],
         [
           opt('East', [NO('Yes! East. The sun comes up in the east, every single day.')], true),
           opt('Up', [NO('Good guess! That side is called east. The sun comes up in the east.')]),
@@ -1156,7 +1253,10 @@ const S24_SCENES: EduScene[] = [
         'the letter H',
         'ELOF: Literacy',
         'edu:trace:letter:h',
-        [N('“Helping” starts with H. H-h-helping!'), N('(Draw an H in the air: down, down, across.)')],
+        [
+          N('“Helping” starts with H. H-h-helping!'),
+          N('(Draw an H in the air: down, down, across.)'),
+        ],
         'Your child heard the first sound of a word and drew the letter H.',
       ),
     ],
@@ -1171,14 +1271,26 @@ const S24: EduQuest = {
   band: 'sprout',
   title: 'The Adventure Book',
   goals: {
-    's24-step1': { goal: 'Sit with Nova by Gran Hazel’s flower.', hint: 'Walk up the hill. Sit down next to Nova.' },
-    's24-step2': { goal: 'Look at the front of Nova’s big book.', hint: 'Stay sitting by Nova. Look at the first page.' },
-    's24-step3': { goal: 'Fetch Gran Hazel’s lantern.', hint: 'It hangs on a hook by the cottage door.' },
+    's24-step1': {
+      goal: 'Sit with Nova by Gran Hazel’s flower.',
+      hint: 'Walk up the hill. Sit down next to Nova.',
+    },
+    's24-step2': {
+      goal: 'Look at the front of Nova’s big book.',
+      hint: 'Stay sitting by Nova. Look at the first page.',
+    },
+    's24-step3': {
+      goal: 'Fetch Gran Hazel’s lantern.',
+      hint: 'It hangs on a hook by the cottage door.',
+    },
     's24-step4': {
       goal: 'Put Nova’s bag on the cart. Who is giggling?',
       hint: 'Lift the cover at the back of the cart.',
     },
-    's24-step5': { goal: 'Climb up beside the waterfall.', hint: 'Follow your Nubbin. Step where it steps.' },
+    's24-step5': {
+      goal: 'Climb up beside the waterfall.',
+      hint: 'Follow your Nubbin. Step where it steps.',
+    },
     's24-step6': {
       goal: 'Meet the big bird gently.',
       hint: 'Hold out a bun, or sit and wait. Both are kind.',
@@ -1187,15 +1299,30 @@ const S24: EduQuest = {
       goal: 'Follow the bird’s footprints.',
       hint: 'Big footprints with three toes. Your Nubbin finds the next one.',
     },
-    's24-step8': { goal: 'Wait at the camp until evening.', hint: 'Sit by the tent while the sky gets dark.' },
+    's24-step8': {
+      goal: 'Wait at the camp until evening.',
+      hint: 'Sit by the tent while the sky gets dark.',
+    },
     's24-step9': {
       goal: 'Light Gran Hazel’s lantern for Nova.',
       hint: 'Sit with Nova first. Then give her the lantern.',
     },
-    's24-step10': { goal: 'Stay with Nova while she is sad.', hint: 'Sit still. There is no hurry.' },
-    's24-step11': { goal: 'Help Nova make a pile of stones.', hint: 'Big flat stones at the bottom. Take your time.' },
-    's24-step12': { goal: 'Follow Tilly’s whistle.', hint: 'Walk towards the whistle. Hold the lantern low.' },
-    's24-step13': { goal: 'Help untangle the net.', hint: 'One loop at a time. Your Nubbin holds the end.' },
+    's24-step10': {
+      goal: 'Stay with Nova while she is sad.',
+      hint: 'Sit still. There is no hurry.',
+    },
+    's24-step11': {
+      goal: 'Help Nova make a pile of stones.',
+      hint: 'Big flat stones at the bottom. Take your time.',
+    },
+    's24-step12': {
+      goal: 'Follow Tilly’s whistle.',
+      hint: 'Walk towards the whistle. Hold the lantern low.',
+    },
+    's24-step13': {
+      goal: 'Help untangle the net.',
+      hint: 'One loop at a time. Your Nubbin holds the end.',
+    },
     's24-step14': {
       goal: 'Put the lantern on the high rock at sunrise.',
       hint: 'Face the Grove. Then wait for the sun.',
@@ -1229,15 +1356,15 @@ const S24_VARIANTS: EduScene[] = [
     [
       ask(
         8,
-        'maths',
-        'positions: on and under',
-        'K.G.A.1',
-        [N('Where is Moss sitting now?')],
+        'literacy',
+        'rhymes: hat',
+        'RF.K.2',
+        [N('Moss sits on your shoulder like a little hat. What rhymes with “hat”?')],
         [
-          opt('On your shoulder', [N('Yes! On your shoulder, like a little hat.')], true),
-          opt('Under your foot', [N('Not under your foot! He’s up on your shoulder.')]),
+          opt('Cat', [N('Yes! Hat, cat. They rhyme. A cat could sit on your shoulder too!')], true),
+          opt('Dog', [N('Hat, dog: listen to the ends. Hat, cat! Cat rhymes with hat.')]),
         ],
-        'Your child used position words: on and under.',
+        'Your child listened for a rhyme.',
       ),
     ],
   ),
@@ -1249,21 +1376,26 @@ const S24_VARIANTS: EduScene[] = [
       N('Moss died too. His flower grows by the flat stone where he sat.'),
       N('There’s just room between the two flowers. Nova sits there.'),
       NO('Both of you. I’ll sit in the middle.', 'soft'),
-      TEA_RUN,
       ...TEA_CLOSE,
     ],
     [
       ask(
-        7,
-        'maths',
-        'positions: between',
-        'K.G.A.1',
-        [N('Nova sits in the middle. What word means “in the middle of two things”?')],
+        6,
+        'science',
+        'what plants need to grow',
+        'K-LS1-1',
+        [N('The two flowers grow side by side. What do flowers need to grow?')],
         [
-          opt('Between', [N('Yes! Nova sits between the two flowers, close to both friends.')], true),
-          opt('Behind', [N('Behind means at the back. In the middle is “between”.')]),
+          opt(
+            'Sunshine and rain',
+            [N('Yes! Flowers need sunshine, rain and good soil. The hill has all three.')],
+            true,
+          ),
+          opt('Toys and sweets', [
+            N('Ha! Flowers don’t eat sweets. They need sunshine, rain and good soil.'),
+          ]),
         ],
-        'Your child used the position word “between”.',
+        'Your child learned what plants need to grow.',
       ),
     ],
   ),
@@ -1275,7 +1407,6 @@ const S24_VARIANTS: EduScene[] = [
       N('Sable comes up the path. She sits near Nova, looking at the far hills.'),
       NO('Hello, grey one. Are you thinking of going exploring?', 'soft'),
       N('Sable says nothing. Her ears stay up.'),
-      TEA_RUN,
       ...TEA_CLOSE,
     ],
     [
@@ -1286,8 +1417,14 @@ const S24_VARIANTS: EduScene[] = [
         'ELOF: Scientific Reasoning',
         [N('Sable’s ears are up. What might that mean?')],
         [
-          opt('She’s listening and curious', [N('Yes! Ears up often means listening, and curious.')], true),
-          opt('She’s asleep', [N('Sleepy animals often lie down with their ears flat. Ears up means listening!')]),
+          opt(
+            'She’s listening and curious',
+            [N('Yes! Ears up often means listening, and curious.')],
+            true,
+          ),
+          opt('She’s asleep', [
+            N('Sleepy animals often lie down with their ears flat. Ears up means listening!'),
+          ]),
         ],
         'Your child read an animal’s body language.',
       ),
@@ -1310,8 +1447,14 @@ const S24_VARIANTS: EduScene[] = [
         'ELOF: Social and Emotional Development',
         [N('Moss has turned his back. How might he feel?')],
         [
-          opt('Sad, or upset', [N('Yes. Turning away can mean “I’m upset.” Giving him time helps.')], true),
-          opt('Happy and silly', [N('Look again: back turned, not looking. He seems upset. Giving him time helps.')]),
+          opt(
+            'Sad, or upset',
+            [N('Yes. Turning away can mean “I’m upset.” Giving him time helps.')],
+            true,
+          ),
+          opt('Happy and silly', [
+            N('Look again: back turned, not looking. He seems upset. Giving him time helps.'),
+          ]),
         ],
         'Your child read body language: turning away can mean feeling upset.',
       ),
@@ -1337,8 +1480,14 @@ const S24_VARIANTS: EduScene[] = [
         'CASEL: Responsible decision-making',
         [N('Corvin lends you the lantern. What do we do with borrowed things?')],
         [
-          opt('Look after it, and give it back', [N('Yes. Looking after it, and bringing it back, keeps a promise.')], true),
-          opt('Keep it forever', [N('Borrowed things go back! Looking after them, and returning them, is kind.')]),
+          opt(
+            'Look after it, and give it back',
+            [N('Yes. Looking after it, and bringing it back, keeps a promise.')],
+            true,
+          ),
+          opt('Keep it forever', [
+            N('Borrowed things go back! Looking after them, and returning them, is kind.'),
+          ]),
         ],
         'Your child talked about looking after borrowed things and giving them back.',
       ),
@@ -1363,7 +1512,11 @@ const S24_VARIANTS: EduScene[] = [
         'ELOF: Social and Emotional Development',
         [N('Tilly sees you. How does she feel?')],
         [
-          opt('Happy to see a friend', [N('Yes! Her face lights up. Seeing a friend feels good.')], true),
+          opt(
+            'Happy to see a friend',
+            [N('Yes! Her face lights up. Seeing a friend feels good.')],
+            true,
+          ),
           opt('Scared', [N('Not scared! She’s smiling. She’s happy to see a friend.')]),
         ],
         'Your child noticed a character’s happy feeling.',
@@ -1388,7 +1541,10 @@ const S24_VARIANTS: EduScene[] = [
         'remembering someone who died',
         'ELOF: Social and Emotional Development',
         'edu:share:memory:happy',
-        [N('(Tell each other one happy thing you remember about someone.)'), NO('Remembering keeps them close.', 'soft')],
+        [
+          N('(Tell each other one happy thing you remember about someone.)'),
+          NO('Remembering keeps them close.', 'soft'),
+        ],
         'Your child shared a happy memory, as one way to remember someone.',
       ),
     ],
@@ -1403,16 +1559,22 @@ const S24_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        1,
-        'maths',
-        'positions: on top of and at the bottom',
-        'K.G.A.1',
-        [N('Where is the Eternal: on top of the hill, or at the bottom?')],
+        2,
+        'sel',
+        'goodbyes are not forever',
+        'ELOF: Social and Emotional Development',
+        [N('The Eternal stays at home. Will you see it again?')],
         [
-          opt('On top of the hill', [N('Yes! On top, where it can see everything.')], true),
-          opt('At the bottom', [N('The cart is at the bottom. The Eternal is on top of the hill!')]),
+          opt(
+            'Yes, when we get home',
+            [N('Yes! Goodbye isn’t forever. It will be waiting for you.')],
+            true,
+          ),
+          opt('No, never', [
+            N('Don’t worry! It stays right here. It will be waiting when you get home.'),
+          ]),
         ],
-        'Your child used position words: on top and at the bottom.',
+        'Your child talked about short goodbyes: the ones we leave at home are still there when we come back.',
       ),
     ],
   ),
@@ -1440,15 +1602,15 @@ const S24_VARIANTS: EduScene[] = [
     [
       ask(
         2,
-        'maths',
-        'near and far',
-        'K.MD.A.2',
+        'science',
+        'far-away things look small',
+        'ELOF: Scientific Reasoning',
         [N('From up here, is Moss’s hill near, or far away?')],
         [
           opt('Far away', [N('Yes! Far away. That’s why it looks so tiny.')], true),
           opt('Near', [N('It looks tiny because it’s far away. Near things look big.')]),
         ],
-        'Your child compared near and far.',
+        'Your child noticed that far-away things look smaller.',
       ),
     ],
   ),
@@ -1497,8 +1659,14 @@ const S24_VARIANTS: EduScene[] = [
         'CASEL: Relationship skills',
         [N('Corvin said, “Bring it back lit.” Did you?')],
         [
-          opt('Yes, we did!', [N('Yes! You kept your promise. Keeping promises helps people trust you.')], true),
-          opt('No', [N('Look: it’s still glowing! You kept your promise. That helps people trust you.')]),
+          opt(
+            'Yes, we did!',
+            [N('Yes! You kept your promise. Keeping promises helps people trust you.')],
+            true,
+          ),
+          opt('No', [
+            N('Look: it’s still glowing! You kept your promise. That helps people trust you.'),
+          ]),
         ],
         'Your child talked about keeping a promise.',
       ),
@@ -1523,7 +1691,11 @@ const S24_VARIANTS: EduScene[] = [
         'K-ESS3-3',
         [N('Why won’t Fairweather say where the nest is?')],
         [
-          opt('To keep the birds safe', [N('Yes. If nobody knows, nobody can bother the chicks.')], true),
+          opt(
+            'To keep the birds safe',
+            [N('Yes. If nobody knows, nobody can bother the chicks.')],
+            true,
+          ),
           opt('She forgot', [N('She didn’t forget! She keeps it secret, so the birds stay safe.')]),
         ],
         'Your child learned that keeping a nest secret can keep wild birds safe.',

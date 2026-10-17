@@ -39,7 +39,8 @@ type Beat = Omit<Lesson, 'id'>;
 type Opt = NonNullable<Lesson['options']>[number];
 
 /** One answer option. `best` marks the answer the lesson teaches. */
-const opt = (label: string, reply: Line[], best = false): Opt => (best ? { label, best, reply } : { label, reply });
+const opt = (label: string, reply: Line[], best = false): Opt =>
+  best ? { label, best, reply } : { label, reply };
 
 /** One sprout scene. Lesson ids are `sprout:<of>-l<n>`, numbered in play order. */
 const sc = (
@@ -53,7 +54,9 @@ const sc = (
   band: 'sprout',
   lines,
   ...extra,
-  lessons: [...beats].sort((a, b) => a.after - b.after).map((b, i) => ({ id: `sprout:${of}-l${i + 1}`, ...b })),
+  lessons: [...beats]
+    .sort((a, b) => a.after - b.after)
+    .map((b, i) => ({ id: `sprout:${of}-l${i + 1}`, ...b })),
 });
 
 // ================================================================== shared pieces
@@ -148,11 +151,16 @@ const SCENES: EduScene[] = [
         after: 8,
         prompt: [N('Dusty’s home is a hole in the ground. Which animal lives underground too?')],
         options: [
-          opt('A rabbit', [MA('Yes! Rabbits dig burrows. So do moles and badgers.', 'happy')], true),
+          opt(
+            'A rabbit',
+            [MA('Yes! Rabbits dig burrows. So do moles and badgers.', 'happy')],
+            true,
+          ),
           opt('A fish', [MA('Fish live in the water. Rabbits live in burrows under the ground.')]),
           opt('A bird', [MA('Most birds live in nests. Rabbits dig burrows under the ground.')]),
         ],
-        parentNote: 'Learned that some animals, like rabbits and moles, make their homes underground.',
+        parentNote:
+          'Learned that some animals, like rabbits and moles, make their homes underground.',
       },
     ],
   ),
@@ -203,11 +211,16 @@ const SCENES: EduScene[] = [
         after: 1,
         prompt: [N('What do we put on before we get in a boat?')],
         options: [
-          opt('A life vest', [MA('Yes! A vest helps you float. And a grown-up always comes too.', 'happy')], true),
+          opt(
+            'A life vest',
+            [MA('Yes! A vest helps you float. And a grown-up always comes too.', 'happy')],
+            true,
+          ),
           opt('Wellies', [MA('Wellies are good for puddles. In a boat, we wear a vest.')]),
           opt('A sun hat', [MA('A hat is for sun. A vest keeps you safe on water.')]),
         ],
-        parentNote: 'Talked about water safety: always a life vest, and always a grown-up, in a boat.',
+        parentNote:
+          'Talked about water safety: always a life vest, and always a grown-up, in a boat.',
       },
     ],
   ),
@@ -221,7 +234,7 @@ const SCENES: EduScene[] = [
       DU('Wait! Stop! Nobody could eat all that!', 'shock'),
       N('Bubbles in the water. Pop, pop! Then a brown, whiskery head.'),
       N('Then a small round head. It’s a baby otter!'),
-      MA('Shh. That’s his dad. I call the little one Portly.', 'soft'),
+      MA('Shh. That’s the old otter. I call the little one Portly.', 'soft'),
       N('Portly climbs out. He grabs a gherkin and runs. Drip, drip!'),
       DU('He took a gherkin! He looked right at me!', 'shock'),
     ],
@@ -250,7 +263,8 @@ const SCENES: EduScene[] = [
           MA('Otters live by rivers. They swim, and they catch fish.', 'soft'),
           MA('Their fur is so thick, they stay warm in cold water.'),
         ],
-        parentNote: 'Learned that otters live by rivers, catch fish and have thick fur to keep warm.',
+        parentNote:
+          'Learned that otters live by rivers, catch fish and have thick fur to keep warm.',
       },
     ],
   ),
@@ -276,8 +290,14 @@ const SCENES: EduScene[] = [
         after: 5,
         prompt: [N('Everybody bobbed up. What helped them float?')],
         options: [
-          opt('Their cork vests', [MA('Yes! Cork floats, so the vests hold us up. We always wear them.', 'happy')], true),
-          opt('They held their breath', [MA('That doesn’t keep you up for long. The cork vests did!')]),
+          opt(
+            'Their cork vests',
+            [MA('Yes! Cork floats, so the vests hold us up. We always wear them.', 'happy')],
+            true,
+          ),
+          opt('They held their breath', [
+            MA('That doesn’t keep you up for long. The cork vests did!'),
+          ]),
           opt('Their boots', [MA('Boots get heavy in water! It was the cork vests.')]),
         ],
         parentNote: 'Learned that cork floats, and that life vests hold us up in the water.',
@@ -289,7 +309,7 @@ const SCENES: EduScene[] = [
     's29-fire',
     [
       N('Marina gets everyone out. Then the basket. Then the boat.'),
-      N('She makes a little fire. Dusty sits in the rug.'),
+      N('She makes a little fire. Dusty sits by it, wrapped in the rug.'),
       DU('I’m sorry. I tipped your boat. I spoiled the picnic.', 'sad'),
       MA('Never mind. Honestly. Never mind.', 'soft'),
       DU('The cheese is in the river!'),
@@ -306,7 +326,11 @@ const SCENES: EduScene[] = [
         after: 3,
         prompt: [N('Dusty said sorry. What did Marina do?')],
         options: [
-          opt('She forgave Dusty', [N('Yes. She said “never mind”. Now Dusty can feel better.')], true),
+          opt(
+            'She forgave Dusty',
+            [N('Yes. She said “never mind”. Now Dusty can feel better.')],
+            true,
+          ),
           opt('She shouted', [N('Listen again. Marina didn’t shout. She said “never mind”.')]),
           opt('She went home', [N('She stayed! She said “never mind”, and made a fire.')]),
         ],
@@ -378,7 +402,7 @@ const SCENES: EduScene[] = [
     [
       N('Portly carries his present home along the bank.'),
       N('He stops to look at it. Then he goes on.'),
-      DU('He never takes things from you. That means he likes you!', 'happy'),
+      DU('He never steals your things. That means he likes you!', 'happy'),
       MA('Same time next week. And nobody stands up in my boat!', 'happy'),
     ],
     [
@@ -390,7 +414,11 @@ const SCENES: EduScene[] = [
         after: 3,
         prompt: [N('Think about today. What happened first?')],
         options: [
-          opt('Marina gave a rowing lesson', [N('Yes! First the lesson. Next the present. Last, Portly went home.')], true),
+          opt(
+            'Marina gave a rowing lesson',
+            [N('Yes! First the lesson. Next the present. Last, Portly went home.')],
+            true,
+          ),
           opt('Portly went home', [N('That was last! First came the rowing lesson.')]),
         ],
         parentNote: 'Put the day’s events in order: first, next, last.',
@@ -420,9 +448,15 @@ const SCENES: EduScene[] = [
         after: 7,
         prompt: [N('If you get lost, what is a good thing to do?')],
         options: [
-          opt('Stay still and call out', [MA('Yes. Stay still and call. Then grown-ups can find you.', 'soft')], true),
+          opt(
+            'Stay still and call out',
+            [MA('Yes. Stay still and call. Then grown-ups can find you.', 'soft')],
+            true,
+          ),
           opt('Run and run', [MA('Running can make you more lost. Stay still and call out.')]),
-          opt('Hide and keep quiet', [MA('Then nobody can hear you! Stay still and call out loud.')]),
+          opt('Hide and keep quiet', [
+            MA('Then nobody can hear you! Stay still and call out loud.'),
+          ]),
         ],
         parentNote: 'Talked about what to do if lost: stay still and call out for help.',
       },
@@ -434,7 +468,7 @@ const SCENES: EduScene[] = [
     [
       N('You go in with the lantern. You keep talking.'),
       MA('Let’s count, all the way to ten. Ready?'),
-      N('Little eyes shine at the edge of the light. They stay back.'),
+      N('Little eyes peep at the edge of the light. Shy ones. They stay back.'),
       N('Your Nubbin hides in your coat. Only its eyes peep out.'),
       N('A tiny voice says “Ow.” It’s Dusty, in the hollow tree!'),
       DU('I only wanted a look.', 'sad'),
@@ -480,7 +514,11 @@ const SCENES: EduScene[] = [
         after: 3,
         prompt: [N('A boot-scraper is by a door. What is it for?')],
         options: [
-          opt('Scraping mud off boots', [MA('Yes! People scrape their boots before they go in. So people live here!', 'happy')], true),
+          opt(
+            'Scraping mud off boots',
+            [MA('Yes! People scrape their boots before they go in. So people live here!', 'happy')],
+            true,
+          ),
           opt('Stirring soup', [MA('Ha! No. It scrapes muddy boots, by a front door.')]),
         ],
         parentNote: 'Used a clue (a boot-scraper) to work out that people lived nearby.',
@@ -500,10 +538,17 @@ const SCENES: EduScene[] = [
         after: 6,
         prompt: [N('Granny Brock sounds cross. But is she kind?')],
         options: [
-          opt('Yes, she gives soup and a warm fire', [N('Yes! She sounds grumpy, but she is kind.')], true),
-          opt('No, she is just cross', [N('She sounds cross. But she let us in and fed us. That’s kind!')]),
+          opt(
+            'Yes, she gives soup and a warm fire',
+            [N('Yes! She sounds grumpy, but she is kind.')],
+            true,
+          ),
+          opt('No, she is just cross', [
+            N('She sounds cross. But she let us in and fed us. That’s kind!'),
+          ]),
         ],
-        parentNote: 'Noticed that what Granny Brock does (soup, fire) shows she is kind, even when she sounds cross.',
+        parentNote:
+          'Noticed that what Granny Brock does (soup, fire) shows she is kind, even when she sounds cross.',
       },
     ],
   ),
@@ -555,8 +600,14 @@ const SCENES: EduScene[] = [
         after: 4,
         prompt: [N('Dusty was scared last night. How does Dusty feel now?')],
         options: [
-          opt('Safe and better', [MA('Yes. Scared feelings pass. Friends help them pass.', 'soft')], true),
-          opt('Still very scared', [MA('Dusty is out in the sunshine now. The scared feeling is going.')]),
+          opt(
+            'Safe and better',
+            [MA('Yes. Scared feelings pass. Friends help them pass.', 'soft')],
+            true,
+          ),
+          opt('Still very scared', [
+            MA('Dusty is out in the sunshine now. The scared feeling is going.'),
+          ]),
         ],
         parentNote: 'Talked about how scared feelings pass, and how friends help.',
       },
@@ -593,7 +644,7 @@ const SCENES: EduScene[] = [
   sc(
     's29-weir',
     [
-      N('At the top of the river is a weir. Whoosh! Roar!'),
+      N('Up the river is a weir. Whoosh! Roar!'),
       N('A weir is a little wall across a river. Water spills over it.'),
       N('Above the weir is a small island, with willows and long grass.'),
       MA('Nobody lands on that island.', 'soft'),
@@ -614,7 +665,8 @@ const SCENES: EduScene[] = [
           opt('A fence', [MA('No fence! Water goes all the way round an island.')]),
           opt('Trees', [MA('This one has trees on it. But water goes all the way round.')]),
         ],
-        parentNote: 'Learned that an island is land with water all the way round, and that a weir is a low wall across a river.',
+        parentNote:
+          'Learned that an island is land with water all the way round, and that a weir is a low wall across a river.',
       },
     ],
   ),
@@ -640,7 +692,11 @@ const SCENES: EduScene[] = [
         after: 3,
         prompt: [N('Dusty misses home. What is that feeling called?')],
         options: [
-          opt('Homesick', [N('Yes. Homesick means missing your home. Lots of people feel it.')], true),
+          opt(
+            'Homesick',
+            [N('Yes. Homesick means missing your home. Lots of people feel it.')],
+            true,
+          ),
           opt('Hungry', [N('Marina is hungry! Dusty is homesick. That means missing home.')]),
           opt('Sleepy', [N('Not sleepy. Dusty is homesick. That means missing home.')]),
         ],
@@ -668,9 +724,17 @@ const SCENES: EduScene[] = [
         after: 5,
         prompt: [N('How can we help a friend who misses home?')],
         options: [
-          opt('Stay with them', [MA('Yes. Being there helps. Nobody should be sad all alone.', 'soft')], true),
-          opt('Leave them on the stump', [MA('Some people want quiet. But Dusty needs friends near. We stay.')]),
-          opt('Tell them to stop crying', [MA('Crying is okay. It lets the sad out. We sit with them.')]),
+          opt(
+            'Stay with them',
+            [MA('Yes. Being there helps. Nobody should be sad all alone.', 'soft')],
+            true,
+          ),
+          opt('Leave them on the stump', [
+            MA('Some people want quiet. But Dusty needs friends near. We stay.'),
+          ]),
+          opt('Tell them to stop crying', [
+            MA('Crying is okay. It lets the sad out. We sit with them.'),
+          ]),
         ],
         parentNote: 'Talked about how to help a friend who is homesick: stay with them.',
       },
@@ -680,7 +744,7 @@ const SCENES: EduScene[] = [
   sc(
     's29-cliffhouse',
     [
-      N('Dusty’s house is a round room inside the cliff.'),
+      N('Dusty’s house is a round room in the cliff, with a round door.'),
       N('It is dark and cold and dusty.'),
       MA('What a snug little house! Round as an egg.', 'happy'),
       DU('It’s cold. There’s nothing to eat.', 'sad'),
@@ -726,7 +790,8 @@ const SCENES: EduScene[] = [
           N('Dusty is sad. Missing someone is okay.'),
           N('Remembering Fossil helps. So do friends, and a warm fire.'),
         ],
-        parentNote: 'Heard that it is okay to feel sad when someone dies, and that remembering and friends help.',
+        parentNote:
+          'Heard that it is okay to feel sad when someone dies, and that remembering and friends help.',
       },
     ],
   ),
@@ -736,8 +801,8 @@ const SCENES: EduScene[] = [
     [
       N('The end of summer. The swallows sit in rows on the wires.'),
       MA('Portly is lost. Three days now. Nobody has seen him.', 'sad'),
-      MA('He always comes back. But not this time. And the nights are cold.'),
-      Y('Where is his dad?'),
+      MA('He always comes back. But never for this long. And the nights are cold.'),
+      Y('Where is the old otter?'),
       MA('At the ford. That’s where Portly learned to swim.'),
     ],
     [
@@ -833,10 +898,15 @@ const SCENES: EduScene[] = [
         after: 3,
         prompt: [N('Who made the little footprints in the mud?')],
         options: [
-          opt('Portly', [MA('Yes! Otter feet have skin between the toes. Good for swimming.', 'happy')], true),
+          opt(
+            'Portly',
+            [MA('Yes! Otter feet have skin between the toes. Good for swimming.', 'happy')],
+            true,
+          ),
           opt('A bird', [MA('Bird prints are thin and pointy. These are otter prints. Portly’s!')]),
         ],
-        parentNote: 'Worked out whose footprints were in the mud, and learned that otters have webbed feet.',
+        parentNote:
+          'Worked out whose footprints were in the mud, and learned that otters have webbed feet.',
       },
     ],
   ),
@@ -928,7 +998,16 @@ const SCENES: EduScene[] = [
         after: 2,
         prompt: [N('Where does this river go in the end?')],
         options: [
-          opt('To the sea', [SF('That’s right. Rivers run downhill. This one runs all the way to the sea.', 'happy')], true),
+          opt(
+            'To the sea',
+            [
+              SF(
+                'That’s right. Rivers run downhill. This one runs all the way to the sea.',
+                'happy',
+              ),
+            ],
+            true,
+          ),
           opt('Up a mountain', [SF('Water runs downhill, not up! This river runs to the sea.')]),
         ],
         parentNote: 'Learned that rivers run downhill, and that this river ends at the sea.',
@@ -955,7 +1034,11 @@ const SCENES: EduScene[] = [
         after: 4,
         prompt: [N('How does Dusty feel?')],
         options: [
-          opt('Sad and worried', [N('Yes. Dusty doesn’t want Marina to go. Friends feel like that.')], true),
+          opt(
+            'Sad and worried',
+            [N('Yes. Dusty doesn’t want Marina to go. Friends feel like that.')],
+            true,
+          ),
           opt('Happy', [N('Look at Dusty’s face. Dusty is sad and worried.')]),
         ],
         parentNote: 'Read a character’s feelings (sad and worried) from what they say and do.',
@@ -1010,8 +1093,14 @@ const SCENES: EduScene[] = [
         after: 2,
         prompt: [N('What helps the heavy boat move up the bank?')],
         options: [
-          opt('Round logs that roll', [MA('Yes! Round things roll. The boat rides on the logs.', 'happy')], true),
-          opt('Pushing with our feet', [MA('That’s hard work! The round logs roll, and help her move.')]),
+          opt(
+            'Round logs that roll',
+            [MA('Yes! Round things roll. The boat rides on the logs.', 'happy')],
+            true,
+          ),
+          opt('Pushing with our feet', [
+            MA('That’s hard work! The round logs roll, and help her move.'),
+          ]),
         ],
         parentNote: 'Saw how round logs roll to help move something heavy.',
       },
@@ -1036,8 +1125,14 @@ const SCENES: EduScene[] = [
         after: 3,
         prompt: [N('Marina was cross. Then she said thank you. What helps when we feel cross?')],
         options: [
-          opt('Time, and talking about it', [N('Yes. Cross feelings settle down. Then we can talk.')], true),
-          opt('Banging doors forever', [N('Banging helps a bit! But time and talking help more.')]),
+          opt(
+            'Time, and talking about it',
+            [N('Yes. Cross feelings settle down. Then we can talk.')],
+            true,
+          ),
+          opt('Banging doors forever', [
+            N('Banging doors doesn’t fix it. Time and talking help more.'),
+          ]),
         ],
         parentNote: 'Talked about what helps when we feel cross: time, and talking about it.',
       },
@@ -1061,7 +1156,10 @@ const VARIANTS: EduScene[] = [
         standard: 'ELOF: Social and Emotional Development',
         kind: 'notice',
         after: 9,
-        lines: [N('Dusty is sad. Sad is okay to feel.'), N('Being close to friends helps. So does a warm fire.')],
+        lines: [
+          N('Dusty is sad. Sad is okay to feel.'),
+          N('Being close to friends helps. So does a warm fire.'),
+        ],
         parentNote: 'Heard that feeling sad is okay, and that friends and warmth help.',
       },
     ],
@@ -1113,10 +1211,17 @@ const VARIANTS: EduScene[] = [
         after: 4,
         prompt: [N('What helps Dusty feel a bit better?')],
         options: [
-          opt('Remembering a happy day', [MA('Yes. Happy memories are like a warm fire inside.', 'soft')], true),
-          opt('Forgetting Fossil', [MA('We don’t need to forget. Remembering the happy days helps.')]),
+          opt(
+            'Remembering a happy day',
+            [MA('Yes. Happy memories are like a warm fire inside.', 'soft')],
+            true,
+          ),
+          opt('Forgetting Fossil', [
+            MA('We don’t need to forget. Remembering the happy days helps.'),
+          ]),
         ],
-        parentNote: 'Talked about how remembering happy times helps when we miss someone who has died.',
+        parentNote:
+          'Talked about how remembering happy times helps when we miss someone who has died.',
       },
     ],
   ),
@@ -1139,7 +1244,7 @@ const VARIANTS: EduScene[] = [
         after: 1,
         prompt: [N('What colour is the ribbon?')],
         options: [
-          opt('Red', [MA('Red! Easy to spot, even at night.', 'happy')], true),
+          opt('Red', [MA('Red! Bright in the lantern light.', 'happy')], true),
           opt('Blue', [MA('Look in the lantern light. It’s red!')]),
           opt('Yellow', [MA('Look again, in the lantern light. It’s red!')]),
         ],
@@ -1192,7 +1297,8 @@ const VARIANTS: EduScene[] = [
           MA('Good. Keep the ribbon. String in a river can catch animals.'),
           MA('We always take our things home. Then rivers stay clean.'),
         ],
-        parentNote: 'Learned that we take our things home so rivers stay clean and safe for animals.',
+        parentNote:
+          'Learned that we take our things home so rivers stay clean and safe for animals.',
       },
     ],
   ),
@@ -1291,7 +1397,11 @@ const VARIANTS: EduScene[] = [
         after: 0,
         prompt: [N('What do we do when we visit someone’s house?')],
         options: [
-          opt('Knock and wait', [N('Yes. It’s their home. We knock, and wait to be asked in.')], true),
+          opt(
+            'Knock and wait',
+            [N('Yes. It’s their home. We knock, and wait to be asked in.')],
+            true,
+          ),
           opt('Walk right in', [N('It’s their home! We knock, and wait to be asked in.')]),
         ],
         parentNote: 'Talked about visiting politely: knock and wait to be asked in.',

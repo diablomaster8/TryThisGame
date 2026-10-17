@@ -216,7 +216,7 @@ const S26: EduQuest = {
       's26-linnet',
       [
         N('The robin leads you down the lane to Old Tobin’s cottage.'),
-        N('A girl in a wheelchair is by the door. Her name is Linnet.'),
+        N('A girl in her wheelchair is by the door. Her name is Linnet.'),
         L('Back wheels first, Grandad! Back. Wheels. First.', 'angry'),
         T('Hello! I’m Tobin. I lit the lamps in this valley for years.', 'happy'),
         T('Linnet is staying with me till winter.'),
@@ -662,7 +662,7 @@ const S26: EduQuest = {
         N('Moss climbs down off the wall, slowly.'),
         N('He sits on the stone bench. He has sat here before.'),
         M('This was Hush’s bench. Her roses. Her garden.', 'soft'),
-        L('Who was Hush?'),
+        L('Go on, then. Tell us about her.'),
         M('My friend. The quiet one. She looked after sad hearts.', 'soft'),
         N('Linnet puts her brake on. Dusty sits on the path.'),
         N('You sit on the bench too. And you wait.'),
@@ -1347,11 +1347,12 @@ const S26_VARIANTS: EduScene[] = [
         standard: 'K-2-ETS1-1',
         kind: 'ask',
         after: 4,
-        prompt: [N('What is the real problem here: Linnet, or the steps?')],
+        prompt: [N('What is the real problem here: the snow, or the steps?')],
         options: [
           opt('The steps', [N('Yes! The steps are the problem. A ramp fixes it.')], true),
-          opt('Linnet', [
-            N('No. Linnet is just right. The steps are the problem. A ramp fixes it.'),
+          opt('The snow', [
+            N('The snow makes it harder.'),
+            N('But the steps stop her every day. A ramp fixes it.'),
           ]),
         ],
         parentNote: 'Worked out that the steps, not the person, were the problem to fix.',
@@ -1441,7 +1442,7 @@ const S26_VARIANTS: EduScene[] = [
       N('Linnet says its seeds will go over the old wall.'),
       N('Into his patch by Hush’s bench. Where the white pebble is.'),
       N('The robin will help, she says.'),
-      N('So Moss will grow in both places. Remembered.', 'soft'),
+      N('So Moss’s flowers will grow in both places. He is remembered.', 'soft'),
     ],
     [
       {
@@ -1476,7 +1477,7 @@ const S26_VARIANTS: EduScene[] = [
         after: 2,
         prompt: [N('The roses come out in June. Which season is that?')],
         options: [
-          opt('Summer', [N('Yes! June is summer. Warm and sunny.')], true),
+          opt('Summer', [N('Yes! Here in the Grove, June is summer. Warm and sunny.')], true),
           opt('Winter', [N('Winter is snowy. June is summer, when roses come out.')]),
         ],
         parentNote: 'Matched the month of June to summer.',

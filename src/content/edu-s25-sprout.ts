@@ -42,7 +42,8 @@ type Beat = Omit<Lesson, 'id'>;
 type Opt = NonNullable<Lesson['options']>[number];
 
 /** One answer option. `best` marks the answer the lesson teaches. */
-const opt = (label: string, reply: Line[], best = false): Opt => (best ? { label, best, reply } : { label, reply });
+const opt = (label: string, reply: Line[], best = false): Opt =>
+  best ? { label, best, reply } : { label, reply };
 
 /** One sprout scene. Lesson ids are `sprout:<of>-l<n>`, numbered in play order. */
 const sc = (
@@ -56,7 +57,9 @@ const sc = (
   band: 'sprout',
   lines,
   ...extra,
-  lessons: [...beats].sort((a, b) => a.after - b.after).map((b, i) => ({ id: `sprout:${of}-l${i + 1}`, ...b })),
+  lessons: [...beats]
+    .sort((a, b) => a.after - b.after)
+    .map((b, i) => ({ id: `sprout:${of}-l${i + 1}`, ...b })),
 });
 
 // ---------------------------------------------------------------- shared beats
@@ -76,11 +79,20 @@ const stormBeat = (after: number): Beat => ({
   after,
   prompt: [N('Your Nubbin is scared of the storm. What could help it?')],
   options: [
-    opt('Something soft to hold', [N('Yes! Something soft and cosy to hug can help us feel safe.')], true),
-    opt('Being told to stop it', [N('Being told off doesn’t help a scared feeling. Something soft to hug helps more.')]),
-    opt('Being left all alone', [N('Being alone can feel scarier. A hug, or something soft to hold, helps more.')]),
+    opt(
+      'Something soft to hold',
+      [N('Yes! Something soft and cosy to hug can help us feel safe.')],
+      true,
+    ),
+    opt('Being told to stop it', [
+      N('Being told off doesn’t help a scared feeling. Something soft to hug helps more.'),
+    ]),
+    opt('Being left all alone', [
+      N('Being alone can feel scarier. A hug, or something soft to hold, helps more.'),
+    ]),
   ],
-  parentNote: 'Talked about what helps when someone feels scared: comfort, and something soft to hold.',
+  parentNote:
+    'Talked about what helps when someone feels scared: comfort, and something soft to hold.',
 });
 
 const sillBeat: Beat = {
@@ -157,7 +169,9 @@ const codaWild = (name: ToyName): EduScene =>
         prompt: [N('Flowers are opening. Which season is it?')],
         options: [
           opt('Spring', [N('Yes! In spring, flowers open and new leaves grow.')], true),
-          opt('Winter', [N('In winter it is cold, and most flowers sleep. Flowers open in spring.')]),
+          opt('Winter', [
+            N('In winter it is cold, and most flowers sleep. Flowers open in spring.'),
+          ]),
           opt('Night-time', [N('Night isn’t a season! Spring is the season when flowers open.')]),
         ],
         parentNote: 'Linked flowers opening to the season of spring.',
@@ -202,19 +216,55 @@ const S25: EduQuest = {
   band: 'sprout',
   title: 'Real',
   goals: {
-    's25-step1': { goal: 'Open the soft parcel in the loft.', hint: 'It is on the trunk, under the little window. Pull the string.' },
-    's25-step2': { goal: 'Help Pixel mend the loft lamp.', hint: 'Hold the lamp still. Pass Pixel the small cog.' },
-    's25-step3': { goal: 'Sit on the window seat until Moss has finished.', hint: 'Sit still and wait. Moss is slow.' },
-    's25-step4': { goal: 'Give your Nubbin something soft to hold.', hint: 'Put the knitted toy in its basket.' },
-    's25-step5': { goal: 'Find the toy before bedtime.', hint: 'Take a lantern. Look by the pond.' },
-    's25-step6': { goal: 'Take the toy to Fern’s for tea.', hint: 'Your Nubbin will carry him in.' },
-    's25-step7': { goal: 'Let the wild Nubbins look at the toy.', hint: 'Stand by Moss and keep very still.' },
-    's25-step8': { goal: 'Find the right page in Gran Hazel’s book.', hint: 'Look for the page with the old horse.' },
-    's25-step9': { goal: 'Hold the toy while Clover mends him.', hint: 'Hold him still. Clover is quick.' },
-    's25-step10': { goal: 'Sit with your Nubbin all night.', hint: 'Stay by the basket. Give it water when it wakes.' },
+    's25-step1': {
+      goal: 'Open the soft parcel in the loft.',
+      hint: 'It is on the trunk, under the little window. Pull the string.',
+    },
+    's25-step2': {
+      goal: 'Help Pixel mend the loft lamp.',
+      hint: 'Hold the lamp still. Pass Pixel the small cog.',
+    },
+    's25-step3': {
+      goal: 'Sit on the window seat until Moss has finished.',
+      hint: 'Sit still and wait. Moss is slow.',
+    },
+    's25-step4': {
+      goal: 'Give your Nubbin something soft to hold.',
+      hint: 'Put the knitted toy in its basket.',
+    },
+    's25-step5': {
+      goal: 'Find the toy before bedtime.',
+      hint: 'Take a lantern. Look by the pond.',
+    },
+    's25-step6': {
+      goal: 'Take the toy to Fern’s for tea.',
+      hint: 'Your Nubbin will carry him in.',
+    },
+    's25-step7': {
+      goal: 'Let the wild Nubbins look at the toy.',
+      hint: 'Stand by Moss and keep very still.',
+    },
+    's25-step8': {
+      goal: 'Find the right page in Gran Hazel’s book.',
+      hint: 'Look for the page with the old horse.',
+    },
+    's25-step9': {
+      goal: 'Hold the toy while Clover mends him.',
+      hint: 'Hold him still. Clover is quick.',
+    },
+    's25-step10': {
+      goal: 'Sit with your Nubbin all night.',
+      hint: 'Stay by the basket. Give it water when it wakes.',
+    },
     's25-step11': { goal: 'Carry the rag bundle to the shed.', hint: 'Put it by the shed door.' },
-    's25-step12': { goal: 'Wait until morning, then go and look.', hint: 'Stay at the window seat until it is light.' },
-    's25-step13': { goal: 'Tell Moss about the warm water.', hint: 'Sit by his ledge. He will listen.' },
+    's25-step12': {
+      goal: 'Wait until morning, then go and look.',
+      hint: 'Stay at the window seat until it is light.',
+    },
+    's25-step13': {
+      goal: 'Tell Moss about the warm water.',
+      hint: 'Sit by his ledge. He will listen.',
+    },
   },
   scenes: [
     // ------------------------------------------------ step 1
@@ -313,17 +363,17 @@ const S25: EduQuest = {
       ],
       [
         {
-          domain: 'maths',
-          skill: 'count to 3',
-          standard: 'K.CC.B.5',
+          domain: 'literacy',
+          skill: 'sound words',
+          standard: 'RL.1.4',
           kind: 'do',
-          after: 4,
-          check: 'edu:count:clockwork:3',
+          after: 8,
+          check: 'edu:say:sound-words:whirr-squeak',
           lines: [
-            N('How many clockwork things? (Point and count together.)'),
-            N('Moth, one. Fan, two. Cog, three. Three!'),
+            N('Whirr! goes the moth. Squeak! goes your Nubbin.'),
+            N('(Make the sounds together: whirr, whirr! Squeak, squeak!)'),
           ],
-          parentNote: 'Counted three things, pointing at each one.',
+          parentNote: 'Joined in with sound words from the story (whirr, squeak).',
         },
       ],
     ),
@@ -452,8 +502,12 @@ const S25: EduQuest = {
           prompt: [N('Your Nubbin curls up round the toy. What shape does it make?')],
           options: [
             opt('A circle', [N('Yes! Curled up round and round, like a circle.')], true),
-            opt('A square', [N('A square has four corners. Your Nubbin has no corners! It’s a circle.')]),
-            opt('A triangle', [N('A triangle has three points. A curled-up Nubbin is round, like a circle.')]),
+            opt('A square', [
+              N('A square has four corners. Your Nubbin has no corners! It’s a circle.'),
+            ]),
+            opt('A triangle', [
+              N('A triangle has three points. A curled-up Nubbin is round, like a circle.'),
+            ]),
           ],
           parentNote: 'Named a circle in a curled-up shape.',
         },
@@ -504,8 +558,14 @@ const S25: EduQuest = {
           after: 1,
           prompt: [N('It is dark outside. What helped you find the toy?')],
           options: [
-            opt('The lantern’s light', [N('Yes! We need light to see. The lantern lit up the grass.')], true),
-            opt('Closing my eyes', [N('With eyes shut, we can’t see at all! The lantern’s light helped.')]),
+            opt(
+              'The lantern’s light',
+              [N('Yes! We need light to see. The lantern lit up the grass.')],
+              true,
+            ),
+            opt('Closing my eyes', [
+              N('With eyes shut, we can’t see at all! The lantern’s light helped.'),
+            ]),
             opt('A sock', [N('A sock can’t shine. The lantern’s light helped you see.')]),
           ],
           parentNote: 'Learned that we need light to see things in the dark.',
@@ -535,7 +595,11 @@ const S25: EduQuest = {
           after: 4,
           prompt: [N('Fern reached for the toy. How does your Nubbin feel?')],
           options: [
-            opt('Worried and cross', [N('Yes. It loves the toy, and it doesn’t want it on the floor.')], true),
+            opt(
+              'Worried and cross',
+              [N('Yes. It loves the toy, and it doesn’t want it on the floor.')],
+              true,
+            ),
             opt('Sleepy', [N('Not sleepy! That loud squeak means worried and cross.')]),
             opt('Hungry', [N('Not hungry. It is worried about its toy, and a bit cross.')]),
           ],
@@ -589,9 +653,15 @@ const S25: EduQuest = {
           after: 1,
           prompt: [N('Where do the wild Nubbins live?')],
           options: [
-            opt('In the long grass', [N('Yes! The long grass is their home. It is a good place to hide.')], true),
+            opt(
+              'In the long grass',
+              [N('Yes! The long grass is their home. It is a good place to hide.')],
+              true,
+            ),
             opt('In a teacup', [N('Too small! The wild ones live in the long grass.')]),
-            opt('On the roof', [N('Not on the roof. They live in the long grass, where they can hide.')]),
+            opt('On the roof', [
+              N('Not on the roof. They live in the long grass, where they can hide.'),
+            ]),
           ],
           parentNote: 'Talked about where animals live: a home that meets their needs.',
         },
@@ -602,7 +672,7 @@ const S25: EduQuest = {
       [
         N('Out come the wild Nubbins.'),
         N('Sniff, sniff. They bounce away. They come back.'),
-        M('That one thinks he can’t hop.', 'think'),
+        M('That one thinks your toy can’t hop.', 'think'),
         M('That one says he smells of indoors.'),
         N('Then the wild ones are gone. Whoosh!'),
         N('Your Nubbin hugs the toy tight.'),
@@ -690,8 +760,14 @@ const S25: EduQuest = {
           after: 4,
           prompt: [N('Why does your Nubbin want the old toy, not a new one?')],
           options: [
-            opt('Because it loves him', [N('Yes. Loved things stay special, even when they’re old.')], true),
-            opt('Because he’s shiny', [N('He isn’t shiny at all! He’s special because he is loved.')]),
+            opt(
+              'Because it loves him',
+              [N('Yes. Loved things stay special, even when they’re old.')],
+              true,
+            ),
+            opt('Because he’s shiny', [
+              N('He isn’t shiny at all! He’s special because he is loved.'),
+            ]),
             opt('Because he’s new', [N('He’s very old! He’s special because he is loved.')]),
           ],
           parentNote: 'Talked about why old, loved things matter to us.',
@@ -743,9 +819,15 @@ const S25: EduQuest = {
           after: 5,
           prompt: [N('What helps a poorly Nubbin get better?')],
           options: [
-            opt('Rest, water and a cuddle', [N('Yes! Rest, sips of water and someone kind nearby.')], true),
+            opt(
+              'Rest, water and a cuddle',
+              [N('Yes! Rest, sips of water and someone kind nearby.')],
+              true,
+            ),
             opt('Running races', [N('Running is for when we’re well. Poorly bodies need rest.')]),
-            opt('Staying up all night', [N('Poorly bodies need lots of sleep. Rest and water help.')]),
+            opt('Jumping on the bed', [
+              N('Not today! Poorly bodies need to lie still. Rest and water help.'),
+            ]),
           ],
           parentNote: 'Talked about what helps when we feel poorly: rest, water and care.',
         },
@@ -821,7 +903,10 @@ const S25: EduQuest = {
             id: 'gone',
             label: 'Let him go with the rag bundle.',
             set: { 's25-toy': 'gone' },
-            then: [N('You put him on top, the right way up, looking at the sky.'), CL('That’s a kind way to do it.', 'soft')],
+            then: [
+              N('You put him on top, the right way up, looking at the sky.'),
+              CL('That’s a kind way to do it.', 'soft'),
+            ],
           },
           {
             id: 'kept',
@@ -905,7 +990,11 @@ const S25: EduQuest = {
           after: 2,
           prompt: [N('You keep the button. Why?')],
           options: [
-            opt('To remember the toy', [N('Yes. Keeping something small helps us remember someone we miss.')], true),
+            opt(
+              'To remember the toy',
+              [N('Yes. Keeping something small helps us remember someone we miss.')],
+              true,
+            ),
             opt('To eat it', [N('Oh no, not for eating! It’s for remembering the toy.')]),
             opt('To throw it away', [N('You keep it safe instead. It helps you remember.')]),
           ],
@@ -944,7 +1033,11 @@ const S25: EduQuest = {
           after: 4,
           prompt: [N('Where is Moss looking?')],
           options: [
-            opt('At the long grass', [N('Yes! Past the pond, to the long grass, where the light went.')], true),
+            opt(
+              'At the long grass',
+              [N('Yes! Past the pond, to the long grass, where the light went.')],
+              true,
+            ),
             opt('At the ceiling', [N('Not up! He looks out, past the pond, to the long grass.')]),
             opt('At his toes', [N('Not down! He looks out, past the pond, to the long grass.')]),
           ],
@@ -1037,6 +1130,7 @@ export const EDU_S25_SPROUT_VARIANTS: EduScene[] = [
       CK('Announcement: I found my word already! In Nova’s book.', 'happy'),
       CK('Is Real the same word? I don’t think so.', 'think'),
       M('No. It lives next door. He’s already knocked.'),
+      N('You tell Clank what Moss said.'),
       CK('Next door! Announcement: I have a neighbour!', 'soft'),
     ],
     [
@@ -1045,12 +1139,20 @@ export const EDU_S25_SPROUT_VARIANTS: EduScene[] = [
         skill: 'being a good neighbour',
         standard: 'CASEL: Social awareness',
         kind: 'ask',
-        after: 8,
+        after: 9,
         prompt: [N('A neighbour lives next door. What do good neighbours do?')],
         options: [
-          opt('Wave and say hello', [N('Yes! Good neighbours wave, say hello and help each other.')], true),
-          opt('Hide from each other', [N('That’s not very friendly! Good neighbours wave and say hello.')]),
-          opt('Shout over the wall', [N('Shouting isn’t kind. Good neighbours wave and say hello.')]),
+          opt(
+            'Wave and say hello',
+            [N('Yes! Good neighbours wave, say hello and help each other.')],
+            true,
+          ),
+          opt('Hide from each other', [
+            N('That’s not very friendly! Good neighbours wave and say hello.'),
+          ]),
+          opt('Shout over the wall', [
+            N('Shouting isn’t kind. Good neighbours wave and say hello.'),
+          ]),
         ],
         parentNote: 'Talked about being a kind neighbour.',
       },
@@ -1064,7 +1166,7 @@ export const EDU_S25_SPROUT_VARIANTS: EduScene[] = [
       N('Byte comes up the path with an umbrella.'),
       BY('Hazel lent me a pencil. I’m bringing it back. Nine years late.', 'think'),
       N('He sees the toy on the windowsill.'),
-      BY('Fern says this toy is Real. What does Real mean?'),
+      BY('Fern says you called this toy Real. What does Real mean?'),
       BY('Hazel had a book for everything. Is there a book?'),
     ],
     [
@@ -1076,7 +1178,11 @@ export const EDU_S25_SPROUT_VARIANTS: EduScene[] = [
         after: 1,
         prompt: [N('It is raining. What keeps Byte dry?')],
         options: [
-          opt('His umbrella', [N('Yes! An umbrella keeps the rain off. Pitter-patter on top.')], true),
+          opt(
+            'His umbrella',
+            [N('Yes! An umbrella keeps the rain off. Pitter-patter on top.')],
+            true,
+          ),
           opt('A sunhat', [N('A sunhat is for sunny days. An umbrella keeps off the rain.')]),
           opt('A spoon', [N('A spoon is far too small! An umbrella keeps off the rain.')]),
         ],
@@ -1160,7 +1266,7 @@ export const EDU_S25_SPROUT_VARIANTS: EduScene[] = [
         options: [
           opt('A towel', [N('Yes! A towel is soft and thirsty. It soaks up water.')], true),
           opt('A spoon', [N('Water runs right off a spoon. A towel soaks it up.')]),
-          opt('A stone', [N('A stone stays hard and dry inside. A towel soaks up water.')]),
+          opt('A stone', [N('A stone soaks up hardly any. A towel soaks up lots!')]),
         ],
         parentNote: 'Found out that some materials, like towels, soak up water.',
       },
@@ -1308,7 +1414,7 @@ export const EDU_S25_SPROUT: EduQuest[] = [S25];
 /** Every `edu:` check string used in this file. */
 export const CHECKS: string[] = [
   'edu:say:first-sound:b',
-  'edu:count:clockwork:3',
+  'edu:say:sound-words:whirr-squeak',
   'edu:count:days:7',
   'edu:sit:still:5',
   'edu:order:toy-trip',

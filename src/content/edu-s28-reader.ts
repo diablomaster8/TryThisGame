@@ -413,7 +413,7 @@ const SCENES: EduScene[] = [
     ],
     [
       {
-        domain: 'science',
+        domain: 'literacy',
         skill: 'sugar preserves fruit; one word with more than one meaning',
         standard: 'L.3.4',
         kind: 'notice',
@@ -557,7 +557,7 @@ const SCENES: EduScene[] = [
             'Say sorry, and offer to help clear up.',
             [
               N(
-                'Yes. An accident is nobody’s fault, but it’s still your mess. Sorry plus help is what mends a fence.',
+                'Yes. An accident isn’t done on purpose, but it’s still your mess. Sorry plus help is what mends a fence.',
               ),
             ],
             true,
@@ -1030,7 +1030,7 @@ const SCENES: EduScene[] = [
         'Early winter, and frost on Byte’s very straight hedge. He meets you at the door with a sheet of squared paper.',
       ),
       BY(
-        'Ninety spoons, one a day. Ninety days. That gets you to midwinter with a spoon to spare. I worked it out the week it came.',
+        'Ninety spoons, one a day. Ninety days. That gets you to midwinter, near enough. I worked it out the week it came.',
         'think',
       ),
       BY('This is what actually happened. The last spoon went on day sixty.'),
@@ -1099,7 +1099,7 @@ const SCENES: EduScene[] = [
     ],
     [
       {
-        domain: 'sel',
+        domain: 'social-studies',
         skill: 'fairness and intention',
         standard: 'D2.Civ.8.K-2',
         kind: 'ask',
@@ -1191,7 +1191,7 @@ const SCENES: EduScene[] = [
             'Seville oranges are named after Seville, a city in Spain. They’re too bitter to eat raw, but perfect for marmalade.',
           ),
           N(
-            'Their peel and pips are rich in pectin, a natural stuff that helps jam set. That’s why the pips go in the muslin bag, not the bin.',
+            'Their peel and pips are rich in pectin, a natural substance that helps jam set. That’s why the pips go in the muslin bag, not the bin.',
           ),
         ],
         parentNote: 'Learned why bitter Seville oranges, rich in pectin, make good marmalade.',
@@ -1269,7 +1269,7 @@ const SCENES: EduScene[] = [
           ),
           opt('Yes, if you froze it.', [
             N(
-              'Freezing would make it hard, and warming would soften it again. But it would still be marmalade. Cooking can’t be undone.',
+              'Freezing would make it stiffer, and warming would soften it again. But it would still be marmalade. Cooking can’t be undone.',
             ),
           ]),
         ],
@@ -1499,7 +1499,7 @@ const SCENES: EduScene[] = [
         after: 0,
         lines: [
           N(
-            'Three coats are warmer than one thick one. Air gets trapped between the layers, and still air is very slow to let heat escape.',
+            'Layers keep you warm. Air gets trapped between them, and still air is very slow to let heat escape.',
           ),
           N('Birds do the same thing when they fluff up their feathers in winter.'),
         ],
@@ -1846,7 +1846,7 @@ const VARIANTS: EduScene[] = [
         after: 0,
         lines: [
           N(
-            'Three coats are warmer than one thick one. Air gets trapped between the layers, and still air is very slow to let heat escape.',
+            'Layers keep you warm. Air gets trapped between them, and still air is very slow to let heat escape.',
           ),
           N('Birds do the same thing when they fluff up their feathers in winter.'),
         ],
@@ -1941,7 +1941,7 @@ const VARIANTS: EduScene[] = [
         'Parcel bows to him, lower than to anyone but Hazel. It is the nearest thing to sorry a Nubbin has.',
       ),
       N(
-        'He hasn’t brought anything. He takes his watch from Pixel, holds it to his ear, and says nothing at all.',
+        'Mr Grue takes his watch back from Pixel. He holds it to his ear, and says nothing at all.',
       ),
       N(
         'But he stays. Right to the end, past the last of the cake, and he helps Byte put the bunting back up.',
@@ -1971,7 +1971,7 @@ const VARIANTS: EduScene[] = [
         prompt: [N('In the autumn, Byte wanted proof of everything. What has changed?')],
         options: [
           opt(
-            'He trusts what he has seen with his own heart, not only what he can prove.',
+            'He trusts what he has seen and felt, not only what he can prove.',
             [
               N(
                 'Yes. He still loves proof. But he has learned that some true things don’t fit in a column.',

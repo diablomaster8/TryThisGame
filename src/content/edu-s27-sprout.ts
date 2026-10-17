@@ -137,9 +137,9 @@ const S27_SCENES: EduScene[] = [
     ],
     [
       {
-        domain: 'maths',
-        skill: 'count to 8: a spider’s legs',
-        standard: 'K.CC.B.5',
+        domain: 'science',
+        skill: 'count a spider’s legs: spiders have eight',
+        standard: 'ELOF: Scientific Reasoning',
         kind: 'do',
         after: 5,
         check: 'edu:count:legs:8',
@@ -314,9 +314,9 @@ const S27_SCENES: EduScene[] = [
     ],
     [
       {
-        domain: 'maths',
-        skill: 'compare long and short',
-        standard: 'K.MD.A.2',
+        domain: 'literacy',
+        skill: 'compare a short word and a long word',
+        standard: 'ELOF: Literacy',
         kind: 'ask',
         after: 5,
         prompt: [N('Which word is longer? WARM, or “statistically above average”?')],
@@ -396,7 +396,7 @@ const S27_SCENES: EduScene[] = [
       N('Your breath makes little clouds. Puff, puff.'),
       N('Every fence is white with frost.'),
       N('And on Nine’s fence, the web is white too.'),
-      N('It spells a name. Nine’s new name!'),
+      N('It spells a name. Its very own name!'),
       FE('It’s got a NAME! Everybody, look! A NAME!', 'happy'),
       N('Nine turns round. Nine looks up at the name.'),
       N('The other runners have numbers. This one has a name.'),
@@ -1216,7 +1216,7 @@ export const EDU_S27_SPROUT_VARIANTS: EduScene[] = [
       W('keep it warm. yes.', 'soft'),
       N('Wisp carries it down, very gently, in his mouth.'),
       N('He keeps it under the cottage step all winter.'),
-      N('Spindle waves two legs at him. Thank you, Wisp!'),
+      N('Spindle waves two legs at him. That means thank you.'),
     ],
     [
       {
@@ -1233,7 +1233,7 @@ export const EDU_S27_SPROUT_VARIANTS: EduScene[] = [
             true,
           ),
           opt('Keep it for ever', [
-            N('It’s Spindle’s eggs. Wisp can look after it for her, and that’s kind.'),
+            N('They’re Spindle’s eggs. Wisp can look after them for her, and that’s kind.'),
           ]),
         ],
         parentNote: 'Thought about looking after something that belongs to someone else.',

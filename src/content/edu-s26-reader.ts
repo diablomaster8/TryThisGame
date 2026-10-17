@@ -903,7 +903,7 @@ const S26: EduQuest = {
           'There was another who loved growing things, once. You’d have argued with each other beautifully.',
           'soft',
         ),
-        M('Choose well. Then get it going.', 'soft'),
+        M('Choose your patch. Then wake it up.', 'soft'),
       ],
       [
         {
@@ -1000,7 +1000,7 @@ const S26: EduQuest = {
             ),
             opt('6 metres', [
               L(
-                'That’s 3 times 2, the area. String goes round the edges: 3 + 2 + 3 + 2 = 10 metres.',
+                'That’s 3 × 2, which gives the area in square metres. String goes round the edges: 3 + 2 + 3 + 2 = 10 metres.',
               ),
             ]),
             opt('5 metres', [
@@ -1212,7 +1212,7 @@ const S26: EduQuest = {
               'happy',
             ),
             DU(
-              'Plant them in autumn, pointy end up, about twice as deep as the bulb is tall. Most need a cold winter.',
+              'Plant them in autumn, pointy end up, two or three times as deep as the bulb is tall. Most need a cold winter.',
             ),
             DU(
               'Come late winter and spring, they spend that store on leaves and flowers. Then they fill up again for next year.',
@@ -1256,7 +1256,7 @@ const S26: EduQuest = {
         ),
         L('…I like it.', 'soft'),
         DU(
-          'Squirrels do that with nuts. Half the oak trees in the valley are acorns a squirrel forgot.',
+          'Squirrels do that with nuts. Plenty of the oaks in this valley started as acorns a squirrel forgot.',
           'happy',
         ),
       ],
@@ -1340,7 +1340,7 @@ const S26: EduQuest = {
           after: 7,
           prompt: [
             N(
-              'Tobin wants Linnet safe. Linnet wants to live. Is keeping someone safe the same as letting them be well?',
+              'Tobin wants Linnet safe. Linnet wants to do things. Is keeping someone safe the same as letting them be well?',
             ),
             N('There is no wrong answer. Think about both of them.'),
           ],
@@ -1944,7 +1944,7 @@ const S26_VARIANTS: EduScene[] = [
             '540 cm',
             [
               L(
-                'Yes. 450 + 90 = 540 centimetres. That’s five metres and forty. Told you. Dig it longer.',
+                'Yes. 450 + 90 = 540 centimetres. That’s five metres forty. Told you. Dig it longer.',
                 'happy',
               ),
             ],
@@ -2053,7 +2053,7 @@ const S26_VARIANTS: EduScene[] = [
         after: 3,
         lines: [
           N(
-            'Ivy is evergreen: it keeps its leaves all winter. That’s why it was the only green thing on the wall.',
+            'Ivy is evergreen: it keeps its leaves all year, even in winter. That’s why the door stayed hidden in every season.',
           ),
           N(
             'It climbs with tiny roots along its stems that grip the stone, so it can reach the light without a trunk.',
@@ -2202,21 +2202,23 @@ const S26_VARIANTS: EduScene[] = [
         kind: 'ask',
         after: 5,
         prompt: [
-          N('Linnet says the steps are stuck, not her. Is she right about where the problem is?'),
+          N(
+            'Linnet says it isn’t her that’s stuck, it’s the steps. Is she right about where the problem is?',
+          ),
         ],
         options: [
           opt(
             'Yes. The steps are the problem. Change them.',
             [
               N(
-                'Yes. Engineers start by defining the problem properly. Here it’s a step, not a person.',
+                'Yes. Engineers start by defining the problem properly. Here it’s the steps, not a person.',
               ),
             ],
             true,
           ),
-          opt('No. The problem is Linnet.', [
+          opt('No. The real problem is the snow.', [
             N(
-              'Look again: with a ramp she’d have gone straight in. The problem is the steps, and that’s what gets fixed.',
+              'The snow makes it worse. But even in summer, the steps need a lifter every time. The steps are the problem, so that’s what gets fixed.',
             ),
           ]),
         ],
@@ -2411,7 +2413,7 @@ const S26_VARIANTS: EduScene[] = [
       N(
         'Hush grew roses for the ones who could only sit and look. Now it is a garden for anyone who comes.',
       ),
-      N('It took one key, three evenings, and a lot of patience.'),
+      N('It took one key, one ramp, and a lot of patience.'),
     ],
     [
       {

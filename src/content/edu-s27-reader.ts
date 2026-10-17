@@ -88,7 +88,7 @@ const WORD_HUNT: Line[] = [
 
 /** The morning after the Show (s27-letgo and s27-home). 8 lines; line 1 is HOME on the rail. */
 const MORNING: Line[] = [
-  N('By breakfast, half the valley is at the Circuit fence. Nobody arranged it. People just came.'),
+  N('By breakfast, half the valley is at the Circuit fence. Nobody arranged it; people just came.'),
   N('All along the finishing straight, in letters as tall as a Nubbin, the frost says: HOME.'),
   FE('HOME! Look at the size of it. She must have run out of rail!', 'happy'),
   N('Mr Tull is at the gate with his cart. He reads the rail, then the faces along the fence.'),
@@ -190,7 +190,7 @@ const S27_SCENES: EduScene[] = [
         'Under the window is Sparks’s cabinet, every drawer labelled in square capitals: FUSES, WICKS, SPARE.',
       ),
       N('You find the wire. When you stand up, there is a web across the corner of the window.'),
-      N('It isn’t a new web. You just hadn’t looked. In the middle of it, very small, is a word.'),
+      N('It isn’t a new web; you just hadn’t looked. In the middle of it, very small, is a word.'),
       N('EVENING.'),
       N(
         'A grey-brown spider no bigger than a fingernail sits beside it. She lifts two front legs at you, politely.',
@@ -286,7 +286,7 @@ const S27_SCENES: EduScene[] = [
       ),
       TA('I’m Tam. I do the buckets. I’m not meant to whistle. I forget.'),
       N(
-        'He fills Nine’s trough. Nine doesn’t look round. Tam stands there a moment longer than the trough needs.',
+        'He fills Nine’s trough, and Nine doesn’t look round. Tam stands there a moment longer than the trough needs.',
       ),
       TA(
         'The Autumn Show’s at the first frost that isn’t his. Anything that doesn’t place goes over the pass.',
@@ -351,7 +351,7 @@ const S27_SCENES: EduScene[] = [
       N('EVENING has gone. In its place, in the middle of the web, is a new word.'),
       N('WAIT.'),
       N(
-        'The spider sits at the edge of the web with her legs drawn in. She isn’t looking at you. She is thinking.',
+        'The spider sits at the edge of the web with her legs drawn in. She isn’t looking at you; she is thinking.',
       ),
       N(
         'You know that kind of thinking. You’ve watched someone in your family do it on a cottage step for hours.',
@@ -428,7 +428,7 @@ const S27_SCENES: EduScene[] = [
         'She looks at you, and the crate, and the web, and the word. She sits down on the floor without being asked.',
       ),
       SP(
-        'She writes. Course she writes. She’s been learning off my drawer labels for years. Look at her, the little clerk.',
+        'She writes. Course she writes. She’s been learning off my drawer labels all summer. Look at her, the little clerk.',
         'soft',
       ),
       SP(
@@ -630,7 +630,7 @@ const S27_SCENES: EduScene[] = [
     [
       {
         domain: 'literacy',
-        skill: 'similes compare using “like” or “as”',
+        skill: 'a simile: a comparison that shows how a character moves',
         standard: 'L.4.5',
         kind: 'ask',
         after: 1,
@@ -805,7 +805,7 @@ const S27_SCENES: EduScene[] = [
       ),
       N('Corvin waits. He is the kind of man who can wait a long time for an answer.'),
       N(
-        'You could protect her with a fib. You could tell the truth, sideways. Or you could say nothing at all.',
+        'You could protect her with a fib, or tell the truth sideways. Or you could say nothing at all.',
       ),
     ],
     [
@@ -868,7 +868,7 @@ const S27_SCENES: EduScene[] = [
             'Hazel used to lie like that. Badly, and always for somebody else. I’ll be watching my rails, then.',
           ),
           N(
-            'You kept Spindle safe. But Corvin will be watching you now, and he knows you didn’t tell the truth.',
+            'You kept Spindle hidden. But a fib has a cost: from now on, Corvin will be watching you.',
           ),
         ],
       },
@@ -956,7 +956,7 @@ const S27_SCENES: EduScene[] = [
       C('I don’t. It’s the frost. It does odd things up here.'),
       TU('So I see. It’s a lot of odd, for one rail.'),
       N(
-        'He doesn’t stay. He climbs back onto his cart and frowns all the way up the pass. He looks uneasy.',
+        'He doesn’t stay. He climbs back onto his cart and frowns all the way up the pass, looking uneasy.',
       ),
       N(
         'By noon, the little grey runner has been moved to a pen behind the house, where the public can’t see.',
@@ -1041,7 +1041,7 @@ const S27_SCENES: EduScene[] = [
         'Corvin comes round the corner of the house in his shirtsleeves, as if he had been waiting up.',
       ),
       N('He stands at the rail. Then he lays his bare hand flat on the word.'),
-      N('You wait for the frost to melt under his palm. It doesn’t. Not a single letter.'),
+      N('You wait for the frost to melt under his palm. It doesn’t, not a single letter.'),
       N(
         'He takes his hand away and looks at it. Then he touches his breast pocket, once, and goes back inside.',
       ),
@@ -1207,7 +1207,7 @@ const S27_SCENES: EduScene[] = [
         'Then she starts: not one letter, but one stroke of one letter, from the top rail to the bottom.',
       ),
       N(
-        'Your watch says nine o’clock. It is going to be the biggest word she has ever written. It will take all night.',
+        'Your watch says nine o’clock. This will be the biggest word she has ever written, and it will take all night.',
       ),
       N(
         'You hold the lantern low, so she can see, and walk beside her down the rail, a step at a time.',
@@ -1503,7 +1503,7 @@ const S27_SCENES: EduScene[] = [
       N(
         'Hazel would know what to say. She would also tell you: say the true thing, and say it plainly.',
       ),
-      Y('I’m so glad it was you in the window, Spindle.', 'soft'),
+      Y('You’re my friend, Spindle. I’m so glad it was you in the window.', 'soft'),
       N(
         'Spindle is quiet for a long time. Then she climbs, very slowly, to the corner of her web.',
       ),
@@ -1544,7 +1544,7 @@ const S27_SCENES: EduScene[] = [
     [
       N('You walk home in the dark with your Nubbin asleep in your pocket.'),
       N(
-        'You don’t look back at the window. You think she would prefer it that way. She was always very polite.',
+        'You don’t look back at the window. You think she would prefer it that way; she was always very polite.',
       ),
       N('The lane is cold. The first stars are out over the valley.'),
       N('You feel full and empty at the same time, which you didn’t know a person could.'),
@@ -1577,7 +1577,7 @@ const S27_SCENES: EduScene[] = [
       ),
       N('It is empty. The last word is still in the corner, very small: WELL.'),
       N(
-        'Spindle has died. She was old, for a spider, and her body stopped working. It won’t start again.',
+        'Spindle has died. She was old, for a spider, and her body stopped working; it won’t start again.',
       ),
       N(
         'Your Nubbin climbs out of your pocket, sits on the bench under the web, and looks up at it.',
@@ -1634,7 +1634,9 @@ const S27_SCENES: EduScene[] = [
             label: 'Remembering together keeps her part of our lives.',
             best: true,
             reply: [
-              N('Yes. Grief is love with nowhere to go. Remembering together gives it somewhere.'),
+              N(
+                'Yes. Telling her story together keeps her close, and sad feelings are easier to carry when they’re shared.',
+              ),
             ],
           },
           {
@@ -1858,6 +1860,19 @@ export const EDU_S27_READER_VARIANTS: EduScene[] = [
     ],
     [
       {
+        domain: 'social-studies',
+        skill: 'fairness in a deal',
+        standard: 'D2.Civ.8.K-2',
+        kind: 'notice',
+        after: 10,
+        lines: [
+          N(
+            'Corvin could charge more, now the runner is famous. He asks only what he paid. That’s his idea of fair.',
+          ),
+        ],
+        parentNote: 'Thought about what makes a price fair.',
+      },
+      {
         domain: 'maths',
         skill: 'equal groups: counting in tens',
         standard: '3.OA.A.1',
@@ -1882,19 +1897,6 @@ export const EDU_S27_READER_VARIANTS: EduScene[] = [
           },
         ],
         parentNote: 'Used equal groups of ten to make 200.',
-      },
-      {
-        domain: 'social-studies',
-        skill: 'fairness in a deal',
-        standard: 'D2.Civ.8.K-2',
-        kind: 'notice',
-        after: 10,
-        lines: [
-          N(
-            'Corvin could charge more, now the runner is famous. He asks only what he paid. That’s his idea of fair.',
-          ),
-        ],
-        parentNote: 'Thought about what makes a price fair.',
       },
     ],
     [
@@ -2075,7 +2077,7 @@ export const EDU_S27_READER_VARIANTS: EduScene[] = [
       ),
       N('You laugh out loud, on your own, in the shed. Then you say it back: “Evening.”'),
       N(
-        'Not many friends can spell. Not many spellers stay up all night for a friend. Spindle did both.',
+        'Few friends can write, and fewer writers would stay up all night for you. Spindle did both.',
       ),
     ],
     [
@@ -2139,7 +2141,7 @@ export const EDU_S27_READER_VARIANTS: EduScene[] = [
       ),
       N('You laugh out loud, on your own, in the shed. Then you say it back: “Evening.”'),
       N(
-        'Not many friends can spell. Not many spellers stay up all night for a friend. Spindle did both.',
+        'Few friends can write, and fewer writers would stay up all night for you. Spindle did both.',
       ),
     ],
     [

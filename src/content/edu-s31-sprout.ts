@@ -41,16 +41,24 @@ type Beat = Omit<Lesson, 'id'>;
 type Opt = NonNullable<Lesson['options']>[number];
 
 /** One answer option. `best` marks the answer the lesson teaches. */
-const opt = (label: string, reply: Line[], best = false): Opt => (best ? { label, best, reply } : { label, reply });
+const opt = (label: string, reply: Line[], best = false): Opt =>
+  best ? { label, best, reply } : { label, reply };
 
 /** One sprout scene. Lesson ids are `sprout:<of>-l<n>`, numbered in play order. */
-const sc = (of: string, lines: Line[], beats: Beat[], extra: { choices?: Choice[]; defaultChoice?: string } = {}): EduScene => ({
+const sc = (
+  of: string,
+  lines: Line[],
+  beats: Beat[],
+  extra: { choices?: Choice[]; defaultChoice?: string } = {},
+): EduScene => ({
   id: `sprout:${of}`,
   of,
   band: 'sprout',
   lines,
   ...extra,
-  lessons: [...beats].sort((a, b) => a.after - b.after).map((b, i) => ({ id: `sprout:${of}-l${i + 1}`, ...b })),
+  lessons: [...beats]
+    .sort((a, b) => a.after - b.after)
+    .map((b, i) => ({ id: `sprout:${of}-l${i + 1}`, ...b })),
 });
 
 // ---------------------------------------------------------------- shared lines
@@ -65,7 +73,10 @@ const COUNT_ROCKS = (after: number): Beat => ({
   kind: 'do',
   after,
   check: 'edu:count:rocks:5',
-  lines: [N('(Count Ned’s rocks together on your fingers.)'), N('One, two, three, four, five. Five rocks!')],
+  lines: [
+    N('(Count Ned’s rocks together on your fingers.)'),
+    N('One, two, three, four, five. Five rocks!'),
+  ],
   parentNote: 'Counted five rocks, one finger for each.',
 });
 
@@ -80,7 +91,8 @@ const SUN_MELTS = (after: number): Beat => ({
     N('Gourd plants don’t like frost. It makes their leaves go floppy and brown.'),
     N('So Fern picks all her gourds before the frost comes.'),
   ],
-  parentNote: 'Heard that sunshine warms the ground and melts frost, and that frost ends the gourd season.',
+  parentNote:
+    'Heard that sunshine warms the ground and melts frost, and that frost ends the gourd season.',
 });
 
 // ================================================================== the scenes
@@ -107,7 +119,11 @@ const SCENES: EduScene[] = [
         after: 7,
         prompt: [N('Say them slowly: Gourd. Great.'), N('Which sound do they both start with?')],
         options: [
-          opt('“g”, like goose', [TAM('Yes! G for Gourd. G for Great. G for goose!', 'happy')], true),
+          opt(
+            '“g”, like goose',
+            [TAM('Yes! G for Gourd. G for Great. G for goose!', 'happy')],
+            true,
+          ),
           opt('“t”, like Tam', [TAM('T starts my name! Listen again: g-g-Gourd. It’s “g”.')]),
           opt('“s”, like sun', [N('Sun starts with “s”. Gourd and Great start with “g”. G-g-g!')]),
         ],
@@ -121,6 +137,7 @@ const SCENES: EduScene[] = [
       N('You help Tam. GRAET turns into GREAT.'),
       N('Tam keeps GORD for a bit. Then he lets it go.'),
       TAM('Now, what do I ask for? You choose.', 'think'),
+      TAM('You’re a grown-up. He might listen to you more.'),
     ],
     [
       {
@@ -128,7 +145,7 @@ const SCENES: EduScene[] = [
         skill: 'asking nicely',
         standard: 'ELOF: Social and Emotional Development',
         kind: 'ask',
-        after: 2,
+        after: 3,
         prompt: [N('Tam wants to ask nicely. Which is a kind asking word?')],
         options: [
           opt('Please', [TAM('Please! I’ll write it twice, to be sure.', 'happy')], true),
@@ -144,7 +161,11 @@ const SCENES: EduScene[] = [
           id: 'toys',
           label: 'Ask for toys.',
           set: { 's31-letter': 'toys' },
-          then: [Y('Ask for toys!'), TAM('Toys. Not greedy ones. Medium toys.', 'happy'), N('He writes PLEASE. Then he writes it again.')],
+          then: [
+            Y('Ask for toys!'),
+            TAM('Toys. Not greedy ones. Medium toys.', 'happy'),
+            N('He writes PLEASE. Then he writes it again.'),
+          ],
         },
         {
           id: 'strays',
@@ -191,11 +212,22 @@ const SCENES: EduScene[] = [
         standard: 'ELOF: Social and Emotional Development',
         kind: 'ask',
         after: 8,
-        prompt: [N('Tam believes in the Great Gourd. Ivy doesn’t.'), N('What is a kind thing to do?')],
+        prompt: [
+          N('Tam believes in the Great Gourd. Ivy doesn’t.'),
+          N('What is a kind thing to do?'),
+        ],
         options: [
-          opt('Listen to Tam', [N('Yes. You can listen kindly, even if you think something else.')], true),
-          opt('Laugh at him', [N('Laughing can hurt. Listening is kinder, even if you don’t agree.')]),
-          opt('Tell him he’s wrong', [N('That might make him sad. You can listen, and still think your own thing.')]),
+          opt(
+            'Listen to Tam',
+            [N('Yes. You can listen kindly, even if you think something else.')],
+            true,
+          ),
+          opt('Laugh at him', [
+            N('Laughing can hurt. Listening is kinder, even if you don’t agree.'),
+          ]),
+          opt('Tell him he’s wrong', [
+            N('That might make him sad. You can listen, and still think your own thing.'),
+          ]),
         ],
         parentNote: 'Talked about being kind to a friend who believes something different.',
       },
@@ -232,7 +264,7 @@ const SCENES: EduScene[] = [
     's31-carve',
     [
       N('Tam carries the big gourd home. Slowly. Very slowly.'),
-      N('Mum lends Ivy a big knife. Ivy cuts the top off. Chop!'),
+      N('Mum stays to help with the big knife. Ivy cuts the top off. Chop!'),
       TAM('Nobody told me you cut them!', 'shock'),
       IVY('It’s only a gourd, Tam. It’s got seeds inside.'),
       N('Inside are lots of flat, white seeds.'),
@@ -247,7 +279,10 @@ const SCENES: EduScene[] = [
         kind: 'do',
         after: 4,
         check: 'edu:count:seeds:5',
-        lines: [N('(Take out five seeds. Count them together.)'), N('One, two, three, four, five seeds!')],
+        lines: [
+          N('(Take out five seeds. Count them together.)'),
+          N('One, two, three, four, five seeds!'),
+        ],
         parentNote: 'Counted five gourd seeds.',
       },
     ],
@@ -269,7 +304,10 @@ const SCENES: EduScene[] = [
         kind: 'do',
         after: 2,
         check: 'edu:tap:shape:circle',
-        lines: [N('The eyes are round. They are circles.'), N('(Draw a circle in the air together.)')],
+        lines: [
+          N('The eyes are round. They are circles.'),
+          N('(Draw a circle in the air together.)'),
+        ],
         parentNote: 'Named the lantern’s round eyes as circles and drew one in the air.',
       },
       {
@@ -306,8 +344,14 @@ const SCENES: EduScene[] = [
         after: 3,
         prompt: [N('Ivy made a promise. What does a promise mean?')],
         options: [
-          opt('You really will do it', [NED('Yes! A promise means you really, truly do it.', 'happy')], true),
-          opt('You can change your mind', [N('Not with a promise. A promise means you really do it.')]),
+          opt(
+            'You really will do it',
+            [NED('Yes! A promise means you really, truly do it.', 'happy')],
+            true,
+          ),
+          opt('You can change your mind', [
+            N('Not with a promise. A promise means you really do it.'),
+          ]),
           opt('Nothing much', [N('A promise matters! It means you do what you said.')]),
         ],
         parentNote: 'Talked about what a promise means.',
@@ -315,16 +359,28 @@ const SCENES: EduScene[] = [
     ],
     {
       choices: [
-        { id: 'sign', label: 'Sign it.', then: [N('You sign your name.'), NED('Right. This is it!', 'happy')] },
+        {
+          id: 'sign',
+          label: 'Sign it.',
+          then: [N('You sign your name.'), NED('Right. This is it!', 'happy')],
+        },
         {
           id: 'warn',
           label: 'Sign it, and tell Ned to watch her finger.',
-          then: [N('You sign. You whisper, “Watch her finger.”'), NED('I will. The whole way.', 'think'), IVY('No helping!')],
+          then: [
+            N('You sign. You whisper, “Watch her finger.”'),
+            NED('I will. The whole way.', 'think'),
+            IVY('No helping!'),
+          ],
         },
         {
           id: 'dont',
           label: 'Don’t sign. Tell Ned not to do it.',
-          then: [Y('Don’t do it, Ned.'), NED('But it’s written down.', 'sad'), N('He signs it himself, very small.')],
+          then: [
+            Y('Don’t do it, Ned.'),
+            NED('But it’s written down.', 'sad'),
+            N('He signs it himself, very small.'),
+          ],
         },
       ],
     },
@@ -347,7 +403,10 @@ const SCENES: EduScene[] = [
         standard: 'ELOF: Scientific Reasoning',
         kind: 'notice',
         after: 2,
-        lines: [N('A kick is a push. A push makes a ball roll.'), N('No ball? Then the push keeps going. Up goes Ned!')],
+        lines: [
+          N('A kick is a push. A push makes a ball roll.'),
+          N('No ball to push? Then Ned’s leg keeps swinging. Up goes Ned!'),
+        ],
         parentNote: 'Heard that a kick is a push, and a push makes things move.',
       },
     ],
@@ -424,7 +483,10 @@ const SCENES: EduScene[] = [
         kind: 'do',
         after: 1,
         check: 'edu:count:posts:4',
-        lines: [N('(Count the posts together.)'), N('One, two, three lit posts. And one dark post. Four posts!')],
+        lines: [
+          N('(Count the posts together.)'),
+          N('One, two, three lit posts. And one dark post. Four posts!'),
+        ],
         parentNote: 'Counted three lit posts and one dark one: four.',
       },
     ],
@@ -436,7 +498,7 @@ const SCENES: EduScene[] = [
       N('Tam puts the toffee apple on top of the sign.'),
       N('Moss walks by, slowly. He stops to read the sign.'),
       TAM('Moss, you’re very old. Is the Great Gourd real?'),
-      MOSS('I have never seen him. But lots of real things, I have never seen.', 'think'),
+      MOSS('I have never seen him. But I have never seen lots of real things.', 'think'),
       N('Tam nods. He thinks that means yes.'),
       N('Clover comes with three blankets. She puts them down by the sign.'),
       CLOVER('One each, and a spare. Don’t ask me about it.'),
@@ -476,7 +538,10 @@ const SCENES: EduScene[] = [
         standard: 'ELOF: Scientific Reasoning',
         kind: 'notice',
         after: 0,
-        lines: [N('In autumn, it gets dark earlier.'), N('The days get shorter. The nights get longer.')],
+        lines: [
+          N('In autumn, it gets dark earlier.'),
+          N('The days get shorter. The nights get longer.'),
+        ],
         parentNote: 'Heard that autumn days get shorter and nights get longer.',
       },
     ],
@@ -496,7 +561,10 @@ const SCENES: EduScene[] = [
         kind: 'do',
         after: 1,
         check: 'edu:tap:colour:red',
-        lines: [N('(Point to something red near you.)'), N('Red like the scarf. Red like an apple!')],
+        lines: [
+          N('(Point to something red near you.)'),
+          N('Red like the scarf. Red like an apple!'),
+        ],
         parentNote: 'Found something red to match the scarf.',
       },
     ],
@@ -522,7 +590,10 @@ const SCENES: EduScene[] = [
         standard: 'ELOF: Social and Emotional Development',
         kind: 'notice',
         after: 8,
-        lines: [N('Waiting is hard. It can feel very, very long.'), N('What helps you wait? (Talk about it together.)')],
+        lines: [
+          N('Waiting is hard. It can feel very, very long.'),
+          N('What helps you wait? (Talk about it together.)'),
+        ],
         parentNote: 'Talked about how waiting feels, and what helps.',
       },
     ],
@@ -532,13 +603,19 @@ const SCENES: EduScene[] = [
           id: 'guise',
           label: 'Go guising with Ivy and the bats.',
           set: { 's31-night': 'guise' },
-          then: [N('You hold the smallest bat’s hand. It’s sticky.'), TAM('Go on. I’ll tell him you were busy.')],
+          then: [
+            N('You hold the smallest bat’s hand. It’s sticky.'),
+            TAM('Go on. I’ll tell him you were busy.'),
+          ],
         },
         {
           id: 'party',
           label: 'Go to Sparks’s party.',
           set: { 's31-night': 'party' },
-          then: [SPARKS('Hooray! The Keeper’s coming!', 'happy'), TAM('Bring Nettie a sandwich. She’ll want one.')],
+          then: [
+            SPARKS('Hooray! The Keeper’s coming!', 'happy'),
+            TAM('Bring Nettie a sandwich. She’ll want one.'),
+          ],
         },
         {
           id: 'sat',
@@ -585,7 +662,11 @@ const SCENES: EduScene[] = [
         standard: 'ELOF: Scientific Reasoning',
         kind: 'notice',
         after: 0,
-        lines: [N('Basalt is a dark rock.'), N('Long ago it was hot, runny rock from a volcano.'), N('It cooled down and went hard.')],
+        lines: [
+          N('Basalt is a dark rock.'),
+          N('Long ago it was hot, runny rock from a volcano.'),
+          N('It cooled down and went hard.'),
+        ],
         parentNote: 'Heard that basalt was once hot, runny rock that cooled and went hard.',
       },
     ],
@@ -609,7 +690,10 @@ const SCENES: EduScene[] = [
         kind: 'do',
         after: 2,
         check: 'edu:act:fly:arms',
-        lines: [N('(Stand up. Be a flying ace! Arms out wide.)'), N('Zoom, zoom! Now land, very gently.')],
+        lines: [
+          N('(Stand up. Be a flying ace! Arms out wide.)'),
+          N('Zoom, zoom! Now land, very gently.'),
+        ],
         parentNote: 'Played at being a pilot: arms out, zooming, and a gentle landing.',
       },
     ],
@@ -632,7 +716,10 @@ const SCENES: EduScene[] = [
         kind: 'do',
         after: 4,
         check: 'edu:clap:tempo:fast-slow',
-        lines: [N('(Clap fast, like a happy tune. Now clap slow.)'), N('Fast can feel merry. Slow can feel sad.')],
+        lines: [
+          N('(Clap fast, like a happy tune. Now clap slow.)'),
+          N('Fast can feel merry. Slow can feel sad.'),
+        ],
         parentNote: 'Clapped fast and slow, and talked about how each one feels.',
       },
     ],
@@ -656,7 +743,10 @@ const SCENES: EduScene[] = [
         standard: '1.MD.B.3',
         kind: 'notice',
         after: 0,
-        lines: [N('Midnight is twelve o’clock at night.'), N('(Show twelve on your fingers: ten, and two more.)')],
+        lines: [
+          N('Midnight is twelve o’clock at night.'),
+          N('(Show twelve on your fingers: ten, and two more.)'),
+        ],
         parentNote: 'Learned that midnight is twelve o’clock at night.',
       },
     ],
@@ -675,7 +765,10 @@ const SCENES: EduScene[] = [
         {
           id: 'closer',
           label: 'Say nothing. Sit a bit closer.',
-          then: [N('You shift closer. Your shoulder touches the quilt.'), N('After a while, the quilt leans on you.')],
+          then: [
+            N('You shift closer. Your shoulder touches the quilt.'),
+            N('After a while, the quilt leans on you.'),
+          ],
         },
       ],
     },
@@ -723,7 +816,10 @@ const SCENES: EduScene[] = [
         standard: 'ELOF: Scientific Reasoning',
         kind: 'notice',
         after: 2,
-        lines: [N('Frost is ice. Tiny drops of water freeze on the grass.'), N('Brr! That’s why we wrap up warm, like Tam in his quilt.')],
+        lines: [
+          N('Frost is ice. Water from the air freezes on the cold grass.'),
+          N('Brr! That’s why we wrap up warm, like Tam in his quilt.'),
+        ],
         parentNote: 'Heard that frost is water that froze on the grass.',
       },
     ],
@@ -747,7 +843,11 @@ const SCENES: EduScene[] = [
         after: 1,
         prompt: [N('Tam got a big fright. How did he feel?')],
         options: [
-          opt('Surprised and a bit scared', [N('Yes. A big surprise can feel scary. Then it passes.')], true),
+          opt(
+            'Surprised and a bit scared',
+            [N('Yes. A big surprise can feel scary. Then it passes.')],
+            true,
+          ),
           opt('Happy', [N('More like surprised! Frights feel big, and then they pass.')]),
         ],
         parentNote: 'Named a fright as surprised and a bit scared, and heard that frights pass.',
@@ -774,7 +874,10 @@ const SCENES: EduScene[] = [
         kind: 'do',
         after: 1,
         check: 'edu:count:hours:4',
-        lines: [N('Midnight, then one, two, three, four o’clock.'), N('(Count the hours on your fingers. Four!)')],
+        lines: [
+          N('Midnight, then one, two, three, four o’clock.'),
+          N('(Count the hours on your fingers. Four!)'),
+        ],
         parentNote: 'Counted the hours from midnight to four o’clock.',
       },
     ],
@@ -813,7 +916,11 @@ const SCENES: EduScene[] = [
         after: 5,
         prompt: [N('Ned wanted to help. But Tam got cross. Why?')],
         options: [
-          opt('Ned called his night silly', [N('Yes. “Silly” hurt Tam’s feelings, even though Ned meant well.')], true),
+          opt(
+            'Ned called his night silly',
+            [N('Yes. “Silly” hurt Tam’s feelings, even though Ned meant well.')],
+            true,
+          ),
           opt('Tam was hungry', [N('Maybe! But mostly the word “silly” hurt his feelings.')]),
         ],
         parentNote: 'Noticed that a word can hurt, even when someone is trying to help.',
@@ -849,7 +956,11 @@ const SCENES: EduScene[] = [
         {
           id: 'yes',
           label: '“Yes.”',
-          then: [Y('Yes.'), TAM('Good. You’re at the top of my list.', 'happy'), N('His sign stays in the long grass all winter.')],
+          then: [
+            Y('Yes.'),
+            TAM('Good. You’re at the top of my list.', 'happy'),
+            N('His sign stays in the long grass all winter.'),
+          ],
         },
         {
           id: 'blanket',
@@ -880,7 +991,10 @@ const SCENES: EduScene[] = [
         standard: 'ELOF: Scientific Reasoning',
         kind: 'notice',
         after: 2,
-        lines: [N('An acorn is a seed. It comes from an oak tree.'), N('Plant it, and one day it can grow into a new oak!')],
+        lines: [
+          N('An acorn is a seed. It comes from an oak tree.'),
+          N('Plant it, and one day it can grow into a new oak!'),
+        ],
         parentNote: 'Learned that an acorn is an oak seed that can grow into a tree.',
       },
     ],
@@ -945,7 +1059,10 @@ export const EDU_S31_SPROUT_VARIANTS: EduScene[] = [
         standard: 'ELOF: Social and Emotional Development',
         kind: 'notice',
         after: 3,
-        lines: [N('Tam and Nettie aren’t alone. Grown-ups know where they are.'), N('It’s good to tell a grown-up where you’ll be.')],
+        lines: [
+          N('Tam and Nettie aren’t alone. Grown-ups know where they are.'),
+          N('It’s good to tell a grown-up where you’ll be.'),
+        ],
         parentNote: 'Heard why it matters that a grown-up always knows where you are.',
       },
     ],
@@ -969,10 +1086,17 @@ export const EDU_S31_SPROUT_VARIANTS: EduScene[] = [
         after: 5,
         prompt: [N('Wisp took the apple without asking. Was that fair?')],
         options: [
-          opt('Not fair, but he was hungry', [N('Yes. Taking isn’t fair. But Wisp was hungry. We can share with hungry animals.')], true),
-          opt('Yes, fair', [N('Taking without asking isn’t fair. But hungry animals need food, so we can share.')]),
+          opt(
+            'Not fair, but he was hungry',
+            [N('Yes. Taking isn’t fair. But Wisp was hungry. We can share with hungry animals.')],
+            true,
+          ),
+          opt('Yes, fair', [
+            N('Taking without asking isn’t fair. But hungry animals need food, so we can share.'),
+          ]),
         ],
-        parentNote: 'Thought about fairness: taking without asking, and sharing with someone hungry.',
+        parentNote:
+          'Thought about fairness: taking without asking, and sharing with someone hungry.',
       },
     ],
   ),
@@ -995,7 +1119,10 @@ export const EDU_S31_SPROUT_VARIANTS: EduScene[] = [
         standard: 'ELOF: Social and Emotional Development',
         kind: 'notice',
         after: 6,
-        lines: [N('Sometimes friends don’t need words.'), N('Sitting close together can say, “I’m here.”')],
+        lines: [
+          N('Sometimes friends don’t need words.'),
+          N('Sitting close together can say, “I’m here.”'),
+        ],
         parentNote: 'Talked about how sitting close can show you care, even without words.',
       },
     ],
@@ -1019,7 +1146,11 @@ export const EDU_S31_SPROUT_VARIANTS: EduScene[] = [
         after: 5,
         prompt: [N('Nettie is very cross. What might help her?')],
         options: [
-          opt('Listen and say sorry', [N('Yes. Listening and saying sorry help cross feelings get smaller.')], true),
+          opt(
+            'Listen and say sorry',
+            [N('Yes. Listening and saying sorry help cross feelings get smaller.')],
+            true,
+          ),
           opt('Laugh', [N('That might make her crosser! Listening and saying sorry help more.')]),
           opt('Walk away', [N('She might feel alone. Staying, listening and saying sorry help.')]),
         ],
@@ -1049,7 +1180,8 @@ export const EDU_S31_SPROUT_VARIANTS: EduScene[] = [
           N('Many animals can turn their ears towards a sound, to hear it better.'),
           N('(Cup your hands behind your ears. Can you hear more?)'),
         ],
-        parentNote: 'Heard that many animals turn their ears to listen, and tried cupping their own.',
+        parentNote:
+          'Heard that many animals turn their ears to listen, and tried cupping their own.',
       },
     ],
   ),
@@ -1070,7 +1202,10 @@ export const EDU_S31_SPROUT_VARIANTS: EduScene[] = [
         standard: 'ELOF: Social and Emotional Development',
         kind: 'notice',
         after: 2,
-        lines: [N('Ivy said she’d come at four o’clock. And she came at four.'), N('She kept her promise this time!')],
+        lines: [
+          N('Ivy said she’d come at four o’clock. And she came at four.'),
+          N('She kept her promise this time!'),
+        ],
         parentNote: 'Noticed Ivy keeping her promise to fetch Tam.',
       },
     ],
@@ -1104,9 +1239,16 @@ export const EDU_S31_SPROUT_VARIANTS: EduScene[] = [
         standard: 'CASEL: Social awareness',
         kind: 'ask',
         after: 5,
-        prompt: [N('Tam said he didn’t need anybody. But he made you a seat.'), N('How does he really feel?')],
+        prompt: [
+          N('Tam said he didn’t need anybody. But he made you a seat.'),
+          N('How does he really feel?'),
+        ],
         options: [
-          opt('He hopes you’ll come', [N('Yes. Tam’s words were cross. But the seat says, “Please come.”')], true),
+          opt(
+            'He hopes you’ll come',
+            [N('Yes. Tam’s words were cross. But the seat says, “Please come.”')],
+            true,
+          ),
           opt('He doesn’t care', [N('Look at the sign! He made a seat for you. He does care.')]),
         ],
         parentNote: 'Noticed that what Tam did showed his real feelings more than what he said.',
@@ -1132,7 +1274,10 @@ export const EDU_S31_SPROUT_VARIANTS: EduScene[] = [
         kind: 'do',
         after: 2,
         check: 'edu:count:fruit:6',
-        lines: [N('(Count the fruit together.)'), N('Three plums and two apples make five. And one pear. Six!')],
+        lines: [
+          N('(Count the fruit together.)'),
+          N('Three plums and two apples make five. And one pear. Six!'),
+        ],
         parentNote: 'Added three plums, two apples and one pear to make six.',
       },
     ],
@@ -1153,7 +1298,10 @@ export const EDU_S31_SPROUT_VARIANTS: EduScene[] = [
         standard: 'ELOF: Social and Emotional Development',
         kind: 'notice',
         after: 3,
-        lines: [N('Tam’s letter thought about how the Great Gourd might feel.'), N('Thinking about how others feel is kind.')],
+        lines: [
+          N('Tam’s letter thought about how the Great Gourd might feel.'),
+          N('Thinking about how others feel is kind.'),
+        ],
         parentNote: 'Talked about thinking of how other people feel.',
       },
     ],
@@ -1169,7 +1317,10 @@ export const EDU_S31_SPROUT_VARIANTS: EduScene[] = [
         kind: 'do',
         after: 0,
         check: 'edu:act:sit:still',
-        lines: [N('(Sit very still with Tam. Count to five.)'), N('Well done! Sitting still is hard.')],
+        lines: [
+          N('(Sit very still with Tam. Count to five.)'),
+          N('Well done! Sitting still is hard.'),
+        ],
         parentNote: 'Practised sitting still for a count of five.',
       },
     ],
@@ -1185,7 +1336,10 @@ export const EDU_S31_SPROUT_VARIANTS: EduScene[] = [
         kind: 'do',
         after: 0,
         check: 'edu:count:to:10',
-        lines: [N('(Count to ten with Ivy.)'), N('One, two, three… all the way to ten! Tam counted every one.')],
+        lines: [
+          N('(Count to ten with Ivy.)'),
+          N('One, two, three… all the way to ten! Tam counted every one.'),
+        ],
         parentNote: 'Counted to ten.',
       },
     ],
@@ -1215,7 +1369,10 @@ export const EDU_S31_SPROUT_VARIANTS: EduScene[] = [
         standard: 'ELOF: Social and Emotional Development',
         kind: 'notice',
         after: 0,
-        lines: [N('Nettie is making her own choice. Well, nearly!'), N('It’s fine to choose for yourself, and fine to change your mind.')],
+        lines: [
+          N('Nettie is making her own choice. Well, nearly!'),
+          N('It’s fine to choose for yourself, and fine to change your mind.'),
+        ],
         parentNote: 'Talked about making your own choices.',
       },
     ],
@@ -1249,20 +1406,62 @@ export const EDU_S31_SPROUT: EduQuest[] = [
     band: 'sprout',
     title: 'The Great Gourd',
     goals: {
-      's31-step1': { goal: 'Help Tam spell his letter.', hint: 'Tam is on the Grove wall, by the gate.' },
-      's31-step2': { goal: 'Walk with the children to Fern’s gourd patch.', hint: 'Fern’s patch is next door, past the hens.' },
-      's31-step3': { goal: 'Make a kind gourd lantern with Tam.', hint: 'Pick a small gourd. Give it round eyes and a smile.' },
-      's31-step4': { goal: 'Watch Ned kick the ball.', hint: 'Ned is on the green at the end of the lane.' },
-      's31-step5': { goal: 'Find out if Ned is asked to the party.', hint: 'Sparks is up a ladder by her workshop.' },
-      's31-step6': { goal: 'Help Tam put up his sign.', hint: 'Tam is in the long grass by the fourth lantern post.' },
-      's31-step7': { goal: 'Dress your Nubbin in goggles and a scarf.', hint: 'Tap your Nubbin. Choose Dress.' },
-      's31-step8': { goal: 'Choose where to be on Gourd Night.', hint: 'Ivy, Sparks and Tam are all waiting. Pick one. The others will be fine.' },
-      's31-step9': { goal: 'Find out what Ned got.', hint: 'Ned has something in his bag to show you.' },
-      's31-step10': { goal: 'Help your Nubbin get to the party.', hint: 'Keep low by the hedges. Stay out of the frosty grass.' },
-      's31-step11': { goal: 'It is midnight. Tam is still waiting.', hint: 'There is nothing to do but wait. Waiting can be hard.' },
-      's31-step12': { goal: 'The frost comes before morning.', hint: 'Keep your Nubbins at the edge, out of the white grass.' },
-      's31-step13': { goal: 'See Tam safely home.', hint: 'Ivy is coming at four o’clock, like she promised.' },
-      's31-step14': { goal: 'Find Tam at the Grove wall.', hint: 'He is on the wall by the gate, where he wrote his letter.' },
+      's31-step1': {
+        goal: 'Help Tam spell his letter.',
+        hint: 'Tam is on the Grove wall, by the gate.',
+      },
+      's31-step2': {
+        goal: 'Walk with the children to Fern’s gourd patch.',
+        hint: 'Fern’s patch is next door, past the hens.',
+      },
+      's31-step3': {
+        goal: 'Make a kind gourd lantern with Tam.',
+        hint: 'Pick a small gourd. Give it round eyes and a smile.',
+      },
+      's31-step4': {
+        goal: 'Watch Ned kick the ball.',
+        hint: 'Ned is on the green at the end of the lane.',
+      },
+      's31-step5': {
+        goal: 'Find out if Ned is asked to the party.',
+        hint: 'Sparks is up a ladder by her workshop.',
+      },
+      's31-step6': {
+        goal: 'Help Tam put up his sign.',
+        hint: 'Tam is in the long grass by the fourth lantern post.',
+      },
+      's31-step7': {
+        goal: 'Dress your Nubbin in goggles and a scarf.',
+        hint: 'Tap your Nubbin. Choose Dress.',
+      },
+      's31-step8': {
+        goal: 'Choose where to be on Gourd Night.',
+        hint: 'Ivy, Sparks and Tam are all waiting. Pick one. The others will be fine.',
+      },
+      's31-step9': {
+        goal: 'Find out what Ned got.',
+        hint: 'Ned has something in his bag to show you.',
+      },
+      's31-step10': {
+        goal: 'Help your Nubbin get to the party.',
+        hint: 'Keep low by the hedges. Stay out of the frosty grass.',
+      },
+      's31-step11': {
+        goal: 'It is midnight. Tam is still waiting.',
+        hint: 'There is nothing to do but wait. Waiting can be hard.',
+      },
+      's31-step12': {
+        goal: 'The frost comes before morning.',
+        hint: 'Keep your Nubbins at the edge, out of the white grass.',
+      },
+      's31-step13': {
+        goal: 'See Tam safely home.',
+        hint: 'Ivy is coming at four o’clock, like she promised.',
+      },
+      's31-step14': {
+        goal: 'Find Tam at the Grove wall.',
+        hint: 'He is on the wall by the gate, where he wrote his letter.',
+      },
     },
     scenes: SCENES,
     notes:

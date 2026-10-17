@@ -49,7 +49,8 @@ type Beat = Omit<Lesson, 'id'>;
 type Opt = NonNullable<Lesson['options']>[number];
 
 /** One answer option. `best` marks the answer the lesson teaches. */
-const opt = (label: string, reply: Line[], best = false): Opt => (best ? { label, best, reply } : { label, reply });
+const opt = (label: string, reply: Line[], best = false): Opt =>
+  best ? { label, best, reply } : { label, reply };
 
 /** One sprout scene. Lesson ids are `sprout:<of>-l<n>`, numbered in play order. */
 const sc = (
@@ -63,7 +64,9 @@ const sc = (
   band: 'sprout',
   lines,
   ...extra,
-  lessons: [...beats].sort((a, b) => a.after - b.after).map((b, i) => ({ id: `sprout:${of}-l${i + 1}`, ...b })),
+  lessons: [...beats]
+    .sort((a, b) => a.after - b.after)
+    .map((b, i) => ({ id: `sprout:${of}-l${i + 1}`, ...b })),
 });
 
 // ================================================================== step scenes
@@ -75,8 +78,8 @@ const SCENES: EduScene[] = [
       N('Rattle, rattle! Someone is at your gate. It’s Clover.'),
       N('A little gold Nubbin bounces on her shoulder. Boing, boing!'),
       CL('This is Dimple. She is one of mine.', 'happy'),
-      CL('Fossil died this summer. Dusty’s Fossil.', 'sad'),
-      N('That means Fossil’s body stopped working. It won’t start again.'),
+      CL('Dusty’s Fossil has faded.', 'sad'),
+      N('Faded means Fossil died. Her body stopped working, and it won’t start again.'),
       N('Her flower grows on the hill now. Everyone remembers her.'),
       CL('Dimple has smiled ever since. All day. All night!'),
       N('Four more Nubbins sit in a wet heap behind Clover.'),
@@ -92,11 +95,18 @@ const SCENES: EduScene[] = [
         after: 6,
         prompt: [N('Look at Dimple’s big smile. A smile often means… what?')],
         options: [
-          opt('Happy', [CL('Yes! A smile often means happy. Often. Let’s keep watching her.', 'happy')], true),
+          opt(
+            'Happy',
+            [CL('Yes! A smile often means happy. Often. Let’s keep watching her.', 'happy')],
+            true,
+          ),
           opt('Cross', [CL('Cross faces frown. A smile often means happy. Often!', 'think')]),
-          opt('Sleepy', [CL('Sleepy faces yawn. A smile often means happy. Let’s keep watching.', 'soft')]),
+          opt('Sleepy', [
+            CL('Sleepy faces yawn. A smile often means happy. Let’s keep watching.', 'soft'),
+          ]),
         ],
-        parentNote: 'Named the feeling a smile usually shows, ready to learn that a face and a feeling can differ.',
+        parentNote:
+          'Named the feeling a smile usually shows, ready to learn that a face and a feeling can differ.',
       },
     ],
   ),
@@ -123,7 +133,10 @@ const SCENES: EduScene[] = [
         kind: 'do',
         after: 3,
         check: 'edu:count:toys:4',
-        lines: [N('(Count Dimple’s toys together: reel, cone, sock, peg.)'), N('One, two, three, four. Four toys in the dent!')],
+        lines: [
+          N('(Count Dimple’s toys together: reel, cone, sock, peg.)'),
+          N('One, two, three, four. Four toys in the dent!'),
+        ],
         parentNote: 'Counted four toys, one number for each toy.',
       },
       {
@@ -134,8 +147,18 @@ const SCENES: EduScene[] = [
         after: 7,
         prompt: [N('Dimple’s face is smiling. Her ball is pale and thin. Do they match?')],
         options: [
-          opt('No, they don’t match', [N('That’s right. Her face says happy. Her ball says something else.'), N('A face and a feeling can be different.')], true),
-          opt('Yes, they match', [N('Look again. Her face is bright. Her ball is pale.'), N('A face and a feeling can be different.')]),
+          opt(
+            'No, they don’t match',
+            [
+              N('That’s right. Her face says happy. Her ball says something else.'),
+              N('A face and a feeling can be different.'),
+            ],
+            true,
+          ),
+          opt('Yes, they match', [
+            N('Look again. Her face is bright. Her ball is pale.'),
+            N('A face and a feeling can be different.'),
+          ]),
         ],
         parentNote: 'Noticed that a smiling face can hide a different feeling inside.',
       },
@@ -145,12 +168,18 @@ const SCENES: EduScene[] = [
         {
           id: 'tell',
           label: 'Show Clover Dimple’s ball.',
-          then: [CL('Balls flicker. It’s been a big week. Look at that face!', 'happy'), N('Clover keeps looking at the face.')],
+          then: [
+            CL('Balls flicker. It’s been a big week. Look at that face!', 'happy'),
+            N('Clover keeps looking at the face.'),
+          ],
         },
         {
           id: 'watch',
           label: 'Say nothing yet. Keep watching.',
-          then: [N('You sip your tea. You watch the ball.'), N('Dimple sees you looking. She smiles harder.')],
+          then: [
+            N('You sip your tea. You watch the ball.'),
+            N('Dimple sees you looking. She smiles harder.'),
+          ],
         },
       ],
     },
@@ -204,7 +233,9 @@ const SCENES: EduScene[] = [
         options: [
           opt('A circle', [N('Yes! Round and round, with no corners. A circle.')], true),
           opt('A square', [N('A square has four corners. This ring has none. It’s a circle!')]),
-          opt('A triangle', [N('A triangle has three corners. This ring has none. It’s a circle!')]),
+          opt('A triangle', [
+            N('A triangle has three corners. This ring has none. It’s a circle!'),
+          ]),
         ],
         parentNote: 'Named a circle made of acorns: round, with no corners.',
       },
@@ -294,8 +325,14 @@ const SCENES: EduScene[] = [
         after: 6,
         prompt: [BY('Ten is the most. Her ball got two. A lot or a little?')],
         options: [
-          opt('A little', [BY('Correct. Two is a little. Ten is a lot. Her ball is low.', 'think')], true),
-          opt('A lot', [BY('Count with me: one, two… all the way to ten. Two is little.', 'think')]),
+          opt(
+            'A little',
+            [BY('Correct. Two is a little. Ten is a lot. Her ball is low.', 'think')],
+            true,
+          ),
+          opt('A lot', [
+            BY('Count with me: one, two… all the way to ten. Two is little.', 'think'),
+          ]),
         ],
         parentNote: 'Compared 2 and 10 on Byte’s scale: 2 is a little, 10 is a lot.',
       },
@@ -408,8 +445,14 @@ const SCENES: EduScene[] = [
         after: 5,
         prompt: [N('Dusty is sad. What does Drizzle do to help?')],
         options: [
-          opt('She stays close', [N('Yes. She stays close and lets Dusty be sad.'), N('That can help a lot.')], true),
-          opt('She tells a joke', [N('Look again. No jokes. She stays close, and lets Dusty be sad.')]),
+          opt(
+            'She stays close',
+            [N('Yes. She stays close and lets Dusty be sad.'), N('That can help a lot.')],
+            true,
+          ),
+          opt('She tells a joke', [
+            N('Look again. No jokes. She stays close, and lets Dusty be sad.'),
+          ]),
           opt('She runs away', [N('Look again. She stays! Staying close can help a lot.')]),
         ],
         parentNote: 'Saw that staying close, without fixing, can help a sad friend.',
@@ -436,9 +479,15 @@ const SCENES: EduScene[] = [
         after: 1,
         prompt: [LU('Like me, some animals wake up at night. Which one?')],
         options: [
-          opt('An owl', [LU('Yes! Owls hunt at night. Hoo, hoo! Hedgehogs and bats do too.', 'happy')], true),
+          opt(
+            'An owl',
+            [LU('Yes! Owls hunt at night. Hoo, hoo! Hedgehogs and bats do too.', 'happy')],
+            true,
+          ),
           opt('A cow', [LU('Cows sleep at night, mostly. Owls wake up at night. Hoo, hoo!')]),
-          opt('A butterfly', [LU('Butterflies like the sunshine. Owls wake up at night. Hoo, hoo!')]),
+          opt('A butterfly', [
+            LU('Butterflies like the sunshine. Owls wake up at night. Hoo, hoo!'),
+          ]),
         ],
         parentNote: 'Named an animal that is awake at night (owls, hedgehogs, bats).',
       },
@@ -519,7 +568,10 @@ const SCENES: EduScene[] = [
         kind: 'do',
         after: 2,
         check: 'edu:tap:shape:ring-with-line',
-        lines: [N('(Find a ring. Find a line. Find a ring with a line through it.)'), N('Tap the one that means both!')],
+        lines: [
+          N('(Find a ring. Find a line. Find a ring with a line through it.)'),
+          N('Tap the one that means both!'),
+        ],
         parentNote: 'Found a circle, a line and a circle with a line through it.',
       },
       {
@@ -587,9 +639,17 @@ const SCENES: EduScene[] = [
         after: 3,
         prompt: [N('Fidget is worried. What is she trying to do?')],
         options: [
-          opt('Keep everyone safe', [N('Yes. Worries try to keep us safe.'), N('Sometimes they try a bit too hard.')], true),
-          opt('Be naughty', [N('She isn’t being naughty. She’s worried. She wants everyone safe.')]),
-          opt('Play a game', [N('It’s not a game to her. She’s worried. She wants everyone safe.')]),
+          opt(
+            'Keep everyone safe',
+            [N('Yes. Worries try to keep us safe.'), N('Sometimes they try a bit too hard.')],
+            true,
+          ),
+          opt('Be naughty', [
+            N('She isn’t being naughty. She’s worried. She wants everyone safe.'),
+          ]),
+          opt('Play a game', [
+            N('It’s not a game to her. She’s worried. She wants everyone safe.'),
+          ]),
         ],
         parentNote: 'Learned that worry tries to keep us safe, and can try too hard.',
       },
@@ -635,18 +695,25 @@ const SCENES: EduScene[] = [
     ],
     [
       {
-        domain: 'maths',
-        skill: 'count to 3',
-        standard: 'K.CC.B.4',
+        domain: 'sel',
+        skill: 'finding a way that works for everyone',
+        standard: 'CASEL: Responsible decision-making',
         kind: 'ask',
-        after: 2,
-        prompt: [N('Drizzle, the fussy one, Flinch. How many came out?')],
-        options: [
-          opt('Three', [N('Yes! One, two, three Nubbins came out.')], true),
-          opt('Two', [N('Let’s count again: Drizzle, one. Fussy one, two. Flinch, three!')]),
-          opt('Four', [N('Let’s count again: one, two, three. Three Nubbins.')]),
+        after: 4,
+        prompt: [
+          N('Fidget wanted the door shut. The others wanted out. Who did the blanket help?'),
         ],
-        parentNote: 'Counted three Nubbins, matching each name to a number.',
+        options: [
+          opt(
+            'Everyone',
+            [N('Yes! Fidget sees it shut. The others can get out. Good for everyone.')],
+            true,
+          ),
+          opt('Only Fidget', [
+            N('Look again. Fidget is happy, and the others can get out too. Everyone!'),
+          ]),
+        ],
+        parentNote: 'Saw how one idea can help everyone, even when friends want different things.',
       },
     ],
   ),
@@ -698,7 +765,10 @@ const SCENES: EduScene[] = [
         kind: 'do',
         after: 2,
         check: 'edu:order:toys:reel-cone-peg',
-        lines: [N('(Put the toys in order. Which came first? Next? Last?)'), N('Reel first. Cone next. Peg last!')],
+        lines: [
+          N('(Put the toys in order. Which came first? Next? Last?)'),
+          N('Reel first. Cone next. Peg last!'),
+        ],
         parentNote: 'Put three events in order: first, next, last.',
       },
     ],
@@ -749,7 +819,11 @@ const SCENES: EduScene[] = [
         after: 2,
         prompt: [N('Dimple isn’t smiling now. How do you think she feels?')],
         options: [
-          opt('Sad', [N('Yes. Dimple feels sad. She misses Fossil.'), N('Now her face shows it.')], true),
+          opt(
+            'Sad',
+            [N('Yes. Dimple feels sad. She misses Fossil.'), N('Now her face shows it.')],
+            true,
+          ),
           opt('Happy', [N('Not just now. Her face is sad. She misses Fossil.')]),
           opt('Cross', [N('Maybe a bit! But mostly sad. She misses Fossil.')]),
         ],
@@ -830,7 +904,10 @@ const SCENES: EduScene[] = [
         kind: 'do',
         after: 5,
         check: 'edu:pull:rope:hand-over-hand',
-        lines: [N('(Pull the rope, hand over hand. One, two, three, four!)'), N('A pull brings the basket up towards you. Up it comes!')],
+        lines: [
+          N('(Pull the rope, hand over hand. One, two, three, four!)'),
+          N('A pull brings the basket up towards you. Up it comes!'),
+        ],
         parentNote: 'Pulled to move something towards them: a pull is a force.',
       },
     ],
@@ -912,9 +989,15 @@ const SCENES: EduScene[] = [
         after: 6,
         prompt: [N('Fidget was scared. How did Dimple help her?')],
         options: [
-          opt('She sat beside her', [N('Yes. She sat beside her and stayed. Just like Fossil did.')], true),
+          opt(
+            'She sat beside her',
+            [N('Yes. She sat beside her and stayed. Just like Fossil did.')],
+            true,
+          ),
           opt('She bounced at her', [N('Not this time! She sat beside her and stayed.')]),
-          opt('She told her to stop', [N('She didn’t tell her anything. She sat beside her and stayed.')]),
+          opt('She told her to stop', [
+            N('She didn’t tell her anything. She sat beside her and stayed.'),
+          ]),
         ],
         parentNote: 'Talked about sitting with a scared friend until they feel calmer.',
       },
@@ -941,7 +1024,10 @@ const SCENES: EduScene[] = [
         kind: 'do',
         after: 4,
         check: 'edu:draw:shape:ring-with-line',
-        lines: [N('(Draw Dimple’s mark with your finger: a big ring, then a line through it.)'), N('Round… and across. Happy and sad, together.')],
+        lines: [
+          N('(Draw Dimple’s mark with your finger: a big ring, then a line through it.)'),
+          N('Round… and across. Happy and sad, together.'),
+        ],
         parentNote: 'Drew a circle with a line through it, a mark for happy and sad together.',
       },
     ],
@@ -1048,10 +1134,18 @@ export const EDU_S30_SPROUT_VARIANTS: EduScene[] = [
         standard: 'RL.K.3',
         kind: 'ask',
         after: 2,
-        prompt: [DU('Fossil went cliff, tree, pond. Dimple goes backwards. Where does she go last?')],
+        prompt: [
+          DU('Fossil went cliff, tree, pond. Dimple goes backwards. Where does she go last?'),
+        ],
         options: [
-          opt('The cliff', [DU('Yes. Pond first, tree next, cliff last. Backwards!', 'soft')], true),
-          opt('The pond', [DU('The pond was first for Dimple. Then tree. Then cliff, last!', 'soft')]),
+          opt(
+            'The cliff',
+            [DU('Yes. Pond first, tree next, cliff last. Backwards!', 'soft')],
+            true,
+          ),
+          opt('The pond', [
+            DU('The pond was first for Dimple. Then tree. Then cliff, last!', 'soft'),
+          ]),
         ],
         parentNote: 'Put a walk in order, then thought about it backwards.',
       },
@@ -1155,7 +1249,10 @@ export const EDU_S30_SPROUT_VARIANTS: EduScene[] = [
         kind: 'do',
         after: 4,
         check: 'edu:draw:shape:ring-with-line',
-        lines: [N('(Draw Dimple’s mark with your finger: a big ring, then a line through it.)'), N('Round… and across. Happy and sad, together.')],
+        lines: [
+          N('(Draw Dimple’s mark with your finger: a big ring, then a line through it.)'),
+          N('Round… and across. Happy and sad, together.'),
+        ],
         parentNote: 'Drew a circle with a line through it, a mark for happy and sad together.',
       },
     ],
@@ -1199,7 +1296,9 @@ export const EDU_S30_SPROUT_VARIANTS: EduScene[] = [
         prompt: [DU('Thursday! Which day comes just before Thursday?')],
         options: [
           opt('Wednesday', [DU('Yes. Wednesday, then Thursday. Then Friday!', 'happy')], true),
-          opt('Saturday', [DU('Saturday comes later. Monday, Tuesday, Wednesday… Thursday!', 'soft')]),
+          opt('Saturday', [
+            DU('Saturday comes later. Monday, Tuesday, Wednesday… Thursday!', 'soft'),
+          ]),
         ],
         parentNote: 'Put days of the week in order.',
       },
@@ -1221,7 +1320,10 @@ export const EDU_S30_SPROUT_VARIANTS: EduScene[] = [
         kind: 'do',
         after: 2,
         check: 'edu:sort:balls:gold-blue-both',
-        lines: [N('(Help Byte sort the balls: gold here, blue there, both in the middle.)'), BY('Three groups. Perfect.', 'happy')],
+        lines: [
+          N('(Help Byte sort the balls: gold here, blue there, both in the middle.)'),
+          BY('Three groups. Perfect.', 'happy'),
+        ],
         parentNote: 'Sorted things into three groups, including a group for “both”.',
       },
     ],
@@ -1242,7 +1344,10 @@ export const EDU_S30_SPROUT_VARIANTS: EduScene[] = [
         kind: 'do',
         after: 2,
         check: 'edu:sit:still:count-10',
-        lines: [N('(Can you sit as still as a stone while we count to ten?)'), SP('One, two, three… ten! You beat me!', 'happy')],
+        lines: [
+          N('(Can you sit as still as a stone while we count to ten?)'),
+          SP('One, two, three… ten! You beat me!', 'happy'),
+        ],
         parentNote: 'Practised keeping still while counting to ten.',
       },
     ],
@@ -1257,20 +1362,56 @@ export const EDU_S30_SPROUT: EduQuest[] = [
     band: 'sprout',
     title: 'What Sad Is For',
     goals: {
-      's30-step1': { goal: 'Go to Clover’s house for tea. Meet her Nubbins.', hint: 'Clover’s house has a big windowsill and a rain butt.' },
-      's30-step2': { goal: 'Go out to the yard. See what Dimple is doing.', hint: 'Go round the back, by the rain butt. Go quietly!' },
-      's30-step3': { goal: 'Play the party games with Dimple.', hint: 'A streamer race, a hat toss, and cake. Nobody can lose.' },
-      's30-step4': { goal: 'Watch Dimple with her five favourite things.', hint: 'Sill, puddles, fast Nubbins, Byte’s laces, bedtime hum.' },
-      's30-step5': { goal: 'Wait by Dusty’s hole.', hint: 'Don’t dig. Just stand by the hole for a little while.' },
-      's30-step6': { goal: 'Walk up the hill path with Luna at night.', hint: 'No lantern. The Moon gives enough light.' },
-      's30-step7': { goal: 'Look at Hush’s flat stone in the old wall.', hint: 'It’s low down by the wall. Brush the frost off.' },
-      's30-step8': { goal: 'Go to Clover’s at bedtime. See how Fidget is.', hint: 'Get there when the sky goes dark.' },
-      's30-step9': { goal: 'Open the shed. Don’t scare Fidget!', hint: 'Hang the blanket over the door. Bucket on the edge. Leave a gap.' },
-      's30-step10': { goal: 'Follow Dimple’s toys and find her.', hint: 'She dropped her toys as she went. Follow them!' },
-      's30-step11': { goal: 'Stay by the hole until Dimple stops.', hint: 'Don’t call her. Just stay. It takes a while.' },
+      's30-step1': {
+        goal: 'Go to Clover’s house for tea. Meet her Nubbins.',
+        hint: 'Clover’s house has a big windowsill and a rain butt.',
+      },
+      's30-step2': {
+        goal: 'Go out to the yard. See what Dimple is doing.',
+        hint: 'Go round the back, by the rain butt. Go quietly!',
+      },
+      's30-step3': {
+        goal: 'Play the party games with Dimple.',
+        hint: 'A streamer race, a hat toss, and cake. Nobody can lose.',
+      },
+      's30-step4': {
+        goal: 'Watch Dimple with her five favourite things.',
+        hint: 'Sill, puddles, fast Nubbins, Byte’s laces, bedtime hum.',
+      },
+      's30-step5': {
+        goal: 'Wait by Dusty’s hole.',
+        hint: 'Don’t dig. Just stand by the hole for a little while.',
+      },
+      's30-step6': {
+        goal: 'Walk up the hill path with Luna at night.',
+        hint: 'No lantern. The Moon gives enough light.',
+      },
+      's30-step7': {
+        goal: 'Look at Hush’s flat stone in the old wall.',
+        hint: 'It’s low down by the wall. Brush the frost off.',
+      },
+      's30-step8': {
+        goal: 'Go to Clover’s at bedtime. See how Fidget is.',
+        hint: 'Get there when the sky goes dark.',
+      },
+      's30-step9': {
+        goal: 'Open the shed. Don’t scare Fidget!',
+        hint: 'Hang the blanket over the door. Bucket on the edge. Leave a gap.',
+      },
+      's30-step10': {
+        goal: 'Follow Dimple’s toys and find her.',
+        hint: 'She dropped her toys as she went. Follow them!',
+      },
+      's30-step11': {
+        goal: 'Stay by the hole until Dimple stops.',
+        hint: 'Don’t call her. Just stay. It takes a while.',
+      },
       's30-step12': { goal: 'Listen to Clover’s story.', hint: 'Sit by the hole and listen.' },
       's30-step13': { goal: 'Pull the basket up.', hint: 'Pull hand over hand, nice and steady.' },
-      's30-step14': { goal: 'Sit with Dimple by Fossil’s flower.', hint: 'Sit down near her and stay.' },
+      's30-step14': {
+        goal: 'Sit with Dimple by Fossil’s flower.',
+        hint: 'Sit down near her and stay.',
+      },
     },
     scenes: SCENES,
     notes:
