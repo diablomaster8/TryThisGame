@@ -6,7 +6,7 @@ import type { World } from './types';
 import { sanitizeMatureContent } from './audience';
 import { defaultSettings } from './world';
 
-export const SAVE_VERSION = 4;
+export const SAVE_VERSION = 5;
 
 export interface SaveFile {
   version: number;
@@ -74,6 +74,13 @@ export const MIGRATIONS: Array<(data: Record<string, unknown>) => Record<string,
       campaign.fun ??= {};
       campaign.seenMs ??= {};
     }
+    return data;
+  },
+  // 4 → 5: the separate campaigns (storylines) share the campaign state.
+  (data) => {
+    const world = data.world as Record<string, unknown> | undefined;
+    const campaign = world?.campaign as Record<string, unknown> | null | undefined;
+    if (campaign) campaign.storyline ??= null;
     return data;
   },
 ];
@@ -263,6 +270,7 @@ export function validateWorld(w: World): World {
     c.vigil ??= null;
     c.openedMs ??= null;
     c.goalMetMs ??= null;
+    c.storyline ??= null;
     c.queue = c.queue.filter((id) => sceneById(id) !== undefined);
   }
   w.grove ??= 'main';

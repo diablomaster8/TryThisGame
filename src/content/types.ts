@@ -137,14 +137,7 @@ export interface ResultSet {
 export type EduBand = 'sprout' | 'reader';
 
 export type EduDomain =
-  | 'maths'
-  | 'literacy'
-  | 'science'
-  | 'social-studies'
-  | 'sel'
-  | 'music'
-  | 'art'
-  | 'health';
+  'maths' | 'literacy' | 'science' | 'social-studies' | 'sel' | 'music' | 'art' | 'health';
 
 export interface LessonOption {
   label: string;
@@ -250,7 +243,17 @@ export interface VocabItem {
   english: string;
   /** A rough English sound-alike for a grown-up reading aloud, stress in capitals: "toe-DAH". */
   sayIt: string;
-  topic: 'greetings' | 'letters' | 'numbers' | 'colours' | 'food' | 'animals' | 'family' | 'feelings' | 'nature' | 'culture';
+  topic:
+    | 'greetings'
+    | 'letters'
+    | 'numbers'
+    | 'colours'
+    | 'food'
+    | 'animals'
+    | 'family'
+    | 'feelings'
+    | 'nature'
+    | 'culture';
   /** Code of the quest that first teaches it. */
   quest: string;
   /** 'both' bands, or 'reader' only. */
@@ -281,4 +284,48 @@ export interface LanguageCourse {
   vocab: VocabItem[];
   script: { name: string; direction: string; chars: ScriptChar[] };
   notes: string;
+}
+
+// ---------------------------------------------------------------- separate campaigns
+/**
+ * A storyline: one of the separate campaigns (S1-S4) that play in their own save mode
+ * with their own chapters and endings. The sim runs them with the shared chapter machine
+ * in sim/storyline.ts; goals are check strings read by sim/storyline-checks.ts, e.g.
+ * `recruits:>=3`, `prosperity:>=40&partner:adult`, `act:light-the-mill`.
+ */
+export interface StorylineBeat {
+  /** Check string; the scene plays once, the first time it is met during the chapter. */
+  when: string;
+  scene: Scene;
+}
+
+export interface StorylineChapter {
+  n: number;
+  title: string;
+  opening: Scene;
+  /** Check string (see sim/storyline-checks.ts). */
+  goal: string;
+  goalText: string;
+  hint: string;
+  closing: Scene;
+  beats?: StorylineBeat[];
+}
+
+export interface Storyline {
+  /** Save-side id: 'hundred', 'logged', 'beetle', 'dawn' or 'dusk'. */
+  id: string;
+  /** S1-S4. */
+  code: string;
+  title: string;
+  tagline: string;
+  /** Source work, for reference only. */
+  source: string;
+  audience: Audience;
+  speakers: Speaker[];
+  chapters: StorylineChapter[];
+  /** Ending id -> journal title and how to reach it. The scene `end-<id>-<ending>` plays. */
+  endings: Record<string, { title: string; how: string }>;
+  /** Ending scenes, variants and any scene the rules queue by id. */
+  extra: Scene[];
+  notes?: string;
 }

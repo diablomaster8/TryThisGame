@@ -19,6 +19,14 @@ import { noteSceneWords } from './lang';
 import { sceneById, sceneFor } from './story-scenes';
 import { collectorRoute, queueScene, sableOf, seen } from './story-state';
 import { TRAINERS } from './trainers';
+import {
+  applyStorylineCommand,
+  startStoryline,
+  stepStoryline,
+  stepStorylineEvents,
+  storyGoalMet,
+  storySceneDone,
+} from './storyline';
 import type { CampaignState, Command, Location, SimEvent, World } from './types';
 import { newId, uniqueName, withRng } from './world';
 
@@ -73,7 +81,13 @@ function freshState(nowMs: number): CampaignState {
     vigil: null,
     openedMs: null,
     goalMetMs: null,
+    storyline: null,
   };
+}
+
+/** Fresh state for a storyline (sim/storyline.ts), public for its tests. */
+export function freshCampaignState(nowMs: number): CampaignState {
+  return freshState(nowMs);
 }
 
 /** Begin (or restart) the campaign in this world. */
@@ -229,6 +243,7 @@ const GOALS: Record<string, (world: World, c: CampaignState) => boolean> = {
 
 /** Public, for the journal: is the current goal met. */
 export function goalMet(world: World, c: CampaignState): boolean {
+  if (c.storyline) return storyGoalMet(world, c);
   const def = chapterDef(c.chapter);
   if (!def) return false;
   return GOALS[def.goal]?.(world, c) ?? false;
@@ -435,6 +450,12 @@ function stepChapter(world: World, c: CampaignState, events: SimEvent[]): void {
 export function stepCampaign(world: World, dtMs: number, events: SimEvent[]): void {
   const c = world.campaign;
   if (!c || c.chapter === 0) return;
+  if (c.storyline) {
+    stepStorylineEvents(world, c, events);
+    const tick = Math.floor(world.timeMs / 1000) !== Math.floor((world.timeMs - dtMs) / 1000);
+    if (tick && c.queue.length === 0) stepStoryline(world, c, events);
+    return;
+  }
   for (const e of events) {
     switch (e.kind) {
       case 'hatched':
@@ -589,6 +610,15 @@ export function applyCampaignCommand(world: World, cmd: Command, events: SimEven
     case 'campaignStart':
       startCampaign(world, events);
       return;
+    case 'storylineStart':
+      startStoryline(world, freshState(world.timeMs), cmd.id, events);
+      return;
+    case 'storyArea':
+    case 'storyAct': {
+      const c = world.campaign;
+      if (c?.storyline) applyStorylineCommand(world, c, cmd, events);
+      return;
+    }
     case 'sceneDone': {
       const c = world.campaign;
       if (!c) return;
@@ -603,6 +633,10 @@ export function applyCampaignCommand(world: World, cmd: Command, events: SimEven
       if (scene.set) Object.assign(c.flags, scene.set);
       const choice = scene.choices?.find((ch) => ch.id === cmd.choice);
       if (choice) applyChoice(world, c, cmd.scene, choice, before);
+      if (c.storyline) {
+        storySceneDone(world, c, cmd.scene, cmd.choice, events);
+        return;
+      }
       campaignSceneDone(world, c, cmd.scene);
       sideSceneDone(world, c, cmd.scene);
       if (world.edu) {
@@ -646,6 +680,10 @@ export function applyCampaignCommand(world: World, cmd: Command, events: SimEven
     case 'debugChapter': {
       const c = world.campaign;
       if (!c) return;
+      if (c.storyline) {
+        applyStorylineCommand(world, c, cmd, events);
+        return;
+      }
       c.queue = [];
       beginChapter(world, c, Math.max(1, Math.min(FINAL_CHAPTER, cmd.chapter)), events);
       queueOpening(world, c);

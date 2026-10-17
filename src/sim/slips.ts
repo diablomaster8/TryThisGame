@@ -61,7 +61,7 @@ export function stepSlips(world: World, dtMs: number, events: SimEvent[]): void 
 /** The adult span for this Nubbin, trimmed by its slips. */
 export function lifespanMs(n: Nubbin): number {
   const f = Math.max(SLIPS.lifespanFloor, 1 - n.slipCount * SLIPS.lifespanPerSlip);
-  return Math.round(LIFECYCLE.adultMs * f);
+  return Math.round(LIFECYCLE.adultMs * f * (n.spanScale ?? 1));
 }
 
 /** At evolution: a clean childhood or a moody one. */

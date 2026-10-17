@@ -184,6 +184,8 @@ export interface Nubbin {
   /** Past lives, newest last. */
   ancestry: string[];
   heirloom: boolean;
+  /** Adult span multiplier for a storyline partner (S1); unset means 1. */
+  spanScale?: number;
   lastPetMs: number;
   lastShakeMs: number;
   // Future fields (v2), empty by default so no migration is needed later.
@@ -578,6 +580,8 @@ export interface CampaignState {
   goalMetMs: number | null;
   /** Fun quests Q1–Q65 the runner drives (sim/fun-quests.ts), by quest id. */
   fun: Record<string, SideStoryState>;
+  /** A separate campaign's id (sim/storyline.ts), or null for Hazel's Grove. */
+  storyline: string | null;
 }
 
 /** One side story's progress. Steps are 0-based indexes into the quest's steps. */
@@ -734,6 +738,12 @@ export type Command =
   | { kind: 'debugChapter'; chapter: number }
   /** Do the current step of a side story (journal button; see sim/side-stories.ts). */
   | { kind: 'sideAct'; story: string }
+  /** Start a separate campaign (sim/storyline.ts) in this world. */
+  | { kind: 'storylineStart'; id: string }
+  /** Travel to one of a storyline's areas (S1's six places). */
+  | { kind: 'storyArea'; area: string }
+  /** The journal's Do-it for a storyline goal that waits on `act:<label>`. */
+  | { kind: 'storyAct'; label: string }
   /** A tap on a story prop (the old trowel, the flat stone...), by prop id. */
   | { kind: 'storyProp'; prop: string }
   | { kind: 'giveHeartFruit'; nubbinId: string }
@@ -863,6 +873,8 @@ export type SimEvent =
   | { kind: 'lanternLit'; id: string }
   | { kind: 'lanternOut'; id: string }
   | { kind: 'sideStory'; story: string; status: 'open' | 'done' | 'closed' }
+  | { kind: 'storylineStarted'; id: string }
+  | { kind: 'areaChanged'; area: string }
   | { kind: 'keepsake'; id: string; quest: string }
   | { kind: 'talked'; npcId: string }
   | { kind: 'courting'; nubbinId: string }

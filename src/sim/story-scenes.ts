@@ -7,7 +7,15 @@ import {
   type Line,
   type Scene,
 } from '../config/story';
-import type { EduBand, EduScene, LanguageCourse, Lesson, Quest, Reward } from '../content/types';
+import type {
+  EduBand,
+  EduScene,
+  LanguageCourse,
+  Lesson,
+  Quest,
+  Reward,
+  Storyline,
+} from '../content/types';
 import { registerLangCourses, registerLangQuests } from './lang';
 import type { CampaignState, World } from './types';
 
@@ -87,6 +95,38 @@ export function registerSideStories(content: SideStoryContent): void {
   for (const s of content.variants) add(s);
 }
 
+const STORYLINE_BY_ID = new Map<string, Storyline>();
+
+/** A separate campaign's script by id ('hundred', 'logged', 'beetle', 'dawn', 'dusk'). */
+export function storylineById(id: string): Storyline | undefined {
+  return STORYLINE_BY_ID.get(id);
+}
+
+/** Every registered storyline, in script order (for the title screen). */
+export function storylines(): Storyline[] {
+  return [...STORYLINE_BY_ID.values()];
+}
+
+/**
+ * Add the separate campaigns' chapters, beats, endings and extra scenes to the registry,
+ * their speakers to SPEAKERS, and their endings to ENDINGS under `<id>-<ending>` so the
+ * dialogue box's end card finds them. Safe to repeat.
+ */
+export function registerStorylines(list: Storyline[]): void {
+  for (const s of list) {
+    if (STORYLINE_BY_ID.has(s.id)) continue;
+    STORYLINE_BY_ID.set(s.id, s);
+    for (const ch of s.chapters) {
+      add(ch.opening);
+      add(ch.closing);
+      for (const b of ch.beats ?? []) add(b.scene);
+    }
+    for (const x of s.extra) add(x);
+    for (const sp of s.speakers) SPEAKERS[sp.id] ??= { name: sp.name, kind: sp.kind };
+    for (const [id, e] of Object.entries(s.endings)) ENDINGS[`${s.id}-${id}`] ??= e;
+  }
+}
+
 let loading: Promise<void> | null = null;
 
 /**
@@ -94,12 +134,15 @@ let loading: Promise<void> | null = null;
  * them, campaign first. The app awaits this before a save loads.
  */
 export function loadStoryScripts(): Promise<void> {
-  loading ??= Promise.all([import('../content/campaign'), import('./side-story-content')]).then(
-    ([campaign, side]) => {
-      registerCampaign(campaignContent(campaign));
-      registerSideStories(side.SIDE_STORY_CONTENT);
-    },
-  );
+  loading ??= Promise.all([
+    import('../content/campaign'),
+    import('./side-story-content'),
+    import('./storyline-content'),
+  ]).then(([campaign, side, lines]) => {
+    registerCampaign(campaignContent(campaign));
+    registerSideStories(side.SIDE_STORY_CONTENT);
+    registerStorylines(lines.STORYLINE_CONTENT);
+  });
   return loading;
 }
 

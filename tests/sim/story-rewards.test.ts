@@ -47,7 +47,7 @@ describe('story rewards', () => {
     delete (w.campaign as Record<string, unknown>).fun;
     data.version = 3;
     const migrated = MIGRATIONS[2]!(data);
-    expect(SAVE_VERSION).toBe(4);
+    expect(SAVE_VERSION).toBeGreaterThanOrEqual(4);
     expect((migrated.world as typeof w).inventory).toHaveProperty('keepsakes', []);
     expect((migrated.world as typeof w).campaign).toHaveProperty('fun', {});
     const loaded = deserialize(JSON.stringify(data)).world;

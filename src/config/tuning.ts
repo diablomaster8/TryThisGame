@@ -1039,3 +1039,9 @@ export const STORY_PROPS: readonly StoryPropDef[] = [
   },
   { id: 'hush-bench', kind: 'oldBench', x: 12.2, z: 4.4, meets: ['s26-hush-bench', 'hush-bench'] },
 ];
+
+/** The separate campaigns (sim/storyline.ts, sim/storyline-rules.ts). */
+export const STORYLINES = {
+  /** S1: the partner's adult span, as a multiple of the usual one (5 h × 72 ≈ 15 days). */
+  hundredSpanScale: 72,
+} as const;

@@ -6,7 +6,20 @@
  * Grove). Slot 1 of each mode keeps the key the game used before slots existed, so
  * nobody loses a Grove.
  */
-export type SaveMode = 'free' | 'campaign' | 'edu';
+export type SaveMode = 'free' | 'campaign' | 'edu' | StorylineMode;
+
+/** The separate campaigns' modes (sim/storyline.ts): S1, S2, S3 and S4's two halves. */
+export type StorylineMode = 'hundred' | 'logged' | 'beetle' | 'dawndusk';
+export const STORYLINE_MODES: readonly StorylineMode[] = [
+  'hundred',
+  'logged',
+  'beetle',
+  'dawndusk',
+];
+
+export function isStorylineMode(mode: SaveMode): mode is StorylineMode {
+  return (STORYLINE_MODES as readonly string[]).includes(mode);
+}
 
 export const SLOTS_PER_MODE = 3;
 
@@ -20,6 +33,10 @@ const LEGACY_KEYS: Record<SaveMode, string> = {
   free: 'grove.save.v1',
   campaign: 'grove.save.campaign',
   edu: 'grove.save.edu',
+  hundred: 'grove.save.hundred',
+  logged: 'grove.save.logged',
+  beetle: 'grove.save.beetle',
+  dawndusk: 'grove.save.dawndusk',
 };
 
 export function slotKey(slot: SaveSlot): string {
@@ -77,6 +94,9 @@ export interface SaveSummary {
   names: string[];
   trainer: string | null;
   chapter: number | null;
+  /** A separate campaign's id and its ending, once reached. */
+  storyline: string | null;
+  ending: string | null;
   eduAge: number | null;
   /** Sim time lived in this Grove. */
   playMs: number;
@@ -89,7 +109,11 @@ export function summarize(json: string): SaveSummary | null {
     const w = (data.world ?? null) as Record<string, unknown> | null;
     if (!w || typeof w !== 'object') return null;
     const nubbins = Array.isArray(w.nubbins) ? (w.nubbins as Array<{ name?: unknown }>) : [];
-    const campaign = (w.campaign ?? null) as { chapter?: unknown } | null;
+    const campaign = (w.campaign ?? null) as {
+      chapter?: unknown;
+      storyline?: unknown;
+      ending?: unknown;
+    } | null;
     const edu = (w.edu ?? null) as { age?: unknown } | null;
     return {
       savedAtWallMs: typeof data.savedAtWallMs === 'number' ? data.savedAtWallMs : 0,
@@ -100,6 +124,8 @@ export function summarize(json: string): SaveSummary | null {
         .slice(0, 3),
       trainer: typeof w.trainer === 'string' ? w.trainer : null,
       chapter: campaign && typeof campaign.chapter === 'number' ? campaign.chapter : null,
+      storyline: campaign && typeof campaign.storyline === 'string' ? campaign.storyline : null,
+      ending: campaign && typeof campaign.ending === 'string' ? campaign.ending : null,
       eduAge: edu && typeof edu.age === 'number' ? edu.age : null,
       playMs: typeof w.timeMs === 'number' ? w.timeMs : 0,
     };
@@ -115,6 +141,15 @@ export function readSlotSummary(slot: SaveSlot): SaveSummary | null {
   } catch {
     return null;
   }
+}
+
+/** Has storyline `id` reached an ending in any slot of `mode` (Dawn unlocks Dusk and back). */
+export function storylineFinished(mode: SaveMode, id: string): boolean {
+  for (let index = 1; index <= SLOTS_PER_MODE; index++) {
+    const s = readSlotSummary({ mode, index });
+    if (s && s.storyline === id && s.ending !== null) return true;
+  }
+  return false;
 }
 
 export function readSave(): string | null {

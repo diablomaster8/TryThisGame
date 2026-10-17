@@ -42,7 +42,7 @@ import { SettingsMenu } from './settings';
 import { StatsSheet } from './stats-sheet';
 import { Dialogue } from './dialogue';
 import { Journal } from './journal';
-import { chapterDef } from '../sim/campaign';
+import { chapterTitle } from '../sim/storyline';
 import { STORY_TEXT } from '../config/story';
 import { KindergartenMenu } from './kindergarten';
 import { KarateMenu } from './karate';
@@ -621,8 +621,8 @@ export function mountHud(
           shop.onBought(e.ok, e.reason, e.item);
           if (e.ok) playSound('buy');
         } else if (e.kind === 'chapter') {
-          const def = chapterDef(e.chapter);
-          if (def) toast(STORY_TEXT.chapterStarted(e.chapter, def.title));
+          const title = chapterTitle(g.world.campaign, e.chapter);
+          if (title !== null) toast(STORY_TEXT.chapterStarted(e.chapter, title));
         } else if (e.kind === 'turnedShadow') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           toast(STORY_TEXT.turnedShadow(n?.name ?? NAMES.creature));

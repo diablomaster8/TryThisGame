@@ -760,6 +760,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'lightLantern':
     case 'debugChapter':
     case 'sideAct':
+    case 'storylineStart':
+    case 'storyArea':
+    case 'storyAct':
       applyCampaignCommand(world, cmd, events);
       return;
     case 'storyProp':

@@ -1,12 +1,14 @@
-import { ATLAS_TEXT } from '../config/strings';
+import { ATLAS_TEXT, STORYLINE_TEXT } from '../config/strings';
 import { atlasPagesDone } from '../sim/cross-saves';
 import { readCrossSaves } from './atlas';
 import { TRAINER_LABELS } from '../config/strings';
-import { CHAPTERS, ENDINGS, SPEAKERS, STORY_TEXT } from '../config/story';
+import { SPEAKERS, STORY_TEXT } from '../config/story';
 import type { Game } from '../game';
-import { chapterDef, goalMet } from '../sim/campaign';
+import { goalMet } from '../sim/campaign';
+import { journalView } from '../sim/storyline';
 import { funQuestIds, RUNNER_STORIES, sideActable } from '../sim/side-stories';
 import type { SideStoryState } from '../sim/types';
+import type { JournalView } from '../sim/storyline';
 import { eduContent, rewardById, sideStory, textBandOf } from '../sim/story-scenes';
 import { button, el, modal } from './dom';
 import { LANG_TEXT } from '../config/strings';
@@ -66,17 +68,11 @@ export class Journal {
     const c = g?.world.campaign;
     this.body.innerHTML = '';
     if (!g || !c) return;
+    const view = journalView(g.world, c, goalMet(g.world, c));
+    if (!view) return;
     const tabs = el('div', 'race-tiers');
     for (const [id, label] of [
-      [
-        'chapter',
-        STORY_TEXT.chapter(
-          Math.min(c.chapter, 12),
-          eduJournal(g)?.chapter(Math.min(c.chapter, 12))?.title ??
-            chapterDef(Math.min(c.chapter, 12))?.title ??
-            '',
-        ),
-      ],
+      ['chapter', STORY_TEXT.chapter(view.n, eduJournal(g)?.chapter(view.n)?.title ?? view.title)],
       ['paths', STORY_TEXT.paths],
     ] as const) {
       const b = button(
@@ -91,8 +87,8 @@ export class Journal {
       tabs.appendChild(b);
     }
     this.body.appendChild(tabs);
-    if (this.page === 'paths') this.renderPaths(c.ending);
-    else this.renderChapter(g);
+    if (this.page === 'paths') this.renderPaths(view);
+    else this.renderChapter(g, view);
   }
 
   /** The side stories the runner drives, then the open fun quests: each one's current step. */
@@ -192,26 +188,24 @@ export class Journal {
     for (const id of done) this.body.appendChild(el('p', undefined, ATLAS_TEXT.pages[id] ?? id));
   }
 
-  private renderChapter(g: Game): void {
+  private renderChapter(g: Game, view: JournalView): void {
     const c = g.world.campaign!;
-    const def = chapterDef(Math.min(c.chapter, 12));
-    if (!def) return;
-    if (c.chapter > 12) {
-      const ending = c.ending ? ENDINGS[c.ending] : undefined;
+    if (c.chapter > view.final) {
+      const ending = view.ending ? view.endings[view.ending] : undefined;
       this.body.appendChild(el('p', 'help', STORY_TEXT.endingReached(ending?.title ?? '')));
     } else {
-      const met = goalMet(g.world, c);
       const edu = eduJournal(g)?.chapter(c.chapter);
-      this.body.appendChild(el('div', 'btn-name', `${STORY_TEXT.goal}${met ? ' ✓' : ''}`));
-      this.body.appendChild(el('p', undefined, edu?.goalText ?? def.goalText));
+      this.body.appendChild(el('div', 'btn-name', `${STORY_TEXT.goal}${view.met ? ' ✓' : ''}`));
+      this.body.appendChild(el('p', undefined, edu?.goalText ?? view.goalText));
       this.body.appendChild(el('div', 'btn-name', STORY_TEXT.hint));
-      this.body.appendChild(el('p', 'help', edu?.hint ?? def.hint));
+      this.body.appendChild(el('p', 'help', edu?.hint ?? view.hint));
+      this.renderStoryActions(g, view);
     }
-    this.renderSideStories(g);
+    if (!c.storyline) this.renderSideStories(g);
     this.renderMemories(g);
     // Sable and Moss at a glance.
     const list = el('div', 'journal-cast');
-    for (const id of [c.sableId, c.mossId]) {
+    for (const id of c.storyline ? [] : [c.sableId, c.mossId]) {
       const n = id ? g.world.nubbins.find((x) => x.id === id) : undefined;
       if (!n) continue;
       const state = n.shadow
@@ -247,7 +241,7 @@ export class Journal {
     }
     // Chapter list.
     const chapters = el('div', 'journal-chapters');
-    for (const ch of CHAPTERS) {
+    for (const ch of view.chapters) {
       const done = ch.n < c.chapter;
       const current = ch.n === c.chapter;
       chapters.appendChild(
@@ -261,9 +255,63 @@ export class Journal {
     this.body.appendChild(chapters);
   }
 
-  private renderPaths(reached: string | null): void {
-    this.body.appendChild(el('p', 'help', STORY_TEXT.pathsHelp));
-    for (const [id, e] of Object.entries(ENDINGS)) {
+  /** A storyline's buttons: the goal's Do-it, travel between its areas, its own actions. */
+  private renderStoryActions(g: Game, view: JournalView): void {
+    const c = g.world.campaign!;
+    if (!c.storyline) return;
+    const row = el('div', 'journal-actions');
+    if (view.act && !c.flags[`act:${view.act}`] && !view.met) {
+      const label = view.act;
+      row.appendChild(
+        button(
+          STORY_TEXT.doStep,
+          () => {
+            g.send({ kind: 'storyAct', label });
+            this.refresh();
+          },
+          'btn btn-small btn-primary',
+        ),
+      );
+    }
+    for (const a of view.actions) {
+      const b = button(
+        STORYLINE_TEXT.actions[a.id] ?? a.id,
+        () => {
+          g.send(a.command);
+          this.refresh();
+        },
+        'btn btn-small',
+      );
+      b.disabled = !a.enabled;
+      row.appendChild(b);
+    }
+    if (row.childElementCount > 0) this.body.appendChild(row);
+    if (view.areas.length > 0) {
+      this.body.appendChild(el('div', 'btn-name', STORYLINE_TEXT.whereTo));
+      const areas = el('div', 'race-tiers');
+      for (const area of view.areas) {
+        const b = button(
+          STORYLINE_TEXT.areas[area] ?? area,
+          () => {
+            g.send({ kind: 'storyArea', area });
+            this.close();
+          },
+          'btn btn-small',
+        );
+        if (view.area === area) b.classList.add('active');
+        areas.appendChild(b);
+      }
+      this.body.appendChild(areas);
+    }
+  }
+
+  private renderPaths(view: JournalView): void {
+    const reached = view.ending;
+    const n = Object.keys(view.endings).length;
+    this.body.appendChild(
+      el('p', 'help', view.storyline === null ? STORY_TEXT.pathsHelp : STORYLINE_TEXT.pathsHelp(n)),
+    );
+    for (const [id, e] of Object.entries(view.endings)) {
       const row = el('div', 'journal-path');
       row.appendChild(
         el(

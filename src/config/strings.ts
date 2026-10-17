@@ -1101,6 +1101,10 @@ export const SLOT_TEXT = {
     campaign: 'Hazel’s Grove',
     free: 'Free Grove',
     edu: 'Learning Grove (ages 3–10)',
+    hundred: 'The Hundred Days',
+    logged: 'Logged In',
+    beetle: 'The Beetle Road',
+    dawndusk: 'Dawn & Dusk',
   } as Record<string, string>,
   slot: (n: number) => `Slot ${n}`,
   empty: 'Empty',
@@ -1114,6 +1118,31 @@ export const SLOT_TEXT = {
   age: (n: number) => `Age ${n}`,
   ago: (days: number) => (days <= 0 ? 'today' : days === 1 ? 'yesterday' : `${days} days ago`),
   current: (mode: string, n: number) => `Playing ${mode}, slot ${n}.`,
+} as const;
+
+/** The separate campaigns (sim/storyline.ts): title picks, journal buttons, areas. */
+export const STORYLINE_TEXT = {
+  chooseSide: 'Which side of the day?',
+  sides: { dawn: 'Dawn', dusk: 'Dusk' } as Record<string, string>,
+  sideHelp: {
+    dawn: 'The Sun Keepers’ half. Four families to serve, a dojo to climb, a mystery from the bright side.',
+    dusk: 'The Moon Keepers’ half. The same valley after dark, and the mystery from the other side.',
+  } as Record<string, string>,
+  locked: (other: string) => `Finish ${other} first.`,
+  pathsHelp: (n: number) =>
+    n === 1 ? 'One ending.' : `${n} endings. Here is how to reach each one.`,
+  whereTo: 'Where to',
+  here: 'Here',
+  areas: {
+    meadow: 'The meadow',
+    shore: 'The shore',
+    cave: 'The cave',
+    mountain: 'The mountain',
+    mire: 'The mire',
+    mill: 'The old mill',
+  } as Record<string, string>,
+  actions: {} as Record<string, string>,
+  arrived: (area: string) => `You come to ${area.toLowerCase()}.`,
 } as const;
 
 /** The side-story props, by id (sim/story-props.ts). */

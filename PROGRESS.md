@@ -16,11 +16,47 @@ Grove switch, Hebrew and Japanese, Atlas/Arcade/Multiverse saves, Mature content
 one-time gifts). Atlas A1–A31 all scripted; A1–A10 and A22–A31 reviewed and fixed (plan
 Task B-R1; reports `docs/logs/review-wave-L.md` and `review-wave-M.md`). Plan v4
 (`plan.md`): G11 device pass, Track B writing and review tasks, and Part Z, the
-independent full review that runs last. Waiting on Maor: the expansion pick E1–E3 / S1–S4,
+independent full review that runs last. Maor picked all of E1–E3 and S1–S4 (plan G12, in progress below). Waiting on Maor:
 seven fun-quest quotes, Full 3D as default (brief: `docs/renderer-decision.md`), his phone
 rows, the Atlas quote, adviser and audience items in the two wave reports, and
 the Arcade and LB/LK decisions in the section below.
 Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
+
+## G12 X0: the storyline engine for the separate campaigns (2026-10-17)
+
+Maor picked everything on the Digimon-inspired list: expansions E1–E3 and campaigns
+S1–S4 (plan Part G12). X0 is the engine they all run on; X1–X3 add the expansions,
+X4–X7 the campaigns, one commit each.
+
+Works:
+- `content/types.ts` `Storyline`: chapters with an opening scene, a goal check string, a
+  closing scene and optional beats (a scene that plays once when its check is met), plus
+  endings and extra scenes. `sim/storyline.ts` runs them through the campaign state the
+  dialogue box, journal and away screen already read (`CampaignState.storyline`), so a
+  separate campaign needs no new UI for its scenes. Endings register as `<id>-<ending>`
+  in ENDINGS so the end card finds `end-<id>-<ending>`.
+- `sim/storyline-checks.ts`: the goal grammar (`recruits:>=3`, `prosperity:40`,
+  `partner:adult`, `area:cave&act:light`, `days:>=1`, `count:converted:2`, `|` and `&`).
+  Counters fold from events as `n:<kind>` flags; `act:<label>` is the journal's Do-it.
+- `sim/storyline-rules.ts`: the per-campaign code hook (setup, onChapter, onScene,
+  onEvent, onArea, holdsClose, variant, endingFor, actions). Commands `storylineStart`,
+  `storyArea`, `storyAct`; events `storylineStarted`, `areaChanged`.
+- Save version 5 (`campaign.storyline`), four new save modes with three slots each
+  (`hundred`, `logged`, `beetle`, `dawndusk`) on the title screen; Dawn & Dusk asks for a
+  side and locks Dusk until Dawn has an ending in any slot (`storylineFinished`). The
+  journal shows either campaign through `journalView` (goal, Do-it, travel, actions,
+  the storyline's own Paths). `Nubbin.spanScale` stretches an adult span (S1's partner).
+- Tests: `tests/sim/storyline-engine.test.ts` drives a three-chapter test storyline end
+  to end (counters, areas, beats, acts, days, a choice-driven ending, save round trip,
+  the v4→v5 migration, the check grammar).
+
+Stubbed: `sim/storyline-content.ts` is empty until X4–X7, so the four title modes start
+without a script (the slot plays as a Free Grove). Render: no new scenery; areas map to
+the locations, Grove recolours and weather both renderers already draw.
+
+Known bugs: `tests/sim/edu-story.test.ts` and `line-swaps.test.ts` fail at HEAD before
+this pass (the Learning Grove A-series session is mid-edit in `src/content/edu.ts`); the
+gate for this commit ran in a clean worktree with only these files copied in.
 
 ## Pixel's Arcade PA1–PA5 and lines LB, LK scripted (2026-10-16)
 

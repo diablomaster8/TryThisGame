@@ -1,4 +1,4 @@
-import { NAMES, SLOT_TEXT, TRAINER_LABELS } from '../config/strings';
+import { NAMES, SLOT_TEXT, STORYLINE_TEXT, TRAINER_LABELS } from '../config/strings';
 import { STORY_TEXT } from '../config/story';
 import { playSong } from '../platform/audio';
 import {
@@ -7,11 +7,14 @@ import {
   readGraphicsPref,
   readSlotSummary,
   writeGraphicsPref,
+  isStorylineMode,
+  storylineFinished,
   SLOTS_PER_MODE,
   type SaveMode,
   type SaveSlot,
   type SaveSummary,
 } from '../platform/storage';
+import type { KeeperAlignment } from '../sim/types';
 import { frameKey } from '../render/sprites/animations';
 import { buildKeeperSheet } from '../render/sprites/keeper';
 import { TRAINERS } from '../sim/trainers';
@@ -26,19 +29,31 @@ export interface TitleChoice {
   fresh: boolean;
   /** Trainer for a new campaign. */
   trainer: string | null;
+  /** A separate campaign to start (its storyline id), for the storyline modes. */
+  storyline?: string;
   /** Age band for a new Learning Grove. */
   age?: EduAge;
   /** The story's band for a new Learning Grove (Grove Readers picks age 6 for the games). */
   band?: EduBand;
 }
 
-const MODES: SaveMode[] = ['campaign', 'free', 'edu'];
+const MODES: SaveMode[] = ['campaign', 'hundred', 'logged', 'beetle', 'dawndusk', 'free', 'edu'];
+
+/** Which storyline a new save in a storyline mode plays (Dawn & Dusk asks first). */
+const MODE_STORYLINE: Record<string, string> = {
+  hundred: 'hundred',
+  logged: 'logged',
+  beetle: 'beetle',
+};
 
 /** One line about a save: who, how many, how far, when. */
 function describe(mode: SaveMode, s: SaveSummary, nowMs: number): string {
   const parts: string[] = [];
-  if (mode === 'campaign' && s.trainer) parts.push(TRAINER_LABELS[s.trainer]?.name ?? s.trainer);
-  if (mode === 'campaign' && s.chapter !== null) parts.push(SLOT_TEXT.chapter(s.chapter));
+  const story = mode === 'campaign' || isStorylineMode(mode);
+  if (story && s.trainer) parts.push(TRAINER_LABELS[s.trainer]?.name ?? s.trainer);
+  if (mode === 'dawndusk' && s.storyline)
+    parts.push(STORYLINE_TEXT.sides[s.storyline] ?? s.storyline);
+  if (story && s.chapter !== null) parts.push(SLOT_TEXT.chapter(s.chapter));
   if (mode === 'edu' && s.eduAge !== null) parts.push(SLOT_TEXT.age(s.eduAge));
   parts.push(s.names.length > 0 ? s.names.join(', ') : SLOT_TEXT.nubbins(s.nubbins));
   if (s.savedAtWallMs > 0) {
@@ -88,6 +103,8 @@ export function showTitle(parent: HTMLElement, onChoose: (c: TitleChoice) => voi
   /** Starting new in a slot: the campaign and the Learning Grove ask a question first. */
   const startNew = (slot: SaveSlot) => {
     if (slot.mode === 'campaign') keeperMenu(slot);
+    else if (slot.mode === 'dawndusk') sideMenu(slot);
+    else if (isStorylineMode(slot.mode)) keeperMenu(slot, MODE_STORYLINE[slot.mode]);
     else if (slot.mode === 'edu') ageMenu(slot);
     else finish({ slot, fresh: true, trainer: null });
   };
@@ -173,13 +190,46 @@ export function showTitle(parent: HTMLElement, onChoose: (c: TitleChoice) => voi
     menu.appendChild(button('←', () => mainMenu(), 'btn btn-small'));
   };
 
-  const keeperMenu = (slot: SaveSlot) => {
+  /** Dawn & Dusk: pick a half; the other opens once one half has reached an ending. */
+  const sideMenu = (slot: SaveSlot) => {
+    menu.innerHTML = '';
+    menu.appendChild(el('div', 'help', STORYLINE_TEXT.chooseSide));
+    const row = el('div', 'title-ages');
+    const done = {
+      dawn: storylineFinished('dawndusk', 'dawn'),
+      dusk: storylineFinished('dawndusk', 'dusk'),
+    };
+    for (const side of ['dawn', 'dusk'] as const) {
+      const other = side === 'dawn' ? 'dusk' : 'dawn';
+      const locked = !done[side] && !done[other] && side === 'dusk';
+      const b = button(
+        STORYLINE_TEXT.sides[side] ?? side,
+        () => keeperMenu(slot, side, side === 'dawn' ? 'sun' : 'moon'),
+        'btn title-age',
+      );
+      b.disabled = locked;
+      b.title = locked
+        ? STORYLINE_TEXT.locked(STORYLINE_TEXT.sides[other] ?? other)
+        : (STORYLINE_TEXT.sideHelp[side] ?? '');
+      row.appendChild(b);
+    }
+    menu.appendChild(row);
+    menu.appendChild(el('div', 'help', STORYLINE_TEXT.sideHelp.dawn ?? ''));
+    menu.appendChild(button('←', () => mainMenu(), 'btn btn-small'));
+  };
+
+  const keeperMenu = (slot: SaveSlot, storyline?: string, side?: KeeperAlignment) => {
     menu.innerHTML = '';
     menu.appendChild(el('div', 'help', STORY_TEXT.chooseKeeper));
     const grid = el('div', 'title-keepers');
     for (const t of TRAINERS) {
+      if (side && t.band !== side) continue;
       const label = TRAINER_LABELS[t.id]?.name ?? t.id;
-      const b = button('', () => finish({ slot, fresh: true, trainer: t.id }), 'btn title-keeper');
+      const b = button(
+        '',
+        () => finish({ slot, fresh: true, trainer: t.id, ...(storyline ? { storyline } : {}) }),
+        'btn title-keeper',
+      );
       b.appendChild(portrait(t.id));
       b.appendChild(el('span', undefined, label));
       grid.appendChild(b);

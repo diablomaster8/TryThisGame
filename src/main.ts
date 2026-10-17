@@ -61,10 +61,11 @@ if (params.has('sprites')) {
     if (choice.fresh) clearSlot(choice.slot);
     setSaveSlot(choice.slot);
     startGame(
-      choice.slot.mode === 'campaign' && choice.fresh ? choice.trainer : null,
+      (choice.slot.mode === 'campaign' || choice.storyline) && choice.fresh ? choice.trainer : null,
       choice.slot.mode === 'edu' && choice.fresh && choice.age
         ? { age: choice.age, band: choice.band ?? 'sprout' }
         : undefined,
+      choice.fresh ? (choice.storyline ?? null) : null,
     );
   });
 }
@@ -75,8 +76,15 @@ interface NewEdu {
   band: EduBand;
 }
 
-/** `newCampaignTrainer` starts the story in a fresh world as that Keeper. */
-function startGame(newCampaignTrainer: string | null, eduAge?: NewEdu): void {
+/**
+ * `newCampaignTrainer` starts the story in a fresh world as that Keeper; with `storyline`
+ * it is one of the separate campaigns instead of Hazel's Grove.
+ */
+function startGame(
+  newCampaignTrainer: string | null,
+  eduAge?: NewEdu,
+  storyline: string | null = null,
+): void {
   // The campaign and side-story scripts are their own chunks; the save cannot load until
   // they are registered, or it would drop a queued story scene. A Learning Grove save
   // also needs its educational scenes (CV2) before the first scene plays.
@@ -90,15 +98,16 @@ function startGame(newCampaignTrainer: string | null, eduAge?: NewEdu): void {
       // The saved creatures start sculpting in workers while the scene builds.
       m.prewarmCreatures();
       await sideStories;
-      boot(newCampaignTrainer, eduAge, new m.Grove3dScene(canvas));
+      boot(newCampaignTrainer, eduAge, new m.Grove3dScene(canvas), storyline);
     });
-  } else void sideStories.then(() => boot(newCampaignTrainer, eduAge, null));
+  } else void sideStories.then(() => boot(newCampaignTrainer, eduAge, null, storyline));
 }
 
 function boot(
   newCampaignTrainer: string | null,
   eduAge: NewEdu | undefined,
   scene3d: Grove3dScene | null,
+  storyline: string | null,
 ): void {
   const fps = new FpsCounter(hudRoot);
   let game: Game | null = null;
@@ -106,7 +115,8 @@ function boot(
   game = new Game(canvas, hud.hooks, scene3d ? '3d' : 'pixel', scene3d);
   if (newCampaignTrainer) {
     game.send({ kind: 'setTrainer', id: newCampaignTrainer });
-    game.send({ kind: 'campaignStart' });
+    if (storyline) game.send({ kind: 'storylineStart', id: storyline });
+    else game.send({ kind: 'campaignStart' });
   }
   if (eduAge) game.send({ kind: 'eduStart', age: eduAge.age, band: eduAge.band });
   hud.bind(game);
