@@ -263,7 +263,7 @@ export {
   EDU_S31_READER_VARIANTS,
   CHECKS as EDU_S31_READER_CHECKS,
 } from './edu-s31-reader';
-// Learning Grove versions of Atlas A02, A05-A13 (wired in edu.ts; bare CHECKS renamed here)
+// Learning Grove versions of Atlas A02, A05-A20 and A22-A24 (wired in edu.ts; bare CHECKS renamed here)
 export {
   EDU_A02_SPROUT,
   EDU_A02_SPROUT_VARIANTS,
@@ -364,3 +364,98 @@ export {
   EDU_A13_READER_VARIANTS,
   CHECKS as EDU_A13_READER_CHECKS,
 } from './edu-a13-reader';
+export {
+  EDU_A14_SPROUT,
+  EDU_A14_SPROUT_VARIANTS,
+  CHECKS as EDU_A14_SPROUT_CHECKS,
+} from './edu-a14-sprout';
+export {
+  EDU_A14_READER,
+  EDU_A14_READER_VARIANTS,
+  CHECKS as EDU_A14_READER_CHECKS,
+} from './edu-a14-reader';
+export {
+  EDU_A15_SPROUT,
+  EDU_A15_SPROUT_VARIANTS,
+  CHECKS as EDU_A15_SPROUT_CHECKS,
+} from './edu-a15-sprout';
+export {
+  EDU_A15_READER,
+  EDU_A15_READER_VARIANTS,
+  CHECKS as EDU_A15_READER_CHECKS,
+} from './edu-a15-reader';
+export {
+  EDU_A16_READER,
+  EDU_A16_READER_VARIANTS,
+  CHECKS as EDU_A16_READER_CHECKS,
+} from './edu-a16-reader';
+export {
+  EDU_A17_SPROUT,
+  EDU_A17_SPROUT_VARIANTS,
+  CHECKS as EDU_A17_SPROUT_CHECKS,
+} from './edu-a17-sprout';
+export {
+  EDU_A17_READER,
+  EDU_A17_READER_VARIANTS,
+  CHECKS as EDU_A17_READER_CHECKS,
+} from './edu-a17-reader';
+export {
+  EDU_A18_SPROUT,
+  EDU_A18_SPROUT_VARIANTS,
+  CHECKS as EDU_A18_SPROUT_CHECKS,
+} from './edu-a18-sprout';
+export {
+  EDU_A18_READER,
+  EDU_A18_READER_VARIANTS,
+  CHECKS as EDU_A18_READER_CHECKS,
+} from './edu-a18-reader';
+export {
+  EDU_A19_SPROUT,
+  EDU_A19_SPROUT_VARIANTS,
+  CHECKS as EDU_A19_SPROUT_CHECKS,
+} from './edu-a19-sprout';
+export {
+  EDU_A19_READER,
+  EDU_A19_READER_VARIANTS,
+  CHECKS as EDU_A19_READER_CHECKS,
+} from './edu-a19-reader';
+export {
+  EDU_A20_SPROUT,
+  EDU_A20_SPROUT_VARIANTS,
+  CHECKS as EDU_A20_SPROUT_CHECKS,
+} from './edu-a20-sprout';
+export {
+  EDU_A20_READER,
+  EDU_A20_READER_VARIANTS,
+  CHECKS as EDU_A20_READER_CHECKS,
+} from './edu-a20-reader';
+export {
+  EDU_A22_SPROUT,
+  EDU_A22_SPROUT_VARIANTS,
+  CHECKS as EDU_A22_SPROUT_CHECKS,
+} from './edu-a22-sprout';
+export {
+  EDU_A22_READER,
+  EDU_A22_READER_VARIANTS,
+  CHECKS as EDU_A22_READER_CHECKS,
+} from './edu-a22-reader';
+export {
+  EDU_A23_SPROUT,
+  EDU_A23_SPROUT_VARIANTS,
+  CHECKS as EDU_A23_SPROUT_CHECKS,
+} from './edu-a23-sprout';
+export {
+  EDU_A23_READER,
+  EDU_A23_READER_VARIANTS,
+  CHECKS as EDU_A23_READER_CHECKS,
+} from './edu-a23-reader';
+export {
+  EDU_A24_SPROUT,
+  EDU_A24_SPROUT_VARIANTS,
+  CHECKS as EDU_A24_SPROUT_CHECKS,
+} from './edu-a24-sprout';
+export {
+  EDU_A24_READER,
+  EDU_A24_READER_VARIANTS,
+  CHECKS as EDU_A24_READER_CHECKS,
+} from './edu-a24-reader';
