@@ -29,6 +29,11 @@ const PX_PER_UNIT = 22;
 const VIEW_H = 270;
 const LANE_GAP = 14;
 const TRACK_TOP = 150;
+/**
+ * Low-res pixels of ground shown before the start line, so the runners lined up on it
+ * (half a sprite each side of their spot) and their name tags are whole at the gun.
+ */
+const START_PAD = 20;
 
 /**
  * The race screen: a side view with lanes stacked in depth, drawn on a low-res canvas.
@@ -213,7 +218,7 @@ export class RaceScreen {
     const W = this.viewW;
     ctx.imageSmoothingEnabled = false;
     const player = race.racers.find((r) => r.isPlayer) ?? race.racers[0]!;
-    const camX = Math.max(0, player.pos * PX_PER_UNIT - W * 0.35);
+    const camX = Math.max(-START_PAD, player.pos * PX_PER_UNIT - W * 0.35);
     const trackPx = race.length * PX_PER_UNIT;
 
     // Sky.
@@ -226,6 +231,12 @@ export class RaceScreen {
     const lanes = race.racers.length;
     const bandTop = TRACK_TOP - 30;
     const bandBottom = TRACK_TOP + lanes * LANE_GAP + 10;
+    // The run-up before the start line: grass, whatever the first section is.
+    const startX = Math.round(-camX);
+    if (startX > 0) {
+      ctx.fillStyle = color(C.grass);
+      ctx.fillRect(0, bandTop, startX, bandBottom - bandTop);
+    }
     let start = 0;
     for (const s of race.course.sections) {
       const x0 = Math.round(start * PX_PER_UNIT - camX);
@@ -280,8 +291,15 @@ export class RaceScreen {
       const lift = section.kind === 'fly' && !resting ? 18 : section.kind === 'climb' ? 6 : 0;
       const sy = Math.round(TRACK_TOP + lane * LANE_GAP - rect.h / PX + 4 - lift);
       ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, sx, sy, rect.w / PX, rect.h / PX);
-      // Name tag, the player's in yellow.
-      drawText(ctx, r.name, sx + 2, sy - 9, color(r.isPlayer ? C.sunYellow : C.cream));
+      // Name tag, the player's in yellow: just ahead of the runner on its own lane row, so
+      // the tags of a full field, lined up at the start, do not pile on one another.
+      drawText(
+        ctx,
+        r.name,
+        sx + rect.w / PX - 4,
+        TRACK_TOP + lane * LANE_GAP - 8,
+        color(r.isPlayer ? C.sunYellow : C.cream),
+      );
       if (resting) {
         drawText(ctx, 'zz', sx + rect.w / PX - 6, sy - 2, color(C.pale));
       }
