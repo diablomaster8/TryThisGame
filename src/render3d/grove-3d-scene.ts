@@ -11,7 +11,7 @@ import type { Daylight } from '../render/daylight';
 import { bubbleFor } from '../render/sprites/emote';
 import { Picker } from '../render/picker';
 import type { TargetSize } from '../render/pipeline';
-import { CLAMP, GRADE, PUSHERS, buildParticles, type Tex } from '../samples/aaa-kit';
+import { CLAMP, GRADE, PUSHERS, type Tex } from '../samples/aaa-kit';
 import type { Floor } from '../sim/dungeon';
 import { townUnlocks } from '../sim/town';
 import type { Location, SimEvent, Vec2, WeatherKind, World } from '../sim/types';
@@ -29,6 +29,7 @@ import { GroveTextures } from './grove-textures';
 import { GroveSky } from './sky';
 import { StorySets } from './story-sets';
 import { Village } from './village';
+import { GroveWeather } from './weather';
 import { VisitSet } from './visit';
 import { buildGroveTerrain, groveHeight, standHeight, type GroveTerrain } from './terrain';
 import { buildGroveWater, type GroveWater } from './water';
@@ -156,8 +157,6 @@ export class Grove3dScene {
   private readonly visit: VisitSet;
   /** The story Hollow and Corvin's garden, dressed as in the pixel view. */
   private readonly story: StorySets;
-  private rain: THREE.Points | null = null;
-  private snow: THREE.Points | null = null;
   private readonly bursts: Bursts;
   private readonly garden: Garden;
   private readonly hollow: Hollow;
@@ -170,7 +169,8 @@ export class Grove3dScene {
   private shakeAmount = 0;
   private shakeSeed = 0;
   private pendingShake = 0;
-  private fireflies: THREE.Points | null = null;
+  /** Rain, snow, fireflies and falling leaves. */
+  private readonly weather: GroveWeather;
   private treesBuilt = false;
   private readonly treeAt = new Map<string, Vec2>();
   private readonly crowns = new CrownFade();
@@ -214,6 +214,7 @@ export class Grove3dScene {
     this.props = buildGroveProps(this.world3d, this.tex, this.time);
     this.pickables.push(...this.props.pickables);
     this.village = new Village(this.world3d, this.tex, groveHeight);
+    this.weather = new GroveWeather(this.scene, this.world3d);
     this.water = buildGroveWater(this.world3d);
     this.actors = new Actors(this.scene);
     // Compile against the composer's target: the game draws into it (linear, no tone
@@ -356,26 +357,12 @@ export class Grove3dScene {
     }
     this.props.windows.material.emissiveIntensity = this.lampsOn ? 2.5 : 0;
     for (const w of this.props.windows.lights) w.intensity = this.lampsOn ? 4 : 0;
-    // Weather and fireflies, built on first need.
-    const wantRain = grove && weather === 'rain' && particles !== 'off';
-    if (wantRain && !this.rain) this.rain = buildParticles(this.scene, 'rain');
-    if (this.rain) this.rain.visible = wantRain;
-    // Snow: the rain cloud's layout, white, fat and slow, drifting as it falls.
-    const wantSnow = grove && weather === 'snow' && particles !== 'off';
-    if (wantSnow && !this.snow) {
-      this.snow = buildParticles(this.scene, 'rain');
-      if (this.snow) {
-        const m = this.snow.material as THREE.PointsMaterial;
-        m.color.set('#ffffff');
-        m.size = 0.13;
-        m.opacity = 0.9;
-        this.snow.geometry.setDrawRange(0, particles === 'light' ? 600 : 1500);
-      }
-    }
-    if (this.snow) this.snow.visible = wantSnow;
-    const wantFlies = grove && d.fireflies && particles !== 'off';
-    if (wantFlies && !this.fireflies) this.fireflies = buildParticles(this.scene, 'golden');
-    if (this.fireflies) this.fireflies.visible = wantFlies;
+    this.weather.set(grove, place, weather, d, particles);
+    // Rain greys the grade a little and snow brightens and cools it, as the pixel post pass.
+    if (grove && weather === 'rain')
+      (this.grade.uniforms.uTint!.value as THREE.Color).multiply(new THREE.Color(0.85, 0.9, 1));
+    else if (grove && weather === 'snow')
+      (this.grade.uniforms.uTint!.value as THREE.Color).multiply(new THREE.Color(1.04, 1.06, 1.12));
   }
 
   snapshot(world: World): void {
@@ -629,37 +616,7 @@ export class Grove3dScene {
     pushers.slice(0, PUSHERS.length).forEach((p, i) => PUSHERS[i]!.set(p.x, p.z, p.r, 0));
     this.props.blades.rotation.z += dt * 0.6;
     this.water.update(this.time.value);
-    if (this.rain?.visible) {
-      const p = this.rain.geometry.attributes.position as THREE.BufferAttribute;
-      for (let i = 0; i < p.count; i++) {
-        let y = p.getY(i) - 0.35;
-        if (y < 0) y += 14;
-        p.setY(i, y);
-      }
-      p.needsUpdate = true;
-      this.rain.position.set(this.camTarget.x, 0, this.camTarget.z - 6);
-    }
-    if (this.snow?.visible) {
-      const p = this.snow.geometry.attributes.position as THREE.BufferAttribute;
-      const t = this.time.value;
-      for (let i = 0; i < p.count; i++) {
-        let y = p.getY(i) - 1.1 * dt;
-        if (y < 0) y += 14;
-        p.setY(i, y);
-        p.setX(i, p.getX(i) + Math.sin(t * 0.9 + i) * 0.4 * dt);
-      }
-      p.needsUpdate = true;
-      this.snow.position.set(this.camTarget.x, 0, this.camTarget.z - 6);
-    }
-    if (this.fireflies?.visible) {
-      const p = this.fireflies.geometry.attributes.position as THREE.BufferAttribute;
-      const t = this.time.value;
-      for (let i = 0; i < p.count; i++) {
-        p.setY(i, p.getY(i) + Math.sin(t * 1.3 + i) * 0.004);
-        p.setX(i, p.getX(i) + Math.cos(t * 0.7 + i * 0.3) * 0.004);
-      }
-      p.needsUpdate = true;
-    }
+    this.weather.update(world, this.treeAt.values(), dt, this.time.value, this.camTarget);
   }
 
   render(): void {
