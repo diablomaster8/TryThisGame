@@ -138,7 +138,7 @@ readers and results, Learning Grove versions (both bands) of the campaign, S1–
 Python, Bean and Avatar quests, LH and LJ, and the whole Atlas, A1–A31. A1–A10 and A22–A31
 were reviewed and fixed in waves L and M (`docs/logs/review-wave-L.md`, `review-wave-M.md`);
 their open licence, quote and adviser items are listed there. Still to script: PA1–PA5,
-Q66–Q95, LB, LK (plan.md Track B). `script-book/` does not yet print S23–S31 or the Atlas.
+Q66–Q95, LB, LK (plan.md Track B). `script-book/` prints everything scripted so far, S23–S31 and the Atlas A1–A31 included, with their variant scenes.
 
 ## Suggested order
 

@@ -22,6 +22,38 @@ Generated from `src/content/`. One file per pack.
 - [Multiverse: Endgames (E1–E6)](16-mv-endgames.md): 6 quests
 - [Learning Grove: Ori's Alef-Bet, Hebrew (LH1–LH6)](19a-lang-hebrew.md): 6 quests
 - [Learning Grove: Hana's Hiragana, Japanese (LJ1–LJ6)](19b-lang-japanese.md): 6 quests
+- [Hazel's Grove side stories (S23–S31)](01c-side-stories-s23-s31.md): 9 quests, 143 variant scenes
+- [Atlas, page A1: The Brothers’ Bargain](22-atlas-a01.md): 20 quests, 5 variant scenes
+- [Atlas, page A2: The Monkey and the Monk](22-atlas-a02.md): 19 quests, 2 variant scenes
+- [Atlas, page A3: Forty-Nine Days](22-atlas-a03.md): 14 quests, 8 variant scenes
+- [Atlas, page A4: The Waterfall Prince](22-atlas-a04.md): 16 quests, 2 variant scenes
+- [Atlas, page A5: The Lion of Mali](22-atlas-a05.md): 14 quests, 2 variant scenes
+- [Atlas, page A6: Seven Voyages](22-atlas-a06.md): 16 quests, 7 variant scenes
+- [Atlas, page A7: The Marigold Bridge](22-atlas-a07.md): 12 quests, 8 variant scenes
+- [Atlas, page A8: The Twelve Tasks](22-atlas-a08.md): 14 quests, 3 variant scenes
+- [Atlas, page A9: The Comet](22-atlas-a09.md): 12 quests, 3 variant scenes
+- [Atlas, page A10: The Heart of the Island](22-atlas-a10.md): 14 quests, 4 variant scenes
+- [Atlas, page A11: The Enchanted Place](22-atlas-a11.md): 20 quests, 11 variant scenes
+- [Atlas, page A12: The Mirror Shard](22-atlas-a12.md): 18 quests, 12 variant scenes
+- [Atlas, page A13: The Wooden Boy](22-atlas-a13.md): 20 quests, 12 variant scenes
+- [Atlas, page A14: Homecoming](22-atlas-a14.md): 20 quests, 15 variant scenes
+- [Atlas, page A15: The Humbug](22-atlas-a15.md): 20 quests, 8 variant scenes
+- [Atlas, page A16: The Fox and the Rose](22-atlas-a16.md): 17 quests, 19 variant scenes
+- [Atlas, page A17: The Camphor Tree](22-atlas-a17.md): 16 quests, 20 variant scenes
+- [Atlas, page A18: The Doll in the Pocket](22-atlas-a18.md): 16 quests, 14 variant scenes
+- [Atlas, page A19: The Dragon Who Fell](22-atlas-a19.md): 18 quests, 8 variant scenes
+- [Atlas, page A20: The Weeping](22-atlas-a20.md): 17 quests, 14 variant scenes
+- [Atlas, page A21: The Flower Field](22-atlas-a21.md): 20 quests, 13 variant scenes
+- [Atlas, page A22: The Candle](22-atlas-a22.md): 16 quests, 23 variant scenes
+- [Atlas, page A23: Remember Who You Are](22-atlas-a23.md): 16 quests, 19 variant scenes
+- [Atlas, page A24: The Law of the Jungle](22-atlas-a24.md): 18 quests, 14 variant scenes
+- [Atlas, page A25: The Nothing](22-atlas-a25.md): 20 quests, 11 variant scenes
+- [Atlas, page A26: The Wall of Uruk](22-atlas-a26.md): 18 quests, 15 variant scenes
+- [Atlas, page A27: The White-Haired Prince](22-atlas-a27.md): 17 quests, 12 variant scenes
+- [Atlas, page A28: The Box of Stories](22-atlas-a28.md): 12 quests, 11 variant scenes
+- [Atlas, page A29: The Honmoon](22-atlas-a29.md): 16 quests, 17 variant scenes
+- [Atlas, page A30: The Word on the Brow](22-atlas-a30.md): 13 quests, 20 variant scenes
+- [Atlas, page A31: The Hero Twins](22-atlas-a31.md): 17 quests, 23 variant scenes
 - [Learning Grove, Little Sprouts (ages 3–6, read aloud): campaign](20a-edu-sprout-campaign.md)
 - [Learning Grove, Little Sprouts (ages 3–6, read aloud): side stories and fun quests](20b-edu-sprout-stories.md)
 - [Learning Grove, Grove Readers (ages 7–10): campaign](21a-edu-reader-campaign.md)

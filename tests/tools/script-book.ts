@@ -78,7 +78,33 @@ let index = '# Grove script book\n\nGenerated from `src/content/`. One file per 
   writeFileSync(`${out}/01b-side-story-variants.md`, v.join('\n'));
   index += '- [Side-story variant scenes](01b-side-story-variants.md)\n';
 }
-for (const [file, title, list] of packs) {
+// Packs printed with their variant scenes. Kept out of `packs` so the Learning Grove pages, which look
+// quests up in `packs`, print exactly as before.
+const S23_31 = [C.SIDE_STORY_S23, C.SIDE_STORY_S24, C.SIDE_STORY_S25, C.SIDE_STORY_S26, C.SIDE_STORY_S27, C.SIDE_STORY_S28, C.SIDE_STORY_S29, C.SIDE_STORY_S30, C.SIDE_STORY_S31];
+const S23_31_VARIANTS = [C.SIDE_STORY_S23_VARIANTS, C.SIDE_STORY_S24_VARIANTS, C.SIDE_STORY_S25_VARIANTS, C.SIDE_STORY_S26_VARIANTS, C.SIDE_STORY_S27_VARIANTS, C.SIDE_STORY_S28_VARIANTS, C.SIDE_STORY_S29_VARIANTS, C.SIDE_STORY_S30_VARIANTS, C.SIDE_STORY_S31_VARIANTS];
+const ATLAS: [Quest[], Scene[], string][] = [
+  [C.ATLAS_A01, C.ATLAS_A01_VARIANTS, 'The Brothers’ Bargain'], [C.ATLAS_A02, C.ATLAS_A02_VARIANTS, 'The Monkey and the Monk'],
+  [C.ATLAS_A03, C.ATLAS_A03_VARIANTS, 'Forty-Nine Days'], [C.ATLAS_A04, C.ATLAS_A04_VARIANTS, 'The Waterfall Prince'],
+  [C.ATLAS_A05, C.ATLAS_A05_VARIANTS, 'The Lion of Mali'], [C.ATLAS_A06, C.A06_VARIANTS, 'Seven Voyages'],
+  [C.ATLAS_A07, C.ATLAS_A07_VARIANTS, 'The Marigold Bridge'], [C.ATLAS_A08, C.ATLAS_A08_VARIANTS, 'The Twelve Tasks'],
+  [C.ATLAS_A09, C.ATLAS_A09_VARIANTS, 'The Comet'], [C.ATLAS_A10, C.A10_VARIANTS, 'The Heart of the Island'],
+  [C.ATLAS_A11, C.A11_VARIANTS, 'The Enchanted Place'], [C.ATLAS_A12, C.A12_VARIANTS, 'The Mirror Shard'],
+  [C.ATLAS_A13, C.A13_VARIANTS, 'The Wooden Boy'], [C.ATLAS_A14, C.A14_VARIANTS, 'Homecoming'],
+  [C.ATLAS_A15, C.ATLAS_A15_VARIANTS, 'The Humbug'], [C.ATLAS_A16, C.ATLAS_A16_VARIANTS, 'The Fox and the Rose'],
+  [C.ATLAS_A17, C.A17_VARIANTS, 'The Camphor Tree'], [C.ATLAS_A18, C.ATLAS_A18_VARIANTS, 'The Doll in the Pocket'],
+  [C.ATLAS_A19, C.A19_VARIANTS, 'The Dragon Who Fell'], [C.ATLAS_A20, C.ATLAS_A20_VARIANTS, 'The Weeping'],
+  [C.ATLAS_A21, C.A21_VARIANTS, 'The Flower Field'], [C.ATLAS_A22, C.A22_VARIANTS, 'The Candle'],
+  [C.ATLAS_A23, C.A23_VARIANTS, 'Remember Who You Are'], [C.ATLAS_A24, C.ATLAS_A24_VARIANTS, 'The Law of the Jungle'],
+  [C.ATLAS_A25, C.ATLAS_A25_VARIANTS, 'The Nothing'], [C.ATLAS_A26, C.A26_VARIANTS, 'The Wall of Uruk'],
+  [C.ATLAS_A27, C.ATLAS_A27_VARIANTS, 'The White-Haired Prince'], [C.ATLAS_A28, C.ATLAS_A28_VARIANTS, 'The Box of Stories'],
+  [C.ATLAS_A29, C.ATLAS_A29_VARIANTS, 'The Honmoon'], [C.ATLAS_A30, C.ATLAS_A30_VARIANTS, 'The Word on the Brow'],
+  [C.ATLAS_A31, C.A31_VARIANTS, 'The Hero Twins'],
+];
+const withVariants: [string, string, Quest[], Scene[]][] = [
+  ['01c-side-stories-s23-s31', "Hazel's Grove side stories (S23–S31)", S23_31.flat(), S23_31_VARIANTS.flat()],
+  ...ATLAS.map(([list, variants, name], i): [string, string, Quest[], Scene[]] => [`22-atlas-a${String(i + 1).padStart(2, '0')}`, `Atlas, page A${i + 1}: ${name}`, list, variants]),
+];
+for (const [file, title, list, variants] of [...packs.map(([f, t, l]): [string, string, Quest[], Scene[]] => [f, t, l, []]), ...withVariants]) {
   const md: string[] = [`# ${title}`, ''];
   for (const q of list) {
     md.push(`## ${q.code}. ${q.title}`, '', `*${q.source}* · audience: ${q.audience} · where: ${q.trigger.where} · when: ${q.trigger.when}${q.requires?.length ? ` · requires: ${q.requires.join(', ')}` : ''}`, '');
@@ -92,8 +118,14 @@ for (const [file, title, list] of packs) {
     if (q.childLines && Object.keys(q.childLines).length) md.push('**Learning Grove swaps**', '', ...Object.entries(q.childLines).map(([k, v]) => `- \`${k}\` → ${v}`), '');
     if (q.notes) md.push('**Notes:** ' + q.notes, '');
   }
+  if (variants.length) {
+    // Variant scenes may use any speaker in the pack, so name them from the whole cast.
+    const cast = { speakers: list.flatMap((q) => q.speakers) } as unknown as Quest;
+    md.push('## Variant scenes', '');
+    for (const v of variants) md.push(scene(cast, v, 'Variant'), '');
+  }
   writeFileSync(`${out}/${file}.md`, md.join('\n'));
-  index += `- [${title}](${file}.md): ${list.length} quests\n`;
+  index += `- [${title}](${file}.md): ${list.length} quests${variants.length ? `, ${variants.length} variant scenes` : ''}\n`;
 }
 // ---- the Learning Grove (educational versions)
 {
