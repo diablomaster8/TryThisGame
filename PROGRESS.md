@@ -9,17 +9,52 @@ new pass goes in at line 12 and the file is long, move the oldest section to
 Shipped and deployed (https://diablomaster8.github.io/TryThisGame/): v1, the organic
 painted Grove, the Digimon-inspired ten, the Hollow Below, the 96-unit field, three save
 slots per mode, and the Full 3D mode as a Graphics setting (`src/render3d/`, workers and
-caches, the G13 polish, the G14 bundle diet, the G15 parity fixes) with the pixel mode
+caches, the G13 polish, the G14 bundle diet, the G15 and G16 parity fixes) with the pixel mode
 unchanged. Story content pack in `src/content/`; engine CV1–CV6 wired (campaign v2 and
 endings, all 31 side stories and the fun quests running, props and keepsakes, the Learning
 Grove switch, Hebrew and Japanese, Atlas/Arcade/Multiverse saves, Mature content setting,
 one-time gifts). Atlas A1–A31 all scripted; A1–A10 and A22–A31 reviewed and fixed (plan
 Task B-R1; reports `docs/logs/review-wave-L.md` and `review-wave-M.md`). Plan v4
-(`plan.md`): G11 device pass, G16 parity gaps, Track B writing and review tasks, and Part Z,
-the independent full review that runs last. Waiting on Maor: the expansion pick E1–E3 /
-S1–S4, seven fun-quest quotes, Full 3D as default, his phone rows, and the Atlas licence,
-quote, adviser and audience items in the two wave reports. Backlogs: `docs/creature-improvements.md`,
-`docs/content-index.md`.
+(`plan.md`): G11 device pass, Track B writing and review tasks, and Part Z, the
+independent full review that runs last. Waiting on Maor: the expansion pick E1–E3 / S1–S4,
+seven fun-quest quotes, Full 3D as default (brief: `docs/renderer-decision.md`), his phone
+rows, and the Atlas licence, quote, adviser and audience items in the two wave reports.
+Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
+
+## Full 3D parity gaps, plan Part G16 (2026-10-16)
+
+Closes G16.1 to G16.11 and writes G16.12. Each checked in the browser pane on `?free&slot=3`,
+Full 3D against Pixel, 375x812, frames driven by hand from a HEAD export (`.idx-g16`); one
+commit each; shots `docs/samples/parity2-<item>.jpg` (pixel left, 3D right where both apply).
+
+Works:
+- G16.1 (a440e86, 814b356): the cave and plain light sets link in the background after the
+  Grove compiles (hidden samples for the floor's material kinds, the shadow depth programs
+  and the emote sprites); a place still linking holds the last frame behind a dim. First
+  trip down the stairs: 695 ms first frame here (3.3 s in G15) to 47 ms.
+- G16.2 (fef9994): buildings, lanterns, decor and trees get a pixel-style rim (`halo.ts`);
+  memorials, visitors, wild ones, strays, plants, story props, stairs, chests and loot the
+  ground ring sized to their reach.
+- G16.3 (505b0d5): the story Hollow and Corvin's garden sets (`story-sets.ts`).
+- G16.4 (60139a6): the Keeper's lamp underground, pixel-shaped loot, the "?" over unfed wild
+  ones; a floor's wild one goes once scanned, as in the pixel view.
+- G16.5 (41db953): market stalls by `townUnlocks` (`village.ts`). The path fence rule is in,
+  but `fenceSpots()` is empty on today's layout, so neither view draws posts.
+- G16.6 (dd1ead6): merged glow, cocoon fade and shimmer, fruit flavour colours (`glow.ts`).
+- G16.7 (af9b708): weather moved to `weather.ts` (the scene was past 800 lines): pixel gates
+  for reduced motion, density and intensity; daytime leaves; story-Hollow fireflies; grade.
+- G16.8 and G16.9 (3efc6eb, 24bf933): trunks thin when they hide the Keeper; the visit
+  gardens' trees fade too (`treeOf` in `crowns.ts`).
+- G16.10 (3a83021): the race camera starts before the line; tags sit on their lane rows.
+- G16.11 (429ddee, 73dac41): `ui/render-hold.ts` pauses Full 3D behind story scenes, the away
+  screen and the photo panel, once the opening load is done (the away screen opens at boot).
+- G16.12: `docs/renderer-decision.md`. Recommendation: Pixel stays the default until G11's
+  phone rows pass, then Full 3D by device. Render-only frame now p50 2.4 ms, p95 3.1 ms.
+
+Stubbed: none new. Known: coming home from a visit still links some Grove-only programs (one
+frame of about 170 ms); leaf cards get no halo; the merged aura is soft in daylight. This
+PC's browser reports prefers-reduced-motion, so under 'system' the pane shows no weather.
+The full suite once timed out the "every Atlas page" test at 5 s under load (1.1 s alone).
 
 ## Full 3D: event bursts and tree crowns (2026-10-16)
 
@@ -39,8 +74,8 @@ Works:
   Keeper (middle and head), hiding branches and fruit below half. A per-crown uniform, so
   no recompile; the shadow stays. Shots `parity-3d-crown-{before,after,blocked}.jpg`.
 
-Stubbed: none. Known bugs: a trunk can still hide a Keeper standing right behind it; the
-dressed visit gardens (`visit.ts`) build trees without the fade (plan.md G16.8, G16.9).
+Stubbed: none. Known bugs: a trunk could still hide a Keeper standing right behind it; the
+dressed visit gardens built trees without the fade (both closed in G16.8 and G16.9).
 
 ## Pixel vs Full 3D parity pass (2026-10-16)
 
@@ -69,7 +104,7 @@ Works (fixed, one commit each):
   kind; 3D uses coarse spheres); Expedition, races, Beetle Run and the Learning Grove
   minigames pause the 3D render.
 
-Open, with estimates (all now tracked in plan.md Part G16):
+Open, with estimates (all tracked in plan.md Part G16; 2-10 closed in the G16 pass above):
 1. Done (8089255): event bursts, squash and pop in 3D (section above).
 2. Hollow Below entry stall in 3D (its lamps recompile every material, by design):
    compile asynchronously behind a fade. 1.5-2 h.
@@ -87,55 +122,7 @@ Open, with estimates (all now tracked in plan.md Part G16):
 Shots: `docs/samples/parity-hollow-{pixel,3d}.png`, `parity-3d-portrait.png` (after the
 field-of-view fix), `parity-3d-crown.png` (item 3).
 
-Stubbed: none new. Known bugs: items 2 and 10 above.
-
-## CV3 language questlines: Hebrew and Japanese in the Learning Grove (2026-10-16)
-
-Works:
-- Offer: "Nova's postcard" in the Learning Grove picker (`ui/lang.ts` `LangPanel`) starts
-  Ori's Hebrew (LH1–LH6) and/or Hana's Japanese (LJ1–LJ6), starting the story first if
-  needed. The quests run on the side-story machine in `campaign.fun` under `langRule`
-  (`sim/lang.ts`): nothing opens, steps or finishes without `world.edu`; LH1/LJ1 open at
-  once, each next quest on a morning at least `LANG.nextQuestAfterMs` after the last.
-  Scripts, edu versions and speakers (Ori, Hana) register from the edu chunk
-  (`registerLanguageQuests`), so the main game never loads them.
-- Text: `sim/lang-text.ts` splits lines into Latin/Hebrew/Japanese runs. Dialogue lines
-  are `dir="ltr"`; Hebrew runs (with their own `?`/`…`) sit in `<bdi dir="rtl" lang="he">`;
-  Japanese words are `lang="ja"` no-wrap spans; script lines skip the typewriter. Journal
-  goals and hints use the same (`scriptParagraph`).
-- Fonts (Fontsource, exact pins 5.3.0): Noto Sans Hebrew, Noto Sans JP (unicode-range
-  subsets), Klee One for tracing; loaded on first script text (`ui/lang-fonts.ts`).
-  Checked in the browser: Hebrew line renders isolated with niqqud; the built woff2 load.
-- Words: `edu.words[id] = {heard, used}` (save fills older edu saves). Heard: course
-  words in the band scene the child saw, or a tap on the word. Used: a picked choice's
-  words, or the traced word (אוֹרִי, はな). Child word book per course on the postcard;
-  grown-up area lists every band word with heard/used.
-- Audio hooks: `platform/lang-audio.ts` maps each `VocabItem.audio` to
-  `audio/lang/<id>.mp3` once listed in `RECORDED`, else `placeholder.wav` (a voiceless
-  chime). Tapping a word plays it; read-aloud strips Hebrew/Japanese (`withoutScript`),
-  so no synthetic voice ever says them. How to add recordings: `public/audio/lang/README.md`.
-- Tracing (`ui/trace.ts`, journal "Trace it" on the four trace/write steps): kana with
-  numbered strokes in school order (`ui/kana-strokes.ts`, aligned to Klee One in the
-  browser), Hebrew letter by letter right to left, each started at its right side and
-  passed on ink coverage (`ui/trace-check.ts`). Finishing sends `langTraced`.
-- Reactions: a learned word (used, or heard 3 times) heard near the Keeper makes up to 3
-  Nubbins react (`langReact`): shalom wave, toda nod, kochav look up, colours point, every
-  Japanese word bow, and so on; the HUD captions the nearest one.
-- Tests `tests/sim/lang.test.ts` (18): runs and bidi punctuation, whole-word matching
-  (phrases, frames, two readings), no script to TTS, clip ids, main-game gating, postcard
-  gating, a full Hebrew course to lh6Done, reactions, save round trip and fill, strokes.
-
-Stubbed:
-- Every clip is the placeholder until native-speaker recordings land.
-- Wave/bow/etc. show the existing reaction faces plus a caption; no gesture animation.
-- Non-tracing checks (count plums, sort fruit, paint the fence, …) are the journal's
-  "Do it" button. LJ2's write-down option (`writing-mode: vertical-rl`) is not built.
-- The tracer was not driven by hand in the browser pane; only its guides were checked.
-
-Assumptions: words are learned per Grove, not per Nubbin; Japanese learned words all bow
-(the course note: "bow … at any word they have learned").
-
-Known bugs: none found.
+Stubbed: none new. Known bugs: items 2 and 10 above (both closed in G16).
 
 ## Standing approval (Maor, 2026-10-12)
 

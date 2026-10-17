@@ -31,12 +31,8 @@ longer ask for the line. Whoever made the edit should commit it (or B-R1 can fol
 
 - **Track A.** The device pass has never run: no bench flag, no Playwright, no phone or
   Firefox or Safari numbers (`docs/device-pass.md` holds only the manual notes for B2 and
-  B3). The Full 3D parity gaps G16.2 and G16.4–G16.12 (tap highlights on non-creatures, the
-  story Hollow and Corvin's garden sets, Hollow dressing, village stalls and fence posts,
-  merged glow and cocoon fade and fruit flavours, weather intensity and reduced motion, a
-  trunk hiding the Keeper, crown fade in visit gardens, the race screen clipped in portrait,
-  the 3D render running behind story scenes, the renderer-decision brief). The Hollow Below
-  entry stalls 3.3 s in Full 3D the first time.
+  B3). The Full 3D parity gaps (Part G16) closed on 2026-10-16, with the renderer brief in
+  `docs/renderer-decision.md`.
 - **Track B.** Review and commit of the twenty Atlas pages; the Arcade PA1–PA5, lines LB and
   LK, fun packs Q66–Q95; Learning Grove versions of S24–S31 and of every `all` Atlas and
   Arcade page; quote verification; adviser packets; the canon audit. Stubs left by the
@@ -102,13 +98,13 @@ report with the screenshot or log names and anything left out.
 # Track A — Graphics and the 3D mode
 
 Done: G1–G10, G8b, G13 (the 3D polish stubs), G14 (bundle diet and grass in a worker), G15
-(the parity pass and its first fixes). Left: the device pass, the remaining parity gaps, and
-the expansions when Maor picks.
+(the parity pass and its first fixes), G16 (the remaining parity gaps and the renderer brief,
+2026-10-16). Left: the device pass and the expansions when Maor picks.
 
 | Part | Task | Model | After | Size |
 | --- | --- | --- | --- | --- |
 | G11 | Device pass: phones, Firefox and Safari, workers, both renderers | Opus, then Sonnet rows | none | one day plus Maor's phones |
-| G16 | Full 3D parity: the remaining gaps and the renderer brief | Opus | none | 12–17 h |
+| G16 | Full 3D parity: the remaining gaps and the renderer brief (done 2026-10-16) | Opus | none | 12–17 h |
 | G12 | Expansions E1–E3 and campaigns S1–S4 | Fable | Maor's pick | large |
 
 ## Part G11 — Device pass across both renderers
@@ -131,23 +127,25 @@ Run npm run lint, npm test, npm run build. Log at line 12 of PROGRESS.md. Commit
 
 ## Part G16 — Full 3D parity: the remaining gaps
 
-**Model:** Opus. **Independent.** The event bursts and the crown fade from the parity list are done; the twelve rows below are what is left, one commit each; each checked in the browser pane on
+**Model:** Opus. **Independent.** The event bursts and the crown fade from the parity list are done; the twelve rows below were what was left, one commit each; each checked in the browser pane on
 `?free&slot=3` with Graphics set to Full 3D at 375x812 against the same view in Pixel.
+**Done 2026-10-16**, all twelve (commits in the PROGRESS.md section "Full 3D parity gaps, plan
+Part G16"; shots `docs/samples/parity2-*.jpg`). The last row stays Maor's.
 
 | # | Gap a player notices | Where | Size |
 | --- | --- | --- | --- |
-| G16.1 | Entering the Hollow Below stalls 3.3 s the first time: its four lamps recompile every material. Compile asynchronously behind a fade on the stairs | `render3d/hollow.ts` (lamps), `grove-3d-scene.ts` (`compileScene`) | 1.5–2 h |
-| G16.2 | Only Nubbins and items get the tap highlight; the pixel view also rings lanterns, trees, buildings, decor, plants, NPCs, wild ones, strays, memorials, stairs, chests and loot | `render3d/actors.ts` (highlight ring); pixel `SpriteBatch.highlight` | 1–2 h |
-| G16.3 | The story Hollow and Corvin's garden are a plain floor and a colour in 3D | pixel `buildHollow`, `buildCorvin` in `render/grove-scene.ts`; `grove-3d-scene.ts` location sets | 3–4 h |
-| G16.4 | Hollow Below dressing: no Keeper lamp, loot as generic shapes, no "?" over an unfed wild one (the Grove's wild visitor too) | `render3d/hollow.ts`, `crowd.ts`; pixel `render/paint/dungeon.ts`, `drawCave` | 1.5–2 h |
-| G16.5 | Village square stalls (`townUnlocks`) and the path fence posts are missing | pixel `render/world-view.ts`; `render3d/props.ts` | 1–1.5 h |
-| G16.6 | No merged glow, no cocoon fade, every fruit the same orange sphere | pixel `world-view.ts` (`isMerged`, cocoon opacity, fruit flavour frames); `render3d/actors.ts` | 1–1.5 h |
-| G16.7 | Weather ignores intensity and reduced motion; no daytime leaves, no fireflies in the story Hollow, no rain or snow grade | pixel `world-view.ts` particles, `game.ts` `updateDaylight`; `grove-3d-scene.ts` rain | 1 h |
-| G16.8 | A trunk can still hide a Keeper standing right behind it | `render3d/crowns.ts` | 30–60 min |
-| G16.9 | The dressed visit gardens build trees without the crown fade | `render3d/visit.ts` | 30 min |
-| G16.10 | Both modes: the race screen in portrait starts with runners and names clipped at the left edge | `ui/races.ts`, the race screen | 30–60 min |
-| G16.11 | Story scenes, the away screen and the photo panel leave the 3D render running behind them (battery on phones) | `game.renderPaused` callers in `src/ui/` | 15–30 min |
-| G16.12 | `docs/renderer-decision.md`: the one-page brief for Maor on Full 3D as the default (evidence from G15 and G16, risks: phones, bundle, workers; recommendation) | new doc | 30 min |
+| ✓ G16.1 | Entering the Hollow Below stalls 3.3 s the first time: its four lamps recompile every material. Compile asynchronously behind a fade on the stairs | `render3d/hollow.ts` (lamps), `grove-3d-scene.ts` (`compileScene`) | 1.5–2 h |
+| ✓ G16.2 | Only Nubbins and items get the tap highlight; the pixel view also rings lanterns, trees, buildings, decor, plants, NPCs, wild ones, strays, memorials, stairs, chests and loot | `render3d/actors.ts` (highlight ring); pixel `SpriteBatch.highlight` | 1–2 h |
+| ✓ G16.3 | The story Hollow and Corvin's garden are a plain floor and a colour in 3D | pixel `buildHollow`, `buildCorvin` in `render/grove-scene.ts`; `grove-3d-scene.ts` location sets | 3–4 h |
+| ✓ G16.4 | Hollow Below dressing: no Keeper lamp, loot as generic shapes, no "?" over an unfed wild one (the Grove's wild visitor too) | `render3d/hollow.ts`, `crowd.ts`; pixel `render/paint/dungeon.ts`, `drawCave` | 1.5–2 h |
+| ✓ G16.5 | Village square stalls (`townUnlocks`) and the path fence posts are missing | pixel `render/world-view.ts`; `render3d/props.ts` | 1–1.5 h |
+| ✓ G16.6 | No merged glow, no cocoon fade, every fruit the same orange sphere | pixel `world-view.ts` (`isMerged`, cocoon opacity, fruit flavour frames); `render3d/actors.ts` | 1–1.5 h |
+| ✓ G16.7 | Weather ignores intensity and reduced motion; no daytime leaves, no fireflies in the story Hollow, no rain or snow grade | pixel `world-view.ts` particles, `game.ts` `updateDaylight`; `grove-3d-scene.ts` rain | 1 h |
+| ✓ G16.8 | A trunk can still hide a Keeper standing right behind it | `render3d/crowns.ts` | 30–60 min |
+| ✓ G16.9 | The dressed visit gardens build trees without the crown fade | `render3d/visit.ts` | 30 min |
+| ✓ G16.10 | Both modes: the race screen in portrait starts with runners and names clipped at the left edge | `ui/races.ts`, the race screen | 30–60 min |
+| ✓ G16.11 | Story scenes, the away screen and the photo panel leave the 3D render running behind them (battery on phones) | `game.renderPaused` callers in `src/ui/` | 15–30 min |
+| ✓ G16.12 | `docs/renderer-decision.md`: the one-page brief for Maor on Full 3D as the default (evidence from G15 and G16, risks: phones, bundle, workers; recommendation) | new doc | 30 min |
 | — | Expedition and races are pixel art in both modes, a style jump in Full 3D | Maor decides | — |
 
 ```
