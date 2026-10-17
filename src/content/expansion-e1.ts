@@ -11,7 +11,8 @@
  * FRAME. Opens the first post-game morning. Never closes: the square takes as long as it
  * takes. Old Pell, a stonemason who laid the square’s first flags, is new here.
  *
- * FLAGS WRITTEN. `e1-corvin` (true once he takes the barrow), `e1Done`.
+ * FLAGS WRITTEN. `e1-hazel` (held | slow: what you told Pell about Hazel), `e1-corvin`
+ * (true once he takes the barrow), `e1Done`.
  * FLAGS READ. `corvin` (reconciled), the ending (through the rule in
  * sim/side-rules-expansions.ts).
  *
@@ -44,6 +45,9 @@ const letter: Scene = {
     N(
       '“The square past the cottage was the heart once. I let it go to nettles. Someone with slow hands might not.”',
     ),
+    N(
+      'Under it, smaller, as if she had nearly not written it: “Pell will still be there. He was always there.”',
+    ),
     Y('Past the cottage. You have walked by it a hundred times and never looked.'),
   ],
 };
@@ -58,18 +62,43 @@ const square: Scene = {
       'An old man sits on a block of stone as if he came with it. He nods at the moss, not at you.',
     ),
     PELL('I laid these. Nineteen-seventy. Hazel held the line.'),
-    PELL('A square isn’t stone, mind. It’s whoever stands on it. Bring one who’ll stay.'),
+    PELL(
+      'She’d come out with a string and a bit of chalk and stand there till the row was straight. Never said a word about it being slow.',
+    ),
+    PELL('You’re the one with the letter. She said there’d be one. What did she say about me?'),
+  ],
+  choices: [
+    {
+      id: 'held',
+      label: '“That you were always here.”',
+      set: { 'e1-hazel': 'held' },
+      then: [
+        PELL('Was I. Well. Somebody had to be.', 'soft'),
+        N('He looks at the moss a long while, and then at you, which he has not done till now.'),
+      ],
+    },
+    {
+      id: 'slow',
+      label: '“That someone with slow hands might not let it go.”',
+      set: { 'e1-hazel': 'slow' },
+      then: [
+        PELL('Slow hands. Hers were. Mine were. Show me yours.'),
+        N('You hold them out. He looks at them the way he looks at stone, and nods, once.'),
+      ],
+    },
   ],
 };
 
 const first: Scene = {
   id: 'e1-first',
   lines: [
+    PELL('A square isn’t stone, mind. It’s whoever stands on it. Bring one who’ll stay.'),
     PELL('Anyone who wanders in and wanders off again is weather. I want one who stays.'),
     N(
       'He points his chin at the Grove: the wild ones at the patches, the strays at the edge, the dojo, the race posts.',
     ),
     PELL('Win one over. Then we’ll talk about flags.'),
+    N('He goes back to the moss. He is not lifting it. He is, you realise, counting it.'),
   ],
 };
 
@@ -80,6 +109,7 @@ const firstDone: Scene = {
       'The first one moves in. Pell watches it pick a corner of the square and sit down in it like a cat choosing a chair.',
     ),
     PELL('There. Now it’s a square.', 'soft'),
+    N('He lifts one flag’s worth of moss, folds it like a cloth, and sets it on the wall. One.'),
   ],
 };
 
@@ -88,6 +118,10 @@ const stall: Scene = {
   lines: [
     PELL('Next you want a stall. A square with no stall is a car park.'),
     N('He has the trestle already. He has had it, you suspect, for forty years.'),
+    PELL(
+      'Legs are sound. Top wants a cloth. Hazel had a cloth. Blue. You’ll not find it, I’ve looked.',
+    ),
+    N('Your Nubbins have found the trestle before he has finished talking, and are under it.'),
   ],
 };
 
@@ -96,6 +130,7 @@ const stallDone: Scene = {
   lines: [
     N('A trestle, a cloth, a row of fruit that is cheaper than the shop’s and tastes the same.'),
     PELL('Prices come down when people come in. That’s not economics, that’s a square.'),
+    N('The cloth is not blue. Pell does not mention it, which is how you know he has noticed.'),
   ],
 };
 
@@ -104,6 +139,9 @@ const gym: Scene = {
   lines: [
     PELL('There was a gym here. Four stations and a bench. The bench is under that nettle.'),
     Y('You pull the nettle. The bench is under it.'),
+    PELL(
+      'Hazel sat there of an evening and told the Nubbins they were doing it wrong. They weren’t. She liked saying it.',
+    ),
     PELL('More of them, then. A bench wants sitters.'),
   ],
 };
@@ -114,6 +152,9 @@ const gymDone: Scene = {
     N(
       'The stations come back one by one: a lane, rings, a track, a beam. Nubbins queue for them without being asked.',
     ),
+    N(
+      'Pell sits on the bench in the evening and tells them they are doing it wrong. They are not. He likes saying it.',
+    ),
   ],
 };
 
@@ -122,6 +163,9 @@ const attendant: Scene = {
   lines: [
     PELL(
       'The bathhouse step needs someone to mind it. Hazel did, for a year. Said it was restful.',
+    ),
+    PELL(
+      'It isn’t restful. It’s a step. She meant the people. People coming by, saying the same four things. That’s the rest.',
     ),
     PELL('Find me a few more who’ll stay and I’ll find you a minder.'),
   ],
@@ -134,6 +178,9 @@ const attendantDone: Scene = {
       'A recruit takes the bathhouse step with a towel over one arm and the air of someone who has waited a long time for a job.',
     ),
     PELL('Restful. Told you.'),
+    N(
+      'By the end of the day it has heard the same four things eleven times and looks, if anything, pleased.',
+    ),
   ],
 };
 
@@ -151,6 +198,9 @@ const attendantCorvin: Scene = {
     CORVIN('I’m not asking for anything. The step wants minding. I can mind a step.'),
     Y('You look at Pell. Pell looks at the mop.'),
     PELL('He stays. Squares are for the ones who come back.'),
+    N(
+      'Corvin says nothing to that. He picks up the mop, and finds, after a moment, that he knows what to do with it.',
+    ),
   ],
   set: { 'e1-corvin': true },
 };
@@ -161,7 +211,10 @@ const fortune: Scene = {
     PELL(
       'There was a fortune teller. Free readings. She was wrong about everything and nobody minded.',
     ),
-    PELL('Fill the square a bit more and someone will take the tent.'),
+    PELL(
+      'Told me I’d travel. I’ve been to the quarry and back. Told Hazel she’d be lonely. Look at the square.',
+    ),
+    PELL('Fill it a bit more and someone will take the tent.'),
   ],
 };
 
@@ -170,6 +223,9 @@ const fortuneDone: Scene = {
   lines: [
     N(
       'A tent goes up by the well. The readings are free. The first one says you will have a good week, and you do.',
+    ),
+    N(
+      'The second, to Pell, says he will travel. He goes to the quarry for a block, and comes back, and says nothing.',
     ),
   ],
 };
@@ -183,6 +239,11 @@ const festival: Scene = {
     N(
       'He stands, which takes a while, and walks the flags, counting the moss he will not have to lift.',
     ),
+    PELL(
+      'Nineteen-seventy we had one. Lanterns in the trees, a band that knew three tunes. Hazel danced. Don’t tell anyone.',
+    ),
+    Y('You will tell everyone.'),
+    PELL('I know. That’s why I said it.', 'soft'),
   ],
 };
 
@@ -191,6 +252,9 @@ const festivalDone: Scene = {
   lines: [
     N(
       'Bunting. A banner nobody can read because the paint ran. Race prizes up by a shell in seven.',
+    ),
+    N(
+      'Someone has found a drum that knows three tunes. Someone else has found the lanterns. The trees fill up with light.',
     ),
   ],
 };
@@ -207,6 +271,7 @@ const complete: Scene = {
       'Slow hands. She said that about you. I didn’t know what she meant till the nettles.',
       'soft',
     ),
+    N('The last fold of moss is on the wall. He has counted it. It is, he says, the right number.'),
     N(
       'Behind the cottage, in the register, the second page of the letter lies flat for the first time.',
     ),
@@ -296,12 +361,13 @@ export const EXPANSION_E1: Quest[] = [
     notes:
       'Steps 2–7 are met by the town system alone (autoOnly). Step 5’s done scene is ' +
       'e1-attendant-corvin when the ending was hazels-grove with Corvin reconciled; the rule ' +
-      'spawns Corvin as an NPC and a recruit of species "keeper".',
+      'spawns Corvin as an NPC and a recruit of species "keeper". The e1-square choice is ' +
+      'voice only (e1-hazel) and nothing reads it yet.',
   },
 ];
 
 export const EXPANSION_E1_VARIANTS: Scene[] = [attendantCorvin];
-export const EXPANSION_E1_FLAGS: string[] = ['e1-corvin', 'e1Done'];
+export const EXPANSION_E1_FLAGS: string[] = ['e1-hazel', 'e1-corvin', 'e1Done'];
 export const EXPANSION_E1_CHECKS: string[] = [
   'walk:square',
   'recruits:>=1',

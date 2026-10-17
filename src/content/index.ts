@@ -519,3 +519,44 @@ export {
   EDU_A31_READER_VARIANTS,
   CHECKS as EDU_A31_READER_CHECKS,
 } from './edu-a31-reader';
+// Plan G12 (2026-10-17): the post-ending expansions and the separate campaigns.
+export {
+  EXPANSION_E1,
+  EXPANSION_E1_SPEAKERS,
+  EXPANSION_E1_VARIANTS,
+  EXPANSION_E1_FLAGS,
+  EXPANSION_E1_CHECKS,
+} from './expansion-e1';
+export {
+  EXPANSION_E2,
+  EXPANSION_E2_VARIANTS,
+  EXPANSION_E2_FLAGS,
+  EXPANSION_E2_CHECKS,
+} from './expansion-e2';
+export {
+  EXPANSION_E3,
+  EXPANSION_E3_VARIANTS,
+  EXPANSION_E3_FLAGS,
+  EXPANSION_E3_CHECKS,
+} from './expansion-e3';
+export {
+  STORYLINE_HUNDRED,
+  STORYLINE_HUNDRED_FLAGS,
+  STORYLINE_HUNDRED_CHECKS,
+} from './storyline-hundred';
+export {
+  STORYLINE_LOGGED,
+  STORYLINE_LOGGED_FLAGS,
+  STORYLINE_LOGGED_CHECKS,
+} from './storyline-logged';
+export {
+  STORYLINE_BEETLE,
+  STORYLINE_BEETLE_FLAGS,
+  STORYLINE_BEETLE_CHECKS,
+} from './storyline-beetle';
+export {
+  STORYLINE_DAWN,
+  STORYLINE_DUSK,
+  STORYLINE_DAWNDUSK_FLAGS,
+  STORYLINE_DAWNDUSK_CHECKS,
+} from './storyline-dawndusk';

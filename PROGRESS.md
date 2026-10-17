@@ -22,6 +22,38 @@ rows, the Atlas quote, adviser and audience items in the two wave reports, and
 the Arcade and LB/LK decisions (section "Pixel's Arcade PA1–PA5" in `docs/progress-archive.md`).
 Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
 
+## G12 writing pass: beats for S1–S4 and the expansions (2026-10-17)
+
+The separate campaigns were a session long each; the brief asked for 4–10 hours. This pass
+adds `StorylineChapter.beats` between the openings and the goals (no goal check changed),
+and deepens the expansions' scenes.
+
+Works:
+- S1 (30 beats): Ida and Sorrel on the story clock (`days:` from the chapter's start), the
+  first visitor and feed, the care slips (`partner:slips`), fondness and trust, the cave's
+  stairs, strays and chest (a new flagged choice, `h-drawing`, paid off on the hundredth
+  day), the cocoon, the mire's rain, the stall and yard, the loft lamp at the mountain, the
+  naming choice and a moody partner on the last day.
+- S2 (19 beats): Warden's tips as the eggs hatch, Juno's meal-count talks (a new choice,
+  `l-told`, paid off at the board), night bouts, the bout counts between ranks, a lost
+  partner (`count:departed`, chapter 6 only), a second teen beat (`l-c6-wage`), and Juno's
+  reaction to the chosen word.
+- S3 (20 beats): the banners and ledger, the leader's errands (`count:missionDone`), the
+  first stair, a torch choice (`b-torch`, paid off on the third floor), the two partners and
+  Vane's own fusion, the second run, and chapter 8 reading the fusion and the lever.
+- S4 (16 beats per half, from the template): the other twin when `dd-other-done`, the Book's
+  visitor and settler, the egg that must not be hatched, the second page, Vask between
+  belts, the grown one sitting by the egg, and the day after the cause.
+- E1–E3: fuller visits and one real choice each (`e1-hazel`, `e2-asked`, `e3-pick`), voice
+  only for now. E1–E3 and S1–S4 are now exported from `content/index.ts`, and the three
+  expansion packs are in `tests/tools/content-check.ts` (problems: 0).
+- Every `_CHECKS` list now includes the beat checks, so the grammar is covered.
+
+Stubbed: no engine change. The `days:` beats use the two-minute story day, so at ×1 they
+land minutes into a chapter, not hours. The expansions' new choices set flags nothing reads
+yet. Nothing in S1–S4 is in the content checker (it checks `Quest` packs, not storylines);
+the storyline tests and a line-length sweep stand in.
+
 ## G12 X7: S4 "Dawn & Dusk" with the reverting (2026-10-17)
 
 The fourth separate campaign, in the `dawndusk` save mode: two mirrored halves built from

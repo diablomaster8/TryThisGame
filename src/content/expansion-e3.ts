@@ -10,8 +10,9 @@
  * runs the bracket. The tournament is scored in dojo wins after the bracket is posted
  * (EXPANSIONS.tournamentWins in tuning), narrated as the ten champions in rounds.
  *
- * FLAGS WRITTEN. `e3-wins-at` (the dojo win count when the bracket went up), `e3-merged-win`
- * (a win while merged), `e3Done`.
+ * FLAGS WRITTEN. `e3-pick` (wait | strong: which two you told Dusty you would tie),
+ * `e3-wins-at` (the dojo win count when the bracket went up), `e3-merged-win` (a win
+ * while merged), `e3Done`.
  *
  * TONE. Theme 1: love is a method. The merge is consent and timing, not power.
  */
@@ -39,7 +40,13 @@ const strays: Scene = {
     DUSTY(
       'Two strays down there walk in step. One won’t eat unless the other has. I’ve never seen that.',
     ),
+    DUSTY(
+      'I’ve sat here four nights. They come to the second nook about now. They don’t come up. They don’t go down.',
+    ),
     DUSTY('Go down and feed one. Watch what the other does.'),
+    N(
+      'They hand you the lamp, unlit. You are to light it at the bottom, not before. The strays mind.',
+    ),
   ],
 };
 
@@ -49,6 +56,9 @@ const straysDone: Scene = {
     N('You hold out the fruit. The stray takes it, then stops, and turns, and waits.'),
     N(
       'Only when the second one has eaten does the first swallow. Dusty, behind you, says nothing at all, which is their loudest.',
+    ),
+    N(
+      'The two go back into the dark in step, one a little ahead, and then the other a little ahead, taking turns.',
     ),
   ],
 };
@@ -61,12 +71,42 @@ const pair: Scene = {
     ),
     N('They hand you a loop of grey twine, old and soft.'),
     DUSTY('Hazel’s. She said it was for tying beans. She was lying.'),
+    DUSTY('Which two, then. Say it out loud. It’s easier to keep a thing you’ve said.'),
+  ],
+  choices: [
+    {
+      id: 'wait',
+      label: 'The two who wait at the gate for each other.',
+      set: { 'e3-pick': 'wait' },
+      then: [
+        DUSTY('Good. Those.', 'soft'),
+        N(
+          'They look, for a moment, like someone who has been told the right answer to a question they did not ask.',
+        ),
+      ],
+    },
+    {
+      id: 'strong',
+      label: 'The two strongest. It’s a tournament.',
+      set: { 'e3-pick': 'strong' },
+      then: [
+        DUSTY(
+          'It is. And the twine won’t hold two who don’t wait. Pick again, or find out. Both are allowed.',
+        ),
+        N('They say it without heat. Dusty has never once said anything with heat.'),
+      ],
+    },
   ],
 };
 
 const pairDone: Scene = {
   id: 'e3-pair-done',
-  lines: [N('Two Nubbins who keep close to you now keep close to each other as well.')],
+  lines: [
+    N('Two Nubbins who keep close to you now keep close to each other as well.'),
+    N(
+      'At the gate, that evening, one waits for the other without being told. It is the first time. It will not be the last.',
+    ),
+  ],
 };
 
 const twine: Scene = {
@@ -75,12 +115,21 @@ const twine: Scene = {
     DUSTY(
       'Mine’s too old to hold. The stall sells twine now. Buy a length. It only works when both of them are sure of you.',
     ),
+    DUSTY(
+      'Sure isn’t fond. Fond is easy. Sure is when they’d let you tie a knot round them and not look at the knot.',
+    ),
+    N(
+      'They wind the old loop round two fingers and put it in a pocket, carefully, the way you keep a thing that no longer works.',
+    ),
   ],
 };
 
 const twineDone: Scene = {
   id: 'e3-twine-done',
-  lines: [N('A loop of twine, new and stiff. It smells of the stall.')],
+  lines: [
+    N('A loop of twine, new and stiff. It smells of the stall.'),
+    N('Your two sniff it, and look at each other, and then at you, and decide something.'),
+  ],
 };
 
 const merge: Scene = {
@@ -90,6 +139,10 @@ const merge: Scene = {
     DUSTY(
       'They don’t become one thing. They become two things that agree. It lasts a minute. It changes nothing when it ends.',
     ),
+    DUSTY(
+      'Hazel tied it twice in her life that I saw. Once for the beans. Once the winter the lane froze, and she never said for what.',
+    ),
+    N('They do not say who she tied it round. You do not ask. Some tying is private.'),
   ],
 };
 
@@ -103,6 +156,9 @@ const mergeDone: Scene = {
       'It moves like the faster one and stands like the stronger. After a minute it is two again, blinking, pleased.',
     ),
     DUSTY('That’s it. That’s the whole trick. The rest is being worth tying to.', 'soft'),
+    N(
+      'The two of them sit down on the same side of you, closer than they were, and stay there till dark.',
+    ),
   ],
 };
 
@@ -118,7 +174,13 @@ const tournament: Scene = {
     BYTE(
       'Win your rounds in the dojo. The twine is allowed. Everyone agreed, after some shouting.',
     ),
+    BYTE(
+      'Luna did most of the shouting. Then she said “fine” in a way that was not fine. Then she sent her champion anyway.',
+    ),
     Y('You look at the names and then at your two, who are looking at each other.'),
+    N(
+      'Dusty is at the back of the crowd, lamp off, looking at nothing in particular, which is where they look when they are proud.',
+    ),
   ],
 };
 
@@ -129,6 +191,7 @@ const tournamentDone: Scene = {
       'Round after round. Clover’s champion goes down to a feint. Ember’s to stamina. Luna’s, in the end, to two who agree.',
     ),
     BYTE('That’s the bracket. I have never seen a bracket do that.', 'shock'),
+    N('Luna says nothing, and claps twice, slowly, which from Luna is a speech.'),
   ],
 };
 
@@ -142,6 +205,7 @@ const tournamentDoneMerged: Scene = {
       'That’s the bracket. Luna is going to want a rematch and I am going to tell her no.',
       'shock',
     ),
+    N('Luna says nothing, and claps twice, slowly, which from Luna is a speech.'),
   ],
 };
 
@@ -153,6 +217,9 @@ const complete: Scene = {
     ),
     DUSTY('Hazel tied beans with that. Twenty years. The beans never once came apart.'),
     BYTE('I’m writing this up as a draw. For diplomacy.'),
+    N(
+      'Your two sit either side of the cup and look at the twine in it as if it were theirs now. It is.',
+    ),
     N('Down in the Hollow, two strays walk in step and do not need anyone to tell them why.'),
   ],
 };
@@ -220,12 +287,14 @@ export const EXPANSION_E3: Quest[] = [
     sets: { e3Done: true },
     notes:
       'Steps 1–5 are met by the sim (autoOnly). Step 5 counts dojo wins since the bracket ' +
-      'scene; e3-tournament-done-merged plays if a win came while merged.',
+      'scene; e3-tournament-done-merged plays if a win came while merged. The e3-pair choice ' +
+      '(e3-pick) is voice only; the merge’s own affection rule is what actually refuses two ' +
+      'who are not sure.',
   },
 ];
 
 export const EXPANSION_E3_VARIANTS: Scene[] = [tournamentDoneMerged];
-export const EXPANSION_E3_FLAGS: string[] = ['e3-wins-at', 'e3-merged-win', 'e3Done'];
+export const EXPANSION_E3_FLAGS: string[] = ['e3-pick', 'e3-wins-at', 'e3-merged-win', 'e3Done'];
 export const EXPANSION_E3_CHECKS: string[] = [
   'count:strayFed:>=1',
   'partners:set',

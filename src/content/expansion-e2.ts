@@ -11,7 +11,9 @@
  * rule spawns the egg once e2-egg has played and sets its `spanScale` so the whole life
  * is twelve days of the clock. Steps are gated by Dandy’s day.
  *
- * FLAGS WRITTEN. `e2-nubbin` (its id), `e2-outcome` (reborn | departed), `e2Done`.
+ * FLAGS WRITTEN. `e2-answer` (enough | short), `e2-nubbin` (its id), `e2-asked` (asked |
+ * quiet: whether you asked Nova which cocoon she expects), `e2-outcome` (reborn |
+ * departed), `e2Done`.
  *
  * TONE. Theme 2 and 4 of the bible: the grey stays, and we are made of being remembered.
  * Nova is a Moon Keeper and says less than she means. Death is said plainly, gently,
@@ -38,6 +40,7 @@ const egg: Scene = {
       'Nova is at the gate before the dew is off. She has an egg under her coat, held the way you hold a hot drink.',
     ),
     NOVA('Short line. Twelve days, hatch to hill. I don’t have a garden that’s quiet enough.'),
+    NOVA('The strays’ ring is no place for it. It wants a step and a tree and somebody who stays.'),
     NOVA('You can say no. People do.'),
   ],
   choices: [
@@ -62,7 +65,9 @@ const eggDone: Scene = {
     N(
       'It hatches small, even for a Nubbin. It looks up as if it has been waiting for you specifically.',
     ),
+    N('There is a freckle on its brow, one, off-centre, the kind a thumb would find.'),
     N('You call it Dandy. Nova, at the gate, writes the name on the back of her hand.'),
+    NOVA('Day one. I’ll come on four. Don’t count out loud, it hears you.'),
   ],
 };
 
@@ -71,6 +76,10 @@ const day4: Scene = {
   lines: [
     N('Day four. Nova comes by with nothing in her hands, which for Nova is a kind of gift.'),
     NOVA('A third gone. Doesn’t look it, does it. They never do till day nine.'),
+    N(
+      'Dandy has found the step, and the tree, and the place under the tree where the step is in shade.',
+    ),
+    NOVA('It’s got the freckle. The whole line has it. I don’t know why I find that so steadying.'),
     NOVA('Pet it for me. I don’t want to be a stranger it liked once.'),
   ],
 };
@@ -82,6 +91,8 @@ const day4Slips: Scene = {
     NOVA(
       'It’s gone hungry twice. Sleepy once. I’m not telling you off. I’m telling you the clock.',
     ),
+    NOVA('On a long life that’s a bad week. On twelve days it’s a bad year. They carry it.'),
+    N('Dandy, who does not know it is carrying anything, climbs her boot.'),
     NOVA('Pet it for me. There isn’t a lot of day four left.'),
   ],
 };
@@ -93,6 +104,8 @@ const day8: Scene = {
       'Day eight. Dandy is grown now, whatever grown means in a week. It sits where the sun lands first.',
     ),
     NOVA('Past the middle. This is the part I always want to stretch.'),
+    N('She sits down on the step. Dandy moves over, exactly a Nova’s width, without looking.'),
+    NOVA('It did that for the last one too. The step thing. I never taught it. Nobody teaches it.'),
     NOVA('Feed it something good. The last third should taste of something.'),
   ],
 };
@@ -102,6 +115,8 @@ const day8Moody: Scene = {
   lines: [
     N('Day eight. Dandy is grown and grumpy with it, a small cloud that follows the sun around.'),
     NOVA('It came up moody. That’s on the days we missed, not on it.'),
+    N('It sits on the far end of the step from her. It is still on the step.'),
+    NOVA('See that. Grumpy, and on the step. That’s the whole of what I know about love.'),
     NOVA('Feed it something good anyway. Grumpy isn’t the same as unloved.'),
   ],
 };
@@ -113,14 +128,39 @@ const day11: Scene = {
     NOVA(
       'Tomorrow it goes into the cocoon. One or the other kind. You’ll know which by the light.',
     ),
-    Y('You don’t ask which she thinks. She doesn’t say.'),
-    NOVA('Sit with it till dark. That’s all there is to do, and it’s a lot.', 'soft'),
+    N('Dandy is asleep between you, heavy for its size, the freckle turned up to the sky.'),
+  ],
+  choices: [
+    {
+      id: 'asked',
+      label: 'Ask her which she thinks.',
+      set: { 'e2-asked': 'asked' },
+      then: [
+        NOVA('I think it liked you. That’s the only thing I’ve ever been able to tell in advance.'),
+        NOVA(
+          'The rest is the light. Sit with it till dark. That’s all there is to do, and it’s a lot.',
+          'soft',
+        ),
+      ],
+    },
+    {
+      id: 'quiet',
+      label: 'Don’t ask.',
+      set: { 'e2-asked': 'quiet' },
+      then: [
+        Y('You don’t ask which she thinks. She doesn’t say.'),
+        NOVA('Sit with it till dark. That’s all there is to do, and it’s a lot.', 'soft'),
+      ],
+    },
   ],
 };
 
 const end: Scene = {
   id: 'e2-end',
-  lines: [N('Morning. The cocoon on the grass is still, and the light on it has decided.')],
+  lines: [
+    N('Morning. The cocoon on the grass is still, and the light on it has decided.'),
+    N('Nova is at the gate already. She has not come in. She is waiting to be told which.'),
+  ],
 };
 
 const completeReborn: Scene = {
@@ -131,6 +171,7 @@ const completeReborn: Scene = {
     ),
     NOVA('Twelve days and it wanted twelve more. That’s what you did.', 'happy'),
     N('When it hatches it greets you with a heart, and remembers its name before you say it.'),
+    N('It goes to the step, and moves over a Nova’s width, and waits.'),
     NOVA('I’ll come on day four. Don’t be a stranger it liked once.'),
   ],
 };
@@ -145,6 +186,7 @@ const completeDeparted: Scene = {
       'Twelve days. It had all twelve. That’s the whole of what there was, and it was yours.',
       'sad',
     ),
+    N('The flower has a mark on one petal, off-centre, the kind a thumb would find.'),
     N(
       'Nova stays until the flower has opened. Then she goes, and comes back the next morning anyway.',
     ),
@@ -212,12 +254,19 @@ export const EXPANSION_E2: Quest[] = [
     notes:
       'Day gates come from dayCount on the flagged Nubbin. e2-day4-slips plays with two or ' +
       'more slips; e2-day8-moody when it evolved moody. The complete scene is ' +
-      'e2-complete-departed when the Nubbin departed.',
+      'e2-complete-departed when the Nubbin departed. The day-11 choice (e2-asked) is voice ' +
+      'only; nothing reads it yet.',
   },
 ];
 
 export const EXPANSION_E2_VARIANTS: Scene[] = [day4Slips, day8Moody, completeDeparted];
-export const EXPANSION_E2_FLAGS: string[] = ['e2-answer', 'e2-nubbin', 'e2-outcome', 'e2Done'];
+export const EXPANSION_E2_FLAGS: string[] = [
+  'e2-answer',
+  'e2-nubbin',
+  'e2-asked',
+  'e2-outcome',
+  'e2Done',
+];
 export const EXPANSION_E2_CHECKS: string[] = [
   'hatch:dandy',
   'pet:dandy',
