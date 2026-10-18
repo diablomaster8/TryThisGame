@@ -24,8 +24,9 @@ import { stubOnce } from './stubs';
  * that. The slow half of a build, marching each surface, runs in the sculpt workers
  * (`SculptFarm`) and is cached by look key; the fast half (materials, eyes, fur shells,
  * the rig) runs here, at most one rig per frame. Until a look's surfaces are back,
- * `acquire` returns null and the caller shows a placeholder. A rig is never thrown away:
- * a Nubbin that leaves hands it back, and the next one with the same look takes it.
+ * `acquire` returns null and the caller shows a placeholder. A Nubbin that leaves hands
+ * its rig back and the next one with the same look takes it; spares and surfaces past the
+ * caps in `GROVE3D` are freed, least recently used first, so old looks do not pile up.
  */
 /** A look: which spec to build, under what pool key, and how tall it stands in the Grove. */
 export interface Look {
@@ -99,6 +100,9 @@ export class CreaturePool {
   /** Marched surfaces by look key, once the workers have them. */
   private readonly ready = new Map<string, BufferGeometry[]>();
   private readonly asked = new Set<string>();
+  /** When each look key was last asked for or handed back, for eviction by recency. */
+  private readonly used = new Map<string, number>();
+  private tick = 0;
   /** Rigs built this frame; one per frame keeps a crowd of hatchlings from stalling. */
   private builtThisFrame = 0;
   /** Rigs whose shaders are compiling; they join the spares when done. */
@@ -139,6 +143,7 @@ export class CreaturePool {
    * surfaces are back from the workers. Null means not yet; ask again next frame.
    */
   acquire(look: Look): Rigged | null {
+    this.used.set(look.key, ++this.tick);
     const spare = this.free.get(look.key)?.pop();
     if (spare) return spare;
     const geos = this.ready.get(look.key);
@@ -190,6 +195,28 @@ export class CreaturePool {
     const list = this.free.get(key) ?? [];
     list.push(rig);
     this.free.set(key, list);
+    this.used.set(key, ++this.tick);
+    this.evict();
+  }
+
+  /** Free the least recently used spares and surfaces past the caps. */
+  private evict(): void {
+    // Never while the loading veil is up: every warm look is about to be needed.
+    if (this.burst) return;
+    const spares = [...this.free.entries()].map(([k, l]) => [k, l.length] as const);
+    for (const key of evictionOrder(spares, this.used, GROVE3D.poolSpares)) this.discard(key);
+    const looks = [...this.ready.keys()]
+      .filter((k) => !this.free.has(k))
+      .map((k) => [k, 1] as const);
+    const over = this.ready.size - GROVE3D.poolLooks;
+    if (over <= 0) return;
+    for (const key of evictionOrder(looks, this.used, looks.length - over)) {
+      for (const g of this.ready.get(key) ?? []) g.dispose();
+      this.farm.forget(key, this.quality);
+      this.ready.delete(key);
+      this.asked.delete(key);
+      this.used.delete(key);
+    }
   }
 
   /**
@@ -302,6 +329,26 @@ function freeRigs(rigs: Rigged[], textures: boolean): void {
   }
   for (const g of geos) g.dispose();
   for (const t of texs) t.dispose();
+}
+
+/**
+ * Which keys to free so that at most `cap` items stay: the least recently used first,
+ * a key's items going together. `items` pairs each key with how many items it holds.
+ */
+export function evictionOrder(
+  items: ReadonlyArray<readonly [string, number]>,
+  used: ReadonlyMap<string, number>,
+  cap: number,
+): string[] {
+  let total = items.reduce((n, [, c]) => n + c, 0);
+  const out: string[] = [];
+  const oldest = [...items].sort((a, b) => (used.get(a[0]) ?? 0) - (used.get(b[0]) ?? 0));
+  for (const [key, count] of oldest) {
+    if (total <= cap) break;
+    out.push(key);
+    total -= count;
+  }
+  return out;
 }
 
 /** The looks a Grove opens with, the Keeper first, each once. */

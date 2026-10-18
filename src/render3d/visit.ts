@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { buildTree, pbr, repeatUv, type Tex } from '../samples/aaa-kit';
 import { trainerOf } from '../sim/trainers';
 import { CrownFade, treeOf } from './crowns';
-import { building, decorModel } from './garden';
+import { building, decorModel, disposeModel } from './garden';
 
 /**
  * A neighbour's Grove for `visit:<trainer>`: a simple dressed set in place of the bare
@@ -49,7 +49,11 @@ export class VisitSet {
   }
 
   private dress(trainer: string, tex: Tex): void {
-    for (const o of this.dressed) o.removeFromParent();
+    // The last neighbour's set goes for good: its trees, fence and house were made for it.
+    for (const o of this.dressed) {
+      o.removeFromParent();
+      disposeModel(o);
+    }
     this.dressed = [];
     this.crowns.clear();
     const flat = () => 0;

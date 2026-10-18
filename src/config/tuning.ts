@@ -84,6 +84,14 @@ export const MOTION_CLIPS = {
 } as const;
 
 export const GROVE3D = {
+  /**
+   * The creature pool keeps at most this many spare rigs, and the marched surfaces of at
+   * most this many looks; past that the least recently used go (an evolution, a hat or a
+   * neighbour's visit leaves the old look behind). Evicted surfaces come back from the
+   * IndexedDB cache when asked again.
+   */
+  poolSpares: 12,
+  poolLooks: 40,
   /** The longest the 3D loading veil waits before showing the Grove with its stand-ins. */
   loadSafetyMs: 90_000,
   /**

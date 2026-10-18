@@ -31,6 +31,24 @@ const MATS = {
   bark: mat('#7a5232'),
 };
 const FLOWERS = ['#ff8fb0', '#ffd94a', '#b89af0', '#ffffff', '#ff7a5a'].map((c) => mat(c));
+/** Materials every model shares for the page's life; never disposed. */
+const SHARED = new Set<THREE.Material>([...Object.values(MATS), ...FLOWERS]);
+
+/**
+ * Free what a garden or visit model made for itself: geometry, instance buffers and its
+ * own materials. The shared materials above and every texture (the kit's, shared with the
+ * Grove) stay.
+ */
+export function disposeModel(root: THREE.Object3D): void {
+  root.traverse((o) => {
+    const m = o as THREE.Mesh;
+    if (!m.isMesh) return;
+    m.geometry.dispose();
+    for (const mat of Array.isArray(m.material) ? m.material : [m.material])
+      if (!SHARED.has(mat)) mat.dispose();
+    if ((o as THREE.InstancedMesh).isInstancedMesh) (o as THREE.InstancedMesh).dispose();
+  });
+}
 
 function box(w: number, h: number, d: number, m: THREE.Material, x = 0, y = 0, z = 0) {
   const o = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m);
@@ -305,7 +323,7 @@ export class Garden {
   private rebuild(world: World, ground: Ground): void {
     for (const c of [...this.group.children]) {
       c.removeFromParent();
-      c.traverse((o) => (o as THREE.Mesh).geometry?.dispose());
+      disposeModel(c);
     }
     this.picks.length = 0;
     for (const d of world.placed) {

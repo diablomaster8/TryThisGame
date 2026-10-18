@@ -100,6 +100,11 @@ export class SculptFarm {
     return p;
   }
 
+  /** Drop a look's surfaces from memory; the next ask reads them back from IndexedDB. */
+  forget(key: string, quality = 1): void {
+    this.cache.delete(`${key}@${quality}`);
+  }
+
   /** Write the surfaces marched since the last write, in one batch, a moment from now. */
   saveSoon(): void {
     if (this.holdWrites || this.saveTimer || !this.unsaved.length) return;
