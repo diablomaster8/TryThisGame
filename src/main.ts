@@ -8,6 +8,7 @@ import {
   readGraphicsPref,
   setSaveSlot,
   storylineFinished,
+  takeResumeSlot,
 } from './platform/storage';
 import { loadEduScripts, loadStoryScripts } from './sim/story-scenes';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
@@ -41,6 +42,7 @@ document.addEventListener('visibilitychange', () => {
 });
 
 const params = new URLSearchParams(location.search);
+let resumeSlot: ReturnType<typeof takeResumeSlot>;
 if (params.has('sprites')) {
   mountSpriteGallery(app);
 } else if (params.has('style3d')) {
@@ -79,6 +81,10 @@ if (params.has('sprites')) {
 } else if (params.has('free')) {
   // Straight into the Free Grove (dev and old links). `?slot=2` picks a slot.
   setSaveSlot({ mode: 'free', index: Number(params.get('slot')) || 1 });
+  startGame(null);
+} else if ((resumeSlot = takeResumeSlot())) {
+  // Graphics changed in Settings: the reload comes straight back to the slot in play.
+  setSaveSlot(resumeSlot);
   startGame(null);
 } else {
   // Fetch the campaign and side-story chunks while the title is up.

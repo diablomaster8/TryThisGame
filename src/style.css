@@ -863,6 +863,8 @@ button,
 .check-row input {
   width: 22px;
   height: 22px;
+  /* A long label beside it must not squeeze the box narrower at phone widths. */
+  flex-shrink: 0;
 }
 
 .check-row.disabled {
@@ -1825,6 +1827,16 @@ button,
   unicode-bidi: isolate;
   /* Room for niqqud under the letters. */
   line-height: 1.7;
+}
+/* Hebrew letters sit lower and smaller than Latin at the same size: in running text the
+   word is set a fifth larger, so it is never smaller than its romanisation (review B). */
+bdi.lang-he {
+  font-size: 1.2em;
+}
+/* Beside a read-aloud prompt (the romanisation set at 1.5em, bold) the Hebrew goes larger
+   still, so the word the child is learning is the biggest thing on the line. */
+*:has(> .edu-prompt) > bdi.lang-he {
+  font-size: 1.75em;
 }
 .lang-ja {
   font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;

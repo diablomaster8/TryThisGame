@@ -24,7 +24,7 @@ export function mountCameraButtons(parent: HTMLElement, camera: OrbitCamera): HT
   parent.appendChild(bar);
 
   const hint = document.createElement('div');
-  hint.className = 'hint';
+  hint.className = 'hint keys-hint';
   hint.textContent = UI_TEXT.desktopHint;
   parent.appendChild(hint);
 

@@ -307,6 +307,36 @@ const GRAPHICS_KEY = 'grove.graphics';
  * The renderer chosen on the title screen: a device-wide preference, because it is
  * picked before any save is open. The save's `settings.graphics` mirrors it.
  */
+const RESUME_KEY = 'grove.resume';
+
+/**
+ * Remember the slot in play across one reload (a Graphics change), so the game comes back
+ * to it instead of the title. Session storage: it never outlives the tab.
+ */
+export function markResumeSlot(slot: SaveSlot): void {
+  try {
+    sessionStorage.setItem(RESUME_KEY, JSON.stringify(slot));
+  } catch {
+    // No session storage: the reload lands on the title, as before.
+  }
+}
+
+/** The slot marked before a reload, once; null when there is none or it is not a real slot. */
+export function takeResumeSlot(): SaveSlot | null {
+  try {
+    const raw = sessionStorage.getItem(RESUME_KEY);
+    sessionStorage.removeItem(RESUME_KEY);
+    if (!raw) return null;
+    const s = JSON.parse(raw) as Partial<SaveSlot>;
+    if (typeof s.mode !== 'string' || !(s.mode in LEGACY_KEYS) || typeof s.index !== 'number')
+      return null;
+    const slot = { mode: s.mode as SaveMode, index: s.index };
+    return hasSave(slot) ? slot : null;
+  } catch {
+    return null;
+  }
+}
+
 export function readGraphicsPref(): 'pixel' | '3d' {
   try {
     return localStorage.getItem(GRAPHICS_KEY) === '3d' ? '3d' : 'pixel';

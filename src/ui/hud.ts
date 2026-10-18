@@ -31,6 +31,7 @@ import type { Nubbin } from '../sim/types';
 import { AwayScreen } from './away-screen';
 import { Celebration } from './celebration';
 import { DebugPanel } from './debug-panel';
+import { askGrownUp } from './grown-up-gate';
 import { Joystick } from './joystick';
 import { RacesMenu } from './races';
 import { holdRenderWhile } from './render-hold';
@@ -90,7 +91,15 @@ export function mountHud(
   const moreBtn = button('⋯', () => more.show(), 'btn btn-icon');
   moreBtn.setAttribute('aria-label', UI_TEXT.more);
   moreBtn.title = UI_TEXT.more;
-  const settingsBtn = button('⚙', () => settings.open(), 'btn btn-icon');
+  // In the Learning Grove, Settings (reset, import, aging) is for grown-ups: a sum first.
+  const settingsBtn = button(
+    '⚙',
+    () => {
+      if (!game()?.world.edu) settings.open();
+      else void askGrownUp(root, toast).then((ok) => ok && settings.open());
+    },
+    'btn btn-icon',
+  );
   settingsBtn.setAttribute('aria-label', UI_TEXT.settings);
   const keeperBtn = button('☀', () => trainers.open(), 'btn btn-icon');
   keeperBtn.setAttribute('aria-label', UI_TEXT.trainers);
@@ -613,6 +622,9 @@ export function mountHud(
       expeditionBtn.textContent = isEdu ? '🎓' : '🏃';
       for (const b of moreList.querySelectorAll<HTMLElement>('.edu-only')) b.hidden = !isEdu;
       for (const b of moreList.querySelectorAll<HTMLElement>('.not-edu')) b.hidden = isEdu;
+      // The keyboard hint is for grown-up desktops, not for a 3-year-old's screen.
+      const keysHint = root.querySelector<HTMLElement>('.keys-hint');
+      if (keysHint && keysHint.hidden !== isEdu) keysHint.hidden = isEdu;
       // Pixel's cabinet: after chapter 5 in Hazel's Grove (canon 29), from the start in the Free Grove.
       const cabinetOpen =
         !isEdu && (currentSlot().mode === 'free' || (g.world.campaign?.chapter ?? 0) > 5);

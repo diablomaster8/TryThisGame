@@ -7,6 +7,7 @@ import {
   clearSave,
   currentSlot,
   downloadText,
+  markResumeSlot,
   modeOfWorld,
   pickTextFile,
   readUnreadable,
@@ -379,6 +380,8 @@ export class SettingsMenu {
       writeGraphicsPref(settings.graphics);
       g.world.settings = settings;
       g.save();
+      // Back into this same slot after the reload, as the help text promises.
+      markResumeSlot(currentSlot());
       location.reload();
     }
   }
