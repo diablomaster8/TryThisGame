@@ -117,6 +117,46 @@ export function racerY(kind: SectionKind, trackY: number, resting: boolean): num
   return trackY;
 }
 
+// ---------------------------------------------------------------- name tags
+
+export interface TagRect {
+  /** Centre and size on screen, in pixels (y down). */
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
+/**
+ * Lift name tags so no two screen rectangles intersect: the lowest tag on screen (the
+ * nearest racer) keeps its place, each higher one is raised until it clears every tag
+ * already placed, and a lift that lands on another tag is raised again. Returns the lift
+ * per tag in pixels (0 or more, up the screen), in the input order.
+ */
+export function stackTags(tags: TagRect[], gapPx = 2): number[] {
+  const order = tags.map((t, i) => i).sort((a, b) => tags[b]!.y - tags[a]!.y);
+  const placed: TagRect[] = [];
+  const lift = tags.map(() => 0);
+  for (const i of order) {
+    const t = tags[i]!;
+    let y = t.y;
+    for (let moved = true, n = 0; moved && n < 32; n++) {
+      moved = false;
+      for (const p of placed) {
+        const dx = Math.abs(p.x - t.x);
+        const dy = Math.abs(p.y - y);
+        if (dx < (p.w + t.w) / 2 && dy < (p.h + t.h) / 2 + gapPx) {
+          y = p.y - (p.h + t.h) / 2 - gapPx;
+          moved = true;
+        }
+      }
+    }
+    placed.push({ x: t.x, y, w: t.w, h: t.h });
+    lift[i] = t.y - y;
+  }
+  return lift;
+}
+
 // ---------------------------------------------------------------- camera
 
 export interface CameraFrame {

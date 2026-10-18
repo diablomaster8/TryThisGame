@@ -10,7 +10,15 @@ import { el } from '../ui/dom';
 import { nubbinLook, type Look } from './creature-pool';
 import { gaitTime } from './gait';
 import type { Grove3dScene } from './grove-3d-scene';
-import { laneZ, racerY, sectionSpans, trackHeight, type SectionSpan } from './minigame-layout';
+import {
+  laneZ,
+  racerY,
+  sectionSpans,
+  stackTags,
+  trackHeight,
+  type SectionSpan,
+  type TagRect,
+} from './minigame-layout';
 import { MiniStage } from './minigame-stage';
 import { waterMaterial, waterNormal } from './water';
 
@@ -48,10 +56,11 @@ export class Race3dView implements RaceView {
   private sceneryReady = false;
   private lastMs = 0;
   private camX = 0;
-  private signs: { sprite: THREE.Sprite; x: number; start: number; end: number }[] = [];
+  private signs: { sprite: THREE.Sprite; x: number; y: number; start: number; end: number }[] = [];
   /** This frame's tag anchors (x, y over the head, z), laid out after every racer is placed. */
   private readonly anchors: { r: Runner; x: number; y: number; z: number }[] = [];
   private readonly at = new THREE.Vector3();
+  private readonly v = new THREE.Vector3();
 
   constructor(private readonly host: Grove3dScene) {
     // The 3D race keeps its HUD in the screen's own elements; this holds nothing yet.
@@ -139,7 +148,6 @@ export class Race3dView implements RaceView {
     const leader = this.runners.reduce((a, b) => (b.racer.pos > a.racer.pos ? b : a), player);
     this.anchors.length = 0;
     for (const r of this.runners) this.placeRunner(race, r, nowMs, dt);
-    this.layoutTags();
 
     const cam = RACE3D.camera;
     // Lean toward the leader, but never so far that the player leaves the left third of
@@ -156,7 +164,10 @@ export class Race3dView implements RaceView {
     const midLane = laneZ((this.runners.length - 1) / 2);
     const y = trackHeight(this.spans, this.camX / U) + cam.lookHeight;
     stage.aim(this.camX + cam.lookAhead, y, midLane, cam.pitchDeg, dt);
+    // The signs settle first, then the tags are laid out (with the signs) against this
+    // frame's camera, after it has moved.
     this.placeSigns(this.camX + cam.lookAhead, stage.halfSpan);
+    this.layoutTags(stage);
     stage.render(nowMs, (x) => trackHeight(this.spans, x / U));
   }
 
@@ -244,35 +255,64 @@ export class Race3dView implements RaceView {
   }
 
   /**
-   * Lay the tags out so none overlap on screen: in screen terms a tag sits higher the
-   * farther its lane (the camera looks down by `pitchDeg`), so each tag is placed from
-   * the nearest lane out and lifted above any already-placed tag it would cover.
+   * Lay the tags and the visible section signs out so no two overlap on screen: each is
+   * projected through this frame's camera to a pixel rectangle of its rendered size,
+   * `stackTags` lifts the crowded ones apart, and each lift goes back to world units at
+   * that card's depth.
    */
-  private layoutTags(): void {
-    const { width, height, gap } = RACE3D.nameTag;
-    const rise = Math.sin((RACE3D.camera.pitchDeg * Math.PI) / 180);
-    const placed: { x: number; sy: number }[] = [];
-    this.anchors.sort((a, b) => b.z - a.z);
-    for (const a of this.anchors) {
-      let sy = a.y - a.z * rise;
-      // Lifting past one tag can land on another: go round until nothing moves.
-      for (let moved = true, n = 0; moved && n < 16; n++) {
-        moved = false;
-        for (const p of placed) {
-          if (
-            Math.abs(p.x - a.x) < width * 0.95 &&
-            sy < p.sy + height * gap &&
-            sy > p.sy - height * gap
-          ) {
-            sy = p.sy + height * gap;
-            moved = true;
-          }
-        }
-      }
-      placed.push({ x: a.x, sy });
-      const y = sy + a.z * rise;
-      this.placeTagAt(a.r, a.x, y, a.z);
+  private layoutTags(stage: MiniStage): void {
+    const { width, height } = RACE3D.nameTag;
+    const cam = stage.camera;
+    cam.updateMatrixWorld();
+    const size = stage.renderer.getSize(new THREE.Vector2());
+    const rects: TagRect[] = [];
+    const pxPerUnit: number[] = [];
+    const cards: { x: number; y: number; z: number; w: number; h: number }[] = this.anchors.map(
+      (a) => ({ x: a.x, y: a.y, z: a.z, w: width, h: height }),
+    );
+    const signs = this.signs.filter((s) => s.sprite.visible);
+    for (const s of signs) {
+      const p = s.sprite.position;
+      cards.push({ x: p.x, y: s.y, z: p.z, w: s.sprite.scale.x, h: s.sprite.scale.y });
     }
+    // A sprite is centred on its position: project its bottom and top edges. The tilted
+    // camera draws a raised card a little larger, so the cards are measured where they
+    // ended up and stacked again: two passes settle it.
+    const measure = (a: (typeof cards)[number], at: number): TagRect => {
+      this.v.set(a.x, at - a.h / 2, a.z).project(cam);
+      const x = ((this.v.x + 1) / 2) * size.x;
+      const bottom = ((1 - this.v.y) / 2) * size.y;
+      this.v.set(a.x, at + a.h / 2, a.z).project(cam);
+      const top = ((1 - this.v.y) / 2) * size.y;
+      const h = Math.max(1, bottom - top);
+      return { x, y: (top + bottom) / 2, w: (h * a.w) / a.h, h };
+    };
+    let lifted = cards.map((a) => a.y);
+    for (let pass = 0; pass < 2; pass++) {
+      rects.length = 0;
+      pxPerUnit.length = 0;
+      cards.forEach((a, i) => {
+        const base = measure(a, a.y);
+        const now = measure(a, lifted[i]!);
+        // Where the card would sit unlifted, at the size it has where it is.
+        rects.push({ x: base.x, y: base.y, w: now.w, h: now.h });
+        pxPerUnit.push(now.h / a.h);
+      });
+      const lift = stackTags(rects, 3);
+      // Back to world units: an estimate from the local scale, then one correction
+      // against the real projection.
+      lifted = cards.map((a, i) => {
+        if (lift[i]! <= 0) return a.y;
+        let y = a.y + lift[i]! / pxPerUnit[i]!;
+        const want = rects[i]!.y - lift[i]!;
+        y += (measure(a, y).y - want) / pxPerUnit[i]!;
+        return y;
+      });
+    }
+    this.anchors.forEach((a, i) => this.placeTagAt(a.r, a.x, lifted[i]!, a.z));
+    signs.forEach((s, j) => {
+      s.sprite.position.y = lifted[this.anchors.length + j]!;
+    });
   }
 
   private placeTagAt(r: Runner, x: number, y: number, z: number): void {
@@ -379,7 +419,7 @@ export class Race3dView implements RaceView {
         fontPx: 48,
       });
       sign.position.set(x0 + 1.1, Math.max(s.y0, s.y1) + RACE3D.signHeight, zBack + 0.6);
-      this.signs.push({ sprite: sign, x: x0 + 1.1, start: x0, end: x1 });
+      this.signs.push({ sprite: sign, x: x0 + 1.1, y: sign.position.y, start: x0, end: x1 });
       const post = new THREE.Mesh(
         new THREE.CylinderGeometry(0.05, 0.05, 1.6, 6),
         new THREE.MeshStandardMaterial({ color: '#5a3c28', roughness: 0.9 }),

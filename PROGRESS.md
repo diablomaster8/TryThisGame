@@ -48,7 +48,8 @@ and hopping with the gait clock, hit blink, dust and sparkle bursts and a camera
 under reduced motion). Race sections as grass, worn earth, a sunk water channel, a rock
 gully to fly over and a rock ramp that stays up, all on painted earth skirts and walls
 down past the frame; signs that slide to stay whole on screen; finish posts and banner;
-name tags laid out each frame so none overlap (screen-space nudge, nearest lane first);
+name tags and section signs laid out each frame against the camera so no two screen
+rectangles intersect (`stackTags`, projected and measured in pixels, two passes);
 the player's stamina bar; rest as the sleep pose; cheer sparkles; the camera leaning
 toward the leader but keeping the player in the left half. Rival rigs are discarded from
 the pool when a race ends (`CreaturePool.discard`). Frame times on Maor's PC, hand-driven

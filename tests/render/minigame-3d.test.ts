@@ -11,6 +11,7 @@ import {
   runnerWorld,
   sectionSpans,
   selectMinigameView,
+  stackTags,
   thingWorld,
   trackHeight,
 } from '../../src/render3d/minigame-layout';
@@ -134,5 +135,49 @@ describe('chase camera framing', () => {
     expect(x).toBeGreaterThan(9.9);
     expect(x).toBeLessThanOrEqual(10);
     expect(ease(5, 5, 7, 0.1)).toBe(5);
+  });
+});
+
+describe('name tag stacking', () => {
+  const intersects = (a: { x: number; y: number; w: number; h: number }, b: typeof a) =>
+    Math.abs(a.x - b.x) < (a.w + b.w) / 2 && Math.abs(a.y - b.y) < (a.h + b.h) / 2;
+
+  it('leaves tags that are already apart where they are', () => {
+    const tags = [
+      { x: 100, y: 300, w: 80, h: 20 },
+      { x: 300, y: 300, w: 80, h: 20 },
+      { x: 100, y: 200, w: 80, h: 20 },
+    ];
+    expect(stackTags(tags)).toEqual([0, 0, 0]);
+  });
+
+  it('lifts a crowd at one point apart, nearest (lowest) tag staying put', () => {
+    const tags = [
+      { x: 200, y: 240, w: 90, h: 24 },
+      { x: 204, y: 236, w: 70, h: 24 },
+      { x: 198, y: 232, w: 80, h: 24 },
+      { x: 202, y: 228, w: 60, h: 24 },
+    ];
+    const lift = stackTags(tags, 2);
+    expect(lift[0]).toBe(0);
+    const placed = tags.map((t, i) => ({ ...t, y: t.y - lift[i]! }));
+    for (let i = 0; i < placed.length; i++)
+      for (let j = i + 1; j < placed.length; j++)
+        expect(intersects(placed[i]!, placed[j]!)).toBe(false);
+    for (const l of lift) expect(l).toBeGreaterThanOrEqual(0);
+  });
+
+  it('clears a tag it lands on after a first lift', () => {
+    // Two tags apart, a third between them wide enough to touch both.
+    const tags = [
+      { x: 100, y: 300, w: 80, h: 20 },
+      { x: 100, y: 270, w: 80, h: 20 },
+      { x: 110, y: 296, w: 120, h: 20 },
+    ];
+    const lift = stackTags(tags, 2);
+    const placed = tags.map((t, i) => ({ ...t, y: t.y - lift[i]! }));
+    for (let i = 0; i < placed.length; i++)
+      for (let j = i + 1; j < placed.length; j++)
+        expect(intersects(placed[i]!, placed[j]!)).toBe(false);
   });
 });
