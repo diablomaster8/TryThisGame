@@ -1706,7 +1706,7 @@ _On the way up, Christopher Robin gave your Nubbin back its blue ribbon, off the
 _Whatever comes next for them, there is a ring of trees at the top of the Forest that nobody can count._  
 _A boy and his Bear are playing in it. Nobody ever stops them._  
 _The page settles under your hand, gently, like a door somebody is careful not to bang._  
-_You are back in the Grove, with Nova’s atlas on your knee and a stick in your Nubbin’s mouth that wasn’t there before._  
+_You are back in the Grove, with Nova’s atlas on your knee. There is a stick in your Nubbin’s mouth, and nobody saw where it came from._  
 _Down by the Grove stream there is a little wooden bridge that wasn’t there this morning. A bit of blue ribbon is tied to its rail._  
 
 **Rewards**
@@ -1798,7 +1798,7 @@ _Your Nubbin has carried something up the hill: a thistle head from Eeyore’s s
 _Whatever comes next for them, there is a ring of trees at the top of the Forest that nobody can count._  
 _A boy and his Bear are playing in it. Nobody ever stops them._  
 _The page settles under your hand, gently, like a door somebody is careful not to bang._  
-_You are back in the Grove, with Nova’s atlas on your knee and a stick in your Nubbin’s mouth that wasn’t there before._  
+_You are back in the Grove, with Nova’s atlas on your knee. There is a stick in your Nubbin’s mouth, and nobody saw where it came from._  
 _Down by the Grove stream there is a little wooden bridge that wasn’t there this morning. A thistle is coming up at the far end._  
 
 #### Variant `a11-20-complete-sat`
@@ -1808,7 +1808,7 @@ _Your Nubbin turns round three times in the grass at the edge of the circle, and
 _Whatever comes next for them, there is a ring of trees at the top of the Forest that nobody can count._  
 _A boy and his Bear are playing in it. Nobody ever stops them._  
 _The page settles under your hand, gently, like a door somebody is careful not to bang._  
-_You are back in the Grove, with Nova’s atlas on your knee and a stick in your Nubbin’s mouth that wasn’t there before._  
+_You are back in the Grove, with Nova’s atlas on your knee. There is a stick in your Nubbin’s mouth, and nobody saw where it came from._  
 _Down by the Grove stream there is a little wooden bridge that wasn’t there this morning. One place on its parapet is worn smooth, just right for sitting._  
 
 #### Variant `a11-margin-hazel`

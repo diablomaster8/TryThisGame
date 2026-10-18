@@ -131,14 +131,36 @@ White-Haired Prince · 31 PA3 The Hollow Kingdom · 32 PA4 Mercy · 33 A28 The B
 A29 The Honmoon · 35 PA5 The Hundred-Year Sleep · 36 S31 The Great Gourd · 37 A30 The Word on
 the Brow · 38 Q86–Q95 The Hodja's Donkey · 39 LK1–LK10 Mouse-Deer · 40 A31 The Hero Twins
 
-## Content pack status (2026-10-16)
+## Content pack status (2026-10-18, from `docs/logs/`)
 
-Scripted and checked in `src/content/`: campaign v2, S1–S31, Q1–Q65, Neopia, the Multiverse,
-readers and results, Learning Grove versions (both bands) of the campaign, S1–S22 and the
-Python, Bean and Avatar quests, LH and LJ, and the whole Atlas, A1–A31. A1–A10 and A22–A31
-were reviewed and fixed in waves L and M (`docs/logs/review-wave-L.md`, `review-wave-M.md`);
-their open quote and adviser items are listed there. Still to script: PA1–PA5,
-Q66–Q95, LB, LK (plan.md Track B). `script-book/` prints everything scripted so far, S23–S31 and the Atlas A1–A31 included, with their variant scenes.
+Everything in the backlog is now scripted in `src/content/`. The whole canon was audited in
+report mode on 2026-10-17 (`review-canon-audit.md`: canon holds, `problems: 0`); "Reviewed"
+below means a fix-mode review of that storyline. "Edu" is the Learning Grove version in both
+bands (sprout and reader) unless it says otherwise; "n/a" means the audience or the outline
+rules one out.
+
+| Storylines | Scripted | Edu | Reviewed |
+| --- | --- | --- | --- |
+| Campaign v2, S1–S22, Q1–Q65, Neopia, Multiverse, readers, LH, LJ | yes | campaign, S1–S22, Python, Bean, Avatar; LH and LJ are Learning Grove lines; n/a for Sunny, Neopia, Multiverse | earlier fix pass (`docs/fix-changelog.md`, no log here); canon audit |
+| S23 Three Visitors | yes | n/a (`main`) | canon audit only |
+| S24–S31 | yes | done | edu: `review-edu-s24-s31.md`; main scripts: canon audit only |
+| A1, A3, A4 | yes | n/a (`teen`) | `review-wave-L.md` |
+| A2, A5–A10 | yes | done | main: `review-wave-L.md`; edu: `review-edu-atlas-1.md` |
+| A11–A13 | yes | done | edu: `review-edu-atlas-1.md`; main scripts: canon audit only |
+| A14, A15, A17–A20 | yes | done | edu: `review-edu-atlas-2.md`; main scripts: canon audit only |
+| A16 | yes | reader only | edu: `review-edu-atlas-2.md`; main script: canon audit only |
+| A21 | yes | n/a (`main`) | canon audit only |
+| A22–A24 | yes | done | main: `review-wave-M.md`; edu: `review-edu-atlas-2.md` |
+| A25, A29 | yes | reader only (A25 Part One) | main: `review-wave-M.md`; edu: `review-edu-atlas-3.md` |
+| A26–A28, A30, A31 | yes | done | main: `review-wave-M.md`; edu: `review-edu-atlas-3.md` |
+| PA1 | yes | done (`edu-pa1-*.ts`, no edu log; its script log still says `main`, no edu) | canon audit only |
+| PA2–PA5 | yes | n/a (licence, per the outline) | canon audit only |
+| Q66–Q95 (`quests-alice.ts`, `quests-holmes.ts`, `quests-hodja.ts`) | yes, no script log | none logged | canon audit only |
+| LB1–LB12 | yes | built in (`LINE_LB_EDU`) | canon audit only |
+| LK1–LK10 | yes | Learning Grove only | canon audit only |
+
+Left to review in fix mode: S23–S31 main scripts, A11–A21 main scripts, PA1–PA5, Q66–Q95, LB
+and LK. `script-book/` (regenerated 2026-10-18) prints everything above except Q66–Q95.
 
 ## Suggested order
 

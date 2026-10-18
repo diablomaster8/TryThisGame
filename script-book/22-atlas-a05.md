@@ -1092,7 +1092,7 @@ _Your Nubbin plays the hunters’ tune on Balla’s balafon. A hundred hunters s
 _He puts the little balafon into your arms, and the beaters into your Nubbin’s hands._  
 **Balla Fasséké** _(soft)_: Go home, apprentice. Remember us properly.  
 _The red earth goes soft under your feet, then smooth, then paper._  
-_You are back in the Grove with Nova’s atlas on your knee. Your Nubbin is tapping out a tune on the cover, very nearly in time._  
+_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
 
 **Rewards**
 
@@ -1132,4 +1132,4 @@ _Your Nubbin plays Sogolon’s lullaby on Balla’s balafon. Thousands of people
 _He puts the little balafon into your arms, and the beaters into your Nubbin’s hands._  
 **Balla Fasséké** _(soft)_: Go home, apprentice. Remember us properly.  
 _The red earth goes soft under your feet, then smooth, then paper._  
-_You are back in the Grove with Nova’s atlas on your knee. Your Nubbin is tapping out a tune on the cover, very nearly in time._  
+_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  

@@ -1474,7 +1474,7 @@ _At the bottom he looks back._
 _And he’s gone into the trees. Mowgli stands with his hands open, the way you do when you’ve dropped something._  
 **Mowgli** _(sad)_: Guest. You came at the start. You were in the cave, the first night. Say the Words with me. One more time.  
 _So you say them, the two of you, standing on the Council Rock in the early sun._  
-**You**: We be of one blood, ye and I.  
+_You give the Master Words back to Mowgli, the way Baloo taught them, and your Nubbin bows with you._  
 
 #### Done `a24-16-bagheera-done`
 
@@ -1524,7 +1524,7 @@ Sets on completion: `{"a24-16":true}`
 
 - `a24-16-rock#5` → People belong with people in the end. But the jungle will always be your home too.
 - `a24-16-bagheera#7` → Good luck on your new road. Never forget that Bagheera loved you.
-- `a24-16-bagheera#11` → You and I are family, all of us, under the same sky.
+- `a24-16-bagheera#11` → You say the Words back to Mowgli, the way Baloo taught them, and your Nubbin bows with you.
 
 **Notes:** STONES PAYOFF (a24-stones). The scenes shown are for mowgli: Mowgli asks you to walk the first mile with him; the last image is the trail north with four wolves. With messua, play ATLAS_A24_VARIANTS a24-16-bagheera-done-messua in place of a24-16-bagheera-done (he asks you to look in on Messua), a24-16-trail-messua and a24-16-trail-done-messua in place of a24-16-trail and a24-16-trail-done (you go to the lit hut), and a24-16-complete-messua in place of a24-16-complete (the last image: the lit hut, with the baby asleep). Mowgli goes to men on both paths, as Kipling wrote it. The One Blood Plank carries the Master Words as a carving (LIFT_BLOOD); in the Learning Grove it shows a paw print and a hand print instead of words. It hangs on the Grove gate as decor only; it doesn’t change the gate.
 

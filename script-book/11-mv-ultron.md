@@ -171,7 +171,7 @@ _Your Nubbin sits beside him and does not say anything, which is exactly right._
 
 Sets on completion: `{"mv-ul02":true}`
 
-**Notes:** The Vision’s tears are seen only as wet fingers; no music sting. The last Ultron line plays over a black screen from somewhere unseen. The Vision becomes a recurring ally in this line and in The Last Ultron (E6). Simon Williams’ brain patterns matter in UL5. The closing choice sets mv-ul02-killswitch (fitted / refused); UL3 pays it off either way: Ultron had already left his own door in the Vision’s mind. Check Avengers #57–58 beats before ship.
+**Notes:** The Vision’s tears are seen only as wet fingers; no music sting. The last Ultron line plays over a black screen from somewhere unseen. The Vision becomes a recurring ally in this line and in The Last Ultron (E6). Simon Williams’ brain patterns matter in UL5. The closing choice sets mv-ul02-killswitch (fitted / refused); UL3 pays it off either way: Ultron had already left his own door in the Vision’s mind. Check Avengers #57–58 beats before ship. SIGNATURE CHOICE: mv-ul02-first (friend | name: the Vision’s first word on waking) pays off through MV_ULTRON_VARIANTS at mv-ul04-jocasta (what Jocasta finds in the copied mind), mv-ul05-family (what the Vision holds against Ultron at the table), mv-ul09-vision (the question he asks you in the core) and mv-ul10-complete (what the last Ultron threatens the Grove with).
 
 ## UL3. Adamantium
 

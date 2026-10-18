@@ -195,7 +195,7 @@ _Your Run Nubbin wears its sock mask all the way home through the rift and will 
 
 Sets on completion: `{"mv-ca02":true}`
 
-**Notes:** Needs a Run Nubbin in the party for step 1 (check `talk:bucky-barnes` should only fire with one present; otherwise Bucky says he’s busy). Store the Run Nubbin’s id in `mv-ca-bucky-nubbin`; CA9 prefers it. The Red Skull escapes, as he recurs. The step 2 done choice (mv-ca02-saboteur: arrested / released) is the Keeper’s call on mercy; it changes nothing mechanical. Staging: Camp Lehigh tents at night, aircraft-plant hall with gantry for the karate arena. The Skull of 1941 #1 was an impostor (George Maxon); Johann Schmidt arrives in #7. We play them as one Skull.
+**Notes:** Needs a Run Nubbin in the party for step 1 (check `talk:bucky-barnes` should only fire with one present; otherwise Bucky says he’s busy). Store the Run Nubbin’s id in `mv-ca-bucky-nubbin`; CA9 prefers it. The Red Skull escapes, as he recurs. The step 2 done choice (mv-ca02-saboteur: arrested / released) is the Keeper’s call on mercy; it changes nothing mechanical. Staging: Camp Lehigh tents at night, aircraft-plant hall with gantry for the karate arena. The Skull of 1941 #1 was an impostor (George Maxon); Johann Schmidt arrives in #7. We play them as one Skull. SIGNATURE CHOICE: mv-ca02-saboteur (arrested | released) pays off through MV_CAP_VARIANTS at mv-ca05-smear (who the witnesses are, or who brings Steve names), mv-ca07-shield (what Steve offers Walker) and mv-ca10-memory (what the real Steve remembers that Hydra’s Steve cannot).
 
 ## CA3. Frozen
 

@@ -1137,7 +1137,7 @@ _Dusty unfolds the paper. It has been folded and unfolded so often it has gone s
 **Dusty**: Three things. My back’s gone; I can’t carry her and do the things. Would you?  
 **Dusty**: One, the cliff. Two, Hazel’s first tree. Three, the water. She used to swim like she was late for something.  
 _Fossil looks up at you, unhurried, and holds out her arms the way very small children do._  
-**Fossil**: …  
+_Fossil says nothing. Her slow blink lands on you, and stays._  
 
 > **Lesson** (science, 3-LS1-1, notice): life cycles: being born, growing, growing old, dying  
 > _Every living thing has a life cycle. It is born, it grows, it grows old, and in the end it dies._  
@@ -1551,7 +1551,7 @@ _Ash turns round._
 > _A tune is a pattern of high and low notes. Play it slow, fast or shaky, and the pattern stays the same._  
 > _For grown-ups: Learned that a tune is a pattern of notes that stays recognisable at different speeds._
 
-**Ash**: …pip. wirr. a?  
+_Then a sound, small and cracked: pip. wirr. a? The first sound in the register, half remembered._  
 _She crosses the kitchen one careful step at a time and puts her grey head against Ember’s knee._  
 **Ember**: Hello, you. It’s me. It was always me.  
 
@@ -1796,7 +1796,7 @@ _Null takes one step after the moth, then looks back at you, as if checking that
 
 - **Nod. “Go on.”**
     - Null goes. It doesn’t catch the moth, but it falls into the hedge and comes out with a leaf on its head.
-    - **Null**: …prrp!
+    - Null, with no clock on it at all, says prrp, which Byte does not write down.
 - **Put the stopwatch down, Byte.**
     - Byte looks at it for a long moment. Then he lays it face down in the grass.
     - **Byte**: It’s still running. I just can’t see it. That’s a start.
@@ -2049,7 +2049,7 @@ _The Old Girl is already standing. Her folded ear is up. The scrap of brown ribb
 **Fern**: Bramble? …Oh, you’ve gone grey. That’s all right, love. So have I.  
 _For a long moment, nobody in the ring moves._  
 _Then Bramble walks out through the gap, one careful step at a time, all the way to Fern’s boots._  
-**Bramble**: …  
+_Bramble says nothing. She puts her grey head against Fern’s shin and keeps it there._  
 **Fern**: I stood at the bottom of that cliff till dark. I thought I’d left you there.  
 **Fern**: I’m sorry I stopped looking. I’m so sorry I stopped looking.  
 
@@ -17184,7 +17184,7 @@ _The robin doesn’t look back to check. It knows._
 _The robin leads you down the lane to a cottage with a lamp post outside it, polished like a medal._  
 _An old man in a lamplighter’s coat is getting a wheelchair over the doorstep. The girl in it is telling him how, very loudly._  
 **Linnet**: No. Back wheels first. Grandad. Back. Wheels. First.  
-**Old Tobin**: I know which wheels, love, I’ve been doing wheels since before—  
+**Old Tobin**: I know which wheels, love. I’ve been doing wheels since before…  
 _He gets it over the step. She takes the rims herself the moment it lands, and spins round to look at you._  
 **Old Tobin**: Hazel’s grandchild! You’ve her chin. I’m Tobin. I lit the lamps in this valley for fifty-one years.  
 
@@ -17195,7 +17195,7 @@ _He gets it over the step. She takes the rims herself the moment it lands, and s
 
 **Old Tobin**: This is Linnet. My granddaughter. Here till winter, while her mum works the coast boats.  
 **Linnet**: He means I’m kept here till winter.  
-**Old Tobin**: She’s eleven. She’s very— she’s eleven.  
+**Old Tobin**: She’s eleven. She’s very… she’s eleven.  
 **Linnet**: Nothing in this valley is flat. Did you know that? Nothing. Somebody should be told.  
 **Old Tobin**: Mind yourself on the lane, love.  
 **Linnet**: There. That. That’s the other thing everybody says.  
@@ -17455,7 +17455,7 @@ _Moss is quiet for so long that Dusty stops digging to look._
 
 _You walk the garden for her twice, wall to wall, stopping at every corner so she can see it._  
 _She turns most of it down on sight._  
-**Linnet**: Too shady. Too stony. Too near the door; people would tread on it. Too— what do you think?  
+**Linnet**: Too shady. Too stony. Too near the door; people would tread on it. What do you think?  
 _The sun is low in the south. Its light lies longest along the foot of the south wall._  
 
 > **Lesson** (science, 5-ESS1-2, notice): the Sun is in the south at midday, so south walls get most sun  
@@ -17504,12 +17504,12 @@ _Linnet puts her brake on, and Dusty sits down on the path. You sit on the end o
 
 #### `s26-hush`
 
-**Moss**: After the White Year, some of the stilled ones never moved again. Hush brought them in here, out of the wind.  
-**Moss**: She planted roses up every wall, so they would have something to look at. So it wasn’t only grey.  
-**Moss**: Every day she sat with them. She didn’t try to wake them. She kept them company.  
-**Moss**: The last of them faded on a winter morning, by this wall, with Hush beside it.  
+**Moss**: Briar wanted the stilled ones up on the hill, in the light, where the valley could see them. Hush said the wind would have them.  
+**Moss**: So she carried them in here herself, one at a time, all that winter. She was not big. It took her till the thaw.  
+**Moss**: Then she planted roses up every wall. Not for herself. A still thing can still be looked at, she said, and should have something back.  
+**Moss**: The last of them went in the second winter, here, with the roses bare above it. She said bare was still something.  
 _Faded is the Grove’s word. It means died: the body stops working, and it doesn’t start again._  
-**Moss**: She locked the door and put the key in the ground. Later, when she had carried it as far as she could, she faded too.  
+**Moss**: You heard the rest at Lantern Night. The door, and the key. Later, when she had carried her grief as far as she could, Hush faded too.  
 
 > **Lesson** (sel, CASEL: Self-awareness, notice): grief, said plainly, and what comforts  
 > _This is a sad part. Feeling sad, or quiet, while you read it is all right._  
@@ -17615,7 +17615,7 @@ _You could send Tobin home and hide the door again. Linnet looks at you as if sh
 **Choices**
 
 - **Ask Tobin to sit on Hush’s bench. Just for a minute.**
-    - **Old Tobin**: Sit? I— well. A minute. One.
+    - **Old Tobin**: Sit? I… well. A minute. One.
     - He sits. The stone is warm from the afternoon, and he looks very surprised by that.
 - **Tell Linnet to show him round. It’s her garden too.**
     - **Linnet**: …Fine. Grandad. Come here. No, here. Look at this.
@@ -17624,7 +17624,7 @@ _You could send Tobin home and hide the door again. Linnet looks at you as if sh
 
 #### `s26-tobin-bench`
 
-**Old Tobin**: This puts me in mind of a story. There was a winter, the year of the Three Hats, when—  
+**Old Tobin**: This puts me in mind of a story. There was a winter, the year of the Three Hats, when…  
 **Old Tobin**: …when the snow came up to the lamp posts, and I went round lighting them from underneath, and…  
 _He stops, and looks at the roses. Then he looks at Linnet, up to her elbows in a raised bed, and not tipping._  
 **Old Tobin**: Where was I.  
@@ -17746,7 +17746,7 @@ _She holds it out on her open palm. It is black and heavy and older than anybody
 **Choices**
 
 - **Give it to Linnet. She asked for her patch first.**
-    - **Linnet**: Me? I just said— oh, you’re impossible.
+    - **Linnet**: Me? I just said… oh, you’re impossible.
     - She closes her hand round it. Then she goes very quiet.
     - **Linnet**: Then I’m keeping it so nobody can ever lock it. That’s what it’s for now.
 - **Hang it on the old wall post, for anyone who wants to come in.**
@@ -18493,7 +18493,6 @@ _He reads the tag, then the back of the tag, which is blank, then the front agai
 _You think you know. But you can’t prove it, and you don’t know where she is._  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): honesty and when to share what you know  
-> _A think question, with no wrong answer._  
 > _Is keeping what you suspect to yourself the same as lying?_  
 > - No. You can wait until you’re sure. → That’s a fair answer. A guess said too soon can hurt, and waiting to be sure can be kind.
 > - Sort of. Byte has a right to know. → That’s a fair answer too. It’s his parcel, and his question. Hiding a clue can feel like a fib.
@@ -18785,7 +18784,6 @@ _Parcel is under it with an orange in both paws. Over it stands Mr Grue, with th
 **Mr Grue**: Thief. In my glasshouse. In the night. I’ll have the—  
 
 > **Lesson** (social-studies, D2.Civ.8.K-2, ask): fairness and intention  
-> _A think question, with no wrong answer._  
 > _Parcel took an orange without asking. Perhaps it only wanted more marmalade to share. Is Parcel a thief?_  
 > - Yes. It took something that wasn’t its own. → That’s a fair answer. Taking without asking is still taking, whatever the reason. Mr Grue would agree.
 > - No. It didn’t understand the rules. → That’s fair too. Parcel came from the Hollow, where nobody owns the fruit. Not knowing a rule is different from breaking it on purpose.
@@ -18968,7 +18966,6 @@ _Hazel looks at him for a long time. Then she nods, once._
 **Gran Hazel**: You count things, love. I needed someone who’d count this one.  
 
 > **Lesson** (literacy, RL.3.6, ask): your point of view and a character’s  
-> _A think question, with no wrong answer._  
 > _Hazel says she needed someone who’d “count this one”. Why do you think she chose Byte, not you?_  
 > - Because Byte notices small things nobody else does. → That’s a fair answer. Counting every spoon is a kind of paying attention, and attention is a kind of love.
 > - Because Byte needed Parcel as much as Parcel needed him. → A thoughtful answer. Hazel may have been looking after two strays at once.
@@ -20143,8 +20140,8 @@ _The frosts have come, and the Grove is white at dawn round the fourth post._
 _You find Moss at the old wall, by Hush’s lantern post, with frost on his back that he hasn’t bothered to shake off._  
 **Moss**: Clover’s gold one. Luna told me. Luna tells me things at dawn, when I am too tired to argue.  
 **Moss**: Hush. The quiet one. You have heard her name in the tale. I did not tell you her job.  
-**Moss**: After the White Year, some of the stilled Nubbins never moved again. They had died. Hush sat with them, every one, every day.  
-**Moss**: Grief was her job. She kept the valley’s griefs, so they did not get dropped all over the valley.  
+**Moss**: When the White Year stilled half the valley, the rest of us dug. Hush went and sat where the still ones, the ones who had died, could see her.  
+**Moss**: She never tried to wake one. If one shivered, she took it for a conversation. That was her job, and nobody gave it her.  
 **Moss**: People thought that made her a sad thing. They were wrong about which part was sad.  
 **Moss**: Low in the wall. The flat stone, by your foot. Look at it properly. She meant it to be looked at.  
 
@@ -24932,7 +24929,7 @@ _Your Nubbin plays the hunters’ tune on Balla’s balafon. A hundred hunters s
 _He puts the little balafon into your arms, and the beaters into your Nubbin’s hands._  
 **Balla Fasséké**: Go home, apprentice. Remember us properly.  
 _The red earth goes soft under your feet, then smooth, then paper._  
-_You are back in the Grove with Nova’s atlas on your knee. Your Nubbin is tapping out a tune on the cover, very nearly in time._  
+_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
 
 > **Lesson** (music, D2.His.2.K-2, notice): the balafon today: the Sosso-Bala is still kept in Niagassola  
 > _A very old balafon called the Sosso-Bala is still kept in Niagassola, in Guinea, by Kouyaté families._  
@@ -33479,7 +33476,7 @@ _Moana finds you at the bow at sunset, and sits beside you a while._
 
 _Out in the sea behind you, where the path through the water was, Te Fiti’s shore is green. Your spiral shell is on it somewhere, with her._  
 _The page gives a long, slow sigh, like a sail letting go of the wind._  
-_You are back in the Grove with Nova’s atlas on your knee. Your Nubbin smells of salt and is still swaying._  
+_You are back in the Grove with Nova’s atlas on your knee. The ground will not hold still; it sways like a deck, and your Nubbin smells of salt._  
 _By the pond there is a small voyaging canoe, twin-hulled, with a woven sail no bigger than a tablecloth._  
 _Up on the hill, a ring of flat stones has appeared in the grass, each one marked with a house of the rising stars._  
 _A small white spiral shell is painted on the canoe’s prow, where the real one would have gone. Your Nubbin checks on it twice, then sits in the boat._  
@@ -35823,7 +35820,7 @@ _Whatever comes next for them, there is a ring of trees at the top of the Forest
 
 _A boy and his Bear are playing in it. Nobody ever stops them._  
 _The page settles under your hand, gently, like a door somebody is careful not to bang._  
-_You are back in the Grove, with Nova’s atlas on your knee and a stick in your Nubbin’s mouth that wasn’t there before._  
+_You are back in the Grove, with Nova’s atlas on your knee. There is a stick in your Nubbin’s mouth, and nobody saw where it came from._  
 _Down by the Grove stream there is a little wooden bridge that wasn’t there this morning. A bit of blue ribbon is tied to its rail._  
 
 ### Glossary
@@ -38260,7 +38257,7 @@ _Nobody is holding it, and nobody needs to. It stays because it wants to._
 > _For grown-ups: Thought about the difference between holding on to someone and a friend choosing to stay._
 
 _The page settles under your hand, like a paper cut-out laid flat on a table._  
-_You’re back in the Grove, with Nova’s atlas on your knee. There’s a rose petal in the fold of the page._  
+_You’re back in the Grove, with Nova’s atlas on your knee. When you open it again, a rose petal slides out of the fold and lands on your boot._  
 _On the cottage windowsill stands a window box with a rose tree in it that wasn’t there this morning._  
 _Another stands on the lantern shed across the way, and between them somebody has laid a plank._  
 _You think of everyone who helped Gerda on the way. She couldn’t have done it alone, and she never had to._  
@@ -46770,7 +46767,8 @@ _For a moment the page shows Kansas: a new little farmhouse, grey grass, and Aun
 _Then the Monkeys come for your friends: the Scarecrow north, the Woodman west, the Lion over the hill to his forest._  
 _Glinda gives the Golden Cap to the King of the Monkeys. He bows, and the band flies off without a word._  
 _The page carries you home the way you came. Its last picture is the china wall, and a lamb by it, waiting to see you off._  
-_The page folds shut, softly. You are back in the Grove, with Nova’s atlas on your knee and a thin silver ribbon marking the place._  
+_The page folds shut, softly, and you are back in the Grove with the atlas on your knee._  
+_A thin silver ribbon keeps the place, and it was not there this morning._  
 
 > **Lesson** (literacy, RL.4.2, ask): theme  
 > _Which sentence best sums up the theme of Dorothy’s whole story?_  
@@ -50466,8 +50464,8 @@ _Later in the summer Mrs Kusakabe comes home. It was only a cold, and she is get
 
 _She comes up the road from the bus stop, slowly, and the girls run down to meet her. You watch from Granny’s step._  
 _Then the page goes soft under your hand, and it is the Grove, with Nova’s atlas on your knee._  
-_Your Nubbin is still wearing its leaf._  
-_By the lane there is a bench like a country bus stop, and on the shelf an ear of corn, dried gold._  
+_Your Nubbin refuses to take its leaf off._  
+_By the lane stands a bench like a country bus stop; on the shelf, an ear of corn, dried gold._  
 
 > **Lesson** (social-studies, D2.His.2.K-2, ask): life in the 1950s countryside compared with today  
 > _Which of these did people in the 1950s countryside use to send news or get water?_  
@@ -52697,7 +52695,7 @@ _The tale ends the way the old books end it: the little doll stayed in her pocke
 > - Everyone should stay at home → Vasilisa travels, works and meets danger. Her strength comes from kindness, not from staying put.
 > _For grown-ups: Identified the story’s theme: caring for others, and being cared for in return, is a kind of strength._
 
-_The page settles under your hand. You are back in the Grove, with Nova’s atlas on your knee and a small painted doll in your Nubbin’s pouch._  
+_The page settles, and you are back in the Grove with the atlas on your knee. Your Nubbin checks its pouch twice: the small painted doll is still there._  
 
 ### Glossary
 
@@ -56607,7 +56605,7 @@ _Before you go, Baldr puts something in your hand: a sprig with two leaves, from
 **Baldr**: It was too young to be asked, once. It’s older now. So am I. Keep it for me.  
 _Your Nubbin wakes in his light and looks at him for a long moment. Then it gets up and comes back to you, on its own._  
 _Líf and Lífthrasir walk out together into the morning, across the fields that nobody sowed._  
-_You are back in the Grove, the atlas on your knee. There is a golden game piece in your pocket, and your Nubbin is holding a sprig._  
+_You are back in the Grove, the atlas on your knee. Something clinks in your pocket: a golden game piece, and your Nubbin has brought home a sprig to match._  
 
 > **Lesson** (literacy, RL.4.2, ask): theme of the whole page  
 > _The page opened with promises, and ends with a sprig kept for Baldr._  
@@ -62923,7 +62921,7 @@ _The words about the attic are rust-red. As he turns the page, words about a for
 
 > **Lesson** (literacy, RL.4.3, ask): how an author can use two colours to show two places (setting)  
 > _In this book, the attic is printed in red and the forest in green. Why would an author do that?_  
-> - ✅ So readers always know which world they are in. → Yes. The colour is a clue: red is the attic, green is the faraway land. It takes care, too. For each colour, the paper has to pass through the printing press once more.
+> - ✅ So readers always know which world they are in. → Yes. The colour is a clue: red is the attic, green is the faraway land. It takes care, too. On a simple press, each colour needs its own run through the machine.
 > - Those were the only two inks the printer had. → A printer can use any colour. Using two was a choice, and it took extra work. The choice does a job: it shows where we are.
 > - Just to look pretty. → It does look pretty. But it also tells you which world you are reading about.
 > _For grown-ups: Thought about why an author might print two settings in two colours._
@@ -63143,13 +63141,13 @@ _The maps are huge and out of date. Half of them have gaps now, where the Nothin
 **Cairon**: Will you come? On long roads I talk to myself, and I’m dull.  
 _Your Nubbin climbs on to his back without asking. Cairon pretends not to notice, which is kind._  
 
-> **Lesson** (maths, 4.MD.A.2, ask): multiplying to find a distance: 4 × 25 km  
-> _Cairon gallops 25 kilometres every day._  
+> **Lesson** (maths, 4.MD.A.2, ask): multiplying to find a distance: 4 × 100 miles  
+> _Say Cairon gallops 100 miles every day._  
 > _How far will he have gone after 4 days?_  
-> - ✅ 100 kilometres → Yes. Four lots of 25 is 25 + 25 + 25 + 25 = 100 kilometres.
-> - 29 kilometres → That is 25 + 4, but there are four whole days, each of 25 kilometres. 4 × 25 = 100.
-> - 75 kilometres → That is three days: 3 × 25 = 75. We need one more day. 4 × 25 = 100.
-> _For grown-ups: Multiplied a daily distance by a number of days (4 × 25 = 100 km)._
+> - ✅ 400 miles → Yes. Four lots of 100 is 100 + 100 + 100 + 100 = 400 miles.
+> - 104 miles → That is 100 + 4, but there are four whole days, each of 100 miles. 4 × 100 = 400.
+> - 300 miles → That is three days: 3 × 100 = 300. We need one more day. 4 × 100 = 400.
+> _For grown-ups: Multiplied a daily distance by a number of days (4 × 100 = 400 miles)._
 
 
 #### `a25-03-complete`
@@ -63353,7 +63351,7 @@ _You lift your Nubbin down. It is heavy and limp in your hands, as if the sadnes
 
 _Artax stands still. The mud comes up over his hooves, very slowly, and he does not pull against it._  
 _Atreyu puts both arms round his neck and holds his head, and talks to him quietly. You can’t hear what he says._  
-**Artax**: Go on without me. Don’t stay, or it will get you too.  
+**Artax**: Go on without me, and don’t look back. If you stay, it will get you too.  
 **Atreyu**: I won’t forget you. Not one bit of you.  
 **Atreyu**: Not ever.  
 _The swamp closes over Artax, gently. Artax has died._  
@@ -63430,11 +63428,11 @@ _Atreyu climbs up beside you. Halfway up, the whole mountain sneezes, and you bo
 **Atreyu**: It’s alive. The mountain is alive.  
 _At the front, a huge old head comes slowly out of a cave in the rock. Its eyes are wet and black and very tired._  
 
-> **Lesson** (science, 4-LS1-1, notice): a tortoise’s shell is part of its skeleton, and some tortoises live over a hundred years  
-> _The mountain is a giant tortoise’s shell. A real tortoise’s shell is not a house it can step out of._  
+> **Lesson** (science, 4-LS1-1, notice): a turtle’s or tortoise’s shell is part of its skeleton, and some live over a hundred years  
+> _The mountain is a giant turtle’s shell. A real turtle or tortoise can’t step out of its shell like a house._  
 > _It is part of its skeleton: its ribs and backbone have grown into it._  
-> _Giant tortoises are among the longest-lived animals there are. Some live well over a hundred years._  
-> _For grown-ups: Learned that a tortoise’s shell is part of its skeleton, and that some tortoises live over a hundred years._
+> _Turtles and tortoises are among the longest-lived animals. Some giant tortoises live well over a hundred years._  
+> _For grown-ups: Learned that a turtle’s or tortoise’s shell is part of its skeleton, and that some giant tortoises live over a hundred years._
 
 **Morla**: Somebody’s there, old one. Somebody small.  
 **Morla**: We heard them.  
@@ -63526,6 +63524,7 @@ _He doesn’t say it like a hero. He says it the way you might tie a bootlace: p
 
 - **tortoise**: A slow, land-living reptile with a hard shell on its back.
 - **skeleton**: The bones that hold up and protect an animal’s body.
+- **oracle**: A person or voice in old stories that is asked for answers and advice.
 
 ## A25-7. Ygramul the Many
 
@@ -63577,7 +63576,7 @@ _The swarm shivers. It knows AURYN, and does not like it, and cannot quite say n
 > _Ygramul calls its sting a “gift”. It sends you where you need to go, then leaves you needing a long rest._  
 > _Is that a fair bargain? What would make a bargain fair?_  
 > - Fair means both sides know what they give and get. → That’s a fair answer. A bargain is fairer when nobody is tricked.
-> - It isn’t fair, because Ygramul never really needed to give anything. → That’s a fair answer. It’s hard to say it is a gift if the price is high.
+> - It isn’t fair: a real gift shouldn’t come with a price. → That’s a fair answer. It’s hard to call something a gift when the price is so high.
 > - It’s fair enough: Atreyu chose, and he knew what would happen. → That’s a fair answer. Choosing with open eyes counts for a lot.
 > _For grown-ups: Thought about what makes a bargain fair (a think question)._
 
@@ -63745,8 +63744,8 @@ _Two enormous sphinxes face each other across a gap in the rocks, eyes shut. Bet
 
 > **Lesson** (social-studies, D2.His.2.K-2, notice): sphinxes in ancient Egyptian and Greek stories  
 > _A note in Nova’s writing appears. “Sphinxes come from real stories.”_  
-> _“In ancient Egypt, a sphinx was a stone guardian with a lion’s body and a human head._  
-> _The Great Sphinx at Giza is about 4,500 years old.”_  
+> _“In ancient Egypt, a sphinx was a stone guardian with a lion’s body and a human head.”_  
+> _“The Great Sphinx at Giza is about 4,500 years old.”_  
 > _“In ancient Greek stories, a sphinx set riddles for travellers, and only those who answered could pass.”_  
 > _For grown-ups: Learned how sphinxes appear in ancient Egyptian and Greek stories._
 
@@ -63781,15 +63780,15 @@ _On the far side, a smooth wall of silver stands across the path, like a still l
 _The Magic Mirror Gate shows you what you really are, and most people run from it. Atreyu stands still._  
 _In the silver there is no green boy at all. There is a round boy, wrapped in a grey blanket, reading in an attic._  
 **Atreyu**: Who is that?  
-_You look too. In your own part of the mirror, you see the same thing: the round boy, the blanket, the candle._  
+_You look too. In your own part of the mirror, you see the same thing: the round boy, the blanket, the gym mats._  
 _Your Nubbin sees a round boy as well, and waves at him._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): seeing a person with kindness: worth liking as they are  
-> _The mirror shows Bastian as he is: a round boy in a blanket, reading by candlelight._  
+> _The mirror shows Bastian as he is: a round boy in a blanket, reading in the half-dark._  
 > _How would a good friend see that boy?_  
-> - ✅ As a real person worth liking: someone who loves stories and cares. → Yes. Bastian cried for Artax and ran from bullies. He is brave and kind in his own way. How a person looks never tells you how much they are worth.
+> - ✅ As a real person worth liking: someone who loves stories and cares. → Yes. Bastian loves stories, and he cried for Artax. He cares a great deal, and that is worth a lot. How a person looks never tells you how much they are worth.
 > - As someone to feel embarrassed about. → There is nothing about him to be embarrassed about. Being round, or in a blanket, or reading, is just who he is. A good friend sees the person.
-> - As nobody special. → Atreyu stopped and stared at him, and you wrote him down. He is somebody.
+> - As nobody special. → Atreyu stopped and stared at him, and so did you. He is somebody.
 > _For grown-ups: Thought about seeing a person with kindness, as worth liking just as they are._
 
 _Up in the attic, Bastian has stopped reading. He is staring at the page where he has just been described._  
@@ -63815,7 +63814,7 @@ _You don’t know why. It seems like the sort of thing somebody ought to write d
 > _A good note picks out the details that matter._  
 > _Which note tells you most about what you saw?_  
 > - “A boy.” → That is true, but it could be anybody. A good note gives details.
-> - ✅ “Round boy, grey blanket, candle, attic, reading.” → Yes. Each detail helps you picture exactly what was there.
+> - ✅ “Round boy, grey blanket, gym mats, attic, reading.” → Yes. Each detail helps you picture exactly what was there.
 > - “Sad.” → That tells us a feeling, but not who or where. Details help us picture the scene.
 > _For grown-ups: Chose the note that gives the best details about a character and place._
 
@@ -63973,7 +63972,6 @@ _In the attic, Bastian has gone very quiet. He looks at his own hands, holding t
 
 ### Glossary
 
-- **oracle**: A person or voice in old stories that is asked for answers and advice.
 - **metaphor**: A way of describing something by saying it is something else.
 
 ## A25-11. The Wind Giants
@@ -63989,7 +63987,7 @@ _Falkor flies the way water runs downhill: easily, as if the sky had been waitin
 > **Lesson** (science, 3-PS2-1, notice): flight: lift and gravity are forces that push in opposite directions  
 > _A flying thing is pushed two ways. Gravity pulls it down, and lift pushes it up._  
 > _A wing pushes air downwards as it moves, and the air pushes the wing up._  
-> _When lift is bigger than gravity, the flyer rises. When they are equal, it glides along level._  
+> _When lift is bigger than gravity, the flyer rises. When they are equal, it flies along level._  
 > _For grown-ups: Learned that flight is a balance of forces: lift pushes up and gravity pulls down._
 
 _Your Nubbin rides in the long white fur behind his ears, where the wind can’t get at it, and sings._  
@@ -64021,7 +64019,7 @@ _They don’t notice you. They’re too busy shoving each other, as they have be
 
 > **Lesson** (sel, CASEL: Self-management, ask): staying steady when something scary is happening: breathe and hold on to something safe  
 > _When something scary is happening, what can help your body stay steady?_  
-> - ✅ Take a slow breath, and hold on to something or someone safe. → Yes. A slow breath tells your body it can calm down, and holding on helps you feel steady. You and your Nubbin did just that.
+> - ✅ Take a slow breath, and hold on to something or someone safe. → Yes. A slow breath tells your body it can calm down, and holding on helps you feel steady. That is just what Falkor is telling you to do.
 > - Hold your breath tight. → That can make your heart pound faster. A slow breath out is better. Slow breaths and a safe hold help us feel steadier.
 > - Close your eyes and wish it away. → Closing your eyes can feel safe for a moment. But a slow breath and a firm hold help your body more.
 > _For grown-ups: Practised a calming skill for scary moments: a slow breath and holding on to something safe._
@@ -64054,7 +64052,7 @@ _The sea is huge and grey, and goes on in every direction. Falkor flies low over
 > _Do you think he is right? Does not giving up always work?_  
 > - Yes. Keep trying and you’ll get there. → That’s a fair answer. Many good things come to those who keep going.
 > - Not always, but it gives you the best chance. → That’s a wise answer. Not giving up can’t promise success, but quitting rules it out.
-> - Sometimes it’s better to rest and try another way. → That’s a wise answer. Falkor is tired and not singing. Resting is part of not giving up.
+> - Sometimes it’s better to rest and try another way. → That’s a wise answer. Even a luckdragon gets tired. Resting can be part of not giving up.
 > _For grown-ups: Thought about perseverance and whether not giving up always works (a think question)._
 
 _He says it brightly. But he doesn’t stop to rest, not once, and you notice he isn’t singing any more._  
@@ -64254,6 +64252,15 @@ _Your Nubbin comes out from behind your knee all at once, as if it had been call
 
 **The Empress**: Sleep now, Atreyu. You have done more than anyone.  
 **The Empress**: I have one more thing to try.  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): being kind to yourself after a setback: trying hard is not failing  
+> _Atreyu thinks he failed. The Empress says he has done more than anyone._  
+> _When you think you have failed at something, what could you say to yourself?_  
+> - ✅ I tried my hardest, and that counts. → Yes. Trying hard is never wasted, even when things don’t turn out as you planned. Atreyu’s journey brought Bastian to the story, though he didn’t know it.
+> - I’m no good at anything. → That is a heavy thing to say to yourself, and it isn’t true. Try talking to yourself the way you would talk to a friend: you tried hard, and that counts.
+> - Nothing. I’d just feel bad. → Feeling bad for a while is allowed. Then a kind word to yourself can help. You could say: I tried my hardest, and that counts.
+> _For grown-ups: Thought about speaking kindly to yourself after a setback._
+
 _Atreyu is asleep before he can argue. The Empress turns to you._  
 
 > **Lesson** (science, K-LS1-1, notice): sleep is a need for animals: bodies rest and repair  
@@ -64275,7 +64282,7 @@ _Inside, by blue light, an old man is writing in a book with a pen of light._
 _It is the same book, copper silk with two snakes. Your Nubbin knows it at once and tugs your sleeve._  
 
 > **Lesson** (literacy, RL.3.6, ask): who tells a story: a narrator outside it or a character inside it  
-> _The Old Man will write “the traveller bows” as you bow. He says “the traveller”, not “I”._  
+> _The Old Man writes everything as it happens. If you bow, he writes “the traveller bows”, not “I bow”._  
 > _Who is telling that part of the story?_  
 > - ✅ Someone outside it, watching and writing it down. → Yes. A story told as “he”, “she” or “the traveller” has a narrator outside it.
 > - The traveller, about themself. → If the traveller told it, it would say “I bow”. Using “the traveller” shows someone else is telling it.
@@ -64349,7 +64356,6 @@ _In the attic the candle is nearly burnt down. Bastian stands up, with the blank
 ### Glossary
 
 - **magnolia**: A tree or bush with large, waxy flowers.
-- **pavilion**: A light building, often with open sides, in a garden or on a hill.
 
 ## A25-14. Moon Child
 
@@ -64380,7 +64386,7 @@ _Bastian takes a deep breath. He thought of the name pages ago, and was too shy 
 
 > **Lesson** (literacy, L.3.4, ask): a few German words (Mond, Kind, Buch) and how German joins words together  
 > _A note in Nova’s writing: “Mond is German for moon, and Kind is German for child. German often joins words into one long word.”_  
-> _Joined, they make Mondenkind. What name does that give in English?_  
+> _Joined, with a little “en” in the middle, they make Mondenkind. What name does that give in English?_  
 > - ✅ Moon Child → Yes. Moon Child. Mond sounds a bit like “mohnt”, and Kind a bit like “kint”. The German word for the book Bastian is holding is Buch, with a rough “ch” as at the end of “loch”.
 > - Child Moon → Close! German puts the describing word first, like English: a moon child is a child of the moon. So Mondenkind means Moon Child.
 > - Moon Kind → “Kind” is a German word. In English, it means “child”. So Mondenkind means Moon Child.
@@ -64440,7 +64446,8 @@ _It glows, very faintly. Your Nubbin holds its paw out flat, as if it knew it mu
 #### `a25-14-complete`
 
 _The page goes still. Across the bottom there is a long space and a single line of green._  
-_This is where this part of the story ends. A boy has given a name, and the Empress has her new one._  
+_This is where your page ends._  
+_A boy has given the Empress her new name, and from one grain of sand a whole land can begin again._  
 _You tip your Nubbin’s grain into an empty glass vial from your pocket, and stopper it. It glows in your hand like a tiny moon._  
 
 > **Lesson** (literacy, RL.4.2, ask): theme: why a name can be a gift  
@@ -64474,7 +64481,7 @@ _Below, flat roofs run down to a river. An old woman with clay to her elbows sit
 **Old Brickmaker**: The Greeks later called it Mesopotamia, which means “between the rivers”. Rivers meant water, crops and boats.  
 
 > **Lesson** (social-studies, D2.Geo.2.K-2, notice): Mesopotamia means “between the rivers”; Uruk stood in what is now Iraq  
-> _(Find the two rivers on Nova’s map. The Tigris and the Euphrates both run south through Iraq towards the sea.)_  
+> _(Find the two rivers on Nova’s map. The Tigris and the Euphrates both run south-east through Iraq to the sea.)_  
 > _For grown-ups: Learned where Mesopotamia was: between the Tigris and the Euphrates, in what is now Iraq._
 
 
@@ -64505,11 +64512,11 @@ _At the foot of the stair, set into the oldest bricks, there is a box of copper,
 **Old Brickmaker**: Slide the bolt. Go on. It is meant to be opened. That is the whole point of it.  
 _Inside lies a tablet of lapis, deep blue and flecked with gold like a night sky. Little wedge-shaped marks run across it._  
 _You cannot read them. Then, the longer you look, you can._  
-**Old Brickmaker**: That is cuneiform. A scribe pressed a reed into wet clay, and every press left a wedge.  
+**Old Brickmaker**: That is cuneiform. Scribes pressed a reed into wet clay, and every press left a wedge. This one was cut into stone, to last.  
 
 > **Lesson** (literacy, L.3.4, notice): cuneiform means wedge-shaped; scribes pressed a reed into wet clay  
-> **Old Brickmaker**: The word “cuneiform” comes from the Latin for “wedge”. One scribe might use a single reed for years.  
-> **Old Brickmaker**: Wedges in different groups meant different words. People wrote like this more than four thousand years ago.  
+> **Old Brickmaker**: The word “cuneiform” comes from the Latin for “wedge”. You can see the corner of the reed in every mark.  
+> **Old Brickmaker**: Groups of wedges made signs, some for words and some for sounds. People wrote like this more than four thousand years ago.  
 > _For grown-ups: Learned that cuneiform is wedge-shaped writing, pressed into clay, and what the word means._
 
 **Old Brickmaker**: The tablet begins with our city and its high wall. Then it is all about a king who saw everything, and what it cost him.  
@@ -64592,8 +64599,8 @@ _The king sees none of it. He has already started another race._
 **Woman of Uruk**: Thank you. It is the first kind thing anyone has done in this square since the new moon.  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): small kindnesses matter to someone who has had none  
-> _The woman says it is the first kind thing in a month. What does that show about small kindnesses?_  
-> - ✅ They can matter a lot to someone who is tired and worried → Yes. A cup of water is small, but to someone who has had nothing kind for a month, it is a great deal.
+> _The woman says it is the first kind thing since the new moon. What does that show about small kindnesses?_  
+> - ✅ They can matter a lot to someone who is tired and worried → Yes. A cup of water is small, but to someone who has had nothing kind for weeks, it is a great deal.
 > - They only matter if the king sees → Not quite. The king saw nothing, and still the kindness mattered. It mattered to the boy and his mother.
 > _For grown-ups: Talked about how small kindnesses matter, even when nobody important notices._
 
@@ -64736,8 +64743,8 @@ _He pats the earth flat with both hands, very gently, as if tucking someone in._
 _By evening the trapper is far away on the road to his father, and then on the road to Uruk._  
 
 > **Lesson** (social-studies, D2.Geo.2.K-2, notice): land near rivers was green; land away from them was dry steppe  
-> _(Look at Nova’s map. The land beside the rivers was green and could be farmed, because the rivers brought water._  
-> _Further out, it turned to dry steppe, where herds roamed.)_  
+> _(Look at Nova’s map.) The land beside the rivers was green and could be farmed, because the rivers brought water._  
+> _Further out, it turned to dry steppe, where herds roamed._  
 > _For grown-ups: Learned that land beside Mesopotamia’s rivers was fertile, while land further away was dry steppe._
 
 _Your Nubbin is still with the herd. It does not look round when you say its name._  
@@ -65168,10 +65175,10 @@ _Enkidu, who has never had a mother, does not know where to put his hands. Your 
 #### `a26-08-plan`
 
 _You carry a water jar up to the palace roof. The two friends are lying on their backs, looking at the sky._  
-**Gilgamesh**: Enkidu. Nobody lives for ever. Only the gods. Men’s days are numbered, and whatever we do is wind.  
+**Gilgamesh**: Enkidu. Only the gods last for ever. A person gets a short life, and then it is over.  
 **Gilgamesh**: So let us do something they will remember. The Cedar Forest. Humbaba, who guards it. Let us go.  
 _Enkidu sits up so fast he knocks the jar. You catch it._  
-**Enkidu**: I know that forest. I ran in its edges, when I was wild. Humbaba’s voice is the flood. His breath is fire.  
+**Enkidu**: I know that forest. I ran in its edges, when I was wild. Humbaba is as old as the mountains. When he shouts, the cedars bend.  
 **Gilgamesh**: Are you frightened? You? I will go first.  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): what lasts: a famous name, or what we do for others  
@@ -65218,7 +65225,7 @@ _The elders of Uruk sit on their benches by the gate. They hear Gilgamesh out, a
 > _For grown-ups: Talked about why it is wise to listen to someone with experience._
 
 _At sunrise Ninsun climbs her roof in her best robe and crown. She lifts incense to the sun god Shamash._  
-**Ninsun**: Why did you give my son a heart that never rests? Now he is going a long way, to a fight he does not know.  
+**Ninsun**: Shamash, my son cannot sit still, and you made him so. Now he is going a long way, to a fight he does not know.  
 **Ninsun**: Watch over him. Let the long days go fast for him. And bring him home.  
 _The sun climbs a little higher, and is very bright. You decide that is a yes._  
 
@@ -65305,7 +65312,7 @@ _You dig a well, and build the fire, and Enkidu builds a little shelter of brush
 > _For grown-ups: Learned that a fire needs fuel, air and heat._
 
 _In the night Gilgamesh sits bolt upright._  
-**Gilgamesh**: Enkidu. Did you call me? Why am I awake? I am cold all over. I dreamed a mountain fell on me, and pinned me like a fly.  
+**Gilgamesh**: Enkidu! Was that you? Something woke me, and I am cold all over. I dreamed a mountain fell on me, and pinned me like a fly.  
 **Enkidu**: A good dream! A very good dream. The mountain is Humbaba, and he will fall. We will stand on him.  
 
 **Choices**
@@ -65357,7 +65364,7 @@ _On the fifth night, while the king sleeps, Enkidu sits down beside you at the f
 - **Tell him he did the right thing.**
     - **Enkidu**: Did I? I hope so. I am new at friends.
 - **Ask him who tells him the dreams are good.**
-    - **Enkidu**: Nobody. That is all right. I have got you up, keeping the fire.
+    - **Enkidu**: Nobody. That is all right. I have you, sitting up with the fire.
 
 #### `a26-09-watch-done`
 
@@ -65409,8 +65416,8 @@ _It is everywhere, like weather._
 _Then he is there between the trees: huge, and ancient, with a face like a coil of wool._  
 
 > **Lesson** (social-studies, D2.Geo.2.K-2, notice): cedar forests grow on the mountains of Lebanon today  
-> _(Nobody knows exactly where the Cedar Forest was. Many people think of the mountains of Lebanon, where cedar trees still grow today._  
-> _Find Lebanon on Nova’s map.)_  
+> _Nobody knows exactly where the Cedar Forest was. Many people think of the mountains of Lebanon, where cedar trees still grow today._  
+> _(Find Lebanon on Nova’s map.)_  
 > _For grown-ups: Learned that cedar forests still grow in the mountains of Lebanon, and found it on a map._
 
 
@@ -65478,7 +65485,7 @@ _You turn your face away, into your Nubbin’s fur._
 > _For grown-ups: Learned that wind comes from the Sun heating the Earth unevenly._
 
 _The wind drops, all thirteen winds at once. And the Cedar Forest goes quiet, the deep quiet of a held breath let go._  
-_A guardian is gone, and it cannot be undone. Whatever you chose, it is all right to feel uneasy._  
+_Humbaba has died, and it cannot be undone. Whatever you chose, it is all right to feel uneasy._  
 
 #### `a26-10-river`
 
@@ -65555,7 +65562,7 @@ _Then the light in the room goes gold and strange, as if the sun had come indoor
 
 _The goddess Ishtar stands in the doorway, bright as the evening star. Her eyes are fixed on Gilgamesh, and nobody else._  
 **Ishtar**: Gilgamesh. You are beautiful. Stay with me. Be my king, and I will give you a chariot of lapis and gold.  
-**Ishtar**: Kings will kneel to you. Your goats will have triplets. Your ewes, twins. You will want for nothing.  
+**Ishtar**: Kings will kneel to you. Your flocks will double every spring. You will want for nothing.  
 _Gilgamesh looks at her for a long moment. Then he shakes his head._  
 **Gilgamesh**: Everyone you have loved has come to grief. Why would I be different?  
 
@@ -65660,7 +65667,7 @@ _When the dust settles, the Bull of Heaven lies on its side in the square, quite
 > _For grown-ups: Picked out the comparison word that makes a simile._
 
 _Ishtar appears on the wall of Uruk, in a storm of gold. Enkidu glares up at her from the square._  
-**Enkidu**: If I could reach you, I would do the same to you! Go home! Leave our city alone!  
+**Enkidu**: Go home! Leave our city alone! And take your storms with you!  
 _Ishtar turns away with her women, and weeps for the Bull. Then she is gone._  
 
 **Choices**
@@ -65673,7 +65680,7 @@ _Ishtar turns away with her women, and weeps for the Bull. Then she is gone._
 #### `a26-12-complete`
 
 _That night the friends ride through the streets of Uruk in a chariot. The people line the way, shouting their names._  
-**Gilgamesh**: Who is the finest of men? Who is the bravest?  
+**Gilgamesh**: Whose names do we shout tonight? Whose?  
 **Woman of Uruk**: Gilgamesh! And Enkidu!  
 _Enkidu waves. He catches sight of you in the crowd, and waves harder, until your Nubbin waves back with both arms._  
 _Scribes in the crowd are already pressing the night into clay, so that people far in the future can read about it._  
@@ -65739,11 +65746,11 @@ _The sun comes up over the wall. It shines straight into the doorway, and the do
 > _The rising Sun makes the door’s shadow long. When in the day are shadows shortest?_  
 > - ✅ Around midday, when the Sun is highest → Yes. A low Sun, in the morning and evening, throws long shadows. A high Sun at midday makes them short.
 > - At sunrise → At sunrise the Sun is low, so shadows are long.
-> - At midnight → At midnight there is no Sunlight to make a shadow.
+> - At midnight → At midnight there is no sunlight to make a shadow.
 > _For grown-ups: Learned that shadows are shortest around midday and longest when the Sun is low._
 
-**Shamash**: Enkidu. Why curse Shamhat? She gave you bread fit for a god. She gave you clothes to wear.  
-**Shamash**: She gave you Gilgamesh for a friend. And when you go, he will weep for you, and the whole city will.  
+**Shamash**: Enkidu. Why curse Shamhat? She gave you your first bread. She gave you clothes to wear.  
+**Shamash**: She gave you Gilgamesh for a friend. And when you die, he will weep for you, and the whole city will.  
 _Enkidu stands very still in the sunlight. His face crumples, and then, slowly, it clears._  
 
 **Choices**
@@ -65755,8 +65762,8 @@ _Enkidu stands very still in the sunlight. His face crumples, and then, slowly, 
 
 #### `a26-13-door-done`
 
-**Enkidu**: Shamhat. I take it back. Let kings love you, and princes. Let people bring you gold and lapis and oil.  
-**Enkidu**: Let nobody ever leave you. You found me in the grass and brought me home. I bless you.  
+**Enkidu**: Shamhat. I take it back. I wish you a warm house, and a full table, and friends at your door.  
+**Enkidu**: You found me in the grass and brought me home. I bless you.  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): remembering the good someone did  
 > _Enkidu takes back his curses once he remembers what Shamhat gave him. What does that show?_  
@@ -65769,7 +65776,7 @@ _Enkidu stands very still in the sunlight. His face crumples, and then, slowly, 
 #### `a26-13-complete`
 
 _He woke before dawn at half past five. By noon he is too tired to stand._  
-_Gilgamesh carries him back to bed, as easily as he once carried a star in a dream._  
+_Gilgamesh carries him back to bed, as gently as he once held a star in a dream._  
 
 > **Lesson** (maths, 3.MD.A.1, ask): time intervals to the minute  
 > _Enkidu woke at 5:30 in the morning, and by noon (12:00) he is exhausted. How long has he been awake?_  
@@ -65842,7 +65849,7 @@ _Gilgamesh has not left the bedside for days. You keep bringing water, and he ke
 _He laughs, a little, and closes his eyes. Your Nubbin is curled against his hand, and it does not move, and neither do you._  
 _Some time in the afternoon his breathing goes slower, and softer. Then it stops, as gently as a door being closed._  
 _Enkidu has died. That means his body has stopped working, and it will not start again._  
-_He cannot wake up._  
+_It is not like sleep._  
 _Gilgamesh draws the cloth over his friend’s face, carefully, like a bride’s veil. He gets up and walks the room like a lioness who has lost her cubs._  
 **Gilgamesh**: Enkidu was my friend, my brother. He ran with me through the mountains and the cedar forest, and never once let go.  
 **Gilgamesh**: Who will I tell my dreams to now?  
@@ -65877,11 +65884,11 @@ _They make it of gold and lapis, and polish it until it shines. It has Enkidu’
 _The whole city weeps for him: the elders, the shepherds, the woman from the square. Even the river seems to._  
 **Gilgamesh**: He is not in it. Look at it. It is beautiful, and he is not in it.  
 _Gilgamesh stands in front of the statue for a long time. Then he looks at his own hands, as if they belonged to someone else._  
-**Gilgamesh**: I am going to die too. Like him. I will lie down, and not get up, for ever. I cannot bear it.  
+**Gilgamesh**: I am going to die too, like him. One day my body will stop, and that will be the end of me. I cannot bear it.  
 
 > **Lesson** (social-studies, D2.His.2.K-2, ask): whether a memorial is the same as the person  
 > _Gilgamesh says the statue is beautiful, but Enkidu is not in it. Is a memorial the same as the person?_  
-> - No. It helps us remember, but the person is gone → That is a fair answer. A memorial points to someone. It is not the same as them.
+> - No. It helps us remember, but the person has died → That is a fair answer. A memorial points to someone. It is not the same as them.
 > - Partly, because the memory is part of the person → That is a fair answer. Some people think that remembering keeps part of someone alive.
 > - The stories we tell matter more than the statue → That is a fair answer. Stories are carried by people, and they can change people long after.
 > _For grown-ups: Thought about whether a memorial is the same as the person it remembers._
@@ -65922,7 +65929,7 @@ _You fill six waterskins, two litres each, and your Nubbin climbs on to the pack
 
 _Gilgamesh walks the wilderness in his lion skins. His beard grows ragged and his face grows thin._  
 _He does not talk. At night he lies awake and looks at the stars as if they owed him money._  
-**Gilgamesh**: I used to be afraid of nothing. Now I am afraid of everything. Of lying down. Of not getting up.  
+**Gilgamesh**: I used to be afraid of nothing. Now I am afraid of everything, and most of all of dying.  
 _You give him water. He drinks it now, at least, a little, which you count as a good day._  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): what helps when a fear feels too big  
@@ -65971,7 +65978,7 @@ _His wife looks at you, and at your Nubbin, and tilts her head. You think, from 
 
 **Gilgamesh**: I am looking for Uta-Napishtim, who lives for ever. I want to ask him about life, and death.  
 **Scorpion-man**: No one has ever gone this way. Twelve double-hours of dark, with no light at all. Nobody comes out the other side.  
-**Gilgamesh**: I will go anyway. In grief, and in pain, in cold and in heat. Open the gate.  
+**Gilgamesh**: I will go anyway. Nothing in your dark is worse than what I carry. Open the gate.  
 **Scorpion-man**: Then go, and come back safe. The gate is open.  
 
 **Choices**
@@ -66046,11 +66053,11 @@ _She sees a wild man in lion skins coming up the beach, and bars her door, and c
 **Siduri**: Who are you, looking like that? Your cheeks are hollow. You look like someone who has walked a very long way.  
 **Gilgamesh**: I am Gilgamesh. My friend died. I cannot bear it. I am looking for the man who never dies.  
 _Siduri looks at him for a long time. Then she climbs down, and opens the door, and gives you each a stool and a cup._  
-**Siduri**: Gilgamesh, why do you run so far? The gods kept life for themselves, when they made people. You will not find it.  
-**Siduri**: So eat. Wash your hair. Dance, if you like. And be glad of the people who are beside you now. That is what people are for.  
+**Siduri**: Gilgamesh, when people were first made, dying was made with them. Everyone gets a share of it, even kings.  
+**Siduri**: So have your supper while it is hot. Get clean. Sing badly, if you like. And look properly at whoever is next to you.  
 
 > **Lesson** (literacy, RL.4.2, ask): the theme of a character’s advice  
-> _Siduri’s advice is to eat, wash, dance and be glad of the people beside you. What is the theme of her advice?_  
+> _Siduri says: eat, get clean, sing, and look properly at the people next to you. What is the theme of her advice?_  
 > - ✅ Life is short, so enjoy it and treasure the people you have → Yes. A theme is the idea underneath. Siduri’s idea is that a short life is made rich by people.
 > - Always do what you are told → She is not ordering him around. She is offering a way to live well.
 > - Keep searching, never give up → That is what Gilgamesh believes. Siduri says the opposite: enjoy what you have.
@@ -66166,7 +66173,7 @@ _He looks like a grandfather._
 **Uta-Napishtim**: Then sit. It is a long story, and it is mine.  
 _He tells how the god Ea whispered through the reed wall of his house: tear it down, and build a boat._  
 _He took on board his family, craftsmen, and every kind of animal._  
-_The storm lasted six days and seven nights. Then there was water everywhere, flat as a roof._  
+_The storm lasted six days and seven nights. Then there was only water, flat and grey, as far as anyone could see._  
 _He sent out a dove, and it came back; a swallow, and it came back. Then a raven, which did not._  
 
 > **Lesson** (social-studies, D2.His.2.K-2, notice): how the flood tablet was read again in 1872  
@@ -66200,7 +66207,7 @@ _He sent out a dove, and it came back; a swallow, and it came back. Then a raven
 
 **Uta-Napishtim**: Stay awake for six days and seven nights. If you cannot beat sleep, how will you beat death?  
 **Gilgamesh**: Easily. I have hardly slept since…  
-_He sits down on the sand with his back against the house. And sleep breathes over him like a mist, at once._  
+_He sits down on the sand with his back against the house. Before he has finished yawning, he is fast asleep._  
 **Uta-Napishtim’s Wife**: Wake him. Let him go home the way he came.  
 **Uta-Napishtim**: He will only say he never slept. Bake him a loaf every day, and put it by his head. Then he will know.  
 _So every day she bakes a loaf, and every day you set it by his head, in a row. Your Nubbin guards them, mostly._  
@@ -66226,7 +66233,7 @@ _So every day she bakes a loaf, and every day you set it by his head, in a row. 
 
 _On the seventh day Uta-Napishtim touches him, and he wakes. The first loaf by his head is dry as a brick._  
 **Gilgamesh**: I only just shut my eyes.  
-_Then he sees the loaves: hard, leathery, soggy, furry with mould, grey, and one still warm. He puts his face in his hands._  
+_Then he sees the row: dry, leathery, soggy, furry with mould, grey, fresh, and one still warm. He puts his face in his hands._  
 
 > **Lesson** (science, 2-PS1-4, ask): some changes cannot be reversed  
 > _The loaves change as they age, and the mould is a kind of fungus. Which change cannot be undone?_  
@@ -66241,7 +66248,7 @@ _Then he sees the loaves: hard, leathery, soggy, furry with mould, grey, and one
 
 _He is washed, and his hair is clean, and he wears new clothes. He looks like a king again, a tired one._  
 **Uta-Napishtim’s Wife**: You cannot send him home with nothing. He walked all that way.  
-**Uta-Napishtim**: Gilgamesh. I will tell you a secret of the gods. There is a plant at the bottom of the sea, with thorns like a rose.  
+**Uta-Napishtim**: Gilgamesh. I will tell you something hidden. There is a plant at the bottom of the sea, and its thorns are sharp.  
 **Uta-Napishtim**: Eat it, and you are young again.  
 _Gilgamesh ties heavy stones to his feet. You hold the rope in the boat, and he drops into the deep, and is gone._  
 _You count, and your Nubbin peers over the side at the green water. The rope goes slack, then tight._  
@@ -66303,7 +66310,7 @@ _Gilgamesh comes up out of the water, and looks at the skin, and sits down on th
 
 #### `a26-17-snake-done`
 
-**Gilgamesh**: For whom did I tear my hands? For whom did I walk all that way? For a snake. I have given it to a snake.  
+**Gilgamesh**: All that way. My hands torn to pieces. And now a snake has it. I have given it to a snake.  
 **Ur-Shanabi**: Yes. And now we go home anyway. Come on.  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): coping with a big disappointment  
@@ -66347,7 +66354,7 @@ _Gilgamesh stops. He looks at the wall for a long while, as if he had never prop
 _You climb the wall stair together. Your Nubbin knows the way, and waits on the third step for you, which wobbles._  
 _On top, the wind is warm. The whole city is laid out below, roofs and orchards and smoke from supper fires._  
 **Gilgamesh**: Walk the top of this wall, Ur-Shanabi. Look at how it stands, and at its bricks. See how they were baked hard in the fire.  
-**Gilgamesh**: Town, orchards and clay-pits, a square mile of each. A square mile is one mile long on every side. And the temple, which is mine. That is what I made.  
+**Gilgamesh**: Town, orchards and clay-pits, a square mile of each. And half a square mile for Ishtar’s temple. That is what I made.  
 
 > **Lesson** (maths, 3.MD.C.7, ask): area of a rectangle  
 > _One square mile is a square one mile long on every side. How many square miles is an orchard that is 2 miles by 3 miles?_  
@@ -66369,8 +66376,8 @@ _On top, the wind is warm. The whole city is laid out below, roofs and orchards 
 **Gilgamesh**: I went to the end of the world. And here it is. It was here the whole time.  
 
 > **Lesson** (literacy, RL.4.2, ask): theme: what Gilgamesh learns  
-> _“I went to the end of the world. And here it is._  
-> _It was here the whole time.” What idea is Gilgamesh expressing?_  
+> _“I went to the end of the world. And here it is.”_  
+> _“It was here the whole time.” What idea is Gilgamesh expressing?_  
 > - ✅ What we search for far away can be close to home → Yes. That is a theme found in stories all over the world: the treasure was near all along.
 > - The world has no end → That is not what he says. He means the thing he wanted was here at home.
 > - Walls are better than rivers → He is looking at his own city, and seeing what it is worth.
@@ -66424,9 +66431,9 @@ _Your Nubbin climbs up to your shoulder, and sits there, looking at the wall, th
 _The sun on the bricks gets warmer and yellower, until it is lamplight on a page, and your own table, and the Grove._  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): how people and things are remembered  
-> _Gilgamesh went to the end of the world to avoid dying, and came home to a wall and a handprint in a brick. What do you think lasts?_  
+> _Gilgamesh went to the end of the world to avoid dying, and came home to his wall, where you pressed your hand into a brick. What do you think lasts?_  
 > - The wall, because it will stand for thousands of years → That is a fair answer. Stone and brick outlast people. The wall of Uruk has, nearly.
-> - The story, because people keep telling it → That is a fair answer. You are reading it more than four thousand years later.
+> - The story, because people keep telling it → That is a fair answer. You are reading it about four thousand years later.
 > - What we do for the people who remember us → That is a fair answer. A kindness is carried on by whoever received it.
 > _For grown-ups: Thought about what lasts: walls, stories, and the kindness we leave behind._
 
@@ -66683,8 +66690,8 @@ _At the foot of the high rocks the servants set the basket down, in the lee of a
 > **Lesson** (social-studies, 4-ESS2-2, ask): the Alborz mountains lie south of the Caspian Sea  
 > _The Alborz are real mountains, in northern Iran. They run along the southern shore of which sea?_  
 > - ✅ The Caspian Sea. → Yes. The Alborz curve along the south of the Caspian Sea. Their highest peak, Damavand, is about 5,600 metres.
-> - The Red Sea. → No. The Red Sea is far to the west. The Alborz lie south of the Caspian.
-> - The Black Sea. → No. The Black Sea is further west, past Turkey. The Alborz lie south of the Caspian.
+> - The Red Sea. → No. The Red Sea is far to the south-west. The Alborz lie south of the Caspian.
+> - The Black Sea. → No. The Black Sea is further west, north of Turkey. The Alborz lie south of the Caspian.
 > _For grown-ups: Located the Alborz mountains south of the Caspian Sea in northern Iran._
 
 _The other servant is already walking away. The old one stays a moment longer, holding the edge of the basket._  
@@ -66860,7 +66867,7 @@ _When the four chicks have had equal shares, there is one fig left. It is a very
 - **Split it with your Nubbin.**
     - Half each. Your Nubbin eats its half in one go and looks at yours with an expression of pure hope.
 - **Give it to the smallest chick.**
-    - The smallest chick, who got least at breakfast, takes it very politely and swallows it whole.
+    - The smallest chick, who is always last to the figs, takes it very politely and swallows it whole.
     - **The Simurgh**: You learn quickly. Most guests take years.
 
 #### `a27-04-feed-done`
@@ -66885,7 +66892,7 @@ _The baby sleeps between you and your Nubbin, under the edge of the great wing, 
 **The Simurgh**: I have no use for his eyes.  
 
 > **Lesson** (science, 4-LS1-1, ask): feathers trap warm air and insulate  
-> _In the morning there is frost on top of her wings, and none underneath. Feathers insulate: they trap a layer of air._  
+> _On nights like this, frost can form on top of her wings but not underneath. Feathers insulate: they trap a layer of air._  
 > _What does that air do?_  
 > - ✅ It holds in her body’s warmth. → Yes. Air is a poor conductor, so a layer of it stops her body heat from escaping.
 > - It makes her colder. → No. A trapped layer of air holds warmth in, which is why a coat of feathers keeps a bird warm.
@@ -66976,7 +66983,7 @@ _He talks like the Simurgh: grand and slow. He has never seen a person except yo
 
 > **Lesson** (literacy, L.3.4, ask): English has borrowed Persian words: bazaar, caravan  
 > _The word for market in Persian is bazaar, and English borrowed it. Which of these English words also comes from Persian?_  
-> - ✅ Caravan. → Yes. Caravan comes from a Persian word for a group of travellers. We meet one in the next scene.
+> - ✅ Caravan. → Yes. Caravan comes from a Persian word for a group of travellers. We will meet one soon.
 > - Hamburger. → No. Hamburger comes from the German city of Hamburg. Caravan comes from Persian.
 > - Pizza. → No. Pizza comes from Italian. Caravan comes from Persian.
 > _For grown-ups: Learned that English borrowed bazaar and caravan from Persian._
@@ -67326,7 +67333,7 @@ _She doesn’t look at the youth. She looks at you, and you understand that she 
 
 ### Glossary
 
-- **humble**: Not proud, and willing to say you were wrong. Sam arrives humble.
+- **humble**: Not proud or boastful about yourself. Zal bows low, as the Simurgh did.
 - **bargain**: To trade or argue for a deal.
 
 ## A27-8. The Feather
@@ -67371,8 +67378,8 @@ _The chicks have gone quiet. Even the smallest one has stopped eating, which has
 **The Youth**: Are you tired of me? Have I grown too big for the nest?  
 **The Youth**: I can be smaller. I can eat less.  
 **The Simurgh**: I don’t send you away because I don’t want you. I would keep you beside me always.  
-**The Simurgh**: But another life is better for you. Go and see the world, my son, and try your fortune in it.  
-_He weeps. He has never met a single person, though he has learned how people talk._  
+**The Simurgh**: But another life is better for you. Go down and see the world, my son, and find your own way in it.  
+_Tears run down his face. Apart from you, he has never met a single person._  
 _She bends her head, and pulls one feather from her breast, and lays it in his hands._  
 _It is grey and gold, as long as his arm._  
 **The Simurgh**: Keep this, so that you remember the one who sheltered you, wherever you go.  
@@ -67420,7 +67427,7 @@ _He holds the feather against his chest, and doesn’t move. He looks at you._
 > _(Fire is dangerous, so only grown-ups light one.)_  
 > - ✅ Fuel, heat and air. → Yes. Take away any one of the three and a fire goes out. A wet feather would be poor fuel, which is why she says to keep it dry.
 > - Fuel, water and wind. → Water puts fires out. The three things are fuel, heat and air.
-> - Sun, wood and sand. → Close to a camp-fire list, but the three needs are fuel, heat and air.
+> - Sun, wood and sand. → Wood is a fuel, but sun and sand are not what a fire needs. The three needs are fuel, heat and air.
 > _For grown-ups: Learned that a fire needs fuel, heat and air, and that only grown-ups should light one._
 
 
@@ -67431,13 +67438,13 @@ _You say goodbye too. The nest has been your home for longer than you can count,
 **The Simurgh**: You were a foundling too, little stranger. Take something of the nest home with you.  
 _She weaves you a great round nest out of the branches nobody uses: ebony, sandalwood and aloe, big enough for a family._  
 
-> **Lesson** (maths, 2.OA.A.1, ask): subtract: 7 in the nest, one leaves  
-> _Before he leaves there are 4 chicks, Zal, you and your Nubbin in the nest: 7 in all._  
-> _After Zal goes, how many are in the nest?_  
-> - ✅ 6. → Yes. 7 take away 1 is 6.
-> - 5. → Only one person leaves: Zal. 7 take away 1 is 6.
-> - 8. → Nobody joined, so the number goes down: 7 take away 1 is 6.
-> _For grown-ups: Subtracted 1 from 7 to find how many are left in the nest._
+> **Lesson** (maths, 2.OA.A.1, ask): subtract: 7 in the nest, three leave  
+> _There are 4 chicks, Zal, you and your Nubbin in the nest: 7 in all._  
+> _When Zal, you and your Nubbin go down, how many are left?_  
+> - ✅ 4. → Yes. 7 take away 3 is 4: the four chicks.
+> - 6. → That takes away only Zal. You and your Nubbin go too: 7 take away 3 is 4.
+> - 10. → Nobody joins, so the number goes down: 7 take away 3 is 4.
+> _For grown-ups: Subtracted 3 from 7 to find how many are left in the nest._
 
 _Your Nubbin climbs in to test it, and has to be lifted out again by the scruff._  
 
@@ -67478,7 +67485,7 @@ _Your Nubbin arrives last, rolling the final bit of the slope, and comes to a st
 
 > **Lesson** (science, 3-PS2-1, ask): gravity pulls things downhill  
 > _Your Nubbin rolls all the way down the slope without anyone pushing it. Which force pulls things downhill?_  
-> - ✅ Gravity. → Yes. Gravity pulls everything towards the Earth, so round things roll down a slope. Nothing balances it, so the Nubbin keeps going.
+> - ✅ Gravity. → Yes. Gravity pulls everything towards the Earth. On a slope nothing balances that pull, so the Nubbin rolls until something stops it: Sam’s boot.
 > - Magnetism. → Magnets pull on some metals, but it is gravity that pulls everything downhill.
 > - Wind. → Wind can push things, but the pull that makes things roll downhill is gravity.
 > _For grown-ups: Learned that gravity pulls objects down a slope, an unbalanced force._
@@ -67626,8 +67633,7 @@ _It is just nest manners._
 _Your Nubbin has nest manners of a different kind. It has eaten a whole dish of rice by itself._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): multiply: 3 dishes, each feeding 8  
-> _One dish of rice feeds 8 people. Your Nubbin eats a dish by itself, and then two more._  
-> _How many people’s worth of rice is that?_  
+> _One dish of rice feeds 8 people. If your Nubbin ends up eating three dishes by itself, how many people’s worth of rice is that?_  
 > - ✅ 24. → Yes. 3 dishes of 8 make 24.
 > - 11. → That adds 3 and 8. There are 3 dishes of 8, so multiply: 24.
 > - 38. → Check: 3 times 8 is 24, not 38.
@@ -68021,7 +68027,7 @@ _She is like a cypress with the full moon on it. Zal stops walking._
 
 _Rudaba unpins her hair._  
 _It is black and very long, and she lets it down over the edge of the roof, all the way to the ground._  
-**Rudaba**: Here is a rope with no flaw in it. Take hold and climb.  
+**Rudaba**: Here is a rope that will hold you. Take hold and climb.  
 **Rudaba**: It’s right that I should catch you.  
 _Zal takes hold of the end. Then he lifts it to his face, and lets it go._  
 **Zal**: No.  
@@ -68133,7 +68139,8 @@ _In the morning Zal calls a scribe, and walks up and down the tent while he spea
 **Zal**: I love Rudaba, Mehrab’s daughter. I want to marry her.  
 
 > **Lesson** (literacy, RL.3.3, ask): how to write something hard, honestly and kindly  
-> _Zal’s letter says hard things: you left me, but I forgive you, so come. Which helps most when you write something hard?_  
+> _Zal’s letter says hard things: you left me on a mountain, and now I ask you for one thing._  
+> _Which helps most when you write something hard?_  
 > - ✅ Say what happened, say how you feel, and then say what you ask. → Yes. Zal does all three, and he says plainly that he is not trying to hurt.
 > - Make it as angry as possible. → Anger can be honest, but it often stops the other person listening. Zal says what is true without trying to hurt.
 > - Leave out the truth. → A letter without the truth cannot help. Zal says it kindly, and says it anyway.
@@ -68163,12 +68170,12 @@ _Sam reads the letter twice. Then he puts it face down on his knee, as if it mig
 **Sam**: If I say no, I break my oath. If I say yes, the Shah will have something to say.  
 **Sam**: I am caught between fire and water.  
 
-> **Lesson** (literacy, L.4.5, ask): idiom: caught between fire and water  
+> **Lesson** (literacy, L.4.5, ask): figurative language: caught between fire and water  
 > _Sam says he is “caught between fire and water”. What does this saying mean?_  
-> - ✅ He is stuck between two hard choices. → Yes. Fire and water are opposites, and either way he is in trouble. It is an idiom, not meant literally.
-> - He is standing in a river. → Not literally. It is an idiom meaning stuck between two hard choices.
+> - ✅ He is stuck between two hard choices. → Yes. Fire and water are opposites, and either way he is in trouble. It is a figure of speech, like “between a rock and a hard place”.
+> - He is standing in a river. → Not literally. It is a figure of speech meaning stuck between two hard choices.
 > - He is cooking dinner. → Ha. No. It means he is stuck between two hard choices.
-> _For grown-ups: Explained the idiom caught between fire and water._
+> _For grown-ups: Explained the figure of speech caught between fire and water._
 
 _He sends for the mobeds, and they read the stars all day. At evening they come back, smiling._  
 **The Mobed**: Rejoice, champion. The stars say Zal will have a son, and that he will grow into the mightiest hero of the land.  
@@ -68651,7 +68658,8 @@ _Zal comes out into the courtyard with his son in his arms, wrapped up tight, an
 _The Simurgh looks at the baby, and the baby looks at the Simurgh, and neither of them is at all afraid._  
 _The last thing you see on the page is Zal in the courtyard, laughing, with the baby held up to the sky._  
 _One feather has drifted down onto the step: grey and gold, long as your arm. The Simurgh doesn’t take it back._  
-_You are back in the Grove, the atlas on your knee. The feather is in your hand, and your Nubbin is asking for second breakfast._  
+_You are back in the Grove, the atlas on your knee._  
+_The feather has come too, and your Nubbin, fed once already, is asking for second breakfast._  
 
 ### Glossary
 
@@ -68872,8 +68880,8 @@ _A murmur goes round the elders, who sit in three rows of four on their carved s
 **Nyame**: They have all gone home again with their gold.  
 **Nyame**: What makes you think you can pay what they could not?  
 **Kwaku Ananse**: Name the price, great one. Whatever it is, I will pay it.  
-**Nyame**: Then hear it. Bring me Onini, the python, and Mmoboro, the hornets that sting like fire.  
-**Nyame**: Bring me Osebo, the leopard, whose teeth are like spears. And bring me Mmoatia, the fairy whom nobody sees.  
+**Nyame**: Then hear it. Bring me Onini, the python, and Mmoboro, the hornets, the whole cross nest of them.  
+**Nyame**: Bring me Osebo, the leopard, the strongest hunter in the forest. And bring me Mmoatia, the fairy who is never caught.  
 **Kwaku Ananse**: I will bring them all. And my own old mother, Ya Nsia, as well.  
 _Your Nubbin turns and stares at him. So do you._  
 **Nyame**: So be it. Go, Kwaku Ananse.  
@@ -68894,7 +68902,7 @@ _The four names are Twi words. Twi is a main Akan language, spoken by millions o
 > **Lesson** (literacy, L.3.4, ask): learning the meaning of new words  
 > _Onini means python. Which of these Twi names means leopard?_  
 > - ✅ Osebo → Yes. Osebo is the leopard. Mmoboro means hornets, and Mmoatia are the little fairies of Akan belief.
-> - Mmoboro → Mmoboro means hornets, the ones that sting like fire. The leopard is Osebo.
+> - Mmoboro → Mmoboro means hornets, the ones in the paper nest. The leopard is Osebo.
 > - Mmoatia → Mmoatia are fairies, quick and small. The leopard is Osebo.
 > _For grown-ups: Matched Twi animal names to their meanings: Onini, Osebo, Mmoboro and Mmoatia._
 
@@ -69174,7 +69182,7 @@ _They pour into the dry gourd like smoke going back down a chimney._
 
 > **Lesson** (literacy, RL.3.3, ask): why a trick works: a character’s motive  
 > _Why do the hornets believe Ananse’s pretend rain?_  
-> - ✅ They really are wet, so his story matches what they feel. → Yes. A trick works best when it fits what the victim can already see and feel. They are wet, so “it is raining” sounds right.
+> - ✅ They really are wet, so his story matches what they feel. → Yes. They are wet, so “it is raining” sounds right to them. Noticing why someone was fooled helps you spot a trick yourself.
 > - Hornets believe everything they are told. → It is not about believing everything. They are wet and cross, and want shelter. His story fits what they feel.
 > - They are too sleepy to notice. → They are wide awake, and angry. They believe him because they really are wet.
 > _For grown-ups: Worked out why the hornets believed Ananse: the trick matched what they could feel._
@@ -69743,8 +69751,8 @@ _That is the whole story. Your Nubbin waits for more, and there is not any._
 
 #### `a28-08-debt-done`
 
-_Ananse tucks the buttercup into his hatband, looking very pleased. So, oddly, does your Nubbin._  
-_A buttercup has five bright yellow petals. Flowers are bright and scented to attract insects._  
+_Ananse sits back against his door, looking very pleased with his side of the bargain. So, oddly, does everyone else._  
+_Buttercups grow thick round his step, with five bright yellow petals each. Flowers are bright and scented to attract insects._  
 
 > **Lesson** (science, 2-LS2-2, ask): why flowers are bright: pollination  
 > _Why are flowers like buttercups so brightly coloured?_  
@@ -69785,7 +69793,7 @@ _Very far off, through the trees, you hear the courtyard fire, and the old woman
 #### `a28-09-sweep`
 
 _The forest flickers, and for a moment you are back in the courtyard: the fire, the faces, the old woman leaning forward._  
-**Nana Ama**: Long ago, they say, the spider Kwaku Ananse was there,  
+**Nana Ama**: Long ago, they say, there was a spider called Kwaku Ananse,  
 **Nana Ama**: and one day he swept up all the wisdom in the world, every scrap of it, and put it in a pot.  
 
 > **Lesson** (literacy, RL.2.4, ask): the job of a traditional story opening  
@@ -70171,12 +70179,12 @@ _The page lifts again, and you feel it begin to turn back._
 _The page turns back. It is the courtyard again: the fire lower now, the children sleepier, the moths still at the wall._  
 _You are sitting on your mat, as if you never left it. Your Nubbin is beside you, sticky in three places._  
 
-> **Lesson** (science, 4-LS1-2, ask): why moths gather near lights  
-> _Why do moths flutter round a lamp or a fire?_  
-> - ✅ Scientists think moths steer by the Moon, and bright lights muddle them. → Yes. Moths use a distant light to keep a straight course. A nearby lamp tricks them into circling it.
-> - They are cold and want to warm up. → Moths are not seeking warmth, though many people think so. Scientists think the light muddles their sense of direction.
-> - They want to read. → A good joke! But no. Scientists think the light muddles their sense of direction.
-> _For grown-ups: Learned that moths may steer by the Moon, so bright lights confuse them._
+> **Lesson** (science, 2-PS1-4, ask): burning is a change that cannot be undone  
+> _Most of the logs have burned down to grey ash and glowing embers. Could the ash ever turn back into wood?_  
+> - ✅ No. Burning changes wood into ash, smoke and heat, and it cannot be undone. → Yes. Some changes, like melting ice, can be reversed. Burning cannot. The wood is gone for good, which is why the fire needs new logs.
+> - Yes, if you let the ash cool down. → Cooling the ash leaves cold ash. It does not bring the wood back. Burning is a change that cannot be undone.
+> - Yes, if you pour water on it. → Water puts out the embers, but the ash stays ash. Burning is a change that cannot be undone.
+> _For grown-ups: Learned that burning is a change that cannot be reversed, unlike melting or freezing._
 
 **Nana Ama**: Again? You want another?  
 **Nana Ama**: It is late.  
@@ -70254,7 +70262,7 @@ _Your Nubbin sits up very straight on the stool._
 
 #### `a28-12-last-done`
 
-_Your Nubbin is beaming. The children do not quite understand, and laugh anyway._  
+_For a moment nobody says anything. Then the children stretch, and yawn, and shuffle closer to the fire._  
 _The fire crackles, and a handful of sparks rises into the dark, higher and higher._  
 
 > **Lesson** (science, 4-PS3-2, ask): hot air rises  
@@ -70296,8 +70304,7 @@ _By the cottage hearth sits a carved box you have never seen before. Its lid is 
 
 _Nova’s atlas falls open at a page so bright it hums: a stage, a city at night, and a tiger in a hat grinning from a corner._  
 _Under the paint, older, there is a long ink scroll. Mountains, small villages, and a road between them._  
-_A card from Nova is tucked into the page. “This is Korea._  
-_Find it on the big map before you step in.”_  
+_A card from Nova is tucked into the page. It says to find Korea on the big map before you step in._  
 
 > **Lesson** (social-studies, D2.Geo.2.K-2, ask): finding a place on a map: Korea is a peninsula, with sea on three sides  
 > _On Nova’s big map, Korea hangs down from the north like a thumb into the sea. How many of its sides have water?_  
@@ -70529,7 +70536,7 @@ _It is an old stage light, the size of a teapot, with a cracked pink filter. Whe
 > _The stage light has a pink filter, and plain white light goes in. Why does pink light come out?_  
 > - ✅ The filter lets pink through and stops the other colours. → Yes. White light has all colours in it, and the pink filter holds back most of the rest. That is how stage crews paint a whole show in colour with one white bulb.
 > - The bulb itself is pink. → Take the filter off and you would see plain white light. The filter does the colouring by letting only pink pass through.
-> - Pink light is hotter. → Colour does not tell you how hot a light is. Even this old bulb is only warm. The filter picks out the pink and blocks the other colours.
+> - Pink light is hotter. → A filter doesn’t make light hotter. It only picks which colours get through. The filter picks out the pink and blocks the other colours.
 > _For grown-ups: Learned that a coloured filter lets through only light of its own colour._
 
 **Rumi**: Thanks for carrying. And for not running away.  
@@ -70557,7 +70564,7 @@ _Huntrix’s flat is high up, with a city view and a tiny kitchen. At two in the
 > _Mira wants two cups each for the three hunters, and one each for you and your Nubbin. How many cups must you fetch?_  
 > - ✅ 8 cups. → Yes. Three hunters with two cups each is 3 × 2 = 6. Add one for you and one for your Nubbin: 6 + 2 = 8. Eight cups. Try carrying them all in one go.
 > - 6 cups. → Six is just the hunters: 3 × 2 = 6. You and your Nubbin need one each too, so 6 + 2 = 8.
-> - 5 cups. → Five is how many people there are, but the hunters want two each. 3 × 2 = 6, and then add 2 more: 8 cups.
+> - 5 cups. → Five is how many of you there are, but the hunters want two each. 3 × 2 = 6, and then add 2 more: 8 cups.
 > _For grown-ups: Solved a two-step problem, 3 groups of 2 plus 2 more, to find 8 cups._
 
 **Rumi**: The shop on the corner. The spicy ones, the mild ones, and whatever is new.  
@@ -70574,7 +70581,7 @@ _Huntrix’s flat is high up, with a city view and a tiny kitchen. At two in the
 
 #### `a29-03-kitchen-done`
 
-_The shop is bright and humming. Every packet is covered in neat little blocks of writing, curls and lines and circles._  
+_The shop is bright and humming. Every packet is covered in neat little blocks of writing, all lines, corners and small circles._  
 
 > **Lesson** (literacy, RF.K.2, notice): hangul: made by King Sejong’s scholars so everyone could read; letters stack in syllable blocks  
 > _The writing is hangul, the Korean alphabet. About 580 years ago King Sejong and his scholars made it, so that everyone could learn to read._  
@@ -70770,7 +70777,7 @@ _At eight o’clock every big screen in the shopping street goes black at once. 
 
 > **Lesson** (science, 4-PS3-4, ask): a screen changes electrical energy into light  
 > _The giant screen is made of thousands of tiny lights. What kind of energy does it change into light?_  
-> - ✅ Electricity. → Yes. The screen is plugged in. Electrical energy goes in, and light comes out. A device that changes one kind of energy into another is a tiny power converter.
+> - ✅ Electricity. → Yes. The screen is plugged in. Electrical energy goes in, and light comes out. Lots of devices change energy from one form into another. A screen changes electricity into light.
 > - Sound. → Sound comes out of the speakers, not the screen. The speakers turn electricity into sound. The screen turns electricity into light.
 > - Wind. → No wind needed. A screen runs on electricity. Electrical energy goes in, and light comes out.
 > _For grown-ups: Learned that a screen is a device that changes electrical energy into light._
@@ -70923,7 +70930,7 @@ _Huntrix move like one person with six arms, and not one of them looks at the ot
 > - One person giving every order. → A leader helps, but Huntrix don’t wait for orders in a fast fight. They have practised so much that they trust each other’s moves.
 > _For grown-ups: Thought about what lets a team work well together: practice and trust._
 
-_Rumi and Jinu end up face to face on the stage stairs. Her sword is at his throat, and his hand has caught her wrist._  
+_Rumi and Jinu end up face to face on the stage stairs. Her sword is up between them, and his hand has caught her wrist._  
 _Her sleeve has ridden up. On her wrist and forearm there are marks: curling patterns, violet and silver, like ink in water._  
 _Jinu sees them, and his eyes go wide. For a moment neither of them moves at all._  
 _Then Mira shouts, coming up the stairs. And Jinu, very quickly, pulls Rumi’s sleeve down over the marks, and lets her go._  
@@ -71090,7 +71097,7 @@ _You don’t answer fast enough. She laughs, the first real laugh you have heard
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): when you have broken someone’s trust, telling the truth and saying sorry helps  
 > _If you have read a note you shouldn’t have, what helps most afterwards?_  
-> - ✅ Tell the truth and say sorry. → Yes. Honesty and an apology can mend a small break in trust. Rumi laughed because she knew you, and because the break was small.
+> - ✅ Tell the truth and say sorry. → Yes. Honesty and an apology can mend a small break in trust. Rumi laughed because she had guessed, and because the break was small.
 > - Pretend you didn’t. → That is tempting. But a hidden mistake can grow, and Rumi can often tell. Telling the truth and saying sorry is better for both of you.
 > - Hope nobody asks. → A lot of people try that. But hoping often feels heavy, and it doesn’t fix anything. Telling the truth and saying sorry is lighter.
 > _For grown-ups: Learned that telling the truth and saying sorry helps mend a small break in trust._
@@ -71379,7 +71386,7 @@ _The shadow snaps back to its right size. Jinu sees you, and the umbrella, and p
 #### `a29-10-complete`
 
 **Jinu**: You didn’t hear that.  
-_You don’t say anything. You hand him the umbrella, because he hasn’t got one._  
+_You don’t promise anything. You hand him the umbrella, because he hasn’t got one._  
 _He holds it like nobody has handed him anything in four hundred years. Then he and Derpy walk off into the rain._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): a small kindness can matter a lot to someone who is struggling  
@@ -71677,7 +71684,7 @@ _Celine is in the courtyard, wide awake, as if she has been waiting since the br
 
 > **Lesson** (literacy, L.4.5, ask): a metaphor: loving only “half” of someone  
 > _Rumi says Celine loved “only the half of me you could look at”. What does she mean?_  
-> - ✅ Celine accepted the part of Rumi that was easy for her to see, and not the rest. → Yes. Rumi isn’t saying she is cut in half. It is a metaphor for being loved with a part held back. A metaphor says one thing is another thing, to make a feeling clear.
+> - ✅ Celine accepted the part of Rumi that was easy for her to see, and not the rest. → Yes. Rumi isn’t saying she is cut in half. It is a metaphor for being loved with a part held back. Words used as a picture, not exactly, are called figurative language. They make a feeling clear.
 > - Celine only saw half of Rumi’s body. → Not literally. The “half” stands for part of who Rumi is. She means that Celine accepted only the part she found easy to look at.
 > - Celine only came to half of the shows. → Nothing in the story says that. The half is a picture for the part of Rumi that Celine could accept.
 > _For grown-ups: Read a metaphor for its meaning: being loved for only the part of you that others find easy to see._
@@ -71747,7 +71754,7 @@ _That is all she says. You drink the tea, and it’s good tea._
 > _You didn’t say a word to Celine, and she poured you a second cup of tea. What can sitting beside someone say that words can’t?_  
 > - That you are not leaving them alone. → That is a fair answer. Staying says “I am here” more loudly than a speech. Celine didn’t say thank you, but the tea was her way.
 > - That you aren’t going to judge them. → That is a fair answer. Sitting quietly can show that you are not there to argue. It gives the other person room to feel what they feel.
-> - Maybe nothing, and that is all right. → That is an honest answer. Sometimes we can’t tell what company says. But Celine noticed. She stopped being a fist and started pouring tea.
+> - Maybe nothing, and that is all right. → That is an honest answer. Sometimes we can’t tell what company says. But Celine noticed. She came back with tea.
 > _For grown-ups: Thought about what quiet company can say to someone who is hurting, with no single right answer._
 
 _When you go, she puts your Nubbin’s noodle hat carefully back in your hand. Then she sits on the step again, looking at the gate._  
@@ -71870,7 +71877,7 @@ _The shadow hits him instead of her._
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): people can choose differently from how they have always chosen  
 > _For four hundred years Jinu left people behind. Now he steps in front of Rumi._  
 > _Why do you think he chose differently this time?_  
-> - Rumi’s kindness to him changed him. → That is a fair answer. Being treated well can make us braver. Rumi hid nothing from him, and he did not hide from her.
+> - Rumi’s kindness to him changed him. → That is a fair answer. Being treated well can make us braver. Rumi offered him a way out, and nobody had done that in four hundred years.
 > - He decided it was time to stop running. → That is a fair answer. Sometimes the choice just becomes clear. He had been running from his own story for a very long time.
 > - He knew it was the only way, and he was scared. → That is an honest answer. Brave things are often done by scared people. He stepped forward anyway.
 > _For grown-ups: Thought about why a person might choose differently after years of choosing the same way._
@@ -72019,7 +72026,7 @@ _She holds her arm out, the marks bright in the daylight, and turns it this way 
 > **Lesson** (sel, CASEL: Self-awareness, ask): everyone has something they think they should hide; what helps people stop hiding  
 > _Almost everyone has something they think they should hide. The marks were never something to fix._  
 > _What helps a person stop hiding?_  
-> - Someone who accepts all of them. → That is a fair answer. Being seen and still liked is a very strong medicine. Rumi found that in three friends, and a nubbin.
+> - Someone who accepts all of them. → That is a fair answer. Being seen and still liked is a very strong medicine. Rumi found that in Mira and Zoey, and in you.
 > - Being brave a little at a time. → That is a fair answer. Rumi took years, then one night, then one sunny street. Small steps count.
 > - Meeting others who share it. → That is a fair answer. When you meet someone else like you, you stop feeling like the only one. Rumi found that with her fans, who asked to look at her arm.
 > _For grown-ups: Thought about what helps people stop hiding the things they fear others will judge, with no single right answer._
@@ -72193,8 +72200,8 @@ _The rabbi lets the story sit in the room a while, the way you let bread rest be
 **Rabbi Loew**: Now. What is a person, if not that? Someone tell me.  
 **A Student**: Someone who answers, Rabbi.  
 **Another Student**: Someone who can be spoken to. Which is not quite the same.  
-**Rabbi Loew**: There’s a song in the Bible that says: before I was even made, you saw me.  
-**Rabbi Loew**: In Hebrew, “unshaped clay” is one old word: golem. So every one of us was clay once, and somebody saw it.  
+**Rabbi Loew**: There’s a psalm in the Bible, a kind of prayer, that says: before I was even made, you saw me.  
+**Rabbi Loew**: The Hebrew word there is golmi, “my golem”: me, a lump not yet shaped. So every one of us was clay once, and somebody saw it.  
 **Rabbi Loew**: What makes the difference?  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): what makes a person a person  
@@ -72390,7 +72397,7 @@ _Then he turns to you, and you think he’s going to tell you something. He does
 
 #### `a30-04-lantern`
 
-_You carry the lantern up to the loft window and light it. The flame stands up straight in the still air._  
+_Dvora lights the lantern, and you carry it up to the loft window. The flame stands up straight in the still air._  
 _The lantern has a thin window of horn on each side, to keep the wind off the flame._  
 
 > **Lesson** (science, 4-PS3-2, ask): a lantern window lets light out and keeps wind off  
@@ -72407,7 +72414,7 @@ _She sits cross-legged beside the lantern, chin in her hands. Your Nubbin sits b
 
 #### `a30-04-complete`
 
-_You lit the lantern at six in the evening. At midnight the study house door opens and shuts softly._  
+_The lantern was lit at six in the evening. At midnight the study house door opens and shuts softly._  
 _Three shapes go down the lane towards the river. Rivka is still awake, and looks at you, and looks at the lantern._  
 
 > **Lesson** (maths, 3.MD.A.1, ask): time intervals: 6 pm to midnight  
@@ -72517,7 +72524,7 @@ _The clay man lies on the bank under the grey sky. He is plain and smooth and as
 > _For grown-ups: Learned that stories passed on by word of mouth change a little with every telling._
 
 **Rabbi Loew**: In some it is a holy Name, written on a slip of paper. We will leave that where it belongs.  
-**Rabbi Loew**: Here it will be a plain word on the brow, one that anyone may read. Three letters. Watch which ones.  
+**Rabbi Loew**: Here it will be a plain word on the brow, one that anyone may read: the word for truth. Three letters. Watch which ones.  
 
 **Choices**
 
@@ -72532,10 +72539,10 @@ _The clay man lies on the bank under the grey sky. He is plain and smooth and as
 **Rabbi Loew**: Alef, א. It makes no sound of its own. It only holds a vowel, the way a cup holds water.  
 **Ori**: Alef. The quiet one goes first.  
 _He draws it on the clay brow with one finger. The clay is cold and takes the line cleanly._  
-**Rabbi Loew**: Mem, מ, from the middle of the alef-bet. And tav, ת, the very last letter of all.  
+**Rabbi Loew**: Mem, מ, from near the middle of the alef-bet. And tav, ת, the very last letter of all.  
 _Three letters in a row, right to left: אמת._  
-**Rabbi Loew**: Emet. Truth. The first letter, the middle and the last. The old teachers liked that: truth stands on all of it.  
-**Ori**: With its vowel marks, the word is אֱמֶת. Say it: EH-met. It means truth.  
+**Rabbi Loew**: Emet. Truth. The first letter, one from the middle, and the last. The old teachers liked that: truth stands on all of it.  
+**Ori**: With its vowel marks, the word is אֱמֶת. Say it: eh-MET. It means truth.  
 
 > **Lesson** (literacy, L.3.4, do): the letters of emet, read from right to left  
 > **Ori**: Put the letters in the order the rabbi wrote them: alef on the right, then mem, then tav on the left.  
@@ -72618,7 +72625,7 @@ _Yossele goes on fetching, steady as a mill wheel, through his own flood._
 _You bail with a pan. Your Nubbin bails with its cheeks, which is no help at all, and very sincere._  
 **Dvora**: Oh, no. No, no, no. Yossele! That’s enough! Enough!  
 _He doesn’t stop. She isn’t the one who made him._  
-_Then the rabbi is at the door with his sleeves wet to the elbow, and says one word. Yossele sets the bucket down._  
+_Then the rabbi is at the door with his sleeves wet to the elbow, and says, “Stop.” Yossele sets the bucket down._  
 
 #### `a30-07-flood-done`
 
@@ -72628,8 +72635,8 @@ _She looks at you, soaked to the knees, and hands you an apron. Too late, but ki
 > **Lesson** (literacy, RL.3.3, ask): what a character’s actions show about her  
 > _Dvora gives you an apron after the flood, “too late, but kindly meant”. What does that show about her?_  
 > - ✅ She is kind even when she is upset → Yes. Her kitchen is ruined, and she still thinks of you. That tells us a lot about her.
-> - She is angry with you → Look again: she thanks you and gives a gift. That is kindness, not anger.
-> - She wants you to leave → She says you will need it again in this house. She is inviting you to stay.
+> - She is angry with you → Look again: she gives you a gift. That is kindness, not anger.
+> - She wants you to leave → Look again: she has just handed you a gift. People don’t give aprons to guests they want gone.
 > _For grown-ups: Inferred a character’s kindness from what she does while upset._
 
 **Dvora**: Keep it. You’ve earned it. You’ll need it again, in this house.  
@@ -72768,7 +72775,7 @@ _Behind you, the rabbi is already coming down the lane, wiping ink off his finge
 **Rabbi Loew**: Yossele. Come and lie down.  
 _He comes, and lies down on a blanket in the rabbi’s back room, as long as a door. You hold his head as it goes down._  
 **Rabbi Loew**: Every week, before the Sabbath. Everything rests on the Sabbath. Even this.  
-_He reaches up and rubs out the first letter, the alef. It comes away under his thumb like flour._  
+_The rabbi reaches over and rubs out the first letter, the alef. It comes away under his thumb like flour._  
 _Two letters are left on the brow: מת, met. Dead._  
 **Ori**: With its vowel marks, that is מֵת. Take the silent alef from אֱמֶת, “truth”, and the word left means “dead”.  
 
@@ -72793,7 +72800,7 @@ _Your Nubbin climbs up beside the clay and puts its paw on the arm, and keeps it
 
 #### `a30-09-rest-done`
 
-_On Saturday night, when three stars are out, the rabbi writes the alef again. Yossele sits up as if from a nap._  
+_On Saturday night, when three stars are out, the rabbi writes the alef again. Yossele opens his eyes and sits up._  
 _Your Nubbin is waiting by the door, and falls in a step behind him as if it had never been away._  
 _Say the Sabbath began at half past four on Friday, and ended at half past five on Saturday, when the stars came out._  
 
@@ -72889,12 +72896,12 @@ _Down the lane, in the rabbi’s courtyard, something begins to move._
 _You run. Through the courtyard, to the synagogue door, where Avram stands with his keys._  
 _Your heart thumps hard in your chest._  
 
-> **Lesson** (health, 4-LS1-1, ask): heart rate: beats in 15 seconds times four  
-> _Count your pulse for 15 seconds after running and you find 30 beats. How many beats is that in a minute?_  
-> - ✅ 120 → Yes. There are four 15-second spells in a minute, so 30 × 4 = 120. Running makes the heart beat faster.
-> - 45 → That adds 15 instead of multiplying. A minute is four lots of 15 seconds, so 30 × 4 = 120.
-> - 60 → That is 30 × 2. A minute holds four 15-second spells, so 30 × 4 = 120.
-> _For grown-ups: Worked out heart rate from a 15-second count (30 × 4 = 120) and noticed that running speeds the heart._
+> **Lesson** (health, 4-LS1-1, ask): why the heart beats faster when we run  
+> _Your heart is thumping after the run. Why does a heart beat faster when you run?_  
+> - ✅ Working muscles need more oxygen, so it pumps blood faster → Yes. Your blood carries oxygen to your muscles. When they work hard, the heart pumps faster to keep up.
+> - It is trying to stop → Not at all. It speeds up to send more blood to your working muscles.
+> - It is tired of beating → A heart never takes a day off. It beats faster because your muscles need more oxygen.
+> _For grown-ups: Learned that the heart beats faster when we run, to carry more oxygen to working muscles._
 
 **Avram**: What? What is it?  
 _You don’t have to say. He looks past you, down the lane, and goes in without another word._  
@@ -72955,7 +72962,7 @@ _Nobody talks about the lane. Avram blesses the wine, and the bread, and passes 
 > **Lesson** (social-studies, D2.His.2.K-2, ask): customs of a Sabbath meal  
 > _Which of these belong to the Sabbath table in Avram’s house?_  
 > - ✅ Lit candles, a white cloth, blessings, and a covered plaited loaf → Yes. These are the signs that the Sabbath has begun, and that the family rests together.
-> - A loud party with music → The Sabbath table is peaceful and quiet, with blessings and shared bread.
+> - A loud party with a band → Not a band. The Sabbath table has blessings and shared bread, and families often sing together.
 > - Everyone cooking at once → The cooking is done before sunset. At the table everyone rests.
 > _For grown-ups: Named customs of a Sabbath meal: candles, a cloth, blessings and plaited bread._
 
@@ -73140,7 +73147,8 @@ _It looks like a door holding itself shut, the way he held the lane. Safe, and n
 > _For grown-ups: Thought about the difference between being safe and being well._
 
 _Your Nubbin looks up at the window for a long time. Then it takes your hand, which it doesn’t often do._  
-_You are back in the Grove, the atlas on your knee. There is a clay tile in your pocket, still a little cool._  
+_You are back in the Grove, the atlas on your knee._  
+_Your pocket is heavier by one clay tile, still cool, as if nobody has told it where it is._  
 
 ## A31-1. The Hearth
 
@@ -73182,7 +73190,7 @@ _Your Nubbin goes straight to the fire and sits down, as if it has been coming h
 > **Lesson** (sel, CASEL: Social awareness, ask): thinking about how to welcome a stranger  
 > _The grandmother welcomed a stranger with food before asking a single question. What do you think that says about how to welcome someone?_  
 > - Be kind first. Questions can wait. → That’s a fair answer. The grandmother would agree: first make someone comfortable, then get curious.
-> - Ask questions first, so you know who they are. → That’s a fair answer too. Knowing who is at your door matters. The grandmother just feeds people while she works it out.
+> - Ask questions first, so you know who they are. → That’s a fair answer too: knowing who is at your door matters. The grandmother just feeds people while she works it out.
 > - It depends on the guest. → That’s a thoughtful answer. A good host notices who is in front of them, and what they need most.
 > _For grown-ups: Thought about how to welcome a stranger, with no single right answer._
 
@@ -73224,7 +73232,7 @@ _Somewhere close, something heavy and rubbery goes thock against a wall. Then ag
 > **Grandmother**: Thock. The ball hits the wall, and you hear it from here. What is happening to make that sound?  
 > - ✅ The ball and the wall vibrate, and the air carries the shake to our ears. → Yes. A sound is a vibration, a very fast shake, passed through the air to your ears.
 > - The ball is only loud because it is heavy. → Weight helps, because a heavy ball hits harder and shakes more. But the sound itself is the shake that travels through the air.
-> - The sound travels without anything shaking. → Every sound starts with something shaking. Put your fingers on your throat and hum. You can feel it.
+> - The sound travels without anything shaking. → Every sound starts with something shaking. Put your fingers on your throat and hum, and you can feel it.
 > _For grown-ups: Learned that sound is a vibration that travels through the air to our ears._
 
 **Grandmother**: Listen. That’s them.  
@@ -73250,8 +73258,8 @@ _They never touch the ball with their hands. They take it on the hip, the thigh,
 > **Lesson** (maths, 2.OA.A.1, ask): add and subtract within 100 in a word problem  
 > _Hun Hunahpu has scored 7 points and Vucub has scored 5. How many have they scored together?_  
 > - ✅ 12 → Yes. 7 + 5 = 12. And Hun is ahead by 2, which he will mention.
-> - 11 → Close. Count on from 7: 8, 9, 10, 11, 12. They have 12 together, and Hun leads by 2.
-> - 13 → Nearly. Count on from 7 by five: 8, 9, 10, 11, 12. The answer is 12.
+> - 11 → Close: count on five from 7, and you get 8, 9, 10, 11, 12. They have 12 together, and Hun leads by 2.
+> - 13 → One too many: count on five from 7, and you get 8, 9, 10, 11, 12. The answer is 12.
 > _For grown-ups: Added 7 and 5 in a word problem and found the difference._
 
 **Grandmother**: Hun Hunahpu and his brother, Vucub Hunahpu. Good players. Terrible neighbours.  
@@ -73328,9 +73336,9 @@ _The page goes quiet. There is a road going down between rocks, and nobody on it
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): handling the feeling of missing someone  
 > _Xmucane is left at home, waiting. Which is a healthy way to carry the feeling of missing someone?_  
-> - ✅ Let yourself feel it, and talk about them. → Yes. Missing someone is a kind of love. Saying their name and telling their stories keeps them close.
+> - ✅ Let yourself feel it, and talk about them. → Yes: a big feeling is easier to carry when it is shared. Saying their name and telling their stories keeps them close.
 > - Keep busy so you never think about it. → Being busy can help for a while. But the feeling waits for us, and it eases when we say it out loud to someone.
-> - Pretend it does not hurt. → Many people try that. It is heavy to carry alone. Telling someone you miss them makes it lighter.
+> - Pretend it does not hurt. → Many people try that, but it is heavy to carry alone. Telling someone you miss them makes it lighter.
 > _For grown-ups: Thought about healthy ways to carry the feeling of missing someone._
 
 _The road stays empty. A little wind moves the dust on it._  
@@ -73395,7 +73403,7 @@ _She stops under the branches. You and your Nubbin are behind a rock, which is m
 
 > **Lesson** (literacy, RL.3.3, ask): a character’s motive  
 > _Xquic goes to the forbidden tree even though she has been told not to. Why does she go?_  
-> - ✅ She is curious, and nobody gave her a reason. → Yes. She says it herself: if they said why, she might not go. Her motive is curiosity, and being left in the dark.
+> - ✅ She is curious, and nobody gave her a reason. → Yes: she says herself that if they said why, she might not go. Her motive is curiosity, and being left in the dark.
 > - She is hungry for gourds. → She never says that. Look at what she says about “why”: she is curious, not hungry.
 > - She wants to be caught. → Nothing in the story says so. Her words show a curious girl who wants a reason.
 > _For grown-ups: Used a character’s own words to work out her motive._
@@ -73424,7 +73432,7 @@ _You walk behind them, through trees with red bark. The owls keep stopping and l
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): refusing to do wrong and finding another way  
 > _The owls were ordered to do something wrong. What is the wisest thing they can do?_  
-> - ✅ Refuse the wrong thing, and find another way to help. → Yes. Refusing is brave, and finding another way is wise. The owls do both.
+> - ✅ Refuse the wrong thing, and find another way to help. → Yes: refusing is brave, and finding another way is wise. The owls do both.
 > - Do it anyway, because they were ordered to. → An order does not make a wrong thing right. The owls say so in their own way.
 > - Run away and leave Xquic. → That would keep the owls safe, but it would leave Xquic alone. They choose to help her.
 > _For grown-ups: Thought about refusing to do wrong and finding another way to help._
@@ -73447,7 +73455,7 @@ _Xquic presses the sap into a round, lumpy shape with her thumbs, and the owls t
 
 > **Lesson** (science, 4-LS1-1, notice): sap carries water and food through a tree; bark protects it  
 > _Inside a tree, tubes carry water up from the roots and sugary sap down from the leaves. The bark is the tree’s skin._  
-> _When bark is cut, sap seeps out and slowly thickens over the wound. It works like a plaster. Sap can be white like rubber, clear like maple, or red._  
+> _When bark is cut, sap seeps out and slowly thickens over the wound, like a plaster. Sap can be white like rubber, clear like maple, or red._  
 > _For grown-ups: Learned that sap carries water and food through a tree, and that bark and sap protect it._
 
 **Owls**: More on that side. Hearts are not neat.  
@@ -73469,7 +73477,7 @@ _The owls carry the bowl back to Xibalba. The lords put the sap heart on the fir
 **Grandmother**: And while they were sniffing, the owls flew off and showed Xquic the way up. The lords were fooled by a smell.  
 
 > **Lesson** (maths, 3.OA.A.1, ask): multiplication as equal groups  
-> _Four owls fly away. Each owl has two wings. How many wings is that altogether?_  
+> _Four owls fly away, and each owl has two wings. How many wings is that altogether?_  
 > - ✅ 8 → Yes. Four groups of two: 4 x 2 = 8 wings.
 > - 6 → Count in twos: 2, 4, 6, 8. There are four owls, so that is eight wings.
 > - 4 → That is the number of owls. Each owl has two wings: 4 x 2 = 8.
@@ -73498,9 +73506,9 @@ _An old woman stands in the doorway with two older boys behind her: Xmucane, and
 **Xmucane**: Then here is a test. My grandsons are hungry. Bring me a whole net of corn from the garden down the hill, and I’ll believe you.  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): seeing a situation from two points of view  
-> _Xmucane sets Xquic an impossible test. Is that fair? Why might Xmucane do it, and how might Xquic feel?_  
-> - It is unfair. Xquic is a stranger who needs help. → That’s a fair answer. Xquic is alone and frightened, and a test makes it harder. Xmucane would say she is only protecting her family.
-> - It is understandable. Xmucane has lost her son and is afraid. → That’s a fair answer. Grief makes people guard what is left. Xquic would say that being doubted still hurts.
+> _Xmucane sets Xquic an impossible test: is that fair? Why might Xmucane do it, and how might Xquic feel?_  
+> - It is unfair. Xquic is a stranger who needs help. → That’s a fair answer: Xquic is alone and frightened, and a test makes it harder. Xmucane would say she is only protecting her family.
+> - It is understandable. Xmucane has lost her son and is afraid. → That’s a fair answer: grief makes people guard what is left. Xquic would say that being doubted still hurts.
 > - Both are true at once. → That’s a thoughtful answer. Xmucane is afraid, and Xquic is hurt, and neither feeling cancels the other.
 > _For grown-ups: Thought about two sides of a hard moment: a grandmother’s fear and a stranger’s hurt._
 
@@ -73570,7 +73578,7 @@ _That’s all she says. She puts another log on the fire, moves her own stool cl
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): a real apology: words and actions  
 > _Xmucane says sorry without using the word. What makes an apology a good one?_  
-> - ✅ Saying sorry, and then showing it by what you do. → Yes. Words matter, but actions show you mean them. The good stool says it very loudly.
+> - ✅ Saying sorry, and then showing it by what you do. → Yes: words matter, but actions show you mean them. The good stool says it very loudly.
 > - Saying sorry loudly, so everyone hears. → A loud sorry is not always a true one. The stool was quiet, and it meant more.
 > - Waiting until the other person forgets. → Waiting leaves the hurt sitting there. A kind action says: I know I got it wrong.
 > _For grown-ups: Learned that a good apology joins words and actions._
@@ -73594,8 +73602,8 @@ _The older brothers, One Monkey and One Artisan, don’t like the noise. They do
 **One Monkey**: Put them outside. They cry. We’re composing.  
 
 > **Lesson** (literacy, RL.3.3, ask): what a character’s words tell us about him  
-> _One Monkey says, “Put them outside. They cry. We’re composing.” What does that tell us about him?_  
-> - ✅ He cares more about his own quiet than about the babies. → Yes. His words are all about “we” and his music. The babies come second.
+> _One Monkey wants the babies put outside, because they cry and he is composing. What does that tell us about him?_  
+> - ✅ He cares more about his own quiet than about the babies. → Yes: his words are all about “we” and his music. The babies come second.
 > - He is worried the babies are cold. → He says nothing about cold. He says they cry, and he is composing.
 > - He loves noise. → The opposite. He wants the babies gone so he can work in peace.
 > _For grown-ups: Used a character’s own words to describe his traits._
@@ -73668,8 +73676,8 @@ _That night there is flute music in the trees, and the soft scratch of someone d
 **Xmucane**: Did I do that?  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): when laughing is kind and when it hurts  
-> _Xmucane laughed, and then felt bad about it. When is laughing kind, and when does it hurt? What do you think?_  
-> - It is kind when everyone is in on the joke. → That’s a fair answer. A joke shared by everyone is a gift. The brothers are in on it, up in their trees.
+> _Xmucane laughed, and then felt bad about it. When is laughing kind, and when does it hurt, do you think?_  
+> - It is kind when everyone is in on the joke. → That’s a fair answer: a joke shared by everyone is a gift. The brothers are in on it, up in their trees.
 > - It hurts when it is aimed at someone who feels small. → That’s a fair answer. A laugh that picks on someone can sting for a long time.
 > - It depends on how the person feels afterwards. → That’s a thoughtful answer. Noticing how the other person feels is the best test there is.
 > _For grown-ups: Thought about when laughter is kind and when it hurts._
@@ -73697,7 +73705,7 @@ _The page tilts up into a sky with no sun in it yet. Only a big bird, shining._
 
 > **Lesson** (science, 4-LS1-1, notice): real birds have beaks, not teeth; body parts help animals survive  
 > _Seven Macaw’s jewel teeth are only in the story. Real birds have no teeth at all._  
-> _A bird’s beak is light, strong and shaped for its food. A macaw’s curved beak can crack nuts. Inside, a tough muscular stomach, the gizzard, does the grinding._  
+> _A bird’s beak is light, strong and shaped for its food; a macaw’s curved beak cracks nuts. Inside, a muscular stomach called the gizzard does the grinding._  
 > _For grown-ups: Learned that real birds have no teeth, and that a beak and a gizzard do the work of chewing._
 
 _Hunahpu lifts his blowgun. A clay pellet goes thup, and hits Seven Macaw right on the beak._  
@@ -73746,7 +73754,7 @@ _Seven Macaw sits up, and he isn’t shining. He’s a big ordinary green bird w
 **Seven Macaw**: I don’t feel like the sun any more.  
 **Grandmother**: Without his shine, he was nobody. And nobody minded. The real sun was still coming.  
 _The old woman lifts the blowgun off the beam and hands it back to Hunahpu._  
-**Grandmother**: The Maya counted with a dot for one and a bar for five. Seven Macaw’s name has a seven in it. Seven is a bar and two dots.  
+**Grandmother**: Seven Macaw’s name has a seven in it. The Maya wrote their numbers with dots and bars.  
 
 > **Lesson** (maths, 4.OA.C.5, ask): a number system with a dot (1) and a bar (5)  
 > _In Maya numbers a dot is 1 and a bar is 5. How do you write 7?_  
@@ -73780,7 +73788,7 @@ _You put it all together at the bottom of a ravine, under a mountain: a big red 
 
 > **Lesson** (science, 4-LS1-1, notice): a crab’s hard outer skeleton and ten legs help it survive  
 > **Xbalanque**: A real crab wears its skeleton on the outside, a hard shell that protects it. It has ten legs, counting the two claws.  
-> **Xbalanque**: It walks on the other eight, mostly sideways. That is why ours has a stick for a claw and a lot of dignity.  
+> **Xbalanque**: It walks on the other eight, mostly sideways. Ours will have to manage with leaves and a stick.  
 > _For grown-ups: Learned that a crab has a hard outer shell and ten legs, including two claws._
 
 **Xbalanque**: It’s the best crab I’ve ever seen that isn’t a crab.  
@@ -73824,7 +73832,7 @@ _You dig wet clay from the riverbank with your hands. The twins roast a bird, an
 
 > **Lesson** (science, 2-PS1-4, ask): some changes can be reversed and some cannot  
 > _Wet clay can be squished into any shape. Once clay is baked hard in a fire, can it be made soft again?_  
-> - ✅ No. Baking is a change that cannot be undone. → Yes. Baked clay is pottery for good. Melting ice can be refrozen, but a baked pot cannot go back to soft clay.
+> - ✅ No. Baking is a change that cannot be undone. → Yes: baked clay is pottery for good. Melting ice can be refrozen, but a baked pot cannot go back to soft clay.
 > - Yes, just add water. → Sun-dried clay can be soaked soft again, but clay that has been fired in a hot oven or kiln is changed for good.
 > - Yes, if you leave it in the sun. → The sun cannot undo it. Fire changes clay for good, which is why pots last for thousands of years.
 > _For grown-ups: Learned that heating can cause a change that cannot be reversed, like baking clay._
@@ -73845,8 +73853,8 @@ _He is part of the hills now. The ground still shakes a little sometimes, when h
 _The world is quieter. The mountains stay where they are put._  
 **Hunahpu**: Is that all of them?  
 **Xbalanque**: All the shiny, boasting ones.  
-**Grandmother**: The Maya counted in twenties, not tens: fingers and toes. Twenty twenties made four hundred.  
-**Grandmother**: So the Four Hundred Boys are twenty groups of twenty. Now: somebody has to go down to Xibalba. You know who.  
+**Grandmother**: The Maya counted in twenties, not tens: fingers and toes.  
+**Grandmother**: Now: somebody has to go down to Xibalba. You know who.  
 
 > **Lesson** (maths, 3.OA.A.3, ask): multiplication within 100 and beyond: 20 x 20  
 > _The Maya counted in twenties. If the Four Hundred Boys are 20 groups of 20, how many boys is that?_  
@@ -73904,7 +73912,7 @@ _The twins look at each other. Something lights up in both their faces._
 > _The rat trades a secret for food for ever. What makes a swap fair?_  
 > - ✅ Both sides get something they value, and both agree. → Yes. A fair swap is one where each side gains something and nobody is forced.
 > - The strongest side decides the price. → The twins are stronger, but a price set by force is not a swap. The rat has to agree too.
-> - Both sides get exactly the same thing. → Not always. The rat gets food and the twins get a secret. Fair means each side is content, not identical.
+> - Both sides get exactly the same thing. → Not always: the rat gets food and the twins get a secret. Fair means each side is content, not identical.
 > _For grown-ups: Learned that a swap is fair when both sides gain something and both agree._
 
 
@@ -73925,7 +73933,7 @@ _The water runs out as fast as she pours it in. She stands there trying to stop 
 
 > **Lesson** (science, 3-5-ETS1-2, ask): comparing solutions to a problem  
 > _The jar has a hole and the water runs out. Which fix would work best?_  
-> - ✅ Press a lump of wet clay over the hole and let it set. → Yes. Clay is waterproof once it dries, and it stays where it is put. That is how many jars have been mended.
+> - ✅ Press a lump of wet clay firmly into the hole. → Yes: wet clay is sticky and packs tight into a small hole, so it stops the leak. It fixes the cause, not just the drip.
 > - Pour faster than it leaks. → That might work for a minute, but it wastes water and tires you out. Fixing the hole solves the real problem.
 > - Tie a leaf over the hole. → A leaf might slow the leak, but it would slip off. Clay sticks and seals, so it is the better fix.
 > _For grown-ups: Compared three solutions to a leaking jar and picked the one that fixes the cause._
@@ -73973,16 +73981,16 @@ _The owls come to Xmucane’s door. The twins are out at the court, so it’s Xm
 **Owls**: One Death and Seven Death say: the boys are to come and play. Bring the gear.  
 _Xmucane sits down on her stool and doesn’t get up for a while. Then she lifts a louse off her own sleeve._  
 **Xmucane**: Go and tell my grandsons. Quickly.  
+_The louse sets off, and it is not quick. A toad offers it a lift inside its mouth, then a snake offers the toad one, and a falcon the snake._  
+_The falcon lands on the ballcourt wall and coughs up the snake, who coughs up the toad, who tries to cough up the louse and can’t._  
 
 > **Lesson** (social-studies, D2.His.2.K-2, ask): how people sent messages in the past and today  
 > _The message passes through five messengers. Before phones, what could go wrong with a message passed along like this?_  
-> - ✅ It could change as it is passed. Repeating it back helps. → Yes. Every retelling can add mistakes. Checking by repeating it back is how people kept messages true.
-> - Nothing. Messages never change. → They do, as anyone who has played telephone knows. Every messenger can drop or change a word.
+> - ✅ It could change as it is passed. Repeating it back helps. → Yes: every retelling can add mistakes. Checking by repeating it back is how people kept messages true.
+> - Nothing. Messages never change. → They do, as anyone who has played a whispering game knows. Every messenger can drop or change a word.
 > - It would arrive faster than a phone call. → Phones are far quicker. In the past a message could take days, carried by people on foot.
 > _For grown-ups: Compared how messages travelled in the past with today, and how to keep a message accurate._
 
-_The louse sets off, and it is not quick. A toad offers it a lift inside its mouth, then a snake offers the toad one, and a falcon the snake._  
-_The falcon lands on the ballcourt wall and coughs up the snake, who coughs up the toad, who tries to cough up the louse and can’t._  
 **Toad**: It’s in there. It’s fine. It’s just stuck.  
 **Louse**: Your grandmother says come home. The lords say come down. In that order.  
 
@@ -74002,7 +74010,7 @@ _Before they go, the twins come home. Each of them takes an ear of corn and plan
 
 > **Lesson** (science, 3-LS1-1, ask): the corn life cycle  
 > _A corn seed is planted in the earth. What happens next in its life cycle?_  
-> - ✅ It sprouts into a seedling, grows into a plant, and makes ears with new seeds. → Yes. Seed, seedling, plant, ear, new seeds. Then the cycle can start again.
+> - ✅ It sprouts into a seedling, grows into a plant, and makes ears with new seeds. → Yes: seed, seedling, plant, ear, new seeds. Then the cycle can start again.
 > - It turns straight into an ear. → There are steps in between. The seed sprouts, the plant grows tall, and only then does the ear form.
 > - It stays a seed until it is picked. → A seed with water and warmth wakes up and sprouts. That is why the twins’ corn is a sign worth watching.
 > _For grown-ups: Put the corn life cycle in order, from seed to seedling to plant to ear._
@@ -74028,10 +74036,10 @@ _Behind them, in the middle of the house, two ears of corn stand in the earth fl
 **Grandmother**: Now. Which way did you go?  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): two kinds of courage: going and staying  
-> _Going down is brave. Staying to wait is brave too. Which takes more courage, do you think?_  
-> - Going, because it is dangerous. → That’s a fair answer. Going into the unknown takes nerve. Xmucane would say the waiting is its own kind of dangerous.
-> - Staying, because waiting is hard. → That’s a fair answer. Not being able to do anything is hard. The twins would say the road is no picnic either.
-> - They are different kinds of courage. → That’s a thoughtful answer. The twins are brave with their feet, and Xmucane with her patience. The story needs both.
+> _Going down is brave, and staying to wait is brave too. Which takes more courage, do you think?_  
+> - Going, because it is dangerous. → That’s a fair answer: going into the unknown takes nerve. Xmucane would say the waiting is its own kind of dangerous.
+> - Staying, because waiting is hard. → That’s a fair answer: not being able to do anything is hard. The twins would say the road is no picnic either.
+> - They are different kinds of courage. → That’s a thoughtful answer: the twins are brave with their feet, and Xmucane with her patience. The story needs both.
 > _For grown-ups: Thought about the different courage in going and in staying, with no single right answer._
 
 _The page waits a moment, as if it’s listening for your answer._  
@@ -74083,7 +74091,7 @@ _The lords stare at them. Nobody has ever done that before._
 
 > **Lesson** (sel, CASEL: Social awareness, ask): why greeting people by name matters  
 > _The twins greet every lord by name, and even the wooden ones. Why does using someone’s name matter?_  
-> - ✅ It shows you see them as a person. → Yes. A name says: you are someone, not just a seat in a row. That is true even for the wooden lords, said with a wink.
+> - ✅ It shows you see them as a person. → Yes: a name says you are someone, not just a seat in a row. The twins even greet the wooden lords, with a wink.
 > - It does not matter. Names are just labels. → Names are more than labels. Think how it feels when someone gets yours wrong, or gets it right.
 > - It is only a trick to confuse them. → It is partly a trick here, but in real life using a name is a kind way to show you noticed someone.
 > _For grown-ups: Thought about why saying someone’s name shows respect._
@@ -74153,7 +74161,7 @@ _In the morning they hand back the torch and the candles, whole and unlit. The l
 
 > **Lesson** (literacy, RL.3.3, ask): what a character’s words show about him  
 > _The lord shouts “How?” and Hunahpu says only “Good morning.” What does that tell us about Hunahpu?_  
-> - ✅ He is calm and cheeky. → Yes. After a night in the dark, he greets the lord like a neighbour. That is the cheek.
+> - ✅ He is calm and cheeky. → Yes: after a night in the dark, he greets the lord like a neighbour. That is the cheek.
 > - He is frightened. → A frightened person would not tease. His calm words show he is in charge.
 > - He is angry. → He is not shouting. “Good morning” is polite, which is part of the joke.
 > _For grown-ups: Described a character’s traits from what he says._
@@ -74161,7 +74169,7 @@ _In the morning they hand back the torch and the candles, whole and unlit. The l
 _The twins were shut in at six in the evening, and let out at six the next morning._  
 
 > **Lesson** (maths, 3.MD.A.1, ask): time intervals in hours  
-> _The twins were shut in at six in the evening, and let out at six the next morning. How many hours is that?_  
+> _How many hours were the twins shut in the Dark House?_  
 > - ✅ 12 hours → Yes. Six in the evening to midnight is 6 hours, and midnight to six in the morning is 6 more: 12 hours.
 > - 6 hours → That is only half the night. Evening to midnight is 6, and midnight to morning is 6 more: 12.
 > - 18 hours → That is too many. Count from 6 pm to midnight (6 hours), then midnight to 6 am (6 hours): 12.
@@ -74198,7 +74206,7 @@ _Your Nubbin carries a pine cone for the fire, then another. Then all of them, o
 
 > **Lesson** (literacy, RL.4.2, ask): theme: what a story is about  
 > _In every house the twins win by a clever idea, not by being strong. What is the theme?_  
-> - ✅ Cleverness and kindness can beat brute strength. → Yes. The feather, the fireflies and the pine cones all show it. A theme is the big idea under a story.
+> - ✅ Cleverness and kindness can beat brute strength. → Yes: the feather, the fireflies and the pine cones all show it. A theme is the big idea under a story.
 > - Always do what the lords say. → The twins do the opposite. They turn the lords’ own tests against them.
 > - Nobody can ever be safe. → The twins stay safe in every house. The story says wit can see you through.
 > _For grown-ups: Identified the theme of a story: cleverness beats brute strength._
@@ -74257,8 +74265,8 @@ _The lords come back, panting. One of them takes down the squash to serve with, 
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): fair play and tricking someone who is unfair  
 > _The lords planned to wreck Hunahpu’s hat in a game, and the twins tricked them. Was it fair play, or cheating?_  
-> - Fair, because the lords were being unfair first. → That’s a fair answer. The lords planned to be cruel, and the twins answered cleverly. Hunahpu might say that is just good sport.
-> - Cheating, because a trick is still a trick. → That’s a fair answer. Keeping to the rules matters even when the other side does not. One Death would agree, loudly.
+> - Fair, because the lords were being unfair first. → That’s a fair answer: the lords planned to be cruel, and the twins answered cleverly. Hunahpu might say that is just good sport.
+> - Cheating, because a trick is still a trick. → That’s a fair answer: keeping to the rules matters even when the other side does not. One Death would agree, loudly.
 > - It is complicated. → That’s a thoughtful answer. Tricking someone who means harm is not the same as tricking a friend, but it is worth asking where the line is.
 > _For grown-ups: Thought about fair play and whether tricking an unfair opponent is cheating._
 
@@ -74328,7 +74336,7 @@ _The river has taken the twins into itself. The atlas’s margin says only that 
 _You wait on the bank. The page turns its days over gently: one, two, three, four, five._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): multiplication in a time word problem  
-> _You waited five days. There are 24 hours in a day. How many hours is that?_  
+> _You waited five days, and there are 24 hours in a day. How many hours is that?_  
 > - ✅ 120 hours → Yes. 5 x 24 = 120. Ten times 24 is 240, so half of that is 120.
 > - 100 hours → That would be 5 x 20. A day has 24 hours, so 5 x 24 = 120.
 > - 29 hours → That adds 5 + 24. Five days of 24 hours each: 5 x 24 = 120.
@@ -74373,14 +74381,14 @@ _And far up the mountain, in the middle of a little house, two ears of corn are 
 
 _Two ragged dancers turn up in Xibalba, and nobody knows where they came from. They have very familiar grins._  
 _In the street a house of straw vanishes in smoke, and stands up whole. A dog lies down, and gets up wagging._  
-**Lords of Xibalba**: Who are those two? Bring them here. The lords want a show.  
+**Lords of Xibalba**: Who are those two? Bring them here. We want a show.  
 **Xbalanque**: Oh no. A show. For lords. We couldn’t possibly.  
 **Hunahpu**: Unless they asked very nicely.  
 _The dancers stamp a pattern on the stones: stomp, stomp, clap, stomp, stomp, clap, on and on._  
 
 > **Lesson** (music, 4.OA.C.5, ask): finding a term in a repeating pattern  
 > _The beat goes: stomp, stomp, clap, stomp, stomp, clap, and on. What is the 8th beat?_  
-> - ✅ Stomp → Yes. Beats 3 and 6 are claps, so beat 7 is a stomp, and beat 8 is a stomp. Beat 9 would be the next clap.
+> - ✅ Stomp → Yes: beats 3 and 6 are claps, so beats 7 and 8 are stomps. Beat 9 would be the next clap.
 > - Clap → Claps come on every third beat: 3, 6, 9. Beat 8 is a stomp.
 > - Rest → There is no rest in this pattern. The 8th beat is the second stomp of a new round: stomp.
 > _For grown-ups: Found the 8th beat in a repeating rhythm pattern with a three-beat rule._
@@ -74410,8 +74418,8 @@ _The rest of Xibalba goes down on its knees, all at once, and begs._
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): mercy, fairness and second chances  
 > _The twins give mercy but take away the lords’ greatness. When someone has been unkind and says sorry, how far should mercy go?_  
-> - Forgive them, but make sure they can’t do harm again. → That’s a fair answer. It is the twins’ own answer: kindness, with a safe distance. They would agree.
-> - Forgive them fully and trust them again straight away. → That’s a fair answer. A fresh start is generous. The twins would add that trust needs time to grow.
+> - Forgive them, but make sure they can’t do harm again. → That’s a fair answer, and it is the twins’ own: kindness, with a safe distance. They would agree.
+> - Forgive them fully and trust them again straight away. → That’s a fair answer: a fresh start is generous. The twins would add that trust needs time to grow.
 > - It depends on whether they truly mean it. → That’s a thoughtful answer. Real sorrow changes what people do afterwards, and that is worth watching for.
 > _For grown-ups: Thought about mercy and fairness when someone says sorry, with no single right answer._
 
@@ -74426,7 +74434,7 @@ _The rest of Xibalba goes down on its knees, all at once, and begs._
 #### `a31-15-complete`
 
 **Grandmother**: And from that day the lords of Xibalba were small. Not gone. Small.  
-**Grandmother**: The lords could never play ball again, and had to do the chores instead.  
+**Grandmother**: After that, the lords had no more ball games. They had jobs to do, like everyone else.  
 
 > **Lesson** (social-studies, D2.Civ.8.K-2, ask): why rules and chores apply to everyone  
 > _The lords now have to do chores like everyone else. Why is it fair when rules and jobs apply to everybody?_  
@@ -74479,12 +74487,12 @@ _Then the twins stand up, look at each other, grin the same grin, and start to c
 _Not up the walls: up into the dark above the court, which is turning grey at one edge, then gold._  
 _One of them goes up and becomes the Sun. The other goes up and becomes the Moon._  
 **Grandmother**: My grandmother told me which one is which. I will tell you one day. That is how it goes.  
-_After them, rising, come four hundred small lights. You’d know them anywhere: the boys from the house that fell._  
+_After them, rising, come four hundred small lights. You’d know them anywhere: the Four Hundred Boys._  
 _They spread out across the sky and stay there. The atlas’s margin says it simply: now they are the stars._  
 
 > **Lesson** (science, 1-ESS1-1, ask): why the Sun and Moon seem to take turns  
 > _The Sun and the Moon seem to take turns in the sky. What really makes that happen?_  
-> - ✅ The Earth spins, so we turn towards the Sun and then away. → Yes. The Earth turns once about every 24 hours. When our side faces the Sun it is day, and when it faces away it is night.
+> - ✅ The Earth spins, so we turn towards the Sun and then away. → Yes: the Earth turns once about every 24 hours. When our side faces the Sun it is day, and when it faces away it is night.
 > - The Sun goes round the Earth once a day. → It looks that way, and people believed it for ages. In fact the Earth is the one turning.
 > - The Moon chases the Sun away. → They do not chase each other. The Earth’s spin shows us each in turn, and the Moon can sometimes be seen by day too.
 > _For grown-ups: Learned that the Earth’s spin makes the Sun and Moon seem to take turns in the sky._
@@ -74529,9 +74537,9 @@ _The smoke clears. You are on the low stool in the kitchen, with your Nubbin asl
 **Grandmother**: The sun came up this morning, didn’t it?  
 
 > **Lesson** (literacy, RL.4.2, ask): stories, truth and what a story is for  
-> _The girl asks if the story is true. The grandmother answers with a question about the sun. What do you think she means?_  
-> - Some things are true because we live by them every day. → That’s a fair answer. The sun rising is certain, and stories can carry that kind of certainty. The grandmother would nod.
-> - She is dodging, because it is only a story. → That’s a fair answer. She does not say yes or no. The girl would say it works anyway, since the girl has stopped asking.
+> _The girl asks if the story is true, and the grandmother answers with a question about the sun. What do you think she means?_  
+> - Some things are true because we live by them every day. → That’s a fair answer: the sun rising is certain, and stories can carry that kind of certainty. The grandmother would nod.
+> - She is dodging, because it is only a story. → That’s a fair answer: she does not say yes or no. Still, it works, because the girl stops asking.
 > - A story can be true in a different way from a fact. → That’s a thoughtful answer. A true story can be about waiting, courage and being remembered, even when it has talking owls in it.
 > _For grown-ups: Thought about how a story can be true in a way that is different from a fact._
 
@@ -74558,7 +74566,7 @@ _It hip-bumps the ball back, and the ball goes the wrong way, as usual. The girl
 
 > **Lesson** (maths, 3.NF.A.1, ask): unit fractions: halves  
 > _You can share one tortilla fairly by cutting it into two equal parts. What fraction of the tortilla does each part make?_  
-> - ✅ One half → Yes. Two equal parts make halves. Each part is 1/2 of the whole tortilla.
+> - ✅ One half → Yes: two equal parts make halves. Each part is 1/2 of the whole tortilla.
 > - One third → Thirds need three equal parts. Two equal parts make halves: 1/2.
 > - One quarter → Quarters need four equal parts. Two equal parts are halves: 1/2.
 > _For grown-ups: Named a unit fraction: halves, from two equal parts of a tortilla._
@@ -74589,6 +74597,1880 @@ _Out by the pond, the Nubbins come to look at the new ball. Nobody uses hands, a
 ### Glossary
 
 - **teosinte**: A wild grass that people long ago grew into corn.
+
+## PA1-1. The Cabinet
+
+- `pa1-01-s1`: Look over the old cabinet Pixel has set up in the lantern shed. · _It is against the back wall. Mind the coin slot._
+- `pa1-01-s2`: Slot the cartridge into the cabinet and step through. · _Push the cartridge into the slot, then step onto the footplate._
+
+#### `pa1-01-shed`
+
+_The lantern shed smells of sawdust and warm dust. The old cabinet from the Workyard skip hums against the back wall._  
+_It has a dent the shape of a boot in one side. Someone has painted over the name, badly._  
+**Pixel**: Don’t touch the coin slot. There was a mouse family in it. They’ve moved to the bottom drawer and they’re very happy.  
+**Pixel**: Three days. One new fuse, four wires, and a part I traded Byte for a jar of Clover’s honey.  
+
+> **Lesson** (social-studies, D2.Eco.1.K-2, ask): trading: a fair swap  
+> **Pixel**: I swapped a jar of honey for a part. Byte thinks he won. What makes a swap fair?  
+> - ✅ Both people get something they wanted → Exactly. Byte wanted honey, I wanted the part. Both happy means fair. Even if I did win.
+> - The bigger thing always wins → Size isn’t the point. A swap is fair when both people get something they wanted.
+> _For grown-ups: Thought about what makes a trade fair._
+
+**Pixel**: He thinks he got the better deal. He didn’t.  
+_Pixel lifts a flap under the screen. Inside sit five chunky cartridges in a row, each in a faded sleeve._  
+**Pixel**: Each one’s a whole world. Not a picture of one. A world. You go in, and I stay out here and play player two.  
+_The sleeve shows a garden: a pool, a palm tree, and small round creatures with a ball floating over each head._  
+_Your Nubbin presses its face to the sleeve and goes very still._  
+
+> **Lesson** (literacy, ask): think: is a game world real?  
+> **Pixel**: A whole world in a cartridge. Here’s one to think about: is a world inside a game real?  
+> - Yes, if you can go there → Fair. If you can get your feet wet in it, that counts for something.
+> - No, it’s only pictures → Could be. Though the Chao on that sleeve don’t look like they know they’re pictures.
+> - A bit of both → That’s where I’ve landed too. Real enough to be careful in.
+> _For grown-ups: A think question: what makes a place real._
+
+
+**Choices**
+
+- **They look like our Nubbins.**
+    - **Pixel**: Don’t they? Like cousins. Like somebody else’s family photos, with your nose in them.
+- **Is it safe in there?**
+    - **Pixel**: Safe as a game. You can’t get hurt. You can get your feet wet.
+    - **Pixel**: And I’ll be right here. I’ll talk to you through the speaker the whole time.
+- **How old is this thing?**
+    - **Pixel**: The label’s too faded to read the year. Old, anyway. Older than the sawmill roof.
+
+#### `pa1-01-shed-done`
+
+_Pixel blows the dust off the cartridge in one long puff and wipes the metal contacts on her sleeve._  
+**Pixel**: Clean contacts, happy cartridge. Everyone knows that. Nobody knows why.  
+
+> **Lesson** (science, 4-PS3-2, notice): why clean contacts matter  
+> **Pixel**: Actually, I do know why. Electricity runs through the metal contacts, like water through a pipe.  
+> **Pixel**: Dust gets in the way, so the signal can’t flow. Wipe it clean, and the world loads.  
+> _For grown-ups: Learned that electricity needs a clean path to flow._
+
+_Your Nubbin blows on the sleeve too, with no dust left to move._  
+
+#### `pa1-01-slot`
+
+_The cartridge goes in with a clunk you feel in your teeth. The screen flickers blue, then white._  
+_A sound like a whole sea breathing in comes out of the speaker._  
+**Pixel**: Okay. Okay okay okay. Player two, ready.  
+**Pixel**: Rules. One: I can see what you see, more or less. Two: I can’t come in. Three: if you want out, say so, and I pull the plug.  
+**Pixel**: Gently. I pull it gently.  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): agreeing a way to stop  
+> **Pixel**: Rule three: say the word and I pull the plug. Why agree a way to stop before we start?  
+> - ✅ So you can stop without arguing → Yes. Agree it first, and nobody has to argue in the middle of a scary bit.
+> - Because games need rules → Games do need rules, but this one is about you. Agree it first, and stopping is easy.
+> _For grown-ups: Learned why to agree a stop signal before starting something new._
+
+_The screen is a window now. Through it comes warm air, and the smell of cut grass and pool water._  
+_Your Nubbin looks at you, then at the window, then at you again._  
+**You**: Together, then.  
+_You step up onto the footplate, take your Nubbin under one arm, and lean into the light._  
+
+#### `pa1-01-slot-done`
+
+_Behind you the shed goes small and far, like a room seen through a keyhole._  
+
+> **Lesson** (literacy, L.4.5, ask): similes  
+> _“Like a room seen through a keyhole.” That’s a simile: it compares one thing to another with “like”. What does it tell you?_  
+> - ✅ The shed looks small and far away → Yes. A keyhole makes a whole room look tiny. The simile shows the shed shrinking as you leave it.
+> - The shed has a keyhole → There’s no real keyhole. The simile compares the view to one, to show how small the shed looks.
+> _For grown-ups: Read a simile and explained what it shows._
+
+**Pixel**: See you on the other side. I mean, I’ll see you. You won’t see me. You know what I mean.  
+_The keyhole closes to a dot, and the dot goes out._  
+
+#### `pa1-01-complete`
+
+_You land on soft grass with the gentlest bump, as if the world was expecting you._  
+_There’s a pool, a palm tree, a path of stepping stones. Somewhere, a fountain._  
+**Pixel**: You’re in! You’re in. Your hair’s gone a bit square at the edges. It suits you.  
+
+> **Lesson** (art, notice): pixels  
+> **Pixel**: Square at the edges, because this world is drawn in pixels: tiny squares of colour, in a grid.  
+> **Pixel**: Stand far enough back and the squares turn into grass and water. Close up, it’s all little tiles.  
+> _For grown-ups: Learned that pixel art is made of small squares of colour._
+
+_Your Nubbin rolls off your arm and lands sitting up, already staring at something past your knee._  
+
+### Glossary
+
+- **cartridge**: A small box that holds a game, which you push into a machine to play it.
+- **contacts**: The metal strips where two parts touch so electricity can pass between them.
+
+## PA1-2. A Garden Like Ours
+
+- `pa1-02-s1`: Explore the Chao Garden and meet the Chao. · _Walk round the pool and the fruit tree. Your Nubbin will find the Chao first._
+- `pa1-02-s2`: Decide what to do about the garden gate. · _The little wooden gate is between the grass and the hotel corridor._
+
+#### `pa1-02-garden`
+
+_It’s a garden behind glass, tucked into the back of a big city hotel. Through the glass roof you can see towers and blue sky._  
+_Eggs sit in the grass like dropped sweets. Small round creatures wobble between them._  
+_Each one has a little ball floating over its head. When one bumps into the palm tree, its ball turns into a spiral._  
+
+> **Lesson** (literacy, RL.1.4, ask): reading signs for feelings  
+> _A spiral when it bumps the tree, a heart when it makes a friend. What is the floating ball for?_  
+> - ✅ It shows how the Chao feels → Yes. The ball is a feeling made visible: dizzy is a spiral, happy is a heart. Nubbins do the same.
+> - It’s a hat → Not a hat. It changes with the Chao’s mood: a spiral for dizzy, a heart for happy.
+> _For grown-ups: Read a character’s feelings from a visual sign._
+
+**Pixel**: Those are Chao. It says so on the sleeve. CHAO. One word, lots of them.  
+_Your Nubbin waddles straight into the middle of them, sits down, and is instantly sat on._  
+_The Chao that sat on it gets up, looks at it, and pats it on the head. Its ball turns into a heart._  
+**Pixel**: Oh, they’re cousins. They are absolutely cousins.  
+_A Chao offers your Nubbin half a fruit. Your Nubbin offers back a pebble, and both of them seem to think this is fair._  
+
+> **Lesson** (science, 2-LS2-1, notice): glass lets light in  
+> **Pixel**: A glass roof is clever. It lets sunlight through, so the grass and the fruit tree can grow indoors.  
+> **Pixel**: Plants need light and water to live. Take the glass away and put a wooden roof on, and the garden would go yellow.  
+> _For grown-ups: Learned that plants need light, and glass lets it through._
+
+**You**: It’s like the Grove, only smaller.  
+**Pixel**: And with a glass roof. Byte would love a glass roof. Don’t tell him I said so.  
+
+#### `pa1-02-garden-done`
+
+_You find a watering can by the pool and fill the trough under the fruit tree._  
+
+> **Lesson** (maths, 4.MD.A.2, ask): capacity: how many cans  
+> **Pixel**: The trough holds 6 litres and the can holds 2. How many cans fill the trough?  
+> - ✅ 3 → Yes. 2 and 2 and 2 is 6: three trips to the pool. The inspectors approve.
+> - 4 → Four cans would be 8 litres: it would overflow. 6 shared into 2s is 3 trips.
+> - 2 → Two cans is only 4 litres. One more: 2 and 2 and 2 makes 6. Three trips.
+> _For grown-ups: Divided a capacity into equal cans._
+
+_Three Chao come to watch you do it, very seriously, like inspectors._  
+_One of them taps the trough when you finish, as if to say: passed._  
+
+#### `pa1-02-gate`
+
+_The garden door opens onto the hotel. Through it comes the sound of a radio at the front desk, turned up loud._  
+**Radio**: …police have closed the square. Witnesses describe a creature made of water. Please stay indoors…  
+_Sirens, far off. The Chao don’t mind, because they don’t know what sirens are._  
+**Pixel**: Hmm. That’s new. The sleeve didn’t say anything about water creatures.  
+_The garden has a gate of its own, a low wooden one with a latch and a key, between the grass and the hotel corridor._  
+**Pixel**: You could lock it. Nothing gets in, nothing gets out. Or leave it, and they can wander, like ours do.  
+**Pixel**: I don’t know which. I’m player two. You’re the one standing there.  
+
+> **Lesson** (sel, ask): think: safe or free?  
+> **Pixel**: Here’s the real question, and I don’t know the answer. Lock them in safe, or let them wander? What would you do?  
+> - Lock it. Strange things are out there. → That’s careful, and careful isn’t wrong. Something is out there.
+> - Leave it. They should be able to choose. → That’s how we do it at home. Though home doesn’t have a water creature.
+> - I can’t decide. → Then you’re where I am. Whatever you pick, we’ll find out together what it meant.
+> _For grown-ups: A think question: weighing safety against freedom._
+
+_A Chao is sitting on the latch, swinging its feet._  
+
+**Choices**
+
+- **Lock the gate. Keep them safe inside.**
+    - You lift the Chao off the latch and turn the key. It clicks, small and firm.
+    - **Pixel**: Safe and sound. Good. That’s one thing sorted.
+- **Leave it open. Let them come and go.**
+    - You prop the gate with a stone. The Chao on the latch rides it all the way open, delighted.
+    - **Pixel**: Free-range Chao. Like ours. All right.
+
+#### `pa1-02-gate-done`
+
+_The sirens move off toward the square. Your Nubbin is the last to leave the pool, and it looks back twice._  
+
+> **Lesson** (science, 1-PS4-1, notice): why sirens change pitch  
+> **Pixel**: Did you hear the siren drop lower as it drove away? That’s not the siren changing. It’s the sound waves stretching out as it moves off.  
+> **Pixel**: Coming toward you, the waves bunch up and sound higher. Going away, they spread out and sound lower.  
+> _For grown-ups: Learned why a moving siren seems to change pitch._
+
+_Each time it looks back, a Chao waves. Each time, your Nubbin nearly goes back._  
+
+#### `pa1-02-complete`
+
+_The radio at the front desk is still talking. The man behind the desk turns it up, then down, then up again._  
+**Pixel**: Let’s go and look. Just look. From a sensible distance.  
+**Pixel**: I’m saying “sensible” now so that later I can say I said it.  
+
+> **Lesson** (literacy, RL.3.3, ask): reading a character’s motive  
+> _Pixel says “sensible” so she can say she said it later. What does that tell you about Pixel?_  
+> - ✅ She expects you won’t be sensible, and she’s half joking → Yes. She knows curiosity will win, and she’s covering herself with a joke. That’s Pixel: careful and funny at once.
+> - She is very strict → Not strict: she’s coming with you. The joke shows she expects curiosity to win, and she’s teasing both of you about it.
+> _For grown-ups: Read a character’s motive from a joke._
+
+_Your Nubbin is already at the lobby doors, nose to the glass._  
+
+### Glossary
+
+- **inspector**: Someone whose job is to check that things have been done properly.
+- **witness**: A person who saw something happen and can say what they saw.
+
+## PA1-3. The Water Creature
+
+- `pa1-03-s1`: Go to Station Square and see what the police are surrounding. · _Out through the hotel lobby and across the plaza to the tape._
+- `pa1-03-s2`: Watch from behind the bench while Sonic deals with the creature. · _Keep your Nubbin behind the bench by the fountain._
+
+#### `pa1-03-square`
+
+_Station Square is all bright glass and fountains. Today it is also police tape, and a crowd held back behind it._  
+_Officers crouch behind their cars. In the middle of the square something stands in a puddle that wasn’t there this morning._  
+_It’s made of water, clear water, roughly the shape of a person. There’s a green glow where a heart should be._  
+**Police Officer**: Stay back, please. Back behind the line. That means you too, and your… whatever that is.  
+_Your Nubbin stays back. It is holding the hem of your shirt in both hands._  
+**Pixel**: Oh. Look at its head. Look at the shape of its head.  
+_The top of the creature’s head curls up and over, just like the Chao’s heads. Just like your Nubbin’s._  
+_The officers shout warnings. Whatever they throw at it goes straight through, like pebbles into a pond._  
+
+> **Lesson** (science, 2-PS1-1, ask): liquids and solids  
+> **Pixel**: Things thrown at it go straight through. Why can’t you knock over something made of water?  
+> - ✅ Water is a liquid: it flows round things instead of breaking → Right. A solid holds its shape and can crack. A liquid just moves aside and closes up again.
+> - Water is too heavy → Water’s heavy, but that’s not it. It’s a liquid: it flows round the pebble and closes up behind it.
+> _For grown-ups: Learned how liquids behave differently from solids._
+
+
+#### `pa1-03-square-done`
+
+_Then a blue blur comes down the street so fast that the whole crowd’s hair stands up._  
+
+> **Lesson** (science, 3-PS2-1, notice): moving air  
+> **Pixel**: Something going that fast shoves the air out of its way, and the air shoves your hair. That’s a force you can feel without being touched.  
+> _For grown-ups: Learned that fast-moving things push air, and air pushes back._
+
+_Your Nubbin’s crown-curl flattens, then springs back._  
+
+#### `pa1-03-sonic`
+
+**Sonic**: Hey, hey! Everybody back! I’ve got this one.  
+_A blue hedgehog skids to a stop between the police and the creature. He’s grinning, which seems to be his resting face._  
+_It’s a short fight, mostly Sonic bouncing and the creature splashing. You keep your Nubbin behind a bench._  
+_Then the creature folds. It doesn’t fall; it pours, all at once, into a drain in the road._  
+**Sonic**: Huh. Slippery. Didn’t even say goodbye.  
+_Just before it goes, for half a second, it looks across the square. It looks at your Nubbin._  
+_Its face doesn’t look cruel. It looks like someone who has woken up in the wrong house._  
+**Pixel**: Did you see that? It wasn’t angry. It was lost.  
+
+> **Lesson** (literacy, ask): think: lost or angry?  
+> **Pixel**: Everyone else saw a monster. I saw something lost. What did you see?  
+> - Lost, like Pixel says → I’m glad it wasn’t just me. Something that looks at a Nubbin like that isn’t trying to hurt anyone.
+> - Angry. It smashed a square. → It did do that. Maybe you can be lost and angry at the same time. Most of us can.
+> - Scared → Scared. Hm. Scared things splash a lot too. That might be the closest yet.
+> _For grown-ups: A think question: reading a face two ways._
+
+
+**Choices**
+
+- **Tell Sonic it looked lost.**
+    - **Sonic**: Lost things still splash. Thanks, though. I’ll keep an eye out.
+- **Look down the drain.**
+    - Under the grate, water runs away fast and very clear. It glows faintly green, all the way down.
+- **Say nothing.**
+
+#### `pa1-03-sonic-done`
+
+_Sonic is gone as fast as he came. The police start rolling up their tape._  
+**Pixel**: So that’s the water creature. I think we’re going to see it again.  
+_Your Nubbin lets go of your shirt one hand at a time._  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): noticing when fear eases  
+> _Your Nubbin lets go of your shirt one hand at a time. What does that show?_  
+> - ✅ It is calming down slowly, not all at once → Yes. Fear doesn’t switch off; it loosens bit by bit. One hand, then the other.
+> - It is bored → Not bored. It was holding on tight because it was scared, and now the fear is loosening, one hand at a time.
+> _For grown-ups: Noticed that calming down happens gradually._
+
+
+#### `pa1-03-complete`
+
+_A small rosy light is bobbing above the drain, about the size of a plum._  
+_It wasn’t there a moment ago. It comes up to your face, circles your Nubbin once, and waits._  
+
+> **Lesson** (maths, 2.MD.A.1, ask): estimating size  
+> **Pixel**: Plum-sized. If a plum is about 5 cm across, and your Nubbin is 30 cm tall, how many lights tall is your Nubbin?  
+> - ✅ 6 → Six lights, stacked. 30 shared into 5s is 6. Don’t stack the real one, it looks like it has opinions.
+> - 5 → Close. Count up in 5s: 5, 10, 15, 20, 25, 30. That’s six.
+> _For grown-ups: Used a known length to estimate another._
+
+**Pixel**: That’s not on the sleeve either.  
+
+### Glossary
+
+- **plaza**: A wide open space in a town, usually paved, with buildings round it.
+- **liquid**: Something that flows and takes the shape of whatever holds it, like water or milk.
+
+## PA1-4. The Light
+
+- `pa1-04-s1`: Follow the rosy light. · _It waits for you down the quiet back street off the square._
+- `pa1-04-s2`: Sit by the shrine pool with the girl and the Chao. · _Sit on the warm stone at the edge of the pool, quietly._
+
+#### `pa1-04-follow`
+
+_The rosy light drifts down a quiet back street, away from the crowd. Every few steps it stops to let you catch up._  
+_It’s warm: not hot like a lamp, but warm like a hand._  
+
+> **Lesson** (science, 4-PS3-2, ask): heat moves from warm to cool  
+> _Warm like a hand. When you hold a warm thing, which way does the heat go?_  
+> - ✅ From the warm thing into your cooler hand → Yes. Heat always moves from warmer to cooler. That’s why a warm hand feels warm, and snow feels cold: your heat is leaving.
+> - From your hand into the warm thing → The other way. Heat moves from warmer to cooler, so the warm light gives heat to your hand.
+> _For grown-ups: Learned that heat moves from warmer to cooler things._
+
+**Pixel**: I’ve checked the controls. There’s no button for this. Whatever it is, it isn’t me.  
+_Your Nubbin reaches up for it. The light dips, lets itself be touched, and bobs away again._  
+**Pixel**: It likes your Nubbin. That’s a good sign, isn’t it? Things that like Nubbins are usually all right.  
+_At the end of the street the light stops in front of a blank wall. Then it grows, very gently, until there is nothing else._  
+
+#### `pa1-04-follow-done`
+
+_The city sounds go out like a candle. Birdsong comes in instead, and the smell of warm stone._  
+
+> **Lesson** (literacy, L.4.5, ask): metaphor: sounds going out like a candle  
+> _“The city sounds go out like a candle.” Why compare sounds to a candle?_  
+> - ✅ Because they stop suddenly, with a puff, and leave quiet behind → Yes. A candle goes out in an instant and the room goes dark. Here the sounds stop and the street goes silent.
+> - Because the city is on fire → No fire! The comparison is about how suddenly things stop: a puff, and then quiet, like a blown-out candle.
+> _For grown-ups: Explained a simile about sound._
+
+**Pixel**: Keeper? The screen’s gone all gold. Where are you?  
+_You can still hear her, faint and tinny, as if she were calling down a long pipe._  
+
+#### `pa1-04-shrine`
+
+_You are standing on old stone steps at the edge of a jungle. It is morning, very long ago; you can feel that the way you feel weather._  
+_Ahead is a shrine. On a stone altar in the middle of it sits an enormous green jewel, glowing softly._  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): shrines and altars  
+> _A shrine is a place people keep for something they treasure or honour. An altar is the raised stone at its heart where that thing is set._  
+> _People long ago built them from the stone around them. This one has lasted because stone does._  
+> _For grown-ups: Learned what a shrine and an altar are._
+
+_Around it are pools of clear water, and in the water and on the steps and everywhere, there are Chao._  
+_A girl sits among them with her feet in the pool. She has long braids, a gentle face, and a Chao asleep in her lap._  
+**Tikal**: Oh! A visitor. And a little one too. Come and sit down, quietly. This one’s only just gone off to sleep.  
+**Tikal**: I’m Tikal. You’re from a long way off, aren’t you? Your little one doesn’t look like ours. It looks like a cousin.  
+_You sit on the warm stone. Your Nubbin climbs down into the shallows and is surrounded at once._  
+_Then the water in the middle pool moves. It rises, slowly, into the shape you saw in the square._  
+_It isn’t lost now. It stands tall over the Chao, quiet and watchful, with the green glow steady in its chest._  
+**Tikal**: Don’t be afraid. That’s Chaos. It looks after them. It looks after all of us, really.  
+**Tikal**: Some of the clan say it’s a monster. It isn’t. It’s just the one who worries most.  
+
+> **Lesson** (sel, ask): think: is worrying a kind of love?  
+> **Tikal**: They call Chaos a monster because it worries so much. Can worrying be a kind of love?  
+> - Yes. You only worry about what you care for. → That’s what I think too. Though I wish it would worry a little less.
+> - No. Worry just makes everyone nervous. → It does do that. The Chao sometimes hide from it. Maybe love needs to be gentle as well as watchful.
+> - It depends how much. → It depends how much. Yes. That might be the wisest answer anyone has given me.
+> _For grown-ups: A think question: worry and love._
+
+
+**Choices**
+
+- **Bow to Chaos.**
+    - You bow, a little awkwardly, sitting down. Chaos looks at you for a long moment, then lowers its head, just slightly.
+- **Ask Tikal what it is.**
+    - **Tikal**: Grandmother says it was a Chao once, long ago, and the Emerald’s light changed it. Now it guards the rest.
+- **Watch your Nubbin.**
+    - Your Nubbin has floated on its back right to Chaos’s feet. Chaos dips one watery finger and turns it gently the right way up.
+
+#### `pa1-04-shrine-done`
+
+_The gold comes back, and the birdsong goes, and you are in the back street with your hand on a blank wall._  
+**Pixel**: You were gone for nine seconds. Nine. You look like you were gone all afternoon.  
+
+> **Lesson** (maths, 3.MD.A.1, ask): time intervals  
+> **Pixel**: Nine seconds out here. Say the pool visit felt like 3 hours in there. How many seconds is 3 hours?  
+> - ✅ 10,800 → Yes. 60 seconds in a minute, 60 minutes in an hour: 3,600 an hour, times 3. That’s 10,800 seconds squeezed into nine.
+> - 180 → 180 is 3 minutes. An hour is 3,600 seconds, so 3 hours is 10,800.
+> - 3,600 → 3,600 is one hour. Three of those: 10,800 seconds.
+> _For grown-ups: Converted hours to seconds._
+
+_Your Nubbin’s feet are still wet._  
+
+#### `pa1-04-complete`
+
+**Pixel**: The water creature. That was the water creature, wasn’t it? From the square. But kind.  
+**You**: It was looking after them.  
+**Pixel**: Then what happened to it?  
+
+> **Lesson** (literacy, RL.2.3, ask): predicting from clues  
+> **Pixel**: Kind long ago, lost today. What kind of thing could have happened in between?  
+> - ✅ Something was done to the Chao it looked after → That’s my guess too. You don’t go from watchful to lost unless something you were watching is gone.
+> - It got bored of the garden → Bored things wander off. This one looks like it’s searching. Something it cared about is missing.
+> _For grown-ups: Made a prediction from story clues._
+
+_The rosy light bobs once at your shoulder and goes quiet, like someone who isn’t ready to say yet._  
+
+### Glossary
+
+- **shrine**: A special place kept for something people honour or treasure.
+- **altar**: A raised stone or table at the heart of a shrine, where the treasured thing is set.
+
+## PA1-5. Tails’s Workshop
+
+- `pa1-05-s1`: Take the train out to the Mystic Ruins and find the workshop. · _The station is across the square. The workshop is on the hill above the stop._
+- `pa1-05-s2`: Hand Tails the spanner he needs. · _It’s one of the seven on the bench. Your Nubbin may already know which._
+- `pa1-05-s3`: Keep your head down when Eggman comes. · _Get behind the workbench with your Nubbin and stay there._
+
+#### `pa1-05-train`
+
+_A train runs from Station Square out to the Mystic Ruins, a green valley full of old stones and older trees._  
+
+> **Lesson** (social-studies, 2-ESS2-2, ask): reading a route  
+> **Pixel**: City to valley by train. On the map the line runs from the square, out past the coast, into the hills. Which comes first after the square?  
+> - ✅ The coast → Yes: square, coast, hills. Following a line on a map in order is most of reading one.
+> - The hills → The hills are the end of the line. Square first, then the coast, then the hills.
+> _For grown-ups: Followed a route on a map in order._
+
+_On the hill above the station is a workshop with a runway and a bright little plane outside. Someone is muttering at an engine._  
+**Tails**: Hand me the… no, that’s the… thank you, that’s the one I meant, actually.  
+_A young fox with two tails is up to his elbows in the plane’s nose. There is oil on his face and more on one tail._  
+**Tails**: Hi! Sorry. I’m Tails. You’re not from round here, are you? Your friend’s got the same head as a Chao.  
+**Tails**: Sonic’s inside. We found a Chaos Emerald, and it’s doing something weird to the instruments.  
+**Pixel**: A fox. With two tails. Who fixes planes. I want to live in this game.  
+
+#### `pa1-05-train-done`
+
+_Tails hooks a spare stool out from under the bench with his foot. He doesn’t stop working once._  
+_Your Nubbin climbs onto the stool, sits on its hands, and watches like a student._  
+
+> **Lesson** (sel, CASEL: Social awareness, notice): watching before helping  
+> _Your Nubbin watches before it helps. That’s a good trick with busy people: see what they are doing first, and then you can tell what they need._  
+> _For grown-ups: Learned to watch first when someone is busy._
+
+
+#### `pa1-05-spanner`
+
+**Tails**: Could you pass the spanner? The silver one.  
+_The bench has seven silver things on it. All of them are spanners._  
+**Tails**: The other silver one.  
+_Your Nubbin climbs onto the bench, picks one up in both arms, and stands there beaming._  
+**Pixel**: Tell him it’s a ten. It looks like a ten. Through the screen, everything looks like a ten.  
+
+> **Lesson** (maths, 4.MD.A.1, ask): measurement: spanner sizes in millimetres  
+> **Pixel**: A “ten” means 10 millimetres across the jaws. There are 10 millimetres in a centimetre. So how wide is the ten, in centimetres?  
+> - ✅ 1 cm → Yes. 10 mm is 1 cm, about the width of your little fingernail. Tiny bolt, tiny spanner.
+> - 10 cm → 10 cm would be a huge bolt. 10 mm is 1 cm, about a fingernail wide.
+> _For grown-ups: Converted millimetres to centimetres._
+
+**Tails**: Nearly there. If I’m reading this right, the Emerald’s giving off a signal, and something’s following it.  
+
+**Choices**
+
+- **Take the one your Nubbin is holding.**
+    - **Tails**: That’s it! How did it… never mind. Thank you, both of you.
+- **Hand him the smallest.**
+    - **Tails**: Close! One up. Thanks.
+    - Your Nubbin hands him the one up. It’s the one it was holding.
+- **Ask which one he means.**
+    - **Tails**: The ten. Sorry. I always forget other people can’t see inside my head.
+    - Your Nubbin is already holding the ten.
+
+#### `pa1-05-spanner-done`
+
+_The engine coughs, catches and purrs. Tails punches the air and bangs his head on the propeller._  
+_He says it doesn’t hurt. He says it three times._  
+
+> **Lesson** (literacy, RL.3.3, ask): what repetition tells you  
+> _Tails says it doesn’t hurt, three times. What does saying it three times really tell you?_  
+> - ✅ It does hurt, a bit, and he doesn’t want a fuss → Yes. When someone insists too much, the insisting gives them away. Tails is fine, and also bumped.
+> - It really doesn’t hurt → If it truly didn’t, once would do. Three times means: it stings, and he’d rather not make a fuss.
+> _For grown-ups: Read what a character means from how often they say it._
+
+
+#### `pa1-05-ambush`
+
+_A shadow falls over the runway. A round flying machine hums down out of the sky, and in it sits a round man with a huge moustache._  
+**Dr. Eggman**: Good afternoon, vermin! I’ll be taking that Emerald. No, don’t get up. I’ll show myself in.  
+**Tails**: It’s Eggman! Sonic, he’s here!  
+**Sonic**: Already on it. Oh, hi again. You’re everywhere today.  
+_You get down behind the workbench with your Nubbin, as small as the two of you can be._  
+_A metal claw shoots out of the machine. In a clatter and a flash, the Emerald is gone from the bench._  
+**Dr. Eggman**: Chaos, my dear! Supper!  
+_Out of a puddle by the runway rises the water creature, taller than before. Eggman tosses it the Emerald, and it swallows the light._  
+_It grows: its arms lengthen and its head curls higher. Its eyes don’t look at Eggman at all, but past him, at nothing._  
+**Dr. Eggman**: Two Emeralds, two sizes! At seven, my friend, nobody will be able to stop us. Toodle-oo!  
+
+> **Lesson** (maths, 2.OA.A.1, ask): counting on to a target  
+> **Pixel**: Two Emeralds down. He wants all seven. How many more does he need, and how many are still out there for someone else to find?  
+> - ✅ 5 more, and the same 5 are out there → Yes. 7 take away 2 is 5. Five chances for someone other than Eggman to get there first.
+> - 4 more → Count on from 2: three, four, five, six, seven. That’s five more.
+> _For grown-ups: Counted on from a part to a whole._
+
+
+#### `pa1-05-ambush-done`
+
+_Sonic chases Chaos off into the valley. Eggman’s machine hums away over the trees, chuckling to itself._  
+**Tails**: Are you two all right? He doesn’t usually bother with bystanders.  
+**Pixel**: Nobody look at the claw marks on the bench. Nobody.  
+
+> **Lesson** (sel, ask): think: why do we look away from damage?  
+> **Pixel**: I said don’t look at the claw marks. Why do you think people look away from the scary bit once it’s over?  
+> - Looking makes it feel real again → That’s it, for me. The marks are proof it happened. I’d rather look at the plane.
+> - There’s nothing to do about it now → True. You can’t un-claw a bench. Tails will sand it, and that’ll be that.
+> - I’d look. I want to know what happened. → Fair. Some people feel better knowing exactly. I’ll zoom in for you. Ugh. There.
+> _For grown-ups: A think question: how people handle something frightening after it ends._
+
+
+#### `pa1-05-complete`
+
+_Tails fishes a second spanner out of the plane’s nose, where it has been all along._  
+**Tails**: Thanks for the help. Really. Most people just ask about the tails.  
+
+> **Lesson** (science, 4-LS1-1, notice): what two tails are for  
+> **Tails**: Since nobody asked: two tails, spun together, push air down, like a propeller. That’s how I fly.  
+> **Tails**: Animals’ bodies are shaped for what they do. Mine is shaped for being a very small helicopter.  
+> _For grown-ups: Learned that body parts suit what an animal does._
+
+**Pixel**: I was going to ask about the tails.  
+_Tails tells your Nubbin to keep the spanner it was holding. It carries it for the rest of the cartridge._  
+
+### Glossary
+
+- **bystander**: Someone who is there when something happens but is not part of it.
+- **runway**: The long flat strip that planes use to take off and land.
+
+## PA1-6. The Shattered Emerald
+
+- `pa1-06-s1`: Visit the floating island and its guardian. · _Tails will drop you on the island. Climb the shrine steps._
+- `pa1-06-s2`: Help Knuckles find the shards of the Master Emerald. · _Your Nubbin is good at finding green things. Search the ferns on the left._
+
+#### `pa1-06-island`
+
+_High above the Mystic Ruins floats a whole island. Tails swings the plane past it and lets you down on the grass._  
+_At its heart is a shrine of stone steps. At the top sits a green Emerald, huge, glowing; the same one you saw on Tikal’s altar._  
+_Someone is sitting on the steps below it, arms folded, glaring at the sky as if it owes him money._  
+
+> **Lesson** (literacy, L.4.5, ask): figurative language: “as if it owes him money”  
+> _Knuckles glares at the sky “as if it owes him money”. What does that tell you about his mood?_  
+> - ✅ He is grumpy and suspicious, as if everything is against him → Yes. You glare at someone who owes you money. The phrase makes his bad mood funny without saying “grumpy”.
+> - The sky really owes him money → Skies don’t carry wallets. It’s a comparison: he glares the way you’d glare at someone who owed you. Grumpy.
+> _For grown-ups: Read a character’s mood from a figure of speech._
+
+**Knuckles**: Who let you up here? Nobody comes up here.  
+**Knuckles**: I’m Knuckles. I guard the Master Emerald. You don’t touch it, you don’t lean on it, and that thing doesn’t lick it.  
+_Your Nubbin, who was about to lick it, sits down._  
+**Knuckles**: …It can stay. It looks like a Chao. Chao used to live up here, way back. Before my people were gone.  
+_Then the sky goes dark, and the Emerald flashes, and the steps shake under your feet._  
+_Something rises out of the Emerald itself: water, clear, with a green glow. It strikes the stone once, very hard._  
+_The Master Emerald splits into a hundred green shards. They fly out in every direction, like seeds from a pod._  
+
+> **Lesson** (science, 2-LS2-2, notice): seeds scattering  
+> _“Like seeds from a pod.” Some plants fling their seeds: the pod dries, twists and bursts, scattering them far from the parent so they don’t all grow in one spot._  
+> _For grown-ups: Learned that some plants scatter seeds by bursting pods._
+
+**Dr. Eggman**: Splendid work, Chaos! Knuckles, always a pleasure. Do enjoy your swim!  
+_The island tips, slowly, like a great ship. Then it falls._  
+
+#### `pa1-06-island-done`
+
+_You hold on to the steps and to your Nubbin, and the island comes down into the sea with a long, deep, sighing splash._  
+_When the spray settles, it is floating off the Mystic Ruins, as if it had always meant to._  
+
+> **Lesson** (science, 3-PS2-1, ask): floating and forces  
+> **Pixel**: An island floating on the sea. What holds a floating thing up?  
+> - ✅ The water pushes up on it as hard as its weight pulls down → Yes. The water’s push up and the island’s weight down are balanced, so it sits still. Unbalance them and it sinks or bobs.
+> - Nothing: it’s magic → In this world, a bit. But real floating is a balance: the water pushes up as hard as the weight pulls down.
+> _For grown-ups: Learned that floating is a balance of forces._
+
+**Pixel**: Is everyone… you’re all right? Good. My hands are shaking, and I’m not even in there.  
+
+#### `pa1-06-shards`
+
+**Knuckles**: Great. Great. A hundred pieces, all over the place.  
+**Knuckles**: Without the Master Emerald this island stays down. And it’s my job. It’s the only job I’ve got.  
+
+> **Lesson** (sel, ask): think: a job that is all you have  
+> **Pixel**: “It’s the only job I’ve got.” Why do you think Knuckles sounds so sad about that, when guarding a jewel sounds grand?  
+> - Because if the job is everything, losing it means losing himself → That’s how I hear it. When one thing is your whole life, a hundred pieces of it on the floor is a lot.
+> - Because he’s lonely up here → A guard with nobody to guard for. Yes. I think the sad bit is less the job and more the empty island.
+> - Because it’s a lot of pieces → A hundred is a lot. Though I think if there were ten he’d be nearly as sad. It’s his home, in bits.
+> _For grown-ups: A think question: when a job is someone’s whole life._
+
+_He kicks a stone, stares at the jungle, and doesn’t move._  
+**Pixel**: He’s going to be ages. Look how much jungle there is.  
+_Your Nubbin trots off into the ferns. A minute later it comes back with a green shard as long as its arm, very pleased._  
+**Knuckles**: …How did it do that?  
+**Pixel**: Nubbins are good at finding green things. Ask anyone who’s ever dropped a pea.  
+**Knuckles**: Fine. You. Small one. You’re with me. Keeper, keep up.  
+
+**Choices**
+
+- **Search with Knuckles.**
+    - **Knuckles**: You take the left side. I’ll take the right. Shout if you find anything. Don’t shout if you don’t.
+- **Ask about his people.**
+    - **Knuckles**: Echidnas. There was a whole clan once. Now there’s me.
+    - His people died long ago, before he was born. He never knew them, and misses them anyway. Now he has Sonic and Tails, and a Nubbin in his ferns.
+    - **Knuckles**: Anyway. Shards. Left side.
+
+#### `pa1-06-shards-done`
+
+_By sunset you have a sack of shards between you. Knuckles counts them twice and scowls, which seems to be how he says thank you._  
+**Knuckles**: Not all of them. Not yet. But it’s a start.  
+
+> **Lesson** (maths, 2.OA.A.1, ask): subtraction from 100  
+> **Knuckles**: A hundred pieces. Thirty-six in the sack. How many still out there?  
+> - ✅ 64 → Sixty-four. Yeah. That’s what I got. Twice.
+> - 74 → Count again. 100 take 30 is 70, take 6 more is 64.
+> - 54 → Too few. 100 take 36: 70, then 64.
+> _For grown-ups: Subtracted a two-digit number from 100._
+
+_Your Nubbin counts them too, in its own way, by patting each one._  
+
+#### `pa1-06-complete`
+
+_Knuckles gives your Nubbin the smallest shard to hold, takes it back at once, then hands it over again._  
+**Knuckles**: Just for tonight. Don’t lose it. That piece is a bit of my home.  
+_Your Nubbin sleeps with it in both hands. In the morning it gives it back without being asked._  
+
+> **Lesson** (sel, CASEL: Relationship skills, ask): trust is built by small things  
+> _Your Nubbin gives the shard back without being asked. Why does that matter to Knuckles more than a big favour would?_  
+> - ✅ It shows it can be trusted with what he cares about most → Yes. Trust is built in small, kept promises. He lent it a piece of his home, and the piece came back.
+> - Because the shard is worth a lot → It is, but that’s not the heart of it. He lent what he cares about most, and it came back. That is trust, built small.
+> _For grown-ups: Learned that trust grows from small kept promises._
+
+_Knuckles looks at it for a while before he puts it in the sack._  
+
+### Glossary
+
+- **shard**: A sharp broken piece of something hard, like glass or stone.
+- **guardian**: Someone whose job is to protect a person, place or thing.
+
+## PA1-7. The Prayer
+
+- `pa1-07-s1`: Go to the rosy light above the broken altar. · _It is circling the empty altar at the top of the shrine steps._
+- `pa1-07-s2`: Sit with Tikal while she learns the prayer. · _Sit beside her on the top step, below the Emerald._
+
+#### `pa1-07-light`
+
+_In the morning the rosy light is hovering over the empty altar where the Master Emerald was._  
+_It turns slow circles above the broken stone, as if it’s looking for something it put down._  
+**Knuckles**: That light’s been round here since I was a kid. It never does anything. It just hangs about.  
+
+> **Lesson** (literacy, RL.3.6, ask): point of view  
+> _Knuckles says the light “never does anything”. You know it took you to the past. Why do you and Knuckles see it so differently?_  
+> - ✅ He has only watched it; you have followed it → Yes. Same light, different experience. He’s seen it hang about for years; you went where it goes. Point of view changes what a thing is.
+> - Knuckles is wrong about everything → Not everything. From where he stands, it does just hang about. You know more because you followed it. That’s point of view.
+> _For grown-ups: Compared two characters’ points of view._
+
+**Knuckles**: Go on, then. If it wants you, it wants you.  
+**Pixel**: Hang on, I’m getting the gold screen again. Hold your Nubbin’s hand.  
+_Your Nubbin takes your finger. The light comes down over the two of you like a warm hat._  
+
+#### `pa1-07-light-done`
+
+_Birdsong and warm stone. The Master Emerald is whole again, glowing on its altar at the top of the steps._  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): before and after  
+> _You are standing in a “before”. Everything whole here is in pieces in Knuckles’s time. That is how history works: the stones stay, and what happens to them changes._  
+> _For grown-ups: Compared a place in the past and the present._
+
+_Not a crack in it. Not yet._  
+
+#### `pa1-07-prayer`
+
+_Tikal kneels at the top of the steps with her hands together. She is saying the same words again and again, under her breath._  
+_Around the great Emerald stand seven smaller jewels, each a different colour, each in its own hollow of stone._  
+**Tikal**: Oh, it’s you again! Sit with me. Grandmother taught me the prayer. She said learn it, not just say it.  
+
+> **Lesson** (literacy, L.3.4, ask): learn it, not just say it  
+> **Tikal**: Grandmother said: learn it, not just say it. What’s the difference between saying words and learning them?  
+> - ✅ Saying is sounds; learning is knowing what they mean → Yes. I can say it perfectly and still not have learned it. Learning is when the words start to mean something.
+> - There isn’t one → I thought so too, until she said it. Saying is the sounds. Learning is when the sounds start to mean something.
+> _For grown-ups: Thought about the difference between repeating and understanding._
+
+**Tikal**: It begins with the seven jewels, and what they serve. I can say it. I don’t know what it means yet.  
+_In the pools below, the Chao are splashing. Chaos stands among them, very still, the way a heron stands._  
+**Tikal**: Father says it means the Emeralds serve whoever holds them. That’s what he wants it to mean.  
+**Tikal**: I think it means something else. Something I haven’t grown into yet.  
+
+> **Lesson** (literacy, ask): think: who do the Emeralds serve?  
+> **Tikal**: Father says the jewels serve whoever holds them. I think it’s something else. What do you think they serve?  
+> - The Chao, the smallest ones → The Chao. I like that. Grandmother would have liked it too.
+> - Whoever needs them most → Whoever needs them. Then they wouldn’t be a prize at all. That would annoy Father very much.
+> - Nobody. They’re just stones. → Maybe. But then why does the water stand so still beside them? I don’t think they’re only stones.
+> _For grown-ups: A think question: what power is for._
+
+
+**Choices**
+
+- **Maybe they serve the Chao.**
+    - **Tikal**: The Chao? The smallest ones?
+    - **Tikal**: Oh. I like that. Grandmother would like that.
+- **Maybe it depends who’s asking.**
+    - **Tikal**: Like a gate that opens for some and not for others. Yes. Maybe.
+- **Just listen to her say it.**
+    - You sit and listen. She says it again, slower, and this time she isn’t trying to understand it, only saying it.
+    - **Tikal**: Thank you. It goes easier with someone listening.
+
+#### `pa1-07-prayer-done`
+
+_The light comes back for you mid-sentence. Tikal smiles and lifts a hand, as if she knows you’ll be back._  
+**Pixel**: She’s nice. Is it weird that I’m worried about her?  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): caring about people in stories  
+> **Pixel**: I’m worried about a girl in a cartridge. Is that weird?  
+> - ✅ No. Caring about people in stories is practice for caring about real ones. → I’ll take that. Practice. I’m very good at practice.
+> - Yes, she isn’t real → Maybe not. But the worry is. And worrying about someone, real or not, is the same muscle you use for real people.
+> _For grown-ups: Thought about empathy for characters._
+
+_Your Nubbin is still waving at a wall._  
+
+#### `pa1-07-complete`
+
+**Knuckles**: Well? What did it want?  
+**You**: To show me someone praying.  
+**Knuckles**: Huh. My people used to pray here. I don’t know any of it. There was nobody left to teach me.  
+_He sits down on the broken altar with his back to you, and for a while nobody says anything._  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): oral history: what is lost when nobody teaches it  
+> _Knuckles’s people passed their prayers down by teaching, voice to voice. When the last teacher died, the words went with them._  
+> _That is why people write things down, and why grandparents tell the same stories twice. A story only lasts as long as someone is telling it._  
+> _For grown-ups: Learned how spoken history is passed on and lost._
+
+_Your Nubbin goes and sits with its back against his, which he allows._  
+
+### Glossary
+
+- **hollow**: A dip or small hole in a surface, where something can sit.
+- **heron**: A tall, thin water bird that stands very still while it waits for fish.
+
+## PA1-8. Amy and the Bird
+
+- `pa1-08-s1`: Meet the girl running across Station Square. · _She’s heading for the fountain, with a robot behind her._
+- `pa1-08-s2`: Hide the bird in the Chao Garden. · _Set the bird down on the grass among the Chao._
+- `pa1-08-s3`: Stay still while the robot looks. · _Stay in the ring with the Chao. Don’t move._
+
+#### `pa1-08-amy`
+
+_Back in Station Square, a girl in a red dress is running across the plaza with her arms round something small._  
+_Behind her a blocky red robot thumps along, beeping._  
+**Amy**: Excuse me, sorry, coming through, very important, out of the way!  
+_She skids round the fountain and nearly falls over your Nubbin. She stops, looks at it, and melts a little._  
+**Amy**: Oh, you’re lovely. Hi. I’m Amy. I can’t stop.  
+_In her arms is a little blue bird with a tiny pendant round its neck. It’s trembling._  
+**Amy**: He fell out of the sky right into my arms. The robots keep chasing him, and he hasn’t done anything!  
+**Pixel**: The pendant. Look at the pendant. It’s glowing green.  
+
+> **Lesson** (literacy, RL.2.3, ask): inference from clues  
+> **Pixel**: A green glow. Where have we seen that glow before, and what might the robots really be chasing?  
+> - ✅ The Emeralds. The robots want the pendant, not the bird. → Yes. Green glow means Emerald. The bird is just the one wearing it. That makes the chase make sense, and makes it worse.
+> - The robots are afraid of birds → Robots don’t scare easy. Green glow, every time, has meant an Emerald. They want what’s round his neck.
+> _For grown-ups: Inferred a motive from a repeated clue._
+
+**Amy**: Please. Have you got anywhere we could hide?  
+
+**Choices**
+
+- **The Chao Garden, behind the hotel.**
+    - **Amy**: A garden? With a door? Perfect. Lead the way.
+- **Let me think.**
+    - **Amy**: Think fast!
+    - The beeping gets closer. You think of the only place you know.
+
+#### `pa1-08-amy-done`
+
+_You run for the hotel, with Amy at your shoulder and your Nubbin bouncing along behind like a dropped ball._  
+_The robot takes the long way round the fountain, because it cannot corner._  
+
+> **Lesson** (maths, 3.MD.D.8, ask): perimeter: the long way round  
+> **Pixel**: The fountain is a square, 8 metres a side. You cut straight across the middle. The robot goes round two sides. How much further does it go than 8 metres?  
+> - ✅ 8 metres further → Yes. Two sides is 16 metres; your short cut across is about 8. It loses 8 metres, and you gain a head start.
+> - 16 metres further → 16 is the whole distance it travels. You went about 8, so it went 8 more than you.
+> _For grown-ups: Compared distances round a shape and across it._
+
+
+#### `pa1-08-hide`
+
+_In the Chao Garden it’s quiet, with fruit hanging from the tree. A Chao is asleep in the watering can._  
+**Amy**: Here? Is he going to be safe here?  
+_The little bird hops off her hands onto the grass. A Chao waddles up, looks at it, and its ball turns into a question mark._  
+_Then the Chao sits down next to the bird. Another sits down next to that one, and soon the bird is in the middle of a ring of them._  
+**Pixel**: They’re hiding him. They’re hiding him with themselves.  
+
+> **Lesson** (science, 3-LS2-1, notice): animals in groups  
+> _Real animals do this too. Musk oxen stand in a ring with the calves in the middle; small birds mob a hawk together. A group protects what one alone can’t._  
+> _For grown-ups: Learned that animals in groups protect each other._
+
+_Your Nubbin sits down in the ring too. The bird stops trembling._  
+**Amy**: Oh, you darlings. You absolute darlings.  
+
+#### `pa1-08-hide-done`
+
+_Footsteps in the corridor. Heavy ones, slow, with a hum of machinery under them._  
+_Twelve Chao go still at once. Your Nubbin copies them._  
+
+> **Lesson** (maths, 3.OA.A.1, ask): counting the ring  
+> _Twelve Chao in a ring, in four little clumps of friends. How many in each clump?_  
+> - ✅ 3 → Yes. 12 shared into 4 equal groups is 3 each. Four clumps of three, and a bird in the middle.
+> - 4 → Four clumps of 4 would be 16. It’s 12 shared into 4: three each.
+> _For grown-ups: Divided twelve into equal groups._
+
+
+#### `pa1-08-gamma`
+
+_A tall robot steps into the doorway: red and black, one long arm ending in a blaster, and a round, patient face._  
+**E-102 Gamma**: Target: small blue bird. Location: confirmed.  
+**Amy**: Don’t you dare. Don’t you DARE.  
+_The robot raises its arm and looks down at the ring of Chao. Twelve small faces look back, and twelve balls turn into exclamation marks._  
+_The arm stops halfway._  
+**E-102 Gamma**: …Query.  
+_Nobody answers it. The robot stands still for so long that a Chao wanders over and touches its foot._  
+**E-102 Gamma**: E-102 Gamma. This unit… will report the target not found.  
+_It lowers its arm and goes. At the door it stops, as if it’s about to say something more, and doesn’t._  
+**Pixel**: Did a robot just change its mind?  
+
+> **Lesson** (sel, ask): think: can a robot choose?  
+> **Pixel**: Gamma was built to follow orders, and it just didn’t. Here’s one to think about: did it choose, or did something go wrong in its wiring?  
+> - It chose. It saw the Chao and decided. → That’s how it looked from here. Twelve faces, and it stopped. If that isn’t choosing, I don’t know what is.
+> - It malfunctioned. Robots can’t choose. → Maybe. Though if a malfunction makes you kinder, I’m not sure it counts as broken.
+> - Both. Something new happened to it. → Both. Something it wasn’t built for happened, and it did a new thing with it. That might just be what choosing is.
+> _For grown-ups: A think question: choice and what makes it._
+
+
+#### `pa1-08-gamma-done`
+
+_Amy lets out a breath she seems to have been holding since the fountain._  
+**Amy**: Did you see its face? It didn’t want to. It really didn’t want to.  
+_The Chao’s balls go back to plain, one at a time, like lights going off down a street._  
+
+> **Lesson** (literacy, L.4.5, ask): simile: like lights going off down a street  
+> _“Like lights going off down a street.” What does that comparison show you about the Chao?_  
+> - ✅ They calm down one after another, in order, not all at once → Yes. Streetlights go off in a line. The simile shows the fear leaving the ring one Chao at a time.
+> - The garden has gone dark → The garden is still bright. The comparison is about order: one after another, like a row of lights, the Chao calm down.
+> _For grown-ups: Explained what a simile shows._
+
+
+#### `pa1-08-complete`
+
+**Amy**: I’m going to find Sonic. He’ll know what to do. He always knows, even when he’s pretending.  
+_She scoops up the bird and kisses each Chao on the head in turn, which takes a while. Then she goes._  
+
+> **Lesson** (maths, 3.MD.A.1, ask): time: repeated short actions  
+> **Pixel**: Twelve Chao, and each kiss-and-pat takes about 5 seconds. How long is Amy’s goodbye?  
+> - ✅ About a minute → Yes: 12 times 5 is 60 seconds, which is one minute. A long goodbye for a girl in a hurry.
+> - About 5 minutes → 12 times 5 is 60 seconds. That’s one minute, not five.
+> _For grown-ups: Multiplied to find a total time._
+
+**Pixel**: Bad feeling. I’ve got a bad feeling. I’ve been mostly right about bad feelings this week.  
+
+### Glossary
+
+- **pendant**: A small ornament that hangs from a chain round the neck.
+- **query**: A question, especially one asked because something is unclear.
+
+## PA1-9. Big and Froggy
+
+- `pa1-09-s1`: Find out who is calling for Froggy in the jungle. · _Follow the river into the Mystic Ruins jungle to the plank hut._
+- `pa1-09-s2`: Fish with Big, quietly, and wait for Froggy. · _Sit on the bank and keep still. Froggy comes to whoever is still._
+
+#### `pa1-09-big`
+
+_Deep in the Mystic Ruins jungle, beside a hut made of planks and good intentions, a very large cat sits by a river looking sad._  
+**Big**: Froggy? Froggyyy.  
+_He has a fishing rod over one shoulder and a tackle box the size of a suitcase. He is the gentlest-looking thing you have ever seen this big._  
+**Big**: Oh. Hello. I’m Big. Have you seen my friend? He’s a frog. He’s green. He’s called Froggy.  
+**Big**: He went funny this morning. He swallowed a shiny green stone, and then he grew a tail. Frogs don’t have tails.  
+
+> **Lesson** (science, 3-LS1-1, ask): frog life cycle  
+> **Big**: Frogs don’t have tails. But Froggy did once, when he was little. Do you know when?  
+> - ✅ When he was a tadpole → That’s right. Egg, then tadpole with a tail, then legs grow and the tail shrinks away, then frog. He shouldn’t have one now.
+> - Frogs never have tails → They do when they’re tadpoles! Egg, tadpole with a tail, then the tail goes and the legs come. Then frog.
+> _For grown-ups: Learned the stages of a frog’s life cycle._
+
+**Pixel**: A green stone. Another Emerald. And a tail like… oh no. Like the water creature’s?  
+**Big**: He jumped in the river. I’ve been fishing for him all day. Not with a hook. With a lure. I wouldn’t hook Froggy.  
+_Your Nubbin sits down beside him. Big looks at it for a long time, then pats its head with one enormous, careful finger._  
+**Big**: You can help, if you want. You have to be quiet, though.  
+
+#### `pa1-09-big-done`
+
+_Big hands you a spare rod. The lure on the end is a little rubber bug with a bell on it._  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, notice): fairness to animals: no hook  
+> _Big fishes with a lure and no hook, so Froggy can come to him unhurt. Being gentle with an animal means choosing the slower way that doesn’t hurt it._  
+> _For grown-ups: Noticed a choice made to avoid hurting an animal._
+
+_Your Nubbin flicks the bell with one finger, and Big says “shh” very kindly._  
+
+#### `pa1-09-fish`
+
+_You sit on the bank beside Big. The river slides by, brown and green and slow._  
+**Big**: Froggy likes it when you’re still. If you wiggle, he hides. If you’re still, he comes and sits on your foot.  
+_Big is very good at being still, and you are less good at it. Your Nubbin is excellent._  
+**Pixel**: This is the slowest game I have ever played. I love it. I’m going to make a cup of tea.  
+_An hour passes, or the game’s idea of an hour. Dragonflies come and go._  
+
+> **Lesson** (sel, ask): think: is waiting doing nothing?  
+> **Pixel**: An hour of sitting still. Is waiting like this doing nothing, or is it doing something?  
+> - Doing something. Being still is the job. → Big would agree. The stillness is what brings Froggy. It only looks like nothing from outside.
+> - Doing nothing, but nice → Nice nothing. I could use more of that. Though I notice the dragonflies only land on the still ones.
+> - It depends what you’re waiting for → For a friend, then. That changes it, doesn’t it. Waiting for a friend is never quite nothing.
+> _For grown-ups: A think question: what waiting is._
+
+_The bell on your lure rings once, and then doesn’t._  
+
+**Choices**
+
+- **Keep waiting.**
+    - You keep still, and the river keeps moving. After a while you stop noticing that you’re waiting at all.
+- **Reel in and try another spot.**
+    - **Big**: Nope. This is the spot. Froggy always comes back to the spot.
+    - You put the rod back down. Big is right, as it turns out.
+
+#### `pa1-09-fish-done`
+
+_Something small and green climbs out of the water and sits on your Nubbin’s foot. It has a long, wavering tail, clear as water._  
+
+> **Lesson** (science, 2-LS4-1, ask): dragonflies and rivers  
+> _Dragonflies, a frog, a slow brown river. Why do so many creatures live right by the water?_  
+> - ✅ They need it to drink, lay eggs in, or hunt over → Yes. Frogs lay eggs in it, dragonfly young grow up under it, and everything drinks it. A river is a habitat: a home that meets needs.
+> - They like the view → Nice as it is, it’s about needs: eggs laid in the water, young that grow in it, and something to drink. That makes the river a habitat.
+> _For grown-ups: Learned why a river is a habitat for many animals._
+
+**Big**: FROGGY!  
+_Froggy jumps from your Nubbin’s foot straight back into the river. Big is still beaming._  
+**Big**: He’s all right. He’s just being silly. I’ll find him. I always find him.  
+
+#### `pa1-09-complete`
+
+**Pixel**: A frog with a tail like the water creature’s. So the water creature’s been near here. Hasn’t it?  
+**Big**: That big water fella? I saw him. He looked like he was looking for something.  
+**Big**: Same as me. I know that look.  
+
+> **Lesson** (literacy, RL.4.2, ask): theme: searching  
+> _Big is looking for Froggy. Chaos is looking for something too. What idea keeps coming back in this story?_  
+> - ✅ Looking for someone you love and have lost → Yes. Big and Froggy, Chaos and its Chao, Knuckles and his people. The story keeps circling the same thing: missing someone. That’s its theme.
+> - Fishing → Fishing is just Big’s way of doing it. The bigger idea underneath, in Big and in Chaos, is missing someone you love. That’s the theme.
+> _For grown-ups: Found a theme that repeats across scenes._
+
+_Big goes back to his rod. You leave him there, perfectly still, waiting for his friend._  
+
+### Glossary
+
+- **lure**: A pretend bug or fish on a line, used to tempt a real fish to come close.
+- **habitat**: The kind of place where an animal or plant naturally lives and finds what it needs.
+
+## PA1-10. Pachacamac
+
+- `pa1-10-s1`: Go back with the light and see who has come to the shrine. · _The light finds you on the riverbank. Stand at the bottom of the shrine steps._
+- `pa1-10-s2`: Decide where to stand while Tikal pleads with her father. · _Up the steps beside Tikal, or down by the pools with the Chao._
+
+#### `pa1-10-council`
+
+_The rosy light finds you on the riverbank and takes you back without asking. It seems to be in a hurry._  
+_At the shrine it is evening. Torches burn on the steps, and a crowd of echidnas in feathers and beads stands below the altar._  
+_At their head is a big, grizzled echidna in a heavy headdress. He talks the way a hammer talks._  
+
+> **Lesson** (literacy, L.4.5, ask): metaphor: talks the way a hammer talks  
+> _“He talks the way a hammer talks.” Hammers don’t talk. What is the writer telling you about Pachacamac?_  
+> - ✅ His words hit hard and don’t listen back → Yes. A hammer only strikes; it never hears. In one line you know he is forceful and not listening.
+> - He is a builder → He might be, but that’s not the point. A hammer strikes and never listens. The line is about how he speaks.
+> _For grown-ups: Explained a metaphor about a character._
+
+**Pachacamac**: Our neighbours have stone walls and bronze spears. We have prayers.  
+**Pachacamac**: Seven Emeralds sit in this shrine doing nothing but glowing. With their power, no one would ever threaten this clan again.  
+_The warriors behind him strike their spears on the stone. In the pools, the Chao stop playing and look up._  
+_Chaos rises a little in the water, watching. Tikal stands in front of the altar, very small and very still._  
+**Tikal**: Father. Please. The Emeralds aren’t for that. Grandmother said…  
+**Pachacamac**: Your grandmother is gone, Tikal. Our enemies are not.  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): grief said plainly  
+> _Tikal’s grandmother has died; “gone” is her father’s word for it. Tikal still carries what her grandmother taught her, which is one of the ways people stay with us._  
+> _For grown-ups: Heard a death named plainly and what remains._
+
+
+#### `pa1-10-council-done`
+
+_The warriors go quiet. Tikal looks round, and sees you at the bottom of the steps._  
+_Nobody else does. To the clan you are a trick of the torchlight._  
+
+> **Lesson** (science, 1-PS4-2, ask): light and shadows  
+> _Torches throw moving shadows up the steps. Why do shadows move when the torch flame flickers?_  
+> - ✅ Shadows are where light is blocked, so when the light moves the shadow moves → Yes. A shadow is the dark patch behind something that blocks light. Move the light and the dark patch shifts.
+> - Shadows are alive → Not alive. A shadow is just where light can’t reach past something. Move the flame, and the dark patch moves with it.
+> _For grown-ups: Learned why shadows move with the light._
+
+
+#### `pa1-10-stand`
+
+**Tikal**: The Emeralds are the heart of this place. The Chao live here because it’s peaceful. Take the power, and it won’t be.  
+**Pachacamac**: Peace is a word for people who haven’t been attacked yet.  
+**Tikal**: Then let us be those people for as long as we can.  
+_Pachacamac’s face doesn’t change. He has already decided, and he decided a long time ago._  
+
+> **Lesson** (social-studies, ask): think: is Pachacamac wrong?  
+> **Pixel**: He wants to keep his people safe. She wants to keep the peace. Is Pachacamac simply wrong, do you think?  
+> - Yes. Taking power to feel safe makes everyone less safe. → That’s where I am. Though I notice he’s scared, under the shouting. Scared people make bad plans.
+> - No. He has to protect the clan somehow. → He does. That’s the hard bit. The question is whether this way protects them, or just arms them.
+> - He’s not wrong to worry, but wrong about what to do. → Right to worry, wrong about what to do. Yes. I think that’s most of the grown-ups I know, some days.
+> _For grown-ups: A think question: safety, fear and choices._
+
+**Pixel**: He’s not going to listen, is he? He isn’t even really hearing her.  
+_Tikal is shaking. She doesn’t step back._  
+
+**Choices**
+
+- **Climb the steps and stand beside her.**
+    - You climb the steps and stand next to her, so that she isn’t standing alone in front of all of them.
+    - Pachacamac looks at you as if you were a fly, then looks away. Nothing changes at all.
+    - **Tikal**: Thank you.
+- **Stay down by the pools, with the Chao.**
+    - You stay below with the Chao. Your Nubbin climbs into your lap, and a few Chao climb in after it.
+    - From the top of the steps Tikal glances down at them, and at you, and her shoulders come down a little.
+
+#### `pa1-10-stand-done`
+
+**Pachacamac**: We march on the shrine at dawn, and take what the Emeralds can give. Tikal, you will stand aside, as a chief’s daughter should.  
+
+> **Lesson** (social-studies, D2.Civ.8.K-2, ask): rules and fairness: “as a chief’s daughter should”  
+> _Pachacamac says Tikal must stand aside because of who her father is. Is that a fair rule?_  
+> - ✅ No. A fair rule applies to what you do, not who you were born to. → Yes. Rules are fair when they treat people by their actions, not their family. He is using his title to end an argument he can’t win.
+> - Yes, he’s the chief → Being chief gives him power, but power isn’t the same as fair. A fair rule is about what people do, not who their parents are.
+> _For grown-ups: Thought about what makes a rule fair._
+
+_He turns and goes, and his warriors go after him, and the torches go with them. The shrine is very dark._  
+_Chaos’s green glow is the only light left, moving slowly under the water._  
+
+#### `pa1-10-complete`
+
+**Tikal**: He wasn’t always like this. When I was small he carried me on his shoulders to see the Chao.  
+
+> **Lesson** (literacy, RL.3.3, ask): a character who changed  
+> **Tikal**: He carried me on his shoulders once. Now he talks like a hammer. What do you think changed him?  
+> - ✅ Fear of the neighbours grew until it was all he could see → I think so too. Fear takes up room. There used to be space in him for the Chao, and now there is only room for walls.
+> - He stopped loving her → No. He still loves me; that is what makes it hard. He is afraid, and the fear has crowded everything else out.
+> _For grown-ups: Explained how a character changed and why._
+
+**Tikal**: Your being here doesn’t change anything. I know that.  
+**Tikal**: I’m still glad. Isn’t that strange?  
+_Chaos sinks back into the pool, slowly. Its glow lights the water from underneath, green and troubled._  
+**Pixel**: Keeper. I don’t want to watch the next part.  
+**You**: Neither do I.  
+
+### Glossary
+
+- **clan**: A large group of families who share the same ancestors and live together.
+- **grizzled**: Having grey or grey-streaked hair, usually from age.
+
+## PA1-11. The Egg Carrier
+
+- `pa1-11-s1`: Board the Egg Carrier with Sonic and Tails. · _Tails’s plane will drop you on the deck. Stay close._
+- `pa1-11-s2`: Get the Egg Carrier’s Chao to the lifeboats. · _The lifeboats are two decks up, on the left. Bring every Chao._
+- `pa1-11-s3`: Keep back by the hatch while Sonic faces Chaos. · _Stay by the open hatch on the back deck._
+
+#### `pa1-11-board`
+
+_Back in the present, the sky over Station Square is full of a shape: a flying fortress as big as a town, red and gold, humming._  
+**Tails**: That’s Eggman’s ship, the Egg Carrier. One of his robots grabbed Amy and the bird off the street. We’re going in.  
+**Sonic**: In, find Amy, out. Easy. You two coming? Stay close, and don’t press any red buttons.  
+_Tails’s plane drops you on the deck in a roar of wind. Sonic is gone the moment his feet touch metal._  
+**Pixel**: Okay. A flying fortress. Brilliant. I love that. I hate that. Both.  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): mixed feelings  
+> **Pixel**: I love that and I hate that, both. Is it possible to feel two opposite things at once?  
+> - ✅ Yes: excited and scared can come together → They can, and they do. Naming both is better than pretending one isn’t there. Hello, fortress.
+> - No, you have to pick one → I’ve tried. Excited and scared turn up together whether I pick or not. Naming both helps.
+> _For grown-ups: Learned that mixed feelings are normal and can be named._
+
+_Klaxons, corridors, and signs that all say EGG something. Your Nubbin stays tucked inside your jacket._  
+
+#### `pa1-11-board-done`
+
+_Down a ladder, past a door marked EGG STORAGE, you hear something you don’t expect up here: Chao._  
+_Small, cheerful, and somewhere below you._  
+
+> **Lesson** (science, 1-PS4-1, notice): sound travels through metal  
+> **Pixel**: You can hear them through the floor because sound is a vibration, and metal passes vibrations along well. Put your ear to a railing sometime; you’ll hear the whole ship.  
+> _For grown-ups: Learned that sound travels as vibration through solids._
+
+
+#### `pa1-11-garden`
+
+_There’s a Chao Garden inside the ship: plastic grass, a plastic tree, a pool of recycled water, and a dozen frightened Chao._  
+_Eggman keeps one, it seems, for the reason he keeps everything: because he can._  
+_The floor shudders. Somewhere far below, something large has been hit._  
+**Pixel**: There are lifeboats. On the map. Two decks up, port side. Port is left. I looked it up.  
+
+> **Lesson** (social-studies, 2-ESS2-2, notice): port and starboard  
+> **Pixel**: Ships don’t say left and right, because left depends which way you’re facing. Port is always the ship’s left when you face the front, starboard its right.  
+> **Pixel**: Trick to remember: “port” and “left” both have four letters.  
+> _For grown-ups: Learned port and starboard._
+
+_You pick up two Chao. Your Nubbin, without being told, gets three more to follow it in a wobbly line._  
+
+> **Lesson** (maths, 3.OA.A.3, ask): how many trips  
+> **Pixel**: A dozen Chao. You carry two, your Nubbin leads three. If every trip moves five, how many trips?  
+> - ✅ 3 trips, with the last one lighter → Yes. Five, five, two: three trips. 12 shared into 5s is two full trips with two left over, so three.
+> - 2 trips → Two trips moves ten. There are twelve. You need a third trip for the last two.
+> _For grown-ups: Divided with a remainder to find the number of trips._
+
+**Pixel**: Every one of them, Keeper. Not one stays behind in a plastic garden.  
+
+**Choices**
+
+- **Carry them two at a time.**
+    - Two at a time, up the ladder and back down, over and over. Your arms ache, and nobody gets left.
+- **Let your Nubbin lead them in a line.**
+    - Your Nubbin walks to the ladder, and every Chao follows it, one after another, like ducklings. You bring up the rear.
+
+#### `pa1-11-garden-done`
+
+_The last Chao is in the last lifeboat. You pull the lever, and it drops away under a parachute with Eggman’s face on it._  
+
+> **Lesson** (science, 3-PS2-1, ask): how parachutes work  
+> **Pixel**: Why does a parachute slow the lifeboat down?  
+> - ✅ The big canopy pushes against the air, and the air pushes back → Yes. Weight pulls down; the air pushing up on all that cloth nearly balances it. Nearly balanced means slow.
+> - It makes the lifeboat lighter → Same weight. The cloth catches air, and the air pushes up against it. Two forces nearly balanced means a slow fall.
+> _For grown-ups: Learned that air resistance slows a parachute._
+
+**Pixel**: I can’t believe the parachutes have his face on them. No, I can. I can’t. I can.  
+
+#### `pa1-11-chaos`
+
+_Out on the back deck, Eggman stands at a rail with a fistful of glowing Emeralds._  
+**Dr. Eggman**: Four, Chaos! Four Emeralds, my lovely puddle. Show them what you’ve become!  
+_Chaos rises out of a tank on the deck. It’s huge now, with great clawed arms, and the glow inside it flickers from green toward red._  
+_It isn’t looking at Eggman. It’s looking through the open hatch behind you, at the empty Chao Garden._  
+**Pixel**: It’s looking for them. It doesn’t know they got out.  
+
+> **Lesson** (literacy, ask): think: what does Chaos know?  
+> **Pixel**: Chaos thinks the Chao are gone, and we know they’re floating down safe. If you could tell it one thing, what would you say?  
+> - “They’re safe. They got out.” → Short and true. I’d say that. I don’t know if it would hear, but I’d say it.
+> - “Stop. You’re scaring everyone.” → Fair. It is. Though I think it’s too far inside its own fright to hear a telling-off.
+> - Nothing. It wouldn’t listen. → Maybe not. Then I’d want to show it instead. Hold that thought; we might need it.
+> _For grown-ups: A think question: what a frightened character can hear._
+
+_Sonic is already there, with Amy behind him holding the bird. You keep back by the hatch._  
+
+#### `pa1-11-chaos-done`
+
+_There is a long, crashing fight that you mostly see through your fingers. At the end Chaos pours away over the side, still looking back._  
+**Amy**: Keeper! You’re here too? Sonic saved us! Well. Sort of. I saved the bird.  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): sharing credit honestly  
+> **Amy**: Sonic saved us. Well, sort of. I saved the bird. Is it all right to say what you did yourself?  
+> - ✅ Yes, if it’s true and you give others their share too → Exactly. He did the fighting, I did the bird. Both true. Saying both is honest, not showing off.
+> - No, it sounds like boasting → It would if I left Sonic out. But I didn’t. Saying what you did, and what others did, is just honest.
+> _For grown-ups: Learned to share credit honestly._
+
+_The bird, in her hands, looks like it agrees._  
+
+#### `pa1-11-complete`
+
+_From the rail you can see the lifeboats drifting down toward the sea: a dozen little parachutes, a dozen Chao._  
+
+> **Lesson** (maths, 2.MD.D.10, do): tally the parachutes  
+> **Pixel**: Count the parachutes as they go and keep a tally: four strokes, then a line through for five. How many groups of five, and how many over?  
+> Check: `edu:tally:parachutes:12`
+> _For grown-ups: Kept a tally of twelve and read it in fives._
+
+_Your Nubbin waves at them with both arms until the last one is out of sight._  
+**Pixel**: That’s the Chao safe. Now everybody else.  
+
+### Glossary
+
+- **fortress**: A large, strong building or ship made to keep enemies out.
+- **klaxon**: A very loud warning horn.
+
+## PA1-12. Gamma
+
+- `pa1-12-s1`: See what happens to the robot from the garden. · _He’s in the hangar near the stern of the Egg Carrier._
+- `pa1-12-s2`: Watch Gamma open the first of his brothers. · _Stay with Amy by the cradles._
+- `pa1-12-s3`: Watch the sky from the plane. · _Look back toward the clouds._
+
+#### `pa1-12-gamma`
+
+_In a hangar near the stern, the tall robot from the garden stands in front of Eggman, very straight._  
+**Dr. Eggman**: Gamma! You let the bird go. You let the girl go. I built you, you ungrateful toaster!  
+**E-102 Gamma**: Query. Why was the bird the target?  
+**Dr. Eggman**: Because I SAID so! Report to the scrap room. You’re obsolete.  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): “because I said so”  
+> _Gamma asks why. Eggman answers “because I said so”. Is that a reason?_  
+> - ✅ No. It’s an order, not a reason. → Right. A reason explains; an order just pushes. Gamma noticed the difference, and that is the moment it starts to choose for itself.
+> - Yes, he’s the boss → Being the boss lets him give orders. It doesn’t make an order a reason. Gamma asked for a reason and got a push instead.
+> _For grown-ups: Told the difference between a reason and an order._
+
+_Eggman stamps off, and Gamma stands alone in the hangar. Then it turns, and walks the other way._  
+**Amy**: He didn’t give me up, back in the garden. I think he’s trying to be good and doesn’t know how.  
+**Pixel**: Follow him? I want to follow him.  
+
+#### `pa1-12-gamma-done`
+
+_Gamma walks to a row of robots in their charging cradles. Its brothers: the same shape, in different colours._  
+_Red, blue, green, yellow, and one in a colour you don’t have a name for._  
+
+> **Lesson** (literacy, L.3.4, notice): vocabulary: obsolete  
+> **Pixel**: Eggman called Gamma “obsolete”: out of date, replaced by something newer, no longer wanted. It’s a word for machines. He used it on someone who had just asked a question.  
+> _For grown-ups: Learned the word obsolete from context._
+
+
+#### `pa1-12-birds`
+
+_Gamma opens a panel on the first robot’s back. Inside, where an engine might be, there is a small bird in a little cage, alive._  
+**E-102 Gamma**: Power source: living creature. Discovery logged.  
+**E-102 Gamma**: This unit… also contains one.  
+_It opens the cage. The bird hops onto Gamma’s hand, blinks, and flies up into the rafters._  
+
+> **Lesson** (science, K-LS1-1, ask): what a caged bird is missing  
+> **Amy**: A bird in a cage the size of a tin. What does a bird need that a cage like that can’t give?  
+> - ✅ Room to fly, daylight, food and water it chooses → All of that. Animals need the things their bodies are built for. Wings need sky.
+> - A smaller cage → Smaller! No. Wings are built for flying. A bird needs room, daylight, and food and water it can choose.
+> _For grown-ups: Named what an animal needs to live well._
+
+**Amy**: They run on birds? All of them? Oh, that’s horrible. Oh, poor Gamma.  
+_Gamma turns to you. It looks at your Nubbin for a long moment, the way it looked at the ring of Chao._  
+**E-102 Gamma**: You and the small one. Leave this ship. This unit has work to do.  
+
+**Choices**
+
+- **Thank him.**
+    - **E-102 Gamma**: Acknowledged.
+    - It turns back to its brothers.
+- **Ask him to come with you.**
+    - **E-102 Gamma**: Negative. There are more of them. Go.
+    - It says it kindly. You hadn’t known a robot could.
+
+#### `pa1-12-birds-done`
+
+_Tails comes back for you in the plane. You climb aboard with Amy, and the Egg Carrier falls away behind you into cloud._  
+_Gamma stays. You don’t see what it does next, and nobody tells you._  
+
+> **Lesson** (sel, ask): think: was Gamma good?  
+> **Amy**: Gamma was built to do bad things, and then it set the birds free. Was Gamma good, do you think?  
+> - Yes. What you do counts more than what you were made for. → That’s what I think. It wasn’t built to be kind. It was kind anyway. That counts double.
+> - It was trying. Trying is most of it. → Trying is most of it. I like that. Trying to be good when nobody showed you how is hard.
+> - I don’t know. It did chase the bird first. → It did. I haven’t forgotten. Maybe good isn’t something you are. Maybe it’s something you start doing.
+> _For grown-ups: A think question: what makes someone good._
+
+
+#### `pa1-12-sky`
+
+_Nobody says much on the flight back. Tails flies low over the sea, and the plane hums._  
+**Amy**: He’ll be all right. Won’t he? He’s very big. Big things are usually all right.  
+**Pixel**: Amy. I don’t know.  
+
+> **Lesson** (sel, CASEL: Relationship skills, ask): honest answers to hard questions  
+> _Amy asks if Gamma will be all right. Pixel says “I don’t know.” Why not just say yes?_  
+> - ✅ Because a kind lie can hurt more later than a true “I don’t know” → Yes. Pixel could have said yes. She said the true thing gently instead. That is a harder kind of kindness, and a better one.
+> - Because Pixel doesn’t care → She cares a lot; that is why she won’t pretend. A gentle “I don’t know” respects Amy more than a comforting fib.
+> _For grown-ups: Learned that honesty can be a form of kindness._
+
+_Your Nubbin is kneeling on the seat, looking back at the clouds, with both hands on the glass._  
+_Then, out of the cloud, very small, comes one bird. Then another, and another, scattering into the blue._  
+_They fly free over the water, toward the land._  
+
+#### `pa1-12-sky-done`
+
+**Amy**: That’s from him. I know it is.  
+**Pixel**: I’m fine. I’m not crying. The screen’s just very bright.  
+_Tails flies a slow circle so everyone can watch the birds a little longer._  
+
+> **Lesson** (science, 4-LS1-2, notice): birds flying toward land  
+> **Tails**: They’re heading for the coast. Birds find land by sight, by the wind, and some by the Earth’s magnetism. Freed over the sea, they still know the way home.  
+> _For grown-ups: Learned how birds find their way._
+
+
+#### `pa1-12-complete`
+
+_Amy holds her own little bird up to the window, so it can see the others go._  
+**Amy**: Thank you, Gamma.  
+
+> **Lesson** (literacy, RL.4.2, ask): a last image  
+> _The story never shows what happens to Gamma. The last thing you see is birds flying free. Why end his part that way?_  
+> - ✅ So what you remember is what he did, not what happened to him → Yes. Writers choose the last image. Birds in the blue says: this is what Gamma made, and it is enough.
+> - Because the writer forgot → Not forgotten: chosen. Ending on the birds puts what Gamma did at the centre, instead of what became of him.
+> _For grown-ups: Thought about why a writer chooses a last image._
+
+_Your Nubbin stays at the glass until the last bird is out of sight._  
+
+### Glossary
+
+- **hangar**: A large shed where aircraft are kept.
+- **obsolete**: Out of date and no longer used, because something newer has replaced it.
+
+## PA1-13. The Charge
+
+- `pa1-13-s1`: Go back with the light to the shrine at dawn. · _The light is waiting for you. Stand with Tikal on the top step._
+- `pa1-13-s2`: Stay in the light, and hold on to your Nubbin. · _You can’t change what happened here. Hold on._
+
+#### `pa1-13-dawn`
+
+_The rosy light comes for you, and this time it isn’t warm. It’s trembling._  
+_The shrine at dawn, with mist on the pools. The Chao are still asleep in heaps on the warm steps._  
+
+> **Lesson** (science, 2-ESS2-3, notice): morning mist  
+> _Mist at dawn: night air cooled until the water in it became tiny droplets you can see. Sun warms the air, droplets turn back to vapour, and the mist goes._  
+> _For grown-ups: Learned why mist forms at dawn and clears._
+
+_Tikal is awake. She sits on the top step in front of the altar, the way you sit when you’ve decided something._  
+**Tikal**: You came. You don’t have to stay for this. I wouldn’t, if I were you.  
+_Chaos stands in the middle pool, tall and watchful, its glow steady and green._  
+_Far off, in the trees, drums start._  
+**Pixel**: Keeper. I could pull the plug. Gently. Say the word.  
+
+> **Lesson** (sel, ask): think: staying to watch a hard thing  
+> **Pixel**: Tikal says you don’t have to stay. I could pull the plug. What do you want to do, and why?  
+> - Stay. She shouldn’t be alone. → All right. I’ll stay too, then. On this side of the glass, but I’ll stay.
+> - Go. I don’t want to see it. → That’s allowed. Not wanting to watch something sad isn’t weak. We’ll stay just long enough to be with her, and then I’ll bring you out.
+> - Stay, but hold my Nubbin tight. → Hold it tight. That’s what she said. Some things you can only get through holding on to someone.
+> _For grown-ups: A think question: choosing whether to witness something hard._
+
+
+**Choices**
+
+- **Stay with Tikal.**
+    - **You**: I’ll stay.
+    - **Tikal**: Then hold your little one. Hold it close.
+- **Wake the Chao on the steps.**
+    - You try, but they roll over, sleepy, and settle again. The drums are getting closer.
+    - **Tikal**: Let them sleep. Let them sleep as long as they can.
+
+#### `pa1-13-dawn-done`
+
+_Tikal goes down the steps and stands in front of the pools with her arms wide. The Chao wake one by one, and gather behind her._  
+_She is smaller than any of the warriors, and she does not move._  
+
+> **Lesson** (literacy, RL.3.3, ask): character trait: courage  
+> _Tikal stands in front of the pools, small, shaking, and not moving. What word would you use for her?_  
+> - ✅ Brave → Brave. Courage isn’t not being scared; it is being scared and standing there anyway. She is as scared as anyone, and she stays.
+> - Foolish → Some might say so. But she isn’t pretending the danger isn’t there. She is scared and she stands anyway. The word for that is brave.
+> _For grown-ups: Described a character trait with evidence._
+
+
+#### `pa1-13-charge`
+
+_Pachacamac’s warriors come out of the trees in a line, and do not stop._  
+**Tikal**: Father! Stop! Please, the Chao!  
+_They do not stop. The rosy light closes round you, and the shrine goes dim and far away, the way a dream goes when you wake._  
+_You hear it through the light rather than see it: the trampling, and small voices, and then a sound like the sea standing up._  
+_Then firelight, orange through the gold. Then nothing, for a long while._  
+_Here is what happened, plainly. The warriors ran through the pools to reach the altar, and they did not look where they stepped._  
+_Some of the Chao were hurt, and some of them died. Chaos saw it. Its grief and anger rose together as a flood, and the flood took the clan._  
+_Through it all, very clearly, you hear Tikal, talking to Chaos as you would to a frightened child._  
+**Tikal**: Please. Hold it. Hold it, and I’ll stay with it. I’ll stay.  
+_A great green light. Then silence. Tikal and Chaos go into the Emerald together, so that neither of them is alone._  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): grief and comfort  
+> _Tikal could not stop what happened. She could stay with Chaos. When something terrible can’t be undone, what is left to do?_  
+> - ✅ Stay with the one who is hurting, so they are not alone → Yes. Not fixing. Staying. It is what Tikal does, and it is what people do for each other after a loss. Being there is not nothing.
+> - Nothing. It’s over. → The event is over; the hurt isn’t. Staying beside someone who is grieving is the one thing that is always left to do, and it matters.
+> _For grown-ups: Heard a loss named plainly and what comfort remains._
+
+_Your Nubbin is pressed against your chest, perfectly still, with both hands over its eyes._  
+
+#### `pa1-13-charge-done`
+
+_When the light lets go, you are back on the floating island in the present, and it is raining, very softly._  
+**Pixel**: I’m here. I’m just being quiet for a bit.  
+
+> **Lesson** (sel, CASEL: Self-management, notice): being quiet after something sad  
+> _Pixel goes quiet. That is a way of looking after a big feeling: not rushing to talk, letting it settle. Quiet together is still together._  
+> _For grown-ups: Learned that quiet is a way to handle a big feeling._
+
+_The rain on the broken altar makes a sound like someone breathing out._  
+
+#### `pa1-13-complete`
+
+_Knuckles finds you sitting by the broken altar. He doesn’t ask anything; he sits down on the other side of it._  
+**Knuckles**: Bad dream?  
+**You**: An old one.  
+**Knuckles**: Yeah. This place has a lot of those.  
+_After a while he gets up, comes back with a big leaf to keep the rain off your Nubbin, and sits down again._  
+
+> **Lesson** (literacy, RL.2.3, ask): showing, not telling  
+> _Knuckles doesn’t say “I’m sorry you’re sad”. He fetches a leaf. What is the story showing you about him?_  
+> - ✅ He is kind, and shows it in actions, not words → Yes. Writers often show a feeling through what a character does. The leaf says more than a speech would, and it’s more Knuckles.
+> - He likes leaves → He might, but the leaf is for the Nubbin, in the rain. It shows his kindness without a single word about it.
+> _For grown-ups: Read a character’s feeling from an action._
+
+
+### Glossary
+
+- **grief**: The deep sadness you feel when someone or something you love is gone.
+- **trampling**: Treading heavily on something and crushing it underfoot.
+
+## PA1-14. The Ruins
+
+- `pa1-14-s1`: Look at the murals in the old temple. · _The temple is in the jungle below the Mystic Ruins. Walk along the painted wall._
+- `pa1-14-s2`: Listen to what the light has to say. · _Stand with Sonic in front of the murals._
+
+#### `pa1-14-murals`
+
+_In the jungle below the Mystic Ruins stands an old stepped temple, its stones the same as Tikal’s shrine. Older now, by thousands of years._  
+_Inside, the walls are covered in murals, carved and painted, faded but still clear._  
+_A pool with small round shapes in it, and a girl with braids. A tall shape made of water stands over them._  
+_Further along: a line of warriors. Then fire, painted in a red that has gone brown with age._  
+
+> **Lesson** (science, 2-PS1-4, ask): why old paint changes colour  
+> **Pixel**: Red gone brown with age. What happens to colours over thousands of years?  
+> - ✅ Light and air slowly change the paint, and it fades or darkens → Yes. Sunlight and air react with the colours bit by bit. Some changes, like this one, can’t be undone; the red isn’t coming back.
+> - Someone repainted it brown → Nobody’s been here with a brush in a long time. Light and air changed the red slowly, and that change doesn’t reverse.
+> _For grown-ups: Learned that some changes caused by light and air do not reverse._
+
+_Then a great green stone with the water-shape inside it, and the girl curled up beside it like someone asleep._  
+**Pixel**: That’s her. That’s Tikal. They painted it all. Somebody stayed behind and painted it.  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): murals as a record  
+> _Before writing was common, people painted what happened so it was remembered. A mural is evidence: you can’t ask the painter, but you can read what they chose to show._  
+> _For grown-ups: Learned how pictures can record history._
+
+_Your Nubbin puts its hand flat on a painted Chao, very gently, the way you’d touch something sleeping._  
+
+**Choices**
+
+- **Touch the painted girl.**
+    - The stone is cool. Under your hand, for a moment, it feels a little warmer.
+- **Look for writing.**
+    - There are marks under each panel in a script you can’t read. Pixel tries to zoom in and gets a lot of moss.
+    - **Pixel**: Sorry. Moss. Very high-resolution moss.
+
+#### `pa1-14-murals-done`
+
+_Footsteps behind you. Sonic comes in out of the rain, shaking himself like a dog._  
+**Sonic**: Hey. Following me again? Or am I following you? It’s getting hard to tell.  
+_Your Nubbin shakes itself too, in sympathy, though it is perfectly dry._  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): copying as friendliness  
+> _Your Nubbin shakes itself like Sonic, though it isn’t wet. Why do friends copy each other?_  
+> - ✅ Copying says “I’m with you” without words → Yes. People and animals mirror the ones they like. It is one of the oldest ways of saying: I’m on your side.
+> - It thought it was wet → Bone dry. It copied Sonic because it likes him. Mirroring someone is a wordless way of saying you’re on their side.
+> _For grown-ups: Noticed mirroring as a sign of friendliness._
+
+
+#### `pa1-14-tikal`
+
+_The rosy light drifts out from behind a pillar and hangs in front of the murals._  
+_Then, for a moment, it isn’t a light. It’s a girl with braids, made of soft pink glow, standing in the temple._  
+**Sonic**: Whoa. Uh. Hi?  
+_Tikal lived thousands of years ago, and she died long ago. What stands here is what she left behind: her light, which stayed to keep watch over Chaos._  
+**Tikal**: You’ve been fighting Chaos. I’ve watched you.  
+**Tikal**: It isn’t angry at you. It never really was. It’s carrying something too heavy, and it doesn’t know how to put it down.  
+**Tikal**: When the ones it loved were hurt, it took all that grief and turned it into the only thing it knew. Power. A flood.  
+**Tikal**: The man who calls himself Eggman is feeding it the Emeralds. Each one makes the grief bigger. Not the creature. The grief.  
+
+> **Lesson** (literacy, L.4.5, ask): metaphor: carrying something too heavy  
+> _“Carrying something too heavy.” Chaos isn’t holding anything. What is the heavy thing?_  
+> - ✅ Its grief → Yes. Grief is the weight. The metaphor lets you feel how heavy a feeling can be, and why Tikal talks about putting it down.
+> - The Emeralds → The Emeralds make it bigger, but they aren’t the load. The heavy thing is grief, and the metaphor is about feelings having weight.
+> _For grown-ups: Explained a metaphor for a feeling._
+
+**Sonic**: So how do I stop it?  
+**Tikal**: I don’t know that you can stop it. I couldn’t. I could only hold it.  
+**Tikal**: Maybe someone could help it put it down.  
+
+> **Lesson** (sel, ask): think: can grief be put down?  
+> **Tikal**: I could only hold it. Maybe someone could help it put it down. Do you think a feeling that big can ever be put down?  
+> - Yes, slowly, with help → Slowly, with help. I think that is right. I had no one to help me, only the holding.
+> - No, but it can get lighter → Lighter. Perhaps that is what putting it down means. Not gone. Carried differently.
+> - I don’t know → Nor do I, yet. Thank you for not pretending. That is more than most people give me.
+> _For grown-ups: A think question: living with a big feeling._
+
+_She looks at you as she says it, and at your Nubbin. Then she is only a light again, and then not even that._  
+
+#### `pa1-14-tikal-done`
+
+**Sonic**: Well. That was new.  
+**Sonic**: Grief, huh. Can’t outrun that one.  
+
+> **Lesson** (literacy, RL.3.6, ask): irony  
+> _Sonic says you can’t outrun grief, and then runs off at top speed. What’s funny-sad about that?_  
+> - ✅ He knows running won’t help, and runs anyway, because it’s what he does → Yes. That gap between what he knows and what he does is irony, and it tells you he is a bit scared too.
+> - Nothing, he’s just fast → He is fast. But he’s just said speed won’t help, and then uses it. The gap between knowing and doing is the funny-sad bit.
+> _For grown-ups: Noticed irony in a character’s words and actions._
+
+_He goes anyway, very fast, out into the rain._  
+
+#### `pa1-14-complete`
+
+**Pixel**: Keeper. I’ve got something to say, and it’s probably nothing.  
+**Pixel**: Back home. The old story, about the fierce one who loved them too hard.  
+**Pixel**: It’s probably nothing. It just feels like the same shape.  
+
+> **Lesson** (literacy, RL.4.2, ask): comparing stories  
+> **Pixel**: Two stories, the same shape. What do Chaos and the fierce one from home have in common?  
+> - ✅ Both loved the small ones so much that holding on became harm → That’s the shape. Love that grips too tight. Stories from different places keep finding it, which makes me think it’s true.
+> - Both are made of water → Only one is. The shape I mean is underneath: love that held on too tight and did harm. Both stories have that.
+> _For grown-ups: Compared the theme of two stories._
+
+_Your Nubbin looks up at the painted water-shape for a long time before it will come away._  
+
+### Glossary
+
+- **mural**: A large picture painted straight onto a wall.
+- **irony**: When what someone says or does is the opposite of what you’d expect, often in a way that is funny or sad.
+
+## PA1-15. Perfect Chaos
+
+- `pa1-15-s1`: Get high when the water comes. · _Head for the fire escape on the side of the bank._
+- `pa1-15-s2`: Carry Chao and people up to the rooftops. · _Up the bank’s fire escape and back down. Pixel will count the floors._
+
+#### `pa1-15-flood`
+
+_By morning the last Emeralds are gone from Eggman’s ship. You find out where when the sky over Station Square turns dark green._  
+_Out of the bay rises Chaos, and it keeps rising: a great serpent of clear water with a green-white glow, taller than the hotel._  
+_Eggman’s new ship roars in toward it, all guns and confidence. Chaos lifts one coil and swats it out of the sky like a fly._  
+**Dr. Eggman**: That… was not in the plan!  
+_Then the water comes. Not a wave, but a rising: a whole sea standing up and walking into the city._  
+**Pixel**: Get up high. Keeper, get up high, now. Find a roof.  
+
+> **Lesson** (health, K-2-ETS1-1, ask): flood safety  
+> **Pixel**: Water in the streets. The problem is: how do we stay out of it? What’s the first thing to do?  
+> - ✅ Get to high ground and stay there → Yes. Water goes to the lowest place, so you go to the highest. Roofs, hills, upstairs. Then you help from there.
+> - Try to swim through it → Moving floodwater is stronger than it looks. Highest place first, every time. Then help from there.
+> _For grown-ups: Learned the first rule of flood safety._
+
+_The streets are full of people running, some of them carrying Chao. Some of the Chao are carrying each other._  
+
+#### `pa1-15-flood-done`
+
+_Water pours down the station steps like a waterfall going the wrong way._  
+
+> **Lesson** (science, 4-ESS2-1, notice): water always runs downhill  
+> **Pixel**: Water always runs downhill: that’s why it’s on the steps and not the roofs. Over ages, running water wears rock away and carves valleys. One morning just rearranges the benches.  
+> _For grown-ups: Learned that water flows downhill and shapes the land._
+
+_Your Nubbin watches it with its mouth open._  
+
+#### `pa1-15-roofs`
+
+_There’s a fire escape on the side of the bank. At the bottom of it, the water is already over your knees._  
+_A man with a pushchair, and a boy holding two Chao he found in a fountain. An old woman who won’t leave without her cat._  
+**Pixel**: Pushchair first. Then the boy. I’ll count the floors for you; I can see the whole street from here.  
+
+> **Lesson** (social-studies, ask): think: who first?  
+> **Pixel**: Pushchair first, then the boy, then the lady and her cat. That’s my order. Would you choose the same?  
+> - Yes: the ones who can’t climb go first → That’s my reasoning. The baby can’t climb at all; the boy is slowed by Chao; the lady can wait with us. It’s not about who matters most.
+> - The old lady first; she’s slowest → That’s fair too. Slowest first is a good rule. I went by who couldn’t climb at all, but there isn’t one right answer here.
+> - Whoever is closest → Closest is quick, and quick counts in water. I’d still look for the ones who can’t move themselves. Different rules, all trying to be fair.
+> _For grown-ups: A think question: deciding an order when everyone needs help._
+
+_Up and down the iron stairs, over and over. Your Nubbin swims as it has never swum before, strong and steady, with a Chao on its back._  
+
+> **Lesson** (maths, 2.OA.A.1, ask): counting floors: climbing and descending  
+> **Pixel**: Five floors up to the roof. Four trips up and down. How many floors have you climbed, going up only?  
+> - ✅ 20 → Twenty floors up, and twenty down. That’s why your legs feel like that. 5 times 4 is 20.
+> - 9 → Nine would be five plus four. It’s five floors each trip, four times: 5, 10, 15, 20.
+> _For grown-ups: Multiplied to find a total._
+
+_From here you can’t see the hotel, or the garden behind it._  
+**Pixel**: Two more down there. Go on. I’ve got the count.  
+
+**Choices**
+
+- **Go back for the old woman’s cat.**
+    - The cat is on top of a postbox, furious and dry. It lets you carry it the way a queen lets you carry her luggage.
+- **Go back for the Chao on a floating bin lid.**
+    - The Chao is riding the bin lid like a raft, quite calm. It holds out its arms to your Nubbin as if it ordered a lift.
+
+#### `pa1-15-roofs-done`
+
+_The roof of the bank is crowded and wet, and nobody is missing. The old woman’s cat sits on the air vent, judging everyone._  
+**Pixel**: Everyone’s up. Everyone I can see is up. Good. Good.  
+_The boy counts his two Chao, then counts them again._  
+
+> **Lesson** (maths, K.CC.B.4, ask): checking a count  
+> _The boy counts his two Chao twice. Knuckles counted his shards twice. Why count something precious twice?_  
+> - ✅ Because a count can be wrong, and checking costs nothing → Yes. Counting again is how you make sure. Every careful person does it, from shards to Chao to the people on a roof.
+> - Because they forgot the first number → Not forgetting: checking. A second count catches a mistake the first one missed. Careful people count twice.
+> _For grown-ups: Learned why a count is checked._
+
+
+#### `pa1-15-complete`
+
+_From the rooftop, the city is a lake. Chaos coils through it, huge and slow, roaring like the sea._  
+_It doesn’t seem to see the people on the roofs at all. It’s looking for something under the water, and not finding it._  
+
+> **Lesson** (literacy, RL.3.3, ask): motive  
+> _Chaos has flooded a city, and it isn’t looking at the people at all. What does that tell you about what it wants?_  
+> - ✅ It isn’t trying to hurt anyone. It is searching for its Chao. → Yes. Watching what a character looks at tells you its motive. Chaos looks under the water, for the small ones. The flood is grief, not hate.
+> - It wants to rule the city → A ruler would look at the people. Chaos looks under the water, for the Chao. Its motive is searching, not ruling.
+> _For grown-ups: Found a character’s motive from what it pays attention to._
+
+**Pixel**: It’s still looking for them. After all this time. It’s still looking for its Chao.  
+
+### Glossary
+
+- **serpent**: A snake, especially a very large one in stories.
+- **coil**: A loop of something long and bendy, like rope or a snake’s body.
+
+## PA1-16. Positive Energy
+
+- `pa1-16-s1`: Watch Sonic’s friends bring him the Emeralds. · _Stay on the bank roof. They are coming to you._
+- `pa1-16-s2`: Hold the Chao close and watch. · _Stay on the roof with the Chao in your arms._
+
+#### `pa1-16-friends`
+
+_Sonic lands on your roof, soaked and, for once, out of breath. He stares at the thing in the water._  
+**Sonic**: Okay. That’s big. That’s really, really big.  
+_One by one they come: Tails in his plane, Knuckles up the drainpipe, Amy with the blue bird. Big, with Froggy back in his hat._  
+_Each of them is holding an Emerald. All seven, dull now and grey-green, with the light drained out of them._  
+
+> **Lesson** (maths, 1.OA.A.1, ask): who holds what  
+> **Pixel**: Seven Emeralds. Sonic’s five friends hold one each. Who’s holding the other two?  
+> - ✅ Sonic must have two → Yes: 7 take away 5 leaves 2, and Sonic is the only one left. He had two in his pockets all along, the show-off.
+> - Nobody → All seven are here. 7 take 5 is 2, and the only one left to hold them is Sonic.
+> _For grown-ups: Subtracted to find what was unaccounted for._
+
+**Knuckles**: Chaos used them up. They’re empty.  
+**Tails**: Not empty. Not all the way.  
+**Tails**: Chaos took the bad side of them, the anger, all that grief. But there’s still something left in them. The good.  
+**Tails**: Use what’s left, Sonic. Use the good.  
+
+> **Lesson** (sel, ask): think: using the good that’s left  
+> **Tails**: Chaos took the anger out of them, and the good is still there. Do you think that’s true of people too: something good left, even after a lot of bad?  
+> - Yes. Nobody is all used up. → That’s what I hope. Even an empty-looking Emerald has a glow if you know how to look.
+> - Sometimes. It depends how much was taken. → Sometimes. That’s honest. Some things get drained a long way down. But I’ve not met one with nothing left.
+> - I don’t know. Chaos took a lot. → It did. We’re about to find out. If this works, I think the answer is yes.
+> _For grown-ups: A think question: what remains after harm._
+
+
+#### `pa1-16-friends-done`
+
+_Sonic looks round at all of them, and then, for some reason, at you and your Nubbin._  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): looking at your friends before a hard thing  
+> _Before the hardest thing he has ever done, Sonic looks at every friend on the roof. Courage borrows from the people around you. That isn’t cheating; it’s how courage works._  
+> _For grown-ups: Noticed how friends give courage._
+
+**Sonic**: The good, huh. Okay. Let’s see what we’ve got.  
+_Your Nubbin holds up its spanner, in case that helps._  
+
+#### `pa1-16-super`
+
+_The Emeralds rise out of everybody’s hands and circle Sonic, slowly at first, then faster._  
+_They don’t blaze. They glow, soft and warm and gold, like seven lamps being lit in a dark house._  
+
+> **Lesson** (literacy, L.4.5, ask): simile: like seven lamps being lit in a dark house  
+> _“Like seven lamps being lit in a dark house.” Why lamps in a house, and not fireworks?_  
+> - ✅ Lamps are gentle and homely: the Emeralds are warming, not exploding → Yes. Fireworks would mean danger and noise. Lamps in a house mean comfort coming back room by room. The simile sets the mood.
+> - Because it is night → It’s morning, actually. The point is the feeling: lamps in a house are gentle and safe, and so is this light.
+> _For grown-ups: Explained why a writer chose a particular simile._
+
+_A Chao from the fire escape climbs into your arms, then another. You hold them both, and your Nubbin holds on to your sleeve._  
+_Sonic goes gold all over, bright as a summer morning. Then he’s gone, up into the sky, flying._  
+**Pixel**: He’s flying. He can fly now. Oh, I wish you could see your own face.  
+_Out over the flooded city, a gold spark circles a great coil of water, round and round, like a bee round a bear._  
+
+> **Lesson** (science, 4-PS3-4, notice): energy changes form  
+> **Pixel**: Light from the Emeralds becomes speed and flight in Sonic: energy changing form. Machines do the same. A torch turns battery energy into light; a windmill turns wind into turning.  
+> _For grown-ups: Learned that energy can change from one form to another._
+
+
+**Choices**
+
+- **Hold the Chao and watch.**
+    - You hold them and watch. One of them falls asleep, which seems like the bravest thing anyone has done all day.
+- **Cheer.**
+    - You cheer, and Amy cheers louder. Big cheers so loud that Froggy hides in his hat.
+
+#### `pa1-16-super-done`
+
+_The gold spark strikes, and strikes again. Chaos roars and shrinks, and roars and shrinks._  
+_Then the water goes down all at once, the way a bath drains when someone pulls the plug._  
+
+> **Lesson** (science, 2-ESS2-3, ask): where floodwater goes  
+> **Pixel**: The water goes down like a bath draining. In a real flood, where does the water go when it goes?  
+> - ✅ Back to the sea and rivers, into the ground, and some into the air → Yes. Downhill to rivers and sea, soaking into soil, and slowly evaporating. It all stays in the water cycle; it just moves.
+> - It disappears → Water doesn’t vanish. It drains to the sea, soaks into the ground, or evaporates into the air, and comes round again as rain.
+> _For grown-ups: Learned where floodwater goes in the water cycle._
+
+
+#### `pa1-16-complete`
+
+_The sea pulls back out of the streets. Cars, benches and lamp posts come up out of it, dripping and surprised._  
+_In the middle of the square, in a puddle no bigger than a pond, something small is left._  
+
+> **Lesson** (maths, K.MD.A.2, ask): comparing sizes  
+> **Pixel**: Taller than a hotel an hour ago. A pond-sized puddle now. If the hotel is 40 metres and the puddle is 4 metres across, how many times smaller is it?  
+> - ✅ 10 times → Ten times. 40 shared into 4 is 10. From the biggest thing in the city to something you could step over.
+> - 36 times → 36 is the difference, not the “how many times”. 40 shared into 4 is 10 times smaller.
+> _For grown-ups: Compared two sizes as a multiple._
+
+**Pixel**: Is that…?  
+
+### Glossary
+
+- **drained**: Emptied out, with the energy or liquid gone.
+- **evaporate**: To turn from liquid into vapour and disappear into the air.
+
+## PA1-17. The Chao
+
+- `pa1-17-s1`: Wade out to the small shape in the puddle. · _Down the fire escape and across the square to the fountain._
+- `pa1-17-s2`: Let Chaos see the garden Chao. · _Look up at the hotel roof. (If you locked the gate, wade back to the garden and open it.)_
+
+#### `pa1-17-small`
+
+_You climb down the fire escape into ankle-deep water and wade across the square._  
+_In the puddle by the fountain is Chaos, the way you first saw it. Small now, person-sized, clear and quiet._  
+_The glow in its chest is faint and green. It isn’t trying to rise; it’s only looking around._  
+**Sonic**: Easy. Easy, everybody. I don’t think it wants to fight anymore.  
+_Your Nubbin goes and sits at the edge of the puddle. Chaos looks down at it._  
+**Pixel**: It thinks they’re gone, doesn’t it? It thinks it’s all happened again.  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): old fear in a new place  
+> **Pixel**: It thinks it has all happened again. Why would Chaos feel the old loss right now, when nothing has happened to these Chao?  
+> - ✅ A big loss leaves a mark, and anything like it brings the feeling back → Yes. That’s how grief works. It doesn’t need a new reason; it only needs a reminder. An empty square is a reminder.
+> - It forgot what happened → The opposite: it remembers too well. The empty square looks like the old day, and the old feeling comes back with it.
+> _For grown-ups: Learned that old grief can be stirred by a reminder._
+
+
+**Choices**
+
+- **Sit down at the edge of the puddle, beside your Nubbin.**
+    - You sit in the wet. Chaos looks at you, then back at your Nubbin, and doesn’t move away.
+- **Keep back and let it look.**
+    - You stay where you are. Everyone in the square seems to have decided the same thing at once.
+
+#### `pa1-17-small-done`
+
+_Chaos looks round the empty square: at the dripping buildings, at all the people, and at none of the small ones._  
+
+> **Lesson** (literacy, RL.2.4, notice): repetition for effect  
+> _“At the buildings, at all the people, and at none of the small ones.” The list builds up, then drops to nothing, so the missing thing lands hardest._  
+> _For grown-ups: Noticed how a list is built to make the last item land._
+
+_Its glow flickers once, lower._  
+
+#### `pa1-17-chao`
+
+_Then a sound comes from above: small, cheerful, unmistakable._  
+_Along the edge of the hotel roof, a whole row of Chao is sitting with their legs dangling over the gutter. The garden Chao._  
+_They went out through the open gate when the water came. They went where everyone went: up._  
+
+> **Lesson** (social-studies, D2.Civ.8.K-2, ask): the gate choice pays off  
+> **Pixel**: You left the gate open, fifteen quests ago. Look what it meant. Why did an open gate keep them safe?  
+> - ✅ Because they could choose to leave when the danger came → Yes. Safe wasn’t a locked door; it was being free to move. The rule that let them wander was the rule that saved them.
+> - Because the water couldn’t get through a gate → Water goes through anything. They were safe because they could leave when they needed to. Freedom to move was the protection.
+> _For grown-ups: Saw an early choice pay off, and why._
+
+_Now, one by one, they come down: by the drainpipe, by the fire escape, by sliding down awnings with their arms out._  
+_They walk right up to the edge of the puddle. They aren’t afraid of it at all._  
+_Chaos looks at them. The glow in its chest goes still, and soft, and warm._  
+**Pixel**: They’re all right. Oh, they’re all right. And it can see.  
+_A Chao reaches up and touches the water. Chaos bends, slowly, and lets it._  
+
+#### `pa1-17-chao-done`
+
+_Chaos sinks down, smaller and smaller, until it is only a little taller than the Chao themselves._  
+_It sits down in the puddle among them. For the first time since you’ve known it, it looks to be at rest._  
+
+> **Lesson** (sel, ask): think: safe or well?  
+> **Pixel**: The Chao were always going to be alive somewhere. But Chaos needed to see them well, not just safe. Is there a difference between safe and well?  
+> - Yes. Safe is not being hurt. Well is being happy and free. → That’s how I’d put it. Locked in a cupboard is safe. It isn’t well. Chaos needed the second one.
+> - Not much. If you’re safe, you’re fine. → I used to think so. Then I looked at a row of Chao with their legs dangling off a gutter, and I thought: that’s well. Safe was the cupboard.
+> - It depends on the day → Some days safe is all you can manage, and that’s all right. But it’s worth knowing it isn’t the whole of it.
+> _For grown-ups: A think question: safe versus well._
+
+
+#### `pa1-17-complete`
+
+**Sonic**: Huh. So that’s all it wanted.  
+**Amy**: Of course that’s all it wanted. That’s all anybody wants.  
+_Knuckles doesn’t say anything. He wipes his eyes with the back of his glove and says it’s the rain._  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): tears and “it’s the rain”  
+> _Knuckles says it’s the rain. It isn’t raining. Why do people pretend they aren’t crying?_  
+> - ✅ They think tears look weak, though they aren’t → Yes. He’s moved, and he thinks he shouldn’t show it. Everybody on that roof knows, and nobody minds. Tears after something kind are not weakness.
+> - Because it really is raining → Dry as a bone. He’s moved, and he’d rather blame the weather. Crying at something kind is normal, even for a guardian.
+> _For grown-ups: Talked about why people hide tears, and that they needn’t._
+
+
+### Glossary
+
+- **awning**: A cloth roof that sticks out over a shop or doorway to keep off sun and rain.
+- **unmistakable**: So clear that it couldn’t be anything else.
+
+## PA1-18. Tikal and Chaos
+
+- `pa1-18-s1`: Watch the light come down to Chaos. · _Stay by the puddle, with the Chao._
+- `pa1-18-s2`: Answer Tikal’s question. · _Talk to Tikal before she goes._
+
+#### `pa1-18-return`
+
+_The rosy light comes down out of the clouds, slow as a falling petal, and stops above the puddle._  
+_It opens, and it is Tikal, standing barefoot in the water with the Chao round her ankles._  
+**Tikal**: There you are. I’ve been looking for you for such a long time.  
+_Chaos looks up at her. It doesn’t rise; it only looks, the way your Nubbin looks at you when you come home late._  
+
+> **Lesson** (literacy, L.4.5, ask): simile: the way your Nubbin looks at you when you come home late  
+> _Chaos looks at Tikal “the way your Nubbin looks at you when you come home late”. What feeling is that?_  
+> - ✅ Relief and love, with a bit of “where were you?” → Yes. The simile reaches for something you know from home, so you feel Chaos’s feeling instead of being told it.
+> - Anger → Not anger. Think of a Nubbin at the gate when you’re late: relief, love, and a little reproach. The simile borrows that feeling for Chaos.
+> _For grown-ups: Explained a simile that uses the reader’s own experience._
+
+**Tikal**: It’s all right now. They’re all right. Look at them. It’s over.  
+**Tikal**: You don’t have to hold it anymore. We can put it down together.  
+_She holds out her hand. Chaos lifts one watery hand and puts it in hers._  
+**Sonic**: So… you two are going?  
+**Tikal**: We’ve waited a long while to go. Thank you, Sonic. Thank you, all of you.  
+
+**Choices**
+
+- **Bow to Chaos, as you did at the shrine.**
+    - You bow. This time Chaos bows back, all the way, the way you would to an old friend.
+- **Lift your Nubbin up so Chaos can see it.**
+    - Chaos looks at your Nubbin for a long moment. Then it touches its head, very lightly, where the curl is.
+
+#### `pa1-18-return-done`
+
+_Tikal turns to you last. The Chao round her feet turn too, as if they know whose turn it is._  
+_Twelve Chao, a water creature, a hedgehog, and a girl made of light, all looking at you._  
+
+> **Lesson** (sel, CASEL: Self-management, notice): being looked at  
+> _Everyone is looking at you. That can make your face go hot. A slow breath out helps, and so does remembering they look because they’re glad you’re here._  
+> _For grown-ups: Learned a way to handle being the centre of attention._
+
+
+#### `pa1-18-farewell`
+
+**Tikal**: Before we go, I want to ask you something. Where you come from, do you have one like Chaos?  
+**Tikal**: Someone who loved the little ones too much, and didn’t know what to do with it?  
+
+> **Lesson** (literacy, RL.4.2, ask): loving too much  
+> **Tikal**: Loved them too much. Can you love someone too much? What do you think I mean by it?  
+> - ✅ Loving so hard that you hold on too tight and hurt them → Yes. The love itself is not the problem. It is what you do with it: the gripping. Chaos gripped the whole world.
+> - There’s no such thing as too much love → Perhaps the love is never too much. But holding on can be. That is what I mean: love that grips instead of letting go.
+> _For grown-ups: Thought about the theme of love that holds too tight._
+
+_Your Nubbin is sitting in the water by Chaos, holding one of its fingers._  
+**Pixel**: Keeper. She means…  
+**You**: We had one. A long time ago.  
+**Tikal**: What happened to her?  
+
+#### `pa1-18-rhyme`
+
+_You open your mouth, and find you don’t know how the story ends. Nobody back home does yet._  
+_Pixel hums something under her breath: four lines, the skipping tune from the lane. She stops before the last one._  
+_She doesn’t hum the rest, as if she’s just remembered what the last line says._  
+
+> **Lesson** (music, RL.2.4, ask): a tune carries a story  
+> _Pixel hums the tune and stops before the last line. Why can a tune with no words still feel sad?_  
+> - ✅ The tune carries the feeling of the words you already know → Yes. Once you know a song, the tune brings the words back on its own. Stopping early is a way of not saying the sad part.
+> - Tunes can’t be sad → Hum a lullaby and a march and see. Tunes carry feelings, and once you know the words, the tune brings them back.
+> _For grown-ups: Thought about how melody carries meaning._
+
+**Tikal**: That sounds like an old one. The old ones are always a little sad.  
+**Tikal**: I hope somebody finds her. I hope she gets to put it down.  
+
+#### `pa1-18-complete`
+
+**Tikal**: Here. For you. I made it a long while ago, and it kept.  
+_She lifts a crown of small pink and white flowers from her own hair and sets it on yours. It weighs nothing, and smells of warm stone._  
+_Then she takes Chaos’s hand again. The two of them turn to light together, pink and green, and rise, and the Chao wave until they’re gone._  
+_Tikal died long ago, and Chaos has carried its grief since then. Now neither of them is alone, and neither is holding on. That is what at peace means._  
+
+> **Lesson** (sel, ask): think: what do we keep of someone?  
+> **Pixel**: A flower crown that came out of a game. The murals. Grandmother’s prayer. What do you think we really keep of someone, after they’re gone?  
+> - The things they taught us → Tikal kept her grandmother’s prayer. I’d say that’s most of it. What they taught you is yours now.
+> - The things they made → A crown that kept for thousands of years. Made things last a surprisingly long time. So do dents, mind.
+> - The way they made us feel → That’s the one I can’t argue with. I don’t remember half of what Hazel said. I remember exactly how the shed felt with her in it.
+> _For grown-ups: A think question: what remains of someone._
+
+_The world folds up gently round you, like a letter, and you are standing in the lantern shed with your Nubbin under your arm._  
+**Pixel**: You’re back! You’ve got flowers in your hair. They came out with you. How did they come out with you?  
+_On the side of the cabinet, where the dent was, a small brass plate has appeared, blank, waiting for a name._  
+**Pixel**: A high-score plate. For High Score Night. When we’ve done another cartridge, we’ll do it properly.  
+
+### Glossary
+
+- **barefoot**: Without shoes or socks on.
+- **reproach**: A look or words that gently tell someone off, without being angry.
 
 ## LB1. Boxes
 
@@ -78620,7 +80502,6 @@ _He lifts Parcel out, gently, and carries it into the kitchen. Then he comes bac
 _He doesn’t pull it, not yet. But he looks at it for a long time._  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): fairness and consent for animals  
-> _A think question, with no wrong answer._  
 > _Null can’t say yes or no to the schedule. Is it fair to decide an animal’s whole day for it?_  
 > - No. Null needs to choose some things for itself. → That’s a fair answer. Animals can’t speak, so the people who keep them have to watch for what they need.
 > - Sometimes. Pets do need routines. → That’s fair too. Regular meals help. The question is whether the routine is for Null, or for the clock.
@@ -79579,7 +81460,7 @@ _Your Nubbin plays Sogolon’s lullaby on Balla’s balafon. Thousands of people
 _He puts the little balafon into your arms, and the beaters into your Nubbin’s hands._  
 **Balla Fasséké**: Go home, apprentice. Remember us properly.  
 _The red earth goes soft under your feet, then smooth, then paper._  
-_You are back in the Grove with Nova’s atlas on your knee. Your Nubbin is tapping out a tune on the cover, very nearly in time._  
+_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
 
 > **Lesson** (music, D2.His.2.K-2, notice): the balafon today: the Sosso-Bala is still kept in Niagassola  
 > _A very old balafon called the Sosso-Bala is still kept in Niagassola, in Guinea, by Kouyaté families._  
@@ -80085,7 +81966,7 @@ _Moana finds you at the bow at sunset, and sits beside you a while._
 > _For grown-ups: Thought about why being remembered can comfort someone._
 
 _The page gives a long, slow sigh, like a sail letting go of the wind._  
-_You are back in the Grove with Nova’s atlas on your knee. Your Nubbin smells of salt and is still swaying._  
+_You are back in the Grove with Nova’s atlas on your knee. The ground will not hold still; it sways like a deck, and your Nubbin smells of salt._  
 _By the pond there is a small voyaging canoe, twin-hulled, with a woven sail no bigger than a tablecloth._  
 _Up on the hill, a ring of flat stones has appeared in the grass, each one marked with a house of the rising stars._  
 _Along the canoe’s hull runs a line of small carved spirals, one for each thing remembered. Your Nubbin counts them, and loses count._  
@@ -80106,7 +81987,7 @@ _Moana finds you at the bow at sunset, and sits beside you a while._
 > _For grown-ups: Thought about why simply showing up for someone can be brave and kind._
 
 _The page gives a long, slow sigh, like a sail letting go of the wind._  
-_You are back in the Grove with Nova’s atlas on your knee. Your Nubbin smells of salt and is still swaying._  
+_You are back in the Grove with Nova’s atlas on your knee. The ground will not hold still; it sways like a deck, and your Nubbin smells of salt._  
 _By the pond there is a small voyaging canoe, twin-hulled, with a woven sail no bigger than a tablecloth._  
 _Up on the hill, a ring of flat stones has appeared in the grass, each one marked with a house of the rising stars._  
 _On the canoe’s bow deck, two pairs of small footprints are painted: yours, and a rounder pair beside them. Your Nubbin stands in its pair._  
@@ -80243,7 +82124,7 @@ _Your Nubbin has carried something up the hill: a thistle head from Eeyore’s s
 _Whatever comes next for them, there is a ring of trees at the top of the Forest that nobody can count._  
 _A boy and his Bear are playing in it. Nobody ever stops them._  
 _The page settles under your hand, gently, like a door somebody is careful not to bang._  
-_You are back in the Grove, with Nova’s atlas on your knee and a stick in your Nubbin’s mouth that wasn’t there before._  
+_You are back in the Grove, with Nova’s atlas on your knee. There is a stick in your Nubbin’s mouth, and nobody saw where it came from._  
 _Down by the Grove stream there is a little wooden bridge that wasn’t there this morning. A thistle is coming up at the far end._  
 
 #### `a11-20-complete-sat`
@@ -80259,7 +82140,7 @@ _Your Nubbin turns round three times in the grass at the edge of the circle, and
 _Whatever comes next for them, there is a ring of trees at the top of the Forest that nobody can count._  
 _A boy and his Bear are playing in it. Nobody ever stops them._  
 _The page settles under your hand, gently, like a door somebody is careful not to bang._  
-_You are back in the Grove, with Nova’s atlas on your knee and a stick in your Nubbin’s mouth that wasn’t there before._  
+_You are back in the Grove, with Nova’s atlas on your knee. There is a stick in your Nubbin’s mouth, and nobody saw where it came from._  
 _Down by the Grove stream there is a little wooden bridge that wasn’t there this morning. One place on its parapet is worn smooth, just right for sitting._  
 
 #### `a11-margin-hazel`
@@ -80549,7 +82430,7 @@ _Your Nubbin, in its red cap, sits down beside it, and they look out over the ro
 > _For grown-ups: Thought about freedom, trust and friendship._
 
 _The page settles under your hand, like a paper cut-out laid flat on a table._  
-_You’re back in the Grove, with Nova’s atlas on your knee. There’s a rose petal in the fold of the page._  
+_You’re back in the Grove, with Nova’s atlas on your knee. When you open it again, a rose petal slides out of the fold and lands on your boot._  
 _On the cottage windowsill stands a window box with a rose tree in it that wasn’t there this morning._  
 _Another stands on the lantern shed across the way, and between them somebody has laid a plank._  
 _You think of the night you trusted someone with your friend. It came back, and so, it seems, did something else._  
@@ -81255,7 +83136,8 @@ _Then the Monkeys carry your friends away, and Glinda puts the Golden Cap into t
 
 _The whole band loops over Glinda’s castle, round and round, shrieking. A feather comes down and lands on your Nubbin’s head._  
 _The page carries you home the way you came. Its last picture is the china wall, and a lamb by it, waiting to see you off._  
-_The page folds shut, softly. You are back in the Grove, with Nova’s atlas on your knee and a thin silver ribbon marking the place._  
+_The page folds shut, softly, and you are back in the Grove with the atlas on your knee._  
+_A thin silver ribbon keeps the place, and it was not there this morning._  
 
 #### `a15-20-complete-asked-pocketed`
 
@@ -81276,7 +83158,8 @@ _Then the Monkeys carry your friends away, and Glinda puts the Golden Cap into t
 
 _They loop once over the castle, shrieking, and a feather drops on your Nubbin’s head. Then they lift you, and fly north to the china wall._  
 _Over the wall you set the lamb down in its own field. It stands stiff for a breath, then shakes, and wakes, and runs._  
-_The page folds shut, softly. You are back in the Grove, with Nova’s atlas on your knee and a thin silver ribbon marking the place._  
+_The page folds shut, softly, and you are back in the Grove with the atlas on your knee._  
+_A thin silver ribbon keeps the place, and it was not there this morning._  
 
 #### `a15-20-complete-pocketed`
 
@@ -81298,7 +83181,8 @@ _The Monkeys come for the Scarecrow and the Woodman. The Lion lets them go witho
 _Glinda gives the Golden Cap to the King of the Monkeys, and the band flies off without a word._  
 _The Lion walks you north, all the way to the china wall, with your Nubbin riding on his back._  
 _Over the wall you set the lamb down in its own field. It stands stiff for a breath, then shakes, and wakes, and runs._  
-_The page folds shut, softly. You are back in the Grove, with Nova’s atlas on your knee and a thin silver ribbon marking the place._  
+_The page folds shut, softly, and you are back in the Grove with the atlas on your knee._  
+_A thin silver ribbon keeps the place, and it was not there this morning._  
 
 #### `a16-01-desert-t45`
 
@@ -81887,8 +83771,8 @@ _Later in the summer Mrs Kusakabe comes home. It was only a cold, and she is get
 > _For grown-ups: Compared the tools of 1950s country life, such as telegrams and hand pumps, with those of today._
 
 _Then the page goes soft under your hand, and it is the Grove, with Nova’s atlas on your knee._  
-_Your Nubbin is still wearing its leaf._  
-_By the lane there is a bench like a country bus stop, and on the shelf an ear of corn, dried gold._  
+_Your Nubbin refuses to take its leaf off._  
+_By the lane stands a bench like a country bus stop; on the shelf, an ear of corn, dried gold._  
 
 #### `a17-grove-oak`
 
@@ -82195,7 +84079,7 @@ _The tale ends the way the old books end it: the little doll stayed in her pocke
 > - You should never share your food → The story says the opposite: sharing led to the cloth.
 > _For grown-ups: Connected a story event to its theme: kindness is repaid._
 
-_The page settles under your hand. You are back in the Grove, with Nova’s atlas on your knee and a small painted doll in your Nubbin’s pouch._  
+_The page settles, and you are back in the Grove with the atlas on your knee. Your Nubbin checks its pouch twice: the small painted doll is still there._  
 
 #### `a18-16-complete-self`
 
@@ -82214,7 +84098,7 @@ _The tale ends the way the old books end it: the little doll stayed in her pocke
 > - Buttons are the most important part → The button is a keepsake. The theme is about the worth of honest work.
 > _For grown-ups: Connected a story detail to its theme: honest work has worth even when plain._
 
-_The page settles under your hand. You are back in the Grove, with Nova’s atlas on your knee and a small painted doll in your Nubbin’s pouch._  
+_The page settles, and you are back in the Grove with the atlas on your knee. Your Nubbin checks its pouch twice: the small painted doll is still there._  
 
 #### `a18-16-sable`
 
@@ -82624,7 +84508,7 @@ _Before you go, Baldr puts something in your hand: a sprig with two leaves, from
 **Baldr**: It was too young to be asked, once. It’s older now. So am I. Keep it for me.  
 _Your Nubbin wakes in his light and looks at him for a long moment. Then it gets up and comes back to you, on its own._  
 _Líf and Lífthrasir walk out together into the morning, across the fields that nobody sowed._  
-_You are back in the Grove, the atlas on your knee. There is a golden game piece in your pocket, and your Nubbin is holding a sprig._  
+_You are back in the Grove, the atlas on your knee. Something clinks in your pocket: a golden game piece, and your Nubbin has brought home a sprig to match._  
 
 > **Lesson** (literacy, RL.4.2, ask): theme of the whole page  
 > _The page opened with promises, and ends with a sprig kept for Baldr._  
@@ -82655,7 +84539,7 @@ _Before you go, Baldr puts something in your hand: a sprig with two leaves, from
 **Baldr**: It was too young to be asked, once. It’s older now. So am I. Keep it for me.  
 _Your Nubbin wakes in his light and looks at him for a long moment. Then it gets up and comes back to you, on its own._  
 _Líf and Lífthrasir walk out together into the morning, across the fields that nobody sowed._  
-_You are back in the Grove, the atlas on your knee. There is a golden game piece in your pocket, and your Nubbin is holding a sprig._  
+_You are back in the Grove, the atlas on your knee. Something clinks in your pocket: a golden game piece, and your Nubbin has brought home a sprig to match._  
 
 > **Lesson** (literacy, RL.4.2, ask): theme of the whole page  
 > _The page opened with promises, and ends with a sprig kept for Baldr._  
@@ -83709,7 +85593,7 @@ _She is very pale and very calm, and she is older than anything in Fantastica._
 **The Empress**: You didn’t fail. You brought him.  
 **The Empress**: Everything you did, someone was listening to. He is listening now.  
 _Atreyu stares at her. Behind your eyes, very faintly, you can see a red-ink attic, and a boy who has gone quite still._  
-_Then she looks past Atreyu, at your Nubbin, and then at you, for a long moment._  
+_Then she looks past Atreyu, at your Nubbin, who is half-hidden behind your knee, and then at you, for a long moment._  
 **The Empress**: You know about names. A girl whistled one back to someone, in a kitchen, with one lamp lit.  
 **The Empress**: Three notes. Low, high, and a little one.  
 **The Empress**: I heard it from here. Everyone here hears a name when it is given back.  
@@ -83743,7 +85627,7 @@ _An old woman with clay to her elbows sits on a stack of bricks, eating a date. 
 **Moss**: Some of these bricks are older than anyone’s grandmother. Not anyone’s, I mean. Most people’s.  
 
 > **Lesson** (social-studies, D2.Geo.2.K-2, notice): Mesopotamia means “between the rivers”; Uruk stood in what is now Iraq  
-> _(Find the two rivers on Nova’s map. The Tigris and the Euphrates both run south through Iraq towards the sea.)_  
+> _(Find the two rivers on Nova’s map. The Tigris and the Euphrates both run south-east through Iraq to the sea.)_  
 > _For grown-ups: Learned where Mesopotamia was: between the Tigris and the Euphrates, in what is now Iraq._
 
 
@@ -83850,6 +85734,7 @@ _Your Nubbin climbs into Gilgamesh’s lap when at last he sits, and stays there
 **Siduri**: Then you will have a cup with me.  
 **Gilgamesh**: Where is the boatman? The one who crosses the sea.  
 **Siduri**: Ur-Shanabi. In the woods, by the shore. Be gentle with him. Be gentle with something, for once.  
+_Your Nubbin climbs into your lap and goes to sleep there, warm and heavy._  
 
 > **Lesson** (health, CASEL: Self-management, ask): why sleep matters  
 > _Your Nubbin falls asleep as soon as it can. Why is sleep so important, especially when we are sad or worn out?_  
@@ -83861,15 +85746,15 @@ _Your Nubbin climbs into Gilgamesh’s lap when at last he sits, and stays there
 
 #### `a26-17-snake-done-hazel`
 
-**Gilgamesh**: For whom did I tear my hands? For whom did I walk all that way? For a snake. I have given it to a snake.  
+**Gilgamesh**: All that way. My hands torn to pieces. And now a snake has it. I have given it to a snake.  
 **Ur-Shanabi**: Yes. And now we go home anyway. Come on.  
 _At the very edge of the sky, where a page would have its margin, there is writing in pencil, small and slanted. You know the hand._  
 _“Lost the plant. Kept the wall.”_  
 _“Good trade.”_  
 
 > **Lesson** (literacy, RL.3.6, ask): what a short note means  
-> _Hazel’s note says: “Lost the plant. Kept the wall._  
-> _Good trade.” Do you agree it was a good trade?_  
+> _Hazel’s note says: “Lost the plant. Kept the wall.”_  
+> _“Good trade.” Do you agree it was a good trade?_  
 > - Yes: a wall that shelters a city is worth more than a plant → That is a fair answer. A wall protects many people for a long time.
 > - No: the plant could have saved people he loved → That is a fair answer. It is a real loss. Hazel’s view is not the only view.
 > - It was not a trade at all: the snake just took it → That is a fair answer. Hazel chooses to see something gained from something lost. You can choose how you see it.
@@ -83937,9 +85822,9 @@ _Moss has been quiet all the way home. Now he sits up on your shoulder and looks
 **Gilgamesh**: Go home, water-carrier. Walk on your own wall. Look at its bricks.  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): how people and things are remembered  
-> _Gilgamesh went to the end of the world to avoid dying, and came home to a wall and a handprint in a brick. What do you think lasts?_  
+> _Gilgamesh went to the end of the world to avoid dying, and came home to his wall, where you pressed your hand into a brick. What do you think lasts?_  
 > - The wall, because it will stand for thousands of years → That is a fair answer. Stone and brick outlast people. The wall of Uruk has, nearly.
-> - The story, because people keep telling it → That is a fair answer. You are reading it more than four thousand years later.
+> - The story, because people keep telling it → That is a fair answer. You are reading it about four thousand years later.
 > - What we do for the people who remember us → That is a fair answer. A kindness is carried on by whoever received it.
 > _For grown-ups: Thought about what lasts: walls, stories, and the kindness we leave behind._
 
@@ -83956,9 +85841,9 @@ _He looks down at the cedar sapling by the river for a while._
 **Gilgamesh**: Go home, water-carrier. Walk on your own wall. Look at its bricks.  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): how people and things are remembered  
-> _Gilgamesh went to the end of the world to avoid dying, and came home to a wall and a handprint in a brick. What do you think lasts?_  
+> _Gilgamesh went to the end of the world to avoid dying, and came home to his wall, where you pressed your hand into a brick. What do you think lasts?_  
 > - The wall, because it will stand for thousands of years → That is a fair answer. Stone and brick outlast people. The wall of Uruk has, nearly.
-> - The story, because people keep telling it → That is a fair answer. You are reading it more than four thousand years later.
+> - The story, because people keep telling it → That is a fair answer. You are reading it about four thousand years later.
 > - What we do for the people who remember us → That is a fair answer. A kindness is carried on by whoever received it.
 > _For grown-ups: Thought about what lasts: walls, stories, and the kindness we leave behind._
 
@@ -84169,7 +86054,8 @@ _He doesn’t need to. You sit there together, all three of you, and let the mor
 _Days later, far away in his camp, Sam opens a parcel and finds a little silk doll with his grandson’s face._  
 _The last thing you see on the page is Sam, the great champion, holding the doll in both hands and weeping for joy._  
 _One feather has drifted down onto the step: grey and gold, long as your arm. The Simurgh doesn’t take it back._  
-_You are back in the Grove, the atlas on your knee. The feather is in your hand, and your Nubbin is asking for second breakfast._  
+_You are back in the Grove, the atlas on your knee._  
+_The feather has come too, and your Nubbin, fed once already, is asking for second breakfast._  
 
 #### `a27-17-complete-night`
 
@@ -84192,7 +86078,8 @@ _She looks at the baby for a long time. Then she turns her great gold eye on you
 _She spreads her wings, which fill the whole sky over Sistan, and goes up._  
 _The last thing you see on the page is the Simurgh circling over the house, once and again, before she turns for home._  
 _One feather has drifted down onto the step: grey and gold, long as your arm. The Simurgh doesn’t take it back._  
-_You are back in the Grove, the atlas on your knee. The feather is in your hand, and your Nubbin is asking for second breakfast._  
+_You are back in the Grove, the atlas on your knee._  
+_The feather has come too, and your Nubbin, fed once already, is asking for second breakfast._  
 
 #### `a27-close-sable-bonded`
 
@@ -84468,7 +86355,7 @@ _“Never been. Nova says it’s all singing.”_
 _“I’d hum.”_  
 
 > **Lesson** (literacy, RL.3.3, ask): a short note can show a person’s character: Hazel’s joke  
-> _Hazel’s note is only five words long. What does it show about her?_  
+> _Hazel’s note is only nine words long. What does it show about her?_  
 > - ✅ She would love to go, and she makes a joke so it doesn’t feel too big. → Yes. “I’d hum” is funny, and it is also a wish to join in, said in a small, brave way. Short words can carry a lot, if you read for the character behind them.
 > - She dislikes singing. → Then she would not say she would hum. The joke shows she wants to join in.
 > - She has been there many times. → The note says “Never been”. It shows she would love to go.
@@ -84640,9 +86527,10 @@ _Rumi comes down the ramp and stops in front of you. Her arm is bare, and she do
 **Rumi**: You looked away. Did you see?  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): different people need different kinds of kindness; you can ask  
-> _Rumi may say she doesn’t know “which kind of kind” she needs. How can you find out what someone needs?_  
+> _You looked away that night to be kind, and Rumi still isn’t sure what you saw._  
+> _How can you find out what kind of kindness someone needs?_  
 > - ✅ Ask them, and listen to the answer. → Yes. People need different things, and the quickest way to know is to ask. Looking away was kind, and asking would have been kind too.
-> - Guess, and hope for the best. → Guessing can work, as it did for you. But asking is more certain. Ask, and listen.
+> - Guess, and hope for the best. → Guessing can work, but it can also leave someone unsure. Asking is more certain. Ask, and listen.
 > - Do what you would like done to you. → That is a good start. But other people may need something different. Asking tells you what they need.
 > _For grown-ups: Learned that people need different kinds of kindness, and that asking is a good way to find out._
 
@@ -84982,7 +86870,8 @@ _Your Nubbin looks up at the window for a long time. Then it takes your hand, wh
 > - Nobody to help at all → Help is good. It simply needs to be wanted, and to stop in time.
 > _For grown-ups: Reflected on what helps well: help that is asked for, and that listens._
 
-_You are back in the Grove, the atlas on your knee. There is a clay tile in your pocket, still a little cool._  
+_You are back in the Grove, the atlas on your knee._  
+_Your pocket is heavier by one clay tile, still cool, as if nobody has told it where it is._  
 
 #### `a30-13-complete-sit`
 
@@ -84999,7 +86888,8 @@ _Your Nubbin looks up at the window for a long time. Then it takes your hand, wh
 > - That Rivka ran out of clay → She did, in a way, but the bird stands for something more: being with someone.
 > _For grown-ups: Reflected on how being with someone can matter as much as doing for them._
 
-_You are back in the Grove, the atlas on your knee. There is a clay tile in your pocket, still a little cool._  
+_You are back in the Grove, the atlas on your knee._  
+_Your pocket is heavier by one clay tile, still cool, as if nobody has told it where it is._  
 
 #### `a30-grove-tile-cinder`
 
@@ -85048,7 +86938,7 @@ _Your Nubbin sits by the hearth and looks at the tile until it gets dark._
 
 _The girl’s eyes go to your Nubbin’s ribbons: gold and silver, stitched together down the middle in green._  
 **Granddaughter**: Why’s it got two colours?  
-_She counts the colours round the edge under her breath: gold, silver, green, and round again._  
+_She counts the colours anyway, thread and all, under her breath: gold, silver, green, and round again._  
 
 > **Lesson** (maths, 4.OA.C.5, ask): a repeating colour pattern: find the 7th  
 > _The girl’s colours go gold, silver, green, gold, silver, green, and on. What colour is the 7th?_  
@@ -85066,7 +86956,7 @@ _The house is very quiet with the twins gone. Xmucane sweeps the floor round the
 _Xquic grinds corn at the stone. You fetch water from the river twice, then a third time, because it’s something to do._  
 
 > **Lesson** (social-studies, D2.His.2.K-2, notice): how corn becomes tortillas, then and now  
-> **Xquic**: We soak the dry corn in water with a little lime first. That makes it softer and gives you more goodness from it.  
+> **Xquic**: We soak the dry corn in water with lime, a white powder made from stone, not the fruit. It softens the corn and makes it better for you.  
 > **Xquic**: Then it is ground into dough. I use a flat stone, as my mother did. In some houses today, a small mill does that job.  
 > _For grown-ups: Learned how corn is soaked and ground into tortilla dough, by stone in the past and sometimes by mill today._
 
@@ -85095,7 +86985,7 @@ _Xmucane laughs once, out loud. Then she puts her hand over her mouth, as if she
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): feeling two feelings at once  
 > _Xmucane laughs, then goes quiet with sorrow. Can a person feel funny and sad in the same minute?_  
-> - ✅ Yes. Feelings can mix, and that is normal. → Yes. Gladness and grief can sit side by side. Xmucane laughs because she is proud, and goes quiet because she misses her son.
+> - ✅ Yes. Feelings can mix, and that is normal. → Yes: gladness and grief can sit side by side. Xmucane laughs because she is proud, and goes quiet because she misses her son.
 > - No. It is one feeling at a time. → It can feel that way, but real feelings mix all the time. Xmucane is proud of the twins and sad about her son at once.
 > - Only grown-ups feel that. → Children feel mixed feelings too, like being excited and nervous before a first day somewhere new.
 > _For grown-ups: Learned that people can feel two feelings at the same time, and that it is normal._
@@ -85120,7 +87010,7 @@ _Before dawn Xmucane puts another log on the coals and sits straight again._
 > _You cannot fix Xmucane’s worry. How does sitting up beside her still help?_  
 > - ✅ She does not have to face the night alone. → Yes. Company does not solve the problem, but it makes the waiting bearable.
 > - It does not help. Only solving the problem helps. → Some problems cannot be solved yet. Being there is what helps then.
-> - It helps you more than her. → Perhaps a little. But Xmucane notices, and says so in the morning. Sitting together helps both.
+> - It helps you more than her. → Perhaps a little, but Xmucane notices you there all night. Sitting together helps both of you.
 > _For grown-ups: Learned that being there for someone helps even when you cannot fix their problem._
 
 _The corn stays green. All night, both ears, green._  
@@ -85139,7 +87029,7 @@ _She says it every morning after that. By the third morning you are saying it wi
 
 > **Lesson** (literacy, RL.2.4, ask): repeated lines make a refrain  
 > _Xmucane says “Still green” every morning, and then you join in. What does a repeated line like that do?_  
-> - ✅ It gives the family something steady to hold on to. → Yes. A repeated line is called a refrain. It turns worry into a small, shared habit.
+> - ✅ It gives the family something steady to hold on to. → Yes: a repeated line is called a refrain. It turns worry into a small, shared habit.
 > - It makes the story longer. → It does add words, but its real job is feeling. A refrain gives a worried household a steady rhythm.
 > - It is only there to be funny. → There is a gentle smile in it, but mostly it is comfort. By day three even you are saying it.
 > _For grown-ups: Learned that a refrain, a line that repeats, can give comfort and rhythm._
@@ -85203,7 +87093,7 @@ _It catches your eye and nods once. Lunch, it seems to say, was remembered._
 
 > **Lesson** (literacy, RL.3.3, ask): a character’s motive  
 > _Why did the rat bring the coati to help?_  
-> - ✅ Because you shared your lunch with it, and it remembered. → Yes. Its motive is gratitude. A small kindness came back at the moment it was needed.
+> - ✅ Because you shared your lunch with it, and it remembered. → Yes: its motive is gratitude. A small kindness came back at the moment it was needed.
 > - Because it wanted a squash. → The rat’s nod is about the lunch. Its motive is thanks.
 > - Because the twins ordered it to. → Nobody orders it. It chooses to help the friend who shared with it.
 > _For grown-ups: Linked a character’s action to its motive: gratitude for a shared lunch._
@@ -85216,7 +87106,7 @@ _Right behind the rabbit goes the rat, who rode all the way down on your Nubbin�
 
 > **Lesson** (literacy, RL.4.3, ask): describing a character in depth  
 > _The rat shouts insults at the lords while running between their legs. Which word describes it best?_  
-> - ✅ Cheeky → Yes. It is brave, quick and rude in the friendliest way. That is cheek.
+> - ✅ Cheeky → Yes: it is brave, quick and rude in the friendliest way. That is cheek.
 > - Shy → A shy rat would stay hidden. This one runs between the lords’ feet and mocks them.
 > - Gloomy → The rat is having a wonderful time. Its words are all fun and mischief.
 > _For grown-ups: Chose an exact word to describe a character’s personality._
@@ -85235,7 +87125,7 @@ _Xmucane gets up and makes tortillas, very fast, far too many, and gives the fir
 
 > **Lesson** (literacy, RL.2.3, ask): how characters respond to events  
 > _Xmucane makes far too many tortillas, very fast. What does that show about how she feels?_  
-> - ✅ She is so relieved she cannot sit still. → Yes. Her hands need a job. Relief and joy can come out as busyness.
+> - ✅ She is so relieved she cannot sit still. → Yes: her hands need a job. Relief and joy can come out as busyness.
 > - She is angry at the falcon. → She gives the falcon the very first tortilla. That is thanks, not anger.
 > - She is bored. → A bored person is slow. She is quick, and she makes far too many: that is relief.
 > _For grown-ups: Inferred a character’s feeling from what she does._
@@ -85280,7 +87170,7 @@ _Your Nubbin goes and sits right beside the dry corn, close, as if it is keeping
 
 > **Lesson** (sel, CASEL: Social awareness, ask): supporting a friend who is crying  
 > _Xmucane is crying and you do not know what to do. What helps most?_  
-> - ✅ Staying close and not hurrying her. → Yes. Staying close says: I am here. You do not need the right words.
+> - ✅ Staying close and not hurrying her. → Yes: staying close says “I am here”. You do not need the right words.
 > - Telling her it will be fine. → Hopeful words are kind, but you cannot promise. Sitting beside her is more honest.
 > - Leaving her alone to cry in private. → Some people want that, and it is fine to ask. But staying close is often what helps most.
 > _For grown-ups: Learned that staying close and not rushing helps a friend who is crying._
@@ -85302,7 +87192,7 @@ _On the fifth morning your Nubbin wakes you by sitting on your face. It turns yo
 
 > **Lesson** (maths, 4.OA.C.5, ask): writing numbers with dots and bars  
 > _In Maya numbers a dot is 1 and a bar is 5. How would you write the days one to five?_  
-> - ✅ One dot, two dots, three dots, four dots, then a bar. → Yes. Four is four dots, and five is a single bar. The rule: five dots become one bar.
+> - ✅ One dot, two dots, three dots, four dots, then a bar. → Yes: four is four dots, and five is a single bar. The rule is that five dots become one bar.
 > - Five dots for day five. → It would work, but the Maya shortcut is a bar for every five dots. Day five is one bar.
 > - A bar for each day. → A bar is already five. Days 1 to 4 need dots, and day 5 is the first bar.
 > _For grown-ups: Wrote the numbers 1 to 5 in Maya dots and bars._
@@ -85353,7 +87243,7 @@ _Nobody in the house says anything. Outside, the wind goes over the corn on the 
 
 > **Lesson** (sel, CASEL: Social awareness, ask): mixed feelings about an ending  
 > _Xquic grew up in Xibalba, and some of the people begging were people she knew. How might she feel?_  
-> - ✅ Relieved, and sad for people she knew. → Yes. Both feelings are true at once. An ending can be good and still hurt.
+> - ✅ Relieved, and sad for people she knew. → Yes: both feelings are true at once. An ending can be good and still hurt.
 > - Only glad that it is over. → She may be glad. But she has a history down there, and that makes it complicated.
 > - Angry at her sons. → Nothing suggests that. The story gives her stillness, which sounds more like mixed feelings.
 > _For grown-ups: Recognised mixed feelings at the end of a hard story._
@@ -85375,7 +87265,7 @@ _“Two boys who won by being cheeky to a pair of grumpy lords. My kind of boys.
 
 > **Lesson** (literacy, RL.4.3, ask): describing a character from a short note  
 > _Hazel’s note is only one line long. What does it tell you about Hazel herself?_  
-> - ✅ She admires clever people who are a little cheeky. → Yes. “My kind of boys” says she sees herself in them. One short line can show a whole personality.
+> - ✅ She admires clever people who are a little cheeky. → Yes: “my kind of boys” says she sees herself in them. One short line can show a whole personality.
 > - She is cross with the twins. → A cross person would not say “my kind of boys.” The tone is fond.
 > - She does not care about the story. → She cared enough to write in the margin, and to come back to it.
 > _For grown-ups: Described a character from a short note she wrote._
@@ -85418,7 +87308,7 @@ _After them come four hundred small lights, rising and spreading out, until the 
 _The atlas’s margin says: the Four Hundred Boys became the stars._  
 
 > **Lesson** (science, 5-ESS1-2, ask): the Sun rises in the east and sets in the west  
-> _Xmucane is looking towards the sunrise, east. The Sun will sink in the evening. Which direction will she look then?_  
+> _Xmucane is looking east, towards the sunrise. When the Sun sinks in the evening, which direction will she look?_  
 > - ✅ West → Yes. The Sun rises in the east and sets in the west, opposite each other.
 > - East again → The Sun moves across the sky during the day. By evening it is on the opposite side, west.
 > - North → In Guatemala the Sun crosses the sky from east to west. North is the direction the compass points to, not where the Sun goes.
@@ -85439,11 +87329,11 @@ _The first sunlight comes over the mountain and through the door, and lands on t
 _For a moment the smoke parts, and you’re back in the kitchen. The girl is pointing at your Nubbin’s ribbons._  
 **Granddaughter**: Look. Look! It’s both. Sun and Moon, sewn together down the middle.  
 **Grandmother**: So it is. Somebody sewed that very carefully.  
-_Each ribbon is a long strip with green stitches down its middle, the same on both sides. Then the smoke closes, and you’re back at sunrise._  
+_Each ribbon is a long rectangle with green stitches down its middle. Then the smoke closes, and you’re back at sunrise._  
 
 > **Lesson** (art, 4.G.A.3, ask): lines of symmetry in a rectangle  
 > _A plain rectangle that is not a square can be folded to match in two ways. How many lines of symmetry does it have?_  
-> - ✅ 2 → Yes. Fold it lengthways, or fold it across the middle. A square has four, but a plain rectangle has two.
+> - ✅ 2 → Yes: fold it lengthways, or fold it across the middle. A square has four, but a plain rectangle has two.
 > - 1 → There is one line down the middle, but there is another one across the middle too. That makes two.
 > - 4 → Four is for a square, which also has two diagonal lines. A plain rectangle has just two.
 > _For grown-ups: Counted two lines of symmetry in a plain rectangle._
@@ -85470,7 +87360,7 @@ _And caught in the atlas’s spine there is an ear of corn, still green, the col
 
 > **Lesson** (science, 3-LS1-1, ask): the corn life cycle: from green to dry  
 > _The ear of corn is still green. What will happen to it as it ripens?_  
-> - ✅ It turns golden and dry, and its kernels can be planted as seeds. → Yes. Ripe corn dries on the plant. Its kernels can be ground into flour or planted to start the cycle again.
+> - ✅ It turns golden and dry, and its kernels can be planted as seeds. → Yes: ripe corn dries on the plant. Its kernels can be ground into flour or planted to start the cycle again.
 > - It stays green for ever. → Green corn is still growing. Left on the plant, it ripens, dries and turns golden.
 > - It turns back into a seed at once. → The ear first ripens and dries. The kernels are the seeds, and they wait to be planted.
 > _For grown-ups: Understood that green corn ripens into dry, golden corn whose kernels are seeds._
@@ -85492,6 +87382,153 @@ _The sun is going down behind the hill. On the other side, the moon is already u
 > _For grown-ups: Learned that the Moon can be seen in the daytime, so the Sun and Moon can share the sky._
 
 _He goes back to his notebook. He doesn’t write anything down, though._  
+
+#### `pa1-01-clank`
+
+_Clank is sitting on top of the cabinet with his legs dangling over the edge of the screen._  
+**Clank**: Announcement: I am the lookout. Pixel said lookouts sit on top. I am on top.  
+**Pixel**: I said lookouts sit still.  
+**Clank**: I am sitting very still. Look how still. This is the stillest I have ever been.  
+_His legs go on swinging. Every few seconds one heel bonks the screen._  
+
+> **Lesson** (maths, 3.MD.A.1, ask): rate: bonks per minute  
+> **Pixel**: One bonk every 5 seconds. How many bonks in a minute?  
+> - ✅ 12 → Twelve. 60 shared into 5s is 12. Twelve bonks a minute, for the whole cartridge. Wonderful.
+> - 5 → Count up in 5s to 60: 5, 10, 15… you get there after 12 counts. Twelve bonks.
+> _For grown-ups: Worked out how many times something happens in a minute._
+
+_Your Nubbin counts the bonks on its fingers and runs out of fingers._  
+
+#### `pa1-17-chao-locked`
+
+_Chaos looks round for them, and there are none. Not on the roofs, not in the streets._  
+_Your stomach drops. The garden, the gate, the little key you turned._  
+**You**: They’re still in there.  
+_You wade back across the square and through the hotel lobby, where the water is up to your waist and full of floating menus._  
+_The garden gate is still locked. Behind it, on top of the palm tree and the fruit tree and each other, the Chao are huddled, wet and very quiet._  
+_They’re all alive. Not one of them is moving._  
+**Pixel**: Safe isn’t the same as well, is it.  
+
+> **Lesson** (social-studies, D2.Civ.8.K-2, ask): the gate choice pays off  
+> **Pixel**: You locked the gate, fifteen quests ago, to keep them safe. They lived, and they couldn’t leave. What did the lock cost?  
+> - ✅ Their freedom to get away from the danger themselves → Yes. Locking wasn’t cruel; it was careful. But a rule meant to protect can trap, and the ones it traps don’t get a say. That’s the cost.
+> - Nothing: they’re alive → They are alive, and that matters most. But look at them: wet, silent, stuck. The lock cost them the chance to save themselves. Safe isn’t the whole of well.
+> _For grown-ups: Saw the cost of an early choice, without being scolded for it._
+
+_You turn the key. Your Nubbin goes in first, and one by one they come down out of the trees and follow it._  
+_You lead them out through the lobby, across the square, to the edge of the puddle._  
+_Chaos looks at them. The glow in its chest goes still, and soft, and warm._  
+
+#### `pa1-18-stood`
+
+**Tikal**: You stood beside me, on the steps. In front of all of them.  
+**Tikal**: It didn’t change anything. I’ve had a very long time to think about that, and it still mattered.  
+
+> **Lesson** (sel, CASEL: Relationship skills, ask): it changed nothing and it still mattered  
+> **Tikal**: It changed nothing, and it still mattered. How can both be true?  
+> - ✅ Because being with someone matters on its own, not only when it fixes things → Yes. I did not need the ending changed. I needed not to be alone in it. You gave me that, and it kept.
+> - It can’t; if it changed nothing it didn’t matter → I thought that once. Then I had a long time to remember who stood next to me. Company is its own thing, apart from fixing.
+> _For grown-ups: Learned that presence matters apart from results._
+
+_She squeezes your hand once. Her hand is warm, though it’s made of light._  
+
+#### `pa1-18-cinder-forgiven`
+
+**You**: She was called Cinder. She loved them fiercely, and she held on too tight, and they went still.  
+**You**: At the end, somebody went up the mountain and found her. And she was forgiven.  
+_Tikal smiles, slowly, the way the sun comes out after rain._  
+
+> **Lesson** (sel, CASEL: Relationship skills, ask): what forgiving is  
+> _Cinder was forgiven. Does forgiving someone mean saying what they did was all right?_  
+> - ✅ No. It means letting go of the anger, while still knowing it was wrong. → Yes. Forgiving doesn’t rewrite the past. It puts down the anger so that both people can rest. The hurt is still true; it just stops being carried.
+> - Yes, it means it didn’t matter → It mattered; that’s why forgiving is hard. Forgiving means setting down the anger, not pretending there was nothing to be angry about.
+> _For grown-ups: Thought about what forgiveness is and isn’t._
+
+**Tikal**: Forgiven. Oh, I’m glad. I’m so glad.  
+**Tikal**: Then she can rest. That’s all the fierce ones want, in the end, even if they don’t know it.  
+
+#### `pa1-18-cinder-remembered`
+
+**You**: She was called Cinder. She held on too tight, and the ones she loved went still.  
+**You**: We don’t forgive all of it. But we remember ours.  
+**Tikal**: Remember. Yes. That’s a kind of keeping too.  
+
+> **Lesson** (social-studies, D2.His.2.K-2, ask): remembering as keeping  
+> **Tikal**: Remembering is a kind of keeping. What does your valley keep, to remember the ones who are gone?  
+> - ✅ Flowers on the hill, and the stories people tell → Flowers and stories. Here we had murals and a prayer. Every people finds a way to keep its dead close without holding on.
+> - Nothing; they just forget → Your Nubbin carried a petal all this way. That is not forgetting. Flowers and stories are how a valley remembers.
+> _For grown-ups: Compared how different people remember their dead._
+
+_Your Nubbin feels about in its fur and brings out a red petal from the hill at home, a bit crumpled. It gives it to the nearest Chao._  
+_The Chao holds the petal up to the light, and its ball turns into a heart._  
+
+#### `pa1-18-last-open-stood`
+
+_The screen holds one last picture before it goes dark: the hotel roof at sunset, a row of Chao along the gutter with their legs dangling._  
+_Up in one corner, very small, are two lights, pink and green, and a little square figure beside them who looks a lot like you._  
+
+> **Lesson** (science, 5-ESS1-2, notice): why sunsets are red and gold  
+> **Pixel**: Sunset colours: at day’s end the sun’s light comes in low through more air, which scatters the blue away and leaves the reds and golds. Same sun, longer path.  
+> _For grown-ups: Learned why the sky colours at sunset._
+
+**Pixel**: That’s you. It put you in the ending. You’re in the ending!  
+
+#### `pa1-18-last-open`
+
+_The screen holds one last picture before it goes dark: the hotel roof at sunset, a row of Chao along the gutter with their legs dangling._  
+_Up in one corner, very small, two lights, pink and green, drift over the city and away, side by side._  
+
+> **Lesson** (literacy, RL.4.2, ask): reading a last image  
+> _The ending shows the Chao on a roof and two lights going away together. What does the picture say without words?_  
+> - ✅ The small ones are safe and free, and the two who held on have let go → Yes. A last image is a summary in pictures: safe Chao, open sky, two lights not holding anything any more.
+> - It’s getting dark → It is sunset, but the picture is chosen to mean more: free Chao, and two lights that have finally let go. That is the story in one frame.
+> _For grown-ups: Read the meaning of a closing image._
+
+**Pixel**: Every one of them out, and up. Good.  
+
+#### `pa1-18-last-locked-stood`
+
+_The screen holds one last picture before it goes dark: the garden behind the hotel, its little gate standing wide open._  
+_A Chao is swinging on the gate. Above the palm tree hang two lights, pink and green, with a little square figure beside them who looks a lot like you._  
+**Pixel**: Open. They’ve drawn it open. And you’re in it, look.  
+
+> **Lesson** (literacy, RL.4.2, ask): the ending answers the beginning  
+> **Pixel**: You locked the gate at the start. The ending draws it open. What is the game telling you, gently?  
+> - ✅ That the open gate was the better way, without blaming you for the lock → That’s how I read it. It doesn’t scold. It just shows the gate open, with a Chao swinging on it, and lets you decide what you think.
+> - That someone broke the lock → Nobody broke anything. The picture is an answer to your first choice: here is what open looks like. It’s a kind way of saying it.
+> _For grown-ups: Connected an ending image to an early choice._
+
+
+#### `pa1-18-last-locked`
+
+_The screen holds one last picture before it goes dark: the garden behind the hotel, its little gate standing wide open._  
+_A Chao is swinging on the gate, back and forth. Above the palm tree, two lights, pink and green, drift up through the glass roof and away._  
+**Pixel**: Open. Next time, we leave it open from the start. Deal?  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): learning from a choice  
+> **Pixel**: Next time, we leave it open. Is it all right to look back at a choice and decide you’d do it differently?  
+> - ✅ Yes. That is what learning from a choice means. → Yes. You weren’t wrong to be careful. You know more now than you did then. Changing your mind with new knowledge is the whole point of having a mind.
+> - No, you should stand by what you chose → Standing by a choice when you know better isn’t loyalty; it’s stubbornness. You chose carefully then. You’d choose differently now. Both are fine.
+> _For grown-ups: Learned that revisiting a choice with new knowledge is good._
+
+
+#### `lb12-complete-wish`
+
+_Sam is asleep again in the long grass, with Ned asleep on his arm. Maisie is trying very hard not to be._  
+**Maisie**: That was the best game we ever made up.  
+**Maisie**: Did your wish come true yet?  
+_You say you can’t tell her, because that is the rule. She nods, very seriously, and falls asleep in the middle of the nod._  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): wishes, secrets and surprises  
+> _Why do people keep a wish to themselves? Is a wish the same kind of secret as a surprise present?_  
+> - Saying it might spoil it → That’s the old rule. A wish kept quiet feels more like your own.
+> - It’s a happy secret, like a present → Yes. Some secrets are kind ones, kept so that someone is glad later.
+> _For grown-ups: Your child thought about why a wish is kept to yourself, and which secrets are kind ones._
+
+**Ama Larkin**: Lying still together. It’s hard, and you all did it.  
+_Your Nubbin is asleep in Ned’s box. Ama looks at it, and then at you._  
+**Ama Larkin**: That box should stay out here for good, I think. It’s earned its place.  
+_In the morning there is a small painted box on your doorstep, with a note: FOR YOUR NUBBIN FROM NED (HE DID THE N)._  
 
 #### `lb06-door-big`
 
@@ -85592,6 +87629,32 @@ _Ned’s box stands in the long grass with a paper cone on top and NED ROCKET do
 > _For grown-ups: Your child noticed Ned skipped numbers in his countdown and filled in the gaps._
 
 _Ned lies down next to it. The rocket stays exactly where it is, which is how the best rockets work._  
+
+#### `lk10-complete-ramp`
+
+_Afterwards the children sit in a heap on the bank, full of kuih and kue, and nobody wants to go home._  
+**Mak Cik Siti**: So. What did Kancil learn this summer?  
+_A boy says be clever, and a girl says say thank you. The small boy who helped the snails says go back for the elephant._  
+
+> **Lesson** (literacy, RL.4.2, ask): finding the theme  
+> **Mak Cik Siti**: What did Kancil learn this summer? What is the big idea of all his tales?  
+> - Being small is fine if you think. → That’s a strong theme. Brains beat size, over and over.
+> - Clever isn’t enough. Go back and put it right. → That’s the one I’d pick. You gave the tale its new ending yourselves.
+> - Don’t boast. → The snails would agree with you.
+> _For grown-ups: Your child named the big idea running through the Kancil tales, elephant and all._
+
+**Bu Wulan**: All true. My grandmother would have liked you lot. The elephant one most of all.  
+**Mak Cik Siti**: We’re leaving the screen by the pond. It belongs here now.  
+**Bu Wulan**: And we’re staying a while. We like your valley. It argues nearly as well as we do.  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): reflecting on your own learning  
+> **Bu Wulan**: And you? What did you learn this summer?  
+> - Counting in Malay and Indonesian. → Satu, dua, tiga! You’ll never forget lapan and delapan now.
+> - That stories change. → They do. You changed one. The elephant got out.
+> - Something else. → Tell us. We like hearing what people take home.
+> _For grown-ups: Your child said what they learned over the summer of tales._
+
+_Your Nubbin sits by the screen with the little Kancil puppet and makes it hop, one, two, three, all on its own._  
 
 #### `lk04-grab-laughed`
 

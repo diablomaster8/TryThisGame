@@ -1287,7 +1287,7 @@ _Before you go, Baldr puts something in your hand: a sprig with two leaves, from
 **Baldr** _(soft)_: It was too young to be asked, once. It’s older now. So am I. Keep it for me.  
 _Your Nubbin wakes in his light and looks at him for a long moment. Then it gets up and comes back to you, on its own._  
 _Líf and Lífthrasir walk out together into the morning, across the fields that nobody sowed._  
-_You are back in the Grove, the atlas on your knee. There is a golden game piece in your pocket, and your Nubbin is holding a sprig._  
+_You are back in the Grove, the atlas on your knee. Something clinks in your pocket: a golden game piece, and your Nubbin has brought home a sprig to match._  
 
 **Rewards**
 
@@ -1416,7 +1416,7 @@ _Before you go, Baldr puts something in your hand: a sprig with two leaves, from
 **Baldr** _(soft)_: It was too young to be asked, once. It’s older now. So am I. Keep it for me.  
 _Your Nubbin wakes in his light and looks at him for a long moment. Then it gets up and comes back to you, on its own._  
 _Líf and Lífthrasir walk out together into the morning, across the fields that nobody sowed._  
-_You are back in the Grove, the atlas on your knee. There is a golden game piece in your pocket, and your Nubbin is holding a sprig._  
+_You are back in the Grove, the atlas on your knee. Something clinks in your pocket: a golden game piece, and your Nubbin has brought home a sprig to match._  
 
 #### Variant `a20-17-complete-walked`
 
@@ -1429,4 +1429,4 @@ _Before you go, Baldr puts something in your hand: a sprig with two leaves, from
 **Baldr** _(soft)_: It was too young to be asked, once. It’s older now. So am I. Keep it for me.  
 _Your Nubbin wakes in his light and looks at him for a long moment. Then it gets up and comes back to you, on its own._  
 _Líf and Lífthrasir walk out together into the morning, across the fields that nobody sowed._  
-_You are back in the Grove, the atlas on your knee. There is a golden game piece in your pocket, and your Nubbin is holding a sprig._  
+_You are back in the Grove, the atlas on your knee. Something clinks in your pocket: a golden game piece, and your Nubbin has brought home a sprig to match._  

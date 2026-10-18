@@ -84,7 +84,7 @@ _A faint blue shimmer stays on your Nubbins’ fur after the rift carries you ho
 
 Sets on completion: `{"mv-ff01":true}`
 
-**Notes:** First Doom-line storyline. Step 1 is a party screen check: each Nubbin in the party is assigned to Reed (Stamina), Sue (Swim or Run, whichever is higher), Johnny (Fly) or Ben (Power); with fewer than four Nubbins, unassigned members are shown as empty silhouettes. Rocket interior: hull goes translucent, blue light wash. Monster Isle bout: giant uses slow, heavy telegraphed attacks. Sound: low hum building through the launch. Check FF #1 beats before ship.
+**Notes:** First Doom-line storyline. Step 1 is a party screen check: each Nubbin in the party is assigned to Reed (Stamina), Sue (Swim or Run, whichever is higher), Johnny (Fly) or Ben (Power); with fewer than four Nubbins, unassigned members are shown as empty silhouettes. Rocket interior: hull goes translucent, blue light wash. Monster Isle bout: giant uses slow, heavy telegraphed attacks. Sound: low hum building through the launch. Check FF #1 beats before ship. SIGNATURE CHOICE: mv-ff01-first (ben | reed | johnny: who your Nubbin went to in the field) pays off through MV_DOOM_VARIANTS at mv-ff05-complete (what the four take from Doom’s making), mv-ff09-portal (Johnny’s last word to you) and mv-ffep-ben (what Ben throws at the new Doom).
 
 ## FF2. Doom’s First Strike
 

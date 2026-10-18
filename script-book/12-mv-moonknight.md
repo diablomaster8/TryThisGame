@@ -4,7 +4,7 @@
 
 *Werewolf by Night #32–33 (1975): Moon Knight’s first appearance* · audience: adult · where: Multiverse: the rift above the waterfall (Moon Knight’s world) · when: The Moon Knight line opens in the Multiverse campaign.
 
-**Cast:** Your Nubbin, Marc Spector (Marc Spector / Moon Knight (Marvel)), Committee Agent (An agent of the Committee (Marvel)), Jack Russell (Jack Russell / Werewolf by Night (Marvel))
+**Cast:** Marc Spector (Marc Spector / Moon Knight (Marvel)), Committee Agent (An agent of the Committee (Marvel)), Jack Russell (Jack Russell / Werewolf by Night (Marvel))
 
 ### Step 1: Track the werewolf through the woods with the man in silver.
 
@@ -25,7 +25,7 @@ _The agent leaves. Marc notices you, then your Nubbin, and doesn’t reach for a
 _He glances up at the moon, and his jaw tightens, as if it has just said something rude about him._  
 **You**: Who are you looking at?  
 **Marc Spector**: Nobody. Habit. You’re not with them; you’ve got the face of someone who doesn’t lie for money. Keep up and keep quiet.  
-**Your Nubbin**: Prrp?  
+_Your Nubbin makes a small questioning sound, and keeps up._  
 
 #### Done `mv-mk01-hire-done`
 
@@ -43,7 +43,7 @@ _The trail ends in a clearing. A huge shape thrashes inside a net of steel cable
 **Marc Spector**: There’s our ten thousand. Stand back. When he gets loose, he won’t be gentle.  
 _Your Nubbin doesn’t stand back. It walks straight to the net and sits down just out of reach._  
 _The wolf stops thrashing and stares at it. There is a collar on its neck, stamped with the Committee’s mark._  
-**Your Nubbin** _(soft)_: Mmn.  
+_Your Nubbin makes a low, soft sound at the wolf, the one it keeps for things that are hurt._  
 **You**: He’s already wearing their brand. He didn’t come here to hurt anyone. He was put here.  
 **Marc Spector** _(think)_: A wolf that can’t take off his own collar. And the people paying me fitted it.  
 **Marc Spector** _(angry)_: They don’t want a monster caught. They want a weapon delivered.  
@@ -89,7 +89,7 @@ Sets on completion: `{"mv-mk01":true}`
 
 *Moon Knight #1 (1980): the origin* · audience: adult · where: Multiverse: the rift above the waterfall (Moon Knight’s world) · when: After The Mercenary. · requires: MK1
 
-**Cast:** Your Nubbin, Marc Spector (Marc Spector / Moon Knight (Marvel)), Frenchie (Jean-Paul “Frenchie” Duchamp (Marvel)), Bushman (Raoul Bushman (Marvel)), Marlene (Marlene Alraune (Marvel)), Khonshu (Khonshu (Marvel))
+**Cast:** Marc Spector (Marc Spector / Moon Knight (Marvel)), Frenchie (Jean-Paul “Frenchie” Duchamp (Marvel)), Bushman (Raoul Bushman (Marvel)), Marlene (Marlene Alraune (Marvel)), Khonshu (Khonshu (Marvel))
 
 ### Step 1: Warn the archaeologists before Bushman moves.
 
@@ -180,7 +180,7 @@ Sets on completion: `{"mv-mk02":true}`
 
 *Moon Knight #2–15 (1980–82)* · audience: adult · where: Multiverse: the rift above the waterfall (Moon Knight’s world) · when: After Death in Egypt. · requires: MK2
 
-**Cast:** Your Nubbin, Marc Spector (Marc Spector / Moon Knight (Marvel)), Steven Grant (Steven Grant, one of Moon Knight’s identities (Marvel)), Jake Lockley (Jake Lockley, one of Moon Knight’s identities (Marvel)), Marlene (Marlene Alraune (Marvel)), Bushman (Raoul Bushman (Marvel)), Gena (Gena Landers (Marvel)), Crawley (Crawley (Marvel))
+**Cast:** Marc Spector (Marc Spector / Moon Knight (Marvel)), Steven Grant (Steven Grant, one of Moon Knight’s identities (Marvel)), Jake Lockley (Jake Lockley, one of Moon Knight’s identities (Marvel)), Marlene (Marlene Alraune (Marvel)), Bushman (Raoul Bushman (Marvel)), Gena (Gena Landers (Marvel)), Crawley (Crawley (Marvel))
 
 ### Step 1: Send a Nubbin into each of Marc’s lives and bring back Bushman’s trail.
 
@@ -196,16 +196,16 @@ _The rift drops you on a gravel drive outside a mansion on Long Island. Every wi
 **Marlene** _(soft)_: It isn’t a costume, Keeper. Each of them is really there. Talk to whoever is in front of you.  
 **Steven Grant**: She explains us better than we do. Bushman is in the city, and he’s left a trail through all three of our lives.  
 **Steven Grant**: Your Nubbins can be where we can’t all be at once. One with me, one with Jake, and you with whoever you like.  
-**Your Nubbin** _(happy)_: Prrp!  
+_Your Nubbins bounce. Being in three places at once sounds, to them, like a treat._  
 
 **Choices**
 
-- **Go with Steven to the charity gala.** — sets `{"mv-mk-first-face":"steven"}`
+- **Go with Steven to the charity gala.** — sets `{"mv-mk-first-face":"first-steven"}`
     - **Steven Grant**: Excellent. Black tie. I’ll find something in your size. Marlene, do we have black tie in… round?
-- **Ride along in Jake’s cab.** — sets `{"mv-mk-first-face":"jake"}`
+- **Ride along in Jake’s cab.** — sets `{"mv-mk-first-face":"first-jake"}`
     - Steven closes his eyes. When he opens them he stands differently, and reaches for a flat cap on the hall stand.
     - **Jake Lockley**: Cab’s round the back. You sit up front. The little ones sit wherever they want.
-- **Go with Moon Knight onto the rooftops.** — sets `{"mv-mk-first-face":"moon-knight"}`
+- **Go with Moon Knight onto the rooftops.** — sets `{"mv-mk-first-face":"first-moon-knight"}`
     - **Marc Spector**: Rooftops, then. Wrap up. It’s colder up there than people think.
 
 #### Done `mv-mk03-split-done`
@@ -268,13 +268,13 @@ _Steven gives you a hatbox. Inside: a silk top hat, a battered cabbie’s cap, a
 
 Sets on completion: `{"mv-mk03":true,"mv-mk-met-faces":true}`
 
-**Notes:** The three identities are separate speakers with separate portraits and voices: Steven (polished, warm, dry), Jake (street-smart, kind, plain-spoken), Marc (clipped, tired). Switches are shown by posture and wardrobe, never by a gag or a sound effect. The split step runs the Keeper with the chosen life and the two Nubbins with the others; each returns one clue card. All three clue cards are stamped 2:10 a.m.; the impossible overlap is the storyline’s quiet question and is never explained. mv-mk-bushman-lead (marc | steven | jake) picks who leads the pier raid: Marc’s bout is fastest and harshest, Steven’s ends in an arrest, Jake’s is a stealth entry. Gena and Crawley are Jake’s regulars from the 1980 run; check names before ship.
+**Notes:** The three identities are separate speakers with separate portraits and voices: Steven (polished, warm, dry), Jake (street-smart, kind, plain-spoken), Marc (clipped, tired). Switches are shown by posture and wardrobe, never by a gag or a sound effect. The split step runs the Keeper with the chosen life and the two Nubbins with the others; each returns one clue card. All three clue cards are stamped 2:10 a.m.; the impossible overlap is the storyline’s quiet question and is never explained. mv-mk-bushman-lead (marc | steven | jake) picks who leads the pier raid: Marc’s bout is fastest and harshest, Steven’s ends in an arrest, Jake’s is a stealth entry. Gena and Crawley are Jake’s regulars from the 1980 run; check names before ship. SIGNATURE CHOICE: mv-mk-first-face (first-steven | first-jake | first-moon-knight: whose night you shared first) pays off through MV_MOONKNIGHT_VARIANTS at mv-mk05-scene (which of the three Flint has you on file with), mv-mk06-ward (whom Marc trusts you to find first in the asylum) and mv-mk08-orders (which face calls on you against Khonshu). The values carry a first- prefix because the runner matches variants by value and mv-mk-bushman-lead also uses steven / jake.
 
 ## MK4. The Bottom
 
 *Moon Knight vol. 5 #1–6 (2006)* · audience: adult · where: Multiverse: the rift above the waterfall (Moon Knight’s world) · when: After Three Faces. · requires: MK3
 
-**Cast:** Your Nubbin, Marc Spector (Marc Spector / Moon Knight (Marvel)), Khonshu (Khonshu (Marvel)), Frenchie (Jean-Paul “Frenchie” Duchamp (Marvel)), Taskmaster (Taskmaster (Marvel))
+**Cast:** Marc Spector (Marc Spector / Moon Knight (Marvel)), Khonshu (Khonshu (Marvel)), Frenchie (Jean-Paul “Frenchie” Duchamp (Marvel)), Taskmaster (Taskmaster (Marvel))
 
 ### Step 1: Help Marc through his recovery, one day at a time.
 
@@ -366,7 +366,7 @@ Sets on completion: `{"mv-mk04":true}`
 
 *Moon Knight vol. 7 #1–6 (2014), especially #5* · audience: adult · where: Multiverse: the rift above the waterfall (Moon Knight’s world) · when: After The Bottom. · requires: MK4
 
-**Cast:** Your Nubbin, Mr. Knight (Marc Spector as Mr. Knight (Marvel)), Detective Flint (Detective Flint (Marvel)), The Girl, Kidnapper
+**Cast:** Mr. Knight (Marc Spector as Mr. Knight (Marvel)), Detective Flint (Detective Flint (Marvel)), The Girl, Kidnapper
 
 ### Step 1: Climb the tower alongside Mr. Knight, floor by floor.
 
@@ -445,7 +445,7 @@ Sets on completion: `{"mv-mk05":true}`
 
 *Moon Knight vol. 8 #1–14 (2016–17)* · audience: adult · where: Multiverse: the rift above the waterfall (Moon Knight’s world) · when: After Mr. Knight. · requires: MK5
 
-**Cast:** Your Nubbin, Marc Spector (Marc Spector / Moon Knight (Marvel)), Steven Grant (Steven Grant, one of Moon Knight’s identities (Marvel)), Jake Lockley (Jake Lockley, one of Moon Knight’s identities (Marvel)), Khonshu (Khonshu (Marvel)), Dr Emmett (Dr. Emmett (Marvel))
+**Cast:** Marc Spector (Marc Spector / Moon Knight (Marvel)), Steven Grant (Steven Grant, one of Moon Knight’s identities (Marvel)), Jake Lockley (Jake Lockley, one of Moon Knight’s identities (Marvel)), Khonshu (Khonshu (Marvel)), Dr Emmett (Dr. Emmett (Marvel))
 
 ### Step 1: Find Steven and Jake in the asylum’s locked wings.
 
@@ -531,7 +531,7 @@ Sets on completion: `{"mv-mk06":true}`
 
 *Moon Knight vol. 9 #1–12 (2021–22)* · audience: adult · where: Multiverse: the rift above the waterfall (Moon Knight’s world) · when: After Lunatic, once Spawn has met Angela (SP4). · requires: MK6, SP4
 
-**Cast:** Your Nubbin, Marc Spector (Marc Spector / Moon Knight (Marvel)), Khonshu (Khonshu (Marvel)), Hunter’s Moon (Hunter’s Moon (Marvel)), Rosa
+**Cast:** Marc Spector (Marc Spector / Moon Knight (Marvel)), Khonshu (Khonshu (Marvel)), Hunter’s Moon (Hunter’s Moon (Marvel)), Rosa
 
 ### Step 1: Walk the Mission’s night-walkers home while Hunter’s Moon prowls.
 
@@ -609,7 +609,7 @@ Sets on completion: `{"mv-mk07":true,"mv-mk-mission-lantern":true}`
 
 *Avengers vol. 8 #32–38 (2020): Age of Khonshu* · audience: adult · where: Multiverse: the rift above the waterfall (Moon Knight’s world) · when: After The Midnight Mission. · requires: MK7
 
-**Cast:** Your Nubbin, Marc Spector (Marc Spector / Moon Knight (Marvel)), Steven Grant (Steven Grant, one of Moon Knight’s identities (Marvel)), Jake Lockley (Jake Lockley, one of Moon Knight’s identities (Marvel)), Khonshu (Khonshu (Marvel))
+**Cast:** Marc Spector (Marc Spector / Moon Knight (Marvel)), Steven Grant (Steven Grant, one of Moon Knight’s identities (Marvel)), Jake Lockley (Jake Lockley, one of Moon Knight’s identities (Marvel)), Khonshu (Khonshu (Marvel))
 
 ### Step 1: Follow Marc on Khonshu’s raids across the city.
 

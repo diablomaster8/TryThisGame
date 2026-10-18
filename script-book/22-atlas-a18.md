@@ -1518,7 +1518,7 @@ _She takes him to live with her, and the old woman too, who complains about the 
 _Your Nubbin carries Baba Yaga’s bag of oats down the palace steps, as proudly as it carried it out of the wood._  
 _Last of all, Vasilisa gives your Nubbin a painted doll no bigger than a thumb, in a pouch of its own on a cord._  
 _The tale ends the way the old books end it: and the doll ever remained in her pocket._  
-_The page settles under your hand. You are back in the Grove, with Nova’s atlas on your knee and a small painted doll in your Nubbin’s pouch._  
+_The page settles, and you are back in the Grove with the atlas on your knee. Your Nubbin checks its pouch twice: the small painted doll is still there._  
 
 **Rewards**
 
@@ -1637,7 +1637,7 @@ _She takes him to live with her, and the old woman too, who complains about the 
 _A cloth the size of a handkerchief, fine as breath. Your Nubbin sniffs it, and lies down on it at once._  
 _Last of all, Vasilisa gives your Nubbin a painted doll no bigger than a thumb, in a pouch of its own on a cord._  
 _The tale ends the way the old books end it: and the doll ever remained in her pocket._  
-_The page settles under your hand. You are back in the Grove, with Nova’s atlas on your knee and a small painted doll in your Nubbin’s pouch._  
+_The page settles, and you are back in the Grove with the atlas on your knee. Your Nubbin checks its pouch twice: the small painted doll is still there._  
 
 #### Variant `a18-16-complete-self`
 
@@ -1648,7 +1648,7 @@ _At the wedding the Tsar wears one shirt you know: yours, the plainest of the tw
 _Vasilisa presses its spare button into your hand. It is plain, and white, and yours._  
 _Last of all, Vasilisa gives your Nubbin a painted doll no bigger than a thumb, in a pouch of its own on a cord._  
 _The tale ends the way the old books end it: and the doll ever remained in her pocket._  
-_The page settles under your hand. You are back in the Grove, with Nova’s atlas on your knee and a small painted doll in your Nubbin’s pouch._  
+_The page settles, and you are back in the Grove with the atlas on your knee. Your Nubbin checks its pouch twice: the small painted doll is still there._  
 
 #### Variant `a18-16-sable`
 

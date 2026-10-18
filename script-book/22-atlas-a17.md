@@ -1316,7 +1316,7 @@ _She doesn’t ask. She grabs Mei, and then Satsuki, and then, for some reason, 
 _Later in the summer Mrs Kusakabe comes home. It was only a cold, and she is getting well._  
 _She comes up the road from the bus stop, slowly, and the girls run down to meet her. You watch from Granny’s step._  
 _Then the page goes soft under your hand, and it is the Grove, with Nova’s atlas on your knee._  
-_Your Nubbin is still wearing its leaf. By the lane there is a bench like a country bus stop, and on the shelf an ear of corn, dried gold._  
+_Your Nubbin refuses to take its leaf off. By the lane stands a bench like a country bus stop; on the shelf, an ear of corn, dried gold._  
 
 **Rewards**
 
@@ -1526,7 +1526,7 @@ _Kanta goes red to the ears, and is very busy with the bicycle._
 _Later in the summer Mrs Kusakabe comes home. It was only a cold, and she is getting well._  
 _She comes up the road from the bus stop, slowly, and the girls run down to meet her. You watch from Granny’s step, with Kanta._  
 _Then the page goes soft under your hand, and it is the Grove, with Nova’s atlas on your knee._  
-_Your Nubbin is still wearing its leaf. By the lane there is a bench like a country bus stop, and on the shelf an ear of corn, dried gold._  
+_Your Nubbin refuses to take its leaf off. By the lane stands a bench like a country bus stop; on the shelf, an ear of corn, dried gold._  
 
 #### Variant `a17-grove-oak`
 

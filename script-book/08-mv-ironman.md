@@ -112,7 +112,7 @@ _The rift opens behind you. Your Nubbins look back at the cave once before they 
 
 Sets on completion: `{"mv-im01":true}`
 
-**Notes:** The original is set in Vietnam; keep the setting to unnamed hills and a rebel camp, no flags or nationality. Step 2 is a stealth carry minigame ("mv-cave-plates"): a Power Nubbin is best but any Nubbin can finish with more trips. Step 3 is a survive bout of three short rounds; it cannot be lost outright, only lengthened. Yinsen’s death happens off-screen in the tunnel: show only him lying still in the done scene, no wound, and let the scene sit for two seconds of silence before the last line. Sound: the generator hum under the whole cave, cut it when the armour powers up. Check Tales of Suspense #39 beats before ship.
+**Notes:** The original is set in Vietnam; keep the setting to unnamed hills and a rebel camp, no flags or nationality. Step 2 is a stealth carry minigame ("mv-cave-plates"): a Power Nubbin is best but any Nubbin can finish with more trips. Step 3 is a survive bout of three short rounds; it cannot be lost outright, only lengthened. Yinsen’s death happens off-screen in the tunnel: show only him lying still in the done scene, no wound, and let the scene sit for two seconds of silence before the last line. Sound: the generator hum under the whole cave, cut it when the armour powers up. Check Tales of Suspense #39 beats before ship. SIGNATURE CHOICE: mv-im01-plan (walk | doubt | decoy) pays off through MV_IRONMAN_VARIANTS at mv-im04-duel-done (Tony’s answer to the cameras), mv-im08-captain (the rooftop argument with Steve) and mv-im15-return (what the Superior Tony still half remembers).
 
 ## IM2. The Crimson Dynamo
 

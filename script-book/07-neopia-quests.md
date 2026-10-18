@@ -499,7 +499,7 @@ Sets on completion: `{"nq-10-done":true}`
 
 ## NQ11. Illusen: The Borrowed Herbal
 
-*Neopets: Illusen’s Quests (Illusen’s Glade, Meridell)* · audience: all · where: Meridell, Illusen’s Glade · when: After your first visit to Meridell, while `neo-faerie-side` is unset. Never offered once Jhudora’s side is taken.
+*Neopets: Illusen’s Quests (Illusen’s Glade, Meridell)* · audience: all · where: Meridell, Illusen’s Glade · when: After your first visit to Meridell, while `neo-side-jhudora` is unset. Never offered once Jhudora’s side is taken.
 
 **Cast:** Illusen (Illusen the Earth Faerie (Neopets))
 
@@ -540,9 +540,9 @@ _Far over the hills, a purple cloud darkens by one shade. You get the feeling it
 
 - Illusen’s Friend (flag): You have taken Illusen’s side. Her chain continues (NQ12–NQ13); Jhudora’s chain (NQ14–NQ16) closes for good.
 
-Sets on completion: `{"nq-11-done":true,"neo-faerie-side":"illusen"}`
+Sets on completion: `{"nq-11-done":true,"neo-side-illusen":true}`
 
-**Notes:** Rival chain, part 1 of 3. Completing this quest sets `neo-faerie-side` = illusen and withdraws NQ14–NQ16 (even if NQ14 is in progress). Accepting it does not lock anything; only completion does. The warning in the "Ask about the faerie" choice must also show in the quest offer text. If the player visits Jhudora’s Cloud afterwards, play one line from her (speaker jhudora): "Oh, it’s you. Illusen’s little helper. The door’s that way. It’s also locked." No quest.
+**Notes:** Rival chain, part 1 of 3. Completing this quest sets `neo-side-illusen` and withdraws NQ14–NQ16 (even if NQ14 is in progress). The two chains are exclusive, so each side has its own key (`neo-side-illusen` here, `neo-side-jhudora` in NQ14) and no flag has two writers. Accepting it does not lock anything; only completion does. The warning in the "Ask about the faerie" choice must also show in the quest offer text. If the player visits Jhudora’s Cloud afterwards, play one line from her (speaker jhudora): "Oh, it’s you. Illusen’s little helper. The door’s that way. It’s also locked." No quest.
 
 ## NQ12. Illusen: A Sunnier Spot
 
@@ -649,13 +649,13 @@ _She picks one sprig of mint, thinks, and drops it into a passing breeze heading
 - Illusen’s Colours (cosmetic): Your sandbox sections take on Illusen’s green and gold: fences, banners, path edging and lantern glass.
 - Keeper of the Glade (title): Title for finishing Illusen’s chain.
 
-Sets on completion: `{"nq-13-done":true,"neo-faerie-colours":"illusen"}`
+Sets on completion: `{"nq-13-done":true,"neo-colours-illusen":true}`
 
-**Notes:** Rival chain, final (Illusen). Storm minigame: three beds, hail warnings appear over one bed at a time, a tap pulls a leaf cover; about 40 seconds, no fail state, score saved only for flavour. Jhudora appears as a voice and a cloud only. The colours reward is the brief’s "your choice sets which faerie’s colours appear in your sections"; make it a toggle in the decorate menu so the player can switch it off.
+**Notes:** Rival chain, final (Illusen). `neo-colours-illusen` is this chain’s own one-time colours unlock (Jhudora’s chain sets `neo-colours-jhudora`); only one can ever be set. Storm minigame: three beds, hail warnings appear over one bed at a time, a tap pulls a leaf cover; about 40 seconds, no fail state, score saved only for flavour. Jhudora appears as a voice and a cloud only. The colours reward is the brief’s "your choice sets which faerie’s colours appear in your sections"; make it a toggle in the decorate menu so the player can switch it off.
 
 ## NQ14. Jhudora: The Missing Usuki
 
-*Neopets: Jhudora’s Quests (Jhudora’s Cloud, Faerieland)* · audience: all · where: Faerieland, Jhudora’s Cloud · when: After your first visit to Faerieland, while `neo-faerie-side` is unset. Never offered once Illusen’s side is taken.
+*Neopets: Jhudora’s Quests (Jhudora’s Cloud, Faerieland)* · audience: all · where: Faerieland, Jhudora’s Cloud · when: After your first visit to Faerieland, while `neo-side-illusen` is unset. Never offered once Illusen’s side is taken.
 
 **Cast:** Jhudora (Jhudora the Dark Faerie (Neopets))
 
@@ -697,9 +697,9 @@ _Far away over Meridell, a green glade goes very slightly quiet. You get the fee
 
 - Jhudora’s Ally (flag): You have taken Jhudora’s side. Her chain continues (NQ15–NQ16); Illusen’s chain (NQ11–NQ13) closes for good.
 
-Sets on completion: `{"nq-14-done":true,"neo-faerie-side":"jhudora"}`
+Sets on completion: `{"nq-14-done":true,"neo-side-jhudora":true}`
 
-**Notes:** Rival chain, part 1 of 3. Completing this quest sets `neo-faerie-side` = jhudora and withdraws NQ11–NQ13 (even if NQ11 is in progress). If the player visits Illusen’s Glade afterwards, play one line from her (speaker illusen): "Hello, Keeper. I hope she’s grateful. She won’t be, but I hope so." No quest. Art: the cloud interior with wall-to-wall Usuki shelves; one empty gap until this quest ends.
+**Notes:** Rival chain, part 1 of 3. Completing this quest sets `neo-side-jhudora` and withdraws NQ11–NQ13 (even if NQ11 is in progress). Each side has its own key (see NQ11), so no flag has two writers. If the player visits Illusen’s Glade afterwards, play one line from her (speaker illusen): "Hello, Keeper. I hope she’s grateful. She won’t be, but I hope so." No quest. Art: the cloud interior with wall-to-wall Usuki shelves; one empty gap until this quest ends.
 
 ## NQ15. Jhudora: A Stone That Hums
 
@@ -793,9 +793,9 @@ _As you leave, you hear a drawer open behind you, and a green book being wrapped
 - Jhudora’s Colours (cosmetic): Your sandbox sections take on Jhudora’s violet and black-green: fences, banners, path edging and lantern glass.
 - Friend of the Cloud (title): Title for finishing Jhudora’s chain.
 
-Sets on completion: `{"nq-16-done":true,"neo-faerie-colours":"jhudora"}`
+Sets on completion: `{"nq-16-done":true,"neo-colours-jhudora":true}`
 
-**Notes:** Rival chain, final (Jhudora). Lightning minigame: 8–10 glowing paths to trace, slow and forgiving, no fail state. The last bolt points at the sky or the glade per `nq-16-last-bolt`. Closing line changes if `nq-15-book` = unmentioned: replace the last narration with "As you leave, a drawer opens behind you. You don’t look back." Colours reward works like NQ13’s (a decorate-menu toggle). Queen Fyora appears only here in the faerie quests.
+**Notes:** Rival chain, final (Jhudora). `neo-colours-jhudora` is this chain’s own one-time colours unlock (Illusen’s chain sets `neo-colours-illusen`); only one can ever be set. Lightning minigame: 8–10 glowing paths to trace, slow and forgiving, no fail state. The last bolt points at the sky or the glade per `nq-16-last-bolt`. Closing line changes if `nq-15-book` = unmentioned: replace the last narration with "As you leave, a drawer opens behind you. You don’t look back." Colours reward works like NQ13’s (a decorate-menu toggle). Queen Fyora appears only here in the faerie quests.
 
 ## NQ17. Kitchen Quest: A Cheese With Momentum
 
@@ -888,7 +888,7 @@ _Your Nubbin takes a small bite. Its ears go pink, then red, then back to normal
 
 Sets on completion: `{"nq-18-done":true}`
 
-**Notes:** Kitchen Quest 2 of 5. Lava-berry jam is a new Tyrannian food item; "hot" is flavour only, no damage or sickness. `nq-18-glass` is a harmless flavour flag; the jam always comes in clay.
+**Notes:** Kitchen Quest 2 of 5. Lava-berry jam is a new Tyrannian food item; "hot" is flavour only, no damage or sickness. `nq-18-glass` changes the chef’s last complete line (NEOPIA_QUESTS_VARIANTS); the jam always comes in clay.
 
 ## NQ19. Kitchen Quest: Kelp, Fresh
 
@@ -1003,7 +1003,7 @@ _Your Nubbin, who has heard the word jelly, is now vibrating gently._
 
 **Choices**
 
-- **Promise to try for a green one.** — sets `{"nq-21-promised-green":true}`
+- **Promise to try for a green one.**
     - **The Island Chef**: Don’t promise. Promises about jelly are too much pressure.
 - **Say you’ll bring whatever you find.**
     - **The Island Chef**: The honest answer. Good. Every jelly is a good jelly.
@@ -1573,7 +1573,7 @@ _In your hand is the thing you grabbed: a snowball that never melts, packed perf
 
 Sets on completion: `{"nq-31-done":true}`
 
-**Notes:** One-time: this is the only Snowager sneak (canon: no per-visit freebies; the brief’s “once per visit” loop is retired). It cannot wake him; the done scene is a near-miss for comedy, and there is no fail state. The old repeatable “Snowager Sneak” feature reward is replaced by the Snowager’s Hoard title. If the player picked "Go in alone", the Nubbin is waiting by the guide in the complete scene, wrapped in his scarf.
+**Notes:** One-time: this is the only Snowager sneak (canon: no per-visit freebies; the brief’s “once per visit” loop is retired). It cannot wake him; the done scene is a near-miss for comedy, and there is no fail state. The old repeatable “Snowager Sneak” feature reward is replaced by the Snowager’s Hoard title. If `nq-31-solo` is set ("Go in alone"), the Nubbin is waiting by the guide in the complete scene, wrapped in his scarf.
 
 ## NQ32. The Signpost to Jelly World
 
@@ -1596,7 +1596,7 @@ _Your Nubbin walks up to the brick wall, and walks through it._
 
 **Choices**
 
-- **Follow your Nubbin.** — sets `{"nq-32-followed":true}`
+- **Follow your Nubbin.**
     - **The Official**: I didn’t see that. I didn’t see any of that.
 - **Point at the stain on his clipboard.**
     - **The Official**: That’s… lime cordial. Unrelated. Good day.

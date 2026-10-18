@@ -45,13 +45,13 @@ _Goku’s face goes still. He leads you to a hut where a small orange ball sits 
 
 **Choices**
 
-- **Tell him straight: Bulma wants it for a wish.** — sets `{"mv-db-goku-deal":"truth"}`
+- **Tell him straight: Bulma wants it for a wish.** — sets `{"mv-db-goku-deal":"deal-truth"}`
     - **Goku**: A wish? What would I even wish for? I’ve already got a stick.
     - **Bulma**: Fine. You keep it. You just come along and carry it, and when all seven are together I borrow it. Once.
-- **Let Bulma make her sales pitch.** — sets `{"mv-db-goku-deal":"pitch"}`
+- **Let Bulma make her sales pitch.** — sets `{"mv-db-goku-deal":"deal-pitch"}`
     - **Bulma**: Come with me and see the world! Big cities! Restaurants that serve more than one fish!
     - **Goku**: More than one fish?
-- **Ask Goku what he wants, before anyone sells him anything.** — sets `{"mv-db-goku-deal":"asked"}`
+- **Ask Goku what he wants, before anyone sells him anything.** — sets `{"mv-db-goku-deal":"deal-asked"}`
     - **Goku**: Me? Grandpa said there are people out there stronger than me. I want to find them and fight them. Nicely.
     - **Bulma**: …That is the strangest life plan I’ve ever heard, and it fits my route perfectly.
 
@@ -97,7 +97,7 @@ _Bulma clips a tiny beeping charm to its collar: a spare from her radar, she say
 
 Sets on completion: `{"mv-db01":true,"mv-db-radar":3}`
 
-**Notes:** Opens the Dragon Ball line; no prerequisite beyond the rift. Staging: Mount Paozu, dirt road, Goku’s round hut with Gohan’s photo and the four-star ball on a cushion. The brief puts the Nubbin on Bulma’s bike; in chapter 1 she drives a car, so the bike is our change (a capsule motorbike suits her). The bike basket ride is a race-course reskin with no rivals. Pterodactyl bout: the Nubbin rides the staff tip, so the opponent hovers; one-round bout. Goku’s staff (Nyoibō) grows on a spoken order; keep his order original (“Staff! Get long!”), never the anime’s call. `mv-db-radar` is Bulma’s first hunt counter, separate from `mv-db-balls` (see file header). Chapter checked from memory: Dragon Ball ch. 1, “Bulma and Son Goku” (1984). `mv-db-goku-deal` gains `asked` (added in review): Goku names his own reason to travel, to find people stronger than him, which the tournaments pay off.
+**Notes:** Opens the Dragon Ball line; no prerequisite beyond the rift. Staging: Mount Paozu, dirt road, Goku’s round hut with Gohan’s photo and the four-star ball on a cushion. The brief puts the Nubbin on Bulma’s bike; in chapter 1 she drives a car, so the bike is our change (a capsule motorbike suits her). The bike basket ride is a race-course reskin with no rivals. Pterodactyl bout: the Nubbin rides the staff tip, so the opponent hovers; one-round bout. Goku’s staff (Nyoibō) grows on a spoken order; keep his order original (“Staff! Get long!”), never the anime’s call. `mv-db-radar` is Bulma’s first hunt counter, separate from `mv-db-balls` (see file header). Chapter checked from memory: Dragon Ball ch. 1, “Bulma and Son Goku” (1984). `mv-db-goku-deal` gains `asked` (added in review): Goku names his own reason to travel, to find people stronger than him, which the tournaments pay off. SIGNATURE CHOICE: mv-db-goku-deal (deal-truth | deal-pitch | deal-asked: how Bulma got Goku to come) pays off through MV_DRAGONBALL_VARIANTS at mv-db07-complete (how she hands over the radar and the four-star), mv-db13-complete (what Goku says to his grandfather’s ball before the wish) and mv-db19-road (what Bulma brings with the second radar). The values carry a deal- prefix because the runner matches variants by value and mv-db-korin also uses asked.
 
 ## DB2. Oolong
 

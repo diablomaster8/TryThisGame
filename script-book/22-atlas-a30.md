@@ -858,7 +858,7 @@ _Behind you the steep roof of the synagogue stands against the evening, and high
 _The shutter of the attic window has been closed, and barred across from the inside. Nobody remembers doing it._  
 _It looks like a door holding itself shut, the way he held the lane. Safe, and nobody in, and nobody out._  
 _Your Nubbin looks up at the window for a long time. Then it takes your hand, which it doesn’t often do._  
-_You are back in the Grove, the atlas on your knee. There is a clay tile in your pocket, still a little cool._  
+_You are back in the Grove, the atlas on your knee. Your pocket is heavier by one clay tile, still cool, as if nobody has told it where it is._  
 
 **Rewards**
 
@@ -995,7 +995,7 @@ _Behind you the steep roof of the synagogue stands against the evening, and high
 _On the sill outside the attic window, high up where nobody can reach, a broom leans against the wall._  
 _Nobody knows how it got there. Nobody has tried to fetch it down._  
 _Your Nubbin looks up at the window for a long time. Then it takes your hand, which it doesn’t often do._  
-_You are back in the Grove, the atlas on your knee. There is a clay tile in your pocket, still a little cool._  
+_You are back in the Grove, the atlas on your knee. Your pocket is heavier by one clay tile, still cool, as if nobody has told it where it is._  
 
 #### Variant `a30-13-complete-sit`
 
@@ -1004,7 +1004,7 @@ _Behind you the steep roof of the synagogue stands against the evening, and high
 _On the sill of the attic window, high up where nobody can reach, there is a small clay bird. A child’s._  
 _Rivka looks up at it, and then at you, and doesn’t say anything. She only had enough clay for one, she said._  
 _Your Nubbin looks up at the window for a long time. Then it takes your hand, which it doesn’t often do._  
-_You are back in the Grove, the atlas on your knee. There is a clay tile in your pocket, still a little cool._  
+_You are back in the Grove, the atlas on your knee. Your pocket is heavier by one clay tile, still cool, as if nobody has told it where it is._  
 
 #### Variant `a30-grove-tile-cinder`
 

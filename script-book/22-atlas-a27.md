@@ -1439,7 +1439,7 @@ _Zal comes out into the courtyard with his son in his arms, wrapped up tight, an
 _The Simurgh looks at the baby, and the baby looks at the Simurgh, and neither of them is at all afraid._  
 _The last thing you see on the page is Zal in the courtyard, laughing, with the baby held up to the sky._  
 _One feather has drifted down onto the step: grey and gold, long as your arm. The Simurgh doesn’t take it back._  
-_You are back in the Grove, the atlas on your knee. The feather is in your hand, and your Nubbin is asking for second breakfast._  
+_You are back in the Grove, the atlas on your knee. The feather has come too, and your Nubbin, fed once already, is asking for second breakfast._  
 
 **Rewards**
 
@@ -1542,7 +1542,7 @@ _He doesn’t need to. You sit there together, all three of you, and let the mor
 _Days later, far away in his camp, Sam opens a parcel and finds a little silk doll with his grandson’s face._  
 _The last thing you see on the page is Sam, the great champion, holding the doll in both hands and weeping for joy._  
 _One feather has drifted down onto the step: grey and gold, long as your arm. The Simurgh doesn’t take it back._  
-_You are back in the Grove, the atlas on your knee. The feather is in your hand, and your Nubbin is asking for second breakfast._  
+_You are back in the Grove, the atlas on your knee. The feather has come too, and your Nubbin, fed once already, is asking for second breakfast._  
 
 #### Variant `a27-17-complete-night`
 
@@ -1556,7 +1556,7 @@ _She looks at the baby for a long time. Then she turns her great gold eye on you
 _She spreads her wings, which fill the whole sky over Sistan, and goes up._  
 _The last thing you see on the page is the Simurgh circling over the house, once and again, before she turns for home._  
 _One feather has drifted down onto the step: grey and gold, long as your arm. The Simurgh doesn’t take it back._  
-_You are back in the Grove, the atlas on your knee. The feather is in your hand, and your Nubbin is asking for second breakfast._  
+_You are back in the Grove, the atlas on your knee. The feather has come too, and your Nubbin, fed once already, is asking for second breakfast._  
 
 #### Variant `a27-close-sable-bonded`
 

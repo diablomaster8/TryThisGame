@@ -45,7 +45,7 @@ Hint: Get up, and look at the stone bed beside you. · check: `inspect:pa5-cave:
 _You do. You are lying on a stone floor, and it is cold through your coat._  
 _Your Nubbin is curled against your side. It opens one eye, then the other, then sneezes._  
 _Beside you is a stone bed, carved with lines that glow a soft blue. It is wet, as if someone has just got out of it._  
-**Pixel**: Player two, reading you. Can you hear me? Nod if you can hear me. I can’t see you nod. Say something.  
+**Pixel**: Player two. I’ve got the manual this time. It’s in a language. Say something.  
 **You**: I can hear you.  
 **Pixel** _(think)_: Good. The voice wasn’t me, by the way. I want that on the record.  
 _Somewhere further in, water drips into water. A blue light runs along the wall, towards it._  

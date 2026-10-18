@@ -86,9 +86,9 @@ _Somebody calls “two minutes”. The studio lights come up. Your Nubbins blink
 
 **Choices**
 
-- **“You don’t have to do this, Peter.”** — sets `{"mv-e1-peter":"doubted"}`
+- **“You don’t have to do this, Peter.”** — sets `{"mv-e1-peter":"peter-doubted"}`
     - **Peter Parker**: I know. That’s the scary part. I’m choosing it.
-- **“We’ll be right there on the stage with you.”** — sets `{"mv-e1-peter":"stood"}`
+- **“We’ll be right there on the stage with you.”** — sets `{"mv-e1-peter":"peter-stood"}`
     - **Peter Parker**: With the little guys? Okay. Okay. Nobody can be scared next to those.
 
 #### Done `mv-e1-unmask-done`
@@ -268,7 +268,7 @@ _Above the waterfall, for a moment, the rift flickers red._
 
 Sets on completion: `{"mv-e1":true}`
 
-**Notes:** BRANCHING: step order is s1, s2, then either reg-s3 + reg-s4 (mv-cw = registration) or res-s3 + res-s4 (mv-cw = resistance), then s5, s6 for both. Each path plays six steps. The ending is the same either way; mv-cw only decides the E6 ally (Tony’s armours or Steve’s resistance). Stamford: the blast is a white-out cut, no bodies shown; the backpack is the only detail. Bill Foster’s death is one lightning flash and a fall, no gore. Frank shooting the two crooks is off-screen (two muzzle flashes through a doorway). The courthouse shooting is staged the same way: sound, a fall, no blood. On the resistance path, Bill Foster dies off-screen in the ambush and is mourned in res-s4. The prison break in s5 assumes Prison 42 exists on both paths; on the resistance path it is introduced by its name in s5 only. The complete scene ties Steve’s return to the CA line’s Cube thread (Kobik, CA10) without repeating CA10’s resurrection: Kobik keeps her promise not to change anything and only catches him as he falls. Peter’s choice flag mv-e1-peter and the safehouse / after-battle flags are cosmetic. Each path has a hard call of its own: on registration, mv-e1-clone (shutdown | kept) after Goliath dies; on resistance, mv-e1-frank (out | argued) over the Punisher. Both are cosmetic; Frank leaves either way, as in the source, and the clone is never used again on screen. Check Civil War #1–7, Captain America #25 and Captain America: Reborn beats before ship.
+**Notes:** BRANCHING: step order is s1, s2, then either reg-s3 + reg-s4 (mv-cw = registration) or res-s3 + res-s4 (mv-cw = resistance), then s5, s6 for both. Each path plays six steps. The ending is the same either way; mv-cw only decides the E6 ally (Tony’s armours or Steve’s resistance). Stamford: the blast is a white-out cut, no bodies shown; the backpack is the only detail. Bill Foster’s death is one lightning flash and a fall, no gore. Frank shooting the two crooks is off-screen (two muzzle flashes through a doorway). The courthouse shooting is staged the same way: sound, a fall, no blood. On the resistance path, Bill Foster dies off-screen in the ambush and is mourned in res-s4. The prison break in s5 assumes Prison 42 exists on both paths; on the resistance path it is introduced by its name in s5 only. The complete scene ties Steve’s return to the CA line’s Cube thread (Kobik, CA10) without repeating CA10’s resurrection: Kobik keeps her promise not to change anything and only catches him as he falls. SIGNATURE CHOICE: mv-e1-peter (peter-doubted | peter-stood: whether Peter unmasked alone or with the Nubbins beside him) pays off through MV_ENDGAMES_VARIANTS at mv-e1-courthouse (how Peter stands in the crowd), mv-e2-incursion (what Reed heard from him before the raft) and mv-e6-tony / mv-e6-steve (whether Peter comes to the last war bare-faced). The values carry a peter- prefix because the runner matches variants by value and mv-e2-kneel also uses stood. The safehouse / after-battle flags are cosmetic. Each path has a hard call of its own: on registration, mv-e1-clone (shutdown | kept) after Goliath dies; on resistance, mv-e1-frank (out | argued) over the Punisher. Both are cosmetic; Frank leaves either way, as in the source, and the clone is never used again on screen. Check Civil War #1–7, Captain America #25 and Captain America: Reborn beats before ship.
 
 ## E2. Secret Wars
 

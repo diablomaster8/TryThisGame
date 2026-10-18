@@ -280,7 +280,7 @@ Hint: Keep to the verge. The children won’t see you. · check: `walk:s23-cinde
 #### Scene `s23-rhyme`
 
 _Then a lane at dusk, on a Lantern Night years from now, with lanterns on every gatepost and children skipping in the road._  
-_They chant in the flat sing-song children keep for old things. You know the tune; one word is new._  
+_They chant it the way children chant old things, flat and fast. You know the tune; one word is new._  
 _“Corvin held them close and tight, / kept them warm one winter night;”_  
 _“when the morning came to call, / they did not move at all.”_  
 _The children shriek and scatter, laughing the way you laugh at something that can’t catch you any more._  
@@ -1235,12 +1235,12 @@ Hint: Tobin’s cottage is at the bottom of the lane, by the polished lamp post.
 _The robin leads you down the lane to a cottage with a lamp post outside it, polished like a medal._  
 _An old man in a lamplighter’s coat is getting a wheelchair over the doorstep. The girl in it is telling him how, very loudly._  
 **Linnet** _(angry)_: No. Back wheels first. Grandad. Back. Wheels. First.  
-**Old Tobin** _(think)_: I know which wheels, love, I’ve been doing wheels since before—  
+**Old Tobin** _(think)_: I know which wheels, love. I’ve been doing wheels since before…  
 _He gets it over the step. She takes the rims herself the moment it lands, and spins round to look at you._  
 **Old Tobin** _(happy)_: Hazel’s grandchild! You’ve her chin. I’m Tobin. I lit the lamps in this valley for fifty-one years.  
 **Old Tobin**: This is Linnet. My granddaughter. Here till winter, while her mum works the coast boats.  
 **Linnet** _(angry)_: He means I’m kept here till winter.  
-**Old Tobin** _(soft)_: She’s eleven. She’s very— she’s eleven.  
+**Old Tobin** _(soft)_: She’s eleven. She’s very… she’s eleven.  
 _Linnet looks up the lane, and down it, and at the hill behind, and at the hill behind that._  
 **Linnet**: Nothing in this valley is flat. Did you know that? Nothing. Somebody should be told.  
 **Old Tobin** _(soft)_: Mind yourself on the lane, love.  
@@ -1417,7 +1417,7 @@ _Moss is quiet for so long that Dusty stops digging to look._
 #### Done `s26-earth-pick`
 
 _You walk the garden for her twice, wall to wall, stopping at every corner so she can see it. She turns most of it down on sight._  
-**Linnet** _(think)_: Too shady. Too stony. Too near the door; people would tread on it. Too— what do you think?  
+**Linnet** _(think)_: Too shady. Too stony. Too near the door; people would tread on it. What do you think?  
 
 **Choices**
 
@@ -1446,11 +1446,11 @@ _Linnet puts her brake on, and Dusty sits down on the path. You sit on the end o
 
 #### Done `s26-hush`
 
-**Moss** _(sad)_: After the White Year, some of the stilled ones never moved again. Hush brought them in here, out of the wind.  
-**Moss**: She planted roses up every wall, so they would have something to look at. So it wasn’t only grey.  
-**Moss**: Every day she sat with them. She didn’t try to wake them. She kept them company.  
-**Moss** _(soft)_: The last of them faded on a winter morning, by this wall, with Hush beside it.  
-**Moss** _(soft)_: She locked the door and put the key in the ground. Later, when she had carried it as far as she could, she let herself fade.  
+**Moss** _(sad)_: Briar wanted the stilled ones up on the hill, in the light, where the valley could see them. Hush said the wind would have them.  
+**Moss**: So she carried them in here herself, one at a time, all that winter. She was not big. It took her till the thaw.  
+**Moss**: Then she planted roses up every wall. Not for herself. A still thing can still be looked at, she said, and should have something back.  
+**Moss** _(soft)_: The last of them went in the second winter, here, with the roses bare above it. She said bare was still something.  
+**Moss** _(soft)_: You heard the rest at Lantern Night. The door, and the key. I will not tell that twice in one year.  
 _Nobody says anything. The robin turns round twice on the back of the bench, and settles._  
 **Linnet** _(soft)_: Not even Hazel knew? About in here?  
 **Moss** _(soft)_: Hazel had enough doors.  
@@ -1513,7 +1513,7 @@ _You could send Tobin home and hide the door again. Linnet looks at you as if sh
 **Choices**
 
 - **Ask Tobin to sit on Hush’s bench. Just for a minute.** — sets `{"s26-tobin":"asked"}`
-    - **Old Tobin**: Sit? I— well. A minute. One.
+    - **Old Tobin**: Sit? I… well. A minute. One.
     - He sits. The stone is warm from the afternoon, and he looks very surprised by that.
 - **Tell Linnet to show him round. It’s her garden too.** — sets `{"s26-tobin":"shown"}`
     - **Linnet**: …Fine. Grandad. Come here. No, here. Look at this.
@@ -1522,7 +1522,7 @@ _You could send Tobin home and hide the door again. Linnet looks at you as if sh
 
 #### Done `s26-tobin-bench`
 
-**Old Tobin** _(happy)_: This puts me in mind of a story. There was a winter, the year of the Three Hats, when—  
+**Old Tobin** _(happy)_: This puts me in mind of a story. There was a winter, the year of the Three Hats, when…  
 **Old Tobin** _(think)_: …when the snow came up to the lamp posts, and I went round lighting them from underneath, and…  
 _He stops, and looks at the roses. Then he looks at Linnet, up to her elbows in a raised bed, and not tipping._  
 **Old Tobin** _(soft)_: Where was I.  
@@ -1596,7 +1596,7 @@ _She holds it out on her open palm. It is black and heavy and older than anybody
 **Choices**
 
 - **Give it to Linnet. She asked for the earth first.** — sets `{"s26-key":"linnet"}`
-    - **Linnet**: Me? I just said— oh, you’re impossible.
+    - **Linnet**: Me? I just said… oh, you’re impossible.
     - She closes her hand round it. Then she goes very quiet.
     - **Linnet**: Then I’m keeping it so nobody can ever lock it. That’s what it’s for now.
 - **Hang it on the old wall post, for anyone who wants to come in.** — sets `{"s26-key":"post"}`
@@ -1644,7 +1644,7 @@ Sets on completion: `{"hushGarden":true,"s26Done":true}`
 - `s26-earth-ask#9` → You remind me of my friend Hush. She loved digging, and watching things grow.
 - `s26-earth-ask#10` → Pick your corner. Then help it grow.
 
-**Notes:** THEME. Safe is not the same as well, told from the child’s side: Linnet is kept, not let. The garden Hush grew for the still ones becomes a garden for someone who will not sit still in it. Slow hands: a ramp is three evenings’ work. BURNETT, CHANGED ON PURPOSE. No cure by willpower. Linnet stays as she is; the garden is changed to fit her. TIMING. Opens after c6-close (late summer). Step scenes play when the previous check is met, as in the other side-story files. Steps 1–8 run from chapter 6; step 9 waits for chapter 7 (autumn); step 10 must be done by the end of chapter 8 (the journal hint in chapter 8 says the garden won’t wait for winter). If chapter 9 opens before step 10 is done, the story closes unfinished: no rewards, hushGarden unset. The story pauses through chapters 9–10 (no scenes, no journal nudges). Step 11’s scene plays on the first visit to the Grove after c11-open; steps 12 and 13 follow within the few days of chapter 11. If chapter 12 begins before step 13’s check, the story closes unfinished and hushGarden stays unset. SIGNATURE CHOICE. Step 5 (s26-steps: ramp | lift) is paid off in step 11, six outline quests later. PRELUDES (SIM: play a variant immediately before a step’s own scene). With s26-steps = ramp, play s26-ramp-1 before s26-pruned, s26-ramp-2 before s26-earth-ask and s26-ramp-3 before s26-bench. With lift, play s26-lift-1, s26-lift-2 and s26-lift-3 in the same places. These are the outline’s “three evening scenes”: story beats, never a repeating task. Steps 6 and 7 are written to work whether Linnet is at the top of the steps or down in the garden. By step 8 she is down on both routes. OTHER VARIANTS. If s12Done when step 3 completes, play s26-door-thrums in place of s26-door. If s13Done when step 10 completes, play s26-tobin-bench-cellar in place of s26-tobin-bench. With s26-steps = lift, play s26-snowdrops-lifted in place of s26-snowdrops (step 11 done). Complete: s26-complete for s26-key = linnet, s26-complete-post for post, s26-complete-door for door. CAMPAIGN HOOKS (hushGarden; all in SIDE_STORY_S26_VARIANTS). (1) c12-wall-garden: in c12-open, after line 8 (“Hazel walks the Grove. Slowly. She touches each lantern post…”) and before line 9 (“At the fourth post, the long grass…”), play c12-wall-garden, then resume c12-open at line 9. Narration only: Hazel never speaks in it. (2) end-moss-sleeps-garden: in the Moss Sleeps ending, straight after end-moss-sleeps and before the epilogue variants. (3) end-epi-garden: in every ending except The Collector, after the other epilogue variants (S2, S9, S10, S13, S19, and S23 if wired) and before end-<id>-last. In The Collector, end-epi-garden-cold plays there instead. MOSS. Steps 6–8 need him, and he is always in the world in chapters 6–8. Steps 11–13 and the complete scene never use him, so they hold on every route. The bare patch by Hush’s bench, marked with Linnet’s white pebble, stays bare in the garden art until end-moss-sleeps-garden (where his seed is promised to it). Moss tells some of S1’s Hush memory again in s26-hush; that is deliberate (he repeats his tales), and it agrees with S1: the last still one faded on a winter morning by this wall. Hush faded before Hazel came; Moss has come over the wall once a year, on the day she faded, and told nobody, Hazel included. TOBIN. This is always the player’s first meeting with Tobin (S13 opens in chapter 7), so he gets his one-line introduction in s26-linnet. LINNET (art and movement). Eleven; her own dark green wheelchair, which she propels herself, fast on the flat. Nobody pushes it or lifts her without asking. Sparks lifts “front and back, never the sides”, as Linnet directs. Animate her racing, spinning to face people, and working the raised beds from her chair. Brake on when she settles (s26-bench). Check every movement, the ramp gradient and the snow beat with wheelchair users. ART. Walled garden behind the ivy door on the north side: ivy that lifts in the wind (later hung on a rail), three worn stone steps that become a long, shallow ramp (ramp state persists), grey canes that green over the seasons, Hush’s stone bench in the middle, raised beds on the south wall, the white pebble, snow in chapter 11, snowdrops scattered where the Nubbin hid bulbs (one on the ramp). Robin: perches on posts, bench and Linnet’s knee; never speaks. Your Nubbin: bulging cheeks in step 9. SIM: new flags hushGarden (bool) and s26Done; the prelude rule above; ramp and snow art states; the walled garden section (seasonal growth, no watering, no timers); the robin petpet; Linnet as a summer visitor in the garden after the campaign (talk only, no chores); Tobin gains garden tales (added to his S13 tale pool if S13 is done, or told at his cottage gate if not). The c12 insertion point and the three ending scenes above.
+**Notes:** THEME. Safe is not the same as well, told from the child’s side: Linnet is kept, not let. The garden Hush grew for the still ones becomes a garden for someone who will not sit still in it. Slow hands: a ramp is three evenings’ work. BURNETT, CHANGED ON PURPOSE. No cure by willpower. Linnet stays as she is; the garden is changed to fit her. TIMING. Opens after c6-close (late summer). Step scenes play when the previous check is met, as in the other side-story files. Steps 1–8 run from chapter 6; step 9 waits for chapter 7 (autumn); step 10 must be done by the end of chapter 8 (the journal hint in chapter 8 says the garden won’t wait for winter). If chapter 9 opens before step 10 is done, the story closes unfinished: no rewards, hushGarden unset. The story pauses through chapters 9–10 (no scenes, no journal nudges). Step 11’s scene plays on the first visit to the Grove after c11-open; steps 12 and 13 follow within the few days of chapter 11. If chapter 12 begins before step 13’s check, the story closes unfinished and hushGarden stays unset. SIGNATURE CHOICE. Step 5 (s26-steps: ramp | lift) is paid off in step 11, six outline quests later. PRELUDES (SIM: play a variant immediately before a step’s own scene). With s26-steps = ramp, play s26-ramp-1 before s26-pruned, s26-ramp-2 before s26-earth-ask and s26-ramp-3 before s26-bench. With lift, play s26-lift-1, s26-lift-2 and s26-lift-3 in the same places. These are the outline’s “three evening scenes”: story beats, never a repeating task. Steps 6 and 7 are written to work whether Linnet is at the top of the steps or down in the garden. By step 8 she is down on both routes. OTHER VARIANTS. If s12Done when step 3 completes, play s26-door-thrums in place of s26-door. If s13Done when step 10 completes, play s26-tobin-bench-cellar in place of s26-tobin-bench. With s26-steps = lift, play s26-snowdrops-lifted in place of s26-snowdrops (step 11 done). Complete: s26-complete for s26-key = linnet, s26-complete-post for post, s26-complete-door for door. CAMPAIGN HOOKS (hushGarden; all in SIDE_STORY_S26_VARIANTS). (1) c12-wall-garden: in c12-open, after line 8 (“Hazel walks the Grove. Slowly. She touches each lantern post…”) and before line 9 (“At the fourth post, the long grass…”), play c12-wall-garden, then resume c12-open at line 9. Narration only: Hazel never speaks in it. (2) end-moss-sleeps-garden: in the Moss Sleeps ending, straight after end-moss-sleeps and before the epilogue variants. (3) end-epi-garden: in every ending except The Collector, after the other epilogue variants (S2, S9, S10, S13, S19, and S23 if wired) and before end-<id>-last. In The Collector, end-epi-garden-cold plays there instead. MOSS. Steps 6–8 need him, and he is always in the world in chapters 6–8. Steps 11–13 and the complete scene never use him, so they hold on every route. The bare patch by Hush’s bench, marked with Linnet’s white pebble, stays bare in the garden art until end-moss-sleeps-garden (where his seed is promised to it). Moss returns to S1’s Hush memory in s26-hush from a new angle (how the still ones came in, and why the roses); he never tells a tale twice in the same words, and he points to Lantern Night for the door and the key instead of telling that again. It agrees with S1: the last still one faded in winter by this wall. Hush faded before Hazel came; Moss has come over the wall once a year, on the day she faded, and told nobody, Hazel included. TOBIN. This is always the player’s first meeting with Tobin (S13 opens in chapter 7), so he gets his one-line introduction in s26-linnet. LINNET (art and movement). Eleven; her own dark green wheelchair, which she propels herself, fast on the flat. Nobody pushes it or lifts her without asking. Sparks lifts “front and back, never the sides”, as Linnet directs. Animate her racing, spinning to face people, and working the raised beds from her chair. Brake on when she settles (s26-bench). Check every movement, the ramp gradient and the snow beat with wheelchair users. ART. Walled garden behind the ivy door on the north side: ivy that lifts in the wind (later hung on a rail), three worn stone steps that become a long, shallow ramp (ramp state persists), grey canes that green over the seasons, Hush’s stone bench in the middle, raised beds on the south wall, the white pebble, snow in chapter 11, snowdrops scattered where the Nubbin hid bulbs (one on the ramp). Robin: perches on posts, bench and Linnet’s knee; never speaks. Your Nubbin: bulging cheeks in step 9. SIM: new flags hushGarden (bool) and s26Done; the prelude rule above; ramp and snow art states; the walled garden section (seasonal growth, no watering, no timers); the robin petpet; Linnet as a summer visitor in the garden after the campaign (talk only, no chores); Tobin gains garden tales (added to his S13 tale pool if S13 is done, or told at his cottage gate if not). The c12 insertion point and the three ending scenes above.
 
 ## S27. Some Nubbin
 
@@ -3028,7 +3028,7 @@ _The windowsill is deep enough to sit in. On it is a flat old cushion with a den
 _Dimple has filled the dent. Every toy she owns is in it: a cotton reel, a pine cone, a sock and half a wooden peg, piled up high._  
 _Drizzle climbs the curtain, very slowly, and lays one pale-blue hand flat in the last gap in the dent._  
 _Dimple is there at once. She takes Drizzle by the wrist and pulls her off the sill, still smiling._  
-**Dimple** _(happy)_: …  
+_Dimple beams at her, and goes back to patting the pile flat._  
 _Then you see the ball above Dimple’s head. It has gone pale and thin, like a soap bubble that has been out too long._  
 **Clover** _(happy)_: See? Not a cloud on her. She’s my good one, this week.  
 _Clover is looking at the smile. She isn’t looking up._  
@@ -3062,7 +3062,7 @@ _Drizzle puts one foot over the acorns. Dimple bounces over and nudges her back 
 _Drizzle tries again, and again: nudge, nudge. Each time, Dimple adds another acorn to the ring._  
 _Your Nubbin, who has followed you out, starts fetching acorns too, to help. It doesn’t know what for._  
 _Drizzle looks at you over the ring. She doesn’t look upset; she looks like someone waiting to be let out of a room._  
-**Drizzle** _(soft)_: …  
+_Drizzle says nothing. She lifts one foot over the acorns again, and waits to see what you do._  
 
 **Choices**
 
@@ -3196,8 +3196,8 @@ _The frosts have come, and the Grove is white at dawn round the fourth post. Mos
 _You find him at the old wall, by Hush’s lantern post, with frost on his back that he hasn’t bothered to shake off._  
 **Moss** _(think)_: Clover’s gold one. Luna told me. Luna tells me things at dawn, when I am too tired to argue.  
 **Moss**: Hush. The quiet one. You have heard her name in the tale. I did not tell you her job.  
-**Moss** _(sad)_: After the White Year, some of the stilled ones never moved again. Hush sat with them. Every one, every day, until the last.  
-**Moss**: Grief was her job. The valley’s griefs were hers to keep, so they did not get dropped all over the valley.  
+**Moss** _(sad)_: When the White Year stilled half the valley, the rest of us went at the snow with shovels. Hush went and sat where the still ones could see her.  
+**Moss**: She never tried to wake one. If one shivered, she took it for a conversation. That was her job, and nobody gave it her.  
 **Moss** _(soft)_: People thought that made her a sad thing. They were wrong about which part was sad.  
 **Moss**: Low in the wall. The flat stone, by your foot. Look at it properly. She meant it to be looked at.  
 
@@ -3233,7 +3233,7 @@ _Dimple bounces over to welcome her, beaming. Fidget counts Dimple twice._
 _At dusk the frost comes down over the yard like a cloth over a cage. Fidget goes very still for one second, and then she gets to work._  
 _She herds the whole household into the shed: Bristle, Flinch, the fussy one, Drizzle, Dimple. She pushes from behind with her head._  
 _Then she drags the slop bucket across the yard, an inch at a time, and shoves it hard against the shed door._  
-**Fidget** _(shock)_: …  
+_Fidget stands guard at the bucket, stiff as a peg, eyes wide, listening to the dark._  
 **Clover** _(sad)_: Every night since the frost. In they go, and the bucket.  
 _From inside the shed comes Dimple, louder than ever: bounce, bounce, bounce off the walls, a jolly, frantic thudding._  
 _Nothing else. The others have gone quiet in there, the way pot plants go in a cupboard._  
@@ -3291,7 +3291,7 @@ _At the foot of the cliff the rock is striped like a cake. Where it meets the gr
 **Dusty** _(soft)_: That’s it. The spoon hole. Where I dug her out. Two days, with a spoon.  
 _Dimple is down in it, on Fossil’s cushion. She is scraping at the back of the hollow with both hands, as if there might be another egg._  
 _The hollow is only waist-deep on you, but on a Nubbin the lip is a cliff. She can’t climb out, and she hasn’t tried._  
-**Dimple**: …  
+_Dimple says nothing. She scrapes, and scrapes, and smiles at the rock._  
 
 ### Step 11: Stay at the spoon hole until Dimple stops.
 
@@ -3311,7 +3311,7 @@ _Up at the rim you sit down in the frosty grass, because standing feels like hur
 
 _And then Dimple stops, in the middle of a bounce, almost. She sits down hard on Fossil’s cushion, and the smile goes._  
 _Not off, like a lamp. It goes the way frost goes off a window, from the edges in, until there is only her face._  
-**Dimple** _(sad)_: …  
+_Dimple says nothing. She looks at her own hands as if she has only just found them._  
 _Up at the rim, Clover puts both hands over her mouth._  
 
 ### Step 12: Stay at the rim while Clover tells you how Dimple and Fossil met.
@@ -3383,7 +3383,7 @@ _Your Nubbin, who has copied Dimple all autumn, comes and sits down too. It copi
 _Then a noise comes up the path: small feet, very fast, and a thin worried squeak. Fidget._  
 _She has woken in the kitchen and found everybody gone. She has come all the way up the hill alone, checking every bush._  
 _At the top she spins round and round in the grass, looking for everybody at once. Her ball is whirling like a top._  
-**Fidget** _(shock)_: …  
+_Fidget skids to a stop in front of you, every whisker out, and says nothing at all._  
 _Clover comes puffing up the path behind her, too late, in one welly._  
 _Before anybody else can move, Dimple gets up. She goes to Fidget and sits down right beside her, and stays._  
 _She doesn’t smile at her, or bounce. She sits, the way she was sat with._  
@@ -5228,7 +5228,7 @@ _At the foot of the cliff the rock is striped like a cake. Where it meets the gr
 **Dusty** _(soft)_: That’s it. The spoon hole. Where I dug her out. Two days, with a spoon.  
 _Dimple is down in it, on Fossil’s cushion. She is scraping at the back of the hollow with both hands, as if there might be another egg._  
 _The hollow is only waist-deep on you, but on a Nubbin the lip is a cliff. She can’t climb out, and she hasn’t tried._  
-**Dimple**: …  
+_Dimple says nothing. She scrapes, and scrapes, and smiles at the rock._  
 
 #### Variant `s30-hollow-helped`
 

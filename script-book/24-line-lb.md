@@ -798,9 +798,20 @@ _In the morning there is a small painted box on your doorstep with a note: FOR Y
 
 Sets on completion: `{"lb-done":true}`
 
-**Notes:** A clear late-summer evening in the field behind the Larkins’ cottage; the sky fades gold → pink → blue and stars appear one by one (the first, low in the west, may be Venus). After lb12-arrive, play lb12-ned-<lb-race> (proper | let-win | hand; default hand) and then lb12-box-<lb-box> (big = house, long = boat, tall = rocket; default big). Reward: the small decor box in the form matching lb-box. Tier 2, Learning Grove only, after lb-done: washing flaps on the Larkins’ line, Ned waves from their gate as you pass, and Ned’s big box sits in their garden for good as a house, boat or rocket (ambient art only, no dialogue). The Larkins never appear in campaign scenes and hold no lantern at the Long Night.
+**Notes:** A clear late-summer evening in the field behind the Larkins’ cottage; the sky fades gold → pink → blue and stars appear one by one (the first, low in the west, may be Venus). After lb12-arrive, play lb12-ned-<lb-race> (proper | let-win | hand; default hand) and then lb12-box-<lb-box> (big = house, long = boat, tall = rocket; default big). If lb-star-wish = wish, play lb12-complete-wish in place of lb12-complete (Maisie asks whether the wish came true). Reward: the small decor box in the form matching lb-box. Tier 2, Learning Grove only, after lb-done: washing flaps on the Larkins’ line, Ned waves from their gate as you pass, and Ned’s big box sits in their garden for good as a house, boat or rocket (ambient art only, no dialogue). The Larkins never appear in campaign scenes and hold no lantern at the Long Night.
 
 ## Variant scenes
+
+#### Variant `lb12-complete-wish`
+
+_Sam is asleep again in the long grass, with Ned asleep on his arm. Maisie is trying very hard not to be._  
+**Maisie** _(soft)_: That was the best game we ever made up.  
+**Maisie** _(soft)_: Did your wish come true yet?  
+_You say you can’t tell her, because that is the rule. She nods, very seriously, and falls asleep in the middle of the nod._  
+**Ama Larkin** _(soft)_: Lying still together. It’s hard, and you all did it.  
+_Your Nubbin is asleep in Ned’s box. Ama looks at it, and then at you._  
+**Ama Larkin**: That box should stay out here for good, I think. It’s earned its place.  
+_In the morning there is a small painted box on your doorstep with a note: FOR YOUR NUBBIN FROM NED (HE DID THE N)._  
 
 #### Variant `lb06-door-big`
 

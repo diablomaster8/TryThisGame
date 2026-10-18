@@ -699,7 +699,7 @@ _Dusty unfolds the paper. It has been folded and unfolded so often it has gone s
 **Dusty** _(soft)_: Three things. My back’s gone; I can’t carry her and do the things. Would you?  
 **Dusty** _(happy)_: One, the cliff. Two, Hazel’s first tree. Three, the water. She used to swim like she was late for something.  
 _Fossil looks up at you, unhurried, and holds out her arms the way very small children do._  
-**Fossil** _(soft)_: …  
+_Fossil says nothing. Her slow blink lands on you, and stays._  
 
 **Choices**
 
@@ -940,7 +940,7 @@ _Then three notes. Low, high, and a small one at the end, like a question._
 _Ash’s ear moves. One ear, a very little._  
 _Ember whistles it again, slower. Her hands are shaking, so it wobbles, but it is still the right shape._  
 _Ash turns round._  
-**Ash** _(soft)_: …pip. wirr. a?  
+_Then a sound, small and cracked: pip. wirr. a? The first sound in the register, half remembered._  
 _She crosses the kitchen one careful step at a time and puts her grey head against Ember’s knee._  
 **Ember** _(soft)_: Hello, you. It’s me. It was always me.  
 
@@ -1102,7 +1102,7 @@ _Null takes one step after the moth, then looks back at you, as if checking that
 
 - **Nod. “Go on.”**
     - Null goes. It doesn’t catch the moth, but it falls into the hedge and comes out with a leaf on its head.
-    - **Null**: …prrp!
+    - Null, with no clock on it at all, says prrp, which Byte does not write down.
 - **Put the stopwatch down, Byte.**
     - Byte looks at it for a long moment. Then he lays it face down in the grass.
     - **Byte**: It’s still running. I just can’t see it. That’s a start.
@@ -1248,7 +1248,7 @@ _The Old Girl is already standing. Her folded ear is up, and the scrap of brown 
 **Fern** _(soft)_: Bramble? …Oh, you’ve gone grey. That’s all right, love. So have I.  
 _For a long moment nobody in the ring moves._  
 _Then Bramble walks out through the gap, one careful step at a time, all the way to Fern’s boots._  
-**Bramble** _(soft)_: …  
+_Bramble says nothing. She puts her grey head against Fern’s shin and keeps it there._  
 **Fern** _(sad)_: I stood at the bottom of that cliff till dark. I thought I’d left you there.  
 **Fern** _(sad)_: I’m sorry I stopped looking. I’m so sorry I stopped looking.  
 _Bramble sits down on Fern’s boots, both of them, and stays there._  

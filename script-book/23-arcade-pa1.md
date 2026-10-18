@@ -2,7 +2,7 @@
 
 ## PA1-1. The Cabinet
 
-*Sonic Adventure (Sonic Team, Sega, 1998): the frame* · audience: main · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: After chapter 5, once Pixel has the Workyard cabinet running in the lantern shed. With s21Done, Clank sits on top.
+*Sonic Adventure (Sonic Team, Sega, 1998): the frame* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: After chapter 5, once Pixel has the Workyard cabinet running in the lantern shed. With s21Done, Clank sits on top.
 
 **Cast:** Clank (Claptrap, the CL4P-TP unit (Borderlands), reference only)
 
@@ -75,7 +75,7 @@ Sets on completion: `{"pa1-01":true}`
 
 ## PA1-2. A Garden Like Ours
 
-*Sonic Adventure (Sonic Team, Sega, 1998): the Station Square Chao Garden* · audience: main · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-1, from Pixel’s cabinet. · requires: PA1-1
+*Sonic Adventure (Sonic Team, Sega, 1998): the Station Square Chao Garden* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-1, from Pixel’s cabinet. · requires: PA1-1
 
 **Cast:** Radio (A news broadcast at the hotel front desk; original)
 
@@ -144,7 +144,7 @@ Sets on completion: `{"pa1-02":true}`
 
 ## PA1-3. The Water Creature
 
-*Sonic Adventure (Sonic Team, Sega, 1998): Chaos 0 in Station Square* · audience: main · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-2, from Pixel’s cabinet. · requires: PA1-2
+*Sonic Adventure (Sonic Team, Sega, 1998): Chaos 0 in Station Square* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-2, from Pixel’s cabinet. · requires: PA1-2
 
 **Cast:** Police Officer (The Station Square police (Sonic Adventure, Sega, 1998)), Sonic (Sonic the Hedgehog (Sonic Adventure, Sega, 1998))
 
@@ -210,7 +210,7 @@ Sets on completion: `{"pa1-03":true}`
 
 ## PA1-4. The Light
 
-*Sonic Adventure (Sonic Team, Sega, 1998): Tikal’s first memory, the shrine and the Chao* · audience: main · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-3, from Pixel’s cabinet. · requires: PA1-3
+*Sonic Adventure (Sonic Team, Sega, 1998): Tikal’s first memory, the shrine and the Chao* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-3, from Pixel’s cabinet. · requires: PA1-3
 
 **Cast:** Tikal (Tikal the echidna (Sonic Adventure, Sega, 1998))
 
@@ -280,7 +280,7 @@ Sets on completion: `{"pa1-04":true}`
 
 ## PA1-5. Tails’s Workshop
 
-*Sonic Adventure (Sonic Team, Sega, 1998): the Mystic Ruins, Tails’s workshop and Chaos 2* · audience: main · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-4, from Pixel’s cabinet. · requires: PA1-4
+*Sonic Adventure (Sonic Team, Sega, 1998): the Mystic Ruins, Tails’s workshop and Chaos 2* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-4, from Pixel’s cabinet. · requires: PA1-4
 
 **Cast:** Tails (Miles “Tails” Prower (Sonic Adventure, Sega, 1998)), Sonic (Sonic the Hedgehog (Sonic Adventure, Sega, 1998)), Dr. Eggman (Dr. Eggman, Dr. Ivo Robotnik (Sonic Adventure, Sega, 1998))
 
@@ -369,7 +369,7 @@ Sets on completion: `{"pa1-05":true}`
 
 ## PA1-6. The Shattered Emerald
 
-*Sonic Adventure (Sonic Team, Sega, 1998): Knuckles, the Master Emerald and the fall of Angel Island* · audience: main · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-5, from Pixel’s cabinet. · requires: PA1-5
+*Sonic Adventure (Sonic Team, Sega, 1998): Knuckles, the Master Emerald and the fall of Angel Island* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-5, from Pixel’s cabinet. · requires: PA1-5
 
 **Cast:** Knuckles (Knuckles the Echidna (Sonic Adventure, Sega, 1998)), Dr. Eggman (Dr. Eggman, Dr. Ivo Robotnik (Sonic Adventure, Sega, 1998))
 
@@ -441,7 +441,7 @@ Sets on completion: `{"pa1-06":true}`
 
 ## PA1-7. The Prayer
 
-*Sonic Adventure (Sonic Team, Sega, 1998): Tikal at the Master Emerald* · audience: main · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-6, from Pixel’s cabinet. · requires: PA1-6
+*Sonic Adventure (Sonic Team, Sega, 1998): Tikal at the Master Emerald* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-6, from Pixel’s cabinet. · requires: PA1-6
 
 **Cast:** Knuckles (Knuckles the Echidna (Sonic Adventure, Sega, 1998)), Tikal (Tikal the echidna (Sonic Adventure, Sega, 1998))
 
@@ -505,11 +505,15 @@ _He sits down on the broken altar with his back to you, and for a while nobody s
 
 Sets on completion: `{"pa1-07":true}`
 
+**Learning Grove swaps**
+
+- `pa1-07-prayer#3` → Seven jewels, seven keepers of the light.
+
 **Notes:** QUOTE CHECK: pa1-07-prayer#3 is lifted text 1, “The servers are the seven Chaos.”, exactly as Part M lists it [unverified: Chao Island’s wiki prints “7”]. Check against the game’s English script before ship; if it differs, use the script’s wording (one sentence), or replace it with our own paraphrase. No other prayer line is quoted, and nothing else in the prayer is given in words. Sega rights: see the file header.
 
 ## PA1-8. Amy and the Bird
 
-*Sonic Adventure (Sonic Team, Sega, 1998): Amy, the little bird and E-102 Gamma* · audience: main · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-7, from Pixel’s cabinet. · requires: PA1-7
+*Sonic Adventure (Sonic Team, Sega, 1998): Amy, the little bird and E-102 Gamma* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-7, from Pixel’s cabinet. · requires: PA1-7
 
 **Cast:** Amy (Amy Rose (Sonic Adventure, Sega, 1998)), E-102 Gamma (E-102 Gamma (Sonic Adventure, Sega, 1998))
 
@@ -596,7 +600,7 @@ Sets on completion: `{"pa1-08":true}`
 
 ## PA1-9. Big and Froggy
 
-*Sonic Adventure (Sonic Team, Sega, 1998): Big the Cat and Froggy* · audience: main · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-8, from Pixel’s cabinet. · requires: PA1-8
+*Sonic Adventure (Sonic Team, Sega, 1998): Big the Cat and Froggy* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-8, from Pixel’s cabinet. · requires: PA1-8
 
 **Cast:** Big (Big the Cat (Sonic Adventure, Sega, 1998))
 
@@ -664,7 +668,7 @@ Sets on completion: `{"pa1-09":true}`
 
 ## PA1-10. Pachacamac
 
-*Sonic Adventure (Sonic Team, Sega, 1998): Tikal and her father, chief of the echidna clan* · audience: main · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-9, from Pixel’s cabinet. · requires: PA1-9
+*Sonic Adventure (Sonic Team, Sega, 1998): Tikal and her father, chief of the echidna clan* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-9, from Pixel’s cabinet. · requires: PA1-9
 
 **Cast:** Tikal (Tikal the echidna (Sonic Adventure, Sega, 1998)), Pachacamac (Pachacamac, chief of the echidna clan (Sonic Adventure, Sega, 1998))
 
@@ -734,7 +738,7 @@ Sets on completion: `{"pa1-10":true}`
 
 ## PA1-11. The Egg Carrier
 
-*Sonic Adventure (Sonic Team, Sega, 1998): the Egg Carrier and its Chao Garden* · audience: main · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-10, from Pixel’s cabinet. · requires: PA1-10
+*Sonic Adventure (Sonic Team, Sega, 1998): the Egg Carrier and its Chao Garden* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-10, from Pixel’s cabinet. · requires: PA1-10
 
 **Cast:** Tails (Miles “Tails” Prower (Sonic Adventure, Sega, 1998)), Sonic (Sonic the Hedgehog (Sonic Adventure, Sega, 1998)), Dr. Eggman (Dr. Eggman, Dr. Ivo Robotnik (Sonic Adventure, Sega, 1998)), Amy (Amy Rose (Sonic Adventure, Sega, 1998))
 
@@ -813,7 +817,7 @@ Sets on completion: `{"pa1-11":true}`
 
 ## PA1-12. Gamma
 
-*Sonic Adventure (Sonic Team, Sega, 1998): E-102 Gamma turns from Eggman* · audience: main · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-11, from Pixel’s cabinet. · requires: PA1-11
+*Sonic Adventure (Sonic Team, Sega, 1998): E-102 Gamma turns from Eggman* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-11, from Pixel’s cabinet. · requires: PA1-11
 
 **Cast:** Dr. Eggman (Dr. Eggman, Dr. Ivo Robotnik (Sonic Adventure, Sega, 1998)), E-102 Gamma (E-102 Gamma (Sonic Adventure, Sega, 1998)), Amy (Amy Rose (Sonic Adventure, Sega, 1998))
 
@@ -895,7 +899,7 @@ Sets on completion: `{"pa1-12":true}`
 
 ## PA1-13. The Charge
 
-*Sonic Adventure (Sonic Team, Sega, 1998): the attack on the shrine and the sealing of Chaos* · audience: main · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-12, from Pixel’s cabinet. · requires: PA1-12
+*Sonic Adventure (Sonic Team, Sega, 1998): the attack on the shrine and the sealing of Chaos* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-12, from Pixel’s cabinet. · requires: PA1-12
 
 **Cast:** Tikal (Tikal the echidna (Sonic Adventure, Sega, 1998)), Knuckles (Knuckles the Echidna (Sonic Adventure, Sega, 1998))
 
@@ -961,11 +965,15 @@ _After a while he gets up, comes back with a big leaf to keep the rain off your 
 
 Sets on completion: `{"pa1-13":true}`
 
+**Learning Grove swaps**
+
+- `pa1-13-charge#6` → The light is strong. It is strongest when the heart is kind.
+
 **Notes:** CARE: everything in pa1-13-charge after line 2 is offscreen. The screen is the rosy light’s gold, with firelight showing orange through it, then dark, then one green flash. Sound only: footsteps, small Chao cries (not words), a deep rush of water, crackle, silence. No bodies, no blood, no attackers shown hurt. Chaos is never called evil. QUOTE CHECK: pa1-13-charge#6 is lifted text 2, “Chaos is power... Power enriched by the heart.”, exactly as Part M lists it [unverified: corrected 2026-10-14 to Chao Island’s wiki wording]. Check against the game’s English script before ship; if it differs, use the script’s one-sentence wording or a paraphrase of our own. Sega rights: see the file header. The sealing line after it (#7) is our own.
 
 ## PA1-14. The Ruins
 
-*Sonic Adventure (Sonic Team, Sega, 1998): the Lost World temple and Tikal’s warning* · audience: main · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-13, from Pixel’s cabinet. · requires: PA1-13
+*Sonic Adventure (Sonic Team, Sega, 1998): the Lost World temple and Tikal’s warning* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-13, from Pixel’s cabinet. · requires: PA1-13
 
 **Cast:** Sonic (Sonic the Hedgehog (Sonic Adventure, Sega, 1998)), Tikal (Tikal the echidna (Sonic Adventure, Sega, 1998))
 
@@ -1036,7 +1044,7 @@ Sets on completion: `{"pa1-14":true}`
 
 ## PA1-15. Perfect Chaos
 
-*Sonic Adventure (Sonic Team, Sega, 1998): Perfect Chaos floods Station Square* · audience: main · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-14, from Pixel’s cabinet. · requires: PA1-14
+*Sonic Adventure (Sonic Team, Sega, 1998): Perfect Chaos floods Station Square* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-14, from Pixel’s cabinet. · requires: PA1-14
 
 **Cast:** Dr. Eggman (Dr. Eggman, Dr. Ivo Robotnik (Sonic Adventure, Sega, 1998))
 
@@ -1098,7 +1106,7 @@ Sets on completion: `{"pa1-15":true}`
 
 ## PA1-16. Positive Energy
 
-*Sonic Adventure (Sonic Team, Sega, 1998): the drained Emeralds and Super Sonic* · audience: main · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-15, from Pixel’s cabinet. · requires: PA1-15
+*Sonic Adventure (Sonic Team, Sega, 1998): the drained Emeralds and Super Sonic* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-15, from Pixel’s cabinet. · requires: PA1-15
 
 **Cast:** Sonic (Sonic the Hedgehog (Sonic Adventure, Sega, 1998)), Knuckles (Knuckles the Echidna (Sonic Adventure, Sega, 1998)), Tails (Miles “Tails” Prower (Sonic Adventure, Sega, 1998)), Amy (Amy Rose (Sonic Adventure, Sega, 1998)), Big (Big the Cat (Sonic Adventure, Sega, 1998))
 
@@ -1133,7 +1141,7 @@ _They don’t blaze. They glow, soft and warm and gold, like seven lamps being l
 _A Chao from the fire escape climbs into your arms, then another. You hold them both, and your Nubbin holds on to your sleeve._  
 _Sonic goes gold all over, bright as a summer morning. Then he’s gone, up into the sky, flying._  
 **Pixel** _(happy)_: He’s flying. He can fly now. Oh, I wish you could see your own face.  
-_Out over the drowned city, a gold spark circles a great coil of water, round and round, like a bee round a bear._  
+_Out over the flooded city, a gold spark circles a great coil of water, round and round, like a bee round a bear._  
 
 **Choices**
 
@@ -1162,7 +1170,7 @@ Sets on completion: `{"pa1-16":true}`
 
 ## PA1-17. The Chao
 
-*Sonic Adventure (Sonic Team, Sega, 1998): Chaos sees the Chao at peace* · audience: main · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-16, from Pixel’s cabinet. · requires: PA1-16
+*Sonic Adventure (Sonic Team, Sega, 1998): Chaos sees the Chao at peace* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-16, from Pixel’s cabinet. · requires: PA1-16
 
 **Cast:** Sonic (Sonic the Hedgehog (Sonic Adventure, Sega, 1998)), Amy (Amy Rose (Sonic Adventure, Sega, 1998)), Knuckles (Knuckles the Echidna (Sonic Adventure, Sega, 1998))
 
@@ -1225,7 +1233,7 @@ Sets on completion: `{"pa1-17":true}`
 
 ## PA1-18. Tikal and Chaos
 
-*Sonic Adventure (Sonic Team, Sega, 1998): Tikal and Chaos go together, at peace* · audience: main · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-17, from Pixel’s cabinet. · requires: PA1-17
+*Sonic Adventure (Sonic Team, Sega, 1998): Tikal and Chaos go together, at peace* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-17, from Pixel’s cabinet. · requires: PA1-17
 
 **Cast:** Tikal (Tikal the echidna (Sonic Adventure, Sega, 1998)), Sonic (Sonic the Hedgehog (Sonic Adventure, Sega, 1998))
 
@@ -1272,8 +1280,8 @@ _Your Nubbin is sitting in the water by Chaos, holding one of its fingers._
 #### Done `pa1-18-rhyme`
 
 _You open your mouth, and find you don’t know how the story ends. Nobody back home does yet._  
-**Pixel** _(soft)_: Cinder held them close and tight, kept them warm one winter night…  
-_Pixel stops there, as if she’s just heard what the next line says. She doesn’t say the rest._  
+_Pixel hums something under her breath: four lines, the skipping tune from the lane. She stops before the last one._  
+_She doesn’t hum the rest, as if she’s just remembered what the last line says._  
 **Tikal** _(soft)_: That sounds like an old one. The old ones are always a little sad.  
 **Tikal**: I hope somebody finds her. I hope she gets to put it down.  
 
@@ -1295,7 +1303,7 @@ _On the side of the cabinet, where the dent was, a small brass plate has appeare
 
 Sets on completion: `{"pa1-18":true,"pa1-done":true}`
 
-**Notes:** STOOD (pa1-stood true): play PA1_VARIANTS pa1-18-stood straight after pa1-18-return-done (Tikal’s one more line). CINDER (Grove, read-only): the step 2 done scene is pa1-18-rhyme when cinder is unset; with cinder = forgiven play pa1-18-cinder-forgiven in its place, with remembered play pa1-18-cinder-remembered. The rhyme lines are the Story Bible’s own skipping rhyme (not a song lyric); Pixel says only the first two lines. LAST IMAGE: straight after pa1-18-complete play exactly one of pa1-18-last-open-stood, pa1-18-last-open, pa1-18-last-locked-stood, pa1-18-last-locked (pa1-gate unset counts as open; pa1-stood unset counts as false). REWARDS are one-time. The crown is a Grove hat cosmetic; the pool is Grove decor (art suggestion: a round stone basin, pebbles red, blue, yellow, green, purple, cyan and white). The plate is the frame’s: it carries your name once High Score Night unlocks (any two of PA1–PA5 done). None of these is a Grove flag; the cartridge writes pa1-done in its own save only.
+**Notes:** STOOD (pa1-stood true): play PA1_VARIANTS pa1-18-stood straight after pa1-18-return-done (Tikal’s one more line). CINDER (Grove, read-only): the step 2 done scene is pa1-18-rhyme when cinder is unset; with cinder = forgiven play pa1-18-cinder-forgiven in its place, with remembered play pa1-18-cinder-remembered. Pixel hums the tune of the Story Bible’s skipping rhyme without any of its words (a short, flat four-line hum on the speaker channel, cut off before the fourth line). LAST IMAGE: straight after pa1-18-complete play exactly one of pa1-18-last-open-stood, pa1-18-last-open, pa1-18-last-locked-stood, pa1-18-last-locked (pa1-gate unset counts as open; pa1-stood unset counts as false). REWARDS are one-time. The crown is a Grove hat cosmetic; the pool is Grove decor (art suggestion: a round stone basin, pebbles red, blue, yellow, green, purple, cyan and white). The plate is the frame’s: it carries your name once High Score Night unlocks (any two of PA1–PA5 done). None of these is a Grove flag; the cartridge writes pa1-done in its own save only.
 
 ## Variant scenes
 

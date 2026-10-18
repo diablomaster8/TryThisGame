@@ -13,8 +13,9 @@ caches, the G13 polish, the G14 bundle diet, the G15 and G16 parity fixes) with 
 unchanged. Story content pack in `src/content/`; engine CV1–CV6 wired (campaign v2 and
 endings, all 31 side stories and the fun quests running, props and keepsakes, the Learning
 Grove switch, Hebrew and Japanese, Atlas/Arcade/Multiverse saves, Mature content setting,
-one-time gifts). Atlas A1–A31 all scripted; A1–A10 and A22–A31 reviewed and fixed (plan
-Task B-R1; reports `docs/logs/review-wave-L.md` and `review-wave-M.md`). Plan v4
+one-time gifts). Content (2026-10-18): every storyline scripted, Q66–Q95, PA1–PA5, LB and LK
+included; edu done wherever audience and outline allow (none logged for Q66–Q95); fix-mode reviews done for Atlas A1–A10 and A22–A31
+and every Atlas and S24–S31 edu version, the rest canon-audited only (`docs/content-index.md`). Plan v4
 (`plan.md`): G11 device pass, Track B writing and review tasks, and Part Z, the
 independent full review that runs last. Plan G12 is built and pushed (2026-10-17): the storyline engine, expansions E1–E3 and the four separate campaigns SL1–SL4, sections below and in the archive. Maor, 2026-10-17: legal cleared,
 adviser sign-off given, the seven fun-quest quotes approved as written, Pixel stays the default

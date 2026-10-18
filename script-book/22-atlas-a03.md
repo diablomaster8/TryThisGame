@@ -1058,7 +1058,7 @@ _He shoves a black coat into your arms, folded very neatly for somebody so cross
 #### Complete `a03-14-complete`
 
 _The page goes thin under your feet. The last thing you see is Deok-choon waving with both arms, crying, happy._  
-_You are back in the Grove, with Nova’s atlas on your knee, a black coat over your arm and a paper lantern by your boot._  
+_You are back in the Grove, with Nova’s atlas on your knee. A black coat is over your arm, and the paper lantern by your boot is still faintly warm._  
 _Your Nubbin is entirely its own colour. It keeps checking, just in case._  
 _On the page, at the bottom of the white sand road, four small figures in ink are setting out again. Day one of forty-nine._  
 

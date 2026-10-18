@@ -1196,7 +1196,7 @@ _Moana finds you at the bow at sunset, and sits beside you a while._
 **Moana** _(soft)_: Then you know the way home. You always know where you started.  
 _Out in the sea behind you, where the path through the water was, Te Fiti’s shore is green. Your spiral shell is on it somewhere, with her._  
 _The page gives a long, slow sigh, like a sail letting go of the wind._  
-_You are back in the Grove with Nova’s atlas on your knee. Your Nubbin smells of salt and is still swaying._  
+_You are back in the Grove with Nova’s atlas on your knee. The ground will not hold still; it sways like a deck, and your Nubbin smells of salt._  
 _By the pond there is a small voyaging canoe, twin-hulled, with a woven sail no bigger than a tablecloth._  
 _Up on the hill, a ring of flat stones has appeared in the grass, each one marked with a house of the rising stars._  
 _A small white spiral shell is painted on the canoe’s prow, where the real one would have gone. Your Nubbin checks on it twice, then sits in the boat._  
@@ -1242,7 +1242,7 @@ _Moana finds you at the bow at sunset, and sits beside you a while._
 **Moana** _(soft)_: Then you know the way home. You always know where you started.  
 **Moana** _(soft)_: What you said to her, on the path. That you remembered. I think she heard that. I think it helped.  
 _The page gives a long, slow sigh, like a sail letting go of the wind._  
-_You are back in the Grove with Nova’s atlas on your knee. Your Nubbin smells of salt and is still swaying._  
+_You are back in the Grove with Nova’s atlas on your knee. The ground will not hold still; it sways like a deck, and your Nubbin smells of salt._  
 _By the pond there is a small voyaging canoe, twin-hulled, with a woven sail no bigger than a tablecloth._  
 _Up on the hill, a ring of flat stones has appeared in the grass, each one marked with a house of the rising stars._  
 _Along the canoe’s hull runs a line of small carved spirals, one for each thing remembered. Your Nubbin counts them, and loses count._  
@@ -1255,7 +1255,7 @@ _Moana finds you at the bow at sunset, and sits beside you a while._
 **Moana** _(soft)_: Then you know the way home. You always know where you started.  
 **Moana** _(happy)_: On the path, you didn’t say anything. You just came. That was the bravest thing on the whole sea, after me.  
 _The page gives a long, slow sigh, like a sail letting go of the wind._  
-_You are back in the Grove with Nova’s atlas on your knee. Your Nubbin smells of salt and is still swaying._  
+_You are back in the Grove with Nova’s atlas on your knee. The ground will not hold still; it sways like a deck, and your Nubbin smells of salt._  
 _By the pond there is a small voyaging canoe, twin-hulled, with a woven sail no bigger than a tablecloth._  
 _Up on the hill, a ring of flat stones has appeared in the grass, each one marked with a house of the rising stars._  
 _On the canoe’s bow deck, two pairs of small footprints are painted: yours, and a rounder pair beside them. Your Nubbin stands in its pair._  

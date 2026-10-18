@@ -4,7 +4,7 @@
 
 *Spawn #1 (1992)* · audience: adult · where: Multiverse: the rift above the waterfall (Spawn’s world) · when: The Spawn line opens in the Multiverse campaign.
 
-**Cast:** Your Nubbin, Spawn (Al Simmons / Spawn (Image Comics)), Al Simmons (Al Simmons (Image Comics)), Chapel (Chapel (Image Comics)), Malebolgia (Malebolgia (Image Comics)), Bobby
+**Cast:** Spawn (Al Simmons / Spawn (Image Comics)), Al Simmons (Al Simmons (Image Comics)), Chapel (Chapel (Image Comics)), Malebolgia (Malebolgia (Image Comics)), Bobby
 
 ### Step 1: Help the stranger in the alley find out who he was.
 
@@ -44,7 +44,7 @@ _A quiet street. A lit window. Inside: a woman with a warm laugh, a man in glass
 _He takes one step toward the gate. The suit ripples, like something hungry._  
 **Spawn** _(angry)_: That thing said I’d see her. It never said I’d be this. I can’t even show her my face. I haven’t got one.  
 _The number in his eye drops again. Just from wanting._  
-**Your Nubbin** _(soft)_: Mm.  
+_Your Nubbin leans against his boot and says nothing, which is the right thing to say._  
 _The little girl looks up at the window. She seems to look right at your Nubbin, and she smiles._  
 
 **Choices**
@@ -66,7 +66,7 @@ _He settles under a tarp your Nubbin dragged over by itself, the blanket round h
 #### Complete `mv-sp01-complete`
 
 **Spawn**: The folk out here call me the man in the cloak. Your little friend just calls me… whatever that noise is.  
-**Your Nubbin**: Prrp.  
+_Your Nubbin makes the noise._  
 **Spawn** _(soft)_: Yeah. That.  
 **Spawn** _(angry)_: Something put me here for a reason, Keeper. When I find out what, it’s going to regret it.  
 **Spawn** _(think)_: I signed a deal in Hell. I know what that makes me. So why does the little one keep treating me like I’m not finished?  
@@ -80,13 +80,13 @@ _He works one cold link loose and leaves it beside your Nubbin. A thank-you, fro
 
 Sets on completion: `{"mv-sp01":true}`
 
-**Notes:** Establishes the rule of the line: a Nubbin is the only creature not afraid of Spawn. Whichever Nubbin is in slot one is “the fearless one”; the other always hides. Spawn’s power counter is a HUD element shown in his portrait’s corner, starting at 9999 and ticking down when he uses or even reaches for power; it persists across SP1–SP8. The murder flashback is a red-tinted still sequence: Chapel’s silhouette, a flash, fire. No body. Malebolgia is a vast shape, never fully seen here. Wanda, Terry and Cyan are seen through a window only; they do not speak. Bobby is an original alley regular.
+**Notes:** Establishes the rule of the line: a Nubbin is the only creature not afraid of Spawn. Whichever Nubbin is in slot one is “the fearless one”; the other always hides. Spawn’s power counter is a HUD element shown in his portrait’s corner, starting at 9999 and ticking down when he uses or even reaches for power; it persists across SP1–SP8. The murder flashback is a red-tinted still sequence: Chapel’s silhouette, a flash, fire. No body. Malebolgia is a vast shape, never fully seen here. Wanda, Terry and Cyan are seen through a window only; they do not speak. Bobby is an original alley regular. SIGNATURE CHOICE: mv-sp-wanda (watched | walked-away | doorstep: what you let Al do at Wanda’s gate) pays off through MV_SPAWN_VARIANTS at mv-sp04-angela (why he will not call the Nubbin off Angela’s spear), mv-sp06-road (what he asks of you on the road into Hell) and mv-sp08-complete (what Mammon tried to sell him, and why it failed).
 
 ## SP2. The Clown
 
 *Spawn #2–4 (1992)* · audience: adult · where: Multiverse: the rift above the waterfall (Spawn’s world) · when: After Al Simmons. · requires: SP1
 
-**Cast:** Your Nubbin, Spawn (Al Simmons / Spawn (Image Comics)), The Clown (The Clown / Violator (Image Comics)), Violator (The Violator (Image Comics)), Tony Twist (Tony Twist (Image Comics))
+**Cast:** Spawn (Al Simmons / Spawn (Image Comics)), The Clown (The Clown / Violator (Image Comics)), Violator (The Violator (Image Comics)), Tony Twist (Tony Twist (Image Comics))
 
 ### Step 1: Track Tony Twist’s men through the docks.
 
@@ -174,7 +174,7 @@ Sets on completion: `{"mv-sp02":true}`
 
 *Spawn #5–7 (1992–93)* · audience: adult · where: Multiverse: the rift above the waterfall (Spawn’s world) · when: After The Clown. · requires: SP2
 
-**Cast:** Your Nubbin, Spawn (Al Simmons / Spawn (Image Comics)), Overt-Kill (Overt-Kill (Image Comics)), Bobby
+**Cast:** Spawn (Al Simmons / Spawn (Image Comics)), Overt-Kill (Overt-Kill (Image Comics)), Bobby
 
 ### Step 1: Get the alley folk clear while Spawn fights.
 
@@ -210,7 +210,7 @@ _The chains have him. The cloak is closing over him. The suit wants more, and Sp
 **Spawn** _(angry)_: It feels good, Keeper. That’s the worst part. It feels so good.  
 _The number in his eye is racing down. He isn’t looking at it._  
 _Your Nubbin walks into the middle of the chains. They part around it like water round a stone._  
-**Your Nubbin** _(soft)_: Prrp.  
+_It makes one small sound up at him, soft, the way it would at a sleeping Keeper._  
 _Spawn looks down at it. The cloak hesitates._  
 
 **Choices**
@@ -251,7 +251,7 @@ Sets on completion: `{"mv-sp03":true}`
 
 *Spawn #9 (1993)* · audience: adult · where: Multiverse: the rift above the waterfall (Spawn’s world) · when: After Overt-Kill. · requires: SP3
 
-**Cast:** Your Nubbin, Spawn (Al Simmons / Spawn (Image Comics)), Cogliostro (Cogliostro (Image Comics)), Angela (Angela (Spawn))
+**Cast:** Spawn (Al Simmons / Spawn (Image Comics)), Cogliostro (Cogliostro (Image Comics)), Angela (Angela (Spawn))
 
 ### Step 1: Learn from Cogliostro how to hold Spawn’s power back.
 
@@ -329,7 +329,7 @@ Sets on completion: `{"mv-sp04":true}`
 
 *Spawn #10–20 (1993–94)* · audience: adult · where: Multiverse: the rift above the waterfall (Spawn’s world) · when: After Angela. · requires: SP4
 
-**Cast:** Your Nubbin, Spawn (Al Simmons / Spawn (Image Comics)), Jason Wynn (Jason Wynn (Image Comics)), Chapel (Chapel (Image Comics)), Terry (Terry Fitzgerald (Image Comics))
+**Cast:** Spawn (Al Simmons / Spawn (Image Comics)), Jason Wynn (Jason Wynn (Image Comics)), Chapel (Chapel (Image Comics)), Terry (Terry Fitzgerald (Image Comics))
 
 ### Step 1: Steal Jason Wynn’s files on the Simmons killing.
 
@@ -407,7 +407,7 @@ Sets on completion: `{"mv-sp05":true}`
 
 *Spawn #100 (2000)* · audience: adult · where: Multiverse: the rift above the waterfall (Spawn’s world) · when: After Wynn and Chapel, once the road into Mephisto’s realm is open (FF7). · requires: SP5, FF7
 
-**Cast:** Your Nubbin, Spawn (Al Simmons / Spawn (Image Comics)), Cogliostro (Cogliostro (Image Comics)), Angela (Angela (Spawn)), Malebolgia (Malebolgia (Image Comics))
+**Cast:** Spawn (Al Simmons / Spawn (Image Comics)), Cogliostro (Cogliostro (Image Comics)), Angela (Angela (Spawn)), Malebolgia (Malebolgia (Image Comics))
 
 ### Step 1: Cross Mephisto’s border into Malebolgia’s pit.
 
@@ -516,7 +516,7 @@ Sets on completion: `{"mv-sp06":true,"mv-sp-malebolgia":"dead"}`
 
 *Spawn #16–18 (1994), the first Redeemer, and the later Redeemers* · audience: adult · where: Multiverse: the rift above the waterfall (Spawn’s world) · when: After The Death of Malebolgia. · requires: SP6
 
-**Cast:** Your Nubbin, Spawn (Al Simmons / Spawn (Image Comics)), The Redeemer (The Redeemer (Spawn))
+**Cast:** Spawn (Al Simmons / Spawn (Image Comics)), The Redeemer (The Redeemer (Spawn))
 
 ### Step 1: Survive the Redeemer’s first attack.
 
@@ -591,7 +591,7 @@ Sets on completion: `{"mv-sp07":true}`
 
 *Spawn #150–164 (2005–07)* · audience: adult · where: Multiverse: the rift above the waterfall (Spawn’s world) · when: After The Redeemer. · requires: SP7
 
-**Cast:** Your Nubbin, Spawn (Al Simmons / Spawn (Image Comics)), Cogliostro (Cogliostro (Image Comics)), Mammon (Mammon (Image Comics))
+**Cast:** Spawn (Al Simmons / Spawn (Image Comics)), Cogliostro (Cogliostro (Image Comics)), Mammon (Mammon (Image Comics))
 
 ### Step 1: Find Cogliostro.
 
@@ -666,7 +666,7 @@ _The alley before dawn. Spawn sits on an upturned crate, chains quiet, your Nubb
 **Spawn** _(think)_: Heaven used me. Hell used me. The man I trusted most is the first killer in the book.  
 **Spawn**: And the only one who never wanted a thing from me is the size of a loaf of bread.  
 **Spawn** _(sad)_: Mammon offered me Wanda’s kitchen. I can still smell it. That’s the trouble with Hell. It knows your address.  
-**Your Nubbin**: Prrp.  
+_Your Nubbin stirs against his boot, makes a small sound, and goes back to sleep._  
 **Spawn** _(soft)_: When the war comes, I’m not picking a side, Keeper. I’m picking this alley. And you lot.  
 _High above, the sky begins to split: light on one side, fire on the other._  
 

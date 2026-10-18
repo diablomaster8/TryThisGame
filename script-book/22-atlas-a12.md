@@ -1718,7 +1718,7 @@ _And it is summer: warm, glorious summer._
 _Your Nubbin climbs out among the roses and sits there alone in the middle of them, in its red cap, quite content._  
 _Nobody is holding it, and nobody needs to. It stays because it wants to._  
 _The page settles under your hand, like a paper cut-out laid flat on a table._  
-_You’re back in the Grove, with Nova’s atlas on your knee. There’s a rose petal in the fold of the page._  
+_You’re back in the Grove, with Nova’s atlas on your knee. When you open it again, a rose petal slides out of the fold and lands on your boot._  
 _On the cottage windowsill stands a window box with a rose tree in it that wasn’t there this morning._  
 _Another stands on the lantern shed across the way, and between them somebody has laid a plank._  
 
@@ -1899,6 +1899,6 @@ _A wood pigeon comes down out of the sky and lands on the roses in the gutter. N
 _It might be one of the robber girl’s, and it might not. Either way, nobody tied it, and it chose this._  
 _Your Nubbin, in its red cap, sits down beside it, and they look out over the rooftops together._  
 _The page settles under your hand, like a paper cut-out laid flat on a table._  
-_You’re back in the Grove, with Nova’s atlas on your knee. There’s a rose petal in the fold of the page._  
+_You’re back in the Grove, with Nova’s atlas on your knee. When you open it again, a rose petal slides out of the fold and lands on your boot._  
 _On the cottage windowsill stands a window box with a rose tree in it that wasn’t there this morning._  
 _Another stands on the lantern shed across the way, and between them somebody has laid a plank._  

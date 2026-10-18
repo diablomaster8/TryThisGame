@@ -2053,7 +2053,7 @@ _For a moment the page shows Kansas: a new little farmhouse, grey grass, and Aun
 _Then the Monkeys come for your friends: the Scarecrow north, the Woodman west, the Lion over the hill to his forest._  
 _Glinda gives the Golden Cap to the King of the Monkeys. He bows, and the band flies off without a word._  
 _The page carries you home the way you came. Its last picture is the china wall, and a lamb by it, waiting to see you off._  
-_The page folds shut, softly. You are back in the Grove, with Nova’s atlas on your knee and a thin silver ribbon marking the place._  
+_The page folds shut, softly, and you are back in the Grove with the atlas on your knee. A thin silver ribbon keeps the place, and it was not there this morning._  
 
 **Rewards**
 
@@ -2134,7 +2134,7 @@ _Then the Monkeys carry your friends away, and Glinda puts the Golden Cap into t
 **The King of the Winged Monkeys** _(happy)_: Play.  
 _The whole band loops over Glinda’s castle, round and round, shrieking. A feather comes down and lands on your Nubbin’s head._  
 _The page carries you home the way you came. Its last picture is the china wall, and a lamb by it, waiting to see you off._  
-_The page folds shut, softly. You are back in the Grove, with Nova’s atlas on your knee and a thin silver ribbon marking the place._  
+_The page folds shut, softly, and you are back in the Grove with the atlas on your knee. A thin silver ribbon keeps the place, and it was not there this morning._  
 
 #### Variant `a15-20-complete-asked-pocketed`
 
@@ -2146,7 +2146,7 @@ _Then the Monkeys carry your friends away, and Glinda puts the Golden Cap into t
 **The King of the Winged Monkeys** _(happy)_: You asked me what we’d do, if we were free. Play. But a favour first, our first free one, if you’ll let us.  
 _They loop once over the castle, shrieking, and a feather drops on your Nubbin’s head. Then they lift you, and fly north to the china wall._  
 _Over the wall, you set the lamb down in its own field. It stands stiff for a breath, then shakes, and wakes, and runs._  
-_The page folds shut, softly. You are back in the Grove, with Nova’s atlas on your knee and a thin silver ribbon marking the place._  
+_The page folds shut, softly, and you are back in the Grove with the atlas on your knee. A thin silver ribbon keeps the place, and it was not there this morning._  
 
 #### Variant `a15-20-complete-pocketed`
 
@@ -2159,4 +2159,4 @@ _The Monkeys come for the Scarecrow and the Woodman. The Lion lets them go witho
 _Glinda gives the Golden Cap to the King of the Monkeys, and the band flies off without a word._  
 _The Lion walks you north, all the way to the china wall, with your Nubbin riding on his back._  
 _Over the wall, you set the lamb down in its own field. It stands stiff for a breath, then shakes, and wakes, and runs._  
-_The page folds shut, softly. You are back in the Grove, with Nova’s atlas on your knee and a thin silver ribbon marking the place._  
+_The page folds shut, softly, and you are back in the Grove with the atlas on your knee. A thin silver ribbon keeps the place, and it was not there this morning._  

@@ -607,9 +607,19 @@ _Your Nubbin sits by the screen with the little Kancil puppet and makes it hop, 
 
 Sets on completion: `{"lk-done":true}`
 
-**Notes:** PAYOFFS. LK3: if lk-croc = laughed, play lk10-line-laughed in place of lk10-line (the Nubbins won’t line up until you help Kancil ask nicely). LK1: if lk-first = wulan, play lk10-count-wulan in place of lk10-count (Indonesian leads; the bank shouts “Lapan!” at eight). Both variants are in LINE_LK_VARIANTS. Staging: twenty Nubbins in two lines (fill from wild Nubbins if the Grove has fewer). AFTER THE LINE: Siti and Wulan stay in the valley and can be found by the screen in the evenings, with idle lines in both languages (to write with the advisers, e.g. greetings, “Selamat petang” for good evening, and a count to ten); the screen and the stepping-stones stay. No timers: the idle lines are unlimited and give nothing.
+**Notes:** PAYOFFS. LK9: if lk-pit = ramp, play lk10-complete-ramp in place of lk10-complete (the snail boy’s answer is the elephant). LK3: if lk-croc = laughed, play lk10-line-laughed in place of lk10-line (the Nubbins won’t line up until you help Kancil ask nicely). LK1: if lk-first = wulan, play lk10-count-wulan in place of lk10-count (Indonesian leads; the bank shouts “Lapan!” at eight). Both variants are in LINE_LK_VARIANTS. Staging: twenty Nubbins in two lines (fill from wild Nubbins if the Grove has fewer). AFTER THE LINE: Siti and Wulan stay in the valley and can be found by the screen in the evenings, with idle lines in both languages (to write with the advisers, e.g. greetings, “Selamat petang” for good evening, and a count to ten); the screen and the stepping-stones stay. No timers: the idle lines are unlimited and give nothing.
 
 ## Variant scenes
+
+#### Variant `lk10-complete-ramp`
+
+_Afterwards the children sit in a heap on the bank, full of kuih and kue, and nobody wants to go home._  
+**Mak Cik Siti** _(think)_: So. What did Kancil learn this summer?  
+_A boy says be clever, and a girl says say thank you. The small boy who helped the snails says go back for the elephant._  
+**Bu Wulan** _(soft)_: All true. My grandmother would have liked you lot. The elephant one most of all.  
+**Mak Cik Siti** _(soft)_: We’re leaving the screen by the pond. It belongs here now.  
+**Bu Wulan** _(happy)_: And we’re staying a while. We like your valley. It argues nearly as well as we do.  
+_Your Nubbin sits by the screen with the little Kancil puppet and makes it hop, one, two, three, all on its own._  
 
 #### Variant `lk04-grab-laughed`
 

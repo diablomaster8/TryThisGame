@@ -59,8 +59,8 @@ Generated from `src/content/`. One file per pack.
 - [Pixel's Arcade, cartridge PA3: The Hollow Kingdom](23-arcade-pa3.md): 18 quests, 14 variant scenes
 - [Pixel's Arcade, cartridge PA4: Mercy](23-arcade-pa4.md): 19 quests, 27 variant scenes
 - [Pixel's Arcade, cartridge PA5: The Hundred-Year Sleep](23-arcade-pa5.md): 18 quests, 15 variant scenes
-- [Learning Grove line LB: Play (LB1–LB12)](24-line-lb.md): 12 quests, 9 variant scenes
-- [Learning Grove line LK: Mouse-Deer (LK1–LK10)](25-line-lk.md): 10 quests, 4 variant scenes
+- [Learning Grove line LB: Play (LB1–LB12)](24-line-lb.md): 12 quests, 10 variant scenes
+- [Learning Grove line LK: Mouse-Deer (LK1–LK10)](25-line-lk.md): 10 quests, 5 variant scenes
 - [Learning Grove, Little Sprouts (ages 3–6, read aloud): campaign](20a-edu-sprout-campaign.md)
 - [Learning Grove, Little Sprouts (ages 3–6, read aloud): side stories and fun quests](20b-edu-sprout-stories.md)
 - [Learning Grove, Grove Readers (ages 7–10): campaign](21a-edu-reader-campaign.md)
