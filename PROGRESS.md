@@ -39,28 +39,32 @@ drawing into the game canvas under a see-through overlay, `GroveSky`, the painte
 post chain less bloom. Tunables `EXPEDITION3D` and `RACE3D`; strings `stageLoading`,
 `SECTION_LABELS`. Screenshots `docs/samples/g17-*.jpg`.
 
-Works: chase camera framing `span` units (lens widens in portrait, `frameCamera`), parallax
-hill rows, recycled tree ring and tiled grass, shells, essences, critter bubbles, rocks, logs
-and bushes as props, the rig walking and hopping with the gait clock, hit blink, dust and
-sparkle bursts and a camera kick (off under reduced motion); race sections as grass, worn
-earth, a sunk water channel, a pit to fly over and a rock ramp that stays up, signs, finish
-posts and banner, name tags as a lane ladder, the player's stamina bar, rest as the sleep
-pose, cheer sparkles, the camera leaning toward the leader but keeping the player in the
-left half. Frame times on Maor's PC, hand-driven frames with `gl.finish`: Expedition 800x600
-p50 2.0 ms / p95 5.0 ms, 375x812 (563x1218 backing) p50 1.4 / p95 2.4; race (6 rigs)
-800x600 p50 4.6 / p95 5.2, portrait p50 4.0 / p95 5.0. Exit frees everything the stage made
-(checked at the GL level with a `createTexture` hook: nothing survives a cycle); the rigs
-go back to the pool by design, so the first race adds its rivals' looks for good.
-No console errors.
+Works: chase camera framing `height` world units top to bottom (`frameCamera`; the lens
+widens in portrait to `minSpan`), so the runner is about a sixth of the screen; a
+screen-space gradient backdrop (the Preetham dome only lights the scene); parallax hill
+rows, a recycled tree ring and tiled grass behind the runner, ground reaching past the
+frame; shells, essences, critter bubbles, rocks, logs and bushes as props; the rig walking
+and hopping with the gait clock, hit blink, dust and sparkle bursts and a camera kick (off
+under reduced motion). Race sections as grass, worn earth, a sunk water channel, a rock
+gully to fly over and a rock ramp that stays up, all on painted earth skirts and walls
+down past the frame; signs that slide to stay whole on screen; finish posts and banner;
+name tags laid out each frame so none overlap (screen-space nudge, nearest lane first);
+the player's stamina bar; rest as the sleep pose; cheer sparkles; the camera leaning
+toward the leader but keeping the player in the left half. Rival rigs are discarded from
+the pool when a race ends (`CreaturePool.discard`). Frame times on Maor's PC, hand-driven
+frames with `gl.finish` (polish pass): Expedition 1024x640 p50 1.7 ms / p95 3.3 ms,
+375x812 (563x1218 backing) p50 1.4 / p95 2.3; race (6 rigs) 1024x640 p50 4.2 / p95 5.1 to
+6.9, portrait p50 3.6 / p95 4.4. Exit frees everything the stage made (checked at the GL
+level with a `createTexture` hook: nothing survives a cycle); geometries settle across
+repeated races. No console errors.
 - **Stubbed:** no toon outline pass (the Grove has none either); the minigame water has no
   refraction (a transmission pass leaks a full-size target per camera in three 0.186 and
   doubles the draw); no Zz over a resting racer; the Expedition's Hollow theme is only the
-  night sky; the emote ball does not ride along.
+  night gradient; the emote ball does not ride along.
 - **Known bugs:** `renderer.info.memory.textures` reads one higher after each minigame
-  (a target disposed before its first upload; no GL texture leaks); the fixed horizon at
-  the camera's pitch shows the Preetham sky's pale band, so the backdrop reads grey-white;
-  in portrait a near tree can pass in front of the runner for a moment; the sky's
-  environment target is now disposed in `sky.ts` (it was never freed before).
+  (a target disposed before its first upload; no GL texture leaks); a tag of a racer just
+  off the screen's edge clips there; the sky's environment target is now disposed in
+  `sky.ts` (it was never freed before).
 - Device numbers are PC only; the G11 phone pass still owns the 60/30 fps check.
 
 ## Canon audit and fixes (2026-10-17)
@@ -113,31 +117,6 @@ Stubbed: no engine change. The `days:` beats use the two-minute story day, so at
 land minutes into a chapter, not hours. The expansions' new choices set flags nothing reads
 yet. Nothing in S1–S4 is in the content checker (it checks `Quest` packs, not storylines);
 the storyline tests and a line-length sweep stand in.
-
-## G12 X7: S4 "Dawn & Dusk" with the reverting (2026-10-17)
-
-The fourth separate campaign, in the `dawndusk` save mode: two mirrored halves built from
-one template (`src/content/storyline-dawndusk.ts`, 7 chapters and 3 endings each; the
-Penhallow twins and Teodor Vask), rules for both in `sim/storyline-rules-dawndusk.ts`, and
-the new `sim/degeneration.ts`.
-
-Works:
-- The title asks Dawn or Dusk; Dusk is locked until Dawn has an ending in any slot
-  (`storylineFinished`), and a half started after the other finished is told so
-  (`storylineStart.flags` → `dd-other-done`), which opens the Whole Day ending.
-- Goals on the collection engine and the dojo: a full scan, a second scan plus one
-  conversion (`count:converted`), the three rank tests as belts (`karate:belt`), and the
-  cause choice, which differs by half (lamp or scanner by day; bell or mist by night).
-- Degeneration: when chapter 3 opens the oldest grown Nubbin reverts to its own egg
-  (name, stats, grades and rebirths kept; form and age stashed in `genes.degenerated`).
-  Naming the real cause restores it if it is still that egg; the wrong cause lets it
-  hatch small and grow again. Events `degenerated` and `restored` with HUD toasts.
-- Endings per half: First Light / Last Light, a Fixed Shadow (wrong cause), the Whole Day.
-- Tests: `tests/sim/storyline-dawndusk.test.ts` (degenerate and restore, both halves to
-  their endings, the other-half flag).
-
-Stubbed: the four houses are narrated; serving them is the scan count, not four named
-species. The twins never appear on the map.
 
 ## Standing approval (Maor, 2026-10-12)
 

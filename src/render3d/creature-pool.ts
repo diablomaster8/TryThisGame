@@ -170,6 +170,24 @@ export class CreaturePool {
     this.free.set(key, list);
   }
 
+  /**
+   * Free every spare rig of a look (its GPU buffers and materials): the race rivals'
+   * looks change with every seed and would pile up otherwise. The marched surfaces stay
+   * cached, so the next rig of the look is a quick build.
+   */
+  discard(key: string): void {
+    const spares = this.free.get(key) ?? [];
+    this.free.delete(key);
+    for (const rig of spares) {
+      rig.group.traverse((o) => {
+        const m = o as Mesh;
+        if (m.geometry) m.geometry.dispose();
+        if (Array.isArray(m.material)) for (const x of m.material) x.dispose();
+        else if (m.material) m.material.dispose();
+      });
+    }
+  }
+
   /** Start marching the looks a Grove needs first, in order (the Keeper leads). */
   warm(looks: Look[]): void {
     for (const look of looks) {

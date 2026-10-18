@@ -48,6 +48,9 @@ export class Race3dView implements RaceView {
   private sceneryReady = false;
   private lastMs = 0;
   private camX = 0;
+  private signs: { sprite: THREE.Sprite; x: number; start: number; end: number }[] = [];
+  /** This frame's tag anchors (x, y over the head, z), laid out after every racer is placed. */
+  private readonly anchors: { r: Runner; x: number; y: number; z: number }[] = [];
   private readonly at = new THREE.Vector3();
 
   constructor(private readonly host: Grove3dScene) {
@@ -63,6 +66,7 @@ export class Race3dView implements RaceView {
     this.openedMs = performance.now();
     this.lastMs = 0;
     this.camX = 0;
+    stage.backdrop(RACE3D.backdrop.top, RACE3D.backdrop.bottom);
     this.buildTrack(stage, race);
     this.runners = race.racers.map((racer, lane) => {
       const look = racer.isPlayer ? nubbinLook(player) : rivalLook(racer);
@@ -103,10 +107,15 @@ export class Race3dView implements RaceView {
   }
 
   stop(): void {
+    // Rival looks are a race's own; their rigs would otherwise pile up in the pool.
+    const keep = new Set(this.runners.filter((r) => r.racer.isPlayer).map((r) => r.look.key));
+    const rivals = this.runners.filter((r) => !keep.has(r.look.key)).map((r) => r.look.key);
     this.stage?.dispose();
+    for (const key of new Set(rivals)) this.host.pool.discard(key);
     this.stage = null;
     this.runners = [];
     this.spans = [];
+    this.signs = [];
     this.water = [];
     this.ready = false;
     this.sceneryReady = false;
@@ -128,7 +137,9 @@ export class Race3dView implements RaceView {
 
     const player = this.runners.find((r) => r.racer.isPlayer) ?? this.runners[0]!;
     const leader = this.runners.reduce((a, b) => (b.racer.pos > a.racer.pos ? b : a), player);
+    this.anchors.length = 0;
     for (const r of this.runners) this.placeRunner(race, r, nowMs, dt);
+    this.layoutTags();
 
     const cam = RACE3D.camera;
     // Lean toward the leader, but never so far that the player leaves the left third of
@@ -145,6 +156,7 @@ export class Race3dView implements RaceView {
     const midLane = laneZ((this.runners.length - 1) / 2);
     const y = trackHeight(this.spans, this.camX / U) + cam.lookHeight;
     stage.aim(this.camX + cam.lookAhead, y, midLane, cam.pitchDeg, dt);
+    this.placeSigns(this.camX + cam.lookAhead, stage.halfSpan);
     stage.render(nowMs, (x) => trackHeight(this.spans, x / U));
   }
 
@@ -227,15 +239,65 @@ export class Race3dView implements RaceView {
     this.placeTag(r, x, y + r.look.height + 0.25, z);
   }
 
-  /** Tags climb a little per lane, so a bunched field reads as a ladder, not a pile. */
   private placeTag(r: Runner, x: number, y: number, z: number): void {
-    const lift = r.lane * RACE3D.nameTag.ladder;
-    r.tag.position.set(x + 0.2, y + lift, z);
+    this.anchors.push({ r, x: x + 0.2, y, z });
+  }
+
+  /**
+   * Lay the tags out so none overlap on screen: in screen terms a tag sits higher the
+   * farther its lane (the camera looks down by `pitchDeg`), so each tag is placed from
+   * the nearest lane out and lifted above any already-placed tag it would cover.
+   */
+  private layoutTags(): void {
+    const { width, height, gap } = RACE3D.nameTag;
+    const rise = Math.sin((RACE3D.camera.pitchDeg * Math.PI) / 180);
+    const placed: { x: number; sy: number }[] = [];
+    this.anchors.sort((a, b) => b.z - a.z);
+    for (const a of this.anchors) {
+      let sy = a.y - a.z * rise;
+      // Lifting past one tag can land on another: go round until nothing moves.
+      for (let moved = true, n = 0; moved && n < 16; n++) {
+        moved = false;
+        for (const p of placed) {
+          if (
+            Math.abs(p.x - a.x) < width * 0.95 &&
+            sy < p.sy + height * gap &&
+            sy > p.sy - height * gap
+          ) {
+            sy = p.sy + height * gap;
+            moved = true;
+          }
+        }
+      }
+      placed.push({ x: a.x, sy });
+      const y = sy + a.z * rise;
+      this.placeTagAt(a.r, a.x, y, a.z);
+    }
+  }
+
+  private placeTagAt(r: Runner, x: number, y: number, z: number): void {
+    r.tag.position.set(x, y, z);
     if (r.stamina) {
-      r.stamina.group.position.set(x + 0.2, y + lift - 0.3, z);
+      r.stamina.group.position.set(x, y - 0.3, z);
       const k = Math.max(0, Math.min(1, r.racer.stamina / r.racer.staminaMax));
       r.stamina.fill.scale.x = 1.1 * k;
       (r.stamina.fill.material as THREE.SpriteMaterial).color.set(k > 0.25 ? '#7ddc8a' : '#ff8a5a');
+    }
+  }
+
+  /**
+   * A sign stays whole on screen while its section is in view: it slides in from the
+   * right as the section nears, sits on its post, then holds at the left edge until the
+   * section has passed, rather than clipping at either edge.
+   */
+  private placeSigns(lookX: number, halfSpan: number): void {
+    const margin = RACE3D.nameTag.width * 0.6;
+    const left = lookX - halfSpan + margin;
+    const right = lookX + halfSpan - margin;
+    for (const s of this.signs) {
+      const shown = s.end > lookX - halfSpan && s.start < lookX + halfSpan;
+      s.sprite.visible = shown;
+      if (shown) s.sprite.position.x = Math.min(right, Math.max(left, s.x));
     }
   }
 
@@ -261,14 +323,7 @@ export class Race3dView implements RaceView {
         case 'climb': {
           stage.strip(x0, x1, zBack, zFront, 'rock', { y: s.y0, y1: s.y1 });
           // The cliff face under the ramp's far end, so the rise reads as a wall.
-          const face = new THREE.Mesh(
-            new THREE.PlaneGeometry(zFront - zBack, s.y1 - s.y0),
-            new THREE.MeshStandardMaterial({
-              color: '#7d746a',
-              roughness: 1,
-              side: THREE.DoubleSide,
-            }),
-          );
+          const face = stage.earth(new THREE.PlaneGeometry(zFront - zBack, s.y1 - s.y0), true);
           face.rotation.y = Math.PI / 2;
           face.position.set(x1 - 0.01, (s.y0 + s.y1) / 2, (zBack + zFront) / 2);
           stage.scene.add(face);
@@ -291,14 +346,7 @@ export class Race3dView implements RaceView {
             [x0, 1],
             [x1, -1],
           ] as const) {
-            const bank = new THREE.Mesh(
-              new THREE.PlaneGeometry(zFront - zBack, RACE3D.channelDepth),
-              new THREE.MeshStandardMaterial({
-                color: '#6c7a5a',
-                roughness: 1,
-                side: THREE.DoubleSide,
-              }),
-            );
+            const bank = stage.earth(new THREE.PlaneGeometry(zFront - zBack, RACE3D.channelDepth));
             bank.rotation.y = (side * Math.PI) / 2;
             bank.position.set(xe, bed + RACE3D.channelDepth / 2, (zBack + zFront) / 2);
             stage.scene.add(bank);
@@ -307,11 +355,8 @@ export class Race3dView implements RaceView {
         }
         case 'fly': {
           const floor = s.y0 - RACE3D.gapDepth;
-          // A dark floor, so the pit reads as a drop and not another strip of track.
-          const pit = new THREE.Mesh(
-            new THREE.PlaneGeometry(x1 - x0, zFront - zBack + 4),
-            new THREE.MeshStandardMaterial({ color: '#2e2a36', roughness: 1 }),
-          );
+          // A gully floor of bare rock, so the gap reads as a drop and not another strip.
+          const pit = stage.earth(new THREE.PlaneGeometry(x1 - x0, zFront - zBack + 4), true);
           pit.rotation.x = -Math.PI / 2;
           pit.position.set((x0 + x1) / 2, floor, (zBack + zFront) / 2);
           stage.scene.add(pit);
@@ -319,14 +364,7 @@ export class Race3dView implements RaceView {
             [x0, 1],
             [x1, -1],
           ] as const) {
-            const wall = new THREE.Mesh(
-              new THREE.PlaneGeometry(zFront - zBack + 4, RACE3D.gapDepth),
-              new THREE.MeshStandardMaterial({
-                color: '#4a4452',
-                roughness: 1,
-                side: THREE.DoubleSide,
-              }),
-            );
+            const wall = stage.earth(new THREE.PlaneGeometry(zFront - zBack + 4, RACE3D.gapDepth));
             wall.rotation.y = (side * Math.PI) / 2;
             wall.position.set(xe, floor + RACE3D.gapDepth / 2, (zBack + zFront) / 2);
             stage.scene.add(wall);
@@ -340,12 +378,14 @@ export class Race3dView implements RaceView {
         height: 0.5,
         fontPx: 48,
       });
-      sign.position.set(x0 + 1.1, Math.max(s.y0, s.y1) + 1.9, zBack + 0.6);
+      sign.position.set(x0 + 1.1, Math.max(s.y0, s.y1) + RACE3D.signHeight, zBack + 0.6);
+      this.signs.push({ sprite: sign, x: x0 + 1.1, start: x0, end: x1 });
       const post = new THREE.Mesh(
         new THREE.CylinderGeometry(0.05, 0.05, 1.6, 6),
         new THREE.MeshStandardMaterial({ color: '#5a3c28', roughness: 0.9 }),
       );
-      post.position.set(x0, Math.max(s.y0, s.y1) + 0.8, zBack + 0.6);
+      post.scale.y = RACE3D.signHeight / 1.6;
+      post.position.set(x0, Math.max(s.y0, s.y1) + RACE3D.signHeight / 2, zBack + 0.6);
       stage.scene.add(post);
     }
     // Past the finish, and the line itself: checked posts across the lanes.
@@ -383,7 +423,7 @@ export class Race3dView implements RaceView {
       const x = -4 + i * t.spacing;
       g.position.set(x, trackHeight(this.spans, x / U), zBack - t.back - (i % 2) * 1.5);
     }
-    const back = stage.strip(-20, endX + 24, zBack - 30, zBack - 6, 'grass', { y: -0.02 });
+    const back = stage.strip(-20, endX + 24, zBack - 30, zBack, 'grass', { y: -0.02 });
     back.receiveShadow = false;
     const hill = new THREE.Mesh(
       new THREE.SphereGeometry(1, 24, 12),

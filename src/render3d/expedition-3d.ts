@@ -69,6 +69,8 @@ export class Expedition3dView implements ExpeditionView {
     this.openedMs = performance.now();
     this.lastEventAt = -1;
     this.lastMs = 0;
+    const back = EXPEDITION3D.backdrop[theme];
+    stage.backdrop(back.top, back.bottom);
     this.buildScenery(stage);
     // Link the scenery's programs before the first frame; the rig links when it lands.
     void stage.compile().then(() => {
@@ -288,7 +290,7 @@ export class Expedition3dView implements ExpeditionView {
 
   private buildScenery(stage: MiniStage): void {
     const { ground, hills, trees, grass } = EXPEDITION3D;
-    const half = EXPEDITION3D.camera.span * 1.5;
+    const half = EXPEDITION3D.sceneryHalf;
     // The meadow and the worn path the runner keeps to.
     this.ground.push(stage.strip(-half, half, -ground.back, ground.front, 'grass'));
     this.ground.push(stage.strip(-half, half, -0.7, 0.7, 'dirt', { y: 0.012 }));

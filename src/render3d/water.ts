@@ -23,7 +23,10 @@ export function waterNormal(): THREE.DataTexture {
   return normal;
 }
 
-export function waterMaterial(normal: THREE.DataTexture, scale: number): THREE.MeshPhysicalMaterial {
+export function waterMaterial(
+  normal: THREE.DataTexture,
+  scale: number,
+): THREE.MeshPhysicalMaterial {
   return new THREE.MeshPhysicalMaterial({
     color: '#3f8fd0',
     roughness: 0.06,

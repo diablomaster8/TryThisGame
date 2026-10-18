@@ -127,18 +127,18 @@ export interface CameraFrame {
 }
 
 /**
- * Frame `span` world units across the screen in landscape; in portrait keep that
- * distance (the figures stay the same size on screen) and widen the lens until at
- * least `minSpan` units show. Aspects under 1.25 count as portrait.
+ * Frame `height` world units top to bottom at the look point (so a one-unit figure is
+ * 1/height of the screen), whatever the aspect; when that shows fewer than `minSpan`
+ * units across (portrait), keep the distance and widen the lens until it does.
  */
 export function frameCamera(
   aspect: number,
-  o: { span: number; minSpan: number; fovDeg: number },
+  o: { height: number; minSpan: number; fovDeg: number },
 ): CameraFrame {
   const a = Math.max(0.1, aspect);
   const halfV = Math.tan((o.fovDeg * Math.PI) / 360);
-  const distance = o.span / 2 / (halfV * Math.max(a, 1.25));
-  const shown = 2 * distance * halfV * a;
+  const distance = o.height / 2 / halfV;
+  const shown = o.height * a;
   if (shown >= o.minSpan) return { fovDeg: o.fovDeg, distance };
   const halfH = o.minSpan / 2 / distance;
   return { fovDeg: (Math.atan(halfH / a) * 360) / Math.PI, distance };

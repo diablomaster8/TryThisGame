@@ -2,6 +2,31 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## G12 X7: S4 "Dawn & Dusk" with the reverting (2026-10-17)
+
+The fourth separate campaign, in the `dawndusk` save mode: two mirrored halves built from
+one template (`src/content/storyline-dawndusk.ts`, 7 chapters and 3 endings each; the
+Penhallow twins and Teodor Vask), rules for both in `sim/storyline-rules-dawndusk.ts`, and
+the new `sim/degeneration.ts`.
+
+Works:
+- The title asks Dawn or Dusk; Dusk is locked until Dawn has an ending in any slot
+  (`storylineFinished`), and a half started after the other finished is told so
+  (`storylineStart.flags` → `dd-other-done`), which opens the Whole Day ending.
+- Goals on the collection engine and the dojo: a full scan, a second scan plus one
+  conversion (`count:converted`), the three rank tests as belts (`karate:belt`), and the
+  cause choice, which differs by half (lamp or scanner by day; bell or mist by night).
+- Degeneration: when chapter 3 opens the oldest grown Nubbin reverts to its own egg
+  (name, stats, grades and rebirths kept; form and age stashed in `genes.degenerated`).
+  Naming the real cause restores it if it is still that egg; the wrong cause lets it
+  hatch small and grow again. Events `degenerated` and `restored` with HUD toasts.
+- Endings per half: First Light / Last Light, a Fixed Shadow (wrong cause), the Whole Day.
+- Tests: `tests/sim/storyline-dawndusk.test.ts` (degenerate and restore, both halves to
+  their endings, the other-half flag).
+
+Stubbed: the four houses are narrated; serving them is the scan count, not four named
+species. The twins never appear on the map.
+
 ## G12 X6: S3 "The Beetle Road" with fusion (2026-10-17)
 
 The third separate campaign, in the `beetle` save mode. Script

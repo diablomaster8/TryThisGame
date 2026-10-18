@@ -4,7 +4,7 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { SMAAPass } from 'three/addons/postprocessing/SMAAPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
-import { GROVE3D } from '../config/tuning';
+import { GROVE3D, RACE3D } from '../config/tuning';
 import { daylightAt } from '../render/daylight';
 import {
   buildTree,
@@ -34,8 +34,6 @@ import { GroveSky } from './sky';
  */
 /** The Grove's terrain tiles its paint every 3.2 units; the strips match (and recentre by it). */
 export const UV_PERIOD = 3.2;
-/** How far the earth under a strip's near edge reaches down. */
-const SKIRT_DEPTH = 6;
 
 export class MiniStage {
   readonly scene = new THREE.Scene();
@@ -86,7 +84,7 @@ export class MiniStage {
   }
 
   /** Match the game canvas (the Grove's `resize` sets the renderer's size) and the framing. */
-  fit(o: { span: number; minSpan: number; fovDeg: number }): void {
+  fit(o: { height: number; minSpan: number; fovDeg: number }): void {
     const size = this.renderer.getSize(new THREE.Vector2());
     const w = Math.max(1, size.x);
     const h = Math.max(1, size.y);
@@ -203,7 +201,12 @@ export class MiniStage {
         blend[i + 1] = dirt;
       }
       geo.setAttribute('blend', new THREE.BufferAttribute(blend, 2));
-      mat = this.mat('terrain', () => terrainMaterial(this.tex, false, this.time));
+      mat = this.mat('terrain', () => {
+        // Walls and skirts are seen from either side.
+        const t = terrainMaterial(this.tex, false, this.time);
+        t.side = THREE.DoubleSide;
+        return t;
+      });
     }
     const m = new THREE.Mesh(geo, mat);
     m.rotation.x = -Math.PI / 2;
@@ -213,14 +216,31 @@ export class MiniStage {
     m.position.set((x0 + x1) / 2, (opts.y ?? 0) + rise / 2, (zBack + zFront) / 2);
     m.receiveShadow = true;
     this.scene.add(m);
-    // An earth skirt under the near edge, so a low camera never sees under a raised strip.
-    const skirt = new THREE.Mesh(
-      new THREE.PlaneGeometry(len, SKIRT_DEPTH),
-      this.mat('skirt', () => new THREE.MeshStandardMaterial({ color: '#5c5347', roughness: 1 })),
-    );
+    // An earth skirt under the near edge, down past the frame, so nothing shows under a
+    // raised strip and the track always stands on ground.
+    const skirt = this.earth(new THREE.PlaneGeometry(len, RACE3D.earthDepth));
     skirt.rotation.z = m.rotation.z;
-    skirt.position.set((x0 + x1) / 2, (opts.y ?? 0) + rise / 2 - SKIRT_DEPTH / 2, zFront);
+    skirt.position.set((x0 + x1) / 2, (opts.y ?? 0) + rise / 2 - RACE3D.earthDepth / 2, zFront);
     this.scene.add(skirt);
+    return m;
+  }
+
+  /** A face of bare earth (or rock) in the Grove's terrain paint, for walls and skirts. */
+  earth(geo: THREE.BufferGeometry, rock = false): THREE.Mesh {
+    const blend = new Float32Array(geo.attributes.position!.count * 2);
+    for (let i = 0; i < blend.length; i += 2) {
+      blend[i] = rock ? 1 : 0;
+      blend[i + 1] = rock ? 0 : 1;
+    }
+    geo.setAttribute('blend', new THREE.BufferAttribute(blend, 2));
+    geo.computeBoundingBox();
+    const size = geo.boundingBox!.getSize(new THREE.Vector3());
+    const m = new THREE.Mesh(
+      repeatUv(geo, size.x / UV_PERIOD, size.y / UV_PERIOD),
+      this.mat('terrain', () => terrainMaterial(this.tex, false, this.time)),
+    );
+    m.receiveShadow = true;
+    this.scene.add(m);
     return m;
   }
 
@@ -411,6 +431,29 @@ export class MiniStage {
     return { group, fill };
   }
 
+  /**
+   * A screen-filling gradient behind everything, zenith colour at the top: the Preetham
+   * dome's pale horizon band is all a chase camera would see of it. The dome still lights
+   * the scene through the environment map; only its drawing is skipped.
+   */
+  backdrop(top: string, bottom: string): void {
+    const c = document.createElement('canvas');
+    c.width = 1;
+    c.height = 64;
+    const ctx = c.getContext('2d');
+    if (ctx) {
+      const g = ctx.createLinearGradient(0, 0, 0, 64);
+      g.addColorStop(0, top);
+      g.addColorStop(1, bottom);
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, 1, 64);
+    }
+    const tex = this.own(new THREE.CanvasTexture(c));
+    tex.colorSpace = THREE.SRGBColorSpace;
+    this.scene.background = tex;
+    this.sky.sky.visible = false;
+  }
+
   /** Register a texture of ours for disposal. */
   own<T extends THREE.Texture>(t: T): T {
     this.textures.push(t);
@@ -437,6 +480,7 @@ export class MiniStage {
       else if (m.material) mats.add(m.material);
     });
     this.scene.clear();
+    this.scene.background = null;
     for (const g of geos) g.dispose();
     for (const m of mats) m.dispose();
     for (const t of this.textures) t.dispose();

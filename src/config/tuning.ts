@@ -494,18 +494,23 @@ export const EXPEDITION3D = {
   unitsPerPx: 1 / 26,
   /**
    * The chase camera: how far it looks ahead of the runner along the track and how high,
-   * its downward tilt, how many world units it frames across in landscape, the least it
-   * frames in portrait (the lens widens to keep that), and how fast it eases after the
-   * runner (per second).
+   * its downward tilt, how many world units it frames top to bottom (the runner is one,
+   * so about a sixth of the screen), the least it frames across in portrait (the lens
+   * widens to keep that), and how fast it eases after the runner (per second).
    */
   camera: {
-    lookAhead: 2.4,
-    lookHeight: 0.9,
-    pitchDeg: 11,
-    span: 16,
-    minSpan: 8.5,
+    lookAhead: 2.0,
+    lookHeight: 1.4,
+    pitchDeg: 12,
+    height: 6.5,
+    minSpan: 6,
     followRate: 7,
     fovDeg: 42,
+  },
+  /** The backdrop gradient behind everything, zenith to horizon, by theme. */
+  backdrop: {
+    meadow: { top: '#4a8ad8', bottom: '#d6e8f6' },
+    hollow: { top: '#0b1030', bottom: '#2b3660' },
   },
   /** Parallax hills behind the track: depth (negative z is away), height and wavelength. */
   hills: [
@@ -514,11 +519,13 @@ export const EXPEDITION3D = {
     { z: -44, rise: 11, period: 35, color: '#5a7f8a' },
   ],
   /** A ring of trees recycled along the track: how many, their spacing, depth and size. */
-  trees: { count: 9, spacing: 6.5, z: -4.2, scale: 0.75 },
+  trees: { count: 7, spacing: 9, z: -12, scale: 1.0 },
   /** Grass tufts: how many per tile, the tile length along the track and its depth. */
-  grass: { count: 1200, span: 36, depth: 7 },
+  grass: { count: 1200, span: 36, depth: 9 },
   /** The ground strip: how far it reaches toward the camera and away from it. */
-  ground: { front: 18, back: 10 },
+  ground: { front: 24, back: 14 },
+  /** The tiling scenery (ground, hills) reaches this far each side of the camera. */
+  sceneryHalf: 30,
   /** Prop sizes in world units. */
   shellRadius: 0.17,
   essenceSize: 0.28,
@@ -549,16 +556,18 @@ export const RACE3D = {
   /** The swim channel: water level and bed depth below the track. */
   waterLevel: -0.3,
   channelDepth: 0.9,
-  /** The pit under a fly section. */
-  gapDepth: 4,
+  /** The gully under a fly section. */
+  gapDepth: 2.6,
+  /** How high the section signs stand over the track (above the name tags). */
+  signHeight: 2.0,
   /** Ground shown before the start line, in track units, so the field lines up whole. */
   startPad: 3,
   camera: {
-    lookAhead: 1.6,
-    lookHeight: 0.8,
-    pitchDeg: 17,
-    span: 14,
-    minSpan: 7.5,
+    lookAhead: 1.2,
+    lookHeight: 0.5,
+    pitchDeg: 18,
+    height: 7.5,
+    minSpan: 7,
     followRate: 5,
     fovDeg: 42,
     /** The camera eases this far from the player toward the leader (0 follows the player). */
@@ -566,9 +575,12 @@ export const RACE3D = {
     /** The player never sits further left than this share of the half-width from centre. */
     playerKeep: 0.5,
   },
-  /** Name tags over the racers: card size in world units, the text height in it, and how
-   * much higher each lane's tag sits so a bunched field reads as a ladder. */
-  nameTag: { width: 2.2, height: 0.5, fontPx: 56, ladder: 0.2 },
+  /** Name tags over the racers: card size in world units and the text height in it. Tags
+   * that would overlap on screen are nudged up by `gap` times the tag height. */
+  nameTag: { width: 2.2, height: 0.5, fontPx: 56, gap: 1.1 },
+  /** The backdrop gradient, zenith to horizon, and how deep the earth under the track goes. */
+  backdrop: { top: '#4a8ad8', bottom: '#d6e8f6' },
+  earthDepth: 30,
   /** How long the start may wait for the field's rigs before stand-ins run, ms. */
   rigWaitMs: 4000,
   /** Trees along the far side of the track: how many, spacing, depth past the last lane. */

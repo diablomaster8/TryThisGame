@@ -101,22 +101,24 @@ describe('race track layout', () => {
 });
 
 describe('chase camera framing', () => {
-  const o = { span: 16, minSpan: 8.5, fovDeg: 42 };
+  const o = { height: 6, minSpan: 6, fovDeg: 42 };
 
-  it('frames the span in landscape at the base lens', () => {
-    const f = frameCamera(16 / 9, o);
-    expect(f.fovDeg).toBe(42);
+  it('frames the height at every landscape aspect at the base lens', () => {
     const halfV = Math.tan((42 * Math.PI) / 360);
-    expect(2 * f.distance * halfV * (16 / 9)).toBeCloseTo(16);
+    for (const aspect of [1.33, 16 / 9, 21 / 9]) {
+      const f = frameCamera(aspect, o);
+      expect(f.fovDeg).toBe(42);
+      expect(2 * f.distance * halfV).toBeCloseTo(6);
+    }
   });
 
   it('keeps the distance in portrait and widens the lens to the least span', () => {
-    const wide = frameCamera(1.25, o);
+    const wide = frameCamera(16 / 9, o);
     const tall = frameCamera(375 / 812, o);
     expect(tall.distance).toBeCloseTo(wide.distance);
     expect(tall.fovDeg).toBeGreaterThan(42);
     const halfV = Math.tan((tall.fovDeg * Math.PI) / 360);
-    expect(2 * tall.distance * halfV * (375 / 812)).toBeCloseTo(8.5);
+    expect(2 * tall.distance * halfV * (375 / 812)).toBeCloseTo(6);
   });
 
   it('places the camera toward the viewer and above the look point', () => {
