@@ -20,6 +20,10 @@ export class Celebration {
   private readonly lines: HTMLDivElement;
   private timer = 0;
 
+  get isOpen(): boolean {
+    return !this.root.hidden;
+  }
+
   constructor(
     parent: HTMLElement,
     private readonly game: () => Game | null,

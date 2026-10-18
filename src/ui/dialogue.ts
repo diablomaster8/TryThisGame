@@ -68,11 +68,12 @@ export class Dialogue {
     box.append(this.portrait, body, this.next);
     this.root.appendChild(box);
     this.root.addEventListener('click', (e) => {
+      if (this.waiting()) return;
       if ((e.target as HTMLElement).closest('.dialogue-choices, .edu-gloss')) return;
       this.advance();
     });
     window.addEventListener('keydown', (e) => {
-      if (this.root.hidden || this.choices.childElementCount > 0) return;
+      if (this.root.hidden || this.choices.childElementCount > 0 || this.waiting()) return;
       if (e.key === ' ' || e.key === 'Enter') {
         e.preventDefault();
         this.advance();
@@ -95,6 +96,26 @@ export class Dialogue {
 
   get isOpen(): boolean {
     return !this.root.hidden;
+  }
+
+  /**
+   * While `blocked` says so (a panel, sheet or notice is open over the scene), the scene
+   * waits on its line: taps and keys pass to the panel, and nothing advances.
+   */
+  waitWhile(blocked: () => boolean): void {
+    this.blocked = blocked;
+    this.sync();
+  }
+
+  /** Re-check the wait; the HUD calls this whenever a panel opens or closes. */
+  sync(): void {
+    this.root.classList.toggle('waiting', this.waiting());
+  }
+
+  private blocked: () => boolean = () => false;
+
+  private waiting(): boolean {
+    return !this.root.hidden && this.blocked();
   }
 
   /** Whether the campaign queue head may be played now; call it on every queue check. */
@@ -144,6 +165,7 @@ export class Dialogue {
       }
     };
     this.root.hidden = false;
+    this.sync();
     this.showLine();
   }
 

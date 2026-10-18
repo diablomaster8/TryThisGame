@@ -392,33 +392,54 @@ export function mountHud(
   }
 
   // One full panel at a time (B3). Story scenes, the away screen and celebrations are
-  // deliberately layered and stay outside the stack.
-  mountPanelStack(root, [
-    { isOpen: () => settings.isOpen(), close: () => settings.close() },
-    { isOpen: () => shop.isOpen(), close: () => shop.close() },
-    { isOpen: () => races.isOpen(), close: () => races.close() },
-    { isOpen: () => roster.isOpen(), close: () => roster.close() },
-    { isOpen: () => trainers.isOpen(), close: () => trainers.close() },
-    { isOpen: () => journal.isOpen(), close: () => journal.close() },
-    { isOpen: () => partyBout.isOpen(), close: () => partyBout.close() },
-    { isOpen: () => kindergarten.isOpen(), close: () => kindergarten.close() },
-    { isOpen: () => karate.isOpen(), close: () => karate.close() },
-    { isOpen: () => book.isOpen(), close: () => book.close() },
-    { isOpen: () => decorate.isOpen(), close: () => decorate.close() },
-    { isOpen: () => photo.isOpen(), close: () => photo.close() },
-    { isOpen: () => pocket.isOpen, close: () => pocket.close() },
-    { isOpen: () => quests.isOpen(), close: () => quests.close() },
-    { isOpen: () => profile.isOpen(), close: () => profile.close() },
-    { isOpen: () => neighbourhood.isOpen(), close: () => neighbourhood.close() },
-    { isOpen: () => map.isOpen(), close: () => map.close() },
-    { isOpen: () => grownUps.isOpen(), close: () => grownUps.close() },
-    { isOpen: () => gym.isOpen(), close: () => gym.close() },
-    { isOpen: () => atlas.isOpen(), close: () => atlas.close() },
-    { isOpen: () => cabinet.isOpen(), close: () => cabinet.close() },
-    { isOpen: () => more.isOpen(), close: () => more.hide() },
-    { isOpen: () => !sheet.root.hidden, close: () => sheet.close() },
-    { isOpen: () => expedition.isOpen },
-  ]);
+  // deliberately layered and stay outside the stack. Running minigames have no `close`, so
+  // a menu opened over one (Races over Beetle Run) is shut instead of stacking under it.
+  const stack = mountPanelStack(
+    root,
+    [
+      { isOpen: () => settings.isOpen(), close: () => settings.close() },
+      { isOpen: () => shop.isOpen(), close: () => shop.close() },
+      { isOpen: () => races.isOpen(), close: () => races.close() },
+      { isOpen: () => roster.isOpen(), close: () => roster.close() },
+      { isOpen: () => trainers.isOpen(), close: () => trainers.close() },
+      { isOpen: () => journal.isOpen(), close: () => journal.close() },
+      { isOpen: () => partyBout.isOpen(), close: () => partyBout.close() },
+      { isOpen: () => kindergarten.isOpen(), close: () => kindergarten.close() },
+      { isOpen: () => karate.isOpen(), close: () => karate.close() },
+      { isOpen: () => book.isOpen(), close: () => book.close() },
+      { isOpen: () => decorate.isOpen(), close: () => decorate.close() },
+      { isOpen: () => photo.isOpen(), close: () => photo.close() },
+      { isOpen: () => pocket.isOpen, close: () => pocket.close() },
+      { isOpen: () => quests.isOpen(), close: () => quests.close() },
+      { isOpen: () => profile.isOpen(), close: () => profile.close() },
+      { isOpen: () => neighbourhood.isOpen(), close: () => neighbourhood.close() },
+      { isOpen: () => map.isOpen(), close: () => map.close() },
+      { isOpen: () => grownUps.isOpen(), close: () => grownUps.close() },
+      { isOpen: () => gym.isOpen(), close: () => gym.close() },
+      { isOpen: () => atlas.isOpen(), close: () => atlas.close() },
+      { isOpen: () => cabinet.isOpen(), close: () => cabinet.close() },
+      { isOpen: () => more.isOpen(), close: () => more.hide() },
+      { isOpen: () => !sheet.root.hidden, close: () => sheet.close() },
+      { isOpen: () => expedition.isOpen },
+      { isOpen: () => tank.isOpen },
+      { isOpen: () => races.screen.isOpen },
+      { isOpen: () => karate.screen.isOpen },
+      { isOpen: () => gym.screen.isOpen },
+    ],
+    () => dialogue.sync(),
+  );
+  // A story scene waits on its line under any panel, sheet or notice: the panel takes the
+  // taps, and the scene picks up where it was once the last one closes (review 2026-10-18).
+  dialogue.waitWhile(
+    () =>
+      stack.anyOpen() ||
+      away.isOpen ||
+      celebration.isOpen ||
+      memorialCard.isOpen() ||
+      edu.isOpen() ||
+      breakScreen.isOpen() ||
+      !catching.hidden,
+  );
 
   // Triple-tap the logo, or press backtick, for the debug panel.
   let logoTaps: number[] = [];
@@ -443,7 +464,8 @@ export function mountHud(
       debug?.toggle();
     }
     if (e.key === 'Escape') {
-      if (settings.isOpen()) settings.close();
+      if (away.isOpen) away.hide();
+      else if (settings.isOpen()) settings.close();
       else if (shop.isOpen()) shop.close();
       else if (races.isOpen()) races.close();
       else if (roster.isOpen()) roster.close();
@@ -579,6 +601,8 @@ export function mountHud(
         !expedition.isOpen &&
         !races.isOpen() &&
         !karate.screen.isOpen &&
+        !gym.screen.isOpen &&
+        !tank.isOpen &&
         !pocket.isOpen
       ) {
         sheet.close();

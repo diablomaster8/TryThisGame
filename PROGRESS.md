@@ -24,6 +24,34 @@ the phone view passes; Expedition and races get 3D versions in Full 3D. Waiting 
 Arcade and LB/LK decisions (section "Pixel's Arcade PA1–PA5" in `docs/progress-archive.md`).
 Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
 
+## Review fix: panels over story scenes, Beetle Run (2026-10-18)
+
+Bug 3 of `docs/review-independent-2026-10-18.md`, with its neighbour bug 20.
+
+Works:
+- Panels, sheets and notices (`.modal`, `.sheet`, `.pocket`, `.celebrate`, `.catching`,
+  `.debug`) sit at z-index 16, above the dialogue (15), so a tap on them never lands on it.
+- `Dialogue.waitWhile` (wired in `hud.ts`): while any stacked panel, a running minigame, the
+  away summary, a celebration, the memorial card, the Learning Grove screens or the catch-up
+  veil is open, the scene waits on its line (class `waiting`: dimmed, `pointer-events: none`,
+  Space/Enter ignored) and resumes when the last one closes. `mountPanelStack` now returns
+  `anyOpen()` and calls back on every settle, so the wait starts the moment a panel opens.
+- Beetle Run, the race, karate and gym screens are pinned panels in the stack: a menu opened
+  over one (Races over Beetle Run) is shut at once, so results never stack over a dialog.
+  Escape quits Beetle Run to its results (keeping the cargo), and a second Escape closes them.
+  Escape also closes the away summary. Scenes do not start over the gym or Beetle Run.
+- Checked in the browser pane at 1280x800 and 375x812, in Pixel and Full 3D: after a 4-minute
+  `resume()`, `elementFromPoint` at Continue returns the button and one tap closes it; the
+  stats sheet, settings, shop, roster, journal, races, atlas and cabinet all wait the scene
+  with no button hitting `.dialogue`, and the line never moves; Space, Enter and a tap on the
+  box do nothing while a panel is open; a tap advances it again after. Screenshots
+  `docs/samples/bug3-away-over-scene-{3d,pixel}-{1280,375}.jpg`.
+
+Stubbed: no DOM test environment, so there is no unit test; the checks above are manual.
+
+Known: with a scene waiting under the stats sheet (no backdrop), taps outside the sheet reach
+the Grove as usual. Anything that opens a panel mid-scene pauses the story until it closes.
+
 ## Save safety: review bugs 4, 5, 29 (2026-10-18)
 
 From `docs/review-independent-2026-10-18.md`. Works:
@@ -107,38 +135,6 @@ New variant arrays are exported from `src/content/index.ts` and covered by conte
   splices the walled garden after its own "Gran Hazel walks" line (`spliceScene` takes a
   per-band anchor), and the childLines test hides edu copies to exercise the fallback. About 16 lines in
   `storyline-*.ts` exceed 160 characters; content-check does not cover the storylines.
-
-## G12 writing pass: beats for SL1–SL4 and the expansions (2026-10-17)
-
-The separate campaigns were a session long each; the brief asked for 4–10 hours. This pass
-adds `StorylineChapter.beats` between the openings and the goals (no goal check changed),
-and deepens the expansions' scenes.
-
-Works:
-- S1 (30 beats): Ida and Sorrel on the story clock (`days:` from the chapter's start), the
-  first visitor and feed, the care slips (`partner:slips`), fondness and trust, the cave's
-  stairs, strays and chest (a new flagged choice, `h-drawing`, paid off on the hundredth
-  day), the cocoon, the mire's rain, the stall and yard, the loft lamp at the mountain, the
-  naming choice and a moody partner on the last day.
-- S2 (19 beats): Warden's tips as the eggs hatch, Juno's meal-count talks (a new choice,
-  `l-told`, paid off at the board), night bouts, the bout counts between ranks, a lost
-  partner (`count:departed`, chapter 6 only), a second teen beat (`l-c6-wage`), and Juno's
-  reaction to the chosen word.
-- S3 (20 beats): the banners and ledger, the leader's errands (`count:missionDone`), the
-  first stair, a torch choice (`b-torch`, paid off on the third floor), the two partners and
-  Vane's own fusion, the second run, and chapter 8 reading the fusion and the lever.
-- S4 (16 beats per half, from the template): the other twin when `dd-other-done`, the Book's
-  visitor and settler, the egg that must not be hatched, the second page, Vask between
-  belts, the grown one sitting by the egg, and the day after the cause.
-- E1–E3: fuller visits and one real choice each (`e1-hazel`, `e2-asked`, `e3-pick`), voice
-  only for now. E1–E3 and S1–S4 are now exported from `content/index.ts`, and the three
-  expansion packs are in `tests/tools/content-check.ts` (problems: 0).
-- Every `_CHECKS` list now includes the beat checks, so the grammar is covered.
-
-Stubbed: no engine change. The `days:` beats use the two-minute story day, so at ×1 they
-land minutes into a chapter, not hours. The expansions' new choices set flags nothing reads
-yet. Nothing in S1–S4 is in the content checker (it checks `Quest` packs, not storylines);
-the storyline tests and a line-length sweep stand in.
 
 ## Standing approval (Maor, 2026-10-12)
 

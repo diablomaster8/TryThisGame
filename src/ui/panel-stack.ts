@@ -2,15 +2,27 @@
  * The panel stack: at most one full panel (a menu, the stats sheet, the Journal, a minigame)
  * is open at a time. Panels keep their own open/close code; this watches the `hidden`
  * attributes under the HUD root and, when a panel opens, closes any other open one. A panel
- * with no `close` (the Expedition, which ends through its own results screen) is never closed
- * for another: the newcomer is closed instead.
+ * with no `close` (a running minigame, which ends through its own results screen) is never
+ * closed for another: the newcomer is closed instead.
+ *
+ * `onChange` runs after every settle, whatever was shown or hidden under the root, so the
+ * story dialogue can start waiting the moment a panel opens over it.
  */
 export interface StackPanel {
   isOpen: () => boolean;
   close?: () => void;
 }
 
-export function mountPanelStack(root: HTMLElement, panels: StackPanel[]): void {
+export interface PanelStack {
+  /** Whether any panel in the stack is open. */
+  anyOpen(): boolean;
+}
+
+export function mountPanelStack(
+  root: HTMLElement,
+  panels: StackPanel[],
+  onChange?: () => void,
+): PanelStack {
   let open = new Set<StackPanel>();
   let busy = false;
 
@@ -30,6 +42,7 @@ export function mountPanelStack(root: HTMLElement, panels: StackPanel[]): void {
     }
     open = now;
     busy = false;
+    onChange?.();
   }
 
   new MutationObserver(settle).observe(root, {
@@ -37,4 +50,5 @@ export function mountPanelStack(root: HTMLElement, panels: StackPanel[]): void {
     attributes: true,
     attributeFilter: ['hidden'],
   });
+  return { anyOpen: () => panels.some((p) => p.isOpen()) };
 }

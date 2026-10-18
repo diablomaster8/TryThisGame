@@ -66,6 +66,12 @@ export class TankScreen {
     });
     window.addEventListener('keydown', (e) => {
       if (!this.state || this.root.hidden) return;
+      // Escape leaves the run (keeping the cargo, like ✕), then closes the results.
+      if (e.key === 'Escape' && !e.repeat) {
+        if (this.results.hidden) this.finish();
+        else this.closeResults();
+        return;
+      }
       if (e.key === 'ArrowUp' || e.key === 'w') steer(this.state, -1);
       if (e.key === 'ArrowDown' || e.key === 's') steer(this.state, 1);
     });
