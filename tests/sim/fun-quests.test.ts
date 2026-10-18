@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { FUN, STORY } from '../../src/config/tuning';
 import { funQuestOpens, funQuests, parseWhen } from '../../src/sim/fun-quests';
+import { FUN_PACK_RULES } from '../../src/sim/fun-pack-rules';
+import { SIDE_STORY_CONTENT } from '../../src/sim/side-story-content';
 import { sideActable } from '../../src/sim/side-stories';
 import { sideStory } from '../../src/sim/story-scenes';
-import type { World } from '../../src/sim/types';
+import type { CampaignState, World } from '../../src/sim/types';
 import { applyCommand } from '../../src/sim/world';
 import { c, drive, tick } from './campaign-driver';
 import { begun, runUntil } from './side-driver';
@@ -61,6 +63,8 @@ describe('fun quests', () => {
       'roomForEgg',
     );
     expect(parseWhen('Its festival day')).toMatchObject({ day: 'festival' });
+    // The Hodja pack opens "once Chapter 3 is done", as "after Chapter 3" does.
+    expect(parseWhen('once Chapter 3 is done (never during Chapters 9–11)').chapter).toBe(4);
     expect(parseWhen('Any day')).toMatchObject({
       time: null,
       weather: null,
@@ -69,9 +73,9 @@ describe('fun quests', () => {
     });
   });
 
-  it('registers all 65 and none of them writes a campaign flag', () => {
+  it('registers all 95 and none of them writes a campaign flag', () => {
     const quests = funQuests();
-    expect(quests).toHaveLength(65);
+    expect(quests).toHaveLength(95);
     for (const q of quests) {
       const written = new Set<string>(Object.keys(q.sets ?? {}));
       const scenes = [...q.steps.map((s) => s.scene), ...q.steps.map((s) => s.done), q.complete];
@@ -179,5 +183,49 @@ describe('fun quests', () => {
     };
     r.world.timeMs = Math.floor(r.world.timeMs / STORY.dayMs) * STORY.dayMs + STORY.dayMs + 1000;
     expect(funQuestOpens(r.world, st, q32)).toBe(true);
+  });
+});
+
+describe('the Alice, Holmes and Hodja payoffs', () => {
+  const variants = new Set(SIDE_STORY_CONTENT.variants.map((v) => v.id));
+  const world = {} as World;
+  const camp = (flags: Record<string, string | boolean>) => ({ flags }) as unknown as CampaignState;
+
+  it('play a written variant scene for every value of the choice they answer', () => {
+    const r = FUN_PACK_RULES;
+    expect(r.q71!.variant!(world, camp({}), 'q71-witness')).toBe('q71-witness');
+    for (const [flag, v] of [
+      ['q70-garden', 'garden'],
+      ['q70-mirror', 'mirror'],
+    ] as const) {
+      expect(r.q71!.variant!(world, camp({ [flag]: true }), 'q71-witness')).toBe(
+        `q71-witness-${v}`,
+      );
+      expect(r.q75!.variant!(world, camp({ [flag]: true }), 'q75-wake')).toBe(`q75-wake-${v}`);
+    }
+    const picks: string[] = [];
+    for (const jem of ['freed', 'owned', 'lestrade'])
+      picks.push(
+        ...r.q84!.after!(world, camp({ 'q78-jem': jem }), 1),
+        ...r.q85!.after!(world, camp({ 'q78-jem': jem }), 1),
+      );
+    picks.push(
+      ...r.q85!.before!(world, camp({}), 2),
+      ...r.q85!.before!(world, camp({ 'q79-contradicted': true }), 2),
+    );
+    expect(r.q91!.variant!(world, camp({ 'q87-gift': 'seat' }), 'q91-judge')).toBe(
+      'q91-judge-seat',
+    );
+    for (const gift of ['seat', 'coat', 'watch'])
+      picks.push(...r.q95!.after!(world, camp({ 'q87-gift': gift }), 2));
+    picks.push(
+      'q71-witness-garden',
+      'q71-witness-mirror',
+      'q75-wake-garden',
+      'q75-wake-mirror',
+      'q91-judge-seat',
+    );
+    expect(new Set(picks).size).toBe(14);
+    for (const id of picks) expect(variants.has(id), id).toBe(true);
   });
 });

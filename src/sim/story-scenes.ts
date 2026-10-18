@@ -16,6 +16,7 @@ import type {
   Reward,
   Storyline,
 } from '../content/types';
+import { CHOICE_PAYOFFS } from './choice-payoffs';
 import { registerLangCourses, registerLangQuests } from './lang';
 import type { CampaignState, World } from './types';
 
@@ -486,6 +487,7 @@ export function sceneFor(
   if (!c) return base;
   const s = new Swapper(scene.lines, band, base.lines);
   SWAPS[id]?.(c, s);
+  CHOICE_PAYOFFS[id]?.(c, s);
   if (c.flags.keptStone) {
     for (const [prefix, from, to] of S24_STILL)
       if (id === prefix || id.startsWith(`${prefix}-`)) s.swap(from, { main: to });

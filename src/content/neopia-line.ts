@@ -210,7 +210,7 @@ export const NEOPIA_LINE: Quest[] = [
         l('sarkis', 'We found it! Technically the robot found it. But we were there!', 'happy'),
         n('Back on the beach, Buckley hands round the sandwiches. They are slightly damp. Conditions, as promised, apply.'),
         n('The Neopian Times runs it as DOME SWEET DOME. Sarkis buys eleven copies and frames the crossword.'),
-        n('At home, your karate dojo has a new door painted like a dome. Above it, a sign: Battledome. Play fair.'),
+        n('By the rainbow gate, a new door appears, painted like a dome. Above it, a sign: Battledome. Play fair.'),
         n('Far above the sea, a green light blinks once and goes out.'),
       ],
     },
@@ -219,13 +219,13 @@ export const NEOPIA_LINE: Quest[] = [
         id: 'np01-battledome',
         kind: 'feature',
         label: 'Battledome mode',
-        description: 'Unlocks the karate dojo’s Battledome mode: battle items, weapons and challengers from every land of Neopia.',
+        description: 'Opens the Battledome in Neopia: battle items, weapons and challengers from every land, kept in the Neopia save.',
       },
       {
         id: 'np01-times',
         kind: 'item',
         label: 'Neopian Times: DOME SWEET DOME',
-        description: 'This plot’s Neopian Times front page, kept in the Collection book.',
+        description: 'This plot’s Neopian Times front page, kept in your Neopia scrapbook.',
       },
       {
         id: 'np01-avatar',
@@ -451,7 +451,7 @@ export const NEOPIA_LINE: Quest[] = [
         id: 'np02-times',
         kind: 'item',
         label: 'Neopian Times: MOUNTAIN HOLDS',
-        description: 'This plot’s Neopian Times front page, kept in the Collection book.',
+        description: 'This plot’s Neopian Times front page, kept in your Neopia scrapbook.',
       },
       {
         id: 'np02-avatar',
@@ -646,7 +646,7 @@ export const NEOPIA_LINE: Quest[] = [
         id: 'np03-times',
         kind: 'item',
         label: 'Neopian Times: COLD CASE CLOSED',
-        description: 'This plot’s Neopian Times front page, kept in the Collection book.',
+        description: 'This plot’s Neopian Times front page, kept in your Neopia scrapbook.',
       },
       {
         id: 'np03-avatar',
@@ -826,7 +826,7 @@ export const NEOPIA_LINE: Quest[] = [
         id: 'np04-times',
         kind: 'item',
         label: 'Neopian Times: THE USURPER UNMASKED',
-        description: 'This plot’s Neopian Times front page, kept in the Collection book.',
+        description: 'This plot’s Neopian Times front page, kept in your Neopia scrapbook.',
       },
       {
         id: 'np04-avatar',
@@ -1044,7 +1044,7 @@ export const NEOPIA_LINE: Quest[] = [
         id: 'np05-times',
         kind: 'item',
         label: 'Neopian Times: THE ORB IS BROKEN',
-        description: 'This plot’s Neopian Times front page, kept in the Collection book.',
+        description: 'This plot’s Neopian Times front page, kept in your Neopia scrapbook.',
       },
       {
         id: 'np05-avatar',
@@ -1232,7 +1232,7 @@ export const NEOPIA_LINE: Quest[] = [
         id: 'np06-times',
         kind: 'item',
         label: 'Neopian Times: EVERYONE HOME',
-        description: 'This plot’s Neopian Times front page, kept in the Collection book.',
+        description: 'This plot’s Neopian Times front page, kept in your Neopia scrapbook.',
       },
       {
         id: 'np06-avatar',
@@ -1437,7 +1437,7 @@ export const NEOPIA_LINE: Quest[] = [
         id: 'np07-times',
         kind: 'item',
         label: 'Neopian Times: KASS FALLS',
-        description: 'This plot’s Neopian Times front page, kept in the Collection book.',
+        description: 'This plot’s Neopian Times front page, kept in your Neopia scrapbook.',
       },
       {
         id: 'np07-avatar',
@@ -1615,7 +1615,7 @@ export const NEOPIA_LINE: Quest[] = [
         id: 'np08-times',
         kind: 'item',
         label: 'Neopian Times: THE SISTERS COME HOME',
-        description: 'This plot’s Neopian Times front page, kept in the Collection book.',
+        description: 'This plot’s Neopian Times front page, kept in your Neopia scrapbook.',
       },
       {
         id: 'np08-avatar',
@@ -1822,7 +1822,7 @@ export const NEOPIA_LINE: Quest[] = [
         id: 'np09-times',
         kind: 'item',
         label: 'Neopian Times: SAKHMET IN DAYLIGHT',
-        description: 'This plot’s Neopian Times front page, kept in the Collection book.',
+        description: 'This plot’s Neopian Times front page, kept in your Neopia scrapbook.',
       },
       {
         id: 'np09-avatar',
@@ -2011,7 +2011,7 @@ export const NEOPIA_LINE: Quest[] = [
         id: 'np10-times',
         kind: 'item',
         label: 'Neopian Times: NEOVIA CURED (MOSTLY)',
-        description: 'This plot’s Neopian Times front page, kept in the Collection book.',
+        description: 'This plot’s Neopian Times front page, kept in your Neopia scrapbook.',
       },
       {
         id: 'np10-avatar',
@@ -2212,13 +2212,13 @@ export const NEOPIA_LINE: Quest[] = [
         id: 'np11-lost-isle',
         kind: 'feature',
         label: 'Lost Isle section',
-        description: 'Unlocks a Lost Isle section for your sandbox: giant-insect jungle, a waterfall, a stone arch and a (quiet, empty) Moach nest.',
+        description: 'Unlocks a Lost Isle section for your Neopia sandbox: giant-insect jungle, a waterfall, a stone arch and a (quiet, empty) Moach nest.',
       },
       {
         id: 'np11-times',
         kind: 'item',
         label: 'Neopian Times: THE ISLAND IS REAL',
-        description: 'This plot’s Neopian Times front page, kept in the Collection book. If you kept the route secret, the headline reads IS IT REAL?',
+        description: 'This plot’s Neopian Times front page, kept in your Neopia scrapbook. If you kept the route secret, the headline reads IS IT REAL?',
       },
       {
         id: 'np11-avatar',
@@ -2382,19 +2382,19 @@ export const NEOPIA_LINE: Quest[] = [
         id: 'np12-altador',
         kind: 'feature',
         label: 'Altador section',
-        description: 'Unlocks the Altador section for your sandbox: white stone, the Hall of Heroes and the star-roofed Archives.',
+        description: 'Unlocks the Altador section for your Neopia sandbox: white stone, the Hall of Heroes and the star-roofed Archives.',
       },
       {
         id: 'np12-cup',
         kind: 'feature',
         label: 'Colosseum race cup',
-        description: 'Unlocks a one-time race cup in Altador’s Colosseum for your Nubbins (not a yearly event).',
+        description: 'A one-time race cup in Altador’s Colosseum, run in Neopia with your Nubbins as guests (not a yearly event). The cup stays in Neopia.',
       },
       {
         id: 'np12-times',
         kind: 'item',
         label: 'Neopian Times: ALTADOR REMEMBERED',
-        description: 'This plot’s Neopian Times front page, kept in the Collection book.',
+        description: 'This plot’s Neopian Times front page, kept in your Neopia scrapbook.',
       },
       {
         id: 'np12-avatar',
@@ -2631,7 +2631,7 @@ export const NEOPIA_LINE: Quest[] = [
         id: 'np13-times',
         kind: 'item',
         label: 'Neopian Times: SLOTH SEALED IN A STAR',
-        description: 'This plot’s Neopian Times front page, kept in the Collection book.',
+        description: 'This plot’s Neopian Times front page, kept in your Neopia scrapbook.',
       },
       {
         id: 'np13-avatar',

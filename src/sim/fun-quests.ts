@@ -1,6 +1,7 @@
 import type { Quest } from '../content/types';
 import { FUN, STORY } from '../config/tuning';
 import { isFunQuestCode, questAvailable } from './audience';
+import { FUN_PACK_RULES } from './fun-pack-rules';
 import { hasRoom } from './roster';
 import { levelOf } from './stats';
 import { isAfternoon, isMorning, isNight, type StoryRule } from './side-rule-kit';
@@ -8,7 +9,7 @@ import { GROVE_SIDE_STORIES } from './story-scenes';
 import type { CampaignState, World } from './types';
 
 /**
- * The fun quests Q1 to Q65 (Python, Bean, Sunny and Avatar), driven by the same step
+ * The fun quests Q1 to Q95 (Python, Bean, Sunny, Avatar, Alice, Holmes and Hodja), driven by the same step
  * machine as the side stories but kept apart from them: their state lives in
  * `campaign.fun`, they never hold a chapter, never run in chapters 9 to 11, and the
  * Mature content setting decides whether the Sunny line is offered at all. Each offers
@@ -72,7 +73,7 @@ export function parseWhen(when: string): WhenRule {
   else if (has(t, 'weekend')) rule.day = 'weekend';
   else if (has(t, 'market day', 'market morning')) rule.day = 'market';
   else if (has(t, 'festival day')) rule.day = 'festival';
-  const chapter = /after chapter (\d+)/.exec(t);
+  const chapter = /after chapter (\d+)/.exec(t) ?? /once chapter (\d+) is done/.exec(t);
   if (chapter) rule.chapter = Number(chapter[1]) + 1;
   for (const m of t.matchAll(/after q(\d+)/g)) rule.after.push(`Q${m[1]}`);
   if (has(t, 'room for an egg')) rule.facts.push('roomForEgg');
@@ -178,6 +179,7 @@ export function funRule(quest: Quest): StoryRule {
   const paused = (world: World, c: CampaignState): boolean =>
     !questAvailable(quest, audienceContext(world), c.chapter);
   return {
+    ...FUN_PACK_RULES[quest.id],
     id: quest.id,
     opens: (w, c) => funQuestOpens(w, c, quest),
     gate: (w, c) => !paused(w, c),

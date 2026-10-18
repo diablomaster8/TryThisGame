@@ -7,6 +7,7 @@
  * nobody loses a Grove.
  */
 import { SAVE_SAFETY } from '../config/tuning';
+import type { SideWorld } from '../sim/side-saves';
 
 export type SaveMode = 'free' | 'campaign' | 'edu' | StorylineMode;
 
@@ -310,13 +311,13 @@ export function writeGraphicsPref(mode: 'pixel' | '3d'): boolean {
 // ---------- the side saves (canon 21, 29, 30) ----------
 
 /**
- * The Atlas, Pixel's Arcade and the Multiverse each keep one save of their own on this
+ * The Atlas, Pixel's Arcade, the Multiverse and Neopia each keep one save of their own on this
  * device, apart from every Grove slot above. They may read a Grove save; nothing here
  * ever writes one.
  */
-export type SideSave = 'atlas' | 'arcade' | 'multiverse';
+export type SideSave = SideWorld;
 
-export const SIDE_SAVES: readonly SideSave[] = ['atlas', 'arcade', 'multiverse'];
+export const SIDE_SAVES: readonly SideSave[] = ['atlas', 'arcade', 'multiverse', 'neopia'];
 
 export function sideKey(which: SideSave): string {
   return `grove.side.${which}`;

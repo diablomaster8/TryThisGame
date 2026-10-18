@@ -60,7 +60,7 @@ function playThrough(l: StoryLine, p: LineProgress, limit = 2000): number {
   let moves = 0;
   for (; moves < limit; moves++) {
     const next = lineNext(l, p);
-    if (next.kind === 'finished') break;
+    if (next.kind === 'finished' || next.kind === 'waiting') break;
     if (next.kind === 'act') lineAct(l, p);
     else lineSceneDone(l, p, next.scene.id, next.scene.choices?.[0]?.id ?? null);
   }
@@ -94,7 +94,7 @@ describe('side saves (canon 21, 29, 30)', () => {
     for (const mode of ['free', 'campaign', 'edu'] as const)
       for (let i = 1; i <= SLOTS_PER_MODE; i++) grove.add(slotKey({ mode, index: i }));
     const side = SIDE_SAVES.map(sideKey);
-    expect(new Set(side).size).toBe(3);
+    expect(new Set(side).size).toBe(4);
     for (const k of side) expect(grove.has(k)).toBe(false);
   });
 
@@ -140,11 +140,15 @@ describe('side saves (canon 21, 29, 30)', () => {
     a.pages.A15 = {
       quests: { 'a15-01': { step: 1, stage: 'act' } },
       flags: { x: 'y' },
+      rewards: ['a15-gift'],
       done: false,
     };
     expect(parseAtlas(serializeSide(a))).toEqual(a);
     // A save written before versions existed migrates up to the current version.
     expect(parseAtlas(JSON.stringify({ pages: a.pages })).version).toBe(SIDE_SAVE_VERSION);
+    // Version 1 kept no rewards; its lines migrate with an empty list.
+    const v1 = { version: 1, carts: { PA1: { quests: {}, flags: {}, done: true } } };
+    expect(parseArcade(JSON.stringify(v1)).carts.PA1!.rewards).toEqual([]);
   });
 });
 

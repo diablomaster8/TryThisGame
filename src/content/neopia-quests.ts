@@ -4,8 +4,8 @@
  * nothing is lost by leaving it for later.
  *
  *   NQ1–NQ10   Faerie Quests. Each faerie asks once for one item from a land of Neopia
- *              and gives one blessing: a stat level for the pet you choose, or (the
- *              Fountain Faerie) one paint job in any classic colour.
+ *              and gives one blessing: a stat level for your Neo pet, or (the
+ *              Fountain Faerie) one paint job in any classic colour for it.
  *   NQ11–NQ13  Illusen's chain (Meridell).  } Finishing the first quest of either chain sets
  *   NQ14–NQ16  Jhudora's chain (Faerieland). } its side flag and closes the other chain.
  *   NQ17–NQ21  Kitchen Quests (Mystery Island). A cookbook page each.
@@ -17,9 +17,11 @@
  * Character names are the Neopets names from the brief; unnamed roles get role names
  * (The Island Chef, The Scientist). Every line of dialogue is new.
  *
- * Blessings: the stat rewards use kind 'item' and are applied at once to the pet the
- * player picks (Nubbin or Neo pet); they are not kept in the bag. "Intelligence" is the
- * hidden stat the brief adds (raised by books, read by the Wise Old King).
+ * Neopia never writes the Grove (canon 21). Every reward here is kept in the Neopia save:
+ * blessings and paint go to your Neo pet, decor to your Neopia sandbox, recipes to the
+ * Neopia kitchen, potions to the Neopia bag. Your Nubbins come along as guests and keep
+ * nothing but the memory. "Intelligence" is the hidden stat the brief adds for Neo pets
+ * (raised by books, read by the Wise Old King).
  *
  * Audience: 'all' unless noted. 'main' (Edna's Quests and the Esophagor, the darker Haunted
  * Woods content) means the main game only, never the Learning Grove. None of it is crude or
@@ -130,11 +132,11 @@ export const NEOPIA_QUESTS: Quest[] = [
       ],
     },
     rewards: [
-      { id: 'nq01-blessing', kind: 'item', label: 'Fire Faerie’s Blessing', description: 'One Power level for the pet you choose, applied at once.' },
+      { id: 'nq01-blessing', kind: 'item', label: 'Fire Faerie’s Blessing', description: 'One Power level for your Neo pet, applied at once. Kept in Neopia.' },
     ],
     sets: { 'nq-01-done': true },
     notes:
-      'Faerie Quest. The player picks which pet (Nubbin or Neo pet) gets the blessing in the complete scene. ' +
+      'Faerie Quest. The blessing goes to your Neo pet, in the Neopia save; a Nubbin is never changed. ' +
       'The omelette slice comes from the Giant Omelette in Tyrannia. Freebies are never per visit (canon: one-time or unlimited), so the Omelette must give a slice whenever this quest is open; the quest never forces a second trip. ' +
       'Art: Fire Faerie portrait (orange, soot-smudged), a grotto lamp flare. Sound: a soft whoomph as she appears.',
   },
@@ -197,7 +199,7 @@ export const NEOPIA_QUESTS: Quest[] = [
       ],
     },
     rewards: [
-      { id: 'nq02-blessing', kind: 'item', label: 'Water Faerie’s Blessing', description: 'One Swim level for the pet you choose, applied at once.' },
+      { id: 'nq02-blessing', kind: 'item', label: 'Water Faerie’s Blessing', description: 'One Swim level for your Neo pet, applied at once. Kept in Neopia.' },
     ],
     sets: { 'nq-02-done': true },
     notes:
@@ -264,7 +266,7 @@ export const NEOPIA_QUESTS: Quest[] = [
       ],
     },
     rewards: [
-      { id: 'nq03-blessing', kind: 'item', label: 'Air Faerie’s Blessing', description: 'One Fly level for the pet you choose, applied at once.' },
+      { id: 'nq03-blessing', kind: 'item', label: 'Air Faerie’s Blessing', description: 'One Fly level for your Neo pet, applied at once. Kept in Neopia.' },
     ],
     sets: { 'nq-03-done': true },
     notes:
@@ -330,7 +332,7 @@ export const NEOPIA_QUESTS: Quest[] = [
       ],
     },
     rewards: [
-      { id: 'nq04-blessing', kind: 'item', label: 'Earth Faerie’s Blessing', description: 'One Stamina level for the pet you choose, applied at once.' },
+      { id: 'nq04-blessing', kind: 'item', label: 'Earth Faerie’s Blessing', description: 'One Stamina level for your Neo pet, applied at once. Kept in Neopia.' },
     ],
     sets: { 'nq-04-done': true },
     notes: 'Faerie Quest. A turnip grown in the Grove does not count (the check wants the Meri Acres item). Art: moss trail decal on the grotto floor.',
@@ -395,7 +397,7 @@ export const NEOPIA_QUESTS: Quest[] = [
       ],
     },
     rewards: [
-      { id: 'nq05-blessing', kind: 'item', label: 'Light Faerie’s Blessing', description: 'One Run level for the pet you choose, applied at once.' },
+      { id: 'nq05-blessing', kind: 'item', label: 'Light Faerie’s Blessing', description: 'One Run level for your Neo pet, applied at once. Kept in Neopia.' },
     ],
     sets: { 'nq-05-done': true },
     notes: 'Faerie Quest. On her entrance, brighten the screen briefly and then settle (no full-white flash; keep it gentle for photosensitive players).',
@@ -459,7 +461,7 @@ export const NEOPIA_QUESTS: Quest[] = [
       ],
     },
     rewards: [
-      { id: 'nq06-blessing', kind: 'item', label: 'Dark Faerie’s Blessing', description: 'One Intelligence level (the hidden stat raised by books) for the pet you choose, applied at once.' },
+      { id: 'nq06-blessing', kind: 'item', label: 'Dark Faerie’s Blessing', description: 'One Intelligence level (the hidden stat raised by books) for your Neo pet, applied at once. Kept in Neopia.' },
     ],
     sets: { 'nq-06-done': true },
     notes:
@@ -525,7 +527,7 @@ export const NEOPIA_QUESTS: Quest[] = [
       ],
     },
     rewards: [
-      { id: 'nq07-blessing', kind: 'item', label: 'Space Faerie’s Blessing', description: 'One level in the chosen pet’s lowest stat (Swim, Fly, Run, Power or Stamina; ties go to the first in that order), applied at once.' },
+      { id: 'nq07-blessing', kind: 'item', label: 'Space Faerie’s Blessing', description: 'One level in your Neo pet’s lowest stat (Swim, Fly, Run, Power or Stamina; ties go to the first in that order), applied at once. Kept in Neopia.' },
     ],
     sets: { 'nq-07-done': true },
     notes:
@@ -604,7 +606,7 @@ export const NEOPIA_QUESTS: Quest[] = [
       ],
     },
     rewards: [
-      { id: 'nq08-blessing', kind: 'item', label: 'Battle Faerie’s Blessing', description: 'One level of Power or Stamina, your choice, for the pet you choose, applied at once.' },
+      { id: 'nq08-blessing', kind: 'item', label: 'Battle Faerie’s Blessing', description: 'One level of Power or Stamina, your choice, for your Neo pet, applied at once. Kept in Neopia.' },
     ],
     sets: { 'nq-08-done': true },
     notes:
@@ -672,7 +674,7 @@ export const NEOPIA_QUESTS: Quest[] = [
       ],
     },
     rewards: [
-      { id: 'nq09-blessing', kind: 'item', label: 'Snow Faerie’s Blessing', description: 'One Stamina level for the pet you choose, applied at once.' },
+      { id: 'nq09-blessing', kind: 'item', label: 'Snow Faerie’s Blessing', description: 'One Stamina level for your Neo pet, applied at once. Kept in Neopia.' },
     ],
     sets: { 'nq-09-done': true },
     notes:
@@ -758,9 +760,9 @@ export const NEOPIA_QUESTS: Quest[] = [
     complete: {
       id: 'nq10-complete',
       lines: [
-        n('She cups the spray in both hands and pours it over your chosen pet, slowly, from ears to tail.'),
+        n('She cups the spray in both hands and pours it over your Neo pet, slowly, from ears to tail.'),
         n('The colour sinks in like dye into cloth. It will never wash out.'),
-        l('fountain-faerie', 'That colour is theirs now. It will follow them through every rebirth.', 'soft'),
+        l('fountain-faerie', 'That colour is theirs now. It will never wash out, not in any weather.', 'soft'),
         n('Another of your Nubbins stands hopefully under the spray. Nothing happens. It sulks.'),
         l('fountain-faerie', 'Only once, little one. That’s what makes it special.', 'happy'),
       ],
@@ -770,13 +772,13 @@ export const NEOPIA_QUESTS: Quest[] = [
         id: 'nq10-paint',
         kind: 'cosmetic',
         label: 'The Fountain Faerie’s Paint Job',
-        description: 'One pet painted any classic colour you choose, permanently, carried through rebirth. Mutant and Jelly are not on offer.',
+        description: 'Your Neo pet painted any classic colour you choose, permanently. Mutant and Jelly are not on offer. Kept in Neopia.',
       },
     ],
     sets: { 'nq-10-done': true },
     notes:
       'Faerie Quest, the capstone: offered only after NQ1–NQ9 (the brief: "one quest, once"). ' +
-      'Step 2 opens the Rainbow Pool colour picker limited to the classic paint brush list (Baby … Zombie); Nubbins take the colour as their egg colour. ' +
+      'Step 2 opens the Rainbow Pool colour picker limited to the classic paint brush list (Baby … Zombie); only Neo pets are painted, never a Nubbin’s egg colour (canon 21). ' +
       'Choosing "Ask for time to think" closes the picker; the step stays open and the fountain stays on until a colour is picked. No timer. ' +
       'If `nq-10-chooser` = nubbin, the picker opens with Brown pre-selected; the player can still change it. ' +
       'Art: the spiral fountain, the float’s light splitting into a rainbow.',
@@ -938,7 +940,7 @@ export const NEOPIA_QUESTS: Quest[] = [
       ],
     },
     rewards: [
-      { id: 'nq12-herb-bed', kind: 'decor', label: 'Illusen’s Herb Bed', description: 'A raised bed of thyme, sage and mint for your sandbox. Nubbins who nap beside it wake slightly calmer.' },
+      { id: 'nq12-herb-bed', kind: 'decor', label: 'Illusen’s Herb Bed', description: 'A raised bed of thyme, sage and mint for your Neopia sandbox. Neo pets who nap beside it wake slightly calmer.' },
     ],
     sets: { 'nq-12-done': true },
     notes:
@@ -1000,13 +1002,13 @@ export const NEOPIA_QUESTS: Quest[] = [
       lines: [
         n('Illusen walks the length of the glade, touching each plant. Behind her, flowers open in a wave of green and gold.'),
         l('illusen', 'There. Awake, all of it. It’s been years.', 'soft'),
-        l('illusen', 'Take my colours home, Keeper. Let your fields look a bit like Meridell.'),
+        l('illusen', 'Take my colours to your sandbox, Keeper. Let it look a bit like Meridell.'),
         n('She picks one sprig of mint, thinks, and drops it into a passing breeze heading for the purple cloud.'),
         l('illusen', 'She likes mint. She’d never admit it.', 'think'),
       ],
     },
     rewards: [
-      { id: 'nq13-colours', kind: 'cosmetic', label: 'Illusen’s Colours', description: 'Your sandbox sections take on Illusen’s green and gold: fences, banners, path edging and lantern glass.' },
+      { id: 'nq13-colours', kind: 'cosmetic', label: 'Illusen’s Colours', description: 'Your Neopia sandbox sections take on Illusen’s green and gold: fences, banners, path edging and lantern glass.' },
       { id: 'nq13-title', kind: 'title', label: 'Keeper of the Glade', description: 'Title for finishing Illusen’s chain.' },
     ],
     sets: { 'nq-13-done': true, 'neo-colours-illusen': true },
@@ -1158,7 +1160,7 @@ export const NEOPIA_QUESTS: Quest[] = [
       ],
     },
     rewards: [
-      { id: 'nq15-lantern', kind: 'decor', label: 'Jhudora’s Storm Lantern', description: 'An iron lantern with a humming violet stone. It glows brighter when rain is coming in your Grove.' },
+      { id: 'nq15-lantern', kind: 'decor', label: 'Jhudora’s Storm Lantern', description: 'An iron lantern with a humming violet stone for your Neopia sandbox. It glows brighter when rain is coming over Neopia.' },
     ],
     sets: { 'nq-15-done': true },
     notes:
@@ -1226,12 +1228,12 @@ export const NEOPIA_QUESTS: Quest[] = [
         l('fyora', 'Jhudora. That was the best Festival sky in a hundred years. You might have told me.', 'happy'),
         l('jhudora', 'If I’d told you, you’d have asked me to make it pink.'),
         l('fyora', 'I would. Thank your Keeper. I suspect they kept you from aiming at my roof.', 'soft'),
-        l('jhudora', 'Fine. Keeper, take my colours. Let your fields look like they have a bit of nerve.'),
+        l('jhudora', 'Fine. Keeper, take my colours. Let your sandbox look like it has a bit of nerve.'),
         n('As you leave, you hear a drawer open behind you, and a green book being wrapped in brown paper.'),
       ],
     },
     rewards: [
-      { id: 'nq16-colours', kind: 'cosmetic', label: 'Jhudora’s Colours', description: 'Your sandbox sections take on Jhudora’s violet and black-green: fences, banners, path edging and lantern glass.' },
+      { id: 'nq16-colours', kind: 'cosmetic', label: 'Jhudora’s Colours', description: 'Your Neopia sandbox sections take on Jhudora’s violet and black-green: fences, banners, path edging and lantern glass.' },
       { id: 'nq16-title', kind: 'title', label: 'Friend of the Cloud', description: 'Title for finishing Jhudora’s chain.' },
     ],
     sets: { 'nq-16-done': true, 'neo-colours-jhudora': true },
@@ -1300,10 +1302,10 @@ export const NEOPIA_QUESTS: Quest[] = [
       ],
     },
     rewards: [
-      { id: 'nq17-page', kind: 'item', label: 'Cookbook Page: Cheese and Coconut Toast', description: 'A Grove kitchen recipe: cheese plus coconut makes a toast that fills hunger well and leans slightly towards Power.' },
+      { id: 'nq17-page', kind: 'item', label: 'Cookbook Page: Cheese and Coconut Toast', description: 'A Neopia kitchen recipe: cheese plus coconut makes a toast that fills a Neo pet up well and leans slightly towards Power.' },
     ],
     sets: { 'nq-17-done': true },
-    notes: 'Kitchen Quest 1 of 5. The chef is a role name (no named NPC in the brief). Cookbook pages go into the Collection book and unlock the recipe in the Grove kitchen.',
+    notes: 'Kitchen Quest 1 of 5. The chef is a role name (no named NPC in the brief). Cookbook pages are kept in the Neopia save and unlock the recipe in the Neopia kitchen; the Grove is never changed.',
   },
 
   // ================================================================== NQ18 Kitchen 2
@@ -1365,7 +1367,7 @@ export const NEOPIA_QUESTS: Quest[] = [
       ],
     },
     rewards: [
-      { id: 'nq18-page', kind: 'item', label: 'Cookbook Page: Lava-berry Pancakes', description: 'A Grove kitchen recipe: pancakes with lava-berry jam. Good for hunger, with a small lean towards Run.' },
+      { id: 'nq18-page', kind: 'item', label: 'Cookbook Page: Lava-berry Pancakes', description: 'A Neopia kitchen recipe: pancakes with lava-berry jam. Good for a hungry Neo pet, with a small lean towards Run.' },
     ],
     sets: { 'nq-18-done': true },
     notes: 'Kitchen Quest 2 of 5. Lava-berry jam is a new Tyrannian food item; "hot" is flavour only, no damage or sickness. `nq-18-glass` changes the chef’s last complete line (NEOPIA_QUESTS_VARIANTS); the jam always comes in clay.',
@@ -1430,7 +1432,7 @@ export const NEOPIA_QUESTS: Quest[] = [
       ],
     },
     rewards: [
-      { id: 'nq19-page', kind: 'item', label: 'Cookbook Page: Sea Kelp Crisps', description: 'A Grove kitchen recipe: crisp kelp snacks. A small hunger fill with a lean towards Swim.' },
+      { id: 'nq19-page', kind: 'item', label: 'Cookbook Page: Sea Kelp Crisps', description: 'A Neopia kitchen recipe: crisp kelp snacks. A small fill for a Neo pet, with a lean towards Swim.' },
     ],
     sets: { 'nq-19-done': true },
     notes: 'Kitchen Quest 3 of 5. The stall route exists so a Keeper without a Swim Nubbin can finish it (Maraqua is Swim-only past the palace).',
@@ -1494,7 +1496,7 @@ export const NEOPIA_QUESTS: Quest[] = [
       ],
     },
     rewards: [
-      { id: 'nq20-page', kind: 'item', label: 'Cookbook Page: Moon Gravy Mash', description: 'A Grove kitchen recipe: yam mash with space gravy. Very filling, with a lean towards Stamina.' },
+      { id: 'nq20-page', kind: 'item', label: 'Cookbook Page: Moon Gravy Mash', description: 'A Neopia kitchen recipe: yam mash with space gravy. Very filling for a Neo pet, with a lean towards Stamina.' },
     ],
     sets: { 'nq-20-done': true },
     notes: 'Kitchen Quest 4 of 5. The Space Station is open before NP13; nothing here touches the Sloth plot.',
@@ -1560,7 +1562,7 @@ export const NEOPIA_QUESTS: Quest[] = [
       ],
     },
     rewards: [
-      { id: 'nq21-page', kind: 'item', label: 'Cookbook Page: Island Trifle', description: 'A Grove kitchen recipe: a four-layer trifle that feeds every Nubbin nearby at once.' },
+      { id: 'nq21-page', kind: 'item', label: 'Cookbook Page: Island Trifle', description: 'A Neopia kitchen recipe: a four-layer trifle that feeds every Neo pet at the table at once.' },
     ],
     sets: { 'nq-21-done': true },
     notes:
@@ -1625,7 +1627,7 @@ export const NEOPIA_QUESTS: Quest[] = [
       ],
     },
     rewards: [
-      { id: 'nq22-potion', kind: 'item', label: 'Potion of Wide Awake', description: 'Single use. Wakes a sleeping pet at once, fully rested, without any grumpiness.' },
+      { id: 'nq22-potion', kind: 'item', label: 'Potion of Wide Awake', description: 'Single use. Wakes a sleeping Neo pet at once, fully rested, without any grumpiness. Kept in Neopia.' },
     ],
     sets: { 'nq-22-done': true },
     notes: 'Edna’s Quest 1 of 5. Audience main: kept out of the Learning Grove with the rest of the darker Haunted Woods content. Crude-ish humour is fine; keep it dry, not gross-out.',
@@ -1690,7 +1692,7 @@ export const NEOPIA_QUESTS: Quest[] = [
       ],
     },
     rewards: [
-      { id: 'nq23-potion', kind: 'item', label: 'Bandage Balm', description: 'Single use. Cures a pet that is bruised from karate or chilled by the Snowager, instantly.' },
+      { id: 'nq23-potion', kind: 'item', label: 'Bandage Balm', description: 'Single use. Cures a Neo pet bruised in the Battledome or chilled by the Snowager, instantly. Kept in Neopia.' },
     ],
     sets: { 'nq-23-done': true },
     notes: 'Edna’s Quest 2 of 5. The Deserted Tomb is a once-per-visit freebie; the bandage is guaranteed on the first run after this quest starts.',
@@ -1749,17 +1751,17 @@ export const NEOPIA_QUESTS: Quest[] = [
       id: 'nq24-complete',
       lines: [
         n('Most of the bottle goes into the cauldron, and one spoonful into Edna, for her cough. Both of them start to glow.'),
-        l('edna', 'Potion of Steady Nerve. One dose before a bout, and your pet won’t flinch at anything.'),
+        l('edna', 'Potion of Steady Nerve. One dose before a Battledome bout, and your Neo pet won’t flinch at anything.'),
         l('edna', 'Not even me singing, and I’m about to sing.', 'happy'),
         n('She sings. It is a sea shanty she seems to be making up as she goes. You leave during the fourth verse.'),
       ],
     },
     rewards: [
-      { id: 'nq24-potion', kind: 'item', label: 'Potion of Steady Nerve', description: 'Single use. Before one karate bout, a nervous or timid pet fights at full confidence.' },
+      { id: 'nq24-potion', kind: 'item', label: 'Potion of Steady Nerve', description: 'Single use. Before one Battledome bout, a nervous or timid Neo pet fights at full confidence. Kept in Neopia.' },
     ],
     sets: { 'nq-24-done': true },
     notes:
-      'Edna’s Quest 3 of 5. Audience main (Haunted Woods, kept out of the Learning Grove). The grog was swapped for pirate pepper sauce, so nothing here is boozy; the potion is just a karate buff. ' +
+      'Edna’s Quest 3 of 5. Audience main (Haunted Woods, kept out of the Learning Grove). The grog was swapped for pirate pepper sauce, so nothing here is boozy; the potion is just a Battledome buff for a Neo pet. ' +
       'If `nq-24-tasted`, the Keeper portrait goes red and fans its mouth once on the walk back (cosmetic only, a few seconds). Edna’s song is hummed/garbled audio, no lyrics.',
   },
 
@@ -1821,7 +1823,7 @@ export const NEOPIA_QUESTS: Quest[] = [
       ],
     },
     rewards: [
-      { id: 'nq25-potion', kind: 'item', label: 'Draught of Good Sense', description: 'Single use. The next training session, book or lesson a pet takes gives double the stat points.' },
+      { id: 'nq25-potion', kind: 'item', label: 'Draught of Good Sense', description: 'Single use. The next training session or book a Neo pet takes gives double the stat points. Kept in Neopia.' },
     ],
     sets: { 'nq-25-done': true },
     notes: 'Edna’s Quest 4 of 5. Getting the ink uses the Wise Old King phrase-builder minigame once (any result that makes him nod counts).',
@@ -1890,7 +1892,7 @@ export const NEOPIA_QUESTS: Quest[] = [
         id: 'nq26-potion',
         kind: 'item',
         label: 'Edna’s Own Brew',
-        description: 'Single use. Paints one Neo pet (or a Nubbin’s egg colour) Ghost, Zombie or Halloween, chosen when you use it. Permanent, carried through rebirth.',
+        description: 'Single use. Paints one Neo pet Ghost, Zombie or Halloween, chosen when you use it. Permanent. Kept in Neopia.',
       },
     ],
     sets: { 'nq-26-done': true },
@@ -1985,7 +1987,7 @@ export const NEOPIA_QUESTS: Quest[] = [
       ],
     },
     rewards: [
-      { id: 'nq27-acorn', kind: 'decor', label: 'Brain Tree Acorn', description: 'Plants a small Brain Tree in your sandbox. A pet that reads beneath it gains Intelligence a little faster.' },
+      { id: 'nq27-acorn', kind: 'decor', label: 'Brain Tree Acorn', description: 'Plants a small Brain Tree in your Neopia sandbox. A Neo pet that reads beneath it gains Intelligence a little faster.' },
       { id: 'nq27-title', kind: 'title', label: 'The Tree’s Rememberer', description: 'Title for restoring the Brain Tree’s memories.' },
     ],
     sets: { 'nq-27-done': true },
@@ -2048,7 +2050,7 @@ export const NEOPIA_QUESTS: Quest[] = [
       {
         id: 'nq28-step2',
         goal: 'Bake the mushroom pie and feed it to the Esophagor.',
-        hint: 'Bake it in your Grove kitchen with mushrooms, pepper and butter, then carry it back to the cave.',
+        hint: 'Bake it in the Neopia kitchen with mushrooms, pepper and butter, then carry it back to the cave.',
         check: 'give:food:mushroom-pie:esophagor',
         scene: {
           id: 'nq28-bake',
@@ -2088,8 +2090,8 @@ export const NEOPIA_QUESTS: Quest[] = [
       ],
     },
     rewards: [
-      { id: 'nq28-ladle', kind: 'decor', label: 'The Esophagor’s Ladle', description: 'A huge, slightly dented ladle for your cottage kitchen wall. Food cooked under it smells a little better.' },
-      { id: 'nq28-recipe', kind: 'item', label: 'Cookbook Page: His Mum’s Mushroom Pie', description: 'A Grove kitchen recipe: mushroom pie, burnt edge optional. Very filling.' },
+      { id: 'nq28-ladle', kind: 'decor', label: 'The Esophagor’s Ladle', description: 'A huge, slightly dented ladle for the Neopia kitchen wall. Food cooked under it smells a little better.' },
+      { id: 'nq28-recipe', kind: 'item', label: 'Cookbook Page: His Mum’s Mushroom Pie', description: 'A Neopia kitchen recipe: mushroom pie, burnt edge optional. Very filling.' },
     ],
     sets: { 'nq-28-done': true },
     notes:
@@ -2295,7 +2297,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     sets: { 'nq-30-done': true, 'neo-lab-ray': true },
     notes:
       'Unlocks the Lab Ray (brief, "Ways to change colour or species"). The map pieces are guaranteed finds once the quest is active, any order within each step. ' +
-      'Lab Ray outcomes are never harmful: a stat change is +1 or −1 level, never below 0. Nubbins are not zappable (Neo family only) unless the owner decides otherwise. ' +
+      'Lab Ray outcomes are never harmful: a stat change is +1 or −1 level, never below 0. Nubbins are never zappable: the Lab Ray works on Neo pets only (canon 21). ' +
       'Sloth wink: the cabinet label and the "anybody green" line; the Scientist never appears in the NP line.',
   },
 
@@ -2455,7 +2457,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     ],
     sets: { 'nq-32-done': true },
     notes:
-      'A joke quest and an Easter egg (brief: "a signpost to nowhere, and one jelly"). The Green Jelly is added only if `nq-32-jelly` = kept; eaten gives a happy mood boost to the Nubbin; left gives nothing but the title. ' +
+      'A joke quest and an Easter egg (brief: "a signpost to nowhere, and one jelly"). The Green Jelly is added only if `nq-32-jelly` = kept; eaten, the Nubbin looks pleased for the rest of the scene (no Grove effect); left gives nothing but the title. ' +
       'After this quest, the Official stands by the sign and denies everything (one random line from a pool of short denials, to be written; ambient, no reward). ' +
       'The Giant Jelly is one-time (canon: no per-visit freebies): granted once, as soon as both `nq-32-done` and `np-line-complete` are set (whichever comes second), as a second jelly on the plate behind the Food Shop. ' +
       'The brief lists Jelly as a special colour "from Jelly World"; this quest does not grant it. The owner decides whether the Giant Jelly can rarely drop a Jelly paint brush. ' +

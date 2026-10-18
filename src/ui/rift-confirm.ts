@@ -1,8 +1,7 @@
 /**
  * The one-time age confirmation shown before the Multiverse rift first opens. Confirming
  * turns Mature content to 18+ and is remembered; "Not now" leaves the rift closed and
- * the setting alone. Nothing opens the rift yet (the Multiverse lands with its own
- * milestone), so callers are added there: `if (await askRift(parent, game)) openRift()`.
+ * the setting alone. The rift's shelf (hud.ts) asks this before it opens.
  */
 import { UI_TEXT } from '../config/strings';
 import type { Game } from '../game';

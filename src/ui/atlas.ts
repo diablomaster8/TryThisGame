@@ -1,32 +1,36 @@
 /**
- * Nova's atlas and Pixel's cabinet (CV4, CV5): one shelf panel over two side saves.
- * Pages and cartridges play in the story dialogue box, but their progress goes to their
- * own save, never the Grove's (canon 21, 29, 30). The Grove only reads those saves, for
- * the journal's keepsakes and to announce the festivals they unlock.
+ * Nova's atlas, Pixel's cabinet, the Multiverse rift and Neopia's rainbow gate (CV4, CV5):
+ * one shelf panel over four side saves. Lines play in the story dialogue box, but their
+ * progress and rewards go to their own save, never the Grove's (canon 21, 29, 30, 33). The
+ * Grove only reads the Atlas and Arcade saves, for the journal's keepsakes and to announce
+ * the festivals they unlock.
  */
 import { ATLAS_TEXT } from '../config/strings';
 import type { Game } from '../game';
 import {
   lineAct,
   lineAvailable,
+  lineClosed,
+  lineContext,
   lineCount,
   lineNext,
   lineProgress,
   lineSceneDone,
   festivalsUnlocked,
+  type LineContext,
   type StoryLine,
 } from '../sim/atlas';
 import { crossSavesFrom, type CrossSaves } from '../sim/cross-saves';
 import { audienceContext } from '../sim/fun-quests';
+import { E6_CORE_SCENE, E6_GATE_SCENE, REFLECTION_FLAG } from '../sim/multiverse-rules';
 import {
-  parseArcade,
-  parseAtlas,
+  freshLine,
   parseMultiverse,
+  parseSide,
   type Reflection,
   serializeSide,
-  type ArcadeSave,
-  type AtlasSave,
-  type LineProgress,
+  sideLines,
+  type SideData,
 } from '../sim/side-saves';
 import { loseReflection, reflectEternal } from '../sim/reflection';
 import { readGroveSaves, readSide, writeSide, type SideSave } from '../platform/storage';
@@ -49,11 +53,13 @@ export function announceFestivals(g: Game, toast: (text: string) => void): void 
 }
 
 interface ShelfConfig {
-  which: Extract<SideSave, 'atlas' | 'arcade'>;
+  which: SideSave;
   title: string;
   help: string;
   empty: string;
   load: () => Promise<StoryLine[]>;
+  /** Asked before the shelf opens (the rift's one-time age check); false keeps it shut. */
+  gate?: () => Promise<boolean>;
 }
 
 export class StoryShelf {
@@ -75,6 +81,16 @@ export class StoryShelf {
   }
 
   open(): void {
+    if (this.config.gate) {
+      void this.config.gate().then((ok) => {
+        if (ok) this.show();
+      });
+      return;
+    }
+    this.show();
+  }
+
+  private show(): void {
     this.page = null;
     this.dialog.show();
     if (this.lines) {
@@ -97,19 +113,23 @@ export class StoryShelf {
   }
 
   /** Read the save fresh each time, so another tab's progress is never overwritten. */
-  private read(): AtlasSave | ArcadeSave {
-    const json = readSide(this.config.which);
-    return this.config.which === 'atlas' ? parseAtlas(json) : parseArcade(json);
+  private read(): SideData {
+    return parseSide(this.config.which, readSide(this.config.which));
   }
 
-  private progressOf(save: AtlasSave | ArcadeSave): Record<string, LineProgress> {
-    return 'pages' in save ? save.pages : save.carts;
+  /** What a line may read of the rest of its save: other lines, and E6's reflection. */
+  private context(save: SideData): LineContext {
+    const extra = 'reflection' in save ? { [REFLECTION_FLAG]: save.reflection !== null } : {};
+    return lineContext(this.lines ?? [], sideLines(save), extra);
   }
 
   /** Change one line's progress and write the side save straight away. */
-  private update(line: StoryLine, change: (p: LineProgress) => void): void {
+  private update(
+    line: StoryLine,
+    change: (p: ReturnType<typeof lineProgress>, ctx: LineContext) => void,
+  ): void {
     const save = this.read();
-    change(lineProgress(this.progressOf(save), line.id));
+    change(lineProgress(sideLines(save), line.id), this.context(save));
     writeSide(this.config.which, serializeSide(save));
     const g = this.game();
     if (g) announceFestivals(g, this.toast);
@@ -123,9 +143,13 @@ export class StoryShelf {
   }
 
   private renderList(g: Game): void {
-    const progress = this.progressOf(this.read());
-    const ctx = audienceContext(g.world);
-    const shown = this.lines!.filter((l) => lineAvailable(l, ctx));
+    const save = this.read();
+    const progress = sideLines(save);
+    const ctx = this.context(save);
+    const audience = audienceContext(g.world);
+    const shown = this.lines!.filter(
+      (l) => lineAvailable(l, audience) && !lineClosed(l, progress[l.id], ctx),
+    );
     this.body.replaceChildren(el('p', 'help', this.config.help));
     if (shown.length === 0) this.body.appendChild(el('p', 'help', this.config.empty));
     const list = el('div', 'title-menu');
@@ -147,11 +171,14 @@ export class StoryShelf {
   }
 
   private renderPage(line: StoryLine): void {
-    const p = this.progressOf(this.read())[line.id];
-    const next = lineNext(line, p ?? { quests: {}, flags: {}, done: false });
+    const save = this.read();
+    const p = sideLines(save)[line.id] ?? freshLine();
+    const next = lineNext(line, p, this.context(save));
     this.body.replaceChildren(el('div', 'btn-name', line.title));
     if (next.kind === 'finished') {
       this.body.appendChild(el('p', 'help', ATLAS_TEXT.finished));
+    } else if (next.kind === 'waiting') {
+      this.body.appendChild(el('p', 'help', ATLAS_TEXT.waiting));
     } else {
       this.body.appendChild(el('p', undefined, next.quest.title));
       if (next.kind === 'act') {
@@ -161,7 +188,7 @@ export class StoryShelf {
           button(
             ATLAS_TEXT.doIt,
             () => {
-              this.update(line, (pr) => lineAct(line, pr));
+              this.update(line, (pr, ctx) => lineAct(line, pr, ctx));
               this.refresh();
             },
             'btn btn-primary',
@@ -174,10 +201,13 @@ export class StoryShelf {
           button(
             ATLAS_TEXT.read,
             () => {
+              // E6 opens: the Multiverse makes its reflection of the oldest Eternal first.
+              if (scene.id === E6_GATE_SCENE) openLastEndgame();
               // The scene plays over the Grove; the shelf comes back when it ends.
               this.dialog.hide();
               this.dialogue.playScene(scene, names, (choice) => {
-                this.update(line, (pr) => lineSceneDone(line, pr, scene.id, choice));
+                this.update(line, (pr, ctx) => lineSceneDone(line, pr, scene.id, choice, ctx));
+                if (scene.id === E6_CORE_SCENE && choice === 'eternal') endLastEndgameEternal();
                 this.dialog.show();
                 this.refresh();
               });
@@ -187,6 +217,8 @@ export class StoryShelf {
         );
       }
     }
+    if (p.rewards.length > 0)
+      this.body.appendChild(el('p', 'help', ATLAS_TEXT.kept(p.rewards.length)));
     this.body.appendChild(
       button(
         ATLAS_TEXT.back,
@@ -201,8 +233,8 @@ export class StoryShelf {
 }
 
 /**
- * E6 opens (the Multiverse milestone calls this from the rift): make the reflection of the
- * oldest Eternal in the Multiverse save. Grove saves are only read.
+ * E6 opens (the rift's last endgame): make the reflection of the oldest Eternal in the
+ * Multiverse save. Grove saves are only read.
  */
 export function openLastEndgame(): Reflection | null {
   const mv = parseMultiverse(readSide('multiverse'));

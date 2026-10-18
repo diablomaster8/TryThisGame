@@ -4,25 +4,60 @@ Read this with CLAUDE.md at the start of every session. Keep it under 150 lines:
 new pass goes in at line 12 and the file is long, move the oldest section to
 `docs/progress-archive.md` (newest first there too).
 
-## Status (2026-10-16, evening)
+## Status (2026-10-18)
 
 Shipped and deployed (https://diablomaster8.github.io/TryThisGame/): v1, the organic
 painted Grove, the Digimon-inspired ten, the Hollow Below, the 96-unit field, three save
 slots per mode, and the Full 3D mode as a Graphics setting (`src/render3d/`, workers and
 caches, the G13 polish, the G14 bundle diet, the G15 and G16 parity fixes) with the pixel mode
-unchanged. Story content pack in `src/content/`; engine CV1–CV6 wired (campaign v2 and
-endings, all 31 side stories and the fun quests running, props and keepsakes, the Learning
-Grove switch, Hebrew and Japanese, Atlas/Arcade/Multiverse saves, Mature content setting,
-one-time gifts). Content (2026-10-18): every storyline scripted, Q66–Q95, PA1–PA5, LB and LK
-included; edu done wherever audience and outline allow (none logged for Q66–Q95); fix-mode reviews done for Atlas A1–A10 and A22–A31
-and every Atlas and S24–S31 edu version, the rest canon-audited only (`docs/content-index.md`). Plan v4
-(`plan.md`): G11 device pass, Track B writing and review tasks, and Part Z, the
-independent full review that runs last. Plan G12 is built and pushed (2026-10-17): the storyline engine, expansions E1–E3 and the four separate campaigns SL1–SL4, sections below and in the archive. Maor, 2026-10-17: legal cleared,
-adviser sign-off given, the seven fun-quest quotes approved as written, Pixel stays the default
-(Full 3D remains a setting); the Atlas quote and audience items in the two wave reports are fine;
-the phone view passes; Expedition and races get 3D versions in Full 3D. Waiting on Maor: the
-Arcade and LB/LK decisions (section "Pixel's Arcade PA1–PA5" in `docs/progress-archive.md`).
-Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
+unchanged. Story content in `src/content/` (scripted is not shipped: `src/content/index.ts` is
+read only by the checker and tests). What the game loads: campaign v2 and endings, all 31 side
+stories, fun quests Q1–Q95, props and keepsakes, the Learning Grove switch, Hebrew and
+Japanese, the four separate campaigns and E1–E3, Mature content, one-time gifts, and four
+story worlds, each a lazy chunk with its own side save that never writes the Grove: Nova's
+atlas (A1–A31), Pixel's cabinet (PA1–PA5, since 2026-10-18), the Multiverse rift (18+ only,
+since 2026-10-18) and Neopia's rainbow gate (since 2026-10-18). Content: edu done wherever
+audience and outline allow (none for Q66–Q95; they read their childLines); fix-mode reviews done
+for Atlas A1–A10 and A22–A31 and every Atlas and S24–S31 edu version, the rest canon-audited
+only (`docs/content-index.md`). Plan v4 (`plan.md`): G11 device pass, Track B writing and review
+tasks; Part Z ran on 2026-10-18 (`docs/review-independent-2026-10-18.md`) and its fixes are
+going in pass by pass. Maor, 2026-10-17: legal cleared, adviser sign-off given, the seven
+fun-quest quotes approved as written, Pixel stays the default; 2026-10-18: ship the Arcade, the
+Multiverse, Neopia and Q66–Q95. Waiting on Maor: the LB/LK decision (section "Pixel's Arcade
+PA1–PA5" in `docs/progress-archive.md`). Backlogs: `docs/creature-improvements.md`,
+`docs/content-index.md`.
+
+## Review goal 7: the Arcade, the Multiverse, Neopia and Q66–Q95 ship (2026-10-18)
+
+From `docs/review-independent-2026-10-18.md` (goal 7 and 9 rows, "What the notes get wrong").
+Works:
+- **Story worlds:** `sim/arcade-catalogue.ts`, `multiverse-catalogue.ts`, `neopia-catalogue.ts`
+  load through `loadArcade`/`loadMultiverse`/`loadNeopia` (`sim/atlas.ts`) as their own chunks.
+  More menu: the cabinet (after chapter 5 in Hazel's Grove), 🌀 The rift (Mature content 18+
+  only, `askRift` before it first opens), 🌈 The rainbow gate (Free Grove any time, Hazel's
+  Grove after chapter 2); none in the Learning Grove. One `StoryShelf` serves all four saves.
+- **Runner:** a `LineContext` lets a line read the rest of its save (cross-line `requires`, the
+  endgames waiting: shelf says so); `stepLive`/`choiceLive` per line (`sim/multiverse-rules.ts`:
+  E1's two paths, E6's allies, endings and afters, the wish and Eternal choices); `closed`
+  (Neopia's rival faerie chains). Variants still read only the line's own flags. E6's gate scene
+  makes the reflection; the `eternal` ending gives it up (Multiverse save only).
+- **No Grove writes:** finished quests keep their reward ids in `LineProgress.rewards` (side
+  save v2, migration). Neopia's blessings, paint, potions, recipes and decor are rewritten to act
+  on the Neo pet, the Neopia sandbox and kitchen, and the Battledome opens in Neopia, not the
+  dojo. `tests/sim/story-worlds.test.ts` plays every world to its end against a frozen Grove.
+- **Q66–Q95:** in `side-story-content.ts`; `isFunQuestCode` to `FUN_QUEST_LAST` (95), so they
+  pause in chapters 9–11; "once Chapter N is done" parses; the packs' payoffs (Q70 → Q71/Q75,
+  Q78 → Q84/Q85, Q87 → Q91/Q95) in `sim/fun-pack-rules.ts`.
+- **Quotes:** every Alice quote checked against Gutenberg #11/#12; two corrected to Carroll's
+  words. PA1's two unverifiable prayer lines are now paraphrases.
+- **Dead choices:** the ten S1–S5 flags each add one line three or more stories later, in all
+  three bands (`sim/choice-payoffs.ts`, table in its header; `tests/sim/choice-payoffs.test.ts`).
+- **Stubbed:** story-world rewards are kept but nothing shows them yet (no Neopia bag or
+  sandbox screen; the Grove does not read them as cosmetics); the cartridges' Grove-flag
+  variants (s21Done, cinder) and the Multiverse's line swaps and inserts from the E3/E6 notes
+  are not wired; E6's "warn once" before the Eternal ending; script-book not regenerated
+  (`tests/tools/script-book.ts` is mid-edit in another session).
+- **Assumptions:** the rainbow gate opens after chapter 2, like the fun quests.
 
 ## Review goals 3 and 4, Bugs 11-13: both modes draw the same Nubbin (2026-10-18)
 
@@ -90,26 +125,6 @@ Stubbed: no DOM test environment, so there is no unit test; the checks above are
 
 Known: with a scene waiting under the stats sheet (no backdrop), taps outside the sheet reach
 the Grove as usual. Anything that opens a panel mid-scene pauses the story until it closes.
-
-## Save safety: review bugs 4, 5, 29 (2026-10-18)
-
-From `docs/review-independent-2026-10-18.md`. Works:
-- `?edu` erases a Learning Grove slot only in dev builds; on the built site it opens the title
-  with the Learning Grove slots in view (`showTitle(…, focusMode)`). `?free` never erased.
-- A save that fails to load is copied to `<slotKey>.unreadable.1|2` (newest first, same text
-  not re-pushed; `backupUnreadable`/`readUnreadable` in `platform/storage.ts`, count in
-  `SAVE_SAFETY`) before the fresh start, with a toast. If the copy fails, `Game.holdSaves`
-  stops every autosave until an import or reset. Settings shows "Export the save that could
-  not be opened" while a copy exists.
-- Import: refuses files over 5 MB, Nubbins missing what the sim and renderers read
-  (`nubbinProblem`/`importProblem` in `sim/save.ts`; load stays lenient), and saves of another
-  mode (`modeOfWorld`); asks before replacing the named slot; comes back with Mature content
-  Off and the rift unconfirmed. Tests: `tests/sim/save-safety.test.ts` (9).
-- **Stubbed:** checked by tests and typecheck only, not in the browser (the preview entry needs
-  the shared parent `launch.json`). The kept copies are never pruned except by rotation.
-- **Assumption:** a save's mode is read from its world (edu, then storyline, then campaign);
-  a Free Grove where the debug panel started the story reads as Hazel's Grove.
-- **Known bugs:** `replaceWorld` does not re-sync tiles, lanterns or the dungeon until reload.
 
 ## Standing approval (Maor, 2026-10-12)
 

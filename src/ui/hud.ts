@@ -67,9 +67,10 @@ import { mountPanelStack } from './panel-stack';
 import { ATLAS_TEXT } from '../config/strings';
 import { LANG_TEXT } from '../config/strings';
 import { langWord } from '../sim/lang';
-import { ARCADE_CARTS, loadAtlas } from '../sim/atlas';
+import { loadArcade, loadAtlas, loadMultiverse, loadNeopia } from '../sim/atlas';
 import { currentSlot } from '../platform/storage';
 import { announceFestivals, StoryShelf } from './atlas';
+import { askRift } from './rift-confirm';
 import { TRAINER_LABELS as TL } from '../config/strings';
 
 /**
@@ -282,7 +283,27 @@ export function mountHud(
     title: ATLAS_TEXT.cabinet,
     help: ATLAS_TEXT.cabinetHelp,
     empty: ATLAS_TEXT.noCarts,
-    load: () => Promise.resolve(ARCADE_CARTS),
+    load: loadArcade,
+  });
+  // The Multiverse is adult throughout: shown only at Mature content 18+, with the
+  // one-time age check before the rift first opens.
+  const rift = new StoryShelf(root, game, dialogue, toast, {
+    which: 'multiverse',
+    title: ATLAS_TEXT.rift,
+    help: ATLAS_TEXT.riftHelp,
+    empty: ATLAS_TEXT.noRift,
+    load: loadMultiverse,
+    gate: () => {
+      const g = game();
+      return g ? askRift(root, g) : Promise.resolve(false);
+    },
+  });
+  const neoGate = new StoryShelf(root, game, dialogue, toast, {
+    which: 'neopia',
+    title: ATLAS_TEXT.gate,
+    help: ATLAS_TEXT.gateHelp,
+    empty: ATLAS_TEXT.noGate,
+    load: loadNeopia,
   });
   function startTank(): void {
     const g = game();
@@ -316,6 +337,8 @@ export function mountHud(
     [`🕳 ${DUNGEON_TEXT.title}`, () => dungeon.open()],
     [`📕 ${ATLAS_TEXT.atlas}`, () => atlas.open()],
     [`🕹 ${ATLAS_TEXT.cabinet}`, () => cabinet.open()],
+    [`🌀 ${ATLAS_TEXT.rift}`, () => rift.open()],
+    [`🌈 ${ATLAS_TEXT.gate}`, () => neoGate.open()],
     [`📜 ${UI_TEXT.quests}`, () => quests.open()],
     [`🎖 ${UI_TEXT.profile}`, () => profile.open()],
     [`🏡 ${UI_TEXT.neighbourhood}`, () => neighbourhood.open()],
@@ -325,8 +348,10 @@ export function mountHud(
   ] as const) {
     const isEdu = label.includes(EDU_TEXT.grownUps);
     const isKarate = label.includes(UI_TEXT.karate);
-    const isSide = label.includes(ATLAS_TEXT.atlas) || label.includes(ATLAS_TEXT.cabinet);
+    const isRift = label.includes(ATLAS_TEXT.rift);
+    const isGate = label.includes(ATLAS_TEXT.gate);
     const isCabinet = label.includes(ATLAS_TEXT.cabinet);
+    const isSide = label.includes(ATLAS_TEXT.atlas) || isCabinet || isRift || isGate;
     moreList.appendChild(
       button(
         label,
@@ -334,7 +359,7 @@ export function mountHud(
           more.hide();
           open();
         },
-        `btn btn-wide${isEdu ? ' edu-only' : isKarate || isSide ? ' not-edu' : ''}${isCabinet ? ' cabinet' : ''}`,
+        `btn btn-wide${isEdu ? ' edu-only' : isKarate || isSide ? ' not-edu' : ''}${isCabinet ? ' cabinet' : ''}${isRift ? ' rift' : ''}${isGate ? ' neo-gate' : ''}`,
       ),
     );
   }
@@ -388,6 +413,8 @@ export function mountHud(
       dungeon,
       atlas,
       cabinet,
+      rift,
+      neoGate,
     };
   }
 
@@ -418,6 +445,8 @@ export function mountHud(
       { isOpen: () => gym.isOpen(), close: () => gym.close() },
       { isOpen: () => atlas.isOpen(), close: () => atlas.close() },
       { isOpen: () => cabinet.isOpen(), close: () => cabinet.close() },
+      { isOpen: () => rift.isOpen(), close: () => rift.close() },
+      { isOpen: () => neoGate.isOpen(), close: () => neoGate.close() },
       { isOpen: () => more.isOpen(), close: () => more.hide() },
       { isOpen: () => !sheet.root.hidden, close: () => sheet.close() },
       { isOpen: () => expedition.isOpen },
@@ -583,6 +612,13 @@ export function mountHud(
       const cabinetOpen =
         !isEdu && (currentSlot().mode === 'free' || (g.world.campaign?.chapter ?? 0) > 5);
       for (const b of moreList.querySelectorAll<HTMLElement>('.cabinet')) b.hidden = !cabinetOpen;
+      // The rift: Mature content 18+ only (canon 20, 33). The rainbow gate: as the fun quests,
+      // from the start in the Free Grove and after chapter 2 in Hazel's Grove.
+      const riftOpen = !isEdu && g.world.settings.matureContent === 'adult';
+      for (const b of moreList.querySelectorAll<HTMLElement>('.rift')) b.hidden = !riftOpen;
+      const gateOpen =
+        !isEdu && (currentSlot().mode === 'free' || (g.world.campaign?.chapter ?? 0) > 2);
+      for (const b of moreList.querySelectorAll<HTMLElement>('.neo-gate')) b.hidden = !gateOpen;
       if (festivalsFor !== g) {
         festivalsFor = g;
         announceFestivals(g, toast);

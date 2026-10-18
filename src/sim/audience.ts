@@ -18,8 +18,11 @@ export interface AudienceContext {
   learningGrove: boolean;
 }
 
-/** Fun quests are Q1 to Q65; none may be offered, started or advanced in chapters 9 to 11. */
+/** Fun quests are Q1 to Q95; none may be offered, started or advanced in chapters 9 to 11. */
 export const FUN_QUEST_BLOCKED_CHAPTERS = { first: 9, last: 11 } as const;
+
+/** The last fun quest: Q66-Q95 are the Alice, Holmes and Hodja packs. */
+export const FUN_QUEST_LAST = 95;
 
 export function sanitizeMatureContent(value: unknown): MatureContent {
   return value === 'teen' || value === 'adult' ? value : 'off';
@@ -40,7 +43,7 @@ export function audienceAllowed(audience: Audience, ctx: AudienceContext): boole
 
 export function isFunQuestCode(code: string): boolean {
   const m = /^Q(\d+)$/.exec(code);
-  return m !== null && Number(m[1]) >= 1 && Number(m[1]) <= 65;
+  return m !== null && Number(m[1]) >= 1 && Number(m[1]) <= FUN_QUEST_LAST;
 }
 
 export function funQuestBlocked(chapter: number): boolean {

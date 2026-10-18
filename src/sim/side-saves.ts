@@ -1,7 +1,8 @@
 /**
- * The side saves: the Atlas, Pixel's Arcade and the Multiverse (canon 21, 29 and 30).
- * Each is one save of its own, apart from the Grove. Inside it every page, cartridge or
- * line keeps its own progress, so they can be played in any order.
+ * The side saves: the Atlas, Pixel's Arcade, the Multiverse and Neopia (canon 21, 29, 30
+ * and 33). Each is one save of its own, apart from the Grove. Inside it every page,
+ * cartridge or line keeps its own progress, so they can be played in any order, and the
+ * rewards its quests give stay in it too: a story world never writes the Grove.
  *
  * Pure data and parsing: the platform layer reads and writes the JSON. Nothing here
  * touches a Grove save, and the Grove only ever reads these through `cross-saves.ts`.
@@ -26,6 +27,8 @@ export interface LineProgress {
   quests: Record<string, QuestProgress>;
   /** Flags set by this line's scenes and choices. They never leave the side save. */
   flags: Record<string, FlagValue>;
+  /** Reward ids its finished quests gave, kept here and never in the Grove's inventory. */
+  rewards: string[];
   done: boolean;
 }
 
@@ -64,10 +67,22 @@ export interface MultiverseSave {
   lines: Record<string, LineProgress>;
 }
 
-export const SIDE_SAVE_VERSION = 1;
+/** Neopia, through the rainbow gate: the plots and the quests, each line its own progress. */
+export interface NeopiaSave {
+  version: number;
+  /** By line id: 'NP' (the plots) and the quest lines ('NQ-faerie', 'NQ-illusen', ...). */
+  lines: Record<string, LineProgress>;
+}
+
+/** Which side save: one key each on the device. */
+export type SideWorld = 'atlas' | 'arcade' | 'multiverse' | 'neopia';
+
+export type SideData = AtlasSave | ArcadeSave | MultiverseSave | NeopiaSave;
+
+export const SIDE_SAVE_VERSION = 2;
 
 export function freshLine(): LineProgress {
-  return { quests: {}, flags: {}, done: false };
+  return { quests: {}, flags: {}, rewards: [], done: false };
 }
 
 export function freshAtlas(): AtlasSave {
@@ -82,12 +97,25 @@ export function freshMultiverse(): MultiverseSave {
   return { version: SIDE_SAVE_VERSION, reflection: null, reflectionLost: false, lines: {} };
 }
 
+export function freshNeopia(): NeopiaSave {
+  return { version: SIDE_SAVE_VERSION, lines: {} };
+}
+
 /**
  * One migration per version bump, as for the Grove save: index n-1 upgrades a version-n
- * save to n+1. Version 1 is the first, so the list is empty; it is here so the next bump
- * has a place to go.
+ * save to n+1.
  */
-const MIGRATIONS: Array<(data: Record<string, unknown>) => void> = [];
+const MIGRATIONS: Array<(data: Record<string, unknown>) => void> = [
+  // 1 -> 2: every line keeps the rewards its quests gave (none were kept before).
+  (data) => {
+    for (const key of ['pages', 'carts', 'lines']) {
+      const lines = data[key];
+      if (!lines || typeof lines !== 'object') continue;
+      for (const l of Object.values(lines as Record<string, Record<string, unknown>>))
+        if (l && typeof l === 'object' && !Array.isArray(l.rewards)) l.rewards = [];
+    }
+  },
+];
 
 function migrate(data: Record<string, unknown>): boolean {
   let v = typeof data.version === 'number' ? data.version : 1;
@@ -121,6 +149,9 @@ function lines(value: unknown): Record<string, LineProgress> {
     out[id] = {
       quests: l.quests && typeof l.quests === 'object' ? { ...l.quests } : {},
       flags: l.flags && typeof l.flags === 'object' ? { ...l.flags } : {},
+      rewards: Array.isArray(l.rewards)
+        ? l.rewards.filter((r): r is string => typeof r === 'string')
+        : [],
       done: l.done === true,
     };
   }
@@ -150,6 +181,32 @@ export function parseMultiverse(json: string | null): MultiverseSave {
   };
 }
 
-export function serializeSide(save: AtlasSave | ArcadeSave | MultiverseSave): string {
+export function serializeSide(save: SideData): string {
   return JSON.stringify(save);
+}
+
+export function parseNeopia(json: string | null): NeopiaSave {
+  const d = parseObject(json);
+  return d ? { version: SIDE_SAVE_VERSION, lines: lines(d.lines) } : freshNeopia();
+}
+
+/** Any side save by name, parsed (fresh when missing or broken). */
+export function parseSide(which: SideWorld, json: string | null): SideData {
+  switch (which) {
+    case 'atlas':
+      return parseAtlas(json);
+    case 'arcade':
+      return parseArcade(json);
+    case 'multiverse':
+      return parseMultiverse(json);
+    case 'neopia':
+      return parseNeopia(json);
+  }
+}
+
+/** The per-line progress inside any side save. */
+export function sideLines(save: SideData): Record<string, LineProgress> {
+  if ('pages' in save) return save.pages;
+  if ('carts' in save) return save.carts;
+  return save.lines;
 }

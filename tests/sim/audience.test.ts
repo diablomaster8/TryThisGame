@@ -62,7 +62,9 @@ describe('audience filter', () => {
   it('does not block non-fun quests in chapters 9 to 11', () => {
     const ctx = { matureContent: 'off' as const, learningGrove: false };
     expect(isFunQuestCode('Q65')).toBe(true);
-    expect(isFunQuestCode('Q66')).toBe(false);
+    expect(isFunQuestCode('Q66')).toBe(true);
+    expect(isFunQuestCode('Q95')).toBe(true);
+    expect(isFunQuestCode('Q96')).toBe(false);
     expect(isFunQuestCode('S9')).toBe(false);
     expect(questAvailable({ code: 'S9', audience: 'main' }, ctx, 10)).toBe(true);
   });

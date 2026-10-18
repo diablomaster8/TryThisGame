@@ -2,8 +2,11 @@ import type { SideStoryContent } from './story-scenes';
 import { EXPANSION_E1, EXPANSION_E1_VARIANTS } from '../content/expansion-e1';
 import { EXPANSION_E2, EXPANSION_E2_VARIANTS } from '../content/expansion-e2';
 import { EXPANSION_E3, EXPANSION_E3_VARIANTS } from '../content/expansion-e3';
+import { QUESTS_ALICE, QUESTS_ALICE_VARIANTS } from '../content/quests-alice';
 import { QUESTS_AVATAR } from '../content/quests-avatar';
 import { QUESTS_BEAN } from '../content/quests-bean';
+import { QUESTS_HODJA, QUESTS_HODJA_VARIANTS } from '../content/quests-hodja';
+import { QUESTS_HOLMES, QUESTS_HOLMES_VARIANTS } from '../content/quests-holmes';
 import { QUESTS_PYTHON } from '../content/quests-python';
 import { QUESTS_SUNNY } from '../content/quests-sunny';
 import { SIDE_STORIES_FUN } from '../content/side-stories-fun';
@@ -24,7 +27,7 @@ import { SIDE_STORY_S30, SIDE_STORY_S30_VARIANTS } from '../content/side-stories
 import { SIDE_STORY_S31, SIDE_STORY_S31_VARIANTS } from '../content/side-stories-s31';
 
 /**
- * Every Grove side-story script (S1–S31) and its variant scenes. This module is its own
+ * Every Grove side-story script (S1–S31, the fun quests Q1–Q95, E1–E3) and its variant scenes. This module is its own
  * chunk: story-scenes.ts loads it with `loadSideStories` and registers it, so the scripts
  * stay out of the main bundle. Tests import it directly.
  */
@@ -50,6 +53,9 @@ export const SIDE_STORY_CONTENT: SideStoryContent = {
     ...QUESTS_BEAN,
     ...QUESTS_SUNNY,
     ...QUESTS_AVATAR,
+    ...QUESTS_ALICE,
+    ...QUESTS_HOLMES,
+    ...QUESTS_HODJA,
     ...EXPANSION_E1,
     ...EXPANSION_E2,
     ...EXPANSION_E3,
@@ -70,5 +76,8 @@ export const SIDE_STORY_CONTENT: SideStoryContent = {
     ...EXPANSION_E1_VARIANTS,
     ...EXPANSION_E2_VARIANTS,
     ...EXPANSION_E3_VARIANTS,
+    ...QUESTS_ALICE_VARIANTS,
+    ...QUESTS_HOLMES_VARIANTS,
+    ...QUESTS_HODJA_VARIANTS,
   ],
 };

@@ -4,7 +4,7 @@
  * SOURCE. Sonic Adventure (Sonic Team; Sega Dreamcast, Japan, 23 December 1998): the Chao Garden at
  * Station Square, Chaos, Tikal and Pachacamac, the Egg Carrier, Gamma, Big and Froggy, Perfect Chaos.
  * RIGHTS. Sonic Adventure, its characters, places and the Chao are (c) and TM Sega. Every line here is
- * new except the two short prayer lines under LIFTED TEXT. The Sega licence is approved (Maor,
+ * new: the two prayer lines once lifted are paraphrased (LIFTED TEXT). The Sega licence is approved (Maor,
  * 2026-10-17). Speaker names are Sega's, recorded in `basedOn`.
  *
  * AUDIENCE. 'all' (canon 29: Arcade cartridges are for all ages; Maor, 2026-10-17). Each lifted line
@@ -42,13 +42,11 @@
  *   - Last image: after pa1-18-complete play exactly one of pa1-18-last-open-stood,
  *     pa1-18-last-open, pa1-18-last-locked-stood, pa1-18-last-locked.
  *
- * LIFTED TEXT. Two one-sentence lines from Tikal's prayer, exactly as Part M lists them, both
- * [unverified] and to be checked against the game's English script before ship:
- *   1. "The servers are the seven Chaos." pa1-07-prayer#3. (Chao Island's wiki prints "7".)
- *   2. "Chaos is power... Power enriched by the heart." pa1-13-charge#6. (Corrected 2026-10-14 to
- *      Chao Island's wiki wording.)
- * If either fails the check, replace it with a paraphrase in our own words. Nothing else is lifted:
- * no other prayer line, no game dialogue, no catchphrase, no song.
+ * LIFTED TEXT. None. Part M listed two lines of Tikal's prayer to quote; they could not be
+ * checked against the game's English script (the only wording to hand was a fan wiki's), so on
+ * 2026-10-18 both became paraphrases in our own words: pa1-07-prayer#3 ("all seven serve") and
+ * pa1-13-charge#6 ("a kind heart makes them stronger"). No prayer line, game dialogue,
+ * catchphrase or song is quoted.
  *
  * CARE NOTES.
  *   - Chaos is never called evil, in any line: it is grief. Tikal says so in PA1-14.
@@ -774,8 +772,8 @@ export const ARCADE_PA1: Quest[] = [
             N('Tikal kneels at the top of the steps with her hands together. She is saying the same words again and again, under her breath.'),
             N('Around the great Emerald stand seven smaller jewels, each a different colour, each in its own hollow of stone.'),
             TI('Oh, it’s you again! Sit with me. Grandmother taught me the prayer. She said learn it, not just say it.', 'happy'),
-            TI('The servers are the seven Chaos.', 'think'),
-            TI('That’s how it begins. Seven Emeralds. The servers. But I don’t know what they serve, or who.'),
+            TI('Seven jewels around the great one, and all seven serve.', 'think'),
+            TI('That’s how it begins. Seven Emeralds, serving. But I don’t know what they serve, or who.'),
             N('In the pools below, the Chao are splashing. Chaos stands among them, very still, the way a heron stands.'),
             TI('Father says it means the Emeralds serve whoever holds them. That’s what he wants it to mean.'),
             TI('I think it means something else. Something I haven’t grown into yet.', 'soft'),
@@ -825,10 +823,9 @@ export const ARCADE_PA1: Quest[] = [
       'pa1-07-prayer#3': 'Seven jewels, seven keepers of the light.',
     },
     notes:
-      'QUOTE CHECK: pa1-07-prayer#3 is lifted text 1, “The servers are the seven Chaos.”, exactly as Part M lists it ' +
-      '[unverified: Chao Island’s wiki prints “7”]. Check against the game’s English script before ship; if it differs, use ' +
-      'the script’s wording (one sentence), or replace it with our own paraphrase. No other prayer line is quoted, and ' +
-      'nothing else in the prayer is given in words. Sega rights: see the file header.',
+      'QUOTE CHECK (2026-10-18): pa1-07-prayer#3 was lifted text 1 from Part M; it could not be checked against the ' +
+      'game’s English script, so it is now our own paraphrase. No prayer line is quoted, and nothing else in the prayer ' +
+      'is given in words. Sega rights: see the file header.',
   },
 
   // ---------------------------------------------------------------- PA1-8
@@ -1417,7 +1414,7 @@ export const ARCADE_PA1: Quest[] = [
             N('You hear it through the light rather than see it: the trampling, and small voices, and then a sound like the sea standing up.'),
             N('Then firelight, orange through the gold. Then nothing, for a long while.'),
             N('Through it all, very clearly, you hear Tikal.'),
-            TI('Chaos is power... Power enriched by the heart.', 'sad'),
+            TI('The jewels are strength, and a kind heart makes them stronger.', 'sad'),
             TI('Please. Hold it. Hold it, and I’ll stay with it. I’ll stay.', 'sad'),
             N('A great green light. Then silence.'),
             N('Your Nubbin is pressed against your chest, perfectly still, with both hands over its eyes.'),
@@ -1451,10 +1448,9 @@ export const ARCADE_PA1: Quest[] = [
       'CARE: everything in pa1-13-charge after line 2 is offscreen. The screen is the rosy light’s gold, with firelight ' +
       'showing orange through it, then dark, then one green flash. Sound only: footsteps, small Chao cries (not words), a ' +
       'deep rush of water, crackle, silence. No bodies, no blood, no attackers shown hurt. Chaos is never called evil. ' +
-      'QUOTE CHECK: pa1-13-charge#6 is lifted text 2, “Chaos is power... Power enriched by the heart.”, exactly as Part M ' +
-      'lists it [unverified: corrected 2026-10-14 to Chao Island’s wiki wording]. Check against the game’s English script ' +
-      'before ship; if it differs, use the script’s one-sentence wording or a paraphrase of our own. Sega rights: see the ' +
-      'file header. The sealing line after it (#7) is our own.',
+      'QUOTE CHECK (2026-10-18): pa1-13-charge#6 was lifted text 2 from Part M; it could not be checked against the ' +
+      'game’s English script, so it is now our own paraphrase. Sega rights: see the file header. The sealing line ' +
+      'after it (#7) is our own too.',
   },
 
   // ---------------------------------------------------------------- PA1-14

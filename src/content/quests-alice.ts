@@ -4,8 +4,11 @@
  *
  * Source and rights: both novels are public domain (Carroll, d. 1898). Only the short passages
  * the outline lists are quoted, from the Project Gutenberg texts (Wonderland #11, Looking-Glass
- * #12); they are not yet checked against those editions, so check them during quote
- * verification. Everything else is new prose. Characters keep their Carroll names.
+ * #12). Every quoted line was checked word for word against those editions on 2026-10-18
+ * (#11 as updated 2025-06-26, #12 as updated 2026-06-11): Carroll's italics are set in
+ * capitals, and a quote his narration splits ("said the Hatter") is joined into one line.
+ * Two were corrected to his words: the Queen's "Off with their heads!" and the Red Queen's
+ * "Now, HERE, you see". Everything else is new prose. Characters keep their Carroll names.
  * Audience: all. Every quoted line has a `childLines` replacement for the Learning Grove.
  * Frame: two dreams. Wonderland is Q66-Q71 (a hot summer afternoon by the stream, after
  * chapter 2); Looking-Glass is Q72-Q75 (a rainy autumn evening by the cottage fire, after Q71).
@@ -589,7 +592,7 @@ export const QUESTS_ALICE: Quest[] = [
         done: {
           id: 'q70-off-with',
           lines: [
-            QH('Off with their head!', 'angry'),
+            QH('Off with their heads!', 'angry'),
             N('The cards come forward, looking unhappy about it. Alice takes a step back and stands in front of you both.'),
             AL('Nonsense!', 'angry'),
           ],
@@ -623,9 +626,9 @@ export const QUESTS_ALICE: Quest[] = [
       'THE PACK’S ONE CHOICE. The three options set pack-local flags q70-coat, q70-garden or q70-mirror (the third is the ' +
       'give-it-to-Alice option). Q71 step 2 plays the matching witness scene (base q71-witness is the coat version; variants ' +
       'q71-witness-garden and q71-witness-mirror). Q75 plays the matching waking scene (base q75-wake is the coat version; ' +
-      'variants q75-wake-garden and q75-wake-mirror). All three are warm. The Queen’s cry is the outline’s adapted "Off with their ' +
-      'head!" for the Keeper. The small Nubbin is a seeded child-type Nubbin with no name; it is NEVER added to the player’s ' +
-      'roster. "they never executes nobody, you know" (Gryphon) and the adapted "Off with…head" each used once; both swapped in childLines.',
+      'variants q75-wake-garden and q75-wake-mirror). All three are warm. The Queen’s cry is Carroll’s "Off with their ' +
+      'heads!" (Wonderland ch. VIII), aimed at the Keeper. The small Nubbin is a seeded child-type Nubbin with no name; it is NEVER added to the player’s ' +
+      'roster. "they never executes nobody, you know" (Gryphon) and "Off with their heads!" each used once; both swapped in childLines.',
   },
 
   // ------------------------------------------------------------------ Q71
@@ -801,7 +804,7 @@ export const QUESTS_ALICE: Quest[] = [
             N('The Red Queen has Alice by the hand, and Alice has you by the hand, and you have your Nubbin under one arm.'),
             N('You run until your legs burn, and the trees run with you. Nothing is any nearer, and nothing is any further.'),
             AL('We have been under this tree the whole time! Everything is exactly as it was!', 'shock'),
-            RQ('Of course. Here, it takes all the running YOU can do, to keep in the same place.', 'happy'),
+            RQ('Of course. Now, HERE, you see, it takes all the running YOU can do, to keep in the same place.', 'happy'),
           ],
         },
       },
