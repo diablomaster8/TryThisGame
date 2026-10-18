@@ -15,6 +15,9 @@ export const RENDER = {
 export const CAMERA = {
   /** Fixed downward tilt of the orbit camera, in degrees. */
   pitchDeg: 35,
+  pitchRad: (35 * Math.PI) / 180,
+  /** How far up the view the Keeper moves while the stats sheet covers a phone's lower half. */
+  sheetLift: 0.22,
   /** The camera orbits in steps of this many degrees. */
   yawStepDeg: 45,
   /** Number of yaw steps in a full circle (360 / yawStepDeg). */
@@ -147,7 +150,15 @@ export const GROVE3D = {
    * second), and below which its branches and fruit hide. A trunk thins to `blocked` too
    * when the line to the Keeper passes within its radius plus `trunkMargin`.
    */
-  crownFade: { inside: 0, blocked: 0.2, rate: 10, innerBelow: 0.5, trunkMargin: 0.25 },
+  /** `holeRadius`: the see-through circle round the Keeper, as a fraction of the screen height. */
+  crownFade: {
+    inside: 0,
+    blocked: 0.2,
+    rate: 10,
+    innerBelow: 0.5,
+    trunkMargin: 0.25,
+    holeRadius: 0.16,
+  },
   /**
    * Most a walk cycle is sped up to keep feet planted at the sim's speed (see gait.ts).
    * Walking needs 2.45 for the Keeper and 1.8 for a child; 4 keeps Fennel (3.9) planted.
@@ -235,6 +246,14 @@ export const SIM = {
   autosaveMs: 30 * SECOND,
   /** Show a progress indicator when catch-up takes longer than this. */
   catchUpProgressMs: 500,
+  /** Longest absence ever simulated, whatever the setting (review C, item 13): 30 days. */
+  maxAwayMs: 30 * 24 * HOUR,
+  /** Coarse steps run between checks of the clock during a long catch-up. */
+  catchUpChunkSteps: 2000,
+  /** Catch-up work done before the page gets a frame to paint the indicator. */
+  catchUpSliceMs: 60,
+  /** Sim time a live frame may carry over when it falls behind; the rest is dropped. */
+  maxLiveBacklogMs: 120 * SECOND,
   /** Grove bounds: entities stay within ±half on both axes. */
   worldHalf: 46,
 } as const;

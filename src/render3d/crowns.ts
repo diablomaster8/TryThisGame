@@ -25,8 +25,17 @@ export interface GroveTree {
 
 interface Faded extends GroveTree {
   fade: { value: number };
+  /** 1 while the camera is inside the crown: then all of it fades, not only the hole. */
+  whole: { value: number };
   trunkFade: { value: number } | null;
 }
+
+/**
+ * Where the Keeper is on screen, in drawing-buffer pixels (x, y from the bottom left, and
+ * the radius). A blocking crown or trunk thins only inside this circle, so at the far zoom
+ * a row of trees is not ghosted whole into dots (review C, item 21). Shared by every tree.
+ */
+const HOLE = { value: new THREE.Vector3(0, 0, 0) };
 
 /**
  * The fadeable parts of an `aaa-kit` `buildTree`: its first part is the trunk (a 3.2-unit
@@ -64,18 +73,29 @@ export function treeOf(parts: THREE.Object3D[], scale = 1.05): GroveTree | null 
  * Hook the dither into a crown's leaf material. The shader text is the same for every
  * crown, so they all share one program; each keeps its own `uCrownFade`.
  */
-function ditherable(mat: THREE.Material): { value: number } {
+function ditherable(
+  mat: THREE.Material,
+  whole: { value: number } = { value: 0 },
+): { value: number } {
   const fade = { value: 1 };
   mat.onBeforeCompile = (shader) => {
     shader.uniforms.uCrownFade = fade;
+    shader.uniforms.uCrownWhole = whole;
+    shader.uniforms.uCrownHole = HOLE;
     shader.fragmentShader = shader.fragmentShader
-      .replace('#include <common>', '#include <common>\nuniform float uCrownFade;')
+      .replace(
+        '#include <common>',
+        '#include <common>\nuniform float uCrownFade;\nuniform float uCrownWhole;\nuniform vec3 uCrownHole;',
+      )
       .replace(
         '#include <alphatest_fragment>',
         `#include <alphatest_fragment>
         if (uCrownFade < 0.999) {
+          float d = distance(gl_FragCoord.xy, uCrownHole.xy);
+          float hole = uCrownWhole > 0.5 ? 1.0 : 1.0 - smoothstep(uCrownHole.z * 0.6, uCrownHole.z, d);
+          float keep = mix(1.0, uCrownFade, hole);
           float n = fract(52.9829189 * fract(dot(gl_FragCoord.xy, vec2(0.06711056, 0.00583715))));
-          if (n >= uCrownFade) discard;
+          if (n >= keep) discard;
         }`,
       );
     mat.userData.shader = shader;
@@ -84,6 +104,11 @@ function ditherable(mat: THREE.Material): { value: number } {
 }
 
 export class CrownFade {
+  /** Place the see-through circle on the Keeper, in drawing-buffer pixels. */
+  static setHole(x: number, y: number, radius: number): void {
+    HOLE.value.set(x, y, radius);
+  }
+
   private readonly trees: Faded[] = [];
   private readonly a = new THREE.Vector3();
   private readonly b = new THREE.Vector3();
@@ -91,7 +116,8 @@ export class CrownFade {
   add(tree: GroveTree): void {
     const mat = tree.crown.material as THREE.Material;
     const trunk = tree.trunk ? ditherable(tree.trunk.mesh.material as THREE.Material) : null;
-    this.trees.push({ ...tree, fade: ditherable(mat), trunkFade: trunk });
+    const whole = { value: 0 };
+    this.trees.push({ ...tree, fade: ditherable(mat, whole), whole, trunkFade: trunk });
   }
 
   /** Forget every tree (a visit garden is redressed for each neighbour). */
@@ -152,11 +178,15 @@ export class CrownFade {
     const k = dt === 0 ? 1 : 1 - Math.exp(-f.rate * dt);
     for (const t of this.trees) {
       let goal = 1;
-      if (this.inside(t, camera)) goal = f.inside;
+      const inside = this.inside(t, camera);
+      if (inside) goal = f.inside;
       else if (targets.some((p) => this.crosses(t, camera, p))) goal = f.blocked;
+      if (inside) t.whole.value = 1;
+      else if (t.fade.value > 0.999) t.whole.value = 0;
       const v = t.fade.value + (goal - t.fade.value) * k;
       t.fade.value = Math.abs(v - goal) < 0.01 ? goal : v;
-      const show = t.fade.value > f.innerBelow;
+      // Branches and fruit hide only when the whole crown is going, not for the hole.
+      const show = t.whole.value < 0.5 || t.fade.value > f.innerBelow;
       for (const o of t.inner) o.visible = show;
       const tf = t.trunkFade;
       if (tf) {

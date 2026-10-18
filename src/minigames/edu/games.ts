@@ -9,7 +9,9 @@ import {
   type EduAge,
   type EduGameId,
 } from '../../config/edu';
+import type { EduBand } from '../../content/types';
 import type { Rng } from '../../sim/rng';
+import { readerRhymeRound, readerSpellingRound, readerSumRound } from './reader-games';
 
 /**
  * Round generators for the six games. Pure and seeded, so they are testable; the
@@ -23,7 +25,9 @@ export type EduOption =
   | { kind: 'letter'; letter: string }
   | { kind: 'count'; icon: string; n: number; label: string }
   | { kind: 'number'; n: number }
-  | { kind: 'picture'; icon: string; label: string };
+  | { kind: 'picture'; icon: string; label: string }
+  /** A whole word to read, for the reader band. */
+  | { kind: 'word'; word: string };
 
 export interface EduRound {
   game: EduGameId;
@@ -41,7 +45,12 @@ function optionCount(age: EduAge): number {
   return age <= 3 ? 3 : 4;
 }
 
-function pickDistinct<T>(rng: Rng, pool: readonly T[], n: number, not?: (t: T) => boolean): T[] {
+export function pickDistinct<T>(
+  rng: Rng,
+  pool: readonly T[],
+  n: number,
+  not?: (t: T) => boolean,
+): T[] {
   const items = pool.filter((t) => !not?.(t));
   const out: T[] = [];
   const used = new Set<number>();
@@ -55,7 +64,11 @@ function pickDistinct<T>(rng: Rng, pool: readonly T[], n: number, not?: (t: T) =
   return out;
 }
 
-function shuffleWithAnswer<T>(rng: Rng, right: T, others: T[]): { options: T[]; answer: number } {
+export function shuffleWithAnswer<T>(
+  rng: Rng,
+  right: T,
+  others: T[],
+): { options: T[]; answer: number } {
   const options = [...others];
   const at = rng.int(0, options.length);
   options.splice(at, 0, right);
@@ -404,7 +417,19 @@ export function animalRound(age: EduAge, rng: Rng): EduRound {
   };
 }
 
-export function makeRound(game: EduGameId, age: EduAge, rng: Rng, ownName?: string): EduRound {
+export function makeRound(
+  game: EduGameId,
+  age: EduAge,
+  rng: Rng,
+  ownName?: string,
+  band: EduBand = 'sprout',
+): EduRound {
+  // Readers (7–10) get reader-level rounds in the three games they are offered.
+  if (band === 'reader') {
+    if (game === 'counting') return readerSumRound(rng);
+    if (game === 'letters') return readerSpellingRound(rng);
+    if (game === 'sounds') return readerRhymeRound(rng);
+  }
   switch (game) {
     case 'colours':
       return colourRound(age, rng);

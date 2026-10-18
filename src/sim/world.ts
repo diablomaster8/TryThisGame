@@ -51,11 +51,12 @@ import { buySkill, hasSkill, stepSkillPoints } from './skills';
 import { convertScan, stepScans } from './scans';
 import { joinTeam, stepTeams } from './teams';
 
-/** Eggs hatch faster with the Warm hands skill. */
-function hatchSpeed(world: World): number {
+/** Eggs hatch faster with the Warm hands skill, live and during catch-up alike. */
+export function hatchSpeed(world: World): number {
   return hasSkill(world, 'warmHands') ? 1.1 : 1;
 }
 import { resolve } from './obstacles';
+import { courseById, prizeFor } from './race';
 import {
   eduResetSession,
   eduResult,
@@ -139,6 +140,7 @@ export function createWorld(seed: number, wallMs: number): World {
     unlocks: { sunGrove: false, moonGrove: false },
     grove: 'main',
     races: {},
+    raceRuns: 0,
     trainer: DEFAULT_TRAINER,
     nextId: 1,
     selected: null,
@@ -393,11 +395,19 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       withRng(world, (rng) => buy(world, cmd.item, rng, events));
       return;
     case 'raceResult': {
+      // The UI reports the result, so the sim checks it: a known course, a tier that is open,
+      // no more shells than the placement pays, and a hat only for a win (review C, 28).
+      const course = courseById(cmd.course);
+      const won = world.races[cmd.course] ?? 0;
+      if (!course || !Number.isInteger(cmd.tier) || cmd.tier < 1 || cmd.tier > Math.min(3, won + 1))
+        return;
+      world.raceRuns += 1;
+      const shells = Math.min(Math.max(0, cmd.shells), prizeFor(cmd.placement, cmd.tier));
       const prize =
         racePrizeMultiplier(world) *
         festivalPrizeMultiplier(world) *
         (hasSkill(world, 'cheerLeader') ? 1.1 : 1);
-      world.inventory.shells += Math.round(Math.max(0, cmd.shells) * prize);
+      world.inventory.shells += Math.round(shells * prize);
       if (cmd.placement === 1) {
         noteQuest(world, 'race', events);
         events.push({
@@ -409,7 +419,8 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
         if (cmd.rival) addRecruit(world, cmd.rival.name, cmd.rival.species, events);
       }
       noteCampaign(world, 'raceEntered');
-      if (cmd.hat) world.inventory.hats.push(cmd.hat);
+      if (cmd.hat && cmd.placement === 1 && !world.inventory.hats.includes(cmd.hat))
+        world.inventory.hats.push(cmd.hat);
       if (cmd.placement === 1) {
         world.races[cmd.course] = Math.max(world.races[cmd.course] ?? 0, cmd.tier);
         noteCampaign(world, 'raceWin');

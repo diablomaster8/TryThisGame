@@ -108,6 +108,11 @@ export class OrbitCamera {
     return this.yawIndex;
   }
 
+  /** World units from the bottom of the view to the top, at the current zoom. */
+  get visibleHeight(): number {
+    return this.viewHeight;
+  }
+
   get currentZoomIndex(): number {
     return this.zoomIndex;
   }

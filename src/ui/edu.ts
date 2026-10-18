@@ -12,7 +12,7 @@ import { EDU_TEXT, NAMES } from '../config/strings';
 import type { Game } from '../game';
 import { makeRound, starsFor, type EduOption, type EduRound } from '../minigames/edu/games';
 import { playSound } from '../platform/audio';
-import { enabledGames } from '../sim/edu';
+import { enabledGames, gamesForBand } from '../sim/edu';
 import { Rng } from '../sim/rng';
 import { button, el, modal } from './dom';
 import { renderSumGate } from './grown-up-gate';
@@ -71,10 +71,11 @@ export class EduScreen {
       const grid = el('div', 'edu-grid');
       for (const id of games) {
         const b = button('', () => this.start(id), 'btn edu-pick');
+        const reader = g.world.edu.band === 'reader';
         b.append(
           el('span', 'edu-pick-icon', EDU_TEXT.gameIcons[id]),
-          el('strong', undefined, EDU_TEXT.gameNames[id]),
-          el('small', undefined, EDU_TEXT.gameBlurbs[id]),
+          el('strong', undefined, gameName(id, reader)),
+          el('small', undefined, gameBlurb(id, reader)),
         );
         grid.appendChild(b);
       }
@@ -119,7 +120,7 @@ export class EduScreen {
       this.finish();
       return;
     }
-    this.round = makeRound(this.game, e.age, this.rng, e.childName || undefined);
+    this.round = makeRound(this.game, e.age, this.rng, e.childName || undefined, e.band);
     this.renderRound();
   }
 
@@ -237,6 +238,9 @@ function renderOption(o: EduOption, large: boolean): HTMLElement {
     }
     case 'picture':
       box.append(el('span', 'edu-icon', o.icon), el('span', 'edu-word', o.label));
+      break;
+    case 'word':
+      box.appendChild(el('span', 'edu-read', o.word));
       break;
   }
   return box;
@@ -376,7 +380,8 @@ export class GrownUpPanel {
     storySettings(this.body, g);
     // Games: toggles with the recommendation tag.
     this.body.appendChild(el('h3', undefined, EDU_TEXT.gamesLabel));
-    for (const id of EDU_GAMES) {
+    const reader = e.band === 'reader';
+    for (const id of gamesForBand(e.band)) {
       const row = el('label', 'check-row');
       const cb = el('input');
       cb.type = 'checkbox';
@@ -385,11 +390,11 @@ export class GrownUpPanel {
       const text = el('span');
       const rec = EDU_RECOMMENDED[e.age].includes(id);
       text.append(
-        el('strong', undefined, `${EDU_TEXT.gameIcons[id]} ${EDU_TEXT.gameNames[id]}`),
+        el('strong', undefined, `${EDU_TEXT.gameIcons[id]} ${gameName(id, reader)}`),
         el(
           'small',
           undefined,
-          `${EDU_TEXT.gameBlurbs[id]}${rec ? ` · ${EDU_TEXT.recommended(e.age)}` : ''}`,
+          `${gameBlurb(id, reader)}${rec && !reader ? ` · ${EDU_TEXT.recommended(e.age)}` : ''}`,
         ),
       );
       row.append(cb, text);
@@ -471,4 +476,13 @@ export class BreakScreen {
   isOpen(): boolean {
     return this.dialog.isOpen();
   }
+}
+
+/** A game's name for the band: readers see Sums, Spelling and Rhymes. */
+function gameName(id: EduGameId, reader: boolean): string {
+  return (reader ? EDU_TEXT.readerGameNames[id] : undefined) ?? EDU_TEXT.gameNames[id];
+}
+
+function gameBlurb(id: EduGameId, reader: boolean): string {
+  return (reader ? EDU_TEXT.readerGameBlurbs[id] : undefined) ?? EDU_TEXT.gameBlurbs[id];
 }

@@ -22,13 +22,49 @@ for Atlas A1–A10 and A22–A31 and every Atlas and S24–S31 edu version, the 
 only (`docs/content-index.md`). Plan v4 (`plan.md`): G11 device pass, Track B writing and review
 tasks; Part Z ran on 2026-10-18 (`docs/review-independent-2026-10-18.md`) and its fixes are
 going in pass by pass. Review B (`docs/review-independent-2026-10-18-b.md`): Bugs 1–17 and
-18–38 fixed on 2026-10-18 (sections below). Maor, 2026-10-17: legal cleared, adviser sign-off given, the seven
-fun-quest quotes approved as written, Pixel stays the default; 2026-10-18: ship the Arcade, the
-Multiverse, Neopia and Q66–Q95. Waiting on Maor: the LB/LK decision (section "Pixel's Arcade
+18–38 fixed on 2026-10-18 (section below; Bugs 1–17 in the archive). Review C
+(`docs/review-independent-2026-10-18-c.md`): minor items 11–29 fixed (section below).
+Maor, 2026-10-17: legal cleared, adviser sign-off given, the seven fun-quest quotes approved
+as written, Pixel stays the default; 2026-10-18: ship the Arcade, the Multiverse, Neopia and
+Q66–Q95. Waiting on Maor: the LB/LK decision (section "Pixel's Arcade
 PA1–PA5" in `docs/progress-archive.md`). Decided 2026-10-18 (review B, item 16): original
 sung verses are fine (only lyrics from existing songs are banned); Holy Grail's Q1–Q7 are one
 storyline and keep all ten quotes, an exception to the three-quote cap. Backlogs: `docs/creature-improvements.md`,
 `docs/content-index.md`.
+
+## Review C, items 11–29: minor bugs (2026-10-18)
+
+From the Minor section of `docs/review-independent-2026-10-18-c.md` (each item has an
+"Addressed" note). Branch `fix/review-c-minor`; the majors (1–10) are a separate pass. Works:
+- **Sim (tested in `tests/sim/review-c-minor.test.ts`):** catch-up runs after the HUD is bound,
+  in chunks that yield a frame (`catchUpInChunks`, `Game.catchUpOnLoad`), so its indicator
+  paints; no steps or saves until it ends (12). Every mode stops at 30 days (`SIM.maxAwayMs`);
+  a save without `savedAtWallMs` has no gap (13). Live play keeps the live rules past 400 steps
+  a frame: the backlog runs as fine steps later, time past 2 sim minutes is dropped
+  (`Clock.capBacklog`) (14). Catch-up hatching uses `hatchSpeed`; `raceResult` checks course
+  and open tier, caps Shells at the prize, never repeats a hat; the race seed is
+  `raceSeedFor(world, course, tier)`, fixed until a result is recorded (`World.raceRuns`) (28).
+- **UI:** blocked storage shows on the title and as a HUD chip (11); pixel minigame canvases
+  sit below the ✕ row (`minigames/play-area.ts`) (15); festival toasts wait for story scenes,
+  the away screen opens before any scene (16); the stats sheet docks right on wide screens,
+  lifts the camera on phones (`Game.cameraLift`, `CAMERA.sheetLift`) and shows level bars and
+  "+N" gains (22); 🧭 Expedition, Keeper picker blurbs (`KEEPER_LOOK_BLURBS`), "Back" label
+  (23); Receive dialog, hidden in the Learning Grove (24); Erase labels name the mode (25);
+  44 px hat select, field inputs, map buttons (26); Escape for the shelves, Hollow menu and
+  party bout, one co-op handler, font retry (27).
+- **Render:** draw calls sum every pass (`autoReset` off) (19); 3D run and stretch sections are
+  dirt/cobble with chalk lanes (20); a wild-wood skirt past the pixel field, and 3D crowns thin
+  only in a circle round the Keeper (21).
+- **Content:** sprout egg-hum lines fixed (17); readers (7–10) play Sums, Spelling and Rhymes &
+  beats (`minigames/edu/reader-games.ts`, `EDU_READER_*`), preschool games hidden (18).
+- **Tests:** the every-Atlas-page test loads its chunk in `beforeAll` (60 s) (29).
+- **Checked** in headless Edge (playwright-core) at 1280×800 and 375×812: sheet, gains,
+  minigames in both modes, far zoom both modes, crowns, title and HUD with storage blocked,
+  Keeper picker, reader picker and a Spelling round, Receive.
+- **Assumption:** the 30-day cap also applies to `indefinite` (the brief says "all the time
+  that passed"); the away report still shows the real gap.
+- **Stubbed / known:** the 3D tag overlap (20) did not reproduce; the stacker was left as is.
+  The Learning Grove still shows the season festival toast.
 
 ## Review B, Bugs 18–38 and the notes: minor bugs (2026-10-18)
 
@@ -76,43 +112,6 @@ Stubbed or not done:
 
 Known bugs: none new. Assumption: Moss "comes down" in `c7-stillness` (the scene that says
 so); before then he is the hill's watcher, as chapter 1 describes.
-
-## Review B, Bugs 1–17: blockers and major bugs (2026-10-18)
-
-From `docs/review-independent-2026-10-18-b.md` (each bug there has an "Addressed" note).
-Branch `fix/review-blockers` was checked and merged (main's stricter import kept: an imported
-save always comes back with Mature content Off). Works:
-- **Away and lifecycle (sim, tested):** fine catch-up steps follow the away rules, so no
-  departure while departures are off, for any gap (Bug 1). Alignment is kept and compared in
-  hundredths (`roundAlignment`): exactly ±0.80 is not Eternal, ±0.50 is Neutral (5). Normal lean
-  can win the adult type (6). Catch-up logs care slips (rain aside), the well-raised grade is in
-  `gradeUpgrades`, rebirth clears `wellRaised` (7). Lifetime happiness is weighted by sim
-  seconds (`sampleHappiness(n, seconds)`), so an hour away weighs an hour watched (8).
-- **No chores (3):** each request kind is asked once (claimed ones stay on the board as done);
-  team missions run once each, in order (`TEAMS.missions`); the Hollow request counts any
-  descent. `questDay` and `TeamState.week` are kept unused so old saves load.
-- **Loading (2):** per-build service worker cache, network-first pages, old caches deleted;
-  every lazy chunk has a catch and the "Reload to update" notice, the shelves included.
-- **Mature gate (4):** raising Mature content asks the grown-up sum gate first.
-- **Story worlds (9):** the shelf passes a frozen copy of the campaign flags as
-  `LineContext.grove`; `variantFor` matches Grove answers, chained suffixes (`-ran-unset`),
-  `GROVE_UNSET` (A19 sableFirst) and `GROVE_ALIASES` (s21Done → clank, s8Reunited → fern...).
-- **UI (10–17):** trade shows the code in a dialog and sends only from its own button;
-  `input/keys.ts` keeps camera and shortcut keys out of fields and Space on buttons; sound
-  unlocks on pointerup/touchend/click/keydown from the title on and resumes after
-  interruptions; WebGL2 check, renderer try/catch and a context-lost card (Reload, Switch to
-  Pixel); creature pool LRU (`GROVE3D.poolSpares`/`poolLooks`), garden and visit disposal;
-  Reduced motion reaches both cameras and Pixel water/sway; `.btn-small` is 44 px and phone
-  portrait has a bottom action bar (`--hud-bottom` lifts the bottom HUD); `dialogFocus` in
-  `ui/dom.ts` gives every modal role, focus, trap, Escape and focus return.
-- **Checked in the browser pane** (hidden pane, frames driven by hand): both modes at 375×812
-  and 1280×800, dialogs, typing, trade, Reduced motion, the lost-context card.
-- **Stubbed:** story-world inserts ("plays straight after"), once-only margin notes and derived
-  Grove facts (campaign finished, Sable's trust, mossFaded) are not wired, only replacement
-  variants. Sound on a real iPhone, WebGL2-less devices and the pool caps under a long session
-  are untested. Minigame result cards are not dialogs yet.
-- **Known bugs:** `tests/sim/side-saves.test.ts` "every Atlas page" can pass its 5 s timeout
-  under a full parallel run (cold transform; passes alone in about 1 s).
 
 ## Standing approval (Maor, 2026-10-12)
 

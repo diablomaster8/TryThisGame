@@ -50,6 +50,11 @@ export class Clock {
     return whole;
   }
 
+  /** Drop whatever sim time is waiting past `maxMs`, when the steps cannot keep up. */
+  capBacklog(maxMs: number): void {
+    this.accumulatorMs = Math.min(this.accumulatorMs, Math.max(0, maxMs));
+  }
+
   reset(): void {
     this.accumulatorMs = 0;
   }

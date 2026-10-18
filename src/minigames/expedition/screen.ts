@@ -1,3 +1,4 @@
+import { playArea } from '../play-area';
 import { EXPEDITION, SIM } from '../../config/tuning';
 import { CRITTER_LABELS, ESSENCE_LABELS, UI_TEXT } from '../../config/strings';
 import type { SpriteSheet } from '../../render/sprites/atlas';
@@ -176,7 +177,7 @@ export class ExpeditionScreen {
   }
 
   resize(): void {
-    this.view.resize(this.root.getBoundingClientRect());
+    this.view.resize(playArea(this.root, this.view === this.pixel));
   }
 
   private readonly frame = (nowMs: number): void => {

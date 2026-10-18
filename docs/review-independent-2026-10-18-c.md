@@ -99,41 +99,60 @@ Pixel mode almost certainly sends linear colour to the screen, which explains it
 ### Minor
 
 11. **Storage blocked:** the only warning is one passing toast at the first failed autosave, up to 30 s in (`hud.ts:1000`). The title says nothing, and after a reload every slot is empty with no reason given.
+    - **Addressed 2026-10-18** (branch `fix/review-c-minor`: the title says saving is blocked above the slots, and the HUD keeps a "⚠ Not saving" chip (tap for why) from load or the first failed save (`storageAvailable`, `.storage-chip`, `.title-storage`).)
 12. **Catch-up indicator:** it never paints, because it is shown and hidden inside one synchronous call (`game.ts:239-242`).
+    - **Addressed 2026-10-18** (branch `fix/review-c-minor`: catch-up runs after the HUD is bound, in chunks (`catchUpInChunks`), yielding a frame once a slice passes 60 ms, so the indicator paints; no steps or saves happen until it ends.)
 13. **No cap on simulated time:**
     - a missing `savedAtWallMs` means a 56-year gap;
     - 365 days takes 1.1 s on desktop (`offline.ts:101`, `save.ts:116`).
+    - **Addressed 2026-10-18** (branch `fix/review-c-minor`: every mode stops at 30 days (`SIM.maxAwayMs`, `allowedSpan`); a save with no `savedAtWallMs` has no gap.)
 14. **Backlog at ×1000:** more than 400 steps run the offline rules in live play (`game.ts:336-337`). Slips are logged "while away", and campaign, quests and weather are skipped.
+    - **Addressed 2026-10-18** (branch `fix/review-c-minor`: live play never runs the offline rules: the backlog stays as fine steps for later frames, and only time past `SIM.maxLiveBacklogMs` (2 sim minutes) is dropped (`Clock.capBacklog`).)
 15. **Minigame headers:** the HUD chip and ✕ cover the runner's name in the Expedition and "GROVE · TIER 1" in races (both modes).
+    - **Addressed 2026-10-18** (branch `fix/review-c-minor`: the pixel Expedition and race canvases start below the ✕ and chip row (`minigames/play-area.ts`), so the runner name and "GROVE · TIER 1" are clear; checked in Pixel at 1280×800 and 375×812 (the 3D header is DOM and already sat below the row; checked in the 3D race).)
 16. **Story text and toasts collide:**
     - The campaign opens with "Late spring…" while a toast says "Autumn harvest: fruit falls twice as fast" (real-world season).
     - "While you were away" and the opening dialogue are drawn on top of each other.
+    - **Addressed 2026-10-18** (branch `fix/review-c-minor`: a season festival toast waits until no story scene is open or waiting; the away screen opens at once after catch-up, and scenes wait while it or the catch-up is up.)
 17. **Sprout script typo:** "Hum, hum, go the eggs." (`edu-campaign-1-sprout.ts:124`).
+    - **Addressed 2026-10-18** (branch `fix/review-c-minor`: the three sprout lines now read "Listen, they go hum, hum!" and "The eggs go hum, hum, close by." (script book too).)
 18. **Learning Grove picker:** it offers 7–10 readers the same preschool games (letter names, little sums).
+    - **Addressed 2026-10-18** (branch `fix/review-c-minor`: the reader band (7–10) gets Sums (to 20, take-aways, missing numbers, 2/5/10 tables), Spelling and Rhymes & beats (`reader-games.ts`); colours, shapes and animals are not offered to readers (`gamesForBand`).)
 19. **Debug draw-call readout:** it reports 1 draw call (and 0 sprites in 3D), because `info.autoReset` counts only the last pass (`debug-panel.ts:188,200`).
+    - **Addressed 2026-10-18** (branch `fix/review-c-minor`: `info.autoReset` is off and reset once per frame in both renderers, so the readout sums every pass; it adds triangles, and Full 3D shows its Nubbins instead of "sprites 0".)
 20. **3D race:** runners Pip and Dot wander on the grass beside the track, and the name tags overlap ("Mochi" over "Bramble").
+    - **Addressed 2026-10-18** (branch `fix/review-c-minor`: 3D run and stamina sections are a dirt or cobble track with chalk lane lines, so runners read in their lanes; the tags stayed apart at both sizes (the stacker was already in).)
 21. **Zoom and canopies:**
     - Pixel at far zoom shows the ground as a floating diamond over a pale void.
     - Full 3D at far zoom dithers whole trees into dotted ghosts (`crowns.ts:66-82`).
+    - **Addressed 2026-10-18** (branch `fix/review-c-minor`: Pixel has a wild-wood ground past the field, so far zoom shows no void; Full 3D crowns and trunks thin only inside a circle round the Keeper on screen (`HOLE` in `crowns.ts`), never whole trees.)
 22. **Stats sheet:**
     - It covers the Nubbin, so Pet and Hug reactions can't be seen.
     - Feeding critters and essences shows no visible progress, because points appear only in debug.
+    - **Addressed 2026-10-18** (branch `fix/review-c-minor`: the sheet docks to the right on wide screens; on phones it is shorter and the camera lifts the Keeper and Nubbin into the clear top part (`Game.cameraLift`); each stat has a bar toward its next level and shows "+N" for a moment after a gain.)
 23. **HUD icons:**
     - Expedition uses 🏃, the same icon as the Run button.
     - The keeper picker lists names only.
     - The "←" button has no label.
+    - **Addressed 2026-10-18** (branch `fix/review-c-minor`: Expedition is 🧭; the title Keeper picker shows side and what hatches under each look; "←" is labelled Back.)
 24. **Share codes:** Receive uses native `prompt()` and `alert()`. Names have no length cap, and Receive is also offered in the Learning Grove (`hud.ts:360`).
+    - **Addressed 2026-10-18** (branch `fix/review-c-minor`: Receive opens a dialog with a code box and an inline error; it is hidden in the Learning Grove (the name cap comes with the share-code fix, item 2).)
 25. **Erase buttons:** all three title Erase buttons are labelled "Erase Slot 1" for screen readers.
+    - **Addressed 2026-10-18** (branch `fix/review-c-minor`: each Erase is labelled with its mode and slot.)
 26. **Tap targets:** these are 40 px tall (`style.css:718,874,1466`): `.roster-hat`, `.field-row input` and `.map-grid .btn`.
+    - **Addressed 2026-10-18** (branch `fix/review-c-minor`: `.roster-hat`, `.field-row input` and `.map-grid .btn` are 44 px.)
 27. **UI handlers:**
     - Escape misses the Atlas, cabinet, rift, Neopia, dungeon and tank panels (`hud.ts:509-533`).
     - The co-op select runs two handlers (`settings.ts:232`).
     - A failed font load is cached for good (`lang-fonts.ts:11-18`).
+    - **Addressed 2026-10-18** (branch `fix/review-c-minor`: Escape closes the Atlas, cabinet, rift, Neopia, Hollow menu and party bout (the Beetle Run handles its own); the co-op select runs only `applyCoop`; a failed font load is retried next time.)
 28. **Sim command path:**
     - Catch-up hatching ignores `hatchSpeed` (`offline.ts:80`).
     - Race results trust the UI: no tier check and duplicate hats (`world.ts:395-417`).
     - The race seed is `Date.now()`, so a race can be retried for a better result (`ui/races.ts:79`).
+    - **Addressed 2026-10-18** (branch `fix/review-c-minor`: catch-up hatching uses `hatchSpeed`; `raceResult` checks the course and that the tier is open, caps Shells at the placement prize, gives a hat only for a win and never twice; the race seed comes from the world (`raceSeedFor`, fixed until a result is recorded).)
 29. **Flaky test:** `side-saves.test.ts` "every Atlas page" timed out once in the full run (5 s) and passed on the rerun (549/549).
+    - **Addressed 2026-10-18** (branch `fix/review-c-minor`: the Atlas chunk loads in a `beforeAll` with 60 s and the test has 30 s.)
 
 ## Missing against the goals
 

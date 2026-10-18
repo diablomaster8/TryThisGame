@@ -200,6 +200,9 @@ function boot(
     } else game.send({ kind: 'campaignStart' });
   }
   if (eduAge) game.send({ kind: 'eduStart', age: eduAge.age, band: eduAge.band });
+  // The time away is made up now, in slices the indicator can paint between; story scenes
+  // and the away screen wait for it (review C, items 12 and 16).
+  void game.catchUpOnLoad();
   hud.bind(game);
   if (import.meta.env.DEV) {
     // Console access during development: `grove.world`, `grove.send({...})`.
@@ -248,7 +251,7 @@ function boot(
       game.stop();
     } else {
       fps.reset();
-      game.resume();
+      void game.resume();
     }
   });
   window.addEventListener('pagehide', () => game?.save());

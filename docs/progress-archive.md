@@ -2,6 +2,43 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Review B, Bugs 1–17: blockers and major bugs (2026-10-18)
+
+From `docs/review-independent-2026-10-18-b.md` (each bug there has an "Addressed" note).
+Branch `fix/review-blockers` was checked and merged (main's stricter import kept: an imported
+save always comes back with Mature content Off). Works:
+- **Away and lifecycle (sim, tested):** fine catch-up steps follow the away rules, so no
+  departure while departures are off, for any gap (Bug 1). Alignment is kept and compared in
+  hundredths (`roundAlignment`): exactly ±0.80 is not Eternal, ±0.50 is Neutral (5). Normal lean
+  can win the adult type (6). Catch-up logs care slips (rain aside), the well-raised grade is in
+  `gradeUpgrades`, rebirth clears `wellRaised` (7). Lifetime happiness is weighted by sim
+  seconds (`sampleHappiness(n, seconds)`), so an hour away weighs an hour watched (8).
+- **No chores (3):** each request kind is asked once (claimed ones stay on the board as done);
+  team missions run once each, in order (`TEAMS.missions`); the Hollow request counts any
+  descent. `questDay` and `TeamState.week` are kept unused so old saves load.
+- **Loading (2):** per-build service worker cache, network-first pages, old caches deleted;
+  every lazy chunk has a catch and the "Reload to update" notice, the shelves included.
+- **Mature gate (4):** raising Mature content asks the grown-up sum gate first.
+- **Story worlds (9):** the shelf passes a frozen copy of the campaign flags as
+  `LineContext.grove`; `variantFor` matches Grove answers, chained suffixes (`-ran-unset`),
+  `GROVE_UNSET` (A19 sableFirst) and `GROVE_ALIASES` (s21Done → clank, s8Reunited → fern...).
+- **UI (10–17):** trade shows the code in a dialog and sends only from its own button;
+  `input/keys.ts` keeps camera and shortcut keys out of fields and Space on buttons; sound
+  unlocks on pointerup/touchend/click/keydown from the title on and resumes after
+  interruptions; WebGL2 check, renderer try/catch and a context-lost card (Reload, Switch to
+  Pixel); creature pool LRU (`GROVE3D.poolSpares`/`poolLooks`), garden and visit disposal;
+  Reduced motion reaches both cameras and Pixel water/sway; `.btn-small` is 44 px and phone
+  portrait has a bottom action bar (`--hud-bottom` lifts the bottom HUD); `dialogFocus` in
+  `ui/dom.ts` gives every modal role, focus, trap, Escape and focus return.
+- **Checked in the browser pane** (hidden pane, frames driven by hand): both modes at 375×812
+  and 1280×800, dialogs, typing, trade, Reduced motion, the lost-context card.
+- **Stubbed:** story-world inserts ("plays straight after"), once-only margin notes and derived
+  Grove facts (campaign finished, Sable's trust, mossFaded) are not wired, only replacement
+  variants. Sound on a real iPhone, WebGL2-less devices and the pool caps under a long session
+  are untested. Minigame result cards are not dialogs yet.
+- **Known bugs:** `tests/sim/side-saves.test.ts` "every Atlas page" can pass its 5 s timeout
+  under a full parallel run (cold transform; passes alone in about 1 s).
+
 ## Review goal 7: the Arcade, the Multiverse, Neopia and Q66–Q95 ship (2026-10-18)
 
 From `docs/review-independent-2026-10-18.md` (goal 7 and 9 rows, "What the notes get wrong").

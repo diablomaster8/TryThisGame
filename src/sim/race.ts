@@ -1,7 +1,7 @@
 import { RACE } from '../config/tuning';
-import { Rng } from './rng';
+import { hashSeed, Rng } from './rng';
 import { levelOf } from './stats';
-import type { Nubbin, StatKey } from './types';
+import type { Nubbin, StatKey, World } from './types';
 import { STAT_KEYS } from './types';
 
 /**
@@ -272,6 +272,15 @@ export function playerPlacement(race: RaceState): number {
   const player = race.racers.find((r) => r.isPlayer);
   if (!player) return race.racers.length;
   return race.placements.indexOf(player.id) + 1;
+}
+
+/**
+ * The seed for the next race on a course and tier, from the world's seed and how many races
+ * it has recorded: quitting and starting again meets the same field, so a race cannot be
+ * rerolled for a better draw (review C, item 28).
+ */
+export function raceSeedFor(world: World, courseId: string, tier: number): number {
+  return hashSeed(`${world.seed}:${courseId}:${tier}:${world.raceRuns}`) % 2147483647;
 }
 
 /** Shells for a placement at a tier; only the top three pay. */

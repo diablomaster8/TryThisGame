@@ -14,6 +14,7 @@ import { bandOf, childHint } from '../sim/alignment';
 import { dayCount } from '../sim/curfew';
 import { TEN_TEXT } from '../config/strings';
 import { levelOf } from '../sim/stats';
+import { STATS } from '../config/tuning';
 import {
   STAT_KEYS,
   type DyeColor,
@@ -42,6 +43,11 @@ export class StatsSheet {
     ReturnType<typeof meter>
   >;
   private readonly statRows = new Map<string, HTMLSpanElement>();
+  /** Each stat's bar toward the next level, and the points last shown, to mark a gain. */
+  private readonly statBars = new Map<string, { row: HTMLElement; fill: HTMLElement }>();
+  private shownPoints: { id: string; points: Record<string, number> } | null = null;
+  /** The last gain per stat, shown as "+N" for a couple of seconds. */
+  private readonly gains = new Map<string, { n: number; until: number }>();
   private readonly actions: HTMLDivElement;
   private readonly petBtn: HTMLButtonElement;
   private readonly carryBtn: HTMLButtonElement;
@@ -84,8 +90,13 @@ export class StatsSheet {
         el('span', 'stat-label', STAT_LABELS[key]),
       );
       const value = el('span', 'stat-value', '');
-      row.appendChild(value);
+      // Points toward the next level, so a critter or an essence shows (review C, item 22).
+      const bar = el('span', 'stat-progress');
+      const fill = el('i');
+      bar.appendChild(fill);
+      row.append(value, bar);
       this.statRows.set(key, value);
+      this.statBars.set(key, { row, fill });
       stats.appendChild(row);
     }
 
@@ -273,11 +284,34 @@ export class StatsSheet {
     this.meters.affection.set(n.needs.affection / 100);
     this.meters.trust.set(n.trust / 100);
 
+    const last = this.shownPoints?.id === n.id ? this.shownPoints.points : null;
+    const points: Record<string, number> = {};
     for (const key of STAT_KEYS) {
       const s = n.stats[key];
       const cell = this.statRows.get(key);
-      if (cell) cell.textContent = `Lv ${levelOf(s.points)} · ${s.grade}`;
+      const lv = levelOf(s.points);
+      const per = STATS.pointsPerLevel;
+      const into = lv >= STATS.maxLevel ? per : Math.floor(s.points - lv * per);
+      const gained = last ? Math.floor(s.points - (last[key] ?? s.points)) : 0;
+      const now = performance.now();
+      if (gained > 0) this.gains.set(key, { n: gained, until: now + 2500 });
+      else if (!last) this.gains.delete(key);
+      const gain = this.gains.get(key);
+      const plus = gain && gain.until > now ? ` +${gain.n}` : '';
+      if (cell) cell.textContent = `Lv ${lv} · ${s.grade}${plus}`;
+      const bar = this.statBars.get(key);
+      if (bar) {
+        bar.fill.style.width = `${(100 * into) / per}%`;
+        bar.row.title = UI_TEXT.statPoints(into, per, Math.min(lv + 1, STATS.maxLevel));
+        if (gained > 0) {
+          bar.row.classList.remove('stat-gain');
+          void bar.row.offsetWidth; // restart the highlight
+          bar.row.classList.add('stat-gain');
+        }
+      }
+      points[key] = s.points;
     }
+    this.shownPoints = { id: n.id, points };
     this.refreshGive(world, n);
 
     const isEgg = n.stage === 'egg';

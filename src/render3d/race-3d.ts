@@ -343,6 +343,25 @@ export class Race3dView implements RaceView {
 
   // ---------------------------------------------------------------- the track
 
+  /** Chalk lines between the lanes along a flat section, so each racer reads in its lane. */
+  private laneLines(stage: MiniStage, x0: number, x1: number, lanes: number, y: number): void {
+    const mat = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.9,
+      depthWrite: false,
+      polygonOffset: true,
+      polygonOffsetFactor: -2,
+    });
+    for (let i = 0; i < lanes - 1; i++) {
+      const line = new THREE.Mesh(new THREE.PlaneGeometry(x1 - x0, 0.14), mat);
+      line.rotation.x = -Math.PI / 2;
+      line.position.set((x0 + x1) / 2, y + 0.03, (laneZ(i) + laneZ(i + 1)) / 2);
+      line.renderOrder = 1;
+      stage.scene.add(line);
+    }
+  }
+
   private buildTrack(stage: MiniStage, race: RaceState): void {
     const lanes = race.racers.length;
     const zBack = laneZ(lanes - 1) - RACE3D.margin;
@@ -354,11 +373,15 @@ export class Race3dView implements RaceView {
       const x0 = s.start * U;
       const x1 = s.end * U;
       switch (s.kind) {
+        // A run is a dirt track with chalked lanes, not more field: on grass the runners
+        // looked loose on the lawn beside the course (review C, item 20).
         case 'run':
-          stage.strip(x0, x1, zBack, zFront, 'grass', { y: s.y0 });
+          stage.strip(x0, x1, zBack, zFront, 'dirt', { y: s.y0 });
+          this.laneLines(stage, x0, x1, lanes, s.y0);
           break;
         case 'stretch':
-          stage.strip(x0, x1, zBack, zFront, 'dirt', { y: s.y0 });
+          stage.strip(x0, x1, zBack, zFront, 'cobble', { y: s.y0 });
+          this.laneLines(stage, x0, x1, lanes, s.y0);
           break;
         case 'climb': {
           stage.strip(x0, x1, zBack, zFront, 'rock', { y: s.y0, y1: s.y1 });

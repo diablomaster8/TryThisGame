@@ -185,7 +185,7 @@ export class DebugPanel {
     if (!g) return;
     const n = id ? g.world.nubbins.find((x) => x.id === id) : undefined;
     if (!n) {
-      this.values.textContent = `${UI_TEXT.debugNoSelection}\ndraw calls ${g.pipeline.renderer.info.render.calls}  sprites ${g.view.batch.drawn}  frame ${g.pipeline.currentSize.width}×${g.pipeline.currentSize.height} ×${g.pipeline.currentSize.scale}`;
+      this.values.textContent = `${UI_TEXT.debugNoSelection}\n${frameLine(g)}`;
       return;
     }
     const lines = [
@@ -197,7 +197,7 @@ export class DebugPanel {
         (k) => `${STAT_LABELS[k]} ${n.stats[k].points.toFixed(1)} pts (${n.stats[k].grade})`,
       ),
       `sim t ${Math.round(g.world.timeMs / 1000)} s  rng ${g.world.rngState}`,
-      `draw calls ${g.pipeline.renderer.info.render.calls}  sprites ${g.view.batch.drawn}  frame ${g.pipeline.currentSize.width}×${g.pipeline.currentSize.height} ×${g.pipeline.currentSize.scale}`,
+      frameLine(g),
     ];
     this.values.textContent = lines.join('\n');
   }
@@ -213,4 +213,16 @@ export class DebugPanel {
     const scale = this.game()?.clock.timeScale ?? 1;
     this.speedButtons.forEach((b, i) => b.classList.toggle('active', SIM.timeScales[i] === scale));
   }
+}
+
+/**
+ * Draw calls and triangles for the whole last frame (every pass), the pixel renderer's
+ * sprite count, and the frame size. Full 3D has no sprite batch, so it shows the Nubbins
+ * instead of a misleading 0 (review C, item 19).
+ */
+function frameLine(g: Game): string {
+  const r = g.pipeline.renderer.info.render;
+  const size = g.pipeline.currentSize;
+  const things = g.scene3d ? `nubbins ${g.world.nubbins.length}` : `sprites ${g.view.batch.drawn}`;
+  return `draw calls ${r.calls}  triangles ${r.triangles}  ${things}  frame ${size.width}×${size.height} ×${size.scale}`;
 }
