@@ -261,11 +261,7 @@ export class Dialogue {
     this.root.classList.toggle('narration', who === 'narrator');
     // The chorus (everyone singing) has no portrait and is shown in italics.
     this.root.classList.toggle('chorus', chorus);
-    this.drawPortrait(
-      chorus ? 'narrator' : resolveSpeaker(who, g.world.trainer),
-      g,
-      line.mood ?? 'neutral',
-    );
+    this.drawPortrait(chorus ? 'narrator' : who, g, line.mood ?? 'neutral');
     this.fullText = line.text;
     this.shown = 0;
     this.text.textContent = '';
@@ -406,11 +402,6 @@ export class Dialogue {
   }
 }
 
-/** Whose portrait a line shows: "you" wears the player's chosen Keeper; everyone else is themselves. */
-export function resolveSpeaker(who: string, playerTrainer: string): string {
-  return who === 'you' ? playerTrainer : who;
-}
-
 export function speakerName(who: string, g: Game, sceneId = ''): string {
   if (who === 'moss' || who === 'sable') {
     const c = g.world.campaign;
@@ -436,6 +427,14 @@ function portraitFrame(
   mood: Mood,
 ): { sheet: SpriteSheet | null; key: string } {
   const sheets = g.view.sheets;
+  // You wear your own outfit (trim in your side's colours), as in the Grove, so you never
+  // share a portrait with the villager whose look you chose.
+  if (who === 'you') {
+    return {
+      sheet: sheets.keeper(g.world.trainer, g.world.keeper.alignment),
+      key: frameKey('idle', 'front', 0),
+    };
+  }
   if (who === 'moss' || who === 'sable' || who === 'wisp') {
     const c = g.world.campaign;
     const id = who === 'moss' ? c?.mossId : who === 'sable' ? c?.sableId : null;

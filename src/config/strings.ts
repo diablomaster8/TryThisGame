@@ -169,6 +169,23 @@ export const TRAINER_LABELS: Record<string, { name: string; blurb: string }> = {
   nova: { name: 'Nova', blurb: 'Wanderer. A bit of everything.' },
 };
 
+/**
+ * The playable Keeper looks, named for the look and never for the villager who wears it,
+ * so a story never has you meet yourself ("I'm Fern, from next door").
+ */
+export const KEEPER_LOOK_NAMES: Record<string, string> = {
+  fern: 'Gardener',
+  marina: 'Tide-pooler',
+  sparks: 'Live Wire',
+  clover: 'Knitter',
+  pixel: 'Tinkerer',
+  luna: 'Night Gardener',
+  ember: 'Scrapper',
+  byte: 'Night Coder',
+  dusty: 'Fossil Hunter',
+  nova: 'Wanderer',
+};
+
 export const FAMILY_LABELS = {
   chao: 'Grove line',
   pocket: 'Pocket line',

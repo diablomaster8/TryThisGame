@@ -1,4 +1,4 @@
-import { NAMES, SLOT_TEXT, STORYLINE_TEXT, TRAINER_LABELS } from '../config/strings';
+import { KEEPER_LOOK_NAMES, NAMES, SLOT_TEXT, STORYLINE_TEXT } from '../config/strings';
 import { STORY_TEXT } from '../config/story';
 import { playSong } from '../platform/audio';
 import {
@@ -50,7 +50,7 @@ const MODE_STORYLINE: Record<string, string> = {
 function describe(mode: SaveMode, s: SaveSummary, nowMs: number): string {
   const parts: string[] = [];
   const story = mode === 'campaign' || isStorylineMode(mode);
-  if (story && s.trainer) parts.push(TRAINER_LABELS[s.trainer]?.name ?? s.trainer);
+  if (story && s.trainer) parts.push(KEEPER_LOOK_NAMES[s.trainer] ?? s.trainer);
   if (mode === 'dawndusk' && s.storyline)
     parts.push(STORYLINE_TEXT.sides[s.storyline] ?? s.storyline);
   if (story && s.chapter !== null) parts.push(SLOT_TEXT.chapter(s.chapter));
@@ -238,7 +238,7 @@ export function showTitle(
     const grid = el('div', 'title-keepers');
     for (const t of TRAINERS) {
       if (side && t.band !== side) continue;
-      const label = TRAINER_LABELS[t.id]?.name ?? t.id;
+      const label = KEEPER_LOOK_NAMES[t.id] ?? t.id;
       const b = button(
         '',
         () => finish({ slot, fresh: true, trainer: t.id, ...(storyline ? { storyline } : {}) }),

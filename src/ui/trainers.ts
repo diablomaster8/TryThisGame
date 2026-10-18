@@ -1,4 +1,11 @@
-import { FAMILY_LABELS, NAMES, TRAINER_LABELS, TYPE_LABELS, UI_TEXT } from '../config/strings';
+import {
+  FAMILY_LABELS,
+  KEEPER_LOOK_NAMES,
+  NAMES,
+  TRAINER_LABELS,
+  TYPE_LABELS,
+  UI_TEXT,
+} from '../config/strings';
 import type { Game } from '../game';
 import { frameKey } from '../render/sprites/animations';
 import { TRAINERS, type Trainer } from '../sim/trainers';
@@ -46,7 +53,7 @@ export class TrainersMenu {
     const body = el('div', 'roster-body');
     const label = TRAINER_LABELS[t.id] ?? { name: t.id, blurb: '' };
     const side = t.band === 'sun' ? `☀ ${NAMES.playerSun}` : `☾ ${NAMES.playerMoon}`;
-    body.appendChild(el('div', 'btn-name', label.name));
+    body.appendChild(el('div', 'btn-name', KEEPER_LOOK_NAMES[t.id] ?? label.name));
     body.appendChild(el('div', 'roster-line', `${side} · ${label.blurb}`));
     const total = t.eggs.chao + t.eggs.pocket + t.eggs.digi;
     const eggs = (['chao', 'pocket', 'digi'] as const)
