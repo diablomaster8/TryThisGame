@@ -1,23 +1,22 @@
 import { RACE, SIM } from '../../config/tuning';
-import { drawShadowText, drawText } from '../../render/sprites/font';
-import { PX } from '../../render/sprites/pixel-canvas';
-import { NAMES, UI_TEXT } from '../../config/strings';
-import { CLIPS, frameAt, frameKey, type ClipName } from '../../render/sprites/animations';
+import { UI_TEXT } from '../../config/strings';
 import type { SpriteSheet } from '../../render/sprites/atlas';
-import { C, color } from '../../render/sprites/palette';
 import type { SheetCache } from '../../render/sprites/sheets';
+import type { Grove3dScene } from '../../render3d/grove-3d-scene';
+import { selectMinigameView } from '../../render3d/minigame-layout';
 import { playSound } from '../../platform/audio';
 import {
   cheer,
   cheerReady,
   playerPlacement,
   prizeFor,
-  sectionAt,
   stepRace,
   type RaceState,
-  type Racer,
 } from '../../sim/race';
+import type { GraphicsMode, Nubbin } from '../../sim/types';
 import { button, el } from '../../ui/dom';
+import { RacePixelView } from './pixel-view';
+import type { RaceView } from './view';
 
 export interface RaceOutcome {
   placement: number;
@@ -25,48 +24,39 @@ export interface RaceOutcome {
   hat: string | null;
 }
 
-const PX_PER_UNIT = 22;
-const VIEW_H = 270;
-const LANE_GAP = 14;
-const TRACK_TOP = 150;
 /**
- * Low-res pixels of ground shown before the start line, so the runners lined up on it
- * (half a sprite each side of their spot) and their name tags are whole at the gun.
- */
-const START_PAD = 20;
-
-/**
- * The race screen: a side view with lanes stacked in depth, drawn on a low-res canvas.
- * The cheer button is a big DOM button so it stays a 44 px target on phones. Portrait
- * keeps the player near the left third so the track ahead stays readable.
+ * The race screen: owns the flow (the cheer button, a big DOM button so it stays a 44 px
+ * target on phones; keys; the HUD; the results and the outcome hand-off) and steps the
+ * sim's race. It draws through one of two views: the pixel canvas, or in Full 3D the 3D
+ * course, which renders into the game's own canvas under this overlay (its chunk loads
+ * on first use).
  */
 export class RaceScreen {
   private readonly root: HTMLDivElement;
-  private readonly canvas: HTMLCanvasElement;
-  private readonly ctx: CanvasRenderingContext2D;
   private readonly hud: HTMLDivElement;
   private readonly cheerBtn: HTMLButtonElement;
   private readonly quitBtn: HTMLButtonElement;
   private readonly results: HTMLDivElement;
   private readonly resultsBody: HTMLDivElement;
+  private readonly pixel = new RacePixelView();
+  private view3d: RaceView | null = null;
+  private view: RaceView = this.pixel;
   private race: RaceState | null = null;
-  private sheets: Map<string, SpriteSheet> = new Map();
   private rafId = 0;
   private lastMs = 0;
   private accMs = 0;
-  private viewW = 480;
   private onDone: ((outcome: RaceOutcome) => void) | null = null;
   private outcome: RaceOutcome | null = null;
   private hatRoll = 0;
+  /** Counts starts, so a 3D view that lands after the player left is not shown. */
+  private starts = 0;
+  /** True while the 3D chunk and stage are on their way; the race waits at the line. */
+  private loading3d = false;
   private readonly abort = new AbortController();
 
   constructor(parent: HTMLElement) {
     this.root = el('div', 'expedition race');
     this.root.hidden = true;
-    this.canvas = el('canvas', 'expedition-canvas');
-    const ctx = this.canvas.getContext('2d');
-    if (!ctx) throw new Error('2D canvas context unavailable');
-    this.ctx = ctx;
     this.hud = el('div', 'expedition-hud');
     this.cheerBtn = button(UI_TEXT.cheer, () => this.cheer(), 'btn btn-primary cheer');
     this.results = el('div', 'modal');
@@ -82,7 +72,7 @@ export class RaceScreen {
     this.quitBtn = button('✕', () => this.finish(), 'btn btn-icon quit');
     this.quitBtn.setAttribute('aria-label', UI_TEXT.quitMinigame);
     this.quitBtn.title = UI_TEXT.quitMinigame;
-    this.root.append(this.canvas, this.hud, this.cheerBtn, this.quitBtn, this.results);
+    this.root.append(this.pixel.element, this.hud, this.cheerBtn, this.quitBtn, this.results);
     parent.appendChild(this.root);
 
     const { signal } = this.abort;
@@ -105,32 +95,66 @@ export class RaceScreen {
     return !this.root.hidden;
   }
 
+  /**
+   * Run a race. In Full 3D (`graphics` with a loaded `scene3d`) the 3D view draws it;
+   * otherwise the pixel canvas does, as it always has.
+   */
   start(
     race: RaceState,
+    player: Nubbin,
     playerSheet: SpriteSheet,
     cache: SheetCache,
     hatRoll: number,
     onDone: (outcome: RaceOutcome) => void,
+    graphics: GraphicsMode = 'pixel',
+    scene3d: Grove3dScene | null = null,
   ): void {
+    const starts = ++this.starts;
     this.race = race;
     this.onDone = onDone;
     this.outcome = null;
     this.hatRoll = hatRoll;
-    this.sheets = new Map();
-    for (const r of race.racers) {
-      this.sheets.set(r.id, r.isPlayer ? playerSheet : cache.rival(r.look.band, r.look.type));
-    }
     this.results.hidden = true;
     this.root.hidden = false;
-    this.resize();
     this.lastMs = 0;
     this.accMs = 0;
+    const mode = selectMinigameView(graphics, !!scene3d && scene3d.loadState().done);
+    if (mode === '3d' && scene3d) {
+      this.root.classList.add('three');
+      this.pixel.element.hidden = true;
+      const ready = this.view3d
+        ? Promise.resolve(this.view3d)
+        : import('../../render3d/race-3d').then((m) => {
+            this.view3d ??= new m.Race3dView(scene3d);
+            this.root.appendChild(this.view3d.element);
+            return this.view3d;
+          });
+      this.view = this.pixel;
+      this.loading3d = true;
+      void ready.then((view) => {
+        if (starts !== this.starts || !this.race) return;
+        this.loading3d = false;
+        this.view = view;
+        view.start(race, player, playerSheet, cache);
+        this.resize();
+      });
+    } else {
+      this.root.classList.remove('three');
+      this.pixel.element.hidden = false;
+      this.loading3d = false;
+      this.view = this.pixel;
+      this.view.start(race, player, playerSheet, cache);
+      this.resize();
+    }
     this.rafId = requestAnimationFrame(this.frame);
   }
 
   private cheer(): void {
-    if (!this.race) return;
-    if (cheer(this.race)) playSound('cheer');
+    if (!this.race || this.loading3d || !this.view.ready) return;
+    if (cheer(this.race)) {
+      playSound('cheer');
+      this.view.cheered(this.race, performance.now());
+    }
   }
 
   private finish(): void {
@@ -140,37 +164,35 @@ export class RaceScreen {
       hat: null,
     };
     cancelAnimationFrame(this.rafId);
+    this.starts++;
+    this.loading3d = false;
     this.root.hidden = true;
     this.race = null;
+    this.view.stop();
+    this.view = this.pixel;
     this.onDone?.(outcome);
     this.onDone = null;
   }
 
   resize(): void {
-    const rect = this.root.getBoundingClientRect();
-    const aspect = rect.width / Math.max(1, rect.height);
-    this.viewW = Math.round(Math.max(200, Math.min(480, VIEW_H * aspect)));
-    this.canvas.width = this.viewW * PX;
-    this.canvas.height = VIEW_H * PX;
-    const scale = Math.min(rect.width / this.viewW, rect.height / VIEW_H);
-    this.canvas.style.width = `${Math.floor(this.viewW * scale)}px`;
-    this.canvas.style.height = `${Math.floor(VIEW_H * scale)}px`;
+    this.view.resize(this.root.getBoundingClientRect());
   }
 
   private readonly frame = (nowMs: number): void => {
     const race = this.race;
     if (!race) return;
-    this.ctx.setTransform(PX, 0, 0, PX, 0, 0);
-    this.ctx.imageSmoothingEnabled = false;
-    const dt = this.lastMs === 0 ? 0 : Math.min(100, nowMs - this.lastMs);
+    // A 3D stage still building: the field waits at the line.
+    const live = !this.loading3d && this.view.ready;
+    const dt = this.lastMs === 0 || !live ? 0 : Math.min(100, nowMs - this.lastMs);
     this.lastMs = nowMs;
     this.accMs += dt;
     while (this.accMs >= SIM.stepMs) {
       stepRace(race, SIM.stepMs);
       this.accMs -= SIM.stepMs;
     }
-    this.draw(race, nowMs);
-    this.updateHud(race);
+    // The view draws even before it is ready: a 3D stage builds its rigs across frames.
+    if (!this.loading3d) this.view.draw(race, nowMs);
+    this.updateHud(race, live);
     if (race.finished && this.results.hidden) this.showResults(race);
     if (!race.finished || this.results.hidden) this.rafId = requestAnimationFrame(this.frame);
   };
@@ -185,10 +207,12 @@ export class RaceScreen {
     return sorted.findIndex((r) => r.isPlayer) + 1;
   }
 
-  private updateHud(race: RaceState): void {
+  private updateHud(race: RaceState, live: boolean): void {
     const place = this.livePlacement(race);
-    this.hud.textContent = `${UI_TEXT.place(place)}  ·  ${Math.floor(race.timeMs / 1000)}s`;
-    this.cheerBtn.disabled = !cheerReady(race) || race.finished;
+    this.hud.textContent = live
+      ? `${UI_TEXT.place(place)}  ·  ${Math.floor(race.timeMs / 1000)}s`
+      : UI_TEXT.stageLoading;
+    this.cheerBtn.disabled = !live || !cheerReady(race) || race.finished;
   }
 
   private showResults(race: RaceState): void {
@@ -211,143 +235,13 @@ export class RaceScreen {
     this.results.hidden = false;
   }
 
-  // ---------- drawing ----------
-
-  private draw(race: RaceState, nowMs: number): void {
-    const ctx = this.ctx;
-    const W = this.viewW;
-    ctx.imageSmoothingEnabled = false;
-    const player = race.racers.find((r) => r.isPlayer) ?? race.racers[0]!;
-    const camX = Math.max(-START_PAD, player.pos * PX_PER_UNIT - W * 0.35);
-    const trackPx = race.length * PX_PER_UNIT;
-
-    // Sky.
-    ctx.fillStyle = color(C.shallows);
-    ctx.fillRect(0, 0, W, VIEW_H);
-    ctx.fillStyle = color(C.water);
-    ctx.fillRect(0, 0, W, 50);
-
-    // Track sections, each lane band shares the section colour.
-    const lanes = race.racers.length;
-    const bandTop = TRACK_TOP - 30;
-    const bandBottom = TRACK_TOP + lanes * LANE_GAP + 10;
-    // The run-up before the start line: grass, whatever the first section is.
-    const startX = Math.round(-camX);
-    if (startX > 0) {
-      ctx.fillStyle = color(C.grass);
-      ctx.fillRect(0, bandTop, startX, bandBottom - bandTop);
-    }
-    let start = 0;
-    for (const s of race.course.sections) {
-      const x0 = Math.round(start * PX_PER_UNIT - camX);
-      const x1 = Math.round((start + s.length) * PX_PER_UNIT - camX);
-      start += s.length;
-      if (x1 < 0 || x0 > W) continue;
-      const fill =
-        s.kind === 'swim'
-          ? C.water
-          : s.kind === 'fly'
-            ? C.pale
-            : s.kind === 'climb'
-              ? C.dusk
-              : s.kind === 'stretch'
-                ? C.sand
-                : C.grass;
-      ctx.fillStyle = color(fill);
-      ctx.fillRect(x0, bandTop, x1 - x0, bandBottom - bandTop);
-      // Section label and a divider post.
-      ctx.fillStyle = color(C.darkPlum);
-      ctx.fillRect(x0, bandTop - 8, 2, bandBottom - bandTop + 8);
-      ctx.fillStyle = color(C.cream);
-      drawText(ctx, SECTION_LABELS[s.kind], x0 + 5, bandTop - 9, color(C.cream));
-    }
-    // Finish line.
-    const fx = Math.round(trackPx - camX);
-    for (let y = bandTop; y < bandBottom; y += 6) {
-      ctx.fillStyle = color((y / 6) % 2 === 0 ? C.white : C.ink);
-      ctx.fillRect(fx, y, 4, 6);
-    }
-
-    // Racers, far lanes first so near ones draw on top.
-    const order = [...race.racers].reverse();
-    for (const r of order) {
-      const lane = race.racers.indexOf(r);
-      const sheet = this.sheets.get(r.id);
-      if (!sheet) continue;
-      const { section } = sectionAt(race.course, r.pos);
-      const resting = r.restMs > 0;
-      const clip: ClipName = resting
-        ? 'sad'
-        : section.kind === 'swim'
-          ? 'swim'
-          : section.kind === 'fly'
-            ? 'flap'
-            : 'walk';
-      const f = frameAt(CLIPS[clip], nowMs + lane * 90);
-      const rect = sheet.frames.get(frameKey(clip, 'side', f));
-      if (!rect) continue;
-      const image = sheet.texture.image as HTMLCanvasElement;
-      const sx = Math.round(r.pos * PX_PER_UNIT - camX - rect.w / (2 * PX));
-      const lift = section.kind === 'fly' && !resting ? 18 : section.kind === 'climb' ? 6 : 0;
-      const sy = Math.round(TRACK_TOP + lane * LANE_GAP - rect.h / PX + 4 - lift);
-      ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, sx, sy, rect.w / PX, rect.h / PX);
-      // Name tag, the player's in yellow: just ahead of the runner on its own lane row, so
-      // the tags of a full field, lined up at the start, do not pile on one another.
-      drawText(
-        ctx,
-        r.name,
-        sx + rect.w / PX - 4,
-        TRACK_TOP + lane * LANE_GAP - 8,
-        color(r.isPlayer ? C.sunYellow : C.cream),
-      );
-      if (resting) {
-        drawText(ctx, 'zz', sx + rect.w / PX - 6, sy - 2, color(C.pale));
-      }
-      if (r.isPlayer) this.drawStamina(r, sx, sy + rect.h / PX + 2);
-    }
-
-    // Cheer glow.
-    if (race.timeMs < race.cheerUntilMs) {
-      ctx.fillStyle = 'rgba(242,211,76,0.18)';
-      ctx.fillRect(0, 0, W, VIEW_H);
-    }
-    // Progress bar.
-    ctx.fillStyle = 'rgba(13,10,26,0.5)';
-    ctx.fillRect(8, 8, W - 16, 4);
-    ctx.fillStyle = color(C.sunYellow);
-    ctx.fillRect(8, 8, Math.round(((W - 16) * player.pos) / race.length), 4);
-    ctx.fillStyle = color(C.cream);
-    drawShadowText(
-      ctx,
-      `${NAMES.game} · ${UI_TEXT.tierLabel(race.tier)}`,
-      8,
-      18,
-      color(C.cream),
-      color(C.darkPlum),
-    );
-  }
-
-  private drawStamina(r: Racer, x: number, y: number): void {
-    const ctx = this.ctx;
-    ctx.fillStyle = 'rgba(13,10,26,0.6)';
-    ctx.fillRect(x, y, 24, 3);
-    ctx.fillStyle = color(r.stamina > r.staminaMax * 0.25 ? C.mint : C.ember);
-    ctx.fillRect(x, y, Math.round((24 * r.stamina) / r.staminaMax), 3);
-  }
-
   dispose(): void {
     this.abort.abort();
     cancelAnimationFrame(this.rafId);
+    this.pixel.dispose();
+    this.view3d?.dispose();
   }
 }
-
-const SECTION_LABELS = {
-  swim: 'SWIM',
-  fly: 'FLY',
-  run: 'RUN',
-  climb: 'CLIMB',
-  stretch: 'STAMINA',
-} as const;
 
 /** Hat prizes by tier (index 0 = tier 1); tier 3 pays a character look. */
 export const HAT_PRIZES = ['straw', 'beanie', 'look-fox'] as const;

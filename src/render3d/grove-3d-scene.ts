@@ -16,6 +16,7 @@ import type { Floor } from '../sim/dungeon';
 import { townUnlocks } from '../sim/town';
 import type { Location, SimEvent, Vec2, WeatherKind, World } from '../sim/types';
 import { Actors } from './actors';
+import type { CreaturePool } from './creature-pool';
 import { pickSculptRes, qualityForRes } from './sculpt-res';
 
 export { prewarmCreatures } from './prewarm';
@@ -185,6 +186,8 @@ export class Grove3dScene {
   private lastMs = 0;
   /** Frame times, for the report: the last 120 frames' render durations in ms. */
   readonly frameMs: number[] = [];
+  /** The player's reduced-motion choice as the game resolves it; the minigames read it. */
+  reduceMotion = false;
 
   constructor(readonly canvas: HTMLCanvasElement) {
     this.renderer = new THREE.WebGLRenderer({
@@ -255,6 +258,15 @@ export class Grove3dScene {
     this.grade.uniforms.uSaturation!.value = 1.15;
     this.composer.addPass(this.grade);
     this.composer.addPass(new SMAAPass());
+  }
+
+  /** The painted surfaces and the creature pool, shared with the Full 3D minigames (G17). */
+  get sharedTex(): Tex {
+    return this.tex;
+  }
+
+  get pool(): CreaturePool {
+    return this.actors.pool;
   }
 
   /** What the debug panel reads: the backing-store size, at the device's ratio. */

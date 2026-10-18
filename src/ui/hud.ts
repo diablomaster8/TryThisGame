@@ -190,6 +190,8 @@ export function mountHud(
         g.send({ kind: 'addRewards', rewards });
       },
       g.world.location === 'hollow' || g.world.campaign?.chapter === 8 ? 'hollow' : 'meadow',
+      g.graphics,
+      g.scene3d,
     );
   }
 

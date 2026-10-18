@@ -23,6 +23,8 @@ export class GroveSky {
   private bakedWeather: WeatherKind | null = null;
   /** A blank environment of the baked one's shape, held until the first bake. */
   private placeholder: THREE.WebGLRenderTarget | null = null;
+  /** The baked environment's target: disposing only its texture leaves the target counted. */
+  private envTarget: THREE.WebGLRenderTarget | null = null;
   private warmed = false;
   private bakeWanted = false;
   /** Sun elevation in degrees, for the post stack (bloom at golden hour). */
@@ -135,8 +137,9 @@ export class GroveSky {
     if (this.placeholder) {
       this.placeholder.dispose();
       this.placeholder = null;
-    } else this.scene.environment?.dispose();
-    this.scene.environment = this.pmrem.fromScene(this.envScene, 0.02).texture;
+    } else this.envTarget?.dispose();
+    this.envTarget = this.pmrem.fromScene(this.envScene, 0.02);
+    this.scene.environment = this.envTarget.texture;
   }
 
   /**
@@ -184,7 +187,8 @@ export class GroveSky {
   dispose(): void {
     this.pmrem.dispose();
     this.placeholder?.dispose();
-    this.scene.environment?.dispose();
+    this.envTarget?.dispose();
+    this.scene.environment = null;
   }
 }
 

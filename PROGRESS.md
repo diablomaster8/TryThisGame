@@ -23,6 +23,46 @@ the phone view passes; Expedition and races get 3D versions in Full 3D. Waiting 
 Arcade and LB/LK decisions (section "Pixel's Arcade PA1–PA5" in `docs/progress-archive.md`).
 Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
 
+## G17: 3D Expedition and races (2026-10-17)
+
+In Full 3D the Expedition and the races draw in 3D; Pixel is untouched. Each screen now
+owns only its flow and hands frames to a view: `minigames/expedition/view.ts` +
+`pixel-view.ts` (the old drawing, moved) and `render3d/expedition-3d.ts`; the same for the
+race (`minigames/race/view.ts`, `pixel-view.ts`, `render3d/race-3d.ts`). `selectMinigameView`
+(`render3d/minigame-layout.ts`, pure, tested with the track and camera maths in
+`tests/render/minigame-3d.test.ts`) picks 3D only when `settings.graphics === '3d'` and the
+scene is loaded; the 3D views are lazy chunks (about 20 kB, `expedition-3d`, `race-3d`,
+`minigame-stage`). `render3d/minigame-stage.ts` is what both stand on: the Grove's renderer
+drawing into the game canvas under a see-through overlay, `GroveSky`, the painted
+`terrainMaterial` strips, `buildTree`, `buildGrass`, `Bursts`, rigs from the shared
+`CreaturePool` (the player as its real look, rivals as `first-<band>-<type>`), the Grove's
+post chain less bloom. Tunables `EXPEDITION3D` and `RACE3D`; strings `stageLoading`,
+`SECTION_LABELS`. Screenshots `docs/samples/g17-*.jpg`.
+
+Works: chase camera framing `span` units (lens widens in portrait, `frameCamera`), parallax
+hill rows, recycled tree ring and tiled grass, shells, essences, critter bubbles, rocks, logs
+and bushes as props, the rig walking and hopping with the gait clock, hit blink, dust and
+sparkle bursts and a camera kick (off under reduced motion); race sections as grass, worn
+earth, a sunk water channel, a pit to fly over and a rock ramp that stays up, signs, finish
+posts and banner, name tags as a lane ladder, the player's stamina bar, rest as the sleep
+pose, cheer sparkles, the camera leaning toward the leader but keeping the player in the
+left half. Frame times on Maor's PC, hand-driven frames with `gl.finish`: Expedition 800x600
+p50 2.0 ms / p95 5.0 ms, 375x812 (563x1218 backing) p50 1.4 / p95 2.4; race (6 rigs)
+800x600 p50 4.6 / p95 5.2, portrait p50 4.0 / p95 5.0. Exit frees everything the stage made
+(checked at the GL level with a `createTexture` hook: nothing survives a cycle); the rigs
+go back to the pool by design, so the first race adds its rivals' looks for good.
+No console errors.
+- **Stubbed:** no toon outline pass (the Grove has none either); the minigame water has no
+  refraction (a transmission pass leaks a full-size target per camera in three 0.186 and
+  doubles the draw); no Zz over a resting racer; the Expedition's Hollow theme is only the
+  night sky; the emote ball does not ride along.
+- **Known bugs:** `renderer.info.memory.textures` reads one higher after each minigame
+  (a target disposed before its first upload; no GL texture leaks); the fixed horizon at
+  the camera's pitch shows the Preetham sky's pale band, so the backdrop reads grey-white;
+  in portrait a near tree can pass in front of the runner for a moment; the sky's
+  environment target is now disposed in `sky.ts` (it was never freed before).
+- Device numbers are PC only; the G11 phone pass still owns the 60/30 fps check.
+
 ## Canon audit and fixes (2026-10-17)
 
 Audit report `docs/logs/review-canon-audit.md` (report mode, whole canon; Maor's decisions in its
@@ -98,32 +138,6 @@ Works:
 
 Stubbed: the four houses are narrated; serving them is the scan count, not four named
 species. The twins never appear on the map.
-
-## G12 X6: S3 "The Beetle Road" with fusion (2026-10-17)
-
-The third separate campaign, in the `beetle` save mode. Script
-`src/content/storyline-beetle.ts` (8 chapters, 3 endings; Hob the quartermaster and
-Ottoline Vane), rule `sim/storyline-rules-beetle.ts`, and the new `sim/fusion.ts`.
-
-Works:
-- Goals on the existing systems: join a guard team (`team:joined`), a Beetle Run
-  (`tank:runs`), Hollow floors 2 and 4 (`hollow:best`), two door keepers as dojo wins
-  while chapters 4 and 8 are open, the lever choice, and the fusion chapter, whose goal is
-  `fused:>=1|flag:b-fusion:refused`: the Fuse button or the Do-it refusal both move on.
-- Fusion (`canFuse`, `fuse`, command `fuse` on the two partners, event `fused`): both
-  adults, affection 80 and trust 60 each, never an Eternal. The one that stays keeps the
-  higher points and the better grade of every stat, fills empty part slots from the other,
-  adds its type lean, gains affection, goes up a generation, and remembers the other in
-  `genes.fusedFrom` and its ancestry. The other leaves the roster; partners and any merge
-  are cleaned up. `FUSION` in tuning.
-- Endings: the Open Sky (lever down), Two As One (lever down after a fusion), Steady Rain
-  (machine left running).
-- Tests: `tests/sim/fusion.test.ts` (consent rules, what is kept, the command) and
-  `tests/sim/storyline-beetle.test.ts` (fused, refused and steady-rain runs).
-
-Stubbed: the door keepers are the ordinary dojo rivals with the chapter’s framing; the
-weekly guard missions are not goals (they would be a chore), so the “leader’s errands” are
-narrated. No stats-sheet line for `fusedFrom` yet (`fusedFrom()` is ready for it).
 
 ## Standing approval (Maor, 2026-10-12)
 

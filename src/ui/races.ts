@@ -80,7 +80,8 @@ export class RacesMenu {
     const race = createRace(course, tier, runner, seed, mergedLevels(g.world, runner) ?? undefined);
     const hatRoll = ((seed * 9301 + 49297) % 233280) / 233280;
     g.renderPaused = true;
-    this.screen.start(race, g.view.sheets.forNubbin(runner), g.view.sheets, hatRoll, (outcome) => {
+    const sheets = g.view.sheets;
+    this.screen.start(race, runner, sheets.forNubbin(runner), sheets, hatRoll, (outcome) => {
       g.renderPaused = false;
       const best = race.racers
         .filter((r) => !r.isPlayer && r.finishedAtMs !== null)
@@ -97,6 +98,6 @@ export class RacesMenu {
       });
       if (outcome.shells > 0)
         this.toast(`${UI_TEXT.place(outcome.placement)} · +${outcome.shells} ${NAMES.currency}`);
-    });
+    }, g.graphics, g.scene3d);
   }
 }

@@ -485,6 +485,99 @@ export const EXPEDITION = {
   hitCooldownMs: 700,
 } as const;
 
+/**
+ * The Expedition in Full 3D (G17): the same run (`run.ts`, in low-res pixels) drawn as a
+ * side-on 3D track with a chase camera. Distances map through `unitsPerPx`: the runner
+ * is `RUNNER_H` (26) pixels tall in the run and about one world unit tall as a rig.
+ */
+export const EXPEDITION3D = {
+  unitsPerPx: 1 / 26,
+  /**
+   * The chase camera: how far it looks ahead of the runner along the track and how high,
+   * its downward tilt, how many world units it frames across in landscape, the least it
+   * frames in portrait (the lens widens to keep that), and how fast it eases after the
+   * runner (per second).
+   */
+  camera: {
+    lookAhead: 2.4,
+    lookHeight: 0.9,
+    pitchDeg: 11,
+    span: 16,
+    minSpan: 8.5,
+    followRate: 7,
+    fovDeg: 42,
+  },
+  /** Parallax hills behind the track: depth (negative z is away), height and wavelength. */
+  hills: [
+    { z: -13, rise: 3.0, period: 12, color: '#5f8f4a' },
+    { z: -26, rise: 6.5, period: 21, color: '#4b7a52' },
+    { z: -44, rise: 11, period: 35, color: '#5a7f8a' },
+  ],
+  /** A ring of trees recycled along the track: how many, their spacing, depth and size. */
+  trees: { count: 9, spacing: 6.5, z: -4.2, scale: 0.75 },
+  /** Grass tufts: how many per tile, the tile length along the track and its depth. */
+  grass: { count: 1200, span: 36, depth: 7 },
+  /** The ground strip: how far it reaches toward the camera and away from it. */
+  ground: { front: 18, back: 10 },
+  /** Prop sizes in world units. */
+  shellRadius: 0.17,
+  essenceSize: 0.28,
+  bubbleRadius: 0.36,
+  /** The hour of day each theme's sky shows (the Hollow runs at night). */
+  hour: { meadow: 10.5, hollow: 21.5 },
+  /** Camera shake on a hit, world units (off under reduced motion). */
+  shake: 0.07,
+  /** How long the view may wait for the runner's rig before the run starts, ms. */
+  rigWaitMs: 2500,
+} as const;
+
+/**
+ * The races in Full 3D (G17): the sim's one-dimensional track (`sim/race.ts`) laid along
+ * x with the lanes stacked away from the camera, each section built to read as itself.
+ */
+export const RACE3D = {
+  /** World units per track unit (a course is 40 to 50 units long). */
+  unitsPerTrack: 1.0,
+  /** Depth between lanes, and the track's margin beyond the outer lanes. */
+  laneGap: 1.2,
+  margin: 1.6,
+  /** A climb section rises this much over its length; the track stays up after it. */
+  climbRise: 2.2,
+  /** How high the racers fly over a gap, and how deep a swimmer sinks below the surface. */
+  flyLift: 1.5,
+  swimSink: 0.42,
+  /** The swim channel: water level and bed depth below the track. */
+  waterLevel: -0.3,
+  channelDepth: 0.9,
+  /** The pit under a fly section. */
+  gapDepth: 4,
+  /** Ground shown before the start line, in track units, so the field lines up whole. */
+  startPad: 3,
+  camera: {
+    lookAhead: 1.6,
+    lookHeight: 0.8,
+    pitchDeg: 17,
+    span: 14,
+    minSpan: 7.5,
+    followRate: 5,
+    fovDeg: 42,
+    /** The camera eases this far from the player toward the leader (0 follows the player). */
+    leaderWeight: 0.3,
+    /** The player never sits further left than this share of the half-width from centre. */
+    playerKeep: 0.5,
+  },
+  /** Name tags over the racers: card size in world units, the text height in it, and how
+   * much higher each lane's tag sits so a bunched field reads as a ladder. */
+  nameTag: { width: 2.2, height: 0.5, fontPx: 56, ladder: 0.2 },
+  /** How long the start may wait for the field's rigs before stand-ins run, ms. */
+  rigWaitMs: 4000,
+  /** Trees along the far side of the track: how many, spacing, depth past the last lane. */
+  trees: { count: 8, spacing: 7, back: 3.5, scale: 0.85 },
+  hour: 10.5,
+  /** The cheer: sparkles round the player (none under reduced motion). */
+  cheerBurst: { count: 18, spread: 0.5, speed: 1.2, rise: 1.4, lifeMs: 700 },
+} as const;
+
 export const GROVE = {
   /**
    * 96 units a side (2026-10-13, four times the earlier area). The old 48-unit heart

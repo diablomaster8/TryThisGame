@@ -15,7 +15,15 @@ export interface GroveWater {
   update(t: number): void;
 }
 
-function waterMaterial(normal: THREE.DataTexture, scale: number): THREE.MeshPhysicalMaterial {
+/** The scrolling normal map every Grove water shares (the minigames' water uses it too). */
+export function waterNormal(): THREE.DataTexture {
+  const normal = surface('cobble', 128, 1.2).normal;
+  normal.wrapS = THREE.RepeatWrapping;
+  normal.wrapT = THREE.RepeatWrapping;
+  return normal;
+}
+
+export function waterMaterial(normal: THREE.DataTexture, scale: number): THREE.MeshPhysicalMaterial {
   return new THREE.MeshPhysicalMaterial({
     color: '#3f8fd0',
     roughness: 0.06,
@@ -66,9 +74,7 @@ function ribbon(
 }
 
 export function buildGroveWater(scene: THREE.Object3D): GroveWater {
-  const normal = surface('cobble', 128, 1.2).normal;
-  normal.wrapS = THREE.RepeatWrapping;
-  normal.wrapT = THREE.RepeatWrapping;
+  const normal = waterNormal();
   const materials: THREE.MeshPhysicalMaterial[] = [];
 
   const pondMat = waterMaterial(normal, 0.18);

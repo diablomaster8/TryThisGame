@@ -513,6 +513,45 @@ button,
   pointer-events: auto;
 }
 
+/* Full 3D: the minigame renders into the game canvas under the overlay. */
+.expedition.three {
+  background: transparent;
+}
+
+.expedition-3d {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.expedition-progress {
+  position: absolute;
+  top: calc(var(--safe-top) + 62px);
+  left: calc(var(--safe-left) + 12px);
+  right: calc(var(--safe-right) + 12px);
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(13, 10, 26, 0.5);
+  overflow: hidden;
+}
+
+.expedition-progress i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: #f2d34c;
+}
+
+.expedition-name {
+  position: absolute;
+  top: calc(var(--safe-top) + 72px);
+  left: calc(var(--safe-left) + 12px);
+  padding: 2px 8px;
+  font-size: 14px;
+  color: #fff6d8;
+  text-shadow: 0 1px 2px rgba(13, 10, 26, 0.8);
+}
+
 .expedition-canvas {
   image-rendering: pixelated;
   touch-action: none;
@@ -1763,4 +1802,10 @@ button,
   border-radius: 12px;
   touch-action: none;
   image-rendering: auto;
+}
+
+/* Under a Full 3D minigame the Grove's own HUD hides (the overlay is see-through there);
+   the frame counter and the debug panel stay for a device pass. */
+#hud:has(> .expedition.three:not([hidden])) > :not(.expedition):not(.fps):not(.debug):not(.toast) {
+  visibility: hidden;
 }

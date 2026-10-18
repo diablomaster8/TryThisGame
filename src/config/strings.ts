@@ -209,6 +209,15 @@ export const COURSE_LABELS: Record<string, string> = {
   lagoon: 'Lagoon Loop',
 };
 
+/** The race sections' signs, as the track shows them. */
+export const SECTION_LABELS = {
+  swim: 'SWIM',
+  fly: 'FLY',
+  run: 'RUN',
+  climb: 'CLIMB',
+  stretch: 'STAMINA',
+} as const;
+
 export const SHOP_ITEMS = {
   fruit: { name: 'Fruit', help: 'Fills a hungry belly and adds Stamina.' },
   egg: { name: 'Egg', help: 'A new Nubbin. Sometimes a rare colour!' },
@@ -337,6 +346,8 @@ export const UI_TEXT = {
   resultNothing: 'Nothing this time. Jump for the shells!',
   backToGrove: 'Back to the Grove',
   expeditionHint: 'Tap to jump · hold to jump higher',
+  /** Shown while a Full 3D minigame builds its stage and the runners' rigs. */
+  stageLoading: 'Setting the stage…',
   // Races
   races: 'Races',
   racesHelp: 'Pick a course. Win a tier to unlock the next. The selected Nubbin runs.',

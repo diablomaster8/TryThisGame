@@ -2,6 +2,32 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## G12 X6: S3 "The Beetle Road" with fusion (2026-10-17)
+
+The third separate campaign, in the `beetle` save mode. Script
+`src/content/storyline-beetle.ts` (8 chapters, 3 endings; Hob the quartermaster and
+Ottoline Vane), rule `sim/storyline-rules-beetle.ts`, and the new `sim/fusion.ts`.
+
+Works:
+- Goals on the existing systems: join a guard team (`team:joined`), a Beetle Run
+  (`tank:runs`), Hollow floors 2 and 4 (`hollow:best`), two door keepers as dojo wins
+  while chapters 4 and 8 are open, the lever choice, and the fusion chapter, whose goal is
+  `fused:>=1|flag:b-fusion:refused`: the Fuse button or the Do-it refusal both move on.
+- Fusion (`canFuse`, `fuse`, command `fuse` on the two partners, event `fused`): both
+  adults, affection 80 and trust 60 each, never an Eternal. The one that stays keeps the
+  higher points and the better grade of every stat, fills empty part slots from the other,
+  adds its type lean, gains affection, goes up a generation, and remembers the other in
+  `genes.fusedFrom` and its ancestry. The other leaves the roster; partners and any merge
+  are cleaned up. `FUSION` in tuning.
+- Endings: the Open Sky (lever down), Two As One (lever down after a fusion), Steady Rain
+  (machine left running).
+- Tests: `tests/sim/fusion.test.ts` (consent rules, what is kept, the command) and
+  `tests/sim/storyline-beetle.test.ts` (fused, refused and steady-rain runs).
+
+Stubbed: the door keepers are the ordinary dojo rivals with the chapter’s framing; the
+weekly guard missions are not goals (they would be a chore), so the “leader’s errands” are
+narrated. No stats-sheet line for `fusedFrom` yet (`fusedFrom()` is ready for it).
+
 ## G12 X5: S2 "Logged In" with party bouts (2026-10-17)
 
 The second separate campaign, in the `logged` save mode. Script

@@ -1,54 +1,43 @@
 import { EXPEDITION, SIM } from '../../config/tuning';
-import { drawShadowText } from '../../render/sprites/font';
-import { PX } from '../../render/sprites/pixel-canvas';
-import { CRITTER_LABELS, ESSENCE_LABELS, NAMES, UI_TEXT } from '../../config/strings';
-import { CLIPS, frameAt, frameKey } from '../../render/sprites/animations';
+import { CRITTER_LABELS, ESSENCE_LABELS, UI_TEXT } from '../../config/strings';
 import type { SpriteSheet } from '../../render/sprites/atlas';
-import { C, color } from '../../render/sprites/palette';
-import type { Nubbin, NubbinType, Rewards } from '../../sim/types';
+import type { Grove3dScene } from '../../render3d/grove-3d-scene';
+import { selectMinigameView } from '../../render3d/minigame-layout';
+import type { GraphicsMode, Nubbin, NubbinType, Rewards } from '../../sim/types';
 import { button, el } from '../../ui/dom';
-import { buildExpeditionArt, type ExpeditionArt } from './art';
-import {
-  createRun,
-  jumpPressed,
-  jumpReleased,
-  progressOf,
-  RUNNER_H,
-  stepRun,
-  type RunState,
-} from './run';
+import { ExpeditionPixelView } from './pixel-view';
+import { createRun, jumpPressed, jumpReleased, stepRun, type RunState } from './run';
+import type { ExpeditionTheme, ExpeditionView } from './view';
 
 /**
- * The Expedition screen: a full-screen overlay with its own low-res 2D canvas. The run
- * logic is pure (run.ts); this file draws it, takes taps and keys, and hands the
- * rewards back when the run ends.
+ * The Expedition screen: a full-screen overlay that owns the flow (taps and keys, the
+ * HUD, the results, the reward hand-off) and steps the pure run (run.ts). It draws
+ * through one of two views: the pixel canvas, or in Full 3D the 3D track, which renders
+ * into the game's own canvas under this overlay (its chunk loads on first use).
  */
 export class ExpeditionScreen {
   private readonly root: HTMLDivElement;
-  private readonly canvas: HTMLCanvasElement;
-  private readonly ctx: CanvasRenderingContext2D;
   private readonly hud: HTMLDivElement;
   private readonly quitBtn: HTMLButtonElement;
   private readonly results: HTMLDivElement;
   private readonly resultsBody: HTMLDivElement;
-  private art: ExpeditionArt | null = null;
+  private readonly pixel = new ExpeditionPixelView();
+  private view3d: ExpeditionView | null = null;
+  private view: ExpeditionView = this.pixel;
   private run: RunState | null = null;
-  private runner: { sheet: SpriteSheet; name: string } | null = null;
   private rafId = 0;
   private lastMs = 0;
   private accMs = 0;
-  private viewW: number = EXPEDITION.maxViewW;
   private onDone: ((rewards: Rewards) => void) | null = null;
-  private theme: 'meadow' | 'hollow' = 'meadow';
+  /** Counts starts, so a 3D view that lands after the player left is not shown. */
+  private starts = 0;
+  /** True while the 3D chunk and stage are on their way; the run waits. */
+  private loading3d = false;
   private readonly abort = new AbortController();
 
   constructor(parent: HTMLElement) {
     this.root = el('div', 'expedition');
     this.root.hidden = true;
-    this.canvas = el('canvas', 'expedition-canvas');
-    const ctx = this.canvas.getContext('2d');
-    if (!ctx) throw new Error('2D canvas context unavailable');
-    this.ctx = ctx;
     this.hud = el('div', 'expedition-hud');
     this.results = el('div', 'modal');
     this.results.hidden = true;
@@ -63,19 +52,30 @@ export class ExpeditionScreen {
     this.quitBtn = button('✕', () => this.finish(), 'btn btn-icon quit');
     this.quitBtn.setAttribute('aria-label', UI_TEXT.quitMinigame);
     this.quitBtn.title = UI_TEXT.quitMinigame;
-    this.root.append(this.canvas, this.hud, this.quitBtn, this.results);
+    this.root.append(this.pixel.element, this.hud, this.quitBtn, this.results);
     parent.appendChild(this.root);
 
     const { signal } = this.abort;
     const press = (e: Event) => {
-      if (!this.run || this.run.finished) return;
+      if (!this.run || this.run.finished || !this.view.ready) return;
       e.preventDefault();
       jumpPressed(this.run);
     };
     const release = () => this.run && jumpReleased(this.run);
-    this.canvas.addEventListener('pointerdown', press, { signal });
-    this.canvas.addEventListener('pointerup', release, { signal });
-    this.canvas.addEventListener('pointercancel', release, { signal });
+    // Taps land on the pixel canvas as before; the 3D view draws under the overlay, so
+    // there a tap anywhere on it (not on a button) jumps.
+    this.root.addEventListener(
+      'pointerdown',
+      (e) => {
+        const target = e.target as HTMLElement | null;
+        if (target?.closest('button')) return;
+        if (this.view === this.pixel && target !== this.pixel.element) return;
+        press(e);
+      },
+      { signal },
+    );
+    this.root.addEventListener('pointerup', release, { signal });
+    this.root.addEventListener('pointercancel', release, { signal });
     window.addEventListener(
       'keydown',
       (e) => {
@@ -100,56 +100,82 @@ export class ExpeditionScreen {
     return !this.root.hidden;
   }
 
-  /** Start a run with the given Nubbin as the runner. */
+  /**
+   * Start a run with the given Nubbin as the runner. In Full 3D (`graphics` with a loaded
+   * `scene3d`) the 3D view draws it; otherwise the pixel canvas does, as it always has.
+   */
   start(
     runner: Nubbin,
     sheet: SpriteSheet,
     seed: number,
     onDone: (rewards: Rewards) => void,
-    theme: 'meadow' | 'hollow' = 'meadow',
+    theme: ExpeditionTheme = 'meadow',
+    graphics: GraphicsMode = 'pixel',
+    scene3d: Grove3dScene | null = null,
   ): void {
-    this.theme = theme;
-    this.art ??= buildExpeditionArt();
-    this.runner = { sheet, name: runner.name };
+    const starts = ++this.starts;
     this.run = createRun(seed);
     this.onDone = onDone;
     this.results.hidden = true;
     this.root.hidden = false;
-    this.resize();
     this.lastMs = 0;
     this.accMs = 0;
+    const mode = selectMinigameView(graphics, !!scene3d && scene3d.loadState().done);
+    if (mode === '3d' && scene3d) {
+      this.root.classList.add('three');
+      this.pixel.element.hidden = true;
+      // The 3D view is a separate chunk, loaded the first time Full 3D goes on a run.
+      const ready = this.view3d
+        ? Promise.resolve(this.view3d)
+        : import('../../render3d/expedition-3d').then((m) => {
+            this.view3d ??= new m.Expedition3dView(scene3d);
+            this.root.appendChild(this.view3d.element);
+            return this.view3d;
+          });
+      // Until it lands the loop idles (nothing steps) and the HUD says the stage is coming.
+      this.view = this.pixel;
+      this.loading3d = true;
+      void ready.then((view) => {
+        if (starts !== this.starts || !this.run) return;
+        this.loading3d = false;
+        this.view = view;
+        view.start(runner, sheet, theme);
+        this.resize();
+      });
+    } else {
+      this.root.classList.remove('three');
+      this.pixel.element.hidden = false;
+      this.loading3d = false;
+      this.view = this.pixel;
+      this.view.start(runner, sheet, theme);
+      this.resize();
+    }
     this.rafId = requestAnimationFrame(this.frame);
   }
 
   private finish(): void {
     const rewards = this.run?.rewards ?? { shells: 0, essences: {}, critters: {} };
     cancelAnimationFrame(this.rafId);
+    this.starts++;
+    this.loading3d = false;
     this.root.hidden = true;
     this.run = null;
+    this.view.stop();
+    this.view = this.pixel;
     this.onDone?.(rewards);
     this.onDone = null;
   }
 
   resize(): void {
-    const rect = this.root.getBoundingClientRect();
-    const aspect = rect.width / Math.max(1, rect.height);
-    this.viewW = Math.round(
-      Math.max(EXPEDITION.minViewW, Math.min(EXPEDITION.maxViewW, EXPEDITION.viewH * aspect)),
-    );
-    this.canvas.width = this.viewW * PX;
-    this.canvas.height = EXPEDITION.viewH * PX;
-    // Letterbox: scale to fit while keeping the low-res aspect.
-    const scale = Math.min(rect.width / this.viewW, rect.height / EXPEDITION.viewH);
-    this.canvas.style.width = `${Math.floor(this.viewW * scale)}px`;
-    this.canvas.style.height = `${Math.floor(EXPEDITION.viewH * scale)}px`;
+    this.view.resize(this.root.getBoundingClientRect());
   }
 
   private readonly frame = (nowMs: number): void => {
     const run = this.run;
     if (!run) return;
-    // The backing canvas is PX times the design size; draw in design units.
-    this.ctx.setTransform(PX, 0, 0, PX, 0, 0);
-    const dt = this.lastMs === 0 ? 0 : Math.min(100, nowMs - this.lastMs);
+    // A 3D stage still building, or a hidden tab: hold the run where it is.
+    const live = !this.loading3d && this.view.ready;
+    const dt = this.lastMs === 0 || !live ? 0 : Math.min(100, nowMs - this.lastMs);
     this.lastMs = nowMs;
     this.accMs += dt;
     const step = SIM.stepMs / 4; // 25 ms physics steps for a crisp jump
@@ -157,14 +183,17 @@ export class ExpeditionScreen {
       stepRun(run, step);
       this.accMs -= step;
     }
-    this.draw(run, nowMs);
-    this.updateHud(run);
+    // The view draws even before it is ready: a 3D stage builds its rig across frames.
+    if (!this.loading3d) this.view.draw(run, nowMs);
+    this.updateHud(run, live);
     if (run.finished && this.results.hidden) this.showResults(run.rewards);
     if (!run.finished || this.results.hidden) this.rafId = requestAnimationFrame(this.frame);
   };
 
-  private updateHud(run: RunState): void {
-    this.hud.textContent = `🐚 ${run.shells}  ·  ${Math.max(0, Math.ceil((EXPEDITION.durationMs - run.timeMs) / 1000))}s`;
+  private updateHud(run: RunState, live: boolean): void {
+    this.hud.textContent = live
+      ? `🐚 ${run.shells}  ·  ${Math.max(0, Math.ceil((EXPEDITION.durationMs - run.timeMs) / 1000))}s`
+      : UI_TEXT.stageLoading;
   }
 
   private showResults(rewards: Rewards): void {
@@ -181,129 +210,10 @@ export class ExpeditionScreen {
     this.results.hidden = false;
   }
 
-  // ---------- drawing ----------
-
-  private draw(run: RunState, nowMs: number): void {
-    const ctx = this.ctx;
-    const blit = (img: HTMLCanvasElement, x: number, y: number) =>
-      ctx.drawImage(img, x, y, img.width / PX, img.height / PX);
-    const art = this.art;
-    if (!art) return;
-    const W = this.viewW;
-    const H = EXPEDITION.viewH;
-    ctx.imageSmoothingEnabled = false;
-
-    // Sky bands.
-    const pal =
-      this.theme === 'hollow'
-        ? [C.ink, C.nightBlue, C.deepGreen, C.darkBark, C.ink]
-        : [C.shallows, C.water, C.pale, C.bark, C.darkBark];
-    ctx.fillStyle = color(pal[0]!);
-    ctx.fillRect(0, 0, W, H);
-    ctx.fillStyle = color(pal[1]!);
-    ctx.fillRect(0, 0, W, 60);
-    ctx.fillStyle = color(pal[2]!);
-    ctx.fillRect(0, EXPEDITION.groundY - 70, W, 70);
-
-    // Parallax clouds and hills.
-    const cloudShift = (run.distance * 0.2) % (W + 60);
-    for (let i = 0; i < 4; i++) {
-      const x = ((i * 150 - cloudShift) % (W + 60)) - 30;
-      blit(art.cloud, x < -40 ? x + W + 60 : x, 20 + (i % 2) * 24);
-    }
-    const hillShift = (run.distance * 0.45) % 140;
-    for (let x = -hillShift - 140; x < W + 140; x += 140) {
-      blit(art.hill, x, EXPEDITION.groundY - 40);
-    }
-
-    // Ground: one grassy row, then earth with a few scrolling pebbles.
-    ctx.fillStyle = color(pal[3]!);
-    ctx.fillRect(0, EXPEDITION.groundY + 16, W, H - EXPEDITION.groundY - 16);
-    const groundShift = run.distance % 16;
-    for (let x = -groundShift - 16; x < W + 16; x += 16) {
-      blit(art.groundTile, x, EXPEDITION.groundY);
-    }
-    ctx.fillStyle = color(pal[4]!);
-    const pebbleShift = Math.floor(run.distance) % 48;
-    for (let x = -pebbleShift; x < W + 48; x += 48) {
-      ctx.fillRect(x + 7, EXPEDITION.groundY + 26, 2, 2);
-      ctx.fillRect(x + 29, EXPEDITION.groundY + 41, 3, 2);
-    }
-
-    // Things.
-    const bob = Math.floor(nowMs / 250) % 2;
-    for (const t of run.things) {
-      const sx = Math.round(t.x - run.distance);
-      if (sx + t.w < 0 || sx > W) continue;
-      switch (t.kind) {
-        case 'shell':
-          blit(art.shell[bob] ?? art.shell[0]!, sx, Math.round(t.y));
-          break;
-        case 'essence':
-          blit(art.essence[t.type ?? 'normal'], sx, Math.round(t.y + (bob ? 1 : 0)));
-          break;
-        case 'critter':
-          blit(art.bubble[bob] ?? art.bubble[0]!, sx, Math.round(t.y + (bob ? -1 : 1)));
-          break;
-        case 'rock':
-          blit(art.rock, sx, Math.round(t.y));
-          break;
-        case 'log':
-          blit(art.log, sx, Math.round(t.y));
-          break;
-        case 'bush':
-          blit(art.bush, sx, Math.round(t.y));
-          break;
-      }
-    }
-
-    // Runner: the Nubbin's own side-view frames (walk on the ground, flap in the air).
-    if (this.runner) {
-      const sheet = this.runner.sheet;
-      const clip = run.onGround ? 'walk' : 'flap';
-      const f = frameAt(CLIPS[clip], run.timeMs);
-      const rect = sheet.frames.get(frameKey(clip, 'side', f));
-      if (rect) {
-        const hit = run.lastEvent?.kind === 'hit' && run.timeMs - run.lastEvent.atMs < 300;
-        if (!hit || Math.floor(nowMs / 60) % 2 === 0) {
-          const image = sheet.texture.image as HTMLCanvasElement;
-          const dx = Math.round(EXPEDITION.runnerX - rect.w / (2 * PX));
-          const dy = Math.round(run.runnerY - RUNNER_H - 4);
-          ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, dx, dy, rect.w / PX, rect.h / PX);
-        }
-      }
-    }
-
-    // Pickup sparkle.
-    if (run.lastEvent && run.lastEvent.kind !== 'hit' && run.timeMs - run.lastEvent.atMs < 250) {
-      ctx.fillStyle = color(C.white);
-      const px = EXPEDITION.runnerX + 10;
-      const py = run.runnerY - RUNNER_H - 8;
-      ctx.fillRect(px, py, 2, 2);
-      ctx.fillRect(px + 6, py - 4, 2, 2);
-      ctx.fillRect(px - 5, py - 3, 2, 2);
-    }
-
-    // Progress bar.
-    ctx.fillStyle = 'rgba(13,10,26,0.5)';
-    ctx.fillRect(8, 8, W - 16, 4);
-    ctx.fillStyle = color(C.sunYellow);
-    ctx.fillRect(8, 8, Math.round((W - 16) * progressOf(run)), 4);
-
-    // Name tag.
-    ctx.fillStyle = color(C.cream);
-    drawShadowText(
-      ctx,
-      this.runner?.name ?? NAMES.creature,
-      8,
-      18,
-      color(C.cream),
-      color(C.darkPlum),
-    );
-  }
-
   dispose(): void {
     this.abort.abort();
     cancelAnimationFrame(this.rafId);
+    this.pixel.dispose();
+    this.view3d?.dispose();
   }
 }

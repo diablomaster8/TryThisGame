@@ -143,7 +143,7 @@ Part G16"; shots `docs/samples/parity2-*.jpg`). The last row stays Maor's.
 | ✓ G16.10 | Both modes: the race screen in portrait starts with runners and names clipped at the left edge | `ui/races.ts`, the race screen | 30–60 min |
 | ✓ G16.11 | Story scenes, the away screen and the photo panel leave the 3D render running behind them (battery on phones) | `game.renderPaused` callers in `src/ui/` | 15–30 min |
 | ✓ G16.12 | `docs/renderer-decision.md`: the one-page brief for Maor on Full 3D as the default (evidence from G15 and G16, risks: phones, bundle, workers; recommendation) | new doc | 30 min |
-| — | Expedition and races are pixel art in both modes, a style jump in Full 3D | Maor: build 3D versions (2026-10-17) | — |
+| ✓ G17 | Expedition and races in 3D inside Full 3D (`render3d/minigame-stage.ts`, `expedition-3d.ts`, `race-3d.ts`; the screens split into flow and view, Pixel unchanged); PROGRESS "G17" | done 2026-10-17 | — |
 
 ```
 You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des (Git Bash, fnm Node 24).

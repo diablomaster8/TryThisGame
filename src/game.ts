@@ -66,6 +66,7 @@ export class Game {
     const reduce =
       s.reducedMotion === 'on' || (s.reducedMotion === 'system' && this.camera.reduceMotion);
     if (this.scene3d) {
+      this.scene3d.reduceMotion = reduce;
       this.scene3d.setLit(litLanterns(this.world));
       this.view.lanterns = () => this.scene3d!.lanternStates();
       this.scene3d.setDaylight(
