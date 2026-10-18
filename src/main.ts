@@ -253,11 +253,10 @@ function boot(
   });
   window.addEventListener('pagehide', () => game?.save());
 
-  // Install-to-home-screen: the service worker only runs on the built site.
+  // Install-to-home-screen: the service worker only runs on the built site. boot() runs
+  // after a slot is picked, long after `load` has fired, so register straight away.
   if (import.meta.env.PROD && 'serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`).catch(() => undefined);
-    });
+    navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`).catch(() => undefined);
   }
 
   game.start();

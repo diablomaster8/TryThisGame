@@ -4,14 +4,13 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { SMAAPass } from 'three/addons/postprocessing/SMAAPass.js';
-import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { GROVE3D, UI } from '../config/tuning';
 import type { OrbitCamera } from '../render/camera';
 import type { Daylight } from '../render/daylight';
 import { bubbleFor } from '../render/sprites/emote';
 import { Picker } from '../render/picker';
 import type { TargetSize } from '../render/pipeline';
-import { CLAMP, GRADE, PUSHERS, type Tex } from '../samples/aaa-kit';
+import { CLAMP, PUSHERS, type Tex } from '../samples/aaa-kit';
 import type { Floor } from '../sim/dungeon';
 import { townUnlocks } from '../sim/town';
 import type { Location, SimEvent, Vec2, WeatherKind, World } from '../sim/types';
@@ -21,6 +20,9 @@ import { pickSculptRes, qualityForRes } from './sculpt-res';
 
 export { prewarmCreatures } from './prewarm';
 import { Bursts } from './bursts';
+import { FinishPass } from './finish-pass';
+import { FrameGovernor } from './governor';
+import { LampPool, type LampSource } from './lamp-pool';
 import { CrownFade } from './crowns';
 import { Garden } from './garden';
 import { Halo } from './halo';
@@ -46,11 +48,12 @@ import { buildGroveWater, type GroveWater } from './water';
  * into a perspective camera that trails the Keeper and never dips under the ground.
  */
 /**
- * The light sets a frame can be drawn with: the Grove (sun, sky and the lanterns), the
- * Hollow Below (no lanterns, four torch lamps) and every other place (neither). Each set
- * takes its own programs for every lit material, so each is linked before it is drawn.
+ * The light sets a frame can be drawn with: the Grove by day (sun and sky only), the Grove
+ * with its night lamps (the lamp pool's point lights), the Hollow Below (the torch lamps)
+ * and every other place (none). Each set takes its own programs for every lit material, so
+ * each is linked before it is drawn.
  */
-type LightSet = 'grove' | 'cave' | 'plain';
+type LightSet = 'grove' | 'groveNight' | 'cave' | 'plain';
 
 /** Burst shapes, after the pixel view's numbers (3D sparkles live a little longer). */
 const BURST = {
@@ -131,7 +134,17 @@ export class Grove3dScene {
   private size: TargetSize = { width: 1, height: 1, scale: 1 };
   private readonly composer: EffectComposer;
   private readonly bloom: UnrealBloomPass;
-  private readonly grade: ShaderPass;
+  private readonly grade: FinishPass;
+  /** The HDR clamp ahead of bloom; the finish pass clamps on its own when bloom is off. */
+  private readonly clamp: ShaderPass;
+  /** The night lights, and the lit lanterns and windows they may go to. */
+  private readonly lamps: LampPool;
+  private lampSources: LampSource[] = [];
+  /** Lowers the render scale while frames run slow (review C, item 6). */
+  readonly governor: FrameGovernor;
+  /** The pixel ratio each composer was last sized at; the minigame stage shares the renderer. */
+  private readonly composerRatio = new WeakMap<EffectComposer, number>();
+  private shadowTick = 0;
   private readonly sky: GroveSky;
   private readonly time = { value: 0 };
   private readonly tex: Tex;
@@ -195,7 +208,8 @@ export class Grove3dScene {
       antialias: false,
       powerPreference: 'high-performance',
     });
-    this.renderer.setPixelRatio(Math.min(1.5, window.devicePixelRatio));
+    this.governor = new FrameGovernor(window.devicePixelRatio);
+    this.renderer.setPixelRatio(this.governor.ratio);
     // The page CSS scales the pixel mode's low-res canvas with nearest-neighbour; the 3D
     // backing store stops at 1.5x, so on a 2x or 3x phone that would turn edges to blocks.
     canvas.style.imageRendering = 'auto';
@@ -216,6 +230,7 @@ export class Grove3dScene {
     this.pickables.push(this.terrain.mesh);
     this.props = buildGroveProps(this.world3d, this.tex, this.time);
     this.pickables.push(...this.props.pickables);
+    this.lamps = new LampPool(this.world3d, GROVE3D.nightLamps);
     this.village = new Village(this.world3d, this.tex, groveHeight);
     this.weather = new GroveWeather(this.scene, this.world3d);
     this.water = buildGroveWater(this.world3d);
@@ -249,13 +264,14 @@ export class Grove3dScene {
 
     this.composer = new EffectComposer(this.renderer);
     this.composer.addPass(new RenderPass(this.scene, this.camera));
-    this.composer.addPass(new ShaderPass(CLAMP));
+    this.clamp = new ShaderPass(CLAMP);
+    this.clamp.enabled = false;
+    this.composer.addPass(this.clamp);
     this.bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.35, 0.4, 2.8);
     this.bloom.enabled = false;
     this.composer.addPass(this.bloom);
-    this.composer.addPass(new OutputPass());
-    this.grade = new ShaderPass(GRADE);
-    this.grade.uniforms.uSaturation!.value = 1.15;
+    // Tone mapping, the sRGB encode and the grade in one draw (they were three).
+    this.grade = new FinishPass(1.15);
     this.composer.addPass(this.grade);
     this.composer.addPass(new SMAAPass());
   }
@@ -343,6 +359,7 @@ export class Grove3dScene {
     } else this.scene.background = null;
     const elevation = this.sky.elevationDeg;
     this.bloom.enabled = elevation < GROVE3D.bloomBelowDeg;
+    this.clamp.enabled = this.bloom.enabled;
     this.bloom.strength = elevation < -2 ? 0.25 : 0.35;
     this.renderer.toneMappingExposure =
       elevation < -2 ? 0.5 : elevation < GROVE3D.bloomBelowDeg ? 0.75 : 0.62;
@@ -362,13 +379,21 @@ export class Grove3dScene {
     if (tint) (this.grade.uniforms.uTint!.value as THREE.Color).multiply(new THREE.Color(tint));
     // Lamps come on with the pixel scene's rule: dusk, night, or a lit campaign lantern.
     this.lampsOn = d.lanterns || d.darkness > 0.5;
+    // The glass glows on every lit lamp; the few point lights go to the nearest (`update`).
+    const sources: LampSource[] = [];
+    const at = (p: THREE.Vector3) => ({ x: p.x, y: p.y, z: p.z });
     for (const l of this.props.lanterns) {
       const on = this.lampsOn || this.lit.has(l.id);
       l.glass.emissiveIntensity = on ? 2.2 : 0;
-      l.light.intensity = on ? 5 : 0;
+      if (on)
+        sources.push({ ...at(l.light), color: '#ffb347', intensity: 5, distance: 10, decay: 1.4 });
     }
     this.props.windows.material.emissiveIntensity = this.lampsOn ? 2.5 : 0;
-    for (const w of this.props.windows.lights) w.intensity = this.lampsOn ? 4 : 0;
+    if (this.lampsOn) {
+      for (const w of this.props.windows.lights)
+        sources.push({ ...at(w), color: '#ffb347', intensity: 4, distance: 9, decay: 1.6 });
+    }
+    this.lampSources = sources;
     this.weather.set(grove, place, weather, d, particles);
     // Rain greys the grade a little and snow brightens and cools it, as the pixel post pass.
     if (grove && weather === 'rain')
@@ -571,11 +596,12 @@ export class Grove3dScene {
     this.actors.update(world, alpha, nowMs, dt, this.camPos);
     const home = this.location === 'grove';
     this.garden.update(world, standHeight, nowMs, home);
-    this.hollow.update(
-      this.location === 'dungeon' ? world.dungeon : null,
-      world.keeper.pos,
-      nowMs / 1000,
-    );
+    const run = this.location === 'dungeon' ? world.dungeon : null;
+    // Last frame's camera is close enough to judge which walls stand in the way.
+    const party = run
+      ? world.nubbins.filter((n) => run.party.includes(n.id)).map((n) => n.pos)
+      : [];
+    this.hollow.update(run, world.keeper.pos, nowMs / 1000, this.camPos, party);
 
     // The Lakitu camera: orbit the Keeper at the snapped yaw, eased, never underground.
     const ground = this.location === 'grove' ? standHeight : () => 0;
@@ -597,6 +623,7 @@ export class Grove3dScene {
     );
     const k = 1 - Math.exp(-9 * dt);
     this.camPos.lerp(want, snap ? 1 : k);
+    this.lamps.place(this.lampSources, this.camTarget);
     const floor = (this.location === 'grove' ? groveHeight(this.camPos.x, this.camPos.z) : 0) + 0.9;
     if (this.camPos.y < floor) this.camPos.y = floor;
     // Shake: the same rule as the pixel camera (the Settings switch), in 3D units.
@@ -643,7 +670,8 @@ export class Grove3dScene {
       return;
     }
     const t0 = performance.now();
-    const dt = Math.min(100, t0 - (this.lastRenderMs || t0));
+    const interval = t0 - (this.lastRenderMs || t0);
+    const dt = Math.min(100, interval);
     this.lastRenderMs = t0;
     // A place whose light set is not linked yet (the first trip down the stairs, if the
     // background warm-up has not finished): keep the last frame up, dim it after a beat,
@@ -658,6 +686,7 @@ export class Grove3dScene {
       hold && this.holdMs > delayMs ? Math.min(1, this.fade + step) : Math.max(0, this.fade - step);
     this.canvas.style.filter = this.fade > 0 ? `brightness(${(1 - this.fade).toFixed(3)})` : '';
     if (hold) return;
+    this.governRenderScale(this.composer, interval);
     this.composer.render();
     this.frameMs.push(performance.now() - t0);
     if (this.frameMs.length > 120) this.frameMs.shift();
@@ -717,13 +746,15 @@ export class Grove3dScene {
         // that boots in a story place or a visit still needs the Grove's for the way home).
         void this.warm('cave')
           .then(() => this.warm('plain'))
-          .then(() => this.warm('grove'));
+          .then(() => this.warm('grove'))
+          .then(() => this.warm('groveNight'));
       });
   }
 
   /** The light set the scene is in right now (see `LightSet`). */
   private lightSet(): LightSet {
-    return this.world3d.visible ? 'grove' : this.hollow.lit ? 'cave' : 'plain';
+    if (this.world3d.visible) return this.lamps.on ? 'groveNight' : 'grove';
+    return this.hollow.lit ? 'cave' : 'plain';
   }
 
   /**
@@ -733,18 +764,20 @@ export class Grove3dScene {
    */
   private compileAs(set: LightSet, objects: THREE.Object3D[]): Promise<unknown> {
     const shown = this.world3d.visible;
-    this.world3d.visible = set === 'grove';
+    this.world3d.visible = set === 'grove' || set === 'groveNight';
     const prev = this.renderer.getRenderTarget();
     this.renderer.setRenderTarget(this.composer.readBuffer);
     const fog = this.scene.fog;
     try {
-      return this.hollow.withLamps(set === 'cave', () => {
-        const done = objects.map((o) => this.renderer.compileAsync(o, this.camera, this.scene));
-        // The shadow pass draws its depth with no fog.
-        this.scene.fog = null;
-        done.push(this.renderer.compileAsync(this.hollow.shadowSamples, this.camera, this.scene));
-        return Promise.all(done);
-      });
+      return this.lamps.withOn(set === 'groveNight', () =>
+        this.hollow.withLamps(set === 'cave', () => {
+          const done = objects.map((o) => this.renderer.compileAsync(o, this.camera, this.scene));
+          // The shadow pass draws its depth with no fog.
+          this.scene.fog = null;
+          done.push(this.renderer.compileAsync(this.hollow.shadowSamples, this.camera, this.scene));
+          return Promise.all(done);
+        }),
+      );
     } finally {
       this.scene.fog = fog;
       this.renderer.setRenderTarget(prev);
@@ -758,7 +791,9 @@ export class Grove3dScene {
     if (!p) {
       // Off the home ground the Grove's own props are hidden, so they are left out.
       const objects =
-        set === 'grove' ? [this.scene] : this.scene.children.filter((c) => c !== this.world3d);
+        set === 'grove' || set === 'groveNight'
+          ? [this.scene]
+          : this.scene.children.filter((c) => c !== this.world3d);
       // A failed warm-up still counts as warm: the first frame compiles what is left, where
       // waiting would hold the place dark for good.
       p = this.compileAs(set, objects).then(
@@ -771,6 +806,30 @@ export class Grove3dScene {
       this.warms.set(set, p);
     }
     return p;
+  }
+
+  /**
+   * Feed the governor one frame interval and apply its render scale to the renderer and to
+   * `composer` (the Grove's, or a minigame stage's on the same renderer).
+   */
+  governRenderScale(composer: EffectComposer, intervalMs: number): void {
+    const r = this.governor.sample(intervalMs);
+    if (r !== null) {
+      this.renderer.setPixelRatio(r);
+      const css = this.renderer.getSize(new THREE.Vector2());
+      this.size = { width: Math.round(css.x * r), height: Math.round(css.y * r), scale: 1 / r };
+    }
+    // Under strain the sun's shadow map is redrawn every second frame: it is a second draw
+    // of every caster, and a frame late is not visible at that frame rate.
+    const shadows = this.renderer.shadowMap;
+    const strained = this.governor.ratio < this.governor.maxRatio;
+    shadows.autoUpdate = !strained;
+    if (strained) shadows.needsUpdate = (this.shadowTick++ & 1) === 0;
+    const pr = this.renderer.getPixelRatio();
+    if (this.composerRatio.get(composer) !== pr) {
+      composer.setPixelRatio(pr);
+      this.composerRatio.set(composer, pr);
+    }
   }
 
   resize(width: number, height: number): TargetSize {

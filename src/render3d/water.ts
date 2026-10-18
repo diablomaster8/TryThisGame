@@ -31,13 +31,12 @@ export function waterMaterial(
     color: '#3f8fd0',
     roughness: 0.06,
     metalness: 0,
-    transmission: 0.55,
-    thickness: 1.2,
-    ior: 1.33,
+    // No transmission: it costs a full second draw of the scene into a refraction target
+    // every frame, which a phone cannot pay (review C, item 6). Plain alpha reads as water.
     normalMap: normal,
     normalScale: new THREE.Vector2(scale, scale),
     transparent: true,
-    opacity: 0.95,
+    opacity: 0.82,
     depthWrite: false,
   });
 }

@@ -65,6 +65,7 @@ import { speciesOf } from '../sim/species';
 import { PhotoMode } from './photo';
 import { PocketMode } from './pocket';
 import { modal } from './dom';
+import { showCrashCard } from './gl-failure';
 import { mountPanelStack } from './panel-stack';
 import { ATLAS_TEXT } from '../config/strings';
 import { LANG_TEXT } from '../config/strings';
@@ -359,7 +360,8 @@ export function mountHud(
     [`🧑‍🏫 ${EDU_TEXT.grownUps}`, () => grownUps.open()],
   ] as const) {
     const isEdu = label.includes(EDU_TEXT.grownUps);
-    const isKarate = label.includes(UI_TEXT.karate);
+    // A stranger's code has no place in the Learning Grove, so Receive is hidden there.
+    const isKarate = label.includes(UI_TEXT.karate) || label.includes(UI_TEXT.receive);
     const isRift = label.includes(ATLAS_TEXT.rift);
     const isGate = label.includes(ATLAS_TEXT.gate);
     const isCabinet = label.includes(ATLAS_TEXT.cabinet);
@@ -1005,6 +1007,9 @@ export function mountHud(
     onSaveUnreadable(kept: boolean) {
       // Called while the game is still being built; the toast row is ready next tick.
       setTimeout(() => toast(kept ? UI_TEXT.unreadableKept : UI_TEXT.unreadableHeld), 0);
+    },
+    onCrash() {
+      showCrashCard();
     },
     onCatchUpStart() {
       catching.hidden = false;

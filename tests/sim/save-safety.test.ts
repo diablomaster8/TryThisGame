@@ -134,8 +134,8 @@ describe('an imported save must be sound', () => {
       }
     };
     expect(importJson([{}])).not.toBeNull();
-    // Load is lenient on purpose and lets this one through; the import check catches it.
-    expect(importJson([{ behavior: { state: 'sit' } }])).toBe('no id');
+    // Load runs the same deep check (review C, item 2), so the save is refused outright.
+    expect(importJson([{ behavior: { state: 'sit' } }])).toBe('load failed');
   });
 
   it('names the broken field', () => {

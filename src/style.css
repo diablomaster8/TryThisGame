@@ -1679,6 +1679,47 @@ button,
   border-radius: 8px;
 }
 
+/* The gate opens over the title screen too (z-index 20 there). */
+.modal.grown-up-modal {
+  z-index: 30;
+}
+
+/* The gate's Enter is held: the fill grows across the button while it runs. */
+.edu-gate-hold {
+  position: relative;
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.edu-gate-fill {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.35);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition-property: transform;
+  transition-timing-function: linear;
+  pointer-events: none;
+}
+
+.edu-gate-hold.holding .edu-gate-fill {
+  transform: scaleX(1);
+}
+
+.edu-gate-hold:not(.holding) .edu-gate-fill {
+  transition-duration: 0s !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edu-gate-hold.holding .edu-gate-fill {
+    transition-duration: 0s !important;
+    background: rgba(255, 255, 255, 0.25);
+  }
+}
+
 /* ---------- gym ---------- */
 
 .gym {

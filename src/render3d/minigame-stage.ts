@@ -1,21 +1,11 @@
 import * as THREE from 'three';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { SMAAPass } from 'three/addons/postprocessing/SMAAPass.js';
-import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { GROVE3D, RACE3D } from '../config/tuning';
 import { daylightAt } from '../render/daylight';
-import {
-  buildTree,
-  CLAMP,
-  GRADE,
-  pbr,
-  repeatUv,
-  shadowed,
-  terrainMaterial,
-  type Tex,
-} from '../samples/aaa-kit';
+import { FinishPass } from './finish-pass';
+import { buildTree, pbr, repeatUv, shadowed, terrainMaterial, type Tex } from '../samples/aaa-kit';
 import type { Rigged } from '../samples/species';
 import type { NubbinType } from '../sim/types';
 import { Bursts } from './bursts';
@@ -61,7 +51,10 @@ export class MiniStage {
   private daylightHour = 12;
   private rand = 7;
 
-  constructor(host: Grove3dScene, hour: number) {
+  constructor(
+    private readonly host: Grove3dScene,
+    hour: number,
+  ) {
     this.renderer = host.renderer;
     this.tex = host.sharedTex;
     this.pool = host.pool;
@@ -73,11 +66,8 @@ export class MiniStage {
     this.bursts = new Bursts(this.scene);
     this.composer = new EffectComposer(this.renderer);
     this.composer.addPass(new RenderPass(this.scene, this.camera));
-    this.composer.addPass(new ShaderPass(CLAMP));
-    this.composer.addPass(new OutputPass());
-    const grade = new ShaderPass(GRADE);
-    grade.uniforms.uSaturation!.value = 1.15;
-    this.composer.addPass(grade);
+    // Tone mapping, the sRGB encode, the clamp and the grade in one draw (they were three).
+    this.composer.addPass(new FinishPass(1.15));
     this.composer.addPass(new SMAAPass());
     // Console access during development: `miniStage.scene`, `miniStage.camera`.
     if (import.meta.env.DEV) (window as unknown as { miniStage: MiniStage }).miniStage = this;
@@ -137,10 +127,13 @@ export class MiniStage {
 
   /** Draw a frame; `nowMs` drives the water, grass sway and bursts. */
   render(nowMs: number, ground: (x: number, z: number) => number): void {
-    const dt = this.lastMs ? Math.min(0.1, (nowMs - this.lastMs) / 1000) : 0;
+    const interval = this.lastMs ? nowMs - this.lastMs : 0;
+    const dt = Math.min(0.1, interval / 1000);
     this.lastMs = nowMs;
     this.time.value = nowMs / 1000;
     this.bursts.update(nowMs, dt, ground);
+    // The Grove's governor runs the shared renderer's scale through races and runs too.
+    this.host.governRenderScale(this.composer, interval);
     this.composer.render();
   }
 

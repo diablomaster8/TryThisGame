@@ -1,4 +1,5 @@
 import { hasRoom, storyNubbin } from './roster';
+import { nubbinProblem } from './save';
 import type { Nubbin, SimEvent, World } from './types';
 import { newId, uniqueName } from './world';
 import { withRng } from './world';
@@ -8,6 +9,8 @@ import { withRng } from './world';
  * or a trade, with no server. The code is a checksum plus base64 of a compact JSON.
  */
 const PREFIX = 'GROVE1.';
+/** The rename command's cap; a code may not carry a longer name. */
+const NAME_MAX = 16;
 
 function checksum(s: string): string {
   let h = 2166136261;
@@ -48,9 +51,13 @@ export function decodeNubbin(code: string): Nubbin | null {
     const sum = rest.slice(0, dot);
     const payload = fromBase64(rest.slice(dot + 1));
     if (checksum(payload) !== sum) return null;
-    const n = JSON.parse(payload) as Nubbin;
-    if (!n || typeof n !== 'object' || typeof n.name !== 'string' || !n.stats) return null;
-    return n;
+    const n: unknown = JSON.parse(payload);
+    // The checksum is public, so a code is as untrusted as an imported file: the same deep
+    // check, or one crafted code would crash the render loop on every load.
+    if (nubbinProblem(n)) return null;
+    const nub = n as Nubbin;
+    nub.name = nub.name.trim().slice(0, NAME_MAX);
+    return nub.name ? nub : null;
   } catch {
     return null;
   }
@@ -58,6 +65,8 @@ export function decodeNubbin(code: string): Nubbin | null {
 
 /** Take a shared Nubbin into the Grove with a fresh id and a free name. */
 export function receiveNubbin(world: World, incoming: Nubbin, events: SimEvent[]): boolean {
+  // The UI decodes with the same check; this guards any other path into the command.
+  if (nubbinProblem(incoming)) return false;
   if (!hasRoom(world)) {
     events.push({ kind: 'received', name: incoming.name, ok: false });
     return false;

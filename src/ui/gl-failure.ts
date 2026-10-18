@@ -3,7 +3,7 @@
  * context the browser took away (a GPU reset, too many tabs, a phone short on memory).
  * Both modes draw with WebGL2, so the card offers a reload, and from Full 3D a switch to
  * Pixel, which asks far less of the device. Shown once, above everything, instead of a
- * blank screen.
+ * blank screen. The same card covers a frame that threw (`showCrashCard`).
  */
 import { UI_TEXT } from '../config/strings';
 import { writeGraphicsPref } from '../platform/storage';
@@ -23,6 +23,19 @@ export function hasWebGL2(): boolean {
   } catch {
     return false;
   }
+}
+
+/** A frame threw: the last save is safe, and a reload goes back to it. */
+export function showCrashCard(): void {
+  if (shown) return;
+  const box = el('div', 'update-notice');
+  box.setAttribute('role', 'alert');
+  box.appendChild(el('p', undefined, UI_TEXT.crashed));
+  const row = el('div', 'settings-actions');
+  row.appendChild(button(UI_TEXT.glReload, () => location.reload(), 'btn btn-primary'));
+  box.appendChild(row);
+  document.body.appendChild(box);
+  shown = true;
 }
 
 export function showGlFailure(kind: GlFailure, mode: 'pixel' | '3d', err?: unknown): void {

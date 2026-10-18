@@ -16,7 +16,7 @@ import {
 import { deserialize, importProblem } from '../sim/save';
 import { matureControlVisible, matureRaiseNeedsGate } from '../sim/audience';
 import type { MatureContent, OfflineMode, Settings } from '../sim/types';
-import { createWorld } from '../sim/world';
+import { freshWorldLike } from '../sim/fresh-start';
 import { button, el, modal } from './dom';
 import { askGrownUp } from './grown-up-gate';
 
@@ -455,8 +455,8 @@ export class SettingsMenu {
     if (!g) return;
     if (!window.confirm(UI_TEXT.resetConfirm)) return;
     clearSave();
-    const now = Date.now();
-    g.replaceWorld(createWorld(now % 2147483647, now));
+    // The slot's own mode starts again: a story stays a story, a Learning Grove keeps its band.
+    g.replaceWorld(freshWorldLike(g.world, Date.now()));
     this.close();
   }
 }

@@ -107,11 +107,12 @@ function finishCocoon(n: Nubbin, events: SimEvent[], world?: World): void {
   switch (kind) {
     case 'evolve': {
       const wasChild = n.form === null;
-      evolve(n, events, world);
+      const upgraded = evolve(n, events, world);
       if (wasChild && noteEvolutionSlips(n) === 'wellRaised') {
-        // Well raised: a second stat steps up a grade too.
+        // Well raised: a second stat steps up a grade too, never the one evolution just
+        // raised (evolution picks by level, so a tie can make that one not the top by points).
         const sorted = [...STAT_KEYS].sort((a, b) => n.stats[b].points - n.stats[a].points);
-        const second = sorted.find((k, i) => i > 0 && n.stats[k].grade !== 'S');
+        const second = sorted.find((k) => k !== upgraded && n.stats[k].grade !== 'S');
         if (second) {
           n.stats[second].grade = nextGrade(n.stats[second].grade);
           // Recorded like the evolution upgrade, so rebirth keeps it.
@@ -190,7 +191,8 @@ export function eternalBandFor(n: Nubbin, type: NubbinType): AlignmentBand | nul
   return null;
 }
 
-export function evolve(n: Nubbin, events: SimEvent[], world?: World): void {
+/** Returns the stat whose grade went up, if any. */
+export function evolve(n: Nubbin, events: SimEvent[], world?: World): StatKey | null {
   const band = bandOf(n.alignment);
   const type = winningType(n.typeLean);
   n.form = { band, type, second: null, leanAtEvolution: { ...n.typeLean } };
@@ -240,6 +242,7 @@ export function evolve(n: Nubbin, events: SimEvent[], world?: World): void {
     n.eternal = eternal;
     events.push({ kind: 'eternal', nubbinId: n.id, band: eternal });
   }
+  return upgraded;
 }
 
 /** The type trained most since evolution, if it grew enough. */

@@ -12,6 +12,17 @@ export const RENDER = {
   maxPixelRatio: 1,
 } as const;
 
+/**
+ * Pixel mode's light rig on top of the daylight table. The post pass now encodes sRGB
+ * (review C, item 7); the table was tuned on the old linear output, so day light is lifted
+ * until painted ground at noon sits near its painted colours, and night is held back so it
+ * still reads as night.
+ */
+export const PIXEL_LIGHT = {
+  dayGain: 1.35,
+  nightGain: 0.85,
+} as const;
+
 export const CAMERA = {
   /** Fixed downward tilt of the orbit camera, in degrees. */
   pitchDeg: 35,
@@ -137,6 +148,33 @@ export const GROVE3D = {
   sunsetHour: 18.5,
   /** Bloom is on only while the sun is this low (golden hour), in degrees. */
   bloomBelowDeg: 16,
+  /** Point lights the Grove may use at night, given to the lit lamps nearest the camera. */
+  nightLamps: 4,
+  /**
+   * A creature mesh casts a shadow only with at least this many triangles: the body, head
+   * and limbs do; eyes, lids, brows and mouths sit inside the head's shadow anyway and were
+   * most of the shadow pass's draws (review C, item 6).
+   */
+  casterMinTris: 2500,
+  /**
+   * The frame-time governor: when the smoothed frame time stays above slowMs, the render
+   * scale (backing-store pixels per CSS pixel) steps down by stepDown, never below
+   * minRatio; when it stays under fastMs for upFrames frames it steps back up toward the
+   * device ratio (capped at maxRatio). The canvas is scaled up smoothly, so a phone that
+   * cannot hold 30 fps trades sharpness for frames instead of stuttering.
+   */
+  governor: {
+    slowMs: 30,
+    fastMs: 21,
+    downFrames: 20,
+    upFrames: 240,
+    stepDown: 0.85,
+    minRatio: 0.5,
+    maxRatio: 1.5,
+    smoothing: 0.1,
+    /** A step down must bring the frame time under this share of what it was, or it is undone. */
+    minGain: 0.92,
+  },
   /** Camera shake in world units: a Nubbin landing, a tree shaken (pixel: 0.18 / 0.08). */
   shake: { landed: 0.12, tree: 0.05 },
   /** Height above a fruit tree's foot where its leaves burst from when shaken. */
@@ -245,6 +283,18 @@ export const SAVE_SAFETY = {
   unreadableKept: 2,
   /** Bigger files are refused on import; a real save is a few tens of kB. */
   importMaxBytes: 5_000_000,
+} as const;
+
+/**
+ * The grown-up gate (Mature content, the Learning Grove's grown-up area, erasing a Learning
+ * Grove slot): a two-digit by one-digit product, beyond most 7–10 readers, then a held Enter.
+ */
+export const GROWN_UP_GATE = {
+  /** The two-digit factor, never a multiple of ten. */
+  bigRange: [13, 49] as const,
+  smallRange: [6, 9] as const,
+  /** Enter must be held this long, so a mashed key or a quick tap does not get through. */
+  holdMs: 1200,
 } as const;
 
 export const OFFLINE = {

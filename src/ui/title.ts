@@ -19,6 +19,7 @@ import { frameKey } from '../render/sprites/animations';
 import { buildKeeperSheet } from '../render/sprites/keeper';
 import { TRAINERS } from '../sim/trainers';
 import { button, el } from './dom';
+import { askGrownUp } from './grown-up-gate';
 import { EDU_AGES, type EduAge } from '../config/edu';
 import type { EduBand } from '../content/types';
 import { EDU_STORY_TEXT, EDU_TEXT, UI_TEXT } from '../config/strings';
@@ -140,11 +141,17 @@ export function showTitle(
             el('small', undefined, said),
           );
           main.setAttribute('aria-label', SLOT_TEXT.continueLabel(modeName, index, said));
+          // A Learning Grove slot is a child's: erasing it, or starting over it, asks the
+          // grown-up gate first (review C, item 4).
+          const grownUp = (then: () => void) => {
+            if (mode !== 'edu') then();
+            else void askGrownUp(parent, () => undefined).then((ok) => ok && then());
+          };
           const fresh = button(
             SLOT_TEXT.newHere,
             () => {
               if (!confirm(SLOT_TEXT.newOverConfirm(index))) return;
-              startNew(slot);
+              grownUp(() => startNew(slot));
             },
             'btn btn-small',
           );
@@ -153,8 +160,10 @@ export function showTitle(
             '✕',
             () => {
               if (!confirm(SLOT_TEXT.eraseConfirm(index))) return;
-              clearSlot(slot);
-              mainMenu();
+              grownUp(() => {
+                clearSlot(slot);
+                mainMenu();
+              });
             },
             'btn btn-small btn-icon',
           );

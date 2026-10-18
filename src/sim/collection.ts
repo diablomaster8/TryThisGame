@@ -38,9 +38,14 @@ export function allKeys(): readonly string[] {
   return keys;
 }
 
-/** Fold sim events into the book. */
-export function stepCollection(world: World, events: SimEvent[]): void {
-  for (const e of events) {
+/**
+ * Fold sim events from index `from` on into the book; new `firstSeen` events are appended.
+ * Live steps and coarse steps (catch-up and the high-speed fallback) both call it.
+ */
+export function stepCollection(world: World, events: SimEvent[], from = 0): void {
+  const end = events.length;
+  for (let i = from; i < end; i++) {
+    const e = events[i]!;
     if (
       e.kind === 'hatched' ||
       e.kind === 'evolved' ||

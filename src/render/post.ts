@@ -1,4 +1,5 @@
 import {
+  HalfFloatType,
   Mesh,
   NearestFilter,
   OrthographicCamera,
@@ -15,7 +16,9 @@ import {
  * The HD-2D pass. The scene is rendered to a low-res target, then one full-screen
  * shader adds a soft bloom on bright pixels, a gentle tilt-shift blur toward the top
  * and bottom rows, a vignette and a colour grade for the time of day. Everything runs
- * at frame resolution (about 270 rows), so it costs almost nothing on a phone.
+ * at frame resolution (about 540 rows), so it costs almost nothing on a phone. The scene
+ * target is half float, so dark palette colours keep their steps through the linear stage,
+ * and the pass ends with the sRGB encode the renderer would otherwise do itself.
  */
 export interface PostSettings {
   bloom: number;
@@ -75,6 +78,9 @@ void main() {
   float v = 1.0 - dot(d, d) * vignette;
   col *= clamp(v, 0.0, 1.0);
   gl_FragColor = vec4(col, 1.0);
+  // The scene target holds linear light; the screen wants sRGB. Without this step the
+  // palette came out dark and murky (review C, item 7).
+  #include <colorspace_fragment>
 }`;
 
 export class PostPass {
@@ -110,6 +116,7 @@ export class PostPass {
       magFilter: NearestFilter,
       depthBuffer: true,
       stencilBuffer: false,
+      type: HalfFloatType,
     });
     return t;
   }

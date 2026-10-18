@@ -331,6 +331,8 @@ export const UI_TEXT = {
     lost: 'The graphics stopped (the device needed the memory back). Your Grove is saved.',
   } as Record<'unsupported' | 'failed' | 'lost', string>,
   glReload: 'Reload',
+  crashed:
+    'Something went wrong in the Grove. Nothing has been saved since, so your last save is safe.',
   glToPixel: 'Switch to Pixel',
   resetSave: 'Reset save',
   resetConfirm: 'Erase the Grove and start over?',
@@ -837,8 +839,10 @@ export const EDU_TEXT = {
   // Grown-up area
   grownUps: 'Grown-ups',
   gateTitle: 'Grown-ups only',
-  gateHelp: (a: number, b: number) => `To continue, type the answer: ${a} + ${b} = ?`,
-  gateWrong: 'Not quite. Ask a grown-up.',
+  gateHelp: (a: number, b: number) =>
+    `To continue, work out ${a} × ${b}, type the answer, then press and hold Enter.`,
+  gateHold: 'Keep holding…',
+  gateWrong: 'Not quite. Here is a new one. Ask a grown-up.',
   gateEnter: 'Enter',
   parentTitle: 'Grown-up area',
   parentHelp:

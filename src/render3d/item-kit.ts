@@ -177,8 +177,7 @@ export class ItemKit {
         color: c.color,
         roughness: 0.15,
         clearcoat: 1,
-        transmission: 0.35,
-        thickness: 0.6,
+        // No transmission: one transmissive mesh on screen costs a second draw of the scene.
         emissive: c.emissive,
         emissiveIntensity: 0.5,
         transparent: true,

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { LIFECYCLE, SIM } from '../../src/config/tuning';
+import { formKey } from '../../src/sim/collection';
 import { advanceStage, rebirth } from '../../src/sim/lifecycle';
 import { catchUp, coarseStep } from '../../src/sim/offline';
 import type { Nubbin, SimEvent, World } from '../../src/sim/types';
@@ -72,5 +73,55 @@ describe('lifetime happiness is weighted by time (Bug 8)', () => {
     const awayBefore = away.n.happinessSamples;
     coarseStep(away.w, 60_000, []);
     expect(away.n.happinessSamples - awayBefore).toBe(liveWeight);
+  });
+});
+
+describe('the well-raised bonus (review C, item 9)', () => {
+  it('never raises the stat evolution just raised: swim 150 and fly 199, both C', () => {
+    const { w, n } = solo();
+    n.stage = 'cocoon';
+    n.cocoonKind = 'evolve';
+    n.form = null;
+    n.stageMs = 0;
+    n.slipCount = 0;
+    for (const s of Object.values(n.stats)) {
+      s.points = 0;
+      s.grade = 'C';
+    }
+    n.gradeUpgrades = {};
+    n.stats.swim.points = 150;
+    n.stats.fly.points = 199;
+    const events: SimEvent[] = [];
+    advanceStage(n, LIFECYCLE.cocoonMs + 1, events, w, false);
+    expect(events.some((e) => e.kind === 'wellRaised')).toBe(true);
+    // Both are level 1, so evolution raises swim (first at that level); the bonus goes to fly.
+    expect(n.stats.swim.grade).toBe('B');
+    expect(n.stats.fly.grade).toBe('B');
+    expect(n.gradeUpgrades).toEqual({ swim: 1, fly: 1 });
+  });
+});
+
+describe('the Collection book while away (review C, item 8)', () => {
+  it('an evolution during catch-up is recorded in world.seen', () => {
+    const { w, n } = solo();
+    w.settings.offlineAging.mode = 'indefinite';
+    const report = catchUp(w, 3 * HOUR, 0);
+    expect(report.events.some((e) => e.kind === 'evolved')).toBe(true);
+    expect(n.stage).toBe('adult');
+    expect(formKey(n)).not.toBe('chao:child');
+    expect(w.seen[formKey(n)]).toBeDefined();
+  });
+
+  it('the high-speed fallback (coarse steps in live play) records it too', () => {
+    const { w, n } = solo();
+    n.stage = 'cocoon';
+    n.cocoonKind = 'evolve';
+    n.form = null;
+    n.stageMs = LIFECYCLE.cocoonMs - 1;
+    const events: SimEvent[] = [];
+    coarseStep(w, SIM.coarseStepMs, events);
+    expect(events.some((e) => e.kind === 'evolved')).toBe(true);
+    expect(w.seen[formKey(n)]).toBeDefined();
+    expect(events.some((e) => e.kind === 'firstSeen')).toBe(true);
   });
 });

@@ -4,6 +4,7 @@ import {
   type Light,
   type Material,
   type Mesh,
+  type MeshPhysicalMaterial,
   type Object3D,
   type Texture,
 } from 'three';
@@ -94,6 +95,12 @@ export function keeperLook(k: Keeper, trainerId: string): Look {
   return { key: keeperLookKey(trainerId, k.alignment), height: GROVE3D.keeperHeight };
 }
 
+/** Triangles in a mesh's geometry. */
+function triangles(m: Mesh): number {
+  const g = m.geometry;
+  return Math.floor((g.index ? g.index.count : (g.attributes.position?.count ?? 0)) / 3);
+}
+
 export class CreaturePool {
   private readonly free = new Map<string, Rigged[]>();
   private readonly farm = new SculptFarm();
@@ -164,14 +171,29 @@ export class CreaturePool {
     const box = new Box3().setFromObject(rig.group);
     const built = Math.max(0.1, box.max.y - box.min.y);
     rig.group.scale.setScalar(look.height / built);
-    // The sculpt casts a shadow; the shells, cards and the blob under the feet do not.
+    // The sculpt casts a shadow; the face parts, shells, cards and the blob under the feet do
+    // not.
     // The emote ball's lamp goes: a light per Nubbin would change the scene's light count
     // at every hatch and recompile every material in the Grove (a half-second stall).
+    // Wing films and dew drops lose their transmission here too: one transmissive mesh on
+    // screen makes the renderer draw the whole scene a second time (review C, item 6). The
+    // stage samples keep theirs.
     const lamps: Object3D[] = [];
     rig.group.traverse((o) => {
       const m = o as Mesh;
-      if (m.isMesh && !(m.material as Material).transparent) m.castShadow = true;
+      if (
+        m.isMesh &&
+        !(m.material as Material).transparent &&
+        triangles(m) >= GROVE3D.casterMinTris
+      )
+        m.castShadow = true;
       if ((o as Light).isLight) lamps.push(o);
+      if (m.isMesh) {
+        for (const mat of Array.isArray(m.material) ? m.material : [m.material]) {
+          const phys = mat as MeshPhysicalMaterial;
+          if (phys.isMeshPhysicalMaterial && phys.transmission > 0) phys.transmission = 0;
+        }
+      }
     });
     for (const l of lamps) l.removeFromParent();
     const took = performance.now() - t0;

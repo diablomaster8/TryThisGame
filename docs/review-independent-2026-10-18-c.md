@@ -48,6 +48,7 @@ Pixel mode almost certainly sends linear colour to the screen, which explains it
    - **Steps:** fresh profile → open the site → start any slot → play → `navigator.serviceWorker.getRegistrations()`.
    - **Expected:** one registration.
    - **Actual:** `[]` on the live site after a full session. `main.ts:257-261` adds a `load` listener inside `boot()`, which runs after `load` has already fired.
+   - **Addressed 2026-10-18** (fix/review-c-major: `boot()` registers the worker straight away; hashed `assets/` chunks are served cache-first, the shell is precached with `cache: 'reload'`. Built site, fresh headless-Edge profile: 0 registrations on the title, 1 active and controlling after starting a Free Grove slot, and an offline reload opens the title.)
 2. **A crafted share code bricks the save.**
    - **Steps:** More → Receive a Nubbin → paste a code built from `{"name":"Bare","stats":{}}` with a valid checksum (the checksum is public, `share.ts:12-19`) → reload → Continue.
    - **Expected:** "That code is not valid".
@@ -56,18 +57,22 @@ Pixel mode almost certainly sends linear colour to the screen, which explains it
      - `decodeNubbin` only checks `name` and `stats` (`share.ts:41-56`);
      - `frame()` has no try/catch (`game.ts:317-390`);
      - loads use the lenient `validateWorld`.
+   - **Addressed 2026-10-18** (fix/review-c-major: `decodeNubbin` runs `nubbinProblem` and caps the name at 16; `receiveNubbin` refuses a broken Nubbin too; Receive is hidden in the Learning Grove; `deserialize` runs `importProblem` and turns any validator crash into a `SaveError`, so a bad save takes the unreadable-save path; `Game.frame` catches a throwing frame, keeps the loop alive, stops saving and shows a Reload card. Tests: `tests/sim/share-code.test.ts` (the `{"name":"Bare","stats":{}}` code is refused); checked in the browser.)
 3. **Reset save turns any slot into a Free Grove.**
    - **Steps:** Continue a Hazel's Grove slot → ⚙ → Reset save → OK.
    - **Expected:** a fresh Hazel's Grove.
    - **Actual:** the saved world has `campaign: null`, and the title shows "Gardener · Fig, Bibi" with no chapter. `settings.ts:453-460` calls `createWorld()`; `debug-panel.ts:158-162` does the same with no confirm. In a Learning Grove slot it becomes a main-game world.
+   - **Addressed 2026-10-18** (fix/review-c-major: `sim/fresh-start.ts` `freshWorldLike` starts the slot's own mode again (Hazel's Grove or a separate campaign with the same Keeper, Dawn & Dusk keeps `dd-other-done`, a Learning Grove keeps its age and band); Settings and the debug panel both use it, and the debug reset asks first. Tests for every mode in `tests/sim/fresh-start.test.ts`; Reset in a Hazel's Grove slot checked in the browser.)
 4. **A child can erase a Learning Grove slot from the title.**
    - **Steps:** title → ✕ on the Learning Grove slot.
    - **Expected:** the grown-up gate.
    - **Actual:** one `confirm("Erase slot 1? …")`. "New here" over a filled slot behaves the same (`title.ts:144-160`).
+   - **Addressed 2026-10-18** (fix/review-c-major: Erase and New here over a Learning Grove slot ask the grown-up gate after the confirm; the gate dialog now sits above the title screen, where it opened hidden behind it. Checked in the browser: a wrong answer keeps the slot, the right one erases it.)
 5. **The grown-up gate does not stop a 7–10 reader.**
    - **Steps:** Settings → Mature 18+ → answer "7 + 4".
    - **Expected:** a gate a child can't pass.
    - **Actual:** the gate is a single-digit sum with unlimited retries (`grown-up-gate.ts:16-17`). It is the only lock on 13+/18+ content.
+   - **Addressed 2026-10-18** (fix/review-c-major: a two-digit by one-digit product (13–49, never a round ten, times 6–9), new numbers after every wrong answer, said inline as well as in a toast, and Enter must be held 1.2 s (pointer or keyboard; a tap does nothing). Numbers in `GROWN_UP_GATE`; test `tests/render/grown-up-gate.test.ts`.)
 6. **Full 3D falls below the 30 fps floor on a phone-class CPU.**
    - **Steps:** 375×812, Full 3D, 4× CPU throttle, 8 Nubbins, then a race.
    - **Expected:** ≥30 fps.
@@ -76,6 +81,7 @@ Pixel mode almost certainly sends linear colour to the screen, which explains it
      - race: 19 fps (p95 71 ms, max 89 ms);
      - zoomed out: 13 fps on the HUD counter.
    - **Comparison:** Pixel holds 57 fps under the same throttle.
+   - **Addressed 2026-10-18** (fix/review-c-major: the Grove's per-lantern and per-window point lights are replaced by a four-light `LampPool` given to the lit lamps nearest the camera, hidden by day (its own light set, warmed in the background); the Hollow uses four lamps; no transmission on the water, lantern glass, cocoons or creature wings and dew in the game; clamp, tone mapping, sRGB and grade are one `FinishPass` (the clamp runs separately only ahead of bloom); a `FrameGovernor` lowers the render scale while frames run slow and undoes any step that buys no time; creature face parts no longer cast shadows; the shadow map redraws every second frame while the governor is under strain; ground heights are cached. 375×812, 3× DPR, touch and mobile UA, 4× CPU throttle, 8 Nubbins, headless Edge on the dev server: Grove 38 fps, race 35, night 39, Hollow 42 (origin/main on the same harness: 18–23, 23, 27, 22). Zoomed out was not measured.)
 7. **Pixel mode outputs linear colour (by code; not pixel-probed).**
    - **Steps:** compare any palette colour with the screen.
    - **Expected:** palette colours shown as designed.
@@ -83,18 +89,22 @@ Pixel mode almost certainly sends linear colour to the screen, which explains it
      - textures are flagged sRGB and rendered into a default 8-bit linear target;
      - the post shader has no `colorspace_fragment` or gamma step (`post.ts:107-115`; `grep` finds none in `src/render`);
      - the result is the dark, low-contrast Grove in every screenshot.
+   - **Addressed 2026-10-18** (fix/review-c-major: the post pass renders into a half-float target and ends with `colorspace_fragment`; the day light rig is lifted by `PIXEL_LIGHT.dayGain` 1.35 (night 0.85) so noon ground sits near its painted colours. Before and after: `docs/samples/review-c-colour-before.jpg`, `-after.jpg`, `-night.jpg`.)
 8. **Evolutions during catch-up, or at ×1000, never reach the Collection book.**
    - **Steps:** raise a Nubbin to adult at ×1000 (or while away), then open More → Collection book.
    - **Expected:** the adult form counts as seen.
    - **Actual:** the book says "1 of 70 seen" after an adult Neutral Fly. `stepCollection` runs only inside `stepWorld` (`world.ts:865`); `coarseStep` (`offline.ts:35`, `game.ts:336-337`) emits `evolved` but never records it. Badges that count `world.seen` are affected too.
+   - **Addressed 2026-10-18** (fix/review-c-major: `coarseStep` folds its own events into the book with `stepCollection(world, events, from)`, so catch-up and the high-speed fallback both record hatches, evolutions, rebirths and Eternals. Tests in `tests/sim/away-fairness.test.ts`.)
 9. **The well-raised bonus can upgrade the stat evolution just upgraded** (`lifecycle.ts:111-119`).
    - **Steps:** swim 150 and fly 199 points, both C, no slips → evolve. Proved by the sim subagent with a tsx script.
    - **Expected:** two different stats go up one grade each.
    - **Actual:** swim goes C→A and fly stays C.
+   - **Addressed 2026-10-18** (fix/review-c-major: `evolve()` returns the stat it raised and the bonus takes the highest-points stat that is not that one and not S. Test: swim 150 and fly 199, both C, ends B and B.)
 10. **In 3D, the Hollow hides the player.**
     - **Steps:** enter the Hollow, then switch Graphics to Full 3D.
     - **Expected:** the party is visible.
     - **Actual:** untextured blue blocks fill the view, with the Keeper and party behind walls. There is no occlusion fade.
+    - **Addressed 2026-10-18** (fix/review-c-major: walls between the camera and the Keeper or a party Nubbin are cut down to a stub (rewritten only when that set changes), and the blocks are shaded stone with a dark foot, a pale lip and a tone per block. Four camera angles, before and after: `docs/samples/review-c-hollow-before-after.jpg`.)
 
 ### Minor
 

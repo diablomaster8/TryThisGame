@@ -114,7 +114,19 @@ export function deserialize(json: string): SaveFile {
   const world = data.world;
   if (!world || typeof world !== 'object') throw new SaveError('Save has no world');
   const savedAtWallMs = typeof data.savedAtWallMs === 'number' ? data.savedAtWallMs : 0;
-  return { version, savedAtWallMs, world: validateWorld(world as World) };
+  let valid: World;
+  try {
+    valid = validateWorld(world as World);
+  } catch (err) {
+    if (err instanceof SaveError) throw err;
+    throw new SaveError(`Save world is malformed (${String(err)})`);
+  }
+  // The same deep check as an import: a Nubbin the renderers cannot draw (a crafted share
+  // code saved before the check existed) sends the save down the unreadable path instead
+  // of crashing every frame after load.
+  const problem = importProblem(valid);
+  if (problem) throw new SaveError(`Save has a broken Nubbin (${problem})`);
+  return { version, savedAtWallMs, world: valid };
 }
 
 /** Light validation and defaulting, so a hand-edited or partial save still loads. */

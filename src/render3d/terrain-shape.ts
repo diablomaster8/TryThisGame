@@ -72,8 +72,36 @@ function landHeight(x: number, z: number): number {
   return y;
 }
 
+/**
+ * Heights already asked for, by exact point. Props, flowers, the camera and resting
+ * creatures ask for the same points every frame, and the full sum (hills, rim, two noise
+ * rolls, the stream polylines) was a tenth of a throttled phone frame (review C, item 6).
+ */
+const heightCache = new Map<number, Map<number, number>>();
+let heightCacheSize = 0;
+const HEIGHT_CACHE_MAX = 50_000;
+
 /** The height of the ground at a point in the Grove; the water lies below it in dips. */
 export function groveHeight(x: number, z: number): number {
+  let row = heightCache.get(x);
+  const hit = row?.get(z);
+  if (hit !== undefined) return hit;
+  if (heightCacheSize >= HEIGHT_CACHE_MAX) {
+    heightCache.clear();
+    heightCacheSize = 0;
+    row = undefined;
+  }
+  if (!row) {
+    row = new Map();
+    heightCache.set(x, row);
+  }
+  const y = exactHeight(x, z);
+  row.set(z, y);
+  heightCacheSize++;
+  return y;
+}
+
+function exactHeight(x: number, z: number): number {
   let y = landHeight(x, z);
   const pond = GROVE.pond;
   const pd = Math.hypot(x - pond.x, z - pond.z) / (pond.r + 0.6);

@@ -8,20 +8,47 @@ import type { DungeonRun } from '../sim/types';
  * on the cells that border the open ground, a stone floor, still water in the wet cells,
  * the stairs up and down, the chest (open once looted), torches and glowing crystals, and
  * the loot still lying about (shaped as the pixel view paints it, `render/paint/dungeon.ts`).
- * Light comes from five point lights: the Keeper's own lamp, as in the pixel view, and four
- * that follow the torches nearest the Keeper, so the light count never changes while
- * underground. Their
- * programs differ from the Grove's (four more lights, no lanterns), so the scene links
+ * Light comes from four point lights (the most a phone frame affords, review C item 6): the
+ * Keeper's own lamp, as in the pixel view, and three that follow the torches nearest the
+ * Keeper, so the light count never changes while underground. Their
+ * programs differ from the Grove's (the lamps, no lanterns), so the scene links
  * them in the background with `withLamps` and the hidden `samples` (see grove-3d-scene.ts).
  * Picks use the pixel view's kinds: `stairs` (`up`/`down`), `chest`, `loot`.
+ *
+ * The rock is shaded stone (darker at the foot, lighter at the lip, each block its own
+ * tone), and any wall standing between the camera and the Keeper or a partner is cut down
+ * to a low stub, so the party is never hidden behind it (review C, item 10).
  */
 const CELL = DUNGEON.cell;
 const WALL_H = 2.4;
-/** The Keeper's lamp and the four torch lamps. */
-const LAMPS = 5;
+/** The Keeper's lamp and the three torch lamps. */
+const LAMPS = 4;
 
 const mat = (color: string, o: THREE.MeshStandardMaterialParameters = {}) =>
   new THREE.MeshStandardMaterial({ color, roughness: 0.9, ...o });
+
+/** A rock block: flat-shaded stone, dark at the foot and pale at the lip (vertex colour). */
+function wallGeometry(): THREE.BoxGeometry {
+  const g = new THREE.BoxGeometry(CELL, WALL_H, CELL);
+  const pos = g.attributes.position!;
+  const foot = new THREE.Color('#1f1b24');
+  const lip = new THREE.Color('#5f5462');
+  const c = new THREE.Color();
+  const colors = new Float32Array(pos.count * 3);
+  for (let i = 0; i < pos.count; i++) {
+    c.copy(foot).lerp(lip, pos.getY(i) > 0 ? 1 : 0);
+    c.toArray(colors, i * 3);
+  }
+  g.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  return g;
+}
+
+const wallMaterial = () => mat('#ffffff', { flatShading: true, vertexColors: true });
+
+/** Walls closer than this to the line from a party member to the camera are cut down. */
+const CUT_RADIUS = CELL * 0.95;
+/** A cut wall's height, as a share of a full one: a stub that still shows the floor plan. */
+const CUT_HEIGHT = 0.16;
 
 /** Loot as the pixel floor paints it: a little heap of shells, a grey stone, a sprouting
  * seed, a violet essence crystal, a critter in a bubble, a speckled egg. */
@@ -108,6 +135,11 @@ export class Hollow {
   private readonly lamps: THREE.PointLight[] = [];
   private torchAt: THREE.Vector3[] = [];
   private chestLid: THREE.Object3D | null = null;
+  /** The rock blocks, their resting heights, and which are cut down now (see `cutaway`). */
+  private wallMesh: THREE.InstancedMesh | null = null;
+  private wallAt: THREE.Vector3[] = [];
+  private wallK: number[] = [];
+  private cutKey = '';
   private readonly loot = new Map<string, THREE.Object3D>();
   private readonly picks: Array<[THREE.Vector3, 'stairs' | 'chest' | 'loot', string, number]> = [];
   /**
@@ -131,9 +163,11 @@ export class Hollow {
       parent.add(l);
     }
     const box = new THREE.BoxGeometry(0.1, 0.1, 0.1);
+    const wallSample = new THREE.InstancedMesh(wallGeometry(), wallMaterial(), 1);
+    wallSample.setColorAt(0, new THREE.Color('#ffffff'));
     this.samples.add(
       new THREE.Mesh(box, mat('#4a4450')),
-      new THREE.InstancedMesh(box, mat('#3a3440', { flatShading: true }), 1),
+      wallSample,
       new THREE.InstancedMesh(box, mat('#2a5a8a'), 1),
     );
     this.samples.traverse((o) => (o.castShadow = o.receiveShadow = true));
@@ -179,6 +213,10 @@ export class Hollow {
     this.picks.length = 0;
     this.torchAt = [];
     this.chestLid = null;
+    this.wallMesh = null;
+    this.wallAt = [];
+    this.wallK = [];
+    this.cutKey = '';
     if (f) this.build(f);
   }
 
@@ -207,17 +245,22 @@ export class Hollow {
     const m4 = new THREE.Matrix4();
     const q = new THREE.Quaternion();
     const s = new THREE.Vector3();
-    const wallMesh = new THREE.InstancedMesh(
-      new THREE.BoxGeometry(CELL, WALL_H, CELL),
-      mat('#3a3440', { flatShading: true }),
-      walls.length,
-    );
+    const wallMesh = new THREE.InstancedMesh(wallGeometry(), wallMaterial(), walls.length);
+    const tone = new THREE.Color();
     walls.forEach((p, i) => {
       // Uneven tops so the rock does not read as a hedge.
       const k = 0.8 + ((Math.sin(p.x * 3.1 + p.z * 1.7) + 1) / 2) * 0.45;
       s.set(1, k, 1);
       wallMesh.setMatrixAt(i, m4.compose(new THREE.Vector3(p.x, (WALL_H * k) / 2, p.z), q, s));
+      // Each block its own stone: a little warmer or cooler, lighter or darker.
+      const v = (Math.sin(p.x * 12.9898 + p.z * 78.233) * 43758.5453) % 1;
+      const w = Math.abs(v);
+      tone.setRGB(0.85 + w * 0.25, 0.85 + w * 0.2, 0.88 + (1 - w) * 0.2);
+      wallMesh.setColorAt(i, tone);
+      this.wallK.push(k);
     });
+    this.wallMesh = wallMesh;
+    this.wallAt = walls;
     wallMesh.castShadow = true;
     wallMesh.receiveShadow = true;
     this.group.add(wallMesh);
@@ -318,7 +361,13 @@ export class Hollow {
     }
   }
 
-  update(run: DungeonRun | null, keeper: { x: number; z: number }, t: number): void {
+  update(
+    run: DungeonRun | null,
+    keeper: { x: number; z: number },
+    t: number,
+    camera?: THREE.Vector3,
+    party: ReadonlyArray<{ x: number; z: number }> = [],
+  ): void {
     const on = !!this.floor && !!run;
     this.group.visible = on;
     for (const l of this.lamps) {
@@ -332,7 +381,8 @@ export class Hollow {
       m.rotation.y = t * 0.8;
     }
     if (this.chestLid) this.chestLid.rotation.x = run.chestOpen ? -1.9 : 0;
-    // The Keeper carries a lamp, as in the pixel view; the other four go to the torches
+    if (camera) this.cutaway(camera, [keeper, ...party]);
+    // The Keeper carries a lamp, as in the pixel view; the other three go to the torches
     // nearest the Keeper, flickering a little.
     const own = this.lamps[0]!;
     own.color.set('#fff0d0');
@@ -349,6 +399,41 @@ export class Hollow {
       l.position.copy(p);
       l.intensity = 16 + Math.sin(t * 13 + i * 2) * 2;
     });
+  }
+
+  /**
+   * Cut down every wall between the camera and a party member (and any right beside one,
+   * on the camera's side), and stand the rest back up. Matrices are rewritten only when the
+   * set changes, which is when someone crosses a cell or the camera turns.
+   */
+  private cutaway(camera: THREE.Vector3, party: ReadonlyArray<{ x: number; z: number }>): void {
+    const mesh = this.wallMesh;
+    if (!mesh) return;
+    const cut: boolean[] = this.wallAt.map((w) =>
+      party.some((p) => {
+        const dx = camera.x - p.x;
+        const dz = camera.z - p.z;
+        const len2 = dx * dx + dz * dz || 1;
+        const t = ((w.x - p.x) * dx + (w.z - p.z) * dz) / len2;
+        if (t <= 0) return false;
+        const k = Math.min(1, t);
+        return Math.hypot(w.x - (p.x + dx * k), w.z - (p.z + dz * k)) < CUT_RADIUS;
+      }),
+    );
+    const key = cut.map((c) => (c ? '1' : '0')).join('');
+    if (key === this.cutKey) return;
+    this.cutKey = key;
+    const m4 = new THREE.Matrix4();
+    const q = new THREE.Quaternion();
+    const s = new THREE.Vector3();
+    const at = new THREE.Vector3();
+    this.wallAt.forEach((p, i) => {
+      const k = cut[i] ? CUT_HEIGHT : this.wallK[i]!;
+      s.set(1, k, 1);
+      mesh.setMatrixAt(i, m4.compose(at.set(p.x, (WALL_H * k) / 2, p.z), q, s));
+    });
+    mesh.instanceMatrix.needsUpdate = true;
+    // The bounds three culls by were taken at full height; a cut wall only ever shrinks.
   }
 
   pick(

@@ -35,6 +35,8 @@ export interface GameHooks {
   onCatchUpEnd(): void;
   /** The slot's save could not be read; `kept` says whether a copy was put aside. */
   onSaveUnreadable(kept: boolean): void;
+  /** A frame threw: saving has stopped so the last good save survives. Called once. */
+  onCrash(): void;
 }
 
 /**
@@ -133,6 +135,8 @@ export class Game {
    * autosave then holds off, so the other copy survives until the player imports or resets.
    */
   private holdSaves = false;
+  /** A frame threw; nothing is saved until the player reloads, imports or resets. */
+  private crashed = false;
   /** The save text that failed to load this session, for Settings to export. */
   unreadableJson: string | null = null;
   private hooks: GameHooks;
@@ -247,7 +251,7 @@ export class Game {
   }
 
   save(): boolean {
-    if (this.holdSaves) {
+    if (this.holdSaves || this.crashed) {
       this.lastSaveMs = performance.now();
       return false;
     }
@@ -263,6 +267,7 @@ export class Game {
   replaceWorld(world: World): void {
     // The player chose this (import or reset), so saving resumes.
     this.holdSaves = false;
+    this.crashed = false;
     this.world = world;
     this.world.lastWallMs = Date.now();
     this.save();
@@ -316,6 +321,21 @@ export class Game {
 
   private readonly frame = (nowMs: number): void => {
     if (!this.running) return;
+    // One bad value must not freeze the page or be autosaved over the last good save:
+    // keep the loop alive, stop saving and let the HUD offer a reload.
+    try {
+      this.tick(nowMs);
+    } catch (err) {
+      if (!this.crashed) {
+        console.error('Grove: a frame failed; saving has stopped.', err);
+        this.crashed = true;
+        this.hooks.onCrash();
+      }
+    }
+    this.rafId = requestAnimationFrame(this.frame);
+  };
+
+  private tick(nowMs: number): void {
     // Slow frames still advance the sim in real time; the clock caps the steps per frame
     // and the overflow is finished in coarse steps below.
     const dt = this.lastFrameMs === 0 ? 0 : Math.min(SIM.maxFrameDeltaMs, nowMs - this.lastFrameMs);
@@ -386,6 +406,5 @@ export class Game {
     }
 
     if (nowMs - this.lastSaveMs >= SIM.autosaveMs) this.save();
-    this.rafId = requestAnimationFrame(this.frame);
-  };
+  }
 }

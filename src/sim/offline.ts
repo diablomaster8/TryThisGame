@@ -1,5 +1,6 @@
 import { NEEDS, SIM, TREES } from '../config/tuning';
 import { splitSpan } from './clock';
+import { stepCollection } from './collection';
 import { advanceStage, hatch } from './lifecycle';
 import { applyFruit, decayNeeds, isHungry, sampleHappiness } from './needs';
 import { isFree } from './nubbin';
@@ -60,6 +61,7 @@ function isReportable(e: SimEvent): boolean {
  * their own, so being away does not by itself starve them. No wandering, no RNG.
  */
 export function coarseStep(world: World, dtMs: number, events: SimEvent[]): void {
+  const firstEvent = events.length;
   world.timeMs += dtMs;
   for (const tree of world.trees) {
     tree.fruitTimerMs -= dtMs;
@@ -96,4 +98,6 @@ export function coarseStep(world: World, dtMs: number, events: SimEvent[]): void
     if (world.nubbins.includes(n)) sampleHappiness(n, dtMs / 1000);
   }
   stepSlips(world, dtMs, events, true);
+  // Hatches, evolutions, rebirths and Eternals while away count as seen (review C, item 8).
+  stepCollection(world, events, firstEvent);
 }

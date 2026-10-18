@@ -22,13 +22,51 @@ for Atlas A1–A10 and A22–A31 and every Atlas and S24–S31 edu version, the 
 only (`docs/content-index.md`). Plan v4 (`plan.md`): G11 device pass, Track B writing and review
 tasks; Part Z ran on 2026-10-18 (`docs/review-independent-2026-10-18.md`) and its fixes are
 going in pass by pass. Review B (`docs/review-independent-2026-10-18-b.md`): Bugs 1–17 and
-18–38 fixed on 2026-10-18 (sections below). Maor, 2026-10-17: legal cleared, adviser sign-off given, the seven
+18–38 fixed on 2026-10-18 (sections below). Review C (`docs/review-independent-2026-10-18-c.md`): the ten major bugs fixed on 2026-10-18; the 19 minor ones are open. Maor, 2026-10-17: legal cleared, adviser sign-off given, the seven
 fun-quest quotes approved as written, Pixel stays the default; 2026-10-18: ship the Arcade, the
 Multiverse, Neopia and Q66–Q95. Waiting on Maor: the LB/LK decision (section "Pixel's Arcade
 PA1–PA5" in `docs/progress-archive.md`). Decided 2026-10-18 (review B, item 16): original
 sung verses are fine (only lyrics from existing songs are banned); Holy Grail's Q1–Q7 are one
 storyline and keep all ten quotes, an exception to the three-quote cap. Backlogs: `docs/creature-improvements.md`,
 `docs/content-index.md`.
+
+## Review C, the ten major bugs (2026-10-18)
+
+From the Major section of `docs/review-independent-2026-10-18-c.md` (each item has an
+"Addressed" note there). Branch `fix/review-c-major`. Works:
+- **Service worker (1):** registered straight from `boot()`; hashed `assets/` chunks
+  cache-first, the shell precached with `cache: 'reload'`. Built site, fresh profile: one
+  active registration after starting a slot, offline reload opens the title.
+- **Share codes and loop (2):** a code must pass `nubbinProblem` (name capped at 16);
+  Receive is hidden in the Learning Grove; `deserialize` runs `importProblem`, so a broken
+  save goes down the unreadable path; a frame that throws keeps the loop alive, stops all
+  saving and shows a Reload card (`showCrashCard`).
+- **Reset (3):** `sim/fresh-start.ts` restarts the slot's own mode (campaign or storyline
+  with the same Keeper, Learning Grove age and band); the debug reset asks first.
+- **Gate (4, 5):** erasing or starting over a Learning Grove slot on the title asks the gate,
+  which now opens above the title; the gate asks a two-digit × one-digit product
+  (`GROWN_UP_GATE`), new numbers after a miss, and a held Enter.
+- **Full 3D frame rate (6):** four pooled night lights (`render3d/lamp-pool.ts`, light set
+  `groveNight`), four in the Hollow; no transmission in the game (water, lantern glass,
+  cocoons, wings and dew stripped in the pool); one `FinishPass` for clamp, tone map, sRGB
+  and grade; `FrameGovernor` (render scale, undoes a step that buys nothing); face parts cast
+  no shadow (`casterMinTris`); half-rate shadow map under strain; cached ground heights.
+  375×812, 4× CPU throttle, 8 Nubbins, headless Edge, dev server: Grove 38 fps, race 35,
+  night 39, Hollow 42 (origin/main: 18–23, 23, 27, 22).
+- **Pixel colour (7):** half-float scene target and the sRGB encode in `render/post.ts`; day
+  light lifted (`PIXEL_LIGHT`). Shots `docs/samples/review-c-colour-*.jpg`.
+- **Collection book (8):** `coarseStep` records hatches, evolutions, rebirths, Eternals.
+- **Well-raised bonus (9):** never the stat `evolve()` just raised.
+- **3D Hollow (10):** walls between the camera and the party cut to stubs; shaded stone
+  blocks. Shot `docs/samples/review-c-hollow-before-after.jpg`.
+
+Stubbed: the governor only scales pixels and shadow cadence; it does not drop grass, SMAA or
+creature detail, and the zoomed-out 3D view (13 fps in the review) was not measured. The
+first visit caches hashed chunks only from the second load on (the worker takes control
+then).
+
+Known bugs: none new. Not checked on a real phone; frame rates are from headless Edge with a
+CPU throttle on the dev server. Review C's minor items 11–29 are still open.
 
 ## Review B, Bugs 18–38 and the notes: minor bugs (2026-10-18)
 
@@ -76,43 +114,6 @@ Stubbed or not done:
 
 Known bugs: none new. Assumption: Moss "comes down" in `c7-stillness` (the scene that says
 so); before then he is the hill's watcher, as chapter 1 describes.
-
-## Review B, Bugs 1–17: blockers and major bugs (2026-10-18)
-
-From `docs/review-independent-2026-10-18-b.md` (each bug there has an "Addressed" note).
-Branch `fix/review-blockers` was checked and merged (main's stricter import kept: an imported
-save always comes back with Mature content Off). Works:
-- **Away and lifecycle (sim, tested):** fine catch-up steps follow the away rules, so no
-  departure while departures are off, for any gap (Bug 1). Alignment is kept and compared in
-  hundredths (`roundAlignment`): exactly ±0.80 is not Eternal, ±0.50 is Neutral (5). Normal lean
-  can win the adult type (6). Catch-up logs care slips (rain aside), the well-raised grade is in
-  `gradeUpgrades`, rebirth clears `wellRaised` (7). Lifetime happiness is weighted by sim
-  seconds (`sampleHappiness(n, seconds)`), so an hour away weighs an hour watched (8).
-- **No chores (3):** each request kind is asked once (claimed ones stay on the board as done);
-  team missions run once each, in order (`TEAMS.missions`); the Hollow request counts any
-  descent. `questDay` and `TeamState.week` are kept unused so old saves load.
-- **Loading (2):** per-build service worker cache, network-first pages, old caches deleted;
-  every lazy chunk has a catch and the "Reload to update" notice, the shelves included.
-- **Mature gate (4):** raising Mature content asks the grown-up sum gate first.
-- **Story worlds (9):** the shelf passes a frozen copy of the campaign flags as
-  `LineContext.grove`; `variantFor` matches Grove answers, chained suffixes (`-ran-unset`),
-  `GROVE_UNSET` (A19 sableFirst) and `GROVE_ALIASES` (s21Done → clank, s8Reunited → fern...).
-- **UI (10–17):** trade shows the code in a dialog and sends only from its own button;
-  `input/keys.ts` keeps camera and shortcut keys out of fields and Space on buttons; sound
-  unlocks on pointerup/touchend/click/keydown from the title on and resumes after
-  interruptions; WebGL2 check, renderer try/catch and a context-lost card (Reload, Switch to
-  Pixel); creature pool LRU (`GROVE3D.poolSpares`/`poolLooks`), garden and visit disposal;
-  Reduced motion reaches both cameras and Pixel water/sway; `.btn-small` is 44 px and phone
-  portrait has a bottom action bar (`--hud-bottom` lifts the bottom HUD); `dialogFocus` in
-  `ui/dom.ts` gives every modal role, focus, trap, Escape and focus return.
-- **Checked in the browser pane** (hidden pane, frames driven by hand): both modes at 375×812
-  and 1280×800, dialogs, typing, trade, Reduced motion, the lost-context card.
-- **Stubbed:** story-world inserts ("plays straight after"), once-only margin notes and derived
-  Grove facts (campaign finished, Sable's trust, mossFaded) are not wired, only replacement
-  variants. Sound on a real iPhone, WebGL2-less devices and the pool caps under a long session
-  are untested. Minigame result cards are not dialogs yet.
-- **Known bugs:** `tests/sim/side-saves.test.ts` "every Atlas page" can pass its 5 s timeout
-  under a full parallel run (cold transform; passes alone in about 1 s).
 
 ## Standing approval (Maor, 2026-10-12)
 

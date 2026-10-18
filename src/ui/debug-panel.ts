@@ -3,7 +3,7 @@ import { STAT_LABELS, TYPE_LABELS, UI_TEXT } from '../config/strings';
 import type { Game } from '../game';
 import { clearSave } from '../platform/storage';
 import { NUBBIN_TYPES, STAT_KEYS } from '../sim/types';
-import { createWorld } from '../sim/world';
+import { freshWorldLike } from '../sim/fresh-start';
 import { button, el } from './dom';
 
 /**
@@ -156,10 +156,9 @@ export class DebugPanel {
         UI_TEXT.debugReset,
         () => {
           const g = this.game();
-          if (!g) return;
+          if (!g || !window.confirm(UI_TEXT.resetConfirm)) return;
           clearSave();
-          const now = Date.now();
-          g.replaceWorld(createWorld(now % 2147483647, now));
+          g.replaceWorld(freshWorldLike(g.world, Date.now()));
         },
         'btn btn-small btn-danger',
       ),

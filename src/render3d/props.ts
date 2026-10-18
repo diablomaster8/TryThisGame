@@ -15,15 +15,17 @@ export interface Lantern {
   id: string;
   x: number;
   z: number;
-  glass: THREE.MeshPhysicalMaterial;
-  light: THREE.PointLight;
+  glass: THREE.MeshStandardMaterial;
+  /** Where its light shines from; the scene's lamp pool lights it at night. */
+  light: THREE.Vector3;
 }
 
 export interface GroveProps {
   group: THREE.Group;
   pickables: THREE.Object3D[];
   lanterns: Lantern[];
-  windows: { material: THREE.MeshPhysicalMaterial; lights: THREE.PointLight[] };
+  /** The shared window glass, and where each window's light shines from at night. */
+  windows: { material: THREE.MeshPhysicalMaterial; lights: THREE.Vector3[] };
   blades: THREE.Group;
   grass: GroveGrass;
 }
@@ -65,7 +67,7 @@ function house(
   d: number,
   h: number,
   windowMat: THREE.MeshPhysicalMaterial,
-  windowLights: THREE.PointLight[],
+  windowLights: THREE.Vector3[],
   wallColor = '#ffffff',
 ): THREE.Mesh {
   const y = groveHeight(x, z);
@@ -87,10 +89,7 @@ function house(
     const win = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.1), windowMat);
     win.position.set(x + dx, y + h * 0.55, z + d / 2 + 0.02);
     group.add(win);
-    const glow = new THREE.PointLight('#ffb347', 0, 9, 1.6);
-    glow.position.set(x + dx, y + h * 0.55, z + d / 2 + 0.9);
-    group.add(glow);
-    windowLights.push(glow);
+    windowLights.push(new THREE.Vector3(x + dx, y + h * 0.55, z + d / 2 + 0.9));
   }
   return walls;
 }
@@ -111,7 +110,7 @@ export function buildGroveProps(
     roughness: 0.1,
     clearcoat: 1,
   });
-  const windowLights: THREE.PointLight[] = [];
+  const windowLights: THREE.Vector3[] = [];
   const b = GROVE.buildings;
 
   // Buildings.
@@ -222,22 +221,23 @@ export function buildGroveProps(
     const y = groveHeight(x, z);
     const post = shadowed(new THREE.Mesh(new THREE.BoxGeometry(0.14, 2.0, 0.14), pbr(tex.wood)));
     post.position.set(x, y + 1.0, z);
-    const glass = new THREE.MeshPhysicalMaterial({
+    // No transmission: one transmissive object makes the renderer draw the whole scene a
+    // second time into a refraction target every frame (review C, item 6).
+    const glass = new THREE.MeshStandardMaterial({
       color: '#ffe9b0',
       emissive: '#ffb347',
       emissiveIntensity: 0,
       roughness: 0.15,
-      transmission: 0.4,
-      thickness: 0.2,
+      transparent: true,
+      opacity: 0.85,
     });
     const box = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.42, 0.36), glass);
     box.position.set(x, y + 2.1, z);
     const cap = shadowed(new THREE.Mesh(new THREE.ConeGeometry(0.32, 0.25, 4), pbr(tex.roof)));
     cap.position.set(x, y + 2.42, z);
     cap.rotation.y = Math.PI / 4;
-    const light = new THREE.PointLight('#ffb347', 0, 10, 1.4);
-    light.position.set(x, y + 2.1, z);
-    group.add(post, box, cap, light);
+    const light = new THREE.Vector3(x, y + 2.1, z);
+    group.add(post, box, cap);
     const id = `lantern-${i + 1}`;
     pick(post, 'lantern', id, pickables);
     pick(box, 'lantern', id, pickables);

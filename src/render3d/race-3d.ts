@@ -372,11 +372,9 @@ export class Race3dView implements RaceView {
         case 'swim': {
           const bed = s.y0 - RACE3D.channelDepth;
           stage.strip(x0, x1, zBack, zFront, 'cobble', { y: bed });
-          // The Grove's water less its refraction: a transmission pass costs a full-size
-          // target per camera that the renderer keeps, and a second draw of the scene.
+          // The Grove's water, which carries no transmission (that pass costs a second draw
+          // of the scene).
           const mat = waterMaterial(normal, 0.2);
-          mat.transmission = 0;
-          mat.opacity = 0.82;
           this.water.push(mat);
           const w = new THREE.Mesh(new THREE.PlaneGeometry(x1 - x0, zFront - zBack), mat);
           w.rotation.x = -Math.PI / 2;

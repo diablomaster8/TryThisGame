@@ -23,7 +23,7 @@ import {
   Group,
   type Texture,
 } from 'three';
-import { DUNGEON, GROVE, LANTERN_POSTS } from '../config/tuning';
+import { DUNGEON, GROVE, LANTERN_POSTS, PIXEL_LIGHT } from '../config/tuning';
 import type { GroveKind, Location, TileKind, WeatherKind } from '../sim/types';
 import { daylightAt, type Daylight } from './daylight';
 import { C, color } from './sprites/palette';
@@ -712,7 +712,11 @@ export class GroveScene {
     this.scene.background = sky;
     const place = this.location;
     const rain = this.weather === 'rain' ? 0.75 : this.weather === 'snow' ? 1.1 : 1;
+    // Exposure for the sRGB output: full lift by day, easing to the night value with darkness.
+    const gain =
+      PIXEL_LIGHT.dayGain + ((PIXEL_LIGHT.nightGain - PIXEL_LIGHT.dayGain) * d.darkness) / 0.7;
     this.hemi.intensity =
+      gain *
       d.hemiIntensity *
       (kind === 'moon' ? 0.85 : 1) *
       (place === 'hollow' ? 0.45 : place === 'dungeon' ? 1.5 : 1) *
@@ -734,6 +738,7 @@ export class GroveScene {
     }
     this.hemi.color.set(kind === 'moon' && d.phase === 'day' ? color(C.violet) : d.hemiColor);
     this.sun.intensity =
+      gain *
       d.sunIntensity *
       (kind === 'sun' ? 1.3 : 1) *
       (place === 'hollow' ? 0.4 : place === 'dungeon' ? 0.1 : rain);
