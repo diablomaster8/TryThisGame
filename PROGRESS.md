@@ -25,9 +25,9 @@ going in pass by pass. Review B (`docs/review-independent-2026-10-18-b.md`): Bug
 18–38 fixed on 2026-10-18 (sections below). Maor, 2026-10-17: legal cleared, adviser sign-off given, the seven
 fun-quest quotes approved as written, Pixel stays the default; 2026-10-18: ship the Arcade, the
 Multiverse, Neopia and Q66–Q95. Waiting on Maor: the LB/LK decision (section "Pixel's Arcade
-PA1–PA5" in `docs/progress-archive.md`); whether original sung lyrics (the Lantern Song,
-Nova's ditties, Q47's tunnel song) break "no song lyrics"; and whether Holy Grail's ten
-quotes across Q1–Q7 are one storyline (over the three-quote cap) or seven (review B, item 16). Backlogs: `docs/creature-improvements.md`,
+PA1–PA5" in `docs/progress-archive.md`); and whether Holy Grail's ten quotes are trimmed to
+three or keep an exception. Decided 2026-10-18 (review B, item 16): original sung verses are
+fine (only lyrics from existing songs are banned); Holy Grail's Q1–Q7 count as one storyline. Backlogs: `docs/creature-improvements.md`,
 `docs/content-index.md`.
 
 ## Review B, Bugs 18–38 and the notes: minor bugs (2026-10-18)

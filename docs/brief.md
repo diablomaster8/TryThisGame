@@ -397,7 +397,8 @@ and `plan.md` before touching any script. **Order of authority:** `docs/canon.md
     S23, S26 and S27.
   - Fun quests may quote their originals, except in the Learning Grove. They never trigger during
     chapters 9–11.
-  - It's Always Sunny is adults-only. No song lyrics, ever.
+  - It's Always Sunny is adults-only. No lyrics from existing songs, ever; original sung
+    verses written for the game are fine (Maor, 2026-10-18).
   - Art suggestions only for cosmetic rewards.
   - The Multiverse, Atlas, Pixel's Arcade and Neopia may *read* Grove state, and never write it.
 - **Canon you will trip over** (the full list is in `docs/canon.md`):
@@ -432,9 +433,10 @@ and `plan.md` before touching any script. **Order of authority:** `docs/canon.md
 - **Quotes and lifted text.**
   - **Public-domain text:** quote verbatim only once it has been checked against the named
     edition. Otherwise paraphrase.
-  - **Copyrighted sources:** at most three one-sentence quotes per storyline.
+  - **Copyrighted sources:** at most three one-sentence quotes per storyline. The Holy Grail
+    fun quests (Q1–Q7) count as one storyline (Maor, 2026-10-18).
   - **`all` quests:** every quote needs a `childLines` replacement.
-  - **Never** song lyrics or long passages.
+  - **Never** lyrics from existing songs, or long passages.
 - **Learning Grove.** Follow `EDU-STYLE.md`:
   - **Bands:** sprout (3–6, read aloud, ≤ 14 words a line) and reader (7–10, ≤ 30 words).
   - **Lessons:** at least one per scene, with an approved standard. Lessons grow out of the

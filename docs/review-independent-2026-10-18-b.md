@@ -335,6 +335,9 @@ Most fixes are small. Merge the blocker branch first.
 15. **Minor sweep:** Bugs 18–37. Low value, low cost.
 16. **Decide on original sung lyrics and the Holy Grail count,** then record the ruling. Low
     cost.
+    - **Decided 2026-10-18 (Maor):** original sung verses are fine; only lyrics from existing
+      songs are banned. Holy Grail's Q1–Q7 count as one storyline. Open: trim its ten quotes
+      to three, or keep an exception.
 
 ## What the notes get wrong
 

@@ -42,9 +42,10 @@ attribution trailer (Maor, 2026-10-16); no prompt here asks for one.
   reactions.
 - **Waiting on Maor** (2026-10-18): the LB/LK points (LK8's tiger, LK's Malay and Indonesian
   word checks, LB's two Neds, LB's "inspired by Bluey" credit; `docs/progress-archive.md`,
-  "Pixel's Arcade PA1–PA5"); whether original sung lyrics (the Lantern Song, Nova's ditties,
-  Q47's tunnel song) count against "no song lyrics"; and whether Holy Grail's ten quotes across
-  Q1–Q7 count as one storyline (over the three-quote cap) or seven. The expansion pick is done:
+  "Pixel's Arcade PA1–PA5"); and, for Holy Grail, whether its ten quotes are trimmed to three
+  or keep an exception to the cap. Decided 2026-10-18: original sung verses written for the
+  game (the Lantern Song, Nova's ditties, Q47's tunnel song) are fine, since only lyrics from
+  existing songs are banned; Holy Grail's Q1–Q7 count as one storyline. The expansion pick is done:
   Maor picked all of E1–E3 and SL1–SL4, built 2026-10-17 (plan G12).
   Decided 2026-10-17: Expedition and races get 3D versions in Full 3D. "The phone view passes"
   was premature: review B (2026-10-18) measured 36 px buttons and a top-right menu at 375 px
@@ -528,7 +529,7 @@ Do this, in order, and keep notes as you go:
 1. Play as a new player, twice: once in each graphics mode, on a desktop window and on a 375x812 phone-sized window, at least 45 minutes each at raised speed (there is a debug panel on `?debug`; use its time controls). Hatch, raise, feed, pet, race, run an Expedition, let one creature reach the end of its life, visit every screen, switch Keepers, enter the dungeon, start the campaign and play two chapters, open the Learning Grove in both bands, try the Hebrew or Japanese questline, change every setting, export and import a save, block storage (DevTools) and reload. Note every bug with exact steps, every moment of confusion, every control you could not reach with one thumb, every frame hitch you felt, and every place the two modes differ.
 2. Read the code as a stranger: structure, the boundary between simulation and rendering, randomness and time handling, save versioning and migrations, the worker and cache code, error handling, accessibility in the UI code, bundle sizes from `npm run build`, test coverage and what the tests do not cover. Run the tests and the lint. Delegate deep reads to Opus subagents by folder if you like; they follow the same rules.
 3. Read a sample of the story content: two campaign chapters, three side stories, two fun quests, two Atlas pages, one Learning Grove scene in each band, the Hebrew and Japanese scripts. Judge tone, length, kid safety, quoting rules, and whether choices matter.
-4. Check the asset record: every imported file comes from Maor's licensed sources (all IP licences approved (Maor, 2026-10-17)), and no song lyrics appear anywhere.
+4. Check the asset record: every imported file comes from Maor's licensed sources (all IP licences approved (Maor, 2026-10-17)), and no lyrics from existing songs appear anywhere (original sung verses are fine, Maor, 2026-10-18).
 5. Only now read CLAUDE.md, PROGRESS.md, plan.md and docs/. List every place where what they claim differs from what you found, and every open item they do not know about.
 
 Write docs/review-independent-2026-10-XX.md (today's date) with these sections: a one-paragraph verdict; Bugs (each with steps, expected, actual, severity: blocker, major, minor); Missing against the goals (goal number, what is missing, evidence); Risks (performance, IP, kid safety, data loss); Improvements ranked by value against cost, with a one-line recommendation each; What the notes get wrong; and What surprised you for the better. Keep each entry short and concrete. Do not fix anything. Commit only the report, push, and give me the verdict paragraph and the top ten findings.
