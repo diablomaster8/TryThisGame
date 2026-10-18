@@ -54,12 +54,13 @@ chaos-eggs, keeper, moods; 3D only: standin, mixed).
   static; type-tell accents keep their type colour under a look; the stage's `&pose=` list does
   not know the new poses; the emote ball floats at full height over a stand-in dome;
   `render3d/actors.ts` is 946 lines (split it next time it grows).
-- **Known bugs, for Maor:** the modes still disagree on three art choices. Eternal Neutral is
-  silvery lilac in Pixel and lime green with a gold chain in 3D (line-up figure 5); Eternal Moon
-  is black and red in Pixel and deep navy in 3D; the character looks in 3D follow the line-up
-  references (fox: black hood, orange vest), Pixel's older palettes (fox: all orange). Captures
-  from the hidden browser pane look washed out; not compared with a visible frame. The device
-  pass (G11) is still owed.
+- **Pixel follows the 3D line-up (Maor, 2026-10-18):** Eternal Moon is dark indigo with an ember
+  eye and small lavender shoulder spikes in place of great wings; Eternal Neutral is flat lime with
+  a yellow-green belly and salmon hands and feet (no gold chain in Pixel); the character looks
+  take the line-up palettes, the fox a black hood, the echidna white crown spikes, the dream
+  look magenta (`render/sprites/chao.ts`; shots `r18-looks-pixel.jpg`, `r18-chaos-pixel.jpg`).
+- **Known bugs:** captures from the hidden browser pane look washed out; not compared with a
+  visible frame. The device pass (G11) is still owed.
 - **Assumptions:** jewel egg chance 2%; flap and swim at level 30.
 
 ## Review fix: panels over story scenes, Beetle Run (2026-10-18)

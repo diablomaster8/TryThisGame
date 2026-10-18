@@ -176,8 +176,10 @@ export function variantColors(
 }
 
 /**
- * The Chaos forms: Eternals. Sun is the angelic white-and-gold look with great wings,
- * Moon the devilish black-and-red one, Neutral a silvery, ethereal one.
+ * The Chaos forms: Eternals. Sun is the angelic white-and-gold look with great wings. Moon
+ * and Neutral follow the 3D line-up references (`samples/nubbin-variants-special.ts`, Maor
+ * 2026-10-18): Moon dark indigo armour with icy spikes and an ember eye, Neutral flat lime
+ * with a yellow-green belly and salmon hands and feet.
  */
 export function eternalColors(band: 'sun' | 'moon' | 'neutral'): ChaoColors {
   switch (band) {
@@ -195,27 +197,28 @@ export function eternalColors(band: 'sun' | 'moon' | 'neutral'): ChaoColors {
       };
     case 'moon':
       return {
-        body: C.ink,
+        body: C.nightBlue,
         shade: C.darkPlum,
-        belly: C.plum,
-        tip: C.ember,
-        tipShade: C.berry,
-        wing: C.berry,
+        belly: C.lilacGrey,
+        tip: C.nightBlue,
+        tipShade: C.darkPlum,
+        // No great wings in 3D: the wing slot reads as the icy shoulder spikes.
+        wing: C.lavender,
         eye: C.ember,
-        glint: C.sunYellow,
-        outline: C.darkPlum,
+        glint: C.lavender,
+        outline: C.ink,
       };
     default:
       return {
-        body: C.lilacGrey,
-        shade: C.dusk,
-        belly: C.pale,
-        tip: C.mint,
-        tipShade: C.teal,
-        wing: C.lavender,
+        body: C.grass,
+        shade: C.leaf,
+        belly: C.sprout,
+        tip: C.rose,
+        tipShade: C.roseDeep,
+        wing: C.grass,
         eye: C.teal,
         glint: C.white,
-        outline: C.plum,
+        outline: C.leafDeep,
       };
   }
 }
@@ -404,7 +407,8 @@ export const DYE_COLORS: Record<DyeColor, number> = {
 
 /**
  * Character looks: the Chao that dressed up as other heroes. Each is a palette plus a
- * head accessory, worn like a hat from the roster. Won at race tier 3.
+ * head accessory, worn like a hat from the roster. Won at race tier 3. The palettes follow
+ * the 3D line-up references (`samples/nubbin-variants-lineup.ts`, Maor 2026-10-18).
  */
 export const CHARACTER_LOOKS: Record<string, { colors: ChaoColors; label: string }> = {
   'look-fox': {
@@ -412,23 +416,25 @@ export const CHARACTER_LOOKS: Record<string, { colors: ChaoColors; label: string
     colors: {
       ...CHILD_NEUTRAL,
       body: C.orange,
-      shade: C.ember,
-      belly: C.cream,
-      tip: C.white,
-      tipShade: C.pale,
+      shade: C.sunDeep,
+      belly: C.orange,
+      tip: C.cream,
+      tipShade: C.sandLight,
       wing: C.cream,
+      eye: C.nightBlue,
     },
   },
   'look-echidna': {
     label: 'Echidna look',
     colors: {
       ...CHILD_NEUTRAL,
-      body: C.ember,
-      shade: C.berry,
-      belly: C.cream,
+      body: C.berry,
+      shade: C.darkPlum,
+      belly: C.white,
       tip: C.white,
       tipShade: C.pale,
-      wing: C.rose,
+      wing: C.berry,
+      eye: C.teal,
     },
   },
   'look-rose': {
@@ -437,9 +443,9 @@ export const CHARACTER_LOOKS: Record<string, { colors: ChaoColors; label: string
       ...CHILD_NEUTRAL,
       body: C.blush,
       shade: C.rose,
-      belly: C.cream,
-      tip: C.ember,
-      tipShade: C.berry,
+      belly: C.roseLight,
+      tip: C.white,
+      tipShade: C.roseDeep,
       wing: C.white,
     },
   },
@@ -447,12 +453,13 @@ export const CHARACTER_LOOKS: Record<string, { colors: ChaoColors; label: string
     label: 'Dream look',
     colors: {
       ...CHILD_NEUTRAL,
-      body: C.violet,
+      body: C.roseDeep,
       shade: C.moonPurple,
-      belly: C.lavender,
+      belly: C.roseDeep,
       tip: C.sunYellow,
-      tipShade: C.orange,
-      wing: C.rose,
+      tipShade: C.sunDeep,
+      wing: C.roseDeep,
+      eye: C.darkPlum,
     },
   },
 };
@@ -463,6 +470,10 @@ function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: Layout, hat: string): vo
   const cx = L.headCx + (angle === 'side' ? -1 : 0);
   switch (hat) {
     case 'look-fox':
+      // A black hood over the crown, its rim framing the face.
+      pc.ellipse(cx, top + 2, 8, 4.5, C.ink);
+      pc.rect(cx - 8, top + 3, 17, 2, C.ink);
+      pc.thinLine(cx - 4, top - 1, cx + 3, top - 1, C.darkPlum);
       // Two bushy tails peeking out behind, drawn low on the sides.
       pc.ellipse(cx - 9, L.bodyCy + 1, 3, 2, C.orange);
       pc.ellipse(cx + 9, L.bodyCy + 1, 3, 2, C.orange);
@@ -470,10 +481,10 @@ function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: Layout, hat: string): vo
       pc.px(cx + 11, L.bodyCy + 1, C.white);
       break;
     case 'look-echidna':
-      // Dreadlock spikes hanging from the crown.
-      for (const dx of [-7, -4, 4, 7]) {
-        pc.line(cx + dx, top + 2, cx + dx * 1.4, top + 10, C.ember);
-        pc.px(cx + dx * 1.4, top + 10, C.berry);
+      // The line-up figure's white spikes, standing up round the crown.
+      for (const dx of [-6, -3, 3, 6]) {
+        pc.tri(cx + dx - 1.5, top + 3, cx + dx + 1.5, top + 3, cx + dx * 1.3, top - 3, C.white);
+        pc.px(cx + dx * 1.3, top - 2, C.pale);
       }
       break;
     case 'look-rose':
@@ -485,7 +496,7 @@ function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: Layout, hat: string): vo
       break;
     case 'look-dream':
       // A jester cap with two bells.
-      pc.tri(cx - 7, top + 2, cx + 1, top + 2, cx - 9, top - 6, C.violet);
+      pc.tri(cx - 7, top + 2, cx + 1, top + 2, cx - 9, top - 6, C.roseDeep);
       pc.tri(cx - 1, top + 2, cx + 7, top + 2, cx + 9, top - 6, C.moonPurple);
       pc.disc(cx - 9, top - 6, 1.5, C.sunYellow);
       pc.disc(cx + 9, top - 6, 1.5, C.sunYellow);

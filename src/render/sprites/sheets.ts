@@ -128,7 +128,8 @@ export class SheetCache {
               'normal',
               null,
               { ...n.parts },
-              true,
+              // Eternal Moon has no great wings in the line-up, only icy shoulder spikes.
+              n.eternal !== 'moon',
               n.hat,
               n.shiny || n.heirloom,
             ),
