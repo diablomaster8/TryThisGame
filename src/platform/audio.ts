@@ -51,22 +51,45 @@ let sfxBus: GainNode | null = null;
 let delaySend: GainNode | null = null;
 let reverbSend: GainNode | null = null;
 
-/** Call from the first user gesture. Safe to call repeatedly. */
+/**
+ * Call from user gestures: pointerup, touchend, click and keydown (iOS Safari does not
+ * count pointerdown as one). Safe on every gesture: it builds the context once, then only
+ * resumes it when it is not running, which also brings sound back after an interruption
+ * (a phone call, Siri, another app's audio).
+ */
 export function unlockAudio(): void {
-  if (unlocked) return;
-  try {
-    const Ctor =
-      window.AudioContext ??
-      (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-    if (!Ctor) return;
-    ctx = new Ctor();
-    void ctx.resume();
-    buildGraph(ctx);
-    unlocked = true;
-    if (pendingSong) playSong(pendingSong);
-  } catch {
-    ctx = null;
+  if (!ctx) {
+    try {
+      const Ctor =
+        window.AudioContext ??
+        (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      if (!Ctor) return;
+      ctx = new Ctor();
+      buildGraph(ctx);
+      ctx.addEventListener('statechange', onStateChange);
+    } catch {
+      ctx = null;
+      return;
+    }
   }
+  resumeAudio();
+}
+
+/**
+ * Resume a context that is not running, for example when the tab comes back. Sound
+ * counts as unlocked only once the context really runs: resume() can fail, or be refused
+ * outside a gesture, and the next gesture tries again.
+ */
+export function resumeAudio(): void {
+  const ac = ctx;
+  if (!ac || ac.state === 'running' || ac.state === 'closed') return;
+  ac.resume().then(onStateChange, () => undefined);
+}
+
+function onStateChange(): void {
+  if (ctx?.state !== 'running' || unlocked) return;
+  unlocked = true;
+  if (pendingSong) playSong(pendingSong);
 }
 
 function buildGraph(ac: AudioContext): void {

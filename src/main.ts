@@ -1,6 +1,6 @@
 import { Game } from './game';
 import type { EduAge } from './config/edu';
-import { unlockAudio } from './platform/audio';
+import { resumeAudio, unlockAudio } from './platform/audio';
 import type { EduBand } from './content/types';
 import {
   clearSlot,
@@ -28,6 +28,16 @@ function mustGet<T extends Element>(selector: string): T {
 const app = mustGet<HTMLDivElement>('#app');
 const canvas = mustGet<HTMLCanvasElement>('#game');
 const hudRoot = mustGet<HTMLDivElement>('#hud');
+
+// Sound starts muted and unlocks on a tap, click or key, the title screen's included.
+// The listeners stay: each gesture resumes a context an interruption suspended (iOS
+// counts pointerup and touchend as activations, not pointerdown).
+for (const type of ['pointerup', 'touchend', 'click', 'keydown'] as const) {
+  window.addEventListener(type, unlockAudio, { passive: true });
+}
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) resumeAudio();
+});
 
 const params = new URLSearchParams(location.search);
 if (params.has('sprites')) {
@@ -202,15 +212,6 @@ function boot(
     }
   });
   window.addEventListener('pagehide', () => game?.save());
-
-  // Sound starts muted and unlocks on the first tap or click.
-  const unlock = () => {
-    unlockAudio();
-    window.removeEventListener('pointerdown', unlock);
-    window.removeEventListener('keydown', unlock);
-  };
-  window.addEventListener('pointerdown', unlock);
-  window.addEventListener('keydown', unlock);
 
   // Install-to-home-screen: the service worker only runs on the built site.
   if (import.meta.env.PROD && 'serviceWorker' in navigator) {
