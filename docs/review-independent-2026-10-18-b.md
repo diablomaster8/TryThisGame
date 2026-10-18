@@ -73,6 +73,7 @@ Most fixes are small. Merge the blocker branch first.
      catch-up. Reproduced: a 2-minute gap gives `departed`; 7 days + 59 s gives
      `awaitingKeeper` and then `departed`.
    - Still on `main`; the fix is unmerged on `fix/review-blockers`.
+   - **Addressed 2026-10-18** (a391c69, merged in 5d47210: catch-up fine steps run with the away rules; tests for a 2 min 30 s gap and 1 day + 55 s.)
 2. **Stale service worker, and failed chunk loads are never caught.** [sub✓]
    - **Where:** `public/sw.js:4`, `src/main.ts:112,118`, `story-scenes.ts:138`.
    - **Steps:** visit the site, deploy, then reopen and switch to Full 3D or enter the Learning
@@ -84,6 +85,7 @@ Most fixes are small. Merge the blocker branch first.
      - The imports have no `.catch`, and the rejected promise is cached with `??=`. The result
        is a blank or forever-loading screen.
    - Still on `main`.
+   - **Addressed 2026-10-18** (a391c69 + 5d47210: per-build cache name, network-first navigations, old caches deleted on activate; a catch and the reload notice on every lazy chunk (story scripts, edu, 3D, minigame views, the four shelves, the samples).)
 
 ### Major
 
@@ -94,27 +96,33 @@ Most fixes are small. Merge the blocker branch first.
      day (`sim/quests.ts:94-99`). They pay 45–50 Shells, sometimes with an egg. Weekly team
      missions (`teams.ts:94-113`) and "Today's Hollow", tied to the board (`dungeon.ts:536`),
      remain.
+   - **Addressed 2026-10-18** (790edb3: each request kind is asked once, ever; team missions run once each, in order; the Hollow request counts any descent, so nothing pays for Today’s Hollow.)
 4. **Mature content is one tap with no grown-up check.** [played]
    - **Steps:** Settings → Mature content → 18+.
    - **Expected:** a parental gate.
    - **Actual:** it switches at once. The rift then asks only "Are you 18 or older?". The setting
      is also per save, so a parent must set it in every slot.
+   - **Addressed 2026-10-18** (a391c69 + 5d47210: raising Mature content asks the grown-up sum gate; imports always come back Off (main’s rule). Still per save, as before.)
 5. **An Eternal can happen at exactly 0.80.** [sub✓] `alignment.ts:14`, `lifecycle.ts:181-183`
    - **Steps:** a Nubbin reborn twice, Normal type, gets 80 Sun kind acts from 0.
    - **Expected:** 0.80 is not above 0.8, so no Eternal.
    - **Actual:** alignment is `0.8000000000000005`, so it becomes Eternal Sun. 50 acts likewise
      give 0.5000000000000002, which reads as Sun band. No test covers the boundary.
+   - **Addressed 2026-10-18** (227a93d: alignment kept and compared in hundredths; boundary tests at ±0.50 and ±0.80, and an evolve test where Eternal must not happen.)
 6. **Normal type lean is ignored.** [sub] `alignment.ts:25-31`
    - `winningType` skips `normal`, so `{normal:300, swim:30}` evolves Swim.
    - Fusion and plant fruit add Normal lean (`fusion.ts:34`, `plants.ts:124`) that can never win.
+   - **Addressed 2026-10-18** (227a93d: Normal lean competes in `winningType`.)
 7. **A Nubbin raised while away is always "well raised".** [sub]
    - `slips.ts:31` ignores steps over 1 s, so coarse catch-up logs no slips, and the child gets
      the bonus grade (`lifecycle.ts:111-116`).
    - The bonus isn't recorded in `gradeUpgrades`, and `wellRaised` isn't reset on rebirth.
+   - **Addressed 2026-10-18** (78fde6d: coarse catch-up logs slips (rain aside), the bonus is in `gradeUpgrades`, rebirth clears `wellRaised`.)
 8. **Rebirth odds depend on whether the player watched.** [sub]
    - Lifetime happiness is sampled once per second live and once per minute away
      (`world.ts:863`, `offline.ts:91`), so a live hour weighs 60× an away hour.
    - This was reported this morning and is not fixed.
+   - **Addressed 2026-10-18** (78fde6d: samples carry the sim seconds they stand for.)
 9. **Story worlds can't read the Grove.** [sub]
    - 22 Atlas pages and all 5 Arcade files declare "GROVE FLAGS READ", for example A19
      `sableFirst` (`atlas-a19.ts:21-31`).
@@ -122,45 +130,54 @@ Most fixes are small. Merge the blocker branch first.
      reads only the line's own flags (`sim/atlas.ts:113-121`).
    - So those variants never play, and A19-18 shows its memory line even when `sableFirst` is
      unset.
+   - **Addressed 2026-10-18** (2aba097: the shelf passes a frozen copy of the campaign flags; replacement variants (values, aliases, `-unset`, chained suffixes) play. Inserts and margin notes are not wired yet.)
 10. **Trade away can lose a Nubbin and its code.** [sub] `ui/roster.ts:122-135`
     - **Steps:** Roster → Trade away, where clipboard write fails (common on iOS after
       `confirm()`), then cancel the `prompt()`.
     - **Actual:** `tradeAway` is sent anyway. The Nubbin is gone, and its code was never shown.
+    - **Addressed 2026-10-18** (d348f9c: the code shows in a dialog; only its own "Code saved: send away" button trades.)
 11. **Camera keys swallow typing.** [sub] `input/camera-controls.ts:26,42-66`
     - **Steps:** Learning Grove parent panel → type the name "Steve".
     - **Actual:** "e" never arrives (`preventDefault`), and the camera spins. Q, [, ], +, = and
       - behave the same way.
+    - **Addressed 2026-10-18** (2d1d639: `input/keys.ts`; camera, F and backtick ignore fields, selects, editables and Ctrl/Alt/Cmd.)
 12. **Sound can stay silent on iPhone.** [sub] `platform/audio.ts:55-69`, `main.ts:192`
     - The unlock runs once, on `pointerdown`, which is not a user activation on iOS.
     - `unlocked` is set even if `resume()` failed, and there is no resume after an interruption
       or `visibilitychange`.
     - Title-screen taps don't unlock it either.
+    - **Addressed 2026-10-18** (df687c1: unlock on pointerup, touchend, click and keydown from the title on; unlocked only once running; resume on each gesture and on visibilitychange.)
 13. **No WebGL failure handling.** [sub]
     - There is no `webglcontextlost` listener, no WebGL2 check and no fallback.
       `new LowResPipeline` (`game.ts:142`) and `Grove3dScene` (`main.ts:116`) are not guarded.
     - `compileScene(...).then` has no catch (`grove-3d-scene.ts:686`).
     - Result: a blank screen on devices without WebGL2 or with a lost context.
+    - **Addressed 2026-10-18** (f15c44a: WebGL2 check, renderer try/catch, webglcontextlost card (Reload, Switch to Pixel), caught shader warm-up.)
 14. **The Full 3D creature pool and garden only grow.** [sub]
     - Rigs are never freed on evolution, part, hat or look change, or on neighbour visits
       (`creature-pool.ts:27`, `crowd.ts:325`).
     - `Garden.rebuild` disposes only geometry; materials and InstancedMesh buffers leak, and a
       rebuild can fire every 500 ms (`garden.ts:285-308`).
     - `VisitSet.dress` doesn't dispose either (`visit.ts:52`).
+    - **Addressed 2026-10-18** (8d64e8e: pool LRU on spares and surfaces (`GROVE3D.poolSpares`, `poolLooks`); garden and visit sets dispose geometry, instances and own materials.)
 15. **The in-game Reduced motion setting doesn't reach the camera.** [sub]
     - `OrbitCamera.reduceMotion` reads only the OS query (`camera.ts:87-90`), and the 3D camera
       always eases (`grove-3d-scene.ts:600`).
     - `scene3d.reduceMotion` is never read.
     - Pixel water and sway keep moving (`grove-scene.ts:640-650`).
+    - **Addressed 2026-10-18** (c280a6c: the resolved setting reaches both cameras each frame; Pixel water, falls, foam and sway hold still.)
 16. **Tap targets and one-thumb reach on phones.** [played]
     - At 375×812, Shop buy, Races tiers, Keepers Choose, Roster actions and Journal tabs measure
       36 px (`.btn-small`).
     - The top bar wraps into three rows of eight menu buttons in the top-right corner. Only Run,
       rotate and zoom sit in the thumb zone.
+    - **Addressed 2026-10-18** (09df633: `.btn-small` 44 px; a bottom action bar in phone portrait, with the bottom HUD above it.)
 17. **Dialogs are not accessible.** [sub] `ui/dom.ts:38-65`
     - No `role="dialog"`, focus move, focus trap or focus return.
     - Space is blocked globally (`game-input.ts:153`), so a focused button can't be pressed with
       it.
     - Escape misses the shelves, the language panel and the rift confirmation.
+    - **Addressed 2026-10-18** (09df633 and 2d1d639: `dialogFocus` gives modals role, aria-modal, focus in, Tab trap, Escape and focus return; Space reaches focused buttons.)
 
 ### Minor
 

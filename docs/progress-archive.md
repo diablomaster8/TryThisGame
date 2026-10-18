@@ -2,6 +2,34 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Review fix: panels over story scenes, Beetle Run (2026-10-18)
+
+Bug 3 of `docs/review-independent-2026-10-18.md`, with its neighbour bug 20.
+
+Works:
+- Panels, sheets and notices (`.modal`, `.sheet`, `.pocket`, `.celebrate`, `.catching`,
+  `.debug`) sit at z-index 16, above the dialogue (15), so a tap on them never lands on it.
+- `Dialogue.waitWhile` (wired in `hud.ts`): while any stacked panel, a running minigame, the
+  away summary, a celebration, the memorial card, the Learning Grove screens or the catch-up
+  veil is open, the scene waits on its line (class `waiting`: dimmed, `pointer-events: none`,
+  Space/Enter ignored) and resumes when the last one closes. `mountPanelStack` now returns
+  `anyOpen()` and calls back on every settle, so the wait starts the moment a panel opens.
+- Beetle Run, the race, karate and gym screens are pinned panels in the stack: a menu opened
+  over one (Races over Beetle Run) is shut at once, so results never stack over a dialog.
+  Escape quits Beetle Run to its results (keeping the cargo), and a second Escape closes them.
+  Escape also closes the away summary. Scenes do not start over the gym or Beetle Run.
+- Checked in the browser pane at 1280x800 and 375x812, in Pixel and Full 3D: after a 4-minute
+  `resume()`, `elementFromPoint` at Continue returns the button and one tap closes it; the
+  stats sheet, settings, shop, roster, journal, races, atlas and cabinet all wait the scene
+  with no button hitting `.dialogue`, and the line never moves; Space, Enter and a tap on the
+  box do nothing while a panel is open; a tap advances it again after. Screenshots
+  `docs/samples/bug3-away-over-scene-{3d,pixel}-{1280,375}.jpg`.
+
+Stubbed: no DOM test environment, so there is no unit test; the checks above are manual.
+
+Known: with a scene waiting under the stats sheet (no backdrop), taps outside the sheet reach
+the Grove as usual. Anything that opens a panel mid-scene pauses the story until it closes.
+
 ## Save safety: review bugs 4, 5, 29 (2026-10-18)
 
 From `docs/review-independent-2026-10-18.md`. Works:

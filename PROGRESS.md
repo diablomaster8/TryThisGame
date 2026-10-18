@@ -21,11 +21,49 @@ audience and outline allow (none for Q66–Q95; they read their childLines); fix
 for Atlas A1–A10 and A22–A31 and every Atlas and S24–S31 edu version, the rest canon-audited
 only (`docs/content-index.md`). Plan v4 (`plan.md`): G11 device pass, Track B writing and review
 tasks; Part Z ran on 2026-10-18 (`docs/review-independent-2026-10-18.md`) and its fixes are
-going in pass by pass. Maor, 2026-10-17: legal cleared, adviser sign-off given, the seven
+going in pass by pass. Review B (`docs/review-independent-2026-10-18-b.md`): Bugs 1–17 fixed
+on 2026-10-18 (section below); Bugs 18–38 are another pass. Maor, 2026-10-17: legal cleared, adviser sign-off given, the seven
 fun-quest quotes approved as written, Pixel stays the default; 2026-10-18: ship the Arcade, the
 Multiverse, Neopia and Q66–Q95. Waiting on Maor: the LB/LK decision (section "Pixel's Arcade
 PA1–PA5" in `docs/progress-archive.md`). Backlogs: `docs/creature-improvements.md`,
 `docs/content-index.md`.
+
+## Review B, Bugs 1–17: blockers and major bugs (2026-10-18)
+
+From `docs/review-independent-2026-10-18-b.md` (each bug there has an "Addressed" note).
+Branch `fix/review-blockers` was checked and merged (main's stricter import kept: an imported
+save always comes back with Mature content Off). Works:
+- **Away and lifecycle (sim, tested):** fine catch-up steps follow the away rules, so no
+  departure while departures are off, for any gap (Bug 1). Alignment is kept and compared in
+  hundredths (`roundAlignment`): exactly ±0.80 is not Eternal, ±0.50 is Neutral (5). Normal lean
+  can win the adult type (6). Catch-up logs care slips (rain aside), the well-raised grade is in
+  `gradeUpgrades`, rebirth clears `wellRaised` (7). Lifetime happiness is weighted by sim
+  seconds (`sampleHappiness(n, seconds)`), so an hour away weighs an hour watched (8).
+- **No chores (3):** each request kind is asked once (claimed ones stay on the board as done);
+  team missions run once each, in order (`TEAMS.missions`); the Hollow request counts any
+  descent. `questDay` and `TeamState.week` are kept unused so old saves load.
+- **Loading (2):** per-build service worker cache, network-first pages, old caches deleted;
+  every lazy chunk has a catch and the "Reload to update" notice, the shelves included.
+- **Mature gate (4):** raising Mature content asks the grown-up sum gate first.
+- **Story worlds (9):** the shelf passes a frozen copy of the campaign flags as
+  `LineContext.grove`; `variantFor` matches Grove answers, chained suffixes (`-ran-unset`),
+  `GROVE_UNSET` (A19 sableFirst) and `GROVE_ALIASES` (s21Done → clank, s8Reunited → fern...).
+- **UI (10–17):** trade shows the code in a dialog and sends only from its own button;
+  `input/keys.ts` keeps camera and shortcut keys out of fields and Space on buttons; sound
+  unlocks on pointerup/touchend/click/keydown from the title on and resumes after
+  interruptions; WebGL2 check, renderer try/catch and a context-lost card (Reload, Switch to
+  Pixel); creature pool LRU (`GROVE3D.poolSpares`/`poolLooks`), garden and visit disposal;
+  Reduced motion reaches both cameras and Pixel water/sway; `.btn-small` is 44 px and phone
+  portrait has a bottom action bar (`--hud-bottom` lifts the bottom HUD); `dialogFocus` in
+  `ui/dom.ts` gives every modal role, focus, trap, Escape and focus return.
+- **Checked in the browser pane** (hidden pane, frames driven by hand): both modes at 375×812
+  and 1280×800, dialogs, typing, trade, Reduced motion, the lost-context card.
+- **Stubbed:** story-world inserts ("plays straight after"), once-only margin notes and derived
+  Grove facts (campaign finished, Sable's trust, mossFaded) are not wired, only replacement
+  variants. Sound on a real iPhone, WebGL2-less devices and the pool caps under a long session
+  are untested. Minigame result cards are not dialogs yet.
+- **Known bugs:** `tests/sim/side-saves.test.ts` "every Atlas page" can pass its 5 s timeout
+  under a full parallel run (cold transform; passes alone in about 1 s).
 
 ## Review goal 7: the Arcade, the Multiverse, Neopia and Q66–Q95 ship (2026-10-18)
 
@@ -97,34 +135,6 @@ chaos-eggs, keeper, moods; 3D only: standin, mixed).
 - **Known bugs:** captures from the hidden browser pane look washed out; not compared with a
   visible frame. The device pass (G11) is still owed.
 - **Assumptions:** jewel egg chance 2%; flap and swim at level 30.
-
-## Review fix: panels over story scenes, Beetle Run (2026-10-18)
-
-Bug 3 of `docs/review-independent-2026-10-18.md`, with its neighbour bug 20.
-
-Works:
-- Panels, sheets and notices (`.modal`, `.sheet`, `.pocket`, `.celebrate`, `.catching`,
-  `.debug`) sit at z-index 16, above the dialogue (15), so a tap on them never lands on it.
-- `Dialogue.waitWhile` (wired in `hud.ts`): while any stacked panel, a running minigame, the
-  away summary, a celebration, the memorial card, the Learning Grove screens or the catch-up
-  veil is open, the scene waits on its line (class `waiting`: dimmed, `pointer-events: none`,
-  Space/Enter ignored) and resumes when the last one closes. `mountPanelStack` now returns
-  `anyOpen()` and calls back on every settle, so the wait starts the moment a panel opens.
-- Beetle Run, the race, karate and gym screens are pinned panels in the stack: a menu opened
-  over one (Races over Beetle Run) is shut at once, so results never stack over a dialog.
-  Escape quits Beetle Run to its results (keeping the cargo), and a second Escape closes them.
-  Escape also closes the away summary. Scenes do not start over the gym or Beetle Run.
-- Checked in the browser pane at 1280x800 and 375x812, in Pixel and Full 3D: after a 4-minute
-  `resume()`, `elementFromPoint` at Continue returns the button and one tap closes it; the
-  stats sheet, settings, shop, roster, journal, races, atlas and cabinet all wait the scene
-  with no button hitting `.dialogue`, and the line never moves; Space, Enter and a tap on the
-  box do nothing while a panel is open; a tap advances it again after. Screenshots
-  `docs/samples/bug3-away-over-scene-{3d,pixel}-{1280,375}.jpg`.
-
-Stubbed: no DOM test environment, so there is no unit test; the checks above are manual.
-
-Known: with a scene waiting under the stats sheet (no backdrop), taps outside the sheet reach
-the Grove as usual. Anything that opens a panel mid-scene pauses the story until it closes.
 
 ## Standing approval (Maor, 2026-10-12)
 
