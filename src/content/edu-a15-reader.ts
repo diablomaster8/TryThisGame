@@ -318,7 +318,7 @@ const KANSAS: Line[] = [
 /** A15-20: the page closes (all four endings). */
 const CLOSE: Line[] = [
   N(
-    'The page folds shut, softly. You are back in the Grove, with Nova’s atlas on your knee and a thin silver ribbon marking the place.',
+    'The page folds shut, softly, and you are back in the Grove with the atlas on your knee. A thin silver ribbon keeps the place, and it was not there this morning.',
   ),
 ];
 /** A15-20: the lamb wakes over the wall (both pocketed endings). */

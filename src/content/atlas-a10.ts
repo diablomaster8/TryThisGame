@@ -117,7 +117,7 @@ const FM = say('a10-farmer');
 /** A10-14 complete: the way home and the rewards, shared by all three approach variants. */
 const A14_HOME: Line[] = [
   N('The page gives a long, slow sigh, like a sail letting go of the wind.'),
-  N('You are back in the Grove with Nova’s atlas on your knee. Your Nubbin smells of salt and is still swaying.'),
+  N('You are back in the Grove with Nova’s atlas on your knee. The ground will not hold still; it sways like a deck, and your Nubbin smells of salt.'),
   N('By the pond there is a small voyaging canoe, twin-hulled, with a woven sail no bigger than a tablecloth.'),
   N('Up on the hill, a ring of flat stones has appeared in the grass, each one marked with a house of the rising stars.'),
 ];

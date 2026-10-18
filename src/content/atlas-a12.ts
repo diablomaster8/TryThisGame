@@ -224,7 +224,7 @@ const A17_CHOICES: Choice[] = [
 /** A12-18: the close of the complete scene (both a12-nubbin paths). */
 const A18_END: Line[] = [
   N('The page settles under your hand, like a paper cut-out laid flat on a table.'),
-  N('You’re back in the Grove, with Nova’s atlas on your knee. There’s a rose petal in the fold of the page.'),
+  N('You’re back in the Grove, with Nova’s atlas on your knee. When you open it again, a rose petal slides out of the fold and lands on your boot.'),
   N('On the cottage windowsill stands a window box with a rose tree in it that wasn’t there this morning.'),
   N('Another stands on the lantern shed across the way, and between them somebody has laid a plank.'),
 ];

@@ -396,7 +396,8 @@ separate and never write these flags. They may read Grove state to vary their ow
     S2 seasons were fixed, and Hazel "left at the end of the winter".
 19. **Bramble's youngest at dawn.** S8 finishes in chapter 11, so the dawn scene can't wait for
     `s8Done`. It reads `s8Reunited` instead, which S8 sets when Fern finds Bramble.
-20. **S9 has started.** S9 sets `s9Started` on its first scene. Chapter 11's gate line reads it.
+20. **S9 has started.** S9 sets `s9Started` on its first scene. Chapter 11's gate line reads
+    whether `s9-ask` has played (`src/sim/campaign-routes.ts`), not the flag.
 21. **Hazel's walk.** The walk lives in one place. S10's foot-of-the-hill choice only sets `walk`;
     the campaign scene `c12-walk-<walk>` plays the climb. Without S10, `c12-walk-alone` plays.
 22. **The four posts.** Hazel names the posts only in S1 and in S10's third wish. In chapter 12 she
@@ -466,7 +467,7 @@ These were settled after the full review. They win over any older line.
 - **Fun quests** never trigger during chapters 9–11.
 - **Who can talk.** Nubbins and animals don't speak in the Grove's story, with these exceptions:
   - fun quests;
-  - S12's hive chorus;
+  - S12's hive chorus, and its one return in S26;
   - S18's Professor Delve and S15's clockwork parrot, who aren't Nubbins;
   - talking animals inside Atlas and Arcade worlds.
 - **Names.** S26's girl is Linnet and S23's echo is Thimble.

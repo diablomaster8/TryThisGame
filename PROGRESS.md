@@ -16,13 +16,32 @@ Grove switch, Hebrew and Japanese, Atlas/Arcade/Multiverse saves, Mature content
 one-time gifts). Atlas A1–A31 all scripted; A1–A10 and A22–A31 reviewed and fixed (plan
 Task B-R1; reports `docs/logs/review-wave-L.md` and `review-wave-M.md`). Plan v4
 (`plan.md`): G11 device pass, Track B writing and review tasks, and Part Z, the
-independent full review that runs last. Plan G12 is built and pushed (2026-10-17): the storyline engine, expansions E1–E3 and the four separate campaigns S1–S4, sections below and in the archive. Waiting on Maor:
+independent full review that runs last. Plan G12 is built and pushed (2026-10-17): the storyline engine, expansions E1–E3 and the four separate campaigns SL1–SL4, sections below and in the archive. Waiting on Maor:
 seven fun-quest quotes, Full 3D as default (brief: `docs/renderer-decision.md`), his phone
 rows, the Atlas quote, adviser and audience items in the two wave reports, and
 the Arcade and LB/LK decisions (section "Pixel's Arcade PA1–PA5" in `docs/progress-archive.md`).
 Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
 
-## G12 writing pass: beats for S1–S4 and the expansions (2026-10-17)
+## Canon audit and fixes (2026-10-17)
+
+Audit report `docs/logs/review-canon-audit.md` (report mode, whole canon; Maor's decisions in its
+section 9). Fixed: the Multiverse (one signature choice per line paid off in 3+ later quests,
+`MV_*_VARIANTS`; Nubbin lines in MK/SP narrated) and Neopia (`np-05-stance` pays off in NP9,
+NP11, NP13; NQ flags read in their own completes; the faerie side/colours rewards split into
+one key per chain, `neo-side-*` / `neo-colours-*`); PA1 is `all` with childLines and new
+`edu-pa1-sprout.ts` / `edu-pa1-reader.ts`; S24's speaker is `augusta`; the separate campaigns
+are SL1–SL4; the hive's S26 return is now canon (canon 17/31, bible, brief); Moss's Hush
+memory is told new in S26 and S30; the minor tone and repetition fixes from section 4.
+New variant arrays are exported from `src/content/index.ts` and covered by content-check.
+- **Stubbed:** no sim catalogue plays the Multiverse or Neopia variants yet; when CV6 builds
+  it, pick variant arrays per line (two files carry two each), and note `variantFor` matches
+  bare flag values (three MV signature values were prefixed to avoid clashes).
+- **Known bugs:** two tests fail and failed before this pass (checked at HEAD):
+  `line-swaps` "c12-open splices the walled garden in every band" and `edu-story` "applies
+  childLines to an all-audience quest scene without an edu version". About 16 lines in
+  `storyline-*.ts` exceed 160 characters; content-check does not cover the storylines.
+
+## G12 writing pass: beats for SL1–SL4 and the expansions (2026-10-17)
 
 The separate campaigns were a session long each; the brief asked for 4–10 hours. This pass
 adds `StorylineChapter.beats` between the openings and the goals (no goal check changed),
@@ -104,35 +123,6 @@ Works:
 Stubbed: the door keepers are the ordinary dojo rivals with the chapter’s framing; the
 weekly guard missions are not goals (they would be a chore), so the “leader’s errands” are
 narrated. No stats-sheet line for `fusedFrom` yet (`fusedFrom()` is ready for it).
-
-## G12 X5: S2 "Logged In" with party bouts (2026-10-17)
-
-The second separate campaign, in the `logged` save mode. Script
-`src/content/storyline-logged.ts` (8 chapters, 3 endings; Warden, Juno and Root), rule
-`sim/storyline-rules-logged.ts`, and a new minigame: the turn-based party bout.
-
-Works:
-- Setup: three starter eggs rolled from the chosen Keeper’s line are the party (flag
-  `party`); both Grove recolours are unlocked so the Day and Night servers are the Sun and
-  Moon Groves (Where To: Day Grove, Night Grove; the night one refuses until chapter 4).
-- `sim/party-bout.ts`: three partners against three seeded foes, one move each per round
-  (strike, guard halves the next hit, rally heals the party 15%), foes strike the weakest
-  or guard; karate’s stat maths (Power, Stamina, Run). `ui/party-bout.ts` is a plain DOM
-  panel opened from the journal’s Fight a bout button (`StoryAction.ui` + `Journal.openers`,
-  wired in hud.ts) and reports `partyBoutResult`; won bouts count (`count:partyBout`) and
-  pay shells by tier (`PARTY_BOUT`).
-- Goals: hatch three; bouts 1, 3, 5 (two of them after crossing to the night server), the
-  board (Do-it), 8, the root-node choice, 10. The sibling-and-company thread is a
-  `mature:teen` beat (`l-c5-thread`), so it never plays with the setting Off.
-- Endings: Everyone Wakes (Root’s word, party intact), the Quiet Exit (the company’s word),
-  One Short (Root’s word after a partner departed).
-- Tests: `tests/sim/party-bout.test.ts` (seeded, strong wins, weak loses, turn order, guard
-  and rally) and `tests/sim/storyline-logged.test.ts` (setup, the mature gate both ways,
-  all three endings).
-
-Stubbed: the bout panel is text rows and buttons, no sprites or animation; the "card-like
-format" is the move set, not drawn cards. Other locked-in players are narrated (Juno),
-not NPCs on the map.
 
 ## Standing approval (Maor, 2026-10-12)
 

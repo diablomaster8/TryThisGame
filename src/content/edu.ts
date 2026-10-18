@@ -99,6 +99,8 @@ import { EDU_A30_SPROUT, EDU_A30_SPROUT_VARIANTS } from './edu-a30-sprout';
 import { EDU_A30_READER, EDU_A30_READER_VARIANTS } from './edu-a30-reader';
 import { EDU_A31_SPROUT, EDU_A31_SPROUT_VARIANTS } from './edu-a31-sprout';
 import { EDU_A31_READER, EDU_A31_READER_VARIANTS } from './edu-a31-reader';
+import { EDU_PA1_SPROUT, EDU_PA1_SPROUT_VARIANTS } from './edu-pa1-sprout';
+import { EDU_PA1_READER, EDU_PA1_READER_VARIANTS } from './edu-pa1-reader';
 import { HEBREW_COURSE, LANG_HEBREW } from './lang-hebrew';
 import { JAPANESE_COURSE, LANG_JAPANESE } from './lang-japanese';
 import { LINE_LB_EDU, LINE_LB_EDU_VARIANTS } from './lines-lb';
@@ -125,7 +127,7 @@ export const EDU_CAMPAIGN: Record<EduBand, EduCampaign[]> = {
 };
 
 /**
- * Side stories S1–S22 and S24–S31, Atlas A02, A05–A20 and A22–A31 (A16, A25 and A29 reader only), the fun quests (Python, Bean, Avatar; Sunny is adults-only: none) and the
+ * Side stories S1–S22 and S24–S31, Atlas A02, A05–A20 and A22–A31 (A16, A25 and A29 reader only), Pixel’s Arcade PA1, the fun quests (Python, Bean, Avatar; Sunny is adults-only: none) and the
  * Learning Grove-only language questlines (Hebrew LH1–LH6, Japanese LJ1–LJ6) and the Learning
  * Grove lines LB (Play) and LK (Mouse-Deer).
  */
@@ -171,6 +173,7 @@ export const EDU_QUESTS: Record<EduBand, EduQuest[]> = {
     ...EDU_A28_SPROUT,
     ...EDU_A30_SPROUT,
     ...EDU_A31_SPROUT,
+    ...EDU_PA1_SPROUT,
     ...LINE_LB_EDU.sprout,
     ...LINE_LK_EDU.sprout,
   ],
@@ -223,12 +226,13 @@ export const EDU_QUESTS: Record<EduBand, EduQuest[]> = {
     ...EDU_A29_READER,
     ...EDU_A30_READER,
     ...EDU_A31_READER,
+    ...EDU_PA1_READER,
     ...LINE_LB_EDU.reader,
     ...LINE_LK_EDU.reader,
   ],
 };
 
-/** Variant scenes (S2, S9, S10, S13, S19 branches; LB and LK). */
+/** Variant scenes (S2, S9, S10, S13, S19 branches; PA1; LB and LK). */
 export const EDU_VARIANTS: Record<EduBand, EduScene[]> = {
   sprout: [
     ...EDU_SIDE_1_SPROUT_VARIANTS,
@@ -265,6 +269,7 @@ export const EDU_VARIANTS: Record<EduBand, EduScene[]> = {
     ...EDU_A28_SPROUT_VARIANTS,
     ...EDU_A30_SPROUT_VARIANTS,
     ...EDU_A31_SPROUT_VARIANTS,
+    ...EDU_PA1_SPROUT_VARIANTS,
     ...LINE_LB_EDU_VARIANTS.sprout,
     ...LINE_LK_EDU_VARIANTS.sprout,
   ],
@@ -307,6 +312,7 @@ export const EDU_VARIANTS: Record<EduBand, EduScene[]> = {
     ...EDU_A29_READER_VARIANTS,
     ...EDU_A30_READER_VARIANTS,
     ...EDU_A31_READER_VARIANTS,
+    ...EDU_PA1_READER_VARIANTS,
     ...LINE_LB_EDU_VARIANTS.reader,
     ...LINE_LK_EDU_VARIANTS.reader,
   ],

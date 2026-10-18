@@ -20,8 +20,14 @@
  *
  * Flags: every plot sets `np-<nn>-done`; choices set `np-<nn>-*` flags. NP13 sets
  * `np-line-complete` and `np-lutari-gate`.
+ *
+ * Signature choice: `np-05-stance` (defend | parley | villagers, set at the Meri Acres
+ * fence in NP5). It pays off in NEOPIA_LINE_VARIANTS, chosen the way the Atlas picks its
+ * variants (sim/atlas.ts variantFor: `<scene id>-<flag value>`): np09-nabile-<stance>,
+ * np11-diary-<stance> and np13-broadcast-<stance>. NP5 is main-only, so the flag is never
+ * set in the Learning Grove and the variants need no childLines.
  */
-import type { Line, Mood } from '../config/story';
+import type { Line, Mood, Scene } from '../config/story';
 import type { Quest, Speaker } from './types';
 
 const l = (who: string, text: string, mood?: Mood): Line =>
@@ -1049,6 +1055,9 @@ export const NEOPIA_LINE: Quest[] = [
     ],
     sets: { 'np-05-done': true },
     notes:
+      'Signature choice of the Neopia line: `np-05-stance` (defend | parley | villagers, the fence at Meri Acres). ' +
+      'It pays off in NEOPIA_LINE_VARIANTS np09-nabile-<stance> (how Nabile asks for your word), np11-diary-<stance> (who on the Unlikely Gull has heard of you) ' +
+      'and np13-broadcast-<stance> (how Gorix recruits you). ' +
       'Audience main: a war plot, kept out of the Learning Grove (no gore; it is the war theme). ' +
       'Step 2 is three karate waves on the Meri Acres farm map; step 3 is a team bout where allied NPC fighters (a knight and a Darigan soldier) join the player’s Nubbins against the Orb-possessed Darigan, whose hit box is the Orb. ' +
       'Kass is planted at the end for NP7. Sloth is absent from this plot by design (he returns in NP13). ' +
@@ -1824,6 +1833,7 @@ export const NEOPIA_LINE: Quest[] = [
     ],
     sets: { 'np-09-done': true },
     notes:
+      'Payoff of `np-05-stance`: step 2 plays NEOPIA_LINE_VARIANTS np09-nabile-defend / -parley / -villagers in place of np09-nabile (Nabile has heard what you did at Meri Acres, and asks for your word accordingly). ' +
       'Audience main: undead dimension, a cursed city and Razul’s tomb, kept out of the Learning Grove. ' +
       'Sakhmet in the undead dimension: violet sky, greyscale palette, shadow people who freeze when looked at (step 1 is a light stealth crossing of the market). ' +
       'Step 2: two karate waves of shadows during the wedding. Step 3: the players build the ancient weapon from four parts placed at existing Lost Desert spots (Coltzan’s Shrine, the Deserted Tomb, the Fruit Machine, the palace roof); the parts are one-time pickups. ' +
@@ -2220,6 +2230,7 @@ export const NEOPIA_LINE: Quest[] = [
     sets: { 'np-11-done': true },
     notes:
       'Requires NP6 only, so the Learning Grove can reach it; the main game still plays it after NP10 (see the header). ' +
+      'Payoff of `np-05-stance` (main game only; NP5 never plays in the Learning Grove): step 1 plays NEOPIA_LINE_VARIANTS np11-diary-defend / -parley / -villagers in place of np11-diary (Roxton or Lilian knows you from Meridell, and the Scrap choice answers to it). ' +
       'Reward label: THE ISLAND IS REAL when np-11-map = published, IS IT REAL? when it is secret, matching the scene. ' +
       'Audience all. The brief names the crew: Professor Fairweather, Roxton Colchester, Lilian, Werther and the stowaway Scrap. The ship name (the Unlikely Gull) is ours. ' +
       'Step 2 is free exploration of a small island map with three landmarks; step 3 a timing climb (move while the Moach’s shadow blocks the sun; caught means you slide back down, no harm). ' +
@@ -2635,11 +2646,129 @@ export const NEOPIA_LINE: Quest[] = [
     },
     notes:
       'Learning Grove: the broadcast skips the Voice in the ice (NP2 is main only) via childLines. ' +
+      'Payoff of `np-05-stance` (main game only): step 1 plays NEOPIA_LINE_VARIANTS np13-broadcast-defend / -parley / -villagers in place of np13-broadcast (Gorix recruits the Keeper he heard about at Meri Acres; the yes / plan / bring replies change with it). ' +
       'Audience all. Sloth is trapped, not killed: sealed in the Space Faerie’s token, which drifts off into space, as in the brief. ' +
       'Sloth thread payoff: his broadcast lists every plant by name, in order (Mechachiazilla in NP1, the Voice in NP2, Maverick in NP3, the metal fly in NP4), and the last robot guard is a half-built Mechachiazilla. ' +
       'Step 2 is a talk-and-bring puzzle (both camp leaders to the crater centre); any choice works. Step 3 is three robot waves on the flagship; step 4 a 3-round survive bout with Sloth’s floor claws, ending in Cylara’s token cutscene. ' +
       'Kreludor has low gravity: Nubbins jump higher there. Epilogue: the rainbow gate turns an unknown colour and opens once to Lutari Island (np-lutari-gate: open-once; the sim closes it after one visit). Completes the Neopia line.',
   },
+];
+
+// ------------------------------------------------------------------ variants
+/** The scene with id `sceneId` in the line above (a step scene, a done scene or a complete). */
+function baseScene(sceneId: string): Scene {
+  for (const q of NEOPIA_LINE) {
+    for (const s of q.steps) {
+      if (s.scene.id === sceneId) return s.scene;
+      if (s.done?.id === sceneId) return s.done;
+    }
+    if (q.complete.id === sceneId) return q.complete;
+  }
+  throw new Error(`neopia-line: no scene ${sceneId}`);
+}
+
+/**
+ * A variant of `sceneId` for `np-05-stance` = `stance`, built from the base scene so the
+ * rest of the scene (and every choice id and flag) stays identical. `replace` swaps lines
+ * by index, `insert` adds a line at an index, `thens` swaps a choice's reply by choice id.
+ */
+function stanceVariant(
+  sceneId: string,
+  stance: 'defend' | 'parley' | 'villagers',
+  opts: { replace?: Record<number, Line>; insert?: { at: number; line: Line }; thens?: Record<string, Line[]> },
+): Scene {
+  const base = baseScene(sceneId);
+  const lines = base.lines.map((ln, i) => opts.replace?.[i] ?? ln);
+  if (opts.insert) lines.splice(opts.insert.at, 0, opts.insert.line);
+  const choices = base.choices?.map((c) => {
+    const then = opts.thens?.[c.id];
+    return then ? { ...c, then } : c;
+  });
+  return { id: `${sceneId}-${stance}`, lines, ...(choices ? { choices } : {}) };
+}
+
+/**
+ * Payoffs of the line's signature choice, `np-05-stance`. Chosen as the Atlas chooses its
+ * variants: the sim plays `<scene id>-<stance>` in place of the scene when the flag holds
+ * that value (sim/atlas.ts variantFor). Main game only: NP5 is never in the Learning Grove.
+ */
+export const NEOPIA_LINE_VARIANTS: Scene[] = [
+  // ---------------------------------------------------------------- NP9, step 2: Nabile asks for your word
+  stanceVariant('np09-nabile', 'defend', {
+    replace: {
+      0: l('nabile', 'Nabile. Thief, mostly. They say you held the fence at Meri Acres when a fortress came over the hill. I’ll follow that. For the loot.'),
+      8: l('nabile', 'Keeper. When it came to it in Meridell, you stood and fought. Tell me honestly. Do I do this?'),
+    },
+    thens: {
+      'np09-yes': [l('nabile', 'Fine. Shoulder to shoulder, like your fence. But I’m keeping the apples.')],
+      'np09-careful': [l('nabile', 'A fence-holder telling me I don’t owe anyone a fight. I know. That’s why I’m choosing it.', 'soft')],
+    },
+  }),
+  stanceVariant('np09-nabile', 'parley', {
+    replace: {
+      0: l('nabile', 'Nabile. Thief, mostly. They say you shouted up at a flying fortress and asked it to talk. I’ll follow that. Mostly for the loot.'),
+      8: l('nabile', 'Keeper. You tried talking before fighting, once. Is a wedding talking, or fighting? Do I do this?'),
+    },
+    thens: {
+      'np09-yes': [l('nabile', 'Talking, then. Fine. But I’m keeping the apples.')],
+      'np09-careful': [l('nabile', 'I know. That’s why I’m choosing it. If it goes wrong, you can shout up at the sky. You’ve had practice.', 'soft')],
+    },
+  }),
+  stanceVariant('np09-nabile', 'villagers', {
+    replace: {
+      0: l('nabile', 'Nabile. Thief, mostly. They say you got a whole farm behind a wall before the first blow fell in Meridell. I’ll follow that. For the loot.'),
+      8: l('nabile', 'Keeper. In Meridell you got the small people out first. Am I a small person today, or a princess? Do I do this?'),
+    },
+    thens: {
+      'np09-yes': [l('nabile', 'Princess, then. For one afternoon. But I’m keeping the apples.')],
+      'np09-careful': [l('nabile', 'I know. That’s why I’m choosing it. Nobody is herding me up a hill.', 'soft')],
+    },
+  }),
+  // ---------------------------------------------------------------- NP11, step 1: the Unlikely Gull has heard of you
+  stanceVariant('np11-diary', 'defend', {
+    insert: { at: 5, line: l('roxton', 'Champion of Meridell, aren’t you? Held a fence against a flying fortress. Good. Islands are mostly fences, in my experience.', 'happy') },
+    thens: {
+      'np11-stay': [l('roxton', 'Fine. Cabin crew. The Keeper held a fence; you can hold a mop. Cabin crew don’t eat the cargo.')],
+    },
+  }),
+  stanceVariant('np11-diary', 'parley', {
+    insert: { at: 5, line: l('lilian', 'You’re the Keeper who tried to talk a fortress down. Good. Most explorers go straight to the shouting.', 'soft') },
+    thens: {
+      'np11-stay': [l('lilian', 'Cabin crew. And when Roxton starts shouting at the jungle, you do the talking. That’s why you’re here.')],
+    },
+  }),
+  stanceVariant('np11-diary', 'villagers', {
+    insert: { at: 5, line: l('lilian', 'You got Meridell’s farmers behind a wall before the first arrow. On this ship the small ones are my job. I’d like help.') },
+    thens: {
+      'np11-stay': [l('lilian', 'Cabin crew, then. And if anything with teeth turns up, Scrap goes behind you. You’ve the habit.')],
+    },
+  }),
+  // ---------------------------------------------------------------- NP13, step 1: Gorix recruits the Keeper he heard about
+  stanceVariant('np13-broadcast', 'defend', {
+    replace: {
+      7: l('gorix', 'Gorix. The Resistance. One of ours held the fence beside you at Meri Acres. Says you never stepped back. We need that on a moon.'),
+    },
+    thens: {
+      'np13-yes': [l('gorix', 'Good. Fence-holders on the shuttle first. It’s held together with tape, so don’t lean on anything.', 'happy')],
+      'np13-plan': [l('gorix', 'Kreludor first. Two Grundo camps fighting each other. No fence to hold this time; you’ll have to talk.', 'think')],
+    },
+  }),
+  stanceVariant('np13-broadcast', 'parley', {
+    replace: {
+      7: l('gorix', 'Gorix. The Resistance. You shouted up at a fortress once and asked it to talk. On Kreludor there are two camps who won’t. Fancy trying again?'),
+    },
+    thens: {
+      'np13-plan': [l('gorix', 'Kreludor first. Orange camp, purple camp, each sure the other started it. Somebody has to shout up at both.', 'think')],
+    },
+  }),
+  stanceVariant('np13-broadcast', 'villagers', {
+    replace: {
+      7: l('gorix', 'Gorix. The Resistance. We heard about Meri Acres: farmers behind the wall before the fighting. Half my people are miners’ kids. Fancy a moon?'),
+    },
+    thens: {
+      'np13-bring': [l('gorix', 'Can they come? They’re half the plan. Small enough to get the mine children out, if it goes bad.')],
+    },
+  }),
 ];
 
 export const CHECKS: string[] = [

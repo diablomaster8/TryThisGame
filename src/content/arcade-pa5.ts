@@ -200,7 +200,7 @@ export const ARCADE_PA5: Quest[] = [
             N('You do. You are lying on a stone floor, and it is cold through your coat.'),
             N('Your Nubbin is curled against your side. It opens one eye, then the other, then sneezes.'),
             N('Beside you is a stone bed, carved with lines that glow a soft blue. It is wet, as if someone has just got out of it.'),
-            PX('Player two, reading you. Can you hear me? Nod if you can hear me. I can’t see you nod. Say something.'),
+            PX('Player two. I’ve got the manual this time. It’s in a language. Say something.'),
             Y('I can hear you.'),
             PX('Good. The voice wasn’t me, by the way. I want that on the record.', 'think'),
             N('Somewhere further in, water drips into water. A blue light runs along the wall, towards it.'),

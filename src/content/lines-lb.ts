@@ -34,7 +34,9 @@
  *                Read by the LB12 arrival variant: proud and loud, too pleased with himself, or
  *                holding Maisie’s hand.
  *   lb-done      true when LB12 completes (Tier 2 ambient, see LB12 notes).
- *   lb-ned-shop, lb-den-story, lb-shadow, lb-map-fair, lb-cafe-reply, lb-boat, lb-star-wish:
+ *   lb-star-wish = wish | hum | nubbin (LB12, lb12-waiting): read once more in LB12's complete scene
+ *                (lb12-complete-wish for wish).
+ *   lb-ned-shop, lb-den-story, lb-shadow, lb-map-fair, lb-cafe-reply, lb-boat:
  *                harmless choice flags: recorded for the journal, read by nothing.
  *
  * Variants (LINE_LB_VARIANTS): lb06-door-big | -long | -tall (play straight after lb06-built);
@@ -1656,7 +1658,8 @@ export const LINE_LB: Quest[] = [
     notes:
       'A clear late-summer evening in the field behind the Larkins’ cottage; the sky fades gold → pink → blue and stars appear ' +
       'one by one (the first, low in the west, may be Venus). After lb12-arrive, play lb12-ned-<lb-race> (proper | let-win | ' +
-      'hand; default hand) and then lb12-box-<lb-box> (big = house, long = boat, tall = rocket; default big). Reward: the small ' +
+      'hand; default hand) and then lb12-box-<lb-box> (big = house, long = boat, tall = rocket; default big). If lb-star-wish = wish, ' +
+      'play lb12-complete-wish in place of lb12-complete (Maisie asks whether the wish came true). Reward: the small ' +
       'decor box in the form matching lb-box. Tier 2, Learning Grove only, after lb-done: washing flaps on the Larkins’ line, ' +
       'Ned waves from their gate as you pass, and Ned’s big box sits in their garden for good as a house, boat or rocket ' +
       '(ambient art only, no dialogue). The Larkins never appear in campaign scenes and hold no lantern at the Long Night.',
@@ -1667,6 +1670,24 @@ export const LINE_LB: Quest[] = [
 
 /** Scenes picked by the line’s own flags (lb-box, lb-race). Where each plays is in the quest notes. */
 export const LINE_LB_VARIANTS: Scene[] = [
+  // ---------------------------------------------------------------- LB12, in place of lb12-complete, when lb-star-wish = wish
+  {
+    id: 'lb12-complete-wish',
+    lines: [
+      N(
+        'Sam is asleep again in the long grass, with Ned asleep on his arm. Maisie is trying very hard not to be.',
+      ),
+      MAI('That was the best game we ever made up.', 'soft'),
+      MAI('Did your wish come true yet?', 'soft'),
+      N('You say you can’t tell her, because that is the rule. She nods, very seriously, and falls asleep in the middle of the nod.'),
+      AMA('Lying still together. It’s hard, and you all did it.', 'soft'),
+      N('Your Nubbin is asleep in Ned’s box. Ama looks at it, and then at you.'),
+      AMA('That box should stay out here for good, I think. It’s earned its place.'),
+      N(
+        'In the morning there is a small painted box on your doorstep with a note: FOR YOUR NUBBIN FROM NED (HE DID THE N).',
+      ),
+    ],
+  },
   // ---------------------------------------------------------------- LB6, after lb06-built, by lb-box
   {
     id: 'lb06-door-big',
@@ -3514,6 +3535,29 @@ const SPROUT: EduQuest[] = [
 ];
 
 const SPROUT_VARIANTS: EduScene[] = [
+  sS(
+    'lb12-complete-wish',
+    [
+      N('Sam is asleep. Ned is asleep on Sam’s arm.'),
+      MAI('That was the best game ever.', 'soft'),
+      MAI('Did your wish come true?', 'soft'),
+      N('Shh. Wishes are secret. Maisie nods, and falls asleep.'),
+      N('Your Nubbin is asleep in Ned’s box.'),
+      N('Next morning, a little box is on your step. From Ned!'),
+    ],
+    [
+      notice(
+        3,
+        m(
+          'sel',
+          'keeping a kind secret',
+          'Your child heard that some secrets, like wishes, are nice ones to keep.',
+          'ELOF: Social and Emotional Development',
+        ),
+        [N('A wish is a nice secret. You can keep it all to yourself.')],
+      ),
+    ],
+  ),
   sS(
     'lb06-door-big',
     [
@@ -6107,6 +6151,39 @@ const READER: EduQuest[] = [
 ];
 
 const READER_VARIANTS: EduScene[] = [
+  sR(
+    'lb12-complete-wish',
+    [
+      N(
+        'Sam is asleep again in the long grass, with Ned asleep on his arm. Maisie is trying very hard not to be.',
+      ),
+      MAI('That was the best game we ever made up.', 'soft'),
+      MAI('Did your wish come true yet?', 'soft'),
+      N('You say you can’t tell her, because that is the rule. She nods, very seriously, and falls asleep in the middle of the nod.'),
+      AMA('Lying still together. It’s hard, and you all did it.', 'soft'),
+      N('Your Nubbin is asleep in Ned’s box. Ama looks at it, and then at you.'),
+      AMA('That box should stay out here for good, I think. It’s earned its place.'),
+      N(
+        'In the morning there is a small painted box on your doorstep, with a note: FOR YOUR NUBBIN FROM NED (HE DID THE N).',
+      ),
+    ],
+    [
+      ask(
+        3,
+        m(
+          'sel',
+          'wishes, secrets and surprises',
+          'Your child thought about why a wish is kept to yourself, and which secrets are kind ones.',
+          'CASEL: Responsible decision-making',
+        ),
+        [N('Why do people keep a wish to themselves? Is a wish the same kind of secret as a surprise present?')],
+        [
+          opt('Saying it might spoil it', N('That’s the old rule. A wish kept quiet feels more like your own.')),
+          opt('It’s a happy secret, like a present', N('Yes. Some secrets are kind ones, kept so that someone is glad later.')),
+        ],
+      ),
+    ],
+  ),
   sR(
     'lb06-door-big',
     [

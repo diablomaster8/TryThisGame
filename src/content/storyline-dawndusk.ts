@@ -1,5 +1,5 @@
 /**
- * Storyline S4, "Dawn & Dusk" (plan G12): two mirrored short campaigns in the `dawndusk`
+ * Storyline SL4, "Dawn & Dusk" (plan G12): two mirrored short campaigns in the `dawndusk`
  * save mode, picked at the title (Dawn is the Sun Keepers’ half, Dusk the Moon Keepers’).
  * Each serves the four houses of the valley’s creatures through scan-and-convert
  * (sim/scans.ts, the Collection Book), climbs the dojo’s three rank tests, and solves the
@@ -140,9 +140,8 @@ function makeHalf(h: Half): Storyline {
       {
         id: `${p}-c1-open`,
         lines: [
-          N(
-            `You come into the valley at ${h.light}. Four houses stand round the green, each with a creature carved over its door: a flier, a runner, a swimmer, a thicket thing.`,
-          ),
+          N(`You come into the valley at ${h.light}. Four houses stand round the green.`),
+          N('Each has a creature carved over its door: a flier, a runner, a swimmer, a thicket thing.'),
           S(
             `${h.steward} Penhallow. I keep the houses by ${h.half}; my ${h.sibling} keeps them the other half. We don’t overlap. We don’t agree, either.`,
           ),
@@ -528,7 +527,7 @@ function makeHalf(h: Half): Storyline {
   ];
   return {
     id: h.id,
-    code: 'S4',
+    code: 'SL4',
     title: `Dawn & Dusk: ${h.title}`,
     tagline: h.tagline,
     source: 'Digimon World: Dawn / Dusk (2007): mechanics only',

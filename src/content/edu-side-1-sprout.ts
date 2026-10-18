@@ -46,9 +46,6 @@ const W = say('wisp');
 const YH = say('young-hazel');
 const BR = say('briar');
 const CI = say('cinder');
-const A = say('ash');
-const NU = say('null');
-const BRA = say('bramble');
 
 // ---------------------------------------------------------------- builders
 type Beat = Omit<Lesson, 'id'>;
@@ -2060,7 +2057,7 @@ const S6: EduQuest = quest(
         N('Ash’s ear moves. Just a little.'),
         N('Ember whistles again. Slower. Her hands shake.'),
         N('Ash turns round.'),
-        A('…pip. wirr. a?', 'soft'),
+        N('Then a tiny sound: pip. wirr. a?'),
         N('Step by step, Ash comes. She leans on Ember’s knee.'),
         EM('Hello, you. It’s me. It was always me.', 'soft'),
       ],
@@ -2378,7 +2375,7 @@ const S7: EduQuest = quest(
           {
             id: 'go-on',
             label: 'Nod. “Go on.”',
-            then: [N('Null runs. It falls into the hedge!'), N('It comes out with a leaf on its head.'), NU('…prrp!', 'happy')],
+            then: [N('Null runs. It falls into the hedge!'), N('It comes out with a leaf on its head.'), N('Null says prrp! Byte does not write that down.')],
           },
           {
             id: 'stopwatch',
@@ -2676,7 +2673,7 @@ const S8: EduQuest = quest(
         FE('Bramble? Oh, you’ve gone grey. That’s all right. So have I.', 'soft'),
         N('Nobody moves.'),
         N('Then Bramble walks out. Step by step. All the way to Fern.'),
-        BRA('…', 'soft'),
+        N('Bramble says nothing. She leans on Fern’s leg.'),
         FE('I’m sorry I stopped looking. I’m so sorry.', 'sad'),
         N('Bramble sits down on Fern’s boots. Both boots! And she stays.'),
         FE('I’m going to cry now. Happy crying. Hold my gloves!', 'happy'),

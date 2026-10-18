@@ -43,7 +43,6 @@ const BR = say('briar');
 const HU = say('hush');
 const CI = say('cinder');
 const YH = say('young-hazel');
-const FO = say('fossil');
 const W = say('wisp');
 
 // ================================================================== S1 The Wardens’ Walk
@@ -2678,7 +2677,7 @@ const S5_SCENES: EduScene[] = [
       DU('Three things. My back’s gone; I can’t carry her and do the things. Would you?', 'soft'),
       DU('One, the cliff. Two, Hazel’s first tree. Three, the water. She used to swim like she was late for something.', 'happy'),
       N('Fossil looks up at you, unhurried, and holds out her arms the way very small children do.'),
-      FO('…', 'soft'),
+      N('Fossil says nothing. Her slow blink lands on you, and stays.'),
     ],
     lessons: [
       {

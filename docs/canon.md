@@ -67,7 +67,8 @@ this sheet, follow the sheet and note it. Maor approved these decisions.
 16. **Wisp** lives under the cottage step (not the bathhouse, which is optional).
 17. **Animals and Nubbins don't speak in the Grove.**
     - Exceptions: Eternals (a little); Shadows whisper with the shard's echo (Wisp's two
-      voices); Sable's one word at the water's edge.
+      voices); Sable's one word at the water's edge; S12's hive, and its one return in S26
+      (see 31).
     - Sable is never a speaker anywhere else: use narration ("Sable says nothing. Her ears stay
       up.").
 18. **Lantern Night** is always "Lantern Night", capitalised.
@@ -137,7 +138,8 @@ this sheet, follow the sheet and note it. Maor approved these decisions.
     exceptions:
     - Fun quests (Python, Bean, Sunny, Avatar) are a looser comic register, and their speaking
       Nubbins stay.
-    - S12's hive speaks as one broken chorus (like the Shadows' half-voice).
+    - S12's hive speaks as one broken chorus (like the Shadows' half-voice), and returns once, at
+      the ivy door in S26 (`s26-door-thrums`). Nowhere else.
     - S18's Professor Delve and S15's clockwork parrot Jackpot are not Nubbins and may speak.
     - In Atlas and Arcade worlds, the source's own talking animals talk.
 32. **New-character names.** S26's girl is **Linnet**; S23's echo is **Thimble**. Wren (S20) and

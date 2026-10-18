@@ -11,7 +11,7 @@ import type { Nubbin } from '../sim/types';
 import { button, el, modal } from './dom';
 
 /**
- * S2's party bout panel: three partners against a line of foes, one move per turn
+ * SL2's (Logged In) party bout panel: three partners against a line of foes, one move per turn
  * (strike, guard, rally), a short log, and the result sent to the sim as
  * `partyBoutResult`. Plain DOM over the canvas, like the other panels.
  */

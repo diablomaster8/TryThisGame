@@ -1,5 +1,5 @@
 /**
- * Storyline S1, "The Hundred Days" (plan G12): a single-partner campaign in its own save
+ * Storyline SL1, "The Hundred Days" (plan G12): a single-partner campaign in its own save
  * mode. One egg, one life stretched to about fifteen real days (`Nubbin.spanScale`), a
  * ruined village in the valley, the Fold, to refill by winning over wild creatures across
  * six areas (sim/storyline-rules-hundred.ts maps them to places both renderers draw),
@@ -861,7 +861,7 @@ export const HUNDRED_EXTRA: Scene[] = [
 
 export const STORYLINE_HUNDRED: Storyline = {
   id: 'hundred',
-  code: 'S1',
+  code: 'SL1',
   title: 'The Hundred Days',
   tagline: 'One egg. One life. A village to fill.',
   source: 'Digimon World (1999): mechanics only',

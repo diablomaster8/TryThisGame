@@ -528,8 +528,8 @@ const SCENES: EduScene[] = [
       N('Moss is by the old wall. There is frost on his back.'),
       M('Luna told me about Clover’s gold one.', 'think'),
       M('Long ago, there was a very long, cold winter.'),
-      M('Some Nubbins died in it. Hush sat with them, so they weren’t alone.', 'sad'),
-      M('She took care of sad things for the whole valley.', 'soft'),
+      M('Some Nubbins died in it. Hush sat where they could see her.', 'sad'),
+      M('If one shivered, she called it a chat. That was her job.', 'soft'),
       M('Look at the flat stone by your foot. She made it for looking.'),
     ],
     [

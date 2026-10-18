@@ -256,7 +256,7 @@ const A17_HOME: Line[] = [
     'One feather has drifted down onto the step: grey and gold, long as your arm. The Simurgh doesn’t take it back.',
   ),
   N(
-    'You are back in the Grove, the atlas on your knee. The feather is in your hand, and your Nubbin is asking for second breakfast.',
+    'You are back in the Grove, the atlas on your knee. The feather has come too, and your Nubbin, fed once already, is asking for second breakfast.',
   ),
 ];
 

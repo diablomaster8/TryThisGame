@@ -23,13 +23,12 @@
  * All dialogue is original. Flags use the `mv-mk-` and `mv-sp-` prefixes.
  */
 import type { Quest, Speaker } from './types';
-import type { Line, Mood } from '../config/story';
+import type { Line, Mood, Scene } from '../config/story';
 
 const l = (who: string, text: string, mood?: Mood): Line =>
   mood ? { who, text, mood } : { who, text };
 
 // ------------------------------------------------------------------ shared speakers
-const NUBBIN: Speaker = { id: 'nubbin', name: 'Your Nubbin', kind: 'nubbin' };
 const MARC: Speaker = {
   id: 'marc',
   name: 'Marc Spector',
@@ -117,7 +116,6 @@ export const MV_MOONKNIGHT: Quest[] = [
     audience: 'adult',
     trigger: { where: MK_WHERE, when: 'The Moon Knight line opens in the Multiverse campaign.' },
     speakers: [
-      NUBBIN,
       MARC,
       { id: 'agent', name: 'Committee Agent', kind: 'other', basedOn: 'An agent of the Committee (Marvel)' },
       { id: 'jack', name: 'Jack Russell', kind: 'other', basedOn: 'Jack Russell / Werewolf by Night (Marvel)' },
@@ -144,7 +142,7 @@ export const MV_MOONKNIGHT: Quest[] = [
             l('narrator', 'He glances up at the moon, and his jaw tightens, as if it has just said something rude about him.'),
             l('you', 'Who are you looking at?'),
             l('marc', 'Nobody. Habit. You’re not with them; you’ve got the face of someone who doesn’t lie for money. Keep up and keep quiet.'),
-            l('nubbin', 'Prrp?'),
+            l('narrator', 'Your Nubbin makes a small questioning sound, and keeps up.'),
           ],
         },
         done: {
@@ -168,7 +166,7 @@ export const MV_MOONKNIGHT: Quest[] = [
             l('marc', 'There’s our ten thousand. Stand back. When he gets loose, he won’t be gentle.'),
             l('narrator', 'Your Nubbin doesn’t stand back. It walks straight to the net and sits down just out of reach.'),
             l('narrator', 'The wolf stops thrashing and stares at it. There is a collar on its neck, stamped with the Committee’s mark.'),
-            l('nubbin', 'Mmn.', 'soft'),
+            l('narrator', 'Your Nubbin makes a low, soft sound at the wolf, the one it keeps for things that are hurt.'),
             l('you', 'He’s already wearing their brand. He didn’t come here to hurt anyone. He was put here.'),
             l('marc', 'A wolf that can’t take off his own collar. And the people paying me fitted it.', 'think'),
             l('marc', 'They don’t want a monster caught. They want a weapon delivered.', 'angry'),
@@ -250,7 +248,7 @@ export const MV_MOONKNIGHT: Quest[] = [
     audience: 'adult',
     trigger: { where: MK_WHERE, when: 'After The Mercenary.' },
     requires: ['MK1'],
-    speakers: [NUBBIN, MARC, FRENCHIE, BUSHMAN, MARLENE, KHONSHU],
+    speakers: [MARC, FRENCHIE, BUSHMAN, MARLENE, KHONSHU],
     steps: [
       {
         id: 'mv-mk02-dig',
@@ -397,7 +395,6 @@ export const MV_MOONKNIGHT: Quest[] = [
     trigger: { where: MK_WHERE, when: 'After Death in Egypt.' },
     requires: ['MK2'],
     speakers: [
-      NUBBIN,
       MARC,
       STEVEN,
       JAKE,
@@ -423,19 +420,19 @@ export const MV_MOONKNIGHT: Quest[] = [
             l('marlene', 'It isn’t a costume, Keeper. Each of them is really there. Talk to whoever is in front of you.', 'soft'),
             l('steven', 'She explains us better than we do. Bushman is in the city, and he’s left a trail through all three of our lives.'),
             l('steven', 'Your Nubbins can be where we can’t all be at once. One with me, one with Jake, and you with whoever you like.'),
-            l('nubbin', 'Prrp!', 'happy'),
+            l('narrator', 'Your Nubbins bounce. Being in three places at once sounds, to them, like a treat.'),
           ],
           choices: [
             {
               id: 'steven',
               label: 'Go with Steven to the charity gala.',
-              set: { 'mv-mk-first-face': 'steven' },
+              set: { 'mv-mk-first-face': 'first-steven' },
               then: [l('steven', 'Excellent. Black tie. I’ll find something in your size. Marlene, do we have black tie in… round?')],
             },
             {
               id: 'jake',
               label: 'Ride along in Jake’s cab.',
-              set: { 'mv-mk-first-face': 'jake' },
+              set: { 'mv-mk-first-face': 'first-jake' },
               then: [
                 l('narrator', 'Steven closes his eyes. When he opens them he stands differently, and reaches for a flat cap on the hall stand.'),
                 l('jake', 'Cab’s round the back. You sit up front. The little ones sit wherever they want.', 'happy'),
@@ -444,7 +441,7 @@ export const MV_MOONKNIGHT: Quest[] = [
             {
               id: 'moon',
               label: 'Go with Moon Knight onto the rooftops.',
-              set: { 'mv-mk-first-face': 'moon-knight' },
+              set: { 'mv-mk-first-face': 'first-moon-knight' },
               then: [l('marc', 'Rooftops, then. Wrap up. It’s colder up there than people think.')],
             },
           ],
@@ -545,7 +542,8 @@ export const MV_MOONKNIGHT: Quest[] = [
       'The split step runs the Keeper with the chosen life and the two Nubbins with the others; each returns one clue card. ' +
       'All three clue cards are stamped 2:10 a.m.; the impossible overlap is the storyline’s quiet question and is never explained. ' +
       'mv-mk-bushman-lead (marc | steven | jake) picks who leads the pier raid: Marc’s bout is fastest and harshest, Steven’s ends in an arrest, Jake’s is a stealth entry. ' +
-      'Gena and Crawley are Jake’s regulars from the 1980 run; check names before ship.',
+      'Gena and Crawley are Jake’s regulars from the 1980 run; check names before ship. ' +
+      'SIGNATURE CHOICE: mv-mk-first-face (first-steven | first-jake | first-moon-knight: whose night you shared first) pays off through MV_MOONKNIGHT_VARIANTS at mv-mk05-scene (which of the three Flint has you on file with), mv-mk06-ward (whom Marc trusts you to find first in the asylum) and mv-mk08-orders (which face calls on you against Khonshu). The values carry a first- prefix because the runner matches variants by value and mv-mk-bushman-lead also uses steven / jake.',
   },
 
   // ---------------------------------------------------------------------- MK4
@@ -558,7 +556,6 @@ export const MV_MOONKNIGHT: Quest[] = [
     trigger: { where: MK_WHERE, when: 'After Three Faces.' },
     requires: ['MK3'],
     speakers: [
-      NUBBIN,
       MARC,
       KHONSHU,
       FRENCHIE,
@@ -719,7 +716,6 @@ export const MV_MOONKNIGHT: Quest[] = [
     trigger: { where: MK_WHERE, when: 'After The Bottom.' },
     requires: ['MK4'],
     speakers: [
-      NUBBIN,
       { id: 'mrknight', name: 'Mr. Knight', kind: 'other', basedOn: 'Marc Spector as Mr. Knight (Marvel)' },
       { id: 'flint', name: 'Detective Flint', kind: 'other', basedOn: 'Detective Flint (Marvel)' },
       { id: 'girl', name: 'The Girl', kind: 'other' },
@@ -840,7 +836,6 @@ export const MV_MOONKNIGHT: Quest[] = [
     trigger: { where: MK_WHERE, when: 'After Mr. Knight.' },
     requires: ['MK5'],
     speakers: [
-      NUBBIN,
       MARC,
       STEVEN,
       JAKE,
@@ -980,7 +975,6 @@ export const MV_MOONKNIGHT: Quest[] = [
     trigger: { where: MK_WHERE, when: 'After Lunatic, once Spawn has met Angela (SP4).' },
     requires: ['MK6', 'SP4'],
     speakers: [
-      NUBBIN,
       MARC,
       KHONSHU,
       { id: 'hunter', name: 'Hunter’s Moon', kind: 'other', basedOn: 'Hunter’s Moon (Marvel)' },
@@ -1100,7 +1094,7 @@ export const MV_MOONKNIGHT: Quest[] = [
     audience: 'adult',
     trigger: { where: MK_WHERE, when: 'After The Midnight Mission.' },
     requires: ['MK7'],
-    speakers: [NUBBIN, MARC, STEVEN, JAKE, KHONSHU],
+    speakers: [MARC, STEVEN, JAKE, KHONSHU],
     steps: [
       {
         id: 'mv-mk08-orders',
@@ -1253,7 +1247,6 @@ export const MV_SPAWN: Quest[] = [
     audience: 'adult',
     trigger: { where: SP_WHERE, when: 'The Spawn line opens in the Multiverse campaign.' },
     speakers: [
-      NUBBIN,
       SPAWN,
       { id: 'al', name: 'Al Simmons', kind: 'other', basedOn: 'Al Simmons (Image Comics)' },
       { id: 'chapel', name: 'Chapel', kind: 'other', basedOn: 'Chapel (Image Comics)' },
@@ -1307,7 +1300,7 @@ export const MV_SPAWN: Quest[] = [
             l('narrator', 'He takes one step toward the gate. The suit ripples, like something hungry.'),
             l('spawn', 'That thing said I’d see her. It never said I’d be this. I can’t even show her my face. I haven’t got one.', 'angry'),
             l('narrator', 'The number in his eye drops again. Just from wanting.'),
-            l('nubbin', 'Mm.', 'soft'),
+            l('narrator', 'Your Nubbin leans against his boot and says nothing, which is the right thing to say.'),
             l('narrator', 'The little girl looks up at the window. She seems to look right at your Nubbin, and she smiles.'),
           ],
           choices: [
@@ -1350,7 +1343,7 @@ export const MV_SPAWN: Quest[] = [
       id: 'mv-sp01-complete',
       lines: [
         l('spawn', 'The folk out here call me the man in the cloak. Your little friend just calls me… whatever that noise is.'),
-        l('nubbin', 'Prrp.'),
+        l('narrator', 'Your Nubbin makes the noise.'),
         l('spawn', 'Yeah. That.', 'soft'),
         l('spawn', 'Something put me here for a reason, Keeper. When I find out what, it’s going to regret it.', 'angry'),
         l('spawn', 'I signed a deal in Hell. I know what that makes me. So why does the little one keep treating me like I’m not finished?', 'think'),
@@ -1377,7 +1370,8 @@ export const MV_SPAWN: Quest[] = [
       'Establishes the rule of the line: a Nubbin is the only creature not afraid of Spawn. Whichever Nubbin is in slot one is “the fearless one”; the other always hides. ' +
       'Spawn’s power counter is a HUD element shown in his portrait’s corner, starting at 9999 and ticking down when he uses or even reaches for power; it persists across SP1–SP8. ' +
       'The murder flashback is a red-tinted still sequence: Chapel’s silhouette, a flash, fire. No body. Malebolgia is a vast shape, never fully seen here. ' +
-      'Wanda, Terry and Cyan are seen through a window only; they do not speak. Bobby is an original alley regular.',
+      'Wanda, Terry and Cyan are seen through a window only; they do not speak. Bobby is an original alley regular. ' +
+      'SIGNATURE CHOICE: mv-sp-wanda (watched | walked-away | doorstep: what you let Al do at Wanda’s gate) pays off through MV_SPAWN_VARIANTS at mv-sp04-angela (why he will not call the Nubbin off Angela’s spear), mv-sp06-road (what he asks of you on the road into Hell) and mv-sp08-complete (what Mammon tried to sell him, and why it failed).',
   },
 
   // ---------------------------------------------------------------------- SP2
@@ -1390,7 +1384,6 @@ export const MV_SPAWN: Quest[] = [
     trigger: { where: SP_WHERE, when: 'After Al Simmons.' },
     requires: ['SP1'],
     speakers: [
-      NUBBIN,
       SPAWN,
       CLOWN,
       VIOLATOR,
@@ -1542,7 +1535,6 @@ export const MV_SPAWN: Quest[] = [
     trigger: { where: SP_WHERE, when: 'After The Clown.' },
     requires: ['SP2'],
     speakers: [
-      NUBBIN,
       SPAWN,
       { id: 'overtkill', name: 'Overt-Kill', kind: 'other', basedOn: 'Overt-Kill (Image Comics)' },
       { id: 'bobby', name: 'Bobby', kind: 'other' },
@@ -1590,7 +1582,7 @@ export const MV_SPAWN: Quest[] = [
             l('spawn', 'It feels good, Keeper. That’s the worst part. It feels so good.', 'angry'),
             l('narrator', 'The number in his eye is racing down. He isn’t looking at it.'),
             l('narrator', 'Your Nubbin walks into the middle of the chains. They part around it like water round a stone.'),
-            l('nubbin', 'Prrp.', 'soft'),
+            l('narrator', 'It makes one small sound up at him, soft, the way it would at a sleeping Keeper.'),
             l('narrator', 'Spawn looks down at it. The cloak hesitates.'),
           ],
           choices: [
@@ -1667,7 +1659,7 @@ export const MV_SPAWN: Quest[] = [
     audience: 'adult',
     trigger: { where: SP_WHERE, when: 'After Overt-Kill.' },
     requires: ['SP3'],
-    speakers: [NUBBIN, SPAWN, COG, ANGELA],
+    speakers: [SPAWN, COG, ANGELA],
     steps: [
       {
         id: 'mv-sp04-cog',
@@ -1789,7 +1781,6 @@ export const MV_SPAWN: Quest[] = [
     trigger: { where: SP_WHERE, when: 'After Angela.' },
     requires: ['SP4'],
     speakers: [
-      NUBBIN,
       SPAWN,
       { id: 'wynn', name: 'Jason Wynn', kind: 'other', basedOn: 'Jason Wynn (Image Comics)' },
       { id: 'chapel', name: 'Chapel', kind: 'other', basedOn: 'Chapel (Image Comics)' },
@@ -1916,7 +1907,6 @@ export const MV_SPAWN: Quest[] = [
     trigger: { where: SP_WHERE, when: 'After Wynn and Chapel, once the road into Mephisto’s realm is open (FF7).' },
     requires: ['SP5', 'FF7'],
     speakers: [
-      NUBBIN,
       SPAWN,
       COG,
       ANGELA,
@@ -2090,7 +2080,6 @@ export const MV_SPAWN: Quest[] = [
     trigger: { where: SP_WHERE, when: 'After The Death of Malebolgia.' },
     requires: ['SP6'],
     speakers: [
-      NUBBIN,
       SPAWN,
       { id: 'redeemer', name: 'The Redeemer', kind: 'other', basedOn: 'The Redeemer (Spawn)' },
     ],
@@ -2213,7 +2202,6 @@ export const MV_SPAWN: Quest[] = [
     trigger: { where: SP_WHERE, when: 'After The Redeemer.' },
     requires: ['SP7'],
     speakers: [
-      NUBBIN,
       SPAWN,
       COG,
       { id: 'mammon', name: 'Mammon', kind: 'other', basedOn: 'Mammon (Image Comics)' },
@@ -2328,7 +2316,7 @@ export const MV_SPAWN: Quest[] = [
         l('spawn', 'Heaven used me. Hell used me. The man I trusted most is the first killer in the book.', 'think'),
         l('spawn', 'And the only one who never wanted a thing from me is the size of a loaf of bread.'),
         l('spawn', 'Mammon offered me Wanda’s kitchen. I can still smell it. That’s the trouble with Hell. It knows your address.', 'sad'),
-        l('nubbin', 'Prrp.'),
+        l('narrator', 'Your Nubbin stirs against his boot, makes a small sound, and goes back to sleep.'),
         l('spawn', 'When the war comes, I’m not picking a side, Keeper. I’m picking this alley. And you lot.', 'soft'),
         l('narrator', 'High above, the sky begins to split: light on one side, fire on the other.'),
       ],
@@ -2355,6 +2343,104 @@ export const MV_SPAWN: Quest[] = [
       'The final narration line leads directly into E3 Armageddon (the sky splitting). Verify issue range for the Mammon and Cain reveals.',
   },
 ];
+
+// ------------------------------------------------------------------ payoff variants
+
+/** Every scene of a quest list, flat. */
+const scenesOf = (quests: Quest[]): Scene[] =>
+  quests.flatMap((q) => [...q.steps.flatMap((s) => [s.scene, ...(s.done ? [s.done] : [])]), q.complete]);
+
+/**
+ * A payoff variant: the base scene with `count` lines from index `at` replaced by `extra`.
+ * Choices and `set` carry over unchanged. The runner (sim/atlas.ts, variantFor) plays it in
+ * place of the base scene when this line's flags hold the value named by `suffix`, so each
+ * suffix must be a value only the signature flag ever takes.
+ */
+function payoff(quests: Quest[], baseId: string, suffix: string, at: number, count: number, extra: Line[]): Scene {
+  const base = scenesOf(quests).find((s) => s.id === baseId);
+  if (!base) throw new Error(`payoff: no scene ${baseId}`);
+  const lines = [...base.lines];
+  lines.splice(at, count, ...extra);
+  return { ...base, id: `${baseId}-${suffix}`, lines };
+}
+
+/** The MK3 choice of whose night to share (mv-mk-first-face) paid off in MK5, MK6 and MK8. */
+export const MV_MOONKNIGHT_VARIANTS: Scene[] = [
+  // MK5: Flint has the Keeper on file with one of the three.
+  payoff(MV_MOONKNIGHT, 'mv-mk05-scene', 'first-steven', 4, 0, [
+    l('flint', 'And you I’ve seen in the society pages, at Grant’s elbow, with the pets in bow ties. You’re in the file too.'),
+  ]),
+  payoff(MV_MOONKNIGHT, 'mv-mk05-scene', 'first-jake', 4, 0, [
+    l('flint', 'And you I’ve seen in the front seat of Lockley’s cab. Twice. Pets on the dashboard. You’re in the file too.'),
+  ]),
+  payoff(MV_MOONKNIGHT, 'mv-mk05-scene', 'first-moon-knight', 4, 0, [
+    l('flint', 'And you I’ve seen on a roof with the cloak. Don’t think I didn’t. You’re in the file too.'),
+  ]),
+  // MK6: whom Marc trusts you to find first, before you choose.
+  payoff(MV_MOONKNIGHT, 'mv-mk06-ward', 'first-steven', 12, 0, [
+    l('marc', 'You and Steven hit it off, that first night. Black tie, in round. If anyone in here has kept hold of himself, it’s him.', 'think'),
+  ]),
+  payoff(MV_MOONKNIGHT, 'mv-mk06-ward', 'first-jake', 12, 0, [
+    l('marc', 'Jake drove you, that first night. Said you didn’t talk much, and he liked that. If anyone in here has kept quiet and listened, it’s him.', 'think'),
+  ]),
+  payoff(MV_MOONKNIGHT, 'mv-mk06-ward', 'first-moon-knight', 12, 0, [
+    l('marc', 'That first night you took the rooftops with me. Whatever they’ve told the others in here, you and I know what the cold felt like.', 'think'),
+  ]),
+  // MK8: the face you chose first calls on you against Khonshu.
+  payoff(MV_MOONKNIGHT, 'mv-mk08-orders', 'first-steven', 7, 0, [
+    l('steven', 'Keeper. You chose my evening over his rooftops, once. Tell him which of us had the better night.', 'soft'),
+    l('marc', 'Not now, Steven.'),
+    l('steven', 'Exactly now, Marc. A god who never asks is a landlord.'),
+  ]),
+  payoff(MV_MOONKNIGHT, 'mv-mk08-orders', 'first-jake', 7, 0, [
+    l('jake', 'You rode up front with me, that first night, Keeper. You heard what the city says about him when it thinks nobody’s listening.'),
+    l('jake', 'Say it now. He won’t hear it from me.'),
+  ]),
+  payoff(MV_MOONKNIGHT, 'mv-mk08-orders', 'first-moon-knight', 7, 0, [
+    l('marc', 'You took the rooftops with me, that first night, Keeper. You know what the cloak is for. Tell me it isn’t for this.', 'sad'),
+    l('khonshu', 'The cloak is for what I say it is for.', 'angry'),
+  ]),
+];
+
+/** The SP1 choice at Wanda's gate (mv-sp-wanda) paid off in SP4, SP6 and SP8. */
+export const MV_SPAWN_VARIANTS: Scene[] = [
+  // SP4: why he will not call the Nubbin off Angela's spear.
+  payoff(MV_SPAWN, 'mv-sp04-angela', 'watched', 9, 0, [
+    l('spawn', 'It sat with me an hour outside a window once and never once pulled me away. It’s not moving for you.'),
+  ]),
+  payoff(MV_SPAWN, 'mv-sp04-angela', 'walked-away', 9, 0, [
+    l('spawn', 'It walked me away from the one door I wanted. It’s earned the right to stand in front of any other.'),
+  ]),
+  payoff(MV_SPAWN, 'mv-sp04-angela', 'doorstep', 9, 0, [
+    l('spawn', 'That one has sat on a doorstep and taken a biscuit from a kid I can’t go near. It’s not scared of a spear.'),
+    l('angela', 'A biscuit. Hm.', 'think'),
+  ]),
+  // SP6: what he asks of you on the road into Hell.
+  payoff(MV_SPAWN, 'mv-sp06-road', 'watched', 7, 0, [
+    l('spawn', 'I stood at a gate for an hour once because you let me. Nobody down here lets anybody stand anywhere. Remember that for me.'),
+  ]),
+  payoff(MV_SPAWN, 'mv-sp06-road', 'walked-away', 7, 0, [
+    l('spawn', 'You walked me away from her gate. If I start walking towards that throne, do it again. Don’t ask first.'),
+    l('cog', 'He means it. I’ve never heard him mean anything more.', 'think'),
+  ]),
+  payoff(MV_SPAWN, 'mv-sp06-road', 'doorstep', 7, 0, [
+    l('spawn', 'The kid gave your Nubbin a biscuit, up there. Down here nothing’s free. Don’t let it take so much as a crumb.'),
+    l('cog', 'He’s right. Not a crumb.'),
+  ]),
+  // SP8: what Mammon tried to sell him, and why it failed.
+  payoff(MV_SPAWN, 'mv-sp08-complete', 'watched', 4, 0, [
+    l('spawn', 'The hour you gave me at her window. That’s what he was selling back to me. Thing is, I already had it.', 'soft'),
+  ]),
+  payoff(MV_SPAWN, 'mv-sp08-complete', 'walked-away', 4, 0, [
+    l('spawn', 'You walked me away from that window once. Tonight I walked away from his on my own. Felt like you were there anyway.', 'soft'),
+  ]),
+  payoff(MV_SPAWN, 'mv-sp08-complete', 'doorstep', 4, 0, [
+    l('spawn', 'The kid still leaves a biscuit on the mat some nights. Cog tells me. I never go up. That’s mine, and Mammon can’t sell it.', 'soft'),
+    l('cog', 'She leaves two now. One for the Nubbin, I assume.'),
+  ]),
+];
+
+// ------------------------------------------------------------------ checks
 
 export const CHECKS: string[] = [
   'expedition:clear:mv-russell-woods',

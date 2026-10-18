@@ -12,7 +12,7 @@ import type { HabitatKind, SimEvent, World } from './types';
 import { newId, uniqueName, withRng } from './world';
 
 /**
- * S1 "The Hundred Days" (content/storyline-hundred.ts): one partner with a stretched span,
+ * SL1 "The Hundred Days" (content/storyline-hundred.ts): one partner with a stretched span,
  * six areas that map to places both renderers already draw, a wild visitor waiting in
  * each, the Hush as the chapter-9 dojo bout, and an ending read from prosperity and the
  * partner's evolution.

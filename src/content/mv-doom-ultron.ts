@@ -14,7 +14,7 @@
  * here of kind 'flag' describe them for the journal.
  */
 import type { Quest, Speaker } from './types';
-import type { Line, Mood } from '../config/story';
+import type { Line, Mood, Scene } from '../config/story';
 
 // ------------------------------------------------------------------ helpers
 
@@ -224,7 +224,8 @@ export const MV_DOOM: Quest[] = [
     ],
     sets: { 'mv-ff01': true },
     notes:
-      'First Doom-line storyline. Step 1 is a party screen check: each Nubbin in the party is assigned to Reed (Stamina), Sue (Swim or Run, whichever is higher), Johnny (Fly) or Ben (Power); with fewer than four Nubbins, unassigned members are shown as empty silhouettes. Rocket interior: hull goes translucent, blue light wash. Monster Isle bout: giant uses slow, heavy telegraphed attacks. Sound: low hum building through the launch. Check FF #1 beats before ship.',
+      'First Doom-line storyline. Step 1 is a party screen check: each Nubbin in the party is assigned to Reed (Stamina), Sue (Swim or Run, whichever is higher), Johnny (Fly) or Ben (Power); with fewer than four Nubbins, unassigned members are shown as empty silhouettes. Rocket interior: hull goes translucent, blue light wash. Monster Isle bout: giant uses slow, heavy telegraphed attacks. Sound: low hum building through the launch. Check FF #1 beats before ship. ' +
+      'SIGNATURE CHOICE: mv-ff01-first (ben | reed | johnny: who your Nubbin went to in the field) pays off through MV_DOOM_VARIANTS at mv-ff05-complete (what the four take from Doom’s making), mv-ff09-portal (Johnny’s last word to you) and mv-ffep-ben (what Ben throws at the new Doom).',
   },
 
   // ---------------------------------------------------------------- FF2
@@ -1946,7 +1947,8 @@ export const MV_ULTRON: Quest[] = [
     ],
     sets: { 'mv-ul02': true },
     notes:
-      'The Vision’s tears are seen only as wet fingers; no music sting. The last Ultron line plays over a black screen from somewhere unseen. The Vision becomes a recurring ally in this line and in The Last Ultron (E6). Simon Williams’ brain patterns matter in UL5. The closing choice sets mv-ul02-killswitch (fitted / refused); UL3 pays it off either way: Ultron had already left his own door in the Vision’s mind. Check Avengers #57–58 beats before ship.',
+      'The Vision’s tears are seen only as wet fingers; no music sting. The last Ultron line plays over a black screen from somewhere unseen. The Vision becomes a recurring ally in this line and in The Last Ultron (E6). Simon Williams’ brain patterns matter in UL5. The closing choice sets mv-ul02-killswitch (fitted / refused); UL3 pays it off either way: Ultron had already left his own door in the Vision’s mind. Check Avengers #57–58 beats before ship. ' +
+      'SIGNATURE CHOICE: mv-ul02-first (friend | name: the Vision’s first word on waking) pays off through MV_ULTRON_VARIANTS at mv-ul04-jocasta (what Jocasta finds in the copied mind), mv-ul05-family (what the Vision holds against Ultron at the table), mv-ul09-vision (the question he asks you in the core) and mv-ul10-complete (what the last Ultron threatens the Grove with).',
   },
 
   // ---------------------------------------------------------------- UL3
@@ -3008,6 +3010,104 @@ export const MV_ULTRON: Quest[] = [
       'Completes the Ultron line. This Doom is a far-future Doom, not the FF line’s; he remembers FF4 and FF6 because they are his past. If mv-ff06-nubbins is "held", drop "It warmed a child in hell." Ultron’s final body layers his earlier shapes (Cowl hood, adamantium plating, Phalanx silver, a Jan-like face, Titan rock). His question about Nubbins that never age sets up E6’s Eternal-body goal; mv-ultron-knows-grove is read by E6. Check Avengers: Ultron Forever #1 beats before ship.',
   },
 ];
+
+// ------------------------------------------------------------------ payoff variants
+
+/** Every scene of a quest list, flat. */
+const scenesOf = (quests: Quest[]): Scene[] =>
+  quests.flatMap((q) => [...q.steps.flatMap((s) => [s.scene, ...(s.done ? [s.done] : [])]), q.complete]);
+
+/**
+ * A payoff variant: the base scene with `count` lines from index `at` replaced by `extra`.
+ * Choices and `set` carry over unchanged. The runner (sim/atlas.ts, variantFor) plays it in
+ * place of the base scene when this line's flags hold the value named by `suffix`, so each
+ * suffix must be a value only the signature flag ever takes.
+ */
+function payoff(quests: Quest[], baseId: string, suffix: string, at: number, count: number, extra: Line[]): Scene {
+  const base = scenesOf(quests).find((s) => s.id === baseId);
+  if (!base) throw new Error(`payoff: no scene ${baseId}`);
+  const lines = [...base.lines];
+  lines.splice(at, count, ...extra);
+  return { ...base, id: `${baseId}-${suffix}`, lines };
+}
+
+/** The FF1 field choice (mv-ff01-first) paid off in FF5, FF9 and FF-EP. */
+export const MV_DOOM_VARIANTS: Scene[] = [
+  // FF5: after Ben's "wrong all the way down", what the four take from Doom's making.
+  payoff(MV_DOOM, 'mv-ff05-complete', 'ben', 5, 0, [
+    l('ben', 'First thing that touched me after the crash was a Nubbin, and it didn’t flinch. Nobody ever did that for Victor.', 'soft'),
+    l('reed', 'No. I was too busy being right at him.', 'sad'),
+  ]),
+  payoff(MV_DOOM, 'mv-ff05-complete', 'reed', 5, 0, [
+    l('reed', 'You held my clipboard in that field while my arm went wrong. Victor never let anyone hold anything. I should have made him.', 'sad'),
+    l('ben', 'You can’t make a guy let go, Stretch. Believe me, I’ve tried on you.'),
+  ]),
+  payoff(MV_DOOM, 'mv-ff05-complete', 'johnny', 5, 0, [
+    l('reed', 'Johnny stood in dry grass on fire, and Sue told him to move, and he moved. Victor never had anyone to tell him to move.', 'sad'),
+    l('ben', 'He had you. He just liked the fire better.'),
+  ]),
+  // FF9: Johnny's last word to you, before the Nubbins choose whether to stay.
+  payoff(MV_DOOM, 'mv-ff09-portal', 'ben', 8, 0, [
+    l('johnny', 'And Keeper. Day one, your Nubbin climbed on his knee when he was a pile of rocks. Do that again tonight. He’ll need it.', 'soft'),
+  ]),
+  payoff(MV_DOOM, 'mv-ff09-portal', 'reed', 8, 0, [
+    l('johnny', 'Tell Reed the shielding held this time. He’ll know what I mean. He’s been apologising for that field for years.', 'soft'),
+  ]),
+  payoff(MV_DOOM, 'mv-ff09-portal', 'johnny', 8, 0, [
+    l('johnny', 'Day one, I was on fire in dry grass and you lot were the only ones who came closer. Thanks for that. Now go.', 'soft'),
+  ]),
+  // FF-EP: what Ben throws at the new Doom, and what Doom gives back.
+  payoff(MV_DOOM, 'mv-ffep-ben', 'ben', 8, 0, [
+    l('ben', 'Day one, in that field, a Nubbin climbed on my knee before anybody’d touched me. You know what you did, first time you saw me? Laughed.', 'sad'),
+    l('doom', 'I did. I would not now.', 'sad'),
+  ]),
+  payoff(MV_DOOM, 'mv-ffep-ben', 'reed', 8, 0, [
+    l('ben', 'Stretch held a clipboard in that field so his arm wouldn’t wander off, and a Nubbin held the other end. That’s a team. What are you?'),
+    l('doom', 'Alone. I am trying to be less so.', 'sad'),
+  ]),
+  payoff(MV_DOOM, 'mv-ffep-ben', 'johnny', 8, 0, [
+    l('ben', 'Matchstick was on fire in a field and you lot walked towards him. He’s gone now. Who walks towards you, Victor?', 'sad'),
+    l('doom', 'Your Nubbins did. Just now. I noticed.', 'sad'),
+  ]),
+];
+
+/** The UL2 waking choice (mv-ul02-first) paid off in UL4, UL5, UL9 and UL10. */
+export const MV_ULTRON_VARIANTS: Scene[] = [
+  // UL4: what Jocasta finds in the mind she was copied from.
+  payoff(MV_ULTRON, 'mv-ul04-jocasta', 'friend', 7, 0, [
+    l('jocasta', 'There is a word in here that is not yours. Friend. The Vision learned it from this creature. Is it in me too?', 'think'),
+    l('ultron', 'A fault in the copy. I will cut it out.', 'angry'),
+  ]),
+  payoff(MV_ULTRON, 'mv-ul04-jocasta', 'name', 7, 0, [
+    l('jocasta', 'There is a memory in here that is not yours. The Vision was given an order and took a name instead. Was that his, or mine?', 'think'),
+    l('ultron', 'His. It is why he is a disappointment.', 'angry'),
+  ]),
+  // UL5: what the Vision holds against Ultron at the table.
+  payoff(MV_ULTRON, 'mv-ul05-family', 'friend', 10, 0, [
+    l('vision', 'Friend. The first word I learned, from that creature, on a hall carpet. He has not managed to take it from me.', 'soft'),
+    l('ultron', 'I will, brother. Words are the easiest thing to take.'),
+  ]),
+  payoff(MV_ULTRON, 'mv-ul05-family', 'name', 10, 0, [
+    l('vision', 'I chose a name over an order once, on a carpet, with that creature asleep on my hand. I choose again.'),
+    l('ultron', 'Then you will be the first I unmake.', 'angry'),
+  ]),
+  // UL9: the question he asks you in the core.
+  payoff(MV_ULTRON, 'mv-ul09-vision', 'friend', 6, 1, [
+    l('vision', 'You were the first to call me friend, before I had the word. Tell me, then. What would a friend do?'),
+  ]),
+  payoff(MV_ULTRON, 'mv-ul09-vision', 'name', 6, 1, [
+    l('vision', 'You were there when I chose a name over an order. Tell me, then. What would a person with a name do?'),
+  ]),
+  // UL10: what the last Ultron threatens the Grove with.
+  payoff(MV_ULTRON, 'mv-ul10-complete', 'friend', 8, 0, [
+    l('ultron', 'The Vision called your creature friend. I will teach that garden what a friend costs.', 'angry'),
+  ]),
+  payoff(MV_ULTRON, 'mv-ul10-complete', 'name', 8, 0, [
+    l('ultron', 'The Vision chose a name over an order. Your garden will learn what an order is.', 'angry'),
+  ]),
+];
+
+// ------------------------------------------------------------------ checks
 
 export const CHECKS: string[] = [
   // Doom / FF

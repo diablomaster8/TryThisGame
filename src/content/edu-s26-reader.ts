@@ -306,7 +306,7 @@ const S26: EduQuest = {
           'An old man in a lamplighter’s coat is getting a wheelchair over the doorstep. The girl in it is telling him how, very loudly.',
         ),
         L('No. Back wheels first. Grandad. Back. Wheels. First.', 'angry'),
-        T('I know which wheels, love, I’ve been doing wheels since before—', 'think'),
+        T('I know which wheels, love. I’ve been doing wheels since before…', 'think'),
         N(
           'He gets it over the step. She takes the rims herself the moment it lands, and spins round to look at you.',
         ),
@@ -318,7 +318,7 @@ const S26: EduQuest = {
           'This is Linnet. My granddaughter. Here till winter, while her mum works the coast boats.',
         ),
         L('He means I’m kept here till winter.', 'angry'),
-        T('She’s eleven. She’s very— she’s eleven.', 'soft'),
+        T('She’s eleven. She’s very… she’s eleven.', 'soft'),
         L('Nothing in this valley is flat. Did you know that? Nothing. Somebody should be told.'),
         T('Mind yourself on the lane, love.', 'soft'),
         L('There. That. That’s the other thing everybody says.'),
@@ -957,7 +957,7 @@ const S26: EduQuest = {
         ),
         N('She turns most of it down on sight.'),
         L(
-          'Too shady. Too stony. Too near the door; people would tread on it. Too— what do you think?',
+          'Too shady. Too stony. Too near the door; people would tread on it. What do you think?',
           'think',
         ),
         N('The sun is low in the south. Its light lies longest along the foot of the south wall.'),
@@ -1083,19 +1083,21 @@ const S26: EduQuest = {
       's26-hush',
       [
         M(
-          'After the White Year, some of the stilled ones never moved again. Hush brought them in here, out of the wind.',
+          'Briar wanted the stilled ones up on the hill, in the light, where the valley could see them. Hush said the wind would have them.',
           'sad',
         ),
         M(
-          'She planted roses up every wall, so they would have something to look at. So it wasn’t only grey.',
+          'So she carried them in here herself, one at a time, all that winter. She was not big. It took her till the thaw.',
         ),
-        M('Every day she sat with them. She didn’t try to wake them. She kept them company.'),
-        M('The last of them faded on a winter morning, by this wall, with Hush beside it.', 'soft'),
+        M(
+          'Then she planted roses up every wall. Not for herself. A still thing can still be looked at, she said, and should have something back.',
+        ),
+        M('The last of them went in the second winter, here, with the roses bare above it. She said bare was still something.', 'soft'),
         N(
           'Faded is the Grove’s word. It means died: the body stops working, and it doesn’t start again.',
         ),
         M(
-          'She locked the door and put the key in the ground. Later, when she had carried it as far as she could, she faded too.',
+          'You heard the rest at Lantern Night. The door, and the key. Later, when she had carried her grief as far as she could, Hush faded too.',
           'soft',
         ),
         N(
@@ -1367,7 +1369,7 @@ const S26: EduQuest = {
           label: 'Ask Tobin to sit on Hush’s bench. Just for a minute.',
           set: { 's26-tobin': 'asked' },
           then: [
-            T('Sit? I— well. A minute. One.', 'think'),
+            T('Sit? I… well. A minute. One.', 'think'),
             N(
               'He sits. The stone is warm from the afternoon, and he looks very surprised by that.',
             ),
@@ -1391,7 +1393,7 @@ const S26: EduQuest = {
       's26-tobin-bench',
       [
         T(
-          'This puts me in mind of a story. There was a winter, the year of the Three Hats, when—',
+          'This puts me in mind of a story. There was a winter, the year of the Three Hats, when…',
           'happy',
         ),
         T(
@@ -1695,7 +1697,7 @@ const S26: EduQuest = {
           label: 'Give it to Linnet. She asked for her patch first.',
           set: { 's26-key': 'linnet' },
           then: [
-            L('Me? I just said— oh, you’re impossible.', 'angry'),
+            L('Me? I just said… oh, you’re impossible.', 'angry'),
             N('She closes her hand round it. Then she goes very quiet.'),
             L('Then I’m keeping it so nobody can ever lock it. That’s what it’s for now.', 'soft'),
           ],

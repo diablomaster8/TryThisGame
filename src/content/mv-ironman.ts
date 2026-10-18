@@ -19,7 +19,7 @@
  * FF2 and so on). IM10 and IM12 set `mv-unlock-ul7` and `mv-unlock-ul5`.
  */
 import type { Quest, Speaker } from './types';
-import type { Line, Mood } from '../config/story';
+import type { Line, Mood, Scene } from '../config/story';
 
 // ------------------------------------------------------------------ helpers
 
@@ -248,7 +248,8 @@ export const MV_IRONMAN: Quest[] = [
     ],
     sets: { 'mv-im01': true },
     notes:
-      'The original is set in Vietnam; keep the setting to unnamed hills and a rebel camp, no flags or nationality. Step 2 is a stealth carry minigame ("mv-cave-plates"): a Power Nubbin is best but any Nubbin can finish with more trips. Step 3 is a survive bout of three short rounds; it cannot be lost outright, only lengthened. Yinsen’s death happens off-screen in the tunnel: show only him lying still in the done scene, no wound, and let the scene sit for two seconds of silence before the last line. Sound: the generator hum under the whole cave, cut it when the armour powers up. Check Tales of Suspense #39 beats before ship.',
+      'The original is set in Vietnam; keep the setting to unnamed hills and a rebel camp, no flags or nationality. Step 2 is a stealth carry minigame ("mv-cave-plates"): a Power Nubbin is best but any Nubbin can finish with more trips. Step 3 is a survive bout of three short rounds; it cannot be lost outright, only lengthened. Yinsen’s death happens off-screen in the tunnel: show only him lying still in the done scene, no wound, and let the scene sit for two seconds of silence before the last line. Sound: the generator hum under the whole cave, cut it when the armour powers up. Check Tales of Suspense #39 beats before ship. ' +
+      'SIGNATURE CHOICE: mv-im01-plan (walk | doubt | decoy) pays off through MV_IRONMAN_VARIANTS at mv-im04-duel-done (Tony’s answer to the cameras), mv-im08-captain (the rooftop argument with Steve) and mv-im15-return (what the Superior Tony still half remembers).',
   },
 
   // ---------------------------------------------------------------- IM2
@@ -2505,6 +2506,67 @@ export const MV_IRONMAN: Quest[] = [
     notes:
       'Completes the Iron Man line (sets mv-im-complete). Needs IM10: Extremis 3.0 builds on it. Speaker "superior" is the inverted Tony, with a white-armour portrait and a too-smooth face; after the step 3 choice the speaker switches back to "tony" with his normal portrait, which is the visual cue that he is himself again. The desk items call back to IM1 (chest plate), IM5 (washers, one per year) and IM14 (drive); the choice only changes which callback plays. Step 2’s done choice (mv-im15-app: free / dark) is the Keeper’s view on the cure; the app stays down either way within this storyline. Daredevil’s brief restored sight is reported, not shown. Required for Civil War (E1), which follows straight on from the last line. Check Superior Iron Man #1–9 beats before ship.',
   },
+];
+
+// ------------------------------------------------------------------ payoff variants
+
+/** Every scene of a quest list, flat. */
+const scenesOf = (quests: Quest[]): Scene[] =>
+  quests.flatMap((q) => [...q.steps.flatMap((s) => [s.scene, ...(s.done ? [s.done] : [])]), q.complete]);
+
+/**
+ * A payoff variant: the base scene with `count` lines from index `at` replaced by `extra`.
+ * Choices and `set` carry over unchanged. The runner (sim/atlas.ts, variantFor) plays it in
+ * place of the base scene when this line's flags hold the value named by `suffix`, so each
+ * suffix must be a value only the signature flag ever takes.
+ */
+function payoff(quests: Quest[], baseId: string, suffix: string, at: number, count: number, extra: Line[]): Scene {
+  const base = scenesOf(quests).find((s) => s.id === baseId);
+  if (!base) throw new Error(`payoff: no scene ${baseId}`);
+  const lines = [...base.lines];
+  lines.splice(at, count, ...extra);
+  return { ...base, id: `${baseId}-${suffix}`, lines };
+}
+
+/** The IM1 cave choice (mv-im01-plan) paid off in IM4, IM8 and IM15. */
+export const MV_IRONMAN_VARIANTS: Scene[] = [
+  // IM4: what Tony says to the cameras before the Keeper picks his quote.
+  payoff(MV_IRONMAN, 'mv-im04-duel-done', 'walk', 4, 0, [
+    l('tony', 'First suit I ever built ran off a car battery and a magnet, in a cave, with you holding the torch. This one’s the same idea, polished.', 'think'),
+    l('announcer', 'Mr Stark, that is not an answer to my question.'),
+  ]),
+  payoff(MV_IRONMAN, 'mv-im04-duel-done', 'doubt', 4, 0, [
+    l('tony', 'Somebody asked me once if a suit could be built in a week. Five days, it turned out. He had a year, and look at him.', 'think'),
+  ]),
+  payoff(MV_IRONMAN, 'mv-im04-duel-done', 'decoy', 4, 0, [
+    l('tony', 'You know what wins, Keeper? Not the weapon that jams in a month. The one that was never a weapon. You wanted the other one, once.', 'think'),
+  ]),
+  // IM8: the rooftop, between the shield coming up and Rhodey's warning.
+  payoff(MV_IRONMAN, 'mv-im08-captain', 'walk', 9, 0, [
+    l('tony', 'In the cave we built a door, not a weapon. I keep telling myself these suits are the door.', 'sad'),
+    l('steve', 'A door fifty people walked through with your name on it, Tony.'),
+  ]),
+  payoff(MV_IRONMAN, 'mv-im08-captain', 'doubt', 9, 0, [
+    l('steve', 'Rhodey told me about the cave. Five days, with a magnet and a car battery. Nothing stops you. That’s what frightens me.'),
+    l('tony', 'It should. It frightens me.', 'sad'),
+  ]),
+  payoff(MV_IRONMAN, 'mv-im08-captain', 'decoy', 9, 0, [
+    l('tony', 'Keeper, in the cave you wanted to build the man a weapon that jammed. These don’t jam. That’s the whole trouble with me.', 'sad'),
+    l('steve', 'Then build the one that stops. That’s all I’m asking.'),
+  ]),
+  // IM15: the first crack in the Superior Tony, after the Nubbin sits by his boot.
+  payoff(MV_IRONMAN, 'mv-im15-return', 'walk', 4, 0, [
+    l('superior', 'A cave. A bad bulb. Two round animals holding a torch while a dying man tightened my bolts. Why is that still in here?', 'think'),
+    l('pepper', 'Because it’s you. That’s the bit the cure couldn’t reach.', 'soft'),
+  ]),
+  payoff(MV_IRONMAN, 'mv-im15-return', 'doubt', 4, 0, [
+    l('superior', 'Somebody asked, once, whether it could be done in a week. I remember the question. I can’t remember why it mattered.', 'think'),
+    l('pepper', 'It mattered because you were building it for someone else.', 'soft'),
+  ]),
+  payoff(MV_IRONMAN, 'mv-im15-return', 'decoy', 4, 0, [
+    l('superior', 'Someone in a cave once suggested a weapon that jams. The weak Tony said no. I would have said yes and been out in a day.', 'think'),
+    l('pepper', 'And Yinsen would have died for nothing. Listen to yourself.', 'angry'),
+  ]),
 ];
 
 // ------------------------------------------------------------------ checks

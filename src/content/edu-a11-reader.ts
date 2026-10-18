@@ -2327,7 +2327,7 @@ const SCENES: Record<string, SceneData> = {
       N('A boy and his Bear are playing in it. Nobody ever stops them.', 'soft'),
       N('The page settles under your hand, gently, like a door somebody is careful not to bang.'),
       N(
-        'You are back in the Grove, with Nova’s atlas on your knee and a stick in your Nubbin’s mouth that wasn’t there before.',
+        'You are back in the Grove, with Nova’s atlas on your knee. There is a stick in your Nubbin’s mouth, and nobody saw where it came from.',
       ),
       N(
         'Down by the Grove stream there is a little wooden bridge that wasn’t there this morning. A bit of blue ribbon is tied to its rail.',
@@ -2479,7 +2479,7 @@ const SCENES: Record<string, SceneData> = {
       N('A boy and his Bear are playing in it. Nobody ever stops them.', 'soft'),
       N('The page settles under your hand, gently, like a door somebody is careful not to bang.'),
       N(
-        'You are back in the Grove, with Nova’s atlas on your knee and a stick in your Nubbin’s mouth that wasn’t there before.',
+        'You are back in the Grove, with Nova’s atlas on your knee. There is a stick in your Nubbin’s mouth, and nobody saw where it came from.',
       ),
       N(
         'Down by the Grove stream there is a little wooden bridge that wasn’t there this morning. A thistle is coming up at the far end.',
@@ -2500,7 +2500,7 @@ const SCENES: Record<string, SceneData> = {
       N('A boy and his Bear are playing in it. Nobody ever stops them.', 'soft'),
       N('The page settles under your hand, gently, like a door somebody is careful not to bang.'),
       N(
-        'You are back in the Grove, with Nova’s atlas on your knee and a stick in your Nubbin’s mouth that wasn’t there before.',
+        'You are back in the Grove, with Nova’s atlas on your knee. There is a stick in your Nubbin’s mouth, and nobody saw where it came from.',
       ),
       N(
         'Down by the Grove stream there is a little wooden bridge that wasn’t there this morning. One place on its parapet is worn smooth, just right for sitting.',

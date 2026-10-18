@@ -7,7 +7,7 @@ import type { CampaignState } from './types';
 import { newId, uniqueName, withRng } from './world';
 
 /**
- * S2 "Logged In" (content/storyline-logged.ts): three starter eggs as the party, the two
+ * SL2 "Logged In" (content/storyline-logged.ts): three starter eggs as the party, the two
  * servers as the Sun and Moon recolours, the bout button at a tier that rises with the
  * chapter, and an ending from the root-node choice and whether the party came through.
  */

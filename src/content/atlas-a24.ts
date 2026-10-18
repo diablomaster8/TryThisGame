@@ -46,8 +46,8 @@
  *   2. "Now to Baloo’s word I will add one bull, and a fat one, newly killed, not half a mile
  *      from here" (Bagheera; a fragment, closed with a full stop) a24-02-council#10.
  *   3. "We be of one blood, ye and I" (the Master Words) a24-03-words#5 (Baloo), a24-05-cistern#5
- *      (Mowgli, to the cobras), a24-16-bagheera#11 (you, at the goodbye). The outline allows it
- *      wherever the Keeper uses the Words; it is used three times, each with a childLine.
+ *      (Mowgli, to the cobras); at the goodbye (a24-16-bagheera#11) the Keeper's answer is narrated, not
+ *      quoted, so the Keeper never speaks the Words. The quote is used twice, each with a childLine.
  *   4. "Let them fall, Mowgli. They are only tears." (Bagheera) a24-07-tears#7.
  *   5. "Man goes to Man at the last, though the Jungle does not cast him out." (Kaa)
  *      a24-16-rock#5.
@@ -2295,7 +2295,7 @@ export const ATLAS_A24: Quest[] = [
             N('And he’s gone into the trees. Mowgli stands with his hands open, the way you do when you’ve dropped something.'),
             MG('Guest. You came at the start. You were in the cave, the first night. Say the Words with me. One more time.', 'sad'),
             N('So you say them, the two of you, standing on the Council Rock in the early sun.'),
-            Y(LIFT_BLOOD),
+            N('You give the Master Words back to Mowgli, the way Baloo taught them, and your Nubbin bows with you.'),
           ],
         },
         done: {
@@ -2365,7 +2365,7 @@ export const ATLAS_A24: Quest[] = [
     childLines: {
       'a24-16-rock#5': 'People belong with people in the end. But the jungle will always be your home too.',
       'a24-16-bagheera#7': 'Good luck on your new road. Never forget that Bagheera loved you.',
-      'a24-16-bagheera#11': CHILD_BLOOD,
+      'a24-16-bagheera#11': 'You say the Words back to Mowgli, the way Baloo taught them, and your Nubbin bows with you.',
     },
     notes:
       'STONES PAYOFF (a24-stones). The scenes shown are for mowgli: Mowgli asks you to walk the first mile with him; the ' +

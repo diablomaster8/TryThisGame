@@ -9,7 +9,7 @@ import { queueScene, seen } from './story-state';
 import type { CampaignState, Command, SimEvent, World } from './types';
 
 /**
- * The storyline machine: the separate campaigns (S1–S4) share Hazel's Grove's campaign
+ * The storyline machine: the separate campaigns (SL1–SL4) share Hazel's Grove's campaign
  * state (queue, seen, flags, friendship) so the dialogue box, the journal and the away
  * screen play them unchanged, but their chapters come from a `Storyline` script and
  * their goals are check strings (storyline-checks.ts). Each chapter opens with a scene,

@@ -5186,7 +5186,7 @@ const A16: EduQuest = quest(
           'Then the page goes soft under your hand, and it is the Grove, with Nova’s atlas on your knee.',
         ),
         N(
-          'Your Nubbin is still wearing its leaf. By the lane there is a bench like a country bus stop, and on the shelf an ear of corn, dried gold.',
+          'Your Nubbin refuses to take its leaf off. By the lane stands a bench like a country bus stop; on the shelf, an ear of corn, dried gold.',
         ),
       ],
       [
@@ -6102,7 +6102,7 @@ const A17_VARIANTS_READER: EduScene[] = [
         'Then the page goes soft under your hand, and it is the Grove, with Nova’s atlas on your knee.',
       ),
       N(
-        'Your Nubbin is still wearing its leaf. By the lane there is a bench like a country bus stop, and on the shelf an ear of corn, dried gold.',
+        'Your Nubbin refuses to take its leaf off. By the lane stands a bench like a country bus stop; on the shelf, an ear of corn, dried gold.',
       ),
     ],
     [

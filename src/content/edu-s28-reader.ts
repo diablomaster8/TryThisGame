@@ -333,7 +333,6 @@ const SCENES: EduScene[] = [
         kind: 'ask',
         after: 5,
         prompt: [
-          N('A think question, with no wrong answer.'),
           N('Is keeping what you suspect to yourself the same as lying?'),
         ],
         options: [
@@ -1105,7 +1104,6 @@ const SCENES: EduScene[] = [
         kind: 'ask',
         after: 3,
         prompt: [
-          N('A think question, with no wrong answer.'),
           N(
             'Parcel took an orange without asking. Perhaps it only wanted more marmalade to share. Is Parcel a thief?',
           ),
@@ -1539,7 +1537,6 @@ const SCENES: EduScene[] = [
         kind: 'ask',
         after: 7,
         prompt: [
-          N('A think question, with no wrong answer.'),
           N(
             'Hazel says she needed someone who’d “count this one”. Why do you think she chose Byte, not you?',
           ),
@@ -1759,7 +1756,6 @@ const VARIANTS: EduScene[] = [
         kind: 'ask',
         after: 9,
         prompt: [
-          N('A think question, with no wrong answer.'),
           N(
             'Null can’t say yes or no to the schedule. Is it fair to decide an animal’s whole day for it?',
           ),

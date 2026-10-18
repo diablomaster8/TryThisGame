@@ -357,7 +357,7 @@ Done: the five-creature roster in the species format with anchored faces; the fa
 
 In hand: grounding (contact shadow blob, body follows the slope, grass parting) is applied and typechecks but has not been checked in the browser.
 
-Next, in order: planted feet with knee joints; petting and sleep animation with squash and stretch; shape fixes (hands and feet, per-form blend, tufts, Bolder's neck, Mossling's cap, Wisp's core, one roster scale); eye tracking; the Keeper in the format; the Chao variant catalogue in the format; then the real 3D mode (title toggle, `render3d/` scene behind `WorldView`, Lakitu camera, environment port, worker sculpting and geometry cache); then the device pass. The Digimon-list expansions E1–E3 and campaigns S1–S4 wait for Maor's pick. `plan.md` has the subagent briefs.
+Next, in order: planted feet with knee joints; petting and sleep animation with squash and stretch; shape fixes (hands and feet, per-form blend, tufts, Bolder's neck, Mossling's cap, Wisp's core, one roster scale); eye tracking; the Keeper in the format; the Chao variant catalogue in the format; then the real 3D mode (title toggle, `render3d/` scene behind `WorldView`, Lakitu camera, environment port, worker sculpting and geometry cache); then the device pass. The Digimon-list expansions E1–E3 and campaigns SL1–SL4 wait for Maor's pick. `plan.md` has the subagent briefs.
 
 ---
 
@@ -390,7 +390,7 @@ and `plan.md` before touching any script. **Order of authority:** `docs/canon.md
   - `teen` (13+) and `adult` (18+): behind the **Mature content** setting (Off / 13+ / 18+, Off
     by default).
   - The Multiverse and It's Always Sunny are `adult`. Atlas A1, A3 and A4 are `teen`. A21,
-    S23, PA1 and Neopia's darker plots are `main`.
+    S23 and Neopia's darker plots are `main`.
 - **Design rules (Maor):**
   - No daily or repeatable chores, timers or farms. Every reward is one-time or unlimited.
   - 20–35% of side stories change the campaign. It's 8 of 31 now (26%): S2, S9, S10, S13, S19,
@@ -409,8 +409,8 @@ and `plan.md` before touching any script. **Order of authority:** `docs/canon.md
   - Corvin first comes to the gate in S9; `c11-gate` is his return.
   - Wisp's ear is torn. Bramble's folds over at the tip.
   - Nubbins and animals don't speak in the Grove's story. The exceptions are Eternals, the
-    Shadows' half-voice, Sable's one word, the fun quests, S12's hive, Delve and the clockwork
-    parrot, and talking animals inside Atlas and Arcade worlds.
+    Shadows' half-voice, Sable's one word, the fun quests, S12's hive and its one return in S26,
+    Delve and the clockwork parrot, and talking animals inside Atlas and Arcade worlds.
   - New names: Linnet (S26) and Thimble (S23), as distinct from the valley children Wren and Pip.
 
 ### Writing style

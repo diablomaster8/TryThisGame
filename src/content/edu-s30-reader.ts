@@ -839,11 +839,11 @@ const SCENES: EduScene[] = [
       ),
       M('Hush. The quiet one. You have heard her name in the tale. I did not tell you her job.'),
       M(
-        'After the White Year, some of the stilled Nubbins never moved again. They had died. Hush sat with them, every one, every day.',
+        'When the White Year stilled half the valley, the rest of us dug. Hush went and sat where the still ones, the ones who had died, could see her.',
         'sad',
       ),
       M(
-        'Grief was her job. She kept the valley’s griefs, so they did not get dropped all over the valley.',
+        'She never tried to wake one. If one shivered, she took it for a conversation. That was her job, and nobody gave it her.',
       ),
       M(
         'People thought that made her a sad thing. They were wrong about which part was sad.',

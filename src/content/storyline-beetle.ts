@@ -1,5 +1,5 @@
 /**
- * Storyline S3, "The Beetle Road" (plan G12): an expedition campaign in its own save
+ * Storyline SL3, "The Beetle Road" (plan G12): an expedition campaign in its own save
  * mode. A guard team to join, the Beetle Run (sim/tank.ts) through the cave domains of
  * the Hollow Below with a boss at each door, a careful, consented fusion of two Nubbins
  * into one (sim/fusion.ts), the quartermaster's errands, and a reveal about the valley's
@@ -67,9 +67,8 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
     {
       id: 'b-c1-open',
       lines: [
-        N(
-          'The guard house is a shed with ambitions. Three team banners on the wall, Dawn, Dusk and Dew, and a man behind a counter who has counted everything in the room twice.',
-        ),
+        N('The guard house is a shed with ambitions. Three team banners hang on the wall: Dawn, Dusk and Dew.'),
+        N('Behind the counter sits a man who has counted everything in the room twice.'),
         HOB(
           'Hob. Quartermaster. You want down the Beetle Road, you want a team. Pick one, I don’t care which, they all owe me.',
         ),
@@ -641,7 +640,7 @@ export const BEETLE_EXTRA: Scene[] = [
 
 export const STORYLINE_BEETLE: Storyline = {
   id: 'beetle',
-  code: 'S3',
+  code: 'SL3',
   title: 'The Beetle Road',
   tagline: 'A guard team, a cart, two doors, and the weather.',
   source: 'Digimon World 2 (2000): mechanics only',

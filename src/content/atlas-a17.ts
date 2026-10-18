@@ -2033,7 +2033,7 @@ export const ATLAS_A17: Quest[] = [
         N('Later in the summer Mrs Kusakabe comes home. It was only a cold, and she is getting well.'),
         N('She comes up the road from the bus stop, slowly, and the girls run down to meet her. You watch from Granny’s step.'),
         N('Then the page goes soft under your hand, and it is the Grove, with Nova’s atlas on your knee.'),
-        N('Your Nubbin is still wearing its leaf. By the lane there is a bench like a country bus stop, and on the shelf an ear of corn, dried gold.'),
+        N('Your Nubbin refuses to take its leaf off. By the lane stands a bench like a country bus stop; on the shelf, an ear of corn, dried gold.'),
       ],
     },
     rewards: [
@@ -2356,7 +2356,7 @@ export const A17_VARIANTS: Scene[] = [
       N('Later in the summer Mrs Kusakabe comes home. It was only a cold, and she is getting well.'),
       N('She comes up the road from the bus stop, slowly, and the girls run down to meet her. You watch from Granny’s step, with Kanta.'),
       N('Then the page goes soft under your hand, and it is the Grove, with Nova’s atlas on your knee.'),
-      N('Your Nubbin is still wearing its leaf. By the lane there is a bench like a country bus stop, and on the shelf an ear of corn, dried gold.'),
+      N('Your Nubbin refuses to take its leaf off. By the lane stands a bench like a country bus stop; on the shelf, an ear of corn, dried gold.'),
     ],
   },
   // ---------------------------------------------------------------- Grove keepsake: the oak (s1Done; Moss present)

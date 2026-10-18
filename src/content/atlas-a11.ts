@@ -145,7 +145,7 @@ const A20_END: Line[] = [
   N('Whatever comes next for them, there is a ring of trees at the top of the Forest that nobody can count.'),
   N('A boy and his Bear are playing in it. Nobody ever stops them.', 'soft'),
   N('The page settles under your hand, gently, like a door somebody is careful not to bang.'),
-  N('You are back in the Grove, with Nova’s atlas on your knee and a stick in your Nubbin’s mouth that wasn’t there before.'),
+  N('You are back in the Grove, with Nova’s atlas on your knee. There is a stick in your Nubbin’s mouth, and nobody saw where it came from.'),
 ];
 
 // =================================================================== THE ENCHANTED PLACE

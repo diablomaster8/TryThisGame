@@ -4,12 +4,12 @@
  * SOURCE. Sonic Adventure (Sonic Team; Sega Dreamcast, Japan, 23 December 1998): the Chao Garden at
  * Station Square, Chaos, Tikal and Pachacamac, the Egg Carrier, Gamma, Big and Froggy, Perfect Chaos.
  * RIGHTS. Sonic Adventure, its characters, places and the Chao are (c) and TM Sega. Every line here is
- * new except the two short prayer lines under LIFTED TEXT. A commercial build needs a Sega licence;
- * without one, rename everything (characters, places, the Chao, the Emeralds) and keep only the shape
- * of the story. Speaker names are Sega's, recorded in `basedOn`, so a rename is one table.
+ * new except the two short prayer lines under LIFTED TEXT. The Sega licence is approved (Maor,
+ * 2026-10-17). Speaker names are Sega's, recorded in `basedOn`.
  *
- * AUDIENCE. 'main': all ages, but no Learning Grove version while the licence question stands. So
- * there are no childLines.
+ * AUDIENCE. 'all' (canon 29: Arcade cartridges are for all ages; Maor, 2026-10-17). Each lifted line
+ * has a `childLines` replacement, and the Learning Grove versions are edu-pa1-sprout.ts and
+ * edu-pa1-reader.ts.
  *
  * FRAME. Pixel's Arcade (docs/more-stories.md, "Pixel's Arcade (the frame)"). After chapter 5 Pixel
  * has the Workyard cabinet running in the lantern shed. You slot the cartridge in and step through
@@ -24,8 +24,8 @@
  *   - s21Done: Clank sits on top of the cabinet. PA1_VARIANTS 'pa1-01-clank' plays straight after
  *     pa1-01-shed-done.
  *   - cinder (S19: 'forgiven' | 'remembered'; unset otherwise). PA1-18, step 2's done scene:
- *       unset: pa1-18-rhyme (Pixel half-chants two lines of Cinder's rhyme, STORY-BIBLE "Original
- *         songs and rhymes", and stops).
+ *       unset: pa1-18-rhyme (Pixel hums the tune of Cinder's rhyme without the words, and stops
+ *         before the last line).
  *       forgiven: PA1_VARIANTS 'pa1-18-cinder-forgiven' replaces pa1-18-rhyme. You tell Tikal about
  *         a fierce one at home who was forgiven, and she smiles.
  *       remembered: 'pa1-18-cinder-remembered' replaces pa1-18-rhyme. "We remember ours", and your
@@ -120,7 +120,7 @@ export const ARCADE_PA1: Quest[] = [
     code: 'PA1-1',
     title: 'The Cabinet',
     source: `${SRC}: the frame`,
-    audience: 'main',
+    audience: 'all',
     trigger: {
       where: WHERE,
       when: 'After chapter 5, once Pixel has the Workyard cabinet running in the lantern shed. With s21Done, Clank sits on top.',
@@ -228,7 +228,7 @@ export const ARCADE_PA1: Quest[] = [
     code: 'PA1-2',
     title: 'A Garden Like Ours',
     source: `${SRC}: the Station Square Chao Garden`,
-    audience: 'main',
+    audience: 'all',
     trigger: { where: WHERE, when: after('PA1-1') },
     requires: ['PA1-1'],
     speakers: [sRadio],
@@ -329,7 +329,7 @@ export const ARCADE_PA1: Quest[] = [
     code: 'PA1-3',
     title: 'The Water Creature',
     source: `${SRC}: Chaos 0 in Station Square`,
-    audience: 'main',
+    audience: 'all',
     trigger: { where: WHERE, when: after('PA1-2') },
     requires: ['PA1-2'],
     speakers: [sOfficer, sSonic],
@@ -419,7 +419,7 @@ export const ARCADE_PA1: Quest[] = [
     code: 'PA1-4',
     title: 'The Light',
     source: `${SRC}: Tikal’s first memory, the shrine and the Chao`,
-    audience: 'main',
+    audience: 'all',
     trigger: { where: WHERE, when: after('PA1-3') },
     requires: ['PA1-3'],
     speakers: [sTikal],
@@ -520,7 +520,7 @@ export const ARCADE_PA1: Quest[] = [
     code: 'PA1-5',
     title: 'Tails’s Workshop',
     source: `${SRC}: the Mystic Ruins, Tails’s workshop and Chaos 2`,
-    audience: 'main',
+    audience: 'all',
     trigger: { where: WHERE, when: after('PA1-4') },
     requires: ['PA1-4'],
     speakers: [sTails, sSonic, sEggman],
@@ -640,7 +640,7 @@ export const ARCADE_PA1: Quest[] = [
     code: 'PA1-6',
     title: 'The Shattered Emerald',
     source: `${SRC}: Knuckles, the Master Emerald and the fall of Angel Island`,
-    audience: 'main',
+    audience: 'all',
     trigger: { where: WHERE, when: after('PA1-5') },
     requires: ['PA1-5'],
     speakers: [sKnuckles, sEggman],
@@ -737,7 +737,7 @@ export const ARCADE_PA1: Quest[] = [
     code: 'PA1-7',
     title: 'The Prayer',
     source: `${SRC}: Tikal at the Master Emerald`,
-    audience: 'main',
+    audience: 'all',
     trigger: { where: WHERE, when: after('PA1-6') },
     requires: ['PA1-6'],
     speakers: [sKnuckles, sTikal],
@@ -821,6 +821,9 @@ export const ARCADE_PA1: Quest[] = [
     },
     rewards: [],
     sets: { 'pa1-07': true },
+    childLines: {
+      'pa1-07-prayer#3': 'Seven jewels, seven keepers of the light.',
+    },
     notes:
       'QUOTE CHECK: pa1-07-prayer#3 is lifted text 1, “The servers are the seven Chaos.”, exactly as Part M lists it ' +
       '[unverified: Chao Island’s wiki prints “7”]. Check against the game’s English script before ship; if it differs, use ' +
@@ -834,7 +837,7 @@ export const ARCADE_PA1: Quest[] = [
     code: 'PA1-8',
     title: 'Amy and the Bird',
     source: `${SRC}: Amy, the little bird and E-102 Gamma`,
-    audience: 'main',
+    audience: 'all',
     trigger: { where: WHERE, when: after('PA1-7') },
     requires: ['PA1-7'],
     speakers: [sAmy, sGamma],
@@ -948,7 +951,7 @@ export const ARCADE_PA1: Quest[] = [
     code: 'PA1-9',
     title: 'Big and Froggy',
     source: `${SRC}: Big the Cat and Froggy`,
-    audience: 'main',
+    audience: 'all',
     trigger: { where: WHERE, when: after('PA1-8') },
     requires: ['PA1-8'],
     speakers: [sBig],
@@ -1041,7 +1044,7 @@ export const ARCADE_PA1: Quest[] = [
     code: 'PA1-10',
     title: 'Pachacamac',
     source: `${SRC}: Tikal and her father, chief of the echidna clan`,
-    audience: 'main',
+    audience: 'all',
     trigger: { where: WHERE, when: after('PA1-9') },
     requires: ['PA1-9'],
     speakers: [sTikal, sPacha],
@@ -1142,7 +1145,7 @@ export const ARCADE_PA1: Quest[] = [
     code: 'PA1-11',
     title: 'The Egg Carrier',
     source: `${SRC}: the Egg Carrier and its Chao Garden`,
-    audience: 'main',
+    audience: 'all',
     trigger: { where: WHERE, when: after('PA1-10') },
     requires: ['PA1-10'],
     speakers: [sTails, sSonic, sEggman, sAmy],
@@ -1251,7 +1254,7 @@ export const ARCADE_PA1: Quest[] = [
     code: 'PA1-12',
     title: 'Gamma',
     source: `${SRC}: E-102 Gamma turns from Eggman`,
-    audience: 'main',
+    audience: 'all',
     trigger: { where: WHERE, when: after('PA1-11') },
     requires: ['PA1-11'],
     speakers: [sEggman, sGamma, sAmy],
@@ -1358,7 +1361,7 @@ export const ARCADE_PA1: Quest[] = [
     code: 'PA1-13',
     title: 'The Charge',
     source: `${SRC}: the attack on the shrine and the sealing of Chaos`,
-    audience: 'main',
+    audience: 'all',
     trigger: { where: WHERE, when: after('PA1-12') },
     requires: ['PA1-12'],
     speakers: [sTikal, sKnuckles],
@@ -1441,6 +1444,9 @@ export const ARCADE_PA1: Quest[] = [
     },
     rewards: [],
     sets: { 'pa1-13': true },
+    childLines: {
+      'pa1-13-charge#6': 'The light is strong. It is strongest when the heart is kind.',
+    },
     notes:
       'CARE: everything in pa1-13-charge after line 2 is offscreen. The screen is the rosy light’s gold, with firelight ' +
       'showing orange through it, then dark, then one green flash. Sound only: footsteps, small Chao cries (not words), a ' +
@@ -1457,7 +1463,7 @@ export const ARCADE_PA1: Quest[] = [
     code: 'PA1-14',
     title: 'The Ruins',
     source: `${SRC}: the Lost World temple and Tikal’s warning`,
-    audience: 'main',
+    audience: 'all',
     trigger: { where: WHERE, when: after('PA1-13') },
     requires: ['PA1-13'],
     speakers: [sSonic, sTikal],
@@ -1556,7 +1562,7 @@ export const ARCADE_PA1: Quest[] = [
     code: 'PA1-15',
     title: 'Perfect Chaos',
     source: `${SRC}: Perfect Chaos floods Station Square`,
-    audience: 'main',
+    audience: 'all',
     trigger: { where: WHERE, when: after('PA1-14') },
     requires: ['PA1-14'],
     speakers: [sEggman],
@@ -1643,7 +1649,7 @@ export const ARCADE_PA1: Quest[] = [
     code: 'PA1-16',
     title: 'Positive Energy',
     source: `${SRC}: the drained Emeralds and Super Sonic`,
-    audience: 'main',
+    audience: 'all',
     trigger: { where: WHERE, when: after('PA1-15') },
     requires: ['PA1-15'],
     speakers: [sSonic, sKnuckles, sTails, sAmy, sBig],
@@ -1687,7 +1693,7 @@ export const ARCADE_PA1: Quest[] = [
             N('A Chao from the fire escape climbs into your arms, then another. You hold them both, and your Nubbin holds on to your sleeve.'),
             N('Sonic goes gold all over, bright as a summer morning. Then he’s gone, up into the sky, flying.'),
             PX('He’s flying. He can fly now. Oh, I wish you could see your own face.', 'happy'),
-            N('Out over the drowned city, a gold spark circles a great coil of water, round and round, like a bee round a bear.'),
+            N('Out over the flooded city, a gold spark circles a great coil of water, round and round, like a bee round a bear.'),
           ],
           choices: [
             {
@@ -1732,7 +1738,7 @@ export const ARCADE_PA1: Quest[] = [
     code: 'PA1-17',
     title: 'The Chao',
     source: `${SRC}: Chaos sees the Chao at peace`,
-    audience: 'main',
+    audience: 'all',
     trigger: { where: WHERE, when: after('PA1-16') },
     requires: ['PA1-16'],
     speakers: [sSonic, sAmy, sKnuckles],
@@ -1822,7 +1828,7 @@ export const ARCADE_PA1: Quest[] = [
     code: 'PA1-18',
     title: 'Tikal and Chaos',
     source: `${SRC}: Tikal and Chaos go together, at peace`,
-    audience: 'main',
+    audience: 'all',
     trigger: { where: WHERE, when: after('PA1-17') },
     requires: ['PA1-17'],
     speakers: [sTikal, sSonic],
@@ -1883,8 +1889,8 @@ export const ARCADE_PA1: Quest[] = [
           id: 'pa1-18-rhyme',
           lines: [
             N('You open your mouth, and find you don’t know how the story ends. Nobody back home does yet.'),
-            PX('Cinder held them close and tight, kept them warm one winter night…', 'soft'),
-            N('Pixel stops there, as if she’s just heard what the next line says. She doesn’t say the rest.'),
+            N('Pixel hums something under her breath: four lines, the skipping tune from the lane. She stops before the last one.'),
+            N('She doesn’t hum the rest, as if she’s just remembered what the last line says.'),
             TI('That sounds like an old one. The old ones are always a little sad.', 'soft'),
             TI('I hope somebody finds her. I hope she gets to put it down.'),
           ],
@@ -1927,8 +1933,9 @@ export const ARCADE_PA1: Quest[] = [
     notes:
       'STOOD (pa1-stood true): play PA1_VARIANTS pa1-18-stood straight after pa1-18-return-done (Tikal’s one more line). ' +
       'CINDER (Grove, read-only): the step 2 done scene is pa1-18-rhyme when cinder is unset; with cinder = forgiven play ' +
-      'pa1-18-cinder-forgiven in its place, with remembered play pa1-18-cinder-remembered. The rhyme lines are the Story ' +
-      'Bible’s own skipping rhyme (not a song lyric); Pixel says only the first two lines. LAST IMAGE: straight after ' +
+      'pa1-18-cinder-forgiven in its place, with remembered play pa1-18-cinder-remembered. Pixel hums the tune of the ' +
+      'Story Bible’s skipping rhyme without any of its words (a short, flat four-line hum on the speaker channel, cut ' +
+      'off before the fourth line). LAST IMAGE: straight after ' +
       'pa1-18-complete play exactly one of pa1-18-last-open-stood, pa1-18-last-open, pa1-18-last-locked-stood, ' +
       'pa1-18-last-locked (pa1-gate unset counts as open; pa1-stood unset counts as false). REWARDS are one-time. The crown ' +
       'is a Grove hat cosmetic; the pool is Grove decor (art suggestion: a round stone basin, pebbles red, blue, yellow, ' +

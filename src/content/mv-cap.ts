@@ -14,7 +14,7 @@
  * `mv-ca09` is required for Civil War (E1), and `mv-ca-complete` marks the whole line.
  */
 import type { Quest, Speaker } from './types';
-import type { Line, Mood } from '../config/story';
+import type { Line, Mood, Scene } from '../config/story';
 
 const say =
   (who: string) =>
@@ -344,7 +344,8 @@ export const MV_CAP: Quest[] = [
     ],
     sets: { 'mv-ca02': true },
     notes:
-      'Needs a Run Nubbin in the party for step 1 (check `talk:bucky-barnes` should only fire with one present; otherwise Bucky says he’s busy). Store the Run Nubbin’s id in `mv-ca-bucky-nubbin`; CA9 prefers it. The Red Skull escapes, as he recurs. The step 2 done choice (mv-ca02-saboteur: arrested / released) is the Keeper’s call on mercy; it changes nothing mechanical. Staging: Camp Lehigh tents at night, aircraft-plant hall with gantry for the karate arena. The Skull of 1941 #1 was an impostor (George Maxon); Johann Schmidt arrives in #7. We play them as one Skull.',
+      'Needs a Run Nubbin in the party for step 1 (check `talk:bucky-barnes` should only fire with one present; otherwise Bucky says he’s busy). Store the Run Nubbin’s id in `mv-ca-bucky-nubbin`; CA9 prefers it. The Red Skull escapes, as he recurs. The step 2 done choice (mv-ca02-saboteur: arrested / released) is the Keeper’s call on mercy; it changes nothing mechanical. Staging: Camp Lehigh tents at night, aircraft-plant hall with gantry for the karate arena. The Skull of 1941 #1 was an impostor (George Maxon); Johann Schmidt arrives in #7. We play them as one Skull. ' +
+      'SIGNATURE CHOICE: mv-ca02-saboteur (arrested | released) pays off through MV_CAP_VARIANTS at mv-ca05-smear (who the witnesses are, or who brings Steve names), mv-ca07-shield (what Steve offers Walker) and mv-ca10-memory (what the real Steve remembers that Hydra’s Steve cannot).',
   },
 
   // ------------------------------------------------------------------ CA3
@@ -1454,6 +1455,65 @@ export const MV_CAP: Quest[] = [
       'Completes the line. The Rebirth Nubbin is the one stored in `mv-ca-rebirth-nubbin` (CA1); if it has left the Grove, any all-E-grade Nubbin stands in and the “obstacle course” line becomes “You look like a friend of mine. Came last on the obstacle course.”. Hydra’s symbol and salute are never shown in full: green banners, no salute animation, and the title is the only place the phrase appears. Two Steves on screen: the Supreme Leader has a darker palette and a high collar. The hammer is Mjolnir (Secret Empire #10); show it lifting, no name needed. The closing choice sets mv-ca10-rewrite (refused / healed): Kobik never rewrites history either way; "healed" only mends injuries. Kobik’s scenes are bright and toy-like; the Skull clone sits in the background, never close-up. Issues checked: Steve Rogers: Captain America #1–19 (2016–17), Secret Empire #0–10 (2017). This storyline and IM15 are the last prerequisites for Civil War, whose epilogue returns Steve through this Cube thread.',
   },
 ];
+
+// ------------------------------------------------------------------ payoff variants
+
+/** Every scene of a quest list, flat. */
+const scenesOf = (quests: Quest[]): Scene[] =>
+  quests.flatMap((q) => [...q.steps.flatMap((s) => [s.scene, ...(s.done ? [s.done] : [])]), q.complete]);
+
+/**
+ * A payoff variant: the base scene with `count` lines from index `at` replaced by `extra`.
+ * Choices and `set` carry over unchanged. The runner (sim/atlas.ts, variantFor) plays it in
+ * place of the base scene when this line's flags hold the value named by `suffix`, so each
+ * suffix must be a value only the signature flag ever takes.
+ */
+function payoff(quests: Quest[], baseId: string, suffix: string, at: number, count: number, extra: Line[]): Scene {
+  const base = scenesOf(quests).find((s) => s.id === baseId);
+  if (!base) throw new Error(`payoff: no scene ${baseId}`);
+  const lines = [...base.lines];
+  lines.splice(at, count, ...extra);
+  return { ...base, id: `${baseId}-${suffix}`, lines };
+}
+
+/** The CA2 gantry choice (mv-ca02-saboteur) paid off in CA5, CA7 and CA10. */
+export const MV_CAP_VARIANTS: Scene[] = [
+  // CA5: the smear. Arrested: the boy from the gantry is now a witness against Steve.
+  // Released: he comes back with names, and the money trail is half walked already.
+  payoff(MV_CAP, 'mv-ca05-smear', 'arrested', 5, 0, [
+    SW('One of the witnesses did ten years for sabotage. Says you put him in a cell in ’43, and he’s waited a long time to return the favour.'),
+    S('The boy from the gantry. He got his fair hearing. It still came to this.', 'sad'),
+  ]),
+  payoff(MV_CAP, 'mv-ca05-smear', 'released', 5, 0, [
+    SW('Something else. A man came to the office at six this morning. Older, nervous. Said he owed you one from a gantry in ’43, and left names.'),
+    S('He ran and never looked back. Seems he looked back once.', 'soft'),
+    SW('His names match the committee’s donors. You just saved us a week.'),
+  ]),
+  // CA7: what Steve offers Walker, before Walker decides about the shield.
+  payoff(MV_CAP, 'mv-ca07-shield', 'arrested', 8, 0, [
+    S('John. In the war I sent a boy to a cell because the rules said so. I never saw what became of him. I’m not sending you anywhere.', 'soft'),
+    JW('That supposed to make me feel better?'),
+    S('No. It’s supposed to be true.'),
+  ]),
+  payoff(MV_CAP, 'mv-ca07-shield', 'released', 8, 0, [
+    S('John. In the war I let a saboteur go on his word, and he kept it. I’ll take yours.', 'soft'),
+    JW('You don’t know what my word’s worth.', 'sad'),
+    S('Neither did he.'),
+  ]),
+  // CA10: what the real Steve remembers that the rewritten one was never told.
+  payoff(MV_CAP, 'mv-ca10-memory', 'arrested', 11, 0, [
+    S('I remember a boy on a gantry crying into his collar, and the hearing he got because we said we were better. You’d have shot him.'),
+    HS('I would have been efficient.', 'angry'),
+    S('That’s the word they always use.'),
+  ]),
+  payoff(MV_CAP, 'mv-ca10-memory', 'released', 11, 0, [
+    S('I remember letting a saboteur run because he’d talked, and carrying it ever since. You never carried anything. That’s how I know.'),
+    HS('Weakness. I was built without it.', 'angry'),
+    S('You were built without the part that made me worth copying.'),
+  ]),
+];
+
+// ------------------------------------------------------------------ checks
 
 export const CHECKS: string[] = [
   'party:nubbin:all-e-grade',

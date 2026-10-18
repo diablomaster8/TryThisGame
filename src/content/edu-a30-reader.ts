@@ -3046,7 +3046,7 @@ const A13: EduQuest = quest(
           'Your Nubbin looks up at the window for a long time. Then it takes your hand, which it doesn’t often do.',
         ),
         N(
-          'You are back in the Grove, the atlas on your knee. There is a clay tile in your pocket, still a little cool.',
+          'You are back in the Grove, the atlas on your knee. Your pocket is heavier by one clay tile, still cool, as if nobody has told it where it is.',
         ),
       ],
       [
@@ -3717,7 +3717,7 @@ export const EDU_A30_READER_VARIANTS: EduScene[] = [
         'Your Nubbin looks up at the window for a long time. Then it takes your hand, which it doesn’t often do.',
       ),
       N(
-        'You are back in the Grove, the atlas on your knee. There is a clay tile in your pocket, still a little cool.',
+        'You are back in the Grove, the atlas on your knee. Your pocket is heavier by one clay tile, still cool, as if nobody has told it where it is.',
       ),
     ],
     [
@@ -3767,7 +3767,7 @@ export const EDU_A30_READER_VARIANTS: EduScene[] = [
         'Your Nubbin looks up at the window for a long time. Then it takes your hand, which it doesn’t often do.',
       ),
       N(
-        'You are back in the Grove, the atlas on your knee. There is a clay tile in your pocket, still a little cool.',
+        'You are back in the Grove, the atlas on your knee. Your pocket is heavier by one clay tile, still cool, as if nobody has told it where it is.',
       ),
     ],
     [

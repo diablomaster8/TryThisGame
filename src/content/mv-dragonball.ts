@@ -27,7 +27,7 @@
  * Chapter numbers are from memory and approximate; check them against the tankōbon.
  */
 import type { Quest, Speaker } from './types';
-import type { Line, Mood } from '../config/story';
+import type { Line, Mood, Scene } from '../config/story';
 
 const say =
   (who: string) =>
@@ -188,7 +188,7 @@ export const MV_DRAGONBALL: Quest[] = [
             {
               id: 'truth',
               label: 'Tell him straight: Bulma wants it for a wish.',
-              set: { 'mv-db-goku-deal': 'truth' },
+              set: { 'mv-db-goku-deal': 'deal-truth' },
               then: [
                 G('A wish? What would I even wish for? I’ve already got a stick.', 'think'),
                 BU('Fine. You keep it. You just come along and carry it, and when all seven are together I borrow it. Once.'),
@@ -197,7 +197,7 @@ export const MV_DRAGONBALL: Quest[] = [
             {
               id: 'pitch',
               label: 'Let Bulma make her sales pitch.',
-              set: { 'mv-db-goku-deal': 'pitch' },
+              set: { 'mv-db-goku-deal': 'deal-pitch' },
               then: [
                 BU('Come with me and see the world! Big cities! Restaurants that serve more than one fish!', 'happy'),
                 G('More than one fish?', 'shock'),
@@ -206,7 +206,7 @@ export const MV_DRAGONBALL: Quest[] = [
             {
               id: 'ask',
               label: 'Ask Goku what he wants, before anyone sells him anything.',
-              set: { 'mv-db-goku-deal': 'asked' },
+              set: { 'mv-db-goku-deal': 'deal-asked' },
               then: [
                 G('Me? Grandpa said there are people out there stronger than me. I want to find them and fight them. Nicely.', 'think'),
                 BU('…That is the strangest life plan I’ve ever heard, and it fits my route perfectly.'),
@@ -267,7 +267,8 @@ export const MV_DRAGONBALL: Quest[] = [
     ],
     sets: { 'mv-db01': true, 'mv-db-radar': 3 },
     notes:
-      'Opens the Dragon Ball line; no prerequisite beyond the rift. Staging: Mount Paozu, dirt road, Goku’s round hut with Gohan’s photo and the four-star ball on a cushion. The brief puts the Nubbin on Bulma’s bike; in chapter 1 she drives a car, so the bike is our change (a capsule motorbike suits her). The bike basket ride is a race-course reskin with no rivals. Pterodactyl bout: the Nubbin rides the staff tip, so the opponent hovers; one-round bout. Goku’s staff (Nyoibō) grows on a spoken order; keep his order original (“Staff! Get long!”), never the anime’s call. `mv-db-radar` is Bulma’s first hunt counter, separate from `mv-db-balls` (see file header). Chapter checked from memory: Dragon Ball ch. 1, “Bulma and Son Goku” (1984). `mv-db-goku-deal` gains `asked` (added in review): Goku names his own reason to travel, to find people stronger than him, which the tournaments pay off.',
+      'Opens the Dragon Ball line; no prerequisite beyond the rift. Staging: Mount Paozu, dirt road, Goku’s round hut with Gohan’s photo and the four-star ball on a cushion. The brief puts the Nubbin on Bulma’s bike; in chapter 1 she drives a car, so the bike is our change (a capsule motorbike suits her). The bike basket ride is a race-course reskin with no rivals. Pterodactyl bout: the Nubbin rides the staff tip, so the opponent hovers; one-round bout. Goku’s staff (Nyoibō) grows on a spoken order; keep his order original (“Staff! Get long!”), never the anime’s call. `mv-db-radar` is Bulma’s first hunt counter, separate from `mv-db-balls` (see file header). Chapter checked from memory: Dragon Ball ch. 1, “Bulma and Son Goku” (1984). `mv-db-goku-deal` gains `asked` (added in review): Goku names his own reason to travel, to find people stronger than him, which the tournaments pay off. ' +
+      'SIGNATURE CHOICE: mv-db-goku-deal (deal-truth | deal-pitch | deal-asked: how Bulma got Goku to come) pays off through MV_DRAGONBALL_VARIANTS at mv-db07-complete (how she hands over the radar and the four-star), mv-db13-complete (what Goku says to his grandfather’s ball before the wish) and mv-db19-road (what Bulma brings with the second radar). The values carry a deal- prefix because the runner matches variants by value and mv-db-korin also uses asked.',
   },
 
   // ------------------------------------------------------------------ DB2
@@ -2715,6 +2716,69 @@ export const MV_DRAGONBALL: Quest[] = [
       'Completes the line and the second set: `mv-db-balls` = 14, `mv-db-set2` = true, `mv-db-wish` = `ready`. E4 offers the wish choice (spend now, or save as `wish = saved` for the final endgame). Ball six comes from Krillin, ball seven from the Ox-King’s treasury; both are our adaptation (the source has no ball hunt here). Chi-Chi bout: in the source she fights Goku in the first round of the main tournament; the brief puts it in the preliminaries, and the step is staged as a prelim bout. Goku’s proposal pays off `mv-db-chichi-promise` from DB4. Shen is Kami in a borrowed body; this spar is his only bout with Goku. In E4, as in the source, Shen beats Yamcha and fights Ma Junior, and Goku’s semi-final is against Tien. Ma Junior is Piccolo Jr.; he is never named Piccolo here. Chapters checked from memory: ch. 189–194 (1989).',
   },
 ];
+
+// ------------------------------------------------------------------ payoff variants
+
+/** Every scene of a quest list, flat. */
+const scenesOf = (quests: Quest[]): Scene[] =>
+  quests.flatMap((q) => [...q.steps.flatMap((s) => [s.scene, ...(s.done ? [s.done] : [])]), q.complete]);
+
+/**
+ * A payoff variant: the base scene with `count` lines from index `at` replaced by `extra`.
+ * Choices and `set` carry over unchanged. The runner (sim/atlas.ts, variantFor) plays it in
+ * place of the base scene when this line's flags hold the value named by `suffix`, so each
+ * suffix must be a value only the signature flag ever takes.
+ */
+function payoff(quests: Quest[], baseId: string, suffix: string, at: number, count: number, extra: Line[]): Scene {
+  const base = scenesOf(quests).find((s) => s.id === baseId);
+  if (!base) throw new Error(`payoff: no scene ${baseId}`);
+  const lines = [...base.lines];
+  lines.splice(at, count, ...extra);
+  return { ...base, id: `${baseId}-${suffix}`, lines };
+}
+
+/** The DB1 hut deal (mv-db-goku-deal) paid off in DB7, DB13 and DB19. */
+export const MV_DRAGONBALL_VARIANTS: Scene[] = [
+  // DB7: how Bulma hands over the radar and the four-star (replaces the two hand-over lines).
+  payoff(MV_DRAGONBALL, 'mv-db07-complete', 'deal-truth', 7, 2, [
+    BU('Goku, here. A radar, all yours. I said I’d borrow the ball once, and I did. Deal’s done. Go find your grandpa’s four-star.'),
+    N('Your Nubbin checks Bulma’s hands anyway, from habit. Nothing crossed, and it looks almost disappointed.'),
+  ]),
+  payoff(MV_DRAGONBALL, 'mv-db07-complete', 'deal-pitch', 7, 2, [
+    BU('Goku, here. A radar, all yours. I promised you the world and restaurants with more than one fish. You’ve had both.'),
+    G('The fish was the best part.', 'happy'),
+    BU('I know. Go find your grandpa’s four-star.'),
+  ]),
+  payoff(MV_DRAGONBALL, 'mv-db07-complete', 'deal-asked', 7, 2, [
+    BU('Goku, here. A radar, all yours. You said you wanted to find the strong ones and fight them nicely. Today you found one.'),
+    BU('Go find your grandpa’s four-star. The strong ones will keep turning up. They always do, around you.', 'think'),
+  ]),
+  // DB13: what Goku says to his grandfather's ball before the wish.
+  payoff(MV_DRAGONBALL, 'mv-db13-complete', 'deal-truth', 7, 0, [
+    G('Bulma borrowed it once, like she said she would. This time it’s my turn, and I know exactly what for.', 'soft'),
+  ]),
+  payoff(MV_DRAGONBALL, 'mv-db13-complete', 'deal-pitch', 7, 0, [
+    G('Bulma said come and see the world. I did. This is the bit of it I wanted most.', 'soft'),
+  ]),
+  payoff(MV_DRAGONBALL, 'mv-db13-complete', 'deal-asked', 7, 0, [
+    G('I said I wanted to find people stronger than me. Grandpa was. Still is, I think.', 'soft'),
+  ]),
+  // DB19: what Bulma brings with the second radar.
+  payoff(MV_DRAGONBALL, 'mv-db19-road', 'deal-truth', 4, 0, [
+    G('You kept the deal. One wish, and you gave the ball back. So I’ll carry them for you again.', 'happy'),
+    BU('I didn’t say it was for me this time.'),
+  ]),
+  payoff(MV_DRAGONBALL, 'mv-db19-road', 'deal-pitch', 4, 0, [
+    BU('And before you ask: yes, there are restaurants on the way. I checked. Three fish minimum.', 'happy'),
+    G('Three! Keeper, did you hear? Three.', 'happy'),
+  ]),
+  payoff(MV_DRAGONBALL, 'mv-db19-road', 'deal-asked', 4, 0, [
+    BU('You said you wanted to find the strong ones. Kami says one is coming to the tournament. Think of this as the route.', 'think'),
+    G('Then I’d better be strong by then.', 'think'),
+  ]),
+];
+
+// ------------------------------------------------------------------ checks
 
 export const CHECKS: string[] = [
   'race:finish:mv-mountain-road',

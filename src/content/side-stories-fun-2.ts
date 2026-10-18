@@ -39,9 +39,6 @@ const ASH: Speaker = { id: 'ash', name: 'Ash', kind: 'nubbin' };
 const NULL_: Speaker = { id: 'null', name: 'Null', kind: 'nubbin' };
 const BRAMBLE: Speaker = { id: 'bramble', name: 'Bramble', kind: 'nubbin' };
 
-const A = say('ash');
-const NU = say('null');
-const BR = say('bramble');
 
 // ================================================================== S8 shared pieces
 /** The end of S8’s complete scene, shared by s8-complete and its variant s8-complete-dawn. */
@@ -242,7 +239,7 @@ export const SIDE_STORIES_FUN_2: Quest[] = [
             N('Ash’s ear moves. One ear, a very little.'),
             N('Ember whistles it again, slower. Her hands are shaking, so it wobbles, but it is still the right shape.'),
             N('Ash turns round.'),
-            A('…pip. wirr. a?', 'soft'),
+            N('Then a sound, small and cracked: pip. wirr. a? The first sound in the register, half remembered.'),
             N('She crosses the kitchen one careful step at a time and puts her grey head against Ember’s knee.'),
             E('Hello, you. It’s me. It was always me.', 'soft'),
           ],
@@ -529,7 +526,7 @@ export const SIDE_STORIES_FUN_2: Quest[] = [
               label: 'Nod. “Go on.”',
               then: [
                 N('Null goes. It doesn’t catch the moth, but it falls into the hedge and comes out with a leaf on its head.'),
-                NU('…prrp!', 'happy'),
+                N('Null, with no clock on it at all, says prrp, which Byte does not write down.'),
               ],
             },
             {
@@ -787,7 +784,7 @@ export const SIDE_STORIES_FUN_2: Quest[] = [
             F('Bramble? …Oh, you’ve gone grey. That’s all right, love. So have I.', 'soft'),
             N('For a long moment nobody in the ring moves.'),
             N('Then Bramble walks out through the gap, one careful step at a time, all the way to Fern’s boots.'),
-            BR('…', 'soft'),
+            N('Bramble says nothing. She puts her grey head against Fern’s shin and keeps it there.'),
             F('I stood at the bottom of that cliff till dark. I thought I’d left you there.', 'sad'),
             F('I’m sorry I stopped looking. I’m so sorry I stopped looking.', 'sad'),
             N('Bramble sits down on Fern’s boots, both of them, and stays there.'),

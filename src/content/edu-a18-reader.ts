@@ -6384,7 +6384,7 @@ const A16 = quest(
           'The tale ends the way the old books end it: the little doll stayed in her pocket, always.',
         ),
         N(
-          'The page settles under your hand. You are back in the Grove, with Nova’s atlas on your knee and a small painted doll in your Nubbin’s pouch.',
+          'The page settles, and you are back in the Grove with the atlas on your knee. Your Nubbin checks its pouch twice: the small painted doll is still there.',
         ),
       ],
       [
@@ -6993,7 +6993,7 @@ export const EDU_A18_READER_VARIANTS: EduScene[] = [
         'The tale ends the way the old books end it: the little doll stayed in her pocket, always.',
       ),
       N(
-        'The page settles under your hand. You are back in the Grove, with Nova’s atlas on your knee and a small painted doll in your Nubbin’s pouch.',
+        'The page settles, and you are back in the Grove with the atlas on your knee. Your Nubbin checks its pouch twice: the small painted doll is still there.',
       ),
     ],
     [
@@ -7052,7 +7052,7 @@ export const EDU_A18_READER_VARIANTS: EduScene[] = [
         'The tale ends the way the old books end it: the little doll stayed in her pocket, always.',
       ),
       N(
-        'The page settles under your hand. You are back in the Grove, with Nova’s atlas on your knee and a small painted doll in your Nubbin’s pouch.',
+        'The page settles, and you are back in the Grove with the atlas on your knee. Your Nubbin checks its pouch twice: the small painted doll is still there.',
       ),
     ],
     [

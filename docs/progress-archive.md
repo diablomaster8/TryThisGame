@@ -2,6 +2,35 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## G12 X5: S2 "Logged In" with party bouts (2026-10-17)
+
+The second separate campaign, in the `logged` save mode. Script
+`src/content/storyline-logged.ts` (8 chapters, 3 endings; Warden, Juno and Root), rule
+`sim/storyline-rules-logged.ts`, and a new minigame: the turn-based party bout.
+
+Works:
+- Setup: three starter eggs rolled from the chosen Keeper’s line are the party (flag
+  `party`); both Grove recolours are unlocked so the Day and Night servers are the Sun and
+  Moon Groves (Where To: Day Grove, Night Grove; the night one refuses until chapter 4).
+- `sim/party-bout.ts`: three partners against three seeded foes, one move each per round
+  (strike, guard halves the next hit, rally heals the party 15%), foes strike the weakest
+  or guard; karate’s stat maths (Power, Stamina, Run). `ui/party-bout.ts` is a plain DOM
+  panel opened from the journal’s Fight a bout button (`StoryAction.ui` + `Journal.openers`,
+  wired in hud.ts) and reports `partyBoutResult`; won bouts count (`count:partyBout`) and
+  pay shells by tier (`PARTY_BOUT`).
+- Goals: hatch three; bouts 1, 3, 5 (two of them after crossing to the night server), the
+  board (Do-it), 8, the root-node choice, 10. The sibling-and-company thread is a
+  `mature:teen` beat (`l-c5-thread`), so it never plays with the setting Off.
+- Endings: Everyone Wakes (Root’s word, party intact), the Quiet Exit (the company’s word),
+  One Short (Root’s word after a partner departed).
+- Tests: `tests/sim/party-bout.test.ts` (seeded, strong wins, weak loses, turn order, guard
+  and rally) and `tests/sim/storyline-logged.test.ts` (setup, the mature gate both ways,
+  all three endings).
+
+Stubbed: the bout panel is text rows and buttons, no sprites or animation; the "card-like
+format" is the move set, not drawn cards. Other locked-in players are narrated (Juno),
+not NPCs on the map.
+
 ## G12 X4: S1 "The Hundred Days" (2026-10-17)
 
 The first separate campaign, in the `hundred` save mode (title screen → The Hundred Days →
@@ -66,7 +95,7 @@ No render work: the square, Nova and the bracket use the existing scenes, NPCs a
 ## G12 X0: the storyline engine for the separate campaigns (2026-10-17)
 
 Maor picked everything on the Digimon-inspired list: expansions E1–E3 and campaigns
-S1–S4 (plan Part G12). X0 is the engine they all run on; X1–X3 add the expansions,
+SL1–SL4 (plan Part G12). X0 is the engine they all run on; X1–X3 add the expansions,
 X4–X7 the campaigns, one commit each.
 
 Works:

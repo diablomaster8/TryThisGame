@@ -687,10 +687,10 @@ const S26: EduQuest = {
     sc(
       's26-hush',
       [
-        M('After the long white winter, some Nubbins stayed very still.', 'sad'),
-        M('Hush brought them in here, out of the cold wind.'),
-        M('She planted roses on every wall, so they had something pretty.'),
-        M('She sat with them every day. She kept them company.', 'soft'),
+        M('Briar wanted the still Nubbins up on the sunny hill.', 'sad'),
+        M('Hush said no. The wind up there was too cold.'),
+        M('So she carried them in here, one by one, all winter.'),
+        M('Then she planted roses, so they had something pretty.'),
         M('One winter morning, the last still Nubbin faded.', 'sad'),
         N('Faded means it died. Its body stopped working, and won’t start again.'),
         M('Hush was right beside it. It wasn’t alone.', 'soft'),

@@ -3,7 +3,7 @@ import { registerStorylineRule } from './storyline-rules';
 import { counter } from './storyline-checks';
 
 /**
- * S3 "The Beetle Road" (content/storyline-beetle.ts): the ordinary roster, dojo wins as
+ * SL3 "The Beetle Road" (content/storyline-beetle.ts): the ordinary roster, dojo wins as
  * the two door keepers while their chapters are open, the Fuse button on the partners,
  * and an ending from the lever and the fusion.
  */

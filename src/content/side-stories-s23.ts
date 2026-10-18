@@ -602,7 +602,7 @@ export const SIDE_STORY_S23: Quest[] = [
           id: 's23-rhyme',
           lines: [
             N('Then a lane at dusk, on a Lantern Night years from now, with lanterns on every gatepost and children skipping in the road.'),
-            N('They chant in the flat sing-song children keep for old things. You know the tune; one word is new.'),
+            N('They chant it the way children chant old things, flat and fast. You know the tune; one word is new.'),
             N('“Corvin held them close and tight, / kept them warm one winter night;”'),
             N('“when the morning came to call, / they did not move at all.”'),
             N('The children shriek and scatter, laughing the way you laugh at something that can’t catch you any more.'),

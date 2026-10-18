@@ -172,7 +172,7 @@ const A14_END: Line[] = [
   N('He puts the little balafon into your arms, and the beaters into your Nubbin’s hands.'),
   B('Go home, apprentice. Remember us properly.', 'soft'),
   N('The red earth goes soft under your feet, then smooth, then paper.'),
-  N('You are back in the Grove with Nova’s atlas on your knee. Your Nubbin is tapping out a tune on the cover, very nearly in time.'),
+  N('You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time.'),
 ];
 
 // =================================================================== THE LION OF MALI

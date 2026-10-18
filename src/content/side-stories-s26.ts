@@ -282,7 +282,7 @@ export const SIDE_STORY_S26: Quest[] = [
               'An old man in a lamplighter’s coat is getting a wheelchair over the doorstep. The girl in it is telling him how, very loudly.',
             ),
             L('No. Back wheels first. Grandad. Back. Wheels. First.', 'angry'),
-            T('I know which wheels, love, I’ve been doing wheels since before—', 'think'),
+            T('I know which wheels, love. I’ve been doing wheels since before…', 'think'),
             N(
               'He gets it over the step. She takes the rims herself the moment it lands, and spins round to look at you.',
             ),
@@ -294,7 +294,7 @@ export const SIDE_STORY_S26: Quest[] = [
               'This is Linnet. My granddaughter. Here till winter, while her mum works the coast boats.',
             ),
             L('He means I’m kept here till winter.', 'angry'),
-            T('She’s eleven. She’s very— she’s eleven.', 'soft'),
+            T('She’s eleven. She’s very… she’s eleven.', 'soft'),
             N(
               'Linnet looks up the lane, and down it, and at the hill behind, and at the hill behind that.',
             ),
@@ -637,7 +637,7 @@ export const SIDE_STORY_S26: Quest[] = [
               'You walk the garden for her twice, wall to wall, stopping at every corner so she can see it. She turns most of it down on sight.',
             ),
             L(
-              'Too shady. Too stony. Too near the door; people would tread on it. Too— what do you think?',
+              'Too shady. Too stony. Too near the door; people would tread on it. What do you think?',
               'think',
             ),
           ],
@@ -702,19 +702,21 @@ export const SIDE_STORY_S26: Quest[] = [
           id: 's26-hush',
           lines: [
             M(
-              'After the White Year, some of the stilled ones never moved again. Hush brought them in here, out of the wind.',
+              'Briar wanted the stilled ones up on the hill, in the light, where the valley could see them. Hush said the wind would have them.',
               'sad',
             ),
             M(
-              'She planted roses up every wall, so they would have something to look at. So it wasn’t only grey.',
+              'So she carried them in here herself, one at a time, all that winter. She was not big. It took her till the thaw.',
             ),
-            M('Every day she sat with them. She didn’t try to wake them. She kept them company.'),
             M(
-              'The last of them faded on a winter morning, by this wall, with Hush beside it.',
+              'Then she planted roses up every wall. Not for herself. A still thing can still be looked at, she said, and should have something back.',
+            ),
+            M(
+              'The last of them went in the second winter, here, with the roses bare above it. She said bare was still something.',
               'soft',
             ),
             M(
-              'She locked the door and put the key in the ground. Later, when she had carried it as far as she could, she let herself fade.',
+              'You heard the rest at Lantern Night. The door, and the key. I will not tell that twice in one year.',
               'soft',
             ),
             N(
@@ -842,7 +844,7 @@ export const SIDE_STORY_S26: Quest[] = [
               label: 'Ask Tobin to sit on Hush’s bench. Just for a minute.',
               set: { 's26-tobin': 'asked' },
               then: [
-                T('Sit? I— well. A minute. One.', 'think'),
+                T('Sit? I… well. A minute. One.', 'think'),
                 N(
                   'He sits. The stone is warm from the afternoon, and he looks very surprised by that.',
                 ),
@@ -868,7 +870,7 @@ export const SIDE_STORY_S26: Quest[] = [
           id: 's26-tobin-bench',
           lines: [
             T(
-              'This puts me in mind of a story. There was a winter, the year of the Three Hats, when—',
+              'This puts me in mind of a story. There was a winter, the year of the Three Hats, when…',
               'happy',
             ),
             T(
@@ -1010,7 +1012,7 @@ export const SIDE_STORY_S26: Quest[] = [
               label: 'Give it to Linnet. She asked for the earth first.',
               set: { 's26-key': 'linnet' },
               then: [
-                L('Me? I just said— oh, you’re impossible.', 'angry'),
+                L('Me? I just said… oh, you’re impossible.', 'angry'),
                 N('She closes her hand round it. Then she goes very quiet.'),
                 L(
                   'Then I’m keeping it so nobody can ever lock it. That’s what it’s for now.',
@@ -1140,9 +1142,10 @@ export const SIDE_STORY_S26: Quest[] = [
       'and S23 if wired) and before end-<id>-last. In The Collector, end-epi-garden-cold plays there instead. ' +
       'MOSS. Steps 6–8 need him, and he is always in the world in chapters 6–8. Steps 11–13 and the complete scene never ' +
       'use him, so they hold on every route. The bare patch by Hush’s bench, marked with Linnet’s white pebble, stays bare ' +
-      'in the garden art until end-moss-sleeps-garden (where his seed is promised to it). Moss tells some of S1’s Hush ' +
-      'memory again in s26-hush; that is deliberate (he repeats his tales), and it agrees with S1: the last still one ' +
-      'faded on a winter morning by this wall. Hush faded before Hazel came; Moss has come over the wall once a year, on ' +
+      'in the garden art until end-moss-sleeps-garden (where his seed is promised to it). Moss returns to S1’s Hush ' +
+      'memory in s26-hush from a new angle (how the still ones came in, and why the roses); he never tells a tale twice ' +
+      'in the same words, and he points to Lantern Night for the door and the key instead of telling that again. It ' +
+      'agrees with S1: the last still one faded in winter by this wall. Hush faded before Hazel came; Moss has come over the wall once a year, on ' +
       'the day she faded, and told nobody, Hazel included. ' +
       'TOBIN. This is always the player’s first meeting with Tobin (S13 opens in chapter 7), so he gets his one-line ' +
       'introduction in s26-linnet. ' +

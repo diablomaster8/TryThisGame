@@ -3723,7 +3723,7 @@ const NEWS_CHOICES: Choice[] = [
 const END: Line[] = [
   N('The page settles under your hand, like a paper cut-out laid flat on a table.'),
   N(
-    'You’re back in the Grove, with Nova’s atlas on your knee. There’s a rose petal in the fold of the page.',
+    'You’re back in the Grove, with Nova’s atlas on your knee. When you open it again, a rose petal slides out of the fold and lands on your boot.',
   ),
   N(
     'On the cottage windowsill stands a window box with a rose tree in it that wasn’t there this morning.',

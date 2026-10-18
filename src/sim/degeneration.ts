@@ -2,7 +2,7 @@ import { EGG } from '../config/tuning';
 import type { Nubbin, NubbinForm, SimEvent, World } from './types';
 
 /**
- * S4's degeneration: a grown Nubbin reverts to an egg, keeping its name, stats, grades
+ * SL4's (Dawn & Dusk) degeneration: a grown Nubbin reverts to an egg, keeping its name, stats, grades
  * and rebirths but losing its form and its age, the way the mystery describes it. What
  * it was is stashed in `genes.degenerated` so the story can put it back once the cause
  * is found, provided the egg has not hatched again in the meantime.

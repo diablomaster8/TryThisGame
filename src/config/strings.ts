@@ -1149,7 +1149,7 @@ export const STORYLINE_TEXT = {
   restored: (name: string) => `${name} is grown again, and remembers.`,
 } as const;
 
-/** S2's party bouts (ui/party-bout.ts). */
+/** SL2's (Logged In) party bouts (ui/party-bout.ts). */
 export const BOUT_TEXT = {
   title: 'Party bout',
   leave: 'Leave',

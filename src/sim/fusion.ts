@@ -2,7 +2,7 @@ import { FUSION } from '../config/tuning';
 import { GRADES, STAT_KEYS, type Nubbin, type SimEvent, type World } from './types';
 
 /**
- * S3's fusion: two adult Nubbins who are both sure of their Keeper become one. Nothing
+ * SL3's (The Beetle Road) fusion: two adult Nubbins who are both sure of their Keeper become one. Nothing
  * is rolled and nothing is lost by chance: the one that stays keeps the better grade and
  * the higher points of every stat, fills its empty part slots from the other, adds the
  * other's type lean, and remembers the other in its genes and its generation. The other

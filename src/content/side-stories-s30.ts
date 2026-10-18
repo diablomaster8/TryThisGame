@@ -90,9 +90,6 @@ const FIDGET: Speaker = {
   basedOn: 'Anxiety (Inside Out 2, Pixar 2024), a light nod only; an original Nubbin of Clover’s',
 };
 
-const DI = say('s30-dimple');
-const DR = say('s30-drizzle');
-const FI = say('s30-fidget');
 
 // ================================================================== shared pieces
 /** The arrival at the cliff, shared by s30-trail and s30-trail-s5. */
@@ -101,7 +98,7 @@ const S30_HOLLOW_FOUND: Line[] = [
   DU('That’s it. The spoon hole. Where I dug her out. Two days, with a spoon.', 'soft'),
   N('Dimple is down in it, on Fossil’s cushion. She is scraping at the back of the hollow with both hands, as if there might be another egg.'),
   N('The hollow is only waist-deep on you, but on a Nubbin the lip is a cliff. She can’t climb out, and she hasn’t tried.'),
-  DI('…'),
+  N('Dimple says nothing. She scrapes, and scrapes, and smiles at the rock.'),
 ];
 
 /** The rubbing at the old wall, shared by s30-complete and s30-complete-helped up to the mark beside Dimple’s. */
@@ -167,7 +164,7 @@ export const SIDE_STORY_S30: Quest[] = [
             N('Dimple has filled the dent. Every toy she owns is in it: a cotton reel, a pine cone, a sock and half a wooden peg, piled up high.'),
             N('Drizzle climbs the curtain, very slowly, and lays one pale-blue hand flat in the last gap in the dent.'),
             N('Dimple is there at once. She takes Drizzle by the wrist and pulls her off the sill, still smiling.'),
-            DI('…', 'happy'),
+            N('Dimple beams at her, and goes back to patting the pile flat.'),
             N('Then you see the ball above Dimple’s head. It has gone pale and thin, like a soap bubble that has been out too long.'),
             CL('See? Not a cloud on her. She’s my good one, this week.', 'happy'),
             N('Clover is looking at the smile. She isn’t looking up.'),
@@ -217,7 +214,7 @@ export const SIDE_STORY_S30: Quest[] = [
             N('Drizzle tries again, and again: nudge, nudge. Each time, Dimple adds another acorn to the ring.'),
             N('Your Nubbin, who has followed you out, starts fetching acorns too, to help. It doesn’t know what for.'),
             N('Drizzle looks at you over the ring. She doesn’t look upset; she looks like someone waiting to be let out of a room.'),
-            DR('…', 'soft'),
+            N('Drizzle says nothing. She lifts one foot over the acorns again, and waits to see what you do.'),
           ],
           choices: [
             {
@@ -402,8 +399,8 @@ export const SIDE_STORY_S30: Quest[] = [
             N('You find him at the old wall, by Hush’s lantern post, with frost on his back that he hasn’t bothered to shake off.'),
             M('Clover’s gold one. Luna told me. Luna tells me things at dawn, when I am too tired to argue.', 'think'),
             M('Hush. The quiet one. You have heard her name in the tale. I did not tell you her job.'),
-            M('After the White Year, some of the stilled ones never moved again. Hush sat with them. Every one, every day, until the last.', 'sad'),
-            M('Grief was her job. The valley’s griefs were hers to keep, so they did not get dropped all over the valley.'),
+            M('When the White Year stilled half the valley, the rest of us went at the snow with shovels. Hush went and sat where the still ones could see her.', 'sad'),
+            M('She never tried to wake one. If one shivered, she took it for a conversation. That was her job, and nobody gave it her.'),
             M('People thought that made her a sad thing. They were wrong about which part was sad.', 'soft'),
             M('Low in the wall. The flat stone, by your foot. Look at it properly. She meant it to be looked at.'),
           ],
@@ -448,7 +445,7 @@ export const SIDE_STORY_S30: Quest[] = [
             N('At dusk the frost comes down over the yard like a cloth over a cage. Fidget goes very still for one second, and then she gets to work.'),
             N('She herds the whole household into the shed: Bristle, Flinch, the fussy one, Drizzle, Dimple. She pushes from behind with her head.'),
             N('Then she drags the slop bucket across the yard, an inch at a time, and shoves it hard against the shed door.'),
-            FI('…', 'shock'),
+            N('Fidget stands guard at the bucket, stiff as a peg, eyes wide, listening to the dark.'),
             CL('Every night since the frost. In they go, and the bucket.', 'sad'),
             N('From inside the shed comes Dimple, louder than ever: bounce, bounce, bounce off the walls, a jolly, frantic thudding.'),
             N('Nothing else. The others have gone quiet in there, the way pot plants go in a cupboard.'),
@@ -542,7 +539,7 @@ export const SIDE_STORY_S30: Quest[] = [
           lines: [
             N('And then Dimple stops, in the middle of a bounce, almost. She sits down hard on Fossil’s cushion, and the smile goes.'),
             N('Not off, like a lamp. It goes the way frost goes off a window, from the edges in, until there is only her face.'),
-            DI('…', 'sad'),
+            N('Dimple says nothing. She looks at her own hands as if she has only just found them.'),
             N('Up at the rim, Clover puts both hands over her mouth.'),
           ],
         },
@@ -636,7 +633,7 @@ export const SIDE_STORY_S30: Quest[] = [
             N('Then a noise comes up the path: small feet, very fast, and a thin worried squeak. Fidget.'),
             N('She has woken in the kitchen and found everybody gone. She has come all the way up the hill alone, checking every bush.'),
             N('At the top she spins round and round in the grass, looking for everybody at once. Her ball is whirling like a top.'),
-            FI('…', 'shock'),
+            N('Fidget skids to a stop in front of you, every whisker out, and says nothing at all.'),
             N('Clover comes puffing up the path behind her, too late, in one welly.'),
             N('Before anybody else can move, Dimple gets up. She goes to Fidget and sits down right beside her, and stays.'),
             N('She doesn’t smile at her, or bounce. She sits, the way she was sat with.'),

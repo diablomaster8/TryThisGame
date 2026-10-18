@@ -33,7 +33,8 @@
  *     Nubbin crocodiles won't line up until you help Kancil ask nicely). Sprout leaves out
  *     "laughed" (defaultChoice thanks).
  *   - lk-pit = stuck | ramp (LK9, lk09-ending): the old ending or the helping one. Reader keeps
- *     both; sprout always helps (defaultChoice ramp). It plays out inside LK9.
+ *     both; sprout always helps (defaultChoice ramp). It plays out inside LK9 and is read once more
+ *     in LK10 (lk10-complete-ramp for ramp).
  *   - lk-done (LK10 complete).
  *
  * LIFTED TEXT: none. The tales are traditional and retold in our own words; the Learning Grove
@@ -839,7 +840,8 @@ const LK10 = quest(
     WU('And we’re staying a while. We like your valley. It argues nearly as well as we do.', 'happy'),
     N('Your Nubbin sits by the screen with the little Kancil puppet and makes it hop, one, two, three, all on its own.'),
   ]),
-  'PAYOFFS. LK3: if lk-croc = laughed, play lk10-line-laughed in place of lk10-line (the Nubbins won’t line ' +
+  'PAYOFFS. LK9: if lk-pit = ramp, play lk10-complete-ramp in place of lk10-complete (the snail boy’s answer is the ' +
+    'elephant). LK3: if lk-croc = laughed, play lk10-line-laughed in place of lk10-line (the Nubbins won’t line ' +
     'up until you help Kancil ask nicely). LK1: if lk-first = wulan, play lk10-count-wulan in place of ' +
     'lk10-count (Indonesian leads; the bank shouts “Lapan!” at eight). Both variants are in LINE_LK_VARIANTS. ' +
     'Staging: twenty Nubbins in two lines (fill from wild Nubbins if the Grove has fewer). AFTER THE LINE: Siti ' +
@@ -868,6 +870,16 @@ export const LINE_LK: Quest[] = [LK1, LK2, LK3, LK4, LK5, LK6, LK7, LK8, LK9, LK
 // ---------------------------------------------------------------- variants
 
 export const LINE_LK_VARIANTS: Scene[] = [
+  // LK10, lk-pit = ramp: in place of lk10-complete.
+  sc('lk10-complete-ramp', [
+    N('Afterwards the children sit in a heap on the bank, full of kuih and kue, and nobody wants to go home.'),
+    SI('So. What did Kancil learn this summer?', 'think'),
+    N('A boy says be clever, and a girl says say thank you. The small boy who helped the snails says go back for the elephant.'),
+    WU('All true. My grandmother would have liked you lot. The elephant one most of all.', 'soft'),
+    SI('We’re leaving the screen by the pond. It belongs here now.', 'soft'),
+    WU('And we’re staying a while. We like your valley. It argues nearly as well as we do.', 'happy'),
+    N('Your Nubbin sits by the screen with the little Kancil puppet and makes it hop, one, two, three, all on its own.'),
+  ]),
   // LK4, lk-croc = laughed: in place of lk04-grab.
   sc('lk04-grab-laughed', [
     WU('Some days later, Kancil was thirsty, so he went down to the river for a drink.'),
@@ -1815,6 +1827,23 @@ const SPROUT: EduQuest[] = [
 
 const SPROUT_VARIANTS: EduScene[] = [
   sp(
+    'lk10-complete-ramp',
+    [
+      N('The children sit on the bank, full of kuih and kue.'),
+      SI('What did Kancil learn this summer?', 'think'),
+      N('A small boy says: go back and help the elephant!'),
+      WU('Yes! That one most of all.', 'soft'),
+      WU('We are leaving the screen by the pond. It lives here now.', 'soft'),
+      N('Your Nubbin makes the little puppet hop. One, two, three.'),
+    ],
+    [
+      ask(2, m('sel', 'putting things right', 'Your child said why going back to help the elephant mattered.', 'CASEL: Relationship skills'), [N('Why did Kancil go back for the elephant?')], [
+        best('To put it right.', WU('Yes. A trick is better when you go back and help.', 'soft')),
+        opt('He was bored.', SI('Ha! No. He went back to put things right.', 'soft')),
+      ]),
+    ],
+  ),
+  sp(
     'lk04-grab-laughed',
     [
       WU('One day, Kancil is thirsty. He goes to the river.'),
@@ -2309,6 +2338,18 @@ const READER: EduQuest[] = [
 ];
 
 const READER_VARIANTS: EduScene[] = [
+  rd('lk10-complete-ramp', [
+    ask(2, m('literacy', 'finding the theme', 'Your child named the big idea running through the Kancil tales, elephant and all.', 'RL.4.2'), [SI('What did Kancil learn this summer? What is the big idea of all his tales?')], [
+      opt('Being small is fine if you think.', WU('That’s a strong theme. Brains beat size, over and over.', 'happy')),
+      opt('Clever isn’t enough. Go back and put it right.', SI('That’s the one I’d pick. You gave the tale its new ending yourselves.', 'soft')),
+      opt('Don’t boast.', WU('The snails would agree with you.', 'happy')),
+    ]),
+    ask(5, m('sel', 'reflecting on your own learning', 'Your child said what they learned over the summer of tales.', 'CASEL: Self-awareness'), [WU('And you? What did you learn this summer?')], [
+      opt('Counting in Malay and Indonesian.', SI('Satu, dua, tiga! You’ll never forget lapan and delapan now.', 'happy')),
+      opt('That stories change.', WU('They do. You changed one. The elephant got out.', 'soft')),
+      opt('Something else.', SI('Tell us. We like hearing what people take home.', 'soft')),
+    ]),
+  ]),
   rd('lk04-grab-laughed', [
     ask(4, m('literacy', 'why a character acts', 'Your child worked out why the crocodile was so cross with Kancil.', 'RL.3.3'), [WU('Why is the crocodile so much crosser this time?')], [
       best('Kancil laughed at it.', SI('Yes. Being laughed at stings for a long time, even for a crocodile.', 'think')),

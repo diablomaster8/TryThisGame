@@ -22,7 +22,7 @@
  * `mv-ts-complete` marks the whole line and opens E5 (with `mv-ts01`…`mv-ts12`).
  */
 import type { Quest, Speaker } from './types';
-import type { Line, Mood } from '../config/story';
+import type { Line, Mood, Scene } from '../config/story';
 
 const say =
   (who: string) =>
@@ -233,7 +233,8 @@ export const MV_TOYSTORY: Quest[] = [
     ],
     sets: { 'mv-ts01': true },
     notes:
-      'Opens the Toy Story line; needs only the Multiverse rift. Art: on this side of the gate the Keeper is a jointed toy figure holding a painted lantern, and party Nubbins get a plush texture with a fabric tag. Toy scale throughout (a bed is a mountain). Freeze rule: in stealth checks a human seeing a toy move fails the attempt; whenever a human enters a scene, every toy (Keeper included) drops limp mid-pose. Plush rule (see file header; line numbers 0-based): mv-ts01-meeting lines 5–7 and mv-ts01-complete lines 2, 4 and 6 drop when the player has no Q12 plush. Recon: Andy’s living room party, baby monitor static as UI. Bedroom flight course is a race-track reskin with three bounce gates. `mv-ts-ranger` (told/let, added in review) records whether the Keeper told Buzz the truth on day one; it only changes the then-lines, but TS3 lands harder if he was told and laughed it off. Bo hooking Buzz’s arm with her crook is the first sting of Woody’s jealousy; keep it a glance, not a scene.',
+      'Opens the Toy Story line; needs only the Multiverse rift. Art: on this side of the gate the Keeper is a jointed toy figure holding a painted lantern, and party Nubbins get a plush texture with a fabric tag. Toy scale throughout (a bed is a mountain). Freeze rule: in stealth checks a human seeing a toy move fails the attempt; whenever a human enters a scene, every toy (Keeper included) drops limp mid-pose. Plush rule (see file header; line numbers 0-based): mv-ts01-meeting lines 5–7 and mv-ts01-complete lines 2, 4 and 6 drop when the player has no Q12 plush. Recon: Andy’s living room party, baby monitor static as UI. Bedroom flight course is a race-track reskin with three bounce gates. `mv-ts-ranger` (told/let, added in review) records whether the Keeper told Buzz the truth on day one; it only changes the then-lines, but TS3 lands harder if he was told and laughed it off. Bo hooking Buzz’s arm with her crook is the first sting of Woody’s jealousy; keep it a glance, not a scene. ' +
+      'SIGNATURE CHOICE: mv-ts-recon (nubbins | monitor: whether the Nubbins marched with Sarge or you kept the baby monitor) pays off through MV_TOYSTORY_VARIANTS at mv-ts04-crate (how the Nubbins step up for the rule-break), mv-ts08-truck (how they work the horn in the chase) and mv-ts09-plan (which job Woody gives you in the break-out).',
   },
 
   // ------------------------------------------------------------------ TS2
@@ -1905,6 +1906,59 @@ export const MV_TOYSTORY: Quest[] = [
       'Completes the line and hands straight into E5 (the carnival): Forky is still in Gabby’s cabinet, Woody still has his voice box, Duke Caboom is named but not met. Gabby Gabby is not a villain in E5, so keep her lonely rather than evil; the Benson dummies are the scary part (stiff, silent, sudden). Giggle McDimples is tiny: draw her portrait at a smaller scale. Bo’s sheep are one three-headed toy (Billy, Goat and Gruff in the source; no need to name them). Buzz is with Bonnie’s family off-screen in this storyline; his voice-button “inner voice” begins in E5. Bonnie’s closet is where Woody now spends playtime; Dolly leads Bonnie’s toys. Bonnie pinning Woody’s star on Jessie is from the film’s opening; the closet calendar is ours. Bo’s question at the end (when did your kid last pick you?) is deliberately left unanswered: E5 answers it.',
   },
 ];
+
+// ------------------------------------------------------------------ payoff variants
+
+/** Every scene of a quest list, flat. */
+const scenesOf = (quests: Quest[]): Scene[] =>
+  quests.flatMap((q) => [...q.steps.flatMap((s) => [s.scene, ...(s.done ? [s.done] : [])]), q.complete]);
+
+/**
+ * A payoff variant: the base scene with `count` lines from index `at` replaced by `extra`.
+ * Choices and `set` carry over unchanged. The runner (sim/atlas.ts, variantFor) plays it in
+ * place of the base scene when this line's flags hold the value named by `suffix`, so each
+ * suffix must be a value only the signature flag ever takes.
+ */
+function payoff(quests: Quest[], baseId: string, suffix: string, at: number, count: number, extra: Line[]): Scene {
+  const base = scenesOf(quests).find((s) => s.id === baseId);
+  if (!base) throw new Error(`payoff: no scene ${baseId}`);
+  const lines = [...base.lines];
+  lines.splice(at, count, ...extra);
+  return { ...base, id: `${baseId}-${suffix}`, lines };
+}
+
+/** The TS1 recon choice (mv-ts-recon) paid off in TS4, TS8 and TS9. */
+export const MV_TOYSTORY_VARIANTS: Scene[] = [
+  // TS4: how the Nubbins step up for the rule-break.
+  payoff(MV_TOYSTORY, 'mv-ts04-crate', 'nubbins', 9, 0, [
+    N('They do it in step, three abreast, the way Sarge drilled them on the stairs. It is the most military thing a plush has ever done.'),
+    W('Sarge trained them? Great. Nobody ever tell Sarge.', 'think'),
+  ]),
+  payoff(MV_TOYSTORY, 'mv-ts04-crate', 'monitor', 9, 0, [
+    W('You kept the monitor steady at the party when Rex couldn’t. Keep this steady too. Nobody moves till I say.', 'soft'),
+    N('Your Nubbins freeze mid-step, exactly as told. One of them is still wobbling slightly, but it is trying.'),
+  ]),
+  // TS8: how they work the horn in the chase.
+  payoff(MV_TOYSTORY, 'mv-ts08-truck', 'nubbins', 5, 0, [
+    N('Your Nubbins take the horn the way Sarge taught them to take a hill: on the count, all together, no retreat.'),
+    HA('Who gave the plushes a drill sergeant? No, don’t tell me. I know exactly who.'),
+  ]),
+  payoff(MV_TOYSTORY, 'mv-ts08-truck', 'monitor', 5, 0, [
+    N('Your Nubbins listen for Al’s car the way they listened at the party, heads tilted, and point before anyone sees it.'),
+    HA('The plushes have ears now? Fine. Left at the plushes.'),
+  ]),
+  // TS9: which job Woody gives you in the break-out, before the choice.
+  payoff(MV_TOYSTORY, 'mv-ts09-plan', 'nubbins', 8, 0, [
+    W('Keeper. Your Nubbins went over the stairs with Sarge’s men once. The wall here is higher, and there’s a monkey watching it.', 'think'),
+    W('I need them to do it anyway. Quietly this time.'),
+  ]),
+  payoff(MV_TOYSTORY, 'mv-ts09-plan', 'monitor', 8, 0, [
+    W('Keeper. You worked a baby monitor at a party once. That monkey in the office has six screens and a cymbal. Same idea, more noise.', 'think'),
+    W('If you can keep a channel open, we’ll know every move Lotso makes before he makes it.'),
+  ]),
+];
+
+// ------------------------------------------------------------------ checks
 
 export const CHECKS: string[] = [
   'expedition:complete:mv-ts-birthday-recon:stealth',

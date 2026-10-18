@@ -6,8 +6,8 @@
  *   NQ1–NQ10   Faerie Quests. Each faerie asks once for one item from a land of Neopia
  *              and gives one blessing: a stat level for the pet you choose, or (the
  *              Fountain Faerie) one paint job in any classic colour.
- *   NQ11–NQ13  Illusen's chain (Meridell).  } Finishing the first quest of either chain
- *   NQ14–NQ16  Jhudora's chain (Faerieland). } sets `neo-faerie-side` and closes the other.
+ *   NQ11–NQ13  Illusen's chain (Meridell).  } Finishing the first quest of either chain sets
+ *   NQ14–NQ16  Jhudora's chain (Faerieland). } its side flag and closes the other chain.
  *   NQ17–NQ21  Kitchen Quests (Mystery Island). A cookbook page each.
  *   NQ22–NQ26  Edna's Quests (Haunted Woods). A potion each. Audience 'main'.
  *   NQ27 the Brain Tree, NQ28 the Esophagor ('main'), NQ29 the Turmaculus,
@@ -28,10 +28,14 @@
  * Freebies: no reward here is per visit, daily or reset by leaving. Each is one-time or
  * unlimited (NQ31's sneak and NQ32's Giant Jelly are one-time).
  *
- * Flags: every quest sets `nq-<nn>-done`; choices set harmless `nq-<nn>-*` flags. The
- * faerie rivalry sets `neo-faerie-side` = 'illusen' | 'jhudora' on NQ11 / NQ14.
+ * Flags: every quest sets `nq-<nn>-done`; choices set `nq-<nn>-*` flags, each read once in
+ * its quest's complete scene through NEOPIA_QUESTS_VARIANTS (chosen as the Atlas chooses its
+ * variants, sim/atlas.ts variantFor: `<scene id>-<flag name>` for a flag that is on) or in
+ * the quest's notes. The faerie rivalry has one key per side so each is written once:
+ * NQ11 sets `neo-side-illusen`, NQ14 sets `neo-side-jhudora`; the chain finals set
+ * `neo-colours-illusen` (NQ13) and `neo-colours-jhudora` (NQ16).
  */
-import type { Line, Mood } from '../config/story';
+import type { Line, Mood, Scene } from '../config/story';
 import type { Quest, Speaker } from './types';
 
 const l = (who: string, text: string, mood?: Mood): Line =>
@@ -787,7 +791,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     audience: 'all',
     trigger: {
       where: 'Meridell, Illusen’s Glade',
-      when: 'After your first visit to Meridell, while `neo-faerie-side` is unset. Never offered once Jhudora’s side is taken.',
+      when: 'After your first visit to Meridell, while `neo-side-jhudora` is unset. Never offered once Jhudora’s side is taken.',
     },
     speakers: [ILLUSEN],
     steps: [
@@ -848,9 +852,10 @@ export const NEOPIA_QUESTS: Quest[] = [
         description: 'You have taken Illusen’s side. Her chain continues (NQ12–NQ13); Jhudora’s chain (NQ14–NQ16) closes for good.',
       },
     ],
-    sets: { 'nq-11-done': true, 'neo-faerie-side': 'illusen' },
+    sets: { 'nq-11-done': true, 'neo-side-illusen': true },
     notes:
-      'Rival chain, part 1 of 3. Completing this quest sets `neo-faerie-side` = illusen and withdraws NQ14–NQ16 (even if NQ14 is in progress). ' +
+      'Rival chain, part 1 of 3. Completing this quest sets `neo-side-illusen` and withdraws NQ14–NQ16 (even if NQ14 is in progress). ' +
+      'The two chains are exclusive, so each side has its own key (`neo-side-illusen` here, `neo-side-jhudora` in NQ14) and no flag has two writers. ' +
       'Accepting it does not lock anything; only completion does. The warning in the "Ask about the faerie" choice must also show in the quest offer text. ' +
       'If the player visits Jhudora’s Cloud afterwards, play one line from her (speaker jhudora): "Oh, it’s you. Illusen’s little helper. The door’s that way. It’s also locked." No quest.',
   },
@@ -1004,9 +1009,10 @@ export const NEOPIA_QUESTS: Quest[] = [
       { id: 'nq13-colours', kind: 'cosmetic', label: 'Illusen’s Colours', description: 'Your sandbox sections take on Illusen’s green and gold: fences, banners, path edging and lantern glass.' },
       { id: 'nq13-title', kind: 'title', label: 'Keeper of the Glade', description: 'Title for finishing Illusen’s chain.' },
     ],
-    sets: { 'nq-13-done': true, 'neo-faerie-colours': 'illusen' },
+    sets: { 'nq-13-done': true, 'neo-colours-illusen': true },
     notes:
-      'Rival chain, final (Illusen). Storm minigame: three beds, hail warnings appear over one bed at a time, a tap pulls a leaf cover; about 40 seconds, no fail state, score saved only for flavour. ' +
+      'Rival chain, final (Illusen). `neo-colours-illusen` is this chain’s own one-time colours unlock (Jhudora’s chain sets `neo-colours-jhudora`); only one can ever be set. ' +
+      'Storm minigame: three beds, hail warnings appear over one bed at a time, a tap pulls a leaf cover; about 40 seconds, no fail state, score saved only for flavour. ' +
       'Jhudora appears as a voice and a cloud only. The colours reward is the brief’s "your choice sets which faerie’s colours appear in your sections"; make it a toggle in the decorate menu so the player can switch it off.',
   },
 
@@ -1019,7 +1025,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     audience: 'all',
     trigger: {
       where: 'Faerieland, Jhudora’s Cloud',
-      when: 'After your first visit to Faerieland, while `neo-faerie-side` is unset. Never offered once Illusen’s side is taken.',
+      when: 'After your first visit to Faerieland, while `neo-side-illusen` is unset. Never offered once Illusen’s side is taken.',
     },
     speakers: [JHUDORA],
     steps: [
@@ -1081,9 +1087,10 @@ export const NEOPIA_QUESTS: Quest[] = [
         description: 'You have taken Jhudora’s side. Her chain continues (NQ15–NQ16); Illusen’s chain (NQ11–NQ13) closes for good.',
       },
     ],
-    sets: { 'nq-14-done': true, 'neo-faerie-side': 'jhudora' },
+    sets: { 'nq-14-done': true, 'neo-side-jhudora': true },
     notes:
-      'Rival chain, part 1 of 3. Completing this quest sets `neo-faerie-side` = jhudora and withdraws NQ11–NQ13 (even if NQ11 is in progress). ' +
+      'Rival chain, part 1 of 3. Completing this quest sets `neo-side-jhudora` and withdraws NQ11–NQ13 (even if NQ11 is in progress). ' +
+      'Each side has its own key (see NQ11), so no flag has two writers. ' +
       'If the player visits Illusen’s Glade afterwards, play one line from her (speaker illusen): "Hello, Keeper. I hope she’s grateful. She won’t be, but I hope so." No quest. ' +
       'Art: the cloud interior with wall-to-wall Usuki shelves; one empty gap until this quest ends.',
   },
@@ -1227,9 +1234,10 @@ export const NEOPIA_QUESTS: Quest[] = [
       { id: 'nq16-colours', kind: 'cosmetic', label: 'Jhudora’s Colours', description: 'Your sandbox sections take on Jhudora’s violet and black-green: fences, banners, path edging and lantern glass.' },
       { id: 'nq16-title', kind: 'title', label: 'Friend of the Cloud', description: 'Title for finishing Jhudora’s chain.' },
     ],
-    sets: { 'nq-16-done': true, 'neo-faerie-colours': 'jhudora' },
+    sets: { 'nq-16-done': true, 'neo-colours-jhudora': true },
     notes:
-      'Rival chain, final (Jhudora). Lightning minigame: 8–10 glowing paths to trace, slow and forgiving, no fail state. The last bolt points at the sky or the glade per `nq-16-last-bolt`. ' +
+      'Rival chain, final (Jhudora). `neo-colours-jhudora` is this chain’s own one-time colours unlock (Illusen’s chain sets `neo-colours-illusen`); only one can ever be set. ' +
+      'Lightning minigame: 8–10 glowing paths to trace, slow and forgiving, no fail state. The last bolt points at the sky or the glade per `nq-16-last-bolt`. ' +
       'Closing line changes if `nq-15-book` = unmentioned: replace the last narration with "As you leave, a drawer opens behind you. You don’t look back." ' +
       'Colours reward works like NQ13’s (a decorate-menu toggle). Queen Fyora appears only here in the faerie quests.',
   },
@@ -1360,7 +1368,7 @@ export const NEOPIA_QUESTS: Quest[] = [
       { id: 'nq18-page', kind: 'item', label: 'Cookbook Page: Lava-berry Pancakes', description: 'A Grove kitchen recipe: pancakes with lava-berry jam. Good for hunger, with a small lean towards Run.' },
     ],
     sets: { 'nq-18-done': true },
-    notes: 'Kitchen Quest 2 of 5. Lava-berry jam is a new Tyrannian food item; "hot" is flavour only, no damage or sickness. `nq-18-glass` is a harmless flavour flag; the jam always comes in clay.',
+    notes: 'Kitchen Quest 2 of 5. Lava-berry jam is a new Tyrannian food item; "hot" is flavour only, no damage or sickness. `nq-18-glass` changes the chef’s last complete line (NEOPIA_QUESTS_VARIANTS); the jam always comes in clay.',
   },
 
   // ================================================================== NQ19 Kitchen 3
@@ -1522,7 +1530,6 @@ export const NEOPIA_QUESTS: Quest[] = [
             {
               id: 'nq21-green',
               label: 'Promise to try for a green one.',
-              set: { 'nq-21-promised-green': true },
               then: [l('island-chef', 'Don’t promise. Promises about jelly are too much pressure.', 'think')],
             },
             {
@@ -2361,7 +2368,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     notes:
       'One-time: this is the only Snowager sneak (canon: no per-visit freebies; the brief’s “once per visit” loop is retired). It cannot wake him; the done scene is a near-miss for comedy, and there is no fail state. ' +
       'The old repeatable “Snowager Sneak” feature reward is replaced by the Snowager’s Hoard title. ' +
-      'If the player picked "Go in alone", the Nubbin is waiting by the guide in the complete scene, wrapped in his scarf.',
+      'If `nq-31-solo` is set ("Go in alone"), the Nubbin is waiting by the guide in the complete scene, wrapped in his scarf.',
   },
 
   // ================================================================== NQ32 Jelly World
@@ -2393,7 +2400,6 @@ export const NEOPIA_QUESTS: Quest[] = [
             {
               id: 'nq32-follow',
               label: 'Follow your Nubbin.',
-              set: { 'nq-32-followed': true },
               then: [l('jelly-official', 'I didn’t see that. I didn’t see any of that.', 'shock')],
             },
             {
@@ -2455,6 +2461,79 @@ export const NEOPIA_QUESTS: Quest[] = [
       'The brief lists Jelly as a special colour "from Jelly World"; this quest does not grant it. The owner decides whether the Giant Jelly can rarely drop a Jelly paint brush. ' +
       'Art: a flat glossy green-white void, wobble shader on ground and sky, one jelly on a plate.',
   },
+];
+
+// ------------------------------------------------------------------ variants
+/** The complete scene of quest `questId` in the list above. */
+function completeOf(questId: string): Scene {
+  const q = NEOPIA_QUESTS.find((x) => x.id === questId);
+  if (!q) throw new Error(`neopia-quests: no quest ${questId}`);
+  return q.complete;
+}
+
+/**
+ * A variant of a quest's complete scene for a choice flag that is on, built from the base
+ * so the rest of the scene stays identical: `replace` swaps lines by index, `insert` adds a
+ * line at an index. The id is `<complete id>-<flag>`, which is how sim/atlas.ts variantFor
+ * matches a flag set to true.
+ */
+function flagVariant(
+  questId: string,
+  flag: string,
+  opts: { replace?: Record<number, Line>; insert?: { at: number; line: Line } },
+): Scene {
+  const base = completeOf(questId);
+  const lines = base.lines.map((ln, i) => opts.replace?.[i] ?? ln);
+  if (opts.insert) lines.splice(opts.insert.at, 0, opts.insert.line);
+  return { id: `${base.id}-${flag}`, lines, ...(base.choices ? { choices: base.choices } : {}) };
+}
+
+/**
+ * Each choice flag below is read once, in its own quest's complete scene, so the choice
+ * shows. Flags read in notes instead (nq-08-blessing, nq-12-beds, nq-15-book, nq-16-last-bolt,
+ * nq-24-tasted, nq-26-sipped, nq-28-pie, nq-29-guess, nq-31-solo, nq-32-jelly) have no variant.
+ * NQ30 has two flags; the sim plays the first match in this order, so the cabinet wins.
+ */
+export const NEOPIA_QUESTS_VARIANTS: Scene[] = [
+  flagVariant('nq01', 'nq-01-promised-warm', {
+    insert: { at: 0, line: l('fire-faerie', 'And it was still warm when it got here. You keep promises. I’ll remember that.', 'happy') },
+  }),
+  flagVariant('nq02', 'nq-02-dived', {
+    replace: { 0: l('water-faerie', 'The one that dived. I can tell; it still smells of the ruins. Hold it up for me.', 'soft') },
+  }),
+  flagVariant('nq05', 'nq-05-haggled', {
+    insert: { at: 0, line: l('light-faerie', 'You haggled. I can tell; you’ve the look of someone who paid half and still feels guilty.', 'happy') },
+  }),
+  flagVariant('nq09', 'nq-09-invited', {
+    insert: { at: 3, line: l('taelia', 'And Keeper. Next time, I might come into the Factory with you. Might.', 'soft') },
+  }),
+  flagVariant('nq10', 'nq-10-pondered', {
+    insert: { at: 2, line: l('fountain-faerie', 'You took your time over it. Good. The ones who think first never come back asking for a different colour.', 'soft') },
+  }),
+  flagVariant('nq13', 'nq-13-shouted', {
+    insert: { at: 4, line: l('illusen', 'She heard you shout, you know. She’ll pretend she didn’t, for about a week.', 'think') },
+  }),
+  flagVariant('nq18', 'nq-18-glass', {
+    replace: { 3: l('island-chef', 'A brave one. I knew it. And the jam came in clay, so my eyebrows stay. Take the page.', 'happy') },
+  }),
+  flagVariant('nq19', 'nq-19-picked', {
+    insert: { at: 1, line: l('island-chef', 'Picked by a swimmer. You can taste it: happier kelp.', 'happy') },
+  }),
+  flagVariant('nq23', 'nq-23-asked-curse', {
+    insert: { at: 3, line: l('edna', 'Cursed? Mildly. It wears off by Thursday. Everything does, round here.', 'think') },
+  }),
+  flagVariant('nq27', 'nq-27-kind', {
+    replace: { 2: l('brain-tree', 'I am whole again. You asked how a tree feels, earlier. Nobody does. Take this, and ask it now and then.', 'soft') },
+  }),
+  flagVariant('nq28', 'nq-28-asked-mum', {
+    insert: { at: 3, line: l('esophagor', 'You asked about her. Before the pie, I mean. Nobody asks. Thank you for that too.', 'soft') },
+  }),
+  flagVariant('nq30', 'nq-30-cabinet', {
+    replace: { 2: l('lab-scientist', 'Come back whenever you like. The map knows the way now. And stop looking at the cabinet.', 'shock') },
+  }),
+  flagVariant('nq30', 'nq-30-keen', {
+    insert: { at: 2, line: l('lab-scientist', 'You looked pleased when you found the map. Most people look worried. I’ve decided to like you.', 'happy') },
+  }),
 ];
 
 /** Every distinct `check` string used above. */

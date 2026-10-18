@@ -3,7 +3,7 @@ import { registerStorylineRule } from './storyline-rules';
 import type { CampaignState, SimEvent, World } from './types';
 
 /**
- * S4 "Dawn & Dusk" (content/storyline-dawndusk.ts): one rule per half. The oldest grown
+ * SL4 "Dawn & Dusk" (content/storyline-dawndusk.ts): one rule per half. The oldest grown
  * Nubbin reverts to an egg when chapter 3 opens; naming the real cause puts it back if it
  * is still that egg. The ending reads the cause and whether the other half was finished
  * first (`dd-other-done`, passed in by the title screen).

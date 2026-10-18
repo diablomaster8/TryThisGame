@@ -314,7 +314,7 @@ export interface StorylineChapter {
 export interface Storyline {
   /** Save-side id: 'hundred', 'logged', 'beetle', 'dawn' or 'dusk'. */
   id: string;
-  /** S1-S4. */
+  /** SL1–SL4 (the side stories own S1–S4). */
   code: string;
   title: string;
   tagline: string;

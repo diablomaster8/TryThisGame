@@ -4828,7 +4828,7 @@ const Q17 = quest(
           'Líf and Lífthrasir walk out together into the morning, across the fields that nobody sowed.',
         ),
         N(
-          'You are back in the Grove, the atlas on your knee. There is a golden game piece in your pocket, and your Nubbin is holding a sprig.',
+          'You are back in the Grove, the atlas on your knee. Something clinks in your pocket: a golden game piece, and your Nubbin has brought home a sprig to match.',
         ),
       ],
       [
@@ -5456,7 +5456,7 @@ export const EDU_A20_READER_VARIANTS: EduScene[] = [
         'Líf and Lífthrasir walk out together into the morning, across the fields that nobody sowed.',
       ),
       N(
-        'You are back in the Grove, the atlas on your knee. There is a golden game piece in your pocket, and your Nubbin is holding a sprig.',
+        'You are back in the Grove, the atlas on your knee. Something clinks in your pocket: a golden game piece, and your Nubbin has brought home a sprig to match.',
       ),
     ],
     [
@@ -5531,7 +5531,7 @@ export const EDU_A20_READER_VARIANTS: EduScene[] = [
         'Líf and Lífthrasir walk out together into the morning, across the fields that nobody sowed.',
       ),
       N(
-        'You are back in the Grove, the atlas on your knee. There is a golden game piece in your pocket, and your Nubbin is holding a sprig.',
+        'You are back in the Grove, the atlas on your knee. Something clinks in your pocket: a golden game piece, and your Nubbin has brought home a sprig to match.',
       ),
     ],
     [

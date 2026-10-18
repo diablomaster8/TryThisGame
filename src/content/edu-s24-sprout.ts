@@ -36,7 +36,7 @@ const M = say('moss');
 const C = say('corvin');
 const H = say('hazel');
 const TI = say('tilly');
-const FW = say('fairweather');
+const AU = say('augusta');
 const DE = say('delve');
 
 // ---------------------------------------------------------------- builders
@@ -460,7 +460,7 @@ const tickScene = (of: string, kept: 'cup' | 'scarf' | 'book'): EduScene => {
 const HOME_OPEN: Line[] = [
   N('You walk back down the hill, slowly.'),
   N('Fairweather comes too. She holds Nova’s arm.'),
-  FW('Fifty years up there. I hope somebody kept my room!', 'think'),
+  AU('Fifty years up there. I hope somebody kept my room!', 'think'),
 ];
 const HOME_ETERNAL = N('Your Eternal is waiting on the cottage step. Hello!');
 const HOME_CLOSE: Line[] = [
@@ -792,7 +792,7 @@ const S24_SCENES: EduScene[] = [
       TI('We’re tracking him! That’s another badge!', 'happy'),
       N('Up in the cloud there is a tent. Flags flap on a line.'),
       N('An old, old lady holds a telescope. Her hat has a feather.'),
-      FW('Stand still! STILL! You’ll scare it away!', 'angry'),
+      AU('Stand still! STILL! You’ll scare it away!', 'angry'),
     ],
     [
       doIt(
@@ -813,12 +813,12 @@ const S24_SCENES: EduScene[] = [
   sc(
     's24-camp',
     [
-      FW('My name is Augusta Fairweather. I am an explorer.', 'think'),
+      AU('My name is Augusta Fairweather. I am an explorer.', 'think'),
       N('An explorer goes to new places, to find out about them.'),
       NO('THE Fairweather? From the old picture papers?', 'shock'),
       NO('Gran Hazel had your picture on her wall when she was a girl!'),
       N('Fairweather sees the old tin badge on Tilly’s sash.'),
-      FW('That’s one of my badges! Where did you get it?', 'shock'),
+      AU('That’s one of my badges! Where did you get it?', 'shock'),
       TI('From Gran Hazel. It was hers when she was little.'),
       NO('Gran Hazel wrote her list because of you.', 'soft'),
     ],
@@ -840,12 +840,12 @@ const S24_SCENES: EduScene[] = [
   sc(
     's24-cage',
     [
-      FW('Long ago I saw that bird. Nobody believed me.', 'sad'),
-      FW('They called me a fibber. So I came up here, to prove it.'),
+      AU('Long ago I saw that bird. Nobody believed me.', 'sad'),
+      AU('They called me a fibber. So I came up here, to prove it.'),
       N('Behind the tent is a big cage. It is for the bird.'),
-      FW('One night in a cage, in the village. Then everyone will believe me.'),
+      AU('One night in a cage, in the village. Then everyone will believe me.'),
       TI('You can’t put Sir Reginald in a CAGE!', 'angry'),
-      FW('The bird drinks at the spring when it gets dark. I’ll be ready.'),
+      AU('The bird drinks at the spring when it gets dark. I’ll be ready.'),
     ],
     [
       ask(
@@ -873,7 +873,7 @@ const S24_SCENES: EduScene[] = [
         {
           id: 'argue',
           label: 'Say the bird doesn’t have to prove anything.',
-          then: [FW('Nor did I. But they wanted proof anyway.', 'sad')],
+          then: [AU('Nor did I. But they wanted proof anyway.', 'sad')],
         },
         {
           id: 'sit',
@@ -1154,7 +1154,7 @@ const S24_SCENES: EduScene[] = [
     [
       N('Over by the rocks, someone says, “Could anyone help, please?”'),
       N('It is Fairweather! Her boot is stuck in her own net.'),
-      FW('Don’t hurry. Hurrying is how you get stuck in nets.', 'think'),
+      AU('Don’t hurry. Hurrying is how you get stuck in nets.', 'think'),
       N('You and Nova kneel down beside her.'),
       N('You put the lantern down, so you can see the knots.'),
       NO('One loop at a time. Slowly.', 'soft'),
@@ -1181,9 +1181,9 @@ const S24_SCENES: EduScene[] = [
       N('Fairweather is very tired. She sits against the rock.'),
       N('So you all sit, and wait. Then the mother bird walks past her. Close!'),
       N('Fairweather lifts her hand. Then she puts it back down. She doesn’t touch.'),
-      FW('That’ll do. I saw her. That’s enough for me.', 'soft'),
+      AU('That’ll do. I saw her. That’s enough for me.', 'soft'),
       N('She gives you an old stripy feather from her hat.'),
-      FW('Go and see your sunrise. I’ll mind the chicks.', 'happy'),
+      AU('Go and see your sunrise. I’ll mind the chicks.', 'happy'),
     ],
     [
       ask(
@@ -1678,8 +1678,8 @@ const S24_VARIANTS: EduScene[] = [
     [
       N('The museum is full! Even the Nubbins brought chairs.'),
       DE('A talk today! Every sign in this museum must be true.', 'happy'),
-      FW('People said I was fibbing. I wasn’t. The bird is real.', 'think'),
-      FW('But I won’t say where she lives. That’s my whole talk. Thank you!', 'happy'),
+      AU('People said I was fibbing. I wasn’t. The bird is real.', 'think'),
+      AU('But I won’t say where she lives. That’s my whole talk. Thank you!', 'happy'),
       N('Professor Delve hangs a new sign. It says Fairweather was right.'),
       N('Everyone claps. Clap, clap, clap!'),
     ],

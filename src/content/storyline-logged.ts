@@ -1,5 +1,5 @@
 /**
- * Storyline S2, "Logged In" (plan G12): the Keeper is a child inside "Grove Online", a
+ * Storyline SL2, "Logged In" (plan G12): the Keeper is a child inside "Grove Online", a
  * game that locks everyone in. Three partners in a party, turn-based party bouts
  * (sim/party-bout.ts), two mirrored servers (the Day Grove and the Night Grove, which are
  * the Sun and Moon recolours), and a mystery about who runs the game. The company and
@@ -675,7 +675,7 @@ export const LOGGED_EXTRA: Scene[] = [
 
 export const STORYLINE_LOGGED: Storyline = {
   id: 'logged',
-  code: 'S2',
+  code: 'SL2',
   title: 'Logged In',
   tagline: 'Three partners. Two servers. No log out.',
   source: 'Digimon World 3 (2002): frame and mechanics only',

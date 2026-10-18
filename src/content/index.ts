@@ -51,15 +51,15 @@ export {
   SIDE_STORIES_NEW_3_FLAGS,
 } from './side-stories-new-3';
 export { SIDE_STORIES_NEW_4 } from './side-stories-new-4';
-export { NEOPIA_LINE } from './neopia-line';
-export { NEOPIA_QUESTS } from './neopia-quests';
-export { MV_IRONMAN } from './mv-ironman';
-export { MV_CAP } from './mv-cap';
-export { MV_DOOM, MV_ULTRON } from './mv-doom-ultron';
-export { MV_MOONKNIGHT, MV_SPAWN } from './mv-moonknight-spawn';
-export { MV_DRAGONBALL } from './mv-dragonball';
-export { MV_TOYSTORY } from './mv-toystory';
-export { MV_ENDGAMES } from './mv-endgames';
+export { NEOPIA_LINE, NEOPIA_LINE_VARIANTS } from './neopia-line';
+export { NEOPIA_QUESTS, NEOPIA_QUESTS_VARIANTS } from './neopia-quests';
+export { MV_IRONMAN, MV_IRONMAN_VARIANTS } from './mv-ironman';
+export { MV_CAP, MV_CAP_VARIANTS } from './mv-cap';
+export { MV_DOOM, MV_ULTRON, MV_DOOM_VARIANTS, MV_ULTRON_VARIANTS } from './mv-doom-ultron';
+export { MV_MOONKNIGHT, MV_SPAWN, MV_MOONKNIGHT_VARIANTS, MV_SPAWN_VARIANTS } from './mv-moonknight-spawn';
+export { MV_DRAGONBALL, MV_DRAGONBALL_VARIANTS } from './mv-dragonball';
+export { MV_TOYSTORY, MV_TOYSTORY_VARIANTS } from './mv-toystory';
+export { MV_ENDGAMES, MV_ENDGAMES_VARIANTS } from './mv-endgames';
 export { LANG_HEBREW, HEBREW_COURSE } from './lang-hebrew';
 export { LANG_JAPANESE, JAPANESE_COURSE } from './lang-japanese';
 export {
@@ -157,7 +157,7 @@ export { ATLAS_A28, ATLAS_A28_VARIANTS, ATLAS_A28_FLAGS, ATLAS_A28_CHECKS } from
 export { ATLAS_A29, ATLAS_A29_VARIANTS, ATLAS_A29_FLAGS, ATLAS_A29_CHECKS } from './atlas-a29';
 export { ATLAS_A30, ATLAS_A30_VARIANTS, ATLAS_A30_FLAGS, ATLAS_A30_CHECKS } from './atlas-a30';
 export { ATLAS_A31, A31_VARIANTS, ATLAS_A31_FLAGS, ATLAS_A31_CHECKS } from './atlas-a31';
-// Pixel's Arcade cartridges (Part M, scripted 2026-10-16; no Learning Grove versions: licence)
+// Pixel's Arcade cartridges (Part M, scripted 2026-10-16; PA1 has Learning Grove versions, wired in edu.ts)
 export { ARCADE_PA1, PA1_VARIANTS, ARCADE_PA1_FLAGS, ARCADE_PA1_CHECKS } from './arcade-pa1';
 export { ARCADE_PA2, ARCADE_PA2_VARIANTS, ARCADE_PA2_FLAGS, ARCADE_PA2_CHECKS } from './arcade-pa2';
 export { ARCADE_PA3, PA3_VARIANTS, ARCADE_PA3_FLAGS, ARCADE_PA3_CHECKS } from './arcade-pa3';
@@ -263,6 +263,17 @@ export {
   EDU_S31_READER_VARIANTS,
   CHECKS as EDU_S31_READER_CHECKS,
 } from './edu-s31-reader';
+// Learning Grove versions of Pixel’s Arcade PA1 (wired in edu.ts; bare CHECKS renamed here)
+export {
+  EDU_PA1_SPROUT,
+  EDU_PA1_SPROUT_VARIANTS,
+  CHECKS as EDU_PA1_SPROUT_CHECKS,
+} from './edu-pa1-sprout';
+export {
+  EDU_PA1_READER,
+  EDU_PA1_READER_VARIANTS,
+  CHECKS as EDU_PA1_READER_CHECKS,
+} from './edu-pa1-reader';
 // Learning Grove versions of Atlas A02, A05-A20 and A22-A31 (wired in edu.ts; bare CHECKS renamed here)
 export {
   EDU_A02_SPROUT,

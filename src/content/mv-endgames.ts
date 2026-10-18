@@ -36,7 +36,7 @@
  * only colour later lines use `mv-e<n>-` flags and are cosmetic.
  */
 import type { Quest, Speaker } from './types';
-import type { Line, Mood } from '../config/story';
+import type { Line, Mood, Scene } from '../config/story';
 
 // ------------------------------------------------------------------ helpers
 
@@ -251,7 +251,7 @@ export const MV_ENDGAMES: Quest[] = [
             {
               id: 'doubt',
               label: '“You don’t have to do this, Peter.”',
-              set: { 'mv-e1-peter': 'doubted' },
+              set: { 'mv-e1-peter': 'peter-doubted' },
               then: [
                 l('peter', 'I know. That’s the scary part. I’m choosing it.', 'sad'),
               ],
@@ -259,7 +259,7 @@ export const MV_ENDGAMES: Quest[] = [
             {
               id: 'stand',
               label: '“We’ll be right there on the stage with you.”',
-              set: { 'mv-e1-peter': 'stood' },
+              set: { 'mv-e1-peter': 'peter-stood' },
               then: [
                 l('peter', 'With the little guys? Okay. Okay. Nobody can be scared next to those.', 'soft'),
               ],
@@ -543,7 +543,7 @@ export const MV_ENDGAMES: Quest[] = [
       'Frank shooting the two crooks is off-screen (two muzzle flashes through a doorway). The courthouse shooting is staged the same way: sound, a fall, no blood. ' +
       'On the resistance path, Bill Foster dies off-screen in the ambush and is mourned in res-s4. The prison break in s5 assumes Prison 42 exists on both paths; ' +
       'on the resistance path it is introduced by its name in s5 only. The complete scene ties Steve’s return to the CA line’s Cube thread (Kobik, CA10) without repeating CA10’s resurrection: Kobik keeps her promise not to change anything and only catches him as he falls. ' +
-      'Peter’s choice flag mv-e1-peter and the safehouse / after-battle flags are cosmetic. ' +
+      'SIGNATURE CHOICE: mv-e1-peter (peter-doubted | peter-stood: whether Peter unmasked alone or with the Nubbins beside him) pays off through MV_ENDGAMES_VARIANTS at mv-e1-courthouse (how Peter stands in the crowd), mv-e2-incursion (what Reed heard from him before the raft) and mv-e6-tony / mv-e6-steve (whether Peter comes to the last war bare-faced). The values carry a peter- prefix because the runner matches variants by value and mv-e2-kneel also uses stood. The safehouse / after-battle flags are cosmetic. ' +
       'Each path has a hard call of its own: on registration, mv-e1-clone (shutdown | kept) after Goliath dies; on resistance, mv-e1-frank (out | argued) over the Punisher. ' +
       'Both are cosmetic; Frank leaves either way, as in the source, and the clone is never used again on screen. ' +
       'Check Civil War #1–7, Captain America #25 and Captain America: Reborn beats before ship.',
@@ -2284,6 +2284,64 @@ export const MV_ENDGAMES: Quest[] = [
       'Staging: Ultron’s core is an abstract space of silver lines; Ultron at the core is a figure of pale light, not armour. The Eternal ending fades to white, no damage shown. ' +
       'The final closing scene works for all three endings. Check Age of Ultron #1–10 and Avengers: Ultron Forever #1 beats before ship.',
   },
+];
+
+// ------------------------------------------------------------------ payoff variants
+
+/** Every scene of a quest list, flat. */
+const scenesOf = (quests: Quest[]): Scene[] =>
+  quests.flatMap((q) => [...q.steps.flatMap((s) => [s.scene, ...(s.done ? [s.done] : [])]), q.complete]);
+
+/**
+ * A payoff variant: the base scene with `count` lines from index `at` replaced by `extra`.
+ * Choices and `set` carry over unchanged. The runner (sim/atlas.ts, variantFor) plays it in
+ * place of the base scene when this line's flags hold the value named by `suffix`, so each
+ * suffix must be a value only the signature flag ever takes.
+ */
+function payoff(quests: Quest[], baseId: string, suffix: string, at: number, count: number, extra: Line[]): Scene {
+  const base = scenesOf(quests).find((s) => s.id === baseId);
+  if (!base) throw new Error(`payoff: no scene ${baseId}`);
+  const lines = [...base.lines];
+  lines.splice(at, count, ...extra);
+  return { ...base, id: `${baseId}-${suffix}`, lines };
+}
+
+/**
+ * Peter's unmasking (mv-e1-peter, E1) paid off at the courthouse (E1), on the raft (E2) and
+ * in whichever E6 ally scene mv-cw picks. The E line is one save line, so E2 and E6 can read
+ * an E1 flag.
+ */
+export const MV_ENDGAMES_VARIANTS: Scene[] = [
+  // E1: how Peter stands in the courthouse crowd.
+  payoff(MV_ENDGAMES, 'mv-e1-courthouse', 'peter-stood', 2, 0, [
+    n('Peter Parker is in the crowd too, bare-faced, the way he has been since the studio. People know him now, and he stands with you anyway.'),
+    l('peter', 'Last time I stood on a stage with your little guys. Today it’s steps. Same idea.', 'soft'),
+  ]),
+  payoff(MV_ENDGAMES, 'mv-e1-courthouse', 'peter-doubted', 2, 0, [
+    n('Peter Parker is in the crowd too, hood up, the mask back on under it. He chose the camera alone, and he has been alone with it since.'),
+    l('peter', 'Don’t look at me. Please. I’m just here for him.', 'sad'),
+  ]),
+  // E2: what Reed heard from Peter before the raft.
+  payoff(MV_ENDGAMES, 'mv-e2-incursion', 'peter-stood', 3, 0, [
+    l('reed', 'Parker asked me to put his aunt on it. Out loud, in front of everyone. He said he had nothing left to hide. I could not do it.', 'sad'),
+  ]),
+  payoff(MV_ENDGAMES, 'mv-e2-incursion', 'peter-doubted', 3, 0, [
+    l('reed', 'Parker stopped answering his door after the broadcast. I never got to ask him who he wanted on it.', 'sad'),
+  ]),
+  // E6: whether Peter comes to the last war bare-faced (Tony's side).
+  payoff(MV_ENDGAMES, 'mv-e6-tony', 'peter-stood', 9, 0, [
+    l('tony', 'Peter’s on the roof with the second column. Still bare-faced. He says your Nubbins made it easier. I say I owe him more than a suit.', 'soft'),
+  ]),
+  payoff(MV_ENDGAMES, 'mv-e6-tony', 'peter-doubted', 9, 0, [
+    l('tony', 'Peter sent his regrets. He went back under the mask after the trial, and I did that to him. The suit I built him is in a box.', 'sad'),
+  ]),
+  // E6: the same, on Steve's side.
+  payoff(MV_ENDGAMES, 'mv-e6-steve', 'peter-stood', 9, 0, [
+    l('steve', 'Parker came too. No mask. He said if the little ones could stand on a stage with him, he can stand in a field.', 'soft'),
+  ]),
+  payoff(MV_ENDGAMES, 'mv-e6-steve', 'peter-doubted', 9, 0, [
+    l('steve', 'I asked Parker. He said he’s done being looked at. I don’t blame him. Tony does, mostly at himself.', 'sad'),
+  ]),
 ];
 
 // ------------------------------------------------------------------ checks

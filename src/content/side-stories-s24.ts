@@ -88,8 +88,8 @@ const TILLY: Speaker = {
   basedOn:
     'Russell, the badge-collecting stowaway (Up, Pixar, 2009), for this story only; reference only',
 };
-const FAIRWEATHER: Speaker = {
-  id: 'fairweather',
+const AUGUSTA: Speaker = {
+  id: 'augusta',
   name: 'Augusta Fairweather',
   kind: 'other',
   basedOn:
@@ -99,7 +99,7 @@ const FAIRWEATHER: Speaker = {
 const DELVE: Speaker = { id: 'delve', name: 'Professor Delve', kind: 'other' };
 
 const TI = say('tilly');
-const FW = say('fairweather');
+const AU = say('augusta');
 const DE = say('delve');
 
 // ================================================================== shared pieces
@@ -420,7 +420,7 @@ const HOME_OPEN: Line[] = [
   N(
     'You come down off the ridge in the afternoon, slowly, because Augusta Fairweather is coming too, on Nova’s arm.',
   ),
-  FW('Fifty years. I don’t suppose anybody has kept my room.', 'think'),
+  AU('Fifty years. I don’t suppose anybody has kept my room.', 'think'),
   N(
     'She takes the empty cottage at the foot of the falls path, for a week, she says. Nobody believes her, kindly.',
   ),
@@ -461,7 +461,7 @@ export const SIDE_STORY_S24: Quest[] = [
         'The western hill by Hazel’s flower; then the carrier’s cart, the scree path beside the falls, the far ridge and the Sunrise Shelf',
       when: 'Post-game: the first spring after chapter 12, once the memorial flowers open (after the ending has played). Any ending.',
     },
-    speakers: [TILLY, FAIRWEATHER, DELVE],
+    speakers: [TILLY, AUGUSTA, DELVE],
     steps: [
       // ------------------------------------------------ 1. Nova stays for tea
       {
@@ -740,7 +740,7 @@ export const SIDE_STORY_S24: Quest[] = [
             N(
               'And a very old woman with a telescope, a hat with a feather in it, and a voice like a door that wants oiling.',
             ),
-            FW(
+            AU(
               'Stand still. Stand STILL. You’ll frighten it off, and then you’ll say it was never here. They always do.',
               'angry',
             ),
@@ -749,7 +749,7 @@ export const SIDE_STORY_S24: Quest[] = [
         done: {
           id: 's24-camp',
           lines: [
-            FW(
+            AU(
               'Augusta Fairweather. You won’t have heard of me. Nobody has, for fifty years.',
               'think',
             ),
@@ -758,13 +758,13 @@ export const SIDE_STORY_S24: Quest[] = [
               'THE Fairweather? From the picture papers? Hazel had your picture on her wall when she was a girl. She told me.',
               'shock',
             ),
-            FW(
+            AU(
               'Did she. Then she was one of four thousand children who believed me, before they were told not to.',
             ),
             N('Fairweather’s eye falls on Tilly’s sash, on the old tin badge, and stays there.'),
-            FW('That’s one of mine. The Young Explorers. Where did you get that?', 'shock'),
+            AU('That’s one of mine. The Young Explorers. Where did you get that?', 'shock'),
             TI('Gran Hazel. It was hers when she was little. She gave it me. It’s my oldest one.'),
-            FW(
+            AU(
               '…Of course it was. I heard somebody shout my old motto up at the falls today. I thought I’d dreamed it.',
               'soft',
             ),
@@ -781,23 +781,23 @@ export const SIDE_STORY_S24: Quest[] = [
         scene: {
           id: 's24-cage',
           lines: [
-            FW(
+            AU(
               'I came down off this ridge with one striped feather and a story. The papers called me a liar in letters this high.',
               'angry',
             ),
-            FW('So I came back up to prove it. I’ve been proving it ever since.', 'sad'),
+            AU('So I came back up to prove it. I’ve been proving it ever since.', 'sad'),
             N(
               'Behind the tarpaulin is a cage of bent ash and wire, beautifully made, and big enough for a bird taller than Nova.',
             ),
-            FW(
+            AU(
               'For the bird. Your girl’s name for it is better than mine. I’ve called it Proof for fifty years.',
               'think',
             ),
-            FW(
+            AU(
               'One night in that, down in the valley square where everyone can see. Then I can stop.',
             ),
             NO('Stop what?', 'soft'),
-            FW('Being the liar on the ridge. Being up here. Being—', 'angry'),
+            AU('Being the liar on the ridge. Being up here. Being—', 'angry'),
             N(
               'She doesn’t finish. She folds a net over her arm, carefully, the way you fold a shirt somebody ironed for you.',
             ),
@@ -805,8 +805,8 @@ export const SIDE_STORY_S24: Quest[] = [
               'You can’t put Sir Reginald in a CAGE. That’s the worst rule I ever heard.',
               'angry',
             ),
-            FW('I didn’t make the rule, child. The papers did.', 'sad'),
-            FW(
+            AU('I didn’t make the rule, child. The papers did.', 'sad'),
+            AU(
               'It comes down to drink at the spring above the camp at dusk. It always has. Tonight I shall be ready.',
             ),
           ],
@@ -814,7 +814,7 @@ export const SIDE_STORY_S24: Quest[] = [
             {
               id: 'argue',
               label: 'Tell her the bird doesn’t owe anyone proof.',
-              then: [FW('Nor did I. They wanted it anyway.', 'sad')],
+              then: [AU('Nor did I. They wanted it anyway.', 'sad')],
             },
             {
               id: 'sit',
@@ -1067,8 +1067,8 @@ export const SIDE_STORY_S24: Quest[] = [
             N(
               'Augusta Fairweather is sitting at the very edge with one boot wound up in her own net. The net is caught on a spike of rock.',
             ),
-            FW('Don’t hurry. Hurrying is how one gets into nets.', 'think'),
-            FW(
+            AU('Don’t hurry. Hurrying is how one gets into nets.', 'think'),
+            AU(
               'I went after it in the dark. Fifty years of patience, thrown away in one evening. Rather a waste.',
             ),
             N(
@@ -1086,19 +1086,19 @@ export const SIDE_STORY_S24: Quest[] = [
             N(
               'Fairweather tries to stand, and can’t, and sits back against the rock. She is very tired, and very old.',
             ),
-            FW('I shall just sit, I think. For a moment.'),
+            AU('I shall just sit, I think. For a moment.'),
             N(
               'So she sits, and waits, and so do you all. The mother bird steps out from the nest and walks past her, close enough to touch.',
             ),
             N(
               'Fairweather’s hand comes up off her knee and stays in the air a moment. Then it goes back down.',
             ),
-            FW('That’ll do.', 'soft'),
-            FW('That’s proof enough for me.', 'soft'),
+            AU('That’ll do.', 'soft'),
+            AU('That’s proof enough for me.', 'soft'),
             N(
               'She takes an old striped feather out of her hatband, the one the papers laughed at, and puts it in your hand.',
             ),
-            FW(
+            AU(
               'I shan’t need it now. Go on. Go and see your sunrise. I’ve seen eighteen thousand. I’ll mind the children.',
               'happy',
             ),
@@ -1544,11 +1544,11 @@ export const SIDE_STORY_S24_VARIANTS: Scene[] = [
         'A lecture. Every plaque in this museum must be true. This one has taken fifty years to become so.',
         'happy',
       ),
-      FW(
+      AU(
         'I was called a liar. I have been wrong about a great many things. I was not wrong about the bird.',
         'think',
       ),
-      FW(
+      AU(
         'I shan’t tell you where she nests. That is the whole of the lecture. Thank you.',
         'happy',
       ),

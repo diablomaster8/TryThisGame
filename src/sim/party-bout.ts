@@ -4,7 +4,7 @@ import { levelOf } from './stats';
 import type { Nubbin } from './types';
 
 /**
- * S2's party bouts: three partners against a seeded line of foes, turn by turn, in a
+ * SL2's (Logged In) party bouts: three partners against a seeded line of foes, turn by turn, in a
  * card-like format that reuses the karate stat maths (Power strikes, Stamina is HP, Run
  * dodges). Each party member picks a move on its turn, then the foes act. Pure and
  * seeded; the panel draws it and feeds the moves, and reports the result as a command.

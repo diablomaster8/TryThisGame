@@ -190,7 +190,7 @@ const A16_HOME: Line[] = [
 const A16_END: Line[] = [
   N('Last of all, Vasilisa gives your Nubbin a painted doll no bigger than a thumb, in a pouch of its own on a cord.'),
   N(`The tale ends the way the old books end it: ${LIFT_POCKET}`),
-  N('The page settles under your hand. You are back in the Grove, with Nova’s atlas on your knee and a small painted doll in your Nubbin’s pouch.'),
+  N('The page settles, and you are back in the Grove with the atlas on your knee. Your Nubbin checks its pouch twice: the small painted doll is still there.'),
 ];
 
 // =================================================================== THE DOLL IN THE POCKET

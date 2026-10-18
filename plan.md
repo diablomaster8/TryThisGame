@@ -104,7 +104,7 @@ Done: G1–G10, G8b, G13 (the 3D polish stubs), G14 (bundle diet and grass in a 
 | --- | --- | --- | --- | --- |
 | G11 | Device pass: phones, Firefox and Safari, workers, both renderers | Opus, then Sonnet rows | none | one day plus Maor's phones |
 | G16 | Full 3D parity: the remaining gaps and the renderer brief (done 2026-10-16) | Opus | none | 12–17 h |
-| G12 | Expansions E1–E3 and campaigns S1–S4 | Fable | done 2026-10-17 (X0–X7) | large |
+| G12 | Expansions E1–E3 and campaigns SL1–SL4 | Fable | done 2026-10-17 (X0–X7) | large |
 
 ## Part G11 — Device pass across both renderers
 
@@ -160,7 +160,7 @@ Task: close the Full 3D parity gaps in plan.md Part G16, G16.1 to G16.11 in tabl
 **Model:** Fable 5.1. **Blocked** until Maor picks from E1–E3 and S1–S4 in PROGRESS.md.
 
 ```
-You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des. Read CLAUDE.md and the Digimon-inspired list in PROGRESS.md (expansions E1–E3, campaigns S1–S4). Maor has picked [PICK]. Before writing code, give a short plan with the sim changes (new types, commands, events, save migration), the UI, the render needs in both modes, and the tests, then build it in milestone-sized commits with the usual checks and a PROGRESS.md section per milestone. Commit; push. Report.
+You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des. Read CLAUDE.md and the Digimon-inspired list in PROGRESS.md (expansions E1–E3, campaigns SL1–SL4). Maor has picked [PICK]. Before writing code, give a short plan with the sim changes (new types, commands, events, save migration), the UI, the render needs in both modes, and the tests, then build it in milestone-sized commits with the usual checks and a PROGRESS.md section per milestone. Commit; push. Report.
 
 Context rules: keep your context small. Read CLAUDE.md and the Status block at the top of PROGRESS.md, then only the doc this brief names. Never read a source file over 400 lines whole: grep for the function or field named here and read that line range (the "Where things are" table in CLAUDE.md maps names to files). Do not open creatures-legacy.ts or docs/progress-archive.md. Aim for under 50k tokens of context before your first edit.
 ```
@@ -257,7 +257,7 @@ File: src/content/<FILE>   NAME: <NAME>   Audience: <AUD>
 ---
 
 | ID | FILE | NAME | AUD | EXTRAS |
-| PA1 The Chao Altar (Sonic Adventure) | arcade-pa1.ts | ARCADE_PA1 | main | It reads cinder. At most 2 quotes (Tikal's prayer), marked for checking against the English script. Sega licence approved (Maor, 2026-10-17). |
+| PA1 The Chao Altar (Sonic Adventure) | arcade-pa1.ts | ARCADE_PA1 | all | It reads cinder. At most 2 quotes (Tikal's prayer), each with childLines, marked for checking against the English script. Sega licence approved and audience all (Maor, 2026-10-17); Learning Grove versions edu-pa1-sprout.ts and edu-pa1-reader.ts. |
 | PA2 The Clone Island (Pokémon: The First Movie) | arcade-pa2.ts | ARCADE_PA2 | all | It reads s7Done (Byte watches). At most 3 quotes. |
 | PA3 The Hollow Kingdom (Hollow Knight) | arcade-pa3.ts | ARCADE_PA3 | all | 12 grubs. At most 3 quotes. |
 | PA4 Mercy (Undertale) | arcade-pa4.ts | ARCADE_PA4 | all | Sparing everyone is the only path; the kill-everyone route doesn't exist. It reads wisp. At most 3 quotes. |
@@ -480,8 +480,8 @@ last, alone, on a clean `main` with everything else merged.
 - The seven fun-quest quotes B-V1 reports.
 - Whether Full 3D becomes the default (G16.12's brief), and whether Expedition and races stay
   pixel art inside Full 3D.
-- The expansion pick: E1 The Square, E2 Nova's Season, E3 The Twine; campaigns S1 "The
-  Hundred Days", S2 "Logged In", S3 "The Beetle Road", S4 "Dawn & Dusk".
+- The expansion pick: E1 The Square, E2 Nova's Season, E3 The Twine; campaigns SL1 "The
+  Hundred Days", SL2 "Logged In", SL3 "The Beetle Road", SL4 "Dawn & Dusk".
 - The phone rows of `docs/device-pass.md`.
 - Native-speaker recordings for the language questlines (`public/audio/lang/README.md`).
 
