@@ -14,13 +14,13 @@ older passes are in `docs/progress-archive.md` (search it, never read it whole).
 
 ## What we are building
 
-An original virtual-pet garden game for phone and desktop browsers (TypeScript strict, Vite, Three.js 0.186.1 pinned, Vitest). Hatch a Nubbin, raise it, shape how it grows; it ages and is reborn or departs. The shipped game is 2.5D pixel art. A full-3D mode is being built additively behind a title toggle. Names, logo, music and sound stay original. The creatures are fan art built in code to match their references as closely as the code can get, working directly from the images and footage Maor supplies (his decision, 2026-10-16); game files, model rips, sprite sheets and audio from any franchise are never imported. The inspiration is data in `sim/species.ts` and never shown.
+An original virtual-pet garden game for phone and desktop browsers (TypeScript strict, Vite, Three.js 0.186.1 pinned, Vitest). Hatch a Nubbin, raise it, shape how it grows; it ages and is reborn or departs. The shipped game is 2.5D pixel art. A Full 3D mode ships beside it as a Graphics setting. Names, logo, music and sound stay original. The creatures are fan art built in code to match their references as closely as the code can get, working directly from the images and footage Maor supplies (his decision, 2026-10-16); game files, model rips, sprite sheets and audio from any franchise are never imported. The inspiration is data in `sim/species.ts` and never shown.
 
 ## Architecture (the rules that never bend)
 
 - `src/sim/` is game rules only: no DOM, no Three.js, no `Math.random` (seeded `rng.ts`). Fixed 100 ms steps; render reads sim state and never changes it; input and UI send commands.
 - One clock (`clock.ts`), offline catch-up with the "aging while closed" setting, versioned saves with migrations, three save slots per mode, every storage call in try/catch.
-- Two renderers behind one `WorldView` interface: the pixel renderer in `src/render/` (ships, must keep working at every commit) and the 3D mode (today in `src/samples/` behind URL flags; later `src/render3d/`). The sim never learns which is on.
+- Two renderers behind one `WorldView` interface: the pixel renderer in `src/render/` (ships, must keep working at every commit) and the Full 3D mode in `src/render3d/` (a Graphics setting on the title and in Settings; it builds its creatures from the species format in `src/samples/`). Pixel is the default. The sim never learns which is on.
 - Creatures in 3D are data, never meshes: a `SpeciesSpec` → `buildSpecies` (SDF primitives, marching cubes, baked vertex colour with ambient occlusion, shell fur, eyes and mouth projected onto the skin, eye rig, poses, expressions, extras hook). Format doc: `docs/species-format.md`.
 - Art direction: for the Nubbins, Maor's "Chao World" line-up (2026-10-16) is the bible: match it, including its flat-shaded, hard-edged, outlined render style, through a toon stage mode (`plan.md` Part G8b). For the other creatures and the stage, the Palworld references Maor supplied (roster screenshot, Palworld Mobile short, "All Pet Animations" video). Backlog ordered against them: `docs/creature-improvements.md`. Subagent briefs: `plan.md`.
 - Every tunable number lives in `src/config/tuning.ts`; every player-facing string in `src/config/strings.ts`.
@@ -41,7 +41,8 @@ An original virtual-pet garden game for phone and desktop browsers (TypeScript s
 | Pixel world and picking | `src/render/world-view.ts`, `grove-scene.ts`, painters in `src/render/paint/` |
 | Sim entry points | `src/sim/world.ts` (commands, events), `dungeon.ts`, `town.ts`, `lifecycle.ts` |
 | Saves and slots | `src/platform/storage.ts` (`SaveSlot`, `slotKey`, `summarize`), `src/ui/title.ts` |
-| Tests | `tests/sim/*.test.ts` (210 pass); `tests/tools/` holds the painted-sample generators |
+| Credits and licences | `CREDITS.md`; licence texts shipped in `public/licences/` |
+| Tests | `tests/sim/`, `tests/render/` (over 500 tests on 2026-10-18; read the count from `npm test`, not from here); `tests/tools/` holds the painted-sample generators and `content-check.ts` |
 
 ## Coding standards
 
@@ -71,6 +72,6 @@ The campaign, side stories, fun quests, Neopia, the Multiverse, the Atlas, Pixel
 - The Atlas, Arcade, Multiverse and Neopia read Grove state and never write it. Nubbins do not speak (the listed exceptions are in `docs/canon.md`).
 - Validate every content change with `npx tsc --noEmit -p .`, `npx eslint src/content tests/tools` and `npx tsx tests/tools/content-check.ts --warnings` (`problems: 0`).
 
-## Current plan (2026-10-15)
+## Current plan (2026-10-18)
 
-Two tracks, briefs in `plan.md`. **Track A, graphics and the 3D mode:** done are the five-creature roster in the species format, the face group on the Nubbin and the painted look on all five; grounding is verified in the browser (Part G1 done) and jointed legs plant the feet (item 22, Fennel and Bolder); then petting and sleep, shape fixes, eye tracking, the Keeper, the Chao variants, the real 3D mode (title toggle, `render3d/`, worker sculpting, geometry cache), the device pass. **Track B, story and content:** the pack is scripted and checked through Atlas A11–A21 and moved into the repo (Task B0 done); next Atlas A22–A31 and A1–A10, the Arcade, fun packs Q66–Q95, lines LB and LK, Learning Grove versions, quote verification, adviser packets, the canon audit, and the engine milestones CV1–CV6 (campaign v2 and endings, Mature content setting, side-story engine, Learning Grove mode, language questlines, Atlas/Arcade/Multiverse saves, no-chores clean-up). Decided 2026-10-17: daily gifts are one-time (CV6), the seven fun-quest quotes stand, advisers signed off, legal cleared, Pixel stays the default renderer.
+Both tracks of `plan.md` are built and deployed: Pixel and Full 3D (with 3D Expedition and races), campaign v2 with its endings, S1–S31, Q1–Q95, the four separate campaigns and E1–E3, the Learning Grove with Hebrew and Japanese, and the story worlds (Atlas A1–A31, the Arcade, the Multiverse, Neopia). Now: the fixes from the two independent reviews of 2026-10-18 (`docs/review-independent-2026-10-18.md`, `-b.md`), then the device pass (G11) and the content left in `plan.md` (LB and LK, quote verification). PROGRESS.md's status block says what is waiting on Maor. Decided 2026-10-17: the seven fun-quest quotes stand, advisers signed off, legal cleared, Pixel stays the default renderer.

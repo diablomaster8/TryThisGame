@@ -4,7 +4,8 @@
 content** (Tasks B-R1 … B-H), then **Part Z, the independent full review**, which is the last
 brief to run. Each part is one brief you can hand to a Claude Code session on its own: it names
 a model, says why, and has a prompt ready to paste. This version follows the second review of
-the repo on 2026-10-16 (167 commits, 377 tests passing, lint clean, the content checker at
+the repo on 2026-10-16 (then 167 commits and 377 tests; on 2026-10-18 `npm test` runs over 500,
+so read the count from its output rather than from here; lint clean, the content checker at
 `problems: 0`); the done work is listed first so nothing is briefed twice.
 
 ## Review: what is complete
@@ -20,9 +21,9 @@ the repo on 2026-10-16 (167 commits, 377 tests passing, lint clean, the content 
 | **Story worlds that ship** (2026-10-18) | What the built game loads: the Atlas A1–A31; Pixel's cabinet PA1–PA5; the Multiverse rift (nine lines and E1–E6, Mature content 18+ only, the one-time age check, E1/E6 branches, E6's reflection); Neopia's rainbow gate (the plots and six quest lines, rival faerie chains); each a lazy chunk with its own side save, rewards kept there, never in the Grove; fun quests Q66–Q95 in the Grove's fun-quest engine with their in-pack payoffs and the chapter 9–11 gate | `tests/sim/story-worlds.test.ts`, `dist/assets/{arcade,multiverse,neopia}-catalogue-*.js` |
 | **Old bugs** | B1 (understudy names) fixed by CV1; B2 debug panel guarded behind `?debug` in production; B3 one panel at a time on phones with toasts in their own row | Task B-B23, `docs/device-pass.md` |
 
-**Scripted, wired, not yet reviewed or committed (working tree, 2026-10-16):** Atlas A1–A10
-and A22–A31 (twenty files, logs in `docs/logs/script-a*.md`, index and checker updated,
-`problems: 0`). Task B-R1 reviews and commits them.
+**Atlas A1–A10 and A22–A31** (scripted 2026-10-16) are reviewed in fix mode, committed and
+shipped in the Atlas since 2026-10-18 (PROGRESS.md status; `docs/content-index.md`). Task B-R1
+is done.
 
 **Commit trailers:** CLAUDE.md and `docs/brief.md` forbid a `Co-Authored-By` line or any other
 attribution trailer (Maor, 2026-10-16); no prompt here asks for one.
@@ -33,15 +34,21 @@ attribution trailer (Maor, 2026-10-16); no prompt here asks for one.
   Firefox or Safari numbers (`docs/device-pass.md` holds only the manual notes for B2 and
   B3). The Full 3D parity gaps (Part G16) closed on 2026-10-16, with the renderer brief in
   `docs/renderer-decision.md`.
-- **Track B.** Review and commit of the twenty Atlas pages; lines LB and LK; Learning Grove
+- **Track B.** Lines LB and LK; Learning Grove
   versions of Q66–Q95; Learning Grove versions of S24–S31 and of every `all` Atlas and
   Arcade page; quote verification; adviser packets; the canon audit. Stubs left by the
   engine passes: voice clips (every clip is the placeholder), the LJ2 vertical writing
   option, sim checks the journal's "Do it" stands in for, no gesture animation for word
   reactions.
-- **Waiting on Maor:** the expansion pick (E1 The Square, E2 Nova's Season, E3 The Twine;
-  campaigns SL1 "The Hundred Days", SL2 "Logged In", SL3 "The Beetle Road", SL4 "Dawn & Dusk").
-  Decided 2026-10-17: Expedition and races get 3D versions in Full 3D; the phone view passes. Online pieces (`docs/multiplayer-plan.md`) stay out of scope.
+- **Waiting on Maor** (2026-10-18): the LB/LK points (LK8's tiger, LK's Malay and Indonesian
+  word checks, LB's two Neds, LB's "inspired by Bluey" credit; `docs/progress-archive.md`,
+  "Pixel's Arcade PA1–PA5"); whether original sung lyrics (the Lantern Song, Nova's ditties,
+  Q47's tunnel song) count against "no song lyrics"; and whether Holy Grail's ten quotes across
+  Q1–Q7 count as one storyline (over the three-quote cap) or seven. The expansion pick is done:
+  Maor picked all of E1–E3 and SL1–SL4, built 2026-10-17 (plan G12).
+  Decided 2026-10-17: Expedition and races get 3D versions in Full 3D. "The phone view passes"
+  was premature: review B (2026-10-18) measured 36 px buttons and a top-right menu at 375 px
+  (its Bug 16). Online pieces (`docs/multiplayer-plan.md`) stay out of scope.
 
 ## How to use this file
 
@@ -471,14 +478,14 @@ last, alone, on a clean `main` with everything else merged.
 3. **Close-outs:** B-H after each content batch; Maor's phone rows in `docs/device-pass.md`;
    Maor's renderer decision from G16.12.
 4. **Part Z, the independent full review**, once 1–3 have landed. Its findings become plan v5.
-5. **G12** whenever Maor picks from E1–E3 and S1–S4 (it can run before Z if the pick comes
-   early; Z then reviews it too).
+5. **G12** is done: Maor picked all of E1–E3 and S1–S4, and they were built on 2026-10-17.
 
 ## What Maor decides
 
 - Decided 2026-10-17: the seven fun-quest quotes stand as written; Pixel stays the default,
   Full 3D stays a setting; Expedition and races get 3D versions inside Full 3D; the wave
-  reports' quote and audience items are fine; the phone view passes.
+  reports' quote and audience items are fine; the phone view passes (review B, 2026-10-18,
+  found it does not yet: 36 px buttons at 375 px, its Bug 16).
 - The expansion pick: E1 The Square, E2 Nova's Season, E3 The Twine; campaigns SL1 "The
   Hundred Days", SL2 "Logged In", SL3 "The Beetle Road", SL4 "Dawn & Dusk".
 - Native-speaker recordings for the language questlines (`public/audio/lang/README.md`).
