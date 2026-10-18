@@ -77,9 +77,9 @@ New variant arrays are exported from `src/content/index.ts` and covered by conte
 - **Stubbed:** no sim catalogue plays the Multiverse or Neopia variants yet; when CV6 builds
   it, pick variant arrays per line (two files carry two each), and note `variantFor` matches
   bare flag values (three MV signature values were prefixed to avoid clashes).
-- **Known bugs:** two tests fail and failed before this pass (checked at HEAD):
-  `line-swaps` "c12-open splices the walled garden in every band" and `edu-story` "applies
-  childLines to an all-audience quest scene without an edu version". About 16 lines in
+- **Known bugs:** the two older test failures are fixed (2026-10-17): the sprout band now
+  splices the walled garden after its own "Gran Hazel walks" line (`spliceScene` takes a
+  per-band anchor), and the childLines test hides edu copies to exercise the fallback. About 16 lines in
   `storyline-*.ts` exceed 160 characters; content-check does not cover the storylines.
 
 ## G12 writing pass: beats for SL1–SL4 and the expansions (2026-10-17)

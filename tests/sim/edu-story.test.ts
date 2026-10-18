@@ -7,6 +7,7 @@ import {
   choiceToSend,
   GROVE_SIDE_STORIES,
   registerEduContent,
+  registerEduScenes,
   sceneById,
   sceneFor,
 } from '../../src/sim/story-scenes';
@@ -106,18 +107,25 @@ describe('Learning Grove story (CV2)', () => {
   });
 
   it('applies childLines to an all-audience quest scene without an edu version', () => {
+    // Every all-audience side story now has its own edu version, so hide each scene's
+    // edu copy in turn to exercise the childLines fallback the engine still provides.
     const world = eduWorld('sprout');
     let checked = 0;
-    for (const q of GROVE_SIDE_STORIES) {
-      if (q.audience !== 'all') continue;
-      for (const [key, text] of Object.entries(q.childLines ?? {})) {
-        const [id, at] = key.split('#') as [string, string];
-        if (!sceneById(id) || EDU.eduSceneFor('sprout', id)) continue;
-        expect(sceneFor(world, id)!.lines[Number(at)]?.text).toBe(text);
-        // The main game never sees them.
-        expect(sceneFor(campaignWorld().world, id)!.lines[Number(at)]?.text).not.toBe(text);
-        checked++;
+    try {
+      for (const q of GROVE_SIDE_STORIES) {
+        if (q.audience !== 'all') continue;
+        for (const [key, text] of Object.entries(q.childLines ?? {})) {
+          const [id, at] = key.split('#') as [string, string];
+          if (!sceneById(id)) continue;
+          registerEduScenes((band, sid) => (sid === id ? undefined : EDU.eduSceneFor(band, sid)));
+          expect(sceneFor(world, id)!.lines[Number(at)]?.text).toBe(text);
+          // The main game never sees them.
+          expect(sceneFor(campaignWorld().world, id)!.lines[Number(at)]?.text).not.toBe(text);
+          checked++;
+        }
       }
+    } finally {
+      registerEduScenes(EDU.eduSceneFor);
     }
     expect(checked).toBeGreaterThan(0);
   });

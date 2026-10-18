@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { eduSceneFor } from '../../src/content/edu';
-import { registerEduScenes, sceneById, sceneFor } from '../../src/sim/story-scenes';
+import { registerEduScenes, sceneFor } from '../../src/sim/story-scenes';
 import { c, campaignWorld } from './campaign-driver';
 
 /**
@@ -37,12 +37,17 @@ describe('line swaps in every band', () => {
 
   it('c12-open splices the walled garden in every band', () => {
     const { world, st } = lateWorld();
-    st.flags.hushGarden = true;
-    const garden = sceneById('c12-wall-garden')!;
     for (const band of ['main', 'sprout', 'reader'] as const) {
+      st.flags.hushGarden = false;
+      const before = sceneFor(world, 'c12-open', band)!;
+      st.flags.hushGarden = true;
       const scene = sceneFor(world, 'c12-open', band)!;
-      expect(scene.lines.length).toBeGreaterThan(sceneById('c12-open')!.lines.length);
-      expect(scene.lines.some((l) => l.text === garden.lines[0]!.text)).toBe(true);
+      // Each band splices its own telling of the garden, right after Hazel starts walking.
+      const garden = sceneFor(world, 'c12-wall-garden', band)!;
+      expect(scene.lines.length, band).toBe(before.lines.length + garden.lines.length);
+      const at = scene.lines.findIndex((l) => l.text === garden.lines[0]!.text);
+      expect(at, band).toBeGreaterThan(0);
+      expect(scene.lines[at - 1]!.text, band).toMatch(/^(Gran )?Hazel walks/);
     }
   });
 

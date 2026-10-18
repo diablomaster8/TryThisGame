@@ -284,7 +284,12 @@ const SWAPS: Record<string, (c: CampaignState, s: Swapper) => void> = {
   },
   'c12-open': (c, s) => {
     // S26's walled garden, spliced in as Hazel walks the posts.
-    if (c.flags.hushGarden) s.spliceScene('Hazel walks the Grove. Slowly.', 'c12-wall-garden');
+    // The sprout band's c12-open is shorter, so it anchors on its own line.
+    if (c.flags.hushGarden)
+      s.spliceScene(
+        { main: 'Hazel walks the Grove. Slowly.', sprout: 'Gran Hazel walks slowly.' },
+        'c12-wall-garden',
+      );
   },
   's10-letter': (c, s) => openLetter(c, s),
   's10-letter-told': (c, s) => openLetter(c, s),
@@ -439,8 +444,13 @@ class Swapper {
   }
 
   /** Splice another scene's lines (the band's version where it has one) after `anchor`. */
-  spliceScene(anchor: string, id: string): void {
-    const at = this.index(anchor);
+  spliceScene(anchor: string | BandText, id: string): void {
+    // A band that cut lines from the scene loses the positional match, so it can name
+    // its own anchor line and be searched by text instead.
+    const own = typeof anchor === 'string' || this.band === 'main' ? undefined : anchor[this.band];
+    const at = own
+      ? this.lines.findIndex((l) => l.text.startsWith(own))
+      : this.index(typeof anchor === 'string' ? anchor : anchor.main);
     const main = SCENE_BY_ID.get(id);
     if (at < 0 || !main) return;
     const band = this.band !== 'main' ? eduLookup?.(this.band, id) : undefined;
