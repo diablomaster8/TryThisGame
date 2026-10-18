@@ -26,6 +26,7 @@ import { decodeNubbin, encodeNubbin } from '../sim/share';
 export class RosterMenu {
   private readonly dialog;
   private readonly list: HTMLDivElement;
+  private readonly codeDialog: ReturnType<typeof modal>;
 
   constructor(
     parent: HTMLElement,
@@ -35,6 +36,7 @@ export class RosterMenu {
     this.dialog = modal(parent, UI_TEXT.roster, UI_TEXT.close);
     this.list = el('div', 'roster-list');
     this.dialog.body.appendChild(this.list);
+    this.codeDialog = modal(parent, UI_TEXT.share, UI_TEXT.close);
   }
 
   open(): void {
@@ -110,28 +112,61 @@ export class RosterMenu {
     // Share and trade.
     const share = el('div', 'roster-actions');
     share.append(
-      button(UI_TEXT.share, () => void this.share(g, n, false), 'btn btn-small'),
-      button(UI_TEXT.tradeAway, () => void this.share(g, n, true), 'btn btn-small btn-danger'),
+      button(UI_TEXT.share, () => this.share(g, n, false), 'btn btn-small'),
+      button(UI_TEXT.tradeAway, () => this.share(g, n, true), 'btn btn-small btn-danger'),
     );
     body.appendChild(share);
     row.appendChild(body);
     return row;
   }
 
-  /** Copy the Nubbin's code; a trade also sends it away. */
-  private async share(g: Game, n: Nubbin, trade: boolean): Promise<void> {
-    if (trade && !confirm(UI_TEXT.tradeConfirm(n.name))) return;
+  /**
+   * Show the Nubbin's code in a box the player can select and copy. A trade sends the
+   * Nubbin away only from the dialog's own button, pressed after the code was on screen:
+   * a failed clipboard write or a closed dialog never loses the Nubbin or its code.
+   */
+  private share(g: Game, n: Nubbin, trade: boolean): void {
     const code = encodeNubbin(n);
-    try {
-      await navigator.clipboard.writeText(code);
-      alert(`${UI_TEXT.codeCopied}\n\n${code.slice(0, 40)}…`);
-    } catch {
-      prompt(UI_TEXT.share, code);
-    }
+    const d = this.codeDialog;
+    d.body.replaceChildren();
+    d.body.appendChild(el('p', 'help', trade ? UI_TEXT.tradeConfirm(n.name) : UI_TEXT.shareHelp));
+    const box = el('textarea', 'share-code');
+    box.readOnly = true;
+    box.value = code;
+    box.rows = 4;
+    box.setAttribute('aria-label', UI_TEXT.share);
+    box.addEventListener('focus', () => box.select());
+    const status = el('p', 'help');
+    status.setAttribute('role', 'status');
+    const copy = button(
+      UI_TEXT.copyCode,
+      () => {
+        box.select();
+        navigator.clipboard
+          ?.writeText(code)
+          .then(() => (status.textContent = UI_TEXT.codeCopied))
+          .catch(() => (status.textContent = UI_TEXT.copyByHand));
+        if (!navigator.clipboard) status.textContent = UI_TEXT.copyByHand;
+      },
+      'btn btn-small',
+    );
+    const actions = el('div', 'roster-actions');
+    actions.appendChild(copy);
     if (trade) {
-      g.send({ kind: 'tradeAway', nubbinId: n.id });
-      setTimeout(() => this.refresh(), 150);
+      actions.appendChild(
+        button(
+          UI_TEXT.tradeSend(n.name),
+          () => {
+            d.hide();
+            g.send({ kind: 'tradeAway', nubbinId: n.id });
+            setTimeout(() => this.refresh(), 150);
+          },
+          'btn btn-small btn-danger',
+        ),
+      );
     }
+    d.body.append(box, actions, status);
+    d.show();
   }
 
   /** Paste a code to take a Nubbin in. */

@@ -504,7 +504,11 @@ export const UI_TEXT = {
   share: 'Share code',
   shareHelp: 'Copy a code a friend can paste in to receive this Nubbin.',
   tradeAway: 'Trade away',
-  tradeConfirm: (name: string) => `Copy ${name}’s code and send them away for good?`,
+  tradeConfirm: (name: string) =>
+    `Save ${name}’s code first: copy it, or select it and copy it by hand. Then send them away for good.`,
+  tradeSend: (name: string) => `Code saved: send ${name} away`,
+  copyCode: 'Copy code',
+  copyByHand: 'Copying did not work here. Select the code and copy it by hand.',
   receive: 'Receive a Nubbin',
   receivePrompt: 'Paste a share code:',
   codeCopied: 'Code copied.',
