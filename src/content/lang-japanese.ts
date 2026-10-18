@@ -6,7 +6,7 @@
  *   LJ3 Counting Koi             ichi to jū, 一 二 三, stars and the moon
  *   LJ4 Colours and Lunchboxes   colours, fruit, the obentō, itadakimasu and gochisōsama
  *   LJ5 Obāchan’s Letters        family, animals, feelings
- *   LJ6 Floating Lanterns        Obon; Hana’s family’s tōrō nagashi for her ojīchan; nature words; the review party
+ *   LJ6 Floating Lanterns        Obon; Hana’s family’s tōrō nagashi for her ojiichan; nature words; the review party
  *
  * Hana is ten. She lives in Japan and is staying with Nova for the summer. She draws everything,
  * runs fast and is very competitive about it, and pretends not to be scared of frogs. Her
@@ -881,12 +881,12 @@ const LJ5: Quest = {
         lines: [
           N('Rain on the cottage roof. Hana opens a tin on the kitchen table. Inside is a bundle of letters tied with string.'),
           HA('Hazel used to write to my grandma, for years and years. Grandma kept a copy of every letter she sent back.'),
-          HA('In my family I call my grandma おばあちゃん (obāchan). My grandpa is おじいちゃん (ojīchan).'),
+          HA('In my family I call my grandma おばあちゃん (obāchan). My grandpa is おじいちゃん (ojiichan).'),
           HA('She gave me these to bring here. They’re in English, but she put Japanese words in for Hazel to learn.'),
           N('The paper is thin and soft from folding. The handwriting is very neat and very small. Hana reads it aloud.'),
           HA('Dear Hazel. ありがとう for the seeds. They came up!', 'happy'),
           HA('Our ねこ (neko, “cat”) sleeps on my letters. The いぬ (inu, “dog”) next door barks at her. The とり (tori, “birds”) ignore them both.'),
-          HA('Ojīchan says hello and asks how your Nubbins are. From your ともだち (tomodachi, “friend”).'),
+          HA('Ojiichan says hello and asks how your Nubbins are. From your ともだち (tomodachi, “friend”).'),
           N('Hana sits back and reads the last line again, to herself.'),
           HA('“Your ともだち.” Not just “from”. “Your friend.”', 'soft'),
           HA('Your turn. Read the next bit. Watch out for the ねこ. Obāchan drew her in the margin.'),
@@ -913,7 +913,7 @@ const LJ5: Quest = {
           N('The rain stops. Hana spreads big paper across the floor and tips out every pencil she owns.'),
           HA('Let’s draw our かぞく (kazoku), our families. With labels. In Japanese.', 'happy'),
           HA('My おかあさん (okāsan), my mum. My おとうさん (otōsan), my dad. Obāchan, with her glasses on her head, looking for her glasses.'),
-          HA('And ojīchan. He died when I was six. I still put him in every family picture. He’s still in my family.', 'soft'),
+          HA('And ojiichan. He died when I was six. I still put him in every family picture. He’s still in my family.', 'soft'),
           N('She draws him in the corner, in a hat, holding a fishing rod. She doesn’t rush it.'),
           HA('And our うさぎ (usagi), our rabbit. She’s called Biscuit. She bites.'),
           HA('There’s an owl in the tree by obāchan’s house. ふくろう (fukurō). Not family exactly, but it was always there, so it counts.'),
@@ -1036,9 +1036,9 @@ const LJ5: Quest = {
   sets: { lj5Done: true },
   notes: [
     COMMON_NOTES,
-    'New words: step 1 obāchan, ojīchan, neko, inu, tori, tomodachi; step 2 kazoku, okāsan, otōsan, usagi, fukurō; step 3 ureshii, kanashii, tanoshii, nemui, kaeru, kowai.',
+    'New words: step 1 obāchan, ojiichan, neko, inu, tori, tomodachi; step 2 kazoku, okāsan, otōsan, usagi, fukurō; step 3 ureshii, kanashii, tanoshii, nemui, kaeru, kowai.',
     'Step 1: show the letter as a page with the Japanese words underlined; tapping plays the recording. The letter is Obāchan’s copy of her reply to Hazel; Hazel is mentioned only in the past tense.',
-    'Step 2: families vary. The labels offered are the six family words plus “type a name”; never assume a child has a mum, a dad or grandparents. Ojīchan died before the story; Hana says so plainly. LJ6 returns to him gently.',
+    'Step 2: families vary. The labels offered are the six family words plus “type a name”; never assume a child has a mum, a dad or grandparents. Ojiichan died before the story; Hana says so plainly. LJ6 returns to him gently.',
     'Step 3: Nubbin faces show happy, sad, sleepy, having fun; the frog is the scary one. Hana really is a bit scared here, and that’s fine: Clover’s line is the point.',
     'Hana’s rabbit is called Biscuit (an English name; keep it).',
   ].join(' '),
@@ -1068,11 +1068,11 @@ const LJ6: Quest = {
         lines: [
           N('Late summer. The evenings come earlier now. Hana sits by the stream, not drawing, which is how you know something is up.'),
           HA('At home, it’s nearly おぼん (Obon). It’s a time in summer when families remember the people in their family who have died.'),
-          HA('At Obon, my family floats a paper lantern down the river for ojīchan. It’s called とうろうながし (tōrō nagashi).'),
+          HA('At Obon, my family floats a paper lantern down the river for ojiichan. It’s called とうろうながし (tōrō nagashi).'),
           HA('Lots of places do it, often at the end of Obon. Every place does it a bit differently, and some don’t do it at all.'),
           HA('A river is かわ (kawa). This stream is more of a little かわ. But I think it would work.'),
           HA('The lantern has a light inside. ひかり (hikari), light. You watch it float away. It’s the quietest thing I know.', 'soft'),
-          HA('Last year I floated one with obāchan. I wrote ojīchan’s name on it.'),
+          HA('Last year I floated one with obāchan. I wrote ojiichan’s name on it.'),
           HA('This year I’m here, not at the river. Could I float his lantern on your stream? You can come, if you want.', 'soft'),
         ],
         choices: [
@@ -1083,7 +1083,7 @@ const LJ6: Quest = {
           },
           {
             id: 'ask',
-            label: '“Tell me about your ojīchan.”',
+            label: '“Tell me about your ojiichan.”',
             then: [
               HA('He went fishing every week and never caught anything. He said that wasn’t the point.', 'soft'),
               HA('He taught me to run. He said always race people, because it makes them faster too.', 'happy'),
@@ -1111,8 +1111,8 @@ const LJ6: Quest = {
     },
     {
       id: 'lj6-step2',
-      goal: 'Help Hana make ojīchan’s lantern, and make one of your own if you like.',
-      hint: 'At Fern’s kitchen table, fold a lantern and write a name on it. Hana writes ojīchan’s first.',
+      goal: 'Help Hana make ojiichan’s lantern, and make one of your own if you like.',
+      hint: 'At Fern’s kitchen table, fold a lantern and write a name on it. Hana writes ojiichan’s first.',
       check: 'lang:ja:make:lanterns',
       scene: {
         id: 'lj6-s2',
@@ -1139,7 +1139,7 @@ const LJ6: Quest = {
           {
             id: 'love',
             label: 'Write the name of someone I love, right now.',
-            then: [HA('That’s allowed. Ojīchan would like that one. Lanterns are for love too.', 'soft')],
+            then: [HA('That’s allowed. Ojiichan would like that one. Lanterns are for love too.', 'soft')],
           },
           {
             id: 'word',
@@ -1161,18 +1161,18 @@ const LJ6: Quest = {
     },
     {
       id: 'lj6-step3',
-      goal: 'Float ojīchan’s lantern with Hana at dusk. Later, join her review party.',
+      goal: 'Float ojiichan’s lantern with Hana at dusk. Later, join her review party.',
       hint: 'At dusk, walk down to the stream with Hana. Luna lights each lantern; set yours on the water when you’re ready. The party is back at the cottage afterwards.',
       check: 'lang:ja:review:float',
       scene: {
         id: 'lj6-s3',
         lines: [
-          N('Dusk. Everyone walks down to the stream with Hana, who carries ojīchan’s lantern in both hands. The water is low, slow and gold.'),
+          N('Dusk. Everyone walks down to the stream with Hana, who carries ojiichan’s lantern in both hands. The water is low, slow and gold.'),
           HA('No あめ (ame, “rain”) tonight. Good. Rain and paper don’t get on.', 'happy'),
           HA('At obāchan’s, in winter, there’s ゆき (yuki, “snow”) on the やま behind her house. Snow is just frozen みず, really.'),
           HA('At home, Obon is nearly over. My family will be at the river tonight too.', 'soft'),
           LU('I’ll light them, one at a time. Let them go when you’re ready. No hurry.', 'soft'),
-          HA('This one’s for ojīchan.', 'soft'),
+          HA('This one’s for ojiichan.', 'soft'),
           N('Hana sets her lantern on the かわ and doesn’t push it. It is the slowest you have ever seen her do anything.'),
           N('Small ひかり follow it, one after another. Each one turns slowly as it finds the current.'),
           N('A frog sits on the bank beside Hana, watching the lights go. She doesn’t move away.'),
@@ -1224,8 +1224,8 @@ const LJ6: Quest = {
   notes: [
     COMMON_NOTES,
     'New words: step 1 Obon, tōrō nagashi, kawa, hikari; step 2 ki (木), yama (山), mizu (水), with 川 shown as a picture-kanji; step 3 ame, yuki. Hana (はな) the flower word is reviewed here.',
-    'Culture: Obon is a summer time when families remember relatives who have died; tōrō nagashi is floating paper lanterns on rivers, often at the end of Obon. Customs and dates vary by place. Say only that. No religious detail, no spirits. Here it is Hana’s family’s custom for her ojīchan, which she invites the player to share: never a game activity, a mini-game, a score or a reward. No lantern items, no repeatable floating, no counting the lanterns.',
-    'Grief is handled plainly: Hana’s ojīchan died; she remembers him and is OK. Hazel is not given a lantern by any character, and nothing here says whether she is alive.',
+    'Culture: Obon is a summer time when families remember relatives who have died; tōrō nagashi is floating paper lanterns on rivers, often at the end of Obon. Customs and dates vary by place. Say only that. No religious detail, no spirits. Here it is Hana’s family’s custom for her ojiichan, which she invites the player to share: never a game activity, a mini-game, a score or a reward. No lantern items, no repeatable floating, no counting the lanterns.',
+    'Grief is handled plainly: Hana’s ojiichan died; she remembers him and is OK. Hazel is not given a lantern by any character, and nothing here says whether she is alive.',
     'Step 2: a simple fold-and-write craft, not a mini-game (no score, no timer). Hana writes おじいちゃん first. The player may make a lantern too and type any name in any script, or just help Hana; the step completes either way. Nubbins don’t get lanterns.',
     'Step 3: the floating is a quiet story moment, not a game. Luna lights each lantern (children never handle the flame); the player sets theirs on the water with one tap when ready, or simply watches. No music under the first lantern. The frog stays on the bank.',
     'Step 3 done + complete: the review party plays afterwards, back at the cottage, never at the stream. It is a quick-fire game across every topic: greetings, numbers, colours, food, family, animals, feelings, nature. Use the lines here as Hana’s calls and play each word’s recording; Nubbins who learned a word react. The numbers count Nubbins, not lanterns.',
@@ -1357,7 +1357,7 @@ const VOCAB: VocabItem[] = [
   v('obaachan', 'おばあちゃん', 'obāchan', 'grandma', 'oh-BAH-chahn', 'family', 'LJ5', 'both', {
     notes: 'Reader note: おばちゃん (obachan, auntie) differs only in the long vowel. Hold the “baa”.',
   }),
-  v('ojiichan', 'おじいちゃん', 'ojīchan', 'grandpa', 'oh-JEE-chahn', 'family', 'LJ5', 'both'),
+  v('ojiichan', 'おじいちゃん', 'ojiichan', 'grandpa', 'oh-JEE-chahn', 'family', 'LJ5', 'both'),
   v('tomodachi', 'ともだち', 'tomodachi', 'friend', 'toh-moh-DAH-chee', 'family', 'LJ5', 'both'),
   v('kazoku', 'かぞく', 'kazoku', 'family', 'kah-ZOH-koo', 'family', 'LJ5', 'both'),
 
@@ -1394,7 +1394,7 @@ const VOCAB: VocabItem[] = [
   }),
 ];
 
-/** The kana primer for LJ2 (hiragana). */
+/** The kana primer: the hiragana LJ1–LJ3 teach, then the katakana of LJ4's two borrowed words. */
 const KANA: ScriptChar[] = [
   { char: 'あ', name: 'a', roman: 'a', notes: 'Like “ah”. First in the hiragana chart.' },
   { char: 'い', name: 'i', roman: 'i', notes: 'Like “ee”.' },
@@ -1408,6 +1408,12 @@ const KANA: ScriptChar[] = [
   { char: 'こ', name: 'ko', roman: 'ko', notes: '2 strokes.' },
   { char: 'は', name: 'ha', roman: 'ha', notes: 'Read “wa” when it marks the topic, as in わたしは and at the end of こんにちは, こんばんは. With な it spells はな (花, flower, Hana’s name).' },
   { char: 'な', name: 'na', roman: 'na', notes: 'With は it spells はな (花, flower, Hana’s name).' },
+  { char: 'ピ', name: 'pi (katakana)', roman: 'pi', notes: 'Katakana, for borrowed words. First letter of ピンク (pinku, pink).' },
+  { char: 'ン', name: 'n (katakana)', roman: 'n', notes: 'Katakana. The only letter that is just a sound with no vowel: ピンク, オレンジ.' },
+  { char: 'ク', name: 'ku (katakana)', roman: 'ku', notes: 'Katakana. Last letter of ピンク. Compare hiragana く.' },
+  { char: 'オ', name: 'o (katakana)', roman: 'o', notes: 'Katakana. First letter of オレンジ (orenji, orange). Compare hiragana お.' },
+  { char: 'レ', name: 're (katakana)', roman: 're', notes: 'Katakana, in オレンジ.' },
+  { char: 'ジ', name: 'ji (katakana)', roman: 'ji', notes: 'Katakana. Last letter of オレンジ.' },
 ];
 
 export const JAPANESE_COURSE: LanguageCourse = {
@@ -1417,7 +1423,7 @@ export const JAPANESE_COURSE: LanguageCourse = {
   quests: ['LJ1', 'LJ2', 'LJ3', 'LJ4', 'LJ5', 'LJ6'],
   vocab: VOCAB,
   script: {
-    name: 'Hiragana',
+    name: 'Hiragana, with a little katakana',
     direction: 'Left to right in rows, or top to bottom in columns read from right to left.',
     chars: KANA,
   },

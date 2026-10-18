@@ -288,7 +288,7 @@ export const LANG_HEBREW: Quest[] = [
       },
       {
         id: 'lh2-step2',
-        goal: 'Trace alef (א) and bet (ב) in the sand.',
+        goal: 'Trace the two letters the alef-bet is named after, alef (א) and bet (ב), in the sand.',
         hint: 'Start each letter from the right side. Ori draws the first one; you go over it with a stick.',
         check: 'lang:he:trace:alef-bet',
         scene: {

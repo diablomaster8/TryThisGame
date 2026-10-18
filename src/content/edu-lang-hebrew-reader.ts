@@ -1659,7 +1659,7 @@ export const EDU_LANG_HEBREW_READER: EduQuest[] = [
         goal: 'Find the four letters of שָׁלוֹם (shalom) hidden round the garden.',
         hint: 'Look by the pond, the gate, the orchard and Ori’s tent. Line the pebbles up from the right: ש ל ו ם.',
       },
-      'lh2-step2': { goal: 'Trace alef (א) and bet (ב) in the sand.', hint: 'Start on the right side and move your stick to the left.' },
+      'lh2-step2': { goal: 'Trace the two letters the alef-bet is named after, alef (א) and bet (ב), in the sand.', hint: 'Start on the right side and move your stick to the left.' },
       'lh2-step3': { goal: 'Write Ori’s name, אוֹרִי, on his tent.', hint: 'Four letters, starting on the right: alef, vav, resh, yod.' },
     },
     scenes: LH2_SCENES,

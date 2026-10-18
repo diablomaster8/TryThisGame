@@ -12,7 +12,7 @@
  *       strawberry seeds
  *   LJ5 letters then and now; family and animal words; obāchan vs obachan; nocturnal owls;
  *       feelings words (think: hiding fear); the frog life cycle
- *   LJ6 Obon, and Hana’s family’s tōrō nagashi for her ojīchan (think: how do we remember
+ *   LJ6 Obon, and Hana’s family’s tōrō nagashi for her ojiichan (think: how do we remember
  *       people?); picture-kanji; floating and sinking; snow and water; counting at the party
  *       afterwards; またね vs さようなら (think). The lanterns are never a game, a count or a reward.
  *
@@ -1285,12 +1285,12 @@ const LJ5_SCENES: EduScene[] = [
     [
       N('Rain on the cottage roof. Hana opens a tin on the kitchen table. Inside is a bundle of letters tied with string.'),
       HA('Hazel used to write to my grandma, for years and years. Grandma kept a copy of every letter she sent back.'),
-      HA('In my family, I call my grandma おばあちゃん (obāchan). My grandpa is おじいちゃん (ojīchan).'),
+      HA('In my family, I call my grandma おばあちゃん (obāchan). My grandpa is おじいちゃん (ojiichan).'),
       HA('She gave me these to bring here. They’re in English, but she put Japanese words in for Hazel to learn.'),
       N('The paper is thin and soft from folding. The writing is very neat and very small. Hana reads it aloud.'),
       HA('Dear Hazel. ありがとう for the seeds. They came up!', 'happy'),
       HA('Our ねこ (neko, “cat”) sleeps on my letters. The いぬ (inu, “dog”) next door barks at her. The とり (tori, “birds”) ignore them both.'),
-      HA('Ojīchan says hello and asks how your Nubbins are. From your ともだち (tomodachi, “friend”).'),
+      HA('Ojiichan says hello and asks how your Nubbins are. From your ともだち (tomodachi, “friend”).'),
       N('Hana sits back and reads the last line again, to herself.'),
       HA('“Your ともだち.” Not just “from”. “Your friend.”', 'soft'),
       HA('Your turn. Read the next bit. Watch out for the ねこ. Obāchan drew her in the margin.'),
@@ -1354,7 +1354,7 @@ const LJ5_SCENES: EduScene[] = [
       N('The rain stops. Hana spreads big paper across the floor and tips out every pencil she owns.'),
       HA('Let’s draw our かぞく (kazoku), our families. With labels. In Japanese.', 'happy'),
       HA('My おかあさん (okāsan), my mum. My おとうさん (otōsan), my dad. Obāchan, glasses on her head, looking for her glasses.'),
-      HA('And ojīchan. He died when I was six. I still put him in every family picture. He’s still in my family.', 'soft'),
+      HA('And ojiichan. He died when I was six. I still put him in every family picture. He’s still in my family.', 'soft'),
       N('She draws him in the corner, in a hat, holding a fishing rod. She doesn’t rush it.'),
       HA('And our うさぎ (usagi), our rabbit. She’s called Biscuit. She bites.'),
       HA('There’s an owl in the tree by obāchan’s house. ふくろう (fukurō). Not family exactly, but it was always there.'),
@@ -1568,11 +1568,11 @@ const LJ6_SCENES: EduScene[] = [
     [
       N('Late summer. The evenings come earlier now. Hana sits by the stream, not drawing. That’s how you know something is up.'),
       HA('At home, it’s nearly おぼん (Obon). It’s a time in summer when families remember the people in their family who have died.'),
-      HA('At Obon, my family floats a paper lantern down the river for ojīchan. It’s called とうろうながし (tōrō nagashi).'),
+      HA('At Obon, my family floats a paper lantern down the river for ojiichan. It’s called とうろうながし (tōrō nagashi).'),
       HA('Lots of places do it, often at the end of Obon. Every place does it a bit differently, and some don’t do it at all.'),
       HA('A river is かわ (kawa). This stream is more of a little かわ. But I think it would work.'),
       HA('The lantern has a light inside. ひかり (hikari), light. You watch it float away.', 'soft'),
-      HA('It’s the quietest thing I know. Last year I floated one with obāchan. I wrote ojīchan’s name on it.'),
+      HA('It’s the quietest thing I know. Last year I floated one with obāchan. I wrote ojiichan’s name on it.'),
       HA('This year I’m here, not at the river. Could I float his lantern on your stream? You can come, if you want.', 'soft'),
     ],
     [
@@ -1584,7 +1584,7 @@ const LJ6_SCENES: EduScene[] = [
         lines: [
           N('おぼん (Obon) is a summer time in Japan when families remember relatives who have died.'),
           N('とうろうながし (tōrō nagashi) means floating paper lanterns on rivers. Customs and dates are different from place to place.'),
-          N('For Hana’s family, it’s one of the ways they remember ojīchan.'),
+          N('For Hana’s family, it’s one of the ways they remember ojiichan.'),
         ],
         parentNote: 'Learned about Obon, a summer time when Japanese families remember relatives who have died, and floating lanterns (tōrō nagashi), which Hana’s family does for her grandfather.',
       },
@@ -1594,11 +1594,11 @@ const LJ6_SCENES: EduScene[] = [
         standard: 'CASEL: Social awareness',
         kind: 'ask',
         after: 7,
-        prompt: [N('Hana remembers her ojīchan by drawing him and floating a lantern. How do people you know remember someone?')],
+        prompt: [N('Hana remembers her ojiichan by drawing him and floating a lantern. How do people you know remember someone?')],
         options: [
           {
             label: 'Looking at photos and telling stories about them.',
-            reply: [HA('We do that too. Ojīchan stories are mostly about fish he didn’t catch.', 'soft')],
+            reply: [HA('We do that too. Ojiichan stories are mostly about fish he didn’t catch.', 'soft')],
           },
           {
             label: 'Visiting a special place, or doing something they loved.',
@@ -1620,7 +1620,7 @@ const LJ6_SCENES: EduScene[] = [
       },
       {
         id: 'ask',
-        label: '“Tell me about your ojīchan.”',
+        label: '“Tell me about your ojiichan.”',
         then: [
           HA('He went fishing every week and never caught anything. He said that wasn’t the point.', 'soft'),
           HA('He taught me to run. He said always race people, because it makes them faster too.', 'happy'),
@@ -1652,7 +1652,7 @@ const LJ6_SCENES: EduScene[] = [
         skill: 'reading かわ and ひかり',
         kind: 'ask',
         after: 4,
-        prompt: [HA('I’m drawing ojīchan’s lantern floating on our little かわ. Do you know what a かわ is?')],
+        prompt: [HA('I’m drawing ojiichan’s lantern floating on our little かわ. Do you know what a かわ is?')],
         options: [
           { label: 'A river', best: true, reply: [HA('はい! かわ, river. And the lights on it are ひかり.', 'happy')] },
           { label: 'A light', reply: [HA('Light is ひかり. かわ is the river they float on.')] },
@@ -1714,7 +1714,7 @@ const LJ6_SCENES: EduScene[] = [
       {
         id: 'love',
         label: 'Write the name of someone I love, right now.',
-        then: [HA('That’s allowed. Ojīchan would like that one. Lanterns are for love too.', 'soft')],
+        then: [HA('That’s allowed. Ojiichan would like that one. Lanterns are for love too.', 'soft')],
       },
       {
         id: 'word',
@@ -1741,24 +1741,24 @@ const LJ6_SCENES: EduScene[] = [
         after: 1,
         prompt: [N('Hana’s lantern says おじいちゃん, in her neatest hiragana. Who is it for?')],
         options: [
-          { label: 'Her grandpa', best: true, reply: [HA('はい. おじいちゃん, grandpa. My ojīchan.', 'soft')] },
-          { label: 'Her grandma', reply: [N('Grandma is おばあちゃん. おじいちゃん means grandpa: it’s for Hana’s ojīchan.')] },
-          { label: 'Her friend', reply: [N('Friend is ともだち. おじいちゃん means grandpa: it’s for Hana’s ojīchan.')] },
+          { label: 'Her grandpa', best: true, reply: [HA('はい. おじいちゃん, grandpa. My ojiichan.', 'soft')] },
+          { label: 'Her grandma', reply: [N('Grandma is おばあちゃん. おじいちゃん means grandpa: it’s for Hana’s ojiichan.')] },
+          { label: 'Her friend', reply: [N('Friend is ともだち. おじいちゃん means grandpa: it’s for Hana’s ojiichan.')] },
         ],
-        parentNote: 'Read the family word おじいちゃん (ojīchan, grandpa) on the lantern Hana made for her grandfather.',
+        parentNote: 'Read the family word おじいちゃん (ojiichan, grandpa) on the lantern Hana made for her grandfather.',
       },
     ],
   ),
   scene(
     'lj6-s3',
     [
-      N('Dusk. Everyone walks down to the stream with Hana. She carries ojīchan’s lantern in both hands.'),
+      N('Dusk. Everyone walks down to the stream with Hana. She carries ojiichan’s lantern in both hands.'),
       N('The water is low, slow and gold.'),
       HA('No あめ (ame, “rain”) tonight. Good. Rain and paper don’t get on.', 'happy'),
       HA('At obāchan’s, in winter, there’s ゆき (yuki, “snow”) on the やま behind her house. Snow is just frozen みず, really.'),
       HA('At home, Obon is nearly over. My family will be at the river tonight too.', 'soft'),
       LU('I’ll light them, one at a time. Let them go when you’re ready. No hurry.', 'soft'),
-      HA('This one’s for ojīchan.', 'soft'),
+      HA('This one’s for ojiichan.', 'soft'),
       N('Hana sets her lantern on the かわ and doesn’t push it. It’s the slowest you have ever seen her do anything.'),
       N('Small ひかり follow it, one after another. Each one turns slowly as it finds the current.'),
       N('A frog sits on the bank beside Hana, watching the lights go. She doesn’t move away.'),
@@ -1985,7 +1985,7 @@ export const EDU_LANG_JAPANESE_READER: EduQuest[] = [
     scenes: LJ5_SCENES,
     glossary: [
       gloss('おばあちゃん (obāchan)', 'Grandma. Hold the long “aa”: おばちゃん (obachan) means auntie.', 'lj5-s1'),
-      gloss('おじいちゃん (ojīchan)', 'Grandpa.', 'lj5-s1'),
+      gloss('おじいちゃん (ojiichan)', 'Grandpa.', 'lj5-s1'),
       gloss('ねこ, いぬ, とり (neko, inu, tori)', 'Cat, dog, bird.', 'lj5-s1'),
       gloss('ともだち (tomodachi)', 'Friend.', 'lj5-s1'),
       gloss('かぞく (kazoku)', 'Family.', 'lj5-s2'),
@@ -2000,7 +2000,7 @@ export const EDU_LANG_JAPANESE_READER: EduQuest[] = [
       gloss('かえる (kaeru)', 'Frog.', 'lj5-s3'),
       gloss('tadpole', 'A young frog that lives in water, swims with a tail and breathes with gills.', 'lj5-s3-done'),
     ],
-    notes: 'Families vary: the drawing lesson never assumes a mum, dad or grandparents, and names count as labels. Ojīchan’s death is stated plainly, as EDU-STYLE asks. Hazel is past tense only.',
+    notes: 'Families vary: the drawing lesson never assumes a mum, dad or grandparents, and names count as labels. Ojiichan’s death is stated plainly, as EDU-STYLE asks. Hazel is past tense only.',
   },
   {
     id: 'reader:lj6',
@@ -2009,8 +2009,8 @@ export const EDU_LANG_JAPANESE_READER: EduQuest[] = [
     title: 'Floating Lanterns',
     goals: {
       'lj6-step1': { goal: 'Ask Hana why she is sitting by the stream.', hint: 'Hana is sitting by the stream. Tap her and choose Talk.' },
-      'lj6-step2': { goal: 'Help Hana make ojīchan’s lantern, and make one of your own if you like.', hint: 'Use a wooden base so it floats. Write any name, in any language. Hana can help with hiragana.' },
-      'lj6-step3': { goal: 'Float ojīchan’s lantern with Hana at dusk. Later, join her review party.', hint: 'Luna lights the lanterns. Set yours on the water gently, or just watch. The party is back at the cottage.' },
+      'lj6-step2': { goal: 'Help Hana make ojiichan’s lantern, and make one of your own if you like.', hint: 'Use a wooden base so it floats. Write any name, in any language. Hana can help with hiragana.' },
+      'lj6-step3': { goal: 'Float ojiichan’s lantern with Hana at dusk. Later, join her review party.', hint: 'Luna lights the lanterns. Set yours on the water gently, or just watch. The party is back at the cottage.' },
     },
     scenes: LJ6_SCENES,
     glossary: [
@@ -2024,7 +2024,7 @@ export const EDU_LANG_JAPANESE_READER: EduQuest[] = [
       gloss('あめ (ame)', 'Rain.', 'lj6-s3'),
       gloss('ゆき (yuki)', 'Snow.', 'lj6-s3'),
     ],
-    notes: 'Obon and tōrō nagashi are described only with the brief’s facts; no religious detail. The floating is Hana’s family’s custom for her ojīchan, which she invites the player to share: it is never a game, a count or a reward, and the counting lesson happens later, at the party, with Nubbins. Grief is plain and gentle. No lantern is made for Hazel, and nothing says whether she is alive.',
+    notes: 'Obon and tōrō nagashi are described only with the brief’s facts; no religious detail. The floating is Hana’s family’s custom for her ojiichan, which she invites the player to share: it is never a game, a count or a reward, and the counting lesson happens later, at the party, with Nubbins. Grief is plain and gentle. No lantern is made for Hazel, and nothing says whether she is alive.',
   },
 ];
 
