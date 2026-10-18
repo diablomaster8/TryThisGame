@@ -308,6 +308,13 @@ export const UI_TEXT = {
   exportUnreadable: 'Export the save that could not be opened',
   updateNotice: 'A new version of the Grove is out. Reload to update.',
   updateReload: 'Reload to update',
+  glFailure: {
+    unsupported: 'This browser cannot draw the Grove: it needs WebGL2. Try an up-to-date browser.',
+    failed: 'The Grove’s graphics would not start on this device.',
+    lost: 'The graphics stopped (the device needed the memory back). Your Grove is saved.',
+  } as Record<'unsupported' | 'failed' | 'lost', string>,
+  glReload: 'Reload',
+  glToPixel: 'Switch to Pixel',
   resetSave: 'Reset save',
   resetConfirm: 'Erase the Grove and start over?',
   // Away screen

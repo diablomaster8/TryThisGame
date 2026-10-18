@@ -13,6 +13,7 @@ import { loadEduScripts, loadStoryScripts } from './sim/story-scenes';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
 import { showTitle } from './ui/title';
 import { showUpdateNotice } from './ui/update-notice';
+import { hasWebGL2, showGlFailure } from './ui/gl-failure';
 import { mountCameraButtons } from './ui/camera-buttons';
 import { FpsCounter } from './ui/fps';
 import { LoadingBar } from './ui/loading-bar';
@@ -128,7 +129,12 @@ function startGame(
       : loadStoryScripts();
   // The 3D scene is a separate chunk, loaded only when the title picked it. A chunk that
   // fails to load (usually a deploy replaced it) shows the reload notice, not a blank screen.
-  if (readGraphicsPref() === '3d') {
+  const mode = readGraphicsPref();
+  if (!hasWebGL2()) {
+    showGlFailure('unsupported', mode);
+    return;
+  }
+  if (mode === '3d') {
     void import('./render3d/grove-3d-scene')
       .then(async (m) => {
         // The saved creatures start sculpting in workers while the scene builds.
@@ -136,15 +142,35 @@ function startGame(
         await sideStories;
         return m;
       })
-      .then(
-        (m) => boot(newCampaignTrainer, eduAge, new m.Grove3dScene(canvas), storyline),
-        showUpdateNotice,
-      );
+      .then((m) => {
+        let scene: Grove3dScene;
+        try {
+          scene = new m.Grove3dScene(canvas);
+        } catch (err) {
+          showGlFailure('failed', '3d', err);
+          return;
+        }
+        bootOrReport(newCampaignTrainer, eduAge, scene, storyline);
+      }, showUpdateNotice);
   } else {
     void sideStories.then(
-      () => boot(newCampaignTrainer, eduAge, null, storyline),
+      () => bootOrReport(newCampaignTrainer, eduAge, null, storyline),
       showUpdateNotice,
     );
+  }
+}
+
+/** Boot, or show the graphics card if the renderer cannot start (no blank screen). */
+function bootOrReport(
+  newCampaignTrainer: string | null,
+  eduAge: NewEdu | undefined,
+  scene3d: Grove3dScene | null,
+  storyline: string | null,
+): void {
+  try {
+    boot(newCampaignTrainer, eduAge, scene3d, storyline);
+  } catch (err) {
+    showGlFailure('failed', scene3d ? '3d' : 'pixel', err);
   }
 }
 
@@ -174,6 +200,14 @@ function boot(
     (window as unknown as { grove: Game }).grove = game;
   }
   mountCameraButtons(hudRoot, game.camera);
+
+  // A context the browser takes away (GPU reset, memory pressure) leaves a frozen canvas:
+  // save, and say so with a way back, rather than keep drawing nothing.
+  canvas.addEventListener('webglcontextlost', (e) => {
+    e.preventDefault();
+    game?.save();
+    showGlFailure('lost', scene3d ? '3d' : 'pixel');
+  });
 
   // ---------- resize / rotation ----------
 

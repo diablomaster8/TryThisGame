@@ -701,16 +701,22 @@ export class Grove3dScene {
     this.renderer.setRenderTarget(null);
     done.push(this.renderer.compileAsync(screen, this.camera));
     this.renderer.setRenderTarget(prev);
-    void Promise.all(done).then(() => {
-      quad.dispose();
-      this.compiled = true;
-      this.warmed.add(this.lightSet());
-      // Then, in the background, the other places' sets, the Hollow Below's first (a game
-      // that boots in a story place or a visit still needs the Grove's for the way home).
-      void this.warm('cave')
-        .then(() => this.warm('plain'))
-        .then(() => this.warm('grove'));
-    });
+    void Promise.all(done)
+      .catch((err: unknown) => {
+        // A program that will not link in the background still gets its chance in the
+        // first frame; the Grove must open either way, never wait on this for ever.
+        console.warn('Grove: shader warm-up failed.', err);
+      })
+      .then(() => {
+        quad.dispose();
+        this.compiled = true;
+        this.warmed.add(this.lightSet());
+        // Then, in the background, the other places' sets, the Hollow Below's first (a game
+        // that boots in a story place or a visit still needs the Grove's for the way home).
+        void this.warm('cave')
+          .then(() => this.warm('plain'))
+          .then(() => this.warm('grove'));
+      });
   }
 
   /** The light set the scene is in right now (see `LightSet`). */
@@ -751,7 +757,15 @@ export class Grove3dScene {
       // Off the home ground the Grove's own props are hidden, so they are left out.
       const objects =
         set === 'grove' ? [this.scene] : this.scene.children.filter((c) => c !== this.world3d);
-      p = this.compileAs(set, objects).then(() => void this.warmed.add(set));
+      // A failed warm-up still counts as warm: the first frame compiles what is left, where
+      // waiting would hold the place dark for good.
+      p = this.compileAs(set, objects).then(
+        () => void this.warmed.add(set),
+        (err: unknown) => {
+          console.warn('Grove: shader warm-up failed.', err);
+          this.warmed.add(set);
+        },
+      );
       this.warms.set(set, p);
     }
     return p;
