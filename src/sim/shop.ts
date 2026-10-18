@@ -1,4 +1,4 @@
-import { hasRoom } from './roster';
+import { hasRoom, rosterNubbins } from './roster';
 import { BREEDING, GROVE, PARTNERS, SHOP } from '../config/tuning';
 import { shopDiscount } from './town';
 import { EGG_COLORS, JEWEL_EGG_COLORS, createEgg, isJewel } from './nubbin';
@@ -28,7 +28,7 @@ export function priceOf(item: ShopItem): number {
 }
 
 export function rosterCount(world: World): number {
-  return world.nubbins.length;
+  return rosterNubbins(world).length;
 }
 
 /** A free spot near the centre for a new egg or toy. */

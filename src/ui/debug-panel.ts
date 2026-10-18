@@ -101,9 +101,13 @@ export class DebugPanel {
       button('Start', () => this.game()?.send({ kind: 'campaignStart' }), 'btn btn-small'),
     );
     for (let ch = 1; ch <= 12; ch++) {
-      story.appendChild(
-        button(``, () => this.game()?.send({ kind: 'debugChapter', chapter: ch }), 'btn btn-small'),
+      const jump = button(
+        `Ch ${ch}`,
+        () => this.game()?.send({ kind: 'debugChapter', chapter: ch }),
+        'btn btn-small',
       );
+      jump.title = `Jump to chapter ${ch}`;
+      story.appendChild(jump);
     }
     story.appendChild(
       button(

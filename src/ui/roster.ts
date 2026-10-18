@@ -14,6 +14,7 @@ import {
 import type { Game } from '../game';
 import { frameKey } from '../render/sprites/animations';
 import { bandOf, childHint } from '../sim/alignment';
+import { rosterNubbins, storyNubbin } from '../sim/roster';
 import { levelOf } from '../sim/stats';
 import { STAT_KEYS, type Nubbin } from '../sim/types';
 import { button, el, modal } from './dom';
@@ -56,9 +57,11 @@ export class RosterMenu {
     const g = this.game();
     if (!g) return;
     this.list.innerHTML = '';
-    const count = el('div', 'help', UI_TEXT.rosterCount(g.world.nubbins.length));
+    // Moss is not listed while he keeps to the hill (sim/roster.ts).
+    const mine = rosterNubbins(g.world);
+    const count = el('div', 'help', UI_TEXT.rosterCount(mine.length));
     this.list.appendChild(count);
-    for (const n of g.world.nubbins) this.list.appendChild(this.row(g, n));
+    for (const n of mine) this.list.appendChild(this.row(g, n));
   }
 
   private row(g: Game, n: Nubbin): HTMLDivElement {
@@ -111,10 +114,13 @@ export class RosterMenu {
     body.appendChild(actions);
     // Share and trade.
     const share = el('div', 'roster-actions');
-    share.append(
-      button(UI_TEXT.share, () => this.share(g, n, false), 'btn btn-small'),
-      button(UI_TEXT.tradeAway, () => this.share(g, n, true), 'btn btn-small btn-danger'),
-    );
+    share.append(button(UI_TEXT.share, () => this.share(g, n, false), 'btn btn-small'));
+    // The story's own Nubbins (Moss, Sable) are never traded away.
+    if (!storyNubbin(g.world, n.id)) {
+      share.append(
+        button(UI_TEXT.tradeAway, () => this.share(g, n, true), 'btn btn-small btn-danger'),
+      );
+    }
     body.appendChild(share);
     row.appendChild(body);
     return row;

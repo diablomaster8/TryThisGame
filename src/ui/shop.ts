@@ -1,5 +1,6 @@
 import { NAMES, SHOP_ITEMS, UI_TEXT } from '../config/strings';
 import type { Game } from '../game';
+import { rosterCap } from '../sim/roster';
 import { priceOf, rosterCount } from '../sim/shop';
 import type { ShopItem } from '../sim/types';
 import { button, el, modal } from './dom';
@@ -60,7 +61,7 @@ export class ShopMenu {
           row.note.textContent = `×${inv.fruit}`;
           break;
         case 'egg':
-          row.note.textContent = `${rosterCount(g.world)}/8`;
+          row.note.textContent = `${rosterCount(g.world)}/${rosterCap(g.world)}`;
           break;
         case 'hat':
           row.note.textContent = `×${inv.hats.length}`;
