@@ -183,62 +183,83 @@ Most fixes are small. Merge the blocker branch first.
 
 18. **Memorials lose their form.** [played] Departed Juniper and Bibi have `form: ":"`, from
     `` `eternal:` ``/`` `:` `` without placeholders (`lifecycle.ts:324`). Reported this morning.
+    - **Addressed 2026-10-18** (c393620: `memorialForm` writes `band:type` or `eternal:band`; old `:` forms are dropped on load; tested.)
 19. **Milestone code in player text.** [played] The stats sheet says "Expeditions (M4) bring
     Critters and Essences."
+    - **Addressed 2026-10-18** (6467abe: the stats sheet line no longer names a milestone.)
 20. **Speaker ids on screen.** [played] In the shrubbery fun quest, speakers show as
     "hooded-three:" and "tall-hood:".
+    - **Addressed 2026-10-18** (03a27e3: `speakerNameIn` (owning quest, family, any quest) names speakers in the Grove and the Atlas; content-check fails an unmapped `who`, edu scenes and variants included; tested.)
 21. **A fun quest interrupts the opening.** [played] The shrubbery quest fired about 20 game
     minutes into chapter 1, before I had touched an egg, and its caper sits in the chapter 2
     Journal.
+    - **Addressed 2026-10-18** (574149f: no fun quest opens before the first hatch or before chapter 2; tested.)
 22. **You are Fern, and Fern greets you.** [played] Keepers are the village NPCs. With Keeper
     Fern chosen, NPC Fern ("I'm Fern, from next door") talks to you with your own sprite and
     portrait.
+    - **Addressed 2026-10-18** (9bdd149: Keeper looks have their own names (Gardener, Tide-pooler...); the You portrait wears your side-trimmed outfit. The sprites still share a base outfit.)
 23. **Moss is in two places.** [played]
     - The story keeps Moss "on the hill", "small and grey", not yet come down.
     - Meanwhile a green Normal Moss sits in your roster from minute one, in both modes. Petting
       him by the well plays the hill scene.
+    - **Addressed 2026-10-18** (574149f + 114a950: Moss sits at his hill seat, off the roster, until `c7-stillness` and room bring him down; tested.)
 24. **Moss can be traded away or overflow the roster.** [played][sub]
     - Roster offers "Trade away" on the story Eternal.
     - `campaign.ts:115-121` adds him without `hasRoom`, so the roster can reach 9.
+    - **Addressed 2026-10-18** (574149f + 114a950: no Trade away on Moss or Sable (sim and roster); he counts against the cap only once down, and a restart no longer doubles him; tested.)
 25. **The debug panel freezes story scenes.** [played] `.debug` counts as a panel for
     `Dialogue.waitWhile`. At ×1000 with the panel open, a line sat for 3 game-hours and ignored
     taps.
+    - **Addressed 2026-10-18** (fe4503f: not reproduced at 1280 or 375 at ×1000 with the panel open; the panel is not in the wait list, and a comment keeps it out.)
 26. **The debug Story row is 17 unlabelled buttons.** [played]
+    - **Addressed 2026-10-18** (114a950: the chapter buttons read Ch 1 to Ch 12 (their text had been lost to an old shell edit).)
 27. **The 3D race is hard to read, and its clock is tied to frames.** [played]
     - The camera sits behind the pack, so rivals hide behind each other, and the name tags
       stack in a column away from the creatures.
     - At about 2.6 fps, the race clock moved 4 s in about 40 s of real time.
+    - **Addressed 2026-10-18** (ac82942: 38° camera over 1.5-unit lanes, every racer and tag clear (`docs/samples/rb-race-3d-*.jpg`); the race runs on real time, up to 1 s a frame.)
 28. **Changing Graphics drops you at the title** although the help says "reloads the Grove".
     [played] Reported this morning.
+    - **Addressed 2026-10-18** (4b260da: the slot is marked in session storage and the reload goes straight back into it.)
 29. **The 7–10 slot is labelled "Age 6"** on the title screen. [played]
+    - **Addressed 2026-10-18** (6467abe: a reader save says Age 7–10.)
 30. **Learning Grove polish.** [played]
     - Ori's portrait is Fern's sprite.
     - The Hebrew word renders smaller than its romanisation.
     - The keyboard hint bar ("WASD move · Q / E rotate…") shows to 3–6 year olds.
     - Settings, including Reset save and Aging, is open to the child with no grown-up gate.
+    - **Addressed 2026-10-18** (9bdd149 + 4b260da: Ori and Hana have their own looks; Hebrew is set above its romanisation; no keyboard hint; the grown-up sum before Settings.)
 31. **Japanese.** [sub]
     - Romanisation mixes ī and ii (`lang-japanese.ts:1360` vs `1313,1365`).
     - The primer has 12 hiragana and no katakana, yet ピンク and オレンジ are taught.
     - The Hebrew "alef-bet" trace covers two letters.
+    - **Addressed 2026-10-18** (14dc09d: ojiichan with ii throughout; the primer gains ピ ン ク オ レ ジ; the trace goal names its two letters.)
 32. **Expedition quit loses Shells.** [sub] Quitting early keeps essences and critters, but
     `rewards.shells` is filled only at the finish (`run.ts:228`).
+    - **Addressed 2026-10-18** (6467abe: the run's rewards always hold its Shells; tested.)
 33. **Two tabs overwrite each other.** [sub] There is no `storage` listener, so the stale tab's
     autosave wins (`game.ts:368`).
+    - **Addressed 2026-10-18** (6467abe: a `storage` listener stops this tab's autosave, with a notice, when another tab writes the slot.)
 34. **Gathering state lives outside the world.** [sub] `craft.ts:49` keeps `lastGather` in a
     module, so after a reset in the same page, gathering is refused until the old time passes.
+    - **Addressed 2026-10-18** (c393620: `gatherReadyMs` in the world; tested.)
 35. **Time is lost at high speed.** [sub] At ×100 and up, remainders under 60 s are dropped
     (`game.ts:317-320`, `clock.ts:43-47`).
+    - **Addressed 2026-10-18** (c393620: `takeOverflowMs(unit)` leaves the part under a coarse step in the clock; tested.)
 36. **Import trusts non-Nubbin fields.** [sub] `shells: "5"` loads as a string (so `+=`
     concatenates); a NaN `timeMs` passes; `setSettings` accepts a NaN cap (`save.ts:358`,
     `world.ts:426`).
+    - **Addressed 2026-10-18** (c393620: counts coerced on load, a junk clock refused, `setSettings` keeps a valid cap; tested.)
 37. **Small leftovers.** [played]
     - Settings radios and checkboxes shrink unevenly at 375 px (the 18+ radio, the Music box).
     - Race results ignore Escape.
     - `storageOk` stays false after storage recovers.
     - The canvas label is "Grove test scene".
     - The 21 title slot buttons are all named "Slot N · Empty New".
+    - **Addressed 2026-10-18** (6467abe + 4b260da: boxes keep 22 px; storage recovery warns again; canvas label and slot names fixed. Race results already closed on Escape in both modes (not reproduced).)
 38. **Flaky test.** [code] `tests/render/sculpt-spec.test.ts` ("narrow band") hits its 5 s
     timeout under load (6.97 s). It passes alone.
+    - **Addressed 2026-10-18** (eb736f1: a 30 s budget.)
 
 ## Missing against the goals
 

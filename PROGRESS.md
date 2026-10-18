@@ -21,12 +21,61 @@ audience and outline allow (none for Q66–Q95; they read their childLines); fix
 for Atlas A1–A10 and A22–A31 and every Atlas and S24–S31 edu version, the rest canon-audited
 only (`docs/content-index.md`). Plan v4 (`plan.md`): G11 device pass, Track B writing and review
 tasks; Part Z ran on 2026-10-18 (`docs/review-independent-2026-10-18.md`) and its fixes are
-going in pass by pass. Review B (`docs/review-independent-2026-10-18-b.md`): Bugs 1–17 fixed
-on 2026-10-18 (section below); Bugs 18–38 are another pass. Maor, 2026-10-17: legal cleared, adviser sign-off given, the seven
+going in pass by pass. Review B (`docs/review-independent-2026-10-18-b.md`): Bugs 1–17 and
+18–38 fixed on 2026-10-18 (sections below). Maor, 2026-10-17: legal cleared, adviser sign-off given, the seven
 fun-quest quotes approved as written, Pixel stays the default; 2026-10-18: ship the Arcade, the
 Multiverse, Neopia and Q66–Q95. Waiting on Maor: the LB/LK decision (section "Pixel's Arcade
-PA1–PA5" in `docs/progress-archive.md`). Backlogs: `docs/creature-improvements.md`,
+PA1–PA5" in `docs/progress-archive.md`); whether original sung lyrics (the Lantern Song,
+Nova's ditties, Q47's tunnel song) break "no song lyrics"; and whether Holy Grail's ten
+quotes across Q1–Q7 are one storyline (over the three-quote cap) or seven (review B, item 16). Backlogs: `docs/creature-improvements.md`,
 `docs/content-index.md`.
+
+## Review B, Bugs 18–38 and the notes: minor bugs (2026-10-18)
+
+From the Minor section and "What the notes get wrong" of `docs/review-independent-2026-10-18-b.md`.
+Branch `fix/review-minors`, rebased onto the Bugs 1–17 merge. Works (sim items tested):
+- **Sim:** memorials keep `band:type` / `eternal:band` (`memorialForm`; old `:` forms dropped
+  on load) (18). Fun quests wait for the first hatch and chapter 2 (21). Moss keeps to his
+  seat on the western hill, off the roster and its cap, until `c7-stillness` and room bring
+  him down (`mossOnHill`, `rosterNubbins`, flag `mossDown`); story Nubbins are never traded;
+  a campaign restart no longer doubles him (23, 24). Expedition rewards always hold the
+  Shells so far (32). `gatherReadyMs` lives in the world (34). The clock keeps remainders
+  under a coarse step (`takeOverflowMs(unit)`) (35). Loads coerce inventory counts, refuse a
+  junk clock, and `setSettings` keeps a valid cap (`sanitizeOfflineAging`) (36).
+- **Story:** quest speakers show their declared names (`speakerNameIn`: owning quest, family,
+  any quest) in the Grove and the Atlas; content-check fails an unmapped `who`, including
+  Learning Grove scenes and variants (20). Keeper looks are named for the look (Gardener,
+  Tide-pooler...; `KEEPER_LOOK_NAMES`), the You portrait wears your side-trimmed outfit, Ori
+  and Hana have their own looks (22, 30). Japanese writes long i as ii (ojiichan); the
+  primer adds the six katakana of ピンク and オレンジ; the Hebrew trace goal names its two
+  letters (31).
+- **UI:** debug chapter buttons read "Ch 1"…"Ch 12" (26). The 3D race looks down at 38° over
+  1.5-unit lanes, so every racer and tag is clear, and runs on real time up to 1 s a frame
+  (27). A Graphics change returns to the same slot (`markResumeSlot`) (28). A reader slot
+  says "Age 7–10" (29). Learning Grove: no keyboard hint, the grown-up sum before Settings,
+  Hebrew set larger than its romanisation (30). Another tab writing the slot stops this
+  tab's autosave with a notice; storage that recovers warns again (33, 37). "(M4)" gone (19);
+  canvas label "The Grove", distinct slot button names, settings boxes stay 22 px (37). The
+  narrow-band sculpt test has a 30 s budget (38).
+- **Notes:** CLAUDE.md (3D location, test count, current plan, no-chores wording), plan.md
+  (count, Atlas row, G12, phone view, Waiting on Maor, CV6 row), `docs/brief.md`; `CREDITS.md`
+  with the licence texts deployed from `public/licences/`. The sw.js comment was fixed with
+  Bug 2.
+- **Checked in the browser pane** (hidden pane, frames driven by screenshots): the 3D race at
+  1280×800 and 375×812 (`docs/samples/rb-race-3d-*.jpg`), Settings at 375 (`rb-settings-375`),
+  Hebrew and Ori (`rb-hebrew-ori-1280`), the Fern and You portraits, the Learning Grove gate
+  and hint, the Graphics reload, slot labels and the Keeper picker.
+
+Stubbed or not done:
+- Bug 25 did not reproduce here (1280 and 375, ×1000, panel open: the scene keeps taking
+  taps); a comment keeps the debug panel out of the wait list. Race results already closed
+  on Escape in both modes; not reproduced either.
+- The You and the villager's sprites differ only in trim colours; a stronger difference is an
+  art call. The Learning Grove settings gate is per tap, not remembered.
+- The parent folder's stray `CLAUDE.md` (outside the repo) still says "Open decisions: none".
+
+Known bugs: none new. Assumption: Moss "comes down" in `c7-stillness` (the scene that says
+so); before then he is the hill's watcher, as chapter 1 describes.
 
 ## Review B, Bugs 1–17: blockers and major bugs (2026-10-18)
 
@@ -64,77 +113,6 @@ save always comes back with Mature content Off). Works:
   are untested. Minigame result cards are not dialogs yet.
 - **Known bugs:** `tests/sim/side-saves.test.ts` "every Atlas page" can pass its 5 s timeout
   under a full parallel run (cold transform; passes alone in about 1 s).
-
-## Review goal 7: the Arcade, the Multiverse, Neopia and Q66–Q95 ship (2026-10-18)
-
-From `docs/review-independent-2026-10-18.md` (goal 7 and 9 rows, "What the notes get wrong").
-Works:
-- **Story worlds:** `sim/arcade-catalogue.ts`, `multiverse-catalogue.ts`, `neopia-catalogue.ts`
-  load through `loadArcade`/`loadMultiverse`/`loadNeopia` (`sim/atlas.ts`) as their own chunks.
-  More menu: the cabinet (after chapter 5 in Hazel's Grove), 🌀 The rift (Mature content 18+
-  only, `askRift` before it first opens), 🌈 The rainbow gate (Free Grove any time, Hazel's
-  Grove after chapter 2); none in the Learning Grove. One `StoryShelf` serves all four saves.
-- **Runner:** a `LineContext` lets a line read the rest of its save (cross-line `requires`, the
-  endgames waiting: shelf says so); `stepLive`/`choiceLive` per line (`sim/multiverse-rules.ts`:
-  E1's two paths, E6's allies, endings and afters, the wish and Eternal choices); `closed`
-  (Neopia's rival faerie chains). Variants still read only the line's own flags. E6's gate scene
-  makes the reflection; the `eternal` ending gives it up (Multiverse save only).
-- **No Grove writes:** finished quests keep their reward ids in `LineProgress.rewards` (side
-  save v2, migration). Neopia's blessings, paint, potions, recipes and decor are rewritten to act
-  on the Neo pet, the Neopia sandbox and kitchen, and the Battledome opens in Neopia, not the
-  dojo. `tests/sim/story-worlds.test.ts` plays every world to its end against a frozen Grove.
-- **Q66–Q95:** in `side-story-content.ts`; `isFunQuestCode` to `FUN_QUEST_LAST` (95), so they
-  pause in chapters 9–11; "once Chapter N is done" parses; the packs' payoffs (Q70 → Q71/Q75,
-  Q78 → Q84/Q85, Q87 → Q91/Q95) in `sim/fun-pack-rules.ts`.
-- **Quotes:** every Alice quote checked against Gutenberg #11/#12; two corrected to Carroll's
-  words. PA1's two unverifiable prayer lines are now paraphrases.
-- **Dead choices:** the ten S1–S5 flags each add one line three or more stories later, in all
-  three bands (`sim/choice-payoffs.ts`, table in its header; `tests/sim/choice-payoffs.test.ts`).
-- **Stubbed:** story-world rewards are kept but nothing shows them yet (no Neopia bag or
-  sandbox screen; the Grove does not read them as cosmetics); the cartridges' Grove-flag
-  variants (s21Done, cinder) and the Multiverse's line swaps and inserts from the E3/E6 notes
-  are not wired; E6's "warn once" before the Eternal ending; script-book not regenerated
-  (`tests/tools/script-book.ts` is mid-edit in another session).
-- **Assumptions:** the rainbow gate opens after chapter 2, like the fun quests.
-
-## Review goals 3 and 4, Bugs 11-13: both modes draw the same Nubbin (2026-10-18)
-
-From `docs/review-independent-2026-10-18.md`. Maor, 2026-10-18: the Eternals are the three
-Chaos forms. Shots in `docs/samples/r18-<pass>-{pixel,3d}.jpg` (parts, hats, looks, jewel,
-chaos-eggs, keeper, moods; 3D only: standin, mixed).
-
-- **Works, Full 3D:** critter parts as a `~parts:` look key (`samples/nubbin-critter-parts.ts`);
-  hats with dye, scarf and glasses on the `Dresser` (`render3d/dress.ts`); character looks
-  (`~look:` on adults and Eternals, the catalogue figure on children); jewel Nubbins and eggs;
-  the co-op second Keeper; poses sad, dizzy, surprised, love, tumble, flap and swim (wading
-  otherwise) after the pixel `clipFor`; an egg per family. Format rows in `docs/species-format.md`.
-- **Works, both modes:** one Keeper look rule (`render/keeper-look.ts`: the chosen trainer's
-  outfit, trim tinted Sun or Moon); `flaps`/`swimsStroke` in `sim/stats.ts` at
-  `MOTION_CLIPS` level 30 pick flap and swim in both. Sim: `JEWEL_EGG_COLORS`, the shop sells
-  one at `SHOP.jewelEggChance` (0.02, never two-tone or shiny); `ETERNAL_REFS` in `sim/species.ts`.
-- **Works, leaks and limits:** items share geometry per kind (`render3d/item-kit.ts`) and are
-  disposed on removal; `CreaturePool.dispose` frees spare rigs; `MergedGlow.dispose`. Measured in
-  Full 3D, `renderer.info.memory`: 216 geometries / 43 textures before 10 hatch-and-eat cycles,
-  217 / 50 after, then flat at 242 / 51 over 20 more (the one step is a new look sculpted once).
-  The pixel atlas evicts by recency and leaves `ATLAS.headroom` (25%) free after a repack, so a
-  dress-up spree of 150 new sheets in 30 frames took 27 repacks and no sprite went missing; new
-  sheets upload only their own region (`copyTextureToTexture`). The atlas canvas is never made
-  in Full 3D. The veil waits for every Nubbin the world draws (`GROVE3D.loadSafetyMs` 90 s is
-  the only way past); stand-ins are low warm domes, never upright pale capsules.
-- **Fixed on the way:** the 3D scene's `dt` is clamped at 0; a clock stepping back made the
-  eased camera NaN for good.
-- **Stubbed or approximate:** the crown pokes through hats in 3D; the fox look's tails are
-  static; type-tell accents keep their type colour under a look; the stage's `&pose=` list does
-  not know the new poses; the emote ball floats at full height over a stand-in dome;
-  `render3d/actors.ts` is 946 lines (split it next time it grows).
-- **Pixel follows the 3D line-up (Maor, 2026-10-18):** Eternal Moon is dark indigo with an ember
-  eye and small lavender shoulder spikes in place of great wings; Eternal Neutral is flat lime with
-  a yellow-green belly and salmon hands and feet (no gold chain in Pixel); the character looks
-  take the line-up palettes, the fox a black hood, the echidna white crown spikes, the dream
-  look magenta (`render/sprites/chao.ts`; shots `r18-looks-pixel.jpg`, `r18-chaos-pixel.jpg`).
-- **Known bugs:** captures from the hidden browser pane look washed out; not compared with a
-  visible frame. The device pass (G11) is still owed.
-- **Assumptions:** jewel egg chance 2%; flap and swim at level 30.
 
 ## Standing approval (Maor, 2026-10-12)
 
