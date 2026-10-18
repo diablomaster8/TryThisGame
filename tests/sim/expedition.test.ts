@@ -72,6 +72,19 @@ describe('expedition run', () => {
     expect(run.rewards.shells).toBeGreaterThanOrEqual(0);
   });
 
+  it('quitting early keeps the Shells collected so far', () => {
+    const run = createRun(5);
+    for (let t = 0; t < EXPEDITION.durationMs / 2 && run.shells === 0; t += STEP) {
+      jumpPressed(run);
+      stepRun(run, STEP);
+      jumpReleased(run);
+    }
+    runFor(run, 2000);
+    expect(run.finished).toBe(false);
+    expect(run.shells).toBeGreaterThan(0);
+    expect(run.rewards.shells).toBe(run.shells);
+  });
+
   it('a well-timed jumper collects shells and sometimes essences or critters', () => {
     const run = createRun(5);
     // Jump whenever something is close ahead.

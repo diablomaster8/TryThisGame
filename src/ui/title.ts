@@ -54,7 +54,9 @@ function describe(mode: SaveMode, s: SaveSummary, nowMs: number): string {
   if (mode === 'dawndusk' && s.storyline)
     parts.push(STORYLINE_TEXT.sides[s.storyline] ?? s.storyline);
   if (story && s.chapter !== null) parts.push(SLOT_TEXT.chapter(s.chapter));
-  if (mode === 'edu' && s.eduAge !== null) parts.push(SLOT_TEXT.age(s.eduAge));
+  if (mode === 'edu' && s.eduBand === 'reader')
+    parts.push(SLOT_TEXT.age(EDU_STORY_TEXT.readerAges));
+  else if (mode === 'edu' && s.eduAge !== null) parts.push(SLOT_TEXT.age(s.eduAge));
   parts.push(s.names.length > 0 ? s.names.join(', ') : SLOT_TEXT.nubbins(s.nubbins));
   if (s.savedAtWallMs > 0) {
     const days = Math.floor((nowMs - s.savedAtWallMs) / 86_400_000);
@@ -119,7 +121,8 @@ export function showTitle(
     const now = Date.now();
     for (const mode of MODES) {
       const section = el('div', 'title-mode');
-      section.appendChild(el('div', 'title-mode-name', SLOT_TEXT.modes[mode] ?? mode));
+      const modeName = SLOT_TEXT.modes[mode] ?? mode;
+      section.appendChild(el('div', 'title-mode-name', modeName));
       for (let index = 1; index <= SLOTS_PER_MODE; index++) {
         const slot: SaveSlot = { mode, index };
         const row = el('div', 'title-slot');
@@ -131,10 +134,12 @@ export function showTitle(
             () => finish({ slot, fresh: false, trainer: null }),
             'btn btn-primary title-slot-main',
           );
+          const said = summary ? describe(mode, summary, now) : '';
           main.append(
             el('strong', undefined, `${SLOT_TEXT.slot(index)} · ${SLOT_TEXT.continue}`),
-            el('small', undefined, summary ? describe(mode, summary, now) : ''),
+            el('small', undefined, said),
           );
+          main.setAttribute('aria-label', SLOT_TEXT.continueLabel(modeName, index, said));
           const fresh = button(
             SLOT_TEXT.newHere,
             () => {
@@ -143,6 +148,7 @@ export function showTitle(
             },
             'btn btn-small',
           );
+          fresh.setAttribute('aria-label', SLOT_TEXT.newOverLabel(modeName, index));
           const erase = button(
             '✕',
             () => {
@@ -161,6 +167,7 @@ export function showTitle(
             el('strong', undefined, `${SLOT_TEXT.slot(index)} · ${SLOT_TEXT.empty}`),
             el('small', undefined, SLOT_TEXT.newHere),
           );
+          main.setAttribute('aria-label', SLOT_TEXT.newLabel(modeName, index));
           row.append(main);
         }
         section.appendChild(row);

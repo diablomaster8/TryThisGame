@@ -398,7 +398,7 @@ export const UI_TEXT = {
   quitMinigame: 'Leave (Esc)',
   joystick: 'On-screen joystick',
   joystickHelp: 'A thumb pad for moving the Keeper. Tapping the ground always works too.',
-  nothingToGive: 'Nothing to give yet. Expeditions (M4) bring Critters and Essences.',
+  nothingToGive: 'Nothing to give yet. Expeditions bring Critters and Essences.',
   switchKeeper: 'Switch Keeper',
   groveButton: 'Grove',
   // Celebration
@@ -743,6 +743,8 @@ export const UI_TEXT = {
   photoTaken: 'Snap!',
   // Toasts
   storageBlocked: 'Saving is blocked in this browser. The Grove will not be kept.',
+  otherTabSaved:
+    'This Grove is open in another tab, so this tab has stopped saving. Reload to carry on.',
   saved: 'Saved',
   hatched: (name: string) => `${name} hatched!`,
   evolved: (name: string) => `${name} evolved!`,
@@ -1149,9 +1151,14 @@ export const SLOT_TEXT = {
   newOverConfirm: (n: number) => `Start a new game in slot ${n}? The old one will be erased.`,
   nubbins: (n: number) => (n === 1 ? '1 Nubbin' : `${n} Nubbins`),
   chapter: (n: number) => `Chapter ${n}`,
-  age: (n: number) => `Age ${n}`,
+  age: (n: number | string) => `Age ${n}`,
   ago: (days: number) => (days <= 0 ? 'today' : days === 1 ? 'yesterday' : `${days} days ago`),
   current: (mode: string, n: number) => `Playing ${mode}, slot ${n}.`,
+  /** Screen-reader names for the slot buttons, which otherwise all read alike. */
+  continueLabel: (mode: string, n: number, summary: string) =>
+    `Continue ${mode}, slot ${n}${summary ? `: ${summary}` : ''}`,
+  newLabel: (mode: string, n: number) => `Start a new ${mode} in empty slot ${n}`,
+  newOverLabel: (mode: string, n: number) => `Start a new ${mode} over slot ${n}`,
 } as const;
 
 /** The separate campaigns (sim/storyline.ts): title picks, journal buttons, areas. */

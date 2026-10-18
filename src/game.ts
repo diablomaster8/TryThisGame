@@ -2,7 +2,13 @@ import { Vector3 } from 'three';
 import { CAMERA, SIM } from './config/tuning';
 import { GameInput, type Placing } from './input/game-input';
 import { CameraControls } from './input/camera-controls';
-import { backupUnreadable, currentSlot, readSave, writeSave } from './platform/storage';
+import {
+  backupUnreadable,
+  currentSlot,
+  readSave,
+  watchOtherTabs,
+  writeSave,
+} from './platform/storage';
 import { OrbitCamera } from './render/camera';
 import { daylightAt, localHour } from './render/daylight';
 import { litLanterns } from './sim/campaign';
@@ -23,6 +29,8 @@ export interface GameHooks {
   onAway(report: AwayReport): void;
   onSelect(id: string | null): void;
   onStorageBlocked(): void;
+  /** Another tab saved this same slot; this tab has stopped autosaving over it. */
+  onOtherTab(): void;
   onCatchUpStart(): void;
   onCatchUpEnd(): void;
   /** The slot's save could not be read; `kept` says whether a copy was put aside. */
@@ -121,8 +129,8 @@ export class Game {
   private lastSaveMs = 0;
   private storageOk = true;
   /**
-   * Set when an unreadable save could not be copied aside: autosave then holds off, so the
-   * only copy survives until the player imports or resets on purpose.
+   * Set when an unreadable save could not be copied aside, or another tab saved this slot:
+   * autosave then holds off, so the other copy survives until the player imports or resets.
    */
   private holdSaves = false;
   /** The save text that failed to load this session, for Settings to export. */
@@ -136,6 +144,13 @@ export class Game {
     scene3d: Grove3dScene | null = null,
   ) {
     this.hooks = hooks;
+    // Two tabs on one slot would each autosave over the other: the tab that did not write
+    // last stops saving and says so, until the player reloads, imports or resets.
+    watchOtherTabs(() => {
+      if (this.holdSaves) return;
+      this.holdSaves = true;
+      this.hooks.onOtherTab();
+    });
     this.scene3d = graphics === '3d' ? scene3d : null;
     if (this.scene3d) {
       this.lowRes = null;
@@ -237,10 +252,9 @@ export class Game {
       return false;
     }
     const ok = writeSave(serialize(this.world, Date.now()));
-    if (!ok && this.storageOk) {
-      this.storageOk = false;
-      this.hooks.onStorageBlocked();
-    }
+    if (!ok && this.storageOk) this.hooks.onStorageBlocked();
+    // Storage that recovers (space freed, a setting changed) warns again if it fails later.
+    this.storageOk = ok;
     this.lastSaveMs = performance.now();
     return ok;
   }

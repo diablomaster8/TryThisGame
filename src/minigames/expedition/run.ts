@@ -223,10 +223,9 @@ export function stepRun(run: RunState, dtMs: number): void {
   // Drop what scrolled off.
   run.things = run.things.filter((t) => !t.taken && t.x + t.w > run.distance - 40);
 
-  if (run.timeMs >= EXPEDITION.durationMs) {
-    run.finished = true;
-    run.rewards.shells = run.shells;
-  }
+  // The rewards always hold the Shells so far, so quitting early keeps them like the rest.
+  run.rewards.shells = run.shells;
+  if (run.timeMs >= EXPEDITION.durationMs) run.finished = true;
 }
 
 /** Progress 0..1 for the HUD bar. */

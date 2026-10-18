@@ -101,6 +101,8 @@ export interface SaveSummary {
   storyline: string | null;
   ending: string | null;
   eduAge: number | null;
+  /** The Learning Grove band: a `reader` save shows 7–10, not its games' top age. */
+  eduBand: string | null;
   /** Sim time lived in this Grove. */
   playMs: number;
 }
@@ -117,7 +119,7 @@ export function summarize(json: string): SaveSummary | null {
       storyline?: unknown;
       ending?: unknown;
     } | null;
-    const edu = (w.edu ?? null) as { age?: unknown } | null;
+    const edu = (w.edu ?? null) as { age?: unknown; band?: unknown } | null;
     return {
       savedAtWallMs: typeof data.savedAtWallMs === 'number' ? data.savedAtWallMs : 0,
       nubbins: nubbins.length,
@@ -130,6 +132,7 @@ export function summarize(json: string): SaveSummary | null {
       storyline: campaign && typeof campaign.storyline === 'string' ? campaign.storyline : null,
       ending: campaign && typeof campaign.ending === 'string' ? campaign.ending : null,
       eduAge: edu && typeof edu.age === 'number' ? edu.age : null,
+      eduBand: edu && typeof edu.band === 'string' ? edu.band : null,
       playMs: typeof w.timeMs === 'number' ? w.timeMs : 0,
     };
   } catch {
@@ -240,6 +243,19 @@ export function modeOfWorld(world: {
     return storyline as StorylineMode;
   }
   return 'campaign';
+}
+
+/**
+ * Calls `onChange` when another tab writes or clears the slot this tab plays (the browser
+ * fires `storage` only in the other tabs). Returns a function that stops listening.
+ */
+export function watchOtherTabs(onChange: () => void): () => void {
+  const listener = (e: StorageEvent): void => {
+    // A null key means another tab cleared all of storage.
+    if (e.key === SAVE_KEY || e.key === null) onChange();
+  };
+  window.addEventListener('storage', listener);
+  return () => window.removeEventListener('storage', listener);
 }
 
 export function storageAvailable(): boolean {
