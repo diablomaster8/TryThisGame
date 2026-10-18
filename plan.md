@@ -40,8 +40,7 @@ attribution trailer (Maor, 2026-10-16); no prompt here asks for one.
   reactions.
 - **Waiting on Maor:** the expansion pick (E1 The Square, E2 Nova's Season, E3 The Twine;
   campaigns S1 "The Hundred Days", S2 "Logged In", S3 "The Beetle Road", S4 "Dawn & Dusk");
-  the seven fun-quest quotes B-V1 will report; whether Full 3D becomes the default (G16.12's
-  brief); whether Expedition and races stay pixel art inside Full 3D; the phone rows of the
+  whether Expedition and races stay pixel art inside Full 3D; the phone rows of the
   device pass. Online pieces (`docs/multiplayer-plan.md`) stay out of scope.
 
 ## How to use this file
@@ -206,7 +205,7 @@ until B-R reports 0 must-fix items.
 - **Outlined, not scripted:** Arcade PA1–PA5, lines LB and LK, fun packs Q66–Q95.
 - **Not written:** Learning Grove versions of S24–S31 and of the new `all` Atlas and Arcade
   pages; quote verification; adviser packets; the canon audit; native-speaker recordings.
-- **Open decisions for Maor:** the seven fun-quest quotes (B-V1 reports them).
+- **Open decisions for Maor:** none (the seven fun-quest quotes approved as written, advisers signed off, 2026-10-17).
 
 ## Task list
 
@@ -477,9 +476,8 @@ last, alone, on a clean `main` with everything else merged.
 
 ## What Maor decides
 
-- The seven fun-quest quotes B-V1 reports.
-- Whether Full 3D becomes the default (G16.12's brief), and whether Expedition and races stay
-  pixel art inside Full 3D.
+- Whether Expedition and races stay pixel art inside Full 3D. (Decided 2026-10-17: the seven
+  fun-quest quotes stand as written; Pixel stays the default, Full 3D stays a setting.)
 - The expansion pick: E1 The Square, E2 Nova's Season, E3 The Twine; campaigns SL1 "The
   Hundred Days", SL2 "Logged In", SL3 "The Beetle Road", SL4 "Dawn & Dusk".
 - The phone rows of `docs/device-pass.md`.

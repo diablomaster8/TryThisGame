@@ -471,7 +471,5 @@ and `plan.md` before touching any script. **Order of authority:** `docs/canon.md
      Mature content setting, the Learning Grove mode, language questlines, and the
      Atlas/Arcade/Multiverse saves.
 - **Open decisions for Maor:**
-  - Seven fun-quest quotes to verify against the shows.
-  - The existing once-a-day gifts in `sim/daily.ts` and `sim/neighbourhood.ts`, which break the
-    no-chores rule.
-  - Adviser sign-off for the culture-sensitive pages.
+  - None. Decided 2026-10-17: the seven fun-quest quotes stand, advisers signed off, legal
+    cleared, daily gifts are one-time (CV6), Pixel stays the default renderer.

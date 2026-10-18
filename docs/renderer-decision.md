@@ -1,5 +1,7 @@
 # Should Full 3D become the default? (G16.12, 2026-10-16)
 
+**Decision (Maor, 2026-10-17): no. Pixel stays the default; Full 3D stays a Graphics setting.**
+
 A one-page brief for Maor. The Graphics setting offers Pixel (the shipped 2.5D renderer,
 the default) and Full 3D (`src/render3d/`). Both draw the same sim through one interface;
 switching is a setting, so this decision is reversible at any time.

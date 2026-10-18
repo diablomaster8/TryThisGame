@@ -46,7 +46,7 @@ Every check is clean: `tsc`, `eslint`, and `content-check` (0 problems).
 
 ## Still for Maor
 
-- **Seven fun-quest quotes** to check against the source: "It's only wafer-thin.", "Teddy!",
+- **Seven fun-quest quotes** (approved as written by Maor, 2026-10-17): "It's only wafer-thin.", "Teddy!",
   "Wildcard, bitches!", "I am a golden god!", the egg line, the bird-law line and "There is no
   Carol in HR!". Also check the Q15 Cheese Shop wording.
 - **The game's existing daily gifts** (`sim/daily.ts`, `sim/neighbourhood.ts`) are "once a day",
