@@ -2,7 +2,7 @@ import { mergedLevels } from '../sim/partners';
 import { COURSE_LABELS, NAMES, UI_TEXT } from '../config/strings';
 import type { Game } from '../game';
 import { RaceScreen } from '../minigames/race/screen';
-import { COURSES, createRace } from '../sim/race';
+import { COURSES, createRace, raceSeedFor } from '../sim/race';
 import type { Nubbin } from '../sim/types';
 import { button, el, modal } from './dom';
 
@@ -76,28 +76,38 @@ export class RacesMenu {
       return;
     }
     this.close();
-    const seed = Date.now() % 2147483647;
+    // Fixed by the world until the race is run, so quitting cannot reroll the field.
+    const seed = raceSeedFor(g.world, course.id, tier);
     const race = createRace(course, tier, runner, seed, mergedLevels(g.world, runner) ?? undefined);
     const hatRoll = ((seed * 9301 + 49297) % 233280) / 233280;
     g.renderPaused = true;
     const sheets = g.view.sheets;
-    this.screen.start(race, runner, sheets.forNubbin(runner), sheets, hatRoll, (outcome) => {
-      g.renderPaused = false;
-      const best = race.racers
-        .filter((r) => !r.isPlayer && r.finishedAtMs !== null)
-        .sort((a, b) => (a.finishedAtMs ?? 0) - (b.finishedAtMs ?? 0))[0];
-      g.send({
-        kind: 'raceResult',
-        nubbinId: runner.id,
-        ...(best ? { rival: { name: best.name, species: 'chao' } } : {}),
-        course: course.id,
-        tier,
-        placement: outcome.placement,
-        shells: outcome.shells,
-        hat: outcome.hat,
-      });
-      if (outcome.shells > 0)
-        this.toast(`${UI_TEXT.place(outcome.placement)} · +${outcome.shells} ${NAMES.currency}`);
-    }, g.graphics, g.scene3d);
+    this.screen.start(
+      race,
+      runner,
+      sheets.forNubbin(runner),
+      sheets,
+      hatRoll,
+      (outcome) => {
+        g.renderPaused = false;
+        const best = race.racers
+          .filter((r) => !r.isPlayer && r.finishedAtMs !== null)
+          .sort((a, b) => (a.finishedAtMs ?? 0) - (b.finishedAtMs ?? 0))[0];
+        g.send({
+          kind: 'raceResult',
+          nubbinId: runner.id,
+          ...(best ? { rival: { name: best.name, species: 'chao' } } : {}),
+          course: course.id,
+          tier,
+          placement: outcome.placement,
+          shells: outcome.shells,
+          hat: outcome.hat,
+        });
+        if (outcome.shells > 0)
+          this.toast(`${UI_TEXT.place(outcome.placement)} · +${outcome.shells} ${NAMES.currency}`);
+      },
+      g.graphics,
+      g.scene3d,
+    );
   }
 }

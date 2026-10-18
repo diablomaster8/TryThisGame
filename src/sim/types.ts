@@ -634,6 +634,8 @@ export interface World {
   grove: GroveKind;
   /** Highest tier won per race course (0 = none). */
   races: Record<string, number>;
+  /** Race results recorded, so each attempt's seed is fixed until it is run (review C, 28). */
+  raceRuns: number;
   /** The active trainer (playable Keeper), see sim/trainers.ts. */
   trainer: string;
   nextId: number;

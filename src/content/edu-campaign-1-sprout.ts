@@ -121,7 +121,7 @@ const CH1: EduScene[] = [
         then: [
           FERN('Thank you! Nobody ever says that about the stone.', 'happy'),
           FERN('It came from the stream. It has a friendly face.'),
-          N('Off you go to find the eggs. Hum, hum, go the eggs.'),
+          N('Off you go to find the eggs. Listen, they go hum, hum!'),
         ],
       },
       {
@@ -131,7 +131,7 @@ const CH1: EduScene[] = [
         then: [
           FERN('Oh, lots! A ladder. Someone to hold the ladder.', 'think'),
           FERN('And someone to say the pear tree isn’t my fault.'),
-          N('Off you go to find the eggs. Hum, hum, go the eggs.'),
+          N('Off you go to find the eggs. Listen, they go hum, hum!'),
         ],
       },
       {
@@ -139,7 +139,7 @@ const CH1: EduScene[] = [
         label: 'Say nothing. Go to the eggs.',
         then: [
           FERN('Straight to work! Just like your Gran.', 'soft'),
-          N('The long grass tickles your knees. Hum, hum, go the eggs.'),
+          N('The long grass tickles your knees. The eggs go hum, hum, close by.'),
         ],
       },
     ],
@@ -174,7 +174,9 @@ const CH1: EduScene[] = [
           {
             label: 'A chick',
             best: true,
-            reply: [FERN('Yes! Chicks hatch from eggs. So do ducklings and baby turtles.', 'happy')],
+            reply: [
+              FERN('Yes! Chicks hatch from eggs. So do ducklings and baby turtles.', 'happy'),
+            ],
           },
           {
             label: 'A puppy',
@@ -280,7 +282,8 @@ const CH2: EduScene[] = [
           N('(One… two… three… four… five.)'),
           MARINA('Waiting is hard. You did it. Here it comes!', 'happy'),
         ],
-        parentNote: 'Your child practised waiting calmly, holding still while counting slowly to five.',
+        parentNote:
+          'Your child practised waiting calmly, holding still while counting slowly to five.',
       },
     ],
   ),
@@ -330,7 +333,8 @@ const CH2: EduScene[] = [
             ],
           },
         ],
-        parentNote: 'Your child listened for the hard “c” sound at the start of Corvin, cold and cat.',
+        parentNote:
+          'Your child listened for the hard “c” sound at the start of Corvin, cold and cat.',
       },
     ],
     [
@@ -403,7 +407,8 @@ const CH3: EduScene[] = [
             ],
           },
         ],
-        parentNote: 'Your child learned that some animals, like owls, moths and hedgehogs, are awake at night.',
+        parentNote:
+          'Your child learned that some animals, like owls, moths and hedgehogs, are awake at night.',
       },
       {
         id: lid('c3-open', 2),
@@ -437,7 +442,8 @@ const CH3: EduScene[] = [
             ],
           },
         ],
-        parentNote: 'Your child read the signs that Sable is scared and heard that quiet, slow kindness helps.',
+        parentNote:
+          'Your child read the signs that Sable is scared and heard that quiet, slow kindness helps.',
       },
     ],
     [
@@ -485,7 +491,9 @@ const CH3: EduScene[] = [
           {
             label: 'Melt it away',
             best: true,
-            reply: [CLOVER('Yes! The sun warms the grass. The frost melts. Drip, drip, gone!', 'happy')],
+            reply: [
+              CLOVER('Yes! The sun warms the grass. The frost melts. Drip, drip, gone!', 'happy'),
+            ],
           },
           {
             label: 'Make it bigger',
@@ -517,7 +525,8 @@ const CH3: EduScene[] = [
           N('(Point to each stone and count together: 1, 2, 3, 4, 5, 6.)'),
           LUNA('Six! Sable is too little to eat six. It wasn’t her.', 'think'),
         ],
-        parentNote: 'Your child counted six plum stones, touching each one once, to find how many plums were eaten.',
+        parentNote:
+          'Your child counted six plum stones, touching each one once, to find how many plums were eaten.',
       },
     ],
     [
@@ -605,7 +614,8 @@ const CH4: EduScene[] = [
             ],
           },
         ],
-        parentNote: 'Your child heard the “mmm” sound at the start of Moss and found another word that starts with M.',
+        parentNote:
+          'Your child heard the “mmm” sound at the start of Moss and found another word that starts with M.',
       },
     ],
     [
@@ -627,7 +637,10 @@ const CH4: EduScene[] = [
       {
         id: 'lamps-dunno',
         label: 'I don’t know.',
-        then: [MOSS('Good. I didn’t either, for a hundred years. Light them anyway.', 'happy'), ...C4_PET],
+        then: [
+          MOSS('Good. I didn’t either, for a hundred years. Light them anyway.', 'happy'),
+          ...C4_PET,
+        ],
       },
     ],
   ),
@@ -672,7 +685,8 @@ const CH4: EduScene[] = [
             reply: [N('Keep, pond. They don’t sound alike. Keep, sleep. Those rhyme! Listen…')],
           },
         ],
-        parentNote: 'Your child listened to the song’s rhymes and guessed the rhyming word that comes next.',
+        parentNote:
+          'Your child listened to the song’s rhymes and guessed the rhyming word that comes next.',
       },
       {
         id: lid('c4-close', 2),
@@ -689,7 +703,8 @@ const CH4: EduScene[] = [
           N('(Sing it again, and pat your knees on every beat.)'),
           N('When the song ends, everyone stands a little closer.', 'soft'),
         ],
-        parentNote: 'Your child sang the Lantern Song’s refrain with the Keepers and patted the steady beat.',
+        parentNote:
+          'Your child sang the Lantern Song’s refrain with the Keepers and patted the steady beat.',
       },
     ],
   ),
@@ -740,7 +755,8 @@ const CH4: EduScene[] = [
             ],
           },
         ],
-        parentNote: 'Your child learned that very cold water freezes into ice, and warm water stays runny.',
+        parentNote:
+          'Your child learned that very cold water freezes into ice, and warm water stays runny.',
       },
     ],
     [
@@ -895,7 +911,8 @@ const CH4: EduScene[] = [
           N('Last, people come and light the lanterns.'),
           MOSS('Yes. That is how it went.', 'soft'),
         ],
-        parentNote: 'Your child put three parts of Moss’s story in order using first, next and last.',
+        parentNote:
+          'Your child put three parts of Moss’s story in order using first, next and last.',
       },
     ],
     [
@@ -959,7 +976,8 @@ const CH4: EduScene[] = [
             ],
           },
         ],
-        parentNote: 'Your child learned the daily pattern of the Sun: up in the morning, down in the evening.',
+        parentNote:
+          'Your child learned the daily pattern of the Sun: up in the morning, down in the evening.',
       },
     ],
   ),
@@ -992,7 +1010,8 @@ const TRIGGERED: EduScene[] = [
           N('(Say sorry to the Nubbin, in a soft, gentle voice.)'),
           FERN('Good. Now we show it, with gentle hands, every day.'),
         ],
-        parentNote: 'Your child practised saying sorry kindly, and heard that sorry is shown by what we do next.',
+        parentNote:
+          'Your child practised saying sorry kindly, and heard that sorry is shown by what we do next.',
       },
     ],
   ),
@@ -1057,7 +1076,8 @@ const TRIGGERED: EduScene[] = [
             ],
           },
         ],
-        parentNote: 'Your child used position words (beside, on top) to choose where to put the fruit.',
+        parentNote:
+          'Your child used position words (beside, on top) to choose where to put the fruit.',
       },
     ],
   ),
@@ -1103,7 +1123,8 @@ const TRIGGERED: EduScene[] = [
             ],
           },
         ],
-        parentNote: 'Your child heard the “sss” sound at the start of Sable and found another word that starts with S.',
+        parentNote:
+          'Your child heard the “sss” sound at the start of Sable and found another word that starts with S.',
       },
     ],
   ),
@@ -1129,7 +1150,8 @@ const TRIGGERED: EduScene[] = [
           N('(Show gentle hands. Stroke your own arm, slowly and softly.)'),
           MOSS('Mm. Like that. Gentle.', 'soft'),
         ],
-        parentNote: 'Your child practised gentle, slow touch, the way we care for someone small or old.',
+        parentNote:
+          'Your child practised gentle, slow touch, the way we care for someone small or old.',
       },
     ],
   ),
@@ -1154,7 +1176,8 @@ const TRIGGERED: EduScene[] = [
           N('Plants really do lean towards the light. They need light to grow.'),
           N('(Is there a plant on a windowsill near you? Which way does it lean?)'),
         ],
-        parentNote: 'Your child learned that plants need light and grow towards it, and looked for a plant that does.',
+        parentNote:
+          'Your child learned that plants need light and grow towards it, and looked for a plant that does.',
       },
     ],
   ),

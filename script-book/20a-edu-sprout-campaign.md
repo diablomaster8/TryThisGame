@@ -43,14 +43,14 @@ _Up on the hill, something small and grey watches. Very still._
 - **It’s a very good stone.**
     - **Fern**: Thank you! Nobody ever says that about the stone.
     - **Fern**: It came from the stream. It has a friendly face.
-    - Off you go to find the eggs. Hum, hum, go the eggs.
+    - Off you go to find the eggs. Listen, they go hum, hum!
 - **What do you need?**
     - **Fern**: Oh, lots! A ladder. Someone to hold the ladder.
     - **Fern**: And someone to say the pear tree isn’t my fault.
-    - Off you go to find the eggs. Hum, hum, go the eggs.
+    - Off you go to find the eggs. Listen, they go hum, hum!
 - **Say nothing. Go to the eggs.**
     - **Fern**: Straight to work! Just like your Gran.
-    - The long grass tickles your knees. Hum, hum, go the eggs.
+    - The long grass tickles your knees. The eggs go hum, hum, close by.
 
 #### `c1-close`
 

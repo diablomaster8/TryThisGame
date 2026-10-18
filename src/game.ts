@@ -19,7 +19,7 @@ import { LowResPipeline, type FrameStats } from './render/pipeline';
 import { WorldView } from './render/world-view';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
 import { Clock } from './sim/clock';
-import { catchUp, coarseStep } from './sim/offline';
+import { catchUpInChunks } from './sim/offline';
 import { deserialize, serialize } from './sim/save';
 import type { AwayReport, Command, GraphicsMode, SimEvent, World } from './sim/types';
 import { applyCommand, createWorld, findNubbin, stepWorld } from './sim/world';
@@ -139,6 +139,12 @@ export class Game {
   private crashed = false;
   /** The save text that failed to load this session, for Settings to export. */
   unreadableJson: string | null = null;
+  /** Wall time between the loaded save and now, made up by `catchUpOnLoad`. */
+  private pendingGapMs = 0;
+  /** True while an offline catch-up is running between paints: no steps, no saves. */
+  catchingUp = false;
+  /** Fraction of the view to lift the Keeper by, while a bottom sheet covers the lower part. */
+  cameraLift = 0;
   private hooks: GameHooks;
 
   constructor(
@@ -220,7 +226,9 @@ export class Game {
       try {
         const file = deserialize(json);
         const world = file.world;
-        this.runCatchUp(world, now - file.savedAtWallMs, now);
+        // A save with no timestamp has no gap to make up (review C, item 13); the catch-up
+        // itself runs once the HUD is bound, so its indicator can paint (`catchUpOnLoad`).
+        this.pendingGapMs = file.savedAtWallMs > 0 ? now - file.savedAtWallMs : 0;
         return world;
       } catch (err) {
         // Never let the autosave destroy the only copy: put it aside first, or hold off.
@@ -234,24 +242,57 @@ export class Game {
     return createWorld(now % 2147483647, now);
   }
 
-  private runCatchUp(world: World, elapsedMs: number, now: number): void {
+  /** Run the catch-up for the gap since the save was written; call once the HUD is bound. */
+  catchUpOnLoad(): Promise<void> {
+    const gap = this.pendingGapMs;
+    this.pendingGapMs = 0;
+    return this.runCatchUp(gap, Date.now());
+  }
+
+  /**
+   * Catch the world up in chunks, yielding to the browser between them so the indicator
+   * paints and a week away does not freeze the page (review C, item 12). The sim does not
+   * step and nothing is saved until it finishes, so a half-done catch-up is never written.
+   */
+  private async runCatchUp(elapsedMs: number, now: number): Promise<void> {
+    const world = this.world;
     if (elapsedMs < 5000) {
       world.lastWallMs = now;
       return;
     }
+    this.catchingUp = true;
     const start = performance.now();
-    if (elapsedMs > SIM.coarseAfterMs) this.hooks.onCatchUpStart();
-    const report = catchUp(world, elapsedMs, now);
-    const took = performance.now() - start;
-    if (took > SIM.catchUpProgressMs || elapsedMs > SIM.coarseAfterMs) this.hooks.onCatchUpEnd();
-    // A quick reload is not "being away": only report real absences or actual news.
-    if (report.simulatedMs > 0 && (report.events.length > 0 || elapsedMs > SIM.coarseAfterMs)) {
-      this.hooks.onAway(report);
+    let shown = false;
+    try {
+      const run = catchUpInChunks(world, elapsedMs, now);
+      let sliceStart = start;
+      for (;;) {
+        const next = run.next();
+        if (next.done) {
+          // A quick reload is not "being away": only report real absences or actual news.
+          const report = next.value;
+          if (report.simulatedMs > 0 && (report.events.length > 0 || elapsedMs > SIM.coarseAfterMs))
+            this.hooks.onAway(report);
+          break;
+        }
+        // Most catch-ups finish in one slice; past a short budget, show the indicator and
+        // give the browser a frame to paint it before carrying on.
+        if (performance.now() - sliceStart < SIM.catchUpSliceMs) continue;
+        if (!shown) {
+          shown = true;
+          this.hooks.onCatchUpStart();
+        }
+        await nextPaint();
+        sliceStart = performance.now();
+      }
+    } finally {
+      this.catchingUp = false;
+      if (shown) this.hooks.onCatchUpEnd();
     }
   }
 
   save(): boolean {
-    if (this.holdSaves || this.crashed) {
+    if (this.holdSaves || this.catchingUp || this.crashed) {
       this.lastSaveMs = performance.now();
       return false;
     }
@@ -302,11 +343,13 @@ export class Game {
     cancelAnimationFrame(this.rafId);
   }
 
-  /** Tab shown again: catch up on the time hidden. */
-  resume(): void {
+  /** Tab shown again: catch up on the time hidden, then carry on. */
+  async resume(): Promise<void> {
+    if (this.catchingUp) return;
     const now = Date.now();
-    this.runCatchUp(this.world, now - this.world.lastWallMs, now);
-    this.start();
+    await this.runCatchUp(now - this.world.lastWallMs, now);
+    // Hidden again while catching up: the next visibility change resumes from here.
+    if (typeof document === 'undefined' || !document.hidden) this.start();
   }
 
   resize(width: number, height: number): void {
@@ -347,14 +390,17 @@ export class Game {
     const steps = this.clock.advance(dt);
     const events: SimEvent[] = [];
     const wall = Date.now();
-    if (steps > 0 || this.pending.length > 0) {
+    if (this.catchingUp) {
+      // The world is mid catch-up: draw it, but hold steps and commands until it is done.
+      this.clock.reset();
+    } else if (steps > 0 || this.pending.length > 0) {
       (this.scene3d ?? this.view).snapshot(this.world);
       for (const cmd of this.pending.splice(0)) applyCommand(this.world, cmd, events);
       for (let i = 0; i < steps; i++) events.push(...stepWorld(this.world, SIM.stepMs, wall));
-      // Far behind (very high time scale): finish the backlog in coarse steps. The part
-      // under a coarse step stays in the clock and runs as fine steps on later frames.
-      const coarse = this.clock.takeOverflowMs(SIM.coarseStepMs) / SIM.coarseStepMs;
-      for (let i = 0; i < coarse; i++) coarseStep(this.world, SIM.coarseStepMs, events);
+      // Far behind (very high time scale, slow device): live play keeps the live rules, so
+      // the backlog runs as fine steps on later frames and only what is past
+      // `maxLiveBacklogMs` is dropped (review C, item 14). Offline rules are for absences.
+      this.clock.capBacklog(SIM.maxLiveBacklogMs);
     }
     if (events.length > 0) {
       if (this.scene3d) this.scene3d.onEvents(events);
@@ -381,9 +427,15 @@ export class Game {
     // Camera follows the Keeper as drawn (interpolated between sim steps), so the
     // Keeper and the camera move together and nothing judders at the step rate.
     const kp = (this.scene3d ?? this.view).keeperDrawPos(this.world, this.clock.alpha);
+    // With a bottom sheet open on a phone, aim past the Keeper toward the camera, so the
+    // Keeper and the Nubbin beside them sit in the clear top part (review C, item 22).
+    const lift = (this.cameraLift * this.camera.visibleHeight) / Math.sin(CAMERA.pitchRad);
+    const yaw = this.camera.currentYaw;
+    const aimX = kp.x + Math.sin(yaw) * lift;
+    const aimZ = kp.z + Math.cos(yaw) * lift;
     const t = 1 - Math.exp((-CAMERA.followRate * dt) / 1000);
-    this.camera.target.x += (kp.x - this.camera.target.x) * t;
-    this.camera.target.z += (kp.z - this.camera.target.z) * t;
+    this.camera.target.x += (aimX - this.camera.target.x) * t;
+    this.camera.target.z += (aimZ - this.camera.target.z) * t;
     // The Settings choice reaches both cameras and the Grove's idle motion at once.
     const reduce = this.reduceMotion;
     this.camera.reduceMotion = reduce;
@@ -407,4 +459,21 @@ export class Game {
 
     if (nowMs - this.lastSaveMs >= SIM.autosaveMs) this.save();
   }
+}
+
+/**
+ * Resolves after the browser has had a chance to paint: the next animation frame, or a
+ * short timeout in a hidden tab where frames never come.
+ */
+function nextPaint(): Promise<void> {
+  return new Promise((done) => {
+    let settled = false;
+    const finish = (): void => {
+      if (settled) return;
+      settled = true;
+      setTimeout(done, 0);
+    };
+    requestAnimationFrame(finish);
+    setTimeout(finish, 50);
+  });
 }

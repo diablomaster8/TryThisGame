@@ -171,7 +171,12 @@ export class SettingsMenu {
       body.appendChild(row);
       return input;
     };
-    const select = (label: string, options: Record<string, string>) => {
+    // One change handler per select: the co-op Keeper's runs only `applyCoop` (review C, 27).
+    const select = (
+      label: string,
+      options: Record<string, string>,
+      onChange: () => void = () => this.apply(),
+    ) => {
       const row = el('label', 'field-row');
       const sel = el('select');
       for (const [value, text] of Object.entries(options)) {
@@ -179,7 +184,7 @@ export class SettingsMenu {
         o.value = value;
         sel.appendChild(o);
       }
-      sel.addEventListener('change', () => this.apply());
+      sel.addEventListener('change', onChange);
       row.append(el('strong', undefined, label), sel);
       body.appendChild(row);
       return sel;
@@ -228,9 +233,7 @@ export class SettingsMenu {
     body.appendChild(coopRow);
     const trainers: Record<string, string> = {};
     for (const t of TRAINERS) trainers[t.id] = TRAINER_LABELS[t.id]?.name ?? t.id;
-    this.coopTrainer = select(UI_TEXT.coopTrainer, trainers);
-    this.coopTrainer.removeEventListener('change', () => this.apply());
-    this.coopTrainer.addEventListener('change', () => this.applyCoop());
+    this.coopTrainer = select(UI_TEXT.coopTrainer, trainers, () => this.applyCoop());
     const screen = el('div', 'settings-actions');
     screen.append(
       button(UI_TEXT.fullscreen, () => {

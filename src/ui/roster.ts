@@ -28,6 +28,7 @@ export class RosterMenu {
   private readonly dialog;
   private readonly list: HTMLDivElement;
   private readonly codeDialog: ReturnType<typeof modal>;
+  private readonly receiveDialog: ReturnType<typeof modal>;
 
   constructor(
     parent: HTMLElement,
@@ -38,6 +39,7 @@ export class RosterMenu {
     this.list = el('div', 'roster-list');
     this.dialog.body.appendChild(this.list);
     this.codeDialog = modal(parent, UI_TEXT.share, UI_TEXT.close);
+    this.receiveDialog = modal(parent, UI_TEXT.receive, UI_TEXT.close);
   }
 
   open(): void {
@@ -177,16 +179,38 @@ export class RosterMenu {
 
   /** Paste a code to take a Nubbin in. */
   receive(): void {
-    const g = this.game();
-    if (!g) return;
-    const code = prompt(UI_TEXT.receivePrompt);
-    if (!code) return;
-    const n = decodeNubbin(code);
-    if (!n) {
-      alert(UI_TEXT.codeBad);
-      return;
-    }
-    g.send({ kind: 'receiveNubbin', nubbin: n });
+    if (!this.game()) return;
+    // A dialog of our own, not prompt() and alert(): those block the page, look foreign on
+    // phones and can be switched off by the browser (review C, item 24).
+    const d = this.receiveDialog;
+    d.body.replaceChildren();
+    d.body.appendChild(el('p', 'help', UI_TEXT.receivePrompt));
+    const box = el('textarea', 'share-code');
+    box.rows = 4;
+    box.setAttribute('aria-label', UI_TEXT.receivePrompt);
+    const status = el('p', 'help');
+    status.setAttribute('role', 'status');
+    const take = button(
+      UI_TEXT.receiveTake,
+      () => {
+        const g = this.game();
+        const n = decodeNubbin(box.value.trim());
+        if (!g || !n) {
+          status.textContent = UI_TEXT.codeBad;
+          box.focus();
+          return;
+        }
+        d.hide();
+        g.send({ kind: 'receiveNubbin', nubbin: n });
+        setTimeout(() => this.refresh(), 150);
+      },
+      'btn btn-small btn-primary',
+    );
+    const actions = el('div', 'roster-actions');
+    actions.appendChild(take);
+    d.body.append(box, actions, status);
+    d.show();
+    box.focus();
   }
 
   /** The idle front frame of the Nubbin's sheet, scaled up. */

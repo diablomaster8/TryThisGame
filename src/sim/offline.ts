@@ -7,18 +7,22 @@ import { isFree } from './nubbin';
 import { stepSlips } from './slips';
 import { addPoints } from './stats';
 import type { AwayReport, OfflineAgingSettings, SimEvent, World } from './types';
-import { stepWorld } from './world';
+import { hatchSpeed, stepWorld } from './world';
 
-/** How much of an absence the settings allow to be simulated. */
+/**
+ * How much of an absence the settings allow to be simulated. Every mode stops at
+ * `SIM.maxAwayMs` (30 days): a broken clock or a missing timestamp must not run decades.
+ */
 export function allowedSpan(elapsedMs: number, settings: OfflineAgingSettings): number {
-  if (elapsedMs <= 0) return 0;
+  if (!(elapsedMs > 0)) return 0;
+  const gap = Math.min(elapsedMs, SIM.maxAwayMs);
   switch (settings.mode) {
     case 'off':
       return 0;
     case 'capped':
-      return Math.min(elapsedMs, settings.capHours * 3_600_000);
+      return Math.min(gap, settings.capHours * 3_600_000);
     case 'indefinite':
-      return elapsedMs;
+      return gap;
   }
 }
 
@@ -28,12 +32,33 @@ export function allowedSpan(elapsedMs: number, settings: OfflineAgingSettings): 
  * are recorded; departures respect `allowOfflineDepartures` in every step, fine or coarse.
  */
 export function catchUp(world: World, elapsedMs: number, nowWallMs: number): AwayReport {
+  const run = catchUpInChunks(world, elapsedMs, nowWallMs);
+  for (;;) {
+    const next = run.next();
+    if (next.done) return next.value;
+  }
+}
+
+/**
+ * The same catch-up, pausing every `chunkSteps` coarse steps with the fraction done, so the
+ * game can let the browser paint a progress indicator between chunks (review C, item 12).
+ * The world is only consistent again once the generator returns its report.
+ */
+export function* catchUpInChunks(
+  world: World,
+  elapsedMs: number,
+  nowWallMs: number,
+  chunkSteps: number = SIM.catchUpChunkSteps,
+): Generator<number, AwayReport, void> {
   const settings = world.settings.offlineAging;
   const span = allowedSpan(elapsedMs, settings);
   const events: SimEvent[] = [];
   const { coarseSteps, fineSteps } = splitSpan(span);
 
-  for (let i = 0; i < coarseSteps; i++) coarseStep(world, SIM.coarseStepMs, events);
+  for (let i = 0; i < coarseSteps; i++) {
+    coarseStep(world, SIM.coarseStepMs, events);
+    if ((i + 1) % chunkSteps === 0 && i + 1 < coarseSteps) yield (i + 1) / coarseSteps;
+  }
   for (let i = 0; i < fineSteps; i++) {
     // The leftover under a minute still counts as time away: a Nubbin waiting for the
     // Keeper keeps waiting, and departures follow allowOfflineDepartures.
@@ -79,7 +104,7 @@ export function coarseStep(world: World, dtMs: number, events: SimEvent[]): void
   }
   for (const n of [...world.nubbins]) {
     if (n.stage === 'egg') {
-      n.hatchRemainingMs -= dtMs;
+      n.hatchRemainingMs -= dtMs * hatchSpeed(world);
       if (n.hatchRemainingMs <= 0) hatch(n, events, world.timeMs);
       continue;
     }

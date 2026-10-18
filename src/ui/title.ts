@@ -1,4 +1,10 @@
-import { KEEPER_LOOK_NAMES, NAMES, SLOT_TEXT, STORYLINE_TEXT } from '../config/strings';
+import {
+  KEEPER_LOOK_BLURBS,
+  KEEPER_LOOK_NAMES,
+  NAMES,
+  SLOT_TEXT,
+  STORYLINE_TEXT,
+} from '../config/strings';
 import { STORY_TEXT } from '../config/story';
 import { playSong } from '../platform/audio';
 import {
@@ -6,6 +12,7 @@ import {
   hasSave,
   readGraphicsPref,
   readSlotSummary,
+  storageAvailable,
   writeGraphicsPref,
   isStorylineMode,
   storylineFinished,
@@ -84,6 +91,12 @@ export function showTitle(
   card.appendChild(el('div', 'title-logo', `🌿 ${NAMES.game}`));
   card.appendChild(el('div', 'title-sub', STORY_TEXT.title));
   card.appendChild(el('div', 'title-tag', STORY_TEXT.tagline));
+  // With storage blocked every slot reads empty: say why before the player starts (review C, 11).
+  if (!storageAvailable()) {
+    const notice = el('p', 'title-storage', UI_TEXT.storageBlockedTitle);
+    notice.setAttribute('role', 'alert');
+    card.appendChild(notice);
+  }
   const menu = el('div', 'title-menu');
   card.appendChild(menu);
   // The renderer: a device-wide choice, made here because no save is open yet.
@@ -168,7 +181,11 @@ export function showTitle(
             'btn btn-small btn-icon',
           );
           erase.title = SLOT_TEXT.erase;
-          erase.setAttribute('aria-label', `${SLOT_TEXT.erase} ${SLOT_TEXT.slot(index)}`);
+          // Each mode has a Slot 1: the mode name tells the three apart (review C, item 25).
+          erase.setAttribute(
+            'aria-label',
+            `${SLOT_TEXT.erase} ${modeName}, ${SLOT_TEXT.slot(index)}`,
+          );
           row.append(main, fresh, erase);
         } else {
           const main = button('', () => startNew(slot), 'btn title-slot-main');
@@ -210,7 +227,7 @@ export function showTitle(
     );
     menu.appendChild(row);
     menu.appendChild(el('div', 'help', EDU_TEXT.ageHelp));
-    menu.appendChild(button('←', () => mainMenu(), 'btn btn-small'));
+    menu.appendChild(backButton(mainMenu));
   };
 
   /** Dawn & Dusk: pick a half; the other opens once one half has reached an ending. */
@@ -238,7 +255,7 @@ export function showTitle(
     }
     menu.appendChild(row);
     menu.appendChild(el('div', 'help', STORYLINE_TEXT.sideHelp.dawn ?? ''));
-    menu.appendChild(button('←', () => mainMenu(), 'btn btn-small'));
+    menu.appendChild(backButton(mainMenu));
   };
 
   const keeperMenu = (slot: SaveSlot, storyline?: string, side?: KeeperAlignment) => {
@@ -255,10 +272,14 @@ export function showTitle(
       );
       b.appendChild(portrait(t.id));
       b.appendChild(el('span', undefined, label));
+      const sideName = t.band === 'sun' ? `☀ ${NAMES.playerSun}` : `☾ ${NAMES.playerMoon}`;
+      const blurb = `${sideName} · ${KEEPER_LOOK_BLURBS[t.id] ?? ''}`;
+      b.appendChild(el('small', 'title-keeper-blurb', blurb));
+      b.setAttribute('aria-label', `${label}. ${blurb}`);
       grid.appendChild(b);
     }
     menu.appendChild(grid);
-    menu.appendChild(button('←', () => mainMenu(), 'btn btn-small'));
+    menu.appendChild(backButton(mainMenu));
   };
 
   mainMenu();
@@ -293,4 +314,12 @@ function portrait(trainerId: string): HTMLCanvasElement {
   }
   sheet.dispose();
   return canvas;
+}
+
+/** The "←" back to the slot list, named for screen readers (review C, item 23). */
+function backButton(onBack: () => void): HTMLButtonElement {
+  const b = button('←', onBack, 'btn btn-small');
+  b.setAttribute('aria-label', SLOT_TEXT.back);
+  b.title = SLOT_TEXT.back;
+  return b;
 }

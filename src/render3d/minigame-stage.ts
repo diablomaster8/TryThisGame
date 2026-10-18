@@ -134,6 +134,8 @@ export class MiniStage {
     this.bursts.update(nowMs, dt, ground);
     // The Grove's governor runs the shared renderer's scale through races and runs too.
     this.host.governRenderScale(this.composer, interval);
+    // The Grove turns `info.autoReset` off so the debug panel sums every pass; reset per frame.
+    this.renderer.info.reset();
     this.composer.render();
   }
 

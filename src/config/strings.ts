@@ -186,6 +186,20 @@ export const KEEPER_LOOK_NAMES: Record<string, string> = {
   nova: 'Wanderer',
 };
 
+/** One line under each look in the title's Keeper picker: what hatches with them (review C, 23). */
+export const KEEPER_LOOK_BLURBS: Record<string, string> = {
+  fern: 'Grove-line eggs, mostly.',
+  marina: 'Swimmers from the pocket line.',
+  sparks: 'Runners from the pocket line.',
+  clover: 'Gentle pocket-line babies.',
+  pixel: 'Eggs from the digital line.',
+  luna: 'Moon-side Grove eggs.',
+  ember: 'Brawlers from the pocket line.',
+  byte: 'Digital-line eggs.',
+  dusty: 'Only ancient pocket-line eggs.',
+  nova: 'A bit of everything.',
+};
+
 export const FAMILY_LABELS = {
   chao: 'Grove line',
   pocket: 'Pocket line',
@@ -265,6 +279,8 @@ export const UI_TEXT = {
   settings: 'Settings',
   close: 'Close',
   pet: 'Pet',
+  statPoints: (into: number, per: number, next: number) =>
+    `${into} of ${per} points toward level ${next}`,
   run: 'Run',
   runHelp: 'Hold Shift or tap Run to move faster.',
   pickUp: 'Pick up',
@@ -537,6 +553,7 @@ export const UI_TEXT = {
   copyByHand: 'Copying did not work here. Select the code and copy it by hand.',
   receive: 'Receive a Nubbin',
   receivePrompt: 'Paste a share code:',
+  receiveTake: 'Take them in',
   codeCopied: 'Code copied.',
   codeBad: 'That is not a Nubbin code.',
   received: (name: string) => `${name} has arrived!`,
@@ -762,6 +779,10 @@ export const UI_TEXT = {
   photoTaken: 'Snap!',
   // Toasts
   storageBlocked: 'Saving is blocked in this browser. The Grove will not be kept.',
+  /** Kept on screen while storage is blocked (review C, item 11). */
+  storageBlockedChip: '⚠ Not saving',
+  storageBlockedTitle:
+    'Saving is blocked in this browser (private browsing, or site data switched off). Games you play now will not be kept, and saved games cannot be read.',
   otherTabSaved:
     'This Grove is open in another tab, so this tab has stopped saving. Reload to carry on.',
   saved: 'Saved',
@@ -808,6 +829,17 @@ export const EDU_TEXT = {
     sounds: '🎵',
     animals: '🐾',
   },
+  /** The reader band's names for the three games it plays (review C, item 18). */
+  readerGameNames: {
+    counting: 'Sums',
+    letters: 'Spelling',
+    sounds: 'Rhymes & beats',
+  } as Partial<Record<string, string>>,
+  readerGameBlurbs: {
+    counting: 'Add and take away to 20, and the 2, 5 and 10 times tables.',
+    letters: 'Pick the right spelling of a picture word.',
+    sounds: 'Read words that rhyme, and count the beats.',
+  } as Partial<Record<string, string>>,
   gameBlurbs: {
     colours: 'Find the colour, then sort by colour.',
     letters: 'Letter names, first letters, big and small.',
@@ -1168,6 +1200,7 @@ export const SLOT_TEXT = {
   newHere: 'New',
   continue: 'Continue',
   erase: 'Erase',
+  back: 'Back',
   eraseConfirm: (n: number) => `Erase slot ${n}? This cannot be undone.`,
   newOverConfirm: (n: number) => `Start a new game in slot ${n}? The old one will be erased.`,
   nubbins: (n: number) => (n === 1 ? '1 Nubbin' : `${n} Nubbins`),

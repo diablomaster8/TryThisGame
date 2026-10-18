@@ -171,3 +171,53 @@ export const EDU_ANIMALS: ReadonlyArray<{
   { name: 'bear', icon: '🐻', sound: 'growl', home: 'land', baby: 'cub' },
   { name: 'chicken', icon: '🐔', sound: 'cluck', home: 'farm', baby: 'chick' },
 ];
+
+/**
+ * The reader band (7–10) plays three of the games at reader level (review C, item 18):
+ * sums to twenty, spelling and rhymes. Colours, shapes and animals are preschool and are
+ * not offered to readers.
+ */
+export const EDU_READER_GAMES: readonly EduGameId[] = ['counting', 'letters', 'sounds'];
+
+/** Spelling words for readers, with their beats marked and a one-line hint. */
+export const EDU_READER_WORDS: ReadonlyArray<{
+  word: string;
+  icon: string;
+  split: string;
+  hint: string;
+}> = [
+  { word: 'rabbit', icon: '🐇', split: 'rab-bit', hint: 'two b’s in the middle.' },
+  { word: 'garden', icon: '🌷', split: 'gar-den', hint: '“gar” then “den”.' },
+  { word: 'basket', icon: '🧺', split: 'bas-ket', hint: '“bas” then “ket”.' },
+  { word: 'yellow', icon: '🌼', split: 'yel-low', hint: 'two l’s, then “ow”.' },
+  { word: 'pencil', icon: '✏️', split: 'pen-cil', hint: 'a soft c, like an s.' },
+  { word: 'window', icon: '🪟', split: 'win-dow', hint: '“win” then “dow”.' },
+  { word: 'lantern', icon: '🏮', split: 'lan-tern', hint: '“lan” then “tern”.' },
+  { word: 'button', icon: '🔘', split: 'but-ton', hint: 'two t’s in the middle.' },
+  { word: 'kitten', icon: '🐈', split: 'kit-ten', hint: 'two t’s in the middle.' },
+  { word: 'dragon', icon: '🐉', split: 'drag-on', hint: '“drag” then “on”.' },
+  { word: 'pocket', icon: '👖', split: 'pock-et', hint: 'ck makes one sound.' },
+  { word: 'turtle', icon: '🐢', split: 'tur-tle', hint: 'it ends in “le”.' },
+  { word: 'carrot', icon: '🥕', split: 'car-rot', hint: 'two r’s in the middle.' },
+  { word: 'squirrel', icon: '🐿️', split: 'squir-rel', hint: '“squ”, and two r’s.' },
+  { word: 'umbrella', icon: '☂️', split: 'um-brel-la', hint: 'two l’s near the end.' },
+  { word: 'butterfly', icon: '🦋', split: 'but-ter-fly', hint: 'butter, then fly.' },
+  { word: 'pineapple', icon: '🍍', split: 'pine-ap-ple', hint: 'pine, then apple.' },
+  { word: 'strawberry', icon: '🍓', split: 'straw-ber-ry', hint: 'straw, then berry.' },
+  { word: 'snail', icon: '🐌', split: 'snail', hint: '“ai” says its name.' },
+  { word: 'bridge', icon: '🌉', split: 'bridge', hint: 'it ends in “dge”.' },
+];
+
+/** Rhyme families for readers: words in one row rhyme, rows never rhyme with each other. */
+export const EDU_READER_RHYMES: ReadonlyArray<readonly string[]> = [
+  ['cake', 'lake', 'snake', 'rake'],
+  ['night', 'light', 'kite', 'bright'],
+  ['moon', 'spoon', 'tune', 'soon'],
+  ['rain', 'train', 'chain', 'plain'],
+  ['clock', 'sock', 'rock', 'block'],
+  ['king', 'ring', 'swing', 'sing'],
+  ['boat', 'coat', 'goat', 'float'],
+  ['bear', 'chair', 'hair', 'stair'],
+  ['shell', 'bell', 'well', 'spell'],
+  ['hand', 'sand', 'band', 'land'],
+];

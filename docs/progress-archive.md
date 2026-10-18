@@ -2,6 +2,53 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Review B, Bugs 18–38 and the notes: minor bugs (2026-10-18)
+
+From the Minor section and "What the notes get wrong" of `docs/review-independent-2026-10-18-b.md`.
+Branch `fix/review-minors`, rebased onto the Bugs 1–17 merge. Works (sim items tested):
+- **Sim:** memorials keep `band:type` / `eternal:band` (`memorialForm`; old `:` forms dropped
+  on load) (18). Fun quests wait for the first hatch and chapter 2 (21). Moss keeps to his
+  seat on the western hill, off the roster and its cap, until `c7-stillness` and room bring
+  him down (`mossOnHill`, `rosterNubbins`, flag `mossDown`); story Nubbins are never traded;
+  a campaign restart no longer doubles him (23, 24). Expedition rewards always hold the
+  Shells so far (32). `gatherReadyMs` lives in the world (34). The clock keeps remainders
+  under a coarse step (`takeOverflowMs(unit)`) (35). Loads coerce inventory counts, refuse a
+  junk clock, and `setSettings` keeps a valid cap (`sanitizeOfflineAging`) (36).
+- **Story:** quest speakers show their declared names (`speakerNameIn`: owning quest, family,
+  any quest) in the Grove and the Atlas; content-check fails an unmapped `who`, including
+  Learning Grove scenes and variants (20). Keeper looks are named for the look (Gardener,
+  Tide-pooler...; `KEEPER_LOOK_NAMES`), the You portrait wears your side-trimmed outfit, Ori
+  and Hana have their own looks (22, 30). Japanese writes long i as ii (ojiichan); the
+  primer adds the six katakana of ピンク and オレンジ; the Hebrew trace goal names its two
+  letters (31).
+- **UI:** debug chapter buttons read "Ch 1"…"Ch 12" (26). The 3D race looks down at 38° over
+  1.5-unit lanes, so every racer and tag is clear, and runs on real time up to 1 s a frame
+  (27). A Graphics change returns to the same slot (`markResumeSlot`) (28). A reader slot
+  says "Age 7–10" (29). Learning Grove: no keyboard hint, the grown-up sum before Settings,
+  Hebrew set larger than its romanisation (30). Another tab writing the slot stops this
+  tab's autosave with a notice; storage that recovers warns again (33, 37). "(M4)" gone (19);
+  canvas label "The Grove", distinct slot button names, settings boxes stay 22 px (37). The
+  narrow-band sculpt test has a 30 s budget (38).
+- **Notes:** CLAUDE.md (3D location, test count, current plan, no-chores wording), plan.md
+  (count, Atlas row, G12, phone view, Waiting on Maor, CV6 row), `docs/brief.md`; `CREDITS.md`
+  with the licence texts deployed from `public/licences/`. The sw.js comment was fixed with
+  Bug 2.
+- **Checked in the browser pane** (hidden pane, frames driven by screenshots): the 3D race at
+  1280×800 and 375×812 (`docs/samples/rb-race-3d-*.jpg`), Settings at 375 (`rb-settings-375`),
+  Hebrew and Ori (`rb-hebrew-ori-1280`), the Fern and You portraits, the Learning Grove gate
+  and hint, the Graphics reload, slot labels and the Keeper picker.
+
+Stubbed or not done:
+- Bug 25 did not reproduce here (1280 and 375, ×1000, panel open: the scene keeps taking
+  taps); a comment keeps the debug panel out of the wait list. Race results already closed
+  on Escape in both modes; not reproduced either.
+- The You and the villager's sprites differ only in trim colours; a stronger difference is an
+  art call. The Learning Grove settings gate is per tap, not remembered.
+- The parent folder's stray `CLAUDE.md` (outside the repo) still says "Open decisions: none".
+
+Known bugs: none new. Assumption: Moss "comes down" in `c7-stillness` (the scene that says
+so); before then he is the hill's watcher, as chapter 1 describes.
+
 ## Review B, Bugs 1–17: blockers and major bugs (2026-10-18)
 
 From `docs/review-independent-2026-10-18-b.md` (each bug there has an "Addressed" note).

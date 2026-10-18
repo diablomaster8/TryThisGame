@@ -60,6 +60,9 @@ export class LowResPipeline implements FrameStats {
       depth: true,
     });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, RENDER.maxPixelRatio));
+    // Count every pass of a frame (scene, bloom, post), not only the last one: the counters
+    // are reset once per frame in `render` (review C, item 19).
+    this.renderer.info.autoReset = false;
     // The clear color comes from scene.background (set by the scene from the palette).
   }
 
@@ -80,6 +83,7 @@ export class LowResPipeline implements FrameStats {
   }
 
   render(scene: Scene, camera: Camera): void {
+    this.renderer.info.reset();
     if (this.post && camera instanceof OrthographicCamera) {
       this.post.render(this.renderer, scene, camera);
       return;

@@ -290,6 +290,7 @@ export function validateWorld(w: World): World {
   }
   w.grove ??= 'main';
   w.races ??= {};
+  w.raceRuns ??= 0;
   w.trainer ??= 'fern';
   w.inventory.critters ??= {};
   w.inventory.essences ??= {};

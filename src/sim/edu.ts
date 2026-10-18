@@ -1,4 +1,11 @@
-import { EDU, EDU_GAMES, EDU_RECOMMENDED, type EduAge, type EduGameId } from '../config/edu';
+import {
+  EDU,
+  EDU_GAMES,
+  EDU_READER_GAMES,
+  EDU_RECOMMENDED,
+  type EduAge,
+  type EduGameId,
+} from '../config/edu';
 import type { EduBand } from '../content/types';
 import type { EduState, SimEvent, World } from './types';
 
@@ -86,7 +93,12 @@ export function eduResult(world: World, game: EduGameId, stars: number, events: 
 export function enabledGames(world: World): EduGameId[] {
   const e = world.edu;
   if (!e) return [];
-  return EDU_GAMES.filter((g) => e.games[g]);
+  return gamesForBand(e.band).filter((g) => e.games[g]);
+}
+
+/** The games a band is offered: readers skip the preschool ones (review C, item 18). */
+export function gamesForBand(band: EduBand): readonly EduGameId[] {
+  return band === 'reader' ? EDU_READER_GAMES : EDU_GAMES;
 }
 
 /** Track live play time toward the break screen. */

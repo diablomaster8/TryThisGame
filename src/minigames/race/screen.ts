@@ -1,3 +1,4 @@
+import { playArea } from '../play-area';
 import { RACE, SIM } from '../../config/tuning';
 import { UI_TEXT } from '../../config/strings';
 import type { SpriteSheet } from '../../render/sprites/atlas';
@@ -184,7 +185,7 @@ export class RaceScreen {
   }
 
   resize(): void {
-    this.view.resize(this.root.getBoundingClientRect());
+    this.view.resize(playArea(this.root, this.view === this.pixel));
   }
 
   private readonly frame = (nowMs: number): void => {

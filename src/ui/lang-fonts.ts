@@ -15,6 +15,10 @@ export function loadLangFonts(): Promise<unknown> {
     import('@fontsource/noto-sans-jp/700.css'),
     import('@fontsource/klee-one/japanese-400.css'),
     import('@fontsource/klee-one/japanese-600.css'),
-  ]).catch(() => undefined);
+  ]).catch(() => {
+    // A failed fetch (offline, a flaky phone connection) is tried again next time a Hebrew
+    // or Japanese word is shown, not remembered as done for the session (review C, 27).
+    loading = null;
+  });
   return loading;
 }

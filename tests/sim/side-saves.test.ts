@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { ATLAS_A15, ATLAS_A15_VARIANTS } from '../../src/content/atlas-a15';
 import { ATLAS_A16, ATLAS_A16_VARIANTS } from '../../src/content/atlas-a16';
 import { ATLAS_A21, A21_VARIANTS } from '../../src/content/atlas-a21';
@@ -349,9 +349,15 @@ describe("E6's reflection (canon 21)", () => {
 });
 
 describe('every Atlas page', () => {
-  it('loads, has a title and plays to its end', async () => {
+  // The Atlas chunk is large: on a cold transform cache and a full parallel run, importing it
+  // alone took past the 5 s default (review C, item 29). Load it once with room to spare.
+  let pages: Awaited<ReturnType<typeof import('../../src/sim/atlas').loadAtlas>> = [];
+  beforeAll(async () => {
     const { loadAtlas } = await import('../../src/sim/atlas');
-    const pages = await loadAtlas();
+    pages = await loadAtlas();
+  }, 60_000);
+
+  it('loads, has a title and plays to its end', () => {
     // Pages join as their scripts land; A11–A21 are the first committed.
     expect(pages.length).toBeGreaterThanOrEqual(11);
     expect(pages.map((p) => p.id)).toContain('A15');
@@ -362,5 +368,5 @@ describe('every Atlas page', () => {
       playThrough(page, p);
       expect(p.done, page.id).toBe(true);
     }
-  });
+  }, 30_000);
 });

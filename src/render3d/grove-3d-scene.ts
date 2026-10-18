@@ -188,6 +188,8 @@ export class Grove3dScene {
   private treesBuilt = false;
   private readonly treeAt = new Map<string, Vec2>();
   private readonly crowns = new CrownFade();
+  private readonly holeSize = new THREE.Vector2();
+  private readonly holeNdc = new THREE.Vector3();
   /** The Keeper's middle and head, which the crowns keep clear of (see crowns.ts). */
   private readonly keeperMarks = [new THREE.Vector3(), new THREE.Vector3()];
   private location: Location = 'grove';
@@ -210,6 +212,8 @@ export class Grove3dScene {
     });
     this.governor = new FrameGovernor(window.devicePixelRatio);
     this.renderer.setPixelRatio(this.governor.ratio);
+    // Count every composer pass, reset once per frame in `render` (review C, item 19).
+    this.renderer.info.autoReset = false;
     // The page CSS scales the pixel mode's low-res canvas with nearest-neighbour; the 3D
     // backing store stops at 1.5x, so on a 2x or 3x phone that would turn edges to blocks.
     canvas.style.imageRendering = 'auto';
@@ -643,6 +647,14 @@ export class Grove3dScene {
     const [mid, head] = this.keeperMarks as [THREE.Vector3, THREE.Vector3];
     mid.copy(this.camTarget);
     head.copy(this.camTarget).setY(this.camTarget.y + 0.7);
+    // The crowns thin only in a circle round the Keeper on screen (see crowns.ts).
+    const buf = this.renderer.getDrawingBufferSize(this.holeSize);
+    const onScreen = this.holeNdc.copy(mid).lerp(head, 0.5).project(this.camera);
+    CrownFade.setHole(
+      (onScreen.x * 0.5 + 0.5) * buf.x,
+      (onScreen.y * 0.5 + 0.5) * buf.y,
+      buf.y * GROVE3D.crownFade.holeRadius,
+    );
     this.crowns.update(this.camera.position, this.keeperMarks, dt);
     if (this.location.startsWith('visit:'))
       this.visit.crowns.update(this.camera.position, this.keeperMarks, dt);
@@ -687,6 +699,8 @@ export class Grove3dScene {
     this.canvas.style.filter = this.fade > 0 ? `brightness(${(1 - this.fade).toFixed(3)})` : '';
     if (hold) return;
     this.governRenderScale(this.composer, interval);
+    // One reset per frame with `autoReset` off, so the debug panel sums every composer pass.
+    this.renderer.info.reset();
     this.composer.render();
     this.frameMs.push(performance.now() - t0);
     if (this.frameMs.length > 120) this.frameMs.shift();

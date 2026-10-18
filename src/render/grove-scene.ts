@@ -21,6 +21,9 @@ import {
   BufferGeometry,
   Float32BufferAttribute,
   Group,
+  CanvasTexture,
+  NearestFilter,
+  RepeatWrapping,
   type Texture,
 } from 'three';
 import { DUNGEON, GROVE, LANTERN_POSTS, PIXEL_LIGHT } from '../config/tuning';
@@ -166,6 +169,7 @@ export class GroveScene {
   private groundMat: MeshLambertMaterial | null = null;
   private groundTex: Texture | null = null;
   private ground: Mesh | null = null;
+  private skirt: Mesh | null = null;
   /** The Hollow Below: its floor, walls and lights, rebuilt per floor. */
   private readonly dungeonGroup = new Group();
   private readonly dungeonLights: PointLight[] = [];
@@ -283,6 +287,19 @@ export class GroveScene {
     this.pickables.push(ground);
     this.ground = ground;
     this.disposables.push(groundGeo, groundMat, grass);
+    // The wild wood beyond the field: at the far zoom the Grove no longer floats as a
+    // diamond over the sky (review C, item 21). Not pickable, so taps there do nothing.
+    const skirtTex = makeSkirtTexture();
+    skirtTex.repeat.set((size * 9) / 6, (size * 9) / 6);
+    const skirtGeo = new PlaneGeometry(size * 9, size * 9);
+    const skirtMat = new MeshLambertMaterial({ map: skirtTex });
+    this.tintable.push(skirtMat);
+    const skirt = new Mesh(skirtGeo, skirtMat);
+    skirt.rotation.x = -Math.PI / 2;
+    skirt.position.y = -0.06;
+    this.scene.add(skirt);
+    this.skirt = skirt;
+    this.disposables.push(skirtGeo, skirtMat, skirtTex);
     this.requestGround({});
 
     // Pond: a wet rim, the water disc with a scrolling wave tile, a drifting glint layer
@@ -633,6 +650,7 @@ export class GroveScene {
     this.corvinGroup.visible = location === 'corvin';
     this.dungeonGroup.visible = location === 'dungeon';
     if (this.ground) this.ground.visible = location !== 'dungeon';
+    if (this.skirt) this.skirt.visible = location !== 'dungeon';
     this.applyLight();
   }
 
@@ -687,6 +705,7 @@ export class GroveScene {
     this.corvinGroup.visible = location === 'corvin';
     this.dungeonGroup.visible = location === 'dungeon';
     if (this.ground) this.ground.visible = location !== 'dungeon';
+    if (this.skirt) this.skirt.visible = location !== 'dungeon';
     this.applyLight();
   }
 
@@ -954,4 +973,32 @@ export class GroveScene {
     this.groundWorker?.terminate();
     this.groundWorker = null;
   }
+}
+
+/**
+ * A small tile of dark undergrowth for the ground past the field's edge: deep leaf with
+ * forest and leaf-light flecks, from a fixed hash so it never shimmers between loads.
+ */
+function makeSkirtTexture(): CanvasTexture {
+  const n = 24;
+  const canvas = document.createElement('canvas');
+  canvas.width = n;
+  canvas.height = n;
+  const ctx = canvas.getContext('2d')!;
+  ctx.fillStyle = color(C.leafDeep);
+  ctx.fillRect(0, 0, n, n);
+  for (let y = 0; y < n; y++) {
+    for (let x = 0; x < n; x++) {
+      const h = Math.sin(x * 127.1 + y * 311.7) * 43758.5453;
+      const f = h - Math.floor(h);
+      if (f < 0.28) ctx.fillStyle = color(C.forest);
+      else if (f > 0.96) ctx.fillStyle = color(C.leaf);
+      else continue;
+      ctx.fillRect(x, y, 1, 1);
+    }
+  }
+  const tex = new CanvasTexture(canvas);
+  tex.wrapS = tex.wrapT = RepeatWrapping;
+  tex.magFilter = tex.minFilter = NearestFilter;
+  return tex;
 }

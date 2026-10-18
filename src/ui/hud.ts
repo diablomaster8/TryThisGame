@@ -1,4 +1,4 @@
-import { GROVE, INPUT } from '../config/tuning';
+import { CAMERA, GROVE, INPUT } from '../config/tuning';
 import { ACHIEVEMENT_LIST } from '../sim/achievements';
 import { SKILL_LIST } from '../sim/skills';
 import {
@@ -71,7 +71,7 @@ import { ATLAS_TEXT } from '../config/strings';
 import { LANG_TEXT } from '../config/strings';
 import { langWord } from '../sim/lang';
 import { loadArcade, loadAtlas, loadMultiverse, loadNeopia } from '../sim/atlas';
-import { currentSlot } from '../platform/storage';
+import { currentSlot, storageAvailable } from '../platform/storage';
 import { announceFestivals, StoryShelf } from './atlas';
 import { askRift } from './rift-confirm';
 import { TRAINER_LABELS as TL } from '../config/strings';
@@ -110,8 +110,9 @@ export function mountHud(
   const shopBtn = button('🛒', () => shop.open(), 'btn btn-icon');
   shopBtn.setAttribute('aria-label', UI_TEXT.shop);
   shopBtn.title = UI_TEXT.shop;
+  // The compass, not the runner: 🏃 is the Run button's (review C, item 23).
   const expeditionBtn = button(
-    '🏃',
+    '🧭',
     () => {
       if (game()?.world.edu) edu.open();
       else startExpedition();
@@ -245,7 +246,20 @@ export function mountHud(
   // Catch-up overlay.
   const catching = el('div', 'catching', UI_TEXT.catchingUp);
   catching.hidden = true;
+  catching.setAttribute('role', 'status');
   root.appendChild(catching);
+
+  // Blocked storage stays on screen, not one passing toast (review C, item 11): a small chip
+  // that says why when tapped.
+  const storageChip = button(
+    UI_TEXT.storageBlockedChip,
+    () => toast(UI_TEXT.storageBlockedTitle),
+    'storage-chip',
+  );
+  storageChip.title = UI_TEXT.storageBlockedTitle;
+  storageChip.setAttribute('aria-label', UI_TEXT.storageBlockedTitle);
+  storageChip.hidden = storageAvailable();
+  root.appendChild(storageChip);
 
   const sheet = new StatsSheet(root, game);
   const settings = new SettingsMenu(root, game, toast);
@@ -360,7 +374,7 @@ export function mountHud(
     [`🧑‍🏫 ${EDU_TEXT.grownUps}`, () => grownUps.open()],
   ] as const) {
     const isEdu = label.includes(EDU_TEXT.grownUps);
-    // A stranger's code has no place in the Learning Grove, so Receive is hidden there.
+    // Receiving a stranger's code is not for the Learning Grove (review C, items 2 and 24).
     const isKarate = label.includes(UI_TEXT.karate) || label.includes(UI_TEXT.receive);
     const isRift = label.includes(ATLAS_TEXT.rift);
     const isGate = label.includes(ATLAS_TEXT.gate);
@@ -530,11 +544,20 @@ export function mountHud(
       else if (edu.isOpen()) edu.close();
       else if (grownUps.isOpen()) grownUps.close();
       else if (gym.isOpen()) gym.close();
+      // The story shelves, the Hollow menu and the party bout (review C, item 27).
+      else if (atlas.isOpen()) atlas.close();
+      else if (cabinet.isOpen()) cabinet.close();
+      else if (rift.isOpen()) rift.close();
+      else if (neoGate.isOpen()) neoGate.close();
+      else if (dungeon.isOpen()) dungeon.close();
+      else if (partyBout.isOpen()) partyBout.close();
       else if (more.isOpen()) more.hide();
       else if (!sheet.root.hidden) sheet.close();
     }
   });
 
+  /** A season's festival toast, held until no story scene is on or waiting. */
+  let heldFestival: string | null = null;
   // Periodic refresh of live panels.
   let refreshTimer = 0;
   function refreshLoop(): void {
@@ -615,13 +638,13 @@ export function mountHud(
         );
       }
       if (quests.isOpen() && Math.random() < 0.1) quests.refresh();
-      // Learning Grove: no races or karate; the 🏃 button is the games; breaks on time.
+      // Learning Grove: no races or karate; the 🧭 button is the games; breaks on time.
       const isEdu = !!g.world.edu;
       racesBtn.hidden = isEdu;
       dungeon.refresh(g.world);
       expeditionBtn.title = isEdu ? EDU_TEXT.play : UI_TEXT.expedition;
       expeditionBtn.setAttribute('aria-label', expeditionBtn.title);
-      expeditionBtn.textContent = isEdu ? '🎓' : '🏃';
+      expeditionBtn.textContent = isEdu ? '🎓' : '🧭';
       for (const b of moreList.querySelectorAll<HTMLElement>('.edu-only')) b.hidden = !isEdu;
       for (const b of moreList.querySelectorAll<HTMLElement>('.not-edu')) b.hidden = isEdu;
       // The keyboard hint is for grown-up desktops, not for a 3-year-old's screen.
@@ -645,12 +668,26 @@ export function mountHud(
       if (isEdu && eduBreakDue(g.world) && !breakScreen.isOpen() && !edu.isOpen())
         breakScreen.show();
       placingChip.hidden = !g.placing;
+      // The phone's stats sheet is a bottom sheet: lift the view so the Nubbin stays in sight.
+      g.cameraLift = !sheet.root.hidden && window.innerWidth < 720 ? CAMERA.sheetLift : 0;
       if (g.placing) placingText.textContent = UI_TEXT.placing(placingLabel(g.placing));
       if (kindergarten.isOpen() && Math.random() < 0.1) kindergarten.refresh();
       const next = c?.queue[0];
       if (
+        heldFestival &&
+        !(next && dialogue.shouldPlay(next)) &&
+        !dialogue.isOpen &&
+        !away.isOpen &&
+        !g.catchingUp
+      ) {
+        toast(heldFestival);
+        playSound('win');
+        heldFestival = null;
+      }
+      if (
         dialogue.shouldPlay(next) &&
         next &&
+        !g.catchingUp &&
         !dialogue.isOpen &&
         !away.isOpen &&
         !expedition.isOpen &&
@@ -939,8 +976,9 @@ export function mountHud(
           );
           playSound('pickup');
         } else if (e.kind === 'festival') {
-          toast(UI_TEXT.festival[e.season]);
-          playSound('win');
+          // The calendar's festival waits for any story scene to finish, so "Autumn harvest"
+          // never sits on top of a scene that says it is late spring (review C, item 16).
+          heldFestival = UI_TEXT.festival[e.season];
         } else if (e.kind === 'coop') {
           toast(e.active ? UI_TEXT.coopOn : UI_TEXT.coopOff);
         } else if (e.kind === 'dyed') {
@@ -956,11 +994,9 @@ export function mountHud(
     },
     onAway(report: AwayReport) {
       const g = game();
-      // On first load the game is not bound yet; defer to the next tick.
-      setTimeout(() => {
-        const gg = g ?? game();
-        if (gg) away.show(report, gg.world);
-      }, 0);
+      // Shown at once, so no story scene can start under it; the scene waits for it to close.
+      if (g) away.show(report, g.world);
+      else setTimeout(() => game() && away.show(report, game()!.world), 0);
     },
     onSelect(id) {
       const g = game();
@@ -1000,6 +1036,7 @@ export function mountHud(
     },
     onStorageBlocked() {
       toast(UI_TEXT.storageBlocked);
+      storageChip.hidden = false;
     },
     onOtherTab() {
       toast(UI_TEXT.otherTabSaved);
