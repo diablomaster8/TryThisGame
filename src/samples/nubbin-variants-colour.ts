@@ -37,7 +37,7 @@ export const EGG_COLOURS: EggColour[] = [
   { name: 'ember', body: '#e0562e', crownShade: '#9e2b3f', belly: '#ffe08a' },
 ];
 
-interface Jewel {
+export interface Jewel {
   name: string;
   body: string;
   crownShade: string;
@@ -45,7 +45,7 @@ interface Jewel {
   tip: string;
 }
 
-const JEWELS: Jewel[] = [
+export const JEWELS: Jewel[] = [
   { name: 'ruby', body: '#c81e3c', crownShade: '#7a0f24', belly: '#ff8aa0', tip: '#ffd0d8' },
   { name: 'sapphire', body: '#1e4fc8', crownShade: '#10287a', belly: '#8fb0ff', tip: '#d0e0ff' },
   { name: 'emerald', body: '#1ea860', crownShade: '#0f6a3a', belly: '#8ae5b0', tip: '#d0ffe0' },
@@ -95,7 +95,8 @@ export const SHINY_FINISH = {
   hints: [{ kind: 'sphere' as const, a: V(0, 2.42, 0.6), r: 0.11, color: '#ffffff', soft: 0.02 }],
 };
 
-const JEWEL_FINISH = {
+/** The gemstone surface: cut facets under a hard gloss (also worn by jewel adults in 3D). */
+export const JEWEL_FINISH = {
   detail: 'facet' as const,
   scale: 0.55,
   roughness: 0.12,

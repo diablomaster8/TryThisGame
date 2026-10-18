@@ -212,4 +212,16 @@ export class Bursts {
     this.clouds.star.flush();
     this.clouds.heart.flush();
   }
+
+  /** Free the three clouds (their buffers, materials and the shape textures). */
+  dispose(): void {
+    for (const c of Object.values(this.clouds)) {
+      c.points.removeFromParent();
+      c.points.geometry.dispose();
+      const m = c.points.material as THREE.PointsMaterial;
+      m.map?.dispose();
+      m.dispose();
+    }
+    this.list.length = 0;
+  }
 }

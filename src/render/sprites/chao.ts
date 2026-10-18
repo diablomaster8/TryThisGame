@@ -127,6 +127,24 @@ export const VARIANT_COLORS: Record<string, { body: number; shade: number; belly
 };
 
 /**
+ * The seven jewel eggs (`JEWEL_EGG_COLORS` in sim/nubbin.ts), as near the 3D gem colours
+ * (`JEWELS` in samples/nubbin-variants-colour.ts) as the shared palette goes. Ruby sits
+ * a step brighter than garnet, as in 3D. A jewel Nubbin keeps its stone for life.
+ */
+export const JEWEL_COLORS: Record<
+  string,
+  { body: number; shade: number; belly: number; tip: number }
+> = {
+  ruby: { body: C.rose, shade: C.berry, belly: C.blush, tip: C.roseLight },
+  sapphire: { body: C.deepWater, shade: C.nightBlue, belly: C.shallows, tip: C.skyLight },
+  emerald: { body: C.teal, shade: C.tealDeep, belly: C.tealLight, tip: C.skyLight },
+  amethyst: { body: C.violet, shade: C.violetDeep, belly: C.lavender, tip: C.violetLight },
+  topaz: { body: C.orange, shade: C.sunDeep, belly: C.sunLight, tip: C.cream },
+  garnet: { body: C.berry, shade: C.darkPlum, belly: C.rose, tip: C.blush },
+  onyx: { body: C.darkPlum, shade: C.ink, belly: C.plum, tip: C.lilacGrey },
+};
+
+/**
  * Apply an egg-colour variant to a palette. Coloured Nubbins keep their colour through
  * evolution; Sun forms lighten the belly, Moon forms darken the shade. Two-tone takes the
  * belly and tips from a second colour; shiny brightens the outline and glint.
@@ -138,6 +156,12 @@ export function variantColors(
   tone: string | null = null,
   band: 'sun' | 'moon' | 'neutral' | null = null,
 ): ChaoColors {
+  // Jewels are the stone through and through: never two-tone or shiny, whatever the band.
+  const j = JEWEL_COLORS[eggColor];
+  if (j) {
+    const { body, shade, belly, tip } = j;
+    return { ...base, body, shade, belly, tip, tipShade: shade, wing: tip, glint: C.white };
+  }
   let out = { ...base };
   const v = VARIANT_COLORS[eggColor];
   if (v) {
@@ -360,6 +384,8 @@ export interface ChaoLook {
   hat?: string | null;
   /** Extra sparkles. */
   shiny?: boolean;
+  /** A jewel Nubbin's gem finish: cut facets and a hard glint. */
+  gem?: boolean;
   /** Accessories: a dyed scarf, glasses, a dyed hat. */
   scarf?: DyeColor | null;
   glasses?: boolean;
@@ -905,6 +931,52 @@ function drawFace(
   }
 }
 
+/**
+ * The gem finish on a jewel Nubbin: a pale cut on the crown side of the head, a dark
+ * facet on the far side, crisp cut lines and a hard white star of a glint, plus one facet
+ * on the body. Drawn before the face, so the eyes stay on top.
+ */
+function drawGemFacets(pc: PixelCanvas, L: Layout, col: ChaoColors): void {
+  const hx = L.headCx;
+  const hy = L.headCy;
+  const rx = L.headRx;
+  const ry = L.headRy;
+  const top = { x: hx - rx * 0.05, y: hy - ry * 0.85 };
+  const corner = { x: hx - rx * 0.65, y: hy - ry * 0.45 };
+  const inner = { x: hx - rx * 0.15, y: hy - ry * 0.25 };
+  pc.tri(top.x, top.y, corner.x, corner.y, inner.x, inner.y, col.belly);
+  pc.tri(
+    hx + rx * 0.35,
+    hy + ry * 0.15,
+    hx + rx * 0.9,
+    hy - ry * 0.15,
+    hx + rx * 0.6,
+    hy + ry * 0.75,
+    col.shade,
+  );
+  pc.thinLine(top.x, top.y, corner.x, corner.y, col.tip);
+  pc.thinLine(corner.x, corner.y, hx - rx * 0.9, hy + ry * 0.2, col.tip);
+  pc.thinLine(top.x, top.y, hx + rx * 0.6, hy - ry * 0.6, col.tip);
+  pc.thinLine(inner.x, inner.y, hx + rx * 0.35, hy + ry * 0.15, col.belly);
+  // The hard glint: a white pixel with a fine four-point star.
+  const gx = hx - rx * 0.4;
+  const gy = hy - ry * 0.55;
+  pc.px(gx, gy, C.white);
+  pc.dot(gx + 0.5, gy - 1, C.white);
+  pc.dot(gx + 0.5, gy + 2, C.white);
+  pc.dot(gx - 1, gy + 0.5, C.white);
+  pc.dot(gx + 2, gy + 0.5, C.white);
+  // One facet catching the light on the body.
+  pc.thinLine(
+    L.bodyCx - L.bodyRx * 0.6,
+    L.bodyCy - 1,
+    L.bodyCx,
+    L.bodyCy - L.bodyRy * 0.8,
+    col.tip,
+  );
+  pc.dot(L.bodyCx - L.bodyRx * 0.3, L.bodyCy - L.bodyRy * 0.4, C.white);
+}
+
 /** Draw one frame into a fresh 32×32 canvas. */
 export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): PixelCanvas {
   const pc = new PixelCanvas(CHAO_SIZE, CHAO_SIZE);
@@ -958,6 +1030,8 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
     pc.px(L.headCx + 3, L.headCy - 3, C.white);
     pc.px(L.bodyCx - 3, L.bodyCy - 2, C.white);
   }
+
+  if (look.gem) drawGemFacets(pc, L, col);
 
   const ears = partStyle(look.parts.ears);
   if (ears) drawEars(pc, angle, L, ears);

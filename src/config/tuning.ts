@@ -69,7 +69,23 @@ export const SCULPT_RES = {
 } as const;
 
 /** The full-3D Grove: its Lakitu camera, the heightfield and the dressing built from GROVE. */
+/** The pixel sprite atlas (render/sprites/mega-atlas.ts). */
+export const ATLAS = {
+  /** Share of the atlas a repack leaves empty, so new sheets fit without another repack. */
+  headroom: 0.25,
+} as const;
+
+/** Which adults get the extra motion clips, by stat level (both renderers). */
+export const MOTION_CLIPS = {
+  /** An adult at or above this Fly level flaps its wings when it moves. */
+  flapLevel: 30,
+  /** An adult at or above this Swim level swims a stroke in the pond; others wade. */
+  swimLevel: 30,
+} as const;
+
 export const GROVE3D = {
+  /** The longest the 3D loading veil waits before showing the Grove with its stand-ins. */
+  loadSafetyMs: 90_000,
   /**
    * Entering a place whose programs are still linking keeps the last frame up; after
    * `delayMs` it dims over `ms` (and brightens back as fast once the place draws).
@@ -458,6 +474,8 @@ export const SHOP = {
   /** Of the rare eggs: chance of a two-tone, and of a shiny. */
   twoToneChance: 0.3,
   shinyChance: 0.2,
+  /** Chance a bought egg is a jewel (ruby, sapphire, ...); rolled before the rare colours. */
+  jewelEggChance: 0.02,
   hat: 40,
   toy: 30,
   /** How many toys can lie in the Grove at once. */

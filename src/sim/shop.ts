@@ -1,7 +1,7 @@
 import { hasRoom } from './roster';
 import { BREEDING, GROVE, PARTNERS, SHOP } from '../config/tuning';
 import { shopDiscount } from './town';
-import { EGG_COLORS, createEgg } from './nubbin';
+import { EGG_COLORS, JEWEL_EGG_COLORS, createEgg, isJewel } from './nubbin';
 import type { Rng } from './rng';
 import { rollEggSpecies, trainerOf } from './trainers';
 import type { Rewards, ShopItem, SimEvent, Vec2, World } from './types';
@@ -73,7 +73,13 @@ export function buy(world: World, item: ShopItem, rng: Rng, events: SimEvent[]):
       const rare = rng.chance(Math.min(0.9, SHOP.rareEggChance * rareEggMultiplier(world)));
       const colours = EGG_COLORS.filter((c) => c !== 'plain');
       const seasonal = seasonalEggColor(world.season);
-      const color = rare ? (seasonal && rng.chance(0.35) ? seasonal : rng.pick(colours)) : 'plain';
+      const color = rng.chance(SHOP.jewelEggChance)
+        ? rng.pick(JEWEL_EGG_COLORS)
+        : rare
+          ? seasonal && rng.chance(0.35)
+            ? seasonal
+            : rng.pick(colours)
+          : 'plain';
       const egg = createEgg(
         newId(world, 'nub'),
         freeSpot(world, rng),
@@ -81,7 +87,8 @@ export function buy(world: World, item: ShopItem, rng: Rng, events: SimEvent[]):
         color,
         rollEggSpecies(trainerOf(world.trainer), rng),
       );
-      if (rare) {
+      // A jewel is its own finish: no two-tone or shiny on top.
+      if (rare && !isJewel(color)) {
         if (rng.chance(SHOP.twoToneChance)) egg.tone = rng.pick(colours.filter((c) => c !== color));
         if (rng.chance(SHOP.shinyChance)) egg.shiny = true;
       }

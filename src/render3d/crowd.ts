@@ -10,6 +10,7 @@ import { TRAINERS, trainerOf } from '../sim/trainers';
 import type { Location, World } from '../sim/types';
 import type { CreaturePool, Look } from './creature-pool';
 import { gaitTime } from './gait';
+import { placeStand } from './item-kit';
 
 /**
  * Everyone in the 3D scene who is not the Keeper or one of the Keeper's Nubbins: visiting
@@ -27,7 +28,7 @@ export interface Figure {
   z: number;
   facing: number;
   pose: PoseName;
-  /** Head hung and arms in, laid over the pose (the Shadows' sad stand). */
+  /** Stands in the sad pose instead of idle (the Shadows' sad stand). */
   sad?: boolean;
   /** A little hop in place (a fed wild visitor). */
   hop?: boolean;
@@ -200,7 +201,6 @@ interface Member {
   pos: THREE.Vector3;
   pose: PoseName | null;
   kind: Figure['kind'];
-  overlay: Array<{ o: THREE.Object3D; x: number; z: number }>;
   ask: THREE.Sprite | null;
 }
 
@@ -235,7 +235,6 @@ export class Crowd {
           pos: new THREE.Vector3(f.x, ground(f.x, f.z), f.z),
           pose: null,
           kind: f.kind,
-          overlay: [],
           ask: null,
         };
         this.members.set(f.id, m);
@@ -259,33 +258,17 @@ export class Crowd {
       const gy = ground(m.pos.x, m.pos.z);
       const hop = f.hop ? Math.abs(Math.sin(t * 5.5)) * 0.25 : 0;
       if (m.rig) {
-        for (const u of m.overlay) {
-          u.o.rotation.x -= u.x;
-          u.o.rotation.z -= u.z;
-        }
-        m.overlay.length = 0;
-        if (m.pose !== f.pose) {
-          m.pose = f.pose;
-          m.rig.setPose(f.pose);
+        const pose: PoseName = f.sad && f.pose === 'idle' ? 'sad' : f.pose;
+        if (m.pose !== pose) {
+          m.pose = pose;
+          m.rig.setPose(pose);
         }
         m.rig.group.position.set(m.pos.x, gy + hop, m.pos.z);
         m.rig.ground = hop > 0 ? () => gy + hop : ground;
         m.rig.face(f.facing);
         m.rig.animate(gaitTime(m.rig, m.pos.x, m.pos.z, t + m.pos.x * 0.37, dt, f.pose === 'walk'));
-        if (f.sad) {
-          const lay = (name: string, x: number, z: number) => {
-            const o = m.rig!.bones[name];
-            if (!o) return;
-            o.rotation.x += x;
-            o.rotation.z += z;
-            m.overlay.push({ o, x, z });
-          };
-          lay('head', 0.42, 0);
-          lay('armL', 0.2, -0.35);
-          lay('armR', 0.2, 0.35);
-        }
       } else if (m.stand) {
-        m.stand.position.set(m.pos.x, gy + m.stand.scale.y * 0.9, m.pos.z);
+        placeStand(m.stand, m.pos.x, gy, m.pos.z, t);
       }
       const mat = f.ask ? this.askMat() : undefined;
       if (mat && !m.ask) {
@@ -324,6 +307,11 @@ export class Crowd {
       : null;
   }
 
+  /** Whether each figure stands as itself yet (false while a stand-in waits), for the veil. */
+  readiness(): boolean[] {
+    return [...this.members.values()].map((m) => !!m.rig);
+  }
+
   /** Feet on the grass, for the pushers. */
   positions(): Array<{ x: number; z: number; r: number }> {
     return [...this.members.values()]
@@ -334,13 +322,7 @@ export class Crowd {
   private drop(id: string): void {
     const m = this.members.get(id);
     if (!m) return;
-    if (m.rig) {
-      for (const u of m.overlay) {
-        u.o.rotation.x -= u.x;
-        u.o.rotation.z -= u.z;
-      }
-      this.pool.release(m.key, m.rig);
-    }
+    if (m.rig) this.pool.release(m.key, m.rig);
     m.stand?.removeFromParent();
     m.ask?.removeFromParent();
     this.members.delete(id);

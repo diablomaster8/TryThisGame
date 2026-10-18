@@ -7,6 +7,23 @@ import type { Nubbin, NubbinType, Vec2 } from './types';
 
 export const EGG_COLORS = ['plain', 'sky', 'rose', 'mint', 'gold', 'violet'] as const;
 
+/**
+ * Jewel eggs: the gemstone Nubbins, only from the shop at `SHOP.jewelEggChance`. Kept apart
+ * from `EGG_COLORS` so the other egg sources (gifts, quests, the Hollow) never roll them.
+ */
+export const JEWEL_EGG_COLORS = [
+  'ruby',
+  'sapphire',
+  'emerald',
+  'amethyst',
+  'topaz',
+  'garnet',
+  'onyx',
+] as const;
+
+export const isJewel = (colour: string): boolean =>
+  (JEWEL_EGG_COLORS as readonly string[]).includes(colour);
+
 export function createEgg(
   id: string,
   pos: Vec2,

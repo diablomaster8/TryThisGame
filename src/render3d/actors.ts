@@ -5,16 +5,18 @@ import { frameKey } from '../render/sprites/animations';
 import { emoteFor } from '../render/world-view';
 import type { PoseName, Rigged } from '../samples/species';
 import type { Floor } from '../sim/dungeon';
-import type { Item, Location, Nubbin, Vec2, World } from '../sim/types';
+import type { Location, Nubbin, Vec2, World } from '../sim/types';
 import { keeperLook, nubbinLook, openingLooks, takePool, type Look } from './creature-pool';
-import { EGG_COLOURS } from '../samples/nubbin-variants-colour';
 import { Crowd, crowdFor } from './crowd';
 import { gaitTime } from './gait';
 import { WATER_LEVEL, groveHeight } from './terrain';
-import { buildToy } from './toys';
 import { GROVE, GROVE3D, LIFECYCLE, THROW } from '../config/tuning';
 import { isMerged } from '../sim/partners';
-import { FRUIT_COLOURS, FRUIT_PLAIN, MergedGlow } from './glow';
+import { MergedGlow } from './glow';
+import { Dresser } from './dress';
+import { ItemKit, eggFamily, placeStand, shellKey } from './item-kit';
+import { flaps, swimsStroke } from '../sim/stats';
+import { moodOf } from '../sim/needs';
 import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
 
 /**
@@ -36,8 +38,6 @@ interface Actor {
   /** The look still being sculpted, and the soft stand-in shown until it is ready. */
   look: Look | null;
   stand: THREE.Mesh | null;
-  /** Rotations laid over the pose this frame (the cry's droop), undone before the next. */
-  overlay: Array<{ o: THREE.Object3D; x: number; z: number }>;
   /** While thrown: when the flight began and how long it should last, for the tumble. */
   flight: { startMs: number; totalMs: number } | null;
   /** The ring spreading on the water around a swimmer. */
@@ -53,12 +53,22 @@ interface Actor {
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
-/** How far a swimmer sinks, as a fraction of its scale (the sculpt is about 3 units tall). */
+/**
+ * How far a body in the pond sinks, as a fraction of its scale (the sculpt is about 3
+ * units tall): a swimmer to the shoulders, a wader (no stroke yet) only to the belly.
+ */
 const GROVE3D_SINK = 1.1;
+const GROVE3D_WADE = 0.6;
 
-/** Sim behaviour and handling, mapped to the species format's poses. */
+/**
+ * Sim behaviour and handling, mapped to the species format's poses, by the pixel view's
+ * rule (`clipFor`): crying and a low or hungry mood at rest are sad, the reactions get
+ * their own body, a thrown body tumbles, a flyer flaps as it moves and a swimmer strokes
+ * (any other Nubbin in the pond wades, which is the walk).
+ */
 export function poseFor(n: Nubbin, moving: boolean, petted: boolean): PoseName {
   if (petted) return 'pet';
+  const walk = (): PoseName => (moving ? (flaps(n) ? 'flap' : 'walk') : 'idle');
   switch (n.behavior.state) {
     case 'held':
     case 'carried':
@@ -76,16 +86,43 @@ export function poseFor(n: Nubbin, moving: boolean, petted: boolean): PoseName {
     case 'fetch':
       return 'happy';
     case 'cry':
-      // The format has no sad pose; idle with a droop laid over it (see `overlay`).
-      return 'idle';
+      return 'sad';
     case 'swim':
-      // Paddling: the walk, with the body sunk to the shoulders in the water.
-      return 'walk';
+      return swimsStroke(n) ? 'swim' : 'walk';
     case 'thrown':
-      return 'idle';
-    default:
-      return moving ? 'walk' : 'idle';
+      return 'tumble';
+    case 'react':
+      switch (n.behavior.reaction) {
+        case 'love':
+          return 'love';
+        case 'happy':
+          return 'happy';
+        case 'dizzy':
+          return 'dizzy';
+        case 'surprised':
+          return 'surprised';
+        case 'sad':
+          return 'sad';
+        default:
+          return walk();
+      }
+    case 'wander':
+    case 'findFood':
+    case 'avoid':
+      return walk();
+    default: {
+      if (moving) return walk();
+      const mood = moodOf(n);
+      return mood === 'sad' || mood === 'hungry' ? 'sad' : 'idle';
+    }
   }
+}
+
+interface KeeperSlot {
+  key: string;
+  look: Look;
+  rig: Rigged | null;
+  stand: THREE.Mesh | null;
 }
 
 export class Actors {
@@ -97,19 +134,16 @@ export class Actors {
     { mesh: THREE.Object3D; lift: number; prev: Snapshot }
   >();
   private readonly memorials = new Map<string, THREE.Group>();
-  private keeper: { key: string; look: Look; rig: Rigged | null; stand: THREE.Mesh | null } | null =
-    null;
-  /** Stand-ins for figures still in the sculpt workers: one soft, breathing capsule. */
-  private readonly standGeo = new THREE.CapsuleGeometry(0.5, 0.6, 6, 16);
-  private readonly standMat = new THREE.MeshStandardMaterial({
-    color: '#e8f0ff',
-    emissive: '#a8c8ff',
-    emissiveIntensity: 0.4,
-    roughness: 0.6,
-    transparent: true,
-    opacity: 0.55,
-    depthWrite: false,
-  });
+  private keeper: KeeperSlot | null = null;
+  /** The co-op partner's Keeper, while co-op is on, and where it was at the last step. */
+  private keeper2: KeeperSlot | null = null;
+  private keeper2Prev: Vec2 | null = null;
+  /** Eggs, cocoons, items and stand-ins, with their geometry and materials shared. */
+  readonly kit = new ItemKit();
+  /** Hats, scarves and glasses on the Chao line's rigs. */
+  private readonly dresser = new Dresser();
+  /** The world of the last frame, so the loading bar can count every Nubbin to be drawn. */
+  private world: World | null = null;
   private keeperPrev: Vec2 = { x: 0, z: 0 };
   private keeperMoving = false;
   private readonly emoteMats = new Map<string, THREE.SpriteMaterial>();
@@ -184,6 +218,7 @@ export class Actors {
   /** Build the Keeper and the child first, so the opening seconds do not stall. */
   warm(world: World): void {
     this.warmed = true;
+    this.world = world;
     this.pool.warm(openingLooks(world));
   }
 
@@ -191,12 +226,21 @@ export class Actors {
 
   /**
    * The opening build, for the loading bar: surfaces back (most of the wait) and figures
-   * rigged. Done once the Keeper and every Nubbin stand as themselves, no stand-ins left.
+   * rigged. Done once the Keeper (both in co-op), every Nubbin the world will draw here
+   * and the crowd all stand as themselves, no stand-ins left. Nubbins are counted from
+   * the world, not from the actors already made, so a frame that has not reached them
+   * yet (or one that just swapped a look) does not count as finished.
    */
   loadState(): { progress: number; done: boolean } {
-    if (!this.warmed || !this.keeper) return { progress: 0, done: false };
+    const world = this.world;
+    if (!this.warmed || !this.keeper || !world) return { progress: 0, done: false };
     const figures = [!!this.keeper.rig];
-    for (const a of this.nubbins.values()) figures.push(!!(a.rig || a.shell));
+    if (world.coop.active && world.keeper2) figures.push(!!this.keeper2?.rig);
+    for (const n of this.location.startsWith('visit:') ? [] : world.nubbins) {
+      const a = this.nubbins.get(n.id);
+      figures.push(!!a && a.key === this.wantKey(n) && !!(a.rig || a.shell));
+    }
+    figures.push(...this.crowd.readiness());
     const rigged = figures.filter(Boolean).length;
     if (rigged === figures.length && this.pool.burst) this.pool.loaded();
     return {
@@ -224,6 +268,8 @@ export class Actors {
     }
     this.keeperPrev.x = world.keeper.pos.x;
     this.keeperPrev.z = world.keeper.pos.z;
+    const k2 = world.coop.active ? world.keeper2 : null;
+    this.keeper2Prev = k2 ? { x: k2.pos.x, z: k2.pos.z } : null;
   }
 
   keeperDrawPos(world: World, alpha: number): Vec2 {
@@ -307,29 +353,6 @@ export class Actors {
     return b;
   }
 
-  private shell(stage: 'egg' | 'cocoon', n: Nubbin): THREE.Mesh {
-    // Egg colours are the Nubbin's colours for life, so the shell wears the body colour.
-    const egg = EGG_COLOURS.find((c) => c.name === n.eggColor);
-    const color = stage === 'egg' ? (egg?.body ?? '#f3efe2') : '#d8c8f0';
-    const mesh = new THREE.Mesh(
-      new THREE.SphereGeometry(0.42, 20, 16),
-      new THREE.MeshPhysicalMaterial({
-        color,
-        roughness: stage === 'egg' ? 0.5 : 0.15,
-        clearcoat: stage === 'egg' ? 0.3 : 1,
-        transmission: stage === 'egg' ? 0 : 0.35,
-        thickness: 0.6,
-        emissive: stage === 'egg' ? '#000000' : '#8a70c0',
-        emissiveIntensity: stage === 'egg' ? 0 : 0.5,
-        // A cocoon fades or shimmers (see `update`).
-        transparent: stage === 'cocoon',
-      }),
-    );
-    mesh.scale.set(0.85, 1.1, 0.85);
-    mesh.castShadow = true;
-    return mesh;
-  }
-
   private addEmoteSheet(shadow: boolean): void {
     const sheet = buildEmoteSheet(shadow ? C.plum : undefined);
     const image = sheet.texture.image as HTMLCanvasElement;
@@ -355,7 +378,7 @@ export class Actors {
   }
 
   private ensureNubbin(n: Nubbin): Actor {
-    const want = n.stage === 'egg' || n.stage === 'cocoon' ? `shell:${n.stage}` : nubbinLook(n).key;
+    const want = this.wantKey(n);
     let a = this.nubbins.get(n.id);
     if (a && a.key !== want) {
       this.drop(n.id);
@@ -372,7 +395,6 @@ export class Actors {
       shell: null,
       look: null,
       stand: null,
-      overlay: [],
       flight: null,
       ripple: null,
       squash: null,
@@ -382,7 +404,7 @@ export class Actors {
       emoteKey: '',
     };
     if (n.stage === 'egg' || n.stage === 'cocoon') {
-      actor.shell = this.shell(n.stage, n);
+      actor.shell = this.kit.shell(n);
       this.group.add(actor.shell);
     } else {
       actor.look = nubbinLook(n);
@@ -392,10 +414,14 @@ export class Actors {
     return actor;
   }
 
-  /** A stand-in sized to a look: the height it will have, as a soft capsule. */
+  /** What a Nubbin is drawn as: its shell (by family, colour and cocoon kind) or its look. */
+  private wantKey(n: Nubbin): string {
+    return n.stage === 'egg' || n.stage === 'cocoon' ? shellKey(n) : nubbinLook(n).key;
+  }
+
+  /** A stand-in sized to a look: a low, warm shimmer on the grass (see `ItemKit.stand`). */
   standIn(look: Look): THREE.Mesh {
-    const m = new THREE.Mesh(this.standGeo, this.standMat);
-    m.scale.set(look.height * 0.32, look.height * 0.5, look.height * 0.32);
+    const m = this.kit.stand(look.height);
     this.group.add(m);
     return m;
   }
@@ -418,7 +444,6 @@ export class Actors {
     this.group.add(rig.group);
   }
 
-  /** The cry: head hung and arms in, with a small sob, laid over the idle pose. */
   /**
    * A thrown Nubbin rolls once about its side axis over the flight, so it is upright
    * again as it lands. The flight time comes from the sim's launch speed and height; the
@@ -439,20 +464,14 @@ export class Actors {
     o.rotateX(k * Math.PI * 2);
   }
 
-  private droop(a: Actor, rig: Rigged, t: number): void {
-    const lay = (name: string, x: number, z: number) => {
-      const o = rig.bones[name];
-      if (!o) return;
-      o.rotation.x += x;
-      o.rotation.z += z;
-      a.overlay.push({ o, x, z });
-    };
-    lay('head', 0.42 + Math.sin(t * 9) * 0.04, 0);
-    lay('armL', 0.2, -0.35);
-    lay('armR', 0.2, 0.35);
-  }
-
-  private rippleGeo: THREE.RingGeometry | null = null;
+  // One ring and one material for every swimmer: the swell runs on the shared clock, so
+  // every ripple fades in step and the opacity can be set once.
+  private readonly rippleGeo = new THREE.RingGeometry(0.42, 0.5, 32);
+  private readonly rippleMat = new THREE.MeshBasicMaterial({
+    color: '#ffffff',
+    transparent: true,
+    depthWrite: false,
+  });
 
   /** A ring that swells and fades on the water around a swimmer. */
   private ripple(a: Actor, on: boolean, x: number, z: number, t: number): void {
@@ -461,11 +480,7 @@ export class Actors {
       return;
     }
     if (!a.ripple) {
-      this.rippleGeo ??= new THREE.RingGeometry(0.42, 0.5, 32);
-      a.ripple = new THREE.Mesh(
-        this.rippleGeo,
-        new THREE.MeshBasicMaterial({ color: '#ffffff', transparent: true, depthWrite: false }),
-      );
+      a.ripple = new THREE.Mesh(this.rippleGeo, this.rippleMat);
       a.ripple.rotation.x = -Math.PI / 2;
       this.group.add(a.ripple);
     }
@@ -473,7 +488,7 @@ export class Actors {
     a.ripple.visible = true;
     a.ripple.position.set(x, WATER_LEVEL + 0.02, z);
     a.ripple.scale.setScalar(0.8 + k * 1.2);
-    (a.ripple.material as THREE.MeshBasicMaterial).opacity = 0.5 * (1 - k);
+    this.rippleMat.opacity = 0.5 * (1 - k);
   }
 
   /** Start a squash (a landing flattens) or a pop (a hatch or evolution stretches up). */
@@ -542,23 +557,18 @@ export class Actors {
   private drop(id: string): void {
     const a = this.nubbins.get(id);
     if (!a) return;
-    for (const u of a.overlay) {
-      u.o.rotation.x -= u.x;
-      u.o.rotation.z -= u.z;
-    }
     this.unsquash(a);
-    if (a.rig) this.pool.release(a.key, a.rig);
+    if (a.rig) {
+      this.dresser.strip(a.rig);
+      this.pool.release(a.key, a.rig);
+    }
     a.stand?.removeFromParent();
     a.ripple?.removeFromParent();
-    a.shell?.removeFromParent();
+    if (a.shell) this.kit.release(a.shell);
     a.emote.removeFromParent();
     this.nubbins.delete(id);
   }
 
-  /**
-   * The Keeper's rig, or null while it is still being sculpted (a stand-in shows then).
-   * Switching Keepers keeps the old rig on screen until the new one is ready.
-   */
   /**
    * The ground under the Keeper. In the pond (which the sim only allows with the Swim
    * perk) the Keeper wades: it stands on the bed, at most `wadeDepth` under the water.
@@ -586,10 +596,13 @@ export class Actors {
     );
   }
 
-  private ensureKeeper(world: World): Rigged | null {
-    const look = keeperLook(world.keeper);
-    const k = this.keeper;
-    if (k && k.key === look.key && k.rig) return k.rig;
+  /**
+   * A Keeper's slot for a look: its rig once the pool can build it, the stand-in until
+   * then. Switching looks (another trainer, or the alignment crossing a side) keeps the
+   * old rig on screen until the new one is ready.
+   */
+  private fitKeeper(k: KeeperSlot | null, look: Look): KeeperSlot {
+    if (k && k.key === look.key && k.rig) return k;
     const rig = this.pool.acquire(look);
     if (rig) {
       if (k?.rig) this.pool.release(k.key, k.rig);
@@ -598,40 +611,66 @@ export class Actors {
       rig.setPose('idle');
       rig.group.userData.pose = 'idle';
       this.group.add(rig.group);
-      this.keeper = { key: look.key, look, rig, stand: null };
-      return rig;
+      return { key: look.key, look, rig, stand: null };
     }
-    if (k?.rig) return k.rig;
-    if (!k) this.keeper = { key: look.key, look, rig: null, stand: this.standIn(look) };
+    return k ?? { key: look.key, look, rig: null, stand: this.standIn(look) };
+  }
+
+  private ensureKeeper(world: World): Rigged | null {
+    this.keeper = this.fitKeeper(this.keeper, keeperLook(world.keeper, world.trainer));
+    return this.keeper.rig;
+  }
+
+  /** Give a Keeper slot back: its rig to the pool, its stand-in out of the scene. */
+  private dropKeeper(k: KeeperSlot | null): null {
+    if (k?.rig) this.pool.release(k.key, k.rig);
+    k?.stand?.removeFromParent();
     return null;
   }
 
-  /** An item's model and how high its origin sits above the ground. */
-  private itemMesh(i: Item): { mesh: THREE.Object3D; lift: number } {
-    if (i.kind === 'toy') return { mesh: buildToy(i.toy), lift: 0 };
-    let mesh: THREE.Mesh;
-    if (i.kind === 'fruit') {
-      mesh = new THREE.Mesh(
-        new THREE.SphereGeometry(0.2, 14, 10),
-        new THREE.MeshPhysicalMaterial({
-          color: i.flavor ? FRUIT_COLOURS[i.flavor] : FRUIT_PLAIN,
-          roughness: 0.35,
-          clearcoat: 0.6,
-        }),
-      );
-    } else {
-      mesh = new THREE.Mesh(
-        new THREE.BoxGeometry(0.36, 0.06, 0.46),
-        new THREE.MeshStandardMaterial({ color: '#f0e6c8', roughness: 0.8 }),
-      );
+  /** Pose, place and animate a Keeper's rig (or set its stand-in on the ground). */
+  private driveKeeper(
+    k: KeeperSlot,
+    pose: PoseName,
+    p: Vec2,
+    facing: number,
+    t: number,
+    dt: number,
+  ): void {
+    const rig = k.rig;
+    if (rig) {
+      if (pose !== (rig.group.userData.pose as PoseName | undefined)) {
+        rig.group.userData.pose = pose;
+        rig.setPose(pose);
+      }
+      rig.group.position.set(p.x, this.keeperGround(p.x, p.z), p.z);
+      rig.face(facing);
+      rig.animate(gaitTime(rig, p.x, p.z, t, dt, pose === 'walk'));
+    } else if (k.stand) placeStand(k.stand, p.x, this.ground(p.x, p.z), p.z, t);
+  }
+
+  /**
+   * The co-op partner's Keeper, as the pixel view draws it: its trainer's look, walking
+   * while its stick is held, interpolated between steps like the first. Released when
+   * co-op ends.
+   */
+  private updateKeeper2(world: World, alpha: number, t: number, dt: number): void {
+    const k2 = world.coop.active ? world.keeper2 : null;
+    if (!k2) {
+      this.keeper2 = this.dropKeeper(this.keeper2);
+      return;
     }
-    mesh.castShadow = true;
-    return { mesh, lift: 0.2 };
+    this.keeper2 = this.fitKeeper(this.keeper2, keeperLook(k2, world.coop.trainer));
+    const prev = this.keeper2Prev ?? k2.pos;
+    const p = { x: lerp(prev.x, k2.pos.x, alpha), z: lerp(prev.z, k2.pos.z, alpha) };
+    const moving = k2.input.x !== 0 || k2.input.z !== 0;
+    this.driveKeeper(this.keeper2, moving ? 'walk' : 'idle', p, k2.facing, t, dt);
   }
 
   update(world: World, alpha: number, nowMs: number, dt: number, cameraPos: THREE.Vector3): void {
     const t = nowMs / 1000;
     const keeper = world.keeper;
+    this.world = world;
     this.pool.frame();
     // The Keeper first: when it and a hatchling are both waiting, the Keeper is built.
     const rig = this.ensureKeeper(world);
@@ -664,31 +703,27 @@ export class Actors {
           a.pose = pose;
           a.rig.setPose(pose);
         }
-        // A swimmer over deep water sinks to the shoulders, feet free of the bed.
-        const swimming = n.behavior.state === 'swim' && groveHeight(x, z) < WATER_LEVEL - 0.15;
-        const sink = swimming ? o.scale.y * GROVE3D_SINK : 0;
+        // In the pond: a swimmer with the stroke sinks to the shoulders, feet free of the
+        // bed; any other Nubbin wades, sunk only to the belly.
+        const inWater = n.behavior.state === 'swim' && groveHeight(x, z) < WATER_LEVEL - 0.15;
+        const sink = inWater ? o.scale.y * (pose === 'swim' ? GROVE3D_SINK : GROVE3D_WADE) : 0;
         o.position.set(x, gy + y - sink, z);
         const footY = gy + y - sink;
-        // A swimmer stands on a flat floor at its sunk height; a held or thrown body is
-        // lifted off the real ground so its shadow blob stays down there under it.
-        a.rig.ground = swimming ? () => footY : this.ground;
-        a.rig.lift = swimming ? 0 : Math.max(0, y);
+        // A body in the water stands on a flat floor at its sunk height; a held or thrown
+        // body is lifted off the real ground so its shadow blob stays down there under it.
+        a.rig.ground = inWater ? () => footY : this.ground;
+        a.rig.lift = inWater ? 0 : Math.max(0, y);
         a.rig.face(n.facing);
         a.rig.lookAt = pose === 'pet' ? hand : null;
         if (n.behavior.state === 'pet' && near) petted = true;
-        for (const u of a.overlay) {
-          u.o.rotation.x -= u.x;
-          u.o.rotation.z -= u.z;
-        }
-        a.overlay.length = 0;
-        a.rig.animate(gaitTime(a.rig, x, z, t, dt, pose === 'walk', swimming ? 0.6 : 1));
-        if (n.behavior.state === 'cry') this.droop(a, a.rig, t);
+        if (eggFamily(n) === 'chao') this.dresser.update(a.rig, n);
+        a.rig.animate(gaitTime(a.rig, x, z, t, dt, pose === 'walk', inWater ? 0.6 : 1));
         this.tumble(a, n, o, nowMs);
-        this.ripple(a, swimming, x, z, t);
+        this.ripple(a, inWater, x, z, t);
       } else if (a.stand) {
-        o.position.set(x, gy + y + o.scale.y * 0.9, z);
+        placeStand(a.stand, x, gy + y, z, t);
       } else if (a.shell) {
-        o.position.set(x, gy + 0.46 + y, z);
+        o.position.set(x, gy + ((o.userData.half as number | undefined) ?? 0.46) + y, z);
         if (n.stage === 'egg') o.rotation.z = Math.sin(t * 2.2 + x) * 0.06;
         else {
           o.rotation.y = t * 0.4;
@@ -747,20 +782,10 @@ export class Actors {
         : this.keeperMoving
           ? 'walk'
           : 'idle';
-    if (rig) {
-      if (kPose !== (rig.group.userData.pose as PoseName | undefined)) {
-        rig.group.userData.pose = kPose;
-        rig.setPose(kPose);
-      }
-      rig.group.position.set(kp.x, this.keeperGround(kp.x, kp.z), kp.z);
-      rig.face(keeper.facing);
-      rig.animate(gaitTime(rig, kp.x, kp.z, t, dt, kPose === 'walk'));
-    } else if (this.keeper?.stand) {
-      const s = this.keeper.stand;
-      s.position.set(kp.x, this.ground(kp.x, kp.z) + s.scale.y * 0.9, kp.z);
-    }
-    // Stand-ins breathe while they wait.
-    this.standMat.emissiveIntensity = 0.35 + Math.sin(t * 3) * 0.2;
+    this.driveKeeper(this.keeper!, kPose, kp, keeper.facing, t, dt);
+    this.updateKeeper2(world, alpha, t, dt);
+    // Stand-ins shimmer while they wait.
+    this.kit.pulseStands(t);
 
     // Items, by the pixel view's rule: the Grove shows everything but notebooks, the story
     // places show only their notebooks, and the Hollow Below and visits show none.
@@ -773,7 +798,7 @@ export class Actors {
       liveItems.add(i.id);
       let v = this.items.get(i.id);
       if (!v) {
-        v = { ...this.itemMesh(i), prev: { pos: { x: i.pos.x, z: i.pos.z }, y: i.y } };
+        v = { ...this.kit.item(i), prev: { pos: { x: i.pos.x, z: i.pos.z }, y: i.y } };
         this.group.add(v.mesh);
         this.items.set(i.id, v);
       }
@@ -783,7 +808,7 @@ export class Actors {
     }
     for (const [id, v] of [...this.items]) {
       if (liveItems.has(id)) continue;
-      v.mesh.removeFromParent();
+      this.kit.release(v.mesh);
       this.items.delete(id);
     }
 
@@ -865,8 +890,9 @@ export class Actors {
   /** Creatures pushing the grass: positions and footprints, nearest to the camera first. */
   pushers(): Array<{ x: number; z: number; r: number }> {
     const out: Array<{ x: number; z: number; r: number }> = [];
-    if (this.keeper?.rig) {
-      const g = this.keeper.rig.group;
+    for (const k of [this.keeper, this.keeper2]) {
+      if (!k?.rig) continue;
+      const g = k.rig.group;
       out.push({
         x: g.position.x,
         z: g.position.z,
@@ -888,10 +914,31 @@ export class Actors {
 
   dispose(): void {
     for (const id of [...this.nubbins.keys()]) this.drop(id);
+    this.keeper = this.dropKeeper(this.keeper);
+    this.keeper2 = this.dropKeeper(this.keeper2);
+    for (const v of this.items.values()) this.kit.release(v.mesh);
+    this.items.clear();
+    for (const g of this.memorials.values()) {
+      g.removeFromParent();
+      g.traverse((o) => {
+        if (o instanceof THREE.Mesh) {
+          o.geometry.dispose();
+          (o.material as THREE.Material).dispose();
+        }
+      });
+    }
+    this.memorials.clear();
     this.crowd.dispose();
+    this.glow.dispose();
     this.pool.dispose();
-    this.standGeo.dispose();
-    this.standMat.dispose();
+    this.dresser.dispose();
+    this.kit.dispose();
+    this.rippleGeo.dispose();
+    this.rippleMat.dispose();
+    this.highlight.geometry.dispose();
+    (this.highlight.material as THREE.Material).dispose();
+    this.sparkPoints.geometry.dispose();
+    (this.sparkPoints.material as THREE.Material).dispose();
     for (const m of this.emoteMats.values()) {
       m.map?.dispose();
       m.dispose();

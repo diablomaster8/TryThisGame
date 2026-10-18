@@ -24,6 +24,44 @@ the phone view passes; Expedition and races get 3D versions in Full 3D. Waiting 
 Arcade and LB/LK decisions (section "Pixel's Arcade PA1–PA5" in `docs/progress-archive.md`).
 Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
 
+## Review goals 3 and 4, Bugs 11-13: both modes draw the same Nubbin (2026-10-18)
+
+From `docs/review-independent-2026-10-18.md`. Maor, 2026-10-18: the Eternals are the three
+Chaos forms. Shots in `docs/samples/r18-<pass>-{pixel,3d}.jpg` (parts, hats, looks, jewel,
+chaos-eggs, keeper, moods; 3D only: standin, mixed).
+
+- **Works, Full 3D:** critter parts as a `~parts:` look key (`samples/nubbin-critter-parts.ts`);
+  hats with dye, scarf and glasses on the `Dresser` (`render3d/dress.ts`); character looks
+  (`~look:` on adults and Eternals, the catalogue figure on children); jewel Nubbins and eggs;
+  the co-op second Keeper; poses sad, dizzy, surprised, love, tumble, flap and swim (wading
+  otherwise) after the pixel `clipFor`; an egg per family. Format rows in `docs/species-format.md`.
+- **Works, both modes:** one Keeper look rule (`render/keeper-look.ts`: the chosen trainer's
+  outfit, trim tinted Sun or Moon); `flaps`/`swimsStroke` in `sim/stats.ts` at
+  `MOTION_CLIPS` level 30 pick flap and swim in both. Sim: `JEWEL_EGG_COLORS`, the shop sells
+  one at `SHOP.jewelEggChance` (0.02, never two-tone or shiny); `ETERNAL_REFS` in `sim/species.ts`.
+- **Works, leaks and limits:** items share geometry per kind (`render3d/item-kit.ts`) and are
+  disposed on removal; `CreaturePool.dispose` frees spare rigs; `MergedGlow.dispose`. Measured in
+  Full 3D, `renderer.info.memory`: 216 geometries / 43 textures before 10 hatch-and-eat cycles,
+  217 / 50 after, then flat at 242 / 51 over 20 more (the one step is a new look sculpted once).
+  The pixel atlas evicts by recency and leaves `ATLAS.headroom` (25%) free after a repack, so a
+  dress-up spree of 150 new sheets in 30 frames took 27 repacks and no sprite went missing; new
+  sheets upload only their own region (`copyTextureToTexture`). The atlas canvas is never made
+  in Full 3D. The veil waits for every Nubbin the world draws (`GROVE3D.loadSafetyMs` 90 s is
+  the only way past); stand-ins are low warm domes, never upright pale capsules.
+- **Fixed on the way:** the 3D scene's `dt` is clamped at 0; a clock stepping back made the
+  eased camera NaN for good.
+- **Stubbed or approximate:** the crown pokes through hats in 3D; the fox look's tails are
+  static; type-tell accents keep their type colour under a look; the stage's `&pose=` list does
+  not know the new poses; the emote ball floats at full height over a stand-in dome;
+  `render3d/actors.ts` is 946 lines (split it next time it grows).
+- **Known bugs, for Maor:** the modes still disagree on three art choices. Eternal Neutral is
+  silvery lilac in Pixel and lime green with a gold chain in 3D (line-up figure 5); Eternal Moon
+  is black and red in Pixel and deep navy in 3D; the character looks in 3D follow the line-up
+  references (fox: black hood, orange vest), Pixel's older palettes (fox: all orange). Captures
+  from the hidden browser pane look washed out; not compared with a visible frame. The device
+  pass (G11) is still owed.
+- **Assumptions:** jewel egg chance 2%; flap and swim at level 30.
+
 ## Review fix: panels over story scenes, Beetle Run (2026-10-18)
 
 Bug 3 of `docs/review-independent-2026-10-18.md`, with its neighbour bug 20.
@@ -71,70 +109,6 @@ From `docs/review-independent-2026-10-18.md`. Works:
 - **Assumption:** a save's mode is read from its world (edu, then storyline, then campaign);
   a Free Grove where the debug panel started the story reads as Hazel's Grove.
 - **Known bugs:** `replaceWorld` does not re-sync tiles, lanterns or the dungeon until reload.
-
-## G17: 3D Expedition and races (2026-10-17)
-
-In Full 3D the Expedition and the races draw in 3D; Pixel is untouched. Each screen now
-owns only its flow and hands frames to a view: `minigames/expedition/view.ts` +
-`pixel-view.ts` (the old drawing, moved) and `render3d/expedition-3d.ts`; the same for the
-race (`minigames/race/view.ts`, `pixel-view.ts`, `render3d/race-3d.ts`). `selectMinigameView`
-(`render3d/minigame-layout.ts`, pure, tested with the track and camera maths in
-`tests/render/minigame-3d.test.ts`) picks 3D only when `settings.graphics === '3d'` and the
-scene is loaded; the 3D views are lazy chunks (about 20 kB, `expedition-3d`, `race-3d`,
-`minigame-stage`). `render3d/minigame-stage.ts` is what both stand on: the Grove's renderer
-drawing into the game canvas under a see-through overlay, `GroveSky`, the painted
-`terrainMaterial` strips, `buildTree`, `buildGrass`, `Bursts`, rigs from the shared
-`CreaturePool` (the player as its real look, rivals as `first-<band>-<type>`), the Grove's
-post chain less bloom. Tunables `EXPEDITION3D` and `RACE3D`; strings `stageLoading`,
-`SECTION_LABELS`. Screenshots `docs/samples/g17-*.jpg`.
-
-Works: chase camera framing `height` world units top to bottom (`frameCamera`; the lens
-widens in portrait to `minSpan`), so the runner is about a sixth of the screen; a
-screen-space gradient backdrop (the Preetham dome only lights the scene); parallax hill
-rows, a recycled tree ring and tiled grass behind the runner, ground reaching past the
-frame; shells, essences, critter bubbles, rocks, logs and bushes as props; the rig walking
-and hopping with the gait clock, hit blink, dust and sparkle bursts and a camera kick (off
-under reduced motion). Race sections as grass, worn earth, a sunk water channel, a rock
-gully to fly over and a rock ramp that stays up, all on painted earth skirts and walls
-down past the frame; signs that slide to stay whole on screen; finish posts and banner;
-name tags and section signs laid out each frame against the camera so no two screen
-rectangles intersect (`stackTags`, projected and measured in pixels, two passes);
-the player's stamina bar; rest as the sleep pose; cheer sparkles; the camera leaning
-toward the leader but keeping the player in the left half. Rival rigs are discarded from
-the pool when a race ends (`CreaturePool.discard`). Frame times on Maor's PC, hand-driven
-frames with `gl.finish` (polish pass): Expedition 1024x640 p50 1.7 ms / p95 3.3 ms,
-375x812 (563x1218 backing) p50 1.4 / p95 2.3; race (6 rigs) 1024x640 p50 4.2 / p95 5.1 to
-6.9, portrait p50 3.6 / p95 4.4. Exit frees everything the stage made (checked at the GL
-level with a `createTexture` hook: nothing survives a cycle); geometries settle across
-repeated races. No console errors.
-- **Stubbed:** no toon outline pass (the Grove has none either); the minigame water has no
-  refraction (a transmission pass leaks a full-size target per camera in three 0.186 and
-  doubles the draw); no Zz over a resting racer; the Expedition's Hollow theme is only the
-  night gradient; the emote ball does not ride along.
-- **Known bugs:** `renderer.info.memory.textures` reads one higher after each minigame
-  (a target disposed before its first upload; no GL texture leaks); a tag of a racer just
-  off the screen's edge clips there; the sky's environment target is now disposed in
-  `sky.ts` (it was never freed before).
-- Device numbers are PC only; the G11 phone pass still owns the 60/30 fps check.
-
-## Canon audit and fixes (2026-10-17)
-
-Audit report `docs/logs/review-canon-audit.md` (report mode, whole canon; Maor's decisions in its
-section 9). Fixed: the Multiverse (one signature choice per line paid off in 3+ later quests,
-`MV_*_VARIANTS`; Nubbin lines in MK/SP narrated) and Neopia (`np-05-stance` pays off in NP9,
-NP11, NP13; NQ flags read in their own completes; the faerie side/colours rewards split into
-one key per chain, `neo-side-*` / `neo-colours-*`); PA1 is `all` with childLines and new
-`edu-pa1-sprout.ts` / `edu-pa1-reader.ts`; S24's speaker is `augusta`; the separate campaigns
-are SL1–SL4; the hive's S26 return is now canon (canon 17/31, bible, brief); Moss's Hush
-memory is told new in S26 and S30; the minor tone and repetition fixes from section 4.
-New variant arrays are exported from `src/content/index.ts` and covered by content-check.
-- **Stubbed:** no sim catalogue plays the Multiverse or Neopia variants yet; when CV6 builds
-  it, pick variant arrays per line (two files carry two each), and note `variantFor` matches
-  bare flag values (three MV signature values were prefixed to avoid clashes).
-- **Known bugs:** the two older test failures are fixed (2026-10-17): the sprout band now
-  splices the walled garden after its own "Gran Hazel walks" line (`spliceScene` takes a
-  per-band anchor), and the childLines test hides edu copies to exercise the fallback. About 16 lines in
-  `storyline-*.ts` exceed 160 characters; content-check does not cover the storylines.
 
 ## Standing approval (Maor, 2026-10-12)
 

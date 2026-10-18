@@ -5,13 +5,16 @@ import {
   type Material,
   type Mesh,
   type Object3D,
+  type Texture,
 } from 'three';
+import { keeperLookKey } from '../render/keeper-look';
 import { GROVE3D } from '../config/tuning';
 import { buildSpecies, type Rigged } from '../samples/species';
 import { ROSTER } from '../samples/species-roster';
 import { variantById } from '../samples/nubbin-variant-catalogue';
 import type { Keeper, Nubbin, World } from '../sim/types';
 import { speciesArt } from '../render/sprites/species-art';
+import { partsModBody } from '../samples/nubbin-critter-parts';
 import { specForKey, tintMods } from './looks';
 import { SculptFarm } from './sculpt-farm';
 import { stubOnce } from './stubs';
@@ -32,10 +35,26 @@ export interface Look {
   height: number;
 }
 
-/** Which look a Nubbin wears: the child, an evolution, an Eternal, or another line's species. */
+/** The character look a Nubbin wears as its hat (`look-fox`...), when the catalogue has it. */
+export function characterLook(n: Pick<Nubbin, 'hat'>): string | null {
+  return n.hat?.startsWith('look-') && variantById(n.hat) ? n.hat : null;
+}
+
+/**
+ * Which look a Nubbin wears: the child, an evolution, an Eternal (the three Chaos forms), or
+ * another line's species. A Chao-line Nubbin's key also carries its critter parts
+ * (`~parts:`) and, with a character look on, the look: a child takes the look's whole figure
+ * (`variant:look-fox`), an adult or Eternal keeps its form and takes the look's palette
+ * (`~look:look-fox`). A look's palette replaces the egg colour and two-tone, as in the pixel
+ * view; shiny and the Shadow's grey still apply.
+ */
 export function nubbinLook(n: Nubbin): Look {
   const height = n.stage === 'adult' ? GROVE3D.adultHeight : GROVE3D.nubbinHeight;
-  const tints = tintMods(n);
+  const look = characterLook(n);
+  const parts = partsModBody(n.parts);
+  const tints =
+    tintMods(look ? { ...n, eggColor: 'plain', tone: null } : n) + (parts ? `~parts:${parts}` : '');
+  const over = look ? `~look:${look}` : '';
   if (n.species !== 'chao') {
     // Other lines keep their own colours; only the Shadow's grey reaches them.
     const shade = n.shadow ? '~shadow' : '';
@@ -48,7 +67,7 @@ export function nubbinLook(n: Nubbin): Look {
   }
   if (n.stage === 'adult' && n.eternal) {
     const id = `eternal-${n.eternal}`;
-    if (variantById(id)) return { key: `variant:${id}${tints}`, height };
+    if (variantById(id)) return { key: `variant:${id}${over}${tints}`, height };
   }
   if (n.stage === 'adult' && n.form) {
     const ids = [
@@ -57,20 +76,21 @@ export function nubbinLook(n: Nubbin): Look {
     ];
     for (const id of ids) {
       if (!id) continue;
-      if (variantById(id)) return { key: `variant:${id}${tints}`, height };
+      if (variantById(id)) return { key: `variant:${id}${over}${tints}`, height };
     }
     stubOnce(`form:${n.form.band}-${n.form.type}`, 'no variant found; base Nubbin');
-    return { key: `nubbin${tints}`, height };
+    return { key: `nubbin${over}${tints}`, height };
   }
+  if (look) return { key: `variant:${look}${tints}`, height };
   const id = n.alignment > 0.25 ? 'child-sun' : n.alignment < -0.25 ? 'child-moon' : 'child';
   return variantById(id)
     ? { key: `variant:${id}${tints}`, height }
     : { key: `nubbin${tints}`, height };
 }
 
-export function keeperLook(k: Keeper): Look {
-  const height = GROVE3D.keeperHeight;
-  return k.alignment === 'moon' ? { key: 'keeper-moon', height } : { key: 'keeper-sun', height };
+/** A Keeper's look: the chosen trainer's outfit tinted by Sun or Moon (`render/keeper-look.ts`). */
+export function keeperLook(k: Keeper, trainerId: string): Look {
+  return { key: keeperLookKey(trainerId, k.alignment), height: GROVE3D.keeperHeight };
 }
 
 export class CreaturePool {
@@ -133,6 +153,8 @@ export class CreaturePool {
       specForKey(look.key),
       geos.map((g) => g.clone()),
     );
+    // The Dresser reads the spec back from the key to find the head's dome and the eyes.
+    rig.group.userData.lookKey = look.key;
     rig.group.updateWorldMatrix(true, true);
     const box = new Box3().setFromObject(rig.group);
     const built = Math.max(0.1, box.max.y - box.min.y);
@@ -178,14 +200,7 @@ export class CreaturePool {
   discard(key: string): void {
     const spares = this.free.get(key) ?? [];
     this.free.delete(key);
-    for (const rig of spares) {
-      rig.group.traverse((o) => {
-        const m = o as Mesh;
-        if (m.geometry) m.geometry.dispose();
-        if (Array.isArray(m.material)) for (const x of m.material) x.dispose();
-        else if (m.material) m.material.dispose();
-      });
-    }
+    freeRigs(spares, false);
   }
 
   /** Start marching the looks a Grove needs first, in order (the Keeper leads). */
@@ -223,8 +238,19 @@ export class CreaturePool {
     return this.farm.threaded;
   }
 
+  /**
+   * Free everything the pool holds: the spare rigs (their geometry, materials and textures,
+   * each once) and the marched surfaces filed by look key. Each rig owns clones of the
+   * marched surfaces, so the originals in `ready` are freed separately. Rigs still in a
+   * scene are the caller's to release first.
+   */
   dispose(): void {
     this.farm.dispose();
+    freeRigs([...this.free.values()].flat(), true);
+    this.free.clear();
+    for (const geos of this.ready.values()) for (const g of geos) g.dispose();
+    this.ready.clear();
+    this.asked.clear();
   }
 
   private request(key: string): void {
@@ -249,9 +275,38 @@ export class CreaturePool {
   }
 }
 
+/**
+ * Dispose rigs' GPU resources, each geometry, material and texture once. The Dresser's
+ * meshes (`userData.shared`) are skipped: their geometry and materials are shared and the
+ * Dresser frees them. Textures are freed only on teardown (`textures`): the detail, iris and
+ * glyph textures are module caches every rig shares, and three re-uploads them if a later
+ * scene uses them again.
+ */
+function freeRigs(rigs: Rigged[], textures: boolean): void {
+  const geos = new Set<BufferGeometry>();
+  const mats = new Set<Material>();
+  for (const rig of rigs)
+    rig.group.traverse((o) => {
+      const m = o as Mesh;
+      if (m.userData.shared) return;
+      if (m.geometry) geos.add(m.geometry);
+      if (Array.isArray(m.material)) for (const x of m.material) mats.add(x);
+      else if (m.material) mats.add(m.material);
+    });
+  const texs = new Set<Texture>();
+  for (const mat of mats) {
+    if (textures)
+      for (const v of Object.values(mat) as unknown[])
+        if ((v as Texture | null)?.isTexture) texs.add(v as Texture);
+    mat.dispose();
+  }
+  for (const g of geos) g.dispose();
+  for (const t of texs) t.dispose();
+}
+
 /** The looks a Grove opens with, the Keeper first, each once. */
-export function openingLooks(world: Pick<World, 'keeper' | 'nubbins'>): Look[] {
-  const looks = [keeperLook(world.keeper), ...world.nubbins.map(nubbinLook)];
+export function openingLooks(world: Pick<World, 'keeper' | 'nubbins' | 'trainer'>): Look[] {
+  const looks = [keeperLook(world.keeper, world.trainer), ...world.nubbins.map(nubbinLook)];
   const seen = new Set<string>();
   return looks.filter((l) => !seen.has(l.key) && !!seen.add(l.key));
 }

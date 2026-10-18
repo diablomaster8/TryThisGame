@@ -1,14 +1,24 @@
 import { UI_TEXT } from '../config/strings';
+import { GROVE3D } from '../config/tuning';
+
+/**
+ * The longest the veil waits. Past it something has failed (a sculpt worker, a texture),
+ * and the Grove is better shown with its warm stand-ins than hidden for good. Never a
+ * shortcut: the veil otherwise lifts only when every figure stands as itself.
+ */
+export const LOAD_SAFETY_MS = GROVE3D.loadSafetyMs;
 
 /**
  * The veil over the 3D Grove while its creatures are sculpted: a label and a bar that
- * follows the scene's `loadState`. It covers the stand-in capsules, then fades and goes.
- * The time it took is kept on `window.__groveLoadMs` (from page start) for device passes.
+ * follows the scene's `loadState`. It covers the stand-ins until every figure is built,
+ * then fades and goes. The time it took is kept on `window.__groveLoadMs` (from page
+ * start) for device passes.
  */
 export class LoadingBar {
   private readonly veil: HTMLDivElement;
   private readonly fill: HTMLSpanElement;
   private finished = false;
+  private readonly startMs = performance.now();
 
   constructor(parent: HTMLElement) {
     this.veil = document.createElement('div');
@@ -37,7 +47,9 @@ export class LoadingBar {
     const pct = Math.round(Math.min(1, Math.max(0, progress)) * 100);
     this.fill.style.width = `${pct}%`;
     this.veil.setAttribute('aria-valuenow', String(pct));
-    if (!done) return;
+    if (!done && performance.now() - this.startMs < LOAD_SAFETY_MS) return;
+    if (!done)
+      console.warn(`[3d] veil lifted by its ${LOAD_SAFETY_MS / 1000} s safety; still building`);
     this.finished = true;
     const ms = Math.round(performance.now());
     (window as unknown as { __groveLoadMs?: number }).__groveLoadMs = ms;

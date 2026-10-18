@@ -183,19 +183,32 @@ overrides any field of any pose.
 | `brow`     | Brow tilt in radians: positive raises the outer end (soft), negative knits it. | `brow: -0.3`     |
 | `browLift` | Brow lift in eye radii: up for surprise, down for sleep.                       | `browLift: 0.12` |
 | `arc`      | Draw the upturned ^ ^ lash arc once the lids are shut (a happy closed eye).    | `arc: true`      |
+| `frown`    | Turns the closed mouth's smile over into a frown, 0..1.                        | `frown: 1`       |
+| `gape`     | Rounds the mouth open into an O, 0..1 (surprise, a tumble).                    | `gape: 1`        |
+| `spin`     | Rolls the irises round in circles (dizzy).                                     | `spin: true`     |
 
 The stock table:
 
-| Pose    | `lid` | `squint` | `brow` | `browLift` | `arc`   |
-| ------- | ----- | -------- | ------ | ---------- | ------- |
-| `idle`  | 0     | 0        | 0      | 0          | `false` |
-| `happy` | 1     | 0.3      | 0.3    | 0.12       | `true`  |
-| `pet`   | 1     | 0.35     | 0.35   | 0.1        | `true`  |
-| `walk`  | 0     | 0        | 0.05   | 0          | `false` |
-| `eat`   | 0.1   | 0.45     | -0.3   | -0.08      | `false` |
-| `sleep` | 1     | 0        | -0.1   | -0.12      | `false` |
-| `carry` | 0.15  | 0.2      | 0.2    | 0.04       | `false` |
-| `throw` | 0     | 0.3      | -0.25  | 0.06       | `false` |
+| Pose        | `lid` | `squint` | `brow` | `browLift` | `arc`   |
+| ----------- | ----- | -------- | ------ | ---------- | ------- |
+| `idle`      | 0     | 0        | 0      | 0          | `false` |
+| `happy`     | 1     | 0.3      | 0.3    | 0.12       | `true`  |
+| `pet`       | 1     | 0.35     | 0.35   | 0.1        | `true`  |
+| `walk`      | 0     | 0        | 0.05   | 0          | `false` |
+| `eat`       | 0.1   | 0.45     | -0.3   | -0.08      | `false` |
+| `sleep`     | 1     | 0        | -0.1   | -0.12      | `false` |
+| `carry`     | 0.15  | 0.2      | 0.2    | 0.04       | `false` |
+| `throw`     | 0     | 0.3      | -0.25  | 0.06       | `false` |
+| `sad`       | 0.45  | 0.1      | -0.4   | 0.1        | `false` |
+| `dizzy`     | 0.25  | 0        | -0.2   | 0.04       | `false` |
+| `surprised` | 0     | 0        | 0.15   | 0.28       | `false` |
+| `love`      | 1     | 0.3      | 0.3    | 0.12       | `true`  |
+| `tumble`    | 0     | 0        | -0.25  | 0.22       | `false` |
+| `flap`      | 0.1   | 0.25     | 0.15   | 0.04       | `false` |
+| `swim`      | 0.1   | 0.3      | 0.1    | 0.02       | `false` |
+
+On top of those: `sad` has `frown: 1`, `dizzy` `frown: 0.4` and `spin`, `surprised` and
+`tumble` `gape: 1`.
 
 ## PoseContext
 
@@ -221,19 +234,30 @@ every bone back at rest and worked out the look; the pose adds to that, as the s
 
 ## The poses
 
-Chosen with `setPose()`. The sim's states map onto these: wander and findFood → walk,
-greet and play → happy, petting → pet, eat → eat, nap → sleep, everything else → idle.
+Chosen with `setPose()`. The sim's states map onto these (`poseFor` in `render3d/actors.ts`,
+which follows the pixel view's `clipFor`): wander and findFood → walk, or `flap` for an adult
+strong in Fly (`flaps` in `sim/stats.ts`); swim → `swim` for an adult strong in Swim
+(`swimsStroke`), otherwise walk, wading belly-deep; greet and play → happy, petting → pet,
+eat → eat, nap → sleep; cry, or a low or hungry mood at rest → `sad`; react → its reaction
+(`dizzy`, `surprised`, `love`); thrown → `tumble`; everything else → idle.
 
-| Pose    | What it does                                                                                                                                                                                               |
-| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `idle`  | Stands; the irises wander slowly when nothing is looked at.                                                                                                                                                |
-| `happy` | Hops with squash and stretch (hips 1.06 tall and 0.94 wide at the top, 0.94 and 1.06 on landing, moved so the feet stay planted); the tail curls up over the back; the mouth opens.                        |
-| `pet`   | Turns to `lookAt`, leans the head in with a tilt and a slow nuzzle, shuts the eyes into arcs, folds the ears back, wags fast; seven painted hearts rise from the crown, one every 0.22 s.                  |
-| `walk`  | Jointed legs plant their feet: on the ground for 0.6 of the cycle (0.5 for spiders), sliding back at the body's speed, then swinging forward on an arc. The rig exposes `strideLength` and `stridePeriod`. |
-| `eat`   | Chomps with the whole head, which stretches forward and thins a little on each bite.                                                                                                                       |
-| `sleep` | Lies down: the belly comes to the grass, quadrupeds fold their legs, bipeds curl forward, hovering species sink to half their float; a Zzz of three glyphs drifts up every 3.2 s.                          |
-| `carry` | Holding a creature. The stock pose just stands; the Keeper's (`keeper-spec.ts`) brings both arms forward and a little in, elbows barely bent, head tipped down to the bundle.                              |
-| `throw` | A toss. The stock pose just stands; the Keeper's is a 3.6 s cycle (`KEEPER_THROW`): hold, swing the arms back and dip, swing through and release at 1.45 s, settle, and lift back to the hold.             |
+| Pose        | What it does                                                                                                                                                                                               |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `idle`      | Stands; the irises wander slowly when nothing is looked at.                                                                                                                                                |
+| `happy`     | Hops with squash and stretch (hips 1.06 tall and 0.94 wide at the top, 0.94 and 1.06 on landing, moved so the feet stay planted); the tail curls up over the back; the mouth opens.                        |
+| `pet`       | Turns to `lookAt`, leans the head in with a tilt and a slow nuzzle, shuts the eyes into arcs, folds the ears back, wags fast; seven painted hearts rise from the crown, one every 0.22 s.                  |
+| `walk`      | Jointed legs plant their feet: on the ground for 0.6 of the cycle (0.5 for spiders), sliding back at the body's speed, then swinging forward on an arc. The rig exposes `strideLength` and `stridePeriod`. |
+| `eat`       | Chomps with the whole head, which stretches forward and thins a little on each bite.                                                                                                                       |
+| `sleep`     | Lies down: the belly comes to the grass, quadrupeds fold their legs, bipeds curl forward, hovering species sink to half their float; a Zzz of three glyphs drifts up every 3.2 s.                          |
+| `carry`     | Holding a creature. The stock pose just stands; the Keeper's (`keeper-spec.ts`) brings both arms forward and a little in, elbows barely bent, head tipped down to the bundle.                              |
+| `throw`     | A toss. The stock pose just stands; the Keeper's is a 3.6 s cycle (`KEEPER_THROW`): hold, swing the arms back and dip, swing through and release at 1.45 s, settle, and lift back to the hold.             |
+| `sad`       | Head down, ears and arms drooping, a slow sway; brows up at the inner ends, lids half down, a frown.                                                                                                       |
+| `dizzy`     | A wobbling stagger with the irises rolling round.                                                                                                                                                          |
+| `surprised` | A hop back with wide eyes and an O mouth.                                                                                                                                                                  |
+| `love`      | The happy bounce with hearts rising from the crown.                                                                                                                                                        |
+| `tumble`    | Limbs flailing under the thrown body's spin (the actor's `tumble` turns the whole figure).                                                                                                                 |
+| `flap`      | Arms out and wings fluttering fast, the body lifted a little.                                                                                                                                              |
+| `swim`      | A paddling stroke, the body sunk to the shoulders.                                                                                                                                                         |
 
 The Keeper (`src/samples/keeper-spec.ts`, `KEEPER_SPEC` and `KEEPER_MOON_SPEC` from one
 `keeperSpec(colours)`) writes its own `pet` (reaching out to `lookAt` with the right hand,
@@ -302,6 +326,26 @@ colours) are in `nubbin-variants-*.ts` and meet in `nubbin-variant-catalogue.ts`
 family is split three ways: `nubbin-variants-special.ts` (the Eternals and the Shadow, then the
 looks), `nubbin-variants-lineup.ts` (the six line-up character looks) and `nubbin-lineup-kit.ts`
 (the shared pieces: ears, tails, gloves, goggles, quills, crystals, `widen`, `dress`).
+
+## Look keys and the Dresser (Full 3D)
+
+The 3D Grove names every look with a string key (`render3d/looks.ts`), so the sculpt workers
+can rebuild the spec from it. The base is `variant:<id>`, `nubbin`, `keeper-sun|moon`,
+`roster:<name>` or `art:<species>`; modifiers follow, joined with `~`, applied in this order:
+
+| Modifier                                 | What it does                                                                                                                                                                                                              |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npc:<trainer>`                          | On a Keeper: the trainer's outfit by the one Keeper look rule (`render/keeper-look.ts` `keeperOutfit`: the outfit, its trim tinted Sun or Moon). The pixel view keys its Keeper sheet the same way.                       |
+| `look:<look id>`                         | A character look's palette over an adult or Eternal's own shape. A child wears the look's whole figure instead (`variant:look-fox`).                                                                                      |
+| `egg:<colour>`, `tone:<colour>`, `shiny` | Egg colour, two-tone, shiny. A jewel (`egg:ruby` ... `egg:onyx`) gives the gem palette and `JEWEL_FINISH` on any form.                                                                                                    |
+| `parts:<ears>,<tail>,<arms>,<back>`      | Critter parts (`-` for an empty slot), one sculpted shape per `PartStyle.shape` from `samples/nubbin-critter-parts.ts`, coloured from the part's colour and accent. A back part replaces the wings, as in the pixel view. |
+| `shadow`                                 | The Shadow's ash grey, any species.                                                                                                                                                                                       |
+
+What a Nubbin wears rather than is (hat with its dye, scarf, glasses, a character look's head
+accessory) is not in the key: `render3d/dress.ts` `Dresser` hangs plain meshes on the head and
+hip bones, shares geometry per item kind and materials per colour, and skips the work when a
+rig's dress signature (on `userData`) has not changed. The pool stamps `userData.lookKey` on
+each rig so the Dresser knows the body under the clothes.
 
 ## Where it is seen
 

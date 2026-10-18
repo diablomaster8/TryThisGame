@@ -37,10 +37,38 @@ import {
  * to be written in this format rather than modelled by hand.
  */
 export type Gait = 'biped' | 'quadruped' | 'hover' | 'spider';
-export type PoseName = 'idle' | 'happy' | 'pet' | 'walk' | 'eat' | 'sleep' | 'carry' | 'throw';
+export type PoseName =
+  | 'idle'
+  | 'happy'
+  | 'pet'
+  | 'walk'
+  | 'eat'
+  | 'sleep'
+  | 'carry'
+  | 'throw'
+  | 'sad'
+  | 'dizzy'
+  | 'surprised'
+  | 'love'
+  | 'tumble'
+  | 'flap'
+  | 'swim';
 /** The creature cycle on the stage. `carry` and `throw` are the Keeper's: see `KEEPER_POSES`. */
 export const POSES: PoseName[] = ['idle', 'happy', 'pet', 'walk', 'eat', 'sleep'];
-export const ALL_POSES: PoseName[] = [...POSES, 'carry', 'throw'];
+/**
+ * The Grove's moods and motions: sad (crying, or a low or hungry mood), the three body
+ * reactions, the tumble of a thrown body, and the flyer's flap and the swimmer's stroke.
+ */
+export const MOTION_POSES: PoseName[] = [
+  'sad',
+  'dizzy',
+  'surprised',
+  'love',
+  'tumble',
+  'flap',
+  'swim',
+];
+export const ALL_POSES: PoseName[] = [...POSES, 'carry', 'throw', ...MOTION_POSES];
 
 /** A deliberate marking: a shape in body space, a colour, and how soft its edge is. */
 export interface Mark {
@@ -262,9 +290,15 @@ export interface Expression {
   browLift: number;
   /** Draw the upturned lash arc once the lids are shut (a happy closed eye). */
   arc: boolean;
+  /** Turn the closed mouth's smile over into a frown, 0..1. */
+  frown?: number;
+  /** Round the open mouth into an "O" (no straight upper lip, no teeth or tongue), 0..1. */
+  gape?: number;
+  /** Roll the irises round in circles (the dizzy look). */
+  spin?: boolean;
 }
 
-const EXPRESSIONS: Record<PoseName, Expression> = {
+export const EXPRESSIONS: Record<PoseName, Expression> = {
   idle: { lid: 0, squint: 0, brow: 0, browLift: 0, arc: false },
   happy: { lid: 1, squint: 0.3, brow: 0.3, browLift: 0.12, arc: true },
   pet: { lid: 1, squint: 0.35, brow: 0.35, browLift: 0.1, arc: true },
@@ -273,6 +307,14 @@ const EXPRESSIONS: Record<PoseName, Expression> = {
   sleep: { lid: 1, squint: 0, brow: -0.1, browLift: -0.12, arc: false },
   carry: { lid: 0.15, squint: 0.2, brow: 0.2, browLift: 0.04, arc: false },
   throw: { lid: 0, squint: 0.3, brow: -0.25, browLift: 0.06, arc: false },
+  // Brows up at the inner ends (a negative tilt lowers the outer end), lids half down.
+  sad: { lid: 0.45, squint: 0.1, brow: -0.4, browLift: 0.1, arc: false, frown: 1 },
+  dizzy: { lid: 0.25, squint: 0, brow: -0.2, browLift: 0.04, arc: false, frown: 0.4, spin: true },
+  surprised: { lid: 0, squint: 0, brow: 0.15, browLift: 0.28, arc: false, gape: 1 },
+  love: { lid: 1, squint: 0.3, brow: 0.3, browLift: 0.12, arc: true },
+  tumble: { lid: 0, squint: 0, brow: -0.25, browLift: 0.22, arc: false, gape: 1 },
+  flap: { lid: 0.1, squint: 0.25, brow: 0.15, browLift: 0.04, arc: false },
+  swim: { lid: 0.1, squint: 0.3, brow: 0.1, browLift: 0.02, arc: false },
 };
 
 export interface Rigged extends Creature {
@@ -490,6 +532,8 @@ const markShade = defineRule('marks', (marks: MarkData[], cell: number): Shade =
 interface Mouth {
   group: THREE.Group;
   open(amount: number): void;
+  /** The mood of the shape: the smile turned over into a frown, the opening rounded into an O. */
+  mood(frown: number, gape: number): void;
 }
 
 /**
@@ -612,6 +656,7 @@ function buildMouth(parent: THREE.Object3D, m: SpeciesSpec['mouth']): Mouth {
   upper.castShadow = false;
   const tongue = halfDisc(w * 0.3, m.tongue, 0.008, { roughness: 0.4, clearcoat: 0.5 });
   const teeth: THREE.Mesh[] = [];
+  let gaped = false;
   if (m.teeth) {
     for (const dx of [-0.32, 0.32]) {
       const t = add(
@@ -632,6 +677,17 @@ function buildMouth(parent: THREE.Object3D, m: SpeciesSpec['mouth']): Mouth {
   parent.add(g);
   return {
     group: g,
+    mood: (frown, gape) => {
+      // Turned over about its middle: the arc hangs from its ends, so it is lifted back down.
+      const f = THREE.MathUtils.clamp(frown, 0, 1);
+      lip.scale.y = 1 - 2 * f;
+      lip.position.y = w * 0.02 - f * w * 0.3;
+      const r = THREE.MathUtils.clamp(gape, 0, 1);
+      interior.scale.x = 1 - 0.45 * r;
+      rim.scale.x = 1 - 0.45 * r;
+      upper.visible = r < 0.5;
+      gaped = r >= 0.5;
+    },
     open: (amount) => {
       const k = THREE.MathUtils.clamp(amount, 0, 1);
       // The closed shape gives way to the opening as the mouth opens.
@@ -640,10 +696,10 @@ function buildMouth(parent: THREE.Object3D, m: SpeciesSpec['mouth']): Mouth {
       const h = 0.15 + k * 0.95;
       interior.scale.set(1, h, 1);
       rim.scale.set(1, h, 1);
-      tongue.visible = k > 0.35;
+      tongue.visible = k > 0.35 && !gaped;
       tongue.scale.set(1, Math.max(0.05, (k - 0.35) * 1.2), 1);
       tongue.position.y = w * 0.02 - w * 0.5 * h + w * 0.3 * tongue.scale.y;
-      for (const t of teeth) t.visible = k > 0.3;
+      for (const t of teeth) t.visible = k > 0.3 && !gaped;
     },
   };
 }
@@ -1234,7 +1290,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
     now = t;
     const dt = t - poseSince;
     const s = Math.sin;
-    hips.position.y = spec.hipY;
+    hips.position.set(0, spec.hipY, 0);
     hips.rotation.set(0, 0, 0);
     hips.scale.set(1, 1, 1);
     head.position.copy(headRest);
@@ -1251,6 +1307,11 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       lookK = Math.min(1, lookK + fdt / 0.35);
     } else lookK = Math.max(0, lookK - fdt / 0.35);
     const own = spec.poses?.[pose];
+    let earFold = pose === 'sleep' ? 0.3 : pose === 'pet' ? 0.18 : 0;
+    // The motion poses set only the bones they move, so they start from the rest pose
+    // (the stock ones set every limb they know).
+    if (!own && MOTION_POSES.includes(pose))
+      for (const [k, b] of Object.entries(bones)) b.rotation.copy(rest[k]!);
     if (own) {
       poseCtx.t = t;
       poseCtx.dt = dt;
@@ -1468,6 +1529,171 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
         mouthOpen = 0.08;
         break;
       }
+      case 'sad': {
+        // Crying or low: the head hangs, the ears, arms and tail droop, and the body sags
+        // into a slow, heavy sway with a small sob in the head.
+        const ease = smooth(Math.min(1, dt / 0.6));
+        const sway = s(t * 1.1);
+        hips.position.y = spec.hipY - 0.04 * ease + s(t * 1.6) * 0.01;
+        hips.rotation.x = 0.08 * ease;
+        hips.rotation.z = sway * 0.035;
+        set('head', (quad ? 0.35 : 0.45) * ease + s(t * 9) * 0.03, sway * 0.08, -sway * 0.05);
+        set('tail', -0.35 * ease, sway * 0.1, 0);
+        if (spider) {
+          for (const [n, side] of SPIDER_LEGS) set(n, 0, 0, -side * 0.05 * ease);
+        } else if (!quad) {
+          set('armL', 0.2 * ease, 0, -0.35 * ease + sway * 0.04);
+          set('armR', 0.2 * ease, 0, 0.35 * ease + sway * 0.04);
+        }
+        earFold = 0.45 * ease;
+        mouthOpen = 0;
+        break;
+      }
+      case 'dizzy': {
+        // Seeing stars: the body circles off balance, the head lolls against it, the
+        // arms go out for balance and the feet shuffle.
+        const w = t * 3.4;
+        hips.rotation.z = s(w) * 0.16;
+        hips.rotation.x = Math.cos(w) * 0.1;
+        hips.position.y = spec.hipY + Math.abs(s(w * 2)) * 0.03;
+        set('head', -Math.cos(w) * 0.12, 0, -s(w) * 0.25);
+        set('tail', 0, s(w) * 0.4, 0);
+        if (spider) {
+          for (const [n, side, phase] of SPIDER_LEGS)
+            set(n, 0, s(w + phase) * 0.12, side * Math.max(0, s(w * 2 + phase)) * 0.25);
+        } else if (quad) {
+          set('legFL', 0, 0, -0.12 - s(w) * 0.08);
+          set('legFR', 0, 0, 0.12 - s(w) * 0.08);
+        } else {
+          set('armL', 0, 0, 0.9 + s(w * 2) * 0.25);
+          set('armR', 0, 0, -0.9 - s(w * 2 + 1) * 0.25);
+          set('legL', 0, 0, 0.1 + s(w) * 0.08);
+          set('legR', 0, 0, -0.1 + s(w) * 0.08);
+        }
+        mouthOpen = 0.22;
+        break;
+      }
+      case 'surprised': {
+        // A start: a hop up and back over the first half second with the arms flung up
+        // and the head thrown back, then a wide-eyed hold with the ears pricked.
+        const p = Math.min(1, dt / 0.45);
+        const jump = dt < 0.45 ? s(p * Math.PI) : 0;
+        const ease = smooth(Math.min(1, dt / 0.25));
+        hips.position.y = spec.hipY + jump * 0.28;
+        hips.position.z = -0.18 * ease;
+        hips.rotation.x = -0.12 * ease;
+        set('head', -0.15 * ease, 0, 0);
+        set('tail', 0.6 * ease, 0, 0);
+        if (spider) {
+          for (const [n, side] of SPIDER_LEGS) set(n, 0, 0, side * (0.15 * ease + jump * 0.3));
+        } else if (quad) {
+          set('legFL', -0.5 * jump, 0, 0);
+          set('legFR', -0.5 * jump, 0, 0);
+        } else {
+          set('armL', -0.3 * ease, 0, 1.1 * ease + jump * 0.3);
+          set('armR', -0.3 * ease, 0, -1.1 * ease - jump * 0.3);
+          set('legL', -0.3 * jump, 0, 0);
+          set('legR', -0.3 * jump, 0, 0);
+        }
+        for (const leg of legs) bendKnee(leg, 0.7 * jump);
+        earFold = -0.2 * ease;
+        mouthOpen = 0.45;
+        break;
+      }
+      case 'love': {
+        // Smitten: a slow bounce and sway with the hands clasped at the chest; hearts rise.
+        const hop = Math.abs(s(t * 4));
+        const sq = (hop * 2 - 1) * 0.04;
+        hips.scale.set(1 - sq, 1 + sq, 1 - sq);
+        hips.position.y = spec.hipY + hop * 0.12 + (spec.hipY - footY) * sq;
+        hips.rotation.z = s(t * 2) * 0.1;
+        set('head', -0.05, 0, s(t * 2) * 0.18);
+        set('tail', 0.8, s(t * 9) * 0.6, 0);
+        if (spider) {
+          for (const [n, side, phase] of SPIDER_LEGS) set(n, 0, 0, side * hop * 0.2 * s(phase));
+        } else if (quad) {
+          set('legFL', -0.4 * hop, 0, 0);
+          set('legFR', -0.4 * Math.abs(s(t * 4 + 1.5)), 0, 0);
+        } else {
+          set('armL', -0.9, 0.35, 0.25 + s(t * 4) * 0.05);
+          set('armR', -0.9, -0.35, -0.25 - s(t * 4) * 0.05);
+          for (const leg of legs) bendKnee(leg, 0.5 * hop);
+        }
+        mouthOpen = 0.5;
+        break;
+      }
+      case 'tumble': {
+        // Thrown: arms and legs flail while the stage rolls the body through the air.
+        const w = t * 14;
+        set('head', -0.2 + s(w * 0.5) * 0.1, 0, s(w * 0.7) * 0.2);
+        set('tail', s(w) * 0.5, s(w * 1.2) * 0.6, 0);
+        if (spider) {
+          for (const [n, side, phase] of SPIDER_LEGS)
+            set(n, 0, s(w + phase) * 0.3, side * (0.3 + s(w * 1.3 + phase) * 0.3));
+        } else if (quad) {
+          set('legFL', s(w) * 0.8, 0, 0);
+          set('legBR', s(w) * 0.8, 0, 0);
+          set('legFR', -s(w) * 0.8, 0, 0);
+          set('legBL', -s(w) * 0.8, 0, 0);
+        } else {
+          set('armL', -0.4 + s(w) * 0.6, 0, 1.4 + s(w * 1.3) * 0.4);
+          set('armR', -0.4 - s(w) * 0.6, 0, -1.4 - s(w * 1.3 + 1) * 0.4);
+          set('legL', s(w) * 0.7, 0, 0.2);
+          set('legR', -s(w) * 0.7, 0, -0.2);
+        }
+        legs.forEach((leg, i) => bendKnee(leg, 0.5 + 0.4 * Math.abs(s(w + i * 1.7))));
+        earFold = -0.25;
+        mouthOpen = 0.6;
+        break;
+      }
+      case 'flap': {
+        // Flying along: lifted off the grass and leaning into it, the arms beating with
+        // the wings' fast flutter (below), the legs trailing.
+        const w = t * 16;
+        const ease = smooth(Math.min(1, dt / 0.4));
+        hips.position.y = spec.hipY + (0.35 + s(w) * 0.04) * ease;
+        hips.rotation.x = 0.22 * ease;
+        set('head', -0.2 * ease, 0, 0);
+        set('tail', -0.2 * ease, s(w * 0.5) * 0.2, 0);
+        if (quad) {
+          for (const n of ['legFL', 'legFR']) set(n, -0.5 * ease, 0, 0);
+          for (const n of ['legBL', 'legBR']) set(n, 0.6 * ease, 0, 0);
+        } else if (!spider) {
+          set('armL', 0, 0, 0.9 + s(w) * 0.6);
+          set('armR', 0, 0, -0.9 - s(w) * 0.6);
+          set('legL', 0.45 * ease, 0, 0.08);
+          set('legR', 0.45 * ease, 0, -0.08);
+        }
+        for (const leg of legs) bendKnee(leg, 0.4 * ease);
+        earFold = 0.25 * ease;
+        mouthOpen = 0.3;
+        break;
+      }
+      case 'swim': {
+        // A stroke: the body lies forward in the water and rolls with it, the head held
+        // up to breathe, the arms wheeling over in turn, the legs kicking (a paddle on four).
+        const w = t * 5;
+        const ease = smooth(Math.min(1, dt / 0.5));
+        hips.rotation.x = (quad ? 0.1 : 0.75) * ease;
+        hips.rotation.z = s(w) * 0.12;
+        hips.position.y = spec.hipY + s(w * 2) * 0.02;
+        set('head', -(quad ? 0.15 : 0.6) * ease, s(w) * 0.15, 0);
+        set('tail', 0, s(w * 1.5) * 0.4, 0);
+        if (quad) {
+          set('legFL', -0.3 + s(w) * 0.8, 0, 0);
+          set('legFR', -0.3 - s(w) * 0.8, 0, 0);
+          set('legBL', 0.3 - s(w) * 0.5, 0, 0);
+          set('legBR', 0.3 + s(w) * 0.5, 0, 0);
+        } else if (!spider) {
+          set('armL', -(w % (Math.PI * 2)), 0, 0.2);
+          set('armR', -((w + Math.PI) % (Math.PI * 2)), 0, -0.2);
+          set('legL', 0.3 + s(w * 2) * 0.35, 0, 0);
+          set('legR', 0.3 - s(w * 2) * 0.35, 0, 0);
+        }
+        earFold = 0.3 * ease;
+        mouthOpen = 0.15;
+        break;
+      }
     }
     // Ears, wings, the ball and the blink run on top of every pose.
     // Ear flicks: one ear snaps out and back over a quarter second at irregular
@@ -1478,12 +1704,20 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       nextFlick = t + 2 + flickRng() * 5;
     }
     const flick = t - flickAt < 0.25 ? s(((t - flickAt) / 0.25) * Math.PI) * 0.5 : 0;
-    const earFold = pose === 'sleep' ? 0.3 : pose === 'pet' ? 0.18 : 0;
     set('earL', 0, 0, s(t * 3.1) * 0.08 - earFold - (flickSide < 0 ? flick : 0));
     set('earR', 0, 0, -s(t * 3.1 + 2) * 0.08 + earFold + (flickSide > 0 ? flick : 0));
     wings.forEach((w, i) => {
-      const flap = pose === 'happy' ? 0.7 : pose === 'sleep' ? 0.08 : 0.35;
-      w.rotation.y = -(i === 0 ? -1 : 1) * 0.5 + s(t * 9 + i) * flap * (i === 0 ? -1 : 1);
+      // A flyer beats them fast and wide; the rest flutter idly.
+      const flap =
+        pose === 'flap'
+          ? 0.9
+          : pose === 'happy' || pose === 'love'
+            ? 0.7
+            : pose === 'sleep'
+              ? 0.08
+              : 0.35;
+      const rate = pose === 'flap' ? 28 : 9;
+      w.rotation.y = -(i === 0 ? -1 : 1) * 0.5 + s(t * rate + i) * flap * (i === 0 ? -1 : 1);
     });
     if (ball && ballMat) {
       ball.position.y =
@@ -1512,7 +1746,8 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
     }
     // Hearts rise and fade from the head while petted; the Zzz drifts up while asleep.
     hearts.forEach((sp, i) => {
-      const life = pose === 'pet' && spec.hearts !== false ? dt - i * 0.22 : -1;
+      const life =
+        (pose === 'pet' || pose === 'love') && spec.hearts !== false ? dt - i * 0.22 : -1;
       sp.visible = life >= 0;
       if (life < 0) return;
       const p = (life % HEART_LIFE) / HEART_LIFE;
@@ -1603,6 +1838,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
     // The face: the pose's expression (with the species' overrides) eased in over a beat.
     const ex = { ...EXPRESSIONS[pose], ...(spec.expressions?.[pose] ?? {}) };
     const k = pose === 'sleep' ? Math.min(1, dt / 1.2) : Math.min(1, dt / 0.3);
+    mouth.mood((ex.frown ?? 0) * k, (ex.gape ?? 0) * k);
     lidClose = Math.max(lidClose, ex.lid * k);
     if (lidClose > 0) for (const l of lids) setLid(l, lidClose);
     else blink(lids, t, 0.6);
@@ -1637,6 +1873,11 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
           tx *= IRIS_TRAVEL / m;
           ty *= IRIS_TRAVEL / m;
         }
+      } else if (ex.spin) {
+        // Dizzy: the irises roll round the rims, the two eyes in opposite directions.
+        const a = t * 7 * (i === 0 ? 1 : -1);
+        tx = Math.cos(a) * IRIS_TRAVEL * 0.9;
+        ty = Math.sin(a) * IRIS_TRAVEL * 0.9;
       } else {
         tx = Math.sin(t * 0.37 + i * 0.4) * 0.09;
         ty = Math.sin(t * 0.53 + 1.3 + i * 0.4) * 0.06;

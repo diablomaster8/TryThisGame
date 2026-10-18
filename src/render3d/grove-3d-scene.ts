@@ -559,7 +559,9 @@ export class Grove3dScene {
   }
 
   update(world: World, orbit: OrbitCamera, alpha: number, nowMs: number): void {
-    const dt = this.lastMs === 0 ? 0 : Math.min(0.1, (nowMs - this.lastMs) / 1000);
+    // Never negative: a clock that steps back (a resumed tab, a hand-driven frame) would
+    // turn the eased camera into NaN, and NaN never recovers.
+    const dt = this.lastMs === 0 ? 0 : Math.max(0, Math.min(0.1, (nowMs - this.lastMs) / 1000));
     this.lastMs = nowMs;
     this.time.value = nowMs / 1000;
     this.village.update(townUnlocks(world));
@@ -770,6 +772,7 @@ export class Grove3dScene {
 
   dispose(): void {
     this.actors.dispose();
+    this.bursts.dispose();
     this.sky.dispose();
     this.composer.dispose();
     this.renderer.dispose();

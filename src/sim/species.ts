@@ -123,6 +123,16 @@ export const SPECIES: readonly Species[] = [
   D('hugbear', 'Monzaemon', 'final', 'normal'),
 ];
 
+/**
+ * The Eternals' inspiration, by band, for the artist (never shown): the three Chaos Chao
+ * forms (Maor, 2026-10-18). Both renderers draw an Eternal as its Chaos form.
+ */
+export const ETERNAL_REFS: Readonly<Record<AlignmentBand, string>> = {
+  sun: 'Hero Chaos Chao',
+  moon: 'Dark Chaos Chao',
+  neutral: 'Neutral Chaos Chao',
+};
+
 const BY_ID = new Map(SPECIES.map((s) => [s.id, s]));
 
 export function speciesOf(id: string): Species {

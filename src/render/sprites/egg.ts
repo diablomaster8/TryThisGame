@@ -1,5 +1,7 @@
 import { frameKey } from './animations';
 import { AtlasBuilder, type SpriteSheet } from './atlas';
+import { isJewel } from '../../sim/nubbin';
+import { JEWEL_COLORS } from './chao';
 import { C } from './palette';
 import { PixelCanvas } from './pixel-canvas';
 
@@ -16,6 +18,13 @@ export const EGG_PALETTES: Record<
   mint: { shell: C.mint, shade: C.teal, cap: C.cream, spot: C.pale },
   gold: { shell: C.sunYellow, shade: C.orange, cap: C.cream, spot: C.white },
   violet: { shell: C.lavender, shade: C.violet, cap: C.pale, spot: C.white },
+  // The jewel eggs, from the same stones as the Nubbins inside (`JEWEL_COLORS`).
+  ...Object.fromEntries(
+    Object.entries(JEWEL_COLORS).map(([name, j]) => [
+      name,
+      { shell: j.body, shade: j.shade, cap: j.belly, spot: j.tip },
+    ]),
+  ),
 };
 
 export type EggFrame = 'idle' | 'wobbleL' | 'wobbleR' | 'crack1' | 'crack2' | 'held';
@@ -26,7 +35,7 @@ const FAMILY_EGGS: Record<string, { shell: number; shade: number; cap: number; s
   digi: { shell: C.lilacGrey, shade: C.dusk, cap: C.pale, spot: C.plum },
 };
 
-function drawEgg(frame: EggFrame, colorName: string, family = 'chao'): PixelCanvas {
+export function drawEgg(frame: EggFrame, colorName: string, family = 'chao'): PixelCanvas {
   const pal =
     (family !== 'chao' && colorName === 'plain' ? FAMILY_EGGS[family] : undefined) ??
     EGG_PALETTES[colorName] ??
@@ -35,6 +44,35 @@ function drawEgg(frame: EggFrame, colorName: string, family = 'chao'): PixelCanv
   const tilt = frame === 'wobbleL' ? -2 : frame === 'wobbleR' ? 2 : 0;
   const cx = 16 + tilt * 0.5;
   const cy = 20;
+  const jewel = isJewel(colorName);
+  if (jewel) drawGem(pc, cx, cy, pal);
+  else drawShell(pc, cx, cy, tilt, pal, family);
+  // A gem cracks in white fracture lines, so the crack shows even on onyx.
+  const crack = jewel ? C.white : C.darkPlum;
+  if (frame === 'crack1' || frame === 'crack2') {
+    pc.line(cx - 2, cy - 7, cx, cy - 3, crack);
+    pc.line(cx, cy - 3, cx + 3, cy - 5, crack);
+    if (frame === 'crack2') {
+      pc.line(cx + 3, cy - 5, cx + 4, cy - 1, crack);
+      pc.line(cx - 2, cy - 7, cx - 5, cy - 4, crack);
+      pc.px(cx + 1, cy - 2, jewel ? C.white : C.ink);
+    }
+  }
+  pc.finish(C.darkPlum, [C.white]);
+  return pc;
+}
+
+type EggPalette = { shell: number; shade: number; cap: number; spot: number };
+
+/** The ordinary egg: a soft shell with a coloured cap and spots (stripes for the digital line). */
+function drawShell(
+  pc: PixelCanvas,
+  cx: number,
+  cy: number,
+  tilt: number,
+  pal: EggPalette,
+  family: string,
+): void {
   // Egg: a taller ellipse, slightly pointed at the top.
   pc.ellipse(cx, cy, 7, 9, pal.shell);
   pc.ellipse(cx, cy - 3, 6, 5, pal.shell);
@@ -54,18 +92,40 @@ function drawEgg(frame: EggFrame, colorName: string, family = 'chao'): PixelCanv
   // Highlight.
   pc.px(cx - 3, cy - 4, C.white);
   pc.px(cx - 4, cy - 3, C.white);
+}
 
-  if (frame === 'crack1' || frame === 'crack2') {
-    pc.line(cx - 2, cy - 7, cx, cy - 3, C.darkPlum);
-    pc.line(cx, cy - 3, cx + 3, cy - 5, C.darkPlum);
-    if (frame === 'crack2') {
-      pc.line(cx + 3, cy - 5, cx + 4, cy - 1, C.darkPlum);
-      pc.line(cx - 2, cy - 7, cx - 5, cy - 4, C.darkPlum);
-      pc.px(cx + 1, cy - 2, C.ink);
-    }
-  }
-  pc.finish(C.darkPlum, [C.white]);
-  return pc;
+/**
+ * A jewel egg: the same egg outline cut like a gemstone. A pale crown facet catches the
+ * light top-left, the pavilion facets step from body to shade towards the lower right,
+ * crisp cut lines run between them, and a hard white star sits on the crown.
+ */
+function drawGem(pc: PixelCanvas, cx: number, cy: number, pal: EggPalette): void {
+  const { shell: body, shade, cap: light, spot: tip } = pal;
+  pc.ellipse(cx, cy, 7, 9, body);
+  pc.ellipse(cx, cy - 3, 6, 5, body);
+  // Crown: two facets meeting under the tip, and the girdle where the crown ends.
+  const girdle = cy - 2;
+  pc.tri(cx, cy - 9, cx - 6.5, girdle, cx - 0.5, girdle, light);
+  pc.tri(cx, cy - 9, cx + 6.5, girdle, cx + 0.5, girdle, body);
+  pc.tri(cx - 1.5, cy - 6, cx - 3.5, girdle, cx + 1, girdle, tip);
+  // Pavilion: three facets down to the point at the bottom.
+  pc.tri(cx - 7, girdle, cx, cy + 9, cx - 2, girdle, body);
+  pc.tri(cx - 2, girdle, cx, cy + 9, cx + 3, girdle, light);
+  pc.tri(cx + 3, girdle, cx, cy + 9, cx + 7, girdle, shade);
+  // Cut lines.
+  pc.thinLine(cx - 6.5, girdle, cx + 6.5, girdle, tip);
+  pc.thinLine(cx, cy - 9, cx - 6.5, girdle, tip);
+  pc.thinLine(cx, cy - 9, cx + 6.5, girdle, light);
+  pc.thinLine(cx - 2, girdle, cx, cy + 8.5, tip);
+  pc.thinLine(cx + 3, girdle, cx, cy + 8.5, light);
+  // The hard glint: a white pixel with a fine four-point star.
+  const gx = cx - 4;
+  const gy = cy - 4;
+  pc.px(gx, gy, C.white);
+  pc.dot(gx + 0.5, gy - 1, C.white);
+  pc.dot(gx + 0.5, gy + 2, C.white);
+  pc.dot(gx - 1, gy + 0.5, C.white);
+  pc.dot(gx + 2, gy + 0.5, C.white);
 }
 
 export function buildEggSheet(colorName: string, family = 'chao'): SpriteSheet {

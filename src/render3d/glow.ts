@@ -77,4 +77,11 @@ export class MergedGlow {
         this.sprites.delete(id);
       }
   }
+
+  dispose(): void {
+    for (const s of this.sprites.values()) s.removeFromParent();
+    this.sprites.clear();
+    this.mat.map?.dispose();
+    this.mat.dispose();
+  }
 }

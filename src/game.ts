@@ -45,7 +45,11 @@ export class Game {
   /** The full-3D scene, when the Graphics setting picked it. */
   readonly scene3d: Grove3dScene | null;
   readonly camera = new OrbitCamera();
-  /** Sprite sheets and the pixel world; in 3D mode only its sheets serve the UI portraits. */
+  /**
+   * Sprite sheets and the pixel world; in 3D mode only its sheets serve the UI portraits.
+   * Its sprite batch and 4096² mega atlas are built on the first pixel draw, so 3D never
+   * allocates them.
+   */
   readonly view = new WorldView();
   readonly picker: Picker;
   readonly input: GameInput;

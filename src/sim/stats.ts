@@ -1,6 +1,6 @@
-import { STATS } from '../config/tuning';
+import { MOTION_CLIPS, STATS } from '../config/tuning';
 import type { Rng } from './rng';
-import { GRADES, STAT_KEYS, type Grade, type StatBlock, type StatKey } from './types';
+import { GRADES, STAT_KEYS, type Grade, type Nubbin, type StatBlock, type StatKey } from './types';
 
 export function gradeMultiplier(grade: Grade): number {
   return STATS.gradeMultiplier[grade];
@@ -32,4 +32,14 @@ export function addPoints(stat: StatBlock, rawPoints: number): number {
 export function nextGrade(grade: Grade): Grade {
   const i = GRADES.indexOf(grade);
   return GRADES[Math.min(GRADES.length - 1, i + 1)] ?? grade;
+}
+
+/** Whether an adult flaps its wings when it moves (`MOTION_CLIPS.flapLevel`). Both renderers ask. */
+export function flaps(n: Nubbin): boolean {
+  return n.stage === 'adult' && levelOf(n.stats.fly.points) >= MOTION_CLIPS.flapLevel;
+}
+
+/** Whether an adult swims a stroke in the pond rather than wading (`MOTION_CLIPS.swimLevel`). */
+export function swimsStroke(n: Nubbin): boolean {
+  return n.stage === 'adult' && levelOf(n.stats.swim.points) >= MOTION_CLIPS.swimLevel;
 }

@@ -2,6 +2,7 @@ import { Vector3 } from 'three';
 import { DUNGEON, EGG, LIFECYCLE, UI } from '../config/tuning';
 import { childHint } from '../sim/alignment';
 import { moodOf } from '../sim/needs';
+import { flaps, swimsStroke } from '../sim/stats';
 import type { DungeonRun, Location, Nubbin, SimEvent, Vec2, World } from '../sim/types';
 import { cellCentre, type Cell, type Floor } from '../sim/dungeon';
 import type { OrbitCamera } from './camera';
@@ -66,7 +67,14 @@ export interface SpritePick {
  * two sim steps so movement is smooth at any frame rate.
  */
 export class WorldView {
-  readonly batch = new SpriteBatch();
+  private batchLazy: SpriteBatch | null = null;
+  /**
+   * The one sprite batch and its mega atlas, built on first use: the full-3D mode keeps a
+   * WorldView only for its sheet cache (UI portraits) and never draws pixels.
+   */
+  get batch(): SpriteBatch {
+    return (this.batchLazy ??= new SpriteBatch());
+  }
   readonly sheets = new SheetCache();
   readonly particles = new Particles();
   private readonly decor = placeDecorations();
@@ -746,7 +754,7 @@ export class WorldView {
 
     // Keeper.
     const k = world.keeper;
-    const ksheet = this.sheets.keeper(world.trainer);
+    const ksheet = this.sheets.keeper(world.trainer, k.alignment);
     const kx = lerp(this.keeperPrev.pos.x, k.pos.x, alpha);
     const kz = lerp(this.keeperPrev.pos.z, k.pos.z, alpha);
     const moving =
@@ -779,7 +787,7 @@ export class WorldView {
     }
     const k2 = world.coop.active ? world.keeper2 : null;
     if (k2) {
-      const sheet2 = this.sheets.keeper(world.coop.trainer);
+      const sheet2 = this.sheets.keeper(world.coop.trainer, k2.alignment);
       const moving2 = k2.input.x !== 0 || k2.input.z !== 0;
       const clip2: ClipName = moving2 ? 'walk' : 'idle';
       const view2 = viewAngle(k2.facing, yaw);
@@ -1270,12 +1278,19 @@ export class WorldView {
         opacity = 0.85 + 0.15 * Math.sin(nowMs / 150);
       }
     } else {
-      const clip = clipFor(n);
+      let clip = clipFor(n);
+      const view = viewAngle(n.facing, yaw);
+      // A look without the flap or swim clip moves with its walk instead.
+      if (
+        !sheet.frames.has(frameKey(clip, view.angle, 0)) &&
+        (clip === 'flap' || clip === 'swim')
+      ) {
+        clip = 'walk';
+      }
       if (clip !== v.clip) {
         v.clip = clip;
         v.clipStartMs = nowMs;
       }
-      const view = viewAngle(n.facing, yaw);
       flip = view.flip;
       const def = CLIPS[clip as ClipName];
       const frame = def ? frameAt(def, nowMs - v.clipStartMs) : 0;
@@ -1323,7 +1338,8 @@ export class WorldView {
     }
 
     // Footstep dust and swimming ripples.
-    if (v.clip === 'walk' && y < 0.05 && nowMs - v.lastDustMs > 300) {
+    const inPond = n.behavior.state === 'swim';
+    if (v.clip === 'walk' && !inPond && y < 0.05 && nowMs - v.lastDustMs > 300) {
       v.lastDustMs = nowMs;
       this.particles.burst('dust', x, 0.05, z, 1, {
         spread: 0.12,
@@ -1345,7 +1361,7 @@ export class WorldView {
         lifeMs: 450,
         size: 0.3,
       });
-    } else if (v.clip === 'swim' && nowMs - v.lastRippleMs > 650) {
+    } else if (inPond && nowMs - v.lastRippleMs > 650) {
       v.lastRippleMs = nowMs;
       this.particles.ripple(x, z);
     }
@@ -1370,7 +1386,7 @@ export class WorldView {
   }
 
   dispose(): void {
-    this.batch.dispose();
+    this.batchLazy?.dispose();
     this.sheets.dispose();
     this.particles.dispose();
   }
@@ -1386,9 +1402,11 @@ export function clipFor(n: Nubbin): string {
     case 'wander':
     case 'findFood':
     case 'avoid':
-      return 'walk';
+      // Strong fliers flap their wings as they go.
+      return flaps(n) ? 'flap' : 'walk';
     case 'swim':
-      return 'swim';
+      // Strong swimmers swim a stroke; everyone else wades through the shallows.
+      return swimsStroke(n) ? 'swim' : 'walk';
     case 'nap':
       return 'sleep';
     case 'eat':
@@ -1403,7 +1421,8 @@ export function clipFor(n: Nubbin): string {
     case 'carried':
       return 'held';
     case 'thrown':
-      return 'surprised';
+      // A strong flier catches itself in the air and flutters down.
+      return flaps(n) ? 'flap' : 'surprised';
     case 'react':
       switch (n.behavior.reaction) {
         case 'love':

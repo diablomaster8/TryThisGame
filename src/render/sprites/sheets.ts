@@ -1,4 +1,4 @@
-import type { Nubbin, PartSlot } from '../../sim/types';
+import type { KeeperAlignment, Nubbin, PartSlot } from '../../sim/types';
 import { childHint } from '../../sim/alignment';
 import type { SpriteSheet } from './atlas';
 import {
@@ -16,12 +16,12 @@ import {
   type ChaoLook,
 } from './chao';
 import { speciesOf } from '../../sim/species';
+import { isJewel } from '../../sim/nubbin';
 import { buildCreatureSheet } from './creature';
 import { buildCocoonSheet, buildEggSheet } from './egg';
 import { speciesArt } from './species-art';
 import { buildEmoteSheet } from './emote';
-import { TRAINERS } from '../../sim/trainers';
-import { EXTRA_LOOKS } from '../../sim/npcs';
+import { keeperOutfit, trainerLook } from '../keeper-look';
 import { C } from './palette';
 import { buildKeeperSheet } from './keeper';
 import { buildPaintedProps } from '../paint/decor';
@@ -75,10 +75,13 @@ export class SheetCache {
   forNubbin(n: Nubbin): SpriteSheet {
     const key = SheetCache.nubbinKey(n);
     return this.get(key, () => {
+      // A jewel Nubbin wears the gem finish, unless a Shadow's grey or a character look covers it.
+      const gem = isJewel(n.eggColor) && !n.shadow && !(n.hat && CHARACTER_LOOKS[n.hat]);
       // Accessories ride on top of whichever look the Nubbin has.
       const build = (look: ChaoLook): SpriteSheet =>
         buildChaoSheet({
           ...look,
+          gem,
           scarf: n.scarf ?? null,
           glasses: !!n.glasses,
           hatDye: n.hatDye ?? null,
@@ -176,15 +179,18 @@ export class SheetCache {
     );
   }
 
-  /** The Keeper's look is the active trainer's. */
-  keeper(trainerId: string): SpriteSheet {
-    return this.get(`keeper:${trainerId}`, () => {
-      const look =
-        EXTRA_LOOKS[trainerId] ??
-        TRAINERS.find((t) => t.id === trainerId)?.look ??
-        TRAINERS[0]!.look;
-      return buildKeeperSheet(look);
-    });
+  /**
+   * A Keeper sheet. With a side it is the player's (or the co-op partner's) Keeper: the
+   * chosen trainer's outfit with the Sun or Moon trim (`keeperOutfit`, the rule both
+   * renderers share). Without one it is the plain trainer look, for visitors, NPCs,
+   * dialogue portraits and the trainer picker.
+   */
+  keeper(trainerId: string, side?: KeeperAlignment): SpriteSheet {
+    if (!side)
+      return this.get(`keeper:${trainerId}`, () => buildKeeperSheet(trainerLook(trainerId)));
+    return this.get(`keeper:${trainerId}:${side}`, () =>
+      buildKeeperSheet(keeperOutfit(trainerId, side)),
+    );
   }
 
   /** A species sprite with no Nubbin behind it: wild visitors and neighbours' pets. */

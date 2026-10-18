@@ -9,6 +9,8 @@ import {
   type RunState,
 } from '../../src/minigames/expedition/run';
 import { buy, priceOf } from '../../src/sim/shop';
+import { JEWEL_EGG_COLORS, isJewel } from '../../src/sim/nubbin';
+import { deserialize, serialize } from '../../src/sim/save';
 import { Rng } from '../../src/sim/rng';
 import type { Command, SimEvent, World } from '../../src/sim/types';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
@@ -180,6 +182,35 @@ describe('shop', () => {
     expect(events[0]).toMatchObject({ kind: 'bought', ok: false, reason: 'roster' });
     // Names stay unique.
     expect(new Set(w.nubbins.map((n) => n.name)).size).toBe(w.nubbins.length);
+  });
+
+  it('the shop sells a jewel egg now and then, plain of any other finish, and saves keep it', () => {
+    const rng = Rng.fromSeed(11);
+    const seen = new Set<string>();
+    let jewels = 0;
+    let bought = 0;
+    for (let round = 0; round < 60; round++) {
+      const w = world(10_000);
+      w.nubbins.length = 0;
+      for (let i = 0; i < EGG.maxRoster; i++) {
+        buy(w, 'egg', rng, []);
+        bought += 1;
+      }
+      for (const n of w.nubbins) {
+        if (!isJewel(n.eggColor)) continue;
+        jewels += 1;
+        seen.add(n.eggColor);
+        expect(JEWEL_EGG_COLORS).toContain(n.eggColor);
+        expect(n.tone).toBeNull();
+        expect(n.shiny).toBe(false);
+        const back = deserialize(serialize(w, 0));
+        expect(back.world.nubbins.find((m) => m.id === n.id)?.eggColor).toBe(n.eggColor);
+      }
+    }
+    // About SHOP.jewelEggChance of eggs: rare, but it happens.
+    expect(jewels).toBeGreaterThan(0);
+    expect(jewels / bought).toBeLessThan(SHOP.jewelEggChance * 3);
+    expect(seen.size).toBeGreaterThan(1);
   });
 
   it('Nubbins play with a toy', () => {

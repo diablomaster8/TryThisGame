@@ -64,7 +64,7 @@ export interface DrawnQuad {
  */
 export class SpriteBatch {
   readonly mesh: Mesh<BufferGeometry, MeshBasicMaterial>;
-  readonly atlas = new MegaAtlas();
+
   readonly quads: DrawnQuad[] = [];
   /** When set, the matching sprite is drawn with a bright halo behind it. */
   highlight: { kind: string; id: string } | null = null;
@@ -77,8 +77,13 @@ export class SpriteBatch {
   private indices = new Uint16Array(this.capacity * 6);
   private readonly right = new Vector3();
   private readonly up = new Vector3();
+  /** What each quad of this frame shows, so its UVs can be rebuilt after an atlas repack. */
+  private frameDraws: Array<{ sheet: SpriteSheet; rect: FrameRect; flip: boolean }> = [];
+  /** The atlas generation this frame's UVs were taken from. */
+  private uvGeneration = 0;
 
-  constructor() {
+  /** The atlas is injectable so tests can hand in one with a fake canvas. */
+  constructor(readonly atlas: MegaAtlas = new MegaAtlas()) {
     const geometry = new BufferGeometry();
     this.fillAttributes(geometry);
     const material = new MeshBasicMaterial({
@@ -90,6 +95,8 @@ export class SpriteBatch {
     });
     this.mesh = new Mesh(geometry, material);
     this.mesh.frustumCulled = false;
+    // New sheets upload only their own region, just before the batch is drawn.
+    this.mesh.onBeforeRender = (renderer) => this.atlas.flush(renderer);
   }
 
   private fillAttributes(geometry: BufferGeometry): void {
@@ -127,6 +134,9 @@ export class SpriteBatch {
   begin(yaw: number, pitch: number): void {
     this.count = 0;
     this.quads.length = 0;
+    this.frameDraws.length = 0;
+    this.atlas.beginFrame();
+    this.uvGeneration = this.atlas.generation;
     this.pulse = 0.5 + 0.5 * Math.sin(Date.now() / 160);
     // Camera right on the ground plane, and the tilted-back up vector.
     this.right.set(Math.cos(yaw), 0, -Math.sin(yaw));
@@ -159,7 +169,9 @@ export class SpriteBatch {
         | 'storyProp';
     },
   ): void {
-    if (!this.atlas.has(d.sheet) && !this.atlas.place(d.sheet)) return; // atlas full: skip
+    // Placing may evict and repack; then the quads already drawn this frame re-ask their UVs.
+    if (!this.atlas.place(d.sheet)) return;
+    if (this.atlas.generation !== this.uvGeneration) this.refreshUvs();
     const uv = this.atlas.uv(d.sheet, d.rect);
     if (!uv) return;
     // The highlight: the same frame, a little larger and bright, drawn first so the real
@@ -195,10 +207,8 @@ export class SpriteBatch {
       this.positions[o + c * 3 + 1] = v.y;
       this.positions[o + c * 3 + 2] = v.z;
     });
-    const [u0, v0, u1, v1] = uv;
-    const left = d.flip ? u1 : u0;
-    const right = d.flip ? u0 : u1;
-    this.uvs.set([left, v0, right, v0, left, v1, right, v1], i * 8);
+    this.writeUv(i, uv, d.flip);
+    this.frameDraws[i] = { sheet: d.sheet, rect: d.rect, flip: d.flip };
     const a = d.opacity ?? 1;
     const b = d.tint ?? 1;
     for (let c = 0; c < 4; c++) this.colors.set([b, b, b, a], i * 16 + c * 4);
@@ -211,6 +221,24 @@ export class SpriteBatch {
         rect: d.rect,
         flip: d.flip,
       });
+    }
+  }
+
+  private writeUv(i: number, uv: [number, number, number, number], flip: boolean): void {
+    const [u0, v0, u1, v1] = uv;
+    const left = flip ? u1 : u0;
+    const right = flip ? u0 : u1;
+    this.uvs.set([left, v0, right, v0, left, v1, right, v1], i * 8);
+  }
+
+  /** After a repack every sheet may have moved: point this frame's quads at their new places. */
+  private refreshUvs(): void {
+    this.uvGeneration = this.atlas.generation;
+    for (let i = 0; i < this.count; i++) {
+      const f = this.frameDraws[i];
+      if (!f) continue;
+      // A sheet that no longer fits collapses to an empty quad rather than showing the wrong art.
+      this.writeUv(i, this.atlas.uv(f.sheet, f.rect) ?? [0, 0, 0, 0], f.flip);
     }
   }
 
