@@ -15,6 +15,7 @@ import { playSound } from '../platform/audio';
 import { enabledGames } from '../sim/edu';
 import { Rng } from '../sim/rng';
 import { button, el, modal } from './dom';
+import { renderSumGate } from './grown-up-gate';
 import { storyPickButton, storyProgress, storySettings } from './edu-story';
 import { LangPanel, langProgress } from './lang';
 import { langCourses } from '../sim/lang';
@@ -300,7 +301,6 @@ function shapeSvg(shape: string): SVGSVGElement {
 export class GrownUpPanel {
   private readonly dialog;
   private readonly body: HTMLDivElement;
-  private gate: { a: number; b: number } | null = null;
 
   constructor(
     parent: HTMLElement,
@@ -313,7 +313,6 @@ export class GrownUpPanel {
   }
 
   open(): void {
-    this.gate = { a: 3 + Math.floor(Math.random() * 7), b: 2 + Math.floor(Math.random() * 7) };
     this.renderGate();
     this.dialog.show();
   }
@@ -327,34 +326,7 @@ export class GrownUpPanel {
   }
 
   private renderGate(): void {
-    const g = this.gate;
-    if (!g) return;
-    this.body.innerHTML = '';
-    this.body.appendChild(el('h3', undefined, EDU_TEXT.gateTitle));
-    this.body.appendChild(el('p', 'help', EDU_TEXT.gateHelp(g.a, g.b)));
-    const row = el('div', 'settings-actions');
-    const input = el('input');
-    input.type = 'number';
-    input.inputMode = 'numeric';
-    input.className = 'edu-gate-input';
-    input.setAttribute('aria-label', EDU_TEXT.gateTitle);
-    const enter = button(
-      EDU_TEXT.gateEnter,
-      () => {
-        if (Number(input.value) === g.a + g.b) this.renderPanel();
-        else {
-          this.toast(EDU_TEXT.gateWrong);
-          input.value = '';
-        }
-      },
-      'btn btn-primary',
-    );
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') enter.click();
-    });
-    row.append(input, enter);
-    this.body.appendChild(row);
-    setTimeout(() => input.focus(), 50);
+    renderSumGate(this.body, this.toast, () => this.renderPanel());
   }
 
   renderPanel(): void {

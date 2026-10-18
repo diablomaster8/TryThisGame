@@ -306,6 +306,8 @@ export const UI_TEXT = {
   unreadableHeld:
     'Your saved Grove could not be opened or copied. A new one has started, but it will not save over the old one.',
   exportUnreadable: 'Export the save that could not be opened',
+  updateNotice: 'A new version of the Grove is out. Reload to update.',
+  updateReload: 'Reload to update',
   resetSave: 'Reset save',
   resetConfirm: 'Erase the Grove and start over?',
   // Away screen

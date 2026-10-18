@@ -6,6 +6,7 @@
  * the festivals they unlock.
  */
 import { ATLAS_TEXT } from '../config/strings';
+import { showUpdateNotice } from './update-notice';
 import type { Game } from '../game';
 import {
   lineAct,
@@ -98,10 +99,18 @@ export class StoryShelf {
       return;
     }
     this.body.replaceChildren(el('p', 'help', ATLAS_TEXT.loading));
-    void this.config.load().then((lines) => {
-      this.lines = lines;
-      this.refresh();
-    });
+    // A chunk that fails to load (offline, or a deploy replaced it) offers the reload notice;
+    // the loader keeps nothing, so the next open tries again.
+    void this.config.load().then(
+      (lines) => {
+        this.lines = lines;
+        this.refresh();
+      },
+      (err: unknown) => {
+        this.close();
+        showUpdateNotice(err);
+      },
+    );
   }
 
   close(): void {

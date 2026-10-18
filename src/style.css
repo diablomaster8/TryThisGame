@@ -303,6 +303,27 @@ button,
   pointer-events: none;
 }
 
+/* ---------- reload-to-update notice (a lazy chunk failed to load) ---------- */
+
+.update-notice {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  width: min(320px, calc(100vw - 32px));
+  padding: 16px;
+  text-align: center;
+  color: var(--hud-fg);
+  background: rgba(13, 10, 26, 0.92);
+  border: 1px solid var(--hud-border);
+  border-radius: 12px;
+}
+
+.update-notice p {
+  margin: 0 0 12px;
+}
+
 /* ---------- toasts ---------- */
 
 .toasts {

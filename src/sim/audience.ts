@@ -67,6 +67,13 @@ export function matureControlVisible(ctx: Pick<AudienceContext, 'learningGrove'>
   return !ctx.learningGrove;
 }
 
+const MATURE_RANK: Record<MatureContent, number> = { off: 0, teen: 1, adult: 2 };
+
+/** Raising Mature content goes through the grown-up gate; lowering it never does. */
+export function matureRaiseNeedsGate(from: MatureContent, to: MatureContent): boolean {
+  return MATURE_RANK[to] > MATURE_RANK[from];
+}
+
 /** The rift asks for an age confirmation until the player has given it once. */
 export function riftNeedsConfirmation(settings: Pick<Settings, 'riftConfirmed'>): boolean {
   return !settings.riftConfirmed;

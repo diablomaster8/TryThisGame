@@ -4,6 +4,7 @@ import {
   funQuestBlocked,
   isFunQuestCode,
   matureControlVisible,
+  matureRaiseNeedsGate,
   questAvailable,
   riftNeedsConfirmation,
   type Audience,
@@ -122,5 +123,16 @@ describe('rift confirmation', () => {
     const world = createWorld(2, 0);
     expect(world.settings.riftConfirmed).toBe(false);
     expect(world.settings.matureContent).toBe('off');
+  });
+});
+
+describe('the grown-up gate in front of Mature content (review 2026-10-18, goal 7)', () => {
+  it('only raising the setting needs the gate', () => {
+    expect(matureRaiseNeedsGate('off', 'teen')).toBe(true);
+    expect(matureRaiseNeedsGate('off', 'adult')).toBe(true);
+    expect(matureRaiseNeedsGate('teen', 'adult')).toBe(true);
+    expect(matureRaiseNeedsGate('adult', 'teen')).toBe(false);
+    expect(matureRaiseNeedsGate('teen', 'off')).toBe(false);
+    expect(matureRaiseNeedsGate('off', 'off')).toBe(false);
   });
 });

@@ -17,6 +17,7 @@ import type { GraphicsMode, Nubbin } from '../../sim/types';
 import { button, el } from '../../ui/dom';
 import { RacePixelView } from './pixel-view';
 import type { RaceView } from './view';
+import { showUpdateNotice } from '../../ui/update-notice';
 
 export interface RaceOutcome {
   placement: number;
@@ -118,6 +119,14 @@ export class RaceScreen {
     this.root.hidden = false;
     this.lastMs = 0;
     this.accMs = 0;
+    const startPixel = (): void => {
+      this.root.classList.remove('three');
+      this.pixel.element.hidden = false;
+      this.loading3d = false;
+      this.view = this.pixel;
+      this.view.start(race, player, playerSheet, cache);
+      this.resize();
+    };
     const mode = selectMinigameView(graphics, !!scene3d && scene3d.loadState().done);
     if (mode === '3d' && scene3d) {
       this.root.classList.add('three');
@@ -131,21 +140,21 @@ export class RaceScreen {
           });
       this.view = this.pixel;
       this.loading3d = true;
-      void ready.then((view) => {
-        if (starts !== this.starts || !this.race) return;
-        this.loading3d = false;
-        this.view = view;
-        view.start(race, player, playerSheet, cache);
-        this.resize();
-      });
-    } else {
-      this.root.classList.remove('three');
-      this.pixel.element.hidden = false;
-      this.loading3d = false;
-      this.view = this.pixel;
-      this.view.start(race, player, playerSheet, cache);
-      this.resize();
-    }
+      void ready.then(
+        (view) => {
+          if (starts !== this.starts || !this.race) return;
+          this.loading3d = false;
+          this.view = view;
+          view.start(race, player, playerSheet, cache);
+          this.resize();
+        },
+        (err: unknown) => {
+          // The chunk is gone (usually a new deploy): say so, and run in pixel art.
+          showUpdateNotice(err);
+          if (starts === this.starts && this.race) startPixel();
+        },
+      );
+    } else startPixel();
     this.rafId = requestAnimationFrame(this.frame);
   }
 

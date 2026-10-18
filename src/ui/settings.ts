@@ -13,10 +13,11 @@ import {
   writeGraphicsPref,
 } from '../platform/storage';
 import { deserialize, importProblem } from '../sim/save';
-import { matureControlVisible } from '../sim/audience';
+import { matureControlVisible, matureRaiseNeedsGate } from '../sim/audience';
 import type { MatureContent, OfflineMode, Settings } from '../sim/types';
 import { createWorld } from '../sim/world';
 import { button, el, modal } from './dom';
+import { askGrownUp } from './grown-up-gate';
 
 /** The Settings menu: Aging while closed, departures toggle, save export/import/reset. */
 export class SettingsMenu {
@@ -46,7 +47,7 @@ export class SettingsMenu {
   private readonly coopTrainer: HTMLSelectElement;
 
   constructor(
-    parent: HTMLElement,
+    private readonly parent: HTMLElement,
     private readonly game: () => Game | null,
     private readonly toast: (text: string) => void,
   ) {
@@ -117,7 +118,7 @@ export class SettingsMenu {
       input.type = 'radio';
       input.name = 'mature-content';
       input.value = value;
-      input.addEventListener('change', () => this.apply());
+      input.addEventListener('change', () => this.changeMature(value));
       this.matureInputs.set(value, input);
       const text = el('span');
       text.append(el('strong', undefined, label), el('small', undefined, help));
@@ -306,6 +307,27 @@ export class SettingsMenu {
   private currentMature(fallback: MatureContent): MatureContent {
     for (const [value, input] of this.matureInputs) if (input.checked) return value;
     return fallback;
+  }
+
+  private checkMature(value: MatureContent): void {
+    for (const [v, input] of this.matureInputs) input.checked = v === value;
+  }
+
+  /** Lowering applies at once; raising waits for a grown-up to answer the sum gate. */
+  private changeMature(value: MatureContent): void {
+    const g = this.game();
+    if (!g) return;
+    const from = g.world.settings.matureContent;
+    if (!matureRaiseNeedsGate(from, value)) {
+      this.apply();
+      return;
+    }
+    this.checkMature(from);
+    void askGrownUp(this.parent, this.toast).then((ok) => {
+      if (!ok || this.game() !== g) return;
+      this.checkMature(value);
+      this.apply();
+    });
   }
 
   private syncEnabled(mode: OfflineMode): void {

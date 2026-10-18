@@ -12,6 +12,7 @@ import {
 import { loadEduScripts, loadStoryScripts } from './sim/story-scenes';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
 import { showTitle } from './ui/title';
+import { showUpdateNotice } from './ui/update-notice';
 import { mountCameraButtons } from './ui/camera-buttons';
 import { FpsCounter } from './ui/fps';
 import { LoadingBar } from './ui/loading-bar';
@@ -34,17 +35,24 @@ if (params.has('sprites')) {
 } else if (params.has('style3d')) {
   // Art-direction samples for a full-3D Grove (`?style3d=1..5`).
   const i = Math.max(1, Math.min(5, Number(params.get('style3d')) || 1));
-  void import('./samples/three-styles').then((m) => m.mountStyleSample(canvas, m.STYLES[i - 1]!));
+  void import('./samples/three-styles').then(
+    (m) => m.mountStyleSample(canvas, m.STYLES[i - 1]!),
+    showUpdateNotice,
+  );
 } else if (params.has('retro3d')) {
   // Console-era 3D samples (`?retro3d=1..5`).
   const i = Math.max(1, Math.min(5, Number(params.get('retro3d')) || 1));
-  void import('./samples/retro-styles').then((m) =>
-    m.mountRetroSample(canvas, m.RETRO_STYLES[i - 1]!),
+  void import('./samples/retro-styles').then(
+    (m) => m.mountRetroSample(canvas, m.RETRO_STYLES[i - 1]!),
+    showUpdateNotice,
   );
 } else if (params.has('aaa')) {
   // The HD-port direction at a AAA finish (`?aaa=1..3`: noon, golden hour, after rain).
   const i = Math.max(1, Math.min(3, Number(params.get('aaa')) || 1));
-  void import('./samples/aaa-styles').then((m) => m.mountAaaSample(canvas, m.MOODS[i - 1]!));
+  void import('./samples/aaa-styles').then(
+    (m) => m.mountAaaSample(canvas, m.MOODS[i - 1]!),
+    showUpdateNotice,
+  );
 } else if (params.has('edu') && import.meta.env.DEV) {
   // Straight into a fresh Learning Grove at the given age, erasing the slot: dev builds only.
   // `?slot=2` picks a slot. On the built site an `?edu` link opens the title (below).
@@ -63,7 +71,8 @@ if (params.has('sprites')) {
   startGame(null);
 } else {
   // Fetch the campaign and side-story chunks while the title is up.
-  void loadStoryScripts();
+  // A failure here is retried, and reported, when the game starts.
+  loadStoryScripts().catch(() => undefined);
   // An old or shared `?edu` link lands on the Learning Grove slots and erases nothing.
   const focus = params.has('edu') ? ('edu' as const) : undefined;
   showTitle(
@@ -107,15 +116,26 @@ function startGame(
     currentSlot().mode === 'edu'
       ? Promise.all([loadStoryScripts(), loadEduScripts()]).then(() => undefined)
       : loadStoryScripts();
-  // The 3D scene is a separate chunk, loaded only when the title picked it.
+  // The 3D scene is a separate chunk, loaded only when the title picked it. A chunk that
+  // fails to load (usually a deploy replaced it) shows the reload notice, not a blank screen.
   if (readGraphicsPref() === '3d') {
-    void import('./render3d/grove-3d-scene').then(async (m) => {
-      // The saved creatures start sculpting in workers while the scene builds.
-      m.prewarmCreatures();
-      await sideStories;
-      boot(newCampaignTrainer, eduAge, new m.Grove3dScene(canvas), storyline);
-    });
-  } else void sideStories.then(() => boot(newCampaignTrainer, eduAge, null, storyline));
+    void import('./render3d/grove-3d-scene')
+      .then(async (m) => {
+        // The saved creatures start sculpting in workers while the scene builds.
+        m.prewarmCreatures();
+        await sideStories;
+        return m;
+      })
+      .then(
+        (m) => boot(newCampaignTrainer, eduAge, new m.Grove3dScene(canvas), storyline),
+        showUpdateNotice,
+      );
+  } else {
+    void sideStories.then(
+      () => boot(newCampaignTrainer, eduAge, null, storyline),
+      showUpdateNotice,
+    );
+  }
 }
 
 function boot(
