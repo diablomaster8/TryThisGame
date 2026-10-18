@@ -23,6 +23,7 @@ import {
 } from '../sim/atlas';
 import { crossSavesFrom, type CrossSaves } from '../sim/cross-saves';
 import { audienceContext } from '../sim/fun-quests';
+import { speakerNameIn } from '../sim/story-scenes';
 import { E6_CORE_SCENE, E6_GATE_SCENE, REFLECTION_FLAG } from '../sim/multiverse-rules';
 import {
   freshLine,
@@ -208,8 +209,14 @@ export class StoryShelf {
           ),
         );
       } else {
-        const names = Object.fromEntries(next.quest.speakers.map((s) => [s.id, s.name]));
         const scene = next.scene;
+        // The page's own speakers first, then the rest of its line (a Learning Grove line
+        // may name a speaker another quest of the page declares).
+        const names: Record<string, string> = {};
+        for (const l of [...scene.lines, ...(scene.choices ?? []).flatMap((c) => c.then ?? [])]) {
+          const name = speakerNameIn(line.quests, scene.id, l.who, next.quest);
+          if (name !== undefined) names[l.who] ??= name;
+        }
         this.body.appendChild(
           button(
             ATLAS_TEXT.read,

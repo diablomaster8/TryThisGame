@@ -5,6 +5,7 @@ import type { Lesson } from '../content/types';
 import {
   choiceToSend,
   eduContent,
+  questSpeakerName,
   sceneFor,
   textBandOf,
   type PlayScene,
@@ -255,7 +256,7 @@ export class Dialogue {
     if (!line || !g) return;
     const who = line.who;
     const chorus = who === 'chorus';
-    this.name.textContent = this.names[who] ?? speakerName(who, g);
+    this.name.textContent = this.names[who] ?? speakerName(who, g, this.scene ?? '');
     this.name.hidden = who === 'narrator';
     this.root.classList.toggle('narration', who === 'narrator');
     // The chorus (everyone singing) has no portrait and is shown in italics.
@@ -410,14 +411,23 @@ export function resolveSpeaker(who: string, playerTrainer: string): string {
   return who === 'you' ? playerTrainer : who;
 }
 
-export function speakerName(who: string, g: Game): string {
+export function speakerName(who: string, g: Game, sceneId = ''): string {
   if (who === 'moss' || who === 'sable') {
     const c = g.world.campaign;
     const id = who === 'moss' ? c?.mossId : c?.sableId;
     const n = id ? g.world.nubbins.find((x) => x.id === id) : undefined;
     return n?.name ?? SPEAKERS[who]?.name ?? who;
   }
-  return TRAINER_LABELS[who]?.name ?? SPEAKERS[who]?.name ?? who;
+  return (
+    TRAINER_LABELS[who]?.name ??
+    SPEAKERS[who]?.name ??
+    questSpeakerName(sceneId, who) ??
+    // Never show a raw id: content-check fails an unmapped speaker, so this is a last resort.
+    who.replace(
+      /(^|-)([a-z])/g,
+      (_m, sep: string, c: string) => `${sep ? ' ' : ''}${c.toUpperCase()}`,
+    )
+  );
 }
 
 function portraitFrame(

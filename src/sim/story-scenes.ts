@@ -56,8 +56,49 @@ const REWARD_BY_ID = new Map<string, { quest: string; reward: Reward }>();
 export function rewardById(id: string): { quest: string; reward: Reward } | undefined {
   return REWARD_BY_ID.get(id);
 }
-function add(s: Scene | undefined): void {
+/** The quest each quest scene belongs to, for its speakers' name plates. */
+const QUEST_OF_SCENE = new Map<string, Quest>();
+
+function add(s: Scene | undefined, quest?: Quest): void {
   if (s && !SCENE_BY_ID.has(s.id)) SCENE_BY_ID.set(s.id, s);
+  if (s && quest && !QUEST_OF_SCENE.has(s.id)) QUEST_OF_SCENE.set(s.id, quest);
+}
+
+/**
+ * Pure: the name plate for `who` in the scene `sceneId`, from the quests' own speaker lists.
+ * The quest that owns the scene wins (by `owner`, else the longest `<quest id>-` prefix),
+ * then any quest of the same family (the id's first part: `a13`, `s24`, `q21`), then any
+ * quest at all. Undefined when no quest declares it; content-check fails such a line.
+ */
+export function speakerNameIn(
+  quests: Iterable<Quest>,
+  sceneId: string,
+  who: string,
+  owner?: Quest,
+): string | undefined {
+  const list = [...quests];
+  let quest = owner;
+  if (!quest) {
+    for (const q of list) {
+      if (sceneId.startsWith(`${q.id}-`) && (!quest || q.id.length > quest.id.length)) quest = q;
+    }
+  }
+  const own = quest?.speakers.find((s) => s.id === who)?.name;
+  if (own !== undefined) return own;
+  const family = sceneId.split('-')[0];
+  let any: string | undefined;
+  for (const q of list) {
+    const name = q.speakers.find((s) => s.id === who)?.name;
+    if (name === undefined) continue;
+    if (q.id.split('-')[0] === family) return name;
+    any ??= name;
+  }
+  return any;
+}
+
+/** The name plate the registered quests give `who` in the Grove scene `sceneId`. */
+export function questSpeakerName(sceneId: string, who: string): string | undefined {
+  return speakerNameIn(QUEST_BY_ID.values(), sceneId, who, QUEST_OF_SCENE.get(sceneId));
 }
 
 /**
@@ -85,10 +126,10 @@ export function registerSideStories(content: SideStoryContent): void {
   for (const q of content.quests) {
     QUEST_BY_ID.set(q.id, q);
     for (const step of q.steps) {
-      add(step.scene);
-      add(step.done);
+      add(step.scene, q);
+      add(step.done, q);
     }
-    add(q.complete);
+    add(q.complete, q);
     for (const r of q.rewards) REWARD_BY_ID.set(r.id, { quest: q.id, reward: r });
     if (q.audience === 'all')
       for (const [key, text] of Object.entries(q.childLines ?? {})) CHILD_LINES.set(key, text);
@@ -183,10 +224,10 @@ export function registerLanguageQuests(quests: Quest[], courses: LanguageCourse[
     // Ori and Hana are not campaign speakers; their name plates come from the quest.
     for (const s of q.speakers) SPEAKERS[s.id] ??= { name: s.name, kind: s.kind };
     for (const step of q.steps) {
-      add(step.scene);
-      add(step.done);
+      add(step.scene, q);
+      add(step.done, q);
     }
-    add(q.complete);
+    add(q.complete, q);
     for (const r of q.rewards) REWARD_BY_ID.set(r.id, { quest: q.id, reward: r });
   }
 }

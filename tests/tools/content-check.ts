@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import * as C from '../../src/content/index';
 import { SPEAKERS } from '../../src/config/story';
+import { speakerNameIn } from '../../src/sim/story-scenes';
 import type { Quest } from '../../src/content/types';
 import type { Scene } from '../../src/config/story';
 
@@ -57,6 +58,15 @@ for (const [pack, list] of Object.entries(packs)) {
 // ---- campaign
 const campIds = new Set<string>();
 const campSpeakers = new Set([...Object.keys(SPEAKERS), ...Object.keys(C.CAMPAIGN_SPEAKERS)]);
+// Every `who` must reach a name plate, the way the dialogue box finds one: SPEAKERS, then
+// the quest that owns the scene, its family (`a13`, `s24`), then any quest (speakerNameIn).
+const questOfScene = new Map<string, Quest>();
+for (const q of allQuests) for (const s of scenesOf(q)) if (!questOfScene.has(s.id)) questOfScene.set(s.id, q);
+const mapped = (sceneId: string, who: string): boolean =>
+  campSpeakers.has(who) || speakerNameIn(allQuests, sceneId, who, questOfScene.get(sceneId)) !== undefined;
+for (const v of variantById.values()) {
+  for (const l of [...v.lines, ...(v.choices ?? []).flatMap((c) => c.then ?? [])]) if (!mapped(v.id, l.who)) problems.push(`variant ${v.id}: unmapped speaker ${l.who}`);
+}
 let campLines = 0, campWords = 0;
 for (const s of C.CAMPAIGN_SCENES) {
   if (campIds.has(s.id) || sceneIds.has(s.id)) problems.push(`campaign: dup scene id ${s.id}`);
@@ -148,7 +158,7 @@ for (const band of C.EDU_BANDS) {
     for (const l of texts) {
       eduTexts.push({ band, id: e.id, text: l.text });
       st.lines++; st.words += l.text.split(/\s+/).length;
-      if (!campSpeakers.has(l.who) && !/^[a-z0-9-]+$/.test(l.who)) problems.push(`edu ${e.id}: odd speaker ${l.who}`);
+      if (!mapped(e.of, l.who)) problems.push(`edu ${e.id}: unmapped speaker ${l.who}`);
     }
   }
   // coverage: every main scene in scope has a version (Sunny, Neopia, Multiverse are out of scope)
