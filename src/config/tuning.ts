@@ -350,6 +350,12 @@ export const PERSONALITY = {
 } as const;
 
 export const RACE = {
+  /**
+   * Longest real gap one frame may feed the race. The race runs fixed sim steps on real
+   * time, so a slow phone (3 frames a second) sees the same race, only choppier; a longer
+   * gap (the tab was hidden) is cut so the field does not jump to the finish.
+   */
+  maxFrameDeltaMs: 1000,
   /** Base speed in track units per second at level 0; stat levels add up to this much more. */
   baseSpeed: 2.0,
   statSpeedBonus: 3.0,
@@ -580,7 +586,7 @@ export const RACE3D = {
   /** World units per track unit (a course is 40 to 50 units long). */
   unitsPerTrack: 1.0,
   /** Depth between lanes, and the track's margin beyond the outer lanes. */
-  laneGap: 1.2,
+  laneGap: 1.5,
   margin: 1.6,
   /** A climb section rises this much over its length; the track stays up after it. */
   climbRise: 2.2,
@@ -599,8 +605,10 @@ export const RACE3D = {
   camera: {
     lookAhead: 1.2,
     lookHeight: 0.5,
-    pitchDeg: 18,
-    height: 7.5,
+    // Steep enough that each lane sits clear above the one in front (review B, bug 27):
+    // a lane gap shows as gap × sin(pitch) on screen, and the field is framed whole.
+    pitchDeg: 38,
+    height: 9.5,
     minSpan: 7,
     followRate: 5,
     fovDeg: 42,

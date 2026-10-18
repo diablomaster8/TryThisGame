@@ -192,7 +192,7 @@ export class RaceScreen {
     if (!race) return;
     // A 3D stage still building: the field waits at the line.
     const live = !this.loading3d && this.view.ready;
-    const dt = this.lastMs === 0 || !live ? 0 : Math.min(100, nowMs - this.lastMs);
+    const dt = this.lastMs === 0 || !live ? 0 : Math.min(RACE.maxFrameDeltaMs, nowMs - this.lastMs);
     this.lastMs = nowMs;
     this.accMs += dt;
     while (this.accMs >= SIM.stepMs) {
