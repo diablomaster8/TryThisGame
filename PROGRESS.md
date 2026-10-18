@@ -18,8 +18,9 @@ Task B-R1; reports `docs/logs/review-wave-L.md` and `review-wave-M.md`). Plan v4
 (`plan.md`): G11 device pass, Track B writing and review tasks, and Part Z, the
 independent full review that runs last. Plan G12 is built and pushed (2026-10-17): the storyline engine, expansions E1–E3 and the four separate campaigns SL1–SL4, sections below and in the archive. Maor, 2026-10-17: legal cleared,
 adviser sign-off given, the seven fun-quest quotes approved as written, Pixel stays the default
-(Full 3D remains a setting). Waiting on Maor: his phone rows, the Atlas quote and audience items in
-the two wave reports, and the Arcade and LB/LK decisions (section "Pixel's Arcade PA1–PA5" in `docs/progress-archive.md`).
+(Full 3D remains a setting); the Atlas quote and audience items in the two wave reports are fine;
+the phone view passes; Expedition and races get 3D versions in Full 3D. Waiting on Maor: the
+Arcade and LB/LK decisions (section "Pixel's Arcade PA1–PA5" in `docs/progress-archive.md`).
 Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
 
 ## Canon audit and fixes (2026-10-17)

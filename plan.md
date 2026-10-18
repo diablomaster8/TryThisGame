@@ -39,9 +39,8 @@ attribution trailer (Maor, 2026-10-16); no prompt here asks for one.
   option, sim checks the journal's "Do it" stands in for, no gesture animation for word
   reactions.
 - **Waiting on Maor:** the expansion pick (E1 The Square, E2 Nova's Season, E3 The Twine;
-  campaigns S1 "The Hundred Days", S2 "Logged In", S3 "The Beetle Road", S4 "Dawn & Dusk");
-  whether Expedition and races stay pixel art inside Full 3D; the phone rows of the
-  device pass. Online pieces (`docs/multiplayer-plan.md`) stay out of scope.
+  campaigns SL1 "The Hundred Days", SL2 "Logged In", SL3 "The Beetle Road", SL4 "Dawn & Dusk").
+  Decided 2026-10-17: Expedition and races get 3D versions in Full 3D; the phone view passes. Online pieces (`docs/multiplayer-plan.md`) stay out of scope.
 
 ## How to use this file
 
@@ -144,7 +143,7 @@ Part G16"; shots `docs/samples/parity2-*.jpg`). The last row stays Maor's.
 | ✓ G16.10 | Both modes: the race screen in portrait starts with runners and names clipped at the left edge | `ui/races.ts`, the race screen | 30–60 min |
 | ✓ G16.11 | Story scenes, the away screen and the photo panel leave the 3D render running behind them (battery on phones) | `game.renderPaused` callers in `src/ui/` | 15–30 min |
 | ✓ G16.12 | `docs/renderer-decision.md`: the one-page brief for Maor on Full 3D as the default (evidence from G15 and G16, risks: phones, bundle, workers; recommendation) | new doc | 30 min |
-| — | Expedition and races are pixel art in both modes, a style jump in Full 3D | Maor decides | — |
+| — | Expedition and races are pixel art in both modes, a style jump in Full 3D | Maor: build 3D versions (2026-10-17) | — |
 
 ```
 You are working in the Grove repo at C:\Users\God\Downloads\Test Des\Test Des (Git Bash, fnm Node 24).
@@ -476,11 +475,11 @@ last, alone, on a clean `main` with everything else merged.
 
 ## What Maor decides
 
-- Whether Expedition and races stay pixel art inside Full 3D. (Decided 2026-10-17: the seven
-  fun-quest quotes stand as written; Pixel stays the default, Full 3D stays a setting.)
+- Decided 2026-10-17: the seven fun-quest quotes stand as written; Pixel stays the default,
+  Full 3D stays a setting; Expedition and races get 3D versions inside Full 3D; the wave
+  reports' quote and audience items are fine; the phone view passes.
 - The expansion pick: E1 The Square, E2 Nova's Season, E3 The Twine; campaigns SL1 "The
   Hundred Days", SL2 "Logged In", SL3 "The Beetle Road", SL4 "Dawn & Dusk".
-- The phone rows of `docs/device-pass.md`.
 - Native-speaker recordings for the language questlines (`public/audio/lang/README.md`).
 
 ---
