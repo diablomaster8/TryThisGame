@@ -1,5 +1,6 @@
 import { INPUT } from '../config/tuning';
 import type { OrbitCamera } from '../render/camera';
+import { isGameKey } from './keys';
 
 interface PointerPoint {
   x: number;
@@ -40,7 +41,8 @@ export class CameraControls {
   }
 
   private readonly onKeyDown = (e: KeyboardEvent): void => {
-    if (e.repeat || e.metaKey || e.ctrlKey || e.altKey) return;
+    // Typing in a field ("Steve" has an e) or a browser shortcut never turns the camera.
+    if (e.repeat || !isGameKey(e)) return;
     switch (e.key) {
       case 'q':
       case 'Q':

@@ -38,6 +38,7 @@ import { RosterMenu } from './roster';
 import { ShopMenu } from './shop';
 import { TrainersMenu } from './trainers';
 import { button, el } from './dom';
+import { isGameKey, isTypingTarget } from '../input/keys';
 import { SettingsMenu } from './settings';
 import { StatsSheet } from './stats-sheet';
 import { Dialogue } from './dialogue';
@@ -146,7 +147,7 @@ export function mountHud(
   }
   root.appendChild(runBtn);
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'Shift' && !e.repeat && !(e.target instanceof HTMLInputElement)) setRunning(true);
+    if (e.key === 'Shift' && !e.repeat && !isTypingTarget(e.target)) setRunning(true);
   });
   window.addEventListener('keyup', (e) => {
     if (e.key === 'Shift') setRunning(false);
@@ -483,12 +484,12 @@ export function mountHud(
   }
   window.addEventListener('keydown', (e) => {
     // PC: F toggles fullscreen.
-    if (e.key === 'f' && !(e.target instanceof HTMLInputElement) && !e.repeat) {
+    if (e.key === 'f' && isGameKey(e) && !e.repeat) {
       const el = document.documentElement;
       if (document.fullscreenElement) void document.exitFullscreen?.();
       else void el.requestFullscreen?.().catch(() => undefined);
     }
-    if (e.key === '`' && !(e.target instanceof HTMLInputElement)) {
+    if (e.key === '`' && isGameKey(e)) {
       e.preventDefault();
       debug?.toggle();
     }

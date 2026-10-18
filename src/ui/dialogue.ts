@@ -17,6 +17,7 @@ import { hasScript } from '../sim/lang-text';
 import { langWord } from '../sim/lang';
 import { playWord } from '../platform/lang-audio';
 import { SceneReplayGuard } from './scene-replay-guard';
+import { isControlTarget } from '../input/keys';
 
 /**
  * The story dialogue box: portrait, name, typewriter text, tap to advance, choices.
@@ -74,6 +75,8 @@ export class Dialogue {
     });
     window.addEventListener('keydown', (e) => {
       if (this.root.hidden || this.choices.childElementCount > 0 || this.waiting()) return;
+      // A focused button or field keeps its own Space and Enter.
+      if (isControlTarget(e.target)) return;
       if (e.key === ' ' || e.key === 'Enter') {
         e.preventDefault();
         this.advance();

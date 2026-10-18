@@ -10,6 +10,7 @@ export type Placing =
   | { mode: 'toy'; toy: ToyKind }
   | null;
 import type { Camera, Object3D } from 'three';
+import { isControlTarget, isGameKey } from './keys';
 
 export interface InputHost {
   /** The orbit yaw (keys move relative to it) and the camera that rays are cast from. */
@@ -157,19 +158,22 @@ export class GameInput {
   }
 
   private readonly onKey = (e: KeyboardEvent): void => {
-    if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
     const key = e.key.toLowerCase();
-    if (e.type === 'keydown') {
-      this.keys.add(key);
-      if (key === ' ' && !e.repeat) {
-        this.host.send({ kind: 'shakeHeld' });
-        e.preventDefault();
-      }
-      if (key === 'u' && !e.repeat) this.host.send({ kind: 'keeper2Act', action: 'pet' });
-      if (key === 'o' && !e.repeat) this.host.send({ kind: 'keeper2Act', action: 'feed' });
-    } else {
+    // A key let go always clears, wherever focus went in between, so none sticks.
+    if (e.type !== 'keydown') {
       this.keys.delete(key);
+      return;
     }
+    if (!isGameKey(e)) return;
+    // Space on a focused button presses the button; it shakes the held egg only otherwise.
+    if (key === ' ' && isControlTarget(e.target)) return;
+    this.keys.add(key);
+    if (key === ' ' && !e.repeat) {
+      this.host.send({ kind: 'shakeHeld' });
+      e.preventDefault();
+    }
+    if (key === 'u' && !e.repeat) this.host.send({ kind: 'keeper2Act', action: 'pet' });
+    if (key === 'o' && !e.repeat) this.host.send({ kind: 'keeper2Act', action: 'feed' });
   };
 
   private readonly onDown = (e: PointerEvent): void => {
