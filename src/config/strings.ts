@@ -631,7 +631,7 @@ export const UI_TEXT = {
     lesson: (n: number) => `Finish ${n} lesson${n > 1 ? 's' : ''}`,
     expedition: (n: number) => `Come back from ${n} Expedition${n > 1 ? 's' : ''}`,
     gather: (n: number) => `Gather ${n} materials`,
-    hollow: (n: number) => `Go down ${n} floor${n > 1 ? 's' : ''} in today's Hollow`,
+    hollow: (n: number) => `Go down ${n} floor${n > 1 ? 's' : ''} in the Hollow`,
   },
   questFrom: (who: string) => `from ${who}`,
   claim: 'Claim',
@@ -1034,11 +1034,11 @@ export const TEN_TEXT = {
   // Teams
   team: 'Guard team',
   teamHelp:
-    'Join a team for a weekly mission; finished missions earn points and ranks. The board shows this week’s rivals.',
+    'Join a team for a short run of missions; each one finished earns points and ranks. The board shows your rivals.',
   teamNames: { dawn: 'Dawn', dusk: 'Dusk', dew: 'Dew' } as Record<string, string>,
   joinTeam: (name: string, leader: string) => `Join ${name} (led by ${leader})`,
   teamJoined: (name: string) => `You joined team ${name}.`,
-  mission: 'This week’s mission',
+  mission: 'Team mission',
   missionText: {
     expeditions: (n: number) => `Come back from ${n} Expedition${n > 1 ? 's' : ''}`,
     shells: (n: number) => `Bring home ${n} Shells from Expeditions`,
@@ -1066,7 +1066,7 @@ export const DUNGEON_TEXT = {
   title: 'The Hollow Below',
   help: 'A cave under the Grove, different every time. Walk over what you find; your party of two fetches what it can reach. Shadow strays snatch Shells unless you feed them a fruit. Tap the stairs to go deeper, or the stairs you came down to head home with everything.',
   today: 'Today’s Hollow',
-  todayHelp: 'The same cave for every Keeper today; the request board asks for its floors.',
+  todayHelp: 'The same cave for every Keeper today.',
   fresh: 'A new Hollow',
   freshHelp: 'A cave nobody has walked before.',
   party: (names: string[]) =>

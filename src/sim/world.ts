@@ -865,7 +865,7 @@ export function stepWorld(
   stepTown(world, events);
   stepScans(world, dtMs, events);
   stepSkillPoints(world, events);
-  stepTeams(world, wallMs, events);
+  stepTeams(world, events);
 
   // Lifetime happiness sampling, once a sim second.
   if (Math.floor(world.timeMs / 1000) !== Math.floor((world.timeMs - dtMs) / 1000)) {

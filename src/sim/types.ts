@@ -376,6 +376,7 @@ export interface TeamState {
   id: TeamId;
   rank: number;
   points: number;
+  /** Unused since missions stopped renewing by week; kept so older saves load as they are. */
   week: string;
   mission: { kind: string; target: number; progress: number; done: boolean } | null;
 }
@@ -656,6 +657,7 @@ export interface World {
   /** Keeper title shown on the profile. */
   title: string | null;
   quests: Quest[];
+  /** Unused since the board stopped refreshing by date; kept so older saves load as they are. */
   questDay: string;
   /** Extra garden plots bought: each adds roster room. */
   plots: number;

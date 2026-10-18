@@ -1,5 +1,4 @@
 import { QUESTS } from '../config/tuning';
-import { dayKey } from './daily';
 import { createEgg, EGG_COLORS } from './nubbin';
 import { hasRoom } from './roster';
 import type { Rng } from './rng';
@@ -8,8 +7,11 @@ import type { Quest, SimEvent, World } from './types';
 import { newId, uniqueName } from './world';
 
 /**
- * The daily board: three requests from Nubbins and visiting Keepers, refreshed each real
- * day, paid in Shells and sometimes a rare egg. Progress is counted from sim events.
+ * The request board: up to three open requests at a time from Nubbins and visiting
+ * Keepers, paid in Shells and sometimes a rare egg. Each kind of request is asked once,
+ * ever: a claimed one stays on the board as done and an unasked kind takes its place,
+ * until all of them are done. Nothing refreshes by date (no daily chores, canon 22).
+ * Progress is counted from sim events.
  */
 interface Template {
   id: string;
@@ -38,11 +40,19 @@ const TEMPLATES: Template[] = [
   { id: 'hollow', target: [1, 2], shells: 35 },
 ];
 
+const openCount = (world: World): number => world.quests.filter((q) => !q.claimed).length;
+
+/** The kinds of request not yet asked in this Grove. */
+function unasked(world: World): Template[] {
+  return TEMPLATES.filter((t) => !world.quests.some((q) => q.template === t.id));
+}
+
+/** Top the board up to its open count from the kinds not yet asked. */
 export function refreshQuests(world: World, rng: Rng, events: SimEvent[]): void {
-  const pool = [...TEMPLATES];
+  const pool = unasked(world);
   const quests: Quest[] = [];
   const names = world.nubbins.map((n) => n.name);
-  for (let i = 0; i < QUESTS.perDay && pool.length > 0; i++) {
+  for (let i = openCount(world); i < QUESTS.open && pool.length > 0; i++) {
     const t = pool.splice(rng.int(0, pool.length - 1), 1)[0]!;
     const fromKeeper = rng.chance(0.5) || names.length === 0;
     const from = fromKeeper
@@ -62,7 +72,8 @@ export function refreshQuests(world: World, rng: Rng, events: SimEvent[]): void 
       claimed: false,
     });
   }
-  world.quests = quests;
+  if (quests.length === 0) return;
+  world.quests.push(...quests);
   events.push({ kind: 'questsRefreshed' });
 }
 
@@ -75,7 +86,6 @@ function bump(world: World, template: string, events: SimEvent[], n = 1, param?:
   }
 }
 
-/** Per step: refresh on a new real day; count the step's events. */
 /** Events produced by commands, waiting for the next step's count. */
 const queued = new WeakMap<World, SimEvent[]>();
 
@@ -85,18 +95,16 @@ export function queueQuestEvents(world: World, events: SimEvent[]): void {
   queued.set(world, list);
 }
 
+/** Per step: top the board up in live play, then count the step's events. */
 export function stepQuests(
   world: World,
   wallMs: number | undefined,
   rng: Rng,
   events: SimEvent[],
 ): void {
-  if (wallMs !== undefined) {
-    const day = dayKey(new Date(wallMs));
-    if (world.questDay !== day) {
-      world.questDay = day;
-      refreshQuests(world, rng, events);
-    }
+  // Live play only (the board needs a Keeper to read it); a claimed request makes room.
+  if (wallMs !== undefined && openCount(world) < QUESTS.open && unasked(world).length > 0) {
+    refreshQuests(world, rng, events);
   }
   const pending = queued.get(world);
   queued.delete(world);
@@ -139,7 +147,7 @@ export function stepQuests(
         bump(world, 'expedition', events);
         break;
       case 'descended':
-        if (e.daily) bump(world, 'hollow', events);
+        bump(world, 'hollow', events);
         break;
       default:
         break;

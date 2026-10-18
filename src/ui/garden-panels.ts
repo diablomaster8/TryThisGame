@@ -351,7 +351,7 @@ export class ProfilePanel {
     }
     this.body.appendChild(el('div', 'shop-note', TEN_TEXT.board));
     const board = el('div', 'shop-list');
-    for (const row of teamBoard(w, Date.now())) {
+    for (const row of teamBoard(w)) {
       const r = el('div', `shop-row${row.you ? ' active' : ''}`);
       r.append(
         el('strong', undefined, row.name),

@@ -874,7 +874,8 @@ export const HABITAT = {
 } as const;
 
 export const QUESTS = {
-  perDay: 3,
+  /** Open requests on the board at once. */
+  open: 3,
   baseShells: 20,
 } as const;
 
@@ -1022,10 +1023,17 @@ export const SCANS = {
   full: 100,
 } as const;
 
-/** Guard teams: weekly missions and a seeded local board. */
+/** Guard teams: a one-time run of missions and a seeded local board. */
 export const TEAMS = {
   pointsPerMission: 10,
   rankEvery: 30,
+  /** The team's missions, in order, each set once. */
+  missions: [
+    { kind: 'expeditions', target: 3 },
+    { kind: 'raceWin', target: 1 },
+    { kind: 'shells', target: 300 },
+    { kind: 'karateWin', target: 1 },
+  ],
 } as const;
 
 /** The Beetle Run: a cart through a seeded cave. */

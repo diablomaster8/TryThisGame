@@ -3,9 +3,10 @@ import { Rng } from './rng';
 import type { SimEvent, TeamId, World } from './types';
 
 /**
- * Guard teams: join Dawn, Dusk or Dew; each real week the team sets a mission for the
- * Expedition and the races; finishing it earns team points and, every so often, a
- * rank. A seeded local board shows how the week's rivals are doing.
+ * Guard teams: join Dawn, Dusk or Dew; the team sets a short run of missions for the
+ * Expedition, the races and karate, one after another and each once; finishing one earns
+ * team points and, every so often, a rank. Nothing renews by date (no weekly chores,
+ * canon 22). A seeded local board shows how the team's rivals are doing.
  */
 export const TEAM_LIST: ReadonlyArray<{ id: TeamId; leader: string }> = [
   { id: 'dawn', leader: 'Marina' },
@@ -15,45 +16,28 @@ export const TEAM_LIST: ReadonlyArray<{ id: TeamId; leader: string }> = [
 
 export type MissionKind = 'expeditions' | 'shells' | 'raceWin' | 'karateWin';
 
-const MISSIONS: ReadonlyArray<{ kind: MissionKind; target: [number, number] }> = [
-  { kind: 'expeditions', target: [2, 4] },
-  { kind: 'shells', target: [150, 400] },
-  { kind: 'raceWin', target: [1, 2] },
-  { kind: 'karateWin', target: [1, 2] },
-];
+/** The missions, in the order the team sets them. */
+const MISSIONS: ReadonlyArray<{ kind: MissionKind; target: number }> = TEAMS.missions;
 
-/** ISO-ish week key from wall time. */
-export function weekKey(wallMs: number): string {
-  const d = new Date(wallMs);
-  const start = new Date(d.getFullYear(), 0, 1);
-  const week = Math.floor((d.getTime() - start.getTime()) / (7 * 86_400_000));
-  return `${d.getFullYear()}-w${week}`;
-}
+export const MISSION_COUNT = MISSIONS.length;
 
 export function joinTeam(world: World, team: TeamId, events: SimEvent[]): void {
   world.team = { id: team, rank: 0, points: 0, week: '', mission: null };
   events.push({ kind: 'teamJoined', team });
 }
 
-function newMission(world: World, week: string): void {
-  if (!world.team) return;
-  const rng = Rng.fromSeed(`${week}:${world.team.id}`);
-  const m = rng.pick([...MISSIONS]);
-  world.team.week = week;
-  world.team.mission = {
-    kind: m.kind,
-    target: rng.int(m.target[0], m.target[1]),
-    progress: 0,
-    done: false,
-  };
+/** How many missions this Keeper has finished, read from the points they earned. */
+function missionsDone(world: World): number {
+  return Math.floor((world.team?.points ?? 0) / TEAMS.pointsPerMission);
 }
 
-export function stepTeams(world: World, wallMs: number | undefined, events: SimEvent[]): void {
+export function stepTeams(world: World, events: SimEvent[]): void {
   const t = world.team;
   if (!t) return;
-  if (wallMs !== undefined) {
-    const week = weekKey(wallMs);
-    if (t.week !== week) newMission(world, week);
+  // The next mission follows a finished one; after the last there are no more.
+  if ((!t.mission || t.mission.done) && missionsDone(world) < MISSION_COUNT) {
+    const m = MISSIONS[missionsDone(world)]!;
+    t.mission = { kind: m.kind, target: m.target, progress: 0, done: false };
   }
   const m = t.mission;
   if (!m || m.done) return;
@@ -72,13 +56,11 @@ export function stepTeams(world: World, wallMs: number | undefined, events: SimE
   }
 }
 
-/** The week's board: four seeded rivals and the Keeper, sorted by points. */
+/** The team's board: four seeded rivals and the Keeper, sorted by points. */
 export function teamBoard(
   world: World,
-  wallMs: number,
 ): Array<{ name: string; team: TeamId; points: number; you: boolean }> {
-  const week = weekKey(wallMs);
-  const rng = Rng.fromSeed(`board:${week}`);
+  const rng = Rng.fromSeed(`board:${world.team?.id ?? 'none'}`);
   const names = ['Wren', 'Tam', 'Juno', 'Sorrel'];
   const rows = names.map((name) => ({
     name,

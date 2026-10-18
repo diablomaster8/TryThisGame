@@ -11,7 +11,9 @@ describe('requests count events from commands', () => {
     const events: SimEvent[] = [];
     // Force a board that includes the visit request.
     const rng = Rng.fromSeed(1);
-    for (let i = 0; i < 40 && !world.quests.some((q) => q.template === 'visit'); i++) {
+    // Each kind is asked once, so clear the board until the visit request comes up.
+    for (let i = 0; i < 10 && !world.quests.some((q) => q.template === 'visit'); i++) {
+      for (const q of world.quests) q.claimed = true;
       refreshQuests(world, rng, events);
     }
     const quest = world.quests.find((q) => q.template === 'visit');

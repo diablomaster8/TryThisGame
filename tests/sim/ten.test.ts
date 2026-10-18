@@ -11,7 +11,7 @@ import { canConvert } from '../../src/sim/scans';
 import { canBuySkill, SKILL_LIST } from '../../src/sim/skills';
 import { lifespanMs } from '../../src/sim/slips';
 import { createTank, steer, stepTank } from '../../src/sim/tank';
-import { teamBoard, weekKey } from '../../src/sim/teams';
+import { teamBoard } from '../../src/sim/teams';
 import { addRecruit, townUnlocks } from '../../src/sim/town';
 import type { SimEvent } from '../../src/sim/types';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
@@ -193,18 +193,17 @@ describe('scan and convert', () => {
 });
 
 describe('guard teams', () => {
-  it('joins a team, gets a weekly mission and a seeded board', () => {
+  it('joins a team, gets its first mission and a seeded board', () => {
     const world = createWorld(1, 0);
     const events: SimEvent[] = [];
     applyCommand(world, { kind: 'joinTeam', team: 'dusk' }, events);
     const wall = Date.UTC(2026, 9, 13);
     stepWorld(world, SIM.stepMs, wall);
     expect(world.team?.mission).not.toBeNull();
-    expect(world.team?.week).toBe(weekKey(wall));
-    const board = teamBoard(world, wall);
+    const board = teamBoard(world);
     expect(board).toHaveLength(5);
     expect(board.some((r) => r.you)).toBe(true);
-    expect(teamBoard(world, wall)).toEqual(board);
+    expect(teamBoard(world)).toEqual(board);
   });
 });
 
