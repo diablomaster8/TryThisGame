@@ -152,6 +152,8 @@ describe('sculpt speed-ups keep the mesh', () => {
     (spec) => speciesSurfaces(spec).map((s) => surfaceData(spec, s, 36 / 104)),
   );
 
+  // Marches every surface twice: about 2 s alone, near 7 s with the whole suite running
+  // in parallel, so it gets a budget for a loaded machine rather than the 5 s default.
   it('the narrow band gives the same mesh as evaluating every voxel', () => {
     for (const d of surfaces) {
       SCULPT_BAND.on = false;
@@ -159,7 +161,7 @@ describe('sculpt speed-ups keep the mesh', () => {
       SCULPT_BAND.on = true;
       expect(attrs(sculptData(d))).toEqual(full);
     }
-  });
+  }, 30_000);
 
   it('welds the soup into an indexed mesh with every vertex used and none repeated', () => {
     for (const d of surfaces.slice(0, 8)) {
