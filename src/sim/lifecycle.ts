@@ -1,5 +1,5 @@
 import { BEHAVIOR, EGG, ETERNAL, LIFECYCLE, REBIRTH, TYPE_LEAN } from '../config/tuning';
-import { bandOf, winningType } from './alignment';
+import { bandOf, roundAlignment, winningType } from './alignment';
 import { lifetimeHappiness } from './needs';
 import { decidePersonality } from './personality';
 import { nextSpecies, speciesOf } from './species';
@@ -178,9 +178,11 @@ export function upgradeCandidate(n: Nubbin): StatKey | null {
 /** Eternal: reborn at least twice, evolving as Normal with a strong (or exactly balanced) alignment. */
 export function eternalBandFor(n: Nubbin, type: NubbinType): AlignmentBand | null {
   if (n.rebirths < ETERNAL.minRebirths || type !== 'normal') return null;
-  if (n.alignment > ETERNAL.sunThreshold) return 'sun';
-  if (n.alignment < ETERNAL.moonThreshold) return 'moon';
-  if (Math.abs(n.alignment) <= ETERNAL.neutralBand) return 'neutral';
+  // Compared in hundredths: exactly 0.80 is not "above 0.8".
+  const a = roundAlignment(n.alignment);
+  if (a > ETERNAL.sunThreshold) return 'sun';
+  if (a < ETERNAL.moonThreshold) return 'moon';
+  if (Math.abs(a) <= ETERNAL.neutralBand) return 'neutral';
   return null;
 }
 

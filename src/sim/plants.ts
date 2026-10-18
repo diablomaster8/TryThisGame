@@ -1,4 +1,5 @@
 import { GROVE, PLANTS } from '../config/tuning';
+import { roundAlignment } from './alignment';
 import { addHappiness } from './needs';
 import type { Rng } from './rng';
 import { addPoints } from './stats';
@@ -117,8 +118,10 @@ export function stepPlants(world: World, dtMs: number, rng: Rng, events: SimEven
 /** What a flavoured fruit does when eaten. */
 export function applyFlavor(n: Nubbin, flavor: Flavor | undefined): void {
   if (!flavor) return;
-  if (flavor === 'sun') n.alignment = Math.min(1, n.alignment + PLANTS.fruitAlignment);
-  else if (flavor === 'moon') n.alignment = Math.max(-1, n.alignment - PLANTS.fruitAlignment);
+  if (flavor === 'sun')
+    n.alignment = roundAlignment(Math.min(1, n.alignment + PLANTS.fruitAlignment));
+  else if (flavor === 'moon')
+    n.alignment = roundAlignment(Math.max(-1, n.alignment - PLANTS.fruitAlignment));
   else {
     addPoints(n.stats[flavor], PLANTS.fruitPoints);
     n.typeLean[flavor === 'stamina' ? 'normal' : flavor] += 3;
