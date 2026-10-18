@@ -19,6 +19,7 @@ import {
   sampleHappiness,
 } from './needs';
 import { isFree } from './nubbin';
+import { mossOnHill, mossSeat } from './roster';
 import { isWary } from './trust';
 import { bestLesson, finishLesson } from './kindergarten';
 import { shelterSpot } from './weather';
@@ -260,6 +261,23 @@ export function updateBehavior(
     return;
   }
   if (!isFree(n)) return;
+
+  // Moss keeps to his seat on the western hill until the story brings him down. He is old
+  // and Eternal and does not need the Keeper's fruit, so his needs stay full there.
+  if (mossOnHill(world, n.id)) {
+    n.needs.hunger = 1;
+    n.needs.energy = 1;
+    if ((b.state === 'react' || b.state === 'pet') && now < b.untilMs) return;
+    const seat = mossSeat(world);
+    if (dist(n.pos, seat) > BEHAVIOR.arriveRadius) {
+      if (b.state !== 'wander') setState(n, 'wander', now, BEHAVIOR.wanderMs[1]);
+      b.target = seat;
+      walkToward(n, seat, BEHAVIOR.walkSpeed, dtMs);
+    } else if (b.state !== 'sit') {
+      setState(n, 'sit', now, BEHAVIOR.wanderMs[1]);
+    }
+    return;
+  }
 
   // Needs can interrupt anything except eating, napping and reacting.
   const interruptible =

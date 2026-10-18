@@ -150,6 +150,9 @@ function followsMet(c: CampaignState, quest: Quest, rule: WhenRule): boolean {
 
 /** Whether `quest` offers itself now. Once open (or done) it is never offered again. */
 export function funQuestOpens(world: World, c: CampaignState, quest: Quest): boolean {
+  // The opening is the Keeper's own: nothing interrupts it before the first egg hatches
+  // and chapter 1 is over.
+  if (c.chapter <= 1 || c.stats.hatched < 1) return false;
   if (!questAvailable(quest, audienceContext(world), c.chapter)) return false;
   const rule = parseWhen(quest.trigger.when);
   if (rule.chapter !== null && c.chapter < rule.chapter) return false;

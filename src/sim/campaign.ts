@@ -1,4 +1,4 @@
-import { hasRoom } from './roster';
+import { hasRoom, mossSeat } from './roster';
 import { CHAPTERS, type Choice } from '../config/story';
 import { GROVE, STORY, TRUST } from '../config/tuning';
 import { endingScenes, followUps, openingFor, walkScene } from './campaign-routes';
@@ -94,14 +94,16 @@ export function freshCampaignState(nowMs: number): CampaignState {
 
 /** Begin (or restart) the campaign in this world. */
 export function startCampaign(world: World, events: SimEvent[]): void {
+  const oldMossId = world.campaign?.mossId ?? null;
   const c = freshState(world.timeMs);
   world.campaign = c;
   world.npcs = [];
   for (const t of TRAINERS) if (t.id !== world.trainer) spawnNpc(world, t.id);
-  // Moss: the old Eternal on the western hill.
+  // A restart leaves the last campaign's Moss behind; there is only ever one.
+  if (oldMossId) world.nubbins = world.nubbins.filter((n) => n.id !== oldMossId);
+  // Moss: the old Eternal on the western hill. He stays off the roster until he comes down.
   withRng(world, (rng) => {
-    const hill = GROVE.hills[0];
-    const moss = createEgg(newId(world, 'nub'), { x: hill.x + 2.5, z: hill.z - 2.5 }, rng, 'plain');
+    const moss = createEgg(newId(world, 'nub'), mossSeat(world), rng, 'plain');
     moss.name = 'Moss';
     hatch(moss, [], world.timeMs);
     moss.stage = 'adult';
@@ -498,6 +500,10 @@ export function stepCampaign(world: World, dtMs: number, events: SimEvent[]): vo
   // Once a sim second.
   const crossed = Math.floor(world.timeMs / 1000) !== Math.floor((world.timeMs - dtMs) / 1000);
   if (!crossed) return;
+  // Moss comes down in chapter 7 and joins the roster as soon as there is room for him.
+  if (c.mossId && !c.flags.mossDown && (c.chapter >= 8 || c.seen.includes('c7-stillness'))) {
+    if (hasRoom(world)) c.flags.mossDown = true;
+  }
   if (!over && c.queue.length === 0) stepChapter(world, c, events);
   stepSideStories(world, c, events);
 }

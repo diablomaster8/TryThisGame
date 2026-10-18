@@ -142,6 +142,19 @@ describe('fun quests', () => {
     for (const reward of quest.rewards) expect(r.world.inventory.keepsakes).toContain(reward.id);
   });
 
+  it('never offers one before the first hatch or in chapter 1', () => {
+    const r = runUntil(begun(1));
+    const st = c(r.world);
+    st.fun = {};
+    tick(r.world, r.events, FUN.offerAfterMs / 1000 + 1);
+    for (const q of funQuests()) expect(funQuestOpens(r.world, st, q), q.code).toBe(false);
+    expect(Object.keys(st.fun)).toHaveLength(0);
+    // Even a later chapter waits for the first hatch.
+    st.chapter = 2;
+    st.stats.hatched = 0;
+    for (const q of funQuests()) expect(funQuestOpens(r.world, st, q), q.code).toBe(false);
+  });
+
   it('never offers, advances or acts in chapters 9 to 11', () => {
     const r = runUntil(begun(9));
     const st = c(r.world);

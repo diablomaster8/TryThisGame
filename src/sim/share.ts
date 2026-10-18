@@ -1,4 +1,4 @@
-import { hasRoom } from './roster';
+import { hasRoom, storyNubbin } from './roster';
 import type { Nubbin, SimEvent, World } from './types';
 import { newId, uniqueName } from './world';
 import { withRng } from './world';
@@ -89,7 +89,7 @@ export function receiveNubbin(world: World, incoming: Nubbin, events: SimEvent[]
 /** Give a Nubbin away: it leaves the Grove for good (the code is its ticket). */
 export function tradeAway(world: World, id: string, events: SimEvent[]): Nubbin | null {
   const n = world.nubbins.find((x) => x.id === id);
-  if (!n) return null;
+  if (!n || storyNubbin(world, id)) return null;
   world.nubbins = world.nubbins.filter((x) => x.id !== id);
   if (world.selected === id) world.selected = null;
   if (world.keeper.carrying === id) world.keeper.carrying = null;
