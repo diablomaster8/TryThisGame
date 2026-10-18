@@ -543,6 +543,7 @@ export const UI_TEXT = {
   },
   lanternNight: 'Lantern night! The lanterns stay lit till morning.',
   more: 'More',
+  menu: 'Menu',
   moreHelp: 'Everything else the Grove offers.',
   location: {
     grove: 'The Grove',

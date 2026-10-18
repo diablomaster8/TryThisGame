@@ -52,6 +52,7 @@ export function askGrownUp(parent: HTMLElement, toast: (text: string) => void): 
       if (settled) return;
       settled = true;
       observer.disconnect();
+      dialog.hide();
       dialog.root.remove();
       resolve(ok);
     };

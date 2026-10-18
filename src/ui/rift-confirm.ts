@@ -17,6 +17,7 @@ export function askRift(parent: HTMLElement, game: Game): Promise<boolean> {
     const finish = (ok: boolean) => {
       if (settled) return;
       settled = true;
+      dialog.hide();
       dialog.root.remove();
       resolve(ok);
     };

@@ -120,11 +120,12 @@ export function mountHud(
   const rosterBtn = button('📋', () => roster.open(), 'btn btn-icon');
   rosterBtn.setAttribute('aria-label', UI_TEXT.roster);
   rosterBtn.title = UI_TEXT.roster;
-  top.append(
-    logo,
-    shells,
-    fruit,
-    groveBtn,
+  // The menu buttons: inline in the top bar on wide screens, a bottom bar within thumb
+  // reach in phone portrait (style.css, .actionbar).
+  const actions = el('div', 'actionbar');
+  actions.setAttribute('role', 'toolbar');
+  actions.setAttribute('aria-label', UI_TEXT.menu);
+  actions.append(
     journalBtn,
     rosterBtn,
     moreBtn,
@@ -134,6 +135,7 @@ export function mountHud(
     keeperBtn,
     settingsBtn,
   );
+  top.append(logo, shells, fruit, groveBtn, actions);
   root.appendChild(top);
 
   // Run: a toggle on screen, or hold Shift on a keyboard.

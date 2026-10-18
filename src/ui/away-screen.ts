@@ -1,18 +1,21 @@
 import { formatDuration, NAMES, TYPE_LABELS, UI_TEXT } from '../config/strings';
 import type { AwayReport, World } from '../sim/types';
-import { button, el } from './dom';
+import { button, dialogFocus, el } from './dom';
 
 /** "While you were away": what the catch-up did, shown once per return. */
 export class AwayScreen {
   private readonly root: HTMLDivElement;
   private readonly list: HTMLUListElement;
   private readonly summary: HTMLParagraphElement;
+  private readonly focus: ReturnType<typeof dialogFocus>;
 
   constructor(parent: HTMLElement) {
     this.root = el('div', 'modal');
     this.root.hidden = true;
     const card = el('div', 'modal-card away');
-    card.appendChild(el('h2', undefined, UI_TEXT.awayTitle));
+    const heading = el('h2', undefined, UI_TEXT.awayTitle);
+    card.appendChild(heading);
+    this.focus = dialogFocus(this.root, card, heading, () => this.hide());
     this.summary = el('p', 'help');
     this.list = el('ul', 'away-list');
     card.append(
@@ -64,10 +67,13 @@ export class AwayScreen {
     if (this.list.childElementCount === 0)
       this.list.appendChild(el('li', undefined, UI_TEXT.awayNothing));
     this.root.hidden = false;
+    this.focus.opened();
   }
 
   hide(): void {
+    if (this.root.hidden) return;
     this.root.hidden = true;
+    this.focus.closed();
   }
 }
 

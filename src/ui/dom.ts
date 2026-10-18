@@ -34,6 +34,77 @@ export function meter(label: string, icon: string): { root: HTMLDivElement; set(
   };
 }
 
+const FOCUSABLE =
+  'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+let dialogIds = 0;
+
+/**
+ * Make an overlay behave as a modal dialog for keyboards and screen readers: it is named
+ * by its heading, takes focus when it opens, keeps Tab inside, closes on Escape (when
+ * `onEscape` is given) and hands focus back to whatever opened it. Call `opened` right
+ * after showing it and `closed` right after hiding it.
+ */
+export function dialogFocus(
+  root: HTMLElement,
+  card: HTMLElement,
+  heading: HTMLElement | null,
+  onEscape?: () => void,
+): { opened(): void; closed(): void } {
+  card.setAttribute('role', 'dialog');
+  card.setAttribute('aria-modal', 'true');
+  card.tabIndex = -1;
+  if (heading) {
+    heading.id ||= `dialog-title-${++dialogIds}`;
+    card.setAttribute('aria-labelledby', heading.id);
+  }
+  let opener: Element | null = null;
+  root.addEventListener('keydown', (e) => {
+    if (root.hidden) return;
+    if (e.key === 'Escape' && onEscape) {
+      // Handled here, so the HUD's own Escape does not close the panel underneath too.
+      e.stopPropagation();
+      e.preventDefault();
+      onEscape();
+      return;
+    }
+    if (e.key !== 'Tab') return;
+    const items = [...card.querySelectorAll<HTMLElement>(FOCUSABLE)].filter(
+      (x) => x.offsetParent !== null || x === document.activeElement,
+    );
+    if (items.length === 0) {
+      e.preventDefault();
+      card.focus();
+      return;
+    }
+    const first = items[0]!;
+    const last = items[items.length - 1]!;
+    const at = document.activeElement;
+    if (e.shiftKey && (at === first || at === card)) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && (at === last || !card.contains(at))) {
+      e.preventDefault();
+      first.focus();
+    }
+  });
+  return {
+    opened() {
+      if (!card.contains(document.activeElement)) opener = document.activeElement;
+      // The card itself, not its first field: a phone keyboard should not pop up unasked.
+      card.focus({ preventScroll: true });
+    },
+    closed() {
+      const back = opener;
+      opener = null;
+      if (back instanceof HTMLElement && back.isConnected && card.contains(document.activeElement))
+        back.focus({ preventScroll: true });
+      else if (card.contains(document.activeElement))
+        (document.activeElement as HTMLElement).blur();
+    },
+  };
+}
+
 /** A modal shell with a title, a body and a close button. Returns show/hide controls. */
 export function modal(
   parent: HTMLElement,
@@ -44,7 +115,8 @@ export function modal(
   root.hidden = true;
   const card = el('div', 'modal-card');
   const head = el('div', 'modal-head');
-  head.appendChild(el('h2', undefined, title));
+  const heading = el('h2', undefined, title);
+  head.appendChild(heading);
   const body = el('div', 'modal-body');
   const close = button(closeLabel, () => hide(), 'btn btn-close');
   close.setAttribute('aria-label', closeLabel);
@@ -55,11 +127,15 @@ export function modal(
   root.addEventListener('click', (e) => {
     if (e.target === root) hide();
   });
+  const focus = dialogFocus(root, card, heading, () => hide());
   function show() {
     root.hidden = false;
+    focus.opened();
   }
   function hide() {
+    if (root.hidden) return;
     root.hidden = true;
+    focus.closed();
   }
   return { root, body, show, hide, isOpen: () => !root.hidden };
 }

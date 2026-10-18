@@ -9,7 +9,7 @@ import { LANG_TEXT } from '../config/strings';
 import { LANG } from '../config/tuning';
 import type { Game } from '../game';
 import type { TraceTarget } from '../sim/lang';
-import { button, el } from './dom';
+import { button, dialogFocus, el } from './dom';
 import { KANA_STROKES } from './kana-strokes';
 import { loadLangFonts } from './lang-fonts';
 import { inkCovered, rightStart, strokeMet, type Pt } from './trace-check';
@@ -18,6 +18,7 @@ const FONT = { he: '"Noto Sans Hebrew", sans-serif', ja: '"Klee One", "Noto Sans
 
 export class TraceGame {
   private readonly root: HTMLDivElement;
+  private readonly focus: ReturnType<typeof dialogFocus>;
   private readonly canvas: HTMLCanvasElement;
   private readonly word: HTMLDivElement;
   private readonly help: HTMLParagraphElement;
@@ -38,7 +39,9 @@ export class TraceGame {
     this.root.hidden = true;
     const card = el('div', 'modal-card trace-card');
     const head = el('div', 'modal-head');
-    head.appendChild(el('h2', undefined, LANG_TEXT.traceTitle));
+    const heading = el('h2', undefined, LANG_TEXT.traceTitle);
+    head.appendChild(heading);
+    this.focus = dialogFocus(this.root, card, heading, () => this.close());
     head.appendChild(button(LANG_TEXT.traceClose, () => this.close(), 'btn btn-close'));
     this.word = el('div', 'trace-word');
     this.help = el('p', 'help');
@@ -77,6 +80,7 @@ export class TraceGame {
     this.done = onDone;
     this.glyph = 0;
     this.root.hidden = false;
+    this.focus.opened();
     this.help.textContent = target.lang === 'he' ? LANG_TEXT.traceHelpHe : LANG_TEXT.traceHelpJa;
     this.renderWord();
     // The glyph needs its font before its ink can be measured.
@@ -87,7 +91,10 @@ export class TraceGame {
   }
 
   close(): void {
-    this.root.hidden = true;
+    if (!this.root.hidden) {
+      this.root.hidden = true;
+      this.focus.closed();
+    }
     this.target = null;
   }
 
