@@ -297,6 +297,15 @@ export const UI_TEXT = {
   exportSave: 'Export save',
   importSave: 'Import save',
   importError: 'That file is not a valid save.',
+  importTooBig: 'That file is too big to be a Grove save.',
+  importWrongMode: (from: string, to: string) =>
+    `That save is from ${from}. Open a ${from} slot to import it, not ${to}.`,
+  importConfirm: (slot: string) => `Replace ${slot} with the imported save? This can’t be undone.`,
+  unreadableKept:
+    'Your saved Grove could not be opened, so a new one has started. The old save is kept: export it from Settings.',
+  unreadableHeld:
+    'Your saved Grove could not be opened or copied. A new one has started, but it will not save over the old one.',
+  exportUnreadable: 'Export the save that could not be opened',
   resetSave: 'Reset save',
   resetConfirm: 'Erase the Grove and start over?',
   // Away screen

@@ -6,6 +6,8 @@
  * Grove). Slot 1 of each mode keeps the key the game used before slots existed, so
  * nobody loses a Grove.
  */
+import { SAVE_SAFETY } from '../config/tuning';
+
 export type SaveMode = 'free' | 'campaign' | 'edu' | StorylineMode;
 
 /** The separate campaigns' modes (sim/storyline.ts): S1, S2, S3 and S4's two halves. */
@@ -176,6 +178,67 @@ export function clearSave(): boolean {
   } catch {
     return false;
   }
+}
+
+// ---------- unreadable saves ----------
+
+/**
+ * A save that fails to load (corrupt, or from a newer version of the game) is copied
+ * beside its slot before the game starts fresh, so the autosave never destroys the only
+ * copy. Fixed rotating keys rather than timestamps: no key listing is needed, and a
+ * reload of the same broken save does not push an older copy out.
+ */
+export function unreadableKey(slot: SaveSlot, n: number): string {
+  return `${slotKey(slot)}.unreadable.${n}`;
+}
+
+/** Keep `json` as the newest unreadable copy for `slot`. False when storage refused it. */
+export function backupUnreadable(slot: SaveSlot, json: string): boolean {
+  try {
+    if (localStorage.getItem(unreadableKey(slot, 1)) === json) return true;
+    for (let n = SAVE_SAFETY.unreadableKept; n > 1; n--) {
+      const older = localStorage.getItem(unreadableKey(slot, n - 1));
+      if (older !== null) localStorage.setItem(unreadableKey(slot, n), older);
+    }
+    localStorage.setItem(unreadableKey(slot, 1), json);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** The unreadable copies kept for `slot`, newest first. */
+export function readUnreadable(slot: SaveSlot): string[] {
+  const out: string[] = [];
+  for (let n = 1; n <= SAVE_SAFETY.unreadableKept; n++) {
+    try {
+      const json = localStorage.getItem(unreadableKey(slot, n));
+      if (json !== null) out.push(json);
+    } catch {
+      // Blocked storage reads as nothing kept.
+    }
+  }
+  return out;
+}
+
+/**
+ * Pure: which mode a save's world belongs to, so an import cannot put a campaign into a
+ * Learning Grove slot. The Learning Grove wins over its own story; a separate campaign
+ * names its storyline (Dawn and Dusk share one mode); any other story is Hazel's Grove.
+ */
+export function modeOfWorld(world: {
+  edu?: unknown;
+  campaign?: { storyline?: unknown } | null;
+}): SaveMode {
+  if (world.edu) return 'edu';
+  const campaign = world.campaign;
+  if (!campaign) return 'free';
+  const storyline = campaign.storyline;
+  if (storyline === 'dawn' || storyline === 'dusk') return 'dawndusk';
+  if (typeof storyline === 'string' && isStorylineMode(storyline as SaveMode)) {
+    return storyline as StorylineMode;
+  }
+  return 'campaign';
 }
 
 export function storageAvailable(): boolean {

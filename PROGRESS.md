@@ -24,6 +24,26 @@ the phone view passes; Expedition and races get 3D versions in Full 3D. Waiting 
 Arcade and LB/LK decisions (section "Pixel's Arcade PA1–PA5" in `docs/progress-archive.md`).
 Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
 
+## Save safety: review bugs 4, 5, 29 (2026-10-18)
+
+From `docs/review-independent-2026-10-18.md`. Works:
+- `?edu` erases a Learning Grove slot only in dev builds; on the built site it opens the title
+  with the Learning Grove slots in view (`showTitle(…, focusMode)`). `?free` never erased.
+- A save that fails to load is copied to `<slotKey>.unreadable.1|2` (newest first, same text
+  not re-pushed; `backupUnreadable`/`readUnreadable` in `platform/storage.ts`, count in
+  `SAVE_SAFETY`) before the fresh start, with a toast. If the copy fails, `Game.holdSaves`
+  stops every autosave until an import or reset. Settings shows "Export the save that could
+  not be opened" while a copy exists.
+- Import: refuses files over 5 MB, Nubbins missing what the sim and renderers read
+  (`nubbinProblem`/`importProblem` in `sim/save.ts`; load stays lenient), and saves of another
+  mode (`modeOfWorld`); asks before replacing the named slot; comes back with Mature content
+  Off and the rift unconfirmed. Tests: `tests/sim/save-safety.test.ts` (9).
+- **Stubbed:** checked by tests and typecheck only, not in the browser (the preview entry needs
+  the shared parent `launch.json`). The kept copies are never pruned except by rotation.
+- **Assumption:** a save's mode is read from its world (edu, then storyline, then campaign);
+  a Free Grove where the debug panel started the story reads as Hazel's Grove.
+- **Known bugs:** `replaceWorld` does not re-sync tiles, lanterns or the dungeon until reload.
+
 ## G17: 3D Expedition and races (2026-10-17)
 
 In Full 3D the Expedition and the races draw in 3D; Pixel is untouched. Each screen now

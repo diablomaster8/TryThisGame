@@ -215,6 +215,14 @@ export const SIM = {
   worldHalf: 46,
 } as const;
 
+/** Guards that keep a save from being lost by a bad load or import. */
+export const SAVE_SAFETY = {
+  /** Unreadable saves kept beside their slot, newest first, before a fresh start. */
+  unreadableKept: 2,
+  /** Bigger files are refused on import; a real save is a few tens of kB. */
+  importMaxBytes: 5_000_000,
+} as const;
+
 export const OFFLINE = {
   defaultMode: 'capped' as const,
   defaultCapHours: 8,

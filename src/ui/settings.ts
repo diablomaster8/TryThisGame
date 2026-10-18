@@ -1,4 +1,4 @@
-import { OFFLINE } from '../config/tuning';
+import { OFFLINE, SAVE_SAFETY } from '../config/tuning';
 import { SLOT_TEXT, TRAINER_LABELS, UI_TEXT } from '../config/strings';
 import { SONG_NAMES } from '../platform/audio';
 import { TRAINERS } from '../sim/trainers';
@@ -7,10 +7,12 @@ import {
   clearSave,
   currentSlot,
   downloadText,
+  modeOfWorld,
   pickTextFile,
+  readUnreadable,
   writeGraphicsPref,
 } from '../platform/storage';
-import { deserialize, SaveError } from '../sim/save';
+import { deserialize, importProblem } from '../sim/save';
 import { matureControlVisible } from '../sim/audience';
 import type { MatureContent, OfflineMode, Settings } from '../sim/types';
 import { createWorld } from '../sim/world';
@@ -22,6 +24,8 @@ export class SettingsMenu {
   private readonly modeInputs = new Map<OfflineMode, HTMLInputElement>();
   private readonly capInput: HTMLInputElement;
   private readonly capError: HTMLDivElement;
+  /** Shown only when this slot's save once failed to load and a copy was kept. */
+  private readonly unreadableBtn: HTMLButtonElement;
   private readonly departures: HTMLInputElement;
   private readonly departuresRow: HTMLLabelElement;
   private readonly sound: HTMLInputElement;
@@ -248,6 +252,9 @@ export class SettingsMenu {
       button(UI_TEXT.importSave, () => void this.importSave()),
       button(UI_TEXT.resetSave, () => this.reset(), 'btn btn-danger'),
     );
+    this.unreadableBtn = button(UI_TEXT.exportUnreadable, () => this.exportUnreadable());
+    this.unreadableBtn.hidden = true;
+    saves.append(this.unreadableBtn);
     body.appendChild(saves);
   }
 
@@ -259,6 +266,7 @@ export class SettingsMenu {
     this.capInput.value = String(s.capHours);
     this.capError.hidden = true;
     this.departures.checked = s.allowOfflineDepartures;
+    this.unreadableBtn.hidden = !g.unreadableJson && readUnreadable(currentSlot()).length === 0;
     for (const [value, input] of this.matureInputs)
       input.checked = value === g.world.settings.matureContent;
     this.matureSection.hidden = !matureControlVisible({
@@ -366,19 +374,55 @@ export class SettingsMenu {
     downloadText(`grove-save-${stamp}.json`, g.exportJson());
   }
 
+  /** The newest copy of a save that failed to load, as a file the player can keep. */
+  private exportUnreadable(): void {
+    const g = this.game();
+    const json = readUnreadable(currentSlot())[0] ?? g?.unreadableJson ?? null;
+    if (json === null) return;
+    const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+    downloadText(`grove-save-unreadable-${stamp}.json`, json);
+  }
+
+  /**
+   * Import over the current slot, but only a sound save of the same mode, and only after
+   * the player confirms. Mature content always comes back Off: a file is not a grown-up.
+   */
   private async importSave(): Promise<void> {
     const g = this.game();
     if (!g) return;
     const text = await pickTextFile();
     if (text === null) return;
-    try {
-      const file = deserialize(text);
-      g.replaceWorld(file.world);
-      this.close();
-      this.toast(UI_TEXT.saved);
-    } catch (err) {
-      this.toast(err instanceof SaveError ? UI_TEXT.importError : UI_TEXT.importError);
+    if (text.length > SAVE_SAFETY.importMaxBytes) {
+      this.toast(UI_TEXT.importTooBig);
+      return;
     }
+    let file: ReturnType<typeof deserialize>;
+    try {
+      file = deserialize(text);
+    } catch {
+      this.toast(UI_TEXT.importError);
+      return;
+    }
+    const problem = importProblem(file.world);
+    if (problem) {
+      console.warn('Import refused:', problem);
+      this.toast(UI_TEXT.importError);
+      return;
+    }
+    const slot = currentSlot();
+    const mode = modeOfWorld(file.world);
+    const modeName = (m: string) => SLOT_TEXT.modes[m] ?? m;
+    if (mode !== slot.mode) {
+      this.toast(UI_TEXT.importWrongMode(modeName(mode), modeName(slot.mode)));
+      return;
+    }
+    const slotName = `${modeName(slot.mode)}, ${SLOT_TEXT.slot(slot.index)}`;
+    if (!window.confirm(UI_TEXT.importConfirm(slotName))) return;
+    file.world.settings.matureContent = 'off';
+    file.world.settings.riftConfirmed = false;
+    g.replaceWorld(file.world);
+    this.close();
+    this.toast(UI_TEXT.saved);
   }
 
   private reset(): void {

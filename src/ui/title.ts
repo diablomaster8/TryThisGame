@@ -67,9 +67,14 @@ function describe(mode: SaveMode, s: SaveSummary, nowMs: number): string {
  * The title screen: three save slots for each mode (the campaign, the Free Grove, the
  * Learning Grove). A filled slot continues, or starts over after a confirm, or is
  * erased; an empty one starts new. A new campaign asks which Keeper you are first; a
- * new Learning Grove asks the child's age.
+ * new Learning Grove asks the child's age. `focusMode` scrolls that mode's slots into view
+ * (an old `?edu` link lands on the Learning Grove without touching any save).
  */
-export function showTitle(parent: HTMLElement, onChoose: (c: TitleChoice) => void): void {
+export function showTitle(
+  parent: HTMLElement,
+  onChoose: (c: TitleChoice) => void,
+  focusMode?: SaveMode,
+): void {
   const root = el('div', 'title');
   playSong('title');
   const card = el('div', 'title-card');
@@ -161,8 +166,10 @@ export function showTitle(parent: HTMLElement, onChoose: (c: TitleChoice) => voi
         section.appendChild(row);
       }
       menu.appendChild(section);
+      if (mode === focusMode) focus.section = section;
     }
   };
+  const focus = { section: null as HTMLElement | null };
 
   const ageMenu = (slot: SaveSlot) => {
     menu.innerHTML = '';
@@ -239,6 +246,11 @@ export function showTitle(parent: HTMLElement, onChoose: (c: TitleChoice) => voi
   };
 
   mainMenu();
+  const section = focus.section;
+  if (section) {
+    section.scrollIntoView({ block: 'center' });
+    section.querySelector('button')?.focus({ preventScroll: true });
+  }
 }
 
 function portrait(trainerId: string): HTMLCanvasElement {

@@ -2,7 +2,7 @@ import { Vector3 } from 'three';
 import { CAMERA, SIM } from './config/tuning';
 import { GameInput, type Placing } from './input/game-input';
 import { CameraControls } from './input/camera-controls';
-import { readSave, writeSave } from './platform/storage';
+import { backupUnreadable, currentSlot, readSave, writeSave } from './platform/storage';
 import { OrbitCamera } from './render/camera';
 import { daylightAt, localHour } from './render/daylight';
 import { litLanterns } from './sim/campaign';
@@ -25,6 +25,8 @@ export interface GameHooks {
   onStorageBlocked(): void;
   onCatchUpStart(): void;
   onCatchUpEnd(): void;
+  /** The slot's save could not be read; `kept` says whether a copy was put aside. */
+  onSaveUnreadable(kept: boolean): void;
 }
 
 /**
@@ -110,6 +112,13 @@ export class Game {
   private lastFrameMs = 0;
   private lastSaveMs = 0;
   private storageOk = true;
+  /**
+   * Set when an unreadable save could not be copied aside: autosave then holds off, so the
+   * only copy survives until the player imports or resets on purpose.
+   */
+  private holdSaves = false;
+  /** The save text that failed to load this session, for Settings to export. */
+  unreadableJson: string | null = null;
   private hooks: GameHooks;
 
   constructor(
@@ -187,7 +196,12 @@ export class Game {
         this.runCatchUp(world, now - file.savedAtWallMs, now);
         return world;
       } catch (err) {
+        // Never let the autosave destroy the only copy: put it aside first, or hold off.
         console.warn('Save could not be loaded; starting fresh.', err);
+        const kept = backupUnreadable(currentSlot(), json);
+        this.unreadableJson = json;
+        this.holdSaves = !kept;
+        this.hooks.onSaveUnreadable(kept);
       }
     }
     return createWorld(now % 2147483647, now);
@@ -210,6 +224,10 @@ export class Game {
   }
 
   save(): boolean {
+    if (this.holdSaves) {
+      this.lastSaveMs = performance.now();
+      return false;
+    }
     const ok = writeSave(serialize(this.world, Date.now()));
     if (!ok && this.storageOk) {
       this.storageOk = false;
@@ -221,6 +239,8 @@ export class Game {
 
   /** Replace the world (import, reset). */
   replaceWorld(world: World): void {
+    // The player chose this (import or reset), so saving resumes.
+    this.holdSaves = false;
     this.world = world;
     this.world.lastWallMs = Date.now();
     this.save();

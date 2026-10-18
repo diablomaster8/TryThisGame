@@ -2,7 +2,7 @@ import { GROVE, OFFLINE, TREES, TRUST } from '../config/tuning';
 import { sceneById } from './story-scenes';
 import { createWeather } from './weather';
 import { npcHome } from './npcs';
-import type { World } from './types';
+import { GRADES, STAT_KEYS, type Grade, type World } from './types';
 import { sanitizeMatureContent } from './audience';
 import { defaultSettings } from './world';
 
@@ -318,6 +318,55 @@ export function validateWorld(w: World): World {
 }
 
 /** Stable text of the world for "reload restores the game exactly" checks. */
+const isNum = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v);
+const isObj = (v: unknown): v is Record<string, unknown> =>
+  typeof v === 'object' && v !== null && !Array.isArray(v);
+const STAGES: readonly string[] = ['egg', 'child', 'cocoon', 'adult'];
+
+/**
+ * Pure: what is wrong with one saved Nubbin, or null. Load stays lenient (migrations fill
+ * gaps), but an imported file must carry everything the sim and both renderers read every
+ * frame, or a hand-made `nubbins: [{}]` would crash the render loop.
+ */
+export function nubbinProblem(n: unknown): string | null {
+  if (!isObj(n)) return 'not an object';
+  if (typeof n.id !== 'string' || n.id === '') return 'no id';
+  if (typeof n.name !== 'string') return `${n.id}: no name`;
+  if (typeof n.stage !== 'string' || !STAGES.includes(n.stage)) return `${n.id}: bad stage`;
+  for (const k of ['species', 'lineage', 'eggColor'] as const) {
+    if (typeof n[k] !== 'string') return `${n.id}: no ${k}`;
+  }
+  for (const k of ['stageMs', 'ageMs', 'hatchRemainingMs', 'alignment', 'rebirths'] as const) {
+    if (!isNum(n[k])) return `${n.id}: bad ${k}`;
+  }
+  if (!isObj(n.pos) || !isNum(n.pos.x) || !isNum(n.pos.z)) return `${n.id}: bad pos`;
+  if (!isObj(n.behavior) || typeof n.behavior.state !== 'string') return `${n.id}: bad behavior`;
+  const needs = n.needs;
+  if (!isObj(needs) || !isNum(needs.hunger) || !isNum(needs.energy) || !isNum(needs.happiness))
+    return `${n.id}: bad needs`;
+  if (!isObj(n.stats)) return `${n.id}: no stats`;
+  for (const k of STAT_KEYS) {
+    const s = n.stats[k];
+    if (!isObj(s) || !isNum(s.points) || !GRADES.includes(s.grade as Grade))
+      return `${n.id}: bad ${k} stat`;
+  }
+  if (!isObj(n.typeLean) || !isObj(n.parts)) return `${n.id}: no type lean or parts`;
+  return null;
+}
+
+/** Pure: the first problem in an imported world's Nubbins (including a repeated id), or null. */
+export function importProblem(world: World): string | null {
+  const ids = new Set<string>();
+  for (const n of world.nubbins as unknown[]) {
+    const problem = nubbinProblem(n);
+    if (problem) return problem;
+    const id = (n as { id: string }).id;
+    if (ids.has(id)) return `${id}: repeated id`;
+    ids.add(id);
+  }
+  return null;
+}
+
 export function worldFingerprint(world: World): string {
   return JSON.stringify(world, (key, value: unknown) => {
     // Wall time and pending input are not part of the game state.

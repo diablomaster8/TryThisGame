@@ -922,6 +922,10 @@ export function mountHud(
     onStorageBlocked() {
       toast(UI_TEXT.storageBlocked);
     },
+    onSaveUnreadable(kept: boolean) {
+      // Called while the game is still being built; the toast row is ready next tick.
+      setTimeout(() => toast(kept ? UI_TEXT.unreadableKept : UI_TEXT.unreadableHeld), 0);
+    },
     onCatchUpStart() {
       catching.hidden = false;
     },

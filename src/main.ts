@@ -45,8 +45,9 @@ if (params.has('sprites')) {
   // The HD-port direction at a AAA finish (`?aaa=1..3`: noon, golden hour, after rain).
   const i = Math.max(1, Math.min(3, Number(params.get('aaa')) || 1));
   void import('./samples/aaa-styles').then((m) => m.mountAaaSample(canvas, m.MOODS[i - 1]!));
-} else if (params.has('edu')) {
-  // Straight into a fresh Learning Grove at the given age (dev). `?slot=2` picks a slot.
+} else if (params.has('edu') && import.meta.env.DEV) {
+  // Straight into a fresh Learning Grove at the given age, erasing the slot: dev builds only.
+  // `?slot=2` picks a slot. On the built site an `?edu` link opens the title (below).
   const slot = { mode: 'edu' as const, index: Number(params.get('slot')) || 1 };
   clearSlot(slot);
   setSaveSlot(slot);
@@ -63,17 +64,25 @@ if (params.has('sprites')) {
 } else {
   // Fetch the campaign and side-story chunks while the title is up.
   void loadStoryScripts();
-  showTitle(hudRoot, (choice) => {
-    if (choice.fresh) clearSlot(choice.slot);
-    setSaveSlot(choice.slot);
-    startGame(
-      (choice.slot.mode === 'campaign' || choice.storyline) && choice.fresh ? choice.trainer : null,
-      choice.slot.mode === 'edu' && choice.fresh && choice.age
-        ? { age: choice.age, band: choice.band ?? 'sprout' }
-        : undefined,
-      choice.fresh ? (choice.storyline ?? null) : null,
-    );
-  });
+  // An old or shared `?edu` link lands on the Learning Grove slots and erases nothing.
+  const focus = params.has('edu') ? ('edu' as const) : undefined;
+  showTitle(
+    hudRoot,
+    (choice) => {
+      if (choice.fresh) clearSlot(choice.slot);
+      setSaveSlot(choice.slot);
+      startGame(
+        (choice.slot.mode === 'campaign' || choice.storyline) && choice.fresh
+          ? choice.trainer
+          : null,
+        choice.slot.mode === 'edu' && choice.fresh && choice.age
+          ? { age: choice.age, band: choice.band ?? 'sprout' }
+          : undefined,
+        choice.fresh ? (choice.storyline ?? null) : null,
+      );
+    },
+    focus,
+  );
 }
 
 /** A fresh Learning Grove: the minigames' age and the story's band. */
