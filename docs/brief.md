@@ -433,8 +433,9 @@ and `plan.md` before touching any script. **Order of authority:** `docs/canon.md
 - **Quotes and lifted text.**
   - **Public-domain text:** quote verbatim only once it has been checked against the named
     edition. Otherwise paraphrase.
-  - **Copyrighted sources:** at most three one-sentence quotes per storyline. The Holy Grail
-    fun quests (Q1–Q7) count as one storyline (Maor, 2026-10-18).
+  - **Copyrighted sources:** at most three one-sentence quotes per storyline. One exception:
+    the Holy Grail fun quests (Q1–Q7) count as one storyline and keep their ten quotes
+    (Maor, 2026-10-18).
   - **`all` quests:** every quote needs a `childLines` replacement.
   - **Never** lyrics from existing songs, or long passages.
 - **Learning Grove.** Follow `EDU-STYLE.md`:

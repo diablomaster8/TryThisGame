@@ -336,8 +336,8 @@ Most fixes are small. Merge the blocker branch first.
 16. **Decide on original sung lyrics and the Holy Grail count,** then record the ruling. Low
     cost.
     - **Decided 2026-10-18 (Maor):** original sung verses are fine; only lyrics from existing
-      songs are banned. Holy Grail's Q1–Q7 count as one storyline. Open: trim its ten quotes
-      to three, or keep an exception.
+      songs are banned. Holy Grail's Q1–Q7 count as one storyline and keep all ten quotes, an
+      exception to the three-quote cap.
 
 ## What the notes get wrong
 

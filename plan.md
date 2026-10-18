@@ -42,10 +42,10 @@ attribution trailer (Maor, 2026-10-16); no prompt here asks for one.
   reactions.
 - **Waiting on Maor** (2026-10-18): the LB/LK points (LK8's tiger, LK's Malay and Indonesian
   word checks, LB's two Neds, LB's "inspired by Bluey" credit; `docs/progress-archive.md`,
-  "Pixel's Arcade PA1–PA5"); and, for Holy Grail, whether its ten quotes are trimmed to three
-  or keep an exception to the cap. Decided 2026-10-18: original sung verses written for the
-  game (the Lantern Song, Nova's ditties, Q47's tunnel song) are fine, since only lyrics from
-  existing songs are banned; Holy Grail's Q1–Q7 count as one storyline. The expansion pick is done:
+  "Pixel's Arcade PA1–PA5"). Decided 2026-10-18: original sung verses written for the game
+  (the Lantern Song, Nova's ditties, Q47's tunnel song) are fine, since only lyrics from
+  existing songs are banned; Holy Grail's Q1–Q7 are one storyline and keep all ten quotes, an
+  exception to the three-quote cap. The expansion pick is done:
   Maor picked all of E1–E3 and SL1–SL4, built 2026-10-17 (plan G12).
   Decided 2026-10-17: Expedition and races get 3D versions in Full 3D. "The phone view passes"
   was premature: review B (2026-10-18) measured 36 px buttons and a top-right menu at 375 px
