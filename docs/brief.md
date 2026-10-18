@@ -472,4 +472,6 @@ and `plan.md` before touching any script. **Order of authority:** `docs/canon.md
      Atlas/Arcade/Multiverse saves.
 - **Open decisions for Maor:**
   - None. Decided 2026-10-17: the seven fun-quest quotes stand, advisers signed off, legal
-    cleared, daily gifts are one-time (CV6), Pixel stays the default renderer.
+    cleared, daily gifts are one-time (CV6), Pixel stays the default renderer. Since
+    2026-10-18 the request board and team missions are one-time as well, and Today's Hollow
+    is a daily layout with no reward of its own (review B, Bug 3).
