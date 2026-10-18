@@ -3,6 +3,7 @@ import { splitSpan } from './clock';
 import { advanceStage, hatch } from './lifecycle';
 import { applyFruit, decayNeeds, isHungry, sampleHappiness } from './needs';
 import { isFree } from './nubbin';
+import { stepSlips } from './slips';
 import { addPoints } from './stats';
 import type { AwayReport, OfflineAgingSettings, SimEvent, World } from './types';
 import { stepWorld } from './world';
@@ -92,6 +93,7 @@ export function coarseStep(world: World, dtMs: number, events: SimEvent[]): void
     decayNeeds(n, dtMs);
     if (n.behavior.state === 'nap') n.behavior.state = 'sit';
     advanceStage(n, dtMs, events, world, true);
-    if (world.nubbins.includes(n)) sampleHappiness(n);
+    if (world.nubbins.includes(n)) sampleHappiness(n, dtMs / 1000);
   }
+  stepSlips(world, dtMs, events, true);
 }

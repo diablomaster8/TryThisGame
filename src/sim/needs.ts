@@ -42,10 +42,14 @@ export function addAffection(n: Nubbin, delta: number): void {
   n.needs.affection = clamp(n.needs.affection + delta, NEEDS.affectionMin, NEEDS.affectionMax);
 }
 
-/** Sample happiness for the lifetime average that rebirth checks. */
-export function sampleHappiness(n: Nubbin): void {
-  n.happinessSum += n.needs.happiness;
-  n.happinessSamples += 1;
+/**
+ * Sample happiness for the lifetime average that rebirth checks, weighted by the sim
+ * seconds the sample stands for: live play samples each second, catch-up each minute,
+ * and an hour away must weigh the same as an hour watched.
+ */
+export function sampleHappiness(n: Nubbin, seconds = 1): void {
+  n.happinessSum += n.needs.happiness * seconds;
+  n.happinessSamples += seconds;
 }
 
 export function lifetimeHappiness(n: Nubbin): number {

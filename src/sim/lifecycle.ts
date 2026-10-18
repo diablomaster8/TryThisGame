@@ -112,7 +112,11 @@ function finishCocoon(n: Nubbin, events: SimEvent[], world?: World): void {
         // Well raised: a second stat steps up a grade too.
         const sorted = [...STAT_KEYS].sort((a, b) => n.stats[b].points - n.stats[a].points);
         const second = sorted.find((k, i) => i > 0 && n.stats[k].grade !== 'S');
-        if (second) n.stats[second].grade = nextGrade(n.stats[second].grade);
+        if (second) {
+          n.stats[second].grade = nextGrade(n.stats[second].grade);
+          // Recorded like the evolution upgrade, so rebirth keeps it.
+          n.gradeUpgrades[second] = (n.gradeUpgrades[second] ?? 0) + 1;
+        }
         events.push({ kind: 'wellRaised', nubbinId: n.id });
       }
       return;
@@ -294,6 +298,7 @@ export function rebirth(n: Nubbin, events: SimEvent[]): void {
   n.slips = [];
   n.slipCount = 0;
   n.moody = null;
+  n.wellRaised = false;
   n.typeLean = { normal: 0, swim: 0, fly: 0, run: 0, power: 0 };
   n.personality = null;
   n.childCare = { pets: 0, throws: 0, feeds: 0 };

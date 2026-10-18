@@ -129,6 +129,7 @@ export interface Nubbin {
   needs: Needs;
   /** For the lifetime average used by rebirth. */
   happinessSum: number;
+  /** Sim seconds sampled (the weight behind happinessSum), not a count of calls. */
   happinessSamples: number;
   stats: Record<StatKey, StatBlock>;
   typeLean: Record<NubbinType, number>;
