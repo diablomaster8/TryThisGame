@@ -297,6 +297,8 @@ export const UI_TEXT = {
   exportSave: 'Export save',
   importSave: 'Import save',
   importError: 'That file is not a valid save.',
+  updateNotice: 'A new version of the Grove is out. Reload to update.',
+  updateReload: 'Reload to update',
   resetSave: 'Reset save',
   resetConfirm: 'Erase the Grove and start over?',
   // Away screen

@@ -24,6 +24,33 @@ the phone view passes; Expedition and races get 3D versions in Full 3D. Waiting 
 Arcade and LB/LK decisions (section "Pixel's Arcade PA1–PA5" in `docs/progress-archive.md`).
 Backlogs: `docs/creature-improvements.md`, `docs/content-index.md`.
 
+## Review fixes: Bugs 1 and 2 and the Mature content gate (2026-10-18)
+
+From `docs/review-independent-2026-10-18.md` (Bugs 1 and 2, goal 7).
+
+- **Works:**
+  - Catch-up runs its leftover fine steps (the part under a minute, and every gap under
+    three minutes) with offline semantics: `stepWorld` takes an `offline` flag that reaches
+    `advanceStage`. With departures off, a Nubbin at the end of its life waits
+    (`awaitingKeeper`) and its check runs in live play. Tests in `lifecycle.test.ts` use
+    1 day + 55 s and 2 min 30 s, departures off and on; the two "off" cases failed before.
+  - `public/sw.js`: the cache name is `grove-<build id>`, which the `sw-build-id` plugin in
+    `vite.config.ts` writes in after the build (a hash of the emitted file names).
+    Navigations are network-first with the cached page or shell only when offline; activate
+    deletes every other `grove-*` cache, including the old `grove-v1`.
+  - A lazy chunk that fails to load shows "Reload to update" (`ui/update-notice.ts`) instead
+    of a blank screen: the game boot in `main.ts`, and the 3D Expedition and race views,
+    which also fall back to pixel art. `loadStoryScripts` and `loadEduScripts` forget a
+    rejected promise so the next call retries (`chunk-retry.test.ts`).
+  - Raising Mature content (Off → 13+ → 18+) asks the Learning Grove's sum gate, now shared
+    as `ui/grown-up-gate.ts`; lowering it never does. An imported save that carries 13+, 18+
+    or a rift confirmation asks the gate too, and drops to Off (rift unconfirmed) unless it
+    is passed. Rules in `sim/audience.ts`, tests in `audience.test.ts`.
+- **Stubbed / not verified:** the browser check of the gate dialog and the new service worker
+  was not run (preview server not permitted in that session); unit tests, lint and build pass.
+- **Known bugs:** the rift's own one-tap "I am 18 or older" (`ui/rift-confirm.ts`) still sets
+  18+ without the sum gate; nothing opens the rift yet.
+
 ## G17: 3D Expedition and races (2026-10-17)
 
 In Full 3D the Expedition and the races draw in 3D; Pixel is untouched. Each screen now
@@ -87,38 +114,6 @@ New variant arrays are exported from `src/content/index.ts` and covered by conte
   splices the walled garden after its own "Gran Hazel walks" line (`spliceScene` takes a
   per-band anchor), and the childLines test hides edu copies to exercise the fallback. About 16 lines in
   `storyline-*.ts` exceed 160 characters; content-check does not cover the storylines.
-
-## G12 writing pass: beats for SL1–SL4 and the expansions (2026-10-17)
-
-The separate campaigns were a session long each; the brief asked for 4–10 hours. This pass
-adds `StorylineChapter.beats` between the openings and the goals (no goal check changed),
-and deepens the expansions' scenes.
-
-Works:
-- S1 (30 beats): Ida and Sorrel on the story clock (`days:` from the chapter's start), the
-  first visitor and feed, the care slips (`partner:slips`), fondness and trust, the cave's
-  stairs, strays and chest (a new flagged choice, `h-drawing`, paid off on the hundredth
-  day), the cocoon, the mire's rain, the stall and yard, the loft lamp at the mountain, the
-  naming choice and a moody partner on the last day.
-- S2 (19 beats): Warden's tips as the eggs hatch, Juno's meal-count talks (a new choice,
-  `l-told`, paid off at the board), night bouts, the bout counts between ranks, a lost
-  partner (`count:departed`, chapter 6 only), a second teen beat (`l-c6-wage`), and Juno's
-  reaction to the chosen word.
-- S3 (20 beats): the banners and ledger, the leader's errands (`count:missionDone`), the
-  first stair, a torch choice (`b-torch`, paid off on the third floor), the two partners and
-  Vane's own fusion, the second run, and chapter 8 reading the fusion and the lever.
-- S4 (16 beats per half, from the template): the other twin when `dd-other-done`, the Book's
-  visitor and settler, the egg that must not be hatched, the second page, Vask between
-  belts, the grown one sitting by the egg, and the day after the cause.
-- E1–E3: fuller visits and one real choice each (`e1-hazel`, `e2-asked`, `e3-pick`), voice
-  only for now. E1–E3 and S1–S4 are now exported from `content/index.ts`, and the three
-  expansion packs are in `tests/tools/content-check.ts` (problems: 0).
-- Every `_CHECKS` list now includes the beat checks, so the grammar is covered.
-
-Stubbed: no engine change. The `days:` beats use the two-minute story day, so at ×1 they
-land minutes into a chapter, not hours. The expansions' new choices set flags nothing reads
-yet. Nothing in S1–S4 is in the content checker (it checks `Quest` packs, not storylines);
-the storyline tests and a line-length sweep stand in.
 
 ## Standing approval (Maor, 2026-10-12)
 

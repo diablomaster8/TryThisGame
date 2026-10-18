@@ -23,7 +23,7 @@ export function allowedSpan(elapsedMs: number, settings: OfflineAgingSettings): 
 /**
  * Catch the world up after an absence. Short gaps use real steps; long ones use coarse
  * 1-minute steps, so days away finish in well under a second. Evolutions and rebirths
- * are recorded; departures are M3 and respect `allowOfflineDepartures` there.
+ * are recorded; departures respect `allowOfflineDepartures` in every step, fine or coarse.
  */
 export function catchUp(world: World, elapsedMs: number, nowWallMs: number): AwayReport {
   const settings = world.settings.offlineAging;
@@ -32,7 +32,11 @@ export function catchUp(world: World, elapsedMs: number, nowWallMs: number): Awa
   const { coarseSteps, fineSteps } = splitSpan(span);
 
   for (let i = 0; i < coarseSteps; i++) coarseStep(world, SIM.coarseStepMs, events);
-  for (let i = 0; i < fineSteps; i++) events.push(...stepWorld(world, SIM.stepMs));
+  for (let i = 0; i < fineSteps; i++) {
+    // The leftover under a minute still counts as time away: a Nubbin waiting for the
+    // Keeper keeps waiting, and departures follow allowOfflineDepartures.
+    events.push(...stepWorld(world, SIM.stepMs, undefined, true));
+  }
 
   world.lastWallMs = nowWallMs;
   const simulatedMs = coarseSteps * SIM.coarseStepMs + fineSteps * SIM.stepMs;

@@ -11,10 +11,16 @@ import {
   writeGraphicsPref,
 } from '../platform/storage';
 import { deserialize, SaveError } from '../sim/save';
-import { matureControlVisible } from '../sim/audience';
+import {
+  gateImportedMature,
+  importNeedsGrownUp,
+  matureControlVisible,
+  matureRaiseNeedsGate,
+} from '../sim/audience';
 import type { MatureContent, OfflineMode, Settings } from '../sim/types';
 import { createWorld } from '../sim/world';
 import { button, el, modal } from './dom';
+import { askGrownUp } from './grown-up-gate';
 
 /** The Settings menu: Aging while closed, departures toggle, save export/import/reset. */
 export class SettingsMenu {
@@ -42,7 +48,7 @@ export class SettingsMenu {
   private readonly coopTrainer: HTMLSelectElement;
 
   constructor(
-    parent: HTMLElement,
+    private readonly parent: HTMLElement,
     private readonly game: () => Game | null,
     private readonly toast: (text: string) => void,
   ) {
@@ -113,7 +119,7 @@ export class SettingsMenu {
       input.type = 'radio';
       input.name = 'mature-content';
       input.value = value;
-      input.addEventListener('change', () => this.apply());
+      input.addEventListener('change', () => this.changeMature(value));
       this.matureInputs.set(value, input);
       const text = el('span');
       text.append(el('strong', undefined, label), el('small', undefined, help));
@@ -300,6 +306,27 @@ export class SettingsMenu {
     return fallback;
   }
 
+  private checkMature(value: MatureContent): void {
+    for (const [v, input] of this.matureInputs) input.checked = v === value;
+  }
+
+  /** Lowering applies at once; raising waits for a grown-up to answer the sum gate. */
+  private changeMature(value: MatureContent): void {
+    const g = this.game();
+    if (!g) return;
+    const from = g.world.settings.matureContent;
+    if (!matureRaiseNeedsGate(from, value)) {
+      this.apply();
+      return;
+    }
+    this.checkMature(from);
+    void askGrownUp(this.parent, this.toast).then((ok) => {
+      if (!ok || this.game() !== g) return;
+      this.checkMature(value);
+      this.apply();
+    });
+  }
+
   private syncEnabled(mode: OfflineMode): void {
     this.capInput.disabled = mode !== 'capped';
     // With mode off no time passes, so the toggle has no effect: show it disabled.
@@ -373,6 +400,10 @@ export class SettingsMenu {
     if (text === null) return;
     try {
       const file = deserialize(text);
+      // A file can carry 13+ or 18+; it keeps that only if a grown-up passes the gate.
+      const s = file.world.settings;
+      const grownUp = importNeedsGrownUp(s) && (await askGrownUp(this.parent, this.toast));
+      gateImportedMature(s, grownUp);
       g.replaceWorld(file.world);
       this.close();
       this.toast(UI_TEXT.saved);

@@ -256,3 +256,53 @@ describe('end of life while away', () => {
     expect(n.rebirths).toBe(1);
   });
 });
+
+describe('end of life while away, gaps that are not whole minutes', () => {
+  // The leftover under a minute (and every gap under three minutes) runs as fine steps;
+  // those must follow the away rules too (review 2026-10-18, Bug 1).
+  function unlovedAdult(seed: number, leftMs: number): { w: World; n: Nubbin } {
+    const { w, n } = solo(seed);
+    runMs(w, EGG.hatchMs + LIFECYCLE.childMs + LIFECYCLE.cocoonMs + 1000);
+    n.needs.affection = 5;
+    n.happinessSum = -500;
+    n.happinessSamples = 10;
+    n.stageMs = lifespanMs(n) - leftMs;
+    w.settings.offlineAging.mode = 'indefinite';
+    return { w, n };
+  }
+  const departs = (events: SimEvent[]): boolean =>
+    events.some(
+      (e) => e.kind === 'departed' || (e.kind === 'cocoonStarted' && e.cocoon === 'depart'),
+    );
+
+  const gaps: [string, number, number][] = [
+    ['1 day + 55 s', DAY + 55_000, 30 * 60_000],
+    ['2 min 30 s', 150_000, 60_000],
+  ];
+
+  for (const [label, gapMs, leftMs] of gaps) {
+    it(`${label} with departures off: the Nubbin waits for live play`, () => {
+      const { w, n } = unlovedAdult(31, leftMs);
+      w.settings.offlineAging.allowOfflineDepartures = false;
+      const report = catchUp(w, gapMs, 0);
+      expect(departs(report.events)).toBe(false);
+      expect(report.events.some((e) => e.kind === 'awaitingKeeper')).toBe(true);
+      expect(w.nubbins).toHaveLength(1);
+      expect(w.memorials).toHaveLength(0);
+      expect(n.awaitingKeeper).toBe(true);
+      expect(n.stage).toBe('adult');
+      // Back in live play, the check runs on screen.
+      n.needs.hunger = 1;
+      expect(departs(runMs(w, LIFECYCLE.cocoonMs + 2000))).toBe(true);
+    });
+
+    it(`${label} with departures on: the departure happens and is reported`, () => {
+      const { w } = unlovedAdult(32, leftMs);
+      w.settings.offlineAging.allowOfflineDepartures = true;
+      const report = catchUp(w, gapMs, 0);
+      expect(report.events.some((e) => e.kind === 'departed')).toBe(true);
+      expect(w.nubbins).toHaveLength(0);
+      expect(w.memorials).toHaveLength(1);
+    });
+  }
+});

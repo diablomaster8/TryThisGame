@@ -12,6 +12,7 @@ import {
 import { loadEduScripts, loadStoryScripts } from './sim/story-scenes';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
 import { showTitle } from './ui/title';
+import { showUpdateNotice } from './ui/update-notice';
 import { mountCameraButtons } from './ui/camera-buttons';
 import { FpsCounter } from './ui/fps';
 import { LoadingBar } from './ui/loading-bar';
@@ -62,7 +63,8 @@ if (params.has('sprites')) {
   startGame(null);
 } else {
   // Fetch the campaign and side-story chunks while the title is up.
-  void loadStoryScripts();
+  // A failure here is retried, and reported, when the game starts.
+  loadStoryScripts().catch(() => undefined);
   showTitle(hudRoot, (choice) => {
     if (choice.fresh) clearSlot(choice.slot);
     setSaveSlot(choice.slot);
@@ -98,15 +100,26 @@ function startGame(
     currentSlot().mode === 'edu'
       ? Promise.all([loadStoryScripts(), loadEduScripts()]).then(() => undefined)
       : loadStoryScripts();
-  // The 3D scene is a separate chunk, loaded only when the title picked it.
+  // The 3D scene is a separate chunk, loaded only when the title picked it. A chunk that
+  // fails to load (usually a deploy replaced it) shows the reload notice, not a blank screen.
   if (readGraphicsPref() === '3d') {
-    void import('./render3d/grove-3d-scene').then(async (m) => {
-      // The saved creatures start sculpting in workers while the scene builds.
-      m.prewarmCreatures();
-      await sideStories;
-      boot(newCampaignTrainer, eduAge, new m.Grove3dScene(canvas), storyline);
-    });
-  } else void sideStories.then(() => boot(newCampaignTrainer, eduAge, null, storyline));
+    void import('./render3d/grove-3d-scene')
+      .then(async (m) => {
+        // The saved creatures start sculpting in workers while the scene builds.
+        m.prewarmCreatures();
+        await sideStories;
+        return m;
+      })
+      .then(
+        (m) => boot(newCampaignTrainer, eduAge, new m.Grove3dScene(canvas), storyline),
+        showUpdateNotice,
+      );
+  } else {
+    void sideStories.then(
+      () => boot(newCampaignTrainer, eduAge, null, storyline),
+      showUpdateNotice,
+    );
+  }
 }
 
 function boot(

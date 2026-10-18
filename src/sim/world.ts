@@ -798,8 +798,16 @@ export function heldNubbin(world: World): Nubbin | undefined {
 
 // ---------- stepping ----------
 
-/** One fixed step with full fidelity. Returns the events that happened. */
-export function stepWorld(world: World, dtMs: number, wallMs?: number): SimEvent[] {
+/**
+ * One fixed step with full fidelity. Returns the events that happened. `offline` is set by
+ * catch-up for the leftover under a minute, so end-of-life checks follow the away rules.
+ */
+export function stepWorld(
+  world: World,
+  dtMs: number,
+  wallMs?: number,
+  offline = false,
+): SimEvent[] {
   const events: SimEvent[] = [];
   world.timeMs += dtMs;
   if (wallMs !== undefined) world.lastWallMs = wallMs;
@@ -822,7 +830,7 @@ export function stepWorld(world: World, dtMs: number, wallMs?: number): SimEvent
         continue;
       }
       decayNeeds(n, dtMs);
-      advanceStage(n, dtMs, events, world, false);
+      advanceStage(n, dtMs, events, world, offline);
       // Party members underground are moved by the Hollow step instead.
       if (world.nubbins.includes(n) && !inParty(world, n.id)) {
         updateBehavior(n, world, dtMs, rng, events);

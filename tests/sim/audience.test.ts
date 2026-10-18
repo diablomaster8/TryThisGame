@@ -2,8 +2,11 @@ import { describe, expect, it } from 'vitest';
 import {
   audienceAllowed,
   funQuestBlocked,
+  gateImportedMature,
+  importNeedsGrownUp,
   isFunQuestCode,
   matureControlVisible,
+  matureRaiseNeedsGate,
   questAvailable,
   riftNeedsConfirmation,
   type Audience,
@@ -120,5 +123,45 @@ describe('rift confirmation', () => {
     const world = createWorld(2, 0);
     expect(world.settings.riftConfirmed).toBe(false);
     expect(world.settings.matureContent).toBe('off');
+  });
+});
+
+describe('the grown-up gate in front of Mature content (review 2026-10-18, goal 7)', () => {
+  it('only raising the setting needs the gate', () => {
+    expect(matureRaiseNeedsGate('off', 'teen')).toBe(true);
+    expect(matureRaiseNeedsGate('off', 'adult')).toBe(true);
+    expect(matureRaiseNeedsGate('teen', 'adult')).toBe(true);
+    expect(matureRaiseNeedsGate('adult', 'teen')).toBe(false);
+    expect(matureRaiseNeedsGate('teen', 'off')).toBe(false);
+    expect(matureRaiseNeedsGate('off', 'off')).toBe(false);
+  });
+
+  function importedWith(mature: MatureContent, rift: boolean) {
+    const w = createWorld(5, 0);
+    w.settings.matureContent = mature;
+    w.settings.riftConfirmed = rift;
+    return deserialize(serialize(w, 0)).world.settings;
+  }
+
+  it('an imported 13+ or 18+ save drops to Off unless a grown-up passed the gate', () => {
+    for (const mature of ['teen', 'adult'] as const) {
+      const s = importedWith(mature, mature === 'adult');
+      expect(importNeedsGrownUp(s)).toBe(true);
+      gateImportedMature(s, false);
+      expect(s.matureContent).toBe('off');
+      expect(s.riftConfirmed).toBe(false);
+    }
+  });
+
+  it('a grown-up who passes the gate keeps the imported setting', () => {
+    const s = importedWith('adult', true);
+    gateImportedMature(s, true);
+    expect(s.matureContent).toBe('adult');
+    expect(s.riftConfirmed).toBe(true);
+  });
+
+  it('an Off save needs no gate, but a lone rift confirmation does', () => {
+    expect(importNeedsGrownUp(importedWith('off', false))).toBe(false);
+    expect(importNeedsGrownUp(importedWith('off', true))).toBe(true);
   });
 });

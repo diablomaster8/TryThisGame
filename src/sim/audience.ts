@@ -64,6 +64,30 @@ export function matureControlVisible(ctx: Pick<AudienceContext, 'learningGrove'>
   return !ctx.learningGrove;
 }
 
+const MATURE_RANK: Record<MatureContent, number> = { off: 0, teen: 1, adult: 2 };
+
+/** Raising Mature content goes through the grown-up gate; lowering it never does. */
+export function matureRaiseNeedsGate(from: MatureContent, to: MatureContent): boolean {
+  return MATURE_RANK[to] > MATURE_RANK[from];
+}
+
+/** Whether an imported save carries grown-up permissions the gate has to confirm. */
+export function importNeedsGrownUp(
+  settings: Pick<Settings, 'matureContent' | 'riftConfirmed'>,
+): boolean {
+  return settings.matureContent !== 'off' || settings.riftConfirmed;
+}
+
+/**
+ * A save from a file keeps its Mature content position (and the rift confirmation) only
+ * when a grown-up passed the gate during the import; otherwise both go back to Off.
+ */
+export function gateImportedMature(settings: Settings, grownUp: boolean): void {
+  if (grownUp) return;
+  settings.matureContent = 'off';
+  settings.riftConfirmed = false;
+}
+
 /** The rift asks for an age confirmation until the player has given it once. */
 export function riftNeedsConfirmation(settings: Pick<Settings, 'riftConfirmed'>): boolean {
   return !settings.riftConfirmed;

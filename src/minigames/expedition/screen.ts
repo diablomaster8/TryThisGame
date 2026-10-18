@@ -8,6 +8,7 @@ import { button, el } from '../../ui/dom';
 import { ExpeditionPixelView } from './pixel-view';
 import { createRun, jumpPressed, jumpReleased, stepRun, type RunState } from './run';
 import type { ExpeditionTheme, ExpeditionView } from './view';
+import { showUpdateNotice } from '../../ui/update-notice';
 
 /**
  * The Expedition screen: a full-screen overlay that owns the flow (taps and keys, the
@@ -120,6 +121,14 @@ export class ExpeditionScreen {
     this.root.hidden = false;
     this.lastMs = 0;
     this.accMs = 0;
+    const startPixel = (): void => {
+      this.root.classList.remove('three');
+      this.pixel.element.hidden = false;
+      this.loading3d = false;
+      this.view = this.pixel;
+      this.view.start(runner, sheet, theme);
+      this.resize();
+    };
     const mode = selectMinigameView(graphics, !!scene3d && scene3d.loadState().done);
     if (mode === '3d' && scene3d) {
       this.root.classList.add('three');
@@ -135,21 +144,21 @@ export class ExpeditionScreen {
       // Until it lands the loop idles (nothing steps) and the HUD says the stage is coming.
       this.view = this.pixel;
       this.loading3d = true;
-      void ready.then((view) => {
-        if (starts !== this.starts || !this.run) return;
-        this.loading3d = false;
-        this.view = view;
-        view.start(runner, sheet, theme);
-        this.resize();
-      });
-    } else {
-      this.root.classList.remove('three');
-      this.pixel.element.hidden = false;
-      this.loading3d = false;
-      this.view = this.pixel;
-      this.view.start(runner, sheet, theme);
-      this.resize();
-    }
+      void ready.then(
+        (view) => {
+          if (starts !== this.starts || !this.run) return;
+          this.loading3d = false;
+          this.view = view;
+          view.start(runner, sheet, theme);
+          this.resize();
+        },
+        (err: unknown) => {
+          // The chunk is gone (usually a new deploy): say so, and run in pixel art.
+          showUpdateNotice(err);
+          if (starts === this.starts && this.run) startPixel();
+        },
+      );
+    } else startPixel();
     this.rafId = requestAnimationFrame(this.frame);
   }
 

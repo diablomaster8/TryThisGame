@@ -143,6 +143,11 @@ export function loadStoryScripts(): Promise<void> {
     registerSideStories(side.SIDE_STORY_CONTENT);
     registerStorylines(lines.STORYLINE_CONTENT);
   });
+  // A failed fetch (offline, or a deploy removed the chunk) must not stick: the next
+  // call tries again, and the caller shows the reload notice.
+  loading.catch(() => {
+    loading = null;
+  });
   return loading;
 }
 
@@ -191,6 +196,9 @@ export function registerLanguageQuests(quests: Quest[], courses: LanguageCourse[
  */
 export function loadEduScripts(): Promise<void> {
   eduLoading ??= import('../content/edu').then(registerEduContent);
+  eduLoading.catch(() => {
+    eduLoading = null;
+  });
   return eduLoading;
 }
 
