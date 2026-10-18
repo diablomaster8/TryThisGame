@@ -462,6 +462,8 @@ export function mountHud(
   );
   // A story scene waits on its line under any panel, sheet or notice: the panel takes the
   // taps, and the scene picks up where it was once the last one closes (review 2026-10-18).
+  // The debug panel is deliberately not one of them: it stays open through time-skips, and
+  // a scene under it must keep taking taps (review B, bug 25).
   dialogue.waitWhile(
     () =>
       stack.anyOpen() ||
