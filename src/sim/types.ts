@@ -627,6 +627,8 @@ export interface World {
   inventory: Inventory;
   settings: Settings;
   memorials: Memorial[];
+  /** Sim time from which a rock or the stream bank can be tapped for materials again. */
+  gatherReadyMs: number;
   unlocks: { sunGrove: boolean; moonGrove: boolean };
   /** Which Grove is shown. Sun and Moon are recolours, unlocked by the first adult of that band. */
   grove: GroveKind;

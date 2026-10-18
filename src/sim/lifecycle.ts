@@ -319,6 +319,13 @@ export function rebirth(n: Nubbin, events: SimEvent[]): void {
   events.push({ kind: 'reborn', nubbinId: n.id });
 }
 
+/** The form a memorial remembers: `eternal:<band>`, `<band>:<type>` or `child`. */
+export function memorialForm(n: Nubbin): string {
+  if (n.eternal) return `eternal:${n.eternal}`;
+  if (n.form) return `${n.form.band}:${n.form.type}`;
+  return 'child';
+}
+
 /** Moves on for good, leaving a memorial flower where it stood. */
 export function depart(n: Nubbin, events: SimEvent[], world?: World): void {
   if (world) {
@@ -328,7 +335,7 @@ export function depart(n: Nubbin, events: SimEvent[], world?: World): void {
       name: n.name,
       pos: { x: n.pos.x, z: n.pos.z },
       species: n.species,
-      form: n.eternal ? `eternal:` : n.form ? `:` : 'child',
+      form: memorialForm(n),
       ageMs: n.ageMs,
       rebirths: n.rebirths,
       eggColor: n.eggColor,

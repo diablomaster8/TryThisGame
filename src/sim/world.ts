@@ -1,7 +1,7 @@
 import { NUBBIN_NAMES } from '../config/strings';
 import { EGG, GROVE, LIFECYCLE, OFFLINE, THROW, TREES, TRUST } from '../config/tuning';
 import { nudgeAlignment } from './alignment';
-import { confirmRift } from './audience';
+import { confirmRift, sanitizeOfflineAging } from './audience';
 import { applyDrop, decayNeeds } from './needs';
 import { clampToWorld, putDown, react, sampleAll, startThrow, updateBehavior } from './behavior';
 import { CRITTER_SPECIES, giveCritter, giveEssence } from './critters';
@@ -135,6 +135,7 @@ export function createWorld(seed: number, wallMs: number): World {
     },
     settings: defaultSettings(),
     memorials: [],
+    gatherReadyMs: 0,
     unlocks: { sunGrove: false, moonGrove: false },
     grove: 'main',
     races: {},
@@ -422,9 +423,13 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       n.hat = cmd.hat;
       return;
     }
-    case 'setSettings':
-      world.settings = cmd.settings;
+    case 'setSettings': {
+      // The menu validates the cap, but a NaN or out-of-range one must never reach catch-up.
+      const next = { ...cmd.settings, offlineAging: { ...cmd.settings.offlineAging } };
+      sanitizeOfflineAging(next.offlineAging, world.settings.offlineAging.capHours);
+      world.settings = next;
       return;
+    }
     case 'confirmRift':
       confirmRift(world.settings);
       return;

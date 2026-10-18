@@ -46,12 +46,10 @@ export function craft(world: World, recipe: RecipeId, events: SimEvent[], dye?: 
   return true;
 }
 
-let lastGather = -Infinity;
-
-/** A tap on a rock or the stream bank. */
+/** A tap on a rock or the stream bank. The cooldown lives in the world, so a reset clears it. */
 export function gather(world: World, what: 'stone' | 'reeds', events: SimEvent[]): boolean {
-  if (world.timeMs - lastGather < GATHER.tapCooldownMs) return false;
-  lastGather = world.timeMs;
+  if (world.timeMs < world.gatherReadyMs) return false;
+  world.gatherReadyMs = world.timeMs + GATHER.tapCooldownMs;
   const n = what === 'stone' ? GATHER.stonePerTap : GATHER.reedsPerTap;
   if (what === 'stone') world.inventory.stone += n;
   else world.inventory.reeds += n;

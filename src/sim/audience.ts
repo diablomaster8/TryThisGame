@@ -5,6 +5,7 @@
  * Pure functions over plain data. Lowering the setting only hides a quest: progress lives
  * elsewhere and is never touched here.
  */
+import { OFFLINE } from '../config/tuning';
 import type { MatureContent, Settings } from './types';
 
 export type Audience = 'all' | 'main' | 'teen' | 'adult';
@@ -83,4 +84,21 @@ export function riftNeedsConfirmation(settings: Pick<Settings, 'riftConfirmed'>)
 export function confirmRift(settings: Settings): void {
   settings.riftConfirmed = true;
   settings.matureContent = 'adult';
+}
+
+/**
+ * Pure: puts a mode, cap and departures toggle that came from outside (a file, a command)
+ * back in range. A cap that is not a whole number of hours in range becomes `fallbackCap`.
+ */
+export function sanitizeOfflineAging(oa: Settings['offlineAging'], fallbackCap: number): void {
+  if (oa.mode !== 'indefinite' && oa.mode !== 'capped' && oa.mode !== 'off')
+    oa.mode = OFFLINE.defaultMode;
+  if (
+    !Number.isInteger(oa.capHours) ||
+    oa.capHours < OFFLINE.minCapHours ||
+    oa.capHours > OFFLINE.maxCapHours
+  ) {
+    oa.capHours = fallbackCap;
+  }
+  oa.allowOfflineDepartures = Boolean(oa.allowOfflineDepartures);
 }

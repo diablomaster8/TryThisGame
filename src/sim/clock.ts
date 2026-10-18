@@ -39,9 +39,13 @@ export class Clock {
     return Math.min(1, this.accumulatorMs / this.stepMs);
   }
 
-  /** Remove and return whole sim ms still waiting, for coarse catch-up when far behind. */
-  takeOverflowMs(): number {
-    const whole = Math.floor(this.accumulatorMs / this.stepMs) * this.stepMs;
+  /**
+   * Remove and return the sim ms still waiting in whole multiples of `unitMs` (one step by
+   * default), for coarse catch-up when far behind. Anything under a unit stays for later
+   * frames, so no time is lost at high scales.
+   */
+  takeOverflowMs(unitMs: number = this.stepMs): number {
+    const whole = Math.floor(this.accumulatorMs / unitMs) * unitMs;
     this.accumulatorMs -= whole;
     return whole;
   }

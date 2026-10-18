@@ -29,6 +29,20 @@ describe('Clock', () => {
     expect(c.alpha).toBe(0);
   });
 
+  it('takes overflow in whole coarse units and keeps the rest', () => {
+    const c = new Clock(100);
+    c.setTimeScale(1000);
+    // 99.9 s of sim time: 40 s in fine steps, and 59.9 s left, under one 60 s unit.
+    expect(c.advance(99.9, 400)).toBe(400);
+    expect(c.takeOverflowMs(60_000)).toBe(0);
+    // The 59.9 s is not dropped: the next frame runs it as fine steps.
+    expect(c.advance(0, 1000)).toBe(599);
+    // 150 s behind: two whole minutes go coarse and 30 s stays.
+    c.advance(150, 0);
+    expect(c.takeOverflowMs(60_000)).toBe(120_000);
+    expect(c.advance(0, 1000)).toBe(300);
+  });
+
   it('rejects bad scales', () => {
     const c = new Clock();
     expect(() => c.setTimeScale(0)).toThrow();

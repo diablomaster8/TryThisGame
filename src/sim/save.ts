@@ -3,7 +3,7 @@ import { sceneById } from './story-scenes';
 import { createWeather } from './weather';
 import { npcHome } from './npcs';
 import { GRADES, STAT_KEYS, type Grade, type World } from './types';
-import { sanitizeMatureContent } from './audience';
+import { sanitizeMatureContent, sanitizeOfflineAging } from './audience';
 import { defaultSettings } from './world';
 
 export const SAVE_VERSION = 5;
@@ -122,8 +122,13 @@ export function validateWorld(w: World): World {
   if (!Array.isArray(w.nubbins) || !Array.isArray(w.trees) || !w.keeper) {
     throw new SaveError('Save world is missing core fields');
   }
+  // Every timer counts from the clock; a missing or junk one cannot be repaired.
+  if (!isNum(w.timeMs) || w.timeMs < 0) throw new SaveError('Save world has no clock');
   w.items ??= [];
   w.memorials ??= [];
+  if (!isNum(w.gatherReadyMs)) w.gatherReadyMs = 0;
+  // Memorials once saved their form as ":" or "eternal:"; the band is gone, so forget it.
+  for (const m of w.memorials) if (m.form?.endsWith(':')) delete m.form;
   w.unlocks ??= { sunGrove: false, moonGrove: false };
   w.inventory ??= {
     shells: 0,
@@ -144,6 +149,14 @@ export function validateWorld(w: World): World {
   };
   w.inventory.hats ??= [];
   w.inventory.keepsakes ??= [];
+  // Counts from a hand-edited file: "5" would concatenate on +=, so make every count a number.
+  const inv = w.inventory as unknown as Record<string, unknown>;
+  for (const k of INVENTORY_COUNTS) inv[k] = toCount(inv[k]);
+  for (const k of INVENTORY_MAPS) {
+    const map = inv[k];
+    if (!isObj(map)) continue;
+    for (const [id, v] of Object.entries(map)) map[id] = toCount(v);
+  }
   w.settings ??= defaultSettings();
   w.settings.offlineAging ??= defaultSettings().offlineAging;
   w.settings.matureContent = sanitizeMatureContent(w.settings.matureContent);
@@ -245,17 +258,7 @@ export function validateWorld(w: World): World {
     npc.target = null;
   }
   w.settings.joystick ??= false;
-  const oa = w.settings.offlineAging;
-  if (oa.mode !== 'indefinite' && oa.mode !== 'capped' && oa.mode !== 'off')
-    oa.mode = OFFLINE.defaultMode;
-  if (
-    !Number.isInteger(oa.capHours) ||
-    oa.capHours < OFFLINE.minCapHours ||
-    oa.capHours > OFFLINE.maxCapHours
-  ) {
-    oa.capHours = OFFLINE.defaultCapHours;
-  }
-  oa.allowOfflineDepartures = Boolean(oa.allowOfflineDepartures);
+  sanitizeOfflineAging(w.settings.offlineAging, OFFLINE.defaultCapHours);
   w.selected ??= null;
   w.strays ??= [];
   w.npcs ??= [];
@@ -315,6 +318,15 @@ export function validateWorld(w: World): World {
   w.keeper.running ??= false;
   w.keeper.input = { x: 0, z: 0 };
   return w;
+}
+
+const INVENTORY_COUNTS = ['shells', 'fruit', 'heartFruit', 'wood', 'stone', 'reeds', 'twine'];
+const INVENTORY_MAPS = ['critters', 'essences', 'decor', 'seeds', 'dyes', 'toys'];
+
+/** A whole, non-negative count from whatever a file held: "5" becomes 5, junk becomes 0. */
+function toCount(v: unknown): number {
+  const n = typeof v === 'string' && v.trim() !== '' ? Number(v) : v;
+  return isNum(n) && n > 0 ? Math.floor(n) : 0;
 }
 
 /** Stable text of the world for "reload restores the game exactly" checks. */

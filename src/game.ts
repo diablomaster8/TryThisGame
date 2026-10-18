@@ -317,12 +317,10 @@ export class Game {
       (this.scene3d ?? this.view).snapshot(this.world);
       for (const cmd of this.pending.splice(0)) applyCommand(this.world, cmd, events);
       for (let i = 0; i < steps; i++) events.push(...stepWorld(this.world, SIM.stepMs, wall));
-      // Far behind (very high time scale): finish the backlog in coarse steps.
-      const overflow = this.clock.takeOverflowMs();
-      if (overflow >= SIM.coarseStepMs) {
-        const coarse = Math.floor(overflow / SIM.coarseStepMs);
-        for (let i = 0; i < coarse; i++) coarseStep(this.world, SIM.coarseStepMs, events);
-      }
+      // Far behind (very high time scale): finish the backlog in coarse steps. The part
+      // under a coarse step stays in the clock and runs as fine steps on later frames.
+      const coarse = this.clock.takeOverflowMs(SIM.coarseStepMs) / SIM.coarseStepMs;
+      for (let i = 0; i < coarse; i++) coarseStep(this.world, SIM.coarseStepMs, events);
     }
     if (events.length > 0) {
       if (this.scene3d) this.scene3d.onEvents(events);
