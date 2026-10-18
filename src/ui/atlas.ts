@@ -126,10 +126,14 @@ export class StoryShelf {
     return parseSide(this.config.which, readSide(this.config.which));
   }
 
-  /** What a line may read of the rest of its save: other lines, and E6's reflection. */
+  /**
+   * What a line may read: the rest of its save, E6's reflection, and the Grove's campaign
+   * and side-story flags (a frozen copy, so a story world can never write them).
+   */
   private context(save: SideData): LineContext {
     const extra = 'reflection' in save ? { [REFLECTION_FLAG]: save.reflection !== null } : {};
-    return lineContext(this.lines ?? [], sideLines(save), extra);
+    const grove = this.game()?.world.campaign?.flags ?? {};
+    return lineContext(this.lines ?? [], sideLines(save), extra, grove);
   }
 
   /** Change one line's progress and write the side save straight away. */

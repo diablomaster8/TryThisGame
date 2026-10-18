@@ -41,6 +41,11 @@ export interface LineContext {
   met(code: string): boolean;
   /** Flags from every line of the save, and any read-only facts, under this line's own. */
   flags: LineFlags;
+  /**
+   * The Grove's campaign and side-story flags, frozen: a story world reads them (they pick
+   * its Grove variants) and never writes them.
+   */
+  grove: Readonly<LineFlags>;
 }
 
 /** The line's audience: its strictest quest, so a `teen` page is hidden as a whole. */
@@ -56,7 +61,7 @@ export function lineAvailable(line: StoryLine, ctx: AudienceContext): boolean {
 }
 
 function flagsOf(p: LineProgress, ctx: LineContext | undefined): LineFlags {
-  return ctx ? { ...ctx.flags, ...p.flags } : p.flags;
+  return ctx ? { ...ctx.grove, ...ctx.flags, ...p.flags } : p.flags;
 }
 
 /** A line closed by another's choice is hidden, unless it was already begun. */
@@ -105,22 +110,73 @@ function liveState(line: StoryLine, q: Quest, s: QuestProgress, flags: LineFlags
 }
 
 /**
- * The variant written for a scene, chosen by the line's flags. Variant ids extend the
- * scene id with the value they answer (`a15-14-screen-done-reconciled` answers a flag set
- * to 'reconciled'), or with the name of a flag that is on. Only the line's own flags
- * count: a value another line happens to share must not pick a variant here.
+ * Grove flags whose variants are named for what they bring rather than for the flag:
+ * `a24-02-council-done-fern` answers s8Reunited, `pa5-01-shed-clank` answers s21Done.
  */
-export function variantFor(line: StoryLine, p: LineProgress, scene: Scene): Scene {
+const GROVE_ALIASES: Record<string, readonly string[]> = {
+  s1Done: ['charm', 'oak'],
+  s6Done: ['ash'],
+  s7Done: ['s7'],
+  s8Reunited: ['fern', 'bramble'],
+  s21Done: ['clank'],
+  keptStone: ['kept'],
+};
+
+/** Grove flags a line answers with an `-unset` variant while the Grove has not set them. */
+const GROVE_UNSET: Record<string, readonly string[]> = { A19: ['sableFirst'] };
+
+/** How many answers a variant suffix is made of (`ran-unset` is two), or 0 if not all. */
+function answeredParts(suffix: string, answers: ReadonlySet<string>): number {
+  const parts = suffix.split('-');
+  // best[i]: the most answers that make up parts[0..i), or -1 if they cannot.
+  const best: number[] = [0, ...parts.map(() => -1)];
+  for (let i = 0; i < parts.length; i++) {
+    if (best[i]! < 0) continue;
+    for (let j = i + 1; j <= parts.length; j++) {
+      if (answers.has(parts.slice(i, j).join('-'))) best[j] = Math.max(best[j]!, best[i]! + 1);
+    }
+  }
+  return Math.max(0, best[parts.length]!);
+}
+
+/**
+ * The variant written for a scene, chosen by the line's own flags and the Grove's. Variant
+ * ids extend the scene id with the value they answer (`a15-14-screen-done-reconciled`
+ * answers a flag set to 'reconciled'), with the name of a flag that is on, or with several
+ * of those joined (`a19-18-complete-ran-unset`); the most specific one wins. Other lines'
+ * flags do not count: a value another line happens to share must not pick a variant here.
+ */
+export function variantFor(
+  line: StoryLine,
+  p: LineProgress,
+  scene: Scene,
+  grove: Readonly<LineFlags> = {},
+): Scene {
   const prefix = `${scene.id}-`;
   const answers = new Set<string>();
-  for (const [k, v] of Object.entries(p.flags)) {
-    if (typeof v === 'string') answers.add(v);
-    else if (v === true) answers.add(k);
+  for (const flags of [grove, p.flags]) {
+    for (const [k, v] of Object.entries(flags)) {
+      if (typeof v === 'string') answers.add(v);
+      else if (v === true) {
+        answers.add(k);
+        for (const alias of GROVE_ALIASES[k] ?? []) answers.add(alias);
+      }
+    }
   }
+  if ((GROVE_UNSET[line.id] ?? []).some((k) => grove[k] === undefined || grove[k] === false)) {
+    answers.add('unset');
+  }
+  let chosen = scene;
+  let chosenParts = 0;
   for (const v of line.variants) {
-    if (v.id.startsWith(prefix) && answers.has(v.id.slice(prefix.length))) return v;
+    if (!v.id.startsWith(prefix)) continue;
+    const parts = answeredParts(v.id.slice(prefix.length), answers);
+    if (parts > chosenParts) {
+      chosen = v;
+      chosenParts = parts;
+    }
   }
-  return scene;
+  return chosen;
 }
 
 /** The scene with only the choices its line offers under these flags. */
@@ -152,7 +208,7 @@ export function lineNext(line: StoryLine, p: LineProgress, ctx?: LineContext): L
   const play = (scene: Scene): LineNext => ({
     kind: 'scene',
     quest: q,
-    scene: shown(line, variantFor(line, p, scene), flags),
+    scene: shown(line, variantFor(line, p, scene, ctx?.grove), flags),
   });
   if (s.stage === 'complete' || !step) return play(q.complete);
   if (s.stage === 'act') return { kind: 'act', quest: q, goal: step.goal, hint: step.hint };
@@ -239,6 +295,7 @@ export function lineContext(
   lines: readonly StoryLine[],
   progress: Record<string, LineProgress>,
   extra: LineFlags = {},
+  grove: Readonly<LineFlags> = {},
 ): LineContext {
   const known = new Map<string, { line: string; quest: string }>();
   for (const l of lines) for (const q of l.quests) known.set(q.code, { line: l.id, quest: q.id });
@@ -250,6 +307,7 @@ export function lineContext(
       return !at || progress[at.line]?.quests[at.quest]?.stage === 'finished';
     },
     flags,
+    grove: Object.freeze({ ...grove }),
   };
 }
 
