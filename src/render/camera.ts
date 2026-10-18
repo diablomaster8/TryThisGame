@@ -76,7 +76,13 @@ export class OrbitCamera {
   private frameHeight: number = RENDER.targetHeight;
   private yawTween: Tween | null = null;
   private zoomTween: Tween | null = null;
-  readonly reduceMotion: boolean;
+  /** The system's prefers-reduced-motion, read once. */
+  readonly prefersReducedMotion: boolean;
+  /**
+   * Snap turns and zooms instead of easing them. Starts at the system setting; the game
+   * sets it each frame from the player's Reduced motion choice in Settings.
+   */
+  reduceMotion: boolean;
   private readonly tmp = new Vector3();
   private readonly snapped = new Vector3();
 
@@ -84,10 +90,11 @@ export class OrbitCamera {
     this.viewHeight = computeViewHeight(RENDER.targetHeight, this.pixelsPerUnit);
     this.camera = new OrthographicCamera(-1, 1, 1, -1, CAMERA.near, CAMERA.far);
     this.camera.up.set(0, 1, 0);
-    this.reduceMotion =
+    this.prefersReducedMotion =
       typeof window !== 'undefined' &&
       typeof window.matchMedia === 'function' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.reduceMotion = this.prefersReducedMotion;
     this.applyProjection();
     this.applyPose();
   }

@@ -63,16 +63,20 @@ export class Game {
   hourOverride: number | null = null;
   private lastDaylightMs = -Infinity;
 
+  /** The player's Reduced motion choice, resolved against the system setting. */
+  get reduceMotion(): boolean {
+    const r = this.world.settings.reducedMotion;
+    return r === 'on' || (r === 'system' && this.camera.prefersReducedMotion);
+  }
+
   private updateDaylight(nowMs: number): void {
     // The sky changes slowly: re-evaluate every few seconds.
     if (nowMs - this.lastDaylightMs < 3000) return;
     this.lastDaylightMs = nowMs;
     const d = daylightAt(this.hourOverride ?? localHour());
     const s = this.world.settings;
-    const reduce =
-      s.reducedMotion === 'on' || (s.reducedMotion === 'system' && this.camera.reduceMotion);
+    const reduce = this.reduceMotion;
     if (this.scene3d) {
-      this.scene3d.reduceMotion = reduce;
       this.scene3d.setLit(litLanterns(this.world));
       this.view.lanterns = () => this.scene3d!.lanternStates();
       this.scene3d.setDaylight(
@@ -348,6 +352,10 @@ export class Game {
     const t = 1 - Math.exp((-CAMERA.followRate * dt) / 1000);
     this.camera.target.x += (kp.x - this.camera.target.x) * t;
     this.camera.target.z += (kp.z - this.camera.target.z) * t;
+    // The Settings choice reaches both cameras and the Grove's idle motion at once.
+    const reduce = this.reduceMotion;
+    this.camera.reduceMotion = reduce;
+    if (this.scene3d) this.scene3d.reduceMotion = reduce;
     this.camera.update(nowMs);
 
     if (!this.renderPaused) {
@@ -357,7 +365,7 @@ export class Game {
         this.scene3d.render();
       } else if (this.grove && this.lowRes) {
         if (this.world.location === 'dungeon') this.grove.updateDungeonLights(kp);
-        this.grove.update(nowMs);
+        this.grove.update(nowMs, reduce);
         this.grove.setGrove(this.world.grove);
         this.updateDaylight(nowMs);
         this.view.update(this.world, this.camera, this.clock.alpha, nowMs);

@@ -272,11 +272,7 @@ export class Dialogue {
     this.text.dir = 'ltr';
     clearInterval(this.typing);
     const speed = g.world.settings.textSpeed;
-    const reduce =
-      speed === 'instant' ||
-      (g.world.settings.reducedMotion === 'system'
-        ? g.camera.reduceMotion
-        : g.world.settings.reducedMotion === 'on');
+    const reduce = speed === 'instant' || g.reduceMotion;
     if (textBandOf(g.world) === 'sprout' && g.world.edu?.readAloud) speakLine(line.text);
     // Half-typed Hebrew would sit unisolated, so a line with script appears whole.
     if (reduce || hasScript(this.fullText)) {

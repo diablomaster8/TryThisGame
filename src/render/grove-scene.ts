@@ -636,8 +636,12 @@ export class GroveScene {
     this.applyLight();
   }
 
-  /** Animate water, the waterfall, swaying canopies and the foam ring. `nowMs` is wall time. */
-  update(nowMs: number): void {
+  /**
+   * Animate water, the waterfall, swaying canopies and the foam ring. `nowMs` is wall
+   * time. With reduced motion everything holds still, as if at time zero.
+   */
+  update(wallMs: number, reduceMotion = false): void {
+    const nowMs = reduceMotion ? 0 : wallMs;
     this.water.offset.set((nowMs / 7000) % 1, (nowMs / 10000) % 1);
     this.glint.offset.set((-nowMs / 5000) % 1, (nowMs / 12000) % 1);
     this.falls.offset.set(0, (-nowMs / 400) % 1);

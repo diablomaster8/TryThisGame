@@ -584,7 +584,9 @@ export class Grove3dScene {
     const ty = ground(tx, tz) + GROVE3D.lookHeight;
     this.camTarget.x = tx;
     this.camTarget.z = tz;
-    this.camTarget.y += (ty - this.camTarget.y) * (1 - Math.exp(-6 * dt));
+    // Reduced motion: the camera cuts to where it is going instead of gliding there.
+    const snap = dt === 0 || this.reduceMotion;
+    this.camTarget.y += (ty - this.camTarget.y) * (snap ? 1 : 1 - Math.exp(-6 * dt));
     const yaw = orbit.currentYaw;
     const pitch = THREE.MathUtils.degToRad(GROVE3D.pitchDeg);
     const dist = GROVE3D.distance[orbit.currentZoomIndex] ?? GROVE3D.distance[0];
@@ -594,7 +596,7 @@ export class Grove3dScene {
       this.camTarget.z + Math.cos(yaw) * Math.cos(pitch) * dist,
     );
     const k = 1 - Math.exp(-9 * dt);
-    this.camPos.lerp(want, dt === 0 ? 1 : k);
+    this.camPos.lerp(want, snap ? 1 : k);
     const floor = (this.location === 'grove' ? groveHeight(this.camPos.x, this.camPos.z) : 0) + 0.9;
     if (this.camPos.y < floor) this.camPos.y = floor;
     // Shake: the same rule as the pixel camera (the Settings switch), in 3D units.
