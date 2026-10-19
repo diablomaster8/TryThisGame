@@ -199,6 +199,58 @@ export const GROVE3D = {
     outlineMinTris: 2500,
   },
   /**
+   * The 3D Hollow's cave kit (`render3d/hollow.ts`): rock blocks are pushed about by a
+   * world-space noise of `rockAmp` units (shared corners move together, so neighbours never
+   * gap), textured from the world position every `rockTexel` units, tops tinted with moss.
+   * Walls between the camera and the party sink to `cutHeight` of their height at
+   * `cutPerSec` (a share of full height a second) and rise back the same way.
+   */
+  cave: {
+    rockAmp: 0.34,
+    rockTexel: 2.2,
+    moss: { color: '#4c6744', amount: 0.42 },
+    floorTexel: 2.6,
+    floorAo: 0.2,
+    cutHeight: 0.14,
+    cutPerSec: 4,
+    rubbleShare: 0.32,
+    spikeShare: 0.12,
+  },
+  /**
+   * The painted sky (`render3d/sky.ts`): a zenith-to-horizon gradient per time of day, a
+   * sun disc with a soft halo, a two-tone cloud layer drifting at `cloudSpeed`, and stars
+   * at night. `golden` is the warm band the sun passes through under `goldenDeg`.
+   */
+  sky: {
+    day: { zenith: '#3f86d8', horizon: '#bfe1f2', ground: '#9cc2a8' },
+    golden: { zenith: '#4d6fb8', horizon: '#ffc27a', ground: '#c99a72' },
+    night: { zenith: '#070b22', horizon: '#1d2a52', ground: '#0d1426' },
+    rain: { zenith: '#7f93a8', horizon: '#c3cfd6', ground: '#9aa9a8' },
+    goldenDeg: 16,
+    cloudCover: 0.48,
+    rainCover: 0.82,
+    cloudSpeed: 0.006,
+  },
+  /**
+   * Height fog over the Grove: the scene's exp² fog is thickest at `base` and thins to a
+   * share `top` of itself by `base + falloff` units up, so the meadow sits in a haze while
+   * the hills stand clear above it.
+   */
+  heightFog: { base: 0, falloff: 7, top: 0.3 },
+  /**
+   * Rain: how much it tints the grade (was 0.85/0.9/1, which read as a grey wash), its
+   * fog's colour and density, how much sun gets through, and the falling streaks.
+   */
+  rain: {
+    tint: [0.96, 0.98, 1.02] as const,
+    saturation: 1.1,
+    fog: '#a9bcc4',
+    fogDensity: 0.0105,
+    sun: 1.05,
+    streaks: 1800,
+    speed: 16,
+  },
+  /**
    * The frame-time governor: when the smoothed frame time stays above slowMs, the render
    * scale (backing-store pixels per CSS pixel) steps down by stepDown, never below
    * minRatio; when it stays under fastMs for upFrames frames it steps back up toward the

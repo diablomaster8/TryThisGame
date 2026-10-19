@@ -55,7 +55,7 @@ export class Halo {
     for (const p of parts)
       p.traverse((o) => {
         const m = o as THREE.Mesh;
-        if (!m.isMesh || !o.visible) return;
+        if (!m.isMesh || !o.visible || o.userData.hull) return;
         const copy =
           m instanceof THREE.InstancedMesh
             ? Object.assign(new THREE.InstancedMesh(m.geometry, this.mat, m.count), {

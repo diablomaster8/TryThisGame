@@ -1,15 +1,17 @@
 import * as THREE from 'three';
 import { fenceSpots } from '../render/scenery';
-import { pbr, type Tex } from '../samples/aaa-kit';
+import type { Tex } from '../samples/aaa-kit';
 import type { TownUnlocks } from '../sim/town';
+import { bevelBox, buildingMaterial } from './building-kit';
 
 /**
  * The village bits of the home Grove that the pixel view draws in `world-view.ts`: the
  * market stalls that fill the square as prosperity grows (`townUnlocks`: the stall, the
  * attendant's, the festival's, on the pixel spots) and the fence posts that line the main
  * path from the gate to the pond (`fenceSpots`). Stalls follow the pixel painting: two
- * posts, a plank counter, a red and cream striped awning, fruit on the counter. Nothing
- * here is tappable, as in the pixel view.
+ * posts, a plank counter, a red and cream striped awning with a scalloped valance, fruit
+ * on the counter, bevelled and toon-lit like the houses (art pass 2). Nothing here is
+ * tappable, as in the pixel view.
  */
 const STALLS: ReadonlyArray<readonly [number, number, keyof TownUnlocks]> = [
   [-12, 17.5, 'stall'],
@@ -26,15 +28,16 @@ export class Village {
   constructor(parent: THREE.Object3D, tex: Tex, ground: (x: number, z: number) => number) {
     this.group.name = 'village';
     parent.add(this.group);
-    const wood = pbr(tex.wood, { color: '#a8784a', scale: 0.8 });
-    const dark = pbr(tex.wood, { color: '#6a4426', scale: 0.8 });
+    const wood = buildingMaterial(tex.wood, { color: '#a8784a', normal: 0.4 });
+    const dark = buildingMaterial(tex.wood, { color: '#6a4426', normal: 0.4 });
     const trim = new THREE.MeshStandardMaterial({ color: '#d9a76a', roughness: 0.8 });
     const red = new THREE.MeshStandardMaterial({ color: '#c8203c', roughness: 0.75 });
     const cream = new THREE.MeshStandardMaterial({ color: '#f4efe6', roughness: 0.75 });
     const goods = GOODS.map((c) => new THREE.MeshStandardMaterial({ color: c, roughness: 0.55 }));
-    const post = new THREE.BoxGeometry(0.12, 2.0, 0.12);
-    const counter = new THREE.BoxGeometry(2.1, 0.8, 0.6);
-    const top = new THREE.BoxGeometry(2.2, 0.08, 0.7);
+    const post = bevelBox(0.13, 2.0, 0.13, 0.03);
+    const counter = bevelBox(2.1, 0.8, 0.6, 0.05, 1.2);
+    const top = bevelBox(2.24, 0.09, 0.72, 0.03);
+    const scallop = new THREE.CylinderGeometry(0.2, 0.2, 0.04, 12, 1, false, 0, Math.PI);
     const stripe = new THREE.BoxGeometry(0.4, 0.04, 1.0);
     const fruit = new THREE.SphereGeometry(0.1, 10, 8);
     for (const [x, z] of STALLS) {
@@ -59,6 +62,9 @@ export class Village {
       for (let i = 0; i < 6; i++) {
         const o = add(stripe, i % 2 ? cream : red, -1.0 + i * 0.4, 1.95, 0.05);
         o.rotation.x = 0.35;
+        // The valance: a half-round flap hanging off the front edge of each stripe.
+        const v = add(scallop, i % 2 ? cream : red, -1.0 + i * 0.4, 1.76, 0.54);
+        v.rotation.set(Math.PI / 2, 0, Math.PI / 2);
       }
       for (let i = 0; i < 6; i++) add(fruit, goods[i % 4]!, -0.85 + i * 0.34, 0.98, 0.05);
       s.position.set(x, ground(x, z), z);

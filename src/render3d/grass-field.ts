@@ -9,6 +9,16 @@ import { exactHeight, pathDistance, riverDistance } from './terrain-shape';
 /** How far in from the square's edge the grass starts to thin, in world units. */
 const GRASS_FRAY = 5;
 
+/** Distance from a spot to the waterfall's line, from the hill top to the stream's start. */
+function fallDistance(x: number, z: number): number {
+  const a = GROVE.waterfall;
+  const b = GROVE.river.inflow[0]!;
+  const dx = b.x - a.x;
+  const dz = b.z - a.z;
+  const t = Math.max(0, Math.min(1, ((x - a.x) * dx + (z - a.z) * dz) / (dx * dx + dz * dz)));
+  return Math.hypot(x - (a.x + dx * t), z - (a.z + dz * t));
+}
+
 export function groveGrassField(): GrassField {
   const keepOut = [
     ...Object.values(GROVE.buildings).map((p) => ({ x: p.x, z: p.z, r: p.r + 0.6 })),
@@ -25,6 +35,8 @@ export function groveGrassField(): GrassField {
       if (pathDistance(x, z) < GROVE3D.pathWidth + 0.3) return false;
       if (riverDistance(x, z) < GROVE.river.width * 0.5 + 0.6) return false;
       for (const k of keepOut) if (Math.hypot(x - k.x, z - k.z) < k.r) return false;
+      // Not through the waterfall's cascade down the hill (art pass 2).
+      if (fallDistance(x, z) < GROVE.waterfall.width * 0.5 + 0.45) return false;
       // Thin out over the last few units of the square, so the meadow frays into the
       // painted ground instead of stopping at a straight line. A hash of the spot, not a
       // random draw, so the same tufts are kept every time.

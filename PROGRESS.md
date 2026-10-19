@@ -23,7 +23,7 @@ only (`docs/content-index.md`). Plan v4 (`plan.md`): G11 device pass, Track B wr
 tasks; Part Z ran on 2026-10-18 (`docs/review-independent-2026-10-18.md`) and its fixes are
 going in pass by pass. Review B (`docs/review-independent-2026-10-18-b.md`): Bugs 1–17 and
 18–38 fixed on 2026-10-18 (both in the archive). Review C
-(`docs/review-independent-2026-10-18-c.md`): major items 1–10 (section below) and minor items 11–29 (in the archive) fixed.
+(`docs/review-independent-2026-10-18-c.md`): major items 1–10 and minor items 11–29 fixed (both in the archive).
 Maor, 2026-10-17: legal cleared, adviser sign-off given, the seven fun-quest quotes approved
 as written, Pixel stays the default; 2026-10-18: ship the Arcade, the Multiverse, Neopia and
 Q66–Q95. Waiting on Maor: the LB/LK decision (section "Pixel's Arcade
@@ -31,7 +31,56 @@ PA1–PA5" in `docs/progress-archive.md`). Decided 2026-10-18 (review B, item 16
 sung verses are fine (only lyrics from existing songs are banned); Holy Grail's Q1–Q7 are one
 storyline and keep all ten quotes, an exception to the three-quote cap. Backlogs: `docs/creature-improvements.md`,
 `docs/content-index.md`. Maor, 2026-10-18: Full 3D is the flagship for the AAA art push (the
-default renderer is not changed; section below).
+default renderer is not changed; passes 1 and 2 below, both on branches awaiting Maor's merge).
+
+## Full 3D art push 2: Hollow, buildings, sky, particles, rain (2026-10-19)
+
+Branch `art/3d-pass-2` (off `art/3d-flagship`, not merged; ask Maor before `main`). Before and
+after: `docs/samples/art3d-pass2-before-after.jpg`. Numbers in `GROVE3D.cave`, `.sky`,
+`.heightFog`, `.rain`. Works:
+- **Hollow (`hollow.ts`):** rock blocks bent by a world-space noise (shared corners move
+  together, so no gaps) and flat-shaded, the rock texture laid on from the world position, moss
+  on the tops; an earth floor darkened where it meets the rock; loose stones and spikes along
+  the walls; pools in the painted water with a foam shore. Walls between the camera and the
+  party now sink and rise smoothly instead of snapping.
+- **Buildings and props (`building-kit.ts`, `props.ts`, `village.ts`):** bevelled walls on
+  stone plinths, timber corners and eave bands, roofs with real overhangs, ridge caps and barge
+  boards, framed windows with sills and painted shutters, framed doors with a step, a cottage
+  chimney. The well has a turned rim and a windlass. The windmill has a footing, door, window
+  and lattice sails; lanterns are framed, the bridge is planked and railed, the cave mouth is
+  an arch of stones. All of it is toon-lit like the creatures, smooth pieces outlined (one
+  shared hull), merged by material (Grove draw calls 207 → 195). Pools of lamplight spill on
+  the ground at night (`buildSpills`, one additive mesh).
+- **Sky (`sky.ts`):** a painted dome in place of Preetham: a horizon-to-zenith gradient per
+  hour (day, golden, night, rain), a sun disc and halo, a two-tone cloud layer that drifts, and
+  stars. The PMREM warm-up is kept (same material in the bake scene). Height fog is patched
+  into three's exp² fog chunks (Grove and stage samples only). The fog takes the horizon's
+  colour. Golden hour is warm and bright, no longer muddy red; env fill was raised to match the
+  darker painted map.
+- **Particles (`quad-particles.ts`):** one instanced-quad program for everything, with analytic
+  shapes, rotation and soft fade, and additive and normal particles in one draw:
+  - bursts (one draw, was three) and falling leaves tumble;
+  - tap sparkles are stars;
+  - rain streaks and snow fall in the vertex shader (no per-frame CPU loop over 2,500 points);
+  - fireflies glow and wander on the GPU.
+- **Emotes (`emote-vector.ts`):** vector frames at 128 px with mipmaps. Pre-existing bug fixed:
+  the emote sat 0.48 above the head bone, inside the head, so the depth test hid it; it now
+  floats above the creature's height.
+- **Rain:** grade tint 0.96/0.98/1.02 (was 0.85/0.9/1), saturation 1.1, a clearer blue-grey
+  fog, sun 1.05. It reads as wet, not washed out.
+- **Waterfall (filmed this time):** it was a pale sheet hanging through the air (pass 1's
+  unverified item). It is now a cascade ribbon that hugs the hillside into the stream, with
+  the grass kept off it (grass checksum updated in `tests/render/grass-place.test.ts`).
+- **Numbers** (headless Edge, `vite preview` production builds, 375×812 at 4× CPU throttle,
+  10 s windows, interleaved, three pairs on the final build): day 51.5 → 53.0 fps, zoomed out
+  37.7 → 48.3, night 43.8 → 47.7. Run-to-run spread is about 10 fps. Earlier builds of this
+  pass, 8–14 runs each, gave day and zoomed out flat and night about 3% down; the final
+  build's partial uploads for particles are in the numbers above. 583 tests, lint and build pass.
+
+Stubbed: the cave's walls fade by sinking, not by dithering; the night spills are all on or all
+off (a single lit campaign lantern lights its glass but not its pool). Known bugs: none new.
+Not checked on a real phone. The minigames' `GroveSky` gets the painted dome too, but it is not
+filmed there.
 
 ## Full 3D art push 1: toon creatures, ground, water, governor (2026-10-18)
 
@@ -76,44 +125,6 @@ Stubbed: the waterfall was not filmed close up (its streaks and foam are unverif
 screen); rain still greys the grade; the Hollow, buildings, props, sky and particles are
 untouched (next passes); visit-set trees do not sway (no clock there). Known bugs: none new.
 Not checked on a real phone.
-
-## Review C, the ten major bugs (2026-10-18)
-
-From the Major section of `docs/review-independent-2026-10-18-c.md` (each item has an
-"Addressed" note there). Branch `fix/review-c-major`. Works:
-- **Service worker (1):** registered straight from `boot()`; hashed `assets/` chunks
-  cache-first, the shell precached with `cache: 'reload'`. Built site, fresh profile: one
-  active registration after starting a slot, offline reload opens the title.
-- **Share codes and loop (2):** a code must pass `nubbinProblem` (name capped at 16);
-  Receive is hidden in the Learning Grove; `deserialize` runs `importProblem`, so a broken
-  save goes down the unreadable path; a frame that throws keeps the loop alive, stops all
-  saving and shows a Reload card (`showCrashCard`).
-- **Reset (3):** `sim/fresh-start.ts` restarts the slot's own mode (campaign or storyline
-  with the same Keeper, Learning Grove age and band); the debug reset asks first.
-- **Gate (4, 5):** erasing or starting over a Learning Grove slot on the title asks the gate,
-  which now opens above the title; the gate asks a two-digit × one-digit product
-  (`GROWN_UP_GATE`), new numbers after a miss, and a held Enter.
-- **Full 3D frame rate (6):** four pooled night lights (`render3d/lamp-pool.ts`, light set
-  `groveNight`), four in the Hollow; no transmission in the game (water, lantern glass,
-  cocoons, wings and dew stripped in the pool); one `FinishPass` for clamp, tone map, sRGB
-  and grade; `FrameGovernor` (render scale, undoes a step that buys nothing); face parts cast
-  no shadow (`casterMinTris`); half-rate shadow map under strain; cached ground heights.
-  375×812, 4× CPU throttle, 8 Nubbins, headless Edge, dev server: Grove 38 fps, race 35,
-  night 39, Hollow 42 (origin/main: 18–23, 23, 27, 22).
-- **Pixel colour (7):** half-float scene target and the sRGB encode in `render/post.ts`; day
-  light lifted (`PIXEL_LIGHT`). Shots `docs/samples/review-c-colour-*.jpg`.
-- **Collection book (8):** `coarseStep` records hatches, evolutions, rebirths, Eternals.
-- **Well-raised bonus (9):** never the stat `evolve()` just raised.
-- **3D Hollow (10):** walls between the camera and the party cut to stubs; shaded stone
-  blocks. Shot `docs/samples/review-c-hollow-before-after.jpg`.
-
-Stubbed: the governor only scales pixels and shadow cadence; it does not drop grass, SMAA or
-creature detail, and the zoomed-out 3D view (13 fps in the review) was not measured. The
-first visit caches hashed chunks only from the second load on (the worker takes control
-then).
-
-Known bugs: none new. Not checked on a real phone; frame rates are from headless Edge with a
-CPU throttle on the dev server. Review C's minor items 11–29 are fixed in the pass below.
 
 ## Standing approval (Maor, 2026-10-12)
 

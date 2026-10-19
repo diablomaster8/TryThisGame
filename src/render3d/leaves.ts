@@ -1,41 +1,35 @@
 import * as THREE from 'three';
 import type { Vec2 } from '../sim/types';
+import { QuadCloud } from './quad-particles';
 
 /**
  * Leaves drifting off the fruit trees by day, after the pixel view's ambient spawn
  * (`render/particles.ts`): one leaf every 1.2 to 3 s from a random tree's crown, falling
  * at about half a unit a second with a little sway, gone after five seconds; four in five
- * are leaves, the rest petals. One small point cloud, with the rain's kind of material.
+ * are leaves, the rest petals. One small quad cloud: each a leaf shape that tumbles as it
+ * falls (art pass 2; they were square points).
  */
 const MAX = 8;
 const LIFE = 5;
 
 export class FallingLeaves {
-  readonly points: THREE.Points;
+  private readonly cloud: QuadCloud;
   private readonly pos = new Float32Array(MAX * 3);
   private readonly col = new Float32Array(MAX * 3);
+  private readonly c = new THREE.Color();
   private readonly age = new Float32Array(MAX).fill(LIFE);
   private readonly drift = new Float32Array(MAX * 2);
   private timer = 0;
   private seed = 1;
 
   constructor(parent: THREE.Object3D) {
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.BufferAttribute(this.pos, 3));
-    geo.setAttribute('color', new THREE.BufferAttribute(this.col, 3));
-    this.points = new THREE.Points(
-      geo,
-      new THREE.PointsMaterial({
-        size: 0.16,
-        vertexColors: true,
-        transparent: true,
-        opacity: 0.95,
-        sizeAttenuation: true,
-      }),
-    );
-    this.points.frustumCulled = false;
-    this.points.visible = false;
-    parent.add(this.points);
+    this.cloud = new QuadCloud(parent, MAX);
+    this.cloud.mesh.visible = false;
+  }
+
+  /** The cloud's mesh, shown only while leaves are wanted. */
+  get points(): THREE.Object3D {
+    return this.cloud.mesh;
   }
 
   /** A deterministic wobble, so leaves need no Math.random and replay alike. */
@@ -79,8 +73,23 @@ export class FallingLeaves {
       this.pos[i * 3 + 1] = this.pos[i * 3 + 1]! - 0.55 * dt;
       this.pos[i * 3 + 2] = this.pos[i * 3 + 2]! + this.drift[i * 2 + 1]! * dt;
     }
-    const geo = this.points.geometry;
-    geo.attributes.position!.needsUpdate = true;
-    geo.attributes.color!.needsUpdate = true;
+    for (let i = 0; i < MAX; i++) {
+      const age = this.age[i]!;
+      if (age >= LIFE) continue;
+      this.c.setRGB(this.col[i * 3]!, this.col[i * 3 + 1]!, this.col[i * 3 + 2]!);
+      const fade = Math.min(1, age / 0.3, (LIFE - age) / 0.8);
+      const petal = this.col[i * 3]! > 0.9;
+      this.cloud.set(
+        this.pos[i * 3]!,
+        this.pos[i * 3 + 1]!,
+        this.pos[i * 3 + 2]!,
+        this.c,
+        fade,
+        petal ? 0.13 : 0.18,
+        'leaf',
+        { rot: age * (2 + (i % 3)) + i },
+      );
+    }
+    this.cloud.flush();
   }
 }

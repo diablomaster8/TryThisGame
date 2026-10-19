@@ -1,6 +1,5 @@
 import * as THREE from 'three';
-import { buildEmoteSheet, type EmoteShape } from '../render/sprites/emote';
-import { C } from '../render/sprites/palette';
+import type { EmoteShape } from '../render/sprites/emote';
 import { frameKey } from '../render/sprites/animations';
 import { emoteFor } from '../render/world-view';
 import type { PoseName, Rigged } from '../samples/species';
@@ -8,6 +7,8 @@ import type { Floor } from '../sim/dungeon';
 import type { Location, Nubbin, Vec2, World } from '../sim/types';
 import { keeperLook, nubbinLook, openingLooks, takePool, type Look } from './creature-pool';
 import { Crowd, crowdFor } from './crowd';
+import { vectorEmotes } from './emote-vector';
+import { QuadCloud } from './quad-particles';
 import { gaitTime } from './gait';
 import { WATER_LEVEL, groveHeight } from './terrain';
 import { GROVE, GROVE3D, LIFECYCLE, THROW } from '../config/tuning';
@@ -125,6 +126,8 @@ interface KeeperSlot {
   stand: THREE.Mesh | null;
 }
 
+/** The tap sparkles' colour. */
+const SPARK = new THREE.Color('#fff2a8');
 export class Actors {
   readonly group = new THREE.Group();
   readonly pool = takePool();
@@ -157,8 +160,7 @@ export class Actors {
   /** For a highlighted thing that is not a Nubbin or an item: where it is now, and how wide. */
   private highlightSpot: (() => { x: number; z: number; r: number } | null) | null = null;
   private readonly sparks: Array<{ p: THREE.Vector3; v: THREE.Vector3; born: number }> = [];
-  private readonly sparkPoints: THREE.Points;
-  private readonly sparkPos: THREE.BufferAttribute;
+  private readonly sparkCloud: QuadCloud;
   private readonly tmp = new THREE.Vector3();
   private readonly tmp2 = new THREE.Vector3();
   private readonly tmp3 = new THREE.Vector3();
@@ -179,8 +181,8 @@ export class Actors {
       (look) => this.standIn(look),
       () => this.emoteMats.get(frameKey('question', 'front', 0)),
     );
-    // The emote ball frames come from the pixel sheets (the plain one and the Shadow plum
-    // one), one sprite material per frame.
+    // The emote ball frames: the plain set and the Shadow's plum one, one sprite material
+    // per frame.
     for (const shadow of [false, true]) this.addEmoteSheet(shadow);
     this.highlight = new THREE.Mesh(
       new THREE.RingGeometry(0.55, 0.72, 32),
@@ -196,23 +198,7 @@ export class Actors {
     this.highlight.rotation.x = -Math.PI / 2;
     this.highlight.visible = false;
     this.group.add(this.highlight);
-    const max = 96;
-    this.sparkPos = new THREE.BufferAttribute(new Float32Array(max * 3), 3);
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', this.sparkPos);
-    geo.setDrawRange(0, 0);
-    this.sparkPoints = new THREE.Points(
-      geo,
-      new THREE.PointsMaterial({
-        color: '#fff2a8',
-        size: 0.14,
-        transparent: true,
-        opacity: 0.95,
-        depthWrite: false,
-      }),
-    );
-    this.sparkPoints.frustumCulled = false;
-    this.group.add(this.sparkPoints);
+    this.sparkCloud = new QuadCloud(this.group, 96);
   }
 
   /** Build the Keeper and the child first, so the opening seconds do not stall. */
@@ -354,22 +340,12 @@ export class Actors {
   }
 
   private addEmoteSheet(shadow: boolean): void {
-    const sheet = buildEmoteSheet(shadow ? C.plum : undefined);
-    const image = sheet.texture.image as HTMLCanvasElement;
-    for (const [key, rect] of sheet.frames) {
-      const c = document.createElement('canvas');
-      c.width = rect.w;
-      c.height = rect.h;
-      const ctx = c.getContext('2d');
-      ctx?.drawImage(image, rect.x, rect.y, rect.w, rect.h, 0, 0, rect.w, rect.h);
-      const tex = new THREE.CanvasTexture(c);
-      tex.magFilter = THREE.NearestFilter;
-      tex.minFilter = THREE.NearestFilter;
-      tex.colorSpace = THREE.SRGBColorSpace;
+    // Vector frames (art pass 2), keyed as the pixel sheet's frames are.
+    for (const [key, tex] of vectorEmotes(shadow)) {
+      const [shape, f] = key.split(':') as [EmoteShape, string];
       const mat = new THREE.SpriteMaterial({ map: tex, depthTest: true, fog: false });
-      this.emoteMats.set(`${shadow ? 'shadow:' : ''}${key}`, mat);
+      this.emoteMats.set(`${shadow ? 'shadow:' : ''}${frameKey(shape, 'front', Number(f))}`, mat);
     }
-    sheet.dispose();
   }
 
   /** A reaction bubble over a Nubbin until `untilMs` (the pixel view's rule and timing). */
@@ -386,7 +362,7 @@ export class Actors {
     }
     if (a) return a;
     const emote = new THREE.Sprite(this.emoteMats.get(frameKey('ball', 'front', 0)));
-    emote.scale.setScalar(0.42);
+    emote.scale.setScalar(0.5);
     emote.visible = false;
     this.group.add(emote);
     const actor: Actor = {
@@ -761,7 +737,10 @@ export class Actors {
         const head = a.rig?.bones.head;
         if (head) {
           head.getWorldPosition(this.tmp);
-          a.emote.position.set(this.tmp.x, this.tmp.y + 0.48 + Math.sin(t * 2) * 0.03, this.tmp.z);
+          // Over the top of the creature, never inside it: the head bone sits low in the
+          // head, and 0.48 above it left the ball buried (the depth test hid it).
+          const top = Math.max(this.tmp.y + 0.48, gy + y + tall + 0.3);
+          a.emote.position.set(this.tmp.x, top + Math.sin(t * 2) * 0.03, this.tmp.z);
         } else a.emote.position.set(x, gy + y + 1.2, z);
       }
     }
@@ -880,10 +859,13 @@ export class Actors {
       }
       s.v.y -= 3.2 * dt;
       s.p.addScaledVector(s.v, dt);
-      this.sparkPos.setXYZ(n++, s.p.x, s.p.y, s.p.z);
+      const fade = 1 - (nowMs - s.born) / 700;
+      this.sparkCloud.set(s.p.x, s.p.y, s.p.z, SPARK, Math.min(1, fade * 1.6), 0.3, 'star', {
+        rot: (nowMs - s.born) / 300 + n++,
+        additive: true,
+      });
     }
-    this.sparkPos.needsUpdate = true;
-    this.sparkPoints.geometry.setDrawRange(0, n);
+    this.sparkCloud.flush();
     void cameraPos;
   }
 
@@ -937,8 +919,7 @@ export class Actors {
     this.rippleMat.dispose();
     this.highlight.geometry.dispose();
     (this.highlight.material as THREE.Material).dispose();
-    this.sparkPoints.geometry.dispose();
-    (this.sparkPoints.material as THREE.Material).dispose();
+    this.sparkCloud.dispose();
     for (const m of this.emoteMats.values()) {
       m.map?.dispose();
       m.dispose();

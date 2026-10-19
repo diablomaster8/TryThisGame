@@ -51,18 +51,22 @@ export function addOutlines(root: THREE.Object3D): void {
     if (triangles(m) < GROVE3D.toon.outlineMinTris) return;
     hosts.push(m);
   });
-  for (const o of hosts) {
-    const hull = new THREE.Mesh(o.geometry, HULL);
-    hull.userData.hull = true;
-    hull.castShadow = false;
-    hull.receiveShadow = false;
-    hull.frustumCulled = o.frustumCulled;
-    hull.raycast = noRaycast;
-    // It sits exactly on its part: no local transform to recompose each frame.
-    hull.matrixAutoUpdate = false;
-    o.userData.hasHull = true;
-    o.add(hull);
-  }
+  for (const o of hosts) addHull(o);
+}
+
+/** Give one mesh the shared hull (the building kit outlines its smooth pieces this way). */
+export function addHull(o: THREE.Mesh): void {
+  if (o.userData.hasHull) return;
+  const hull = new THREE.Mesh(o.geometry, HULL);
+  hull.userData.hull = true;
+  hull.castShadow = false;
+  hull.receiveShadow = false;
+  hull.frustumCulled = o.frustumCulled;
+  hull.raycast = noRaycast;
+  // It sits exactly on its part: no local transform to recompose each frame.
+  hull.matrixAutoUpdate = false;
+  o.userData.hasHull = true;
+  o.add(hull);
 }
 
 /** Show or hide every creature outline at once (the governor's CPU step). */

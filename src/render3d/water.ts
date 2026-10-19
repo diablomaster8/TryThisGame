@@ -128,7 +128,7 @@ const FALL_FRAG = /* glsl */ `
     col = mix( col, uFoam, max( lip, foot ) * 0.9 );
     // Thinner and clearer at the sides.
     float side = smoothstep( 0.0, 0.12, vUv.x ) * smoothstep( 1.0, 0.88, vUv.x );
-    gl_FragColor = vec4( col * uLight, ( 0.62 + streak * 0.3 ) * side );
+    gl_FragColor = vec4( col * uLight, ( 0.8 + streak * 0.2 ) * side );
     #include <fog_fragment>
   }`;
 
@@ -316,24 +316,53 @@ export function buildGroveWater(scene: THREE.Object3D): GroveWater {
   for (const line of [GROVE.river.inflow, GROVE.river.outflow])
     scene.add(new THREE.Mesh(ribbon(line, GROVE.river.width), streamMat));
 
-  // The waterfall: a sheet from the hill top down to the inflow's first pool.
+  // The waterfall: a cascade that hugs the hillside from the top down to the inflow's first
+  // pool (art pass 2: it was one flat sheet hanging through the air above the slope, which
+  // read as a pane of glass). A ribbon follows the ground a hand above it, narrowing to the
+  // stream's width as it lands; v runs 1 at the lip to 0 at the foot, as the shader wants.
   const wf = GROVE.waterfall;
-  const top = groveHeight(wf.x, wf.z) - 0.2;
   const first = GROVE.river.inflow[0]!;
   const fallMat = waterShader(shared, FALL_FRAG);
   const dx = first.x - wf.x;
   const dz = first.z - wf.z;
   const len = Math.hypot(dx, dz);
-  const drop = top - WATER_LEVEL;
-  const sheetGeo = new THREE.PlaneGeometry(wf.width, Math.hypot(len, drop));
+  const ax = -dz / len;
+  const az = dx / len;
+  const ALONG = 28;
+  const pos: number[] = [];
+  const uv: number[] = [];
+  const index: number[] = [];
+  for (let j = 0; j <= ALONG; j++) {
+    const t = j / ALONG;
+    const cx = wf.x + dx * t;
+    const cz = wf.z + dz * t;
+    const w = THREE.MathUtils.lerp(wf.width, GROVE.river.width * 0.9, t);
+    for (let i = 0; i <= 3; i++) {
+      const u = i / 3;
+      const x = cx + ax * (u - 0.5) * w;
+      const z = cz + az * (u - 0.5) * w;
+      // A little proud of the slope, and never under the pool it falls into.
+      const y = Math.max(groveHeight(x, z) + 0.12 * (1 - t) + 0.05, WATER_LEVEL + 0.04);
+      pos.push(x, y, z);
+      uv.push(u, 1 - t);
+    }
+  }
+  for (let j = 0; j < ALONG; j++)
+    for (let i = 0; i < 3; i++) {
+      const a0 = j * 4 + i;
+      index.push(a0, a0 + 4, a0 + 1, a0 + 1, a0 + 4, a0 + 5);
+    }
+  const sheetGeo = new THREE.BufferGeometry();
+  sheetGeo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  sheetGeo.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
   sheetGeo.setAttribute(
     'depth',
-    new THREE.BufferAttribute(new Float32Array(sheetGeo.attributes.position!.count).fill(1), 1),
+    new THREE.Float32BufferAttribute(new Array(pos.length / 3).fill(1), 1),
   );
+  sheetGeo.setIndex(index);
+  sheetGeo.computeVertexNormals();
   const sheet = new THREE.Mesh(sheetGeo, fallMat);
-  sheet.position.set((wf.x + first.x) / 2, (top + WATER_LEVEL) / 2, (wf.z + first.z) / 2);
-  sheet.lookAt(sheet.position.x + dz, sheet.position.y, sheet.position.z - dx);
-  sheet.rotateX(Math.atan2(drop, len) - Math.PI / 2);
+  sheet.renderOrder = 1;
   scene.add(sheet);
   // Churned water where it lands: foam that swells and settles.
   const foamMat = new THREE.MeshBasicMaterial({

@@ -1,16 +1,15 @@
 import * as THREE from 'three';
+import { QuadCloud, type QuadShape } from './quad-particles';
 
 /**
  * Little bursts in the 3D Grove, the counterparts of the pixel view's particle bursts:
  * leaves and petals from a shaken tree, dust where a thrown Nubbin lands, crumbs when one
  * eats, hearts for a loving reaction and sparkles for a hatch, an evolution, a rebirth or
- * a cocoon. One points cloud per shape (plain dots, four-point stars, hearts) holds every
- * burst with per-particle colour; particles fall with a drag (leaves flutter down slowly,
+ * a cocoon. One quad cloud (`quad-particles.ts`) holds every burst, each particle shaped
+ * (leaf, dot, star, heart), turning and fading softly; particles fall with a drag (leaves flutter down slowly,
  * dust settles fast, sparkles hang and hearts float up) and fade before they go.
  */
 export type BurstKind = 'leaf' | 'petal' | 'dust' | 'crumb' | 'sparkle' | 'heart';
-
-type Shape = 'dot' | 'star' | 'heart';
 
 interface Particle {
   p: THREE.Vector3;
@@ -36,118 +35,43 @@ const COLORS: Record<BurstKind, string[]> = {
  */
 const MOTION: Record<
   BurstKind,
-  { gravity: number; drag: number; flutter: number; lands: boolean; shape: Shape }
+  { gravity: number; drag: number; flutter: number; lands: boolean }
 > = {
-  leaf: { gravity: 1.2, drag: 2.2, flutter: 0.8, lands: true, shape: 'dot' },
-  petal: { gravity: 0.9, drag: 2.6, flutter: 0.8, lands: true, shape: 'dot' },
-  dust: { gravity: 2.4, drag: 3.5, flutter: 0, lands: true, shape: 'dot' },
-  crumb: { gravity: 3.2, drag: 2.0, flutter: 0, lands: true, shape: 'dot' },
-  sparkle: { gravity: 0, drag: 2.4, flutter: 0, lands: false, shape: 'star' },
-  heart: { gravity: -0.6, drag: 1.5, flutter: 1.2, lands: false, shape: 'heart' },
+  leaf: { gravity: 1.2, drag: 2.2, flutter: 0.8, lands: true },
+  petal: { gravity: 0.9, drag: 2.6, flutter: 0.8, lands: true },
+  dust: { gravity: 2.4, drag: 3.5, flutter: 0, lands: true },
+  crumb: { gravity: 3.2, drag: 2.0, flutter: 0, lands: true },
+  sparkle: { gravity: 0, drag: 2.4, flutter: 0, lands: false },
+  heart: { gravity: -0.6, drag: 1.5, flutter: 1.2, lands: false },
 };
 
 const MAX = 320;
 
-/** A white mask for a point sprite, drawn once on a small canvas. */
-function shapeTexture(shape: Exclude<Shape, 'dot'>): THREE.Texture {
-  const s = 32;
-  const cv = document.createElement('canvas');
-  cv.width = cv.height = s;
-  const g = cv.getContext('2d')!;
-  g.fillStyle = '#fff';
-  g.beginPath();
-  if (shape === 'star') {
-    // A soft glow under four thin points.
-    const c = s / 2;
-    const glow = g.createRadialGradient(c, c, 0, c, c, c * 0.6);
-    glow.addColorStop(0, 'rgba(255,255,255,0.9)');
-    glow.addColorStop(1, 'rgba(255,255,255,0)');
-    g.fillStyle = glow;
-    g.fillRect(0, 0, s, s);
-    g.fillStyle = '#fff';
-    g.beginPath();
-    for (let i = 0; i < 8; i++) {
-      const a = (i / 8) * Math.PI * 2 - Math.PI / 2;
-      const r = i % 2 === 0 ? c - 1 : c * 0.22;
-      g.lineTo(c + Math.cos(a) * r, c + Math.sin(a) * r);
-    }
-  } else {
-    g.moveTo(16, 28);
-    g.bezierCurveTo(4, 20, 1, 13, 4, 8);
-    g.bezierCurveTo(7, 3, 14, 3, 16, 9);
-    g.bezierCurveTo(18, 3, 25, 3, 28, 8);
-    g.bezierCurveTo(31, 13, 28, 20, 16, 28);
-  }
-  g.closePath();
-  g.fill();
-  const tex = new THREE.CanvasTexture(cv);
-  tex.colorSpace = THREE.SRGBColorSpace;
-  return tex;
-}
-
-class Cloud {
-  readonly points: THREE.Points;
-  readonly pos: THREE.BufferAttribute;
-  readonly col: THREE.BufferAttribute;
-  n = 0;
-
-  constructor(parent: THREE.Object3D, shape: Shape) {
-    const geo = new THREE.BufferGeometry();
-    this.pos = new THREE.BufferAttribute(new Float32Array(MAX * 3), 3);
-    this.col = new THREE.BufferAttribute(new Float32Array(MAX * 3), 3);
-    geo.setAttribute('position', this.pos);
-    geo.setAttribute('color', this.col);
-    geo.setDrawRange(0, 0);
-    const mat =
-      shape === 'dot'
-        ? new THREE.PointsMaterial({
-            size: 0.2,
-            vertexColors: true,
-            transparent: true,
-            opacity: 0.95,
-            depthWrite: false,
-          })
-        : new THREE.PointsMaterial({
-            size: shape === 'star' ? 0.55 : 0.4,
-            map: shapeTexture(shape),
-            vertexColors: true,
-            transparent: true,
-            alphaTest: shape === 'star' ? 0.02 : 0.2,
-            depthWrite: false,
-            // Sparkles add light (and catch the bloom); hearts stay solid.
-            blending: shape === 'star' ? THREE.AdditiveBlending : THREE.NormalBlending,
-          });
-    this.points = new THREE.Points(geo, mat);
-    this.points.frustumCulled = false;
-    this.points.renderOrder = 2;
-    parent.add(this.points);
-  }
-
-  flush(): void {
-    this.pos.needsUpdate = true;
-    this.col.needsUpdate = true;
-    this.points.geometry.setDrawRange(0, this.n);
-    this.n = 0;
-  }
-}
+/** Each kind's quad: its shape, its size in world units, and whether it adds light. */
+const LOOK: Record<BurstKind, { shape: QuadShape; size: number; additive: boolean; spin: number }> =
+  {
+    leaf: { shape: 'leaf', size: 0.2, additive: false, spin: 2.5 },
+    petal: { shape: 'leaf', size: 0.15, additive: false, spin: 3 },
+    dust: { shape: 'dot', size: 0.22, additive: false, spin: 0 },
+    crumb: { shape: 'dot', size: 0.11, additive: false, spin: 0 },
+    sparkle: { shape: 'star', size: 0.5, additive: true, spin: 0.6 },
+    heart: { shape: 'heart', size: 0.34, additive: false, spin: 0 },
+  };
 
 export class Bursts {
-  private readonly clouds: Record<Shape, Cloud>;
+  /** Every burst in one quad cloud (art pass 2: shaped, turning, soft-edged). */
+  private readonly cloud: QuadCloud;
   private readonly list: Particle[] = [];
   private readonly c = new THREE.Color();
   private seed = 1;
 
   constructor(parent: THREE.Object3D) {
-    this.clouds = {
-      dot: new Cloud(parent, 'dot'),
-      star: new Cloud(parent, 'star'),
-      heart: new Cloud(parent, 'heart'),
-    };
+    this.cloud = new QuadCloud(parent, MAX);
   }
 
-  /** The dot cloud (leaves, petals, dust, crumbs). */
-  get points(): THREE.Points {
-    return this.clouds.dot.points;
+  /** The cloud's mesh (the scene's warm-up compiles it). */
+  get points(): THREE.Object3D {
+    return this.cloud.mesh;
   }
 
   /** A render-side jitter: bursts are decoration, so no sim randomness is spent on them. */
@@ -198,30 +122,33 @@ export class Bursts {
           q.v.set(0, 0, 0);
         }
       }
-      const cloud = this.clouds[f.shape];
-      const n = cloud.n++;
-      cloud.pos.setXYZ(n, q.p.x, q.p.y, q.p.z);
+      const look = LOOK[q.kind];
       const palette = COLORS[q.kind];
       this.c.set(palette[Math.floor(q.phase * 10) % palette.length]!);
-      // Fade the last fifth of a life toward the ground colour's darkness; sparkles twinkle.
+      // Fade over the last fifth of a life (dust also thins as it spreads); sparkles twinkle.
       let fade = Math.min(1, (q.life - age) / (q.life * 0.2));
       if (q.kind === 'sparkle') fade *= 0.65 + 0.35 * Math.sin(nowMs / 60 + q.phase * 3);
-      cloud.col.setXYZ(n, this.c.r * fade, this.c.g * fade, this.c.b * fade);
+      if (q.kind === 'dust') fade *= 0.75;
+      const grow =
+        q.kind === 'dust'
+          ? 1 + (age / q.life) * 1.2
+          : q.kind === 'heart'
+            ? Math.min(1, age / 140)
+            : 1;
+      // Leaves stop turning once they land.
+      const still = f.lands && q.v.lengthSq() === 0;
+      const rot = q.phase + (still ? 0 : (age / 1000) * look.spin * (q.phase > 3.14 ? 1 : -1));
+      this.cloud.set(q.p.x, q.p.y, q.p.z, this.c, fade, look.size * grow, look.shape, {
+        rot,
+        additive: look.additive,
+      });
     }
-    this.clouds.dot.flush();
-    this.clouds.star.flush();
-    this.clouds.heart.flush();
+    this.cloud.flush();
   }
 
-  /** Free the three clouds (their buffers, materials and the shape textures). */
+  /** Free the cloud. */
   dispose(): void {
-    for (const c of Object.values(this.clouds)) {
-      c.points.removeFromParent();
-      c.points.geometry.dispose();
-      const m = c.points.material as THREE.PointsMaterial;
-      m.map?.dispose();
-      m.dispose();
-    }
+    this.cloud.dispose();
     this.list.length = 0;
   }
 }

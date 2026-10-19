@@ -1,8 +1,9 @@
 import * as THREE from 'three';
 import type { Daylight } from '../render/daylight';
-import { buildParticles } from '../samples/aaa-kit';
+import { GROVE3D } from '../config/tuning';
 import type { Location, Vec2, WeatherKind, World } from '../sim/types';
 import { FallingLeaves } from './leaves';
+import { QuadCloud } from './quad-particles';
 import { groveHeight } from './terrain';
 
 /**
@@ -12,11 +13,58 @@ import { groveHeight } from './terrain';
  * frame: none at all under reduced motion, two fifths at the 'light' density, none at
  * 'off', and rain and snow scale with the weather's intensity. Clouds are built on first
  * need; `set` comes with the daylight (every few seconds), `update` every frame.
+ *
+ * Art pass 2: all of them are quad clouds (`quad-particles.ts`): rain falls as thin
+ * streaks and snow as soft flakes, both moved in the vertex shader (they were thousands of
+ * points rewritten on the CPU every frame), and fireflies glow and wander there too.
  */
+
+/** A render-side generator, so the weather spends no sim randomness. */
+function lcg(seed: number): () => number {
+  let s = seed;
+  return () => {
+    s = (s * 16807) % 2147483647;
+    return s / 2147483647;
+  };
+}
+
+const COLUMN = 14;
+
+/** A column of falling streaks or flakes round the camera's focus. */
+function fallCloud(
+  scene: THREE.Object3D,
+  count: number,
+  o: { speed: number; sway: number; color: string; alpha: number; size: number; stretch: number },
+): QuadCloud {
+  const cloud = new QuadCloud(scene, count, 'fall', {
+    speed: o.speed,
+    height: COLUMN,
+    sway: o.sway,
+  });
+  const r = lcg(7);
+  const c = new THREE.Color(o.color);
+  for (let i = 0; i < count; i++)
+    cloud.set(
+      (r() - 0.5) * 40,
+      r() * COLUMN,
+      (r() - 0.5) * 40 + 6,
+      c,
+      o.alpha,
+      o.size,
+      o.stretch > 1 ? 'streak' : 'dot',
+      {
+        stretch: o.stretch,
+      },
+      i,
+    );
+  cloud.commit(count);
+  cloud.mesh.visible = false;
+  return cloud;
+}
 export class GroveWeather {
-  private rain: THREE.Points | null = null;
-  private snow: THREE.Points | null = null;
-  private fireflies: THREE.Points | null = null;
+  private rain: QuadCloud | null = null;
+  private snow: QuadCloud | null = null;
+  private fireflies: QuadCloud | null = null;
   private readonly leaves: FallingLeaves;
   private wants = { rain: false, snow: false, flies: false, leaves: false };
   private particles: 'full' | 'light' | 'off' = 'full';
@@ -46,18 +94,45 @@ export class GroveWeather {
       flies: ((grove && d.fireflies) || place === 'hollow') && on,
       leaves: grove && weather === 'clear' && (d.phase === 'day' || d.phase === 'dawn') && on,
     };
-    if (this.wants.rain && !this.rain) this.rain = buildParticles(this.scene, 'rain');
-    // Snow: the rain cloud's layout, white, fat and slow, drifting as it falls.
-    if (this.wants.snow && !this.snow) {
-      this.snow = buildParticles(this.scene, 'rain');
-      if (this.snow) {
-        const m = this.snow.material as THREE.PointsMaterial;
-        m.color.set('#ffffff');
-        m.size = 0.13;
-        m.opacity = 0.9;
-      }
+    if (this.wants.rain && !this.rain)
+      this.rain = fallCloud(this.scene, GROVE3D.rain.streaks, {
+        speed: GROVE3D.rain.speed,
+        sway: 0,
+        color: '#d8e6f0',
+        alpha: 0.42,
+        size: 0.028,
+        stretch: 20,
+      });
+    // Snow: soft white flakes, slow, drifting as they fall.
+    if (this.wants.snow && !this.snow)
+      this.snow = fallCloud(this.scene, 1500, {
+        speed: 1.1,
+        sway: 0.4,
+        color: '#ffffff',
+        alpha: 0.9,
+        size: 0.13,
+        stretch: 1,
+      });
+    if (this.wants.flies && !this.fireflies) {
+      const n = 220;
+      const flies = new QuadCloud(this.scene, n, 'hover');
+      const r = lcg(11);
+      const c = new THREE.Color('#ffe08a');
+      for (let i = 0; i < n; i++)
+        flies.set(
+          (r() - 0.5) * 40,
+          r() * 3 + 0.3,
+          (r() - 0.5) * 40 + 6,
+          c,
+          1,
+          0.26,
+          'glow',
+          { additive: true },
+          i,
+        );
+      flies.commit(n);
+      this.fireflies = flies;
     }
-    if (this.wants.flies && !this.fireflies) this.fireflies = buildParticles(this.scene, 'golden');
   }
 
   update(
@@ -78,43 +153,16 @@ export class GroveWeather {
       [this.snow, this.wants.snow, 0.6],
     ] as const) {
       if (!p) continue;
-      p.visible = want && !still && share > 0;
-      const n = (p.geometry.attributes.position as THREE.BufferAttribute).count;
-      p.geometry.setDrawRange(0, Math.round(n * share * rate));
+      p.mesh.visible = want && !still && share > 0;
+      p.draw(Math.round(p.max * share * rate));
+      // The column follows the camera's focus; the drops fall in the shader.
+      if (p.mesh.visible) p.mesh.position.set(camTarget.x, 0, camTarget.z - 6);
     }
     // Fireflies keep their number at any density, as the pixel spawner does.
-    if (this.fireflies) this.fireflies.visible = this.wants.flies && !still;
+    if (this.fireflies) this.fireflies.mesh.visible = this.wants.flies && !still;
     this.leaves.points.visible = this.wants.leaves && !still;
     if (this.leaves.points.visible) this.leaves.update(trees, groveHeight, dt, dens);
 
-    if (this.rain?.visible) {
-      const p = this.rain.geometry.attributes.position as THREE.BufferAttribute;
-      for (let i = 0; i < p.count; i++) {
-        let y = p.getY(i) - 0.35;
-        if (y < 0) y += 14;
-        p.setY(i, y);
-      }
-      p.needsUpdate = true;
-      this.rain.position.set(camTarget.x, 0, camTarget.z - 6);
-    }
-    if (this.snow?.visible) {
-      const p = this.snow.geometry.attributes.position as THREE.BufferAttribute;
-      for (let i = 0; i < p.count; i++) {
-        let y = p.getY(i) - 1.1 * dt;
-        if (y < 0) y += 14;
-        p.setY(i, y);
-        p.setX(i, p.getX(i) + Math.sin(t * 0.9 + i) * 0.4 * dt);
-      }
-      p.needsUpdate = true;
-      this.snow.position.set(camTarget.x, 0, camTarget.z - 6);
-    }
-    if (this.fireflies?.visible) {
-      const p = this.fireflies.geometry.attributes.position as THREE.BufferAttribute;
-      for (let i = 0; i < p.count; i++) {
-        p.setY(i, p.getY(i) + Math.sin(t * 1.3 + i) * 0.004);
-        p.setX(i, p.getX(i) + Math.cos(t * 0.7 + i * 0.3) * 0.004);
-      }
-      p.needsUpdate = true;
-    }
+    void t;
   }
 }

@@ -20,6 +20,7 @@ import { pickSculptRes, qualityForRes } from './sculpt-res';
 
 export { prewarmCreatures } from './prewarm';
 import { Bursts } from './bursts';
+import { PARTICLE_TIME } from './quad-particles';
 import { FinishPass } from './finish-pass';
 import { FrameGovernor } from './governor';
 import { LampPool, type LampSource } from './lamp-pool';
@@ -127,6 +128,8 @@ export interface Pick3d {
   id: string;
 }
 
+/** The grade's saturation (rain takes `GROVE3D.rain.saturation`). */
+const GRADE_SATURATION = 1.15;
 export class Grove3dScene {
   readonly renderer: THREE.WebGLRenderer;
   readonly scene = new THREE.Scene();
@@ -254,7 +257,7 @@ export class Grove3dScene {
     this.actors.ground = standHeight;
     this.bursts = new Bursts(this.scene);
     this.garden = new Garden(this.world3d);
-    this.hollow = new Hollow(this.scene);
+    this.hollow = new Hollow(this.scene, this.tex, this.sky);
     this.halo = new Halo(this.scene);
     // Underground: a plain dark floor, until the Hollow gets its own 3D rooms.
     this.dungeonFloor = new THREE.Mesh(
@@ -279,7 +282,7 @@ export class Grove3dScene {
     this.bloom.enabled = false;
     this.composer.addPass(this.bloom);
     // Tone mapping, the sRGB encode and the grade in one draw (they were three).
-    this.grade = new FinishPass(1.15);
+    this.grade = new FinishPass(GRADE_SATURATION);
     this.composer.addPass(this.grade);
     this.composer.addPass(new SMAAPass());
   }
@@ -372,9 +375,9 @@ export class Grove3dScene {
     this.clamp.enabled = this.bloom.enabled;
     this.bloom.strength = elevation < -2 ? 0.25 : 0.35;
     this.renderer.toneMappingExposure =
-      elevation < -2 ? 0.6 : elevation < GROVE3D.bloomBelowDeg ? 0.75 : 0.62;
+      elevation < -2 ? 0.6 : elevation < GROVE3D.bloomBelowDeg ? 0.75 : 0.68;
     this.grade.uniforms.uTint!.value.set(
-      elevation < -2 ? '#c8d4ff' : elevation < GROVE3D.bloomBelowDeg ? '#ffe9d0' : '#ffffff',
+      elevation < -2 ? '#c8d4ff' : elevation < GROVE3D.bloomBelowDeg ? '#fff2e2' : '#ffffff',
     );
     // The Sun and Moon Groves are recolours, as in the pixel mode (cream and lavender on
     // the lit materials); here a grade over the whole frame. Corvin's rows are drained.
@@ -399,15 +402,23 @@ export class Grove3dScene {
         sources.push({ ...at(l.light), color: '#ffb347', intensity: 5, distance: 10, decay: 1.4 });
     }
     this.props.windows.material.emissiveIntensity = this.lampsOn ? 2.5 : 0;
+    // The pools of lamplight on the ground come with the lamps (one additive mesh).
+    this.props.spills.visible = this.lampsOn;
+    (this.props.spills.material as THREE.MeshBasicMaterial).opacity = d.darkness > 0.5 ? 0.7 : 0.45;
     if (this.lampsOn) {
       for (const w of this.props.windows.lights)
         sources.push({ ...at(w), color: '#ffb347', intensity: 4, distance: 9, decay: 1.6 });
     }
     this.lampSources = sources;
     this.weather.set(grove, place, weather, d, particles);
-    // Rain greys the grade a little and snow brightens and cools it, as the pixel post pass.
-    if (grove && weather === 'rain')
-      (this.grade.uniforms.uTint!.value as THREE.Color).multiply(new THREE.Color(0.85, 0.9, 1));
+    // Rain cools the grade a touch (it used to grey it to a wash; art pass 2) and snow
+    // brightens and cools it, as the pixel post pass.
+    const wet = grove && weather === 'rain';
+    this.grade.uniforms.uSaturation!.value = wet ? GROVE3D.rain.saturation : GRADE_SATURATION;
+    if (wet)
+      (this.grade.uniforms.uTint!.value as THREE.Color).multiply(
+        new THREE.Color(...GROVE3D.rain.tint),
+      );
     else if (grove && weather === 'snow')
       (this.grade.uniforms.uTint!.value as THREE.Color).multiply(new THREE.Color(1.04, 1.06, 1.12));
   }
@@ -679,6 +690,8 @@ export class Grove3dScene {
     pushers.slice(0, PUSHERS.length).forEach((p, i) => PUSHERS[i]!.set(p.x, p.z, p.r, 0));
     this.props.blades.rotation.z += dt * 0.6;
     this.water.update(this.time.value, this.sky.sun, this.sky.hemi);
+    this.sky.tick(this.time.value);
+    PARTICLE_TIME.value = this.time.value;
     this.weather.update(world, this.treeAt.values(), dt, this.time.value, this.camTarget);
   }
 

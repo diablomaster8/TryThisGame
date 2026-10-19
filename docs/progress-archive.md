@@ -2,6 +2,44 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Review C, the ten major bugs (2026-10-18)
+
+From the Major section of `docs/review-independent-2026-10-18-c.md` (each item has an
+"Addressed" note there). Branch `fix/review-c-major`. Works:
+- **Service worker (1):** registered straight from `boot()`; hashed `assets/` chunks
+  cache-first, the shell precached with `cache: 'reload'`. Built site, fresh profile: one
+  active registration after starting a slot, offline reload opens the title.
+- **Share codes and loop (2):** a code must pass `nubbinProblem` (name capped at 16);
+  Receive is hidden in the Learning Grove; `deserialize` runs `importProblem`, so a broken
+  save goes down the unreadable path; a frame that throws keeps the loop alive, stops all
+  saving and shows a Reload card (`showCrashCard`).
+- **Reset (3):** `sim/fresh-start.ts` restarts the slot's own mode (campaign or storyline
+  with the same Keeper, Learning Grove age and band); the debug reset asks first.
+- **Gate (4, 5):** erasing or starting over a Learning Grove slot on the title asks the gate,
+  which now opens above the title; the gate asks a two-digit × one-digit product
+  (`GROWN_UP_GATE`), new numbers after a miss, and a held Enter.
+- **Full 3D frame rate (6):** four pooled night lights (`render3d/lamp-pool.ts`, light set
+  `groveNight`), four in the Hollow; no transmission in the game (water, lantern glass,
+  cocoons, wings and dew stripped in the pool); one `FinishPass` for clamp, tone map, sRGB
+  and grade; `FrameGovernor` (render scale, undoes a step that buys nothing); face parts cast
+  no shadow (`casterMinTris`); half-rate shadow map under strain; cached ground heights.
+  375×812, 4× CPU throttle, 8 Nubbins, headless Edge, dev server: Grove 38 fps, race 35,
+  night 39, Hollow 42 (origin/main: 18–23, 23, 27, 22).
+- **Pixel colour (7):** half-float scene target and the sRGB encode in `render/post.ts`; day
+  light lifted (`PIXEL_LIGHT`). Shots `docs/samples/review-c-colour-*.jpg`.
+- **Collection book (8):** `coarseStep` records hatches, evolutions, rebirths, Eternals.
+- **Well-raised bonus (9):** never the stat `evolve()` just raised.
+- **3D Hollow (10):** walls between the camera and the party cut to stubs; shaded stone
+  blocks. Shot `docs/samples/review-c-hollow-before-after.jpg`.
+
+Stubbed: the governor only scales pixels and shadow cadence; it does not drop grass, SMAA or
+creature detail, and the zoomed-out 3D view (13 fps in the review) was not measured. The
+first visit caches hashed chunks only from the second load on (the worker takes control
+then).
+
+Known bugs: none new. Not checked on a real phone; frame rates are from headless Edge with a
+CPU throttle on the dev server. Review C's minor items 11–29 are fixed in the pass below.
+
 ## Review C, items 11–29: minor bugs (2026-10-18)
 
 From the Minor section of `docs/review-independent-2026-10-18-c.md` (each item has an
