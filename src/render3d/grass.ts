@@ -22,7 +22,7 @@ export function buildGroveGrass(
   tex: Tex,
   time: { value: number },
 ): GroveGrass {
-  const meshes = buildGrass(scene, tex, time, GROVE3D.grassCount);
+  const meshes = buildGrass(scene, tex, time, GROVE3D.grassCount, GROVE3D.grassFade);
   const state = { meshes, ready: false };
   const pour = (p: GrassPlacement) => {
     if (state.ready) return;

@@ -182,9 +182,14 @@ export interface SurfaceOpts {
  * "Chao World" line-up. Direct light falls in two bands, specular, sheen and the triplanar
  * grain are gone, the lash and mouth lines are thick and dark, and every opaque creature
  * mesh carries an inverted-hull outline. The stage sets `on` before it builds its
- * creatures; it is off by default, so nothing changes without the flag.
+ * creatures; it is off by default, so nothing changes without the flag. `rim` adds a soft
+ * light rim on the silhouette (the Full 3D Grove uses it so a creature in shade still
+ * separates from the grass); it is read when a material is made, like `on`. `sky` lets
+ * that share of the sky's soft diffuse light back in (no reflections): the stage's flats
+ * keep none, but the Grove is lit mostly by its sky, and without it a creature in the
+ * shade band or with the sun low went near black.
  */
-export const TOON = { on: false };
+export const TOON = { on: false, rim: 0, sky: 0 };
 
 /** The outline's colour (also the lash and mouth lines) and its thickness in world units. */
 export const TOON_OUTLINE = { color: '#1a1026', width: 0.025 };
@@ -199,21 +204,44 @@ const TOON_BAND = { edge: 0.3, lit: 0.95, shade: 0.62 };
  * Patch a physical shader into the toon ramp: direct light in two bands, no specular, and
  * the vertex colours a touch more saturated so the flats read like painted plastic.
  */
-export function toonShader(shader: { fragmentShader: string }): void {
+export function toonShader(shader: { fragmentShader: string }, rim = 0, sky = 0): void {
   const physical = THREE.ShaderChunk.lights_physical_pars_fragment.replace(
     'vec3 irradiance = dotNL * directLight.color;',
     `vec3 irradiance = ( dotNL <= 0.0 ? 0.0 : dotNL < ${TOON_BAND.edge.toFixed(3)} ? ${TOON_BAND.shade.toFixed(3)} : ${TOON_BAND.lit.toFixed(3)} ) * directLight.color;`,
   );
+  // The rim: a light band where the surface turns away from the eye, stepped like the
+  // bands so it reads as paint, not as a glow. It is lit by the fill, so it dims at night.
+  const rimLight =
+    rim > 0
+      ? `{
+        float facing = clamp( dot( geometryNormal, geometryViewDir ), 0.0, 1.0 );
+        float band = smoothstep( 0.34, 0.26, facing );
+        float fill = 0.6;
+        #if NUM_HEMI_LIGHTS > 0
+          fill = clamp( dot( hemisphereLights[ 0 ].skyColor, vec3( 1.0 ) ), 0.15, 1.0 );
+        #endif
+        reflectedLight.indirectDiffuse += diffuseColor.rgb * band * fill * ${rim.toFixed(3)};
+      }`
+      : '';
   shader.fragmentShader = shader.fragmentShader
     .replace('#include <lights_physical_pars_fragment>', physical)
-    // No image-based light: the sky map carries the sun disc, and even a twentieth of it
-    // washes every flat to pastel and hides the bands. The hemisphere light stays as fill.
-    .replace('#include <lights_fragment_maps>', '')
+    // No image-based reflections: the sky map carries the sun disc, and even a twentieth of
+    // it washes every flat to pastel and hides the bands. The hemisphere light stays as
+    // fill, and `sky` lets that share of the sky's diffuse light in.
+    .replace(
+      '#include <lights_fragment_maps>',
+      sky > 0
+        ? `#if defined( USE_ENVMAP ) && defined( ENVMAP_TYPE_CUBE_UV )
+            irradiance += getIBLIrradiance( geometryNormal ) * ${sky.toFixed(3)};
+          #endif`
+        : '',
+    )
     .replace(
       '#include <lights_fragment_end>',
       `#include <lights_fragment_end>
       reflectedLight.directSpecular = vec3( 0.0 );
-      reflectedLight.indirectSpecular = vec3( 0.0 );`,
+      reflectedLight.indirectSpecular = vec3( 0.0 );
+      ${rimLight}`,
     )
     .replace(
       '#include <map_fragment>',
@@ -231,7 +259,11 @@ export function toonMaterial(m: THREE.MeshPhysicalMaterial): THREE.MeshPhysicalM
   m.clearcoat = 0;
   m.sheen = 0;
   m.specularIntensity = 0;
-  m.onBeforeCompile = (shader) => toonShader(shader);
+  const { rim, sky } = TOON;
+  m.onBeforeCompile = (shader) => toonShader(shader, rim, sky);
+  // Every toon patch has the same function text, so three would share one program between
+  // rims; the key keeps them apart.
+  m.customProgramCacheKey = () => `toon|${rim}|${sky}`;
   return m;
 }
 
@@ -295,6 +327,8 @@ const TRIPLANAR_PARS = `
 export function surfaceMaterial(o: SurfaceOpts): THREE.MeshPhysicalMaterial {
   const maps = paintDetail(o.detail);
   const toon = o.toon ?? TOON.on;
+  const rim = toon ? TOON.rim : 0;
+  const sky = toon ? TOON.sky : 0;
   const m = new THREE.MeshPhysicalMaterial({
     vertexColors: true,
     roughness: toon ? 1 : (o.roughness ?? 0.6),
@@ -315,7 +349,7 @@ export function surfaceMaterial(o: SurfaceOpts): THREE.MeshPhysicalMaterial {
     shader.uniforms.uAmount = { value: toon ? 0 : (o.amount ?? 0.6) };
     shader.uniforms.uBump = { value: toon ? 0 : (o.bump ?? 0.6) };
     shader.uniforms.uGlowStrength = { value: o.glowStrength ?? 0 };
-    if (toon) toonShader(shader);
+    if (toon) toonShader(shader, rim, sky);
     shader.vertexShader = shader.vertexShader
       .replace(
         '#include <common>',
@@ -357,6 +391,9 @@ export function surfaceMaterial(o: SurfaceOpts): THREE.MeshPhysicalMaterial {
         '#include <emissivemap_fragment>\ntotalEmissiveRadiance += vColor.rgb * vGlow * uGlowStrength;',
       );
   };
+  // The toon and the physical surface share this function's text; without a key of their
+  // own, the first one linked would serve both.
+  m.customProgramCacheKey = () => `surface|${toon ? 1 : 0}|${rim}|${sky}`;
   return m;
 }
 

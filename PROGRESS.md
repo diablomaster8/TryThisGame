@@ -23,14 +23,59 @@ only (`docs/content-index.md`). Plan v4 (`plan.md`): G11 device pass, Track B wr
 tasks; Part Z ran on 2026-10-18 (`docs/review-independent-2026-10-18.md`) and its fixes are
 going in pass by pass. Review B (`docs/review-independent-2026-10-18-b.md`): Bugs 1–17 and
 18–38 fixed on 2026-10-18 (both in the archive). Review C
-(`docs/review-independent-2026-10-18-c.md`): major items 1–10 and minor items 11–29 fixed (sections below).
+(`docs/review-independent-2026-10-18-c.md`): major items 1–10 (section below) and minor items 11–29 (in the archive) fixed.
 Maor, 2026-10-17: legal cleared, adviser sign-off given, the seven fun-quest quotes approved
 as written, Pixel stays the default; 2026-10-18: ship the Arcade, the Multiverse, Neopia and
 Q66–Q95. Waiting on Maor: the LB/LK decision (section "Pixel's Arcade
 PA1–PA5" in `docs/progress-archive.md`). Decided 2026-10-18 (review B, item 16): original
 sung verses are fine (only lyrics from existing songs are banned); Holy Grail's Q1–Q7 are one
 storyline and keep all ten quotes, an exception to the three-quote cap. Backlogs: `docs/creature-improvements.md`,
-`docs/content-index.md`.
+`docs/content-index.md`. Maor, 2026-10-18: Full 3D is the flagship for the AAA art push (the
+default renderer is not changed; section below).
+
+## Full 3D art push 1: toon creatures, ground, water, governor (2026-10-18)
+
+Branch `art/3d-flagship`. Before and after: `docs/samples/art3d-before-after.jpg`. Works:
+- **Toon creatures:** the Grove's rigs build with the line-up toon bands (`GROVE3D.toon`):
+  - a stepped light rim;
+  - a share of the sky's diffuse light (without it they went near black);
+  - no sun shadow on themselves (speckle at this scale);
+  - screen-sized outlines on parts of 2,500+ triangles (`render3d/toon-outline.ts`, one
+    shared hull material).
+  `surfaceMaterial`/`toonMaterial` now carry `customProgramCacheKey`: toon and physical shared
+  one program before.
+- **Light:** the sky map is soft fill (0.38 by day, was 0.7, which washed the meadow mint) and
+  the hemisphere carries the fill (0.6). Night has more moon and fill, exposure 0.6.
+- **Ground and foliage (`aaa-kit.ts`, opt-in so the stage samples keep their look):**
+  - the meadow is painted toward lush and dry greens with an anti-tiling second sample
+    (`GROVE3D.terrainLook`);
+  - tufts are dark at the root, lit like the ground, and sink away 34–46 units from the
+    camera (`grassFade`);
+  - the field frays over its last 5 units (grass golden hash updated);
+  - canopies shade as rounded masses and sway in the wind; crowns.ts chains its dither
+    after that patch.
+- **Water (`render3d/water.ts`, rewritten):** unlit painted shader on fine grids that carry
+  the bed's depth:
+  - turquoise to deep blue, with foam tracing the real shoreline;
+  - procedural ripples with stepped crests, a sky fresnel and a hard sun spark;
+  - the stream gets its own thin foam, and the waterfall has its own falling streaks;
+  - the race's swim strips use it too (`paintedWater`, `channelGeometry`, opaque).
+- **CPU:**
+  - Ground height is now a lazily built 0.25-unit tile grid (`terrain-shape.ts`). The exact
+    sum, which had been 20% of a throttled frame, now only builds the mesh and the grass.
+  - The governor steps through CPU savings once fewer pixels stop helping:
+    1. outlines;
+    2. the second grass pass and bloom;
+    3. shadows every fourth frame.
+    Savings come back before sharpness, and one that was needed stays.
+- **Numbers (headless Edge, GTX 1080, 375×812 at 4× CPU throttle, two 10 s runs each, main →
+  this):** day 44.6/40.1 → 53.7/51.4 fps, zoomed out 42.2/42.5 → 44.7/43.1, night
+  46.7/42.5 → 49.7/47.3. Desktop holds 57 (headless cap). 583 tests, lint and build pass.
+
+Stubbed: the waterfall was not filmed close up (its streaks and foam are unverified on
+screen); rain still greys the grade; the Hollow, buildings, props, sky and particles are
+untouched (next passes); visit-set trees do not sway (no clock there). Known bugs: none new.
+Not checked on a real phone.
 
 ## Review C, the ten major bugs (2026-10-18)
 
@@ -69,40 +114,6 @@ then).
 
 Known bugs: none new. Not checked on a real phone; frame rates are from headless Edge with a
 CPU throttle on the dev server. Review C's minor items 11–29 are fixed in the pass below.
-
-## Review C, items 11–29: minor bugs (2026-10-18)
-
-From the Minor section of `docs/review-independent-2026-10-18-c.md` (each item has an
-"Addressed" note). Branch `fix/review-c-minor`; the majors (1–10) are a separate pass. Works:
-- **Sim (tested in `tests/sim/review-c-minor.test.ts`):** catch-up runs after the HUD is bound,
-  in chunks that yield a frame (`catchUpInChunks`, `Game.catchUpOnLoad`), so its indicator
-  paints; no steps or saves until it ends (12). Every mode stops at 30 days (`SIM.maxAwayMs`);
-  a save without `savedAtWallMs` has no gap (13). Live play keeps the live rules past 400 steps
-  a frame: the backlog runs as fine steps later, time past 2 sim minutes is dropped
-  (`Clock.capBacklog`) (14). Catch-up hatching uses `hatchSpeed`; `raceResult` checks course
-  and open tier, caps Shells at the prize, never repeats a hat; the race seed is
-  `raceSeedFor(world, course, tier)`, fixed until a result is recorded (`World.raceRuns`) (28).
-- **UI:** blocked storage shows on the title and as a HUD chip (11); pixel minigame canvases
-  sit below the ✕ row (`minigames/play-area.ts`) (15); festival toasts wait for story scenes,
-  the away screen opens before any scene (16); the stats sheet docks right on wide screens,
-  lifts the camera on phones (`Game.cameraLift`, `CAMERA.sheetLift`) and shows level bars and
-  "+N" gains (22); 🧭 Expedition, Keeper picker blurbs (`KEEPER_LOOK_BLURBS`), "Back" label
-  (23); Receive dialog, hidden in the Learning Grove (24); Erase labels name the mode (25);
-  44 px hat select, field inputs, map buttons (26); Escape for the shelves, Hollow menu and
-  party bout, one co-op handler, font retry (27).
-- **Render:** draw calls sum every pass (`autoReset` off) (19); 3D run and stretch sections are
-  dirt/cobble with chalk lanes (20); a wild-wood skirt past the pixel field, and 3D crowns thin
-  only in a circle round the Keeper (21).
-- **Content:** sprout egg-hum lines fixed (17); readers (7–10) play Sums, Spelling and Rhymes &
-  beats (`minigames/edu/reader-games.ts`, `EDU_READER_*`), preschool games hidden (18).
-- **Tests:** the every-Atlas-page test loads its chunk in `beforeAll` (60 s) (29).
-- **Checked** in headless Edge (playwright-core) at 1280×800 and 375×812: sheet, gains,
-  minigames in both modes, far zoom both modes, crowns, title and HUD with storage blocked,
-  Keeper picker, reader picker and a Spelling round, Receive.
-- **Assumption:** the 30-day cap also applies to `indefinite` (the brief says "all the time
-  that passed"); the away report still shows the real gap.
-- **Stubbed / known:** the 3D tag overlap (20) did not reproduce; the stacker was left as is.
-  The Learning Grove still shows the season festival toast.
 
 ## Standing approval (Maor, 2026-10-12)
 

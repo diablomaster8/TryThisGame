@@ -304,10 +304,11 @@ export function buildGroveTrees(
   tex: Tex,
   trees: ReadonlyArray<{ id: string; pos: { x: number; z: number } }>,
   pickables: THREE.Object3D[],
+  time?: { value: number },
 ): GroveTree[] {
   const made: GroveTree[] = [];
   trees.forEach((t, i) => {
-    const parts = buildTree(scene, tex, t.pos.x, t.pos.z, 1.05, i + 1, groveHeight);
+    const parts = buildTree(scene, tex, t.pos.x, t.pos.z, 1.05, i + 1, groveHeight, time);
     const trunk = parts[0];
     if (trunk) pick(trunk, 'tree', t.id, pickables);
     const tree = treeOf(parts);

@@ -78,7 +78,13 @@ function ditherable(
   whole: { value: number } = { value: 0 },
 ): { value: number } {
   const fade = { value: 1 };
-  mat.onBeforeCompile = (shader) => {
+  // The crown's own patch (its wind and rounded shading in `aaa-kit.ts`) runs first, and the
+  // key says both are in, so a crown with no dither never shares a program with one that has.
+  const prev = mat.onBeforeCompile.bind(mat);
+  const prevKey = mat.customProgramCacheKey();
+  mat.customProgramCacheKey = () => `${prevKey}|crown-dither`;
+  mat.onBeforeCompile = (shader, renderer) => {
+    prev(shader, renderer);
     shader.uniforms.uCrownFade = fade;
     shader.uniforms.uCrownWhole = whole;
     shader.uniforms.uCrownHole = HOLE;

@@ -48,7 +48,9 @@ function polylineDistance(
 
 /** Distance to the nearest stream centre line. */
 export function riverDistance(x: number, z: number): number {
-  return Math.min(...RIVER.map((line) => polylineDistance(x, z, line)));
+  let best = Infinity;
+  for (const line of RIVER) best = Math.min(best, polylineDistance(x, z, line));
+  return best;
 }
 
 /** Distance to the nearest dirt path centre line. */
@@ -73,35 +75,53 @@ function landHeight(x: number, z: number): number {
 }
 
 /**
- * Heights already asked for, by exact point. Props, flowers, the camera and resting
- * creatures ask for the same points every frame, and the full sum (hills, rim, two noise
- * rolls, the stream polylines) was a tenth of a throttled phone frame (review C, item 6).
+ * Heights as a grid of tiles, filled the first time anything stands on them. Every walking
+ * creature, the camera, the grass pushers and the props ask for the ground each frame, and
+ * the full sum (hills, rim, two noise rolls, the stream polylines) for points that move was
+ * a fifth of a throttled phone frame; an exact-point cache missed for anything in motion. A
+ * lookup is now four reads and a blend. The cells are a quarter unit, half the terrain
+ * mesh's own, so a foot sits on the drawn ground at least as well as the exact sum did.
  */
-const heightCache = new Map<number, Map<number, number>>();
-let heightCacheSize = 0;
-const HEIGHT_CACHE_MAX = 50_000;
+const CELL = 0.25;
+const TILE = 32;
+const SIDE = TILE + 1;
+const tiles = new Map<number, Float32Array>();
+
+function tileAt(tx: number, tz: number): Float32Array {
+  const key = (tx + 1024) * 2048 + (tz + 1024);
+  let t = tiles.get(key);
+  if (t) return t;
+  t = new Float32Array(SIDE * SIDE);
+  const x0 = tx * TILE * CELL;
+  const z0 = tz * TILE * CELL;
+  for (let j = 0; j < SIDE; j++)
+    for (let i = 0; i < SIDE; i++) t[j * SIDE + i] = exactHeight(x0 + i * CELL, z0 + j * CELL);
+  tiles.set(key, t);
+  return t;
+}
 
 /** The height of the ground at a point in the Grove; the water lies below it in dips. */
 export function groveHeight(x: number, z: number): number {
-  let row = heightCache.get(x);
-  const hit = row?.get(z);
-  if (hit !== undefined) return hit;
-  if (heightCacheSize >= HEIGHT_CACHE_MAX) {
-    heightCache.clear();
-    heightCacheSize = 0;
-    row = undefined;
-  }
-  if (!row) {
-    row = new Map();
-    heightCache.set(x, row);
-  }
-  const y = exactHeight(x, z);
-  row.set(z, y);
-  heightCacheSize++;
-  return y;
+  const gx = x / CELL;
+  const gz = z / CELL;
+  const ix = Math.floor(gx);
+  const iz = Math.floor(gz);
+  const tx = Math.floor(ix / TILE);
+  const tz = Math.floor(iz / TILE);
+  const t = tileAt(tx, tz);
+  const i = ix - tx * TILE;
+  const j = iz - tz * TILE;
+  const fx = gx - ix;
+  const fz = gz - iz;
+  const a = t[j * SIDE + i]!;
+  const b = t[j * SIDE + i + 1]!;
+  const c = t[(j + 1) * SIDE + i]!;
+  const d = t[(j + 1) * SIDE + i + 1]!;
+  return (a + (b - a) * fx) * (1 - fz) + (c + (d - c) * fx) * fz;
 }
 
-function exactHeight(x: number, z: number): number {
+/** The full sum, for the terrain mesh itself and for the height tiles. */
+export function exactHeight(x: number, z: number): number {
   let y = landHeight(x, z);
   const pond = GROVE.pond;
   const pd = Math.hypot(x - pond.x, z - pond.z) / (pond.r + 0.6);
@@ -142,7 +162,7 @@ export function terrainArrays(): TerrainArrays {
   for (let i = 0; i < pos.count; i++) {
     const x = pos.getX(i);
     const z = pos.getZ(i);
-    pos.setY(i, groveHeight(x, z));
+    pos.setY(i, exactHeight(x, z));
     uv.setXY(i, x / 3.2, z / 3.2);
   }
   geo.computeVertexNormals();

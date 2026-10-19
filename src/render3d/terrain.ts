@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { GROVE3D } from '../config/tuning';
 import { terrainMaterial, type Tex } from '../samples/aaa-kit';
 import type { TerrainReply } from './terrain-worker';
 import { terrainArrays, type TerrainArrays } from './terrain-shape';
@@ -47,7 +48,7 @@ export function buildGroveTerrain(
     blend: new Float32Array(n * 2),
     index: new Uint16Array([0, 1, 2]),
   });
-  const mesh = new THREE.Mesh(placeholder, terrainMaterial(tex, false, time));
+  const mesh = new THREE.Mesh(placeholder, terrainMaterial(tex, false, time, GROVE3D.terrainLook));
   mesh.receiveShadow = true;
   mesh.castShadow = true;
   mesh.name = 'terrain';

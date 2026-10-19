@@ -23,6 +23,7 @@ import { Bursts } from './bursts';
 import { FinishPass } from './finish-pass';
 import { FrameGovernor } from './governor';
 import { LampPool, type LampSource } from './lamp-pool';
+import { setOutlines } from './toon-outline';
 import { CrownFade } from './crowns';
 import { Garden } from './garden';
 import { Halo } from './halo';
@@ -145,6 +146,9 @@ export class Grove3dScene {
   /** The pixel ratio each composer was last sized at; the minigame stage shares the renderer. */
   private readonly composerRatio = new WeakMap<EffectComposer, number>();
   private shadowTick = 0;
+  /** Whether the hour wants bloom, and the governor's CPU savings as last applied. */
+  private bloomWanted = false;
+  private cpuApplied = 0;
   private readonly sky: GroveSky;
   private readonly time = { value: 0 };
   private readonly tex: Tex;
@@ -362,11 +366,13 @@ export class Grove3dScene {
       this.sky.fog.density = 0.03;
     } else this.scene.background = null;
     const elevation = this.sky.elevationDeg;
-    this.bloom.enabled = elevation < GROVE3D.bloomBelowDeg;
+    // The governor may hold bloom off on a device short of CPU (`governRenderScale`).
+    this.bloomWanted = elevation < GROVE3D.bloomBelowDeg;
+    this.bloom.enabled = this.bloomWanted && this.cpuApplied < 2;
     this.clamp.enabled = this.bloom.enabled;
     this.bloom.strength = elevation < -2 ? 0.25 : 0.35;
     this.renderer.toneMappingExposure =
-      elevation < -2 ? 0.5 : elevation < GROVE3D.bloomBelowDeg ? 0.75 : 0.62;
+      elevation < -2 ? 0.6 : elevation < GROVE3D.bloomBelowDeg ? 0.75 : 0.62;
     this.grade.uniforms.uTint!.value.set(
       elevation < -2 ? '#c8d4ff' : elevation < GROVE3D.bloomBelowDeg ? '#ffe9d0' : '#ffffff',
     );
@@ -582,7 +588,7 @@ export class Grove3dScene {
     if (this.treesBuilt) return;
     this.treesBuilt = true;
     for (const t of world.trees) this.treeAt.set(t.id, { x: t.pos.x, z: t.pos.z });
-    for (const t of buildGroveTrees(this.world3d, this.tex, world.trees, this.pickables))
+    for (const t of buildGroveTrees(this.world3d, this.tex, world.trees, this.pickables, this.time))
       this.crowns.add(t);
     this.actors.warm(world);
   }
@@ -672,7 +678,7 @@ export class Grove3dScene {
       );
     pushers.slice(0, PUSHERS.length).forEach((p, i) => PUSHERS[i]!.set(p.x, p.z, p.r, 0));
     this.props.blades.rotation.z += dt * 0.6;
-    this.water.update(this.time.value);
+    this.water.update(this.time.value, this.sky.sun, this.sky.hemi);
     this.weather.update(world, this.treeAt.values(), dt, this.time.value, this.camTarget);
   }
 
@@ -833,12 +839,25 @@ export class Grove3dScene {
       const css = this.renderer.getSize(new THREE.Vector2());
       this.size = { width: Math.round(css.x * r), height: Math.round(css.y * r), scale: 1 / r };
     }
-    // Under strain the sun's shadow map is redrawn every second frame: it is a second draw
-    // of every caster, and a frame late is not visible at that frame rate.
+    // The CPU savings, cheapest to lose first: the creature outlines (a second draw of every
+    // outlined part), then the second grass pass and the dusk bloom's passes, then most of
+    // the shadow redraws. None of them changes a program, so a step never stalls.
+    const level = this.governor.cpuLevel;
+    if (level !== this.cpuApplied) {
+      this.cpuApplied = level;
+      setOutlines(level < 1);
+      const second = this.props.grass.meshes[1];
+      if (second) second.visible = level < 2;
+      this.bloom.enabled = this.bloomWanted && level < 2;
+      this.clamp.enabled = this.bloom.enabled;
+    }
+    // Under strain the sun's shadow map is redrawn every second frame (every fourth at the
+    // last CPU step): it is a second draw of every caster, and a frame late is not visible
+    // at that frame rate.
     const shadows = this.renderer.shadowMap;
-    const strained = this.governor.ratio < this.governor.maxRatio;
+    const strained = this.governor.ratio < this.governor.maxRatio || level > 0;
     shadows.autoUpdate = !strained;
-    if (strained) shadows.needsUpdate = (this.shadowTick++ & 1) === 0;
+    if (strained) shadows.needsUpdate = (this.shadowTick++ & (level >= 3 ? 3 : 1)) === 0;
     const pr = this.renderer.getPixelRatio();
     if (this.composerRatio.get(composer) !== pr) {
       composer.setPixelRatio(pr);

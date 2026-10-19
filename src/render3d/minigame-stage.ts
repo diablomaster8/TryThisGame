@@ -198,7 +198,7 @@ export class MiniStage {
       geo.setAttribute('blend', new THREE.BufferAttribute(blend, 2));
       mat = this.mat('terrain', () => {
         // Walls and skirts are seen from either side.
-        const t = terrainMaterial(this.tex, false, this.time);
+        const t = terrainMaterial(this.tex, false, this.time, GROVE3D.terrainLook);
         t.side = THREE.DoubleSide;
         return t;
       });
@@ -232,7 +232,7 @@ export class MiniStage {
     const size = geo.boundingBox!.getSize(new THREE.Vector3());
     const m = new THREE.Mesh(
       repeatUv(geo, size.x / UV_PERIOD, size.y / UV_PERIOD),
-      this.mat('terrain', () => terrainMaterial(this.tex, false, this.time)),
+      this.mat('terrain', () => terrainMaterial(this.tex, false, this.time, GROVE3D.terrainLook)),
     );
     m.receiveShadow = true;
     this.scene.add(m);
@@ -242,7 +242,7 @@ export class MiniStage {
   /** A tree from the Grove's own recipe, in a group at the origin so it can be moved. */
   tree(scale: number, seed: number): THREE.Group {
     const g = new THREE.Group();
-    buildTree(g, this.tex, 0, 0, scale, seed, () => 0);
+    buildTree(g, this.tex, 0, 0, scale, seed, () => 0, this.time);
     this.scene.add(g);
     return g;
   }

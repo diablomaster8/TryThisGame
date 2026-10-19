@@ -94,10 +94,28 @@ export interface Tex {
   tuft: THREE.CanvasTexture;
 }
 
+/**
+ * A painted look for the meadow layer of `terrainMaterial` (the Grove and its minigames;
+ * the stage samples pass none). The grass is multiplied toward `lush`, and broad soft
+ * patches (a few metres across, from the world position, so they never tile) drift toward
+ * `dry` by up to `patches`, the way a hand-painted field has warmer and cooler strokes.
+ */
+export interface TerrainLook {
+  lush: string;
+  dry: string;
+  patches: number;
+}
+
+const glslColor = (c: string): string => {
+  const v = new THREE.Color(c);
+  return `vec3( ${v.r.toFixed(4)}, ${v.g.toFixed(4)}, ${v.b.toFixed(4)} )`;
+};
+
 export function terrainMaterial(
   tex: Tex,
   wet: boolean,
   time: { value: number },
+  look?: TerrainLook,
 ): THREE.MeshPhysicalMaterial {
   const m = new THREE.MeshPhysicalMaterial({
     map: tex.grass.map,
@@ -118,17 +136,34 @@ export function terrainMaterial(
     shader.vertexShader = shader.vertexShader
       .replace(
         '#include <common>',
-        '#include <common>\nattribute vec2 blend;\nvarying vec2 vBlend;',
+        '#include <common>\nattribute vec2 blend;\nvarying vec2 vBlend;\nvarying vec2 vGround;',
       )
-      .replace('#include <begin_vertex>', '#include <begin_vertex>\nvBlend = blend;');
+      .replace(
+        '#include <begin_vertex>',
+        '#include <begin_vertex>\nvBlend = blend;\nvGround = ( modelMatrix * vec4( transformed, 1.0 ) ).xz;',
+      );
+    // The painted meadow: lush and dry strokes from two slow interfering waves.
+    const paint = look
+      ? `{
+          // A second, larger and turned sample blended in, so the repeat does not show as
+          // stripes across the far meadow.
+          vec2 turned = mat2( 0.8, -0.6, 0.6, 0.8 ) * vMapUv * 0.43 + 0.37;
+          cGrass.rgb = mix( cGrass.rgb, texture2D( map, turned ).rgb, 0.5 );
+          float a = sin( vGround.x * 0.11 + sin( vGround.y * 0.07 ) * 2.3 );
+          float b = sin( vGround.y * 0.13 + sin( vGround.x * 0.05 ) * 1.9 );
+          float dry = smoothstep( -0.2, 0.9, a * b + 0.25 * a ) * ${look.patches.toFixed(3)};
+          cGrass.rgb *= mix( ${glslColor(look.lush)}, ${glslColor(look.dry)}, dry );
+        }`
+      : '';
     shader.fragmentShader = shader.fragmentShader
       .replace(
         '#include <common>',
-        '#include <common>\nuniform sampler2D uRock;\nuniform sampler2D uRockN;\nuniform sampler2D uDirt;\nuniform sampler2D uDirtN;\nvarying vec2 vBlend;',
+        '#include <common>\nuniform sampler2D uRock;\nuniform sampler2D uRockN;\nuniform sampler2D uDirt;\nuniform sampler2D uDirtN;\nvarying vec2 vBlend;\nvarying vec2 vGround;',
       )
       .replace(
         '#include <map_fragment>',
         `vec4 cGrass = texture2D( map, vMapUv );
+         ${paint}
          vec4 cDirt = texture2D( uDirt, vMapUv * 0.8 );
          vec4 cRock = texture2D( uRock, vMapUv * 0.45 );
          vec4 sampledDiffuseColor = mix( mix( cGrass, cDirt, vBlend.y ), cRock, vBlend.x );
@@ -144,6 +179,9 @@ export function terrainMaterial(
          normal = normalize( tbn * mapN );`,
       );
   };
+  // The look changes the shader text, not the function's, so it needs a key of its own.
+  m.customProgramCacheKey = () =>
+    look ? `terrain|${look.lush}|${look.dry}|${look.patches}` : 'terrain';
   return m;
 }
 
@@ -163,6 +201,11 @@ export function buildGrass(
   tex: Tex,
   time: { value: number },
   field: GrassField | number,
+  /**
+   * Tufts shrink into the ground between these distances from the camera (the Grove: the
+   * far meadow is the painted terrain, so the blades need not reach it). Off when left out.
+   */
+  fade?: { from: number; to: number },
 ): THREE.InstancedMesh[] {
   const count = typeof field === 'number' ? field : field.count;
   const built: THREE.InstancedMesh[] = [];
@@ -174,13 +217,19 @@ export function buildGrass(
     side: THREE.DoubleSide,
     roughness: 1,
   });
+  const fadeFrom = { value: fade?.from ?? 1e6 };
+  const fadeTo = { value: fade?.to ?? 2e6 };
   mat.onBeforeCompile = (shader) => {
     shader.uniforms.uTime = time;
     shader.uniforms.uPush = { value: PUSHERS };
+    shader.uniforms.uFadeFrom = fadeFrom;
+    shader.uniforms.uFadeTo = fadeTo;
     shader.vertexShader = shader.vertexShader
       .replace(
         '#include <common>',
-        '#include <common>\nuniform float uTime;\nuniform vec4 uPush[' + PUSHERS.length + '];',
+        '#include <common>\nuniform float uTime;\nuniform float uFadeFrom;\nuniform float uFadeTo;\nuniform vec4 uPush[' +
+          PUSHERS.length +
+          '];',
       )
       .replace(
         '#include <begin_vertex>',
@@ -206,7 +255,23 @@ export function buildGrass(
              transformed.xz += dl.xz * k * r * 0.8;
              transformed.y -= k * 0.4 * uv.y;
            }
-         }`,
+         }
+         // Far from the camera the tuft sinks into the painted meadow under it.
+         transformed *= 1.0 - smoothstep( uFadeFrom, uFadeTo, distance( ip.xz, cameraPosition.xz ) );`,
+      );
+    shader.fragmentShader = shader.fragmentShader
+      .replace(
+        '#include <map_fragment>',
+        // Dark at the root, bright at the tip: the tufts sit in the ground instead of on it.
+        `#include <map_fragment>
+         diffuseColor.rgb *= mix( 0.5, 1.15, smoothstep( 0.0, 0.85, vMapUv.y ) );`,
+      )
+      .replace(
+        '#include <normal_fragment_begin>',
+        // Lit mostly as the ground under them, so a tuft never flips dark or white as its
+        // card turns from the sun.
+        `#include <normal_fragment_begin>
+         normal = normalize( mix( normal, normalize( ( viewMatrix * vec4( 0.0, 1.0, 0.0, 0.0 ) ).xyz ), 0.75 ) );`,
       );
   };
   for (let pass = 0; pass < 2; pass++) {
@@ -265,6 +330,52 @@ export function shadowed(m: THREE.Mesh): THREE.Mesh {
   return m;
 }
 
+/**
+ * A crown of leaf cards shaded as one rounded mass: each card takes the normal of the
+ * crown's ellipsoid at its place (biased up, so the top catches the sun and the underside
+ * falls into shade) instead of its own random facing, which lit the cards as noise. Given
+ * the clock, the cards also sway, the outer ones most.
+ */
+function canopyShading(
+  mat: THREE.MeshStandardMaterial,
+  centre: THREE.Vector3,
+  scale: number,
+  time?: { value: number },
+): void {
+  const clock = time ?? { value: 0 };
+  const uniforms = {
+    uTime: clock,
+    uCanopy: { value: centre },
+    uCanopyScale: { value: scale },
+  };
+  mat.onBeforeCompile = (shader) => {
+    Object.assign(shader.uniforms, uniforms);
+    shader.vertexShader = shader.vertexShader
+      .replace(
+        '#include <common>',
+        '#include <common>\nuniform float uTime;\nuniform vec3 uCanopy;\nuniform float uCanopyScale;\nvarying vec3 vCanopyN;',
+      )
+      .replace(
+        '#include <begin_vertex>',
+        `#include <begin_vertex>
+         vec3 cp = instanceMatrix[ 3 ].xyz;
+         vec3 out3 = cp - uCanopy;
+         float outer = clamp( length( out3 ) / ( 2.6 * uCanopyScale ), 0.0, 1.0 );
+         float ph = uTime * 1.4 + cp.x * 0.6 + cp.y * 0.9 + cp.z * 0.4;
+         transformed += vec3( sin( ph ), sin( ph * 1.7 ) * 0.5, cos( ph * 1.3 ) ) * 0.05 * ( 0.4 + outer );
+         vCanopyN = normalize( normalMatrix * ( out3 + vec3( 0.0, 0.9 * uCanopyScale, 0.0 ) ) );`,
+      );
+    shader.fragmentShader = shader.fragmentShader
+      .replace('#include <common>', '#include <common>\nvarying vec3 vCanopyN;')
+      .replace(
+        '#include <normal_fragment_begin>',
+        `#include <normal_fragment_begin>
+         normal = normalize( mix( normal, vCanopyN, 0.8 ) );`,
+      );
+  };
+  mat.customProgramCacheKey = () => 'canopy';
+}
+
 export function buildTree(
   scene: THREE.Object3D,
   tex: Tex,
@@ -273,6 +384,8 @@ export function buildTree(
   scale: number,
   seedBase: number,
   ground: (x: number, z: number) => number,
+  /** The scene clock: given, the leaf cards sway in the wind. */
+  time?: { value: number },
 ): THREE.Object3D[] {
   const y0 = ground(x, z);
   const made: THREE.Object3D[] = [];
@@ -309,6 +422,8 @@ export function buildTree(
     side: THREE.DoubleSide,
     roughness: 0.9,
   });
+  const cy = y0 + 4.6 * scale;
+  canopyShading(mat, new THREE.Vector3(x, cy, z), scale, time);
   const inst = new THREE.InstancedMesh(geo, mat, count);
   let seed = 101 + seedBase * 1000;
   const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
@@ -318,7 +433,6 @@ export function buildTree(
   const s = new THREE.Vector3();
   const p = new THREE.Vector3();
   const col = new THREE.Color();
-  const cy = y0 + 4.6 * scale;
   for (let i = 0; i < count; i++) {
     // Points within an ellipsoid, denser toward the shell.
     const u = rnd() * 2 - 1;

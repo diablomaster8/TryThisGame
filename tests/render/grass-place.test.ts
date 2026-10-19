@@ -3,8 +3,9 @@ import { GROVE3D } from '../../src/config/tuning';
 import { groveGrassField } from '../../src/render3d/grass-field';
 import { placeGrass } from '../../src/samples/grass-place';
 
-// The 3D Grove places its grass in a worker. The checksum is the meadow the page-side loop
-// placed before the move (checked tuft for tuft against it), so the first frame stays the same.
+// The 3D Grove places its grass in a worker. The checksum pins the meadow, so a change to the
+// placement is a choice, not an accident. It was the page-side loop's meadow (checked tuft for
+// tuft) until 2026-10-18, when the field's edge started to fray into the painted ground.
 describe('grass placement', () => {
   it('places the same meadow as before the worker move', () => {
     const p = placeGrass(groveGrassField());
@@ -13,6 +14,6 @@ describe('grass placement', () => {
     let h = 0;
     for (const a of [...p.matrices, ...p.colours])
       for (const v of a) h = (h * 31 + Math.round(v * 1e4)) | 0;
-    expect(h).toBe(220861559);
+    expect(h).toBe(-968342263);
   });
 });

@@ -11,6 +11,8 @@ import {
 import { keeperLookKey } from '../render/keeper-look';
 import { GROVE3D } from '../config/tuning';
 import { buildSpecies, type Rigged } from '../samples/species';
+import { TOON } from '../samples/creatures';
+import { addOutlines } from './toon-outline';
 import { ROSTER } from '../samples/species-roster';
 import { variantById } from '../samples/nubbin-variant-catalogue';
 import type { Keeper, Nubbin, World } from '../sim/types';
@@ -161,10 +163,20 @@ export class CreaturePool {
     if (!this.burst && (this.builtThisFrame > 0 || this.compiling > 0)) return null;
     this.builtThisFrame++;
     const t0 = performance.now();
-    const rig = buildSpecies(
-      specForKey(look.key),
-      geos.map((g) => g.clone()),
-    );
+    // The Grove's creatures wear the toon look (`GROVE3D.toon`); the flag is read while the
+    // materials are made, so it is set around the build and put back for the stage samples.
+    const was = { on: TOON.on, rim: TOON.rim, sky: TOON.sky };
+    if (GROVE3D.toon.on)
+      Object.assign(TOON, { on: true, rim: GROVE3D.toon.rim, sky: GROVE3D.toon.sky });
+    let rig: Rigged;
+    try {
+      rig = buildSpecies(
+        specForKey(look.key),
+        geos.map((g) => g.clone()),
+      );
+    } finally {
+      Object.assign(TOON, was);
+    }
     // The Dresser reads the spec back from the key to find the head's dome and the eyes.
     rig.group.userData.lookKey = look.key;
     rig.group.updateWorldMatrix(true, true);
@@ -196,6 +208,16 @@ export class CreaturePool {
       }
     });
     for (const l of lamps) l.removeFromParent();
+    if (GROVE3D.toon.on) {
+      // A toon creature takes no sun shadow on itself: with no sky light under the bands,
+      // the shadow map's speckle on a body this small turned whole creatures black. They
+      // still cast one, and the soft blob under the feet grounds them.
+      rig.group.traverse((o) => {
+        if ((o as Mesh).isMesh) o.receiveShadow = false;
+      });
+      // After the shadow pass above, so the hulls (which share the parts' geometry) cast none.
+      addOutlines(rig.group);
+    }
     const took = performance.now() - t0;
     const ms = this.buildMs.get(look.key);
     if (ms) ms.rig += took;

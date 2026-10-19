@@ -20,7 +20,7 @@ import {
   type TagRect,
 } from './minigame-layout';
 import { MiniStage } from './minigame-stage';
-import { waterMaterial, waterNormal } from './water';
+import { channelGeometry, paintedWater, type PaintedWater } from './water';
 
 interface Runner {
   racer: Racer;
@@ -51,7 +51,7 @@ export class Race3dView implements RaceView {
   private stage: MiniStage | null = null;
   private runners: Runner[] = [];
   private spans: SectionSpan[] = [];
-  private water: THREE.MeshPhysicalMaterial[] = [];
+  private water: PaintedWater[] = [];
   private openedMs = 0;
   private sceneryReady = false;
   private lastMs = 0;
@@ -142,7 +142,7 @@ export class Race3dView implements RaceView {
     this.lastMs = nowMs;
     stage.pool.frame();
     this.ensureRigs(nowMs);
-    for (const w of this.water) w.normalMap!.offset.set(nowMs * 0.000015, nowMs * 0.00002);
+    for (const w of this.water) w.update(nowMs / 1000, stage.sky.sun, stage.sky.hemi);
 
     const player = this.runners.find((r) => r.racer.isPlayer) ?? this.runners[0]!;
     const leader = this.runners.reduce((a, b) => (b.racer.pos > a.racer.pos ? b : a), player);
@@ -366,7 +366,6 @@ export class Race3dView implements RaceView {
     const lanes = race.racers.length;
     const zBack = laneZ(lanes - 1) - RACE3D.margin;
     const zFront = RACE3D.margin;
-    const normal = stage.own(waterNormal());
     // The run-up before the line, then each section.
     stage.strip(-RACE3D.startPad * U - 8, 0, zBack - 6, zFront + 4, 'grass');
     for (const s of this.spans) {
@@ -395,11 +394,13 @@ export class Race3dView implements RaceView {
         case 'swim': {
           const bed = s.y0 - RACE3D.channelDepth;
           stage.strip(x0, x1, zBack, zFront, 'cobble', { y: bed });
-          // The Grove's water, which carries no transmission (that pass costs a second draw
-          // of the scene).
-          const mat = waterMaterial(normal, 0.2);
-          this.water.push(mat);
-          const w = new THREE.Mesh(new THREE.PlaneGeometry(x1 - x0, zFront - zBack), mat);
+          // The Grove's painted water, with foam along both banks of the channel.
+          const water = paintedWater(0, 1);
+          this.water.push(water);
+          const w = new THREE.Mesh(
+            channelGeometry(x1 - x0, zFront - zBack, RACE3D.channelDepth),
+            water.material,
+          );
           w.rotation.x = -Math.PI / 2;
           w.position.set((x0 + x1) / 2, s.y0 + RACE3D.waterLevel, (zBack + zFront) / 2);
           stage.scene.add(w);

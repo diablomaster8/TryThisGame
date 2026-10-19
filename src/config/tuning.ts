@@ -141,6 +141,29 @@ export const GROVE3D = {
   grassCount: 9000,
   /** Grass grows this far from the centre on each axis (the heart, where play happens). */
   grassHalf: 30,
+  /**
+   * The Grove's grass tufts sink into the ground between these distances from the camera:
+   * past them the painted meadow (`terrainLook`) carries the field, at a fraction of the cost.
+   */
+  grassFade: { from: 34, to: 46 },
+  /** The painted meadow under the tufts (see `TerrainLook` in `samples/aaa-kit.ts`). */
+  terrainLook: { lush: '#7fb05a', dry: '#c9b06a', patches: 0.55 },
+  /**
+   * The painted water (`render3d/water.ts`): turquoise over the shallows to blue where the
+   * bed is deepAt below the surface, a foam band over the last foamWidth of depth at the
+   * shore, and the sky's colour at grazing angles. Colours are sRGB.
+   */
+  water: {
+    shallow: '#5ccfd2',
+    deep: '#1d5ca6',
+    foam: '#f2fbff',
+    sky: '#bfe3ff',
+    deepAt: 0.7,
+    foamWidth: 0.14,
+    edgeAlpha: 0.55,
+    /** The stream's bed sits only just under the surface: a thin foam line and a shallow scale. */
+    stream: { deepAt: 0.3, foamWidth: 0.05 },
+  },
   /** Figure heights in world units: the species format sculpts at about 3 to 4 units. */
   keeperHeight: 1.6,
   nubbinHeight: 1.0,
@@ -160,6 +183,22 @@ export const GROVE3D = {
    */
   casterMinTris: 2500,
   /**
+   * The Grove's creature look: the toon bands of Maor's "Chao World" line-up with a
+   * light rim, and a dark outline sized on screen (`render3d/toon-outline.ts`). The width
+   * is a share of the screen's height (0.0026 is about 2 px on an 800 px tall view),
+   * capped in world units for creatures far away. Only parts of outlineMinTris or more get
+   * one (bodies, heads, limbs, ears, tails): the eye's pieces carry the toon eye's own lash
+   * line, and each hull is another draw, so a creature carries about six, not twenty.
+   */
+  toon: {
+    on: true,
+    rim: 0.45,
+    sky: 0.55,
+    outlineScreen: 0.0026,
+    outlineMaxWorld: 0.035,
+    outlineMinTris: 2500,
+  },
+  /**
    * The frame-time governor: when the smoothed frame time stays above slowMs, the render
    * scale (backing-store pixels per CSS pixel) steps down by stepDown, never below
    * minRatio; when it stays under fastMs for upFrames frames it steps back up toward the
@@ -177,6 +216,12 @@ export const GROVE3D = {
     smoothing: 0.1,
     /** A step down must bring the frame time under this share of what it was, or it is undone. */
     minGain: 0.92,
+    /**
+     * CPU savings the scene may step through once a slow frame is not fill-bound: 1 drops
+     * the creature outlines, 2 the second grass pass and the dusk bloom, 3 redraws the sun's
+     * shadow only every fourth frame (`Grove3dScene.governRenderScale`).
+     */
+    cpuLevels: 3,
   },
   /** Camera shake in world units: a Nubbin landing, a tree shaken (pixel: 0.18 / 0.08). */
   shake: { landed: 0.12, tree: 0.05 },

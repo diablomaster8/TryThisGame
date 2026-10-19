@@ -2,6 +2,40 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Review C, items 11–29: minor bugs (2026-10-18)
+
+From the Minor section of `docs/review-independent-2026-10-18-c.md` (each item has an
+"Addressed" note). Branch `fix/review-c-minor`; the majors (1–10) are a separate pass. Works:
+- **Sim (tested in `tests/sim/review-c-minor.test.ts`):** catch-up runs after the HUD is bound,
+  in chunks that yield a frame (`catchUpInChunks`, `Game.catchUpOnLoad`), so its indicator
+  paints; no steps or saves until it ends (12). Every mode stops at 30 days (`SIM.maxAwayMs`);
+  a save without `savedAtWallMs` has no gap (13). Live play keeps the live rules past 400 steps
+  a frame: the backlog runs as fine steps later, time past 2 sim minutes is dropped
+  (`Clock.capBacklog`) (14). Catch-up hatching uses `hatchSpeed`; `raceResult` checks course
+  and open tier, caps Shells at the prize, never repeats a hat; the race seed is
+  `raceSeedFor(world, course, tier)`, fixed until a result is recorded (`World.raceRuns`) (28).
+- **UI:** blocked storage shows on the title and as a HUD chip (11); pixel minigame canvases
+  sit below the ✕ row (`minigames/play-area.ts`) (15); festival toasts wait for story scenes,
+  the away screen opens before any scene (16); the stats sheet docks right on wide screens,
+  lifts the camera on phones (`Game.cameraLift`, `CAMERA.sheetLift`) and shows level bars and
+  "+N" gains (22); 🧭 Expedition, Keeper picker blurbs (`KEEPER_LOOK_BLURBS`), "Back" label
+  (23); Receive dialog, hidden in the Learning Grove (24); Erase labels name the mode (25);
+  44 px hat select, field inputs, map buttons (26); Escape for the shelves, Hollow menu and
+  party bout, one co-op handler, font retry (27).
+- **Render:** draw calls sum every pass (`autoReset` off) (19); 3D run and stretch sections are
+  dirt/cobble with chalk lanes (20); a wild-wood skirt past the pixel field, and 3D crowns thin
+  only in a circle round the Keeper (21).
+- **Content:** sprout egg-hum lines fixed (17); readers (7–10) play Sums, Spelling and Rhymes &
+  beats (`minigames/edu/reader-games.ts`, `EDU_READER_*`), preschool games hidden (18).
+- **Tests:** the every-Atlas-page test loads its chunk in `beforeAll` (60 s) (29).
+- **Checked** in headless Edge (playwright-core) at 1280×800 and 375×812: sheet, gains,
+  minigames in both modes, far zoom both modes, crowns, title and HUD with storage blocked,
+  Keeper picker, reader picker and a Spelling round, Receive.
+- **Assumption:** the 30-day cap also applies to `indefinite` (the brief says "all the time
+  that passed"); the away report still shows the real gap.
+- **Stubbed / known:** the 3D tag overlap (20) did not reproduce; the stacker was left as is.
+  The Learning Grove still shows the season festival toast.
+
 ## Review B, Bugs 18–38 and the notes: minor bugs (2026-10-18)
 
 From the Minor section and "What the notes get wrong" of `docs/review-independent-2026-10-18-b.md`.

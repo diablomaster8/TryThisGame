@@ -37,6 +37,35 @@ describe('frame-time governor', () => {
     expect(g.ratio).toBeLessThanOrEqual(1.5);
   });
 
+  it('steps through the CPU savings when fewer pixels buy no time', () => {
+    const g = new FrameGovernor(1.5);
+    feed(g, 4000, () => 40);
+    expect(g.ratio).toBe(1.5);
+    expect(g.cpuLevel).toBe(GROVE3D.governor.cpuLevels);
+  });
+
+  it('gives the CPU savings back once frames come easily, before any sharpness', () => {
+    const g = new FrameGovernor(1.5);
+    feed(g, 4000, () => 40);
+    feed(g, 6000, () => 12);
+    expect(g.cpuLevel).toBe(0);
+    expect(g.ratio).toBe(1.5);
+  });
+
+  it('keeps a saving that was needed instead of flickering it on and off', () => {
+    const g = new FrameGovernor(1.5);
+    // The first saving is enough; without it the frame is slow again.
+    let changes = 0;
+    let last = g.cpuLevel;
+    for (let i = 0; i < 20000; i++) {
+      g.sample(g.cpuLevel >= 1 ? 16 : 40);
+      if (g.cpuLevel !== last) changes++;
+      last = g.cpuLevel;
+    }
+    expect(g.cpuLevel).toBe(1);
+    expect(changes).toBeLessThanOrEqual(4);
+  });
+
   it('ignores stalls and hidden-tab gaps', () => {
     const g = new FrameGovernor(1.5);
     feed(g, 500, () => 1000);

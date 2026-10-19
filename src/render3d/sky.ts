@@ -98,24 +98,27 @@ export class GroveSky {
       if (this.warmed) this.bake();
       else this.bakeWanted = true;
     }
+    // The sky map is soft fill only: at its old 0.7 it flooded every rough surface with the
+    // sky's pale blue and washed the meadow to mint. The hemisphere carries the fill now,
+    // green from the ground and blue from above, which keeps shapes and colours.
     this.scene.environmentIntensity = night
-      ? 0.12
+      ? 0.18
       : weather === 'rain'
-        ? 0.4
+        ? 0.35
         : elevation < 15
-          ? 0.7
-          : 0.7;
+          ? 0.45
+          : 0.38;
 
     this.sun.color.set(night ? '#8fa8d8' : d.sunColor);
     this.sun.intensity = night
-      ? 0.35
+      ? 0.6
       : weather === 'rain'
         ? 0.5
-        : THREE.MathUtils.lerp(1.2, 2.6, THREE.MathUtils.clamp(elevation / 30, 0, 1));
+        : THREE.MathUtils.lerp(1.3, 2.9, THREE.MathUtils.clamp(elevation / 30, 0, 1));
     this.sun.position.copy(this.sunDir).multiplyScalar(60).add(focus);
     this.sun.target.position.copy(focus);
     this.hemi.color.set(d.hemiColor);
-    this.hemi.intensity = night ? 0.12 : weather === 'rain' ? 0.5 : 0.25;
+    this.hemi.intensity = night ? 0.32 : 0.6;
     const fogColor = night
       ? '#1a2238'
       : weather === 'rain'
