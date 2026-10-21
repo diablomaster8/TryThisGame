@@ -356,6 +356,11 @@ export const INPUT = {
   shakeReversalsPerSecond: 4,
   /** Logo taps within this window open the debug panel. */
   tripleTapMs: 600,
+  /**
+   * A press this close (CSS px) to a Nubbin still lands on it: a wandering child is a small,
+   * moving target, and a near miss would walk the Keeper instead of lifting it.
+   */
+  nubbinPickSlopPx: 16,
 } as const;
 
 export const UI = {
