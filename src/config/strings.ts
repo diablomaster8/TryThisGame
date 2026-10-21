@@ -350,6 +350,8 @@ export const UI_TEXT = {
   crashed:
     'Something went wrong in the Grove. Nothing has been saved since, so your last save is safe.',
   glToPixel: 'Switch to Pixel',
+  /** A passing notice for an error nothing else caught; play goes on. */
+  errorNotice: 'Something went a little wrong. If the Grove looks odd, reload.',
   resetSave: 'Reset save',
   resetConfirm: 'Erase the Grove and start over?',
   // Away screen
