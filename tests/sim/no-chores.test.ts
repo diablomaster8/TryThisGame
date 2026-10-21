@@ -5,7 +5,8 @@ import { MISSION_COUNT } from '../../src/sim/teams';
 import type { SimEvent } from '../../src/sim/types';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
 
-// No daily or repeatable chores: every reward is one-time (review 2026-10-18 B, Bug 3).
+// No repetitive daily quests: quest rewards are one-time (review 2026-10-18 B, Bug 3). Free
+// daily gifts and daily refreshes are allowed (Maor, 2026-10-21).
 const DAY = 86_400_000;
 const day = (n: number) => Date.UTC(2026, 9, 1, 12) + n * DAY;
 

@@ -392,7 +392,9 @@ and `plan.md` before touching any script. **Order of authority:** `docs/canon.md
   - The Multiverse and It's Always Sunny are `adult`. Atlas A1, A3 and A4 are `teen`. A21,
     S23 and Neopia's darker plots are `main`.
 - **Design rules (Maor):**
-  - No daily or repeatable chores, timers or farms. Every reward is one-time or unlimited.
+  - No repetitive daily quests or chores, streaks or missed-day penalties. Daily refreshes are
+    fine: items or stock that refresh daily, free daily gifts, real-season festivals (Maor,
+    2026-10-21). Quest rewards are one-time or unlimited.
   - 20–35% of side stories change the campaign. It's 8 of 31 now (26%): S2, S9, S10, S13, S19,
     S23, S26 and S27.
   - Fun quests may quote their originals, except in the Learning Grove. They never trigger during
@@ -475,6 +477,6 @@ and `plan.md` before touching any script. **Order of authority:** `docs/canon.md
      Atlas/Arcade/Multiverse saves.
 - **Open decisions for Maor:**
   - None. Decided 2026-10-17: the seven fun-quest quotes stand, advisers signed off, legal
-    cleared, daily gifts are one-time (CV6), Pixel stays the default renderer. Since
-    2026-10-18 the request board and team missions are one-time as well, and Today's Hollow
-    is a daily layout with no reward of its own (review B, Bug 3).
+    cleared, Pixel stays the default renderer. Since 2026-10-18 the request board and team
+    missions are one-time. Since 2026-10-21 free daily gifts and daily refreshes are allowed;
+    only repetitive daily quests are out.

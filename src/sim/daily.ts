@@ -10,8 +10,8 @@ import { newId, uniqueName } from './world';
 /**
  * The calendar rhythm: a Keeper may drop by on a new real day and potter about for a
  * while, and Saturday is lantern night. Outside the campaign the visitor is the only NPC
- * in the Grove. Canon 22: nothing here is a timer-gated reward. Each Keeper brings one
- * story gift, the first time they visit, and never again; later visits are company only.
+ * in the Grove. Canon 22 allows free daily gifts (Maor, 2026-10-21); no quest repeats daily.
+ * Each Keeper brings one story gift, the first time they visit; later visits are company.
  */
 export function dayKey(date: Date): string {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;

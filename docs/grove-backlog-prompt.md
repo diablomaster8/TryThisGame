@@ -61,7 +61,7 @@ Read CLAUDE.md and PROGRESS.md. **This session is planning only. Do not build an
 
 ## Part A. Design rules (Maor, 2026-10-13)
 
-- **No repeatable chores.** No daily quests, and nothing that makes the story or gameplay repetitive. Nothing respawns, rotates or resets on a timer.
+- **No repetitive daily quests.** No daily quests, and nothing that makes the story or gameplay repetitive. Items that refresh daily and free daily gifts are fine (Maor, 2026-10-21).
 - **Side stories are woven into the campaign.** Each one is written once and played once, and makes sense inside the main story. About 20–35% of them change it, with a flag, a later scene or an ending (today 5 of 22: S2, S9, S10, S13 and S19). The rest are for fun and give items, cosmetics and new things to do.
 - **Fun quests are the one exception.** Optional, one-time, never set a campaign flag, and reward cosmetics or features.
 - **Main mode is rich, thought-provoking and fun.** Every story has concrete detail, one real question with a choice where both sides are defensible, and a joke or surprise that lands.
@@ -162,7 +162,7 @@ The storylines take their themes, not their plots or names, from The Lord of the
 
 Every item follows three rules:
 
-- **Nothing repeats.** No daily or weekly tasks, nothing that respawns, rotates or resets on a timer.
+- **Nothing repeats.** No daily or weekly tasks. Items that refresh daily and free daily gifts are fine (Maor, 2026-10-21).
 - **Side stories are woven in.** Each one opens at a chapter and makes sense inside the main story. Five of the twenty-two (S2, S9, S10, S13, S19) change the campaign; the other seventeen are for fun and give rewards.
 - **No art work.** Everything here is systems, writing and scene logic.
 

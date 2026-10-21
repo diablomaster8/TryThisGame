@@ -7,14 +7,15 @@ are in `src/content/` (readable screenplays in `script-book/`), and the canon is
 
 ## Design rule (Part A, Maor 2026-10-13)
 
-No repeatable chores: no daily or weekly quests, rotating tasks or grind loops. Side stories
+No repetitive daily quests: no daily or weekly quests, rotating tasks or grind loops. Items that
+refresh daily and free daily gifts are fine (Maor, 2026-10-21). Side stories
 are written once and make sense inside the campaign; about 20–35% of them change it (now 8 of
 31: S2, S9, S10, S13, S19, S23, S26, S27), and the rest reward items and cosmetics. Optional
 fun quests are one-time and never set campaign flags. Fun quests may quote the original films
 and shows, except in the Learning Grove. No song lyrics. Art suggestions only for cosmetic
-rewards. Systems that break the rule today, for Maor to decide: the Requests board
-(`sim/quests.ts`), the once-a-day visitor gift (`sim/daily.ts`, `sim/neighbourhood.ts`),
-Saturday lantern night, the weekly guard-team missions (Digimon system 9).
+rewards. Decided 2026-10-21: the visitor gift (`sim/daily.ts`, `sim/neighbourhood.ts`),
+Saturday lantern night, Today's Hollow and the season festivals are allowed (daily refreshes
+and free gifts); the Requests board and team missions are one-time.
 
 ## Engine backlog (CV)
 

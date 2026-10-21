@@ -87,8 +87,9 @@ this sheet, follow the sheet and note it. Maor approved these decisions.
 21. **Separate saves.** The Multiverse, Atlas, Arcade and Neopia may *read* Grove state, never
     write it. The Multiverse's E6 uses a reflection of your oldest Eternal that lives only in
     the Multiverse save.
-22. **No timers or farms.** Nothing is "once a day", "once per visit" or reset by leaving. A
-    reward is either one-time or unlimited.
+22. **No repetitive daily quests.** No quest or chore asks to be repeated every day, and nothing
+    punishes a missed day. Items that refresh daily and free daily gifts are fine (Maor,
+    2026-10-21). A quest reward is either one-time or unlimited.
 23. **Fun quests** (Python, Bean, Sunny, Avatar) never trigger during chapters 9–11.
 
 ## Endings (approved change)

@@ -463,7 +463,8 @@ These were settled after the full review. They win over any older line.
   - Atlas A1, A3 and A4 are teen;
   - Neopia's war plots are main.
 - **Saves and timers.** Other campaigns read Grove state and never write it; the Multiverse's E6
-  uses a reflection of your Eternal. Nothing is once a day or once per visit.
+  uses a reflection of your Eternal. No quest is repeated once a day or once per visit; free
+  daily gifts and daily refreshes are fine (Maor, 2026-10-21).
 - **Fun quests** never trigger during chapters 9–11.
 - **Who can talk.** Nubbins and animals don't speak in the Grove's story, with these exceptions:
   - fun quests;
