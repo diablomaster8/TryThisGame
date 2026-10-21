@@ -1,4 +1,4 @@
-import { NEEDS, SIM, TREES } from '../config/tuning';
+import { NEEDS, SIM } from '../config/tuning';
 import { splitSpan } from './clock';
 import { stepCollection } from './collection';
 import { advanceStage, hatch } from './lifecycle';
@@ -7,7 +7,7 @@ import { isFree } from './nubbin';
 import { stepSlips } from './slips';
 import { addPoints } from './stats';
 import type { AwayReport, OfflineAgingSettings, SimEvent, World } from './types';
-import { hatchSpeed, stepWorld } from './world';
+import { fruitIntervalMs, hatchSpeed, stepWorld } from './world';
 
 /**
  * How much of an absence the settings allow to be simulated. Every mode stops at
@@ -91,7 +91,7 @@ export function coarseStep(world: World, dtMs: number, events: SimEvent[]): void
   for (const tree of world.trees) {
     tree.fruitTimerMs -= dtMs;
     while (tree.fruitTimerMs <= 0) {
-      tree.fruitTimerMs += TREES.fruitIntervalMs;
+      tree.fruitTimerMs += fruitIntervalMs(world);
       // Fruit grown while away goes straight to whoever is hungriest.
       const hungry = world.nubbins
         .filter((n) => n.stage !== 'egg' && n.stage !== 'cocoon')

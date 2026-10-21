@@ -1195,6 +1195,8 @@ export const INHERITANCE = {
 export const SKILLS = {
   pointsPerAchievement: 1,
   pointsPerQuest: 1,
+  /** Green Thumb shortens the time between fruit drops to this fraction. */
+  greenThumbFruitInterval: 0.9,
 } as const;
 
 /** Scanning wild and neighbour species toward an egg. */

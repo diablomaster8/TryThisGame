@@ -136,6 +136,10 @@ export function validateWorld(w: World): World {
   }
   // Every timer counts from the clock; a missing or junk one cannot be repaired.
   if (!isNum(w.timeMs) || w.timeMs < 0) throw new SaveError('Save world has no clock');
+  // A walk or a pet the Keeper had started belongs to the session that saved it; a load
+  // starts still, so catch-up and the first live step never replay it.
+  w.keeper.intent = null;
+  w.keeper.moveTarget = null;
   w.items ??= [];
   w.memorials ??= [];
   if (!isNum(w.gatherReadyMs)) w.gatherReadyMs = 0;

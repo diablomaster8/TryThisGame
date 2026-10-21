@@ -1,5 +1,5 @@
 import { NUBBIN_NAMES } from '../config/strings';
-import { EGG, GROVE, OFFLINE, THROW, TREES, TRUST } from '../config/tuning';
+import { EGG, GROVE, OFFLINE, SKILLS, THROW, TREES, TRUST } from '../config/tuning';
 import { nudgeAlignment } from './alignment';
 import { confirmRift, sanitizeOfflineAging } from './audience';
 import { applyDrop, decayNeeds } from './needs';
@@ -854,7 +854,9 @@ export function stepWorld(
         resolve(n.pos, world, 0.3, true);
       }
     }
-    updateKeeper(world, dtMs, events);
+    // Keeper actions happen only in live play: catch-up never walks to or acts on a saved
+    // intent (pet, feed, hug), and the intent waits for the Keeper to come back.
+    if (!offline) updateKeeper(world, dtMs, events);
     stepTrust(world, dtMs, events);
     stepNpcs(world, dtMs, rng);
     stepWeather(world, dtMs, rng, events);
@@ -891,14 +893,20 @@ export function stepWorld(
   return events;
 }
 
+/**
+ * The time between fruit drops now: the season (autumn) and Green Thumb change it. Live play
+ * and offline catch-up both read it, so time away grows the same fruit as time here.
+ */
+export function fruitIntervalMs(world: World): number {
+  const thumb = hasSkill(world, 'greenThumb') ? SKILLS.greenThumbFruitInterval : 1;
+  return TREES.fruitIntervalMs * fruitIntervalMultiplier(world) * thumb;
+}
+
 function updateTrees(world: World, dtMs: number, rng: Rng, events: SimEvent[]): void {
   for (const tree of world.trees) {
     tree.fruitTimerMs -= dtMs;
     if (tree.fruitTimerMs <= 0) {
-      tree.fruitTimerMs +=
-        TREES.fruitIntervalMs *
-        fruitIntervalMultiplier(world) *
-        (hasSkill(world, 'greenThumb') ? 0.9 : 1);
+      tree.fruitTimerMs += fruitIntervalMs(world);
       if (world.items.filter((i) => i.kind === 'fruit').length >= TREES.maxFruitOnGround) continue;
       dropFruit(world, tree, rng, events);
     }
