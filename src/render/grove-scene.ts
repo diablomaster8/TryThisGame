@@ -262,7 +262,8 @@ export class GroveScene {
   lampsOn = false;
   private readonly foam: Mesh<ShapeGeometry, MeshBasicMaterial>;
 
-  constructor() {
+  /** `tiles` is the loaded world's painted ground, so a reload paints it straight away. */
+  constructor(tiles: Record<string, TileKind> = {}) {
     this.scene.background = new Color(color(C.nightBlue));
 
     this.hemi = new HemisphereLight(new Color(color(C.shallows)), new Color(color(C.forest)), 1.5);
@@ -300,7 +301,7 @@ export class GroveScene {
     this.scene.add(skirt);
     this.skirt = skirt;
     this.disposables.push(skirtGeo, skirtMat, skirtTex);
-    this.requestGround({});
+    this.requestGround(tiles);
 
     // Pond: a wet rim, the water disc with a scrolling wave tile, a drifting glint layer
     // the other way, and a lit shallows ring at the bank. The stream shares the same look.
