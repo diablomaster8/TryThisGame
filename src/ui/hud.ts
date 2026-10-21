@@ -992,11 +992,11 @@ export function mountHud(
         }
       }
     },
-    onAway(report: AwayReport) {
+    onAway(report: AwayReport, closed: () => void) {
       const g = game();
       // Shown at once, so no story scene can start under it; the scene waits for it to close.
-      if (g) away.show(report, g.world);
-      else setTimeout(() => game() && away.show(report, game()!.world), 0);
+      if (g) away.show(report, g.world, closed);
+      else setTimeout(() => (game() ? away.show(report, game()!.world, closed) : closed()), 0);
     },
     onSelect(id) {
       const g = game();

@@ -36,7 +36,7 @@ import { stepNpcs } from './npcs';
 import { addRewards, buy } from './shop';
 import { SPECIES } from './species';
 import { DEFAULT_TRAINER, rollEggSpecies, TRAINERS, trainerOf } from './trainers';
-import { advanceStage, evolve, hatch, secondEvolve } from './lifecycle';
+import { advanceStage, evolve, hatch, holdEndOfLife, secondEvolve } from './lifecycle';
 import { createEgg, EGG_COLORS, isFree, isHeld } from './nubbin';
 import { Rng } from './rng';
 import { addRecruit, festivalPrizeMultiplier, stepTown } from './town';
@@ -483,6 +483,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
           }
         });
       }
+      return;
+    case 'holdEndOfLife':
+      holdEndOfLife(world, cmd.hold);
       return;
     case 'debugFillNeeds': {
       const n = findNubbin(world, cmd.nubbinId);

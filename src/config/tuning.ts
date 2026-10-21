@@ -482,6 +482,10 @@ export const LIFECYCLE = {
   thirdEvolutionMs: 3 * HOUR,
   /** A hatchling with a fixed rule to another baby grows into it after this long. */
   babyGrowthMs: 10 * MINUTE,
+  /** Waiting end-of-life checks run this far apart once the Keeper is back, one cocoon at a time. */
+  awaitingStaggerMs: 4 * SECOND,
+  /** After the away screen closes, the first waiting check runs this much later. */
+  awaitingAfterReleaseMs: 1 * SECOND,
 } as const;
 
 export const REBIRTH = {

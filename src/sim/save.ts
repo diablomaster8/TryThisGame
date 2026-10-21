@@ -140,6 +140,9 @@ export function validateWorld(w: World): World {
   // starts still, so catch-up and the first live step never replay it.
   w.keeper.intent = null;
   w.keeper.moveTarget = null;
+  // The away screen that held end-of-life checks belongs to the session that saved; a load
+  // starts released (the next away screen holds them again).
+  if (w.endOfLife) w.endOfLife.held = false;
   w.items ??= [];
   w.memorials ??= [];
   if (!isNum(w.gatherReadyMs)) w.gatherReadyMs = 0;

@@ -42,8 +42,13 @@ export function advanceStage(
   }
   // The baby step above needs the child stage timer, which hatch() resets.
   if (n.awaitingKeeper) {
-    // Frozen at the end of its life until live play runs the check.
-    if (!offline && world) runEndOfLife(n, world, false, events);
+    // Frozen at the end of its life until live play runs the check, once the away screen
+    // has closed and one at a time, so the player sees every cocoon.
+    if (!offline && world && endOfLifeDue(world)) {
+      events.push({ kind: 'endOfLifeFocus', nubbinId: n.id });
+      runEndOfLife(n, world, false, events);
+      world.endOfLife = { held: false, nextMs: world.timeMs + LIFECYCLE.awaitingStaggerMs };
+    }
     return;
   }
   n.stageMs += dtMs;
@@ -134,8 +139,31 @@ function finishCocoon(n: Nubbin, events: SimEvent[], world?: World): void {
   }
 }
 
+/** Whether a waiting Nubbin's check may run now: not held, and the last one has had its moment. */
+export function endOfLifeDue(world: World): boolean {
+  const s = world.endOfLife;
+  return !s || (!s.held && world.timeMs >= s.nextMs);
+}
+
+/** The away screen opened (hold) or closed (release); see `World.endOfLife`. */
+export function holdEndOfLife(world: World, hold: boolean): void {
+  // On release the first check waits a beat, so the screen has closed before a cocoon forms.
+  const nextMs = hold
+    ? (world.endOfLife?.nextMs ?? 0)
+    : Math.max(world.endOfLife?.nextMs ?? 0, world.timeMs + LIFECYCLE.awaitingAfterReleaseMs);
+  world.endOfLife = { held: hold, nextMs };
+}
+
 /** The end-of-life check. Rebirth when loved; otherwise a departure (or a wait). */
 export function runEndOfLife(n: Nubbin, world: World, offline: boolean, events: SimEvent[]): void {
+  // While the away screen is up, a check that comes due waits like one from catch-up.
+  if (!offline && world.endOfLife?.held) {
+    if (!n.awaitingKeeper) {
+      n.awaitingKeeper = true;
+      events.push({ kind: 'awaitingKeeper', nubbinId: n.id });
+    }
+    return;
+  }
   const loved =
     lifetimeHappiness(n) >= REBIRTH.minLifetimeHappiness &&
     n.needs.affection >= REBIRTH.minAffection;
