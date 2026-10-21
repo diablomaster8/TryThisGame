@@ -57,7 +57,9 @@ export function giveCritter(n: Nubbin, speciesId: string, rng: Rng, events: SimE
   const others = STAT_KEYS.filter((k) => k !== main);
   addPoints(n.stats[rng.pick(others)], CRITTERS.otherStatPoints);
   for (const slot of species.parts) n.parts[slot] = partId(species.id, slot);
-  if (species.type !== 'normal') n.typeLean[species.type] += CRITTERS.leanNudge;
+  // Every critter nudges toward its own type, Normal included (the brief); a Normal lean
+  // wins like any other, and a field with no clear lead still ends Normal in winningType.
+  n.typeLean[species.type] += CRITTERS.leanNudge;
   addHappiness(n, CRITTERS.happiness);
   events.push({ kind: 'critterGiven', nubbinId: n.id, species: species.id });
   return true;
@@ -65,7 +67,7 @@ export function giveCritter(n: Nubbin, speciesId: string, rng: Rng, events: SimE
 
 export function giveEssence(n: Nubbin, type: NubbinType, events: SimEvent[]): void {
   addPoints(n.stats[mainStatOf(type)], ESSENCES.statPoints);
-  if (type !== 'normal') n.typeLean[type] += ESSENCES.leanNudge;
+  n.typeLean[type] += ESSENCES.leanNudge;
   addHappiness(n, ESSENCES.happiness);
   events.push({ kind: 'essenceGiven', nubbinId: n.id, type });
 }
