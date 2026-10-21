@@ -5,10 +5,13 @@ import { NUBBIN_TYPES } from './types';
 /**
  * Alignment moves in hundredths, so it is kept and compared as a whole number of
  * hundredths: 80 kind acts give exactly 0.80, never 0.8000000000000005, and a drifted
- * value from an older save reads as the hundredth it was meant to be.
+ * value from an older save reads as the hundredth it was meant to be. Halves round away
+ * from zero, so +0.105 and -0.105 land the same distance from 0 (Math.round alone sends
+ * -10.5 to -10 but 10.5 to 11, which made one side Eternal Neutral and not the other).
  */
 export function roundAlignment(alignment: number): number {
-  return Math.round(alignment * 100) / 100;
+  const r = (Math.sign(alignment) * Math.round(Math.abs(alignment) * 100)) / 100;
+  return r + 0; // never -0
 }
 
 export function bandOf(alignment: number): AlignmentBand {

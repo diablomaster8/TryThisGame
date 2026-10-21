@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { bandOf, childHint, nudgeAlignment, winningType } from '../../src/sim/alignment';
+import {
+  bandOf,
+  childHint,
+  nudgeAlignment,
+  roundAlignment,
+  winningType,
+} from '../../src/sim/alignment';
 import { eternalBandFor, evolve } from '../../src/sim/lifecycle';
 import type { Nubbin, NubbinType, SimEvent } from '../../src/sim/types';
 import { createWorld } from '../../src/sim/world';
@@ -91,5 +97,31 @@ describe('Normal type lean counts in the winning type', () => {
   it('Normal as the runner-up can still block a narrow lead', () => {
     expect(winningType(lean({ swim: 110, normal: 100 }))).toBe('normal');
     expect(winningType(lean({ swim: 200, normal: 100 }))).toBe('swim');
+  });
+});
+
+describe('roundAlignment is symmetric about zero (review 2026-10-21, Bug 39)', () => {
+  it('rounds halves away from zero on both sides', () => {
+    expect(roundAlignment(0.105)).toBe(-roundAlignment(-0.105));
+    expect(roundAlignment(0.125)).toBe(0.13);
+    expect(roundAlignment(-0.125)).toBe(-0.13);
+    expect(Object.is(roundAlignment(-0.001), 0)).toBe(true);
+  });
+
+  it('±0.105 give the same Eternal answer, and so do ±0.805 and ±0.095', () => {
+    const n = child();
+    n.rebirths = 2;
+    for (const v of [0.105, 0.805, 0.095, 0.1, 0.81]) {
+      n.alignment = v;
+      const up = eternalBandFor(n, 'normal');
+      n.alignment = -v;
+      const down = eternalBandFor(n, 'normal');
+      const flip = (b: typeof up): typeof up => (b === 'sun' ? 'moon' : b === 'moon' ? 'sun' : b);
+      expect(down).toBe(flip(up));
+    }
+    n.alignment = -0.105;
+    expect(eternalBandFor(n, 'normal')).toBeNull();
+    n.alignment = 0.105;
+    expect(eternalBandFor(n, 'normal')).toBeNull();
   });
 });
