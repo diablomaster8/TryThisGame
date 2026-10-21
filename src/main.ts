@@ -1,6 +1,6 @@
 import { Game } from './game';
 import type { EduAge } from './config/edu';
-import { resumeAudio, unlockAudio } from './platform/audio';
+import { isAudioUnlocked, resumeAudio, suspendAudio, unlockAudio } from './platform/audio';
 import type { EduBand } from './content/types';
 import {
   clearSlot,
@@ -37,8 +37,10 @@ const hudRoot = mustGet<HTMLDivElement>('#hud');
 for (const type of ['pointerup', 'touchend', 'click', 'keydown'] as const) {
   window.addEventListener(type, unlockAudio, { passive: true });
 }
+// A hidden tab is silent; showing it again resumes a context that was unlocked before.
 document.addEventListener('visibilitychange', () => {
-  if (!document.hidden) resumeAudio();
+  if (document.hidden) suspendAudio();
+  else if (isAudioUnlocked()) resumeAudio();
 });
 
 const params = new URLSearchParams(location.search);

@@ -86,10 +86,35 @@ export function resumeAudio(): void {
   ac.resume().then(onStateChange, () => undefined);
 }
 
+/**
+ * The tab is hidden: suspend the context and stop the music scheduler and the bird timer,
+ * so nothing plays or wakes the CPU in a background tab (review D, bug 43). `resumeAudio`
+ * on show brings it back, and `onStateChange` restarts the timers once it runs.
+ */
+export function suspendAudio(): void {
+  const ac = ctx;
+  if (!ac || ac.state !== 'running') return;
+  if (current) {
+    clearInterval(current.timer);
+    current.timer = 0;
+  }
+  window.clearTimeout(birdTimer);
+  ac.suspend().catch(() => undefined);
+}
+
 function onStateChange(): void {
-  if (ctx?.state !== 'running' || unlocked) return;
-  unlocked = true;
-  if (pendingSong) playSong(pendingSong);
+  if (ctx?.state !== 'running') return;
+  if (!unlocked) {
+    unlocked = true;
+    if (pendingSong) playSong(pendingSong);
+  }
+  // Back from a hidden tab: carry on the song where it paused, and the birds.
+  const p = current;
+  if (p && !p.timer) {
+    schedule(p);
+    p.timer = window.setInterval(() => schedule(p), 60);
+  }
+  scheduleBird();
 }
 
 function buildGraph(ac: AudioContext): void {
