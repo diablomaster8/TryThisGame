@@ -41,17 +41,20 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET' || new URL(req.url).origin !== self.location.origin) return;
-  if (req.mode === 'navigate') event.respondWith(navigate(req));
-  else if (HASHED.test(new URL(req.url).pathname)) event.respondWith(cacheFirst(req));
-  else event.respondWith(staleWhileRevalidate(req));
+  // Range requests (audio, video) get partial 206 answers: the cache can neither store nor
+  // serve those, so they go straight to the network.
+  if (req.headers.has('range')) return;
+  if (req.mode === 'navigate') event.respondWith(navigate(event, req));
+  else if (HASHED.test(new URL(req.url).pathname)) event.respondWith(cacheFirst(event, req));
+  else event.respondWith(staleWhileRevalidate(event, req));
 });
 
 /** Network first; the cached page, then the cached shell, only when offline. */
-async function navigate(req) {
+async function navigate(event, req) {
   const cache = await caches.open(CACHE);
   try {
     const res = await fetch(req);
-    if (res && res.ok) cache.put(req, res.clone());
+    store(event, cache, req, res);
     return res;
   } catch {
     const cached = (await cache.match(req)) ?? (await cache.match('./index.html'));
@@ -60,32 +63,47 @@ async function navigate(req) {
 }
 
 /** A hashed chunk's content never changes, so the cached copy is always right. */
-async function cacheFirst(req) {
+async function cacheFirst(event, req) {
   const cache = await caches.open(CACHE);
   const cached = await cache.match(req);
   if (cached) return cached;
   try {
     const res = await fetch(req);
-    if (res && res.ok) cache.put(req, res.clone());
+    store(event, cache, req, res);
     return res;
   } catch {
     return new Response('Offline', { status: 503, statusText: 'Offline' });
   }
 }
 
-async function staleWhileRevalidate(req) {
+async function staleWhileRevalidate(event, req) {
   const cache = await caches.open(CACHE);
   const cached = await cache.match(req);
   const network = fetch(req)
     .then((res) => {
-      if (res && res.ok) cache.put(req, res.clone());
+      store(event, cache, req, res);
       return res;
     })
     .catch(() => undefined);
+  // The refresh outlives the answer when a cached copy is served: keep the worker up for it.
+  event.waitUntil(network);
   if (cached) {
-    void network;
     return cached;
   }
   const res = await network;
   return res ?? new Response('Offline', { status: 503, statusText: 'Offline' });
+}
+
+/**
+ * Keep a copy of a whole, good answer. A failed write (quota, a 206 partial answer) must
+ * never reject the fetch or go unhandled, and the worker stays alive until it is done.
+ */
+function store(event, cache, req, res) {
+  if (!res || !res.ok || res.status === 206) return;
+  const put = cache.put(req, res.clone()).catch(() => undefined);
+  try {
+    event.waitUntil(put);
+  } catch {
+    // The event has already settled; the write still finishes while the worker is up.
+  }
 }
