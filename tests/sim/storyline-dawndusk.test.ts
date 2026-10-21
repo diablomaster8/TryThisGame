@@ -2,9 +2,9 @@ import { describe, expect, it } from 'vitest';
 import { STORYLINE_DAWN, STORYLINE_DUSK } from '../../src/content/storyline-dawndusk';
 import { SCANS } from '../../src/config/tuning';
 import { goalMet } from '../../src/sim/campaign';
-import { degenerate, isDegenerated, restore } from '../../src/sim/degeneration';
-import { hatch } from '../../src/sim/lifecycle';
-import type { SimEvent, World } from '../../src/sim/types';
+import { degenerate, degenerationTarget, isDegenerated, restore } from '../../src/sim/degeneration';
+import { evolve, hatch, rebirth } from '../../src/sim/lifecycle';
+import type { Nubbin, SimEvent, World } from '../../src/sim/types';
 import { applyCommand, createWorld } from '../../src/sim/world';
 import { c, settle, storylineWorld, toChapter } from './storyline-driver';
 
@@ -122,5 +122,93 @@ describe('S4 Dawn & Dusk', () => {
     );
     toTheCause(world, events);
     expect(finish(world, events, 'dusk', 'bell')).toBe('whole-day');
+  });
+});
+
+// Review 2026-10-21, Bug 4: degeneration must never make an Eternal egg or child, and a
+// Nubbin that grows up a second time in one life gets no second grade upgrade.
+describe('degeneration and the once-a-life rules', () => {
+  function grownAdult(world: World): Nubbin {
+    const n = world.nubbins[0]!;
+    hatch(n, [], 0);
+    n.stage = 'adult';
+    n.ageMs = 1_000;
+    n.form = { band: 'sun', type: 'normal', second: null, leanAtEvolution: { ...n.typeLean } };
+    return n;
+  }
+
+  it('passes Eternals by: neither the target nor degenerate takes them', () => {
+    const world = createWorld(9, 0);
+    const n = grownAdult(world);
+    n.eternal = 'sun';
+    n.rebirths = 2;
+    const events: SimEvent[] = [];
+    expect(degenerationTarget(world)).toBeUndefined();
+    expect(degenerate(world, n, events)).toBe(false);
+    expect(n.stage).toBe('adult');
+    expect(n.eternal).toBe('sun');
+  });
+
+  it('Dawn & Dusk chapter 3 skips an Eternal and reverts the next oldest', () => {
+    const { world, events } = storylineWorld('dawn', 'fern');
+    expect(toChapter(world, events, 1)).toBe(true);
+    for (const n of world.nubbins)
+      applyCommand(world, { kind: 'debugHatchNow', nubbinId: n.id }, events);
+    expect(toChapter(world, events, 2)).toBe(true);
+    const [eternal, other] = world.nubbins;
+    for (const n of [eternal!, other!]) {
+      n.stage = 'adult';
+      n.form = { band: 'sun', type: 'fly', second: null, leanAtEvolution: { ...n.typeLean } };
+    }
+    eternal!.ageMs = 9_000_000;
+    eternal!.eternal = 'neutral';
+    eternal!.rebirths = 2;
+    eternal!.form!.type = 'normal';
+    other!.ageMs = 5_000_000;
+    world.scans.puffbud = SCANS.full;
+    expect(toChapter(world, events, 3)).toBe(true);
+    expect(eternal!.stage).toBe('adult');
+    expect(eternal!.eternal).toBe('neutral');
+    expect(c(world).flags['dd-reverted']).toBe(other!.id);
+    expect(other!.stage).toBe('egg');
+  });
+
+  it('a reverted adult that grows up again gets no second grade upgrade', () => {
+    const world = createWorld(9, 0);
+    const n = grownAdult(world);
+    for (const s of Object.values(n.stats)) s.grade = 'C';
+    n.stats.run.points = 900;
+    n.gradeUpgrades = { run: 1 };
+    n.stats.run.grade = 'B';
+    expect(degenerate(world, n, [])).toBe(true);
+    hatch(n, [], 0);
+    const events: SimEvent[] = [];
+    const upgraded = evolve(n, events, world);
+    expect(upgraded).toBeNull();
+    expect(n.stats.run.grade).toBe('B');
+    expect(n.gradeUpgrades).toEqual({ run: 1 });
+    // A new life after rebirth upgrades again.
+    rebirth(n, []);
+    hatch(n, [], 0);
+    expect(evolve(n, [], world)).not.toBeNull();
+  });
+
+  it('a child that reverts and evolves still gets its first upgrade', () => {
+    const world = createWorld(9, 0);
+    const n = world.nubbins[0]!;
+    hatch(n, [], 0);
+    expect(degenerate(world, n, [])).toBe(true);
+    hatch(n, [], 0);
+    expect(evolve(n, [], world)).not.toBeNull();
+  });
+
+  it('evolve clears a stray Eternal flag when the rules are not met', () => {
+    const world = createWorld(9, 0);
+    const n = world.nubbins[0]!;
+    hatch(n, [], 0);
+    n.eternal = 'sun';
+    n.rebirths = 0;
+    evolve(n, [], world);
+    expect(n.eternal).toBeNull();
   });
 });
