@@ -1,4 +1,5 @@
 import type { Quest } from '../content/types';
+import { audienceAllowed } from './audience';
 import { hatch } from './lifecycle';
 import { createEgg } from './nubbin';
 import { EARLY_RULES } from './side-rules-early';
@@ -489,11 +490,13 @@ function stepPostGame(world: World, c: CampaignState): void {
 /** Once a sim second, after the chapter machine. */
 export function stepSideStories(world: World, c: CampaignState, events: SimEvent[]): void {
   stepPostGame(world, c);
+  const ctx = { matureContent: world.settings.matureContent, learningGrove: world.edu !== null };
   for (const rule of RULES) {
     const quest = sideStory(rule.id);
-    // A Learning Grove save never opens a story outside audience 'all' (S23 is 'main').
-    if (quest && (world.edu === null || quest.audience === 'all'))
-      stepOne(world, c, rule, quest, events);
+    // The Mature content setting gates side stories like every other quest: a Learning
+    // Grove save sees only 'all' (S23 is 'main'), and a 'teen' or 'adult' story waits for
+    // the setting. Lowering it only pauses a story; its progress is kept.
+    if (quest && audienceAllowed(quest.audience, ctx)) stepOne(world, c, rule, quest, events);
   }
   stepFunQuests(world, c, events);
 }
