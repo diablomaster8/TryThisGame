@@ -337,7 +337,14 @@ export function takeResumeSlot(): SaveSlot | null {
   }
 }
 
+/**
+ * The renderer picked in this page's life. With storage blocked the pick cannot be written,
+ * but the game it starts must still use it, not silently fall back to Pixel (review D, 13).
+ */
+let graphicsChoice: 'pixel' | '3d' | null = null;
+
 export function readGraphicsPref(): 'pixel' | '3d' {
+  if (graphicsChoice) return graphicsChoice;
   try {
     return localStorage.getItem(GRAPHICS_KEY) === '3d' ? '3d' : 'pixel';
   } catch {
@@ -346,6 +353,7 @@ export function readGraphicsPref(): 'pixel' | '3d' {
 }
 
 export function writeGraphicsPref(mode: 'pixel' | '3d'): boolean {
+  graphicsChoice = mode;
   try {
     localStorage.setItem(GRAPHICS_KEY, mode);
     return true;
