@@ -1,5 +1,5 @@
 import { NUBBIN_NAMES } from '../config/strings';
-import { EGG, GROVE, LIFECYCLE, OFFLINE, THROW, TREES, TRUST } from '../config/tuning';
+import { EGG, GROVE, OFFLINE, THROW, TREES, TRUST } from '../config/tuning';
 import { nudgeAlignment } from './alignment';
 import { confirmRift, sanitizeOfflineAging } from './audience';
 import { applyDrop, decayNeeds } from './needs';
@@ -40,7 +40,7 @@ import { advanceStage, evolve, hatch, secondEvolve } from './lifecycle';
 import { createEgg, EGG_COLORS, isFree, isHeld } from './nubbin';
 import { Rng } from './rng';
 import { addRecruit, festivalPrizeMultiplier, stepTown } from './town';
-import { stepSlips } from './slips';
+import { lifespanMs, stepSlips } from './slips';
 import { trainResult } from './gym';
 import { merge, setPartner, stepPartners } from './partners';
 import { fuse } from './fusion';
@@ -493,7 +493,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     }
     case 'debugForceEvolve': {
       const n = findNubbin(world, cmd.nubbinId);
-      if (!n || n.stage === 'egg') return;
+      if (!n || n.stage === 'egg' || n.stage === 'cocoon') return;
       if (n.stage === 'adult') {
         if (n.form && n.form.second === null) secondEvolve(n, events);
         return;
@@ -505,7 +505,8 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       const n = findNubbin(world, cmd.nubbinId);
       if (!n || n.stage !== 'adult') return;
       n.eternal = null;
-      n.stageMs = LIFECYCLE.adultMs;
+      // The Nubbin's own lifespan: slips shorten it and some storylines lengthen it.
+      n.stageMs = lifespanMs(n);
       return;
     }
     case 'giveHeartFruit':
