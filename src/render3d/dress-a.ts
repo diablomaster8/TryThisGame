@@ -82,6 +82,12 @@ function skylineTexture(): THREE.CanvasTexture {
 
 const SEGMENTS = 72;
 
+/** Whether `o` and every parent are visible (drawn this frame, if in view). */
+function shown(o: THREE.Object3D | null): boolean {
+  for (; o; o = o.parent) if (!o.visible) return false;
+  return true;
+}
+
 /** The three layers as one open band of quads, each with its own turn and repeat. */
 function skylineRing(): { mesh: THREE.Mesh; colors: THREE.BufferAttribute } {
   const s = CG_A.skyline;
@@ -179,8 +185,12 @@ class LightAndGrade implements Dressing3d {
   /** The sky's fill light, held up on the story sets (C3). */
   private hemi: THREE.HemisphereLight | null = null;
   /** Each building's box (its walls grown to take in the roof), for H9's whole-building fade. */
-  private readonly buildings: THREE.Box3[] = [];
+  private readonly buildings = new Map<THREE.Object3D, THREE.Box3>();
+  /** Materials already hooked into the H9 fade (cards, water, story-set crowns). */
+  private readonly patched = new WeakSet<THREE.Material>();
+  private discovered = false;
   private readonly corner = new THREE.Vector3();
+  private readonly ray = new THREE.Ray();
 
   build(ctx: Dress3dCtx): void {
     this.ctx = ctx;
@@ -222,19 +232,6 @@ class LightAndGrade implements Dressing3d {
     ctx.scene.traverse((o) => {
       if ((o as THREE.HemisphereLight).isHemisphereLight) this.hemi = o as THREE.HemisphereLight;
     });
-    const occ = CG_A.occlude;
-    for (const o of ctx.pickables) {
-      const pick = o.userData.pick as { kind?: string } | undefined;
-      if (pick?.kind !== 'building') continue;
-      const box = new THREE.Box3().setFromObject(o);
-      if (box.isEmpty()) continue;
-      box.min.x -= occ.eaves;
-      box.min.z -= occ.eaves;
-      box.max.x += occ.eaves;
-      box.max.z += occ.eaves;
-      box.max.y += occ.roof;
-      this.buildings.push(box);
-    }
     // C3: the Hollow camp's grass floor (the story sets' wide plane) is painted lighter, so
     // the camp's ground reads without a fill strong enough to flare the pale eggs.
     for (const o of ctx.pickables) {
@@ -247,20 +244,6 @@ class LightAndGrade implements Dressing3d {
         CG_A.storyFloor.hollowGround,
       );
     }
-    // The well's dark water disk would hang alone in the air once its ring thins out, so
-    // it dithers with the buildings too.
-    ctx.scene.traverse((o) => {
-      const m = (o as THREE.Mesh).material as THREE.MeshStandardMaterial | undefined;
-      if (!m || Array.isArray(m) || !m.color || m.color.getHex() !== 0x0d1a2a) return;
-      if (m.customProgramCacheKey().endsWith('|occ')) return;
-      const prevKey = m.customProgramCacheKey();
-      const prevHook = m.onBeforeCompile.bind(m);
-      m.onBeforeCompile = (shader, renderer) => {
-        prevHook(shader, renderer);
-        occludable(shader);
-      };
-      m.customProgramCacheKey = () => `${prevKey}|occ`;
-    });
     this.ring = skylineRing();
     this.windows = skylineWindows();
     // On the scene, not the home Grove's group: Corvin's garden and a neighbour's Grove
@@ -281,10 +264,10 @@ class LightAndGrade implements Dressing3d {
     NIGHT_RIM.value = CG_A.nightRim.strength * night;
     if (this.hull) this.hull.mat.visible = this.hull.base.visible;
     this.skyline(night, ctx, world.location !== 'dungeon' && world.location !== 'hollow');
-    this.storyFloor(world.location, ctx);
+    this.storyFloor(world.location, ctx, night);
 
     // The framed points of a staged scene: the Keeper first, then the speakers.
-    this.stager.update(world);
+    if (this.stager.update(world) || !this.discovered) this.discover(ctx);
     const home = world.location === 'grove';
     const groundAt = (p: Vec2) => (home ? groveHeight(p.x, p.z) : 0);
     const points = this.stager.active ? this.stager.frame(world).slice(0, 3) : [];
@@ -293,14 +276,15 @@ class LightAndGrade implements Dressing3d {
     OCCLUDE.radius.value = occ.radius;
     OCCLUDE.keep.value = occ.keep;
     OCCLUDE.margin.value = occ.margin;
+    OCCLUDE.nearCam.value = points.length > 0 ? occ.nearCam : 0;
     OCCLUDE.points.value.forEach((v, i) => {
       const p = points[i];
       if (p) v.set(p.x, groundAt(p) + occ.height, p.z, 1);
       else v.set(0, 0, 0, 0);
     });
-    OCCLUDE.boxes.value = home
-      ? this.bigBuildings(points.map((p) => new THREE.Vector3(p.x, groundAt(p) + occ.height, p.z)))
-      : 0;
+    OCCLUDE.boxes.value = this.blockers(
+      points.map((p) => new THREE.Vector3(p.x, groundAt(p), p.z)),
+    );
 
     // C3's story key: soft and shadowless (pool lights cast none), over the speakers and
     // pulled toward the camera so it falls on faces.
@@ -332,39 +316,33 @@ class LightAndGrade implements Dressing3d {
   }
 
   /**
-   * H9's whole-building fade: each building that fills more than `bigShare` of the frame
-   * and stands nearer the camera than the nearest framed subject goes to `OCCLUDE`'s boxes
-   * (four at most). Returns how many.
+   * H9's whole-building fade: a building (a `building` pickable, drawn this frame) thins
+   * whole only when it stands on a sight line from the camera to a framed subject (its
+   * feet, middle or head) before that subject; so a building beside or behind the shot
+   * never ghosts, and a story set the shot is about stays solid. Its glass, lamp and
+   * spill cards sit in the same box and thin with it. Four at most; returns how many.
    */
-  private bigBuildings(points: THREE.Vector3[]): number {
+  private blockers(feet: THREE.Vector3[]): number {
     const cam = this.camera;
-    if (!cam || points.length === 0) return 0;
-    const near = Math.min(...points.map((p) => p.distanceTo(cam.position)));
-    let n = 0;
-    for (const box of this.buildings) {
-      if (n >= OCCLUDE.boxMin.value.length) break;
-      if (box.distanceToPoint(cam.position) > near - CG_A.occlude.margin) continue;
-      let x0 = 1;
-      let y0 = 1;
-      let x1 = -1;
-      let y1 = -1;
-      for (let i = 0; i < 8; i++) {
-        const c = this.corner.set(
-          i & 1 ? box.max.x : box.min.x,
-          i & 2 ? box.max.y : box.min.y,
-          i & 4 ? box.max.z : box.min.z,
-        );
-        c.project(cam);
-        x0 = Math.min(x0, c.x);
-        y0 = Math.min(y0, c.y);
-        x1 = Math.max(x1, c.x);
-        y1 = Math.max(y1, c.y);
+    if (!cam || feet.length === 0) return 0;
+    const occ = CG_A.occlude;
+    const sights: { to: THREE.Vector3; dist: number }[] = [];
+    for (const f of feet)
+      for (const up of [0.3, occ.subjectHeight * 0.5, occ.subjectHeight]) {
+        const to = new THREE.Vector3(f.x, f.y + up, f.z);
+        sights.push({ to, dist: to.distanceTo(cam.position) });
       }
-      const share =
-        (Math.max(0, Math.min(1, x1) - Math.max(-1, x0)) *
-          Math.max(0, Math.min(1, y1) - Math.max(-1, y0))) /
-        4;
-      if (share <= CG_A.occlude.bigShare) continue;
+    let n = 0;
+    for (const [o, box] of this.buildings) {
+      if (n >= OCCLUDE.boxMin.value.length) break;
+      if (!shown(o)) continue;
+      const blocks = sights.some((s) => {
+        this.ray.origin.copy(cam.position);
+        this.ray.direction.copy(s.to).sub(cam.position).normalize();
+        const hit = this.ray.intersectBox(box, this.corner);
+        return hit !== null && hit.distanceTo(cam.position) < s.dist - occ.margin;
+      });
+      if (!blocks) continue;
       OCCLUDE.boxMin.value[n]!.copy(box.min);
       OCCLUDE.boxMax.value[n]!.copy(box.max);
       n++;
@@ -373,11 +351,63 @@ class LightAndGrade implements Dressing3d {
   }
 
   /**
+   * Find what the fade needs, once and again when a scene begins (other packages build
+   * their sets after this dressing): every `building` pickable's box, and the materials
+   * that must thin with a building (warm glass and lamp cards, additive light spills, the
+   * well's dark water) or on their own (the story sets' instanced crowns and trunks).
+   */
+  private discover(ctx: Dress3dCtx): void {
+    this.discovered = true;
+    const occ = CG_A.occlude;
+    for (const o of ctx.pickables) {
+      const pick = o.userData.pick as { kind?: string } | undefined;
+      if (pick?.kind !== 'building' || this.buildings.has(o)) continue;
+      const box = new THREE.Box3().setFromObject(o);
+      if (box.isEmpty()) continue;
+      box.min.x -= occ.eaves;
+      box.min.z -= occ.eaves;
+      box.max.x += occ.eaves;
+      box.max.z += occ.eaves;
+      box.max.y += occ.roof;
+      this.buildings.set(o, box);
+    }
+    ctx.scene.traverse((o) => {
+      const mesh = o as THREE.Mesh;
+      if (!mesh.isMesh || o.userData.hull) return;
+      const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+      const geo = mesh.geometry.type;
+      const crown =
+        (mesh as THREE.InstancedMesh).isInstancedMesh &&
+        (geo === 'IcosahedronGeometry' || geo === 'CylinderGeometry');
+      for (const m of mats) {
+        if (this.patched.has(m) || (m as THREE.ShaderMaterial).isShaderMaterial) continue;
+        const key = m.customProgramCacheKey();
+        if (key.startsWith('building-toon') || key.startsWith('toon|')) continue;
+        const s = m as THREE.MeshStandardMaterial;
+        const card =
+          mesh.name === 'light-spills' ||
+          m.blending === THREE.AdditiveBlending ||
+          (s.emissive !== undefined && s.emissive.getHex() !== 0) ||
+          (s.color !== undefined && s.color.getHex() === 0x0d1a2a);
+        if ((!card || s.vertexColors) && !crown) continue;
+        this.patched.add(m);
+        const prevHook = m.onBeforeCompile.bind(m);
+        m.onBeforeCompile = (shader, renderer) => {
+          prevHook(shader, renderer);
+          occludable(shader, crown);
+        };
+        m.customProgramCacheKey = () => `${key}|occ${crown ? '' : '-box'}`;
+        m.needsUpdate = true;
+      }
+    });
+  }
+
+  /**
    * C3 on the story sets: the Hollow camp is lit by the cave rig and Corvin's garden by a
    * dark floor, so both held near black. The fill is raised to a floor here, every frame
    * (the scene resets it every few seconds), so it never steps.
    */
-  private storyFloor(location: string, ctx: Dress3dCtx): void {
+  private storyFloor(location: string, ctx: Dress3dCtx, night: number): void {
     const hemi = this.hemi;
     if (!hemi) return;
     const f = CG_A.storyFloor;
@@ -385,9 +415,10 @@ class LightAndGrade implements Dressing3d {
       hemi.color.set(f.hollowColor);
       hemi.intensity = Math.max(hemi.intensity, f.hemi);
       ctx.scene.environmentIntensity = Math.max(ctx.scene.environmentIntensity, f.env);
-    } else if (location === 'corvin') {
-      hemi.intensity = Math.max(hemi.intensity, f.corvinHemi);
-      ctx.scene.environmentIntensity = Math.max(ctx.scene.environmentIntensity, f.env);
+    } else if (location === 'corvin' && night > 0.5) {
+      // After dark only: by day the garden's frost is already bright, and a floor bleached it.
+      hemi.intensity = Math.max(hemi.intensity, f.corvinHemi * night);
+      ctx.scene.environmentIntensity = Math.max(ctx.scene.environmentIntensity, f.env * night);
     }
   }
 
