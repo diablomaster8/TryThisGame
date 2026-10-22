@@ -1397,3 +1397,47 @@ export const PARTY_BOUT = {
   logLines: 6,
   prize: [20, 50, 110] as const,
 } as const;
+
+/**
+ * Full 3D readability (review 2026-10-21, bugs 10–17): the key-moment camera, the occluder
+ * fade, the story staging, the Hollow's light and the memorial flower.
+ */
+export const READ3D = {
+  /** A hatch, evolution, cocoon or rebirth: how long the camera frames the Nubbin. */
+  focus: {
+    ms: 5000,
+    /** The orbit distance while framing, and where between Keeper (0) and Nubbin (1) it looks. */
+    distance: 7,
+    towardSubject: 0.55,
+    /** The camera turns at most this far off the player's yaw to bring the Nubbin forward. */
+    maxTurnRad: 1.4,
+    /** Turned this far off the Keeper-to-Nubbin line: from the side, so both read, the Nubbin nearer. */
+    sideRad: 1.15,
+    pitchDeg: 20,
+  },
+  /** A story scene: the speakers framed together, the distance growing with their spread. */
+  stage: {
+    radius: 14,
+    minDistance: 8.5,
+    spreadK: 1.5,
+    /** The hour a scene's dusk or night narration is lit at. */
+    duskHour: 19.2,
+    nightHour: 22.5,
+    goldenHour: 17.8,
+    morningHour: 7.5,
+  },
+  /** Lantern posts: how wide a post blocks, and the NPC's keep-off radius round each. */
+  post: { r: 0.3, keepOff: 0.75 },
+  /** The Hollow Below: fill light, the Keeper's lamp and the wider camera. */
+  hollow: {
+    hemi: 0.75,
+    env: 0.35,
+    sun: 0.35,
+    fog: 0.016,
+    lamp: 9,
+    lampDistance: 15,
+    distanceK: 1.2,
+    pitchDeg: 42,
+  },
+  memorial: { height: 1.15, glow: 0.55 },
+} as const;

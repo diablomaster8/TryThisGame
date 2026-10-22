@@ -6,7 +6,7 @@ import type { PoseName, Rigged } from '../samples/species';
 import type { Floor } from '../sim/dungeon';
 import type { Location, Nubbin, Vec2, World } from '../sim/types';
 import { keeperLook, nubbinLook, openingLooks, takePool, type Look } from './creature-pool';
-import { Crowd, crowdFor } from './crowd';
+import { Crowd, crowdFor, type CrowdOptions } from './crowd';
 import { vectorEmotes } from './emote-vector';
 import { QuadCloud } from './quad-particles';
 import { gaitTime } from './gait';
@@ -169,6 +169,8 @@ export class Actors {
   location: Location = 'grove';
   floor: Floor | null = null;
   private readonly crowd: Crowd;
+  /** Story holds and the lantern posts, set by the scene (see staging.ts, crowd.ts). */
+  crowdOptions: CrowdOptions = {};
   /** Ground height for feet: the terrain in the Grove, flat elsewhere. */
   ground: (x: number, z: number) => number = () => 0;
 
@@ -656,7 +658,12 @@ export class Actors {
     const hand = this.keeperHand(rig, keeper);
     let petted = false;
     // Visitors, wild ones, the Hollow's strays and the story places' grey Nubbins.
-    this.crowd.update(crowdFor(world, this.location, this.floor, nowMs), this.ground, t, dt);
+    this.crowd.update(
+      crowdFor(world, this.location, this.floor, nowMs, this.crowdOptions),
+      this.ground,
+      t,
+      dt,
+    );
 
     // Nubbins. On a visit the Keeper's own stay at home, as do the items.
     const away = this.location.startsWith('visit:');

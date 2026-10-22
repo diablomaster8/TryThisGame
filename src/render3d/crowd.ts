@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { GROVE3D } from '../config/tuning';
+import { GROVE3D, READ3D } from '../config/tuning';
 import type { PoseName, Rigged } from '../samples/species';
 import { speciesArt } from '../render/sprites/species-art';
 import type { Floor } from '../sim/dungeon';
@@ -7,7 +7,7 @@ import { neighbourGarden, visitingTrainer, type NeighbourNubbin } from '../sim/n
 import { ROSTER } from '../samples/species-roster';
 import { variantById } from '../samples/nubbin-variant-catalogue';
 import { TRAINERS, trainerOf } from '../sim/trainers';
-import type { Location, World } from '../sim/types';
+import type { Location, Vec2, World } from '../sim/types';
 import type { CreaturePool, Look } from './creature-pool';
 import { gaitTime } from './gait';
 import { placeStand } from './item-kit';
@@ -114,12 +114,44 @@ function neighbours(trainer: string, nowMs: number): Figure[] {
   return out;
 }
 
+export interface CrowdOptions {
+  /** A story scene's held spots, by NPC id (see staging.ts). */
+  holds?: ReadonlyMap<string, Vec2>;
+  /** The Grove's lantern posts, which a visiting Keeper is drawn clear of. */
+  posts?: ReadonlyArray<Vec2>;
+}
+
+/**
+ * Nudge a figure out of the posts' keep-off circles. The sim does not count lantern posts
+ * as obstacles, so an NPC's path can cross one; drawn a step aside, it never stands
+ * inside the post (review 2026-10-21, play-test).
+ */
+export function keepOff(p: Vec2, posts?: ReadonlyArray<Vec2>): Vec2 {
+  if (!posts) return p;
+  const r = READ3D.post.keepOff;
+  let x = p.x;
+  let z = p.z;
+  for (const q of posts) {
+    const dx = x - q.x;
+    const dz = z - q.z;
+    const d = Math.hypot(dx, dz);
+    if (d >= r) continue;
+    // Straight on the post's centre: step aside along x.
+    const k = d < 1e-4 ? 1 : dx / d;
+    const m = d < 1e-4 ? 0 : dz / d;
+    x = q.x + k * r;
+    z = q.z + m * r;
+  }
+  return { x, z };
+}
+
 /** Who stands in the scene besides the Keeper and the Nubbins, for this place and moment. */
 export function crowdFor(
   world: World,
   location: Location,
   floor: Floor | null,
   nowMs: number,
+  opts: CrowdOptions = {},
 ): Figure[] {
   const out: Figure[] = [];
   const home = location === 'grove';
@@ -135,15 +167,19 @@ export function crowdFor(
           ? t === 'corvin' || t === 'ember'
           : t === 'nova';
     if (!here) continue;
+    // In a story scene everyone holds where they stood, turned to the Keeper (staging.ts).
+    const held = opts.holds?.get(npc.id);
+    const at = keepOff(held ?? npc.pos, home ? opts.posts : undefined);
+    const k = world.keeper.pos;
     const band = TRAINERS.find((tr) => tr.id === t)?.band === 'moon' ? 'moon' : 'sun';
     out.push({
       id: npc.id,
       kind: 'npc',
       look: { key: `keeper-${band}~npc:${t}`, height: GROVE3D.keeperHeight },
-      x: npc.pos.x,
-      z: npc.pos.z,
-      facing: npc.facing,
-      pose: npc.target ? 'walk' : 'idle',
+      x: at.x,
+      z: at.z,
+      facing: held ? Math.atan2(k.x - at.x, k.z - at.z) : npc.facing,
+      pose: npc.target && !held ? 'walk' : 'idle',
     });
   }
   if (home)
@@ -202,7 +238,21 @@ interface Member {
   pose: PoseName | null;
   kind: Figure['kind'];
   ask: THREE.Sprite | null;
+  /** A stray's soft ring of light on the Hollow floor, so it reads in the dark (bug 12). */
+  ring: THREE.Mesh | null;
 }
+
+/** One ring for every stray, shared for the page's life. */
+const STRAY_RING = {
+  geo: new THREE.RingGeometry(0.42, 0.62, 28),
+  mat: new THREE.MeshBasicMaterial({
+    color: '#c8a8ff',
+    transparent: true,
+    opacity: 0.5,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+  }),
+};
 
 export class Crowd {
   private readonly members = new Map<string, Member>();
@@ -236,6 +286,7 @@ export class Crowd {
           pose: null,
           kind: f.kind,
           ask: null,
+          ring: null,
         };
         this.members.set(f.id, m);
       }
@@ -280,6 +331,12 @@ export class Crowd {
         m.ask = null;
       }
       m.ask?.position.set(m.pos.x, gy + m.look.height + 0.35 + Math.sin(t * 2.5) * 0.04, m.pos.z);
+      if (f.kind === 'stray' && !m.ring) {
+        m.ring = new THREE.Mesh(STRAY_RING.geo, STRAY_RING.mat);
+        m.ring.rotation.x = -Math.PI / 2;
+        this.group.add(m.ring);
+      }
+      m.ring?.position.set(m.pos.x, gy + 0.04, m.pos.z);
     }
     for (const id of [...this.members.keys()]) if (!live.has(id)) this.drop(id);
   }
@@ -325,6 +382,7 @@ export class Crowd {
     if (m.rig) this.pool.release(m.key, m.rig);
     m.stand?.removeFromParent();
     m.ask?.removeFromParent();
+    m.ring?.removeFromParent();
     this.members.delete(id);
   }
 

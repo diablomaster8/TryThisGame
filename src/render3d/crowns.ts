@@ -23,6 +23,13 @@ export interface GroveTree {
   trunk?: { mesh: THREE.Mesh; foot: THREE.Vector3; height: number; r: number };
 }
 
+interface Pillar {
+  fade: { value: number };
+  foot: THREE.Vector3;
+  height: number;
+  r: number;
+}
+
 interface Faded extends GroveTree {
   fade: { value: number };
   /** 1 while the camera is inside the crown: then all of it fades, not only the hole. */
@@ -36,6 +43,8 @@ interface Faded extends GroveTree {
  * a row of trees is not ghosted whole into dots (review C, item 21). Shared by every tree.
  */
 const HOLE = { value: new THREE.Vector3(0, 0, 0) };
+/** A second circle, on the Nubbin a key moment or a selection is about (radius 0: none). */
+const HOLE2 = { value: new THREE.Vector3(0, 0, 0) };
 
 /**
  * The fadeable parts of an `aaa-kit` `buildTree`: its first part is the trunk (a 3.2-unit
@@ -76,8 +85,8 @@ export function treeOf(parts: THREE.Object3D[], scale = 1.05): GroveTree | null 
 function ditherable(
   mat: THREE.Material,
   whole: { value: number } = { value: 0 },
+  fade: { value: number } = { value: 1 },
 ): { value: number } {
-  const fade = { value: 1 };
   // The crown's own patch (its wind and rounded shading in `aaa-kit.ts`) runs first, and the
   // key says both are in, so a crown with no dither never shares a program with one that has.
   const prev = mat.onBeforeCompile.bind(mat);
@@ -88,17 +97,21 @@ function ditherable(
     shader.uniforms.uCrownFade = fade;
     shader.uniforms.uCrownWhole = whole;
     shader.uniforms.uCrownHole = HOLE;
+    shader.uniforms.uCrownHole2 = HOLE2;
     shader.fragmentShader = shader.fragmentShader
       .replace(
         '#include <common>',
-        '#include <common>\nuniform float uCrownFade;\nuniform float uCrownWhole;\nuniform vec3 uCrownHole;',
+        '#include <common>\nuniform float uCrownFade;\nuniform float uCrownWhole;\nuniform vec3 uCrownHole;\nuniform vec3 uCrownHole2;',
       )
       .replace(
         '#include <alphatest_fragment>',
         `#include <alphatest_fragment>
         if (uCrownFade < 0.999) {
           float d = distance(gl_FragCoord.xy, uCrownHole.xy);
-          float hole = uCrownWhole > 0.5 ? 1.0 : 1.0 - smoothstep(uCrownHole.z * 0.6, uCrownHole.z, d);
+          float d2 = distance(gl_FragCoord.xy, uCrownHole2.xy);
+          float h2 = uCrownHole2.z > 0.0 ? 1.0 - smoothstep(uCrownHole2.z * 0.6, uCrownHole2.z, d2) : 0.0;
+          float h1 = 1.0 - smoothstep(uCrownHole.z * 0.6, uCrownHole.z, d);
+          float hole = uCrownWhole > 0.5 ? 1.0 : max(h1, h2);
           float keep = mix(1.0, uCrownFade, hole);
           float n = fract(52.9829189 * fract(dot(gl_FragCoord.xy, vec2(0.06711056, 0.00583715))));
           if (n >= keep) discard;
@@ -113,6 +126,23 @@ export class CrownFade {
   /** Place the see-through circle on the Keeper, in drawing-buffer pixels. */
   static setHole(x: number, y: number, radius: number): void {
     HOLE.value.set(x, y, radius);
+  }
+
+  /** The second circle, on a focused Nubbin; a radius of 0 turns it off. */
+  static setHole2(x: number, y: number, radius: number): void {
+    HOLE2.value.set(x, y, radius);
+  }
+
+  private readonly pillars: Pillar[] = [];
+
+  /**
+   * A post that thins like a trunk when it stands between the camera and a target (the
+   * lantern posts, review 2026-10-21 bug 10). Every material of it shares one fade.
+   */
+  addPillar(materials: THREE.Material[], foot: THREE.Vector3, height: number, r: number): void {
+    const fade = { value: 1 };
+    for (const m of materials) ditherable(m, { value: 0 }, fade);
+    this.pillars.push({ fade, foot, height, r });
   }
 
   private readonly trees: Faded[] = [];
@@ -135,8 +165,11 @@ export class CrownFade {
    * Does the segment pass the trunk? Sampled along its length: a point at trunk height
    * within the trunk's radius (and a little more, for the Keeper's width) of its axis.
    */
-  private hitsTrunk(t: Faded, from: THREE.Vector3, to: THREE.Vector3): boolean {
-    const k = t.trunk;
+  private hitsTrunk(
+    k: { foot: THREE.Vector3; height: number; r: number } | undefined,
+    from: THREE.Vector3,
+    to: THREE.Vector3,
+  ): boolean {
     if (!k) return false;
     const steps = 16;
     for (let i = 1; i < steps; i++) {
@@ -196,10 +229,15 @@ export class CrownFade {
       for (const o of t.inner) o.visible = show;
       const tf = t.trunkFade;
       if (tf) {
-        const want = targets.some((p) => this.hitsTrunk(t, camera, p)) ? f.blocked : 1;
+        const want = targets.some((p) => this.hitsTrunk(t.trunk, camera, p)) ? f.blocked : 1;
         const w = tf.value + (want - tf.value) * k;
         tf.value = Math.abs(w - want) < 0.01 ? want : w;
       }
+    }
+    for (const p of this.pillars) {
+      const want = targets.some((q) => this.hitsTrunk(p, camera, q)) ? f.blocked : 1;
+      const w = p.fade.value + (want - p.fade.value) * k;
+      p.fade.value = Math.abs(w - want) < 0.01 ? want : w;
     }
   }
 }
