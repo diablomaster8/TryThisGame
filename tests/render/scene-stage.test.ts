@@ -2,7 +2,9 @@ import { describe, expect, it } from 'vitest';
 import { CAMERA, READ3D } from '../../src/config/tuning';
 import { markAt, STAGE_MARKS } from '../../src/config/stage-marks';
 import { OrbitCamera } from '../../src/render/camera';
-import { SceneStager, stageFlags } from '../../src/render/scene-stage';
+import { resolveStage, SceneStager, stageFlags } from '../../src/render/scene-stage';
+import { STORYLINE_DAWN, STORYLINE_DUSK } from '../../src/content/storyline-dawndusk';
+import { registerStorylines } from '../../src/sim/story-scenes';
 import { startCampaign } from '../../src/sim/campaign';
 import { spawnNpc } from '../../src/sim/npcs';
 import { createWorld } from '../../src/sim/world';
@@ -28,10 +30,31 @@ describe('the shared story stager (campaign graphics C1, C2, C5)', () => {
   });
 
   it('falls back to the hour the narration names', () => {
+    // An unstaged scene (the staged c2-corvin names its own 17:00).
+    const w = campaignWorld(['end-empty-lantern']);
+    const st = new SceneStager();
+    st.update(w);
+    expect(st.hour).toBe(READ3D.stage.nightHour);
+  });
+
+  it('draws a staged scene at its own hour', () => {
     const w = campaignWorld(['c2-corvin']);
     const st = new SceneStager();
     st.update(w);
-    expect(st.hour).toBe(READ3D.stage.goldenHour);
+    expect(st.hour).toBe(17);
+  });
+
+  it("follows Dawn & Dusk's half when a scene names no hour (M13)", () => {
+    registerStorylines([STORYLINE_DAWN, STORYLINE_DUSK]);
+    const w = campaignWorld(['end-dusk-half-day']);
+    w.campaign!.storyline = 'dusk';
+    expect(resolveStage(w)?.stage.hour).toBe(19);
+    w.campaign!.storyline = 'dawn';
+    w.campaign!.queue = ['end-dawn-half-day'];
+    expect(resolveStage(w)?.stage.hour).toBe(6.5);
+    // An opening carries its own stage, which says the same.
+    w.campaign!.queue = ['dawn-c1-open'];
+    expect(resolveStage(w)?.stage.hour).toBe(6.5);
   });
 
   it('stages no hour underground', () => {
@@ -43,7 +66,7 @@ describe('the shared story stager (campaign graphics C1, C2, C5)', () => {
   });
 
   it('brings a far speaker in beside the Keeper, turned to them, and frames them', () => {
-    const w = campaignWorld(['c2-corvin']);
+    const w = campaignWorld(['c5-considered']);
     const npc = spawnNpc(w, 'corvin');
     npc.pos = { x: 40, z: 40 };
     const k = w.keeper.pos;

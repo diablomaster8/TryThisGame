@@ -1787,7 +1787,7 @@ export const STORY_PROPS: readonly StoryPropDef[] = [
   { id: 'hatch-register', kind: 'register', x: -7.9, z: 10.7, meets: ['hatch-register'] },
   { id: 'hazels-lantern', kind: 'handLantern', x: -5.4, z: 11.2, meets: ['s24-hazels-lantern'] },
   { id: 'sunrise-shelf', kind: 'shelf', x: -8.6, z: 11.4, meets: ['sunrise-shelf'] },
-  { id: 'flat-stone', kind: 'flatStone', x: -11, z: 12.2, meets: ['s24-hill'] },
+  { id: 'flat-stone', kind: 'flatStone', x: -14.8, z: 13.6, meets: ['s24-hill'] },
   { id: 'hazels-bench', kind: 'oldBench', x: -2.4, z: 5.6, meets: ['hazel-bench'] },
   { id: 'corvins-chair', kind: 'chair', x: -1, z: 6.3, meets: [] },
   { id: 'lantern-shed', kind: 'shed', x: 6.4, z: -1.2, meets: ['s27-shed-window', 's7-minder'] },
