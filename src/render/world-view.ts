@@ -11,6 +11,7 @@ import { GROVE, GROVE3D } from '../config/tuning';
 import { CaveAmbience, landmarkSprites } from './cave-ambience';
 import { placeDecorations } from './decor';
 import { fenceSpots, SCENERY } from './scenery';
+import { isSceneryHidden } from './scenery-hide';
 import { neighbourGarden } from '../sim/neighbourhood';
 import { isMerged } from '../sim/partners';
 import { visibleStoryProps } from '../sim/story-props';
@@ -369,6 +370,7 @@ export class WorldView {
       const scenery = this.sheets.scenery();
       const lampsOn = this.lights.length > 0;
       for (const s of SCENERY) {
+        if (isSceneryHidden(s.kind)) continue;
         const litKey = lampsOn
           ? scenery.frames.get(frameKey(`${s.kind}-lit`, 'front', 0))
           : undefined;

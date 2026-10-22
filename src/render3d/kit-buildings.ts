@@ -10,13 +10,13 @@ import { bevelBox, buildingMaterial, Buckets, house, type LightSpill } from './b
  * The materials are made once per texture set and kept for the page's life (`SHARED`), so
  * a rebuilt garden makes none; each building is a handful of merged meshes.
  */
-type KitKey = 'roof' | 'timber' | 'stone' | 'glass' | 'door' | 'plank' | 'shutter' | 'wall';
+export type KitKey = 'roof' | 'timber' | 'stone' | 'glass' | 'door' | 'plank' | 'shutter' | 'wall';
 
 const KITS = new WeakMap<Tex, Record<KitKey, THREE.Material>>();
 /** Every material made here, so `disposeModel` leaves them alone. */
 export const KIT_SHARED = new Set<THREE.Material>();
 
-function kitMaterials(tex: Tex): Record<KitKey, THREE.Material> {
+export function kitMaterials(tex: Tex): Record<KitKey, THREE.Material> {
   let k = KITS.get(tex);
   if (k) return k;
   k = {
