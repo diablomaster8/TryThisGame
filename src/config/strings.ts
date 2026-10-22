@@ -1474,12 +1474,12 @@ export const STORY_U4_TEXT = {
   board: {
     title: 'REQUESTS',
     cards: [
-      ['LOST', 'one red kite', 'ask: Pip'],
-      ['WANTED', 'ripe plums', 'ask: Juno'],
-      ['SWAP', 'eggs for tea', 'ask: Wren'],
-      ['HELP', 'ladder is stuck', 'ask: Dusty'],
-      ['FOUND', 'a small glove', 'ask: anyone'],
-      ['LOOKING', 'for a quiet game', 'ask: Pixel'],
+      ['LOST', 'a red kite', 'ask Pip'],
+      ['WANTED', 'ripe plums', 'ask Juno'],
+      ['SWAP', 'eggs for tea', 'ask Wren'],
+      ['HELP', 'stuck ladder', 'ask Dusty'],
+      ['FOUND', 'one glove', 'ask anyone'],
+      ['WANTED', 'quiet games', 'ask Pixel'],
     ] as ReadonlyArray<readonly [string, string, string]>,
     empty: 'Nothing pinned today.',
     notices: {
