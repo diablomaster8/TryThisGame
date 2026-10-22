@@ -10,6 +10,7 @@ import type { BuntingShape } from '../config/campaign-look';
 import { markAt } from '../config/stage-marks';
 import { LANTERN_POSTS } from '../config/tuning';
 import { LOOK_F } from '../config/tuning-f';
+import { CG4_U4 } from '../config/tuning-u4';
 import { driveCampaign, disposeLook } from '../ui/title-card';
 import { townUnlocks, type TownUnlocks } from '../sim/town';
 import type { World } from '../sim/types';
@@ -153,7 +154,8 @@ export const dress3dF: Dressing3d = {
     // Logged In: the lobby scoreboard and the holographic fence.
     const board = buildScoreboard();
     const bm = markAt('grove', 'board') ?? { x: 3, z: -2, yaw: 0 };
-    place(board, bm.x, bm.z);
+    // K29: the scoreboard stands aside so the message board's face can be read.
+    place(board, bm.x + CG4_U4.board.scoreDx, bm.z);
     g.logged.add(board);
     holo = buildHoloFence(groveHeight);
     g.logged.add(holo.mesh);

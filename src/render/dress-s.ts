@@ -11,6 +11,7 @@ import {
 import { markAt } from '../config/stage-marks';
 import { DUNGEON } from '../config/tuning';
 import { CG2_S } from '../config/tuning-s';
+import { CG4_U4 } from '../config/tuning-u4';
 import type { World } from '../sim/types';
 import { buildArtS, gridTexture, ovalMaskTexture, US, type ArtS } from './art-s';
 import type { PixelDressCtx, PixelDressing } from './dressings';
@@ -271,7 +272,7 @@ export const dressS: PixelDressing = {
     if (s.digital) {
       // The board's holo edge, drawn over package f's board on the same spot.
       const bm = markAt('grove', 'board') ?? { x: 3, z: -2, yaw: 0 };
-      up('board-edge', bm.x, 0, bm.z);
+      up('board-edge', bm.x + CG4_U4.board.scoreDx, 0, bm.z);
       if (s.door) {
         const D = CG2_S.digital;
         up('door', D.doorX, 0, D.doorZ, Math.max(0.7, dim));

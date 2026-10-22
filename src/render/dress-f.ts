@@ -8,6 +8,7 @@ import {
 import { markAt } from '../config/stage-marks';
 import { LANTERN_POSTS } from '../config/tuning';
 import { LOOK_F } from '../config/tuning-f';
+import { CG4_U4 } from '../config/tuning-u4';
 import { townUnlocks } from '../sim/town';
 import type { World } from '../sim/types';
 import { disposeLook, driveCampaign } from '../ui/title-card';
@@ -126,7 +127,7 @@ export const dressF: PixelDressing = {
 
     if (s.logged) {
       const bm = markAt('grove', 'board') ?? { x: 3, z: -2, yaw: 0 };
-      d.up('board', bm.x, 0, bm.z, 1);
+      d.up('board', bm.x + CG4_U4.board.scoreDx, 0, bm.z, 1);
       holoFence(d, reduce);
     }
 
