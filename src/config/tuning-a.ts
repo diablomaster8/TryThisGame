@@ -51,9 +51,14 @@ export const CG_A = {
     keep: 0.2,
     height: 0.85,
     margin: 0.8,
-    /** A building between the camera and the subjects that fills more of the frame than this
-     * share thins whole; its box is its walls' grown by `eaves` and lifted by `roof`. */
-    bigShare: 0.15,
+    /**
+     * A building thins whole when it cuts a sight line from the camera to a framed subject
+     * (feet, middle, head: `subjectHeight` tall); its box is its walls' grown by `eaves`
+     * and `roof`.
+     * `nearCam`: anything this near the camera thins too (a crown the camera sits in).
+     */
+    subjectHeight: 1.9,
+    nearCam: 4,
     eaves: 0.8,
     roof: 3.5,
   },

@@ -56,17 +56,20 @@ export const OCCLUDE = {
   keep: { value: CG_A.occlude.keep as number },
   margin: { value: CG_A.occlude.margin as number },
   /**
-   * Whole buildings to thin (up to four world boxes, min and max corners): one that stands
-   * between the camera and the framed subjects and fills more than a set share of the
-   * frame (`CG_A.occlude.bigShare`). Box `i` is in use when `i < boxes`.
+   * Whole buildings to thin (up to four world boxes, min and max corners): each stands
+   * nearer the camera than a framed subject and covers it on screen (the package-a
+   * dressing decides). Box `i` is in use when `i < boxes`.
    */
+  /** Anything this near the camera (view depth) thins too: the camera inside a crown. */
+  nearCam: { value: 0 },
   boxes: { value: 0 },
   boxMin: { value: [0, 1, 2, 3].map(() => new THREE.Vector3()) },
   boxMax: { value: [0, 1, 2, 3].map(() => new THREE.Vector3()) },
 };
 
 /** Hook the H9 dither into any lit or basic material's shader (buildings and their hulls). */
-export function occludable(shader: THREE.WebGLProgramParametersWithUniforms): void {
+export function occludable(shader: THREE.WebGLProgramParametersWithUniforms, circle = true): void {
+  shader.uniforms.uOccNearCam = OCCLUDE.nearCam;
   shader.uniforms.uOccOn = OCCLUDE.on;
   shader.uniforms.uOccP = OCCLUDE.points;
   shader.uniforms.uOccR = OCCLUDE.radius;
@@ -85,7 +88,11 @@ export function occludable(shader: THREE.WebGLProgramParametersWithUniforms): vo
       {
         mat4 vp = projectionMatrix * viewMatrix;
         vOccClip = gl_Position;
-        vOccWorld = (modelMatrix * vec4(transformed, 1.0)).xyz;
+        #ifdef USE_INSTANCING
+          vOccWorld = (modelMatrix * instanceMatrix * vec4(transformed, 1.0)).xyz;
+        #else
+          vOccWorld = (modelMatrix * vec4(transformed, 1.0)).xyz;
+        #endif
         vOcc0 = uOccP[0].w > 0.5 ? vp * vec4(uOccP[0].xyz, 1.0) : vec4(0.0);
         vOcc1 = uOccP[1].w > 0.5 ? vp * vec4(uOccP[1].xyz, 1.0) : vec4(0.0);
         vOcc2 = uOccP[2].w > 0.5 ? vp * vec4(uOccP[2].xyz, 1.0) : vec4(0.0);
@@ -100,6 +107,7 @@ export function occludable(shader: THREE.WebGLProgramParametersWithUniforms): vo
       uniform float uOccR;
       uniform float uOccKeep;
       uniform float uOccMargin;
+      uniform float uOccNearCam;
       uniform float uOccBoxes;
       uniform vec3 uOccBoxMin[4];
       uniform vec3 uOccBoxMax[4];
@@ -116,7 +124,8 @@ export function occludable(shader: THREE.WebGLProgramParametersWithUniforms): vo
       `#include <clipping_planes_fragment>
       if (uOccOn > 0.5) {
         vec2 f = vOccClip.xy / vOccClip.w;
-        float hole = max(occHole(vOcc0, f), max(occHole(vOcc1, f), occHole(vOcc2, f)));
+        float hole = ${circle ? 'max(occHole(vOcc0, f), max(occHole(vOcc1, f), occHole(vOcc2, f)))' : '0.0'};
+        if (vOccClip.w < uOccNearCam) discard;
         for (int i = 0; i < 4; i++) {
           if (float(i) >= uOccBoxes) break;
           vec3 lo = uOccBoxMin[i];
