@@ -3,18 +3,7 @@ import { GROVE3D } from '../config/tuning';
 import type { CaveBand } from '../render/cave-bands';
 import { cellAt, cellCentre, FLOOR, WALL, type Cell, type Floor } from '../sim/dungeon';
 import { CELL, cellHash } from './hollow-ctx';
-import {
-  BOX,
-  CONE,
-  CYL,
-  DISC,
-  Kit,
-  OCT,
-  PRISM,
-  ROCK,
-  SPHERE,
-  TORUS,
-} from './hollow-dress-kit';
+import { BOX, CONE, CYL, DISC, Kit, OCT, PRISM, ROCK, SPHERE, TORUS } from './hollow-dress-kit';
 import { across, cellPoint, cellTop, deckHeight, mainPath, STONE_TOP } from './hollow-dress-path';
 import {
   DIRS,
@@ -585,7 +574,8 @@ function vistas(f: Floor, kit: Kit, out: SetOut): void {
     const base = pos.length / 3;
     const near = CELL * 0.62;
     const far = (v.depth + 0.5) * CELL;
-    const y = y0 + 0.3;
+    // Just above the rock's low lip there (agent C's `vistaLip`).
+    const y = y0 + GROVE3D.cave.rock.vistaLip + 0.03;
     const corners = [
       [first.x - ax * CELL * 0.5, first.z - ay * CELL * 0.5],
       [last.x + ax * CELL * 0.5, last.z + ay * CELL * 0.5],

@@ -9,7 +9,7 @@ import { mat, type HollowCtx, type HollowFrame, type HollowModule } from './holl
 import { HollowDress, pathBaker } from './hollow-dress';
 import { HollowLight, lightBaker } from './hollow-light';
 import { HollowPop } from './hollow-pop';
-import { HollowRock, wallGeometry } from './hollow-rock';
+import { HollowRock } from './hollow-rock';
 
 /**
  * A Hollow Below floor in 3D, built from the sim's `Floor` (`sim/dungeon.ts`): rock walls
@@ -71,19 +71,18 @@ export class Hollow {
       bakers: [],
       uniforms: { torchFlicker: { value: 1 } },
     };
-    this.rock = new HollowRock(tex);
+    this.rock = new HollowRock(tex, this.ctx.uniforms.torchFlicker);
     this.dress = new HollowDress(tex);
     this.group.name = 'hollow';
     this.group.visible = false;
     parent.add(this.group);
     this.light_ = new HollowLight(parent);
     this.dress.useLights(this.light_);
-    // A lit sconce re-bakes the floor's light; the rock's `rebake()` arrives with the bake seam.
-    this.light_.rebake = () => (this.rock as Partial<{ rebake(): void }>).rebake?.();
+    // A lit sconce re-bakes the floor's light.
+    this.light_.rebake = () => this.rock.rebake();
     this.mods = [this.rock, this.dress, this.light_, this.atmos, this.pop];
     const box = new THREE.BoxGeometry(0.1, 0.1, 0.1);
-    const wallSample = new THREE.InstancedMesh(wallGeometry(), this.rock.rock, 1);
-    wallSample.setColorAt(0, new THREE.Color('#ffffff'));
+    const wallSample = new THREE.Mesh(box, this.rock.rock);
     const pool = new THREE.BufferGeometry();
     pool.setAttribute(
       'position',
@@ -106,7 +105,11 @@ export class Hollow {
     // The shadow pass draws casters with its own depth material (back faces), which
     // `compile` never sees; these match it when compiled as the pass draws (see the scene).
     const depth = new THREE.MeshDepthMaterial({ side: THREE.BackSide });
-    this.shadowSamples.add(new THREE.Mesh(box, depth), new THREE.InstancedMesh(box, depth, 1));
+    this.shadowSamples.add(
+      new THREE.Mesh(box, depth),
+      new THREE.InstancedMesh(box, depth, 1),
+      new THREE.Mesh(box, this.rock.depth),
+    );
     this.samples.visible = false;
     parent.add(this.samples);
   }

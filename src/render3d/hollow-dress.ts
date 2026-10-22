@@ -267,6 +267,8 @@ export class HollowDress implements HollowModule {
   private scatter(f: Floor, busy: Set<string>): void {
     const D = GROVE3D.cave.dress;
     const { rubbleShare, spikeShare } = GROVE3D.cave;
+    // Things hanging off the rock hang from its lip, which leans out over the open ground.
+    const lean = GROVE3D.cave.rock.lean;
     const stones: THREE.Matrix4[] = [];
     const stalag: Array<
       [THREE.Vector3, THREE.Quaternion, THREE.Vector3, { x: number; z: number } | null]
@@ -337,9 +339,9 @@ export class HollowDress implements HollowModule {
             const r = 0.12 + cellHash(y, x, 39) * 0.08;
             stalag.push([
               new THREE.Vector3(
-                wall.x - dx * (CELL * 0.5 - 0.1),
-                WALL_H * 0.86,
-                wall.z - dy * (CELL * 0.5 - 0.1),
+                wall.x - dx * (CELL * 0.5 + lean * 0.8),
+                WALL_H * 0.9,
+                wall.z - dy * (CELL * 0.5 + lean * 0.8),
               ),
               flip.clone(),
               new THREE.Vector3(r, tall, r),
@@ -347,12 +349,12 @@ export class HollowDress implements HollowModule {
             ]);
           }
           if (cellHash(x, y, 43 + dx * 2 + dy) < D.rootShare) {
-            const s = 0.7 + cellHash(x, y, 47) * 0.25;
+            const s = 1.2 + cellHash(x, y, 47) * 0.5;
             roots.push([
               new THREE.Vector3(
-                wall.x - dx * (CELL * 0.5 - 0.05),
-                WALL_H * 1.04,
-                wall.z - dy * (CELL * 0.5 - 0.05),
+                wall.x - dx * (CELL * 0.5 + lean * 0.9),
+                WALL_H * 0.94,
+                wall.z - dy * (CELL * 0.5 + lean * 0.9),
               ),
               new THREE.Quaternion().setFromEuler(e.set(0, Math.atan2(-dx, -dy), 0)),
               new THREE.Vector3(s, s, s),

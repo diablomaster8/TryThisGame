@@ -454,6 +454,45 @@ export const GROVE3D = {
       /** Loot's bob and turn (both still under reduced motion). */
       loot: { bob: 0.04, spin: 0.8 },
     },
+    /**
+     * The rock (`render3d/hollow-rock.ts`, items 1, 9 to 13 and 45). Walls stand
+     * `wallHeight` tall (uneven by `wallVary`) and their tops lean `lean` units out over the
+     * open ground, so a chamber reads as a vault; `vistaLip` is the height of the low lip
+     * left where a vista opens onto the chasm. The floor is cut `floorSub` times finer than
+     * a cell so a terrace edge is a short steep ledge (`ledge` is the share of the gap
+     * between two cell centres it is steepest over) and `ledgeWear` brightens its upper lip
+     * and shades its foot. `triplanarPower` sharpens the three-way blend. `wear` brightens
+     * up-facing ridges and the top lip of a wall toward the band's rim colour; `moss` climbs
+     * `foot` units up a wall, `wet` more where a wall faces water, and `fungus` is the glowing
+     * speckle share; `wet` darkens, glosses and streaks rock within `radius` cells of water.
+     * `tintMix` is how far the band's rock colour tints the texture. `looks` is one entry
+     * per band: its painted texture, the strata (`freq` bands a unit, `amount` of pale
+     * stripe, `warp` of the noise, `thick` 0..1 where the stripe starts) and fungus amount.
+     * The bake (vertex colours and torch light for the bakers in `HollowCtx`) runs
+     * `bakeMs` a frame.
+     */
+    rock: {
+      wallHeight: 5.4,
+      wallVary: 0.12,
+      lean: 1.0,
+      vistaLip: 0.45,
+      wallRows: 6,
+      floorSub: 3,
+      ledge: [0.22, 0.78] as const,
+      ledgeWear: 0.28,
+      triplanarPower: 4,
+      tintMix: 0.55,
+      wear: { ridge: 0.5, lip: 0.55 },
+      moss: { foot: 1.7, wet: 0.7, amount: 0.5, floor: 0.5 },
+      wet: { radius: 2, darken: 0.3, rough: 0.28, drip: 0.45 },
+      bakeMs: 3,
+      looks: [
+        { tex: 'sandstone', freq: 2.4, amount: 0.9, warp: 1.6, thick: 0.6, fungus: 0.0 },
+        { tex: 'slate', freq: 4.6, amount: 1.0, warp: 0.9, thick: 0.5, fungus: 0.5 },
+        { tex: 'amber', freq: 3.0, amount: 0.85, warp: 2.2, thick: 0.62, fungus: 0.6 },
+        { tex: 'slate', freq: 3.4, amount: 0.9, warp: 1.4, thick: 0.6, fungus: 0.7 },
+      ] as const,
+    },
   },
   /**
    * The painted sky (`render3d/sky.ts`): a zenith-to-horizon gradient per time of day, a

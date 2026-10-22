@@ -366,7 +366,14 @@ export class Actors {
     // Vector frames (art pass 2), keyed as the pixel sheet's frames are.
     for (const [key, tex] of vectorEmotes(shadow)) {
       const [shape, f] = key.split(':') as [EmoteShape, string];
-      const mat = new THREE.SpriteMaterial({ map: tex, depthTest: true, fog: false });
+      // Alpha-tested, so only the ball itself writes depth: the clear rest of the quad must
+      // not hide additive layers drawn after it (the lamp's disc, glows, fog) in a dark square.
+      const mat = new THREE.SpriteMaterial({
+        map: tex,
+        depthTest: true,
+        fog: false,
+        alphaTest: 0.5,
+      });
       this.emoteMats.set(`${shadow ? 'shadow:' : ''}${frameKey(shape, 'front', Number(f))}`, mat);
     }
   }

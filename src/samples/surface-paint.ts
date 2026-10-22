@@ -8,7 +8,8 @@ import { hex, mix, Raster, shade, type RGB } from '../render/paint/raster';
  * paints its ten textures off the main thread while the scene boots.
  */
 
-export type Kind = 'grass' | 'rock' | 'dirt' | 'bark' | 'cobble' | 'plaster' | 'roof' | 'wood';
+export type Kind =
+  'grass' | 'rock' | 'slate' | 'amber' | 'dirt' | 'bark' | 'cobble' | 'plaster' | 'roof' | 'wood';
 
 export interface Painted {
   albedo: Raster;
@@ -50,6 +51,27 @@ export function paint(kind: Kind, size: number): Painted {
           if (g > 0.86) c = shade(c, 0.45);
           if (micro > 0.8) c = mix(c, hex('#8a9a6a'), 0.35); // lichen
           h = g * 0.8 + strata * 0.2;
+          break;
+        }
+        case 'slate': {
+          // Blue slate: thin laminations with flaky cleavage and the odd pale seam.
+          const lam =
+            vnoise(x / (s / 3), y / (s / 26), 71) * 0.6 +
+            vnoise(x / (s / 7), y / (s / 60), 72) * 0.4;
+          const flake = ridged(x / (s / 12), y / (s / 30), 3, 73);
+          c = mix(hex('#4a566e'), hex('#a4b4cc'), lam * 0.65 + flake * 0.35);
+          if (flake > 0.88) c = shade(c, 0.5);
+          if (lam > 0.8) c = mix(c, hex('#d0dcec'), 0.3);
+          h = lam * 0.5 + flake * 0.5;
+          break;
+        }
+        case 'amber': {
+          // Honey-coloured rock with glassy veins and warm speckle.
+          const vein = ridged(x / (s / 6), y / (s / 6), 3, 74);
+          c = mix(hex('#74441e'), hex('#e0a458'), n * 0.55 + fine * 0.45);
+          if (vein > 0.84) c = mix(c, hex('#ffd890'), 0.7);
+          if (micro > 0.82) c = mix(c, hex('#ffe8b0'), 0.3);
+          h = 0.4 + fine * 0.4 + (vein > 0.84 ? 0.2 : 0);
           break;
         }
         case 'dirt': {
