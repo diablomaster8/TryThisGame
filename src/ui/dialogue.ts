@@ -21,7 +21,7 @@ import { SceneReplayGuard } from './scene-replay-guard';
 import { isControlTarget } from '../input/keys';
 import { StoryUi, type DialogueHooks } from './story-ui';
 import { SPEAKER_NOW } from '../render/stage-actors';
-import { npcLookOf, storyId } from '../config/npc-looks';
+import { LOOK_STATE, npcLookOf, storyId } from '../config/npc-looks';
 import { keeperOutfit, trainerLook } from '../render/keeper-look';
 import { buildFaceSheet, expressionOf, faceKey } from '../render/sprites/faces';
 import { drawKeeperFrame } from '../render/sprites/keeper';
@@ -346,6 +346,9 @@ export class Dialogue {
     this.name.hidden = who === 'narrator';
     // H6: only a spoken line has a speaker in the world; narration and the chorus have none.
     SPEAKER_NOW.who = who === 'narrator' || chorus ? null : who;
+    // K37: the staging dressings read where the scene stands (the flower comes on the last line).
+    LOOK_STATE.line = this.index;
+    LOOK_STATE.lines = this.lines.length;
     this.root.classList.toggle('narration', who === 'narrator');
     // The chorus (everyone singing) has no portrait and is shown in italics.
     this.root.classList.toggle('chorus', chorus);

@@ -324,10 +324,19 @@ export const STORY_ONLY_LOOKS: Readonly<Record<string, StoryNpcLook>> = {
  * What the story is showing, set each frame by package b4's dressing in whichever renderer
  * runs (as `WEATHERED`): a told tale (K11) and the campaign and chapter (K38).
  */
-export const LOOK_STATE: { tale: boolean; campaign: string; chapter: number } = {
+export const LOOK_STATE: {
+  tale: boolean;
+  campaign: string;
+  chapter: number;
+  /** The dialogue's line on screen and the scene's line count (K37 reads the last one). */
+  line: number;
+  lines: number;
+} = {
   tale: false,
   campaign: 'hazel',
   chapter: 0,
+  line: 0,
+  lines: 0,
 };
 
 /**

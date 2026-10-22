@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { GROVE3D } from '../config/tuning';
 import { TOON_OUTLINE } from '../samples/creatures';
+import { CG4_B4 } from '../config/tuning-b4';
 
 /**
  * The Full 3D Grove's creature outlines: the inverted hull of the stage's toon mode, but
@@ -35,6 +36,19 @@ HULL.onBeforeCompile = (shader) => {
     );
 };
 HULL.customProgramCacheKey = () => 'grove-toon-hull';
+
+/**
+ * K14: the speaking actor's outline, a step brighter. The same width rule and program as
+ * `HULL` (the colour is a uniform), so it costs nothing extra; `brightHull` swaps one hull.
+ */
+const BRIGHT = new THREE.MeshBasicMaterial({ color: CG4_B4.ring.outline, side: THREE.BackSide });
+BRIGHT.onBeforeCompile = HULL.onBeforeCompile;
+BRIGHT.customProgramCacheKey = HULL.customProgramCacheKey;
+
+/** Give a hull the speaker's brighter outline, or the plain one back. */
+export function brightHull(hull: THREE.Mesh, on: boolean): void {
+  hull.material = on ? BRIGHT : HULL;
+}
 
 /** Never pick or ray-test a hull; the creature under it answers for it. */
 const noRaycast = (): void => {};
@@ -72,6 +86,7 @@ export function addHull(o: THREE.Mesh): void {
 /** Show or hide every creature outline at once (the governor's CPU step). */
 export function setOutlines(on: boolean): void {
   HULL.visible = on;
+  BRIGHT.visible = on;
 }
 
 export function outlinesOn(): boolean {

@@ -35,6 +35,8 @@ export const CG4_B4 = {
     outer: 0.44,
     lift: 0.035,
     color: '#eef0e2',
+    /** The speaker's outline, a step brighter than the toon's near-black. */
+    outline: '#8a82a6',
     opacity: 0.5,
     /** Scan the scene for the speaker's rig at most this often (s). */
     scanS: 0.4,

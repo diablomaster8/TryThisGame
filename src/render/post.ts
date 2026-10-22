@@ -11,6 +11,7 @@ import {
   WebGLRenderTarget,
   type WebGLRenderer,
 } from 'three';
+import { CG4_B4 } from '../config/tuning-b4';
 
 /**
  * The HD-2D pass. The scene is rendered to a low-res target, then one full-screen
@@ -26,6 +27,15 @@ import {
  * the highlights, so a dawn grade does not push the ground's hue.
  */
 export const POST_SPLIT = { value: 0 };
+
+/**
+ * The tale grade (K11), set per frame by package b4's pixel dressing: 0 is off; 1 sends the
+ * frame toward warm sepia (desaturated, golden) and pulls the corners in with a soft vignette,
+ * so a told tale reads as remembered. Full 3D gets the same from the campaign look 'tale'.
+ */
+export const POST_TALE = { value: 0 };
+const TALE_SEPIA = CG4_B4.tale.post.sepia;
+const TALE_VIGNETTE = CG4_B4.tale.post.vignette;
 
 export interface PostSettings {
   bloom: number;
@@ -53,6 +63,9 @@ uniform float vignette;
 uniform vec3 tint;
 uniform float tintAmount;
 uniform float split;
+uniform float tale;
+uniform float taleSepia;
+uniform float taleVignette;
 varying vec2 vUv;
 
 vec3 sampleBlur(vec2 uv, float r) {
@@ -86,6 +99,12 @@ void main() {
     tone = mix(tint, mix(vec3(0.9, 0.98, 1.1), tint, smoothstep(0.18, 0.62, l)), split);
   }
   col = mix(col, col * tone, tintAmount);
+  // Tale grade (K11): warm sepia and a soft vignette.
+  if (tale > 0.0) {
+    float tl = dot(col, vec3(0.299, 0.587, 0.114));
+    col = mix(col, vec3(tl) * vec3(1.14, 0.98, 0.76), tale * taleSepia);
+    col *= 1.0 - tale * taleVignette * smoothstep(0.16, 0.74, length(vUv - 0.5));
+  }
   // Vignette.
   vec2 d = vUv - 0.5;
   float v = 1.0 - dot(d, d) * vignette;
@@ -115,6 +134,9 @@ export class PostPass {
         tint: { value: new Vector3(1, 1, 1) },
         tintAmount: { value: 0 },
         split: POST_SPLIT,
+        tale: POST_TALE,
+        taleSepia: { value: TALE_SEPIA },
+        taleVignette: { value: TALE_VIGNETTE },
       },
       vertexShader: VERT,
       fragmentShader: FRAG,

@@ -210,6 +210,8 @@ export class StageTracker {
  * their own clothes and accessory (campaign graphics 3).
  */
 function villagerLook(world: World, who: string): StoryNpcLook | undefined {
+  // K11: Hazel has no sim NPC before chapter 11; a tale draws young Hazel as a stage actor.
+  if (who === 'hazel') return STORY_ONLY_LOOKS[storyId(who)];
   const acc = NPC_LOOKS[who];
   const t = TRAINERS.find((x) => x.id === who);
   if (!acc || !t || who !== world.trainer) return undefined;
