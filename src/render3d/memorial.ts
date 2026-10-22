@@ -145,3 +145,42 @@ export function updateMemorials(
     if (glow) glow.lookAt(camera);
   }
 }
+
+/**
+ * Briar's flower (campaign graphics H7): the first on the hill, older and larger than the
+ * rest, in a ring of stones. The difference is shape and size, so colour is not the only cue:
+ * it stands a head taller, and the ring marks it. Static: no glow card to turn or breathe.
+ */
+export function elderMemorialFlower(scale: number, ring: number, ringR: number): THREE.Group {
+  const g = memorialFlower();
+  // Drop the glow card (the last child): the elder flower holds still.
+  const glow = g.children[g.children.length - 1];
+  if (glow) g.remove(glow);
+  const flower = new THREE.Group();
+  flower.add(...g.children);
+  flower.scale.setScalar(scale);
+  const out = new THREE.Group();
+  out.name = 'elder-memorial';
+  out.add(flower);
+  const stones = new THREE.InstancedMesh(
+    new THREE.IcosahedronGeometry(1, 0),
+    new THREE.MeshStandardMaterial({ color: '#9a9aa6', roughness: 0.95, flatShading: true }),
+    ring,
+  );
+  const m4 = new THREE.Matrix4();
+  for (let i = 0; i < ring; i++) {
+    const a = (i / ring) * Math.PI * 2;
+    const s = 0.1 + ((i * 37) % 7) * 0.012;
+    stones.setMatrixAt(
+      i,
+      m4.compose(
+        new THREE.Vector3(Math.cos(a) * ringR, s * 0.5, Math.sin(a) * ringR),
+        new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), i),
+        new THREE.Vector3(s * 1.4, s, s * 1.2),
+      ),
+    );
+  }
+  stones.castShadow = stones.receiveShadow = true;
+  out.add(stones);
+  return out;
+}

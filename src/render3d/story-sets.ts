@@ -2,6 +2,13 @@ import * as THREE from 'three';
 import { C, color } from '../render/sprites/palette';
 import { pbr, repeatUv, type Tex } from '../samples/aaa-kit';
 import type { Location } from '../sim/types';
+import {
+  buildBackdrop,
+  buildCorvinHouse,
+  buildGreyGate,
+  buildHollowCamp,
+  frostify,
+} from './story-places';
 
 /**
  * The campaign's two story places in 3D, after the pixel scene's `buildHollow` and
@@ -56,7 +63,7 @@ export class StorySets {
 
   constructor(scene: THREE.Object3D, tex: Tex, pickables: THREE.Object3D[]) {
     this.grass = pbr(tex.grass, { color: color(C.deepGreen), scale: 0.5 });
-    this.earth = pbr(tex.dirt, { color: color(C.lilacGrey), scale: 0.6 });
+    this.earth = frostify(pbr(tex.dirt, { color: color(C.lilacGrey), scale: 0.6 }));
     // Wide enough that its edge sits in the fog from anywhere the Keeper can stand.
     this.floor = new THREE.Mesh(repeatUv(new THREE.PlaneGeometry(120, 120), 44, 44), this.grass);
     this.floor.rotation.x = -Math.PI / 2;
@@ -67,6 +74,9 @@ export class StorySets {
     scene.add(this.floor, this.hollow, this.corvin);
     this.buildHollow(tex);
     this.buildCorvin();
+    // Campaign graphics C8 and H5: the camp, the backdrop, the house and the gate.
+    this.hollow.add(buildHollowCamp());
+    this.corvin.add(buildBackdrop(), buildCorvinHouse().group, buildGreyGate());
     this.hollow.visible = this.corvin.visible = false;
   }
 
@@ -140,12 +150,20 @@ export class StorySets {
     const rails: THREE.Matrix4[] = [];
     const q = new THREE.Quaternion();
     const up = new THREE.Vector3(0, 1, 0);
-    const edge = (ax: number, az: number, bx: number, bz: number) => {
+    const edge = (ax: number, az: number, bx: number, bz: number, gate = false) => {
       const len = Math.hypot(bx - ax, bz - az);
       const n = Math.max(1, Math.round(len / 2));
       q.setFromAxisAngle(up, Math.atan2(bx - ax, bz - az) + Math.PI / 2);
       for (let i = 0; i <= n; i++) {
         const t = i / n;
+        // A gated wall (campaign graphics H15) keeps only its corner posts: the leaf swings there.
+        if (gate) {
+          if (i === 0 || i === n)
+            posts.push(
+              new THREE.Matrix4().makeTranslation(ax + (bx - ax) * t, 0.5, az + (bz - az) * t),
+            );
+          continue;
+        }
         posts.push(
           new THREE.Matrix4().makeTranslation(ax + (bx - ax) * t, 0.5, az + (bz - az) * t),
         );
@@ -169,7 +187,7 @@ export class StorySets {
       edge(x0, z0, x0 + w, z0);
       edge(x0, z0 + d, x0 + w, z0 + d);
       edge(x0, z0, x0, z0 + d);
-      edge(x0 + w, z0, x0 + w, z0 + d);
+      edge(x0 + w, z0, x0 + w, z0 + d, true);
     }
     const mat = new THREE.MeshStandardMaterial({ color: color(C.lilacGrey), roughness: 0.85 });
     const make = (geo: THREE.BufferGeometry, list: THREE.Matrix4[]) => {
