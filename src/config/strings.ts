@@ -1452,3 +1452,59 @@ export const STORY_UI_TEXT = {
   nubbinPhoto: 'Nubbin photo',
   chapterPhotoHelp: 'A keepsake of the chapter, as the scene stood.',
 } as const;
+
+/** Campaign graphics 4, package u4: the keepsake inspector, boards, gallery and map. */
+export const STORY_U4_TEXT = {
+  /** More story items for the item card and the inspector (merged with STORY_UI_TEXT.items). */
+  items: { board: 'The message board' } as Record<string, string>,
+  /** One line under the inspector's view (K12). */
+  itemLines: {
+    letter: 'Folded twice, and sealed with red wax that never quite set.',
+    notebook: 'Green cloth, a yellow band, and a ribbon she used as a bookmark.',
+    'vane-notebook': 'Scuffed brown, held shut with a black band. Pages loose at the top.',
+    stone: 'Flat, cool, and lit very faintly from inside.',
+    recording: 'A small white player with three bars that rise when it speaks.',
+    board: 'Cards pinned with a red dot each. Someone has drawn a tiny sun on one.',
+  } as Record<string, string>,
+  inspectHint: 'Drag to turn it',
+  inspectTap: 'Tap the card to look closer',
+  inspectClose: 'Close',
+  inspectAlt: (name: string) => `${name}, turned by dragging`,
+  /** The message board and the guard house notices (K29): lines come from here, never the art. */
+  board: {
+    title: 'REQUESTS',
+    cards: [
+      ['LOST', 'one red kite', 'ask: Pip'],
+      ['WANTED', 'ripe plums', 'ask: Juno'],
+      ['SWAP', 'eggs for tea', 'ask: Wren'],
+      ['HELP', 'ladder is stuck', 'ask: Dusty'],
+      ['FOUND', 'a small glove', 'ask: anyone'],
+      ['LOOKING', 'for a quiet game', 'ask: Pixel'],
+    ] as ReadonlyArray<readonly [string, string, string]>,
+    empty: 'Nothing pinned today.',
+    notices: {
+      title: 'NOTICES',
+      lines: ['Cart leaves at first light', 'Mind the low beams below', 'Boots by the door, please'],
+    },
+  },
+  /** Journal: the chapter thumbnails and the endings page (K31, K47). */
+  endingsTab: 'Endings',
+  endingsHelp: 'Each ending you reach keeps its last picture here.',
+  endingLocked: 'Not reached yet',
+  endingNoPicture: 'Reached (no picture kept)',
+  lockAlt: 'Locked',
+  thumbAlt: (title: string) => `Chapter picture: ${title}`,
+  /** The campaign map (K33). */
+  mapCampaign: (name: string) => `${name}: the places of this story`,
+  landmarks: {
+    'fold-well': 'The Fold’s well',
+    'fold-door-1': 'The cottage step',
+    'green-centre': 'The green',
+    board: 'The message board',
+    'guardhouse-bench': 'The guard house',
+    'banner-1': 'The first banner',
+    'house-1-door': 'The first house',
+  } as Record<string, string>,
+  /** The Hundred Days' tally label for screen readers. */
+  tally: (n: number) => `Day ${n}`,
+} as const;
