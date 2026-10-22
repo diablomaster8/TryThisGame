@@ -344,6 +344,36 @@ function frames(): Frame[] {
       }
     },
   });
+  // Seasonal canopy overlays, dithered so the leaves still show through: winter's cool grey
+  // under a white snow cap, autumn's amber and rust.
+  for (const [key, a, b, cap] of [
+    ['wc-winter', '#b9c9d8', '#8fa3b8', true],
+    ['wc-autumn', '#e0892e', '#b5541c', false],
+  ] as const)
+    f.push({
+      key,
+      w: 64,
+      h: 44,
+      draw: (c) => {
+        for (let y = 0; y < 44; y++)
+          for (let x = 0; x < 64; x++) {
+            const nx = (x - 32) / 31;
+            const ny = (y - 26) / 17;
+            if (nx * nx + ny * ny > 1) continue;
+            if ((x + y) % 2 === 0 || (x % 2 === 0 && y % 3 === 0))
+              rect(c, (x * 7 + y * 3) % 5 === 0 ? b : a, x, y, 1, 1);
+          }
+        if (!cap) return;
+        for (let y = 0; y < 16; y++)
+          for (let x = 0; x < 64; x++) {
+            const nx = (x - 32) / 23;
+            const ny = (y - 11) / 8;
+            const edge = 1 + Math.sin(x * 0.9) * 0.12 * (y > 8 ? 1 : 0);
+            if (nx * nx + ny * ny * edge > 1) continue;
+            rect(c, y < 5 ? '#ffffff' : '#e4edf6', x, y, 1, 1);
+          }
+      },
+    });
   for (let i = 0; i < 2; i++)
     f.push({
       key: `torch-${i}`,

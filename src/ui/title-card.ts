@@ -105,7 +105,11 @@ function ensure(): Layers | null {
   // Rendering holds still behind a story dialogue, so a quiet frame loop is not "gone": hide
   // only while the title screen is up (it is the only thing that replaces the game).
   watchdog = window.setInterval(() => {
-    if (layers && performance.now() - lastDrive > 700 && document.querySelector('.title-card'))
+    if (
+      layers &&
+      performance.now() - lastDrive > 700 &&
+      document.querySelector('.title-card')?.getClientRects().length
+    )
       layers.root.hidden = true;
   }, 400);
   return layers;
@@ -177,7 +181,8 @@ function drawFx(l: Layers, f: LookFrame, nowMs: number): void {
   const moving = !f.reduce && f.weather !== null && f.weather !== 'frost';
   if (!f.seed) p.seedStart = -1;
   else if (p.seedStart < 0) p.seedStart = nowMs;
-  if (!moving && !f.seed) {
+  const rime = !!f.ground?.tint.rime;
+  if (!moving && !f.seed && !rime) {
     if (!l.fx.hidden) l.fx.hidden = true;
     p.weather = null;
     return;
@@ -220,8 +225,21 @@ function drawFx(l: Layers, f: LookFrame, nowMs: number): void {
       ctx.fillRect(Math.round(wrap(p.x[i]!) * w), Math.round(p.y[i]! * h), 9, 1);
     }
   }
+  if (rime) drawRime(ctx, w, h, Math.min(1, (f.ground?.strength ?? 1) + 0.2));
   if (f.seed)
     drawSeed(ctx, w, h, f.reduce ? 1 : (nowMs - p.seedStart) / 1000 / LOOK_F.fx.seedFallS);
+}
+
+/** A still, light white speckle over the lower ground: rime, not fog. Seeded, so it never shimmers. */
+function drawRime(ctx: CanvasRenderingContext2D, w: number, h: number, k: number): void {
+  let s = 12345;
+  const r = () => (s = (s * 16807) % 2147483647) / 2147483647;
+  ctx.fillStyle = `rgba(245,250,255,${(0.5 * k).toFixed(2)})`;
+  const n = Math.round(w * h * 0.007);
+  for (let i = 0; i < n; i++) {
+    const y = h * (0.42 + 0.58 * Math.sqrt(r()));
+    ctx.fillRect(Math.floor(r() * w), Math.floor(y), 1, 1);
+  }
 }
 
 const wrap = (v: number): number => v - Math.floor(v);

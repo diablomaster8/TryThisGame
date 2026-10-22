@@ -48,8 +48,8 @@ function look(
 export const CAMPAIGN_LOOK: Readonly<Record<string, LookDef>> = {
   hazel: look('#ffc46a', 0.3, 1, '#4a2a08', 0.28, 'honey', '#f2b84b'),
   'hazel-grey': look('#6f8fb8', 0.36, 0.72, '#14213a', 0.34, 'honey', '#9db6d8'),
-  'hazel-pale': look('#d6e2f2', 0.3, 0.9, '#2a3a52', 0.18, 'honey', '#c9d8ee'),
-  hundred: look('#e6d596', 0.32, 0.72, '#3a3010', 0.26, 'straw', '#d9c46a'),
+  'hazel-pale': look('#cfdcf0', 0.1, 0.92, '#1a2a42', 0.2, 'honey', '#c9d8ee'),
+  hundred: look('#e6d596', 0.24, 0.72, '#3a3010', 0.26, 'straw', '#d9c46a'),
   logged: look('#3fdcff', 0.26, 0.88, '#041a30', 0.36, 'grid', '#52e6ff'),
   'beetle-below': {
     ...look('#c46a1c', 0.85, 0.8, '#0a0300', 0.92, 'torch', '#ff9a3c'),
@@ -118,21 +118,23 @@ export interface GroundTint {
   color: string;
   /** Strength on the nearest ground; it fades toward the horizon. */
   alpha: number;
-  blend: 'soft-light' | 'screen' | 'multiply';
+  blend: 'soft-light' | 'screen' | 'multiply' | 'overlay';
+  /** A light white rime speckled over the ground (cold weather and winter). */
+  rime?: boolean;
 }
 
 export const SEASON_TINT: Readonly<Record<Season, GroundTint>> = {
   spring: { color: '#9be07c', alpha: 0.34, blend: 'soft-light' },
   summer: { color: '#ffdb5c', alpha: 0.36, blend: 'soft-light' },
   autumn: { color: '#ee8a26', alpha: 0.5, blend: 'soft-light' },
-  winter: { color: '#dcecff', alpha: 0.55, blend: 'screen' },
+  winter: { color: '#b4cdea', alpha: 0.38, blend: 'overlay', rime: true },
 };
 
 /** Weather that stains the ground even when its particles are off (reduced motion). */
 export const WEATHER_TINT: Readonly<Partial<Record<StagedWeather, GroundTint>>> = {
   rain: { color: '#5f7e9c', alpha: 0.4, blend: 'multiply' },
-  snow: { color: '#f2f8ff', alpha: 0.42, blend: 'screen' },
-  frost: { color: '#e6f3ff', alpha: 0.46, blend: 'screen' },
+  snow: { color: '#bcd6f2', alpha: 0.34, blend: 'overlay', rime: true },
+  frost: { color: '#a9c8ee', alpha: 0.32, blend: 'overlay', rime: true },
 };
 
 /** The staged weather a scene asks for: its own `stage.weather`, else by scene or chapter. */

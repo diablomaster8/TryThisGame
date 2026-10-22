@@ -14,6 +14,7 @@ import { disposeLook, driveCampaign } from '../ui/title-card';
 import { BUNTING_INK, buildFArt, SHAPES, U, type FArt } from './dress-f-art';
 import type { PixelDressCtx, PixelDressing } from './dressings';
 import type { SpriteBatch } from './sprite-batch';
+import { SCENERY } from './scenery';
 import { frameKey } from './sprites/animations';
 
 /**
@@ -52,6 +53,18 @@ export const dressF: PixelDressing = {
     const s = m.sets;
     const dim = 1 - 0.55 * daylight.darkness;
     const d = new Draw(sp.batch, art, dim);
+
+    // Autumn and winter over the tree and bush sprites: a dithered wash, with snow caps.
+    const season = m.season?.season;
+    if (season === 'winter' || season === 'autumn') {
+      const key = season === 'winter' ? 'wc-winter' : 'wc-autumn';
+      for (const sc of SCENERY) {
+        const tree = sc.kind.startsWith('tree');
+        if (!tree && !sc.kind.startsWith('bush')) continue;
+        const w = sc.size * (tree ? 0.8 : 0.95);
+        d.up(key, sc.x, sc.size * (tree ? 0.4 : 0.1), sc.z + 0.05, 0, w);
+      }
+    }
 
     if (s.festival) {
       // The square's stalls, where it has not unlocked its own.
