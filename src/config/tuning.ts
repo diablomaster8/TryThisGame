@@ -326,6 +326,40 @@ export const GROVE3D = {
        * registered a hook for is a no-op.
        */
       governor: { order: ['particles', 'triplanar', 'bloom'] },
+      /**
+       * Hollow light (items 5, 6, 14, 15, 29 and 30, `render3d/hollow-light.ts`). `bake`: torch,
+       * crystal and mushroom light baked into the floor and wall vertices (radius in world units,
+       * strength a peak share, falloff quadratic). `sconce`: torches are wall sconces; `unlitShare`
+       * of them start cold until the Keeper lights them. `flicker`: the baked torch light and the
+       * flame sprites wander by `amp` (a slow sum of two sines, never a strobe; constant when
+       * motion is reduced). `crystal`: shards per cluster and their size. `mushroom`: wall-foot
+       * glow spots, at most `max` a floor. `cookie`: the Keeper's lamp as a ground disc and a wall
+       * wash (the wash fades out `wallReach` units from the wall).
+       */
+      bake: {
+        torch: { radius: 5.2, strength: 0.9, height: 1.3 },
+        crystal: { radius: 3.4, strength: 0.5, crystalFloorRadius: 4.2, height: 0.7 },
+        mushroom: { radius: 2.2, strength: 0.4, height: 0.3 },
+      },
+      sconce: {
+        unlitShare: 0.35,
+        height: 1.15,
+        flameSize: 0.6,
+        haloSize: 2.4,
+        haloGlow: 0.45,
+        pickRadius: 0.8,
+      },
+      flicker: { amp: 0.08, hz: 2.4 },
+      crystal: { shards: [5, 8], height: [0.6, 1.9], width: [0.1, 0.2], tilt: 0.35, glow: 1 },
+      mushroom: { share: 0.1, max: 18, spacing: 3, perSpot: 3, glow: 2.4 },
+      cookie: {
+        color: '#ffd9a0',
+        groundRadius: 3.2,
+        groundOpacity: 0.28,
+        wallRadius: 2.2,
+        wallOpacity: 0.3,
+        wallReach: 2.4,
+      },
     },
     /**
      * Underground framing (item 21): the radial vignette and a darker top edge, as if under
