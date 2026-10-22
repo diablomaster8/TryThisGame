@@ -1,4 +1,4 @@
-import type { SceneStage } from './story';
+import type { SceneStage, StageCast } from './story';
 
 /**
  * Hazel's Grove, scene by scene (campaign graphics C1). Chapters 1 to 12, in order. Every
@@ -27,6 +27,27 @@ const WARM_WATER: SceneStage = {
   fx: ['goldWater', 'stoneGlow'],
   shot: { kind: 'two' },
 };
+
+/** The ten valley Keepers on the festival ring (marks 1..10), facing the picnic. */
+const FRIENDS = [
+  'fern',
+  'marina',
+  'sparks',
+  'clover',
+  'pixel',
+  'luna',
+  'ember',
+  'byte',
+  'dusty',
+  'nova',
+];
+const RING: StageCast[] = FRIENDS.map((who, i) => ({ who, mark: `festival-${i + 1}` }));
+/** Corvin and Sable come in on the ring's last two marks. */
+const RING_GUESTS: StageCast[] = [
+  { who: 'corvin', mark: 'festival-11' },
+  { who: 'sable', mark: 'festival-12' },
+];
+const RING_FOCUS = ['festival-1', 'festival-4', 'festival-7', 'festival-10'];
 
 const RAW: Readonly<Record<string, SceneStage>> = {
   // ---------------------------------------------------------------- 1 The Letter
@@ -391,7 +412,7 @@ const RAW: Readonly<Record<string, SceneStage>> = {
     hour: 10.5,
     season: 'winter',
     cast: [{ who: 'hazel', mark: 'gate', face: 'you' }],
-    shot: { kind: 'two', focus: ['hazel'] },
+    shot: { kind: 'two', then: 'close', focus: ['hazel'] },
   },
   // c11-moss-here and c11-moss-kept: Moss's seat comes from E_STAGES.
   'c11-moss-here': { place: 'pond', hour: 11, shot: { kind: 'close', focus: ['moss'] } },
@@ -432,7 +453,7 @@ const RAW: Readonly<Record<string, SceneStage>> = {
   'c11-gate': {
     place: 'gate',
     hour: 16,
-    props: { gate: 'shut' },
+    props: { gate: 'shut', pondIce: 'show' },
     cast: [
       { who: 'corvin', mark: 'gate-outside', face: 'you' },
       { who: 'hazel', mark: 'pond-lantern', face: 'corvin', pose: 'sit' },
@@ -440,7 +461,7 @@ const RAW: Readonly<Record<string, SceneStage>> = {
     shot: { kind: 'two', focus: ['corvin'] },
   },
   // ---------------------------------------------------------------- 12 Keepers
-  'c12-open': { place: 'grove', hour: 9.5, season: 'winter', shot: { kind: 'establish' } },
+  'c12-open': { place: 'festival', hour: 9.5, season: 'winter', shot: { kind: 'establish' } },
   'c12-foot-told': {
     place: 'grove',
     hour: 11.5,
@@ -460,6 +481,176 @@ const RAW: Readonly<Record<string, SceneStage>> = {
   'c12-walk-corvin': { place: 'hill', hour: 17.8, shot: { kind: 'wide' } },
   'c12-walk-alone': { place: 'hill', hour: 17.8, shot: { kind: 'wide' } },
   'c12-close': { place: 'grove', hour: 19.2, lights: ALL_LIT, shot: { kind: 'wide' } },
+  // ---------------------------------------------------------------- the eight endings (N2)
+  // Each ending's first scene is its last wide shot, with the people it is about on the
+  // festival ring (round the picnic) or on the mark its text names, and its props. The
+  // `-last`, `-moss`, `-sold` and `-kept` scenes that follow keep the place and the hour.
+  // Hazel's Grove: the whole valley round the picnic at dusk, the gate that sticks.
+  'end-hazels-grove': {
+    place: 'festival',
+    hour: 18.8,
+    lights: ALL_LIT,
+    props: { gate: 'shut' },
+    cast: [...RING, ...RING_GUESTS],
+    shot: { kind: 'wide', focus: RING_FOCUS },
+  },
+  // The open variant: the gate is gone and the lamps are lit along the lane.
+  'end-hazels-grove-open': {
+    place: 'festival',
+    hour: 18.8,
+    lights: ALL_LIT,
+    props: { gate: 'open' },
+    cast: [...RING, ...RING_GUESTS],
+    shot: { kind: 'wide', focus: RING_FOCUS },
+  },
+  // By the pond, in the place nobody says anything.
+  'end-hazels-grove-last': {
+    place: 'pond',
+    hour: 19.5,
+    lights: ALL_LIT,
+    cast: [{ who: 'hazel', mark: 'pond-lantern', face: 'you', pose: 'sit' }],
+    shot: { kind: 'wide', focus: ['hazel'] },
+  },
+  // Eternal Dawn: first light, the whole valley round the ring, an Eternal among them.
+  'end-eternal-dawn': {
+    place: 'festival',
+    hour: 6.3,
+    cast: [...RING],
+    shot: { kind: 'wide', focus: RING_FOCUS },
+  },
+  'end-eternal-dawn-moss': {
+    place: 'hill',
+    hour: 6.5,
+    cast: [{ who: 'moss', mark: 'hill-top', pose: 'sit' }],
+    shot: { kind: 'two', focus: ['moss'] },
+  },
+  'end-eternal-dawn-nomoss': {
+    place: 'hill',
+    hour: 6.5,
+    shot: { kind: 'wide', focus: ['moss'] },
+  },
+  'end-eternal-dawn-last': {
+    place: 'festival',
+    hour: 19.5,
+    lights: ALL_LIT,
+    cast: [...RING],
+    shot: { kind: 'wide', focus: RING_FOCUS },
+  },
+  // The Shadow's Keeper: the gate open, Clover with her bag of fruit, Sable and Luna by it.
+  'end-shadow-keeper': {
+    place: 'gate',
+    hour: 8.5,
+    props: { gate: 'open' },
+    cast: [
+      { who: 'clover', mark: 'gate-outside', face: 'you', carry: 'bag' },
+      { who: 'sable', mark: 'gate', face: 'you' },
+      { who: 'luna', mark: 'signpost', face: 'you' },
+    ],
+    shot: { kind: 'wide', focus: ['gate', 'gate-outside'] },
+  },
+  'end-shadow-keeper-last': {
+    place: 'gate',
+    hour: 8.5,
+    props: { gate: 'open' },
+    cast: [
+      { who: 'clover', mark: 'gate-outside', face: 'you', carry: 'bag' },
+      { who: 'sable', mark: 'gate', face: 'you' },
+    ],
+    shot: { kind: 'two', focus: ['clover'] },
+  },
+  // Moss Sleeps: spring on the hill, his flower open by the flat stone.
+  'end-moss-sleeps': {
+    place: 'hill',
+    hour: 7,
+    season: 'spring',
+    cast: [
+      { who: 'luna', mark: 'flat-stone', face: 'you', pose: 'kneel' },
+      { who: 'clover', mark: 'hill-path', face: 'luna' },
+      { who: 'byte', mark: 'briar', face: 'luna' },
+    ],
+    shot: { kind: 'wide', focus: ['flat-stone', 'hill-path'] },
+  },
+  'end-moss-sleeps-last': {
+    place: 'hill',
+    hour: 7,
+    season: 'spring',
+    cast: [{ who: 'luna', mark: 'flat-stone', face: 'you', pose: 'kneel' }],
+    shot: { kind: 'two', focus: ['luna'] },
+  },
+  // Wild Grove: no gate, the Grove open to the wood, Nova at the lane.
+  'end-wild-grove': {
+    place: 'grove',
+    hour: 15,
+    props: { gate: 'open' },
+    cast: [{ who: 'nova', mark: 'gate-outside', face: 'you' }],
+    shot: { kind: 'wide', focus: ['gate', 'falls-foot'] },
+  },
+  'end-wild-grove-last': {
+    place: 'grove',
+    hour: 15,
+    props: { gate: 'open' },
+    cast: [{ who: 'nova', mark: 'gate-outside', face: 'you' }],
+    shot: { kind: 'two', focus: ['nova'] },
+  },
+  // The Empty Lantern: night, the long grass, Luna with the bag of fruit, one lantern lit.
+  'end-empty-lantern': {
+    place: 'grove',
+    hour: 22.5,
+    lights: { 'lantern-4': 'lit' },
+    cast: [{ who: 'luna', mark: 'grass-lantern', face: 'you', carry: 'bag' }],
+    shot: { kind: 'wide', focus: ['grass-lantern', 'step'] },
+  },
+  'end-empty-lantern-last': {
+    place: 'grove',
+    hour: 22.5,
+    lights: { 'lantern-4': 'lit' },
+    cast: [{ who: 'hazel', mark: 'pond-lantern', face: 'you', pose: 'sit' }],
+    shot: { kind: 'wide', focus: ['pond-lantern', 'grass-lantern'] },
+  },
+  // The Collector: the gate that opens by itself, the pens, the quiet.
+  'end-collector': {
+    place: 'gate',
+    hour: 17,
+    props: { gate: 'open' },
+    shot: { kind: 'wide', focus: ['gate'] },
+  },
+  'end-collector-sold': {
+    place: 'corvin',
+    hour: 17,
+    cast: [{ who: 'corvin', mark: 'corvin-door', face: 'you' }],
+    shot: { kind: 'wide', focus: ['corvin'] },
+  },
+  'end-collector-kept': {
+    place: 'grove',
+    hour: 14,
+    cast: [{ who: 'corvin', mark: 'gate-outside', face: 'you' }],
+    shot: { kind: 'wide', focus: ['corvin'] },
+  },
+  'end-collector-last': {
+    place: 'gate',
+    hour: 17.5,
+    props: { gate: 'open' },
+    shot: { kind: 'wide', focus: ['gate'] },
+  },
+  // The Long Road: Sable two steps off the cottage step, Clover on it, dusk.
+  'end-long-road': {
+    place: 'step',
+    hour: 17.5,
+    cast: [
+      { who: 'sable', mark: 'porch', face: 'you' },
+      { who: 'clover', mark: 'step', face: 'you' },
+    ],
+    shot: { kind: 'wide', focus: ['step', 'porch'] },
+  },
+  'end-long-road-last': {
+    place: 'step',
+    hour: 17.5,
+    cast: [
+      { who: 'sable', mark: 'porch', face: 'you' },
+      { who: 'clover', mark: 'step', face: 'you' },
+    ],
+    shot: { kind: 'two', focus: ['clover'] },
+  },
 };
 
 /** The season and weather each chapter holds, unless a scene sets its own. */

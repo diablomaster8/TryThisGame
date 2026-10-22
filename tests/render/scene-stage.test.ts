@@ -30,7 +30,7 @@ describe('the shared story stager (campaign graphics C1, C2, C5)', () => {
   });
 
   it('falls back to the hour the narration names', () => {
-    // An unstaged scene (the staged c2-corvin names its own 17:00).
+    // A scene staged at the narration's own night hour (the staged c2-corvin names 17:00).
     const w = campaignWorld(['end-empty-lantern']);
     const st = new SceneStager();
     st.update(w);
