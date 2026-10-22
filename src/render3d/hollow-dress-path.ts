@@ -220,14 +220,13 @@ export function standAt(f: Floor, x: number, z: number): number {
   const y0 = Math.floor(gz);
   const tx = gx - x0;
   const ty = gz - y0;
+  // Called for every foot of every creature each frame: no arrays made here.
   let sum = 0;
   let weight = 0;
-  for (const [dx, dy, w] of [
-    [0, 0, (1 - tx) * (1 - ty)],
-    [1, 0, tx * (1 - ty)],
-    [0, 1, (1 - tx) * ty],
-    [1, 1, tx * ty],
-  ] as const) {
+  for (let k = 0; k < 4; k++) {
+    const dx = k & 1;
+    const dy = k >> 1;
+    const w = (dx ? tx : 1 - tx) * (dy ? ty : 1 - ty);
     if (w <= 0 || !isWalkable(f, x0 + dx, y0 + dy)) continue;
     sum += (g[(y0 + dy) * f.cols + x0 + dx] ?? 0) * w;
     weight += w;
