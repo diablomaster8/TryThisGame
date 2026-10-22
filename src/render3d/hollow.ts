@@ -1,8 +1,9 @@
 import * as THREE from 'three';
-import { DUNGEON, GROVE3D, READ3D } from '../config/tuning';
+import { DUNGEON, GROVE3D } from '../config/tuning';
 import { cellAt, cellCentre, WALL, WATER, type Floor } from '../sim/dungeon';
 import type { DungeonRun } from '../sim/types';
 import type { Tex } from '../samples/aaa-kit';
+import { CaveLamps } from './cave-lamps';
 import { paintedWater, type PaintedWater } from './water';
 
 /**
@@ -26,8 +27,6 @@ import { paintedWater, type PaintedWater } from './water';
  */
 const CELL = DUNGEON.cell;
 const WALL_H = 2.4;
-/** The Keeper's lamp and the three torch lamps. */
-const LAMPS = 4;
 
 /**
  * One material per colour and settings for the page's life: every floor reuses them, so a
@@ -373,7 +372,8 @@ function lootModel(kind: string): THREE.Object3D {
 export class Hollow {
   readonly group = new THREE.Group();
   private floor: Floor | null = null;
-  private readonly lamps: THREE.PointLight[] = [];
+  /** The four point lights (`cave-lamps.ts`); the scene sets their colour and motion. */
+  readonly lamps: CaveLamps;
   private torchAt: THREE.Vector3[] = [];
   private chestLid: THREE.Object3D | null = null;
   /** The rock blocks, their resting heights, and which are cut down now (see `cutaway`). */
@@ -413,14 +413,7 @@ export class Hollow {
     this.group.name = 'hollow';
     this.group.visible = false;
     parent.add(this.group);
-    for (let i = 0; i < LAMPS; i++) {
-      // Hidden above ground: four more lights on every Grove material would cost each frame;
-      // the one recompile happens on the way down the stairs.
-      const l = new THREE.PointLight('#ffa850', 0, 9, 1.6);
-      l.visible = false;
-      this.lamps.push(l);
-      parent.add(l);
-    }
+    this.lamps = new CaveLamps(parent);
     const box = new THREE.BoxGeometry(0.1, 0.1, 0.1);
     const wallSample = new THREE.InstancedMesh(wallGeometry(), this.rock, 1);
     wallSample.setColorAt(0, new THREE.Color('#ffffff'));
@@ -451,18 +444,12 @@ export class Hollow {
 
   /** Whether the torch lamps are on (a floor is showing). */
   get lit(): boolean {
-    return this.lamps[0]!.visible;
+    return this.lamps.lit;
   }
 
   /** Run `fn` with the lamps counted as on or off; for compiling another place's set. */
   withLamps<T>(on: boolean, fn: () => T): T {
-    const was = this.lamps.map((l) => l.visible);
-    for (const l of this.lamps) l.visible = on;
-    try {
-      return fn();
-    } finally {
-      this.lamps.forEach((l, i) => (l.visible = was[i]!));
-    }
+    return this.lamps.with(on, fn);
   }
 
   /** Build (or clear) the floor; called when the sim enters or leaves a floor. */
@@ -699,10 +686,7 @@ export class Hollow {
   ): void {
     const on = !!this.floor && !!run;
     this.group.visible = on;
-    for (const l of this.lamps) {
-      l.intensity = 0;
-      l.visible = on;
-    }
+    this.lamps.update(on, keeper, this.torchAt, t);
     if (!on || !run) return;
     for (const [id, m] of this.loot) {
       m.visible = !run.taken.includes(id);
@@ -717,25 +701,6 @@ export class Hollow {
     this.flames.forEach((fl, i) => {
       const k = 1 + Math.sin(t * 11 + i * 1.7) * 0.08 + Math.sin(t * 23 + i) * 0.05;
       fl.scale.set(2 - k, k, 2 - k);
-    });
-    // The Keeper carries a lamp, as in the pixel view; the other three go to the torches
-    // nearest the Keeper, flickering a little.
-    const own = this.lamps[0]!;
-    own.color.set('#fff0d0');
-    own.position.set(keeper.x, 1.8, keeper.z);
-    // Brighter and wider than the torches: the floor round the party must read (bug 12).
-    own.intensity = READ3D.hollow.lamp;
-    own.distance = READ3D.hollow.lampDistance;
-    const near = [...this.torchAt]
-      .sort(
-        (a, b) =>
-          Math.hypot(a.x - keeper.x, a.z - keeper.z) - Math.hypot(b.x - keeper.x, b.z - keeper.z),
-      )
-      .slice(0, LAMPS - 1);
-    near.forEach((p, i) => {
-      const l = this.lamps[i + 1]!;
-      l.position.copy(p);
-      l.intensity = 16 + Math.sin(t * 13 + i * 2) * 2;
     });
   }
 

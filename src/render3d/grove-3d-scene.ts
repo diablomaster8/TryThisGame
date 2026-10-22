@@ -6,6 +6,7 @@ import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { SMAAPass } from 'three/addons/postprocessing/SMAAPass.js';
 import { GROVE3D, READ3D, UI } from '../config/tuning';
 import type { OrbitCamera } from '../render/camera';
+import { bandFor } from '../render/cave-bands';
 import { daylightAt, type Daylight } from '../render/daylight';
 import { bubbleFor } from '../render/sprites/emote';
 import { Picker } from '../render/picker';
@@ -160,6 +161,8 @@ const FOCUS_EVENTS = new Set<SimEvent['kind']>([
 
 /** The grade's saturation (rain takes `GROVE3D.rain.saturation`). */
 const GRADE_SATURATION = 1.15;
+/** Bloom's HDR threshold above ground: above the lit scene, or the frame washes white. */
+const BLOOM_THRESHOLD = 2.8;
 export class Grove3dScene {
   readonly renderer: THREE.WebGLRenderer;
   readonly scene = new THREE.Scene();
@@ -186,6 +189,8 @@ export class Grove3dScene {
   private readonly time = { value: 0 };
   /** The sky fill's ground colour, put back when the Hollow's warm bounce is left. */
   private readonly hemiGround = new THREE.Color();
+  /** The cave's background, reused so a relight makes no colour. */
+  private readonly caveBg = new THREE.Color();
   private readonly tex: Tex;
   private readonly textures: GroveTextures;
   private readonly terrain: GroveTerrain;
@@ -332,7 +337,7 @@ export class Grove3dScene {
     this.clamp = new ShaderPass(CLAMP);
     this.clamp.enabled = false;
     this.composer.addPass(this.clamp);
-    this.bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.35, 0.4, 2.8);
+    this.bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.35, 0.4, BLOOM_THRESHOLD);
     this.bloom.enabled = false;
     this.composer.addPass(this.bloom);
     // Tone mapping, the sRGB encode and the grade in one draw (they were three).
@@ -389,6 +394,8 @@ export class Grove3dScene {
     this.floor = f;
     this.hollow.set(f);
     this.actors.floor = f;
+    // A new floor may sit in a new depth band: relight now, not at the next daylight tick.
+    if (this.dayArgs && this.location === 'dungeon') this.setDaylight(...this.dayArgs);
   }
 
   setDaylight(
@@ -419,37 +426,61 @@ export class Grove3dScene {
       !grove && !visiting && !this.story.showing && !(place === 'dungeon' && this.floor);
     this.actors.ground = grove ? standHeight : () => 0;
     this.sky.set(hour, d, grove ? weather : 'clear', this.camTarget);
-    // Underground there is no sky: a dark vault, a little cold fill, the torches.
+    // Underground there is no sky: a mid-tone vault, a cool fill, the torches.
     this.sky.sky.visible = !cave;
+    const band = bandFor(place === 'dungeon' ? (this.lastWorld?.dungeon?.depth ?? 1) : 1);
     if (cave) {
+      // The cave light rig (Hollow recommendations items 2, 3, 8 and 21): the floor's depth
+      // band colours a cool-over-warm fill, a coloured key and a mid-tone fog the distance
+      // fades into, never black. Deeper floors dim, down to `depthFloor` of full.
       const light = place === 'dungeon' ? this.hollow.light : 0.6;
-      this.scene.background = new THREE.Color('#07060c');
-      // Lifted so stairs, strays, loot and walls read (review 2026-10-21, bug 12): a cool
-      // fill from above and a warm bounce from the floor, deeper floors a little darker.
-      const r = READ3D.hollow;
-      this.scene.environmentIntensity = r.env * (0.6 + light * 0.4);
-      this.sky.sun.intensity = r.sun * (0.6 + light * 0.4);
-      this.sky.sun.color.set('#9aa8d8');
-      this.sky.hemi.intensity = r.hemi * (0.6 + light * 0.4);
-      this.sky.hemi.color.set('#a8b4e8');
-      this.sky.hemi.groundColor.set('#5a4636');
-      this.sky.fog.color.set('#07060c');
-      this.sky.fog.density = r.fog;
+      const c = GROVE3D.cave.light;
+      const k = c.depthFloor + (1 - c.depthFloor) * light;
+      this.caveBg.set(band.background);
+      this.scene.background = this.caveBg;
+      this.scene.environmentIntensity = c.env * k;
+      this.sky.sun.intensity = c.key * k;
+      this.sky.sun.color.set(band.key);
+      this.sky.hemi.intensity = c.hemi * k;
+      this.sky.hemi.color.set(band.hemiSky);
+      this.sky.hemi.groundColor.set(band.hemiGround);
+      this.sky.fog.color.set(band.background);
+      this.sky.fog.density = c.fogDensity;
+      this.hollow.lamps.torchColor.set(band.torch);
     } else {
       this.scene.background = null;
       this.sky.hemi.groundColor.copy(this.hemiGround);
     }
     const elevation = this.sky.elevationDeg;
-    // The governor may hold bloom off on a device short of CPU (`governRenderScale`).
-    this.bloomWanted = elevation < GROVE3D.bloomBelowDeg;
+    // Bloom at dusk and night above ground, and always underground, whatever the hour (item
+    // 3). The governor may still hold it off on a device short of CPU (`governRenderScale`).
+    const c = GROVE3D.cave.light;
+    this.bloomWanted = cave || elevation < GROVE3D.bloomBelowDeg;
     this.bloom.enabled = this.bloomWanted && this.cpuApplied < 2;
     this.clamp.enabled = this.bloom.enabled;
-    this.bloom.strength = elevation < -2 ? 0.25 : 0.35;
-    this.renderer.toneMappingExposure =
-      elevation < -2 ? 0.6 : elevation < GROVE3D.bloomBelowDeg ? 0.75 : 0.68;
+    this.bloom.strength = cave ? c.bloom : elevation < -2 ? 0.25 : 0.35;
+    this.bloom.threshold = cave ? c.bloomThreshold : BLOOM_THRESHOLD;
+    this.renderer.toneMappingExposure = cave
+      ? c.exposure
+      : elevation < -2
+        ? 0.6
+        : elevation < GROVE3D.bloomBelowDeg
+          ? 0.75
+          : 0.68;
     this.grade.uniforms.uTint!.value.set(
-      elevation < -2 ? '#c8d4ff' : elevation < GROVE3D.bloomBelowDeg ? '#fff2e2' : '#ffffff',
+      cave
+        ? band.grade
+        : elevation < -2
+          ? '#c8d4ff'
+          : elevation < GROVE3D.bloomBelowDeg
+            ? '#fff2e2'
+            : '#ffffff',
     );
+    // Under rock: a stronger radial vignette and a darker top edge (item 21).
+    const a = GROVE3D.cave.atmos;
+    this.grade.uniforms.uVignette!.value = cave ? a.vignette : a.groundVignette;
+    this.grade.uniforms.uTop!.value = cave ? a.top : 0;
+    this.grade.uniforms.uTopFrom!.value = a.topFrom;
     // The Sun and Moon Groves are recolours, as in the pixel mode (cream and lavender on
     // the lit materials); here a grade over the whole frame. Corvin's rows are drained.
     const tint =
@@ -812,6 +843,7 @@ export class Grove3dScene {
     const party = run
       ? world.nubbins.filter((n) => run.party.includes(n.id)).map((n) => n.pos)
       : [];
+    this.hollow.lamps.reduceMotion = this.reduceMotion;
     this.hollow.update(run, world.keeper.pos, nowMs / 1000, this.camPos, party);
 
     // The Lakitu camera: orbit the Keeper at the snapped yaw, eased, never underground.
