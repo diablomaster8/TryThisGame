@@ -1,4 +1,4 @@
-import { READ3D } from '../config/tuning';
+import { GROVE, READ3D } from '../config/tuning';
 import { SCENE_STAGES } from '../config/scene-stages';
 import { DAWN_HOUR, DUSK_HOUR } from '../config/scene-stages-dawndusk';
 import { E_STAGES } from '../config/tuning-e';
@@ -58,6 +58,18 @@ export function hourOf(lines: readonly Line[]): number | null {
     return s.goldenHour;
   if (/\b(dawn|sunrise|first light|early morning)\b/.test(opening)) return s.morningHour;
   return null;
+}
+
+/**
+ * The pixel Grove's terrace top under (x, z): each hill is three tiers (render/grove-scene.ts),
+ * so a figure drawn on a hill mark stands on it rather than inside it. 0 off the hills.
+ */
+export function terraceY(x: number, z: number): number {
+  for (const h of GROVE.hills) {
+    const d = Math.hypot(x - h.x, z - h.z) / h.r;
+    if (d < 1) return d < 0.5 ? h.h : d < 0.74 ? h.h * 0.76 : h.h * 0.42;
+  }
+  return 0;
 }
 
 /** Which visiting Keepers are drawn at a location: the pixel and 3D views' shared rule. */
@@ -149,6 +161,8 @@ export class SceneStager {
    * Drawing only: the sim's Keeper stays where it is.
    */
   keeperHold: Vec2 | null = null;
+  /** Where cast Nubbins (Moss, Sable) are drawn for the scene, by Nubbin id. Drawing only. */
+  readonly nubbinHolds = new Map<string, Vec2>();
   /** The hour the scene asks for (stage.hour, else its narration), or null for the clock's. */
   hour: number | null = null;
   /** Who speaks the line on screen now (the dialogue sets it each frame), or null. */
@@ -175,6 +189,7 @@ export class SceneStager {
     this.holds.clear();
     this.faces.clear();
     this.keeperHold = null;
+    this.nubbinHolds.clear();
     this.speakers.clear();
     this.hour = null;
     this.stage = {};
@@ -198,6 +213,12 @@ export class SceneStager {
     const you = cast.find((c) => c.who === 'you');
     const ym = you ? markAt(world.location, you.mark) : undefined;
     if (ym) this.keeperHold = { x: ym.x, z: ym.z };
+    // Moss and Sable are Nubbins, not visiting Keepers: their marks hold their drawn spot.
+    for (const c of cast) {
+      const nid = this.nubbinIdOf(world, c.who);
+      const m = nid ? markAt(world.location, c.mark) : undefined;
+      if (nid && m) this.nubbinHolds.set(nid, { x: m.x, z: m.z });
+    }
     const k = this.keeperHold ?? world.keeper.pos;
     const here = world.npcs.filter((n) => npcHere(world.location, n.trainer));
     for (const n of here) this.holds.set(n.id, { x: n.pos.x, z: n.pos.z });
@@ -257,10 +278,25 @@ export class SceneStager {
     if (who === 'you') return this.keeperSpot(world);
     const n = world.npcs.find((x) => x.trainer === who && npcHere(world.location, x.trainer));
     if (n) return this.holds.get(n.id) ?? n.pos;
-    const c = world.campaign;
-    const nid = who === 'sable' ? c?.sableId : who === 'moss' ? c?.mossId : null;
+    const nid = this.nubbinIdOf(world, who);
     const nb = nid ? world.nubbins.find((x) => x.id === nid) : undefined;
-    return nb ? nb.pos : null;
+    return nb ? (this.nubbinHolds.get(nb.id) ?? nb.pos) : null;
+  }
+
+  private nubbinIdOf(world: World, who: string): string | null {
+    const c = world.campaign;
+    return (who === 'sable' ? c?.sableId : who === 'moss' ? c?.mossId : null) ?? null;
+  }
+
+  /**
+   * The framed points without the Keeper when the shot names its own focus and leaves the
+   * Keeper out (`green`, `house-1`, `moss`…): the pan centres on what the scene is about.
+   */
+  subjects(world: World): Vec2[] {
+    const all = this.frame(world);
+    const focus = this.stage.shot?.focus;
+    if (!focus?.length || focus.includes('you') || all.length < 2) return all;
+    return all.slice(1);
   }
 
   /**

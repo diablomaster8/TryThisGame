@@ -68,7 +68,8 @@ const GROVE_MARKS: Record<string, StageMark> = {
   'grass-lantern': byPost('lantern-4'),
   // The memorial hill (GROVE.hills[0]); the path climbs from the east.
   'hill-path': { x: HILL.x + HILL.r + 1, z: HILL.z + 1, yaw: W },
-  'flat-stone': { x: HILL.x + HILL.r * 0.45, z: HILL.z + 0.5, yaw: W },
+  // On the second terrace (0.62 r out), where package c draws the stone itself.
+  'flat-stone': { x: HILL.x + HILL.r * 0.61, z: HILL.z + 0.68, yaw: W },
   'hill-top': { x: HILL.x, z: HILL.z, yaw: S },
   briar: { x: HILL.x - 1, z: HILL.z - 1.5, yaw: S },
   // The falls: the pool at the foot, the ledge behind the water.

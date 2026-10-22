@@ -921,7 +921,7 @@ export class Grove3dScene {
     const st = this.staging.stage.shot;
     const all = this.staging.frame(world);
     if (all.length < 2 && !st) return base;
-    const points = this.framedPoints(world, all);
+    const points = this.framedPoints(world, this.staging.subjects(world));
     const s = READ3D.stage;
     const cx = points.reduce((a, p) => a + p.x, 0) / points.length;
     const cz = points.reduce((a, p) => a + p.z, 0) / points.length;
@@ -1016,6 +1016,7 @@ export class Grove3dScene {
     this.staging.speaker = this.storySpeaker;
     const stageCut = this.staging.update(world, nowMs);
     this.actors.keeperHold = this.staging.active ? this.staging.keeperHold : null;
+    this.actors.nubbinHolds = this.staging.active ? this.staging.nubbinHolds : null;
     const shot = this.shot(world, orbit);
     const ease = (rate: number) => (snap ? 1 : 1 - Math.exp(-rate * dt));
     if (stageCut) {
