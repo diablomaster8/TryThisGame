@@ -244,7 +244,7 @@ export class Actors {
     if (!this.warmed || !this.keeper || !world) return { progress: 0, done: false };
     const figures = [!!this.keeper.rig];
     if (world.coop.active && world.keeper2) figures.push(!!this.keeper2?.rig);
-    for (const n of this.location.startsWith('visit:') ? [] : world.nubbins) {
+    for (const n of this.shownNubbins(world)) {
       const a = this.nubbins.get(n.id);
       figures.push(!!a && a.key === this.wantKey(n) && !!(a.rig || a.shell));
     }
@@ -568,6 +568,13 @@ export class Actors {
     return o ? { x: o.position.x, z: o.position.z } : null;
   }
 
+  /** The Nubbins drawn here: none on a visit, the party in the Hollow, else all. */
+  private shownNubbins(world: World): World['nubbins'] {
+    if (this.location.startsWith('visit:')) return [];
+    const run = this.location === 'dungeon' ? world.dungeon : null;
+    return run ? world.nubbins.filter((n) => run.party.includes(n.id)) : world.nubbins;
+  }
+
   private drop(id: string): void {
     const a = this.nubbins.get(id);
     if (!a) return;
@@ -701,10 +708,11 @@ export class Actors {
       dt,
     );
 
-    // Nubbins. On a visit the Keeper's own stay at home, as do the items.
+    // Nubbins. On a visit the Keeper's own stay at home, as do the items; in the Hollow
+    // only the party comes along, as in the pixel view (the rest stay in the Grove).
     const away = this.location.startsWith('visit:');
     const live = new Set<string>();
-    for (const n of away ? [] : world.nubbins) {
+    for (const n of this.shownNubbins(world)) {
       live.add(n.id);
       const a = this.ensureNubbin(n);
       this.unsquash(a);
