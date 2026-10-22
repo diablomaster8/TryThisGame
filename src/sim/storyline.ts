@@ -247,6 +247,14 @@ export function applyStorylineCommand(
       const n = Math.max(1, Math.min(s.chapters.length, cmd.chapter));
       if (world.location !== 'dungeon') setLocation(world, storyHome(s.id, n), events);
       beginStoryChapter(world, c, n, events);
+      // A jump always plays the chapter's opening, even one already seen (the current
+      // chapter included), and queues it now rather than at the next sim second.
+      const def = storyChapter(c);
+      if (def) {
+        const again = new Set([def.opening.id, variantOf(c, def.opening.id)]);
+        c.seen = c.seen.filter((id) => !again.has(id));
+      }
+      stepStoryline(world, c, events);
       return;
     }
     default:

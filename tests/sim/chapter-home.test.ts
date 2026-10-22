@@ -28,6 +28,27 @@ describe('chapter home locations', () => {
     expect(world.location).toBe('hollow');
   });
 
+  it('queues the opening again on a jump to a chapter already begun', () => {
+    const { world, events } = campaignWorld();
+    const st = c(world);
+    const first = st.queue[0]!;
+    st.seen.push(...st.queue);
+    st.queue = [];
+    applyCommand(world, { kind: 'debugChapter', chapter: 1 }, events);
+    expect(c(world).queue).toContain(first);
+    for (const id of ['hundred', 'beetle', 'dawn', 'logged']) {
+      const s = storylineWorld(id);
+      const sc = c(s.world);
+      applyCommand(s.world, { kind: 'debugChapter', chapter: 1 }, s.events);
+      const open = sc.queue[0];
+      expect(open, id).toBeDefined();
+      sc.seen.push(...sc.queue);
+      sc.queue = [];
+      applyCommand(s.world, { kind: 'debugChapter', chapter: 1 }, s.events);
+      expect(sc.queue, id).toContain(open);
+    }
+  });
+
   it('brings a storyline jump home to the Grove', () => {
     const { world, events } = storylineWorld('beetle');
     world.location = 'corvin';

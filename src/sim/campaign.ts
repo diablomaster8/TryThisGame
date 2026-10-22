@@ -709,6 +709,14 @@ export function applyCampaignCommand(world: World, cmd: Command, events: SimEven
       const n = Math.max(1, Math.min(FINAL_CHAPTER, cmd.chapter));
       if (world.location !== 'dungeon') setLocation(world, hazelHome(n), events);
       beginChapter(world, c, n, events);
+      // A jump always plays the chapter's opening, even one already seen (the current
+      // chapter included).
+      const def = chapterDef(n);
+      if (def) {
+        const { before, opening } = openingFor(c, n, def.opening);
+        const again = new Set([def.opening, opening, ...before]);
+        c.seen = c.seen.filter((id) => !again.has(id));
+      }
       queueOpening(world, c);
       return;
     }
