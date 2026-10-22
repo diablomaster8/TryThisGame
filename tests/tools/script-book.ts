@@ -1,9 +1,17 @@
-/** Renders the content pack as readable Markdown screenplays: npx tsx tests/tools/script-book.ts <outDir> */
-import { mkdirSync, writeFileSync } from 'node:fs';
+/**
+ * Renders the content pack as readable Markdown screenplays: npx tsx tests/tools/script-book.ts [outDir]
+ * `--check` renders to a temp dir and exits 1 if the committed `script-book/` has drifted from `src/content/`.
+ */
+import { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import * as C from '../../src/content/index';
 import { SPEAKERS, type Scene } from '../../src/config/story';
 import type { Quest } from '../../src/content/types';
-const out = process.argv[2] ?? 'script-book';
+const args = process.argv.slice(2);
+const check = args.includes('--check');
+const BOOK = 'script-book';
+const out = check ? mkdtempSync(join(tmpdir(), 'script-book-')) : (args.find((a) => !a.startsWith('--')) ?? BOOK);
 mkdirSync(out, { recursive: true });
 const packs: [string, string, Quest[]][] = [
   ['01-side-stories', "Hazel's Grove side stories (S1–S22)", [...C.SIDE_STORIES_FUN, ...C.SIDE_STORIES_MAIN, ...C.SIDE_STORIES_FUN_2, ...C.SIDE_STORIES_NEW_1, ...C.SIDE_STORIES_NEW_2, ...C.SIDE_STORIES_NEW_3, ...C.SIDE_STORIES_NEW_4].sort((a, b) => Number(a.code.slice(1)) - Number(b.code.slice(1)))],
@@ -215,3 +223,15 @@ for (const s of C.RESULT_SETS) rs.push(`## ${s.id}`, '', s.screen, '', '| When |
 writeFileSync(`${out}/18-results.md`, rs.join('\n'));
 index += '- [Readers: fortune teller, doctor, Aunt Wen, Island Mystic, the kings](17-readers.md)\n- [Result lines for every result screen and Neopia freebie](18-results.md)\n';
 writeFileSync(`${out}/README.md`, index);
+if (check) {
+  // Every file in either tree, by '/'-separated path relative to its root.
+  const walk = (root: string, dir = ''): string[] =>
+    readdirSync(join(root, dir)).flatMap((f) => (statSync(join(root, dir, f)).isDirectory() ? walk(root, `${dir}${f}/`) : [`${dir}${f}`]));
+  const fresh = new Set(walk(out));
+  const committed = new Set(walk(BOOK));
+  const drift = [...new Set([...fresh, ...committed])].sort().filter((f) => !fresh.has(f) || !committed.has(f) || !readFileSync(join(out, f)).equals(readFileSync(join(BOOK, f))));
+  rmSync(out, { recursive: true, force: true });
+  for (const f of drift) console.log(`${!committed.has(f) ? 'missing' : !fresh.has(f) ? 'stale  ' : 'changed'}  ${BOOK}/${f}`);
+  console.log(drift.length ? `script-book: ${drift.length} file(s) out of date; run npx tsx tests/tools/script-book.ts` : 'script-book: in sync');
+  if (drift.length) process.exit(1);
+}
