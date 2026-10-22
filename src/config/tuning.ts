@@ -1415,6 +1415,7 @@ export const READ3D = {
     /** Turned this far off the Keeper-to-Nubbin line: from the side, so both read, the Nubbin nearer. */
     sideRad: 1.15,
     pitchDeg: 20,
+    lookUp: 1.3,
   },
   /** A story scene: the speakers framed together, the distance growing with their spread. */
   stage: {

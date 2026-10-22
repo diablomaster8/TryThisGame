@@ -143,6 +143,8 @@ interface Shot {
   pitchDeg: number;
   distance: number;
   points: Vec2[];
+  /** How far above the ground the camera looks, over the usual height. */
+  lookUp: number;
 }
 
 /** The events whose Nubbin the camera turns to (review 2026-10-21, bug 10). */
@@ -739,6 +741,7 @@ export class Grove3dScene {
       pitchDeg: GROVE3D.pitchDeg,
       distance: GROVE3D.distance[orbit.currentZoomIndex] ?? GROVE3D.distance[0],
       points: [],
+      lookUp: 0,
     };
     const f = READ3D.focus;
     const focus = this.focus;
@@ -769,6 +772,9 @@ export class Grove3dScene {
         // A phone held upright frames the pair from further back, or one falls off the side.
         distance: Math.min(base.distance, f.distance * (this.camera.aspect < 1 ? 1.3 : 1)),
         points: [subject],
+        // Looking a little over the Nubbin puts it low on screen, clear of the evolution
+        // or hatch card the HUD shows in the middle.
+        lookUp: f.lookUp,
       };
     }
     if (!this.staging.active) return base;
@@ -835,7 +841,7 @@ export class Grove3dScene {
     this.yawOffset += (dyaw * b - this.yawOffset) * (stageCut ? 1 : ease(4));
     const tx = THREE.MathUtils.lerp(orbit.target.x, s.x, b);
     const tz = THREE.MathUtils.lerp(orbit.target.z, s.z, b);
-    const ty = ground(tx, tz) + GROVE3D.lookHeight;
+    const ty = ground(tx, tz) + GROVE3D.lookHeight + s.lookUp * b;
     this.camTarget.x = tx;
     this.camTarget.z = tz;
     this.camTarget.y += (ty - this.camTarget.y) * (snap || stageCut ? 1 : 1 - Math.exp(-6 * dt));
