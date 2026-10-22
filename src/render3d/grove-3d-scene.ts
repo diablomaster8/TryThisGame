@@ -164,6 +164,8 @@ const FOCUS_EVENTS = new Set<SimEvent['kind']>([
 const GRADE_SATURATION = 1.15;
 /** Bloom's HDR threshold above ground: above the lit scene, or the frame washes white. */
 const BLOOM_THRESHOLD = 2.8;
+/** A layer nothing is put on: the sun's shadow camera looks at it underground. */
+const EMPTY_LAYER = 31;
 export class Grove3dScene {
   readonly renderer: THREE.WebGLRenderer;
   readonly scene = new THREE.Scene();
@@ -188,6 +190,14 @@ export class Grove3dScene {
   private cpuApplied = 0;
   /** Whether the Hollow's shed list has dropped bloom (`cave-shed.ts`). */
   private bloomShed = false;
+  /**
+   * Underground the sun's shadow pass draws nothing (`GROVE3D.cave.light.sunShadow`): its
+   * camera looks at an empty layer, the map is cleared once and then left alone. The
+   * programs keep their shadow sampling, so going down the stairs links nothing new.
+   */
+  private caveShadowOff = false;
+  private caveShadowCleared = false;
+  private sunShadowMask = 0;
   private readonly sky: GroveSky;
   private readonly time = { value: 0 };
   /** The sky fill's ground colour, put back when the Hollow's warm bounce is left. */
@@ -459,7 +469,18 @@ export class Grove3dScene {
       this.sky.fog.color.set(band.background);
       this.sky.fog.density = c.fogDensity;
       this.hollow.lamps.torchColor.set(band.torch);
-    } else {
+    }
+    // The creatures keep their contact shadows; the cave's sun shadow was a second draw of
+    // every caster (about 150 calls in the great chamber) for a key light no one can see.
+    const shadowOff = cave && !GROVE3D.cave.light.sunShadow;
+    if (shadowOff !== this.caveShadowOff) {
+      this.caveShadowOff = shadowOff;
+      this.caveShadowCleared = false;
+      const layers = this.sky.sun.shadow.camera.layers;
+      if (shadowOff) this.sunShadowMask = layers.mask;
+      layers.mask = shadowOff ? 1 << EMPTY_LAYER : this.sunShadowMask;
+    }
+    if (!cave) {
       this.scene.background = null;
       this.sky.hemi.groundColor.copy(this.hemiGround);
     }
@@ -1156,8 +1177,14 @@ export class Grove3dScene {
     // at that frame rate.
     const shadows = this.renderer.shadowMap;
     const strained = this.governor.ratio < this.governor.maxRatio || level > 0;
-    shadows.autoUpdate = !strained;
-    if (strained) shadows.needsUpdate = (this.shadowTick++ & (level >= 3 ? 3 : 1)) === 0;
+    if (this.caveShadowOff) {
+      // Underground: clear the map once (nothing is on its layer), then never redraw it.
+      shadows.autoUpdate = false;
+      if (!this.caveShadowCleared) shadows.needsUpdate = this.caveShadowCleared = true;
+    } else {
+      shadows.autoUpdate = !strained;
+      if (strained) shadows.needsUpdate = (this.shadowTick++ & (level >= 3 ? 3 : 1)) === 0;
+    }
     const pr = this.renderer.getPixelRatio();
     if (this.composerRatio.get(composer) !== pr) {
       composer.setPixelRatio(pr);

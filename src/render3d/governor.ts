@@ -14,8 +14,10 @@ import { GROVE3D } from '../config/tuning';
  * frames straight back is kept for good, so the picture does not flicker between the two.
  * Some places shed effects before any sharpness (`setShedSteps`; the Hollow Below sheds
  * particles, then triplanar rock, then bloom, `cave-shed.ts`): while shed steps are set, a
- * slow frame takes the next shed step (`shedLevel`) before the render scale moves, and a fast
- * run gives sharpness back before the shed steps, the latest first; a shed step given back
+ * frame slower than the shed target (`GROVE3D.cave.light.governor.slowMs`, the phone target
+ * rather than the 30 fps floor) takes the next shed step (`shedLevel`) before the render scale
+ * moves, and a fast run gives sharpness back before the shed steps, the latest first; a shed
+ * step given back
  * that brings the slow frames straight back stays on while the place lasts.
  * Pure apart from the numbers it is fed, so the tests drive it with made-up frame times.
  */
@@ -35,6 +37,8 @@ export class FrameGovernor {
   private shedSteps = 0;
   private shedFloor = 0;
   private sinceShedRestore = Infinity;
+  private shedSlowFor = 0;
+  private shedFastFor = 0;
   /** The last step down, to judge once the average has settled at the new scale. */
   private trial: { fromRatio: number; fromMs: number } | null = null;
   /** The lowest scale worth using: raised when a step down did not help. */
@@ -71,7 +75,11 @@ export class FrameGovernor {
     this.fastFor = this.avgMs < g.fastMs ? this.fastFor + 1 : 0;
     this.sinceRestore++;
     this.sinceShedRestore++;
-    if (this.slowFor >= g.downFrames && this.shedLevel < this.shedSteps) {
+    // The shed steps judge against the place's own target (`GROVE3D.cave.light.governor`).
+    const shed = GROVE3D.cave.light.governor;
+    this.shedSlowFor = this.avgMs > shed.slowMs ? this.shedSlowFor + 1 : 0;
+    this.shedFastFor = this.avgMs < shed.fastMs ? this.shedFastFor + 1 : 0;
+    if (this.shedSlowFor >= g.downFrames && this.shedLevel < this.shedSteps) {
       if (this.sinceShedRestore < g.upFrames) this.shedFloor = this.shedLevel + 1;
       this.shedLevel++;
       this.settle();
@@ -101,7 +109,12 @@ export class FrameGovernor {
     if (this.fastFor >= g.upFrames && this.ratio < this.maxRatio) {
       return this.set(Math.min(this.maxRatio, this.ratio / g.stepDown));
     }
-    if (this.fastFor >= g.upFrames && this.shedLevel > this.shedFloor) {
+    if (
+      this.shedFastFor >= g.upFrames &&
+      this.ratio >= this.maxRatio &&
+      this.cpuLevel === 0 &&
+      this.shedLevel > this.shedFloor
+    ) {
       this.shedLevel--;
       this.sinceShedRestore = 0;
       this.settle();
@@ -127,6 +140,8 @@ export class FrameGovernor {
   private settle(): void {
     this.slowFor = 0;
     this.fastFor = 0;
+    this.shedSlowFor = 0;
+    this.shedFastFor = 0;
     this.samples = 0;
   }
 

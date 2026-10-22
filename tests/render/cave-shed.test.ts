@@ -34,6 +34,27 @@ describe('cave shed order', () => {
     expect(g.ratio).toBeLessThan(1.5);
   });
 
+  it('sheds toward the phone target at 37 fps, keeping full sharpness', () => {
+    const g = new FrameGovernor(1.5);
+    g.setShedSteps(3);
+    feed(g, 400, () => 27);
+    expect(g.shedLevel).toBe(3);
+    expect(g.ratio).toBe(1.5);
+    // Above ground the same frame time sheds nothing and keeps the scale.
+    const grove = new FrameGovernor(1.5);
+    feed(grove, 400, () => 27);
+    expect(grove.shedLevel).toBe(0);
+    expect(grove.ratio).toBe(1.5);
+  });
+
+  it('gives the shed steps back at 60 fps', () => {
+    const g = new FrameGovernor(1.5);
+    g.setShedSteps(3);
+    feed(g, 400, () => 27);
+    feed(g, 2000, () => 16.7);
+    expect(g.shedLevel).toBe(0);
+  });
+
   it('gives sharpness back before the shed steps', () => {
     const g = new FrameGovernor(1.5);
     g.setShedSteps(3);

@@ -323,9 +323,17 @@ export const GROVE3D = {
       /**
        * Underground the frame governor sheds these, in this order, before it lowers the render
        * scale (`render3d/cave-shed.ts`); the Grove keeps its own order. A step nobody has
-       * registered a hook for is a no-op.
+       * registered a hook for is a no-op. The shed steps aim at the phone target, not the
+       * 30 fps floor: one is taken while the smoothed frame runs over `slowMs` (about 53 fps)
+       * and given back, latest first, once it runs under `fastMs` (about 56 fps). The render
+       * scale still answers only to `GROVE3D.governor`, so sharpness goes only to hold 30.
        */
-      governor: { order: ['particles', 'triplanar', 'bloom'] },
+      governor: { order: ['particles', 'triplanar', 'bloom'], slowMs: 19, fastMs: 17.8 },
+      /**
+       * Whether the sun's shadow pass runs underground. Off: the cave's key casts nothing
+       * (the creatures keep their contact shadows), which drops a second draw of every caster.
+       */
+      sunShadow: false,
       /**
        * Hollow light (items 5, 6, 14, 15, 29 and 30, `render3d/hollow-light.ts`). `bake`: torch,
        * crystal and mushroom light baked into the floor and wall vertices (radius in world units,
