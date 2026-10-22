@@ -1,5 +1,6 @@
 import { READ3D } from '../config/tuning';
 import { SCENE_STAGES } from '../config/scene-stages';
+import { E_STAGES } from '../config/tuning-e';
 import { markAt } from '../config/stage-marks';
 import type { Line, SceneStage, StagePlace } from '../config/story';
 import { sceneFor, type PlayScene } from '../sim/story-scenes';
@@ -28,7 +29,7 @@ export function resolveStage(
   if (!id) return null;
   const scene = sceneFor(world, id, 'main');
   if (!scene) return null;
-  return { id, scene, stage: { ...SCENE_STAGES[id], ...scene.stage } };
+  return { id, scene, stage: { ...E_STAGES[id], ...SCENE_STAGES[id], ...scene.stage } };
 }
 
 /**

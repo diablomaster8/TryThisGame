@@ -1,3 +1,4 @@
+import type { NpcLook } from '../../config/npc-looks';
 import type { TrainerLook } from '../../sim/trainers';
 import { CLIPS, frameKey } from './animations';
 import { DRAWN_ANGLES, type DrawnAngle } from './angles';
@@ -72,11 +73,121 @@ function drawHat(pc: PixelCanvas, col: KeeperColors, headCx: number, headCy: num
   }
 }
 
+/**
+ * H12: a named Keeper's silhouette prop, drawn on the 32 px grid over the body. The coat is
+ * a long flare (a different shape from the plain tee and shorts, not only a grey one); the
+ * bucket hangs from the right hand; the satchel crosses the chest to a hip bag; the shawl
+ * is a cape over the shoulders with a fringe.
+ */
+function drawCoat(
+  pc: PixelCanvas,
+  angle: DrawnAngle,
+  top: number,
+  hem: number,
+  tx: number,
+  tw: number,
+): void {
+  const side = angle === 'side';
+  const cx = tx + tw / 2;
+  for (let y = top; y <= hem; y++) {
+    const k = (y - top) / Math.max(1, hem - top);
+    const half = (side ? tw / 2 + 1 : tw / 2 + 1) + k * (side ? 2.5 : 4.5);
+    const row = y >= hem - 1 ? C.greyDeep : C.dusk;
+    pc.rect(Math.round(cx - half), y, Math.round(half * 2), 1, row);
+    pc.px(Math.round(cx - half), y, C.ink);
+    pc.px(Math.round(cx + half) - 1, y, C.greyDeep);
+  }
+  if (angle === 'front' || angle === 'frontQuarter') {
+    pc.thinLine(cx, top + 1, cx, hem - 1, C.greyDeep);
+    pc.thinLine(cx - 2.5, top, cx - 0.5, top + 4, C.greyLight);
+    pc.thinLine(cx + 2.5, top, cx + 0.5, top + 4, C.greyLight);
+  }
+  // A high collar.
+  pc.rect(Math.round(cx - 3), top - 1, 6, 2, C.greyDeep);
+}
+
+function drawBucket(pc: PixelCanvas, hx: number, hy: number): void {
+  pc.thinLine(hx, hy, hx - 2, hy + 2, C.darkBark);
+  pc.thinLine(hx, hy, hx + 2, hy + 2, C.darkBark);
+  pc.rect(hx - 3, hy + 2, 6, 5, C.wood);
+  pc.rect(hx - 3, hy + 2, 6, 1, C.sandLight);
+  pc.rect(hx + 1, hy + 3, 2, 4, C.bark);
+  pc.thinLine(hx - 3, hy + 4, hx + 2, hy + 4, C.darkBark);
+}
+
+function drawSatchel(
+  pc: PixelCanvas,
+  angle: DrawnAngle,
+  top: number,
+  hipY: number,
+  tx: number,
+  tw: number,
+): void {
+  const back = angle === 'back' || angle === 'backQuarter';
+  if (!back) pc.thinLine(tx + tw - 1, top, tx + 1, hipY - 1, C.darkBark);
+  const bx = angle === 'side' ? tx - 1 : tx - 3;
+  pc.rect(bx, hipY - 3, 5, 5, C.sandDeep);
+  pc.rect(bx, hipY - 3, 5, 1, C.sandLight);
+  pc.px(bx + 2, hipY - 1, C.bark);
+}
+
+function drawShawl(
+  pc: PixelCanvas,
+  angle: DrawnAngle,
+  top: number,
+  hipY: number,
+  tx: number,
+  tw: number,
+): void {
+  const cx = tx + tw / 2;
+  const back = angle === 'back' || angle === 'backQuarter';
+  pc.ellipse(cx, top + 1, tw / 2 + 3.5, 3.2, C.violet);
+  pc.thinLine(cx - tw / 2 - 2, top + 3, cx + tw / 2 + 2, top + 3, C.violetLight);
+  if (back) {
+    for (let y = top + 3; y < hipY; y++) {
+      const half = tw / 2 + 3 - (y - top - 3) * 0.35;
+      pc.rect(
+        Math.round(cx - half),
+        y,
+        Math.round(half * 2),
+        1,
+        y % 3 === 0 ? C.violetDeep : C.violet,
+      );
+    }
+  } else {
+    // The two ends hang to the waist at the front.
+    pc.rect(Math.round(cx - 3.5), top + 3, 2, hipY - top - 3, C.violet);
+    pc.rect(Math.round(cx + 1.5), top + 3, 2, hipY - top - 3, C.violetDeep);
+  }
+  // Fringe.
+  for (let x = Math.round(cx - tw / 2 - 3); x <= Math.round(cx + tw / 2 + 2); x += 2)
+    pc.px(x, top + 4, C.roseLight);
+}
+
+/** A nearest-neighbour shrink about the feet, for a smaller figure (Hazel in chapter 11). */
+function shrink(src: PixelCanvas, k: number): PixelCanvas {
+  const dst = new PixelCanvas(KEEPER_SIZE, KEEPER_SIZE);
+  const w = src.width;
+  const h = src.height;
+  const cx = (w - 1) / 2;
+  for (let y = 0; y < h; y++) {
+    const sy = Math.round(h - 1 - (h - 1 - y) / k);
+    if (sy < 0) continue;
+    for (let x = 0; x < w; x++) {
+      const sx = Math.round(cx + (x - cx) / k);
+      if (sx < 0 || sx >= w) continue;
+      dst.data[y * w + x] = src.data[sy * w + sx] ?? 0;
+    }
+  }
+  return dst;
+}
+
 function drawKeeper(
   angle: DrawnAngle,
   clip: 'idle' | 'walk',
   frame: number,
   col: KeeperColors,
+  look?: NpcLook,
 ): PixelCanvas {
   const pc = new PixelCanvas(KEEPER_SIZE, KEEPER_SIZE);
   // Walk: six frames, contact → push-off → passing for each foot.
@@ -126,6 +237,7 @@ function drawKeeper(
   // Belt.
   pc.rect(tx, legY - 1, tw, 1, col.boots);
   pc.dot(tx + tw / 2, legY - 0.5, C.sunYellow);
+  if (look?.accessory === 'coat') drawCoat(pc, angle, torsoTop, feetY - 4, tx, tw);
 
   // Arms with cuffs and hands.
   const armY = torsoTop + 1;
@@ -142,6 +254,15 @@ function drawKeeper(
     pc.px(tx - 2, armY + 6 + swing, col.skin);
     pc.px(tx + tw + 1, armY + 6 - swing, col.skin);
   }
+
+  if (look?.accessory === 'bucket')
+    drawBucket(
+      pc,
+      angle === 'side' ? 17 + swing : tx + tw + 1,
+      armY + 6 - (angle === 'side' ? 0 : swing),
+    );
+  if (look?.accessory === 'satchel') drawSatchel(pc, angle, torsoTop, legY, tx, tw);
+  if (look?.accessory === 'shawl') drawShawl(pc, angle, torsoTop, legY, tx, tw);
 
   // Head: face with whites in the eyes, a brow, a mouth, a jaw shadow, hair under the hat.
   const headCy = torsoTop - 4;
@@ -184,16 +305,17 @@ function drawKeeper(
 
   drawHat(pc, col, headCx, headCy);
 
-  pc.finish(col.outline, [col.outline, C.white]);
-  return pc;
+  const out = look?.scale && look.scale < 1 ? shrink(pc, look.scale) : pc;
+  out.finish(col.outline, [col.outline, C.white]);
+  return out;
 }
 
-export function buildKeeperSheet(col: KeeperColors): SpriteSheet {
+export function buildKeeperSheet(col: KeeperColors, look?: NpcLook): SpriteSheet {
   const atlas = new AtlasBuilder(KEEPER_SIZE, KEEPER_SIZE, 10);
   for (const clip of ['idle', 'walk'] as const) {
     for (const angle of DRAWN_ANGLES) {
       for (let f = 0; f < CLIPS[clip].frames; f++) {
-        atlas.add(frameKey(clip, angle, f), drawKeeper(angle, clip, f, col));
+        atlas.add(frameKey(clip, angle, f), drawKeeper(angle, clip, f, col, look));
       }
     }
   }
@@ -202,3 +324,35 @@ export function buildKeeperSheet(col: KeeperColors): SpriteSheet {
 
 /** The raw drawer, for previews. */
 export const drawKeeperFrame = drawKeeper;
+
+/**
+ * H4: the hand lantern, a 2-frame overlay on the same 32 px grid as a Keeper (so it lines
+ * up whatever the Keeper's size): the lantern hangs from the right-hand side of the screen,
+ * sways one pixel between frames and carries its own glow ('hand-halo', drawn faint).
+ */
+export function buildHandLanternSheet(): SpriteSheet {
+  const atlas = new AtlasBuilder(KEEPER_SIZE, KEEPER_SIZE, 4);
+  for (let f = 0; f < 2; f++) {
+    const pc = new PixelCanvas(KEEPER_SIZE, KEEPER_SIZE);
+    const x = 23 + f;
+    pc.thinLine(x + 1.5, 22, x + 1.5, 25, C.darkBark);
+    pc.rect(x, 25, 4, 1, C.darkBark);
+    pc.rect(x, 26, 4, 4, f === 0 ? C.sunYellow : C.sunLight);
+    pc.rect(x + 1, 27, 2, 2, C.cream);
+    pc.rect(x, 30, 4, 1, C.darkBark);
+    pc.px(x, 26, C.darkBark);
+    pc.px(x + 3, 26, C.darkBark);
+    pc.finish(C.ink, [C.cream, C.sunYellow, C.sunLight]);
+    atlas.add(`hand-${f}`, pc);
+  }
+  for (const [key, cx, cy, r] of [
+    ['hand-halo', 25, 28, 8],
+    ['post-halo', 16, 16, 15],
+    ['post-halo-small', 16, 16, 8],
+  ] as const) {
+    const pc = new PixelCanvas(KEEPER_SIZE, KEEPER_SIZE);
+    pc.disc(cx, cy, r, C.sunLight);
+    atlas.add(key, pc);
+  }
+  return atlas.build();
+}

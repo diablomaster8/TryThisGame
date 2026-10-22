@@ -20,6 +20,7 @@ import { keeperOutfit } from '../render/keeper-look';
 import { EXTRA_LOOKS } from '../sim/npcs';
 import { TRAINERS } from '../sim/trainers';
 import { artSpec } from './art-species';
+import { withNpcAccessories } from './npc-accessories';
 
 /**
  * Look keys and the specs behind them. A key is a plain string, so the sculpt worker can
@@ -229,7 +230,10 @@ export function specForKey(key: string): SpeciesSpec {
     if (npc !== undefined) {
       const side = baseKey === 'keeper-moon' ? 'moon' : baseKey === 'keeper-sun' ? 'sun' : null;
       if (side && hasTrainer(npc))
-        spec = keeperSpec(keeperColours(npc, side), `${side === 'moon' ? 'Moon' : 'Sun'} Keeper`);
+        spec = withNpcAccessories(
+          keeperSpec(keeperColours(npc, side), `${side === 'moon' ? 'Moon' : 'Sun'} Keeper`),
+          npc,
+        );
       else if (!side) spec = dressed(spec, npc);
     }
     const look = mod('look:');

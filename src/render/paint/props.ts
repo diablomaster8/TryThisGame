@@ -218,7 +218,15 @@ export function lanternPost(r: Raster, x: number, base: number, lit: boolean): v
     stamp(r, x + (vnoise(t * 3, 9, 50) - 0.5) * 2, base - i, 1.2, hex('#2a2030'));
   }
   r.rect(x - 5, base - 38, 11, 10, hex('#3a2a30'));
-  r.rect(x - 4, base - 37, 9, 8, lit ? hex('#fff1b8') : hex('#bfe0ff'));
+  // Lit: a bright glass with a white core and a flame bead. Out: dull cold glass with a
+  // dark wick (H3), so a lamp that has gone out reads as out by shape and brightness.
+  r.rect(x - 4, base - 37, 9, 8, lit ? hex('#fff1b8') : hex('#7d869c'));
+  if (lit) {
+    r.rect(x - 2, base - 36, 5, 6, hex('#fffbe6'));
+    r.rect(x - 1, base - 35, 3, 3, hex('#ffd25a'));
+  } else {
+    r.rect(x, base - 36, 1, 5, hex('#3a3646'));
+  }
   r.tri(x - 7, base - 38, x + 8, base - 38, x + 0.5, base - 44, hex('#2a2030'));
 }
 

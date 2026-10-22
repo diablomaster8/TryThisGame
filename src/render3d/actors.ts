@@ -21,6 +21,7 @@ import { ItemKit, eggFamily, placeStand, shellKey } from './item-kit';
 import { flaps, swimsStroke } from '../sim/stats';
 import { moodOf } from '../sim/needs';
 import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
+import { stagedSeat } from './npc-accessories';
 
 /**
  * Everything that moves in the 3D Grove: the Nubbins and the Keeper as pooled rigs,
@@ -725,7 +726,9 @@ export class Actors {
       const moving = Math.hypot(n.pos.x - a.prev.pos.x, n.pos.z - a.prev.pos.z) > 0.004;
       if (a.rig) {
         const near = Math.hypot(keeper.pos.x - n.pos.x, keeper.pos.z - n.pos.z) < 1.5;
-        const pose = poseFor(n, moving, petting === n.id && near);
+        // M6: the scene seats Moss (the sleep pose, the nearest the rig has to sitting).
+        const pose =
+          stagedSeat.id === n.id ? 'sleep' : poseFor(n, moving, petting === n.id && near);
         if (pose !== a.pose) {
           a.pose = pose;
           a.rig.setPose(pose);
