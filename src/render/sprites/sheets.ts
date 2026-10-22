@@ -1,6 +1,6 @@
 import type { KeeperAlignment, Nubbin, PartSlot } from '../../sim/types';
 import { childHint } from '../../sim/alignment';
-import type { SpriteSheet } from './atlas';
+import { sheetFromImage, type SpriteSheet } from './atlas';
 import {
   adultColors,
   buildChaoSheet,
@@ -24,12 +24,47 @@ import { buildEmoteSheet } from './emote';
 import { keeperOutfit, trainerLook } from '../keeper-look';
 import { C } from './palette';
 import { buildKeeperSheet } from './keeper';
-import { npcLookOf } from '../../config/npc-looks';
+import { npcLookOf, WEATHERED } from '../../config/npc-looks';
 import { buildPaintedProps } from '../paint/decor';
 import { buildDungeonProps } from '../paint/dungeon';
 import { buildPaintedScenery } from '../paint/scenery';
 
 const SLOTS: PartSlot[] = ['ears', 'tail', 'arms', 'back'];
+
+/**
+ * C6: a copy of `src` through a stone-grey ramp. Every pixel keeps its lightness and loses
+ * its hue (a touch of moss green stays in the mid tones), and about one pixel in eight is a
+ * lichen speckle, placed by a fixed hash so the sheet is the same every build.
+ */
+function weatherSheet(src: SpriteSheet): SpriteSheet {
+  const from = src.texture.image as HTMLCanvasElement;
+  const canvas = document.createElement('canvas');
+  canvas.width = from.width;
+  canvas.height = from.height;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return src;
+  ctx.drawImage(from, 0, 0);
+  const img = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const d = img.data;
+  for (let i = 0; i < d.length; i += 4) {
+    if ((d[i + 3] ?? 0) === 0) continue;
+    const r = d[i] ?? 0;
+    const g = d[i + 1] ?? 0;
+    const b = d[i + 2] ?? 0;
+    const l = r * 0.3 + g * 0.59 + b * 0.11;
+    const px = i >> 2;
+    const h = ((px * 2654435761) >>> 0) % 97;
+    const speck = h < 12 ? -16 : h < 20 ? 12 : 0;
+    const k = Math.max(0, Math.min(255, l * 0.92 + 14 + speck));
+    d[i] = k * 0.93;
+    d[i + 1] = k * 0.99;
+    d[i + 2] = k * 0.9;
+  }
+  ctx.putImageData(img, 0, 0);
+  const map: Record<string, [number, number, number, number]> = {};
+  for (const [key, r] of src.frames) map[key] = [r.x, r.y, r.w, r.h];
+  return sheetFromImage(canvas, map, src.cellW, src.cellH);
+}
 
 /**
  * Sprite sheets are generated on demand and cached by a style key, so Nubbins of the
@@ -55,8 +90,18 @@ export class SheetCache {
     return s;
   }
 
-  /** The style key a Nubbin renders with right now. */
+  /**
+   * The style key a Nubbin renders with right now. C6: a weathered Nubbin (Moss while he is
+   * "the grey shape") adds a `~weathered` variant key, a grey-ramp copy of its own sheet.
+   */
   static nubbinKey(n: Nubbin): string {
+    const base = SheetCache.baseKey(n);
+    return WEATHERED.ids.has(n.id) && n.stage !== 'egg' && n.stage !== 'cocoon'
+      ? `${base}~weathered`
+      : base;
+  }
+
+  private static baseKey(n: Nubbin): string {
     if (n.stage === 'egg') return `egg:${n.eggColor}:${n.species}`;
     if (n.stage === 'cocoon') return `cocoon:${n.cocoonKind ?? 'evolve'}`;
     const sh = n.shadow ? 'sh' : '-';
@@ -75,6 +120,9 @@ export class SheetCache {
 
   forNubbin(n: Nubbin): SpriteSheet {
     const key = SheetCache.nubbinKey(n);
+    if (key.endsWith('~weathered')) {
+      return this.get(key, () => weatherSheet(this.forNubbin({ ...n, id: `${n.id}~plain` })));
+    }
     return this.get(key, () => {
       // A jewel Nubbin wears the gem finish, unless a Shadow's grey or a character look covers it.
       const gem = isJewel(n.eggColor) && !n.shadow && !(n.hat && CHARACTER_LOOKS[n.hat]);

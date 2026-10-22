@@ -37,6 +37,14 @@ export interface Figure {
   ask?: boolean;
 }
 
+/**
+ * Campaign graphics 2 (C1, H9): figures the story dressing adds this frame, render-only: the
+ * storylines' speakers who have no sim NPC, and the festival's Nubbins. `render3d/dress-p.ts`
+ * sets the list each frame; `crowdFor` appends it, so they come from the same creature pool
+ * and keep their rigs between frames. None can be tapped (`ambient`).
+ */
+export const STAGE_FIGURES: { list: Figure[] } = { list: [] };
+
 const SHADOW_LOOK = (height: number): Look => ({ key: 'variant:shadow', height });
 
 /** The pixel view's ambient spots: the story Hollow's eight and Corvin's thirty in rows. */
@@ -195,6 +203,7 @@ export function crowdFor(
       pose: npc.target && !held ? 'walk' : 'idle',
     });
   }
+  out.push(...STAGE_FIGURES.list);
   if (only) return out;
   if (home)
     for (const w of world.wild)
