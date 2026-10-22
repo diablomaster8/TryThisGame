@@ -105,12 +105,14 @@ export class StageTracker {
         if (to && Math.hypot(to.x - m.x, to.z - m.z) > 0.05)
           yaw = Math.atan2(to.x - m.x, to.z - m.z);
       }
+      // K5: a walk-on is somewhere between its `from` mark and its own, in its walk clip.
+      const w = this.stager.actorWalk.get(c.who);
       out.push({
         who: c.who,
-        x: m.x,
-        z: m.z,
-        yaw,
-        pose: c.pose ?? 'stand',
+        x: w ? w.x : m.x,
+        z: w ? w.z : m.z,
+        yaw: w ? w.yaw : yaw,
+        pose: w?.walking ? 'walk' : (c.pose ?? 'stand'),
         carry: carryOf(c),
         look,
       });
