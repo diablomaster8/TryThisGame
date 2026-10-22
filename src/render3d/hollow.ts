@@ -8,6 +8,7 @@ import { HollowAtmos } from './hollow-atmos';
 import { mat, type HollowCtx, type HollowFrame, type HollowModule } from './hollow-ctx';
 import { HollowDress } from './hollow-dress';
 import { HollowLight } from './hollow-light';
+import { HollowPop } from './hollow-pop';
 import { HollowRock, wallGeometry } from './hollow-rock';
 
 /**
@@ -44,6 +45,7 @@ export class Hollow {
   private readonly light_: HollowLight;
   private readonly dress: HollowDress;
   private readonly atmos = new HollowAtmos();
+  private readonly pop = new HollowPop();
   /** In build order: rock, dress, light, air (`update` runs them in this order too). */
   private readonly mods: HollowModule[];
   /**
@@ -66,7 +68,7 @@ export class Hollow {
     this.group.visible = false;
     parent.add(this.group);
     this.light_ = new HollowLight(parent);
-    this.mods = [this.rock, this.dress, this.light_, this.atmos];
+    this.mods = [this.rock, this.dress, this.light_, this.atmos, this.pop];
     const box = new THREE.BoxGeometry(0.1, 0.1, 0.1);
     const wallSample = new THREE.InstancedMesh(wallGeometry(), this.rock.rock, 1);
     wallSample.setColorAt(0, new THREE.Color('#ffffff'));
