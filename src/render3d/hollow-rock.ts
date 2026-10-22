@@ -243,8 +243,8 @@ function rockMaterial(tex: Tex, u: RockUniforms): THREE.MeshStandardMaterial {
         float sb = sin( ( vW.y + sn * uStrata.z ) * uStrata.x );
         float stripe = smoothstep( uStrata.w, 1.0, sb );
         float trough = smoothstep( -0.55, -1.0, sb );
-        diffuseColor.rgb = mix( diffuseColor.rgb, diffuseColor.rgb * 1.5 + 0.03, stripe * uStrata.y * sideW );
-        diffuseColor.rgb *= 1.0 - trough * uStrata.y * 0.3 * sideW;
+        diffuseColor.rgb = mix( diffuseColor.rgb, diffuseColor.rgb * 1.9 + 0.04, stripe * uStrata.y * sideW );
+        diffuseColor.rgb *= 1.0 - trough * uStrata.y * 0.45 * sideW;
         // Edge wear: up-facing ridges and the top lip catch the rim colour, chipped by noise.
         float chip = 0.55 + 0.9 * rockNoise( vW * 3.1 );
         float ridge = smoothstep( 0.55, 0.95, fn.y );
@@ -256,7 +256,7 @@ function rockMaterial(tex: Tex, u: RockUniforms): THREE.MeshStandardMaterial {
         float mossAmt = ( 1.0 - smoothstep( 0.0, uMossP.x, vH ) ) + vWet * uMossP.y + tw.y * 0.45;
         float mm = mossAmt * 1.2 + ( mnz - 0.5 ) * 0.9;
         float mossMask = smoothstep( 0.45, 0.8, mm ) * uMossP.z;
-        diffuseColor.rgb = mix( diffuseColor.rgb, uMossCol, mossMask );
+        diffuseColor.rgb = mix( diffuseColor.rgb, uMossCol * 0.75, mossMask );
         float spot = step( 0.74, rockNoise( vW * 6.0 ) ) * smoothstep( 0.3, 0.9, mossAmt * ( mnz + 0.4 ) );
         diffuseColor.rgb = mix( diffuseColor.rgb, uFungusCol, spot * uFungusAmt * 0.4 );
         fungusGlow = uFungusCol * spot * uFungusAmt * 0.35;
@@ -741,8 +741,8 @@ export class HollowRock implements HollowModule {
     const wetB = new Buf();
     const col = new Buf();
     const index: number[] = [];
-    const foot = new THREE.Color('#24212c');
-    const lipC = new THREE.Color('#a29eae');
+    const foot = new THREE.Color('#5a5266');
+    const lipC = new THREE.Color('#b0a8be');
     const c = new THREE.Color();
     const half = CELL / 2;
     const emit = (
@@ -765,7 +765,7 @@ export class HollowRock implements HollowModule {
       leanB.push(gx * s, gz * s);
       wetB.push(wet.sample(x, z));
       c.copy(foot)
-        .lerp(lipC, smooth(frac, 0, 0.85))
+        .lerp(lipC, smooth(frac, 0, 0.45))
         .multiply(tone);
       col.push(c.r, c.g, c.b);
     };
