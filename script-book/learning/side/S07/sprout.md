@@ -19,8 +19,8 @@ _Beside him is a pale blue Nubbin. That’s Null._
 > Check: `edu:show:fingers:4`
 > _For grown-ups: Showed four on their fingers and then their own age._
 
-**Byte**: Moss says a Nubbin loved enough becomes an Eternal.  
-**Byte**: “Enough”? How much is enough? I’ll use a clock!  
+**Moss**: Love can help a Nubbin live a very, very long time.  
+**Byte**: How much love? A cupful? A bucketful? I’ll measure it!  
 **Moss**: Your shoelace is untied.  
 _Byte looks down. It is. It always is!_  
 
@@ -63,6 +63,7 @@ _Pixel’s bench: a clock, three little bells, and a tiny bed._
 _Tick. A plum shoots out. Bonk! It hits Byte._  
 **Pixel**: That was a test.  
 **Byte**: That was a plum.  
+**Pixel**: Byte and I are married. He argues with my clocks.  
 **Pixel**: A clock doesn’t care. I’m trying to care for it.  
 
 **Choices**
@@ -173,8 +174,8 @@ _Byte sits still for an hour. He doesn’t check the time._
 #### `sprout:s7-complete` · [main](../../../side/S07.md#s7-complete)
 
 _A few days later, Pixel knocks. Pixel doesn’t speak._  
-_Null is under Byte’s hedge. Null is very old now._  
-_Null’s life is ending. Around it, a glowing cocoon grows._  
+_Null is under Byte’s hedge. Null has grown up._  
+_Null’s long life is ending. Around it, a glowing cocoon grows._  
 _Byte sits with his hand on it. He doesn’t count._  
 _The cocoon glows gold. It opens. An egg!_  
 

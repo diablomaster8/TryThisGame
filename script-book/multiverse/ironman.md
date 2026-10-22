@@ -209,6 +209,8 @@ _The car idles for an hour. Then it reverses into the dark and does not come bac
 #### <a id="mv-im02-complete"></a>Complete `mv-im02-complete`
 
 **Pepper Potts**: Let me check I have this right. He blew up three factories, and now he works for us.  
+**Tony Stark**: Yes. The small appliances can stay too. They’ve been very good for morale.  
+**Pepper Potts**: Nubbins, Tony. They have a name.  
 **Tony Stark**: For the record, I’m not good at forgiving people. I’m practising. On the expensive ones first.  
 **Anton Vanko**: I will repay you in science. Your plants will be the safest in the world.  
 _Vanko unscrews a burnt-out coil from his gauntlet and hands it to you._  
@@ -347,6 +349,9 @@ _Every television in the Stark plant shows the same thing: a giant in green armo
 **Boris Bullski**: Meet me before the cameras, in a neutral country. We will see whose science deserves the future.  
 **Pepper Potts**: You don’t have to go. Nobody wins an argument by turning up when a man shouts on television.  
 **Tony Stark**: If I don’t go, he gets to say the shouting won.  
+**Pepper Potts**: Then go. It’s in your calendar. Thursday: do not fly into the sun.  
+**Tony Stark**: I have never once flown into the sun.  
+**Pepper Potts**: It’s a recurring entry. It’s recurring because you keep asking.  
 _On the bench, two suits: the heavy one, slow but tough, and a light one, barely more than plating._  
 **Tony Stark** _(think)_: He’s big. Big means slow to turn. I could match him plate for plate, or I could make him chase.  
 **Tony Stark**: Keeper. You’ve fought things bigger than you. What would you do?  
@@ -733,7 +738,8 @@ _A boardroom high over the city. Through the window, the Stark International sig
 **Obadiah Stane** _(happy)_: Obadiah Stane. I buy things, Keeper. Shares, debts, people. This week I bought Tony Stark’s company.  
 **Obadiah Stane**: I didn’t have to fight him. I only had to wait for him to fight himself. He’s losing.  
 _Two of his men are building a house of cards on the table. Stane flicks it over without looking._  
-**Rhodey** _(sad)_: Tony isn’t picking up. Hasn’t for three days. Last time I saw him, he had a bottle and a grudge.  
+**Rhodey** _(sad)_: Tony was sober for months after the embassy. Then something knocked him over again. Three days, no answer.  
+**Bethany Cabe** _(sad)_: He told me he’d rather be useless alone than useless watched.  
 **Bethany Cabe**: Stane went after every friend Tony has. Debts called in. Threats. He’s pulling up the floor one board at a time.  
 **Obadiah Stane**: Go and look for him if you like. I’d start low.  
 **Obadiah Stane**: You think I’m the villain, Keeper. I’m a man who read the accounts. He was drinking the company into the sea.  
@@ -876,6 +882,10 @@ _The Vault: a prison for super-powered criminals, guarded by men in green armour
 **Tony Stark**: Their suits are mine too. Licensed once, years ago. Copied since. I’m switching them off.  
 **Guardsman** _(angry)_: Stark, stand down! We keep the worst people on Earth behind these walls!  
 **Tony Stark**: With my armour. Without asking me. That’s the problem.  
+**Guardsman**: Stand down, Stark. That is an order.  
+**Tony Stark**: By what authority?  
+**Guardsman**: Yours, technically. It’s on the label.  
+_By the big red lever, a guard asks your Nubbin very politely to let go. It does not._  
 _Alarms. Cell doors stutter as the power flickers. Inside, prisoners start to shout._  
 **You**: Tony, if the guards go down, who keeps the doors shut?  
 **Tony Stark** _(shock)_: I— I hadn’t got as far as that part.  
@@ -1097,16 +1107,49 @@ _Foom roars. The valley shakes. Behind him the other dragons watch to see who wi
 
 _Foom sinks, beaten, and the other dragons scatter into the mountains._  
 **The Mandarin** _(angry)_: Now, Stark. The dragons are gone, and there is only one enemy left in this valley.  
-_All ten rings glow. He turns them on Tony._  
+_The Mandarin fires first. All ten rings glow, and he turns them on Tony._  
+
+#### <a id="mv-im09-foom-done-mv-im09-promise"></a>Variant `mv-im09-foom-done-mv-im09-promise`
+
+_Variant of `mv-im09-foom-done`._
+
+_Foom sinks, beaten, and the other dragons scatter into the mountains._  
+**The Mandarin** _(angry)_: Now, Stark. The dragons are gone, and there is only one enemy left in this valley.  
+**Tony Stark** _(angry)_: You promised. Afterwards, you said.  
+**The Mandarin** _(sad)_: I said if there was an afterwards. There is. Forgive me.  
+_Tony fires first, and only at the rings. The rings flare and go dark before the Mandarin can aim._  
 
 ### Complete
 
 #### <a id="mv-im09-complete"></a>Complete `mv-im09-complete`
 
 _It is over quickly. Tony fires once, at the rings, not the man. There is a terrible flash._  
-_When it clears, the Mandarin is on his knees. His hands are gone. The rings lie scattered in the mud._  
+_When it clears, the Mandarin kneels in the mud, empty-handed. The rings lie scattered, melted at the edges._  
+**Tony Stark**: I aimed at the rings. I’d like that noted somewhere.  
 **The Mandarin** _(sad)_: You have taken everything I was.  
 **Tony Stark** _(sad)_: You were going to use them on me. Again. I’m sorry it ended like this. I am.  
+_Your Nubbin finds a single dragon scale on the shore, bright green, and keeps it._  
+_The ten rings lie in the mud, still faintly warm. Tony looks at them, and then at you._  
+**Tony Stark** _(think)_: Anyone could pick those up. Including me. Especially me. What do we do with them?  
+
+**Choices**
+
+- **Throw them in the lake. Nobody should hold that much power.** — sets `{"mv-im09-rings":"lake"}`
+    - Your Swim Nubbin carries them out one at a time and lets them sink where the seed chamber was.
+    - **The Mandarin**: They will find their way back to me. They always have.
+- **Leave them. Taking a beaten man’s things makes us thieves, not heroes.** — sets `{"mv-im09-rings":"left"}`
+    - **Tony Stark**: You’re right. And if I touched them I’d want to study them, and then I’d want to use them.
+    - Nobody picks up the rings. They are still lying there when the rift closes.
+
+#### <a id="mv-im09-complete-mv-im09-promise"></a>Variant `mv-im09-complete-mv-im09-promise`
+
+_Variant of `mv-im09-complete`._
+
+_It is over quickly. Tony fires once, at the rings, not the man. There is a terrible flash._  
+_When it clears, the Mandarin kneels in the mud, empty-handed. The rings lie scattered, melted at the edges._  
+**Tony Stark**: I aimed at the rings. I’d like that noted somewhere.  
+**The Mandarin** _(sad)_: You have taken everything I was.  
+**Tony Stark** _(sad)_: You swore on the rings. I held you to it, and I’m sorry it ended like this. I am.  
 _Your Nubbin finds a single dragon scale on the shore, bright green, and keeps it._  
 _The ten rings lie in the mud, still faintly warm. Tony looks at them, and then at you._  
 **Tony Stark** _(think)_: Anyone could pick those up. Including me. Especially me. What do we do with them?  
@@ -1126,7 +1169,7 @@ _The ten rings lie in the mud, still faintly warm. Tony looks at them, and then 
 
 Sets on completion: `{"mv-im09":true}`
 
-**Notes:** Needs IM3 (the Mandarin’s first appearance). The dragons of Kakaranathara are named only in the journal, not in dialogue. If mv-im09-promise is true, Tony adds nothing new, but the journal notes the broken promise. The rings choice (mv-im09-rings: lake / left) is flavour; the rings return in later stories whatever you pick, as the Mandarin warns. The Mandarin’s injury happens inside the white flash and is stated in one line; his arms stay out of frame or behind his sleeves. Step 2 is a dive minigame ("mv-dragon-lake") with Foom’s tail as a moving hazard. Check Iron Man #270–275 beats before ship.
+**Notes:** Needs IM3 (the Mandarin’s first appearance). The dragons of Kakaranathara are named only in the journal, not in dialogue. If mv-im09-promise is true, the variant of mv-im09-foom-done has Tony hold him to it and fire first, only at the rings, and the variant of mv-im09-complete has Tony name the broken promise; otherwise the Mandarin fires first. The rings choice (mv-im09-rings: lake / left) is flavour; the rings return in later stories whatever you pick, as the Mandarin warns. The Mandarin’s loss happens inside the white flash and is stated in one line: he is left empty-handed, with nothing shown. Step 2 is a dive minigame ("mv-dragon-lake") with Foom’s tail as a moving hazard. Check Iron Man #270–275 beats before ship.
 
 ## IM10. Extremis
 
@@ -1467,6 +1510,8 @@ _Across the street, another sign: Hammer Industries. A woman in pearls watches f
 **Pepper Potts**: Justine Hammer, Justin’s daughter. And Sasha, hers. They inherited the grudge along with the money.  
 **Tony Stark**: Three generations of Hammers. You’d think one of them would take up knitting.  
 **Pepper Potts**: They’ll try to bury us. We have to be quicker.  
+**Pepper Potts**: Also, your calendar says: Thursday, do not fly into the sun. I’ve added “again”.  
+**Tony Stark**: I only went near it.  
 
 **Choices**
 
@@ -1734,6 +1779,9 @@ _The top of the tower. Tony stands among dead screens, armour open, face perfect
 **Superior Iron Man** _(sad)_: I fixed myself, Keeper. No shaking hands. No drink. No doubt. Why does everyone look at me like that?  
 **Superior Iron Man**: The old Tony was weak. He needed people sitting up with him. I don’t need anyone.  
 _Your Nubbin walks across the floor to him, slowly, and sits by his boot, the way it did on the docks._  
+_It hums four notes, slightly flat. His head comes up as if someone had said his name._  
+**Superior Iron Man** _(think)_: Who taught the little one that?  
+_Nobody did. It just never forgot._  
 **Pepper Potts** _(soft)_: You needed people. That wasn’t the weak part. That was the best part.  
 **Superior Iron Man**: I don’t remember why that matters.  
 **You**: Then let us remind you.  
@@ -1759,6 +1807,9 @@ _The top of the tower. Tony stands among dead screens, armour open, face perfect
 **Superior Iron Man** _(sad)_: I fixed myself, Keeper. No shaking hands. No drink. No doubt. Why does everyone look at me like that?  
 **Superior Iron Man**: The old Tony was weak. He needed people sitting up with him. I don’t need anyone.  
 _Your Nubbin walks across the floor to him, slowly, and sits by his boot, the way it did on the docks._  
+_It hums four notes, slightly flat. His head comes up as if someone had said his name._  
+**Superior Iron Man** _(think)_: Who taught the little one that?  
+_Nobody did. It just never forgot._  
 **Superior Iron Man** _(think)_: A cave. A bad bulb. Two round animals holding a torch while a dying man tightened my bolts. Why is that still in here?  
 **Pepper Potts** _(soft)_: Because it’s you. That’s the bit the cure couldn’t reach.  
 **Pepper Potts** _(soft)_: You needed people. That wasn’t the weak part. That was the best part.  
@@ -1786,6 +1837,9 @@ _The top of the tower. Tony stands among dead screens, armour open, face perfect
 **Superior Iron Man** _(sad)_: I fixed myself, Keeper. No shaking hands. No drink. No doubt. Why does everyone look at me like that?  
 **Superior Iron Man**: The old Tony was weak. He needed people sitting up with him. I don’t need anyone.  
 _Your Nubbin walks across the floor to him, slowly, and sits by his boot, the way it did on the docks._  
+_It hums four notes, slightly flat. His head comes up as if someone had said his name._  
+**Superior Iron Man** _(think)_: Who taught the little one that?  
+_Nobody did. It just never forgot._  
 **Superior Iron Man** _(think)_: Somebody asked, once, whether it could be done in a week. I remember the question. I can’t remember why it mattered.  
 **Pepper Potts** _(soft)_: It mattered because you were building it for someone else.  
 **Pepper Potts** _(soft)_: You needed people. That wasn’t the weak part. That was the best part.  
@@ -1813,6 +1867,9 @@ _The top of the tower. Tony stands among dead screens, armour open, face perfect
 **Superior Iron Man** _(sad)_: I fixed myself, Keeper. No shaking hands. No drink. No doubt. Why does everyone look at me like that?  
 **Superior Iron Man**: The old Tony was weak. He needed people sitting up with him. I don’t need anyone.  
 _Your Nubbin walks across the floor to him, slowly, and sits by his boot, the way it did on the docks._  
+_It hums four notes, slightly flat. His head comes up as if someone had said his name._  
+**Superior Iron Man** _(think)_: Who taught the little one that?  
+_Nobody did. It just never forgot._  
 **Superior Iron Man** _(think)_: Someone in a cave once suggested a weapon that jams. The weak Tony said no. I would have said yes and been out in a day.  
 **Pepper Potts** _(angry)_: And Yinsen would have died for nothing. Listen to yourself.  
 **Pepper Potts** _(soft)_: You needed people. That wasn’t the weak part. That was the best part.  
@@ -1843,6 +1900,9 @@ _Tony sits down on the floor. After a long while, he starts to shake. Pepper sit
 
 **Tony Stark** _(sad)_: I’ll pay back every person. Every dollar. Every day they lost. It’ll take a while.  
 **Pepper Potts** _(soft)_: Then we’ll take a while.  
+**Pepper Potts** _(soft)_: I’ve put it in the calendar. Friday: come home.  
+**Tony Stark** _(happy)_: Friday. Home. I’ll be early.  
+_He is, by an hour. Pepper pretends she hadn’t been watching the door._  
 **Matt Murdock**: For what it’s worth, Stark, your heartbeat sounds like you again. Slower. More scared. Better.  
 _Tony unpins something from his old jacket and fastens it to your coat: a small ring of glowing blue light._  
 **Tony Stark** _(soft)_: An arc-reactor badge. The thing that kept my heart going. You did that too, all of you, every time.  

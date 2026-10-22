@@ -438,6 +438,24 @@ export function choiceToSend(scene: PlayScene, picked: string | null): string | 
 
 /** The line swaps the scene notes ask for, by scene: each works from the campaign flags. */
 const SWAPS: Record<string, (c: CampaignState, s: Swapper) => void> = {
+  'c10-wisp': (c, s) => {
+    // The bearer is written neutrally; name whoever carried the stone. The sprout band has
+    // no bearer line, so only a line that is the bearer's is rewritten.
+    const who =
+      c.flags.stoneBearer === 'sable'
+        ? ['Sable', 'her']
+        : c.flags.stoneBearer === 'moss'
+          ? ['Moss', 'his']
+          : null;
+    if (!who) return;
+    const [name, pos] = who;
+    s.edit('In the shallows, the one who carried it', (t) => {
+      if (!/^In the shallows, the (one who carried it|stone’s bearer)/.test(t)) return t;
+      return t.includes('. The frost')
+        ? `In the shallows, ${name} stands blinking. The frost is melting off ${pos} face, drip by drip.`
+        : `In the shallows, ${name} stands blinking, the frost melting off ${pos} face, drip by drip.`;
+    });
+  },
   'c11-close': (c, s) => {
     // The days read as the ones before s9-ask; and S8's youngest has gone home.
     if (c.seen.includes('s9-ask'))
@@ -604,8 +622,17 @@ class Swapper {
     this.insert(at, [{ who: 'narrator', text: textFor(text, this.band) }]);
   }
 
-  insertAfter(anchor: string, text: BandText, who = 'narrator', mood?: Line['mood']): void {
-    const at = this.index(anchor);
+  insertAfter(
+    anchor: string | BandText,
+    text: BandText,
+    who = 'narrator',
+    mood?: Line['mood'],
+  ): void {
+    // As in spliceScene: a band whose lines don't line up with main's names its own anchor.
+    const own = typeof anchor === 'string' || this.band === 'main' ? undefined : anchor[this.band];
+    const at = own
+      ? this.lines.findIndex((l) => l.text.startsWith(own))
+      : this.index(typeof anchor === 'string' ? anchor : anchor.main);
     if (at < 0) return;
     this.insert(at, [{ who, text: textFor(text, this.band), ...(mood ? { mood } : {}) }]);
   }

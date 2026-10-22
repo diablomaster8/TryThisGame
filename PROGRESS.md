@@ -36,6 +36,18 @@ default renderer is not changed; passes 1 and 2 are on `main`, deployed since 20
 accepted by Maor). Maor, 2026-10-21: daily refreshes and free daily gifts are allowed; only
 repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below).
 
+## Story review run 2 fixes (2026-10-22)
+
+All 65 open or partial recs in `docs/story-review/LOG.md` applied (run 2's 60 plus run 1's 5 partials).
+- **Works:** 60 fixed. The Multiverse's misnamed-Nubbin running gag and three bickering couples (canon 45),
+  FF3 and IM9 choices that now change what follows, Doom's FF9 knee paid off in the FF epilogue; the Neopian
+  Times Reporter across NP1–NP13 (canon 44); the Learning Grove S1–S17 fixes; c4-open's answer (`c4-lamps`)
+  remembered in c10-dawn, c10-wisp naming Sable or Moss (`choice-payoffs.ts`, `story-scenes.ts`;
+  `insertAfter` now takes per-band anchors like `spliceScene`). Tests added in `choice-payoffs.test.ts`.
+- **Partial:** -72 (NQ27's optional Jhudora/Illusen side not built), -79 (no time machine named), -80 (Marlene
+  stays back at the ridge), -110 (Pip still named in s15-wagon by a main choice), -115 (S8's elephant notice kept).
+- **Known bugs:** none. A cold first `npm test` run timed out 3 timing tests; a rerun passed all 728.
+
 ## Story review run 1 fixes (2026-10-22)
 
 All 60 recommendations of `docs/story-review/review-2026-10-22.md` applied (log: `docs/story-review/LOG.md`).

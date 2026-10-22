@@ -43,12 +43,6 @@ _A firefly lands on the notebook, sits a moment, and lifts off into the dark bey
 
 _The fireflies stop above a ring of old roots, knotted out of the ground like a fence nobody built._  
 _Inside sit dozens of grey Nubbins. Not in rows: in a ring, facing in. Some of them are touching._  
-
-> **Lesson** (science, 3-LS2-1, notice): animals huddle in groups to survive the cold  
-> **Nova**: Lots of animals huddle together to stay warm.  
-> **Nova**: Emperor penguins stand in huge huddles all winter. They take turns on the cold outside edge, then shuffle back into the warm middle.  
-> _For grown-ups: Learned that some animals, like emperor penguins, huddle in groups to survive the cold._
-
 _A stream runs close by, and the roots make a roof against the wind._  
 
 > **Lesson** (science, K-ESS3-1, ask): what a habitat gives the animals that live there  
@@ -305,4 +299,4 @@ _Behind her, three strays stand up and look at you, as if waiting to see where y
 - **reunion**: When people or animals who were apart meet again.
 - **opinions**: What someone thinks or believes about things.
 
-**Notes:** Lessons: animals in groups (penguin huddles, wolf packs, elephant matriarchs), habitat needs, fireflies, light and dark-adapted eyes, parents and young; 19 − 12, 12 ÷ 3, symmetry; inference, simile, theme; respecting an animal’s space, helping a grieving friend, happy tears. Think question (s8-reunion): did Fern do wrong to stop looking? The scene-level set (s8Reunited) stays on the original s8-reunion. CANON. Bramble’s left ear folds over at the tip, and so does her youngest’s; neither is torn (Wisp has the torn ear). Bramble greets Fern by sitting on her boots. Nova has looked in at the ring for years when passing; she has not been coming for months on end. VARIANT. s8-complete-dawn (EDU_SIDE_2_READER_VARIANTS) replaces s8-complete when c10-bramble has played, and skips Hazel’s account; both end with S8_TAIL and its two lessons.
+**Notes:** Lessons: animals in groups (penguin huddles cut from s8-ring in the 2026-10-22 pass; wolf packs, elephant matriarchs), habitat needs, fireflies, light and dark-adapted eyes, parents and young; 19 − 12, 12 ÷ 3, symmetry; inference, simile, theme; respecting an animal’s space, helping a grieving friend, happy tears. Think question (s8-reunion): did Fern do wrong to stop looking? The scene-level set (s8Reunited) stays on the original s8-reunion. CANON. Bramble’s left ear folds over at the tip, and so does her youngest’s; neither is torn (Wisp has the torn ear). Bramble greets Fern by sitting on her boots. Nova has looked in at the ring for years when passing; she has not been coming for months on end. VARIANT. s8-complete-dawn (EDU_SIDE_2_READER_VARIANTS) replaces s8-complete when c10-bramble has played, and skips Hazel’s account; both end with S8_TAIL and its two lessons.

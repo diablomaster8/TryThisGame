@@ -399,15 +399,19 @@ _On the hill, Moss stirs. His voice comes from just behind your ears, dry and qu
 
 - **Yes. Now.**
     - **Nova**: Oh. Good. That was much easier than I’d feared. I’d practised a speech.
-    - **Nova**: Take a Nubbin that trusts you. Take fruit. Take more fruit than that.
+    - **Nova**: You’ll get the speech on the way, I’m afraid. It has a bit about owls in it.
+    - **Nova**: So we go and find out. We take what she took: a Nubbin that trusts you, and more fruit than seems sensible.
+    - Nova holds her lantern to your kitchen fire until it catches. She doesn’t say why she waited to light it here.
+    - She rummages in her pack for the speech. It runs to both sides of the page.
 - **Is she all right?**
     - **Nova**: I don’t know. That’s the honest answer, and you’d know if I gave you another one.
-    - **Nova**: Take a Nubbin that trusts you. Take fruit. Take more fruit than that.
+    - **Nova**: I’ll fetch Marina. You fetch a Nubbin that trusts you, and fruit. More fruit than that.
+    - Nova is halfway down the lane, shouting for Marina, before you have found a bag.
 - **How do we get past the falls?**
     - **Nova**: We don’t. Marina does. We follow her very closely and we don’t look down.
     - **Nova**: Take a Nubbin that trusts you. Take fruit. Take more fruit than that.
 
-> Chapter 8 opening. Nova asks for help for the first time; she has visited before. Note beginChapter(8) moves the world to the Hollow before this queues: stage c8-open and the ledge scene over a Grove-gate / falls backdrop (or play them before setLocation). Choices change Nova (and Marina) friendship only. Opens S8.
+> Chapter 8 opening. Nova asks for help for the first time; she has visited before. Note beginChapter(8) moves the world to the Hollow before this queues: stage c8-open and the ledge scene over a Grove-gate / falls backdrop (or play them before setLocation). Choices change Nova (and Marina) friendship, and each ends on its own beat: yes, Nova’s practised speech (owls); hazel, she lights her lantern at your fire; falls, she runs to fetch Marina. Opens S8.
 
 #### <a id="c8-ledge"></a>Scene `c8-ledge`
 

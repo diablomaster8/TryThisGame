@@ -66,7 +66,6 @@ const S11_SCENES: EduScene[] = [
       FE('Don’t touch it. Just look at it. Then tell me I’m imagining it.', 'sad'),
       N('The skin is freckled with black. When she tilts her hand, the plum caves in and pours out a soft grey dust.'),
       FE('Three trees at the bottom of my orchard. Fine yesterday. Today they’re… that.'),
-      FE('I know what you’re thinking. “Keeping the trees alive, badly.” Yes. I said it first. I’ve said it for years.', 'think'),
       N('Through the hedge, wasps buzz over the windfalls, the plums that dropped in the grass. The whole slope smells of hot jam.'),
       FE('Hazel grafted half those trees for me, the year I moved in. She whitewashed every trunk herself, every spring.', 'soft'),
       FE('I haven’t told anyone. If I tell someone, it’s real.', 'sad'),
@@ -89,7 +88,7 @@ const S11_SCENES: EduScene[] = [
         skill: 'sharing a worry with someone you trust',
         standard: 'CASEL: Relationship skills',
         kind: 'ask',
-        after: 7,
+        after: 6,
         prompt: [N('Fern has kept a big worry all to herself. What would help her most?')],
         options: [
           {
@@ -156,7 +155,7 @@ const S11_SCENES: EduScene[] = [
       CL('You can’t burn forty trees for three. You don’t even know what it is yet.', 'sad'),
       EM('I didn’t know what he was either, till he had Ash. Ask me how that went.', 'angry'),
       N('Fern sits down on an upturned crate between them, and says nothing at all.'),
-      CL('That’s cinder-love, that is. Holding on so tight you’d burn the lot. Don’t tell her I said so.', 'soft'),
+      CL('That’s cinder-love, that is. Holding on so tight you hurt the thing you love. Don’t tell her I said so.', 'soft'),
     ],
     [
       {

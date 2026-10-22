@@ -22,11 +22,13 @@ _The Circuit stands are split down the middle: Sun Keepers on the left, Moon Kee
 > _For grown-ups: Thought about how staying neutral can help people in a quarrel remember what they share._
 
 _At the front stand two tea urns: same make, same tea, same shop. One has a sun painted on it, and one a moon._  
-**Sparks**: Midsummer, years back, Fern’s Bramble went over the cliff rail, Sun says Ash barged her, Moon says rigged, OK bye.  
+**Sparks**: Years ago, at Midsummer, Bramble fell over the cliff rail.  
+**Sparks**: Sun says Ash barged her. Moon says the race was rigged.  
+**Sparks**: Right. Bye.  
 _Sparks sits down very fast and studies the race card as if it holds the meaning of life._  
 **Sparks**: I didn’t say any of that. That was the wind.  
 _This is a feud: a quarrel that has gone on for years. Both sides pretend not to listen. Both are bad at it._  
-_Up in the owners’ box, Corvin isn’t watching the start line. He’s watching the stands._  
+_Up in the owners’ box, Corvin, Gran’s old apprentice, isn’t watching the start line. He’s watching the stands._  
 
 **Choices**
 

@@ -148,6 +148,12 @@ _There are no ducks on the pond. Ember checks anyway._
 #### `reader:s6-ember-tries` · [main](../../../side/S06.md#s6-ember-tries)
 
 _Ember puts two fingers in her mouth and whistles the three notes, quietly, to nobody._  
+
+> **Lesson** (music, notice): a tune is a pattern of notes  
+> _Ember whistled quietly, and the notes still came out in their pattern: low, high, and a small one at the end._  
+> _A tune is a pattern of high and low notes. Play it slow, fast or quiet, and the pattern stays the same._  
+> _For grown-ups: Learned that a tune is a pattern of notes that stays recognisable at different speeds._
+
 _Your Nubbins don’t come to her. They don’t know her yet._  
 _From the far side of the pond, a duck nobody has ever seen before answers, loudly._  
 **Ember**: No.  
@@ -171,23 +177,16 @@ _Ember’s kitchen after dark, with one lamp lit. Ash is in the corner, facing t
 _Ember kneels a little way off, not too close. She has thought hard about the distance._  
 **Ember**: If this doesn’t work, you walk me to the pond and we don’t talk. Agreed?  
 **You**: Agreed.  
+
+> **Lesson** (science, 4-LS1-2, notice): animals turn their ears to catch sounds  
+> _Cats and horses turn their ears towards a sound they know. So does Ash._  
+> _For grown-ups: Learned that many animals move their ears towards a sound they know._
+
 _She puts two fingers to her mouth. For a moment nothing comes out at all._  
 _Then three notes. Low, high, and a small one at the end, like a question._  
 _Ash’s ear moves. One ear, a very little._  
-
-> **Lesson** (science, 4-LS1-2, notice): animals turn their ears to catch sounds  
-> _Many animals, like cats, dogs and horses, can turn their ears towards a sound._  
-> _It helps them hear it better and work out where it’s coming from. Ash is listening._  
-> _For grown-ups: Learned that many animals move their ears to catch a sound and find where it comes from._
-
 _Ember whistles it again, slower. Her hands are shaking, so it wobbles. But it’s still the right shape._  
 _Ash turns round._  
-
-> **Lesson** (music, notice): a tune is a pattern of notes  
-> _Ember’s whistle was slower and wobblier than yours, and Ash still knew it._  
-> _A tune is a pattern of high and low notes. Play it slow, fast or shaky, and the pattern stays the same._  
-> _For grown-ups: Learned that a tune is a pattern of notes that stays recognisable at different speeds._
-
 _Then a sound, small and cracked: pip. wirr. a? The first sound in the register, half remembered._  
 _She crosses the kitchen one careful step at a time and puts her grey head against Ember’s knee._  
 **Ember**: Hello, you. It’s me. It was always me.  

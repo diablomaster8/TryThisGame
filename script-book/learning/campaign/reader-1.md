@@ -321,21 +321,21 @@ _The voice is small and dry. It comes from somewhere behind your ears rather tha
 - **To remember the ones who’ve gone.**
     - **Moss**: Yes. That is the oldest answer, and a good one.
     - **Moss**: The flowers on this hill would agree with you, if flowers bothered to agree with anyone.
-    - **Moss**: You may put your hand on my head, if you like. She always did. I have missed it, a little.
-    - **Moss**: Don’t tell anyone I said so. I have a reputation.
+    - **Moss**: She used to rest her hand on my head while she counted them. You may, if you like.
+    - **Moss**: Light the pond lantern first tonight. That is where the first ones woke.
 - **So people can find their way home.**
     - **Moss**: That was Hazel’s answer. She said it every year, and looked up the valley when she said it.
     - **Moss**: I never asked her who she was lighting the way for. I am old, not stupid.
-    - **Moss**: You may put your hand on my head, if you like. She always did. I have missed it, a little.
-    - **Moss**: Don’t tell anyone I said so. I have a reputation.
+    - **Moss**: You may put your hand on my head while we look up the valley. She always did.
+    - **Moss**: Leave the long-grass post till last. If anyone is coming home, that is the side they will come from.
 - **So nobody has to stand in the dark on their own.**
     - **Moss**: Hm. Nobody has said that one before.
     - **Moss**: I shall have to think about it, and I think slowly. Ask me again in a year.
-    - **Moss**: You may put your hand on my head, if you like. She always did. I have missed it, a little.
-    - **Moss**: Don’t tell anyone I said so. I have a reputation.
+    - **Moss**: Sit closer, meanwhile. You may put your hand on my head. Nobody has, since she went.
+    - You shift closer. Your sleepy Nubbin shuffles after you, so nobody on this stone is on their own.
 - **Honestly? I don’t know.**
     - **Moss**: Good. Neither did I, for the first hundred years. Light them anyway. The knowing comes after.
-    - **Moss**: You may put your hand on my head, if you like. She always did. I have missed it, a little.
+    - **Moss**: A hand on my head is a fine place to start not knowing. She always thought so.
     - **Moss**: Don’t tell anyone I said so. I have a reputation.
 
 #### `reader:c4-close` · [main](../../campaign/book-1.md#c4-close)
@@ -485,11 +485,10 @@ _Out by the long grass, the fourth lantern flickers, steadies, flickers._
 **Moss**: And I stayed. Every year, a few more people to remember. A few fewer who remembered me.  
 
 > **Lesson** (literacy, RL.4.2, ask): theme: the big idea of a story  
-> _A theme is a big idea about life that a story keeps coming back to. It isn’t one fact from the story._  
-> _Which of these is a theme of Moss’s tale?_  
-> - ✅ Holding on too tight can hurt the ones you love. → Yes. Cinder loved them so tightly she made them still. That idea runs right through the tale. Stories can have more than one theme. Another one here: being remembered keeps us going.
-> - Being remembered keeps us going. → That’s a theme too. The song says it: we are made of the ones who remember us. The biggest theme runs under all of it: holding on too tight can hurt the ones you love.
-> - There are four lantern posts. → That’s true, but it’s a detail, not a theme. A theme is a big idea you could use in your own life. Like: “holding too tight can hurt”, or “being remembered matters”.
+> **Moss**: One day you will tell this tale to someone small. They will ask what it is about. What will you tell them?  
+> - ✅ Holding on too tight can hurt the ones you love. → Yes. Cinder loved them so tightly she made them still. Put that one at the front. There is another underneath: being remembered keeps us going. A tale is allowed two.
+> - Being remembered keeps us going. → That too. The song says it: we are made of the ones who remember us. But under it is Cinder. Holding on too tight can hurt the ones you love.
+> - There are four lantern posts. → True. That is what the tale has in it. Not what it is about. What it is about is something you can carry home. Holding too tight can hurt. Being remembered matters.
 > _For grown-ups: Your child told the difference between a story detail and a theme, and named the big ideas of the tale._
 
 **Moss**: Then one spring a young woman came up the lane, lost inside a coat far too big for her, with a chin like yours.  
@@ -1253,10 +1252,13 @@ _On the hill, Moss stirs. His voice comes from just behind your ears, dry and qu
 
 - **Yes. Now.**
     - **Nova**: Oh. Good. That was much easier than I’d feared.
-    - **Nova**: Take a Nubbin that trusts you. Take fruit. Take more fruit than that.
+    - **Nova**: I’d practised a speech. It has a bit about owls in it. You’ll get it on the way.
+    - **Nova**: So we go and find out. Take a Nubbin that trusts you, and more fruit than seems sensible.
+    - Nova holds her lantern to your kitchen fire until it catches. She doesn’t say why she waited to light it here.
 - **Is she all right?**
     - **Nova**: I don’t know. That’s the honest answer, and you’d know if I gave you a different one.
-    - **Nova**: Take a Nubbin that trusts you. Take fruit. Take more fruit than that.
+    - **Nova**: I’ll fetch Marina. You fetch a Nubbin that trusts you, and fruit. More fruit than that.
+    - Nova is halfway down the lane, shouting for Marina, before you have found a bag.
 - **How do we get past the falls?**
     - **Nova**: We don’t. Marina does. We follow her very closely, and we don’t look down.
     - **Nova**: Take a Nubbin that trusts you. Take fruit. Take more fruit than that.
@@ -2164,8 +2166,10 @@ _A thin grey shape with a torn ear shoots past your boots like a thrown stone._
 _He hits the shallows and snatches the shard away, quick as a theft, which it is._  
 **Wisp**: mine — warm — mine —  
 _For one moment he holds it: the warmest thing he has ever seen. His whole thin face is joy._  
-_Then his back feet slip on the wet stone, and he tumbles into the Wellspring, stone and all. The water closes over him._  
-_And the light comes up. Not cold. Warm. Gold, like the inside of a lantern, like a kitchen window seen from a dark road._  
+_Then his back feet slip on the wet stone, and he tumbles into the Wellspring, stone and all._  
+_The water closes over him._  
+_And the light comes up._  
+_Not cold. Warm. Gold, like the inside of a lantern, like a kitchen window seen from a dark road._  
 _It fills the cave and the ledge and the frozen falls, and the ice on the falls glows the colour of honey._  
 
 > **Lesson** (science, 1-PS4-2, notice): light passes through clear materials  
@@ -2174,6 +2178,7 @@ _It fills the cave and the ledge and the frozen falls, and the ice on the falls 
 > _For grown-ups: Learned that light passes through clear materials like ice, which then glow with the light’s colour._
 
 _Somewhere very deep, something that has whispered for longer than anyone has been alive goes quiet._  
+_…_  
 _In the shallows, the stone’s bearer stands blinking. The frost is melting off the bearer’s face, drip by drip._  
 _The water is still. And Wisp is gone._  
 

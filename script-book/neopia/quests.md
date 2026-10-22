@@ -1408,7 +1408,7 @@ Sets on completion: `{"nq-26-done":true}`
 
 *Neopets: the Brain Tree (Haunted Woods)* · audience: all · where: Haunted Woods, the Brain Tree’s clearing · when: After your first visit to the Haunted Woods. Once.
 
-**Cast:** The Brain Tree (The Brain Tree (Neopets)), The Wise Old King (The Wise Old King (Neopets, Brightvale)), Queen Fyora (Queen Fyora (Neopets))
+**Cast:** The Times Reporter (A weary Neopian Times reporter (original)), The Brain Tree (The Brain Tree (Neopets)), The Wise Old King (The Wise Old King (Neopets, Brightvale)), Queen Fyora (Queen Fyora (Neopets))
 
 ### Step 1: Ask the Wise Old King in Brightvale what year the Brain Tree first took root.
 
@@ -1460,7 +1460,11 @@ _Your Nubbin traces the star with one claw. The bark shivers, as if it tickles._
 _You tell the Brain Tree both memories. Its branches go still, the way a person goes still when a song they knew comes on._  
 **The Brain Tree** _(soft)_: The long winter. Two small faeries and a knife they weren’t allowed. Yes. All of it.  
 **The Brain Tree**: I am whole again. Take this. Plant it somewhere you do your thinking.  
+_Far away, on a purple cloud, a sprig of mint lands on a windowsill. Nobody admits to sending it._  
+_Far away, in a glade, a book appears on a doorstep in brown paper. It is overdue by about two hundred years._  
 _An acorn drops into your hand. It is grey, folded like a walnut, and very slightly warm._  
+**The Times Reporter**: Name? And the tree’s name? Never mind. Keeper, and unnamed associate.  
+_The Brain Tree reads his notes over his shoulder and rustles, offended._  
 
 #### <a id="nq27-complete-nq-27-kind"></a>Variant `nq27-complete-nq-27-kind`
 
@@ -1469,7 +1473,11 @@ _Variant of `nq27-complete`._
 _You tell the Brain Tree both memories. Its branches go still, the way a person goes still when a song they knew comes on._  
 **The Brain Tree** _(soft)_: The long winter. Two small faeries and a knife they weren’t allowed. Yes. All of it.  
 **The Brain Tree** _(soft)_: I am whole again. You asked how a tree feels, earlier. Nobody does. Take this, and ask it now and then.  
+_Far away, on a purple cloud, a sprig of mint lands on a windowsill. Nobody admits to sending it._  
+_Far away, in a glade, a book appears on a doorstep in brown paper. It is overdue by about two hundred years._  
 _An acorn drops into your hand. It is grey, folded like a walnut, and very slightly warm._  
+**The Times Reporter**: Name? And the tree’s name? Never mind. Keeper, and unnamed associate.  
+_The Brain Tree reads his notes over his shoulder and rustles, offended._  
 
 **Rewards**
 
@@ -1565,7 +1573,7 @@ Sets on completion: `{"nq-28-done":true}`
 
 *Neopets: the Turmaculus (Meridell)* · audience: all · where: Meridell, the Turmaculus’s hollow beyond Meri Acres Farm · when: After your first visit to Meridell. Once.
 
-**Cast:** The Meridell Farmer
+**Cast:** The Meridell Farmer, The Farmer’s Wife, The Times Reporter (A weary Neopian Times reporter (original))
 
 ### Step 1: Bring the petpet that can wake the Turmaculus.
 
@@ -1578,6 +1586,9 @@ _A sign on the fence says DO NOT WAKE. Underneath, older and smaller: WE HAVE TR
 **The Meridell Farmer**: That’s the Turmaculus. Been asleep since my grandad’s time. He’s guarding something, they say.  
 **The Meridell Farmer** _(think)_: Thunder doesn’t wake him. Drums don’t. Kass’s army marched past once. Nothing.  
 **The Meridell Farmer**: What wakes a big soft thing that won’t wake for noise? That’s the question.  
+**The Farmer’s Wife**: Don’t you dare wake him, Alf. He’s the only one in Meridell who never answers back.  
+**The Meridell Farmer**: I do not answer back.  
+**The Farmer’s Wife**: That’s an answer.  
 _Your Nubbin creeps up and pats the Turmaculus’s nose. He snores harder, delighted._  
 
 **Choices**
@@ -1603,6 +1614,8 @@ _The Turmaculus stretches. Under where he lay is a small wooden box, flattened s
 **The Meridell Farmer** _(shock)_: So that’s what he was guarding. Go on. It’s yours. You woke him.  
 _Inside is a paint brush with bristles that shimmer like a dragonfly’s wing._  
 _The Turmaculus watches you take it, sniffs the Warf once more, and goes back to sleep, satisfied._  
+**The Times Reporter** _(think)_: Keeper. And the unnamed associate. And, I suppose, the Warf.  
+_The Warf eats the notebook. It is, he says wearily, the third this week._  
 
 **Rewards**
 
@@ -1616,7 +1629,7 @@ Sets on completion: `{"nq-29-done":true}`
 
 *Neopets: the Secret Laboratory Map and the Lab Ray* · audience: all · where: Neopia Central, the Trading Post noticeboard · when: After you have visited four lands of Neopia. Once.
 
-**Cast:** The Scientist (The Lab Ray Scientist (Neopets))
+**Cast:** The Scientist (The Lab Ray Scientist (Neopets)), The Grundo, The Times Reporter (A weary Neopian Times reporter (original))
 
 ### Step 1: Find the first two pieces of the Secret Laboratory Map, in the Lost Desert and on Krawk Island.
 
@@ -1652,7 +1665,8 @@ Hint: One piece is frozen into a wall in the Ice Caves (not the Snowager’s cav
 _The map is half whole. A label has appeared along the dotted line: TO THE LAB._  
 _Underneath, smaller, in the same tidy hand: Please. It’s very quiet out here._  
 _Your Nubbin sniffs the frosty corner and sneezes. It sniffs the mossy corner and sneezes in a completely different key._  
-_Your Nubbin traces the line with one claw, all the way to a blank island where the paper is torn._  
+**The Grundo** _(shock)_: Oh. You’ve got more of it. Please don’t tell me where it goes.  
+_He leaves again, faster than before._  
 _Two corners are still missing. One has frost on its edge. The other has a smudge of jungle moss._  
 _Somewhere cold, and somewhere green._  
 
@@ -1689,6 +1703,7 @@ _Your Nubbin hides behind a filing cabinet. The cabinet is labelled DEFINITELY N
 _He pats the ray like a favourite dog. It sparks. He pretends it didn’t._  
 **The Scientist**: Come back whenever you like. The map knows the way now.  
 _The satellite dish waves goodbye. You’re fairly sure that’s not something dishes do._  
+**The Times Reporter** _(sad)_: I followed the dish. Name? No. Keeper, and unnamed associate, and a ray.  
 
 #### <a id="nq30-complete-nq-30-cabinet"></a>Variant `nq30-complete-nq-30-cabinet`
 
@@ -1698,6 +1713,7 @@ _Variant of `nq30-complete`._
 _He pats the ray like a favourite dog. It sparks. He pretends it didn’t._  
 **The Scientist** _(shock)_: Come back whenever you like. The map knows the way now. And stop looking at the cabinet.  
 _The satellite dish waves goodbye. You’re fairly sure that’s not something dishes do._  
+**The Times Reporter** _(sad)_: I followed the dish. Name? No. Keeper, and unnamed associate, and a ray.  
 
 #### <a id="nq30-complete-nq-30-keen"></a>Variant `nq30-complete-nq-30-keen`
 
@@ -1708,6 +1724,7 @@ _He pats the ray like a favourite dog. It sparks. He pretends it didn’t._
 **The Scientist** _(happy)_: You looked pleased when you found the map. Most people look worried. I’ve decided to like you.  
 **The Scientist**: Come back whenever you like. The map knows the way now.  
 _The satellite dish waves goodbye. You’re fairly sure that’s not something dishes do._  
+**The Times Reporter** _(sad)_: I followed the dish. Name? No. Keeper, and unnamed associate, and a ray.  
 
 **Rewards**
 

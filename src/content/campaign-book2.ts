@@ -581,7 +581,10 @@ export const BOOK2_SCENES: Scene[] = [
               'Oh. Good. That was much easier than I’d feared. I’d practised a speech.',
               'happy',
             ),
-            NOVA('Take a Nubbin that trusts you. Take fruit. Take more fruit than that.'),
+            NOVA('You’ll get the speech on the way, I’m afraid. It has a bit about owls in it.', 'happy'),
+            NOVA('So we go and find out. We take what she took: a Nubbin that trusts you, and more fruit than seems sensible.'),
+            N('Nova holds her lantern to your kitchen fire until it catches. She doesn’t say why she waited to light it here.', 'soft'),
+            N('She rummages in her pack for the speech. It runs to both sides of the page.'),
           ],
         },
         {
@@ -590,7 +593,8 @@ export const BOOK2_SCENES: Scene[] = [
           friendship: { nova: 2 },
           then: [
             NOVA('I don’t know. That’s the honest answer, and you’d know if I gave you another one.', 'sad'),
-            NOVA('Take a Nubbin that trusts you. Take fruit. Take more fruit than that.'),
+            NOVA('I’ll fetch Marina. You fetch a Nubbin that trusts you, and fruit. More fruit than that.'),
+            N('Nova is halfway down the lane, shouting for Marina, before you have found a bag.'),
           ],
         },
         {
@@ -792,7 +796,8 @@ export const BOOK2_NOTES: Record<string, string> = {
   'c8-open':
     'Chapter 8 opening. Nova asks for help for the first time; she has visited before. Note beginChapter(8) moves ' +
     'the world to the Hollow before this queues: stage c8-open and the ledge scene over a Grove-gate / falls ' +
-    'backdrop (or play them before setLocation). Choices change Nova (and Marina) friendship only. Opens S8.',
+    'backdrop (or play them before setLocation). Choices change Nova (and Marina) friendship, and each ends on its own beat: ' +
+    'yes, Nova’s practised speech (owls); hazel, she lights her lantern at your fire; falls, she runs to fetch Marina. Opens S8.',
   'c8-ledge':
     'New. Plays straight after c8-open when s4Done is NOT set. Marina leads along the ledge behind the falls; first ' +
     'glimpse of the warm Wellspring, its rim rimed with frost. Ends at the Hollow’s edge with grey shapes in the ' +

@@ -41,6 +41,7 @@ const TAELIA: Speaker = { id: 'taelia', name: 'Taelia', kind: 'other', basedOn: 
 const LISHA: Speaker = { id: 'lisha', name: 'Lisha', kind: 'other', basedOn: 'Lisha (Neopets, Meridell plots)' };
 const JERAN: Speaker = { id: 'jeran', name: 'Jeran', kind: 'other', basedOn: 'Jeran (Neopets, Meridell plots)' };
 const SKARL: Speaker = { id: 'skarl', name: 'King Skarl', kind: 'other', basedOn: 'King Skarl (Neopets)' };
+const TIMES: Speaker = { id: 'times-reporter', name: 'The Times Reporter', kind: 'other', basedOn: 'A weary Neopian Times reporter (original)' };
 const DARIGAN: Speaker = { id: 'darigan', name: 'Lord Darigan', kind: 'other', basedOn: 'Lord Darigan (Neopets)' };
 
 export const NEOPIA_LINE: Quest[] = [
@@ -53,6 +54,7 @@ export const NEOPIA_LINE: Quest[] = [
     audience: 'all',
     trigger: { where: 'Neopia Central, just inside the rainbow gate', when: 'On your first visit to Neopia.' },
     speakers: [
+      TIMES,
       { id: 'sarkis', name: 'Sarkis', kind: 'other', basedOn: 'Sarkis (Neopets, Hunt for the Battledome)' },
       { id: 'ursulla', name: 'Ursulla', kind: 'other', basedOn: 'Ursulla (Neopets, Hunt for the Battledome)' },
       { id: 'buckley', name: 'Buckley', kind: 'other', basedOn: 'Buckley (Neopets, Hunt for the Battledome)' },
@@ -210,6 +212,10 @@ export const NEOPIA_LINE: Quest[] = [
         l('sarkis', 'We found it! Technically the robot found it. But we were there!', 'happy'),
         n('Back on the beach, Buckley hands round the sandwiches. They are slightly damp. Conditions, as promised, apply.'),
         n('The Neopian Times runs it as DOME SWEET DOME. Sarkis buys eleven copies and frames the crossword.'),
+        l('times-reporter', 'Name, for the caption?'),
+        l('you', 'The Keeper.'),
+        l('times-reporter', 'And the, er, small one with the…', 'think'),
+        n('Your Nubbin eats the notebook. The reporter looks at his empty pocket for some time.'),
         n('By the rainbow gate, a new door appears, painted like a dome. Above it, a sign: Battledome. Play fair.'),
         n('Far above the sea, a green light blinks once and goes out.'),
       ],
@@ -255,6 +261,7 @@ export const NEOPIA_LINE: Quest[] = [
     trigger: { where: 'Terror Mountain, the Ice Caves', when: 'The first time you enter the Ice Caves after NP1.' },
     requires: ['NP1'],
     speakers: [
+      TIMES,
       TAELIA,
       { id: 'np02-lupe', name: 'The Lupe', kind: 'other', basedOn: 'The Lupe who defeated the Monoceraptor (Neopets)' },
       { id: 'np02-voice', name: 'A Voice', kind: 'other', basedOn: 'Dr. Sloth, unseen (Neopets)' },
@@ -380,6 +387,9 @@ export const NEOPIA_LINE: Quest[] = [
             n('Your Nubbins press against your legs. One is shaking. It doesn’t step back.'),
             n('The Monoceraptor lowers its horn and paws the ice.'),
             l('np02-lupe', 'Keeper. Your call.'),
+            l('taelia', 'Do try not to crack the ice. It took me a decade to get it that shade.'),
+            l('np02-lupe', 'Taelia. The beast.'),
+            l('taelia', 'I’m only saying. The beast can be a beast over there.', 'think'),
           ],
           choices: [
             {
@@ -432,6 +442,10 @@ export const NEOPIA_LINE: Quest[] = [
             n('Taelia raises a wall of ice a hundred feet thick. Your Nubbins add a snowball each, to be safe.'),
             l('np02-lupe', 'Safe. Cold, but safe. Most good things up here are both.'),
             n('The Neopian Times prints it: MOUNTAIN HOLDS. The photo is mostly snow and one Nubbin’s blurry tail.'),
+            l('times-reporter', 'Name?'),
+            l('you', 'The Keeper.'),
+            l('times-reporter', 'And the creature?'),
+            n('Your Nubbin eats his pencil. He takes out a second pencil without looking. He has a great many pencils.'),
           ],
         },
         {
@@ -442,6 +456,10 @@ export const NEOPIA_LINE: Quest[] = [
             n('Taelia shapes an ice door with a brass bell. A sign beside it, in three languages: KNOCK. NO ARMIES.'),
             l('np02-lupe', 'If those farmers ever come up on their own, they’ll want somewhere to knock.', 'soft'),
             n('The Neopian Times prints it: MOUNTAIN HOLDS (PLEASE KNOCK). The photo is mostly snow and one Nubbin’s blurry tail.'),
+            l('times-reporter', 'Name?'),
+            l('you', 'The Keeper.'),
+            l('times-reporter', 'And the creature?'),
+            n('Your Nubbin eats his pencil. He takes out a second pencil without looking. He has a great many pencils.'),
           ],
         },
       ],
@@ -481,6 +499,7 @@ export const NEOPIA_LINE: Quest[] = [
     trigger: { where: 'Terror Mountain, the Ski Lodge', when: 'After NP1 (in the main game, after NP2), a letter from the Lodge Manager arrives by snow-post.' },
     requires: ['NP1'],
     speakers: [
+      TIMES,
       { id: 'np03-manager', name: 'The Lodge Manager', kind: 'other' },
       { id: 'np03-guest', name: 'A Kacheek Guest', kind: 'other' },
       { id: 'maverick', name: 'Maverick', kind: 'other', basedOn: 'Maverick, the robot culprit of the Ski Lodge plot (Neopets)' },
@@ -639,6 +658,9 @@ export const NEOPIA_LINE: Quest[] = [
         l('taelia', 'Whoever built that robot built it to wait. That kind of patience doesn’t give up.', 'think'),
         n('Upstairs, the portrait has been taken down. Behind it is a bare patch of wall and four bolts, already unscrewed.'),
         n('The Neopian Times runs it as COLD CASE CLOSED, with a cartoon of Maverick in a bobble hat. It sells out.'),
+        l('times-reporter', 'Right. I have decided not to ask what that is.', 'think'),
+        n('Your Nubbin sits on his notes, warm and enormously pleased.'),
+        l('times-reporter', 'I can print “Keeper and pet”, or I can retire. I’m weighing it.'),
       ],
     },
     rewards: [
@@ -676,6 +698,7 @@ export const NEOPIA_LINE: Quest[] = [
     trigger: { where: 'Lost Desert, Sakhmet palace', when: 'After NP3, an invitation to the palace feast.' },
     requires: ['NP3'],
     speakers: [
+      TIMES,
       { id: 'coltzan', name: 'King Coltzan III', kind: 'other', basedOn: 'King Coltzan III (Neopets)' },
       { id: 'sankara', name: 'Princess Sankara', kind: 'other', basedOn: 'Princess Sankara (Neopets)' },
       { id: 'vyssa', name: 'Vyssa', kind: 'other', basedOn: 'Vyssa (Neopets)' },
@@ -819,6 +842,8 @@ export const NEOPIA_LINE: Quest[] = [
         n('At dawn, by the old shrine at the edge of town, a warm light hovers and will not go out. People say it is Coltzan, still keeping watch.'),
         l('coltzan', 'You did well, Keeper. Come and visit me. I’ll have blessings to spare.', 'soft'),
         n('The Neopian Times prints your grid in full, with one square left blank for readers. Half of Sakhmet gets it wrong.'),
+        l('times-reporter', 'Keeper. And the, the… no. No. I’m writing “unnamed associate”.', 'sad'),
+        n('Your Nubbin nods, as if that had been its title all along.'),
       ],
     },
     rewards: [
@@ -983,6 +1008,8 @@ export const NEOPIA_LINE: Quest[] = [
             l('skarl', 'Then it’s not their fight any more. And it isn’t only mine.'),
             n('Meridell knights and Darigan soldiers stand side by side on the hill. Nobody planned it. Nobody stops it.'),
             l('jeran', 'The Orb is doing this. Get it out of his hands and it stops. I hope.'),
+            n('Two knights and a Darigan soldier discover they are all holding the same ladder. Everyone pretends this was the plan.'),
+            l('jeran', 'Nobody say anything. It’s working.', 'think'),
             n('Your Nubbins look up at the glow. Then they look at you, and wait for a plan.'),
           ],
         },
@@ -1075,6 +1102,7 @@ export const NEOPIA_LINE: Quest[] = [
     trigger: { where: 'Mystery Island, the village', when: 'After NP4 (in the main game, after NP5), on your next visit to Mystery Island.' },
     requires: ['NP4'],
     speakers: [
+      TIMES,
       { id: 'np06-mystic', name: 'The Island Mystic', kind: 'other', basedOn: 'The Island Mystic (Neopets)' },
       { id: 'np06-shaman', name: 'The Shaman', kind: 'other', basedOn: 'The shaman controlling Moltenus (Neopets, Volcano Mystery)' },
     ],
@@ -1225,6 +1253,8 @@ export const NEOPIA_LINE: Quest[] = [
         l('np06-mystic', 'Keep the five words. Not because you’ll need them. Because they’re yours now too.', 'soft'),
         n('The Tombola man is back at his drum within the hour, yelling about booby prizes as if nothing happened.'),
         n('The Neopian Times prints the chant on its front page. By dinner, every child on the island is singing it.'),
+        l('times-reporter', 'Keeper, and unnamed associate. The associate has my sandwich.'),
+        n('The associate does have his sandwich. It is not sorry.'),
       ],
     },
     rewards: [
@@ -1261,6 +1291,7 @@ export const NEOPIA_LINE: Quest[] = [
     trigger: { where: 'Meridell, Meri Acres Farm', when: 'After NP6, the Citadel reappears over Meridell.' },
     requires: ['NP6'],
     speakers: [
+      TIMES,
       LISHA,
       JERAN,
       SKARL,
@@ -1430,6 +1461,9 @@ export const NEOPIA_LINE: Quest[] = [
         l('skarl', 'Peace, then. Real peace. Somebody pass the turnips.', 'happy'),
         l('sally', 'He owes me twelve turnips, actually.'),
         n('The Neopian Times runs a drawing of the battle. Your Nubbins are in it, very small, holding a rug.'),
+        l('times-reporter', 'I was promised a press tent.'),
+        n('There is a press tent. Your Nubbins are asleep in it.'),
+        l('times-reporter', 'Keeper, and unnamed associates. Plural. I’ve upgraded them.', 'think'),
       ],
     },
     rewards: [
@@ -1465,6 +1499,7 @@ export const NEOPIA_LINE: Quest[] = [
     trigger: { where: 'Maraqua, New Maraqua’s square', when: 'After NP7, on your next dive to Maraqua.' },
     requires: ['NP7'],
     speakers: [
+      TIMES,
       KELPBEARD,
       { id: 'caylis', name: 'Caylis', kind: 'other', basedOn: 'Caylis (Neopets)' },
       { id: 'isca', name: 'Isca', kind: 'other', basedOn: 'Isca (Neopets)' },
@@ -1608,6 +1643,7 @@ export const NEOPIA_LINE: Quest[] = [
         n('The patched sails pull away north. Isca watches until they’re gone, then swims back to her sister.'),
         l('caylis', 'I don’t see any more ruin. I see dinner. A great deal of dinner.', 'happy'),
         n('The Neopian Times prints the twins side by side on the front page. Nobody can tell which is which.'),
+        l('times-reporter', 'Two twins, one Keeper, one unnamed associate. The first caption this week that adds up.'),
       ],
     },
     rewards: [
@@ -1643,6 +1679,7 @@ export const NEOPIA_LINE: Quest[] = [
     trigger: { where: 'Lost Desert, Sakhmet palace', when: 'After NP8, an invitation to Prince Jazan’s audience with Princess Amira.' },
     requires: ['NP8'],
     speakers: [
+      TIMES,
       { id: 'jazan', name: 'Prince Jazan', kind: 'other', basedOn: 'Prince Jazan (Neopets)' },
       { id: 'amira', name: 'Princess Amira', kind: 'other', basedOn: 'Princess Amira (Neopets)' },
       { id: 'nabile', name: 'Nabile', kind: 'other', basedOn: 'Nabile (Neopets)' },
@@ -1710,8 +1747,9 @@ export const NEOPIA_LINE: Quest[] = [
             n('In a ruined courtyard, an old servant sees the amulet and drops to her knees. Nabile is of Qasala’s royal blood.'),
             l('nabile', 'I’m a what? No. I’m a thief. Thieves don’t have bloodlines. They have hiding places.', 'shock'),
             l('amira', 'The old curse on Qasala breaks with a royal marriage. That’s why he came to me.', 'think'),
-            n('Jazan hears. Of course he hears. He arrives with a smile and a ring and a very short speech.'),
+            n('Jazan hears. Of course he hears. He arrives with a ring and a very short speech, and can’t quite meet her eye.'),
             l('jazan', 'A bride from Qasala’s own line. The curse wanted a royal marriage. Here is one.', 'think'),
+            l('jazan', 'I’m not asking for me. I’m asking for the city. I’d like that understood.', 'sad'),
             l('nabile', 'Keeper. Tell me honestly. Do I do this?'),
           ],
           choices: [
@@ -1753,6 +1791,10 @@ export const NEOPIA_LINE: Quest[] = [
             l('amira', 'Put together, it holds daylight. Razul cannot stand daylight.'),
             n('Four pieces: a lens by Coltzan’s Shrine, a hilt in the Deserted Tomb, a coil inside the Fruit Machine, a sun-stone on the palace roof.'),
             l('nabile', 'I can steal two of those. You do the other two.'),
+            l('jazan', 'I’d rather not marry into a crime spree.', 'think'),
+            l('nabile', 'You already did. Hold the sack.'),
+            l('jazan', 'It’s heavy. Is it meant to hiss?'),
+            l('nabile', 'Only the lid. Don’t hold the lid.'),
             n('Your Nubbins are good at small spaces. Two of those places are nothing but small spaces.'),
           ],
         },
@@ -1776,6 +1818,9 @@ export const NEOPIA_LINE: Quest[] = [
             l('razul', 'My son. My useless son. You married a thief and brought me a toy.', 'angry'),
             l('jazan', 'I brought you an ending, Father.'),
             l('razul', 'Nobody in our family has ever done anything brave. Don’t start now.'),
+            l('jazan', 'Father, you once hid from a cat.'),
+            l('razul', 'It was a very large cat.', 'angry'),
+            l('nabile', 'He’s got a point. I’ve met it.', 'happy'),
             n('Razul stands. The shadows of Sakhmet pour into the tomb to guard him.'),
             l('nabile', 'Keeper. Keep them off him. He gets one shot.'),
             n('Jazan raises the weapon. It begins, slowly, to glow.'),
@@ -1815,6 +1860,8 @@ export const NEOPIA_LINE: Quest[] = [
         n('Jazan and Nabile go home to Qasala to rebuild it. Nabile keeps her lockpicks in the crown.'),
         l('amira', 'Keeper, Sakhmet’s gates are always open to you and yours.', 'happy'),
         n('The Neopian Times prints the wedding portrait. Nabile is clearly picking the photographer’s pocket.'),
+        l('times-reporter', 'Nabile took my wallet. Then she gave it back. It was a better wallet.', 'shock'),
+        l('times-reporter', 'Caption: the Keeper, an unnamed associate and, for reasons I cannot explain, my new wallet.'),
       ],
     },
     rewards: [
@@ -1850,6 +1897,7 @@ export const NEOPIA_LINE: Quest[] = [
     trigger: { where: 'Haunted Woods, the town of Neovia', when: 'After NP9, on your first visit to Neovia.' },
     requires: ['NP9'],
     speakers: [
+      TIMES,
       { id: 'bruno', name: 'Bruno', kind: 'other', basedOn: 'Bruno the Gelert (Neopets)' },
       { id: 'lily', name: 'Lily', kind: 'other', basedOn: 'Lily (Neopets, Tale of Woe)' },
       { id: 'krawley', name: 'Mr Krawley', kind: 'other', basedOn: 'Mr. Krawley (Neopets)' },
@@ -2004,6 +2052,8 @@ export const NEOPIA_LINE: Quest[] = [
         l('lily', 'Bruno. You were only ever too shy. You were never ugly.', 'soft'),
         l('bruno', 'Then I suppose I’ll be shy and furry. People have been worse.'),
         n('The Neopian Times prints a small notice: Mr Krawley, wanted, by everyone.'),
+        l('times-reporter', 'I only want a comment from him. I’d like that noted. Keeper, and unnamed associate.'),
+        n('Your Nubbin offers him a spoonful of cauldron. He declines, from long experience.'),
       ],
     },
     rewards: [
@@ -2038,6 +2088,7 @@ export const NEOPIA_LINE: Quest[] = [
     trigger: { where: 'Krawk Island, the harbour', when: 'After NP6 (in the main game, after NP10).' },
     requires: ['NP6'],
     speakers: [
+      TIMES,
       { id: 'fairweather', name: 'Professor Fairweather', kind: 'other', basedOn: 'Professor Fairweather (Neopets)' },
       { id: 'roxton', name: 'Roxton Colchester', kind: 'other', basedOn: 'Roxton Colchester (Neopets)' },
       { id: 'lilian', name: 'Lilian', kind: 'other', basedOn: 'Lilian (Neopets, Journey to the Lost Isle)' },
@@ -2194,6 +2245,9 @@ export const NEOPIA_LINE: Quest[] = [
           then: [
             l('lilian', 'Then it goes out with rules on the back. Look. Don’t take. Mind the birds.'),
             n('The Neopian Times prints Lilian’s map on its front page under THE ISLAND IS REAL, with a tiny sketch of your Nubbins in one corner.'),
+            l('times-reporter', 'Did either of you see the bird?'),
+            l('you', 'We ran.'),
+            l('times-reporter', 'Then so did I. Unnamed associate, eyewitness. Best source I have.', 'happy'),
           ],
         },
         {
@@ -2203,6 +2257,9 @@ export const NEOPIA_LINE: Quest[] = [
           then: [
             l('lilian', 'A picture of the fruit and no coordinates. Let them argue about it.', 'soft'),
             n('The Neopian Times prints the glowing fruit under the headline IS IT REAL? Letters pour in. Lilian answers none of them.'),
+            l('times-reporter', 'Did either of you see the bird?'),
+            l('you', 'We ran.'),
+            l('times-reporter', 'Then so did I. Unnamed associate, eyewitness. Best source I have.', 'happy'),
           ],
         },
       ],
@@ -2247,6 +2304,7 @@ export const NEOPIA_LINE: Quest[] = [
     trigger: { where: 'Neopia world map, a new mountain road', when: 'After NP11, the road appears on the map.' },
     requires: ['NP11'],
     speakers: [
+      TIMES,
       { id: 'np12-archivist', name: 'The Archivist', kind: 'other', basedOn: 'The Archivist of Altador (Neopets)' },
       { id: 'altador', name: 'King Altador', kind: 'other', basedOn: 'King Altador (Neopets)' },
     ],
@@ -2375,6 +2433,8 @@ export const NEOPIA_LINE: Quest[] = [
         l('altador', 'We used to hold a cup in the Colosseum. Races, cheering, far too many flags. Bring your Nubbins, for old times’ sake.'),
         n('Your Nubbin licks his hand. He laughs, surprised, as if he’d forgotten that too.'),
         n('The Neopian Times prints a star chart on its front page. For the first time in years, somebody remembers to.'),
+        l('times-reporter', 'I have written “Keeper and unnamed associate” so often my hand does it alone.'),
+        n('Your Nubbin looks pleased to be completed.'),
       ],
     },
     rewards: [
@@ -2422,6 +2482,7 @@ export const NEOPIA_LINE: Quest[] = [
     trigger: { where: 'Neopia Central', when: 'After NP12, every screen in Neopia Central turns green.' },
     requires: ['NP12'],
     speakers: [
+      TIMES,
       SLOTH,
       { id: 'gorix', name: 'Gorix', kind: 'other', basedOn: 'Gorix of the Resistance (Neopets)' },
       { id: 'cylara', name: 'Cylara', kind: 'other', basedOn: 'Cylara (Neopets)' },
@@ -2610,6 +2671,10 @@ export const NEOPIA_LINE: Quest[] = [
         l('gorix', 'The station’s ours. The Grundos are free. And nobody has to watch another green broadcast.', 'happy'),
         n('Cylara opens the airlock. The token drifts out, spinning, smaller and smaller, until it is just another star.'),
         l('np13-spacefaerie', 'Let it drift. Space is very big, and he is very small now.', 'soft'),
+        n('The Neopian Times prints a special edition, and the reporter hands you the first copy himself.'),
+        l('times-reporter', 'THE KEEPER (AND ASSOCIATE). In capitals, with brackets. Thirteen plots. I earned the brackets.', 'happy'),
+        n('Your Nubbin eats the paper. The reporter does not even look surprised. He hands you a second copy.'),
+        l('times-reporter', 'I always bring a spare.'),
         n('Back home, the rainbow gate shimmers a colour you have never seen. For one visit, it opens on an island no map has ever shown.'),
         n('Lutari Island. Your Nubbins are already running for the gate.', 'happy'),
       ],
@@ -2697,7 +2762,7 @@ export const NEOPIA_LINE_VARIANTS: Scene[] = [
   stanceVariant('np09-nabile', 'defend', {
     replace: {
       0: l('nabile', 'Nabile. Thief, mostly. They say you held the fence at Meri Acres when a fortress came over the hill. I’ll follow that. For the loot.'),
-      8: l('nabile', 'Keeper. When it came to it in Meridell, you stood and fought. Tell me honestly. Do I do this?'),
+      9: l('nabile', 'Keeper. When it came to it in Meridell, you stood and fought. Tell me honestly. Do I do this?'),
     },
     thens: {
       'np09-yes': [l('nabile', 'Fine. Shoulder to shoulder, like your fence. But I’m keeping the apples.')],
@@ -2707,7 +2772,7 @@ export const NEOPIA_LINE_VARIANTS: Scene[] = [
   stanceVariant('np09-nabile', 'parley', {
     replace: {
       0: l('nabile', 'Nabile. Thief, mostly. They say you shouted up at a flying fortress and asked it to talk. I’ll follow that. Mostly for the loot.'),
-      8: l('nabile', 'Keeper. You tried talking before fighting, once. Is a wedding talking, or fighting? Do I do this?'),
+      9: l('nabile', 'Keeper. You tried talking before fighting, once. Is a wedding talking, or fighting? Do I do this?'),
     },
     thens: {
       'np09-yes': [l('nabile', 'Talking, then. Fine. But I’m keeping the apples.')],
@@ -2717,7 +2782,7 @@ export const NEOPIA_LINE_VARIANTS: Scene[] = [
   stanceVariant('np09-nabile', 'villagers', {
     replace: {
       0: l('nabile', 'Nabile. Thief, mostly. They say you got a whole farm behind a wall before the first blow fell in Meridell. I’ll follow that. For the loot.'),
-      8: l('nabile', 'Keeper. In Meridell you got the small people out first. Am I a small person today, or a princess? Do I do this?'),
+      9: l('nabile', 'Keeper. In Meridell you got the small people out first. Am I a small person today, or a princess? Do I do this?'),
     },
     thens: {
       'np09-yes': [l('nabile', 'Princess, then. For one afternoon. But I’m keeping the apples.')],

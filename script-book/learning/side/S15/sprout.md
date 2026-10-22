@@ -17,7 +17,7 @@ _A brass parrot sits on his shoulder. Tick, tick, tick._
 **Dashwood Prance**: Thank you, Jackpot.  
 _A big sign says: ONE IN THREE IS SPARKLY!_  
 **The children**: Sparkly! Sparkly! Sparkly!  
-**Pip**: I saved my Shells! I can buy four eggs!  
+_A little girl from the village jingles her purse._  
 
 > **Lesson** (literacy, RF.K.2, ask): hearing rhymes  
 > **Pip**: Egg, egg, I love an egg!  
@@ -44,6 +44,7 @@ _A big sign says: ONE IN THREE IS SPARKLY!_
 
 #### `sprout:s15-tally` · [main](../../../side/S15.md#s15-tally)
 
+**Pip**: I saved my Shells! I can buy four eggs!  
 _By lunchtime, Byte’s card is full._  
 **Byte**: Lots and lots of plain eggs. Only three sparkly ones.  
 
@@ -79,7 +80,8 @@ _One stone wobbles. One stone is a frog! Ribbit!_
 
 **Jackpot**: HELLO. I CANNOT LIE. IT IS MY SPRINGS.  
 **You**: How many eggs are sparkly, Jackpot?  
-**Jackpot**: ONE IN TEN. HE KNOWS. HE WROTE IT DOWN.  
+**Jackpot**: TEN EGGS. ONE SPARKLY. NINE PLAIN. HE WROTE IT DOWN.  
+_Byte holds up ten fingers. He folds down nine._  
 **Byte**: And the big sign?  
 **Jackpot**: HE SAYS THE SIGN IS A POEM. A POEM IS NOT A NUMBER.  
 **Jackpot**: ALSO THE SPECIAL EGG IS NOT SPECIAL. OOPS.  

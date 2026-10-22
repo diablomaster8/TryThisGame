@@ -216,6 +216,7 @@ Hint: An Expedition: send your fastest Nubbin along the runway and your Swim Nub
 _The last spring of the war. A grey airfield on the English coast, and a drone plane packed nose to tail with explosives._  
 **Baron Zemo** _(happy)_: Baron Zemo sends his compliments, Captain. The plane flies itself to London. You may watch it go.  
 **Baron Zemo** _(angry)_: Forgive the hood. Thanks to your last visit to my laboratory, it no longer comes off. I have had it lined.  
+**Bucky Barnes**: Last time, Zemo’s super-glue stuck his own mask to his face. For good.  
 **Bucky Barnes** _(happy)_: He’s still sore about the glue. Cap, he’s still sore about the glue.  
 _The engines catch. The plane rolls. Steve and Bucky are running before anyone gives an order._  
 **Steve Rogers**: Bucky, the wing strut! I’ll take the tail!  
@@ -814,8 +815,9 @@ _Steve’s hands are shaking. The Ice is still in him. Every move he makes is a 
 
 #### <a id="mv-ca08-tower-done"></a>Done `mv-ca08-tower-done`
 
-_Bullseye leaves through the window, laughing, the way he always leaves. The Kingpin finishes his cake._  
-**The Kingpin**: Do come again. Everyone does.  
+_Bullseye leaves through the window, laughing, the way he always leaves._  
+_The Kingpin reaches for his cake. Your Nubbins have found it. All of it. For one second he is just a man looking at a plate._  
+**The Kingpin**: Do come again. Bring a smaller appetite.  
 
 ### Complete
 
@@ -907,6 +909,9 @@ _Deep under the Kronas building, the new Cosmic Cube hums in a cradle of cables:
 **General Lukin**: General Lukin. I have a soldier who never says no, and a cube that says yes to anything. You see my position.  
 _The Winter Soldier stands at Lukin’s shoulder. His eyes are on your Run Nubbin. They have been since you walked in._  
 **General Lukin**: Kill the Captain. Leave the animals; I may want them.  
+_Your Nubbins have already eaten his pen, and the cheque he was signing with it._  
+**General Lukin**: That was a very large cheque.  
+**Sharon Carter**: Then it’s evidence. And it’s inside a Nubbin.  
 _The fight is fast and terrible. Bucky knows every move Steve has, because Bucky helped invent half of them._  
 _Your Nubbins go for the cradle. One wrenches the Cube loose; the other rolls it across the floor to Steve._  
 **Steve Rogers** _(soft)_: I don’t want the universe. I want one thing.  
@@ -970,7 +975,8 @@ _Your Nubbins let her pat them. They aren’t afraid of her. That is the frighte
 _In a corner of the playroom, a clone of the Red Skull looks up from a picture book and smiles._  
 **The Red Skull** _(happy)_: She is very impressionable. All children are. That is what childhood is for.  
 _Steve had grown old when the serum finally let go of him. Last month Kobik made him young again, as a present._  
-**Kobik** _(happy)_: And I fixed Steve’s whole life too! Now he was always on the right side.  
+**Kobik** _(happy)_: And I fixed Steve’s whole life! Now he was always Hydra, and Hydra was always good.  
+**Kobik**: I put the old Steve in a drawer. Drawers are for keeping.  
 _Your Rebirth Nubbin goes very still, the way it went still under Erskine’s hand._  
 
 **Choices**
@@ -992,6 +998,7 @@ _It happens in a single day. Hydra rises everywhere at once, and the man leading
 **Supreme Leader Rogers** _(soft)_: You trusted me with the shield for seventy years. Trust me with the rest. I’ll make it safe.  
 _Cities sit under glowing domes. Heroes are trapped in space or underground. The shield is carried under a green flag now._  
 **Sam Wilson** _(angry)_: Sam Wilson. I carried the shield for a while. Now I carry a radio, a bag of tinned peaches and a grudge.  
+**Sam Wilson**: And a Nubbin. Not a rodent. I’m learning.  
 **Sharon Carter** _(sad)_: He isn’t mind-controlled. We checked. He remembers growing up Hydra. Every birthday, every lie. To him it’s all true.  
 **Sam Wilson**: So we fight a man who believes it. That’s worse.  
 **Sharon Carter** _(think)_: Half the country’s cheering him. Trains on time, streets swept. People like being told it’s safe.  

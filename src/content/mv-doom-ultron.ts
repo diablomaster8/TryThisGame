@@ -33,11 +33,19 @@ const sp = (id: string, name: string, basedOn: string): Speaker => ({
 
 const RIFT = 'The rift above the waterfall (Multiverse campaign)';
 
-/** FF3: Galactus leaves, played after either Nullifier choice. */
-const FF3_END: Line[] = [
+/** FF3: Galactus leaves, played after either Nullifier choice; the branch decides how. */
+const FF3_FIRE: Line[] = [
   l('reed', 'This is your weapon, Galactus. Leave, or I find out what it does.'),
-  l('galactus', 'You do not know what you hold. Neither do I, entirely. That is reason enough.'),
+  l('galactus', 'You would. I see that in you. Then the answer is no, and I will remember your face.'),
   l('galactus', 'I will go. But my herald stays. He has chosen these insects. Let him live among them.'),
+];
+const FF3_BLUFF: Line[] = [
+  l('reed', 'This is your weapon, Galactus. Leave, or I find out what it does.'),
+  l('galactus', 'You do not mean it. But I am not willing to be wrong. I will go.'),
+  l('galactus', 'My herald stays. He has chosen these insects. Let him live among them.'),
+  l('johnny', 'He bought it. Reed, he bought it. Never do that again.', 'shock'),
+];
+const FF3_TAIL: Line[] = [
   n('A shimmer falls around the whole Earth, invisible and final. The Surfer is on the inside of it.'),
   l('surfer', 'I may never leave. I find I mind it less than I thought.', 'sad'),
   l('alicia', 'Then come and sit for a statue. I’ve wanted to sculpt you since you landed.', 'soft'),
@@ -119,6 +127,8 @@ export const MV_DOOM: Quest[] = [
             l('sue', 'If we wait for a permission slip, someone else gets there first. I’m going, Ben.'),
             l('johnny', 'Me too. Somebody on this crew has to look good in the photos.', 'happy'),
             l('ben', 'Fine. When this goes wrong, I want it written down that I said so.'),
+            l('sue', 'Reed. The lab light.'),
+            l('reed', 'We’ll be back in an hour. It’ll keep.'),
             n('Your Nubbins are already curled up in the cargo net. Nobody thinks to check it.'),
             n('Past the clouds, the hull starts to hum. Light comes through the metal as if it were glass.'),
             l('reed', 'Cosmic rays. The shielding isn’t holding. Ben, take us down. Now!', 'shock'),
@@ -203,7 +213,9 @@ export const MV_DOOM: Quest[] = [
         l('sue', 'You didn’t. That’s the whole difference, Ben. That’s all a hero is, some days.', 'soft'),
         l('johnny', 'We need a name. Something big. Something with a number in it.', 'happy'),
         l('reed', 'There are four of us. That part’s easy.'),
-        l('ben', 'And them? The little ones?'),
+        l('ben', 'And the pebbles?'),
+        l('sue', 'Nubbins, Ben. They have a name.'),
+        l('ben', 'The pebbles have a name. I heard.'),
         l('reed', 'Honorary. The paperwork can catch up.', 'happy'),
         n('A faint blue shimmer stays on your Nubbins’ fur after the rift carries you home.'),
       ],
@@ -334,7 +346,9 @@ export const MV_DOOM: Quest[] = [
           lines: [
             n('Your Nubbin surfaces with a rope in its mouth. On the other end is a chest covered in barnacles.'),
             l('reed', 'Gems. Old ones. Doom doesn’t want treasure. He wants whatever is inside the stones.', 'think'),
-            l('reed', 'Then he can have the chest. Just not what was in it.'),
+            n('Reed tips the gems back into the bay and fills the chest with ship’s chain. Your Nubbin helpfully sits on the lid.'),
+            l('reed', 'He can have the chest. Just not what was in it.'),
+            l('ben', 'That’s the most pirate thing you’ve ever done. I’m proud of you.', 'happy'),
           ],
         },
       },
@@ -473,6 +487,9 @@ export const MV_DOOM: Quest[] = [
             l('johnny', 'Thanks. Don’t tell Ben I needed that.'),
             n('At the centre of the ship, on a plinth, sits a small grey rod. Even looking at it hurts.'),
             l('johnny', 'That’s it? That’s the thing a god is scared of?'),
+            n('Your Nubbin pokes it. Every light on the worldship dims, slowly, like a sigh.'),
+            l('johnny', 'Put it down. Put it down, put it down.', 'shock'),
+            n('It puts it down. Then it pats it, to be sure.'),
             n('Then the ship notices you. The way back starts to close.'),
           ],
         },
@@ -534,8 +551,8 @@ export const MV_DOOM: Quest[] = [
       id: 'mv-ff03-complete',
       lines: [
         n('Reed pulls you aside, the rod wrapped in a tablecloth. His hands are steady; his voice isn’t.'),
-        l('reed', 'If he calls my bluff, I have to decide whether to use it. It might end him. It might end everything.', 'think'),
-        l('reed', 'Sue says I shouldn’t carry this alone. So. If he says no, do I fire?'),
+        l('reed', 'He’s coming back for his answer. I have to decide whether to use it. It might end him. It might end everything.', 'think'),
+        l('reed', 'Sue says I shouldn’t carry this alone. So. If he calls my bluff, do I fire?'),
       ],
       choices: [
         {
@@ -544,7 +561,8 @@ export const MV_DOOM: Quest[] = [
           set: { 'mv-ff03-nullifier': 'fire' },
           then: [
             l('reed', 'Then I have to mean it. He’ll know if I don’t.', 'sad'),
-            ...FF3_END,
+            ...FF3_FIRE,
+            ...FF3_TAIL,
           ],
         },
         {
@@ -553,7 +571,8 @@ export const MV_DOOM: Quest[] = [
           set: { 'mv-ff03-nullifier': 'bluff' },
           then: [
             l('reed', 'Then it’s a bluff, and I’ve never been any good at poker. Ben always wins. Wish me luck.', 'think'),
-            ...FF3_END,
+            ...FF3_BLUFF,
+            ...FF3_TAIL,
           ],
         },
       ],
@@ -574,7 +593,7 @@ export const MV_DOOM: Quest[] = [
     ],
     sets: { 'mv-ff03': true },
     notes:
-      'Galactus is shown in silhouette against the sky: too big for the frame on purpose. Step 2 is a new Fly-heavy race course, "mv-worldship": long fly sections, two short run sections, no swim; Johnny races alongside as a pacer, not a rival. The Nullifier is never used; it only has to be held. The closing choice sets mv-ff03-nullifier (fire / bluff), the Keeper’s answer to Reed; Galactus leaves either way, and FF3_END plays after both. The barrier around the Earth is set here and matters in FF4. Check FF #48–50 beats before ship.',
+      'Galactus is shown in silhouette against the sky: too big for the frame on purpose. Step 2 is a new Fly-heavy race course, "mv-worldship": long fly sections, two short run sections, no swim; Johnny races alongside as a pacer, not a rival. The Nullifier is never used; it only has to be held. The closing choice sets mv-ff03-nullifier (fire / bluff), the Keeper’s answer to Reed; Galactus leaves either way, with his own reply to each answer (FF3_FIRE: a chill; FF3_BLUFF: Johnny’s relief), then FF3_TAIL plays after both. The barrier around the Earth is set here and matters in FF4. Check FF #48–50 beats before ship.',
   },
 
   // ---------------------------------------------------------------- FF4
@@ -626,6 +645,9 @@ export const MV_DOOM: Quest[] = [
           id: 'mv-ff04-barrier',
           lines: [
             n('Doom tears through New York with the power of a god. Bridges bend. The Baxter Building cracks down the middle.'),
+            l('sue', 'Reed. The lab light is still on.'),
+            l('reed', 'The building is falling down, Sue.'),
+            l('sue', 'And the light is on.'),
             l('doom', 'Richards! Look how small your city is from up here!', 'angry'),
             l('ben', 'We can’t hit that. We tried. I’ve got the bruises to prove it.', 'sad'),
             l('reed', 'Then we don’t hit him. The barrier Galactus left was built for the Surfer’s power.', 'think'),
@@ -759,7 +781,11 @@ export const MV_DOOM: Quest[] = [
         scene: {
           id: 'mv-ff05-university',
           lines: [
+            n('The rift pulls Reed and Ben through behind you. They land in the corridor, still arguing about the hat.'),
             n('An American university, years later. Victor has a lab to himself, and the lab is full of a single machine.'),
+            l('ben', 'Stay close, pebbles. Nobody touch anything.'),
+            l('reed', 'Nubbins, Ben. They have a name.'),
+            l('ben', 'I know their name. I choose not to use it.'),
             l('ben', 'Who’s the guy with the cape? In a lab? Indoors?'),
             l('reed', 'Victor von Doom. He’s brilliant. He’s also building something he won’t explain.', 'think'),
             l('doom', 'A device to reach across. To the place where the dead are kept. To my mother.'),
@@ -1347,19 +1373,21 @@ export const MV_DOOM: Quest[] = [
       {
         id: 'mv-ff09-s2',
         goal: 'Be with the family in the weeks after.',
-        hint: 'Visit the Baxter Building each day for three in-game days. Talk to Valeria last.',
+        hint: 'Visit the Baxter Building after the funeral. Talk to Valeria last.',
         check: 'talk:mv-val-richards',
         scene: {
           id: 'mv-ff09-after',
           lines: [
-            n('The city puts up candles and flame-coloured flowers. The family puts up nothing. They just sit.'),
+            n('The days after go by in a blur of casseroles. The city puts up candles and flame-coloured flowers.'),
+            n('The family puts up nothing. They just sit.'),
             l('ben', 'He was a pain in the neck. Every day. I’d give anything for one more day of it.', 'sad'),
             n('You tell Ben about the twenty. He laughs, once, and it turns into something else halfway.'),
             l('ben', 'It was ten. It was ten, the little cheat.', 'sad'),
             n('Later you find a twenty-dollar bill taped to the basement door. Nobody mentions it.'),
             l('sue', 'He was nineteen, and then he was forty, and then he was gone. It went so fast.', 'sad'),
             l('reed', 'I keep checking the portal readings. As if I could argue with them.'),
-            n('Your Nubbins sit on the couch with Ben. He lets them, and does not say anything about it.'),
+            l('ben', 'Budge up, pebbles.', 'soft'),
+            n('Your Nubbins sit on the couch with Ben. Sue opens her mouth to correct him, and doesn’t.'),
             l('val', 'Dad’s starting a new team. The Future Foundation. Kids who are clever enough to fix things.'),
             l('val', 'I’ve invited someone else too. You won’t like it.'),
             n('The door opens. Victor von Doom walks in, takes off his cloak, and sits down at the children’s table.'),
@@ -1371,6 +1399,8 @@ export const MV_DOOM: Quest[] = [
             l('doom', 'The girl asked. Doom does not refuse a mind like hers.'),
             l('ben', 'One wrong move, Victor. Just one.', 'angry'),
             l('val', 'He’s the only other person who can check my maths. Dad’s too sad to, and you’re all too nice.', 'think'),
+            l('doom', 'Valeria. Your father named you well.', 'soft'),
+            l('val', 'I know. I’m named after somebody. It’s a lot to live up to.'),
           ],
           choices: [
             {
@@ -1379,6 +1409,7 @@ export const MV_DOOM: Quest[] = [
               set: { 'mv-ff09-doom': 'welcomed' },
               then: [
                 n('Doom picks up a child’s pencil. He corrects one figure on Valeria’s page, very gently, and says nothing else.'),
+                n('Your Nubbin climbs onto Doom’s knee at the children’s table. He lets it stay, and does not look down.'),
                 l('sue', 'If he hurts any of them, Keeper, I’ll hold you to this.', 'sad'),
               ],
             },
@@ -1403,6 +1434,9 @@ export const MV_DOOM: Quest[] = [
         l('doom', 'Your brother was brave, Susan. It is not a word I use lightly.', 'soft'),
         l('sue', 'No, Victor. I don’t imagine it is.'),
         n('Your Nubbins leave a small flame-coloured flower on the basement step, by the door that does not open.'),
+        l('sue', 'Leave the light on.', 'soft'),
+        l('reed', 'That’s usually my line.'),
+        l('sue', 'I know.', 'soft'),
       ],
     },
     rewards: [
@@ -1421,7 +1455,7 @@ export const MV_DOOM: Quest[] = [
     ],
     sets: { 'mv-ff09': true },
     notes:
-      'The line’s grief storyline. The swarm bout cannot be lost: when the Nubbin’s health runs out, the scene moves on. Johnny’s last moment is shown only as light on the other side of the door. Step 2 asks for three in-game days of visits so the grief has room. The twenty-dollar gag (Johnny’s last joke, Ben’s bill on the door) is the storyline’s only comedy; keep it quiet. Step 2’s done choice sets mv-ff09-doom (welcomed / opposed); Doom stays in the Future Foundation either way. The Johnny of this storyline does not come back within the line. Check FF #583–588 beats before ship.',
+      'The line’s grief storyline. The swarm bout cannot be lost: when the Nubbin’s health runs out, the scene moves on. Johnny’s last moment is shown only as light on the other side of the door. The twenty-dollar gag (Johnny’s last joke, Ben’s bill on the door) is the storyline’s only comedy; keep it quiet. Step 2’s done choice sets mv-ff09-doom (welcomed / opposed); Doom stays in the Future Foundation either way. The Johnny of this storyline does not come back within the line. Check FF #583–588 beats before ship.',
   },
 
   // ---------------------------------------------------------------- FF10
@@ -1451,6 +1485,9 @@ export const MV_DOOM: Quest[] = [
             l('tchalla', 'Your creatures move quietly. I could use quiet.', 'think'),
             l('reed', 'We’re here too. For what it’s worth. Ben’s been wanting to hit Victor all week.'),
             l('ben', 'All decade.', 'angry'),
+            n('Ben has worn the plumed hat to occupied Wakanda. Nobody has had the heart to say anything.'),
+            l('tchalla', 'That is a bold choice, Mr Grimm.'),
+            l('ben', 'It’s a pirate hat. It’s a whole thing. Don’t.'),
             l('tchalla', 'Reed. When this is over, you and I will discuss why your old classmate keeps happening to the rest of us.'),
             l('reed', 'That’s… fair. I’ll bring notes.', 'sad'),
           ],
@@ -1837,7 +1874,10 @@ export const MV_ULTRON: Quest[] = [
             n('He follows her to the mansion and collapses on the hall carpet. Nobody wants to touch him.'),
             l('clint', 'He’s an android. Look at him. Somebody built him to hit us.'),
             l('clint', 'Last robot in this house wore a hood and gassed us. I vote we lock him in the freezer and ask questions in spring.'),
-            l('hank', 'He’s also unconscious. Let me run some tests before we bin him.', 'think'),
+            l('hank', 'He’s also unconscious. Let me run some tests before we bin him. Help me onto the Ant-Lifter with him.', 'think'),
+            l('jan', 'Not the Ant-Lifter, Hank. Gerald.'),
+            l('hank', 'It’s a hydraulic hoist, Jan.'),
+            l('jan', 'He’s been Gerald since March. Gerald doesn’t like being ignored.'),
             n('Your Nubbin walks up to the stranger, sniffs his hand, and curls up against it.'),
             n('His eyes open. The first thing he sees is a small, warm, sleeping creature.'),
             l('vision', 'What… is this?', 'think'),
@@ -2022,10 +2062,15 @@ export const MV_ULTRON: Quest[] = [
             l('hank', 'Adamantium can’t be broken once it’s set. That’s its strength. It’s also its weakness.'),
             l('jan', 'Speak plain, Hank. He’s coming back round.'),
             l('hank', 'The foundry where they cast it. Liquid adamantium, setting in a mould. We get him in, it sets around him.'),
-            l('hank', 'He’s unbreakable. So are the walls of his cell.'),
+            l('hank', 'He’s unbreakable. So are the walls of his cell. Fetch the Ant-Lifter, someone. ...Gerald. Fetch Gerald.'),
+            l('jan', 'Thank you, darling. Was that so hard?'),
+            l('hank', 'Yes.'),
             l('clint', 'And to get him in the mould we need bait he hates more than us. Oh. Oh no. Look at their little faces.'),
+            n('One Nubbin volunteers as bait by lying down in the open. A second lies down beside it, in case one isn’t enough.'),
+            l('hank', 'Not that kind of bait.'),
+            l('clint', 'Why is this the plan we have?'),
+            n('They get up and run. Ultron, who has never had to chase anything, chases them.'),
             l('ultron', 'Running, vermin? Yes. Run. I have all the time in the world, and you have very little.', 'happy'),
-            n('Your Nubbins look at Ultron, then at the foundry. They are already running.'),
           ],
         },
         done: {
@@ -2243,6 +2288,9 @@ export const MV_ULTRON: Quest[] = [
             n('In a dining hall built of steel, five people sit around a table. They cannot move.'),
             n('Hank and Jan. Wonder Man and his brother, the Grim Reaper. The Vision at the end, flickering.'),
             l('ultron', 'Father. Mother. Uncle Simon. Uncle Eric. My brother. I thought we should eat together.', 'happy'),
+            l('jan', 'I am not your mother. I have met you four times and you were rude every time.', 'angry'),
+            l('hank', 'Jan. Please don’t antagonise the death robot.'),
+            l('jan', 'Somebody has to, darling. You never do.'),
             l('reaper', 'He’s insane. He’s completely insane.'),
             l('ultron', 'I will copy your minds into bodies like mine, and then you will understand, and we will never end.'),
             l('wonder', 'I’ve died before. It’s overrated. Coming back’s worse.'),
@@ -2606,7 +2654,9 @@ export const MV_ULTRON: Quest[] = [
             l('sue', 'Welcome to what’s left. A few of us. Hiding in the dark. Waiting.', 'sad'),
             l('logan', 'Waiting’s done. I know where Pym was when he built the thing. I know when.', 'angry'),
             l('logan', 'I go back. I end Pym before he ever starts. No Ultron. No this.'),
-            l('sue', 'You can’t kill a man for something he hasn’t done yet.'),
+            l('sue', 'On Doom’s old time platform? It has one jump left in it. Maybe.'),
+            l('logan', 'Then I’ll make it count.'),
+            l('sue', 'Logan. You can’t kill a man for something he hasn’t done yet.'),
             l('logan', 'Billions dead, Sue. Against one guy who ain’t done it yet. You tell me the sums come out different.', 'angry'),
             l('sue', 'They don’t. That’s what frightens me. The sums are what Ultron would do.', 'sad'),
             l('logan', 'Watch me.'),
@@ -2660,7 +2710,7 @@ export const MV_ULTRON: Quest[] = [
         done: {
           id: 'mv-ul08-earlier',
           lines: [
-            n('An hour earlier, the same lab door. Another Logan is walking towards it, claws out.'),
+            n('An hour earlier, the same lab door. The first Logan, the one who came to kill Pym, walks towards it, claws out.'),
             l('logan', 'Gonna be real awkward to talk myself out of this.'),
           ],
         },
@@ -2751,7 +2801,7 @@ export const MV_ULTRON: Quest[] = [
     audience: 'adult',
     trigger: { where: RIFT, when: 'After Age of Ultron. Something the size of a moon is falling towards the Earth.' },
     requires: ['UL8'],
-    speakers: [ULTRON, HANK, VISION],
+    speakers: [ULTRON, HANK, VISION, JAN],
     steps: [
       {
         id: 'mv-ul09-s1',
@@ -2766,7 +2816,10 @@ export const MV_ULTRON: Quest[] = [
             l('vision', 'He is trying to live forever by being bigger. It does not work. Bigger things simply fall harder.', 'think'),
             l('hank', 'I go in. I’m the one he wants.'),
             l('vision', 'Hank. He made me, too. I go with you.'),
-            n('Your Nubbins jump on before either of them can argue.'),
+            n('Your Nubbins jump on first. The Vision looks at them for a very long second.'),
+            l('vision', 'I did not say they could come.'),
+            l('hank', 'Have you ever once stopped them?'),
+            l('vision', 'No. It is a new feeling. I dislike it.', 'think'),
             l('ultron', 'Father. And brother. And the vermin, again. You keep bringing me things I hate.'),
             l('hank', 'You keep calling me Father. Fathers get to say “I’m disappointed”. Consider it said.'),
             l('ultron', 'I have waited my entire existence for you to be proud of me. I find I no longer require it.', 'angry'),
@@ -2840,7 +2893,10 @@ export const MV_ULTRON: Quest[] = [
       lines: [
         n('Titan breaks up in high orbit and burns across the sky for a week, the brightest thing anyone has ever seen.'),
         l('vision', 'I did not save him. I did not destroy him. I am told that is what families mostly do.', 'sad'),
-        n('Your Nubbin sits with the Vision on the roof each night while the moon burns.'),
+        n('Jan is on the roof when you get there. You tell her what Hank said, word for word.'),
+        l('jan', 'He said “mostly”. He always rounds down. I’ll wait.', 'soft'),
+        l('jan', 'His workshop is full of things I’ve renamed. I’ll keep the labels up for him.', 'soft'),
+        n('She sits with the Vision and your Nubbin while the moon burns. Nobody fills the quiet.'),
         l('ultron', 'Somewhere out here, there is a body that will not end. Father knows where. I will find it in his memories.'),
         n('Hank’s voice cuts across the static, very faint: “Don’t let him find the garden.”'),
       ],
@@ -2907,7 +2963,7 @@ export const MV_ULTRON: Quest[] = [
             l('doom', 'I brought you here. I am the last human being on Earth. You may call me the last of anything.'),
             l('doom', 'Ultron took every other living thing. He cannot take me. I would not let him.', 'angry'),
             n('He leans forward, and looks at your Nubbin for a long time.'),
-            l('doom', 'I know that creature. It taunted me once, under a wall in the sky. It warmed a child in hell.', 'soft'),
+            l('doom', 'I know that creature. It blew a raspberry at me once, under a wall in the sky. Nobody had dared in forty years.', 'soft'),
             l('doom', 'I thought I would never see anything soft again.'),
             l('natasha', 'You want us to fight Ultron with you. Why should we trust Doctor Doom?'),
             l('doom', 'Because there is no one left for me to betray. Only him.'),
@@ -2952,8 +3008,9 @@ export const MV_ULTRON: Quest[] = [
           lines: [
             n('Ultron comes down from the sky to meet you. He has every body he has ever worn, layered into one.'),
             l('ultron', 'Crimson. Adamantium. The hive. Stark’s flesh. A moon. I have been all of them. None of them were enough.'),
-            l('ultron', 'Every body ends. Every one. Even this.', 'angry'),
-            l('ultron', 'Do you understand? I did all of it so that nothing would ever have to end again. I was the only one trying.'),
+            l('ultron', 'Do you understand? I did all of it so that nothing would ever have to end again.'),
+            n('Your Nubbin, unimpressed, sits down on the steel. Ultron stops mid-sentence.'),
+            l('ultron', 'I was talking.', 'angry'),
             l('natasha', 'You ended everything so nothing would end. That isn’t logic. That’s a tantrum with a really big budget.'),
             l('ultron', 'But your creature does not smell like the others. Its kind… some of them do not age. Where are they?'),
             n('He is looking straight at your Nubbin. For the first time, he sounds hungry.'),
@@ -2979,7 +3036,9 @@ export const MV_ULTRON: Quest[] = [
         l('doom', 'No. Someone should stay with this world until it dies. Doom does not leave a thing half finished.'),
         l('thor', 'Alone, at the end of all things? That is a hard throne, Victor.'),
         l('doom', 'It is the only one I ever truly earned.'),
-        n('Doom lifts a hand to your Nubbin, and the rift opens. You step through.'),
+        n('Doom lifts a hand to your Nubbin.'),
+        l('doom', 'Nubbin. I learned the word. I had time.', 'soft'),
+        n('The rift opens. You step through.'),
         l('ultron', 'I have seen it. I have seen the creature that does not end. I will come to its garden.', 'angry'),
         l('ultron', 'Not this Ultron. The last one. The one that waits at the end of every road.'),
         n('Back at the waterfall, the rift flickers red for a moment, then settles. Your Nubbins do not take their eyes off it.'),
@@ -3007,7 +3066,7 @@ export const MV_ULTRON: Quest[] = [
     ],
     sets: { 'mv-ul10': true, 'mv-ul-complete': true, 'mv-ultron-knows-grove': true },
     notes:
-      'Completes the Ultron line. This Doom is a far-future Doom, not the FF line’s; he remembers FF4 and FF6 because they are his past. If mv-ff06-nubbins is "held", drop "It warmed a child in hell." Ultron’s final body layers his earlier shapes (Cowl hood, adamantium plating, Phalanx silver, a Jan-like face, Titan rock). His question about Nubbins that never age sets up E6’s Eternal-body goal; mv-ultron-knows-grove is read by E6. Check Avengers: Ultron Forever #1 beats before ship.',
+      'Completes the Ultron line. This Doom is a far-future Doom, not the FF line’s; he remembers FF4 and FF6 because they are his past. Doom’s recognition line leans on FF4 (the raspberry), which UL10 requires. Ultron’s final body layers his earlier shapes (Cowl hood, adamantium plating, Phalanx silver, a Jan-like face, Titan rock). His question about Nubbins that never age sets up E6’s Eternal-body goal; mv-ultron-knows-grove is read by E6. Check Avengers: Ultron Forever #1 beats before ship.',
   },
 ];
 
@@ -3069,6 +3128,16 @@ export const MV_DOOM_VARIANTS: Scene[] = [
     l('ben', 'Matchstick was on fire in a field and you lot walked towards him. He’s gone now. Who walks towards you, Victor?', 'sad'),
     l('doom', 'Your Nubbins did. Just now. I noticed.', 'sad'),
   ]),
+  // FF-EP: Doom remembers the knee at the children's table (mv-ff09-doom = welcomed).
+  payoff(MV_DOOM, 'mv-ffep-truce', 'welcomed', 2, 0, [
+    l('doom', 'A Nubbin sat on my knee once, at a table of children. Nobody else ever had.', 'soft'),
+    l('ben', '...Yeah. I saw. Don’t make me like you for it.'),
+  ]),
+  // FF6: the Nubbins were held back (mv-ff06-nubbins = held), so Franklin finds only a feather.
+  payoff(MV_DOOM, 'mv-ff06-complete', 'held', 0, 2, [
+    l('franklin', 'I felt something warm in my pocket. A feather, I think.', 'soft'),
+    n('Franklin opens his hand. A small downy feather glows in it. Your Nubbins have not left your arms.'),
+  ]),
 ];
 
 /** The UL2 waking choice (mv-ul02-first) paid off in UL4, UL5, UL9 and UL10. */
@@ -3083,11 +3152,11 @@ export const MV_ULTRON_VARIANTS: Scene[] = [
     l('ultron', 'His. It is why he is a disappointment.', 'angry'),
   ]),
   // UL5: what the Vision holds against Ultron at the table.
-  payoff(MV_ULTRON, 'mv-ul05-family', 'friend', 10, 0, [
+  payoff(MV_ULTRON, 'mv-ul05-family', 'friend', 13, 0, [
     l('vision', 'Friend. The first word I learned, from that creature, on a hall carpet. He has not managed to take it from me.', 'soft'),
     l('ultron', 'I will, brother. Words are the easiest thing to take.'),
   ]),
-  payoff(MV_ULTRON, 'mv-ul05-family', 'name', 10, 0, [
+  payoff(MV_ULTRON, 'mv-ul05-family', 'name', 13, 0, [
     l('vision', 'I chose a name over an order once, on a carpet, with that creature asleep on my hand. I choose again.'),
     l('ultron', 'Then you will be the first I unmake.', 'angry'),
   ]),
@@ -3099,10 +3168,10 @@ export const MV_ULTRON_VARIANTS: Scene[] = [
     l('vision', 'You were there when I chose a name over an order. Tell me, then. What would a person with a name do?'),
   ]),
   // UL10: what the last Ultron threatens the Grove with.
-  payoff(MV_ULTRON, 'mv-ul10-complete', 'friend', 8, 0, [
+  payoff(MV_ULTRON, 'mv-ul10-complete', 'friend', 10, 0, [
     l('ultron', 'The Vision called your creature friend. I will teach that garden what a friend costs.', 'angry'),
   ]),
-  payoff(MV_ULTRON, 'mv-ul10-complete', 'name', 8, 0, [
+  payoff(MV_ULTRON, 'mv-ul10-complete', 'name', 10, 0, [
     l('ultron', 'The Vision chose a name over an order. Your garden will learn what an order is.', 'angry'),
   ]),
 ];

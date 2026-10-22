@@ -444,6 +444,7 @@ _They hug you. Nobody needs to say anything._
 > _We remember them together. That helps._  
 > _For grown-ups: Heard that sadness and crying are natural when someone dies, and that remembering together helps._
 
+_Byte’s shoelaces are untied. Pixel ties them. Nobody says anything._  
 
 #### `sprout:s10-letter-told` · [main](../../../side/S10.md#s10-letter-told)
 

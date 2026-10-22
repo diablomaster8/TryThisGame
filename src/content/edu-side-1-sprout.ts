@@ -421,8 +421,11 @@ const S1: EduQuest = quest(
         M('It was so hot! The Nubbins lay flat in the sun.', 'happy'),
         M('Cinder carried them into the shade. One at a time.'),
         CI('Out of the sun, you silly things! I’ve got you!', 'happy'),
-        M('That night, snow came. In summer. And it didn’t stop.', 'sad'),
-        M('Cinder loved them very much. But she held them too tight.', 'sad'),
+        M('That night, snow came. In summer! It did not stop.', 'sad'),
+        M('Cinder was scared. She hugged her Nubbins close.', 'sad'),
+        M('She would not let go. Not even to let them play.', 'sad'),
+        M('The Nubbins could not run. They were not happy.', 'sad'),
+        M('Cinder loved them. But her hug was too tight.', 'sad'),
       ],
       [
         {
@@ -442,7 +445,7 @@ const S1: EduQuest = quest(
           skill: 'gentle hugs, and asking first',
           standard: 'CASEL: Relationship skills',
           kind: 'ask',
-          after: 9,
+          after: 12,
           prompt: [M('How should we hug a small friend?', 'think')],
           options: [
             opt('Gently, and only if they want a hug', [M('Yes. Gentle hugs, and we ask first.', 'soft')], true),
@@ -726,9 +729,9 @@ const S2: EduQuest = quest(
         N('Wisp sits close to Sable. He whispers to her.'),
         W('hands are scary. come away. come to the dark.', 'soft'),
         N('Sable looks at Wisp. Then at your window.'),
-        LU('He wants her to leave the Grove. I want her safe.', 'sad'),
+        LU('Wisp wants Sable to leave the Grove. I want Sable safe.', 'sad'),
         N('Clover comes in her dressing gown, with fruit.'),
-        CL('We feed him because we’re kind. Not because he’s good.', 'soft'),
+        CL('Wisp is cold and scared. Kind people feed scared Nubbins.', 'soft'),
         LU('I care about Sable. Somebody has to.', 'sad'),
         CL('And Wisp has nobody at all.', 'sad'),
         N('Luna and Clover both look at you.'),
@@ -1406,6 +1409,9 @@ const S4: EduQuest = quest(
         N('In a hut, a guard sleeps in his chair.'),
         N('He snores. In… out… whistle! In… out… whistle!'),
         MA('Move on the snore. Freeze on the whistle.', 'think'),
+        N('(Whistle! Everyone say “Freeze!”)'),
+        N('You freeze. Your Nubbin does not. Wobble, wobble… plop!'),
+        MA('Freeze means freeze.', 'soft'),
         N('You creep to the gate. You push. It’s stuck!'),
       ],
       [
@@ -1589,11 +1595,11 @@ const S5: EduQuest = quest(
       's5-cliff',
       [
         N('The cliff has stripes. Brown, red, grey, brown.'),
-        DU('Here’s where I found her egg. I was twelve.', 'think'),
-        N('Fossil taps the rock. Tap, tap!'),
-        DU('Fine. I was eleven.'),
+        DU('I dug Fossil’s egg out with a big, strong trowel!', 'think'),
+        N('Fossil taps the rock. Tap, tap! (Tap along!)'),
+        DU('A spoon. A small spoon.'),
         N('Tap!'),
-        DU('All right! I dug with a spoon, not a trowel!', 'happy'),
+        DU('A teaspoon. Fine.', 'happy'),
         N('Fossil rests her head on the rock. Everyone is quiet.'),
         N('A baby fern grows in a crack. It is curled up tight.'),
         N('Next to it, pressed in the stone, is a very old fern.'),
@@ -1657,7 +1663,7 @@ const S5: EduQuest = quest(
         N('It misses every mouth. Plop! It lands in Fossil’s lap.'),
         DU('Hazel gave her one of these when she hatched.', 'happy'),
         N('Fossil eats a little. She gives the rest to Dusty.'),
-        DU('Tastes like being eleven.', 'soft'),
+        DU('Tastes like when I was little.', 'soft'),
       ],
       [
         {
@@ -2160,8 +2166,8 @@ const S7: EduQuest = quest(
         N('After Moss’s talk, Byte sits on the wall, writing.'),
         N('Beside him is a pale blue Nubbin. That’s Null.'),
         BY('Null is four years old. And some weeks.'),
-        BY('Moss says a Nubbin loved enough becomes an Eternal.', 'think'),
-        BY('“Enough”? How much is enough? I’ll use a clock!'),
+        M('Love can help a Nubbin live a very, very long time.', 'think'),
+        BY('How much love? A cupful? A bucketful? I’ll measure it!'),
         M('Your shoelace is untied.'),
         N('Byte looks down. It is. It always is!'),
         M('Things on a clock learn to wait for the bell, Byte.', 'think'),
@@ -2225,6 +2231,7 @@ const S7: EduQuest = quest(
         N('Tick. A plum shoots out. Bonk! It hits Byte.'),
         PX('That was a test.', 'think'),
         BY('That was a plum.'),
+        PX('Byte and I are married. He argues with my clocks.', 'soft'),
         PX('A clock doesn’t care. I’m trying to care for it.', 'sad'),
       ],
       [
@@ -2410,8 +2417,8 @@ const S7: EduQuest = quest(
       's7-complete',
       [
         N('A few days later, Pixel knocks. Pixel doesn’t speak.'),
-        N('Null is under Byte’s hedge. Null is very old now.'),
-        N('Null’s life is ending. Around it, a glowing cocoon grows.'),
+        N('Null is under Byte’s hedge. Null has grown up.'),
+        N('Null’s long life is ending. Around it, a glowing cocoon grows.'),
         N('Byte sits with his hand on it. He doesn’t count.'),
         N('The cocoon glows gold. It opens. An egg!'),
         BY('Null gets to start again. And I’ll remember it.', 'soft'),
@@ -3511,7 +3518,7 @@ const S10: EduQuest = quest(
     s10Foot(true, true, true),
     sc(
       's10-letter',
-      [...S10_LETTER, N('Behind you, the gate creaks. Fern. Sparks. Everyone.'), N('They hug you. Nobody needs to say anything.')],
+      [...S10_LETTER, N('Behind you, the gate creaks. Fern. Sparks. Everyone.'), N('They hug you. Nobody needs to say anything.'), N('Byte’s shoelaces are untied. Pixel ties them. Nobody says anything.')],
       [
         S10_RULES,
         {

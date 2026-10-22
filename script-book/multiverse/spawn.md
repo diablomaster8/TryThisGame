@@ -38,6 +38,7 @@ Hint: Back in the alley, give him a blanket from your Grove inventory. · check:
 
 #### <a id="mv-sp01-wanda"></a>Scene `mv-sp01-wanda`
 
+_On the way, a woman at a stall presses a folded blanket on your Nubbin. “For the man in the cloak.”_  
 _A quiet street. A lit window. Inside: a woman with a warm laugh, a man in glasses, a little girl doing a jigsaw._  
 **Spawn** _(sad)_: Terry. My best man. My best friend.  
 **Spawn**: Five years, and she’s… she’s happy. She’s got a kid. Look at her.  
@@ -189,7 +190,9 @@ Hint: Lead three groups of sleepers out the back of the alley. Your fearless Nub
 _The rumours come down the alley before he does. The mob has bought itself a machine._  
 _Footsteps that crack the paving. A huge man, more steel than skin, with gun barrels where his hands should be._  
 **Overt-Kill**: Twist’s friends send their regards. They paid for the big gun. That’s me.  
-**Overt-Kill**: Five million for your head, Hellspawn. Nobody said it had to stay in one piece.  
+**Overt-Kill**: Five million for your head, Hellspawn. I’ve spent most of it on ammunition and a very good dental plan.  
+**Bobby**: Shame. Teeth like that, you want the gold plan.  
+_Somebody on the cardboard laughs. Overt-Kill pretends not to hear, badly._  
 **Spawn**: People sleep here. Take it somewhere else.  
 **Overt-Kill**: People? This lot?  
 _He fires into the cardboard shelters. Somebody screams._  
@@ -267,13 +270,19 @@ Hint: A training bout: win three rounds while Spawn’s counter stays exactly wh
 
 _A cemetery at midnight. An old man with a long white beard sits on a gravestone, peeling an orange._  
 **Cogliostro** _(soft)_: The Keeper. And the brave one. Sit, little thing. You’ve earned it.  
+**Spawn**: The rodent stays, then.  
+**Cogliostro**: Nubbin. Do keep up.  
 **Spawn**: You’ve been following me for weeks, old man. Talk.  
 **Cogliostro**: You’re not the first, Simmons. Hell makes soldiers. Thousands of them, over thousands of years. Hellspawn.  
 **Cogliostro**: Each one trades their soul for someone they loved. Each one burns their power on revenge, and goes back down an officer.  
 **Spawn**: Officer of what?  
 **Cogliostro** _(think)_: Hell’s army. For the last war: Heaven against Hell, with this world for a battlefield.  
 **Spawn**: And you? What are you?  
-**Cogliostro**: A Hellspawn who never went back. Old. Careful. Very good at saving.  
+**Cogliostro**: One who never went back. Old. Careful. Very good at saving.  
+**Spawn**: How long have you been alive?  
+**Cogliostro**: Long enough to have opinions about oranges.  
+**Spawn**: Is that a yes?  
+**Cogliostro**: The pith is the best part. Nobody believes me.  
 **Spawn**: So that’s it. I’m damned. Signed and sealed.  
 **Cogliostro** _(think)_: Damned is a direction, Simmons, not an address. You can walk the other way. Slowly. Uphill. Mostly in the dark.  
 _Your Nubbin takes a segment of orange from him. He smiles at it as if they’re old friends._  
@@ -425,6 +434,9 @@ _Your Fly Nubbin finds an air vent. Your other Nubbin finds the biscuit tin on t
 _Through the vent you hear Wynn on the phone, calm as a weather forecast._  
 **Jason Wynn**: Simmons is a closed file. Chapel handled it. If anyone asks, he died a hero. Heroes don’t testify.  
 **Jason Wynn**: And watch Fitzgerald. He’s been reading things he shouldn’t.  
+_Your other Nubbin opens the biscuit tin. One biscuit is left. It is very hard to be stealthy while crunching._  
+**Jason Wynn**: Hold on. Did someone just crunch?  
+_Your Fly Nubbin, in the vent, holds its breath for both of them._  
 **Spawn** _(shock)_: Terry. He’s going after Terry next.  
 _The number flickers in the dark. Every second Spawn stays hidden in shadow costs him._  
 
@@ -461,6 +473,7 @@ _It’s low. Lower than you’ve ever seen it. One more blast and there won’t 
 
 #### <a id="mv-sp05-chapel-done"></a>Done `mv-sp05-chapel-done`
 
+_Two black cars find your Run Nubbin at the first corner. It takes the alleys. The cars do not fit._  
 _Your Run Nubbin skids up a front path and drops the folder on the mat. The door opens._  
 **Terry** _(shock)_: Where did you come from? And… who sent this?  
 
@@ -625,6 +638,7 @@ Hint: Retrace the Hell road on the Expedition map; it is shorter on the way out.
 
 #### <a id="mv-sp06-crown"></a>Scene `mv-sp06-crown`
 
+_Nobody says anything for a while. Your Nubbin sits by the place where Angela lay._  
 _The demons of the pit come out of the walls. Thousands of them. They kneel._  
 _Behind Malebolgia’s body stands his throne: empty, enormous, and still warm._  
 **Cogliostro** _(think)_: They’re waiting, Simmons. You killed the king. By Hell’s law, that makes you the king.  
@@ -789,7 +803,7 @@ _Your Nubbin leads you out of the city by the smell of oranges, to a hill above 
 
 ### Step 2: Stand ready with Spawn for the war Mammon promised.
 
-Hint: Bring both your Nubbins to the alley and talk to Spawn. They will be needed in Armageddon. · check: `talk:mv-spawn:ready`
+Hint: Bring both your Nubbins to the hill and sit with Spawn and Cogliostro. They will be needed in Armageddon. · check: `talk:mv-spawn:ready`
 
 #### <a id="mv-sp08-cain"></a>Scene `mv-sp08-cain`
 

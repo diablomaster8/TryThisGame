@@ -109,16 +109,17 @@ _Sparks has appeared from nowhere, as she does, holding a flag. Nobody knows whe
 _The usual roar from the stands. Under it, from the back row, one voice carries over all the others._  
 _Sparks, beside her, shouted herself hoarse on the first lap and has been cheering in mime ever since._  
 _Win or lose, when you come off the course, Hazel is on her feet, holding half a pie, beaming._  
-**Gran Hazel**: Pies are four Shells each, and I’ve had two. Worth every Shell.  
+**Sparks**: Two pies, four Shells each, and I’ve only got a ten-Shell coin. How much change?  
 
 > **Lesson** (maths, 3.OA.D.8, ask): a two-step money problem with Shells  
-> _Hazel paid for her two pies with a 10-Shell coin._  
+> _Sparks paid for Hazel’s two pies with a 10-Shell coin._  
 > _How many Shells did she get back?_  
 > - ✅ 2 → Yes. Two pies at 4 Shells is 8 Shells. 10 − 8 = 2 Shells change.
 > - 6 → That would be one pie: 10 − 4 = 6. But she had two: 4 + 4 = 8, and 10 − 8 = 2.
 > - 8 → 8 Shells is what the pies cost. Her change is 10 − 8 = 2 Shells.
 > _For grown-ups: Solved a two-step money problem with Shells (2 × 4 = 8, then 10 − 8 = 2)._
 
+**Gran Hazel**: I’ve had two. Worth every Shell.  
 **Gran Hazel**: That one runs for you. Don’t ever spend that.  
 **Gran Hazel**: You can spend Shells. You can spend time. You can spend a perfectly good pie, and I have. Never that.  
 
@@ -509,12 +510,6 @@ _On the signpost, under the stone, where the first one was: a letter in your gra
 **Gran Hazel**: “If he came to the gate, you’ll have decided about Corvin by now. Whatever you decided, I’d have done it worse.”  
 **Gran Hazel**: “I’m not sorry. I’m sorry it’s now. Both are true. You knew that already.”  
 **Gran Hazel**: “Love, Gran. P.S. The gate sticks. You know the rest.”  
-
-> **Lesson** (literacy, notice): how a letter is set out  
-> _Gran’s letter talks straight to you, and ends with a sign-off: “Love, Gran.”_  
-> _“P.S.” is short for postscript, which means “written after”. It’s for one last thing you think of after you sign._  
-> _For grown-ups: Learned how a letter is set out, including the sign-off and the P.S. (postscript)._
-
 _Behind you, someone lifts and pushes the gate: Fern, with a basket. Then Sparks. Then everyone, one by one._  
 _They have come to see why you are standing so still. You hold the letter out. You don’t have to say anything._  
 
@@ -543,12 +538,6 @@ _On the signpost, under the stone, where the first one was: a letter in your gra
 **Gran Hazel**: “If he came to the gate, you’ll have decided about Corvin by now. Whatever you decided, I’d have done it worse.”  
 **Gran Hazel**: “I’m not sorry. I’m sorry it’s now. Both are true. You knew that already.”  
 **Gran Hazel**: “Love, Gran. P.S. The gate sticks. You know the rest.”  
-
-> **Lesson** (literacy, notice): how a letter is set out  
-> _Gran’s letter talks straight to you, and ends with a sign-off: “Love, Gran.”_  
-> _“P.S.” is short for postscript, which means “written after”. It’s for one last thing you think of after you sign._  
-> _For grown-ups: Learned how a letter is set out, including the sign-off and the P.S. (postscript)._
-
 _The Keepers are already at the gate. By the look of them, none of them slept much._  
 _You read it out to them, all of it. Clover cries. Byte checks his shoelaces._  
 _They are untied._  

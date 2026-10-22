@@ -255,19 +255,19 @@ _The voice is small and dry. It’s coming from him!_
 
 - **To remember the ones who’ve gone.**
     - **Moss**: Yes. That is the oldest answer, and a good one.
-    - **Moss**: You may pat my head, if you like. She always did.
-    - **Moss**: Don’t tell anyone. I have a reputation.
+    - **Moss**: Gran patted my head while she remembered. You may too.
+    - **Moss**: Light the pond lantern first tonight.
 - **So people can find their way home.**
     - **Moss**: That was Gran’s answer. She said it every year.
-    - **Moss**: You may pat my head, if you like. She always did.
-    - **Moss**: Don’t tell anyone. I have a reputation.
+    - **Moss**: Pat my head while we look down the road. She always did.
+    - **Moss**: Light the long-grass lantern last. That side faces home.
 - **So nobody is alone in the dark.**
     - **Moss**: Hm. Nobody ever said that before. I like it.
-    - **Moss**: You may pat my head, if you like. She always did.
-    - **Moss**: Don’t tell anyone. I have a reputation.
+    - **Moss**: Sit closer. You may pat my head, if you like.
+    - Your sleepy Nubbin shuffles closer too. Nobody is alone.
 - **I don’t know.**
     - **Moss**: Good. I didn’t either, for a hundred years. Light them anyway.
-    - **Moss**: You may pat my head, if you like. She always did.
+    - **Moss**: You may pat my head while you wonder. She always did.
     - **Moss**: Don’t tell anyone. I have a reputation.
 
 #### `sprout:c4-close` · [main](../../campaign/book-1.md#c4-close)
@@ -967,7 +967,9 @@ _Could it be Gran Hazel?_
 
 - **Yes. Let’s go now.**
     - **Nova**: Oh! Good. That was easier than I thought.
-    - **Nova**: Bring fruit. Lots of fruit. More than that!
+    - **Nova**: I made up a speech. It has owls in it. Hoo, hoo!
+    - **Nova**: I’ll get Marina. You get fruit. Lots of fruit!
+    - Nova runs off down the lane, calling for Marina.
 - **Is Gran all right?**
     - **Nova**: I don’t know. That’s the true answer.
     - **Nova**: Bring fruit. Lots of fruit. More than that!

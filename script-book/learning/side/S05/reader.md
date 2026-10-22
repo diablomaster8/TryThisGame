@@ -81,12 +81,10 @@ _The tree is low and crooked, and its trunk is wider than you can reach round._
 **Dusty**: Hazel planted it the year she came. Forty years old. Twice as old as Fossil.  
 **Dusty**: If it ever came down, you could count the rings in the stump: one ring for every year it grew. Let’s not find out.  
 
-> **Lesson** (maths, 2.OA.A.1, ask): comparing two ages by subtracting  
-> **Dusty**: The tree is 40. I’m 31. How many years older than me is it?  
-> - ✅ 9 years → Nine. Count up from 31 to 40. It’s still taller than me, too. Rude.
-> - 71 years → That’s us added together. We’d need a very big cake. To compare, subtract: 40 − 31. Count up from 31 to 40: nine years.
-> - 10 years → Nearly. Count up from 31 to 40. 32, 33, 34, 35, 36, 37, 38, 39, 40. Nine steps. Nine years.
-> _For grown-ups: Compared two ages by subtraction (40 − 31 = 9), counting on to check._
+> **Lesson** (science, notice): tree rings: one ring for every year of growth  
+> _One ring for every year the tree grew. This one would have forty._  
+> _That is how people can tell how old a tree is: they count the rings in the stump._  
+> _For grown-ups: Learned that a tree grows one ring each year, so counting rings shows its age._
 
 
 #### `reader:s5-tree` · [main](../../../side/S05.md#s5-tree)

@@ -54,7 +54,8 @@ const S1_SCENES: EduScene[] = [
     lines: [
       N('The Keepers wander home with their empty cups. Three lanterns glow. The fourth post, by the long grass, is dark.'),
       N('Moss hasn’t gone back up the hill. He sits by your boot, staring at the dark post.'),
-      Y('Twenty-two years?'),
+      M('Twenty-two years, that post has been dark.', 'sad'),
+      Y('That’s a long time.'),
       M('Not tonight. Ask me something else. Anything else.', 'think'),
       M('I told you the tale. A tale is only the part that fits in a song. The rest doesn’t fit anywhere.', 'soft'),
       M('At each post I keep one small memory that isn’t in the tale. Four posts. Four small things.'),
@@ -68,7 +69,7 @@ const S1_SCENES: EduScene[] = [
         skill: 'oral history: how spoken stories carry the past',
         standard: 'D2.His.2.K-2',
         kind: 'notice',
-        after: 5,
+        after: 6,
         lines: [
           M('Nobody wrote the old days down. They were kept like this: one of us telling the next one.'),
           N('People do this too. When someone tells what they remember and others pass it on, it’s called oral history.'),
@@ -82,7 +83,7 @@ const S1_SCENES: EduScene[] = [
         skill: 'a quarter of the speed takes four times as long',
         standard: '3.OA.A.3',
         kind: 'ask',
-        after: 7,
+        after: 8,
         prompt: [
           N('Moss walks at a quarter of your speed. That means he covers one step for every four of yours.'),
           N('On your own, you could reach the stream lantern in 3 minutes. How long will it take beside Moss?'),
@@ -1486,11 +1487,13 @@ const S3_SCENES: EduScene[] = [
       Y('Why not?'),
       FE('Because it’s the gap. Hazel sat in it every race, on purpose, to annoy everyone.', 'think'),
       N('At the front stand two tea urns: same make, same tea, same shop. One has a sun painted on it, and one a moon.'),
-      SP('Midsummer, years back, Fern’s Bramble went over the cliff rail, Sun says Ash barged her, Moon says rigged, OK bye.', 'shock'),
+      SP('Years ago, at Midsummer, Bramble fell over the cliff rail.', 'shock'),
+      SP('Sun says Ash barged her. Moon says the race was rigged.'),
+      SP('Right. Bye.'),
       N('Sparks sits down very fast and studies the race card as if it holds the meaning of life.'),
       SP('I didn’t say any of that. That was the wind.'),
       N('This is a feud: a quarrel that has gone on for years. Both sides pretend not to listen. Both are bad at it.'),
-      N('Up in the owners’ box, Corvin isn’t watching the start line. He’s watching the stands.'),
+      N('Up in the owners’ box, Corvin, Gran’s old apprentice, isn’t watching the start line. He’s watching the stands.'),
     ],
     lessons: [
       {
@@ -2806,30 +2809,15 @@ const S5_SCENES: EduScene[] = [
     lessons: [
       {
         id: 'reader:s5-tree-ask-l1',
-        domain: 'maths',
-        skill: 'comparing two ages by subtracting',
-        standard: '2.OA.A.1',
-        kind: 'ask',
+        domain: 'science',
+        skill: 'tree rings: one ring for every year of growth',
+        kind: 'notice',
         after: 5,
-        prompt: [DU('The tree is 40. I’m 31. How many years older than me is it?', 'think')],
-        options: [
-          { label: '9 years', best: true, reply: [DU('Nine. Count up from 31 to 40. It’s still taller than me, too. Rude.', 'happy')] },
-          {
-            label: '71 years',
-            reply: [
-              DU('That’s us added together. We’d need a very big cake.', 'happy'),
-              N('To compare, subtract: 40 − 31. Count up from 31 to 40: nine years.'),
-            ],
-          },
-          {
-            label: '10 years',
-            reply: [
-              DU('Nearly. Count up from 31 to 40.', 'soft'),
-              N('32, 33, 34, 35, 36, 37, 38, 39, 40. Nine steps. Nine years.'),
-            ],
-          },
+        lines: [
+          N('One ring for every year the tree grew. This one would have forty.'),
+          N('That is how people can tell how old a tree is: they count the rings in the stump.'),
         ],
-        parentNote: 'Compared two ages by subtraction (40 − 31 = 9), counting on to check.',
+        parentNote: 'Learned that a tree grows one ring each year, so counting rings shows its age.',
       },
     ],
   },

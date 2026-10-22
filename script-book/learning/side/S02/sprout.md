@@ -135,9 +135,9 @@ _Night in Luna’s garden. The moonflowers are open._
 _Wisp sits close to Sable. He whispers to her._  
 **Wisp**: hands are scary. come away. come to the dark.  
 _Sable looks at Wisp. Then at your window._  
-**Luna**: He wants her to leave the Grove. I want her safe.  
+**Luna**: Wisp wants Sable to leave the Grove. I want Sable safe.  
 _Clover comes in her dressing gown, with fruit._  
-**Clover**: We feed him because we’re kind. Not because he’s good.  
+**Clover**: Wisp is cold and scared. Kind people feed scared Nubbins.  
 **Luna**: I care about Sable. Somebody has to.  
 **Clover**: And Wisp has nobody at all.  
 

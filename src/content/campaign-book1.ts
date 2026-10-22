@@ -47,12 +47,6 @@ export const BOOK1_CHAPTERS: Chapter[] = [
   },
 ];
 
-/** The tail every branch of c4-open's lantern question ends on: the pet the chapter goal needs. */
-const C4_PET: Line[] = [
-  { who: 'moss', text: 'You may put your hand on my head, if you like. She always did. I have missed it, a little.', mood: 'soft' },
-  { who: 'moss', text: 'Don’t tell anyone I said so. I have a reputation.' },
-];
-
 export const BOOK1_SCENES: Scene[] = [
   // ---------------------------------------------------------------- chapter 1: The Letter
   S('c1-letter', [
@@ -516,36 +510,44 @@ export const BOOK1_SCENES: Scene[] = [
       {
         id: 'lamps-remember',
         label: 'To remember the ones who’ve gone.',
+        set: { 'c4-lamps': 'remember' },
         then: [
           { who: 'moss', text: 'Yes. That is the oldest answer, and a good one.' },
           { who: 'moss', text: 'The flowers on this hill would agree with you, if flowers bothered to agree with anyone.', mood: 'happy' },
-          ...C4_PET,
+          { who: 'moss', text: 'She used to rest her hand on my head while she counted them. You may, if you like.', mood: 'soft' },
+          { who: 'moss', text: 'Light the pond one first, tonight. That is where the first ones woke. It likes to be remembered first.' },
         ],
       },
       {
         id: 'lamps-home',
         label: 'So people can find their way home.',
+        set: { 'c4-lamps': 'home' },
         then: [
           { who: 'moss', text: 'That was Hazel’s answer. She said it every year, and looked up the valley when she said it.', mood: 'soft' },
           { who: 'moss', text: 'I never asked her who she was lighting the way for. I am old, not stupid.' },
-          ...C4_PET,
+          { who: 'moss', text: 'You may put your hand on my head while we look up the valley. She always did.', mood: 'soft' },
+          { who: 'moss', text: 'Leave the long-grass post till last. If anyone is coming home, that is the side they will come from.' },
         ],
       },
       {
         id: 'lamps-together',
         label: 'So nobody has to stand in the dark on their own.',
+        set: { 'c4-lamps': 'together' },
         then: [
           { who: 'moss', text: 'Hm. Nobody has said that one before.', mood: 'think' },
           { who: 'moss', text: 'I shall have to think about it, and I think slowly. Ask me again in a year.' },
-          ...C4_PET,
+          { who: 'moss', text: 'Sit closer, meanwhile. You may put your hand on my head. Nobody has, since she went.', mood: 'soft' },
+          { who: 'narrator', text: 'You shift closer. Your Nubbin, still asleep, shuffles after you, so that nobody on this stone is on their own.' },
         ],
       },
       {
         id: 'lamps-dunno',
         label: 'Honestly? I don’t know.',
+        set: { 'c4-lamps': 'dunno' },
         then: [
           { who: 'moss', text: 'Good. Neither did I, for the first hundred years. Light them anyway. The knowing comes after.', mood: 'happy' },
-          ...C4_PET,
+          { who: 'moss', text: 'A hand on my head is a fine place to start not knowing. She always thought so. You may, if you like.', mood: 'soft' },
+          { who: 'moss', text: 'Don’t tell anyone I said so. I have a reputation.' },
         ],
       },
     ],
@@ -837,6 +839,7 @@ export const BOOK1_FLAGS: string[] = [
   'sableFirst', // c3-open: slow | grab (existing)
   'sableTrustBonus', // c3-open: +6 | -8, applied to Sable by applyChoice (existing)
   'mossPetted', // set by the sim on any pet of Moss; picks t-moss-first-pet vs -early (existing)
+  'c4-lamps', // set c4-open: remember | home | together | dunno; read: a one-line payoff in c10-dawn (sim/choice-payoffs.ts)
 ];
 
 export const BOOK1_NOTES: Record<string, string> = {
@@ -852,7 +855,7 @@ export const BOOK1_NOTES: Record<string, string> = {
   'c3-close':
     'Chapter 3 closing after sableTrust20. Clover’s verbatim line. Next morning: frost in a ring where Sable slept (early summer; the shard’s cold on her, unexplained). Opens S2: six plums gone, and Luna says it wasn’t Sable (Wisp; the plum stones left on the sun-warmed wall hint at his love of warm things). Ends on a question the player answers: Clover (bring her in, knit a blanket) vs Luna (her own time). Choices side-luna | side-clover | side-both change Clover/Luna friendship only, no flags; in every branch Clover knits the grey blanket (paid off in c7-close and end-long-road).',
   'c4-open':
-    'Chapter 4 opening. Moss speaks for the first time (the grey watcher from c1). He says Hazel went to the Hollow and asks you not to follow yet. Ends on a question the player answers: what are the lanterns for? (lamps-remember | lamps-home | lamps-together | lamps-dunno; no flags, no friendship). Every branch ends with the same two lines inviting the pet the goal needs. Moss stays on the western hill in the sim; the text has him at the flat stone halfway up.',
+    'Chapter 4 opening. Moss speaks for the first time (the grey watcher from c1). He says Hazel went to the Hollow and asks you not to follow yet. Ends on a question the player answers: what are the lanterns for? (lamps-remember | lamps-home | lamps-together | lamps-dunno; sets c4-lamps, no friendship). Every branch invites the pet the goal needs in its own words and ends on its own beat: remember, the pond lantern first; home, the long-grass post last; together, your Nubbin shuffles closer; dunno, Moss’s reputation. c4-lamps is for a one-line payoff in c10-dawn. Moss stays on the western hill in the sim; the text has him at the flat stone halfway up.',
   'c4-close':
     'Chapter 4 closing after lanternsAndMoss: Lantern Night. Keepers gather in two knots (S3 Sun/Moon feud seed). Fern’s lantern buns that never come out (paid off in c12-open and end-epi-told). Byte’s shoelace. The whole Lantern Song as written, one couplet or chorus per line, mood soft: Luna sings the first line alone, then speaker chorus (everyone; declared in BOOK3_SPEAKERS) has the rest. UI may italicise chorus lines and show no portrait; the voice-over treats them as one music cue, not voiced lines. SIM: queue c4-tale, c4-tale-2, c4-tale-3 and c4-out immediately after c4-close, in that order, before c5-open (e.g. a NEXT_SCENE map, or queue all five when the goal is met; the chapter should advance only once c4-out is seen).',
   'c4-tale':

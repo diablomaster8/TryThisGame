@@ -85,7 +85,8 @@ export const SIDE_STORIES_FUN: Quest[] = [
           lines: [
             N('The Keepers drift home with their empty cups. Three lanterns burn; the fourth post, by the long grass, is dark.'),
             N('Moss hasn’t gone back up the hill. He is sitting by your boot, looking at the dark post.'),
-            Y('Twenty-two years?'),
+            M('Twenty-two years, that post has been dark.', 'soft'),
+            Y('That’s a long time.'),
             M('Not tonight. Ask me something else. Ask me anything else.', 'think'),
             M('I told you the tale. A tale is the part that fits in a song. The rest doesn’t fit anywhere.', 'soft'),
             M('At each post there’s one small thing I keep that isn’t in the tale. Four posts. Four small things.'),

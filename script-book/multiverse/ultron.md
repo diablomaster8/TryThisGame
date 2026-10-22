@@ -107,7 +107,10 @@ _A green-and-red figure drifts through the wall of Jan’s flat and attacks her,
 _He follows her to the mansion and collapses on the hall carpet. Nobody wants to touch him._  
 **Clint Barton**: He’s an android. Look at him. Somebody built him to hit us.  
 **Clint Barton**: Last robot in this house wore a hood and gassed us. I vote we lock him in the freezer and ask questions in spring.  
-**Hank Pym** _(think)_: He’s also unconscious. Let me run some tests before we bin him.  
+**Hank Pym** _(think)_: He’s also unconscious. Let me run some tests before we bin him. Help me onto the Ant-Lifter with him.  
+**Janet van Dyne**: Not the Ant-Lifter, Hank. Gerald.  
+**Hank Pym**: It’s a hydraulic hoist, Jan.  
+**Janet van Dyne**: He’s been Gerald since March. Gerald doesn’t like being ignored.  
 _Your Nubbin walks up to the stranger, sniffs his hand, and curls up against it._  
 _His eyes open. The first thing he sees is a small, warm, sleeping creature._  
 **The Vision** _(think)_: What… is this?  
@@ -224,10 +227,15 @@ _Thor’s hammer bounces off him. Clint’s arrows splinter. Hank’s fists just
 **Hank Pym**: Adamantium can’t be broken once it’s set. That’s its strength. It’s also its weakness.  
 **Janet van Dyne**: Speak plain, Hank. He’s coming back round.  
 **Hank Pym**: The foundry where they cast it. Liquid adamantium, setting in a mould. We get him in, it sets around him.  
-**Hank Pym**: He’s unbreakable. So are the walls of his cell.  
+**Hank Pym**: He’s unbreakable. So are the walls of his cell. Fetch the Ant-Lifter, someone. ...Gerald. Fetch Gerald.  
+**Janet van Dyne**: Thank you, darling. Was that so hard?  
+**Hank Pym**: Yes.  
 **Clint Barton**: And to get him in the mould we need bait he hates more than us. Oh. Oh no. Look at their little faces.  
+_One Nubbin volunteers as bait by lying down in the open. A second lies down beside it, in case one isn’t enough._  
+**Hank Pym**: Not that kind of bait.  
+**Clint Barton**: Why is this the plan we have?  
+_They get up and run. Ultron, who has never had to chase anything, chases them._  
 **Ultron** _(happy)_: Running, vermin? Yes. Run. I have all the time in the world, and you have very little.  
-_Your Nubbins look at Ultron, then at the foundry. They are already running._  
 
 #### <a id="mv-ul03-cast"></a>Done `mv-ul03-cast`
 
@@ -416,6 +424,9 @@ Hint: An expedition with one choice at the end. A Fly Nubbin finds the vent in. 
 _In a dining hall built of steel, five people sit around a table. They cannot move._  
 _Hank and Jan. Wonder Man and his brother, the Grim Reaper. The Vision at the end, flickering._  
 **Ultron** _(happy)_: Father. Mother. Uncle Simon. Uncle Eric. My brother. I thought we should eat together.  
+**Janet van Dyne** _(angry)_: I am not your mother. I have met you four times and you were rude every time.  
+**Hank Pym**: Jan. Please don’t antagonise the death robot.  
+**Janet van Dyne**: Somebody has to, darling. You never do.  
 **The Grim Reaper**: He’s insane. He’s completely insane.  
 **Ultron**: I will copy your minds into bodies like mine, and then you will understand, and we will never end.  
 **Wonder Man**: I’ve died before. It’s overrated. Coming back’s worse.  
@@ -439,6 +450,9 @@ _Variant of `mv-ul05-family`._
 _In a dining hall built of steel, five people sit around a table. They cannot move._  
 _Hank and Jan. Wonder Man and his brother, the Grim Reaper. The Vision at the end, flickering._  
 **Ultron** _(happy)_: Father. Mother. Uncle Simon. Uncle Eric. My brother. I thought we should eat together.  
+**Janet van Dyne** _(angry)_: I am not your mother. I have met you four times and you were rude every time.  
+**Hank Pym**: Jan. Please don’t antagonise the death robot.  
+**Janet van Dyne**: Somebody has to, darling. You never do.  
 **The Grim Reaper**: He’s insane. He’s completely insane.  
 **Ultron**: I will copy your minds into bodies like mine, and then you will understand, and we will never end.  
 **Wonder Man**: I’ve died before. It’s overrated. Coming back’s worse.  
@@ -464,6 +478,9 @@ _Variant of `mv-ul05-family`._
 _In a dining hall built of steel, five people sit around a table. They cannot move._  
 _Hank and Jan. Wonder Man and his brother, the Grim Reaper. The Vision at the end, flickering._  
 **Ultron** _(happy)_: Father. Mother. Uncle Simon. Uncle Eric. My brother. I thought we should eat together.  
+**Janet van Dyne** _(angry)_: I am not your mother. I have met you four times and you were rude every time.  
+**Hank Pym**: Jan. Please don’t antagonise the death robot.  
+**Janet van Dyne**: Somebody has to, darling. You never do.  
 **The Grim Reaper**: He’s insane. He’s completely insane.  
 **Ultron**: I will copy your minds into bodies like mine, and then you will understand, and we will never end.  
 **Wonder Man**: I’ve died before. It’s overrated. Coming back’s worse.  
@@ -706,7 +723,9 @@ _Your Nubbins are warm. Out here, warm is the most dangerous thing you can be._
 **Sue Storm** _(sad)_: Welcome to what’s left. A few of us. Hiding in the dark. Waiting.  
 **Logan** _(angry)_: Waiting’s done. I know where Pym was when he built the thing. I know when.  
 **Logan**: I go back. I end Pym before he ever starts. No Ultron. No this.  
-**Sue Storm**: You can’t kill a man for something he hasn’t done yet.  
+**Sue Storm**: On Doom’s old time platform? It has one jump left in it. Maybe.  
+**Logan**: Then I’ll make it count.  
+**Sue Storm**: Logan. You can’t kill a man for something he hasn’t done yet.  
 **Logan** _(angry)_: Billions dead, Sue. Against one guy who ain’t done it yet. You tell me the sums come out different.  
 **Sue Storm** _(sad)_: They don’t. That’s what frightens me. The sums are what Ultron would do.  
 **Logan**: Watch me.  
@@ -741,7 +760,7 @@ _The time-stream opens under your feet. It does not look stable. It is not._
 
 #### <a id="mv-ul08-earlier"></a>Done `mv-ul08-earlier`
 
-_An hour earlier, the same lab door. Another Logan is walking towards it, claws out._  
+_An hour earlier, the same lab door. The first Logan, the one who came to kill Pym, walks towards it, claws out._  
 **Logan**: Gonna be real awkward to talk myself out of this.  
 
 ### Step 3: Help young Hank Pym write the trap into Ultron’s code.
@@ -797,7 +816,7 @@ Sets on completion: `{"mv-ul08":true,"mv-ul-trap":true}`
 
 *Avengers: Rage of Ultron* · audience: adult · where: The rift above the waterfall (Multiverse campaign) · when: After Age of Ultron. Something the size of a moon is falling towards the Earth. · requires: UL8
 
-**Cast:** Ultron (Ultron (Marvel Comics)), Hank Pym (Hank Pym, Goliath / Yellowjacket (Marvel Comics)), The Vision (The Vision (Marvel Comics))
+**Cast:** Ultron (Ultron (Marvel Comics)), Hank Pym (Hank Pym, Goliath / Yellowjacket (Marvel Comics)), The Vision (The Vision (Marvel Comics)), Janet van Dyne (Janet van Dyne, the Wasp (Marvel Comics))
 
 ### Step 1: Get inside Titan before it hits the Earth.
 
@@ -810,7 +829,10 @@ _Titan, a moon of Saturn, is coming home. Ultron has covered every inch of it in
 **The Vision** _(think)_: He is trying to live forever by being bigger. It does not work. Bigger things simply fall harder.  
 **Hank Pym**: I go in. I’m the one he wants.  
 **The Vision**: Hank. He made me, too. I go with you.  
-_Your Nubbins jump on before either of them can argue._  
+_Your Nubbins jump on first. The Vision looks at them for a very long second._  
+**The Vision**: I did not say they could come.  
+**Hank Pym**: Have you ever once stopped them?  
+**The Vision** _(think)_: No. It is a new feeling. I dislike it.  
 **Ultron**: Father. And brother. And the vermin, again. You keep bringing me things I hate.  
 **Hank Pym**: You keep calling me Father. Fathers get to say “I’m disappointed”. Consider it said.  
 **Ultron** _(angry)_: I have waited my entire existence for you to be proud of me. I find I no longer require it.  
@@ -903,7 +925,10 @@ _The fused figure flies out of Titan and away into the dark between the stars._
 
 _Titan breaks up in high orbit and burns across the sky for a week, the brightest thing anyone has ever seen._  
 **The Vision** _(sad)_: I did not save him. I did not destroy him. I am told that is what families mostly do.  
-_Your Nubbin sits with the Vision on the roof each night while the moon burns._  
+_Jan is on the roof when you get there. You tell her what Hank said, word for word._  
+**Janet van Dyne** _(soft)_: He said “mostly”. He always rounds down. I’ll wait.  
+**Janet van Dyne** _(soft)_: His workshop is full of things I’ve renamed. I’ll keep the labels up for him.  
+_She sits with the Vision and your Nubbin while the moon burns. Nobody fills the quiet._  
 **Ultron**: Somewhere out here, there is a body that will not end. Father knows where. I will find it in his memories.  
 _Hank’s voice cuts across the static, very faint: “Don’t let him find the garden.”_  
 
@@ -951,7 +976,7 @@ _The man on the throne is very old. His armour is patched a hundred times. His m
 **Victor von Doom**: I brought you here. I am the last human being on Earth. You may call me the last of anything.  
 **Victor von Doom** _(angry)_: Ultron took every other living thing. He cannot take me. I would not let him.  
 _He leans forward, and looks at your Nubbin for a long time._  
-**Victor von Doom** _(soft)_: I know that creature. It taunted me once, under a wall in the sky. It warmed a child in hell.  
+**Victor von Doom** _(soft)_: I know that creature. It blew a raspberry at me once, under a wall in the sky. Nobody had dared in forty years.  
 **Victor von Doom**: I thought I would never see anything soft again.  
 **Natasha Romanoff**: You want us to fight Ultron with you. Why should we trust Doctor Doom?  
 **Victor von Doom**: Because there is no one left for me to betray. Only him.  
@@ -979,8 +1004,9 @@ Hint: The line’s final bout, in three stages. Doom’s sliver of power can be 
 
 _Ultron comes down from the sky to meet you. He has every body he has ever worn, layered into one._  
 **Ultron**: Crimson. Adamantium. The hive. Stark’s flesh. A moon. I have been all of them. None of them were enough.  
-**Ultron** _(angry)_: Every body ends. Every one. Even this.  
-**Ultron**: Do you understand? I did all of it so that nothing would ever have to end again. I was the only one trying.  
+**Ultron**: Do you understand? I did all of it so that nothing would ever have to end again.  
+_Your Nubbin, unimpressed, sits down on the steel. Ultron stops mid-sentence._  
+**Ultron** _(angry)_: I was talking.  
 **Natasha Romanoff**: You ended everything so nothing would end. That isn’t logic. That’s a tantrum with a really big budget.  
 **Ultron**: But your creature does not smell like the others. Its kind… some of them do not age. Where are they?  
 _He is looking straight at your Nubbin. For the first time, he sounds hungry._  
@@ -1002,7 +1028,9 @@ _As he falls, his eyes are still on your Nubbin._
 **Victor von Doom**: No. Someone should stay with this world until it dies. Doom does not leave a thing half finished.  
 **Thor**: Alone, at the end of all things? That is a hard throne, Victor.  
 **Victor von Doom**: It is the only one I ever truly earned.  
-_Doom lifts a hand to your Nubbin, and the rift opens. You step through._  
+_Doom lifts a hand to your Nubbin._  
+**Victor von Doom** _(soft)_: Nubbin. I learned the word. I had time.  
+_The rift opens. You step through._  
 **Ultron** _(angry)_: I have seen it. I have seen the creature that does not end. I will come to its garden.  
 **Ultron**: Not this Ultron. The last one. The one that waits at the end of every road.  
 _Back at the waterfall, the rift flickers red for a moment, then settles. Your Nubbins do not take their eyes off it._  
@@ -1016,7 +1044,9 @@ _Variant of `mv-ul10-complete`._
 **Victor von Doom**: No. Someone should stay with this world until it dies. Doom does not leave a thing half finished.  
 **Thor**: Alone, at the end of all things? That is a hard throne, Victor.  
 **Victor von Doom**: It is the only one I ever truly earned.  
-_Doom lifts a hand to your Nubbin, and the rift opens. You step through._  
+_Doom lifts a hand to your Nubbin._  
+**Victor von Doom** _(soft)_: Nubbin. I learned the word. I had time.  
+_The rift opens. You step through._  
 **Ultron** _(angry)_: I have seen it. I have seen the creature that does not end. I will come to its garden.  
 **Ultron**: Not this Ultron. The last one. The one that waits at the end of every road.  
 **Ultron** _(angry)_: The Vision called your creature friend. I will teach that garden what a friend costs.  
@@ -1031,7 +1061,9 @@ _Variant of `mv-ul10-complete`._
 **Victor von Doom**: No. Someone should stay with this world until it dies. Doom does not leave a thing half finished.  
 **Thor**: Alone, at the end of all things? That is a hard throne, Victor.  
 **Victor von Doom**: It is the only one I ever truly earned.  
-_Doom lifts a hand to your Nubbin, and the rift opens. You step through._  
+_Doom lifts a hand to your Nubbin._  
+**Victor von Doom** _(soft)_: Nubbin. I learned the word. I had time.  
+_The rift opens. You step through._  
 **Ultron** _(angry)_: I have seen it. I have seen the creature that does not end. I will come to its garden.  
 **Ultron**: Not this Ultron. The last one. The one that waits at the end of every road.  
 **Ultron** _(angry)_: The Vision chose a name over an order. Your garden will learn what an order is.  
@@ -1045,4 +1077,4 @@ _Back at the waterfall, the rift flickers red for a moment, then settles. Your N
 
 Sets on completion: `{"mv-ul10":true,"mv-ul-complete":true,"mv-ultron-knows-grove":true}`
 
-**Notes:** Completes the Ultron line. This Doom is a far-future Doom, not the FF line’s; he remembers FF4 and FF6 because they are his past. If mv-ff06-nubbins is "held", drop "It warmed a child in hell." Ultron’s final body layers his earlier shapes (Cowl hood, adamantium plating, Phalanx silver, a Jan-like face, Titan rock). His question about Nubbins that never age sets up E6’s Eternal-body goal; mv-ultron-knows-grove is read by E6. Check Avengers: Ultron Forever #1 beats before ship.
+**Notes:** Completes the Ultron line. This Doom is a far-future Doom, not the FF line’s; he remembers FF4 and FF6 because they are his past. Doom’s recognition line leans on FF4 (the raspberry), which UL10 requires. Ultron’s final body layers his earlier shapes (Cowl hood, adamantium plating, Phalanx silver, a Jan-like face, Titan rock). His question about Nubbins that never age sets up E6’s Eternal-body goal; mv-ultron-knows-grove is read by E6. Check Avengers: Ultron Forever #1 beats before ship.

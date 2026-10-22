@@ -12,7 +12,8 @@
 
 _The Keepers wander home with their empty cups. Three lanterns glow. The fourth post, by the long grass, is dark._  
 _Moss hasn’t gone back up the hill. He sits by your boot, staring at the dark post._  
-**You**: Twenty-two years?  
+**Moss**: Twenty-two years, that post has been dark.  
+**You**: That’s a long time.  
 **Moss**: Not tonight. Ask me something else. Anything else.  
 **Moss**: I told you the tale. A tale is only the part that fits in a song. The rest doesn’t fit anywhere.  
 **Moss**: At each post I keep one small memory that isn’t in the tale. Four posts. Four small things.  

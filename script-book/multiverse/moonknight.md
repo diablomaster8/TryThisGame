@@ -20,6 +20,7 @@ _A man in silver armour and a white cloak waits under a streetlamp, counting mon
 **Committee Agent**: Bring him in alive. Cage, chains, the lot. Ten thousand on delivery.  
 **Marc Spector** _(think)_: Ten thousand for a werewolf. You people really don’t value your werewolves.  
 **Committee Agent**: One more thing. Our file says your name is Spector. Our other file says it isn’t.  
+**Marc Spector** _(think)_: The Committee. They hire men who don’t ask who they’re hunting.  
 **Marc Spector**: Pay whichever one is cheaper.  
 _The agent leaves. Marc notices you, then your Nubbin, and doesn’t reach for a weapon. That’s something._  
 _He glances up at the moon, and his jaw tightens, as if it has just said something rude about him._  
@@ -135,7 +136,9 @@ Hint: Cross the dunes on the Expedition map; the moonlit path shows the way. · 
 **Marc Spector** _(angry)_: You killed an old man for a pile of cups.  
 **Bushman**: I killed him for being in the way. You’re in the way now, Spector.  
 _It isn’t a fair fight. Bushman’s men hold Marc down. Then they leave him in the sand to finish dying._  
-_Night. Marc crawls toward the tomb. Your Nubbin walks beside him, step for step, the whole way._  
+_Night. Frenchie flies you and Marlene to the ridge. Below, Marc is a small dark shape, crawling towards the tomb._  
+**Frenchie**: I land, or I crash. Both are landing.  
+_Marlene stays on the ridge, so these last minutes stay private. Your Nubbin goes down alone and walks beside him, step for step._  
 **Marc Spector** _(sad)_: Every client I ever had, and the only one who stuck around is… whatever you are.  
 _He reaches the foot of a statue: a tall figure with a bird’s skull for a face, a crescent behind its head._  
 **Marc Spector** _(sad)_: Look after Marlene, if you can. She’s going to need someone.  
@@ -148,7 +151,7 @@ _The moon comes up, very large and very white. It is looking at him._
 - **Keep the Nubbin beside him.** — sets `{"mv-mk-vigil":"stayed"}`
     - Your Nubbin stays pressed to him, warm, while the moonlight thickens around them like frost.
     - **Khonshu**: The small thing keeps vigil. Good. Someone should.
-- **Run for Marlene and Frenchie.** — sets `{"mv-mk-vigil":"fetched"}`
+- **Run back up the ridge for Marlene and Frenchie.** — sets `{"mv-mk-vigil":"fetched"}`
     - You run. Behind you, the light over the statue grows until the sand glows silver.
     - **Frenchie**: Keeper? Where is he? Where is Marc?
 
@@ -232,12 +235,14 @@ _Gena’s diner smells of coffee and onions. Jake has the booth by the window._
 **Jake Lockley** _(happy)_: Gena, two coffees, and whatever the little fella eats.  
 **Gena**: It already ate the sugar, Jake. All of it.  
 _A thin man in a coat too big for him slides into the booth and talks to the tabletop._  
+**Jake Lockley**: Gena runs this place. Crawley is my ears. Don’t take his coat.  
 **Crawley**: Your man with the painted face, Jake. Old pier warehouse. Men with guns. Crates of money that aren’t his.  
 **Jake Lockley** _(soft)_: Thanks, Crawl. Eat something. On me.  
 **Jake Lockley** _(think)_: Marc wants Bushman bad. Steven wants him in a courtroom. Me, I just want him to stop.  
 **You**: What do the three of you agree on?  
 **Jake Lockley** _(soft)_: That nobody else gets hurt. We always agree on that bit.  
 _Jake glances at the moon, still faint in the morning sky. He doesn’t look at it fondly._  
+_The pier is two streets away. So is the plan._  
 **Jake Lockley**: Tonight one of us goes in first. Whoever does, that’s how it goes. You pick, Keeper. We’ll only argue.  
 
 **Choices**
@@ -477,6 +482,8 @@ _Out steps a man in a spotless white three-piece suit and a white mask. He bows 
 
 _Floor after floor. Every landing is quieter once he has passed it._  
 _Fourth floor: a dentist’s waiting room, the fish tank still bubbling. Seventh: a gym, every treadmill running for nobody._  
+_On the seventh floor, a Nubbin finds a treadmill. It runs very fast, goes nowhere, and is delighted._  
+**Mr. Knight**: Colleague. We are climbing.  
 **Mr. Knight** _(think)_: Ninth floor. Insurance. I always hated the ninth floor.  
 _By the eleventh floor the white jacket is torn, and he is breathing hard, and he does not slow down._  
 
@@ -507,7 +514,8 @@ _Twelve flights down. The girl holds your Nubbin the whole way and doesn’t loo
 #### <a id="mv-mk05-complete"></a>Complete `mv-mk05-complete`
 
 _At the tape, her mother runs to her and does not let go._  
-**Detective Flint**: Twelve floors, on your own. Next time, wait for the response team.  
+**Detective Flint**: Twelve floors, with a suit and a bunch of pets. Next time, wait for the response team.  
+**Mr. Knight**: Colleagues.  
 **Mr. Knight**: Next time, Detective, have them wait for me.  
 _He looks down at the ruin of his white suit, then at your Nubbin, which is spotless._  
 **Detective Flint**: Off the record. Which one of you was that up there?  
@@ -649,6 +657,9 @@ _Steven is in a room full of film reels, half sure he is someone else’s story.
 **Jake Lockley** _(think)_: Funny. I always figured I made up the pair of you.  
 **Steven Grant**: Can we have this argument somewhere with a door handle on the inside?  
 **Jake Lockley** _(happy)_: All three of us in one room, though. Been a while.  
+_Their three hands touch. The bleach smell goes. The white walls start to peel like old paint._  
+**Steven Grant**: I think we’re doing that.  
+**Jake Lockley**: Then stop. No, don’t stop.  
 
 ### Step 2: Stand with all three of them against Khonshu.
 

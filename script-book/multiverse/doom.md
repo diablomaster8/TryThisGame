@@ -103,6 +103,15 @@ _Ben’s fist shakes. He does not lower it, and he does not swing._
 **Ben Grimm** _(sad)_: You hurt my family. You hurt my best friend’s kids. I ain’t ever forgetting that.  
 **Victor von Doom**: Nor should you. Nor shall I.  
 
+#### <a id="mv-ffep-truce-welcomed"></a>Variant `mv-ffep-truce-welcomed`
+
+_Variant of `mv-ffep-truce`._
+
+**Ben Grimm** _(sad)_: You hurt my family. You hurt my best friend’s kids. I ain’t ever forgetting that.  
+**Victor von Doom**: Nor should you. Nor shall I.  
+**Victor von Doom** _(soft)_: A Nubbin sat on my knee once, at a table of children. Nobody else ever had.  
+**Ben Grimm**: ...Yeah. I saw. Don’t make me like you for it.  
+
 ### Complete
 
 #### <a id="mv-ffep-complete"></a>Complete `mv-ffep-complete`
@@ -140,6 +149,8 @@ _The rift drops you onto a windy airfield at night. A rocket stands on the pad, 
 **Sue Storm**: If we wait for a permission slip, someone else gets there first. I’m going, Ben.  
 **Johnny Storm** _(happy)_: Me too. Somebody on this crew has to look good in the photos.  
 **Ben Grimm**: Fine. When this goes wrong, I want it written down that I said so.  
+**Sue Storm**: Reed. The lab light.  
+**Reed Richards**: We’ll be back in an hour. It’ll keep.  
 _Your Nubbins are already curled up in the cargo net. Nobody thinks to check it._  
 _Past the clouds, the hull starts to hum. Light comes through the metal as if it were glass._  
 **Reed Richards** _(shock)_: Cosmic rays. The shielding isn’t holding. Ben, take us down. Now!  
@@ -197,7 +208,9 @@ _Johnny seals the tunnel with a white-hot blast. The island folds in on the Mole
 **Sue Storm** _(soft)_: You didn’t. That’s the whole difference, Ben. That’s all a hero is, some days.  
 **Johnny Storm** _(happy)_: We need a name. Something big. Something with a number in it.  
 **Reed Richards**: There are four of us. That part’s easy.  
-**Ben Grimm**: And them? The little ones?  
+**Ben Grimm**: And the pebbles?  
+**Sue Storm**: Nubbins, Ben. They have a name.  
+**Ben Grimm**: The pebbles have a name. I heard.  
 **Reed Richards** _(happy)_: Honorary. The paperwork can catch up.  
 _A faint blue shimmer stays on your Nubbins’ fur after the rift carries you home._  
 
@@ -279,7 +292,9 @@ _Your Nubbin is already at the rail, staring at a dark shape under the water._
 
 _Your Nubbin surfaces with a rope in its mouth. On the other end is a chest covered in barnacles._  
 **Reed Richards** _(think)_: Gems. Old ones. Doom doesn’t want treasure. He wants whatever is inside the stones.  
-**Reed Richards**: Then he can have the chest. Just not what was in it.  
+_Reed tips the gems back into the bay and fills the chest with ship’s chain. Your Nubbin helpfully sits on the lid._  
+**Reed Richards**: He can have the chest. Just not what was in it.  
+**Ben Grimm** _(happy)_: That’s the most pirate thing you’ve ever done. I’m proud of you.  
 
 ### Step 3: Get Sue out of Doom’s castle.
 
@@ -375,6 +390,9 @@ _Johnny’s flame gutters in the strange air. Your Nubbin leans in close until i
 **Johnny Storm**: Thanks. Don’t tell Ben I needed that.  
 _At the centre of the ship, on a plinth, sits a small grey rod. Even looking at it hurts._  
 **Johnny Storm**: That’s it? That’s the thing a god is scared of?  
+_Your Nubbin pokes it. Every light on the worldship dims, slowly, like a sigh._  
+**Johnny Storm** _(shock)_: Put it down. Put it down, put it down.  
+_It puts it down. Then it pats it, to be sure._  
 _Then the ship notices you. The way back starts to close._  
 
 #### <a id="mv-ff03-nullifier"></a>Done `mv-ff03-nullifier`
@@ -415,15 +433,15 @@ _The Surfer rises and flies straight at his master. It is not a fight he can win
 #### <a id="mv-ff03-complete"></a>Complete `mv-ff03-complete`
 
 _Reed pulls you aside, the rod wrapped in a tablecloth. His hands are steady; his voice isn’t._  
-**Reed Richards** _(think)_: If he calls my bluff, I have to decide whether to use it. It might end him. It might end everything.  
-**Reed Richards**: Sue says I shouldn’t carry this alone. So. If he says no, do I fire?  
+**Reed Richards** _(think)_: He’s coming back for his answer. I have to decide whether to use it. It might end him. It might end everything.  
+**Reed Richards**: Sue says I shouldn’t carry this alone. So. If he calls my bluff, do I fire?  
 
 **Choices**
 
 - **Yes. Better a risk to everything than a certain end for this world.** — sets `{"mv-ff03-nullifier":"fire"}`
     - **Reed Richards**: Then I have to mean it. He’ll know if I don’t.
     - **Reed Richards**: This is your weapon, Galactus. Leave, or I find out what it does.
-    - **Galactus**: You do not know what you hold. Neither do I, entirely. That is reason enough.
+    - **Galactus**: You would. I see that in you. Then the answer is no, and I will remember your face.
     - **Galactus**: I will go. But my herald stays. He has chosen these insects. Let him live among them.
     - A shimmer falls around the whole Earth, invisible and final. The Surfer is on the inside of it.
     - **The Silver Surfer**: I may never leave. I find I mind it less than I thought.
@@ -432,8 +450,9 @@ _Reed pulls you aside, the rod wrapped in a tablecloth. His hands are steady; hi
 - **No. Nobody gets to gamble the universe, not even to save us.** — sets `{"mv-ff03-nullifier":"bluff"}`
     - **Reed Richards**: Then it’s a bluff, and I’ve never been any good at poker. Ben always wins. Wish me luck.
     - **Reed Richards**: This is your weapon, Galactus. Leave, or I find out what it does.
-    - **Galactus**: You do not know what you hold. Neither do I, entirely. That is reason enough.
-    - **Galactus**: I will go. But my herald stays. He has chosen these insects. Let him live among them.
+    - **Galactus**: You do not mean it. But I am not willing to be wrong. I will go.
+    - **Galactus**: My herald stays. He has chosen these insects. Let him live among them.
+    - **Johnny Storm**: He bought it. Reed, he bought it. Never do that again.
     - A shimmer falls around the whole Earth, invisible and final. The Surfer is on the inside of it.
     - **The Silver Surfer**: I may never leave. I find I mind it less than I thought.
     - **Alicia Masters**: Then come and sit for a statue. I’ve wanted to sculpt you since you landed.
@@ -446,7 +465,7 @@ _Reed pulls you aside, the rod wrapped in a tablecloth. His hands are steady; hi
 
 Sets on completion: `{"mv-ff03":true}`
 
-**Notes:** Galactus is shown in silhouette against the sky: too big for the frame on purpose. Step 2 is a new Fly-heavy race course, "mv-worldship": long fly sections, two short run sections, no swim; Johnny races alongside as a pacer, not a rival. The Nullifier is never used; it only has to be held. The closing choice sets mv-ff03-nullifier (fire / bluff), the Keeper’s answer to Reed; Galactus leaves either way, and FF3_END plays after both. The barrier around the Earth is set here and matters in FF4. Check FF #48–50 beats before ship.
+**Notes:** Galactus is shown in silhouette against the sky: too big for the frame on purpose. Step 2 is a new Fly-heavy race course, "mv-worldship": long fly sections, two short run sections, no swim; Johnny races alongside as a pacer, not a rival. The Nullifier is never used; it only has to be held. The closing choice sets mv-ff03-nullifier (fire / bluff), the Keeper’s answer to Reed; Galactus leaves either way, with his own reply to each answer (FF3_FIRE: a chill; FF3_BLUFF: Johnny’s relief), then FF3_TAIL plays after both. The barrier around the Earth is set here and matters in FF4. Check FF #48–50 beats before ship.
 
 ## FF4. The Power Cosmic
 
@@ -484,6 +503,9 @@ Hint: A Fly race straight up. You do not need to win; you need Doom to chase you
 #### <a id="mv-ff04-barrier"></a>Scene `mv-ff04-barrier`
 
 _Doom tears through New York with the power of a god. Bridges bend. The Baxter Building cracks down the middle._  
+**Sue Storm**: Reed. The lab light is still on.  
+**Reed Richards**: The building is falling down, Sue.  
+**Sue Storm**: And the light is on.  
 **Victor von Doom** _(angry)_: Richards! Look how small your city is from up here!  
 **Ben Grimm** _(sad)_: We can’t hit that. We tried. I’ve got the bruises to prove it.  
 **Reed Richards** _(think)_: Then we don’t hit him. The barrier Galactus left was built for the Surfer’s power.  
@@ -567,7 +589,11 @@ Hint: A timing minigame: hit the cut-off switches as the readings spike. You wil
 
 #### <a id="mv-ff05-university"></a>Scene `mv-ff05-university`
 
+_The rift pulls Reed and Ben through behind you. They land in the corridor, still arguing about the hat._  
 _An American university, years later. Victor has a lab to himself, and the lab is full of a single machine._  
+**Ben Grimm**: Stay close, pebbles. Nobody touch anything.  
+**Reed Richards**: Nubbins, Ben. They have a name.  
+**Ben Grimm**: I know their name. I choose not to use it.  
 **Ben Grimm**: Who’s the guy with the cape? In a lab? Indoors?  
 **Reed Richards** _(think)_: Victor von Doom. He’s brilliant. He’s also building something he won’t explain.  
 **Victor von Doom**: A device to reach across. To the place where the dead are kept. To my mother.  
@@ -756,6 +782,18 @@ _Franklin climbs out of the same hole and runs to his mother._
 
 **Franklin Richards** _(soft)_: There was a little one with me down there. It kept me warm.  
 _Your Nubbin, the one that followed the smell of sulphur, is curled in Franklin’s arms._  
+**Sue Storm** _(soft)_: I don’t know how you got there. I don’t care. Thank you.  
+**Reed Richards** _(sad)_: He gave her up, Sue. The woman he loved. For this.  
+**Reed Richards**: And I learned enough magic to beat him in a week. He’ll never forgive me that either.  
+**Ben Grimm**: And it still wasn’t enough. Ain’t that always the way with him.  
+_Somewhere below the world, Doom is still shouting. Nobody is listening._  
+
+#### <a id="mv-ff06-complete-held"></a>Variant `mv-ff06-complete-held`
+
+_Variant of `mv-ff06-complete`._
+
+**Franklin Richards** _(soft)_: I felt something warm in my pocket. A feather, I think.  
+_Franklin opens his hand. A small downy feather glows in it. Your Nubbins have not left your arms._  
 **Sue Storm** _(soft)_: I don’t know how you got there. I don’t care. Thank you.  
 **Reed Richards** _(sad)_: He gave her up, Sue. The woman he loved. For this.  
 **Reed Richards**: And I learned enough magic to beat him in a week. He’ll never forgive me that either.  
@@ -1060,18 +1098,20 @@ _On the other side, a light flares brighter than it ever has. Then it goes out._
 
 ### Step 2: Be with the family in the weeks after.
 
-Hint: Visit the Baxter Building each day for three in-game days. Talk to Valeria last. · check: `talk:mv-val-richards`
+Hint: Visit the Baxter Building after the funeral. Talk to Valeria last. · check: `talk:mv-val-richards`
 
 #### <a id="mv-ff09-after"></a>Scene `mv-ff09-after`
 
-_The city puts up candles and flame-coloured flowers. The family puts up nothing. They just sit._  
+_The days after go by in a blur of casseroles. The city puts up candles and flame-coloured flowers._  
+_The family puts up nothing. They just sit._  
 **Ben Grimm** _(sad)_: He was a pain in the neck. Every day. I’d give anything for one more day of it.  
 _You tell Ben about the twenty. He laughs, once, and it turns into something else halfway._  
 **Ben Grimm** _(sad)_: It was ten. It was ten, the little cheat.  
 _Later you find a twenty-dollar bill taped to the basement door. Nobody mentions it._  
 **Sue Storm** _(sad)_: He was nineteen, and then he was forty, and then he was gone. It went so fast.  
 **Reed Richards**: I keep checking the portal readings. As if I could argue with them.  
-_Your Nubbins sit on the couch with Ben. He lets them, and does not say anything about it._  
+**Ben Grimm** _(soft)_: Budge up, pebbles.  
+_Your Nubbins sit on the couch with Ben. Sue opens her mouth to correct him, and doesn’t._  
 **Valeria Richards**: Dad’s starting a new team. The Future Foundation. Kids who are clever enough to fix things.  
 **Valeria Richards**: I’ve invited someone else too. You won’t like it.  
 _The door opens. Victor von Doom walks in, takes off his cloak, and sits down at the children’s table._  
@@ -1081,11 +1121,14 @@ _The door opens. Victor von Doom walks in, takes off his cloak, and sits down at
 **Victor von Doom**: The girl asked. Doom does not refuse a mind like hers.  
 **Ben Grimm** _(angry)_: One wrong move, Victor. Just one.  
 **Valeria Richards** _(think)_: He’s the only other person who can check my maths. Dad’s too sad to, and you’re all too nice.  
+**Victor von Doom** _(soft)_: Valeria. Your father named you well.  
+**Valeria Richards**: I know. I’m named after somebody. It’s a lot to live up to.  
 
 **Choices**
 
 - **Let him stay. Grief is a strange time to turn away help.** — sets `{"mv-ff09-doom":"welcomed"}`
     - Doom picks up a child’s pencil. He corrects one figure on Valeria’s page, very gently, and says nothing else.
+    - Your Nubbin climbs onto Doom’s knee at the children’s table. He lets it stay, and does not look down.
     - **Sue Storm**: If he hurts any of them, Keeper, I’ll hold you to this.
 - **Side with Ben. Not here, not now, not at the children’s table.** — sets `{"mv-ff09-doom":"opposed"}`
     - **Valeria Richards**: You can be angry, Uncle Ben. You still can’t un-invite him. I asked first.
@@ -1100,6 +1143,9 @@ _The door opens. Victor von Doom walks in, takes off his cloak, and sits down at
 **Victor von Doom** _(soft)_: Your brother was brave, Susan. It is not a word I use lightly.  
 **Sue Storm**: No, Victor. I don’t imagine it is.  
 _Your Nubbins leave a small flame-coloured flower on the basement step, by the door that does not open._  
+**Sue Storm** _(soft)_: Leave the light on.  
+**Reed Richards**: That’s usually my line.  
+**Sue Storm** _(soft)_: I know.  
 
 **Rewards**
 
@@ -1108,7 +1154,7 @@ _Your Nubbins leave a small flame-coloured flower on the basement step, by the d
 
 Sets on completion: `{"mv-ff09":true}`
 
-**Notes:** The line’s grief storyline. The swarm bout cannot be lost: when the Nubbin’s health runs out, the scene moves on. Johnny’s last moment is shown only as light on the other side of the door. Step 2 asks for three in-game days of visits so the grief has room. The twenty-dollar gag (Johnny’s last joke, Ben’s bill on the door) is the storyline’s only comedy; keep it quiet. Step 2’s done choice sets mv-ff09-doom (welcomed / opposed); Doom stays in the Future Foundation either way. The Johnny of this storyline does not come back within the line. Check FF #583–588 beats before ship.
+**Notes:** The line’s grief storyline. The swarm bout cannot be lost: when the Nubbin’s health runs out, the scene moves on. Johnny’s last moment is shown only as light on the other side of the door. The twenty-dollar gag (Johnny’s last joke, Ben’s bill on the door) is the storyline’s only comedy; keep it quiet. Step 2’s done choice sets mv-ff09-doom (welcomed / opposed); Doom stays in the Future Foundation either way. The Johnny of this storyline does not come back within the line. Check FF #583–588 beats before ship.
 
 ## FF10. Doomwar
 
@@ -1130,6 +1176,9 @@ _T’Challa is limping. He no longer wears the Panther mantle; his sister does._
 **T’Challa** _(think)_: Your creatures move quietly. I could use quiet.  
 **Reed Richards**: We’re here too. For what it’s worth. Ben’s been wanting to hit Victor all week.  
 **Ben Grimm** _(angry)_: All decade.  
+_Ben has worn the plumed hat to occupied Wakanda. Nobody has had the heart to say anything._  
+**T’Challa**: That is a bold choice, Mr Grimm.  
+**Ben Grimm**: It’s a pirate hat. It’s a whole thing. Don’t.  
 **T’Challa**: Reed. When this is over, you and I will discuss why your old classmate keeps happening to the rest of us.  
 **Reed Richards** _(sad)_: That’s… fair. I’ll bring notes.  
 

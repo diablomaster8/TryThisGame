@@ -65,10 +65,10 @@ _Hazel turns the trowel over in her hands, and runs her thumb along the worn edg
 
 **Gran Hazel**: You’ll want the story. You’ve been very good about not asking. It’s been unbearable to watch.  
 **Gran Hazel**: He came to me at twenty-two. Clever. Quick. In a hurry, which I took for keen.  
-**Gran Hazel**: He found the old clay tablets in this cottage. Older than me. Older than the wall. They told him where the fourth shard lay.  
+**Gran Hazel**: He found the old clay tablets in this cottage. Older than me. Older than the wall. They showed him how to make a Nubbin keep very still, for ever.  
 **Gran Hazel**: One winter he tried their method on my Nubbins, in my Grove. Quiet as stones, by morning.  
 **Gran Hazel**: I stopped him. I said things. He said things. I was right, which is very tiring for everyone.  
-**Gran Hazel**: That night he opened the gate, let the buyers in, and went with them. Nubbins, and the stone.  
+**Gran Hazel**: That night he let strangers in through the gate. They took Nubbins, and the cold stone from under the fourth post.  
 **Gran Hazel**: In the morning I wedged the gate.  
 **You**: So he couldn’t get back in.  
 **Gran Hazel**: No, love. So I’d hear him if he ever came back.  

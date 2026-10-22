@@ -46,11 +46,11 @@ _The cliff has stripes. Brown, red, grey, brown._
 > - Brown → Brown comes first and last. After red comes grey.
 > _For grown-ups: Read a colour sequence and said which colour came next._
 
-**Dusty**: Here’s where I found her egg. I was twelve.  
-_Fossil taps the rock. Tap, tap!_  
-**Dusty**: Fine. I was eleven.  
+**Dusty**: I dug Fossil’s egg out with a big, strong trowel!  
+_Fossil taps the rock. Tap, tap! (Tap along!)_  
+**Dusty**: A spoon. A small spoon.  
 _Tap!_  
-**Dusty**: All right! I dug with a spoon, not a trowel!  
+**Dusty**: A teaspoon. Fine.  
 _Fossil rests her head on the rock. Everyone is quiet._  
 _A baby fern grows in a crack. It is curled up tight._  
 _Next to it, pressed in the stone, is a very old fern._  
@@ -91,7 +91,7 @@ _It misses every mouth. Plop! It lands in Fossil’s lap._
 
 **Dusty**: Hazel gave her one of these when she hatched.  
 _Fossil eats a little. She gives the rest to Dusty._  
-**Dusty**: Tastes like being eleven.  
+**Dusty**: Tastes like when I was little.  
 
 #### `sprout:s5-water-ask` · [main](../../../side/S05.md#s5-water-ask)
 

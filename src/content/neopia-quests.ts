@@ -51,6 +51,7 @@ const faerie = (id: string, name: string): Speaker => ({
   kind: 'other',
   basedOn: `${name.replace(/^The /, '')} (Neopets)`,
 });
+const TIMES: Speaker = { id: 'times-reporter', name: 'The Times Reporter', kind: 'other', basedOn: 'A weary Neopian Times reporter (original)' };
 const FIRE = faerie('fire-faerie', 'The Fire Faerie');
 const WATER = faerie('water-faerie', 'The Water Faerie');
 const AIR = faerie('air-faerie', 'The Air Faerie');
@@ -1910,6 +1911,7 @@ export const NEOPIA_QUESTS: Quest[] = [
     audience: 'all',
     trigger: { where: 'Haunted Woods, the Brain Tree’s clearing', when: 'After your first visit to the Haunted Woods. Once.' },
     speakers: [
+      TIMES,
       { id: 'brain-tree', name: 'The Brain Tree', kind: 'other', basedOn: 'The Brain Tree (Neopets)' },
       { id: 'wise-old-king', name: 'The Wise Old King', kind: 'other', basedOn: 'The Wise Old King (Neopets, Brightvale)' },
       FYORA,
@@ -1983,7 +1985,11 @@ export const NEOPIA_QUESTS: Quest[] = [
         n('You tell the Brain Tree both memories. Its branches go still, the way a person goes still when a song they knew comes on.'),
         l('brain-tree', 'The long winter. Two small faeries and a knife they weren’t allowed. Yes. All of it.', 'soft'),
         l('brain-tree', 'I am whole again. Take this. Plant it somewhere you do your thinking.'),
+        n('Far away, on a purple cloud, a sprig of mint lands on a windowsill. Nobody admits to sending it.'),
+        n('Far away, in a glade, a book appears on a doorstep in brown paper. It is overdue by about two hundred years.'),
         n('An acorn drops into your hand. It is grey, folded like a walnut, and very slightly warm.'),
+        l('times-reporter', 'Name? And the tree’s name? Never mind. Keeper, and unnamed associate.'),
+        n('The Brain Tree reads his notes over his shoulder and rustles, offended.'),
       ],
     },
     rewards: [
@@ -2108,7 +2114,11 @@ export const NEOPIA_QUESTS: Quest[] = [
     source: 'Neopets: the Turmaculus (Meridell)',
     audience: 'all',
     trigger: { where: 'Meridell, the Turmaculus’s hollow beyond Meri Acres Farm', when: 'After your first visit to Meridell. Once.' },
-    speakers: [{ id: 'meri-farmer', name: 'The Meridell Farmer', kind: 'other' }],
+    speakers: [
+      { id: 'meri-farmer', name: 'The Meridell Farmer', kind: 'other' },
+      { id: 'meri-wife', name: 'The Farmer’s Wife', kind: 'other' },
+      TIMES,
+    ],
     steps: [
       {
         id: 'nq29-step1',
@@ -2123,6 +2133,9 @@ export const NEOPIA_QUESTS: Quest[] = [
             l('meri-farmer', 'That’s the Turmaculus. Been asleep since my grandad’s time. He’s guarding something, they say.'),
             l('meri-farmer', 'Thunder doesn’t wake him. Drums don’t. Kass’s army marched past once. Nothing.', 'think'),
             l('meri-farmer', 'What wakes a big soft thing that won’t wake for noise? That’s the question.'),
+            l('meri-wife', 'Don’t you dare wake him, Alf. He’s the only one in Meridell who never answers back.'),
+            l('meri-farmer', 'I do not answer back.'),
+            l('meri-wife', 'That’s an answer.'),
             n('Your Nubbin creeps up and pats the Turmaculus’s nose. He snores harder, delighted.'),
           ],
           choices: [
@@ -2163,6 +2176,8 @@ export const NEOPIA_QUESTS: Quest[] = [
         l('meri-farmer', 'So that’s what he was guarding. Go on. It’s yours. You woke him.', 'shock'),
         n('Inside is a paint brush with bristles that shimmer like a dragonfly’s wing.'),
         n('The Turmaculus watches you take it, sniffs the Warf once more, and goes back to sleep, satisfied.'),
+        l('times-reporter', 'Keeper. And the unnamed associate. And, I suppose, the Warf.', 'think'),
+        n('The Warf eats the notebook. It is, he says wearily, the third this week.'),
       ],
     },
     rewards: [
@@ -2183,7 +2198,11 @@ export const NEOPIA_QUESTS: Quest[] = [
     source: 'Neopets: the Secret Laboratory Map and the Lab Ray',
     audience: 'all',
     trigger: { where: 'Neopia Central, the Trading Post noticeboard', when: 'After you have visited four lands of Neopia. Once.' },
-    speakers: [{ id: 'lab-scientist', name: 'The Scientist', kind: 'other', basedOn: 'The Lab Ray Scientist (Neopets)' }],
+    speakers: [
+      { id: 'lab-scientist', name: 'The Scientist', kind: 'other', basedOn: 'The Lab Ray Scientist (Neopets)' },
+      { id: 'lab-grundo', name: 'The Grundo', kind: 'other' },
+      TIMES,
+    ],
     steps: [
       {
         id: 'nq30-step1',
@@ -2233,7 +2252,8 @@ export const NEOPIA_QUESTS: Quest[] = [
             n('The map is half whole. A label has appeared along the dotted line: TO THE LAB.'),
             n('Underneath, smaller, in the same tidy hand: Please. It’s very quiet out here.'),
             n('Your Nubbin sniffs the frosty corner and sneezes. It sniffs the mossy corner and sneezes in a completely different key.'),
-            n('Your Nubbin traces the line with one claw, all the way to a blank island where the paper is torn.'),
+            l('lab-grundo', 'Oh. You’ve got more of it. Please don’t tell me where it goes.', 'shock'),
+            n('He leaves again, faster than before.'),
             n('Two corners are still missing. One has frost on its edge. The other has a smudge of jungle moss.'),
             n('Somewhere cold, and somewhere green.'),
           ],
@@ -2284,6 +2304,7 @@ export const NEOPIA_QUESTS: Quest[] = [
         n('He pats the ray like a favourite dog. It sparks. He pretends it didn’t.'),
         l('lab-scientist', 'Come back whenever you like. The map knows the way now.'),
         n('The satellite dish waves goodbye. You’re fairly sure that’s not something dishes do.'),
+        l('times-reporter', 'I followed the dish. Name? No. Keeper, and unnamed associate, and a ray.', 'sad'),
       ],
     },
     rewards: [

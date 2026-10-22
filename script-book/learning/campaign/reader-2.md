@@ -34,11 +34,10 @@ _She means it. Gran Hazel is very poorly. The doctors can’t make her better, a
 **Gran Hazel**: Yes, Clover. That’s rather the point. A Grove isn’t the Nubbins, love. It’s the people who show up when the lanterns are lit.  
 
 > **Lesson** (literacy, RL.4.2, ask): find the theme in a character’s words  
-> _A story’s theme is its big idea: the thing it is really about, underneath what happens._  
-> _Hazel says a Grove isn’t the Nubbins, it’s the people who show up. Which big idea is she telling us?_  
-> - ✅ A place is made special by the people who care and come to help. → That’s it, love. Lanterns don’t light themselves. Well. Mostly they don’t. That is one of the big ideas of the whole story: we are made of the people who show up.
-> - Nubbins don’t really matter. → Oh, they matter. I fed them before I fed myself for forty years. She means something bigger: a place is made special by the people who care and come to help.
-> - Everyone should stay up all night. → Heavens, no. Sparks would be unbearable. She means that a place is made special by the people who care and come to help. That is the theme.
+> **Gran Hazel**: Go on, then. You’ve kept it since spring. What makes a Grove, would you say?  
+> - ✅ The people who care, and come to help. → That’s it, love. Lanterns don’t light themselves. Well. Mostly they don’t. Hazel has put the theme of the whole story in one line: we are made of the people who show up.
+> - The Nubbins, of course. → Oh, they matter. I fed them before I fed myself for forty years. But who fed them? Who stayed up? It’s the people who show up for them that make it a Grove.
+> - Staying up all night. → Heavens, no. Sparks would be unbearable. It’s the showing up, not the staying up. A Grove is the people who come when it matters.
 > _For grown-ups: Your child identified the theme of a key line: that a community is made by the people who show up for each other._
 
 
@@ -1167,8 +1166,8 @@ _The Long-Grass lantern burns warm now. You stand beside it on cold nights, and 
 _The children still skip to her rhyme. Now, at the end, one always shouts “She loved them!” and the rest shout “Too tight!”_  
 
 > **Lesson** (literacy, RL.4.2, notice): theme: sum up a story’s big idea  
-> _“She loved them!” “Too tight!” The children sum up Cinder’s whole story in four words._  
-> _That is its big idea, its theme: you can love someone and still hurt them by holding on too tight._  
+> _“She loved them!” “Too tight!” Four words, and the children have the whole of Cinder in them._  
+> _You can love someone and still hurt them by holding on too tight. The children won’t forget it. It’s in the skipping._  
 > _For grown-ups: Noticed how a few words can sum up a story’s theme: love that holds on too tight can do harm._
 
 _Then they all run off, laughing. It’s the whole story. They’ve got it right._  

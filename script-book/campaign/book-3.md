@@ -517,7 +517,7 @@ _The water is still. And Wisp is gone._
 
 Sets `{"stoneUnmadeBy":"wisp"}`
 
-> After c10-safe-*, if wisp = spared or sable. The eucatastrophe: Wisp snatches the shard (“mine — warm — mine —”) and falls into the spring; the stone unmakes. Bearer-neutral. Sets stoneUnmadeBy = wisp. FX: gold bloom; falls ice goes honey-coloured.
+> After c10-safe-*, if wisp = spared or sable. The eucatastrophe: Wisp snatches the shard (“mine — warm — mine —”) and falls into the spring; the stone unmakes. Written bearer-neutral; LINE SWAP: line 13 (“In the shallows, the one who carried it…”) names the bearer by stoneBearer (Sable, her | Moss, his) in main and reader. Sets stoneUnmadeBy = wisp. FX: gold bloom; falls ice goes honey-coloured.
 
 #### <a id="c10-moss-walks"></a>Scene `c10-moss-walks`
 

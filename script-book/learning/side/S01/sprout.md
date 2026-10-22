@@ -213,8 +213,11 @@ _You carry him gently. He is light as a leaf._
 > _For grown-ups: Learned that sunlight warms the ground and shade is cooler._
 
 **Cinder**: Out of the sun, you silly things! I’ve got you!  
-**Moss**: That night, snow came. In summer. And it didn’t stop.  
-**Moss**: Cinder loved them very much. But she held them too tight.  
+**Moss**: That night, snow came. In summer! It did not stop.  
+**Moss**: Cinder was scared. She hugged her Nubbins close.  
+**Moss**: She would not let go. Not even to let them play.  
+**Moss**: The Nubbins could not run. They were not happy.  
+**Moss**: Cinder loved them. But her hug was too tight.  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): gentle hugs, and asking first  
 > **Moss**: How should we hug a small friend?  

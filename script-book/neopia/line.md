@@ -4,7 +4,7 @@
 
 *Neopets site plot: The Hunt for the Battledome (October 2000)* · audience: all · where: Neopia Central, just inside the rainbow gate · when: On your first visit to Neopia.
 
-**Cast:** Sarkis (Sarkis (Neopets, Hunt for the Battledome)), Ursulla (Ursulla (Neopets, Hunt for the Battledome)), Buckley (Buckley (Neopets, Hunt for the Battledome)), Professor Chesterpot (Professor Chesterpot (Neopets)), King Kelpbeard (King Kelpbeard (Neopets)), Dr. Sloth (Dr. Sloth (Neopets))
+**Cast:** The Times Reporter (A weary Neopian Times reporter (original)), Sarkis (Sarkis (Neopets, Hunt for the Battledome)), Ursulla (Ursulla (Neopets, Hunt for the Battledome)), Buckley (Buckley (Neopets, Hunt for the Battledome)), Professor Chesterpot (Professor Chesterpot (Neopets)), King Kelpbeard (King Kelpbeard (Neopets)), Dr. Sloth (Dr. Sloth (Neopets))
 
 ### Step 1: Follow the brochure to Mystery Island and look for the next clue.
 
@@ -112,6 +112,10 @@ _A green pod shoots toward the surface. The claw lets go, and the professor drif
 **Sarkis** _(happy)_: We found it! Technically the robot found it. But we were there!  
 _Back on the beach, Buckley hands round the sandwiches. They are slightly damp. Conditions, as promised, apply._  
 _The Neopian Times runs it as DOME SWEET DOME. Sarkis buys eleven copies and frames the crossword._  
+**The Times Reporter**: Name, for the caption?  
+**You**: The Keeper.  
+**The Times Reporter** _(think)_: And the, er, small one with the…  
+_Your Nubbin eats the notebook. The reporter looks at his empty pocket for some time._  
 _By the rainbow gate, a new door appears, painted like a dome. Above it, a sign: Battledome. Play fair._  
 _Far above the sea, a green light blinks once and goes out._  
 
@@ -133,7 +137,7 @@ Sets on completion: `{"np-01-done":true}`
 
 *Neopets site plot: The Tyrannian Invasion (March–May 2001)* · audience: main · where: Terror Mountain, the Ice Caves · when: The first time you enter the Ice Caves after NP1. · requires: NP1
 
-**Cast:** Taelia (Taelia the Snow Faerie (Neopets)), The Lupe (The Lupe who defeated the Monoceraptor (Neopets)), A Voice (Dr. Sloth, unseen (Neopets))
+**Cast:** The Times Reporter (A weary Neopian Times reporter (original)), Taelia (Taelia the Snow Faerie (Neopets)), The Lupe (The Lupe who defeated the Monoceraptor (Neopets)), A Voice (Dr. Sloth, unseen (Neopets))
 
 ### Step 1: Hold the Ice Caves against the first wave: Korbat scouts.
 
@@ -222,6 +226,9 @@ _Up from the crack climbs a beast with one great horn and a jaw like a castle ga
 _Your Nubbins press against your legs. One is shaking. It doesn’t step back._  
 _The Monoceraptor lowers its horn and paws the ice._  
 **The Lupe**: Keeper. Your call.  
+**Taelia**: Do try not to crack the ice. It took me a decade to get it that shade.  
+**The Lupe**: Taelia. The beast.  
+**Taelia** _(think)_: I’m only saying. The beast can be a beast over there.  
 
 **Choices**
 
@@ -257,10 +264,18 @@ _Your Nubbins look down the crack, then at each other. One drops a snowball in, 
     - Taelia raises a wall of ice a hundred feet thick. Your Nubbins add a snowball each, to be safe.
     - **The Lupe**: Safe. Cold, but safe. Most good things up here are both.
     - The Neopian Times prints it: MOUNTAIN HOLDS. The photo is mostly snow and one Nubbin’s blurry tail.
+    - **The Times Reporter**: Name?
+    - **You**: The Keeper.
+    - **The Times Reporter**: And the creature?
+    - Your Nubbin eats his pencil. He takes out a second pencil without looking. He has a great many pencils.
 - **Leave a door with a bell. Neighbours should be able to knock.** — sets `{"np-02-crack":"door"}`
     - Taelia shapes an ice door with a brass bell. A sign beside it, in three languages: KNOCK. NO ARMIES.
     - **The Lupe**: If those farmers ever come up on their own, they’ll want somewhere to knock.
     - The Neopian Times prints it: MOUNTAIN HOLDS (PLEASE KNOCK). The photo is mostly snow and one Nubbin’s blurry tail.
+    - **The Times Reporter**: Name?
+    - **You**: The Keeper.
+    - **The Times Reporter**: And the creature?
+    - Your Nubbin eats his pencil. He takes out a second pencil without looking. He has a great many pencils.
 
 **Rewards**
 
@@ -275,7 +290,7 @@ Sets on completion: `{"np-02-done":true}`
 
 *Neopets site plot: The Ski Lodge Murder Mystery (February–May 2001), all-ages version* · audience: all · where: Terror Mountain, the Ski Lodge · when: After NP1 (in the main game, after NP2), a letter from the Lodge Manager arrives by snow-post. · requires: NP1
 
-**Cast:** The Lodge Manager, A Kacheek Guest, Maverick (Maverick, the robot culprit of the Ski Lodge plot (Neopets)), Taelia (Taelia the Snow Faerie (Neopets))
+**Cast:** The Times Reporter (A weary Neopian Times reporter (original)), The Lodge Manager, A Kacheek Guest, Maverick (Maverick, the robot culprit of the Ski Lodge plot (Neopets)), Taelia (Taelia the Snow Faerie (Neopets))
 
 ### Step 1: Question the four guests and staff still at the lodge.
 
@@ -383,6 +398,9 @@ _The guests thaw one by one, sneeze, and ask what time breakfast is._
 **Taelia** _(think)_: Whoever built that robot built it to wait. That kind of patience doesn’t give up.  
 _Upstairs, the portrait has been taken down. Behind it is a bare patch of wall and four bolts, already unscrewed._  
 _The Neopian Times runs it as COLD CASE CLOSED, with a cartoon of Maverick in a bobble hat. It sells out._  
+**The Times Reporter** _(think)_: Right. I have decided not to ask what that is.  
+_Your Nubbin sits on his notes, warm and enormously pleased._  
+**The Times Reporter**: I can print “Keeper and pet”, or I can retire. I’m weighing it.  
 
 **Rewards**
 
@@ -397,7 +415,7 @@ Sets on completion: `{"np-03-done":true}`
 
 *Neopets site plot: The Usurper (July 2001)* · audience: all · where: Lost Desert, Sakhmet palace · when: After NP3, an invitation to the palace feast. · requires: NP3
 
-**Cast:** King Coltzan III (King Coltzan III (Neopets)), Princess Sankara (Princess Sankara (Neopets)), Vyssa (Vyssa (Neopets)), The Royal Cook, The Captain of the Guard, The Court Scribe
+**Cast:** The Times Reporter (A weary Neopian Times reporter (original)), King Coltzan III (King Coltzan III (Neopets)), Princess Sankara (Princess Sankara (Neopets)), Vyssa (Vyssa (Neopets)), The Royal Cook, The Captain of the Guard, The Court Scribe
 
 ### Step 1: Question the five people who served the high table.
 
@@ -496,6 +514,8 @@ _The guards lead Sankara out. Vyssa sits at the empty end of the table and doesn
 _At dawn, by the old shrine at the edge of town, a warm light hovers and will not go out. People say it is Coltzan, still keeping watch._  
 **King Coltzan III** _(soft)_: You did well, Keeper. Come and visit me. I’ll have blessings to spare.  
 _The Neopian Times prints your grid in full, with one square left blank for readers. Half of Sakhmet gets it wrong._  
+**The Times Reporter** _(sad)_: Keeper. And the, the… no. No. I’m writing “unnamed associate”.  
+_Your Nubbin nods, as if that had been its title all along._  
 
 **Rewards**
 
@@ -594,6 +614,8 @@ _The Orb pulses. Crops wither in a ring around the castle. Darigan’s own soldi
 **King Skarl**: Then it’s not their fight any more. And it isn’t only mine.  
 _Meridell knights and Darigan soldiers stand side by side on the hill. Nobody planned it. Nobody stops it._  
 **Jeran**: The Orb is doing this. Get it out of his hands and it stops. I hope.  
+_Two knights and a Darigan soldier discover they are all holding the same ladder. Everyone pretends this was the plan._  
+**Jeran** _(think)_: Nobody say anything. It’s working.  
 _Your Nubbins look up at the glow. Then they look at you, and wait for a plan._  
 
 #### <a id="np05-orb-done"></a>Done `np05-orb-done`
@@ -641,7 +663,7 @@ Sets on completion: `{"np-05-done":true}`
 
 *Neopets site plot: The Volcano Mystery (September–October 2003)* · audience: all · where: Mystery Island, the village · when: After NP4 (in the main game, after NP5), on your next visit to Mystery Island. · requires: NP4
 
-**Cast:** The Island Mystic (The Island Mystic (Neopets)), The Shaman (The shaman controlling Moltenus (Neopets, Volcano Mystery))
+**Cast:** The Times Reporter (A weary Neopian Times reporter (original)), The Island Mystic (The Island Mystic (Neopets)), The Shaman (The shaman controlling Moltenus (Neopets, Volcano Mystery))
 
 ### Step 1: Find the first two secret words around the island.
 
@@ -744,6 +766,8 @@ _In the end they put him on the next boat to anywhere, with a packed lunch. Isla
 **The Island Mystic** _(soft)_: Keep the five words. Not because you’ll need them. Because they’re yours now too.  
 _The Tombola man is back at his drum within the hour, yelling about booby prizes as if nothing happened._  
 _The Neopian Times prints the chant on its front page. By dinner, every child on the island is singing it._  
+**The Times Reporter**: Keeper, and unnamed associate. The associate has my sandwich.  
+_The associate does have his sandwich. It is not sorry._  
 
 **Rewards**
 
@@ -758,7 +782,7 @@ Sets on completion: `{"np-06-done":true}`
 
 *Neopets site plot: The Battle for Meridell (February–May 2004)* · audience: main · where: Meridell, Meri Acres Farm · when: After NP6, the Citadel reappears over Meridell. · requires: NP6
 
-**Cast:** Lisha (Lisha (Neopets, Meridell plots)), Jeran (Jeran (Neopets, Meridell plots)), King Skarl (King Skarl (Neopets)), Lord Darigan (Lord Darigan (Neopets)), Kass (Kass (Neopets)), Sally (Sally of Meri Acres Farm (Neopets)), The Creature (Lord Darigan in his changed form (Neopets)), The Dancer (The enchanting dancer at King Skarl’s court (Neopets)), The Air Faerie (The Air Faerie (Neopets))
+**Cast:** The Times Reporter (A weary Neopian Times reporter (original)), Lisha (Lisha (Neopets, Meridell plots)), Jeran (Jeran (Neopets, Meridell plots)), King Skarl (King Skarl (Neopets)), Lord Darigan (Lord Darigan (Neopets)), Kass (Kass (Neopets)), Sally (Sally of Meri Acres Farm (Neopets)), The Creature (Lord Darigan in his changed form (Neopets)), The Dancer (The enchanting dancer at King Skarl’s court (Neopets)), The Air Faerie (The Air Faerie (Neopets))
 
 ### Step 1: Hold Meri Acres against three waves of Kass’s troops.
 
@@ -872,6 +896,9 @@ _It is a short fight. Kass falls, and his army throws down its weapons._
 **King Skarl** _(happy)_: Peace, then. Real peace. Somebody pass the turnips.  
 **Sally**: He owes me twelve turnips, actually.  
 _The Neopian Times runs a drawing of the battle. Your Nubbins are in it, very small, holding a rug._  
+**The Times Reporter**: I was promised a press tent.  
+_There is a press tent. Your Nubbins are asleep in it._  
+**The Times Reporter** _(think)_: Keeper, and unnamed associates. Plural. I’ve upgraded them.  
 
 **Rewards**
 
@@ -886,7 +913,7 @@ Sets on completion: `{"np-07-done":true}`
 
 *Neopets site plot: The Curse of Maraqua (March–June 2005)* · audience: main · where: Maraqua, New Maraqua’s square · when: After NP7, on your next dive to Maraqua. · requires: NP7
 
-**Cast:** King Kelpbeard (King Kelpbeard (Neopets)), Caylis (Caylis (Neopets)), Isca (Isca (Neopets)), Captain Garin (Captain Garin (Neopets)), Captain Scarblade (Captain Scarblade (Neopets))
+**Cast:** The Times Reporter (A weary Neopian Times reporter (original)), King Kelpbeard (King Kelpbeard (Neopets)), Caylis (Caylis (Neopets)), Isca (Isca (Neopets)), Captain Garin (Captain Garin (Neopets)), Captain Scarblade (Captain Scarblade (Neopets))
 
 ### Step 1: Swim past the reef and find Caylis in the old Maraquan ruins.
 
@@ -982,6 +1009,7 @@ _New Maraqua is dented but standing. The people clear a path for Caylis, and thi
 _The patched sails pull away north. Isca watches until they’re gone, then swims back to her sister._  
 **Caylis** _(happy)_: I don’t see any more ruin. I see dinner. A great deal of dinner.  
 _The Neopian Times prints the twins side by side on the front page. Nobody can tell which is which._  
+**The Times Reporter**: Two twins, one Keeper, one unnamed associate. The first caption this week that adds up.  
 
 **Rewards**
 
@@ -996,7 +1024,7 @@ Sets on completion: `{"np-08-done":true}`
 
 *Neopets site plot: The Lost Desert Plot (August–November 2005)* · audience: main · where: Lost Desert, Sakhmet palace · when: After NP8, an invitation to Prince Jazan’s audience with Princess Amira. · requires: NP8
 
-**Cast:** Prince Jazan (Prince Jazan (Neopets)), Princess Amira (Princess Amira (Neopets)), Nabile (Nabile (Neopets)), Razul (Razul (Neopets))
+**Cast:** The Times Reporter (A weary Neopian Times reporter (original)), Prince Jazan (Prince Jazan (Neopets)), Princess Amira (Princess Amira (Neopets)), Nabile (Nabile (Neopets)), Razul (Razul (Neopets))
 
 ### Step 1: Find a way through the shadow streets of cursed Sakhmet.
 
@@ -1040,8 +1068,9 @@ _Round her neck hangs an amulet she keeps tucking out of sight: a royal crest, v
 _In a ruined courtyard, an old servant sees the amulet and drops to her knees. Nabile is of Qasala’s royal blood._  
 **Nabile** _(shock)_: I’m a what? No. I’m a thief. Thieves don’t have bloodlines. They have hiding places.  
 **Princess Amira** _(think)_: The old curse on Qasala breaks with a royal marriage. That’s why he came to me.  
-_Jazan hears. Of course he hears. He arrives with a smile and a ring and a very short speech._  
+_Jazan hears. Of course he hears. He arrives with a ring and a very short speech, and can’t quite meet her eye._  
 **Prince Jazan** _(think)_: A bride from Qasala’s own line. The curse wanted a royal marriage. Here is one.  
+**Prince Jazan** _(sad)_: I’m not asking for me. I’m asking for the city. I’d like that understood.  
 **Nabile**: Keeper. Tell me honestly. Do I do this?  
 
 **Choices**
@@ -1061,8 +1090,9 @@ _Round her neck hangs an amulet she keeps tucking out of sight: a royal crest, v
 _In a ruined courtyard, an old servant sees the amulet and drops to her knees. Nabile is of Qasala’s royal blood._  
 **Nabile** _(shock)_: I’m a what? No. I’m a thief. Thieves don’t have bloodlines. They have hiding places.  
 **Princess Amira** _(think)_: The old curse on Qasala breaks with a royal marriage. That’s why he came to me.  
-_Jazan hears. Of course he hears. He arrives with a smile and a ring and a very short speech._  
+_Jazan hears. Of course he hears. He arrives with a ring and a very short speech, and can’t quite meet her eye._  
 **Prince Jazan** _(think)_: A bride from Qasala’s own line. The curse wanted a royal marriage. Here is one.  
+**Prince Jazan** _(sad)_: I’m not asking for me. I’m asking for the city. I’d like that understood.  
 **Nabile**: Keeper. When it came to it in Meridell, you stood and fought. Tell me honestly. Do I do this?  
 
 **Choices**
@@ -1082,8 +1112,9 @@ _Round her neck hangs an amulet she keeps tucking out of sight: a royal crest, v
 _In a ruined courtyard, an old servant sees the amulet and drops to her knees. Nabile is of Qasala’s royal blood._  
 **Nabile** _(shock)_: I’m a what? No. I’m a thief. Thieves don’t have bloodlines. They have hiding places.  
 **Princess Amira** _(think)_: The old curse on Qasala breaks with a royal marriage. That’s why he came to me.  
-_Jazan hears. Of course he hears. He arrives with a smile and a ring and a very short speech._  
+_Jazan hears. Of course he hears. He arrives with a ring and a very short speech, and can’t quite meet her eye._  
 **Prince Jazan** _(think)_: A bride from Qasala’s own line. The curse wanted a royal marriage. Here is one.  
+**Prince Jazan** _(sad)_: I’m not asking for me. I’m asking for the city. I’d like that understood.  
 **Nabile**: Keeper. You tried talking before fighting, once. Is a wedding talking, or fighting? Do I do this?  
 
 **Choices**
@@ -1103,8 +1134,9 @@ _Round her neck hangs an amulet she keeps tucking out of sight: a royal crest, v
 _In a ruined courtyard, an old servant sees the amulet and drops to her knees. Nabile is of Qasala’s royal blood._  
 **Nabile** _(shock)_: I’m a what? No. I’m a thief. Thieves don’t have bloodlines. They have hiding places.  
 **Princess Amira** _(think)_: The old curse on Qasala breaks with a royal marriage. That’s why he came to me.  
-_Jazan hears. Of course he hears. He arrives with a smile and a ring and a very short speech._  
+_Jazan hears. Of course he hears. He arrives with a ring and a very short speech, and can’t quite meet her eye._  
 **Prince Jazan** _(think)_: A bride from Qasala’s own line. The curse wanted a royal marriage. Here is one.  
+**Prince Jazan** _(sad)_: I’m not asking for me. I’m asking for the city. I’d like that understood.  
 **Nabile**: Keeper. In Meridell you got the small people out first. Am I a small person today, or a princess? Do I do this?  
 
 **Choices**
@@ -1133,6 +1165,10 @@ _Below the Qasala ruins is a tomb, and in it something that should have stayed d
 **Princess Amira**: Put together, it holds daylight. Razul cannot stand daylight.  
 _Four pieces: a lens by Coltzan’s Shrine, a hilt in the Deserted Tomb, a coil inside the Fruit Machine, a sun-stone on the palace roof._  
 **Nabile**: I can steal two of those. You do the other two.  
+**Prince Jazan** _(think)_: I’d rather not marry into a crime spree.  
+**Nabile**: You already did. Hold the sack.  
+**Prince Jazan**: It’s heavy. Is it meant to hiss?  
+**Nabile**: Only the lid. Don’t hold the lid.  
 _Your Nubbins are good at small spaces. Two of those places are nothing but small spaces._  
 
 #### <a id="np09-weapon-done"></a>Done `np09-weapon-done`
@@ -1150,6 +1186,9 @@ _Razul’s tomb is a hall of bones and gold. He sits on a throne too big even fo
 **Razul** _(angry)_: My son. My useless son. You married a thief and brought me a toy.  
 **Prince Jazan**: I brought you an ending, Father.  
 **Razul**: Nobody in our family has ever done anything brave. Don’t start now.  
+**Prince Jazan**: Father, you once hid from a cat.  
+**Razul** _(angry)_: It was a very large cat.  
+**Nabile** _(happy)_: He’s got a point. I’ve met it.  
 _Razul stands. The shadows of Sakhmet pour into the tomb to guard him._  
 **Nabile**: Keeper. Keep them off him. He gets one shot.  
 _Jazan raises the weapon. It begins, slowly, to glow._  
@@ -1178,6 +1217,8 @@ _The violet drains out of the sky. Sakhmet is gold again, and loud, and smells o
 _Jazan and Nabile go home to Qasala to rebuild it. Nabile keeps her lockpicks in the crown._  
 **Princess Amira** _(happy)_: Keeper, Sakhmet’s gates are always open to you and yours.  
 _The Neopian Times prints the wedding portrait. Nabile is clearly picking the photographer’s pocket._  
+**The Times Reporter** _(shock)_: Nabile took my wallet. Then she gave it back. It was a better wallet.  
+**The Times Reporter**: Caption: the Keeper, an unnamed associate and, for reasons I cannot explain, my new wallet.  
 
 **Rewards**
 
@@ -1192,7 +1233,7 @@ Sets on completion: `{"np-09-done":true}`
 
 *Neopets site plot: The Tale of Woe (October–November 2006)* · audience: main · where: Haunted Woods, the town of Neovia · when: After NP9, on your first visit to Neovia. · requires: NP9
 
-**Cast:** Bruno (Bruno the Gelert (Neopets)), Lily (Lily (Neopets, Tale of Woe)), Mr Krawley (Mr. Krawley (Neopets)), Gilly (Gilly (Neopets, Tale of Woe)), Sophie (Sophie the Swamp Witch (Neopets))
+**Cast:** The Times Reporter (A weary Neopian Times reporter (original)), Bruno (Bruno the Gelert (Neopets)), Lily (Lily (Neopets, Tale of Woe)), Mr Krawley (Mr. Krawley (Neopets)), Gilly (Gilly (Neopets, Tale of Woe)), Sophie (Sophie the Swamp Witch (Neopets))
 
 ### Step 1: Keep an eye on Bruno and see what the Hissi Oil does.
 
@@ -1296,6 +1337,8 @@ _Bruno doesn’t change back. The fur stays. The teeth stay. He sits in the squa
 **Lily** _(soft)_: Bruno. You were only ever too shy. You were never ugly.  
 **Bruno**: Then I suppose I’ll be shy and furry. People have been worse.  
 _The Neopian Times prints a small notice: Mr Krawley, wanted, by everyone._  
+**The Times Reporter**: I only want a comment from him. I’d like that noted. Keeper, and unnamed associate.  
+_Your Nubbin offers him a spoonful of cauldron. He declines, from long experience._  
 
 **Rewards**
 
@@ -1310,7 +1353,7 @@ Sets on completion: `{"np-10-done":true}`
 
 *Neopets site plot: Journey to the Lost Isle (May–June 2007)* · audience: all · where: Krawk Island, the harbour · when: After NP6 (in the main game, after NP10). · requires: NP6
 
-**Cast:** Professor Fairweather (Professor Fairweather (Neopets)), Roxton Colchester (Roxton Colchester (Neopets)), Lilian (Lilian (Neopets, Journey to the Lost Isle)), Werther (Werther (Neopets, Journey to the Lost Isle)), Scrap (Scrap the stowaway (Neopets))
+**Cast:** The Times Reporter (A weary Neopian Times reporter (original)), Professor Fairweather (Professor Fairweather (Neopets)), Roxton Colchester (Roxton Colchester (Neopets)), Lilian (Lilian (Neopets, Journey to the Lost Isle)), Werther (Werther (Neopets, Journey to the Lost Isle)), Scrap (Scrap the stowaway (Neopets))
 
 ### Step 1: Join the expedition and set sail from Krawk Island.
 
@@ -1487,9 +1530,15 @@ _The Unlikely Gull pulls away with its sails half up and Werther still climbing 
 - **Print the map. The world should know the island is real.** — sets `{"np-11-map":"published"}`
     - **Lilian**: Then it goes out with rules on the back. Look. Don’t take. Mind the birds.
     - The Neopian Times prints Lilian’s map on its front page under THE ISLAND IS REAL, with a tiny sketch of your Nubbins in one corner.
+    - **The Times Reporter**: Did either of you see the bird?
+    - **You**: We ran.
+    - **The Times Reporter**: Then so did I. Unnamed associate, eyewitness. Best source I have.
 - **Keep the way there secret. Print the fruit, not the route.** — sets `{"np-11-map":"secret"}`
     - **Lilian**: A picture of the fruit and no coordinates. Let them argue about it.
     - The Neopian Times prints the glowing fruit under the headline IS IT REAL? Letters pour in. Lilian answers none of them.
+    - **The Times Reporter**: Did either of you see the bird?
+    - **You**: We ran.
+    - **The Times Reporter**: Then so did I. Unnamed associate, eyewitness. Best source I have.
 
 **Rewards**
 
@@ -1505,7 +1554,7 @@ Sets on completion: `{"np-11-done":true}`
 
 *Neopets site plot: Altador (2007)* · audience: all · where: Neopia world map, a new mountain road · when: After NP11, the road appears on the map. · requires: NP11
 
-**Cast:** The Archivist (The Archivist of Altador (Neopets)), King Altador (King Altador (Neopets))
+**Cast:** The Times Reporter (A weary Neopian Times reporter (original)), The Archivist (The Archivist of Altador (Neopets)), King Altador (King Altador (Neopets))
 
 ### Step 1: Follow the Archivist to the Archives of Altador.
 
@@ -1597,6 +1646,8 @@ _Twelve statues. Eleven are stone. The one in the middle wears a crown, and is b
 **King Altador**: We used to hold a cup in the Colosseum. Races, cheering, far too many flags. Bring your Nubbins, for old times’ sake.  
 _Your Nubbin licks his hand. He laughs, surprised, as if he’d forgotten that too._  
 _The Neopian Times prints a star chart on its front page. For the first time in years, somebody remembers to._  
+**The Times Reporter**: I have written “Keeper and unnamed associate” so often my hand does it alone.  
+_Your Nubbin looks pleased to be completed._  
 
 **Rewards**
 
@@ -1613,7 +1664,7 @@ Sets on completion: `{"np-12-done":true}`
 
 *Neopets site plot: The Return of Dr. Sloth (January–March 2008)* · audience: all · where: Neopia Central · when: After NP12, every screen in Neopia Central turns green. · requires: NP12
 
-**Cast:** Dr. Sloth (Dr. Sloth (Neopets)), Gorix (Gorix of the Resistance (Neopets)), Cylara (Cylara (Neopets)), The Space Faerie (The Space Faerie (Neopets)), An Orange Grundo, A Purple Grundo
+**Cast:** The Times Reporter (A weary Neopian Times reporter (original)), Dr. Sloth (Dr. Sloth (Neopets)), Gorix (Gorix of the Resistance (Neopets)), Cylara (Cylara (Neopets)), The Space Faerie (The Space Faerie (Neopets)), An Orange Grundo, A Purple Grundo
 
 ### Step 1: Meet the Resistance at the hidden shuttle dock.
 
@@ -1802,6 +1853,10 @@ _And he is gone, sealed inside a small, bright, silent star no bigger than a mar
 **Gorix** _(happy)_: The station’s ours. The Grundos are free. And nobody has to watch another green broadcast.  
 _Cylara opens the airlock. The token drifts out, spinning, smaller and smaller, until it is just another star._  
 **The Space Faerie** _(soft)_: Let it drift. Space is very big, and he is very small now.  
+_The Neopian Times prints a special edition, and the reporter hands you the first copy himself._  
+**The Times Reporter** _(happy)_: THE KEEPER (AND ASSOCIATE). In capitals, with brackets. Thirteen plots. I earned the brackets.  
+_Your Nubbin eats the paper. The reporter does not even look surprised. He hands you a second copy._  
+**The Times Reporter**: I always bring a spare.  
 _Back home, the rainbow gate shimmers a colour you have never seen. For one visit, it opens on an island no map has ever shown._  
 _Lutari Island. Your Nubbins are already running for the gate._  
 

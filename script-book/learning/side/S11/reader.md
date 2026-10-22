@@ -20,7 +20,6 @@ _The skin is freckled with black. When she tilts her hand, the plum caves in and
 > **Fern**: A fungus lets go of spores into the air, the way a dandelion lets go of seeds. Only far, far smaller.  
 > _For grown-ups: Learned that some plant diseases are caused by a fungus, and that fungi spread by tiny spores._
 
-**Fern**: I know what you’re thinking. “Keeping the trees alive, badly.” Yes. I said it first. I’ve said it for years.  
 _Through the hedge, wasps buzz over the windfalls, the plums that dropped in the grass. The whole slope smells of hot jam._  
 **Fern**: Hazel grafted half those trees for me, the year I moved in. She whitewashed every trunk herself, every spring.  
 **Fern**: I haven’t told anyone. If I tell someone, it’s real.  
@@ -64,7 +63,7 @@ _Clover has come up behind you with a basket of bandages. That’s what Clover b
 
 **Ember**: I didn’t know what he was either, till he had Ash. Ask me how that went.  
 _Fern sits down on an upturned crate between them, and says nothing at all._  
-**Clover**: That’s cinder-love, that is. Holding on so tight you’d burn the lot. Don’t tell her I said so.  
+**Clover**: That’s cinder-love, that is. Holding on so tight you hurt the thing you love. Don’t tell her I said so.  
 
 > **Lesson** (literacy, RL.3.3, ask): working out a character’s motive from her past  
 > _Why does Ember want to burn everything, so fast?_  

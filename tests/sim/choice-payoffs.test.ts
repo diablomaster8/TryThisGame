@@ -25,6 +25,7 @@ const CASES: Array<[scene: string, flag: string, values: Array<string | true>]> 
   ['s10-letter-told', 's4-gate', ['lift-push', 'nubbin', 'note']],
   ['s18-fossils', 's5-carry', ['egg', 'shoulder']],
   ['s18-shore', 's5-holder', ['yours', 'marina']],
+  ['c10-dawn', 'c4-lamps', ['remember', 'home', 'together', 'dunno']],
 ];
 
 describe('S1–S5 choices pay off later', () => {
@@ -58,5 +59,24 @@ describe('S1–S5 choices pay off later', () => {
     const open = sceneFor(world, 's10-letter')!.lines.length;
     c(world).flags['s4-gate'] = 'note';
     expect(sceneFor(world, 's10-letter')!.lines.length).toBe(open);
+  });
+});
+
+describe('c10-wisp names the stone’s bearer (review SR-20261022-54)', () => {
+  it('in main and reader, and leaves sprout alone', () => {
+    for (const band of ['main', 'sprout', 'reader'] as const) {
+      const { world } = campaignWorld();
+      const plain = sceneFor(world, 'c10-wisp', band)!.lines.map((l) => l.text);
+      for (const [bearer, name] of [
+        ['sable', 'Sable'],
+        ['moss', 'Moss'],
+      ] as const) {
+        c(world).flags.stoneBearer = bearer;
+        const lines = sceneFor(world, 'c10-wisp', band)!.lines.map((l) => l.text);
+        const named = lines.filter((t) => t.startsWith(`In the shallows, ${name} stands`));
+        if (band === 'sprout') expect(lines).toEqual(plain);
+        else expect(named, `${band} ${bearer}`).toHaveLength(1);
+      }
+    }
   });
 });

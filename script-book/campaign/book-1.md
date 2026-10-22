@@ -275,27 +275,27 @@ _He looks down across the Grove, to the fourth post by the long grass. He looks 
 
 **Choices**
 
-- **To remember the ones who’ve gone.**
+- **To remember the ones who’ve gone.** — sets `{"c4-lamps":"remember"}`
     - **Moss**: Yes. That is the oldest answer, and a good one.
     - **Moss**: The flowers on this hill would agree with you, if flowers bothered to agree with anyone.
-    - **Moss**: You may put your hand on my head, if you like. She always did. I have missed it, a little.
-    - **Moss**: Don’t tell anyone I said so. I have a reputation.
-- **So people can find their way home.**
+    - **Moss**: She used to rest her hand on my head while she counted them. You may, if you like.
+    - **Moss**: Light the pond one first, tonight. That is where the first ones woke. It likes to be remembered first.
+- **So people can find their way home.** — sets `{"c4-lamps":"home"}`
     - **Moss**: That was Hazel’s answer. She said it every year, and looked up the valley when she said it.
     - **Moss**: I never asked her who she was lighting the way for. I am old, not stupid.
-    - **Moss**: You may put your hand on my head, if you like. She always did. I have missed it, a little.
-    - **Moss**: Don’t tell anyone I said so. I have a reputation.
-- **So nobody has to stand in the dark on their own.**
+    - **Moss**: You may put your hand on my head while we look up the valley. She always did.
+    - **Moss**: Leave the long-grass post till last. If anyone is coming home, that is the side they will come from.
+- **So nobody has to stand in the dark on their own.** — sets `{"c4-lamps":"together"}`
     - **Moss**: Hm. Nobody has said that one before.
     - **Moss**: I shall have to think about it, and I think slowly. Ask me again in a year.
-    - **Moss**: You may put your hand on my head, if you like. She always did. I have missed it, a little.
-    - **Moss**: Don’t tell anyone I said so. I have a reputation.
-- **Honestly? I don’t know.**
+    - **Moss**: Sit closer, meanwhile. You may put your hand on my head. Nobody has, since she went.
+    - You shift closer. Your Nubbin, still asleep, shuffles after you, so that nobody on this stone is on their own.
+- **Honestly? I don’t know.** — sets `{"c4-lamps":"dunno"}`
     - **Moss**: Good. Neither did I, for the first hundred years. Light them anyway. The knowing comes after.
-    - **Moss**: You may put your hand on my head, if you like. She always did. I have missed it, a little.
+    - **Moss**: A hand on my head is a fine place to start not knowing. She always thought so. You may, if you like.
     - **Moss**: Don’t tell anyone I said so. I have a reputation.
 
-> Chapter 4 opening. Moss speaks for the first time (the grey watcher from c1). He says Hazel went to the Hollow and asks you not to follow yet. Ends on a question the player answers: what are the lanterns for? (lamps-remember | lamps-home | lamps-together | lamps-dunno; no flags, no friendship). Every branch ends with the same two lines inviting the pet the goal needs. Moss stays on the western hill in the sim; the text has him at the flat stone halfway up.
+> Chapter 4 opening. Moss speaks for the first time (the grey watcher from c1). He says Hazel went to the Hollow and asks you not to follow yet. Ends on a question the player answers: what are the lanterns for? (lamps-remember | lamps-home | lamps-together | lamps-dunno; sets c4-lamps, no friendship). Every branch invites the pet the goal needs in its own words and ends on its own beat: remember, the pond lantern first; home, the long-grass post last; together, your Nubbin shuffles closer; dunno, Moss’s reputation. c4-lamps is for a one-line payoff in c10-dawn. Moss stays on the western hill in the sim; the text has him at the flat stone halfway up.
 
 #### <a id="c4-tale"></a>Scene `c4-tale`
 

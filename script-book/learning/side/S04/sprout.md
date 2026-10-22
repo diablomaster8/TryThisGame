@@ -127,6 +127,9 @@ _He snores. In… out… whistle! In… out… whistle!_
 > _For grown-ups: Copied a repeating sound pattern and said what comes next._
 
 **Marina**: Move on the snore. Freeze on the whistle.  
+_(Whistle! Everyone say “Freeze!”)_  
+_You freeze. Your Nubbin does not. Wobble, wobble… plop!_  
+**Marina**: Freeze means freeze.  
 _You creep to the gate. You push. It’s stuck!_  
 
 **Choices**

@@ -10,46 +10,46 @@ The running log for the repeatable story and writing review. Each run reviews th
 
 | unit | last reviewed (run file) | open recs |
 | --- | --- | --- |
-| `campaign/book-1.md` | [review-2026-10-22](review-2026-10-22.md) | 1 |
-| `campaign/book-2.md` | [review-2026-10-22](review-2026-10-22.md) | 1 |
+| `campaign/book-1.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
+| `campaign/book-2.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `campaign/book-3.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `campaign/triggered.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `campaign/endings.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `side/S01.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S01/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 2 |
-| `learning/side/S01/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 2 |
+| `learning/side/S01/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
+| `learning/side/S01/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `side/S02.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S02/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 2 |
-| `learning/side/S02/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 1 |
+| `learning/side/S02/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
+| `learning/side/S02/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `side/S03.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S03/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 1 |
-| `learning/side/S03/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 2 |
+| `learning/side/S03/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
+| `learning/side/S03/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `side/S04.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S04/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 2 |
-| `learning/side/S04/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 1 |
+| `learning/side/S04/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
+| `learning/side/S04/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `side/S05.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S05/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 2 |
-| `learning/side/S05/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 2 |
+| `learning/side/S05/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
+| `learning/side/S05/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 1 |
 | `side/S06.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S06/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 1 |
-| `learning/side/S06/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 2 |
+| `learning/side/S06/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
+| `learning/side/S06/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `side/S07.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S07/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 2 |
-| `learning/side/S07/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 2 |
+| `learning/side/S07/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
+| `learning/side/S07/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `side/S08.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S08/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 1 |
-| `learning/side/S08/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 1 |
+| `learning/side/S08/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
+| `learning/side/S08/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `side/S09.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S09/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 1 |
-| `learning/side/S09/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 2 |
+| `learning/side/S09/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
+| `learning/side/S09/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `side/S10.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S10/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 1 |
-| `learning/side/S10/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 2 |
+| `learning/side/S10/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
+| `learning/side/S10/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `side/S11.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S11/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 2 |
-| `learning/side/S11/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 1 |
+| `learning/side/S11/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
+| `learning/side/S11/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `side/S12.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S12/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 1 |
+| `learning/side/S12/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S12/reader.md` | never | 0 |
 | `side/S13.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `learning/side/S13/sprout.md` | never | 0 |
@@ -58,13 +58,13 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `learning/side/S14/sprout.md` | never | 0 |
 | `learning/side/S14/reader.md` | never | 0 |
 | `side/S15.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S15/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 2 |
+| `learning/side/S15/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 1 |
 | `learning/side/S15/reader.md` | never | 0 |
 | `side/S16.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S16/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 1 |
+| `learning/side/S16/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S16/reader.md` | never | 0 |
 | `side/S17.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S17/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 2 |
+| `learning/side/S17/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S17/reader.md` | never | 0 |
 | `side/S18.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `learning/side/S18/sprout.md` | never | 0 |
@@ -106,9 +106,9 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `side/S31.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `learning/side/S31/sprout.md` | never | 0 |
 | `learning/side/S31/reader.md` | never | 0 |
-| `learning/campaign/sprout.md` | [review-2026-10-22](review-2026-10-22.md) | 1 |
-| `learning/campaign/reader-1.md` | [review-2026-10-22](review-2026-10-22.md) | 3 |
-| `learning/campaign/reader-2.md` | [review-2026-10-22](review-2026-10-22.md) | 2 |
+| `learning/campaign/sprout.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
+| `learning/campaign/reader-1.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
+| `learning/campaign/reader-2.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `fun/python.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `learning/fun/python/sprout.md` | never | 0 |
 | `learning/fun/python/reader.md` | never | 0 |
@@ -122,14 +122,14 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `fun/alice.md` | never | 0 |
 | `fun/holmes.md` | never | 0 |
 | `fun/hodja.md` | never | 0 |
-| `neopia/line.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 6 |
-| `neopia/quests.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 4 |
-| `multiverse/ironman.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 7 |
-| `multiverse/cap.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 5 |
-| `multiverse/doom.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 11 |
-| `multiverse/ultron.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 9 |
-| `multiverse/moonknight.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 5 |
-| `multiverse/spawn.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 6 |
+| `neopia/line.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
+| `neopia/quests.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 1 |
+| `multiverse/ironman.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
+| `multiverse/cap.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
+| `multiverse/doom.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
+| `multiverse/ultron.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 1 |
+| `multiverse/moonknight.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 1 |
+| `multiverse/spawn.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `multiverse/dragonball.md` | never | 0 |
 | `multiverse/toystory.md` | never | 0 |
 | `multiverse/endgames.md` | never | 0 |
@@ -276,10 +276,10 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261022-22 | 20a-edu-sprout-campaign.md | c1-letter | High | follow | "Gran made you say the rules back at the gate" refers to a scene that never plays | fixed | 2026-10-22 |
 | SR-20261022-23 | 20a-edu-sprout-campaign.md | c4-tale-2 | High | child-read | Four wardens plus "White Year" and "Heartstone" in one sprout scene | fixed | 2026-10-22 |
 | SR-20261022-24 | 20a-edu-sprout-campaign.md | c12-foot-secret | High | theme | Gran's quiet goodbye is followed by a safety notice about worrying secrets | fixed | 2026-10-22 |
-| SR-20261022-25 | 20a-edu-sprout-campaign.md | batch (choice feedback lines) | High | child-read | 124 sprout lines over the 14-word cap, all choice feedback; split them | partial | 2026-10-22 |
+| SR-20261022-25 | 20a-edu-sprout-campaign.md | batch (choice feedback lines) | High | child-read | 124 sprout lines over the 14-word cap, all choice feedback; split them | fixed | 2026-10-22 |
 | SR-20261022-26 | 21a-edu-reader-campaign.md | c2-open | High | follow | Marina's "she owes me plums" reads as Sparks, and the lesson inherits it | fixed | 2026-10-22 |
 | SR-20261022-27 | 21a-edu-reader-campaign.md | c8-close | High | follow | The 19-Nubbins, twelve-bowls sum relies on logic the scene never states | fixed | 2026-10-22 |
-| SR-20261022-28 | 21a-edu-reader-campaign.md | batch (choice feedback lines) | High | child-read | 218 reader lines over 30 words, all choice feedback; split the science ones first | partial | 2026-10-22 |
+| SR-20261022-28 | 21a-edu-reader-campaign.md | batch (choice feedback lines) | High | child-read | 218 reader lines over 30 words, all choice feedback; split the science ones first | fixed | 2026-10-22 |
 | SR-20261022-29 | 00-campaign.md | c6-open, c6-open-walked | Medium | humour | Dusty's grief stretch has no relief; a duck who also gets wet on purpose | fixed | 2026-10-22 |
 | SR-20261022-30 | 03-fun-bean.md | q22-complete | Medium | humour | Q22 gives everything away and leaves Mr. Tweed without a payoff | fixed | 2026-10-22 |
 | SR-20261022-31 | 03-fun-bean.md | q23-complete | Medium | humour | Q23 closes on a moral; end on a pumpkin queue instead | fixed | 2026-10-22 |
@@ -294,7 +294,7 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261022-40 | 02-fun-python.md | q08-complete | Medium | theme | Make Frannie Reggie's wife; the aqueduct gag becomes a marriage | fixed | 2026-10-22 |
 | SR-20261022-41 | 05-fun-avatar.md | q61-evidence | Medium | theme | The mayor is judge and jury; his wife objects from the front row | fixed | 2026-10-22 |
 | SR-20261022-42 | 05-fun-avatar.md | q59-complete | Medium | theme | Captain Hake is left wedged in the rocks and the scroll promise hangs | fixed | 2026-10-22 |
-| SR-20261022-43 | 00-campaign.md | c4-open, c8-open | Medium | compelling | Every branch of these two choices ends on the same lines | partial | 2026-10-22 |
+| SR-20261022-43 | 00-campaign.md | c4-open, c8-open | Medium | compelling | Every branch of these two choices ends on the same lines | fixed | 2026-10-22 |
 | SR-20261022-44 | 03-fun-bean.md | q24 intro (Mrs Inkwell, Buttons) | Medium | child-read | Two new names in one scene, and Buttons is easily mistaken for your Nubbin | fixed | 2026-10-22 |
 | SR-20261022-45 | 01-side-stories.md | s6-register | Medium | follow | Hazel "reads" her ledger aloud while she is missing | fixed | 2026-10-22 |
 | SR-20261022-46 | 01b-side-story-variants.md | s10-foot (plain) | Medium | compelling | The plain s10-foot offers a single choice, "Just me, Gran." | fixed | 2026-10-22 |
@@ -304,77 +304,78 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261022-50 | 20a-edu-sprout-campaign.md | c2-corvin, c5-circuit, c9-partner, c10-bearer-moss, c7-cl… | Medium | child-read | The same "which word starts like Corvin?" quiz runs three times | fixed | 2026-10-22 |
 | SR-20261022-51 | 20a-edu-sprout-campaign.md | c4-out, c10-moss-fades, c12-open | Medium | child-read | "Light something", "Don't be dramatic" and "That's me told!" are idioms | fixed | 2026-10-22 |
 | SR-20261022-52 | 21a-edu-reader-campaign.md | c6-open, c6-open-walked | Medium | child-read | Dusty's "the worst thing anyone's ever said to me" is irony a 7-year-old may miss | fixed | 2026-10-22 |
-| SR-20261022-53 | 21a-edu-reader-campaign.md | c10-moss-stays (and c6-close, end-epi-cinder-remembered) | Medium | theme | Six "which big idea is this?" asks read like a quiz | partial | 2026-10-22 |
-| SR-20261022-54 | 21a-edu-reader-campaign.md | c10-wisp | Medium | follow | "The one who carried the stone here" hides who it is in the Wisp route | partial | 2026-10-22 |
+| SR-20261022-53 | 21a-edu-reader-campaign.md | c10-moss-stays (and c6-close, end-epi-cinder-remembered) | Medium | theme | Six "which big idea is this?" asks read like a quiz | fixed | 2026-10-22 |
+| SR-20261022-54 | 21a-edu-reader-campaign.md | c10-wisp | Medium | follow | "The one who carried the stone here" hides who it is in the Wisp route | fixed | 2026-10-22 |
 | SR-20261022-55 | 03-fun-bean.md | q28-plan | Nice | humour | "Can I light it?" is already refused; make the refusal a card gag | fixed | 2026-10-22 |
 | SR-20261022-56 | 00-campaign.md<br>01-side-stories.md<br>01c-side-stories-s23-s31.md<br>20a-edu-sprout-campaign.md<br>21a-edu-reader-campaign.md | cross-story | High | theme | Make Pixel and Byte the married couple the valley lacks (adds a canon fact) | fixed | 2026-10-22 |
 | SR-20261022-57 | 00-campaign.md<br>01-side-stories.md<br>01c-side-stories-s23-s31.md | cross-story | Medium | humour | Marina's numbered rules grow across the ledge stories; each is about someone | fixed | 2026-10-22 |
 | SR-20261022-58 | 00-campaign.md<br>01b-side-story-variants.md | cross-story | Medium | theme | The anonymous pie on Corvin's wall is Fern's, and its dish comes back on Sundays | fixed | 2026-10-22 |
 | SR-20261022-59 | 00-campaign.md<br>01-side-stories.md<br>01b-side-story-variants.md<br>01c-side-stories-s23-s31.md | cross-story | Medium | humour | The valley's children skip Cinder's rhyme badly, with great enthusiasm, all year | fixed | 2026-10-22 |
 | SR-20261022-60 | 01c-side-stories-s23-s31.md<br>01-side-stories.md | cross-story | Medium | character | Promote Granny Brock to the valley's recurring grump beside its sunny cast | fixed | 2026-10-22 |
-| SR-20261022-61 | 08-mv-ironman.md | mv-im09-foom-done | Critical | continuity | IM9's "Make him promise" choice pays off with nothing; give it a line and a cost | open | 2026-10-22-2 |
-| SR-20261022-62 | 10-mv-doom.md | mv-ff03-complete | Critical | compelling | FF3's fire-or-bluff choice runs the same Galactus scene; make Galactus answer each one | open | 2026-10-22-2 |
-| SR-20261022-63 | 11-mv-ultron.md | mv-ul03-foundry | High | humour | Play the bait plan as Nubbin slapstick with Clint and Hank as straight men | open | 2026-10-22-2 |
-| SR-20261022-64 | 11-mv-ultron.md | mv-ul09-titan | High | humour | Give the Vision one deadpan beat about the Nubbins before the fusion | open | 2026-10-22-2 |
-| SR-20261022-65 | 12-mv-moonknight.md | mv-mk05-scene-done | High | humour | Add a treadmill gag to the tower climb and fix Flint's "on your own" contradiction | open | 2026-10-22-2 |
-| SR-20261022-66 | 13-mv-spawn.md | mv-sp05-wynn | High | humour | Pay off the biscuit tin: one biscuit, a loud crunch, a stealth scare | open | 2026-10-22-2 |
-| SR-20261022-67 | 13-mv-spawn.md | mv-sp03-hunted | High | humour | Give Overt-Kill one vain joke and let Bobby answer him back | open | 2026-10-22-2 |
-| SR-20261022-68 | 09-mv-cap.md | mv-ca09-vault | High | humour | Lukin wants the animals; let them eat his pen and the cheque it was signing | open | 2026-10-22-2 |
-| SR-20261022-69 | 09-mv-cap.md | mv-ca08-tower | High | humour | Pay off the Kingpin's "cakes for small guests" when the Nubbins eat them all | open | 2026-10-22-2 |
-| SR-20261022-70 | 06-neopia-line.md | np09-razul | High | humour | Puncture Razul's "nobody in our family was ever brave" with a cat | open | 2026-10-22-2 |
-| SR-20261022-71 | 08-mv-ironman.md | mv-im15-return | High | humour | Bring back Yinsen's four hummed notes in IM15 as a callback Tony feels | open | 2026-10-22-2 |
-| SR-20261022-72 | 07-neopia-quests.md | nq27-complete | High | theme | Let the J + I carving touch Jhudora and Illusen after the Brain Tree remembers | open | 2026-10-22-2 |
-| SR-20261022-73 | 11-mv-ultron.md | mv-ul05-family | High | theme | Hank and Jan sit bound and silent at Ultron's dinner; give Jan the first word | open | 2026-10-22-2 |
-| SR-20261022-74 | 11-mv-ultron.md | mv-ul09-complete | High | theme | Hank says "Look after Jan" but Jan never hears it; close UL9 on her | open | 2026-10-22-2 |
-| SR-20261022-75 | 06-neopia-line.md | np09-weapon | High | theme | Show Jazan and Nabile being married while they build the weapon | open | 2026-10-22-2 |
-| SR-20261022-76 | 08-mv-ironman.md | mv-im07-siege | High | follow | Tony's relapse arrives unexplained; say he was sober and fell again | open | 2026-10-22-2 |
-| SR-20261022-77 | 10-mv-doom.md | mv-ff09-after | High | follow | FF9's hint asks for visits "each day for three days"; make it one visit | open | 2026-10-22-2 |
-| SR-20261022-78 | 09-mv-cap.md | mv-ca10-kobik | High | follow | Kobik's "always on the right side" hides the twist; say Steve was rewritten as Hydra | open | 2026-10-22-2 |
-| SR-20261022-79 | 11-mv-ultron.md | mv-ul08-ruins | High | follow | Logan's time jump has no machine and the "other Logan" baffles; name both | open | 2026-10-22-2 |
-| SR-20261022-80 | 12-mv-moonknight.md | mv-mk02-statue | High | follow | Step says bring Marlene and Frenchie, but the scene shows Marc alone; bring them in | open | 2026-10-22-2 |
-| SR-20261022-81 | 12-mv-moonknight.md | mv-mk06-god | High | follow | The asylum melts into Khonshu's sand with no cause; show the walls peel | open | 2026-10-22-2 |
-| SR-20261022-82 | 10-mv-doom.md | mv-ff02-chest | High | follow | Show where the gems went: Reed tips them back into the bay and fills the chest with chain | open | 2026-10-22-2 |
-| SR-20261022-83 | 10-mv-doom.md | mv-ff05-university | High | follow | Reed and Ben appear in Doom's past with no explanation; pull them through the rift | open | 2026-10-22-2 |
-| SR-20261022-84 | 06-neopia-line.md | np09-nabile | High | follow | Jazan's proposal reads as smug; show he hates asking, so the stakes are clear | open | 2026-10-22-2 |
-| SR-20261022-85 | 13-mv-spawn.md | mv-sp08-cain | High | follow | SP8 step 2 sends the player to the alley, but the scene is on Cogliostro's hill | open | 2026-10-22-2 |
-| SR-20261022-86 | 08-mv-ironman.md | mv-im09-complete | High | pacing | "His hands are gone" is gore in a cosy game; keep the loss, lose the wound | open | 2026-10-22-2 |
-| SR-20261022-87 | 20b-edu-sprout-stories.md [S1 .. S17] | s1-cinder | High | child-read | Say what Cinder did and what it cost, so the gentle-hug lesson follows from it | open | 2026-10-22-2 |
-| SR-20261022-88 | 20b-edu-sprout-stories.md [S1 .. S17] | s2-night | High | child-read | Swap "he" and "her" for Wisp and Sable, and make "kind, not good" concrete | open | 2026-10-22-2 |
-| SR-20261022-89 | 20b-edu-sprout-stories.md [S1 .. S17] | s7-unverified | High | follow | Byte's "loved enough becomes Eternal" needs two unknown ideas; make it a cupful | open | 2026-10-22-2 |
-| SR-20261022-90 | 21b-edu-reader-stories.md [S1 .. S11] | s6-whistle | High | pacing | Two lessons break Ash's three-beat turn; move them to the duck scene | open | 2026-10-22-2 |
-| SR-20261022-91 | 21b-edu-reader-stories.md [S1 .. S11] | s10-letter | High | pacing | No letter-format lesson after Gran's last letter, and no sum inside her goodbye | open | 2026-10-22-2 |
-| SR-20261022-92 | 21b-edu-reader-stories.md [S1 .. S11] | s9-trowel | High | follow | Cut "fourth shard" and "buyers" from Gran's story and keep her jokes | open | 2026-10-22-2 |
-| SR-20261022-93 | 21b-edu-reader-stories.md [S1 .. S11] | s3-stands | High | child-read | Split Sparks's one breathless backstory line, and tag Corvin when he's first named | open | 2026-10-22-2 |
-| SR-20261022-94 | 11-mv-ultron.md | mv-ul10-final | Medium | humour | Break Ultron's four-line speech with a Nubbin who sits down on it | open | 2026-10-22-2 |
-| SR-20261022-95 | 13-mv-spawn.md | mv-sp04-cog | Medium | humour | Make Cogliostro dodge the age question with oranges, and cut one Hellspawn line | open | 2026-10-22-2 |
-| SR-20261022-96 | 08-mv-ironman.md | mv-im08-vault | Medium | humour | The Guardsman's authority is Tony's own label; add a Nubbin on the lever | open | 2026-10-22-2 |
-| SR-20261022-97 | 10-mv-doom.md | mv-ff03-worldship | Medium | humour | The Nubbin pokes the weapon a god fears; Johnny panics politely | open | 2026-10-22-2 |
-| SR-20261022-98 | 10-mv-doom.md | mv-ff10-fall | Medium | humour | Ben has worn the FF2 pirate hat to occupied Wakanda; T'Challa notices | open | 2026-10-22-2 |
-| SR-20261022-99 | 06-neopia-line.md | np05-orb | Medium | humour | Two knights and a Darigan soldier find they are holding the same ladder | open | 2026-10-22-2 |
-| SR-20261022-100 | 06-neopia-line.md | np02-monoceraptor | Medium | humour | Make Taelia fussy about her ice so the Lupe can be long-suffering | open | 2026-10-22-2 |
-| SR-20261022-101 | 07-neopia-quests.md | nq30-pieces | Medium | humour | Cut one of two sneeze lines and bring back the Grundo, who wants no details | open | 2026-10-22-2 |
-| SR-20261022-102 | 20b-edu-sprout-stories.md [S1 .. S17] | s5-cliff | Medium | humour | Turn Dusty's age fibs into a "Tap, tap!" refrain the child joins | open | 2026-10-22-2 |
-| SR-20261022-103 | 20b-edu-sprout-stories.md [S1 .. S17] | s4-sluice | Medium | humour | The freeze game needs a Nubbin who can't freeze | open | 2026-10-22-2 |
-| SR-20261022-104 | 07-neopia-quests.md | nq29-ask | Medium | theme | Give the Meridell Farmer a wife who would rather the Turmaculus stayed asleep | open | 2026-10-22-2 |
-| SR-20261022-105 | 10-mv-doom.md | mv-ff09-doom | Medium | theme | Doom's lost love and Reed's daughter share the name Valeria; let him say so | open | 2026-10-22-2 |
-| SR-20261022-106 | 09-mv-cap.md | mv-ca03-plane | Medium | follow | Bucky's "sore about the glue" has no set-up; tell the glue story in the line before | open | 2026-10-22-2 |
-| SR-20261022-107 | 12-mv-moonknight.md | mv-mk01-hire | Medium | follow | Say who the Committee is in MK1, and who Gena and Crawley are in MK3 | open | 2026-10-22-2 |
-| SR-20261022-108 | 13-mv-spawn.md | mv-sp06-crown | Medium | pacing | Give Angela's death a pause before the throne scene starts | open | 2026-10-22-2 |
-| SR-20261022-109 | 10-mv-doom.md | mv-ff06-complete | Medium | continuity | Franklin's "a little one with me" is wrong when the Nubbins were held back | open | 2026-10-22-2 |
-| SR-20261022-110 | 20b-edu-sprout-stories.md [S1 .. S17] | s15-jackpot | Medium | child-read | Swap "one in ten" for fingers, keep the poem joke, and stagger S15's new names | open | 2026-10-22-2 |
-| SR-20261022-111 | 20b-edu-sprout-stories.md [S1 .. S17] | s11-beetle | Medium | child-read | "The postman" and "SCARED. And then: FAIR." are metaphor and irony for 3 to 6 | open | 2026-10-22-2 |
-| SR-20261022-112 | 20b-edu-sprout-stories.md [S1 .. S17] | s17-complete | Medium | follow | Say who lifts you home and why the cloak matters | open | 2026-10-22-2 |
-| SR-20261022-113 | 21b-edu-reader-stories.md [S1 .. S11] | s1-ask | Medium | follow | "Twenty-two years?" still opens the reader band's S1 with nothing before it | open | 2026-10-22-2 |
-| SR-20261022-114 | 21b-edu-reader-stories.md [S1 .. S11] | s7-unverified | Medium | child-read | Spell out the Cinder callbacks in S7 and S11 for readers who skipped S1 | open | 2026-10-22-2 |
-| SR-20261022-115 | 21b-edu-reader-stories.md [S1 .. S11] | s5-tree-ask | Medium | pacing | Thin the lesson stacks in S5's tree and S8's ring of roots | open | 2026-10-22-2 |
-| SR-20261022-116 | 08-mv-ironman.md<br>09-mv-cap.md<br>10-mv-doom.md<br>11-mv-ultron.md<br>12-mv-moonknight.md<br>13-mv-spawn.md | cross-story | High | humour | Running gag: every Multiverse line gets the Nubbins' name wrong, until Doom | open | 2026-10-22-2 |
-| SR-20261022-117 | 08-mv-ironman.md<br>10-mv-doom.md<br>11-mv-ultron.md | cross-story | High | theme | Three married couples as the Multiverse's warm, bickering spine | open | 2026-10-22-2 |
-| SR-20261022-118 | 10-mv-doom.md<br>11-mv-ultron.md | cross-story | High | theme | Plant Doom's trust at FF9's children's table and pay it off in UL10 | open | 2026-10-22-2 |
-| SR-20261022-119 | 06-neopia-line.md<br>07-neopia-quests.md | cross-story | Medium | character | A weary Neopian Times reporter as Neopia's recurring straight man | open | 2026-10-22-2 |
-| SR-20261022-120 | 20b-edu-sprout-stories.md [S1 .. S17]<br>21b-edu-reader-stories.md [S1 .. S11] | cross-story | Medium | theme | Say Pixel and Byte are married in both Learning Grove bands (canon 38) | open | 2026-10-22-2 |
+| SR-20261022-61 | 08-mv-ironman.md | mv-im09-foom-done | Critical | continuity | IM9's "Make him promise" choice pays off with nothing; give it a line and a cost | fixed | 2026-10-22-2 |
+| SR-20261022-62 | 10-mv-doom.md | mv-ff03-complete | Critical | compelling | FF3's fire-or-bluff choice runs the same Galactus scene; make Galactus answer each one | fixed | 2026-10-22-2 |
+| SR-20261022-63 | 11-mv-ultron.md | mv-ul03-foundry | High | humour | Play the bait plan as Nubbin slapstick with Clint and Hank as straight men | fixed | 2026-10-22-2 |
+| SR-20261022-64 | 11-mv-ultron.md | mv-ul09-titan | High | humour | Give the Vision one deadpan beat about the Nubbins before the fusion | fixed | 2026-10-22-2 |
+| SR-20261022-65 | 12-mv-moonknight.md | mv-mk05-scene-done | High | humour | Add a treadmill gag to the tower climb and fix Flint's "on your own" contradiction | fixed | 2026-10-22-2 |
+| SR-20261022-66 | 13-mv-spawn.md | mv-sp05-wynn | High | humour | Pay off the biscuit tin: one biscuit, a loud crunch, a stealth scare | fixed | 2026-10-22-2 |
+| SR-20261022-67 | 13-mv-spawn.md | mv-sp03-hunted | High | humour | Give Overt-Kill one vain joke and let Bobby answer him back | fixed | 2026-10-22-2 |
+| SR-20261022-68 | 09-mv-cap.md | mv-ca09-vault | High | humour | Lukin wants the animals; let them eat his pen and the cheque it was signing | fixed | 2026-10-22-2 |
+| SR-20261022-69 | 09-mv-cap.md | mv-ca08-tower | High | humour | Pay off the Kingpin's "cakes for small guests" when the Nubbins eat them all | fixed | 2026-10-22-2 |
+| SR-20261022-70 | 06-neopia-line.md | np09-razul | High | humour | Puncture Razul's "nobody in our family was ever brave" with a cat | fixed | 2026-10-22-2 |
+| SR-20261022-71 | 08-mv-ironman.md | mv-im15-return | High | humour | Bring back Yinsen's four hummed notes in IM15 as a callback Tony feels | fixed | 2026-10-22-2 |
+| SR-20261022-72 | 07-neopia-quests.md | nq27-complete | High | theme | Let the J + I carving touch Jhudora and Illusen after the Brain Tree remembers | partial | 2026-10-22-2 |
+| SR-20261022-73 | 11-mv-ultron.md | mv-ul05-family | High | theme | Hank and Jan sit bound and silent at Ultron's dinner; give Jan the first word | fixed | 2026-10-22-2 |
+| SR-20261022-74 | 11-mv-ultron.md | mv-ul09-complete | High | theme | Hank says "Look after Jan" but Jan never hears it; close UL9 on her | fixed | 2026-10-22-2 |
+| SR-20261022-75 | 06-neopia-line.md | np09-weapon | High | theme | Show Jazan and Nabile being married while they build the weapon | fixed | 2026-10-22-2 |
+| SR-20261022-76 | 08-mv-ironman.md | mv-im07-siege | High | follow | Tony's relapse arrives unexplained; say he was sober and fell again | fixed | 2026-10-22-2 |
+| SR-20261022-77 | 10-mv-doom.md | mv-ff09-after | High | follow | FF9's hint asks for visits "each day for three days"; make it one visit | fixed | 2026-10-22-2 |
+| SR-20261022-78 | 09-mv-cap.md | mv-ca10-kobik | High | follow | Kobik's "always on the right side" hides the twist; say Steve was rewritten as Hydra | fixed | 2026-10-22-2 |
+| SR-20261022-79 | 11-mv-ultron.md | mv-ul08-ruins | High | follow | Logan's time jump has no machine and the "other Logan" baffles; name both | partial | 2026-10-22-2 |
+| SR-20261022-80 | 12-mv-moonknight.md | mv-mk02-statue | High | follow | Step says bring Marlene and Frenchie, but the scene shows Marc alone; bring them in | partial | 2026-10-22-2 |
+| SR-20261022-81 | 12-mv-moonknight.md | mv-mk06-god | High | follow | The asylum melts into Khonshu's sand with no cause; show the walls peel | fixed | 2026-10-22-2 |
+| SR-20261022-82 | 10-mv-doom.md | mv-ff02-chest | High | follow | Show where the gems went: Reed tips them back into the bay and fills the chest with chain | fixed | 2026-10-22-2 |
+| SR-20261022-83 | 10-mv-doom.md | mv-ff05-university | High | follow | Reed and Ben appear in Doom's past with no explanation; pull them through the rift | fixed | 2026-10-22-2 |
+| SR-20261022-84 | 06-neopia-line.md | np09-nabile | High | follow | Jazan's proposal reads as smug; show he hates asking, so the stakes are clear | fixed | 2026-10-22-2 |
+| SR-20261022-85 | 13-mv-spawn.md | mv-sp08-cain | High | follow | SP8 step 2 sends the player to the alley, but the scene is on Cogliostro's hill | fixed | 2026-10-22-2 |
+| SR-20261022-86 | 08-mv-ironman.md | mv-im09-complete | High | pacing | "His hands are gone" is gore in a cosy game; keep the loss, lose the wound | fixed | 2026-10-22-2 |
+| SR-20261022-87 | 20b-edu-sprout-stories.md [S1 .. S17] | s1-cinder | High | child-read | Say what Cinder did and what it cost, so the gentle-hug lesson follows from it | fixed | 2026-10-22-2 |
+| SR-20261022-88 | 20b-edu-sprout-stories.md [S1 .. S17] | s2-night | High | child-read | Swap "he" and "her" for Wisp and Sable, and make "kind, not good" concrete | fixed | 2026-10-22-2 |
+| SR-20261022-89 | 20b-edu-sprout-stories.md [S1 .. S17] | s7-unverified | High | follow | Byte's "loved enough becomes Eternal" needs two unknown ideas; make it a cupful | fixed | 2026-10-22-2 |
+| SR-20261022-90 | 21b-edu-reader-stories.md [S1 .. S11] | s6-whistle | High | pacing | Two lessons break Ash's three-beat turn; move them to the duck scene | fixed | 2026-10-22-2 |
+| SR-20261022-91 | 21b-edu-reader-stories.md [S1 .. S11] | s10-letter | High | pacing | No letter-format lesson after Gran's last letter, and no sum inside her goodbye | fixed | 2026-10-22-2 |
+| SR-20261022-92 | 21b-edu-reader-stories.md [S1 .. S11] | s9-trowel | High | follow | Cut "fourth shard" and "buyers" from Gran's story and keep her jokes | fixed | 2026-10-22-2 |
+| SR-20261022-93 | 21b-edu-reader-stories.md [S1 .. S11] | s3-stands | High | child-read | Split Sparks's one breathless backstory line, and tag Corvin when he's first named | fixed | 2026-10-22-2 |
+| SR-20261022-94 | 11-mv-ultron.md | mv-ul10-final | Medium | humour | Break Ultron's four-line speech with a Nubbin who sits down on it | fixed | 2026-10-22-2 |
+| SR-20261022-95 | 13-mv-spawn.md | mv-sp04-cog | Medium | humour | Make Cogliostro dodge the age question with oranges, and cut one Hellspawn line | fixed | 2026-10-22-2 |
+| SR-20261022-96 | 08-mv-ironman.md | mv-im08-vault | Medium | humour | The Guardsman's authority is Tony's own label; add a Nubbin on the lever | fixed | 2026-10-22-2 |
+| SR-20261022-97 | 10-mv-doom.md | mv-ff03-worldship | Medium | humour | The Nubbin pokes the weapon a god fears; Johnny panics politely | fixed | 2026-10-22-2 |
+| SR-20261022-98 | 10-mv-doom.md | mv-ff10-fall | Medium | humour | Ben has worn the FF2 pirate hat to occupied Wakanda; T'Challa notices | fixed | 2026-10-22-2 |
+| SR-20261022-99 | 06-neopia-line.md | np05-orb | Medium | humour | Two knights and a Darigan soldier find they are holding the same ladder | fixed | 2026-10-22-2 |
+| SR-20261022-100 | 06-neopia-line.md | np02-monoceraptor | Medium | humour | Make Taelia fussy about her ice so the Lupe can be long-suffering | fixed | 2026-10-22-2 |
+| SR-20261022-101 | 07-neopia-quests.md | nq30-pieces | Medium | humour | Cut one of two sneeze lines and bring back the Grundo, who wants no details | fixed | 2026-10-22-2 |
+| SR-20261022-102 | 20b-edu-sprout-stories.md [S1 .. S17] | s5-cliff | Medium | humour | Turn Dusty's age fibs into a "Tap, tap!" refrain the child joins | fixed | 2026-10-22-2 |
+| SR-20261022-103 | 20b-edu-sprout-stories.md [S1 .. S17] | s4-sluice | Medium | humour | The freeze game needs a Nubbin who can't freeze | fixed | 2026-10-22-2 |
+| SR-20261022-104 | 07-neopia-quests.md | nq29-ask | Medium | theme | Give the Meridell Farmer a wife who would rather the Turmaculus stayed asleep | fixed | 2026-10-22-2 |
+| SR-20261022-105 | 10-mv-doom.md | mv-ff09-doom | Medium | theme | Doom's lost love and Reed's daughter share the name Valeria; let him say so | fixed | 2026-10-22-2 |
+| SR-20261022-106 | 09-mv-cap.md | mv-ca03-plane | Medium | follow | Bucky's "sore about the glue" has no set-up; tell the glue story in the line before | fixed | 2026-10-22-2 |
+| SR-20261022-107 | 12-mv-moonknight.md | mv-mk01-hire | Medium | follow | Say who the Committee is in MK1, and who Gena and Crawley are in MK3 | fixed | 2026-10-22-2 |
+| SR-20261022-108 | 13-mv-spawn.md | mv-sp06-crown | Medium | pacing | Give Angela's death a pause before the throne scene starts | fixed | 2026-10-22-2 |
+| SR-20261022-109 | 10-mv-doom.md | mv-ff06-complete | Medium | continuity | Franklin's "a little one with me" is wrong when the Nubbins were held back | fixed | 2026-10-22-2 |
+| SR-20261022-110 | 20b-edu-sprout-stories.md [S1 .. S17] | s15-jackpot | Medium | child-read | Swap "one in ten" for fingers, keep the poem joke, and stagger S15's new names | partial | 2026-10-22-2 |
+| SR-20261022-111 | 20b-edu-sprout-stories.md [S1 .. S17] | s11-beetle | Medium | child-read | "The postman" and "SCARED. And then: FAIR." are metaphor and irony for 3 to 6 | fixed | 2026-10-22-2 |
+| SR-20261022-112 | 20b-edu-sprout-stories.md [S1 .. S17] | s17-complete | Medium | follow | Say who lifts you home and why the cloak matters | fixed | 2026-10-22-2 |
+| SR-20261022-113 | 21b-edu-reader-stories.md [S1 .. S11] | s1-ask | Medium | follow | "Twenty-two years?" still opens the reader band's S1 with nothing before it | fixed | 2026-10-22-2 |
+| SR-20261022-114 | 21b-edu-reader-stories.md [S1 .. S11] | s7-unverified | Medium | child-read | Spell out the Cinder callbacks in S7 and S11 for readers who skipped S1 | fixed | 2026-10-22-2 |
+| SR-20261022-115 | 21b-edu-reader-stories.md [S1 .. S11] | s5-tree-ask | Medium | pacing | Thin the lesson stacks in S5's tree and S8's ring of roots | partial | 2026-10-22-2 |
+| SR-20261022-116 | 08-mv-ironman.md<br>09-mv-cap.md<br>10-mv-doom.md<br>11-mv-ultron.md<br>12-mv-moonknight.md<br>13-mv-spawn.md | cross-story | High | humour | Running gag: every Multiverse line gets the Nubbins' name wrong, until Doom | fixed | 2026-10-22-2 |
+| SR-20261022-117 | 08-mv-ironman.md<br>10-mv-doom.md<br>11-mv-ultron.md | cross-story | High | theme | Three married couples as the Multiverse's warm, bickering spine | fixed | 2026-10-22-2 |
+| SR-20261022-118 | 10-mv-doom.md<br>11-mv-ultron.md | cross-story | High | theme | Plant Doom's trust at FF9's children's table and pay it off in UL10 | fixed | 2026-10-22-2 |
+| SR-20261022-119 | 06-neopia-line.md<br>07-neopia-quests.md | cross-story | Medium | character | A weary Neopian Times reporter as Neopia's recurring straight man | fixed | 2026-10-22-2 |
+| SR-20261022-120 | 20b-edu-sprout-stories.md [S1 .. S17]<br>21b-edu-reader-stories.md [S1 .. S11] | cross-story | Medium | theme | Say Pixel and Byte are married in both Learning Grove bands (canon 38) | fixed | 2026-10-22-2 |
 
 ## Runs
 
 - 2026-10-22 · [review-2026-10-22](review-2026-10-22.md) · units: 00, 01, 01b, 01c, 02, 03, 04, 05, 20a, 21a · 60 recs: Critical 1, High 28, Medium 30, Nice 1 (5 cross-story) · fixed since last run: n/a (first run)
 - 2026-10-22 · fix pass on branch `fix/story-review-1022` · all 60 run-1 recs applied: 55 fixed, 5 partial (SR-20261022-25, -28, -43, -53, -54) · canon 38–43 added
 - 2026-10-22 run 2 · [review-2026-10-22-2](review-2026-10-22-2.md) · units: 06, 07, 08, 09, 10, 11, 12, 13, 20b [S1 .. S17], 21b [S1 .. S11] · 60 recs: Critical 2, High 34, Medium 24, Nice 0 (5 cross-story) · fixed since last run: 55 (5 partial) · plus the storage study
+- 2026-10-22 · fix pass on branch `fix/story-review-2026-10-22` · all 65 open or partial recs: 60 fixed, 5 partial (SR-20261022-72: the optional Jhudora/Illusen side of the NQ27 gift was not built, both gifts always play; -79: Logan's jump is explained by Sue's rift, no machine named; -80: Frenchie and Marlene reach the ridge but Marlene stays back; -110: Pip is still named in s15-wagon by a main choice; -115: S8's elephant notice stays, a reader scene needs a lesson) · run-1 partials closed: -25/-28 measured clean once choice replies are counted apart; -43 c4-open sets `c4-lamps`, paid off in c10-dawn; -53 asks rewritten in voice; -54 c10-wisp names Sable or Moss (sim line swap) · canon 44–45 added

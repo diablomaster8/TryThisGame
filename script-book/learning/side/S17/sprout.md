@@ -227,8 +227,8 @@ _The wind blows them down into the Grove._
 
 **Luna**: I sewed them into a cloak for you!  
 _It’s light as a breath. Warm as a bird._  
-_On the cliff top, two soft feet hold your collar._  
-_Whoosh! You glide down over the valley to the Grove._  
+_Nightjar swoops down. She lifts you gently in her feet._  
+_The cloak keeps you warm. Whoosh! You fly home over the valley._  
 **Nova**: Show-off.  
 **Nova**: …Take me next time.  
 

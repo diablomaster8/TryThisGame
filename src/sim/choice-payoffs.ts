@@ -14,6 +14,7 @@
  *   s4-gate      (lift-push | nubbin | note) S10, the stuck gate on Hazel's first morning home
  *   s5-carry     (egg | shoulder)           S18, Dusty at the cliff
  *   s5-holder    (yours | marina)           S18, Marina at the rock pools
+ *   c4-lamps     (remember | home | together | dunno) c10-dawn, the fourth lantern lights itself
  */
 import type { Line } from '../config/story';
 import type { CampaignState } from './types';
@@ -27,7 +28,7 @@ interface BandText {
 
 /** The part of the scene's line swapper a payoff uses. */
 export interface PayoffSwaps {
-  insertAfter(anchor: string, text: BandText, who?: string, mood?: Line['mood']): void;
+  insertAfter(anchor: string | BandText, text: BandText, who?: string, mood?: Line['mood']): void;
 }
 
 type Payoff = (c: CampaignState, s: PayoffSwaps) => void;
@@ -153,7 +154,39 @@ const stuckGate: Payoff = (c, s) => {
   if (t) s.insertAfter('Morning. Your Nubbins are up before you. The gate is stuck.', t);
 };
 
+/** Chapter 4's "what are the lanterns for?", remembered when the fourth lantern lights itself. */
+const C4_LAMPS: Record<string, BandText> = {
+  remember: {
+    main: 'You told Moss the lanterns were for remembering. Somebody, somewhere, has remembered the way.',
+    sprout: 'You said lanterns help us remember. Someone remembered the way.',
+  },
+  home: {
+    main: 'You told Moss the lanterns were so people could find their way home. That is the side they would come from.',
+    sprout: 'You said lanterns help people find home. Someone is coming home.',
+  },
+  together: {
+    main: 'You told Moss the lanterns were so nobody stands in the dark alone. Ember still hasn’t let go of the post.',
+    sprout: 'You said nobody should be alone in the dark. Ember holds on tight.',
+  },
+  dunno: {
+    main: 'You told Moss you didn’t know what the lanterns were for. The knowing comes after, he said. It has.',
+    sprout: 'You did not know what lanterns were for. Now you do.',
+  },
+};
+
 export const CHOICE_PAYOFFS: Record<string, Payoff> = {
+  'c10-dawn': (c, s) => {
+    const t = by(c.flags['c4-lamps'], C4_LAMPS);
+    if (t)
+      s.insertAfter(
+        {
+          main: 'Nobody lit it.',
+          sprout: '…glows. Brighter. Brighter!',
+          reader: '…steadies. Brightens. Burns. Nobody lit it.',
+        },
+        t,
+      );
+  },
   's19-climb': (c, s) => {
     const t = by(c.flags['s1-pace'], S1_PACE);
     if (t) s.insertAfter('He rides inside, against your chest', t, 'moss', 'soft');

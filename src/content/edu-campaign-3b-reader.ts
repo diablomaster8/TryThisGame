@@ -113,30 +113,29 @@ const CH11: EduScene[] = [
         kind: 'ask',
         after: 15,
         prompt: [
-          N('A story’s theme is its big idea: the thing it is really about, underneath what happens.'),
-          N('Hazel says a Grove isn’t the Nubbins, it’s the people who show up. Which big idea is she telling us?'),
+          HAZEL('Go on, then. You’ve kept it since spring. What makes a Grove, would you say?', 'think'),
         ],
         options: [
           {
-            label: 'A place is made special by the people who care and come to help.',
+            label: 'The people who care, and come to help.',
             best: true,
             reply: [
               HAZEL('That’s it, love. Lanterns don’t light themselves. Well. Mostly they don’t.', 'happy'),
-              N('That is one of the big ideas of the whole story: we are made of the people who show up.'),
+              N('Hazel has put the theme of the whole story in one line: we are made of the people who show up.'),
             ],
           },
           {
-            label: 'Nubbins don’t really matter.',
+            label: 'The Nubbins, of course.',
             reply: [
               HAZEL('Oh, they matter. I fed them before I fed myself for forty years.', 'think'),
-              N('She means something bigger: a place is made special by the people who care and come to help.'),
+              HAZEL('But who fed them? Who stayed up? It’s the people who show up for them that make it a Grove.', 'soft'),
             ],
           },
           {
-            label: 'Everyone should stay up all night.',
+            label: 'Staying up all night.',
             reply: [
               HAZEL('Heavens, no. Sparks would be unbearable.', 'happy'),
-              N('She means that a place is made special by the people who care and come to help. That is the theme.'),
+              HAZEL('It’s the showing up, not the staying up. A Grove is the people who come when it matters.', 'soft'),
             ],
           },
         ],
@@ -2630,12 +2629,8 @@ const EPILOGUE_SCENES: EduScene[] = [
         kind: 'notice',
         after: 5,
         lines: [
-          N(
-            '“She loved them!” “Too tight!” The children sum up Cinder’s whole story in four words.',
-          ),
-          N(
-            'That is its big idea, its theme: you can love someone and still hurt them by holding on too tight.',
-          ),
+          N('“She loved them!” “Too tight!” Four words, and the children have the whole of Cinder in them.'),
+          N('You can love someone and still hurt them by holding on too tight. The children won’t forget it. It’s in the skipping.'),
         ],
         parentNote:
           'Noticed how a few words can sum up a story’s theme: love that holds on too tight can do harm.',

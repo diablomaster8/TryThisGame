@@ -22,6 +22,7 @@ _Beside him sits a pale blue Nubbin with a flat, tidy ball above its head. It is
 > - A bit → A bit of what? A bit is a different size every time. A real unit, like a minute, is always the same.
 > _For grown-ups: Learned what a unit of measurement is (a minute is always 60 seconds; “enough” is not a unit)._
 
+_An Eternal is a Nubbin that never grows old._  
 _He shows you the page. Under everything Moss said tonight, in neat capitals: UNVERIFIED._  
 
 > **Lesson** (literacy, L.2.4, ask): use the prefix un- to work out a word  
@@ -35,7 +36,7 @@ _He shows you the page. Under everything Moss said tonight, in neat capitals: UN
 **Byte**: When Fossil faded, everybody just sat with her. Sitting isn’t a method.  
 _Fossil was Dusty’s old Nubbin. “Fade” is the Grove’s word for die. Fossil died this summer, on the hill._  
 **Byte**: Enough is an amount. Amounts can be put on a schedule. Pixel’s timer runs four lanterns to the second.  
-**Byte**: Before you say it: no stone. I’m not Cinder. I’m using a clock. Completely different.  
+**Byte**: Before you say it: I’m not holding on too tight, like Cinder. I’m using a clock. Completely different.  
 **Moss**: Your shoelace is untied.  
 _Byte looks down. It is. It always is._  
 _He goes very quiet._  
@@ -72,6 +73,7 @@ _Pixel’s workbench: a clock face, three little brass bells, a feeding chute an
 _The clock ticks. The chute fires a plum across the shed and hits Byte right on his clipboard._  
 **Pixel**: That was calibration.  
 **Byte**: That was a plum.  
+**Pixel**: Twenty years married, and he still argues with my clocks.  
 
 > **Lesson** (science, 3-PS2-1, notice): a push is a force that starts and stops motion  
 > **Pixel**: Pushes and pulls are called forces. The chute gave that plum a big push, so it flew.  

@@ -122,7 +122,8 @@ _It is no bigger than a lentil._
 > _For grown-ups: Counted a beetle’s legs and learned that all insects have six legs._
 
 **Byte**: It’s covered in black dust. That’s the poorly stuff!  
-**Byte**: The beetle isn’t the sickness. It’s the postman. It carries it.  
+**Byte**: The black dust rides on the beetle. Like a bus!  
+**Byte**: The beetle isn’t sick. It gives the dust a ride.  
 _Byte follows the wind. He finds an old dead tree, full of beetles._  
 **Byte**: Only the trees near this one get poorly. The rest are safe!  
 **Clover**: I have ladybirds at home. Ladybirds eat beetle eggs!  
@@ -205,7 +206,7 @@ _In the middle stands Grudge, full of sour purple plums._
 
 **Fern**: You saved my orchard. You’re the Orchard Warden now!  
 _Byte had put a tag on Ember. It said CROSS._  
-_He crosses it out. He writes: SCARED. And then: FAIR._  
-**Ember**: …Fair.  
+_He crosses it out. He writes: SCARED._  
+**Ember**: …Yes. That’s me. Scared.  
 
 **Notes:** Sprout leaves out s11-dusk’s “stand” (facing down a torch); defaultChoice is “map”. In “together”, grown-ups burn only the poorly trees and the child watches from far back.

@@ -276,7 +276,8 @@ const S11: EduQuest = quest(
         N('Got it! A tiny grey beetle in the jar.'),
         N('It is no bigger than a lentil.'),
         BY('It’s covered in black dust. That’s the poorly stuff!', 'shock'),
-        BY('The beetle isn’t the sickness. It’s the postman. It carries it.'),
+        BY('The black dust rides on the beetle. Like a bus!', 'happy'),
+        BY('The beetle isn’t sick. It gives the dust a ride.'),
         N('Byte follows the wind. He finds an old dead tree, full of beetles.'),
         BY('Only the trees near this one get poorly. The rest are safe!', 'happy'),
         CL('I have ladybirds at home. Ladybirds eat beetle eggs!', 'happy'),
@@ -395,8 +396,8 @@ const S11: EduQuest = quest(
         FE('It’s sharp. We’ll use it together, you and me.'),
         FE('You saved my orchard. You’re the Orchard Warden now!', 'happy'),
         N('Byte had put a tag on Ember. It said CROSS.'),
-        N('He crosses it out. He writes: SCARED. And then: FAIR.'),
-        EM('…Fair.', 'soft'),
+        N('He crosses it out. He writes: SCARED.'),
+        EM('…Yes. That’s me. Scared.', 'soft'),
       ],
       [
         {
@@ -467,7 +468,7 @@ const S15: EduQuest = quest(
         DA('Thank you, Jackpot.', 'happy'),
         N('A big sign says: ONE IN THREE IS SPARKLY!'),
         KD('Sparkly! Sparkly! Sparkly!', 'happy'),
-        PI('I saved my Shells! I can buy four eggs!', 'happy'),
+        N('A little girl from the village jingles her purse.'),
         BY('Is that true? Let’s count every egg and see.', 'think'),
       ],
       [
@@ -519,6 +520,7 @@ const S15: EduQuest = quest(
     sc(
       's15-tally',
       [
+        PI('I saved my Shells! I can buy four eggs!', 'happy'),
         N('By lunchtime, Byte’s card is full.'),
         BY('Lots and lots of plain eggs. Only three sparkly ones.', 'think'),
         BY('That’s not one in three. The sign is wrong.'),
@@ -532,7 +534,7 @@ const S15: EduQuest = quest(
           skill: 'more and fewer',
           standard: 'K.CC.C.6',
           kind: 'ask',
-          after: 1,
+          after: 2,
           prompt: [BY('Plain eggs or sparkly eggs: which are there more of?', 'think')],
           options: [
             opt('Plain eggs', [BY('Yes! Many more plain eggs than sparkly ones.', 'happy')], true),
@@ -574,7 +576,8 @@ const S15: EduQuest = quest(
       [
         JP('HELLO. I CANNOT LIE. IT IS MY SPRINGS.'),
         Y('How many eggs are sparkly, Jackpot?'),
-        JP('ONE IN TEN. HE KNOWS. HE WROTE IT DOWN.'),
+        JP('TEN EGGS. ONE SPARKLY. NINE PLAIN. HE WROTE IT DOWN.'),
+        N('Byte holds up ten fingers. He folds down nine.'),
         BY('And the big sign?', 'think'),
         JP('HE SAYS THE SIGN IS A POEM. A POEM IS NOT A NUMBER.'),
         JP('ALSO THE SPECIAL EGG IS NOT SPECIAL. OOPS.'),
@@ -586,7 +589,7 @@ const S15: EduQuest = quest(
           skill: 'honesty: telling the truth is fair',
           standard: 'CASEL: Responsible decision-making',
           kind: 'ask',
-          after: 5,
+          after: 6,
           prompt: [BY('The sign says something that isn’t true. Is that fair?', 'think')],
           options: [
             opt('No, it isn’t fair', [BY('Right. The truth is fair. Then people can choose.', 'happy')], true),
@@ -1853,8 +1856,8 @@ const S17: EduQuest = quest(
         N('The wind blows them down into the Grove.'),
         LU('I sewed them into a cloak for you!', 'happy'),
         N('It’s light as a breath. Warm as a bird.'),
-        N('On the cliff top, two soft feet hold your collar.'),
-        N('Whoosh! You glide down over the valley to the Grove.'),
+        N('Nightjar swoops down. She lifts you gently in her feet.'),
+        N('The cloak keeps you warm. Whoosh! You fly home over the valley.'),
         NO('Show-off.', 'happy'),
         NO('…Take me next time.', 'soft'),
       ],
