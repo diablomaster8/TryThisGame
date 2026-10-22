@@ -287,8 +287,16 @@ export const UI_TEXT = {
   putDown: 'Put down',
   feed: 'Feed',
   shake: 'Shake',
+  /** The egg's Shake while it is on the ground: it shakes only in the Keeper's arms. */
+  shakeNeedsHold: 'Pick up to shake',
+  /** A full Nubbin's Feed button, and the note when a feed is refused. */
+  feedFull: 'Full',
+  isFull: (name: string) => `${name} is full. Save the fruit for later.`,
   rename: 'Rename',
   hatchesIn: (s: string) => `Hatches in ${s}`,
+  /** An egg whose time is up hatches once it is on the ground. */
+  hatchReadyHeld: 'Ready to hatch: put it down',
+  hatchReady: 'Hatching…',
   age: (s: string) => `Age ${s}`,
   hunger: 'Hunger',
   energy: 'Energy',
@@ -330,6 +338,9 @@ export const UI_TEXT = {
   exportSave: 'Export save',
   importSave: 'Import save',
   importError: 'That file is not a valid save.',
+  imported: (slot: string) => `Save imported into ${slot}.`,
+  capHoursReverted: (n: number) => `Not saved: enter 1 to 720. Still ${n} hours.`,
+  eduSettingsTitle: 'Learning Grove',
   importTooBig: 'That file is too big to be a Grove save.',
   importWrongMode: (from: string, to: string) =>
     `That save is from ${from}. Open a ${from} slot to import it, not ${to}.`,
@@ -395,7 +406,10 @@ export const UI_TEXT = {
   tooManyToys: 'Enough toys lying around already.',
   // Expedition
   expedition: 'Expedition',
-  expeditionNeedsNubbin: 'Hatch a Nubbin first; it goes on the Expedition.',
+  expeditionNeedsNubbin:
+    'Hatch a Nubbin first. Eggs hatch in about 3 minutes, or pick one up and shake it to hurry it.',
+  expeditionTip: 'Tap to jump, hold to jump higher.',
+  expeditionTipKeys: 'Tap or press Space to jump; hold to jump higher.',
   expeditionResults: 'Expedition results',
   resultShells: (n: number) => `🐚 ${n} Shells`,
   resultNothing: 'Nothing this time. Jump for the shells!',
@@ -981,6 +995,20 @@ export const LANG_TEXT = {
   traceMore: 'Keep going over the letter.',
   traceDone: 'Beautiful tracing!',
   traceClose: 'Stop',
+  /** A language quest between scenes: its next part comes by itself (review 2026-10-21, 8). */
+  langNext: (friend: string) =>
+    `${friend}’s next part comes up on its own. Keep playing in the Grove.`,
+  /** A step that waits on the story clock says so, with a way past it (bug 30). */
+  waitingFor: (when: string) => `(Waiting for ${when}…)`,
+  waitMoments: {
+    dusk: 'dusk',
+    dawn: 'morning',
+    midnight: 'midnight',
+    late: 'later on',
+    short: 'a little while',
+  } as Record<string, string>,
+  skipWait: 'Don’t wait',
+  langTraceHint: 'Tap “Trace it” and follow the shapes with a finger.',
   /** A Nubbin's reaction to a word it knows, shown as a caption. */
   gestures: {
     wave: 'waves',

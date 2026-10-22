@@ -25,7 +25,7 @@ export class Celebration {
   }
 
   constructor(
-    parent: HTMLElement,
+    private readonly parent: HTMLElement,
     private readonly game: () => Game | null,
   ) {
     this.root = el('div', 'celebrate');
@@ -43,7 +43,7 @@ export class Celebration {
     this.root.addEventListener('click', (e) => {
       if (e.target === this.root) this.hide();
     });
-    parent.appendChild(this.root);
+    // Joins the page only while it shows: a hidden card is not left for screen readers (bug 35).
   }
 
   /** Show for an evolution event. */
@@ -79,12 +79,15 @@ export class Celebration {
         el('p', undefined, UI_TEXT.groveUnlocked(GROVE_LABELS[e.groveUnlocked])),
       );
     }
+    this.parent.appendChild(this.root);
     this.root.hidden = false;
     clearTimeout(this.timer);
     this.timer = window.setTimeout(() => this.hide(), 6000);
   }
 
   hide(): void {
+    clearTimeout(this.timer);
     this.root.hidden = true;
+    this.root.remove();
   }
 }

@@ -9,8 +9,11 @@ export function playArea(root: HTMLElement, pixel: boolean): DOMRect {
   root.style.paddingTop = '';
   const full = root.getBoundingClientRect();
   if (!pixel) return full;
-  const quit = root.querySelector<HTMLElement>('.quit')?.getBoundingClientRect();
-  const top = quit && quit.height > 0 ? Math.ceil(quit.bottom - full.top) + 6 : 60;
+  // The top row: the ✕ (unless phone portrait moved it down to the thumb) and the score chip.
+  const row = [...root.querySelectorAll<HTMLElement>('.quit, .expedition-hud')]
+    .map((e) => e.getBoundingClientRect())
+    .filter((r) => r.height > 0 && r.top < full.top + full.height / 2);
+  const top = row.length > 0 ? Math.ceil(Math.max(...row.map((r) => r.bottom)) - full.top) + 6 : 60;
   // Padding moves the centred canvas into the space below the row.
   root.style.paddingTop = `${top}px`;
   return new DOMRect(full.x, full.y + top, full.width, Math.max(1, full.height - top));

@@ -23,6 +23,11 @@ export class ExpeditionPixelView implements ExpeditionView {
   private art: ExpeditionArt | null = null;
   private runner: { sheet: SpriteSheet; name: string } | null = null;
   private viewW: number = EXPEDITION.maxViewW;
+  /**
+   * Extra sky above the run in portrait, in low-res pixels: the track keeps its size and the
+   * screen fills with sky, not a thin strip between black bars (review 2026-10-21, bug 23).
+   */
+  private headroom = 0;
   private theme: ExpeditionTheme = 'meadow';
 
   constructor() {
@@ -43,12 +48,17 @@ export class ExpeditionPixelView implements ExpeditionView {
     this.viewW = Math.round(
       Math.max(EXPEDITION.minViewW, Math.min(EXPEDITION.maxViewW, EXPEDITION.viewH * aspect)),
     );
+    const tall = (this.viewW * rect.height) / Math.max(1, rect.width);
+    this.headroom = Math.round(
+      Math.max(0, Math.min(tall, EXPEDITION.viewH * EXPEDITION.maxHeadroom) - EXPEDITION.viewH),
+    );
+    const viewH = EXPEDITION.viewH + this.headroom;
     this.element.width = this.viewW * PX;
-    this.element.height = EXPEDITION.viewH * PX;
+    this.element.height = viewH * PX;
     // Letterbox: scale to fit while keeping the low-res aspect.
-    const scale = Math.min(rect.width / this.viewW, rect.height / EXPEDITION.viewH);
+    const scale = Math.min(rect.width / this.viewW, rect.height / viewH);
     this.element.style.width = `${Math.floor(this.viewW * scale)}px`;
-    this.element.style.height = `${Math.floor(EXPEDITION.viewH * scale)}px`;
+    this.element.style.height = `${Math.floor(viewH * scale)}px`;
   }
 
   stop(): void {
@@ -61,8 +71,12 @@ export class ExpeditionPixelView implements ExpeditionView {
 
   draw(run: RunState, nowMs: number): void {
     const ctx = this.ctx;
-    // The backing canvas is PX times the design size; draw in design units.
+    // The backing canvas is PX times the design size; draw in design units, the run itself
+    // below any portrait headroom.
     ctx.setTransform(PX, 0, 0, PX, 0, 0);
+    ctx.fillStyle = color(this.theme === 'hollow' ? C.nightBlue : C.water);
+    ctx.fillRect(0, 0, this.viewW, this.headroom);
+    ctx.setTransform(PX, 0, 0, PX, 0, this.headroom * PX);
     const blit = (img: HTMLCanvasElement, x: number, y: number) =>
       ctx.drawImage(img, x, y, img.width / PX, img.height / PX);
     const art = this.art;
@@ -162,7 +176,8 @@ export class ExpeditionPixelView implements ExpeditionView {
       ctx.fillRect(px - 5, py - 3, 2, 2);
     }
 
-    // Progress bar.
+    // Progress bar and name, along the very top.
+    ctx.setTransform(PX, 0, 0, PX, 0, 0);
     ctx.fillStyle = 'rgba(13,10,26,0.5)';
     ctx.fillRect(8, 8, W - 16, 4);
     ctx.fillStyle = color(C.sunYellow);

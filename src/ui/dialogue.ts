@@ -32,6 +32,7 @@ export class Dialogue {
   private readonly choices: HTMLDivElement;
   private readonly next: HTMLDivElement;
   private readonly endCard: HTMLDivElement;
+  private readonly endParent: HTMLElement;
   private readonly endTitle: HTMLDivElement;
   private lines: Line[] = [];
   private index = 0;
@@ -92,10 +93,19 @@ export class Dialogue {
       el('div', 'celebrate-sparkle', '✦ ✧ ✦'),
       el('p', 'celebrate-form', STORY_TEXT.theEnd),
       this.endTitle,
-      button(STORY_TEXT.playOn, () => (this.endCard.hidden = true), 'btn btn-primary'),
+      button(
+        STORY_TEXT.playOn,
+        () => {
+          this.endCard.hidden = true;
+          this.endCard.remove();
+        },
+        'btn btn-primary',
+      ),
     );
     this.endCard.appendChild(card);
-    parent.append(this.root, this.endCard);
+    // The ending card joins the page only when it shows (review 2026-10-21, bug 35).
+    this.endParent = parent;
+    parent.append(this.root);
   }
 
   get isOpen(): boolean {
@@ -224,6 +234,7 @@ export class Dialogue {
     if (scene?.startsWith('end-')) {
       const ending = ENDINGS[scene.slice(4)];
       this.endTitle.textContent = STORY_TEXT.endingReached(ending?.title ?? scene);
+      this.endParent.appendChild(this.endCard);
       this.endCard.hidden = false;
     }
   }

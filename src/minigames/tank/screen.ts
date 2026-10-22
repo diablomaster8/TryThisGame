@@ -46,7 +46,10 @@ export class TankScreen {
     if (!ctx) throw new Error('2D canvas context unavailable');
     this.ctx = ctx;
     this.hud = el('div', 'expedition-hud');
-    const quit = button(UI_TEXT.quitMinigame, () => this.finish(), 'btn btn-icon quit');
+    // The same ✕ as the other minigames: the long label spilled out of an icon button.
+    const quit = button('✕', () => this.finish(), 'btn btn-icon quit');
+    quit.setAttribute('aria-label', UI_TEXT.quitMinigame);
+    quit.title = UI_TEXT.quitMinigame;
     this.results = el('div', 'expedition-results');
     this.results.hidden = true;
     this.resultsBody = el('div');
@@ -55,7 +58,8 @@ export class TankScreen {
       this.resultsBody,
       button(UI_TEXT.close, () => this.closeResults(), 'btn btn-primary'),
     );
-    this.root.append(this.canvas, this.hud, quit, this.results);
+    // The results card joins the DOM only when shown: no hidden duplicate "Back to the Grove".
+    this.root.append(this.canvas, this.hud, quit);
     parent.appendChild(this.root);
     this.canvas.addEventListener('pointerdown', (e) => {
       if (!this.state) return;
@@ -85,6 +89,7 @@ export class TankScreen {
     this.state = createTank(seed);
     this.onDone = onDone;
     this.results.hidden = true;
+    this.results.remove();
     this.root.hidden = false;
     this.lastMs = performance.now();
     this.accMs = 0;
@@ -249,12 +254,14 @@ export class TankScreen {
     this.resultsBody.textContent = s.won
       ? TEN_TEXT.tankWon(s.cargo.shells, s.cargo.wood, s.cargo.stone)
       : TEN_TEXT.tankLost(s.cargo.shells);
+    this.root.appendChild(this.results);
     this.results.hidden = false;
   }
 
   private closeResults(): void {
     const s = this.state;
     this.results.hidden = true;
+    this.results.remove();
     this.root.hidden = true;
     this.state = null;
     const done = this.onDone;

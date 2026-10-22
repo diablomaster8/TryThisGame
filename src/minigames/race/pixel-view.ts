@@ -1,4 +1,4 @@
-import { drawShadowText, drawText } from '../../render/sprites/font';
+import { drawShadowText, drawText, measureText } from '../../render/sprites/font';
 import { PX } from '../../render/sprites/pixel-canvas';
 import { NAMES, SECTION_LABELS, UI_TEXT } from '../../config/strings';
 import { CLIPS, frameAt, frameKey, type ClipName } from '../../render/sprites/animations';
@@ -114,8 +114,11 @@ export class RacePixelView implements RaceView {
       // Section label and a divider post.
       ctx.fillStyle = color(C.darkPlum);
       ctx.fillRect(x0, bandTop - 8, 2, bandBottom - bandTop + 8);
-      ctx.fillStyle = color(C.cream);
-      drawText(ctx, SECTION_LABELS[s.kind], x0 + 5, bandTop - 9, color(C.cream));
+      // The label stays whole while its section scrolls past the left edge, until the
+      // section's own end pushes it off ("IM" for SWIM at 375 px, review 2026-10-21, 22).
+      const label = SECTION_LABELS[s.kind];
+      const lx = Math.min(Math.max(x0 + 5, 4), x1 - measureText(label) - 4);
+      drawText(ctx, label, lx, bandTop - 9, color(C.cream));
     }
     // Finish line.
     const fx = Math.round(trackPx - camX);
@@ -124,8 +127,10 @@ export class RacePixelView implements RaceView {
       ctx.fillRect(fx, y, 4, 6);
     }
 
-    // Racers, far lanes first so near ones draw on top.
+    // Racers, far lanes first so near ones draw on top. Name tags go on after every
+    // sprite, outlined, so a near runner never hides a far one's name (bug 22).
     const order = [...race.racers].reverse();
+    const tags: { text: string; x: number; y: number; player: boolean }[] = [];
     for (const r of order) {
       const lane = race.racers.indexOf(r);
       const sheet = this.sheets.get(r.id);
@@ -149,17 +154,21 @@ export class RacePixelView implements RaceView {
       ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, sx, sy, rect.w / PX, rect.h / PX);
       // Name tag, the player's in yellow: just ahead of the runner on its own lane row, so
       // the tags of a full field, lined up at the start, do not pile on one another.
-      drawText(
-        ctx,
-        r.name,
-        sx + rect.w / PX - 4,
-        TRACK_TOP + lane * LANE_GAP - 8,
-        color(r.isPlayer ? C.sunYellow : C.cream),
-      );
+      tags.push({
+        text: r.name,
+        x: Math.min(sx + rect.w / PX - 4, W - measureText(r.name) - 2),
+        y: TRACK_TOP + lane * LANE_GAP - 8,
+        player: r.isPlayer,
+      });
       if (resting) {
         drawText(ctx, 'zz', sx + rect.w / PX - 6, sy - 2, color(C.pale));
       }
       if (r.isPlayer) this.drawStamina(r, sx, sy + rect.h / PX + 2);
+    }
+
+    for (const t of tags) {
+      const fg = color(t.player ? C.sunYellow : C.cream);
+      drawShadowText(ctx, t.text, t.x, t.y, fg, color(C.darkPlum));
     }
 
     // Cheer glow.

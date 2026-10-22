@@ -115,7 +115,7 @@ const LH1_SCENES: EduScene[] = [
       O('Forty-two. You stopped listening at forty.'),
       O('In Hebrew, shalom means hello. It also means goodbye. And peace. It’s a very hard-working word.', 'think'),
       O('אֲנִי (ani) means “I”. קוֹרְאִים לִי… (korim li…) means “my name is…”. Korim li Ori!'),
-      N('Behind you, a small round Nubbin hears “shalom”, waves with both arms, and falls over.'),
+      N('Over the wall, a small round wild Nubbin hears “shalom”, waves with both arms, and falls over.'),
       O('To ask “How are you?”, I say מָה שְׁלוֹמְךָ? (ma shlomkha?) to a boy.'),
       O('To a girl, I say מָה שְׁלוֹמֵךְ? (ma shlomekh?). The ending changes. Which one should I ask you?'),
     ],

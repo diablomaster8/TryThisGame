@@ -14,6 +14,7 @@ import type { LanguageCourse, Quest, VocabItem } from '../content/types';
 import { react } from './behavior';
 import { bare, scriptRuns, wordsInLine } from './lang-text';
 import { isMorning, type StoryRule } from './side-rule-kit';
+import { queueScene } from './story-state';
 import type { CampaignState, LangCourseId, LangGesture, Reaction, SimEvent, World } from './types';
 
 const COURSES: LanguageCourse[] = [];
@@ -103,6 +104,13 @@ export function langRule(quest: Quest): StoryRule {
     note: (_w, _c, st, _i, cmd) => {
       if (cmd.kind === 'langTraced' && cmd.quest === quest.id) st.acted = true;
     },
+    // Every other step is met by playing its own scene: the greeting, the bow and the
+    // "oyasumi" are choices in it, and the Grove has no separate Say action (review
+    // 2026-10-21, bug 8). Only a tracing step waits, for the tracing game.
+    auto: (_w, _c, _st, i) => {
+      const check = quest.steps[i]?.check;
+      return check !== undefined && !TRACE_TARGETS[check];
+    },
   };
 }
 
@@ -111,9 +119,39 @@ export function langQuestIds(): string[] {
   return COURSES.flatMap((c) => c.quests.map((q) => q.toLowerCase()));
 }
 
-/** Nova's postcard: start a course (its first quest opens on the next sim second). */
+/**
+ * Nova's postcard: start a course. With nothing else queued (a fresh Learning Grove, where
+ * the story has only just begun), the friend's arrival and greeting are queued at once,
+ * ahead of Chapter 1's opening, so the child meets Hana or Ori straight away (review
+ * 2026-10-21, bug 8). Otherwise the first quest opens on the next sim second as before.
+ */
 export function langStart(world: World, course: LangCourseId): void {
-  if (world.edu) world.edu.courses[course] = true;
+  if (!world.edu) return;
+  world.edu.courses[course] = true;
+  const c = world.campaign;
+  const code = langCourse(course)?.quests[0]?.toLowerCase();
+  const quest = code ? QUESTS.get(code) : undefined;
+  const step = quest?.steps[0];
+  // Before any scene has been seen, only the story's own opening can be queued: the friend
+  // goes ahead of it. Later, an empty queue is the only way in.
+  const fresh = c?.seen.length === 0;
+  if (!c || !quest || !step || c.fun[quest.id] || (!fresh && c.queue.length > 0)) return;
+  if (TRACE_TARGETS[step.check]) return;
+  const ahead = c.queue;
+  c.queue = [];
+  const queued = queueScene(c, step.scene.id);
+  const done = queued && step.done && queueScene(c, step.done.id) ? step.done.id : null;
+  c.queue.push(...ahead);
+  if (!queued) return;
+  c.fun[quest.id] = {
+    status: 'open',
+    step: 0,
+    stage: done ? 'done' : 'scene',
+    pending: done ?? step.scene.id,
+    openedMs: world.timeMs,
+    sinceMs: world.timeMs,
+    acted: false,
+  };
 }
 
 // ------------------------------------------------------------------ tracing
@@ -143,9 +181,11 @@ export function langTraced(world: World, quest: string, events: SimEvent[]): voi
   if (target?.word) noteWord(world, target.word, 'used', events);
 }
 
-/** Step checks per language quest, filled by `registerLangQuests`. */
+/** Step checks per language quest, and the quests, filled by `registerLangQuests`. */
 const questSteps = new Map<string, string[]>();
+const QUESTS = new Map<string, Quest>();
 export function registerLangQuests(quests: Quest[]): void {
+  for (const q of quests) QUESTS.set(q.id, q);
   for (const q of quests)
     questSteps.set(
       q.id,

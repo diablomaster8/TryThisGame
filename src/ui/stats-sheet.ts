@@ -14,7 +14,7 @@ import { bandOf, childHint } from '../sim/alignment';
 import { dayCount } from '../sim/curfew';
 import { TEN_TEXT } from '../config/strings';
 import { levelOf } from '../sim/stats';
-import { STATS } from '../config/tuning';
+import { STATS, UI } from '../config/tuning';
 import {
   STAT_KEYS,
   type DyeColor,
@@ -60,6 +60,7 @@ export class StatsSheet {
   constructor(
     parent: HTMLElement,
     private readonly game: () => Game | null,
+    private readonly toast: (text: string) => void = () => undefined,
   ) {
     this.root = el('div', 'sheet');
     this.root.hidden = true;
@@ -320,7 +321,12 @@ export class StatsSheet {
     this.carryBtn.textContent = carried ? UI_TEXT.putDown : UI_TEXT.pickUp;
     this.carryBtn.disabled = !carried && world.keeper.carrying !== null;
     this.feedBtn.hidden = isEgg || n.stage === 'cocoon';
-    this.feedBtn.textContent = `${UI_TEXT.feed} (${world.inventory.fruit})`;
+    // A full Nubbin says so on the button, and a tap explains instead of spending fruit.
+    const full = n.needs.hunger >= UI.feedFullAt;
+    this.feedBtn.textContent = full
+      ? `${UI_TEXT.feed} · ${UI_TEXT.feedFull}`
+      : `${UI_TEXT.feed} (${world.inventory.fruit})`;
+    this.feedBtn.classList.toggle('is-full', full);
     this.feedBtn.disabled = world.inventory.fruit <= 0;
     this.shakeBtn.hidden = !isEgg;
     this.more.hidden = isEgg || n.stage === 'cocoon';
@@ -328,6 +334,8 @@ export class StatsSheet {
     this.heartBtn.disabled = world.inventory.heartFruit <= 0;
     this.catchBtn.disabled = !world.items.some((i) => i.kind === 'toy');
     this.shakeBtn.disabled = !carried && n.behavior.state !== 'held';
+    // Say why it is off, rather than a dead button (review 2026-10-21, bug 18).
+    this.shakeBtn.textContent = this.shakeBtn.disabled ? UI_TEXT.shakeNeedsHold : UI_TEXT.shake;
     // Accessories only on hatched Chao-line Nubbins; dyes need stock.
     this.acc.hidden = isEgg || n.stage === 'cocoon' || n.species !== 'chao';
     const dyes = Object.values(world.inventory.dyes).reduce((s, c) => s + (c ?? 0), 0);
@@ -367,9 +375,15 @@ export class StatsSheet {
         if (g.world.keeper.carrying === this.id) g.send({ kind: 'putDown' });
         else g.send({ kind: 'pickUp', nubbinId: this.id });
         break;
-      case 'feed':
+      case 'feed': {
+        const n = g.world.nubbins.find((x) => x.id === this.id);
+        if (n && n.needs.hunger >= UI.feedFullAt) {
+          this.toast(UI_TEXT.isFull(n.name));
+          break;
+        }
         g.send({ kind: 'feed', nubbinId: this.id });
         break;
+      }
       case 'shake':
         g.send({ kind: 'shakeHeld' });
         break;
@@ -388,7 +402,10 @@ export class StatsSheet {
 
 function subtitleFor(n: Nubbin, world: World): string {
   if (n.stage === 'egg') {
-    return UI_TEXT.hatchesIn(formatDuration(Math.max(0, n.hatchRemainingMs)));
+    // Time up: an egg in the Keeper's arms waits to be put down, so say that, not "0s".
+    if (n.hatchRemainingMs <= 0)
+      return world.keeper.carrying === n.id ? UI_TEXT.hatchReadyHeld : UI_TEXT.hatchReady;
+    return UI_TEXT.hatchesIn(formatDuration(n.hatchRemainingMs));
   }
   const stage =
     n.species === 'chao'
@@ -422,6 +439,5 @@ function subtitleFor(n: Nubbin, world: World): string {
   const waiting = n.awaitingKeeper ? ` · ${UI_TEXT.waiting}` : '';
   const shadowTag = tag ? ` · ${tag}` : '';
   const extraTag = extra ? ` · ${extra}` : '';
-  void world;
   return `${stage}${type} · ${bandLabel} · ${UI_TEXT.age(formatDuration(n.ageMs))}${rebirths}${eternal}${waiting}${shadowTag}${extraTag}`;
 }

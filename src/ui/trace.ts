@@ -78,6 +78,7 @@ export class TraceGame {
     this.quest = quest;
     this.target = target;
     this.done = onDone;
+    this.fits.clear();
     this.glyph = 0;
     this.root.hidden = false;
     this.focus.opened();
@@ -143,13 +144,65 @@ export class TraceGame {
     return out;
   }
 
-  private glyphAt(x: CanvasRenderingContext2D, size: number, colour: string): void {
+  private glyphAt(x: CanvasRenderingContext2D, size: number, colour: string, fit = true): void {
+    x.save();
+    // A kana is stretched so its ink fills the box its stroke guides span: the guides are
+    // the school shape, and a font's own metrics (or a fallback face) left them off the
+    // glyph, worst on き (review 2026-10-21, bug 31).
+    const f = fit && this.target?.lang === 'ja' ? this.fitFor(this.current()) : null;
+    if (f) {
+      x.scale(size / 100, size / 100);
+      x.translate(f.dx, f.dy);
+      x.scale(f.sx, f.sy);
+      x.scale(100 / size, 100 / size);
+    }
     x.fillStyle = colour;
     x.textAlign = 'center';
     x.textBaseline = 'middle';
     x.font = `${Math.round(size * 0.94)}px ${FONT[this.target?.lang ?? 'ja']}`;
-    // Sized and placed so Klee One sits on the stroke guides (checked in the browser).
     x.fillText(this.current(), size / 2, size * 0.48);
+    x.restore();
+  }
+
+  /** Per glyph: the scale and offset that lay its ink over its stroke guides' box. */
+  private readonly fits = new Map<string, { sx: number; sy: number; dx: number; dy: number }>();
+  private fitFor(glyph: string): { sx: number; sy: number; dx: number; dy: number } | null {
+    const strokes = KANA_STROKES[glyph];
+    if (!strokes) return null;
+    const known = this.fits.get(glyph);
+    if (known) return known;
+    const c = document.createElement('canvas');
+    c.width = 100;
+    c.height = 100;
+    const x = c.getContext('2d');
+    if (!x) return null;
+    this.glyphAt(x, 100, '#000', false);
+    const data = x.getImageData(0, 0, 100, 100).data;
+    let ix0 = 100;
+    let iy0 = 100;
+    let ix1 = -1;
+    let iy1 = -1;
+    for (let y = 0; y < 100; y++)
+      for (let i = 0; i < 100; i++)
+        if (data[(y * 100 + i) * 4 + 3]! > 128) {
+          ix0 = Math.min(ix0, i);
+          ix1 = Math.max(ix1, i);
+          iy0 = Math.min(iy0, y);
+          iy1 = Math.max(iy1, y);
+        }
+    if (ix1 <= ix0 || iy1 <= iy0) return null;
+    const pts = strokes.flat();
+    // The guides run down the middle of the ink, which is a few units thick either side.
+    const pad = 3;
+    const gx0 = Math.min(...pts.map((p) => p.x)) - pad;
+    const gx1 = Math.max(...pts.map((p) => p.x)) + pad;
+    const gy0 = Math.min(...pts.map((p) => p.y)) - pad;
+    const gy1 = Math.max(...pts.map((p) => p.y)) + pad;
+    const sx = (gx1 - gx0) / (ix1 + 1 - ix0);
+    const sy = (gy1 - gy0) / (iy1 + 1 - iy0);
+    const fit = { sx, sy, dx: gx0 - ix0 * sx, dy: gy0 - iy0 * sy };
+    this.fits.set(glyph, fit);
+    return fit;
   }
 
   private pt(e: PointerEvent): Pt {

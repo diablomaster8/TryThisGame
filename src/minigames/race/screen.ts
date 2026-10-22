@@ -74,7 +74,8 @@ export class RaceScreen {
     this.quitBtn = button('✕', () => this.finish(), 'btn btn-icon quit');
     this.quitBtn.setAttribute('aria-label', UI_TEXT.quitMinigame);
     this.quitBtn.title = UI_TEXT.quitMinigame;
-    this.root.append(this.pixel.element, this.hud, this.cheerBtn, this.quitBtn, this.results);
+    // The results card joins the DOM only when shown: no hidden duplicate "Back to the Grove".
+    this.root.append(this.pixel.element, this.hud, this.cheerBtn, this.quitBtn);
     parent.appendChild(this.root);
 
     const { signal } = this.abort;
@@ -117,6 +118,7 @@ export class RaceScreen {
     this.outcome = null;
     this.hatRoll = hatRoll;
     this.results.hidden = true;
+    this.results.remove();
     this.root.hidden = false;
     this.lastMs = 0;
     this.accMs = 0;
@@ -185,7 +187,18 @@ export class RaceScreen {
   }
 
   resize(): void {
-    this.view.resize(playArea(this.root, this.view === this.pixel));
+    const pixel = this.view === this.pixel;
+    let rect = playArea(this.root, pixel);
+    this.root.style.paddingBottom = '';
+    // The pixel lanes end above the Cheer button: in landscape it sat on the bottom lanes
+    // (review 2026-10-21, bug 22).
+    const cheer = this.cheerBtn.getBoundingClientRect();
+    if (pixel && cheer.height > 0) {
+      const below = Math.max(0, Math.ceil(rect.bottom - cheer.top) + 6);
+      this.root.style.paddingBottom = `${below}px`;
+      rect = new DOMRect(rect.x, rect.y, rect.width, Math.max(1, rect.height - below));
+    }
+    this.view.resize(rect);
   }
 
   private readonly frame = (nowMs: number): void => {
@@ -242,6 +255,7 @@ export class RaceScreen {
     if (placement === 1 && race.tier < 3)
       this.resultsBody.appendChild(el('p', undefined, UI_TEXT.tierUnlocked));
     playSound(placement <= 3 ? 'win' : 'sad');
+    this.root.appendChild(this.results);
     this.results.hidden = false;
   }
 
