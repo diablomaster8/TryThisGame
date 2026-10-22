@@ -169,3 +169,49 @@ describe('the pixel story zoom (H14)', () => {
     expect(cam.currentZoomIndex).toBe(0);
   });
 });
+
+describe('marks clear of the gate (review fix 5)', () => {
+  it('keeps the guard house, the cart and the Dawn & Dusk houses 6 units from the gate fence', () => {
+    const gate = STAGE_MARKS.grove['gate']!;
+    // The gate's posts and fence run about 4 units either side of the gate along x.
+    const fenceDist = (p: { x: number; z: number }) => {
+      const x = Math.max(gate.x - 4, Math.min(gate.x + 4, p.x));
+      return Math.hypot(p.x - x, p.z - gate.z);
+    };
+    for (const m of [
+      'guardhouse',
+      'cart',
+      'green-centre',
+      'house-1',
+      'house-2',
+      'house-3',
+      'house-4',
+    ])
+      expect(fenceDist(STAGE_MARKS.grove[m]!), m).toBeGreaterThanOrEqual(6);
+  });
+});
+
+describe('focus marks and the Keeper on a mark', () => {
+  it('resolves a focus entry as a cast id first, then as a mark', () => {
+    const w = campaignWorld(['c2-corvin']);
+    const st = new SceneStager();
+    st.update(w);
+    const house = markAt('grove', 'house-1')!;
+    expect(st.spotOf(w, 'house-1')).toEqual({ x: house.x, z: house.z });
+    expect(st.spotOf(w, 'you')).toEqual(w.keeper.pos);
+    expect(st.spotOf(w, 'no-such-mark')).toBeNull();
+  });
+
+  it('draws the Keeper on its cast mark without moving the sim Keeper', () => {
+    const w = campaignWorld(['c2-corvin']);
+    const before = { ...w.keeper.pos };
+    const st = new SceneStager();
+    st.update(w);
+    st.stage = { cast: [{ who: 'you', mark: 'step' }] };
+    (st as unknown as { place(world: typeof w): void }).place(w);
+    const step = markAt('grove', 'step')!;
+    expect(st.keeperHold).toEqual({ x: step.x, z: step.z });
+    expect(st.frame(w)[0]).toEqual({ x: step.x, z: step.z });
+    expect(w.keeper.pos).toEqual(before);
+  });
+});

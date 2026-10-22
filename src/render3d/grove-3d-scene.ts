@@ -885,9 +885,43 @@ export class Grove3dScene {
    * The lift clear of the dialogue box is applied in `update`.
    */
   private stageShot(world: World, base: Shot): Shot {
+    const shot = this.stageShotFor(world, base);
+    // A phone held upright: never pull out to the whole map, whatever the shot.
+    if (shot.kind === 'stage' && this.camera.aspect < 1)
+      shot.distance = Math.min(shot.distance, READ3D.stage.portraitMaxDistance);
+    return shot;
+  }
+
+  /**
+   * Who a shot frames. On a phone held upright, a cast spread too wide for the capped
+   * distance is narrowed: first without the Keeper (a two-shot on the speakers), then to
+   * whoever speaks now and the one nearest them.
+   */
+  private framedPoints(world: World, points: Vec2[]): Vec2[] {
+    if (this.camera.aspect >= 1 || points.length < 3) return points;
+    const s = READ3D.stage;
+    const fits = (pts: Vec2[]) => {
+      const cx = pts.reduce((a, p) => a + p.x, 0) / pts.length;
+      const cz = pts.reduce((a, p) => a + p.z, 0) / pts.length;
+      const spread = Math.max(...pts.map((p) => Math.hypot(p.x - cx, p.z - cz)));
+      return spread <= s.portraitSpread;
+    };
+    if (fits(points)) return points;
+    const speakers = points.slice(1);
+    if (fits(speakers)) return speakers;
+    const who = this.staging.speaker;
+    const now = who && who !== 'narrator' ? this.staging.spotOf(world, who) : null;
+    const a = now ?? speakers[0]!;
+    const others = points.filter((p) => p !== a && (p.x !== a.x || p.z !== a.z));
+    others.sort((p, q) => Math.hypot(p.x - a.x, p.z - a.z) - Math.hypot(q.x - a.x, q.z - a.z));
+    return others[0] ? [a, others[0]] : [a];
+  }
+
+  private stageShotFor(world: World, base: Shot): Shot {
     const st = this.staging.stage.shot;
-    const points = this.staging.frame(world);
-    if (points.length < 2 && !st) return base;
+    const all = this.staging.frame(world);
+    if (all.length < 2 && !st) return base;
+    const points = this.framedPoints(world, all);
     const s = READ3D.stage;
     const cx = points.reduce((a, p) => a + p.x, 0) / points.length;
     const cz = points.reduce((a, p) => a + p.z, 0) / points.length;
@@ -905,11 +939,11 @@ export class Grove3dScene {
       ),
       points,
     };
-    const k = points[0]!;
+    const k = all[0]!;
     const who = st?.focus?.[0] ?? this.staging.speaker;
     const spoke =
       who && who !== 'you' && who !== 'narrator' ? this.staging.spotOf(world, who) : null;
-    const sp = spoke ?? points[1] ?? k;
+    const sp = spoke ?? all[1] ?? k;
     const portrait = this.camera.aspect < 1 ? 1.25 : 1;
     switch (st?.kind ?? 'two') {
       case 'wide':
@@ -981,6 +1015,7 @@ export class Grove3dScene {
     // A story scene cuts in at once: the render pauses behind the dialogue box soon after.
     this.staging.speaker = this.storySpeaker;
     const stageCut = this.staging.update(world, nowMs);
+    this.actors.keeperHold = this.staging.active ? this.staging.keeperHold : null;
     const shot = this.shot(world, orbit);
     const ease = (rate: number) => (snap ? 1 : 1 - Math.exp(-rate * dt));
     if (stageCut) {

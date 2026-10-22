@@ -281,7 +281,11 @@ export class Actors {
     this.keeper2Prev = k2 ? { x: k2.pos.x, z: k2.pos.z } : null;
   }
 
+  /** A story scene's drawn spot for the Keeper (render/scene-stage.ts), or null. */
+  keeperHold: Vec2 | null = null;
+
   keeperDrawPos(world: World, alpha: number): Vec2 {
+    if (this.keeperHold) return { x: this.keeperHold.x, z: this.keeperHold.z };
     return {
       x: lerp(this.keeperPrev.x, world.keeper.pos.x, alpha),
       z: lerp(this.keeperPrev.z, world.keeper.pos.z, alpha),

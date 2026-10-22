@@ -38,6 +38,13 @@ export const STORY_B = {
   dawnDusk: {
     /** The green is read from the `green-centre` and `house-1..4` marks; its kerb sits this share of the way out. */
     greenShare: 0.68,
+    /**
+     * The mown green and the four houses round it, on the school's ground north of the heart:
+     * clear of the gate and its fence, the lane, the well, the pond and the hills. The marks in
+     * `stage-marks.ts` are placed from these.
+     */
+    green: { x: -4, z: -14, r: 4.8 },
+    houseRadius: 6,
     /** Crest, roof colour and width for each house, clockwise from the north. */
     houses: [
       { crest: 'sun', roof: '#e8a53a', w: 4.4 },

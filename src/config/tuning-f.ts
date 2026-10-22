@@ -26,8 +26,9 @@ export const LOOK_F = {
   /** The Beetle Road's set on the lane in (grove coordinates). */
   beetle: {
     cabin: { w: 3.4, d: 2.6, h: 2.3 },
-    cart: { x: 3, z: 19 },
-    machine: { x: 7.5, z: 20.5 },
+    /** Outside the gate, six units and more clear of its posts and fence. */
+    cart: { x: 5.5, z: 30.5 },
+    machine: { x: 8.5, z: 32 },
   },
   /** Logged In: the holographic fence's radius round the lobby, panels and their size. */
   holo: { cx: 0, cz: 1, radius: 11.5, panels: 28, width: 2.5, height: 1.5 },

@@ -136,6 +136,7 @@ export function stageFlags(world: World, stage: SceneStage | null): StageFlags {
  */
 export class SceneStager {
   private sceneId: string | null = null;
+  private location: Location | null = null;
   private readonly speakers = new Set<string>();
   /** The resolved stage of the current scene ({} while none, or none authored). */
   stage: SceneStage = {};
@@ -143,6 +144,11 @@ export class SceneStager {
   readonly holds = new Map<string, Vec2>();
   /** Each NPC's drawn facing (radians, as `atan2(dx, dz)`), by NPC id. */
   readonly faces = new Map<string, number>();
+  /**
+   * Where the Keeper is drawn for the scene when the cast puts `you` on a mark, else null.
+   * Drawing only: the sim's Keeper stays where it is.
+   */
+  keeperHold: Vec2 | null = null;
   /** The hour the scene asks for (stage.hour, else its narration), or null for the clock's. */
   hour: number | null = null;
   /** Who speaks the line on screen now (the dialogue sets it each frame), or null. */
@@ -162,10 +168,13 @@ export class SceneStager {
   update(world: World, nowMs = 0): boolean {
     const r = resolveStage(world);
     const id = r?.id ?? null;
-    if (id === this.sceneId) return false;
+    // A move to another place restages the same scene (its marks and hour belong to a place).
+    if (id === this.sceneId && world.location === this.location) return false;
     this.sceneId = id;
+    this.location = world.location;
     this.holds.clear();
     this.faces.clear();
+    this.keeperHold = null;
     this.speakers.clear();
     this.hour = null;
     this.stage = {};
@@ -185,8 +194,11 @@ export class SceneStager {
 
   /** Where everyone is drawn for this scene: marks first, then far speakers brought in. */
   private place(world: World): void {
-    const k = world.keeper.pos;
     const cast = this.stage.cast ?? [];
+    const you = cast.find((c) => c.who === 'you');
+    const ym = you ? markAt(world.location, you.mark) : undefined;
+    if (ym) this.keeperHold = { x: ym.x, z: ym.z };
+    const k = this.keeperHold ?? world.keeper.pos;
     const here = world.npcs.filter((n) => npcHere(world.location, n.trainer));
     for (const n of here) this.holds.set(n.id, { x: n.pos.x, z: n.pos.z });
     const marked = new Set<string>();
@@ -225,9 +237,24 @@ export class SceneStager {
     }
   }
 
-  /** A speaker's drawn spot, by speaker id ('you' is the Keeper), or null when not here. */
+  /** The Keeper's drawn spot for the scene: on its mark, else where the sim has it. */
+  keeperSpot(world: World): Vec2 {
+    return this.keeperHold ?? { x: world.keeper.pos.x, z: world.keeper.pos.z };
+  }
+
+  /**
+   * A focus entry's drawn spot: a speaker id first ('you' is the Keeper), then a mark name
+   * at the current location (`green`, `house-1`, `flat-stone`…); null when neither.
+   */
   spotOf(world: World, who: string): Vec2 | null {
-    if (who === 'you') return { x: world.keeper.pos.x, z: world.keeper.pos.z };
+    const cast = this.castSpot(world, who);
+    if (cast) return cast;
+    const m = markAt(world.location, who);
+    return m ? { x: m.x, z: m.z } : null;
+  }
+
+  private castSpot(world: World, who: string): Vec2 | null {
+    if (who === 'you') return this.keeperSpot(world);
     const n = world.npcs.find((x) => x.trainer === who && npcHere(world.location, x.trainer));
     if (n) return this.holds.get(n.id) ?? n.pos;
     const c = world.campaign;
@@ -242,7 +269,7 @@ export class SceneStager {
    * however far (C5).
    */
   frame(world: World): Vec2[] {
-    const k = world.keeper.pos;
+    const k = this.keeperSpot(world);
     const out: Vec2[] = [{ x: k.x, z: k.z }];
     const near = (p: Vec2) => Math.hypot(p.x - k.x, p.z - k.z) < READ3D.stage.radius;
     const focus = this.stage.shot?.focus;
