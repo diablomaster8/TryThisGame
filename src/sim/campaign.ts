@@ -44,6 +44,18 @@ import { newId, uniqueName, withRng } from './world';
 
 export { sceneById };
 
+/**
+ * Where each of Hazel's chapters is played (campaign graphics H1): the Hollow for 8,
+ * Corvin's garden for 9, the Grove otherwise. The debug chapter jump moves there before
+ * `beginChapter`, so a jump that skips a chapter's own move (9 to 11 skips 10's return
+ * home) still lands in the right place.
+ */
+export const HAZEL_HOME: Readonly<Record<number, Location>> = { 8: 'hollow', 9: 'corvin' };
+
+export function hazelHome(n: number): Location {
+  return HAZEL_HOME[n] ?? 'grove';
+}
+
 export function chapterDef(n: number) {
   return CHAPTERS.find((c) => c.n === n);
 }
@@ -694,7 +706,9 @@ export function applyCampaignCommand(world: World, cmd: Command, events: SimEven
         return;
       }
       c.queue = [];
-      beginChapter(world, c, Math.max(1, Math.min(FINAL_CHAPTER, cmd.chapter)), events);
+      const n = Math.max(1, Math.min(FINAL_CHAPTER, cmd.chapter));
+      if (world.location !== 'dungeon') setLocation(world, hazelHome(n), events);
+      beginChapter(world, c, n, events);
       queueOpening(world, c);
       return;
     }

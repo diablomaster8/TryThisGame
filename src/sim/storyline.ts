@@ -1,12 +1,12 @@
 import { CHAPTERS, ENDINGS } from '../config/story';
 import type { Storyline, StorylineChapter } from '../content/types';
 import { STORY } from '../config/tuning';
-import { chapterDef, FINAL_CHAPTER } from './campaign';
+import { chapterDef, FINAL_CHAPTER, setLocation } from './campaign';
 import { actLabel, checkMet } from './storyline-checks';
 import { storylineRule, type StoryAction } from './storyline-rules';
 import { sceneById, storylineById } from './story-scenes';
 import { queueScene, seen } from './story-state';
-import type { CampaignState, Command, SimEvent, World } from './types';
+import type { CampaignState, Command, Location, SimEvent, World } from './types';
 
 /**
  * The storyline machine: the separate campaigns (SL1–SL4) share Hazel's Grove's campaign
@@ -55,6 +55,23 @@ const COUNTED = new Set<SimEvent['kind']>([
   'degenerated',
   'restored',
 ]);
+
+/**
+ * Where each storyline's chapters are played (campaign graphics H1), by storyline id and
+ * chapter number; a chapter not listed is played in the Grove, where all four separate
+ * campaigns are dressed. The debug chapter jump moves there before the chapter begins.
+ */
+export const STORY_HOME: Readonly<Record<string, Readonly<Record<number, Location>>>> = {
+  hundred: {},
+  logged: {},
+  beetle: {},
+  dawn: {},
+  dusk: {},
+};
+
+export function storyHome(storyline: string, n: number): Location {
+  return STORY_HOME[storyline]?.[n] ?? 'grove';
+}
 
 export function storylineOf(c: CampaignState | null | undefined): Storyline | undefined {
   return c?.storyline ? storylineById(c.storyline) : undefined;
@@ -227,7 +244,9 @@ export function applyStorylineCommand(
       const s = storylineOf(c);
       if (!s) return;
       c.queue = [];
-      beginStoryChapter(world, c, Math.max(1, Math.min(s.chapters.length, cmd.chapter)), events);
+      const n = Math.max(1, Math.min(s.chapters.length, cmd.chapter));
+      if (world.location !== 'dungeon') setLocation(world, storyHome(s.id, n), events);
+      beginStoryChapter(world, c, n, events);
       return;
     }
     default:
