@@ -142,7 +142,7 @@ export function driveLook(f: LookFrame, nowMs = performance.now()): void {
           `radial-gradient(ellipse at 50% 45%,${rgba(look.tint, t)} 0%,` +
           `${rgba(look.tint, t)} 55%,${rgba(look.shadow, look.shadowAlpha)} 100%)`),
     );
-    setBlend(l.grade, 'gradeBlend', 'soft-light');
+    setBlend(l.grade, 'gradeBlend', 'overlay');
   }
   l.sat.hidden = !look || look.sat >= 0.99;
   if (look) put('sat', String(look.sat), () => (l.sat.style.opacity = String(1 - look.sat)));
@@ -279,7 +279,7 @@ export function showTitleCard(c: TitleCard): void {
   hideTitleCard();
   const name = TITLE_CARD_TEXT.campaigns[c.campaign] ?? c.campaign;
   const root = document.createElement('div');
-  root.className = 'title-card';
+  root.className = 'chapter-card';
   root.setAttribute('role', 'status');
   root.style.cssText =
     'position:fixed;left:0;right:0;top:20%;z-index:12;display:flex;justify-content:center;' +
