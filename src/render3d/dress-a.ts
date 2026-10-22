@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { CG_A, CG2_X } from '../config/tuning';
+import { markAt } from '../config/stage-marks';
 import { SceneStager } from '../render/scene-stage';
 import { NIGHT_RIM } from '../samples/creatures';
 import type { SceneStage } from '../config/story';
@@ -92,6 +93,20 @@ function flatOrHidden(mesh: THREE.Mesh): boolean {
   if (mats.every((m) => !m.visible || !m.colorWrite)) return true;
   const box = new THREE.Box3().setFromObject(mesh);
   return !box.isEmpty() && box.max.y - box.min.y < 0.35;
+}
+
+/**
+ * The framed people only (the Keeper first, always; speakers and cast in the focus): a focus mark such
+ * as a house's door is framed by the camera but is no one to cut a window to, and its own
+ * house must not hide for it.
+ */
+function people(stager: SceneStager, world: World): Vec2[] {
+  const marks = (stager.focusNow() ?? [])
+    .map((n) => markAt(world.location, n))
+    .filter((m): m is NonNullable<typeof m> => m !== null && m !== undefined);
+  return stager
+    .frame(world)
+    .filter((p, i) => i === 0 || !marks.some((m) => Math.hypot(m.x - p.x, m.z - p.z) < 0.01));
 }
 
 /**
@@ -213,6 +228,8 @@ class LightAndGrade implements Dressing3d {
   /** Materials already hooked into the H9 fade (cards, water, story-set crowns). */
   private readonly patched = new WeakSet<THREE.Material>();
   private discovered = false;
+  /** Frames until the scene's second look for buildings (0: none due). */
+  private again = 0;
   private readonly corner = new THREE.Vector3();
   private readonly ray = new THREE.Ray();
 
@@ -233,26 +250,7 @@ class LightAndGrade implements Dressing3d {
       m.emissive.multiplyScalar(CG_A.glassGlow);
       this.glass.add(m);
     });
-    // H9: a building's outline hull would show black through its dithered wall, so the
-    // buildings' hulls take a copy of the shared hull material that dithers with them.
-    ctx.scene.traverse((o) => {
-      const parent = o.parent as THREE.Mesh | null;
-      const host = parent?.material as THREE.Material | undefined;
-      if (!o.userData.hull || !host || Array.isArray(host)) return;
-      if (!host.customProgramCacheKey().startsWith('building-toon')) return;
-      const hull = o as THREE.Mesh;
-      const base = hull.material as THREE.Material;
-      if (!this.hull) {
-        const m = base.clone();
-        m.onBeforeCompile = (shader, renderer) => {
-          base.onBeforeCompile(shader, renderer);
-          occludable(shader);
-        };
-        m.customProgramCacheKey = () => `${base.customProgramCacheKey()}|occ`;
-        this.hull = { base, mat: m };
-      }
-      hull.material = this.hull.mat;
-    });
+    this.hulls(ctx);
     ctx.scene.traverse((o) => {
       if ((o as THREE.HemisphereLight).isHemisphereLight) this.hemi = o as THREE.HemisphereLight;
     });
@@ -291,21 +289,25 @@ class LightAndGrade implements Dressing3d {
     this.storyFloor(world.location, ctx, night);
 
     // The framed points of a staged scene: the Keeper first, then the speakers.
-    if (this.stager.update(world) || !this.discovered) this.discover(ctx);
+    // Other dressings build a scene's houses in their own update, after this one: look
+    // again a few frames into each scene.
+    if (this.stager.update(world) || !this.discovered) {
+      this.discover(ctx);
+      this.again = 3;
+    } else if (this.again > 0 && --this.again === 0) this.discover(ctx);
     const home = world.location === 'grove';
     const groundAt = (p: Vec2) => (home ? groveHeight(p.x, p.z) : 0);
-    const points = this.stager.active ? this.stager.frame(world).slice(0, 3) : [];
+    const points = this.stager.active ? people(this.stager, world).slice(0, 3) : [];
     const occ = CG_A.occlude;
     OCCLUDE.on.value = points.length > 0 ? 1 : 0;
-    OCCLUDE.radius.value = occ.radius;
+    OCCLUDE.radius.value = CG2_X.occlude.radius;
     OCCLUDE.keep.value = occ.keep;
     OCCLUDE.margin.value = occ.margin;
-    // Campaign graphics 2 (H10, H14): ground-hugging pieces never thin, a thinned building
-    // thins in a round hole, and in a staged scene anything right by the lens thins.
+    // Campaign graphics 2 (H10, H14): low and flat pieces are never cut, the cut round a
+    // subject is a clean round window, and in a staged scene anything right by the lens goes.
     const x = CG2_X.occlude;
     OCCLUDE.nearCam.value = points.length > 0 ? Math.max(occ.nearCam, x.nearCam) : 0;
     OCCLUDE.ground.value = points.length > 0 ? Math.min(...points.map(groundAt)) + x.ground : -1e9;
-    OCCLUDE.boxRadius.value = x.boxRadius;
     OCCLUDE.points.value.forEach((v, i) => {
       const p = points[i];
       if (p) v.set(p.x, groundAt(p) + occ.height, p.z, 1);
@@ -346,27 +348,29 @@ class LightAndGrade implements Dressing3d {
   }
 
   /**
-   * H9's whole-building fade: a building (a `building` pickable, drawn this frame) thins
-   * whole only when it stands on a sight line from the camera to a framed subject (its
-   * feet, middle or head) before that subject; so a building beside or behind the shot
-   * never ghosts, and a story set the shot is about stays solid. Its glass, lamp and
-   * spill cards sit in the same box and thin with it. Four at most; returns how many.
+   * H9's building hiding (reworked by campaign graphics 2, H10 and H14): a building drawn
+   * this frame is hidden outright above its foot when it stands on a sight line from the
+   * camera to a framed subject (feet, middle or head) before that subject, when its box
+   * comes within `nearHide` of the lens, or, nearer the lens than every subject, when the
+   * frame's bottom edge cuts it or it covers `fill` of the frame. A building the scene is
+   * about never hides. Its glass, lamp and spill cards sit in the same box and go with it.
+   * Four at most; returns how many.
    */
   private blockers(feet: THREE.Vector3[], subjects: ReadonlySet<string>): number {
     const cam = this.camera;
     if (!cam || feet.length === 0) return 0;
     const occ = CG_A.occlude;
+    const x = CG2_X.occlude;
     const sights: { to: THREE.Vector3; dist: number }[] = [];
     for (const f of feet)
       for (const up of [0.3, occ.subjectHeight * 0.5, occ.subjectHeight]) {
         const to = new THREE.Vector3(f.x, f.y + up, f.z);
         sights.push({ to, dist: to.distanceTo(cam.position) });
       }
-    let n = 0;
+    const nearest = Math.min(...sights.map((s) => s.dist));
+    const found: { box: THREE.Box3; rank: number }[] = [];
     for (const [o, box] of this.buildings) {
-      if (n >= OCCLUDE.boxMin.value.length) break;
       if (!shown(o)) continue;
-      // C9: a building the scene is about (its focus or place) never thins.
       const id = (o.userData.pick as { id?: string } | undefined)?.id;
       if (id && subjects.has(id)) continue;
       const blocks = sights.some((s) => {
@@ -375,12 +379,74 @@ class LightAndGrade implements Dressing3d {
         const hit = this.ray.intersectBox(box, this.corner);
         return hit !== null && hit.distanceTo(cam.position) < s.dist - occ.margin;
       });
-      if (!blocks) continue;
+      const near = box.distanceToPoint(cam.position);
+      let rank = blocks ? 0 : near < x.nearHide ? 1 : -1;
+      if (rank < 0 && near < nearest - occ.margin && this.crowds(box, cam)) rank = 2;
+      if (rank >= 0) found.push({ box, rank: rank * 1000 + near });
+    }
+    found.sort((a, b) => a.rank - b.rank);
+    let n = 0;
+    for (const { box } of found) {
+      if (n >= OCCLUDE.boxMin.value.length) break;
       OCCLUDE.boxMin.value[n]!.copy(box.min);
+      OCCLUDE.boxMin.value[n]!.y += x.floor;
       OCCLUDE.boxMax.value[n]!.copy(box.max);
       n++;
     }
     return n;
+  }
+
+  /** Whether a box is cut by the frame's bottom edge, or covers `fill` of the frame. */
+  private crowds(box: THREE.Box3, cam: THREE.Camera): boolean {
+    let x0 = Infinity;
+    let y0 = Infinity;
+    let x1 = -Infinity;
+    let y1 = -Infinity;
+    for (let i = 0; i < 8; i++) {
+      const c = this.corner.set(
+        i & 1 ? box.max.x : box.min.x,
+        i & 2 ? box.max.y : box.min.y,
+        i & 4 ? box.max.z : box.min.z,
+      );
+      c.project(cam);
+      if (c.z > 1) return false;
+      x0 = Math.min(x0, c.x);
+      x1 = Math.max(x1, c.x);
+      y0 = Math.min(y0, c.y);
+      y1 = Math.max(y1, c.y);
+    }
+    // Wholly off screen: nothing to clear.
+    if (x1 < -1 || x0 > 1 || y1 < -1 || y0 > 1) return false;
+    const w = Math.min(1, x1) - Math.max(-1, x0);
+    const h = Math.min(1, y1) - Math.max(-1, y0);
+    return y0 < -1 || (w * h) / 4 > CG2_X.occlude.fill;
+  }
+
+  /**
+   * H9: a building's outline hull would show black where its wall is cut or hidden, so the
+   * buildings' hulls take a copy of the shared hull material that is cut with them. Run at
+   * build and again on each discovery: story houses built later have hulls too.
+   */
+  private hulls(ctx: Dress3dCtx): void {
+    ctx.scene.traverse((o) => {
+      const parent = o.parent as THREE.Mesh | null;
+      const host = parent?.material as THREE.Material | undefined;
+      if (!o.userData.hull || !host || Array.isArray(host)) return;
+      if (!host.customProgramCacheKey().startsWith('building-toon')) return;
+      const hull = o as THREE.Mesh;
+      const base = hull.material as THREE.Material;
+      if (this.hull && base === this.hull.mat) return;
+      if (!this.hull) {
+        const m = base.clone();
+        m.onBeforeCompile = (shader, renderer) => {
+          base.onBeforeCompile(shader, renderer);
+          occludable(shader);
+        };
+        m.customProgramCacheKey = () => `${base.customProgramCacheKey()}|occ`;
+        this.hull = { base, mat: m };
+      }
+      if (base === this.hull.base) hull.material = this.hull.mat;
+    });
   }
 
   /**
@@ -391,19 +457,37 @@ class LightAndGrade implements Dressing3d {
    */
   private discover(ctx: Dress3dCtx): void {
     this.discovered = true;
-    const occ = CG_A.occlude;
     for (const o of ctx.pickables) {
       const pick = o.userData.pick as { kind?: string } | undefined;
       if (pick?.kind !== 'building' || this.buildings.has(o)) continue;
-      const box = new THREE.Box3().setFromObject(o);
-      if (box.isEmpty()) continue;
-      box.min.x -= occ.eaves;
-      box.min.z -= occ.eaves;
-      box.max.x += occ.eaves;
-      box.max.z += occ.eaves;
-      box.max.y += occ.roof;
-      this.buildings.set(o, box);
+      this.addBuilding(o);
     }
+    // Every house the kit built, tappable or not (the crest houses, the Fold's extras).
+    ctx.scene.traverse((o) => {
+      if (o.userData.house && !this.buildings.has(o)) this.addBuilding(o);
+    });
+    this.patch(ctx);
+    this.hulls(ctx);
+  }
+
+  /** A building's box: its walls grown by the eaves and up to the roof's ridge. */
+  private addBuilding(o: THREE.Object3D): void {
+    const occ = CG_A.occlude;
+    // A house built this frame may not have its parents' matrices yet.
+    o.updateWorldMatrix(true, false);
+    const box = new THREE.Box3().setFromObject(o);
+    // Empty, or a whole street in one pick: not one building to hide.
+    if (box.isEmpty() || Math.max(box.max.x - box.min.x, box.max.z - box.min.z) > 16) return;
+    box.min.x -= occ.eaves;
+    box.min.z -= occ.eaves;
+    box.max.x += occ.eaves;
+    box.max.z += occ.eaves;
+    box.max.y += occ.roof;
+    this.buildings.set(o, box);
+  }
+
+  /** Hook the materials that must go with a building (cards) or on their own (crowns). */
+  private patch(ctx: Dress3dCtx): void {
     ctx.scene.traverse((o) => {
       const mesh = o as THREE.Mesh;
       if (!mesh.isMesh || o.userData.hull || flatOrHidden(mesh)) return;
