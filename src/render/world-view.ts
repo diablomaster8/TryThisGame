@@ -1,4 +1,5 @@
 import { Vector3 } from 'three';
+import { nubbinSits } from '../config/npc-looks';
 import { DUNGEON, EGG, LIFECYCLE, UI } from '../config/tuning';
 import { childHint } from '../sim/alignment';
 import { moodOf } from '../sim/needs';
@@ -1319,7 +1320,10 @@ export class WorldView {
         opacity = 0.85 + 0.15 * Math.sin(nowMs / 150);
       }
     } else {
-      let clip = clipFor(n);
+      // M6: a scene that seats Moss draws his sleep frames (he sits, not naps).
+      let clip = nubbinSits(this.staging?.stage, world.campaign?.mossId, n.id)
+        ? 'sleep'
+        : clipFor(n);
       const view = viewAngle(n.facing, yaw);
       // A look without the flap or swim clip moves with its walk instead.
       if (

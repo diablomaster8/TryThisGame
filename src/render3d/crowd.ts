@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { npcLookOf } from '../config/npc-looks';
 import { GROVE3D, READ3D } from '../config/tuning';
 import type { PoseName, Rigged } from '../samples/species';
 import { speciesArt } from '../render/sprites/species-art';
@@ -177,7 +178,10 @@ export function crowdFor(
     out.push({
       id: npc.id,
       kind: 'npc',
-      look: { key: `keeper-${band}~npc:${t}`, height: GROVE3D.keeperHeight },
+      look: {
+        key: `keeper-${band}~npc:${t}`,
+        height: GROVE3D.keeperHeight * (npcLookOf(t)?.scale ?? 1),
+      },
       x: at.x,
       z: at.z,
       facing: held ? (opts.faces?.get(npc.id) ?? Math.atan2(k.x - at.x, k.z - at.z)) : npc.facing,

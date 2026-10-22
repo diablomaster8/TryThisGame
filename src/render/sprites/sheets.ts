@@ -24,6 +24,7 @@ import { buildEmoteSheet } from './emote';
 import { keeperOutfit, trainerLook } from '../keeper-look';
 import { C } from './palette';
 import { buildKeeperSheet } from './keeper';
+import { npcLookOf } from '../../config/npc-looks';
 import { buildPaintedProps } from '../paint/decor';
 import { buildDungeonProps } from '../paint/dungeon';
 import { buildPaintedScenery } from '../paint/scenery';
@@ -188,7 +189,9 @@ export class SheetCache {
    */
   keeper(trainerId: string, side?: KeeperAlignment): SpriteSheet {
     if (!side)
-      return this.get(`keeper:${trainerId}`, () => buildKeeperSheet(trainerLook(trainerId)));
+      return this.get(`keeper:${trainerId}`, () =>
+        buildKeeperSheet(trainerLook(trainerId), npcLookOf(trainerId)),
+      );
     return this.get(`keeper:${trainerId}:${side}`, () =>
       buildKeeperSheet(keeperOutfit(trainerId, side)),
     );
