@@ -33,8 +33,8 @@ export function hushCardTexture(): THREE.CanvasTexture {
     blob(64, 88, 40 + grow, 46 + grow, a * 0.9, rgb);
     blob(64, 46, 24 + grow, 24 + grow, a, rgb);
   };
-  body(9, 0.5, rimRgb);
-  body(0, 0.82, '132,140,158');
+  body(7, 0.28, rimRgb);
+  body(0, 1, '84,92,112');
   g.globalCompositeOperation = 'destination-in';
   const fade = g.createLinearGradient(0, 0, 0, 192);
   fade.addColorStop(0, 'rgba(0,0,0,1)');

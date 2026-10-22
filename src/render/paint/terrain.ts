@@ -209,3 +209,30 @@ export function paintPondIce(size = 192): CanvasTexture {
   const tex = r.toTexture(true);
   return tex;
 }
+
+/** A tileable sheet of stream ice: pale blue, a few cracks and frozen bubbles. */
+export function paintStreamIce(size = 64): CanvasTexture {
+  const r = new Raster(size, size, hex('#d3e7f3'));
+  for (let y = 0; y < size; y++)
+    for (let x = 0; x < size; x++) {
+      // Sampled on a torus so the tile wraps.
+      const a = (x / size) * Math.PI * 2;
+      const b = (y / size) * Math.PI * 2;
+      const n = fbm(
+        Math.cos(a) * 2 + Math.cos(b) * 2 + 5,
+        Math.sin(a) * 2 + Math.sin(b) * 2 + 5,
+        3,
+        311,
+      );
+      let c = mix(hex('#e6f3fb'), hex('#a9cde6'), n);
+      if (
+        ridged(Math.cos(a) * 3 + Math.cos(b) * 3, Math.sin(a) * 3 + Math.sin(b) * 3, 2, 312) > 0.9
+      )
+        c = hex('#ffffff');
+      r.set(x, y, c);
+    }
+  const tex = r.toTexture(true);
+  tex.wrapS = RepeatWrapping;
+  tex.wrapT = RepeatWrapping;
+  return tex;
+}

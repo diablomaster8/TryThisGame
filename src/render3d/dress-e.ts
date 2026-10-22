@@ -119,7 +119,7 @@ class Dress3dE implements Dressing3d {
     this.colossus.position.set(
       HUSH.origin.x,
       groveHeight(HUSH.origin.x, HUSH.origin.z) + CG2_W.hush.y3d,
-      HUSH.origin.z,
+      HUSH.origin.z + CG2_W.hush.z3d,
     );
     this.colossus.visible = false;
     this.root.add(this.colossus);
