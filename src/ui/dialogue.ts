@@ -336,6 +336,8 @@ export class Dialogue {
     const chorus = who === 'chorus';
     this.name.textContent = this.names[who] ?? speakerName(who, g, this.scene ?? '');
     this.name.hidden = who === 'narrator';
+    // H6: only a spoken line has a speaker in the world; narration and the chorus have none.
+    SPEAKER_NOW.who = who === 'narrator' || chorus ? null : who;
     this.root.classList.toggle('narration', who === 'narrator');
     // The chorus (everyone singing) has no portrait and is shown in italics.
     this.root.classList.toggle('chorus', chorus);
@@ -506,7 +508,7 @@ function portraitFrame(
 ): { sheet: SpriteSheet | null; key: string } {
   const sheets = g.view.sheets;
   // H6: the world's speaker chevron follows the line on screen.
-  SPEAKER_NOW.who = who;
+  if (who !== 'narrator') SPEAKER_NOW.who = who;
   // You wear your own outfit (trim in your side's colours), as in the Grove, so you never
   // share a portrait with the villager whose look you chose.
   if (who === 'you') {
