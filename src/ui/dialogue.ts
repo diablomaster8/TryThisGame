@@ -108,6 +108,11 @@ export class Dialogue {
     parent.append(this.root);
   }
 
+  /** Who speaks the line on screen (a speaker id), or null when closed; the story camera frames them. */
+  get speaker(): string | null {
+    return this.isOpen ? (this.lines[this.index]?.who ?? null) : null;
+  }
+
   get isOpen(): boolean {
     return !this.root.hidden;
   }

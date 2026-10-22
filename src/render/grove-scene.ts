@@ -29,7 +29,9 @@ import {
   type Texture,
 } from 'three';
 import { CAMERA, DUNGEON, GROVE, GROVE3D, LANTERN_POSTS, PIXEL_LIGHT } from '../config/tuning';
-import type { GroveKind, Location, TileKind, WeatherKind } from '../sim/types';
+import type { SceneStage } from '../config/story';
+import type { GroveKind, Location, TileKind, WeatherKind, World } from '../sim/types';
+import { PixelDressings, type PixelDressCtx } from './dressings';
 import { daylightAt, type Daylight } from './daylight';
 import { C, color } from './sprites/palette';
 import { groundTexture, makeGroundTexture } from './ground';
@@ -286,8 +288,14 @@ export class GroveScene {
   lampsOn = false;
   private readonly foam: Mesh<ShapeGeometry, MeshBasicMaterial>;
 
-  /** `tiles` is the loaded world's painted ground, so a reload paints it straight away. */
-  constructor(tiles: Record<string, TileKind> = {}) {
+  /** The campaign-graphics packages' story dressing (render/dressings.ts). */
+  private readonly dressings = new PixelDressings();
+
+  /**
+   * `tiles` is the loaded world's painted ground, so a reload paints it straight away.
+   * `sprites` is the WorldView's batch and sheets, for the dressings' billboards.
+   */
+  constructor(tiles: Record<string, TileKind> = {}, sprites: PixelDressCtx['sprites'] = null) {
     this.scene.background = new Color(color(C.nightBlue));
 
     this.hemi = new HemisphereLight(new Color(color(C.shallows)), new Color(color(C.forest)), 1.5);
@@ -568,6 +576,28 @@ export class GroveScene {
     this.dungeonGroup.visible = false;
     this.buildHollow(lobeGeo, leaves, bark);
     this.buildCorvin();
+    this.dressings.build({
+      scene: this.scene,
+      groups: {
+        grove: this.groveGroup,
+        hollow: this.hollowGroup,
+        corvin: this.corvinGroup,
+        dungeon: this.dungeonGroup,
+      },
+      textures: { water: this.water, glint: this.glint, falls: this.falls },
+      sprites,
+      pickables: this.pickables,
+      reduceMotion: () => this.holdStill,
+      track: (d) => this.disposables.push(d),
+    });
+  }
+
+  /**
+   * The dressings' frame (render/dressings.ts): called from inside the WorldView's sprite
+   * pass, so their billboards join the batch. `dt` is seconds.
+   */
+  dress(world: World, stage: SceneStage, dt: number): void {
+    this.dressings.update(world, stage, this.daylight, dt);
   }
 
   /** The Hollow: a dark wood past the falls, a flat stone where the notebook waits. */
@@ -1014,6 +1044,7 @@ export class GroveScene {
   }
 
   dispose(): void {
+    this.dressings.dispose();
     for (const d of this.disposables) d.dispose();
     for (const p of this.dungeonParts) p.dispose();
     this.groundWorker?.terminate();
