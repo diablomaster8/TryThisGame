@@ -6,14 +6,15 @@ import type { PoseName, Rigged } from '../samples/species';
 import type { Floor } from '../sim/dungeon';
 import type { Location, Nubbin, Vec2, World } from '../sim/types';
 import { keeperLook, nubbinLook, openingLooks, takePool, type Look } from './creature-pool';
-import { Crowd, crowdFor } from './crowd';
+import { Crowd, crowdFor, type CrowdOptions } from './crowd';
 import { vectorEmotes } from './emote-vector';
 import { QuadCloud } from './quad-particles';
 import { gaitTime } from './gait';
 import { WATER_LEVEL, groveHeight } from './terrain';
-import { GROVE, GROVE3D, LIFECYCLE, THROW } from '../config/tuning';
+import { GROVE, GROVE3D, LIFECYCLE, READ3D, THROW } from '../config/tuning';
 import { isMerged } from '../sim/partners';
 import { MergedGlow } from './glow';
+import { memorialFlower, updateMemorials } from './memorial';
 import { Dresser } from './dress';
 import { ItemKit, eggFamily, placeStand, shellKey } from './item-kit';
 import { flaps, swimsStroke } from '../sim/stats';
@@ -169,6 +170,8 @@ export class Actors {
   location: Location = 'grove';
   floor: Floor | null = null;
   private readonly crowd: Crowd;
+  /** Story holds and the lantern posts, set by the scene (see staging.ts, crowd.ts). */
+  crowdOptions: CrowdOptions = {};
   /** Ground height for feet: the terrain in the Grove, flat elsewhere. */
   ground: (x: number, z: number) => number = () => 0;
 
@@ -332,7 +335,8 @@ export class Actors {
       test('nubbin', id, o, r, a.rig ? 0.6 : 0.4);
     }
     for (const [id, i] of this.items) test('item', id, i.mesh, 0.4, 0.1);
-    for (const [id, m] of this.memorials) test('memorial', id, m, 0.35, 0.4);
+    for (const [id, m] of this.memorials)
+      test('memorial', id, m, 0.45, READ3D.memorial.height * 0.75);
     const c = this.crowd.pick(ray);
     const b = best as Hit | null;
     if (c && c.kind !== 'ambient' && (!b || c.d < b.d)) return { kind: c.kind, id: c.id, d: c.d };
@@ -513,6 +517,14 @@ export class Actors {
     return { feet, head: feet.clone().setY(o.position.y + 0.45) };
   }
 
+  /** Which way a Nubbin's face points, flat on the ground (its head bone's forward). */
+  nubbinFront(id: string): THREE.Vector3 | null {
+    const head = this.nubbins.get(id)?.rig?.bones.head;
+    if (!head) return null;
+    const d = head.getWorldDirection(new THREE.Vector3()).setY(0);
+    return d.lengthSq() > 1e-6 ? d.normalize() : null;
+  }
+
   /** Where an item is drawn, or null once it is gone. */
   itemPosition(id: string): THREE.Vector3 | null {
     return this.items.get(id)?.mesh.position.clone() ?? null;
@@ -656,7 +668,12 @@ export class Actors {
     const hand = this.keeperHand(rig, keeper);
     let petted = false;
     // Visitors, wild ones, the Hollow's strays and the story places' grey Nubbins.
-    this.crowd.update(crowdFor(world, this.location, this.floor, nowMs), this.ground, t, dt);
+    this.crowd.update(
+      crowdFor(world, this.location, this.floor, nowMs, this.crowdOptions),
+      this.ground,
+      t,
+      dt,
+    );
 
     // Nubbins. On a visit the Keeper's own stay at home, as do the items.
     const away = this.location.startsWith('visit:');
@@ -796,22 +813,7 @@ export class Actors {
     const memorials = this.location === 'grove' ? world.memorials : [];
     for (const m of memorials) {
       if (this.memorials.has(m.id)) continue;
-      const g = new THREE.Group();
-      const stem = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.03, 0.04, 0.5, 6),
-        new THREE.MeshStandardMaterial({ color: '#4f8a3a' }),
-      );
-      stem.position.y = 0.25;
-      const bloom = new THREE.Mesh(
-        new THREE.SphereGeometry(0.14, 10, 8),
-        new THREE.MeshStandardMaterial({
-          color: '#ffd1e8',
-          emissive: '#ff9ecb',
-          emissiveIntensity: 0.4,
-        }),
-      );
-      bloom.position.y = 0.55;
-      g.add(stem, bloom);
+      const g = memorialFlower();
       g.position.set(m.pos.x, this.ground(m.pos.x, m.pos.z), m.pos.z);
       this.group.add(g);
       this.memorials.set(m.id, g);
@@ -819,15 +821,11 @@ export class Actors {
     const liveMemorials = new Set(memorials.map((m) => m.id));
     for (const [id, g] of [...this.memorials]) {
       if (liveMemorials.has(id)) continue;
+      // Geometry and materials are shared by every flower (memorial.ts): nothing to free.
       g.removeFromParent();
-      g.traverse((o) => {
-        if (o instanceof THREE.Mesh) {
-          o.geometry.dispose();
-          (o.material as THREE.Material).dispose();
-        }
-      });
       this.memorials.delete(id);
     }
+    updateMemorials(this.memorials.values(), cameraPos, t);
 
     // The highlight ring.
     const hl = this.highlightId;

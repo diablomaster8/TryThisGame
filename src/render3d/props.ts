@@ -30,6 +30,10 @@ export interface Lantern {
   glass: THREE.MeshStandardMaterial;
   /** Where its light shines from; the scene's lamp pool lights it at night. */
   light: THREE.Vector3;
+  /** Its own materials, its foot and height: what the occluder fade needs (crowns.ts). */
+  materials: THREE.Material[];
+  foot: THREE.Vector3;
+  height: number;
 }
 
 export interface GroveProps {
@@ -281,15 +285,24 @@ export function buildGroveProps(
   }
 
   // Lantern posts: a footing stone, a bevelled post, a framed glass box that glows when
-  // lit, a cap with an overhang and a finial, and its light.
+  // lit, a cap with an overhang and a finial, and its light. Each lantern has its own
+  // materials (one program for all four), so one standing between the camera and the
+  // Keeper or a Nubbin can thin out of the way on its own (review 2026-10-21, bug 10).
   const lanterns: Lantern[] = [];
   const postGeo = bevelBox(0.16, 2.0, 0.16, 0.04);
   LANTERNS.forEach(([x, z], i) => {
     const y = groveHeight(x, z);
-    const post = new THREE.Mesh(postGeo, kitMaterial(kit, 'timber'));
+    const own = new Buckets();
+    const timber = buildingMaterial(tex.wood, { color: '#7a5434', normal: 0.5 });
+    const roof = buildingMaterial(tex.roof, { color: '#e9cdb8', normal: 0.5 });
+    const stone = buildingMaterial(tex.cobble, { color: '#d8d2c8', normal: 0.5 });
+    own.material('timber', timber);
+    own.material('roof', roof);
+    own.material('stone', stone);
+    const post = new THREE.Mesh(postGeo, timber);
     post.castShadow = post.receiveShadow = true;
     post.position.set(x, y + 1.0, z);
-    kit.add('stone', bevelBox(0.42, 0.3, 0.42, 0.05), { x, y: y + 0.05, z });
+    own.add('stone', bevelBox(0.42, 0.3, 0.42, 0.05), { x, y: y + 0.05, z });
     // No transmission: one transmissive object makes the renderer draw the whole scene a
     // second time into a refraction target every frame (review C, item 6).
     const glass = new THREE.MeshStandardMaterial({
@@ -304,24 +317,34 @@ export function buildGroveProps(
     box.position.set(x, y + 2.1, z);
     for (const sx of [-1, 1])
       for (const sz of [-1, 1])
-        kit.add('timber', new THREE.BoxGeometry(0.05, 0.44, 0.05), {
+        own.add('timber', new THREE.BoxGeometry(0.05, 0.44, 0.05), {
           x: x + sx * 0.18,
           y: y + 2.1,
           z: z + sz * 0.18,
         });
-    kit.add('timber', bevelBox(0.44, 0.06, 0.44, 0.02), { x, y: y + 1.88, z });
-    kit.add('roof', new THREE.ConeGeometry(0.36, 0.26, 4), { x, y: y + 2.44, z }, [
+    own.add('timber', bevelBox(0.44, 0.06, 0.44, 0.02), { x, y: y + 1.88, z });
+    own.add('roof', new THREE.ConeGeometry(0.36, 0.26, 4), { x, y: y + 2.44, z }, [
       0,
       Math.PI / 4,
       0,
     ]);
-    kit.add('timber', new THREE.SphereGeometry(0.05, 8, 6), { x, y: y + 2.6, z });
+    own.add('timber', new THREE.SphereGeometry(0.05, 8, 6), { x, y: y + 2.6, z });
     const light = new THREE.Vector3(x, y + 2.1, z);
     group.add(post, box);
     const id = `lantern-${i + 1}`;
+    for (const part of own.flush(group).values()) pick(part, 'lantern', id, pickables);
     pick(post, 'lantern', id, pickables);
     pick(box, 'lantern', id, pickables);
-    lanterns.push({ id, x, z, glass, light });
+    lanterns.push({
+      id,
+      x,
+      z,
+      glass,
+      light,
+      materials: [timber, roof, stone, glass],
+      foot: new THREE.Vector3(x, y, z),
+      height: 2.7,
+    });
     spills.push({ x, z, yaw: 0, size: 3.2 });
   });
 

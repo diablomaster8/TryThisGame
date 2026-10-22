@@ -247,25 +247,44 @@ export class MiniStage {
     return g;
   }
 
+  /**
+   * A gold scallop shell, the currency's own shape, with a dark rim so it reads against a
+   * pale sky as well as the grass (review 2026-10-21, bug 17). Spins like a coin.
+   */
   shell(): THREE.Mesh {
     const m = shadowed(
       new THREE.Mesh(
-        this.geo('shell', () => new THREE.SphereGeometry(1, 14, 10).scale(1, 0.55, 1)),
+        this.geo('shell', scallopGeometry),
         this.mat(
           'shell',
           () =>
-            new THREE.MeshPhysicalMaterial({
-              color: '#f2d34c',
+            new THREE.MeshStandardMaterial({
+              color: '#ffd23a',
               roughness: 0.3,
-              clearcoat: 0.8,
-              emissive: '#8a6a10',
-              emissiveIntensity: 0.25,
+              metalness: 0.55,
+              emissive: '#c88a10',
+              emissiveIntensity: 0.55,
             }),
         ),
       ),
     );
+    this.outline(m, 1.16);
     this.scene.add(m);
     return m;
+  }
+
+  /** A dark back-face shell round a prop: the toon rim that keeps it readable anywhere. */
+  private outline(m: THREE.Mesh, k: number, color = '#2a1a08'): void {
+    const o = new THREE.Mesh(
+      m.geometry,
+      this.mat(
+        `outline:${color}`,
+        () => new THREE.MeshBasicMaterial({ color, side: THREE.BackSide, fog: false }),
+      ),
+    );
+    o.scale.setScalar(k);
+    o.raycast = () => undefined;
+    m.add(o);
   }
 
   essence(type: NubbinType): THREE.Mesh {
@@ -282,12 +301,11 @@ export class MiniStage {
               clearcoat: 1,
               emissive: colour,
               emissiveIntensity: 0.35,
-              transparent: true,
-              opacity: 0.9,
             }),
         ),
       ),
     );
+    this.outline(m, 1.14, '#1a1430');
     this.scene.add(m);
     return m;
   }
@@ -329,9 +347,10 @@ export class MiniStage {
     const m = shadowed(
       new THREE.Mesh(
         this.geo('rock', () => new THREE.DodecahedronGeometry(1, 0).scale(1, 0.8, 0.9)),
-        this.mat('rock', () => pbr(this.tex.rock, { rough: 0.95, color: '#b8b4ae' })),
+        this.mat('rock', () => pbr(this.tex.rock, { rough: 0.95, color: '#a8a4ae' })),
       ),
     );
+    this.outline(m, 1.08);
     this.scene.add(m);
     return m;
   }
@@ -345,6 +364,7 @@ export class MiniStage {
         this.mat('log', () => pbr(this.tex.bark, { rough: 0.9, scale: 1.2 })),
       ),
     );
+    this.outline(m, 1.08);
     this.scene.add(m);
     return m;
   }
@@ -354,7 +374,8 @@ export class MiniStage {
     const geo = this.geo('bush', () => new THREE.SphereGeometry(1, 12, 9));
     const mat = this.mat(
       'bush',
-      () => new THREE.MeshStandardMaterial({ color: '#3f8a3a', roughness: 0.95 }),
+      // A dark bramble, not the meadow's green, so it reads as something to jump.
+      () => new THREE.MeshStandardMaterial({ color: '#2e5a2a', roughness: 0.95 }),
     );
     for (const [x, y, s] of [
       [0, 0, 1],
@@ -365,7 +386,24 @@ export class MiniStage {
       const m = shadowed(new THREE.Mesh(geo, mat));
       m.position.set(x, y, 0);
       m.scale.setScalar(s);
+      this.outline(m, 1.08, '#10200c');
       g.add(m);
+    }
+    const berry = this.geo('berry', () => new THREE.SphereGeometry(0.13, 8, 6));
+    const red = this.mat(
+      'berry',
+      () =>
+        new THREE.MeshStandardMaterial({ color: '#e0304a', emissive: '#801020', roughness: 0.4 }),
+    );
+    for (const [x, y, z] of [
+      [-0.4, 0.3, 0.75],
+      [0.35, 0.55, 0.7],
+      [0.7, 0.05, 0.6],
+      [0, 0.0, 0.95],
+    ] as const) {
+      const b = new THREE.Mesh(berry, red);
+      b.position.set(x, y, z);
+      g.add(b);
     }
     this.scene.add(g);
     return g;
@@ -537,3 +575,36 @@ const ESSENCE_COLOURS: Record<NubbinType, string> = {
   power: '#ff5a4a',
   normal: '#f2eee0',
 };
+
+/** A scallop: a fan of ribs round a hinge, extruded thin with soft edges, centred. */
+function scallopGeometry(): THREE.BufferGeometry {
+  const ribs = 7;
+  const shape = new THREE.Shape();
+  shape.moveTo(-0.28, -0.85);
+  for (let i = 0; i <= ribs; i++) {
+    const a = Math.PI * (0.92 - (0.84 * i) / ribs);
+    const r = 1;
+    const x = Math.cos(a) * r;
+    const y = Math.sin(a) * r - 0.2;
+    if (i === 0) shape.lineTo(x, y);
+    else {
+      const m = Math.PI * (0.92 - (0.84 * (i - 0.5)) / ribs);
+      shape.quadraticCurveTo(Math.cos(m) * 1.16, Math.sin(m) * 1.16 - 0.2, x, y);
+    }
+  }
+  shape.lineTo(0.28, -0.85);
+  shape.lineTo(0.18, -1.05);
+  shape.lineTo(-0.18, -1.05);
+  shape.closePath();
+  const g = new THREE.ExtrudeGeometry(shape, {
+    depth: 0.18,
+    bevelEnabled: true,
+    bevelThickness: 0.12,
+    bevelSize: 0.08,
+    bevelSegments: 2,
+    curveSegments: 4,
+  });
+  g.center();
+  g.computeVertexNormals();
+  return g;
+}

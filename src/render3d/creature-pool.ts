@@ -204,6 +204,13 @@ export class CreaturePool {
         for (const mat of Array.isArray(m.material) ? m.material : [m.material]) {
           const phys = mat as MeshPhysicalMaterial;
           if (phys.isMeshPhysicalMaterial && phys.transmission > 0) phys.transmission = 0;
+          // Wing films and their veins are drawn solid: half-clear, a wing laid over the
+          // body showed the sky through the Nubbin from the side, as in the Expedition's
+          // jumps (review 2026-10-21, bug 17).
+          if (phys.isMeshPhysicalMaterial && phys.transparent && phys.opacity < 1) {
+            phys.transparent = false;
+            phys.opacity = 1;
+          }
         }
       }
     });

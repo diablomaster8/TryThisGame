@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { visibleStoryProps, type StoryPropKind } from '../sim/story-props';
 import type { DecorKind, Plant, TileKind, World } from '../sim/types';
+import type { Tex } from '../samples/aaa-kit';
+import { KIT_SHARED, kitCabin, kitHouse } from './kit-buildings';
 
 /**
  * The Keeper's own garden work in 3D: placed decor (fences, beds, benches, the statue,
@@ -11,6 +13,14 @@ import type { DecorKind, Plant, TileKind, World } from '../sim/types';
  * lists change (a signature is checked twice a second).
  */
 type Ground = (x: number, z: number) => number;
+
+/** The Grove's painted textures, once the scene hands them over (`useBuildingKit`). */
+let kitTex: Tex | null = null;
+
+/** Build the garden's and the story's buildings from the building kit from now on. */
+export function useBuildingKit(tex: Tex): void {
+  kitTex = tex;
+}
 
 const mat = (color: string, o: THREE.MeshStandardMaterialParameters = {}) =>
   new THREE.MeshStandardMaterial({ color, roughness: 0.8, ...o });
@@ -42,10 +52,11 @@ const SHARED = new Set<THREE.Material>([...Object.values(MATS), ...FLOWERS]);
 export function disposeModel(root: THREE.Object3D): void {
   root.traverse((o) => {
     const m = o as THREE.Mesh;
-    if (!m.isMesh) return;
+    // A toon outline shares its part's geometry and the one outline material.
+    if (!m.isMesh || m.userData.hull) return;
     m.geometry.dispose();
     for (const mat of Array.isArray(m.material) ? m.material : [m.material])
-      if (!SHARED.has(mat)) mat.dispose();
+      if (!SHARED.has(mat) && !KIT_SHARED.has(mat)) mat.dispose();
     if ((o as THREE.InstancedMesh).isInstancedMesh) (o as THREE.InstancedMesh).dispose();
   });
 }
@@ -63,6 +74,12 @@ function ball(r: number, m: THREE.Material, x = 0, y = 0, z = 0, detail = 1) {
 
 /** A small house for the nursery, bathhouse and workshop, sized like the pixel ones. */
 export function building(width: number, roof: THREE.Material): THREE.Group {
+  // The painted kit house when the scene has handed its textures over (bug 15).
+  if (kitTex) {
+    const color =
+      roof instanceof THREE.MeshStandardMaterial ? `#${roof.color.getHexString()}` : '#c0503a';
+    return kitHouse(kitTex, width, color);
+  }
   const g = new THREE.Group();
   const d = width * 0.7;
   const h = width * 0.45;
@@ -196,12 +213,20 @@ export function storyPropModel(kind: StoryPropKind): THREE.Group {
         g.add(box(0.05, 0.4, 0.05, MATS.darkWood, x, 0, z));
       break;
     case 'shed':
+      if (kitTex) {
+        g.add(kitCabin(kitTex, { w: 1.8, d: 1.4, h: 1.4 }, { window: true, doorW: 0.5 }));
+        break;
+      }
       g.add(box(1.8, 1.4, 1.4, MATS.wood));
       g.add(box(2.0, 0.12, 1.6, MATS.darkWood, 0, 1.4));
       g.add(box(0.5, 1.0, 0.06, MATS.darkWood, 0.3, 0, 0.72));
       g.add(box(0.4, 0.36, 0.04, MATS.glow, -0.45, 0.7, 0.72));
       break;
     case 'barn': {
+      if (kitTex) {
+        g.add(kitCabin(kitTex, { w: 3.6, d: 2.6, h: 2.2 }, { window: false, doorW: 1.2 }));
+        break;
+      }
       g.add(box(3.6, 2.2, 2.6, MATS.wood));
       const roof = new THREE.Mesh(new THREE.ConeGeometry(2.4, 1.4, 4), MATS.darkWood);
       roof.position.y = 2.9;

@@ -792,7 +792,7 @@ export const RACE3D = {
   /** World units per track unit (a course is 40 to 50 units long). */
   unitsPerTrack: 1.0,
   /** Depth between lanes, and the track's margin beyond the outer lanes. */
-  laneGap: 1.5,
+  laneGap: 2.1,
   margin: 1.6,
   /** A climb section rises this much over its length; the track stays up after it. */
   climbRise: 2.2,
@@ -811,10 +811,11 @@ export const RACE3D = {
   camera: {
     lookAhead: 1.2,
     lookHeight: 0.5,
-    // Steep enough that each lane sits clear above the one in front (review B, bug 27):
-    // a lane gap shows as gap × sin(pitch) on screen, and the field is framed whole.
-    pitchDeg: 38,
-    height: 9.5,
+    // Low enough to read as a side view with faces (review 2026-10-21, bug 16), and the
+    // lanes wide enough that each still sits clear above the one in front (review B,
+    // bug 27): a lane gap shows as gap × sin(pitch) on screen.
+    pitchDeg: 26,
+    height: 10.5,
     minSpan: 7,
     followRate: 5,
     fovDeg: 42,
@@ -1438,4 +1439,51 @@ export const PARTY_BOUT = {
   rallyHeal: 0.15,
   logLines: 6,
   prize: [20, 50, 110] as const,
+} as const;
+
+/**
+ * Full 3D readability (review 2026-10-21, bugs 10–17): the key-moment camera, the occluder
+ * fade, the story staging, the Hollow's light and the memorial flower.
+ */
+export const READ3D = {
+  /** A hatch, evolution, cocoon or rebirth: how long the camera frames the Nubbin. */
+  focus: {
+    ms: 5000,
+    /** The orbit distance while framing, and where between Keeper (0) and Nubbin (1) it looks. */
+    distance: 7,
+    towardSubject: 0.55,
+    /** The camera turns at most this far off the player's yaw to bring the Nubbin forward. */
+    maxTurnRad: 1.4,
+    /** Turned this far off the Keeper-to-Nubbin line: from the side, so both read, the Nubbin nearer. */
+    sideRad: 1.15,
+    pitchDeg: 20,
+    lookUp: 1.3,
+  },
+  /** A story scene: the speakers framed together, the distance growing with their spread. */
+  stage: {
+    radius: 14,
+    minDistance: 8.5,
+    spreadK: 1.5,
+    /** The hour a scene's dusk or night narration is lit at. */
+    duskHour: 19.2,
+    nightHour: 22.5,
+    goldenHour: 17.8,
+    morningHour: 7.5,
+  },
+  /** Lantern posts: how wide a post blocks, and the NPC's keep-off radius round each. */
+  post: { r: 0.3, keepOff: 0.75 },
+  /** The Hollow Below: fill light, the Keeper's lamp and the wider camera. */
+  hollow: {
+    hemi: 0.5,
+    env: 0.35,
+    sun: 0.35,
+    fog: 0.016,
+    lamp: 9,
+    lampDistance: 15,
+    distanceK: 1.2,
+    pitchDeg: 42,
+  },
+  memorial: { height: 1.15, glow: 0.55 },
+  /** Racers and the Expedition runner turn this far from side-on toward the camera. */
+  faceTurn: 0.55,
 } as const;

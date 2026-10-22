@@ -4,9 +4,9 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { SMAAPass } from 'three/addons/postprocessing/SMAAPass.js';
-import { GROVE3D, UI } from '../config/tuning';
+import { GROVE3D, READ3D, UI } from '../config/tuning';
 import type { OrbitCamera } from '../render/camera';
-import type { Daylight } from '../render/daylight';
+import { daylightAt, type Daylight } from '../render/daylight';
 import { bubbleFor } from '../render/sprites/emote';
 import { Picker } from '../render/picker';
 import type { TargetSize } from '../render/pipeline';
@@ -26,13 +26,14 @@ import { FrameGovernor } from './governor';
 import { LampPool, type LampSource } from './lamp-pool';
 import { setOutlines } from './toon-outline';
 import { CrownFade } from './crowns';
-import { Garden } from './garden';
+import { Garden, useBuildingKit } from './garden';
 import { Halo } from './halo';
 import { Hollow } from './hollow';
 import { buildGroveProps, buildGroveTrees, type GroveProps } from './props';
 import { GroveTextures } from './grove-textures';
 import { GroveSky } from './sky';
 import { StorySets } from './story-sets';
+import { SceneStaging } from './staging';
 import { Village } from './village';
 import { GroveWeather } from './weather';
 import { VisitSet } from './visit';
@@ -128,6 +129,35 @@ export interface Pick3d {
   id: string;
 }
 
+type Particles = 'full' | 'light' | 'off';
+
+/**
+ * Where the camera wants to be: on the player's orbit, framing a key moment's Nubbin, or
+ * framing a story scene's speakers. `x`, `z` is the look point; `points` who is in shot.
+ */
+interface Shot {
+  kind: 'orbit' | 'focus' | 'stage';
+  x: number;
+  z: number;
+  yaw: number;
+  pitchDeg: number;
+  distance: number;
+  points: Vec2[];
+  /** How far above the ground the camera looks, over the usual height. */
+  lookUp: number;
+}
+
+/** The events whose Nubbin the camera turns to (review 2026-10-21, bug 10). */
+const FOCUS_EVENTS = new Set<SimEvent['kind']>([
+  'hatched',
+  'evolved',
+  'secondEvolved',
+  'speciesGrew',
+  'cocoonStarted',
+  'reborn',
+  'eternal',
+]);
+
 /** The grade's saturation (rain takes `GROVE3D.rain.saturation`). */
 const GRADE_SATURATION = 1.15;
 export class Grove3dScene {
@@ -154,6 +184,8 @@ export class Grove3dScene {
   private cpuApplied = 0;
   private readonly sky: GroveSky;
   private readonly time = { value: 0 };
+  /** The sky fill's ground colour, put back when the Hollow's warm bounce is left. */
+  private readonly hemiGround = new THREE.Color();
   private readonly tex: Tex;
   private readonly textures: GroveTextures;
   private readonly terrain: GroveTerrain;
@@ -208,6 +240,18 @@ export class Grove3dScene {
   private lastMs = 0;
   /** Frame times, for the report: the last 120 frames' render durations in ms. */
   readonly frameMs: number[] = [];
+  /** Story scenes: who is framed, who holds still, the hour asked for (staging.ts). */
+  private readonly staging = new SceneStaging();
+  /** The Nubbin a key moment is about (hatch, evolution, cocoon, rebirth), until when. */
+  private focus: { id: string; untilMs: number } | null = null;
+  /** 0 on the player's orbit, 1 on a framed shot; eased between. */
+  private blend = 0;
+  private lastShot: Shot | null = null;
+  /** The framed shot's turn off the player's yaw, eased; WASD follows it (`cameraRig`). */
+  private yawOffset = 0;
+  private readonly subjectMarks = [new THREE.Vector3(), new THREE.Vector3()];
+  /** The last daylight the game set, to light a story scene's hour over it at once. */
+  private dayArgs: [number, Daylight, Location, WeatherKind, Particles] | null = null;
   /** The player's reduced-motion choice as the game resolves it; the minigames read it. */
   reduceMotion = false;
 
@@ -231,6 +275,7 @@ export class Grove3dScene {
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.camera = new THREE.PerspectiveCamera(GROVE3D.fovDeg, 16 / 9, GROVE3D.near, GROVE3D.far);
     this.sky = new GroveSky(this.renderer, this.scene);
+    this.hemiGround.copy(this.sky.hemi.groundColor);
     // Painted in workers while the scene boots; the veil waits for them (`loadState`).
     this.textures = new GroveTextures((t) => this.renderer.initTexture(t));
     this.tex = this.textures.tex;
@@ -255,7 +300,16 @@ export class Grove3dScene {
       return Promise.all([...sets].map((set) => this.compileAs(set, [o])));
     };
     this.actors.ground = standHeight;
+    // The lantern posts thin like trunks when in the way, and NPCs are drawn clear of them.
+    for (const l of this.props.lanterns)
+      this.crowns.addPillar(l.materials, l.foot, l.height, READ3D.post.r);
+    this.actors.crowdOptions = {
+      posts: this.props.lanterns.map((l) => ({ x: l.x, z: l.z })),
+      holds: this.staging.holds,
+    };
     this.bursts = new Bursts(this.scene);
+    // The garden's and the story's buildings wear the Grove's building kit (bug 15).
+    useBuildingKit(this.tex);
     this.garden = new Garden(this.world3d);
     this.hollow = new Hollow(this.scene, this.tex, this.sky);
     this.halo = new Halo(this.scene);
@@ -304,9 +358,11 @@ export class Grove3dScene {
   /** The camera the input casts rays from, with the orbit's yaw for key directions. */
   cameraRig(orbit: OrbitCamera): { readonly currentYaw: number; readonly camera: THREE.Camera } {
     const cam = this.camera;
+    // Keys move the Keeper relative to the view on screen, framed shots included.
+    const offset = () => this.yawOffset;
     return {
       get currentYaw() {
-        return orbit.currentYaw;
+        return orbit.currentYaw + offset();
       },
       camera: cam,
     };
@@ -340,8 +396,15 @@ export class Grove3dScene {
     d: Daylight,
     place: Location,
     weather: WeatherKind,
-    particles: 'full' | 'light' | 'off',
+    particles: Particles,
   ): void {
+    this.dayArgs = [hour, d, place, weather, particles];
+    // A story scene that names its hour is lit at it (staging.ts); the clock resumes after.
+    const staged = place === 'grove' ? this.staging.hour : null;
+    if (staged !== null) {
+      hour = staged;
+      d = daylightAt(staged);
+    }
     const grove = place === 'grove';
     this.location = place;
     this.actors.location = place;
@@ -361,13 +424,21 @@ export class Grove3dScene {
     if (cave) {
       const light = place === 'dungeon' ? this.hollow.light : 0.6;
       this.scene.background = new THREE.Color('#07060c');
-      this.scene.environmentIntensity = 0.08 + light * 0.1;
-      this.sky.sun.intensity = 0.15 + light * 0.25;
+      // Lifted so stairs, strays, loot and walls read (review 2026-10-21, bug 12): a cool
+      // fill from above and a warm bounce from the floor, deeper floors a little darker.
+      const r = READ3D.hollow;
+      this.scene.environmentIntensity = r.env * (0.6 + light * 0.4);
+      this.sky.sun.intensity = r.sun * (0.6 + light * 0.4);
       this.sky.sun.color.set('#9aa8d8');
-      this.sky.hemi.intensity = 0.15 + light * 0.25;
+      this.sky.hemi.intensity = r.hemi * (0.6 + light * 0.4);
+      this.sky.hemi.color.set('#a8b4e8');
+      this.sky.hemi.groundColor.set('#5a4636');
       this.sky.fog.color.set('#07060c');
-      this.sky.fog.density = 0.03;
-    } else this.scene.background = null;
+      this.sky.fog.density = r.fog;
+    } else {
+      this.scene.background = null;
+      this.sky.hemi.groundColor.copy(this.hemiGround);
+    }
     const elevation = this.sky.elevationDeg;
     // The governor may hold bloom off on a device short of CPU (`governRenderScale`).
     this.bloomWanted = elevation < GROVE3D.bloomBelowDeg;
@@ -447,6 +518,8 @@ export class Grove3dScene {
       return s ? s.feet.lerp(s.head, k) : null;
     };
     for (const e of events) {
+      if (FOCUS_EVENTS.has(e.kind) && 'nubbinId' in e && this.location !== 'dungeon')
+        this.focus = { id: e.nubbinId, untilMs: now + READ3D.focus.ms };
       if (e.kind === 'landed') this.actors.pop(e.nubbinId, 'squash', now);
       else if (e.kind === 'hatched' || e.kind === 'evolved' || e.kind === 'reborn')
         this.actors.pop(e.nubbinId, 'pop', now);
@@ -546,6 +619,54 @@ export class Grove3dScene {
     this.actors.sparkle(x, z, y, this.lastMs);
   }
 
+  /**
+   * A snapshot of a Nubbin in the 3D Grove for photo mode (review 2026-10-21, bug 19): the
+   * camera steps in to frame it, one frame is drawn and copied out of the canvas in the same
+   * task (so no preserved drawing buffer is needed), and the view is put back and drawn
+   * again. `w` × `h` is the picture's size and shape; null when the Nubbin is not drawn.
+   */
+  portrait(id: string, w: number, h: number): HTMLCanvasElement | null {
+    const spot = this.actors.nubbinSpot(id);
+    if (!spot || !this.compiled) return null;
+    const cam = this.camera;
+    const pos = cam.position.clone();
+    const quat = cam.quaternion.clone();
+    const look = spot.feet.clone().lerp(spot.head, 0.75);
+    const tall = Math.max(0.5, spot.head.y - spot.feet.y);
+    // From the side the view already looks from, a little above, close enough that the
+    // Nubbin fills the middle of the picture.
+    // From in front of its face, turned a little toward where the view already looks
+    // from, so the picture shows the Nubbin and not its back.
+    const side = pos.clone().sub(look).setY(0);
+    if (side.lengthSq() < 1e-6) side.set(0, 0, 1);
+    side.normalize();
+    const front = this.actors.nubbinFront(id);
+    const dir = front ? front.multiplyScalar(2).add(side).normalize() : side;
+    const dist = tall * 4.5 + 2;
+    cam.position
+      .copy(look)
+      .addScaledVector(dir, dist)
+      .setY(look.y + dist * 0.45);
+    cam.lookAt(look);
+    this.composer.render();
+    const src = this.renderer.domElement;
+    const out = document.createElement('canvas');
+    out.width = w;
+    out.height = h;
+    const ctx = out.getContext('2d');
+    if (ctx) {
+      // The middle of the frame at the picture's shape.
+      const k = Math.min(src.width / w, src.height / h);
+      const sw = w * k;
+      const sh = h * k;
+      ctx.drawImage(src, (src.width - sw) / 2, (src.height - sh) / 2, sw, sh, 0, 0, w, h);
+    }
+    cam.position.copy(pos);
+    cam.quaternion.copy(quat);
+    this.composer.render();
+    return ctx ? out : null;
+  }
+
   /** Creatures under a screen point (NDC), nearest first. */
   pick(ndcX: number, ndcY: number): Pick3d | null {
     this.raycaster.setFromCamera(new THREE.Vector2(ndcX, ndcY), this.camera);
@@ -604,6 +725,75 @@ export class Grove3dScene {
     this.actors.warm(world);
   }
 
+  /**
+   * The shot this frame wants. A key moment: look mostly at the Nubbin, closer and lower,
+   * from its side of the Keeper and a little off the line between them, so the Nubbin
+   * stands in front and the Keeper beside it, never in the way; the turn is capped so the
+   * view never swings round wholesale. A story scene: the Keeper and the speakers present,
+   * the distance opening with how far apart they stand. Otherwise the player's orbit.
+   */
+  private shot(world: World, orbit: OrbitCamera): Shot {
+    const base: Shot = {
+      kind: 'orbit',
+      x: orbit.target.x,
+      z: orbit.target.z,
+      yaw: orbit.currentYaw,
+      pitchDeg: GROVE3D.pitchDeg,
+      distance: GROVE3D.distance[orbit.currentZoomIndex] ?? GROVE3D.distance[0],
+      points: [],
+      lookUp: 0,
+    };
+    const f = READ3D.focus;
+    const focus = this.focus;
+    const subject =
+      focus && this.lastMs < focus.untilMs && this.location !== 'dungeon'
+        ? this.actors.nubbinPosition(focus.id)
+        : null;
+    if (!subject) this.focus = null;
+    if (subject) {
+      const k = orbit.target;
+      const dx = subject.x - k.x;
+      const dz = subject.z - k.z;
+      let yaw = orbit.currentYaw;
+      if (Math.hypot(dx, dz) > 0.3) {
+        const line = Math.atan2(dx, dz);
+        const turn = (a: number) => Math.atan2(Math.sin(a - yaw), Math.cos(a - yaw));
+        const a = turn(line + f.sideRad);
+        const b = turn(line - f.sideRad);
+        const d = Math.abs(a) < Math.abs(b) ? a : b;
+        yaw += THREE.MathUtils.clamp(d, -f.maxTurnRad, f.maxTurnRad);
+      }
+      return {
+        kind: 'focus',
+        x: THREE.MathUtils.lerp(k.x, subject.x, f.towardSubject),
+        z: THREE.MathUtils.lerp(k.z, subject.z, f.towardSubject),
+        yaw,
+        pitchDeg: f.pitchDeg,
+        // A phone held upright frames the pair from further back, or one falls off the side.
+        distance: Math.min(base.distance, f.distance * (this.camera.aspect < 1 ? 1.3 : 1)),
+        points: [subject],
+        // Looking a little over the Nubbin puts it low on screen, clear of the evolution
+        // or hatch card the HUD shows in the middle.
+        lookUp: f.lookUp,
+      };
+    }
+    if (!this.staging.active) return base;
+    const points = this.staging.frame(world);
+    if (points.length < 2) return base;
+    const cx = points.reduce((s, p) => s + p.x, 0) / points.length;
+    const cz = points.reduce((s, p) => s + p.z, 0) / points.length;
+    const spread = Math.max(...points.map((p) => Math.hypot(p.x - cx, p.z - cz)));
+    const s = READ3D.stage;
+    return {
+      ...base,
+      kind: 'stage',
+      x: cx,
+      z: cz,
+      distance: Math.max(s.minDistance, spread * s.spreadK + 4),
+      points,
+    };
+  }
+
   update(world: World, orbit: OrbitCamera, alpha: number, nowMs: number): void {
     // Never negative: a clock that steps back (a resumed tab, a hand-driven frame) would
     // turn the eased camera into NaN, and NaN never recovers.
@@ -625,25 +815,51 @@ export class Grove3dScene {
     this.hollow.update(run, world.keeper.pos, nowMs / 1000, this.camPos, party);
 
     // The Lakitu camera: orbit the Keeper at the snapped yaw, eased, never underground.
+    // A key moment frames its Nubbin instead, and a story scene its speakers (bugs 10, 11).
     const ground = this.location === 'grove' ? standHeight : () => 0;
-    const tx = orbit.target.x;
-    const tz = orbit.target.z;
-    const ty = ground(tx, tz) + GROVE3D.lookHeight;
-    this.camTarget.x = tx;
-    this.camTarget.z = tz;
     // Reduced motion: the camera cuts to where it is going instead of gliding there.
     const snap = dt === 0 || this.reduceMotion;
-    this.camTarget.y += (ty - this.camTarget.y) * (snap ? 1 : 1 - Math.exp(-6 * dt));
-    const yaw = orbit.currentYaw;
-    const pitch = THREE.MathUtils.degToRad(GROVE3D.pitchDeg);
-    const dist = GROVE3D.distance[orbit.currentZoomIndex] ?? GROVE3D.distance[0];
+    const shot = this.shot(world, orbit);
+    const ease = (rate: number) => (snap ? 1 : 1 - Math.exp(-rate * dt));
+    // A story scene cuts in at once: the render pauses behind the dialogue box soon after.
+    const stageCut = this.staging.update(world);
+    if (stageCut) {
+      if (this.dayArgs) this.setDaylight(...this.dayArgs);
+      this.blend = shot.kind === 'stage' ? 1 : this.blend;
+    }
+    const goal = shot.kind === 'orbit' ? 0 : 1;
+    this.blend += (goal - this.blend) * ease(3);
+    if (Math.abs(this.blend - goal) < 0.001) this.blend = goal;
+    if (shot.kind !== 'orbit') this.lastShot = shot;
+    const b = this.blend;
+    const s = this.lastShot ?? shot;
+    let dyaw = 0;
+    if (b > 0) {
+      // Turn the shortest way to the shot's yaw, as an offset over the player's own yaw.
+      dyaw = Math.atan2(Math.sin(s.yaw - orbit.currentYaw), Math.cos(s.yaw - orbit.currentYaw));
+    }
+    this.yawOffset += (dyaw * b - this.yawOffset) * (stageCut ? 1 : ease(4));
+    const tx = THREE.MathUtils.lerp(orbit.target.x, s.x, b);
+    const tz = THREE.MathUtils.lerp(orbit.target.z, s.z, b);
+    const ty = ground(tx, tz) + GROVE3D.lookHeight + s.lookUp * b;
+    this.camTarget.x = tx;
+    this.camTarget.z = tz;
+    this.camTarget.y += (ty - this.camTarget.y) * (snap || stageCut ? 1 : 1 - Math.exp(-6 * dt));
+    const yaw = orbit.currentYaw + this.yawOffset;
+    const cave = this.location === 'dungeon';
+    const basePitch = cave ? READ3D.hollow.pitchDeg : GROVE3D.pitchDeg;
+    const baseDist =
+      (GROVE3D.distance[orbit.currentZoomIndex] ?? GROVE3D.distance[0]) *
+      (cave ? READ3D.hollow.distanceK : 1);
+    const pitch = THREE.MathUtils.degToRad(THREE.MathUtils.lerp(basePitch, s.pitchDeg, b));
+    const dist = THREE.MathUtils.lerp(baseDist, s.distance, b);
     const want = new THREE.Vector3(
       this.camTarget.x + Math.sin(yaw) * Math.cos(pitch) * dist,
       this.camTarget.y + Math.sin(pitch) * dist,
       this.camTarget.z + Math.cos(yaw) * Math.cos(pitch) * dist,
     );
     const k = 1 - Math.exp(-9 * dt);
-    this.camPos.lerp(want, snap ? 1 : k);
+    this.camPos.lerp(want, snap || stageCut ? 1 : k);
     this.lamps.place(this.lampSources, this.camTarget);
     const floor = (this.location === 'grove' ? groveHeight(this.camPos.x, this.camPos.z) : 0) + 0.9;
     if (this.camPos.y < floor) this.camPos.y = floor;
@@ -661,10 +877,25 @@ export class Grove3dScene {
       this.shakeAmount *= Math.exp(-12 * dt);
     } else this.shakeAmount = 0;
     this.camera.lookAt(this.camTarget);
+    // What the crowns, trunks and lantern posts keep clear of: the Keeper's middle and head
+    // (the orbit target), and the focused Nubbin or the speakers, when there are any.
     const [mid, head] = this.keeperMarks as [THREE.Vector3, THREE.Vector3];
-    mid.copy(this.camTarget);
-    head.copy(this.camTarget).setY(this.camTarget.y + 0.7);
-    // The crowns thin only in a circle round the Keeper on screen (see crowns.ts).
+    const kp = orbit.target;
+    mid.set(kp.x, ground(kp.x, kp.z) + GROVE3D.lookHeight, kp.z);
+    head.copy(mid).setY(mid.y + 0.7);
+    const targets = [mid, head];
+    const subject = this.focus ? this.actors.nubbinSpot(this.focus.id) : null;
+    const [sFeet, sHead] = this.subjectMarks as [THREE.Vector3, THREE.Vector3];
+    if (subject) {
+      sFeet.copy(subject.feet).lerp(subject.head, 0.35);
+      sHead.copy(subject.head);
+      targets.push(sFeet, sHead);
+    } else if (shot.kind === 'stage') {
+      for (const p of shot.points.slice(1, 4))
+        targets.push(new THREE.Vector3(p.x, ground(p.x, p.z) + GROVE3D.lookHeight, p.z));
+    }
+    // The crowns thin only in a circle round the Keeper on screen (see crowns.ts), and
+    // round the focused Nubbin too.
     const buf = this.renderer.getDrawingBufferSize(this.holeSize);
     const onScreen = this.holeNdc.copy(mid).lerp(head, 0.5).project(this.camera);
     CrownFade.setHole(
@@ -672,7 +903,15 @@ export class Grove3dScene {
       (onScreen.y * 0.5 + 0.5) * buf.y,
       buf.y * GROVE3D.crownFade.holeRadius,
     );
-    this.crowns.update(this.camera.position, this.keeperMarks, dt);
+    if (subject) {
+      const at = this.holeNdc.copy(sFeet).lerp(sHead, 0.5).project(this.camera);
+      CrownFade.setHole2(
+        (at.x * 0.5 + 0.5) * buf.x,
+        (at.y * 0.5 + 0.5) * buf.y,
+        buf.y * GROVE3D.crownFade.holeRadius,
+      );
+    } else CrownFade.setHole2(0, 0, 0);
+    this.crowns.update(this.camera.position, targets, dt);
     if (this.location.startsWith('visit:'))
       this.visit.crowns.update(this.camera.position, this.keeperMarks, dt);
     this.halo.update(this.time.value);
