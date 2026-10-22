@@ -1414,3 +1414,20 @@ export const HOLLOW_MAP_TEXT = {
   chest: 'Chest',
   label: (floor: number) => `Map of floor ${floor}`,
 } as const;
+
+/** Chapter title cards and the campaigns' names for them (`ui/title-card.ts`, package f). */
+export const TITLE_CARD_TEXT = {
+  chapter: (n: number) => `Chapter ${n}`,
+  /** Read by screen readers when a card shows. */
+  announce: (campaign: string, n: number, title: string) => `${campaign}, chapter ${n}: ${title}`,
+  campaigns: {
+    hazel: 'Hazel’s Grove',
+    hundred: 'The Hundred Days',
+    logged: 'Logged In',
+    beetle: 'The Beetle Road',
+    dawn: 'Dawn & Dusk: First Light',
+    dusk: 'Dawn & Dusk: Last Light',
+  } as Record<string, string>,
+  /** The scoreboard in Logged In's lobby. */
+  scoreboard: { title: 'RANKS', rows: ['1  JUNO', '2  YOU', '3  ---', '4  ???'] },
+} as const;

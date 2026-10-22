@@ -1,3 +1,5 @@
+import { RACE_LOOK } from '../../config/campaign-look';
+import { drawBib, drawStoryTrack } from '../../render/dress-f-race';
 import { drawShadowText, drawText, measureText } from '../../render/sprites/font';
 import { PX } from '../../render/sprites/pixel-canvas';
 import { NAMES, SECTION_LABELS, UI_TEXT } from '../../config/strings';
@@ -11,6 +13,8 @@ import { el } from '../../ui/dom';
 import type { RaceView } from './view';
 
 const PX_PER_UNIT = 22;
+
+const reduceMotion = (): boolean => document.documentElement.classList.contains('reduce-motion');
 const VIEW_H = 270;
 const LANE_GAP = 14;
 const TRACK_TOP = 150;
@@ -127,6 +131,10 @@ export class RacePixelView implements RaceView {
       ctx.fillRect(fx, y, 4, 6);
     }
 
+    // The story race (chapter 5): frosted rails, a stand of spectators, bibs (campaign look M4).
+    if (RACE_LOOK.story)
+      drawStoryTrack(ctx, { W, bandTop, bandBottom, camX, nowMs, reduce: reduceMotion() });
+
     // Racers, far lanes first so near ones draw on top. Name tags go on after every
     // sprite, outlined, so a near runner never hides a far one's name (bug 22).
     const order = [...race.racers].reverse();
@@ -152,6 +160,13 @@ export class RacePixelView implements RaceView {
       const lift = section.kind === 'fly' && !resting ? 18 : section.kind === 'climb' ? 6 : 0;
       const sy = Math.round(TRACK_TOP + lane * LANE_GAP - rect.h / PX + 4 - lift);
       ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, sx, sy, rect.w / PX, rect.h / PX);
+      if (RACE_LOOK.story && !r.isPlayer)
+        drawBib(
+          ctx,
+          Math.round(sx + rect.w / (2 * PX) - 4),
+          Math.round(sy + rect.h / PX - 14),
+          lane + 1,
+        );
       // Name tag, the player's in yellow: just ahead of the runner on its own lane row, so
       // the tags of a full field, lined up at the start, do not pile on one another.
       tags.push({
