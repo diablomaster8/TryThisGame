@@ -1,4 +1,4 @@
-import { OFFLINE, SAVE_SAFETY } from '../config/tuning';
+import { OFFLINE, SAVE_SAFETY, UI } from '../config/tuning';
 import { SLOT_TEXT, TRAINER_LABELS, UI_TEXT } from '../config/strings';
 import { SONG_NAMES } from '../platform/audio';
 import { TRAINERS } from '../sim/trainers';
@@ -19,6 +19,9 @@ import type { MatureContent, OfflineMode, Settings } from '../sim/types';
 import { freshWorldLike } from '../sim/fresh-start';
 import { button, el, modal } from './dom';
 import { askGrownUp } from './grown-up-gate';
+import { storySettings } from './edu-story';
+import { EDU_AGES, type EduAge } from '../config/edu';
+import { EDU_TEXT } from '../config/strings';
 
 /** The Settings menu: Aging while closed, departures toggle, save export/import/reset. */
 export class SettingsMenu {
@@ -46,14 +49,20 @@ export class SettingsMenu {
   private readonly ambience: HTMLInputElement;
   private readonly coop: HTMLInputElement;
   private readonly coopTrainer: HTMLSelectElement;
+  /** Learning Grove only: the age and story band the age screen promises a grown-up can change. */
+  private readonly eduBox: HTMLFieldSetElement;
 
   constructor(
     private readonly parent: HTMLElement,
     private readonly game: () => Game | null,
-    private readonly toast: (text: string) => void,
+    private readonly toast: (text: string, ms?: number) => void,
   ) {
     this.dialog = modal(parent, UI_TEXT.settings, UI_TEXT.close);
     const body = this.dialog.body;
+    // Settings in the Learning Grove open only past the grown-up gate (hud.ts).
+    this.eduBox = el('fieldset', 'settings-section');
+    this.eduBox.hidden = true;
+    body.appendChild(this.eduBox);
 
     const section = el('fieldset', 'settings-section');
     section.appendChild(el('legend', undefined, UI_TEXT.offlineAgingTitle));
@@ -86,6 +95,8 @@ export class SettingsMenu {
     this.capInput.max = String(OFFLINE.maxCapHours);
     this.capInput.step = '1';
     this.capInput.addEventListener('input', () => this.apply());
+    // Leaving the field with a bad number puts the saved one back and says so (bug 34).
+    this.capInput.addEventListener('change', () => this.revertBadHours());
     capRow.appendChild(this.capInput);
     this.capError = el('div', 'field-error', UI_TEXT.capHoursError);
     this.capError.hidden = true;
@@ -242,7 +253,9 @@ export class SettingsMenu {
       }),
       button(UI_TEXT.backToTitle, () => {
         this.game()?.save();
-        location.href = location.pathname;
+        // A debug session stays one (review 2026-10-21, bug 40).
+        const debug = new URLSearchParams(location.search).has('debug');
+        location.href = location.pathname + (debug ? '?debug' : '');
       }),
     );
     body.appendChild(screen);
@@ -270,6 +283,8 @@ export class SettingsMenu {
     for (const [mode, input] of this.modeInputs) input.checked = mode === s.mode;
     this.capInput.value = String(s.capHours);
     this.capError.hidden = true;
+    this.capError.textContent = UI_TEXT.capHoursError;
+    this.renderEdu(g);
     this.departures.checked = s.allowOfflineDepartures;
     this.unreadableBtn.hidden = !g.unreadableJson && readUnreadable(currentSlot()).length === 0;
     for (const [value, input] of this.matureInputs)
@@ -297,6 +312,39 @@ export class SettingsMenu {
 
   close(): void {
     this.dialog.hide();
+  }
+
+  /** The Learning Grove's age and story band (review 2026-10-21, bug 33). */
+  private renderEdu(g: Game): void {
+    const box = this.eduBox;
+    box.textContent = '';
+    const e = g.world.edu;
+    box.hidden = !e;
+    if (!e) return;
+    box.appendChild(el('legend', undefined, UI_TEXT.eduSettingsTitle));
+    const ageRow = el('label', 'field-row');
+    const ageSel = el('select');
+    for (const a of EDU_AGES) {
+      const o = el('option', undefined, String(a));
+      o.value = String(a);
+      ageSel.appendChild(o);
+    }
+    ageSel.value = String(e.age);
+    ageSel.addEventListener('change', () =>
+      g.send({ kind: 'eduSetAge', age: Number(ageSel.value) as EduAge, resetGames: true }),
+    );
+    ageRow.append(el('strong', undefined, EDU_TEXT.ageLabel), ageSel);
+    box.appendChild(ageRow);
+    storySettings(box, g);
+  }
+
+  /** A bad hours value does not linger in the field looking saved. */
+  private revertBadHours(): void {
+    const g = this.game();
+    if (!g || this.capError.hidden) return;
+    const kept = g.world.settings.offlineAging.capHours;
+    this.capInput.value = String(kept);
+    this.capError.textContent = UI_TEXT.capHoursReverted(kept);
   }
 
   isOpen(): boolean {
@@ -356,6 +404,7 @@ export class SettingsMenu {
       hours >= OFFLINE.minCapHours &&
       hours <= OFFLINE.maxCapHours;
     this.capError.hidden = valid || mode !== 'capped';
+    if (!valid) this.capError.textContent = UI_TEXT.capHoursError;
     const settings: Settings = {
       ...prev,
       matureContent: this.currentMature(prev.matureContent),
@@ -450,7 +499,8 @@ export class SettingsMenu {
     file.world.settings.riftConfirmed = false;
     g.replaceWorld(file.world);
     this.close();
-    this.toast(UI_TEXT.saved);
+    // Said plainly and long enough to read: the confirm() alone left no trace (bug 34).
+    this.toast(UI_TEXT.imported(slotName), UI.toastLongMs);
   }
 
   private reset(): void {

@@ -40,6 +40,11 @@ export const CAMERA = {
    */
   pixelsPerUnit: [16, 32] as const,
   initialZoomIndex: 1,
+  /**
+   * The zoom a phone starts at: the far one, so both eggs and the nearest trees are on screen
+   * at the first look (review 2026-10-21, bug 25). Desktops keep `initialZoomIndex`.
+   */
+  phoneZoomIndex: 0,
   /** Distance from the orbit target. Only affects clipping for an orthographic camera. */
   distance: 60,
   near: 0.1,
@@ -362,6 +367,13 @@ export const UI = {
   fpsUpdateMs: 1000,
   /** Mood bubble lifetime above a Nubbin, in ms. */
   bubbleMs: 1500,
+  /** Hunger at or above this reads as full: the sheet's Feed holds the fruit back. */
+  feedFullAt: 0.95,
+  /** How long a toast stays, and a longer one for a how-to the player has to act on. */
+  toastMs: 2600,
+  toastLongMs: 5000,
+  /** The Expedition's how-to-jump tip shows this long, or until the first jump. */
+  tipMs: 5000,
 } as const;
 
 // ---------- simulation ----------
@@ -668,6 +680,8 @@ export const EXPEDITION = {
   viewH: 270,
   minViewW: 200,
   maxViewW: 480,
+  /** In portrait, sky is added above the track up to this multiple of `viewH`. */
+  maxHeadroom: 1.6,
   /** Pixels per second, ramping up a little over the run. */
   speed: 110,
   speedRamp: 0.8,

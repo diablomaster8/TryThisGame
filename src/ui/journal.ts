@@ -152,8 +152,10 @@ export class Journal {
           button(
             STORY_TEXT.doStep,
             () => {
+              // The Journal steps aside first, so the scene the step starts plays in the
+              // clear rather than under it (review 2026-10-21, bug 29).
+              this.dialog.hide();
               g.send({ kind: 'sideAct', story: id });
-              this.refresh();
             },
             'btn btn-small',
           ),

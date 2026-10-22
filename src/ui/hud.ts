@@ -1,4 +1,4 @@
-import { CAMERA, GROVE, INPUT } from '../config/tuning';
+import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
 import { ACHIEVEMENT_LIST } from '../sim/achievements';
 import { SKILL_LIST } from '../sim/skills';
 import {
@@ -70,6 +70,7 @@ import { mountPanelStack } from './panel-stack';
 import { ATLAS_TEXT } from '../config/strings';
 import { LANG_TEXT } from '../config/strings';
 import { langWord } from '../sim/lang';
+import { visitingTrainer } from '../sim/neighbourhood';
 import { loadArcade, loadAtlas, loadMultiverse, loadNeopia } from '../sim/atlas';
 import { currentSlot, storageAvailable } from '../platform/storage';
 import { announceFestivals, StoryShelf } from './atlas';
@@ -191,7 +192,7 @@ export function mountHud(
     if (!g || expedition.isOpen) return;
     const runner = pickRunner();
     if (!runner) {
-      toast(UI_TEXT.expeditionNeedsNubbin);
+      toast(UI_TEXT.expeditionNeedsNubbin, UI.toastLongMs);
       return;
     }
     sheet.close();
@@ -237,10 +238,10 @@ export function mountHud(
   new ResizeObserver(placeToasts).observe(top);
   window.addEventListener('resize', placeToasts);
   placeToasts();
-  function toast(text: string): void {
+  function toast(text: string, ms: number = UI.toastMs): void {
     const t = el('div', 'toast', text);
     toasts.appendChild(t);
-    setTimeout(() => t.remove(), 2600);
+    setTimeout(() => t.remove(), ms);
   }
 
   // Catch-up overlay.
@@ -261,7 +262,7 @@ export function mountHud(
   storageChip.hidden = storageAvailable();
   root.appendChild(storageChip);
 
-  const sheet = new StatsSheet(root, game);
+  const sheet = new StatsSheet(root, game, toast);
   const settings = new SettingsMenu(root, game, toast);
   const away = new AwayScreen(root);
   // The debug panel only mounts in dev builds, or in a production build opened with `?debug`.
@@ -270,7 +271,7 @@ export function mountHud(
   const celebration = new Celebration(root, game);
   const shop = new ShopMenu(root, game, toast);
   const expedition = new ExpeditionScreen(root);
-  const races = new RacesMenu(root, game, toast, pickRunner);
+  const races = new RacesMenu(root, game, (t) => toast(t, UI.toastLongMs), pickRunner);
   const roster = new RosterMenu(root, game, (id) => sheet.open(id));
   const trainers = new TrainersMenu(root, game, toast);
   const dialogue = new Dialogue(root, game);
@@ -408,6 +409,11 @@ export function mountHud(
     ),
   );
   root.appendChild(placingChip);
+  // Visiting a neighbour: the way home stays on screen, not three menus deep (bug 28).
+  const goHome = (): void => game()?.send({ kind: 'visit', trainer: null });
+  const homeBtn = button(`🏡 ${UI_TEXT.goHome}`, goHome, 'btn home-btn');
+  homeBtn.hidden = true;
+  root.appendChild(homeBtn);
   let joystick: Joystick | null = null;
   // The Grove whose festivals were last checked against the side saves.
   let festivalsFor: unknown = null;
@@ -553,6 +559,11 @@ export function mountHud(
       else if (partyBout.isOpen()) partyBout.close();
       else if (more.isOpen()) more.hide();
       else if (!sheet.root.hidden) sheet.close();
+      // Nothing open: Esc leaves a neighbour's Grove.
+      else {
+        const g = game();
+        if (g && visitingTrainer(g.world) && !dialogue.isOpen) goHome();
+      }
     }
   });
 
@@ -668,6 +679,12 @@ export function mountHud(
       if (isEdu && eduBreakDue(g.world) && !breakScreen.isOpen() && !edu.isOpen())
         breakScreen.show();
       placingChip.hidden = !g.placing;
+      homeBtn.hidden = !visitingTrainer(g.world) || dialogue.isOpen;
+      // A minigame is time spent with its Nubbin: no lonely or hungry slips meanwhile (bug 21).
+      if (expedition.isOpen || races.screen.isOpen || karate.screen.isOpen || gym.screen.isOpen) {
+        const runner = pickRunner();
+        if (runner) g.send({ kind: 'playingWith', nubbinId: runner.id });
+      }
       // The phone's stats sheet is a bottom sheet: lift the view so the Nubbin stays in sight.
       g.cameraLift = !sheet.root.hidden && window.innerWidth < 720 ? CAMERA.sheetLift : 0;
       if (g.placing) placingText.textContent = UI_TEXT.placing(placingLabel(g.placing));
@@ -811,6 +828,18 @@ export function mountHud(
           );
           playSound('win');
         } else if (e.kind === 'weather') {
+          // No sky underground or inside a minigame (review 2026-10-21, bug 20).
+          const loc = g.world.location;
+          if (
+            loc === 'hollow' ||
+            loc === 'dungeon' ||
+            expedition.isOpen ||
+            races.screen.isOpen ||
+            karate.screen.isOpen ||
+            gym.screen.isOpen ||
+            tank.isOpen
+          )
+            continue;
           toast(
             e.weather === 'rain'
               ? UI_TEXT.weatherRain
@@ -1058,7 +1087,10 @@ export function mountHud(
 
   return {
     hooks,
-    bind() {
+    bind(g: Game) {
+      // A phone starts at the far zoom, so the eggs and the trees are in the first look.
+      if (window.matchMedia?.('(max-width: 600px), (max-height: 500px)').matches)
+        g.camera.setZoom(CAMERA.phoneZoomIndex);
       refreshLoop();
       if (new URLSearchParams(location.search).has('pocket')) pocket.open();
     },
