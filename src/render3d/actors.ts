@@ -10,6 +10,7 @@ import { Crowd, crowdFor, type CrowdOptions } from './crowd';
 import { vectorEmotes } from './emote-vector';
 import { QuadCloud } from './quad-particles';
 import { gaitTime } from './gait';
+import { standAt } from './hollow-dress-path';
 import { WATER_LEVEL, groveHeight } from './terrain';
 import { GROVE, GROVE3D, LIFECYCLE, READ3D, THROW } from '../config/tuning';
 import { isMerged } from '../sim/partners';
@@ -172,8 +173,26 @@ export class Actors {
   private readonly crowd: Crowd;
   /** Story holds and the lantern posts, set by the scene (see staging.ts, crowd.ts). */
   crowdOptions: CrowdOptions = {};
-  /** Ground height for feet: the terrain in the Grove, flat elsewhere. */
-  ground: (x: number, z: number) => number = () => 0;
+  /**
+   * Ground height for feet: the terrain in the Grove (set by the scene), flat elsewhere, and
+   * underground the Hollow floor's terraces, basin and crossings (`standAt`, item 19), so
+   * the Keeper, the party, strays and wild creatures stand on the floor the rock is built on.
+   */
+  get ground(): (x: number, z: number) => number {
+    const f = this.floor;
+    if (this.location !== 'dungeon' || !f) return this.baseGround;
+    if (this.caveFloor !== f) {
+      this.caveFloor = f;
+      this.caveGround = (x, z) => standAt(f, x, z);
+    }
+    return this.caveGround;
+  }
+  set ground(fn: (x: number, z: number) => number) {
+    this.baseGround = fn;
+  }
+  private baseGround: (x: number, z: number) => number = () => 0;
+  private caveFloor: Floor | null = null;
+  private caveGround: (x: number, z: number) => number = () => 0;
 
   constructor(scene: THREE.Scene) {
     scene.add(this.group);
@@ -347,7 +366,14 @@ export class Actors {
     // Vector frames (art pass 2), keyed as the pixel sheet's frames are.
     for (const [key, tex] of vectorEmotes(shadow)) {
       const [shape, f] = key.split(':') as [EmoteShape, string];
-      const mat = new THREE.SpriteMaterial({ map: tex, depthTest: true, fog: false });
+      // Alpha-tested, so only the ball itself writes depth: the clear rest of the quad must
+      // not hide additive layers drawn after it (the lamp's disc, glows, fog) in a dark square.
+      const mat = new THREE.SpriteMaterial({
+        map: tex,
+        depthTest: true,
+        fog: false,
+        alphaTest: 0.5,
+      });
       this.emoteMats.set(`${shadow ? 'shadow:' : ''}${frameKey(shape, 'front', Number(f))}`, mat);
     }
   }

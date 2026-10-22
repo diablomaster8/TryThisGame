@@ -6,7 +6,7 @@ import type { Tex } from '../samples/aaa-kit';
 import type { CaveLamps } from './cave-lamps';
 import { HollowAtmos } from './hollow-atmos';
 import { mat, type HollowCtx, type HollowFrame, type HollowModule } from './hollow-ctx';
-import { HollowDress } from './hollow-dress';
+import { HollowDress, pathBaker } from './hollow-dress';
 import { HollowLight, lightBaker } from './hollow-light';
 import { HollowPop } from './hollow-pop';
 import { HollowRock } from './hollow-rock';
@@ -77,6 +77,7 @@ export class Hollow {
     this.group.visible = false;
     parent.add(this.group);
     this.light_ = new HollowLight(parent);
+    this.dress.useLights(this.light_);
     // A lit sconce re-bakes the floor's light.
     this.light_.rebake = () => this.rock.rebake();
     this.mods = [this.rock, this.dress, this.light_, this.atmos, this.pop];
@@ -94,6 +95,7 @@ export class Hollow {
       new THREE.Mesh(box, this.rock.earth),
       new THREE.InstancedMesh(box, this.dress.stone, 1),
       new THREE.Mesh(pool, this.dress.water.material),
+      ...this.dress.samples(),
       ...this.light_.programSamples(),
     );
     this.samples.traverse((o) => (o.castShadow = o.receiveShadow = true));
@@ -137,6 +139,7 @@ export class Hollow {
     for (const m of this.mods) m.dispose();
     this.ctx.bakers.length = 0;
     if (f) this.ctx.bakers.push(lightBaker(f, this.ctx));
+    if (f) this.ctx.bakers.push(pathBaker(f, this.ctx));
     if (f) for (const m of this.mods) m.build(f, this.ctx);
   }
 

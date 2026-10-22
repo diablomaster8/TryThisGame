@@ -773,6 +773,35 @@ function tone(
   osc.stop(t0 + durMs / 1000 + 0.02);
 }
 
+/**
+ * A Hollow crystal's chime when someone brushes it (item 44): a soft sine bell and its
+ * fifth, `pitch` a share 0..1 that picks the note from a pentatonic run, so neighbours
+ * sound well together. Silent until the first tap unlocks sound, as every effect is.
+ */
+export function playChime(pitch: number): void {
+  if (!sfxEnabled || !unlocked || !ctx) return;
+  const notes = [1047, 1175, 1319, 1568, 1760, 2093];
+  const f = notes[Math.min(notes.length - 1, Math.floor(pitch * notes.length))]!;
+  try {
+    tone(f, 0, 900, 'sine', 0.045);
+    tone(f * 1.5, 30, 700, 'sine', 0.018);
+    tone(f * 2, 0, 300, 'triangle', 0.01);
+  } catch {
+    // Audio is a nicety; a failed node never stops the game.
+  }
+}
+
+/** A Hollow sconce catching from the Keeper's lamp: a soft rising whoosh. */
+export function playKindle(): void {
+  if (!sfxEnabled || !unlocked || !ctx) return;
+  try {
+    tone(220, 0, 260, 'triangle', 0.05, 520);
+    tone(660, 120, 220, 'sine', 0.03, 880);
+  } catch {
+    // As above.
+  }
+}
+
 export function playSound(name: SoundName): void {
   if (!sfxEnabled || !unlocked || !ctx) return;
   try {
