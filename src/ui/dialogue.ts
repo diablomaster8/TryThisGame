@@ -19,6 +19,7 @@ import { langWord } from '../sim/lang';
 import { playWord } from '../platform/lang-audio';
 import { SceneReplayGuard } from './scene-replay-guard';
 import { isControlTarget } from '../input/keys';
+import { StoryUi, type DialogueHooks } from './story-ui';
 
 /**
  * The story dialogue box: portrait, name, typewriter text, tap to advance, choices.
@@ -52,6 +53,10 @@ export class Dialogue {
   private names: Record<string, string> = {};
   /** Holds back a scene whose `sceneDone` the sim has not applied yet. */
   private readonly replayGuard = new SceneReplayGuard();
+  /** The story UI's hooks: item card, chapter postcard, chapter photo (campaign graphics 2, U). */
+  private hooks: DialogueHooks = {};
+  /** True while a chapter postcard holds the first line back (N1). */
+  private held = false;
 
   constructor(
     parent: HTMLElement,
@@ -72,6 +77,11 @@ export class Dialogue {
     this.root.appendChild(box);
     this.root.addEventListener('click', (e) => {
       if (this.waiting()) return;
+      if (this.held) {
+        this.hooks.skip?.();
+        this.release();
+        return;
+      }
       if ((e.target as HTMLElement).closest('.dialogue-choices, .edu-gloss')) return;
       this.advance();
     });
@@ -81,6 +91,11 @@ export class Dialogue {
       if (isControlTarget(e.target)) return;
       if (e.key === ' ' || e.key === 'Enter') {
         e.preventDefault();
+        if (this.held) {
+          this.hooks.skip?.();
+          this.release();
+          return;
+        }
         this.advance();
       }
     });
@@ -106,6 +121,7 @@ export class Dialogue {
     // The ending card joins the page only when it shows (review 2026-10-21, bug 35).
     this.endParent = parent;
     parent.append(this.root);
+    this.hooks = new StoryUi(this, parent, game).hooks;
   }
 
   /** Who speaks the line on screen (a speaker id), or null when closed; the story camera frames them. */
@@ -156,6 +172,9 @@ export class Dialogue {
     if (!id || this.external || this.inLesson || this.root.hidden || queue?.includes(id)) return;
     this.root.hidden = true;
     this.scene = null;
+    this.held = false;
+    this.root.classList.remove('held');
+    this.hooks.close?.(null, false);
     this.playing = null;
     this.afterLines = null;
     this.choices.innerHTML = '';
@@ -206,7 +225,25 @@ export class Dialogue {
     };
     this.root.hidden = false;
     this.sync();
+    // A chapter opening holds on its first frame (N1); a side save's scene never does.
+    const holding =
+      !this.external && (this.hooks.open?.(sceneId, scene, () => this.release()) ?? false);
+    if (holding) {
+      this.held = true;
+      this.root.classList.add('held');
+    } else {
+      this.showLine();
+      this.hooks.shown?.();
+    }
+  }
+
+  /** End the postcard hold: the first line appears. */
+  private release(): void {
+    if (!this.held) return;
+    this.held = false;
+    this.root.classList.remove('held');
     this.showLine();
+    this.hooks.shown?.();
   }
 
   private showChoices(choices: NonNullable<ReturnType<typeof sceneFor>>['choices']): void {
@@ -239,12 +276,15 @@ export class Dialogue {
     const scene = this.scene;
     this.root.hidden = true;
     this.scene = null;
+    this.held = false;
+    this.root.classList.remove('held');
     clearInterval(this.typing);
     stopSpeaking();
     const playing = this.playing;
     this.playing = null;
     const external = this.external;
     this.external = null;
+    this.hooks.close?.(scene, !!external);
     if (external) {
       external(choice);
       return;

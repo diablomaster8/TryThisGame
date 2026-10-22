@@ -1431,3 +1431,24 @@ export const TITLE_CARD_TEXT = {
   /** The scoreboard in Logged In's lobby. */
   scoreboard: { title: 'RANKS', rows: ['1  JUNO', '2  YOU', '3  ---', '4  ???'] },
 } as const;
+
+/** Story items, chapter postcards and chapter photos (campaign graphics 2, package u). */
+export const STORY_UI_TEXT = {
+  items: {
+    letter: 'Hazel’s letter',
+    notebook: 'Hazel’s notebook',
+    stone: 'The stone',
+    'vane-notebook': 'Vane’s notebook',
+    recording: 'The recording',
+  } as Record<string, string>,
+  /** Screen readers: the card names its item. */
+  itemAlt: (name: string) => `Close view: ${name}`,
+  skipHint: 'Tap to begin',
+  offerTitle: (n: number, title: string) => `Chapter ${n}: ${title}`,
+  offerText: 'Keep a photo of this moment?',
+  offerYes: 'Take photo',
+  offerNo: 'Not now',
+  chapterPhoto: 'Chapter photo',
+  nubbinPhoto: 'Nubbin photo',
+  chapterPhotoHelp: 'A keepsake of the chapter, as the scene stood.',
+} as const;
