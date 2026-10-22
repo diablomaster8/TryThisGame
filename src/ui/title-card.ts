@@ -549,6 +549,10 @@ export function driveCampaign(world: World, stage: SceneStage, reduce: boolean):
     sets.logged = false;
     sets.rootRoom = false;
   }
+  // An exclusive stage (C3, C4) draws only its own set: none of the Grove's sets, no sky weather.
+  if (stage.exclusive) {
+    sets.festival = sets.picnic = sets.beetle = sets.logged = sets.plums = false;
+  }
   const final = c ? (storylineOf(c)?.chapters.length ?? 12) : 0;
   const underground = f.location === 'dungeon';
   if (!c || underground) {
@@ -565,7 +569,7 @@ export function driveCampaign(world: World, stage: SceneStage, reduce: boolean):
     },
     stage,
   );
-  const weather = weatherFor(stage, f.sceneId, f.campaign, title);
+  const weather = stage.exclusive ? null : weatherFor(stage, f.sceneId, f.campaign, title);
   const season = seasonFor(stage, f.campaign, f.chapter);
   const wet = weather ? WEATHER_TINT[weather] : undefined;
   const ground = wet
