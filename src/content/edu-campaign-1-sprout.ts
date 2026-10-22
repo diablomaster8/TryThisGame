@@ -8,7 +8,7 @@
  *   the valley that phrase means the memorial flowers), so no child hears Gran might be dead.
  * - The Tale of the Four is a gentle picture-book tale. Fading is said plainly ("That means
  *   they die"), with the comfort straight after: the loved one stays, the flower, the
- *   remembering. The White Year is cold and sad, never frightening.
+ *   remembering. The very long winter is cold and sad, never frightening.
  * - Corvin is a man with a cold hand who wants to buy your Nubbin; the child says no.
  * - c2-corvin leaves out 'sell' (defaultChoice 'refuse'); c3-open leaves out 'grab'
  *   (defaultChoice 'slow'). Every other choice id is kept, with its original set/friendship.
@@ -74,7 +74,7 @@ const CH1: EduScene[] = [
       HAZEL('“Love, Gran. P.S. The gate sticks. Lift and push!”', 'happy'),
       N('You laugh. You miss her too. Two feelings at once.'),
       N('Up on the hill, something small and grey watches. Very still.'),
-      FERN('Hello! I’m Fern, from next door. You’ve got Gran’s chin!', 'happy'),
+      FERN('Hello! I’m Fern, from next door. Chin up! You’ve got Gran’s chin!', 'happy'),
       FERN('I put that stone on the letter. That was my job!', 'happy'),
     ],
     [
@@ -106,7 +106,7 @@ const CH1: EduScene[] = [
           HAZEL('“Rule one: feed them before you feed yourself.”'),
           HAZEL('“Rule two: never, ever throw one.”'),
           HAZEL('“Rule three: when you’re stuck, sit down next to them and wait.”'),
-          N('(Gran made you say the rules back at the gate. Say them now!)'),
+          N('(Gran wants you to remember these. Say them with me!)'),
           N('(Hold up one finger for each rule: one, two, three.)'),
         ],
         parentNote:
@@ -149,6 +149,7 @@ const CH1: EduScene[] = [
     [
       N('Crack! The egg opens. Out comes a baby Nubbin!', 'happy'),
       N('It is small and warm. It wears a shell hat!'),
+      N('The shell hat slips over its eyes. Pop! Up it goes again.'),
       N('It leans into your hand. You both stay very still.'),
       SPARKS('HEY! Don’t move! I’m fixing this lantern post!', 'shock'),
       SPARKS('Fixed it! I’m Sparks. Is your Nubbin fast? It looks fast!', 'happy'),
@@ -165,7 +166,7 @@ const CH1: EduScene[] = [
         skill: 'which baby animals hatch from eggs',
         standard: 'ELOF: Scientific Reasoning',
         kind: 'ask',
-        after: 2,
+        after: 3,
         prompt: [
           FERN('Your Nubbin hatched from an egg!'),
           FERN('Which baby animal hatches from an egg too?'),
@@ -202,7 +203,7 @@ const CH1: EduScene[] = [
         skill: 'add one more (3 and 1 make 4)',
         standard: 'K.OA.A.1',
         kind: 'ask',
-        after: 7,
+        after: 8,
         prompt: [
           SPARKS('Three lanterns glow bright. One more just flickers.'),
           N('(Count the bright ones together, then add the flickery one.)'),
@@ -431,14 +432,14 @@ const CH3: EduScene[] = [
             label: 'Silly',
             reply: [
               LUNA('She jumps at every sound. That means scared, not silly.', 'soft'),
-              LUNA('Quiet and slow and kind. That helps scared ones.'),
+              LUNA('Quiet and kind helps.'),
             ],
           },
           {
             label: 'Sleepy',
             reply: [
               LUNA('Her eyes are wide open. That means scared, not sleepy.', 'soft'),
-              LUNA('Quiet and slow and kind. That helps scared ones.'),
+              LUNA('Quiet and kind helps.'),
             ],
           },
         ],
@@ -465,6 +466,7 @@ const CH3: EduScene[] = [
     'c3-close',
     [
       N('Day after day, you leave fruit. You sit. You wait.'),
+      N('Out on the lane, a child skips to a rhyme. Badly!'),
       N('Now Sable lets you sit near. She doesn’t run away!'),
       CLOVER('Oh, she’s letting you near! I’m Clover. I look after gentle ones.', 'happy'),
       CLOVER('The grey won’t go away. But that doesn’t mean she’s broken.', 'soft'),
@@ -482,7 +484,7 @@ const CH3: EduScene[] = [
         skill: 'sunshine warms the ground and melts frost',
         standard: 'K-PS3-1',
         kind: 'ask',
-        after: 5,
+        after: 6,
         prompt: [
           CLOVER('Frost is tiny bits of ice. Here comes the sun.', 'think'),
           CLOVER('What will the sunshine do to the frost?'),
@@ -505,8 +507,8 @@ const CH3: EduScene[] = [
           {
             label: 'Turn it pink',
             reply: [
-              CLOVER('Pink frost would be lovely! But the sun is warm, and warm melts ice.'),
-              CLOVER('Watch. Drip, drip… the frost is gone!', 'happy'),
+              CLOVER('Pink frost would be lovely!'),
+              CLOVER('But warm melts ice. Drip, drip… gone!', 'happy'),
             ],
           },
         ],
@@ -518,7 +520,7 @@ const CH3: EduScene[] = [
         skill: 'count to 6 to answer “how many?”',
         standard: 'K.CC.B.5',
         kind: 'do',
-        after: 7,
+        after: 8,
         check: 'edu:count:plum-stones:6',
         lines: [
           LUNA('Let’s count the plum stones. Then we’ll know how many plums went.'),
@@ -750,8 +752,8 @@ const CH4: EduScene[] = [
           {
             label: 'Juice',
             reply: [
-              MOSS('I wish it did. Think of a puddle on a frosty morning.', 'happy'),
-              MOSS('Very cold water turns to ice. But not this warm pool.'),
+              MOSS('I wish it did! But cold water turns to ice.', 'happy'),
+              MOSS('Not this warm pool.'),
             ],
           },
         ],
@@ -790,12 +792,12 @@ const CH4: EduScene[] = [
     'c4-tale-2',
     [
       MOSS('Once, four friends looked after this valley. I was one.'),
-      MOSS('Briar, who laughed and laughed. Mostly at me.', 'happy'),
-      MOSS('Hush, who was quiet, and kind to sad hearts.', 'soft'),
-      MOSS('Cinder, who loved the little ones most of all.'),
-      MOSS('And me. I sat. Somebody has to.'),
-      MOSS('Then came the White Year. Winter would not end. Snow, snow, snow.', 'sad'),
-      MOSS('Cinder made a magic stone out of ice. The Heartstone.'),
+      MOSS('Briar, who laughed.', 'happy'),
+      MOSS('Hush, who was quiet.', 'soft'),
+      MOSS('Cinder, who hugged too tight.'),
+      MOSS('And me. I sat.'),
+      MOSS('Then came a very long winter. Snow, snow, snow.', 'sad'),
+      MOSS('Cinder made a magic ice stone.'),
       MOSS('With it, she led every cold Nubbin to a warm, safe place.'),
       MOSS('But after, they were grey and still. They didn’t play any more.', 'sad'),
       MOSS('She made them safe by making them still.', 'sad'),
@@ -839,8 +841,8 @@ const CH4: EduScene[] = [
           {
             label: 'The tightest squeeze ever',
             reply: [
-              MOSS('Too tight can hurt, or scare. A good hug is gentle.', 'soft'),
-              MOSS('And anyone can say, “Too tight, please!”'),
+              MOSS('Too tight can hurt. A good hug is gentle.', 'soft'),
+              MOSS('Anyone can say, “Too tight, please!”'),
             ],
           },
         ],
@@ -971,7 +973,7 @@ const CH4: EduScene[] = [
           {
             label: 'At bedtime',
             reply: [
-              MOSS('At bedtime the sun goes down, and the sky gets dark.'),
+              MOSS('At bedtime the sun goes down.'),
               MOSS('In the morning, up it comes. Like now.', 'happy'),
             ],
           },
@@ -1070,10 +1072,7 @@ const TRIGGERED: EduScene[] = [
           },
           {
             label: 'On top of its head',
-            reply: [
-              N('Ha! On top of its head would give it a fright.'),
-              N('Beside it is best. Close enough to reach.'),
-            ],
+            reply: [N('Ha! On its head would give it a fright.'), N('Beside it is best.')],
           },
         ],
         parentNote:

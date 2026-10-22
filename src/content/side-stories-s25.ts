@@ -217,7 +217,7 @@ export const SIDE_STORY_S25: Quest[] = [
               set: { 's25-name': 'button' },
               then: [
                 N('Button. You said it all that summer, mostly to the eye that was loose.'),
-                N('Your Nubbin looks up from the hatbox, considers the toy, and goes back to the hatbox.'),
+                N('Your Nubbin looks at the toy’s loose eye, then checks its own two.'),
               ],
             },
             {
@@ -225,8 +225,12 @@ export const SIDE_STORY_S25: Quest[] = [
               label: '“Bobble.” For the bobble.',
               set: { 's25-name': 'bobble' },
               then: [
-                N('Bobble. You carried it by the bobble everywhere, which is why the bobble is crooked.'),
-                N('Your Nubbin looks up from the hatbox, considers the toy, and goes back to the hatbox.'),
+                N(
+                  'Bobble. You carried it by the bobble everywhere, which is why the bobble is crooked.',
+                ),
+                N(
+                  'Your Nubbin looks at the bobble, then pats the top of its own head, doubtfully.',
+                ),
               ],
             },
             {
@@ -234,8 +238,10 @@ export const SIDE_STORY_S25: Quest[] = [
               label: '“Mister.” Just Mister.',
               set: { 's25-name': 'mister' },
               then: [
-                N('Mister. Hazel called the postman Mister, and at three you thought it was the most respectful word there was.'),
-                N('Your Nubbin looks up from the hatbox, considers the toy, and goes back to the hatbox.'),
+                N(
+                  'Mister. Hazel called the postman Mister, and at three you thought it was the most respectful word there was.',
+                ),
+                N('Your Nubbin stands up straighter, in case it is being inspected.'),
               ],
             },
           ],

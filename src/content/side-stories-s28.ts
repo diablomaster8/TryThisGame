@@ -80,7 +80,10 @@ const GRUE: Speaker = {
 };
 const CARTER: Speaker = { id: 's28-carter', name: 'The carter', kind: 'other' };
 const DOT: Speaker = { id: 's28-dot', name: 'Dot Amblin', kind: 'other' };
+/** The existing Granny Brock (S29). Shared id. She says less than anyone, and always comes back with soup. */
+const GRANNY_BROCK: Speaker = { id: 'granny-brock', name: 'Granny Brock', kind: 'other' };
 
+const GB = say('granny-brock');
 const GR = say('mr-grue');
 const CA = say('s28-carter');
 const DO = say('s28-dot');
@@ -133,7 +136,15 @@ const S28_OFFER: Choice[] = [
 const S28_LOG_OPEN: Line[] = [
   N('When the cake is crumbs, Byte stands up with his notebook, PARCEL: INCIDENTS. It has got quite fat since the autumn.'),
   BY('I’m going to read the log. It’s procedure. Also, I want to.', 'think'),
-  BY('Incidents. Bath, flood. Fence, Grue. Pyramid, jam. Glasshouse, oranges. Snow. Watch, eleven pieces.', 'think'),
+  BY(
+    'Incidents. Bath, flood. Fence, Grue. Pyramid, jam. Glasshouse, oranges. Snow. Watch, eleven pieces.',
+    'think',
+  ),
+  N('Beside his two columns Pixel has added a third, in green pencil, headed NOTES FROM HOME.'),
+  PX(
+    'I annotate his log. He pretends not to read it. He has never once rubbed out a note.',
+    'happy',
+  ),
 ];
 const S28_GIFTS: Line[] = [
   N('Parcel climbs down off its chair and gives you Hazel’s jar from the Hollow, the empty one, washed. Then it bows.'),
@@ -158,7 +169,7 @@ export const SIDE_STORY_S28: Quest[] = [
       when:
         'Opens the morning after chapter 8’s notebook (c8-close). Steps 1–10 run from early autumn into early winter, all before chapter 9 opens. Steps 11–13 run in chapter 11, after c11-open. Closes before chapter 12.',
     },
-    speakers: [PARCEL, GRUE, CARTER, DOT],
+    speakers: [PARCEL, GRUE, CARTER, DOT, GRANNY_BROCK],
     steps: [
       // ------------------------------------------------ 1. the carrier’s cart (outline quest 1)
       {
@@ -443,12 +454,33 @@ export const SIDE_STORY_S28: Quest[] = [
             N('There is now a slope of jars. Parcel is at the bottom, holding the top jar up in both paws, unbroken.'),
             N('Nothing has broken. Everything has simply rolled, very far, in every direction.'),
             DO('My PYRAMID. Three hours, that pyramid took!', 'angry'),
-            N('A crowd has gathered, so Parcel bows to it. The crowd claps, and starts picking up jars, and paying for them.'),
-            DO('Well. That’s the bramble jelly gone. And the damson. Oh, go on, then, take the plum.', 'shock'),
-            N('By noon the stall has sold out. Dot Amblin sits on her empty table with her cash tin, looking at Parcel as if it were weather.'),
-            DO('Keep that one, little one. Apricot. On the house. Come back next market, and bring your bow.', 'happy'),
-            N('Byte buys a knitted coat with toggles, brown, Parcel-sized. Then a second, smaller, for your Nubbin.'),
-            BY('Parity. If one of them has a coat, they both have a coat. I’ve done the maths on fair.', 'think'),
+            N(
+              'A crowd has gathered, so Parcel bows to it. The crowd claps, and starts picking up jars, and paying for them.',
+            ),
+            DO(
+              'Well. That’s the bramble jelly gone. And the damson. Oh, go on, then, take the plum.',
+              'shock',
+            ),
+            N(
+              'By noon the stall has sold out. Dot Amblin sits on her empty table with her cash tin, looking at Parcel as if it were weather.',
+            ),
+            DO(
+              'Keep that one, little one. Apricot. On the house. Come back next market, and bring your bow.',
+              'happy',
+            ),
+            N(
+              'Byte buys a knitted coat with toggles, brown, Parcel-sized. Then a second, smaller, for your Nubbin.',
+            ),
+            BY(
+              'Parity. If one of them has a coat, they both have a coat. I’ve done the maths on fair.',
+              'think',
+            ),
+            N(
+              'Granny Brock goes past with a sack of charcoal, and stops to look at Parcel in its new coat.',
+            ),
+            GB(
+              'A Nubbin in a coat. Fine. Coat off, when it’s warm. Not the toggles. It likes the toggles.',
+            ),
           ],
         },
       },
@@ -557,8 +589,15 @@ export const SIDE_STORY_S28: Quest[] = [
               id: 'sit',
               label: 'Sit down in the snow beside Parcel.',
               then: [
-                N('You sit. The snow is very cold, very fast; Parcel looks at you, then at the road, and doesn’t move away.'),
-                N('After a moment Byte sits down on its other side, in the snow, in his good trousers.'),
+                N(
+                  'You sit. The snow is very cold, very fast; Parcel looks at you, then at the road, and doesn’t move away.',
+                ),
+                N(
+                  'After a moment Byte sits down on its other side, in the snow, in his good trousers.',
+                ),
+                N(
+                  'Parcel unbuttons a toggle and puts half a sandwich in your hand. It has never done that for anyone.',
+                ),
                 ...S28_KEEPING,
               ],
             },
@@ -568,6 +607,7 @@ export const SIDE_STORY_S28: Quest[] = [
               then: [
                 N('You stop at the bend. Byte doesn’t: he goes all the way to the sign and crouches in the snow, in his good trousers.'),
                 ...S28_KEEPING,
+                BY('You stayed at the bend. That was right. I’d have been embarrassed.', 'soft'),
               ],
             },
           ],

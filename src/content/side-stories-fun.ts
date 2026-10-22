@@ -764,8 +764,17 @@ export const SIDE_STORIES_FUN: Quest[] = [
           lines: [
             MA('Before we do anything about that wall, I want to show you something. Not because it helps.', 'soft'),
             MA('Because somebody besides me ought to know the way. Hazel knew it. Hazel’s away.'),
-            N('Beside the falls, half hidden by ferns, a narrow ledge runs straight into the roar.'),
-            MA('The ledge path. Back to the rock, eyes on my heels. Don’t look at the water. It doesn’t like being stared at.', 'think'),
+            N(
+              'Beside the falls, half hidden by ferns, a narrow ledge runs straight into the roar.',
+            ),
+            MA(
+              'The ledge path. Back to the rock. Eyes on my heels. They’re very good heels. Twenty years’ wear.',
+              'think',
+            ),
+            MA(
+              'Don’t look at the water. Don’t look up either. Up is worse. It doesn’t like being stared at.',
+            ),
+            MA('Rule five. Don’t be me at your age. I was Sparks with longer hair.', 'happy'),
           ],
         },
         done: {

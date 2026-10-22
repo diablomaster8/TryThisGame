@@ -119,6 +119,10 @@ for (const k of Object.keys(eduPacks)) for (const q of packs[k]!) for (const s o
 // a25-13-empress-ash), so A25-15 onward, a25-margin-hazel and a25-grove-ember are left out; a29 is reader-only (every scene).
 const eduExempt = (band: string, id: string): boolean =>
   /^a23-(08|15)(-|$)/.test(id) ||
+  (band === 'sprout' &&
+    /^(c5-sold|c9-shard-collector|c10-kept|c11-moss-kept|c11-cold-hands|end-collector-sold|end-collector-kept|end-epi-wisp-kept)$/.test(
+      id,
+    )) ||
   (band === 'sprout' && /^(a16|a25|a29)-/.test(id)) ||
   (band === 'reader' && (/^a16-(16|17)(-|$)|^a16-grove-/.test(id) || /^a25-(1[5-9]|[2-9]\d)(-|$)|^a25-(margin-hazel|grove-ember)(-|$)/.test(id)));
 for (const k of Object.keys(eduPacks)) for (const q of packs[k]!) if (q.audience !== 'all') if (!eduExempt('reader', q.id)) problems.push(`${q.id}: audience ${q.audience} in a Learning Grove pack`);

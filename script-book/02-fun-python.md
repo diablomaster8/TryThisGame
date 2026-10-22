@@ -376,6 +376,9 @@ _As thanks, Trotwell teaches you the trot. It is mostly knees._
 _From now on, when you run, you can swap your footsteps for coconut hooves._  
 _Far away on the beach, Gullwick sleeps soundly, wings spread out like a dropped coat._  
 _Beside it someone has left a fruit and a note in chalk: “Thank you for the noise. From the wall.”_  
+_Warden Ollery rubs out the chalk diagram of two Fly Nubbins and a string, slowly, like a man giving up a theory._  
+**Warden Ollery** _(sad)_: I’ll miss the string. It was a good string.  
+_Trotwell clops once, in sympathy._  
 
 **Rewards**
 
@@ -605,6 +608,9 @@ Hint: Place stones on the glowing spots at the top of each tower. Twelve in all.
 
 **Pixel** _(think)_: Now. The towers. Hold this, hold that, and whatever happens, do not breathe on the east wing.  
 _You build together. Pixel places, you hold, and your Nubbin hands up stones one at a time with great ceremony._  
+_One Nubbin hands Pixel a stone. Pixel says it is the wrong stone._  
+_The Nubbin hands her the same stone again, with more conviction._  
+**Pixel** _(happy)_: Better.  
 _Every few minutes Pixel stands back, squints, and moves one stone a hair to the left._  
 **Byte**: You moved that one back to where it was.  
 **Pixel**: I moved it MORE to where it was.  
@@ -705,7 +711,9 @@ _Reggie takes the crop, turns it over, sniffs it, and holds it up to the light f
 **Reggie Thistlewood** _(angry)_: Fine. But apart from the crops, the baths, the frogs, the humming and your cousin—  
 **Frannie Quill**: It keeps the path cool in summer.  
 **Old Mags** _(soft)_: It’s pretty.  
-**Frannie Quill**: And you’ve been filling your teapot from it since Tuesday, Reggie. We’ve all seen you.  
+**Frannie Quill**: You’ve filled our teapot from it every morning since Tuesday, Reggie. I married you. I notice things.  
+**Reggie Thistlewood** _(sad)_: That was a private teapot.  
+**Frannie Quill**: Dear. It’s a municipal aqueduct.  
 **Reggie Thistlewood** _(sad)_: …Motion to thank the Keeper. All in favour.  
 _Every hand goes up, Reggie’s last and slowly. The crops beside the aqueduct will never need watering again._  
 
@@ -763,21 +771,21 @@ Hint: Wear the gourd and the shoe where both camps can see. Tap each in your bag
 
 #### Scene `q09-mother`
 
-_A Keeper in a headscarf marches up the path, rolling up her sleeves. This is Mother Brindle. She is not pleased._  
+_A Keeper in a headscarf marches up the path, rolling up her sleeves. This is Mother Brindle, Barty’s Keeper, who hatched him. She is not pleased._  
 **Mother Brindle** _(angry)_: What’s all this, then? Barty! Is that you at the front?  
 **Barty** _(happy)_: Mother! The signs!  
 **A Gourd Nubbin**: Barty saw the signs first. Barty is very special.  
 **Mother Brindle** _(angry)_: He's not the Messiah. He's a very naughty boy!  
 **Barty** _(soft)_: I am a bit naughty.  
 **Mother Brindle**: It’s past his bedtime. And yours, all of you.  
-**Mother Brindle** _(sad)_: Keeper, sort this out. They won’t listen to me. Nobody listens to me. I’m only his mother.  
+**Mother Brindle** _(sad)_: Sort this out, will you? Nobody listens to me. I’m only his mother. Well. I hatched him. Same thing.  
 
 **Choices**
 
 - **Tell them both are signs.** — sets `{"q09-ruling":"both"}`
     - Both camps cheer, then look at each other suspiciously, then cheer again, slightly less.
 - **Tell them it’s just things you dropped.** — sets `{"q09-ruling":"neither"}`
-    - Nobody believes you. Your modesty is taken as a further sign. Mother Brindle sighs.
+    - Nobody believes you. They say only a very special Keeper would say that. Mother Brindle sighs.
 - **Tell them to think for themselves.** — sets `{"q09-ruling":"themselves"}`
     - **You**: You don’t need to follow me. Any of you. You can all think for yourselves!
     - The whole crowd nods, together, in perfect time. Then it waits for you to say what to think.

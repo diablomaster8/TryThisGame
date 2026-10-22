@@ -27,7 +27,7 @@ _On the signpost is a letter. Your name is on the front!_
 > **Gran Hazel**: “Rule one: feed them before you feed yourself.”  
 > **Gran Hazel**: “Rule two: never, ever throw one.”  
 > **Gran Hazel**: “Rule three: when you’re stuck, sit down next to them and wait.”  
-> _(Gran made you say the rules back at the gate. Say them now!)_  
+> _(Gran wants you to remember these. Say them with me!)_  
 > _(Hold up one finger for each rule: one, two, three.)_  
 > Check: `edu:say:rules:3`
 > _For grown-ups: Your child listened to Gran’s three rules for caring for animals and said them back._
@@ -35,7 +35,7 @@ _On the signpost is a letter. Your name is on the front!_
 **Gran Hazel**: “Love, Gran. P.S. The gate sticks. Lift and push!”  
 _You laugh. You miss her too. Two feelings at once._  
 _Up on the hill, something small and grey watches. Very still._  
-**Fern**: Hello! I’m Fern, from next door. You’ve got Gran’s chin!  
+**Fern**: Hello! I’m Fern, from next door. Chin up! You’ve got Gran’s chin!  
 **Fern**: I put that stone on the letter. That was my job!  
 
 **Choices**
@@ -56,6 +56,7 @@ _Up on the hill, something small and grey watches. Very still._
 
 _Crack! The egg opens. Out comes a baby Nubbin!_  
 _It is small and warm. It wears a shell hat!_  
+_The shell hat slips over its eyes. Pop! Up it goes again._  
 _It leans into your hand. You both stay very still._  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): which baby animals hatch from eggs  
@@ -168,8 +169,8 @@ _She is thin. One wing is hurt. When you breathe, she jumps._
 > **Lesson** (sel, CASEL: Social awareness, ask): noticing when someone is scared, and what helps  
 > **Luna**: Look at her. She jumps when you breathe. How is Sable feeling?  
 > - ✅ Scared → Yes. Scared. Her body is ready to run. Quiet and slow and kind. That helps scared ones.
-> - Silly → She jumps at every sound. That means scared, not silly. Quiet and slow and kind. That helps scared ones.
-> - Sleepy → Her eyes are wide open. That means scared, not sleepy. Quiet and slow and kind. That helps scared ones.
+> - Silly → She jumps at every sound. That means scared, not silly. Quiet and kind helps.
+> - Sleepy → Her eyes are wide open. That means scared, not sleepy. Quiet and kind helps.
 > _For grown-ups: Your child read the signs that Sable is scared and heard that quiet, slow kindness helps._
 
 **Luna**: I call her Sable. What will you do?  
@@ -185,6 +186,7 @@ _She is thin. One wing is hurt. When you breathe, she jumps._
 #### `c3-close`
 
 _Day after day, you leave fruit. You sit. You wait._  
+_Out on the lane, a child skips to a rhyme. Badly!_  
 _Now Sable lets you sit near. She doesn’t run away!_  
 **Clover**: Oh, she’s letting you near! I’m Clover. I look after gentle ones.  
 **Clover**: The grey won’t go away. But that doesn’t mean she’s broken.  
@@ -196,7 +198,7 @@ _Next morning, look! Frost on the grass where Sable slept. Only there._
 > **Clover**: What will the sunshine do to the frost?  
 > - ✅ Melt it away → Yes! The sun warms the grass. The frost melts. Drip, drip, gone!
 > - Make it bigger → The sun is warm, and warm melts ice. Watch. Drip, drip… the frost is gone!
-> - Turn it pink → Pink frost would be lovely! But the sun is warm, and warm melts ice. Watch. Drip, drip… the frost is gone!
+> - Turn it pink → Pink frost would be lovely! But warm melts ice. Drip, drip… gone!
 > _For grown-ups: Your child predicted that sunshine warms the ground and melts frost._
 
 _And last night’s plums are gone. All of them!_  
@@ -314,7 +316,7 @@ _Late at night, Moss sits by the pond lantern. You sit too._
 > **Moss**: What does it turn into?  
 > - ✅ Ice → Ice. Yes. But not this warm pool. Not ever.
 > - Sand → Think of a puddle on a frosty morning. Hard and slippy. Very cold water turns to ice. But not this warm pool.
-> - Juice → I wish it did. Think of a puddle on a frosty morning. Very cold water turns to ice. But not this warm pool.
+> - Juice → I wish it did! But cold water turns to ice. Not this warm pool.
 > _For grown-ups: Your child learned that very cold water freezes into ice, and warm water stays runny._
 
 **Moss**: The first Nubbins came up out of it. Each one a small light.  
@@ -339,10 +341,10 @@ _Out by the long grass, the fourth lantern flickers._
 #### `c4-tale-2`
 
 **Moss**: Once, four friends looked after this valley. I was one.  
-**Moss**: Briar, who laughed and laughed. Mostly at me.  
-**Moss**: Hush, who was quiet, and kind to sad hearts.  
-**Moss**: Cinder, who loved the little ones most of all.  
-**Moss**: And me. I sat. Somebody has to.  
+**Moss**: Briar, who laughed.  
+**Moss**: Hush, who was quiet.  
+**Moss**: Cinder, who hugged too tight.  
+**Moss**: And me. I sat.  
 
 > **Lesson** (maths, K.CC.B.4, do): count to 4, one name for each finger  
 > _(Count the four friends on your fingers: Briar, Hush, Cinder, Moss.)_  
@@ -351,8 +353,8 @@ _Out by the long grass, the fourth lantern flickers._
 > Check: `edu:count:wardens:4`
 > _For grown-ups: Your child counted the four wardens, one finger for each name._
 
-**Moss**: Then came the White Year. Winter would not end. Snow, snow, snow.  
-**Moss**: Cinder made a magic stone out of ice. The Heartstone.  
+**Moss**: Then came a very long winter. Snow, snow, snow.  
+**Moss**: Cinder made a magic ice stone.  
 **Moss**: With it, she led every cold Nubbin to a warm, safe place.  
 **Moss**: But after, they were grey and still. They didn’t play any more.  
 **Moss**: She made them safe by making them still.  
@@ -361,7 +363,7 @@ _Out by the long grass, the fourth lantern flickers._
 > **Moss**: Cinder held them too tight. She meant it kindly.  
 > **Moss**: What makes a good hug, do you think?  
 > - ✅ A gentle one, when you both want it → Yes. Gentle, and only when they want one. And they can always wriggle free.
-> - The tightest squeeze ever → Too tight can hurt, or scare. A good hug is gentle. And anyone can say, “Too tight, please!”
+> - The tightest squeeze ever → Too tight can hurt. A good hug is gentle. Anyone can say, “Too tight, please!”
 > _For grown-ups: Your child talked about gentle hugs that both people want, and that anyone can say “too tight”._
 
 
@@ -430,7 +432,7 @@ _The sun comes up. The sky turns pink, then gold._
 > **Lesson** (science, 1-ESS1-1, ask): the Sun comes up in the morning and goes down in the evening  
 > **Moss**: There it is. When does the sun come up?  
 > - ✅ In the morning → Yes. Up every morning. Down every evening. Never once late.
-> - At bedtime → At bedtime the sun goes down, and the sky gets dark. In the morning, up it comes. Like now.
+> - At bedtime → At bedtime the sun goes down. In the morning, up it comes. Like now.
 > _For grown-ups: Your child learned the daily pattern of the Sun: up in the morning, down in the evening._
 
 **Moss**: Gran will come. She always finishes things.  
@@ -480,7 +482,7 @@ _But remember Gran’s rule three: sit down and wait._
 > **Lesson** (maths, K.G.A.1, ask): position words: beside, on top  
 > _Where should the fruit go?_  
 > - ✅ Beside the Nubbin, in the grass → Yes! Beside it. Close enough to reach, but not too close.
-> - On top of its head → Ha! On top of its head would give it a fright. Beside it is best. Close enough to reach.
+> - On top of its head → Ha! On its head would give it a fright. Beside it is best.
 > _For grown-ups: Your child used position words (beside, on top) to choose where to put the fruit._
 
 _You put a fruit in the grass. You sit a little way off._  
@@ -576,7 +578,7 @@ _Ember’s hands are in her pockets. They are tight fists._
 > **Lesson** (sel, CASEL: Social awareness, ask): name feelings from faces and hands  
 > _(Point to Ember’s hands.)_  
 > _How does Ember feel?_  
-> - ✅ Sad and cross → Yes. Tight fists can mean cross. A quiet voice can mean sad. You can feel two things at once. That’s allowed.
+> - ✅ Sad and cross → Yes. Tight fists can mean cross. A quiet voice can mean sad. Two feelings at once is allowed.
 > - Happy → Look again. Her hands are tight fists. Her voice is quiet. Ember is sad and cross.
 > - Sleepy → Her eyes are wide open. Her hands are fists. Ember feels sad and cross.
 > _For grown-ups: Read a character’s feelings from her hands and voice, and heard that two feelings can come at once._
@@ -614,13 +616,11 @@ _Corvin’s Nubbins wait in a row. Grey, and very still._
 
 _Corvin comes over. His hands are cold and blue._  
 
-> **Lesson** (literacy, RF.K.2, ask): hear the same first sound (c in Corvin and cold)  
+> **Lesson** (literacy, RF.K.2, do): hear the same first sound (c in Corvin and cold)  
 > **Sparks**: Corvin… cold… they start the same! C-c-c!  
-> **Sparks**: Which word starts like Corvin?  
-> - ✅ Cat → Yes! C-c-cat. C-c-Corvin. Same first sound!
-> - Sun → Sun starts with sss. C-c-cat starts like C-c-Corvin!
-> - Moon → Moon starts with mmm. Cat starts with c-c-c, like Corvin!
-> _For grown-ups: Listened for a first sound and matched words that start the same way._
+> **Sparks**: Say the sound with me: c-c-cold, c-c-Corvin!  
+> Check: `edu:say:sound:c`
+> _For grown-ups: Said the first sound of Corvin and cold, and heard that they start the same way._
 
 **Ember**: Where is Ash?  
 **Corvin Vale**: She’s safe. Now: what matters most in a race?  
@@ -677,25 +677,6 @@ _At home, there is white frost on your sleeve._
 
 _By bedtime, it has melted away._  
 
-#### `c5-sold`
-
-_In Corvin’s row, there is one you know._  
-_It was your Nubbin once. It is grey now._  
-_It has a number painted on its side._  
-**Corvin Vale**: It eats well here. I told you it would.  
-**Ember**: Oh. You let him have one.  
-_It looks at nothing. Your tummy feels heavy and sad._  
-
-> **Lesson** (sel, CASEL: Responsible decision-making, ask): saying sorry and trying to put things right  
-> **Ember**: I got it wrong with Ash, once.  
-> **Ember**: What do you do when you get it wrong?  
-> - ✅ Say sorry, and try to fix it → Yes. Sorry first. Then fixing. I’m still trying to fix mine.
-> - Hide → I hid for years. It didn’t help. Say sorry, then try to fix it.
-> - Pretend it didn’t happen → Pretending doesn’t fix anything. Say sorry, then try to make it right.
-> _For grown-ups: Talked about what to do after a mistake: say sorry, then try to put it right._
-
-_Maybe one day, it can come home again._  
-
 #### `c6-open`
 
 _It rains for three days. Drip, drop, drip._  
@@ -720,7 +701,7 @@ _Where she was, a little flower grows._
 
 > **Lesson** (sel, CASEL: Social awareness, ask): comforting a friend who is sad  
 > _Dusty is very sad. What can we do to help?_  
-> - ✅ Sit with Dusty → Yes. Just sit. You don’t have to say anything. Sad is a fine thing to feel. Friends stay close.
+> - ✅ Sit with Dusty → Yes. Just sit. You needn’t say anything. Friends stay close.
 > - Run off and play → Playing can come later. Right now Dusty needs a friend. Let’s sit with them.
 > - Tell Dusty to stop being sad → Sad feelings don’t stop when we say so. Sitting close helps. Let’s sit with Dusty.
 > _For grown-ups: Talked about what helps a sad friend: staying close and just being there._
@@ -898,7 +879,7 @@ _The sun comes up. The frost starts to steam._
 
 > **Lesson** (science, K-LS1-1, ask): what animals need to live  
 > **Moss**: What does a Nubbin need, to be well?  
-> - ✅ Food, water and a cosy home → Yes. All animals need food and water. And a place to live. And Nubbins need love. Lots of it.
+> - ✅ Food, water and a cosy home → Yes! Food, water and a home. And Nubbins need love. Lots of it.
 > - A cold, still stone → No. That makes them still, not well. They need food, water and a home.
 > - Nothing at all → Every living thing needs something! Food, water and a home.
 > _For grown-ups: Learned that animals need food, water and a place to live._
@@ -943,13 +924,11 @@ _She is heavy! You stand very still and let her._
 **Clover**: Write it down twice!  
 **Pixel**: I made Sable a trust meter! It says MAYBE.  
 
-> **Lesson** (literacy, ELOF: Literacy, ask): the letter M and its sound  
+> **Lesson** (literacy, ELOF: Literacy, do): the letter M and its sound  
 > **Pixel**: MAYBE starts with the letter M. Mmm!  
-> **Pixel**: Whose name starts with M too?  
-> - ✅ Moss → Yes! M-m-Moss. And M-m-Marina too!
-> - Sable → Sable starts with S. Sss! Moss starts with M. Mmm!
-> - Luna → Luna starts with L. Lll! Moss starts with M. Mmm!
-> _For grown-ups: Heard the sound of the letter M and found a name that starts with it._
+> **Pixel**: Say the sound with me: m-m-maybe, m-m-Moss!  
+> Check: `edu:say:sound:m`
+> _For grown-ups: Said the sound of the letter M and heard it in Maybe and Moss._
 
 _The needle wobbles. MAYBE. Sable leans on you even harder._  
 _Up on the hill, Moss smiles and looks away._  
@@ -1009,8 +988,11 @@ _Fern brings a bag: fruit, a jumper, a whistle, and another jumper!_
 > Check: `edu:count:bag-items:4`
 > _For grown-ups: Counted four things in a bag, touching each one once._
 
+**Fern**: Two jumpers! One for you. One for your Nubbin.  
+**Fern**: It will look very silly.  
 _Sable sits by the gate. She will wait here._  
 **Marina**: Don’t be brave. Be careful. Hold the rock. Watch my feet.  
+**Marina**: Rule four still counts. Don’t be Sparks!  
 
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): staying safe near water  
 > **Marina**: Why do we go slowly near water?  
@@ -1039,6 +1021,8 @@ _Fern brings a bag: fruit, a jumper, a whistle, and another jumper!_
 > - Five → Five would be a lot! Count again: one, two. Two jumpers.
 > _For grown-ups: Counted a small group and said how many there were._
 
+**Fern**: Two jumpers! One for you. One for your Nubbin.  
+**Fern**: It will look very silly.  
 _Sable sits by the gate. She will wait here._  
 **Marina**: You know my rules. Hold the rock. Watch my feet.  
 
@@ -1141,13 +1125,10 @@ _The paper is cold. Brrr. It lived in a cold pocket._
 **Corvin Vale**: “Come and see the Nubbin you sold me. It is very quiet now.”  
 _The note ends with two letters: C.V. That is Corvin Vale._  
 
-> **Lesson** (literacy, RF.K.2, ask): first sounds: the /k/ sound of C  
-> _Corvin starts with a C. Say it slowly: c-c-Corvin._  
-> _Which word starts with the same sound?_  
-> - ✅ Cat → Yes! C-c-cat and c-c-Corvin. Same first sound.
-> - Moss → Moss starts with mmm. Listen: c-c-Corvin, c-c-cat. Cat matches!
-> - Sun → Sun starts with sss. Listen: c-c-Corvin, c-c-cat. Cat matches!
-> _For grown-ups: Your child listened for the first sound in a word and matched it to another word._
+> **Lesson** (literacy, RF.K.2, do): first sounds: the /k/ sound of C  
+> _(Say the sound with me: c-c-cold, c-c-Corvin!)_  
+> Check: `edu:say:sound:c`
+> _For grown-ups: Your child said the first sound of Corvin and cold, and heard that they start the same._
 
 _Quiet. Is quiet the same as happy? You are not sure._  
 _You put the note in a drawer. Then you move it somewhere else._  
@@ -1213,8 +1194,8 @@ _Grey Nubbins stand in rows. They do not play. They do not touch._
 > **Lesson** (sel, CASEL: Self-awareness, ask): naming a sorry feeling, and knowing it can help  
 > _Your old Nubbin is in the second row. It does not look up._  
 > _How do you feel?_  
-> - ✅ Sad, or sorry → That’s OK to feel. Sorry feelings help us do better. And it’s not too late to help.
-> - I don’t know → That’s OK. Feelings can be muddly. Lots of people would feel sorry. It’s not too late to help.
+> - ✅ Sad, or sorry → That’s OK to feel. Sorry helps us do better. It’s not too late to help.
+> - I don’t know → That’s OK. Feelings can be muddly. It’s not too late to help.
 > _For grown-ups: Your child named a sorry feeling and heard that it can help us put things right._
 
 **Ember**: That’s Ash, in the third row. She was mine. She won’t look at me.  
@@ -1308,27 +1289,6 @@ _Ember holds your arm all the way to the road._
 > - Keeping it all inside → Hiding a worry can make it feel bigger. Telling a friend, or holding a hand, helps.
 > _For grown-ups: Your child named a helpful way to cope with a worried feeling._
 
-_On the way home, Ash follows Ember, three steps behind. Shh._  
-
-#### `c9-shard-collector`
-
-_All the grey Nubbins run off into the woods. The pens are empty._  
-_Corvin looks at the open pens. Then, oh! He laughs._  
-**Corvin Vale**: Quick, and nobody asked them. That’s how I do it, partner.  
-_He takes a little tin from his pocket. It is fuzzy with frost._  
-**Corvin Vale**: This kept my garden quiet. Nothing here ever got hurt.  
-**Corvin Vale**: With this, they will never leave you.  
-
-> **Lesson** (sel, CASEL: Relationship skills, ask): friends stay because they want to  
-> _Corvin says the tin will make your Nubbins stay._  
-> _Do good friends stay because they are made to, or because they want to?_  
-> - ✅ Because they want to → Yes. Real friends stay because they want to. Nobody can make a friend.
-> - Because they are made to → Someone made to stay is stuck, not a friend. Friends stay because they want to.
-> _For grown-ups: Your child thought about what makes a real friendship._
-
-_He puts it in your hands. It is so cold!_  
-_Then, oh. It doesn’t feel cold at all. That is strange._  
-_Corvin smiles. He thinks he is being kind._  
 _On the way home, Ash follows Ember, three steps behind. Shh._  
 
 #### `c9-sable`
@@ -1533,12 +1493,10 @@ _Luna touches her forehead to Sable’s. Just for a second._
 
 **Moss**: I put it there long ago. I will carry it now.  
 
-> **Lesson** (literacy, RF.K.2, ask): first sounds: the /m/ sound of M  
-> _Moss starts with mmm. Which word starts like Moss?_  
-> - ✅ Moon → Yes! Mmm-moon and mmm-Moss.
-> - Sun → Sun starts with sss. Mmm-moon starts like mmm-Moss!
-> - Tin → Tin starts with t. Mmm-moon starts like mmm-Moss!
-> _For grown-ups: Your child matched words by their first sound._
+> **Lesson** (literacy, RF.K.2, do): first sounds: the /m/ sound of M  
+> _(Say the sound with me: m-m-Moss, m-m-moon!)_  
+> Check: `edu:say:sound:m`
+> _For grown-ups: Your child said the first sound of Moss and moon, and heard that they start the same._
 
 _Moss picks up the stone, quick and careful._  
 _Frost climbs up his face. He is so faint now._  
@@ -1587,25 +1545,6 @@ _Safe is not the same as happy._
     - **You**: Unmake it.
     - You say it loud and clear, so the stone hears.
 - _(left out in this band; plays as `unmake`)_
-
-#### `c10-kept`
-
-_You walk home with the cold stone in your pocket._  
-_The waterfall starts to run again. Splash, splash._  
-_A ring of frost stays round the warm spring. Brrr._  
-_At dawn, three lanterns still burn. The long-grass one is out._  
-**Fern**: Is it done?  
-_You don’t answer. You put your hand on your pocket._  
-
-> **Lesson** (sel, CASEL: Relationship skills, ask): telling the truth, even when it is hard  
-> _Fern asks a question. Should you tell her the truth?_  
-> - ✅ Yes, even when it’s hard → Yes. Telling the truth helps friends trust each other.
-> - No, keep it hidden → Hiding things can make friends worried. Telling the truth, even when it’s hard, is kind.
-> _For grown-ups: Your child thought about why honesty matters between friends._
-
-**Ember**: I’ve seen someone do that before.  
-_Moss goes up the hill, very quietly._  
-_Your hands feel cold. But it is not too late to change your mind._  
 
 #### `c10-safe-sable`
 
@@ -1672,7 +1611,7 @@ _Sable runs to you, soaking wet, and leans on your leg._
 > **Lesson** (science, 1-PS4-2, ask): we need light to see in the dark  
 > _Why does Moss want the lantern held up?_  
 > - ✅ So he can see → Yes. In the dark we need light to see.
-> - To warm his toes → A lantern is a bit warm, but Moss wants to see. We need light to see in the dark.
+> - To warm his toes → A lantern is warm. But Moss wants to see. We need light in the dark.
 > _For grown-ups: Your child learned that we need light to see._
 
 _Moss walks slowly into the warm water. Down, down, down._  
@@ -1753,7 +1692,7 @@ _You feel sad. Marina feels sad too. She stays close._
 > **Lesson** (sel, CASEL: Self-awareness, ask): what helps when we feel sad  
 > _What helps when we feel sad?_  
 > - ✅ A hug, or sitting with a friend → Yes. It’s OK to feel sad. Hugs, friends and talking about Moss all help.
-> - Pretending we’re not sad → It’s OK to feel sad. We don’t have to hide it. A hug, or a friend close by, helps.
+> - Pretending we’re not sad → It’s OK to feel sad. No need to hide it. A hug helps.
 > _For grown-ups: Your child learned that sadness is allowed and named things that help._
 
 **Marina**: He knew the way. And we will remember him.  
@@ -1818,7 +1757,7 @@ _You kneel by him. You don’t know what to say._
 > _Sitting close, or a gentle hand, can say “I love you” too._  
 > _For grown-ups: Your child learned that being close can comfort someone when words are hard._
 
-**Moss**: Don’t be dramatic about it.  
+**Moss**: No big fuss. A small hug will do.  
 **Moss**: Tell Byte his shoelace is untied.  
 _Moss walks slowly up the hill. He doesn’t look back._  
 _Halfway up, he stops, as if someone has said his name._  
@@ -1834,7 +1773,7 @@ _Byte’s shoelace is untied. He leaves it._
 > **Lesson** (sel, CASEL: Social awareness, ask): people show sadness in different ways  
 > _Clover is crying. Byte is very quiet. How do they feel?_  
 > - ✅ Sad, because they miss Moss → Yes. People show sad in different ways. Crying is OK. Being quiet is OK too.
-> - Cross → They look sad, not cross. They miss Moss. Crying and being quiet are both ways to show sad.
+> - Cross → They look sad, not cross. They miss Moss. Crying and quiet are both sad.
 > _For grown-ups: Your child noticed that people show sadness in different ways._
 
 **Dusty**: Love them anyway. Love them harder because of it.  
@@ -1881,8 +1820,8 @@ _It’s Gran Hazel! Of course it is._
 
 #### `c10-bramble`
 
-**Fern**: That ear folds over at the tip! That’s Bramble’s ear!  
-**Gran Hazel**: I found this little one under a tree root, all alone.  
+**Fern**: That ear folds at the tip. Just like Bramble’s!  
+**Gran Hazel**: This is Bramble’s baby. I found her under a root.  
 
 > **Lesson** (science, 1-LS1-2, ask): babies need grown-ups to feed them and keep them warm  
 > _The baby was all alone. What does a baby Nubbin need?_  
@@ -1890,8 +1829,7 @@ _It’s Gran Hazel! Of course it is._
 > - Nothing at all → Babies need lots! Food, warmth, and a grown-up to look after them.
 > _For grown-ups: Your child learned that young animals need their parents to feed and protect them._
 
-**Gran Hazel**: Her mum is Bramble. She runs the warren.  
-**Fern**: Bramble was mine, once. Long ago.  
+**Fern**: Bramble used to be my Nubbin. Hello, little one!  
 _Fern touches the folded ear, gently. The baby sighs and snuggles in._  
 
 #### `c11-open`
@@ -1940,23 +1878,6 @@ _Moss sits by Gran Hazel’s boot._
 _Gran Hazel laughs and laughs. She holds her side._  
 _She pats his head, just like every evening for forty years._  
 
-#### `c11-moss-kept`
-
-_Moss doesn’t come down. He sits up on the hill._  
-_His back is to the Grove. It has been, since the Long Night._  
-_Gran Hazel looks up at him for a long time._  
-_Moss turns his head. He looks at her. Then he looks away._  
-
-> **Lesson** (sel, CASEL: Social awareness, ask): reading feelings from how someone sits and looks  
-> _Moss sits with his back to everyone. He looks away._  
-> _How do you think he feels?_  
-> - ✅ Sad, or upset → Yes. Turning away can mean “I’m upset.” Gran Hazel gives him time. That helps.
-> - Happy and silly → Look again: back turned, looking away. He seems upset. Gran Hazel gives him time. That helps.
-> _For grown-ups: Your child read a feeling from the way someone sits and turns away, and saw that giving time can help._
-
-**Gran Hazel**: Hello, old thing. I know. I know.  
-_Moss is sad about the cold stone. But it’s not too late._  
-
 #### `c11-moss-gone`
 
 _Gran Hazel looks up the hill, where Moss always sat._  
@@ -1992,7 +1913,7 @@ _Gran Hazel holds your hand. You sit together, quietly._
 _Sable comes out of the long grass._  
 _She looks at Gran Hazel for a long time._  
 _Then she walks right past her, and leans on your leg._  
-**Gran Hazel**: Well. That’s me told!  
+**Gran Hazel**: Sable chose you, not me! Ha!  
 **Gran Hazel**: That one took longer than two months, I bet.  
 
 > **Lesson** (maths, ELOF: Mathematics Development, ask): comparing lengths of time  
@@ -2003,22 +1924,6 @@ _Then she walks right past her, and leans on your leg._
 
 _You nod. It took a long, long time._  
 **Gran Hazel**: Worth it.  
-
-#### `c11-cold-hands`
-
-_Gran Hazel takes your hand to stand up._  
-**Gran Hazel**: Your hands are cold, love.  
-_Your hand goes to your pocket, where the stone is._  
-_Gran Hazel has seen someone do that before. Long ago._  
-**Gran Hazel**: …Ah.  
-_She doesn’t say any more. But she holds your hand tighter._  
-
-> **Lesson** (sel, CASEL: Responsible decision-making, ask): being honest with someone who loves you  
-> _Gran Hazel is quiet. What could you do?_  
-> - ✅ Tell her the truth about the stone → Yes. Telling the truth to someone who loves you is brave, and it helps.
-> - Hide your hand → Hiding it can feel lonely. Telling the truth to someone who loves you helps.
-> _For grown-ups: Your child thought about being honest with someone they trust._
-
 
 #### `c11-close`
 
@@ -2125,7 +2030,7 @@ _Gran Hazel is very poorly. She wants to sit up on the hill._
 _From there she can see the whole Grove._  
 _Everyone walks with her to the bottom of the hill._  
 _She looks at each friend, one by one._  
-**Gran Hazel**: That’s far enough. Go home. Light something.  
+**Gran Hazel**: That’s far enough. Go home. Light a lantern. Lanterns say hello.  
 
 > **Lesson** (sel, CASEL: Relationship skills, notice): saying goodbye to someone we love  
 > _Saying goodbye to someone we love is hard._  
@@ -2142,10 +2047,10 @@ _Sparks and Pixel are arguing about the cake. Fern lost a glove._
 _Gran Hazel catches your eye. She winks._  
 **Gran Hazel**: Let’s go quietly. I’ve written them all a letter.  
 
-> **Lesson** (sel, CASEL: Responsible decision-making, notice): worrying secrets should always be told to a trusted grown-up  
-> _Gran Hazel wrote everyone a letter, so they will all know._  
-> _(Remember: if a secret ever makes you worried, tell a grown-up you trust.)_  
-> _For grown-ups: Your child heard that a worrying secret should always be shared with a trusted grown-up._
+> **Lesson** (sel, CASEL: Relationship skills, notice): writing a letter is a kind way to say goodbye  
+> _Gran Hazel wrote everyone a letter. Nobody is left wondering._  
+> _Writing it down is a kind way to say goodbye._  
+> _For grown-ups: Your child heard that writing a letter is a kind way to say goodbye, so nobody is left wondering._
 
 _She takes her lantern and walks to the hill, slow and easy._  
 
@@ -2188,7 +2093,7 @@ _Moss climbs onto her shoulder. He is as light as a leaf._
 _They go up together, slow and small. The lantern swings._  
 _Moss says something in her ear. She laughs so hard she sits down!_  
 _At the top, they sit together and look at the Grove._  
-**Moss**: Go home, little one. Light something.  
+**Moss**: Go home, little one. Light a lantern. Lanterns say hello.  
 
 #### `c12-walk-sable`
 
@@ -2518,40 +2423,6 @@ _Quiet can be nice. But too quiet is a little sad._
 
 _Let’s see what happened. (Listen carefully.)_  
 
-#### `end-collector-sold`
-
-_You sold your first Nubbin for lots of Shells._  
-_You bought lots of eggs. They hatched fast._  
-_By autumn, they were all grey and very still._  
-_When the pens opened, you never looked for the first one._  
-**Corvin Vale**: Everyone sells in the end. I’m almost sorry I was right.  
-_But it’s never too late to go back and say sorry._  
-
-> **Lesson** (sel, CASEL: Responsible decision-making, ask): saying sorry and making things right  
-> _If you did something wrong, what can you do?_  
-> - ✅ Say sorry, and try to make it right → Yes. Sorry, and then a kind thing to fix it. That’s how we mend.
-> - Pretend it didn’t happen → Pretending doesn’t fix it. Saying sorry and trying to make it right does.
-> _For grown-ups: Your child learned how to say sorry and try to make things right._
-
-
-#### `end-collector-kept`
-
-_In your Grove, nothing gets hurt now. Nothing gets lost._  
-_But the Nubbins sit very still in the sun. They are grey._  
-_They are safe. But they don’t play._  
-
-> **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): what keeps us healthy and happy  
-> _What helps Nubbins, and children, stay healthy and happy?_  
-> - ✅ Food, sleep, play and friends → Yes! Bodies need food, sleep and lots of moving and playing.
-> - Sitting still all day → Sitting still all day isn’t good for bodies. We need to move and play, and have food and sleep too.
-> _For grown-ups: Your child named things that keep bodies healthy: food, sleep, play and friends._
-
-_Moss stays up on the hill now. He never comes down._  
-_Corvin came once. He saw your hand on your pocket._  
-**Corvin Vale**: I’m so sorry. I know just how this feels.  
-_Your hands are cold. But the Wellspring is still there, waiting._  
-_One longest night, you could take the stone back. It’s not too late._  
-
 #### `end-collector-last`
 
 _The gate doesn’t stick any more. It opens by itself._  
@@ -2626,22 +2497,6 @@ _Some mornings he stays to wash his face in the sun._
 > - It’s only mine → That’s “mine”. “Ours” means it belongs to all of us, shared.
 > _For grown-ups: Your child learned the sharing word “ours”._
 
-
-#### `end-epi-wisp-kept`
-
-_Every evening Wisp sits at your feet. He looks at your pocket._  
-_He never tries to take the stone. He just looks, and shakes._  
-**Wisp**: …warm. warm.  
-_It isn’t warm. It’s cold. Maybe one day you’ll tell him._  
-
-> **Lesson** (science, 2-PS1-1, do): sorting things by warm and cold  
-> _Let’s help Wisp sort warm and cold._  
-> _(Ice, soup, snow, a blanket. Say “warm” or “cold” for each one.)_  
-> _Ice and snow are cold. Soup and a blanket are warm._  
-> Check: `edu:sort:things:warm-cold`
-> _For grown-ups: Your child sorted things into warm and cold._
-
-_Maybe one day you’ll take it back to the water, together._  
 
 #### `end-epi-wisp-driven`
 
@@ -2938,7 +2793,7 @@ _The rest shout, “Too tight!” Then they all run off, laughing._
 
 ### Endings
 
-- **The Collector** (`collector`): This ending comes if the cold stone is kept. In the Learning Grove, the stone always goes back to the water.
+- **The Collector** (`collector`): This ending is not in the Little Sprouts story. Here the stone always goes back to the water.
 - **The Empty Lantern** (`empty-lantern`): Sable gets too scared and runs away, and doesn’t come back. Slow, gentle hands keep her near.
 - **Eternal Dawn (secret)** (`eternal-dawn`): Help one of your own Nubbins grow all the way into an Eternal, and be Sable’s best friend.
 - **Wild Grove** (`wild-grove`): Open all of Corvin’s pens at once. Then take the gate away at the end.

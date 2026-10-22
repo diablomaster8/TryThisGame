@@ -196,18 +196,14 @@ const C9: EduScene[] = [
       N('You put the note in a drawer. Then you move it somewhere else.'),
     ],
     [
-      ask(
+      doIt(
         4,
         'literacy',
         'first sounds: the /k/ sound of C',
         'RF.K.2',
-        [N('Corvin starts with a C. Say it slowly: c-c-Corvin.'), N('Which word starts with the same sound?')],
-        [
-          opt('Cat', [N('Yes! C-c-cat and c-c-Corvin. Same first sound.')], true),
-          opt('Moss', [N('Moss starts with mmm. Listen: c-c-Corvin, c-c-cat. Cat matches!')]),
-          opt('Sun', [N('Sun starts with sss. Listen: c-c-Corvin, c-c-cat. Cat matches!')]),
-        ],
-        'Your child listened for the first sound in a word and matched it to another word.',
+        'edu:say:sound:c',
+        [N('(Say the sound with me: c-c-cold, c-c-Corvin!)')],
+        'Your child said the first sound of Corvin and cold, and heard that they start the same.',
       ),
     ],
   ),
@@ -247,8 +243,15 @@ const C9: EduScene[] = [
         'CASEL: Self-awareness',
         [N('Your old Nubbin is in the second row. It does not look up.'), N('How do you feel?')],
         [
-          opt('Sad, or sorry', [N('That’s OK to feel. Sorry feelings help us do better.'), N('And it’s not too late to help.')], true),
-          opt('I don’t know', [N('That’s OK. Feelings can be muddly.'), N('Lots of people would feel sorry. It’s not too late to help.')]),
+          opt(
+            'Sad, or sorry',
+            [N('That’s OK to feel. Sorry helps us do better.'), N('It’s not too late to help.')],
+            true,
+          ),
+          opt('I don’t know', [
+            N('That’s OK. Feelings can be muddly.'),
+            N('It’s not too late to help.'),
+          ]),
         ],
         'Your child named a sorry feeling and heard that it can help us put things right.',
       ),
@@ -335,35 +338,6 @@ const C9: EduScene[] = [
           opt('Keeping it all inside', [N('Hiding a worry can make it feel bigger.'), N('Telling a friend, or holding a hand, helps.')]),
         ],
         'Your child named a helpful way to cope with a worried feeling.',
-      ),
-    ],
-  ),
-  scene(
-    'c9-shard-collector',
-    [
-      N('All the grey Nubbins run off into the woods. The pens are empty.'),
-      N('Corvin looks at the open pens. Then, oh! He laughs.'),
-      CORVIN('Quick, and nobody asked them. That’s how I do it, partner.', 'think'),
-      N('He takes a little tin from his pocket. It is fuzzy with frost.'),
-      CORVIN('This kept my garden quiet. Nothing here ever got hurt.'),
-      CORVIN('With this, they will never leave you.'),
-      N('He puts it in your hands. It is so cold!'),
-      N('Then, oh. It doesn’t feel cold at all. That is strange.'),
-      N('Corvin smiles. He thinks he is being kind.'),
-      N('On the way home, Ash follows Ember, three steps behind. Shh.'),
-    ],
-    [
-      ask(
-        5,
-        'sel',
-        'friends stay because they want to',
-        'CASEL: Relationship skills',
-        [N('Corvin says the tin will make your Nubbins stay.'), N('Do good friends stay because they are made to, or because they want to?')],
-        [
-          opt('Because they want to', [N('Yes. Real friends stay because they want to. Nobody can make a friend.')], true),
-          opt('Because they are made to', [N('Someone made to stay is stuck, not a friend.'), N('Friends stay because they want to.')]),
-        ],
-        'Your child thought about what makes a real friendship.',
       ),
     ],
   ),
@@ -690,18 +664,14 @@ const C10: EduScene[] = [
       N('They stand up tall by their lanterns.'),
     ],
     [
-      ask(
+      doIt(
         0,
         'literacy',
         'first sounds: the /m/ sound of M',
         'RF.K.2',
-        [N('Moss starts with mmm. Which word starts like Moss?')],
-        [
-          opt('Moon', [N('Yes! Mmm-moon and mmm-Moss.')], true),
-          opt('Sun', [N('Sun starts with sss. Mmm-moon starts like mmm-Moss!')]),
-          opt('Tin', [N('Tin starts with t. Mmm-moon starts like mmm-Moss!')]),
-        ],
-        'Your child matched words by their first sound.',
+        'edu:say:sound:m',
+        [N('(Say the sound with me: m-m-Moss, m-m-moon!)')],
+        'Your child said the first sound of Moss and moon, and heard that they start the same.',
       ),
     ],
   ),
@@ -768,34 +738,6 @@ const C10: EduScene[] = [
       ],
       defaultChoice: 'unmake',
     },
-  ),
-  scene(
-    'c10-kept',
-    [
-      N('You walk home with the cold stone in your pocket.'),
-      N('The waterfall starts to run again. Splash, splash.'),
-      N('A ring of frost stays round the warm spring. Brrr.'),
-      N('At dawn, three lanterns still burn. The long-grass one is out.'),
-      FERN('Is it done?', 'think'),
-      N('You don’t answer. You put your hand on your pocket.'),
-      EMBER('I’ve seen someone do that before.', 'sad'),
-      N('Moss goes up the hill, very quietly.'),
-      N('Your hands feel cold. But it is not too late to change your mind.'),
-    ],
-    [
-      ask(
-        5,
-        'sel',
-        'telling the truth, even when it is hard',
-        'CASEL: Relationship skills',
-        [N('Fern asks a question. Should you tell her the truth?')],
-        [
-          opt('Yes, even when it’s hard', [N('Yes. Telling the truth helps friends trust each other.')], true),
-          opt('No, keep it hidden', [N('Hiding things can make friends worried.'), N('Telling the truth, even when it’s hard, is kind.')]),
-        ],
-        'Your child thought about why honesty matters between friends.',
-      ),
-    ],
   ),
   scene(
     'c10-safe-sable',
@@ -899,7 +841,10 @@ const C10: EduScene[] = [
         [N('Why does Moss want the lantern held up?')],
         [
           opt('So he can see', [N('Yes. In the dark we need light to see.')], true),
-          opt('To warm his toes', [N('A lantern is a bit warm, but Moss wants to see.'), N('We need light to see in the dark.')]),
+          opt('To warm his toes', [
+            N('A lantern is warm. But Moss wants to see.'),
+            N('We need light in the dark.'),
+          ]),
         ],
         'Your child learned that we need light to see.',
       ),
@@ -1013,8 +958,15 @@ const C10: EduScene[] = [
         'CASEL: Self-awareness',
         [N('What helps when we feel sad?')],
         [
-          opt('A hug, or sitting with a friend', [N('Yes. It’s OK to feel sad. Hugs, friends and talking about Moss all help.')], true),
-          opt('Pretending we’re not sad', [N('It’s OK to feel sad. We don’t have to hide it.'), N('A hug, or a friend close by, helps.')]),
+          opt(
+            'A hug, or sitting with a friend',
+            [N('Yes. It’s OK to feel sad. Hugs, friends and talking about Moss all help.')],
+            true,
+          ),
+          opt('Pretending we’re not sad', [
+            N('It’s OK to feel sad. No need to hide it.'),
+            N('A hug helps.'),
+          ]),
         ],
         'Your child learned that sadness is allowed and named things that help.',
       ),
@@ -1095,7 +1047,7 @@ const C10: EduScene[] = [
       MOSS('I am very, very old. It is my time to fade.', 'soft'),
       N('Moss is going to fade. That means he will die.'),
       N('You kneel by him. You don’t know what to say.'),
-      MOSS('Don’t be dramatic about it.', 'happy'),
+      MOSS('No big fuss. A small hug will do.', 'happy'),
       MOSS('Tell Byte his shoelace is untied.', 'soft'),
       N('Moss walks slowly up the hill. He doesn’t look back.'),
       N('Halfway up, he stops, as if someone has said his name.'),
@@ -1134,8 +1086,18 @@ const C10: EduScene[] = [
         'CASEL: Social awareness',
         [N('Clover is crying. Byte is very quiet. How do they feel?')],
         [
-          opt('Sad, because they miss Moss', [N('Yes. People show sad in different ways.'), N('Crying is OK. Being quiet is OK too.')], true),
-          opt('Cross', [N('They look sad, not cross. They miss Moss.'), N('Crying and being quiet are both ways to show sad.')]),
+          opt(
+            'Sad, because they miss Moss',
+            [
+              N('Yes. People show sad in different ways.'),
+              N('Crying is OK. Being quiet is OK too.'),
+            ],
+            true,
+          ),
+          opt('Cross', [
+            N('They look sad, not cross. They miss Moss.'),
+            N('Crying and quiet are both sad.'),
+          ]),
         ],
         'Your child noticed that people show sadness in different ways.',
       ),
@@ -1199,10 +1161,9 @@ const C10: EduScene[] = [
   scene(
     'c10-bramble',
     [
-      FERN('That ear folds over at the tip! That’s Bramble’s ear!', 'shock'),
-      HAZEL('I found this little one under a tree root, all alone.'),
-      HAZEL('Her mum is Bramble. She runs the warren.', 'happy'),
-      FERN('Bramble was mine, once. Long ago.', 'soft'),
+      FERN('That ear folds at the tip. Just like Bramble’s!', 'shock'),
+      HAZEL('This is Bramble’s baby. I found her under a root.'),
+      FERN('Bramble used to be my Nubbin. Hello, little one!', 'soft'),
       N('Fern touches the folded ear, gently. The baby sighs and snuggles in.'),
     ],
     [
@@ -1302,31 +1263,6 @@ const C11: EduScene[] = [
   ),
   // Keep route only (a main-game save): Moss stays on the hill with his back to the Grove.
   scene(
-    'c11-moss-kept',
-    [
-      N('Moss doesn’t come down. He sits up on the hill.'),
-      N('His back is to the Grove. It has been, since the Long Night.'),
-      N('Gran Hazel looks up at him for a long time.'),
-      N('Moss turns his head. He looks at her. Then he looks away.'),
-      HAZEL('Hello, old thing. I know. I know.', 'sad'),
-      N('Moss is sad about the cold stone. But it’s not too late.'),
-    ],
-    [
-      ask(
-        3,
-        'sel',
-        'reading feelings from how someone sits and looks',
-        'CASEL: Social awareness',
-        [N('Moss sits with his back to everyone. He looks away.'), N('How do you think he feels?')],
-        [
-          opt('Sad, or upset', [N('Yes. Turning away can mean “I’m upset.”'), N('Gran Hazel gives him time. That helps.')], true),
-          opt('Happy and silly', [N('Look again: back turned, looking away. He seems upset.'), N('Gran Hazel gives him time. That helps.')]),
-        ],
-        'Your child read a feeling from the way someone sits and turns away, and saw that giving time can help.',
-      ),
-    ],
-  ),
-  scene(
     'c11-moss-gone',
     [
       N('Gran Hazel looks up the hill, where Moss always sat.'),
@@ -1377,7 +1313,7 @@ const C11: EduScene[] = [
       N('Sable comes out of the long grass.'),
       N('She looks at Gran Hazel for a long time.'),
       N('Then she walks right past her, and leans on your leg.'),
-      HAZEL('Well. That’s me told!', 'happy'),
+      HAZEL('Sable chose you, not me! Ha!', 'happy'),
       HAZEL('That one took longer than two months, I bet.', 'soft'),
       N('You nod. It took a long, long time.'),
       HAZEL('Worth it.', 'soft'),
@@ -1394,31 +1330,6 @@ const C11: EduScene[] = [
           opt('One day', [N('One day goes by quickly.'), N('Two months is lots and lots of days. That’s longer!')]),
         ],
         'Your child compared a short time and a long time.',
-      ),
-    ],
-  ),
-  scene(
-    'c11-cold-hands',
-    [
-      N('Gran Hazel takes your hand to stand up.'),
-      HAZEL('Your hands are cold, love.', 'think'),
-      N('Your hand goes to your pocket, where the stone is.'),
-      N('Gran Hazel has seen someone do that before. Long ago.'),
-      HAZEL('…Ah.', 'sad'),
-      N('She doesn’t say any more. But she holds your hand tighter.'),
-    ],
-    [
-      ask(
-        5,
-        'sel',
-        'being honest with someone who loves you',
-        'CASEL: Responsible decision-making',
-        [N('Gran Hazel is quiet. What could you do?')],
-        [
-          opt('Tell her the truth about the stone', [N('Yes. Telling the truth to someone who loves you is brave, and it helps.')], true),
-          opt('Hide your hand', [N('Hiding it can feel lonely. Telling the truth to someone who loves you helps.')]),
-        ],
-        'Your child thought about being honest with someone they trust.',
       ),
     ],
   ),
@@ -1597,7 +1508,7 @@ const C12: EduScene[] = [
       N('From there she can see the whole Grove.'),
       N('Everyone walks with her to the bottom of the hill.'),
       N('She looks at each friend, one by one.'),
-      HAZEL('That’s far enough. Go home. Light something.', 'soft'),
+      HAZEL('That’s far enough. Go home. Light a lantern. Lanterns say hello.', 'soft'),
       N('They stay. They hold their lanterns, and watch, and wave.'),
     ],
     [
@@ -1628,13 +1539,13 @@ const C12: EduScene[] = [
       notice(
         3,
         'sel',
-        'worrying secrets should always be told to a trusted grown-up',
-        'CASEL: Responsible decision-making',
+        'writing a letter is a kind way to say goodbye',
+        'CASEL: Relationship skills',
         [
-          N('Gran Hazel wrote everyone a letter, so they will all know.'),
-          N('(Remember: if a secret ever makes you worried, tell a grown-up you trust.)'),
+          N('Gran Hazel wrote everyone a letter. Nobody is left wondering.'),
+          N('Writing it down is a kind way to say goodbye.'),
         ],
-        'Your child heard that a worrying secret should always be shared with a trusted grown-up.',
+        'Your child heard that writing a letter is a kind way to say goodbye, so nobody is left wondering.',
       ),
     ],
   ),
@@ -1679,7 +1590,7 @@ const C12: EduScene[] = [
       N('They go up together, slow and small. The lantern swings.'),
       N('Moss says something in her ear. She laughs so hard she sits down!'),
       N('At the top, they sit together and look at the Grove.'),
-      MOSS('Go home, little one. Light something.', 'soft'),
+      MOSS('Go home, little one. Light a lantern. Lanterns say hello.', 'soft'),
     ],
     [
       ask(
@@ -2190,58 +2101,6 @@ const ENDS: EduScene[] = [
     ],
   ),
   scene(
-    'end-collector-sold',
-    [
-      N('You sold your first Nubbin for lots of Shells.'),
-      N('You bought lots of eggs. They hatched fast.'),
-      N('By autumn, they were all grey and very still.'),
-      N('When the pens opened, you never looked for the first one.'),
-      CORVIN('Everyone sells in the end. I’m almost sorry I was right.', 'think'),
-      N('But it’s never too late to go back and say sorry.'),
-    ],
-    [
-      ask(
-        5,
-        'sel',
-        'saying sorry and making things right',
-        'CASEL: Responsible decision-making',
-        [N('If you did something wrong, what can you do?')],
-        [
-          opt('Say sorry, and try to make it right', [N('Yes. Sorry, and then a kind thing to fix it. That’s how we mend.')], true),
-          opt('Pretend it didn’t happen', [N('Pretending doesn’t fix it. Saying sorry and trying to make it right does.')]),
-        ],
-        'Your child learned how to say sorry and try to make things right.',
-      ),
-    ],
-  ),
-  scene(
-    'end-collector-kept',
-    [
-      N('In your Grove, nothing gets hurt now. Nothing gets lost.'),
-      N('But the Nubbins sit very still in the sun. They are grey.'),
-      N('They are safe. But they don’t play.'),
-      N('Moss stays up on the hill now. He never comes down.'),
-      N('Corvin came once. He saw your hand on your pocket.'),
-      CORVIN('I’m so sorry. I know just how this feels.', 'sad'),
-      N('Your hands are cold. But the Wellspring is still there, waiting.'),
-      N('One longest night, you could take the stone back. It’s not too late.'),
-    ],
-    [
-      ask(
-        2,
-        'health',
-        'what keeps us healthy and happy',
-        'ELOF: Perceptual, Motor, and Physical Development',
-        [N('What helps Nubbins, and children, stay healthy and happy?')],
-        [
-          opt('Food, sleep, play and friends', [N('Yes! Bodies need food, sleep and lots of moving and playing.')], true),
-          opt('Sitting still all day', [N('Sitting still all day isn’t good for bodies.'), N('We need to move and play, and have food and sleep too.')]),
-        ],
-        'Your child named things that keep bodies healthy: food, sleep, play and friends.',
-      ),
-    ],
-  ),
-  scene(
     'end-collector-last',
     [
       N('The gate doesn’t stick any more. It opens by itself.'),
@@ -2358,31 +2217,6 @@ const EPI: EduScene[] = [
           opt('It’s only mine', [N('That’s “mine”. “Ours” means it belongs to all of us, shared.')]),
         ],
         'Your child learned the sharing word “ours”.',
-      ),
-    ],
-  ),
-  scene(
-    'end-epi-wisp-kept',
-    [
-      N('Every evening Wisp sits at your feet. He looks at your pocket.'),
-      N('He never tries to take the stone. He just looks, and shakes.'),
-      WISP('…warm. warm.', 'sad'),
-      N('It isn’t warm. It’s cold. Maybe one day you’ll tell him.'),
-      N('Maybe one day you’ll take it back to the water, together.'),
-    ],
-    [
-      doIt(
-        3,
-        'science',
-        'sorting things by warm and cold',
-        '2-PS1-1',
-        'edu:sort:things:warm-cold',
-        [
-          N('Let’s help Wisp sort warm and cold.'),
-          N('(Ice, soup, snow, a blanket. Say “warm” or “cold” for each one.)'),
-          N('Ice and snow are cold. Soup and a blanket are warm.'),
-        ],
-        'Your child sorted things into warm and cold.',
       ),
     ],
   ),
@@ -2869,7 +2703,7 @@ export const EDU_CAMPAIGN_3_SPROUT: EduCampaign = {
   endings: {
     collector: {
       title: 'The Collector',
-      how: 'This ending comes if the cold stone is kept. In the Learning Grove, the stone always goes back to the water.',
+      how: 'This ending is not in the Little Sprouts story. Here the stone always goes back to the water.',
     },
     'empty-lantern': {
       title: 'The Empty Lantern',
@@ -2905,20 +2739,20 @@ export const EDU_CAMPAIGN_3_SPROUT: EduCampaign = {
     'end-epi-cinder-* epilogues (SIDE_STORIES_NEW_3_VARIANTS). One lesson per scene, two in the big ones (c9-open, ' +
     'c9-close, c10-open, c10-vigil, c10-dawn, c11-open, c11-close, c12-open, c12-close). ' +
     'CHOICES. c10-edge offers only “unmake” (defaultChoice: unmake), per EDU-STYLE. Every other choice is kept with its ' +
-    'original id, set and friendship. The collector-route scenes (c9-partner, c9-open-sold, c9-shard-collector, ' +
-    'c10-kept, c11-moss-kept, c11-cold-hands, end-collector-*, end-epi-wisp-kept) still have gentle sprout versions in case a save made in the main ' +
-    'game is switched to the Learning Grove; each ends on “it’s not too late”. ' +
+    'original id, set and friendship. The keep-stone and sell scenes (c9-shard-collector, c10-kept, c11-moss-kept, c11-cold-hands, ' +
+    'end-collector-kept, end-collector-sold, end-epi-wisp-kept) are cut: no sprout choice reaches them (2026-10-22). The older ' +
+    'collector-route scenes c9-partner and c9-open-sold remain, unreachable, and end on “it’s not too late”. ' +
     'HARD THINGS. Hazel is “Gran Hazel”. She tells the child herself in c11-open: “I am very poorly. The doctors can’t ' +
     'make me better.” No illness is named. Her death is said plainly in c12-close, with the flower and togetherness as the ' +
     'comfort. Moss’s fading is defined as dying wherever it happens (c10-bank-moss-gone, c10-moss-fades, ' +
     'c10-moss-mourned, c11-moss-gone, c11-moss-passed, end-moss-sleeps, end-epi-walk-moss-stayed). No death is called sleep: the ' +
     'moss-sleeps ending is titled “Moss’s Flower” in sprout, and “a very long sit-down” is not used. Where a living ' +
     'character sleeps right after a scary moment (Wisp in c10-bank-wisp), the text says he is breathing and alive. ' +
-    'Corvin says sorry in c9-open (confront), c9-shard-reconciled, c11-gate (tea), c12-walk-corvin and end-collector-kept. ' +
+    'Corvin says sorry in c9-open (confront), c9-shard-reconciled, c11-gate (tea), and c12-walk-corvin. ' +
     'c12-foot-secret: Hazel says she has written everyone a letter rather than asking the child to keep a secret, and the ' +
-    'lesson reminds children to tell a trusted grown-up about any worrying secret. ' +
+    'lesson is that a letter is a kind way to say goodbye (the safe-secrets reminder was moved out, 2026-10-22: it made Gran’s goodbye sound like a bad secret). ' +
     'VERBATIM KEPT. “Lift and push”, “Took two months. Worth it.”, “Safe is not the same as…” (as “happy” for sprout), ' +
-    '“The hands are slower. That’s better, actually.”, “Don’t be dramatic about it.”, “A Grove isn’t the Nubbins, love. ' +
+    '“The hands are slower. That’s better, actually.”, “No big fuss. A small hug will do.” (replacing an idiom), “A Grove isn’t the Nubbins, love. ' +
     'It’s the people who show up when the lanterns are lit.”, “Told you. Love is a method.”, “The grey stays. You can only ' +
     'make it lighter.”, “Don’t you dare call that nothing.”, “Love them anyway. Love them harder because of it.”, the Lantern ' +
     'Song chorus and two lines of Cinder’s rhyme. ' +
@@ -2935,6 +2769,8 @@ export const EDU_CAMPAIGN_3_SPROUT: EduCampaign = {
 };
 
 export const CHECKS: string[] = [
+  'edu:say:sound:c',
+  'edu:say:sound:m',
   'edu:tap:row:third',
   'edu:share:pie:2',
   'edu:copy:sniff:sable',

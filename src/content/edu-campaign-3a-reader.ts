@@ -54,13 +54,34 @@ const C9_GARDEN: Line[] = [
   EMBER('Ash is in the third row. She won’t look at me. You did that.', 'angry'),
   CORVIN('I made her a champion, Ember. You made her a pet. Only one of those lasts.'),
   N('Ember’s hands are shaking. Corvin’s are very white, and very still.'),
-  N('He keeps the left one pressed flat to his coat, over the breast pocket. Always over the breast pocket.'),
-  CORVIN('She’ll have written that I stole from her. I did. She’ll have written that I was cruel. I never was. Not once.', 'think'),
-  CORVIN('She came here in the autumn, you know. Stood at my gate for an hour, and never knocked. Then she went back to her strays.', 'think'),
-  CORVIN('They never go hungry here. They’re never thrown. They don’t get sick, or lost, or frightened.'),
-  CORVIN('Hers ran away. Hers got sick. Hers died in her arms, and she cried on the hill, and called it love.', 'sad'),
-  CORVIN('I wanted them safe. I still do. I have never understood why that makes me the villain of her story.'),
-  N('Somewhere in the rows, a grey Nubbin sneezes. It does not move. None of the others look round.'),
+  N(
+    'He keeps the left one pressed flat to his coat, over the breast pocket. Always over the breast pocket.',
+  ),
+  CORVIN(
+    'She’ll have written that I stole from her. I did. She’ll have written that I was cruel. I never was. Not once.',
+    'think',
+  ),
+  CORVIN(
+    'She came here in the autumn, you know. Stood at my gate for an hour, and never knocked. Then she went back to her strays.',
+    'think',
+  ),
+  CORVIN(
+    'They never go hungry here. They’re never thrown. They don’t get sick, or lost, or frightened.',
+  ),
+  CORVIN(
+    'Hers ran away. Hers got sick. Hers died in her arms, and she cried on the hill, and called it love.',
+    'sad',
+  ),
+  CORVIN(
+    'I wanted them safe. I still do. I have never understood why that makes me the villain of her story.',
+  ),
+  N(
+    'Somewhere in the rows, a grey Nubbin sneezes. It does not move. None of the others look round.',
+  ),
+  EMBER('Bless you.', 'soft'),
+  N(
+    'It is the first kind thing she has said since the bridge. Nobody in this garden has heard one in years.',
+  ),
   N('Every grey eye in the garden is on you, waiting for the next bad thing.'),
 ];
 
@@ -271,7 +292,7 @@ const C9: EduScene[] = [
   scene(
     'c9-open',
     [...C9_ARRIVE, ...C9_GARDEN],
-    [c9MotiveLesson('reader:c9-open-l1', 13), c9TrustLesson('reader:c9-open-l2', 15)],
+    [c9MotiveLesson('reader:c9-open-l1', 13), c9TrustLesson('reader:c9-open-l2', 17)],
     C9_CHOICES,
   ),
 
@@ -314,7 +335,7 @@ const C9: EduScene[] = [
         ],
         parentNote: 'Thought about their own part in a wrong, with no single right answer, and that owning it is where putting it right begins.',
       },
-      c9TrustLesson('reader:c9-open-sold-l2', 15),
+      c9TrustLesson('reader:c9-open-sold-l2', 17),
     ],
     C9_CHOICES_SOLD,
   ),
@@ -770,26 +791,36 @@ const C10A: EduScene[] = [
           {
             label: 'The Sun is farther away in winter',
             reply: [
-              N('Lots of people think that! But the Earth is actually nearest the Sun in early January. Distance isn’t the reason.'),
-              N('The Earth spins on a tilted axis, like a spinning top that leans. In December, our half leans away from the Sun.'),
-              N('So the Sun stays low, takes a short path across the sky, and sets early.'),
+              N(
+                'Lots of people think that! But the Earth is nearest the Sun in early January. Distance isn’t the reason.',
+              ),
+              N(
+                'The Earth is tilted, like a leaning spinning top. In December, our half leans away from the Sun.',
+              ),
+              N('So the Sun stays low and sets early.'),
             ],
           },
           {
             label: 'Our half of the Earth is tilted away from the Sun',
             best: true,
             reply: [
-              N('Yes! The Earth spins on a tilted axis, an imaginary line through its middle, and it always leans the same way.'),
-              N('In December, the north half leans away from the Sun. The Sun stays low, takes a short path, and sets early.'),
-              N('Far away in the south half of the world, it is summer, and today is their longest day.'),
+              N('Yes! The Earth spins on a tilted line through its middle, called an axis.'),
+              N(
+                'In December the north half leans away from the Sun, so the Sun stays low and sets early.',
+              ),
+              N('Far away in the south, it is summer. Today is their longest day.'),
             ],
           },
           {
             label: 'The Sun gets tired in winter',
             reply: [
-              N('Ha! It does look like it “doesn’t try very hard” today. But it’s the same Sun all year.'),
-              N('What changes is us. The Earth is tilted, and in December our half leans away from the Sun.'),
-              N('So the Sun stays low, takes a short path across the sky, and sets early.'),
+              N(
+                'Ha! It does look like it “doesn’t try very hard” today. But it’s the same Sun all year.',
+              ),
+              N(
+                'What changes is us. In December our half of the tilted Earth leans away from the Sun.',
+              ),
+              N('So the Sun stays low and sets early.'),
             ],
           },
         ],
@@ -1620,12 +1651,24 @@ const C10B: EduScene[] = [
       WISP('Hsss! Mine!', 'angry'),
       N('He hits the shallows and snatches the shard away, quick as a theft, which it is.'),
       WISP('mine — warm — mine —', 'shock'),
-      N('For one moment he holds it: the warmest thing he has ever seen. His whole thin face is joy.'),
-      N('Then his back feet slip on the wet stone, and he tumbles into the Wellspring, stone and all. The water closes over him.'),
-      N('And the light comes up. Not cold. Warm. Gold, like the inside of a lantern, like a kitchen window seen from a dark road.'),
-      N('It fills the cave and the ledge and the frozen falls, and the ice on the falls glows the colour of honey.'),
-      N('Somewhere very deep, something that has whispered for longer than anyone has been alive goes quiet.'),
-      N('In the shallows, the one who carried the stone here stands blinking. The frost is melting off its face, drip by drip.'),
+      N(
+        'For one moment he holds it: the warmest thing he has ever seen. His whole thin face is joy.',
+      ),
+      N(
+        'Then his back feet slip on the wet stone, and he tumbles into the Wellspring, stone and all. The water closes over him.',
+      ),
+      N(
+        'And the light comes up. Not cold. Warm. Gold, like the inside of a lantern, like a kitchen window seen from a dark road.',
+      ),
+      N(
+        'It fills the cave and the ledge and the frozen falls, and the ice on the falls glows the colour of honey.',
+      ),
+      N(
+        'Somewhere very deep, something that has whispered for longer than anyone has been alive goes quiet.',
+      ),
+      N(
+        'In the shallows, the stone’s bearer stands blinking. The frost is melting off the bearer’s face, drip by drip.',
+      ),
       N('The water is still. And Wisp is gone.'),
     ],
     [
@@ -2009,10 +2052,22 @@ const C10B: EduScene[] = [
   scene(
     'c10-moss-stays',
     [
-      N('Moss walks to the foot of the hill and sits down, carefully, like something that has decided to.'),
-      N('He looks at the Keepers: red-eyed, frozen, grinning, every one of them holding a lantern burnt down to the stub.'),
-      MOSS('Hazel stood there. You stand there. The chin is the same. The hands are slower. That’s better, actually.', 'soft'),
-      MOSS('I’ve decided. I’ll stay a while. Someone has to tell the pale one about his shoelaces.'),
+      N(
+        'Moss walks to the foot of the hill and sits down, carefully, like something that has decided to.',
+      ),
+      N(
+        'He looks at the Keepers: red-eyed, frozen, grinning, every one of them holding a lantern burnt down to the stub.',
+      ),
+      MOSS(
+        'Hazel stood there. You stand there. The chin is the same. The hands are slower. That’s better, actually.',
+        'soft',
+      ),
+      MOSS(
+        'Slow hands. Sable. The gate. Hazel’s two months with the brown one. It works where hurry never does.',
+      ),
+      MOSS(
+        'I’ve decided. I’ll stay a while. Someone has to tell the pale one about his shoelaces.',
+      ),
       BYTE('They are TIED.'),
       MOSS('Are they.'),
       N('Byte looks down. Byte looks up. Byte goes very pale, even for Byte.'),
@@ -2023,43 +2078,12 @@ const C10B: EduScene[] = [
     ],
     [
       {
-        id: 'reader:c10-moss-stays-l1',
-        domain: 'literacy',
-        skill: 'find the theme',
-        standard: 'RL.4.2',
-        kind: 'ask',
-        after: 2,
-        prompt: [N('“The hands are slower. That’s better, actually.” What has the whole story been teaching about slow hands?')],
-        options: [
-          {
-            label: 'Patience and gentleness win trust',
-            best: true,
-            reply: [N('Yes. Sable, the gate, Hazel’s two months: slow, gentle love works where force doesn’t. That is a theme, the big idea under the story.')],
-          },
-          {
-            label: 'Faster is always better',
-            reply: [
-              N('That was Corvin’s idea, and look where it took him.'),
-              N('The story keeps showing that slow, gentle love works where force doesn’t. That is its theme, the big idea under the story.'),
-            ],
-          },
-          {
-            label: 'Hands get tired',
-            reply: [
-              N('After a night of holding lanterns, they certainly do! But Moss means more than that.'),
-              N('The story keeps showing that slow, gentle love works where force doesn’t. That is its theme, the big idea under the story.'),
-            ],
-          },
-        ],
-        parentNote: 'Identified the story’s theme: patience and gentleness build trust.',
-      },
-      {
         id: 'reader:c10-moss-stays-l2',
         domain: 'sel',
         skill: 'shared laughter after a hard time',
         standard: 'CASEL: Relationship skills',
         kind: 'notice',
-        after: 10,
+        after: 11,
         lines: [
           N('After a long, scary night, laughing together helps people let go of the worry they have been holding.'),
           N('It also says, without any words: we got through it, together.'),

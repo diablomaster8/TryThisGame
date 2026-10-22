@@ -494,7 +494,7 @@ const CH5: EduScene[] = [
 
 // ---------------------------------------------------------------- chapter 6: Rain on the Hill
 
-/** Fossil’s fading, shared by both chapter 6 openings (10 lines). Grief lesson plays after index 8 of this block. */
+/** Fossil’s fading, shared by both chapter 6 openings (11 lines). Grief lesson plays after index 9 of this block. */
 const C6_FADING: Line[] = [
   N('Fossil uncurls, very slowly, and climbs out of Dusty’s lap onto the grass. She wants to do this part herself.'),
   N('A cocoon closes round her, thin as a soap bubble. Rain runs down the outside of it.'),
@@ -502,13 +502,21 @@ const C6_FADING: Line[] = [
   N('Dusty puts one muddy finger against the cocoon. Inside, very faintly, something taps back. Twice.'),
   DUSTY('Yes. All right. I know.', 'soft'),
   N('And then there is only rain. Where she was, a flower is pushing up through the wet grass.'),
-  N('Fossil has faded. That means she has died. Her body stopped working, and it won’t start again.'),
-  DUSTY('Everyone says it means she was happy enough to let go. That’s true. It’s also the worst thing anyone’s ever said to me.', 'sad'),
-  N('Dusty doesn’t cry. They just sit there in the rain, looking at the flower as if it might need something.'),
+  N(
+    'Fossil has faded. That means she has died. Her body stopped working, and it won’t start again.',
+  ),
+  DUSTY(
+    'Everyone says it means she was happy enough to let go. That’s true. It’s also the worst thing anyone’s ever said to me.',
+    'sad',
+  ),
+  N('Dusty is cross because being told it’s fine doesn’t make the sad any smaller.'),
+  N(
+    'Dusty doesn’t cry. They just sit there in the rain, looking at the flower as if it might need something.',
+  ),
   DUSTY('Would you sit with me a bit? You don’t have to say anything. Hazel never did.'),
 ];
 
-/** The grief beat, shared by both openings. `after` is the index of “Dusty doesn’t cry”. */
+/** The grief beat, shared by both openings. `after` is the index of “Dusty doesn’t cry” (index 9 of the block). */
 const griefLesson = (after: number): LessonBody => ({
   domain: 'sel',
   skill: 'grief looks different on everyone',
@@ -593,7 +601,7 @@ const CH6: EduScene[] = [
         ],
         parentNote: 'Your child learned what a fossil is and that rock layers build up over time, so lower layers are usually older.',
       },
-      griefLesson(6 + 8),
+      griefLesson(6 + 9),
     ],
   ),
   scene(
@@ -622,7 +630,7 @@ const CH6: EduScene[] = [
         ],
         parentNote: 'Your child ordered rock layers from oldest (bottom) to newest (top), the way scientists read the past in cliffs.',
       },
-      griefLesson(6 + 8),
+      griefLesson(6 + 9),
     ],
   ),
   scene(
@@ -714,93 +722,148 @@ const CH6: EduScene[] = [
 // ---------------------------------------------------------------- chapter 7: What Fear Teaches
 
 const CH7: EduScene[] = [
-  scene('c7-open', [
-    N('Sable sleeps near you now. Not next to you. Near. Whenever you move in your sleep, she wakes.'),
-    N('You wake before dawn because you are cold. The Grove is white.'),
-    N('Not all of it. The frost lies in a long tongue, a long thin strip, from the long grass to the fourth lantern post.'),
-    N('Round that post it’s as thick as fur. The other three posts stand damp and dark and ordinary.'),
-    N('Your breath puffs out in little clouds. The frost squeaks under your bare feet, so you go back in for socks.'),
-    N('Sable is awake. She is staring at the post, and she isn’t moving at all. Not even her ears.'),
-    LUNA('You’re up. Good. I didn’t want to wake you, and I didn’t want to wait.'),
-    N('Luna has soil to her elbows. She’s nocturnal, awake at night like an owl, so for her this is the end of the day.'),
-    LUNA('It isn’t cold enough for that frost. I’ve had my hands in the ground all night. It isn’t cold enough for gloves.', 'think'),
-    LUNA('I went up the valley last week, at night. I found out where Sable came from. Corvin’s garden.'),
-    LUNA('He trains them with cold and with hunger. Food when they obey. Nothing when they don’t. It works. It’s fast.', 'angry'),
-    LUNA('There’s an empty pen at the end of the last row. A bowl in it, frozen to the floor. In summer.'),
-    LUNA('Sable wouldn’t race. So she got nothing, for a long time. And then one night the gate was open.'),
-    LUNA('Her first nights here, the grass was white where she slept. I put it down to her being odd. It was never just her, was it.', 'sad'),
-    LUNA('She chose you, you know. She watched this Grove for three nights and decided your hands looked slow enough.', 'soft'),
-    LUNA('I need to sleep. Moss is coming down. I can’t hear him. You can. Listen properly.'),
-  ], [
-    {
-      domain: 'science',
-      skill: 'condensation: why warm breath makes a cloud in cold air',
-      standard: '2-PS1-4',
-      kind: 'ask',
-      after: 4,
-      prompt: [N('Why does your breath make a little cloud on a cold morning?')],
-      options: [
-        {
-          label: 'Warm breath has water in it. Cold air cools it into tiny drops.',
-          best: true,
-          reply: [
-            N('Yes. Your breath carries water as an invisible gas, called water vapour. Cold air cools it into tiny drops you can see.'),
-            N('That’s a mini cloud! Real clouds form the same way. Warm the drops up again and they vanish back into the air.'),
-          ],
-        },
-        {
-          label: 'It’s smoke from inside you.',
-          reply: [
-            N('No fire in there, luckily! Your breath carries water as an invisible gas.'),
-            N('Cold air cools it into tiny drops of water you can see. It’s a mini cloud.'),
-          ],
-        },
-        {
-          label: 'Cold air is white.',
-          reply: [
-            N('Cold air is just as clear as warm air. The white is water.'),
-            N('Your warm breath carries water as an invisible gas. Cold air cools it into tiny drops you can see: a mini cloud.'),
-          ],
-        },
-      ],
-      parentNote: 'Your child explained why breath fogs in the cold: water vapour cools into tiny droplets (condensation), a change that reverses when warmed.',
-    },
-    {
-      domain: 'literacy',
-      skill: 'making an inference from clues in the story',
-      kind: 'ask',
-      after: 11,
-      prompt: [
-        LUNA('A bowl, frozen to the floor. In summer. And you said the rails at the Circuit were frosty in August.', 'think'),
-        LUNA('Put those clues together for me. What do they tell you?'),
-      ],
-      options: [
-        {
-          label: 'Something near Corvin is making cold that shouldn’t be there.',
-          best: true,
-          reply: [
-            LUNA('That’s what I think. Frost in summer, twice, both near Corvin. That isn’t weather. That’s something else.'),
-            N('Putting clues together to work out something nobody has told you is called making an inference.'),
-          ],
-        },
-        {
-          label: 'It was a very cold summer.',
-          reply: [
-            LUNA('It’s been a hot one. Remember the hottest day of summer, and the frost on the rails?'),
-            LUNA('Two lots of summer frost, both near Corvin. Something there is making the cold.'),
-          ],
-        },
-        {
-          label: 'Sable spilled her water.',
-          reply: [
-            LUNA('Spilled water would just dry up in summer. For it to freeze, something must be very cold.'),
-            LUNA('And the rails were frosty too. Both near Corvin. Something there is making the cold.'),
-          ],
-        },
-      ],
-      parentNote: 'Your child combined two clues from different chapters (summer frost at the Circuit and in Corvin’s garden) to make an inference.',
-    },
-  ]),
+  scene(
+    'c7-open',
+    [
+      N(
+        'Sable sleeps near you now. Not next to you. Near. Whenever you move in your sleep, she wakes.',
+      ),
+      N('You wake before dawn because you are cold. The Grove is white.'),
+      N(
+        'Not all of it. The frost lies in a long tongue, a long thin strip, from the long grass to the fourth lantern post.',
+      ),
+      N(
+        'Round that post it’s as thick as fur. The other three posts stand damp and dark and ordinary.',
+      ),
+      N(
+        'Your breath puffs out in little clouds. The frost squeaks under your bare feet, so you go back in for socks.',
+      ),
+      N(
+        'Sable is awake. She is staring at the post, and she isn’t moving at all. Not even her ears.',
+      ),
+      LUNA('You’re up. Good. I didn’t want to wake you, and I didn’t want to wait.'),
+      N(
+        'Luna has soil to her elbows. She’s nocturnal, awake at night like an owl, so for her this is the end of the day.',
+      ),
+      LUNA(
+        'It isn’t cold enough for that frost. I’ve had my hands in the ground all night. It isn’t cold enough for gloves.',
+        'think',
+      ),
+      LUNA(
+        'I went up the valley last week, at night. I found out where Sable came from. Corvin’s garden.',
+      ),
+      LUNA(
+        'He trains them with cold and with hunger. Food when they obey. Nothing when they don’t. It works. It’s fast.',
+        'angry',
+      ),
+      LUNA(
+        'There’s an empty pen at the end of the last row. A bowl in it, frozen to the floor. In summer.',
+      ),
+      LUNA(
+        'Sable wouldn’t race. So she got nothing, for a long time. And then one night the gate was open.',
+      ),
+      LUNA(
+        'Her first nights here, the grass was white where she slept. I put it down to her being odd. It was never just her, was it.',
+        'sad',
+      ),
+      LUNA(
+        'She chose you, you know. She watched this Grove for three nights and decided your hands looked slow enough.',
+        'soft',
+      ),
+      LUNA('I need to sleep. Moss is coming down. I can’t hear him. You can. Listen properly.'),
+    ],
+    [
+      {
+        domain: 'science',
+        skill: 'condensation: why warm breath makes a cloud in cold air',
+        standard: '2-PS1-4',
+        kind: 'ask',
+        after: 4,
+        prompt: [N('Why does your breath make a little cloud on a cold morning?')],
+        options: [
+          {
+            label: 'Warm breath has water in it. Cold air cools it into tiny drops.',
+            best: true,
+            reply: [
+              N(
+                'Yes. Your breath carries water as an invisible gas, called water vapour. Cold air cools it into tiny drops you can see.',
+              ),
+              N('That’s a mini cloud! Real clouds form the same way.'),
+            ],
+          },
+          {
+            label: 'It’s smoke from inside you.',
+            reply: [
+              N('No fire in there, luckily! Your breath carries water as an invisible gas.'),
+              N('Cold air cools it into tiny drops of water you can see. It’s a mini cloud.'),
+            ],
+          },
+          {
+            label: 'Cold air is white.',
+            reply: [
+              N('Cold air is just as clear as warm air. The white is water.'),
+              N(
+                'Your warm breath carries water as an invisible gas. Cold air cools it into tiny drops you can see: a mini cloud.',
+              ),
+            ],
+          },
+        ],
+        parentNote:
+          'Your child explained why breath fogs in the cold: water vapour cools into tiny droplets (condensation), a change that reverses when warmed.',
+      },
+      {
+        domain: 'literacy',
+        skill: 'making an inference from clues in the story',
+        kind: 'ask',
+        after: 11,
+        prompt: [
+          LUNA(
+            'A bowl, frozen to the floor. In summer. And you said the rails at the Circuit were frosty in August.',
+            'think',
+          ),
+          LUNA('Put those clues together for me. What do they tell you?'),
+        ],
+        options: [
+          {
+            label: 'Something near Corvin is making cold that shouldn’t be there.',
+            best: true,
+            reply: [
+              LUNA(
+                'That’s what I think. Frost in summer, twice, both near Corvin. That isn’t weather. That’s something else.',
+              ),
+              N(
+                'Putting clues together to work out something nobody has told you is called making an inference.',
+              ),
+            ],
+          },
+          {
+            label: 'It was a very cold summer.',
+            reply: [
+              LUNA(
+                'It’s been a hot one. Remember the hottest day of summer, and the frost on the rails?',
+              ),
+              LUNA(
+                'Two lots of summer frost, both near Corvin. Something there is making the cold.',
+              ),
+            ],
+          },
+          {
+            label: 'Sable spilled her water.',
+            reply: [
+              LUNA(
+                'Spilled water would just dry up in summer. For it to freeze, something must be very cold.',
+              ),
+              LUNA(
+                'And the rails were frosty too. Both near Corvin. Something there is making the cold.',
+              ),
+            ],
+          },
+        ],
+        parentNote:
+          'Your child combined two clues from different chapters (summer frost at the Circuit and in Corvin’s garden) to make an inference.',
+      },
+    ],
+  ),
   scene(
     'c7-stillness',
     [
@@ -898,9 +961,16 @@ const CH7: EduScene[] = [
   scene(
     'c7-stillness-2',
     [
-      MOSS('A shard does not shout. It is not a monster. If it were a monster, it would be easy. You would only have to be brave.'),
-      MOSS('A shard is a sharp broken piece, and this one says one word. It says it to whoever is most afraid. It thinks it is being kind.'),
-      N('He waits so long that you think he has finished. Then:'),
+      MOSS(
+        'A shard does not shout. It is not a monster. If it were a monster, it would be easy. You would only have to be brave.',
+      ),
+      MOSS(
+        'A shard is a sharp broken piece, and this one says one word. It says it to whoever is most afraid. It thinks it is being kind.',
+      ),
+      N(
+        'He waits so long that a hen over the wall decides he has finished, and says so at length.',
+      ),
+      N('Moss waits for the hen as well. Then:'),
       MOSS('Safe.'),
       N('The word hangs in the cold air between you. Sable’s ears go flat against her head.'),
       MOSS('Think what you would give to know nothing would ever hurt them. No hawk. No fever. No hill.'),
@@ -913,7 +983,7 @@ const CH7: EduScene[] = [
         domain: 'science',
         skill: 'reading fear in an animal’s body language',
         kind: 'notice',
-        after: 4,
+        after: 5,
         lines: [
           MOSS('Look at her ears. Many animals flatten their ears when they are frightened. Cats do. Rabbits do. Dogs often do.'),
           MOSS('She cannot tell you she is scared. Her ears are telling you for her. Always listen to the ears.', 'soft'),
@@ -925,8 +995,10 @@ const CH7: EduScene[] = [
         skill: 'what helps when you are afraid for someone you love',
         standard: 'CASEL: Self-management',
         kind: 'ask',
-        after: 8,
-        prompt: [MOSS('So. When you are very afraid for someone you love, what helps most?', 'think')],
+        after: 9,
+        prompt: [
+          MOSS('So. When you are very afraid for someone you love, what helps most?', 'think'),
+        ],
         options: [
           {
             label: 'Telling someone I trust, so I’m not alone with it.',
@@ -992,8 +1064,16 @@ const CH7: EduScene[] = [
     [
       MOSS('Hazel had a word for the opposite. She did not use it much. She was not a woman for words; she was a woman for soup.'),
       MOSS('She said “well”.'),
-      N('The sun reaches the top of the western hill. The frost on the nearest grass begins, very slightly, to steam.'),
-      MOSS('A Nubbin that is well can be hurt. It runs off. It eats a beetle. It falls in love with a stick and will not let go of it.'),
+      N(
+        'The sun reaches the top of the western hill. The frost on the nearest grass begins, very slightly, to steam.',
+      ),
+      MOSS(
+        'A Nubbin that is well can be hurt. It runs off. It eats a beetle. It falls in love with a stick and will not let go of it.',
+      ),
+      N(
+        'Your Nubbin, who has been listening, goes and fetches a stick. It lays it at Moss’s feet.',
+      ),
+      MOSS('Yes. Thank you. Exactly that.', 'soft'),
       MOSS('It gets lost in the long grass. It comes back. One day it goes up the hill.'),
       MOSS('A Nubbin that is safe cannot be hurt. And it cannot do any of the rest.'),
       N('…'),
@@ -1041,7 +1121,7 @@ const CH7: EduScene[] = [
         skill: 'a think question: is safe the same as well?',
         standard: 'CASEL: Responsible decision-making',
         kind: 'ask',
-        after: 7,
+        after: 9,
         prompt: [MOSS('I have told you what I think. Now you. Is safe the same as well?', 'think')],
         options: [
           {
@@ -1305,8 +1385,14 @@ const CH8: EduScene[] = [
     'c8-ledge',
     [
       ...C8_GATE,
-      MARINA('Nobody comes this way but me. Hand on the rock, eyes on my heels. And don’t be brave. Brave people fall off. Be careful instead.'),
-      MARINA('I taught every one of Hazel’s Nubbins to swim, you know. People think that’s all I did for her.', 'think'),
+      MARINA(
+        'Nobody comes this way but me. Hand on the rock, eyes on my heels. And don’t be brave. Brave people fall off. Be careful instead.',
+      ),
+      MARINA('Rule four still applies. Sparks would have grabbed the waterfall.', 'happy'),
+      MARINA(
+        'I taught every one of Hazel’s Nubbins to swim, you know. People think that’s all I did for her.',
+        'think',
+      ),
       ...C8_LEDGE_REST,
       MARINA('…That’s new. Thirty years I’ve walked past it, and it’s never had so much as a cold morning on it.', 'shock'),
       ...C8_LEDGE_END,
@@ -1325,7 +1411,7 @@ const CH8: EduScene[] = [
         ],
         parentNote: 'Your child sorted objects by a property (keeps you warm or not) and learned that wool traps air, which holds in body heat.',
       },
-      springLesson(5 + 2 + 3),
+      springLesson(5 + 2 + 3 + 1),
     ],
   ),
   scene(
@@ -1381,31 +1467,42 @@ const CH8: EduScene[] = [
         kind: 'ask',
         after: 3,
         prompt: [
-          NOVA('Nineteen fed, and a dozen bowls. A dozen is twelve.', 'think'),
-          NOVA('If each bowl fed one Nubbin, how many had to wait for her to fill a bowl again?'),
+          NOVA(
+            'Nineteen Nubbins ate that day, but there are only twelve bowls. A dozen is twelve.',
+            'think',
+          ),
+          NOVA('How many more Nubbins than bowls?'),
         ],
         options: [
           {
             label: '7',
             best: true,
-            reply: [NOVA('Seven. 19 take away 12 is 7. So she filled bowls more than once. Every day, since the end of the winter.', 'soft')],
+            reply: [
+              NOVA(
+                'Seven. 19 take away 12 is 7. So she filled some bowls twice. Every day, since the end of the winter.',
+                'soft',
+              ),
+            ],
           },
           {
             label: '31',
             reply: [
-              NOVA('That’s 19 add 12. But we want to know how many were left over after the bowls ran out.'),
-              NOVA('19 − 12 = 7. Seven had to wait for her to fill bowls again.'),
+              NOVA(
+                'That’s 19 add 12. But we want to know how many more Nubbins there are than bowls.',
+              ),
+              NOVA('19 − 12 = 7. Seven more Nubbins than bowls.'),
             ],
           },
           {
             label: '12',
             reply: [
-              NOVA('Twelve is how many bowls there are. Twelve could eat at once.'),
-              NOVA('The rest had to wait: 19 − 12 = 7.'),
+              NOVA('Twelve is how many bowls there are. We want how many more Nubbins than that.'),
+              NOVA('19 − 12 = 7.'),
             ],
           },
         ],
-        parentNote: 'Your child solved a subtraction word problem within 20 (19 fed, 12 bowls, 7 waiting) and learned that a dozen means twelve.',
+        parentNote:
+          'Your child solved a subtraction word problem within 20 (19 Nubbins, 12 bowls, 7 more Nubbins than bowls) and learned that a dozen means twelve.',
       },
       {
         domain: 'literacy',

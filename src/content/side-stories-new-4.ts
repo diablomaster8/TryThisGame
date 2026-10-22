@@ -44,6 +44,8 @@ const TILLY: Speaker = {
 };
 /** Sparks’s other cousin, used in S20 when S14 has not been played. */
 const BODGE: Speaker = { id: 'bodge', name: 'Bodge', kind: 'other' };
+/** Shared id: S20 and S29 both use it. */
+const GRANNY_BROCK: Speaker = { id: 'granny-brock', name: 'Granny Brock', kind: 'other' };
 const GORDON: Speaker = { id: 'gordon', name: 'Gordon', kind: 'other' };
 const WREN: Speaker = { id: 'wren', name: 'Wren', kind: 'other' };
 const CLANK: Speaker = {
@@ -55,6 +57,7 @@ const CLANK: Speaker = {
 
 const TI = say('tilly');
 const GO = say('gordon');
+const GB = say('granny-brock');
 const WR = say('wren');
 const CK = say('clank');
 
@@ -403,7 +406,7 @@ export const SIDE_STORIES_NEW_4: Quest[] = [
       where: 'The Common below Fern’s orchard, deep in snow',
       when: 'Chapter 11, after c11-open: the first clear morning after the Long Night. Closes before c12’s final choice.',
     },
-    speakers: [TILLY, BODGE, GORDON, WREN],
+    speakers: [TILLY, BODGE, GORDON, WREN, GRANNY_BROCK],
     steps: [
       {
         id: 's20-step1',
@@ -427,6 +430,11 @@ export const SIDE_STORIES_NEW_4: Quest[] = [
             N('Behind Pixel, a small boy in a bobble hat is hit in the ear by a snowball. Nobody has started yet.'),
             GO('I’m all right!', 'happy'),
             PX('That’s Gordon. Gordon gets hit. It isn’t a rule. It’s more like weather.'),
+            N(
+              'At a cottage door at the edge of the Common, Granny Brock stands with her arms folded, refereeing nobody.',
+            ),
+            GB('Nobody hit my bell.'),
+            N('Gordon hits her bell.'),
             WR('Commander! I’m Wren! What’s our battle cry, commander?', 'happy'),
           ],
           choices: [
@@ -460,13 +468,32 @@ export const SIDE_STORIES_NEW_4: Quest[] = [
           id: 's20-round1',
           lines: [
             WR('Yes, commander! On it, commander!'),
-            N('Every time you point at Wren, she salutes and says something. You point at her rather a lot.'),
-            WR('Yes, commander. Yes, commander. Commander, that’s nine times. I’m only little.', 'angry'),
-            PX('Notice: your sticks are low. Notice: you can’t recruit more children. You’ve run out of mittens.'),
-            PX('Ruling: a snowball that hits a snowman is friendly fire. The snowman has feelings. He’s called Derek.'),
-            N('At the whistle, your wall is knee-high, fat and lumpy. Theirs is shoulder-high, thin, and has battlements.'),
-            TI('Economy! I put everyone on snow from the very start. I learned it off the Tax Toad.', 'happy'),
-            PX('Round one: draw. Theirs is taller. Yours is fatter. Ruling: both of them are walls.'),
+            N(
+              'Every time you point at Wren, she salutes and says something. You point at her rather a lot.',
+            ),
+            WR(
+              'Yes, commander. Yes, commander. Commander, that’s nine times. I’m only little.',
+              'angry',
+            ),
+            PX(
+              'Notice: your sticks are low. Notice: you can’t recruit more children. You’ve run out of mittens.',
+            ),
+            PX(
+              'Ruling: a snowball that hits a snowman is friendly fire. The snowman has feelings. He’s called Derek.',
+            ),
+            N(
+              'At the whistle, your wall is knee-high, fat and lumpy. Theirs is shoulder-high, thin, and has battlements.',
+            ),
+            TI(
+              'Economy! I put everyone on snow from the very start. I learned it off the Tax Toad.',
+              'happy',
+            ),
+            PX(
+              'Round one: draw. Theirs is taller. Yours is fatter. Ruling: both of them are walls.',
+            ),
+            N(
+              'Between rounds, two children skip to a rhyme you almost know. Both fall over at the same word.',
+            ),
           ],
         },
       },
@@ -627,8 +654,14 @@ export const SIDE_STORIES_NEW_4: Quest[] = [
         N('Up at the cottage a lamp is lit in the window, and somebody in a blanket is watching the Common.'),
         N('Tilly puts two fingers in her mouth and whistles the supper call, rising at the end. From the window, faintly, it comes back.'),
         TI('She can still do it.', 'soft'),
-        PX('Prizes. Commander’s hat: it was a tea cosy. Snowball launcher: prototype. Ruling: point it away from Gordon.'),
-        PX('And the fort’s yours. I’ll build you one for the Grove that only comes out when it snows.'),
+        N('Tilly pulls a damp folded note out of her welly. She doesn’t open it.'),
+        TI('I’ll read it tomorrow. Out loud. At her.', 'soft'),
+        PX(
+          'Prizes. Commander’s hat: it was a tea cosy. Snowball launcher: prototype. Ruling: point it away from Gordon.',
+        ),
+        PX(
+          'And the fort’s yours. I’ll build you one for the Grove that only comes out when it snows.',
+        ),
       ],
     },
     rewards: [
@@ -667,6 +700,7 @@ export const SIDE_STORIES_NEW_4: Quest[] = [
       's20-round1#6 → “Economy. Everyone on snow from minute one. I read a book.”; ' +
       's20-complete#8 → “Bodge looks up at the cottage window, where somebody in a blanket is waving, and salutes.” ' +
       '(narrator); s20-complete#9 → “Everyone’s saluting tonight.” (bodge). All other tilly lines work for either. ' +
+      'NOTE BEAT: the two lines after “She can still do it.” (the damp note, and “I’ll read it tomorrow”) are Tilly’s, so with the Bodge variant (s14 not played) skip them. ' +
       'SUN AND MOON VARIANT: if s3Done, your fort flies a sun flag and theirs a moon (or the reverse, at random), and ' +
       's20-declaration#5 (the first of the two lines about the Common; #6, “Neither has a wall. Both have flags.”, ' +
       'stays) becomes “On the Common, two forts are marked out in sticks, one under a sun flag and one under a ' +

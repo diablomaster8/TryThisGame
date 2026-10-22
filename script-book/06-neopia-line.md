@@ -110,13 +110,13 @@ _A green pod shoots toward the surface. The claw lets go, and the professor drif
 **Sarkis** _(happy)_: We found it! Technically the robot found it. But we were there!  
 _Back on the beach, Buckley hands round the sandwiches. They are slightly damp. Conditions, as promised, apply._  
 _The Neopian Times runs it as DOME SWEET DOME. Sarkis buys eleven copies and frames the crossword._  
-_At home, your karate dojo has a new door painted like a dome. Above it, a sign: Battledome. Play fair._  
+_By the rainbow gate, a new door appears, painted like a dome. Above it, a sign: Battledome. Play fair._  
 _Far above the sea, a green light blinks once and goes out._  
 
 **Rewards**
 
-- Battledome mode (feature): Unlocks the karate dojo’s Battledome mode: battle items, weapons and challengers from every land of Neopia.
-- Neopian Times: DOME SWEET DOME (item): This plot’s Neopian Times front page, kept in the Collection book.
+- Battledome mode (feature): Opens the Battledome in Neopia: battle items, weapons and challengers from every land, kept in the Neopia save.
+- Neopian Times: DOME SWEET DOME (item): This plot’s Neopian Times front page, kept in your Neopia scrapbook.
 - Avatar: Friend of Chiazilla (title): A trophy avatar for finding the Battledome.
 
 Sets on completion: `{"np-01-done":true}`
@@ -260,7 +260,7 @@ _Your Nubbins look down the crack, then at each other. One drops a snowball in, 
 
 **Rewards**
 
-- Neopian Times: MOUNTAIN HOLDS (item): This plot’s Neopian Times front page, kept in the Collection book.
+- Neopian Times: MOUNTAIN HOLDS (item): This plot’s Neopian Times front page, kept in your Neopia scrapbook.
 - Avatar: Defender of Terror Mountain (title): A trophy avatar for turning back the Tyrannian Invasion.
 
 Sets on completion: `{"np-02-done":true}`
@@ -380,7 +380,7 @@ _The Neopian Times runs it as COLD CASE CLOSED, with a cartoon of Maverick in a 
 
 **Rewards**
 
-- Neopian Times: COLD CASE CLOSED (item): This plot’s Neopian Times front page, kept in the Collection book.
+- Neopian Times: COLD CASE CLOSED (item): This plot’s Neopian Times front page, kept in your Neopia scrapbook.
 - Avatar: Lodge Detective (title): A trophy avatar for unmasking Maverick.
 
 Sets on completion: `{"np-03-done":true}`
@@ -491,7 +491,7 @@ _The Neopian Times prints your grid in full, with one square left blank for read
 
 **Rewards**
 
-- Neopian Times: THE USURPER UNMASKED (item): This plot’s Neopian Times front page, kept in the Collection book.
+- Neopian Times: THE USURPER UNMASKED (item): This plot’s Neopian Times front page, kept in your Neopia scrapbook.
 - Avatar: Royal Sleuth (title): A trophy avatar for solving the Usurper.
 
 Sets on completion: `{"np-04-done":true,"np-coltzan-shrine":true}`
@@ -620,7 +620,7 @@ _At the back of the Darigan ranks, a sharp-faced general named Kass watches the 
 
 **Rewards**
 
-- Neopian Times: THE ORB IS BROKEN (item): This plot’s Neopian Times front page, kept in the Collection book.
+- Neopian Times: THE ORB IS BROKEN (item): This plot’s Neopian Times front page, kept in your Neopia scrapbook.
 - Avatar: Champion of Meridell (title): A trophy avatar for fighting in the Champions of Meridell.
 
 Sets on completion: `{"np-05-done":true}`
@@ -735,7 +735,7 @@ _The Neopian Times prints the chant on its front page. By dinner, every child on
 
 **Rewards**
 
-- Neopian Times: EVERYONE HOME (item): This plot’s Neopian Times front page, kept in the Collection book.
+- Neopian Times: EVERYONE HOME (item): This plot’s Neopian Times front page, kept in your Neopia scrapbook.
 - Avatar: Keeper of the Five Words (title): A trophy avatar for solving the Volcano Mystery.
 
 Sets on completion: `{"np-06-done":true}`
@@ -861,7 +861,7 @@ _The Neopian Times runs a drawing of the battle. Your Nubbins are in it, very sm
 
 **Rewards**
 
-- Neopian Times: KASS FALLS (item): This plot’s Neopian Times front page, kept in the Collection book.
+- Neopian Times: KASS FALLS (item): This plot’s Neopian Times front page, kept in your Neopia scrapbook.
 - Avatar: Hero of the Battle for Meridell (title): A trophy avatar for the Battle for Meridell.
 
 Sets on completion: `{"np-07-done":true}`
@@ -969,7 +969,7 @@ _The Neopian Times prints the twins side by side on the front page. Nobody can t
 
 **Rewards**
 
-- Neopian Times: THE SISTERS COME HOME (item): This plot’s Neopian Times front page, kept in the Collection book.
+- Neopian Times: THE SISTERS COME HOME (item): This plot’s Neopian Times front page, kept in your Neopia scrapbook.
 - Avatar: Friend of New Maraqua (title): A trophy avatar for breaking the Curse of Maraqua.
 
 Sets on completion: `{"np-08-done":true}`
@@ -1100,7 +1100,7 @@ _The Neopian Times prints the wedding portrait. Nabile is clearly picking the ph
 
 **Rewards**
 
-- Neopian Times: SAKHMET IN DAYLIGHT (item): This plot’s Neopian Times front page, kept in the Collection book.
+- Neopian Times: SAKHMET IN DAYLIGHT (item): This plot’s Neopian Times front page, kept in your Neopia scrapbook.
 - Avatar: Breaker of the Qasalan Curse (title): A trophy avatar for the Lost Desert Plot.
 
 Sets on completion: `{"np-09-done":true}`
@@ -1216,7 +1216,7 @@ _The Neopian Times prints a small notice: Mr Krawley, wanted, by everyone._
 
 **Rewards**
 
-- Neopian Times: NEOVIA CURED (MOSTLY) (item): This plot’s Neopian Times front page, kept in the Collection book.
+- Neopian Times: NEOVIA CURED (MOSTLY) (item): This plot’s Neopian Times front page, kept in your Neopia scrapbook.
 - Avatar: Friend of Neovia (title): A trophy avatar for the Tale of Woe.
 
 Sets on completion: `{"np-10-done":true}`
@@ -1336,8 +1336,8 @@ _The Unlikely Gull pulls away with its sails half up and Werther still climbing 
 
 **Rewards**
 
-- Lost Isle section (feature): Unlocks a Lost Isle section for your sandbox: giant-insect jungle, a waterfall, a stone arch and a (quiet, empty) Moach nest.
-- Neopian Times: THE ISLAND IS REAL (item): This plot’s Neopian Times front page, kept in the Collection book. If you kept the route secret, the headline reads IS IT REAL?
+- Lost Isle section (feature): Unlocks a Lost Isle section for your Neopia sandbox: giant-insect jungle, a waterfall, a stone arch and a (quiet, empty) Moach nest.
+- Neopian Times: THE ISLAND IS REAL (item): This plot’s Neopian Times front page, kept in your Neopia scrapbook. If you kept the route secret, the headline reads IS IT REAL?
 - Avatar: Lost Isle Explorer (title): A trophy avatar for the Journey to the Lost Isle.
 
 Sets on completion: `{"np-11-done":true}`
@@ -1441,9 +1441,9 @@ _The Neopian Times prints a star chart on its front page. For the first time in 
 
 **Rewards**
 
-- Altador section (feature): Unlocks the Altador section for your sandbox: white stone, the Hall of Heroes and the star-roofed Archives.
-- Colosseum race cup (feature): Unlocks a one-time race cup in Altador’s Colosseum for your Nubbins (not a yearly event).
-- Neopian Times: ALTADOR REMEMBERED (item): This plot’s Neopian Times front page, kept in the Collection book.
+- Altador section (feature): Unlocks the Altador section for your Neopia sandbox: white stone, the Hall of Heroes and the star-roofed Archives.
+- Colosseum race cup (feature): A one-time race cup in Altador’s Colosseum, run in Neopia with your Nubbins as guests (not a yearly event). The cup stays in Neopia.
+- Neopian Times: ALTADOR REMEMBERED (item): This plot’s Neopian Times front page, kept in your Neopia scrapbook.
 - Avatar: Stargazer of Altador (title): A trophy avatar for restoring Altador’s constellations.
 
 Sets on completion: `{"np-12-done":true}`
@@ -1582,7 +1582,7 @@ _Lutari Island. Your Nubbins are already running for the gate._
 
 - The Neopia line, complete (flag): Completes the Neopia line: every plot played, and Dr. Sloth trapped for good.
 - Lutari Island, once (feature): The rainbow gate opens once onto Lutari Island, the island nobody can find. One visit only.
-- Neopian Times: SLOTH SEALED IN A STAR (item): This plot’s Neopian Times front page, kept in the Collection book.
+- Neopian Times: SLOTH SEALED IN A STAR (item): This plot’s Neopian Times front page, kept in your Neopia scrapbook.
 - Avatar: Hero of the Resistance (title): A trophy avatar for ending the Return of Dr. Sloth.
 
 Sets on completion: `{"np-13-done":true,"np-line-complete":true,"np-lutari-gate":"open-once"}`

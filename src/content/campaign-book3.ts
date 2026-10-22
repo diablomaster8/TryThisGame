@@ -158,13 +158,31 @@ const C9_GARDEN: Line[] = [
   N('Ember’s hands are shaking. Corvin’s are not. They are very white, and he keeps the left one pressed flat to his coat.'),
   N('Over the breast pocket. Always over the breast pocket.'),
   CORVIN('You’ve read her notebook. I can see it on you. She writes everything down.', 'think'),
-  CORVIN('She’ll have written that I stole from her. I did. She’ll have written that I was cruel. I never was. Not once.'),
-  CORVIN('She came here, you know. In the autumn. Stood at my gate for an hour and didn’t knock. Then she went back to her strays.', 'think'),
-  CORVIN('They don’t go hungry here unless they choose to. They’re never thrown. They don’t get sick, or lost, or frightened.'),
-  N('He looks along the rows the way some people look at a bookshelf they have dusted every day for years.'),
-  CORVIN('Hers ran away. Hers got sick. Hers died in her arms, and she cried on the hill, and called it love.', 'sad'),
-  CORVIN('I wanted them safe. I still want it. I have never understood why that makes me the villain of her story.'),
-  N('Somewhere in the rows, a grey Nubbin sneezes. It does not move. None of the others look round.'),
+  CORVIN(
+    'She’ll have written that I stole from her. I did. She’ll have written that I was cruel. I never was. Not once.',
+  ),
+  CORVIN(
+    'She came here, you know. In the autumn. Stood at my gate for an hour and didn’t knock. Then she went back to her strays.',
+    'think',
+  ),
+  CORVIN(
+    'They don’t go hungry here unless they choose to. They’re never thrown. They don’t get sick, or lost, or frightened.',
+  ),
+  N(
+    'He looks along the rows the way some people look at a bookshelf they have dusted every day for years.',
+  ),
+  CORVIN(
+    'Hers ran away. Hers got sick. Hers died in her arms, and she cried on the hill, and called it love.',
+    'sad',
+  ),
+  CORVIN(
+    'I wanted them safe. I still want it. I have never understood why that makes me the villain of her story.',
+  ),
+  N(
+    'Somewhere in the rows, a grey Nubbin sneezes. It does not move. None of the others look round.',
+  ),
+  EMBER('Bless you.', 'think'),
+  N('She says it without thinking. Nobody in this garden has heard those words in years.'),
   N('Every grey eye in the garden is on you, waiting for the next bad thing.'),
 ];
 
@@ -313,8 +331,17 @@ export const BOOK3_SCENES: Scene[] = [
   ]),
   S('c9-close', [
     MARINA('Whatever you did up there, the valley’s already talking about it.'),
-    MARINA('Fern says it was brave. Byte says it was statistically unwise. Both of them are right. That’s the trouble with this valley.', 'think'),
-    N('On your step is a pie from Fern, still warm, with a note on top: RULE ONE. THE SECOND HALF. THE BIT SHE NEVER DID.'),
+    MARINA(
+      'Fern says it was brave. Byte says it was statistically unwise. Both of them are right. That’s the trouble with this valley.',
+      'think',
+    ),
+    N(
+      'On your step is a pie from Fern, still warm, with a note on top: RULE ONE. THE SECOND HALF. THE BIT SHE NEVER DID.',
+    ),
+    MARINA(
+      'She baked two, you know. Won’t say where the other one went. Went pink when I asked.',
+      'think',
+    ),
     N('Dusk. The tin is in your coat, and the coat is stiff with frost down that side.'),
     N('Moss is waiting at the foot of the hill. You didn’t see him come down. You can see the grass through him.'),
     MOSS('…Show me.'),
@@ -331,7 +358,11 @@ export const BOOK3_SCENES: Scene[] = [
     MOSS('There is one place to unmake it. Where it was made. The Wellspring, behind the falls.'),
     MOSS('On the longest night of the year the falls freeze and the spring opens. What came out of it can go back in.', 'think'),
     MOSS('The other three sleep. Let them. Some things you keep by keeping watch.'),
-    MOSS('Only a grey one can carry it close. The cold has already done its worst to the grey. It has nothing new to say to them.'),
+    MOSS(
+      'Only a grey one can carry it close. The cold has already done its worst to the grey. It has nothing new to say to them.',
+    ),
+    YOU('So. The longest night, the Wellspring, and someone grey carries it.'),
+    MOSS('Yes. Three days. Eat something first.'),
     MOSS('None of us was grey, then. We could only break it, and wait.', 'sad'),
     MOSS('…I am grey enough.', 'soft'),
     N('He doesn’t go back up the hill. He sits by the long-grass post all night, and you sit with him, and neither of you says anything.'),
@@ -431,8 +462,20 @@ export const BOOK3_SCENES: Scene[] = [
       DUSTY('I don’t mind. I’m warm. I’ve been digging.'),
       N('Pixel is asleep across the timing box, cheek on the dial. It beeps, very softly, at every out-breath.'),
       FERN('I brought biscuits. They’ve frozen. You can still suck them.', 'happy'),
-      N('The biscuits taste of ginger and lantern smoke. Sparks has four. Nobody counts. Byte counts.'),
-      N('Then Byte sits down next to you on the cold grass. He stopped writing on his clipboard an hour ago. He holds it like a hot-water bottle.'),
+      N(
+        'The biscuits taste of ginger and lantern smoke. Sparks has four. Nobody counts. Byte counts.',
+      ),
+      N('Pixel opens one eye as Byte steps over her.'),
+      PIXEL('Your lace is undone.'),
+      BYTE('I’m aware of the lace.'),
+      PIXEL('He’s been aware of it since our wedding. All the way down the aisle.', 'happy'),
+      BYTE('It was a short aisle. Statistically, I nearly made it.'),
+      N(
+        'She is asleep again before he has finished. He tucks her scarf over the dial so the beeping won’t wake her.',
+      ),
+      N(
+        'Then Byte sits down next to you on the cold grass. He stopped writing on his clipboard an hour ago. He holds it like a hot-water bottle.',
+      ),
       BYTE('Can I ask you something unscientific?', 'think'),
       BYTE('If it works. If the cold stops, and the morning comes, and the fourth lantern lights. What will have done it?'),
       BYTE('The lanterns? Or us? I can’t design a test. There’s no control group for a night like this.'),
@@ -882,13 +925,30 @@ export const BOOK3_SCENES: Scene[] = [
   S(
     'c12-open',
     [
-      N('Morning. Cold and very bright. Every Keeper is here, and every Nubbin. Nobody planned it. Everybody just came.'),
-      N('Sparks has brought a cake, which has collapsed on one side. Pixel has fixed the cake. It is still collapsed, but now it lights up.'),
-      N('Fern has made lantern buns, and for the first time in living memory they have come out. She keeps showing people one, as evidence.'),
-      N('Dusty is digging a new bed by the old wall, for reasons they won’t explain. Nova has brought seeds from somewhere you’ve never heard of.'),
-      N('Clover is crying already, and says it’s the cold. Byte has a clipboard and has not written anything on it.'),
-      N('Marina sits on the edge of the pond with her feet in the water, which is freezing, and says it’s lovely.'),
-      N('Ember stands by the gate with Ash. At first light Ash ran at the gate, the way she used to. Not full tilt. Half. She bounced off it.'),
+      N(
+        'Morning. Cold and very bright. Every Keeper is here, and every Nubbin. Nobody planned it. Everybody just came.',
+      ),
+      N(
+        'Sparks has brought a cake, which has collapsed on one side. Pixel has fixed the cake. It is still collapsed, but now it lights up.',
+      ),
+      N(
+        'Fern has made lantern buns, and for the first time in living memory they have come out. She keeps showing people one, as evidence.',
+      ),
+      N(
+        'Dusty is digging a new bed by the old wall, for reasons they won’t explain. Nova has brought seeds from somewhere you’ve never heard of.',
+      ),
+      N(
+        'Clover is crying already, and says it’s the cold. Byte has a clipboard and has not written anything on it.',
+      ),
+      N(
+        'Pixel and Byte argue about where Hazel would want them to stand. They settle it by standing there together.',
+      ),
+      N(
+        'Marina sits on the edge of the pond with her feet in the water, which is freezing, and says it’s lovely.',
+      ),
+      N(
+        'Ember stands by the gate with Ash. At first light Ash ran at the gate, the way she used to. Not full tilt. Half. She bounced off it.',
+      ),
       N('Ember has told nobody. Everybody knows.'),
       N('Hazel walks the Grove. Slowly. She touches each lantern post as she passes, the way you touch the shoulder of someone you are about to leave.'),
       N('At the fourth post, the long grass, she stands a long time.'),
@@ -1168,8 +1228,16 @@ export const BOOK3_SCENES: Scene[] = [
   // ---------------------------------------------------------------- epilogue variants: Corvin's gate (S9)
   S('end-epi-gate-family', [
     N('Corvin comes on Sundays and sits by the pond and says nothing, badly, but he is learning.'),
-    N('He comes in the way Hazel taught everyone, every time, as if he isn’t sure it will still work. It always does.'),
-    N('Ember sits on the far side of the pond. She has not forgiven him. Some Sundays she passes him the teapot.'),
+    N(
+      'On the first Sunday he brings back a pie dish, washed, with a pie in it. It is not a good pie. Everyone has some.',
+    ),
+    FERN('I’ve no idea whose dish that is. It’s a lovely dish.', 'think'),
+    N(
+      'He comes in the way Hazel taught everyone, every time, as if he isn’t sure it will still work. It always does.',
+    ),
+    N(
+      'Ember sits on the far side of the pond. She has not forgiven him. Some Sundays she passes him the teapot.',
+    ),
   ]),
   S('end-epi-gate-guest', [
     N('Corvin comes when he is asked, which is not often. He knocks on the gatepost every time.'),
@@ -1352,7 +1420,7 @@ export const BOOK3_NOTES: Record<string, string> = {
     'step, with c10-lull partway through it.',
   'c10-lull':
     'New. Plays partway through the timed vigil step (after the song, a quiet spell between waves), every route, before ' +
-    'c10-falls. Comic warmth (Dusty as a seat, Pixel asleep on the beeping timer, Fern’s frozen biscuits) and Byte’s ' +
+    'c10-falls. Comic warmth (Dusty as a seat, Pixel asleep on the beeping timer, waking once to tease her husband Byte about his lace (canon 38), Fern’s frozen biscuits) and Byte’s ' +
     'question the player answers: was it the lanterns or the people? Choices lull-lanterns | lull-us | lull-matter change ' +
     'Byte friendship only, no flags. Byte still cannot hear Moss (payoff c10-moss-stays).',
   'c10-vigil-wisp':

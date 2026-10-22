@@ -1112,7 +1112,9 @@ const Q24 = quest(
       ],
       [
         ch('shield', 'Nudge your Nubbin to cover its paper.', [
-          N('Your Nubbin curls an arm round its work. Buttons leans further. Its chair creaks.'),
+          N(
+            'Your Nubbin curls an arm round its work. Buttons leans further. Buttons’ chair creaks.',
+          ),
         ]),
         ch(
           'share',

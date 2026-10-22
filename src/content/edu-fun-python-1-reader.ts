@@ -2337,14 +2337,19 @@ const Q09 = quest(
     scene(
       'q09-mother',
       [
-        N('A Keeper in a headscarf marches up the path, rolling up her sleeves. This is Mother Brindle. She is not pleased.'),
+        N(
+          'A Keeper in a headscarf marches up the path, rolling up her sleeves. This is Mother Brindle, Barty’s Keeper, who hatched him. She is not pleased.',
+        ),
         MB('What’s all this, then? Barty! Is that you at the front?', 'angry'),
         BT('Mother! The signs!', 'happy'),
         GN('Barty saw the signs first. Barty is very special.'),
         MB('Special? He put a frog in the teapot this morning. He is going to BED.', 'angry'),
         BT('It was only a small frog.', 'soft'),
         MB('It’s past his bedtime. And yours, all of you.'),
-        MB('Keeper, sort this out. They won’t listen to me. Nobody listens to me. I’m only his mother.', 'sad'),
+        MB(
+          'Sort this out, will you? Nobody listens to me. I’m only his mother. Well. I hatched him. Same thing.',
+          'sad',
+        ),
       ],
       [
         ask(
@@ -2385,7 +2390,11 @@ const Q09 = quest(
         ch(
           'neither',
           'Tell them it’s just things you dropped.',
-          [N('Nobody believes you. Your modesty is taken as a further sign. Mother Brindle sighs.')],
+          [
+            N(
+              'Nobody believes you. They say only a very special Keeper would say that. Mother Brindle sighs.',
+            ),
+          ],
           { 'q09-ruling': 'neither' },
         ),
         ch(

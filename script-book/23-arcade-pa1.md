@@ -471,8 +471,8 @@ Hint: Sit beside her on the top step, below the Emerald. · check: `sit:pa1-tika
 _Tikal kneels at the top of the steps with her hands together. She is saying the same words again and again, under her breath._  
 _Around the great Emerald stand seven smaller jewels, each a different colour, each in its own hollow of stone._  
 **Tikal** _(happy)_: Oh, it’s you again! Sit with me. Grandmother taught me the prayer. She said learn it, not just say it.  
-**Tikal** _(think)_: The servers are the seven Chaos.  
-**Tikal**: That’s how it begins. Seven Emeralds. The servers. But I don’t know what they serve, or who.  
+**Tikal** _(think)_: Seven jewels around the great one, and all seven serve.  
+**Tikal**: That’s how it begins. Seven Emeralds, serving. But I don’t know what they serve, or who.  
 _In the pools below, the Chao are splashing. Chaos stands among them, very still, the way a heron stands._  
 **Tikal**: Father says it means the Emeralds serve whoever holds them. That’s what he wants it to mean.  
 **Tikal** _(soft)_: I think it means something else. Something I haven’t grown into yet.  
@@ -509,7 +509,7 @@ Sets on completion: `{"pa1-07":true}`
 
 - `pa1-07-prayer#3` → Seven jewels, seven keepers of the light.
 
-**Notes:** QUOTE CHECK: pa1-07-prayer#3 is lifted text 1, “The servers are the seven Chaos.”, exactly as Part M lists it [unverified: Chao Island’s wiki prints “7”]. Check against the game’s English script before ship; if it differs, use the script’s wording (one sentence), or replace it with our own paraphrase. No other prayer line is quoted, and nothing else in the prayer is given in words. Sega rights: see the file header.
+**Notes:** QUOTE CHECK (2026-10-18): pa1-07-prayer#3 was lifted text 1 from Part M; it could not be checked against the game’s English script, so it is now our own paraphrase. No prayer line is quoted, and nothing else in the prayer is given in words. Sega rights: see the file header.
 
 ## PA1-8. Amy and the Bird
 
@@ -942,7 +942,7 @@ _They do not stop. The rosy light closes round you, and the shrine goes dim and 
 _You hear it through the light rather than see it: the trampling, and small voices, and then a sound like the sea standing up._  
 _Then firelight, orange through the gold. Then nothing, for a long while._  
 _Through it all, very clearly, you hear Tikal._  
-**Tikal** _(sad)_: Chaos is power... Power enriched by the heart.  
+**Tikal** _(sad)_: The jewels are strength, and a kind heart makes them stronger.  
 **Tikal** _(sad)_: Please. Hold it. Hold it, and I’ll stay with it. I’ll stay.  
 _A great green light. Then silence._  
 _Your Nubbin is pressed against your chest, perfectly still, with both hands over its eyes._  
@@ -969,7 +969,7 @@ Sets on completion: `{"pa1-13":true}`
 
 - `pa1-13-charge#6` → The light is strong. It is strongest when the heart is kind.
 
-**Notes:** CARE: everything in pa1-13-charge after line 2 is offscreen. The screen is the rosy light’s gold, with firelight showing orange through it, then dark, then one green flash. Sound only: footsteps, small Chao cries (not words), a deep rush of water, crackle, silence. No bodies, no blood, no attackers shown hurt. Chaos is never called evil. QUOTE CHECK: pa1-13-charge#6 is lifted text 2, “Chaos is power... Power enriched by the heart.”, exactly as Part M lists it [unverified: corrected 2026-10-14 to Chao Island’s wiki wording]. Check against the game’s English script before ship; if it differs, use the script’s one-sentence wording or a paraphrase of our own. Sega rights: see the file header. The sealing line after it (#7) is our own.
+**Notes:** CARE: everything in pa1-13-charge after line 2 is offscreen. The screen is the rosy light’s gold, with firelight showing orange through it, then dark, then one green flash. Sound only: footsteps, small Chao cries (not words), a deep rush of water, crackle, silence. No bodies, no blood, no attackers shown hurt. Chaos is never called evil. QUOTE CHECK (2026-10-18): pa1-13-charge#6 was lifted text 2 from Part M; it could not be checked against the game’s English script, so it is now our own paraphrase. Sega rights: see the file header. The sealing line after it (#7) is our own too.
 
 ## PA1-14. The Ruins
 

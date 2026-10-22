@@ -64,7 +64,7 @@ Japanese uses three scripts: hiragana for Japanese words and grammar (46 basic c
 | おかあさん |  | okāsan | mother | oh-KAH-sahn | family | LJ5 | both |  | `ja/okaasan` |
 | おとうさん |  | otōsan | father | oh-TOH-sahn | family | LJ5 | both |  | `ja/otousan` |
 | おばあちゃん |  | obāchan | grandma | oh-BAH-chahn | family | LJ5 | both | Reader note: おばちゃん (obachan, auntie) differs only in the long vowel. Hold the “baa”. | `ja/obaachan` |
-| おじいちゃん |  | ojīchan | grandpa | oh-JEE-chahn | family | LJ5 | both |  | `ja/ojiichan` |
+| おじいちゃん |  | ojiichan | grandpa | oh-JEE-chahn | family | LJ5 | both |  | `ja/ojiichan` |
 | ともだち |  | tomodachi | friend | toh-moh-DAH-chee | family | LJ5 | both |  | `ja/tomodachi` |
 | かぞく |  | kazoku | family | kah-ZOH-koo | family | LJ5 | both |  | `ja/kazoku` |
 | うれしい |  | ureshii | happy, glad | oo-REH-shee | feelings | LJ5 | both |  | `ja/ureshii` |
@@ -86,7 +86,7 @@ Japanese uses three scripts: hiragana for Japanese words and grammar (46 basic c
 | おぼん | お盆 | Obon | Obon: a summer time when families remember relatives who have died | oh-bohn | culture | LJ6 | reader | Customs and dates vary by place. Say-it not in the vetted list (no strong stress): confirm against the recording. | `ja/obon` |
 | とうろうながし | 灯籠流し | tōrō nagashi | floating paper lanterns on a river, often at the end of Obon | toh-roh nah-gah-shee | culture | LJ6 | reader | Customs and dates vary by place. Say-it not in the vetted list (no strong stress): confirm against the recording. | `ja/toro-nagashi` |
 
-## Hiragana (Left to right in rows, or top to bottom in columns read from right to left.)
+## Hiragana, with a little katakana (Left to right in rows, or top to bottom in columns read from right to left.)
 
 | Character | Name | Sound | Alt | Notes |
 | --- | --- | --- | --- | --- |
@@ -102,3 +102,9 @@ Japanese uses three scripts: hiragana for Japanese words and grammar (46 basic c
 | こ | ko | ko |  | 2 strokes. |
 | は | ha | ha |  | Read “wa” when it marks the topic, as in わたしは and at the end of こんにちは, こんばんは. With な it spells はな (花, flower, Hana’s name). |
 | な | na | na |  | With は it spells はな (花, flower, Hana’s name). |
+| ピ | pi (katakana) | pi |  | Katakana, for borrowed words. First letter of ピンク (pinku, pink). |
+| ン | n (katakana) | n |  | Katakana. The only letter that is just a sound with no vowel: ピンク, オレンジ. |
+| ク | ku (katakana) | ku |  | Katakana. Last letter of ピンク. Compare hiragana く. |
+| オ | o (katakana) | o |  | Katakana. First letter of オレンジ (orenji, orange). Compare hiragana お. |
+| レ | re (katakana) | re |  | Katakana, in オレンジ. |
+| ジ | ji (katakana) | ji |  | Katakana. Last letter of オレンジ. |

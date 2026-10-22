@@ -36,6 +36,20 @@ default renderer is not changed; passes 1 and 2 are on `main`, deployed since 20
 accepted by Maor). Maor, 2026-10-21: daily refreshes and free daily gifts are allowed; only
 repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below).
 
+## Story review run 1 fixes (2026-10-22)
+
+All 60 recommendations of `docs/story-review/review-2026-10-22.md` applied (log: `docs/story-review/LOG.md`).
+- **Works:** 55 fixed, 5 partial. New beats across the campaign, S1–S31, Q1–Q65 and the Learning Grove
+  campaign; canon 38–43 (Pixel and Byte married, Marina's rules, Fern's pies, the skipping rhyme,
+  Granny Brock, settled names: Hob in S27, Inspector Plimsoll in Q32, Mrs Tibbs, Frannie). Sprout
+  cuts its unreachable keep-stone and sell scenes (exempted in `content-check.ts`). Q50 and Q65
+  now require Q64. The c12-open garden splice anchors on its own reader-band line.
+- **Partial:** -25/-28 (every real Learning Grove line is under its cap; the screenplay joins
+  choice replies into one bullet, so the joined count stays high), -43 (the c4 pet stays in every
+  branch, the chapter goal needs it), -53 (c6-close ask kept), -54 (c10-wisp says "the stone's
+  bearer"; naming Sable or Moss needs per-route variants).
+- **Known bugs:** none. Some content regions near the edits are now in Prettier layout.
+
 ## Campaign graphics 2, items 1–45 (2026-10-22)
 
 Built from `docs/campaign-graphics-recommendations-2026-10-22.md` the same way as the first pass:

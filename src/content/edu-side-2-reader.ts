@@ -2161,6 +2161,31 @@ const WALK_CORVIN: Choice = {
 /** The foot of the hill, ids as in the main file: 's10-foot' plus '-' and m / s / c (Moss, Sable, Corvin can walk). */
 const s10Foot = (moss: boolean, sable: boolean, corvin: boolean): EduScene => {
   const tag = (moss ? 'm' : '') + (sable ? 's' : '') + (corvin ? 'c' : '');
+  if (!tag) {
+    // Nobody else can walk, so there is no choice: a line (the sim sets walk = you from the main scene).
+    return scene(
+      's10-foot',
+      [
+        ...S10_FOOT_LINES.slice(0, -1),
+        H('Just you, then. Good. The quiet way. I like the quiet way.', 'soft'),
+      ],
+      [
+        {
+          domain: 'sel',
+          skill: 'knowing what kind of company you need',
+          standard: 'CASEL: Self-awareness',
+          kind: 'notice',
+          after: 4,
+          lines: [
+            N('Gran knows what she needs: one quiet person, and no fuss.'),
+            N('Knowing what kind of company helps you is a way of knowing yourself.'),
+          ],
+          parentNote:
+            'Learned that knowing what kind of company helps you is part of knowing yourself.',
+        },
+      ],
+    );
+  }
   const choices: Choice[] = [WALK_YOU];
   if (moss) choices.push(WALK_MOSS);
   if (sable) choices.push(WALK_SABLE);
@@ -2631,6 +2656,55 @@ export const EDU_SIDE_2_READER_VARIANTS: EduScene[] = [
     ],
     S10_LANTERN_LESSONS,
     s10PostChoices(H('Thank you for walking it with me. I mean that. Whatever else.', 'soft')),
+  ),
+  // ---------------------------------------------------------------- S10: replaces s10-wish3 (s1Done)
+  scene(
+    's10-wish3-s1',
+    [
+      N(
+        'Dusk. The last line on the seed packet has the drawing: four little posts in a row, and two stick figures.',
+      ),
+      H(
+        'Number three. Walk the four lanterns with me. Once. Slowly. I’ll be slow whether you like it or not.',
+        'happy',
+      ),
+      N('She takes your arm at the pond lantern. Not leaning. Holding.'),
+      H(
+        'Moss’s post. I’ll tell you something about it, and then you’re not to make a fuss.',
+        'soft',
+      ),
+      H('He’ll have told you about the winter. He’ll have left out the fidgeting.', 'happy'),
+      H(
+        'I counted the hens. I unpicked my mittens. I never once asked him to say a word. It nearly killed me.',
+      ),
+      H(
+        'Then at the thaw he looked up and said “You’ll do”. I was so startled I sat down in the snow.',
+        'happy',
+      ),
+      H(
+        'Rule three. I thought I’d made it up. I’d been on the end of it for a whole winter.',
+        'soft',
+      ),
+    ],
+    [
+      {
+        domain: 'sel',
+        skill: 'being honest about your own impatience',
+        standard: 'CASEL: Self-awareness',
+        kind: 'notice',
+        after: 5,
+        lines: [
+          N(
+            'Gran says waiting nearly killed her. She doesn’t mean it. It’s a joke, and it’s also true: waiting is hard.',
+          ),
+          N(
+            'Being honest about how hard something feels is the first step to getting better at it.',
+          ),
+        ],
+        parentNote:
+          'Learned that being honest about how hard waiting feels is a first step to getting better at it.',
+      },
+    ],
   ),
   // ---------------------------------------------------------------- S10: replaces s10-night
   scene(

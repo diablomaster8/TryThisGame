@@ -115,10 +115,10 @@ _A woman comes up the lane smelling of salt and seaweed. Her bucket slops at eve
 _Your Nubbin comes the last bit. It takes the plum very politely. Then it takes Sparks’s thumb, very politely, and holds on._  
 **Sparks**: FLAT. I said FLAT. I didn’t do it FLAT.  
 **Marina**: Rule four. Don’t be Sparks.  
-**Marina**: She’ll be back. She owes me a bag of plums, and Hazel doesn’t leave a debt unpaid.  
+**Marina**: Hazel owes me a bag of plums. Hazel never leaves a debt unpaid, so I’m not worried.  
 
 > **Lesson** (maths, 3.OA.A.1, ask): multiplication as equal groups  
-> **Marina**: Three swimming lessons last spring, at four plums a lesson. So how many plums does she owe me?  
+> **Marina**: Three swimming lessons last spring, at four plums a lesson. So how many plums does Hazel owe me?  
 > - ✅ 12 plums → Twelve. Three lots of four: 4, 8, 12. At the market a plum is 2 Shells, so that’s 24 Shells. I’d still rather have the plums.
 > - 7 plums → That’s three add four. But it’s three lessons with four plums each: three lots of four. Count them in fours: 4, 8, 12. Twelve plums.
 > - 16 plums → That would be four lessons. She only had three. Don’t give her ideas. Three lots of four: 4, 8, 12. Twelve plums.
@@ -234,6 +234,7 @@ _You think of a letter, and three rules, and of how easy it would be just to rea
 #### `c3-close`
 
 _Days of it. Fruit on the ground. Sitting, not staring. Sable lets you within two steps now. She doesn’t run._  
+_Out on the lane, some child is skipping to a rhyme you almost know. Badly._  
 **Clover**: Oh, she’s letting you near! I’m Clover. I keep the gentle ones. Luna told me not to fuss, so I’ve been fussing quietly.  
 **Clover**: Can I tell you something? A Shadow Nubbin doesn’t turn back. The grey stays. People think that means they’re broken.  
 **Clover**: They aren’t. They’re just carrying the thing that happened. You can’t take it off them. You can only make it lighter.  
@@ -367,8 +368,8 @@ _Then Luna starts to sing, low. One by one, from both sides of the pond, the oth
 > _The verses change, but one part comes back again and again so everyone can join in. That part is the chorus._  
 > _Which line is the chorus of the Lantern Song?_  
 > - ✅ “Slow hands, warm hearts, the gate stuck fast…” → Yes. It comes after every verse, the same each time. That’s why even Byte knows it. The last verse ends: “we are made of the ones who remember us here, so we gather, we gather, we gather each year.”
-> - “Light one for the pond where the first ones woke…” → That’s how verse one begins. Verses tell new things each time. The chorus comes back the same every time: “Slow hands, warm hearts, the gate stuck fast…” The last verse ends: “we are made of the ones who remember us here, so we gather, we gather, we gather each year.”
-> - “Crunchy!” → It SHOULD be the chorus. The real chorus comes back after every verse: “Slow hands, warm hearts, the gate stuck fast…” The last verse ends: “we are made of the ones who remember us here, so we gather, we gather, we gather each year.”
+> - “Light one for the pond where the first ones woke…” → That’s how verse one begins. Verses tell new things each time. The chorus comes back the same every time: “Slow hands, warm hearts, the gate stuck fast…”
+> - “Crunchy!” → It SHOULD be the chorus. The real chorus comes back after every verse: “Slow hands, warm hearts, the gate stuck fast…”
 > _For grown-ups: Your child identified the chorus of a song: repeated lines that give a poem its rhythm and let everyone join in._
 
 _Byte’s lips move. When it ends, the two groups have drifted closer. Everyone looks up the hill. Nobody comes down it._  
@@ -487,7 +488,7 @@ _Out by the long grass, the fourth lantern flickers, steadies, flickers._
 > _A theme is a big idea about life that a story keeps coming back to. It isn’t one fact from the story._  
 > _Which of these is a theme of Moss’s tale?_  
 > - ✅ Holding on too tight can hurt the ones you love. → Yes. Cinder loved them so tightly she made them still. That idea runs right through the tale. Stories can have more than one theme. Another one here: being remembered keeps us going.
-> - Being remembered keeps us going. → That’s a theme too. The gathering keeps the wardens remembered, and the song says it: we are made of the ones who remember us. The biggest one runs under all of it: holding on too tight can hurt the ones you love. Look at Cinder.
+> - Being remembered keeps us going. → That’s a theme too. The song says it: we are made of the ones who remember us. The biggest theme runs under all of it: holding on too tight can hurt the ones you love.
 > - There are four lantern posts. → That’s true, but it’s a detail, not a theme. A theme is a big idea you could use in your own life. Like: “holding too tight can hurt”, or “being remembered matters”.
 > _For grown-ups: Your child told the difference between a story detail and a theme, and named the big ideas of the tale._
 
@@ -916,6 +917,7 @@ _Dusty puts one muddy finger against the cocoon. Inside, very faintly, something
 _And then there is only rain. Where she was, a flower is pushing up through the wet grass._  
 _Fossil has faded. That means she has died. Her body stopped working, and it won’t start again._  
 **Dusty**: Everyone says it means she was happy enough to let go. That’s true. It’s also the worst thing anyone’s ever said to me.  
+_Dusty is cross because being told it’s fine doesn’t make the sad any smaller._  
 _Dusty doesn’t cry. They just sit there in the rain, looking at the flower as if it might need something._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): grief looks different on everyone  
@@ -951,6 +953,7 @@ _Dusty puts one muddy finger against the cocoon. Inside, very faintly, something
 _And then there is only rain. Where she was, a flower is pushing up through the wet grass._  
 _Fossil has faded. That means she has died. Her body stopped working, and it won’t start again._  
 **Dusty**: Everyone says it means she was happy enough to let go. That’s true. It’s also the worst thing anyone’s ever said to me.  
+_Dusty is cross because being told it’s fine doesn’t make the sad any smaller._  
 _Dusty doesn’t cry. They just sit there in the rain, looking at the flower as if it might need something._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): grief looks different on everyone  
@@ -1016,7 +1019,7 @@ _Your breath puffs out in little clouds. The frost squeaks under your bare feet,
 
 > **Lesson** (science, 2-PS1-4, ask): condensation: why warm breath makes a cloud in cold air  
 > _Why does your breath make a little cloud on a cold morning?_  
-> - ✅ Warm breath has water in it. Cold air cools it into tiny drops. → Yes. Your breath carries water as an invisible gas, called water vapour. Cold air cools it into tiny drops you can see. That’s a mini cloud! Real clouds form the same way. Warm the drops up again and they vanish back into the air.
+> - ✅ Warm breath has water in it. Cold air cools it into tiny drops. → Yes. Your breath carries water as an invisible gas, called water vapour. Cold air cools it into tiny drops you can see. That’s a mini cloud! Real clouds form the same way.
 > - It’s smoke from inside you. → No fire in there, luckily! Your breath carries water as an invisible gas. Cold air cools it into tiny drops of water you can see. It’s a mini cloud.
 > - Cold air is white. → Cold air is just as clear as warm air. The white is water. Your warm breath carries water as an invisible gas. Cold air cools it into tiny drops you can see: a mini cloud.
 > _For grown-ups: Your child explained why breath fogs in the cold: water vapour cools into tiny droplets (condensation), a change that reverses when warmed._
@@ -1091,7 +1094,8 @@ _You sit on the frozen ground. After a while Sable sits too, two steps away, wit
 
 **Moss**: A shard does not shout. It is not a monster. If it were a monster, it would be easy. You would only have to be brave.  
 **Moss**: A shard is a sharp broken piece, and this one says one word. It says it to whoever is most afraid. It thinks it is being kind.  
-_He waits so long that you think he has finished. Then:_  
+_He waits so long that a hen over the wall decides he has finished, and says so at length._  
+_Moss waits for the hen as well. Then:_  
 **Moss**: Safe.  
 _The word hangs in the cold air between you. Sable’s ears go flat against her head._  
 
@@ -1145,6 +1149,8 @@ _The sun reaches the top of the western hill. The frost on the nearest grass beg
 > _For grown-ups: Your child recalled that the Sun rises in the east and used it to explain which hillside catches the morning light first._
 
 **Moss**: A Nubbin that is well can be hurt. It runs off. It eats a beetle. It falls in love with a stick and will not let go of it.  
+_Your Nubbin, who has been listening, goes and fetches a stick. It lays it at Moss’s feet._  
+**Moss**: Yes. Thank you. Exactly that.  
 **Moss**: It gets lost in the long grass. It comes back. One day it goes up the hill.  
 **Moss**: A Nubbin that is safe cannot be hurt. And it cannot do any of the rest.  
 _…_  
@@ -1270,6 +1276,7 @@ _Sable comes with you as far as the gate, and stops, and sits. This is as far as
 _Marina is waiting at the pool below the falls, sleeves rolled up, hair already wet._  
 **Marina**: Nova said you’d be coming this way. Nova never says anything, so I listened.  
 **Marina**: Nobody comes this way but me. Hand on the rock, eyes on my heels. And don’t be brave. Brave people fall off. Be careful instead.  
+**Marina**: Rule four still applies. Sparks would have grabbed the waterfall.  
 **Marina**: I taught every one of Hazel’s Nubbins to swim, you know. People think that’s all I did for her.  
 _The ledge is a hand’s width wide, a narrow shelf of rock behind the falling water. The roar fills your head._  
 _Then, halfway along, warmth. It comes up through the stone into your hand, like the side of a teapot._  
@@ -1330,12 +1337,12 @@ _There is frost on the string. Nobody has sat by these ashes for days. And on a 
 **Gran Hazel**: “Day 300-something. Lost count. Fed nineteen today. The brown one let me touch her ear. Took two months. Worth it.”  
 
 > **Lesson** (maths, 1.OA.A.1, ask): subtraction word problem within 20  
-> **Nova**: Nineteen fed, and a dozen bowls. A dozen is twelve.  
-> **Nova**: If each bowl fed one Nubbin, how many had to wait for her to fill a bowl again?  
-> - ✅ 7 → Seven. 19 take away 12 is 7. So she filled bowls more than once. Every day, since the end of the winter.
-> - 31 → That’s 19 add 12. But we want to know how many were left over after the bowls ran out. 19 − 12 = 7. Seven had to wait for her to fill bowls again.
-> - 12 → Twelve is how many bowls there are. Twelve could eat at once. The rest had to wait: 19 − 12 = 7.
-> _For grown-ups: Your child solved a subtraction word problem within 20 (19 fed, 12 bowls, 7 waiting) and learned that a dozen means twelve._
+> **Nova**: Nineteen Nubbins ate that day, but there are only twelve bowls. A dozen is twelve.  
+> **Nova**: How many more Nubbins than bowls?  
+> - ✅ 7 → Seven. 19 take away 12 is 7. So she filled some bowls twice. Every day, since the end of the winter.
+> - 31 → That’s 19 add 12. But we want to know how many more Nubbins there are than bowls. 19 − 12 = 7. Seven more Nubbins than bowls.
+> - 12 → Twelve is how many bowls there are. We want how many more Nubbins than that. 19 − 12 = 7.
+> _For grown-ups: Your child solved a subtraction word problem within 20 (19 Nubbins, 12 bowls, 7 more Nubbins than bowls) and learned that a dozen means twelve._
 
 **Gran Hazel**: “The doctor said a year. I decided it would be a good one. I was right. I’m always right; it’s very tiring for everyone.”  
 _Gran Hazel is very poorly. The doctors can’t make her better. She knew that when she wrote this._  
@@ -1484,6 +1491,8 @@ _He keeps the left one pressed flat to his coat, over the breast pocket. Always 
 > _For grown-ups: Worked out why a character acted as he did, using his own words as evidence._
 
 _Somewhere in the rows, a grey Nubbin sneezes. It does not move. None of the others look round._  
+**Ember**: Bless you.  
+_It is the first kind thing she has said since the bridge. Nobody in this garden has heard one in years._  
 _Every grey eye in the garden is on you, waiting for the next bad thing._  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): think about trust and second chances  
@@ -1551,6 +1560,8 @@ _He keeps the left one pressed flat to his coat, over the breast pocket. Always 
 **Corvin Vale**: Hers ran away. Hers got sick. Hers died in her arms, and she cried on the hill, and called it love.  
 **Corvin Vale**: I wanted them safe. I still do. I have never understood why that makes me the villain of her story.  
 _Somewhere in the rows, a grey Nubbin sneezes. It does not move. None of the others look round._  
+**Ember**: Bless you.  
+_It is the first kind thing she has said since the bridge. Nobody in this garden has heard one in years._  
 _Every grey eye in the garden is on you, waiting for the next bad thing._  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): think about trust and second chances  
@@ -1779,9 +1790,9 @@ _The winter solstice: the longest night of the year. The sun gets up late and lo
 
 > **Lesson** (science, 5-ESS1-2, ask): why winter nights are long (the Earth’s tilt)  
 > _Today has fewer hours of daylight than any other day this year. Tonight is the longest night. Why?_  
-> - The Sun is farther away in winter → Lots of people think that! But the Earth is actually nearest the Sun in early January. Distance isn’t the reason. The Earth spins on a tilted axis, like a spinning top that leans. In December, our half leans away from the Sun. So the Sun stays low, takes a short path across the sky, and sets early.
-> - ✅ Our half of the Earth is tilted away from the Sun → Yes! The Earth spins on a tilted axis, an imaginary line through its middle, and it always leans the same way. In December, the north half leans away from the Sun. The Sun stays low, takes a short path, and sets early. Far away in the south half of the world, it is summer, and today is their longest day.
-> - The Sun gets tired in winter → Ha! It does look like it “doesn’t try very hard” today. But it’s the same Sun all year. What changes is us. The Earth is tilted, and in December our half leans away from the Sun. So the Sun stays low, takes a short path across the sky, and sets early.
+> - The Sun is farther away in winter → Lots of people think that! But the Earth is nearest the Sun in early January. Distance isn’t the reason. The Earth is tilted, like a leaning spinning top. In December, our half leans away from the Sun. So the Sun stays low and sets early.
+> - ✅ Our half of the Earth is tilted away from the Sun → Yes! The Earth spins on a tilted line through its middle, called an axis. In December the north half leans away from the Sun, so the Sun stays low and sets early. Far away in the south, it is summer. Today is their longest day.
+> - The Sun gets tired in winter → Ha! It does look like it “doesn’t try very hard” today. But it’s the same Sun all year. What changes is us. In December our half of the tilted Earth leans away from the Sun. So the Sun stays low and sets early.
 > _For grown-ups: Learned that the winter solstice has the longest night because the Earth’s tilted axis leans our half away from the Sun._
 
 _Moss is on the hill, where he sat the first day. When you climb up, you can see the hill through him._  
@@ -2163,7 +2174,7 @@ _It fills the cave and the ledge and the frozen falls, and the ice on the falls 
 > _For grown-ups: Learned that light passes through clear materials like ice, which then glow with the light’s colour._
 
 _Somewhere very deep, something that has whispered for longer than anyone has been alive goes quiet._  
-_In the shallows, the one who carried the stone here stands blinking. The frost is melting off its face, drip by drip._  
+_In the shallows, the stone’s bearer stands blinking. The frost is melting off the bearer’s face, drip by drip._  
 _The water is still. And Wisp is gone._  
 
 #### `c10-moss-walks`
@@ -2351,14 +2362,7 @@ _Ember is still holding the long-grass post, coat and all. She doesn’t let go 
 _Moss walks to the foot of the hill and sits down, carefully, like something that has decided to._  
 _He looks at the Keepers: red-eyed, frozen, grinning, every one of them holding a lantern burnt down to the stub._  
 **Moss**: Hazel stood there. You stand there. The chin is the same. The hands are slower. That’s better, actually.  
-
-> **Lesson** (literacy, RL.4.2, ask): find the theme  
-> _“The hands are slower. That’s better, actually.” What has the whole story been teaching about slow hands?_  
-> - ✅ Patience and gentleness win trust → Yes. Sable, the gate, Hazel’s two months: slow, gentle love works where force doesn’t. That is a theme, the big idea under the story.
-> - Faster is always better → That was Corvin’s idea, and look where it took him. The story keeps showing that slow, gentle love works where force doesn’t. That is its theme, the big idea under the story.
-> - Hands get tired → After a night of holding lanterns, they certainly do! But Moss means more than that. The story keeps showing that slow, gentle love works where force doesn’t. That is its theme, the big idea under the story.
-> _For grown-ups: Identified the story’s theme: patience and gentleness build trust._
-
+**Moss**: Slow hands. Sable. The gate. Hazel’s two months with the brown one. It works where hurry never does.  
 **Moss**: I’ve decided. I’ll stay a while. Someone has to tell the pale one about his shoelaces.  
 **Byte**: They are TIED.  
 **Moss**: Are they.  
@@ -3702,11 +3706,10 @@ _But you tell her story, all of it, to anyone who asks, and some who don’t._
 _The Long-Grass lantern burns warm now. You stand beside it on cold nights, and don’t explain why._  
 _The children still skip to her rhyme. Now, at the end, one always shouts “She loved them!” and the rest shout “Too tight!”_  
 
-> **Lesson** (literacy, RL.4.2, ask): theme: sum up a story’s big idea  
-> _“She loved them!” “Too tight!” The children sum up Cinder’s whole story in four words. What is its big idea?_  
-> - ✅ You can love someone and still hurt them by holding on too tight. → Yes. That’s the theme. Love that lets go is still love. Love that won’t let go can do harm.
-> - Cinder didn’t love them. → The children shout that she did! The trouble was how she loved them. The big idea: you can love someone and still hurt them by holding on too tight.
-> _For grown-ups: Your child summed up the theme of a story in their own words._
+> **Lesson** (literacy, RL.4.2, notice): theme: sum up a story’s big idea  
+> _“She loved them!” “Too tight!” The children sum up Cinder’s whole story in four words._  
+> _That is its big idea, its theme: you can love someone and still hurt them by holding on too tight._  
+> _For grown-ups: Noticed how a few words can sum up a story’s theme: love that holds on too tight can do harm._
 
 _Then they all run off, laughing. It’s the whole story. They’ve got it right._  
 

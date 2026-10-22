@@ -863,7 +863,14 @@ export const QUESTS_PYTHON: Quest[] = [
         N('As thanks, Trotwell teaches you the trot. It is mostly knees.'),
         N('From now on, when you run, you can swap your footsteps for coconut hooves.'),
         N('Far away on the beach, Gullwick sleeps soundly, wings spread out like a dropped coat.'),
-        N('Beside it someone has left a fruit and a note in chalk: “Thank you for the noise. From the wall.”'),
+        N(
+          'Beside it someone has left a fruit and a note in chalk: “Thank you for the noise. From the wall.”',
+        ),
+        N(
+          'Warden Ollery rubs out the chalk diagram of two Fly Nubbins and a string, slowly, like a man giving up a theory.',
+        ),
+        OL('I’ll miss the string. It was a good string.', 'sad'),
+        N('Trotwell clops once, in sympathy.'),
       ],
     },
     rewards: [
@@ -1210,9 +1217,19 @@ export const QUESTS_PYTHON: Quest[] = [
         scene: {
           id: 'q07-towers',
           lines: [
-            PX('Now. The towers. Hold this, hold that, and whatever happens, do not breathe on the east wing.', 'think'),
-            N('You build together. Pixel places, you hold, and your Nubbin hands up stones one at a time with great ceremony.'),
-            N('Every few minutes Pixel stands back, squints, and moves one stone a hair to the left.'),
+            PX(
+              'Now. The towers. Hold this, hold that, and whatever happens, do not breathe on the east wing.',
+              'think',
+            ),
+            N(
+              'You build together. Pixel places, you hold, and your Nubbin hands up stones one at a time with great ceremony.',
+            ),
+            N('One Nubbin hands Pixel a stone. Pixel says it is the wrong stone.'),
+            N('The Nubbin hands her the same stone again, with more conviction.'),
+            PX('Better.', 'happy'),
+            N(
+              'Every few minutes Pixel stands back, squints, and moves one stone a hair to the left.',
+            ),
             BY('You moved that one back to where it was.'),
             PX('I moved it MORE to where it was.'),
             N('The towers rise, stone by stone. They reach your knee. Then a little over your knee.'),
@@ -1353,7 +1370,11 @@ export const QUESTS_PYTHON: Quest[] = [
         RG('Fine. But apart from the crops, the baths, the frogs, the humming and your cousin—', 'angry'),
         FQ('It keeps the path cool in summer.'),
         MG('It’s pretty.', 'soft'),
-        FQ('And you’ve been filling your teapot from it since Tuesday, Reggie. We’ve all seen you.'),
+        FQ(
+          'You’ve filled our teapot from it every morning since Tuesday, Reggie. I married you. I notice things.',
+        ),
+        RG('That was a private teapot.', 'sad'),
+        FQ('Dear. It’s a municipal aqueduct.'),
         RG('…Motion to thank the Keeper. All in favour.', 'sad'),
         N('Every hand goes up, Reggie’s last and slowly. The crops beside the aqueduct will never need watering again.'),
       ],
@@ -1440,14 +1461,19 @@ export const QUESTS_PYTHON: Quest[] = [
         scene: {
           id: 'q09-mother',
           lines: [
-            N('A Keeper in a headscarf marches up the path, rolling up her sleeves. This is Mother Brindle. She is not pleased.'),
+            N(
+              'A Keeper in a headscarf marches up the path, rolling up her sleeves. This is Mother Brindle, Barty’s Keeper, who hatched him. She is not pleased.',
+            ),
             MB('What’s all this, then? Barty! Is that you at the front?', 'angry'),
             BT('Mother! The signs!', 'happy'),
             GN('Barty saw the signs first. Barty is very special.'),
             MB("He's not the Messiah. He's a very naughty boy!", 'angry'),
             BT('I am a bit naughty.', 'soft'),
             MB('It’s past his bedtime. And yours, all of you.'),
-            MB('Keeper, sort this out. They won’t listen to me. Nobody listens to me. I’m only his mother.', 'sad'),
+            MB(
+              'Sort this out, will you? Nobody listens to me. I’m only his mother. Well. I hatched him. Same thing.',
+              'sad',
+            ),
           ],
           choices: [
             {
@@ -1460,7 +1486,11 @@ export const QUESTS_PYTHON: Quest[] = [
               id: 'neither',
               label: 'Tell them it’s just things you dropped.',
               set: { 'q09-ruling': 'neither' },
-              then: [N('Nobody believes you. Your modesty is taken as a further sign. Mother Brindle sighs.')],
+              then: [
+                N(
+                  'Nobody believes you. They say only a very special Keeper would say that. Mother Brindle sighs.',
+                ),
+              ],
             },
             {
               id: 'themselves',

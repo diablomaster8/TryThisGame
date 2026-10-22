@@ -240,7 +240,7 @@ export const QUESTS_SUNNY: Quest[] = [
       DABNEY,
       MAGS,
       FITZ,
-      { id: 'inspector', name: 'Inspector Thimble', kind: 'other' },
+      { id: 'inspector', name: 'Inspector Plimsoll', kind: 'other' },
     ],
     steps: [
       {
@@ -301,8 +301,14 @@ export const QUESTS_SUNNY: Quest[] = [
         scene: {
           id: 'q32-goose',
           lines: [
-            { who: 'inspector', text: 'Good morning. Inspector Thimble. I’ll be looking at everything, and writing everything down.' },
-            { who: 'narrator', text: 'Corky walks past behind her with a bin on his shoulder, not breaking stride, and gives you a single nod.' },
+            {
+              who: 'inspector',
+              text: 'Good morning. Inspector Plimsoll. I’ll be looking at everything, and writing everything down.',
+            },
+            {
+              who: 'narrator',
+              text: 'Corky walks past behind her with a bin on his shoulder, not breaking stride, and gives you a single nod.',
+            },
             { who: 'corky', text: 'Bins next. Then there’s the goose.', mood: 'think' },
             { who: 'you', text: 'What goose?' },
             { who: 'corky', text: 'There’s always a goose. Nobody knows how it gets in. It’s been in the back room since spring. It hates me.' },
@@ -2340,10 +2346,35 @@ export const QUESTS_SUNNY: Quest[] = [
         { who: 'narrator', text: 'The melon curves, wobbles, and takes out all twelve pins in a spray of seeds.' },
         { who: 'corky', text: 'We won! We kept the pub! I still live in the pub!', mood: 'happy' },
         { who: 'pim', text: 'Rematch. Next season. Bring a real ball.', mood: 'angry' },
-        { who: 'fitz', text: 'And we won a boat! Who wants a boat? I’m selling it. Tonight.', mood: 'happy' },
+        {
+          who: 'fitz',
+          text: 'And we won a boat! Who wants a boat? I’m selling it. Tonight.',
+          mood: 'happy',
+        },
+        {
+          who: 'fitz',
+          text: 'I hedged. I won the boat and lost half the bet. Down forty shells, up one boat I can’t sail.',
+        },
+        { who: 'fitz', text: 'That’s called a profit. In my head.' },
         { who: 'dabney', text: 'The lane stays. We’re bowlers now. It’s part of my brand.' },
-        { who: 'narrator', text: 'Corky hands you a shirt with someone else’s name stitched on it. The lane stays behind the pub for anyone to play.' },
-        { who: 'narrator', text: 'A bowling lane joins your decorations, playable any time, and a bowling shirt joins your wardrobe.' },
+        {
+          who: 'dabney',
+          text: 'By the way. Forty percent of the mittens. I want it in writing. On a beer mat.',
+        },
+        { who: 'fitz', text: 'Seventy-thirty. I’m the seventy. I’m also the thirty.' },
+        {
+          who: 'corky',
+          text: 'I don’t know what any of those numbers mean, but I’m in.',
+          mood: 'happy',
+        },
+        {
+          who: 'narrator',
+          text: 'Corky hands you a shirt with someone else’s name stitched on it. The lane stays behind the pub for anyone to play.',
+        },
+        {
+          who: 'narrator',
+          text: 'A bowling lane joins your decorations, playable any time, and a bowling shirt joins your wardrobe.',
+        },
       ],
     },
     rewards: [

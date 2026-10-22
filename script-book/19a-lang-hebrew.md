@@ -20,7 +20,7 @@ _The gate gives. In tumbles a boy in a football shirt, hugging a biscuit tin lik
 **Ori**: Forty-two. You stopped listening at forty.  
 **Ori** _(think)_: In Hebrew, shalom means hello. It also means goodbye. And peace. It’s a very hard-working word.  
 **Ori**: אֲנִי (ani, “I”)… קוֹרְאִים לִי… (korim li, “my name is…”) Ori. Ani Ori. That’s me. Now you.  
-_Behind you, a small round Nubbin hears “shalom”, waves at Ori with both arms, and falls over._  
+_Over the wall, a small round wild Nubbin hears “shalom”, waves at Ori with both arms, and falls over._  
 **Ori**: To ask how you are, I say מָה שְׁלוֹמְךָ? (ma shlomkha?) to a boy, or מָה שְׁלוֹמֵךְ? (ma shlomekh?) to a girl.  
 **Ori**: The ending changes. Hebrew likes to know who it’s talking to. Which one should I ask you?  
 
@@ -148,7 +148,7 @@ _Four pebbles sit on the path, lined up from right to left: ש ל ו ם._
 **Ori**: Without the dots it’s still shalom. You just have to know. Like a goalkeeper just knows.  
 _The Wobbler arrives, backwards, and sits proudly on the vav._  
 
-### Step 2: Trace alef (א) and bet (ב) in the sand.
+### Step 2: Trace the two letters the alef-bet is named after, alef (א) and bet (ב), in the sand.
 
 Hint: Start each letter from the right side. Ori draws the first one; you go over it with a stick. · check: `lang:he:trace:alef-bet`
 

@@ -270,7 +270,11 @@ export const BOOK2_SCENES: Scene[] = [
     N('The gutters gurgle. The hill path has turned into a small brown stream, and it smells of wet chalk and crushed thyme.'),
     N('In their lap is a small old Nubbin the colour of sandstone, curled like a shell. Her ball is so pale the rain shows through it.'),
     DUSTY('Oh. Hello. Don’t mind me. I’m getting wet on purpose.', 'soft'),
-    DUSTY('This is Fossil. Original, I know. I dug her egg out of the cliff face when I was eleven. With a big spoon.'),
+    N('A duck nearby has also decided to get wet on purpose. It is regarding Dusty with respect.'),
+    DUSTY('Ignore Gerald. He thinks I’m onto something.'),
+    DUSTY(
+      'This is Fossil. Original, I know. I dug her egg out of the cliff face when I was eleven. With a big spoon.',
+    ),
     DUSTY('She’s been with me twenty years. Twenty years and a bit. I’ve been counting the bit.'),
     N('Fossil opens one eye, considers you, and taps Dusty’s wrist twice with one small hand.'),
     DUSTY('That means you’re all right. She’s very selective. She bit a postman once. Twice. Same postman.', 'happy'),
@@ -282,7 +286,13 @@ export const BOOK2_SCENES: Scene[] = [
     N('It rains for three days. On the third, Dusty is up on the hill in it, cross-legged in the wet, with Fossil in their lap.'),
     N('The hill path has turned into a small brown stream. Dusty has put their coat over Fossil and left the rest of themselves out in it.'),
     DUSTY('You came. Good. She’s been watching the gate for you all morning.', 'soft'),
-    DUSTY('Thank you for the walk. The cliff, and the tree, and the water. I mean it. I don’t say thank you much. Ask anyone.'),
+    N(
+      'A duck sits in the rain beside them, wet on purpose too. It is regarding Dusty with respect.',
+    ),
+    DUSTY('Ignore Gerald. He thinks I’m onto something.'),
+    DUSTY(
+      'Thank you for the walk. The cliff, and the tree, and the water. I mean it. I don’t say thank you much. Ask anyone.',
+    ),
     DUSTY('She hadn’t been in water in six years. Did you see her face? I’m keeping that face.'),
     DUSTY('And she tapped the rock when I told it wrong. Twenty years, and she still had to have the last word.', 'happy'),
     N('Fossil, hearing her name, taps Dusty’s wrist twice. Then she looks past you, down the hill.'),
@@ -410,9 +420,16 @@ export const BOOK2_SCENES: Scene[] = [
   S(
     'c7-stillness-2',
     [
-      MOSS('A shard does not shout. It is not a monster. If it were a monster, it would be easy; you would only have to be brave.'),
-      MOSS('It says one word. It says it to whoever is most afraid. From where it sits, that is a kindness.'),
-      N('He waits so long that you think he has finished. Then:'),
+      MOSS(
+        'A shard does not shout. It is not a monster. If it were a monster, it would be easy; you would only have to be brave.',
+      ),
+      MOSS(
+        'It says one word. It says it to whoever is most afraid. From where it sits, that is a kindness.',
+      ),
+      N(
+        'He waits so long that a hen over the wall decides he has finished, and says so at length.',
+      ),
+      N('Moss waits for the hen as well. Then:'),
       MOSS('Safe.'),
       N('The word sits in the cold air between you. Sable’s ears go flat against her head.'),
       MOSS('Think what you would give to know nothing would ever hurt them. No hawk. No fever. No hill.'),
@@ -460,8 +477,16 @@ export const BOOK2_SCENES: Scene[] = [
     [
       MOSS('Hazel had a word for the opposite. She did not use it much. She was not a woman for words; she was a woman for soup.'),
       MOSS('She said “well”.'),
-      N('The sun reaches the top of the western hill. The frost on the near grass begins, very slightly, to steam.'),
-      MOSS('A Nubbin that is well can be hurt. It runs off. It eats a beetle. It falls in love with a stick and will not be parted from it.'),
+      N(
+        'The sun reaches the top of the western hill. The frost on the near grass begins, very slightly, to steam.',
+      ),
+      MOSS(
+        'A Nubbin that is well can be hurt. It runs off. It eats a beetle. It falls in love with a stick and will not be parted from it.',
+      ),
+      N(
+        'Your Nubbin, who has been listening, goes and fetches a stick. It lays it at Moss’s feet.',
+      ),
+      MOSS('Yes. Thank you. Exactly that.', 'soft'),
       MOSS('It gets lost in the long grass. It comes back. One day it goes up the hill.'),
       MOSS('A Nubbin that is safe cannot be hurt. And it cannot do any of the rest.'),
       N('…'),
@@ -552,7 +577,10 @@ export const BOOK2_SCENES: Scene[] = [
           label: 'Yes. Now.',
           friendship: { nova: 3 },
           then: [
-            NOVA('Oh. Good. That was much easier than I’d feared.', 'happy'),
+            NOVA(
+              'Oh. Good. That was much easier than I’d feared. I’d practised a speech.',
+              'happy',
+            ),
             NOVA('Take a Nubbin that trusts you. Take fruit. Take more fruit than that.'),
           ],
         },
@@ -579,9 +607,17 @@ export const BOOK2_SCENES: Scene[] = [
   ),
   S('c8-ledge', [
     ...C8_GATE,
-    MARINA('Nobody comes this way but me. Hazel did, with me, more times than I could count. Hand on the rock, eyes on my heels.'),
-    MARINA('And don’t be brave. Brave people fall off. Be careful instead. It’s less exciting and you get home.'),
-    MARINA('I taught every one of Hazel’s Nubbins to swim, you know. People think that’s all I did for her.', 'think'),
+    MARINA(
+      'Nobody comes this way but me. Hazel did, with me, more times than I could count. Hand on the rock, eyes on my heels.',
+    ),
+    MARINA(
+      'And don’t be brave. Brave people fall off. Be careful instead. It’s less exciting and you get home.',
+    ),
+    MARINA('Rule four still applies. Sparks would have grabbed the waterfall.', 'think'),
+    MARINA(
+      'I taught every one of Hazel’s Nubbins to swim, you know. People think that’s all I did for her.',
+      'think',
+    ),
     ...C8_LEDGE_REST,
     MARINA('…That’s new.', 'shock'),
     MARINA('Thirty years I’ve walked past it. It’s never had so much as a cold morning on it.'),
@@ -591,6 +627,7 @@ export const BOOK2_SCENES: Scene[] = [
     ...C8_GATE,
     MARINA('You’ve walked this once already, so you know the rules. Hand on the rock, eyes on my heels.', 'happy'),
     MARINA('And you still don’t get to be brave. Brave people fall off.'),
+    MARINA('Rule four still applies. Sparks would have grabbed the waterfall.', 'think'),
     ...C8_LEDGE_REST,
     MARINA('…That wasn’t there when I brought you before. Not a thread of it.', 'shock'),
     MARINA('Thirty years I’ve walked past it. It’s never had so much as a cold morning on it.'),

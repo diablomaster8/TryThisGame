@@ -87,6 +87,10 @@ const S31_NETTIE: Speaker = {
   basedOn: 'Sally Brown (Peanuts: It’s the Great Pumpkin, Charlie Brown)',
 };
 
+/** The existing Granny Brock (S29). Shared id. She says less than anyone, and always comes back with soup. */
+const S31_BROCK: Speaker = { id: 'granny-brock', name: 'Granny Brock', kind: 'other' };
+
+const GB = say('granny-brock');
 const TAM = say('s31-tam');
 const IVY = say('s31-ivy');
 const NED = say('s31-ned');
@@ -150,7 +154,7 @@ export const SIDE_STORY_S31: Quest[] = [
       where: 'Hazel’s Grove: Tam on the Grove wall by the gate',
       when: 'Chapter 7, after c7-stillness (early autumn). Gourd Night is the first dusk after step 6. Closes when chapter 8 opens; unfinished if Gourd Night has not come.',
     },
-    speakers: [S31_TAM, S31_IVY, S31_NED, S31_NETTIE],
+    speakers: [S31_TAM, S31_IVY, S31_NED, S31_NETTIE, S31_BROCK],
     steps: [
       // ------------------------------------------------ 1. The Letter
       {
@@ -451,6 +455,16 @@ export const SIDE_STORY_S31: Quest[] = [
             NETTIE('I’m staying. I mean it too. I think.'),
             IVY('Fine. I’m fetching you both at four. I’ve told Mum. I’ve told Clover. Clover’s told everyone.'),
             N('Up the lane, Clover’s window has a lamp in it. It stays lit all night.'),
+            N(
+              'Granny Brock comes down the lane with a basket, and stops at the gate to look at the sign.',
+            ),
+            GB('Waiting for a gourd. In the cold. Hm.'),
+            N(
+              'She hangs a second quilt over the gate and sets a flask of soup on the wall. She says nothing else.',
+            ),
+            N(
+              'Tam skips on the spot to keep warm, to a rhyme you almost know. He gets the words wrong in a new way.',
+            ),
             IVY('Keeper. I need a grown-up for the lane. Some of the bats are very small.'),
             N('At the top of the lane, Sparks waves both arms at you. Behind her the workshop glows, and somebody is playing a pianola badly.'),
             SPARKS('KEEPER! PARTY! You’re on the list! Everyone is!', 'happy'),

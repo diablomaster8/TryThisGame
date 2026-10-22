@@ -8,7 +8,7 @@
  * Uncle Tenzo's proverbs are all new. The Q47 nomad song is original.
  * Q58 unlocks Aunt Wen's bone reading: reader id `aunt-wen` in readers.ts.
  * Order: Q46 opens the line; Q56 introduces Bao; Q64 brings Kaito into the group. Every quest
- * after Q46 requires it; Q55 and Q64 require Q56; Q49 and Q55 require Q64.
+ * after Q46 requires it; Q55 and Q64 require Q56; Q49, Q50, Q55 and Q65 require Q64.
  * Never during Chapters 9–11 (`WHEN_SUFFIX` on every trigger).
  */
 import type { Quest, Speaker } from './types';
@@ -50,6 +50,7 @@ const SLAB = sp('big-slab', 'The Big Slab', 'The Boulder');
 const REEDY = sp('ma-reedy', 'Ma Reedy', 'Jang Hui villager');
 const HAKE = sp('captain-hake', 'Captain Hake', 'Pirate captain');
 const TIBBS = sp('mayor-tibbs', 'Mayor Tibbs', 'Mayor of Chin Village');
+const MRSTIBBS = sp('mrs-tibbs', 'Mrs Tibbs');
 
 const N = say('narrator');
 const Y = say('you');
@@ -78,6 +79,7 @@ const SL = say('big-slab');
 const RE = say('ma-reedy');
 const CH = say('captain-hake');
 const TI = say('mayor-tibbs');
+const MT = say('mrs-tibbs');
 
 const SOURCE = 'Avatar: The Last Airbender';
 
@@ -734,7 +736,7 @@ export const QUESTS_AVATAR: Quest[] = [
     source: `${SOURCE}: Iroh’s tea shop in Ba Sing Se`,
     audience: 'all',
     trigger: { where: 'The meadow by the pond', when: 'Any morning' + WHEN_SUFFIX },
-    requires: ['Q46'],
+    requires: ['Q46', 'Q64'],
     speakers: [TENZO, KAITO, PELL],
     steps: [
       {
@@ -1106,8 +1108,15 @@ export const QUESTS_AVATAR: Quest[] = [
             N('Puffin flinches at the loud voice and backs further in. Pemba stops, and his face falls.'),
             T('He’s still scared. Storms, strange places. Give him a minute.', 'soft'),
             P('He’s never been scared of me before.', 'sad'),
-            T('He’s not scared of you. He’s scared of everything, and right now you’re part of everything.'),
-            N('Your Nubbin sits down quietly at the cave mouth, holding up a fruit. Puffin’s nose twitches.'),
+            T(
+              'He’s not scared of you. He’s scared of everything, and right now you’re part of everything.',
+            ),
+            N(
+              'Your Nubbin sits down quietly at the cave mouth, holding up a fruit. Puffin’s nose twitches.',
+            ),
+            N('Your Nubbin, still holding the fruit up, has been leaning slowly backwards.'),
+            N('It is now lying flat. The fruit has not moved.'),
+            T('That Nubbin has never been so committed to anything.', 'happy'),
             P('He loves fruit. The big round ones. He eats them whole.', 'soft'),
           ],
           choices: [
@@ -1990,7 +1999,12 @@ export const QUESTS_AVATAR: Quest[] = [
         T('I believe one word. “Shovels.” That was a great call.'),
         W('Then let me give the Keeper something. Bring your Nubbins to me whenever you like. I’ll read the bones for them.', 'happy'),
         W('I’m right more often than not. And much more often about Nubbins than about mountains.'),
-        N('Aunt Wen now reads bones at the Grove’s fortune tent. Tuk says he will never go. He goes twice a week, in a hat.'),
+        N('Next morning Tuk keeps his promise. A hundred villagers shuffle up to the crater rim.'),
+        N('Nobody says anything for a long time.'),
+        W('I did say it was nice and fluffy.', 'happy'),
+        N(
+          'Aunt Wen now reads bones at the Grove’s fortune tent. Tuk says he will never go. He goes twice a week, in a hat.',
+        ),
       ],
     },
     rewards: [
@@ -2123,6 +2137,10 @@ export const QUESTS_AVATAR: Quest[] = [
         K('And I’ll remember how my stomach felt when I lifted the case.', 'think'),
         N('Your Swim Nubbins have been watching closely. One flicks its tail at the stream, and a ribbon of water snaps through the air.'),
         P('Your Nubbin can do it too! Your Nubbin learned waterbending!', 'happy'),
+        N(
+          'Days later, a long pole drifts downriver to the rocks. A note is tied to it: “For Captain Hake. From the borrowers.”',
+        ),
+        T('That is the nicest crime I’ve ever been part of.', 'happy'),
       ],
     },
     rewards: [
@@ -2268,7 +2286,7 @@ export const QUESTS_AVATAR: Quest[] = [
     audience: 'all',
     trigger: { where: 'The coastal village of Kettleby', when: 'Its festival day' + WHEN_SUFFIX },
     requires: ['Q46'],
-    speakers: [PEMBA, TUK, NALU, TIBBS],
+    speakers: [PEMBA, TUK, NALU, TIBBS, MRSTIBBS],
     steps: [
       {
         id: 'q61-s1',
@@ -2329,7 +2347,12 @@ export const QUESTS_AVATAR: Quest[] = [
         scene: {
           id: 'q61-evidence',
           lines: [
-            N('The trial is held in the village square. The judge is Mayor Tibbs. The jury is also Mayor Tibbs.'),
+            N(
+              'The trial is held in the village square. The judge is Mayor Tibbs. The jury is also Mayor Tibbs.',
+            ),
+            N('A woman in the front row, in a matching Tibbs hat, puts up her hand.'),
+            MT('Dear. You can’t be the judge. You can’t find your own socks.'),
+            TI('I can find them perfectly well when I’m in a position of authority.'),
             TI('The prisoner may speak, but briefly. We have a parade at four.'),
             T('Your Honour. We have found Marshal Brag’s diary, written in his own hand.'),
             K('“Today I shall march onto Avatar Kesh’s island and take it. Then the next island. Then all the islands.”'),
@@ -2825,7 +2848,7 @@ export const QUESTS_AVATAR: Quest[] = [
     source: `${SOURCE}: Pai Sho with Iroh`,
     audience: 'all',
     trigger: { where: 'Under the big tree by the pond', when: 'Any rainy afternoon' + WHEN_SUFFIX },
-    requires: ['Q46'],
+    requires: ['Q46', 'Q64'],
     speakers: [TENZO, KAITO],
     steps: [
       {
@@ -2913,6 +2936,9 @@ export const QUESTS_AVATAR: Quest[] = [
           lines: [
             N('You place your last tile. Flowers bloom across the board. Uncle Tenzo sits back and smiles, very wide.'),
             I('Beaten! Fair and square! What a happy afternoon!', 'happy'),
+            N('Kaito wakes and blinks at a board full of flowers.'),
+            Z('Did I miss it?'),
+            I('You snored in three keys. It was the best part.', 'happy'),
           ],
         },
       },

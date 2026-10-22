@@ -2627,24 +2627,18 @@ const EPILOGUE_SCENES: EduScene[] = [
         domain: 'literacy',
         skill: 'theme: sum up a story’s big idea',
         standard: 'RL.4.2',
-        kind: 'ask',
+        kind: 'notice',
         after: 5,
-        prompt: [N('“She loved them!” “Too tight!” The children sum up Cinder’s whole story in four words. What is its big idea?')],
-        options: [
-          {
-            label: 'You can love someone and still hurt them by holding on too tight.',
-            best: true,
-            reply: [N('Yes. That’s the theme. Love that lets go is still love. Love that won’t let go can do harm.')],
-          },
-          {
-            label: 'Cinder didn’t love them.',
-            reply: [
-              N('The children shout that she did! The trouble was how she loved them.'),
-              N('The big idea: you can love someone and still hurt them by holding on too tight.'),
-            ],
-          },
+        lines: [
+          N(
+            '“She loved them!” “Too tight!” The children sum up Cinder’s whole story in four words.',
+          ),
+          N(
+            'That is its big idea, its theme: you can love someone and still hurt them by holding on too tight.',
+          ),
         ],
-        parentNote: 'Your child summed up the theme of a story in their own words.',
+        parentNote:
+          'Noticed how a few words can sum up a story’s theme: love that holds on too tight can do harm.',
       },
     ],
   },

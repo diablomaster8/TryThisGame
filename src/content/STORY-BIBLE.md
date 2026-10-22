@@ -137,9 +137,10 @@ from `story.ts` (listed at the end).
   - **Sparks** (she/her), the fast ones and the lantern wiring: loud and kind (S3, S14).
   - **Clover**, the gentle ones. "The grey stays. You can only make it lighter."
   - **Pixel** (she/her), the lantern timing circuit: an inventor (S7, S21, and Pixel's Arcade).
+    Long married to Byte; they share the workshop and argue about her clocks.
   - **Luna**, the night gardener and Sable's first friend.
   - **Ember** lost Ash to Corvin. Prickly. "Ember doesn't like anyone" (S6).
-  - **Byte**, the sceptic: numbers and shoelaces (S7).
+  - **Byte** (he/him), the sceptic: numbers and shoelaces (S7). Pixel's husband of twenty years.
   - **Dusty**, the digger, they/them: Fossil (S5, chapter 6).
   - **Nova**, the traveller: guide to the Hollow (S8). She has visited before; chapter 8 is the
     first time she asks for anything.

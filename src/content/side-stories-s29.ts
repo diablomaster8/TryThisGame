@@ -176,8 +176,14 @@ const COMPLETE_END: Line[] = [
   MA('Here. Take the rug. It’s got gherkin on it. It’ll always have gherkin on it.', 'happy'),
   MA('Her little sister’s in the boathouse: the flat one, for winter water. Take her out whenever you like. Vests on.', 'think'),
   DU('Same time next summer?', 'soft'),
-  MA('Before. March, if it’s mild. You get the vests down from the loft and smell them. That’s the first day of the year.', 'happy'),
-  N('Down at the ford a brown head comes up, looks at the three of you for a while, and goes under without a ripple.'),
+  MA(
+    'Before. March, if it’s mild. You get the vests down from the loft and smell them. That’s the first day of the year.',
+    'happy',
+  ),
+  MA('Rule six. Come back. That one’s for all of you.', 'soft'),
+  N(
+    'Down at the ford a brown head comes up, looks at the three of you for a while, and goes under without a ripple.',
+  ),
 ];
 
 // ---------------------------------------------------------------- step 14: the choice
@@ -436,10 +442,21 @@ export const SIDE_STORY_S29: Quest[] = [
         done: {
           id: 's29-beech',
           lines: [
-            N('You go in talking. Marina names every rock pool on the coast from west to east, and you do your times tables, badly.'),
-            N('The faces, if they are faces, keep to the edge of the lantern light. The pattering keeps pace with you, and stops when you stop.'),
-            N('Your Nubbin rides inside your coat with only its eyes showing. It doesn’t like the Wood, and it doesn’t make a sound.'),
-            N('At last, in the hollow of a great beech, something says “Ow” very quietly. Dusty is curled in the dead leaves, white with frost.'),
+            N(
+              'You go in talking. Marina names every rock pool on the coast from west to east, and you do your times tables, badly.',
+            ),
+            MA('Seven eights?', 'think'),
+            N('“Fifty-four?” you say.'),
+            MA('Keep going. The Wood can’t tell.', 'happy'),
+            N(
+              'The faces, if they are faces, keep to the edge of the lantern light. The pattering keeps pace with you, and stops when you stop.',
+            ),
+            N(
+              'Your Nubbin rides inside your coat with only its eyes showing. It doesn’t like the Wood, and it doesn’t make a sound.',
+            ),
+            N(
+              'At last, in the hollow of a great beech, something says “Ow” very quietly. Dusty is curled in the dead leaves, white with frost.',
+            ),
             DU('I only wanted a look.', 'sad'),
             DU('I know. I know. Don’t say it.'),
             MA('Wasn’t going to. You’re frozen. Up you get.', 'soft'),
@@ -622,8 +639,19 @@ export const SIDE_STORY_S29: Quest[] = [
             MA('Every night, and every morning before it’s light, he sits right there. Waiting for the water to bring him back.', 'soft'),
             N('Dusty comes down the bank behind you with a flask and a blanket. They sit a little way off from the old otter, and stay.'),
             DU('Somebody ought to sit with him. I know about sitting.', 'soft'),
-            MA('Tonight we go up. You and me, in the boat, all the way to the weir if we have to.', 'think'),
-            MA('Bring a lantern. And bring that one of yours. They see better in the dark than we do.'),
+            N('Dusty pours soup into the flask lid and offers it to the otter.'),
+            N('The otter looks at the soup, then at Dusty. Dusty drinks it.'),
+            DU(
+              'I didn’t know what otters drink. It turns out it’s soup, and it turns out it’s me.',
+              'happy',
+            ),
+            MA(
+              'Tonight we go up. You and me, in the boat, all the way to the weir if we have to.',
+              'think',
+            ),
+            MA(
+              'Bring a lantern. And bring that one of yours. They see better in the dark than we do.',
+            ),
           ],
         },
       },

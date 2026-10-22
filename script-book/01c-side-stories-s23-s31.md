@@ -35,6 +35,7 @@ Hint: Take the second chair. Don’t light the stove: he’d rather you didn’t
 _Inside, the cottage is clean and silent and nearly empty. The stove is laid, and not lit._  
 _In front of it are two chairs, set square, a little apart. One has a cushion that has never been sat on._  
 **Corvin Vale**: You came. Good. Sit. The one with the cushion. I bought it for visitors. There haven’t been any.  
+**Corvin Vale**: The stove is laid. I don’t light it. I considered offering you tea. It was close.  
 _He sits in the other, his left hand flat on his coat over the breast pocket. The pocket is empty._  
 _He keeps his hand there anyway. Now and then he presses, as if to check._  
 **Corvin Vale** _(think)_: Last night, at midnight, something knocked. Not at the front.  
@@ -43,6 +44,8 @@ _He nods at a second door in the back wall. It is nailed shut, and the nails hav
 **Corvin Vale**: That door hasn’t opened in twenty-two years. It faces the valley. I didn’t care for the view.  
 **Corvin Vale**: I didn’t answer. I sat here, and I felt nothing. I’d like that confirmed by somebody else.  
 _Your Nubbin climbs onto his boots and settles there, the way it sits on yours. He looks down at it._  
+_Corvin looks at the Nubbin on his boots for a long time. He does not move his feet._  
+_His feet have gone to sleep, and he lets them._  
 **Corvin Vale** _(think)_: It’s warm. I can see that it’s warm. I can’t feel that it is. Do you understand the difference?  
 
 ### Step 3: Wait for the first of the three.
@@ -456,7 +459,7 @@ _Under the tarp at the back, something says “ow”._
 _Then it says, much more quietly, “Nobody heard that.”_  
 _Sparks comes down the lane at a run, which is how Sparks comes down a lane, waving both arms._  
 **Sparks** _(shock)_: Is she in there? She’s in there. Course she is. Sorry. SORRY. She’s my cousin.  
-**Sparks**: Tilly. Nine. Easter holidays. She heard “ridge” and “sunrise” and went off like a cork.  
+**Sparks**: Tilly. Nine. Calls Hazel “Gran” too. Everyone under ten does; it saves explaining. She heard “ridge” and went off like a cork.  
 _You lift the tarp. A girl in big wellies glares up at you, with a sash across her chest covered in home-made badges._  
 **Tilly** _(angry)_: This is a stowaway situation. You can’t send a stowaway back. That’s the law of the sea.  
 **Nova** _(think)_: We’re not at sea.  
@@ -859,13 +862,13 @@ _You called it something. You’re nearly sure you did._
 
 - **“Button.” For the eye.** — sets `{"s25-name":"button"}`
     - Button. You said it all that summer, mostly to the eye that was loose.
-    - Your Nubbin looks up from the hatbox, considers the toy, and goes back to the hatbox.
+    - Your Nubbin looks at the toy’s loose eye, then checks its own two.
 - **“Bobble.” For the bobble.** — sets `{"s25-name":"bobble"}`
     - Bobble. You carried it by the bobble everywhere, which is why the bobble is crooked.
-    - Your Nubbin looks up from the hatbox, considers the toy, and goes back to the hatbox.
+    - Your Nubbin looks at the bobble, then pats the top of its own head, doubtfully.
 - **“Mister.” Just Mister.** — sets `{"s25-name":"mister"}`
     - Mister. Hazel called the postman Mister, and at three you thought it was the most respectful word there was.
-    - Your Nubbin looks up from the hatbox, considers the toy, and goes back to the hatbox.
+    - Your Nubbin stands up straighter, in case it is being inspected.
 
 ### Step 2: Help Pixel get the loft lamp working.
 
@@ -1650,7 +1653,7 @@ Sets on completion: `{"hushGarden":true,"s26Done":true}`
 
 *Charlotte’s Web (E. B. White, 1952): a spider who saves a small life with words written in her web, and dies in her season. Adapted as an original Grove story; two short approved quotes.* · audience: all · where: Corvin’s Circuit: the old lantern shed, the runners’ pens and the finishing straight (the spring scene is in the Grove) · when: Opens in chapter 5, on the first visit to the Circuit after c5-close (and c5-sold, if it plays). The Show waits for chapter 7; the egg sac for wisp or chapter 8. Closes before chapter 9 opens.
 
-**Cast:** Spindle (Charlotte A. Cavatica (Charlotte’s Web, E. B. White); she writes and never talks), Tam (Lurvy, the hired man (Charlotte’s Web), loosely: Corvin’s stable lad), Mr Tull (An original character: the dealer from over the pass (the book’s threat, made a businessman)), Wisp (Templeton the rat (Charlotte’s Web), in this story only: the hoarder who carries the egg sac), Clank (Claptrap (Borderlands), reference only)
+**Cast:** Spindle (Charlotte A. Cavatica (Charlotte’s Web, E. B. White); she writes and never talks), Hob (Lurvy, the hired man (Charlotte’s Web), loosely: Corvin’s stable lad), Mr Tull (An original character: the dealer from over the pass (the book’s threat, made a businessman)), Wisp (Templeton the rat (Charlotte’s Web), in this story only: the hoarder who carries the egg sac), Clank (Claptrap (Borderlands), reference only)
 
 ### Step 1: Fetch a coil of wire for Sparks from the Circuit’s old lantern shed.
 
@@ -1678,7 +1681,7 @@ _It is eleven in the morning. You find, to your own surprise, that you lift a ha
 
 ### Step 2: Ask the stable lad about the little grey runner at the end of the row.
 
-Hint: Tam does the buckets by the pens. He’s the only one up here who whistles. · check: `talk:s27-tam`
+Hint: Hob does the buckets by the pens. He’s the only one up here who whistles. · check: `talk:s27-tam`
 
 #### Scene `s27-row`
 
@@ -1691,12 +1694,12 @@ _Outside, a lad with two buckets goes along the pens, whistling. He stops whistl
 
 #### Done `s27-tam`
 
-**Tam** _(think)_: That’s Nine. Smallest we’ve got. Last every time. Not slow, exactly. It just doesn’t see the point.  
-**Tam**: I’m Tam. I do the buckets. I’m not meant to whistle. I forget.  
-_He fills Nine’s trough, and Nine doesn’t look round. Tam stands there a moment longer than the trough needs._  
-**Tam** _(sad)_: Autumn Show’s at the first frost that isn’t his. Anything that doesn’t place goes over the pass.  
-**Tam**: There’s a dealer comes for them. Mr Tull. He’s all right, as dealers go. They don’t come back, is all.  
-**Tam** _(sad)_: Nine’s never placed. Not once.  
+**Hob** _(think)_: That’s Nine. Smallest we’ve got. Last every time. Not slow, exactly. It just doesn’t see the point.  
+**Hob**: I’m Hob. I do the buckets. I’m not meant to whistle. I forget.  
+_He fills Nine’s trough, and Nine doesn’t look round. Hob stands there a moment longer than the trough needs._  
+**Hob** _(sad)_: Autumn Show’s at the first frost that isn’t his. Anything that doesn’t place goes over the pass.  
+**Hob**: There’s a dealer comes for them. Mr Tull. He’s all right, as dealers go. They don’t come back, is all.  
+**Hob** _(sad)_: Nine’s never placed. Not once.  
 _In the shed window behind you, the spider has gone very still in the middle of her web._  
 
 ### Step 3: Sit down by the shed window, and wait with the spider.
@@ -1948,7 +1951,7 @@ _Mr Tull is at the gate with his cart. He reads the rail, and then the faces alo
 **Mr Tull**: I sell runners. I don’t sell the ones people ask after. Good day to you.  
 _He tips his hat to the fence, quite politely, and drives away over the pass. His cart is lighter by one._  
 _Corvin stands at the end of the straight with his hands in his pockets. He reads the rail one more time._  
-_Tam is at the pen behind the house. He opens his mouth to say “Nine”, and stops, and says its name instead._  
+_Hob is at the pen behind the house. He opens his mouth to say “Nine”, and stops, and says its name instead._  
 _He says it carefully, like a word in another language. Corvin pretends not to hear._  
 **Corvin Vale**: Take it. It’s no use to me famous.  
 _He says it to the rail, not to you. Then he goes back to the house without looking round._  
@@ -2036,7 +2039,7 @@ _It is a drawer label off her old cabinet, in her square capitals. SPARE._
 **Sparks** _(soft)_: She learned her S’s off that one. Every S she ever wrote. Somebody’s. That one.  
 _Fern has sewn SOMEBODY’S onto a strip of ribbon, a bit crooked, and given one to anybody who stood at the fence._  
 _Pixel has made a pane for the Grove lantern shed window. On frosty mornings, a name comes up on it in white._  
-_Up at the Circuit, Tam has started calling the runners by names. He makes them up, and some of them are terrible._  
+_Up at the Circuit, Hob has started calling the runners by names. He makes them up, and some of them are terrible._  
 _Corvin pretends not to notice. Once, passing the pens, he is heard to say “morning, Gravel” to the third from the end._  
 
 **Rewards**
@@ -2055,13 +2058,13 @@ Sets on completion: `{"s27Done":true}`
 - `s27-spring#9` → Not many friends can spell, and not many spellers stay up all night for a friend.
 - `s27-spring-wisp#9` → Not many friends can spell, and not many spellers stay up all night for a friend.
 
-**Notes:** THEME. A small life saved by words, and a friend who writes them and then dies, as everything does, in her season. The gentlest answer to Corvin, who keeps Nubbins quiet and numbered: a spider gives one a name the whole valley can read, written in the very frost that stills his runners. Corvin is the man the valley embarrassed into doing right. SIGNATURE CHOICE (s27-was-it-you, step 6 done; s27-truth): shield (“Yes, it was me”), frost (“Ask the frost”: the truth, slantwise) or silent. PAYOFF four steps later in step 10’s done scene: frost or silent plays s27-midnight (Corvin finds Spindle mid-letter at midnight, lifts his cold hand over her, lowers it: “Spell it right, then.” His first right act in the story); shield plays s27-midnight-shield (VARIANTS: Corvin watches YOU all night from his window and never once looks at the rail; he never learns about Spindle). Both are fine; neither changes the outcome. OUTLINE MAPPING. 18 outline quests in 14 steps: q1→1, q2→2, q3→3, q4→4, q5→5, q6+q7→6, q8→7 and 8 (split: the word, then the move), q9→8 done, q10+q11→9, q12 and q13’s night→10, q13’s morning+q14→11, q15→12, q16→13, q17→14, q18→the spring VARIANTS (post-game). TIMING. A step’s scene plays the moment the previous step’s check is met; its done scene plays when its own check is met. Exceptions: s27-wire plays on the first visit to the Circuit (Races, or the road up the valley) after c5-close and c5-sold; s27-wait plays on the NEXT Circuit visit after s27-tam (a real day between); s27-first-night and s27-second-night play at the next dusk at the Circuit; done scenes marked dawn play at the next first light the player is at the Circuit (no fail state, no timer: the frost is there every dawn until it is seen). Steps 1–8 belong to chapters 5–6 (high summer to summer’s end; frost on the rails in August). s27-ready (step 9) waits until c7-open has played (the first autumn dawn). s27-egg-sac (step 12) waits until wisp is set (S2 settled) OR chapter 8 has opened (S2 never played, or closed unfinished). CLOSING. The line must close before chapter 9 opens. If c8-close has played and step 11 is not done, the story closes unfinished: no boughtBack, no Nine, no rewards; chapter 9 runs as before. If step 11 is done but steps 12–14 are not, they close unfinished too (no s27Done, no rewards, no spring scene), but boughtBack and the Nubbin that came home stay. PATHS. Sold path = soldNubbin && !boughtBack when S27 opens (in practice soldNubbin). The runner at the end of the row is painted “9” on both paths, so most scenes are shared: on the sold path it is your sold Nubbin (soldId; c5-sold already showed its painted number), on the runner path a new runner Tam calls Nine. Sold-path replacements (VARIANTS): s27-row-sold for s27-row; s27-words-sold for s27-words (no naming choice: it already has the name you gave it); s27-home for s27-letgo (THE CAMPAIGN HOOK, below); s27-gate-sold for s27-gate. CARRIER (step 12 done). wisp = spared or sable → s27-carry-wisp (sets s27-carrier = wisp; Wisp has trailed you up the valley after the sun-warm sac; he keeps it warm under the cottage step, where he lives, until spring). Otherwise, if s21Done → s27-carry-clank; else s27-carry (both set s27-carrier = nubbin: your current Nubbin climbs Sparks’s ladder; the sac winters on the warmest shelf of the Grove lantern shed). SPRING (post-game). In the first spring after the ending, the first morning the player is in the Grove, play s27-spring (s27-carrier = nubbin) or s27-spring-wisp (s27-carrier = wisp). Only if s27Done. It is ambient and ending-neutral; queue it after any epilogue and after S24 if both are due that morning. Then spawn Spindle’s three (see REWARDS). CAMPAIGN HOOK: s27-home (Tier 1). Plays INSTEAD of s27-letgo, as step 11’s scene, on the sold path. Corvin names his price, which is what he paid you: 200 Shells. Choices: pay (set boughtBack: true, s27-paid: shells) or hat (the Keepers pass a hat; Fern puts in a button; set boughtBack: true, s27-paid: hat). Readers of boughtBack, unchanged: endingFor (the Collector ending can now come only from keptStone); c9-partner, c9-open-sold and c9-shard-collector (they no longer play: chapter 9 opens with c9-open and the shard scene follows the corvin flag); end-collector-sold (can no longer play; end-collector-kept still can). c5-sold has already played. A later c9-open bargain sets boughtBack again, which is harmless: its 200 Shells are Ash’s price. SIM: (1) In applyChoice, add a side effect for scene s27-home, choice pay or hat, only if soldNubbin && !boughtBack before the choice’s set is applied (guard: snapshot the flag first, since choice.set writes boughtBack). pay: shells = max(0, shells − 200), as c9-open’s bargain does; hat: no Shells change. Then bring the soldId stray home exactly as c9-open’s bargain does: find it in world.strays by soldId; if hasRoom(world), remove it from strays, put it beside the keeper, trust = 20, stray = false, behavior.state = sit, push it to world.nubbins. (2) IF THE GROVE IS FULL: leave it in strays but set its nubbin.trust = 20 and its returnsAtMs = world.timeMs, so the existing stray-return loop in sim/trust.ts brings it to the gate as soon as there is room (it arrives as a stray; that loop’s Math.max(n.trust, 8) keeps the 20). s27-gate-sold is written to work either way. (3) If soldNubbin is true but no soldId stray exists (it was lost some other way), still set boughtBack (the story happened) and take the Shells; skip the homecoming. (4) It stays grey (shadow = true); the painted 9 is cosmetic and fades by the first spring if the renderer can show it. (5) RUNNER PATH: when s27-letgo ends, create a new Nubbin for Nine: adult, grey (shadow = true), run-leaning stats, trust 20, named from flag s27-nine-name; push it to world.strays with returnsAtMs = world.timeMs so it arrives at the gate as a stray you can recruit (feed or pet to settle it). If s27-nine-name is the empty string (choice own), open the existing naming box at that choice and write the typed name into s27-nine-name; if left blank, use Tansy. (6) Render the name on the rail in s27-first-word from s27-nine-name (runner) or the soldId Nubbin’s name (sold); the dialogue text never prints it, so no placeholder is needed. (7) The Frost-Web Window decor shows the same name. (8) Spindle’s three: three tiny ambient spider sprites in the Grove lantern shed from the spring scene on; now and then a tiny web word (EVENING, WAIT, WELL, WARM, HOME) appears in the shed window at dawn. No needs, no care, no chores. (9) Tier 2: Spindle’s empty web stays in the Circuit shed window for the rest of the game; Tam uses names after the Show. ART. Web words are drawn as silk letters; at dawn they rime white. Spindle is a grey-brown garden spider no bigger than a fingernail, drawn kindly: round body, neat legs, no fangs. The little grey runner (Nine) is the smallest grey runner, with a white painted 9. Sound: the lantern’s hiss in s27-home-word; silence in s27-empty-web. CANON. Spindle never speaks: every web word is narrated. Nubbins and the runners never speak. Wisp whispers in his S2 lowercase half-voice (“mine. warm. mine.”). Clank speaks (S21; a robot). Hazel is away all through this story: she is only remembered, never present, and her whereabouts are never said. The third rule is echoed (WAIT; the crate by the window) but never quoted. Fern’s word recalls Bramble, whom she lost (seeded in chapter 1); S8 is not referenced. Corvin’s shard is never named: his cold hand, his breast pocket and the frost that doesn’t melt carry it. LEARNING GROVE (for the edu writer). Spiders have eight legs and make silk; some spin egg sacs, and spiderlings “balloon” away on threads in the wind. Frost forms when water in the air freezes on cold surfaces, which is why a web turns white. Reading and spelling with a spider: build each web word letter by letter (WAIT, WARM, HOME, WELL). Life cycles: autumn endings, spring beginnings. Spindle’s death stays offscreen in both bands.
+**Notes:** THEME. A small life saved by words, and a friend who writes them and then dies, as everything does, in her season. The gentlest answer to Corvin, who keeps Nubbins quiet and numbered: a spider gives one a name the whole valley can read, written in the very frost that stills his runners. Corvin is the man the valley embarrassed into doing right. SIGNATURE CHOICE (s27-was-it-you, step 6 done; s27-truth): shield (“Yes, it was me”), frost (“Ask the frost”: the truth, slantwise) or silent. PAYOFF four steps later in step 10’s done scene: frost or silent plays s27-midnight (Corvin finds Spindle mid-letter at midnight, lifts his cold hand over her, lowers it: “Spell it right, then.” His first right act in the story); shield plays s27-midnight-shield (VARIANTS: Corvin watches YOU all night from his window and never once looks at the rail; he never learns about Spindle). Both are fine; neither changes the outcome. OUTLINE MAPPING. 18 outline quests in 14 steps: q1→1, q2→2, q3→3, q4→4, q5→5, q6+q7→6, q8→7 and 8 (split: the word, then the move), q9→8 done, q10+q11→9, q12 and q13’s night→10, q13’s morning+q14→11, q15→12, q16→13, q17→14, q18→the spring VARIANTS (post-game). TIMING. A step’s scene plays the moment the previous step’s check is met; its done scene plays when its own check is met. Exceptions: s27-wire plays on the first visit to the Circuit (Races, or the road up the valley) after c5-close and c5-sold; s27-wait plays on the NEXT Circuit visit after s27-tam (a real day between); s27-first-night and s27-second-night play at the next dusk at the Circuit; done scenes marked dawn play at the next first light the player is at the Circuit (no fail state, no timer: the frost is there every dawn until it is seen). Steps 1–8 belong to chapters 5–6 (high summer to summer’s end; frost on the rails in August). s27-ready (step 9) waits until c7-open has played (the first autumn dawn). s27-egg-sac (step 12) waits until wisp is set (S2 settled) OR chapter 8 has opened (S2 never played, or closed unfinished). CLOSING. The line must close before chapter 9 opens. If c8-close has played and step 11 is not done, the story closes unfinished: no boughtBack, no Nine, no rewards; chapter 9 runs as before. If step 11 is done but steps 12–14 are not, they close unfinished too (no s27Done, no rewards, no spring scene), but boughtBack and the Nubbin that came home stay. PATHS. Sold path = soldNubbin && !boughtBack when S27 opens (in practice soldNubbin). The runner at the end of the row is painted “9” on both paths, so most scenes are shared: on the sold path it is your sold Nubbin (soldId; c5-sold already showed its painted number), on the runner path a new runner Hob calls Nine. Sold-path replacements (VARIANTS): s27-row-sold for s27-row; s27-words-sold for s27-words (no naming choice: it already has the name you gave it); s27-home for s27-letgo (THE CAMPAIGN HOOK, below); s27-gate-sold for s27-gate. CARRIER (step 12 done). wisp = spared or sable → s27-carry-wisp (sets s27-carrier = wisp; Wisp has trailed you up the valley after the sun-warm sac; he keeps it warm under the cottage step, where he lives, until spring). Otherwise, if s21Done → s27-carry-clank; else s27-carry (both set s27-carrier = nubbin: your current Nubbin climbs Sparks’s ladder; the sac winters on the warmest shelf of the Grove lantern shed). SPRING (post-game). In the first spring after the ending, the first morning the player is in the Grove, play s27-spring (s27-carrier = nubbin) or s27-spring-wisp (s27-carrier = wisp). Only if s27Done. It is ambient and ending-neutral; queue it after any epilogue and after S24 if both are due that morning. Then spawn Spindle’s three (see REWARDS). CAMPAIGN HOOK: s27-home (Tier 1). Plays INSTEAD of s27-letgo, as step 11’s scene, on the sold path. Corvin names his price, which is what he paid you: 200 Shells. Choices: pay (set boughtBack: true, s27-paid: shells) or hat (the Keepers pass a hat; Fern puts in a button; set boughtBack: true, s27-paid: hat). Readers of boughtBack, unchanged: endingFor (the Collector ending can now come only from keptStone); c9-partner, c9-open-sold and c9-shard-collector (they no longer play: chapter 9 opens with c9-open and the shard scene follows the corvin flag); end-collector-sold (can no longer play; end-collector-kept still can). c5-sold has already played. A later c9-open bargain sets boughtBack again, which is harmless: its 200 Shells are Ash’s price. SIM: (1) In applyChoice, add a side effect for scene s27-home, choice pay or hat, only if soldNubbin && !boughtBack before the choice’s set is applied (guard: snapshot the flag first, since choice.set writes boughtBack). pay: shells = max(0, shells − 200), as c9-open’s bargain does; hat: no Shells change. Then bring the soldId stray home exactly as c9-open’s bargain does: find it in world.strays by soldId; if hasRoom(world), remove it from strays, put it beside the keeper, trust = 20, stray = false, behavior.state = sit, push it to world.nubbins. (2) IF THE GROVE IS FULL: leave it in strays but set its nubbin.trust = 20 and its returnsAtMs = world.timeMs, so the existing stray-return loop in sim/trust.ts brings it to the gate as soon as there is room (it arrives as a stray; that loop’s Math.max(n.trust, 8) keeps the 20). s27-gate-sold is written to work either way. (3) If soldNubbin is true but no soldId stray exists (it was lost some other way), still set boughtBack (the story happened) and take the Shells; skip the homecoming. (4) It stays grey (shadow = true); the painted 9 is cosmetic and fades by the first spring if the renderer can show it. (5) RUNNER PATH: when s27-letgo ends, create a new Nubbin for Nine: adult, grey (shadow = true), run-leaning stats, trust 20, named from flag s27-nine-name; push it to world.strays with returnsAtMs = world.timeMs so it arrives at the gate as a stray you can recruit (feed or pet to settle it). If s27-nine-name is the empty string (choice own), open the existing naming box at that choice and write the typed name into s27-nine-name; if left blank, use Tansy. (6) Render the name on the rail in s27-first-word from s27-nine-name (runner) or the soldId Nubbin’s name (sold); the dialogue text never prints it, so no placeholder is needed. (7) The Frost-Web Window decor shows the same name. (8) Spindle’s three: three tiny ambient spider sprites in the Grove lantern shed from the spring scene on; now and then a tiny web word (EVENING, WAIT, WELL, WARM, HOME) appears in the shed window at dawn. No needs, no care, no chores. (9) Tier 2: Spindle’s empty web stays in the Circuit shed window for the rest of the game; Hob uses names after the Show. ART. Web words are drawn as silk letters; at dawn they rime white. Spindle is a grey-brown garden spider no bigger than a fingernail, drawn kindly: round body, neat legs, no fangs. The little grey runner (Nine) is the smallest grey runner, with a white painted 9. Sound: the lantern’s hiss in s27-home-word; silence in s27-empty-web. CANON. Spindle never speaks: every web word is narrated. Nubbins and the runners never speak. Wisp whispers in his S2 lowercase half-voice (“mine. warm. mine.”). Clank speaks (S21; a robot). Hazel is away all through this story: she is only remembered, never present, and her whereabouts are never said. The third rule is echoed (WAIT; the crate by the window) but never quoted. Fern’s word recalls Bramble, whom she lost (seeded in chapter 1); S8 is not referenced. Corvin’s shard is never named: his cold hand, his breast pocket and the frost that doesn’t melt carry it. LEARNING GROVE (for the edu writer). Spiders have eight legs and make silk; some spin egg sacs, and spiderlings “balloon” away on threads in the wind. Frost forms when water in the air freezes on cold surfaces, which is why a web turns white. Reading and spelling with a spider: build each web word letter by letter (WAIT, WARM, HOME, WELL). Life cycles: autumn endings, spring beginnings. Spindle’s death stays offscreen in both bands.
 
 ## S28. Please Look After This Nubbin
 
 *Paddington (Michael Bond’s books from 1958, and the films Paddington and Paddington 2): the polite stranger with a label round his neck, the grumpy neighbour, the marmalade and the hard stare (homage; two approved one-sentence quotes)* · audience: all · where: The Grove gate (the carrier’s cart); Byte’s house, with Mr Grue’s house and glasshouse next door; the market square; the cart stop on the valley road; the bench by Hazel’s cottage door · when: Opens the morning after chapter 8’s notebook (c8-close). Steps 1–10 run from early autumn into early winter, all before chapter 9 opens. Steps 11–13 run in chapter 11, after c11-open. Closes before chapter 12.
 
-**Cast:** Parcel (Paddington Bear (Michael Bond), homage only: a small brown Nubbin, never the bear), Mr Grue (Mr Curry, the Browns’ grumpy next-door neighbour (Michael Bond’s Paddington books), reference only), The carter, Dot Amblin
+**Cast:** Parcel (Paddington Bear (Michael Bond), homage only: a small brown Nubbin, never the bear), Mr Grue (Mr Curry, the Browns’ grumpy next-door neighbour (Michael Bond’s Paddington books), reference only), The carter, Dot Amblin, Granny Brock
 
 ### Step 1: Take the stray from the carrier’s cart to Byte’s house.
 
@@ -2275,6 +2278,8 @@ _By noon the stall has sold out. Dot Amblin sits on her empty table with her cas
 **Dot Amblin** _(happy)_: Keep that one, little one. Apricot. On the house. Come back next market, and bring your bow.  
 _Byte buys a knitted coat with toggles, brown, Parcel-sized. Then a second, smaller, for your Nubbin._  
 **Byte** _(think)_: Parity. If one of them has a coat, they both have a coat. I’ve done the maths on fair.  
+_Granny Brock goes past with a sack of charcoal, and stops to look at Parcel in its new coat._  
+**Granny Brock**: A Nubbin in a coat. Fine. Coat off, when it’s warm. Not the toggles. It likes the toggles.  
 
 ### Step 8: Find Parcel. It wasn’t in its basket at bedtime.
 
@@ -2375,6 +2380,7 @@ _It sees you both, and bows. It doesn’t put the tag down._
 - **Sit down in the snow beside Parcel.**
     - You sit. The snow is very cold, very fast; Parcel looks at you, then at the road, and doesn’t move away.
     - After a moment Byte sits down on its other side, in the snow, in his good trousers.
+    - Parcel unbuttons a toggle and puts half a sandwich in your hand. It has never done that for anyone.
     - **Byte**: …and I’m keeping it.
     - **Byte**: That was the end of the sentence. I never asked for it, and I’m keeping it. You left before the end.
     - He takes the tag, gently, turns it over, and writes on the blank back with the pencil from behind his ear.
@@ -2387,6 +2393,7 @@ _It sees you both, and bows. It doesn’t put the tag down._
     - He takes the tag, gently, turns it over, and writes on the blank back with the pencil from behind his ear.
     - His own name and his own house, “Next to Mr Grue’s”, and under it, in neat capitals: RECEIVED.
     - Parcel looks at the back of its tag for a long time. Then it bows, and lets Byte carry it home inside his coat.
+    - **Byte**: You stayed at the bend. That was right. I’d have been embarrassed.
 
 ### Step 11: Follow Parcel up to the cottage.
 
@@ -2473,6 +2480,8 @@ _Pixel hands Mr Grue the watch. He holds it to his ear for a long time, then sit
 _When the cake is crumbs, Byte stands up with his notebook, PARCEL: INCIDENTS. It has got quite fat since the autumn._  
 **Byte** _(think)_: I’m going to read the log. It’s procedure. Also, I want to.  
 **Byte** _(think)_: Incidents. Bath, flood. Fence, Grue. Pyramid, jam. Glasshouse, oranges. Snow. Watch, eleven pieces.  
+_Beside his two columns Pixel has added a third, in green pencil, headed NOTES FROM HOME._  
+**Pixel** _(happy)_: I annotate his log. He pretends not to read it. He has never once rubbed out a note.  
 _Then he turns the notebook sideways. The last column has grown so wide that it runs onto the facing page._  
 **Byte** _(soft)_: Good things. Bowed to the kettle. Took Moss elevenses. Shared. Shared. Shared. Washed the jar. Gave me half a sandwich.  
 **Byte** _(soft)_: The good column is longer. I measured it. It’s longer by a page and a half.  
@@ -2659,6 +2668,9 @@ _Dusty ran, which is the wrong thing. They ran until they fell into the hollow o
 #### Done `s29-beech`
 
 _You go in talking. Marina names every rock pool on the coast from west to east, and you do your times tables, badly._  
+**Marina** _(think)_: Seven eights?  
+_“Fifty-four?” you say._  
+**Marina** _(happy)_: Keep going. The Wood can’t tell.  
 _The faces, if they are faces, keep to the edge of the lantern light. The pattering keeps pace with you, and stops when you stop._  
 _Your Nubbin rides inside your coat with only its eyes showing. It doesn’t like the Wood, and it doesn’t make a sound._  
 _At last, in the hollow of a great beech, something says “Ow” very quietly. Dusty is curled in the dead leaves, white with frost._  
@@ -2829,6 +2841,9 @@ _He doesn’t look at you. He looks upstream, the way the water comes, and doesn
 **Marina** _(soft)_: Every night, and every morning before it’s light, he sits right there. Waiting for the water to bring him back.  
 _Dusty comes down the bank behind you with a flask and a blanket. They sit a little way off from the old otter, and stay._  
 **Dusty** _(soft)_: Somebody ought to sit with him. I know about sitting.  
+_Dusty pours soup into the flask lid and offers it to the otter._  
+_The otter looks at the soup, then at Dusty. Dusty drinks it._  
+**Dusty** _(happy)_: I didn’t know what otters drink. It turns out it’s soup, and it turns out it’s me.  
 **Marina** _(think)_: Tonight we go up. You and me, in the boat, all the way to the weir if we have to.  
 **Marina**: Bring a lantern. And bring that one of yours. They see better in the dark than we do.  
 
@@ -2972,6 +2987,7 @@ _The three of you stand and look at her. She looks like a beetle having a rest._
 **Marina** _(think)_: Her little sister’s in the boathouse: the flat one, for winter water. Take her out whenever you like. Vests on.  
 **Dusty** _(soft)_: Same time next summer?  
 **Marina** _(happy)_: Before. March, if it’s mild. You get the vests down from the loft and smell them. That’s the first day of the year.  
+**Marina** _(soft)_: Rule six. Come back. That one’s for all of you.  
 _Down at the ford a brown head comes up, looks at the three of you for a while, and goes under without a ripple._  
 
 **Rewards**
@@ -3195,7 +3211,7 @@ Hint: It’s low down by the wall lantern, under the ivy. Brush the frost off wi
 _The frosts have come, and the Grove is white at dawn round the fourth post. Moss, after his long talk, has not gone back up the hill._  
 _You find him at the old wall, by Hush’s lantern post, with frost on his back that he hasn’t bothered to shake off._  
 **Moss** _(think)_: Clover’s gold one. Luna told me. Luna tells me things at dawn, when I am too tired to argue.  
-**Moss**: Hush. The quiet one. You have heard her name in the tale. I did not tell you her job.  
+**Moss**: Hush. The quiet one. You may have heard she kept the griefs. Nobody told you how. She sat.  
 **Moss** _(sad)_: When the White Year stilled half the valley, the rest of us went at the snow with shovels. Hush went and sat where the still ones could see her.  
 **Moss**: She never tried to wake one. If one shivered, she took it for a conversation. That was her job, and nobody gave it her.  
 **Moss** _(soft)_: People thought that made her a sad thing. They were wrong about which part was sad.  
@@ -3424,7 +3440,7 @@ Sets on completion: `{"s30Done":true}`
 
 *It’s the Great Pumpkin, Charlie Brown (Peanuts, CBS 1966; Peanuts Worldwide LLC): a small boy who believes what nobody else does, and waits all night in a cold field. Theme and shape, plus three listed one-sentence quotes.* · audience: all · where: Hazel’s Grove: Tam on the Grove wall by the gate · when: Chapter 7, after c7-stillness (early autumn). Gourd Night is the first dusk after step 6. Closes when chapter 8 opens; unfinished if Gourd Night has not come.
 
-**Cast:** Tam (Linus van Pelt (Peanuts: It’s the Great Pumpkin, Charlie Brown)), Ivy (Lucy van Pelt (Peanuts: It’s the Great Pumpkin, Charlie Brown)), Ned (Charlie Brown (Peanuts: It’s the Great Pumpkin, Charlie Brown)), Nettie (Sally Brown (Peanuts: It’s the Great Pumpkin, Charlie Brown))
+**Cast:** Tam (Linus van Pelt (Peanuts: It’s the Great Pumpkin, Charlie Brown)), Ivy (Lucy van Pelt (Peanuts: It’s the Great Pumpkin, Charlie Brown)), Ned (Charlie Brown (Peanuts: It’s the Great Pumpkin, Charlie Brown)), Nettie (Sally Brown (Peanuts: It’s the Great Pumpkin, Charlie Brown)), Granny Brock
 
 ### Step 1: Help Tam spell his letter to the Great Gourd.
 
@@ -3642,6 +3658,10 @@ _Nettie looks at the guisers, and at the bag in Ivy’s hand. Then she sits back
 **Nettie**: I’m staying. I mean it too. I think.  
 **Ivy**: Fine. I’m fetching you both at four. I’ve told Mum. I’ve told Clover. Clover’s told everyone.  
 _Up the lane, Clover’s window has a lamp in it. It stays lit all night._  
+_Granny Brock comes down the lane with a basket, and stops at the gate to look at the sign._  
+**Granny Brock**: Waiting for a gourd. In the cold. Hm.  
+_She hangs a second quilt over the gate and sets a flask of soup on the wall. She says nothing else._  
+_Tam skips on the spot to keep warm, to a rhyme you almost know. He gets the words wrong in a new way._  
 **Ivy**: Keeper. I need a grown-up for the lane. Some of the bats are very small.  
 _At the top of the lane, Sparks waves both arms at you. Behind her the workshop glows, and somebody is playing a pianola badly._  
 **Sparks** _(happy)_: KEEPER! PARTY! You’re on the list! Everyone is!  
@@ -4853,7 +4873,7 @@ _Mr Tull is at the gate with his cart. He reads the rail, and then the faces alo
 **Mr Tull**: I sell runners. I don’t sell the ones people ask after. Good day to you.  
 _He tips his hat to the fence, quite politely, and drives away over the pass. His cart is lighter by one._  
 _Corvin stands at the end of the straight with his hands in his pockets. He reads the rail one more time._  
-_Tam is at the pen behind the house. He opens his mouth to say “Nine”, and stops, and says its name instead._  
+_Hob is at the pen behind the house. He opens his mouth to say “Nine”, and stops, and says its name instead._  
 _Its real name, the one you gave it. He says it carefully, like a word in another language._  
 **Corvin Vale** _(think)_: It was yours, I believe. Before.  
 **Corvin Vale**: Two hundred Shells. What I gave you for it. Not a Shell more. I’ll not have it said I made a profit off Hazel’s heir.  
@@ -4864,7 +4884,7 @@ _Its real name, the one you gave it. He says it carefully, like a word in anothe
     - You count the Shells into his cold palm. He doesn’t close his hand until the last one.
     - **Corvin Vale**: Paid in full. It’s yours.
     - It was always yours. Neither of you says so.
-    - Tam opens the pen. Your Nubbin steps out, and stops, and looks at you across the sand.
+    - Hob opens the pen. Your Nubbin steps out, and stops, and looks at you across the sand.
     - Then it comes. The whole way, not hurrying, the 9 still white on its side.
     - It leans its weight against your shin, the way it did the week it hatched. It is cold, and it is yours.
 - **Let the Keepers pass a hat.** — sets `{"boughtBack":true,"s27-paid":"hat"}`
@@ -4875,7 +4895,7 @@ _Its real name, the one you gave it. He says it carefully, like a word in anothe
     - **Corvin Vale**: …There’s a button.
     - **Fern**: It’s a very good button.
     - He looks at it. Then he puts it in his coat pocket: not the breast pocket, the other one.
-    - Tam opens the pen. Your Nubbin steps out, and stops, and looks at you across the sand.
+    - Hob opens the pen. Your Nubbin steps out, and stops, and looks at you across the sand.
     - Then it comes. The whole way, not hurrying, the 9 still white on its side.
     - It leans its weight against your shin, the way it did the week it hatched. It is cold, and it is yours.
 
@@ -5015,6 +5035,8 @@ _But he stays. Right to the end, past the last of the cake, and he helps Byte pu
 _When the cake is crumbs, Byte stands up with his notebook, PARCEL: INCIDENTS. It has got quite fat since the autumn._  
 **Byte** _(think)_: I’m going to read the log. It’s procedure. Also, I want to.  
 **Byte** _(think)_: Incidents. Bath, flood. Fence, Grue. Pyramid, jam. Glasshouse, oranges. Snow. Watch, eleven pieces.  
+_Beside his two columns Pixel has added a third, in green pencil, headed NOTES FROM HOME._  
+**Pixel** _(happy)_: I annotate his log. He pretends not to read it. He has never once rubbed out a note.  
 **Byte** _(think)_: Unverified. Kind to Moss. Shares on purpose. Was missed, when it went.  
 _He stops, and with the pencil from behind his ear crosses out UNVERIFIED by the first one. Then the next, and then all of them, one by one._  
 **Byte** _(soft)_: There. Verified. All of it. I should have done that in the autumn.  
@@ -5029,6 +5051,8 @@ _It will. You can tell from how carefully he wrapped it._
 _When the cake is crumbs, Byte stands up with his notebook, PARCEL: INCIDENTS. It has got quite fat since the autumn._  
 **Byte** _(think)_: I’m going to read the log. It’s procedure. Also, I want to.  
 **Byte** _(think)_: Incidents. Bath, flood. Fence, Grue. Pyramid, jam. Glasshouse, oranges. Snow. Watch, eleven pieces.  
+_Beside his two columns Pixel has added a third, in green pencil, headed NOTES FROM HOME._  
+**Pixel** _(happy)_: I annotate his log. He pretends not to read it. He has never once rubbed out a note.  
 _He reads three pages of incidents. It takes a while, and Mr Grue checks his watch, which works now, twice._  
 _Then Byte stops, and looks at the page for a long time. He rules a new column down the edge, there and then._  
 **Byte** _(soft)_: Good things. It needed one. I didn’t know what to call it in the autumn.  
@@ -5168,6 +5192,7 @@ _Dusty leans on her other side. The three of you stand like that until the wind 
 **Marina** _(think)_: Her little sister’s in the boathouse: the flat one, for winter water. Take her out whenever you like. Vests on.  
 **Dusty** _(soft)_: Same time next summer?  
 **Marina** _(happy)_: Before. March, if it’s mild. You get the vests down from the loft and smell them. That’s the first day of the year.  
+**Marina** _(soft)_: Rule six. Come back. That one’s for all of you.  
 _Down at the ford a brown head comes up, looks at the three of you for a while, and goes under without a ripple._  
 
 #### Variant `s29-complete-pencil`
@@ -5181,6 +5206,7 @@ _In the bottom corner, very small, there is a boat with three people in it and a
 **Marina** _(think)_: Her little sister’s in the boathouse: the flat one, for winter water. Take her out whenever you like. Vests on.  
 **Dusty** _(soft)_: Same time next summer?  
 **Marina** _(happy)_: Before. March, if it’s mild. You get the vests down from the loft and smell them. That’s the first day of the year.  
+**Marina** _(soft)_: Rule six. Come back. That one’s for all of you.  
 _Down at the ford a brown head comes up, looks at the three of you for a while, and goes under without a ripple._  
 
 #### Variant `s29-brock-knock`

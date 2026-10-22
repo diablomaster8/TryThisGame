@@ -1433,7 +1433,7 @@ const Q09 = quest(
     scene(
       'q09-mother',
       [
-        N('A Keeper in a headscarf marches up. It’s Mother Brindle!'),
+        N('A Keeper in a headscarf marches up. It’s Mother Brindle, Barty’s Keeper!'),
         MB('What’s all this? Barty! Is that you at the front?', 'angry'),
         BT('Mum! The signs!', 'happy'),
         GN('Barty saw them first. Barty is very special.'),
@@ -3625,7 +3625,9 @@ const Q24 = quest(
         ),
       ],
       [
-        ch('shield', 'Help your Nubbin cover its paper.', [N('Your Nubbin curls an arm round its work. Buttons leans more. Creak!')]),
+        ch('shield', 'Help your Nubbin cover its paper.', [
+          N('Your Nubbin hides its paper. Buttons leans more. Buttons’ chair goes creak!'),
+        ]),
         ch(
           'share',
           'Let Buttons look. Sharing is nice.',
@@ -3639,11 +3641,11 @@ const Q24 = quest(
       'q24-shuffled',
       [
         N('Left. Right. Under the desk!'),
-        N('Buttons follows the paper with its whole body…'),
+        N('Buttons follows the paper with Buttons’ whole body…'),
         N('And falls off its chair. Bump!'),
         N('Mr. Tweed falls over too.'),
         IN('Buttons! Are you all right?', 'shock'),
-        N('Buttons is fine. But its paper is still empty.'),
+        N('Buttons is fine. But Buttons’ paper is still empty.'),
       ],
       [
         notice(

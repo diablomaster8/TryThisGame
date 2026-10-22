@@ -314,8 +314,15 @@ export const QUESTS_BEAN: Quest[] = [
         N('Then he unties the chair, pushes it towards you and pats it twice. It is yours; he has no room.'),
         N('He pats the cart too. He mimes running, then riding, then points at your legs and shakes his head: much faster.'),
         N('The cart is yours as well. He has, apparently, gone off carts.'),
-        N('As you leave, he carries a small kitchen chair out to his front garden and sits in the sun, entirely satisfied.'),
-        N('He pats the space next to him. There is no space next to him. You sit on the wall, and for a while you both watch the lane.'),
+        N(
+          'As you leave, he carries a small kitchen chair out to his front garden and sits in the sun, entirely satisfied.',
+        ),
+        N(
+          'The kitchen chair has one short leg, and it tips. He stays exactly where it tips him, at an angle, still entirely satisfied.',
+        ),
+        N(
+          'He pats the space next to him. There is no space next to him. You sit on the wall, and for a while you both watch the lane.',
+        ),
       ],
     },
     rewards: [
@@ -438,7 +445,10 @@ export const QUESTS_BEAN: Quest[] = [
         T('Mff.'),
         N('It takes you, the Nubbin, a spoon and a firm tug on each ear to get it off. He emerges orange to the eyebrows, and very dignified.'),
         N('He presents you with a third one: smaller, neater, with a curly stalk on top.'),
-        N('The Nubbin wears its pumpkin all afternoon, peering out of the eyeholes. Some creatures just like somewhere snug to be.'),
+        N(
+          'The Nubbin wears its pumpkin all afternoon, peering out of the eyeholes. By evening a second Nubbin has queued behind it, with its own pumpkin.',
+        ),
+        N('Mr. Tweed is pretending to be in a different queue.'),
       ],
     },
     rewards: [
@@ -491,7 +501,11 @@ export const QUESTS_BEAN: Quest[] = [
             {
               id: 'shield',
               label: 'Nudge your Nubbin to cover its paper.',
-              then: [N('Your Nubbin curls an arm round its work. Buttons leans further. Its chair creaks.')],
+              then: [
+                N(
+                  'Your Nubbin curls an arm round its work. Buttons leans further. Buttons’ chair creaks.',
+                ),
+              ],
             },
             {
               id: 'share',
@@ -499,7 +513,15 @@ export const QUESTS_BEAN: Quest[] = [
               set: { 'q24-shared': true },
               then: [
                 I('Eyes on your own paper, please, Buttons.'),
-                N('Buttons sits bolt upright and tries to whistle innocently, which Nubbins cannot do.'),
+                N(
+                  'Buttons sits bolt upright and tries to whistle innocently, which Nubbins cannot do.',
+                ),
+                I(
+                  'Sharing your rubber is sharing, dear. Sharing your answers is a shortcut with a nice name.',
+                ),
+                N(
+                  'Mr. Tweed slides his own paper under his elbow, very casually, and looks at the ceiling.',
+                ),
               ],
             },
             {
@@ -514,8 +536,12 @@ export const QUESTS_BEAN: Quest[] = [
         done: {
           id: 'q24-shuffled',
           lines: [
-            N('Left, right, under the desk. Buttons follows the paper with its whole body, and on the third shuffle falls off its chair.'),
-            N('Mr. Tweed, who had been leaning with it, falls over too, and pretends he was inspecting the floor.'),
+            N(
+              'Left, right, under the desk. Buttons follows the paper with Buttons’ whole body, and on the third shuffle falls off its chair.',
+            ),
+            N(
+              'Mr. Tweed, who had been leaning with it, falls over too, and pretends he was inspecting the floor.',
+            ),
             I('Buttons? Are you all right?', 'shock'),
             N('Buttons is fine. Buttons’ paper is still completely blank.'),
           ],
@@ -529,7 +555,9 @@ export const QUESTS_BEAN: Quest[] = [
         scene: {
           id: 'q24-break',
           lines: [
-            N('Buttons climbs back onto its chair and looks at its blank paper. Its ears droop all the way down.'),
+            N(
+              'Buttons climbs back onto the chair and looks at the blank paper. Buttons’ ears droop all the way down.',
+            ),
             N('Behind it, Mr. Tweed’s ears somehow droop too.'),
             T('Hnn…', 'sad'),
             N('He points at Buttons, then at the paper, then clasps his hands together, pleading.'),
@@ -995,7 +1023,8 @@ export const QUESTS_BEAN: Quest[] = [
               label: 'Can I light it?',
               set: { 'q28-asked-to-light': true },
               then: [
-                N('He looks at you very seriously and points to himself: his house, his firework. You may stand well back.'),
+                N('He holds up a small card he has clearly made earlier: GROWN-UPS ONLY.'),
+                N('He checks the card, then himself, and stands up a little taller.'),
               ],
             },
           ],

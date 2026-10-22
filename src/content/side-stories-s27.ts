@@ -73,7 +73,7 @@ const SPINDLE: Speaker = {
 };
 const TAM: Speaker = {
   id: 's27-tam',
-  name: 'Tam',
+  name: 'Hob',
   kind: 'other',
   basedOn: 'Lurvy, the hired man (Charlotte’s Web), loosely: Corvin’s stable lad',
 };
@@ -114,7 +114,7 @@ const S27_MORNING: Line[] = [
 
 /** The sold Nubbin walking out, appended to both s27-home choices. */
 const S27_HOME_TAIL: Line[] = [
-  N('Tam opens the pen. Your Nubbin steps out, and stops, and looks at you across the sand.'),
+  N('Hob opens the pen. Your Nubbin steps out, and stops, and looks at you across the sand.'),
   N('Then it comes. The whole way, not hurrying, the 9 still white on its side.'),
   N('It leans its weight against your shin, the way it did the week it hatched. It is cold, and it is yours.'),
 ];
@@ -199,7 +199,7 @@ export const SIDE_STORY_S27: Quest[] = [
       {
         id: 's27-step2',
         goal: 'Ask the stable lad about the little grey runner at the end of the row.',
-        hint: 'Tam does the buckets by the pens. He’s the only one up here who whistles.',
+        hint: 'Hob does the buckets by the pens. He’s the only one up here who whistles.',
         check: 'talk:s27-tam',
         scene: {
           id: 's27-row',
@@ -215,11 +215,21 @@ export const SIDE_STORY_S27: Quest[] = [
         done: {
           id: 's27-tam',
           lines: [
-            TA('That’s Nine. Smallest we’ve got. Last every time. Not slow, exactly. It just doesn’t see the point.', 'think'),
-            TA('I’m Tam. I do the buckets. I’m not meant to whistle. I forget.'),
-            N('He fills Nine’s trough, and Nine doesn’t look round. Tam stands there a moment longer than the trough needs.'),
-            TA('Autumn Show’s at the first frost that isn’t his. Anything that doesn’t place goes over the pass.', 'sad'),
-            TA('There’s a dealer comes for them. Mr Tull. He’s all right, as dealers go. They don’t come back, is all.'),
+            TA(
+              'That’s Nine. Smallest we’ve got. Last every time. Not slow, exactly. It just doesn’t see the point.',
+              'think',
+            ),
+            TA('I’m Hob. I do the buckets. I’m not meant to whistle. I forget.'),
+            N(
+              'He fills Nine’s trough, and Nine doesn’t look round. Hob stands there a moment longer than the trough needs.',
+            ),
+            TA(
+              'Autumn Show’s at the first frost that isn’t his. Anything that doesn’t place goes over the pass.',
+              'sad',
+            ),
+            TA(
+              'There’s a dealer comes for them. Mr Tull. He’s all right, as dealers go. They don’t come back, is all.',
+            ),
             TA('Nine’s never placed. Not once.', 'sad'),
             N('In the shed window behind you, the spider has gone very still in the middle of her web.'),
           ],
@@ -547,8 +557,12 @@ export const SIDE_STORY_S27: Quest[] = [
           id: 's27-letgo',
           lines: [
             ...S27_MORNING,
-            N('Tam is at the pen behind the house. He opens his mouth to say “Nine”, and stops, and says its name instead.'),
-            N('He says it carefully, like a word in another language. Corvin pretends not to hear.'),
+            N(
+              'Hob is at the pen behind the house. He opens his mouth to say “Nine”, and stops, and says its name instead.',
+            ),
+            N(
+              'He says it carefully, like a word in another language. Corvin pretends not to hear.',
+            ),
             C('Take it. It’s no use to me famous.'),
             N('He says it to the rail, not to you. Then he goes back to the house without looking round.'),
             N('The little grey runner looks at the open pen for a long time. Then it follows you to the road, three steps behind.'),
@@ -650,11 +664,22 @@ export const SIDE_STORY_S27: Quest[] = [
       lines: [
         N('A week later Sparks comes down the valley with something in her fist. She opens it on your kitchen table.'),
         N('It is a drawer label off her old cabinet, in her square capitals. SPARE.'),
-        SP('She learned her S’s off that one. Every S she ever wrote. Somebody’s. That one.', 'soft'),
-        N('Fern has sewn SOMEBODY’S onto a strip of ribbon, a bit crooked, and given one to anybody who stood at the fence.'),
-        N('Pixel has made a pane for the Grove lantern shed window. On frosty mornings, a name comes up on it in white.'),
-        N('Up at the Circuit, Tam has started calling the runners by names. He makes them up, and some of them are terrible.'),
-        N('Corvin pretends not to notice. Once, passing the pens, he is heard to say “morning, Gravel” to the third from the end.'),
+        SP(
+          'She learned her S’s off that one. Every S she ever wrote. Somebody’s. That one.',
+          'soft',
+        ),
+        N(
+          'Fern has sewn SOMEBODY’S onto a strip of ribbon, a bit crooked, and given one to anybody who stood at the fence.',
+        ),
+        N(
+          'Pixel has made a pane for the Grove lantern shed window. On frosty mornings, a name comes up on it in white.',
+        ),
+        N(
+          'Up at the Circuit, Hob has started calling the runners by names. He makes them up, and some of them are terrible.',
+        ),
+        N(
+          'Corvin pretends not to notice. Once, passing the pens, he is heard to say “morning, Gravel” to the third from the end.',
+        ),
       ],
     },
     rewards: [
@@ -724,7 +749,7 @@ export const SIDE_STORY_S27: Quest[] = [
       'boughtBack and the Nubbin that came home stay. ' +
       'PATHS. Sold path = soldNubbin && !boughtBack when S27 opens (in practice soldNubbin). The runner at the end of the row ' +
       'is painted “9” on both paths, so most scenes are shared: on the sold path it is your sold Nubbin (soldId; c5-sold ' +
-      'already showed its painted number), on the runner path a new runner Tam calls Nine. Sold-path replacements ' +
+      'already showed its painted number), on the runner path a new runner Hob calls Nine. Sold-path replacements ' +
       '(VARIANTS): s27-row-sold for s27-row; s27-words-sold for s27-words (no naming choice: it already has the name you ' +
       'gave it); s27-home for s27-letgo (THE CAMPAIGN HOOK, below); s27-gate-sold for s27-gate. ' +
       'CARRIER (step 12 done). wisp = spared or sable → s27-carry-wisp (sets s27-carrier = wisp; Wisp has trailed you up the ' +
@@ -761,7 +786,7 @@ export const SIDE_STORY_S27: Quest[] = [
       '(7) The Frost-Web Window decor shows the same name. (8) Spindle’s three: three tiny ambient spider sprites in the Grove ' +
       'lantern shed from the spring scene on; now and then a tiny web word (EVENING, WAIT, WELL, WARM, HOME) appears in the ' +
       'shed window at dawn. No needs, no care, no chores. (9) Tier 2: Spindle’s empty web stays in the Circuit shed window ' +
-      'for the rest of the game; Tam uses names after the Show. ' +
+      'for the rest of the game; Hob uses names after the Show. ' +
       'ART. Web words are drawn as silk letters; at dawn they rime white. Spindle is a grey-brown garden spider no bigger ' +
       'than a fingernail, drawn kindly: round body, neat legs, no fangs. The little grey runner (Nine) is the smallest grey ' +
       'runner, with a white painted 9. Sound: the lantern’s hiss in s27-home-word; silence in s27-empty-web. ' +
@@ -819,8 +844,12 @@ export const SIDE_STORY_S27_VARIANTS: Scene[] = [
     id: 's27-home',
     lines: [
       ...S27_MORNING,
-      N('Tam is at the pen behind the house. He opens his mouth to say “Nine”, and stops, and says its name instead.'),
-      N('Its real name, the one you gave it. He says it carefully, like a word in another language.'),
+      N(
+        'Hob is at the pen behind the house. He opens his mouth to say “Nine”, and stops, and says its name instead.',
+      ),
+      N(
+        'Its real name, the one you gave it. He says it carefully, like a word in another language.',
+      ),
       C('It was yours, I believe. Before.', 'think'),
       C('Two hundred Shells. What I gave you for it. Not a Shell more. I’ll not have it said I made a profit off Hazel’s heir.'),
     ],

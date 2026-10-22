@@ -102,7 +102,7 @@ _Nubbin Mittens: sleeping Nubbins no longer wake when others walk past. A pair o
 
 *It’s Always Sunny in Philadelphia: “Charlie Work”* · audience: adult · where: Puddle’s Pub, by the stream · when: A morning after Q31; a health inspection notice is nailed to the pub door. Never during Chapters 9–11. · requires: Q31
 
-**Cast:** Corky (Charlie Kelly (Charlie Day), It’s Always Sunny in Philadelphia), Dabney (Dennis Reynolds, It’s Always Sunny in Philadelphia), Mags (Dee Reynolds, It’s Always Sunny in Philadelphia), Fitz (Frank Reynolds, It’s Always Sunny in Philadelphia), Inspector Thimble
+**Cast:** Corky (Charlie Kelly (Charlie Day), It’s Always Sunny in Philadelphia), Dabney (Dennis Reynolds, It’s Always Sunny in Philadelphia), Mags (Dee Reynolds, It’s Always Sunny in Philadelphia), Fitz (Frank Reynolds, It’s Always Sunny in Philadelphia), Inspector Plimsoll
 
 ### Step 1: Hand Corky the right tool on every cue through the rat cellar and the pond drain.
 
@@ -143,29 +143,29 @@ Hint: The goose only leaves through an open door with fruit outside it; hand Cor
 
 #### Scene `q32-goose`
 
-**Inspector Thimble**: Good morning. Inspector Thimble. I’ll be looking at everything, and writing everything down.  
+**Inspector Plimsoll**: Good morning. Inspector Plimsoll. I’ll be looking at everything, and writing everything down.  
 _Corky walks past behind her with a bin on his shoulder, not breaking stride, and gives you a single nod._  
 **Corky** _(think)_: Bins next. Then there’s the goose.  
 **You**: What goose?  
 **Corky**: There’s always a goose. Nobody knows how it gets in. It’s been in the back room since spring. It hates me.  
 _The back room door bulges slightly. Something on the other side hisses._  
-**Inspector Thimble** _(think)_: What is that noise?  
+**Inspector Plimsoll** _(think)_: What is that noise?  
 **Mags** _(happy)_: Atmosphere! It’s an atmospheric pub. I’m a trained performer, I’d know.  
 **Fitz**: Keep her upstairs. I need eleven more minutes with the eggs.  
 **Corky**: Bin bag. Big gloves. Then we open the door and we do not look the goose in the eye.  
-**Inspector Thimble** _(think)_: You. You look like the only person here who has slept. What is happening upstairs?  
+**Inspector Plimsoll** _(think)_: You. You look like the only person here who has slept. What is happening upstairs?  
 
 **Choices**
 
 - **Cover for the gang: “Choir practice.”** — sets `{"q32-inspector":"covered"}`
-    - **Inspector Thimble**: A choir. That clucks.
+    - **Inspector Plimsoll**: A choir. That clucks.
     - Upstairs, on cue, Mags starts singing scales. It does not help. It may have made things worse.
 - **Tell her the truth about the eggs.** — sets `{"q32-inspector":"told"}`
-    - **Inspector Thimble**: Hoarding eggs isn’t a health matter. It’s just sad. I’ll make a note.
+    - **Inspector Plimsoll**: Hoarding eggs isn’t a health matter. It’s just sad. I’ll make a note.
     - **Dabney**: WHO TOLD HER? I can hear you writing!
 - **Point her at the man doing the actual work.** — sets `{"q32-inspector":"corky"}`
     - She turns. Corky is halfway inside a drain, humming, with a candle in his mouth.
-    - **Inspector Thimble**: Who is that man? How long has he been here?
+    - **Inspector Plimsoll**: Who is that man? How long has he been here?
     - **Corky**: Nobody. Always. Keep walking, lady.
 
 #### Done `q32-bins-done`
@@ -176,8 +176,8 @@ _The goose waddles off down the stream bank, unharmed and deeply smug._
 
 #### Complete `q32-complete`
 
-**Inspector Thimble** _(shock)_: The cellar is… clean. The drain is clear. There is no goose. I don’t understand what I’m looking at.  
-**Inspector Thimble**: Upstairs, however, smells strongly of eggs and lies. Pass. Just.  
+**Inspector Plimsoll** _(shock)_: The cellar is… clean. The drain is clear. There is no goose. I don’t understand what I’m looking at.  
+**Inspector Plimsoll**: Upstairs, however, smells strongly of eggs and lies. Pass. Just.  
 **Dabney** _(happy)_: A pass! Because of our scheme.  
 **Corky**: Because of me, Dabney. Because of me and the stick.  
 **Dabney**: Nobody is ever going to remember the stick, Corky.  
@@ -1325,7 +1325,12 @@ _The melon curves, wobbles, and takes out all twelve pins in a spray of seeds._
 **Corky** _(happy)_: We won! We kept the pub! I still live in the pub!  
 **Pim Ashdown** _(angry)_: Rematch. Next season. Bring a real ball.  
 **Fitz** _(happy)_: And we won a boat! Who wants a boat? I’m selling it. Tonight.  
+**Fitz**: I hedged. I won the boat and lost half the bet. Down forty shells, up one boat I can’t sail.  
+**Fitz**: That’s called a profit. In my head.  
 **Dabney**: The lane stays. We’re bowlers now. It’s part of my brand.  
+**Dabney**: By the way. Forty percent of the mittens. I want it in writing. On a beer mat.  
+**Fitz**: Seventy-thirty. I’m the seventy. I’m also the thirty.  
+**Corky** _(happy)_: I don’t know what any of those numbers mean, but I’m in.  
 _Corky hands you a shirt with someone else’s name stitched on it. The lane stays behind the pub for anyone to play._  
 _A bowling lane joins your decorations, playable any time, and a bowling shirt joins your wardrobe._  
 

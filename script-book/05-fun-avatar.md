@@ -408,7 +408,7 @@ _Pemba pulls off the red headband and ties it round your wrist. Your Nubbins are
 
 ## Q50. The Jasmine Dragon
 
-*Avatar: The Last Airbender: Iroh’s tea shop in Ba Sing Se* · audience: all · where: The meadow by the pond · when: Any morning (never during Chapters 9–11) · requires: Q46
+*Avatar: The Last Airbender: Iroh’s tea shop in Ba Sing Se* · audience: all · where: The meadow by the pond · when: Any morning (never during Chapters 9–11) · requires: Q46, Q64
 
 **Cast:** Uncle Tenzo (Iroh), Kaito (Zuko), Old Mr Pell
 
@@ -642,6 +642,9 @@ _Puffin flinches at the loud voice and backs further in. Pemba stops, and his fa
 **Pemba** _(sad)_: He’s never been scared of me before.  
 **Tuk**: He’s not scared of you. He’s scared of everything, and right now you’re part of everything.  
 _Your Nubbin sits down quietly at the cave mouth, holding up a fruit. Puffin’s nose twitches._  
+_Your Nubbin, still holding the fruit up, has been leaning slowly backwards._  
+_It is now lying flat. The fruit has not moved._  
+**Tuk** _(happy)_: That Nubbin has never been so committed to anything.  
 **Pemba** _(soft)_: He loves fruit. The big round ones. He eats them whole.  
 
 **Choices**
@@ -1209,6 +1212,9 @@ _The villagers dig a trench all night. When Mount Grumble finally pops, the lava
 **Tuk**: I believe one word. “Shovels.” That was a great call.  
 **Aunt Wen** _(happy)_: Then let me give the Keeper something. Bring your Nubbins to me whenever you like. I’ll read the bones for them.  
 **Aunt Wen**: I’m right more often than not. And much more often about Nubbins than about mountains.  
+_Next morning Tuk keeps his promise. A hundred villagers shuffle up to the crater rim._  
+_Nobody says anything for a long time._  
+**Aunt Wen** _(happy)_: I did say it was nice and fluffy.  
 _Aunt Wen now reads bones at the Grove’s fortune tent. Tuk says he will never go. He goes twice a week, in a hat._  
 
 **Rewards**
@@ -1293,6 +1299,8 @@ _That night by the fire, Nalu unrolls the scroll and practises one move over and
 **Nalu** _(think)_: And I’ll remember how my stomach felt when I lifted the case.  
 _Your Swim Nubbins have been watching closely. One flicks its tail at the stream, and a ribbon of water snaps through the air._  
 **Pemba** _(happy)_: Your Nubbin can do it too! Your Nubbin learned waterbending!  
+_Days later, a long pole drifts downriver to the rocks. A note is tied to it: “For Captain Hake. From the borrowers.”_  
+**Tuk** _(happy)_: That is the nicest crime I’ve ever been part of.  
 
 **Rewards**
 
@@ -1380,7 +1388,7 @@ _Lumi rides home on your shoulder, nibbling your hair. That night it sleeps in t
 
 *Avatar: The Last Airbender: Avatar Day* · audience: all · where: The coastal village of Kettleby · when: Its festival day (never during Chapters 9–11) · requires: Q46
 
-**Cast:** Pemba (Aang), Tuk (Sokka), Nalu (Katara), Mayor Tibbs (Mayor of Chin Village)
+**Cast:** Pemba (Aang), Tuk (Sokka), Nalu (Katara), Mayor Tibbs (Mayor of Chin Village), Mrs Tibbs
 
 ### Step 1: Search the Kettleby records hall for the true story of Marshal Brag.
 
@@ -1422,6 +1430,9 @@ Hint: Choose your strongest piece. Any of them will do; some get a bigger cheer.
 #### Scene `q61-evidence`
 
 _The trial is held in the village square. The judge is Mayor Tibbs. The jury is also Mayor Tibbs._  
+_A woman in the front row, in a matching Tibbs hat, puts up her hand._  
+**Mrs Tibbs**: Dear. You can’t be the judge. You can’t find your own socks.  
+**Mayor Tibbs**: I can find them perfectly well when I’m in a position of authority.  
 **Mayor Tibbs**: The prisoner may speak, but briefly. We have a parade at four.  
 **Tuk**: Your Honour. We have found Marshal Brag’s diary, written in his own hand.  
 **Nalu**: “Today I shall march onto Avatar Kesh’s island and take it. Then the next island. Then all the islands.”  
@@ -1730,7 +1741,7 @@ _He waves at you. It is stiff, awkward and slightly too long. Your Nubbin copies
 
 ## Q65. The White Lotus
 
-*Avatar: The Last Airbender: Pai Sho with Iroh* · audience: all · where: Under the big tree by the pond · when: Any rainy afternoon (never during Chapters 9–11) · requires: Q46
+*Avatar: The Last Airbender: Pai Sho with Iroh* · audience: all · where: Under the big tree by the pond · when: Any rainy afternoon (never during Chapters 9–11) · requires: Q46, Q64
 
 **Cast:** Uncle Tenzo (Iroh), Kaito (Zuko)
 
@@ -1791,6 +1802,9 @@ _Your Nubbins sit in a row along the edge of the board, watching each move like 
 
 _You place your last tile. Flowers bloom across the board. Uncle Tenzo sits back and smiles, very wide._  
 **Uncle Tenzo** _(happy)_: Beaten! Fair and square! What a happy afternoon!  
+_Kaito wakes and blinks at a board full of flowers._  
+**Kaito**: Did I miss it?  
+**Uncle Tenzo** _(happy)_: You snored in three keys. It was the best part.  
 
 #### Complete `q65-complete`
 

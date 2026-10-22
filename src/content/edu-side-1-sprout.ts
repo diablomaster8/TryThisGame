@@ -3184,6 +3184,24 @@ const WALK_CORVIN: Choice = {
 /** The foot of the hill with exactly the walk choices allowed (same ids as s10Foot in the source). */
 const s10Foot = (moss: boolean, sable: boolean, corvin: boolean): EduScene => {
   const tag = (moss ? 'm' : '') + (sable ? 's' : '') + (corvin ? 'c' : '');
+  if (!tag) {
+    // Nobody else can walk, so there is no choice: a line (the sim sets walk = you from the main scene).
+    return sc(
+      's10-foot',
+      [...S10_FOOT_LINES.slice(0, -1), HZ('Just you, then. Good. The quiet way.', 'soft')],
+      [
+        {
+          domain: 'sel',
+          skill: 'knowing what company you like',
+          standard: 'CASEL: Self-awareness',
+          kind: 'notice',
+          after: 3,
+          lines: [N('Gran likes quiet company.'), N('You can know what helps you feel calm.')],
+          parentNote: 'Heard that people can know what kind of company helps them feel calm.',
+        },
+      ],
+    );
+  }
   const choices: Choice[] = [WALK_YOU];
   if (moss) choices.push(WALK_MOSS);
   if (sable) choices.push(WALK_SABLE);
@@ -3512,6 +3530,33 @@ const S10: EduQuest = quest(
 );
 
 const S10_VARIANTS: EduScene[] = [
+  sc(
+    's10-wish3-s1',
+    [
+      N('Evening. Gran’s third wish has a little drawing: four posts.'),
+      HZ('Wish three. Walk the four lanterns with me. Slowly.', 'happy'),
+      N('Gran holds your arm at the pond lantern.'),
+      HZ('This is Moss’s post. He will have told you about the winter.', 'soft'),
+      HZ('I counted the hens. I never asked him to speak. It was hard!', 'happy'),
+      HZ('When the snow melted, he said, “You’ll do.” I sat down in the snow!', 'happy'),
+      HZ('Rule three. Moss taught it to me. Just by sitting.', 'soft'),
+    ],
+    [
+      {
+        domain: 'sel',
+        skill: 'waiting is hard, and we can do it',
+        standard: 'CASEL: Self-awareness',
+        kind: 'notice',
+        after: 4,
+        lines: [
+          N('Gran says waiting was hard. It is hard!'),
+          N('Saying so is the first step to getting better at it.'),
+        ],
+        parentNote:
+          'Heard that waiting is hard, and that saying so is a first step to getting better at it.',
+      },
+    ],
+  ),
   sc(
     's10-lanterns-kept',
     [

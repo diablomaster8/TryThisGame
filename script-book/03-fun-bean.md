@@ -181,6 +181,7 @@ _Then he unties the chair, pushes it towards you and pats it twice. It is yours;
 _He pats the cart too. He mimes running, then riding, then points at your legs and shakes his head: much faster._  
 _The cart is yours as well. He has, apparently, gone off carts._  
 _As you leave, he carries a small kitchen chair out to his front garden and sits in the sun, entirely satisfied._  
+_The kitchen chair has one short leg, and it tips. He stays exactly where it tips him, at an angle, still entirely satisfied._  
 _He pats the space next to him. There is no space next to him. You sit on the wall, and for a while you both watch the lane._  
 
 **Rewards**
@@ -256,7 +257,8 @@ _He walks into the fence post and apologises to it. He walks into the scarecrow 
 **Mr. Tweed**: Mff.  
 _It takes you, the Nubbin, a spoon and a firm tug on each ear to get it off. He emerges orange to the eyebrows, and very dignified._  
 _He presents you with a third one: smaller, neater, with a curly stalk on top._  
-_The Nubbin wears its pumpkin all afternoon, peering out of the eyeholes. Some creatures just like somewhere snug to be._  
+_The Nubbin wears its pumpkin all afternoon, peering out of the eyeholes. By evening a second Nubbin has queued behind it, with its own pumpkin._  
+_Mr. Tweed is pretending to be in a different queue._  
 
 **Rewards**
 
@@ -288,16 +290,18 @@ _Behind Buttons, Mr. Tweed drops a pencil, bends very slowly to fetch it, and re
 **Choices**
 
 - **Nudge your Nubbin to cover its paper.**
-    - Your Nubbin curls an arm round its work. Buttons leans further. Its chair creaks.
+    - Your Nubbin curls an arm round its work. Buttons leans further. Buttons’ chair creaks.
 - **Let it look. Sharing is nice.** — sets `{"q24-shared":true}`
     - **Mrs Inkwell**: Eyes on your own paper, please, Buttons.
     - Buttons sits bolt upright and tries to whistle innocently, which Nubbins cannot do.
+    - **Mrs Inkwell**: Sharing your rubber is sharing, dear. Sharing your answers is a shortcut with a nice name.
+    - Mr. Tweed slides his own paper under his elbow, very casually, and looks at the ceiling.
 - **Look at Mr. Tweed.**
     - Mr. Tweed is studying the ceiling, hands behind his back, with the face of a man who has never met Buttons.
 
 #### Done `q24-shuffled`
 
-_Left, right, under the desk. Buttons follows the paper with its whole body, and on the third shuffle falls off its chair._  
+_Left, right, under the desk. Buttons follows the paper with Buttons’ whole body, and on the third shuffle falls off its chair._  
 _Mr. Tweed, who had been leaning with it, falls over too, and pretends he was inspecting the floor._  
 **Mrs Inkwell** _(shock)_: Buttons? Are you all right?  
 _Buttons is fine. Buttons’ paper is still completely blank._  
@@ -308,7 +312,7 @@ Hint: Practise shapes with Buttons on the chalkboard, then let both Nubbins fini
 
 #### Scene `q24-break`
 
-_Buttons climbs back onto its chair and looks at its blank paper. Its ears droop all the way down._  
+_Buttons climbs back onto the chair and looks at the blank paper. Buttons’ ears droop all the way down._  
 _Behind it, Mr. Tweed’s ears somehow droop too._  
 **Mr. Tweed** _(sad)_: Hnn…  
 _He points at Buttons, then at the paper, then clasps his hands together, pleading._  
@@ -595,7 +599,8 @@ _He looks at you for approval. Your Nubbin is already hiding behind your legs._
 - **Fine. But everyone goes outside first.**
     - He shakes your hand firmly. Then he points at your Nubbin, at the door, and at his eyebrows, which he would also like to keep.
 - **Can I light it?** — sets `{"q28-asked-to-light":true}`
-    - He looks at you very seriously and points to himself: his house, his firework. You may stand well back.
+    - He holds up a small card he has clearly made earlier: GROWN-UPS ONLY.
+    - He checks the card, then himself, and stands up a little taller.
 
 #### Done `q28-cleared`
 

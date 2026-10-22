@@ -593,7 +593,7 @@ export const SIDE_STORY_S24: Quest[] = [
               'shock',
             ),
             SP(
-              'Tilly. Nine. Easter holidays. She heard “ridge” and “sunrise” and went off like a cork.',
+              'Tilly. Nine. Calls Hazel “Gran” too. Everyone under ten does; it saves explaining. She heard “ridge” and went off like a cork.',
             ),
             N(
               'You lift the tarp. A girl in big wellies glares up at you, with a sash across her chest covered in home-made badges.',

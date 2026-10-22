@@ -348,18 +348,42 @@ export const SIDE_STORY_S23: Quest[] = [
         scene: {
           id: 's23-chairs',
           lines: [
-            N('Inside, the cottage is clean and silent and nearly empty. The stove is laid, and not lit.'),
-            N('In front of it are two chairs, set square, a little apart. One has a cushion that has never been sat on.'),
-            C('You came. Good. Sit. The one with the cushion. I bought it for visitors. There haven’t been any.'),
-            N('He sits in the other, his left hand flat on his coat over the breast pocket. The pocket is empty.'),
+            N(
+              'Inside, the cottage is clean and silent and nearly empty. The stove is laid, and not lit.',
+            ),
+            N(
+              'In front of it are two chairs, set square, a little apart. One has a cushion that has never been sat on.',
+            ),
+            C(
+              'You came. Good. Sit. The one with the cushion. I bought it for visitors. There haven’t been any.',
+            ),
+            C('The stove is laid. I don’t light it. I considered offering you tea. It was close.'),
+            N(
+              'He sits in the other, his left hand flat on his coat over the breast pocket. The pocket is empty.',
+            ),
             N('He keeps his hand there anyway. Now and then he presses, as if to check.'),
             C('Last night, at midnight, something knocked. Not at the front.', 'think'),
             C('At that one.'),
-            N('He nods at a second door in the back wall. It is nailed shut, and the nails have rusted into the frame.'),
-            C('That door hasn’t opened in twenty-two years. It faces the valley. I didn’t care for the view.'),
-            C('I didn’t answer. I sat here, and I felt nothing. I’d like that confirmed by somebody else.'),
-            N('Your Nubbin climbs onto his boots and settles there, the way it sits on yours. He looks down at it.'),
-            C('It’s warm. I can see that it’s warm. I can’t feel that it is. Do you understand the difference?', 'think'),
+            N(
+              'He nods at a second door in the back wall. It is nailed shut, and the nails have rusted into the frame.',
+            ),
+            C(
+              'That door hasn’t opened in twenty-two years. It faces the valley. I didn’t care for the view.',
+            ),
+            C(
+              'I didn’t answer. I sat here, and I felt nothing. I’d like that confirmed by somebody else.',
+            ),
+            N(
+              'Your Nubbin climbs onto his boots and settles there, the way it sits on yours. He looks down at it.',
+            ),
+            N(
+              'Corvin looks at the Nubbin on his boots for a long time. He does not move his feet.',
+            ),
+            N('His feet have gone to sleep, and he lets them.'),
+            C(
+              'It’s warm. I can see that it’s warm. I can’t feel that it is. Do you understand the difference?',
+              'think',
+            ),
           ],
         },
       },

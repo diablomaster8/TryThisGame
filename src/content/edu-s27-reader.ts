@@ -100,7 +100,7 @@ const MORNING: Line[] = [
 
 /** Your sold Nubbin walks out (both s27-home choices). */
 const HOME_TAIL: Line[] = [
-  N('Tam opens the pen. Your Nubbin steps out, and stops, and looks at you across the sand.'),
+  N('Hob opens the pen. Your Nubbin steps out, and stops, and looks at you across the sand.'),
   N('Then it comes, the whole way, not hurrying, the 9 still white on its side.'),
   N('It leans against your leg, the way it did the week it hatched. It is cold, and it is yours.'),
 ];
@@ -276,7 +276,7 @@ const S27_SCENES: EduScene[] = [
       },
     ],
   ),
-  // ------------------------------------------------ step 2 done: Tam
+  // ------------------------------------------------ step 2 done: Hob
   scene(
     's27-tam',
     [
@@ -284,9 +284,9 @@ const S27_SCENES: EduScene[] = [
         'That’s Nine. Smallest we’ve got. Last every time. Not slow, exactly. It just doesn’t see the point.',
         'think',
       ),
-      TA('I’m Tam. I do the buckets. I’m not meant to whistle. I forget.'),
+      TA('I’m Hob. I do the buckets. I’m not meant to whistle. I forget.'),
       N(
-        'He fills Nine’s trough, and Nine doesn’t look round. Tam stands there a moment longer than the trough needs.',
+        'He fills Nine’s trough, and Nine doesn’t look round. Hob stands there a moment longer than the trough needs.',
       ),
       TA(
         'The Autumn Show’s at the first frost that isn’t his. Anything that doesn’t place goes over the pass.',
@@ -305,7 +305,7 @@ const S27_SCENES: EduScene[] = [
         standard: 'L.3.4',
         kind: 'ask',
         after: 3,
-        prompt: [N('Tam says “anything that doesn’t place.” What does “place” mean here?')],
+        prompt: [N('Hob says “anything that doesn’t place.” What does “place” mean here?')],
         options: [
           {
             label: 'Finish in the top places of a race, like first, second or third.',
@@ -334,7 +334,7 @@ const S27_SCENES: EduScene[] = [
         after: 5,
         lines: [
           N(
-            'Tam lingers at the trough, and his whistle stops. He never says he cares. His actions say it for him.',
+            'Hob lingers at the trough, and his whistle stops. He never says he cares. His actions say it for him.',
           ),
         ],
         parentNote: 'Noticed how small actions can show that someone cares.',
@@ -1331,7 +1331,7 @@ const S27_SCENES: EduScene[] = [
     [
       ...MORNING,
       N(
-        'Tam is at the pen behind the house. He opens his mouth to say “Nine”, stops, and says its name instead.',
+        'Hob is at the pen behind the house. He opens his mouth to say “Nine”, stops, and says its name instead.',
       ),
       N('He says it carefully, like a word in another language. Corvin pretends not to hear.'),
       C('Take it. It’s no use to me famous.'),
@@ -1670,7 +1670,7 @@ const S27_COMPLETE: EduScene = scene(
       'Pixel has made a pane for the Grove lantern shed window. On frosty mornings, a name comes up on it in white.',
     ),
     N(
-      'Up at the Circuit, Tam has started calling the runners by names. He makes them up, and some are terrible.',
+      'Up at the Circuit, Hob has started calling the runners by names. He makes them up, and some are terrible.',
     ),
     N(
       'Corvin pretends not to notice. Once, passing the pens, he is heard to say “Morning, Gravel” to the third from the end.',
@@ -1683,7 +1683,7 @@ const S27_COMPLETE: EduScene = scene(
       standard: 'D2.Civ.8.K-2',
       kind: 'ask',
       after: 6,
-      prompt: [N('Nobody made a new rule at the Circuit. So why does Tam now use names?')],
+      prompt: [N('Nobody made a new rule at the Circuit. So why does Hob now use names?')],
       options: [
         {
           label: 'Spindle’s words showed everyone the runners mattered.',
@@ -1851,7 +1851,7 @@ export const EDU_S27_READER_VARIANTS: EduScene[] = [
     [
       ...MORNING,
       N(
-        'Tam is at the pen behind the house. He opens his mouth to say “Nine”, stops, and says its real name instead.',
+        'Hob is at the pen behind the house. He opens his mouth to say “Nine”, stops, and says its real name instead.',
       ),
       C('It was yours, I believe. Before.', 'think'),
       C(
@@ -2189,7 +2189,7 @@ const S27: EduQuest = {
     },
     's27-step2': {
       goal: 'Ask the stable lad about the little grey runner at the end of the row.',
-      hint: 'Tam does the buckets by the pens. He’s the only one up here who whistles.',
+      hint: 'Hob does the buckets by the pens. He’s the only one up here who whistles.',
     },
     's27-step3': {
       goal: 'Sit down by the shed window, and wait with the spider.',
@@ -2312,7 +2312,7 @@ const S27: EduQuest = {
   ],
   notes:
     'Lessons: frost below 0°C (32°F) and summer frost being odd; copper and circuits; spider vs insect; body language; “place”; ' +
-    'Tam’s quiet care; wait/weight; quiet company; spindle; spinnerets; feeling words; 25 − 9 = 16; a simile (the duchess); ' +
+    'Hob’s quiet care; wait/weight; quiet company; spindle; spinnerets; feeling words; 25 − 9 = 16; a simile (the duchess); ' +
     'fresh webs and recycled silk; frost on thin threads; number vs name; 12 × 2 = 24; what Corvin says vs means; the think ' +
     'question on kind fibs; spiders take the temperature around them; SOME + BODY and the apostrophe; shade; heat melting ice; ' +
     'autumn daylight; reading an animal’s yes and no; 8 − 3 = 5; light and seeing; Corvin’s motive (think); 9 pm to 5 am = 8 ' +

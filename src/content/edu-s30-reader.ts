@@ -837,7 +837,9 @@ const SCENES: EduScene[] = [
         'Clover’s gold one. Luna told me. Luna tells me things at dawn, when I am too tired to argue.',
         'think',
       ),
-      M('Hush. The quiet one. You have heard her name in the tale. I did not tell you her job.'),
+      M(
+        'Hush. The quiet one. You may have heard she kept the griefs. Nobody told you how. She sat.',
+      ),
       M(
         'When the White Year stilled half the valley, the rest of us dug. Hush went and sat where the still ones, the ones who had died, could see her.',
         'sad',

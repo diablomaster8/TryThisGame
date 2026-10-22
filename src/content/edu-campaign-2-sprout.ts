@@ -101,8 +101,9 @@ const CH5: EduScene[] = [
             label: 'Sad and cross',
             best: true,
             reply: [
-              N('Yes. Tight fists can mean cross.'), N('A quiet voice can mean sad.'),
-              N('You can feel two things at once. That’s allowed.'),
+              N('Yes. Tight fists can mean cross.'),
+              N('A quiet voice can mean sad.'),
+              N('Two feelings at once is allowed.'),
             ],
           },
           {
@@ -176,18 +177,15 @@ const CH5: EduScene[] = [
         domain: 'literacy',
         skill: 'hear the same first sound (c in Corvin and cold)',
         standard: 'RF.K.2',
-        kind: 'ask',
+        kind: 'do',
         after: 7,
-        prompt: [
+        check: 'edu:say:sound:c',
+        lines: [
           SPARKS('Corvin… cold… they start the same! C-c-c!', 'think'),
-          SPARKS('Which word starts like Corvin?'),
+          SPARKS('Say the sound with me: c-c-cold, c-c-Corvin!'),
         ],
-        options: [
-          { label: 'Cat', best: true, reply: [SPARKS('Yes! C-c-cat. C-c-Corvin. Same first sound!', 'happy')] },
-          { label: 'Sun', reply: [SPARKS('Sun starts with sss.'), SPARKS('C-c-cat starts like C-c-Corvin!')] },
-          { label: 'Moon', reply: [SPARKS('Moon starts with mmm. Cat starts with c-c-c, like Corvin!')] },
-        ],
-        parentNote: 'Listened for a first sound and matched words that start the same way.',
+        parentNote:
+          'Said the first sound of Corvin and cold, and heard that they start the same way.',
       },
     ],
     [
@@ -293,45 +291,6 @@ const CH5: EduScene[] = [
       },
     ],
   ),
-  scene(
-    'c5-sold',
-    [
-      N('In Corvin’s row, there is one you know.'),
-      N('It was your Nubbin once. It is grey now.'),
-      N('It has a number painted on its side.'),
-      CORVIN('It eats well here. I told you it would.'),
-      EMBER('Oh. You let him have one.', 'sad'),
-      N('It looks at nothing. Your tummy feels heavy and sad.'),
-      N('Maybe one day, it can come home again.'),
-    ],
-    [
-      {
-        id: lid('c5-sold', 1),
-        domain: 'sel',
-        skill: 'saying sorry and trying to put things right',
-        standard: 'CASEL: Responsible decision-making',
-        kind: 'ask',
-        after: 5,
-        prompt: [EMBER('I got it wrong with Ash, once.', 'soft'), EMBER('What do you do when you get it wrong?')],
-        options: [
-          {
-            label: 'Say sorry, and try to fix it',
-            best: true,
-            reply: [EMBER('Yes. Sorry first. Then fixing.', 'soft'), EMBER('I’m still trying to fix mine.')],
-          },
-          {
-            label: 'Hide',
-            reply: [EMBER('I hid for years. It didn’t help.'), EMBER('Say sorry, then try to fix it.')],
-          },
-          {
-            label: 'Pretend it didn’t happen',
-            reply: [EMBER('Pretending doesn’t fix anything.'), EMBER('Say sorry, then try to make it right.')],
-          },
-        ],
-        parentNote: 'Talked about what to do after a mistake: say sorry, then try to put it right.',
-      },
-    ],
-  ),
 ];
 
 // ---------------------------------------------------------------- chapter 6: Rain on the Hill
@@ -399,8 +358,8 @@ const CH6: EduScene[] = [
             label: 'Sit with Dusty',
             best: true,
             reply: [
-              DUSTY('Yes. Just sit. You don’t have to say anything.', 'soft'),
-              N('Sad is a fine thing to feel. Friends stay close.'),
+              DUSTY('Yes. Just sit. You needn’t say anything.', 'soft'),
+              N('Friends stay close.'),
             ],
           },
           {
@@ -734,7 +693,7 @@ const CH7: EduScene[] = [
             label: 'Food, water and a cosy home',
             best: true,
             reply: [
-              MOSS('Yes. All animals need food and water.', 'happy'), MOSS('And a place to live.'),
+              MOSS('Yes! Food, water and a home.', 'happy'),
               MOSS('And Nubbins need love. Lots of it.', 'soft'),
             ],
           },
@@ -824,22 +783,14 @@ const CH7: EduScene[] = [
         domain: 'literacy',
         skill: 'the letter M and its sound',
         standard: 'ELOF: Literacy',
-        kind: 'ask',
+        kind: 'do',
         after: 7,
-        prompt: [
+        check: 'edu:say:sound:m',
+        lines: [
           PIXEL('MAYBE starts with the letter M. Mmm!', 'happy'),
-          PIXEL('Whose name starts with M too?'),
+          PIXEL('Say the sound with me: m-m-maybe, m-m-Moss!'),
         ],
-        options: [
-          {
-            label: 'Moss',
-            best: true,
-            reply: [PIXEL('Yes! M-m-Moss. And M-m-Marina too!', 'happy')],
-          },
-          { label: 'Sable', reply: [PIXEL('Sable starts with S. Sss! Moss starts with M. Mmm!')] },
-          { label: 'Luna', reply: [PIXEL('Luna starts with L. Lll! Moss starts with M. Mmm!')] },
-        ],
-        parentNote: 'Heard the sound of the letter M and found a name that starts with it.',
+        parentNote: 'Said the sound of the letter M and heard it in Maybe and Moss.',
       },
     ],
   ),
@@ -850,6 +801,8 @@ const CH7: EduScene[] = [
 const C8_GATE: Line[] = [
   N('Fern brings a bag: fruit, a jumper, a whistle, and another jumper!'),
   FERN('It’s cold where you’re going. So: jumpers!', 'happy'),
+  FERN('Two jumpers! One for you. One for your Nubbin.', 'happy'),
+  FERN('It will look very silly.'),
   N('Sable sits by the gate. She will wait here.'),
 ];
 
@@ -957,6 +910,7 @@ const CH8: EduScene[] = [
     [
       ...C8_GATE,
       MARINA('Don’t be brave. Be careful. Hold the rock. Watch my feet.'),
+      MARINA('Rule four still counts. Don’t be Sparks!', 'happy'),
       ...C8_LEDGE,
       MARINA('That’s new. It’s never been cold here before.', 'shock'),
       C8_HOLLOW,
@@ -983,7 +937,7 @@ const CH8: EduScene[] = [
         skill: 'staying safe near water',
         standard: 'ELOF: Perceptual, Motor, and Physical Development',
         kind: 'ask',
-        after: 3,
+        after: 6,
         prompt: [MARINA('Why do we go slowly near water?', 'think')],
         options: [
           {
@@ -1045,7 +999,7 @@ const CH8: EduScene[] = [
         skill: 'staying safe near water',
         standard: 'ELOF: Perceptual, Motor, and Physical Development',
         kind: 'ask',
-        after: 3,
+        after: 5,
         prompt: [MARINA('Do you remember my rules near water?', 'think')],
         options: [
           {
@@ -1236,7 +1190,7 @@ export const EDU_CAMPAIGN_2_SPROUT: EduCampaign = {
   scenes: [...CH5, ...CH6, ...CH7, ...CH8],
   notes:
     'Sprout (read aloud) versions of Book Two, chapters 5–8. Every scene in BOOK2_SCENES has a version, ' +
-    'including the variants c5-considered, c5-sold, c6-open-walked and c8-ledge-s4. All original choice ids are kept: none ' +
+    'except c5-sold (cut 2026-10-22: no sprout choice sells a Nubbin), including the variants c5-considered, c6-open-walked and c8-ledge-s4. All original choice ids are kept: none ' +
     'of Book Two’s choices is cruel or bleak, so no defaultChoice is needed. Fossil’s farewell uses the ' +
     'EDU-STYLE wording on death (faded = died; body stopped working and won’t start again; never sleep), then ' +
     'comfort. The Stillness is "a cold, sad stone that makes Nubbins too still". Hazel is "very poorly", no ' +
@@ -1247,6 +1201,8 @@ export const EDU_CAMPAIGN_2_SPROUT: EduCampaign = {
 };
 
 export const CHECKS: string[] = [
+  'edu:say:sound:c',
+  'edu:say:sound:m',
   'edu:count:stopwatches:4',
   'edu:count:wishes:3',
   'edu:count:lantern-posts:4',

@@ -214,6 +214,7 @@ _Sable lets you within two steps now. She does not come closer. But she does not
 **Clover** _(soft)_: They aren’t. They’re just carrying the thing that happened. You can’t take it off them. You can only make it lighter.  
 **Clover**: Hazel taught me that. She said it to me over a teacup, like it was nothing. I cried in her kitchen for an hour.  
 _Sable eats the fruit you left, and this time, when she finishes, she sits down instead of leaving._  
+_Out on the lane, some child is skipping to a rhyme you almost know. Badly._  
 _Next morning, early, you go to see where she slept. A hollow in the long grass, the size of two cupped hands._  
 _Around it, the grass is white with frost. Only there. Everywhere else, the dew is just dew._  
 **Clover** _(think)_: That’s odd. It’s not cold enough for that. Not for months yet.  
@@ -596,6 +597,8 @@ _It rains for three days. On the third, Dusty is up on the hill in it, cross-leg
 _The gutters gurgle. The hill path has turned into a small brown stream, and it smells of wet chalk and crushed thyme._  
 _In their lap is a small old Nubbin the colour of sandstone, curled like a shell. Her ball is so pale the rain shows through it._  
 **Dusty** _(soft)_: Oh. Hello. Don’t mind me. I’m getting wet on purpose.  
+_A duck nearby has also decided to get wet on purpose. It is regarding Dusty with respect._  
+**Dusty**: Ignore Gerald. He thinks I’m onto something.  
 **Dusty**: This is Fossil. Original, I know. I dug her egg out of the cliff face when I was eleven. With a big spoon.  
 **Dusty**: She’s been with me twenty years. Twenty years and a bit. I’ve been counting the bit.  
 _Fossil opens one eye, considers you, and taps Dusty’s wrist twice with one small hand._  
@@ -621,6 +624,8 @@ _Dusty doesn’t cry. They just sit there, getting wetter, looking at the flower
 _It rains for three days. On the third, Dusty is up on the hill in it, cross-legged in the wet, with Fossil in their lap._  
 _The hill path has turned into a small brown stream. Dusty has put their coat over Fossil and left the rest of themselves out in it._  
 **Dusty** _(soft)_: You came. Good. She’s been watching the gate for you all morning.  
+_A duck sits in the rain beside them, wet on purpose too. It is regarding Dusty with respect._  
+**Dusty**: Ignore Gerald. He thinks I’m onto something.  
 **Dusty**: Thank you for the walk. The cliff, and the tree, and the water. I mean it. I don’t say thank you much. Ask anyone.  
 **Dusty**: She hadn’t been in water in six years. Did you see her face? I’m keeping that face.  
 **Dusty** _(happy)_: And she tapped the rock when I told it wrong. Twenty years, and she still had to have the last word.  
@@ -739,7 +744,8 @@ _You sit on the frozen ground. After a while Sable sits too, two steps off, with
 
 **Moss**: A shard does not shout. It is not a monster. If it were a monster, it would be easy; you would only have to be brave.  
 **Moss**: It says one word. It says it to whoever is most afraid. From where it sits, that is a kindness.  
-_He waits so long that you think he has finished. Then:_  
+_He waits so long that a hen over the wall decides he has finished, and says so at length._  
+_Moss waits for the hen as well. Then:_  
 **Moss**: Safe.  
 _The word sits in the cold air between you. Sable’s ears go flat against her head._  
 **Moss**: Think what you would give to know nothing would ever hurt them. No hawk. No fever. No hill.  
@@ -773,6 +779,8 @@ _You think of Fossil in the rain. You think of Dusty’s muddy hand, lifted to a
 **Moss**: She said “well”.  
 _The sun reaches the top of the western hill. The frost on the near grass begins, very slightly, to steam._  
 **Moss**: A Nubbin that is well can be hurt. It runs off. It eats a beetle. It falls in love with a stick and will not be parted from it.  
+_Your Nubbin, who has been listening, goes and fetches a stick. It lays it at Moss’s feet._  
+**Moss** _(soft)_: Yes. Thank you. Exactly that.  
 **Moss**: It gets lost in the long grass. It comes back. One day it goes up the hill.  
 **Moss**: A Nubbin that is safe cannot be hurt. And it cannot do any of the rest.  
 _…_  
@@ -848,7 +856,7 @@ _On the hill, Moss stirs. His voice comes from just behind your ears, dry and qu
 **Choices**
 
 - **Yes. Now.**
-    - **Nova**: Oh. Good. That was much easier than I’d feared.
+    - **Nova**: Oh. Good. That was much easier than I’d feared. I’d practised a speech.
     - **Nova**: Take a Nubbin that trusts you. Take fruit. Take more fruit than that.
 - **Is she all right?**
     - **Nova**: I don’t know. That’s the honest answer, and you’d know if I gave you another one.
@@ -868,6 +876,7 @@ _Marina is waiting at the pool below the falls, sleeves rolled, hair already wet
 **Marina**: Nova said you’d be coming this way. Nova never says anything, so I listened.  
 **Marina**: Nobody comes this way but me. Hazel did, with me, more times than I could count. Hand on the rock, eyes on my heels.  
 **Marina**: And don’t be brave. Brave people fall off. Be careful instead. It’s less exciting and you get home.  
+**Marina** _(think)_: Rule four still applies. Sparks would have grabbed the waterfall.  
 **Marina** _(think)_: I taught every one of Hazel’s Nubbins to swim, you know. People think that’s all I did for her.  
 _The ledge is a hand’s width wide and runs behind the falling water. The roar fills your head until nothing else fits._  
 _Green light. White water. Spray on your face, cold; the rock under your palm, colder._  
@@ -898,6 +907,7 @@ _Marina is waiting at the pool below the falls, sleeves rolled, hair already wet
 **Marina**: Nova said you’d be coming this way. Nova never says anything, so I listened.  
 **Marina** _(happy)_: You’ve walked this once already, so you know the rules. Hand on the rock, eyes on my heels.  
 **Marina**: And you still don’t get to be brave. Brave people fall off.  
+**Marina** _(think)_: Rule four still applies. Sparks would have grabbed the waterfall.  
 _The ledge is a hand’s width wide and runs behind the falling water. The roar fills your head until nothing else fits._  
 _Green light. White water. Spray on your face, cold; the rock under your palm, colder._  
 _Then, halfway along, warmth. It comes up through the stone into your hand like the side of a teapot._  
@@ -998,6 +1008,8 @@ _He looks along the rows the way some people look at a bookshelf they have duste
 **Corvin Vale** _(sad)_: Hers ran away. Hers got sick. Hers died in her arms, and she cried on the hill, and called it love.  
 **Corvin Vale**: I wanted them safe. I still want it. I have never understood why that makes me the villain of her story.  
 _Somewhere in the rows, a grey Nubbin sneezes. It does not move. None of the others look round._  
+**Ember** _(think)_: Bless you.  
+_She says it without thinking. Nobody in this garden has heard those words in years._  
 _Every grey eye in the garden is on you, waiting for the next bad thing._  
 
 **Choices**
@@ -1062,6 +1074,8 @@ _He looks along the rows the way some people look at a bookshelf they have duste
 **Corvin Vale** _(sad)_: Hers ran away. Hers got sick. Hers died in her arms, and she cried on the hill, and called it love.  
 **Corvin Vale**: I wanted them safe. I still want it. I have never understood why that makes me the villain of her story.  
 _Somewhere in the rows, a grey Nubbin sneezes. It does not move. None of the others look round._  
+**Ember** _(think)_: Bless you.  
+_She says it without thinking. Nobody in this garden has heard those words in years._  
 _Every grey eye in the garden is on you, waiting for the next bad thing._  
 
 **Choices**
@@ -1180,6 +1194,7 @@ _She doesn’t flinch. She sits down, and looks at the pocket, and then up at yo
 **Marina**: Whatever you did up there, the valley’s already talking about it.  
 **Marina** _(think)_: Fern says it was brave. Byte says it was statistically unwise. Both of them are right. That’s the trouble with this valley.  
 _On your step is a pie from Fern, still warm, with a note on top: RULE ONE. THE SECOND HALF. THE BIT SHE NEVER DID._  
+**Marina** _(think)_: She baked two, you know. Won’t say where the other one went. Went pink when I asked.  
 _Dusk. The tin is in your coat, and the coat is stiff with frost down that side._  
 _Moss is waiting at the foot of the hill. You didn’t see him come down. You can see the grass through him._  
 **Moss**: …Show me.  
@@ -1197,6 +1212,8 @@ _You do. As you kneel, the glass of the dark fourth lantern above you frosts ove
 **Moss** _(think)_: On the longest night of the year the falls freeze and the spring opens. What came out of it can go back in.  
 **Moss**: The other three sleep. Let them. Some things you keep by keeping watch.  
 **Moss**: Only a grey one can carry it close. The cold has already done its worst to the grey. It has nothing new to say to them.  
+**You**: So. The longest night, the Wellspring, and someone grey carries it.  
+**Moss**: Yes. Three days. Eat something first.  
 **Moss** _(sad)_: None of us was grey, then. We could only break it, and wait.  
 **Moss** _(soft)_: …I am grey enough.  
 _He doesn’t go back up the hill. He sits by the long-grass post all night, and you sit with him, and neither of you says anything._  
@@ -1312,6 +1329,12 @@ _Nobody trusts it. Everybody sits down anyway, on whatever is nearest: a bucket,
 _Pixel is asleep across the timing box, cheek on the dial. It beeps, very softly, at every out-breath._  
 **Fern** _(happy)_: I brought biscuits. They’ve frozen. You can still suck them.  
 _The biscuits taste of ginger and lantern smoke. Sparks has four. Nobody counts. Byte counts._  
+_Pixel opens one eye as Byte steps over her._  
+**Pixel**: Your lace is undone.  
+**Byte**: I’m aware of the lace.  
+**Pixel** _(happy)_: He’s been aware of it since our wedding. All the way down the aisle.  
+**Byte**: It was a short aisle. Statistically, I nearly made it.  
+_She is asleep again before he has finished. He tucks her scarf over the dial so the beeping won’t wake her._  
 _Then Byte sits down next to you on the cold grass. He stopped writing on his clipboard an hour ago. He holds it like a hot-water bottle._  
 **Byte** _(think)_: Can I ask you something unscientific?  
 **Byte**: If it works. If the cold stops, and the morning comes, and the fourth lantern lights. What will have done it?  
@@ -1329,7 +1352,7 @@ _Then Byte sits down next to you on the cold grass. He stopped writing on his cl
     - **Byte**: Yes. Enormously. To me.
     - **Byte**: …Not tonight, though. Tonight I’ll take the morning however it comes.
 
-> New. Plays partway through the timed vigil step (after the song, a quiet spell between waves), every route, before c10-falls. Comic warmth (Dusty as a seat, Pixel asleep on the beeping timer, Fern’s frozen biscuits) and Byte’s question the player answers: was it the lanterns or the people? Choices lull-lanterns | lull-us | lull-matter change Byte friendship only, no flags. Byte still cannot hear Moss (payoff c10-moss-stays).
+> New. Plays partway through the timed vigil step (after the song, a quiet spell between waves), every route, before c10-falls. Comic warmth (Dusty as a seat, Pixel asleep on the beeping timer, waking once to tease her husband Byte about his lace (canon 38), Fern’s frozen biscuits) and Byte’s question the player answers: was it the lanterns or the people? Choices lull-lanterns | lull-us | lull-matter change Byte friendship only, no flags. Byte still cannot hear Moss (payoff c10-moss-stays).
 
 #### Scene `c10-falls`
 
@@ -1838,6 +1861,7 @@ _Sparks has brought a cake, which has collapsed on one side. Pixel has fixed the
 _Fern has made lantern buns, and for the first time in living memory they have come out. She keeps showing people one, as evidence._  
 _Dusty is digging a new bed by the old wall, for reasons they won’t explain. Nova has brought seeds from somewhere you’ve never heard of._  
 _Clover is crying already, and says it’s the cold. Byte has a clipboard and has not written anything on it._  
+_Pixel and Byte argue about where Hazel would want them to stand. They settle it by standing there together._  
 _Marina sits on the edge of the pond with her feet in the water, which is freezing, and says it’s lovely._  
 _Ember stands by the gate with Ash. At first light Ash ran at the gate, the way she used to. Not full tilt. Half. She bounced off it._  
 _Ember has told nobody. Everybody knows._  
@@ -2293,6 +2317,8 @@ _You leave a little more, the next night. Hazel would have._
 #### Ending scene `end-epi-gate-family`
 
 _Corvin comes on Sundays and sits by the pond and says nothing, badly, but he is learning._  
+_On the first Sunday he brings back a pie dish, washed, with a pie in it. It is not a good pie. Everyone has some._  
+**Fern** _(think)_: I’ve no idea whose dish that is. It’s a lovely dish.  
 _He comes in the way Hazel taught everyone, every time, as if he isn’t sure it will still work. It always does._  
 _Ember sits on the far side of the pond. She has not forgiven him. Some Sundays she passes him the teapot._  
 

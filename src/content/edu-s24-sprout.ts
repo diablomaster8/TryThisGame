@@ -629,6 +629,7 @@ const S24_SCENES: EduScene[] = [
       ...STOW_OPEN,
       N('Here comes Sparks, running and waving both arms.'),
       SP('Is she in there? Sorry! Sorry! It’s my cousin, Tilly.', 'shock'),
+      SP('She calls Hazel “Gran”, too. All the little ones do.'),
       N('You lift the cover. A girl in big wellies looks up at you.'),
       N('She has a sash with lots of home-made badges.'),
       ...STOW_LAW,

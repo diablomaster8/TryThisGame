@@ -90,7 +90,8 @@ const S9_GATE_CLOSE: Line[] = [
   N('Behind you, Hazel drinks her tea and does not turn round. She is listening to every word.'),
 ];
 const S9_FAMILY_EXTRA: Line[] = [
-  C('Things have been reaching me this week. From your side of the valley. Things people said, and things they found.', 'think'),
+  C('Things have been reaching me this week. Left on my wall. Never signed.', 'think'),
+  C('A pie, yesterday. I’ve been afraid to eat it, and more afraid not to.'),
   C('I didn’t know what to do with any of it. I still don’t. I kept all of it anyway.', 'soft'),
 ];
 
@@ -231,6 +232,17 @@ const WALK_CORVIN: Choice = {
  */
 const s10Foot = (moss: boolean, sable: boolean, corvin: boolean): Scene => {
   const tag = (moss ? 'm' : '') + (sable ? 's' : '') + (corvin ? 'c' : '');
+  if (!tag) {
+    // Nobody else can walk, so there is nothing to choose: a line, with walk = you set on exit.
+    return {
+      id: 's10-foot',
+      lines: [
+        ...S10_FOOT_LINES.slice(0, -1),
+        H('Just you, then. Good. The quiet way. I like the quiet way.', 'soft'),
+      ],
+      set: { walk: 'you' },
+    };
+  }
   const choices: Choice[] = [WALK_YOU];
   if (moss) choices.push(WALK_MOSS);
   if (sable) choices.push(WALK_SABLE);
@@ -484,8 +496,17 @@ export const SIDE_STORIES_MAIN: Quest[] = [
     complete: {
       id: 's2-complete',
       lines: [
-        N('Morning. Frost on the grass at the edge of the Grove, in two small circles where two grey things slept.'),
-        N('Wisp is curled in one of them, the egg stone between his paws. It has been cold for weeks. He keeps it anyway.'),
+        N(
+          'Morning. Frost on the grass at the edge of the Grove, in two small circles where two grey things slept.',
+        ),
+        N(
+          'Wisp is curled in one of them, the egg stone between his paws. It has been cold for weeks. He keeps it anyway.',
+        ),
+        FE(
+          'He’s given me back my left glove. Now the right one’s gone. I think it’s a rotation.',
+          'happy',
+        ),
+        N('Under the cottage step, something hisses. It sounds pleased with itself.'),
         M('He’ll never give that back, you know. Not if he lives to be as old as me.', 'think'),
         S2_MOSS_RULE,
         N('…'),
@@ -955,8 +976,14 @@ export const SIDE_STORIES_MAIN: Quest[] = [
       id: 's10-letter',
       lines: [
         ...S10_LETTER,
-        N('Behind you, someone lifts and pushes the gate: Fern, with a basket. Then Sparks. Then everyone, one by one.'),
-        N('They have come to see why you are standing so still. You hold the letter out. You don’t have to say anything.'),
+        N(
+          'Behind you, someone lifts and pushes the gate: Fern, with a basket. Then Sparks. Then everyone, one by one.',
+        ),
+        N(
+          'They have come to see why you are standing so still. You hold the letter out. You don’t have to say anything.',
+        ),
+        N('Byte looks down. His shoelaces are untied.'),
+        N('He leaves them.'),
       ],
     },
     rewards: [
@@ -1004,13 +1031,15 @@ export const SIDE_STORIES_MAIN: Quest[] = [
       'is far older than Hazel; he did not hatch for her. Use the young-hazel portrait, snow, a warm light wash. Moss appears ' +
       'only in this memory and in walk = moss, so the story works if he faded at the Long Night. ' +
       'VARIANTS (all in SIDE_STORIES_MAIN_VARIANTS). ' +
+      '(0) s10-wish3 is for a player who has not played S1. If s1Done is true, play s10-wish3-s1 instead: Hazel tells the ' +
+      'winter herself and the flashback is not replayed. ' +
       '(1) s10-lanterns is for a lit Long-Grass lantern. If keptStone is true, play s10-lanterns-kept instead (the post still ' +
       'flickers). ' +
       '(2) Step 4’s scene s10-night is for hazel = secret; with hazel = told play s10-night-told instead. ' +
       '(3) The done scene: build the id as s10-foot plus a dash and the letters, in order, m if Moss is still in the ' +
       'world (mossReturned true, or the wisp route with mossFaded false, or the keep route, where he stays on the hill: ' +
       'c11-moss-here or c11-moss-kept), s if Sable is ' +
-      'bonded, c if corvinGate = family; with none, plain s10-foot (only “Just me”). On the keep route (keptStone) Moss ' +
+      'bonded, c if corvinGate = family; with none, plain s10-foot (no choice: a line that sets walk = you). On the keep route (keptStone) Moss ' +
       'stays in the world even when mossFaded is true, and walk = moss there always ends in end-epi-walk-moss-stayed ' +
       '(campaign-book3.ts), faded or not; on unmade routes it ends in end-epi-walk-moss. The quest lists s10-foot-msc (all ' +
       'four); the other seven are variants. Each choice only sets walk; the campaign scene c12-walk-<walk> (campaign-book3.ts) ' +
@@ -1040,8 +1069,17 @@ export const SIDE_STORIES_MAIN_VARIANTS: Scene[] = [
   {
     id: 's2-complete-sable',
     lines: [
-      N('Morning. Frost on the grass at the edge of the Grove, in two small circles, side by side.'),
-      N('Wisp is still at the edge, the egg stone between his paws. He hasn’t come in. He hasn’t gone, either.'),
+      N(
+        'Morning. Frost on the grass at the edge of the Grove, in two small circles, side by side.',
+      ),
+      N(
+        'Wisp is still at the edge, the egg stone between his paws. He hasn’t come in. He hasn’t gone, either.',
+      ),
+      FE(
+        'He’s given me back my left glove. Now the right one’s gone. I think it’s a rotation.',
+        'happy',
+      ),
+      N('Under the cottage step, something hisses. It sounds pleased with itself.'),
       M('She chose. That’s worth more than anything we’d have chosen for her.', 'soft'),
       S2_MOSS_RULE,
       N('…'),
@@ -1051,9 +1089,15 @@ export const SIDE_STORIES_MAIN_VARIANTS: Scene[] = [
   {
     id: 's2-complete-driven',
     lines: [
-      N('Morning. Frost on the grass at the edge of the Grove, in one small circle where one grey thing slept.'),
-      N('In the hedge there is a gap the size of a thin Nubbin, and a sock caught on a thorn.'),
-      N('Sable sits by the gap for most of the morning. Then she comes back and eats her fruit, all of it.'),
+      N(
+        'Morning. Frost on the grass at the edge of the Grove, in one small circle where one grey thing slept.',
+      ),
+      N(
+        'In the hedge there is a gap the size of a thin Nubbin, and a sock caught on a thorn. Nobody claims it.',
+      ),
+      N(
+        'Sable sits by the gap for most of the morning. Then she comes back and eats her fruit, all of it.',
+      ),
       LU('She’s eating. That’s what we wanted.', 'sad'),
       M('Yes.', 'soft'),
       N('…'),
@@ -1079,6 +1123,36 @@ export const SIDE_STORIES_MAIN_VARIANTS: Scene[] = [
       ...S10_POST_ASK,
     ],
     choices: s10PostChoices(H('Thank you for walking it with me. I mean that. Whatever else.', 'soft')),
+  },
+  // ---------------------------------------------------------------- S10: replaces s10-wish3 (s1Done)
+  {
+    id: 's10-wish3-s1',
+    lines: [
+      N(
+        'Dusk. The last line on the seed packet has the drawing: four little posts in a row, and two stick figures.',
+      ),
+      H(
+        'Number three. Walk the four lanterns with me. Once. Slowly. I’ll be slow whether you like it or not.',
+        'happy',
+      ),
+      N('She takes your arm at the pond lantern. Not leaning. Holding.'),
+      H(
+        'Moss’s post. I’ll tell you something about it, and then you’re not to make a fuss.',
+        'soft',
+      ),
+      H('He’ll have told you about the winter. He’ll have left out the fidgeting.', 'happy'),
+      H(
+        'I counted the hens. I unpicked my mittens. I never once asked him to say a word. It nearly killed me.',
+      ),
+      H(
+        'Then at the thaw he looked up and said “You’ll do”. I was so startled I sat down in the snow.',
+        'happy',
+      ),
+      H(
+        'Rule three. I thought I’d made it up. I’d been on the end of it for a whole winter.',
+        'soft',
+      ),
+    ],
   },
   // ---------------------------------------------------------------- S10: replaces s10-night
   { id: 's10-night-told', lines: S10_NIGHT_TOLD },
@@ -1121,6 +1195,7 @@ export const SIDE_STORIES_MAIN_FLAGS: string[] = [
   'mossFaded',
   'mossReturned',
   's18-centre',
+  's1Done',
 ];
 
 export const CHECKS: string[] = [

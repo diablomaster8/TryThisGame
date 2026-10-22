@@ -156,3 +156,31 @@ this sheet, follow the sheet and note it. Maor approved these decisions.
 37. **The content setting** is called "Mature content", with three positions: Off, 13+ and 18+.
     Off is the default.
 
+
+## Cross-story threads (story review, 2026-10-22)
+
+38. **Pixel and Byte are married.** They have been married about twenty years and share the
+    workshop. Pixel is she/her, Byte he/him. They show it by bickering (her clocks, his
+    shoelace), never by sentiment.
+    - Byte's lace came undone on their wedding day too, "all the way down the aisle".
+    - **Never:** make them siblings, rivals in love, or newly courting.
+39. **Marina's numbered rules** grow across the ledge stories, and each one is about someone:
+    - Rule four (c2-open): "Don't be Sparks."
+    - Rule five (S4): don't be Marina at your age.
+    - Rule six (S29, her leaving): "Come back." It is for everyone.
+    - Sparks may answer with a rule of her own: "Don't be Marina."
+40. **Fern's pies.** The pie on your step in `c9-close` is Fern's. She baked two and won't say
+    where the other went. The unsigned pie on Corvin's wall in S9 (`S9_FAMILY_EXTRA`) is hers too.
+    In the gate-family epilogue Corvin brings the dish back on Sundays, washed, with a pie in it.
+    Fern denies knowing whose dish it is, badly.
+41. **Cinder's rhyme is the valley's skipping rhyme.** The children skip it badly, with great
+    enthusiasm, all year (first heard on the lane in `c3-close`). Fern hums it to the hens.
+42. **Granny Brock** (S29's charcoal-burner) is the valley's recurring grump. She says less than
+    anyone, and always comes back with soup.
+    She turns up in S20 (her bell), S28 (Parcel's coat) and S31 (a quilt and a flask), as the
+    shared `granny-brock` speaker.
+43. **Names settled by the 2026-10-22 review fixes.**
+    - S27's stable lad is **Hob** (speaker id `s27-tam` kept). S31's seven-year-old is **Tam**.
+    - Q32's inspector is **Inspector Plimsoll** (Thimble is S23's; Pell is Old Mr Pell's).
+    - Q8: **Frannie is Reggie's wife.** Q61: **Mrs Tibbs** is the mayor's wife.
+    - Q9: **Mother Brindle** is Barty's Keeper, who hatched him; "mother" is her own word for it.

@@ -87,7 +87,7 @@ const MORNING: Line[] = [
 
 /** Your sold Nubbin walks out (both s27-home choices). */
 const HOME_TAIL: Line[] = [
-  N('Tam opens the pen. Your Nubbin steps out.'),
+  N('Hob opens the pen. Your Nubbin steps out.'),
   N('It walks to you, slowly, all the way.'),
   N('It leans on your leg, just like when it was little.'),
   N('It’s coming home.'),
@@ -180,17 +180,17 @@ const S27_SCENES: EduScene[] = [
       },
     ],
   ),
-  // ------------------------------------------------ step 2 done: Tam
+  // ------------------------------------------------ step 2 done: Hob
   sc(
     's27-tam',
     [
       TA('That’s Nine. It’s the smallest. It always comes last.', 'think'),
-      TA('I’m Tam. I feed them. I’m not meant to whistle.'),
-      N('Tam fills Nine’s bowl. Nine doesn’t look round.'),
+      TA('I’m Hob. I feed them. I’m not meant to whistle.'),
+      N('Hob fills Nine’s bowl. Nine doesn’t look round.'),
       TA('Soon there’s a big race. The Autumn Show.', 'sad'),
       TA('A runner who doesn’t win a ribbon gets sold.'),
       TA('A man takes it far away. It won’t come back here.'),
-      N('Tam stops whistling. In the window, the spider goes very still.'),
+      N('Hob stops whistling. In the window, the spider goes very still.'),
     ],
     [
       {
@@ -199,16 +199,16 @@ const S27_SCENES: EduScene[] = [
         standard: 'ELOF: Social and Emotional Development',
         kind: 'ask',
         after: 6,
-        prompt: [N('Tam has stopped whistling. How do you think he feels?')],
+        prompt: [N('Hob has stopped whistling. How do you think he feels?')],
         options: [
           opt(
             'Sad, or worried',
-            [N('Yes. Tam is worried about Nine. When we’re sad, we often stop whistling.')],
+            [N('Yes. Hob is worried about Nine. When we’re sad, we often stop whistling.')],
             true,
           ),
           opt('Happy', [N('He was whistling before. Now he’s stopped. I think he’s sad.')]),
         ],
-        parentNote: 'Worked out how Tam feels from what he does.',
+        parentNote: 'Worked out how Hob feels from what he does.',
       },
     ],
   ),
@@ -756,7 +756,7 @@ const S27_SCENES: EduScene[] = [
     's27-letgo',
     [
       ...MORNING,
-      N('Tam says Nine’s new name, very carefully. Not “Nine” any more.'),
+      N('Hob says Nine’s new name, very carefully. Not “Nine” any more.'),
       C('Take it home. It’s no use to me now.'),
       N('Nine looks at the open pen. Then Nine follows you.'),
     ],
@@ -989,7 +989,7 @@ const S27_COMPLETE: EduScene = sc(
     N('Fern sews SOMEBODY’S on ribbons. One for everyone who came.'),
     N('Pixel makes a frosty window for the Grove shed.'),
     N('On cold mornings, a name shines on it.'),
-    N('Up at the Circuit, Tam gives every runner a name.'),
+    N('Up at the Circuit, Hob gives every runner a name.'),
     N('Even Corvin says “Morning, Gravel” to one of them.'),
   ],
   [
@@ -1029,7 +1029,7 @@ export const EDU_S27_SPROUT_VARIANTS: EduScene[] = [
       N('At the end is one looking down the valley, towards the Grove.'),
       N('You know that one. It used to be yours.'),
       N('You sold it to Corvin in the spring. Now it has a 9.'),
-      N('Tam comes along with two buckets, whistling.'),
+      N('Hob comes along with two buckets, whistling.'),
     ],
     [
       {
@@ -1105,7 +1105,7 @@ export const EDU_S27_SPROUT_VARIANTS: EduScene[] = [
     's27-home',
     [
       ...MORNING,
-      N('Tam says its real name. The name you gave it.'),
+      N('Hob says its real name. The name you gave it.'),
       C('It was yours once. Two hundred Shells. That’s what I paid.', 'think'),
     ],
     [
@@ -1332,8 +1332,8 @@ const S27: EduQuest = {
       hint: 'The shed is behind the race track. Look in the bottom drawer.',
     },
     's27-step2': {
-      goal: 'Talk to Tam about the little grey runner.',
-      hint: 'Tam is by the pens with his buckets. Listen for whistling.',
+      goal: 'Talk to Hob about the little grey runner.',
+      hint: 'Hob is by the pens with his buckets. Listen for whistling.',
     },
     's27-step3': {
       goal: 'Sit by the shed window and wait with the spider.',
@@ -1386,7 +1386,7 @@ const S27: EduQuest = {
   },
   scenes: [...S27_SCENES, S27_COMPLETE],
   notes:
-    'Lessons: frost is ice; a spider’s eight legs; tracing 9 (a number, not a name); naming Tam’s feeling; waiting beside ' +
+    'Lessons: frost is ice; a spider’s eight legs; tracing 9 (a number, not a name); naming Hob’s feeling; waiting beside ' +
     'someone; clapping Spin-dle; counting four friends; long and short words; carrying gently; frost forming on the web; ' +
     '2 + 1; noticing a scared friend; tiptoeing; SOME + BODY; beside and behind; ice melting; autumn leaves; first and last; ' +
     'light to see by; people can change; the four letters of HOME; a friend going first; egg sacs; counting to ten; kind words ' +

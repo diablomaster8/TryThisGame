@@ -149,12 +149,28 @@ export const SIDE_STORIES_FUN_2: Quest[] = [
             N('Behind the jam: a fat ledger, soft at the corners. On the cover, in Hazel’s hand: “EGGS.”'),
             N('Underneath, smaller: “Do not lend this to Byte.”'),
             N('Halfway through, a section starts under a heading underlined twice: “Given away.”'),
-            N('Forty years of eggs, in pencil, with the weather. You can’t help reading the others on the way.'),
-            H('“Egg 7. Given to Sparks, aged six. First sound: a bang. Not from the egg. From Sparks.”', 'happy'),
-            H('“Egg 23. Given to Byte, who asked for a receipt. Gave him one. First sound: a hiccup. He wrote that down too.”', 'think'),
-            H('“Egg 41. Given to Ember, aged fifteen, very serious. Promised to feed it before herself. Meant it.”', 'soft'),
-            H('“First sound: three notes. Low, high, and a little one at the end, like a question.”'),
-            N('Hazel has drawn the notes as three dots: low, high, and a tiny one trailing upwards.'),
+            N(
+              'Forty years of eggs, in pencil, with the weather. You can’t help reading the others on the way.',
+            ),
+            N('You read it in her voice. It’s easy. She wrote exactly the way she talked.'),
+            H(
+              '“Egg 7. Given to Sparks, aged six. First sound: a bang. Not from the egg. From Sparks.”',
+              'happy',
+            ),
+            H(
+              '“Egg 23. Given to Byte, who asked for a receipt. Gave him one. First sound: a hiccup. He wrote that down too.”',
+              'think',
+            ),
+            H(
+              '“Egg 41. Given to Ember, aged fifteen, very serious. Promised to feed it before herself. Meant it.”',
+              'soft',
+            ),
+            H(
+              '“First sound: three notes. Low, high, and a little one at the end, like a question.”',
+            ),
+            N(
+              'Hazel has drawn the notes as three dots: low, high, and a tiny one trailing upwards.',
+            ),
           ],
         },
       },
@@ -411,6 +427,7 @@ export const SIDE_STORIES_FUN_2: Quest[] = [
             N('The clock ticks. The chute fires a plum across the shed and hits Byte squarely in the clipboard.'),
             P('That was calibration.', 'think'),
             B('That was a plum.'),
+            P('Twenty years married, and he still argues with my clocks.', 'happy'),
             N('On the next tick a piece of fruit drops into the bowl, exactly on the beat.'),
             P('I built the clock. Clocks don’t care what they count down to. I’m trying to care on its behalf.', 'sad'),
             B('Null eats on the bell, sleeps on the bell, is loved on the bell. If enough is a quantity, this is enough.'),

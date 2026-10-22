@@ -453,10 +453,14 @@ const SWAPS: Record<string, (c: CampaignState, s: Swapper) => void> = {
   },
   'c12-open': (c, s) => {
     // S26's walled garden, spliced in as Hazel walks the posts.
-    // The sprout band's c12-open is shorter, so it anchors on its own line.
+    // The sprout and reader bands' c12-open lines don't line up with main's, so each anchors on its own line.
     if (c.flags.hushGarden)
       s.spliceScene(
-        { main: 'Hazel walks the Grove. Slowly.', sprout: 'Gran Hazel walks slowly.' },
+        {
+          main: 'Hazel walks the Grove. Slowly.',
+          sprout: 'Gran Hazel walks slowly.',
+          reader: 'Gran Hazel walks the Grove slowly.',
+        },
         'c12-wall-garden',
       );
   },

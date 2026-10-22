@@ -7533,14 +7533,14 @@ _Everyone stares at you. Checking had not occurred to anybody._
 
 #### `q09-mother`
 
-_A Keeper in a headscarf marches up the path, rolling up her sleeves. This is Mother Brindle. She is not pleased._  
+_A Keeper in a headscarf marches up the path, rolling up her sleeves. This is Mother Brindle, Barty’s Keeper, who hatched him. She is not pleased._  
 **Mother Brindle**: What’s all this, then? Barty! Is that you at the front?  
 **Barty**: Mother! The signs!  
 **A Gourd Nubbin**: Barty saw the signs first. Barty is very special.  
 **Mother Brindle**: Special? He put a frog in the teapot this morning. He is going to BED.  
 **Barty**: It was only a small frog.  
 **Mother Brindle**: It’s past his bedtime. And yours, all of you.  
-**Mother Brindle**: Keeper, sort this out. They won’t listen to me. Nobody listens to me. I’m only his mother.  
+**Mother Brindle**: Sort this out, will you? Nobody listens to me. I’m only his mother. Well. I hatched him. Same thing.  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): showing someone you are listening  
 > _Mother Brindle says nobody listens to her. She sounds exasperated: fed up and worn out._  
@@ -7556,7 +7556,7 @@ _A Keeper in a headscarf marches up the path, rolling up her sleeves. This is Mo
 - **Tell them both are signs.**
     - Both camps cheer, then look at each other suspiciously, then cheer again, slightly less.
 - **Tell them it’s just things you dropped.**
-    - Nobody believes you. Your modesty is taken as a further sign. Mother Brindle sighs.
+    - Nobody believes you. They say only a very special Keeper would say that. Mother Brindle sighs.
 - **Tell them to think for themselves.**
     - **You**: You don’t need to follow me. Any of you. You can all think for yourselves!
     - Everyone nods at once, perfectly together. Then they all wait for you to tell them what to think.
@@ -9671,7 +9671,7 @@ _Behind Buttons, Mr. Tweed drops a pencil. He bends very slowly to pick it up, a
 **Choices**
 
 - **Nudge your Nubbin to cover its paper.**
-    - Your Nubbin curls an arm round its work. Buttons leans further. Its chair creaks.
+    - Your Nubbin curls an arm round its work. Buttons leans further. Buttons’ chair creaks.
 - **Let it look. Sharing is nice.**
     - **Mrs Inkwell**: Eyes on your own paper, please, Buttons.
     - Buttons sits bolt upright and tries to whistle innocently, which Nubbins cannot do.
@@ -13524,7 +13524,7 @@ _The gate gives. In tumbles a boy in a football shirt, hugging a biscuit tin lik
 > _For grown-ups: Thought about why a single word, shalom, can mean hello, goodbye and peace._
 
 **Ori**: אֲנִי (ani) means “I”. קוֹרְאִים לִי… (korim li…) means “my name is…”. Korim li Ori!  
-_Behind you, a small round Nubbin hears “shalom”, waves with both arms, and falls over._  
+_Over the wall, a small round wild Nubbin hears “shalom”, waves with both arms, and falls over._  
 **Ori**: To ask “How are you?”, I say מָה שְׁלוֹמְךָ? (ma shlomkha?) to a boy.  
 **Ori**: To a girl, I say מָה שְׁלוֹמֵךְ? (ma shlomekh?). The ending changes. Which one should I ask you?  
 
@@ -13713,7 +13713,7 @@ _The shalom sign stays on the gate. Nubbins who learned the word wave at it._
 ## LH2. Right to Left
 
 - `lh2-step1`: Find the four letters of שָׁלוֹם (shalom) hidden round the garden. · _Look by the pond, the gate, the orchard and Ori’s tent. Line the pebbles up from the right: ש ל ו ם._
-- `lh2-step2`: Trace alef (א) and bet (ב) in the sand. · _Start on the right side and move your stick to the left._
+- `lh2-step2`: Trace the two letters the alef-bet is named after, alef (א) and bet (ב), in the sand. · _Start on the right side and move your stick to the left._
 - `lh2-step3`: Write Ori’s name, אוֹרִי, on his tent. · _Four letters, starting on the right: alef, vav, resh, yod._
 
 #### `lh2-s1`
@@ -14791,7 +14791,7 @@ _She bows: a small, quick dip from the waist, then straight back up._
 
 _Hana is already drawing you. She drew Nova, the gate and a passing bee while you said hello._  
 **Hana**: Done! Your nose is very good. Your ears are a bit much. That’s my fault, not yours.  
-_Behind the water butt, three Nubbins have watched everything._  
+_Behind the water butt, three wild Nubbins have watched everything._  
 _One of them tries a bow. It tips forward and rolls into the herbs._  
 
 > **Lesson** (sel, CASEL: Relationship skills, do): greeting someone new kindly  
@@ -15546,7 +15546,7 @@ _Rain on the cottage roof. Hana opens a tin on the kitchen table. Inside is a bu
 > **Hana**: Some people kept writing to the same friend for their whole lives.  
 > _For grown-ups: Learned how people kept in touch by letter in the past, compared with today._
 
-**Hana**: In my family, I call my grandma おばあちゃん (obāchan). My grandpa is おじいちゃん (ojīchan).  
+**Hana**: In my family, I call my grandma おばあちゃん (obāchan). My grandpa is おじいちゃん (ojiichan).  
 **Hana**: She gave me these to bring here. They’re in English, but she put Japanese words in for Hazel to learn.  
 _The paper is thin and soft from folding. The writing is very neat and very small. Hana reads it aloud._  
 **Hana**: Dear Hazel. ありがとう for the seeds. They came up!  
@@ -15559,7 +15559,7 @@ _The paper is thin and soft from folding. The writing is very neat and very smal
 > - とり (tori) → とり means birds. Cat is ねこ.
 > _For grown-ups: Read the animal words ねこ (cat), いぬ (dog) and とり (bird) in a letter._
 
-**Hana**: Ojīchan says hello and asks how your Nubbins are. From your ともだち (tomodachi, “friend”).  
+**Hana**: Ojiichan says hello and asks how your Nubbins are. From your ともだち (tomodachi, “friend”).  
 _Hana sits back and reads the last line again, to herself._  
 **Hana**: “Your ともだち.” Not just “from”. “Your friend.”  
 **Hana**: Your turn. Read the next bit. Watch out for the ねこ. Obāchan drew her in the margin.  
@@ -15590,7 +15590,7 @@ _The rain stops. Hana spreads big paper across the floor and tips out every penc
 > **Hana**: The only difference is the long “aa”. Hold it, or you’ll turn your grandma into your auntie.  
 > _For grown-ups: Learned that a long vowel changes meaning: おばあちゃん (obāchan, grandma) and おばちゃん (obachan, auntie)._
 
-**Hana**: And ojīchan. He died when I was six. I still put him in every family picture. He’s still in my family.  
+**Hana**: And ojiichan. He died when I was six. I still put him in every family picture. He’s still in my family.  
 _She draws him in the corner, in a hat, holding a fishing rod. She doesn’t rush it._  
 **Hana**: And our うさぎ (usagi), our rabbit. She’s called Biscuit. She bites.  
 **Hana**: There’s an owl in the tree by obāchan’s house. ふくろう (fukurō). Not family exactly, but it was always there.  
@@ -15707,7 +15707,7 @@ _Dumpling beams. Then droops. Then yawns enormously. Then hides behind the teapo
 ### Glossary
 
 - **おばあちゃん (obāchan)**: Grandma. Hold the long “aa”: おばちゃん (obachan) means auntie.
-- **おじいちゃん (ojīchan)**: Grandpa.
+- **おじいちゃん (ojiichan)**: Grandpa.
 - **ねこ, いぬ, とり (neko, inu, tori)**: Cat, dog, bird.
 - **ともだち (tomodachi)**: Friend.
 - **かぞく (kazoku)**: Family.
@@ -15725,30 +15725,30 @@ _Dumpling beams. Then droops. Then yawns enormously. Then hides behind the teapo
 ## LJ6. Floating Lanterns
 
 - `lj6-step1`: Ask Hana why she is sitting by the stream. · _Hana is sitting by the stream. Tap her and choose Talk._
-- `lj6-step2`: Help Hana make ojīchan’s lantern, and make one of your own if you like. · _Use a wooden base so it floats. Write any name, in any language. Hana can help with hiragana._
-- `lj6-step3`: Float ojīchan’s lantern with Hana at dusk. Later, join her review party. · _Luna lights the lanterns. Set yours on the water gently, or just watch. The party is back at the cottage._
+- `lj6-step2`: Help Hana make ojiichan’s lantern, and make one of your own if you like. · _Use a wooden base so it floats. Write any name, in any language. Hana can help with hiragana._
+- `lj6-step3`: Float ojiichan’s lantern with Hana at dusk. Later, join her review party. · _Luna lights the lanterns. Set yours on the water gently, or just watch. The party is back at the cottage._
 
 #### `lj6-s1`
 
 _Late summer. The evenings come earlier now. Hana sits by the stream, not drawing. That’s how you know something is up._  
 **Hana**: At home, it’s nearly おぼん (Obon). It’s a time in summer when families remember the people in their family who have died.  
-**Hana**: At Obon, my family floats a paper lantern down the river for ojīchan. It’s called とうろうながし (tōrō nagashi).  
+**Hana**: At Obon, my family floats a paper lantern down the river for ojiichan. It’s called とうろうながし (tōrō nagashi).  
 **Hana**: Lots of places do it, often at the end of Obon. Every place does it a bit differently, and some don’t do it at all.  
 
 > **Lesson** (social-studies, notice): Obon and tōrō nagashi  
 > _おぼん (Obon) is a summer time in Japan when families remember relatives who have died._  
 > _とうろうながし (tōrō nagashi) means floating paper lanterns on rivers. Customs and dates are different from place to place._  
-> _For Hana’s family, it’s one of the ways they remember ojīchan._  
+> _For Hana’s family, it’s one of the ways they remember ojiichan._  
 > _For grown-ups: Learned about Obon, a summer time when Japanese families remember relatives who have died, and floating lanterns (tōrō nagashi), which Hana’s family does for her grandfather._
 
 **Hana**: A river is かわ (kawa). This stream is more of a little かわ. But I think it would work.  
 **Hana**: The lantern has a light inside. ひかり (hikari), light. You watch it float away.  
-**Hana**: It’s the quietest thing I know. Last year I floated one with obāchan. I wrote ojīchan’s name on it.  
+**Hana**: It’s the quietest thing I know. Last year I floated one with obāchan. I wrote ojiichan’s name on it.  
 **Hana**: This year I’m here, not at the river. Could I float his lantern on your stream? You can come, if you want.  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): how people remember someone who has died (think question)  
-> _Hana remembers her ojīchan by drawing him and floating a lantern. How do people you know remember someone?_  
-> - Looking at photos and telling stories about them. → We do that too. Ojīchan stories are mostly about fish he didn’t catch.
+> _Hana remembers her ojiichan by drawing him and floating a lantern. How do people you know remember someone?_  
+> - Looking at photos and telling stories about them. → We do that too. Ojiichan stories are mostly about fish he didn’t catch.
 > - Visiting a special place, or doing something they loved. → That’s a lovely way. It’s like spending a little time with them.
 > - I’m not sure. I’d like to ask my family. → That’s a really good thing to ask. Families have their own ways.
 > _For grown-ups: Thought about the different ways families remember people who have died. A good one to talk about together._
@@ -15758,7 +15758,7 @@ _Late summer. The evenings come earlier now. Hana sits by the stream, not drawin
 
 - **“Yes. We’ll all come.”**
     - **Hana**: Really? Then I need paper. And sticks. And you, to help me get it right.
-- **“Tell me about your ojīchan.”**
+- **“Tell me about your ojiichan.”**
     - **Hana**: He went fishing every week and never caught anything. He said that wasn’t the point.
     - **Hana**: He taught me to run. He said always race people, because it makes them faster too.
 - **Sit next to her for a while.**
@@ -15774,7 +15774,7 @@ _Then the whole Grove at dusk, with tiny lights on the water._
 **Hana**: Tomorrow we make the lanterns. At home we write the name very carefully.  
 
 > **Lesson** (literacy, ask): reading かわ and ひかり  
-> **Hana**: I’m drawing ojīchan’s lantern floating on our little かわ. Do you know what a かわ is?  
+> **Hana**: I’m drawing ojiichan’s lantern floating on our little かわ. Do you know what a かわ is?  
 > - ✅ A river → はい! かわ, river. And the lights on it are ひかり.
 > - A light → Light is ひかり. かわ is the river they float on.
 > - A tree → Tree is a word for tomorrow! かわ is river.
@@ -15816,7 +15816,7 @@ _Hana writes おじいちゃん one kana at a time and doesn’t talk while she 
 - **Write the name of someone I remember.**
     - **Hana**: Write it big, so it can be read from far away.
 - **Write the name of someone I love, right now.**
-    - **Hana**: That’s allowed. Ojīchan would like that one. Lanterns are for love too.
+    - **Hana**: That’s allowed. Ojiichan would like that one. Lanterns are for love too.
 - **Ask Hana to help me write the name in hiragana.**
     - **Hana**: Say it slowly. I’ll write it in pencil, and you go over it. That’s how obāchan taught me.
 
@@ -15827,10 +15827,10 @@ _Names in hiragana, in English, and in Sparks’s enormous capitals._
 
 > **Lesson** (literacy, ask): reading a family word in hiragana  
 > _Hana’s lantern says おじいちゃん, in her neatest hiragana. Who is it for?_  
-> - ✅ Her grandpa → はい. おじいちゃん, grandpa. My ojīchan.
-> - Her grandma → Grandma is おばあちゃん. おじいちゃん means grandpa: it’s for Hana’s ojīchan.
-> - Her friend → Friend is ともだち. おじいちゃん means grandpa: it’s for Hana’s ojīchan.
-> _For grown-ups: Read the family word おじいちゃん (ojīchan, grandpa) on the lantern Hana made for her grandfather._
+> - ✅ Her grandpa → はい. おじいちゃん, grandpa. My ojiichan.
+> - Her grandma → Grandma is おばあちゃん. おじいちゃん means grandpa: it’s for Hana’s ojiichan.
+> - Her friend → Friend is ともだち. おじいちゃん means grandpa: it’s for Hana’s ojiichan.
+> _For grown-ups: Read the family word おじいちゃん (ojiichan, grandpa) on the lantern Hana made for her grandfather._
 
 **Hana**: Mine’s the best one.  
 **Fern**: It’s not a competition, Hana.  
@@ -15839,7 +15839,7 @@ _Pixel floats the test lantern in the bucket of みず. It stays up. Pixel nods 
 
 #### `lj6-s3`
 
-_Dusk. Everyone walks down to the stream with Hana. She carries ojīchan’s lantern in both hands._  
+_Dusk. Everyone walks down to the stream with Hana. She carries ojiichan’s lantern in both hands._  
 _The water is low, slow and gold._  
 **Hana**: No あめ (ame, “rain”) tonight. Good. Rain and paper don’t get on.  
 **Hana**: At obāchan’s, in winter, there’s ゆき (yuki, “snow”) on the やま behind her house. Snow is just frozen みず, really.  
@@ -15853,7 +15853,7 @@ _The water is low, slow and gold._
 
 **Hana**: At home, Obon is nearly over. My family will be at the river tonight too.  
 **Luna**: I’ll light them, one at a time. Let them go when you’re ready. No hurry.  
-**Hana**: This one’s for ojīchan.  
+**Hana**: This one’s for ojiichan.  
 _Hana sets her lantern on the かわ and doesn’t push it. It’s the slowest you have ever seen her do anything._  
 _Small ひかり follow it, one after another. Each one turns slowly as it finds the current._  
 _A frog sits on the bank beside Hana, watching the lights go. She doesn’t move away._  
@@ -16056,7 +16056,7 @@ _Nova can just about lift hers. The cart’s springs go down with a groan._
 _Under the tarp at the back, something says “ow”. Then, much more quietly: “Nobody heard that.”_  
 _Sparks comes down the lane at a run, which is how Sparks comes down a lane, waving both arms._  
 **Sparks**: Is she in there? She’s in there. Course she is. Sorry. SORRY. She’s my cousin.  
-**Sparks**: Tilly. Nine. Easter holidays. She heard “ridge” and “sunrise” and went off like a cork.  
+**Sparks**: Tilly. Nine. Calls Hazel “Gran” too. Everyone under ten does; it saves explaining. She heard “ridge” and went off like a cork.  
 _You lift the tarp. A girl in big wellies glares up at you, with a sash across her chest covered in home-made badges._  
 **Tilly**: This is a stowaway situation. You can’t send a stowaway back. That’s the law of the sea.  
 **Nova**: We’re not at sea.  
@@ -17809,7 +17809,7 @@ _On the way out you look back: the bench, the beds, the white pebble by the bare
 ## S27. Some Nubbin
 
 - `s27-step1`: Fetch a coil of copper wire for Sparks from the Circuit’s old lantern shed. · _The shed is behind the finishing straight. Bottom drawer of the cabinet under the window._
-- `s27-step2`: Ask the stable lad about the little grey runner at the end of the row. · _Tam does the buckets by the pens. He’s the only one up here who whistles._
+- `s27-step2`: Ask the stable lad about the little grey runner at the end of the row. · _Hob does the buckets by the pens. He’s the only one up here who whistles._
 - `s27-step3`: Sit down by the shed window, and wait with the spider. · _Sit on the upturned crate by the window and don’t do anything. It takes as long as it takes._
 - `s27-step4`: Ask Fern, Clover, Luna and Byte for one word each, and bring them back to Spindle. · _Fern is in her orchard, Clover by the pond, Luna in her night garden and Byte wherever there is a clipboard._
 - `s27-step5`: Be at the pens at first light, to see what Spindle wrote in the night. · _Come up the valley before dawn. The frost shows the silk only for the first hour._
@@ -17883,22 +17883,22 @@ _Outside, a lad with two buckets goes along the pens, whistling. He stops whistl
 
 #### `s27-tam`
 
-**Tam**: That’s Nine. Smallest we’ve got. Last every time. Not slow, exactly. It just doesn’t see the point.  
-**Tam**: I’m Tam. I do the buckets. I’m not meant to whistle. I forget.  
-_He fills Nine’s trough, and Nine doesn’t look round. Tam stands there a moment longer than the trough needs._  
-**Tam**: The Autumn Show’s at the first frost that isn’t his. Anything that doesn’t place goes over the pass.  
+**Hob**: That’s Nine. Smallest we’ve got. Last every time. Not slow, exactly. It just doesn’t see the point.  
+**Hob**: I’m Hob. I do the buckets. I’m not meant to whistle. I forget.  
+_He fills Nine’s trough, and Nine doesn’t look round. Hob stands there a moment longer than the trough needs._  
+**Hob**: The Autumn Show’s at the first frost that isn’t his. Anything that doesn’t place goes over the pass.  
 
 > **Lesson** (literacy, L.3.4, ask): words with more than one meaning: place  
-> _Tam says “anything that doesn’t place.” What does “place” mean here?_  
+> _Hob says “anything that doesn’t place.” What does “place” mean here?_  
 > - ✅ Finish in the top places of a race, like first, second or third. → Yes. In racing, to “place” means to finish near the front and win a prize.
 > - Put something down somewhere. → That’s another true meaning: “place the cup on the table.” But in a race, to “place” means to finish near the front. Same word, different job.
 > _For grown-ups: Used context to work out the racing meaning of “place”._
 
-**Tam**: A dealer comes for them. Mr Tull. He’s all right, as dealers go. They don’t come back, is all.  
-**Tam**: Nine’s never placed. Not once.  
+**Hob**: A dealer comes for them. Mr Tull. He’s all right, as dealers go. They don’t come back, is all.  
+**Hob**: Nine’s never placed. Not once.  
 
 > **Lesson** (sel, CASEL: Social awareness, notice): noticing care in small actions  
-> _Tam lingers at the trough, and his whistle stops. He never says he cares. His actions say it for him._  
+> _Hob lingers at the trough, and his whistle stops. He never says he cares. His actions say it for him._  
 > _For grown-ups: Noticed how small actions can show that someone cares._
 
 _In the shed window behind you, the spider has gone very still in the middle of her web._  
@@ -18276,7 +18276,7 @@ _Mr Tull is at the gate with his cart. He reads the rail, then the faces along t
 > _For grown-ups: Worked out a theme: being known and remembered matters._
 
 _He tips his hat to the fence, quite politely, and drives away over the pass._  
-_Tam is at the pen behind the house. He opens his mouth to say “Nine”, stops, and says its name instead._  
+_Hob is at the pen behind the house. He opens his mouth to say “Nine”, stops, and says its name instead._  
 _He says it carefully, like a word in another language. Corvin pretends not to hear._  
 **Corvin Vale**: Take it. It’s no use to me famous.  
 _He says it to the rail, not to you, and goes back to the house without looking round._  
@@ -18408,11 +18408,11 @@ _It is a drawer label off her old cabinet, in her square capitals: SPARE._
 **Sparks**: She learned her S’s off that one. Every S she ever wrote. Somebody’s. That one.  
 _Fern has sewn SOMEBODY’S onto strips of ribbon, a bit crooked, and given one to everybody who stood at the fence._  
 _Pixel has made a pane for the Grove lantern shed window. On frosty mornings, a name comes up on it in white._  
-_Up at the Circuit, Tam has started calling the runners by names. He makes them up, and some are terrible._  
+_Up at the Circuit, Hob has started calling the runners by names. He makes them up, and some are terrible._  
 _Corvin pretends not to notice. Once, passing the pens, he is heard to say “Morning, Gravel” to the third from the end._  
 
 > **Lesson** (social-studies, D2.Civ.8.K-2, ask): how one small act can change the rules of a place  
-> _Nobody made a new rule at the Circuit. So why does Tam now use names?_  
+> _Nobody made a new rule at the Circuit. So why does Hob now use names?_  
 > - ✅ Spindle’s words showed everyone the runners mattered. → Yes. Sometimes a place changes because people’s hearts change first, and the habits follow.
 > - Corvin ordered him to. → Corvin only pretends not to notice! Nobody ordered it. Spindle’s words changed how people saw the runners, and the habit of names followed.
 > _For grown-ups: Thought about how respect can spread and change the way a place works._
@@ -20139,7 +20139,7 @@ _The frosts have come, and the Grove is white at dawn round the fourth post._
 
 _You find Moss at the old wall, by Hush’s lantern post, with frost on his back that he hasn’t bothered to shake off._  
 **Moss**: Clover’s gold one. Luna told me. Luna tells me things at dawn, when I am too tired to argue.  
-**Moss**: Hush. The quiet one. You have heard her name in the tale. I did not tell you her job.  
+**Moss**: Hush. The quiet one. You may have heard she kept the griefs. Nobody told you how. She sat.  
 **Moss**: When the White Year stilled half the valley, the rest of us dug. Hush went and sat where the still ones, the ones who had died, could see her.  
 **Moss**: She never tried to wake one. If one shivered, she took it for a conversation. That was her job, and nobody gave it her.  
 **Moss**: People thought that made her a sad thing. They were wrong about which part was sad.  
@@ -21126,6 +21126,1849 @@ _Your gourd lantern goes on the wall by the gate, where it can be seen from the 
 - **vapour**: Water as an invisible gas in the air.
 - **deposit**: A small part of something given now, as a promise that the rest will come later.
 - **thorough**: Careful to do every part of something properly.
+
+## LB1. Boxes
+
+- `lb01-s1`: Help the Larkins carry their boxes from the post van into the cottage past Fern’s. · _Pick up a box at the van’s back doors and carry it into the front room._
+- `lb01-s2`: Help Ned choose one empty box to keep. · _Talk to Ned in the front room and pick a box with him._
+
+#### `lb01-van`
+
+_A red post van is parked crooked in the lane past Fern’s. Its back doors are open, and it is full of somebody’s whole life._  
+**Ama Larkin**: Hello! You must be next door. Well, next door but one. I’m Ama. I drive the post van.  
+
+> **Lesson** (literacy, L.2.4, ask): working out a phrase from context  
+> _Ama says you live “next door but one”. Fern’s house is between yours and theirs. What does it mean?_  
+> - ✅ Two houses along → Exactly. Next door is Fern. Next door but one is you.
+> - Right next door → Not quite. Fern is right next door. “But one” means skip one more house.
+> - Very far away → It’s close! Just one house in between, so two houses along.
+> _For grown-ups: Your child worked out what “next door but one” means from the scene._
+
+**Ama Larkin**: It isn’t usually full of our own socks. Usually it’s everyone else’s parcels.  
+**Sam Larkin**: Sam. Hello. Sorry. We’ve been up since four.  
+_A girl in a paper crown marches past with a lampshade. A small boy follows her, carrying nothing, very carefully._  
+**Maisie**: I’m Maisie. I’m six, so I do the rules. That’s Ned. He’s four.  
+**Ned**: I’m in charge of not dropping things.  
+_Your Nubbin trots up to Ned. They stare at each other, both delighted._  
+**Sam Larkin**: If you’ve got a spare pair of arms, we’ve got about forty boxes.  
+
+#### `lb01-unpacked`
+
+_By lunchtime the van is empty and the front room is full of boxes. Most of the boxes are empty too._  
+**Ama Larkin**: That’s the lot. The kettle was in the box marked SHOES, so that’s one mystery solved.  
+_Maisie and Ned look at the empty boxes the way other children look at cake._  
+**Maisie**: Twelve boxes are exactly the same size. We need towers. Equal ones, or it isn’t fair.  
+
+> **Lesson** (maths, 3.OA.A.1, do): multiplication as equal groups  
+> _Stack the 12 boxes into equal towers. Find three different ways._  
+> **Maisie**: 2 towers of 6. 3 towers of 4. 4 towers of 3. All twelve!  
+> _2 × 6, 3 × 4 and 4 × 3 all make 12. Multiplying is just counting equal groups._  
+> Check: `edu:sort:boxes:equal-piles`
+> _For grown-ups: Your child stacked 12 boxes into equal piles three different ways._
+
+
+#### `lb01-boxes`
+
+_Ama folds the empty boxes flat for the recycling. Ned watches each one fold up like a small, sad animal._  
+**Ned**: Not that one! Or that one!  
+**Ama Larkin**: Ned, love, we can’t keep forty boxes. We’d have to live in the garden.  
+**Sam Larkin**: One box, then. One box for keeps.  
+_Ned knocks on each box, like knocking on a door. Then he climbs into one and goes quiet._  
+**Maisie**: He’s sad about his old bedroom. It had glow-in-the-dark stars on the ceiling.  
+**Ned**: They wouldn’t come off. I tried.  
+**Sam Larkin**: They’re still up there, mate. Glowing away for whoever sleeps there next.  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): mixed feelings  
+> _Moving day is exciting. Ned has boxes and a new friend. So why can a happy day still feel sad?_  
+> - Because new things mean leaving old things → That’s a wise answer. You can love the new and still miss the old.
+> - Because he’s tired → That’s fair. Tired makes every feeling bigger, and he was up at four.
+> - Feelings can mix → Yes. Happy and sad can sit side by side, like two people on one bench.
+> _For grown-ups: Your child thought about how a happy day can hold a sad feeling too._
+
+_Ned thinks about that for a long time. Then he climbs out, points at three boxes, and looks at you._  
+**Ned**: You pick. You’re the grown-up next door.  
+
+**Choices**
+
+- **The big one. You could live in it.**
+    - Ned climbs into the big box and pulls the flaps shut over his head.
+    - **Ned**: It’s got a ROOF.
+- **The long one. It’s the shape of a boat.**
+    - Ned lies down in the long box. It fits him exactly, with room at the end for your Nubbin.
+- **The tall one. It’s nearly as tall as Ned.**
+    - Ned stands inside the tall box. Only his eyes show over the top.
+    - **Ned**: It goes UP.
+
+#### `lb01-complete`
+
+_Ama writes NED on the box in marker pen, in letters as big as Ned’s hand._  
+
+> **Lesson** (science, 2-PS1-1, notice): properties of cardboard  
+> **Ama Larkin**: Cardboard is made from wood, mashed up into paper and pressed into layers. Light, stiff, strong enough to stand in.  
+> **Ama Larkin**: Its one weakness is water. Keep Ned’s box out of the rain, or it goes soft and floppy.  
+> _For grown-ups: Your child learned what cardboard is made of and what it is good and bad at._
+
+**Ama Larkin**: There. Officially his. Thank you for today. I’d have been making tea in a shoe box till August.  
+**Sam Larkin**: Come round whenever you like. They’ll need a customer for something soon. They always do.  
+**Maisie**: Can we borrow your Nubbin for games sometimes? We’ll always ask, and we’ll always give it back.  
+_Ned waves at your Nubbin from inside his box until you reach the lane._  
+
+### Glossary
+
+- **recycling**: Collecting used things, like boxes, so they can be made into something new.
+- **officially**: Properly and for real, as if it had been written down and agreed.
+
+## LB2. Shops
+
+- `lb02-s1`: Buy a leaf from Ned’s shop on the Larkins’ step. · _Talk to Ned and pay for a leaf. You will get your Shells back._
+- `lb02-s2`: Help Maisie and Ned share the shop. · _Talk to Maisie and Ned at the step and help them take turns._
+
+#### `lb02-shop`
+
+_A cardboard sign on the Larkins’ step says SHOP, with the S backwards. The shop is open._  
+_Leaves sit in rows on a tea towel. One has a hole in it, which Ned says is a window._  
+**Ned**: Welcome to the shop. Everything is leaves.  
+**You**: How much is this one?  
+**Ned**: Five Shells. No. A hundred. No. Two.  
+_Prices in Ned’s shop change as often as the wind. Your Nubbin guards the till, which is a biscuit tin._  
+
+> **Lesson** (social-studies, D2.Eco.1.K-2, notice): prices and choices  
+> _A price is what something costs. The shopkeeper sets it; the customer decides if it’s worth it._  
+> _Real shops change prices too, just not every four seconds._  
+> _For grown-ups: Your child learned that a price is what something costs, and buyers choose what to spend on._
+
+**Ned**: The window leaf is thirteen. It’s the best one. You can look through it.  
+
+**Choices**
+
+- **Thirteen Shells it is.**
+    - **Ned**: Good. I only have change from twenty.
+- **Do you do discounts?**
+    - **Ned**: Yes. It’s fourteen.
+    - You decide thirteen was a bargain.
+- **Could my Nubbin buy one too?**
+    - **Ned**: Nubbins are free. Nubbins get a leaf for nothing.
+    - Your Nubbin holds its leaf up like a flag.
+
+#### `lb02-bought`
+
+_You hand Ned twenty Shells for the thirteen-Shell leaf. He looks at them very hard._  
+**Ned**: Now I give you change. That’s the best bit.  
+_Ned counts change out of the biscuit tin, slowly, with his tongue out._  
+
+> **Lesson** (maths, 2.OA.A.1, do): working out change  
+> _You paid 20 for a 13-Shell leaf. How much change? Count up from 13 to 20._  
+> **Ned**: Fourteen, fifteen… twenty! Seven Shells change!  
+> Check: `edu:count:shells:change-7`
+> _For grown-ups: Your child worked out the change from 20 for a 13-Shell leaf (7)._
+
+_Then he gives you all twenty back anyway, because in Ned’s shop change is the best bit and nobody leaves without all of it._  
+
+#### `lb02-turns`
+
+_Maisie comes out with a second tea towel and a sign of her own. Hers says SHOP TOO._  
+**Maisie**: I’m the shopkeeper now. Ned’s had ages.  
+**Ned**: It’s MY shop. I made the S.  
+_Ned hugs the biscuit tin. Maisie folds her arms. The leaves blow about, unsupervised._  
+**Sam Larkin**: Is there a way two shopkeepers could work this out?  
+_Sam is leaning out of the shed window, holding a chair leg he has been sanding all morning._  
+**Maisie**: He could be the customer. Customers are important too.  
+**Ned**: Customers don’t get the tin.  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): sharing and turn-taking  
+> _When two people want the same thing, a fair plan helps: who goes first, for how long, and what happens next._  
+> _For grown-ups: Your child saw how a fair plan for turns can solve a disagreement._
+
+
+**Choices**
+
+- **Ned sells one thing, then you swap.**
+    - **Maisie**: One each. Fine. But I’m having the window leaf.
+- **Two shops, side by side. I’ll shop at both.**
+    - Maisie sets up next to Ned. The step now has a high street.
+- **Whoever’s selling holds the tin.**
+    - **Ned**: And then I get it back?
+    - **Maisie**: Then you get it back.
+
+#### `lb02-complete`
+
+_Maisie runs the shop for a while. Ned is a customer, and finds out something surprising._  
+**Ned**: Buying is ALSO good.  
+
+> **Lesson** (literacy, RL.2.3, ask): how a character changes  
+> _Ned didn’t want to be the customer. Now he loves it. What changed?_  
+> - He tried it → Yes. Sometimes you don’t know you like something until you try it.
+> - He got change every time → Ha! That helped. Getting things back is Ned’s favourite.
+> - He felt included → That’s thoughtful. Being part of the game mattered more than which part.
+> _For grown-ups: Your child noticed how Ned’s feelings changed when he tried a new role._
+
+_He buys the window leaf six times. Maisie gives him change every time, because that is how this shop works now._  
+**Sam Larkin**: Two shopkeepers, one tin, nobody crying. That’s a good day’s trading.  
+_When you go, Ned presses a leaf into your hand. It is free, he says, because you are a regular._  
+
+### Glossary
+
+- **customer**: A person who buys something from a shop.
+- **change**: The money you get back when you pay more than something costs.
+
+## LB3. Don’t Touch the Grass
+
+- `lb03-s1`: Help lay the cushions across the Larkins’ lawn. · _Carry cushions from the back door and drop them in a line to the fence._
+- `lb03-s2`: Cross the lawn to the fence without touching the grass. · _Hop from cushion to cushion. If you touch grass, start again._
+
+#### `lb03-rules`
+
+_Every cushion in the Larkins’ house is out on the lawn, and so is Sam, flat on his back in the long grass._  
+**Maisie**: The rules. The grass is a pond. You can only stand on cushions.  
+
+> **Lesson** (literacy, L.4.5, notice): metaphor  
+> _“The grass is a pond” isn’t true, but it makes the game. Saying one thing IS another is called a metaphor._  
+> _For grown-ups: Your child learned that saying one thing IS another (the grass is a pond) is a metaphor._
+
+**Maisie**: And something lives in the pond. It has tickly fingers.  
+_Somewhere in the long grass, a hand waves slowly, like pondweed._  
+**Sam Larkin**: Bloop.  
+**Ned**: That’s Dad. But it’s also NOT Dad.  
+**Maisie**: We need a path of cushions from the back door to the fence. The fence is the island.  
+
+#### `lb03-laid`
+
+_The cushions wobble across the lawn in a crooked line. Most are close together. One gap is enormous._  
+**Maisie**: That gap is the hard bit. It’s meant to be hard.  
+**Ned**: How big is it?  
+_Sam’s tape measure is in his shed. Maisie fetches it at a run._  
+
+> **Lesson** (maths, 2.MD.A.1, do): measuring with a tape  
+> _Hold the tape at the edge of one cushion and read where the next begins. Start from zero, not from the metal tab._  
+> **Maisie**: The gap is 90 centimetres. My best jump is 110. Ned’s is 60.  
+> _Ned’s jump is 30 centimetres short. Can that be fixed without changing Ned?_  
+> Check: `edu:measure:jump:tape`
+> _For grown-ups: Your child measured the gap and the biggest jump with a tape measure, in centimetres._
+
+
+#### `lb03-crossing`
+
+_Maisie crosses first, fast and sure, arms out like a tightrope walker._  
+_Ned goes second. He stops on a cushion with his toes over the edge, looking at the long gap._  
+**Ned**: It’s too far.  
+_The grass rustles. Two fingers appear, wiggling, and go away again._  
+**Maisie**: You can do it, Ned. Big jump.  
+**Ned**: My legs are only small.  
+
+> **Lesson** (science, K-2-ETS1-1, notice): defining the problem  
+> _Engineers start by saying the problem exactly. Here: the gap is 90 cm and Ned can jump 60._  
+> _So the fix must close 30 cm, or help Ned across it._  
+> _For grown-ups: Your child stated the problem clearly before solving it: the gap is longer than Ned’s jump._
+
+
+**Choices**
+
+- **Put down one more cushion, halfway.**
+    - You slide a cushion into the gap. Two small jumps instead of one big one.
+    - **Maisie**: That’s allowed. Islands can grow.
+- **Hold out a hand from the next cushion.**
+    - You lean out from the far cushion. Ned grabs your fingers and jumps.
+    - **Ned**: I did a huge one!
+- **Let your Nubbin show him how.**
+    - Your Nubbin flaps its small wings and bounces across. Ned copies it exactly, flaps and all.
+
+#### `lb03-complete`
+
+_Everyone reaches the fence. Then everyone goes back, because that is how this game works._  
+_On the third crossing the tickly fingers catch Ned’s ankle. He tumbles into the grass and laughs till he hiccups._  
+**Sam Larkin**: Got one. The pond monster is satisfied. The pond monster would also like a cup of tea.  
+**Maisie**: Pond monsters don’t drink tea.  
+**Sam Larkin**: This one does. It’s been a long week in the pond.  
+
+> **Lesson** (literacy, RL.3.3, ask): character motive  
+> _Sam has worked all week. Why do you think he chose to be the monster who lies in the grass?_  
+> - So he can rest and still play → That’s sharp. Lying down is the most restful part going, and he’s still in the game.
+> - Because it’s funny → True. A dad who goes “bloop” is very funny.
+> - Because the children asked → Yes. He says yes to games, even tired. That matters to them.
+> _For grown-ups: Your child thought about why Sam plays the game lying down, and what he gets from it._
+
+_Ned brings his dad a pretend tea in a flowerpot. Sam drinks every pretend drop._  
+
+### Glossary
+
+- **metaphor**: Saying one thing is another to make a picture in your head, like “the grass is a pond”.
+- **centimetre**: A small unit of length; 100 centimetres make a metre.
+
+## LB4. Sleeping Giant
+
+- `lb04-s1`: Find the sleeping giant in the Larkins’ garden. · _The giant is in the deckchair under the apple tree._
+- `lb04-s2`: Creep up on the giant, and freeze whenever he turns. · _Move slowly. When the newspaper twitches, stop and hold still._
+
+#### `lb04-giant`
+
+_Sam is asleep in a deckchair under the apple tree, a newspaper over his face. It rises and falls as he breathes._  
+**Maisie**: Shh. He’s the giant. He’s guarding the treasure.  
+_The treasure is a biscuit, on the arm of the deckchair, beside his hand._  
+**Ned**: He made two chairs this week. Giants get very tired.  
+
+> **Lesson** (health, K-LS1-1, notice): sleep and rest  
+> _Sleep isn’t lazy. While you sleep, your body repairs itself and your brain sorts out the day._  
+> _Children need more sleep than grown-ups, but everyone needs it._  
+> _For grown-ups: Your child learned that sleep helps bodies recover, for grown-ups as well as children._
+
+**Maisie**: You creep up. When the giant turns his head, you freeze like a statue.  
+**Maisie**: If he sees you move, back to the start. First to touch the biscuit wins.  
+
+#### `lb04-start`
+
+_You line up by the gate: you, Maisie, Ned and your Nubbin, who doesn’t understand the rules but loves a line._  
+**Sam Larkin**: Fee. Fi. Hmm. Fo.  
+
+> **Lesson** (literacy, RL.2.4, notice): old stories and repeated lines  
+> _Sam is borrowing from Jack and the Beanstalk, an English fairy tale hundreds of years old. Its giant has a famous chant._  
+> _Repeated sounds like fee, fi, fo make stories easy to remember and fun to say._  
+> _For grown-ups: Your child heard that Sam borrows the giant’s chant from an old fairy tale, Jack and the Beanstalk._
+
+**Maisie**: That means go.  
+_Ned giggles, then clamps both hands over his mouth._  
+
+#### `lb04-creep`
+
+_Maisie runs, and the newspaper twitches. Sam turns his head, and Maisie is still wobbling._  
+**Sam Larkin**: I see a Maisie. Back to the gate, Maisie.  
+**Maisie**: I was nearly STILL!  
+_Ned goes so slowly that a bee lands on his shoulder and leaves again. When Sam turns, Ned is a perfect statue._  
+
+> **Lesson** (sel, CASEL: Self-management, do): self-control  
+> _Your turn. Tiny steps, then freeze when the paper twitches. Why do slow, careful moves win here?_  
+> _Because fast bodies wobble when they stop. Slow ones are already nearly still._  
+> Check: `edu:order:steps:slow`
+> _For grown-ups: Your child practised slow, careful movement and thought about why patience wins this game._
+
+**Sam Larkin**: Hmm. Just a garden ornament. A very small one.  
+_Ned beams, then remembers statues can’t beam, and stops._  
+
+> **Lesson** (science, 3-PS2-1, notice): balanced forces  
+> _A statue stays still because the forces on it are balanced: gravity pulls down, the ground pushes up._  
+> _Running is unbalanced: your feet push, you speed up, and stopping takes another push._  
+> _For grown-ups: Your child learned that a still statue has balanced forces, and a push starts movement._
+
+
+**Choices**
+
+- **Go slow, like Ned.**
+    - You take tiny steps. The grass hardly moves.
+- **Try a quick dash.**
+    - You dash. The newspaper lifts.
+    - **Sam Larkin**: I see a grown-up. Back you go.
+    - **Maisie**: Told you. Slow wins.
+- **Send your Nubbin in first.**
+    - Your Nubbin waddles straight up and sits by Sam’s feet. Nobody can tell if it’s cheating.
+
+#### `lb04-complete`
+
+_In the end it is Ned. One slow foot at a time, he reaches the deckchair and puts one finger on the biscuit._  
+**Ned**: Got it.  
+_Sam lifts the newspaper. He has been awake for some of it and asleep for some of it, and he isn’t saying which._  
+**Sam Larkin**: Beaten by the smallest statue in the valley. One more go?  
+_Ned breaks the biscuit into four pieces, one for each player. Your Nubbin’s is the biggest, because Ned says it was the quietest._  
+
+> **Lesson** (maths, 3.NF.A.1, ask): unit fractions need equal parts  
+> _Four pieces, one each. Is each piece a quarter of the biscuit?_  
+> - ✅ Not quite: they aren’t equal → Right. A quarter means one of four EQUAL parts. Ned’s pieces are four parts, but one is bigger.
+> - Yes, there are four → There are four pieces, but quarters must be equal. The Nubbin’s is bigger, so they aren’t quite quarters.
+> _For grown-ups: Your child learned that quarters must be equal parts, so Ned’s four pieces aren’t quite quarters._
+
+
+### Glossary
+
+- **statue**: A figure that stands perfectly still, often made of stone or metal.
+- **balanced**: Even on every side, so nothing moves or tips.
+
+## LB5. Nubbin Doctor
+
+- `lb05-s1`: Take your Nubbin to Maisie’s pretend clinic in the Larkins’ shed. · _Walk your Nubbin to the shed. It is not ill; it is playing a patient._
+- `lb05-s2`: Help Ned bandage your Nubbin, kindly. · _Talk to Ned at the workbench. He has the wrong foot._
+
+#### `lb05-clinic`
+
+_The shed has been cleared for the clinic. The workbench is a bed, with a tea towel for a sheet._  
+**Maisie**: Next patient, please. Ah. A Nubbin. What seems to be the trouble?  
+
+> **Lesson** (science, K-LS1-1, notice): what animals need to live  
+> **Maisie**: First question for every patient: food, water, air, a safe place to rest. Every animal needs those to live.  
+> **Maisie**: Nubbins also need cuddles. That’s not science. That’s just true.  
+> _For grown-ups: Your child learned the basic needs of every animal: food, water, air and shelter._
+
+**You**: Nothing, really. It’s very well.  
+**Maisie**: That’s what they all say. Up on the bed, please.  
+_Your Nubbin lies flat on its back. It is not ill, just very good at lying still._  
+**Ned**: I’m the nurse. I’ve got the bandages.  
+_Ned holds up a whole roll of toilet paper, like a trophy._  
+
+#### `lb05-checkup`
+
+_Maisie listens to your Nubbin’s chest through a funnel. Your Nubbin does its best to have a chest worth listening to._  
+**Maisie**: Good heart. Good ears. Wings a bit small, but that’s normal.  
+
+> **Lesson** (science, 4-LS1-1, notice): the heart  
+> _Your heart is a muscle that pumps blood round your body, carrying air and food to every part._  
+> _A funnel gathers its quiet thump into your ear. Real stethoscopes work in a similar way._  
+> _For grown-ups: Your child learned what the heart does and why a doctor listens to it._
+
+**Maisie**: Has it been eating? Drinking? Sleeping? Getting cuddles?  
+**You**: All four. Lots of the last one.  
+
+#### `lb05-bandage`
+
+**Maisie**: The patient has a sore left foot. Nurse, bandage please.  
+_Ned winds the toilet paper round your Nubbin’s right foot, tongue out, very carefully._  
+_Maisie opens her mouth to say something. Then she sees Ned’s face and closes it again._  
+**Maisie**: How do you tell somebody they’ve done it wrong without making them sad?  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): kind correction  
+> _Think about Ned’s face. Which way of telling him would you want, if you were Ned?_  
+> - Praise first, then ask for the other foot → That keeps his pride and fixes the bandage. Clever.
+> - Ask him a question so he spots it himself → Lovely. Finding your own mistake feels much better than being told.
+> - Just say “wrong foot” gently → Honest and quick. With a kind voice, that can work too.
+> _For grown-ups: Your child weighed different ways to point out a mistake kindly._
+
+_Your Nubbin lies quite still, wrapped up to the knee, enjoying the attention._  
+
+**Choices**
+
+- **“That’s brilliant. Could this foot have one too?”**
+    - **Ned**: Two bandages! It’s VERY poorly.
+    - Now both feet are bandaged, which covers it either way.
+- **“Which foot did the doctor say, Ned?”**
+    - **Ned**: The… other one?
+    - Ned looks at his own feet and works it out. He starts again on the left, proudly.
+- **Let your Nubbin wiggle the left foot.**
+    - Your Nubbin wiggles its left foot, gently. Ned gasps: the patient has told him.
+
+#### `lb05-complete`
+
+_Your Nubbin walks home with both feet in toilet paper, like small white boots. It won’t let you take them off for an hour._  
+**Maisie**: Bring it back if it gets any worse. Or any better.  
+**Ned**: It was a very patient patient.  
+
+> **Lesson** (literacy, L.3.4, ask): multiple-meaning words  
+> _Ned says “a very patient patient”. Why is that funny?_  
+> - ✅ Patient means two things → Yes! A patient is someone a doctor looks after. Patient also means calm and good at waiting.
+> - It’s just said twice → It is, but each one means something different: a doctor’s patient, and calm while waiting.
+> _For grown-ups: Your child spotted that “patient” has two meanings: someone a doctor treats, and calm while waiting._
+
+_Sam comes in for a pencil and gets a check-up too. Maisie prescribes a nap._  
+**Sam Larkin**: Best medicine I’ve heard of all week.  
+
+### Glossary
+
+- **patient**: Someone a doctor looks after; also, able to wait calmly.
+- **prescribe**: When a doctor says what medicine or treatment you should have.
+
+## LB6. Den Day
+
+- `lb06-s1`: Gather chairs and blankets for a den in the Larkins’ front room. · _Blankets are in the cupboard; chairs are in Sam’s shed. Ned’s box is already there._
+- `lb06-s2`: Sit in the den with the Larkins while the rain goes on. · _Crawl in and sit down. There is nothing to do but listen._
+
+#### `lb06-rain`
+
+_Rain all day. The lane is a stream and the Larkins’ windows are fogged with small fingerprints._  
+**Maisie**: It was sunny yesterday. It’s not fair. Weather should take turns properly.  
+
+> **Lesson** (science, 3-ESS2-1, do): recording weather over time  
+> _Maisie wants proof the weather isn’t taking turns. Help her tally the week on the fridge chart._  
+> **Maisie**: Sunny: 3. Cloudy: 2. Rainy: 2. So rain has had two turns and sun has had three!  
+> _Scientists collect weather data like this for years to find each season’s pattern._  
+> Check: `edu:tally:weather:week`
+> _For grown-ups: Your child kept a week’s weather tally and looked for a pattern._
+
+**Ama Larkin**: It’s Saturday and I’m not driving anywhere. So. Den?  
+**Ned**: DEN.  
+_Ama empties the blanket cupboard. Sam brings four chairs from the shed, all his own work, all slightly different._  
+**Sam Larkin**: Mind that one, it wobbles. So it’s perfect for a den.  
+
+#### `lb06-built`
+
+_The den goes up: four chairs, three blankets, a sheet for a roof, and pegs from the washing line._  
+_Twice the roof sheet slides off. Twice everyone groans._  
+
+> **Lesson** (science, 3-5-ETS1-2, ask): comparing solutions  
+> _The sheet keeps sliding off the chairs. Which fix is best?_  
+> - ✅ Peg it to the chair backs → Pegs grip the sheet, so it can’t slide. Done. Comparing fixes and testing the best one is how engineers work.
+> - Pile books on top → Books would weigh it down, but the roof would sag onto heads. Pegs work better.
+> - Hold it up by hand → That works till your arms ache. Pegs don’t get tired.
+> _For grown-ups: Your child compared ways to stop the den roof sliding off and chose the best._
+
+**Ama Larkin**: Every den needs a door.  
+_Ned is already dragging his box across the rug, the one with NED on the side._  
+
+#### `lb06-inside`
+
+_Inside the den the light is blue and soft. Everyone’s knees touch, and nobody minds._  
+_Rain taps on the window. From in here it sounds further away and friendlier._  
+**Maisie**: The rug in here is three metres long and two metres wide. I measured it with Dad’s tape.  
+
+> **Lesson** (maths, 3.MD.D.8, do): perimeter  
+> _Ned wants to walk all the way round the rug edge. How far is that?_  
+> _3 + 2 + 3 + 2 = 10 metres. The distance round a shape is its perimeter._  
+> Check: `edu:measure:rug:perimeter`
+> _For grown-ups: Your child found the distance round a 3 m by 2 m rug: 10 metres._
+
+**Ned**: And Mum’s head is a circle.  
+**Ama Larkin**: Thank you, Ned.  
+_Your Nubbin curls up on Ned’s feet. Ned holds very still, so as not to wake it._  
+
+**Choices**
+
+- **Tell a story about a den in the rain.**
+    - You tell a story about a den that floats down the lane and comes home for tea. Ned makes you tell it twice.
+- **Just listen to the rain.**
+    - Nobody says anything for a while. The rain does the talking.
+    - **Maisie**: This is the quietest Ned has ever been.
+- **Count the drips from the gutter.**
+    - You count drips together. At forty-one they go too fast, and you all give up laughing.
+
+#### `lb06-complete`
+
+_The rain stops at teatime. Nobody wants to come out._  
+**Ama Larkin**: Tell you what. The den can stay up as long as it likes.  
+**Maisie**: Forever?  
+**Ama Larkin**: Till we need the chairs. Which, given your dad, could be a while.  
+**Sam Larkin**: I’ll make more chairs.  
+
+> **Lesson** (sel, CASEL: Social awareness, notice): noticing generosity  
+> _Sam will make more chairs so the den can stay. Ama gives away a blanket. Small gifts say “you matter to us”._  
+> _For grown-ups: Your child noticed how the Larkins share what they have._
+
+_Ama folds a spare blanket and hands it to you: a den for your own Grove, for the next rainy day._  
+
+### Glossary
+
+- **tally**: A quick way of counting with lines, where every fifth line crosses the four before it.
+- **perimeter**: The total distance all the way round the edge of a shape.
+
+## LB7. Shadow Show
+
+- `lb07-s1`: Find a torch for the shadow show. · _Try the box marked SHOES from moving day._
+- `lb07-s2`: Watch the shadow show, and put on a shadow of your own. · _Sit on the rug. When it’s your turn, step into the light._
+
+#### `lb07-sheet`
+
+_Ama pegs a white bedsheet across the front room, from the curtain rail to the top of the bookcase._  
+**Maisie**: It’s a theatre. Tonight only. Tickets are free, but you have to clap.  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): shadow theatre around the world  
+> **Ama Larkin**: People have made shadow plays for hundreds of years. In Indonesia it’s called wayang kulit, with leather puppets.  
+> **Ama Larkin**: China and Turkey have their own old shadow theatres too. We’re in good company.  
+> _For grown-ups: Your child learned that shadow puppet theatre is an old art in many countries._
+
+**Ned**: I’m doing a rabbit.  
+_Ned makes a rabbit with his fingers. It looks a lot like a hand._  
+**Ama Larkin**: A shadow show needs a light. There’s a torch in one of the boxes.  
+**Ama Larkin**: If I know us, it’s in the one marked SHOES.  
+
+#### `lb07-lights`
+
+_The torch is in the box marked SHOES, under the bread bin. Sam switches off the big light._  
+_The torch makes a bright circle on the sheet. Everything else in the room goes soft and dark._  
+**Ned**: Where does the light come from?  
+
+> **Lesson** (science, 4-PS3-4, notice): energy changing form  
+> **Sam Larkin**: The battery stores energy. Switch on, and electricity flows to the bulb, which turns it into light, and a bit of heat.  
+> _For grown-ups: Your child learned that a torch changes the battery’s stored energy into light._
+
+
+#### `lb07-show`
+
+_Ned stands between the torch and the sheet and holds up his rabbit. On the sheet it is taller than the bookcase._  
+**Ned**: A GIANT rabbit!  
+**Maisie**: Go nearer the sheet, Ned.  
+_Ned steps back towards the sheet. The rabbit shrinks and shrinks until it is the size of a real one._  
+**Ned**: Now it’s a baby. Where did the big one go?  
+**Sam Larkin**: Walk back towards the torch, mate, and see what happens.  
+_Ned walks to and fro. The rabbit grows and shrinks. He could do this all night._  
+
+> **Lesson** (science, 1-PS4-2, do): how shadows form and change size  
+> _Light travels in straight lines. Ned’s hand blocks some, so a dark patch, a shadow, lands on the sheet._  
+> _Near the torch, his hand blocks a wide cone of light: big shadow. Near the sheet, only a little: small shadow._  
+> Check: `edu:order:shadows:size`
+> _For grown-ups: Your child explained shadows: light travels in straight lines, and a hand near the torch blocks more of it._
+
+**Maisie**: Your turn. What are you making?  
+
+**Choices**
+
+- **A bird, flapping.**
+    - Your hands flap across the sheet. Ned tries to catch the bird, and it flies over his head.
+- **Put your Nubbin in the light.**
+    - Your Nubbin sees its shape on the sheet and stares. It waves a wing. So does the shadow.
+- **A friendly monster.**
+    - You make a big shadow with claws. It waves, very politely.
+    - **Ned**: Hello, monster.
+
+#### `lb07-complete`
+
+_The show ends with the whole family in the light at once: one big shadow with far too many arms._  
+
+> **Lesson** (science, 2-PS1-1, ask): opaque and see-through materials  
+> _Ned tries to make a shadow with a glass of water. It barely shows. Why?_  
+> - ✅ Light goes through glass → Yes. Glass is transparent: light passes through. Hands are opaque: they block light and make dark shadows.
+> - The glass is too small → Size isn’t it. Light passes straight through glass. Opaque things, like hands, block it.
+> _For grown-ups: Your child worked out that only light-blocking (opaque) things make dark shadows._
+
+**Maisie**: That was the best show ever made. Clap now.  
+_Everyone claps. On the sheet, so do the shadows._  
+**Ama Larkin**: Keep the sheet. We’ve got more sheets than beds, it turns out.  
+_You take home the sheet on two poles and the torch on a stand, for shows in your own Grove._  
+
+### Glossary
+
+- **opaque**: Not letting light through, so you can’t see through it.
+- **theatre**: A place, or a show, where stories are acted out for an audience.
+
+## LB8. Treasure Map
+
+- `lb08-s1`: Follow Ama’s map down the lane to the X. · _In order: the pond, your gate, the big oak, then six big steps to the X._
+- `lb08-s2`: Find where Maisie really hid the treasure. · _Use the compass on the map. Maisie says it went north, along the wall._
+
+#### `lb08-map`
+
+_Ama spreads a sheet of paper on the kitchen table. It is a map of the lane, drawn in post-van detail._  
+**Ama Larkin**: Every house, every gate, every pothole. I know this lane better than my own feet.  
+_There is your pond, your gate that sticks, the big oak, and a red X by the old wall._  
+_In one corner Ama has drawn a compass, with a fancy N at the top._  
+
+> **Lesson** (science, 2-ESS2-2, do): maps and compass directions  
+> **Ama Larkin**: The compass shows north at the top. Clockwise round it: north, east, south, west.  
+> **Ama Larkin**: Up the valley, where the river comes from, is north. East is to its right, and west to its left.  
+> _Put the landmarks in order on the map: pond, gate, oak, X._  
+> Check: `edu:order:map:lane`
+> _For grown-ups: Your child used the map’s compass: north, east, south and west._
+
+**Maisie**: Follow the map. The pond first, then the gate, then the tree, then the X.  
+**Ned**: What’s the treasure?  
+**Maisie**: A secret. It’s raisins.  
+
+#### `lb08-x`
+
+_Pond, gate, tree, then six big steps past the oak to the X. Ned digs with a spoon._  
+
+> **Lesson** (maths, 4.MD.A.1, ask): converting centimetres to metres  
+> _Each of your big steps is about 50 centimetres. Six steps is how far in metres?_  
+> - ✅ 3 metres → Yes. 6 × 50 = 300 cm, and 100 cm make a metre, so 3 metres.
+> - 30 metres → Too far! 6 × 50 = 300 cm. Divide by 100 to get metres: 3.
+> - 300 metres → 300 is right in centimetres! In metres it’s 3, because 100 cm is 1 metre.
+> _For grown-ups: Your child worked out that six 50 cm steps make 300 cm, which is 3 metres._
+
+_There is nothing there but soil and one surprised worm._  
+**Ned**: The treasure’s gone!  
+
+#### `lb08-moved`
+
+**Maisie**: It’s not gone. I moved it, after Mum drew the map.  
+**Maisie**: Treasure that’s exactly where the map says is too easy.  
+**Ned**: That’s not FAIR.  
+_Ned sits down in the lane with his spoon. The worm, sensibly, leaves._  
+
+> **Lesson** (literacy, RL.3.6, ask): your view and a character’s view  
+> _Maisie thinks tricky is fun. Ned thinks a map should be true. What do YOU think?_  
+> - Fair: games should surprise you → Maisie would agree. Surprises are half the fun of treasure hunts.
+> - Not fair: Ned trusted the map → Ned would agree. Trusting something and finding it untrue feels bad.
+> - Fair only if everyone knows the rule → That’s a careful answer. A trick can be fun, if everyone agreed tricks were allowed.
+> _For grown-ups: Your child compared their own view of fairness with Maisie’s and Ned’s._
+
+**Maisie**: It’s still close. It went north, the way the river comes from.  
+_Ned looks at you. He wants to know whose side you are on._  
+
+**Choices**
+
+- **“Treasure hunts are meant to be a bit tricky.”**
+    - **Maisie**: See? Tricky is the fun bit.
+    - **Ned**: Tricky is the CROSS bit.
+- **“A map’s a kind of promise, Maisie.”**
+    - **Maisie**: …I suppose.
+    - Maisie borrows her mum’s pen and draws a small, honest X further along the wall.
+- **Ask Maisie why she moved it.**
+    - **Maisie**: I wanted to be the one who knew something. Ned always finds things first.
+
+#### `lb08-complete`
+
+_The tin is under a flat stone at the foot of the wall, a few steps north. Ned finds it first, of course._  
+**Ned**: Raisins!  
+_He shares them out in fours: four for Maisie, four for you, four for your Nubbin and four for him._  
+
+> **Lesson** (maths, 3.OA.A.1, do): equal groups  
+> _Four people, four raisins each. How many raisins were in the tin?_  
+> _4 × 4 = 16. Ned shared them into four equal groups._  
+> Check: `edu:count:raisins:16`
+> _For grown-ups: Your child worked out that 4 groups of 4 raisins make 16._
+
+**Maisie**: Next time I’ll tell Mum where I really put it. Probably.  
+**Ama Larkin**: A map is for keeping, once you’ve used it.  
+_Ama frames the map and gives it to you. It has a second X now, in a six-year-old’s writing._  
+
+### Glossary
+
+- **compass**: A tool, or a drawing on a map, that shows north, south, east and west.
+- **landmark**: Something easy to spot that helps you find your way, like a big oak.
+
+## LB9. Café Larkin
+
+- `lb09-s1`: Lay the café table: one plate for each person. · _Four are eating: you, Sam, your Nubbin and Ama. One plate at each chair._
+- `lb09-s2`: Order lunch at Café Larkin, and be a kind customer. · _Talk to Ned, the waiter. Whatever arrives, be kind._
+
+#### `lb09-cafe`
+
+_A sign is chalked on the back of a tea tray: CAFÉ LARKIN, OPEN, NUBBINS WELCOME._  
+
+> **Lesson** (literacy, L.2.4, notice): borrowed words  
+> _“Café” is a French word English borrowed. The little mark on the é tells you to say “caff-ay”._  
+> _For grown-ups: Your child learned that “café” is borrowed from French, and the accent shows how to say it._
+
+_The café is the garden table, with the good tablecloth on it. Ama doesn’t know about the tablecloth yet._  
+**Maisie**: I’m the chef. Ned’s the waiter. You’re a customer, and so is Dad.  
+**Sam Larkin**: I’ll be the customer who sits down. I’m very good at that.  
+**Maisie**: Your Nubbin’s a customer. And Mum, when she’s back from her round. One plate each, please.  
+**Ned**: How many persons is that?  
+
+#### `lb09-laid`
+
+_Four plates, from the toy box and the kitchen: a blue one, a chipped china one, a tin one, and one that is really a frisbee._  
+_Your Nubbin sits on a cushion on the fourth chair. It has been given the frisbee, and it approves._  
+**Ned**: Can I drop the tin one? To check?  
+
+> **Lesson** (science, 2-PS1-1, ask): properties of materials  
+> _Which plate is safest for Ned to carry, in case he drops it?_  
+> - ✅ The tin one or the frisbee → Yes. Tin and plastic are tough and don’t shatter. China is hard but brittle, so it can break.
+> - The china one → China is hard but brittle: it can crack if dropped. Tin or plastic is safer for Ned.
+> _For grown-ups: Your child chose materials by property: tin bends, china can break, plastic is light and tough._
+
+
+#### `lb09-order`
+
+_Ned brings a menu: a drawing of a cake, a drawing of a sandwich, and a drawing nobody can identify._  
+**Ned**: What would you like? Cake is 4 Shells. Sandwich is also 4. The mystery is free.  
+**You**: The sandwich, please. And three cakes to share.  
+
+> **Lesson** (maths, 3.OA.A.3, do): multiplication word problem  
+> _Three cakes at 4 Shells each. What’s the bill for the cakes?_  
+> _3 × 4 = 12 Shells. Ned will give it all back as change anyway._  
+> Check: `edu:count:cakes:12`
+> _For grown-ups: Your child worked out the bill for three cakes at 4 Shells each (12)._
+
+**Ned**: One sandwich.  
+_He goes into the kitchen, which is the shed, and returns with great ceremony. On your plate is a pine cone._  
+**Ned**: Here is your cake.  
+_Sam ordered tea and got a stick. Your Nubbin ordered nothing and got three leaves, which it likes best of all._  
+
+> **Lesson** (sel, CASEL: Relationship skills, ask): handling a mistake kindly  
+> _The waiter got it wrong. What do you say?_  
+> - Thank him, then ask nicely for the sandwich → Kind and clear. Ned feels thanked, and you still get your sandwich.
+> - Enjoy what came → Generous. Sometimes the mix-up is more fun than the order.
+> - Explain politely there’s a mix-up → Honest and gentle. Blaming “a mix-up”, not Ned, keeps it kind.
+> _For grown-ups: Your child thought about what to say when someone gets your order wrong._
+
+
+**Choices**
+
+- **“Thank you! Could I have the sandwich as well?”**
+    - **Ned**: Oh! The sandwich! Coming right up.
+    - He comes back with a second pine cone. This one, he says, is the sandwich.
+- **Eat the pine cone with great pleasure.**
+    - You pretend to eat the pine cone, slowly, eyes closed. Ned watches every bite.
+    - **You**: Best cake I’ve ever had.
+- **“Excuse me. I think there’s been a little mix-up.”**
+    - **Ned**: Is it the wrong one?
+    - **You**: It’s a lovely cake. I ordered the sandwich, that’s all.
+    - **Ned**: I’ll tell the chef. She’ll be cross with the kitchen, not me.
+
+#### `lb09-complete`
+
+_Ama comes home and sits down at the fourth plate, still in her post-office jacket._  
+**Ama Larkin**: Table for one, please. Anything that comes with tea.  
+_Ned brings her a real cup of tea, which Sam made, and a pine cone, which Ned made. She is delighted with both._  
+**Ama Larkin**: Is that my good tablecloth?  
+**Maisie**: Café Larkin is closed now. The chef has to go.  
+
+> **Lesson** (literacy, RL.3.3, ask): character motive  
+> _Why does Maisie close the café so suddenly?_  
+> - ✅ She took the good tablecloth without asking → Yes! She’s escaping before Mum works it out. Ama is smiling, though.
+> - The chef got tired → Maybe, but look at the timing: right after Ama spots the tablecloth.
+> _For grown-ups: Your child worked out why Maisie suddenly closes the café._
+
+_Later, Ama paints the tea-tray sign properly and gives it to you for your gate._  
+
+### Glossary
+
+- **menu**: A list of the food and drink you can order.
+- **brittle**: Hard, but likely to crack or snap rather than bend.
+
+## LB10. Boats
+
+- `lb10-s1`: Test which of Ned’s things float in the pond. · _Put the cork, the leaf, the pebble and the teaspoon in the shallows, one at a time._
+- `lb10-s2`: Sail the boats across the Grove pond. · _Pick a boat and set it on the water by the reeds._
+
+#### `lb10-pond`
+
+_The Larkins come through your gate for the first time, in a line, all lifting and pushing at once._  
+**Maisie**: We’re making boats. For your pond. We brought things.  
+_Ned empties his pockets onto the bank: a cork, a big leaf, a pebble, and a metal teaspoon from the kitchen drawer._  
+**Sam Larkin**: That’s my good teaspoon.  
+**Ned**: It’s a boat now.  
+**Ama Larkin**: Which ones will float, do you think? Let’s predict before we test.  
+
+> **Lesson** (science, 2-PS1-1, ask): predicting  
+> _Make a prediction. Will the metal teaspoon float or sink?_  
+> - Float → A fair prediction. Testing will tell us.
+> - Sink → A fair prediction. Testing will tell us.
+> _For grown-ups: Your child made a prediction to test, the way scientists do._
+
+
+#### `lb10-test`
+
+_One at a time, the things go in the shallows. The cork bobs, and the leaf spins and floats._  
+_The pebble goes plop and sits on the bottom. The teaspoon goes plip and joins it._  
+
+> **Lesson** (science, 2-PS1-1, do): sorting by property  
+> _Sort them: floats (cork, leaf) and sinks (pebble, teaspoon)._  
+> _Cork is full of tiny air pockets, so it’s lighter than the same amount of water. Stone and metal are heavier, so they sink._  
+> Check: `edu:sort:boats:float`
+> _For grown-ups: Your child sorted materials into floaters and sinkers and explained why._
+
+**Ned**: The spoon’s a submarine.  
+**Sam Larkin**: The spoon is coming out, thank you.  
+
+#### `lb10-sail`
+
+_The boats are built on the bank: a cork with a leaf sail, a bark raft with a twig mast, and a walnut shell with a petal._  
+
+> **Lesson** (science, 3-PS2-1, notice): forces on a sailing boat  
+> _The wind pushes on the sail. If that push is bigger than the water’s drag, the force is unbalanced, and the boat moves._  
+> _For grown-ups: Your child learned that wind pushing on a sail is an unbalanced force that moves the boat._
+
+**Maisie**: A race! First one across the pond wins.  
+_Your Nubbin wades in up to its middle, ready to help. Nubbins love the pond._  
+**Ama Larkin**: Which one are you sailing?  
+
+**Choices**
+
+- **The cork, with the leaf sail.**
+    - The cork boat leans into the breeze and sets off, steady as a duck.
+- **The bark raft.**
+    - The raft is slow and flat and sensible. It goes exactly where the breeze tells it.
+- **The walnut shell, with Ned.**
+    - The walnut spins in slow circles and goes nowhere at all. Ned thinks it is the best boat of the lot.
+
+#### `lb10-complete`
+
+_The raft wins, in the end, by drifting. Nobody minds, because the walnut is still spinning and Ned is still cheering it._  
+
+> **Lesson** (literacy, L.4.5, notice): simile  
+> _“Steady as a duck” compares a boat to a duck using “as”. A comparison with “like” or “as” is called a simile._  
+> _For grown-ups: Your child spotted a simile: “steady as a duck”._
+
+_Your Nubbin tows the walnut home, very gently, with its nose._  
+**Ama Larkin**: What a pond. You’re lucky, having this on your doorstep.  
+**Sam Larkin**: My good teaspoon is still in it.  
+_Your Nubbin dives for the teaspoon and brings it back. Sam shakes its wing, very solemnly._  
+
+### Glossary
+
+- **predict**: To say what you think will happen before you find out.
+- **simile**: A comparison using “like” or “as”, such as “steady as a duck”.
+
+## LB11. The Big Race
+
+- `lb11-s1`: Judge five races and keep a tally of the winners. · _Stand at the skipping-rope finish. One line for every win._
+- `lb11-s2`: Decide how to run the last race. · _Talk to Ned, face down in the grass._
+
+#### `lb11-course`
+
+_Maisie marks out a racecourse in the field: flowerpots for the start and a skipping rope for the finish._  
+**Maisie**: Five races. Me, Ned and your Nubbin. You’re the judge. Dad’s the crowd.  
+**Sam Larkin**: Hooray.  
+_Sam is lying beside the finish line, which Maisie says still counts as a crowd._  
+**Maisie**: Judges keep a tally. One line for every win.  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, notice): fair judging  
+> _A fair judge watches the finish, not the favourite. Even if you like one runner best, you write down what really happened._  
+> _For grown-ups: Your child thought about what a fair judge does._
+
+**Maisie**: Ready, steady…  
+
+#### `lb11-five`
+
+_Maisie wins the first race, and the second. Your Nubbin wins the third by flapping, and the fourth by accident._  
+_Maisie wins the fifth. Ned comes last in every one._  
+
+> **Lesson** (maths, 2.MD.D.10, do): tally charts and comparing  
+> _Your tally: Maisie |||, Nubbin ||, Ned none. That’s 3 + 2 + 0 = 5 races._  
+> _How many more wins has Maisie than your Nubbin? 3 − 2 = 1. And Ned? He hasn’t got a line yet._  
+> Check: `edu:tally:races:5`
+> _For grown-ups: Your child made a tally chart of five races and compared the totals._
+
+_After the fifth race, Ned lies face down on the grass and does not get up._  
+
+#### `lb11-facedown`
+
+**Maisie**: Come on, Ned. One more race.  
+**Ned**: No. I’m never racing again. I’m staying here.  
+_His voice comes out muffled, straight into the grass._  
+**Maisie**: It’s only a game.  
+**Ned**: It’s only a game for WINNERS.  
+_Maisie looks at you. She is six, she has won every race she’s ever run, and she doesn’t know what to do._  
+
+> **Lesson** (literacy, RL.2.3, ask): how characters respond to events  
+> _Maisie and Ned both feel something about the races. How is each one responding?_  
+> - Ned hides; Maisie is puzzled → Well read. Ned shuts out the world. Maisie has never lost, so she can’t imagine it.
+> - Ned is cross; Maisie is impatient → Fair. “It’s only a game” is easy to say when you’re winning.
+> - They both want to fix it → Kind answer. Maisie keeps asking him back. That’s her way of caring.
+> _For grown-ups: Your child compared how Maisie and Ned each respond to winning and losing._
+
+**Sam Larkin**: Nobody likes losing, mate. Even in a game.  
+
+**Choices**
+
+- **Race properly. Ned can finish, even if he’s last.**
+    - Ned gets up, slowly. He runs the whole race and comes last, but this time he runs all the way, and you cheer him in.
+    - **Ned**: I came last, but I came ALL the way!
+- **Everyone slows down so Ned wins.**
+    - Everyone jogs, Maisie very slowly and with a face. Ned wins by a mile.
+    - **Ned**: I WON! I’m the fastest in the valley!
+    - **Maisie**: It wasn’t a real race.
+    - Maisie says it quietly, so Ned won’t hear. Then she lets him have it.
+- **Race holding hands, all together.**
+    - Maisie holds out her hand to Ned, and he takes it. You all run the last race in a line, holding hands.
+    - Nobody wins. Everybody crosses the rope at once.
+    - **Maisie**: That’s a draw. Draws are allowed.
+
+#### `lb11-complete`
+
+**Sam Larkin**: Right. The crowd needs a sit-down.  
+_Sam sits up in the grass. Ned climbs into his lap with grass stuck to his face._  
+**Sam Larkin**: You know what I like about racing with you lot? Somebody always gets up again.  
+
+> **Lesson** (literacy, RL.4.2, ask): theme  
+> _Sam says somebody always gets up again. What do you think the race story is really about?_  
+> - Losing is part of playing → Yes. You can’t have races without someone losing, and that someone is still a player.
+> - Getting up again is brave → That’s the heart of it. Ned got up. That counts more than the tally.
+> - Families look after each other → Lovely. Every choice had someone looking after Ned.
+> _For grown-ups: Your child thought about the big idea of the race story: getting up again matters more than winning._
+
+**Maisie**: Next time I’m inventing a game where losing is the winning.  
+_Ned picks the grass off his face one bit at a time, and gives every bit to your Nubbin._  
+
+### Glossary
+
+- **tally chart**: A table where you count things by drawing a line for each one.
+- **judge**: Someone who watches carefully and decides fairly who won.
+
+## LB12. The Long Grass Campout
+
+- `lb12-s1`: Bring a sleeping bag to the Larkins’ long grass at dusk. · _Carry a sleeping bag from your cottage through the Larkins’ gate before dark._
+- `lb12-s2`: Lie still in the long grass and wait for the first star. · _Lie down with the Larkins and keep still. The stars come when they come._
+
+#### `lb12-tired`
+
+_Late summer. The evenings are long and gold, and the swallows fly low over the Larkins’ field._  
+**Ama Larkin**: Sam’s asleep. Before tea. On the sofa, with one shoe on.  
+**Ama Larkin**: He finished a whole table this week. He’s allowed.  
+**Maisie**: We need a game where Dad has to lie down.  
+
+> **Lesson** (sel, CASEL: Social awareness, notice): understanding others’ needs  
+> _Maisie doesn’t try to fix Dad’s tiredness. She makes a game that fits it. Noticing what someone needs is a kind of love._  
+> _For grown-ups: Your child saw Maisie invent a game that fits what her tired dad needs._
+
+**Ned**: Dad already lies down.  
+**Maisie**: A game where lying down IS the game.  
+_Maisie explains it at speed: sleeping bags, the long grass, everyone very still, first to see a star wins._  
+**Ama Larkin**: Camping in the garden? Go on, then. Bring your Nubbin, and a sleeping bag.  
+
+#### `lb12-arrive`
+
+_At dusk you carry your sleeping bag through the Larkins’ gate. Sam is awake now, in pyjamas, holding a torch._  
+**Sam Larkin**: I hear there’s a game where I have to lie down. I’ve been practising all day.  
+**Ama Larkin**: Sunset was at twenty to nine. Stars by quarter past, if we’re lucky.  
+
+> **Lesson** (maths, 3.MD.A.1, ask): time intervals  
+> _From 8:40 to 9:15, how long will everyone have to lie still?_  
+> - ✅ 35 minutes → Yes. 8:40 to 9:00 is 20 minutes, and 9:00 to 9:15 is 15 more. 35 minutes.
+> - 25 minutes → Close. 8:40 to 9:00 is 20, then 15 more to 9:15. That makes 35.
+> - An hour → Not quite that long. 20 minutes to nine o’clock, then 15 more: 35 minutes.
+> _For grown-ups: Your child worked out the time from 8:40 to 9:15 (35 minutes)._
+
+
+#### `lb12-waiting`
+
+_Everyone lies in a row in the long grass: Ama, Sam, Maisie, Ned, you, and your Nubbin, already half asleep._  
+_The sky goes from gold to pink to a deep, slow blue. A bat flickers over the hedge._  
+**Maisie**: The rules. Nobody talks. Nobody wriggles. The first to see a star says STAR.  
+_For a long time nobody does anything. It is the stillest the Larkins have ever been._  
+**Sam Larkin**: It’s winter in Brisbane now. My mum’s wearing a jumper.  
+**Ned**: Why?  
+**Sam Larkin**: The Earth is tilted. While our half leans towards the Sun, her half leans away. Then they swap.  
+
+> **Lesson** (science, 1-ESS1-2, notice): why the hemispheres have opposite seasons  
+> _Brisbane is in Australia, in the southern hemisphere. The valley is in the northern one._  
+> _The Earth’s axis is tilted. When the north leans towards the Sun it’s summer here, and winter in the south._  
+> _For grown-ups: Your child learned that the Earth’s tilt gives the north and south opposite seasons._
+
+
+**Choices**
+
+- **Make a quiet wish for the Larkins.**
+    - You make a wish. You don’t say it out loud, because that is the rule with wishes.
+- **Hum something very quietly.**
+    - You hum a tune you half remember. After a while Ama hums it too, and gets the end right.
+- **Watch your Nubbin fall asleep.**
+    - Your Nubbin’s emote ball dims to a soft glow, then goes out. It is asleep.
+
+#### `lb12-star`
+
+_Ned sees it first: one bright point over the hedge, low in the west._  
+**Ned**: STAR!  
+**Ama Larkin**: That might be a planet, actually. Never mind. It counts.  
+
+> **Lesson** (science, 1-ESS1-1, notice): stars in day and night  
+> **Ama Larkin**: The first bright “star” is sometimes a planet, like Venus, shining with reflected sunlight.  
+> **Ama Larkin**: And the stars never go away in the daytime. The Sun is just so bright that we can’t see them.  
+> _For grown-ups: Your child learned the stars are always there; the Sun’s brightness hides them by day._
+
+_Then another star, and another, until there are too many to say STAR about, so everyone just looks._  
+
+#### `lb12-complete`
+
+_Sam is asleep again in the long grass, with Ned asleep on his arm. Maisie is trying very hard not to be._  
+**Maisie**: That was the best game we ever made up.  
+**Ama Larkin**: It was. Lying still together. It’s hard, and you all did it.  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): what makes time together special  
+> _No winners, no prizes, nobody moved. Why was lying still together the best game of the summer?_  
+> - Everyone was included, even tired Sam → Yes. It was the one game the whole family could play at once.
+> - Waiting made the stars special → That’s true. Things you wait for can feel bigger when they come.
+> - It was calm after a busy summer → Wise. After shops and races and dens, quiet can be the treat.
+> _For grown-ups: Your child thought about why the stillest game of the summer was the best one._
+
+_Your Nubbin is asleep in Ned’s box. Ama looks at it, and then at you._  
+**Ama Larkin**: That box should stay out here for good, I think. It’s earned its place.  
+_In the morning there is a small painted box on your doorstep, with a note: FOR YOUR NUBBIN FROM NED (HE DID THE N)._  
+
+### Glossary
+
+- **hemisphere**: Half of the Earth, such as the northern half or the southern half.
+- **tilted**: Leaning to one side instead of standing straight.
+
+## LK1. The Shadow Screen
+
+- `lk01-s1`: Help Siti and Wulan put up their shadow screen by the pond. · _Hold the second pole steady while the cloth is tied._
+- `lk01-s2`: Meet the mouse-deer and choose whose way to hear the tales first. · _Talk to Siti or Wulan by the screen._
+
+#### `lk01-dusk`
+
+_Summer is nearly over. At dusk, two women come down the lane with a long roll of white cloth and a wooden box._  
+_They stop at the pond and study it the way builders study a wall._  
+**Mak Cik Siti**: This is the spot. Flat ground, still water, and a bank for the children to sit on.  
+**Mak Cik Siti**: I’m Siti. The little ones call me Mak Cik Siti, which means Auntie Siti. I’m from Melaka, in Malaysia.  
+**Bu Wulan**: And I’m Wulan. Bu Wulan, to be polite. I’m from Yogyakarta, in Indonesia.  
+
+> **Lesson** (social-studies, D2.Geo.2.K-2, notice): finding Malaysia and Indonesia on a map  
+> **Mak Cik Siti**: Melaka is an old port town on the coast of Malaysia. Ships have stopped there for hundreds of years.  
+> **Bu Wulan**: Yogyakarta is on Java, one of the thousands of islands that make up Indonesia.  
+> **Bu Wulan**: Between us is the sea. On a map, we’re neighbours.  
+> _For grown-ups: Your child placed Melaka and Yogyakarta on a map and saw the two countries are neighbours._
+
+**Bu Wulan**: We met on a boat forty years ago, and we’ve argued ever since.  
+**Mak Cik Siti**: Lovingly.  
+**Bu Wulan**: Mostly lovingly. Will you hold that pole while Siti ties the cloth?  
+_Your Nubbin takes the other pole without being asked. The pole is taller than it by quite a lot._  
+
+> **Lesson** (art, notice): shadow-puppet theatre  
+> **Bu Wulan**: In Java, shadow-puppet theatre is called wayang. My puppets are wayang kancil: tales of the mouse-deer.  
+> **Mak Cik Siti**: We have shadow puppets in Malaysia too, called wayang kulit. Kelantan is famous for them.  
+> _For grown-ups: Your child learned about wayang, the shadow-puppet theatre of Indonesia and Malaysia._
+
+
+#### `lk01-lamp`
+
+_The screen goes up, tight as a drum. Wulan lights a lamp behind it, and the cloth glows warm gold._  
+**Mak Cik Siti**: There. Now nothing can hide. Not even a shadow.  
+_Your Nubbin walks between the lamp and the cloth. Its shadow stretches across the screen, enormous._  
+_It stares at the giant shadow, then waves. The shadow waves back._  
+**Bu Wulan**: Shadows are honest. They copy you exactly, only bigger or smaller.  
+**Bu Wulan**: Here. Try it with a puppet.  
+
+> **Lesson** (science, 1-PS4-2, do): how shadows form and change size  
+> **Bu Wulan**: Hold the puppet close to the lamp. It blocks a lot of light, so the shadow is huge.  
+> **Bu Wulan**: Move it close to the screen. It blocks less light, and the shadow shrinks.  
+> _Put three puppet shadows in order, from smallest to largest._  
+> Check: `edu:order:shadows:size`
+> _For grown-ups: Your child moved a puppet between a lamp and a screen and ordered the shadows by size._
+
+
+#### `lk01-names`
+
+_Siti opens the box. Inside are flat leather puppets on sticks: a crocodile, a tiger, an elephant, a snail._  
+_Last of all she lifts out a tiny deer with thin legs and a clever face. It fits in her hand._  
+
+> **Lesson** (science, 4-LS1-1, notice): body parts that help the mouse-deer survive  
+> **Bu Wulan**: Real mouse-deer live in the forests of South-East Asia. They’re about the size of a rabbit and weigh about 2 kilograms.  
+> **Mak Cik Siti**: They’re among the smallest hoofed animals in the world. Not a mouse, and not quite a deer.  
+> **Bu Wulan**: Thin legs make them quick, and their brown coat hides them among dead leaves.  
+> _For grown-ups: Your child learned what a real mouse-deer is: a tiny hoofed forest animal of South-East Asia._
+
+**Mak Cik Siti**: This is Sang Kancil, the mouse-deer. The smallest animal in the forest, and the cleverest.  
+**Bu Wulan**: Si Kancil.  
+**Mak Cik Siti**: Sang Kancil. That’s what my grandmother called him.  
+**Bu Wulan**: And mine called him Si Kancil, and she was never wrong about anything, including the weather.  
+**Mak Cik Siti**: He belongs to both of us. To Singapore and Brunei too. To every child who ever heard him.  
+**Bu Wulan**: Fine. But somebody has to tell the first tale.  
+_They both look at you. So does your Nubbin, which has climbed into the puppet box._  
+
+**Choices**
+
+- **Siti’s way first: Sang Kancil.**
+    - **Mak Cik Siti**: Sang Kancil it is. Wulan, you may sulk.
+    - **Bu Wulan**: I never sulk. I wait.
+- **Wulan’s way first: Si Kancil.**
+    - **Bu Wulan**: Si Kancil it is. Siti, you can do the crocodile voices.
+    - **Mak Cik Siti**: I always do the crocodile voices. Nobody else can.
+
+#### `lk01-complete`
+
+_Wulan hands the little puppet to your Nubbin. It holds it up to the lamp very carefully, as if it might wake._  
+**Bu Wulan**: One tale at a time. Your Nubbin will be Kancil behind the screen. Small, quick, and no talking.  
+**Mak Cik Siti**: We’ll do the talking. We’re very good at it.  
+_Your Nubbin nods, solemn. It has never been better suited to a part._  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): two people can both be right  
+> _Siti says Sang Kancil. Wulan says Si Kancil. Can they both be right?_  
+> - Yes, both. → That’s what we think too. Different places, different words, the same little deer.
+> - No, only one. → Lots of people think so at first. But a name can be right in two languages at once.
+> - It doesn’t matter. → Maybe not to Kancil! But it matters to us, because our grandmothers said it.
+> _For grown-ups: Your child thought about how two people can say something differently and both be right._
+
+**Bu Wulan**: Come back at dusk. Bring the children. Bring the whole valley, if it fits on the bank.  
+**Mak Cik Siti**: And bring an appetite. I make kuih.  
+
+### Glossary
+
+- **wayang**: Shadow-puppet theatre from Indonesia and Malaysia, with flat puppets behind a lit screen.
+- **mouse-deer**: A tiny forest animal with hooves, about the size of a rabbit; not a mouse and not a true deer.
+
+## LK2. Kancil Is Hungry
+
+- `lk02-s1`: Watch the first tale from the bank: Kancil is hungry. · _Come to the pond at dusk and sit on the bank._
+- `lk02-s2`: Look at the stream with your Nubbin: how could a small deer get across? · _Walk down to the stream that runs into the pond._
+
+#### `lk02-hungry`
+
+_Dusk again. The lamp is lit, and the bank is full of valley children sitting on their hands to keep still._  
+**Mak Cik Siti**: Long ago, in the forest, when the rains were late, Kancil woke up hungry.  
+_Your Nubbin trots the puppet across the screen. Its shadow hops, quick and light._  
+**Kancil**: My tummy is growling louder than a tiger. Somebody find me breakfast.  
+
+> **Lesson** (literacy, RL.1.4, ask): words that show feelings or senses  
+> **Bu Wulan**: Which word tells you Kancil is really hungry?  
+> - ✅ Growling → Yes. A growling tummy is a very hungry tummy. You can almost hear it.
+> - Breakfast → Close! But “growling” is the word that lets you hear his hunger.
+> _For grown-ups: Your child picked out the word that shows how hungry Kancil is._
+
+**Bu Wulan**: Kancil looked everywhere. The bushes were bare. The berries were gone.  
+**Kancil**: And over there, across the river, the trees are heavy with fruit. Ripe and sweet and swinging.  
+**Mak Cik Siti**: But the river was wide, and Kancil was small. And the river was full of crocodiles.  
+_Siti slides a long, lumpy shadow along the bottom of the screen, then another. The children go very quiet._  
+
+#### `lk02-ripples`
+
+_Wulan flicks water from the pond onto the screen. The shadow river ripples._  
+**Bu Wulan**: Rivers in the forest are never empty. Fish, frogs, birds and crocodiles, all of them hungry too.  
+
+> **Lesson** (science, 2-LS4-1, notice): why rainforest rivers are full of life  
+> **Bu Wulan**: A rainforest is warm and wet all year, so plants grow fast and never stop.  
+> **Bu Wulan**: Lots of plants means lots of food, so the rivers are crowded with fish, frogs, birds and crocodiles.  
+> **Mak Cik Siti**: Each of them has found its habitat: the place that gives it what it needs.  
+> _For grown-ups: Your child learned why warm, wet rainforests support so many animals._
+
+**Kancil**: Then I shall have to be clever. Being big isn’t an option.  
+
+#### `lk02-plan`
+
+_The tale stops there. Wulan leans out from behind the screen._  
+**Bu Wulan**: Every good tale has a question in the middle. How does a very small deer cross a very big river?  
+**Mak Cik Siti**: Don’t tell them, Wulan.  
+**Bu Wulan**: I’m not telling them. I’m asking them.  
+_A boy at the front says Kancil should swim, and a girl says build a boat. Somebody says “ask a bird”._  
+
+> **Lesson** (science, 3-5-ETS1-2, ask): comparing solutions to a problem  
+> **Bu Wulan**: Swim, build a boat, or ask a bird. Which plan would you try?  
+> - Swim → Brave! But a small deer in a crocodile river is risky. What would make it safer?
+> - Build a boat → Clever. It takes time and tools, though, and Kancil is hungry now.
+> - Ask a bird → Nice idea. Could a bird carry a deer? Maybe a very big bird!
+> _For grown-ups: Your child compared three ways to cross a river and weighed up each one._
+
+**Mak Cik Siti**: All good ideas. Come back at dusk and see what Kancil does.  
+_Your Nubbin is already at the stream, staring at the far side the way Kancil stared at the fruit._  
+
+#### `lk02-complete`
+
+_The children walk home arguing about boats._  
+**Mak Cik Siti**: That’s how you know a tale is working. They take it home with them.  
+**Bu Wulan**: My grandmother stopped every tale on a question. We never slept.  
+
+> **Lesson** (sel, CASEL: Self-management, ask): waiting for something you want  
+> **Mak Cik Siti**: The tale stops on a question, and you have to wait for the answer. What helps you wait?  
+> - Guessing what happens → Good one. Guessing turns waiting into a game.
+> - Doing something else → Wise. Busy hands make waiting shorter.
+> - Waiting is hard → It is hard. That’s all right. Grown-ups find it hard too.
+> _For grown-ups: Your child thought about what helps them wait._
+
+_Your Nubbin is still at the stream, counting something on its fingers._  
+
+### Glossary
+
+- **ripe**: Ready to eat: soft, sweet and fully grown.
+- **habitat**: The natural home of an animal or plant, where it finds food, water and shelter.
+
+## LK3. Counting the Crocodiles
+
+- `lk03-s1`: Watch Kancil call the crocodiles to the bank. · _Sit on the bank at dusk for the second tale._
+- `lk03-s2`: Count the crocodiles as your Nubbin hops across the line. · _Count each hop: once in ones, then in twos._
+- `lk03-s3`: Decide what Kancil does on the far bank. · _Talk to Siti and Wulan by the screen._
+
+#### `lk03-river`
+
+**Mak Cik Siti**: Kancil walked right up to the edge of the river, where the water was dark and still.  
+**Kancil**: Crocodiles! Crocodiles of the river! Wake up! I have a message from the King!  
+_Siti raises the crocodile puppet. It has a great many leather teeth and a very grumpy eye._  
+
+> **Lesson** (science, 4-LS1-1, notice): body parts that help crocodiles survive  
+> **Mak Cik Siti**: A real crocodile’s eyes and nostrils sit high on top of its head.  
+> **Bu Wulan**: So it can lie almost under the water, still seeing and still breathing, and hardly anyone notices.  
+> _For grown-ups: Your child learned why a crocodile’s eyes and nostrils sit on top of its head._
+
+**Crocodile**: Who is shouting? Some of us were asleep. Some of us were dreaming about lunch.  
+**Kancil**: The King wants to know how many crocodiles live in this river. Every single one. I’ve come to count you.  
+**Crocodile**: Count us? Nobody has ever counted us.  
+**Kancil**: Then line up from this bank to that one, nose to tail, so I don’t miss anyone.  
+**Crocodile**: Hmm. Well. If it’s for the King.  
+_One by one, shadow crocodiles slide out across the screen, until there is a bumpy bridge from side to side._  
+
+#### `lk03-lined`
+
+_Siti stops. She looks out at the pond, then at the Grove’s Nubbins splashing in the shallows._  
+**Mak Cik Siti**: Do you know, I think this tale wants to be played for real.  
+_The Nubbins look at each other. Then, one at a time, they float out into the stream and line up, nose to tail._  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): working as a team  
+> **Bu Wulan**: Look at that. Not one Nubbin could make a bridge alone. Ten of them can.  
+> **Mak Cik Siti**: A team is just a lot of small helps, all lined up.  
+> _For grown-ups: Your child saw how a team of small helpers can do something none could do alone._
+
+
+#### `lk03-count`
+
+_Ten Nubbins bob in a line across the stream, all pretending very hard to be crocodiles._  
+_One of them practises a grumpy face. It mostly looks sleepy._  
+**Bu Wulan**: Kancil steps onto the first back. Count with him, everyone!  
+_Your Nubbin hops onto the first Nubbin, wobbles and holds out its arms. Then it hops again._  
+**Mak Cik Siti**: One, two, three, four, five!  
+**Bu Wulan**: Six, seven, eight, nine, ten!  
+_Ten hops, and your Nubbin lands on the far bank with a squelch and a look of enormous pride._  
+
+> **Lesson** (maths, 1.OA.A.1, do): counting in twos and adding on  
+> **Bu Wulan**: Count the line again in twos this time: two, four, six, eight, ten.  
+> **Mak Cik Siti**: Oh, look! Four more Nubbins swim up and join the end. How many crocodiles now?  
+> _Count on from ten: eleven, twelve, thirteen, fourteen. Fourteen crocodiles!_  
+> Check: `edu:count:crocodiles:10`
+> _For grown-ups: Your child counted ten crocodiles in twos, then added four more to make fourteen._
+
+**Mak Cik Siti**: Now in my language. Satu, dua, tiga, empat, lima, enam, tujuh, lapan, sembilan, sepuluh!  
+**Bu Wulan**: Mine is the same, all but one. Satu, dua, tiga, empat, lima, enam, tujuh, delapan, sembilan, sepuluh!  
+**Mak Cik Siti**: Lapan.  
+**Bu Wulan**: Delapan.  
+_The children shout both, very loudly, at once._  
+
+> **Lesson** (literacy, notice): the same numbers in two languages  
+> **Mak Cik Siti**: In Malay, eight is lapan. In Indonesian, it’s delapan.  
+> **Bu Wulan**: All the other numbers from one to ten are the same in both. Our languages are close cousins.  
+> _For grown-ups: Your child heard the numbers one to ten in Malay and Indonesian, where only eight differs._
+
+
+#### `lk03-over`
+
+**Kancil**: Ten crocodiles! The King will be delighted. And look at that, I seem to be on the other side.  
+**Crocodile**: Wait. Was that counting? Or was that crossing?  
+_Behind the screen, Siti laughs so hard the crocodile puppet shakes._  
+
+> **Lesson** (maths, 2.OA.C.3, ask): odd and even  
+> **Bu Wulan**: Ten crocodiles. Is ten odd or even? Pair them up and see.  
+> - ✅ Even → Even! Five pairs, and nobody left over.
+> - Odd → Let’s pair them: two, four, six, eight, ten. Five pairs, none left over, so ten is even.
+> _For grown-ups: Your child paired up ten crocodiles to show that ten is even._
+
+
+#### `lk03-turn`
+
+**Bu Wulan**: So. Kancil is safe on the far bank, with the fruit trees right behind him.  
+**Bu Wulan**: And ten crocodiles are in the water, slowly working out that there was no count, and no King waiting.  
+**Mak Cik Siti**: Our grandmothers told this next part differently. So does everybody.  
+**Mak Cik Siti**: So you tell us. What does Kancil do?  
+
+> **Lesson** (literacy, RL.3.3, ask): a character’s motive  
+> **Mak Cik Siti**: Before you choose: why did Kancil trick the crocodiles?  
+> - ✅ He was hungry and needed to cross. → That’s his motive: the reason he did it. Hunger, and a river in the way.
+> - He wanted to be mean. → Maybe a bit cheeky! But the tale says he was hungry. That was his reason.
+> _For grown-ups: Your child named the reason behind Kancil’s trick._
+
+_Your Nubbin stands on the far bank holding the puppet, waiting to be told._  
+_Out in the stream, ten Nubbins wait too, still being crocodiles._  
+
+**Choices**
+
+- **Kancil turns back and says thank you.**
+    - **Kancil**: Thank you, crocodiles! That was the best bridge in the whole forest.
+    - **Crocodile**: Well. You’re welcome, I suppose.
+    - In the stream, the Nubbin crocodiles look very pleased with themselves.
+- **Kancil says sorry for the trick.**
+    - **Kancil**: Crocodiles, I’m sorry. There was no count. I was hungry and scared, and I tricked you.
+    - **Crocodile**: Hmph. At least you said so.
+    - The Nubbin crocodiles bob about, thinking it over.
+- **Kancil laughs and runs off into the trees.**
+    - **Kancil**: Ha! Silly crocodiles! Too slow, too slow!
+    - **Crocodile**: Come back here, you little...!
+    - The Nubbin crocodiles splash, very offended. One of them sulks under a lily pad.
+
+#### `lk03-complete`
+
+_The Nubbins paddle back to the shallows, very pleased with themselves for being such good crocodiles._  
+**Mak Cik Siti**: Ten crocodiles, ten hops. Some tales are made of numbers.  
+**Bu Wulan**: Leave a bridge across the stream. The children will want to count it again.  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): how stories carry the past  
+> **Mak Cik Siti**: Families in Malaysia, Indonesia, Singapore and Brunei have told this tale for generations.  
+> **Bu Wulan**: It travelled from mouth to ear, grandmother to grandchild. That’s called an oral tradition.  
+> _For grown-ups: Your child learned that the Kancil tales were passed down by word of mouth for generations._
+
+_By morning someone has painted ten flat stones with grumpy crocodile faces and set them in a line across the stream._  
+_Your Nubbin crosses on them twice, nodding once at every stone._  
+
+### Glossary
+
+- **nostrils**: The two openings in the nose that air goes in and out of.
+- **even**: A number that can be split into pairs with none left over, like 2, 4, 6, 8 and 10.
+- **motive**: The reason someone does something.
+- **tradition**: Something people have done or told for a very long time, passed from older people to younger ones.
+
+## LK4. The Crocodile Remembers
+
+- `lk04-s1`: Watch Kancil go down to the river for a drink. · _Sit on the bank at dusk for the third tale._
+- `lk04-s2`: Find a stick by the pond and lay it beside your Nubbin’s leg. · _Sticks wash up at the pond’s edge._
+
+#### `lk04-grab`
+
+**Bu Wulan**: Some days later, Kancil was thirsty, so he went down to the river for a drink.  
+_Your Nubbin bends the puppet down to the shadow water. Its little nose nearly touches the ripples._  
+_A long shadow slides up underneath, and snap! The crocodile puppet has Kancil by the leg._  
+**Crocodile**: I remember you. You’re the one who counted us.  
+**Crocodile**: You were polite about it, I’ll give you that. But a crocodile still has to eat.  
+
+> **Lesson** (literacy, RL.3.3, ask): why a character acts  
+> **Bu Wulan**: Why do you think the crocodile was waiting at that spot?  
+> - ✅ It remembered Kancil’s trick. → Yes. Crocodiles in our tales have long memories, and an empty tummy helps.
+> - It just wanted a drink. → Maybe! But it said “I remember you”. It was waiting for Kancil.
+> _For grown-ups: Your child worked out why the crocodile was waiting for Kancil._
+
+**Kancil**: Oh, crocodile. Is that my leg you’ve caught?  
+**Kancil**: That isn’t my leg at all! That’s an old stick. Silly crocodile, you’ve caught a stick!  
+_The crocodile lets go, quick as anything, and snaps at a stick floating past._  
+
+#### `lk04-free`
+
+_Kancil is up the bank and gone before the crocodile notices it’s chewing a stick._  
+**Crocodile**: ...This is a stick.  
+
+> **Lesson** (science, 4-LS1-2, notice): animals’ senses  
+> **Mak Cik Siti**: Real crocodiles have tiny bumps along their jaws that feel the smallest ripple in the water.  
+> **Bu Wulan**: A drinking mouse-deer makes ripples. That’s how a crocodile knows someone has arrived.  
+> _For grown-ups: Your child learned that crocodiles feel tiny ripples with sense organs on their jaws._
+
+**Mak Cik Siti**: It certainly is.  
+
+#### `lk04-stick`
+
+_After the tale, Wulan holds up the crocodile puppet and looks it in the eye._  
+**Bu Wulan**: Poor thing. Tricked twice. I’d be cross too.  
+**Mak Cik Siti**: Kancil had to save himself. A crocodile had him by the leg!  
+**Bu Wulan**: I didn’t say he was wrong. I said I’d be cross.  
+_The children argue about it all down the bank. Your Nubbin goes looking for a stick to compare with its own leg._  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): was the trick fair?  
+> **Bu Wulan**: So. Was Kancil’s stick trick fair?  
+> - Yes, he had to escape. → That’s a fair answer. When someone grabs you, getting free matters most.
+> - No, it was a fib. → That’s fair too. It was a fib, even if it was a fib to save his leg.
+> - A bit of both. → That’s what I think, most days. A trick can be clever and unfair at once.
+> _For grown-ups: Your child weighed up whether a trick to escape danger is fair._
+
+**Mak Cik Siti**: Bring it here. Let’s see if a crocodile could really mix them up.  
+
+#### `lk04-complete`
+
+_Your Nubbin lays the stick beside its leg. The stick is much longer, and a lot less wriggly._  
+**Bu Wulan**: So it wasn’t a very good stick to mistake for a leg.  
+
+> **Lesson** (maths, 2.OA.A.1, ask): comparing lengths by subtracting  
+> _The stick is 60 centimetres long. Your Nubbin’s leg is 15 centimetres. How much longer is the stick?_  
+> - ✅ 45 centimetres → Yes! 60 take away 15 is 45. That’s a lot of extra stick.
+> - 75 centimetres → That’s adding them together. To compare, take away: 60 minus 15 is 45.
+> - 15 centimetres → That’s the leg. The difference is 60 minus 15, which is 45.
+> _For grown-ups: Your child found the difference between two lengths by subtracting._
+
+**Mak Cik Siti**: It was dark. The crocodile was hungry. Hungry makes everyone silly.  
+_The crocodile puppet goes back into the box looking, if anything, slightly embarrassed._  
+
+### Glossary
+
+- **sense**: One of the ways a body finds out about the world, like seeing, hearing or feeling.
+
+## LK5. The Buffalo and the Crocodile
+
+- `lk05-s1`: Watch the buffalo help the crocodile out from under a log. · _Sit on the bank at dusk for the fourth tale._
+- `lk05-s2`: Help Kancil see exactly how things were: put the log back where it lay. · _Roll the shadow log back when the crocodile is in place._
+
+#### `lk05-log`
+
+**Mak Cik Siti**: One day a great storm blew through the forest, and a tree fell across the riverbank.  
+_Siti drops a long shadow log across the screen. Underneath it, the crocodile puppet thrashes its tail._  
+**Crocodile**: Help! Help! I’m stuck under this log and I can’t get out!  
+_Wulan brings on the buffalo, slow and heavy, with wide curved horns._  
+**Buffalo**: Poor crocodile. Hold still. I’ll get you out.  
+_The buffalo wedges a long branch under the log and leans on the other end with its horns. The log rolls away._  
+
+> **Lesson** (science, 3-PS2-1, notice): a lever helps lift heavy things  
+> **Bu Wulan**: See how the buffalo used a branch? A long branch pushed under a heavy log is called a lever.  
+> **Mak Cik Siti**: Push down on the long end, and the short end lifts far more than you could lift alone.  
+> _For grown-ups: Your child learned how a long branch used as a lever lifts a heavy log._
+
+**Crocodile**: Free! Thank you, buffalo. Thank you so much. And now...  
+_Snap! The crocodile grabs the buffalo by the leg._  
+**Buffalo**: But I helped you!  
+**Crocodile**: And now I’m hungry. Helping makes a crocodile hungry.  
+
+#### `lk05-judge`
+
+_Your Nubbin trots Kancil onto the screen, and the children cheer as if he were a famous footballer._  
+**Buffalo**: Kancil! Kancil! Tell this crocodile it isn’t fair!  
+**Kancil**: Hmm. I can’t judge something I haven’t seen. Show me exactly how it was, from the beginning.  
+
+> **Lesson** (social-studies, D2.Civ.8.K-2, notice): fairness: hear both sides  
+> **Bu Wulan**: That’s what a good judge does. Listen to both sides and look at the facts before deciding.  
+> **Mak Cik Siti**: Deciding first and looking afterwards is how unfair things happen.  
+> _For grown-ups: Your child learned that a fair judge listens to both sides and looks at the facts first._
+
+
+#### `lk05-before`
+
+**Crocodile**: It was like this. I was lying here, and the log was on top of me.  
+**Kancil**: On top of you? Show me. I can’t picture it.  
+_Grumbling, the crocodile lets go of the buffalo’s leg and crawls back to where it was._  
+
+> **Lesson** (literacy, RL.3.3, ask): a character’s motive  
+> **Mak Cik Siti**: Why did the crocodile agree to go back under the log?  
+> - ✅ It was sure it would win. → Yes. It was so sure it was right, it didn’t stop to think.
+> - It liked it under there. → Nobody likes being under a log! It went back because it wanted to win the argument.
+> _For grown-ups: Your child explained why the crocodile walked into Kancil’s plan._
+
+**Kancil**: And the log? Where exactly was the log?  
+_The buffalo rolls the log back, right on top of the crocodile. Thump._  
+**Crocodile**: Like this! You see? Now judge!  
+**Kancil**: I see perfectly. Buffalo, you may go home. Crocodile, you were stuck when this began, so stay as you began.  
+_The buffalo walks home slowly, on all four legs. The crocodile thinks it over under the log._  
+
+#### `lk05-complete`
+
+**Bu Wulan**: Kancil didn’t trick anyone in that one. He only asked to see it properly.  
+**Mak Cik Siti**: The crocodile tricked itself. It was so sure it was right, it climbed back under.  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): was the judgement fair?  
+> **Bu Wulan**: Was Kancil’s judgement fair?  
+> - Yes. The crocodile broke its promise. → That’s fair reasoning. The crocodile turned a kindness into a trap.
+> - No. It was another trick. → That’s a fair answer too. He did let the crocodile trick itself.
+> - Fair to the buffalo, hard on the crocodile. → That’s very thoughtful. Being fair to one can feel hard to another.
+> _For grown-ups: Your child weighed up whether Kancil’s judgement was fair to everyone._
+
+_A small girl asks if the crocodile stays there forever._  
+**Bu Wulan**: Until somebody kind comes along. Let’s hope it says thank you properly that time.  
+
+### Glossary
+
+- **lever**: A long bar or branch that turns on a point to help lift something heavy.
+- **judge**: To decide what is fair or true after looking carefully; also the person who decides.
+
+## LK6. The Race with the Snails
+
+- `lk06-s1`: Watch Kancil boast to a snail. · _Sit on the bank at dusk for the fifth tale._
+- `lk06-s2`: Watch the race along the riverbank. · _Help Siti set the ten snail puppets along the screen._
+
+#### `lk06-boast`
+
+**Bu Wulan**: Kancil had begun to boast. He was getting rather pleased with himself. Too pleased.  
+**Kancil**: I am the cleverest animal in the forest. And the fastest. Probably the handsomest.  
+_Wulan holds up the snail puppet. It is round and patient and very, very small._  
+**Kancil**: Look at you, snail. You’re so slow, the moss grows on you while you walk!  
+_On the bank some children laugh, and a few don’t. A small boy at the back looks down at his own feet._  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): why laughing at someone is unkind  
+> **Mak Cik Siti**: Why is it unkind to laugh at someone for being slow?  
+> - It makes them feel small. → Yes. And small is how that boy at the back looks right now.
+> - Everyone is slow at something. → So true. Even Kancil. He just hasn’t found his slow thing yet.
+> - It’s only a joke. → Jokes are only funny if everyone’s laughing. Look at the boy at the back. He isn’t.
+> _For grown-ups: Your child thought about how it feels to be laughed at for being slow._
+
+**Snail**: I may be slow. But I’ll race you, Kancil. Along the river, all the way to the big rock.  
+**Kancil**: Race me? A snail? This will take no time at all.  
+
+#### `lk06-line`
+
+_Behind the screen, Wulan whispers something to the snail puppet. Siti hides a smile._  
+**Mak Cik Siti**: That night the snail told all its cousins. And every snail in the river came out to help.  
+
+> **Lesson** (science, 4-LS1-1, notice): body parts that help snails survive  
+> **Bu Wulan**: A snail’s shell protects its soft body, and it can pull right inside when danger comes.  
+> **Mak Cik Siti**: It glides on one muscly foot over a ribbon of slime, which helps it cross rough ground.  
+> _For grown-ups: Your child learned how a snail’s shell and muscly foot help it survive._
+
+
+#### `lk06-race`
+
+_Siti sets ten little snail puppets along the bottom of the screen, far apart, like posts in a fence._  
+**Kancil**: Ready, snail? Go!  
+_Your Nubbin whips the Kancil puppet along the screen. After a while it stops for breath._  
+**Kancil**: Ha! Where are you, slow snail?  
+**Snail**: Here I am, just ahead of you!  
+_Your Nubbin runs again, faster and further._  
+**Kancil**: Where are you now, snail?  
+**Snail**: Still ahead of you!  
+_Ten times Kancil runs, and ten times a snail answers just ahead of him, until he flops down on the bank, worn out._  
+**Kancil**: All right. All right! You win. I give up.  
+
+> **Lesson** (maths, 3.OA.A.3, do): counting in fives; distance word problems  
+> **Bu Wulan**: The snails sat one every 5 metres, from 5 metres all the way to 50.  
+> **Mak Cik Siti**: So how many snails were there? And how long was the race?  
+> _Count in fives: 5, 10, 15… up to 50. That’s 10 snails, and a race of 50 metres._  
+> Check: `edu:count:snails:10`
+> _For grown-ups: Your child counted snails placed every 5 metres to find how many there were and how long the race was._
+
+
+#### `lk06-complete`
+
+**Bu Wulan**: Ten snails along the bank, and not one of them moved a step.  
+**Mak Cik Siti**: Kancil tricked the crocodiles with counting. The snails tricked Kancil with counting. It comes round, doesn’t it?  
+_The small boy at the back is smiling now. He has been helping Wulan move the snails._  
+**Bu Wulan**: Slow isn’t silly. Slow is just slow. And a lot of slow friends together can be very quick indeed.  
+
+> **Lesson** (literacy, RL.2.3, ask): how a character responds to events  
+> **Mak Cik Siti**: How did Kancil feel when he flopped down and gave up?  
+> - ✅ Tired, and a bit silly. → Yes. Tired legs and a red face. He’d learned something.
+> - Proud. → Not this time! He’d boasted and lost. He felt tired and silly.
+> _For grown-ups: Your child described how Kancil felt when he lost the race._
+
+
+### Glossary
+
+- **boast**: To talk proudly about how good you are, to show off.
+
+## LK7. The Cucumber Garden
+
+- `lk07-s1`: Watch the tale of the cucumber garden. · _Sit on the bank at dusk for the sixth tale._
+- `lk07-s2`: Help Kancil put the garden right: plant cucumber seeds by the screen. · _Take the seed pot by the lamp._
+
+#### `lk07-garden`
+
+_Tonight Wulan sits at the lamp. She has brought a new puppet: a farmer in a wide straw hat._  
+**Bu Wulan**: This is the tale I heard before any other. Kancil and the cucumbers.  
+**Bu Wulan**: There was a farmer called Pak Tani, and he grew the best cucumbers in the whole village.  
+
+> **Lesson** (science, 2-LS2-1, notice): why plants need water and light  
+> **Bu Wulan**: Cucumber vines drink water through their roots, and their leaves use sunlight to make food.  
+> **Mak Cik Siti**: That’s why the vines climb. Higher up, the leaves catch more sun.  
+> _For grown-ups: Your child learned that plants take in water through roots and make food with sunlight in their leaves._
+
+**Pak Tani**: My cucumbers! Somebody has been eating my cucumbers again!  
+_Your Nubbin creeps the Kancil puppet along the bottom of the screen, nibbling an invisible cucumber._  
+**Bu Wulan**: So Pak Tani made a scarecrow, and he painted it all over with sticky sap from a tree.  
+**Kancil**: Who’s this, standing in the garden? Out of my way, please. I’m busy eating.  
+_Kancil pushes the scarecrow, and his hoof sticks. He pushes with the other, and that sticks too._  
+**Pak Tani**: Got you, cucumber thief!  
+**Mak Cik Siti**: Wait, wait. That’s not how my grandmother told it.  
+
+#### `lk07-endings`
+
+_The two of them have a short, polite, very fierce whisper behind the screen._  
+**Bu Wulan**: In the old tale, Kancil tricks the farmer’s dog into getting stuck in his place. Then off he runs.  
+**Mak Cik Siti**: And now, mostly, children hear it the other way. Kancil says sorry and helps put the garden right.  
+**Bu Wulan**: Both are true. One is just older.  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): which ending is better?  
+> **Bu Wulan**: Which ending is better: the old trick or the new sorry? Why?  
+> - The trick. It’s clever. → That’s fair. It shows how quick he is. Was it fair to the dog, though?
+> - Sorry. It’s kind. → That’s fair. The new ending mends what he broke.
+> - Both, for different reasons. → That’s what we think. One teaches you to be quick, one teaches you to be good.
+> _For grown-ups: Your child compared a clever ending with a kind one and said which they prefer and why._
+
+
+#### `lk07-sorry`
+
+**Mak Cik Siti**: Tonight we’ll end it the new way.  
+_Kancil is still stuck fast to the scarecrow. Pak Tani stands over him with his hands on his hips._  
+**Pak Tani**: Well? What have you got to say for yourself?  
+**Kancil**: I’m sorry, Pak Tani. I was hungry, and I took what wasn’t mine.  
+**Pak Tani**: Hmph. Sorry doesn’t grow cucumbers.  
+**Kancil**: Then let me help you plant some more. I’m small, but I’m good at digging.  
+_Pak Tani unsticks him, one hoof at a time. Together they plant three rows of seeds, four in each row._  
+
+> **Lesson** (maths, 3.OA.A.1, ask): multiplication as equal groups  
+> _Kancil and Pak Tani plant 3 rows, with 4 seeds in each row. How many seeds?_  
+> - ✅ 12 → Twelve! Three groups of four: 4, 8, 12.
+> - 7 → That’s 3 add 4. But it’s 3 rows OF 4: 4, 8, 12. Twelve seeds.
+> _For grown-ups: Your child worked out 3 rows of 4 seeds as 12._
+
+_Behind the screen, your Nubbin is pressing real seeds into a pot by the lamp._  
+
+#### `lk07-complete`
+
+_Siti and Wulan build a little trellis of split bamboo beside the screen for the vine to climb._  
+**Mak Cik Siti**: The old ending is clever. The new ending is kind.  
+**Bu Wulan**: My grandmother would say Kancil got off lightly. Then she’d give him a cucumber anyway.  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): how stories change over time  
+> **Bu Wulan**: Tales passed on by word of mouth change a little with each teller.  
+> **Mak Cik Siti**: That isn’t a mistake. It’s how old stories stay alive.  
+> _For grown-ups: Your child learned that tales passed by word of mouth change a little with each teller._
+
+_Within a few days the vine has climbed halfway up. There is one small cucumber on it, and nobody touches it._  
+
+### Glossary
+
+- **sap**: The sticky liquid inside a tree or plant.
+
+## LK8. The Tiger at the River
+
+- `lk08-s1`: Watch the tiger corner Kancil by the water. · _Sit on the bank at dusk for the seventh tale._
+- `lk08-s2`: Look at your Nubbin’s reflection in the still pond. · _Find a calm spot at the pond’s edge and look in._
+
+#### `lk08-tiger`
+
+**Mak Cik Siti**: Late one afternoon, Kancil was walking beside a still, quiet pool.  
+_Wulan brings on the tiger puppet. It is striped and enormous, and its shadow fills half the screen._  
+
+> **Lesson** (science, 4-LS1-1, notice): stripes as camouflage  
+> **Mak Cik Siti**: Tigers really do live in the forests of Malaysia and Indonesia.  
+> **Bu Wulan**: Their stripes break up their shape in long grass and shadow. That’s called camouflage.  
+> _For grown-ups: Your child learned how a tiger’s stripes help it hide, and where tigers live in Malaysia and Indonesia._
+
+**Tiger**: Well, well. A mouse-deer. Just the right size for supper.  
+_Your Nubbin backs the Kancil puppet right up to the edge of the shadow water._  
+**Kancil**: You could eat me, tiger. But I’d be careful if I were you.  
+**Tiger**: Careful? Of you?  
+**Kancil**: Not of me. Of the tiger who lives in this pool. He’s bigger than you, and he’s been watching you all along.  
+
+#### `lk08-look`
+
+**Tiger**: Nonsense. Show me this tiger.  
+_The tiger leans over the shadow pool. Wulan tips a second tiger puppet upside down beneath it, nose to nose._  
+**Tiger**: Grrr! Who are you? Go away! This is MY forest!  
+
+> **Lesson** (science, 1-PS4-2, notice): why still water reflects  
+> **Bu Wulan**: Still water is smooth, so light bounces straight back off it, like a mirror. That picture is a reflection.  
+> **Mak Cik Siti**: Ripples scatter the light in all directions, and the picture breaks up.  
+> _For grown-ups: Your child learned why still water reflects like a mirror and rippled water doesn’t._
+
+
+#### `lk08-splash`
+
+_The tiger roars at the tiger in the water. The tiger in the water roars back, exactly the same._  
+**Tiger**: Right. That does it.  
+_Splash, the tiger leaps into the pool! Wulan flicks a cupful of real pond water over the screen._  
+_The tiger climbs out, soaked from ears to tail. The other tiger has vanished._  
+**Tiger**: Where did he go? And where did that mouse-deer go?  
+**Mak Cik Siti**: Kancil was long gone, home before the tiger had even shaken his ears.  
+_On the bank, the children want to know how the second tiger came and went. Wulan points at the pond._  
+**Bu Wulan**: Look in. Very still. Don’t splash.  
+
+> **Lesson** (maths, 4.G.A.3, do): lines of symmetry  
+> **Bu Wulan**: Look at a tree and its reflection together. There’s a line where the water meets the bank.  
+> **Mak Cik Siti**: Tap that line. Everything above it is mirrored below it.  
+> _That’s a line of symmetry: fold along it, and both halves match._  
+> Check: `edu:tap:shape:reflection`
+> _For grown-ups: Your child found the line of symmetry where a reflection meets the real thing._
+
+
+#### `lk08-complete`
+
+_Your Nubbin leans over the edge of the pond, and another Nubbin leans up to meet it._  
+_It waves, and the other one waves back. It pokes the water, and the other Nubbin wobbles away in rings._  
+**Bu Wulan**: The tiger was fighting himself. Plenty of people do that.  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): noticing when we are cross for no reason  
+> **Bu Wulan**: The tiger got cross with a tiger who wasn’t really there. Have you ever been cross at nothing much?  
+> - Yes, sometimes. → Most of us have. Noticing it is the first step to letting it go.
+> - No, never. → Lucky you! Watch out for it. It sneaks up on everyone.
+> - I’m not sure. → That’s honest. Next time you’re cross, ask: is the thing really there?
+> _For grown-ups: Your child thought about getting cross at something that isn’t really there._
+
+**Mak Cik Siti**: Nobody was hurt. The tiger only got wet, and a little embarrassed.  
+
+### Glossary
+
+- **camouflage**: Colours or patterns that help an animal blend in with what is around it.
+- **reflection**: The picture you see in a mirror or in still water.
+- **symmetry**: When one half of a shape is a mirror image of the other half.
+
+## LK9. The Pit
+
+- `lk09-s1`: Watch Kancil fall into the hunters’ pit. · _Sit on the bank at dusk for the eighth tale._
+- `lk09-s2`: Decide how the tale ends. · _Talk to Siti by the screen._
+
+#### `lk09-pit`
+
+**Mak Cik Siti**: Kancil was running through the forest, not looking where he was going. And then, whoomp.  
+_Siti sweeps a deep, dark hole across the screen. Your Nubbin drops the Kancil puppet into it._  
+**Mak Cik Siti**: It was a pit, dug by hunters, and the sides were steep and slippery.  
+**Kancil**: Help! Hello? Anybody? Oh, this is not good.  
+_Kancil jumps and jumps, but he is much too small to reach the top._  
+_Then the ground thumps. Wulan brings on the elephant, huge and grey, with ears like washing on a line._  
+
+> **Lesson** (science, 4-LS1-1, notice): an elephant’s trunk  
+> **Bu Wulan**: Asian elephants live in the forests of Malaysia and Indonesia too.  
+> **Mak Cik Siti**: A trunk is a nose and an upper lip joined together. It can lift a log or pick up a single fruit.  
+> _For grown-ups: Your child learned what an elephant’s trunk is and that Asian elephants live in Malaysia and Indonesia._
+
+**Elephant**: What are you doing down there, little one?  
+**Kancil**: Haven’t you heard, Elephant? The sky is falling! This pit is the only safe place in the forest!  
+**Elephant**: The sky? Falling? Make room! Make room!  
+
+#### `lk09-out`
+
+_Thump: the elephant climbs into the pit. Kancil hops onto its back, then onto its head, and out._  
+**Kancil**: Thank you, Elephant! Do stay as long as you like!  
+_The elephant sits in the pit, looking up at the sky, which isn’t falling at all._  
+
+> **Lesson** (literacy, RL.3.3, ask): describing a character’s traits  
+> **Mak Cik Siti**: Which word describes the elephant best?  
+> - ✅ Trusting → Yes. He believed Kancil at once, and climbed right in.
+> - Sneaky → That’s Kancil! The elephant was trusting. He believed every word.
+> _For grown-ups: Your child chose a word to describe the elephant: trusting._
+
+
+#### `lk09-ending`
+
+_Siti stops. She lowers the puppets and looks at them for a moment._  
+**Mak Cik Siti**: In my grandmother’s tale, it ends there. Kancil runs off, and the elephant stays in the pit.  
+**Bu Wulan**: And then?  
+**Mak Cik Siti**: And then nothing. That’s where she stopped.  
+_A little girl on the bank puts her hand up. She wants to know what happens to the elephant._  
+**Mak Cik Siti**: So. Do we end it the old way, or help Kancil find a way to get Elephant out?  
+
+> **Lesson** (science, K-2-ETS1-1, ask): defining a problem and finding solutions  
+> **Bu Wulan**: What exactly is the problem? And what are two ways to solve it?  
+> - ✅ The sides are too steep. A ramp, or ropes. → Exactly. Name the problem first: steep, slippery sides. Then a log ramp, or ropes to pull with.
+> - Elephant is too big. → He is big! But the real problem is the steep sides. A ramp would fix that.
+> _For grown-ups: Your child named the real problem (steep sides) and two ways to solve it._
+
+
+**Choices**
+
+- **End it the old way. It’s Siti’s grandmother’s tale.**
+    - **Mak Cik Siti**: Then it ends there. Kancil was clever, and the elephant was trusting, and that was all.
+    - The little girl thinks about it for a long time. Then she asks to hold the elephant puppet, and Siti lets her.
+    - **Bu Wulan**: Old tales don’t always comfort you. Sometimes they tell you to be careful who you trust.
+- **Help Kancil get Elephant out.**
+    - **Kancil**: Elephant! I’m sorry. The sky isn’t falling. Wait there, I’ll get help!
+    - Your Nubbin rolls six logs from the woodpile and leans them in a ramp against the shadow pit.
+    - The elephant climbs out, one big step at a time, while the children count the logs out loud.
+
+#### `lk09-complete`
+
+**Bu Wulan**: That’s a hard one. A clever trick can be a cruel one, if you never look back.  
+**Mak Cik Siti**: My grandmother told it to make us careful. The children here tell it to put things right. Both are good reasons.  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): choosing how to tell a story  
+> **Bu Wulan**: If you told this tale to a little brother or sister, which ending would you choose?  
+> - The old one. → That’s fair. It warns them to be careful who they trust.
+> - The new one. → That’s fair. It shows a trick can be put right.
+> - I’d let them choose. → Now that’s a storyteller talking.
+> _For grown-ups: Your child chose which ending they would tell a younger child, and why._
+
+_Your Nubbin puts the elephant puppet back in the box, very gently, on top of everything else._  
+
+### Glossary
+
+- **trusting**: Ready to believe what someone tells you.
+
+## LK10. The Night of Stories
+
+- `lk10-s1`: Line up the Grove’s Nubbins across the stream for the last crossing. · _Call your Nubbins to the stream by the screen._
+- `lk10-s2`: Cross the stream with your Nubbin and count every crocodile. · _Along one line and back along the other._
+
+#### `lk10-line`
+
+_The last evening of summer. The whole valley is on the bank, with mats and cushions and far too much food._  
+**Mak Cik Siti**: Kuih! Who wants kuih? I made the green ones and the stripy ones.  
+**Bu Wulan**: And kue from me. Same idea, different spelling, better coconut.  
+
+> **Lesson** (social-studies, D2.Geo.2.K-2, notice): shared food and words  
+> **Mak Cik Siti**: Kuih is the Malay word for small cakes and snacks, sweet or savoury.  
+> **Bu Wulan**: In Indonesia we say kue. Same idea, different spelling, and we argue about the coconut.  
+> _For grown-ups: Your child learned that kuih and kue are snacks shared by Malaysia and Indonesia._
+
+**Pixel**: I’ve rigged a second lamp so the people at the back can see. It won’t blow up. Probably.  
+_Your Nubbin is Kancil tonight, for real: no puppet, just itself in the lamplight._  
+**Bu Wulan**: Crocodiles! The last crossing! Line up, please!  
+_The Grove’s Nubbins slide into the stream at once. They remember that Kancil was kind to them._  
+_There are a great many of them this time: two lines side by side, nose to tail, from bank to bank._  
+
+#### `lk10-count`
+
+**Mak Cik Siti**: We count the way you heard it first. Ready? Satu!  
+_Your Nubbin hops. The whole bank counts with it._  
+**Mak Cik Siti**: Dua, tiga, empat, lima, enam, tujuh...  
+_At eight the children all shout “Delapan!”, the Indonesian word, as loud as they can. Wulan bows._  
+**Mak Cik Siti**: Lapan. Sembilan, sepuluh! And back along the second line!  
+_Your Nubbin hops back along the second line, ten more, and lands on the home bank with a squelch._  
+
+> **Lesson** (maths, 2.OA.A.1, do): adding tens  
+> **Bu Wulan**: Two lines of ten crocodiles. How many crocodiles in all?  
+> **Mak Cik Siti**: Ten and ten make twenty. Or two tens, if you like your times tables.  
+> Check: `edu:count:crocodiles:20`
+> _For grown-ups: Your child added two lines of ten crocodiles to make twenty._
+
+**Bu Wulan**: Twenty crocodiles. The King would be delighted.  
+
+#### `lk10-complete`
+
+_Afterwards the children sit in a heap on the bank, full of kuih and kue, and nobody wants to go home._  
+**Mak Cik Siti**: So. What did Kancil learn this summer?  
+_A boy says be clever, and a girl says say thank you. The small boy who helped the snails says don’t laugh at slow people._  
+
+> **Lesson** (literacy, RL.4.2, ask): finding the theme  
+> **Mak Cik Siti**: What did Kancil learn this summer? What is the big idea of all his tales?  
+> - Being small is fine if you think. → That’s a strong theme. Brains beat size, over and over.
+> - Clever isn’t enough. Be kind too. → That’s the one I’d pick. Every trick needed a thank you after.
+> - Don’t boast. → The snails would agree with you.
+> _For grown-ups: Your child named the big idea running through the Kancil tales._
+
+**Bu Wulan**: All true. My grandmother would have liked you lot.  
+**Mak Cik Siti**: We’re leaving the screen by the pond. It belongs here now.  
+**Bu Wulan**: And we’re staying a while. We like your valley. It argues nearly as well as we do.  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): reflecting on your own learning  
+> **Bu Wulan**: And you? What did you learn this summer?  
+> - Counting in Malay and Indonesian. → Satu, dua, tiga! You’ll never forget lapan and delapan now.
+> - That stories change. → They do. And you’ll change them too, when you tell them.
+> - Something else. → Tell us. We like hearing what people take home.
+> _For grown-ups: Your child said what they learned over the summer of tales._
+
+_Your Nubbin sits by the screen with the little Kancil puppet and makes it hop, one, two, three, all on its own._  
+
+### Glossary
+
+- **theme**: The big idea or message that runs through a story.
 
 ## A2-1. Born from Stone
 
@@ -76472,1849 +78315,6 @@ _On the side of the cabinet, where the dent was, a small brass plate has appeare
 - **barefoot**: Without shoes or socks on.
 - **reproach**: A look or words that gently tell someone off, without being angry.
 
-## LB1. Boxes
-
-- `lb01-s1`: Help the Larkins carry their boxes from the post van into the cottage past Fern’s. · _Pick up a box at the van’s back doors and carry it into the front room._
-- `lb01-s2`: Help Ned choose one empty box to keep. · _Talk to Ned in the front room and pick a box with him._
-
-#### `lb01-van`
-
-_A red post van is parked crooked in the lane past Fern’s. Its back doors are open, and it is full of somebody’s whole life._  
-**Ama Larkin**: Hello! You must be next door. Well, next door but one. I’m Ama. I drive the post van.  
-
-> **Lesson** (literacy, L.2.4, ask): working out a phrase from context  
-> _Ama says you live “next door but one”. Fern’s house is between yours and theirs. What does it mean?_  
-> - ✅ Two houses along → Exactly. Next door is Fern. Next door but one is you.
-> - Right next door → Not quite. Fern is right next door. “But one” means skip one more house.
-> - Very far away → It’s close! Just one house in between, so two houses along.
-> _For grown-ups: Your child worked out what “next door but one” means from the scene._
-
-**Ama Larkin**: It isn’t usually full of our own socks. Usually it’s everyone else’s parcels.  
-**Sam Larkin**: Sam. Hello. Sorry. We’ve been up since four.  
-_A girl in a paper crown marches past with a lampshade. A small boy follows her, carrying nothing, very carefully._  
-**Maisie**: I’m Maisie. I’m six, so I do the rules. That’s Ned. He’s four.  
-**Ned**: I’m in charge of not dropping things.  
-_Your Nubbin trots up to Ned. They stare at each other, both delighted._  
-**Sam Larkin**: If you’ve got a spare pair of arms, we’ve got about forty boxes.  
-
-#### `lb01-unpacked`
-
-_By lunchtime the van is empty and the front room is full of boxes. Most of the boxes are empty too._  
-**Ama Larkin**: That’s the lot. The kettle was in the box marked SHOES, so that’s one mystery solved.  
-_Maisie and Ned look at the empty boxes the way other children look at cake._  
-**Maisie**: Twelve boxes are exactly the same size. We need towers. Equal ones, or it isn’t fair.  
-
-> **Lesson** (maths, 3.OA.A.1, do): multiplication as equal groups  
-> _Stack the 12 boxes into equal towers. Find three different ways._  
-> **Maisie**: 2 towers of 6. 3 towers of 4. 4 towers of 3. All twelve!  
-> _2 × 6, 3 × 4 and 4 × 3 all make 12. Multiplying is just counting equal groups._  
-> Check: `edu:sort:boxes:equal-piles`
-> _For grown-ups: Your child stacked 12 boxes into equal piles three different ways._
-
-
-#### `lb01-boxes`
-
-_Ama folds the empty boxes flat for the recycling. Ned watches each one fold up like a small, sad animal._  
-**Ned**: Not that one! Or that one!  
-**Ama Larkin**: Ned, love, we can’t keep forty boxes. We’d have to live in the garden.  
-**Sam Larkin**: One box, then. One box for keeps.  
-_Ned knocks on each box, like knocking on a door. Then he climbs into one and goes quiet._  
-**Maisie**: He’s sad about his old bedroom. It had glow-in-the-dark stars on the ceiling.  
-**Ned**: They wouldn’t come off. I tried.  
-**Sam Larkin**: They’re still up there, mate. Glowing away for whoever sleeps there next.  
-
-> **Lesson** (sel, CASEL: Self-awareness, ask): mixed feelings  
-> _Moving day is exciting. Ned has boxes and a new friend. So why can a happy day still feel sad?_  
-> - Because new things mean leaving old things → That’s a wise answer. You can love the new and still miss the old.
-> - Because he’s tired → That’s fair. Tired makes every feeling bigger, and he was up at four.
-> - Feelings can mix → Yes. Happy and sad can sit side by side, like two people on one bench.
-> _For grown-ups: Your child thought about how a happy day can hold a sad feeling too._
-
-_Ned thinks about that for a long time. Then he climbs out, points at three boxes, and looks at you._  
-**Ned**: You pick. You’re the grown-up next door.  
-
-**Choices**
-
-- **The big one. You could live in it.**
-    - Ned climbs into the big box and pulls the flaps shut over his head.
-    - **Ned**: It’s got a ROOF.
-- **The long one. It’s the shape of a boat.**
-    - Ned lies down in the long box. It fits him exactly, with room at the end for your Nubbin.
-- **The tall one. It’s nearly as tall as Ned.**
-    - Ned stands inside the tall box. Only his eyes show over the top.
-    - **Ned**: It goes UP.
-
-#### `lb01-complete`
-
-_Ama writes NED on the box in marker pen, in letters as big as Ned’s hand._  
-
-> **Lesson** (science, 2-PS1-1, notice): properties of cardboard  
-> **Ama Larkin**: Cardboard is made from wood, mashed up into paper and pressed into layers. Light, stiff, strong enough to stand in.  
-> **Ama Larkin**: Its one weakness is water. Keep Ned’s box out of the rain, or it goes soft and floppy.  
-> _For grown-ups: Your child learned what cardboard is made of and what it is good and bad at._
-
-**Ama Larkin**: There. Officially his. Thank you for today. I’d have been making tea in a shoe box till August.  
-**Sam Larkin**: Come round whenever you like. They’ll need a customer for something soon. They always do.  
-**Maisie**: Can we borrow your Nubbin for games sometimes? We’ll always ask, and we’ll always give it back.  
-_Ned waves at your Nubbin from inside his box until you reach the lane._  
-
-### Glossary
-
-- **recycling**: Collecting used things, like boxes, so they can be made into something new.
-- **officially**: Properly and for real, as if it had been written down and agreed.
-
-## LB2. Shops
-
-- `lb02-s1`: Buy a leaf from Ned’s shop on the Larkins’ step. · _Talk to Ned and pay for a leaf. You will get your Shells back._
-- `lb02-s2`: Help Maisie and Ned share the shop. · _Talk to Maisie and Ned at the step and help them take turns._
-
-#### `lb02-shop`
-
-_A cardboard sign on the Larkins’ step says SHOP, with the S backwards. The shop is open._  
-_Leaves sit in rows on a tea towel. One has a hole in it, which Ned says is a window._  
-**Ned**: Welcome to the shop. Everything is leaves.  
-**You**: How much is this one?  
-**Ned**: Five Shells. No. A hundred. No. Two.  
-_Prices in Ned’s shop change as often as the wind. Your Nubbin guards the till, which is a biscuit tin._  
-
-> **Lesson** (social-studies, D2.Eco.1.K-2, notice): prices and choices  
-> _A price is what something costs. The shopkeeper sets it; the customer decides if it’s worth it._  
-> _Real shops change prices too, just not every four seconds._  
-> _For grown-ups: Your child learned that a price is what something costs, and buyers choose what to spend on._
-
-**Ned**: The window leaf is thirteen. It’s the best one. You can look through it.  
-
-**Choices**
-
-- **Thirteen Shells it is.**
-    - **Ned**: Good. I only have change from twenty.
-- **Do you do discounts?**
-    - **Ned**: Yes. It’s fourteen.
-    - You decide thirteen was a bargain.
-- **Could my Nubbin buy one too?**
-    - **Ned**: Nubbins are free. Nubbins get a leaf for nothing.
-    - Your Nubbin holds its leaf up like a flag.
-
-#### `lb02-bought`
-
-_You hand Ned twenty Shells for the thirteen-Shell leaf. He looks at them very hard._  
-**Ned**: Now I give you change. That’s the best bit.  
-_Ned counts change out of the biscuit tin, slowly, with his tongue out._  
-
-> **Lesson** (maths, 2.OA.A.1, do): working out change  
-> _You paid 20 for a 13-Shell leaf. How much change? Count up from 13 to 20._  
-> **Ned**: Fourteen, fifteen… twenty! Seven Shells change!  
-> Check: `edu:count:shells:change-7`
-> _For grown-ups: Your child worked out the change from 20 for a 13-Shell leaf (7)._
-
-_Then he gives you all twenty back anyway, because in Ned’s shop change is the best bit and nobody leaves without all of it._  
-
-#### `lb02-turns`
-
-_Maisie comes out with a second tea towel and a sign of her own. Hers says SHOP TOO._  
-**Maisie**: I’m the shopkeeper now. Ned’s had ages.  
-**Ned**: It’s MY shop. I made the S.  
-_Ned hugs the biscuit tin. Maisie folds her arms. The leaves blow about, unsupervised._  
-**Sam Larkin**: Is there a way two shopkeepers could work this out?  
-_Sam is leaning out of the shed window, holding a chair leg he has been sanding all morning._  
-**Maisie**: He could be the customer. Customers are important too.  
-**Ned**: Customers don’t get the tin.  
-
-> **Lesson** (sel, CASEL: Relationship skills, notice): sharing and turn-taking  
-> _When two people want the same thing, a fair plan helps: who goes first, for how long, and what happens next._  
-> _For grown-ups: Your child saw how a fair plan for turns can solve a disagreement._
-
-
-**Choices**
-
-- **Ned sells one thing, then you swap.**
-    - **Maisie**: One each. Fine. But I’m having the window leaf.
-- **Two shops, side by side. I’ll shop at both.**
-    - Maisie sets up next to Ned. The step now has a high street.
-- **Whoever’s selling holds the tin.**
-    - **Ned**: And then I get it back?
-    - **Maisie**: Then you get it back.
-
-#### `lb02-complete`
-
-_Maisie runs the shop for a while. Ned is a customer, and finds out something surprising._  
-**Ned**: Buying is ALSO good.  
-
-> **Lesson** (literacy, RL.2.3, ask): how a character changes  
-> _Ned didn’t want to be the customer. Now he loves it. What changed?_  
-> - He tried it → Yes. Sometimes you don’t know you like something until you try it.
-> - He got change every time → Ha! That helped. Getting things back is Ned’s favourite.
-> - He felt included → That’s thoughtful. Being part of the game mattered more than which part.
-> _For grown-ups: Your child noticed how Ned’s feelings changed when he tried a new role._
-
-_He buys the window leaf six times. Maisie gives him change every time, because that is how this shop works now._  
-**Sam Larkin**: Two shopkeepers, one tin, nobody crying. That’s a good day’s trading.  
-_When you go, Ned presses a leaf into your hand. It is free, he says, because you are a regular._  
-
-### Glossary
-
-- **customer**: A person who buys something from a shop.
-- **change**: The money you get back when you pay more than something costs.
-
-## LB3. Don’t Touch the Grass
-
-- `lb03-s1`: Help lay the cushions across the Larkins’ lawn. · _Carry cushions from the back door and drop them in a line to the fence._
-- `lb03-s2`: Cross the lawn to the fence without touching the grass. · _Hop from cushion to cushion. If you touch grass, start again._
-
-#### `lb03-rules`
-
-_Every cushion in the Larkins’ house is out on the lawn, and so is Sam, flat on his back in the long grass._  
-**Maisie**: The rules. The grass is a pond. You can only stand on cushions.  
-
-> **Lesson** (literacy, L.4.5, notice): metaphor  
-> _“The grass is a pond” isn’t true, but it makes the game. Saying one thing IS another is called a metaphor._  
-> _For grown-ups: Your child learned that saying one thing IS another (the grass is a pond) is a metaphor._
-
-**Maisie**: And something lives in the pond. It has tickly fingers.  
-_Somewhere in the long grass, a hand waves slowly, like pondweed._  
-**Sam Larkin**: Bloop.  
-**Ned**: That’s Dad. But it’s also NOT Dad.  
-**Maisie**: We need a path of cushions from the back door to the fence. The fence is the island.  
-
-#### `lb03-laid`
-
-_The cushions wobble across the lawn in a crooked line. Most are close together. One gap is enormous._  
-**Maisie**: That gap is the hard bit. It’s meant to be hard.  
-**Ned**: How big is it?  
-_Sam’s tape measure is in his shed. Maisie fetches it at a run._  
-
-> **Lesson** (maths, 2.MD.A.1, do): measuring with a tape  
-> _Hold the tape at the edge of one cushion and read where the next begins. Start from zero, not from the metal tab._  
-> **Maisie**: The gap is 90 centimetres. My best jump is 110. Ned’s is 60.  
-> _Ned’s jump is 30 centimetres short. Can that be fixed without changing Ned?_  
-> Check: `edu:measure:jump:tape`
-> _For grown-ups: Your child measured the gap and the biggest jump with a tape measure, in centimetres._
-
-
-#### `lb03-crossing`
-
-_Maisie crosses first, fast and sure, arms out like a tightrope walker._  
-_Ned goes second. He stops on a cushion with his toes over the edge, looking at the long gap._  
-**Ned**: It’s too far.  
-_The grass rustles. Two fingers appear, wiggling, and go away again._  
-**Maisie**: You can do it, Ned. Big jump.  
-**Ned**: My legs are only small.  
-
-> **Lesson** (science, K-2-ETS1-1, notice): defining the problem  
-> _Engineers start by saying the problem exactly. Here: the gap is 90 cm and Ned can jump 60._  
-> _So the fix must close 30 cm, or help Ned across it._  
-> _For grown-ups: Your child stated the problem clearly before solving it: the gap is longer than Ned’s jump._
-
-
-**Choices**
-
-- **Put down one more cushion, halfway.**
-    - You slide a cushion into the gap. Two small jumps instead of one big one.
-    - **Maisie**: That’s allowed. Islands can grow.
-- **Hold out a hand from the next cushion.**
-    - You lean out from the far cushion. Ned grabs your fingers and jumps.
-    - **Ned**: I did a huge one!
-- **Let your Nubbin show him how.**
-    - Your Nubbin flaps its small wings and bounces across. Ned copies it exactly, flaps and all.
-
-#### `lb03-complete`
-
-_Everyone reaches the fence. Then everyone goes back, because that is how this game works._  
-_On the third crossing the tickly fingers catch Ned’s ankle. He tumbles into the grass and laughs till he hiccups._  
-**Sam Larkin**: Got one. The pond monster is satisfied. The pond monster would also like a cup of tea.  
-**Maisie**: Pond monsters don’t drink tea.  
-**Sam Larkin**: This one does. It’s been a long week in the pond.  
-
-> **Lesson** (literacy, RL.3.3, ask): character motive  
-> _Sam has worked all week. Why do you think he chose to be the monster who lies in the grass?_  
-> - So he can rest and still play → That’s sharp. Lying down is the most restful part going, and he’s still in the game.
-> - Because it’s funny → True. A dad who goes “bloop” is very funny.
-> - Because the children asked → Yes. He says yes to games, even tired. That matters to them.
-> _For grown-ups: Your child thought about why Sam plays the game lying down, and what he gets from it._
-
-_Ned brings his dad a pretend tea in a flowerpot. Sam drinks every pretend drop._  
-
-### Glossary
-
-- **metaphor**: Saying one thing is another to make a picture in your head, like “the grass is a pond”.
-- **centimetre**: A small unit of length; 100 centimetres make a metre.
-
-## LB4. Sleeping Giant
-
-- `lb04-s1`: Find the sleeping giant in the Larkins’ garden. · _The giant is in the deckchair under the apple tree._
-- `lb04-s2`: Creep up on the giant, and freeze whenever he turns. · _Move slowly. When the newspaper twitches, stop and hold still._
-
-#### `lb04-giant`
-
-_Sam is asleep in a deckchair under the apple tree, a newspaper over his face. It rises and falls as he breathes._  
-**Maisie**: Shh. He’s the giant. He’s guarding the treasure.  
-_The treasure is a biscuit, on the arm of the deckchair, beside his hand._  
-**Ned**: He made two chairs this week. Giants get very tired.  
-
-> **Lesson** (health, K-LS1-1, notice): sleep and rest  
-> _Sleep isn’t lazy. While you sleep, your body repairs itself and your brain sorts out the day._  
-> _Children need more sleep than grown-ups, but everyone needs it._  
-> _For grown-ups: Your child learned that sleep helps bodies recover, for grown-ups as well as children._
-
-**Maisie**: You creep up. When the giant turns his head, you freeze like a statue.  
-**Maisie**: If he sees you move, back to the start. First to touch the biscuit wins.  
-
-#### `lb04-start`
-
-_You line up by the gate: you, Maisie, Ned and your Nubbin, who doesn’t understand the rules but loves a line._  
-**Sam Larkin**: Fee. Fi. Hmm. Fo.  
-
-> **Lesson** (literacy, RL.2.4, notice): old stories and repeated lines  
-> _Sam is borrowing from Jack and the Beanstalk, an English fairy tale hundreds of years old. Its giant has a famous chant._  
-> _Repeated sounds like fee, fi, fo make stories easy to remember and fun to say._  
-> _For grown-ups: Your child heard that Sam borrows the giant’s chant from an old fairy tale, Jack and the Beanstalk._
-
-**Maisie**: That means go.  
-_Ned giggles, then clamps both hands over his mouth._  
-
-#### `lb04-creep`
-
-_Maisie runs, and the newspaper twitches. Sam turns his head, and Maisie is still wobbling._  
-**Sam Larkin**: I see a Maisie. Back to the gate, Maisie.  
-**Maisie**: I was nearly STILL!  
-_Ned goes so slowly that a bee lands on his shoulder and leaves again. When Sam turns, Ned is a perfect statue._  
-
-> **Lesson** (sel, CASEL: Self-management, do): self-control  
-> _Your turn. Tiny steps, then freeze when the paper twitches. Why do slow, careful moves win here?_  
-> _Because fast bodies wobble when they stop. Slow ones are already nearly still._  
-> Check: `edu:order:steps:slow`
-> _For grown-ups: Your child practised slow, careful movement and thought about why patience wins this game._
-
-**Sam Larkin**: Hmm. Just a garden ornament. A very small one.  
-_Ned beams, then remembers statues can’t beam, and stops._  
-
-> **Lesson** (science, 3-PS2-1, notice): balanced forces  
-> _A statue stays still because the forces on it are balanced: gravity pulls down, the ground pushes up._  
-> _Running is unbalanced: your feet push, you speed up, and stopping takes another push._  
-> _For grown-ups: Your child learned that a still statue has balanced forces, and a push starts movement._
-
-
-**Choices**
-
-- **Go slow, like Ned.**
-    - You take tiny steps. The grass hardly moves.
-- **Try a quick dash.**
-    - You dash. The newspaper lifts.
-    - **Sam Larkin**: I see a grown-up. Back you go.
-    - **Maisie**: Told you. Slow wins.
-- **Send your Nubbin in first.**
-    - Your Nubbin waddles straight up and sits by Sam’s feet. Nobody can tell if it’s cheating.
-
-#### `lb04-complete`
-
-_In the end it is Ned. One slow foot at a time, he reaches the deckchair and puts one finger on the biscuit._  
-**Ned**: Got it.  
-_Sam lifts the newspaper. He has been awake for some of it and asleep for some of it, and he isn’t saying which._  
-**Sam Larkin**: Beaten by the smallest statue in the valley. One more go?  
-_Ned breaks the biscuit into four pieces, one for each player. Your Nubbin’s is the biggest, because Ned says it was the quietest._  
-
-> **Lesson** (maths, 3.NF.A.1, ask): unit fractions need equal parts  
-> _Four pieces, one each. Is each piece a quarter of the biscuit?_  
-> - ✅ Not quite: they aren’t equal → Right. A quarter means one of four EQUAL parts. Ned’s pieces are four parts, but one is bigger.
-> - Yes, there are four → There are four pieces, but quarters must be equal. The Nubbin’s is bigger, so they aren’t quite quarters.
-> _For grown-ups: Your child learned that quarters must be equal parts, so Ned’s four pieces aren’t quite quarters._
-
-
-### Glossary
-
-- **statue**: A figure that stands perfectly still, often made of stone or metal.
-- **balanced**: Even on every side, so nothing moves or tips.
-
-## LB5. Nubbin Doctor
-
-- `lb05-s1`: Take your Nubbin to Maisie’s pretend clinic in the Larkins’ shed. · _Walk your Nubbin to the shed. It is not ill; it is playing a patient._
-- `lb05-s2`: Help Ned bandage your Nubbin, kindly. · _Talk to Ned at the workbench. He has the wrong foot._
-
-#### `lb05-clinic`
-
-_The shed has been cleared for the clinic. The workbench is a bed, with a tea towel for a sheet._  
-**Maisie**: Next patient, please. Ah. A Nubbin. What seems to be the trouble?  
-
-> **Lesson** (science, K-LS1-1, notice): what animals need to live  
-> **Maisie**: First question for every patient: food, water, air, a safe place to rest. Every animal needs those to live.  
-> **Maisie**: Nubbins also need cuddles. That’s not science. That’s just true.  
-> _For grown-ups: Your child learned the basic needs of every animal: food, water, air and shelter._
-
-**You**: Nothing, really. It’s very well.  
-**Maisie**: That’s what they all say. Up on the bed, please.  
-_Your Nubbin lies flat on its back. It is not ill, just very good at lying still._  
-**Ned**: I’m the nurse. I’ve got the bandages.  
-_Ned holds up a whole roll of toilet paper, like a trophy._  
-
-#### `lb05-checkup`
-
-_Maisie listens to your Nubbin’s chest through a funnel. Your Nubbin does its best to have a chest worth listening to._  
-**Maisie**: Good heart. Good ears. Wings a bit small, but that’s normal.  
-
-> **Lesson** (science, 4-LS1-1, notice): the heart  
-> _Your heart is a muscle that pumps blood round your body, carrying air and food to every part._  
-> _A funnel gathers its quiet thump into your ear. Real stethoscopes work in a similar way._  
-> _For grown-ups: Your child learned what the heart does and why a doctor listens to it._
-
-**Maisie**: Has it been eating? Drinking? Sleeping? Getting cuddles?  
-**You**: All four. Lots of the last one.  
-
-#### `lb05-bandage`
-
-**Maisie**: The patient has a sore left foot. Nurse, bandage please.  
-_Ned winds the toilet paper round your Nubbin’s right foot, tongue out, very carefully._  
-_Maisie opens her mouth to say something. Then she sees Ned’s face and closes it again._  
-**Maisie**: How do you tell somebody they’ve done it wrong without making them sad?  
-
-> **Lesson** (sel, CASEL: Social awareness, ask): kind correction  
-> _Think about Ned’s face. Which way of telling him would you want, if you were Ned?_  
-> - Praise first, then ask for the other foot → That keeps his pride and fixes the bandage. Clever.
-> - Ask him a question so he spots it himself → Lovely. Finding your own mistake feels much better than being told.
-> - Just say “wrong foot” gently → Honest and quick. With a kind voice, that can work too.
-> _For grown-ups: Your child weighed different ways to point out a mistake kindly._
-
-_Your Nubbin lies quite still, wrapped up to the knee, enjoying the attention._  
-
-**Choices**
-
-- **“That’s brilliant. Could this foot have one too?”**
-    - **Ned**: Two bandages! It’s VERY poorly.
-    - Now both feet are bandaged, which covers it either way.
-- **“Which foot did the doctor say, Ned?”**
-    - **Ned**: The… other one?
-    - Ned looks at his own feet and works it out. He starts again on the left, proudly.
-- **Let your Nubbin wiggle the left foot.**
-    - Your Nubbin wiggles its left foot, gently. Ned gasps: the patient has told him.
-
-#### `lb05-complete`
-
-_Your Nubbin walks home with both feet in toilet paper, like small white boots. It won’t let you take them off for an hour._  
-**Maisie**: Bring it back if it gets any worse. Or any better.  
-**Ned**: It was a very patient patient.  
-
-> **Lesson** (literacy, L.3.4, ask): multiple-meaning words  
-> _Ned says “a very patient patient”. Why is that funny?_  
-> - ✅ Patient means two things → Yes! A patient is someone a doctor looks after. Patient also means calm and good at waiting.
-> - It’s just said twice → It is, but each one means something different: a doctor’s patient, and calm while waiting.
-> _For grown-ups: Your child spotted that “patient” has two meanings: someone a doctor treats, and calm while waiting._
-
-_Sam comes in for a pencil and gets a check-up too. Maisie prescribes a nap._  
-**Sam Larkin**: Best medicine I’ve heard of all week.  
-
-### Glossary
-
-- **patient**: Someone a doctor looks after; also, able to wait calmly.
-- **prescribe**: When a doctor says what medicine or treatment you should have.
-
-## LB6. Den Day
-
-- `lb06-s1`: Gather chairs and blankets for a den in the Larkins’ front room. · _Blankets are in the cupboard; chairs are in Sam’s shed. Ned’s box is already there._
-- `lb06-s2`: Sit in the den with the Larkins while the rain goes on. · _Crawl in and sit down. There is nothing to do but listen._
-
-#### `lb06-rain`
-
-_Rain all day. The lane is a stream and the Larkins’ windows are fogged with small fingerprints._  
-**Maisie**: It was sunny yesterday. It’s not fair. Weather should take turns properly.  
-
-> **Lesson** (science, 3-ESS2-1, do): recording weather over time  
-> _Maisie wants proof the weather isn’t taking turns. Help her tally the week on the fridge chart._  
-> **Maisie**: Sunny: 3. Cloudy: 2. Rainy: 2. So rain has had two turns and sun has had three!  
-> _Scientists collect weather data like this for years to find each season’s pattern._  
-> Check: `edu:tally:weather:week`
-> _For grown-ups: Your child kept a week’s weather tally and looked for a pattern._
-
-**Ama Larkin**: It’s Saturday and I’m not driving anywhere. So. Den?  
-**Ned**: DEN.  
-_Ama empties the blanket cupboard. Sam brings four chairs from the shed, all his own work, all slightly different._  
-**Sam Larkin**: Mind that one, it wobbles. So it’s perfect for a den.  
-
-#### `lb06-built`
-
-_The den goes up: four chairs, three blankets, a sheet for a roof, and pegs from the washing line._  
-_Twice the roof sheet slides off. Twice everyone groans._  
-
-> **Lesson** (science, 3-5-ETS1-2, ask): comparing solutions  
-> _The sheet keeps sliding off the chairs. Which fix is best?_  
-> - ✅ Peg it to the chair backs → Pegs grip the sheet, so it can’t slide. Done. Comparing fixes and testing the best one is how engineers work.
-> - Pile books on top → Books would weigh it down, but the roof would sag onto heads. Pegs work better.
-> - Hold it up by hand → That works till your arms ache. Pegs don’t get tired.
-> _For grown-ups: Your child compared ways to stop the den roof sliding off and chose the best._
-
-**Ama Larkin**: Every den needs a door.  
-_Ned is already dragging his box across the rug, the one with NED on the side._  
-
-#### `lb06-inside`
-
-_Inside the den the light is blue and soft. Everyone’s knees touch, and nobody minds._  
-_Rain taps on the window. From in here it sounds further away and friendlier._  
-**Maisie**: The rug in here is three metres long and two metres wide. I measured it with Dad’s tape.  
-
-> **Lesson** (maths, 3.MD.D.8, do): perimeter  
-> _Ned wants to walk all the way round the rug edge. How far is that?_  
-> _3 + 2 + 3 + 2 = 10 metres. The distance round a shape is its perimeter._  
-> Check: `edu:measure:rug:perimeter`
-> _For grown-ups: Your child found the distance round a 3 m by 2 m rug: 10 metres._
-
-**Ned**: And Mum’s head is a circle.  
-**Ama Larkin**: Thank you, Ned.  
-_Your Nubbin curls up on Ned’s feet. Ned holds very still, so as not to wake it._  
-
-**Choices**
-
-- **Tell a story about a den in the rain.**
-    - You tell a story about a den that floats down the lane and comes home for tea. Ned makes you tell it twice.
-- **Just listen to the rain.**
-    - Nobody says anything for a while. The rain does the talking.
-    - **Maisie**: This is the quietest Ned has ever been.
-- **Count the drips from the gutter.**
-    - You count drips together. At forty-one they go too fast, and you all give up laughing.
-
-#### `lb06-complete`
-
-_The rain stops at teatime. Nobody wants to come out._  
-**Ama Larkin**: Tell you what. The den can stay up as long as it likes.  
-**Maisie**: Forever?  
-**Ama Larkin**: Till we need the chairs. Which, given your dad, could be a while.  
-**Sam Larkin**: I’ll make more chairs.  
-
-> **Lesson** (sel, CASEL: Social awareness, notice): noticing generosity  
-> _Sam will make more chairs so the den can stay. Ama gives away a blanket. Small gifts say “you matter to us”._  
-> _For grown-ups: Your child noticed how the Larkins share what they have._
-
-_Ama folds a spare blanket and hands it to you: a den for your own Grove, for the next rainy day._  
-
-### Glossary
-
-- **tally**: A quick way of counting with lines, where every fifth line crosses the four before it.
-- **perimeter**: The total distance all the way round the edge of a shape.
-
-## LB7. Shadow Show
-
-- `lb07-s1`: Find a torch for the shadow show. · _Try the box marked SHOES from moving day._
-- `lb07-s2`: Watch the shadow show, and put on a shadow of your own. · _Sit on the rug. When it’s your turn, step into the light._
-
-#### `lb07-sheet`
-
-_Ama pegs a white bedsheet across the front room, from the curtain rail to the top of the bookcase._  
-**Maisie**: It’s a theatre. Tonight only. Tickets are free, but you have to clap.  
-
-> **Lesson** (social-studies, D2.His.2.K-2, notice): shadow theatre around the world  
-> **Ama Larkin**: People have made shadow plays for hundreds of years. In Indonesia it’s called wayang kulit, with leather puppets.  
-> **Ama Larkin**: China and Turkey have their own old shadow theatres too. We’re in good company.  
-> _For grown-ups: Your child learned that shadow puppet theatre is an old art in many countries._
-
-**Ned**: I’m doing a rabbit.  
-_Ned makes a rabbit with his fingers. It looks a lot like a hand._  
-**Ama Larkin**: A shadow show needs a light. There’s a torch in one of the boxes.  
-**Ama Larkin**: If I know us, it’s in the one marked SHOES.  
-
-#### `lb07-lights`
-
-_The torch is in the box marked SHOES, under the bread bin. Sam switches off the big light._  
-_The torch makes a bright circle on the sheet. Everything else in the room goes soft and dark._  
-**Ned**: Where does the light come from?  
-
-> **Lesson** (science, 4-PS3-4, notice): energy changing form  
-> **Sam Larkin**: The battery stores energy. Switch on, and electricity flows to the bulb, which turns it into light, and a bit of heat.  
-> _For grown-ups: Your child learned that a torch changes the battery’s stored energy into light._
-
-
-#### `lb07-show`
-
-_Ned stands between the torch and the sheet and holds up his rabbit. On the sheet it is taller than the bookcase._  
-**Ned**: A GIANT rabbit!  
-**Maisie**: Go nearer the sheet, Ned.  
-_Ned steps back towards the sheet. The rabbit shrinks and shrinks until it is the size of a real one._  
-**Ned**: Now it’s a baby. Where did the big one go?  
-**Sam Larkin**: Walk back towards the torch, mate, and see what happens.  
-_Ned walks to and fro. The rabbit grows and shrinks. He could do this all night._  
-
-> **Lesson** (science, 1-PS4-2, do): how shadows form and change size  
-> _Light travels in straight lines. Ned’s hand blocks some, so a dark patch, a shadow, lands on the sheet._  
-> _Near the torch, his hand blocks a wide cone of light: big shadow. Near the sheet, only a little: small shadow._  
-> Check: `edu:order:shadows:size`
-> _For grown-ups: Your child explained shadows: light travels in straight lines, and a hand near the torch blocks more of it._
-
-**Maisie**: Your turn. What are you making?  
-
-**Choices**
-
-- **A bird, flapping.**
-    - Your hands flap across the sheet. Ned tries to catch the bird, and it flies over his head.
-- **Put your Nubbin in the light.**
-    - Your Nubbin sees its shape on the sheet and stares. It waves a wing. So does the shadow.
-- **A friendly monster.**
-    - You make a big shadow with claws. It waves, very politely.
-    - **Ned**: Hello, monster.
-
-#### `lb07-complete`
-
-_The show ends with the whole family in the light at once: one big shadow with far too many arms._  
-
-> **Lesson** (science, 2-PS1-1, ask): opaque and see-through materials  
-> _Ned tries to make a shadow with a glass of water. It barely shows. Why?_  
-> - ✅ Light goes through glass → Yes. Glass is transparent: light passes through. Hands are opaque: they block light and make dark shadows.
-> - The glass is too small → Size isn’t it. Light passes straight through glass. Opaque things, like hands, block it.
-> _For grown-ups: Your child worked out that only light-blocking (opaque) things make dark shadows._
-
-**Maisie**: That was the best show ever made. Clap now.  
-_Everyone claps. On the sheet, so do the shadows._  
-**Ama Larkin**: Keep the sheet. We’ve got more sheets than beds, it turns out.  
-_You take home the sheet on two poles and the torch on a stand, for shows in your own Grove._  
-
-### Glossary
-
-- **opaque**: Not letting light through, so you can’t see through it.
-- **theatre**: A place, or a show, where stories are acted out for an audience.
-
-## LB8. Treasure Map
-
-- `lb08-s1`: Follow Ama’s map down the lane to the X. · _In order: the pond, your gate, the big oak, then six big steps to the X._
-- `lb08-s2`: Find where Maisie really hid the treasure. · _Use the compass on the map. Maisie says it went north, along the wall._
-
-#### `lb08-map`
-
-_Ama spreads a sheet of paper on the kitchen table. It is a map of the lane, drawn in post-van detail._  
-**Ama Larkin**: Every house, every gate, every pothole. I know this lane better than my own feet.  
-_There is your pond, your gate that sticks, the big oak, and a red X by the old wall._  
-_In one corner Ama has drawn a compass, with a fancy N at the top._  
-
-> **Lesson** (science, 2-ESS2-2, do): maps and compass directions  
-> **Ama Larkin**: The compass shows north at the top. Clockwise round it: north, east, south, west.  
-> **Ama Larkin**: Up the valley, where the river comes from, is north. East is to its right, and west to its left.  
-> _Put the landmarks in order on the map: pond, gate, oak, X._  
-> Check: `edu:order:map:lane`
-> _For grown-ups: Your child used the map’s compass: north, east, south and west._
-
-**Maisie**: Follow the map. The pond first, then the gate, then the tree, then the X.  
-**Ned**: What’s the treasure?  
-**Maisie**: A secret. It’s raisins.  
-
-#### `lb08-x`
-
-_Pond, gate, tree, then six big steps past the oak to the X. Ned digs with a spoon._  
-
-> **Lesson** (maths, 4.MD.A.1, ask): converting centimetres to metres  
-> _Each of your big steps is about 50 centimetres. Six steps is how far in metres?_  
-> - ✅ 3 metres → Yes. 6 × 50 = 300 cm, and 100 cm make a metre, so 3 metres.
-> - 30 metres → Too far! 6 × 50 = 300 cm. Divide by 100 to get metres: 3.
-> - 300 metres → 300 is right in centimetres! In metres it’s 3, because 100 cm is 1 metre.
-> _For grown-ups: Your child worked out that six 50 cm steps make 300 cm, which is 3 metres._
-
-_There is nothing there but soil and one surprised worm._  
-**Ned**: The treasure’s gone!  
-
-#### `lb08-moved`
-
-**Maisie**: It’s not gone. I moved it, after Mum drew the map.  
-**Maisie**: Treasure that’s exactly where the map says is too easy.  
-**Ned**: That’s not FAIR.  
-_Ned sits down in the lane with his spoon. The worm, sensibly, leaves._  
-
-> **Lesson** (literacy, RL.3.6, ask): your view and a character’s view  
-> _Maisie thinks tricky is fun. Ned thinks a map should be true. What do YOU think?_  
-> - Fair: games should surprise you → Maisie would agree. Surprises are half the fun of treasure hunts.
-> - Not fair: Ned trusted the map → Ned would agree. Trusting something and finding it untrue feels bad.
-> - Fair only if everyone knows the rule → That’s a careful answer. A trick can be fun, if everyone agreed tricks were allowed.
-> _For grown-ups: Your child compared their own view of fairness with Maisie’s and Ned’s._
-
-**Maisie**: It’s still close. It went north, the way the river comes from.  
-_Ned looks at you. He wants to know whose side you are on._  
-
-**Choices**
-
-- **“Treasure hunts are meant to be a bit tricky.”**
-    - **Maisie**: See? Tricky is the fun bit.
-    - **Ned**: Tricky is the CROSS bit.
-- **“A map’s a kind of promise, Maisie.”**
-    - **Maisie**: …I suppose.
-    - Maisie borrows her mum’s pen and draws a small, honest X further along the wall.
-- **Ask Maisie why she moved it.**
-    - **Maisie**: I wanted to be the one who knew something. Ned always finds things first.
-
-#### `lb08-complete`
-
-_The tin is under a flat stone at the foot of the wall, a few steps north. Ned finds it first, of course._  
-**Ned**: Raisins!  
-_He shares them out in fours: four for Maisie, four for you, four for your Nubbin and four for him._  
-
-> **Lesson** (maths, 3.OA.A.1, do): equal groups  
-> _Four people, four raisins each. How many raisins were in the tin?_  
-> _4 × 4 = 16. Ned shared them into four equal groups._  
-> Check: `edu:count:raisins:16`
-> _For grown-ups: Your child worked out that 4 groups of 4 raisins make 16._
-
-**Maisie**: Next time I’ll tell Mum where I really put it. Probably.  
-**Ama Larkin**: A map is for keeping, once you’ve used it.  
-_Ama frames the map and gives it to you. It has a second X now, in a six-year-old’s writing._  
-
-### Glossary
-
-- **compass**: A tool, or a drawing on a map, that shows north, south, east and west.
-- **landmark**: Something easy to spot that helps you find your way, like a big oak.
-
-## LB9. Café Larkin
-
-- `lb09-s1`: Lay the café table: one plate for each person. · _Four are eating: you, Sam, your Nubbin and Ama. One plate at each chair._
-- `lb09-s2`: Order lunch at Café Larkin, and be a kind customer. · _Talk to Ned, the waiter. Whatever arrives, be kind._
-
-#### `lb09-cafe`
-
-_A sign is chalked on the back of a tea tray: CAFÉ LARKIN, OPEN, NUBBINS WELCOME._  
-
-> **Lesson** (literacy, L.2.4, notice): borrowed words  
-> _“Café” is a French word English borrowed. The little mark on the é tells you to say “caff-ay”._  
-> _For grown-ups: Your child learned that “café” is borrowed from French, and the accent shows how to say it._
-
-_The café is the garden table, with the good tablecloth on it. Ama doesn’t know about the tablecloth yet._  
-**Maisie**: I’m the chef. Ned’s the waiter. You’re a customer, and so is Dad.  
-**Sam Larkin**: I’ll be the customer who sits down. I’m very good at that.  
-**Maisie**: Your Nubbin’s a customer. And Mum, when she’s back from her round. One plate each, please.  
-**Ned**: How many persons is that?  
-
-#### `lb09-laid`
-
-_Four plates, from the toy box and the kitchen: a blue one, a chipped china one, a tin one, and one that is really a frisbee._  
-_Your Nubbin sits on a cushion on the fourth chair. It has been given the frisbee, and it approves._  
-**Ned**: Can I drop the tin one? To check?  
-
-> **Lesson** (science, 2-PS1-1, ask): properties of materials  
-> _Which plate is safest for Ned to carry, in case he drops it?_  
-> - ✅ The tin one or the frisbee → Yes. Tin and plastic are tough and don’t shatter. China is hard but brittle, so it can break.
-> - The china one → China is hard but brittle: it can crack if dropped. Tin or plastic is safer for Ned.
-> _For grown-ups: Your child chose materials by property: tin bends, china can break, plastic is light and tough._
-
-
-#### `lb09-order`
-
-_Ned brings a menu: a drawing of a cake, a drawing of a sandwich, and a drawing nobody can identify._  
-**Ned**: What would you like? Cake is 4 Shells. Sandwich is also 4. The mystery is free.  
-**You**: The sandwich, please. And three cakes to share.  
-
-> **Lesson** (maths, 3.OA.A.3, do): multiplication word problem  
-> _Three cakes at 4 Shells each. What’s the bill for the cakes?_  
-> _3 × 4 = 12 Shells. Ned will give it all back as change anyway._  
-> Check: `edu:count:cakes:12`
-> _For grown-ups: Your child worked out the bill for three cakes at 4 Shells each (12)._
-
-**Ned**: One sandwich.  
-_He goes into the kitchen, which is the shed, and returns with great ceremony. On your plate is a pine cone._  
-**Ned**: Here is your cake.  
-_Sam ordered tea and got a stick. Your Nubbin ordered nothing and got three leaves, which it likes best of all._  
-
-> **Lesson** (sel, CASEL: Relationship skills, ask): handling a mistake kindly  
-> _The waiter got it wrong. What do you say?_  
-> - Thank him, then ask nicely for the sandwich → Kind and clear. Ned feels thanked, and you still get your sandwich.
-> - Enjoy what came → Generous. Sometimes the mix-up is more fun than the order.
-> - Explain politely there’s a mix-up → Honest and gentle. Blaming “a mix-up”, not Ned, keeps it kind.
-> _For grown-ups: Your child thought about what to say when someone gets your order wrong._
-
-
-**Choices**
-
-- **“Thank you! Could I have the sandwich as well?”**
-    - **Ned**: Oh! The sandwich! Coming right up.
-    - He comes back with a second pine cone. This one, he says, is the sandwich.
-- **Eat the pine cone with great pleasure.**
-    - You pretend to eat the pine cone, slowly, eyes closed. Ned watches every bite.
-    - **You**: Best cake I’ve ever had.
-- **“Excuse me. I think there’s been a little mix-up.”**
-    - **Ned**: Is it the wrong one?
-    - **You**: It’s a lovely cake. I ordered the sandwich, that’s all.
-    - **Ned**: I’ll tell the chef. She’ll be cross with the kitchen, not me.
-
-#### `lb09-complete`
-
-_Ama comes home and sits down at the fourth plate, still in her post-office jacket._  
-**Ama Larkin**: Table for one, please. Anything that comes with tea.  
-_Ned brings her a real cup of tea, which Sam made, and a pine cone, which Ned made. She is delighted with both._  
-**Ama Larkin**: Is that my good tablecloth?  
-**Maisie**: Café Larkin is closed now. The chef has to go.  
-
-> **Lesson** (literacy, RL.3.3, ask): character motive  
-> _Why does Maisie close the café so suddenly?_  
-> - ✅ She took the good tablecloth without asking → Yes! She’s escaping before Mum works it out. Ama is smiling, though.
-> - The chef got tired → Maybe, but look at the timing: right after Ama spots the tablecloth.
-> _For grown-ups: Your child worked out why Maisie suddenly closes the café._
-
-_Later, Ama paints the tea-tray sign properly and gives it to you for your gate._  
-
-### Glossary
-
-- **menu**: A list of the food and drink you can order.
-- **brittle**: Hard, but likely to crack or snap rather than bend.
-
-## LB10. Boats
-
-- `lb10-s1`: Test which of Ned’s things float in the pond. · _Put the cork, the leaf, the pebble and the teaspoon in the shallows, one at a time._
-- `lb10-s2`: Sail the boats across the Grove pond. · _Pick a boat and set it on the water by the reeds._
-
-#### `lb10-pond`
-
-_The Larkins come through your gate for the first time, in a line, all lifting and pushing at once._  
-**Maisie**: We’re making boats. For your pond. We brought things.  
-_Ned empties his pockets onto the bank: a cork, a big leaf, a pebble, and a metal teaspoon from the kitchen drawer._  
-**Sam Larkin**: That’s my good teaspoon.  
-**Ned**: It’s a boat now.  
-**Ama Larkin**: Which ones will float, do you think? Let’s predict before we test.  
-
-> **Lesson** (science, 2-PS1-1, ask): predicting  
-> _Make a prediction. Will the metal teaspoon float or sink?_  
-> - Float → A fair prediction. Testing will tell us.
-> - Sink → A fair prediction. Testing will tell us.
-> _For grown-ups: Your child made a prediction to test, the way scientists do._
-
-
-#### `lb10-test`
-
-_One at a time, the things go in the shallows. The cork bobs, and the leaf spins and floats._  
-_The pebble goes plop and sits on the bottom. The teaspoon goes plip and joins it._  
-
-> **Lesson** (science, 2-PS1-1, do): sorting by property  
-> _Sort them: floats (cork, leaf) and sinks (pebble, teaspoon)._  
-> _Cork is full of tiny air pockets, so it’s lighter than the same amount of water. Stone and metal are heavier, so they sink._  
-> Check: `edu:sort:boats:float`
-> _For grown-ups: Your child sorted materials into floaters and sinkers and explained why._
-
-**Ned**: The spoon’s a submarine.  
-**Sam Larkin**: The spoon is coming out, thank you.  
-
-#### `lb10-sail`
-
-_The boats are built on the bank: a cork with a leaf sail, a bark raft with a twig mast, and a walnut shell with a petal._  
-
-> **Lesson** (science, 3-PS2-1, notice): forces on a sailing boat  
-> _The wind pushes on the sail. If that push is bigger than the water’s drag, the force is unbalanced, and the boat moves._  
-> _For grown-ups: Your child learned that wind pushing on a sail is an unbalanced force that moves the boat._
-
-**Maisie**: A race! First one across the pond wins.  
-_Your Nubbin wades in up to its middle, ready to help. Nubbins love the pond._  
-**Ama Larkin**: Which one are you sailing?  
-
-**Choices**
-
-- **The cork, with the leaf sail.**
-    - The cork boat leans into the breeze and sets off, steady as a duck.
-- **The bark raft.**
-    - The raft is slow and flat and sensible. It goes exactly where the breeze tells it.
-- **The walnut shell, with Ned.**
-    - The walnut spins in slow circles and goes nowhere at all. Ned thinks it is the best boat of the lot.
-
-#### `lb10-complete`
-
-_The raft wins, in the end, by drifting. Nobody minds, because the walnut is still spinning and Ned is still cheering it._  
-
-> **Lesson** (literacy, L.4.5, notice): simile  
-> _“Steady as a duck” compares a boat to a duck using “as”. A comparison with “like” or “as” is called a simile._  
-> _For grown-ups: Your child spotted a simile: “steady as a duck”._
-
-_Your Nubbin tows the walnut home, very gently, with its nose._  
-**Ama Larkin**: What a pond. You’re lucky, having this on your doorstep.  
-**Sam Larkin**: My good teaspoon is still in it.  
-_Your Nubbin dives for the teaspoon and brings it back. Sam shakes its wing, very solemnly._  
-
-### Glossary
-
-- **predict**: To say what you think will happen before you find out.
-- **simile**: A comparison using “like” or “as”, such as “steady as a duck”.
-
-## LB11. The Big Race
-
-- `lb11-s1`: Judge five races and keep a tally of the winners. · _Stand at the skipping-rope finish. One line for every win._
-- `lb11-s2`: Decide how to run the last race. · _Talk to Ned, face down in the grass._
-
-#### `lb11-course`
-
-_Maisie marks out a racecourse in the field: flowerpots for the start and a skipping rope for the finish._  
-**Maisie**: Five races. Me, Ned and your Nubbin. You’re the judge. Dad’s the crowd.  
-**Sam Larkin**: Hooray.  
-_Sam is lying beside the finish line, which Maisie says still counts as a crowd._  
-**Maisie**: Judges keep a tally. One line for every win.  
-
-> **Lesson** (sel, CASEL: Responsible decision-making, notice): fair judging  
-> _A fair judge watches the finish, not the favourite. Even if you like one runner best, you write down what really happened._  
-> _For grown-ups: Your child thought about what a fair judge does._
-
-**Maisie**: Ready, steady…  
-
-#### `lb11-five`
-
-_Maisie wins the first race, and the second. Your Nubbin wins the third by flapping, and the fourth by accident._  
-_Maisie wins the fifth. Ned comes last in every one._  
-
-> **Lesson** (maths, 2.MD.D.10, do): tally charts and comparing  
-> _Your tally: Maisie |||, Nubbin ||, Ned none. That’s 3 + 2 + 0 = 5 races._  
-> _How many more wins has Maisie than your Nubbin? 3 − 2 = 1. And Ned? He hasn’t got a line yet._  
-> Check: `edu:tally:races:5`
-> _For grown-ups: Your child made a tally chart of five races and compared the totals._
-
-_After the fifth race, Ned lies face down on the grass and does not get up._  
-
-#### `lb11-facedown`
-
-**Maisie**: Come on, Ned. One more race.  
-**Ned**: No. I’m never racing again. I’m staying here.  
-_His voice comes out muffled, straight into the grass._  
-**Maisie**: It’s only a game.  
-**Ned**: It’s only a game for WINNERS.  
-_Maisie looks at you. She is six, she has won every race she’s ever run, and she doesn’t know what to do._  
-
-> **Lesson** (literacy, RL.2.3, ask): how characters respond to events  
-> _Maisie and Ned both feel something about the races. How is each one responding?_  
-> - Ned hides; Maisie is puzzled → Well read. Ned shuts out the world. Maisie has never lost, so she can’t imagine it.
-> - Ned is cross; Maisie is impatient → Fair. “It’s only a game” is easy to say when you’re winning.
-> - They both want to fix it → Kind answer. Maisie keeps asking him back. That’s her way of caring.
-> _For grown-ups: Your child compared how Maisie and Ned each respond to winning and losing._
-
-**Sam Larkin**: Nobody likes losing, mate. Even in a game.  
-
-**Choices**
-
-- **Race properly. Ned can finish, even if he’s last.**
-    - Ned gets up, slowly. He runs the whole race and comes last, but this time he runs all the way, and you cheer him in.
-    - **Ned**: I came last, but I came ALL the way!
-- **Everyone slows down so Ned wins.**
-    - Everyone jogs, Maisie very slowly and with a face. Ned wins by a mile.
-    - **Ned**: I WON! I’m the fastest in the valley!
-    - **Maisie**: It wasn’t a real race.
-    - Maisie says it quietly, so Ned won’t hear. Then she lets him have it.
-- **Race holding hands, all together.**
-    - Maisie holds out her hand to Ned, and he takes it. You all run the last race in a line, holding hands.
-    - Nobody wins. Everybody crosses the rope at once.
-    - **Maisie**: That’s a draw. Draws are allowed.
-
-#### `lb11-complete`
-
-**Sam Larkin**: Right. The crowd needs a sit-down.  
-_Sam sits up in the grass. Ned climbs into his lap with grass stuck to his face._  
-**Sam Larkin**: You know what I like about racing with you lot? Somebody always gets up again.  
-
-> **Lesson** (literacy, RL.4.2, ask): theme  
-> _Sam says somebody always gets up again. What do you think the race story is really about?_  
-> - Losing is part of playing → Yes. You can’t have races without someone losing, and that someone is still a player.
-> - Getting up again is brave → That’s the heart of it. Ned got up. That counts more than the tally.
-> - Families look after each other → Lovely. Every choice had someone looking after Ned.
-> _For grown-ups: Your child thought about the big idea of the race story: getting up again matters more than winning._
-
-**Maisie**: Next time I’m inventing a game where losing is the winning.  
-_Ned picks the grass off his face one bit at a time, and gives every bit to your Nubbin._  
-
-### Glossary
-
-- **tally chart**: A table where you count things by drawing a line for each one.
-- **judge**: Someone who watches carefully and decides fairly who won.
-
-## LB12. The Long Grass Campout
-
-- `lb12-s1`: Bring a sleeping bag to the Larkins’ long grass at dusk. · _Carry a sleeping bag from your cottage through the Larkins’ gate before dark._
-- `lb12-s2`: Lie still in the long grass and wait for the first star. · _Lie down with the Larkins and keep still. The stars come when they come._
-
-#### `lb12-tired`
-
-_Late summer. The evenings are long and gold, and the swallows fly low over the Larkins’ field._  
-**Ama Larkin**: Sam’s asleep. Before tea. On the sofa, with one shoe on.  
-**Ama Larkin**: He finished a whole table this week. He’s allowed.  
-**Maisie**: We need a game where Dad has to lie down.  
-
-> **Lesson** (sel, CASEL: Social awareness, notice): understanding others’ needs  
-> _Maisie doesn’t try to fix Dad’s tiredness. She makes a game that fits it. Noticing what someone needs is a kind of love._  
-> _For grown-ups: Your child saw Maisie invent a game that fits what her tired dad needs._
-
-**Ned**: Dad already lies down.  
-**Maisie**: A game where lying down IS the game.  
-_Maisie explains it at speed: sleeping bags, the long grass, everyone very still, first to see a star wins._  
-**Ama Larkin**: Camping in the garden? Go on, then. Bring your Nubbin, and a sleeping bag.  
-
-#### `lb12-arrive`
-
-_At dusk you carry your sleeping bag through the Larkins’ gate. Sam is awake now, in pyjamas, holding a torch._  
-**Sam Larkin**: I hear there’s a game where I have to lie down. I’ve been practising all day.  
-**Ama Larkin**: Sunset was at twenty to nine. Stars by quarter past, if we’re lucky.  
-
-> **Lesson** (maths, 3.MD.A.1, ask): time intervals  
-> _From 8:40 to 9:15, how long will everyone have to lie still?_  
-> - ✅ 35 minutes → Yes. 8:40 to 9:00 is 20 minutes, and 9:00 to 9:15 is 15 more. 35 minutes.
-> - 25 minutes → Close. 8:40 to 9:00 is 20, then 15 more to 9:15. That makes 35.
-> - An hour → Not quite that long. 20 minutes to nine o’clock, then 15 more: 35 minutes.
-> _For grown-ups: Your child worked out the time from 8:40 to 9:15 (35 minutes)._
-
-
-#### `lb12-waiting`
-
-_Everyone lies in a row in the long grass: Ama, Sam, Maisie, Ned, you, and your Nubbin, already half asleep._  
-_The sky goes from gold to pink to a deep, slow blue. A bat flickers over the hedge._  
-**Maisie**: The rules. Nobody talks. Nobody wriggles. The first to see a star says STAR.  
-_For a long time nobody does anything. It is the stillest the Larkins have ever been._  
-**Sam Larkin**: It’s winter in Brisbane now. My mum’s wearing a jumper.  
-**Ned**: Why?  
-**Sam Larkin**: The Earth is tilted. While our half leans towards the Sun, her half leans away. Then they swap.  
-
-> **Lesson** (science, 1-ESS1-2, notice): why the hemispheres have opposite seasons  
-> _Brisbane is in Australia, in the southern hemisphere. The valley is in the northern one._  
-> _The Earth’s axis is tilted. When the north leans towards the Sun it’s summer here, and winter in the south._  
-> _For grown-ups: Your child learned that the Earth’s tilt gives the north and south opposite seasons._
-
-
-**Choices**
-
-- **Make a quiet wish for the Larkins.**
-    - You make a wish. You don’t say it out loud, because that is the rule with wishes.
-- **Hum something very quietly.**
-    - You hum a tune you half remember. After a while Ama hums it too, and gets the end right.
-- **Watch your Nubbin fall asleep.**
-    - Your Nubbin’s emote ball dims to a soft glow, then goes out. It is asleep.
-
-#### `lb12-star`
-
-_Ned sees it first: one bright point over the hedge, low in the west._  
-**Ned**: STAR!  
-**Ama Larkin**: That might be a planet, actually. Never mind. It counts.  
-
-> **Lesson** (science, 1-ESS1-1, notice): stars in day and night  
-> **Ama Larkin**: The first bright “star” is sometimes a planet, like Venus, shining with reflected sunlight.  
-> **Ama Larkin**: And the stars never go away in the daytime. The Sun is just so bright that we can’t see them.  
-> _For grown-ups: Your child learned the stars are always there; the Sun’s brightness hides them by day._
-
-_Then another star, and another, until there are too many to say STAR about, so everyone just looks._  
-
-#### `lb12-complete`
-
-_Sam is asleep again in the long grass, with Ned asleep on his arm. Maisie is trying very hard not to be._  
-**Maisie**: That was the best game we ever made up.  
-**Ama Larkin**: It was. Lying still together. It’s hard, and you all did it.  
-
-> **Lesson** (sel, CASEL: Self-awareness, ask): what makes time together special  
-> _No winners, no prizes, nobody moved. Why was lying still together the best game of the summer?_  
-> - Everyone was included, even tired Sam → Yes. It was the one game the whole family could play at once.
-> - Waiting made the stars special → That’s true. Things you wait for can feel bigger when they come.
-> - It was calm after a busy summer → Wise. After shops and races and dens, quiet can be the treat.
-> _For grown-ups: Your child thought about why the stillest game of the summer was the best one._
-
-_Your Nubbin is asleep in Ned’s box. Ama looks at it, and then at you._  
-**Ama Larkin**: That box should stay out here for good, I think. It’s earned its place.  
-_In the morning there is a small painted box on your doorstep, with a note: FOR YOUR NUBBIN FROM NED (HE DID THE N)._  
-
-### Glossary
-
-- **hemisphere**: Half of the Earth, such as the northern half or the southern half.
-- **tilted**: Leaning to one side instead of standing straight.
-
-## LK1. The Shadow Screen
-
-- `lk01-s1`: Help Siti and Wulan put up their shadow screen by the pond. · _Hold the second pole steady while the cloth is tied._
-- `lk01-s2`: Meet the mouse-deer and choose whose way to hear the tales first. · _Talk to Siti or Wulan by the screen._
-
-#### `lk01-dusk`
-
-_Summer is nearly over. At dusk, two women come down the lane with a long roll of white cloth and a wooden box._  
-_They stop at the pond and study it the way builders study a wall._  
-**Mak Cik Siti**: This is the spot. Flat ground, still water, and a bank for the children to sit on.  
-**Mak Cik Siti**: I’m Siti. The little ones call me Mak Cik Siti, which means Auntie Siti. I’m from Melaka, in Malaysia.  
-**Bu Wulan**: And I’m Wulan. Bu Wulan, to be polite. I’m from Yogyakarta, in Indonesia.  
-
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): finding Malaysia and Indonesia on a map  
-> **Mak Cik Siti**: Melaka is an old port town on the coast of Malaysia. Ships have stopped there for hundreds of years.  
-> **Bu Wulan**: Yogyakarta is on Java, one of the thousands of islands that make up Indonesia.  
-> **Bu Wulan**: Between us is the sea. On a map, we’re neighbours.  
-> _For grown-ups: Your child placed Melaka and Yogyakarta on a map and saw the two countries are neighbours._
-
-**Bu Wulan**: We met on a boat forty years ago, and we’ve argued ever since.  
-**Mak Cik Siti**: Lovingly.  
-**Bu Wulan**: Mostly lovingly. Will you hold that pole while Siti ties the cloth?  
-_Your Nubbin takes the other pole without being asked. The pole is taller than it by quite a lot._  
-
-> **Lesson** (art, notice): shadow-puppet theatre  
-> **Bu Wulan**: In Java, shadow-puppet theatre is called wayang. My puppets are wayang kancil: tales of the mouse-deer.  
-> **Mak Cik Siti**: We have shadow puppets in Malaysia too, called wayang kulit. Kelantan is famous for them.  
-> _For grown-ups: Your child learned about wayang, the shadow-puppet theatre of Indonesia and Malaysia._
-
-
-#### `lk01-lamp`
-
-_The screen goes up, tight as a drum. Wulan lights a lamp behind it, and the cloth glows warm gold._  
-**Mak Cik Siti**: There. Now nothing can hide. Not even a shadow.  
-_Your Nubbin walks between the lamp and the cloth. Its shadow stretches across the screen, enormous._  
-_It stares at the giant shadow, then waves. The shadow waves back._  
-**Bu Wulan**: Shadows are honest. They copy you exactly, only bigger or smaller.  
-**Bu Wulan**: Here. Try it with a puppet.  
-
-> **Lesson** (science, 1-PS4-2, do): how shadows form and change size  
-> **Bu Wulan**: Hold the puppet close to the lamp. It blocks a lot of light, so the shadow is huge.  
-> **Bu Wulan**: Move it close to the screen. It blocks less light, and the shadow shrinks.  
-> _Put three puppet shadows in order, from smallest to largest._  
-> Check: `edu:order:shadows:size`
-> _For grown-ups: Your child moved a puppet between a lamp and a screen and ordered the shadows by size._
-
-
-#### `lk01-names`
-
-_Siti opens the box. Inside are flat leather puppets on sticks: a crocodile, a tiger, an elephant, a snail._  
-_Last of all she lifts out a tiny deer with thin legs and a clever face. It fits in her hand._  
-
-> **Lesson** (science, 4-LS1-1, notice): body parts that help the mouse-deer survive  
-> **Bu Wulan**: Real mouse-deer live in the forests of South-East Asia. They’re about the size of a rabbit and weigh about 2 kilograms.  
-> **Mak Cik Siti**: They’re among the smallest hoofed animals in the world. Not a mouse, and not quite a deer.  
-> **Bu Wulan**: Thin legs make them quick, and their brown coat hides them among dead leaves.  
-> _For grown-ups: Your child learned what a real mouse-deer is: a tiny hoofed forest animal of South-East Asia._
-
-**Mak Cik Siti**: This is Sang Kancil, the mouse-deer. The smallest animal in the forest, and the cleverest.  
-**Bu Wulan**: Si Kancil.  
-**Mak Cik Siti**: Sang Kancil. That’s what my grandmother called him.  
-**Bu Wulan**: And mine called him Si Kancil, and she was never wrong about anything, including the weather.  
-**Mak Cik Siti**: He belongs to both of us. To Singapore and Brunei too. To every child who ever heard him.  
-**Bu Wulan**: Fine. But somebody has to tell the first tale.  
-_They both look at you. So does your Nubbin, which has climbed into the puppet box._  
-
-**Choices**
-
-- **Siti’s way first: Sang Kancil.**
-    - **Mak Cik Siti**: Sang Kancil it is. Wulan, you may sulk.
-    - **Bu Wulan**: I never sulk. I wait.
-- **Wulan’s way first: Si Kancil.**
-    - **Bu Wulan**: Si Kancil it is. Siti, you can do the crocodile voices.
-    - **Mak Cik Siti**: I always do the crocodile voices. Nobody else can.
-
-#### `lk01-complete`
-
-_Wulan hands the little puppet to your Nubbin. It holds it up to the lamp very carefully, as if it might wake._  
-**Bu Wulan**: One tale at a time. Your Nubbin will be Kancil behind the screen. Small, quick, and no talking.  
-**Mak Cik Siti**: We’ll do the talking. We’re very good at it.  
-_Your Nubbin nods, solemn. It has never been better suited to a part._  
-
-> **Lesson** (sel, CASEL: Social awareness, ask): two people can both be right  
-> _Siti says Sang Kancil. Wulan says Si Kancil. Can they both be right?_  
-> - Yes, both. → That’s what we think too. Different places, different words, the same little deer.
-> - No, only one. → Lots of people think so at first. But a name can be right in two languages at once.
-> - It doesn’t matter. → Maybe not to Kancil! But it matters to us, because our grandmothers said it.
-> _For grown-ups: Your child thought about how two people can say something differently and both be right._
-
-**Bu Wulan**: Come back at dusk. Bring the children. Bring the whole valley, if it fits on the bank.  
-**Mak Cik Siti**: And bring an appetite. I make kuih.  
-
-### Glossary
-
-- **wayang**: Shadow-puppet theatre from Indonesia and Malaysia, with flat puppets behind a lit screen.
-- **mouse-deer**: A tiny forest animal with hooves, about the size of a rabbit; not a mouse and not a true deer.
-
-## LK2. Kancil Is Hungry
-
-- `lk02-s1`: Watch the first tale from the bank: Kancil is hungry. · _Come to the pond at dusk and sit on the bank._
-- `lk02-s2`: Look at the stream with your Nubbin: how could a small deer get across? · _Walk down to the stream that runs into the pond._
-
-#### `lk02-hungry`
-
-_Dusk again. The lamp is lit, and the bank is full of valley children sitting on their hands to keep still._  
-**Mak Cik Siti**: Long ago, in the forest, when the rains were late, Kancil woke up hungry.  
-_Your Nubbin trots the puppet across the screen. Its shadow hops, quick and light._  
-**Kancil**: My tummy is growling louder than a tiger. Somebody find me breakfast.  
-
-> **Lesson** (literacy, RL.1.4, ask): words that show feelings or senses  
-> **Bu Wulan**: Which word tells you Kancil is really hungry?  
-> - ✅ Growling → Yes. A growling tummy is a very hungry tummy. You can almost hear it.
-> - Breakfast → Close! But “growling” is the word that lets you hear his hunger.
-> _For grown-ups: Your child picked out the word that shows how hungry Kancil is._
-
-**Bu Wulan**: Kancil looked everywhere. The bushes were bare. The berries were gone.  
-**Kancil**: And over there, across the river, the trees are heavy with fruit. Ripe and sweet and swinging.  
-**Mak Cik Siti**: But the river was wide, and Kancil was small. And the river was full of crocodiles.  
-_Siti slides a long, lumpy shadow along the bottom of the screen, then another. The children go very quiet._  
-
-#### `lk02-ripples`
-
-_Wulan flicks water from the pond onto the screen. The shadow river ripples._  
-**Bu Wulan**: Rivers in the forest are never empty. Fish, frogs, birds and crocodiles, all of them hungry too.  
-
-> **Lesson** (science, 2-LS4-1, notice): why rainforest rivers are full of life  
-> **Bu Wulan**: A rainforest is warm and wet all year, so plants grow fast and never stop.  
-> **Bu Wulan**: Lots of plants means lots of food, so the rivers are crowded with fish, frogs, birds and crocodiles.  
-> **Mak Cik Siti**: Each of them has found its habitat: the place that gives it what it needs.  
-> _For grown-ups: Your child learned why warm, wet rainforests support so many animals._
-
-**Kancil**: Then I shall have to be clever. Being big isn’t an option.  
-
-#### `lk02-plan`
-
-_The tale stops there. Wulan leans out from behind the screen._  
-**Bu Wulan**: Every good tale has a question in the middle. How does a very small deer cross a very big river?  
-**Mak Cik Siti**: Don’t tell them, Wulan.  
-**Bu Wulan**: I’m not telling them. I’m asking them.  
-_A boy at the front says Kancil should swim, and a girl says build a boat. Somebody says “ask a bird”._  
-
-> **Lesson** (science, 3-5-ETS1-2, ask): comparing solutions to a problem  
-> **Bu Wulan**: Swim, build a boat, or ask a bird. Which plan would you try?  
-> - Swim → Brave! But a small deer in a crocodile river is risky. What would make it safer?
-> - Build a boat → Clever. It takes time and tools, though, and Kancil is hungry now.
-> - Ask a bird → Nice idea. Could a bird carry a deer? Maybe a very big bird!
-> _For grown-ups: Your child compared three ways to cross a river and weighed up each one._
-
-**Mak Cik Siti**: All good ideas. Come back at dusk and see what Kancil does.  
-_Your Nubbin is already at the stream, staring at the far side the way Kancil stared at the fruit._  
-
-#### `lk02-complete`
-
-_The children walk home arguing about boats._  
-**Mak Cik Siti**: That’s how you know a tale is working. They take it home with them.  
-**Bu Wulan**: My grandmother stopped every tale on a question. We never slept.  
-
-> **Lesson** (sel, CASEL: Self-management, ask): waiting for something you want  
-> **Mak Cik Siti**: The tale stops on a question, and you have to wait for the answer. What helps you wait?  
-> - Guessing what happens → Good one. Guessing turns waiting into a game.
-> - Doing something else → Wise. Busy hands make waiting shorter.
-> - Waiting is hard → It is hard. That’s all right. Grown-ups find it hard too.
-> _For grown-ups: Your child thought about what helps them wait._
-
-_Your Nubbin is still at the stream, counting something on its fingers._  
-
-### Glossary
-
-- **ripe**: Ready to eat: soft, sweet and fully grown.
-- **habitat**: The natural home of an animal or plant, where it finds food, water and shelter.
-
-## LK3. Counting the Crocodiles
-
-- `lk03-s1`: Watch Kancil call the crocodiles to the bank. · _Sit on the bank at dusk for the second tale._
-- `lk03-s2`: Count the crocodiles as your Nubbin hops across the line. · _Count each hop: once in ones, then in twos._
-- `lk03-s3`: Decide what Kancil does on the far bank. · _Talk to Siti and Wulan by the screen._
-
-#### `lk03-river`
-
-**Mak Cik Siti**: Kancil walked right up to the edge of the river, where the water was dark and still.  
-**Kancil**: Crocodiles! Crocodiles of the river! Wake up! I have a message from the King!  
-_Siti raises the crocodile puppet. It has a great many leather teeth and a very grumpy eye._  
-
-> **Lesson** (science, 4-LS1-1, notice): body parts that help crocodiles survive  
-> **Mak Cik Siti**: A real crocodile’s eyes and nostrils sit high on top of its head.  
-> **Bu Wulan**: So it can lie almost under the water, still seeing and still breathing, and hardly anyone notices.  
-> _For grown-ups: Your child learned why a crocodile’s eyes and nostrils sit on top of its head._
-
-**Crocodile**: Who is shouting? Some of us were asleep. Some of us were dreaming about lunch.  
-**Kancil**: The King wants to know how many crocodiles live in this river. Every single one. I’ve come to count you.  
-**Crocodile**: Count us? Nobody has ever counted us.  
-**Kancil**: Then line up from this bank to that one, nose to tail, so I don’t miss anyone.  
-**Crocodile**: Hmm. Well. If it’s for the King.  
-_One by one, shadow crocodiles slide out across the screen, until there is a bumpy bridge from side to side._  
-
-#### `lk03-lined`
-
-_Siti stops. She looks out at the pond, then at the Grove’s Nubbins splashing in the shallows._  
-**Mak Cik Siti**: Do you know, I think this tale wants to be played for real.  
-_The Nubbins look at each other. Then, one at a time, they float out into the stream and line up, nose to tail._  
-
-> **Lesson** (sel, CASEL: Relationship skills, notice): working as a team  
-> **Bu Wulan**: Look at that. Not one Nubbin could make a bridge alone. Ten of them can.  
-> **Mak Cik Siti**: A team is just a lot of small helps, all lined up.  
-> _For grown-ups: Your child saw how a team of small helpers can do something none could do alone._
-
-
-#### `lk03-count`
-
-_Ten Nubbins bob in a line across the stream, all pretending very hard to be crocodiles._  
-_One of them practises a grumpy face. It mostly looks sleepy._  
-**Bu Wulan**: Kancil steps onto the first back. Count with him, everyone!  
-_Your Nubbin hops onto the first Nubbin, wobbles and holds out its arms. Then it hops again._  
-**Mak Cik Siti**: One, two, three, four, five!  
-**Bu Wulan**: Six, seven, eight, nine, ten!  
-_Ten hops, and your Nubbin lands on the far bank with a squelch and a look of enormous pride._  
-
-> **Lesson** (maths, 1.OA.A.1, do): counting in twos and adding on  
-> **Bu Wulan**: Count the line again in twos this time: two, four, six, eight, ten.  
-> **Mak Cik Siti**: Oh, look! Four more Nubbins swim up and join the end. How many crocodiles now?  
-> _Count on from ten: eleven, twelve, thirteen, fourteen. Fourteen crocodiles!_  
-> Check: `edu:count:crocodiles:10`
-> _For grown-ups: Your child counted ten crocodiles in twos, then added four more to make fourteen._
-
-**Mak Cik Siti**: Now in my language. Satu, dua, tiga, empat, lima, enam, tujuh, lapan, sembilan, sepuluh!  
-**Bu Wulan**: Mine is the same, all but one. Satu, dua, tiga, empat, lima, enam, tujuh, delapan, sembilan, sepuluh!  
-**Mak Cik Siti**: Lapan.  
-**Bu Wulan**: Delapan.  
-_The children shout both, very loudly, at once._  
-
-> **Lesson** (literacy, notice): the same numbers in two languages  
-> **Mak Cik Siti**: In Malay, eight is lapan. In Indonesian, it’s delapan.  
-> **Bu Wulan**: All the other numbers from one to ten are the same in both. Our languages are close cousins.  
-> _For grown-ups: Your child heard the numbers one to ten in Malay and Indonesian, where only eight differs._
-
-
-#### `lk03-over`
-
-**Kancil**: Ten crocodiles! The King will be delighted. And look at that, I seem to be on the other side.  
-**Crocodile**: Wait. Was that counting? Or was that crossing?  
-_Behind the screen, Siti laughs so hard the crocodile puppet shakes._  
-
-> **Lesson** (maths, 2.OA.C.3, ask): odd and even  
-> **Bu Wulan**: Ten crocodiles. Is ten odd or even? Pair them up and see.  
-> - ✅ Even → Even! Five pairs, and nobody left over.
-> - Odd → Let’s pair them: two, four, six, eight, ten. Five pairs, none left over, so ten is even.
-> _For grown-ups: Your child paired up ten crocodiles to show that ten is even._
-
-
-#### `lk03-turn`
-
-**Bu Wulan**: So. Kancil is safe on the far bank, with the fruit trees right behind him.  
-**Bu Wulan**: And ten crocodiles are in the water, slowly working out that there was no count, and no King waiting.  
-**Mak Cik Siti**: Our grandmothers told this next part differently. So does everybody.  
-**Mak Cik Siti**: So you tell us. What does Kancil do?  
-
-> **Lesson** (literacy, RL.3.3, ask): a character’s motive  
-> **Mak Cik Siti**: Before you choose: why did Kancil trick the crocodiles?  
-> - ✅ He was hungry and needed to cross. → That’s his motive: the reason he did it. Hunger, and a river in the way.
-> - He wanted to be mean. → Maybe a bit cheeky! But the tale says he was hungry. That was his reason.
-> _For grown-ups: Your child named the reason behind Kancil’s trick._
-
-_Your Nubbin stands on the far bank holding the puppet, waiting to be told._  
-_Out in the stream, ten Nubbins wait too, still being crocodiles._  
-
-**Choices**
-
-- **Kancil turns back and says thank you.**
-    - **Kancil**: Thank you, crocodiles! That was the best bridge in the whole forest.
-    - **Crocodile**: Well. You’re welcome, I suppose.
-    - In the stream, the Nubbin crocodiles look very pleased with themselves.
-- **Kancil says sorry for the trick.**
-    - **Kancil**: Crocodiles, I’m sorry. There was no count. I was hungry and scared, and I tricked you.
-    - **Crocodile**: Hmph. At least you said so.
-    - The Nubbin crocodiles bob about, thinking it over.
-- **Kancil laughs and runs off into the trees.**
-    - **Kancil**: Ha! Silly crocodiles! Too slow, too slow!
-    - **Crocodile**: Come back here, you little...!
-    - The Nubbin crocodiles splash, very offended. One of them sulks under a lily pad.
-
-#### `lk03-complete`
-
-_The Nubbins paddle back to the shallows, very pleased with themselves for being such good crocodiles._  
-**Mak Cik Siti**: Ten crocodiles, ten hops. Some tales are made of numbers.  
-**Bu Wulan**: Leave a bridge across the stream. The children will want to count it again.  
-
-> **Lesson** (social-studies, D2.His.2.K-2, notice): how stories carry the past  
-> **Mak Cik Siti**: Families in Malaysia, Indonesia, Singapore and Brunei have told this tale for generations.  
-> **Bu Wulan**: It travelled from mouth to ear, grandmother to grandchild. That’s called an oral tradition.  
-> _For grown-ups: Your child learned that the Kancil tales were passed down by word of mouth for generations._
-
-_By morning someone has painted ten flat stones with grumpy crocodile faces and set them in a line across the stream._  
-_Your Nubbin crosses on them twice, nodding once at every stone._  
-
-### Glossary
-
-- **nostrils**: The two openings in the nose that air goes in and out of.
-- **even**: A number that can be split into pairs with none left over, like 2, 4, 6, 8 and 10.
-- **motive**: The reason someone does something.
-- **tradition**: Something people have done or told for a very long time, passed from older people to younger ones.
-
-## LK4. The Crocodile Remembers
-
-- `lk04-s1`: Watch Kancil go down to the river for a drink. · _Sit on the bank at dusk for the third tale._
-- `lk04-s2`: Find a stick by the pond and lay it beside your Nubbin’s leg. · _Sticks wash up at the pond’s edge._
-
-#### `lk04-grab`
-
-**Bu Wulan**: Some days later, Kancil was thirsty, so he went down to the river for a drink.  
-_Your Nubbin bends the puppet down to the shadow water. Its little nose nearly touches the ripples._  
-_A long shadow slides up underneath, and snap! The crocodile puppet has Kancil by the leg._  
-**Crocodile**: I remember you. You’re the one who counted us.  
-**Crocodile**: You were polite about it, I’ll give you that. But a crocodile still has to eat.  
-
-> **Lesson** (literacy, RL.3.3, ask): why a character acts  
-> **Bu Wulan**: Why do you think the crocodile was waiting at that spot?  
-> - ✅ It remembered Kancil’s trick. → Yes. Crocodiles in our tales have long memories, and an empty tummy helps.
-> - It just wanted a drink. → Maybe! But it said “I remember you”. It was waiting for Kancil.
-> _For grown-ups: Your child worked out why the crocodile was waiting for Kancil._
-
-**Kancil**: Oh, crocodile. Is that my leg you’ve caught?  
-**Kancil**: That isn’t my leg at all! That’s an old stick. Silly crocodile, you’ve caught a stick!  
-_The crocodile lets go, quick as anything, and snaps at a stick floating past._  
-
-#### `lk04-free`
-
-_Kancil is up the bank and gone before the crocodile notices it’s chewing a stick._  
-**Crocodile**: ...This is a stick.  
-
-> **Lesson** (science, 4-LS1-2, notice): animals’ senses  
-> **Mak Cik Siti**: Real crocodiles have tiny bumps along their jaws that feel the smallest ripple in the water.  
-> **Bu Wulan**: A drinking mouse-deer makes ripples. That’s how a crocodile knows someone has arrived.  
-> _For grown-ups: Your child learned that crocodiles feel tiny ripples with sense organs on their jaws._
-
-**Mak Cik Siti**: It certainly is.  
-
-#### `lk04-stick`
-
-_After the tale, Wulan holds up the crocodile puppet and looks it in the eye._  
-**Bu Wulan**: Poor thing. Tricked twice. I’d be cross too.  
-**Mak Cik Siti**: Kancil had to save himself. A crocodile had him by the leg!  
-**Bu Wulan**: I didn’t say he was wrong. I said I’d be cross.  
-_The children argue about it all down the bank. Your Nubbin goes looking for a stick to compare with its own leg._  
-
-> **Lesson** (sel, CASEL: Responsible decision-making, ask): was the trick fair?  
-> **Bu Wulan**: So. Was Kancil’s stick trick fair?  
-> - Yes, he had to escape. → That’s a fair answer. When someone grabs you, getting free matters most.
-> - No, it was a fib. → That’s fair too. It was a fib, even if it was a fib to save his leg.
-> - A bit of both. → That’s what I think, most days. A trick can be clever and unfair at once.
-> _For grown-ups: Your child weighed up whether a trick to escape danger is fair._
-
-**Mak Cik Siti**: Bring it here. Let’s see if a crocodile could really mix them up.  
-
-#### `lk04-complete`
-
-_Your Nubbin lays the stick beside its leg. The stick is much longer, and a lot less wriggly._  
-**Bu Wulan**: So it wasn’t a very good stick to mistake for a leg.  
-
-> **Lesson** (maths, 2.OA.A.1, ask): comparing lengths by subtracting  
-> _The stick is 60 centimetres long. Your Nubbin’s leg is 15 centimetres. How much longer is the stick?_  
-> - ✅ 45 centimetres → Yes! 60 take away 15 is 45. That’s a lot of extra stick.
-> - 75 centimetres → That’s adding them together. To compare, take away: 60 minus 15 is 45.
-> - 15 centimetres → That’s the leg. The difference is 60 minus 15, which is 45.
-> _For grown-ups: Your child found the difference between two lengths by subtracting._
-
-**Mak Cik Siti**: It was dark. The crocodile was hungry. Hungry makes everyone silly.  
-_The crocodile puppet goes back into the box looking, if anything, slightly embarrassed._  
-
-### Glossary
-
-- **sense**: One of the ways a body finds out about the world, like seeing, hearing or feeling.
-
-## LK5. The Buffalo and the Crocodile
-
-- `lk05-s1`: Watch the buffalo help the crocodile out from under a log. · _Sit on the bank at dusk for the fourth tale._
-- `lk05-s2`: Help Kancil see exactly how things were: put the log back where it lay. · _Roll the shadow log back when the crocodile is in place._
-
-#### `lk05-log`
-
-**Mak Cik Siti**: One day a great storm blew through the forest, and a tree fell across the riverbank.  
-_Siti drops a long shadow log across the screen. Underneath it, the crocodile puppet thrashes its tail._  
-**Crocodile**: Help! Help! I’m stuck under this log and I can’t get out!  
-_Wulan brings on the buffalo, slow and heavy, with wide curved horns._  
-**Buffalo**: Poor crocodile. Hold still. I’ll get you out.  
-_The buffalo wedges a long branch under the log and leans on the other end with its horns. The log rolls away._  
-
-> **Lesson** (science, 3-PS2-1, notice): a lever helps lift heavy things  
-> **Bu Wulan**: See how the buffalo used a branch? A long branch pushed under a heavy log is called a lever.  
-> **Mak Cik Siti**: Push down on the long end, and the short end lifts far more than you could lift alone.  
-> _For grown-ups: Your child learned how a long branch used as a lever lifts a heavy log._
-
-**Crocodile**: Free! Thank you, buffalo. Thank you so much. And now...  
-_Snap! The crocodile grabs the buffalo by the leg._  
-**Buffalo**: But I helped you!  
-**Crocodile**: And now I’m hungry. Helping makes a crocodile hungry.  
-
-#### `lk05-judge`
-
-_Your Nubbin trots Kancil onto the screen, and the children cheer as if he were a famous footballer._  
-**Buffalo**: Kancil! Kancil! Tell this crocodile it isn’t fair!  
-**Kancil**: Hmm. I can’t judge something I haven’t seen. Show me exactly how it was, from the beginning.  
-
-> **Lesson** (social-studies, D2.Civ.8.K-2, notice): fairness: hear both sides  
-> **Bu Wulan**: That’s what a good judge does. Listen to both sides and look at the facts before deciding.  
-> **Mak Cik Siti**: Deciding first and looking afterwards is how unfair things happen.  
-> _For grown-ups: Your child learned that a fair judge listens to both sides and looks at the facts first._
-
-
-#### `lk05-before`
-
-**Crocodile**: It was like this. I was lying here, and the log was on top of me.  
-**Kancil**: On top of you? Show me. I can’t picture it.  
-_Grumbling, the crocodile lets go of the buffalo’s leg and crawls back to where it was._  
-
-> **Lesson** (literacy, RL.3.3, ask): a character’s motive  
-> **Mak Cik Siti**: Why did the crocodile agree to go back under the log?  
-> - ✅ It was sure it would win. → Yes. It was so sure it was right, it didn’t stop to think.
-> - It liked it under there. → Nobody likes being under a log! It went back because it wanted to win the argument.
-> _For grown-ups: Your child explained why the crocodile walked into Kancil’s plan._
-
-**Kancil**: And the log? Where exactly was the log?  
-_The buffalo rolls the log back, right on top of the crocodile. Thump._  
-**Crocodile**: Like this! You see? Now judge!  
-**Kancil**: I see perfectly. Buffalo, you may go home. Crocodile, you were stuck when this began, so stay as you began.  
-_The buffalo walks home slowly, on all four legs. The crocodile thinks it over under the log._  
-
-#### `lk05-complete`
-
-**Bu Wulan**: Kancil didn’t trick anyone in that one. He only asked to see it properly.  
-**Mak Cik Siti**: The crocodile tricked itself. It was so sure it was right, it climbed back under.  
-
-> **Lesson** (sel, CASEL: Responsible decision-making, ask): was the judgement fair?  
-> **Bu Wulan**: Was Kancil’s judgement fair?  
-> - Yes. The crocodile broke its promise. → That’s fair reasoning. The crocodile turned a kindness into a trap.
-> - No. It was another trick. → That’s a fair answer too. He did let the crocodile trick itself.
-> - Fair to the buffalo, hard on the crocodile. → That’s very thoughtful. Being fair to one can feel hard to another.
-> _For grown-ups: Your child weighed up whether Kancil’s judgement was fair to everyone._
-
-_A small girl asks if the crocodile stays there forever._  
-**Bu Wulan**: Until somebody kind comes along. Let’s hope it says thank you properly that time.  
-
-### Glossary
-
-- **lever**: A long bar or branch that turns on a point to help lift something heavy.
-- **judge**: To decide what is fair or true after looking carefully; also the person who decides.
-
-## LK6. The Race with the Snails
-
-- `lk06-s1`: Watch Kancil boast to a snail. · _Sit on the bank at dusk for the fifth tale._
-- `lk06-s2`: Watch the race along the riverbank. · _Help Siti set the ten snail puppets along the screen._
-
-#### `lk06-boast`
-
-**Bu Wulan**: Kancil had begun to boast. He was getting rather pleased with himself. Too pleased.  
-**Kancil**: I am the cleverest animal in the forest. And the fastest. Probably the handsomest.  
-_Wulan holds up the snail puppet. It is round and patient and very, very small._  
-**Kancil**: Look at you, snail. You’re so slow, the moss grows on you while you walk!  
-_On the bank some children laugh, and a few don’t. A small boy at the back looks down at his own feet._  
-
-> **Lesson** (sel, CASEL: Social awareness, ask): why laughing at someone is unkind  
-> **Mak Cik Siti**: Why is it unkind to laugh at someone for being slow?  
-> - It makes them feel small. → Yes. And small is how that boy at the back looks right now.
-> - Everyone is slow at something. → So true. Even Kancil. He just hasn’t found his slow thing yet.
-> - It’s only a joke. → Jokes are only funny if everyone’s laughing. Look at the boy at the back. He isn’t.
-> _For grown-ups: Your child thought about how it feels to be laughed at for being slow._
-
-**Snail**: I may be slow. But I’ll race you, Kancil. Along the river, all the way to the big rock.  
-**Kancil**: Race me? A snail? This will take no time at all.  
-
-#### `lk06-line`
-
-_Behind the screen, Wulan whispers something to the snail puppet. Siti hides a smile._  
-**Mak Cik Siti**: That night the snail told all its cousins. And every snail in the river came out to help.  
-
-> **Lesson** (science, 4-LS1-1, notice): body parts that help snails survive  
-> **Bu Wulan**: A snail’s shell protects its soft body, and it can pull right inside when danger comes.  
-> **Mak Cik Siti**: It glides on one muscly foot over a ribbon of slime, which helps it cross rough ground.  
-> _For grown-ups: Your child learned how a snail’s shell and muscly foot help it survive._
-
-
-#### `lk06-race`
-
-_Siti sets ten little snail puppets along the bottom of the screen, far apart, like posts in a fence._  
-**Kancil**: Ready, snail? Go!  
-_Your Nubbin whips the Kancil puppet along the screen. After a while it stops for breath._  
-**Kancil**: Ha! Where are you, slow snail?  
-**Snail**: Here I am, just ahead of you!  
-_Your Nubbin runs again, faster and further._  
-**Kancil**: Where are you now, snail?  
-**Snail**: Still ahead of you!  
-_Ten times Kancil runs, and ten times a snail answers just ahead of him, until he flops down on the bank, worn out._  
-**Kancil**: All right. All right! You win. I give up.  
-
-> **Lesson** (maths, 3.OA.A.3, do): counting in fives; distance word problems  
-> **Bu Wulan**: The snails sat one every 5 metres, from 5 metres all the way to 50.  
-> **Mak Cik Siti**: So how many snails were there? And how long was the race?  
-> _Count in fives: 5, 10, 15… up to 50. That’s 10 snails, and a race of 50 metres._  
-> Check: `edu:count:snails:10`
-> _For grown-ups: Your child counted snails placed every 5 metres to find how many there were and how long the race was._
-
-
-#### `lk06-complete`
-
-**Bu Wulan**: Ten snails along the bank, and not one of them moved a step.  
-**Mak Cik Siti**: Kancil tricked the crocodiles with counting. The snails tricked Kancil with counting. It comes round, doesn’t it?  
-_The small boy at the back is smiling now. He has been helping Wulan move the snails._  
-**Bu Wulan**: Slow isn’t silly. Slow is just slow. And a lot of slow friends together can be very quick indeed.  
-
-> **Lesson** (literacy, RL.2.3, ask): how a character responds to events  
-> **Mak Cik Siti**: How did Kancil feel when he flopped down and gave up?  
-> - ✅ Tired, and a bit silly. → Yes. Tired legs and a red face. He’d learned something.
-> - Proud. → Not this time! He’d boasted and lost. He felt tired and silly.
-> _For grown-ups: Your child described how Kancil felt when he lost the race._
-
-
-### Glossary
-
-- **boast**: To talk proudly about how good you are, to show off.
-
-## LK7. The Cucumber Garden
-
-- `lk07-s1`: Watch the tale of the cucumber garden. · _Sit on the bank at dusk for the sixth tale._
-- `lk07-s2`: Help Kancil put the garden right: plant cucumber seeds by the screen. · _Take the seed pot by the lamp._
-
-#### `lk07-garden`
-
-_Tonight Wulan sits at the lamp. She has brought a new puppet: a farmer in a wide straw hat._  
-**Bu Wulan**: This is the tale I heard before any other. Kancil and the cucumbers.  
-**Bu Wulan**: There was a farmer called Pak Tani, and he grew the best cucumbers in the whole village.  
-
-> **Lesson** (science, 2-LS2-1, notice): why plants need water and light  
-> **Bu Wulan**: Cucumber vines drink water through their roots, and their leaves use sunlight to make food.  
-> **Mak Cik Siti**: That’s why the vines climb. Higher up, the leaves catch more sun.  
-> _For grown-ups: Your child learned that plants take in water through roots and make food with sunlight in their leaves._
-
-**Pak Tani**: My cucumbers! Somebody has been eating my cucumbers again!  
-_Your Nubbin creeps the Kancil puppet along the bottom of the screen, nibbling an invisible cucumber._  
-**Bu Wulan**: So Pak Tani made a scarecrow, and he painted it all over with sticky sap from a tree.  
-**Kancil**: Who’s this, standing in the garden? Out of my way, please. I’m busy eating.  
-_Kancil pushes the scarecrow, and his hoof sticks. He pushes with the other, and that sticks too._  
-**Pak Tani**: Got you, cucumber thief!  
-**Mak Cik Siti**: Wait, wait. That’s not how my grandmother told it.  
-
-#### `lk07-endings`
-
-_The two of them have a short, polite, very fierce whisper behind the screen._  
-**Bu Wulan**: In the old tale, Kancil tricks the farmer’s dog into getting stuck in his place. Then off he runs.  
-**Mak Cik Siti**: And now, mostly, children hear it the other way. Kancil says sorry and helps put the garden right.  
-**Bu Wulan**: Both are true. One is just older.  
-
-> **Lesson** (sel, CASEL: Responsible decision-making, ask): which ending is better?  
-> **Bu Wulan**: Which ending is better: the old trick or the new sorry? Why?  
-> - The trick. It’s clever. → That’s fair. It shows how quick he is. Was it fair to the dog, though?
-> - Sorry. It’s kind. → That’s fair. The new ending mends what he broke.
-> - Both, for different reasons. → That’s what we think. One teaches you to be quick, one teaches you to be good.
-> _For grown-ups: Your child compared a clever ending with a kind one and said which they prefer and why._
-
-
-#### `lk07-sorry`
-
-**Mak Cik Siti**: Tonight we’ll end it the new way.  
-_Kancil is still stuck fast to the scarecrow. Pak Tani stands over him with his hands on his hips._  
-**Pak Tani**: Well? What have you got to say for yourself?  
-**Kancil**: I’m sorry, Pak Tani. I was hungry, and I took what wasn’t mine.  
-**Pak Tani**: Hmph. Sorry doesn’t grow cucumbers.  
-**Kancil**: Then let me help you plant some more. I’m small, but I’m good at digging.  
-_Pak Tani unsticks him, one hoof at a time. Together they plant three rows of seeds, four in each row._  
-
-> **Lesson** (maths, 3.OA.A.1, ask): multiplication as equal groups  
-> _Kancil and Pak Tani plant 3 rows, with 4 seeds in each row. How many seeds?_  
-> - ✅ 12 → Twelve! Three groups of four: 4, 8, 12.
-> - 7 → That’s 3 add 4. But it’s 3 rows OF 4: 4, 8, 12. Twelve seeds.
-> _For grown-ups: Your child worked out 3 rows of 4 seeds as 12._
-
-_Behind the screen, your Nubbin is pressing real seeds into a pot by the lamp._  
-
-#### `lk07-complete`
-
-_Siti and Wulan build a little trellis of split bamboo beside the screen for the vine to climb._  
-**Mak Cik Siti**: The old ending is clever. The new ending is kind.  
-**Bu Wulan**: My grandmother would say Kancil got off lightly. Then she’d give him a cucumber anyway.  
-
-> **Lesson** (social-studies, D2.His.2.K-2, notice): how stories change over time  
-> **Bu Wulan**: Tales passed on by word of mouth change a little with each teller.  
-> **Mak Cik Siti**: That isn’t a mistake. It’s how old stories stay alive.  
-> _For grown-ups: Your child learned that tales passed by word of mouth change a little with each teller._
-
-_Within a few days the vine has climbed halfway up. There is one small cucumber on it, and nobody touches it._  
-
-### Glossary
-
-- **sap**: The sticky liquid inside a tree or plant.
-
-## LK8. The Tiger at the River
-
-- `lk08-s1`: Watch the tiger corner Kancil by the water. · _Sit on the bank at dusk for the seventh tale._
-- `lk08-s2`: Look at your Nubbin’s reflection in the still pond. · _Find a calm spot at the pond’s edge and look in._
-
-#### `lk08-tiger`
-
-**Mak Cik Siti**: Late one afternoon, Kancil was walking beside a still, quiet pool.  
-_Wulan brings on the tiger puppet. It is striped and enormous, and its shadow fills half the screen._  
-
-> **Lesson** (science, 4-LS1-1, notice): stripes as camouflage  
-> **Mak Cik Siti**: Tigers really do live in the forests of Malaysia and Indonesia.  
-> **Bu Wulan**: Their stripes break up their shape in long grass and shadow. That’s called camouflage.  
-> _For grown-ups: Your child learned how a tiger’s stripes help it hide, and where tigers live in Malaysia and Indonesia._
-
-**Tiger**: Well, well. A mouse-deer. Just the right size for supper.  
-_Your Nubbin backs the Kancil puppet right up to the edge of the shadow water._  
-**Kancil**: You could eat me, tiger. But I’d be careful if I were you.  
-**Tiger**: Careful? Of you?  
-**Kancil**: Not of me. Of the tiger who lives in this pool. He’s bigger than you, and he’s been watching you all along.  
-
-#### `lk08-look`
-
-**Tiger**: Nonsense. Show me this tiger.  
-_The tiger leans over the shadow pool. Wulan tips a second tiger puppet upside down beneath it, nose to nose._  
-**Tiger**: Grrr! Who are you? Go away! This is MY forest!  
-
-> **Lesson** (science, 1-PS4-2, notice): why still water reflects  
-> **Bu Wulan**: Still water is smooth, so light bounces straight back off it, like a mirror. That picture is a reflection.  
-> **Mak Cik Siti**: Ripples scatter the light in all directions, and the picture breaks up.  
-> _For grown-ups: Your child learned why still water reflects like a mirror and rippled water doesn’t._
-
-
-#### `lk08-splash`
-
-_The tiger roars at the tiger in the water. The tiger in the water roars back, exactly the same._  
-**Tiger**: Right. That does it.  
-_Splash, the tiger leaps into the pool! Wulan flicks a cupful of real pond water over the screen._  
-_The tiger climbs out, soaked from ears to tail. The other tiger has vanished._  
-**Tiger**: Where did he go? And where did that mouse-deer go?  
-**Mak Cik Siti**: Kancil was long gone, home before the tiger had even shaken his ears.  
-_On the bank, the children want to know how the second tiger came and went. Wulan points at the pond._  
-**Bu Wulan**: Look in. Very still. Don’t splash.  
-
-> **Lesson** (maths, 4.G.A.3, do): lines of symmetry  
-> **Bu Wulan**: Look at a tree and its reflection together. There’s a line where the water meets the bank.  
-> **Mak Cik Siti**: Tap that line. Everything above it is mirrored below it.  
-> _That’s a line of symmetry: fold along it, and both halves match._  
-> Check: `edu:tap:shape:reflection`
-> _For grown-ups: Your child found the line of symmetry where a reflection meets the real thing._
-
-
-#### `lk08-complete`
-
-_Your Nubbin leans over the edge of the pond, and another Nubbin leans up to meet it._  
-_It waves, and the other one waves back. It pokes the water, and the other Nubbin wobbles away in rings._  
-**Bu Wulan**: The tiger was fighting himself. Plenty of people do that.  
-
-> **Lesson** (sel, CASEL: Self-awareness, ask): noticing when we are cross for no reason  
-> **Bu Wulan**: The tiger got cross with a tiger who wasn’t really there. Have you ever been cross at nothing much?  
-> - Yes, sometimes. → Most of us have. Noticing it is the first step to letting it go.
-> - No, never. → Lucky you! Watch out for it. It sneaks up on everyone.
-> - I’m not sure. → That’s honest. Next time you’re cross, ask: is the thing really there?
-> _For grown-ups: Your child thought about getting cross at something that isn’t really there._
-
-**Mak Cik Siti**: Nobody was hurt. The tiger only got wet, and a little embarrassed.  
-
-### Glossary
-
-- **camouflage**: Colours or patterns that help an animal blend in with what is around it.
-- **reflection**: The picture you see in a mirror or in still water.
-- **symmetry**: When one half of a shape is a mirror image of the other half.
-
-## LK9. The Pit
-
-- `lk09-s1`: Watch Kancil fall into the hunters’ pit. · _Sit on the bank at dusk for the eighth tale._
-- `lk09-s2`: Decide how the tale ends. · _Talk to Siti by the screen._
-
-#### `lk09-pit`
-
-**Mak Cik Siti**: Kancil was running through the forest, not looking where he was going. And then, whoomp.  
-_Siti sweeps a deep, dark hole across the screen. Your Nubbin drops the Kancil puppet into it._  
-**Mak Cik Siti**: It was a pit, dug by hunters, and the sides were steep and slippery.  
-**Kancil**: Help! Hello? Anybody? Oh, this is not good.  
-_Kancil jumps and jumps, but he is much too small to reach the top._  
-_Then the ground thumps. Wulan brings on the elephant, huge and grey, with ears like washing on a line._  
-
-> **Lesson** (science, 4-LS1-1, notice): an elephant’s trunk  
-> **Bu Wulan**: Asian elephants live in the forests of Malaysia and Indonesia too.  
-> **Mak Cik Siti**: A trunk is a nose and an upper lip joined together. It can lift a log or pick up a single fruit.  
-> _For grown-ups: Your child learned what an elephant’s trunk is and that Asian elephants live in Malaysia and Indonesia._
-
-**Elephant**: What are you doing down there, little one?  
-**Kancil**: Haven’t you heard, Elephant? The sky is falling! This pit is the only safe place in the forest!  
-**Elephant**: The sky? Falling? Make room! Make room!  
-
-#### `lk09-out`
-
-_Thump: the elephant climbs into the pit. Kancil hops onto its back, then onto its head, and out._  
-**Kancil**: Thank you, Elephant! Do stay as long as you like!  
-_The elephant sits in the pit, looking up at the sky, which isn’t falling at all._  
-
-> **Lesson** (literacy, RL.3.3, ask): describing a character’s traits  
-> **Mak Cik Siti**: Which word describes the elephant best?  
-> - ✅ Trusting → Yes. He believed Kancil at once, and climbed right in.
-> - Sneaky → That’s Kancil! The elephant was trusting. He believed every word.
-> _For grown-ups: Your child chose a word to describe the elephant: trusting._
-
-
-#### `lk09-ending`
-
-_Siti stops. She lowers the puppets and looks at them for a moment._  
-**Mak Cik Siti**: In my grandmother’s tale, it ends there. Kancil runs off, and the elephant stays in the pit.  
-**Bu Wulan**: And then?  
-**Mak Cik Siti**: And then nothing. That’s where she stopped.  
-_A little girl on the bank puts her hand up. She wants to know what happens to the elephant._  
-**Mak Cik Siti**: So. Do we end it the old way, or help Kancil find a way to get Elephant out?  
-
-> **Lesson** (science, K-2-ETS1-1, ask): defining a problem and finding solutions  
-> **Bu Wulan**: What exactly is the problem? And what are two ways to solve it?  
-> - ✅ The sides are too steep. A ramp, or ropes. → Exactly. Name the problem first: steep, slippery sides. Then a log ramp, or ropes to pull with.
-> - Elephant is too big. → He is big! But the real problem is the steep sides. A ramp would fix that.
-> _For grown-ups: Your child named the real problem (steep sides) and two ways to solve it._
-
-
-**Choices**
-
-- **End it the old way. It’s Siti’s grandmother’s tale.**
-    - **Mak Cik Siti**: Then it ends there. Kancil was clever, and the elephant was trusting, and that was all.
-    - The little girl thinks about it for a long time. Then she asks to hold the elephant puppet, and Siti lets her.
-    - **Bu Wulan**: Old tales don’t always comfort you. Sometimes they tell you to be careful who you trust.
-- **Help Kancil get Elephant out.**
-    - **Kancil**: Elephant! I’m sorry. The sky isn’t falling. Wait there, I’ll get help!
-    - Your Nubbin rolls six logs from the woodpile and leans them in a ramp against the shadow pit.
-    - The elephant climbs out, one big step at a time, while the children count the logs out loud.
-
-#### `lk09-complete`
-
-**Bu Wulan**: That’s a hard one. A clever trick can be a cruel one, if you never look back.  
-**Mak Cik Siti**: My grandmother told it to make us careful. The children here tell it to put things right. Both are good reasons.  
-
-> **Lesson** (sel, CASEL: Responsible decision-making, ask): choosing how to tell a story  
-> **Bu Wulan**: If you told this tale to a little brother or sister, which ending would you choose?  
-> - The old one. → That’s fair. It warns them to be careful who they trust.
-> - The new one. → That’s fair. It shows a trick can be put right.
-> - I’d let them choose. → Now that’s a storyteller talking.
-> _For grown-ups: Your child chose which ending they would tell a younger child, and why._
-
-_Your Nubbin puts the elephant puppet back in the box, very gently, on top of everything else._  
-
-### Glossary
-
-- **trusting**: Ready to believe what someone tells you.
-
-## LK10. The Night of Stories
-
-- `lk10-s1`: Line up the Grove’s Nubbins across the stream for the last crossing. · _Call your Nubbins to the stream by the screen._
-- `lk10-s2`: Cross the stream with your Nubbin and count every crocodile. · _Along one line and back along the other._
-
-#### `lk10-line`
-
-_The last evening of summer. The whole valley is on the bank, with mats and cushions and far too much food._  
-**Mak Cik Siti**: Kuih! Who wants kuih? I made the green ones and the stripy ones.  
-**Bu Wulan**: And kue from me. Same idea, different spelling, better coconut.  
-
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): shared food and words  
-> **Mak Cik Siti**: Kuih is the Malay word for small cakes and snacks, sweet or savoury.  
-> **Bu Wulan**: In Indonesia we say kue. Same idea, different spelling, and we argue about the coconut.  
-> _For grown-ups: Your child learned that kuih and kue are snacks shared by Malaysia and Indonesia._
-
-**Pixel**: I’ve rigged a second lamp so the people at the back can see. It won’t blow up. Probably.  
-_Your Nubbin is Kancil tonight, for real: no puppet, just itself in the lamplight._  
-**Bu Wulan**: Crocodiles! The last crossing! Line up, please!  
-_The Grove’s Nubbins slide into the stream at once. They remember that Kancil was kind to them._  
-_There are a great many of them this time: two lines side by side, nose to tail, from bank to bank._  
-
-#### `lk10-count`
-
-**Mak Cik Siti**: We count the way you heard it first. Ready? Satu!  
-_Your Nubbin hops. The whole bank counts with it._  
-**Mak Cik Siti**: Dua, tiga, empat, lima, enam, tujuh...  
-_At eight the children all shout “Delapan!”, the Indonesian word, as loud as they can. Wulan bows._  
-**Mak Cik Siti**: Lapan. Sembilan, sepuluh! And back along the second line!  
-_Your Nubbin hops back along the second line, ten more, and lands on the home bank with a squelch._  
-
-> **Lesson** (maths, 2.OA.A.1, do): adding tens  
-> **Bu Wulan**: Two lines of ten crocodiles. How many crocodiles in all?  
-> **Mak Cik Siti**: Ten and ten make twenty. Or two tens, if you like your times tables.  
-> Check: `edu:count:crocodiles:20`
-> _For grown-ups: Your child added two lines of ten crocodiles to make twenty._
-
-**Bu Wulan**: Twenty crocodiles. The King would be delighted.  
-
-#### `lk10-complete`
-
-_Afterwards the children sit in a heap on the bank, full of kuih and kue, and nobody wants to go home._  
-**Mak Cik Siti**: So. What did Kancil learn this summer?  
-_A boy says be clever, and a girl says say thank you. The small boy who helped the snails says don’t laugh at slow people._  
-
-> **Lesson** (literacy, RL.4.2, ask): finding the theme  
-> **Mak Cik Siti**: What did Kancil learn this summer? What is the big idea of all his tales?  
-> - Being small is fine if you think. → That’s a strong theme. Brains beat size, over and over.
-> - Clever isn’t enough. Be kind too. → That’s the one I’d pick. Every trick needed a thank you after.
-> - Don’t boast. → The snails would agree with you.
-> _For grown-ups: Your child named the big idea running through the Kancil tales._
-
-**Bu Wulan**: All true. My grandmother would have liked you lot.  
-**Mak Cik Siti**: We’re leaving the screen by the pond. It belongs here now.  
-**Bu Wulan**: And we’re staying a while. We like your valley. It argues nearly as well as we do.  
-
-> **Lesson** (sel, CASEL: Self-awareness, ask): reflecting on your own learning  
-> **Bu Wulan**: And you? What did you learn this summer?  
-> - Counting in Malay and Indonesian. → Satu, dua, tiga! You’ll never forget lapan and delapan now.
-> - That stories change. → They do. And you’ll change them too, when you tell them.
-> - Something else. → Tell us. We like hearing what people take home.
-> _For grown-ups: Your child said what they learned over the summer of tales._
-
-_Your Nubbin sits by the screen with the little Kancil puppet and makes it hop, one, two, three, all on its own._  
-
-### Glossary
-
-- **theme**: The big idea or message that runs through a story.
-
 ## Variant scenes
 
 #### `s2-complete-sable`
@@ -78486,6 +78486,23 @@ _…_
     - **Gran Hazel**: Or I’d have stood in that cold garden long enough to start liking the quiet. I don’t know. I never will.
     - **Gran Hazel**: Thank you for walking it with me. I mean that. Whatever else.
 
+#### `s10-wish3-s1`
+
+_Dusk. The last line on the seed packet has the drawing: four little posts in a row, and two stick figures._  
+**Gran Hazel**: Number three. Walk the four lanterns with me. Once. Slowly. I’ll be slow whether you like it or not.  
+_She takes your arm at the pond lantern. Not leaning. Holding._  
+**Gran Hazel**: Moss’s post. I’ll tell you something about it, and then you’re not to make a fuss.  
+**Gran Hazel**: He’ll have told you about the winter. He’ll have left out the fidgeting.  
+**Gran Hazel**: I counted the hens. I unpicked my mittens. I never once asked him to say a word. It nearly killed me.  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): being honest about your own impatience  
+> _Gran says waiting nearly killed her. She doesn’t mean it. It’s a joke, and it’s also true: waiting is hard._  
+> _Being honest about how hard something feels is the first step to getting better at it._  
+> _For grown-ups: Learned that being honest about how hard waiting feels is a first step to getting better at it._
+
+**Gran Hazel**: Then at the thaw he looked up and said “You’ll do”. I was so startled I sat down in the snow.  
+**Gran Hazel**: Rule three. I thought I’d made it up. I’d been on the end of it for a whole winter.  
+
 #### `s10-night-told`
 
 _You walk her home. The Keepers have stayed late by the pond. None of them wants to be the first to go._  
@@ -78509,17 +78526,12 @@ _She looks back at the Grove once: the pond, the gate, the four posts._
 _You both know what this walk is. Gran is going up the hill to stay. Her life is ending, and she won’t come back down._  
 **Gran Hazel**: Now, then. I can walk up on my own. I’d rather not.  
 
-> **Lesson** (sel, CASEL: Relationship skills, notice): asking for company in a hard moment  
-> _Gran could do this alone. But she’s asking for company._  
-> _Asking someone to be with you when something is hard is brave. It’s never weak._  
-> _For grown-ups: Learned that asking for company and help in hard moments is brave._
+> **Lesson** (sel, CASEL: Self-awareness, notice): knowing what kind of company you need  
+> _Gran knows what she needs: one quiet person, and no fuss._  
+> _Knowing what kind of company helps you is a way of knowing yourself._  
+> _For grown-ups: Learned that knowing what kind of company helps you is part of knowing yourself._
 
-**Gran Hazel**: Who’s coming?  
-
-**Choices**
-
-- **Just me, Gran.**
-    - **Gran Hazel**: Good. The quiet way. I like the quiet way.
+**Gran Hazel**: Just you, then. Good. The quiet way. I like the quiet way.  
 
 #### `s10-foot-c`
 
@@ -80345,7 +80357,7 @@ _Mr Tull is at the gate with his cart. He reads the rail, then the faces along t
 **Mr Tull**: Its name has been on your rails all summer. Half this valley would come asking after it.  
 **Mr Tull**: I sell runners. I don’t sell the ones people ask after. Good day to you.  
 _He tips his hat to the fence, quite politely, and drives away over the pass._  
-_Tam is at the pen behind the house. He opens his mouth to say “Nine”, stops, and says its real name instead._  
+_Hob is at the pen behind the house. He opens his mouth to say “Nine”, stops, and says its real name instead._  
 **Corvin Vale**: It was yours, I believe. Before.  
 **Corvin Vale**: Two hundred Shells. What I gave you for it. Not a Shell more. I won’t make a profit off Hazel’s heir.  
 
@@ -80368,7 +80380,7 @@ _Tam is at the pen behind the house. He opens his mouth to say “Nine”, stops
     - You count the Shells into his cold palm in piles of ten. He doesn’t close his hand until the last one.
     - **Corvin Vale**: Paid in full. It’s yours.
     - It was always yours. Neither of you says so.
-    - Tam opens the pen. Your Nubbin steps out, and stops, and looks at you across the sand.
+    - Hob opens the pen. Your Nubbin steps out, and stops, and looks at you across the sand.
     - Then it comes, the whole way, not hurrying, the 9 still white on its side.
     - It leans against your leg, the way it did the week it hatched. It is cold, and it is yours.
 - **Let the Keepers pass a hat.**
@@ -80379,7 +80391,7 @@ _Tam is at the pen behind the house. He opens his mouth to say “Nine”, stops
     - **Corvin Vale**: …There’s a button.
     - **Fern**: It’s a very good button.
     - He looks at it. Then he puts it in his coat pocket: not the breast pocket, the other one.
-    - Tam opens the pen. Your Nubbin steps out, and stops, and looks at you across the sand.
+    - Hob opens the pen. Your Nubbin steps out, and stops, and looks at you across the sand.
     - Then it comes, the whole way, not hurrying, the 9 still white on its side.
     - It leans against your leg, the way it did the week it hatched. It is cold, and it is yours.
 
@@ -81369,6 +81381,225 @@ _Your gourd lantern goes on the wall by the gate, where it can be seen from the 
 > _“Late” and “thorough” describe the same wait. One makes it sound like a failure; the other makes it sound careful._  
 > _For grown-ups: Noticed how choosing a word changes how something sounds._
 
+
+#### `lb12-complete-wish`
+
+_Sam is asleep again in the long grass, with Ned asleep on his arm. Maisie is trying very hard not to be._  
+**Maisie**: That was the best game we ever made up.  
+**Maisie**: Did your wish come true yet?  
+_You say you can’t tell her, because that is the rule. She nods, very seriously, and falls asleep in the middle of the nod._  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): wishes, secrets and surprises  
+> _Why do people keep a wish to themselves? Is a wish the same kind of secret as a surprise present?_  
+> - Saying it might spoil it → That’s the old rule. A wish kept quiet feels more like your own.
+> - It’s a happy secret, like a present → Yes. Some secrets are kind ones, kept so that someone is glad later.
+> _For grown-ups: Your child thought about why a wish is kept to yourself, and which secrets are kind ones._
+
+**Ama Larkin**: Lying still together. It’s hard, and you all did it.  
+_Your Nubbin is asleep in Ned’s box. Ama looks at it, and then at you._  
+**Ama Larkin**: That box should stay out here for good, I think. It’s earned its place.  
+_In the morning there is a small painted box on your doorstep, with a note: FOR YOUR NUBBIN FROM NED (HE DID THE N)._  
+
+#### `lb06-door-big`
+
+_The big box goes on its side at the front of the den, flaps open. You can crawl through without bending your neck._  
+
+> **Lesson** (maths, K.G.A.2, notice): turning a shape  
+> _On its side, the box is still a cuboid. Turning a shape doesn’t change what it is, only how it looks._  
+> _For grown-ups: Your child noticed that a box on its side is the same shape, just turned._
+
+**Ned**: It’s a front door. With a roof on the door.  
+**Maisie**: You have to knock first. That’s the rule.  
+
+#### `lb06-door-long`
+
+_The long box lies flat at the front of the den, open at both ends. You crawl through it like a tunnel._  
+
+> **Lesson** (literacy, L.4.5, notice): simile  
+> _“Like a tunnel” is a simile: it compares the box to something else using “like”._  
+> _For grown-ups: Your child spotted a simile: crawling through “like a tunnel”._
+
+**Ned**: It’s a tunnel door. You have to wriggle.  
+_Your Nubbin wriggles through first, gets stuck halfway, then gets unstuck._  
+
+#### `lb06-door-tall`
+
+_The tall box stands at the front of the den with a hole cut low in one side. You step in, then duck down into the den._  
+**Ned**: It’s a lift. It goes DOWN to the den.  
+
+> **Lesson** (literacy, L.3.4, notice): multiple-meaning words  
+> _“Lift” has two meanings: a little room that carries people up and down, or to pick something up._  
+> _For grown-ups: Your child noticed that “lift” can mean a machine that carries people, or to raise something._
+
+**Maisie**: Lifts don’t… Fine. It’s a lift.  
+
+#### `lb12-ned-proper`
+
+_Ned arrives at a run, in his pyjamas, shouting. He has been proud of himself all week._  
+**Ned**: I’m here! I’m the one who came last ALL the way!  
+
+> **Lesson** (literacy, RL.3.3, notice): character traits  
+> _Ned lost, but he finished. Now he is proud of his effort, and loud about it._  
+> _For grown-ups: Your child saw how finishing the race changed Ned: proud of effort, not the result._
+
+**Sam Larkin**: Loudest camper in the valley. Love it. Shh now.  
+
+#### `lb12-ned-let-win`
+
+_Ned strolls in with his sleeping bag over his shoulder like a cape, a bit too pleased with himself._  
+**Ned**: Make way for the fastest boy in the valley.  
+**Maisie**: He’s been saying that for a week.  
+_Maisie lets him say it once more. Then she gives him a look, and he stops, mostly._  
+
+> **Lesson** (literacy, RL.3.3, notice): consequences of choices  
+> _Letting Ned win made him happy, but now he believes he’s the fastest. Maisie is patient about it. Kindness can have a cost._  
+> _For grown-ups: Your child saw the cost of letting Ned win: he believes something untrue, and Maisie puts up with it._
+
+
+#### `lb12-ned-hand`
+
+_Ned arrives holding Maisie’s hand. He has hardly let go of it since the race, Ama says._  
+**Ned**: We’re a team. Teams hold hands.  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): teamwork  
+> _Holding hands in the race turned two rivals into a team. Nobody lost, so nobody had to get over it._  
+> _For grown-ups: Your child saw how racing together turned rivals into a team._
+
+**Maisie**: Only sometimes. But tonight, yes.  
+
+#### `lb12-box-big`
+
+_Ned’s box is out in the long grass, on its side, with a tea towel for a curtain. Tonight it is a house._  
+
+> **Lesson** (literacy, L.4.5, notice): metaphor in play  
+> _In LB1 you chose the big box because you could live in it. “Tonight it is a house” is a metaphor come true._  
+> _For grown-ups: Your child noticed the box becoming a house: play works like metaphor._
+
+**Ned**: It’s our house. You can sleep in it if you’re small.  
+_Your Nubbin is small. It goes straight in._  
+
+#### `lb12-box-long`
+
+_Ned’s box lies in the long grass with a broom-handle mast and a pillowcase sail. Tonight it is a boat._  
+
+> **Lesson** (literacy, L.4.5, notice): metaphor in play  
+> _In LB1 you chose the long box, shaped like a boat. “Tonight it is a boat” is a metaphor come true._  
+> _For grown-ups: Your child noticed the box becoming a boat: play works like metaphor._
+
+**Ned**: We’re sailing to the stars. Everybody get in.  
+_Nobody fits but Ned and your Nubbin. Everyone else sails alongside, lying very still._  
+
+#### `lb12-box-tall`
+
+_Ned’s box stands in the long grass with a paper cone on top and NED ROCKET down the side. Tonight it is a rocket._  
+**Ned**: Ten, nine… seven… one. Blast off!  
+
+> **Lesson** (maths, notice): counting backwards  
+> _Ned skipped eight, three and a few more. A full countdown goes 10, 9, 8, 7, 6, 5, 4, 3, 2, 1._  
+> _For grown-ups: Your child noticed Ned skipped numbers in his countdown and filled in the gaps._
+
+_Ned lies down next to it. The rocket stays exactly where it is, which is how the best rockets work._  
+
+#### `lk10-complete-ramp`
+
+_Afterwards the children sit in a heap on the bank, full of kuih and kue, and nobody wants to go home._  
+**Mak Cik Siti**: So. What did Kancil learn this summer?  
+_A boy says be clever, and a girl says say thank you. The small boy who helped the snails says go back for the elephant._  
+
+> **Lesson** (literacy, RL.4.2, ask): finding the theme  
+> **Mak Cik Siti**: What did Kancil learn this summer? What is the big idea of all his tales?  
+> - Being small is fine if you think. → That’s a strong theme. Brains beat size, over and over.
+> - Clever isn’t enough. Go back and put it right. → That’s the one I’d pick. You gave the tale its new ending yourselves.
+> - Don’t boast. → The snails would agree with you.
+> _For grown-ups: Your child named the big idea running through the Kancil tales, elephant and all._
+
+**Bu Wulan**: All true. My grandmother would have liked you lot. The elephant one most of all.  
+**Mak Cik Siti**: We’re leaving the screen by the pond. It belongs here now.  
+**Bu Wulan**: And we’re staying a while. We like your valley. It argues nearly as well as we do.  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): reflecting on your own learning  
+> **Bu Wulan**: And you? What did you learn this summer?  
+> - Counting in Malay and Indonesian. → Satu, dua, tiga! You’ll never forget lapan and delapan now.
+> - That stories change. → They do. You changed one. The elephant got out.
+> - Something else. → Tell us. We like hearing what people take home.
+> _For grown-ups: Your child said what they learned over the summer of tales._
+
+_Your Nubbin sits by the screen with the little Kancil puppet and makes it hop, one, two, three, all on its own._  
+
+#### `lk04-grab-laughed`
+
+**Bu Wulan**: Some days later, Kancil was thirsty, so he went down to the river for a drink.  
+_Your Nubbin bends the puppet down to the shadow water. Its little nose nearly touches the ripples._  
+_A long shadow slides up underneath, and snap! The crocodile puppet has Kancil by the leg._  
+**Crocodile**: I remember you. You’re the one who laughed at us.  
+**Crocodile**: I’ve waited at this spot every evening since, and I haven’t stopped being cross once.  
+
+> **Lesson** (literacy, RL.3.3, ask): why a character acts  
+> **Bu Wulan**: Why is the crocodile so much crosser this time?  
+> - ✅ Kancil laughed at it. → Yes. Being laughed at stings for a long time, even for a crocodile.
+> - It’s hungrier. → Maybe! But it says it remembers being laughed at. That’s what made it cross.
+> _For grown-ups: Your child worked out why the crocodile was so cross with Kancil._
+
+**Kancil**: Oh, crocodile. Is that my leg you’ve caught?  
+**Kancil**: That isn’t my leg at all! That’s an old stick. Silly crocodile, you’ve caught a stick!  
+_The crocodile lets go, quick as anything, and snaps at a stick floating past._  
+
+#### `lk07-garden-siti`
+
+_Tonight Siti sits at the lamp. She has borrowed Wulan’s new puppet: a farmer in a wide straw hat._  
+**Mak Cik Siti**: This is Wulan’s tale really. But she told the first tale, so this one is mine.  
+**Mak Cik Siti**: There was a farmer, Pak Tani, as Wulan calls him, and he grew the best cucumbers in the whole village.  
+
+> **Lesson** (science, 2-LS2-1, notice): why plants need water and light  
+> **Mak Cik Siti**: Cucumber vines drink water through their roots, and their leaves use sunlight to make food.  
+> **Bu Wulan**: That’s why the vines climb. Higher up, the leaves catch more sun.  
+> _For grown-ups: Your child learned that plants take in water through roots and make food with sunlight in their leaves._
+
+**Pak Tani**: My cucumbers! Somebody has been eating my cucumbers again!  
+_Your Nubbin creeps the Kancil puppet along the bottom of the screen, nibbling an invisible cucumber._  
+**Mak Cik Siti**: So Pak Tani made a scarecrow, and he painted it all over with sticky sap from a tree.  
+**Kancil**: Who’s this, standing in the garden? Out of my way, please. I’m busy eating.  
+_Kancil pushes the scarecrow, and his hoof sticks. He pushes with the other, and that sticks too._  
+**Pak Tani**: Got you, cucumber thief!  
+**Bu Wulan**: Wait, wait. That’s not how my grandmother told it.  
+
+#### `lk10-line-laughed`
+
+_The last evening of summer. The whole valley is on the bank, with mats and cushions and far too much food._  
+**Mak Cik Siti**: Kuih! Who wants kuih? I made the green ones and the stripy ones.  
+**Bu Wulan**: And kue from me. Same idea, different spelling, better coconut.  
+**Pixel**: I’ve rigged a second lamp so the people at the back can see. It won’t blow up. Probably.  
+_Your Nubbin is Kancil tonight, for real: no puppet, just itself in the lamplight._  
+**Bu Wulan**: Crocodiles! The last crossing! Line up, please!  
+_The Grove’s Nubbins float in the shallows with their arms folded. Nobody lines up._  
+**Mak Cik Siti**: Ah. They remember the last time. Kancil laughed at them and ran.  
+_Your Nubbin looks at you. It can’t say a word, and tonight it needs some._  
+
+> **Lesson** (sel, CASEL: Relationship skills, ask): mending a friendship  
+> **Mak Cik Siti**: What could help the Nubbins trust Kancil again?  
+> - ✅ Say sorry and ask nicely. → Yes. A real sorry, and a please. Then let them decide.
+> - Order them to line up. → Orders don’t mend things. A sorry and a please might.
+> _For grown-ups: Your child thought about what helps someone trust you again after you hurt them._
+
+**You**: Kancil is sorry he laughed. Will you be his bridge one more time, please?  
+_A long pause. Then, one by one, the Nubbins slide into two lines across the stream._  
+
+#### `lk10-count-wulan`
+
+**Bu Wulan**: We count the way you heard it first. Ready? Satu!  
+_Your Nubbin hops. The whole bank counts with it._  
+**Bu Wulan**: Dua, tiga, empat, lima, enam, tujuh...  
+_At eight the children all shout “Lapan!”, the Malay word, as loud as they can. Siti bows._  
+**Bu Wulan**: Delapan. Sembilan, sepuluh! And back along the second line!  
+_Your Nubbin hops back along the second line, ten more, and lands on the home bank with a squelch._  
+
+> **Lesson** (maths, 2.OA.A.1, do): adding tens  
+> **Bu Wulan**: Two lines of ten crocodiles. How many crocodiles in all?  
+> **Mak Cik Siti**: Ten and ten make twenty. Or two tens, if you like your times tables.  
+> Check: `edu:count:crocodiles:20`
+> _For grown-ups: Your child added two lines of ten crocodiles to make twenty._
+
+**Mak Cik Siti**: Twenty crocodiles. The King would be delighted.  
 
 #### `a02-15-which-monk`
 
@@ -87511,222 +87742,3 @@ _A Chao is swinging on the gate, back and forth. Above the palm tree, two lights
 > - No, you should stand by what you chose → Standing by a choice when you know better isn’t loyalty; it’s stubbornness. You chose carefully then. You’d choose differently now. Both are fine.
 > _For grown-ups: Learned that revisiting a choice with new knowledge is good._
 
-
-#### `lb12-complete-wish`
-
-_Sam is asleep again in the long grass, with Ned asleep on his arm. Maisie is trying very hard not to be._  
-**Maisie**: That was the best game we ever made up.  
-**Maisie**: Did your wish come true yet?  
-_You say you can’t tell her, because that is the rule. She nods, very seriously, and falls asleep in the middle of the nod._  
-
-> **Lesson** (sel, CASEL: Responsible decision-making, ask): wishes, secrets and surprises  
-> _Why do people keep a wish to themselves? Is a wish the same kind of secret as a surprise present?_  
-> - Saying it might spoil it → That’s the old rule. A wish kept quiet feels more like your own.
-> - It’s a happy secret, like a present → Yes. Some secrets are kind ones, kept so that someone is glad later.
-> _For grown-ups: Your child thought about why a wish is kept to yourself, and which secrets are kind ones._
-
-**Ama Larkin**: Lying still together. It’s hard, and you all did it.  
-_Your Nubbin is asleep in Ned’s box. Ama looks at it, and then at you._  
-**Ama Larkin**: That box should stay out here for good, I think. It’s earned its place.  
-_In the morning there is a small painted box on your doorstep, with a note: FOR YOUR NUBBIN FROM NED (HE DID THE N)._  
-
-#### `lb06-door-big`
-
-_The big box goes on its side at the front of the den, flaps open. You can crawl through without bending your neck._  
-
-> **Lesson** (maths, K.G.A.2, notice): turning a shape  
-> _On its side, the box is still a cuboid. Turning a shape doesn’t change what it is, only how it looks._  
-> _For grown-ups: Your child noticed that a box on its side is the same shape, just turned._
-
-**Ned**: It’s a front door. With a roof on the door.  
-**Maisie**: You have to knock first. That’s the rule.  
-
-#### `lb06-door-long`
-
-_The long box lies flat at the front of the den, open at both ends. You crawl through it like a tunnel._  
-
-> **Lesson** (literacy, L.4.5, notice): simile  
-> _“Like a tunnel” is a simile: it compares the box to something else using “like”._  
-> _For grown-ups: Your child spotted a simile: crawling through “like a tunnel”._
-
-**Ned**: It’s a tunnel door. You have to wriggle.  
-_Your Nubbin wriggles through first, gets stuck halfway, then gets unstuck._  
-
-#### `lb06-door-tall`
-
-_The tall box stands at the front of the den with a hole cut low in one side. You step in, then duck down into the den._  
-**Ned**: It’s a lift. It goes DOWN to the den.  
-
-> **Lesson** (literacy, L.3.4, notice): multiple-meaning words  
-> _“Lift” has two meanings: a little room that carries people up and down, or to pick something up._  
-> _For grown-ups: Your child noticed that “lift” can mean a machine that carries people, or to raise something._
-
-**Maisie**: Lifts don’t… Fine. It’s a lift.  
-
-#### `lb12-ned-proper`
-
-_Ned arrives at a run, in his pyjamas, shouting. He has been proud of himself all week._  
-**Ned**: I’m here! I’m the one who came last ALL the way!  
-
-> **Lesson** (literacy, RL.3.3, notice): character traits  
-> _Ned lost, but he finished. Now he is proud of his effort, and loud about it._  
-> _For grown-ups: Your child saw how finishing the race changed Ned: proud of effort, not the result._
-
-**Sam Larkin**: Loudest camper in the valley. Love it. Shh now.  
-
-#### `lb12-ned-let-win`
-
-_Ned strolls in with his sleeping bag over his shoulder like a cape, a bit too pleased with himself._  
-**Ned**: Make way for the fastest boy in the valley.  
-**Maisie**: He’s been saying that for a week.  
-_Maisie lets him say it once more. Then she gives him a look, and he stops, mostly._  
-
-> **Lesson** (literacy, RL.3.3, notice): consequences of choices  
-> _Letting Ned win made him happy, but now he believes he’s the fastest. Maisie is patient about it. Kindness can have a cost._  
-> _For grown-ups: Your child saw the cost of letting Ned win: he believes something untrue, and Maisie puts up with it._
-
-
-#### `lb12-ned-hand`
-
-_Ned arrives holding Maisie’s hand. He has hardly let go of it since the race, Ama says._  
-**Ned**: We’re a team. Teams hold hands.  
-
-> **Lesson** (sel, CASEL: Relationship skills, notice): teamwork  
-> _Holding hands in the race turned two rivals into a team. Nobody lost, so nobody had to get over it._  
-> _For grown-ups: Your child saw how racing together turned rivals into a team._
-
-**Maisie**: Only sometimes. But tonight, yes.  
-
-#### `lb12-box-big`
-
-_Ned’s box is out in the long grass, on its side, with a tea towel for a curtain. Tonight it is a house._  
-
-> **Lesson** (literacy, L.4.5, notice): metaphor in play  
-> _In LB1 you chose the big box because you could live in it. “Tonight it is a house” is a metaphor come true._  
-> _For grown-ups: Your child noticed the box becoming a house: play works like metaphor._
-
-**Ned**: It’s our house. You can sleep in it if you’re small.  
-_Your Nubbin is small. It goes straight in._  
-
-#### `lb12-box-long`
-
-_Ned’s box lies in the long grass with a broom-handle mast and a pillowcase sail. Tonight it is a boat._  
-
-> **Lesson** (literacy, L.4.5, notice): metaphor in play  
-> _In LB1 you chose the long box, shaped like a boat. “Tonight it is a boat” is a metaphor come true._  
-> _For grown-ups: Your child noticed the box becoming a boat: play works like metaphor._
-
-**Ned**: We’re sailing to the stars. Everybody get in.  
-_Nobody fits but Ned and your Nubbin. Everyone else sails alongside, lying very still._  
-
-#### `lb12-box-tall`
-
-_Ned’s box stands in the long grass with a paper cone on top and NED ROCKET down the side. Tonight it is a rocket._  
-**Ned**: Ten, nine… seven… one. Blast off!  
-
-> **Lesson** (maths, notice): counting backwards  
-> _Ned skipped eight, three and a few more. A full countdown goes 10, 9, 8, 7, 6, 5, 4, 3, 2, 1._  
-> _For grown-ups: Your child noticed Ned skipped numbers in his countdown and filled in the gaps._
-
-_Ned lies down next to it. The rocket stays exactly where it is, which is how the best rockets work._  
-
-#### `lk10-complete-ramp`
-
-_Afterwards the children sit in a heap on the bank, full of kuih and kue, and nobody wants to go home._  
-**Mak Cik Siti**: So. What did Kancil learn this summer?  
-_A boy says be clever, and a girl says say thank you. The small boy who helped the snails says go back for the elephant._  
-
-> **Lesson** (literacy, RL.4.2, ask): finding the theme  
-> **Mak Cik Siti**: What did Kancil learn this summer? What is the big idea of all his tales?  
-> - Being small is fine if you think. → That’s a strong theme. Brains beat size, over and over.
-> - Clever isn’t enough. Go back and put it right. → That’s the one I’d pick. You gave the tale its new ending yourselves.
-> - Don’t boast. → The snails would agree with you.
-> _For grown-ups: Your child named the big idea running through the Kancil tales, elephant and all._
-
-**Bu Wulan**: All true. My grandmother would have liked you lot. The elephant one most of all.  
-**Mak Cik Siti**: We’re leaving the screen by the pond. It belongs here now.  
-**Bu Wulan**: And we’re staying a while. We like your valley. It argues nearly as well as we do.  
-
-> **Lesson** (sel, CASEL: Self-awareness, ask): reflecting on your own learning  
-> **Bu Wulan**: And you? What did you learn this summer?  
-> - Counting in Malay and Indonesian. → Satu, dua, tiga! You’ll never forget lapan and delapan now.
-> - That stories change. → They do. You changed one. The elephant got out.
-> - Something else. → Tell us. We like hearing what people take home.
-> _For grown-ups: Your child said what they learned over the summer of tales._
-
-_Your Nubbin sits by the screen with the little Kancil puppet and makes it hop, one, two, three, all on its own._  
-
-#### `lk04-grab-laughed`
-
-**Bu Wulan**: Some days later, Kancil was thirsty, so he went down to the river for a drink.  
-_Your Nubbin bends the puppet down to the shadow water. Its little nose nearly touches the ripples._  
-_A long shadow slides up underneath, and snap! The crocodile puppet has Kancil by the leg._  
-**Crocodile**: I remember you. You’re the one who laughed at us.  
-**Crocodile**: I’ve waited at this spot every evening since, and I haven’t stopped being cross once.  
-
-> **Lesson** (literacy, RL.3.3, ask): why a character acts  
-> **Bu Wulan**: Why is the crocodile so much crosser this time?  
-> - ✅ Kancil laughed at it. → Yes. Being laughed at stings for a long time, even for a crocodile.
-> - It’s hungrier. → Maybe! But it says it remembers being laughed at. That’s what made it cross.
-> _For grown-ups: Your child worked out why the crocodile was so cross with Kancil._
-
-**Kancil**: Oh, crocodile. Is that my leg you’ve caught?  
-**Kancil**: That isn’t my leg at all! That’s an old stick. Silly crocodile, you’ve caught a stick!  
-_The crocodile lets go, quick as anything, and snaps at a stick floating past._  
-
-#### `lk07-garden-siti`
-
-_Tonight Siti sits at the lamp. She has borrowed Wulan’s new puppet: a farmer in a wide straw hat._  
-**Mak Cik Siti**: This is Wulan’s tale really. But she told the first tale, so this one is mine.  
-**Mak Cik Siti**: There was a farmer, Pak Tani, as Wulan calls him, and he grew the best cucumbers in the whole village.  
-
-> **Lesson** (science, 2-LS2-1, notice): why plants need water and light  
-> **Mak Cik Siti**: Cucumber vines drink water through their roots, and their leaves use sunlight to make food.  
-> **Bu Wulan**: That’s why the vines climb. Higher up, the leaves catch more sun.  
-> _For grown-ups: Your child learned that plants take in water through roots and make food with sunlight in their leaves._
-
-**Pak Tani**: My cucumbers! Somebody has been eating my cucumbers again!  
-_Your Nubbin creeps the Kancil puppet along the bottom of the screen, nibbling an invisible cucumber._  
-**Mak Cik Siti**: So Pak Tani made a scarecrow, and he painted it all over with sticky sap from a tree.  
-**Kancil**: Who’s this, standing in the garden? Out of my way, please. I’m busy eating.  
-_Kancil pushes the scarecrow, and his hoof sticks. He pushes with the other, and that sticks too._  
-**Pak Tani**: Got you, cucumber thief!  
-**Bu Wulan**: Wait, wait. That’s not how my grandmother told it.  
-
-#### `lk10-line-laughed`
-
-_The last evening of summer. The whole valley is on the bank, with mats and cushions and far too much food._  
-**Mak Cik Siti**: Kuih! Who wants kuih? I made the green ones and the stripy ones.  
-**Bu Wulan**: And kue from me. Same idea, different spelling, better coconut.  
-**Pixel**: I’ve rigged a second lamp so the people at the back can see. It won’t blow up. Probably.  
-_Your Nubbin is Kancil tonight, for real: no puppet, just itself in the lamplight._  
-**Bu Wulan**: Crocodiles! The last crossing! Line up, please!  
-_The Grove’s Nubbins float in the shallows with their arms folded. Nobody lines up._  
-**Mak Cik Siti**: Ah. They remember the last time. Kancil laughed at them and ran.  
-_Your Nubbin looks at you. It can’t say a word, and tonight it needs some._  
-
-> **Lesson** (sel, CASEL: Relationship skills, ask): mending a friendship  
-> **Mak Cik Siti**: What could help the Nubbins trust Kancil again?  
-> - ✅ Say sorry and ask nicely. → Yes. A real sorry, and a please. Then let them decide.
-> - Order them to line up. → Orders don’t mend things. A sorry and a please might.
-> _For grown-ups: Your child thought about what helps someone trust you again after you hurt them._
-
-**You**: Kancil is sorry he laughed. Will you be his bridge one more time, please?  
-_A long pause. Then, one by one, the Nubbins slide into two lines across the stream._  
-
-#### `lk10-count-wulan`
-
-**Bu Wulan**: We count the way you heard it first. Ready? Satu!  
-_Your Nubbin hops. The whole bank counts with it._  
-**Bu Wulan**: Dua, tiga, empat, lima, enam, tujuh...  
-_At eight the children all shout “Lapan!”, the Malay word, as loud as they can. Siti bows._  
-**Bu Wulan**: Delapan. Sembilan, sepuluh! And back along the second line!  
-_Your Nubbin hops back along the second line, ten more, and lands on the home bank with a squelch._  
-
-> **Lesson** (maths, 2.OA.A.1, do): adding tens  
-> **Bu Wulan**: Two lines of ten crocodiles. How many crocodiles in all?  
-> **Mak Cik Siti**: Ten and ten make twenty. Or two tens, if you like your times tables.  
-> Check: `edu:count:crocodiles:20`
-> _For grown-ups: Your child added two lines of ten crocodiles to make twenty._
-
-**Mak Cik Siti**: Twenty crocodiles. The King would be delighted.  

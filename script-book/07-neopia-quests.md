@@ -42,11 +42,11 @@ _Power rises by one level._
 
 **Rewards**
 
-- Fire Faerie’s Blessing (item): One Power level for the pet you choose, applied at once.
+- Fire Faerie’s Blessing (item): One Power level for your Neo pet, applied at once. Kept in Neopia.
 
 Sets on completion: `{"nq-01-done":true}`
 
-**Notes:** Faerie Quest. The player picks which pet (Nubbin or Neo pet) gets the blessing in the complete scene. The omelette slice comes from the Giant Omelette in Tyrannia. Freebies are never per visit (canon: one-time or unlimited), so the Omelette must give a slice whenever this quest is open; the quest never forces a second trip. Art: Fire Faerie portrait (orange, soot-smudged), a grotto lamp flare. Sound: a soft whoomph as she appears.
+**Notes:** Faerie Quest. The blessing goes to your Neo pet, in the Neopia save; a Nubbin is never changed. The omelette slice comes from the Giant Omelette in Tyrannia. Freebies are never per visit (canon: one-time or unlimited), so the Omelette must give a slice whenever this quest is open; the quest never forces a second trip. Art: Fire Faerie portrait (orange, soot-smudged), a grotto lamp flare. Sound: a soft whoomph as she appears.
 
 ## NQ2. Faerie Quest: The Water Faerie
 
@@ -88,7 +88,7 @@ _Swim rises by one level._
 
 **Rewards**
 
-- Water Faerie’s Blessing (item): One Swim level for the pet you choose, applied at once.
+- Water Faerie’s Blessing (item): One Swim level for your Neo pet, applied at once. Kept in Neopia.
 
 Sets on completion: `{"nq-02-done":true}`
 
@@ -136,7 +136,7 @@ _Fly rises by one level._
 
 **Rewards**
 
-- Air Faerie’s Blessing (item): One Fly level for the pet you choose, applied at once.
+- Air Faerie’s Blessing (item): One Fly level for your Neo pet, applied at once. Kept in Neopia.
 
 Sets on completion: `{"nq-03-done":true}`
 
@@ -183,7 +183,7 @@ _Stamina rises by one level._
 
 **Rewards**
 
-- Earth Faerie’s Blessing (item): One Stamina level for the pet you choose, applied at once.
+- Earth Faerie’s Blessing (item): One Stamina level for your Neo pet, applied at once. Kept in Neopia.
 
 Sets on completion: `{"nq-04-done":true}`
 
@@ -230,7 +230,7 @@ _Run rises by one level._
 
 **Rewards**
 
-- Light Faerie’s Blessing (item): One Run level for the pet you choose, applied at once.
+- Light Faerie’s Blessing (item): One Run level for your Neo pet, applied at once. Kept in Neopia.
 
 Sets on completion: `{"nq-05-done":true}`
 
@@ -277,7 +277,7 @@ _Intelligence rises by one level._
 
 **Rewards**
 
-- Dark Faerie’s Blessing (item): One Intelligence level (the hidden stat raised by books) for the pet you choose, applied at once.
+- Dark Faerie’s Blessing (item): One Intelligence level (the hidden stat raised by books) for your Neo pet, applied at once. Kept in Neopia.
 
 Sets on completion: `{"nq-06-done":true}`
 
@@ -324,7 +324,7 @@ _Your pet’s lowest stat rises by one level._
 
 **Rewards**
 
-- Space Faerie’s Blessing (item): One level in the chosen pet’s lowest stat (Swim, Fly, Run, Power or Stamina; ties go to the first in that order), applied at once.
+- Space Faerie’s Blessing (item): One level in your Neo pet’s lowest stat (Swim, Fly, Run, Power or Stamina; ties go to the first in that order), applied at once. Kept in Neopia.
 
 Sets on completion: `{"nq-07-done":true}`
 
@@ -379,7 +379,7 @@ _Your pet looks between you, ready for either._
 
 **Rewards**
 
-- Battle Faerie’s Blessing (item): One level of Power or Stamina, your choice, for the pet you choose, applied at once.
+- Battle Faerie’s Blessing (item): One level of Power or Stamina, your choice, for your Neo pet, applied at once. Kept in Neopia.
 
 Sets on completion: `{"nq-08-done":true}`
 
@@ -428,7 +428,7 @@ _Stamina rises by one level._
 
 **Rewards**
 
-- Snow Faerie’s Blessing (item): One Stamina level for the pet you choose, applied at once.
+- Snow Faerie’s Blessing (item): One Stamina level for your Neo pet, applied at once. Kept in Neopia.
 
 Sets on completion: `{"nq-09-done":true}`
 
@@ -483,19 +483,19 @@ _Your Nubbins line up along the rim, each one trying very hard to look like it d
 
 #### Complete `nq10-complete`
 
-_She cups the spray in both hands and pours it over your chosen pet, slowly, from ears to tail._  
+_She cups the spray in both hands and pours it over your Neo pet, slowly, from ears to tail._  
 _The colour sinks in like dye into cloth. It will never wash out._  
-**The Fountain Faerie** _(soft)_: That colour is theirs now. It will follow them through every rebirth.  
+**The Fountain Faerie** _(soft)_: That colour is theirs now. It will never wash out, not in any weather.  
 _Another of your Nubbins stands hopefully under the spray. Nothing happens. It sulks._  
 **The Fountain Faerie** _(happy)_: Only once, little one. That’s what makes it special.  
 
 **Rewards**
 
-- The Fountain Faerie’s Paint Job (cosmetic): One pet painted any classic colour you choose, permanently, carried through rebirth. Mutant and Jelly are not on offer.
+- The Fountain Faerie’s Paint Job (cosmetic): Your Neo pet painted any classic colour you choose, permanently. Mutant and Jelly are not on offer. Kept in Neopia.
 
 Sets on completion: `{"nq-10-done":true}`
 
-**Notes:** Faerie Quest, the capstone: offered only after NQ1–NQ9 (the brief: "one quest, once"). Step 2 opens the Rainbow Pool colour picker limited to the classic paint brush list (Baby … Zombie); Nubbins take the colour as their egg colour. Choosing "Ask for time to think" closes the picker; the step stays open and the fountain stays on until a colour is picked. No timer. If `nq-10-chooser` = nubbin, the picker opens with Brown pre-selected; the player can still change it. Art: the spiral fountain, the float’s light splitting into a rainbow.
+**Notes:** Faerie Quest, the capstone: offered only after NQ1–NQ9 (the brief: "one quest, once"). Step 2 opens the Rainbow Pool colour picker limited to the classic paint brush list (Baby … Zombie); only Neo pets are painted, never a Nubbin’s egg colour (canon 21). Choosing "Ask for time to think" closes the picker; the step stays open and the fountain stays on until a colour is picked. No timer. If `nq-10-chooser` = nubbin, the picker opens with Brown pre-selected; the player can still change it. Art: the spiral fountain, the float’s light splitting into a rainbow.
 
 ## NQ11. Illusen: The Borrowed Herbal
 
@@ -598,7 +598,7 @@ _Over the hills, the purple cloud rumbles once, then thinks better of it._
 
 **Rewards**
 
-- Illusen’s Herb Bed (decor): A raised bed of thyme, sage and mint for your sandbox. Nubbins who nap beside it wake slightly calmer.
+- Illusen’s Herb Bed (decor): A raised bed of thyme, sage and mint for your Neopia sandbox. Neo pets who nap beside it wake slightly calmer.
 
 Sets on completion: `{"nq-12-done":true}`
 
@@ -640,13 +640,13 @@ _The hail stops. The cloud drifts off, grumbling. Under the leaves, the herbs ar
 
 _Illusen walks the length of the glade, touching each plant. Behind her, flowers open in a wave of green and gold._  
 **Illusen** _(soft)_: There. Awake, all of it. It’s been years.  
-**Illusen**: Take my colours home, Keeper. Let your fields look a bit like Meridell.  
+**Illusen**: Take my colours to your sandbox, Keeper. Let it look a bit like Meridell.  
 _She picks one sprig of mint, thinks, and drops it into a passing breeze heading for the purple cloud._  
 **Illusen** _(think)_: She likes mint. She’d never admit it.  
 
 **Rewards**
 
-- Illusen’s Colours (cosmetic): Your sandbox sections take on Illusen’s green and gold: fences, banners, path edging and lantern glass.
+- Illusen’s Colours (cosmetic): Your Neopia sandbox sections take on Illusen’s green and gold: fences, banners, path edging and lantern glass.
 - Keeper of the Glade (title): Title for finishing Illusen’s chain.
 
 Sets on completion: `{"nq-13-done":true,"neo-colours-illusen":true}`
@@ -742,7 +742,7 @@ _She hands you a small lantern, a copy of her own, and doesn’t look at you whi
 
 **Rewards**
 
-- Jhudora’s Storm Lantern (decor): An iron lantern with a humming violet stone. It glows brighter when rain is coming in your Grove.
+- Jhudora’s Storm Lantern (decor): An iron lantern with a humming violet stone for your Neopia sandbox. It glows brighter when rain is coming over Neopia.
 
 Sets on completion: `{"nq-15-done":true}`
 
@@ -785,12 +785,12 @@ _Down on the castle balcony, a small figure in a crown is applauding._
 **Queen Fyora** _(happy)_: Jhudora. That was the best Festival sky in a hundred years. You might have told me.  
 **Jhudora**: If I’d told you, you’d have asked me to make it pink.  
 **Queen Fyora** _(soft)_: I would. Thank your Keeper. I suspect they kept you from aiming at my roof.  
-**Jhudora**: Fine. Keeper, take my colours. Let your fields look like they have a bit of nerve.  
+**Jhudora**: Fine. Keeper, take my colours. Let your sandbox look like it has a bit of nerve.  
 _As you leave, you hear a drawer open behind you, and a green book being wrapped in brown paper._  
 
 **Rewards**
 
-- Jhudora’s Colours (cosmetic): Your sandbox sections take on Jhudora’s violet and black-green: fences, banners, path edging and lantern glass.
+- Jhudora’s Colours (cosmetic): Your Neopia sandbox sections take on Jhudora’s violet and black-green: fences, banners, path edging and lantern glass.
 - Friend of the Cloud (title): Title for finishing Jhudora’s chain.
 
 Sets on completion: `{"nq-16-done":true,"neo-colours-jhudora":true}`
@@ -838,11 +838,11 @@ _Your Nubbin has already tried it. It is lying on its back, chewing slowly._
 
 **Rewards**
 
-- Cookbook Page: Cheese and Coconut Toast (item): A Grove kitchen recipe: cheese plus coconut makes a toast that fills hunger well and leans slightly towards Power.
+- Cookbook Page: Cheese and Coconut Toast (item): A Neopia kitchen recipe: cheese plus coconut makes a toast that fills a Neo pet up well and leans slightly towards Power.
 
 Sets on completion: `{"nq-17-done":true}`
 
-**Notes:** Kitchen Quest 1 of 5. The chef is a role name (no named NPC in the brief). Cookbook pages go into the Collection book and unlock the recipe in the Grove kitchen.
+**Notes:** Kitchen Quest 1 of 5. The chef is a role name (no named NPC in the brief). Cookbook pages are kept in the Neopia save and unlock the recipe in the Neopia kitchen; the Grove is never changed.
 
 ## NQ18. Kitchen Quest: Jam From the Stone Age
 
@@ -884,7 +884,7 @@ _Your Nubbin takes a small bite. Its ears go pink, then red, then back to normal
 
 **Rewards**
 
-- Cookbook Page: Lava-berry Pancakes (item): A Grove kitchen recipe: pancakes with lava-berry jam. Good for hunger, with a small lean towards Run.
+- Cookbook Page: Lava-berry Pancakes (item): A Neopia kitchen recipe: pancakes with lava-berry jam. Good for a hungry Neo pet, with a small lean towards Run.
 
 Sets on completion: `{"nq-18-done":true}`
 
@@ -930,7 +930,7 @@ _Your Nubbin eats one, then another, then is found later asleep in the empty bow
 
 **Rewards**
 
-- Cookbook Page: Sea Kelp Crisps (item): A Grove kitchen recipe: crisp kelp snacks. A small hunger fill with a lean towards Swim.
+- Cookbook Page: Sea Kelp Crisps (item): A Neopia kitchen recipe: crisp kelp snacks. A small fill for a Neo pet, with a lean towards Swim.
 
 Sets on completion: `{"nq-19-done":true}`
 
@@ -976,7 +976,7 @@ _Your Nubbin licks the spoon, the bowl, and then, thoughtfully, the tube._
 
 **Rewards**
 
-- Cookbook Page: Moon Gravy Mash (item): A Grove kitchen recipe: yam mash with space gravy. Very filling, with a lean towards Stamina.
+- Cookbook Page: Moon Gravy Mash (item): A Neopia kitchen recipe: yam mash with space gravy. Very filling for a Neo pet, with a lean towards Stamina.
 
 Sets on completion: `{"nq-20-done":true}`
 
@@ -1024,7 +1024,7 @@ _Your Nubbins sit in a row with spoons. Nobody told them to. They just knew._
 
 **Rewards**
 
-- Cookbook Page: Island Trifle (item): A Grove kitchen recipe: a four-layer trifle that feeds every Nubbin nearby at once.
+- Cookbook Page: Island Trifle (item): A Neopia kitchen recipe: a four-layer trifle that feeds every Neo pet at the table at once.
 
 Sets on completion: `{"nq-21-done":true}`
 
@@ -1070,7 +1070,7 @@ _She corks it with her teeth and hands it over._
 
 **Rewards**
 
-- Potion of Wide Awake (item): Single use. Wakes a sleeping pet at once, fully rested, without any grumpiness.
+- Potion of Wide Awake (item): Single use. Wakes a sleeping Neo pet at once, fully rested, without any grumpiness. Kept in Neopia.
 
 Sets on completion: `{"nq-22-done":true}`
 
@@ -1116,7 +1116,7 @@ _The jar is warm in your hand, and stays warm._
 
 **Rewards**
 
-- Bandage Balm (item): Single use. Cures a pet that is bruised from karate or chilled by the Snowager, instantly.
+- Bandage Balm (item): Single use. Cures a Neo pet bruised in the Battledome or chilled by the Snowager, instantly. Kept in Neopia.
 
 Sets on completion: `{"nq-23-done":true}`
 
@@ -1156,17 +1156,17 @@ _Edna pulls the cork, tries one drop, and stares into the middle distance while 
 #### Complete `nq24-complete`
 
 _Most of the bottle goes into the cauldron, and one spoonful into Edna, for her cough. Both of them start to glow._  
-**Edna**: Potion of Steady Nerve. One dose before a bout, and your pet won’t flinch at anything.  
+**Edna**: Potion of Steady Nerve. One dose before a Battledome bout, and your Neo pet won’t flinch at anything.  
 **Edna** _(happy)_: Not even me singing, and I’m about to sing.  
 _She sings. It is a sea shanty she seems to be making up as she goes. You leave during the fourth verse._  
 
 **Rewards**
 
-- Potion of Steady Nerve (item): Single use. Before one karate bout, a nervous or timid pet fights at full confidence.
+- Potion of Steady Nerve (item): Single use. Before one Battledome bout, a nervous or timid Neo pet fights at full confidence. Kept in Neopia.
 
 Sets on completion: `{"nq-24-done":true}`
 
-**Notes:** Edna’s Quest 3 of 5. Audience main (Haunted Woods, kept out of the Learning Grove). The grog was swapped for pirate pepper sauce, so nothing here is boozy; the potion is just a karate buff. If `nq-24-tasted`, the Keeper portrait goes red and fans its mouth once on the walk back (cosmetic only, a few seconds). Edna’s song is hummed/garbled audio, no lyrics.
+**Notes:** Edna’s Quest 3 of 5. Audience main (Haunted Woods, kept out of the Learning Grove). The grog was swapped for pirate pepper sauce, so nothing here is boozy; the potion is just a Battledome buff for a Neo pet. If `nq-24-tasted`, the Keeper portrait goes red and fans its mouth once on the walk back (cosmetic only, a few seconds). Edna’s song is hummed/garbled audio, no lyrics.
 
 ## NQ25. Edna’s Quest: Ink From the Wise
 
@@ -1208,7 +1208,7 @@ _She pours it into a tiny bottle shaped like an owl. The owl looks smug._
 
 **Rewards**
 
-- Draught of Good Sense (item): Single use. The next training session, book or lesson a pet takes gives double the stat points.
+- Draught of Good Sense (item): Single use. The next training session or book a Neo pet takes gives double the stat points. Kept in Neopia.
 
 Sets on completion: `{"nq-25-done":true}`
 
@@ -1255,7 +1255,7 @@ _Wart, bandage, pepper sauce, ink and web all go in, in that order. The cauldron
 
 **Rewards**
 
-- Edna’s Own Brew (item): Single use. Paints one Neo pet (or a Nubbin’s egg colour) Ghost, Zombie or Halloween, chosen when you use it. Permanent, carried through rebirth.
+- Edna’s Own Brew (item): Single use. Paints one Neo pet Ghost, Zombie or Halloween, chosen when you use it. Permanent. Kept in Neopia.
 
 Sets on completion: `{"nq-26-done":true}`
 
@@ -1319,7 +1319,7 @@ _An acorn drops into your hand. It is grey, folded like a walnut, and very sligh
 
 **Rewards**
 
-- Brain Tree Acorn (decor): Plants a small Brain Tree in your sandbox. A pet that reads beneath it gains Intelligence a little faster.
+- Brain Tree Acorn (decor): Plants a small Brain Tree in your Neopia sandbox. A Neo pet that reads beneath it gains Intelligence a little faster.
 - The Tree’s Rememberer (title): Title for restoring the Brain Tree’s memories.
 
 Sets on completion: `{"nq-27-done":true}`
@@ -1359,7 +1359,7 @@ _Your Nubbin is hiding entirely inside your coat._
 
 ### Step 2: Bake the mushroom pie and feed it to the Esophagor.
 
-Hint: Bake it in your Grove kitchen with mushrooms, pepper and butter, then carry it back to the cave. · check: `give:food:mushroom-pie:esophagor`
+Hint: Bake it in the Neopia kitchen with mushrooms, pepper and butter, then carry it back to the cave. · check: `give:food:mushroom-pie:esophagor`
 
 #### Scene `nq28-bake`
 
@@ -1387,8 +1387,8 @@ _For a long moment the cave is quiet. Then it burps, enormously, and a ladle fli
 
 **Rewards**
 
-- The Esophagor’s Ladle (decor): A huge, slightly dented ladle for your cottage kitchen wall. Food cooked under it smells a little better.
-- Cookbook Page: His Mum’s Mushroom Pie (item): A Grove kitchen recipe: mushroom pie, burnt edge optional. Very filling.
+- The Esophagor’s Ladle (decor): A huge, slightly dented ladle for the Neopia kitchen wall. Food cooked under it smells a little better.
+- Cookbook Page: His Mum’s Mushroom Pie (item): A Neopia kitchen recipe: mushroom pie, burnt edge optional. Very filling.
 
 Sets on completion: `{"nq-28-done":true}`
 
@@ -1525,7 +1525,7 @@ _The satellite dish waves goodbye. You’re fairly sure that’s not something d
 
 Sets on completion: `{"nq-30-done":true,"neo-lab-ray":true}`
 
-**Notes:** Unlocks the Lab Ray (brief, "Ways to change colour or species"). The map pieces are guaranteed finds once the quest is active, any order within each step. Lab Ray outcomes are never harmful: a stat change is +1 or −1 level, never below 0. Nubbins are not zappable (Neo family only) unless the owner decides otherwise. Sloth wink: the cabinet label and the "anybody green" line; the Scientist never appears in the NP line.
+**Notes:** Unlocks the Lab Ray (brief, "Ways to change colour or species"). The map pieces are guaranteed finds once the quest is active, any order within each step. Lab Ray outcomes are never harmful: a stat change is +1 or −1 level, never below 0. Nubbins are never zappable: the Lab Ray works on Neo pets only (canon 21). Sloth wink: the cabinet label and the "anybody green" line; the Scientist never appears in the NP line.
 
 ## NQ31. Sneaking Past the Snowager
 
@@ -1632,4 +1632,4 @@ _Your Nubbin looks at the jelly, then at you, then at the jelly._
 
 Sets on completion: `{"nq-32-done":true}`
 
-**Notes:** A joke quest and an Easter egg (brief: "a signpost to nowhere, and one jelly"). The Green Jelly is added only if `nq-32-jelly` = kept; eaten gives a happy mood boost to the Nubbin; left gives nothing but the title. After this quest, the Official stands by the sign and denies everything (one random line from a pool of short denials, to be written; ambient, no reward). The Giant Jelly is one-time (canon: no per-visit freebies): granted once, as soon as both `nq-32-done` and `np-line-complete` are set (whichever comes second), as a second jelly on the plate behind the Food Shop. The brief lists Jelly as a special colour "from Jelly World"; this quest does not grant it. The owner decides whether the Giant Jelly can rarely drop a Jelly paint brush. Art: a flat glossy green-white void, wobble shader on ground and sky, one jelly on a plate.
+**Notes:** A joke quest and an Easter egg (brief: "a signpost to nowhere, and one jelly"). The Green Jelly is added only if `nq-32-jelly` = kept; eaten, the Nubbin looks pleased for the rest of the scene (no Grove effect); left gives nothing but the title. After this quest, the Official stands by the sign and denies everything (one random line from a pool of short denials, to be written; ambient, no reward). The Giant Jelly is one-time (canon: no per-visit freebies): granted once, as soon as both `nq-32-done` and `np-line-complete` are set (whichever comes second), as a second jelly on the plate behind the Food Shop. The brief lists Jelly as a special colour "from Jelly World"; this quest does not grant it. The owner decides whether the Giant Jelly can rarely drop a Jelly paint brush. Art: a flat glossy green-white void, wobble shader on ground and sky, one jelly on a plate.

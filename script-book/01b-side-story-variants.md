@@ -4,6 +4,8 @@
 
 _Morning. Frost on the grass at the edge of the Grove, in two small circles, side by side._  
 _Wisp is still at the edge, the egg stone between his paws. He hasn’t come in. He hasn’t gone, either._  
+**Fern** _(happy)_: He’s given me back my left glove. Now the right one’s gone. I think it’s a rotation.  
+_Under the cottage step, something hisses. It sounds pleased with itself._  
 **Moss** _(soft)_: She chose. That’s worth more than anything we’d have chosen for her.  
 **Moss** _(soft)_: Feed them before you feed yourself. She never said only the good ones. I checked. I was there.  
 _…_  
@@ -12,7 +14,7 @@ _…_
 #### Variant `s2-complete-driven`
 
 _Morning. Frost on the grass at the edge of the Grove, in one small circle where one grey thing slept._  
-_In the hedge there is a gap the size of a thin Nubbin, and a sock caught on a thorn._  
+_In the hedge there is a gap the size of a thin Nubbin, and a sock caught on a thorn. Nobody claims it._  
 _Sable sits by the gap for most of the morning. Then she comes back and eats her fruit, all of it._  
 **Luna** _(sad)_: She’s eating. That’s what we wanted.  
 **Moss** _(soft)_: Yes.  
@@ -28,7 +30,8 @@ _There is frost on his shoulders, the ordinary kind that melts._
 _His hands rest on the top bar. They aren’t blue any more._  
 _They shake a little, the way warm hands do in the cold._  
 _At the edge of the long grass a grey ear turns towards his voice, and goes flat._  
-**Corvin Vale** _(think)_: Things have been reaching me this week. From your side of the valley. Things people said, and things they found.  
+**Corvin Vale** _(think)_: Things have been reaching me this week. Left on my wall. Never signed.  
+**Corvin Vale**: A pie, yesterday. I’ve been afraid to eat it, and more afraid not to.  
 **Corvin Vale** _(soft)_: I didn’t know what to do with any of it. I still don’t. I kept all of it anyway.  
 **Corvin Vale**: I know who’s sitting by that pond. I know what I took from her. I’m asking anyway.  
 _Behind you, Hazel drinks her tea and does not turn round. She is listening to every word._  
@@ -83,6 +86,17 @@ _…_
     - **Gran Hazel**: Or I’d have stood in that cold garden long enough to start liking the quiet. I don’t know. I never will.
     - **Gran Hazel**: Thank you for walking it with me. I mean that. Whatever else.
 
+#### Variant `s10-wish3-s1`
+
+_Dusk. The last line on the seed packet has the drawing: four little posts in a row, and two stick figures._  
+**Gran Hazel** _(happy)_: Number three. Walk the four lanterns with me. Once. Slowly. I’ll be slow whether you like it or not.  
+_She takes your arm at the pond lantern. Not leaning. Holding._  
+**Gran Hazel** _(soft)_: Moss’s post. I’ll tell you something about it, and then you’re not to make a fuss.  
+**Gran Hazel** _(happy)_: He’ll have told you about the winter. He’ll have left out the fidgeting.  
+**Gran Hazel**: I counted the hens. I unpicked my mittens. I never once asked him to say a word. It nearly killed me.  
+**Gran Hazel** _(happy)_: Then at the thaw he looked up and said “You’ll do”. I was so startled I sat down in the snow.  
+**Gran Hazel** _(soft)_: Rule three. I thought I’d made it up. I’d been on the end of it for a whole winter.  
+
 #### Variant `s10-night-told`
 
 _You walk her home. The Keepers have stayed late by the pond, and none of them wants to be the first to leave._  
@@ -98,12 +112,9 @@ _The foot of the hill path. The grass is long here. It is the exact place she al
 _She looks back at the Grove once: the pond, the gate, the four posts._  
 **Gran Hazel** _(soft)_: It looks like somebody lives here. It hasn’t looked like that for a long time.  
 **Gran Hazel** _(soft)_: Now, then. I can walk up on my own. I’d rather not.  
-**Gran Hazel**: Who’s coming?  
+**Gran Hazel** _(soft)_: Just you, then. Good. The quiet way. I like the quiet way.  
 
-**Choices**
-
-- **Just me, Gran.** — sets `{"walk":"you"}`
-    - **Gran Hazel**: Good. The quiet way. I like the quiet way.
+Sets `{"walk":"you"}`
 
 #### Variant `s10-foot-c`
 
@@ -383,6 +394,14 @@ _The light shakes. For a moment you think it will go out._
 **cinder** _(soft)_: She’s grey, and she isn’t still. She came to me. Nobody made her.  
 **cinder**: Who undid it? Who made her like this, after me?  
 **You**: Everybody. Slowly.  
+**cinder**: Do they still say my name? Down there?  
+_You say the lane rhyme to her plainly, without the sing-song the children use._  
+**You**: Cinder held them close and tight, kept them warm one winter night;  
+**You**: when the morning came to call, they did not move at all.  
+**cinder** _(soft)_: That’s fair.  
+**cinder**: Do they skip well?  
+**You**: Badly. With great enthusiasm.  
+_Sable’s ear flicks, which in Sable is a laugh._  
 _Then the light turns, very slightly, towards you._  
 **cinder**: You’re the Keeper.  
 **cinder**: She has forgiven me. I don’t know how I know. I know.  

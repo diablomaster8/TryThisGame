@@ -421,6 +421,7 @@ export const BOOK1_SCENES: Scene[] = [
       who: 'narrator',
       text: 'Sable eats the fruit you left, and this time, when she finishes, she sits down instead of leaving.',
     },
+    { who: 'narrator', text: 'Out on the lane, some child is skipping to a rhyme you almost know. Badly.' },
     { who: 'narrator', text: 'Next morning, early, you go to see where she slept. A hollow in the long grass, the size of two cupped hands.' },
     { who: 'narrator', text: 'Around it, the grass is white with frost. Only there. Everywhere else, the dew is just dew.' },
     { who: 'clover', text: 'That’s odd. It’s not cold enough for that. Not for months yet.', mood: 'think' },

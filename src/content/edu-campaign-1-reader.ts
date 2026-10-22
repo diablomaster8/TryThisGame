@@ -252,10 +252,25 @@ const CH2: EduScene[] = [
       { who: 'narrator', text: 'Your Nubbin comes the last bit. It takes the plum very politely. Then it takes Sparks’s thumb, very politely, and holds on.' },
       { who: 'sparks', text: 'FLAT. I said FLAT. I didn’t do it FLAT.', mood: 'shock' },
       { who: 'marina', text: 'Rule four. Don’t be Sparks.', mood: 'happy' },
-      { who: 'marina', text: 'She’ll be back. She owes me a bag of plums, and Hazel doesn’t leave a debt unpaid.', mood: 'soft' },
-      { who: 'marina', text: 'Oh, and if a man in a grey coat comes by talking about “investment”, don’t sell him anything. Not fruit. Not eggs. Nothing.', mood: 'think' },
-      { who: 'sparks', text: 'Corvin. Runs the Circuit, up the valley. His lot win everything. So fast. So quiet. I like the ones that yell.', mood: 'think' },
-      { who: 'narrator', text: 'Marina looks up the valley the way you’d look at bad weather coming.' },
+      {
+        who: 'marina',
+        text: 'Hazel owes me a bag of plums. Hazel never leaves a debt unpaid, so I’m not worried.',
+        mood: 'soft',
+      },
+      {
+        who: 'marina',
+        text: 'Oh, and if a man in a grey coat comes by talking about “investment”, don’t sell him anything. Not fruit. Not eggs. Nothing.',
+        mood: 'think',
+      },
+      {
+        who: 'sparks',
+        text: 'Corvin. Runs the Circuit, up the valley. His lot win everything. So fast. So quiet. I like the ones that yell.',
+        mood: 'think',
+      },
+      {
+        who: 'narrator',
+        text: 'Marina looks up the valley the way you’d look at bad weather coming.',
+      },
     ],
     lessons: [
       {
@@ -280,7 +295,11 @@ const CH2: EduScene[] = [
         kind: 'ask',
         after: 12,
         prompt: [
-          { who: 'marina', text: 'Three swimming lessons last spring, at four plums a lesson. So how many plums does she owe me?', mood: 'think' },
+          {
+            who: 'marina',
+            text: 'Three swimming lessons last spring, at four plums a lesson. So how many plums does Hazel owe me?',
+            mood: 'think',
+          },
         ],
         options: [
           {
@@ -575,13 +594,41 @@ const CH3: EduScene[] = [
     of: 'c3-close',
     band: 'reader',
     lines: [
-      { who: 'narrator', text: 'Days of it. Fruit on the ground. Sitting, not staring. Sable lets you within two steps now. She doesn’t run.' },
-      { who: 'clover', text: 'Oh, she’s letting you near! I’m Clover. I keep the gentle ones. Luna told me not to fuss, so I’ve been fussing quietly.', mood: 'happy' },
-      { who: 'clover', text: 'Can I tell you something? A Shadow Nubbin doesn’t turn back. The grey stays. People think that means they’re broken.' },
-      { who: 'clover', text: 'They aren’t. They’re just carrying the thing that happened. You can’t take it off them. You can only make it lighter.', mood: 'soft' },
-      { who: 'narrator', text: 'Next morning, early, you go to see where Sable slept: a hollow in the long grass, the size of two cupped hands.' },
-      { who: 'narrator', text: 'Around it, the grass is white with frost. Only there. Everywhere else, the dew is just dew.' },
-      { who: 'clover', text: 'That’s odd. It’s early summer. It’s not nearly cold enough for frost.', mood: 'think' },
+      {
+        who: 'narrator',
+        text: 'Days of it. Fruit on the ground. Sitting, not staring. Sable lets you within two steps now. She doesn’t run.',
+      },
+      {
+        who: 'narrator',
+        text: 'Out on the lane, some child is skipping to a rhyme you almost know. Badly.',
+      },
+      {
+        who: 'clover',
+        text: 'Oh, she’s letting you near! I’m Clover. I keep the gentle ones. Luna told me not to fuss, so I’ve been fussing quietly.',
+        mood: 'happy',
+      },
+      {
+        who: 'clover',
+        text: 'Can I tell you something? A Shadow Nubbin doesn’t turn back. The grey stays. People think that means they’re broken.',
+      },
+      {
+        who: 'clover',
+        text: 'They aren’t. They’re just carrying the thing that happened. You can’t take it off them. You can only make it lighter.',
+        mood: 'soft',
+      },
+      {
+        who: 'narrator',
+        text: 'Next morning, early, you go to see where Sable slept: a hollow in the long grass, the size of two cupped hands.',
+      },
+      {
+        who: 'narrator',
+        text: 'Around it, the grass is white with frost. Only there. Everywhere else, the dew is just dew.',
+      },
+      {
+        who: 'clover',
+        text: 'That’s odd. It’s early summer. It’s not nearly cold enough for frost.',
+        mood: 'think',
+      },
       { who: 'luna', text: 'It does that. Every morning, wherever she sleeps.', mood: 'think' },
       { who: 'narrator', text: 'When the sun reaches it, the frost melts back into dew. It leaves the grass a little flattened, a little grey.' },
       { who: 'narrator', text: 'And the fruit you left out is gone. All six plums. On the warm top of the wall sit six plum stones, licked clean.' },
@@ -631,7 +678,7 @@ const CH3: EduScene[] = [
         skill: 'water freezes at 0 °C (32 °F); frost melts back into water',
         standard: '2-ESS2-3',
         kind: 'ask',
-        after: 6,
+        after: 7,
         prompt: [
           { who: 'clover', text: 'Frost is just frozen water. And water only freezes when it gets cold enough. How cold is that?', mood: 'think' },
         ],
@@ -667,7 +714,7 @@ const CH3: EduScene[] = [
         skill: 'think about fairness to animals: who gets to decide?',
         standard: 'CASEL: Responsible decision-making',
         kind: 'ask',
-        after: 14,
+        after: 15,
         prompt: [
           { who: 'narrator', text: 'Clover wants Sable warm. Luna wants Sable to choose. They both love her.' },
           { who: 'narrator', text: 'When we look after an animal, how much should it get a say?' },
@@ -900,17 +947,24 @@ const CH4: EduScene[] = [
           {
             label: '“Light one for the pond where the first ones woke…”',
             reply: [
-              { who: 'narrator', text: 'That’s how verse one begins. Verses tell new things each time.' },
-              { who: 'narrator', text: 'The chorus comes back the same every time: “Slow hands, warm hearts, the gate stuck fast…”' },
-              { who: 'narrator', text: 'The last verse ends: “we are made of the ones who remember us here, so we gather, we gather, we gather each year.”', mood: 'soft' },
+              {
+                who: 'narrator',
+                text: 'That’s how verse one begins. Verses tell new things each time.',
+              },
+              {
+                who: 'narrator',
+                text: 'The chorus comes back the same every time: “Slow hands, warm hearts, the gate stuck fast…”',
+              },
             ],
           },
           {
             label: '“Crunchy!”',
             reply: [
               { who: 'sparks', text: 'It SHOULD be the chorus.', mood: 'happy' },
-              { who: 'narrator', text: 'The real chorus comes back after every verse: “Slow hands, warm hearts, the gate stuck fast…”' },
-              { who: 'narrator', text: 'The last verse ends: “we are made of the ones who remember us here, so we gather, we gather, we gather each year.”', mood: 'soft' },
+              {
+                who: 'narrator',
+                text: 'The real chorus comes back after every verse: “Slow hands, warm hearts, the gate stuck fast…”',
+              },
             ],
           },
         ],
@@ -1195,8 +1249,14 @@ const CH4: EduScene[] = [
           {
             label: 'Being remembered keeps us going.',
             reply: [
-              { who: 'narrator', text: 'That’s a theme too. The gathering keeps the wardens remembered, and the song says it: we are made of the ones who remember us.' },
-              { who: 'narrator', text: 'The biggest one runs under all of it: holding on too tight can hurt the ones you love. Look at Cinder.' },
+              {
+                who: 'narrator',
+                text: 'That’s a theme too. The song says it: we are made of the ones who remember us.',
+              },
+              {
+                who: 'narrator',
+                text: 'The biggest theme runs under all of it: holding on too tight can hurt the ones you love.',
+              },
             ],
           },
           {

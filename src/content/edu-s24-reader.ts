@@ -914,7 +914,9 @@ const S24_SCENES: EduScene[] = [
         'Sparks comes down the lane at a run, which is how Sparks comes down a lane, waving both arms.',
       ),
       SP('Is she in there? She’s in there. Course she is. Sorry. SORRY. She’s my cousin.', 'shock'),
-      SP('Tilly. Nine. Easter holidays. She heard “ridge” and “sunrise” and went off like a cork.'),
+      SP(
+        'Tilly. Nine. Calls Hazel “Gran” too. Everyone under ten does; it saves explaining. She heard “ridge” and went off like a cork.',
+      ),
       N(
         'You lift the tarp. A girl in big wellies glares up at you, with a sash across her chest covered in home-made badges.',
       ),

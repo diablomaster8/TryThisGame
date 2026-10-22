@@ -395,14 +395,33 @@ export const SIDE_STORY_S30: Quest[] = [
         scene: {
           id: 's30-wall',
           lines: [
-            N('The frosts have come, and the Grove is white at dawn round the fourth post. Moss, after his long talk, has not gone back up the hill.'),
-            N('You find him at the old wall, by Hush’s lantern post, with frost on his back that he hasn’t bothered to shake off.'),
-            M('Clover’s gold one. Luna told me. Luna tells me things at dawn, when I am too tired to argue.', 'think'),
-            M('Hush. The quiet one. You have heard her name in the tale. I did not tell you her job.'),
-            M('When the White Year stilled half the valley, the rest of us went at the snow with shovels. Hush went and sat where the still ones could see her.', 'sad'),
-            M('She never tried to wake one. If one shivered, she took it for a conversation. That was her job, and nobody gave it her.'),
-            M('People thought that made her a sad thing. They were wrong about which part was sad.', 'soft'),
-            M('Low in the wall. The flat stone, by your foot. Look at it properly. She meant it to be looked at.'),
+            N(
+              'The frosts have come, and the Grove is white at dawn round the fourth post. Moss, after his long talk, has not gone back up the hill.',
+            ),
+            N(
+              'You find him at the old wall, by Hush’s lantern post, with frost on his back that he hasn’t bothered to shake off.',
+            ),
+            M(
+              'Clover’s gold one. Luna told me. Luna tells me things at dawn, when I am too tired to argue.',
+              'think',
+            ),
+            M(
+              'Hush. The quiet one. You may have heard she kept the griefs. Nobody told you how. She sat.',
+            ),
+            M(
+              'When the White Year stilled half the valley, the rest of us went at the snow with shovels. Hush went and sat where the still ones could see her.',
+              'sad',
+            ),
+            M(
+              'She never tried to wake one. If one shivered, she took it for a conversation. That was her job, and nobody gave it her.',
+            ),
+            M(
+              'People thought that made her a sad thing. They were wrong about which part was sad.',
+              'soft',
+            ),
+            M(
+              'Low in the wall. The flat stone, by your foot. Look at it properly. She meant it to be looked at.',
+            ),
           ],
         },
         done: {
