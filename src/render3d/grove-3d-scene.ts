@@ -23,6 +23,7 @@ export { prewarmCreatures } from './prewarm';
 import { Bursts } from './bursts';
 import { PARTICLE_TIME } from './quad-particles';
 import { FinishPass } from './finish-pass';
+import { caveShed } from './cave-shed';
 import { FrameGovernor } from './governor';
 import { LampPool, type LampSource } from './lamp-pool';
 import { setOutlines } from './toon-outline';
@@ -185,6 +186,8 @@ export class Grove3dScene {
   /** Whether the hour wants bloom, and the governor's CPU savings as last applied. */
   private bloomWanted = false;
   private cpuApplied = 0;
+  /** Whether the Hollow's shed list has dropped bloom (`cave-shed.ts`). */
+  private bloomShed = false;
   private readonly sky: GroveSky;
   private readonly time = { value: 0 };
   /** The sky fill's ground colour, put back when the Hollow's warm bounce is left. */
@@ -340,6 +343,15 @@ export class Grove3dScene {
     this.bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.35, 0.4, BLOOM_THRESHOLD);
     this.bloom.enabled = false;
     this.composer.addPass(this.bloom);
+    // Underground, bloom is the last effect shed before the render scale (`cave-shed.ts`).
+    caveShed.register({
+      name: 'bloom',
+      apply: (shed) => {
+        this.bloomShed = shed;
+        this.bloom.enabled = this.bloomWanted && this.cpuApplied < 2 && !shed;
+        this.clamp.enabled = this.bloom.enabled;
+      },
+    });
     // Tone mapping, the sRGB encode and the grade in one draw (they were three).
     this.grade = new FinishPass(GRADE_SATURATION);
     this.composer.addPass(this.grade);
@@ -456,7 +468,10 @@ export class Grove3dScene {
     // 3). The governor may still hold it off on a device short of CPU (`governRenderScale`).
     const c = GROVE3D.cave.light;
     this.bloomWanted = cave || elevation < GROVE3D.bloomBelowDeg;
-    this.bloom.enabled = this.bloomWanted && this.cpuApplied < 2;
+    // Underground the governor sheds the cave list before any sharpness; above ground, not.
+    this.governor.setShedSteps(cave ? caveShed.steps : 0);
+    caveShed.apply(this.governor.shedLevel);
+    this.bloom.enabled = this.bloomWanted && this.cpuApplied < 2 && !this.bloomShed;
     this.clamp.enabled = this.bloom.enabled;
     this.bloom.strength = cave ? c.bloom : elevation < -2 ? 0.25 : 0.35;
     this.bloom.threshold = cave ? c.bloomThreshold : BLOOM_THRESHOLD;
@@ -1118,6 +1133,7 @@ export class Grove3dScene {
    */
   governRenderScale(composer: EffectComposer, intervalMs: number): void {
     const r = this.governor.sample(intervalMs);
+    caveShed.apply(this.governor.shedLevel);
     if (r !== null) {
       this.renderer.setPixelRatio(r);
       const css = this.renderer.getSize(new THREE.Vector2());
@@ -1132,7 +1148,7 @@ export class Grove3dScene {
       setOutlines(level < 1);
       const second = this.props.grass.meshes[1];
       if (second) second.visible = level < 2;
-      this.bloom.enabled = this.bloomWanted && level < 2;
+      this.bloom.enabled = this.bloomWanted && level < 2 && !this.bloomShed;
       this.clamp.enabled = this.bloom.enabled;
     }
     // Under strain the sun's shadow map is redrawn every second frame (every fourth at the

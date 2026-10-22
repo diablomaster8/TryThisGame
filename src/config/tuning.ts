@@ -320,6 +320,12 @@ export const GROVE3D = {
       torch: { intensity: 22, distance: 12, decay: 2, flicker: 0.1 },
       hysteresis: 2,
       fadePerSec: 3,
+      /**
+       * Underground the frame governor sheds these, in this order, before it lowers the render
+       * scale (`render3d/cave-shed.ts`); the Grove keeps its own order. A step nobody has
+       * registered a hook for is a no-op.
+       */
+      governor: { order: ['particles', 'triplanar', 'bloom'] },
     },
     /**
      * Underground framing (item 21): the radial vignette and a darker top edge, as if under
