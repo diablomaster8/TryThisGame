@@ -22,9 +22,12 @@ const SHOTS: ReadonlyArray<readonly [Shot, Shot]> = [
   [{ kind: 'wide' }, { kind: 'establish' }],
 ];
 
+/** The green and its four houses, framed in the openings of chapters 1 and 3. */
+const HOUSES = ['green', 'house-1', 'house-2', 'house-3', 'house-4'];
+
 const half = (hour: number): Array<[SceneStage, SceneStage]> =>
-  SHOTS.map(([o, c]) => [
-    { place: 'green', hour, shot: o },
+  SHOTS.map(([o, c], i) => [
+    { place: 'green', hour, shot: i === 0 || i === 2 ? { ...o, focus: HOUSES } : o },
     { place: 'green', hour, shot: c },
   ]);
 

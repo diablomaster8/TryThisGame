@@ -23,10 +23,10 @@ export const LOGGED_STAGES: Readonly<Record<string, SceneStage>> = chapterStages
     { place: 'grove', hour: 12.5, shot: { kind: 'wide' } },
     { place: 'grove', hour: 13, shot: { kind: 'two' } },
   ],
-  // 3 No Log Out.
+  // 3 No Log Out: the player is out of the game (no set drawn).
   [
-    { place: 'grove', hour: 14, shot: { kind: 'close' } },
-    { place: 'grove', hour: 16, shot: { kind: 'two' } },
+    { place: 'grove', hour: 14, props: { loggedSet: 'hide' }, shot: { kind: 'close' } },
+    { place: 'grove', hour: 16, props: { loggedSet: 'hide' }, shot: { kind: 'two' } },
   ],
   // 4 Night Grove: the meadow with the lights off.
   [

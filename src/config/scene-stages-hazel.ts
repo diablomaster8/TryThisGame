@@ -28,7 +28,7 @@ const WARM_WATER: SceneStage = {
   shot: { kind: 'two' },
 };
 
-export const HAZEL_STAGES: Readonly<Record<string, SceneStage>> = {
+const RAW: Readonly<Record<string, SceneStage>> = {
   // ---------------------------------------------------------------- 1 The Letter
   'c1-letter': {
     place: 'gate',
@@ -83,8 +83,16 @@ export const HAZEL_STAGES: Readonly<Record<string, SceneStage>> = {
     shot: { kind: 'two' },
   },
   // ---------------------------------------------------------------- 4 Moss Remembers
-  // Cast and lanterns for c4-open and c4-close come from E_STAGES.
-  'c4-open': { place: 'hill', hour: 10, shot: { kind: 'two', focus: ['moss'] } },
+  // c4-close's lanterns come from E_STAGES; c4-open seats Moss itself.
+  'c4-open': {
+    place: 'hill',
+    hour: 10,
+    cast: [
+      { who: 'moss', mark: 'flat-stone', pose: 'sit' },
+      { who: 'you', mark: 'hill-path', face: 'moss' },
+    ],
+    shot: { kind: 'two', focus: ['moss'] },
+  },
   'c4-close': { place: 'pond', hour: 19.2, shot: { kind: 'wide' } },
   'c4-tale': {
     place: 'pond',
@@ -454,3 +462,23 @@ export const HAZEL_STAGES: Readonly<Record<string, SceneStage>> = {
   'c12-walk-alone': { place: 'hill', hour: 17.8, shot: { kind: 'wide' } },
   'c12-close': { place: 'grove', hour: 19.2, lights: ALL_LIT, shot: { kind: 'wide' } },
 };
+
+/** The season and weather each chapter holds, unless a scene sets its own. */
+const LOOK: Record<number, Pick<SceneStage, 'season' | 'weather'>> = {
+  1: { season: 'spring' },
+  5: { season: 'summer' },
+  6: { weather: 'rain' },
+  7: { weather: 'frost' },
+  8: { season: 'autumn' },
+  9: { season: 'winter', weather: 'frost' },
+  10: { season: 'winter', weather: 'frost' },
+  11: { season: 'winter', weather: 'frost' },
+};
+
+export const HAZEL_STAGES: Readonly<Record<string, SceneStage>> = Object.fromEntries(
+  Object.entries(RAW).map(([id, st]) => {
+    const n = Number(/^c(\d+)-/.exec(id)?.[1]);
+    const look = id === 'c12-open' ? { weather: 'clear' as const } : LOOK[n];
+    return [id, { ...look, ...st }];
+  }),
+);

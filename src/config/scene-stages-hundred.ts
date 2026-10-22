@@ -16,7 +16,7 @@ const LIT: SceneStage['lights'] = {
 export const HUNDRED_STAGES: Readonly<Record<string, SceneStage>> = chapterStages('h', [
   // 1 One Egg: the gate with no fence, then the first hatch in the ruined square.
   [
-    { place: 'gate', hour: 8, shot: { kind: 'establish' } },
+    { place: 'gate', hour: 8, shot: { kind: 'establish', focus: ['fold-square'] } },
     { place: 'fold', hour: 11, shot: { kind: 'two' } },
   ],
   // 2 The Fold: the broom, the first one into the square.
@@ -26,7 +26,7 @@ export const HUNDRED_STAGES: Readonly<Record<string, SceneStage>> = chapterStage
   ],
   // 3 Meadow Days: mornings in the meadow, the well lip.
   [
-    { place: 'grove', hour: 7.5, shot: { kind: 'wide' } },
+    { place: 'grove', hour: 7.5, shot: { kind: 'wide', focus: ['fold-square'] } },
     { place: 'fold', hour: 15, shot: { kind: 'two' } },
   ],
   // 4 The Shore: the jetty, a swimmer up the path.
