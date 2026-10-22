@@ -2,7 +2,6 @@ import { DoubleSide, Group, Mesh, MeshBasicMaterial, PlaneGeometry, type Texture
 import type { InteriorId } from '../config/stage-marks';
 import { CG4_C4 } from '../config/tuning';
 import type { PixelDressCtx, PixelDressing } from './dressings';
-import { syncFloorMarks } from './floor-marks';
 import { interiorOf, ROOM_FURNITURE, roomOrigin, wallsShown } from './interior-layout';
 import { floorTexture, furnitureSheet, IU, wallTexture } from './paint/interiors';
 import type { SpriteSheet } from './sprites/atlas';
@@ -15,7 +14,6 @@ import type { SpriteSheet } from './sprites/atlas';
  *   and the side walls, with the wall nearest the camera left out so the room opens toward
  *   the view, and the furniture as billboards. Lamp-warm at night (the tint, no flicker).
  *   The room is built the first time it is shown. Marks: `config/stage-marks.ts`.
- * - K16: keeps the Hollow Below floor's marks on the floor under way (`floor-marks.ts`).
  */
 
 interface Room {
@@ -93,7 +91,6 @@ export const dressC4: PixelDressing = {
   },
   update(world, stage, daylight) {
     if (!ctx) return;
-    syncFloorMarks(world);
     const id = interiorOf(stage);
     for (const [k, r] of rooms) r.group.visible = k === id;
     if (!id || typeof document === 'undefined') return;

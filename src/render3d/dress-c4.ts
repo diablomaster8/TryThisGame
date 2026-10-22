@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import type { InteriorId } from '../config/stage-marks';
 import { CG4_C4 } from '../config/tuning';
-import { syncFloorMarks } from '../render/floor-marks';
 import { interiorOf, roomOrigin, wallsShown } from '../render/interior-layout';
 import { OCCLUDE, shadowHides } from './building-kit';
 import type { Dress3dCtx, Dressing3d } from './dressings';
@@ -24,7 +23,6 @@ import { groveHeight } from './terrain-shape';
  *   hides). The wall between the camera and the room is left out each frame. By night the
  *   room carries a warm emissive fill and its windows glow; by day the glass is pale sky.
  *   Nothing moves, so reduced motion needs no other form.
- * - K16: keeps the Hollow Below floor's marks on the floor under way (`floor-marks.ts`).
  */
 export const dress3dC4: Dressing3d = (() => {
   let ctx: Dress3dCtx | null = null;
@@ -64,7 +62,6 @@ export const dress3dC4: Dressing3d = (() => {
     },
     update(world, stage, daylight, dt) {
       if (!ctx) return;
-      syncFloorMarks(world);
       sweepIn -= dt;
       // A building hidden for the first time sweeps at once (its set may have just built).
       const hides = OCCLUDE.hides.value;

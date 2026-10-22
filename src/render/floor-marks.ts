@@ -4,8 +4,8 @@ import type { World } from '../sim/types';
 
 /**
  * Campaign graphics 4, K16: stage marks on the Hollow Below floor under way, from its seeded
- * rooms. Both renderers' c4 dressings call `syncFloorMarks` each frame; the marks change only
- * when the floor does.
+ * rooms. The story stager calls `syncFloorMarks` before it places anyone
+ * (render/scene-stage.ts); the marks change only when the floor does.
  *
  * - `floor-up`, `floor-down`, `floor-chest`: the stairs and the chest.
  * - `floor-room-1`..: every room's centre (the nearest open cell to it); `floor-great` the
