@@ -61,17 +61,19 @@ export const CAMPAIGN_LOOK: Readonly<Record<string, LookDef>> = {
   hazel: look('#ffc46a', 0.3, 1, '#4a2a08', 0.28, 'honey', '#f2b84b'),
   'hazel-grey': look('#6f8fb8', 0.36, 0.72, '#14213a', 0.34, 'honey', '#9db6d8'),
   'hazel-pale': look('#cfdcf0', 0.1, 0.92, '#1a2a42', 0.2, 'honey', '#c9d8ee'),
-  hundred: look('#e6d596', 0.24, 0.72, '#3a3010', 0.26, 'straw', '#d9c46a'),
-  logged: look('#3fdcff', 0.26, 0.88, '#041a30', 0.36, 'grid', '#52e6ff'),
+  hundred: { ...look('#e6d596', 0.24, 0.72, '#3a3010', 0.26, 'straw', '#d9c46a'), box: 'tally' },
+  logged: { ...look('#3fdcff', 0.26, 0.88, '#041a30', 0.36, 'grid', '#52e6ff'), box: 'terminal' },
   'beetle-below': {
     ...look('#c46a1c', 0.85, 0.8, '#0a0300', 0.92, 'torch', '#ff9a3c'),
     core: 0.3,
     blend: 'multiply',
+    box: 'ledger',
   },
-  beetle: look('#ff9a2c', 0.34, 0.95, '#2c1002', 0.36, 'torch', '#ffb347'),
+  beetle: { ...look('#ff9a2c', 0.34, 0.95, '#2c1002', 0.36, 'torch', '#ffb347'), box: 'ledger' },
   // H11: a split-tone, not a pink multiply (it turned paths and soil brick-red at 6.5).
   dawn: {
     ...look('#ff9db8', 0.32, 1, '#3a1430', 0.26, 'dawn', '#ffb3c6'),
+    box: 'sun',
     blend: 'soft-light',
     split: {
       key: CG2_Y.dawn.key,
@@ -91,7 +93,7 @@ export const CAMPAIGN_LOOK: Readonly<Record<string, LookDef>> = {
       shadeAlpha: CG2_Y.crisp.shadeAlpha,
     },
   },
-  dusk: look('#8a6cff', 0.34, 0.9, '#120a30', 0.34, 'dusk', '#b5a0ff'),
+  dusk: { ...look('#8a6cff', 0.34, 0.9, '#120a30', 0.34, 'dusk', '#b5a0ff'), box: 'moon' },
 };
 
 /** The minimum of the story state a look needs (a subset of `StageFlags`). */
