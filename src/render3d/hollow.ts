@@ -7,7 +7,7 @@ import type { CaveLamps } from './cave-lamps';
 import { HollowAtmos } from './hollow-atmos';
 import { mat, type HollowCtx, type HollowFrame, type HollowModule } from './hollow-ctx';
 import { HollowDress } from './hollow-dress';
-import { HollowLight } from './hollow-light';
+import { HollowLight, lightBaker } from './hollow-light';
 import { HollowRock, wallGeometry } from './hollow-rock';
 
 /**
@@ -59,13 +59,24 @@ export class Hollow {
     tex: Tex,
     private readonly sky: { sun: THREE.DirectionalLight; hemi: THREE.HemisphereLight },
   ) {
-    this.ctx = { group: this.group, tex, sky, depth: 1, band: bandFor(1), reduceMotion: false };
+    this.ctx = {
+      group: this.group,
+      tex,
+      sky,
+      depth: 1,
+      band: bandFor(1),
+      reduceMotion: false,
+      bakers: [],
+      uniforms: { torchFlicker: { value: 1 } },
+    };
     this.rock = new HollowRock(tex);
     this.dress = new HollowDress(tex);
     this.group.name = 'hollow';
     this.group.visible = false;
     parent.add(this.group);
     this.light_ = new HollowLight(parent);
+    // A lit sconce re-bakes the floor's light; the rock's `rebake()` arrives with the bake seam.
+    this.light_.rebake = () => (this.rock as Partial<{ rebake(): void }>).rebake?.();
     this.mods = [this.rock, this.dress, this.light_, this.atmos];
     const box = new THREE.BoxGeometry(0.1, 0.1, 0.1);
     const wallSample = new THREE.InstancedMesh(wallGeometry(), this.rock.rock, 1);
@@ -82,6 +93,7 @@ export class Hollow {
       new THREE.Mesh(box, this.rock.earth),
       new THREE.InstancedMesh(box, this.dress.stone, 1),
       new THREE.Mesh(pool, this.dress.water.material),
+      ...this.light_.programSamples(),
     );
     this.samples.traverse((o) => (o.castShadow = o.receiveShadow = true));
     // And a textured sprite, as the emote balls are, which may first appear underground.
@@ -118,6 +130,8 @@ export class Hollow {
     this.ctx.depth = depth;
     this.ctx.band = bandFor(depth);
     for (const m of this.mods) m.dispose();
+    this.ctx.bakers.length = 0;
+    if (f) this.ctx.bakers.push(lightBaker(f, this.ctx));
     if (f) for (const m of this.mods) m.build(f, this.ctx);
   }
 
