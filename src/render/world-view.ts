@@ -1,3 +1,4 @@
+import { memorialSpot } from './memorial-spot';
 import { Vector3 } from 'three';
 import { nubbinSits } from '../config/npc-looks';
 import { DUNGEON, EGG, LIFECYCLE, UI } from '../config/tuning';
@@ -598,14 +599,15 @@ export class WorldView {
     }
     for (const m of home && !bare ? world.memorials : []) {
       if (flower) {
+        const spot = memorialSpot(world, m);
         batch.draw(
           {
             sheet: props,
             rect: flower,
             flip: false,
-            x: m.pos.x,
+            x: spot.x,
             y: 0,
-            z: m.pos.z,
+            z: spot.z,
             mode: 'billboard',
             tint: this.dim,
           },

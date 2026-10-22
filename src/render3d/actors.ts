@@ -1,3 +1,4 @@
+import { memorialSpot } from '../render/memorial-spot';
 import * as THREE from 'three';
 import type { EmoteShape } from '../render/sprites/emote';
 import { frameKey } from '../render/sprites/animations';
@@ -859,9 +860,15 @@ export class Actors {
     // removed when their memorial is gone (a reset or an imported save).
     const memorials = this.location === 'grove' ? world.memorials : [];
     for (const m of memorials) {
-      if (this.memorials.has(m.id)) continue;
+      // The campaigns without a hill keep their flowers on a mark of their own (N7).
+      const spot = memorialSpot(world, m);
+      const have = this.memorials.get(m.id);
+      if (have) {
+        have.position.set(spot.x, this.ground(spot.x, spot.z), spot.z);
+        continue;
+      }
       const g = memorialFlower();
-      g.position.set(m.pos.x, this.ground(m.pos.x, m.pos.z), m.pos.z);
+      g.position.set(spot.x, this.ground(spot.x, spot.z), spot.z);
       this.group.add(g);
       this.memorials.set(m.id, g);
     }
