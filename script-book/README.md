@@ -6,6 +6,8 @@ One storyline per file, scenes in play order. Variants sit under their parent sc
 
 `ids.tsv` maps every scene id to its book file:line and its source file:line. Line counts are in brackets.
 
+For one file per line to read straight through (gitignored): `npx tsx tests/tools/script-book.ts --whole script-book-whole`.
+
 ## Hazel's Grove
 
 | Storyline | Script | Little Sprouts | Grove Readers |

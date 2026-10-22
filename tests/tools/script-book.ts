@@ -9,6 +9,8 @@
  * split at its `##` headings into `-1`, `-2`, ….
  *
  * `--check` renders to a temp dir and exits 1 if the committed `script-book/` has drifted from `src/content/`.
+ * `--whole <dir>` also writes one read-through file per line (Hazel's Grove first) into <dir>, which is
+ * gitignored and never committed.
  */
 import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -19,8 +21,11 @@ import type { EduBand, EduQuest, EduScene, Quest, Storyline } from '../../src/co
 
 const args = process.argv.slice(2);
 const check = args.includes('--check');
+const wholeAt = args.indexOf('--whole');
+const whole = wholeAt >= 0 ? args[wholeAt + 1] : undefined;
+if (wholeAt >= 0 && (!whole || whole.startsWith('--'))) throw new Error('--whole needs a directory');
 const BOOK = 'script-book';
-const out = check ? mkdtempSync(join(tmpdir(), 'script-book-')) : (args.find((a) => !a.startsWith('--')) ?? BOOK);
+const out = check ? mkdtempSync(join(tmpdir(), 'script-book-')) : (args.find((a, i) => !a.startsWith('--') && (wholeAt < 0 || i !== wholeAt + 1)) ?? BOOK);
 /** Longest file, in lines, before it is split at its `##` headings. */
 const CAP = 3500;
 
@@ -475,6 +480,7 @@ const readme = [
   'Generated from `src/content/` by `tests/tools/script-book.ts`; never edit by hand. Rerun it after any content change and check with `--check`.', '',
   `One storyline per file, scenes in play order. Variants sit under their parent scene ("Variant of …"); variants with no parent close their storyline's file. Learning Grove versions are separate files, one per band, each scene linking to its main scene. No file runs past ${CAP} lines; longer ones split at their \`##\` headings into \`-1\`, \`-2\`. Each file is one review unit (\`docs/story-review/LOG.md\`).`, '',
   '`ids.tsv` maps every scene id to its book file:line and its source file:line. Line counts are in brackets.', '',
+  'For one file per line to read straight through (gitignored): `npx tsx tests/tools/script-book.ts --whole script-book-whole`.', '',
 ];
 const lines = [...new Set(units.map((u) => u.line))];
 for (const line of lines) {
@@ -495,6 +501,41 @@ if (out === BOOK && existsSync(BOOK)) rmSync(BOOK, { recursive: true, force: tru
 for (const [f, md] of files) writeOut(out, f, md.join('\n') + '\n');
 writeOut(out, 'ids.tsv', tsv.join('\n') + '\n');
 writeOut(out, 'README.md', readme.join('\n'));
+
+// ---------------------------------------------------------------- --whole: one read-through per line
+if (whole) {
+  const book = (title: string, intro: string, parts: string[][]): string => {
+    const toc = parts.map((p) => p[0]!.replace(/^# /, '')).map((t, i) => `${i + 1}. [${t}](#part-${i + 1})`);
+    const body = parts.flatMap((p, i) => ['', `<a id="part-${i + 1}"></a>`, '', ...p.map((l) => (/^#{1,5} /.test(l) ? `#${l}` : l))]);
+    return [`# ${title}`, '', intro, '', '## Contents', '', ...toc, ...body, ''].join('\n');
+  };
+  const mainOf = (u: Unit) => (filesOf.get(u.path)?.get('main') ?? []).map((f) => files.get(f)!);
+  const bandOf = (u: Unit, band: string) => (filesOf.get(u.path)?.get(band) ?? []).map((f) => files.get(f)!);
+  // Hazel's Grove: the campaign, each side story after the chapter it opens in, the post-game last.
+  const grove = units.filter((u) => u.line === GROVE);
+  const sides = grove.filter((u) => u.opens !== undefined);
+  const parts: string[][] = [];
+  for (const u of grove.filter((x) => x.path.startsWith('campaign/book-'))) {
+    const md = mainOf(u)[0]!;
+    const chapters = md.map((l, i) => (/^## Chapter (\d+)/.test(l) ? i : -1)).filter((i) => i >= 0);
+    parts.push(md.slice(0, chapters[0]));
+    chapters.forEach((s, i) => {
+      const n = Number(/^## Chapter (\d+)/.exec(md[s]!)![1]);
+      parts.push([`# ${md[s]!.slice(3)}`, '', ...md.slice(s + 1, chapters[i + 1] ?? md.length)]);
+      for (const sd of sides.filter((x) => x.opens === n)) parts.push(...mainOf(sd));
+    });
+  }
+  for (const u of grove.filter((x) => !x.path.startsWith('campaign/book-') && x.opens === undefined)) parts.push(...mainOf(u));
+  for (const sd of sides.filter((x) => !x.opens)) parts.push(...mainOf(sd));
+  const books: [string, string, string, string[][]][] = [
+    ['hazels-grove', GROVE, 'The campaign in play order, with each side story placed after the chapter it opens in and the post-game stories last.', parts.filter((p) => p.length)],
+    ...lines.filter((l) => l !== GROVE).map((l): [string, string, string, string[][]] => [l.toLowerCase().replace(/[^a-z]+/g, '-').replace(/^-|-$/g, ''), l, `Every ${l} storyline in play order.`, units.filter((u) => u.line === l).flatMap(mainOf)]),
+    ...C.EDU_BANDS.map((band): [string, string, string, string[][]] => [`learning-grove-${band}`, `Learning Grove · ${bandHead(band)}`, 'The campaign, then every storyline with a version in this band, in book order.', [learningCampaign, ...units].flatMap((u) => bandOf(u, band))]),
+  ];
+  mkdirSync(whole, { recursive: true });
+  for (const [f, title, intro, ps] of books) writeFileSync(join(whole, `${f}.md`), book(title, intro, ps));
+  console.log(`--whole: ${books.length} read-throughs in ${whole}/`);
+}
 
 if (check) {
   // Every file in either tree, by '/'-separated path relative to its root.
