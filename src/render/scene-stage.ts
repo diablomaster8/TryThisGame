@@ -1,5 +1,6 @@
 import { READ3D } from '../config/tuning';
 import { SCENE_STAGES } from '../config/scene-stages';
+import { DAWN_HOUR, DUSK_HOUR } from '../config/scene-stages-dawndusk';
 import { E_STAGES } from '../config/tuning-e';
 import { markAt } from '../config/stage-marks';
 import type { Line, SceneStage, StagePlace } from '../config/story';
@@ -29,7 +30,12 @@ export function resolveStage(
   if (!id) return null;
   const scene = sceneFor(world, id, 'main');
   if (!scene) return null;
-  return { id, scene, stage: { ...E_STAGES[id], ...SCENE_STAGES[id], ...scene.stage } };
+  const stage: SceneStage = { ...E_STAGES[id], ...SCENE_STAGES[id], ...scene.stage };
+  // M13: Dawn & Dusk's hour follows its half, for any scene that names none.
+  const line = world.campaign?.storyline;
+  if (stage.hour === undefined && (line === 'dawn' || line === 'dusk'))
+    stage.hour = line === 'dawn' ? DAWN_HOUR : DUSK_HOUR;
+  return { id, scene, stage };
 }
 
 /**
