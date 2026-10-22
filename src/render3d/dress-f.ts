@@ -69,6 +69,7 @@ let treeScan = 0;
 const treeParts = {
   crowns: [] as Array<{ mesh: THREE.InstancedMesh; count: number }>,
   fruit: [] as THREE.Mesh[],
+  grass: [] as THREE.MeshStandardMaterial[],
 };
 const disposables: Array<() => void> = [];
 
@@ -166,6 +167,7 @@ export const dress3dF: Dressing3d = {
     root.add(torches.group);
     treeParts.crowns = [];
     treeParts.fruit = [];
+    treeParts.grass = [];
     treeScan = 0;
 
     void c.compile(root);
@@ -384,23 +386,33 @@ const TREE_TINT: Record<Season, { color: string; leaves: number; fruit: boolean 
  * crowns and fruit are found by shape once the trees exist, and restored when no season shows.
  */
 function seasonTrees(c: Dress3dCtx, _world: World, season: { season: Season } | null): void {
-  if (!treeParts.crowns.length && clock - treeScan > 2) {
+  if ((!treeParts.crowns.length || !treeParts.grass.length) && clock - treeScan > 2) {
     treeScan = clock;
     c.world3d.traverse((o) => {
       const m = o as THREE.InstancedMesh;
       const mat = m.material as THREE.MeshStandardMaterial | undefined;
       if (m.isInstancedMesh && mat?.map && m.instanceColor && m.castShadow && m.count > 50)
-        treeParts.crowns.push({ mesh: m, count: m.count });
+        if (!treeParts.crowns.some((t) => t.mesh === m))
+          treeParts.crowns.push({ mesh: m, count: m.count });
+      if (m.isInstancedMesh && mat?.map === c.tex.tuft && !treeParts.grass.includes(mat))
+        treeParts.grass.push(mat);
       const f = o as THREE.Mesh;
       const fm = f.material as THREE.MeshPhysicalMaterial | undefined;
       if (f.isMesh && fm?.isMeshPhysicalMaterial && fm.color.getHexString() === 'ff8a2a')
-        treeParts.fruit.push(f);
+        if (!treeParts.fruit.includes(f)) treeParts.fruit.push(f);
     });
   }
   const want = season ? TREE_TINT[season.season] : null;
   for (const t of treeParts.crowns) {
     (t.mesh.material as THREE.MeshStandardMaterial).color.set(want?.color ?? '#ffffff');
     t.mesh.count = Math.max(1, Math.round(t.count * (want?.leaves ?? 1)));
+  }
+  // The meadow: frosted pale in winter, straw-gold in autumn.
+  const g = season?.season;
+  for (const gm of treeParts.grass) {
+    gm.color.set(g === 'winter' ? '#c8d8e6' : g === 'autumn' ? '#e8c070' : '#ffffff');
+    gm.emissive.set(g === 'winter' ? '#7f98b4' : '#000000');
+    gm.emissiveIntensity = g === 'winter' ? 0.5 : 1;
   }
   for (const f of treeParts.fruit) f.scale.setScalar(want && !want.fruit ? 0.0001 : 1);
 }
