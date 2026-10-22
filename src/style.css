@@ -2201,3 +2201,41 @@ select {
       0 12px 0 2px #1a1530;
   }
 }
+
+/* The Hollow minimap: under the floor bar, left side, clear of the Run button. */
+.hollow-map-btn {
+  min-width: 44px;
+  min-height: 44px;
+}
+.hollow-map {
+  flex: 1 0 100%;
+  width: 0;
+  box-sizing: border-box;
+  max-height: calc(100vh - var(--safe-top) - var(--hud-bottom) - 230px);
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  background: var(--px-bg);
+  border: 2px solid #7fe8ff;
+  pointer-events: auto;
+}
+.hollow-map[hidden] {
+  display: none;
+}
+.hollow-map-canvas {
+  image-rendering: pixelated;
+  align-self: center;
+  max-width: 100%;
+}
+.hollow-map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  font-size: 0.8rem;
+}
+.hollow-bar {
+  flex-wrap: wrap;
+  max-width: calc(100vw - var(--safe-left) - var(--safe-right) - 24px);
+}

@@ -1404,3 +1404,13 @@ export const ATLAS_TEXT = {
     A31: 'The Hero Twins',
   } as Record<string, string>,
 };
+
+/** The Hollow minimap (`ui/hollow-map.ts`). */
+export const HOLLOW_MAP_TEXT = {
+  open: 'Map',
+  you: 'You',
+  down: 'Stairs down',
+  up: 'Stairs up',
+  chest: 'Chest',
+  label: (floor: number) => `Map of floor ${floor}`,
+} as const;

@@ -246,15 +246,17 @@ interface Member {
 const STRAY_RING = {
   geo: new THREE.RingGeometry(0.42, 0.62, 28),
   mat: new THREE.MeshBasicMaterial({
-    color: '#c8a8ff',
+    color: GROVE3D.cave.read.stray.color,
     transparent: true,
-    opacity: 0.5,
+    opacity: GROVE3D.cave.read.stray.opacity,
     blending: THREE.AdditiveBlending,
     depthWrite: false,
   }),
 };
 
 export class Crowd {
+  /** Reduced motion is on (read once per update): the stray rings hold still. */
+  private still = false;
   private readonly members = new Map<string, Member>();
   private readonly sphere = new THREE.Sphere();
   private readonly hit = new THREE.Vector3();
@@ -268,6 +270,7 @@ export class Crowd {
   ) {}
 
   update(figures: Figure[], ground: (x: number, z: number) => number, t: number, dt: number): void {
+    this.still = document.documentElement.classList.contains('reduce-motion');
     const live = new Set<string>();
     for (const f of figures) {
       live.add(f.id);
@@ -336,7 +339,13 @@ export class Crowd {
         m.ring.rotation.x = -Math.PI / 2;
         this.group.add(m.ring);
       }
-      m.ring?.position.set(m.pos.x, gy + 0.04, m.pos.z);
+      if (m.ring) {
+        // A slow sway of the ring (a bob, not a pulse), held still under reduced motion.
+        const r = GROVE3D.cave.read.stray;
+        const sway = this.still ? 0 : Math.sin(t * r.bobHz * Math.PI * 2 + m.pos.x);
+        m.ring.position.set(m.pos.x, gy + 0.04 + (sway + 1) * r.bob * 0.5, m.pos.z);
+        m.ring.scale.setScalar(1 + sway * r.bob);
+      }
     }
     for (const id of [...this.members.keys()]) if (!live.has(id)) this.drop(id);
   }

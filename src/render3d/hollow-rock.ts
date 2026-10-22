@@ -129,7 +129,7 @@ type RockTex = (typeof R.looks)[number]['tex'];
  * a block without touching the merged geometry.
  */
 function rockMaterial(tex: Tex, u: RockUniforms): THREE.MeshStandardMaterial {
-  const { rockAmp, rockTexel } = GROVE3D.cave;
+  const { rockTexel } = GROVE3D.cave;
   const m = new THREE.MeshStandardMaterial({
     map: tex.rock.map,
     normalMap: tex.rock.normal,

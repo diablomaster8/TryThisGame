@@ -14,7 +14,7 @@ import * as THREE from 'three';
  *   downpour costs no CPU at all; the mesh follows the camera's focus;
  * - `hover`: written once, wandering and pulsing in the shader (fireflies).
  */
-export type QuadShape = 'dot' | 'star' | 'heart' | 'leaf' | 'streak' | 'glow';
+export type QuadShape = 'dot' | 'star' | 'heart' | 'leaf' | 'streak' | 'glow' | 'ring';
 
 const SHAPE: Record<QuadShape, number> = {
   dot: 0,
@@ -23,6 +23,7 @@ const SHAPE: Record<QuadShape, number> = {
   leaf: 3,
   streak: 4,
   glow: 5,
+  ring: 6,
 };
 
 export type QuadMode = 'cpu' | 'fall' | 'hover';
@@ -101,6 +102,8 @@ const FRAG = /* glsl */ `
       col *= 0.78 + 0.22 * smoothstep( 0.02, 0.1, abs( p.x ) ) * ( 0.85 + 0.15 * p.x );
     } else if ( vShape < 4.5 ) {
       a = exp( -p.x * p.x * 5.0 ) * smoothstep( 1.0, 0.1, abs( p.y ) );
+    } else if ( vShape > 5.5 ) {
+      a = smoothstep( 0.2, 0.0, abs( r - 0.8 ) );
     } else {
       a = exp( -r * r * 9.0 ) + exp( -r * r * 2.2 ) * 0.35;
       col *= 1.0 + exp( -r * r * 20.0 );

@@ -3,6 +3,7 @@ import type { Game } from '../game';
 import { partyPreview } from '../sim/dungeon';
 import type { World } from '../sim/types';
 import { button, el, modal } from './dom';
+import { HollowMap } from './hollow-map';
 
 /**
  * The Hollow Below: the menu at the cave mouth (today's shared cave or a fresh one,
@@ -14,6 +15,7 @@ export class DungeonMenu {
   private readonly info: HTMLDivElement;
   private readonly bar: HTMLDivElement;
   private readonly barText: HTMLSpanElement;
+  private readonly map: HollowMap;
 
   constructor(
     parent: HTMLElement,
@@ -50,6 +52,9 @@ export class DungeonMenu {
         'btn btn-small',
       ),
     );
+    // The minimap: its button sits in the bar, its panel is the bar's last row.
+    this.map = new HollowMap(this.bar);
+    this.bar.insertBefore(this.map.toggle, this.map.panel);
     parent.appendChild(this.bar);
   }
 
@@ -74,6 +79,7 @@ export class DungeonMenu {
   refresh(world: World): void {
     const run = world.location === 'dungeon' ? world.dungeon : null;
     this.bar.hidden = !run;
+    this.map.refresh(world);
     if (!run) return;
     this.barText.textContent = `${DUNGEON_TEXT.floor(run.depth)} · ${DUNGEON_TEXT.haul(run.haul.shells, run.haul.items)}`;
   }
