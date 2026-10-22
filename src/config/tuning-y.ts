@@ -34,9 +34,9 @@ export const CG2_Y = {
     /** Window centres on a crest house, as shares of its width and wall height. */
     window: { dx: 0.3, dy: 0.55 },
     /** Dew on the green at dawn: how many glints, and the disc they scatter over. */
-    dew: { count: 46, radiusShare: 1.5, size: 0.16, opacity: 0.9, hz: 0.7 },
+    dew: { count: 46, radiusShare: 1.5, size: 0.26, opacity: 1, hz: 0.7 },
     /** Chimney smoke: puffs in a column, from the roof, drifting with the air. */
-    smoke: { house: 1, puffs: 4, rise: 2.4, size: 0.9, opacity: 0.42, seconds: 5 },
+    smoke: { house: 1, puffs: 4, rise: 2.4, size: 1.2, opacity: 0.55, seconds: 5 },
   },
 
   /** M10: the crisp morning's grade (read by config/campaign-look.ts). */
@@ -72,11 +72,11 @@ export const CG2_Y = {
     poleHeight: 2.9,
     /** Lantern size (3D radius) and glow card size. */
     size: 0.2,
-    glow: 0.9,
-    glowOpacity: 0.5,
+    glow: 0.65,
+    glowOpacity: 0.4,
     /** Emissive multiplier on the lantern colours (3D, past the bloom threshold). */
-    emissive: 2.4,
-    colors: ['#ff7a4a', '#ffb347', '#ffe08a', '#ff9a6a', '#ffd070'],
+    emissive: 1.15,
+    colors: ['#ff5a30', '#ff9a2a', '#ffcf3a', '#ff7048', '#ffb830'],
     /** Each anchor list, by the set it dresses (mark names; the string loops through them). */
     festival: ['festival-1', 'festival-4', 'festival-7', 'festival-10'],
     fold: ['fold-door-1', 'fold-well', 'fold-door-3', 'fold-door-2', 'fold-door-4'],
