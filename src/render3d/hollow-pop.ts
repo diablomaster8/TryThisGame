@@ -83,6 +83,8 @@ export class HollowPop implements HollowModule {
   private readonly c = new THREE.Color();
   private lootPos: Array<{ x: number; z: number; y: number; id: string; h: number }> = [];
   private seen = '\u0000';
+  private shed = false;
+  private unshed: (() => void) | null = null;
 
   build(f: Floor, ctx: HollowCtx): void {
     const r = GROVE3D.cave.read;
