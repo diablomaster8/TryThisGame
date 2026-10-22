@@ -182,18 +182,17 @@ const RAW: Readonly<Record<string, SceneStage>> = {
     cast: [{ who: 'nova', mark: 'gate', face: 'you' }],
     shot: { kind: 'two' },
   },
+  // c8-ledge and c8-ledge-s4 play in the Hollow: no sky, so no hour.
   'c8-ledge': {
-    place: 'gate',
-    hour: 8,
+    place: 'hollow',
     season: 'autumn',
-    cast: [{ who: 'fern', mark: 'gate', face: 'you', carry: 'bag' }],
+    cast: [{ who: 'fern', mark: 'hollow-camp', face: 'you', carry: 'bag' }],
     shot: { kind: 'two' },
   },
   'c8-ledge-s4': {
-    place: 'gate',
-    hour: 8,
+    place: 'hollow',
     season: 'autumn',
-    cast: [{ who: 'fern', mark: 'gate', face: 'you', carry: 'bag' }],
+    cast: [{ who: 'fern', mark: 'hollow-camp', face: 'you', carry: 'bag' }],
     shot: { kind: 'two' },
   },
   // The Hollow has no sky, so no hour: the camp, a cold fire, grey shapes in the trees.
