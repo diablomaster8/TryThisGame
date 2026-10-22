@@ -2164,3 +2164,40 @@ select {
       0 -10px 12px 2px #1a1530;
   }
 }
+
+/* Phone portrait: a short panel sits low, so its Close is under the thumb too. */
+@media (orientation: portrait) and (max-width: 600px) {
+  .modal {
+    align-items: flex-end;
+  }
+  .modal > .modal-card {
+    margin-bottom: calc(var(--safe-bottom) + 12px);
+    max-height: calc(100% - var(--safe-bottom) - 24px);
+  }
+}
+
+/* A fieldset's min-content width let a long select push past the card's edge. */
+.settings-section {
+  min-width: 0;
+}
+.field-row select {
+  margin-left: auto;
+  min-width: 0;
+  flex: 0 1 auto;
+}
+
+@media (orientation: portrait) and (max-width: 600px) {
+  .modal > .modal-card {
+    padding-bottom: 0;
+  }
+  /* The sticky Close covers what scrolls under it, above and below, and keeps a gap under it. */
+  .modal-card > .modal-head > .btn-close {
+    clip-path: none;
+    margin-bottom: 12px;
+    box-shadow:
+      inset 2px 2px 0 var(--px-light),
+      inset -2px -2px 0 var(--px-dark),
+      0 -12px 12px 0 #1a1530,
+      0 12px 0 2px #1a1530;
+  }
+}
