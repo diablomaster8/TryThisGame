@@ -2239,3 +2239,9 @@ select {
   flex-wrap: wrap;
   max-width: calc(100vw - var(--safe-left) - var(--safe-right) - 24px);
 }
+
+/* A story line is up: the Run and camera buttons would show through the dialogue box. */
+.dialogue-open .run-btn,
+.dialogue-open .camera-buttons {
+  visibility: hidden;
+}

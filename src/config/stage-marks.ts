@@ -1,4 +1,4 @@
-import { GROVE, LANTERN_POSTS } from './tuning';
+import { GROVE, LANTERN_POSTS, LOOK_F, STORY_B } from './tuning';
 
 /**
  * The story's stage marks (campaign graphics C1): where a figure stands for a scene, as
@@ -25,7 +25,6 @@ export type MarkSet = 'grove' | 'hollow' | 'corvin';
 const PI = Math.PI;
 const N = PI; // facing north (-z)
 const S = 0; // facing south (+z)
-const E = PI / 2; // facing east (+x)
 const W = -PI / 2; // facing west (-x)
 
 const post = (id: string): { x: number; z: number } =>
@@ -41,6 +40,15 @@ const HILL = GROVE.hills[0];
 const FALLS = GROVE.waterfall;
 const POND = GROVE.pond;
 const WINDMILL = GROVE.buildings.windmill;
+/** Dawn & Dusk's green (tuning-b): its houses stand `houseRadius` out, N, E, S, W. */
+const GREEN = STORY_B.dawnDusk.green;
+const HOUSE_R = STORY_B.dawnDusk.houseRadius;
+/** A spot at a house's door, between the house and the green, facing the green. */
+const doorOf = (dx: number, dz: number): StageMark => ({
+  x: GREEN.x + dx * (HOUSE_R - 2.8),
+  z: GREEN.z + dz * (HOUSE_R - 2.8),
+  yaw: Math.atan2(-dx, -dz),
+});
 
 /** The home Grove, and the separate campaigns' places dressed over it. */
 const GROVE_MARKS: Record<string, StageMark> = {
@@ -70,17 +78,19 @@ const GROVE_MARKS: Record<string, StageMark> = {
   'fold-square': { x: 0, z: 2, yaw: S },
   mill: { x: WINDMILL.x + 2.4, z: WINDMILL.z + 2, yaw: W },
   'shore-jetty': { x: POND.x, z: POND.z + POND.r + 0.6, yaw: N },
-  // Dawn & Dusk: four houses round a green, facing in.
-  'green-centre': { x: 0, z: 2, yaw: S },
-  'house-1': { x: 0, z: -7, yaw: S },
-  'house-2': { x: 9, z: 2, yaw: W },
-  'house-3': { x: 0, z: 11, yaw: N },
-  'house-4': { x: -9, z: 2, yaw: E },
-  shrine: { x: -3, z: -11, yaw: S },
-  bell: { x: -1, z: -10.5, yaw: S },
-  // The Beetle Road: a guard house on the lane in.
-  guardhouse: { x: -3, z: 20, yaw: N },
-  cart: { x: 3, z: 19, yaw: W },
+  // Dawn & Dusk: four houses round a green (STORY_B.dawnDusk), each mark at a door.
+  'green-centre': { x: GREEN.x, z: GREEN.z, yaw: S },
+  green: { x: GREEN.x, z: GREEN.z, yaw: S },
+  'house-1': doorOf(0, -1),
+  'house-2': doorOf(1, 0),
+  'house-3': doorOf(0, 1),
+  'house-4': doorOf(-1, 0),
+  shrine: { x: GREEN.x - 1.5, z: GREEN.z + 1.5, yaw: S },
+  bell: { x: GREEN.x + 1.5, z: GREEN.z + 1.5, yaw: S },
+  // The Beetle Road: a guard house and the cart on the lane outside the gate, well clear
+  // of the gate's posts and fence (the cart is LOOK_F's, drawn there by package f).
+  guardhouse: { x: -7, z: 29.5, yaw: N },
+  cart: { x: LOOK_F.beetle.cart.x, z: LOOK_F.beetle.cart.z, yaw: W },
   // Logged In: a lobby round the Grove's heart.
   lobby: { x: 0, z: 1, yaw: S },
   board: { x: 3, z: -2, yaw: S },

@@ -142,6 +142,22 @@ export class Dialogue {
     return this.replayGuard.shouldPlay(head);
   }
 
+  /**
+   * Close a Grove scene the sim no longer queues (the debug chapter jump clears the queue),
+   * without reporting it done: its lines would otherwise keep playing over the new chapter.
+   */
+  dropStale(queue: readonly string[] | undefined): void {
+    const id = this.scene;
+    if (!id || this.external || this.inLesson || this.root.hidden || queue?.includes(id)) return;
+    this.root.hidden = true;
+    this.scene = null;
+    this.playing = null;
+    this.afterLines = null;
+    this.choices.innerHTML = '';
+    clearInterval(this.typing);
+    stopSpeaking();
+  }
+
   /** Show a scene by id. The sim is told when it is done. */
   play(sceneId: string): void {
     const g = this.game();

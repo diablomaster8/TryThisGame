@@ -85,6 +85,8 @@ export class Game {
   private drawnHour: number | null = null;
   private hourBlend: { from: number; to: number; startMs: number } | null = null;
   private lastDressMs = 0;
+  /** The location and story-queue head last staged, to restage on the frame either changes. */
+  private stageKey = '';
 
   /**
    * The hour to light the pixel view at: a queued scene's staged hour, else `clock`. A
@@ -540,6 +542,14 @@ export class Game {
         )
           this.syncDungeon();
       }
+    }
+
+    // A new place or a new scene at the head of the story queue (a debug chapter jump among
+    // them) restages this frame: daylight, the story sets and the place's scenery.
+    const headNow = `${this.world.location}|${this.world.campaign?.queue[0] ?? ''}`;
+    if (headNow !== this.stageKey) {
+      this.stageKey = headNow;
+      this.lastDaylightMs = -Infinity;
     }
 
     // Camera follows the Keeper as drawn (interpolated between sim steps), so the

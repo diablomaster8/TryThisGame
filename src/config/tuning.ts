@@ -1859,7 +1859,11 @@ export const READ3D = {
     /** C5: a speaker further than `radius` is drawn this far from the Keeper, facing them. */
     bringIn: 2.5,
     /** H8: fraction of the frame height the subjects are lifted by, clear of the dialogue box. */
-    boxLift: 0.13,
+    boxLift: 0.2,
+    /** On a phone held upright the story camera stands no further back than this. */
+    portraitMaxDistance: 12,
+    /** …and frames at most this spread (units from the centre), narrowing the cast to fit. */
+    portraitSpread: 3.5,
     /** H8 shot shapes: `wide` and `establish` stand back by this much over a two-shot. */
     wideK: 1.45,
     /** `establish` dollies in from this many times its distance, over `establishMs`. */

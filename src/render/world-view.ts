@@ -145,6 +145,9 @@ export class WorldView {
 
   /** The Keeper's position as drawn this frame (between sim steps). */
   keeperDrawPos(world: World, alpha: number): Vec2 {
+    // A scene that puts the Keeper on a mark draws them there (render/scene-stage.ts).
+    const held = this.staging?.active ? this.staging.keeperHold : null;
+    if (held) return { x: held.x, z: held.z };
     return {
       x: lerp(this.keeperPrev.pos.x, world.keeper.pos.x, alpha),
       z: lerp(this.keeperPrev.pos.z, world.keeper.pos.z, alpha),
@@ -780,8 +783,9 @@ export class WorldView {
     // Keeper.
     const k = world.keeper;
     const ksheet = this.sheets.keeper(world.trainer, k.alignment);
-    const kx = lerp(this.keeperPrev.pos.x, k.pos.x, alpha);
-    const kz = lerp(this.keeperPrev.pos.z, k.pos.z, alpha);
+    const kd = this.keeperDrawPos(world, alpha);
+    const kx = kd.x;
+    const kz = kd.z;
     const moving =
       Math.hypot(k.pos.x - this.keeperPrev.pos.x, k.pos.z - this.keeperPrev.pos.z) > 0.001;
     if (moving !== this.keeperMoving) {

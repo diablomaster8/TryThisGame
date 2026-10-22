@@ -638,7 +638,11 @@ export function mountHud(
           g.world.location === 'hollow' ||
           g.world.location === 'corvin' ||
           g.world.location === 'dungeon';
-        holdRenderWhile(g, dialogue.isOpen || away.isOpen || photo.isOpen());
+        holdRenderWhile(
+          g,
+          dialogue.isOpen || away.isOpen || photo.isOpen(),
+          `${g.world.location}|${g.world.campaign?.queue[0] ?? ''}|${dialogue.speaker ?? ''}`,
+        );
         setAmbience(
           dialogue.isOpen || expedition.isOpen || races.screen.isOpen || karate.screen.isOpen
             ? null
@@ -701,8 +705,12 @@ export function mountHud(
       // On desktop the sheet docks on the right third: aim past it so the Nubbin stays clear.
       g.cameraSide = !sheet.root.hidden && window.innerWidth >= 720 ? CAMERA.sheetSide : 0;
       g.storySpeaker = dialogue.speaker;
+      // The Run and camera buttons sit under the dialogue box on a phone: hide them meanwhile.
+      document.documentElement.classList.toggle('dialogue-open', dialogue.isOpen);
       if (g.placing) placingText.textContent = UI_TEXT.placing(placingLabel(g.placing));
       if (kindergarten.isOpen() && Math.random() < 0.1) kindergarten.refresh();
+      // A debug chapter jump empties the queue: drop the old scene so the new one plays now.
+      if (c) dialogue.dropStale(c.queue);
       const next = c?.queue[0];
       if (
         heldFestival &&

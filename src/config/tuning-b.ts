@@ -30,8 +30,11 @@ export const STORY_B = {
     buildings: ['cottage', 'school', 'dojo'] as const,
   },
   dawnDusk: {
-    /** The mown green and the four houses round it (clear of the lane, the well and the pond). */
-    green: { x: -9, z: 19.5, r: 4.8 },
+    /**
+     * The mown green and the four houses round it, on the school's ground north of the heart:
+     * clear of the gate and its fence, the lane, the well, the pond and the hills.
+     */
+    green: { x: -4, z: -14, r: 4.8 },
     houseRadius: 6,
     /** Crest, roof colour and width for each house, clockwise from the north. */
     houses: [
