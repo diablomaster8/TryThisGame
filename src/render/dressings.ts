@@ -83,6 +83,9 @@ export const PIXEL_DRESSINGS: readonly PixelDressing[] = [
   dressU,
 ];
 
+/** First-pass dressings drawn only in the Grove's own world, so not on an exclusive stage. */
+const EXCLUSIVE_SKIPS: ReadonlySet<string> = new Set(['b', 'c', 'd', 'e']);
+
 /** Runs the registry for one GroveScene: build once, update per frame, dispose at the end. */
 export class PixelDressings {
   private built = false;
@@ -97,7 +100,11 @@ export class PixelDressings {
   }
 
   update(world: World, stage: SceneStage, daylight: Daylight, dt: number): void {
-    for (const d of this.list) d.update(world, stage, daylight, dt);
+    // An exclusive stage (C3, C4) draws only its own set: the first pass's Grove-bound
+    // billboards (the gate, the Fold, Corvin's garden, props, lantern posts) sit it out.
+    const bare = stage.exclusive === true;
+    for (const d of this.list)
+      if (!bare || !EXCLUSIVE_SKIPS.has(d.id)) d.update(world, stage, daylight, dt);
   }
 
   dispose(): void {
