@@ -1,6 +1,7 @@
 import type { TrainerLook } from '../sim/trainers';
 import { C } from '../render/sprites/palette';
 import type { SceneStage, StageCast } from './story';
+import { CG4_B4 } from './tuning-b4';
 
 /**
  * H12, M1, C2: one silhouette prop per named person, so the cast reads apart at a distance
@@ -46,6 +47,10 @@ export interface NpcLook {
   pal?: readonly [number, number];
   /** M13: two darker patches on the sleeves, at the elbows. */
   patches?: boolean;
+  /** K38: a static stoop (share of height lost); the pose itself is drawn by package a1. */
+  stoop?: number;
+  /** K38: she leans on a stick (drawn by package b4's dressings). */
+  stick?: boolean;
 }
 
 export const NPC_LOOKS: Readonly<Record<string, NpcLook>> = {
@@ -252,9 +257,97 @@ export const STORY_NPC_LOOKS: Readonly<Record<string, StoryNpcLook>> = {
 /** The storyline speaker ids that have a look. */
 export const STORY_SPEAKER_IDS: readonly string[] = Object.keys(STORY_NPC_LOOKS);
 
+/**
+ * K4, K38: looks that exist only in the story and are chosen by `storyId`. They are in no
+ * trainer picker and match no selectable trainer's look (content-check fails one that does).
+ * Fern's wears a satchel, a flat band cap in green and a rose scarf at the collar; Hazel's
+ * two ages are the young one of the tales and the stooped one with a stick (chapter 11 on).
+ */
+export const STORY_ONLY_LOOKS: Readonly<Record<string, StoryNpcLook>> = {
+  'fern-story': {
+    accessory: 'satchel',
+    main: '#7a8a52',
+    trim: '#d94a7a',
+    pal: [C.leaf, C.rose],
+    trainer: person({
+      skin: C.sand,
+      hat: C.forest,
+      hatBand: C.rose,
+      shirt: C.leaf,
+      shirtShade: C.rose,
+      pants: C.bark,
+      boots: C.darkBark,
+      hair: C.wood,
+      hatStyle: 'band',
+    }),
+  },
+  'young-hazel': {
+    accessory: 'shawl',
+    scale: CG4_B4.hazel.youngScale,
+    main: '#b8b0a0',
+    trim: '#e8e0d0',
+    trainer: person({
+      skin: C.sand,
+      hat: C.cream,
+      hatBand: C.cream,
+      shirt: C.cream,
+      shirtShade: C.sandLight,
+      pants: C.bark,
+      boots: C.darkBark,
+      hair: C.darkBark,
+      hatStyle: 'none',
+    }),
+  },
+  'hazel-old': {
+    accessory: 'shawl',
+    scale: CG4_B4.hazel.oldScale,
+    stoop: CG4_B4.hazel.oldStoop,
+    stick: true,
+    patches: true,
+    main: '#9a6aa6',
+    trim: '#d9b8dc',
+    trainer: person({
+      skin: C.sand,
+      hat: C.cream,
+      hatBand: C.blush,
+      shirt: C.lavender,
+      shirtShade: C.violet,
+      pants: C.bark,
+      boots: C.darkBark,
+      hair: C.pale,
+      hatStyle: 'sun',
+    }),
+  },
+};
+
+/**
+ * What the story is showing, set each frame by package b4's dressing in whichever renderer
+ * runs (as `WEATHERED`): a told tale (K11) and the campaign and chapter (K38).
+ */
+export const LOOK_STATE: { tale: boolean; campaign: string; chapter: number } = {
+  tale: false,
+  campaign: 'hazel',
+  chapter: 0,
+};
+
+/**
+ * K4, K38: the look id to draw a person as in the story world, portraits and the stage:
+ * Fern in her own story look (never the Gardener's), Hazel young in a tale, and stooped
+ * with a stick from chapter 11. Anyone else is drawn as themselves. The trainer picker
+ * and the player's own Keeper never go through this, so the Gardener stays the Gardener.
+ */
+export function storyId(who: string): string {
+  if (who === 'fern') return 'fern-story';
+  if (who !== 'hazel') return who;
+  if (LOOK_STATE.tale) return 'young-hazel';
+  return LOOK_STATE.campaign === 'hazel' && LOOK_STATE.chapter >= CG4_B4.hazel.oldFromChapter
+    ? 'hazel-old'
+    : who;
+}
+
 /** A trainer's or storyline speaker's accessory look, or undefined. */
 export const npcLookOf = (who: string): NpcLook | undefined =>
-  NPC_LOOKS[who] ?? STORY_NPC_LOOKS[who];
+  NPC_LOOKS[who] ?? STORY_NPC_LOOKS[who] ?? STORY_ONLY_LOOKS[who];
 
 /**
  * C6: the Nubbins drawn weathered grey (Moss while he is "the grey shape", or any cast entry
