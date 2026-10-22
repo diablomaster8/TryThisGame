@@ -20,16 +20,33 @@ import { PKG_U_STAGES } from './scene-stages-pkg-u';
  * pass's package overlays (`scene-stages-pkg-<pkg>.ts`, test data) sit under the content
  * files, field by field: where both set a field, the content file's wins.
  */
-/** The second pass's package overlays, merged in package order. */
-const OVERLAYS: Readonly<Record<string, SceneStage>> = {
-  ...PKG_P_STAGES,
-  ...PKG_S_STAGES,
-  ...PKG_K_STAGES,
-  ...PKG_W_STAGES,
-  ...PKG_X_STAGES,
-  ...PKG_Y_STAGES,
-  ...PKG_U_STAGES,
-};
+/**
+ * Two stages over one scene: `top` wins field by field, and `props` and `lights` merge key by
+ * key, so two packages can each add a prop or a light to the same scene.
+ */
+function layer(under: SceneStage | undefined, top: SceneStage): SceneStage {
+  if (!under) return top;
+  const out: SceneStage = { ...under, ...top };
+  if (under.props && top.props) out.props = { ...under.props, ...top.props };
+  if (under.lights && top.lights) out.lights = { ...under.lights, ...top.lights };
+  return out;
+}
+
+/** The second pass's package overlays, layered in package order. */
+const OVERLAYS: Readonly<Record<string, SceneStage>> = (() => {
+  const out: Record<string, SceneStage> = {};
+  for (const pkg of [
+    PKG_P_STAGES,
+    PKG_S_STAGES,
+    PKG_K_STAGES,
+    PKG_W_STAGES,
+    PKG_X_STAGES,
+    PKG_Y_STAGES,
+    PKG_U_STAGES,
+  ])
+    for (const [id, st] of Object.entries(pkg)) out[id] = layer(out[id], st);
+  return out;
+})();
 
 const CONTENT: Readonly<Record<string, SceneStage>> = {
   ...HAZEL_STAGES,
@@ -42,7 +59,7 @@ const CONTENT: Readonly<Record<string, SceneStage>> = {
 /** Overlays under content, field by field: a package may add a field to a content scene. */
 function merged(): Record<string, SceneStage> {
   const out: Record<string, SceneStage> = { ...OVERLAYS };
-  for (const [id, st] of Object.entries(CONTENT)) out[id] = { ...out[id], ...st };
+  for (const [id, st] of Object.entries(CONTENT)) out[id] = layer(out[id], st);
   return out;
 }
 
