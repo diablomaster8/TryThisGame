@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { DUNGEON, GROVE3D } from '../config/tuning';
+import { DUNGEON, GROVE3D, READ3D } from '../config/tuning';
 import { cellAt, cellCentre, WALL, WATER, type Floor } from '../sim/dungeon';
 import type { DungeonRun } from '../sim/types';
 import type { Tex } from '../samples/aaa-kit';
@@ -29,8 +29,46 @@ const WALL_H = 2.4;
 /** The Keeper's lamp and the three torch lamps. */
 const LAMPS = 4;
 
-const mat = (color: string, o: THREE.MeshStandardMaterialParameters = {}) =>
-  new THREE.MeshStandardMaterial({ color, roughness: 0.9, ...o });
+/**
+ * One material per colour and settings for the page's life: every floor reuses them, so a
+ * new floor makes no materials and leaves none behind (review 2026-10-21, bug 45).
+ */
+const MATS = new Map<string, THREE.MeshStandardMaterial>();
+const mat = (color: string, o: THREE.MeshStandardMaterialParameters = {}) => {
+  const key = `${color}|${JSON.stringify(o)}`;
+  let m = MATS.get(key);
+  if (!m) {
+    m = new THREE.MeshStandardMaterial({ color, roughness: 0.9, ...o });
+    MATS.set(key, m);
+  }
+  return m;
+};
+
+/**
+ * The way on and the chest glow a little, and stand in a soft ring of light on the floor,
+ * so they read in the dark at a glance (review 2026-10-21, bug 12).
+ */
+const STEP = mat('#a8a2b8', { emissive: '#5a78c0', emissiveIntensity: 0.45 });
+const RIM = mat('#b8c8e8', { emissive: '#7aa8ff', emissiveIntensity: 1.2 });
+const MARKERS = new Map<string, THREE.MeshBasicMaterial>();
+function marker(x: number, z: number, color: string): THREE.Mesh {
+  let m = MARKERS.get(color);
+  if (!m) {
+    m = new THREE.MeshBasicMaterial({
+      color,
+      transparent: true,
+      opacity: 0.45,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    MARKERS.set(color, m);
+  }
+  const ring = new THREE.Mesh(new THREE.RingGeometry(CELL * 0.42, CELL * 0.56, 32), m);
+  ring.rotation.x = -Math.PI / 2;
+  ring.position.set(x, 0.04, z);
+  ring.userData.marker = true;
+  return ring;
+}
 
 /**
  * A rock block: a box cut into a few rows so the noise in `rockMaterial` can bend it, dark
@@ -258,7 +296,12 @@ function lootModel(kind: string): THREE.Object3D {
     return o;
   };
   if (kind === 'shells') {
-    const gold = mat('#f2d34c', { metalness: 0.6, roughness: 0.35 });
+    const gold = mat('#f2d34c', {
+      metalness: 0.6,
+      roughness: 0.35,
+      emissive: '#c89a20',
+      emissiveIntensity: 0.7,
+    });
     const geo = new THREE.SphereGeometry(0.09, 10, 8);
     for (const [x, z] of [
       [-0.1, 0.05],
@@ -268,17 +311,15 @@ function lootModel(kind: string): THREE.Object3D {
     ] as const)
       add(geo, gold, x, -0.12, z).scale.set(1, 0.45, 0.8);
   } else if (kind === 'stone') {
-    add(new THREE.DodecahedronGeometry(0.16), mat('#8a8a98', { flatShading: true })).scale.set(
-      1,
-      0.7,
-      0.85,
-    );
+    add(
+      new THREE.DodecahedronGeometry(0.16),
+      mat('#9a9aac', { flatShading: true, emissive: '#6a6a90', emissiveIntensity: 0.35 }),
+    ).scale.set(1, 0.7, 0.85);
   } else if (kind === 'seed') {
-    add(new THREE.SphereGeometry(0.11, 12, 10), mat('#8a5a32', { roughness: 0.6 })).scale.set(
-      0.85,
-      1.1,
-      0.85,
-    );
+    add(
+      new THREE.SphereGeometry(0.11, 12, 10),
+      mat('#8a5a32', { roughness: 0.6, emissive: '#6a4020', emissiveIntensity: 0.4 }),
+    ).scale.set(0.85, 1.1, 0.85);
     add(new THREE.CylinderGeometry(0.015, 0.015, 0.14, 5), mat('#4a9c42'), 0.03, 0.17, 0);
     add(new THREE.SphereGeometry(0.05, 8, 6), mat('#8fd262'), 0.07, 0.24, 0).scale.set(
       1.4,
@@ -308,11 +349,10 @@ function lootModel(kind: string): THREE.Object3D {
     );
     bubble.castShadow = false;
   } else {
-    add(new THREE.SphereGeometry(0.2, 14, 10), mat('#f3efe2', { roughness: 0.5 })).scale.set(
-      0.85,
-      1.1,
-      0.85,
-    );
+    add(
+      new THREE.SphereGeometry(0.2, 14, 10),
+      mat('#f3efe2', { roughness: 0.5, emissive: '#a89cc0', emissiveIntensity: 0.45 }),
+    ).scale.set(0.85, 1.1, 0.85);
     const speck = mat('#c9a0ff');
     const geo = new THREE.SphereGeometry(0.025, 6, 4);
     for (let i = 0; i < 6; i++) {
@@ -557,29 +597,34 @@ export class Hollow {
     for (let i = 0; i < 4; i++) {
       const st = new THREE.Mesh(
         new THREE.BoxGeometry(CELL * 0.8, 0.18 * (i + 1), CELL * 0.22),
-        mat('#8a8490'),
+        STEP,
       );
       st.position.set(0, 0.09 * (i + 1), -CELL * 0.3 + i * CELL * 0.2);
       steps.add(st);
     }
     steps.position.set(up.x, 0, up.z);
-    this.group.add(steps);
+    this.group.add(steps, marker(up.x, up.z, '#9ec8ff'));
     this.picks.push([new THREE.Vector3(up.x, 0.4, up.z), 'stairs', 'up', 0.9]);
     if (f.stairsDown) {
       const dn = cellCentre(f, f.stairsDown);
       const hole = new THREE.Mesh(new THREE.CircleGeometry(CELL * 0.38, 20), mat('#05040a'));
       hole.rotation.x = -Math.PI / 2;
       hole.position.set(dn.x, 0.03, dn.z);
-      const rim = new THREE.Mesh(new THREE.TorusGeometry(CELL * 0.4, 0.08, 8, 24), mat('#8a8490'));
+      const rim = new THREE.Mesh(new THREE.TorusGeometry(CELL * 0.4, 0.08, 8, 24), RIM);
       rim.rotation.x = -Math.PI / 2;
       rim.position.set(dn.x, 0.06, dn.z);
-      this.group.add(hole, rim);
+      this.group.add(hole, rim, marker(dn.x, dn.z, '#9ec8ff'));
       this.picks.push([new THREE.Vector3(dn.x, 0.2, dn.z), 'stairs', 'down', 0.9]);
     }
     // The chest.
     const ch = cellCentre(f, f.chest);
     const chest = new THREE.Group();
-    chest.add(new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.4, 0.45), mat('#8a5a2a')));
+    chest.add(
+      new THREE.Mesh(
+        new THREE.BoxGeometry(0.7, 0.4, 0.45),
+        mat('#8a5a2a', { emissive: '#4a2a10', emissiveIntensity: 0.5 }),
+      ),
+    );
     chest.children[0]!.position.y = 0.2;
     const lid = new THREE.Group();
     const lidMesh = new THREE.Mesh(new THREE.BoxGeometry(0.72, 0.14, 0.47), mat('#a06a32'));
@@ -589,14 +634,19 @@ export class Hollow {
     chest.add(lid);
     const band = new THREE.Mesh(
       new THREE.BoxGeometry(0.1, 0.42, 0.47),
-      mat('#e0c060', { metalness: 0.8, roughness: 0.3 }),
+      mat('#e0c060', {
+        metalness: 0.8,
+        roughness: 0.3,
+        emissive: '#c89a20',
+        emissiveIntensity: 0.9,
+      }),
     );
     band.position.y = 0.21;
     chest.add(band);
     chest.position.set(ch.x, 0, ch.z);
     chest.traverse((o) => (o.castShadow = true));
     this.chestLid = lid;
-    this.group.add(chest);
+    this.group.add(chest, marker(ch.x, ch.z, '#ffd870'));
     this.picks.push([new THREE.Vector3(ch.x, 0.3, ch.z), 'chest', 'chest', 0.6]);
     // Torches: a post, a flame that glows; the lamps follow the nearest four.
     const flame = mat('#ffd080', { emissive: '#ff9a30', emissiveIntensity: 3 });
@@ -668,7 +718,9 @@ export class Hollow {
     const own = this.lamps[0]!;
     own.color.set('#fff0d0');
     own.position.set(keeper.x, 1.8, keeper.z);
-    own.intensity = GROVE3D.keeperLamp;
+    // Brighter and wider than the torches: the floor round the party must read (bug 12).
+    own.intensity = READ3D.hollow.lamp;
+    own.distance = READ3D.hollow.lampDistance;
     const near = [...this.torchAt]
       .sort(
         (a, b) =>
