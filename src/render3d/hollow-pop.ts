@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { GROVE3D } from '../config/tuning';
 import { cellCentre, exploredRooms, type Floor } from '../sim/dungeon';
+import { caveShed } from './cave-shed';
 import {
   CELL,
   disposeObjects,
@@ -142,10 +143,19 @@ export class HollowPop implements HollowModule {
     this.loot = loot;
     this.rooms = rooms;
     ctx.group.add(loot, rooms);
+    this.unshed = caveShed.register({
+      name: 'particles',
+      apply: (s) => {
+        this.shed = s;
+        rooms.visible = !s;
+      },
+    });
     this.objs.push(loot, rooms);
   }
 
   dispose(): void {
+    this.unshed?.();
+    this.unshed = null;
     for (const o of this.objs) ((o as THREE.InstancedMesh).material as THREE.Material).dispose();
     disposeObjects(this.objs);
     this.loot = this.rooms = null;
@@ -163,7 +173,8 @@ export class HollowPop implements HollowModule {
     this.loot.visible = this.lootPos.length > 0;
     this.lootPos.forEach((l, i) => {
       const gone = taken.includes(l.id);
-      const bob = calm ? 0 : Math.sin(t * r.loot.bobHz * Math.PI * 2 + l.h) * r.loot.bob;
+      const bob =
+        calm || this.shed ? 0 : Math.sin(t * r.loot.bobHz * Math.PI * 2 + l.h) * r.loot.bob;
       this.m.compose(
         this.p.set(l.x, l.y + r.loot.lift + bob, l.z),
         this.q.identity(),
