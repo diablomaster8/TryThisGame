@@ -89,7 +89,7 @@ export class CaveAmbience {
       p.burst('ember', t.x, GROVE3D.cave.pixel.sconceY - 0.3, t.z - CELL * 0.4, 1, {
         spread: 0.1,
         speed: 0.12,
-        rise: 0.55,
+        rise: 0.45,
         lifeMs: A.embers.life,
         size: A.embers.size,
         fadeMs: 300,

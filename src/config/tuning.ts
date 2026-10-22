@@ -533,7 +533,7 @@ export const GROVE3D = {
         reach: 9,
         motes: { rate: 3, life: 5200, size: 0.16 },
         drips: { rate: 0.6, life: 1100, size: 0.3 },
-        embers: { rate: 1.6, life: 1500, size: 0.2 },
+        embers: { rate: 4, life: 2400, size: 0.42 },
       },
     },
   },

@@ -153,10 +153,11 @@ function draw(kind: ParticleKind, f: number): PixelCanvas {
       pc.px(c - 1, c, C.sand);
       break;
     case 'ember':
-      // A torch ember: a hot pixel with a dull tail beneath it.
-      pc.px(c, c - 1, C.sunLight);
-      pc.px(c, c, C.orange);
-      pc.px(c, c + 1, C.ember);
+      // A torch ember: a hot core in a small orange glow, still, so it never strobes.
+      pc.disc(c, c, 2.6, C.ember);
+      pc.disc(c, c, 1.7, C.orange);
+      pc.px(c, c, C.sunLight);
+      pc.px(c - 1, c - 1, C.sunLight);
       break;
     case 'splash':
       pc.ellipse(c, c + 1, f === 0 ? 1.4 : 2.6, 0.7, C.skyLight);
