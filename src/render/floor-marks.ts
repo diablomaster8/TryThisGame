@@ -1,5 +1,13 @@
 import { setFloorMarks, type StageMark } from '../config/stage-marks';
-import { cellCentre, isWalkable, runFloor, type Cell, type Floor } from '../sim/dungeon';
+import {
+  cellAt,
+  cellCentre,
+  cellIndex,
+  FLOOR,
+  runFloor,
+  type Cell,
+  type Floor,
+} from '../sim/dungeon';
 import type { World } from '../sim/types';
 
 /**
@@ -18,16 +26,29 @@ import type { World } from '../sim/types';
 
 let shown = '';
 
-/** The open cell nearest `c` (itself if open), searching outward a few rings. */
-function openNear(f: Floor, c: Cell, avoid: ReadonlySet<string> = new Set()): Cell {
-  for (let r = 0; r <= 6; r++)
-    for (let dy = -r; dy <= r; dy++)
-      for (let dx = -r; dx <= r; dx++) {
-        if (Math.max(Math.abs(dx), Math.abs(dy)) !== r) continue;
-        const x = c.x + dx;
-        const y = c.y + dy;
-        if (isWalkable(f, x, y) && !avoid.has(`${x},${y}`)) return { x, y };
-      }
+/**
+ * The open cell nearest `c` (itself if open), searching outward a few rings. With `level`,
+ * a dry cell at that ground height is taken first (a figure off it would stand in a terrace
+ * wall: the cast is drawn on the flat), then any open cell.
+ */
+function openNear(
+  f: Floor,
+  c: Cell,
+  avoid: ReadonlySet<string> = new Set(),
+  level: number | null = null,
+): Cell {
+  const fits = (x: number, y: number, strict: boolean): boolean => {
+    if (cellAt(f, x, y) !== FLOOR || avoid.has(`${x},${y}`)) return false;
+    if (!strict || level === null) return true;
+    return Math.abs((f.elevation[cellIndex(f, x, y)] ?? 0) - level) < 0.05;
+  };
+  for (const strict of [true, false])
+    for (let r = 0; r <= 6; r++)
+      for (let dy = -r; dy <= r; dy++)
+        for (let dx = -r; dx <= r; dx++) {
+          if (Math.max(Math.abs(dx), Math.abs(dy)) !== r) continue;
+          if (fits(c.x + dx, c.y + dy, strict)) return { x: c.x + dx, y: c.y + dy };
+        }
   return c;
 }
 
@@ -68,7 +89,9 @@ export function floorMarks(f: Floor): Record<string, StageMark> {
     : f.stairsUp;
   const sx = Math.sign(mid.x - f.stairsUp.x);
   const sy = Math.sign(mid.y - f.stairsUp.y) || (sx === 0 ? 1 : 0);
-  const kc = openNear(f, { x: f.stairsUp.x + sx, y: f.stairsUp.y + sy }, used);
+  // Everyone stands on the stairs' own level (the stairs sit level at 0).
+  const level = f.elevation[cellIndex(f, f.stairsUp.x, f.stairsUp.y)] ?? 0;
+  const kc = openNear(f, { x: f.stairsUp.x + sx, y: f.stairsUp.y + sy }, used, level);
   used.add(`${kc.x},${kc.y}`);
   const keeper = at(kc);
   // Face the way in (from the stairs toward the room's middle).
@@ -89,7 +112,7 @@ export function floorMarks(f: Floor): Record<string, StageMark> {
     // Ahead along the facing, `side` across it, in cells.
     const wx = keeper.x + (fx * ahead + fz * side) * cellSize(f);
     const wz = keeper.z + (fz * ahead - fx * side) * cellSize(f);
-    const c = openNear(f, cellOfWorld(f, wx, wz), used);
+    const c = openNear(f, cellOfWorld(f, wx, wz), used, level);
     used.add(`${c.x},${c.y}`);
     const m = at(c);
     m.yaw = yawTo(m, keeper);
