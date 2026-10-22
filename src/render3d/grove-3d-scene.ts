@@ -45,6 +45,7 @@ import {
   yawSteps,
 } from '../render/scene-stage';
 import { safeRect, viewRect, type ScreenRect } from '../render/stage-api';
+import { LOOK_STATE } from '../config/npc-looks';
 import { stageHides } from '../config/stage-sets';
 import { STAGE2 } from '../config/tuning-f2';
 import { STAGE4 } from '../config/tuning-f4';
@@ -379,7 +380,7 @@ export class Grove3dScene {
       holds: this.staging.holds,
       faces: this.staging.faces,
       // An exclusive stage draws only its cast (campaign graphics C3, C4).
-      only: () => (this.staging.exclusive ? this.staging.castIds : null),
+      only: () => (this.staging.exclusive || LOOK_STATE.tale ? this.staging.castIds : null),
     };
     this.bursts = new Bursts(this.scene);
     // The garden's and the story's buildings wear the Grove's building kit (bug 15).

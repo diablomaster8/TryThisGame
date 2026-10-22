@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { npcLookOf } from '../config/npc-looks';
+import { npcLookOf, storyId } from '../config/npc-looks';
 import { GROVE3D, READ3D } from '../config/tuning';
 import type { PoseName, Rigged } from '../samples/species';
 import { speciesArt } from '../render/sprites/species-art';
@@ -194,8 +194,8 @@ export function crowdFor(
       id: npc.id,
       kind: 'npc',
       look: {
-        key: `keeper-${band}~npc:${t}`,
-        height: GROVE3D.keeperHeight * (npcLookOf(t)?.scale ?? 1),
+        key: `keeper-${band}~npc:${storyId(t)}`,
+        height: GROVE3D.keeperHeight * (npcLookOf(storyId(t))?.scale ?? 1),
       },
       x: at.x,
       z: at.z,

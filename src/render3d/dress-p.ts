@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { WEATHERED } from '../config/npc-looks';
+import { storyId, WEATHERED } from '../config/npc-looks';
 import type { SceneStage } from '../config/story';
 import { GROVE3D } from '../config/tuning';
 import { HAND_LANTERN } from '../config/tuning-e';
@@ -169,7 +169,7 @@ class Dress3dP implements Dressing3d {
         id: `stage-${a.who}`,
         kind: 'ambient',
         look: {
-          key: `keeper-${side}~npc:${a.who}`,
+          key: `keeper-${side}~npc:${storyId(a.who)}`,
           height: GROVE3D.keeperHeight * (a.look.scale ?? 1),
         },
         x: a.x,

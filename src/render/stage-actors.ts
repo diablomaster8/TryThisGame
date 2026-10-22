@@ -1,4 +1,10 @@
-import { NPC_LOOKS, STORY_NPC_LOOKS, type StoryNpcLook } from '../config/npc-looks';
+import {
+  NPC_LOOKS,
+  STORY_NPC_LOOKS,
+  STORY_ONLY_LOOKS,
+  storyId,
+  type StoryNpcLook,
+} from '../config/npc-looks';
 import { markAt } from '../config/stage-marks';
 import type { SceneStage, StageCast } from '../config/story';
 import { mossOnHill } from '../sim/roster';
@@ -207,7 +213,7 @@ function villagerLook(world: World, who: string): StoryNpcLook | undefined {
   const acc = NPC_LOOKS[who];
   const t = TRAINERS.find((x) => x.id === who);
   if (!acc || !t || who !== world.trainer) return undefined;
-  return { ...acc, trainer: t.look };
+  return STORY_ONLY_LOOKS[storyId(who)] ?? { ...acc, trainer: t.look };
 }
 
 function carryOf(c: StageCast): CarryProp | null {
