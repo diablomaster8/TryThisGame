@@ -8,7 +8,7 @@ import { HollowAtmos } from './hollow-atmos';
 import { mat, type HollowCtx, type HollowFrame, type HollowModule } from './hollow-ctx';
 import { HollowDress } from './hollow-dress';
 import { HollowLight } from './hollow-light';
-import { HollowRock, wallGeometry } from './hollow-rock';
+import { HollowRock } from './hollow-rock';
 
 /**
  * A Hollow Below floor in 3D, built from the sim's `Floor` (`sim/dungeon.ts`): rock walls
@@ -59,8 +59,17 @@ export class Hollow {
     tex: Tex,
     private readonly sky: { sun: THREE.DirectionalLight; hemi: THREE.HemisphereLight },
   ) {
-    this.ctx = { group: this.group, tex, sky, depth: 1, band: bandFor(1), reduceMotion: false };
-    this.rock = new HollowRock(tex);
+    this.ctx = {
+      group: this.group,
+      tex,
+      sky,
+      depth: 1,
+      band: bandFor(1),
+      reduceMotion: false,
+      bakers: [],
+      uniforms: { torchFlicker: { value: 1 } },
+    };
+    this.rock = new HollowRock(tex, this.ctx.uniforms.torchFlicker);
     this.dress = new HollowDress(tex);
     this.group.name = 'hollow';
     this.group.visible = false;
@@ -68,8 +77,7 @@ export class Hollow {
     this.light_ = new HollowLight(parent);
     this.mods = [this.rock, this.dress, this.light_, this.atmos];
     const box = new THREE.BoxGeometry(0.1, 0.1, 0.1);
-    const wallSample = new THREE.InstancedMesh(wallGeometry(), this.rock.rock, 1);
-    wallSample.setColorAt(0, new THREE.Color('#ffffff'));
+    const wallSample = new THREE.Mesh(box, this.rock.rock);
     const pool = new THREE.BufferGeometry();
     pool.setAttribute(
       'position',
@@ -90,7 +98,11 @@ export class Hollow {
     // The shadow pass draws casters with its own depth material (back faces), which
     // `compile` never sees; these match it when compiled as the pass draws (see the scene).
     const depth = new THREE.MeshDepthMaterial({ side: THREE.BackSide });
-    this.shadowSamples.add(new THREE.Mesh(box, depth), new THREE.InstancedMesh(box, depth, 1));
+    this.shadowSamples.add(
+      new THREE.Mesh(box, depth),
+      new THREE.InstancedMesh(box, depth, 1),
+      new THREE.Mesh(box, this.rock.depth),
+    );
     this.samples.visible = false;
     parent.add(this.samples);
   }
@@ -117,6 +129,7 @@ export class Hollow {
     // The band is set before any module builds (rock tint, torch and crystal colour).
     this.ctx.depth = depth;
     this.ctx.band = bandFor(depth);
+    this.ctx.bakers.length = 0;
     for (const m of this.mods) m.dispose();
     if (f) for (const m of this.mods) m.build(f, this.ctx);
   }

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { DUNGEON } from '../config/tuning';
+import { DUNGEON, GROVE3D } from '../config/tuning';
 import type { CaveBand } from '../render/cave-bands';
 import type { Floor } from '../sim/dungeon';
 import type { DungeonRun } from '../sim/types';
@@ -22,7 +22,23 @@ export interface HollowCtx {
   band: CaveBand;
   /** The scene's reduced-motion flag as of the last `update`. */
   reduceMotion: boolean;
+  /** Bake seam: each owner pushes one in `Hollow.set`, before the modules build. */
+  bakers: Baker[];
+  uniforms: { torchFlicker: { value: number } };
 }
+
+/**
+ * A vertex-colour baker (world position, the normal's up component): `base` is tinted in
+ * place (path wear, moss), `torch` accumulates warm light that flickers; both linear.
+ */
+export type Baker = (
+  x: number,
+  y: number,
+  z: number,
+  ny: number,
+  base: THREE.Color,
+  torch: THREE.Color,
+) => void;
 
 /** What `Hollow.update` passes down each frame. */
 export interface HollowFrame {
@@ -56,7 +72,7 @@ export function disposeObjects(objs: THREE.Object3D[]): void {
 }
 
 export const CELL = DUNGEON.cell;
-export const WALL_H = 2.4;
+export const WALL_H = GROVE3D.cave.rock.wallHeight;
 
 /**
  * One material per colour and settings for the page's life: every floor reuses them, so a
