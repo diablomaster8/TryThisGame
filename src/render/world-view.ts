@@ -25,7 +25,7 @@ import type { FrameRect, SpriteSheet } from './sprites/atlas';
 import { bubbleFor, type EmoteShape } from './sprites/emote';
 import { buildShadowSheet } from './sprites/props';
 import { SheetCache } from './sprites/sheets';
-import type { SceneStager } from './scene-stage';
+import { terraceY, type SceneStager } from './scene-stage';
 
 interface Snapshot {
   pos: Vec2;
@@ -759,7 +759,8 @@ export class WorldView {
       const nrect = nsheet.frames.get(
         frameKey(nclip, nview.angle, frameAt(CLIPS[nclip], nowMs + npc.pos.x * 97)),
       );
-      shadow(at.x, 0, at.z, 0.45);
+      const ay = held && this.location === 'grove' ? terraceY(at.x, at.z) : 0;
+      shadow(at.x, ay, at.z, 0.45);
       if (nrect) {
         batch.draw(
           {
@@ -767,7 +768,7 @@ export class WorldView {
             rect: nrect,
             flip: nview.flip,
             x: at.x,
-            y: 0,
+            y: ay,
             z: at.z,
             mode: 'billboard',
             tint: this.dim,
@@ -1297,9 +1298,12 @@ export class WorldView {
   ): void {
     const sheet = this.sheets.forNubbin(n);
     const merged = isMerged(world, n.id);
-    const x = lerp(v.prev.pos.x, n.pos.x, alpha);
-    const z = lerp(v.prev.pos.z, n.pos.z, alpha);
-    const y = lerp(v.prev.y, n.y, alpha);
+    // A scene that seats Moss or Sable on a mark draws them there (render/scene-stage.ts).
+    const held = this.staging?.active ? this.staging.nubbinHolds.get(n.id) : undefined;
+    const x = held?.x ?? lerp(v.prev.pos.x, n.pos.x, alpha);
+    const z = held?.z ?? lerp(v.prev.pos.z, n.pos.z, alpha);
+    // On a hill mark, stand on the terrace (the sim's Nubbin is on flat ground).
+    const y = lerp(v.prev.y, n.y, alpha) + (held && this.location === 'grove' ? terraceY(x, z) : 0);
 
     let key: string;
     let flip = false;

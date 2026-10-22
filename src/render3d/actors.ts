@@ -283,6 +283,8 @@ export class Actors {
 
   /** A story scene's drawn spot for the Keeper (render/scene-stage.ts), or null. */
   keeperHold: Vec2 | null = null;
+  /** A story scene's drawn spots for cast Nubbins, by id, or null. */
+  nubbinHolds: ReadonlyMap<string, Vec2> | null = null;
 
   keeperDrawPos(world: World, alpha: number): Vec2 {
     if (this.keeperHold) return { x: this.keeperHold.x, z: this.keeperHold.z };
@@ -722,8 +724,10 @@ export class Actors {
       const a = this.ensureNubbin(n);
       this.unsquash(a);
       this.tryRig(a);
-      const x = lerp(a.prev.pos.x, n.pos.x, alpha);
-      const z = lerp(a.prev.pos.z, n.pos.z, alpha);
+      // A scene that seats Moss or Sable on a mark draws them there (scene-stage.ts).
+      const held = this.nubbinHolds?.get(n.id);
+      const x = held?.x ?? lerp(a.prev.pos.x, n.pos.x, alpha);
+      const z = held?.z ?? lerp(a.prev.pos.z, n.pos.z, alpha);
       const y = lerp(a.prev.y, n.y, alpha);
       const gy = this.ground(x, z);
       const o = a.rig?.group ?? a.shell ?? a.stand!;

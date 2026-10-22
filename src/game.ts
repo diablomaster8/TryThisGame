@@ -129,7 +129,8 @@ export class Game {
     st.speaker = this.storySpeaker;
     if (st.update(this.world, nowMs)) this.lastDaylightMs = -Infinity;
     if (this.scene3d) return null;
-    const points = st.active && !focused ? st.frame(this.world) : [];
+    // A shot that names its own focus (the green, a house, Moss) centres on that, not the Keeper.
+    const points = st.active && !focused ? st.subjects(this.world) : [];
     const kind = st.stage.shot?.kind;
     if (points.length < 2 && !kind) {
       this.camera.holdZoom(null, nowMs);
