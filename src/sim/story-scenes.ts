@@ -16,6 +16,14 @@ import type {
   Reward,
   Storyline,
 } from '../content/types';
+import {
+  EDU_BANDS,
+  eduApi,
+  joinBandSets,
+  type EduApi,
+  type EduBandSet,
+  type EduSets,
+} from '../content/edu-kit';
 import { CHOICE_PAYOFFS } from './choice-payoffs';
 import { registerLangCourses, registerLangQuests } from './lang';
 import type { CampaignState, World } from './types';
@@ -193,18 +201,24 @@ export function loadStoryScripts(): Promise<void> {
   return loading;
 }
 
-/** The Learning Grove's content module (lines, lessons, glossary, journal text). */
-export type EduContent = typeof import('../content/edu');
-let eduModule: EduContent | null = null;
-let eduLoading: Promise<void> | null = null;
+/** The Learning Grove's lookups (lines, lessons, glossary, journal text) over what is loaded. */
+export type EduContent = EduApi;
 
-/** The loaded edu chunk, or null outside a Learning Grove save (or before it loads). */
+/** A whole edu module as `registerEduContent` takes it: the lookups and the language lines. */
+export interface EduModule extends EduApi {
+  EDU_LANG_QUESTS: Quest[];
+  EDU_LANG_COURSES: LanguageCourse[];
+}
+
+let eduModule: EduContent | null = null;
+
+/** The loaded edu lookups, or null outside a Learning Grove save (or before a band loads). */
 export function eduContent(): EduContent | null {
   return eduModule;
 }
 
-/** Register an edu module straight away (tests, and the loader below). */
-export function registerEduContent(m: EduContent): void {
+/** Register an edu module holding every band straight away (tests and tools). */
+export function registerEduContent(m: EduModule): void {
   eduModule = m;
   registerEduScenes(m.eduSceneFor);
   registerLanguageQuests(m.EDU_LANG_QUESTS, m.EDU_LANG_COURSES);
@@ -212,7 +226,7 @@ export function registerEduContent(m: EduContent): void {
 
 /**
  * The language questlines (CV3): their quests and scenes join the registry like the side
- * stories, and the courses join `sim/lang.ts`. Only the edu chunk carries them, so the
+ * stories, and the courses join `sim/lang.ts`. Only the edu chunks carry them, so the
  * main game never knows they exist. Safe to repeat.
  */
 export function registerLanguageQuests(quests: Quest[], courses: LanguageCourse[]): void {
@@ -233,15 +247,117 @@ export function registerLanguageQuests(quests: Quest[], courses: LanguageCourse[
 }
 
 /**
- * Load the Learning Grove's educational scenes once, as their own chunk, and register
- * them. Only a Learning Grove save asks for it, so the main game never downloads it.
+ * The edu chunks: each band's scripts (the campaign, side stories, fun quests, language
+ * lines, LB and LK), and apart from them its Atlas and Arcade versions ("worlds"), which no
+ * Learning Grove screen opens yet. A band's chunk carries the language questlines too.
  */
-export function loadEduScripts(): Promise<void> {
-  eduLoading ??= import('../content/edu').then(registerEduContent);
-  eduLoading.catch(() => {
-    eduLoading = null;
+type EduPart = 'core' | 'worlds';
+interface EduChunk {
+  set: EduBandSet;
+  lang?: { quests: Quest[]; courses: LanguageCourse[] };
+}
+const EDU_CHUNKS: Record<EduBand, Record<EduPart, () => Promise<EduChunk>>> = {
+  sprout: {
+    core: () =>
+      import('../content/edu-sprout').then((m) => ({
+        set: m.EDU_SPROUT,
+        lang: { quests: m.EDU_LANG_QUESTS, courses: m.EDU_LANG_COURSES },
+      })),
+    worlds: () =>
+      import('../content/edu-sprout-worlds').then((m) => ({ set: m.EDU_SPROUT_WORLDS })),
+  },
+  reader: {
+    core: () =>
+      import('../content/edu-reader').then((m) => ({
+        set: m.EDU_READER,
+        lang: { quests: m.EDU_LANG_QUESTS, courses: m.EDU_LANG_COURSES },
+      })),
+    worlds: () =>
+      import('../content/edu-reader-worlds').then((m) => ({ set: m.EDU_READER_WORLDS })),
+  },
+};
+
+/** The parts loaded so far, by band, and the loads in flight (`<band>:<part>`). */
+const eduParts: Partial<Record<EduBand, Partial<Record<EduPart, EduBandSet>>>> = {};
+const eduLoads = new Map<string, Promise<void>>();
+
+/** Atlas page and Arcade cartridge scene ids (`a02-…`, `pa1-…`), whose versions are "worlds". */
+const WORLD_SCENE = /^(a\d+|pa\d+)-/;
+
+function loadEduPart(band: EduBand, part: EduPart): Promise<void> {
+  const key = `${band}:${part}`;
+  let p = eduLoads.get(key);
+  if (p) return p;
+  p = EDU_CHUNKS[band][part]().then((chunk) => {
+    (eduParts[band] ??= {})[part] = chunk.set;
+    if (chunk.lang) registerLanguageQuests(chunk.lang.quests, chunk.lang.courses);
+    rebuildEdu();
   });
-  return eduLoading;
+  eduLoads.set(key, p);
+  // A failed fetch (offline, or a deploy removed the chunk) must not stick: the next
+  // call tries again, and the caller shows the reload notice.
+  p.catch(() => {
+    if (eduLoads.get(key) === p) eduLoads.delete(key);
+  });
+  return p;
+}
+
+/**
+ * Something asked the loaded bands for what they do not have: start loading the part that
+ * would hold it (a band the grown-ups just switched to, an Atlas or Arcade scene, a lesson
+ * from the other band). Until it arrives the scene reads its main lines, as before any edu
+ * chunk loads. Only once the band loader is in use: tests that register every band skip it.
+ */
+function wantEdu(band: EduBand, id: string): void {
+  const parts = eduParts[band];
+  const part: EduPart | null = !parts?.core
+    ? 'core'
+    : !parts.worlds && WORLD_SCENE.test(id)
+      ? 'worlds'
+      : null;
+  if (part) loadEduPart(band, part).catch(() => undefined);
+}
+
+/** Rebuild the lookups over every loaded part (in a fixed order, so a later load never reorders). */
+function rebuildEdu(): void {
+  const sets: EduSets = {};
+  for (const band of EDU_BANDS) {
+    const parts = eduParts[band];
+    const have = [parts?.core, parts?.worlds].filter((s) => s !== undefined);
+    if (have.length > 0) sets[band] = joinBandSets(...have);
+  }
+  const api = eduApi(sets);
+  const loaded: EduContent = {
+    ...api,
+    eduSceneFor(band, id) {
+      const scene = api.eduSceneFor(band, id);
+      if (!scene) wantEdu(band, id);
+      return scene;
+    },
+    eduLesson(id) {
+      const lesson = api.eduLesson(id);
+      const band = /^(sprout|reader):/.exec(id)?.[1] as EduBand | undefined;
+      if (!lesson && band) wantEdu(band, id.slice(band.length + 1));
+      return lesson;
+    },
+  };
+  eduModule = loaded;
+  registerEduScenes(loaded.eduSceneFor);
+}
+
+/**
+ * Load the Learning Grove's educational scenes for `bands` (by default both), each band its
+ * own chunk, and register them. Only a Learning Grove save asks, and only for its own band
+ * (and any band its lessons came from), so the main game never downloads them and a sprout
+ * slot never downloads the reader scripts. Each band's Atlas and Arcade part loads on demand.
+ */
+export function loadEduScripts(bands: readonly EduBand[] = EDU_BANDS): Promise<void> {
+  return Promise.all(bands.map((b) => loadEduPart(b, 'core'))).then(() => undefined);
+}
+
+/** Whether a band's main edu chunk is loaded (tests, and the boot's band choice). */
+export function eduBandLoaded(band: EduBand): boolean {
+  return eduParts[band]?.core !== undefined;
 }
 
 /** The campaign module's exports as the registry takes them. */
@@ -301,7 +417,10 @@ const CHILD_LINES = new Map<string, string>();
  */
 export function textBandOf(world: World): TextBand {
   const e = world.edu;
-  return e && e.storyLanguage === 'learning' ? e.band : 'main';
+  const band = e && e.storyLanguage === 'learning' ? e.band : 'main';
+  // A band the grown-ups just switched to starts loading as soon as its text is asked for.
+  if (band !== 'main' && eduLoads.size > 0) wantEdu(band, '');
+  return band;
 }
 
 /** A scene ready to play: its lines, the band's choices, and the lessons pinned to lines. */
