@@ -2,6 +2,7 @@ import { DUNGEON, KEEPER, SCANS } from '../config/tuning';
 import { CRITTER_SPECIES } from './critters';
 import { dayKey } from './daily';
 import { createEgg, EGG_COLORS } from './nubbin';
+import { generateV2 } from './dungeon-gen';
 import { Rng } from './rng';
 import { hasRoom } from './roster';
 import { noteScan } from './scans';
@@ -39,6 +40,77 @@ export interface Room {
   y: number;
   w: number;
   h: number;
+  /**
+   * The three sizes of space (item 4): one 'great' chamber per version-2 floor (an
+   * ellipse-plus-noise hall), 'medium' rooms, and 'small' side rooms (the chest nook's).
+   * Every version-1 room is 'medium'. The box is the room's bounds; a great chamber's open
+   * cells are the ellipse inside it.
+   */
+  kind: RoomKind;
+}
+
+export type RoomKind = 'great' | 'medium' | 'small';
+
+/** What stands in the middle of the great chamber (item 18, rendered by a later pass). */
+export type LandmarkKind =
+  'crystalTree' | 'waterfallPool' | 'mushroomRing' | 'shrine' | 'rootPillar';
+
+export const LANDMARK_KINDS: readonly LandmarkKind[] = [
+  'crystalTree',
+  'waterfallPool',
+  'mushroomRing',
+  'shrine',
+  'rootPillar',
+];
+
+/** The rare floor moods (item 41); 'none' on almost every floor. */
+export type SpecialFloor = 'none' | 'crystal' | 'flooded' | 'glowworm';
+
+export interface Landmark {
+  kind: LandmarkKind;
+  /** The centre cell, always walkable (a 'waterfallPool' centre is its pool, water). */
+  cell: Cell;
+  /** Cells within this many cells of `cell` hold no loot, torches, crystals or strays. */
+  radius: number;
+}
+
+/**
+ * An opening in the outer wall onto the painted chasm (item 31). `cell` is the first of
+ * `width` walkable edge cells, running along +x for 'n'/'s' and +y for 'e'/'w'. From each
+ * of them, the `depth` cells in direction `dir` (n = -y, s = +y, w = -x, e = +x) are wall
+ * all the way to the grid edge: draw those low (a lip), not as tall rock. They stay WALL in
+ * the grid, so nobody walks out.
+ */
+export interface Vista {
+  cell: Cell;
+  dir: 'n' | 'e' | 's' | 'w';
+  width: number;
+  depth: number;
+}
+
+/**
+ * A way over a straight run of water (item 32): `from` and `to` are the dry walkable cells
+ * at its ends, `cells` the water cells between, in order. 'bridge' for the longer runs (a
+ * rope bridge from end to end), 'stones' for the short ones (a stone on each water cell).
+ * Water is walkable in the sim either way; this is the picture of how you cross.
+ */
+export interface Crossing {
+  kind: 'bridge' | 'stones';
+  from: Cell;
+  to: Cell;
+  cells: Cell[];
+}
+
+/**
+ * The cosy chest nook (item 33), in a small side room. All its cells are dry FLOOR:
+ * `rug` lies in front of the chest, `lanterns` flank it, `tent` sits to one side (null when
+ * the room had no spare cell). The chest itself is `Floor.chest`.
+ */
+export interface Nook {
+  room: number;
+  rug: Cell[];
+  lanterns: Cell[];
+  tent: Cell | null;
 }
 
 export interface FloorLoot {
@@ -66,6 +138,25 @@ export interface Floor {
   wildSpots: Array<{ cell: Cell; species: string }>;
   /** Ambient light level 0..1; floors get darker. */
   light: number;
+  /** The generator that made this floor (`DUNGEON.genVersion` for new floors). */
+  version: number;
+  /** Index into `rooms` of the great chamber; -1 on version-1 floors. */
+  greatRoom: number;
+  /**
+   * Visual height of each cell's top surface in world units (item 19), row-major like
+   * `cells`: terraces at multiples of `DUNGEON.elev.step` up to `elev.max`, a pool-basin
+   * room below 0, water `elev.waterSink` under the ground it sits in, and walls at the
+   * highest ground beside them. Dry walkable 4-neighbours never differ by more than one
+   * step (a ledge); the stairs, the chest's room and the landmark sit level at 0.
+   * `elevationAt` blends across walkable cells, which gives the ramps actors walk. All zero
+   * on version-1 floors. The sim grid stays flat.
+   */
+  elevation: Float32Array;
+  landmark: Landmark | null;
+  vistas: Vista[];
+  crossings: Crossing[];
+  nook: Nook | null;
+  special: SpecialFloor;
 }
 
 export const WALL = 0;
@@ -76,7 +167,7 @@ const CELL = DUNGEON.cell;
 
 // ---------------------------------------------------------------- small pure helpers
 
-function hash2(x: number, y: number, salt: number): number {
+export function hash2(x: number, y: number, salt: number): number {
   let h = (x * 374761393 + y * 668265263 + salt * 1274126177) | 0;
   h = Math.imul(h ^ (h >>> 13), 1274126177);
   h ^= h >>> 16;
@@ -84,7 +175,7 @@ function hash2(x: number, y: number, salt: number): number {
 }
 
 /** Smooth value noise in 0..1, enough for water pockets. */
-function vnoise(x: number, y: number, salt: number): number {
+export function vnoise(x: number, y: number, salt: number): number {
   const x0 = Math.floor(x);
   const y0 = Math.floor(y);
   const tx = x - x0;
@@ -125,6 +216,34 @@ export function cellCentre(f: Floor, c: Cell): Vec2 {
   return { x: (c.x + 0.5 - f.cols / 2) * CELL, z: (c.y + 0.5 - f.rows / 2) * CELL };
 }
 
+/**
+ * The visual ground height under a world position: `Floor.elevation` blended between the
+ * centres of the four nearest walkable cells (walls left out, so a wall never lifts anyone).
+ */
+export function elevationAt(f: Floor, p: Vec2): number {
+  const gx = p.x / CELL + f.cols / 2 - 0.5;
+  const gz = p.z / CELL + f.rows / 2 - 0.5;
+  const x0 = Math.floor(gx);
+  const y0 = Math.floor(gz);
+  const tx = gx - x0;
+  const ty = gz - y0;
+  let sum = 0;
+  let weight = 0;
+  for (const [dx, dy, w] of [
+    [0, 0, (1 - tx) * (1 - ty)],
+    [1, 0, tx * (1 - ty)],
+    [0, 1, (1 - tx) * ty],
+    [1, 1, tx * ty],
+  ] as const) {
+    if (!isWalkable(f, x0 + dx, y0 + dy) || w <= 0) continue;
+    sum += (f.elevation[(y0 + dy) * f.cols + x0 + dx] ?? 0) * w;
+    weight += w;
+  }
+  if (weight > 0) return sum / weight;
+  const c = cellOf(f, p);
+  return f.elevation[c.y * f.cols + c.x] ?? 0;
+}
+
 export function cellOf(f: Floor, p: Vec2): Cell {
   return { x: Math.floor(p.x / CELL + f.cols / 2), y: Math.floor(p.z / CELL + f.rows / 2) };
 }
@@ -133,13 +252,19 @@ function dist(a: Vec2, b: Vec2): number {
   return Math.hypot(a.x - b.x, a.z - b.z);
 }
 
-function cellDist(a: Cell, b: Cell): number {
+export function cellDist(a: Cell, b: Cell): number {
   return Math.hypot(a.x - b.x, a.y - b.y);
 }
 
 // ---------------------------------------------------------------- generation
 
-function neighbours(cells: Uint8Array, cols: number, rows: number, x: number, y: number): number {
+export function neighbours(
+  cells: Uint8Array,
+  cols: number,
+  rows: number,
+  x: number,
+  y: number,
+): number {
   let n = 0;
   for (let dy = -1; dy <= 1; dy++) {
     for (let dx = -1; dx <= 1; dx++) {
@@ -153,16 +278,22 @@ function neighbours(cells: Uint8Array, cols: number, rows: number, x: number, y:
   return n;
 }
 
-export function floorSize(depth: number): { cols: number; rows: number } {
+/** The grid size of a floor at a depth, under a generator version. */
+export function floorSize(
+  depth: number,
+  version: number = DUNGEON.genVersion,
+): { cols: number; rows: number } {
+  const g = version <= 1 ? DUNGEON : DUNGEON.layout;
   return {
-    cols: Math.min(DUNGEON.maxCols, DUNGEON.baseCols + DUNGEON.growCols * (depth - 1)),
-    rows: Math.min(DUNGEON.maxRows, DUNGEON.baseRows + DUNGEON.growRows * (depth - 1)),
+    cols: Math.min(g.maxCols, g.baseCols + g.growCols * (depth - 1)),
+    rows: Math.min(g.maxRows, g.baseRows + g.growRows * (depth - 1)),
   };
 }
 
-function generate(seed: number, depth: number): Floor {
+/** Version 1: the 34×24 cave. Frozen: saved runs regenerate their floors from it. */
+function generateV1(seed: number, depth: number): Floor {
   const rng = Rng.fromSeed((seed * 31 + depth * 7919) >>> 0);
-  const { cols, rows } = floorSize(depth);
+  const { cols, rows } = floorSize(depth, 1);
   let cells = new Uint8Array(cols * rows);
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < cols; x++) {
@@ -190,7 +321,7 @@ function generate(seed: number, depth: number): Floor {
     const h = rng.int(5, 8);
     const x = rng.int(4, cols - w - 4);
     const y = rng.int(4, rows - h - 4);
-    rooms.push({ x, y, w, h });
+    rooms.push({ x, y, w, h, kind: 'medium' });
     for (let yy = y; yy < y + h; yy++) {
       for (let xx = x; xx < x + w; xx++) {
         const corner = (xx === x || xx === x + w - 1) && (yy === y || yy === y + h - 1);
@@ -263,6 +394,14 @@ function generate(seed: number, depth: number): Floor {
     strayStarts: [],
     wildSpots: [],
     light: Math.max(DUNGEON.lightMin, DUNGEON.lightBase - DUNGEON.lightPerDepth * (depth - 1)),
+    version: 1,
+    greatRoom: -1,
+    elevation: new Float32Array(cols * rows),
+    landmark: null,
+    vistas: [],
+    crossings: [],
+    nook: null,
+    special: 'none',
   };
   const rl = rooms[rooms.length - 1]!;
   floor.chest = { x: rl.x + rl.w - 2, y: rl.y + rl.h - 2 };
@@ -299,6 +438,21 @@ function generate(seed: number, depth: number): Floor {
       .filter((c): c is Cell => !!c)
       .map((c) => `${c.x},${c.y}`),
   );
+  scatterFinds(floor, rng, depth, floors, special);
+  return floor;
+}
+
+/**
+ * Loot, strays and wild creatures on dry open floor away from the stairs. Shared by both
+ * generators; the order of the rng calls is part of version 1's frozen output.
+ */
+export function scatterFinds(
+  floor: Floor,
+  rng: Rng,
+  depth: number,
+  floors: Cell[],
+  special: Set<string>,
+): void {
   const open = floors.filter(
     (c) =>
       cellAt(floor, c.x, c.y) === FLOOR &&
@@ -350,17 +504,19 @@ function generate(seed: number, depth: number): Floor {
     const cell = pickOpen(6) ?? pickOpen(3);
     if (cell) floor.wildSpots.push({ cell, species: rng.pick(babies).id });
   }
-  return floor;
 }
 
 const cache = new Map<string, Floor>();
 
-/** The floor for a run's seed and depth, generated once. */
-export function floorOf(seed: number, depth: number): Floor {
-  const key = `${seed}:${depth}`;
+/**
+ * The floor for a run's seed and depth, generated once. `version` picks the generator: a
+ * saved run passes the one its floor was made with (`DungeonRun.genVersion`).
+ */
+export function floorOf(seed: number, depth: number, version: number = DUNGEON.genVersion): Floor {
+  const key = `${seed}:${depth}:${version}`;
   let f = cache.get(key);
   if (!f) {
-    f = generate(seed, depth);
+    f = version <= 1 ? generateV1(seed, depth) : generateV2(seed, depth);
     if (cache.size > 12) cache.delete(cache.keys().next().value!);
     cache.set(key, f);
   }
@@ -369,7 +525,80 @@ export function floorOf(seed: number, depth: number): Floor {
 
 export function runFloor(world: World): Floor | null {
   const run = world.dungeon;
-  return run && world.location === 'dungeon' ? floorOf(run.seed, run.depth) : null;
+  return run && world.location === 'dungeon' ? floorOf(run.seed, run.depth, run.genVersion) : null;
+}
+
+// ---------------------------------------------------------------- explored mask
+
+// The decoded mask of each run's `explored` string, kept while the string is unchanged.
+const maskCache = new WeakMap<DungeonRun, { text: string; mask: Uint8Array }>();
+
+function decodeMask(text: string, size: number): Uint8Array {
+  const mask = new Uint8Array(size);
+  for (let k = 0; k < text.length; k++) {
+    const v = parseInt(text[k]!, 16) || 0;
+    for (let j = 0; j < 4; j++) {
+      const i = k * 4 + j;
+      if (i < size && v & (1 << j)) mask[i] = 1;
+    }
+  }
+  return mask;
+}
+
+function encodeMask(mask: Uint8Array): string {
+  let out = '';
+  for (let k = 0; k < mask.length; k += 4) {
+    let v = 0;
+    for (let j = 0; j < 4; j++) if (mask[k + j]) v |= 1 << j;
+    out += v.toString(16);
+  }
+  return out;
+}
+
+/**
+ * Which cells of the run's floor the Keeper has seen (item 40): 1 or 0 per cell, row-major
+ * like `Floor.cells`, walls included so a minimap can draw the outline. Read-only.
+ */
+export function exploredMask(run: DungeonRun, f: Floor): Uint8Array {
+  const hit = maskCache.get(run);
+  if (hit && hit.text === run.explored && hit.mask.length === f.cells.length) return hit.mask;
+  const mask = decodeMask(run.explored, f.cells.length);
+  maskCache.set(run, { text: run.explored, mask });
+  return mask;
+}
+
+export function isExplored(run: DungeonRun, f: Floor, x: number, y: number): boolean {
+  if (x < 0 || y < 0 || x >= f.cols || y >= f.rows) return false;
+  return exploredMask(run, f)[y * f.cols + x] === 1;
+}
+
+/** Per room (the index of `Floor.rooms`): seen once its centre cell has been seen. */
+export function exploredRooms(run: DungeonRun, f: Floor): boolean[] {
+  return f.rooms.map((r) =>
+    isExplored(run, f, Math.floor(r.x + r.w / 2), Math.floor(r.y + r.h / 2)),
+  );
+}
+
+/** Mark the cells round a cell seen. Writes the save string only when something changed. */
+export function revealAround(run: DungeonRun, f: Floor, c: Cell): void {
+  const r = DUNGEON.explore.radius;
+  const mask = exploredMask(run, f);
+  let changed = false;
+  for (let dy = -r; dy <= r; dy++) {
+    for (let dx = -r; dx <= r; dx++) {
+      if (dx * dx + dy * dy > r * r) continue;
+      const x = c.x + dx;
+      const y = c.y + dy;
+      if (x < 0 || y < 0 || x >= f.cols || y >= f.rows) continue;
+      const i = y * f.cols + x;
+      if (mask[i]) continue;
+      mask[i] = 1;
+      changed = true;
+    }
+  }
+  if (!changed) return;
+  run.explored = encodeMask(mask);
+  maskCache.set(run, { text: run.explored, mask });
 }
 
 // ---------------------------------------------------------------- collision
@@ -508,12 +737,14 @@ function populate(run: DungeonRun, f: Floor): void {
   run.pending = null;
   run.pendingPos = null;
   run.fetch = {};
+  run.explored = '';
 }
 
 function placeParty(world: World, run: DungeonRun, f: Floor): void {
   const k = world.keeper;
   const at = cellCentre(f, f.stairsUp);
   k.pos = { x: at.x, z: at.z };
+  revealAround(run, f, f.stairsUp);
   k.moveTarget = null;
   k.intent = null;
   const spots = openAround(f, f.stairsUp, run.party.length + 1);
@@ -564,8 +795,10 @@ export function enterDungeon(world: World, daily: boolean, rng: Rng, events: Sim
     fetch: {},
     haul: { shells: 0, items: 0 },
     startedMs: world.timeMs,
+    genVersion: DUNGEON.genVersion,
+    explored: '',
   };
-  const f = floorOf(seed, 1);
+  const f = floorOf(seed, 1, run.genVersion);
   populate(run, f);
   world.dungeon = run;
   world.location = 'dungeon';
@@ -614,7 +847,9 @@ export function leaveDungeon(world: World, events: SimEvent[]): boolean {
 
 function descend(world: World, run: DungeonRun, events: SimEvent[]): void {
   run.depth += 1;
-  const f = floorOf(run.seed, run.depth);
+  // A new floor always comes from the current generator, whatever made the one above.
+  run.genVersion = DUNGEON.genVersion;
+  const f = floorOf(run.seed, run.depth, run.genVersion);
   populate(run, f);
   placeParty(world, run, f);
   world.hollow.best = Math.max(world.hollow.best, run.depth);
@@ -775,6 +1010,7 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
   const dt = dtMs / 1000;
   const k = world.keeper;
   const available = (l: FloorLoot) => !run.taken.includes(l.id);
+  revealAround(run, f, cellOf(f, k.pos));
 
   // Anything the Keeper walks over.
   for (const l of f.loot) {

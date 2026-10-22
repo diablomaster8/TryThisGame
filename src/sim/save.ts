@@ -228,6 +228,11 @@ export function validateWorld(w: World): World {
   w.night ??= false;
   w.tank ??= { runs: 0, best: 0 };
   w.dungeon ??= null;
+  if (w.dungeon) {
+    // Runs saved before the version-2 floors keep the floor they were standing on.
+    w.dungeon.genVersion ??= 1;
+    w.dungeon.explored ??= '';
+  }
   w.hollow ??= { runs: 0, best: 0, dailyDay: '', dailyDepth: 0 };
   // A save written underground without its run: back to the Grove.
   if (w.location === 'dungeon' && !w.dungeon) w.location = 'grove';
