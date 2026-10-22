@@ -9,13 +9,19 @@ import {
   watchOtherTabs,
   writeSave,
 } from './platform/storage';
-import { OrbitCamera } from './render/camera';
+import { OrbitCamera, yawIndexToRadians } from './render/camera';
 import { daylightAt, localHour } from './render/daylight';
 import { litLanterns } from './sim/campaign';
 import { GroveScene } from './render/grove-scene';
 import { Picker } from './render/picker';
 import { LowResPipeline, type FrameStats } from './render/pipeline';
-import { fitPixel, resolveStage, SceneStager } from './render/scene-stage';
+import {
+  clearYaw,
+  fitPixel,
+  resolveStage,
+  SceneStager,
+  stageObstacles,
+} from './render/scene-stage';
 import { PIXEL_BUILDINGS, safeRect, viewRect } from './render/stage-api';
 import { stageHides } from './config/stage-sets';
 import { WorldView } from './render/world-view';
@@ -163,18 +169,53 @@ export class Game {
       PIXEL_BUILDINGS.stageHidden = new Set(stageHides(st.stage));
       PIXEL_BUILDINGS.stageHidesAll = st.exclusive;
     }
-    st.noteLine(this.storyLine, nowMs);
+    st.noteLine(this.storyLine, nowMs, this.storySpeaker);
     this.grove?.setBare(st.exclusive);
     if (this.scene3d) return null;
     // A shot that names its own focus (the green, a house, Moss) centres on that, not the Keeper.
-    const points = st.active && !focused ? st.subjects(this.world) : [];
-    // H5: after the first line an establishing shot pushes in (to `two` unless it says).
+    let points = st.active && !focused ? st.subjects(this.world) : [];
+    // H5: after the first line, or on the first spoken one, a wide or establishing shot
+    // pushes in (to `two` unless it says).
     const kind = st.shotKind();
     if (points.length < 2 && !kind) {
       this.camera.holdZoom(null, nowMs);
+      this.camera.holdYaw(null, nowMs);
       return null;
     }
+    // Review fix 2: of the 45° steps from the player's, the nearest that sees the cast and
+    // whoever speaks past the houses.
+    const who = st.speaker;
+    const speaker = who && who !== 'you' && who !== 'narrator' ? st.spotOf(this.world, who) : null;
+    const seen = speaker ? [...points, speaker] : points;
+    const base = this.camera.playerYawIndex;
+    const order = [0, 1, -1, 2, -2, 3, -3, 4].map((k) => base + k);
+    const yaws = order.map((i) => yawIndexToRadians(i));
+    const mid = {
+      x: seen.reduce((a, p) => a + p.x, 0) / Math.max(1, seen.length),
+      z: seen.reduce((a, p) => a + p.z, 0) / Math.max(1, seen.length),
+    };
+    const obstacles = stageObstacles(this.world, (id) => PIXEL_BUILDINGS.isHidden(id));
+    const best = clearYaw(yaws, seen, mid, this.camera.pitch, 60, obstacles);
+    const turn = order[Math.max(0, yaws.indexOf(best))]!;
+    this.camera.holdYaw(turn === base ? null : turn, nowMs);
+    const yaw = yawIndexToRadians(turn);
     const ppu = CAMERA.pixelsPerUnit;
+    const last = ppu.length - 1;
+    const first = st.stage.shot?.kind;
+    if (st.pushedMs !== null && kind !== first && kind !== 'wide') {
+      // H5 in pixel: the close zoom, on the Keeper and whoever speaks; on the speaker alone
+      // when the pair do not fit across it.
+      const cur = ppu[this.camera.currentZoomIndex] ?? ppu[0];
+      const nearW = (this.camera.visibleWidth * cur) / ppu[last]!;
+      if (speaker && !points.some((p) => p.x === speaker.x && p.z === speaker.z))
+        points = [...points, speaker];
+      const cx = points.reduce((a, p) => a + p.x, 0) / Math.max(1, points.length);
+      const cz = points.reduce((a, p) => a + p.z, 0) / Math.max(1, points.length);
+      const spread = Math.max(0, ...points.map((p) => Math.hypot(p.x - cx, p.z - cz)));
+      this.camera.holdZoom(last, nowMs);
+      if (spread * 2.4 >= nearW && speaker) return { x: speaker.x, z: speaker.z, fitted: false };
+      return { x: cx, z: cz, fitted: false };
+    }
     if (points.length > 0 && st.fits()) {
       // H4: the nearest zoom step that fits every focus point inside the HUD-safe area.
       const cur = ppu[this.camera.currentZoomIndex] ?? ppu[0];
@@ -185,8 +226,8 @@ export class Game {
       const v = viewRect();
       const s = safeRect();
       const fit = fitPixel(
-        points,
-        this.camera.currentYaw,
+        seen,
+        yaw,
         this.camera.pitch,
         views,
         {
@@ -205,7 +246,6 @@ export class Game {
     const cz = points.reduce((a, p) => a + p.z, 0) / points.length;
     const spread = Math.max(...points.map((p) => Math.hypot(p.x - cx, p.z - cz)));
     // The near zoom only when the cast fits across it (a phone held upright is narrow).
-    const last = ppu.length - 1;
     const nearWidth =
       (this.camera.visibleWidth * (ppu[this.camera.currentZoomIndex] ?? ppu[0])) / ppu[last]!;
     const fits = spread * 2.4 < nearWidth;

@@ -35,7 +35,7 @@ import { buildGroveProps, buildGroveTrees, type GroveProps } from './props';
 import { GroveTextures } from './grove-textures';
 import { GroveSky } from './sky';
 import { StorySets } from './story-sets';
-import { SceneStager } from '../render/scene-stage';
+import { clearYaw, SceneStager, stageObstacles, yawSteps } from '../render/scene-stage';
 import { safeRect, viewRect, type ScreenRect } from '../render/stage-api';
 import { stageHides } from '../config/stage-sets';
 import { STAGE2 } from '../config/tuning-f2';
@@ -938,10 +938,67 @@ export class Grove3dScene {
     if (st.pushedMs === null) this.prePush = shot;
     else if (t < 1 && this.prePush)
       shot = mixShot(this.prePush, shot, THREE.MathUtils.smootherstep(t, 0, 1));
+    // Review fix 3: whoever speaks the line on screen stands inside the HUD-safe area; a shot
+    // that leaves them out is fitted again round its points and the speaker.
+    const spk = this.speakerSpot(world);
+    if (spk && shot.kind === 'stage' && !this.inSafe(shot, spk)) {
+      const pts = [...shot.points, spk];
+      const f = this.fitShot(pts, shot.yaw, shot.pitchDeg, (x, z) =>
+        this.location === 'grove' ? standHeight(x, z) : 0,
+      );
+      shot = { ...shot, ...f, points: pts, fitted: true };
+    }
     // A phone held upright: never pull out to the whole map, unless the shot is fitted.
     if (shot.kind === 'stage' && this.camera.aspect < 1 && !shot.fitted)
       shot.distance = Math.min(shot.distance, READ3D.stage.portraitMaxDistance);
     return shot;
+  }
+
+  /** Where whoever speaks the line on screen is drawn, or null (the narrator, the Keeper). */
+  private speakerSpot(world: World): Vec2 | null {
+    const who = this.staging.speaker;
+    if (!who || who === 'you' || who === 'narrator') return null;
+    return this.staging.spotOf(world, who);
+  }
+
+  /** Whether `p` (feet and head) falls inside the HUD-safe area seen from `shot`. */
+  private inSafe(shot: Shot, p: Vec2): boolean {
+    const { rect, view } = this.safeArea();
+    const cam = this.fitCam;
+    cam.fov = this.camera.fov;
+    cam.aspect = this.camera.aspect;
+    cam.near = this.camera.near;
+    cam.far = this.camera.far;
+    cam.updateProjectionMatrix();
+    const pitch = THREE.MathUtils.degToRad(shot.pitchDeg);
+    const ground = (x: number, z: number) => (this.location === 'grove' ? standHeight(x, z) : 0);
+    const ty = ground(shot.x, shot.z) + GROVE3D.lookHeight + shot.lookUp;
+    let x = shot.x;
+    let z = shot.z;
+    if (!shot.fitted) {
+      // The lift clear of the dialogue box that `update` applies.
+      const visH = 2 * shot.distance * Math.tan(THREE.MathUtils.degToRad(cam.fov / 2));
+      const g = (READ3D.stage.boxLift * visH) / Math.max(0.2, Math.sin(pitch));
+      x += Math.sin(shot.yaw) * g;
+      z += Math.cos(shot.yaw) * g;
+    }
+    cam.position.set(
+      x + Math.sin(shot.yaw) * Math.cos(pitch) * shot.distance,
+      ty + Math.sin(pitch) * shot.distance,
+      z + Math.cos(shot.yaw) * Math.cos(pitch) * shot.distance,
+    );
+    cam.lookAt(x, ty, z);
+    cam.updateMatrixWorld();
+    const x0 = ((rect.x - view.x) / view.w) * 2 - 1;
+    const x1 = ((rect.x + rect.w - view.x) / view.w) * 2 - 1;
+    const y1 = 1 - ((rect.y - view.y) / view.h) * 2;
+    const y0 = 1 - ((rect.y + rect.h - view.y) / view.h) * 2;
+    const g = ground(p.x, p.z);
+    for (const h of [0.1, 1.6]) {
+      const v = new THREE.Vector3(p.x, g + h, p.z).project(cam);
+      if (v.z > 1 || v.x < x0 || v.x > x1 || v.y < y0 || v.y > y1) return false;
+    }
+    return true;
   }
 
   /** The HUD-safe rect and the view, read from the DOM at most four times a second. */
@@ -990,7 +1047,7 @@ export class Grove3dScene {
     const wx = (sx1 - sx0) * (1 - m);
     const wy = (sy1 - sy0) * (1 - m);
     const pts: THREE.Vector3[] = [];
-    const r = STAGE2.fitRadius;
+    const r = STAGE2.fitRadius3d;
     for (const p of points)
       for (const [dx, dz] of [
         [-r, 0],
@@ -1001,7 +1058,7 @@ export class Grove3dScene {
         const g = ground(p.x + dx, p.z + dz);
         pts.push(
           new THREE.Vector3(p.x + dx, g, p.z + dz),
-          new THREE.Vector3(p.x + dx, g + STAGE2.figureH, p.z + dz),
+          new THREE.Vector3(p.x + dx, g + STAGE2.figureH3d, p.z + dz),
         );
       }
     const v = new THREE.Vector3();
@@ -1102,11 +1159,22 @@ export class Grove3dScene {
       points,
     };
     const k = all[0]!;
-    const who = st?.focus?.[0] ?? this.staging.speaker;
-    const spoke =
+    // Whoever speaks the line on screen comes first, then the shot's own focus.
+    const now = this.speakerSpot(world);
+    const who = st?.focus?.[0];
+    const focusSpot =
       who && who !== 'you' && who !== 'narrator' ? this.staging.spotOf(world, who) : null;
-    const sp = spoke ?? all[1] ?? k;
+    const sp = now ?? focusSpot ?? all[1] ?? k;
     const portrait = this.camera.aspect < 1 ? 1.25 : 1;
+    // Review fix 2: of the 45° steps from the player's yaw, the one that sees the cast past
+    // the houses (the nearest step that hides fewest).
+    const wideKind = kind === 'establish' || kind === 'wide';
+    const pitchR = THREE.MathUtils.degToRad(base.pitchDeg + (wideKind ? 6 : 0));
+    const obstacles = stageObstacles(world, (id) => this.buildings3d.isHidden(id));
+    const seen = now ? [...points, now] : points;
+    const clear = (cands: number[]) =>
+      clearYaw(cands, seen, { x: cx, z: cz }, pitchR, two.distance, obstacles);
+    if (st?.yaw === undefined) two.yaw = clear(yawSteps(base.yaw));
     // H4: an establishing or wide shot fits its focus inside the HUD-safe area.
     const fit =
       (kind === 'establish' || kind === 'wide') && (st?.fit ?? true)
@@ -1123,7 +1191,10 @@ export class Grove3dScene {
         Math.abs(Math.atan2(Math.sin(a - base.yaw), Math.cos(a - base.yaw)));
       const a = line + STAGE2.twoSideRad;
       const b = line - STAGE2.twoSideRad;
-      side = turn(a) < turn(b) ? a : b;
+      side =
+        turn(a) < turn(b)
+          ? clear([a, b, ...yawSteps(two.yaw)])
+          : clear([b, a, ...yawSteps(two.yaw)]);
     }
     this.staging.turnFaces(side, side === null ? 0 : STAGE2.faceTurnRad);
     switch (kind) {
@@ -1198,7 +1269,7 @@ export class Grove3dScene {
     // A story scene cuts in at once: the render pauses behind the dialogue box soon after.
     this.staging.speaker = this.storySpeaker;
     const stageCut = this.staging.update(world, nowMs);
-    this.staging.noteLine(this.storyLine, nowMs);
+    this.staging.noteLine(this.storyLine, nowMs, this.storySpeaker);
     if (stageCut) {
       // Campaign graphics 2: sets build late, so look again; a set hides the Grove-only
       // buildings and an exclusive stage hides the world (`setDaylight`) and every building.
@@ -1260,7 +1331,7 @@ export class Grove3dScene {
     this.dressLamps.length = 0;
     this.dressings.update(world, this.staging.stage, this.drawnDay, dt);
     this.buildings3d.apply();
-    this.actors.keeperFace = this.staging.active ? this.staging.keeperFace : null;
+    this.actors.keeperFace = this.staging.keeperFaceNow(world);
     this.lamps.place(
       this.dressLamps.length > 0 ? [...this.lampSources, ...this.dressLamps] : this.lampSources,
       this.camTarget,

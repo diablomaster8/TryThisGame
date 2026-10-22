@@ -14,6 +14,9 @@ export const STAGE2 = {
   figureH: 5,
   /** H4: the reach kept in frame round each focus point: a house's walls (world units). */
   fitRadius: 2.4,
+  /** H4, 3D: the same, larger (the 3D houses are bigger and a perspective lens crowds edges). */
+  fitRadius3d: 3.6,
+  figureH3d: 6.5,
   /** H7: a two-shot's camera stands off the line between the pair by this much (radians). */
   twoSideRad: Math.PI / 2,
   /** H7: how far the pair turn from each other toward that side camera (radians). */

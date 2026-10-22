@@ -157,6 +157,40 @@ export class OrbitCamera {
     if (this.reduceMotion) this.finishZoomTween();
   }
 
+  /** The player's yaw step while a story shot holds another, or null when none is held. */
+  private heldYaw: number | null = null;
+
+  /**
+   * Turn to yaw step `index` for a story shot (a camera that sees the cast past the
+   * houses), or let go (null) and turn back to the player's. Eases like a Q/E turn.
+   */
+  holdYaw(index: number | null, nowMs: number = performance.now()): void {
+    if (index === null) {
+      if (this.heldYaw === null) return;
+      const back = this.heldYaw;
+      this.heldYaw = null;
+      this.turnTo(back, nowMs);
+      return;
+    }
+    this.heldYaw ??= this.yawIndex;
+    this.turnTo(index, nowMs);
+  }
+
+  private turnTo(index: number, nowMs: number): void {
+    const to = wrapYawIndex(index);
+    if (to === this.yawIndex) return;
+    this.yawIndex = to;
+    const targetYaw = yawIndexToRadians(this.yawIndex);
+    const delta = shortestAngleDelta(this.yaw, targetYaw);
+    this.yawTween = { from: this.yaw, to: this.yaw + delta, startMs: nowMs };
+    if (this.reduceMotion) this.finishYawTween();
+  }
+
+  /** The player's yaw step: the held one's origin while a story shot turns the camera. */
+  get playerYawIndex(): number {
+    return this.heldYaw ?? this.yawIndex;
+  }
+
   /** The player's zoom while a story shot holds another (H14), or null when none is held. */
   private heldFrom: number | null = null;
 

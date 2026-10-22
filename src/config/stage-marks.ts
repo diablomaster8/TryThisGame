@@ -47,10 +47,14 @@ const WINDMILL = GROVE.buildings.windmill;
 /** Dawn & Dusk's green (tuning-b): its houses stand `houseRadius` out, N, E, S, W. */
 const GREEN = STORY_B.dawnDusk.green;
 const HOUSE_R = STORY_B.dawnDusk.houseRadius;
-/** A spot at a house's door, between the house and the green, facing the green. */
+/**
+ * Where a house stands (package b builds each on its `house-i` mark), facing the green.
+ * They stand `HOUSE_R - 0.9` out, so a green opens between them that a camera can see into
+ * past the corners (they stood 3.2 out and hid whoever stood on the green).
+ */
 const doorOf = (dx: number, dz: number): StageMark => ({
-  x: GREEN.x + dx * (HOUSE_R - 2.8),
-  z: GREEN.z + dz * (HOUSE_R - 2.8),
+  x: GREEN.x + dx * (HOUSE_R - 0.9),
+  z: GREEN.z + dz * (HOUSE_R - 0.9),
   yaw: Math.atan2(-dx, -dz),
 });
 
@@ -158,11 +162,11 @@ const GROVE_MARKS: Record<string, StageMark> = {
   'keeper-ledge': { x: FALLS.x - 1.4, z: FALLS.z + 1.0, yaw: E },
   'keeper-hill': { x: HILL.x + HILL.r + 1, z: HILL.z + 1, yaw: W },
   'keeper-fold': { x: FOLD_SQ.x + 0.8, z: FOLD_SQ.z + 2.6, yaw: N },
-  // Off the south-west corner of the four houses (they stand close round a small green).
+  // On the green, a step off its centre (the story cameras pick a yaw that sees it).
   'keeper-green': {
-    x: GREEN.x - 4.2,
-    z: GREEN.z + 5.6,
-    yaw: toward(GREEN.x - 4.2, GREEN.z + 5.6, GREEN.x, GREEN.z),
+    x: GREEN.x + 1.2,
+    z: GREEN.z + 1.4,
+    yaw: toward(GREEN.x + 1.2, GREEN.z + 1.4, GREEN.x, GREEN.z),
   },
   'keeper-guardhouse': { x: GH.x + 0.5, z: GH.z + CAB.d / 2 + 2.2, yaw: N },
   'keeper-below': { x: GH.x + 0.5, z: GH.z + CAB.d / 2 + 2.2, yaw: N },

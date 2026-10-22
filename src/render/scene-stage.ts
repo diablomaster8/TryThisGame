@@ -203,9 +203,12 @@ export class SceneStager {
    * Follow the dialogue's line (H5): the first advance past line 0 starts the push-in.
    * Call each frame with the line index and the wall time.
    */
-  noteLine(line: number, nowMs: number): void {
+  noteLine(line: number, nowMs: number, speaker: string | null = null): void {
     this.line = line;
-    if (this.sceneId !== null && line > 0 && this.pushedMs === null) this.pushedMs = nowMs;
+    // The push comes on the first advance, or at once when the line on screen is spoken.
+    const spoken = speaker !== null && speaker !== 'narrator';
+    if (this.sceneId !== null && (line > 0 || spoken) && this.pushedMs === null)
+      this.pushedMs = nowMs;
   }
 
   /**
@@ -216,7 +219,27 @@ export class SceneStager {
     const shot = this.stage.shot;
     if (!shot) return undefined;
     if (this.pushedMs === null) return shot.kind;
-    return shot.then ?? (shot.kind === 'establish' ? 'two' : shot.kind);
+    return shot.then ?? (shot.kind === 'establish' || shot.kind === 'wide' ? 'two' : shot.kind);
+  }
+
+  /**
+   * The Keeper's drawn facing now: toward whoever speaks the line on screen (held or not),
+   * else as placed; turned toward a side camera as `turnFaces` last asked. Null with no
+   * scene, or nothing to face.
+   */
+  keeperFaceNow(world: World): number | null {
+    if (this.sceneId === null) return null;
+    let face = this.baseKeeperFace;
+    const who = this.speaker;
+    if (who && who !== 'you' && who !== 'narrator') {
+      const k = this.keeperSpot(world);
+      const p = this.castSpot(world, who);
+      if (p && Math.hypot(p.x - k.x, p.z - k.z) > 0.05) face = Math.atan2(p.x - k.x, p.z - k.z);
+    }
+    if (face === null || !this.camTurn) return face;
+    const { yaw, amount } = this.camTurn;
+    const d = Math.atan2(Math.sin(yaw - face), Math.cos(yaw - face));
+    return face + Math.max(-amount, Math.min(amount, d));
   }
 
   /**
@@ -253,6 +276,7 @@ export class SceneStager {
     this.faces.clear();
     this.baseFaces.clear();
     this.baseKeeperFace = null;
+    this.camTurn = null;
     this.keeperHold = null;
     this.nubbinHolds.clear();
     this.speakers.clear();
@@ -366,7 +390,10 @@ export class SceneStager {
    * from them (as `atan2(dx, dz)` from the subject to the camera), so a two-shot framed from
    * the side shows both faces three-quarter. Null puts them back as placed. Drawing only.
    */
+  private camTurn: { yaw: number; amount: number } | null = null;
+
   turnFaces(camYaw: number | null, amount: number): void {
+    this.camTurn = camYaw === null ? null : { yaw: camYaw, amount };
     const turn = (f: number): number => {
       if (camYaw === null) return f;
       const d = Math.atan2(Math.sin(camYaw - f), Math.cos(camYaw - f));
@@ -516,4 +543,102 @@ export function fitPixel(
   const bx = (minX + maxX) / 2 - ox;
   const by = ((minY + maxY) / 2 - oy) / Math.max(0.2, sp);
   return { zoom, x: o.x + rx * bx + fx * by, z: o.z + rz * bx + fz * by };
+}
+
+/** A building in the way of a story camera: a footprint circle and a height. */
+export interface Obstacle {
+  x: number;
+  z: number;
+  r: number;
+  h: number;
+}
+
+/**
+ * What can stand between a story camera and the cast (review fix 2): the stock houses
+ * still drawn, and Dawn & Dusk's four crest houses (on the `house-1..4` marks) while that
+ * campaign plays. `hidden` says which stock buildings are not drawn now.
+ */
+export function stageObstacles(world: World, hidden: (id: string) => boolean): Obstacle[] {
+  const out: Obstacle[] = [];
+  const b = GROVE.buildings;
+  const flags = stageFlags(world, null);
+  const dd = flags.half !== null;
+  const swapped = new Set<string>(dd ? ['cottage', 'school'] : []);
+  for (const id of ['cottage', 'school', 'dojo', 'windmill'] as const) {
+    if (hidden(id) || swapped.has(id)) continue;
+    out.push({ x: b[id].x, z: b[id].z, r: b[id].r + 0.4, h: 4.5 });
+  }
+  if (dd)
+    for (let i = 1; i <= 4; i++) {
+      const m = markAt('grove', `house-${i}`);
+      if (m) out.push({ x: m.x, z: m.z, r: 2.5, h: 5 });
+    }
+  return world.location === 'grove' ? out : [];
+}
+
+/** How many of `subjects` (head height) a camera at `yaw` sees through an obstacle. */
+export function blockedAt(
+  subjects: readonly Vec2[],
+  target: Vec2,
+  yaw: number,
+  pitch: number,
+  distance: number,
+  obstacles: readonly Obstacle[],
+): number {
+  const cx = target.x + Math.sin(yaw) * Math.cos(pitch) * distance;
+  const cz = target.z + Math.cos(yaw) * Math.cos(pitch) * distance;
+  const cy = Math.sin(pitch) * distance;
+  let n = 0;
+  for (const s of subjects) {
+    const sy = 1.4;
+    let hit = false;
+    for (let i = 1; i < 30 && !hit; i++) {
+      const t = i / 30;
+      const x = cx + (s.x - cx) * t;
+      const z = cz + (s.z - cz) * t;
+      const y = cy + (sy - cy) * t;
+      for (const o of obstacles) {
+        // A subject standing at an obstacle's own edge is not hidden by it.
+        if (Math.hypot(s.x - o.x, s.z - o.z) < o.r * 0.5) continue;
+        if (y < o.h && Math.hypot(x - o.x, z - o.z) < o.r) {
+          hit = true;
+          break;
+        }
+      }
+    }
+    if (hit) n++;
+  }
+  return n;
+}
+
+/**
+ * The camera yaw, from `candidates` in order of preference, that hides the fewest subjects
+ * behind an obstacle (the first on a tie). For the pixel view's 45° steps and the 3D shot.
+ */
+export function clearYaw(
+  candidates: readonly number[],
+  subjects: readonly Vec2[],
+  target: Vec2,
+  pitch: number,
+  distance: number,
+  obstacles: readonly Obstacle[],
+): number {
+  let best = candidates[0] ?? 0;
+  let bestN = Infinity;
+  if (obstacles.length === 0 || subjects.length === 0) return best;
+  for (const yaw of candidates) {
+    const n = blockedAt(subjects, target, yaw, pitch, distance, obstacles);
+    if (n < bestN) {
+      best = yaw;
+      bestN = n;
+      if (n === 0) break;
+    }
+  }
+  return best;
+}
+
+/** Candidate yaws in 45° steps from `yaw`, nearest first. */
+export function yawSteps(yaw: number): number[] {
+  const q = Math.PI / 4;
+  return [0, 1, -1, 2, -2, 3, -3, 4].map((k) => yaw + k * q);
 }

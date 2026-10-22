@@ -849,7 +849,7 @@ export class WorldView {
     }
     const kclip: ClipName = moving ? 'walk' : 'idle';
     // A scene that holds the Keeper on a mark turns them to whom it is with (H7).
-    const kface = this.staging?.active ? this.staging.keeperFace : null;
+    const kface = this.staging?.keeperFaceNow(world) ?? null;
     const kview = viewAngle(kface ?? k.facing, yaw);
     const krect = ksheet.frames.get(
       frameKey(
