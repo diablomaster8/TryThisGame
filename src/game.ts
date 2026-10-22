@@ -124,6 +124,29 @@ export class Game {
   }
 
   /**
+   * One frame of the view as it stands, centre-cropped into a new `w` x `h` canvas (chapter
+   * photos, campaign graphics 2 N6). The frame is drawn again and copied in the same task,
+   * so no preserved drawing buffer is needed. Null when nothing is drawn yet.
+   */
+  captureFrame(w: number, h: number): HTMLCanvasElement | null {
+    if (this.scene3d) this.scene3d.render();
+    else if (this.lowRes && this.grove) this.lowRes.render(this.grove.scene, this.camera.camera);
+    else return null;
+    const src = this.canvas;
+    if (!src.width || !src.height) return null;
+    const out = document.createElement('canvas');
+    out.width = w;
+    out.height = h;
+    const ctx = out.getContext('2d');
+    if (!ctx) return null;
+    const k = Math.min(src.width / w, src.height / h);
+    const sw = w * k;
+    const sh = h * k;
+    ctx.drawImage(src, (src.width - sw) / 2, (src.height - sh) / 2, sw, sh, 0, 0, w, h);
+    return out;
+  }
+
+  /**
    * Follow the story queue for the pixel view and return the point to aim at while a scene
    * waits (the centroid of who is framed), or null to follow the Keeper. Holds the near zoom
    * for `two` and `close` shots, and for an unstaged scene whose cast stands close.
