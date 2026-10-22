@@ -1,95 +1,63 @@
 /**
  * Renders the content pack as readable Markdown screenplays: npx tsx tests/tools/script-book.ts [outDir]
+ *
+ * One storyline per file, scenes in play order, in folders by line (campaign/, side/, fun/, atlas/A14/
+ * and so on; the plan is in docs/story-review/review-2026-10-22-2.md). Each variant scene sits under its
+ * parent scene; variants with no parent go at the end of their storyline's file. Learning Grove versions
+ * are sibling files (atlas/A14/sprout.md) or live under learning/. `README.md` indexes every file and
+ * `ids.tsv` maps each scene id to its book file:line and its source file:line. A file over CAP lines is
+ * split at its `##` headings into `-1`, `-2`, ….
+ *
  * `--check` renders to a temp dir and exits 1 if the committed `script-book/` has drifted from `src/content/`.
  */
-import { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { dirname, join, posix } from 'node:path';
 import * as C from '../../src/content/index';
-import { SPEAKERS, type Scene } from '../../src/config/story';
-import type { Quest, Storyline } from '../../src/content/types';
+import { SPEAKERS, type Line, type Scene } from '../../src/config/story';
+import type { EduBand, EduQuest, EduScene, Quest, Storyline } from '../../src/content/types';
+
 const args = process.argv.slice(2);
 const check = args.includes('--check');
 const BOOK = 'script-book';
 const out = check ? mkdtempSync(join(tmpdir(), 'script-book-')) : (args.find((a) => !a.startsWith('--')) ?? BOOK);
-mkdirSync(out, { recursive: true });
-const packs: [string, string, Quest[]][] = [
-  ['01-side-stories', "Hazel's Grove side stories (S1–S22)", [...C.SIDE_STORIES_FUN, ...C.SIDE_STORIES_MAIN, ...C.SIDE_STORIES_FUN_2, ...C.SIDE_STORIES_NEW_1, ...C.SIDE_STORIES_NEW_2, ...C.SIDE_STORIES_NEW_3, ...C.SIDE_STORIES_NEW_4].sort((a, b) => Number(a.code.slice(1)) - Number(b.code.slice(1)))],
-  ['02-fun-python', 'Fun quests: Monty Python (Q1–Q20)', C.QUESTS_PYTHON],
-  ['03-fun-bean', 'Fun quests: Mr. Bean (Q21–Q30)', C.QUESTS_BEAN],
-  ['04-fun-sunny', "Fun quests: It's Always Sunny (Q31–Q45, adults only)", C.QUESTS_SUNNY],
-  ['05-fun-avatar', 'Fun quests: Avatar: The Last Airbender (Q46–Q65)', C.QUESTS_AVATAR],
-  ['06-neopia-line', 'Neopia line (NP1–NP13)', C.NEOPIA_LINE],
-  ['07-neopia-quests', 'Neopia quests (NQ1–NQ32)', C.NEOPIA_QUESTS],
-  ['08-mv-ironman', 'Multiverse: Iron Man (IM1–IM15)', C.MV_IRONMAN],
-  ['09-mv-cap', 'Multiverse: Captain America (CA1–CA10)', C.MV_CAP],
-  ['10-mv-doom', 'Multiverse: Doom and the Fantastic Four (FF1–FF10)', C.MV_DOOM],
-  ['11-mv-ultron', 'Multiverse: Ultron (UL1–UL10)', C.MV_ULTRON],
-  ['12-mv-moonknight', 'Multiverse: Moon Knight (MK1–MK8)', C.MV_MOONKNIGHT],
-  ['13-mv-spawn', 'Multiverse: Spawn (SP1–SP8)', C.MV_SPAWN],
-  ['14-mv-dragonball', 'Multiverse: Dragon Ball (DB1–DB20)', C.MV_DRAGONBALL],
-  ['15-mv-toystory', 'Multiverse: Toy Story (TS1–TS12)', C.MV_TOYSTORY],
-  ['16-mv-endgames', 'Multiverse: Endgames (E1–E6)', C.MV_ENDGAMES],
-  ['19a-lang-hebrew', "Learning Grove: Ori's Alef-Bet, Hebrew (LH1–LH6)", C.LANG_HEBREW],
-  ['19b-lang-japanese', "Learning Grove: Hana's Hiragana, Japanese (LJ1–LJ6)", C.LANG_JAPANESE],
+/** Longest file, in lines, before it is split at its `##` headings. */
+const CAP = 3500;
+
+// ---------------------------------------------------------------- the storylines, in play order
+type Kind = 'quests' | 'campaign' | 'storyline' | 'other';
+interface Unit {
+  /** Book path without `.md`, e.g. `side/S09` or `atlas/A14/main`. */
+  path: string;
+  title: string;
+  /** The line it belongs to, for the README and `--whole`. */
+  line: string;
+  kind: Kind;
+  quests?: Quest[];
+  variants?: Scene[];
+  /** Where the Learning Grove versions go: `<edu>/sprout.md` and `<edu>/reader.md`. */
+  edu?: string;
+  /** Side stories: the chapter in which it opens (0 = post-game), for the read-through. */
+  opens?: number;
+}
+const byCode = (a: Quest, b: Quest) => a.code.localeCompare(b.code, 'en', { numeric: true });
+const sorted = (qs: Quest[]) => [...qs].sort(byCode);
+const pad = (n: number) => String(n).padStart(2, '0');
+
+const SIDE_1_22 = [C.SIDE_STORIES_FUN, C.SIDE_STORIES_MAIN, C.SIDE_STORIES_FUN_2, C.SIDE_STORIES_NEW_1, C.SIDE_STORIES_NEW_2, C.SIDE_STORIES_NEW_3, C.SIDE_STORIES_NEW_4].flat();
+const SIDE_1_22_VARIANTS = [...C.SIDE_STORIES_MAIN_VARIANTS, ...C.SIDE_STORIES_FUN_2_VARIANTS, ...C.SIDE_STORIES_NEW_3_VARIANTS];
+const S23_31: [Quest[], Scene[]][] = [
+  [C.SIDE_STORY_S23, C.SIDE_STORY_S23_VARIANTS], [C.SIDE_STORY_S24, C.SIDE_STORY_S24_VARIANTS], [C.SIDE_STORY_S25, C.SIDE_STORY_S25_VARIANTS],
+  [C.SIDE_STORY_S26, C.SIDE_STORY_S26_VARIANTS], [C.SIDE_STORY_S27, C.SIDE_STORY_S27_VARIANTS], [C.SIDE_STORY_S28, C.SIDE_STORY_S28_VARIANTS],
+  [C.SIDE_STORY_S29, C.SIDE_STORY_S29_VARIANTS], [C.SIDE_STORY_S30, C.SIDE_STORY_S30_VARIANTS], [C.SIDE_STORY_S31, C.SIDE_STORY_S31_VARIANTS],
 ];
-const nameOf = (q: Quest, who: string) => q.speakers.find((s) => s.id === who)?.name ?? SPEAKERS[who]?.name ?? C.CAMPAIGN_SPEAKERS[who]?.name ?? who;
-function scene(q: Quest, s: Scene, title: string): string {
-  const out: string[] = [`#### ${title} \`${s.id}\``, ''];
-  for (const l of s.lines) {
-    const n = nameOf(q, l.who);
-    out.push(n ? `**${n}**${l.mood && l.mood !== 'neutral' ? ` _(${l.mood})_` : ''}: ${l.text}  ` : `_${l.text}_  `);
-  }
-  if (s.choices?.length) {
-    out.push('', '**Choices**', '');
-    for (const c of s.choices) {
-      out.push(`- **${c.label}**${c.set ? ` — sets \`${JSON.stringify(c.set)}\`` : ''}`);
-      for (const l of c.then ?? []) { const n = nameOf(q, l.who); out.push(`    - ${n ? `**${n}**: ` : ''}${l.text}`); }
-    }
-  }
-  if (s.set) out.push('', `Sets \`${JSON.stringify(s.set)}\``);
-  return out.join('\n');
-}
-let index = '# Grove script book\n\nGenerated from `src/content/`. One file per pack.\n\n';
-// ---- the campaign
-{
-  const camp = { id: 'campaign', speakers: Object.entries(C.CAMPAIGN_SPEAKERS).map(([id, v]) => ({ id, ...v })) } as unknown as Quest;
-  const byId = new Map(C.CAMPAIGN_SCENES.map((s) => [s.id, s]));
-  const md: string[] = ["# Hazel's Grove: the campaign", '', 'Three books, twelve chapters, eight endings. Canon: the story bible.', ''];
-  const used = new Set<string>();
-  const prefixOf = (n: number) => `c${n}-`;
-  for (const b of C.BOOKS) {
-    md.push(`## Book ${b.n}: ${b.title}`, '');
-    for (const n of b.chapters) {
-      const ch = C.CAMPAIGN_CHAPTERS.find((c) => c.n === n)!;
-      md.push(`### Chapter ${n}: ${ch.title}`, '', `Goal: ${ch.goalText} (\`${ch.goal}\`) · Hint: ${ch.hint}`, '');
-      const ids = [ch.opening, ...C.CAMPAIGN_SCENES.map((s) => s.id).filter((id) => id.startsWith(prefixOf(n)) && id !== ch.opening && id !== ch.closing), ch.closing];
-      for (const id of ids) {
-        const s = byId.get(id); if (!s || used.has(id)) continue; used.add(id);
-        md.push(scene(camp, s, id === ch.opening ? 'Opening' : id === ch.closing ? 'Closing' : 'Scene'), '');
-        if (C.CAMPAIGN_NOTES[id]) md.push(`> ${C.CAMPAIGN_NOTES[id]}`, '');
-      }
-    }
-  }
-  md.push('## Triggered scenes', '');
-  for (const s of C.CAMPAIGN_SCENES.filter((s) => s.id.startsWith('t-'))) { used.add(s.id); md.push(scene(camp, s, 'Scene'), ''); if (C.CAMPAIGN_NOTES[s.id]) md.push(`> ${C.CAMPAIGN_NOTES[s.id]}`, ''); }
-  md.push('## Endings', '');
-  for (const [id, e] of Object.entries(C.CAMPAIGN_ENDINGS)) md.push(`- **${e.title}** (\`${id}\`): ${e.how}`);
-  md.push('');
-  for (const s of C.CAMPAIGN_SCENES.filter((s) => s.id.startsWith('end-'))) { used.add(s.id); md.push(scene(camp, s, 'Ending scene'), ''); if (C.CAMPAIGN_NOTES[s.id]) md.push(`> ${C.CAMPAIGN_NOTES[s.id]}`, ''); }
-  const rest = C.CAMPAIGN_SCENES.filter((s) => !used.has(s.id));
-  if (rest.length) { md.push('## Other scenes', ''); for (const s of rest) md.push(scene(camp, s, 'Scene'), ''); }
-  writeFileSync(`${out}/00-campaign.md`, md.join('\n'));
-  index += "- [Hazel's Grove: the campaign (12 chapters, 8 endings)](00-campaign.md)\n";
-  const v: string[] = ['# Side-story variant scenes (S2, S9, S10, S13, S19)', ''];
-  for (const s of [...C.SIDE_STORIES_MAIN_VARIANTS, ...C.SIDE_STORIES_FUN_2_VARIANTS, ...C.SIDE_STORIES_NEW_3_VARIANTS]) v.push(scene(camp, s, 'Variant'), '');
-  writeFileSync(`${out}/01b-side-story-variants.md`, v.join('\n'));
-  index += '- [Side-story variant scenes](01b-side-story-variants.md)\n';
-}
-// Packs printed with their variant scenes. Kept out of `packs` so the Learning Grove pages, which look
-// quests up in `packs`, print exactly as before.
-const S23_31 = [C.SIDE_STORY_S23, C.SIDE_STORY_S24, C.SIDE_STORY_S25, C.SIDE_STORY_S26, C.SIDE_STORY_S27, C.SIDE_STORY_S28, C.SIDE_STORY_S29, C.SIDE_STORY_S30, C.SIDE_STORY_S31];
-const S23_31_VARIANTS = [C.SIDE_STORY_S23_VARIANTS, C.SIDE_STORY_S24_VARIANTS, C.SIDE_STORY_S25_VARIANTS, C.SIDE_STORY_S26_VARIANTS, C.SIDE_STORY_S27_VARIANTS, C.SIDE_STORY_S28_VARIANTS, C.SIDE_STORY_S29_VARIANTS, C.SIDE_STORY_S30_VARIANTS, C.SIDE_STORY_S31_VARIANTS];
+/** Side-story variants whose ids carry no `sNN-` prefix or parent: the side story they belong to. */
+const VARIANT_OWNER: [string, string][] = [['end-epi-mill-', 'S13'], ['end-epi-cinder-', 'S19']];
+/**
+ * Variant → parent scene where the id prefix doesn't say (seeded empty: the prefix rule places 666 of
+ * 736 variants; the rest are Grove-side or campaign-side scenes that belong at the end of their file).
+ */
+const PARENT: Record<string, string> = { 's10-foot': 's10-foot-msc' };
 const ATLAS: [Quest[], Scene[], string][] = [
   [C.ATLAS_A01, C.ATLAS_A01_VARIANTS, 'The Brothers’ Bargain'], [C.ATLAS_A02, C.ATLAS_A02_VARIANTS, 'The Monkey and the Monk'],
   [C.ATLAS_A03, C.ATLAS_A03_VARIANTS, 'Forty-Nine Days'], [C.ATLAS_A04, C.ATLAS_A04_VARIANTS, 'The Waterfall Prince'],
@@ -113,152 +81,427 @@ const ARCADE: [Quest[], Scene[], string][] = [
   [C.ARCADE_PA3, C.PA3_VARIANTS, 'The Hollow Kingdom'], [C.ARCADE_PA4, C.ARCADE_PA4_VARIANTS, 'Mercy'],
   [C.ARCADE_PA5, C.PA5_VARIANTS, 'The Hundred-Year Sleep'],
 ];
-const withVariants: [string, string, Quest[], Scene[]][] = [
-  ['01c-side-stories-s23-s31', "Hazel's Grove side stories (S23–S31)", S23_31.flat(), S23_31_VARIANTS.flat()],
-  ...ATLAS.map(([list, variants, name], i): [string, string, Quest[], Scene[]] => [`22-atlas-a${String(i + 1).padStart(2, '0')}`, `Atlas, page A${i + 1}: ${name}`, list, variants]),
-  ...ARCADE.map(([list, variants, name], i): [string, string, Quest[], Scene[]] => [`23-arcade-pa${i + 1}`, `Pixel's Arcade, cartridge PA${i + 1}: ${name}`, list, variants]),
-  ['24-line-lb', 'Learning Grove line LB: Play (LB1–LB12)', C.LINE_LB, C.LINE_LB_VARIANTS],
-  ['25-line-lk', 'Learning Grove line LK: Mouse-Deer (LK1–LK10)', C.LINE_LK, C.LINE_LK_VARIANTS],
-  ['26a-fun-alice', 'Fun quests: Alice in Wonderland (Q66–Q75)', C.QUESTS_ALICE, C.QUESTS_ALICE_VARIANTS],
-  ['26b-fun-holmes', 'Fun quests: Sherlock Holmes (Q76–Q85)', C.QUESTS_HOLMES, C.QUESTS_HOLMES_VARIANTS],
-  ['26c-fun-hodja', 'Fun quests: Nasreddin Hodja (Q86–Q95)', C.QUESTS_HODJA, C.QUESTS_HODJA_VARIANTS],
-  ['27a-expansion-e1', 'Expansion E1: The Square', C.EXPANSION_E1, C.EXPANSION_E1_VARIANTS],
-  ['27b-expansion-e2', 'Expansion E2: Nova’s Season', C.EXPANSION_E2, C.EXPANSION_E2_VARIANTS],
-  ['27c-expansion-e3', 'Expansion E3: The Twine', C.EXPANSION_E3, C.EXPANSION_E3_VARIANTS],
+const STORYLINES: [string, Storyline[]][] = [
+  ['hundred', [C.STORYLINE_HUNDRED]], ['logged', [C.STORYLINE_LOGGED]], ['beetle', [C.STORYLINE_BEETLE]], ['dawndusk', [C.STORYLINE_DAWN, C.STORYLINE_DUSK]],
 ];
-for (const [file, title, list, variants] of [...packs.map(([f, t, l]): [string, string, Quest[], Scene[]] => [f, t, l, []]), ...withVariants]) {
-  const md: string[] = [`# ${title}`, ''];
-  for (const q of list) {
+
+const GROVE = "Hazel's Grove";
+/** The chapter a side story opens in, read from its trigger text (0 = post-game, after the endings). */
+const opensIn = (q: Quest) => (/post-game/i.test(q.trigger.when) ? 0 : Number(/chapter (\d+)|\bc(\d+)-/i.exec(q.trigger.when)?.slice(1).find(Boolean) ?? 0));
+const units: Unit[] = [
+  ...C.BOOKS.map((b): Unit => ({ path: `campaign/book-${b.n}`, title: `The campaign, Book ${b.n}: ${b.title}`, line: GROVE, kind: 'campaign' })),
+  { path: 'campaign/triggered', title: 'The campaign: triggered scenes', line: GROVE, kind: 'campaign' },
+  { path: 'campaign/endings', title: 'The campaign: endings', line: GROVE, kind: 'campaign' },
+  ...[...SIDE_1_22.map((q): [Quest[], Scene[]] => [[q], []]), ...S23_31].map(([qs, vs]): Unit => {
+    const q = qs[0]!;
+    const n = Number(q.code.slice(1));
+    const vars = n <= 22 ? SIDE_1_22_VARIANTS.filter((v) => v.id.startsWith(`s${n}-`) || VARIANT_OWNER.some(([p, s]) => v.id.startsWith(p) && s === q.code)) : vs;
+    return { path: `side/S${pad(n)}`, title: `Side story ${q.code}: ${q.title}`, line: GROVE, kind: 'quests', quests: qs, variants: vars, edu: `learning/side/S${pad(n)}`, opens: opensIn(q) };
+  }).sort((a, b) => a.path.localeCompare(b.path)),
+  ...([
+    ['python', 'Monty Python (Q1–Q20)', C.QUESTS_PYTHON, []], ['bean', 'Mr. Bean (Q21–Q30)', C.QUESTS_BEAN, []],
+    ['sunny', "It's Always Sunny (Q31–Q45, adults only)", C.QUESTS_SUNNY, []], ['avatar', 'Avatar: The Last Airbender (Q46–Q65)', C.QUESTS_AVATAR, []],
+    ['alice', 'Alice in Wonderland (Q66–Q75)', C.QUESTS_ALICE, C.QUESTS_ALICE_VARIANTS], ['holmes', 'Sherlock Holmes (Q76–Q85)', C.QUESTS_HOLMES, C.QUESTS_HOLMES_VARIANTS],
+    ['hodja', 'Nasreddin Hodja (Q86–Q95)', C.QUESTS_HODJA, C.QUESTS_HODJA_VARIANTS],
+  ] as [string, string, Quest[], Scene[]][]).map(([f, t, qs, vs]): Unit => ({ path: `fun/${f}`, title: `Fun quests: ${t}`, line: 'Fun quests', kind: 'quests', quests: qs, variants: vs, edu: `learning/fun/${f}` })),
+  { path: 'neopia/line', title: 'Neopia line (NP1–NP13)', line: 'Neopia', kind: 'quests', quests: C.NEOPIA_LINE, variants: C.NEOPIA_LINE_VARIANTS },
+  { path: 'neopia/quests', title: 'Neopia quests (NQ1–NQ32)', line: 'Neopia', kind: 'quests', quests: C.NEOPIA_QUESTS, variants: C.NEOPIA_QUESTS_VARIANTS },
+  ...([
+    ['ironman', 'Iron Man (IM1–IM15)', C.MV_IRONMAN, C.MV_IRONMAN_VARIANTS], ['cap', 'Captain America (CA1–CA10)', C.MV_CAP, C.MV_CAP_VARIANTS],
+    ['doom', 'Doom and the Fantastic Four (FF1–FF10)', C.MV_DOOM, C.MV_DOOM_VARIANTS], ['ultron', 'Ultron (UL1–UL10)', C.MV_ULTRON, C.MV_ULTRON_VARIANTS],
+    ['moonknight', 'Moon Knight (MK1–MK8)', C.MV_MOONKNIGHT, C.MV_MOONKNIGHT_VARIANTS], ['spawn', 'Spawn (SP1–SP8)', C.MV_SPAWN, C.MV_SPAWN_VARIANTS],
+    ['dragonball', 'Dragon Ball (DB1–DB20)', C.MV_DRAGONBALL, C.MV_DRAGONBALL_VARIANTS], ['toystory', 'Toy Story (TS1–TS12)', C.MV_TOYSTORY, C.MV_TOYSTORY_VARIANTS],
+    ['endgames', 'Endgames (E1–E6)', C.MV_ENDGAMES, C.MV_ENDGAMES_VARIANTS],
+  ] as [string, string, Quest[], Scene[]][]).map(([f, t, qs, vs]): Unit => ({ path: `multiverse/${f}`, title: `Multiverse: ${t}`, line: 'Multiverse', kind: 'quests', quests: qs, variants: vs })),
+  ...([[C.EXPANSION_E1, C.EXPANSION_E1_VARIANTS], [C.EXPANSION_E2, C.EXPANSION_E2_VARIANTS], [C.EXPANSION_E3, C.EXPANSION_E3_VARIANTS]] as [Quest[], Scene[]][]).map(
+    ([qs, vs], i): Unit => ({ path: `expansions/E${i + 1}`, title: `Expansion E${i + 1}: ${qs[0]!.title}`, line: 'Expansions', kind: 'quests', quests: qs, variants: vs }),
+  ),
+  ...STORYLINES.map(([f, halves]): Unit => ({ path: `storylines/${f}`, title: `Storyline ${halves[0]!.code}: ${halves.length > 1 ? halves[0]!.title.split(':')[0]! : halves[0]!.title}`, line: 'Storylines', kind: 'storyline' })),
+  ...ATLAS.map(([qs, vs, name], i): Unit => ({ path: `atlas/A${pad(i + 1)}/main`, title: `Atlas, page A${i + 1}: ${name}`, line: 'Atlas', kind: 'quests', quests: qs, variants: vs, edu: `atlas/A${pad(i + 1)}` })),
+  ...ARCADE.map(([qs, vs, name], i): Unit => ({ path: `arcade/PA${i + 1}/main`, title: `Pixel's Arcade, cartridge PA${i + 1}: ${name}`, line: "Pixel's Arcade", kind: 'quests', quests: qs, variants: vs, edu: `arcade/PA${i + 1}` })),
+  { path: 'lines/LB/main', title: 'Learning Grove line LB: Play (LB1–LB12)', line: 'Learning Grove lines', kind: 'quests', quests: C.LINE_LB, variants: C.LINE_LB_VARIANTS, edu: 'lines/LB' },
+  { path: 'lines/LK/main', title: 'Learning Grove line LK: Mouse-Deer (LK1–LK10)', line: 'Learning Grove lines', kind: 'quests', quests: C.LINE_LK, variants: C.LINE_LK_VARIANTS, edu: 'lines/LK' },
+  { path: 'lines/lang-hebrew/main', title: "Ori's Alef-Bet, Hebrew (LH1–LH6)", line: 'Learning Grove lines', kind: 'quests', quests: C.LANG_HEBREW, variants: [], edu: 'lines/lang-hebrew' },
+  { path: 'lines/lang-hebrew/words', title: '', line: 'Learning Grove lines', kind: 'other' },
+  { path: 'lines/lang-japanese/main', title: "Hana's Hiragana, Japanese (LJ1–LJ6)", line: 'Learning Grove lines', kind: 'quests', quests: C.LANG_JAPANESE, variants: [], edu: 'lines/lang-japanese' },
+  { path: 'lines/lang-japanese/words', title: '', line: 'Learning Grove lines', kind: 'other' },
+  { path: 'extras/readers', title: 'Readers: fortune teller, doctor, Aunt Wen, Island Mystic, the kings', line: 'Extras', kind: 'other' },
+  { path: 'extras/results', title: 'Result lines for every result screen and Neopia freebie', line: 'Extras', kind: 'other' },
+];
+
+// ---------------------------------------------------------------- scene rendering
+const allQuests = units.flatMap((u) => u.quests ?? []);
+const speakerNames = new Map<string, string>();
+for (const q of allQuests) for (const sp of q.speakers) speakerNames.set(sp.id, sp.name);
+const nameIn = (cast: { id: string; name: string }[], who: string) => cast.find((s) => s.id === who)?.name ?? SPEAKERS[who]?.name ?? C.CAMPAIGN_SPEAKERS[who]?.name ?? who;
+const CAMPAIGN_CAST = Object.entries(C.CAMPAIGN_SPEAKERS).map(([id, v]) => ({ id, name: v.name }));
+
+function scene(cast: { id: string; name: string }[], s: Scene, title: string, parent?: string): string[] {
+  const md: string[] = [`#### <a id="${s.id}"></a>${title} \`${s.id}\``, ''];
+  if (parent) md.push(questWide.has(s.id) ? `_Variant within ${questWide.get(s.id)}; it has no single parent scene._` : `_Variant of \`${parent}\`._`, '');
+  for (const l of s.lines) {
+    const n = nameIn(cast, l.who);
+    md.push(n ? `**${n}**${l.mood && l.mood !== 'neutral' ? ` _(${l.mood})_` : ''}: ${l.text}  ` : `_${l.text}_  `);
+  }
+  if (s.choices?.length) {
+    md.push('', '**Choices**', '');
+    for (const c of s.choices) {
+      md.push(`- **${c.label}**${c.set ? ` — sets \`${JSON.stringify(c.set)}\`` : ''}`);
+      for (const l of c.then ?? []) { const n = nameIn(cast, l.who); md.push(`    - ${n ? `**${n}**: ` : ''}${l.text}`); }
+    }
+  }
+  if (s.set) md.push('', `Sets \`${JSON.stringify(s.set)}\``);
+  md.push('');
+  return md;
+}
+
+/** Book file (after splitting) of every main scene id, for the Learning Grove links. */
+const fileOf = new Map<string, string>();
+/** Main scene id → its play position and quest, for ordering and grouping Learning Grove scenes. */
+const placeOf = new Map<string, { unit: Unit; pos: number; quest?: string }>();
+
+/**
+ * Variant parents: the longest hyphen prefix of the id that names a scene, a variant, a step or a
+ * quest in the same storyline. A step stands for its scene; a variant that names only its quest
+ * goes after the quest's complete scene, noted as belonging to the quest.
+ */
+const questWide = new Map<string, string>();
+function variantTree(qs: Quest[], vs: Scene[], extraScenes: string[] = []) {
+  const target = new Map<string, string>();
+  const quests = new Map<string, Quest>();
+  for (const id of extraScenes) target.set(id, id);
+  for (const q of qs) {
+    quests.set(q.id, q); quests.set(q.code.toLowerCase(), q);
+    for (const st of q.steps) { target.set(st.id, st.scene.id); target.set(st.scene.id, st.scene.id); if (st.done) target.set(st.done.id, st.done.id); }
+    target.set(q.complete.id, q.complete.id);
+  }
+  for (const v of vs) target.set(v.id, v.id);
+  const children = new Map<string, Scene[]>();
+  const loose: Scene[] = [];
+  for (const v of vs) {
+    let parent = PARENT[v.id];
+    for (let p = v.id; !parent && p.includes('-'); ) {
+      p = p.slice(0, p.lastIndexOf('-'));
+      parent = target.get(p);
+      const q = parent ? undefined : quests.get(p);
+      if (q) { parent = q.complete.id; questWide.set(v.id, q.code); }
+    }
+    if (parent) children.set(parent, [...(children.get(parent) ?? []), v]); else loose.push(v);
+  }
+  return { children, loose };
+}
+
+function questUnit(u: Unit): string[] {
+  const qs = sorted(u.quests!);
+  const cast = qs.flatMap((q) => q.speakers);
+  const { children, loose } = variantTree(qs, u.variants ?? []);
+  const order: string[] = [];
+  const md: string[] = [`# ${u.title}`, ''];
+  let quest: string | undefined;
+  const put = (s: Scene, title: string, parent?: string) => {
+    md.push(...scene(cast, s, title, parent));
+    order.push(s.id); placeOf.set(s.id, { unit: u, pos: placeOf.size, ...(quest ? { quest } : {}) });
+    for (const v of children.get(s.id) ?? []) put(v, 'Variant', s.id);
+  };
+  for (const q of qs) {
+    quest = q.id;
     md.push(`## ${q.code}. ${q.title}`, '', `*${q.source}* · audience: ${q.audience} · where: ${q.trigger.where} · when: ${q.trigger.when}${q.requires?.length ? ` · requires: ${q.requires.join(', ')}` : ''}`, '');
     if (q.speakers.length) md.push('**Cast:** ' + q.speakers.map((s) => `${s.name}${s.basedOn ? ` (${s.basedOn})` : ''}`).join(', '), '');
     q.steps.forEach((st, i) => {
-      md.push(`### Step ${i + 1}: ${st.goal}`, '', `Hint: ${st.hint} · check: \`${st.check}\``, '', scene(q, st.scene, 'Scene'), '');
-      if (st.done) md.push(scene(q, st.done, 'Done'), '');
+      md.push(`### Step ${i + 1}: ${st.goal}`, '', `Hint: ${st.hint} · check: \`${st.check}\``, '');
+      put(st.scene, 'Scene');
+      if (st.done) put(st.done, 'Done');
     });
-    md.push(scene(q, q.complete, 'Complete'), '', '**Rewards**', '', ...q.rewards.map((r) => `- ${r.label} (${r.kind}): ${r.description}`), '');
+    md.push(`### Complete`, '');
+    put(q.complete, 'Complete');
+    md.push('**Rewards**', '', ...q.rewards.map((r) => `- ${r.label} (${r.kind}): ${r.description}`), '');
     if (q.sets) md.push(`Sets on completion: \`${JSON.stringify(q.sets)}\``, '');
     if (q.childLines && Object.keys(q.childLines).length) md.push('**Learning Grove swaps**', '', ...Object.entries(q.childLines).map(([k, v]) => `- \`${k}\` → ${v}`), '');
     if (q.notes) md.push('**Notes:** ' + q.notes, '');
   }
-  if (variants.length) {
-    // Variant scenes may use any speaker in the pack, so name them from the whole cast.
-    const cast = { speakers: list.flatMap((q) => q.speakers) } as unknown as Quest;
-    md.push('## Variant scenes', '');
-    for (const v of variants) md.push(scene(cast, v, 'Variant'), '');
+  quest = undefined;
+  if (loose.length) {
+    md.push('## Variant scenes', '', 'Variants with no parent scene in this storyline (Grove-side, campaign-side or shared scenes).', '');
+    for (const v of loose) put(v, 'Variant');
   }
-  writeFileSync(`${out}/${file}.md`, md.join('\n'));
-  index += `- [${title}](${file}.md): ${list.length} quests${variants.length ? `, ${variants.length} variant scenes` : ''}\n`;
+  return md;
 }
-// ---- the separate campaigns (storylines SL1–SL4, each its own save mode)
-const STORYLINES: [string, Storyline[]][] = [
-  ['28a-storyline-hundred', [C.STORYLINE_HUNDRED]], ['28b-storyline-logged', [C.STORYLINE_LOGGED]],
-  ['28c-storyline-beetle', [C.STORYLINE_BEETLE]], ['28d-storyline-dawndusk', [C.STORYLINE_DAWN, C.STORYLINE_DUSK]],
-];
-for (const [file, halves] of STORYLINES) {
-  const md: string[] = [`# Storyline ${halves[0]!.code}: ${halves.length > 1 ? halves[0]!.title.split(':')[0] : halves[0]!.title}`, ''];
+
+function campaignUnit(u: Unit): string[] {
+  const cast = CAMPAIGN_CAST;
+  const put = (md: string[], s: Scene, title: string) => {
+    md.push(...scene(cast, s, title));
+    if (C.CAMPAIGN_NOTES[s.id]) md.push(`> ${C.CAMPAIGN_NOTES[s.id]}`, '');
+    placeOf.set(s.id, { unit: u, pos: placeOf.size });
+  };
+  const byId = new Map(C.CAMPAIGN_SCENES.map((s) => [s.id, s]));
+  const book = /book-(\d+)$/.exec(u.path);
+  if (book) {
+    const b = C.BOOKS.find((x) => x.n === Number(book[1]))!;
+    const md: string[] = [`# Hazel's Grove: ${u.title}`, ''];
+    for (const n of b.chapters) {
+      const ch = C.CAMPAIGN_CHAPTERS.find((c) => c.n === n)!;
+      md.push(`## Chapter ${n}: ${ch.title}`, '', `Goal: ${ch.goalText} (\`${ch.goal}\`) · Hint: ${ch.hint}`, '');
+      const ids = [ch.opening, ...C.CAMPAIGN_SCENES.map((s) => s.id).filter((id) => id.startsWith(`c${n}-`) && id !== ch.opening && id !== ch.closing), ch.closing];
+      for (const id of ids) { const s = byId.get(id); if (s && !placeOf.has(id)) put(md, s, id === ch.opening ? 'Opening' : id === ch.closing ? 'Closing' : 'Scene'); }
+    }
+    return md;
+  }
+  if (u.path.endsWith('triggered')) {
+    const md = [`# Hazel's Grove: ${u.title}`, '', 'Scenes the rules queue by id rather than by chapter.', ''];
+    for (const s of C.CAMPAIGN_SCENES.filter((s) => s.id.startsWith('t-'))) put(md, s, 'Scene');
+    return md;
+  }
+  const md = [`# Hazel's Grove: ${u.title}`, '', ...Object.entries(C.CAMPAIGN_ENDINGS).map(([id, e]) => `- **${e.title}** (\`${id}\`): ${e.how}`), ''];
+  for (const s of C.CAMPAIGN_SCENES.filter((s) => s.id.startsWith('end-'))) put(md, s, 'Ending scene');
+  const rest = C.CAMPAIGN_SCENES.filter((s) => !placeOf.has(s.id));
+  if (rest.length) { md.push('## Other scenes', ''); for (const s of rest) put(md, s, 'Scene'); }
+  return md;
+}
+
+function storylineUnit(u: Unit): string[] {
+  const halves = STORYLINES.find(([f]) => u.path === `storylines/${f}`)![1];
+  const md: string[] = [`# ${u.title}`, ''];
   for (const sl of halves) {
-    const cast = { speakers: sl.speakers } as unknown as Quest;
+    const cast = sl.speakers;
+    const chapterScenes = sl.chapters.flatMap((ch) => [ch.opening.id, ...(ch.beats ?? []).map((b) => b.scene.id), ch.closing.id]);
+    const { children, loose } = variantTree([], sl.extra, chapterScenes);
+    const put = (s: Scene, title: string, parent?: string) => {
+      md.push(...scene(cast, s, title, parent));
+      placeOf.set(s.id, { unit: u, pos: placeOf.size });
+      for (const v of children.get(s.id) ?? []) put(v, s.id.startsWith('end-') ? 'Ending scene' : 'Variant', s.id);
+    };
     if (halves.length > 1) md.push(`## ${sl.title}`, '');
     md.push(`*${sl.tagline}* · ${sl.source} · audience: ${sl.audience} · save id: \`${sl.id}\``, '');
     if (sl.speakers.length) md.push('**Cast:** ' + sl.speakers.map((s) => `${s.name}${s.basedOn ? ` (${s.basedOn})` : ''}`).join(', '), '');
     for (const ch of sl.chapters) {
-      md.push(`### Chapter ${ch.n}: ${ch.title}`, '', `Goal: ${ch.goalText} (\`${ch.goal}\`) · Hint: ${ch.hint}`, '', scene(cast, ch.opening, 'Opening'), '');
-      for (const b of ch.beats ?? []) md.push(`When \`${b.when}\`:`, '', scene(cast, b.scene, 'Beat'), '');
-      md.push(scene(cast, ch.closing, 'Closing'), '');
+      md.push(`### Chapter ${ch.n}: ${ch.title}`, '', `Goal: ${ch.goalText} (\`${ch.goal}\`) · Hint: ${ch.hint}`, '');
+      put(ch.opening, 'Opening');
+      for (const b of ch.beats ?? []) { md.push(`When \`${b.when}\`:`, ''); put(b.scene, 'Beat'); }
+      put(ch.closing, 'Closing');
     }
     md.push('### Endings', '', ...Object.entries(sl.endings).map(([id, e]) => `- **${e.title}** (\`${id}\`): ${e.how}`), '');
-    for (const s of sl.extra) md.push(scene(cast, s, s.id.startsWith('end-') ? 'Ending scene' : 'Scene'), '');
+    for (const s of loose) put(s, s.id.startsWith('end-') ? 'Ending scene' : 'Scene');
     if (sl.notes) md.push('**Notes:** ' + sl.notes, '');
   }
-  writeFileSync(`${out}/${file}.md`, md.join('\n'));
-  index += `- [${md[0]!.slice(2)}](${file}.md): ${halves.reduce((n, sl) => n + sl.chapters.length, 0)} chapters\n`;
+  return md;
 }
-// ---- the Learning Grove (educational versions)
-{
-  type ES = import('../../src/content/types').EduScene;
-  const allSpeakers = new Map<string, string>();
-  for (const q of [...Object.values(packs).flatMap((p) => p[2]), ...withVariants.flatMap((p) => p[2])]) for (const sp of q.speakers) allSpeakers.set(sp.id, sp.name);
-  const who = (id: string) => allSpeakers.get(id) ?? SPEAKERS[id]?.name ?? C.CAMPAIGN_SPEAKERS[id]?.name ?? id;
-  const line = (l: { who: string; text: string; mood?: string }) => {
-    const n = who(l.who);
-    return n ? `**${n}**: ${l.text}  ` : `_${l.text}_  `;
-  };
-  const eduScene = (e: ES): string => {
-    const out: string[] = [`#### \`${e.of}\``, ''];
-    e.lines.forEach((l, i) => {
-      out.push(line(l));
-      for (const les of e.lessons.filter((x) => x.after === i)) {
-        out.push('', `> **Lesson** (${les.domain}${les.standard ? `, ${les.standard}` : ''}, ${les.kind}): ${les.skill}  `);
-        for (const p of les.prompt ?? []) out.push(`> ${line(p)}`);
-        for (const p of les.lines ?? []) out.push(`> ${line(p)}`);
-        for (const o of les.options ?? []) out.push(`> - ${o.best ? '✅ ' : ''}${o.label} → ${o.reply.map((r) => r.text).join(' ')}`);
-        if (les.check) out.push(`> Check: \`${les.check}\``);
-        out.push(`> _For grown-ups: ${les.parentNote}_`, '');
-      }
-    });
-    if (e.choices?.length) {
-      out.push('', '**Choices**', '');
-      for (const c of e.choices) {
-        out.push(`- **${c.label}**`);
-        for (const l of c.then ?? []) out.push(`    - ${who(l.who) ? `**${who(l.who)}**: ` : ''}${l.text}`);
-      }
-      if (e.defaultChoice) out.push(`- _(left out in this band; plays as \`${e.defaultChoice}\`)_`);
-    }
-    return out.join('\n');
-  };
-  for (const band of C.EDU_BANDS) {
-    const info = C.EDU_BAND_INFO[band];
-    const head = `${info.label} (ages ${info.ages}${info.readAloud ? ', read aloud' : ''})`;
-    const camp: string[] = [`# Learning Grove · ${head}: the campaign`, ''];
-    for (const c of C.EDU_CAMPAIGN[band]) {
-      camp.push(`## ${c.id}`, '');
-      for (const [n, ch] of Object.entries(c.chapters)) camp.push(`- Chapter ${n}${ch.title ? ` (${ch.title})` : ''}: ${ch.goalText} · ${ch.hint}`);
-      camp.push('');
-      for (const e of c.scenes) camp.push(eduScene(e), '');
-      if (c.endings) { camp.push('### Endings', ''); for (const [id, e] of Object.entries(c.endings)) camp.push(`- **${e.title}** (\`${id}\`): ${e.how}`); camp.push(''); }
-      if (c.glossary?.length) { camp.push('### Glossary', '', ...c.glossary.map((g) => `- **${g.word}**: ${g.meaning}`), ''); }
-    }
-    const qs: string[] = [`# Learning Grove · ${head}: side stories and fun quests`, ''];
-    for (const q of C.EDU_QUESTS[band]) {
-      const orig = [...packs, ...withVariants].flatMap((p) => p[2]).find((x) => x.id === q.of);
-      qs.push(`## ${orig?.code ?? ''}. ${q.title ?? orig?.title ?? q.of}`, '');
-      for (const [sid, g] of Object.entries(q.goals)) qs.push(`- \`${sid}\`: ${g.goal} · _${g.hint}_`);
-      qs.push('');
-      for (const e of q.scenes) qs.push(eduScene(e), '');
-      if (q.glossary?.length) qs.push('### Glossary', '', ...q.glossary.map((g) => `- **${g.word}**: ${g.meaning}`), '');
-    }
-    qs.push('## Variant scenes', '');
-    for (const e of C.EDU_VARIANTS[band]) qs.push(eduScene(e), '');
-    const n = band === 'sprout' ? '20' : '21';
-    writeFileSync(`${out}/${n}a-edu-${band}-campaign.md`, camp.join('\n'));
-    writeFileSync(`${out}/${n}b-edu-${band}-stories.md`, qs.join('\n'));
-    index += `- [Learning Grove, ${head}: campaign](${n}a-edu-${band}-campaign.md)\n- [Learning Grove, ${head}: side stories and fun quests](${n}b-edu-${band}-stories.md)\n`;
+
+function otherUnit(u: Unit): string[] {
+  if (u.path.endsWith('/words')) {
+    const course = u.path.includes('hebrew') ? C.HEBREW_COURSE : C.JAPANESE_COURSE;
+    return [`# ${course.title}: word list and script primer`, '', course.notes, '', '| Word | Plain | Roman | English | Say it | Topic | First taught | Band | Notes | Audio |', '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
+      ...course.vocab.map((w) => `| ${w.native} | ${w.plain ?? ''} | ${w.roman} | ${w.english} | ${w.sayIt} | ${w.topic} | ${w.quest} | ${w.band} | ${w.notes ?? ''} | \`${w.audio}\` |`),
+      '', `## ${course.script.name} (${course.script.direction})`, '', '| Character | Name | Sound | Alt | Notes |', '| --- | --- | --- | --- | --- |', ...course.script.chars.map((c) => `| ${c.char} | ${c.name} | ${c.roman} | ${c.alt ?? ''} | ${c.notes ?? ''} |`), ''];
   }
+  if (u.path.endsWith('readers')) {
+    const md = ['# Readers', ''];
+    for (const r of C.READERS) md.push(`## ${r.name} (\`${r.id}\`)`, '', `Where: ${r.where}`, '', '**Intro**', '', ...r.intro.map((l) => `- ${l.text}`), '', '| When | Reading | Learning Grove |', '| --- | --- | --- |', ...r.readings.map((x) => `| \`${x.when}\` | ${x.text} | ${x.childText ?? ''} |`), '', '**Outro**', '', ...r.outro.map((l) => `- ${l.text}`), '');
+    return md;
+  }
+  const md = ['# Result lines', ''];
+  for (const s of C.RESULT_SETS) md.push(`## ${s.id}`, '', s.screen, '', '| When | Text | Learning Grove |', '| --- | --- | --- |', ...s.lines.map((x) => `| \`${x.when}\` | ${x.text} | ${x.childText ?? ''} |`), '');
+  return md;
 }
-for (const course of [C.HEBREW_COURSE, C.JAPANESE_COURSE]) {
-  const v: string[] = [`# ${course.title}: word list and script primer`, '', course.notes, '', '| Word | Plain | Roman | English | Say it | Topic | First taught | Band | Notes | Audio |', '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |'];
-  for (const w of course.vocab) v.push(`| ${w.native} | ${w.plain ?? ''} | ${w.roman} | ${w.english} | ${w.sayIt} | ${w.topic} | ${w.quest} | ${w.band} | ${w.notes ?? ''} | \`${w.audio}\` |`);
-  v.push('', `## ${course.script.name} (${course.script.direction})`, '', '| Character | Name | Sound | Alt | Notes |', '| --- | --- | --- | --- | --- |', ...course.script.chars.map((c) => `| ${c.char} | ${c.name} | ${c.roman} | ${c.alt ?? ''} | ${c.notes ?? ''} |`));
-  const f = course.lang === 'he' ? '19c-hebrew-words.md' : '19d-japanese-words.md';
-  writeFileSync(`${out}/${f}`, v.join('\n'));
-  index += `- [${course.title}: word list and script primer](${f})\n`;
+
+// ---------------------------------------------------------------- the Learning Grove
+const who = (id: string) => speakerNames.get(id) ?? SPEAKERS[id]?.name ?? C.CAMPAIGN_SPEAKERS[id]?.name ?? id;
+const eduLine = (l: Pick<Line, 'who' | 'text'>) => { const n = who(l.who); return n ? `**${n}**: ${l.text}  ` : `_${l.text}_  `; };
+function eduScene(e: EduScene, from: string, parent?: string): string[] {
+  const target = fileOf.get(e.of);
+  const link = target ? ` · [main](${posix.relative(posix.dirname(from), target)}#${e.of})` : '';
+  const md: string[] = [`#### \`${e.id}\`${link}`, ''];
+  if (parent) md.push(`_Variant of \`${parent}\`._`, '');
+  e.lines.forEach((l, i) => {
+    md.push(eduLine(l));
+    for (const les of e.lessons.filter((x) => x.after === i)) {
+      md.push('', `> **Lesson** (${les.domain}${les.standard ? `, ${les.standard}` : ''}, ${les.kind}): ${les.skill}  `);
+      for (const p of les.prompt ?? []) md.push(`> ${eduLine(p)}`);
+      for (const p of les.lines ?? []) md.push(`> ${eduLine(p)}`);
+      for (const o of les.options ?? []) md.push(`> - ${o.best ? '✅ ' : ''}${o.label} → ${o.reply.map((r) => r.text).join(' ')}`);
+      if (les.check) md.push(`> Check: \`${les.check}\``);
+      md.push(`> _For grown-ups: ${les.parentNote}_`, '');
+    }
+  });
+  if (e.choices?.length) {
+    md.push('', '**Choices**', '');
+    for (const c of e.choices) {
+      md.push(`- **${c.label}**`);
+      for (const l of c.then ?? []) md.push(`    - ${who(l.who) ? `**${who(l.who)}**: ` : ''}${l.text}`);
+    }
+    if (e.defaultChoice) md.push(`- _(left out in this band; plays as \`${e.defaultChoice}\`)_`);
+  }
+  md.push('');
+  return md;
 }
-const rd: string[] = ['# Readers', ''];
-for (const r of C.READERS) {
-  rd.push(`## ${r.name} (\`${r.id}\`)`, '', `Where: ${r.where}`, '', '**Intro**', '', ...r.intro.map((l) => `- ${l.text}`), '', '| When | Reading | Learning Grove |', '| --- | --- | --- |', ...r.readings.map((x) => `| \`${x.when}\` | ${x.text} | ${x.childText ?? ''} |`), '', '**Outro**', '', ...r.outro.map((l) => `- ${l.text}`), '');
+const bandHead = (band: EduBand) => {
+  const info = C.EDU_BAND_INFO[band];
+  return `${info.label} (ages ${info.ages}${info.readAloud ? ', read aloud' : ''})`;
+};
+/** A Learning Grove storyline file: its quests in play order, each edu scene in its main scene's place. */
+function eduUnit(u: Unit, band: EduBand, eqs: EduQuest[], vars: EduScene[], from: string): string[] {
+  const md: string[] = [`# Learning Grove · ${bandHead(band)}: ${u.title}`, ''];
+  const pos = (e: EduScene) => placeOf.get(e.of)?.pos ?? Number.MAX_SAFE_INTEGER;
+  const qOrder = (eq: EduQuest) => sorted(u.quests!).findIndex((q) => q.id === eq.of);
+  const all = [...eqs.flatMap((q) => q.scenes), ...vars];
+  const seen = new Set<string>();
+  const mainOf = new Map(all.map((e) => [e.of, e]));
+  for (const eq of [...eqs].sort((a, b) => qOrder(a) - qOrder(b))) {
+    const orig = u.quests!.find((q) => q.id === eq.of);
+    md.push(`## ${orig?.code ?? ''}. ${eq.title ?? orig?.title ?? eq.of}`, '');
+    for (const [sid, g] of Object.entries(eq.goals)) md.push(`- \`${sid}\`: ${g.goal} · _${g.hint}_`);
+    md.push('');
+    const mine = all.filter((e) => !seen.has(e.id) && placeOf.get(e.of)?.quest === eq.of).sort((a, b) => pos(a) - pos(b));
+    for (const e of mine) { seen.add(e.id); md.push(...eduScene(e, from, parentOf(e.of, mainOf))); }
+    if (eq.glossary?.length) md.push('### Glossary', '', ...eq.glossary.map((g) => `- **${g.word}**: ${g.meaning}`), '');
+    if (eq.notes) md.push('**Notes:** ' + eq.notes, '');
+  }
+  const rest = all.filter((e) => !seen.has(e.id)).sort((a, b) => pos(a) - pos(b));
+  if (rest.length) {
+    md.push('## Variant scenes', '', 'Versions of the variants with no parent scene in this storyline.', '');
+    for (const e of rest) md.push(...eduScene(e, from));
+  }
+  return md;
 }
-writeFileSync(`${out}/17-readers.md`, rd.join('\n'));
-const rs: string[] = ['# Result lines', ''];
-for (const s of C.RESULT_SETS) rs.push(`## ${s.id}`, '', s.screen, '', '| When | Text | Learning Grove |', '| --- | --- | --- |', ...s.lines.map((x) => `| \`${x.when}\` | ${x.text} | ${x.childText ?? ''} |`), '');
-writeFileSync(`${out}/18-results.md`, rs.join('\n'));
-index += '- [Readers: fortune teller, doctor, Aunt Wen, Island Mystic, the kings](17-readers.md)\n- [Result lines for every result screen and Neopia freebie](18-results.md)\n';
-writeFileSync(`${out}/README.md`, index);
+/** The parent named in the main book for a variant, when this band has a version of it. */
+const variantParent = new Map<string, string>();
+const parentOf = (of: string, present: Map<string, EduScene>) => { const p = variantParent.get(of); return p && present.has(p) ? p : undefined; };
+
+// ---------------------------------------------------------------- files, splitting, the index
+const files = new Map<string, string[]>();
+/** Unit path → its book files after splitting, per band ('main' for the main script). */
+const filesOf = new Map<string, Map<string, string[]>>();
+function emit(u: Unit, band: string, path: string, md: string[]) {
+  while (md.length && md[md.length - 1] === '') md.pop();
+  const parts = split(md);
+  const names = parts.length === 1 ? [`${path}.md`] : parts.map((_, i) => `${path}-${i + 1}.md`);
+  parts.forEach((p, i) => files.set(names[i]!, p));
+  if (!filesOf.has(u.path)) filesOf.set(u.path, new Map());
+  filesOf.get(u.path)!.set(band, names);
+  return names;
+}
+/** Splits at `##` headings (then `###`) so that no part runs past CAP lines; parts after the first repeat the title. */
+function split(md: string[], level = 2, title = md[0]!): string[][] {
+  if (md.length <= CAP || level > 3) return [md];
+  const mark = '#'.repeat(level) + ' ';
+  const starts = md.map((l, i) => (l.startsWith(mark) ? i : -1)).filter((i) => i > 0);
+  if (!starts.length) return [md];
+  const sections = [md.slice(0, starts[0]), ...starts.map((s, i) => md.slice(s, starts[i + 1] ?? md.length))];
+  const parts: string[][] = [];
+  let cur: string[] = [];
+  for (const sec of sections) {
+    if (cur.length > 2 && cur.length + sec.length > CAP) { parts.push(cur); cur = [`${title} (continued)`, '']; }
+    cur.push(...sec);
+  }
+  parts.push(cur);
+  return parts.flatMap((p) => split(p, level + 1, title));
+}
+
+// Main scripts first, so the Learning Grove files can link to them.
+for (const u of units) {
+  const md = u.kind === 'quests' ? questUnit(u) : u.kind === 'campaign' ? campaignUnit(u) : u.kind === 'storyline' ? storylineUnit(u) : otherUnit(u);
+  emit(u, 'main', u.path, md);
+}
+for (const [f, md] of files) for (const l of md) { const id = /^#### <a id="([^"]+)">/.exec(l)?.[1]; if (id && !fileOf.has(id)) fileOf.set(id, f); }
+for (const u of units) {
+  if (u.kind !== 'quests') continue;
+  const { children } = variantTree(u.quests!, u.variants ?? []);
+  for (const [p, vs] of children) for (const v of vs) variantParent.set(v.id, p);
+}
+const learningCampaign: Unit = { path: 'learning/campaign', title: 'the campaign', line: 'Learning Grove', kind: 'other' };
+for (const band of C.EDU_BANDS) {
+  const from = `learning/campaign/${band}.md`;
+  const md: string[] = [`# Learning Grove · ${bandHead(band)}: the campaign`, ''];
+  for (const c of C.EDU_CAMPAIGN[band]) {
+    md.push(`## ${c.id}`, '');
+    for (const [n, ch] of Object.entries(c.chapters)) md.push(`- Chapter ${n}${ch.title ? ` (${ch.title})` : ''}: ${ch.goalText} · ${ch.hint}`);
+    md.push('');
+    for (const e of c.scenes) md.push(...eduScene(e, from));
+    if (c.endings) md.push('### Endings', '', ...Object.entries(c.endings).map(([id, e]) => `- **${e.title}** (\`${id}\`): ${e.how}`), '');
+    if (c.glossary?.length) md.push('### Glossary', '', ...c.glossary.map((g) => `- **${g.word}**: ${g.meaning}`), '');
+  }
+  emit(learningCampaign, band, `learning/campaign/${band}`, md);
+  for (const u of units.filter((x) => x.edu)) {
+    const ids = new Set(u.quests!.map((q) => q.id));
+    const eqs = C.EDU_QUESTS[band].filter((q) => ids.has(q.of));
+    const vars = C.EDU_VARIANTS[band].filter((e) => placeOf.get(e.of)?.unit === u);
+    if (!eqs.length && !vars.length) continue;
+    emit(u, band, `${u.edu}/${band}`, eduUnit(u, band, eqs, vars, `${u.edu}/${band}.md`));
+  }
+  const homeless = C.EDU_VARIANTS[band].filter((e) => !placeOf.get(e.of)?.unit.edu);
+  const strays = C.EDU_QUESTS[band].filter((q) => !allQuests.some((x) => x.id === q.of));
+  if (homeless.length || strays.length) throw new Error(`${band}: Learning Grove scenes with no storyline: ${[...homeless.map((e) => e.id), ...strays.map((q) => q.id)].join(', ')}`);
+}
+
+// Source locations: `id: '<id>'` where a scene is written out; for builder-made Learning Grove scenes,
+// the first quoted original id in that band's files.
+const SRC = 'src/content';
+const srcLines = readdirSync(SRC).filter((f) => f.endsWith('.ts')).sort().map((f) => [f, readFileSync(join(SRC, f), 'utf8').split('\n')] as const);
+const declared = new Map<string, string>();
+const quoted = new Map<string, string[]>();
+const templated = new Map<string, string>();
+for (const [f, ls] of srcLines) ls.forEach((l, i) => {
+  for (const m of l.matchAll(/(id:\s*)?['"`]([a-z0-9][\w:.-]*)['"`]/g)) {
+    const at = `${SRC}/${f}:${i + 1}`;
+    if (m[1] && !declared.has(m[2]!)) declared.set(m[2]!, at);
+    if (!quoted.has(m[2]!)) quoted.set(m[2]!, []);
+    quoted.get(m[2]!)!.push(at);
+  }
+  // Ids built from a template (`s10-foot-${tag}`): the template's line.
+  for (const m of l.matchAll(/`([a-z0-9][\w:.-]*-)\$\{/g)) if (!templated.has(m[1]!)) templated.set(m[1]!, `${SRC}/${f}:${i + 1}`);
+});
+/** An id built by code: the template that spells it, else the last quote of its base id (the builder call). */
+const builtFrom = (id: string, ok: (at: string) => boolean) => {
+  for (let p = id; p.includes('-'); ) { p = p.slice(0, p.lastIndexOf('-')); const t = templated.get(`${p}-`); if (t && ok(t)) return t; }
+  for (let p = id; p.includes('-'); ) { p = p.slice(0, p.lastIndexOf('-')); const q = quoted.get(p)?.filter(ok); if (q?.length) return q[q.length - 1]!; }
+  return '-';
+};
+const srcOf = (id: string) => {
+  if (declared.has(id)) return declared.get(id)!;
+  const edu = /^(sprout|reader):(.+)$/.exec(id);
+  if (!edu) { const ok = (at: string) => !at.includes('/edu-'); return quoted.get(id)?.find(ok) ?? builtFrom(id, ok); }
+  const ok = (at: string) => /\/(edu|lines)-/.test(at) && (at.includes(`-${edu[1]}`) || at.includes('/lines-'));
+  return quoted.get(edu[2]!)?.find(ok) ?? builtFrom(edu[2]!, ok);
+};
+const tsv = ['scene\tbook\tsrc'];
+const order = [...files.keys()];
+for (const f of order) files.get(f)!.forEach((l, i) => { const id = /^#### (?:<a id="[^"]+"><\/a>)?[^`]*`([^`]+)`/.exec(l)?.[1]; if (id) tsv.push(`${id}\t${f}:${i + 1}\t${srcOf(id)}`); });
+
+// The index: every storyline by line, its files and their lengths.
+const link = (f: string) => `[${posix.basename(f)}](${f}) (${files.get(f)!.length})`;
+const cell = (u: Unit | undefined, band: string) => (u && filesOf.get(u.path)?.get(band)?.map(link).join(', ')) || '';
+const readme = [
+  '# Grove script book', '',
+  'Generated from `src/content/` by `tests/tools/script-book.ts`; never edit by hand. Rerun it after any content change and check with `--check`.', '',
+  `One storyline per file, scenes in play order. Variants sit under their parent scene ("Variant of …"); variants with no parent close their storyline's file. Learning Grove versions are separate files, one per band, each scene linking to its main scene. No file runs past ${CAP} lines; longer ones split at their \`##\` headings into \`-1\`, \`-2\`. Each file is one review unit (\`docs/story-review/LOG.md\`).`, '',
+  '`ids.tsv` maps every scene id to its book file:line and its source file:line. Line counts are in brackets.', '',
+];
+const lines = [...new Set(units.map((u) => u.line))];
+for (const line of lines) {
+  const us = units.filter((u) => u.line === line);
+  const hasEdu = us.some((u) => u.edu) || line === GROVE;
+  readme.push(`## ${line}`, '', hasEdu ? '| Storyline | Script | Little Sprouts | Grove Readers |' : '| Storyline | Script |', hasEdu ? '| --- | --- | --- | --- |' : '| --- | --- |');
+  for (const u of us) {
+    const name = (u.title || (u.path.includes('hebrew') ? "Ori's Alef-Bet: word list and script primer" : "Hana's Hiragana: word list and script primer")) + (u.opens !== undefined ? ` · opens ${u.opens ? `in chapter ${u.opens}` : 'post-game'}` : '');
+    readme.push(hasEdu ? `| ${name} | ${cell(u, 'main')} | ${cell(u, 'sprout')} | ${cell(u, 'reader')} |` : `| ${name} | ${cell(u, 'main')} |`);
+  }
+  if (line === GROVE) readme.push(`| Learning Grove: the campaign | | ${cell(learningCampaign, 'sprout')} | ${cell(learningCampaign, 'reader')} |`);
+  readme.push('');
+}
+
+// ---------------------------------------------------------------- write
+const writeOut = (root: string, rel: string, text: string) => { mkdirSync(dirname(join(root, rel)), { recursive: true }); writeFileSync(join(root, rel), text); };
+if (out === BOOK && existsSync(BOOK)) rmSync(BOOK, { recursive: true, force: true });
+for (const [f, md] of files) writeOut(out, f, md.join('\n') + '\n');
+writeOut(out, 'ids.tsv', tsv.join('\n') + '\n');
+writeOut(out, 'README.md', readme.join('\n'));
+
 if (check) {
   // Every file in either tree, by '/'-separated path relative to its root.
   const walk = (root: string, dir = ''): string[] =>
     readdirSync(join(root, dir)).flatMap((f) => (statSync(join(root, dir, f)).isDirectory() ? walk(root, `${dir}${f}/`) : [`${dir}${f}`]));
   const fresh = new Set(walk(out));
-  const committed = new Set(walk(BOOK));
+  const committed = new Set(existsSync(BOOK) ? walk(BOOK) : []);
   const drift = [...new Set([...fresh, ...committed])].sort().filter((f) => !fresh.has(f) || !committed.has(f) || !readFileSync(join(out, f)).equals(readFileSync(join(BOOK, f))));
   rmSync(out, { recursive: true, force: true });
   for (const f of drift) console.log(`${!committed.has(f) ? 'missing' : !fresh.has(f) ? 'stale  ' : 'changed'}  ${BOOK}/${f}`);
