@@ -333,6 +333,60 @@ export const GROVE3D = {
      * at the edge. Above ground the vignette is `groundVignette` and there is no top shade.
      */
     atmos: { vignette: 0.6, top: 0.35, topFrom: 0.55, groundVignette: 0.35 },
+    /**
+     * The set dressing (`render3d/hollow-dress*.ts`, items 18, 20, 23, 24, 26–28, 31–34, 44).
+     * Shares are per candidate cell; reaches and sizes are world units; colours are sRGB.
+     */
+    dress: {
+      /** Rounded stalactites on a wall lip over open ground, as a share of lip cells. */
+      stalactiteShare: 0.1,
+      /** Floor decals (cracks, puddles, pebbles, leaf litter) on level open cells. */
+      decalShare: 0.16,
+      decalSize: [0.55, 1.05] as const,
+      /** Roots and vines hanging from the Grove above, at wall-side cells. */
+      rootShare: 0.1,
+      berriesPerRoot: 3,
+      berry: '#ff9ad0',
+      /** The worn path along the main room chain (item 27), baked into vertex colour. */
+      path: { width: 1.3, wear: 0.45, color: '#c8ae86', wobble: 0.35 },
+      /** Timber arches along the main path: at corridor mouths, then every 6–8 cells. */
+      arch: { spacing: [6, 8] as const, height: 2.1, maxWidth: 3, lanternShare: 0.5 },
+      /** Mine-cart rails on the longest dry corridor run of the main path, and the cart. */
+      rails: { minLen: 6, maxLen: 14, gauge: 0.62 },
+      /**
+       * Stair portals (item 24): the warm daylight shaft up, the cool beam down, the chest's
+       * gold pool. `breathe` is the beam's gentle swell (none under reduced motion).
+       */
+      portal: {
+        up: '#ffdc9a',
+        down: '#86c4ff',
+        chest: '#ffd36a',
+        lantern: '#ffc27a',
+        height: 4.2,
+        breathe: 0.18,
+        breathePerSec: 0.5,
+      },
+      /** Murals (item 34): Nubbin glyphs on standing stones that glow as the Keeper nears. */
+      mural: {
+        count: [3, 6] as const,
+        spacing: 7,
+        reach: 3.4,
+        fadePerSec: 1.6,
+        dim: '#6a6478',
+        lit: '#9ee8ff',
+        litGain: 2.2,
+      },
+      /** The vista's painted chasm (item 31). */
+      vista: { near: '#3a4a8a', mid: '#262c62', far: '#1a1c44', crystal: '#9ae8ff' },
+      /**
+       * Touch (item 44): the Keeper lights an unlit sconce within `sconceReach` (tap one to
+       * walk over); a crystal chimes when the Keeper or a partner comes within `crystalReach`,
+       * at most once each `chimeCooldown` seconds.
+       */
+      touch: { sconceReach: 1.5, crystalReach: 1.1, chimeCooldown: 2.5, flashSec: 0.9 },
+      /** Loot's bob and turn (both still under reduced motion). */
+      loot: { bob: 0.04, spin: 0.8 },
+    },
   },
   /**
    * The painted sky (`render3d/sky.ts`): a zenith-to-horizon gradient per time of day, a

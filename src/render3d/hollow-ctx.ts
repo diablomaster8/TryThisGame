@@ -22,7 +22,18 @@ export interface HollowCtx {
   band: CaveBand;
   /** The scene's reduced-motion flag as of the last `update`. */
   reduceMotion: boolean;
+  bakers: Baker[];
+  uniforms: { torchFlicker: { value: number } };
 }
+
+export type Baker = (
+  x: number,
+  y: number,
+  z: number,
+  ny: number,
+  base: THREE.Color,
+  torch: THREE.Color,
+) => void;
 
 /** What `Hollow.update` passes down each frame. */
 export interface HollowFrame {
