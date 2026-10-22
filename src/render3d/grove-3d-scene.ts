@@ -402,9 +402,9 @@ export class Grove3dScene {
     this.lit = ids;
   }
 
-  setDungeon(f: Floor | null): void {
+  setDungeon(f: Floor | null, depth = 1): void {
     this.floor = f;
-    this.hollow.set(f);
+    this.hollow.set(f, depth);
     this.actors.floor = f;
     // A new floor may sit in a new depth band: relight now, not at the next daylight tick.
     if (this.dayArgs && this.location === 'dungeon') this.setDaylight(...this.dayArgs);

@@ -16,7 +16,7 @@ export interface HollowCtx {
   readonly group: THREE.Group;
   readonly tex: Tex;
   readonly sky: { sun: THREE.DirectionalLight; hemi: THREE.HemisphereLight };
-  /** The 1-based floor depth as of the last `update` (1 until the first one). */
+  /** The 1-based floor depth: set before `build` by `Hollow.set(f, depth)`, kept by `update`. */
   depth: number;
   /** `bandFor(depth)`, kept in step with `depth`. */
   band: CaveBand;

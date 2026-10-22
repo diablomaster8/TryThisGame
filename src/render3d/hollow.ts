@@ -111,9 +111,12 @@ export class Hollow {
   }
 
   /** Build (or clear) the floor; called when the sim enters or leaves a floor. */
-  set(f: Floor | null): void {
+  set(f: Floor | null, depth = 1): void {
     if (f === this.floor) return;
     this.floor = f;
+    // The band is set before any module builds (rock tint, torch and crystal colour).
+    this.ctx.depth = depth;
+    this.ctx.band = bandFor(depth);
     for (const m of this.mods) m.dispose();
     if (f) for (const m of this.mods) m.build(f, this.ctx);
   }

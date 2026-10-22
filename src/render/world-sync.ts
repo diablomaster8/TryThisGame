@@ -16,13 +16,13 @@ export interface TileTarget {
 
 /** Whatever draws the Hollow: both scenes and the pixel world view. */
 export interface DungeonTarget {
-  setDungeon(floor: Floor | null): void;
+  setDungeon(floor: Floor | null, depth?: number): void;
 }
 
 /** Show the Hollow floor the world is on, or the surface. */
 export function syncDungeon(world: World, targets: ReadonlyArray<DungeonTarget | null>): void {
   const floor = runFloor(world);
-  for (const t of targets) t?.setDungeon(floor);
+  for (const t of targets) t?.setDungeon(floor, world.dungeon?.depth);
 }
 
 /** Bring every renderer in line with a world that was just loaded or swapped in. */
