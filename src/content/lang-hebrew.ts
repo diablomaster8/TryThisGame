@@ -89,7 +89,7 @@ export const LANG_HEBREW: Quest[] = [
             O('Forty-two. You stopped listening at forty.'),
             O('In Hebrew, shalom means hello. It also means goodbye. And peace. It’s a very hard-working word.', 'think'),
             O('אֲנִי (ani, “I”)… קוֹרְאִים לִי… (korim li, “my name is…”) Ori. Ani Ori. That’s me. Now you.'),
-            N('Behind you, a small round Nubbin hears “shalom”, waves at Ori with both arms, and falls over.'),
+            N('Over the wall, a small round wild Nubbin hears “shalom”, waves at Ori with both arms, and falls over.'),
             O('To ask how you are, I say מָה שְׁלוֹמְךָ? (ma shlomkha?) to a boy, or מָה שְׁלוֹמֵךְ? (ma shlomekh?) to a girl.'),
             O('The ending changes. Hebrew likes to know who it’s talking to. Which one should I ask you?'),
           ],

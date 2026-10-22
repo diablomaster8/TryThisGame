@@ -150,7 +150,7 @@ const LH1: EduQuest = quest(
         N('(Say it: sha-LOME. Wave as you say it!)'),
         NV('This is Ori. He lives in Israel. He is ten.'),
         O('Shalom means hello. It means goodbye too!', 'think'),
-        N('A round Nubbin waves at Ori. Wave, wave… bump! It falls over.'),
+        N('A wild round Nubbin waves at Ori. Wave… bump! It falls over.'),
         O('I can ask “How are you?” two ways. Which way?'),
       ],
       [
