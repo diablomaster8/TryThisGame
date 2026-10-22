@@ -14,6 +14,8 @@ import {
 import { ridged, vnoise } from './noise';
 import { hex, mix, Raster, rimObjects, shade, type RGB } from './raster';
 import { shoreDistance } from './shore';
+import { paintPlaque } from './campaign-k';
+import type { PlaqueCreature } from '../../config/tuning-k';
 
 /**
  * Campaign-graphics package b, pixel painters (C4, C6, C7, M9, M10, N7): the Grove's gate
@@ -244,7 +246,12 @@ function paintCrest(r: Raster, crest: Crest, cx: number, cy: number): void {
 }
 
 /** A cottage-sized house with a roof tinted `roof` and a carved crest over its door. */
-export function paintCrestHouse(crest: Crest, roof: string, seed: number): Raster {
+export function paintCrestHouse(
+  crest: Crest,
+  roof: string,
+  seed: number,
+  creature?: PlaqueCreature,
+): Raster {
   const r = new Raster(160, 146, null);
   r.tracking = true;
   const x = 22;
@@ -267,7 +274,9 @@ export function paintCrestHouse(crest: Crest, roof: string, seed: number): Raste
   windowPane(r, x + ww - 36, base - 44, 22, 18, 42 + seed);
   plankDoor(r, 80 - 11, base - 34, 22, 34, 43 + seed);
   stoneStep(r, 80 - 14, base, 28);
-  paintCrest(r, crest, 80, wallTop + 25);
+  // The crest rides above the door and, under it, a carved creature sign (campaign graphics 2, M5).
+  paintCrest(r, crest, 80, creature ? wallTop + 11 : wallTop + 25);
+  if (creature) paintPlaque(r, creature, 72, base - 45);
   rimObjects(r);
   return r;
 }

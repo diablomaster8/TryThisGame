@@ -228,7 +228,8 @@ export const dress3dB: Dressing3d = (() => {
         size,
         { wall: '#f3ebdd', shutter: '#5a8a6a', overhang: 0.4, pitch: 0.6 },
         hs.roof,
-        (kit, sz) => crestBoard(kit, hs.crest, { x: 0, y: sz.h * 0.93, z: sz.d / 2 + 0.07 }),
+        // Raised onto the gable so the carved creature plaque (package k) sits over the door.
+        (kit, sz) => crestBoard(kit, hs.crest, { x: 0, y: sz.h + 0.4, z: sz.d / 2 + 0.07 }),
       );
       const stock = D.swapped[i];
       if (stock) {

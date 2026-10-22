@@ -6,7 +6,9 @@ import type { SceneStage } from './story';
  * the stock houses (`cottage`, `school`, `dojo`, `windmill`, `well`, `cave`) and the placed
  * garden buildings (`nursery`, `bathhouse`, `workshop`). Package b's Fold ruins and Dawn &
  * Dusk's crest houses stand where the cottage, school and dojo stood, so those sets leave
- * the stock houses to package b.
+ * the stock houses to package b. The Fold keeps its mill and its well (the well square is
+ * the Fold's own landmark); the other three campaigns take the mill and the well away, so
+ * no campaign shows the Grove's own landmarks it has no use for.
  */
 export type StageSet = NonNullable<SceneStage['set']>;
 
@@ -14,9 +16,9 @@ const GARDEN = ['nursery', 'bathhouse', 'workshop'] as const;
 
 export const STAGE_SET_HIDES: Readonly<Record<StageSet, readonly string[]>> = {
   fold: [...GARDEN],
-  dawndusk: [...GARDEN, 'dojo'],
-  logged: [...GARDEN, 'cottage', 'school', 'dojo'],
-  beetle: [...GARDEN, 'cottage', 'school', 'dojo'],
+  dawndusk: [...GARDEN, 'dojo', 'windmill'],
+  logged: [...GARDEN, 'cottage', 'school', 'dojo', 'windmill', 'well'],
+  beetle: [...GARDEN, 'cottage', 'school', 'dojo', 'windmill', 'well'],
 };
 
 /** The building ids a stage hides: its set's list (none for an exclusive stage: all go). */

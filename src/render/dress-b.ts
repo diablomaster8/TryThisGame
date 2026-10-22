@@ -3,6 +3,7 @@ import { markAt } from '../config/stage-marks';
 import { GROVE } from '../config/tuning';
 import { STORY_B } from '../config/tuning-b';
 import { CG2_W } from '../config/tuning-w';
+import { CG2_K } from '../config/tuning-k';
 import type { SceneStage } from '../config/story';
 import type { World } from '../sim/types';
 import type { Daylight } from './daylight';
@@ -80,7 +81,10 @@ export const dressB: PixelDressing = (() => {
           );
     for (let n = 1; n <= 5; n++) atlas.add(`tally:${n}`, paintTally(n));
     STORY_B.dawnDusk.houses.forEach((h, i) =>
-      atlas.add(`crest:${h.crest}`, paintCrestHouse(h.crest as Crest, h.roof, i * 7)),
+      atlas.add(
+        `crest:${h.crest}`,
+        paintCrestHouse(h.crest as Crest, h.roof, i * 7, CG2_K.plaque.creatures[i]),
+      ),
     );
     for (let k = 0; k < 4; k++)
       for (const flow of [false, true])
