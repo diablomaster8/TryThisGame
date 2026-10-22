@@ -1,5 +1,6 @@
 import {
   fxFor,
+  splitGradeCss,
   lookFor,
   SEASON_TINT,
   seasonFor,
@@ -143,12 +144,13 @@ export function driveLook(f: LookFrame, nowMs = performance.now()): void {
     const t = look.tintAlpha;
     put(
       'grade',
-      `${look.tint}|${t}|${look.shadow}|${look.shadowAlpha}|${look.core ?? ''}`,
+      `${look.tint}|${t}|${look.shadow}|${look.shadowAlpha}|${look.core ?? ''}|${look.split?.key ?? ''}`,
       () =>
         (l.grade.style.background =
+          splitGradeCss(look) ??
           `radial-gradient(ellipse at 50% 45%,${rgba(look.tint, t)} 0%,` +
-          `${rgba(look.tint, t)} ${Math.round((look.core ?? 0.55) * 100)}%,` +
-          `${rgba(look.shadow, look.shadowAlpha)} 100%)`),
+            `${rgba(look.tint, t)} ${Math.round((look.core ?? 0.55) * 100)}%,` +
+            `${rgba(look.shadow, look.shadowAlpha)} 100%)`),
     );
     setBlend(l.grade, 'gradeBlend', look.blend ?? 'overlay');
   }
