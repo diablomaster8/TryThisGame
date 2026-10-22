@@ -1,3 +1,6 @@
+import { HUSH } from './tuning-e';
+import { CG2_W } from './tuning-w';
+
 /**
  * Tunables for campaign-graphics-2 wave 0 (re-exported from tuning.ts): the shared staging
  * the packages build on (H4 fit, H5 push-in, the pixel building fade).
@@ -22,3 +25,27 @@ export const STAGE2 = {
   /** H7: how far the pair turn from each other toward that side camera (radians). */
   faceTurnRad: 0.6,
 } as const;
+
+/** How a focus mark is kept in frame when it is more than a figure (H4). */
+export interface MarkFit {
+  /** 3D: the top of what stands there, over the ground, and how far toward the camera (+z). */
+  h3d: number;
+  dz3d: number;
+  /** Pixel: the top of its sprite over the ground. */
+  hPx: number;
+  /** Its half width (world units). */
+  r: number;
+}
+
+/**
+ * Focus marks the H4 fit keeps whole: the Hush's colossus (package W's card, raised and
+ * stood toward the camera from the mark) is far taller than a figure.
+ */
+export const MARK_FIT: Readonly<Record<string, MarkFit>> = {
+  hush: {
+    h3d: CG2_W.hush.y3d + (HUSH.colossus.height * CG2_W.hush.scale3d) / 2,
+    dz3d: CG2_W.hush.z3d,
+    hPx: CG2_W.hush.pixelY + CG2_W.hush.pixelHeight / 2,
+    r: (HUSH.colossus.width * CG2_W.hush.scale3d) / 2,
+  },
+};

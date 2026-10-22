@@ -35,7 +35,14 @@ import { buildGroveProps, buildGroveTrees, type GroveProps } from './props';
 import { GroveTextures } from './grove-textures';
 import { GroveSky } from './sky';
 import { StorySets } from './story-sets';
-import { clearYaw, SceneStager, stageObstacles, yawSteps } from '../render/scene-stage';
+import {
+  clearYaw,
+  type FitPoint,
+  SceneStager,
+  speaksAsKeeper,
+  stageObstacles,
+  yawSteps,
+} from '../render/scene-stage';
 import { safeRect, viewRect, type ScreenRect } from '../render/stage-api';
 import { stageHides } from '../config/stage-sets';
 import { STAGE2 } from '../config/tuning-f2';
@@ -957,7 +964,7 @@ export class Grove3dScene {
   /** Where whoever speaks the line on screen is drawn, or null (the narrator, the Keeper). */
   private speakerSpot(world: World): Vec2 | null {
     const who = this.staging.speaker;
-    if (!who || who === 'you' || who === 'narrator') return null;
+    if (!who || who === 'narrator' || speaksAsKeeper(world, who)) return null;
     return this.staging.spotOf(world, who);
   }
 
@@ -1047,20 +1054,26 @@ export class Grove3dScene {
     const wx = (sx1 - sx0) * (1 - m);
     const wy = (sy1 - sy0) * (1 - m);
     const pts: THREE.Vector3[] = [];
-    const r = STAGE2.fitRadius3d;
-    for (const p of points)
+    for (const p of points) {
+      // A mark that carries its own size (MARK_FIT: the Hush's colossus) is kept whole,
+      // where its card stands.
+      const fit = (p as FitPoint).fit;
+      const r = fit ? Math.max(STAGE2.fitRadius3d, fit.r) : STAGE2.fitRadius3d;
+      const h = fit ? fit.h3d : STAGE2.figureH3d;
+      const pz = p.z + (fit?.dz3d ?? 0);
       for (const [dx, dz] of [
         [-r, 0],
         [r, 0],
         [0, -r],
         [0, r],
       ] as const) {
-        const g = ground(p.x + dx, p.z + dz);
+        const g = ground(p.x + dx, pz + dz);
         pts.push(
-          new THREE.Vector3(p.x + dx, g, p.z + dz),
-          new THREE.Vector3(p.x + dx, g + STAGE2.figureH3d, p.z + dz),
+          new THREE.Vector3(p.x + dx, g, pz + dz),
+          new THREE.Vector3(p.x + dx, g + h, pz + dz),
         );
       }
+    }
     const v = new THREE.Vector3();
     const bounds = (x: number, z: number, d: number) => {
       const ty = ground(x, z) + GROVE3D.lookHeight;
@@ -1163,7 +1176,9 @@ export class Grove3dScene {
     const now = this.speakerSpot(world);
     const who = st?.focus?.[0];
     const focusSpot =
-      who && who !== 'you' && who !== 'narrator' ? this.staging.spotOf(world, who) : null;
+      who && who !== 'narrator' && !speaksAsKeeper(world, who)
+        ? this.staging.spotOf(world, who)
+        : null;
     const sp = now ?? focusSpot ?? all[1] ?? k;
     const portrait = this.camera.aspect < 1 ? 1.25 : 1;
     // Review fix 2: of the 45° steps from the player's yaw, the one that sees the cast past
@@ -1331,7 +1346,7 @@ export class Grove3dScene {
     this.dressLamps.length = 0;
     this.dressings.update(world, this.staging.stage, this.drawnDay, dt);
     this.buildings3d.apply();
-    this.actors.keeperFace = this.staging.keeperFaceNow(world);
+    this.actors.keeperFace = this.staging.keeperFaceNow(world, orbit.currentYaw + this.yawOffset);
     this.lamps.place(
       this.dressLamps.length > 0 ? [...this.lampSources, ...this.dressLamps] : this.lampSources,
       this.camTarget,

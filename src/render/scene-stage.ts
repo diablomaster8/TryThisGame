@@ -1,4 +1,4 @@
-import { GROVE, READ3D } from '../config/tuning';
+import { GROVE, MARK_FIT, READ3D, type MarkFit } from '../config/tuning';
 import { SCENE_STAGES } from '../config/scene-stages';
 import { DAWN_HOUR, DUSK_HOUR } from '../config/scene-stages-dawndusk';
 import { E_STAGES } from '../config/tuning-e';
@@ -227,11 +227,13 @@ export class SceneStager {
    * else as placed; turned toward a side camera as `turnFaces` last asked. Null with no
    * scene, or nothing to face.
    */
-  keeperFaceNow(world: World): number | null {
+  keeperFaceNow(world: World, camYaw?: number): number | null {
     if (this.sceneId === null) return null;
     let face = this.baseKeeperFace;
     const who = this.speaker;
-    if (who && who !== 'you' && who !== 'narrator') {
+    // The Keeper speaking turns three-quarter to the camera, not away from it.
+    if (who && camYaw !== undefined && speaksAsKeeper(world, who)) return camYaw - 0.5;
+    if (who && who !== 'narrator' && !speaksAsKeeper(world, who)) {
       const k = this.keeperSpot(world);
       const p = this.castSpot(world, who);
       if (p && Math.hypot(p.x - k.x, p.z - k.z) > 0.05) face = Math.atan2(p.x - k.x, p.z - k.z);
@@ -416,7 +418,7 @@ export class SceneStager {
     if (!k) return null;
     const names = you?.face ? [you.face] : [...this.speakers];
     for (const who of names) {
-      if (who === 'you' || who === 'narrator') continue;
+      if (who === 'narrator' || speaksAsKeeper(world, who)) continue;
       const p = this.castSpot(world, who);
       if (p && Math.hypot(p.x - k.x, p.z - k.z) > 0.05) return Math.atan2(p.x - k.x, p.z - k.z);
     }
@@ -473,16 +475,17 @@ export class SceneStager {
    * in the scene and stands near enough. Whoever speaks the line on screen is always framed,
    * however far (C5).
    */
-  frame(world: World): Vec2[] {
+  frame(world: World): FitPoint[] {
     const k = this.keeperSpot(world);
-    const out: Vec2[] = [{ x: k.x, z: k.z }];
+    const out: FitPoint[] = [{ x: k.x, z: k.z }];
     const near = (p: Vec2) => Math.hypot(p.x - k.x, p.z - k.z) < READ3D.stage.radius;
     const focus = this.focusNow();
     const names = focus ?? [...this.speakers];
     for (const who of names) {
-      if (who === 'you' || who === 'narrator') continue;
+      if (who === 'narrator' || speaksAsKeeper(world, who)) continue;
       const p = this.spotOf(world, who);
-      if (p && (focus || who === this.speaker || near(p))) out.push(p);
+      const fit = focus ? MARK_FIT[who] : undefined;
+      if (p && (focus || who === this.speaker || near(p))) out.push(fit ? { ...p, fit } : p);
     }
     return out;
   }
@@ -521,10 +524,14 @@ export function fitPixel(
     const dz = p.z - o.z;
     const sx = dx * rx + dz * rz;
     const sy = (dx * fx + dz * fz) * sp;
-    minX = Math.min(minX, sx - radius);
-    maxX = Math.max(maxX, sx + radius);
+    // A mark that carries its own size (MARK_FIT: the Hush) is kept whole.
+    const fit = (p as FitPoint).fit;
+    const r = fit ? Math.max(radius, fit.r) : radius;
+    const h = fit ? Math.max(figureH, fit.hPx) : figureH;
+    minX = Math.min(minX, sx - r);
+    maxX = Math.max(maxX, sx + r);
     minY = Math.min(minY, sy - radius * sp);
-    maxY = Math.max(maxY, sy + figureH * Math.cos(pitch));
+    maxY = Math.max(maxY, sy + h * Math.cos(pitch));
   }
   const sw = Math.max(0.05, safe.x1 - safe.x0);
   const sh = Math.max(0.05, safe.y1 - safe.y0);
@@ -544,6 +551,18 @@ export function fitPixel(
   const by = ((minY + maxY) / 2 - oy) / Math.max(0.2, sp);
   return { zoom, x: o.x + rx * bx + fx * by, z: o.z + rz * bx + fz * by };
 }
+
+/**
+ * Whether `who` is the player's own Keeper: 'you', or the Keeper picked on the title screen
+ * when no NPC of that name is about (Fern speaking while the player plays as Fern).
+ */
+export function speaksAsKeeper(world: World, who: string): boolean {
+  if (who === 'you') return true;
+  return who === world.trainer && !world.npcs.some((n) => n.trainer === who);
+}
+
+/** A framed point; a focus mark with its own size (MARK_FIT) carries it. */
+export type FitPoint = Vec2 & { fit?: MarkFit };
 
 /** A building in the way of a story camera: a footprint circle and a height. */
 export interface Obstacle {

@@ -20,6 +20,7 @@ import {
   fitPixel,
   resolveStage,
   SceneStager,
+  speaksAsKeeper,
   stageObstacles,
 } from './render/scene-stage';
 import { PIXEL_BUILDINGS, safeRect, viewRect } from './render/stage-api';
@@ -185,7 +186,10 @@ export class Game {
     // Review fix 2: of the 45° steps from the player's, the nearest that sees the cast and
     // whoever speaks past the houses.
     const who = st.speaker;
-    const speaker = who && who !== 'you' && who !== 'narrator' ? st.spotOf(this.world, who) : null;
+    const speaker =
+      who && who !== 'narrator' && !speaksAsKeeper(this.world, who)
+        ? st.spotOf(this.world, who)
+        : null;
     const seen = speaker ? [...points, speaker] : points;
     const base = this.camera.playerYawIndex;
     const order = [0, 1, -1, 2, -2, 3, -3, 4].map((k) => base + k);
