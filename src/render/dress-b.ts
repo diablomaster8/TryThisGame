@@ -17,6 +17,7 @@ import {
   paintCrestHouse,
   paintGate,
   paintJetty,
+  paintMillrace,
   paintSandRing,
   paintShadow,
   paintTally,
@@ -28,6 +29,7 @@ import {
 import { SCENERY } from './scenery';
 import { setHiddenScenery } from './scenery-hide';
 import { stateFrom } from './story-b-state';
+import { ddLayout, foldExtras } from './story-b-layout';
 import { stageFlags } from './scene-stage';
 import { frameKey } from './sprites/animations';
 import type { FrameRect, SpriteSheet } from './sprites/atlas';
@@ -83,6 +85,7 @@ export const dressB: PixelDressing = (() => {
         atlas.add(`wheel:${k}${flow ? 'f' : ''}`, paintWheel(k, flow));
     atlas.add('jetty:broken', paintJetty(STORY_B.shore.missing));
     atlas.add('jetty:whole', paintJetty([]));
+    atlas.add('millrace', paintMillrace());
     atlas.add('sand', paintSandRing().raster);
     atlas.add('shadow', paintShadow(64, 22));
     // The Fold: three ruin levels of each stock building, cut from its painted frame.
@@ -113,7 +116,7 @@ export const dressB: PixelDressing = (() => {
       built = null;
       wheelAngle = 0;
       // The green (Dawn & Dusk): a mown disc and a stone kerb, flat on the Grove's ground.
-      const D = STORY_B.dawnDusk.green;
+      const D = { ...ddLayout().centre, r: ddLayout().radius };
       const disc = new Mesh(
         new CircleGeometry(D.r, 40),
         new MeshBasicMaterial({ color: '#8fcb5e', depthWrite: false }),
@@ -141,7 +144,8 @@ export const dressB: PixelDressing = (() => {
         home ? (st.hundred && st.ruin > 0 ? HUNDRED_HIDE : st.dawnDusk ? DD_HIDE : NONE) : NONE,
       );
       if (green) green.disc.visible = green.kerb.visible = home && st.dawnDusk;
-      if (!home) return;
+      const mill = f.location === 'corvin' && st.hundred;
+      if (!home && !mill) return;
       built ??= buildSheet(ctx);
       if (!built) return;
       const { batch } = ctx.sprites;
@@ -194,6 +198,25 @@ export const dressB: PixelDressing = (() => {
           opacity: 0.3,
         });
 
+      if (!home) {
+        // The mill chapter's set (M10): the wheel on its millrace, beside Corvin's garden.
+        const M = STORY_B.mill;
+        const k = st.wheelTurns && !ctx.reduceMotion() ? Math.floor(wheelAngle) % 4 : 0;
+        if (st.wheelTurns && !ctx.reduceMotion())
+          wheelAngle = (wheelAngle + dt * M.speed * 2.2) % 4;
+        draw('millrace', M.corvinAt.x, M.corvinAt.z + 3.2, 1.8, { mode: 'flat', y: 0.03, h: 5.4 });
+        shadow(M.corvinAt.x, M.corvinAt.z, 2.0);
+        draw(
+          `wheel:${k}${st.wheelTurns ? 'f' : ''}`,
+          M.corvinAt.x,
+          M.corvinAt.z,
+          (WHEEL_PX / GATE_PPU) * 1.35,
+          {
+            h: (WHEEL_PX / GATE_PPU) * 1.35,
+          },
+        );
+        return;
+      }
       // The gate (C4) and its day board (N7).
       const mark = markAt('grove', 'gate') ?? { x: 0, z: 23, yaw: Math.PI };
       const look = st.gate;
@@ -238,6 +261,13 @@ export const dressB: PixelDressing = (() => {
           );
         }
       }
+      if (st.hundred && st.ruin > 0)
+        for (const e of foldExtras()) {
+          const sc = SCENERY.find((q) => q.kind === e.kind);
+          const size = sc?.size ?? 7;
+          shadow(e.x, e.z, size * 0.8);
+          draw(`ruin:${e.kind}:${st.ruin}`, e.x, e.z, size);
+        }
       // The shore (M9): sand band and the jetty; the mill wheel (M10).
       if (st.hundred) {
         const ring = paintSandSize();
@@ -261,22 +291,16 @@ export const dressB: PixelDressing = (() => {
       // Dawn & Dusk (C7): four crest houses round the green.
       if (st.dawnDusk) {
         const D = STORY_B.dawnDusk;
-        const dirs: Array<[number, number]> = [
-          [0, -1],
-          [1, 0],
-          [0, 1],
-          [-1, 0],
-        ];
+        const L = ddLayout();
         D.houses.forEach((h, i) => {
-          const x = D.green.x + dirs[i]![0] * D.houseRadius;
-          const z = D.green.z + dirs[i]![1] * D.houseRadius;
-          shadow(x, z, 5);
+          const { x, z } = L.houses[i]!;
+          shadow(x, z, 4.2);
           const stock = D.swapped[i];
           draw(
             `crest:${h.crest}`,
             x,
             z,
-            6.4,
+            5.2,
             stock ? { pick: { kind: 'building', id: stock } } : {},
           );
         });

@@ -5,6 +5,7 @@ import { STORY_B } from '../config/tuning-b';
 import type { SceneStage } from '../config/story';
 import type { Daylight } from '../render/daylight';
 import { storyBState } from '../render/story-b-state';
+import { ddLayout, foldExtras } from '../render/story-b-layout';
 import type { World } from '../sim/types';
 import { type Dress3dCtx, type Dressing3d } from './dressings';
 import {
@@ -51,6 +52,8 @@ export const dress3dB: Dressing3d = (() => {
   let gate: GateModel | null = null;
   let shown = 0;
   let wheel: WheelModel | null = null;
+  let corvinMill: THREE.Group | null = null;
+  let corvinWheel: WheelModel | null = null;
   let jetty: { boards: Map<boolean, THREE.Group>; at: THREE.Group } | null = null;
   let sand: THREE.Mesh | null = null;
   let green: THREE.Group | null = null;
@@ -125,6 +128,48 @@ export const dress3dB: Dressing3d = (() => {
     hiddenWalls.set(id, walls);
   }
 
+  /** The windmill's cap, taken off while the Fold is in ruins (its triangles collapse, then return). */
+  let capSaved: Culled[] | null = null;
+  function capCull(on: boolean): void {
+    if (!props) return;
+    if (!on) {
+      for (const c of capSaved ?? []) {
+        (c.mesh.geometry.attributes.position as THREE.BufferAttribute).array.set(c.original);
+        (c.mesh.geometry.attributes.position as THREE.BufferAttribute).needsUpdate = true;
+      }
+      capSaved = null;
+      return;
+    }
+    if (capSaved) return;
+    const w = GROVE.buildings.windmill;
+    const y0 = groveHeight(w.x, w.z) + 5.0;
+    capSaved = [];
+    props.traverse((o) => {
+      const mesh = o as THREE.Mesh;
+      if (!mesh.isMesh || !(mesh.name === 'roof' || mesh.name === 'timber')) return;
+      const pos = mesh.geometry.attributes.position as THREE.BufferAttribute | undefined;
+      if (!pos || mesh.geometry.index) return;
+      const arr = pos.array as Float32Array;
+      let original: Float32Array | null = null;
+      for (let t = 0; t + 2 < pos.count; t += 3) {
+        const cx = (arr[t * 3]! + arr[t * 3 + 3]! + arr[t * 3 + 6]!) / 3;
+        const cy = (arr[t * 3 + 1]! + arr[t * 3 + 4]! + arr[t * 3 + 7]!) / 3;
+        const cz = (arr[t * 3 + 2]! + arr[t * 3 + 5]! + arr[t * 3 + 8]!) / 3;
+        if (cy < y0 || Math.hypot(cx - w.x, cz - w.z) > 2.2) continue;
+        original ??= arr.slice();
+        for (let k = 1; k < 3; k++) {
+          arr[(t + k) * 3] = arr[t * 3]!;
+          arr[(t + k) * 3 + 1] = arr[t * 3 + 1]!;
+          arr[(t + k) * 3 + 2] = arr[t * 3 + 2]!;
+        }
+      }
+      if (original) {
+        pos.needsUpdate = true;
+        capSaved!.push({ mesh, original });
+      }
+    });
+  }
+
   function ruinGroup(level: number): THREE.Group {
     let g = ruinGroups.get(level);
     if (g || !ctx) return g!;
@@ -146,6 +191,20 @@ export const dress3dB: Dressing3d = (() => {
       ctx.pickables.push(built.walls);
       g.add(built.group);
     }
+    // More ruins round the square the opening scenes are framed on.
+    for (const e of foldExtras()) {
+      const f = FOLD_HOUSES[e.kind];
+      const sq = markAt('grove', 'fold-square') ?? { x: 0, z: 2 };
+      const built = buildHouse(
+        ctx.tex,
+        { x: e.x, y: groveHeight(e.x, e.z), z: e.z },
+        Math.atan2(sq.x - e.x, sq.z - e.z),
+        f,
+        { ...f.style, ruin: level },
+        null,
+      );
+      g.add(built.group);
+    }
     g.visible = false;
     ctx.world3d.add(g);
     void ctx.compile(g);
@@ -157,18 +216,10 @@ export const dress3dB: Dressing3d = (() => {
     const D = STORY_B.dawnDusk;
     const g = new THREE.Group();
     g.name = 'dawndusk-b';
-    g.add(buildGreen(D.green, D.green.r, groveHeight, kitMaterials(c.tex).stone));
-    const dirs: Array<[number, number]> = [
-      [0, -1],
-      [1, 0],
-      [0, 1],
-      [-1, 0],
-    ];
+    const L = ddLayout();
+    g.add(buildGreen(L.centre, L.radius, groveHeight, kitMaterials(c.tex).stone));
     D.houses.forEach((hs, i) => {
-      const [dx, dz] = dirs[i]!;
-      const x = D.green.x + dx * D.houseRadius;
-      const z = D.green.z + dz * D.houseRadius;
-      const yaw = Math.atan2(D.green.x - x, D.green.z - z);
+      const { x, z, yaw } = L.houses[i]!;
       const size = { w: hs.w, d: hs.w * 0.74, h: hs.w * 0.62 };
       const built = buildHouse(
         c.tex,
@@ -212,6 +263,10 @@ export const dress3dB: Dressing3d = (() => {
     if (blades && bladesStill) {
       blades.visible = !st.sailsStopped;
       bladesStill.visible = st.sailsStopped;
+      bladesStill.scale.setScalar(st.ruin >= 3 ? 0.7 : 1);
+      bladesStill.rotation.z = st.ruin >= 3 ? 0.55 : 0.35;
+      if (st.sailsStopped) capCull(true);
+      else capCull(false);
     }
     if (wheel) wheel.group.visible = st.hundred;
     if (sand) sand.visible = st.hundred;
@@ -267,6 +322,27 @@ export const dress3dB: Dressing3d = (() => {
       c.world3d.add(at);
       jetty = { boards: new Map(), at };
       green = buildDawnDusk(c);
+      // The mill wheel and its millrace in Corvin's garden (the mill chapter's set).
+      corvinWheel = buildWheel(c.tex);
+      corvinMill = new THREE.Group();
+      corvinMill.add(corvinWheel.group);
+      corvinWheel.group.position.set(M.corvinAt.x, 0, M.corvinAt.z);
+      corvinWheel.group.rotation.y = M.corvinAt.yaw;
+      const race = new THREE.Mesh(
+        new THREE.PlaneGeometry(1.7, 5.6),
+        new THREE.MeshStandardMaterial({
+          color: '#4a90cc',
+          roughness: 0.25,
+          emissive: '#1a3a5a',
+          emissiveIntensity: 0.3,
+        }),
+      );
+      race.rotation.x = -Math.PI / 2;
+      race.position.set(M.corvinAt.x, 0.05, M.corvinAt.z + 3.1);
+      corvinMill.add(race);
+      corvinMill.visible = false;
+      c.scene.add(corvinMill);
+      void c.compile(corvinMill);
     },
     update(world: World, stage: SceneStage, _daylight: Daylight, dt: number) {
       if (!ctx || !gate) return;
@@ -289,6 +365,12 @@ export const dress3dB: Dressing3d = (() => {
       if (k !== key) {
         key = k;
         apply(st);
+      }
+      if (corvinMill && corvinWheel) {
+        corvinMill.visible = st.hundred && world.location === 'corvin';
+        corvinWheel.water.visible = st.wheelTurns;
+        if (corvinMill.visible && st.wheelTurns && !ctx.reduceMotion())
+          corvinWheel.pivot.rotation.x -= dt * STORY_B.mill.speed;
       }
       if (wheel && st.hundred) {
         wheel.water.visible = st.wheelTurns;

@@ -26,13 +26,18 @@ export const STORY_B = {
     levelByChapter: [3, 3, 3, 2, 2, 2, 1, 1, 1, 0] as readonly number[],
     /** The windmill's sails stand still at this ruin level and above. */
     sailsStopAt: 2,
+    /** More ruined houses round the `fold-square` mark: offsets and which stock look. */
+    extras: [
+      { kind: 'cottage', dx: -9, dz: -2 },
+      { kind: 'school', dx: -7, dz: 6 },
+      { kind: 'dojo', dx: 5, dz: -9 },
+    ] as const,
     /** The stock buildings that the Fold re-draws. */
     buildings: ['cottage', 'school', 'dojo'] as const,
   },
   dawnDusk: {
-    /** The mown green and the four houses round it (clear of the lane, the well and the pond). */
-    green: { x: -9, z: 19.5, r: 4.8 },
-    houseRadius: 6,
+    /** The green is read from the `green-centre` and `house-1..4` marks; its kerb sits this share of the way out. */
+    greenShare: 0.68,
     /** Crest, roof colour and width for each house, clockwise from the north. */
     houses: [
       { crest: 'sun', roof: '#e8a53a', w: 4.4 },
@@ -61,6 +66,8 @@ export const STORY_B = {
     /** Where the wheel stands: on the stream between the bridge and the pond. */
     at: { x: 8.6, z: -1.6 },
     /** It turns from this Hundred Days chapter on (radians per second). */
+    /** The wheel and its millrace in Corvin's garden (the mill chapter's set). */
+    corvinAt: { x: 8, z: -8, yaw: -Math.PI / 2 },
     turnFromChapter: 8,
     speed: 0.9,
   },
