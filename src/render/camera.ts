@@ -157,6 +157,25 @@ export class OrbitCamera {
     if (this.reduceMotion) this.finishZoomTween();
   }
 
+  /** The player's zoom while a story shot holds another (H14), or null when none is held. */
+  private heldFrom: number | null = null;
+
+  /**
+   * Hold a zoom level for a story shot, or let go (null) and return to the player's. Eases
+   * like any zoom, and snaps under reduced motion; the frame stays pixel-snapped.
+   */
+  holdZoom(index: number | null, nowMs: number = performance.now()): void {
+    if (index === null) {
+      if (this.heldFrom === null) return;
+      const back = this.heldFrom;
+      this.heldFrom = null;
+      this.setZoom(back, nowMs);
+      return;
+    }
+    this.heldFrom ??= this.zoomIndex;
+    this.setZoom(index, nowMs);
+  }
+
   zoomIn(nowMs?: number): void {
     this.setZoom(this.zoomIndex + 1, nowMs);
   }

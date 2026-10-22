@@ -117,6 +117,8 @@ function neighbours(trainer: string, nowMs: number): Figure[] {
 export interface CrowdOptions {
   /** A story scene's held spots, by NPC id (see staging.ts). */
   holds?: ReadonlyMap<string, Vec2>;
+  /** A story scene's drawn facings, by NPC id (render/scene-stage.ts); else toward the Keeper. */
+  faces?: ReadonlyMap<string, number>;
   /** The Grove's lantern posts, which a visiting Keeper is drawn clear of. */
   posts?: ReadonlyArray<Vec2>;
 }
@@ -178,7 +180,7 @@ export function crowdFor(
       look: { key: `keeper-${band}~npc:${t}`, height: GROVE3D.keeperHeight },
       x: at.x,
       z: at.z,
-      facing: held ? Math.atan2(k.x - at.x, k.z - at.z) : npc.facing,
+      facing: held ? (opts.faces?.get(npc.id) ?? Math.atan2(k.x - at.x, k.z - at.z)) : npc.facing,
       pose: npc.target && !held ? 'walk' : 'idle',
     });
   }

@@ -23,6 +23,19 @@ export const PIXEL_LIGHT = {
   nightGain: 0.85,
 } as const;
 
+/**
+ * The pixel story camera (campaign graphics C2, H14): how a staged hour blends in, and how
+ * far the frame lifts its subjects over the dialogue box.
+ */
+export const PIXEL_STAGE = {
+  /** A staged hour blends over this long; reduced motion cuts. */
+  hourBlendMs: 1000,
+  /** Fraction of the view the subjects are lifted by, clear of the dialogue box. */
+  boxLift: 0.11,
+  /** How fast the camera eases to the scene's centre (per second, exponential). */
+  followRate: 4,
+} as const;
+
 export const CAMERA = {
   /** Fixed downward tilt of the orbit camera, in degrees. */
   pitchDeg: 35,
@@ -1843,6 +1856,21 @@ export const READ3D = {
     nightHour: 22.5,
     goldenHour: 17.8,
     morningHour: 7.5,
+    /** C5: a speaker further than `radius` is drawn this far from the Keeper, facing them. */
+    bringIn: 2.5,
+    /** H8: fraction of the frame height the subjects are lifted by, clear of the dialogue box. */
+    boxLift: 0.13,
+    /** H8 shot shapes: `wide` and `establish` stand back by this much over a two-shot. */
+    wideK: 1.45,
+    /** `establish` dollies in from this many times its distance, over `establishMs`. */
+    establishFrom: 1.7,
+    establishMs: 2000,
+    /** `over`: the camera sits behind the Keeper, this far round off the line to the speaker. */
+    overSideRad: 0.35,
+    overDistance: 5.5,
+    overPitchDeg: 16,
+    /** `close` frames the speaker this far along from the Keeper (0) to the speaker (1). */
+    closeToward: 0.7,
   },
   /** Lantern posts: how wide a post blocks, and the NPC's keep-off radius round each. */
   post: { r: 0.3, keepOff: 0.75 },
@@ -1855,3 +1883,11 @@ export const READ3D = {
   /** Racers and the Expedition runner turn this far from side-on toward the camera. */
   faceTurn: 0.55,
 } as const;
+
+// The campaign-graphics packages (a–f) keep their own tunables beside this file.
+export * from './tuning-a';
+export * from './tuning-b';
+export * from './tuning-c';
+export * from './tuning-d';
+export * from './tuning-e';
+export * from './tuning-f';

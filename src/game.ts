@@ -1,5 +1,5 @@
 import { Vector3 } from 'three';
-import { CAMERA, SIM } from './config/tuning';
+import { CAMERA, PIXEL_STAGE, SIM } from './config/tuning';
 import { GameInput, type Placing } from './input/game-input';
 import { CameraControls } from './input/camera-controls';
 import {
@@ -15,6 +15,7 @@ import { litLanterns } from './sim/campaign';
 import { GroveScene } from './render/grove-scene';
 import { Picker } from './render/picker';
 import { LowResPipeline, type FrameStats } from './render/pipeline';
+import { SceneStager } from './render/scene-stage';
 import { WorldView } from './render/world-view';
 import { syncDungeon, syncWorldScenes } from './render/world-sync';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
@@ -76,6 +77,38 @@ export class Game {
   /** Debug: force an hour (0..24) instead of the real clock; null = real time. */
   hourOverride: number | null = null;
   private lastDaylightMs = -Infinity;
+  /** The pixel view's story stager (render/scene-stage.ts); Full 3D keeps its own. */
+  private readonly stager = new SceneStager();
+  /** Who speaks the dialogue line on screen; the HUD sets it, the story cameras frame them. */
+  storySpeaker: string | null = null;
+  /** The hour the pixel view is lit at, and a blend toward a newly staged one (C2). */
+  private drawnHour: number | null = null;
+  private hourBlend: { from: number; to: number; startMs: number } | null = null;
+  private lastDressMs = 0;
+
+  /**
+   * The hour to light the pixel view at: a queued scene's staged hour, else `clock`. A
+   * change of more than a quarter hour blends over `PIXEL_STAGE.hourBlendMs`; reduced
+   * motion cuts. The clock's own slow drift is followed as it is.
+   */
+  private stagedHour(clock: number, nowMs: number): number {
+    const target = this.stager.hourOr(clock);
+    if (this.drawnHour === null || this.reduceMotion) {
+      this.hourBlend = null;
+      this.drawnHour = target;
+      return target;
+    }
+    const goal = this.hourBlend?.to ?? this.drawnHour;
+    if (Math.abs(hourDelta(goal, target)) > 0.25)
+      this.hourBlend = { from: this.drawnHour, to: target, startMs: nowMs };
+    const b = this.hourBlend;
+    if (b) {
+      const t = Math.min(1, Math.max(0, (nowMs - b.startMs) / PIXEL_STAGE.hourBlendMs));
+      this.drawnHour = (b.from + hourDelta(b.from, b.to) * t + 24) % 24;
+      if (t >= 1) this.hourBlend = null;
+    } else this.drawnHour = target;
+    return this.drawnHour;
+  }
 
   /** The player's Reduced motion choice, resolved against the system setting. */
   get reduceMotion(): boolean {
@@ -83,23 +116,50 @@ export class Game {
     return r === 'on' || (r === 'system' && this.camera.prefersReducedMotion);
   }
 
+  /**
+   * Follow the story queue for the pixel view and return the point to aim at while a scene
+   * waits (the centroid of who is framed), or null to follow the Keeper. Holds the near zoom
+   * for `two` and `close` shots, and for an unstaged scene whose cast stands close.
+   */
+  private stagePixelCamera(nowMs: number, focused: boolean): { x: number; z: number } | null {
+    const st = this.stager;
+    st.speaker = this.storySpeaker;
+    if (st.update(this.world, nowMs)) this.lastDaylightMs = -Infinity;
+    if (this.scene3d) return null;
+    const points = st.active && !focused ? st.frame(this.world) : [];
+    const kind = st.stage.shot?.kind;
+    if (points.length < 2 && !kind) {
+      this.camera.holdZoom(null, nowMs);
+      return null;
+    }
+    const cx = points.reduce((a, p) => a + p.x, 0) / points.length;
+    const cz = points.reduce((a, p) => a + p.z, 0) / points.length;
+    const spread = Math.max(...points.map((p) => Math.hypot(p.x - cx, p.z - cz)));
+    // The near zoom only when the cast fits across it (a phone held upright is narrow).
+    const ppu = CAMERA.pixelsPerUnit;
+    const last = ppu.length - 1;
+    const nearWidth =
+      (this.camera.visibleWidth * (ppu[this.camera.currentZoomIndex] ?? ppu[0])) / ppu[last]!;
+    const fits = spread * 2.4 < nearWidth;
+    const near = kind === 'close' || ((kind === 'two' || !kind) && fits);
+    this.camera.holdZoom(near ? last : null, nowMs);
+    return { x: cx, z: cz };
+  }
+
   private updateDaylight(nowMs: number): void {
-    // The sky changes slowly: re-evaluate every few seconds.
-    if (nowMs - this.lastDaylightMs < 3000) return;
+    // The sky changes slowly: re-evaluate every few seconds, or every frame of a blend.
+    const blending = this.hourBlend !== null;
+    const clock = this.hourOverride ?? localHour();
+    const hour = this.scene3d ? clock : this.stagedHour(clock, nowMs);
+    if (!blending && !this.hourBlend && nowMs - this.lastDaylightMs < 3000) return;
     this.lastDaylightMs = nowMs;
-    const d = daylightAt(this.hourOverride ?? localHour());
+    const d = daylightAt(hour);
     const s = this.world.settings;
     const reduce = this.reduceMotion;
     if (this.scene3d) {
       this.scene3d.setLit(litLanterns(this.world));
       this.view.lanterns = () => this.scene3d!.lanternStates();
-      this.scene3d.setDaylight(
-        this.hourOverride ?? localHour(),
-        d,
-        this.world.location,
-        this.world.weather.kind,
-        s.particles,
-      );
+      this.scene3d.setDaylight(clock, d, this.world.location, this.world.weather.kind, s.particles);
       return;
     }
     if (!this.grove || !this.lowRes) return;
@@ -181,9 +241,17 @@ export class Game {
       this.lowRes = new LowResPipeline(canvas);
       this.lowRes.enablePost();
       this.pipeline = this.lowRes;
-      this.grove = new GroveScene(this.world.tiles);
+      this.grove = new GroveScene(this.world.tiles, this.view);
       this.picker = new Picker(canvas);
       this.grove.scene.add(this.view.root);
+      // The pixel view draws the story cast where the stager puts them, and the Grove
+      // scene's dressings join its sprite pass (render/dressings.ts).
+      this.view.staging = this.stager;
+      this.view.onDraw = (world, nowMs) => {
+        const dt = this.lastDressMs === 0 ? 0 : Math.min(0.1, (nowMs - this.lastDressMs) / 1000);
+        this.lastDressMs = nowMs;
+        this.grove?.dress(world, this.stager.stage, Math.max(0, dt));
+      };
     }
     const s3 = this.scene3d;
     this.cameraControls = new CameraControls(this.camera, canvas);
@@ -483,17 +551,22 @@ export class Game {
         ? this.world.nubbins.find((n) => n.id === this.focus?.id)
         : undefined;
     if (!focused) this.focus = null;
-    const subject = focused ? focused.pos : kp;
+    // A story scene in the pixel view: frame its cast, lifted clear of the dialogue box,
+    // on the near zoom for two-shots and close shots (campaign graphics C2, H14).
+    const staged = this.stagePixelCamera(nowMs, !!focused);
+    const subject = focused ? focused.pos : (staged ?? kp);
     // With a bottom sheet open on a phone, aim past the Keeper toward the camera, so the
     // Keeper and the Nubbin beside them sit in the clear top part (review C, item 22).
-    const lift = (this.cameraLift * this.camera.visibleHeight) / Math.sin(CAMERA.pitchRad);
+    const liftK = staged ? Math.max(this.cameraLift, PIXEL_STAGE.boxLift) : this.cameraLift;
+    const lift = (liftK * this.camera.visibleHeight) / Math.sin(CAMERA.pitchRad);
     const yaw = this.camera.currentYaw;
     // Aim right of the subject (along the camera's right vector) so a docked desktop sheet
     // on the right third leaves it in sight.
     const side = this.cameraSide * this.camera.visibleWidth;
     const aimX = subject.x + Math.sin(yaw) * lift + Math.cos(yaw) * side;
     const aimZ = subject.z + Math.cos(yaw) * lift - Math.sin(yaw) * side;
-    const t = 1 - Math.exp((-CAMERA.followRate * dt) / 1000);
+    const rate = staged ? PIXEL_STAGE.followRate : CAMERA.followRate;
+    const t = staged && this.reduceMotion ? 1 : 1 - Math.exp((-rate * dt) / 1000);
     this.camera.target.x += (aimX - this.camera.target.x) * t;
     this.camera.target.z += (aimZ - this.camera.target.z) * t;
     // The Settings choice reaches both cameras and the Grove's idle motion at once.
@@ -506,6 +579,7 @@ export class Game {
     if (!this.renderPaused) {
       if (this.scene3d) {
         this.updateDaylight(nowMs);
+        this.scene3d.storySpeaker = this.storySpeaker;
         this.scene3d.update(this.world, this.camera, this.clock.alpha, nowMs);
         this.scene3d.render();
       } else if (this.grove && this.lowRes) {
@@ -538,4 +612,9 @@ function nextPaint(): Promise<void> {
     requestAnimationFrame(finish);
     setTimeout(finish, 50);
   });
+}
+
+/** Signed shortest way round the 24-hour clock from `a` to `b`, in hours. */
+function hourDelta(a: number, b: number): number {
+  return ((((b - a) % 24) + 36) % 24) - 12;
 }

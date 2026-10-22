@@ -23,6 +23,7 @@ import type { FrameRect, SpriteSheet } from './sprites/atlas';
 import { bubbleFor, type EmoteShape } from './sprites/emote';
 import { buildShadowSheet } from './sprites/props';
 import { SheetCache } from './sprites/sheets';
+import type { SceneStager } from './scene-stage';
 
 interface Snapshot {
   pos: Vec2;
@@ -128,6 +129,13 @@ export class WorldView {
   private daylight: Daylight | null = null;
   /** The Hollow is always dark and full of fireflies. */
   location: Location = 'grove';
+  /** The story stager the game keeps for the pixel view: drawn spots for a scene's cast. */
+  staging: SceneStager | null = null;
+  /**
+   * Runs inside the sprite pass, before the particles: the Grove scene's dressings draw
+   * their billboards here (render/dressings.ts).
+   */
+  onDraw: ((world: World, nowMs: number) => void) | null = null;
   /** Which neighbour is being visited, if any (their Nubbins are render-only). */
   get visiting(): string | null {
     return this.location.startsWith('visit:') ? this.location.slice('visit:'.length) : null;
@@ -735,22 +743,26 @@ export class WorldView {
             : t === 'nova';
     for (const npc of world.npcs.filter((p) => npcHere(p.trainer))) {
       const nsheet = this.sheets.keeper(npc.trainer);
-      const moving = npc.target !== null;
+      // In a story scene the cast is drawn on its marks, or brought in beside the Keeper
+      // (render/scene-stage.ts); the sim's NPC stays where it is.
+      const held = this.staging?.active ? this.staging.holds.get(npc.id) : undefined;
+      const at = held ?? npc.pos;
+      const moving = npc.target !== null && !held;
       const nclip: ClipName = moving ? 'walk' : 'idle';
-      const nview = viewAngle(npc.facing, yaw);
+      const nview = viewAngle((held && this.staging?.faces.get(npc.id)) ?? npc.facing, yaw);
       const nrect = nsheet.frames.get(
         frameKey(nclip, nview.angle, frameAt(CLIPS[nclip], nowMs + npc.pos.x * 97)),
       );
-      shadow(npc.pos.x, 0, npc.pos.z, 0.45);
+      shadow(at.x, 0, at.z, 0.45);
       if (nrect) {
         batch.draw(
           {
             sheet: nsheet,
             rect: nrect,
             flip: nview.flip,
-            x: npc.pos.x,
+            x: at.x,
             y: 0,
-            z: npc.pos.z,
+            z: at.z,
             mode: 'billboard',
             tint: this.dim,
           },
@@ -826,6 +838,8 @@ export class WorldView {
         size: 0.4,
       });
     }
+
+    this.onDraw?.(world, nowMs);
 
     // Particles last so they sit over the sprites they decorate.
     this.particles.update(nowMs);

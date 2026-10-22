@@ -35,7 +35,8 @@ import { buildGroveProps, buildGroveTrees, type GroveProps } from './props';
 import { GroveTextures } from './grove-textures';
 import { GroveSky } from './sky';
 import { StorySets } from './story-sets';
-import { SceneStaging } from './staging';
+import { SceneStager } from '../render/scene-stage';
+import { Dressings3d } from './dressings';
 import { Village } from './village';
 import { GroveWeather } from './weather';
 import { VisitSet } from './visit';
@@ -259,7 +260,15 @@ export class Grove3dScene {
   /** Frame times, for the report: the last 120 frames' render durations in ms. */
   readonly frameMs: number[] = [];
   /** Story scenes: who is framed, who holds still, the hour asked for (staging.ts). */
-  private readonly staging = new SceneStaging();
+  private readonly staging = new SceneStager();
+  /** Who speaks the dialogue line on screen (the game sets it); always framed (C5). */
+  storySpeaker: string | null = null;
+  /** The campaign-graphics packages' story dressing (render3d/dressings.ts). */
+  private readonly dressings = new Dressings3d();
+  /** Lamp-pool sources the dressings borrow this frame. */
+  private readonly dressLamps: LampSource[] = [];
+  /** The daylight the frame is lit with, staged hour included, for the dressings. */
+  private drawnDay: Daylight = daylightAt(12);
   /** The Nubbin a key moment is about (hatch, evolution, cocoon, rebirth), until when. */
   private focus: { id: string; untilMs: number } | null = null;
   /** 0 on the player's orbit, 1 on a framed shot; eased between. */
@@ -324,6 +333,7 @@ export class Grove3dScene {
     this.actors.crowdOptions = {
       posts: this.props.lanterns.map((l) => ({ x: l.x, z: l.z })),
       holds: this.staging.holds,
+      faces: this.staging.faces,
     };
     this.bursts = new Bursts(this.scene);
     // The garden's and the story's buildings wear the Grove's building kit (bug 15).
@@ -366,6 +376,20 @@ export class Grove3dScene {
     this.grade = new FinishPass(GRADE_SATURATION);
     this.composer.addPass(this.grade);
     this.composer.addPass(new SMAAPass());
+    this.dressings.build({
+      scene: this.scene,
+      world3d: this.world3d,
+      tex: this.tex,
+      pickables: this.pickables,
+      lamps: this.dressLamps,
+      lampsOn: () => this.lampsOn,
+      reduceMotion: () => this.reduceMotion,
+      time: this.time,
+      compile: (o) => {
+        const sets = new Set([this.lightSet(), ...this.warmed]);
+        return Promise.all([...sets].map((set) => this.compileAs(set, [o])));
+      },
+    });
   }
 
   /** The painted surfaces and the creature pool, shared with the Full 3D minigames (G17). */
@@ -428,12 +452,14 @@ export class Grove3dScene {
     particles: Particles,
   ): void {
     this.dayArgs = [hour, d, place, weather, particles];
-    // A story scene that names its hour is lit at it (staging.ts); the clock resumes after.
-    const staged = place === 'grove' ? this.staging.hour : null;
+    // A story scene that names its hour is lit at it (render/scene-stage.ts: stage.hour,
+    // else its narration); the clock resumes after. Caves have no sky to stage.
+    const staged = this.staging.hour;
     if (staged !== null) {
       hour = staged;
       d = daylightAt(staged);
     }
+    this.drawnDay = d;
     const grove = place === 'grove';
     this.location = place;
     this.actors.location = place;
@@ -845,20 +871,82 @@ export class Grove3dScene {
       };
     }
     if (!this.staging.active) return base;
+    return this.stageShot(world, base);
+  }
+
+  /**
+   * A story scene's shot (H8): `two` (the default) frames the Keeper and the speakers;
+   * `wide` stands back; `establish` dollies in to the wide shot over 2 s (a cut under
+   * reduced motion); `close` frames the speaker on the near zoom; `over` looks past the
+   * Keeper's shoulder at the speaker. `stage.shot.yaw` sets the side (radians, world).
+   * The lift clear of the dialogue box is applied in `update`.
+   */
+  private stageShot(world: World, base: Shot): Shot {
+    const st = this.staging.stage.shot;
     const points = this.staging.frame(world);
-    if (points.length < 2) return base;
-    const cx = points.reduce((s, p) => s + p.x, 0) / points.length;
-    const cz = points.reduce((s, p) => s + p.z, 0) / points.length;
-    const spread = Math.max(...points.map((p) => Math.hypot(p.x - cx, p.z - cz)));
+    if (points.length < 2 && !st) return base;
     const s = READ3D.stage;
-    return {
+    const cx = points.reduce((a, p) => a + p.x, 0) / points.length;
+    const cz = points.reduce((a, p) => a + p.z, 0) / points.length;
+    const spread = Math.max(...points.map((p) => Math.hypot(p.x - cx, p.z - cz)));
+    const two: Shot = {
       ...base,
       kind: 'stage',
       x: cx,
       z: cz,
-      distance: Math.max(s.minDistance, spread * s.spreadK + 4),
+      yaw: st?.yaw ?? base.yaw,
+      // A phone held upright sees less across: stand back by how much narrower it is.
+      distance: Math.max(
+        s.minDistance,
+        (spread * s.spreadK) / Math.min(1, Math.max(0.5, this.camera.aspect)) + 4,
+      ),
       points,
     };
+    const k = points[0]!;
+    const who = st?.focus?.[0] ?? this.staging.speaker;
+    const spoke =
+      who && who !== 'you' && who !== 'narrator' ? this.staging.spotOf(world, who) : null;
+    const sp = spoke ?? points[1] ?? k;
+    const portrait = this.camera.aspect < 1 ? 1.25 : 1;
+    switch (st?.kind ?? 'two') {
+      case 'wide':
+        return { ...two, distance: two.distance * s.wideK, pitchDeg: base.pitchDeg + 6 };
+      case 'establish': {
+        const t = this.reduceMotion
+          ? 1
+          : THREE.MathUtils.clamp((this.lastMs - this.staging.startedMs) / s.establishMs, 0, 1);
+        const e = 1 - (1 - t) ** 3;
+        const wide = two.distance * s.wideK;
+        return {
+          ...two,
+          distance: wide * THREE.MathUtils.lerp(s.establishFrom, 1, e),
+          pitchDeg: base.pitchDeg + 6,
+        };
+      }
+      case 'close':
+        return {
+          ...two,
+          x: THREE.MathUtils.lerp(k.x, sp.x, s.closeToward),
+          z: THREE.MathUtils.lerp(k.z, sp.z, s.closeToward),
+          distance: (GROVE3D.distance[GROVE3D.distance.length - 1] ?? 8.5) * portrait,
+          points: [k, sp],
+        };
+      case 'over': {
+        // Behind the Keeper on the line from the speaker, a little round to one side.
+        const line = Math.atan2(k.x - sp.x, k.z - sp.z) + s.overSideRad;
+        return {
+          ...two,
+          x: THREE.MathUtils.lerp(k.x, sp.x, 0.6),
+          z: THREE.MathUtils.lerp(k.z, sp.z, 0.6),
+          yaw: st?.yaw ?? line,
+          distance: s.overDistance * portrait,
+          pitchDeg: s.overPitchDeg,
+          points: [k, sp],
+        };
+      }
+      default:
+        return two;
+    }
   }
 
   update(world: World, orbit: OrbitCamera, alpha: number, nowMs: number): void {
@@ -887,10 +975,11 @@ export class Grove3dScene {
     const ground = this.location === 'grove' ? standHeight : () => 0;
     // Reduced motion: the camera cuts to where it is going instead of gliding there.
     const snap = dt === 0 || this.reduceMotion;
+    // A story scene cuts in at once: the render pauses behind the dialogue box soon after.
+    this.staging.speaker = this.storySpeaker;
+    const stageCut = this.staging.update(world, nowMs);
     const shot = this.shot(world, orbit);
     const ease = (rate: number) => (snap ? 1 : 1 - Math.exp(-rate * dt));
-    // A story scene cuts in at once: the render pauses behind the dialogue box soon after.
-    const stageCut = this.staging.update(world);
     if (stageCut) {
       if (this.dayArgs) this.setDaylight(...this.dayArgs);
       this.blend = shot.kind === 'stage' ? 1 : this.blend;
@@ -921,6 +1010,14 @@ export class Grove3dScene {
       (cave ? READ3D.hollow.distanceK : 1);
     const pitch = THREE.MathUtils.degToRad(THREE.MathUtils.lerp(basePitch, s.pitchDeg, b));
     const dist = THREE.MathUtils.lerp(baseDist, s.distance, b);
+    if (s.kind === 'stage' && b > 0) {
+      // H8: the dialogue box covers the bottom of the frame, so slide the rig toward the
+      // camera along the ground until the subjects sit `boxLift` of the frame higher.
+      const visH = 2 * dist * Math.tan(THREE.MathUtils.degToRad(this.camera.fov / 2));
+      const g = ((READ3D.stage.boxLift * visH) / Math.max(0.2, Math.sin(pitch))) * b;
+      this.camTarget.x += Math.sin(yaw) * g;
+      this.camTarget.z += Math.cos(yaw) * g;
+    }
     const want = new THREE.Vector3(
       this.camTarget.x + Math.sin(yaw) * Math.cos(pitch) * dist,
       this.camTarget.y + Math.sin(pitch) * dist,
@@ -928,7 +1025,12 @@ export class Grove3dScene {
     );
     const k = 1 - Math.exp(-9 * dt);
     this.camPos.lerp(want, snap || stageCut ? 1 : k);
-    this.lamps.place(this.lampSources, this.camTarget);
+    this.dressLamps.length = 0;
+    this.dressings.update(world, this.staging.stage, this.drawnDay, dt);
+    this.lamps.place(
+      this.dressLamps.length > 0 ? [...this.lampSources, ...this.dressLamps] : this.lampSources,
+      this.camTarget,
+    );
     const floor = (this.location === 'grove' ? groveHeight(this.camPos.x, this.camPos.z) : 0) + 0.9;
     if (this.camPos.y < floor) this.camPos.y = floor;
     // Shake: the same rule as the pixel camera (the Settings switch), in 3D units.
@@ -1206,6 +1308,7 @@ export class Grove3dScene {
   }
 
   dispose(): void {
+    this.dressings.dispose();
     this.actors.dispose();
     this.bursts.dispose();
     this.sky.dispose();

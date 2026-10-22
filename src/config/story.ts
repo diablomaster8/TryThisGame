@@ -32,6 +32,64 @@ export interface Scene {
   choices?: Choice[];
   /** Flags to set when the scene ends. */
   set?: Record<string, number | boolean | string>;
+  /** How the renderers draw it (render/scene-stage.ts). The sim never reads it. */
+  stage?: SceneStage;
+}
+
+/** The named places a scene can be staged at; marks live in config/stage-marks.ts. */
+export type StagePlace =
+  | 'grove'
+  | 'hollow'
+  | 'corvin'
+  | 'hill'
+  | 'gate'
+  | 'step'
+  | 'pond'
+  | 'falls'
+  | 'ledge'
+  | 'fold'
+  | 'green'
+  | 'guardhouse'
+  | 'rootNode';
+
+/** One figure on a mark: who (a speaker id), where, facing whom, doing what. */
+export interface StageCast {
+  who: string;
+  /** A mark name from config/stage-marks.ts. */
+  mark: string;
+  /** A speaker id to turn to ('you' is the Keeper); else the mark's own yaw. */
+  face?: string;
+  pose?: 'stand' | 'sit' | 'kneel' | 'walk';
+  carry?: 'lantern' | 'bucket' | 'bag' | 'pie';
+}
+
+export type ShotKind = 'establish' | 'wide' | 'two' | 'close' | 'over';
+
+/**
+ * Per-scene staging (campaign graphics C1). Drawing only: a missing field means "do as
+ * today". Read through render/scene-stage.ts, which also merges config/scene-stages.ts.
+ */
+export interface SceneStage {
+  /** Where: a named mark set, so scripts never carry coordinates. */
+  place?: StagePlace;
+  /** Hour 0–24 to draw at (C2); else hourOf(narration); else the clock. */
+  hour?: number;
+  season?: 'spring' | 'summer' | 'autumn' | 'winter';
+  weather?: 'clear' | 'rain' | 'snow' | 'frost' | 'wind';
+  /** Who stands where, facing whom, doing what (C5, M6, H4). */
+  cast?: StageCast[];
+  /** Camera (H8, H14). `focus` defaults to the speakers; `yaw` is radians, world frame. */
+  shot?: { kind: ShotKind; focus?: string[]; yaw?: number };
+  /** Props to show or set (story props, the gate, the shelf, bowls…). */
+  props?: Record<string, 'show' | 'hide' | 'open' | 'shut' | 'lit' | 'out'>;
+  /** Named lights (H3): lantern-1..4, windows, the porch. */
+  lights?: Record<string, 'lit' | 'out' | 'flicker'>;
+  /** Held effects (H6, M5): no pulsing; each has a still form under reduced motion. */
+  fx?: Array<'fallsStill' | 'stoneGlow' | 'goldWater' | 'fireflies' | 'seed' | 'breath'>;
+  /** Campaign look override (H18), e.g. ch9–11 grey-blue. */
+  grade?: string;
+  /** How to arrive: cut (default) or a short fade. */
+  transition?: 'cut' | 'fade';
 }
 
 export interface Chapter {
