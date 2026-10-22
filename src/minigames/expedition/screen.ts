@@ -1,5 +1,5 @@
 import { playArea } from '../play-area';
-import { EXPEDITION, SIM } from '../../config/tuning';
+import { EXPEDITION, SIM, UI } from '../../config/tuning';
 import { CRITTER_LABELS, ESSENCE_LABELS, UI_TEXT } from '../../config/strings';
 import type { SpriteSheet } from '../../render/sprites/atlas';
 import type { Grove3dScene } from '../../render3d/grove-3d-scene';
@@ -23,6 +23,8 @@ export class ExpeditionScreen {
   private readonly quitBtn: HTMLButtonElement;
   private readonly results: HTMLDivElement;
   private readonly resultsBody: HTMLDivElement;
+  private readonly tip: HTMLDivElement;
+  private tipTimer = 0;
   private readonly pixel = new ExpeditionPixelView();
   private view3d: ExpeditionView | null = null;
   private view: ExpeditionView = this.pixel;
@@ -54,13 +56,20 @@ export class ExpeditionScreen {
     this.quitBtn = button('✕', () => this.finish(), 'btn btn-icon quit');
     this.quitBtn.setAttribute('aria-label', UI_TEXT.quitMinigame);
     this.quitBtn.title = UI_TEXT.quitMinigame;
-    this.root.append(this.pixel.element, this.hud, this.quitBtn, this.results);
+    // Tap to jump, hold to jump higher: said at the start of every run (bug 23).
+    this.tip = el('div', 'expedition-tip');
+    this.tip.setAttribute('role', 'status');
+    this.tip.hidden = true;
+    // The results card joins the DOM only when it shows, so no hidden "Back to the Grove"
+    // waits in the page for a screen reader to find (bug 35).
+    this.root.append(this.pixel.element, this.hud, this.quitBtn, this.tip);
     parent.appendChild(this.root);
 
     const { signal } = this.abort;
     const press = (e: Event) => {
       if (!this.run || this.run.finished || !this.view.ready) return;
       e.preventDefault();
+      this.hideTip();
       jumpPressed(this.run);
     };
     const release = () => this.run && jumpReleased(this.run);
@@ -119,7 +128,14 @@ export class ExpeditionScreen {
     this.run = createRun(seed);
     this.onDone = onDone;
     this.results.hidden = true;
+    this.results.remove();
     this.root.hidden = false;
+    this.tip.textContent = window.matchMedia?.('(pointer: coarse)').matches
+      ? UI_TEXT.expeditionTip
+      : UI_TEXT.expeditionTipKeys;
+    this.tip.hidden = false;
+    clearTimeout(this.tipTimer);
+    this.tipTimer = window.setTimeout(() => this.hideTip(), UI.tipMs);
     this.lastMs = 0;
     this.accMs = 0;
     const startPixel = (): void => {
@@ -163,7 +179,14 @@ export class ExpeditionScreen {
     this.rafId = requestAnimationFrame(this.frame);
   }
 
+  private hideTip(): void {
+    clearTimeout(this.tipTimer);
+    this.tip.hidden = true;
+  }
+
   private finish(): void {
+    this.hideTip();
+    this.results.remove();
     const rewards = this.run?.rewards ?? { shells: 0, essences: {}, critters: {} };
     cancelAnimationFrame(this.rafId);
     this.starts++;
@@ -217,6 +240,7 @@ export class ExpeditionScreen {
     }
     if (lines.length === 1 && rewards.shells === 0) lines.push(UI_TEXT.resultNothing);
     for (const line of lines) this.resultsBody.appendChild(el('p', undefined, line));
+    this.root.appendChild(this.results);
     this.results.hidden = false;
   }
 

@@ -152,7 +152,8 @@ export class KarateScreen {
       button(UI_TEXT.backToGrove, () => this.finish(), 'btn btn-primary'),
     );
     this.results.appendChild(card);
-    this.root.append(this.canvas, this.hud, this.strikeBtn, this.quitBtn, this.results);
+    // The results card joins the DOM only when shown: no hidden duplicate "Back to the Grove".
+    this.root.append(this.canvas, this.hud, this.strikeBtn, this.quitBtn);
     parent.appendChild(this.root);
     this.canvas.addEventListener('pointerdown', (e) => {
       e.preventDefault();
@@ -185,6 +186,7 @@ export class KarateScreen {
     this.rivalSheet = rivalSheet;
     this.onDone = onDone;
     this.results.hidden = true;
+    this.results.remove();
     this.root.hidden = false;
     this.resize();
     this.lastMs = 0;
@@ -240,6 +242,7 @@ export class KarateScreen {
       this.resultsBody.appendChild(
         el('p', undefined, `+${prizeForBout(b.tier, b.won ?? false)} ${NAMES.currency}`),
       );
+      this.root.appendChild(this.results);
       this.results.hidden = false;
       playSound(b.won ? 'win' : 'sad');
     }
