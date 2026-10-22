@@ -7,7 +7,8 @@ import type { CaveLamps } from './cave-lamps';
 import { HollowAtmos } from './hollow-atmos';
 import { mat, type HollowCtx, type HollowFrame, type HollowModule } from './hollow-ctx';
 import { HollowDress, pathBaker } from './hollow-dress';
-import { HollowLight } from './hollow-light';
+import { HollowLight, lightBaker } from './hollow-light';
+import { HollowPop } from './hollow-pop';
 import { HollowRock, wallGeometry } from './hollow-rock';
 
 /**
@@ -44,6 +45,7 @@ export class Hollow {
   private readonly light_: HollowLight;
   private readonly dress: HollowDress;
   private readonly atmos = new HollowAtmos();
+  private readonly pop = new HollowPop();
   /** In build order: rock, dress, light, air (`update` runs them in this order too). */
   private readonly mods: HollowModule[];
   /**
@@ -76,7 +78,9 @@ export class Hollow {
     parent.add(this.group);
     this.light_ = new HollowLight(parent);
     this.dress.useLights(this.light_);
-    this.mods = [this.rock, this.dress, this.light_, this.atmos];
+    // A lit sconce re-bakes the floor's light; the rock's `rebake()` arrives with the bake seam.
+    this.light_.rebake = () => (this.rock as Partial<{ rebake(): void }>).rebake?.();
+    this.mods = [this.rock, this.dress, this.light_, this.atmos, this.pop];
     const box = new THREE.BoxGeometry(0.1, 0.1, 0.1);
     const wallSample = new THREE.InstancedMesh(wallGeometry(), this.rock.rock, 1);
     wallSample.setColorAt(0, new THREE.Color('#ffffff'));
@@ -93,6 +97,7 @@ export class Hollow {
       new THREE.InstancedMesh(box, this.dress.stone, 1),
       new THREE.Mesh(pool, this.dress.water.material),
       ...this.dress.samples(),
+      ...this.light_.programSamples(),
     );
     this.samples.traverse((o) => (o.castShadow = o.receiveShadow = true));
     // And a textured sprite, as the emote balls are, which may first appear underground.
@@ -128,9 +133,10 @@ export class Hollow {
     // The band is set before any module builds (rock tint, torch and crystal colour).
     this.ctx.depth = depth;
     this.ctx.band = bandFor(depth);
-    this.ctx.bakers.length = 0;
-    if (f) this.ctx.bakers.push(pathBaker(f, this.ctx));
     for (const m of this.mods) m.dispose();
+    this.ctx.bakers.length = 0;
+    if (f) this.ctx.bakers.push(lightBaker(f, this.ctx));
+    if (f) this.ctx.bakers.push(pathBaker(f, this.ctx));
     if (f) for (const m of this.mods) m.build(f, this.ctx);
   }
 

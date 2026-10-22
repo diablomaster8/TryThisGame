@@ -11,7 +11,18 @@
  * a driving race theme, a bouncy expedition tune and a sparse story cue. All original.
  */
 export type SoundName =
-  'tap' | 'pickup' | 'jump' | 'hit' | 'hatch' | 'evolve' | 'pet' | 'buy' | 'cheer' | 'win' | 'sad';
+  | 'tap'
+  | 'pickup'
+  | 'jump'
+  | 'hit'
+  | 'hatch'
+  | 'evolve'
+  | 'pet'
+  | 'buy'
+  | 'cheer'
+  | 'win'
+  | 'sad'
+  | 'drip';
 
 export type SongName =
   | 'title'
@@ -836,6 +847,10 @@ export function playSound(name: SoundName): void {
         tone(784, 100, 100);
         tone(988, 200, 100);
         tone(1319, 300, 300, 'triangle', 0.1);
+        break;
+      case 'drip':
+        tone(1500, 0, 50, 'sine', 0.03, 700);
+        tone(1100, 70, 80, 'sine', 0.015, 600);
         break;
       case 'sad':
         tone(440, 0, 160, 'triangle', 0.06, 330);

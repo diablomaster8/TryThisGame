@@ -61,7 +61,8 @@ export type HollowPick = [THREE.Vector3, 'stairs' | 'chest' | 'loot', string, nu
 interface SconceApi {
   readonly torchCount: number;
   isLit(i: number): boolean;
-  lightTorch(i: number): void;
+  lightTorch(i: number): boolean;
+  torchSpot(i: number): { x: number; y: number; z: number; r: number } | null;
 }
 
 const LOOT_KIND: Record<DungeonLootKind, number> = {
@@ -269,6 +270,7 @@ export class HollowDress implements HollowModule {
   private cutKey = '';
   private sconces: unknown = null;
   private sconceAt: THREE.Vector3[] = [];
+  private sconcesReady = false;
   private readonly m4 = new THREE.Matrix4();
   private readonly q = new THREE.Quaternion();
   private readonly e = new THREE.Euler();
@@ -297,7 +299,7 @@ export class HollowDress implements HollowModule {
 
   private get api(): SconceApi | null {
     const a = this.sconces as Partial<SconceApi> | null;
-    return a && typeof a.lightTorch === 'function' && typeof a.isLit === 'function'
+    return a && typeof a.lightTorch === 'function' && typeof a.torchSpot === 'function'
       ? (a as SconceApi)
       : null;
   }
@@ -687,14 +689,9 @@ export class HollowDress implements HollowModule {
     for (const l of this.lootAt) this.picks.push([l.p, 'loot', l.id, 0.45]);
     // Item 44: unlit sconces and the crystals are walk-to targets (a tap walks the Keeper
     // over; being there lights the sconce or rings the crystal). Their ids never match loot.
-    this.sconceAt = f.torches.map((t) => {
-      const p = cellCentre(f, t);
-      return new THREE.Vector3(p.x, cellTop(f, t) + 1.1, p.z);
-    });
-    const api = this.api;
-    if (api)
-      for (let i = 0; i < Math.min(api.torchCount, this.sconceAt.length); i++)
-        if (!api.isLit(i)) this.picks.push([this.sconceAt[i]!, 'loot', `sconce:${i}`, 0.55]);
+    // The sconces join once the light module has built this floor (it builds after us).
+    this.sconceAt = [];
+    this.sconcesReady = false;
     f.crystals.forEach((c, i) => {
       const p = cellCentre(f, c);
       this.picks.push([
@@ -836,6 +833,16 @@ export class HollowDress implements HollowModule {
   ): void {
     const T = GROVE3D.cave.dress.touch;
     const api = this.api;
+    if (api && !this.sconcesReady) {
+      // Each unlit sconce is a walk-to target where the light module says it hangs.
+      this.sconcesReady = true;
+      for (let i = 0; i < api.torchCount; i++) {
+        const sp = api.torchSpot(i);
+        const at = sp ? new THREE.Vector3(sp.x, sp.y, sp.z) : new THREE.Vector3(1e6, 0, 1e6);
+        this.sconceAt.push(at);
+        if (sp && !api.isLit(i)) this.picks.push([at, 'loot', `sconce:${i}`, sp.r]);
+      }
+    }
     if (api)
       for (let i = 0; i < Math.min(api.torchCount, this.sconceAt.length); i++) {
         const s = this.sconceAt[i]!;

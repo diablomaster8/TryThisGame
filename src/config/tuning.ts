@@ -326,13 +326,80 @@ export const GROVE3D = {
        * registered a hook for is a no-op.
        */
       governor: { order: ['particles', 'triplanar', 'bloom'] },
+      /**
+       * Hollow light (items 5, 6, 14, 15, 29 and 30, `render3d/hollow-light.ts`). `bake`: torch,
+       * crystal and mushroom light baked into the floor and wall vertices (radius in world units,
+       * strength a peak share, falloff quadratic). `sconce`: torches are wall sconces; `unlitShare`
+       * of them start cold until the Keeper lights them. `flicker`: the baked torch light and the
+       * flame sprites wander by `amp` (a slow sum of two sines, never a strobe; constant when
+       * motion is reduced). `crystal`: shards per cluster and their size. `mushroom`: wall-foot
+       * glow spots, at most `max` a floor. `cookie`: the Keeper's lamp as a ground disc and a wall
+       * wash (the wash fades out `wallReach` units from the wall).
+       */
+      bake: {
+        torch: { radius: 5.2, strength: 0.9, height: 1.3 },
+        crystal: { radius: 3.4, strength: 0.5, crystalFloorRadius: 4.2, height: 0.7 },
+        mushroom: { radius: 2.2, strength: 0.4, height: 0.3 },
+      },
+      sconce: {
+        unlitShare: 0.35,
+        height: 1.15,
+        flameSize: 0.6,
+        haloSize: 2.4,
+        haloGlow: 0.45,
+        pickRadius: 0.8,
+      },
+      flicker: { amp: 0.08, hz: 2.4 },
+      crystal: { shards: [5, 8], height: [0.6, 1.9], width: [0.1, 0.2], tilt: 0.35, glow: 1 },
+      mushroom: { share: 0.1, max: 18, spacing: 3, perSpot: 3, glow: 2.4 },
+      cookie: {
+        color: '#ffd9a0',
+        groundRadius: 3.2,
+        groundOpacity: 0.28,
+        wallRadius: 2.2,
+        wallOpacity: 0.3,
+        wallReach: 2.4,
+      },
     },
     /**
      * Underground framing (item 21): the radial vignette and a darker top edge, as if under
      * rock. The top shade starts `topFrom` up the frame (0 bottom, 1 top) and reaches `top`
      * at the edge. Above ground the vignette is `groundVignette` and there is no top shade.
      */
-    atmos: { vignette: 0.6, top: 0.35, topFrom: 0.55, groundVignette: 0.35 },
+    atmos: {
+      vignette: 0.6,
+      top: 0.35,
+      topFrom: 0.55,
+      groundVignette: 0.35,
+      /**
+       * The air (items 16, 17, 22, 35, 36, 42, 43; `render3d/hollow-atmos.ts`). Shafts: cracks
+       * in the ceiling, `perRoom` for each medium room up to `max`, one big one in the great
+       * chamber; `alpha` is the beam's peak. Motes and spores: `perCell` over open cells up to
+       * `moteMax`. Glow: the caustic over water. Drips: one per `perDrip` open cells (water
+       * favoured), falling every `period` s with a ring after, heard within `hear` units.
+       * Fog: low cards over basins and water. Stars: ceiling glow-worms (`glowCount` on the
+       * glowworm floor). Bugs: glow-bugs by the walls' feet.
+       */
+      shafts: { perRoom: 0.5, max: 5, height: 6.5, width: 1.8, alpha: 0.2, greatScale: 1.7 },
+      motes: { perCell: 0.22, moteMax: 260, size: 0.1, alpha: 0.5, spore: 0.3 },
+      glow: { alpha: 0.26, scale: 1.3, speed: 0.5 },
+      drips: { perDrip: 90, max: 14, period: [3.5, 8], fall: 0.45, ring: 1.4, hear: 9 },
+      fog: { alpha: 0.2, height: 0.3, layers: 2, speed: 0.12 },
+      stars: { count: 70, glowCount: 220, height: 4.6, range: 22, size: 0.14, alpha: 0.75 },
+      bugs: { count: 26, glowCount: 40, size: 0.09, alpha: 0.85 },
+    },
+    /**
+     * Readability (items 25 and 40, `render3d/hollow-pop.ts`, `render3d/crowd.ts`,
+     * `ui/hollow-map.ts`). Loot and strays get a soft additive halo on the floor and a gentle
+     * bob (the bob is a slow sway, not a pulse, and is off under reduced motion). Explored
+     * rooms glow faintly on the floor. `map` sizes the minimap canvas.
+     */
+    read: {
+      loot: { radius: 0.8, color: '#ffe9a8', opacity: 0.95, bob: 0.06, bobHz: 1.4, lift: 0.08 },
+      stray: { color: '#c8a8ff', opacity: 0.75, bob: 0.05, bobHz: 1.1 },
+      roomGlow: { color: '#7fe8ff', opacity: 0.06, lift: 0.03 },
+      map: { cellPx: 6, maxPx: 240 },
+    },
     /**
      * The set dressing (`render3d/hollow-dress*.ts`, items 18, 20, 23, 24, 26–28, 31–34, 44).
      * Shares are per candidate cell; reaches and sizes are world units; colours are sRGB.
