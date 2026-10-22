@@ -48,12 +48,16 @@ export function lanternLights(
   // M11: the ring runs outward from the Hush, nearest post first.
   const sid = flags.sceneId;
   const goes = sid !== null && HUSH.out.includes(sid);
+  // The ring runs out from the nearest post, so the first lamp goes with the line itself.
+  const near = Math.min(
+    ...LANTERN_POSTS.map((p) => Math.hypot(p.x - HUSH.origin.x, p.z - HUSH.origin.z)),
+  );
   const comes = sid !== null && HUSH.back.includes(sid);
   if (goes || comes) {
     for (const p of LANTERN_POSTS) {
       const d = Math.hypot(p.x - HUSH.origin.x, p.z - HUSH.origin.z);
       // `sceneT` is seconds since the first line showed (C8); below 0 it is not up yet.
-      const gone = sceneT >= 0 && (reduce || sceneT >= HUSH.delay + d / HUSH.speed);
+      const gone = sceneT >= 0 && (reduce || sceneT >= HUSH.delay + (d - near) / HUSH.speed);
       out[p.id] = goes ? (gone ? 'out' : 'lit') : gone ? 'lit' : 'out';
     }
   }

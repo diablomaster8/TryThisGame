@@ -9,7 +9,8 @@ import { pondIceWanted } from '../render/dress-w';
 import { lanternLights, SceneClock } from '../render/dress-e';
 import { HushTrail } from '../render/hush-trail';
 import { LineClock } from '../render/line-clock';
-import { ICE_MARGIN, paintPondIce } from '../render/paint/terrain';
+import { iceRibbon } from '../render/ice-ribbon';
+import { ICE_MARGIN, paintPondIce, paintStreamIce } from '../render/paint/terrain';
 import { stageFlags } from '../render/scene-stage';
 import type { World } from '../sim/types';
 import type { Dress3dCtx, Dressing3d } from './dressings';
@@ -54,6 +55,7 @@ class Dress3dW implements Dressing3d {
   readonly id = 'w';
   private ctx: Dress3dCtx | null = null;
   private ice: THREE.Mesh | null = null;
+  private stream: THREE.Group | null = null;
   private frost: FrostDecals | null = null;
   private owned: Array<{ dispose(): void }> = [];
   private grass: THREE.MeshStandardMaterial | null = null;
@@ -107,6 +109,25 @@ class Dress3dW implements Dressing3d {
     ctx.world3d.add(ice);
     this.owned.push(tex, geo, mat);
     this.ice = ice;
+    const st = paintStreamIce();
+    const sm = new THREE.MeshStandardMaterial({
+      side: THREE.DoubleSide,
+      map: st,
+      roughness: 0.25,
+      emissive: '#9bbfdc',
+      emissiveMap: st,
+      emissiveIntensity: CG2_W.ice.glow3d,
+    });
+    const group = new THREE.Group();
+    for (const line of [GROVE.river.inflow, GROVE.river.outflow]) {
+      const g = iceRibbon(line, GROVE.river.width + 0.9, WATER_LEVEL + CG2_W.ice.lift3d);
+      this.owned.push(g);
+      group.add(new THREE.Mesh(g, sm));
+    }
+    group.visible = false;
+    ctx.world3d.add(group);
+    this.owned.push(st, sm);
+    this.stream = group;
     this.frost = new FrostDecals(ctx.world3d, LANTERN_POSTS);
     void ctx.compile(ice);
   }
@@ -147,6 +168,7 @@ class Dress3dW implements Dressing3d {
     // C7: the pond's ice.
     if (this.ice) {
       this.ice.visible = home && pondIceWanted(stage, flags.campaign, flags.chapter);
+      if (this.stream) this.stream.visible = this.ice.visible;
       (this.ice.material as THREE.MeshStandardMaterial).emissiveIntensity =
         CG2_W.ice.glow3d * (1 - 0.7 * daylight.darkness);
     }
@@ -196,6 +218,8 @@ class Dress3dW implements Dressing3d {
   dispose(): void {
     this.ice?.removeFromParent();
     this.ice = null;
+    this.stream?.removeFromParent();
+    this.stream = null;
     this.frost?.dispose();
     this.frost = null;
     for (const o of this.owned) o.dispose();
