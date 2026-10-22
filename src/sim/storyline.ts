@@ -64,7 +64,8 @@ const COUNTED = new Set<SimEvent['kind']>([
 export const STORY_HOME: Readonly<Record<string, Readonly<Record<number, Location>>>> = {
   hundred: {},
   logged: {},
-  beetle: {},
+  // K16: the Hollow Below chapters are on a real floor; the rule's `onChapter` makes the run.
+  beetle: { 3: 'dungeon', 4: 'dungeon', 6: 'dungeon', 7: 'dungeon', 8: 'dungeon' },
   dawn: {},
   dusk: {},
 };
@@ -245,7 +246,11 @@ export function applyStorylineCommand(
       if (!s) return;
       c.queue = [];
       const n = Math.max(1, Math.min(s.chapters.length, cmd.chapter));
-      if (world.location !== 'dungeon') setLocation(world, storyHome(s.id, n), events);
+      // The dungeon needs a run, which the chapter's rule makes (K16): no bare move there.
+      const home = storyHome(s.id, n);
+      if (world.location !== 'dungeon' && home !== 'dungeon') setLocation(world, home, events);
+      else if (world.location !== 'dungeon' && world.location !== 'grove')
+        setLocation(world, 'grove', events);
       beginStoryChapter(world, c, n, events);
       // A jump always plays the chapter's opening, even one already seen (the current
       // chapter included), and queues it now rather than at the next sim second.
