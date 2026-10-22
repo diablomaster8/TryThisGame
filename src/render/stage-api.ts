@@ -43,6 +43,9 @@ export function safeRect(): ScreenRect {
   let bottom = v.y + v.h;
   const bar = shownRect(document.querySelector('.topbar'));
   if (bar && bar.bottom < v.y + v.h * 0.5) top = Math.max(top, bar.bottom + 4);
+  // K15: a grave scene's held letterbox (the HUD's top bar is hidden under it).
+  const lb = shownRect(document.querySelector('.postcard.grave:not([hidden]) .postcard-top'));
+  if (lb && lb.bottom < v.y + v.h * 0.5) top = Math.max(top, lb.bottom + 4);
   const dialogue = document.querySelector('.dialogue');
   const box =
     dialogue && !(dialogue as HTMLElement).hidden

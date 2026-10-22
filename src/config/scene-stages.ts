@@ -11,6 +11,14 @@ import { PKG_W_STAGES } from './scene-stages-pkg-w';
 import { PKG_X_STAGES } from './scene-stages-pkg-x';
 import { PKG_Y_STAGES } from './scene-stages-pkg-y';
 import { PKG_U_STAGES } from './scene-stages-pkg-u';
+import { PKG_F4_STAGES } from './scene-stages-pkg-f4';
+import { PKG_A1_STAGES } from './scene-stages-pkg-a1';
+import { PKG_A2_STAGES } from './scene-stages-pkg-a2';
+import { PKG_B4_STAGES } from './scene-stages-pkg-b4';
+import { PKG_C4_STAGES } from './scene-stages-pkg-c4';
+import { PKG_D4_STAGES } from './scene-stages-pkg-d4';
+import { PKG_E4_STAGES } from './scene-stages-pkg-e4';
+import { PKG_U4_STAGES } from './scene-stages-pkg-u4';
 
 /**
  * Staging authored beside the scripts rather than in them (campaign graphics C1): a scene's
@@ -43,6 +51,14 @@ const OVERLAYS: Readonly<Record<string, SceneStage>> = (() => {
     PKG_X_STAGES,
     PKG_Y_STAGES,
     PKG_U_STAGES,
+    PKG_F4_STAGES,
+    PKG_A1_STAGES,
+    PKG_A2_STAGES,
+    PKG_B4_STAGES,
+    PKG_C4_STAGES,
+    PKG_D4_STAGES,
+    PKG_E4_STAGES,
+    PKG_U4_STAGES,
   ])
     for (const [id, st] of Object.entries(pkg)) out[id] = layer(out[id], st);
   return out;

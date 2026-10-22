@@ -19,6 +19,11 @@ export interface StageMark {
   x: number;
   z: number;
   yaw: number;
+  /**
+   * K1: the seat's height over the ground (a step, a bench, a stump), for a `sit` or `kneel`
+   * pose on this mark; unset sits on the ground.
+   */
+  seatY?: number;
 }
 
 export type MarkSet = 'grove' | 'hollow' | 'corvin';

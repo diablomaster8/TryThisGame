@@ -75,7 +75,7 @@ describe('the shared story stager (campaign graphics C1, C2, C5)', () => {
     const at = st.holds.get(npc.id)!;
     expect(Math.hypot(at.x - k.x, at.z - k.z)).toBeCloseTo(READ3D.stage.bringIn);
     expect(st.faces.get(npc.id)).toBeCloseTo(Math.atan2(k.x - at.x, k.z - at.z));
-    expect(st.frame(w)).toContainEqual(at);
+    expect(st.frame(w).map((p) => ({ x: p.x, z: p.z }))).toContainEqual(at);
     // The sim's NPC has not moved.
     expect(npc.pos).toEqual({ x: 40, z: 40 });
   });
@@ -213,7 +213,7 @@ describe('focus marks and the Keeper on a mark', () => {
     (st as unknown as { place(world: typeof w): void }).place(w);
     const step = markAt('grove', 'step')!;
     expect(st.keeperHold).toEqual({ x: step.x, z: step.z });
-    expect(st.frame(w)[0]).toEqual({ x: step.x, z: step.z });
+    expect(st.frame(w)[0]).toMatchObject({ x: step.x, z: step.z });
     expect(w.keeper.pos).toEqual(before);
   });
 });

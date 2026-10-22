@@ -22,6 +22,10 @@ const flags = (over: Partial<StageFlags>): StageFlags => ({
   grove: 'main',
   place: null,
   sceneId: 'h-c9-open',
+  grave: false,
+  tale: false,
+  moon: null,
+  inside: null,
   ...over,
 });
 

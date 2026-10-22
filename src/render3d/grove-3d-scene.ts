@@ -35,6 +35,7 @@ import { buildGroveProps, buildGroveTrees, type GroveProps } from './props';
 import { GroveTextures } from './grove-textures';
 import { GroveSky } from './sky';
 import { StorySets } from './story-sets';
+import { fitShot3d, fovFor, safeNdc } from './fit-shot';
 import {
   clearYaw,
   type FitPoint,
@@ -46,6 +47,7 @@ import {
 import { safeRect, viewRect, type ScreenRect } from '../render/stage-api';
 import { stageHides } from '../config/stage-sets';
 import { STAGE2 } from '../config/tuning-f2';
+import { STAGE4 } from '../config/tuning-f4';
 import { StageBuildings3d } from './stage-buildings-3d';
 import { Dressings3d } from './dressings';
 import { Village } from './village';
@@ -116,14 +118,6 @@ class Picker3d extends Picker {
   }
 }
 
-/** Vertical field of view for an aspect: the tuned one, widened in portrait so the view
- * keeps `minHFovDeg` across and a Nubbin beside the Keeper stays on screen. */
-function fovFor(aspect: number): number {
-  const half = THREE.MathUtils.degToRad(GROVE3D.minHFovDeg) / 2;
-  const need = THREE.MathUtils.radToDeg(2 * Math.atan(Math.tan(half) / aspect));
-  return Math.max(GROVE3D.fovDeg, need);
-}
-
 /** What a tap can land on in 3D: the pick kinds the input knows from the pixel view. */
 export interface Pick3d {
   kind:
@@ -156,7 +150,7 @@ interface Shot {
   yaw: number;
   pitchDeg: number;
   distance: number;
-  points: Vec2[];
+  points: FitPoint[];
   /** How far above the ground the camera looks, over the usual height. */
   lookUp: number;
   /** H4: framed inside the HUD-safe area already (no lift clear of the dialogue box). */
@@ -298,8 +292,15 @@ export class Grove3dScene {
   /** A camera to try fitted shots with (H4), and the last fit, kept while nothing changes. */
   private readonly fitCam = new THREE.PerspectiveCamera();
   private fitCache: { key: string; x: number; z: number; distance: number } | null = null;
+  /** The points the last fit kept (K3), for the stage inspector (K48). */
+  fitKept: FitPoint[] = [];
   /** The last story shot before H5's push-in, which the push eases from. */
   private prePush: Shot | null = null;
+  /** K9: the exchange the last shot cut to ('speaker|listener'), and a cut due this frame. */
+  private reverseKey = '';
+  private reverseCut = false;
+  /** K48: the last reverse shot's yaw, or null, for the stage inspector. */
+  reverseYaw: number | null = null;
   private safe: { atMs: number; rect: ScreenRect; view: ScreenRect } | null = null;
   /** The campaign-graphics packages' story dressing (render3d/dressings.ts). */
   private readonly dressings = new Dressings3d();
@@ -945,11 +946,46 @@ export class Grove3dScene {
     if (st.pushedMs === null) this.prePush = shot;
     else if (t < 1 && this.prePush)
       shot = mixShot(this.prePush, shot, THREE.MathUtils.smootherstep(t, 0, 1));
+    // K9: two speakers alternating cut to an over-the-shoulder of the listener, both cuts
+    // from the same side of the pair's line (the 180-degree rule).
+    const rv = STAGE4.reverse;
+    const rev = st.reverse(world, base.yaw, rv.sideRad);
+    const revKey = rev ? `${rev.speaker}|${rev.listener}` : '';
+    if (revKey !== this.reverseKey) {
+      this.reverseKey = revKey;
+      this.reverseCut = true;
+    }
+    this.reverseYaw = rev ? rev.yaw : null;
+    if (rev) {
+      const s = READ3D.stage;
+      shot = {
+        ...shot,
+        x: THREE.MathUtils.lerp(rev.from.x, rev.at.x, rv.toward),
+        z: THREE.MathUtils.lerp(rev.from.z, rev.at.z, rv.toward),
+        yaw: rev.yaw,
+        distance: s.overDistance * (this.camera.aspect < 1 ? 1.25 : 1),
+        pitchDeg: s.overPitchDeg,
+        points: [rev.from, { ...rev.at, speaker: true }],
+        fitted: false,
+      };
+    }
+    // K15: a grave moment pushes in slowly over 2 s (straight to the end under reduced motion).
+    if (st.grave && shot.kind === 'stage') {
+      const g = STAGE4.grave;
+      const t = this.reduceMotion
+        ? 1
+        : THREE.MathUtils.clamp((this.lastMs - st.startedMs) / (g.pushS * 1000), 0, 1);
+      shot = {
+        ...shot,
+        distance:
+          shot.distance * THREE.MathUtils.lerp(1, g.pushK, THREE.MathUtils.smootherstep(t, 0, 1)),
+      };
+    }
     // Review fix 3: whoever speaks the line on screen stands inside the HUD-safe area; a shot
     // that leaves them out is fitted again round its points and the speaker.
     const spk = this.speakerSpot(world);
     if (spk && shot.kind === 'stage' && !this.inSafe(shot, spk)) {
-      const pts = [...shot.points, spk];
+      const pts: FitPoint[] = [...shot.points, { ...spk, speaker: true }];
       const f = this.fitShot(pts, shot.yaw, shot.pitchDeg, (x, z) =>
         this.location === 'grove' ? standHeight(x, z) : 0,
       );
@@ -1016,111 +1052,32 @@ export class Grove3dScene {
   }
 
   /**
-   * H4: the look point and distance that fit `points` (their feet and heads) inside the
-   * HUD-safe area at this yaw and pitch: a search on the distance, then the look point slid
-   * so the framed bounds sit in the middle of the safe area; three rounds. Kept while the
-   * points, the angles and the safe area stay the same.
+   * H4, K3: the look point and distance that fit `points` inside the HUD-safe area at this
+   * yaw and pitch (`fitShot3d` in fit-shot.ts, weighted). Kept while the points, the angles
+   * and the safe area stay the same; the points it kept are on `fitKept` for the inspector.
    */
   private fitShot(
-    points: Vec2[],
+    points: FitPoint[],
     yaw: number,
     pitchDeg: number,
     ground: (x: number, z: number) => number,
   ): { x: number; z: number; distance: number } {
     const { rect, view } = this.safeArea();
-    const sx0 = ((rect.x - view.x) / view.w) * 2 - 1;
-    const sx1 = ((rect.x + rect.w - view.x) / view.w) * 2 - 1;
-    const sy1 = 1 - ((rect.y - view.y) / view.h) * 2;
-    const sy0 = 1 - ((rect.y + rect.h - view.y) / view.h) * 2;
+    const safe = safeNdc(rect, view);
     const key = [
-      ...points.map((p) => `${p.x.toFixed(2)},${p.z.toFixed(2)}`),
+      ...points.map((p) => `${p.x.toFixed(2)},${p.z.toFixed(2)},${p.w ?? 1},${p.speaker ? 1 : 0}`),
       yaw.toFixed(3),
       pitchDeg,
       this.camera.aspect.toFixed(3),
-      sx0.toFixed(3),
-      sx1.toFixed(3),
-      sy0.toFixed(3),
-      sy1.toFixed(3),
+      safe.sx0.toFixed(3),
+      safe.sx1.toFixed(3),
+      safe.sy0.toFixed(3),
+      safe.sy1.toFixed(3),
     ].join('|');
     if (this.fitCache?.key === key) return this.fitCache;
-    const cam = this.fitCam;
-    cam.fov = this.camera.fov;
-    cam.aspect = this.camera.aspect;
-    cam.near = this.camera.near;
-    cam.far = this.camera.far;
-    cam.updateProjectionMatrix();
-    const pitch = THREE.MathUtils.degToRad(pitchDeg);
-    const m = STAGE2.fitMargin;
-    const wx = (sx1 - sx0) * (1 - m);
-    const wy = (sy1 - sy0) * (1 - m);
-    const pts: THREE.Vector3[] = [];
-    for (const p of points) {
-      // A mark that carries its own size (MARK_FIT: the Hush's colossus) is kept whole,
-      // where its card stands.
-      const fit = (p as FitPoint).fit;
-      const r = fit ? Math.max(STAGE2.fitRadius3d, fit.r) : STAGE2.fitRadius3d;
-      const h = fit ? fit.h3d : STAGE2.figureH3d;
-      const pz = p.z + (fit?.dz3d ?? 0);
-      for (const [dx, dz] of [
-        [-r, 0],
-        [r, 0],
-        [0, -r],
-        [0, r],
-      ] as const) {
-        const g = ground(p.x + dx, pz + dz);
-        pts.push(
-          new THREE.Vector3(p.x + dx, g, pz + dz),
-          new THREE.Vector3(p.x + dx, g + h, pz + dz),
-        );
-      }
-    }
-    const v = new THREE.Vector3();
-    const bounds = (x: number, z: number, d: number) => {
-      const ty = ground(x, z) + GROVE3D.lookHeight;
-      cam.position.set(
-        x + Math.sin(yaw) * Math.cos(pitch) * d,
-        ty + Math.sin(pitch) * d,
-        z + Math.cos(yaw) * Math.cos(pitch) * d,
-      );
-      cam.lookAt(x, ty, z);
-      cam.updateMatrixWorld();
-      let x0 = Infinity;
-      let x1 = -Infinity;
-      let y0 = Infinity;
-      let y1 = -Infinity;
-      for (const p of pts) {
-        v.copy(p).project(cam);
-        x0 = Math.min(x0, v.x);
-        x1 = Math.max(x1, v.x);
-        y0 = Math.min(y0, v.y);
-        y1 = Math.max(y1, v.y);
-      }
-      return { x0, x1, y0, y1 };
-    };
-    let x = points.reduce((a, p) => a + p.x, 0) / Math.max(1, points.length);
-    let z = points.reduce((a, p) => a + p.z, 0) / Math.max(1, points.length);
-    let d: number = READ3D.stage.minDistance;
-    for (let round = 0; round < 3; round++) {
-      let lo: number = READ3D.stage.minDistance;
-      let hi: number = STAGE2.fitMaxDistance;
-      for (let i = 0; i < 14; i++) {
-        const mid = (lo + hi) / 2;
-        const b = bounds(x, z, mid);
-        if (b.x1 - b.x0 <= wx && b.y1 - b.y0 <= wy) hi = mid;
-        else lo = mid;
-      }
-      d = hi;
-      // Slide the look point so the bounds' middle lands on the safe area's middle.
-      const b = bounds(x, z, d);
-      const halfH = d * Math.tan(THREE.MathUtils.degToRad(cam.fov / 2));
-      const halfW = halfH * cam.aspect;
-      const dx = ((b.x0 + b.x1) / 2 - (sx0 + sx1) / 2) * halfW;
-      const dy = ((b.y0 + b.y1) / 2 - (sy0 + sy1) / 2) * halfH;
-      // Camera right on the ground, and up the screen along the ground (away from it).
-      x += Math.cos(yaw) * dx - (Math.sin(yaw) * dy) / Math.max(0.3, Math.sin(pitch));
-      z += -Math.sin(yaw) * dx - (Math.cos(yaw) * dy) / Math.max(0.3, Math.sin(pitch));
-    }
-    this.fitCache = { key, x, z, distance: d };
+    const f = fitShot3d(points, yaw, pitchDeg, this.camera, safe, ground, this.fitCam);
+    this.fitCache = { key, x: f.x, z: f.z, distance: f.distance };
+    this.fitKept = f.kept;
     return this.fitCache;
   }
 
@@ -1296,7 +1253,10 @@ export class Grove3dScene {
     }
     this.actors.keeperHold = this.staging.active ? this.staging.keeperHold : null;
     this.actors.nubbinHolds = this.staging.active ? this.staging.nubbinHolds : null;
+    this.reverseCut = false;
     const shot = this.shot(world, orbit);
+    // K9: a speaker change in an exchange is a cut, like a new scene.
+    const cut = stageCut || this.reverseCut;
     const ease = (rate: number) => (snap ? 1 : 1 - Math.exp(-rate * dt));
     if (stageCut) {
       if (this.dayArgs) this.setDaylight(...this.dayArgs);
@@ -1313,13 +1273,13 @@ export class Grove3dScene {
       // Turn the shortest way to the shot's yaw, as an offset over the player's own yaw.
       dyaw = Math.atan2(Math.sin(s.yaw - orbit.currentYaw), Math.cos(s.yaw - orbit.currentYaw));
     }
-    this.yawOffset += (dyaw * b - this.yawOffset) * (stageCut ? 1 : ease(4));
+    this.yawOffset += (dyaw * b - this.yawOffset) * (cut ? 1 : ease(4));
     const tx = THREE.MathUtils.lerp(orbit.target.x, s.x, b);
     const tz = THREE.MathUtils.lerp(orbit.target.z, s.z, b);
     const ty = ground(tx, tz) + GROVE3D.lookHeight + s.lookUp * b;
     this.camTarget.x = tx;
     this.camTarget.z = tz;
-    this.camTarget.y += (ty - this.camTarget.y) * (snap || stageCut ? 1 : 1 - Math.exp(-6 * dt));
+    this.camTarget.y += (ty - this.camTarget.y) * (snap || cut ? 1 : 1 - Math.exp(-6 * dt));
     const yaw = orbit.currentYaw + this.yawOffset;
     const cave = this.location === 'dungeon';
     const basePitch = cave ? READ3D.hollow.pitchDeg : GROVE3D.pitchDeg;
@@ -1342,7 +1302,7 @@ export class Grove3dScene {
       this.camTarget.z + Math.cos(yaw) * Math.cos(pitch) * dist,
     );
     const k = 1 - Math.exp(-9 * dt);
-    this.camPos.lerp(want, snap || stageCut ? 1 : k);
+    this.camPos.lerp(want, snap || cut ? 1 : k);
     this.dressLamps.length = 0;
     this.dressings.update(world, this.staging.stage, this.drawnDay, dt);
     this.buildings3d.apply();
