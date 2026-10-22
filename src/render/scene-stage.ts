@@ -4,6 +4,7 @@ import { SCENE_STAGES } from '../config/scene-stages';
 import { DAWN_HOUR, DUSK_HOUR } from '../config/scene-stages-dawndusk';
 import { E_STAGES } from '../config/tuning-e';
 import { markAt, markSetFor, PLACE_KEEPER, placeSet } from '../config/stage-marks';
+import { syncFloorMarks } from './floor-marks';
 import {
   PARTNER_CAST,
   type Line,
@@ -35,7 +36,10 @@ const SKY_LIT = (location: Location): boolean => location !== 'dungeon' && locat
 export function resolveStage(
   world: World,
 ): { id: string; scene: PlayScene; stage: SceneStage } | null {
-  const id = world.location !== 'dungeon' ? world.campaign?.queue[0] : undefined;
+  // Underground only the Beetle Road stages its scenes: its below chapters are played on a
+  // real floor, whose marks follow the floor (K16, render/floor-marks.ts).
+  const staged = world.location !== 'dungeon' || world.campaign?.storyline === 'beetle';
+  const id = staged ? world.campaign?.queue[0] : undefined;
   if (!id) return null;
   const scene = sceneFor(world, id, 'main');
   if (!scene) return null;
@@ -379,6 +383,8 @@ export class SceneStager {
 
   /** Follow the story queue; true on the frame a scene begins or ends. */
   update(world: World, nowMs = 0): boolean {
+    // K16: the floor's marks before anyone is placed on them.
+    syncFloorMarks(world);
     const r = resolveStage(world);
     const id = r?.id ?? null;
     // A move to another place restages the same scene (its marks and hour belong to a place).
