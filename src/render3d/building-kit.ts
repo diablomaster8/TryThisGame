@@ -637,3 +637,91 @@ export function buildSpills(
   mesh.renderOrder = 1;
   return mesh;
 }
+
+/**
+ * Campaign graphics 4 (K2): the sun's shadow pass for building-kit pieces. The same
+ * `OCCLUDE.hide*` box test as the colour pass, so a hidden building (fade 2) casts no
+ * shadow either; a thinned one keeps its whole shadow. One shared program, set as
+ * `customDepthMaterial` on every shadow-casting mesh whose material is occludable.
+ */
+let hideDepth: THREE.MeshDepthMaterial | null = null;
+export function hideDepthMaterial(): THREE.MeshDepthMaterial {
+  if (hideDepth) return hideDepth;
+  const m = new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking });
+  m.onBeforeCompile = (shader) => {
+    shader.uniforms.uOccHides = OCCLUDE.hides;
+    shader.uniforms.uOccHideMin = OCCLUDE.hideMin;
+    shader.uniforms.uOccHideMax = OCCLUDE.hideMax;
+    shader.uniforms.uOccHideFade = OCCLUDE.hideFade;
+    shader.vertexShader = shader.vertexShader
+      .replace('#include <common>', '#include <common>\nvarying vec3 vOccWorld;')
+      .replace(
+        '#include <project_vertex>',
+        `#include <project_vertex>
+        #ifdef USE_INSTANCING
+          vOccWorld = (modelMatrix * instanceMatrix * vec4(transformed, 1.0)).xyz;
+        #else
+          vOccWorld = (modelMatrix * vec4(transformed, 1.0)).xyz;
+        #endif`,
+      );
+    shader.fragmentShader = shader.fragmentShader
+      .replace(
+        '#include <common>',
+        `#include <common>
+        uniform float uOccHides;
+        uniform vec3 uOccHideMin[8];
+        uniform vec3 uOccHideMax[8];
+        uniform float uOccHideFade[8];
+        varying vec3 vOccWorld;`,
+      )
+      .replace(
+        '#include <clipping_planes_fragment>',
+        `#include <clipping_planes_fragment>
+        for (int i = 0; i < 8; i++) {
+          if (float(i) >= uOccHides) break;
+          if (uOccHideFade[i] > 1.5 && all(greaterThanEqual(vOccWorld, uOccHideMin[i])) && all(lessThanEqual(vOccWorld, uOccHideMax[i]))) discard;
+        }`,
+      );
+  };
+  m.customProgramCacheKey = () => 'building-depth|occ-hide';
+  hideDepth = m;
+  return m;
+}
+
+/** Whether a material runs the H9 occluder (a building-kit or occluder-patched program). */
+function isOccludable(mat: THREE.Material | THREE.Material[]): boolean {
+  const m = Array.isArray(mat) ? mat[0] : mat;
+  if (!m) return false;
+  const key = m.customProgramCacheKey();
+  return key.startsWith('building-toon') || key.includes('|occ');
+}
+
+/**
+ * Give every shadow-casting occludable mesh under `root` the hide-aware depth material
+ * (K2). Meshes with a depth material of their own (leaf cards) are left alone. Returns how
+ * many it set; cheap to call again when sets build late.
+ */
+export function shadowHides(root: THREE.Object3D): number {
+  const depth = hideDepthMaterial();
+  let n = 0;
+  root.traverse((o) => {
+    const mesh = o as THREE.Mesh;
+    if (!mesh.isMesh || !mesh.castShadow || mesh.customDepthMaterial) return;
+    if (!isOccludable(mesh.material)) return;
+    mesh.customDepthMaterial = depth;
+    n++;
+  });
+  return n;
+}
+
+/** Whether world point `p` lies in a hidden (fade 2) `OCCLUDE.hide*` box. */
+export function inHiddenBox(p: THREE.Vector3Like): boolean {
+  for (let i = 0; i < OCCLUDE.hides.value; i++) {
+    if ((OCCLUDE.hideFade.value[i] ?? 0) <= 1.5) continue;
+    const lo = OCCLUDE.hideMin.value[i]!;
+    const hi = OCCLUDE.hideMax.value[i]!;
+    if (p.x >= lo.x && p.x <= hi.x && p.y >= lo.y && p.y <= hi.y && p.z >= lo.z && p.z <= hi.z)
+      return true;
+  }
+  return false;
+}

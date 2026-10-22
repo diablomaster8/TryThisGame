@@ -5,6 +5,8 @@ import type { Daylight } from '../render/daylight';
 import { stageFlags } from '../render/scene-stage';
 import { storyBState } from '../render/story-b-state';
 import type { World } from '../sim/types';
+import * as THREE from 'three';
+import { inHiddenBox } from './building-kit';
 import { subjectsOf } from './dress-a';
 import type { Dress3dCtx, Dressing3d } from './dressings';
 import { buildLychGate, type LychGate } from './gate-x';
@@ -25,6 +27,38 @@ export const dress3dX: Dressing3d = (() => {
   let ivy: boolean | null = null;
   let bare: boolean | null = null;
   let tally = -1;
+  // K2 (campaign graphics 4): pickables whose centre is in a hidden building's box stop
+  // catching taps. Their layer mask is cleared (the raycaster and the shadow pass both test
+  // it) and put back when the box is shown again.
+  const centres = new WeakMap<THREE.Object3D, THREE.Vector3 | null>();
+  const offMask = new Map<THREE.Object3D, number>();
+  const centreOf = (o: THREE.Object3D): THREE.Vector3 | null => {
+    let c = centres.get(o);
+    if (c !== undefined) return c;
+    const pick = o.userData.pick as { kind?: string } | undefined;
+    const box = new THREE.Box3().setFromObject(o);
+    const size = box.getSize(new THREE.Vector3());
+    c =
+      !pick || pick.kind === 'ground' || box.isEmpty() || Math.max(size.x, size.z) > 30
+        ? null
+        : box.getCenter(new THREE.Vector3());
+    centres.set(o, c);
+    return c;
+  };
+  const filterPicks = (): void => {
+    if (!ctx) return;
+    for (const o of ctx.pickables) {
+      const c = centreOf(o);
+      const hide = !!c && inHiddenBox(c);
+      if (hide && !offMask.has(o)) {
+        offMask.set(o, o.layers.mask);
+        o.layers.mask = 0;
+      } else if (!hide && offMask.has(o)) {
+        o.layers.mask = offMask.get(o)!;
+        offMask.delete(o);
+      }
+    }
+  };
 
   return {
     id: 'x',
@@ -42,6 +76,7 @@ export const dress3dX: Dressing3d = (() => {
     },
     update(world: World, stage: SceneStage, _daylight: Daylight, dt: number) {
       if (!ctx || !gate) return;
+      filterPicks();
       const queued = Object.keys(stage).length > 0;
       const st = storyBState(world, queued ? stage : null);
       // The leaves ease to their state, and cut under reduced motion.
@@ -61,6 +96,8 @@ export const dress3dX: Dressing3d = (() => {
       gate.fade.value = subject ? 0 : 1;
     },
     dispose() {
+      for (const [o, mask] of offMask) o.layers.mask = mask;
+      offMask.clear();
       gate?.dispose();
       gate = null;
     },
