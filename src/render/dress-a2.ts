@@ -89,8 +89,8 @@ class PixelA2 implements PixelDressing {
         y: (grove ? terraceY(p.x, p.z) : 0) + 0.02,
         z: p.z,
         mode: 'flat',
-        w: P.size * 0.6,
-        h: P.size,
+        w: P.size * 0.75,
+        h: P.size * 1.1,
         opacity: P.opacity,
         tint: dim,
       });

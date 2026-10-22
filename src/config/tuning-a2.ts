@@ -30,9 +30,9 @@ export const CG4_A2 = {
     /** How far a foot lands off the line of travel. */
     spread: 0.1,
     /** How opaque a print lies (3D; the pixel prints are solid painted pixels). */
-    opacity: 0.65,
+    opacity: 0.8,
     /** Tint by ground type (grass leaves none), and the pixel palette index of the same. */
-    snow: { color: '#4a5878', pixel: 3 },
+    snow: { color: '#2c3650', pixel: 2 },
     mud: { color: '#3a2a1c', pixel: 12 },
     sand: { color: '#a8844e', pixel: 43 },
   },
