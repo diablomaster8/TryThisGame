@@ -149,6 +149,10 @@ export class Game {
   catchingUp = false;
   /** Fraction of the view to lift the Keeper by, while a bottom sheet covers the lower part. */
   cameraLift = 0;
+  /** Share of the view's width the camera aims right of the Keeper (the docked desktop sheet). */
+  cameraSide = 0;
+  /** A Nubbin the camera turns to for a moment (its end-of-life check is playing). */
+  private focus: { id: string; untilMs: number } | null = null;
   private hooks: GameHooks;
 
   constructor(
@@ -456,6 +460,8 @@ export class Game {
         else if (e.kind === 'treeShaken' && shake) this.camera.shake(0.08);
         else if (e.kind === 'weather' || e.kind === 'located') this.lastDaylightMs = -Infinity;
         else if (e.kind === 'tilePainted') this.grove?.setTiles(this.world.tiles);
+        else if (e.kind === 'endOfLifeFocus')
+          this.focus = { id: e.nubbinId, untilMs: nowMs + CAMERA.focusMs };
         else if (e.kind === 'lanternLit') {
           this.grove?.setLit(litLanterns(this.world));
           this.scene3d?.setLit(litLanterns(this.world));
@@ -471,12 +477,22 @@ export class Game {
     // Camera follows the Keeper as drawn (interpolated between sim steps), so the
     // Keeper and the camera move together and nothing judders at the step rate.
     const kp = (this.scene3d ?? this.view).keeperDrawPos(this.world, this.clock.alpha);
+    // While a held end-of-life check plays, look at that Nubbin, not the Keeper (review D, 1).
+    const focused =
+      this.focus && nowMs < this.focus.untilMs
+        ? this.world.nubbins.find((n) => n.id === this.focus?.id)
+        : undefined;
+    if (!focused) this.focus = null;
+    const subject = focused ? focused.pos : kp;
     // With a bottom sheet open on a phone, aim past the Keeper toward the camera, so the
     // Keeper and the Nubbin beside them sit in the clear top part (review C, item 22).
     const lift = (this.cameraLift * this.camera.visibleHeight) / Math.sin(CAMERA.pitchRad);
     const yaw = this.camera.currentYaw;
-    const aimX = kp.x + Math.sin(yaw) * lift;
-    const aimZ = kp.z + Math.cos(yaw) * lift;
+    // Aim right of the subject (along the camera's right vector) so a docked desktop sheet
+    // on the right third leaves it in sight.
+    const side = this.cameraSide * this.camera.visibleWidth;
+    const aimX = subject.x + Math.sin(yaw) * lift + Math.cos(yaw) * side;
+    const aimZ = subject.z + Math.cos(yaw) * lift - Math.sin(yaw) * side;
     const t = 1 - Math.exp((-CAMERA.followRate * dt) / 1000);
     this.camera.target.x += (aimX - this.camera.target.x) * t;
     this.camera.target.z += (aimZ - this.camera.target.z) * t;

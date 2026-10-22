@@ -797,6 +797,8 @@ export const UI_TEXT = {
   storageBlocked: 'Saving is blocked in this browser. The Grove will not be kept.',
   /** Kept on screen while storage is blocked (review C, item 11). */
   storageBlockedChip: '⚠ Not saving',
+  graphicsSwitchBlocked:
+    'Saving is blocked, so a reload would lose the Grove. Pick the graphics on the title screen instead.',
   storageBlockedTitle:
     'Saving is blocked in this browser (private browsing, or site data switched off). Games you play now will not be kept, and saved games cannot be read.',
   otherTabSaved:

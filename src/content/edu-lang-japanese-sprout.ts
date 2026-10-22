@@ -160,7 +160,7 @@ const LJ1: EduQuest = quest(
       [
         N('Hana is drawing you already. Scribble, scribble!'),
         HA('Done! Lovely nose. Big ears. My fault, not yours.', 'happy'),
-        N('Three Nubbins peek out from behind the water butt.'),
+        N('Three wild Nubbins peek out from behind the water butt.'),
         N('One tries to bow. It tips over. Roly-poly!'),
         HA('Do they want to learn? はい (hai, “yes”)!', 'happy'),
         N('(Say it: HAI. Nod your head.)'),

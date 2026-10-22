@@ -149,7 +149,7 @@ const LJ1_SCENES: EduScene[] = [
     [
       N('Hana is already drawing you. She drew Nova, the gate and a passing bee while you said hello.'),
       HA('Done! Your nose is very good. Your ears are a bit much. That’s my fault, not yours.'),
-      N('Behind the water butt, three Nubbins have watched everything.'),
+      N('Behind the water butt, three wild Nubbins have watched everything.'),
       N('One of them tries a bow. It tips forward and rolls into the herbs.'),
       HA('They want to learn! Tomorrow we teach them. Properly.', 'happy'),
       HA('Also, is that a frog? I’m not scared of frogs. I’m just saying. In case it comes up.', 'think'),

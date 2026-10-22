@@ -429,7 +429,14 @@ export class SettingsMenu {
     g.send({ kind: 'setSettings', settings });
     // The renderer is picked when the game starts, so a change saves and reloads.
     if (settings.graphics !== prev.graphics) {
-      writeGraphicsPref(settings.graphics);
+      // With storage blocked the reload would lose this Grove and the choice: keep both and
+      // point to the title screen, whose pick lasts the session (review D, 13).
+      if (!writeGraphicsPref(settings.graphics)) {
+        g.send({ kind: 'setSettings', settings: { ...settings, graphics: prev.graphics } });
+        this.graphics.value = prev.graphics;
+        this.toast(UI_TEXT.graphicsSwitchBlocked, 6000);
+        return;
+      }
       g.world.settings = settings;
       g.save();
       // Back into this same slot after the reload, as the help text promises.

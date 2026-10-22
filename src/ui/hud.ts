@@ -698,6 +698,8 @@ export function mountHud(
       }
       // The phone's stats sheet is a bottom sheet: lift the view so the Nubbin stays in sight.
       g.cameraLift = !sheet.root.hidden && window.innerWidth < 720 ? CAMERA.sheetLift : 0;
+      // On desktop the sheet docks on the right third: aim past it so the Nubbin stays clear.
+      g.cameraSide = !sheet.root.hidden && window.innerWidth >= 720 ? CAMERA.sheetSide : 0;
       if (g.placing) placingText.textContent = UI_TEXT.placing(placingLabel(g.placing));
       if (kindergarten.isOpen() && Math.random() < 0.1) kindergarten.refresh();
       const next = c?.queue[0];
