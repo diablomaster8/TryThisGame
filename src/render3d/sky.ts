@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { GROVE3D } from '../config/tuning';
+import { CG_A, GROVE3D } from '../config/tuning';
 import type { Daylight } from '../render/daylight';
 import type { WeatherKind } from '../sim/types';
 
@@ -310,14 +310,22 @@ export class GroveSky {
     // green from the ground and blue from above, which keeps shapes and colours.
     // The painted dome is darker than the physical sky it replaced (whose sun disc lit the
     // whole map), so it gives a larger share.
-    this.scene.environmentIntensity = night ? 0.32 : rain ? 0.85 : elevation < 15 ? 0.75 : 0.95;
+    // At night the sky map and the hemisphere hold the unlit ground at about a fifth of full
+    // brightness in a blue-violet, not near black (campaign graphics C3).
+    this.scene.environmentIntensity = night
+      ? CG_A.night.env
+      : rain
+        ? 0.85
+        : elevation < 15
+          ? 0.75
+          : 0.95;
 
     // The golden hour is warm and bright, not dim: the sun keeps most of its strength and
     // takes on amber, and the fill warms with it.
     this.sun.color.set(night ? '#8fa8d8' : d.sunColor);
     if (!night) this.sun.color.lerp(tmpA.set('#ffc07a'), gold * 0.35);
     this.sun.intensity = night
-      ? 0.6
+      ? CG_A.night.moon
       : rain
         ? GROVE3D.rain.sun
         : THREE.MathUtils.lerp(1.9, 2.9, THREE.MathUtils.clamp(elevation / 30, 0, 1));
@@ -325,7 +333,8 @@ export class GroveSky {
     this.sun.target.position.copy(focus);
     this.hemi.color.set(d.hemiColor);
     if (!night) this.hemi.color.lerp(tmpA.set('#ffd6a8'), gold * 0.4);
-    this.hemi.intensity = night ? 0.32 : rain ? 0.78 : 0.72 + gold * 0.1;
+    else this.hemi.color.lerp(tmpA.set(CG_A.night.hemiColor), CG_A.night.hemiMix);
+    this.hemi.intensity = night ? CG_A.night.hemi : rain ? 0.78 : 0.72 + gold * 0.1;
     // The fog takes the horizon's colour, so the far meadow melts into the painted sky.
     this.fog.color
       .copy(horizon)

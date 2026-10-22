@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import { GROVE3D } from '../config/tuning';
+import { CG_A, GROVE3D } from '../config/tuning';
 import type { Surface } from '../samples/aaa-kit';
 import { toonShader } from '../samples/creatures';
 import { addHull } from './toon-outline';
@@ -32,9 +32,80 @@ export function buildingMaterial(
     color: o.color ?? '#ffffff',
   });
   const sky = GROVE3D.toon.sky;
-  m.onBeforeCompile = (shader) => toonShader(shader, 0, sky);
-  m.customProgramCacheKey = () => `building-toon|${sky}`;
+  m.onBeforeCompile = (shader) => {
+    toonShader(shader, 0, sky);
+    occludable(shader);
+    m.userData.shader = shader;
+  };
+  m.customProgramCacheKey = () => `building-toon|${sky}|occ`;
   return m;
+}
+
+/**
+ * Where a story scene's framed speakers stand (campaign graphics H9): up to three world
+ * points (w is 1 for a point in use), and whether any is set. A building fragment nearer
+ * the camera than one of them, inside a circle round it on screen, is thinned by the same
+ * screen-door dither as the crowns (`crowns.ts`), so a wall never hides who is talking.
+ * No alpha sort, one branch while off. The 3D Grove's package-a dressing fills it.
+ */
+export const OCCLUDE = {
+  on: { value: 0 },
+  points: { value: [new THREE.Vector4(), new THREE.Vector4(), new THREE.Vector4()] },
+  /** Circle radius in world units at the point's distance, the share kept, depth margin. */
+  radius: { value: CG_A.occlude.radius as number },
+  keep: { value: CG_A.occlude.keep as number },
+  margin: { value: CG_A.occlude.margin as number },
+};
+
+/** Hook the H9 dither into any lit or basic material's shader (buildings and their hulls). */
+export function occludable(shader: THREE.WebGLProgramParametersWithUniforms): void {
+  shader.uniforms.uOccOn = OCCLUDE.on;
+  shader.uniforms.uOccP = OCCLUDE.points;
+  shader.uniforms.uOccR = OCCLUDE.radius;
+  shader.uniforms.uOccKeep = OCCLUDE.keep;
+  shader.uniforms.uOccMargin = OCCLUDE.margin;
+  const vary =
+    'varying vec4 vOccClip;\nvarying vec4 vOcc0;\nvarying vec4 vOcc1;\nvarying vec4 vOcc2;\nvarying vec2 vOccK;';
+  shader.vertexShader = shader.vertexShader
+    .replace('#include <common>', `#include <common>\nuniform vec4 uOccP[3];\n${vary}`)
+    .replace(
+      '#include <fog_vertex>',
+      `#include <fog_vertex>
+      {
+        mat4 vp = projectionMatrix * viewMatrix;
+        vOccClip = gl_Position;
+        vOcc0 = uOccP[0].w > 0.5 ? vp * vec4(uOccP[0].xyz, 1.0) : vec4(0.0);
+        vOcc1 = uOccP[1].w > 0.5 ? vp * vec4(uOccP[1].xyz, 1.0) : vec4(0.0);
+        vOcc2 = uOccP[2].w > 0.5 ? vp * vec4(uOccP[2].xyz, 1.0) : vec4(0.0);
+        vOccK = vec2(projectionMatrix[1][1] / projectionMatrix[0][0], projectionMatrix[1][1]);
+      }`,
+    );
+  shader.fragmentShader = shader.fragmentShader
+    .replace(
+      '#include <common>',
+      `#include <common>
+      uniform float uOccOn;
+      uniform float uOccR;
+      uniform float uOccKeep;
+      uniform float uOccMargin;
+      ${vary}
+      float occHole(vec4 p, vec2 f) {
+        if (p.w <= 0.0 || vOccClip.w > p.w - uOccMargin) return 0.0;
+        vec2 d = (f - p.xy / p.w) * vec2(vOccK.x, 1.0);
+        float r = uOccR * vOccK.y / p.w;
+        return 1.0 - smoothstep(r * 0.6, r, length(d));
+      }`,
+    )
+    .replace(
+      '#include <clipping_planes_fragment>',
+      `#include <clipping_planes_fragment>
+      if (uOccOn > 0.5) {
+        vec2 f = vOccClip.xy / vOccClip.w;
+        float hole = max(occHole(vOcc0, f), max(occHole(vOcc1, f), occHole(vOcc2, f)));
+        float n = fract(52.9829189 * fract(dot(gl_FragCoord.xy, vec2(0.06711056, 0.00583715))));
+        if (hole > 0.0 && n >= mix(1.0, uOccKeep, hole)) discard;
+      }`,
+    );
 }
 
 /** Scale a geometry's UVs so its texture repeats every `texel` world units. */
