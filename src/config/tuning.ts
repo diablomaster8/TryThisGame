@@ -333,6 +333,18 @@ export const GROVE3D = {
      * at the edge. Above ground the vignette is `groundVignette` and there is no top shade.
      */
     atmos: { vignette: 0.6, top: 0.35, topFrom: 0.55, groundVignette: 0.35 },
+    /**
+     * Readability (items 25 and 40, `render3d/hollow-pop.ts`, `render3d/crowd.ts`,
+     * `ui/hollow-map.ts`). Loot and strays get a soft additive halo on the floor and a gentle
+     * bob (the bob is a slow sway, not a pulse, and is off under reduced motion). Explored
+     * rooms glow faintly on the floor. `map` sizes the minimap canvas.
+     */
+    read: {
+      loot: { radius: 0.8, color: '#ffe9a8', opacity: 0.95, bob: 0.06, bobHz: 1.4, lift: 0.08 },
+      stray: { color: '#c8a8ff', opacity: 0.75, bob: 0.05, bobHz: 1.1 },
+      roomGlow: { color: '#7fe8ff', opacity: 0.06, lift: 0.03 },
+      map: { cellPx: 6, maxPx: 240 },
+    },
   },
   /**
    * The painted sky (`render3d/sky.ts`): a zenith-to-horizon gradient per time of day, a
