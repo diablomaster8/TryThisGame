@@ -2245,3 +2245,136 @@ select {
 .dialogue-open .camera-buttons {
   visibility: hidden;
 }
+
+/* ---------- story items, chapter postcards and chapter photos (campaign graphics 2, U) ---------- */
+
+/* The item card sits on the dialogue box's top edge, so it rides above it at any height. */
+.item-card {
+  position: absolute;
+  left: 12px;
+  bottom: calc(100% + 10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 10px 6px;
+  background: var(--px-bg);
+  border: 2px solid var(--px-edge);
+  box-shadow:
+    inset 2px 2px 0 var(--px-light),
+    inset -2px -2px 0 var(--px-dark),
+    0 0 0 2px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
+.item-card[hidden] {
+  display: none;
+}
+
+.item-card canvas.pixel {
+  image-rendering: pixelated;
+}
+
+.item-card-label {
+  font-size: 13px;
+  line-height: 1.2;
+  text-align: center;
+  max-width: 120px;
+}
+
+/* The chapter postcard: two letterbox bars while the opening holds on its first frame. */
+.postcard {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.postcard[hidden] {
+  display: none;
+}
+
+.postcard-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: #0a0814;
+}
+
+.postcard-top {
+  top: 0;
+}
+
+.postcard-bottom {
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.postcard-hint {
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: rgba(255, 246, 224, 0.7);
+}
+
+/* While the postcard holds, the box waits out of sight; a tap anywhere skips it. */
+.dialogue.held .dialogue-box {
+  visibility: hidden;
+}
+
+/* The offer to keep a photo of the chapter that just closed. */
+.chapter-offer {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--hud-bottom) + 16px);
+  transform: translateX(-50%);
+  z-index: 14;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  box-sizing: border-box;
+  width: min(420px, calc(100% - 24px));
+  padding: 10px 12px;
+  background: var(--px-bg);
+  border: 2px solid var(--px-edge);
+  box-shadow:
+    inset 2px 2px 0 var(--px-light),
+    inset -2px -2px 0 var(--px-dark),
+    0 0 0 2px rgba(0, 0, 0, 0.35);
+}
+
+.chapter-offer[hidden] {
+  display: none;
+}
+
+.chapter-offer-thumb canvas {
+  display: block;
+  width: 96px;
+  height: auto;
+  border: 2px solid var(--px-edge);
+}
+
+.chapter-offer-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.chapter-offer-title {
+  font-weight: 700;
+}
+
+.chapter-offer-text {
+  font-size: 14px;
+}
+
+.chapter-offer-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chapter-offer-row .btn {
+  min-height: 44px;
+}
