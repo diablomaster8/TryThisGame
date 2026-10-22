@@ -2,6 +2,85 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Campaign graphics, items 1–50 (2026-10-22)
+
+Built from `docs/campaign-graphics-recommendations-2026-10-21.md` by one orchestrator and a
+set of subagents:
+
+- **Wave 0, the staging foundation:** Opus.
+- **Six packages:** A (light) on Opus; B–F on Sonnet.
+- **Content:** Sonnet.
+- **Screenshots:** Haiku.
+- **Perf:** Sonnet.
+- **Review:** Opus, two passes plus one round of regression fixes.
+
+Branches `cg/foundation`, `cg/pkg-a..f` and `cg/content` were merged in `cg/merge`. Final desk shots
+are in `docs/samples/cg-final-*-desk-*.jpg` (both renderers; the phone and reduced-motion
+sets were checked but not committed). Each package's shots are in `cg-<pkg>-*`.
+
+**What works**
+
+- **Staging.** `Scene.stage` (`SceneStage` in `config/story.ts`) holds place, hour, season,
+  weather, cast marks, shot, props, lights, fx and grade.
+  - Scenes are staged in `config/scene-stages*.ts`: 159 of them, covering Hazel's Grove and
+    every storyline chapter's opening and close.
+  - The marks are in `config/stage-marks.ts`. The resolver and `stageFlags` are in
+    `render/scene-stage.ts`.
+  - Both renderers read the stage. Pixel now stages the hour and pans to the scene. 3D has shot
+    types and frames speakers above the dialogue box. Phones get a capped portrait framing,
+    and their HUD buttons hide during dialogue.
+- **Dressings.** Registries live in `render/dressings.ts` and `render3d/dressings.ts`. Each
+  package's code is in `dress-<pkg>.ts`, and its numbers are in `config/tuning-<pkg>.ts`.
+  - **A:** a readable 3D night with a raised floor, a night rim and a story key. Bloomed glass,
+    a luminance-keeping Sun and Moon tint, a skyline ring, and the sight-line occluder fade
+    for buildings and crowns.
+  - **B:** the gate (shut, open, overgrown), the ruined Fold mending by chapter, the four crest
+    houses of Dawn & Dusk, the jetty, and the mill wheel. The wheel stands in the Grove and in
+    the corvin set.
+  - **C:** Corvin's garden (frost, backdrop, house, gate, swinging pens, numbered Nubbins), the
+    Hollow camp, and the hill (path, flat stone, crest, Briar's flower). Also the falls,
+    stone and water effects, breath, and footprints.
+  - **D:** kit-built story props (`prop-kit.ts`), item glints (a still star under reduced
+    motion), the step vignette, the signpost letter, the keepsake shelf
+    (`config/keepsake-looks.ts`), the shrine and bell, benches, and boards.
+  - **E:** named lantern states and the vigil waves, hand lanterns, NPC silhouettes
+    (`config/npc-looks.ts`), Moss sitting, and the Hush.
+  - **F:** `CAMPAIGN_LOOK` grades and chapter title cards, staged season and weather (winter
+    trees, frost rime), the ch12 festival, the Logged In set (`props.loggedSet`), the Beetle
+    Road guard house and the `beetle-below` grade with torches, plums and wasps, the story race
+    dressing, and the picnic.
+- **Perf.** Measured at 4× CPU throttle, phone viewport, Full 3D. ch9, ch10 and ch12 hold
+  54–57 fps, the same as origin/main. Beetle ch1 averages 37–40 with dips below 30 in both
+  builds, so that is not a regression.
+
+**Stubbed or approximate**
+
+- **Moss's sit** uses the sleep pose, so his eyes are shut and the 3D Zzz shows. A real `sit`
+  pose needs a species change.
+- **3D hand lanterns** hang at a computed hand offset; they aren't attached to a bone.
+- **Pixel winter** is a canopy tint plus snow caps, not new tree sprites.
+- **H18's grade and H1's tint** are a DOM overlay rather than part of `post.ts`. It hasn't been
+  tested on a real phone.
+- **The Beetle Road's "Hollow Below" scenes** play in the Grove under the `beetle-below` grade.
+  Showing the real dungeon would need a sim location change.
+- **The Hundred Days' mill chapter** plays at `corvin` (`storyline-rules-hundred.ts`), so the
+  wheel is drawn there as well.
+- **`c8-open`** is staged at the gate at first light. Beginning ch8 moves the sim to the
+  Hollow first, though, so it plays there.
+
+**Known bugs**
+
+- **Reviewer items not re-checked after the last fix round:**
+  - Dawn & Dusk houses at phone size, where only two are fully in frame.
+  - The Logged In and Dawn & Dusk c3 framing after the occluder change.
+- **3D "out" lanterns** still get their lamp-pool light and ground spill. The host builds those
+  sources itself.
+- **After a debug chapter jump,** the pixel camera may stay on the Keeper for scenes with no
+  focus mark.
+- **Pixel snow caps** read as pale dithered ellipses over the trees; they need painted snow.
+- **Dawn & Dusk in the pixel view:** in the final c1 shot, the four houses still sit under the HUD at the top edge.
+- **No real-phone pass yet.**
+
 ## Hollow Below art pass, items 1–45 (2026-10-21)
 
 From `docs/hollow-graphics-recommendations-2026-10-21.md`. Agents A–H on `art/hollow-{a..h}` (plus

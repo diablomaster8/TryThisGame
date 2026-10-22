@@ -36,84 +36,72 @@ default renderer is not changed; passes 1 and 2 are on `main`, deployed since 20
 accepted by Maor). Maor, 2026-10-21: daily refreshes and free daily gifts are allowed; only
 repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below).
 
-## Campaign graphics, items 1–50 (2026-10-22)
+## Campaign graphics 2, items 1–45 (2026-10-22)
 
-Built from `docs/campaign-graphics-recommendations-2026-10-21.md` by one orchestrator and a
-set of subagents:
-
-- **Wave 0, the staging foundation:** Opus.
-- **Six packages:** A (light) on Opus; B–F on Sonnet.
-- **Content:** Sonnet.
-- **Screenshots:** Haiku.
-- **Perf:** Sonnet.
-- **Review:** Opus, two passes plus one round of regression fixes.
-
-Branches `cg/foundation`, `cg/pkg-a..f` and `cg/content` were merged in `cg/merge`. Final desk shots
-are in `docs/samples/cg-final-*-desk-*.jpg` (both renderers; the phone and reduced-motion
-sets were checked but not committed). Each package's shots are in `cg-<pkg>-*`.
+Built from `docs/campaign-graphics-recommendations-2026-10-22.md` the same way as the first pass:
+one orchestrator, wave 0 (foundation, Opus), seven packages in parallel (P people, K kits, W
+winter and water, Y light and grade, U story UI on Sonnet; S sets and X occlusion and gate on
+Opus), a content wave, shots and perf, and two review rounds with one fix round. Branches
+`cg2/foundation`, `cg2/pkg-{p,s,k,w,x,y,u}` and `cg2/content` merged in `cg2/merge`. Agent rules
+and API: `cg2-rules.md`, `cg2-api.md` (session folder, not in the repo). Shots:
+`docs/samples/cg2-*.jpg`.
 
 **What works**
 
-- **Staging.** `Scene.stage` (`SceneStage` in `config/story.ts`) holds place, hour, season,
-  weather, cast marks, shot, props, lights, fx and grade.
-  - Scenes are staged in `config/scene-stages*.ts`: 159 of them, covering Hazel's Grove and
-    every storyline chapter's opening and close.
-  - The marks are in `config/stage-marks.ts`. The resolver and `stageFlags` are in
-    `render/scene-stage.ts`.
-  - Both renderers read the stage. Pixel now stages the hour and pans to the scene. 3D has shot
-    types and frames speakers above the dialogue box. Phones get a capped portrait framing,
-    and their HUD buttons hide during dialogue.
-- **Dressings.** Registries live in `render/dressings.ts` and `render3d/dressings.ts`. Each
-  package's code is in `dress-<pkg>.ts`, and its numbers are in `config/tuning-<pkg>.ts`.
-  - **A:** a readable 3D night with a raised floor, a night rim and a story key. Bloomed glass,
-    a luminance-keeping Sun and Moon tint, a skyline ring, and the sight-line occluder fade
-    for buildings and crowns.
-  - **B:** the gate (shut, open, overgrown), the ruined Fold mending by chapter, the four crest
-    houses of Dawn & Dusk, the jetty, and the mill wheel. The wheel stands in the Grove and in
-    the corvin set.
-  - **C:** Corvin's garden (frost, backdrop, house, gate, swinging pens, numbered Nubbins), the
-    Hollow camp, and the hill (path, flat stone, crest, Briar's flower). Also the falls,
-    stone and water effects, breath, and footprints.
-  - **D:** kit-built story props (`prop-kit.ts`), item glints (a still star under reduced
-    motion), the step vignette, the signpost letter, the keepsake shelf
-    (`config/keepsake-looks.ts`), the shrine and bell, benches, and boards.
-  - **E:** named lantern states and the vigil waves, hand lanterns, NPC silhouettes
-    (`config/npc-looks.ts`), Moss sitting, and the Hush.
-  - **F:** `CAMPAIGN_LOOK` grades and chapter title cards, staged season and weather (winter
-    trees, frost rime), the ch12 festival, the Logged In set (`props.loggedSet`), the Beetle
-    Road guard house and the `beetle-below` grade with torches, plums and wasps, the story race
-    dressing, and the picnic.
-- **Perf.** Measured at 4× CPU throttle, phone viewport, Full 3D. ch9, ch10 and ch12 hold
-  54–57 fps, the same as origin/main. Beetle ch1 averages 37–40 with dips below 30 in both
-  builds, so that is not a regression.
+- **Staging (wave 0):** new `SceneStage` fields (`exclusive`, `set`, `shot.then`, `shot.fit`,
+  `lights.windows`, `item`, `hold`, `cast[].tint`, more `carry` and `props`); package overlays
+  `config/scene-stages-pkg-*.ts` layered under the content files field by field (props and lights
+  by key); `ctx.buildings` (hide/fade), `ctx.camera`, `safeRect()`; fit-to-focus inside the
+  HUD-safe area, push-in on the first spoken line, the Keeper on its place mark, camera yaw chosen
+  to see the speakers. H1: every chapter has a home location (`HAZEL_HOME`, `STORY_HOME`); a
+  debug jump moves there and always replays the chapter opening.
+- **People (P):** storyline speakers drawn as render-only stage actors with their own looks
+  (`STORY_NPC_LOOKS`) and portraits (content-check fails a speaker with no look); grey Moss on
+  the hill; speaker chevron (not on narration); festival ring; Keeper silhouettes; Hazel's patches;
+  carry props.
+- **Sets (S):** the Root Node white room and the Beetle Road's `below` cave (exclusive sets);
+  Logged In's grid, holo board, egg glints and door.
+- **Kits (K):** per-campaign `set` hides Grove-only buildings; Fold ruins mending by chapter, the
+  Beetle lane, banners and cart, crest plaques and sundial, tally post and wreaths, campaign
+  memorial spots.
+- **Winter and water (W):** pond and stream ice in ch10–12 in both renderers, snow crowns and
+  frosted ground, short frosted 3D grass, pixel Hush colossus, the Hush lantern ring and frost
+  trail, the mill sluice, Corvin's backdrop foot.
+- **Occlusion (X):** the lychgate (2 draws), round-hole fades, near-camera and frame-filling
+  pieces hidden, pixel building fade over the cast.
+- **Light (Y):** Logged In night with windows out, dark "out" lanterns in 3D, split-tone Dawn,
+  `crisp` grade, dawn/dusk cues, the lantern string, the board's final message.
+- **UI (U):** item close-up cards, chapter postcards (skippable), the chapter photo offer.
+- **Content:** all 197 scenes of the four storylines and every Hazel ending staged.
+- **Perf** (Full 3D, 390×844, 4× CPU throttle, mean fps before → after): Hazel ch10 56.6 → 56.6,
+  ch12 56.6 → 56.6, Hundred ch9 47.5 → 43.6, Logged ch7 47.9 → 47.1, Logged ch4 45.8 → 49.7,
+  Beetle ch3 46.9 → 52.1, Beetle ch1 45.5 → 51.2, Dawn ch1 55.0 → 49.4. No scene under 30;
+  run-to-run spread was 5–8 fps; draw calls unchanged at Dawn ch1.
 
 **Stubbed or approximate**
 
-- **Moss's sit** uses the sleep pose, so his eyes are shut and the 3D Zzz shows. A real `sit`
-  pose needs a species change.
-- **3D hand lanterns** hang at a computed hand offset; they aren't attached to a bone.
-- **Pixel winter** is a canopy tint plus snow caps, not new tree sprites.
-- **H18's grade and H1's tint** are a DOM overlay rather than part of `post.ts`. It hasn't been
-  tested on a real phone.
-- **The Beetle Road's "Hollow Below" scenes** play in the Grove under the `beetle-below` grade.
-  Showing the real dungeon would need a sim location change.
-- **The Hundred Days' mill chapter** plays at `corvin` (`storyline-rules-hundred.ts`), so the
-  wheel is drawn there as well.
-- **`c8-open`** is staged at the gate at first light. Beginning ch8 moves the sim to the
-  Hollow first, though, so it plays there.
+- C4 uses the `below` set in the Grove, not the real dungeon location.
+- Stage actors hold a static pose (no sit or kneel); hidden 3D buildings still cast shadows and
+  stay pickable.
+- The board's final words are a placeholder in `tuning-y.ts`.
+- The chapter photo is the canvas only (no DOM grade layers); the offer isn't saved.
 
-**Known bugs**
+**Known bugs (left after the second review round)**
 
-- **Reviewer items not re-checked after the last fix round:**
-  - Dawn & Dusk houses at phone size, where only two are fully in frame.
-  - The Logged In and Dawn & Dusk c3 framing after the occluder change.
-- **3D "out" lanterns** still get their lamp-pool light and ground spill. The host builds those
-  sources itself.
-- **After a debug chapter jump,** the pixel camera may stay on the Keeper for scenes with no
-  focus mark.
-- **Pixel snow caps** read as pale dithered ellipses over the trees; they need painted snow.
-- **Dawn & Dusk in the pixel view:** in the final c1 shot, the four houses still sit under the HUD at the top edge.
-- **No real-phone pass yet.**
+- 3D Hundred ch9: the Hush reads as a pale beam, not a figure, and the lamps are still lit at
+  "lamps go out" in the shot; a giant roof at the left edge; a building bottom-right has a
+  half-missing roof with outline lines dangling.
+- 3D Hazel ch10 `-1`: a fence rail floats without posts and a dark disc lies by the cast; the pond
+  is barely in frame (and missing on phone in both renderers).
+- 3D Hazel ch1: Fern speaks but is not in frame.
+- 3D Hazel ch9: a chevron still shows over a Nubbin on a narration line.
+- Pixel: no push-in after wide shots (Beetle ch3); the Root Node room's cast is still small.
+- Hundred ch1 on phone: no gate at "a gate with no fence"; Ida not visible at "an old woman sits
+  on the one whole step"; pixel Fold still shows the Japanese houses and mill.
+- 3D Beetle ch1: Hob stands on the open road at "behind the counter sits a man"; a hut is cut off
+  at the right edge.
+- 3D Dawn ch6: Marigold overlaps the Keeper.
+- No real-phone pass yet.
 
 ## Standing approval (Maor, 2026-10-12)
 
