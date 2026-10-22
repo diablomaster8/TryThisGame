@@ -3,6 +3,7 @@ import { visibleStoryProps, type StoryPropKind } from '../sim/story-props';
 import type { DecorKind, Plant, TileKind, World } from '../sim/types';
 import type { Tex } from '../samples/aaa-kit';
 import { KIT_SHARED, kitCabin, kitHouse } from './kit-buildings';
+import { buildStoryProp } from './prop-kit';
 
 /**
  * The Keeper's own garden work in 3D: placed decor (fences, beds, benches, the statue,
@@ -168,6 +169,9 @@ type GardenPickKind = 'decor' | 'building' | 'plant' | 'storyProp';
 
 /** A side-story prop (sim/story-props.ts) in the same plain style as the decor. */
 export function storyPropModel(kind: StoryPropKind): THREE.Group {
+  // Once the painted textures are in, the props come from the building kit (prop-kit.ts).
+  const built = kitTex ? buildStoryProp(kitTex, kind) : null;
+  if (built) return built;
   const g = new THREE.Group();
   switch (kind) {
     case 'trowel': {
