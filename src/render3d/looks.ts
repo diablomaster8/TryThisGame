@@ -21,6 +21,8 @@ import { EXTRA_LOOKS } from '../sim/npcs';
 import { TRAINERS } from '../sim/trainers';
 import { artSpec } from './art-species';
 import { withNpcAccessories } from './npc-accessories';
+import { STORY_NPC_LOOKS, WEATHERED } from '../config/npc-looks';
+import { weathered } from './weathered';
 
 /**
  * Look keys and the specs behind them. A key is a plain string, so the sculpt worker can
@@ -217,7 +219,8 @@ function dressed(base: SpeciesSpec, trainer: string): SpeciesSpec {
 }
 
 /** Whether a trainer id has a look (playable trainer or story Keeper). */
-const hasTrainer = (id: string): boolean => !!EXTRA_LOOKS[id] || TRAINERS.some((t) => t.id === id);
+const hasTrainer = (id: string): boolean =>
+  !!EXTRA_LOOKS[id] || !!STORY_NPC_LOOKS[id] || TRAINERS.some((t) => t.id === id);
 
 /** The spec a look key builds; the base Nubbin when the key is unknown. */
 export function specForKey(key: string): SpeciesSpec {
@@ -245,6 +248,7 @@ export function specForKey(key: string): SpeciesSpec {
     const parts = mod('parts:');
     if (parts) spec = withCritterParts(spec, parsePartsMod(parts));
     if (mods.includes('shadow')) spec = ashen(spec);
+    if (mods.includes('weathered')) spec = weathered(spec);
     cache.set(key, spec);
   }
   return spec;
@@ -252,6 +256,7 @@ export function specForKey(key: string): SpeciesSpec {
 
 /** The tint modifiers for a Nubbin's look key ('' when it wears the plain colours). */
 export function tintMods(n: {
+  id?: string;
   eggColor: string;
   tone: string | null;
   shiny: boolean;
@@ -263,6 +268,7 @@ export function tintMods(n: {
   if (n.tone && (eggColour(n.tone) || jewel(n.tone))) mods.push(`tone:${n.tone}`);
   if (n.shiny || n.heirloom) mods.push('shiny');
   if (n.shadow) mods.push('shadow');
+  if (n.id && WEATHERED.ids.has(n.id)) mods.push('weathered');
   return mods.map((m) => `~${m}`).join('');
 }
 
