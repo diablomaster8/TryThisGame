@@ -157,7 +157,9 @@ button,
   white-space: nowrap;
 }
 
-@media (max-width: 600px) {
+/* Keyboard hints are for keyboards: hidden on narrow screens and on any touch screen, in
+   either orientation (review 2026-10-21, bug 26). */
+@media (max-width: 600px), (hover: none), (pointer: coarse) {
   .hint {
     display: none;
   }
@@ -299,7 +301,8 @@ button,
 .carry {
   position: absolute;
   left: calc(var(--safe-left) + 8px);
-  bottom: calc(var(--hud-bottom) + 12px);
+  /* Above the Run button, never over it. */
+  bottom: calc(var(--hud-bottom) + 70px);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -408,6 +411,7 @@ button,
 /* ---------- stats sheet ---------- */
 
 .sheet {
+  box-sizing: border-box;
   position: absolute;
   left: 50%;
   bottom: calc(var(--hud-bottom) + 72px);
@@ -441,8 +445,12 @@ button,
 }
 
 .btn-close {
+  font-size: 15px;
+  padding: 0 12px;
+}
+
+.sheet-head .btn-close {
   font-size: 20px;
-  padding: 0;
 }
 
 .sheet-needs {
@@ -804,6 +812,7 @@ button,
 }
 
 .modal-card {
+  box-sizing: border-box;
   width: min(440px, calc(100% - 24px));
   max-height: calc(100% - 24px);
   overflow: auto;
@@ -1147,6 +1156,8 @@ button,
 }
 
 .dialogue-box {
+  /* Padding inside the width, so the box fits a 375 px phone (review 2026-10-21, bug 27). */
+  box-sizing: border-box;
   position: absolute;
   left: 50%;
   bottom: calc(var(--hud-bottom) + 16px);
@@ -1878,6 +1889,8 @@ button,
 /* Language courses (CV3): Hebrew isolated right to left, Japanese words kept whole. */
 .lang-he {
   font-family: 'Noto Sans Hebrew', 'Arial Hebrew', sans-serif;
+  /* Neither script has italics: narration's italic would be faked by slanting (bug 32). */
+  font-style: normal;
   unicode-bidi: isolate;
   /* Room for niqqud under the letters. */
   line-height: 1.7;
@@ -1894,6 +1907,7 @@ bdi.lang-he {
 }
 .lang-ja {
   font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+  font-style: normal;
   word-break: keep-all;
 }
 .ja-word {
@@ -2044,5 +2058,109 @@ bdi.lang-he {
 @media (max-width: 719px) {
   .sheet {
     max-height: 36%;
+  }
+}
+
+/* ---------- touch and thumb rules (review 2026-10-21, goal 5) ---------- */
+
+/* Native selects reach the same 44 px tap target as every button. */
+select {
+  min-height: 44px;
+  font: inherit;
+  font-size: 15px;
+  padding: 0 8px;
+  color: var(--hud-fg);
+  background: rgba(20, 15, 38, 0.95);
+  border: 1px solid var(--hud-border);
+  border-radius: 8px;
+  max-width: 100%;
+}
+
+/* Phone portrait: a panel's Close (Leave, Back) sits at the bottom of the card, in thumb
+   reach, and stays there while the panel scrolls. */
+@media (orientation: portrait) and (max-width: 600px) {
+  .modal-card {
+    display: flex;
+    flex-direction: column;
+  }
+  .modal-card > .modal-head {
+    display: contents;
+  }
+  .modal-card > .modal-head > .btn-close {
+    order: 99;
+    position: sticky;
+    bottom: 0;
+    flex: 0 0 auto;
+    width: 100%;
+    margin-top: 10px;
+    min-height: 48px;
+    z-index: 1;
+  }
+  .modal-card > .modal-body,
+  .modal-card > :not(.modal-head) {
+    flex: 0 0 auto;
+  }
+  /* With a panel open, toasts move down off its heading. */
+  #hud:has(> .modal:not([hidden])) > .toasts {
+    top: auto;
+    bottom: calc(var(--safe-bottom) + 84px);
+  }
+}
+
+/* The in-game Reduced motion setting stops CSS motion as the system setting does. */
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+/* Visiting a neighbour: the way home, above the camera buttons in thumb reach (bug 28). */
+.home-btn {
+  position: absolute;
+  right: calc(var(--safe-right) + 12px);
+  bottom: calc(var(--hud-bottom) + 70px);
+  border-color: #f2d34c;
+}
+
+/* A full Nubbin's Feed: still tappable (it explains), but plainly not needed. */
+.btn.is-full {
+  opacity: 0.6;
+}
+
+/* The Expedition's how-to, low on the screen where the thumb is (bug 23). */
+.expedition-tip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--safe-bottom) + 24px);
+  transform: translateX(-50%);
+  max-width: calc(100% - 32px);
+  padding: 10px 16px;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  background: var(--px-bg);
+  border: 2px solid #f2d34c;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Phone portrait: a minigame's ✕ sits bottom left, in thumb reach; the sticky Close of a
+   panel gets a solid face so the text scrolling under it does not show through. */
+@media (orientation: portrait) and (max-width: 600px) {
+  .expedition .quit {
+    top: auto;
+    bottom: calc(var(--safe-bottom) + 16px);
+  }
+  .expedition-hud {
+    left: calc(var(--safe-left) + 10px);
+  }
+  .modal-card > .modal-head > .btn-close {
+    background: #231c3f;
+    box-shadow:
+      inset 2px 2px 0 var(--px-light),
+      inset -2px -2px 0 var(--px-dark),
+      0 -10px 12px 2px #1a1530;
   }
 }
