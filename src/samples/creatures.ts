@@ -191,6 +191,13 @@ export interface SurfaceOpts {
  */
 export const TOON = { on: false, rim: 0, sky: 0 };
 
+/**
+ * A cool moonlit rim added in the toon rim's band after dark (campaign graphics C3): one
+ * uniform shared by every rimmed toon material, so creatures and Keepers keep their edge
+ * at night. The 3D Grove's dressing sets it from the daylight; 0 leaves the look as it was.
+ */
+export const NIGHT_RIM = { value: 0 };
+
 /** The outline's colour (also the lash and mouth lines) and its thickness in world units. */
 export const TOON_OUTLINE = { color: '#1a1026', width: 0.025 };
 
@@ -204,7 +211,12 @@ const TOON_BAND = { edge: 0.3, lit: 0.95, shade: 0.62 };
  * Patch a physical shader into the toon ramp: direct light in two bands, no specular, and
  * the vertex colours a touch more saturated so the flats read like painted plastic.
  */
-export function toonShader(shader: { fragmentShader: string }, rim = 0, sky = 0): void {
+export function toonShader(
+  shader: { fragmentShader: string; uniforms?: Record<string, THREE.IUniform> },
+  rim = 0,
+  sky = 0,
+): void {
+  if (rim > 0 && shader.uniforms) shader.uniforms.uNightRim = NIGHT_RIM;
   const physical = THREE.ShaderChunk.lights_physical_pars_fragment.replace(
     'vec3 irradiance = dotNL * directLight.color;',
     `vec3 irradiance = ( dotNL <= 0.0 ? 0.0 : dotNL < ${TOON_BAND.edge.toFixed(3)} ? ${TOON_BAND.shade.toFixed(3)} : ${TOON_BAND.lit.toFixed(3)} ) * directLight.color;`,
@@ -221,9 +233,14 @@ export function toonShader(shader: { fragmentShader: string }, rim = 0, sky = 0)
           fill = clamp( dot( hemisphereLights[ 0 ].skyColor, vec3( 1.0 ) ), 0.15, 1.0 );
         #endif
         reflectedLight.indirectDiffuse += diffuseColor.rgb * band * fill * ${rim.toFixed(3)};
+        reflectedLight.indirectDiffuse += mix( diffuseColor.rgb, vec3( 0.62, 0.72, 1.0 ), 0.65 ) * band * uNightRim;
       }`
       : '';
   shader.fragmentShader = shader.fragmentShader
+    .replace(
+      '#include <common>',
+      rim > 0 ? '#include <common>\nuniform float uNightRim;' : '#include <common>',
+    )
     .replace('#include <lights_physical_pars_fragment>', physical)
     // No image-based reflections: the sky map carries the sun disc, and even a twentieth of
     // it washes every flat to pastel and hides the bands. The hemisphere light stays as

@@ -545,15 +545,18 @@ export class Grove3dScene {
     this.grade.uniforms.uTopFrom!.value = a.topFrom;
     // The Sun and Moon Groves are recolours, as in the pixel mode (cream and lavender on
     // the lit materials); here a grade over the whole frame. Corvin's rows are drained.
-    const tint =
+    // The Sun and Moon tints shift hue and keep luminance, held back on the grass (M15).
+    const hue =
       grove && this.groveKind === 'sun'
         ? GROVE3D.groveTint.sun
         : grove && this.groveKind === 'moon'
           ? GROVE3D.groveTint.moon
-          : place === 'corvin'
-            ? GROVE3D.groveTint.corvin
-            : null;
-    if (tint) (this.grade.uniforms.uTint!.value as THREE.Color).multiply(new THREE.Color(tint));
+          : '#ffffff';
+    (this.grade.uniforms.uHue!.value as THREE.Color).set(hue);
+    if (place === 'corvin')
+      (this.grade.uniforms.uTint!.value as THREE.Color).multiply(
+        new THREE.Color(GROVE3D.groveTint.corvin),
+      );
     // Lamps come on with the pixel scene's rule: dusk, night, or a lit campaign lantern.
     this.lampsOn = d.lanterns || d.darkness > 0.5;
     // The glass glows on every lit lamp; the few point lights go to the nearest (`update`).
