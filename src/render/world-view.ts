@@ -7,7 +7,8 @@ import type { DungeonRun, Location, Nubbin, SimEvent, Vec2, World } from '../sim
 import { cellCentre, type Cell, type Floor } from '../sim/dungeon';
 import type { OrbitCamera } from './camera';
 import type { Daylight } from './daylight';
-import { GROVE } from '../config/tuning';
+import { GROVE, GROVE3D } from '../config/tuning';
+import { CaveAmbience, landmarkSprites } from './cave-ambience';
 import { placeDecorations } from './decor';
 import { fenceSpots, SCENERY } from './scenery';
 import { neighbourGarden } from '../sim/neighbourhood';
@@ -82,6 +83,7 @@ export class WorldView {
   private darkness = 0;
   /** The Hollow floor being shown, and its torch and crystal glow for sprites. */
   private cave: Floor | null = null;
+  private readonly ambience = new CaveAmbience();
   private caveLights: Array<{ x: number; z: number; r: number }> = [];
   private readonly strayPrev = new Map<string, Vec2>();
   private keeperDustMs = 0;
@@ -344,6 +346,14 @@ export class WorldView {
       // Underground the only lights are the torches, the crystals and the Keeper's lamp.
       const kp = this.keeperDrawPos(world, alpha);
       this.lights = [...this.caveLights, { x: kp.x, z: kp.z, r: DUNGEON.lampReach }];
+      this.ambience.update(
+        this.particles,
+        cave,
+        kp,
+        nowMs,
+        this.particles.reduceMotion,
+        this.density,
+      );
     }
     const props = this.sheets.props();
     // Scenery: trees, bushes, buildings, the well, and fence posts along the main path.
@@ -862,7 +872,7 @@ export class WorldView {
       );
     }
     // Torches hang on the north wall of their cell and flicker.
-    const torch = frame('torch');
+    const torch = frame('sconce');
     if (torch) {
       f.torches.forEach((t, i) => {
         const p = cellCentre(f, t);
@@ -871,11 +881,28 @@ export class WorldView {
           rect: torch,
           flip: false,
           x: p.x,
-          y: 0.55,
-          z: p.z - cell * 0.42,
+          y: GROVE3D.cave.pixel.sconceY - 0.72,
+          z: p.z - cell * 0.49,
           mode: 'billboard',
-          tint: 1.02 + 0.1 * Math.sin(nowMs / 90 + i * 1.7),
+          tint: 1.02 + (this.particles.reduceMotion ? 0 : 0.1 * Math.sin(nowMs / 90 + i * 1.7)),
         });
+      });
+    }
+    for (const lm of landmarkSprites(f)) {
+      const rect = frame(lm.key);
+      if (!rect) continue;
+      shadow(lm.x, 0, lm.z, lm.r);
+      batch.draw({
+        sheet,
+        rect,
+        flip: false,
+        x: lm.x,
+        y: 0,
+        z: lm.z,
+        mode: 'billboard',
+        w: (rect.w / NATIVE_PPU) * GROVE3D.cave.pixel.landmarkScale,
+        h: (rect.h / NATIVE_PPU) * GROVE3D.cave.pixel.landmarkScale,
+        tint: 1.05,
       });
     }
     const crystal = frame('crystal');

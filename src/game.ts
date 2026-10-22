@@ -509,7 +509,8 @@ export class Game {
         this.scene3d.update(this.world, this.camera, this.clock.alpha, nowMs);
         this.scene3d.render();
       } else if (this.grove && this.lowRes) {
-        if (this.world.location === 'dungeon') this.grove.updateDungeonLights(kp);
+        if (this.world.location === 'dungeon')
+          this.grove.updateDungeonLights(kp, this.camera.currentYaw);
         this.grove.update(nowMs, reduce);
         this.grove.setGrove(this.world.grove);
         this.updateDaylight(nowMs);

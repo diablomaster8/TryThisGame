@@ -24,9 +24,11 @@ import {
   CanvasTexture,
   NearestFilter,
   RepeatWrapping,
+  Vector2,
+  Vector4,
   type Texture,
 } from 'three';
-import { DUNGEON, GROVE, LANTERN_POSTS, PIXEL_LIGHT } from '../config/tuning';
+import { CAMERA, DUNGEON, GROVE, GROVE3D, LANTERN_POSTS, PIXEL_LIGHT } from '../config/tuning';
 import type { GroveKind, Location, TileKind, WeatherKind } from '../sim/types';
 import { daylightAt, type Daylight } from './daylight';
 import { C, color } from './sprites/palette';
@@ -43,7 +45,12 @@ import {
 } from './paint/terrain';
 import { BUILDINGS } from './scenery';
 import { cellAt, WALL, type Floor } from '../sim/dungeon';
-import { floorWorldSize, paintFloorTexture } from './paint/dungeon';
+import {
+  floorWorldSize,
+  paintCaveWallTexture,
+  paintFloorTexture,
+  vistaCells,
+} from './paint/dungeon';
 import {
   makeBarkTexture,
   makeLeafTexture,
@@ -96,6 +103,8 @@ function ribbon(
 }
 
 /** Sky gradients per phase: top colour, bottom colour, clouds. */
+const PX = GROVE3D.cave.pixel;
+
 const SKY_GRADIENTS: Record<string, [string, string, boolean]> = {
   day: [color(C.skyDeep), color(C.skyLight), true],
   dawn: [color(C.violet), color(C.roseLight), true],
@@ -177,6 +186,21 @@ export class GroveScene {
   private dungeonParts: Array<{ dispose(): void }> = [];
   private dungeonPickables: Object3D[] = [];
   private cliffMat: MeshLambertMaterial | null = null;
+  /** Reduced motion: the torch lamps do not flicker. */
+  private holdStill = false;
+  /** The strip of wall that sinks between the camera and the Keeper (see patchCaveCut). */
+  private readonly caveCut = {
+    keeper: { value: new Vector2() },
+    dir: { value: new Vector2(0, 1) },
+    params: {
+      value: new Vector4(
+        PX.cutWidth,
+        PX.cutSoft,
+        PX.wallH / Math.tan((CAMERA.pitchDeg * Math.PI) / 180) + PX.cutExtra,
+        PX.cutHeight,
+      ),
+    },
+  };
 
   /** Repaint the ground with the painted tiles (terraforming). */
   setTiles(tiles: Record<string, TileKind>): void {
@@ -660,6 +684,7 @@ export class GroveScene {
    * time. With reduced motion everything holds still, as if at time zero.
    */
   update(wallMs: number, reduceMotion = false): void {
+    this.holdStill = reduceMotion;
     const nowMs = reduceMotion ? 0 : wallMs;
     this.water.offset.set((nowMs / 7000) % 1, (nowMs / 10000) % 1);
     this.glint.offset.set((-nowMs / 5000) % 1, (nowMs / 12000) % 1);
@@ -777,7 +802,7 @@ export class GroveScene {
    * meet the floor (tops carry the same painting, faces the cliff texture), and the
    * lights parked until `updateDungeonLights` places them.
    */
-  setDungeon(floor: Floor | null): void {
+  setDungeon(floor: Floor | null, depth = 1): void {
     for (const p of this.dungeonParts) p.dispose();
     this.dungeonParts = [];
     for (const o of this.dungeonPickables) {
@@ -792,7 +817,7 @@ export class GroveScene {
     this.dungeonTorches = [];
     if (!floor) return;
     const { w, h } = floorWorldSize(floor);
-    const tex = paintFloorTexture(floor);
+    const tex = paintFloorTexture(floor, depth);
     const mat = new MeshLambertMaterial({ map: tex });
     const geo = new PlaneGeometry(w, h, 1, 1);
     const plane = new Mesh(geo, mat);
@@ -802,25 +827,21 @@ export class GroveScene {
     this.pickables.push(plane);
     this.dungeonPickables.push(plane);
     this.dungeonParts.push(tex, mat, geo);
-    // Walls: every rock cell within two of the floor gets a block.
+    // Walls (item 37): every rock cell within two of the floor gets a tall block, its top
+    // carrying the floor painting and its faces the strata texture. A vista's cells stay low:
+    // a lip beside the floor and a chasm beyond it.
     const cell = DUNGEON.cell;
-    const wallH = 1.4;
+    const wallH = PX.wallH;
+    const vista = vistaCells(floor);
+    const heightOf = (cx: number, cy: number): number => {
+      const v = vista.get(cy * floor.cols + cx);
+      return v ? (v.d === 1 ? PX.vistaLip : PX.vistaSink) : wallH;
+    };
     const tops: number[] = [];
     const topUv: number[] = [];
     const sides: number[] = [];
     const sideUv: number[] = [];
     const sideN: number[] = [];
-    const quad = (
-      pos: number[],
-      uv: number[],
-      p: Array<[number, number, number]>,
-      t: Array<[number, number]>,
-    ) => {
-      for (const i of [0, 1, 2, 0, 2, 3]) {
-        pos.push(...p[i]!);
-        uv.push(...t[i]!);
-      }
-    };
     const nearFloor = (cx: number, cy: number) => {
       for (let dy = -2; dy <= 2; dy++)
         for (let dx = -2; dx <= 2; dx++) if (cellAt(floor, cx + dx, cy + dy) !== WALL) return true;
@@ -828,124 +849,148 @@ export class GroveScene {
     };
     for (let cy = 0; cy < floor.rows; cy++) {
       for (let cx = 0; cx < floor.cols; cx++) {
-        if (cellAt(floor, cx, cy) !== WALL || !nearFloor(cx, cy)) continue;
+        if (cellAt(floor, cx, cy) !== WALL) continue;
+        const top = heightOf(cx, cy);
+        if (!vista.has(cy * floor.cols + cx) && !nearFloor(cx, cy)) continue;
         const x0 = (cx - floor.cols / 2) * cell;
         const z0 = (cy - floor.rows / 2) * cell;
         const x1 = x0 + cell;
         const z1 = z0 + cell;
         const u0 = (x0 + w / 2) / w;
         const u1 = (x1 + w / 2) / w;
-        const v0 = 1 - (z0 + h / 2) / h;
-        const v1 = 1 - (z1 + h / 2) / h;
-        quad(
-          tops,
-          topUv,
-          [
-            [x0, wallH, z0],
-            [x0, wallH, z1],
-            [x1, wallH, z1],
-            [x1, wallH, z0],
-          ],
-          [
-            [u0, v0],
-            [u0, v1],
-            [u1, v1],
-            [u1, v0],
-          ],
-        );
-        const faces: Array<[number, number, [number, number, number][], [number, number, number]]> =
-          [
-            [
-              0,
-              1,
-              [
-                [x0, 0, z1],
-                [x1, 0, z1],
-                [x1, wallH, z1],
-                [x0, wallH, z1],
-              ],
-              [0, 0, 1],
-            ],
-            [
-              0,
-              -1,
-              [
-                [x1, 0, z0],
-                [x0, 0, z0],
-                [x0, wallH, z0],
-                [x1, wallH, z0],
-              ],
-              [0, 0, -1],
-            ],
-            [
-              1,
-              0,
-              [
-                [x1, 0, z1],
-                [x1, 0, z0],
-                [x1, wallH, z0],
-                [x1, wallH, z1],
-              ],
-              [1, 0, 0],
-            ],
-            [
-              -1,
-              0,
-              [
-                [x0, 0, z0],
-                [x0, 0, z1],
-                [x0, wallH, z1],
-                [x0, wallH, z0],
-              ],
-              [-1, 0, 0],
-            ],
+        const tv0 = 1 - (z0 + h / 2) / h;
+        const tv1 = 1 - (z1 + h / 2) / h;
+        const tp: Array<[number, number, number]> = [
+          [x0, top, z0],
+          [x0, top, z1],
+          [x1, top, z1],
+          [x1, top, z0],
+        ];
+        const tt: Array<[number, number]> = [
+          [u0, tv0],
+          [u0, tv1],
+          [u1, tv1],
+          [u1, tv0],
+        ];
+        for (const i of [0, 1, 2, 0, 2, 3]) {
+          tops.push(...tp[i]!);
+          topUv.push(...tt[i]!);
+        }
+        // Faces: toward open ground from the floor up; toward a lower wall cell from its top.
+        const faces: Array<[number, number, [number, number, number]]> = [
+          [0, 1, [0, 0, 1]],
+          [0, -1, [0, 0, -1]],
+          [1, 0, [1, 0, 0]],
+          [-1, 0, [-1, 0, 0]],
+        ];
+        for (const [dx, dy, n] of faces) {
+          const nx = cx + dx;
+          const ny = cy + dy;
+          const open = cellAt(floor, nx, ny) !== WALL;
+          const low = open
+            ? 0
+            : nx < 0 || ny < 0 || nx >= floor.cols || ny >= floor.rows
+              ? top
+              : heightOf(nx, ny);
+          if (low >= top) continue;
+          // The face's corners: along the edge, then bottom and top.
+          const [ax0, az0, ax1, az1] =
+            dy === 1
+              ? [x0, z1, x1, z1]
+              : dy === -1
+                ? [x1, z0, x0, z0]
+                : dx === 1
+                  ? [x1, z1, x1, z0]
+                  : [x0, z0, x0, z1];
+          const p: Array<[number, number, number]> = [
+            [ax0, low, az0],
+            [ax1, low, az1],
+            [ax1, top, az1],
+            [ax0, top, az0],
           ];
-        for (const [dx, dy, p, n] of faces) {
-          if (cellAt(floor, cx + dx, cy + dy) === WALL) continue;
-          const su = (cx * 7 + cy * 3) % 2 === 0 ? 0 : 0.5;
-          quad(sides, sideUv, p as Array<[number, number, number]>, [
-            [su, 0],
-            [su + 0.5, 0],
-            [su + 0.5, 1],
-            [su, 1],
-          ]);
-          for (let i = 0; i < 6; i++) sideN.push(...n);
+          const along = (q: [number, number, number]) => (dx === 0 ? q[0] : q[2]) / PX.faceUnitsW;
+          for (const i of [0, 1, 2, 0, 2, 3]) {
+            const q = p[i]!;
+            sides.push(...q);
+            // The top row of the texture is the top of the wall, wherever the wall ends.
+            sideUv.push(along(q), 1 - (top - q[1]) / wallH);
+            sideN.push(...n);
+          }
         }
       }
     }
+    const topMat = new MeshLambertMaterial({
+      map: tex,
+      emissive: new Color(0x34344a),
+      emissiveMap: tex,
+    });
+    this.patchCaveCut(topMat);
     const topGeo = new BufferGeometry();
     topGeo.setAttribute('position', new Float32BufferAttribute(tops, 3));
     topGeo.setAttribute('uv', new Float32BufferAttribute(topUv, 2));
     topGeo.computeVertexNormals();
-    const topMesh = new Mesh(topGeo, mat);
+    const topMesh = new Mesh(topGeo, topMat);
     this.dungeonGroup.add(topMesh);
-    this.dungeonParts.push(topGeo);
-    if (!this.cliffMat) {
-      const cliffTex = paintCliffTexture();
-      this.cliffMat = new MeshLambertMaterial({
-        map: cliffTex,
-        color: new Color('#8a7a9a'),
-        emissive: new Color(0x3a3048),
-        emissiveMap: cliffTex,
-        side: DoubleSide,
-      });
-      this.disposables.push(cliffTex, this.cliffMat);
-    }
+    // The strata face of this depth band's rock, kept readable by a little emissive.
+    const faceTex = paintCaveWallTexture(depth);
+    const faceMat = new MeshLambertMaterial({
+      map: faceTex,
+      color: new Color('#ffffff'),
+      emissive: new Color(0x403848),
+      emissiveMap: faceTex,
+      side: DoubleSide,
+    });
+    this.patchCaveCut(faceMat);
     const sideGeo = new BufferGeometry();
     sideGeo.setAttribute('position', new Float32BufferAttribute(sides, 3));
     sideGeo.setAttribute('uv', new Float32BufferAttribute(sideUv, 2));
     sideGeo.setAttribute('normal', new Float32BufferAttribute(sideN, 3));
-    const sideMesh = new Mesh(sideGeo, this.cliffMat);
+    const sideMesh = new Mesh(sideGeo, faceMat);
     this.dungeonGroup.add(sideMesh);
-    this.dungeonParts.push(sideGeo);
+    this.dungeonParts.push(topGeo, topMat, faceTex, faceMat, sideGeo);
     this.dungeonTorches = floor.torches.map((t) => ({
       x: (t.x + 0.5 - floor.cols / 2) * cell,
       z: (t.y + 0.1 - floor.rows / 2) * cell,
     }));
   }
 
+  /**
+   * Walls between the camera and the Keeper sink to `cutHeight` of their height (item 37), in
+   * the vertex shader: one shared strip, so the party and the Keeper stay in sight and the
+   * walls cost no extra draw calls. Heights above the ground only; a chasm stays put.
+   */
+  private patchCaveCut(m: MeshLambertMaterial): void {
+    const u = this.caveCut;
+    m.onBeforeCompile = (sh) => {
+      sh.uniforms.uCutKeeper = u.keeper;
+      sh.uniforms.uCutDir = u.dir;
+      sh.uniforms.uCutP = u.params;
+      sh.vertexShader = sh.vertexShader
+        .replace(
+          '#include <common>',
+          '#include <common>\nuniform vec2 uCutKeeper;\nuniform vec2 uCutDir;\nuniform vec4 uCutP;',
+        )
+        .replace(
+          '#include <begin_vertex>',
+          `#include <begin_vertex>
+          if (transformed.y > 0.0) {
+            vec2 rel = position.xz - uCutKeeper;
+            float along = dot(rel, uCutDir);
+            float lat = abs(dot(rel, vec2(-uCutDir.y, uCutDir.x)));
+            float k = smoothstep(-0.2, 1.0, along)
+              * (1.0 - smoothstep(uCutP.z - 1.5, uCutP.z, along))
+              * (1.0 - smoothstep(uCutP.x * 0.5, uCutP.x * 0.5 + uCutP.y, lat));
+            transformed.y *= mix(1.0, uCutP.w, k);
+          }`,
+        );
+    };
+    m.customProgramCacheKey = () => 'caveCut';
+  }
+
   /** The Keeper's lamp and the five torches nearest them, every frame underground. */
-  updateDungeonLights(keeper: { x: number; z: number }): void {
+  updateDungeonLights(keeper: { x: number; z: number }, yaw = 0): void {
+    this.caveCut.keeper.value.set(keeper.x, keeper.z);
+    this.caveCut.dir.value.set(Math.sin(yaw), Math.cos(yaw));
     const lamp = this.dungeonLights[0];
     if (!lamp) return;
     lamp.visible = true;
@@ -962,8 +1007,8 @@ export class GroveScene {
       const t = near[i - 1];
       l.visible = !!t;
       if (t) {
-        l.position.set(t.x, 1.1, t.z);
-        l.intensity = 4 + Math.sin(performance.now() / 90 + i * 1.7) * 0.6;
+        l.position.set(t.x, PX.sconceY - 0.2, t.z);
+        l.intensity = 4 + (this.holdStill ? 0 : Math.sin(performance.now() / 90 + i * 1.7) * 0.6);
       }
     }
   }
