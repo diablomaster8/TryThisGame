@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import type { BuntingShape } from '../config/campaign-look';
+import { holoClear, type BuntingShape } from '../config/campaign-look';
 import { TITLE_CARD_TEXT } from '../config/strings';
 import { LOOK_F } from '../config/tuning-f';
 
@@ -543,6 +543,7 @@ export function buildHoloFence(ground: (x: number, z: number) => number): {
     if (Math.abs(Math.atan2(Math.sin(a), Math.cos(a)) - Math.PI / 2) < 0.2) continue;
     const x = h.cx + Math.cos(a) * h.radius;
     const z = h.cz + Math.sin(a) * h.radius;
+    if (!holoClear(x, z)) continue;
     q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), -a + Math.PI / 2);
     spots.push(
       new THREE.Matrix4().compose(
@@ -756,4 +757,31 @@ export function buildStoryRace(o: {
   bodies.frustumCulled = heads.frustumCulled = false;
   g.add(bodies, heads);
   return g;
+}
+
+// ---------------------------------------------------------------------------- torches (M14, H18)
+
+/** Four wall-less standing torches with an emissive flame, for the Beetle Road's below grade. */
+export function buildTorches(): { group: THREE.Group; flames: THREE.Mesh[] } {
+  const group = new THREE.Group();
+  const post = new THREE.CylinderGeometry(0.06, 0.08, 1.7, 6);
+  const flameGeo = new THREE.ConeGeometry(0.2, 0.55, 8);
+  const woodMat = new THREE.MeshStandardMaterial({ color: '#5a3c28', roughness: 0.9 });
+  const flameMat = new THREE.MeshBasicMaterial({
+    color: new THREE.Color('#ff9a2c').multiplyScalar(2),
+    toneMapped: false,
+  });
+  const flames: THREE.Mesh[] = [];
+  for (let i = 0; i < 4; i++) {
+    const t = new THREE.Group();
+    const p = new THREE.Mesh(post, woodMat);
+    p.position.y = 0.85;
+    const f = new THREE.Mesh(flameGeo, flameMat);
+    f.position.y = 1.95;
+    t.add(p, f);
+    group.add(t);
+    flames.push(f);
+  }
+  group.visible = false;
+  return { group, flames };
 }
