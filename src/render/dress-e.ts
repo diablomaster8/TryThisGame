@@ -1,4 +1,4 @@
-import { CanvasTexture, Sprite, SpriteMaterial, type Vector3 } from 'three';
+import { AdditiveBlending, CanvasTexture, Sprite, SpriteMaterial, type Vector3 } from 'three';
 import { lanternCarriers } from '../config/npc-looks';
 import { markAt } from '../config/stage-marks';
 import type { SceneStage } from '../config/story';
@@ -143,6 +143,7 @@ class PixelE implements PixelDressing {
   private clock = new SceneClock();
   private time = 0;
   private colossus: Sprite | null = null;
+  private halos = new Map<string, Sprite>();
   private lights: ReturnType<typeof buildHandLanternSheet> | null = null;
 
   build(ctx: PixelDressCtx): void {
@@ -151,8 +152,26 @@ class PixelE implements PixelDressing {
     this.time = 0;
     this.lights = null;
     this.colossus = null;
+    this.halos.clear();
     if (typeof document === 'undefined') return;
     try {
+      const glow = glowTexture();
+      ctx.track(glow);
+      for (const p of LANTERN_POSTS) {
+        const m = new SpriteMaterial({
+          map: glow,
+          transparent: true,
+          blending: AdditiveBlending,
+          depthWrite: false,
+          fog: false,
+          opacity: 0,
+        });
+        ctx.track(m);
+        const h = new Sprite(m);
+        h.visible = false;
+        ctx.groups.grove.add(h);
+        this.halos.set(p.id, h);
+      }
       const tex = colossusTexture();
       const mat = new SpriteMaterial({
         map: tex,
@@ -180,6 +199,7 @@ class PixelE implements PixelDressing {
     if (!ctx) return;
     const reduce = ctx.reduceMotion();
     const flags = stageFlags(world, stage);
+    for (const hl of this.halos.values()) hl.visible = false;
     this.time += dt;
     const sceneT = this.clock.tick(flags.sceneId, dt);
 
@@ -233,28 +253,7 @@ class PixelE implements PixelDressing {
         h,
         tint: lit ? 1.1 * Math.min(1, k) : 1 - 0.55 * daylight.darkness,
       });
-      if (st === 'out') continue;
-      // The halo over the lamp head: warm for a lit post, a small cold bead for `low`.
-      const head = h * (35 / 48);
-      const size = st === 'low' ? LANTERN_E.haloLowSize : LANTERN_E.haloSize;
-      const halo = sheet.frames.get(st === 'low' ? 'post-halo-small' : 'post-halo');
-      if (!halo) continue;
-      // A stepped glow: three faint discs, so the edge reads as a falloff, not a plate.
-      for (const grow of [0.45, 0.7, 1]) {
-        batch.draw({
-          sheet,
-          rect: halo,
-          flip: false,
-          x: x + tx * lift,
-          y: head - (size * grow) / 2,
-          z: z + tz * lift,
-          mode: 'billboard',
-          w: size * grow,
-          h: size * grow,
-          opacity: LANTERN_E.haloOpacity * (st === 'low' ? 0.8 : 1) * Math.min(1, k),
-          tint: st === 'low' ? 0.8 : 1.2,
-        });
-      }
+      this.setHalo(post.id, st, post.x, post.z, h * (35 / 48), k);
     }
 
     // H4: hand lanterns for the cast who carry one, on their marks.
@@ -281,7 +280,22 @@ class PixelE implements PixelDressing {
     }
   }
 
+  /** A post's glow: an additive radial card over the lamp head, so the post stays visible. */
+  private setHalo(id: string, st: LampState, x: number, z: number, head: number, k: number): void {
+    const h = this.halos.get(id);
+    if (!h) return;
+    h.visible = st !== 'out';
+    if (!h.visible) return;
+    const size = st === 'low' ? LANTERN_E.haloLowSize : LANTERN_E.haloSize;
+    h.position.set(x, head, z);
+    h.scale.set(size, size, 1);
+    h.material.color.set(st === 'low' ? LANTERN_E.glassCold : LANTERN_E.glassWarm);
+    h.material.opacity = LANTERN_E.haloOpacity3d * Math.min(1, k);
+  }
+
   dispose(): void {
+    for (const h of this.halos.values()) h.removeFromParent();
+    this.halos.clear();
     this.colossus?.removeFromParent();
     this.colossus = null;
     this.ctx = null;
