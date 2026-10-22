@@ -44,7 +44,14 @@ export default defineConfig({
   build: {
     target: 'es2022',
     sourcemap: false,
-    // Three.js alone is ~540 kB minified (~140 kB gzip); that is expected.
+    // Measured 2026-10-21: the eager index chunk (Three.js, the sim, the UI) is ~1.27 MB
+    // minified, ~373 kB gzip, and is all a Free Grove without a story loads before play.
+    // The chunks past this limit are lazy script text: side-story-content (~1.23 MB, ~425 kB
+    // gzip, awaited only by a save with a story), the Atlas catalogue (~2.8 MB, ~930 kB gzip,
+    // on first open), each Learning Grove band (sprout ~1.0 MB / ~330 kB gzip, reader
+    // ~2.0 MB / ~675 kB gzip, plus a shared ~350 kB / ~120 kB language chunk; only the save's
+    // own band loads) and the bands' Atlas and Arcade versions (~2.0 MB and ~4.0 MB, loaded
+    // only when asked for). The warning on those is expected; a new one is worth a look.
     chunkSizeWarningLimit: 700,
   },
   server: {

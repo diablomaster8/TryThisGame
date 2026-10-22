@@ -2,27 +2,22 @@ import { describe, expect, it, vi } from 'vitest';
 
 // A lazy chunk that fails once (offline, or a deploy removed it) must not stay failed:
 // the loaders forget the rejected promise so the next call fetches again (review
-// 2026-10-18, Bug 2).
-//
-// The second load gets a tiny stand-in for the edu chunk rather than the real one: the
-// real chunk is megabytes of script and took over 30 s to transform under the full
-// parallel run (review 2026-10-21, Bug 47). What is tested here is the retry, and the
-// stand-in proves the loader really imported again. The real chunk's contents are
-// covered by the Learning Grove tests.
+// 2026-10-18, Bug 2). Each Learning Grove band is its own chunk, so the retry loads only the
+// sprout band, not the whole multi-megabyte edu script (review 2026-10-21, Bug 47).
 describe('lazy story chunks', () => {
-  it('a failed edu chunk load is retried on the next call', async () => {
+  it('a failed edu band chunk load is retried on the next call', async () => {
     vi.resetModules();
-    vi.doMock('../../src/content/edu', () => {
+    vi.doMock('../../src/content/edu-sprout', () => {
       throw new Error('chunk gone');
     });
     const first = await import('../../src/sim/story-scenes');
-    await expect(first.loadEduScripts()).rejects.toThrow();
+    await expect(first.loadEduScripts(['sprout'])).rejects.toThrow();
     expect(first.eduContent()).toBeNull();
-    const stub = { eduSceneFor: () => undefined, EDU_LANG_QUESTS: [], EDU_LANG_COURSES: [] };
-    vi.doMock('../../src/content/edu', () => stub);
+    vi.doUnmock('../../src/content/edu-sprout');
+    vi.resetModules();
     // Same module instance as before: only the rejected promise was dropped.
-    await expect(first.loadEduScripts()).resolves.toBeUndefined();
-    expect(first.eduContent()?.eduSceneFor).toBe(stub.eduSceneFor);
-    vi.doUnmock('../../src/content/edu');
-  }, 30_000);
+    await expect(first.loadEduScripts(['sprout'])).resolves.toBeUndefined();
+    expect(first.eduContent()).not.toBeNull();
+    expect(first.eduBandLoaded('sprout')).toBe(true);
+  }, 30_000); // the edu chunk is large and transforms slowly on a cold cache
 });
