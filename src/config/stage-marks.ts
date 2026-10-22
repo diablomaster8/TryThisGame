@@ -1,5 +1,5 @@
 import type { StagePlace } from './story';
-import { GROVE, HUSH, LANTERN_POSTS, LOOK_F, STORY_B } from './tuning';
+import { CG4_C4, GROVE, HUSH, LANTERN_POSTS, LOOK_F, STORY_B } from './tuning';
 
 /**
  * The story's stage marks (campaign graphics C1): where a figure stands for a scene, as
@@ -26,7 +26,7 @@ export interface StageMark {
   seatY?: number;
 }
 
-export type MarkSet = 'grove' | 'hollow' | 'corvin';
+export type MarkSet = 'grove' | 'hollow' | 'corvin' | 'dungeon';
 
 const PI = Math.PI;
 const N = PI; // facing north (-z)
@@ -204,24 +204,106 @@ const CORVIN_MARKS: Record<string, StageMark> = {
   'pen-3': { x: 0, z: 0, yaw: S },
 };
 
+/**
+ * K16: the marks of the Hollow Below floor under way, from its seeded rooms (stairs, chest,
+ * room centres, and the names the Beetle Road's below scenes use). The renderers set them
+ * from the world (`render/floor-marks.ts`); empty while no floor is drawn.
+ */
+const DUNGEON_MARKS: Record<string, StageMark> = {};
+
+/** Replace the dungeon floor's marks (render only: they follow the floor under way). */
+export function setFloorMarks(marks: Readonly<Record<string, StageMark>>): void {
+  for (const k of Object.keys(DUNGEON_MARKS)) delete DUNGEON_MARKS[k];
+  Object.assign(DUNGEON_MARKS, marks);
+}
+
+/**
+ * K10: the interiors (`place: 'inside-<id>'`). One room at a time is drawn alone (an
+ * exclusive stage) round `CG4_C4.room.origin`, clear of the Grove's buildings, so its marks
+ * are the same in every location. The room runs `w` across (x) and `d` deep (z); its back
+ * wall is on the -z side. Each has a 3 × 3 grid (`in-<id>-b1`..`f3`: back, middle, front
+ * rows, left to right, facing the front), named spots, and the Keeper's mark
+ * `keeper-inside-<id>`.
+ */
+export const INTERIOR_IDS = ['kitchen', 'guardhouse', 'corvin', 'crest', 'fold'] as const;
+export type InteriorId = (typeof INTERIOR_IDS)[number];
+
+const ROOM = CG4_C4.room;
+const inRoom = (x: number, z: number, yaw: number = S): StageMark => ({
+  x: ROOM.origin.x + x,
+  z: ROOM.origin.z + z,
+  yaw,
+});
+/** Named spots in each room (room coordinates; the furniture stands just behind them). */
+const ROOM_SPOTS: Readonly<Record<InteriorId, Readonly<Record<string, StageMark>>>> = {
+  kitchen: {
+    shelf: inRoom(-2.2, -1.9, S),
+    stove: inRoom(2.4, -1.7, toward(2.4, -1.7, 0, 1)),
+    table: inRoom(0.2, 0.2, toward(0.2, 0.2, 0.9, 1.9)),
+    window: inRoom(-0.2, -2.0, S),
+  },
+  guardhouse: {
+    // Behind the counter, which runs across the room a third of the way in.
+    counter: inRoom(-0.6, -1.5, S),
+    banners: inRoom(2.2, -2.0, S),
+    door: inRoom(2.8, 1.8, toward(2.8, 1.8, 0, 0)),
+  },
+  corvin: {
+    chair: inRoom(-1.8, -1.0, toward(-1.8, -1.0, 0.9, 1.9)),
+    shelves: inRoom(1.8, -2.0, S),
+    hearth: inRoom(0, -1.9, S),
+  },
+  crest: {
+    hearth: inRoom(0, -1.8, S),
+    bench: inRoom(-2.3, -0.4, E),
+    crest: inRoom(1.6, -2.0, S),
+  },
+  fold: {
+    hole: inRoom(0.4, -0.6, S),
+    bed: inRoom(-2.4, -1.5, toward(-2.4, -1.5, 0.9, 1.9)),
+    kettle: inRoom(2.2, -1.2, toward(2.2, -1.2, 0.9, 1.9)),
+  },
+};
+
+function interiorMarks(): Record<string, StageMark> {
+  const out: Record<string, StageMark> = {};
+  const rows: Array<[string, number]> = [
+    ['b', -1.8],
+    ['m', 0],
+    ['f', 1.6],
+  ];
+  for (const id of INTERIOR_IDS) {
+    for (const [r, z] of rows)
+      [-2.4, 0, 2.4].forEach((x, i) => (out[`in-${id}-${r}${i + 1}`] = inRoom(x, z, S)));
+    for (const [name, m] of Object.entries(ROOM_SPOTS[id])) out[`in-${id}-${name}`] = m;
+    out[`keeper-inside-${id}`] = inRoom(0.9, 1.9, N);
+  }
+  return out;
+}
+
+/** Every interior's marks, the same in any location. */
+export const INTERIOR_MARKS: Readonly<Record<string, StageMark>> = interiorMarks();
+
 export const STAGE_MARKS: Readonly<Record<MarkSet, Readonly<Record<string, StageMark>>>> = {
   grove: GROVE_MARKS,
   hollow: HOLLOW_MARKS,
   corvin: CORVIN_MARKS,
+  dungeon: DUNGEON_MARKS,
 };
 
-/** Which set a sim location's marks come from; null where there are none (the dungeon). */
+/** Which set a sim location's marks come from; null where there are none. */
 export function markSetFor(location: string): MarkSet | null {
   if (location === 'hollow') return 'hollow';
   if (location === 'corvin') return 'corvin';
+  if (location === 'dungeon') return 'dungeon';
   if (location === 'grove' || location.startsWith('visit:')) return 'grove';
   return null;
 }
 
-/** A mark by name in the set for `location`, or undefined. */
+/** A mark by name in the set for `location` (or an interior's, anywhere), or undefined. */
 export function markAt(location: string, name: string): StageMark | undefined {
   const set = markSetFor(location);
-  return set ? STAGE_MARKS[set][name] : undefined;
+  return (set ? STAGE_MARKS[set][name] : undefined) ?? INTERIOR_MARKS[name];
 }
 
 /** Which mark set a staged place's marks live in (H1's dev check compares it with the world). */
@@ -249,4 +331,5 @@ export const PLACE_KEEPER: Readonly<Record<StagePlace, string | null>> = {
   rootNode: 'keeper-rootNode',
   below: 'keeper-below',
   festival: 'keeper-festival',
+  ...Object.fromEntries(INTERIOR_IDS.map((id) => [`inside-${id}`, `keeper-inside-${id}`])),
 };
