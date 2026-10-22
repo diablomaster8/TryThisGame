@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { RACE_LOOK } from '../config/campaign-look';
 import { GROVE3D, RACE3D, READ3D } from '../config/tuning';
 import { SECTION_LABELS } from '../config/strings';
 import type { RaceView } from '../minigames/race/view';
@@ -8,6 +9,7 @@ import { sectionAt, type RaceState, type Racer } from '../sim/race';
 import type { Nubbin } from '../sim/types';
 import { el } from '../ui/dom';
 import { nubbinLook, type Look } from './creature-pool';
+import { buildStoryRace } from './dress-f-sets';
 import { gaitTime } from './gait';
 import type { Grove3dScene } from './grove-3d-scene';
 import {
@@ -79,7 +81,9 @@ export class Race3dView implements RaceView {
     this.buildTrack(stage, race);
     this.runners = race.racers.map((racer, lane) => {
       const look = racer.isPlayer ? nubbinLook(player) : rivalLook(racer);
-      const tag = stage.nameTag(racer.name, racer.isPlayer ? '#f2d34c' : '#fff6d8', RACE3D.nameTag);
+      // The story race: Corvin's runners wear numbered bibs (campaign look M4).
+      const label = RACE_LOOK.story && !racer.isPlayer ? `#${lane + 1} ${racer.name}` : racer.name;
+      const tag = stage.nameTag(label, racer.isPlayer ? '#f2d34c' : '#fff6d8', RACE3D.nameTag);
       const stamina = racer.isPlayer ? stage.bar(1.1, 0.14, '#7ddc8a') : null;
       return {
         racer,
@@ -479,6 +483,10 @@ export class Race3dView implements RaceView {
     banner.rotation.y = Math.PI / 2;
     banner.position.set(endX, last.y1 + 2.45, (zBack + zFront) / 2);
     stage.scene.add(banner);
+    if (RACE_LOOK.story)
+      stage.scene.add(
+        buildStoryRace({ spans: this.spans, unit: U, zBack, zFront, endX, endY: last.y1 }),
+      );
     // Trees along the far side, and a hill behind them, so the track sits in a place.
     const t = RACE3D.trees;
     for (let i = 0; i < t.count; i++) {
