@@ -50,25 +50,25 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `learning/side/S11/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `side/S12.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `learning/side/S12/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
-| `learning/side/S12/reader.md` | never | 0 |
+| `learning/side/S12/reader.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 7 |
 | `side/S13.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S13/sprout.md` | never | 0 |
-| `learning/side/S13/reader.md` | never | 0 |
+| `learning/side/S13/sprout.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 10 |
+| `learning/side/S13/reader.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 10 |
 | `side/S14.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S14/sprout.md` | never | 0 |
-| `learning/side/S14/reader.md` | never | 0 |
+| `learning/side/S14/sprout.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 6 |
+| `learning/side/S14/reader.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 9 |
 | `side/S15.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `learning/side/S15/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 1 |
-| `learning/side/S15/reader.md` | never | 0 |
+| `learning/side/S15/reader.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 6 |
 | `side/S16.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `learning/side/S16/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
-| `learning/side/S16/reader.md` | never | 0 |
+| `learning/side/S16/reader.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 9 |
 | `side/S17.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `learning/side/S17/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
-| `learning/side/S17/reader.md` | never | 0 |
+| `learning/side/S17/reader.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 5 |
 | `side/S18.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S18/sprout.md` | never | 0 |
-| `learning/side/S18/reader.md` | never | 0 |
+| `learning/side/S18/sprout.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 9 |
+| `learning/side/S18/reader.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 10 |
 | `side/S19.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `learning/side/S19/sprout.md` | never | 0 |
 | `learning/side/S19/reader.md` | never | 0 |
@@ -372,6 +372,59 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261022-118 | 10-mv-doom.md<br>11-mv-ultron.md | cross-story | High | theme | Plant Doom's trust at FF9's children's table and pay it off in UL10 | fixed | 2026-10-22-2 |
 | SR-20261022-119 | 06-neopia-line.md<br>07-neopia-quests.md | cross-story | Medium | character | A weary Neopian Times reporter as Neopia's recurring straight man | fixed | 2026-10-22-2 |
 | SR-20261022-120 | 20b-edu-sprout-stories.md [S1 .. S17]<br>21b-edu-reader-stories.md [S1 .. S11] | cross-story | Medium | theme | Say Pixel and Byte are married in both Learning Grove bands (canon 38) | fixed | 2026-10-22-2 |
+| SR-20261022-121 | learning/side/S15/reader.md | s15-odds-board | Critical | continuity | Pip spent all forty Shells on four eggs, so "ten Shells left" is wrong on every branch | open | 2026-10-22-3 |
+| SR-20261022-122 | learning/side/S15/reader.md | s15-tally | Critical | follow | "Out by three point three" is wrong maths; say what is divided by what | open | 2026-10-22-3 |
+| SR-20261022-123 | learning/side/S14/reader.md | s14-sparks | High | follow | "She's gone off somewhere" reads as Hazel; name Tilly, cut the metaphor quiz, trim the info dump | open | 2026-10-22-3 |
+| SR-20261022-124 | learning/side/S14/sprout.md | s14-sparks | High | follow | Say aloud why the dragon is Hazel, and send the child to find Tilly by name | open | 2026-10-22-3 |
+| SR-20261022-125 | learning/side/S12/reader.md | s12-complete | High | child-read | Say plainly that the Queen-Mother dies, gently, and turn the "chorus" line into a callback | open | 2026-10-22-3 |
+| SR-20261022-126 | learning/side/S13/sprout.md | s13-level3 | High | child-read | "Won't start again" sits beside a stuck wheel that does start again; split the two | open | 2026-10-22-3 |
+| SR-20261022-127 | learning/side/S18/sprout.md | s18-fossils | High | child-read | A Nubbin named Fossil, right after finding fossils, confuses sprouts; name it, then grieve | open | 2026-10-22-3 |
+| SR-20261022-128 | learning/side/S18/sprout.md<br>learning/side/S18/reader.md | s18-stars | High | follow | Drop "don't make it a moment", and ask the reader quiz only after Nova says she carried the rock | open | 2026-10-22-3 |
+| SR-20261022-129 | learning/side/S18/reader.md | s18-shore | High | child-read | The tide quiz marks "17 o'clock" wrong and then tells the child it's right | open | 2026-10-22-3 |
+| SR-20261022-130 | learning/side/S13/sprout.md<br>learning/side/S13/reader.md | s13-level3, s13-key | High | follow | Say what Hazel's notebook tells you, and drop "after the Hollow" | open | 2026-10-22-3 |
+| SR-20261022-131 | learning/side/S13/reader.md | s13-letter, s13-letter-nomoss | High | pacing | Let Aldous's letter run unbroken, name Hazel's Grove, and say his apology plainly | open | 2026-10-22-3 |
+| SR-20261022-132 | learning/side/S17/reader.md | s17-hatching | High | humour | Nova promises to be on the cliff path "by accident, about nine"; make her turn up | open | 2026-10-22-3 |
+| SR-20261022-133 | learning/side/S14/reader.md | s14-tears | High | pacing | Cut the "loudest thing" quiz; let the hug and the tea towels follow the tears at once | open | 2026-10-22-3 |
+| SR-20261022-134 | learning/side/S14/sprout.md | s14-bog, s14-tower, s14-lair, s14-table | High | humour | Make Byte's points a countdown sprouts can shout: eight, seven, six, five | open | 2026-10-22-3 |
+| SR-20261022-135 | learning/side/S12/reader.md | s12-queen | High | child-read | "Don't tell the we" turns a pronoun into a noun at the key choice; say it plainly | open | 2026-10-22-3 |
+| SR-20261022-136 | learning/side/S18/reader.md | s18-barn, s18-night-finds, s18-complete | High | child-read | Explain "in principle" once, so its two callbacks land for 7-year-olds | open | 2026-10-22-3 |
+| SR-20261022-137 | learning/side/S12/reader.md | s12-dark | High | humour | Pay off "its wings buzz whenever anyone speaks" while Luna bares her soul | open | 2026-10-22-3 |
+| SR-20261022-138 | learning/side/S15/reader.md<br>learning/side/S16/reader.md | s15-jackpot, s16-yard | Medium | follow | "The Circuit's mark" and "no Circuit man" need Corvin's name once each | open | 2026-10-22-3 |
+| SR-20261022-139 | learning/side/S18/reader.md | s18-barn | Medium | continuity | "Two days after the rain on the hill" hides Fossil's death; say it in the story | open | 2026-10-22-3 |
+| SR-20261022-140 | learning/side/S18/sprout.md<br>learning/side/S18/reader.md | s18-heart | Medium | child-read | Say what Hazel's egg book is, and make "where a valley remembers" concrete for sprouts | open | 2026-10-22-3 |
+| SR-20261022-141 | learning/side/S13/sprout.md<br>learning/side/S13/reader.md | s13-letter, s13-letter-nomoss | Medium | child-read | "Some things end with the person" is an idiom; tie the burn choice to Aldous's own stove | open | 2026-10-22-3 |
+| SR-20261022-142 | learning/side/S17/reader.md | s17-nest | Medium | follow | An empty "…" and "That number keeps turning up" read as a broken line | open | 2026-10-22-3 |
+| SR-20261022-143 | learning/side/S17/reader.md | s17-wild | Medium | child-read | Two Luna lines drop their meaning or their subject; make them plain sentences | open | 2026-10-22-3 |
+| SR-20261022-144 | learning/side/S14/reader.md | s14-toad | Medium | child-read | Byte's "two, two, two… forever" needs decimals; let the lesson reveal the twos | open | 2026-10-22-3 |
+| SR-20261022-145 | learning/side/S14/sprout.md | s14-tower, s14-toad | Medium | humour | "Tax on paying the tax" and "the Toad does feelings" are too hard for sprouts | open | 2026-10-22-3 |
+| SR-20261022-146 | learning/side/S14/reader.md | s14-bog | Medium | pacing | The dice-totals quiz splits "your sword is now a sandwich" from "What KIND of sandwich?" | open | 2026-10-22-3 |
+| SR-20261022-147 | learning/side/S16/reader.md | s16-complete | Medium | continuity | "Moss is old and fading" states a campaign state the player may not have, and saddens the close | open | 2026-10-22-3 |
+| SR-20261022-148 | learning/side/S16/reader.md | s16-roster | Medium | pacing | Two lessons back to back; cut the second waterwheel notice, keep its best line as story | open | 2026-10-22-3 |
+| SR-20261022-149 | learning/side/S12/reader.md | s12-follow | Medium | child-read | The "do" lesson tells children a real fork buzzes harder facing a sound; use their ears | open | 2026-10-22-3 |
+| SR-20261022-150 | learning/side/S12/reader.md | s12-settled | Medium | humour | Pay off "Don't walk into the stream. Not me. Other people." | open | 2026-10-22-3 |
+| SR-20261022-151 | learning/side/S18/sprout.md<br>learning/side/S18/reader.md | s18-star-finds | Medium | humour | Fact pile-up on the hill; let a shooting star send Delve under his hat | open | 2026-10-22-3 |
+| SR-20261022-152 | learning/side/S18/sprout.md | s18-door | Medium | humour | Show why the barn needs Shells, and swap "Probably" for a worried hat | open | 2026-10-22-3 |
+| SR-20261022-153 | learning/side/S13/reader.md | s13-level2 | Medium | humour | Give the annoyed eels a culprit before the chalk marks turn the scene grave | open | 2026-10-22-3 |
+| SR-20261022-154 | learning/side/S13/reader.md | s13-desk | Medium | humour | Four heavy lessons from desk to letter; give Tobin one dry beat with the chair | open | 2026-10-22-3 |
+| SR-20261022-155 | learning/side/S13/reader.md | s13-level1 | Medium | humour | "Very organised" rats should act out the sharing sum | open | 2026-10-22-3 |
+| SR-20261022-156 | learning/side/S16/reader.md | s16-bell | Medium | humour | "Output's going to be awful" said happily is irony; let Brisk be shocked at himself | open | 2026-10-22-3 |
+| SR-20261022-157 | learning/side/S16/reader.md | s16-shadow | Medium | humour | Escalate Brisk's forty clipboards with Clover as the straight man | open | 2026-10-22-3 |
+| SR-20261022-158 | learning/side/S13/sprout.md | s13-level1 | Medium | humour | The rats are "very tidy" and do nothing; give one a flour sneeze | open | 2026-10-22-3 |
+| SR-20261022-159 | learning/side/S13/sprout.md | s13-sluice | Medium | humour | "Marina could swim in soup" is a non-sequitur for sprouts; act it out instead | open | 2026-10-22-3 |
+| SR-20261022-160 | learning/side/S13/sprout.md | s13-wheelpit, s13-key, s13-complete | Medium | humour | Let the Sock of Nobody Knows Where keep turning up, so sprouts can shout "The sock!" | open | 2026-10-22-3 |
+| SR-20261022-161 | learning/side/S13/sprout.md | s13-desk | Medium | child-read | "Never once does it say rest" is abstract; show the missing bed, and let Tobin yawn | open | 2026-10-22-3 |
+| SR-20261022-162 | learning/side/S15/reader.md | s15-jackpot | Nice | character | Jackpot's lesson replies switch from capitals to lower case mid-reply; give the calm half to Byte | open | 2026-10-22-3 |
+| SR-20261022-163 | learning/side/S16/reader.md | s16-question | Nice | child-read | Brisk's "trouble with being liked" line is too abstract for 7 to 10 | open | 2026-10-22-3 |
+| SR-20261022-164 | learning/side/S14/reader.md | s14-tower | Nice | humour | The Tax Toad's tower is drawn on Sparks's chimney; let Sparks notice | open | 2026-10-22-3 |
+| SR-20261022-165 | learning/side/S18/sprout.md | s18-complete | Nice | child-read | Sprouts clap "Cu-ra-tor" but are never told what it means | open | 2026-10-22-3 |
+| SR-20261022-166 | learning/side/S18/sprout.md | s18-barn | Nice | humour | Stretch Delve's moth panic into a read-aloud stammer before the faint | open | 2026-10-22-3 |
+| SR-20261022-167 | learning/side/S18/reader.md | s18-door | Nice | humour | The swallows lesson is a pure fact stop; give Delve one dry line about their cups | open | 2026-10-22-3 |
+| SR-20261022-168 | learning/side/S14/sprout.md | s14-gate | Nice | continuity | Say Tilly doesn't open Hazel's note when she takes it out | open | 2026-10-22-3 |
+| SR-20261022-169 | learning/side/S12/reader.md<br>learning/side/S14/sprout.md<br>learning/side/S14/reader.md<br>learning/side/S15/reader.md | cross-story | High | theme | Pixel and Byte are married (canon 38); say it in S14 and let her clocks and his lace bicker | open | 2026-10-22-3 |
+| SR-20261022-170 | learning/side/S13/reader.md<br>learning/side/S14/reader.md<br>learning/side/S16/reader.md<br>learning/side/S17/reader.md<br>learning/side/S18/reader.md | cross-story | High | pacing | Reader band rule: no lesson between a set-up and its payoff, or inside a grave beat | open | 2026-10-22-3 |
+| SR-20261022-171 | learning/side/S13/sprout.md<br>learning/side/S13/reader.md<br>learning/side/S14/sprout.md<br>learning/side/S14/reader.md<br>learning/side/S16/reader.md<br>learning/side/S18/sprout.md<br>learning/side/S18/reader.md | cross-story | Medium | humour | One wordless Nubbin thinks everything is supper, in every story | open | 2026-10-22-3 |
+| SR-20261022-172 | learning/side/S12/reader.md<br>learning/side/S13/sprout.md<br>learning/side/S13/reader.md<br>learning/side/S17/reader.md<br>learning/side/S18/sprout.md<br>learning/side/S18/reader.md | cross-story | Medium | child-read | Use one plain, gentle death pattern across the Learning Grove side stories | open | 2026-10-22-3 |
+| SR-20261022-173 | learning/side/S13/sprout.md<br>learning/side/S13/reader.md<br>learning/side/S14/reader.md<br>learning/side/S15/reader.md<br>learning/side/S16/reader.md | cross-story | Medium | follow | Tag each valley regular with five words on first appearance in a unit | open | 2026-10-22-3 |
 
 ## Runs
 
@@ -379,3 +432,4 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 - 2026-10-22 · fix pass on branch `fix/story-review-1022` · all 60 run-1 recs applied: 55 fixed, 5 partial (SR-20261022-25, -28, -43, -53, -54) · canon 38–43 added
 - 2026-10-22 run 2 · [review-2026-10-22-2](review-2026-10-22-2.md) · units: 06, 07, 08, 09, 10, 11, 12, 13, 20b [S1 .. S17], 21b [S1 .. S11] · 60 recs: Critical 2, High 34, Medium 24, Nice 0 (5 cross-story) · fixed since last run: 55 (5 partial) · plus the storage study
 - 2026-10-22 · fix pass on branch `fix/story-review-2026-10-22` · all 65 open or partial recs: 60 fixed, 5 partial (SR-20261022-72: the optional Jhudora/Illusen side of the NQ27 gift was not built, both gifts always play; -79: Logan's jump is explained by Sue's rift, no machine named; -80: Frenchie and Marlene reach the ridge but Marlene stays back; -110: Pip is still named in s15-wagon by a main choice; -115: S8's elephant notice stays, a reader scene needs a lesson) · run-1 partials closed: -25/-28 measured clean once choice replies are counted apart; -43 c4-open sets `c4-lamps`, paid off in c10-dawn; -53 asks rewritten in voice; -54 c10-wisp names Sable or Moss (sim line swap) · canon 44–45 added
+- 2026-10-22 run 3 · [review-2026-10-22-3](review-2026-10-22-3.md) · units: S12/reader.md, S13/sprout.md, S13/reader.md, S14/sprout.md, S14/reader.md, S15/reader.md, S16/reader.md, S17/reader.md, S18/sprout.md, S18/reader.md · 53 recs: Critical 2, High 17, Medium 27, Nice 7 (5 cross-story) · fixed since last run: 60 (5 partial)
