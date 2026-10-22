@@ -7,7 +7,9 @@
 // <url> is the game with `?debug` (e.g. http://localhost:5191/?debug). Frames are JPEGs
 // named `<slug>-<pixel|3d>-<desk|phone>[-rm]-c<ch>-<0|1>.jpg`: frame 0 is the chapter's
 // first frame after a debug jump, frame 1 after one advance. `--golden` shoots only the
-// 16-frame reference set (docs/samples/golden/); `--only` keeps jobs whose tag matches.
+// 16-frame reference set (docs/samples/golden/); `--only` keeps jobs whose tag matches;
+// `--chs 10,11` keeps only those chapters (Hazel's past 10 still pass by 10); `--inspect`
+// turns the debug panel's stage inspector (K48) on for the frames.
 // Compare a run with the reference set with tests/tools/story-shots-diff.cjs.
 /* eslint-disable */
 const path = require('path');
@@ -22,6 +24,9 @@ if (!url || !pwPath || !out) {
 const golden = args.includes('--golden');
 const onlyAt = args.indexOf('--only');
 const only = onlyAt >= 0 ? new RegExp(args[onlyAt + 1]) : null;
+const chsAt = args.indexOf('--chs');
+const onlyChs = chsAt >= 0 ? args[chsAt + 1].split(',').map(Number) : null;
+const inspect = args.includes('--inspect');
 const { chromium } = require(pwPath);
 
 const HAZEL = 'Hazel’s Grove';
@@ -56,10 +61,13 @@ const goldenHas = (j, ch) => !j.rm && GOLDEN.includes(`${j.slug}-${j.vp}-c${ch}`
 
 async function shoot(j, gfx) {
   const view = j.vp === 'phone' ? { width: 390, height: 844 } : { width: 1280, height: 720 };
-  const chs = golden ? j.chs.filter((ch) => goldenHas(j, ch)) : j.chs;
+  const chs = (golden ? j.chs.filter((ch) => goldenHas(j, ch)) : j.chs).filter(
+    (ch) => !onlyChs || onlyChs.includes(ch),
+  );
   if (chs.length === 0) return 0;
   // A debug jump lands in the chapter's home location; Hazel's 11 and 12 still pass by 10.
-  const route = golden && j.slug === 'hazel' && chs.some((c) => c > 10) ? [...new Set([10, ...chs])] : chs;
+  const route =
+    j.slug === 'hazel' && chs.some((c) => c > 10) && !chs.includes(10) ? [10, ...chs] : chs;
   const tag = tagOf(j, gfx);
   const b = await chromium.launch({
     executablePath: 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
@@ -114,6 +122,10 @@ async function shoot(j, gfx) {
     if (!jb) console.log('no jump', ch);
     else await jb.evaluate((e) => e.click());
     await p.waitForTimeout(400);
+    if (inspect && ch === route[0]) {
+      const ib = await p.$('button:text-is("Stage inspector")');
+      if (ib) await ib.evaluate((e) => e.click());
+    }
     await p.keyboard.press('Backquote');
     await p.waitForTimeout(gfx === '3d' ? 6000 : 3000);
     const keep = chs.includes(ch);
