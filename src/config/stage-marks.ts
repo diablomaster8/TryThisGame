@@ -221,7 +221,7 @@ export function setFloorMarks(marks: Readonly<Record<string, StageMark>>): void 
  * K10: the interiors (`place: 'inside-<id>'`). One room at a time is drawn alone (an
  * exclusive stage) round `CG4_C4.room.origin`, clear of the Grove's buildings, so its marks
  * are the same in every location. The room runs `w` across (x) and `d` deep (z); its back
- * wall is on the -z side. Each has a 3 × 3 grid (`in-<id>-b1`..`f3`: back, middle, front
+ * wall is on the -z side. Each has a 3 Ã— 3 grid (`in-<id>-b1`..`f3`: back, middle, front
  * rows, left to right, facing the front), named spots, and the Keeper's mark
  * `keeper-inside-<id>`.
  */
