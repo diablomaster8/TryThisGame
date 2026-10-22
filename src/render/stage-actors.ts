@@ -170,7 +170,7 @@ export class StageTracker {
     world: World,
   ): { x: number; z: number; kind: 'keeper' | 'nubbin'; scale: number; id: string } | null {
     const who = liveSpeaker();
-    if (!who || who === 'narrator' || who === 'chorus' || !this.stager.active) return null;
+    if (!who || who === 'narrator' || who === 'chorus') return null;
     if (who === 'you') {
       const k = this.stager.keeperSpot(world);
       return { x: k.x, z: k.z, kind: 'keeper', scale: 1, id: who };
@@ -181,7 +181,9 @@ export class StageTracker {
       const p = n ? (this.stager.nubbinHolds.get(n.id) ?? n.pos) : null;
       return p ? { x: p.x, z: p.z, kind: 'nubbin', scale: 1, id: who } : null;
     }
-    const p = this.spotOf(world, who);
+    // No staged scene: a visiting Keeper (Fern, Corvin...) stands where the sim has them.
+    const npc = world.npcs.find((n) => n.trainer === who && npcHere(world.location, n.trainer));
+    const p = this.spotOf(world, who) ?? (npc ? npc.pos : null);
     if (!p) return null;
     const look = STORY_NPC_LOOKS[who];
     return { x: p.x, z: p.z, kind: 'keeper', scale: look?.scale ?? 1, id: who };
