@@ -2,45 +2,74 @@ import * as THREE from 'three';
 import { CG2_W } from '../config/tuning-w';
 
 /**
- * C8, Full 3D: the Hush's grey card with a fog-coloured rim. The mass is the stock soft
- * silhouette (render/dress-e.ts); a wider, paler copy of it painted first gives the edge the
- * colour of the fog it stands in, so it reads against the treeline instead of cutting a
- * dark hole in it.
+ * C8, Full 3D: the Hush's card. A figure, not a column: a hooded head, broad shoulders and
+ * long arms hanging at its sides, in a dark slate that stands out from the snow and the night
+ * ground, with a soft fog-coloured rim so its edge reads against the treeline. Two small pale
+ * glints for eyes give it a face without making it frightening. The foot fades into the ground.
  */
 export function hushCardTexture(): THREE.CanvasTexture {
   const c = document.createElement('canvas');
   c.width = 128;
   c.height = 192;
   const g = c.getContext('2d')!;
-  const blob = (x: number, y: number, rx: number, ry: number, a: number, rgb: string): void => {
-    g.save();
-    g.translate(x, y);
-    g.scale(rx / ry, 1);
-    const grad = g.createRadialGradient(0, 0, 0, 0, 0, ry);
-    grad.addColorStop(0, `rgba(${rgb},${a})`);
-    grad.addColorStop(0.62, `rgba(${rgb},${a * 0.55})`);
-    grad.addColorStop(1, `rgba(${rgb},0)`);
-    g.fillStyle = grad;
+  const figure = (): void => {
     g.beginPath();
-    g.arc(0, 0, ry, 0, Math.PI * 2);
-    g.fill();
-    g.restore();
+    // Head and hood.
+    g.ellipse(64, 34, 17, 20, 0, 0, Math.PI * 2);
+    // Shoulders and body, widening to the hem.
+    g.moveTo(30, 66);
+    g.quadraticCurveTo(64, 44, 98, 66);
+    g.quadraticCurveTo(106, 120, 100, 192);
+    g.lineTo(28, 192);
+    g.quadraticCurveTo(22, 120, 30, 66);
+    // Arms, hanging a little apart from the body.
+    g.moveTo(30, 64);
+    g.quadraticCurveTo(10, 100, 14, 150);
+    g.quadraticCurveTo(20, 158, 26, 150);
+    g.quadraticCurveTo(28, 110, 40, 80);
+    g.moveTo(98, 64);
+    g.quadraticCurveTo(118, 100, 114, 150);
+    g.quadraticCurveTo(108, 158, 102, 150);
+    g.quadraticCurveTo(100, 110, 88, 80);
   };
   const rim = new THREE.Color(CG2_W.hush.rimColor);
   const rimRgb = `${Math.round(rim.r * 255)},${Math.round(rim.g * 255)},${Math.round(rim.b * 255)}`;
-  const body = (grow: number, a: number, rgb: string): void => {
-    blob(64, 120, 54 + grow, 54 + grow, a, rgb);
-    blob(64, 88, 40 + grow, 46 + grow, a * 0.9, rgb);
-    blob(64, 46, 24 + grow, 24 + grow, a, rgb);
-  };
-  body(7, 0.28, rimRgb);
-  body(0, 1, '84,92,112');
+  // The rim: the same shape, blurred wider, in the fog's colour.
+  g.filter = 'blur(4px)';
+  g.fillStyle = `rgba(${rimRgb},0.7)`;
+  g.strokeStyle = `rgba(${rimRgb},0.7)`;
+  g.lineWidth = 6;
+  figure();
+  g.fill();
+  g.stroke();
+  // The body.
+  g.filter = 'blur(1px)';
+  g.fillStyle = 'rgb(44,50,66)';
+  figure();
+  g.fill();
+  g.filter = 'none';
+  // A faint lighter fold down the chest, so it is not a flat cut-out.
+  const fold = g.createLinearGradient(40, 0, 88, 0);
+  fold.addColorStop(0, 'rgba(120,132,156,0)');
+  fold.addColorStop(0.5, 'rgba(120,132,156,0.22)');
+  fold.addColorStop(1, 'rgba(120,132,156,0)');
+  g.fillStyle = fold;
+  g.fillRect(40, 60, 48, 132);
+  // Two small pale glints under the hood.
+  g.fillStyle = `rgba(${rimRgb},0.95)`;
+  g.beginPath();
+  g.ellipse(57, 37, 2.6, 2, 0, 0, Math.PI * 2);
+  g.ellipse(71, 37, 2.6, 2, 0, 0, Math.PI * 2);
+  g.fill();
   g.globalCompositeOperation = 'destination-in';
   const fade = g.createLinearGradient(0, 0, 0, 192);
   fade.addColorStop(0, 'rgba(0,0,0,1)');
-  fade.addColorStop(0.55, 'rgba(0,0,0,1)');
-  fade.addColorStop(0.95, 'rgba(0,0,0,0)');
+  fade.addColorStop(0.62, 'rgba(0,0,0,1)');
+  fade.addColorStop(0.98, 'rgba(0,0,0,0)');
   g.fillStyle = fade;
   g.fillRect(0, 0, 128, 192);
-  return new THREE.CanvasTexture(c);
+  const tex = new THREE.CanvasTexture(c);
+  // Painted in sRGB: without this the slate is read as linear and lifts to a pale grey.
+  tex.colorSpace = THREE.SRGBColorSpace;
+  return tex;
 }

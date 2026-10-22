@@ -232,8 +232,8 @@ export class SceneStager {
     let face = this.baseKeeperFace;
     const who = this.speaker;
     // The Keeper speaking turns three-quarter to the camera, not away from it.
-    if (who && camYaw !== undefined && speaksAsKeeper(world, who)) return camYaw - 0.5;
-    if (who && who !== 'narrator' && !speaksAsKeeper(world, who)) {
+    if (who && camYaw !== undefined && speaksAsKeeper(world, who, this.stage)) return camYaw - 0.5;
+    if (who && who !== 'narrator' && !speaksAsKeeper(world, who, this.stage)) {
       const k = this.keeperSpot(world);
       const p = this.castSpot(world, who);
       if (p && Math.hypot(p.x - k.x, p.z - k.z) > 0.05) face = Math.atan2(p.x - k.x, p.z - k.z);
@@ -418,7 +418,7 @@ export class SceneStager {
     if (!k) return null;
     const names = you?.face ? [you.face] : [...this.speakers];
     for (const who of names) {
-      if (who === 'narrator' || speaksAsKeeper(world, who)) continue;
+      if (who === 'narrator' || speaksAsKeeper(world, who, this.stage)) continue;
       const p = this.castSpot(world, who);
       if (p && Math.hypot(p.x - k.x, p.z - k.z) > 0.05) return Math.atan2(p.x - k.x, p.z - k.z);
     }
@@ -482,7 +482,7 @@ export class SceneStager {
     const focus = this.focusNow();
     const names = focus ?? [...this.speakers];
     for (const who of names) {
-      if (who === 'narrator' || speaksAsKeeper(world, who)) continue;
+      if (who === 'narrator' || speaksAsKeeper(world, who, this.stage)) continue;
       const p = this.spotOf(world, who);
       const fit = focus ? MARK_FIT[who] : undefined;
       if (p && (focus || who === this.speaker || near(p))) out.push(fit ? { ...p, fit } : p);
@@ -519,6 +519,11 @@ export function fitPixel(
   let maxX = -Infinity;
   let minY = Infinity;
   let maxY = -Infinity;
+  // The sized marks' own extent (the pond, the Hush), kept whole when nothing else fits.
+  let kx0 = Infinity;
+  let kx1 = -Infinity;
+  let ky0 = Infinity;
+  let ky1 = -Infinity;
   for (const p of points) {
     const dx = p.x - o.x;
     const dz = p.z - o.z;
@@ -532,14 +537,22 @@ export function fitPixel(
     maxX = Math.max(maxX, sx + r);
     minY = Math.min(minY, sy - radius * sp);
     maxY = Math.max(maxY, sy + h * Math.cos(pitch));
+    if (fit) {
+      kx0 = Math.min(kx0, sx - r);
+      kx1 = Math.max(kx1, sx + r);
+      ky0 = Math.min(ky0, sy - radius * sp);
+      ky1 = Math.max(ky1, sy + h * Math.cos(pitch));
+    }
   }
   const sw = Math.max(0.05, safe.x1 - safe.x0);
   const sh = Math.max(0.05, safe.y1 - safe.y0);
   let zoom = 0;
+  let fitsAll = false;
   for (let i = views.length - 1; i >= 0; i--) {
     const v = views[i]!;
     if (maxX - minX <= sw * v.w && maxY - minY <= sh * v.h) {
       zoom = i;
+      fitsAll = true;
       break;
     }
   }
@@ -547,17 +560,32 @@ export function fitPixel(
   // Where the safe rect's centre sits from the view's centre, in world units (y up).
   const ox = ((safe.x0 + safe.x1) / 2 - 0.5) * v.w;
   const oy = (0.5 - (safe.y0 + safe.y1) / 2) * v.h;
-  const bx = (minX + maxX) / 2 - ox;
-  const by = ((minY + maxY) / 2 - oy) / Math.max(0.2, sp);
+  let cx = (minX + maxX) / 2;
+  let cy = (minY + maxY) / 2;
+  // Too wide even at the far step (a phone held upright): slide the aim so the sized marks
+  // stay whole, the scene's subject, and the rest keep what room is left (campaign graphics 3).
+  if (!fitsAll && kx0 <= kx1) {
+    const hw = (sw * v.w) / 2;
+    const hh = (sh * v.h) / 2;
+    const clamp = (c: number, lo: number, hi: number, half: number): number =>
+      hi - lo > half * 2 ? (lo + hi) / 2 : Math.min(Math.max(c, hi - half), lo + half);
+    cx = clamp(cx, kx0, kx1, hw);
+    cy = clamp(cy, ky0, ky1, hh);
+  }
+  const bx = cx - ox;
+  const by = (cy - oy) / Math.max(0.2, sp);
   return { zoom, x: o.x + rx * bx + fx * by, z: o.z + rz * bx + fz * by };
 }
 
 /**
  * Whether `who` is the player's own Keeper: 'you', or the Keeper picked on the title screen
- * when no NPC of that name is about (Fern speaking while the player plays as Fern).
+ * when no NPC of that name is about (Fern speaking while the player plays as Fern). A stage
+ * that casts that villager draws them as a stage actor instead (the look names keep "you
+ * meet yourself" out of the story), so they are not the Keeper then.
  */
-export function speaksAsKeeper(world: World, who: string): boolean {
+export function speaksAsKeeper(world: World, who: string, stage?: SceneStage): boolean {
   if (who === 'you') return true;
+  if (stage?.cast?.some((c) => c.who === who)) return false;
   return who === world.trainer && !world.npcs.some((n) => n.trainer === who);
 }
 
@@ -574,8 +602,8 @@ export interface Obstacle {
 
 /**
  * What can stand between a story camera and the cast (review fix 2): the stock houses
- * still drawn, and Dawn & Dusk's four crest houses (on the `house-1..4` marks) while that
- * campaign plays. `hidden` says which stock buildings are not drawn now.
+ * still drawn, Dawn & Dusk's four crest houses (on the `house-1..4` marks) while that
+ * campaign plays, and the gate. `hidden` says which stock buildings are not drawn now.
  */
 export function stageObstacles(world: World, hidden: (id: string) => boolean): Obstacle[] {
   const out: Obstacle[] = [];
@@ -592,6 +620,10 @@ export function stageObstacles(world: World, hidden: (id: string) => boolean): O
       const m = markAt('grove', `house-${i}`);
       if (m) out.push({ x: m.x, z: m.z, r: 2.5, h: 5 });
     }
+  // The gate's roofed frame (the 3D lychgate): a two-shot by it once looked through it, and
+  // the gate, kept whole while a scene is about it, hid both faces (campaign graphics 3).
+  const gate = markAt('grove', 'gate');
+  if (gate) out.push({ x: gate.x, z: gate.z, r: 2, h: 3.6 });
   return world.location === 'grove' ? out : [];
 }
 

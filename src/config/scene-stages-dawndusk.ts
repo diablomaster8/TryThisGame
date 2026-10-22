@@ -47,6 +47,11 @@ const at = (who: string, mark: string, o: Partial<StageCast> = {}): StageCast =>
 });
 const KEYS = { carry: 'keys' } as const;
 const VASK = 'd-vask';
+/**
+ * The twin's place on the green: off the sundial at its centre, which stood in front of her,
+ * and never in line with the Keeper (campaign graphics 3).
+ */
+const TWIN = 'green-twin';
 const WEST = 'house-4-door';
 const twinAt =
   (mark: string, o: Partial<StageCast> = {}): Cast =>
@@ -67,17 +72,17 @@ interface Row {
 /** The chapters' [opening, closing] casts, in the same order as SHOTS. */
 const CHAPTER_CASTS: ReadonlyArray<readonly [Cast | null, Cast | null]> = [
   [twinAt('house-1-door', KEYS), null],
-  [twinAt('green-centre'), null],
+  [twinAt(TWIN), null],
   [twinAndVask('house-1-door'), vaskAt()],
   [twinAt('house-2-door'), null],
   [vaskAt(), vaskAt()],
-  [twinAt('green-centre'), null],
+  [twinAt(TWIN), null],
   [vaskAt(), null],
 ];
 
 /** Beats: `<half>-c<n>-<name>` by suffix. */
 const BEATS: Record<string, Row> = {
-  'c1-other': { shot: { kind: 'two' }, cast: twinAt('green-centre') },
+  'c1-other': { shot: { kind: 'two' }, cast: twinAt(TWIN) },
   'c1-houses': {
     shot: { kind: 'wide', focus: ['house-1', 'house-2', 'house-3', 'house-4'] },
     cast: twinAt('house-1-door', KEYS),
@@ -87,25 +92,25 @@ const BEATS: Record<string, Row> = {
     cast: twinAt('house-2-door'),
   },
   'c2-settled': { shot: { kind: 'wide' }, cast: twinAt('house-2-door') },
-  'c2-book': { shot: { kind: 'close' }, cast: twinAt('green-centre') },
+  'c2-book': { shot: { kind: 'close' }, cast: twinAt(TWIN) },
   'c3-egg': { shot: { kind: 'close' }, cast: twinAt('house-3-door') },
   'c3-dojo': { shot: { kind: 'two' }, cast: vaskAt() },
-  'c4-page': { shot: { kind: 'two' }, cast: twinAt('green-centre') },
+  'c4-page': { shot: { kind: 'two' }, cast: twinAt(TWIN) },
   'c4-second-house': { shot: { kind: 'two' }, cast: twinAt('house-2-door', KEYS) },
   'c5-dojo': { shot: { kind: 'two' }, cast: vaskAt() },
-  'c5-grown': { shot: { kind: 'close' }, cast: twinAt('green-centre') },
-  'c6-restored': { shot: { kind: 'close' }, cast: twinAt('green-centre') },
-  'c6-wrong': { shot: { kind: 'close' }, cast: twinAt('green-centre') },
-  'c7-after-right': { shot: { kind: 'two' }, cast: twinAt('green-centre') },
-  'c7-after-wrong': { shot: { kind: 'two' }, cast: twinAt('green-centre') },
+  'c5-grown': { shot: { kind: 'close' }, cast: twinAt(TWIN) },
+  'c6-restored': { shot: { kind: 'close' }, cast: twinAt(TWIN) },
+  'c6-wrong': { shot: { kind: 'close' }, cast: twinAt(TWIN) },
+  'c7-after-right': { shot: { kind: 'two' }, cast: twinAt(TWIN) },
+  'c7-after-wrong': { shot: { kind: 'two' }, cast: twinAt(TWIN) },
   'c7-black': { shot: { kind: 'two' }, cast: vaskAt() },
 };
 
 /** The three endings, each in the half's own light with the four lamps lit (N2). */
 const ENDING_SHOT: Shot = { kind: 'wide', focus: HOUSES };
 const ENDINGS: Record<string, { cast: Cast; props?: NonNullable<SceneStage['props']> }> = {
-  'half-day': { cast: (w) => [at(w, 'green-centre'), at(VASK, WEST)] },
-  'wrong-cause': { cast: (w) => [at(w, 'green-centre', { pose: 'sit' }), at(VASK, WEST)] },
+  'half-day': { cast: (w) => [at(w, TWIN), at(VASK, WEST)] },
+  'wrong-cause': { cast: (w) => [at(w, TWIN, { pose: 'sit' }), at(VASK, WEST)] },
   // Both twins on the green at once, the lamps strung between the houses.
   'whole-day': {
     cast: (w, o) => [at(w, 'house-1-door'), at(o, 'house-3-door'), at(VASK, WEST)],

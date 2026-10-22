@@ -964,7 +964,7 @@ export class Grove3dScene {
   /** Where whoever speaks the line on screen is drawn, or null (the narrator, the Keeper). */
   private speakerSpot(world: World): Vec2 | null {
     const who = this.staging.speaker;
-    if (!who || who === 'narrator' || speaksAsKeeper(world, who)) return null;
+    if (!who || who === 'narrator' || speaksAsKeeper(world, who, this.staging.stage)) return null;
     return this.staging.spotOf(world, who);
   }
 
@@ -1176,7 +1176,7 @@ export class Grove3dScene {
     const now = this.speakerSpot(world);
     const who = st?.focus?.[0];
     const focusSpot =
-      who && who !== 'narrator' && !speaksAsKeeper(world, who)
+      who && who !== 'narrator' && !speaksAsKeeper(world, who, this.staging.stage)
         ? this.staging.spotOf(world, who)
         : null;
     const sp = now ?? focusSpot ?? all[1] ?? k;
@@ -1206,10 +1206,10 @@ export class Grove3dScene {
         Math.abs(Math.atan2(Math.sin(a - base.yaw), Math.cos(a - base.yaw)));
       const a = line + STAGE2.twoSideRad;
       const b = line - STAGE2.twoSideRad;
-      side =
-        turn(a) < turn(b)
-          ? clear([a, b, ...yawSteps(two.yaw)])
-          : clear([b, a, ...yawSteps(two.yaw)]);
+      // The fallback steps never look along the pair's line: one would stand in front of
+      // the other (Marigold behind the Keeper, Dawn & Dusk ch6; campaign graphics 3).
+      const steps = yawSteps(two.yaw).filter((y) => Math.abs(Math.sin(y - line)) > 0.5);
+      side = turn(a) < turn(b) ? clear([a, b, ...steps]) : clear([b, a, ...steps]);
     }
     this.staging.turnFaces(side, side === null ? 0 : STAGE2.faceTurnRad);
     switch (kind) {

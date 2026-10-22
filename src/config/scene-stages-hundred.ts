@@ -43,7 +43,9 @@ export const HUNDRED_STAGES: Readonly<Record<string, SceneStage>> = {
         place: 'gate',
         hour: 8,
         cast: [ida(STEP, { ...SIT, ...BROOM })],
-        shot: { kind: 'establish', focus: ['fold-square'] },
+        // The gate with no fence, and Ida on the one whole step: both lines' subjects stay in
+        // frame with you (the square alone left them off a phone's screen).
+        shot: { kind: 'establish', focus: ['you', 'gate', 'h-ida'], then: 'wide' },
       },
       { place: 'fold', hour: 11, cast: [ida(STEP)], shot: { kind: 'two' } },
     ],

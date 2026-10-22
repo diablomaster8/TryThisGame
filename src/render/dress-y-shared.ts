@@ -1,6 +1,7 @@
 import { CanvasTexture } from 'three';
 import { markAt } from '../config/stage-marks';
 import type { SceneStage } from '../config/story';
+import { HUSH } from '../config/tuning-e';
 import { CG2_Y } from '../config/tuning-y';
 import { flickerAt, type LampState } from './dress-e';
 import type { StageFlags } from './scene-stage';
@@ -18,6 +19,8 @@ export function windowsState(flags: StageFlags, stage: SceneStage): 'lit' | 'out
   if (named) return named;
   // Logged In's Night Grove (ch4, ch5): "the lights off", until content names it.
   if (flags.storyline === 'logged' && (flags.chapter === 4 || flags.chapter === 5)) return 'out';
+  // The Hundred Days ch9: "where it walks, lamps go out", the Fold's windows with the posts.
+  if (flags.sceneId !== null && HUSH.out.includes(flags.sceneId)) return 'out';
   return null;
 }
 

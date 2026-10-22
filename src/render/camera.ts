@@ -57,6 +57,14 @@ interface Tween {
   startMs: number;
 }
 
+/** Pixels per unit of zoom step `index`: the player's steps, then the story step (CAMERA). */
+export function zoomPixelsPerUnit(index: number): number {
+  return (
+    CAMERA.pixelsPerUnit[index] ??
+    (index >= CAMERA.pixelsPerUnit.length ? CAMERA.storyPixelsPerUnit : CAMERA.pixelsPerUnit[0])
+  );
+}
+
 /**
  * Orbits a target at a fixed pitch, snapping yaw in 45° steps with a short eased
  * transition. Two zoom levels, expressed as pixels per world unit so pixel art stays
@@ -122,8 +130,9 @@ export class OrbitCamera {
     return this.zoomIndex;
   }
 
-  private get pixelsPerUnit(): number {
-    return CAMERA.pixelsPerUnit[this.zoomIndex] ?? CAMERA.pixelsPerUnit[0];
+  /** Low-res pixels per world unit at the current zoom step (the story step included). */
+  get pixelsPerUnit(): number {
+    return zoomPixelsPerUnit(this.zoomIndex);
   }
 
   setAspect(aspect: number): void {
@@ -148,8 +157,10 @@ export class OrbitCamera {
     if (this.reduceMotion) this.finishYawTween();
   }
 
-  setZoom(index: number, nowMs: number = performance.now()): void {
-    const clamped = MathUtils.clamp(Math.round(index), 0, CAMERA.pixelsPerUnit.length - 1);
+  /** Go to zoom step `index`; only a story shot (`story`) may reach the story step. */
+  setZoom(index: number, nowMs: number = performance.now(), story = false): void {
+    const top = CAMERA.pixelsPerUnit.length - (story ? 0 : 1);
+    const clamped = MathUtils.clamp(Math.round(index), 0, top);
     if (clamped === this.zoomIndex) return;
     this.zoomIndex = clamped;
     const to = computeViewHeight(this.frameHeight, this.pixelsPerUnit);
@@ -207,7 +218,7 @@ export class OrbitCamera {
       return;
     }
     this.heldFrom ??= this.zoomIndex;
-    this.setZoom(index, nowMs);
+    this.setZoom(index, nowMs, true);
   }
 
   zoomIn(nowMs?: number): void {
@@ -219,7 +230,10 @@ export class OrbitCamera {
   }
 
   toggleZoom(nowMs?: number): void {
-    this.setZoom((this.zoomIndex + 1) % CAMERA.pixelsPerUnit.length, nowMs);
+    this.setZoom(
+      (Math.min(this.zoomIndex, CAMERA.pixelsPerUnit.length - 1) + 1) % CAMERA.pixelsPerUnit.length,
+      nowMs,
+    );
   }
 
   /** Advance tweens and re-apply the pose (the target may have moved). Call once per frame. */

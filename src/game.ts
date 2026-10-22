@@ -9,7 +9,7 @@ import {
   watchOtherTabs,
   writeSave,
 } from './platform/storage';
-import { OrbitCamera, yawIndexToRadians } from './render/camera';
+import { OrbitCamera, yawIndexToRadians, zoomPixelsPerUnit } from './render/camera';
 import { daylightAt, localHour } from './render/daylight';
 import { litLanterns } from './sim/campaign';
 import { GroveScene } from './render/grove-scene';
@@ -187,7 +187,7 @@ export class Game {
     // whoever speaks past the houses.
     const who = st.speaker;
     const speaker =
-      who && who !== 'narrator' && !speaksAsKeeper(this.world, who)
+      who && who !== 'narrator' && !speaksAsKeeper(this.world, who, st.stage)
         ? st.spotOf(this.world, who)
         : null;
     const seen = speaker ? [...points, speaker] : points;
@@ -205,24 +205,29 @@ export class Game {
     const yaw = yawIndexToRadians(turn);
     const ppu = CAMERA.pixelsPerUnit;
     const last = ppu.length - 1;
+    // The story-only step past the player's nearest (campaign graphics 3).
+    const story = ppu.length;
+    const cur = this.camera.pixelsPerUnit;
+    /** The view's width (world units) at zoom step `i`. */
+    const widthAt = (i: number) => (this.camera.visibleWidth * cur) / zoomPixelsPerUnit(i);
     const first = st.stage.shot?.kind;
     if (st.pushedMs !== null && kind !== first && kind !== 'wide') {
-      // H5 in pixel: the close zoom, on the Keeper and whoever speaks; on the speaker alone
-      // when the pair do not fit across it.
-      const cur = ppu[this.camera.currentZoomIndex] ?? ppu[0];
-      const nearW = (this.camera.visibleWidth * cur) / ppu[last]!;
+      // H5 in pixel: the push-in, on the Keeper and whoever speaks: the story step when the
+      // pair fit across it (a desktop is already on the near step, so the push showed
+      // nothing), else the near step; on the speaker alone when the pair fit neither.
       if (speaker && !points.some((p) => p.x === speaker.x && p.z === speaker.z))
         points = [...points, speaker];
       const cx = points.reduce((a, p) => a + p.x, 0) / Math.max(1, points.length);
       const cz = points.reduce((a, p) => a + p.z, 0) / Math.max(1, points.length);
       const spread = Math.max(0, ...points.map((p) => Math.hypot(p.x - cx, p.z - cz)));
-      this.camera.holdZoom(last, nowMs);
-      if (spread * 2.4 >= nearW && speaker) return { x: speaker.x, z: speaker.z, fitted: false };
+      const close = spread * 2.4 < widthAt(story);
+      this.camera.holdZoom(close ? story : last, nowMs);
+      if (!close && spread * 2.4 >= widthAt(last) && speaker)
+        return { x: speaker.x, z: speaker.z, fitted: false };
       return { x: cx, z: cz, fitted: false };
     }
     if (points.length > 0 && st.fits()) {
       // H4: the nearest zoom step that fits every focus point inside the HUD-safe area.
-      const cur = ppu[this.camera.currentZoomIndex] ?? ppu[0];
       const views = ppu.map((p) => ({
         w: (this.camera.visibleWidth * cur) / p,
         h: (this.camera.visibleHeight * cur) / p,
@@ -250,11 +255,11 @@ export class Game {
     const cz = points.reduce((a, p) => a + p.z, 0) / points.length;
     const spread = Math.max(...points.map((p) => Math.hypot(p.x - cx, p.z - cz)));
     // The near zoom only when the cast fits across it (a phone held upright is narrow).
-    const nearWidth =
-      (this.camera.visibleWidth * (ppu[this.camera.currentZoomIndex] ?? ppu[0])) / ppu[last]!;
-    const fits = spread * 2.4 < nearWidth;
+    const fits = spread * 2.4 < widthAt(last);
     const near = kind === 'close' || ((kind === 'two' || !kind) && fits);
-    this.camera.holdZoom(near ? last : null, nowMs);
+    // A close shot goes to the story step when its people fit across it.
+    const closer = kind === 'close' && spread * 2.4 < widthAt(story);
+    this.camera.holdZoom(closer ? story : near ? last : null, nowMs);
     return { x: cx, z: cz, fitted: false };
   }
 

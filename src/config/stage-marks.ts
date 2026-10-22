@@ -90,6 +90,8 @@ const GROVE_MARKS: Record<string, StageMark> = {
   gate: { x: 0, z: 23, yaw: N },
   'gate-outside': { x: 0, z: 26, yaw: N },
   signpost: { x: 2, z: 21.5, yaw: N },
+  // Inside the gate, a few steps from the Keeper's mark: where Fern comes up the path in ch1.
+  'gate-inside': { x: -1.4, z: 19.2, yaw: toward(-1.4, 19.2, 1.8, 19.8) },
   // The cottage's door faces +z (kit-buildings: "door toward +z"), its front at z + 2.
   step: { x: COTTAGE.x, z: COTTAGE.z + 2.8, yaw: S },
   porch: { x: COTTAGE.x + 1.4, z: COTTAGE.z + 3.4, yaw: S },
@@ -113,8 +115,12 @@ const GROVE_MARKS: Record<string, StageMark> = {
   'fold-square': { x: 0, z: 2, yaw: S },
   mill: { x: WINDMILL.x + 2.4, z: WINDMILL.z + 2, yaw: W },
   'shore-jetty': { x: POND.x, z: POND.z + POND.r + 0.6, yaw: N },
+  'pond-centre': { x: POND.x, z: POND.z, yaw: N },
   // Dawn & Dusk: four houses round a green (STORY_B.dawnDusk), each mark at a door.
   'green-centre': { x: GREEN.x, z: GREEN.z, yaw: S },
+  // Dawn & Dusk's twin on the green: off the sundial at its centre, across it from the
+  // Keeper's mark, where neither a crest house's sprite nor the Keeper stands in front.
+  'green-twin': { x: GREEN.x - 1.2, z: GREEN.z - 0.8, yaw: S },
   green: { x: GREEN.x, z: GREEN.z, yaw: S },
   'house-1': doorOf(0, -1),
   'house-2': doorOf(1, 0),
@@ -141,6 +147,8 @@ const GROVE_MARKS: Record<string, StageMark> = {
   'house-3-door': houseDoor(0, 1),
   'house-4-door': houseDoor(-1, 0),
   'guardhouse-bench': { x: GH.x + CAB.w / 2 + 1.0, z: GH.z + CAB.d / 2 + 0.6, yaw: S },
+  // Behind Hob's counter, at the window (the 3D counter stands just in front of this).
+  'guardhouse-counter': { x: GH.x - CAB.w * 0.25, z: GH.z + CAB.d / 2 + 0.45, yaw: S },
   'banner-1': { x: GH.x - CAB.w / 2 + 0.55, z: GH.z + CAB.d / 2 + 1.3, yaw: N },
   'banner-2': { x: GH.x + CAB.w / 2 - 0.55, z: GH.z + CAB.d / 2 + 1.3, yaw: N },
   'banner-3': { x: GH.x + CAB.w / 2 + 1.3, z: GH.z, yaw: W },

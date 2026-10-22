@@ -86,21 +86,25 @@ and API: `cg2-rules.md`, `cg2-api.md` (session folder, not in the repo). Shots:
 - The board's final words are a placeholder in `tuning-y.ts`.
 - The chapter photo is the canvas only (no DOM grade layers); the offer isn't saved.
 
-**Known bugs (left after the second review round)**
+**Known bugs (after the fix round of 2026-10-22, `docs/samples/cg3-*.jpg` before and after)**
 
-- 3D Hundred ch9: the Hush reads as a pale beam, not a figure, and the lamps are still lit at
-  "lamps go out" in the shot; a giant roof at the left edge; a building bottom-right has a
-  half-missing roof with outline lines dangling.
-- 3D Hazel ch10 `-1`: a fence rail floats without posts and a dark disc lies by the cast; the pond
-  is barely in frame (and missing on phone in both renderers).
-- 3D Hazel ch1: Fern speaks but is not in frame.
-- 3D Hazel ch9: a chevron still shows over a Nubbin on a narration line.
-- Pixel: no push-in after wide shots (Beetle ch3); the Root Node room's cast is still small.
-- Hundred ch1 on phone: no gate at "a gate with no fence"; Ida not visible at "an old woman sits
-  on the one whole step"; pixel Fold still shows the Japanese houses and mill.
-- 3D Beetle ch1: Hob stands on the open road at "behind the counter sits a man"; a hut is cut off
-  at the right edge.
-- 3D Dawn ch6: Marigold overlaps the Keeper.
+The nine defects the second review left are fixed: the Hush is a hooded figure (sRGB card) and
+the Fold's windows go out with the faster lamp ring; the occluder's hide box takes a roof's whole
+reach, the gate and package k's Fold pieces, and side-edge clutter (no dangling gable, no giant
+roof); a hidden well takes its water (no dark disc); Hazel ch10 fits the iced pond
+(`pond-centre`, kept whole when nothing else fits); Fern is cast at the gate (a stage actor when
+you wear her look); the chevron clears while a postcard holds a line; pixel push-ins and close
+shots use a story-only 64 px step; Hundred ch1 frames the gate and Ida, and pixel dojo ruins are
+cut from the cottage; Hob stands at a new counter; two-shots never look along the pair, and the
+twin stands off the sundial (`green-twin`).
+
+- Hazel ch9's narration chevron did not reproduce in headless Edge; the stale-speaker path is
+  fixed but unconfirmed.
+- Hazel ch10 3D: the floating fence rail did not show once the shot fits the pond; not traced.
+- On a phone held upright, Hazel ch10's pixel shot keeps the pond whole and loses the Keeper.
+- Fern as a stage actor wears the Gardener look, so in 3D she matches a Gardener Keeper.
+- The Fold keeps its mill and water wheel by design (`stage-sets.ts`); the reviewer flagged them.
+- Ida's line in Hundred ch9 still has a roof cut by the bottom-right edge (not nearer than the cast).
 - No real-phone pass yet.
 
 ## Standing approval (Maor, 2026-10-12)

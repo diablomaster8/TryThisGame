@@ -48,4 +48,6 @@ export const MARK_FIT: Readonly<Record<string, MarkFit>> = {
     hPx: CG2_W.hush.pixelY + CG2_W.hush.pixelHeight / 2,
     r: (HUSH.colossus.width * CG2_W.hush.scale3d) / 2,
   },
+  /** The pond, kept whole round its centre (GROVE.pond's radius is 5; the shore is enough). */
+  'pond-centre': { h3d: 0.5, dz3d: 0, hPx: 0.5, r: 4 },
 };

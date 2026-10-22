@@ -56,6 +56,8 @@ const RAW: Readonly<Record<string, SceneStage>> = {
     hour: 15.5,
     season: 'spring',
     props: { gate: 'shut', signpost: 'show' },
+    // Fern comes up from next door and speaks at the gate: she must be in the frame with you.
+    cast: [{ who: 'fern', mark: 'gate-inside', face: 'you' }],
     shot: { kind: 'establish' },
   },
   'c1-close': {
@@ -318,7 +320,13 @@ const RAW: Readonly<Record<string, SceneStage>> = {
   },
   // ---------------------------------------------------------------- 10 The Long Night
   // c10-vigil's lanterns and cast come from E_STAGES; the sim's vigil waves drive the rest.
-  'c10-open': { place: 'hill', hour: 22.5, weather: 'frost', shot: { kind: 'wide' } },
+  // The pond's new ice is the second line's subject, so the wide shot fits the pond too.
+  'c10-open': {
+    place: 'hill',
+    hour: 22.5,
+    weather: 'frost',
+    shot: { kind: 'wide', focus: ['you', 'pond-centre'], then: 'wide' },
+  },
   'c10-sable-watch': {
     place: 'grove',
     hour: 15.5,

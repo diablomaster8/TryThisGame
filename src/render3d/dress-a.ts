@@ -88,6 +88,9 @@ const SEGMENTS = 72;
  * the well's water, a step; under 0.35 tall over its whole box), or a shadow-only proxy
  * (drawn with no colour, or a material switched off).
  */
+/** The well's dark water colour (props.ts). */
+const WELL_WATER = 0x0d1a2a;
+
 function flatOrHidden(mesh: THREE.Mesh): boolean {
   const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
   if (mats.every((m) => !m.visible || !m.colorWrite)) return true;
@@ -352,7 +355,7 @@ class LightAndGrade implements Dressing3d {
    * this frame is hidden outright above its foot when it stands on a sight line from the
    * camera to a framed subject (feet, middle or head) before that subject, when its box
    * comes within `nearHide` of the lens, or, nearer the lens than every subject, when the
-   * frame's bottom edge cuts it or it covers `fill` of the frame. A building the scene is
+   * frame's bottom or side edge cuts it or it covers `fill` of the frame. A building the scene is
    * about never hides. Its glass, lamp and spill cards sit in the same box and go with it.
    * Four at most; returns how many.
    */
@@ -396,7 +399,7 @@ class LightAndGrade implements Dressing3d {
     return n;
   }
 
-  /** Whether a box is cut by the frame's bottom edge, or covers `fill` of the frame. */
+  /** Whether a box is cut by the frame's bottom or side edges, or covers `fill` of the frame. */
   private crowds(box: THREE.Box3, cam: THREE.Camera): boolean {
     let x0 = Infinity;
     let y0 = Infinity;
@@ -419,7 +422,9 @@ class LightAndGrade implements Dressing3d {
     if (x1 < -1 || x0 > 1 || y1 < -1 || y0 > 1) return false;
     const w = Math.min(1, x1) - Math.max(-1, x0);
     const h = Math.min(1, y1) - Math.max(-1, y0);
-    return y0 < -1 || (w * h) / 4 > CG2_X.occlude.fill;
+    // Cut by the bottom or a side edge (campaign graphics 3: a roof cut by the left edge
+    // read as a giant fragment), or filling the frame.
+    return y0 < -1 || x0 < -1 || x1 > 1 || (w * h) / 4 > CG2_X.occlude.fill;
   }
 
   /**
@@ -490,8 +495,13 @@ class LightAndGrade implements Dressing3d {
   private patch(ctx: Dress3dCtx): void {
     ctx.scene.traverse((o) => {
       const mesh = o as THREE.Mesh;
-      if (!mesh.isMesh || o.userData.hull || flatOrHidden(mesh)) return;
+      if (!mesh.isMesh || o.userData.hull) return;
       const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+      // The well's dark water is flat, but must go with the well (campaign graphics 3).
+      const water = mats.some(
+        (m) => (m as THREE.MeshStandardMaterial).color?.getHex?.() === WELL_WATER,
+      );
+      if (!water && flatOrHidden(mesh)) return;
       const geo = mesh.geometry.type;
       const crown =
         (mesh as THREE.InstancedMesh).isInstancedMesh &&
@@ -505,15 +515,17 @@ class LightAndGrade implements Dressing3d {
           mesh.name === 'light-spills' ||
           m.blending === THREE.AdditiveBlending ||
           (s.emissive !== undefined && s.emissive.getHex() !== 0) ||
-          (s.color !== undefined && s.color.getHex() === 0x0d1a2a);
-        if ((!card || s.vertexColors) && !crown) continue;
+          (s.color !== undefined && s.color.getHex() === WELL_WATER);
+        // The Fold's rubble, mending and wreaths (package k) go with the house they dress.
+        const kit = /^k-(fold-|wreaths)/.test(mesh.name);
+        if ((!card || s.vertexColors) && !crown && !kit) continue;
         this.patched.add(m);
         const prevHook = m.onBeforeCompile.bind(m);
         m.onBeforeCompile = (shader, renderer) => {
           prevHook(shader, renderer);
-          occludable(shader, crown);
+          occludable(shader, crown, !water);
         };
-        m.customProgramCacheKey = () => `${key}|occ${crown ? '' : '-box'}`;
+        m.customProgramCacheKey = () => `${key}|occ${crown ? '' : '-box'}${water ? '-water' : ''}`;
         m.needsUpdate = true;
       }
     });

@@ -1,7 +1,8 @@
-import { STORY_NPC_LOOKS, type StoryNpcLook } from '../config/npc-looks';
+import { NPC_LOOKS, STORY_NPC_LOOKS, type StoryNpcLook } from '../config/npc-looks';
 import { markAt } from '../config/stage-marks';
 import type { SceneStage, StageCast } from '../config/story';
 import { mossOnHill } from '../sim/roster';
+import { TRAINERS } from '../sim/trainers';
 import type { Vec2, World } from '../sim/types';
 import { npcHere, SceneStager } from './scene-stage';
 
@@ -52,7 +53,9 @@ export function liveSpeaker(): string | null {
   if (typeof document === 'undefined') return null;
   const box = document.querySelector('.dialogue');
   if (!box || (box as HTMLElement).hidden) return null;
-  if (box.classList.contains('narration') || box.classList.contains('chorus')) return null;
+  // Narration, the chorus, and a chapter postcard holding the first line back (the box
+  // still wears the last scene's speaker then) have no one speaking in the world.
+  if (['narration', 'chorus', 'held'].some((c) => box.classList.contains(c))) return null;
   return SPEAKER_NOW.who;
 }
 
@@ -89,7 +92,7 @@ export class StageTracker {
     const out: StageActor[] = [];
     const cast = this.stager.castOf(world);
     for (const c of cast) {
-      const look = STORY_NPC_LOOKS[c.who];
+      const look = STORY_NPC_LOOKS[c.who] ?? villagerLook(world, c.who);
       if (!look) continue;
       // A sim NPC with the same id is drawn by the world's own figures.
       if (world.npcs.some((n) => n.trainer === c.who && npcHere(world.location, n.trainer)))
@@ -193,6 +196,18 @@ export class StageTracker {
     const c = world.campaign;
     return (who === 'sable' ? c?.sableId : who === 'moss' ? c?.mossId : null) ?? null;
   }
+}
+
+/**
+ * A Hazel villager cast in a scene while the player wears their look (Fern when the player
+ * picked the Gardener): there is no sim NPC of them about, so they stand as a stage actor in
+ * their own clothes and accessory (campaign graphics 3).
+ */
+function villagerLook(world: World, who: string): StoryNpcLook | undefined {
+  const acc = NPC_LOOKS[who];
+  const t = TRAINERS.find((x) => x.id === who);
+  if (!acc || !t || who !== world.trainer) return undefined;
+  return { ...acc, trainer: t.look };
 }
 
 function carryOf(c: StageCast): CarryProp | null {

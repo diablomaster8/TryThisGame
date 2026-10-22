@@ -47,6 +47,17 @@ import type { FrameRect, SpriteSheet } from './sprites/atlas';
  * the first frame that has a sprite batch. Reads the world, writes nothing.
  */
 const KINDS = ['cottage', 'school', 'dojo'] as const;
+/**
+ * Whose painted frame each ruin is cut from. The Fold is a valley of timber-and-plaster
+ * houses (the 3D ruins are all that kind): the dojo's shoji frame read as a Japanese house
+ * standing whole in the ruined square, so its ruins are cut from the cottage's
+ * (campaign graphics 3).
+ */
+const RUIN_FROM: Readonly<Record<(typeof KINDS)[number], (typeof KINDS)[number]>> = {
+  cottage: 'cottage',
+  school: 'school',
+  dojo: 'cottage',
+};
 const HUNDRED_HIDE = new Set([
   'cottage',
   'cottage-lit',
@@ -102,13 +113,14 @@ export const dressB: PixelDressing = (() => {
     const g = img?.getContext?.('2d');
     if (g) {
       for (const kind of KINDS) {
-        const rect = stock.frames.get(frameKey(kind, 'front', 0));
+        const from = RUIN_FROM[kind];
+        const rect = stock.frames.get(frameKey(from, 'front', 0));
         if (!rect) continue;
         const data = g.getImageData(rect.x, rect.y, rect.w, rect.h);
         for (let level = 1; level <= 3; level++)
           atlas.add(
             `ruin:${kind}:${level}`,
-            ruinFrame(data, RUIN_SPECS[kind], level, level * 5 + kind.length),
+            ruinFrame(data, RUIN_SPECS[from], level, level * 5 + kind.length),
           );
       }
     }

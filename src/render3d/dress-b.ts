@@ -37,6 +37,39 @@ const TRIM = new Set(['roof', 'timber', 'stone', 'glass', 'door']);
 interface Culled {
   mesh: THREE.Mesh;
   original: Float32Array;
+  /** The normals before the collapse, when the mesh has them. */
+  normals: Float32Array | null;
+}
+
+/**
+ * Collapse triangle `t` of a non-indexed mesh onto its first corner, normals too: the
+ * outline hull shares the geometry and pushes each corner out along its own normal, so a
+ * triangle collapsed in position only drew a thin dark sliver (campaign graphics 3).
+ */
+function collapseTri(pos: Float32Array, nrm: Float32Array | null, t: number): void {
+  for (let k = 1; k < 3; k++)
+    for (let a = 0; a < 3; a++) {
+      pos[(t + k) * 3 + a] = pos[t * 3 + a]!;
+      if (nrm) nrm[(t + k) * 3 + a] = nrm[t * 3 + a]!;
+    }
+}
+
+/** The mesh's normal array, if it has one. */
+function normalsOf(mesh: THREE.Mesh): Float32Array | null {
+  const n = mesh.geometry.attributes.normal as THREE.BufferAttribute | undefined;
+  return n ? (n.array as Float32Array) : null;
+}
+
+/** Put a collapsed mesh back as it was. */
+function uncull(c: Culled): void {
+  const geo = c.mesh.geometry;
+  (geo.attributes.position as THREE.BufferAttribute).array.set(c.original);
+  (geo.attributes.position as THREE.BufferAttribute).needsUpdate = true;
+  const n = geo.attributes.normal as THREE.BufferAttribute | undefined;
+  if (n && c.normals) {
+    n.array.set(c.normals);
+    n.needsUpdate = true;
+  }
 }
 
 /** Footprint half-extents (walls plus the roof's reach and the step) of a stock house. */
@@ -70,10 +103,7 @@ export const dress3dB: Dressing3d = (() => {
   let ivyShown: boolean | null = null;
 
   function restore(id: StockId): void {
-    for (const c of culled.get(id) ?? []) {
-      (c.mesh.geometry.attributes.position as THREE.BufferAttribute).array.set(c.original);
-      (c.mesh.geometry.attributes.position as THREE.BufferAttribute).needsUpdate = true;
-    }
+    for (const c of culled.get(id) ?? []) uncull(c);
     culled.delete(id);
     for (const w of hiddenWalls.get(id) ?? []) {
       w.visible = true;
@@ -95,6 +125,8 @@ export const dress3dB: Dressing3d = (() => {
       if (!pos || geo.index) return;
       const arr = pos.array as Float32Array;
       let original: Float32Array | null = null;
+      let normals: Float32Array | null = null;
+      const nrm = normalsOf(mesh);
       for (let t = 0; t + 2 < pos.count; t += 3) {
         const cx = (arr[t * 3]! + arr[t * 3 + 3]! + arr[t * 3 + 6]!) / 3;
         const cz = (arr[t * 3 + 2]! + arr[t * 3 + 5]! + arr[t * 3 + 8]!) / 3;
@@ -105,15 +137,13 @@ export const dress3dB: Dressing3d = (() => {
         const corners = [0, 1, 2].every((k) => within(arr[(t + k) * 3]!, arr[(t + k) * 3 + 2]!, 2));
         if (!within(cx, cz, 0) && !corners) continue;
         original ??= arr.slice();
-        for (let k = 1; k < 3; k++) {
-          arr[(t + k) * 3] = arr[t * 3]!;
-          arr[(t + k) * 3 + 1] = arr[t * 3 + 1]!;
-          arr[(t + k) * 3 + 2] = arr[t * 3 + 2]!;
-        }
+        normals ??= nrm ? nrm.slice() : null;
+        collapseTri(arr, nrm, t);
       }
       if (original) {
         pos.needsUpdate = true;
-        list.push({ mesh, original });
+        if (nrm) mesh.geometry.attributes.normal!.needsUpdate = true;
+        list.push({ mesh, original, normals });
       }
     });
     culled.set(id, list);
@@ -133,10 +163,7 @@ export const dress3dB: Dressing3d = (() => {
   function capCull(on: boolean): void {
     if (!props) return;
     if (!on) {
-      for (const c of capSaved ?? []) {
-        (c.mesh.geometry.attributes.position as THREE.BufferAttribute).array.set(c.original);
-        (c.mesh.geometry.attributes.position as THREE.BufferAttribute).needsUpdate = true;
-      }
+      for (const c of capSaved ?? []) uncull(c);
       capSaved = null;
       return;
     }
@@ -151,21 +178,21 @@ export const dress3dB: Dressing3d = (() => {
       if (!pos || mesh.geometry.index) return;
       const arr = pos.array as Float32Array;
       let original: Float32Array | null = null;
+      let normals: Float32Array | null = null;
+      const nrm = normalsOf(mesh);
       for (let t = 0; t + 2 < pos.count; t += 3) {
         const cx = (arr[t * 3]! + arr[t * 3 + 3]! + arr[t * 3 + 6]!) / 3;
         const cy = (arr[t * 3 + 1]! + arr[t * 3 + 4]! + arr[t * 3 + 7]!) / 3;
         const cz = (arr[t * 3 + 2]! + arr[t * 3 + 5]! + arr[t * 3 + 8]!) / 3;
         if (cy < y0 || Math.hypot(cx - w.x, cz - w.z) > 2.2) continue;
         original ??= arr.slice();
-        for (let k = 1; k < 3; k++) {
-          arr[(t + k) * 3] = arr[t * 3]!;
-          arr[(t + k) * 3 + 1] = arr[t * 3 + 1]!;
-          arr[(t + k) * 3 + 2] = arr[t * 3 + 2]!;
-        }
+        normals ??= nrm ? nrm.slice() : null;
+        collapseTri(arr, nrm, t);
       }
       if (original) {
         pos.needsUpdate = true;
-        capSaved!.push({ mesh, original });
+        if (nrm) mesh.geometry.attributes.normal!.needsUpdate = true;
+        capSaved!.push({ mesh, original, normals });
       }
     });
   }

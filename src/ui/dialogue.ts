@@ -174,6 +174,7 @@ export class Dialogue {
     this.root.hidden = true;
     this.scene = null;
     this.held = false;
+    SPEAKER_NOW.who = null;
     this.root.classList.remove('held');
     this.hooks.close?.(null, false);
     this.playing = null;
@@ -232,6 +233,8 @@ export class Dialogue {
     if (holding) {
       this.held = true;
       this.root.classList.add('held');
+      // No line is up yet: the last scene's speaker must not keep the chevron (H6).
+      SPEAKER_NOW.who = null;
     } else {
       this.showLine();
       this.hooks.shown?.();
@@ -278,6 +281,7 @@ export class Dialogue {
     this.root.hidden = true;
     this.scene = null;
     this.held = false;
+    SPEAKER_NOW.who = null;
     this.root.classList.remove('held');
     clearInterval(this.typing);
     stopSpeaking();

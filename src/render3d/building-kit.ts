@@ -82,8 +82,16 @@ export const OCCLUDE = {
   hideFade: { value: Array.from({ length: 8 }, () => 0) },
 };
 
-/** Hook the H9 dither into any lit or basic material's shader (buildings and their hulls). */
-export function occludable(shader: THREE.WebGLProgramParametersWithUniforms, circle = true): void {
+/**
+ * Hook the H9 dither into any lit or basic material's shader (buildings and their hulls).
+ * `flatStays` false lets a hidden box take its low flat pieces too (the well's dark water,
+ * which otherwise lay on the grass as a dark disc once the well round it was hidden).
+ */
+export function occludable(
+  shader: THREE.WebGLProgramParametersWithUniforms,
+  circle = true,
+  flatStays = true,
+): void {
   shader.uniforms.uOccNearCam = OCCLUDE.nearCam;
   shader.uniforms.uOccOn = OCCLUDE.on;
   shader.uniforms.uOccP = OCCLUDE.points;
@@ -158,7 +166,7 @@ export function occludable(shader: THREE.WebGLProgramParametersWithUniforms, cir
         for (int i = 0; i < 4; i++) {
           if (float(i) >= uOccBoxes) break;
           vec3 lo = uOccBoxMin[i];
-          if (occFlat && vOccWorld.y < lo.y + 0.5) continue;
+          ${flatStays ? 'if (occFlat && vOccWorld.y < lo.y + 0.5) continue;' : ''}
           if (all(greaterThanEqual(vOccWorld, lo)) && all(lessThanEqual(vOccWorld, uOccBoxMax[i]))) discard;
         }
         // Low and flat pieces are never cut by the window or the near-lens test.

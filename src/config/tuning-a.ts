@@ -54,12 +54,13 @@ export const CG_A = {
     /**
      * A building thins whole when it cuts a sight line from the camera to a framed subject
      * (feet, middle, head: `subjectHeight` tall); its box is its walls' grown by `eaves`
-     * and `roof`.
+     * and `roof`. `eaves` takes in the widest roof's overhang and its barge boards (at 0.8
+     * the Fold's ruins kept their gable frames outside the box, campaign graphics 3).
      * `nearCam`: anything this near the camera thins too (a crown the camera sits in).
      */
     subjectHeight: 1.9,
     nearCam: 4,
-    eaves: 0.8,
+    eaves: 1.3,
     roof: 3.5,
   },
   /**

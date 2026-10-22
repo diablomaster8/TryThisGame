@@ -30,7 +30,7 @@ import {
   WAVE,
   type Motes,
 } from './dress-f-sets';
-import { kitCabin } from './kit-buildings';
+import { kitCabin, kitMaterials } from './kit-buildings';
 import { groveHeight } from './terrain';
 import { Village } from './village';
 
@@ -129,6 +129,18 @@ export const dress3dF: Dressing3d = {
       b.rotation.y = s[3];
       cabin.add(b);
     });
+    // Hob's counter, out in front of the window: "behind the counter sits a man" (campaign
+    // graphics 3). He stands on `guardhouse-counter`, between it and the wall.
+    const km = kitMaterials(c.tex);
+    const counter = new THREE.Group();
+    const top = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.1, 0.55), km.plank);
+    top.position.y = 0.95;
+    const front = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.9, 0.08), km.timber);
+    front.position.set(0, 0.45, 0.22);
+    for (const part of [top, front]) part.castShadow = part.receiveShadow = true;
+    counter.add(top, front);
+    counter.position.set(-cab.w * 0.25, 0, cab.d / 2 + 0.95);
+    cabin.add(counter);
     g.beetle.add(cabin);
     const cart = buildCart();
     place(cart, LOOK_F.beetle.cart.x, LOOK_F.beetle.cart.z, -0.5);

@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { BuildingRegistry } from '../render/stage-api';
+import { CG_A } from '../config/tuning-a';
 import { OCCLUDE } from './building-kit';
 
 /**
@@ -31,10 +32,10 @@ export class StageBuildings3d extends BuildingRegistry {
       const box = new THREE.Box3().setFromObject(o);
       if (box.isEmpty()) continue;
       // The walls' box, grown to take in the eaves and the roof (merged elsewhere).
-      box.min.x -= 0.8;
-      box.min.z -= 0.8;
-      box.max.x += 0.8;
-      box.max.z += 0.8;
+      box.min.x -= CG_A.occlude.eaves;
+      box.min.z -= CG_A.occlude.eaves;
+      box.max.x += CG_A.occlude.eaves;
+      box.max.z += CG_A.occlude.eaves;
       box.max.y += 3;
       const prev = seen.get(pick.id);
       seen.set(pick.id, prev ? prev.union(box) : box);

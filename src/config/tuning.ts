@@ -57,6 +57,13 @@ export const CAMERA = {
    * pixel art crisp. Index 0 is the farthest view.
    */
   pixelsPerUnit: [16, 32] as const,
+  /**
+   * A closer step only story shots reach (campaign graphics 3): the push-in after a wide
+   * shot, and close shots, which the near step could not show on a desktop already there.
+   * Twice the near step, so the art stays on whole pixels. It sits at index
+   * `pixelsPerUnit.length`; the player's own zoom never lands on it.
+   */
+  storyPixelsPerUnit: 64,
   initialZoomIndex: 1,
   /**
    * The zoom a phone starts at: the far one, so both eggs and the nearest trees are on screen

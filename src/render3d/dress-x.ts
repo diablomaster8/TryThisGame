@@ -33,6 +33,10 @@ export const dress3dX: Dressing3d = (() => {
       const mark = markAt('grove', 'gate') ?? { x: 0, z: 23, yaw: Math.PI };
       gate = buildLychGate(c.tex);
       gate.group.position.set(mark.x, groveHeight(mark.x, mark.z), mark.z);
+      // The occluder's building hiding (dress-a) takes the gate like a house: a roofed gate
+      // cut by the frame's edge read as a giant roof there (campaign graphics 3). Its own
+      // fade switch still keeps it whole while a scene is about the gate.
+      gate.group.userData.house = true;
       c.world3d.add(gate.group);
       void c.compile(gate.group);
     },

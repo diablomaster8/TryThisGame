@@ -57,9 +57,9 @@ export const HAND_LANTERN = {
 export const HUSH = {
   origin: { x: 0, z: -22 },
   /** Units per second the ring travels (a scene is a few lines long, so quickly). */
-  speed: 3.2,
+  speed: 9,
   /** Seconds before the ring starts. */
-  delay: 1.2,
+  delay: 0.6,
   out: ['h-c9-open', 'h-c9-mountain', 'h-c9-lamp-lit', 'h-c9-lamp-left'] as readonly string[],
   back: ['h-c9-close'] as readonly string[],
   /** The colossus: a soft, grey, fog-shaped card at the edge of the fog. */

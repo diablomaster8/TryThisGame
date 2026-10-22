@@ -50,7 +50,8 @@ export const BEETLE_STAGES: Readonly<Record<string, SceneStage>> = {
         place: 'guardhouse',
         hour: 22.5,
         lights: LIT,
-        cast: [hob()],
+        // "Behind the counter sits a man": Hob at his counter, before the window.
+        cast: [hob('guardhouse-counter')],
         shot: { kind: 'establish', focus: ['guardhouse'] },
       },
       { place: 'guardhouse', hour: 22.5, lights: LIT, cast: [hob()], shot: { kind: 'two' } },
