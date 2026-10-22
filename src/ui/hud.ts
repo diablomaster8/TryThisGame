@@ -501,6 +501,7 @@ export function mountHud(
       away.isOpen ||
       celebration.isOpen ||
       memorialCard.isOpen() ||
+      journal.isTracing() ||
       edu.isOpen() ||
       breakScreen.isOpen() ||
       !catching.hidden,
@@ -679,6 +680,16 @@ export function mountHud(
       if (isEdu && eduBreakDue(g.world) && !breakScreen.isOpen() && !edu.isOpen())
         breakScreen.show();
       placingChip.hidden = !g.placing;
+      // A language quest's tracing step opens its game once its scene has played (bug 31).
+      if (
+        isEdu &&
+        !dialogue.isOpen &&
+        !stack.anyOpen() &&
+        !edu.isOpen() &&
+        !breakScreen.isOpen() &&
+        (g.world.campaign?.queue.length ?? 0) === 0
+      )
+        journal.offerTrace();
       homeBtn.hidden = !visitingTrainer(g.world) || dialogue.isOpen;
       // A minigame is time spent with its Nubbin: no lonely or hungry slips meanwhile (bug 21).
       if (expedition.isOpen || races.screen.isOpen || karate.screen.isOpen || gym.screen.isOpen) {

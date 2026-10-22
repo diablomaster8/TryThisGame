@@ -993,6 +993,20 @@ export const LANG_TEXT = {
   traceMore: 'Keep going over the letter.',
   traceDone: 'Beautiful tracing!',
   traceClose: 'Stop',
+  /** A language quest between scenes: its next part comes by itself (review 2026-10-21, 8). */
+  langNext: (friend: string) =>
+    `${friend}’s next part comes up on its own. Keep playing in the Grove.`,
+  /** A step that waits on the story clock says so, with a way past it (bug 30). */
+  waitingFor: (when: string) => `(Waiting for ${when}…)`,
+  waitMoments: {
+    dusk: 'dusk',
+    dawn: 'morning',
+    midnight: 'midnight',
+    late: 'later on',
+    short: 'a little while',
+  } as Record<string, string>,
+  skipWait: 'Don’t wait',
+  langTraceHint: 'Tap “Trace it” and follow the shapes with a finger.',
   /** A Nubbin's reaction to a word it knows, shown as a caption. */
   gestures: {
     wave: 'waves',

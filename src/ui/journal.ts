@@ -7,12 +7,13 @@ import type { Game } from '../game';
 import { goalMet } from '../sim/campaign';
 import { journalView } from '../sim/storyline';
 import { funQuestIds, RUNNER_STORIES, sideActable } from '../sim/side-stories';
+import { timeCheckMet } from '../sim/side-rule-kit';
 import type { SideStoryState } from '../sim/types';
 import type { JournalView } from '../sim/storyline';
 import { eduContent, rewardById, sideStory, textBandOf } from '../sim/story-scenes';
 import { button, el, modal } from './dom';
 import { LANG_TEXT } from '../config/strings';
-import { TRACE_TARGETS } from '../sim/lang';
+import { isLangQuestCode, TRACE_TARGETS } from '../sim/lang';
 import { scriptParagraph } from './lang-dom';
 import { TraceGame } from './trace';
 
@@ -29,6 +30,22 @@ function eduJournal(g: Game) {
     goal: (quest: string, step: string) => m.eduGoal(band, quest, step),
     title: (quest: string) => m.eduQuestTitle(band, quest),
   };
+}
+
+/** The moment a timed check names, in words, from the same words the sim reads. */
+function waitMoment(check: string): string {
+  const t = check.split(':');
+  const has = (...w: string[]) => t.some((x) => w.includes(x));
+  const key = has('midnight', 'one-oclock', 'small-hours')
+    ? 'midnight'
+    : has('frost', 'later')
+      ? 'late'
+      : has('dawn', 'morning', 'first-light', 'sunrise')
+        ? 'dawn'
+        : has('dusk', 'evening', 'night', 'sunset') || t[0] === 'night'
+          ? 'dusk'
+          : 'short';
+  return LANG_TEXT.waitMoments[key] ?? '';
 }
 
 /** The campaign journal: chapter, goal and hint, friends, and the Paths page of endings. */
@@ -49,6 +66,37 @@ export class Journal {
 
   /** The language courses' tracing game (CV3), opened from a tracing step. */
   private readonly trace: TraceGame;
+
+  /** Tracing steps already offered this session, as `quest:step`, so each opens once. */
+  private readonly offered = new Set<string>();
+
+  /**
+   * Right after the scene that asks for it, a language quest's tracing step opens the
+   * tracing game itself rather than waiting in the Journal (review 2026-10-21, bug 31).
+   * The HUD calls this when no scene or panel is up; true if the game opened.
+   */
+  offerTrace(): boolean {
+    const g = this.game();
+    const c = g?.world.campaign;
+    if (!g?.world.edu || !c || this.trace.isOpen()) return false;
+    for (const id of funQuestIds(c)) {
+      const st = c.fun[id];
+      const quest = sideStory(id);
+      const step = quest?.steps[st?.step ?? 0];
+      if (!st || !quest || !step || !isLangQuestCode(quest.code)) continue;
+      const target = TRACE_TARGETS[step.check];
+      const key = `${id}:${st.step}`;
+      if (!target || this.offered.has(key) || !sideActable(g.world, c, id)) continue;
+      this.offered.add(key);
+      this.trace.open(id, target, () => undefined);
+      return true;
+    }
+    return false;
+  }
+
+  isTracing(): boolean {
+    return this.trace.isOpen();
+  }
 
   /** Panels a storyline action opens (hud.ts fills these in), by StoryAction.ui. */
   readonly openers: Record<string, () => void> = {};
@@ -129,12 +177,27 @@ export class Journal {
       const title = eduJournal(g)?.title(id) ?? quest.title;
       this.body.appendChild(scriptParagraph(undefined, `${title}: ${edu?.goal ?? step.goal}`));
       // S18 lent the register to the museum; Delve has brought it back.
+      const trace = TRACE_TARGETS[step.check];
+      // A language quest's steps are met by its scenes (or the tracing game): the scripted
+      // hints name Grove actions ("choose Say") that do not exist (review 2026-10-21, 8).
+      const lang = isLangQuestCode(quest.code)
+        ? trace && st.stage === 'check'
+          ? LANG_TEXT.langTraceHint
+          : LANG_TEXT.langNext(
+              LANG_TEXT.friends[quest.code.startsWith('LH') ? 'hebrew' : 'japanese'] ?? '',
+            )
+        : null;
       const hint =
         id === 's10' && st.step === 0 && c.flags['s18-centre'] === 'register'
           ? STORY_TEXT.registerOnLoan
-          : (edu?.hint ?? step.hint);
+          : (lang ?? edu?.hint ?? step.hint);
       this.body.appendChild(scriptParagraph('help', hint));
-      const trace = TRACE_TARGETS[step.check];
+      // A step held for a moment of the story clock shows it is waiting, not stuck (bug 30).
+      const waiting = st.stage === 'check' && timeCheckMet(g.world, st, step.check) === false;
+      if (waiting)
+        this.body.appendChild(
+          el('p', 'help wait-cue', LANG_TEXT.waitingFor(waitMoment(step.check))),
+        );
       if (trace && sideActable(g.world, c, id)) {
         // A tracing step (CV3): the game meets it, not a plain button.
         this.body.appendChild(
@@ -150,7 +213,7 @@ export class Journal {
       } else if (sideActable(g.world, c, id)) {
         this.body.appendChild(
           button(
-            STORY_TEXT.doStep,
+            waiting ? LANG_TEXT.skipWait : STORY_TEXT.doStep,
             () => {
               // The Journal steps aside first, so the scene the step starts plays in the
               // clear rather than under it (review 2026-10-21, bug 29).
