@@ -48,7 +48,7 @@ const mat = (color: string, o: THREE.MeshStandardMaterialParameters = {}) => {
  * The way on and the chest glow a little, and stand in a soft ring of light on the floor,
  * so they read in the dark at a glance (review 2026-10-21, bug 12).
  */
-const STEP = mat('#a8a2b8', { emissive: '#5a78c0', emissiveIntensity: 0.45 });
+const STEP = mat('#a8a2b8', { emissive: '#4a64a8', emissiveIntensity: 0.25 });
 const RIM = mat('#b8c8e8', { emissive: '#7aa8ff', emissiveIntensity: 1.2 });
 const MARKERS = new Map<string, THREE.MeshBasicMaterial>();
 function marker(x: number, z: number, color: string): THREE.Mesh {
@@ -265,7 +265,12 @@ function poolGeometry(f: Floor): THREE.BufferGeometry | null {
       const b = corner(x + 1, y);
       const c = corner(x, y + 1);
       const d = corner(x + 1, y + 1);
-      index.push(a, c, b, b, c, d);
+      // A centre vertex with water under it, so a pool one cell wide still has open water
+      // in the middle and foam only at its banks (it was foam from bank to bank).
+      const m = pos.length / 3;
+      pos.push((x + 0.5 - f.cols / 2) * CELL, 0.04, (y + 0.5 - f.rows / 2) * CELL);
+      depth.push(0.8);
+      index.push(a, c, m, c, d, m, d, b, m, b, a, m);
     }
   if (!index.length) return null;
   const g = new THREE.BufferGeometry();

@@ -1430,7 +1430,7 @@ export const READ3D = {
   post: { r: 0.3, keepOff: 0.75 },
   /** The Hollow Below: fill light, the Keeper's lamp and the wider camera. */
   hollow: {
-    hemi: 0.75,
+    hemi: 0.5,
     env: 0.35,
     sun: 0.35,
     fog: 0.016,
