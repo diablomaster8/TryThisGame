@@ -1,5 +1,5 @@
 import type { TileKind } from '../sim/types';
-import { paintGround } from './ground';
+import { paintGround, type GroundSeason } from './ground';
 
 /**
  * Paints the Grove floor off the main thread: the field is big enough that the full
@@ -10,6 +10,8 @@ export interface GroundJob {
   id: number;
   seed: number;
   tiles: Record<string, TileKind>;
+  /** H8: the season to paint for; absent means the base ground. */
+  season?: GroundSeason;
 }
 
 export interface GroundResult {
@@ -25,7 +27,7 @@ const scope = self as unknown as {
 };
 
 scope.onmessage = (e: MessageEvent<GroundJob>) => {
-  const { id, seed, tiles } = e.data;
-  const p = paintGround(seed, tiles);
+  const { id, seed, tiles, season } = e.data;
+  const p = paintGround(seed, tiles, undefined, season ?? null);
   scope.postMessage({ id, width: p.width, height: p.height, rgba: p.rgba }, [p.rgba.buffer]);
 };

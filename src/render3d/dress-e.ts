@@ -4,19 +4,15 @@ import { markAt } from '../config/stage-marks';
 import type { SceneStage } from '../config/story';
 import { LANTERN_POSTS } from '../config/tuning';
 import { HAND_LANTERN, HUSH, LANTERN_E } from '../config/tuning-e';
+import { CG2_W } from '../config/tuning-w';
 import type { Daylight } from '../render/daylight';
-import {
-  colossusTexture,
-  flickerAt,
-  glowTexture,
-  hushPresence,
-  lanternLights,
-  SceneClock,
-} from '../render/dress-e';
+import { flickerAt, glowTexture, hushPresence, lanternLights, SceneClock } from '../render/dress-e';
+import { LineClock } from '../render/line-clock';
 import { npcHere, stageFlags } from '../render/scene-stage';
 import type { World } from '../sim/types';
 import type { Dress3dCtx, Dressing3d } from './dressings';
 import { stagedSeat } from './npc-accessories';
+import { hushCardTexture } from './hush-card';
 import { groveHeight } from './terrain';
 
 /**
@@ -36,6 +32,7 @@ class Dress3dE implements Dressing3d {
   private ctx: Dress3dCtx | null = null;
   private root = new THREE.Group();
   private clock = new SceneClock();
+  private line = new LineClock();
   private time = 0;
   private touched = new Set<string>();
   private glass = new Map<string, THREE.MeshStandardMaterial>();
@@ -49,6 +46,7 @@ class Dress3dE implements Dressing3d {
     this.root = new THREE.Group();
     this.root.name = 'dress-e';
     this.clock = new SceneClock();
+    this.line = new LineClock();
     this.time = 0;
     this.glass.clear();
     this.touched.clear();
@@ -106,7 +104,7 @@ class Dress3dE implements Dressing3d {
       this.hand.push(g);
     }
     // The Hush: a soft grey mass at the edge of the fog.
-    const tex = colossusTexture();
+    const tex = hushCardTexture();
     const mat = new THREE.SpriteMaterial({
       map: tex,
       transparent: true,
@@ -117,10 +115,10 @@ class Dress3dE implements Dressing3d {
     this.owned.push(tex, mat);
     const c = HUSH.colossus;
     this.colossus = new THREE.Sprite(mat);
-    this.colossus.scale.set(c.width, c.height, 1);
+    this.colossus.scale.set(c.width * CG2_W.hush.scale3d, c.height * CG2_W.hush.scale3d, 1);
     this.colossus.position.set(
       HUSH.origin.x,
-      groveHeight(HUSH.origin.x, HUSH.origin.z) + c.y,
+      groveHeight(HUSH.origin.x, HUSH.origin.z) + CG2_W.hush.y3d,
       HUSH.origin.z,
     );
     this.colossus.visible = false;
@@ -146,7 +144,7 @@ class Dress3dE implements Dressing3d {
     const reduce = ctx.reduceMotion();
     const flags = stageFlags(world, stage);
     this.time += dt;
-    const sceneT = this.clock.tick(flags.sceneId, dt);
+    const sceneT = this.line.tick(flags.sceneId, this.clock.tick(flags.sceneId, dt), dt);
     const home = flags.location === 'grove';
 
     // M6: the Nubbin the scene seats.
@@ -156,7 +154,7 @@ class Dress3dE implements Dressing3d {
     if (this.colossus) {
       const p = home ? hushPresence(flags.sceneId, sceneT, reduce) : 0;
       this.colossus.visible = p > 0.001;
-      this.colossus.material.opacity = p * HUSH.colossus.opacity;
+      this.colossus.material.opacity = p * CG2_W.hush.opacity3d;
     }
 
     // H3: posts by name.

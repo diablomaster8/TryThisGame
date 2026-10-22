@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { GROVE3D } from '../config/tuning';
 import { CG_C } from '../config/tuning-c';
+import { CG2_W } from '../config/tuning-w';
+import { FROST_PX, paintFrostDecal } from '../render/paint/frost-w';
 import type { World } from '../sim/types';
 import { QuadCloud } from './quad-particles';
 import { groveHeight } from './terrain';
@@ -172,5 +174,76 @@ export class FrostFx {
       (this.prints.material as THREE.Material).dispose();
     }
     this.tex?.dispose();
+  }
+}
+
+/**
+ * M14: the Hush's frost on the ground under each lantern it put out, as one instanced draw
+ * of grey frost decals that grow from the post and then lie there for the chapter. The
+ * growth (0..1 per post) comes from `render/hush-trail.ts`, shared with the pixel view; the
+ * decal is the pixel painter's ragged ellipse, softened. Reduced motion arrives already
+ * grown, so nothing here moves.
+ */
+export class FrostDecals {
+  private readonly mesh: THREE.InstancedMesh;
+  private readonly tex: THREE.CanvasTexture;
+  private readonly m4 = new THREE.Matrix4();
+  private readonly flat = new THREE.Quaternion().setFromAxisAngle(
+    new THREE.Vector3(1, 0, 0),
+    -Math.PI / 2,
+  );
+
+  constructor(
+    scene: THREE.Object3D,
+    private readonly posts: ReadonlyArray<{ id: string; x: number; z: number }>,
+  ) {
+    this.tex = new THREE.CanvasTexture(paintFrostDecal().toCanvas());
+    this.tex.colorSpace = THREE.SRGBColorSpace;
+    const mat = new THREE.MeshBasicMaterial({
+      map: this.tex,
+      color: CG2_W.hush.frostColor,
+      transparent: true,
+      opacity: CG2_W.hush.frostOpacity,
+      depthWrite: false,
+      polygonOffset: true,
+      polygonOffsetFactor: -3,
+      polygonOffsetUnits: -3,
+    });
+    this.mesh = new THREE.InstancedMesh(
+      new THREE.PlaneGeometry(1, FROST_PX.h / FROST_PX.w),
+      mat,
+      posts.length,
+    );
+    this.mesh.count = 0;
+    this.mesh.frustumCulled = false;
+    this.mesh.renderOrder = 1;
+    scene.add(this.mesh);
+  }
+
+  /** Lay this frame's decals: the growth of each post by id (absent posts have none). */
+  set(grown: ReadonlyMap<string, number>): void {
+    let n = 0;
+    for (const p of this.posts) {
+      const k = grown.get(p.id);
+      if (k === undefined || k <= 0.01) continue;
+      const e = 1 - (1 - k) * (1 - k);
+      const w = CG2_W.hush.frostRadius * 2 * e;
+      this.m4.compose(
+        new THREE.Vector3(p.x, groveHeight(p.x, p.z) + 0.04, p.z),
+        this.flat,
+        new THREE.Vector3(w, w, 1),
+      );
+      this.mesh.setMatrixAt(n++, this.m4);
+    }
+    this.mesh.count = n;
+    this.mesh.instanceMatrix.needsUpdate = true;
+    this.mesh.visible = n > 0;
+  }
+
+  dispose(): void {
+    this.mesh.removeFromParent();
+    this.mesh.geometry.dispose();
+    (this.mesh.material as THREE.Material).dispose();
+    this.tex.dispose();
   }
 }

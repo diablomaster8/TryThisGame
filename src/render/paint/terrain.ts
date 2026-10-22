@@ -7,8 +7,10 @@ import {
   ShapeGeometry,
   type CanvasTexture,
 } from 'three';
+import { GROVE } from '../../config/tuning';
 import { fbm, ridged, warped } from './noise';
 import { hex, mix, Raster, shade } from './raster';
+import { pondRadius } from './shore';
 
 /**
  * Painted terrain: a cliff-face tile for the hill terraces (strata, cracks, moss, a
@@ -163,4 +165,47 @@ export function poolShape(r: number, salt: number, segments = 24): ShapeGeometry
   shape.closePath();
   void Path;
   return new ShapeGeometry(shape, 1);
+}
+
+/** The pond ice texture covers the pond's box, this many units wider than the pond's radius. */
+export const ICE_MARGIN = 2;
+
+/**
+ * C7: the pond's winter skin, painted once (static, so reduced motion needs no other form):
+ * a pale blue-white sheet, a little deeper in the middle where the water is, white crack
+ * lines with a few blue hairlines under them, and a rime of white flecks along the shore.
+ * The texture covers the box `pond.r + ICE_MARGIN` either side of the pond's centre, with
+ * the same noise shoreline as the water, so it fits the bank it freezes against.
+ */
+export function paintPondIce(size = 192): CanvasTexture {
+  const R = GROVE.pond.r + ICE_MARGIN;
+  const r = new Raster(size, size, hex('#d6e9f5'));
+  const deep = hex('#a9cde6');
+  const pale = hex('#e8f4fb');
+  const white = hex('#ffffff');
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      const wx = (x / size - 0.5) * 2 * R;
+      const wz = (y / size - 0.5) * 2 * R;
+      const shore = pondRadius(Math.atan2(wz, wx));
+      const d = Math.hypot(wx, wz) / shore;
+      const n = fbm(x / 22, y / 22, 3, 301);
+      // Thicker, bluer ice towards the middle; milky and thin at the edge.
+      let c = mix(pale, deep, Math.max(0, Math.min(1, (1 - d) * 0.9 + (n - 0.5) * 0.5)));
+      // Cracks: ridged noise, thin lines, a hairline of shade beside each.
+      const crack = ridged(x / 17, y / 17, 3, 302);
+      if (crack > 0.9) c = white;
+      else if (crack > 0.865) c = mix(c, hex('#7fa6c6'), 0.75);
+      // Frozen bubbles and scuffs.
+      if (fbm(x / 3, y / 3, 2, 303) > 0.78) c = mix(c, white, 0.5);
+      // The rime along the shore.
+      if (d > 0.84) {
+        const fleck = fbm(x / 2.2, y / 2.2, 2, 304);
+        c = mix(c, white, Math.min(1, (d - 0.84) * 5 + (fleck > 0.55 ? 0.35 : 0)));
+      }
+      r.set(x, y, c);
+    }
+  }
+  const tex = r.toTexture(true);
+  return tex;
 }

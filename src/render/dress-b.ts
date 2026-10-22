@@ -2,11 +2,13 @@ import { CircleGeometry, Color, Mesh, MeshBasicMaterial, RingGeometry, type Vect
 import { markAt } from '../config/stage-marks';
 import { GROVE } from '../config/tuning';
 import { STORY_B } from '../config/tuning-b';
+import { CG2_W } from '../config/tuning-w';
 import type { SceneStage } from '../config/story';
 import type { World } from '../sim/types';
 import type { Daylight } from './daylight';
 import type { PixelDressCtx, PixelDressing } from './dressings';
 import { RasterAtlas } from './paint/atlas';
+import { FOAM_PX, paintMillFoam, paintSluice, SLUICE_PX } from './paint/mill-w';
 import {
   GATE_PPU,
   GATE_HALF_PX,
@@ -86,6 +88,8 @@ export const dressB: PixelDressing = (() => {
     atlas.add('jetty:broken', paintJetty(STORY_B.shore.missing));
     atlas.add('jetty:whole', paintJetty([]));
     atlas.add('millrace', paintMillrace());
+    atlas.add('sluice', paintSluice());
+    atlas.add('millfoam', paintMillFoam());
     atlas.add('sand', paintSandRing().raster);
     atlas.add('shadow', paintShadow(64, 22));
     // The Fold: three ruin levels of each stock building, cut from its painted frame.
@@ -283,10 +287,20 @@ export const dressB: PixelDressing = (() => {
         if (st.wheelTurns && !ctx.reduceMotion())
           wheelAngle = (wheelAngle + dt * M.speed * 2.2) % 4;
         const k = st.wheelTurns && !ctx.reduceMotion() ? Math.floor(wheelAngle) % 4 : 0;
-        shadow(M.at.x, M.at.z, 2.0);
-        draw(`wheel:${k}${st.wheelTurns ? 'f' : ''}`, M.at.x, M.at.z, (WHEEL_PX / GATE_PPU) * 1.7, {
-          h: (WHEEL_PX / GATE_PPU) * 1.7,
+        // M7: the wheel stands in the stream, not beside it. The foam lies on the water
+        // under its paddles and a sluice up the stream, past the bridge, feeds it, so the painted streaks on the
+        // hub (which read as a pale blotch) are left off. All still, so nothing to skip.
+        const mw = CG2_W.mill;
+        const wy = WHEEL_PX / GATE_PPU;
+        draw('millfoam', M.at.x, M.at.z + 0.1, mw.foamW, {
+          mode: 'flat',
+          y: 0.035,
+          h: (mw.foamW * FOAM_PX.h) / FOAM_PX.w,
         });
+        draw('sluice', M.at.x + 1.5, M.at.z - 3.8, mw.sluiceW, {
+          h: (mw.sluiceW * SLUICE_PX.h) / SLUICE_PX.w,
+        });
+        draw(`wheel:${k}`, M.at.x, M.at.z, wy * 1.7, { y: -mw.sink, h: wy * 1.7 });
       }
       // Dawn & Dusk (C7): four crest houses round the green.
       if (st.dawnDusk) {
