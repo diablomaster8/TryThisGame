@@ -225,6 +225,114 @@ export const GROVE3D = {
     cutPerSec: 4,
     rubbleShare: 0.32,
     spikeShare: 0.12,
+    /**
+     * The colour script by depth (Hollow recommendations item 8), read by both renderers
+     * through `bandFor` in `render/cave-bands.ts`. A band runs from its `from` floor to the
+     * next band's. `background` doubles as the fog colour, so distance fades into a
+     * readable mid-tone, never black. `hemiSky`/`hemiGround` are the cool-over-warm fill,
+     * `key` the directional key, `torch` the torch lamps, `grade` the frame tint.
+     * `rock`, `moss` and `crystal` tint the cave kit; `floor`, `rim` and `glow` are the
+     * pixel painter's flagstone, wall-lip and baked-glow colours.
+     */
+    bands: [
+      {
+        from: 1,
+        name: 'mossy earth',
+        background: '#1c2a30',
+        hemiSky: '#a9b8e6',
+        hemiGround: '#6a5238',
+        key: '#b4c4e8',
+        torch: '#ffa850',
+        grade: '#fff4e8',
+        rock: '#8a7462',
+        moss: '#5c8a4a',
+        crystal: '#9ad0ff',
+        floor: '#857d8c',
+        rim: '#a494b4',
+        glow: '#ffc070',
+      },
+      {
+        from: 6,
+        name: 'blue crystal grotto',
+        background: '#16263a',
+        hemiSky: '#9cc4ff',
+        hemiGround: '#4a4a62',
+        key: '#8ec8ff',
+        torch: '#ffb468',
+        grade: '#e8f2ff',
+        rock: '#6a7690',
+        moss: '#4a8a8a',
+        crystal: '#6fd8f4',
+        floor: '#7a8aa0',
+        rim: '#8ed8ff',
+        glow: '#9ad8ff',
+      },
+      {
+        from: 11,
+        name: 'amber fungus cavern',
+        background: '#2a2218',
+        hemiSky: '#d8c0a0',
+        hemiGround: '#5a3e24',
+        key: '#ffd09a',
+        torch: '#ff9a40',
+        grade: '#fff0dc',
+        rock: '#8a6a4a',
+        moss: '#9a8a3a',
+        crystal: '#ffc86a',
+        floor: '#8c7a62',
+        rim: '#e0b070',
+        glow: '#ffb050',
+      },
+      {
+        from: 16,
+        name: 'pastel prism depths',
+        background: '#261e36',
+        hemiSky: '#d0b8ff',
+        hemiGround: '#5a4462',
+        key: '#e0c8ff',
+        torch: '#ffb0d0',
+        grade: '#f8eeff',
+        rock: '#7e6e94',
+        moss: '#8a7ab8',
+        crystal: '#ffb8f0',
+        floor: '#8e84a6',
+        rim: '#e0c0ff',
+        glow: '#f0b0ff',
+      },
+    ],
+    /**
+     * The cave light rig (items 2, 3 and 7), built on review D's lift. Fills are scaled by
+     * `depthFloor + (1 - depthFloor) * floor.light`, so deeper floors dim but stay readable.
+     * Exactly four point lights, none casting shadows: the Keeper's lamp and three torch
+     * lamps. A torch lamp keeps its torch until another is `hysteresis` units nearer, and a
+     * swap fades out and back in at `fadePerSec` (a share of full a second), so it never pops.
+     */
+    light: {
+      hemi: 2.8,
+      env: 1.4,
+      key: 0.8,
+      depthFloor: 0.7,
+      fogDensity: 0.012,
+      exposure: 0.85,
+      bloom: 0.5,
+      bloomThreshold: 2.6,
+      keeper: { color: '#fff0d0', intensity: 7, distance: 15, decay: 1.6, height: 1.8 },
+      torch: { intensity: 22, distance: 12, decay: 2, flicker: 0.1 },
+      hysteresis: 2,
+      fadePerSec: 3,
+      /**
+       * Underground the frame governor sheds these, in this order, before it lowers the render
+       * scale (`render3d/cave-shed.ts`); the Grove keeps its own order. A step nobody has
+       * registered a hook for is a no-op.
+       */
+      governor: { order: ['particles', 'triplanar', 'bloom'] },
+    },
+    /**
+     * Underground framing (item 21): the radial vignette and a darker top edge, as if under
+     * rock. The top shade starts `topFrom` up the frame (0 bottom, 1 top) and reaches `top`
+     * at the edge. Above ground the vignette is `groundVignette` and there is no top shade.
+     */
+    atmos: { vignette: 0.6, top: 0.35, topFrom: 0.55, groundVignette: 0.35 },
   },
   /**
    * The painted sky (`render3d/sky.ts`): a zenith-to-horizon gradient per time of day, a
@@ -280,7 +388,7 @@ export const GROVE3D = {
     minGain: 0.92,
     /**
      * CPU savings the scene may step through once a slow frame is not fill-bound: 1 drops
-     * the creature outlines, 2 the second grass pass and the dusk bloom, 3 redraws the sun's
+     * the creature outlines, 2 the second grass pass and the dusk or cave bloom, 3 redraws the sun's
      * shadow only every fourth frame (`Grove3dScene.governRenderScale`).
      */
     cpuLevels: 3,
@@ -1472,14 +1580,8 @@ export const READ3D = {
   },
   /** Lantern posts: how wide a post blocks, and the NPC's keep-off radius round each. */
   post: { r: 0.3, keepOff: 0.75 },
-  /** The Hollow Below: fill light, the Keeper's lamp and the wider camera. */
+  /** The Hollow Below's wider camera (its light rig is `GROVE3D.cave.light`). */
   hollow: {
-    hemi: 0.5,
-    env: 0.35,
-    sun: 0.35,
-    fog: 0.016,
-    lamp: 9,
-    lampDistance: 15,
     distanceK: 1.2,
     pitchDeg: 42,
   },
