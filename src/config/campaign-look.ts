@@ -1,4 +1,5 @@
 import type { SceneStage } from './story';
+import { CG2_Y } from './tuning-y';
 import { GROVE, LANTERN_POSTS } from './tuning';
 
 /**
@@ -28,8 +29,14 @@ export interface LookDef {
   grid: boolean;
   /** Where the tint gives way to the shadow, 0..1 from the centre (default 0.55). */
   core?: number;
-  /** The grade's blend; overlay unless a look needs to darken (multiply). */
-  blend?: 'overlay' | 'multiply';
+  /** The grade's blend; overlay unless a look needs to darken (multiply) or stay gentle (soft-light). */
+  blend?: 'overlay' | 'multiply' | 'soft-light';
+  /**
+   * A split-tone (cg2 H11, M10): a warm or bright key over the top of the frame (the sky and
+   * the key light) and a cool shade under it (the shadows), in place of one flat tint. The
+   * ground keeps its hue because the blend is soft-light and the shade stays near mid-blue.
+   */
+  split?: { key: string; keyAlpha: number; shade: string; shadeAlpha: number };
 }
 
 function look(
@@ -57,7 +64,28 @@ export const CAMPAIGN_LOOK: Readonly<Record<string, LookDef>> = {
     blend: 'multiply',
   },
   beetle: look('#ff9a2c', 0.34, 0.95, '#2c1002', 0.36, 'torch', '#ffb347'),
-  dawn: look('#ff9db8', 0.32, 1, '#3a1430', 0.26, 'dawn', '#ffb3c6'),
+  // H11: a split-tone, not a pink multiply (it turned paths and soil brick-red at 6.5).
+  dawn: {
+    ...look('#ff9db8', 0.32, 1, '#3a1430', 0.26, 'dawn', '#ffb3c6'),
+    blend: 'soft-light',
+    split: {
+      key: CG2_Y.dawn.key,
+      keyAlpha: CG2_Y.dawn.keyAlpha,
+      shade: CG2_Y.dawn.shade,
+      shadeAlpha: CG2_Y.dawn.shadeAlpha,
+    },
+  },
+  // M10: Hazel's cold, bright morning: cool shadows, high-key whites.
+  crisp: {
+    ...look(CG2_Y.crisp.key, 0.2, CG2_Y.crisp.sat, '#1c2c4a', 0.16, 'honey', '#d8e6fa'),
+    blend: 'soft-light',
+    split: {
+      key: CG2_Y.crisp.key,
+      keyAlpha: CG2_Y.crisp.keyAlpha,
+      shade: CG2_Y.crisp.shade,
+      shadeAlpha: CG2_Y.crisp.shadeAlpha,
+    },
+  },
   dusk: look('#8a6cff', 0.34, 0.9, '#120a30', 0.34, 'dusk', '#b5a0ff'),
 };
 
@@ -94,6 +122,26 @@ export function lookFor(i: LookInput, stage: SceneStage | null): { key: string; 
       accent: mix('#d9c46a', '#7fcf6c', f),
     },
   };
+}
+
+const rgbaOf = (hex: string, a: number): string => {
+  const n = parseInt(hex.slice(1), 16);
+  return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a.toFixed(3)})`;
+};
+
+/**
+ * The CSS background of a split-tone grade: the key over the top half, the shade under it,
+ * then the look's shadow colour at the frame's edges. Null for a look with no split.
+ */
+export function splitGradeCss(look: LookDef): string | null {
+  const s = look.split;
+  if (!s) return null;
+  return (
+    `radial-gradient(ellipse at 50% 45%,transparent 0%,transparent ${Math.round((look.core ?? 0.55) * 100)}%,` +
+    `${rgbaOf(look.shadow, look.shadowAlpha)} 100%),` +
+    `linear-gradient(to bottom,${rgbaOf(s.key, s.keyAlpha)} 0%,${rgbaOf(s.key, s.keyAlpha * 0.7)} 38%,` +
+    `${rgbaOf(s.shade, s.shadeAlpha * 0.6)} 62%,${rgbaOf(s.shade, s.shadeAlpha)} 100%)`
+  );
 }
 
 function mix(a: string, b: string, f: number): string {

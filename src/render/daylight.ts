@@ -68,12 +68,14 @@ const KEY: Record<Phase, Omit<Daylight, 'phase' | 't'>> = {
   },
   dawn: {
     sky: color(C.violet),
+    // H11: a warm key and a cool fill, and a tint that holds the ground's hue (the rose sun
+    // and blush fill turned soil and paths brick-red). The grade's shadows go cool in post.ts.
     hemiIntensity: 1.2,
-    hemiColor: color(C.blush),
+    hemiColor: color(C.skyLight),
     sunIntensity: 0.9,
-    sunColor: color(C.roseLight),
-    tint: new Vector3(1.05, 0.9, 0.95),
-    tintAmount: 0.35,
+    sunColor: color(C.sunLight),
+    tint: new Vector3(1.03, 0.97, 0.97),
+    tintAmount: 0.3,
     bloom: 0.4,
     lanterns: false,
     fireflies: false,

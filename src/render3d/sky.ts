@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { CG_A, GROVE3D } from '../config/tuning';
+import { CG_A, CG2_Y, GROVE3D } from '../config/tuning';
 import type { Daylight } from '../render/daylight';
 import type { WeatherKind } from '../sim/types';
 
@@ -47,6 +47,12 @@ const glsl = (n: number) => n.toFixed(4);
   }
 }
 
+/**
+ * Campaign graphics 2 (M15): the sky's first-light band, 0..1, set per frame by package y's
+ * 3D dressing and shared by both painted domes (the one in view and the one the bake sees).
+ */
+export const FIRST_LIGHT = { value: 0 };
+
 const SKY_VERT = /* glsl */ `
   varying vec3 vDir;
   void main() {
@@ -70,6 +76,7 @@ const SKY_FRAG = /* glsl */ `
   uniform float uTime;
   uniform float uStars;
   uniform float uGain;
+  uniform float uBand;
   varying vec3 vDir;
 
   float skyHash( vec2 p ) { return fract( sin( dot( p, vec2( 127.1, 311.7 ) ) ) * 43758.5453 ); }
@@ -90,6 +97,12 @@ const SKY_FRAG = /* glsl */ `
     vec3 col = h >= 0.0
       ? mix( uHorizon, uZenith, pow( smoothstep( 0.0, 0.75, h ), 0.7 ) )
       : mix( uHorizon, uGround, smoothstep( 0.0, -0.2, h ) );
+    // First light: a thin rose-to-gold band hugging the horizon, under the sun's own glow.
+    if ( uBand > 0.0 && h > -0.04 ) {
+      float band = smoothstep( -0.04, 0.0, h ) * ( 1.0 - smoothstep( 0.04, 0.3, h ) );
+      vec3 first = mix( vec3( 1.0, 0.5, 0.42 ), vec3( 1.0, 0.86, 0.5 ), smoothstep( 0.0, 0.16, h ) );
+      col = mix( col, first * 1.25, band * uBand * 0.8 );
+    }
     float sd = max( dot( dir, uSunDir ), 0.0 );
     // A wide warm halo, a tighter glow, and the disc with a soft rim.
     col += uSunColor * ( pow( sd, 6.0 ) * 0.22 + pow( sd, 80.0 ) * 0.5 );
@@ -143,6 +156,7 @@ function skyMaterial(): THREE.ShaderMaterial {
       uTime: { value: 0 },
       uStars: { value: 0 },
       uGain: { value: 1.6 },
+      uBand: FIRST_LIGHT,
     },
     vertexShader: SKY_VERT,
     fragmentShader: SKY_FRAG,
@@ -167,6 +181,11 @@ function palette(elevation: number, weather: WeatherKind): [THREE.Color, THREE.C
     if (wet) c.lerp(tmpA.set(s.rain[k]), wet * THREE.MathUtils.clamp(toGold * 1.2, 0.3, 1));
     return c;
   }) as [THREE.Color, THREE.Color, THREE.Color];
+}
+
+/** 1 through the dawn hours (about 5.5 to 7.5), easing out by 9; 0 after dark and by day. */
+export function dawnCalm(hour: number): number {
+  return THREE.MathUtils.smoothstep(hour, 5, 6) * (1 - THREE.MathUtils.smoothstep(hour, 7.5, 9));
 }
 
 /** How golden the light is (0 by day and at night, 1 with the sun on the horizon). */
@@ -334,6 +353,13 @@ export class GroveSky {
     this.hemi.color.set(d.hemiColor);
     if (!night) this.hemi.color.lerp(tmpA.set('#ffd6a8'), gold * 0.4);
     else this.hemi.color.lerp(tmpA.set(CG_A.night.hemiColor), CG_A.night.hemiMix);
+    // H11: at dawn the key stays warm but the fill goes cool, so shadows read cool and the
+    // ground keeps its hue instead of burning brick-red under an orange sun.
+    const calm = dawnCalm(hour) * CG2_Y.dawn.sunCalm;
+    if (calm > 0 && !night && !rain) {
+      this.sun.color.lerp(tmpA.set(CG2_Y.dawn.sunColor), calm);
+      this.hemi.color.lerp(tmpA.set(CG2_Y.dawn.hemiColor), calm * CG2_Y.dawn.hemiMix * 2);
+    }
     this.hemi.intensity = night ? CG_A.night.hemi : rain ? 0.78 : 0.72 + gold * 0.1;
     // The fog takes the horizon's colour, so the far meadow melts into the painted sky.
     this.fog.color

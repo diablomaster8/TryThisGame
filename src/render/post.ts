@@ -20,6 +20,13 @@ import {
  * target is half float, so dark palette colours keep their steps through the linear stage,
  * and the pass ends with the sRGB encode the renderer would otherwise do itself.
  */
+/**
+ * Split-tone (campaign graphics 2, H11, M10), set per frame by package y's pixel dressing:
+ * 0 is the plain tint multiply; 1 sends shadows to a cool blue and keeps the warm tint on
+ * the highlights, so a dawn grade does not push the ground's hue.
+ */
+export const POST_SPLIT = { value: 0 };
+
 export interface PostSettings {
   bloom: number;
   tilt: number;
@@ -45,6 +52,7 @@ uniform float tilt;
 uniform float vignette;
 uniform vec3 tint;
 uniform float tintAmount;
+uniform float split;
 varying vec2 vUv;
 
 vec3 sampleBlur(vec2 uv, float r) {
@@ -72,7 +80,12 @@ void main() {
   float lum = dot(glow, vec3(0.299, 0.587, 0.114));
   col += glow * smoothstep(0.55, 1.0, lum) * bloom;
   // Grade.
-  col = mix(col, col * tint, tintAmount);
+  vec3 tone = tint;
+  if (split > 0.0) {
+    float l = dot(col, vec3(0.299, 0.587, 0.114));
+    tone = mix(tint, mix(vec3(0.9, 0.98, 1.1), tint, smoothstep(0.18, 0.62, l)), split);
+  }
+  col = mix(col, col * tone, tintAmount);
   // Vignette.
   vec2 d = vUv - 0.5;
   float v = 1.0 - dot(d, d) * vignette;
@@ -101,6 +114,7 @@ export class PostPass {
         vignette: { value: 0.35 },
         tint: { value: new Vector3(1, 1, 1) },
         tintAmount: { value: 0 },
+        split: POST_SPLIT,
       },
       vertexShader: VERT,
       fragmentShader: FRAG,
