@@ -198,7 +198,9 @@ describe('focus marks and the Keeper on a mark', () => {
     st.update(w);
     const house = markAt('grove', 'house-1')!;
     expect(st.spotOf(w, 'house-1')).toEqual({ x: house.x, z: house.z });
-    expect(st.spotOf(w, 'you')).toEqual(w.keeper.pos);
+    // H7: a scene at a place puts the Keeper on that place's keeper mark (here the gate's).
+    const k = markAt('grove', 'keeper-gate')!;
+    expect(st.spotOf(w, 'you')).toEqual({ x: k.x, z: k.z });
     expect(st.spotOf(w, 'no-such-mark')).toBeNull();
   });
 

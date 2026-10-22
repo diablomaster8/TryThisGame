@@ -1,5 +1,5 @@
 import { Vector3 } from 'three';
-import { CAMERA, PIXEL_STAGE, SIM } from './config/tuning';
+import { CAMERA, PIXEL_STAGE, SIM, STAGE2 } from './config/tuning';
 import { GameInput, type Placing } from './input/game-input';
 import { CameraControls } from './input/camera-controls';
 import {
@@ -15,7 +15,9 @@ import { litLanterns } from './sim/campaign';
 import { GroveScene } from './render/grove-scene';
 import { Picker } from './render/picker';
 import { LowResPipeline, type FrameStats } from './render/pipeline';
-import { resolveStage, SceneStager } from './render/scene-stage';
+import { fitPixel, resolveStage, SceneStager } from './render/scene-stage';
+import { PIXEL_BUILDINGS, safeRect, viewRect } from './render/stage-api';
+import { stageHides } from './config/stage-sets';
 import { WorldView } from './render/world-view';
 import { syncDungeon, syncWorldScenes } from './render/world-sync';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
@@ -82,6 +84,8 @@ export class Game {
   private weatherSid: string | null = null;
   /** Who speaks the dialogue line on screen; the HUD sets it, the story cameras frame them. */
   storySpeaker: string | null = null;
+  /** The dialogue's line index in the open scene (0 on the first); H5's push-in follows it. */
+  storyLine = 0;
   /** The hour the pixel view is lit at, and a blend toward a newly staged one (C2). */
   private drawnHour: number | null = null;
   private hourBlend: { from: number; to: number; startMs: number } | null = null;
@@ -124,30 +128,67 @@ export class Game {
    * waits (the centroid of who is framed), or null to follow the Keeper. Holds the near zoom
    * for `two` and `close` shots, and for an unstaged scene whose cast stands close.
    */
-  private stagePixelCamera(nowMs: number, focused: boolean): { x: number; z: number } | null {
+  private stagePixelCamera(
+    nowMs: number,
+    focused: boolean,
+  ): { x: number; z: number; fitted: boolean } | null {
     const st = this.stager;
     st.speaker = this.storySpeaker;
-    if (st.update(this.world, nowMs)) this.lastDaylightMs = -Infinity;
+    if (st.update(this.world, nowMs)) {
+      this.lastDaylightMs = -Infinity;
+      // Campaign graphics 2: a set hides the Grove-only buildings, an exclusive stage all.
+      PIXEL_BUILDINGS.stageHidden = new Set(stageHides(st.stage));
+      PIXEL_BUILDINGS.stageHidesAll = st.exclusive;
+    }
+    st.noteLine(this.storyLine, nowMs);
+    this.grove?.setBare(st.exclusive);
     if (this.scene3d) return null;
     // A shot that names its own focus (the green, a house, Moss) centres on that, not the Keeper.
     const points = st.active && !focused ? st.subjects(this.world) : [];
-    const kind = st.stage.shot?.kind;
+    // H5: after the first line an establishing shot pushes in (to `two` unless it says).
+    const kind = st.shotKind();
     if (points.length < 2 && !kind) {
       this.camera.holdZoom(null, nowMs);
       return null;
+    }
+    const ppu = CAMERA.pixelsPerUnit;
+    if (points.length > 0 && st.fits()) {
+      // H4: the nearest zoom step that fits every focus point inside the HUD-safe area.
+      const cur = ppu[this.camera.currentZoomIndex] ?? ppu[0];
+      const views = ppu.map((p) => ({
+        w: (this.camera.visibleWidth * cur) / p,
+        h: (this.camera.visibleHeight * cur) / p,
+      }));
+      const v = viewRect();
+      const s = safeRect();
+      const fit = fitPixel(
+        points,
+        this.camera.currentYaw,
+        this.camera.pitch,
+        views,
+        {
+          x0: (s.x - v.x) / v.w,
+          y0: (s.y - v.y) / v.h,
+          x1: (s.x + s.w - v.x) / v.w,
+          y1: (s.y + s.h - v.y) / v.h,
+        },
+        STAGE2.figureH,
+        STAGE2.fitRadius,
+      );
+      this.camera.holdZoom(fit.zoom, nowMs);
+      return { x: fit.x, z: fit.z, fitted: true };
     }
     const cx = points.reduce((a, p) => a + p.x, 0) / points.length;
     const cz = points.reduce((a, p) => a + p.z, 0) / points.length;
     const spread = Math.max(...points.map((p) => Math.hypot(p.x - cx, p.z - cz)));
     // The near zoom only when the cast fits across it (a phone held upright is narrow).
-    const ppu = CAMERA.pixelsPerUnit;
     const last = ppu.length - 1;
     const nearWidth =
       (this.camera.visibleWidth * (ppu[this.camera.currentZoomIndex] ?? ppu[0])) / ppu[last]!;
     const fits = spread * 2.4 < nearWidth;
     const near = kind === 'close' || ((kind === 'two' || !kind) && fits);
     this.camera.holdZoom(near ? last : null, nowMs);
-    return { x: cx, z: cz };
+    return { x: cx, z: cz, fitted: false };
   }
 
   private updateDaylight(nowMs: number): void {
@@ -577,7 +618,9 @@ export class Game {
     const subject = focused ? focused.pos : (staged ?? kp);
     // With a bottom sheet open on a phone, aim past the Keeper toward the camera, so the
     // Keeper and the Nubbin beside them sit in the clear top part (review C, item 22).
-    const liftK = staged ? Math.max(this.cameraLift, PIXEL_STAGE.boxLift) : this.cameraLift;
+    // A fitted shot (H4) already sits inside the HUD-safe area.
+    const liftK =
+      staged && !staged.fitted ? Math.max(this.cameraLift, PIXEL_STAGE.boxLift) : this.cameraLift;
     const lift = (liftK * this.camera.visibleHeight) / Math.sin(CAMERA.pitchRad);
     const yaw = this.camera.currentYaw;
     // Aim right of the subject (along the camera's right vector) so a docked desktop sheet
@@ -600,6 +643,7 @@ export class Game {
       if (this.scene3d) {
         this.updateDaylight(nowMs);
         this.scene3d.storySpeaker = this.storySpeaker;
+        this.scene3d.storyLine = this.storyLine;
         this.scene3d.update(this.world, this.camera, this.clock.alpha, nowMs);
         this.scene3d.render();
       } else if (this.grove && this.lowRes) {

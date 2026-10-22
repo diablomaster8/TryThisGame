@@ -2,8 +2,8 @@ import { GROVE, READ3D } from '../config/tuning';
 import { SCENE_STAGES } from '../config/scene-stages';
 import { DAWN_HOUR, DUSK_HOUR } from '../config/scene-stages-dawndusk';
 import { E_STAGES } from '../config/tuning-e';
-import { markAt } from '../config/stage-marks';
-import type { Line, SceneStage, StagePlace } from '../config/story';
+import { markAt, markSetFor, PLACE_KEEPER, placeSet } from '../config/stage-marks';
+import type { Line, SceneStage, ShotKind, StageCast, StagePlace } from '../config/story';
 import { sceneFor, type PlayScene } from '../sim/story-scenes';
 import { storylineOf } from '../sim/storyline';
 import type { GroveKind, Location, Vec2, World } from '../sim/types';
@@ -169,6 +169,22 @@ export class SceneStager {
   speaker: string | null = null;
   /** Wall time (ms) the current scene began, for timed shots such as `establish`. */
   startedMs = 0;
+  /**
+   * The Keeper's drawn facing for the scene (radians, `atan2(dx, dz)`), turned to whom the
+   * scene is with (H7), or null to keep the sim's. Drawing only.
+   */
+  keeperFace: number | null = null;
+  /** The dialogue's line index in the scene (the game sets it each frame); 0 on the first. */
+  line = 0;
+  /** Wall time (ms) the first line advance came (H5's push-in), or null before it. */
+  pushedMs: number | null = null;
+  /** Who an exclusive stage still draws besides the Keeper: its cast and its speakers. */
+  readonly castIds = new Set<string>();
+  /** Scenes already warned about (H1's dev check), so each warns once. */
+  private readonly warned = new Set<string>();
+  /** The facings as placed, before `turnFaces` turns them toward a side camera. */
+  private readonly baseFaces = new Map<string, number>();
+  private baseKeeperFace: number | null = null;
 
   get active(): boolean {
     return this.sceneId !== null;
@@ -176,6 +192,53 @@ export class SceneStager {
 
   get id(): string | null {
     return this.sceneId;
+  }
+
+  /** Whether the stage draws only its set (C3, C4): the Grove's world hides. */
+  get exclusive(): boolean {
+    return this.sceneId !== null && this.stage.exclusive === true;
+  }
+
+  /**
+   * Follow the dialogue's line (H5): the first advance past line 0 starts the push-in.
+   * Call each frame with the line index and the wall time.
+   */
+  noteLine(line: number, nowMs: number): void {
+    this.line = line;
+    if (this.sceneId !== null && line > 0 && this.pushedMs === null) this.pushedMs = nowMs;
+  }
+
+  /**
+   * The shot kind to draw now: the stage's, or after the first line its `then` (an
+   * `establish` defaults to `two`). Undefined when the stage names no shot.
+   */
+  shotKind(): ShotKind | undefined {
+    const shot = this.stage.shot;
+    if (!shot) return undefined;
+    if (this.pushedMs === null) return shot.kind;
+    return shot.then ?? (shot.kind === 'establish' ? 'two' : shot.kind);
+  }
+
+  /**
+   * The shot's focus now: after the push-in (H5) to a default two-shot, the people again
+   * (the speakers and the Keeper), not the marks an establishing shot framed. A `then`
+   * the stage names keeps the focus.
+   */
+  focusNow(): string[] | undefined {
+    const shot = this.stage.shot;
+    if (this.pushedMs !== null && shot && !shot.then && this.shotKind() !== shot.kind)
+      return undefined;
+    return shot?.focus;
+  }
+
+  /** Whether the shot now fits its focus inside the HUD-safe area (H4). */
+  fits(): boolean {
+    const shot = this.stage.shot;
+    const kind = this.shotKind();
+    if (!shot || kind === undefined) return false;
+    // `fit` names the first shot; after a push-in only a `wide` still fits.
+    if (kind !== shot.kind) return kind === 'wide';
+    return shot.fit ?? (kind === 'establish' || kind === 'wide');
   }
 
   /** Follow the story queue; true on the frame a scene begins or ends. */
@@ -188,15 +251,24 @@ export class SceneStager {
     this.location = world.location;
     this.holds.clear();
     this.faces.clear();
+    this.baseFaces.clear();
+    this.baseKeeperFace = null;
     this.keeperHold = null;
     this.nubbinHolds.clear();
     this.speakers.clear();
     this.hour = null;
     this.stage = {};
     this.startedMs = nowMs;
+    this.keeperFace = null;
+    this.pushedMs = null;
+    this.line = 0;
+    this.castIds.clear();
     if (!r) return true;
     this.stage = r.stage;
     for (const l of r.scene.lines) this.speakers.add(l.who);
+    for (const w of this.speakers) this.castIds.add(w);
+    for (const c of r.stage.cast ?? []) this.castIds.add(c.who);
+    this.warnPlace(world, r.id);
     this.hour = SKY_LIT(world.location) ? (r.stage.hour ?? hourOf(r.scene.lines)) : null;
     this.place(world);
     return true;
@@ -207,9 +279,36 @@ export class SceneStager {
     return this.hour ?? clock;
   }
 
+  /**
+   * H1's dev check: a stage whose place belongs to another location than the world's
+   * cannot be honoured (its marks are elsewhere). Warns once per scene, in dev builds only.
+   */
+  private warnPlace(world: World, id: string): void {
+    const place = this.stage.place;
+    if (!import.meta.env.DEV || !place || this.warned.has(id)) return;
+    if (markSetFor(world.location) === placeSet(place)) return;
+    this.warned.add(id);
+    console.warn(
+      `[stage] ${id}: place '${place}' is in ${placeSet(place)}, the world is at ${world.location}`,
+    );
+  }
+
+  /**
+   * The cast with the Keeper on the place's `keeper` mark by default (H7), unless the
+   * scene puts `you` somewhere itself.
+   */
+  castOf(world: World): StageCast[] {
+    const cast = this.stage.cast ?? [];
+    const place = this.stage.place;
+    if (!place || cast.some((c) => c.who === 'you')) return cast;
+    const mark = PLACE_KEEPER[place];
+    if (!mark || !markAt(world.location, mark)) return cast;
+    return [{ who: 'you', mark }, ...cast];
+  }
+
   /** Where everyone is drawn for this scene: marks first, then far speakers brought in. */
   private place(world: World): void {
-    const cast = this.stage.cast ?? [];
+    const cast = this.castOf(world);
     const you = cast.find((c) => c.who === 'you');
     const ym = you ? markAt(world.location, you.mark) : undefined;
     if (ym) this.keeperHold = { x: ym.x, z: ym.z };
@@ -256,6 +355,45 @@ export class SceneStager {
       } else if (!marked.has(n.id)) to = k;
       if (to) this.faces.set(n.id, Math.atan2(to.x - at.x, to.z - at.z));
     }
+    this.keeperFace = this.keeperHold ? this.faceOfKeeper(world, you, ym?.yaw ?? null) : null;
+    this.baseFaces.clear();
+    for (const [id, f] of this.faces) this.baseFaces.set(id, f);
+    this.baseKeeperFace = this.keeperFace;
+  }
+
+  /**
+   * H7: turn the placed facings up to `amount` radians toward a camera standing at `camYaw`
+   * from them (as `atan2(dx, dz)` from the subject to the camera), so a two-shot framed from
+   * the side shows both faces three-quarter. Null puts them back as placed. Drawing only.
+   */
+  turnFaces(camYaw: number | null, amount: number): void {
+    const turn = (f: number): number => {
+      if (camYaw === null) return f;
+      const d = Math.atan2(Math.sin(camYaw - f), Math.cos(camYaw - f));
+      return f + Math.max(-amount, Math.min(amount, d));
+    };
+    for (const [id, f] of this.baseFaces) this.faces.set(id, turn(f));
+    this.keeperFace = this.baseKeeperFace === null ? null : turn(this.baseKeeperFace);
+  }
+
+  /**
+   * H7: the held Keeper turns to whom its entry names, else to the first speaker drawn
+   * here, else keeps its mark's yaw.
+   */
+  private faceOfKeeper(
+    world: World,
+    you: StageCast | undefined,
+    yaw: number | null,
+  ): number | null {
+    const k = this.keeperHold;
+    if (!k) return null;
+    const names = you?.face ? [you.face] : [...this.speakers];
+    for (const who of names) {
+      if (who === 'you' || who === 'narrator') continue;
+      const p = this.castSpot(world, who);
+      if (p && Math.hypot(p.x - k.x, p.z - k.z) > 0.05) return Math.atan2(p.x - k.x, p.z - k.z);
+    }
+    return yaw;
   }
 
   /** The Keeper's drawn spot for the scene: on its mark, else where the sim has it. */
@@ -294,7 +432,7 @@ export class SceneStager {
    */
   subjects(world: World): Vec2[] {
     const all = this.frame(world);
-    const focus = this.stage.shot?.focus;
+    const focus = this.focusNow();
     if (!focus?.length || focus.includes('you') || all.length < 2) return all;
     return all.slice(1);
   }
@@ -308,7 +446,7 @@ export class SceneStager {
     const k = this.keeperSpot(world);
     const out: Vec2[] = [{ x: k.x, z: k.z }];
     const near = (p: Vec2) => Math.hypot(p.x - k.x, p.z - k.z) < READ3D.stage.radius;
-    const focus = this.stage.shot?.focus;
+    const focus = this.focusNow();
     const names = focus ?? [...this.speakers];
     for (const who of names) {
       if (who === 'you' || who === 'narrator') continue;
@@ -317,4 +455,61 @@ export class SceneStager {
     }
     return out;
   }
+}
+
+/**
+ * H4 for the pixel view: the zoom step and the aim point that fit `points` inside the
+ * HUD-safe part of the view. The camera is orthographic at `pitch`, turned to `yaw`;
+ * `views[i]` is the visible width and height (world units) at zoom step `i` (far first);
+ * `safe` is the safe rect as shares of the view (0..1, y down). Each point is kept in frame
+ * `figureH` up and `radius` round (a house's roof and walls).
+ * Returns the nearest step that fits (else the farthest) and the ground point to aim at.
+ */
+export function fitPixel(
+  points: readonly Vec2[],
+  yaw: number,
+  pitch: number,
+  views: ReadonlyArray<{ w: number; h: number }>,
+  safe: { x0: number; y0: number; x1: number; y1: number },
+  figureH = 2,
+  radius = 0.8,
+): { zoom: number; x: number; z: number } {
+  const o = points[0] ?? { x: 0, z: 0 };
+  // Camera right on the ground, and "away from the camera" (up the screen) on the ground.
+  const rx = Math.cos(yaw);
+  const rz = -Math.sin(yaw);
+  const fx = -Math.sin(yaw);
+  const fz = -Math.cos(yaw);
+  const sp = Math.sin(pitch);
+  let minX = Infinity;
+  let maxX = -Infinity;
+  let minY = Infinity;
+  let maxY = -Infinity;
+  for (const p of points) {
+    const dx = p.x - o.x;
+    const dz = p.z - o.z;
+    const sx = dx * rx + dz * rz;
+    const sy = (dx * fx + dz * fz) * sp;
+    minX = Math.min(minX, sx - radius);
+    maxX = Math.max(maxX, sx + radius);
+    minY = Math.min(minY, sy - radius * sp);
+    maxY = Math.max(maxY, sy + figureH * Math.cos(pitch));
+  }
+  const sw = Math.max(0.05, safe.x1 - safe.x0);
+  const sh = Math.max(0.05, safe.y1 - safe.y0);
+  let zoom = 0;
+  for (let i = views.length - 1; i >= 0; i--) {
+    const v = views[i]!;
+    if (maxX - minX <= sw * v.w && maxY - minY <= sh * v.h) {
+      zoom = i;
+      break;
+    }
+  }
+  const v = views[zoom] ?? { w: 1, h: 1 };
+  // Where the safe rect's centre sits from the view's centre, in world units (y up).
+  const ox = ((safe.x0 + safe.x1) / 2 - 0.5) * v.w;
+  const oy = (0.5 - (safe.y0 + safe.y1) / 2) * v.h;
+  const bx = (minX + maxX) / 2 - ox;
+  const by = ((minY + maxY) / 2 - oy) / Math.max(0.2, sp);
+  return { zoom, x: o.x + rx * bx + fx * by, z: o.z + rz * bx + fz * by };
 }

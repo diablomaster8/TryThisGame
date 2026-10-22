@@ -65,6 +65,16 @@ export const OCCLUDE = {
   boxes: { value: 0 },
   boxMin: { value: [0, 1, 2, 3].map(() => new THREE.Vector3()) },
   boxMax: { value: [0, 1, 2, 3].map(() => new THREE.Vector3()) },
+  /**
+   * Campaign graphics 2: buildings a dressing or a stage set hides or thins (the buildings
+   * API in `stage-buildings-3d.ts` fills them), up to eight world boxes, each with a fade:
+   * 2 drops the box's fragments (hidden), 0..1 thins them by the same dither. Applied
+   * whether or not a scene frames anyone. Box `i` is in use when `i < hides`.
+   */
+  hides: { value: 0 },
+  hideMin: { value: Array.from({ length: 8 }, () => new THREE.Vector3()) },
+  hideMax: { value: Array.from({ length: 8 }, () => new THREE.Vector3()) },
+  hideFade: { value: Array.from({ length: 8 }, () => 0) },
 };
 
 /** Hook the H9 dither into any lit or basic material's shader (buildings and their hulls). */
@@ -78,6 +88,10 @@ export function occludable(shader: THREE.WebGLProgramParametersWithUniforms, cir
   shader.uniforms.uOccBoxes = OCCLUDE.boxes;
   shader.uniforms.uOccBoxMin = OCCLUDE.boxMin;
   shader.uniforms.uOccBoxMax = OCCLUDE.boxMax;
+  shader.uniforms.uOccHides = OCCLUDE.hides;
+  shader.uniforms.uOccHideMin = OCCLUDE.hideMin;
+  shader.uniforms.uOccHideMax = OCCLUDE.hideMax;
+  shader.uniforms.uOccHideFade = OCCLUDE.hideFade;
   const vary =
     'varying vec4 vOccClip;\nvarying vec4 vOcc0;\nvarying vec4 vOcc1;\nvarying vec4 vOcc2;\nvarying vec2 vOccK;\nvarying vec3 vOccWorld;';
   shader.vertexShader = shader.vertexShader
@@ -111,6 +125,10 @@ export function occludable(shader: THREE.WebGLProgramParametersWithUniforms, cir
       uniform float uOccBoxes;
       uniform vec3 uOccBoxMin[4];
       uniform vec3 uOccBoxMax[4];
+      uniform float uOccHides;
+      uniform vec3 uOccHideMin[8];
+      uniform vec3 uOccHideMax[8];
+      uniform float uOccHideFade[8];
       ${vary}
       float occHole(vec4 p, vec2 f) {
         if (p.w <= 0.0 || vOccClip.w > p.w - uOccMargin) return 0.0;
@@ -134,6 +152,18 @@ export function occludable(shader: THREE.WebGLProgramParametersWithUniforms, cir
         }
         float n = fract(52.9829189 * fract(dot(gl_FragCoord.xy, vec2(0.06711056, 0.00583715))));
         if (hole > 0.0 && n >= mix(1.0, uOccKeep, hole)) discard;
+      }
+      if (uOccHides > 0.5) {
+        float thin = 0.0;
+        for (int i = 0; i < 8; i++) {
+          if (float(i) >= uOccHides) break;
+          if (all(greaterThanEqual(vOccWorld, uOccHideMin[i])) && all(lessThanEqual(vOccWorld, uOccHideMax[i]))) {
+            if (uOccHideFade[i] > 1.5) discard;
+            thin = max(thin, min(1.0, uOccHideFade[i]));
+          }
+        }
+        float m = fract(52.9829189 * fract(dot(gl_FragCoord.xy, vec2(0.06711056, 0.00583715))));
+        if (thin > 0.0 && m >= mix(1.0, uOccKeep, thin)) discard;
       }`,
     );
 }

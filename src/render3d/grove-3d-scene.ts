@@ -36,6 +36,10 @@ import { GroveTextures } from './grove-textures';
 import { GroveSky } from './sky';
 import { StorySets } from './story-sets';
 import { SceneStager } from '../render/scene-stage';
+import { safeRect, viewRect, type ScreenRect } from '../render/stage-api';
+import { stageHides } from '../config/stage-sets';
+import { STAGE2 } from '../config/tuning-f2';
+import { StageBuildings3d } from './stage-buildings-3d';
 import { Dressings3d } from './dressings';
 import { Village } from './village';
 import { GroveWeather } from './weather';
@@ -148,6 +152,23 @@ interface Shot {
   points: Vec2[];
   /** How far above the ground the camera looks, over the usual height. */
   lookUp: number;
+  /** H4: framed inside the HUD-safe area already (no lift clear of the dialogue box). */
+  fitted?: boolean;
+}
+
+/** Mix two shots (H5's push-in): look point, yaw the short way round, pitch, distance. */
+function mixShot(a: Shot, b: Shot, t: number): Shot {
+  const dyaw = Math.atan2(Math.sin(b.yaw - a.yaw), Math.cos(b.yaw - a.yaw));
+  return {
+    ...b,
+    x: THREE.MathUtils.lerp(a.x, b.x, t),
+    z: THREE.MathUtils.lerp(a.z, b.z, t),
+    yaw: a.yaw + dyaw * t,
+    pitchDeg: THREE.MathUtils.lerp(a.pitchDeg, b.pitchDeg, t),
+    distance: THREE.MathUtils.lerp(a.distance, b.distance, t),
+    lookUp: THREE.MathUtils.lerp(a.lookUp, b.lookUp, t),
+    fitted: t < 0.5 ? a.fitted === true : b.fitted === true,
+  };
 }
 
 /** The events whose Nubbin the camera turns to (review 2026-10-21, bug 10). */
@@ -263,6 +284,16 @@ export class Grove3dScene {
   private readonly staging = new SceneStager();
   /** Who speaks the dialogue line on screen (the game sets it); always framed (C5). */
   storySpeaker: string | null = null;
+  /** The dialogue's line index in the scene (the game sets it); H5 pushes in after line 0. */
+  storyLine = 0;
+  /** The dressings' buildings API (campaign graphics 2): list, hide, thin. */
+  private readonly buildings3d: StageBuildings3d;
+  /** A camera to try fitted shots with (H4), and the last fit, kept while nothing changes. */
+  private readonly fitCam = new THREE.PerspectiveCamera();
+  private fitCache: { key: string; x: number; z: number; distance: number } | null = null;
+  /** The last story shot before H5's push-in, which the push eases from. */
+  private prePush: Shot | null = null;
+  private safe: { atMs: number; rect: ScreenRect; view: ScreenRect } | null = null;
   /** The campaign-graphics packages' story dressing (render3d/dressings.ts). */
   private readonly dressings = new Dressings3d();
   /** Lamp-pool sources the dressings borrow this frame. */
@@ -334,6 +365,8 @@ export class Grove3dScene {
       posts: this.props.lanterns.map((l) => ({ x: l.x, z: l.z })),
       holds: this.staging.holds,
       faces: this.staging.faces,
+      // An exclusive stage draws only its cast (campaign graphics C3, C4).
+      only: () => (this.staging.exclusive ? this.staging.castIds : null),
     };
     this.bursts = new Bursts(this.scene);
     // The garden's and the story's buildings wear the Grove's building kit (bug 15).
@@ -376,6 +409,8 @@ export class Grove3dScene {
     this.grade = new FinishPass(GRADE_SATURATION);
     this.composer.addPass(this.grade);
     this.composer.addPass(new SMAAPass());
+    this.buildings3d = new StageBuildings3d(this.pickables, () => this.garden.buildings());
+    this.buildings3d.discover();
     this.dressings.build({
       scene: this.scene,
       world3d: this.world3d,
@@ -389,6 +424,9 @@ export class Grove3dScene {
         const sets = new Set([this.lightSet(), ...this.warmed]);
         return Promise.all([...sets].map((set) => this.compileAs(set, [o])));
       },
+      buildings: this.buildings3d,
+      camera: this.camera,
+      safeRect,
     });
   }
 
@@ -463,7 +501,8 @@ export class Grove3dScene {
     const grove = place === 'grove';
     this.location = place;
     this.actors.location = place;
-    this.world3d.visible = grove;
+    // An exclusive stage (campaign graphics C3, C4) hides the Grove's whole world.
+    this.world3d.visible = grove && !this.staging.exclusive;
     // A neighbour's Grove and the two story places get their dressed sets; anywhere else
     // off the home ground keeps the plain floor.
     const visiting = place.startsWith('visit:') ? place.slice('visit:'.length) : null;
@@ -885,11 +924,134 @@ export class Grove3dScene {
    * The lift clear of the dialogue box is applied in `update`.
    */
   private stageShot(world: World, base: Shot): Shot {
-    const shot = this.stageShotFor(world, base);
-    // A phone held upright: never pull out to the whole map, whatever the shot.
-    if (shot.kind === 'stage' && this.camera.aspect < 1)
+    const st = this.staging;
+    const kind = st.shotKind() ?? 'two';
+    // H5: the push-in after the first line eases from the first shot (a cut under reduced
+    // motion). The first shot is worked out first, so the pushed shot's facings stand.
+    const first = st.stage.shot?.kind;
+    const t =
+      st.pushedMs !== null && first && first !== kind && !this.reduceMotion
+        ? THREE.MathUtils.clamp((this.lastMs - st.pushedMs) / (STAGE2.pushS * 1000), 0, 1)
+        : 1;
+    let shot = this.stageShotFor(world, base, kind);
+    // The shot held before the push is the one to ease from (its framing has changed since).
+    if (st.pushedMs === null) this.prePush = shot;
+    else if (t < 1 && this.prePush)
+      shot = mixShot(this.prePush, shot, THREE.MathUtils.smootherstep(t, 0, 1));
+    // A phone held upright: never pull out to the whole map, unless the shot is fitted.
+    if (shot.kind === 'stage' && this.camera.aspect < 1 && !shot.fitted)
       shot.distance = Math.min(shot.distance, READ3D.stage.portraitMaxDistance);
     return shot;
+  }
+
+  /** The HUD-safe rect and the view, read from the DOM at most four times a second. */
+  private safeArea(): { rect: ScreenRect; view: ScreenRect } {
+    if (!this.safe || this.lastMs - this.safe.atMs > 250 || this.lastMs < this.safe.atMs)
+      this.safe = { atMs: this.lastMs, rect: safeRect(), view: viewRect() };
+    return this.safe;
+  }
+
+  /**
+   * H4: the look point and distance that fit `points` (their feet and heads) inside the
+   * HUD-safe area at this yaw and pitch: a search on the distance, then the look point slid
+   * so the framed bounds sit in the middle of the safe area; three rounds. Kept while the
+   * points, the angles and the safe area stay the same.
+   */
+  private fitShot(
+    points: Vec2[],
+    yaw: number,
+    pitchDeg: number,
+    ground: (x: number, z: number) => number,
+  ): { x: number; z: number; distance: number } {
+    const { rect, view } = this.safeArea();
+    const sx0 = ((rect.x - view.x) / view.w) * 2 - 1;
+    const sx1 = ((rect.x + rect.w - view.x) / view.w) * 2 - 1;
+    const sy1 = 1 - ((rect.y - view.y) / view.h) * 2;
+    const sy0 = 1 - ((rect.y + rect.h - view.y) / view.h) * 2;
+    const key = [
+      ...points.map((p) => `${p.x.toFixed(2)},${p.z.toFixed(2)}`),
+      yaw.toFixed(3),
+      pitchDeg,
+      this.camera.aspect.toFixed(3),
+      sx0.toFixed(3),
+      sx1.toFixed(3),
+      sy0.toFixed(3),
+      sy1.toFixed(3),
+    ].join('|');
+    if (this.fitCache?.key === key) return this.fitCache;
+    const cam = this.fitCam;
+    cam.fov = this.camera.fov;
+    cam.aspect = this.camera.aspect;
+    cam.near = this.camera.near;
+    cam.far = this.camera.far;
+    cam.updateProjectionMatrix();
+    const pitch = THREE.MathUtils.degToRad(pitchDeg);
+    const m = STAGE2.fitMargin;
+    const wx = (sx1 - sx0) * (1 - m);
+    const wy = (sy1 - sy0) * (1 - m);
+    const pts: THREE.Vector3[] = [];
+    const r = STAGE2.fitRadius;
+    for (const p of points)
+      for (const [dx, dz] of [
+        [-r, 0],
+        [r, 0],
+        [0, -r],
+        [0, r],
+      ] as const) {
+        const g = ground(p.x + dx, p.z + dz);
+        pts.push(
+          new THREE.Vector3(p.x + dx, g, p.z + dz),
+          new THREE.Vector3(p.x + dx, g + STAGE2.figureH, p.z + dz),
+        );
+      }
+    const v = new THREE.Vector3();
+    const bounds = (x: number, z: number, d: number) => {
+      const ty = ground(x, z) + GROVE3D.lookHeight;
+      cam.position.set(
+        x + Math.sin(yaw) * Math.cos(pitch) * d,
+        ty + Math.sin(pitch) * d,
+        z + Math.cos(yaw) * Math.cos(pitch) * d,
+      );
+      cam.lookAt(x, ty, z);
+      cam.updateMatrixWorld();
+      let x0 = Infinity;
+      let x1 = -Infinity;
+      let y0 = Infinity;
+      let y1 = -Infinity;
+      for (const p of pts) {
+        v.copy(p).project(cam);
+        x0 = Math.min(x0, v.x);
+        x1 = Math.max(x1, v.x);
+        y0 = Math.min(y0, v.y);
+        y1 = Math.max(y1, v.y);
+      }
+      return { x0, x1, y0, y1 };
+    };
+    let x = points.reduce((a, p) => a + p.x, 0) / Math.max(1, points.length);
+    let z = points.reduce((a, p) => a + p.z, 0) / Math.max(1, points.length);
+    let d: number = READ3D.stage.minDistance;
+    for (let round = 0; round < 3; round++) {
+      let lo: number = READ3D.stage.minDistance;
+      let hi: number = STAGE2.fitMaxDistance;
+      for (let i = 0; i < 14; i++) {
+        const mid = (lo + hi) / 2;
+        const b = bounds(x, z, mid);
+        if (b.x1 - b.x0 <= wx && b.y1 - b.y0 <= wy) hi = mid;
+        else lo = mid;
+      }
+      d = hi;
+      // Slide the look point so the bounds' middle lands on the safe area's middle.
+      const b = bounds(x, z, d);
+      const halfH = d * Math.tan(THREE.MathUtils.degToRad(cam.fov / 2));
+      const halfW = halfH * cam.aspect;
+      const dx = ((b.x0 + b.x1) / 2 - (sx0 + sx1) / 2) * halfW;
+      const dy = ((b.y0 + b.y1) / 2 - (sy0 + sy1) / 2) * halfH;
+      // Camera right on the ground, and up the screen along the ground (away from it).
+      x += Math.cos(yaw) * dx - (Math.sin(yaw) * dy) / Math.max(0.3, Math.sin(pitch));
+      z += -Math.sin(yaw) * dx - (Math.cos(yaw) * dy) / Math.max(0.3, Math.sin(pitch));
+    }
+    this.fitCache = { key, x, z, distance: d };
+    return this.fitCache;
   }
 
   /**
@@ -917,7 +1079,7 @@ export class Grove3dScene {
     return others[0] ? [a, others[0]] : [a];
   }
 
-  private stageShotFor(world: World, base: Shot): Shot {
+  private stageShotFor(world: World, base: Shot, kind: string): Shot {
     const st = this.staging.stage.shot;
     const all = this.staging.frame(world);
     if (all.length < 2 && !st) return base;
@@ -945,17 +1107,38 @@ export class Grove3dScene {
       who && who !== 'you' && who !== 'narrator' ? this.staging.spotOf(world, who) : null;
     const sp = spoke ?? all[1] ?? k;
     const portrait = this.camera.aspect < 1 ? 1.25 : 1;
-    switch (st?.kind ?? 'two') {
+    // H4: an establishing or wide shot fits its focus inside the HUD-safe area.
+    const fit =
+      (kind === 'establish' || kind === 'wide') && (st?.fit ?? true)
+        ? this.fitShot(points, two.yaw, base.pitchDeg + 6, (x, z) =>
+            this.location === 'grove' ? standHeight(x, z) : 0,
+          )
+        : null;
+    // H7: a two-shot of the Keeper and one speaker is framed from the side, and both turn
+    // a little to the camera, so both faces show three-quarter.
+    let side: number | null = null;
+    if (kind === 'two' && st?.yaw === undefined && sp !== k) {
+      const line = Math.atan2(sp.x - k.x, sp.z - k.z);
+      const turn = (a: number) =>
+        Math.abs(Math.atan2(Math.sin(a - base.yaw), Math.cos(a - base.yaw)));
+      const a = line + STAGE2.twoSideRad;
+      const b = line - STAGE2.twoSideRad;
+      side = turn(a) < turn(b) ? a : b;
+    }
+    this.staging.turnFaces(side, side === null ? 0 : STAGE2.faceTurnRad);
+    switch (kind) {
       case 'wide':
+        if (fit) return { ...two, ...fit, pitchDeg: base.pitchDeg + 6, fitted: true };
         return { ...two, distance: two.distance * s.wideK, pitchDeg: base.pitchDeg + 6 };
       case 'establish': {
         const t = this.reduceMotion
           ? 1
           : THREE.MathUtils.clamp((this.lastMs - this.staging.startedMs) / s.establishMs, 0, 1);
         const e = 1 - (1 - t) ** 3;
-        const wide = two.distance * s.wideK;
+        const wide = fit ? fit.distance : two.distance * s.wideK;
         return {
           ...two,
+          ...(fit ? { x: fit.x, z: fit.z, fitted: true } : {}),
           distance: wide * THREE.MathUtils.lerp(s.establishFrom, 1, e),
           pitchDeg: base.pitchDeg + 6,
         };
@@ -982,7 +1165,7 @@ export class Grove3dScene {
         };
       }
       default:
-        return two;
+        return side === null ? two : { ...two, yaw: side };
     }
   }
 
@@ -1015,6 +1198,16 @@ export class Grove3dScene {
     // A story scene cuts in at once: the render pauses behind the dialogue box soon after.
     this.staging.speaker = this.storySpeaker;
     const stageCut = this.staging.update(world, nowMs);
+    this.staging.noteLine(this.storyLine, nowMs);
+    if (stageCut) {
+      // Campaign graphics 2: sets build late, so look again; a set hides the Grove-only
+      // buildings and an exclusive stage hides the world (`setDaylight`) and every building.
+      this.buildings3d.discover();
+      this.buildings3d.stageHidden = new Set(stageHides(this.staging.stage));
+      this.buildings3d.stageHidesAll = this.staging.exclusive;
+      this.fitCache = null;
+      this.prePush = null;
+    }
     this.actors.keeperHold = this.staging.active ? this.staging.keeperHold : null;
     this.actors.nubbinHolds = this.staging.active ? this.staging.nubbinHolds : null;
     const shot = this.shot(world, orbit);
@@ -1049,7 +1242,7 @@ export class Grove3dScene {
       (cave ? READ3D.hollow.distanceK : 1);
     const pitch = THREE.MathUtils.degToRad(THREE.MathUtils.lerp(basePitch, s.pitchDeg, b));
     const dist = THREE.MathUtils.lerp(baseDist, s.distance, b);
-    if (s.kind === 'stage' && b > 0) {
+    if (s.kind === 'stage' && b > 0 && !s.fitted) {
       // H8: the dialogue box covers the bottom of the frame, so slide the rig toward the
       // camera along the ground until the subjects sit `boxLift` of the frame higher.
       const visH = 2 * dist * Math.tan(THREE.MathUtils.degToRad(this.camera.fov / 2));
@@ -1066,6 +1259,8 @@ export class Grove3dScene {
     this.camPos.lerp(want, snap || stageCut ? 1 : k);
     this.dressLamps.length = 0;
     this.dressings.update(world, this.staging.stage, this.drawnDay, dt);
+    this.buildings3d.apply();
+    this.actors.keeperFace = this.staging.active ? this.staging.keeperFace : null;
     this.lamps.place(
       this.dressLamps.length > 0 ? [...this.lampSources, ...this.dressLamps] : this.lampSources,
       this.camTarget,

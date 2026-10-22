@@ -122,6 +122,11 @@ export interface CrowdOptions {
   faces?: ReadonlyMap<string, number>;
   /** The Grove's lantern posts, which a visiting Keeper is drawn clear of. */
   posts?: ReadonlyArray<Vec2>;
+  /**
+   * An exclusive stage's cast (campaign graphics C3, C4): when it returns a set, only the
+   * NPCs it names are drawn, and no wild visitors, strays or ambient figures.
+   */
+  only?: () => ReadonlySet<string> | null;
 }
 
 /**
@@ -159,9 +164,11 @@ export function crowdFor(
   const out: Figure[] = [];
   const home = location === 'grove';
   const underground = location === 'dungeon';
+  const only = opts.only?.() ?? null;
   // Visiting Keepers: the same rule as the pixel view's `npcHere`.
   for (const npc of world.npcs) {
     const t = npc.trainer;
+    if (only && !only.has(t)) continue;
     const here = home
       ? true
       : underground
@@ -188,6 +195,7 @@ export function crowdFor(
       pose: npc.target && !held ? 'walk' : 'idle',
     });
   }
+  if (only) return out;
   if (home)
     for (const w of world.wild)
       out.push({

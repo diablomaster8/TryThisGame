@@ -32,6 +32,7 @@ import { CAMERA, DUNGEON, GROVE, GROVE3D, LANTERN_POSTS, PIXEL_LIGHT } from '../
 import type { SceneStage } from '../config/story';
 import type { GroveKind, Location, TileKind, WeatherKind, World } from '../sim/types';
 import { PixelDressings, type PixelDressCtx } from './dressings';
+import { PIXEL_BUILDINGS, PIXEL_VIEW, safeRect, toScreen } from './stage-api';
 import { daylightAt, type Daylight } from './daylight';
 import { C, color } from './sprites/palette';
 import { groundTexture, makeGroundTexture } from './ground';
@@ -589,6 +590,9 @@ export class GroveScene {
       pickables: this.pickables,
       reduceMotion: () => this.holdStill,
       track: (d) => this.disposables.push(d),
+      buildings: PIXEL_BUILDINGS,
+      camera: { toScreen: (x, y, z) => toScreen(PIXEL_VIEW.camera, x, y, z) },
+      safeRect,
     });
   }
 
@@ -700,13 +704,29 @@ export class GroveScene {
   setLocation(location: Location): void {
     if (this.location === location) return;
     this.location = location;
-    this.groveGroup.visible = location === 'grove';
-    this.hollowGroup.visible = location === 'hollow';
-    this.corvinGroup.visible = location === 'corvin';
-    this.dungeonGroup.visible = location === 'dungeon';
-    if (this.ground) this.ground.visible = location !== 'dungeon';
-    if (this.skirt) this.skirt.visible = location !== 'dungeon';
+    this.applyPlace();
     this.applyLight();
+  }
+
+  /** An exclusive stage (campaign graphics C3, C4): the place's own world is not drawn. */
+  private bare = false;
+
+  /** Hide the place's ground, scenery and water for an exclusive stage; false shows them. */
+  setBare(bare: boolean): void {
+    if (this.bare === bare) return;
+    this.bare = bare;
+    this.applyPlace();
+  }
+
+  private applyPlace(): void {
+    const location = this.location;
+    const shown = !this.bare;
+    this.groveGroup.visible = shown && location === 'grove';
+    this.hollowGroup.visible = shown && location === 'hollow';
+    this.corvinGroup.visible = shown && location === 'corvin';
+    this.dungeonGroup.visible = location === 'dungeon';
+    if (this.ground) this.ground.visible = shown && location !== 'dungeon';
+    if (this.skirt) this.skirt.visible = shown && location !== 'dungeon';
   }
 
   /**
@@ -756,12 +776,7 @@ export class GroveScene {
     this.daylight = d;
     this.location = location;
     this.weather = weather;
-    this.groveGroup.visible = location === 'grove';
-    this.hollowGroup.visible = location === 'hollow';
-    this.corvinGroup.visible = location === 'corvin';
-    this.dungeonGroup.visible = location === 'dungeon';
-    if (this.ground) this.ground.visible = location !== 'dungeon';
-    if (this.skirt) this.skirt.visible = location !== 'dungeon';
+    this.applyPlace();
     this.applyLight();
   }
 

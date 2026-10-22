@@ -3,6 +3,7 @@ import type { SceneStage } from '../config/story';
 import type { World } from '../sim/types';
 import type { Daylight } from './daylight';
 import type { SpriteBatch } from './sprite-batch';
+import type { ScreenRect, StageBuildings, Vec2xy } from './stage-api';
 import type { SheetCache } from './sprites/sheets';
 import { dressA } from './dress-a';
 import { dressB } from './dress-b';
@@ -10,6 +11,13 @@ import { dressC } from './dress-c';
 import { dressD } from './dress-d';
 import { dressE } from './dress-e';
 import { dressF } from './dress-f';
+import { dressP } from './dress-p';
+import { dressS } from './dress-s';
+import { dressK } from './dress-k';
+import { dressW } from './dress-w';
+import { dressX } from './dress-x';
+import { dressY } from './dress-y';
+import { dressU } from './dress-u';
 
 /**
  * PIXEL DRESSING REGISTRY (campaign graphics, wave 0). How a package adds story dressing to
@@ -44,6 +52,12 @@ export interface PixelDressCtx {
   pickables: Object3D[];
   reduceMotion: () => boolean;
   track: (d: { dispose(): void }) => void;
+  /** Second pass (cg2-api.md): the Grove's buildings, to list, hide and thin. */
+  buildings: StageBuildings;
+  /** The pixel camera: world point to CSS pixels in the view, null before the first frame. */
+  camera: { toScreen(x: number, y: number, z: number): Vec2xy | null };
+  /** The view's HUD-safe rectangle in CSS pixels (below the top bar, above the dialogue). */
+  safeRect: () => ScreenRect;
 }
 
 export interface PixelDressing {
@@ -60,13 +74,20 @@ export const PIXEL_DRESSINGS: readonly PixelDressing[] = [
   dressD,
   dressE,
   dressF,
+  dressP,
+  dressS,
+  dressK,
+  dressW,
+  dressX,
+  dressY,
+  dressU,
 ];
 
 /** Runs the registry for one GroveScene: build once, update per frame, dispose at the end. */
 export class PixelDressings {
   private built = false;
 
-  /** Every package's dressing, in a fixed order (a to f). */
+  /** Every package's dressing, in a fixed order (a to f, then the second pass's p..u). */
   constructor(private readonly list: readonly PixelDressing[] = PIXEL_DRESSINGS) {}
 
   build(ctx: PixelDressCtx): void {

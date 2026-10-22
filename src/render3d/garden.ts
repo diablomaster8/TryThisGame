@@ -319,6 +319,13 @@ export class Garden {
   /** Pick targets: [object, pick kind, pick id, radius]. */
   private readonly picks: Array<[THREE.Object3D, GardenPickKind, string, number]> = [];
 
+  /** The placed garden buildings (nursery, bathhouse, workshop) as drawn now, with their ids. */
+  buildings(): Array<{ object: THREE.Object3D; id: string }> {
+    return this.picks
+      .filter(([, kind]) => kind === 'building')
+      .map(([object, , id]) => ({ object, id }));
+  }
+
   constructor(parent: THREE.Object3D) {
     this.group.name = 'garden';
     parent.add(this.group);
