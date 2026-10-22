@@ -15,7 +15,7 @@ import { litLanterns } from './sim/campaign';
 import { GroveScene } from './render/grove-scene';
 import { Picker } from './render/picker';
 import { LowResPipeline, type FrameStats } from './render/pipeline';
-import { SceneStager } from './render/scene-stage';
+import { resolveStage, SceneStager } from './render/scene-stage';
 import { WorldView } from './render/world-view';
 import { syncDungeon, syncWorldScenes } from './render/world-sync';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
@@ -79,6 +79,7 @@ export class Game {
   private lastDaylightMs = -Infinity;
   /** The pixel view's story stager (render/scene-stage.ts); Full 3D keeps its own. */
   private readonly stager = new SceneStager();
+  private weatherSid: string | null = null;
   /** Who speaks the dialogue line on screen; the HUD sets it, the story cameras frame them. */
   storySpeaker: string | null = null;
   /** The hour the pixel view is lit at, and a blend toward a newly staged one (C2). */
@@ -148,6 +149,14 @@ export class Game {
 
   private updateDaylight(nowMs: number): void {
     // The sky changes slowly: re-evaluate every few seconds, or every frame of a blend.
+    // A staged weather replaces the live one in the drawn scene (the package-f overlay draws
+    // it), so a scene change refreshes at once.
+    const sid = this.world.campaign?.queue[0] ?? null;
+    if (sid !== this.weatherSid) {
+      this.weatherSid = sid;
+      this.lastDaylightMs = -Infinity;
+    }
+    const wk = resolveStage(this.world)?.stage.weather ? 'clear' : this.world.weather.kind;
     const blending = this.hourBlend !== null;
     const clock = this.hourOverride ?? localHour();
     const hour = this.scene3d ? clock : this.stagedHour(clock, nowMs);
@@ -159,7 +168,7 @@ export class Game {
     if (this.scene3d) {
       this.scene3d.setLit(litLanterns(this.world));
       this.view.lanterns = () => this.scene3d!.lanternStates();
-      this.scene3d.setDaylight(clock, d, this.world.location, this.world.weather.kind, s.particles);
+      this.scene3d.setDaylight(clock, d, this.world.location, wk, s.particles);
       return;
     }
     if (!this.grove || !this.lowRes) return;
@@ -168,18 +177,18 @@ export class Game {
     this.view.lanterns = () => grove.lanternStates();
     const place = this.world.location.startsWith('visit:') ? 'grove' : this.world.location;
     this.grove.setLocation(place);
-    this.grove.setDaylight(d, place, this.world.weather.kind);
+    this.grove.setDaylight(d, place, wk);
     this.view.location = this.world.location;
     this.view.setDaylight(d, reduce);
     this.view.lights = this.grove.lampsOn ? this.grove.lampSpots : [];
     this.view.setWeather(
-      place === 'dungeon' ? 'clear' : this.world.weather.kind,
+      place === 'dungeon' ? 'clear' : wk,
       this.world.weather.intensity,
       s.particles,
       reduce,
     );
     // Rain greys the grade a little; snow brightens and cools it.
-    const w = this.world.weather.kind;
+    const w = wk;
     const tint = w === 'rain' ? d.tint.clone().multiply(new Vector3(0.85, 0.9, 1.0)) : d.tint;
     const tintAmount = w === 'rain' ? Math.max(d.tintAmount, 0.35) : d.tintAmount;
     this.lowRes.postPass?.apply({

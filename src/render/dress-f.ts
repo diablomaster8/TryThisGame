@@ -3,6 +3,7 @@ import {
   DRESSING_FLAGS,
   dungeonTorchesLit,
   RACE_LOOK,
+  holoClear,
 } from '../config/campaign-look';
 import { markAt } from '../config/stage-marks';
 import { LANTERN_POSTS } from '../config/tuning';
@@ -43,7 +44,8 @@ export const dressF: PixelDressing = {
     const reduce = ctx.reduceMotion();
     clock += dt;
     const m = driveCampaign(world, stage, reduce);
-    DRESSING_FLAGS.dungeon.torches = dungeonTorchesLit(m.flags.campaign, m.flags.storyChapter);
+    DRESSING_FLAGS.dungeon.torches =
+      dungeonTorchesLit(m.flags.campaign, m.flags.storyChapter) || m.below;
     RACE_LOOK.story = m.flags.campaign === 'hazel' && m.flags.chapter === 5;
     const sp = ctx.sprites;
     if (!art || !sp) return;
@@ -80,6 +82,16 @@ export const dressF: PixelDressing = {
       d.up('cake', 0.1, 0, 2.7);
       d.up('tray', 1.4, 0, 2.3);
       bunting(d, buntingShape(m.ending, m.finalChoice));
+    }
+
+    // The Beetle Road's below grade: four torches round the Keeper, the flame still if reduced.
+    if (m.below) {
+      const k = world.keeper.pos;
+      for (let i = 0; i < 4; i++) {
+        const a = Math.PI / 4 + (i * Math.PI) / 2;
+        const flick = reduce ? 0 : Math.floor(clock * 6 + i) % 2;
+        d.up(`torch-${flick}`, k.x + Math.cos(a) * 3.4, 0, k.z + Math.sin(a) * 3.4, 1);
+      }
     }
 
     if (s.picnic) {
@@ -274,6 +286,7 @@ function holoFence(d: Draw, reduce: boolean): void {
   for (let i = 0; i < n; i++) {
     const a = (i / n) * Math.PI * 2;
     if (Math.abs(Math.atan2(Math.sin(a), Math.cos(a)) - Math.PI / 2) < 0.2) continue;
+    if (!holoClear(h.cx + Math.cos(a) * h.radius, h.cz + Math.sin(a) * h.radius)) continue;
     d.ghost(
       'holo',
       h.cx + Math.cos(a) * h.radius,

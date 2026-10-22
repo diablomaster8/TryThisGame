@@ -102,8 +102,11 @@ function ensure(): Layers | null {
   if (hud && hud.parentElement === app) app.insertBefore(root, hud);
   else app.appendChild(root);
   layers = { root, grade, sat, ground, grid, fx };
+  // Rendering holds still behind a story dialogue, so a quiet frame loop is not "gone": hide
+  // only while the title screen is up (it is the only thing that replaces the game).
   watchdog = window.setInterval(() => {
-    if (performance.now() - lastDrive > 700 && layers) layers.root.hidden = true;
+    if (layers && performance.now() - lastDrive > 700 && document.querySelector('.title-card'))
+      layers.root.hidden = true;
   }, 400);
   return layers;
 }
@@ -136,13 +139,14 @@ export function driveLook(f: LookFrame, nowMs = performance.now()): void {
     const t = look.tintAlpha;
     put(
       'grade',
-      `${look.tint}|${t}|${look.shadow}|${look.shadowAlpha}`,
+      `${look.tint}|${t}|${look.shadow}|${look.shadowAlpha}|${look.core ?? ''}`,
       () =>
         (l.grade.style.background =
           `radial-gradient(ellipse at 50% 45%,${rgba(look.tint, t)} 0%,` +
-          `${rgba(look.tint, t)} 55%,${rgba(look.shadow, look.shadowAlpha)} 100%)`),
+          `${rgba(look.tint, t)} ${Math.round((look.core ?? 0.55) * 100)}%,` +
+          `${rgba(look.shadow, look.shadowAlpha)} 100%)`),
     );
-    setBlend(l.grade, 'gradeBlend', 'overlay');
+    setBlend(l.grade, 'gradeBlend', look.blend ?? 'overlay');
   }
   l.sat.hidden = !look || look.sat >= 0.99;
   if (look) put('sat', String(look.sat), () => (l.sat.style.opacity = String(1 - look.sat)));
@@ -487,6 +491,10 @@ export interface CampaignMoment {
   ending: string | null;
   finalChoice: unknown;
   fx: { fireflies: boolean; seed: boolean };
+  /** The season drawn (staged, else the chapter's), or null. */
+  season: ReturnType<typeof seasonFor>;
+  /** The Beetle Road's underground grade is up: its torches show. */
+  below: boolean;
 }
 
 let lastCardKey = '';
@@ -515,7 +523,14 @@ export function driveCampaign(world: World, stage: SceneStage, reduce: boolean):
     ending: c?.ending ?? null,
     finalChoice: c?.flags.finalChoice,
     fx,
+    season: seasonFor(stage, f.campaign, f.chapter),
+    below: stage.grade === 'beetle-below',
   };
+  // `props.loggedSet = 'hide'`: the scene plays with no game-world set ("There is no visor").
+  if (stage.props?.loggedSet === 'hide') {
+    sets.logged = false;
+    sets.rootRoom = false;
+  }
   const final = c ? (storylineOf(c)?.chapters.length ?? 12) : 0;
   const underground = f.location === 'dungeon';
   if (!c || underground) {
@@ -540,7 +555,8 @@ export function driveCampaign(world: World, stage: SceneStage, reduce: boolean):
     : season
       ? { tint: SEASON_TINT[season.season], strength: season.strength }
       : null;
-  driveLook({ look, ground, weather, seed: fx.seed, reduce });
+  const shown = stage.props?.loggedSet === 'hide' && look.grid ? { ...look, grid: false } : look;
+  driveLook({ look: shown, ground, weather, seed: fx.seed, reduce });
   // A chapter's title card, once, as it opens.
   const key = `${f.campaign}:${f.chapter}`;
   if (key !== lastCardKey && f.chapter >= 1 && f.chapter <= final && title) {

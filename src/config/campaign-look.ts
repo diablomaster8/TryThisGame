@@ -1,4 +1,5 @@
 import type { SceneStage } from './story';
+import { GROVE, LANTERN_POSTS } from './tuning';
 
 /**
  * The campaigns' colour scripts, staged seasons and weather, and which story sets stand
@@ -25,6 +26,10 @@ export interface LookDef {
   accent: string;
   /** A faint grid laid over the frame (Logged In). */
   grid: boolean;
+  /** Where the tint gives way to the shadow, 0..1 from the centre (default 0.55). */
+  core?: number;
+  /** The grade's blend; overlay unless a look needs to darken (multiply). */
+  blend?: 'overlay' | 'multiply';
 }
 
 function look(
@@ -46,6 +51,11 @@ export const CAMPAIGN_LOOK: Readonly<Record<string, LookDef>> = {
   'hazel-pale': look('#d6e2f2', 0.3, 0.9, '#2a3a52', 0.18, 'honey', '#c9d8ee'),
   hundred: look('#e6d596', 0.32, 0.72, '#3a3010', 0.26, 'straw', '#d9c46a'),
   logged: look('#3fdcff', 0.26, 0.88, '#041a30', 0.36, 'grid', '#52e6ff'),
+  'beetle-below': {
+    ...look('#c46a1c', 0.85, 0.8, '#0a0300', 0.92, 'torch', '#ff9a3c'),
+    core: 0.3,
+    blend: 'multiply',
+  },
   beetle: look('#ff9a2c', 0.34, 0.95, '#2c1002', 0.36, 'torch', '#ffb347'),
   dawn: look('#ff9db8', 0.32, 1, '#3a1430', 0.26, 'dawn', '#ffb3c6'),
   dusk: look('#8a6cff', 0.34, 0.9, '#120a30', 0.34, 'dusk', '#b5a0ff'),
@@ -115,7 +125,7 @@ export const SEASON_TINT: Readonly<Record<Season, GroundTint>> = {
   spring: { color: '#9be07c', alpha: 0.34, blend: 'soft-light' },
   summer: { color: '#ffdb5c', alpha: 0.36, blend: 'soft-light' },
   autumn: { color: '#ee8a26', alpha: 0.5, blend: 'soft-light' },
-  winter: { color: '#dcecff', alpha: 0.4, blend: 'screen' },
+  winter: { color: '#dcecff', alpha: 0.55, blend: 'screen' },
 };
 
 /** Weather that stains the ground even when its particles are off (reduced motion). */
@@ -228,3 +238,11 @@ export function buntingShape(ending: string | null, finalChoice: unknown): Bunti
  * dressing sets it every frame, the race views read it at the start of a race (M4).
  */
 export const RACE_LOOK = { story: false };
+
+/** Whether a spot on the holographic fence's ring is clear of water, the bridge and the posts. */
+export function holoClear(x: number, z: number): boolean {
+  const p = GROVE.pond;
+  if (Math.hypot(x - p.x, z - p.z) < p.r + 2.5) return false;
+  if (Math.hypot(x - GROVE.bridge.x, z - GROVE.bridge.z) < 4) return false;
+  return !LANTERN_POSTS.some((l) => Math.hypot(x - l.x, z - l.z) < 1.8);
+}

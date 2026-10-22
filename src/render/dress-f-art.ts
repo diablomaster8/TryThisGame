@@ -344,6 +344,30 @@ function frames(): Frame[] {
       }
     },
   });
+  for (let i = 0; i < 2; i++)
+    f.push({
+      key: `torch-${i}`,
+      w: 16,
+      h: 56,
+      draw: (c) => {
+        rect(c, '#5a3c28', 6, 22, 4, 34);
+        rect(c, '#3a2818', 4, 20, 8, 4);
+        poly(c, '#ff9a2c', [
+          [8, 2 + i * 2],
+          [14, 14],
+          [12, 21],
+          [4, 21],
+          [2, 14],
+        ]);
+        poly(c, '#ffe27a', [
+          [8, 9 + i],
+          [11, 16],
+          [10, 21],
+          [6, 21],
+          [5, 16],
+        ]);
+      },
+    });
   f.push({ key: 'root-floor', w: 192, h: 192, draw: (c) => disc(c, '#f4f5fb', 96, 96, 95) });
   f.push({
     key: 'chair',

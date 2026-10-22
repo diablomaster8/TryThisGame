@@ -4,6 +4,7 @@ import {
   DRESSING_FLAGS,
   dungeonTorchesLit,
   RACE_LOOK,
+  type Season,
 } from '../config/campaign-look';
 import type { BuntingShape } from '../config/campaign-look';
 import { markAt } from '../config/stage-marks';
@@ -24,6 +25,7 @@ import {
   buildPlums,
   buildRootRoom,
   buildScoreboard,
+  buildTorches,
   buildWeatherMachine,
   WAVE,
   type Motes,
@@ -62,6 +64,12 @@ let flies: Motes | null = null;
 let vane: THREE.Object3D | null = null;
 let holo: ReturnType<typeof buildHoloFence> | null = null;
 let clock = 0;
+let torches: ReturnType<typeof buildTorches> | null = null;
+let treeScan = 0;
+const treeParts = {
+  crowns: [] as Array<{ mesh: THREE.InstancedMesh; count: number }>,
+  fruit: [] as THREE.Mesh[],
+};
 const disposables: Array<() => void> = [];
 
 function place(o: THREE.Object3D, x: number, z: number, yaw = 0): void {
@@ -154,6 +162,11 @@ export const dress3dF: Dressing3d = {
     wasps = buildMotes(LOOK_F.wasps.count, '#ffd23a', 0.16);
     flies = buildMotes(LOOK_F.fireflies.count, '#ffe08a', 0.3);
     root.add(wasps.points, flies.points);
+    torches = buildTorches();
+    root.add(torches.group);
+    treeParts.crowns = [];
+    treeParts.fruit = [];
+    treeScan = 0;
 
     void c.compile(root);
     disposables.push(
@@ -168,7 +181,8 @@ export const dress3dF: Dressing3d = {
     clock += dt;
     const m = driveCampaign(world, stage, reduce);
     const s = m.sets;
-    DRESSING_FLAGS.dungeon.torches = dungeonTorchesLit(m.flags.campaign, m.flags.storyChapter);
+    DRESSING_FLAGS.dungeon.torches =
+      dungeonTorchesLit(m.flags.campaign, m.flags.storyChapter) || m.below;
     RACE_LOOK.story = m.flags.campaign === 'hazel' && m.flags.chapter === 5;
 
     g.festival!.visible = s.festival;
@@ -211,6 +225,34 @@ export const dress3dF: Dressing3d = {
         });
     }
 
+    // The Beetle Road's below grade: standing torches round the Keeper, flames still when reduced.
+    if (torches) {
+      torches.group.visible = m.below;
+      if (m.below) {
+        const k = world.keeper.pos;
+        torches.group.children.forEach((t, i) => {
+          const a = Math.PI / 4 + (i * Math.PI) / 2;
+          const x = k.x + Math.cos(a) * 3.4;
+          const z = k.z + Math.sin(a) * 3.4;
+          t.position.set(x, groveHeight(x, z), z);
+        });
+        torches.flames.forEach((f, i) => {
+          f.scale.y = reduce ? 1 : 1 + 0.18 * Math.sin(clock * 9 + i * 2);
+        });
+        if (ctx.lampsOn())
+          ctx.lamps.push({
+            x: k.x,
+            y: 1.8,
+            z: k.z,
+            color: '#ff9a3c',
+            intensity: 6,
+            distance: 12,
+            decay: 1.4,
+          });
+      }
+    }
+    seasonTrees(ctx, world, m.season);
+
     // Beetle Road: the banners wave and the vane turns, or stand still.
     WAVE.value = reduce ? 0 : clock;
     if (vane) vane.rotation.y = reduce ? 0.6 : clock * 0.9;
@@ -251,6 +293,7 @@ export const dress3dF: Dressing3d = {
     flies = null;
     vane = null;
     holo = null;
+    torches = null;
     root = null;
     ctx = null;
     disposeLook();
@@ -327,4 +370,37 @@ function drift(m: Motes, x: number, z: number, t: number): void {
     m.positions[i * 3 + 2] = pz;
   }
   (m.points.geometry.attributes.position as THREE.BufferAttribute).needsUpdate = true;
+}
+
+const TREE_TINT: Record<Season, { color: string; leaves: number; fruit: boolean }> = {
+  spring: { color: '#f0ffd8', leaves: 1, fruit: true },
+  summer: { color: '#ffffff', leaves: 1, fruit: true },
+  autumn: { color: '#ffa848', leaves: 0.8, fruit: true },
+  winter: { color: '#e4eef8', leaves: 0.22, fruit: false },
+};
+
+/**
+ * The drawn season on the fruit trees: leaf tint, fewer leaves and no fruit in winter. The
+ * crowns and fruit are found by shape once the trees exist, and restored when no season shows.
+ */
+function seasonTrees(c: Dress3dCtx, _world: World, season: { season: Season } | null): void {
+  if (!treeParts.crowns.length && clock - treeScan > 2) {
+    treeScan = clock;
+    c.world3d.traverse((o) => {
+      const m = o as THREE.InstancedMesh;
+      const mat = m.material as THREE.MeshStandardMaterial | undefined;
+      if (m.isInstancedMesh && mat?.map && m.instanceColor && m.castShadow && m.count > 50)
+        treeParts.crowns.push({ mesh: m, count: m.count });
+      const f = o as THREE.Mesh;
+      const fm = f.material as THREE.MeshPhysicalMaterial | undefined;
+      if (f.isMesh && fm?.isMeshPhysicalMaterial && fm.color.getHexString() === 'ff8a2a')
+        treeParts.fruit.push(f);
+    });
+  }
+  const want = season ? TREE_TINT[season.season] : null;
+  for (const t of treeParts.crowns) {
+    (t.mesh.material as THREE.MeshStandardMaterial).color.set(want?.color ?? '#ffffff');
+    t.mesh.count = Math.max(1, Math.round(t.count * (want?.leaves ?? 1)));
+  }
+  for (const f of treeParts.fruit) f.scale.setScalar(want && !want.fruit ? 0.0001 : 1);
 }
