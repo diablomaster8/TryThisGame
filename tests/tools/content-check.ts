@@ -72,6 +72,11 @@ const mapped = (sceneId: string, who: string): boolean =>
 for (const v of variantById.values()) {
   for (const l of [...v.lines, ...(v.choices ?? []).flatMap((c) => c.then ?? [])]) if (!mapped(v.id, l.who)) problems.push(`variant ${v.id}: unmapped speaker ${l.who}`);
 }
+// K7: a line's canned gesture (render only) is one of five.
+const GESTURES = new Set<string>(['nod', 'shrug', 'point', 'down', 'chest']);
+for (const v of variantById.values())
+  for (const l of [...v.lines, ...(v.choices ?? []).flatMap((c) => c.then ?? [])])
+    if (l.gesture !== undefined && !GESTURES.has(l.gesture)) problems.push(`variant ${v.id}: unknown gesture ${String(l.gesture)}`);
 let campLines = 0, campWords = 0;
 for (const s of C.CAMPAIGN_SCENES) {
   if (campIds.has(s.id) || sceneIds.has(s.id)) problems.push(`campaign: dup scene id ${s.id}`);
@@ -81,6 +86,7 @@ for (const s of C.CAMPAIGN_SCENES) {
     campLines++; campWords += l.text.split(/\s+/).length;
     if (l.text.length > 160) long++;
     if (!campSpeakers.has(l.who)) problems.push(`campaign ${s.id}: undeclared speaker ${l.who}`);
+    if (l.gesture !== undefined && !GESTURES.has(l.gesture)) problems.push(`campaign ${s.id}: unknown gesture ${String(l.gesture)}`);
   }
 }
 for (const v of [...C.SIDE_STORIES_MAIN_VARIANTS, ...C.SIDE_STORIES_NEW_3_VARIANTS, ...C.SIDE_STORIES_FUN_2_VARIANTS]) { if (campIds.has(v.id)) problems.push(`variant id clashes with campaign ${v.id}`); }

@@ -18,6 +18,13 @@ import { dress3dW } from './dress-w';
 import { dress3dX } from './dress-x';
 import { dress3dY } from './dress-y';
 import { dress3dU } from './dress-u';
+import { dress3dA1 } from './dress-a1';
+import { dress3dA2 } from './dress-a2';
+import { dress3dB4 } from './dress-b4';
+import { dress3dC4 } from './dress-c4';
+import { dress3dD4 } from './dress-d4';
+import { dress3dE4 } from './dress-e4';
+import { dress3dU4 } from './dress-u4';
 
 /**
  * FULL 3D DRESSING REGISTRY (campaign graphics, wave 0). How a package adds story dressing
@@ -89,6 +96,13 @@ export const DRESSINGS_3D: readonly Dressing3d[] = [
   dress3dX,
   dress3dY,
   dress3dU,
+  dress3dA1,
+  dress3dA2,
+  dress3dB4,
+  dress3dC4,
+  dress3dD4,
+  dress3dE4,
+  dress3dU4,
 ];
 
 /** Runs the registry for one 3D scene: build once, update per frame, dispose at the end. */

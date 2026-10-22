@@ -35,6 +35,11 @@ export interface MarkFit {
   hPx: number;
   /** Its half width (world units). */
   r: number;
+  /**
+   * K3: a big prop that may be cropped to this share of its width when the people would not
+   * fit beside it whole (unset: kept whole until it is dropped by weight).
+   */
+  keep?: number;
 }
 
 /**
@@ -49,5 +54,5 @@ export const MARK_FIT: Readonly<Record<string, MarkFit>> = {
     r: (HUSH.colossus.width * CG2_W.hush.scale3d) / 2,
   },
   /** The pond, kept whole round its centre (GROVE.pond's radius is 5; the shore is enough). */
-  'pond-centre': { h3d: 0.5, dz3d: 0, hPx: 0.5, r: 4 },
+  'pond-centre': { h3d: 0.5, dz3d: 0, hPx: 0.5, r: 4, keep: 0.6 },
 };

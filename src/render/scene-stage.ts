@@ -1,9 +1,18 @@
-import { GROVE, MARK_FIT, READ3D, type MarkFit } from '../config/tuning';
+import { GROVE, MARK_FIT, READ3D, STAGE4 } from '../config/tuning';
+import { fitTiers, type FitPoint } from './stage-fit';
 import { SCENE_STAGES } from '../config/scene-stages';
 import { DAWN_HOUR, DUSK_HOUR } from '../config/scene-stages-dawndusk';
 import { E_STAGES } from '../config/tuning-e';
 import { markAt, markSetFor, PLACE_KEEPER, placeSet } from '../config/stage-marks';
-import type { Line, SceneStage, ShotKind, StageCast, StagePlace } from '../config/story';
+import {
+  PARTNER_CAST,
+  type Line,
+  type LineGesture,
+  type SceneStage,
+  type ShotKind,
+  type StageCast,
+  type StagePlace,
+} from '../config/story';
 import { sceneFor, type PlayScene } from '../sim/story-scenes';
 import { storylineOf } from '../sim/storyline';
 import type { GroveKind, Location, Vec2, World } from '../sim/types';
@@ -108,6 +117,14 @@ export interface StageFlags {
   place: StagePlace | null;
   /** The scene at the head of the queue, or null. */
   sceneId: string | null;
+  /** K15: a turning point (letterbox, HUD hidden, slower pace). */
+  grave: boolean;
+  /** K11, K38: a told tale. */
+  tale: boolean;
+  /** K24: the moon's phase, or null for the sky's own. */
+  moon: 'new' | 'crescent' | 'half' | 'full' | null;
+  /** K10: the interior id of an `inside-<id>` place, or null outdoors. */
+  inside: string | null;
 }
 
 /** Answer the dressings' questions from the world and the current stage. Never writes. */
@@ -139,7 +156,42 @@ export function stageFlags(world: World, stage: SceneStage | null): StageFlags {
     grove: world.grove,
     place: stage?.place ?? null,
     sceneId: c?.queue[0] ?? null,
+    grave: stage?.grave === true,
+    tale: stage?.tale === true,
+    moon: stage?.moon ?? null,
+    inside: insideOf(stage?.place),
   };
+}
+
+/** K10: the interior id of an `inside-<id>` place, else null. */
+export function insideOf(place: StagePlace | undefined): string | null {
+  return place?.startsWith('inside-') ? place.slice('inside-'.length) : null;
+}
+
+/** K40: the partner Nubbin's drawn spot for a scene (render only). */
+export interface StagePartner {
+  /** The Nubbin's id. */
+  id: string;
+  x: number;
+  z: number;
+  /** Its facing, `atan2(dx, dz)`: the Keeper's own, or toward the Keeper from a mark. */
+  yaw: number;
+  /** True when the cast names `partner` on a mark (then it is held in `nubbinHolds`). */
+  onMark: boolean;
+}
+
+/** K9: an alternating two-speaker exchange at the line on screen. */
+export interface StageReverse {
+  /** Who speaks now and who listens ('you' is the Keeper). */
+  speaker: string;
+  listener: string;
+  at: Vec2;
+  from: Vec2;
+  /**
+   * The 3D over-the-shoulder camera's yaw (as `Shot.yaw`): behind the listener, off the
+   * pair's line toward the side picked once per pair, so every cut keeps the 180-degree line.
+   */
+  yaw: number;
 }
 
 /**
@@ -185,6 +237,12 @@ export class SceneStager {
   /** The facings as placed, before `turnFaces` turns them toward a side camera. */
   private readonly baseFaces = new Map<string, number>();
   private baseKeeperFace: number | null = null;
+  /** The scene's lines (K7's gestures, K9's exchanges). */
+  lines: readonly Line[] = [];
+  /** K40: the partner Nubbin's spot for the scene, or null with none about. */
+  partner: StagePartner | null = null;
+  /** K9: the side (+1 or -1) each pair's over-the-shoulder shots keep, per pair. */
+  private readonly pairSide = new Map<string, number>();
 
   get active(): boolean {
     return this.sceneId !== null;
@@ -192,6 +250,59 @@ export class SceneStager {
 
   get id(): string | null {
     return this.sceneId;
+  }
+
+  /** K15: whether the scene is a turning point (letterbox, HUD hidden, slower pace). */
+  get grave(): boolean {
+    return this.sceneId !== null && this.stage.grave === true;
+  }
+
+  /** K7: the gesture of the line on screen, when its speaker is the one speaking. */
+  gestureNow(): LineGesture | null {
+    const l = this.lines[this.line];
+    return l && l.who === this.speaker ? (l.gesture ?? null) : null;
+  }
+
+  /**
+   * K9: the exchange at the line on screen, when it is one of two speakers alternating (the
+   * line before or after is the other's, with no narration between) and the shot is a
+   * two-shot (named, or the default after the first line) or `over`, with no authored yaw.
+   * `camYaw` (the player's camera yaw) picks, once per pair, the side every cut keeps.
+   */
+  reverse(world: World, camYaw: number, sideRad: number): StageReverse | null {
+    if (this.sceneId === null || this.stage.shot?.yaw !== undefined) return null;
+    const kind = this.shotKind();
+    if (kind !== undefined && kind !== 'two' && kind !== 'over') return null;
+    if (kind === undefined && this.pushedMs === null) return null;
+    const l = this.lines[this.line];
+    if (!l || l.who !== this.speaker) return null;
+    const norm = (w: string | undefined): string | null =>
+      !w || w === 'narrator' ? null : speaksAsKeeper(world, w, this.stage) ? 'you' : w;
+    const a = norm(l.who);
+    if (!a) return null;
+    const pb = norm(this.lines[this.line - 1]?.who);
+    const nb = norm(this.lines[this.line + 1]?.who);
+    const b = pb && pb !== a ? pb : nb && nb !== a ? nb : null;
+    if (!b) return null;
+    const at = this.castSpot(world, a);
+    const from = this.castSpot(world, b);
+    if (!at || !from || Math.hypot(at.x - from.x, at.z - from.z) < 0.3) return null;
+    // The pair in a fixed order, and the line from the first to the second.
+    const [p0, p1] = a < b ? [a, b] : [b, a];
+    const s0 = p0 === a ? at : from;
+    const s1 = p0 === a ? from : at;
+    const u = Math.atan2(s1.x - s0.x, s1.z - s0.z);
+    const key = `${p0}|${p1}`;
+    let sigma = this.pairSide.get(key);
+    if (sigma === undefined) {
+      // The side of the line nearer the player's own camera.
+      const off = (y: number) => Math.abs(Math.atan2(Math.sin(y - camYaw), Math.cos(y - camYaw)));
+      sigma = off(u + Math.PI / 2) <= off(u - Math.PI / 2) ? 1 : -1;
+      this.pairSide.set(key, sigma);
+    }
+    // Behind the listener, turned toward the kept side (the 180-degree rule).
+    const yaw = b === p1 ? u + sigma * sideRad : u + Math.PI - sigma * sideRad;
+    return { speaker: a, listener: b, at, from, yaw };
   }
 
   /** Whether the stage draws only its set (C3, C4): the Grove's world hides. */
@@ -289,8 +400,12 @@ export class SceneStager {
     this.pushedMs = null;
     this.line = 0;
     this.castIds.clear();
+    this.lines = [];
+    this.partner = null;
+    this.pairSide.clear();
     if (!r) return true;
     this.stage = r.stage;
+    this.lines = r.scene.lines;
     for (const l of r.scene.lines) this.speakers.add(l.who);
     for (const w of this.speakers) this.castIds.add(w);
     for (const c of r.stage.cast ?? []) this.castIds.add(c.who);
@@ -382,6 +497,7 @@ export class SceneStager {
       if (to) this.faces.set(n.id, Math.atan2(to.x - at.x, to.z - at.z));
     }
     this.keeperFace = this.keeperHold ? this.faceOfKeeper(world, you, ym?.yaw ?? null) : null;
+    this.placePartner(world, cast);
     this.baseFaces.clear();
     for (const [id, f] of this.faces) this.baseFaces.set(id, f);
     this.baseKeeperFace = this.keeperFace;
@@ -456,14 +572,43 @@ export class SceneStager {
 
   private nubbinIdOf(world: World, who: string): string | null {
     const c = world.campaign;
+    if (who === PARTNER_CAST) return partnerIdOf(world);
     return (who === 'sable' ? c?.sableId : who === 'moss' ? c?.mossId : null) ?? null;
+  }
+
+  /**
+   * K40: the partner's spot. On its cast mark when the cast names `partner` (held in
+   * `nubbinHolds` by `place`); else beside the Keeper, on the Keeper's right as it faces.
+   */
+  private placePartner(world: World, cast: readonly StageCast[]): void {
+    const id = partnerIdOf(world);
+    const nb = id ? world.nubbins.find((n) => n.id === id) : undefined;
+    if (!id || !nb) return;
+    const k = this.keeperSpot(world);
+    const kf = this.keeperFace ?? world.keeper.facing;
+    const entry = cast.find((c) => c.who === PARTNER_CAST);
+    const m = entry ? markAt(world.location, entry.mark) : undefined;
+    if (m) {
+      const near = Math.hypot(k.x - m.x, k.z - m.z) > 0.05;
+      const yaw = near ? Math.atan2(k.x - m.x, k.z - m.z) : m.yaw;
+      this.partner = { id, x: m.x, z: m.z, yaw, onMark: true };
+      return;
+    }
+    const d = STAGE4.partnerSide;
+    this.partner = {
+      id,
+      x: k.x - Math.cos(kf) * d,
+      z: k.z + Math.sin(kf) * d,
+      yaw: kf,
+      onMark: false,
+    };
   }
 
   /**
    * The framed points without the Keeper when the shot names its own focus and leaves the
    * Keeper out (`green`, `house-1`, `moss`…): the pan centres on what the scene is about.
    */
-  subjects(world: World): Vec2[] {
+  subjects(world: World): FitPoint[] {
     const all = this.frame(world);
     const focus = this.focusNow();
     if (!focus?.length || focus.includes('you') || all.length < 2) return all;
@@ -477,15 +622,30 @@ export class SceneStager {
    */
   frame(world: World): FitPoint[] {
     const k = this.keeperSpot(world);
-    const out: FitPoint[] = [{ x: k.x, z: k.z }];
+    const W = STAGE4.weight;
+    const now = this.speaker;
+    const keeperSpeaks = now !== null && speaksAsKeeper(world, now, this.stage);
+    const out: FitPoint[] = [
+      { x: k.x, z: k.z, w: W.cast, ...(keeperSpeaks ? { speaker: true } : {}) },
+    ];
     const near = (p: Vec2) => Math.hypot(p.x - k.x, p.z - k.z) < READ3D.stage.radius;
     const focus = this.focusNow();
     const names = focus ?? [...this.speakers];
     for (const who of names) {
       if (who === 'narrator' || speaksAsKeeper(world, who, this.stage)) continue;
-      const p = this.spotOf(world, who);
+      // K3: a person weighs 1, a sized prop (MARK_FIT) 0.5, any other mark (a place) 0.3.
+      const person = this.castSpot(world, who);
+      const p = person ?? this.spotOf(world, who);
       const fit = focus ? MARK_FIT[who] : undefined;
-      if (p && (focus || who === this.speaker || near(p))) out.push(fit ? { ...p, fit } : p);
+      const w = person ? W.cast : fit ? W.prop : W.place;
+      if (p && (focus || who === now || near(p)))
+        out.push({
+          x: p.x,
+          z: p.z,
+          w,
+          ...(fit ? { fit } : {}),
+          ...(who === now ? { speaker: true } : {}),
+        });
     }
     return out;
   }
@@ -497,17 +657,20 @@ export class SceneStager {
  * `views[i]` is the visible width and height (world units) at zoom step `i` (far first);
  * `safe` is the safe rect as shares of the view (0..1, y down). Each point is kept in frame
  * `figureH` up and `radius` round (a house's roof and walls).
- * Returns the nearest step that fits (else the farthest) and the ground point to aim at.
+ * K3: when everything can't fit even at the far step, the tiers of `fitTiers` are tried in
+ * turn (big props cropped, then places dropped, then props; the speaker always stays).
+ * Returns the nearest step that fits (else the farthest), the ground point to aim at, and
+ * the points it kept.
  */
 export function fitPixel(
-  points: readonly Vec2[],
+  points: readonly FitPoint[],
   yaw: number,
   pitch: number,
   views: ReadonlyArray<{ w: number; h: number }>,
   safe: { x0: number; y0: number; x1: number; y1: number },
   figureH = 2,
   radius = 0.8,
-): { zoom: number; x: number; z: number } {
+): { zoom: number; x: number; z: number; kept: FitPoint[] } {
   const o = points[0] ?? { x: 0, z: 0 };
   // Camera right on the ground, and "away from the camera" (up the screen) on the ground.
   const rx = Math.cos(yaw);
@@ -515,66 +678,94 @@ export function fitPixel(
   const fx = -Math.sin(yaw);
   const fz = -Math.cos(yaw);
   const sp = Math.sin(pitch);
-  let minX = Infinity;
-  let maxX = -Infinity;
-  let minY = Infinity;
-  let maxY = -Infinity;
-  // The sized marks' own extent (the pond, the Hush), kept whole when nothing else fits.
-  let kx0 = Infinity;
-  let kx1 = -Infinity;
-  let ky0 = Infinity;
-  let ky1 = -Infinity;
-  for (const p of points) {
-    const dx = p.x - o.x;
-    const dz = p.z - o.z;
-    const sx = dx * rx + dz * rz;
-    const sy = (dx * fx + dz * fz) * sp;
-    // A mark that carries its own size (MARK_FIT: the Hush) is kept whole.
-    const fit = (p as FitPoint).fit;
-    const r = fit ? Math.max(radius, fit.r) : radius;
-    const h = fit ? Math.max(figureH, fit.hPx) : figureH;
-    minX = Math.min(minX, sx - r);
-    maxX = Math.max(maxX, sx + r);
-    minY = Math.min(minY, sy - radius * sp);
-    maxY = Math.max(maxY, sy + h * Math.cos(pitch));
-    if (fit) {
-      kx0 = Math.min(kx0, sx - r);
-      kx1 = Math.max(kx1, sx + r);
-      ky0 = Math.min(ky0, sy - radius * sp);
-      ky1 = Math.max(ky1, sy + h * Math.cos(pitch));
-    }
-  }
   const sw = Math.max(0.05, safe.x1 - safe.x0);
   const sh = Math.max(0.05, safe.y1 - safe.y0);
-  let zoom = 0;
-  let fitsAll = false;
-  for (let i = views.length - 1; i >= 0; i--) {
-    const v = views[i]!;
-    if (maxX - minX <= sw * v.w && maxY - minY <= sh * v.h) {
-      zoom = i;
-      fitsAll = true;
+  const measure = (pts: readonly FitPoint[]) => {
+    let minX = Infinity;
+    let maxX = -Infinity;
+    let minY = Infinity;
+    let maxY = -Infinity;
+    // The sized marks' own extent (the pond, the Hush), kept whole when nothing else fits.
+    let kx0 = Infinity;
+    let kx1 = -Infinity;
+    let ky0 = Infinity;
+    let ky1 = -Infinity;
+    for (const p of pts) {
+      const dx = p.x - o.x;
+      const dz = p.z - o.z;
+      const sx = dx * rx + dz * rz;
+      const sy = (dx * fx + dz * fz) * sp;
+      // A mark that carries its own size (MARK_FIT: the Hush) is kept whole.
+      const fit = p.fit;
+      const r = fit ? Math.max(radius, fit.r) : radius;
+      const h = fit ? Math.max(figureH, fit.hPx) : figureH;
+      minX = Math.min(minX, sx - r);
+      maxX = Math.max(maxX, sx + r);
+      minY = Math.min(minY, sy - radius * sp);
+      maxY = Math.max(maxY, sy + h * Math.cos(pitch));
+      if (fit) {
+        kx0 = Math.min(kx0, sx - r);
+        kx1 = Math.max(kx1, sx + r);
+        ky0 = Math.min(ky0, sy - radius * sp);
+        ky1 = Math.max(ky1, sy + h * Math.cos(pitch));
+      }
+    }
+    let zoom = -1;
+    for (let i = views.length - 1; i >= 0; i--) {
+      const v = views[i]!;
+      if (maxX - minX <= sw * v.w && maxY - minY <= sh * v.h) {
+        zoom = i;
+        break;
+      }
+    }
+    return { minX, maxX, minY, maxY, kx0, kx1, ky0, ky1, zoom };
+  };
+  const tiers = fitTiers(points);
+  let kept = tiers[tiers.length - 1]!;
+  let m = measure(kept);
+  for (const t of tiers) {
+    const tm = t === kept ? m : measure(t);
+    if (tm.zoom >= 0) {
+      kept = t;
+      m = tm;
       break;
     }
   }
+  const fitsAll = m.zoom >= 0;
+  const zoom = Math.max(0, m.zoom);
   const v = views[zoom] ?? { w: 1, h: 1 };
   // Where the safe rect's centre sits from the view's centre, in world units (y up).
   const ox = ((safe.x0 + safe.x1) / 2 - 0.5) * v.w;
   const oy = (0.5 - (safe.y0 + safe.y1) / 2) * v.h;
-  let cx = (minX + maxX) / 2;
-  let cy = (minY + maxY) / 2;
+  let cx = (m.minX + m.maxX) / 2;
+  let cy = (m.minY + m.maxY) / 2;
   // Too wide even at the far step (a phone held upright): slide the aim so the sized marks
   // stay whole, the scene's subject, and the rest keep what room is left (campaign graphics 3).
-  if (!fitsAll && kx0 <= kx1) {
+  if (!fitsAll && m.kx0 <= m.kx1) {
     const hw = (sw * v.w) / 2;
     const hh = (sh * v.h) / 2;
     const clamp = (c: number, lo: number, hi: number, half: number): number =>
       hi - lo > half * 2 ? (lo + hi) / 2 : Math.min(Math.max(c, hi - half), lo + half);
-    cx = clamp(cx, kx0, kx1, hw);
-    cy = clamp(cy, ky0, ky1, hh);
+    cx = clamp(cx, m.kx0, m.kx1, hw);
+    cy = clamp(cy, m.ky0, m.ky1, hh);
   }
   const bx = cx - ox;
   const by = (cy - oy) / Math.max(0.2, sp);
-  return { zoom, x: o.x + rx * bx + fx * by, z: o.z + rz * bx + fz * by };
+  return { zoom, x: o.x + rx * bx + fx * by, z: o.z + rz * bx + fz * by, kept };
+}
+
+/**
+ * K40: the player's partner Nubbin: `world.partners[0]`, else `[1]`, else the selected
+ * Nubbin; never Moss, Sable or an egg. Null when none is about.
+ */
+export function partnerIdOf(world: World): string | null {
+  const c = world.campaign;
+  for (const id of [world.partners?.[0], world.partners?.[1], world.selected]) {
+    if (!id || id === c?.mossId || id === c?.sableId) continue;
+    const n = world.nubbins.find((x) => x.id === id);
+    if (n && n.stage !== 'egg') return id;
+  }
+  return null;
 }
 
 /**
@@ -589,8 +780,8 @@ export function speaksAsKeeper(world: World, who: string, stage?: SceneStage): b
   return who === world.trainer && !world.npcs.some((n) => n.trainer === who);
 }
 
-/** A framed point; a focus mark with its own size (MARK_FIT) carries it. */
-export type FitPoint = Vec2 & { fit?: MarkFit };
+/** A framed point (K3): a focus mark with its own size (MARK_FIT) carries it, and a weight. */
+export type { FitPoint } from './stage-fit';
 
 /** A building in the way of a story camera: a footprint circle and a height. */
 export interface Obstacle {

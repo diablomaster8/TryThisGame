@@ -3,6 +3,7 @@ import type { SceneStage } from '../config/story';
 import { TITLE_CARD_TEXT } from '../config/strings';
 import { E_STAGES } from '../config/tuning-e';
 import { CG2_U } from '../config/tuning-u';
+import { STAGE4 } from '../config/tuning-f4';
 import type { Game } from '../game';
 import { stageFlags } from '../render/scene-stage';
 import { chapterDef } from '../sim/campaign';
@@ -57,6 +58,8 @@ const isScene = (id: string, base: string): boolean => id === base || id.startsW
 export class StoryUi {
   private readonly card: ItemCard;
   private readonly postcard: Postcard;
+  /** K15: the held letterbox of a grave scene. */
+  private readonly letterbox: Postcard;
   private readonly offer: ChapterOffer;
   private item: string | null = null;
   private wait = 0;
@@ -70,6 +73,7 @@ export class StoryUi {
     const root = dialogue.root;
     this.card = new ItemCard((root.querySelector('.dialogue-box') as HTMLElement | null) ?? root);
     this.postcard = new Postcard(root);
+    this.letterbox = new Postcard(root, true);
     this.offer = new ChapterOffer(
       parent,
       () =>
@@ -95,6 +99,7 @@ export class StoryUi {
     if (!g) return false;
     const stage = stageOf(id, scene);
     this.item = stage.item ?? null;
+    this.setGrave(stage.grave === true, g.reduceMotion);
     const flags = stageFlags(g.world, stage);
     const key = `${flags.campaign}:${flags.chapter}`;
     const opens = chapterScenes(g.world)?.opening;
@@ -129,7 +134,19 @@ export class StoryUi {
     else this.card.hide();
   }
 
+  /**
+   * K15: a grave scene holds the letterbox for its whole length and hides the HUD
+   * (`html.story-grave`, style.css). There is no auto-advance to slow yet; a future one
+   * multiplies its delay by `STAGE4.grave.delayK` while this class is on.
+   */
+  private setGrave(on: boolean, reduce: boolean): void {
+    document.documentElement.classList.toggle('story-grave', on);
+    if (on) this.letterbox.hold(STAGE4.grave.bar, reduce);
+    else this.letterbox.end();
+  }
+
   private close(id: string | null, external: boolean): void {
+    this.setGrave(false, true);
     this.card.hide();
     this.stopPostcard();
     const g = this.game();

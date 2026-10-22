@@ -13,7 +13,14 @@ export interface Line {
   who: string;
   text: string;
   mood?: Mood;
+  /**
+   * A canned gesture the speaker plays on this line (campaign graphics 4, K7): render only,
+   * a nod, a shrug, a pointing arm, eyes down or a hand to the chest.
+   */
+  gesture?: LineGesture;
 }
+
+export type LineGesture = 'nod' | 'shrug' | 'point' | 'down' | 'chest';
 
 export interface Choice {
   id: string;
@@ -54,7 +61,9 @@ export type StagePlace =
   /** The Beetle Road's Hollow Below scenes (C4): a set drawn over the Grove's ground. */
   | 'below'
   /** Hazel ch12's festival ring round the picnic (H9). */
-  | 'festival';
+  | 'festival'
+  /** An interior set (K10): `inside-<id>`, drawn as an exclusive room. */
+  | `inside-${string}`;
 
 /** One figure on a mark: who (a speaker id), where, facing whom, doing what. */
 export interface StageCast {
@@ -64,11 +73,21 @@ export interface StageCast {
   mark: string;
   /** A speaker id to turn to ('you' is the Keeper); else the mark's own yaw. */
   face?: string;
+  /** `sit` and `kneel` (K1) drop the hips to the mark's `seatY` when it has one. */
   pose?: 'stand' | 'sit' | 'kneel' | 'walk';
+  /** A mark to walk on from (K5): render only; under reduced motion they start on `mark`. */
+  from?: string;
   carry?: 'lantern' | 'bucket' | 'bag' | 'pie' | 'broom' | 'notebook' | 'egg' | 'keys';
   /** A look over the figure (C6): 'weathered' greys it, as Moss while "the grey shape". */
   tint?: 'weathered';
 }
+
+/**
+ * The cast id of the player's partner Nubbin (K40): `world.partners[0]`, else `[1]`, else
+ * the selected Nubbin. With no entry naming it, the stager still resolves a default spot
+ * beside the Keeper (`SceneStager.partner`).
+ */
+export const PARTNER_CAST = 'partner';
 
 export type ShotKind = 'establish' | 'wide' | 'two' | 'close' | 'over';
 
@@ -95,7 +114,8 @@ export interface SceneStage {
   /**
    * Props to show or set (story props, the gate, the shelf, bowls…). Keys added for the
    * second pass: pondIce, hush, banners, cart, chair, shutters, lanternString, board
-   * (which takes 'final'), door.
+   * (which takes 'final'), door. Fourth pass: windowFigures (K18), risingLanterns (K42),
+   * wreath (K43).
    */
   props?: Record<string, 'show' | 'hide' | 'open' | 'shut' | 'lit' | 'out' | 'final'>;
   /** Named lights (H3): lantern-1..4, `windows` (C5, M6), the porch. */
@@ -117,6 +137,15 @@ export interface SceneStage {
   grade?: string;
   /** How to arrive: cut (default) or a short fade. */
   transition?: 'cut' | 'fade';
+  /** A told tale (K11, K38): the scene is drawn as a remembered or told story. */
+  tale?: boolean;
+  /**
+   * A turning point (K15): held letterbox bars, the HUD hidden, auto-advance 25% slower, a
+   * slow 2 s push in 3D (a cut under reduced motion).
+   */
+  grave?: boolean;
+  /** The moon's phase in the night sky (K24). */
+  moon?: 'new' | 'crescent' | 'half' | 'full';
 }
 
 export interface Chapter {

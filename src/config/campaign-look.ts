@@ -37,6 +37,11 @@ export interface LookDef {
    * ground keeps its hue because the blend is soft-light and the shade stays near mid-blue.
    */
   split?: { key: string; keyAlpha: number; shade: string; shadeAlpha: number };
+  /**
+   * The dialogue box's skin for this campaign (K20): a class suffix the story UI adds as
+   * `box-<box>` (Logged In's terminal bevel, the Beetle Road's ledger corner…). Unset: plain.
+   */
+  box?: string;
 }
 
 function look(

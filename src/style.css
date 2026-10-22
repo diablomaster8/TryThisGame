@@ -2317,6 +2317,38 @@ select {
   color: rgba(255, 246, 224, 0.7);
 }
 
+/* K15: a grave scene's held letterbox sits under the box, and the HUD steps aside. */
+.postcard.grave {
+  z-index: 0;
+}
+
+.story-grave .topbar,
+.story-grave .actionbar,
+.story-grave .camera-buttons,
+.story-grave .run-btn,
+.story-grave .joystick,
+.story-grave .toasts {
+  visibility: hidden;
+}
+
+/* K48: the stage inspector's overlay (debug only) and its JSON readout. */
+.stage-inspector-overlay {
+  position: fixed;
+  pointer-events: none;
+  z-index: 40;
+}
+
+.stage-inspector-overlay[hidden] {
+  display: none;
+}
+
+.stage-inspector-json {
+  max-height: 30vh;
+  overflow: auto;
+  font-size: 11px;
+  user-select: text;
+}
+
 /* While the postcard holds, the box waits out of sight; a tap anywhere skips it. */
 .dialogue.held .dialogue-box {
   visibility: hidden;

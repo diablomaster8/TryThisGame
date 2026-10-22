@@ -15,8 +15,12 @@ export class Postcard {
   private timer = 0;
   private active = false;
 
-  constructor(parent: HTMLElement) {
-    this.root = el('div', 'postcard');
+  /**
+   * `grave` (K15) makes the held letterbox of a turning point: no skip hint, and drawn under
+   * the dialogue box (first in `parent`), so the box stays readable over the bottom bar.
+   */
+  constructor(parent: HTMLElement, grave = false) {
+    this.root = el('div', grave ? 'postcard grave' : 'postcard');
     this.root.hidden = true;
     this.root.setAttribute('aria-hidden', 'true');
     this.top = el('div', 'postcard-bar postcard-top');
@@ -24,7 +28,36 @@ export class Postcard {
     this.hint = el('div', 'postcard-hint', STORY_UI_TEXT.skipHint);
     this.bottom.appendChild(this.hint);
     this.root.append(this.top, this.bottom);
-    parent.appendChild(this.root);
+    if (grave) {
+      this.hint.hidden = true;
+      parent.insertBefore(this.root, parent.firstChild);
+    } else parent.appendChild(this.root);
+  }
+
+  /**
+   * K15: hold the bars until `end` (a grave scene's whole length), at `share` of the view
+   * each. They slide in, or are simply there under reduced motion.
+   */
+  hold(share: number, reduce: boolean): void {
+    this.end();
+    this.active = true;
+    for (const bar of [this.top, this.bottom]) {
+      bar.style.height = `${share * 100}%`;
+      bar.style.transition = 'none';
+    }
+    this.top.style.transform = reduce ? 'none' : 'translateY(-100%)';
+    this.bottom.style.transform = reduce ? 'none' : 'translateY(100%)';
+    this.root.hidden = false;
+    if (!reduce)
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          if (!this.active) return;
+          for (const bar of [this.top, this.bottom])
+            bar.style.transition = `transform ${CG2_U.postcard.barSlideS}s ease`;
+          this.top.style.transform = 'none';
+          this.bottom.style.transform = 'none';
+        }),
+      );
   }
 
   get isActive(): boolean {

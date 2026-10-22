@@ -18,6 +18,13 @@ import { dressW } from './dress-w';
 import { dressX } from './dress-x';
 import { dressY } from './dress-y';
 import { dressU } from './dress-u';
+import { dressA1 } from './dress-a1';
+import { dressA2 } from './dress-a2';
+import { dressB4 } from './dress-b4';
+import { dressC4 } from './dress-c4';
+import { dressD4 } from './dress-d4';
+import { dressE4 } from './dress-e4';
+import { dressU4 } from './dress-u4';
 
 /**
  * PIXEL DRESSING REGISTRY (campaign graphics, wave 0). How a package adds story dressing to
@@ -81,6 +88,13 @@ export const PIXEL_DRESSINGS: readonly PixelDressing[] = [
   dressX,
   dressY,
   dressU,
+  dressA1,
+  dressA2,
+  dressB4,
+  dressC4,
+  dressD4,
+  dressE4,
+  dressU4,
 ];
 
 /** First-pass dressings drawn only in the Grove's own world, so not on an exclusive stage. */

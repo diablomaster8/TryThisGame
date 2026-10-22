@@ -1,5 +1,5 @@
 import { Vector3 } from 'three';
-import { CAMERA, PIXEL_STAGE, SIM, STAGE2 } from './config/tuning';
+import { CAMERA, PIXEL_STAGE, SIM, STAGE2, STAGE4 } from './config/tuning';
 import { GameInput, type Placing } from './input/game-input';
 import { CameraControls } from './input/camera-controls';
 import {
@@ -22,6 +22,7 @@ import {
   SceneStager,
   speaksAsKeeper,
   stageObstacles,
+  type FitPoint,
 } from './render/scene-stage';
 import { PIXEL_BUILDINGS, safeRect, viewRect } from './render/stage-api';
 import { stageHides } from './config/stage-sets';
@@ -88,6 +89,13 @@ export class Game {
   private lastDaylightMs = -Infinity;
   /** The pixel view's story stager (render/scene-stage.ts); Full 3D keeps its own. */
   private readonly stager = new SceneStager();
+  /** K48: the points the pixel story fit last kept (K3), for the stage inspector. */
+  stageFitKept: FitPoint[] = [];
+
+  /** K48: the story stager the drawn view follows (the 3D scene's own in Full 3D). */
+  get storyStager(): SceneStager {
+    return this.scene3d ? this.scene3d.storyStager : this.stager;
+  }
   private weatherSid: string | null = null;
   /** Who speaks the dialogue line on screen; the HUD sets it, the story cameras frame them. */
   storySpeaker: string | null = null;
@@ -163,6 +171,7 @@ export class Game {
     focused: boolean,
   ): { x: number; z: number; fitted: boolean } | null {
     const st = this.stager;
+    this.stageFitKept = [];
     st.speaker = this.storySpeaker;
     if (st.update(this.world, nowMs)) {
       this.lastDaylightMs = -Infinity;
@@ -190,7 +199,8 @@ export class Game {
       who && who !== 'narrator' && !speaksAsKeeper(this.world, who, st.stage)
         ? st.spotOf(this.world, who)
         : null;
-    const seen = speaker ? [...points, speaker] : points;
+    // K3: whoever speaks is never dropped from a fit.
+    const seen = speaker ? [...points, { ...speaker, speaker: true }] : points;
     const base = this.camera.playerYawIndex;
     const order = [0, 1, -1, 2, -2, 3, -3, 4].map((k) => base + k);
     const yaws = order.map((i) => yawIndexToRadians(i));
@@ -211,6 +221,17 @@ export class Game {
     /** The view's width (world units) at zoom step `i`. */
     const widthAt = (i: number) => (this.camera.visibleWidth * cur) / zoomPixelsPerUnit(i);
     const first = st.stage.shot?.kind;
+    // K9: in two speakers' exchange the view leans toward whoever speaks (the follow eases
+    // it, a cut under reduced motion).
+    const rev = st.reverse(this.world, this.camera.currentYaw, STAGE4.reverse.sideRad);
+    const lean = (x: number, z: number): { x: number; z: number; fitted: false } => {
+      const k = rev ? STAGE4.reverse.panToward : 0;
+      return {
+        x: x + ((rev?.at.x ?? x) - x) * k,
+        z: z + ((rev?.at.z ?? z) - z) * k,
+        fitted: false,
+      };
+    };
     if (st.pushedMs !== null && kind !== first && kind !== 'wide') {
       // H5 in pixel: the push-in, on the Keeper and whoever speaks: the story step when the
       // pair fit across it (a desktop is already on the near step, so the push showed
@@ -224,7 +245,7 @@ export class Game {
       this.camera.holdZoom(close ? story : last, nowMs);
       if (!close && spread * 2.4 >= widthAt(last) && speaker)
         return { x: speaker.x, z: speaker.z, fitted: false };
-      return { x: cx, z: cz, fitted: false };
+      return lean(cx, cz);
     }
     if (points.length > 0 && st.fits()) {
       // H4: the nearest zoom step that fits every focus point inside the HUD-safe area.
@@ -249,6 +270,7 @@ export class Game {
         STAGE2.fitRadius,
       );
       this.camera.holdZoom(fit.zoom, nowMs);
+      this.stageFitKept = fit.kept;
       return { x: fit.x, z: fit.z, fitted: true };
     }
     const cx = points.reduce((a, p) => a + p.x, 0) / points.length;
@@ -260,7 +282,7 @@ export class Game {
     // A close shot goes to the story step when its people fit across it.
     const closer = kind === 'close' && spread * 2.4 < widthAt(story);
     this.camera.holdZoom(closer ? story : near ? last : null, nowMs);
-    return { x: cx, z: cz, fitted: false };
+    return lean(cx, cz);
   }
 
   private updateDaylight(nowMs: number): void {
