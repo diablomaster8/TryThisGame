@@ -2331,6 +2331,24 @@ select {
   visibility: hidden;
 }
 
+/* K48: the stage inspector's overlay (debug only) and its JSON readout. */
+.stage-inspector-overlay {
+  position: fixed;
+  pointer-events: none;
+  z-index: 40;
+}
+
+.stage-inspector-overlay[hidden] {
+  display: none;
+}
+
+.stage-inspector-json {
+  max-height: 30vh;
+  overflow: auto;
+  font-size: 11px;
+  user-select: text;
+}
+
 /* While the postcard holds, the box waits out of sight; a tap anywhere skips it. */
 .dialogue.held .dialogue-box {
   visibility: hidden;

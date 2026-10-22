@@ -5,6 +5,7 @@ import { clearSave } from '../platform/storage';
 import { NUBBIN_TYPES, STAT_KEYS } from '../sim/types';
 import { freshWorldLike } from '../sim/fresh-start';
 import { button, el } from './dom';
+import { StageInspector } from './stage-inspector';
 
 /**
  * Debug panel (backtick or triple-tap the logo): time speed, give items, force
@@ -14,6 +15,8 @@ export class DebugPanel {
   readonly root: HTMLDivElement;
   private readonly values: HTMLPreElement;
   private readonly speedButtons: HTMLButtonElement[] = [];
+  /** K48: the stage inspector, toggled from the Story row. */
+  private readonly inspector: StageInspector;
 
   constructor(
     parent: HTMLElement,
@@ -150,6 +153,8 @@ export class DebugPanel {
 
     this.values = el('pre', 'debug-values');
     this.root.appendChild(this.values);
+    this.inspector = new StageInspector(this.root, game);
+    story.appendChild(button('Stage inspector', () => this.inspector.toggle(), 'btn btn-small'));
 
     this.root.appendChild(
       button(

@@ -22,6 +22,7 @@ import {
   SceneStager,
   speaksAsKeeper,
   stageObstacles,
+  type FitPoint,
 } from './render/scene-stage';
 import { PIXEL_BUILDINGS, safeRect, viewRect } from './render/stage-api';
 import { stageHides } from './config/stage-sets';
@@ -88,6 +89,13 @@ export class Game {
   private lastDaylightMs = -Infinity;
   /** The pixel view's story stager (render/scene-stage.ts); Full 3D keeps its own. */
   private readonly stager = new SceneStager();
+  /** K48: the points the pixel story fit last kept (K3), for the stage inspector. */
+  stageFitKept: FitPoint[] = [];
+
+  /** K48: the story stager the drawn view follows (the 3D scene's own in Full 3D). */
+  get storyStager(): SceneStager {
+    return this.scene3d ? this.scene3d.storyStager : this.stager;
+  }
   private weatherSid: string | null = null;
   /** Who speaks the dialogue line on screen; the HUD sets it, the story cameras frame them. */
   storySpeaker: string | null = null;
@@ -163,6 +171,7 @@ export class Game {
     focused: boolean,
   ): { x: number; z: number; fitted: boolean } | null {
     const st = this.stager;
+    this.stageFitKept = [];
     st.speaker = this.storySpeaker;
     if (st.update(this.world, nowMs)) {
       this.lastDaylightMs = -Infinity;
@@ -261,6 +270,7 @@ export class Game {
         STAGE2.fitRadius,
       );
       this.camera.holdZoom(fit.zoom, nowMs);
+      this.stageFitKept = fit.kept;
       return { x: fit.x, z: fit.z, fitted: true };
     }
     const cx = points.reduce((a, p) => a + p.x, 0) / points.length;

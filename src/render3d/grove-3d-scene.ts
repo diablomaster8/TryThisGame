@@ -283,6 +283,11 @@ export class Grove3dScene {
   readonly frameMs: number[] = [];
   /** Story scenes: who is framed, who holds still, the hour asked for (staging.ts). */
   private readonly staging = new SceneStager();
+
+  /** K48: the story stager this view follows (the stage inspector reads it). */
+  get storyStager(): SceneStager {
+    return this.staging;
+  }
   /** Who speaks the dialogue line on screen (the game sets it); always framed (C5). */
   storySpeaker: string | null = null;
   /** The dialogue's line index in the scene (the game sets it); H5 pushes in after line 0. */
@@ -1249,6 +1254,7 @@ export class Grove3dScene {
       this.buildings3d.stageHidden = new Set(stageHides(this.staging.stage));
       this.buildings3d.stageHidesAll = this.staging.exclusive;
       this.fitCache = null;
+      this.fitKept = [];
       this.prePush = null;
     }
     this.actors.keeperHold = this.staging.active ? this.staging.keeperHold : null;
