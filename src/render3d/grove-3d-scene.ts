@@ -378,6 +378,7 @@ export class Grove3dScene {
       posts: this.props.lanterns.map((l) => ({ x: l.x, z: l.z })),
       holds: this.staging.holds,
       faces: this.staging.faces,
+      walking: this.staging.walking,
       // An exclusive stage draws only its cast (campaign graphics C3, C4).
       only: () => (this.staging.exclusive ? this.staging.castIds : null),
     };
@@ -1259,6 +1260,7 @@ export class Grove3dScene {
     }
     this.actors.keeperHold = this.staging.active ? this.staging.keeperHold : null;
     this.actors.nubbinHolds = this.staging.active ? this.staging.nubbinHolds : null;
+    this.actors.stager = this.staging.active ? this.staging : null;
     this.reverseCut = false;
     const shot = this.shot(world, orbit);
     // K9: a speaker change in an exchange is a cut, like a new scene.

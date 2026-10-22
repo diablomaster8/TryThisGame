@@ -807,7 +807,7 @@ export class WorldView {
       // (render/scene-stage.ts); the sim's NPC stays where it is.
       const held = this.staging?.active ? this.staging.holds.get(npc.id) : undefined;
       const at = held ?? npc.pos;
-      const moving = npc.target !== null && !held;
+      const moving = (npc.target !== null && !held) || !!this.staging?.walking.has(npc.id);
       const nclip: ClipName = moving ? 'walk' : 'idle';
       const nview = viewAngle((held && this.staging?.faces.get(npc.id)) ?? npc.facing, yaw);
       const nrect = nsheet.frames.get(
@@ -842,7 +842,8 @@ export class WorldView {
     const kx = kd.x;
     const kz = kd.z;
     const moving =
-      Math.hypot(k.pos.x - this.keeperPrev.pos.x, k.pos.z - this.keeperPrev.pos.z) > 0.001;
+      Math.hypot(k.pos.x - this.keeperPrev.pos.x, k.pos.z - this.keeperPrev.pos.z) > 0.001 ||
+      !!this.staging?.walking.has('you');
     if (moving !== this.keeperMoving) {
       this.keeperMoving = moving;
       this.keeperClipStart = nowMs;
@@ -1390,7 +1391,19 @@ export class WorldView {
       let clip = nubbinSits(this.staging?.stage, world.campaign?.mossId, n.id)
         ? 'sleep'
         : clipFor(n);
-      const view = viewAngle(n.facing, yaw);
+      // K5, K40: a walk-on faces its way; the partner at the Keeper's side keeps its pose.
+      const hf = held ? this.staging?.faces.get(n.id) : undefined;
+      const view = viewAngle(hf ?? n.facing, yaw);
+      if (held && this.staging?.partner?.id === n.id) {
+        const pp = this.staging.partnerPose();
+        clip = this.staging.walking.has(n.id)
+          ? 'walk'
+          : pp === 'happy'
+            ? 'happy'
+            : pp === 'sad'
+              ? 'sad'
+              : 'idle';
+      }
       // A look without the flap or swim clip moves with its walk instead.
       if (
         !sheet.frames.has(frameKey(clip, view.angle, 0)) &&
@@ -1407,6 +1420,8 @@ export class WorldView {
       const frame = def ? frameAt(def, nowMs - v.clipStartMs) : 0;
       key = frameKey(clip, view.angle, frame);
       emote = emoteFor(n);
+      // K40: the partner's ball follows the line's mood.
+      if (held && this.staging?.partner?.id === n.id) emote = this.staging.partnerEmote() ?? emote;
     }
 
     const rect = sheet.frames.get(key) ?? sheet.frames.values().next().value;

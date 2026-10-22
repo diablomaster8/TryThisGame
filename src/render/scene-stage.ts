@@ -16,6 +16,9 @@ import {
 import { sceneFor, type PlayScene } from '../sim/story-scenes';
 import { storylineOf } from '../sim/storyline';
 import type { GroveKind, Location, Vec2, World } from '../sim/types';
+import { fromSpot, partnerEmote, walkMs, walkPose, type Walk } from './walk-on';
+import { CG4_A2 } from '../config/tuning-a2';
+import { PKG_A2_FROM } from '../config/scene-stages-pkg-a2';
 
 /**
  * The one story stager both renderers read (campaign graphics C1). While a scene waits at
@@ -241,6 +244,14 @@ export class SceneStager {
   lines: readonly Line[] = [];
   /** K40: the partner Nubbin's spot for the scene, or null with none about. */
   partner: StagePartner | null = null;
+  /** K5: the walk-ons of the scene (cast entries with `from`), and who is mid-stride now. */
+  private walks: Walk[] = [];
+  /** Keys (NPC id, Nubbin id, 'you', cast `who`) of figures walking on this frame. */
+  readonly walking = new Set<string>();
+  /** K36: who is mid-stride this frame, and where (for footprints). */
+  readonly walkers: Array<{ key: string; x: number; z: number; yaw: number }> = [];
+  /** K5: a stage actor's drawn spot while it walks on, by cast `who`. */
+  readonly actorWalk = new Map<string, { x: number; z: number; yaw: number; walking: boolean }>();
   /** K9: the side (+1 or -1) each pair's over-the-shoulder shots keep, per pair. */
   private readonly pairSide = new Map<string, number>();
 
@@ -344,7 +355,12 @@ export class SceneStager {
     const who = this.speaker;
     // The Keeper speaking turns three-quarter to the camera, not away from it.
     if (who && camYaw !== undefined && speaksAsKeeper(world, who, this.stage)) return camYaw - 0.5;
-    if (who && who !== 'narrator' && !speaksAsKeeper(world, who, this.stage)) {
+    if (
+      who &&
+      who !== 'narrator' &&
+      !speaksAsKeeper(world, who, this.stage) &&
+      !this.walking.has('you')
+    ) {
       const k = this.keeperSpot(world);
       const p = this.castSpot(world, who);
       if (p && Math.hypot(p.x - k.x, p.z - k.z) > 0.05) face = Math.atan2(p.x - k.x, p.z - k.z);
@@ -382,7 +398,10 @@ export class SceneStager {
     const r = resolveStage(world);
     const id = r?.id ?? null;
     // A move to another place restages the same scene (its marks and hour belong to a place).
-    if (id === this.sceneId && world.location === this.location) return false;
+    if (id === this.sceneId && world.location === this.location) {
+      this.stepWalks(nowMs);
+      return false;
+    }
     this.sceneId = id;
     this.location = world.location;
     this.holds.clear();
@@ -403,6 +422,9 @@ export class SceneStager {
     this.lines = [];
     this.partner = null;
     this.pairSide.clear();
+    this.walks = [];
+    this.walking.clear();
+    this.actorWalk.clear();
     if (!r) return true;
     this.stage = r.stage;
     this.lines = r.scene.lines;
@@ -412,6 +434,7 @@ export class SceneStager {
     this.warnPlace(world, r.id);
     this.hour = SKY_LIT(world.location) ? (r.stage.hour ?? hourOf(r.scene.lines)) : null;
     this.place(world);
+    this.beginWalks(world, nowMs);
     return true;
   }
 
@@ -592,6 +615,7 @@ export class SceneStager {
       const near = Math.hypot(k.x - m.x, k.z - m.z) > 0.05;
       const yaw = near ? Math.atan2(k.x - m.x, k.z - m.z) : m.yaw;
       this.partner = { id, x: m.x, z: m.z, yaw, onMark: true };
+      this.faces.set(id, yaw);
       return;
     }
     const d = STAGE4.partnerSide;
@@ -602,6 +626,124 @@ export class SceneStager {
       yaw: kf,
       onMark: false,
     };
+    // K40: drawn there, facing as the Keeper does, by both renderers.
+    this.nubbinHolds.set(id, { x: this.partner.x, z: this.partner.z });
+    this.faces.set(id, kf);
+  }
+
+  /** K40: the emote ball the line on screen's mood puts over the partner, or null. */
+  partnerEmote(): 'heart' | 'spiral' | 'exclaim' | 'question' | null {
+    if (!this.partner) return null;
+    return partnerEmote(this.lines[this.line]?.mood);
+  }
+
+  /** K40: the pose the line's mood gives the partner (the 3D pose names), or null. */
+  partnerPose(): 'happy' | 'sad' | 'surprised' | null {
+    if (!this.partner || this.walking.has(this.partner.id)) return null;
+    const m = this.lines[this.line]?.mood;
+    return m === 'happy' || m === 'soft'
+      ? 'happy'
+      : m === 'sad'
+        ? 'sad'
+        : m === 'shock'
+          ? 'surprised'
+          : null;
+  }
+
+  /**
+   * K5: every cast entry with a `from` mark walks from it to its own. Render only: the held
+   * spot is moved each frame by `stepWalks`; the final spot and facing are what `place`
+   * already worked out.
+   */
+  private beginWalks(world: World, nowMs: number): void {
+    const cast = this.castOf(world);
+    const here = world.npcs.filter((n) => npcHere(world.location, n.trainer));
+    for (const c of cast) {
+      const fromName = c.from ?? PKG_A2_FROM[this.sceneId ?? '']?.[c.who];
+      if (!fromName) continue;
+      const to = markAt(world.location, c.mark);
+      const from = fromSpot(world.location, fromName);
+      if (!to || !from) continue;
+      const dist = Math.hypot(to.x - from.x, to.z - from.z);
+      if (dist < 0.3) continue;
+      const npc = here.find((n) => n.trainer === c.who);
+      const nid = this.nubbinIdOf(world, c.who);
+      let kind: Walk['kind'] = 'actor';
+      let key = c.who;
+      let endFace = to.yaw;
+      if (c.who === 'you') {
+        kind = 'keeper';
+        endFace = this.baseKeeperFace ?? to.yaw;
+      } else if (npc) {
+        kind = 'npc';
+        key = npc.id;
+        endFace = this.baseFaces.get(npc.id) ?? to.yaw;
+      } else if (nid) {
+        kind = 'nubbin';
+        key = nid;
+        endFace = this.partner?.id === nid ? this.partner.yaw : to.yaw;
+      } else if (c.face) {
+        const f = c.face === 'you' ? this.keeperSpot(world) : this.castSpot(world, c.face);
+        if (f && Math.hypot(f.x - to.x, f.z - to.z) > 0.05)
+          endFace = Math.atan2(f.x - to.x, f.z - to.z);
+      }
+      this.walks.push({
+        kind,
+        key,
+        from,
+        to: { x: to.x, z: to.z },
+        yaw: Math.atan2(to.x - from.x, to.z - from.z),
+        endFace,
+        startMs: nowMs + CG4_A2.walk.leadMs,
+        durMs: walkMs(dist),
+        done: false,
+      });
+    }
+    this.stepWalks(nowMs);
+  }
+
+  /** K5: move the walk-ons' drawn spots to this frame, facing the way they go. */
+  private stepWalks(nowMs: number): void {
+    this.walkers.length = 0;
+    if (!this.walks.length) return;
+    const reduce =
+      typeof document !== 'undefined' &&
+      document.documentElement.classList.contains('reduce-motion');
+    for (const w of this.walks) {
+      if (w.done) continue;
+      const p = walkPose(w, nowMs, reduce);
+      const face = p.walking ? w.yaw : w.endFace;
+      // Before the lead-in the figure waits at its start mark (not yet "walking").
+      const waiting = !reduce && nowMs < w.startMs;
+      const at = waiting ? w.from : { x: p.x, z: p.z };
+      if (nowMs >= w.startMs + w.durMs || reduce) w.done = true;
+      if (p.walking) {
+        this.walking.add(w.key);
+        this.walkers.push({ key: w.key, x: at.x, z: at.z, yaw: w.yaw });
+      } else this.walking.delete(w.key);
+      const f = waiting ? w.yaw : face;
+      switch (w.kind) {
+        case 'npc':
+          this.holds.set(w.key, at);
+          this.faces.set(w.key, f);
+          this.baseFaces.set(w.key, f);
+          break;
+        case 'nubbin':
+          this.nubbinHolds.set(w.key, at);
+          this.faces.set(w.key, f);
+          if (this.partner?.id === w.key) {
+            this.partner.x = at.x;
+            this.partner.z = at.z;
+          }
+          break;
+        case 'keeper':
+          this.keeperHold = at;
+          this.keeperFace = this.baseKeeperFace = f;
+          break;
+        default:
+          this.actorWalk.set(w.key, { x: at.x, z: at.z, yaw: f, walking: p.walking });
+      }
+    }
   }
 
   /**
