@@ -10,7 +10,8 @@ import {
   storylineFinished,
   takeResumeSlot,
 } from './platform/storage';
-import { loadEduScripts, loadStoryScripts } from './sim/story-scenes';
+import { loadStoryScripts } from './sim/story-scenes';
+import { storyChunksBeforePlay } from './story-chunks';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
 import { showTitle } from './ui/title';
 import { showUpdateNotice } from './ui/update-notice';
@@ -126,13 +127,11 @@ function startGame(
   eduAge?: NewEdu,
   storyline: string | null = null,
 ): void {
-  // The campaign and side-story scripts are their own chunks; the save cannot load until
-  // they are registered, or it would drop a queued story scene. A Learning Grove save
-  // also needs its educational scenes (CV2) before the first scene plays.
-  const sideStories =
-    currentSlot().mode === 'edu'
-      ? Promise.all([loadStoryScripts(), loadEduScripts()]).then(() => undefined)
-      : loadStoryScripts();
+  // The campaign and side-story scripts are their own chunks; a save with a story in it
+  // cannot load until they are registered, or it would drop a queued story scene. A
+  // Learning Grove save also needs its own band's educational scenes (CV2) before the
+  // first scene plays. A Free Grove with no story boots without them (story-chunks.ts).
+  const sideStories = storyChunksBeforePlay(currentSlot(), eduAge?.band ?? null);
   // The 3D scene is a separate chunk, loaded only when the title picked it. A chunk that
   // fails to load (usually a deploy replaced it) shows the reload notice, not a blank screen.
   const mode = readGraphicsPref();
