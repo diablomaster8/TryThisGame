@@ -162,7 +162,13 @@ export class Game {
     ctx.drawImage(src, (src.width - sw) / 2, (src.height - sh) / 2, sw, sh, 0, 0, w, h);
     // K30: the DOM grade layers (tint, split grade, desaturation, ground tint) are not in the
     // canvas, so paint them on the copy; the grid's 48 CSS px spacing scales with the crop.
-    paintGrade(ctx, w, h, currentGrade(), 48 * (h / Math.max(1, src.clientHeight || src.height / k)));
+    paintGrade(
+      ctx,
+      w,
+      h,
+      currentGrade(),
+      48 * (h / Math.max(1, src.clientHeight || src.height / k)),
+    );
     return out;
   }
 

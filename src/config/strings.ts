@@ -1484,7 +1484,11 @@ export const STORY_U4_TEXT = {
     empty: 'Nothing pinned today.',
     notices: {
       title: 'NOTICES',
-      lines: ['Cart leaves at first light', 'Mind the low beams below', 'Boots by the door, please'],
+      lines: [
+        'Cart leaves at first light',
+        'Mind the low beams below',
+        'Boots by the door, please',
+      ],
     },
   },
   /** Journal: the chapter thumbnails and the endings page (K31, K47). */

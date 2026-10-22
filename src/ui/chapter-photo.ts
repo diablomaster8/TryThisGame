@@ -39,6 +39,8 @@ export class ChapterOffer {
     parent: HTMLElement,
     private readonly busy: () => boolean,
     private readonly reduce: () => boolean,
+    /** K30: the player's answer, so the offer is not made again after a reload. */
+    private readonly onState?: (state: 'taken' | 'declined') => void,
   ) {
     this.root = el('div', 'chapter-offer');
     this.root.hidden = true;
@@ -50,11 +52,19 @@ export class ChapterOffer {
       `📷 ${STORY_UI_TEXT.offerYes}`,
       () => {
         this.hide();
+        this.onState?.('taken');
         window.dispatchEvent(new CustomEvent(CHAPTER_PHOTO_EVENT));
       },
       'btn btn-primary',
     );
-    const no = button(STORY_UI_TEXT.offerNo, () => this.hide(), 'btn');
+    const no = button(
+      STORY_UI_TEXT.offerNo,
+      () => {
+        this.hide();
+        this.onState?.('declined');
+      },
+      'btn',
+    );
     const body = el('div', 'chapter-offer-body');
     const row = el('div', 'chapter-offer-row');
     row.append(yes, no);
@@ -94,7 +104,10 @@ export class ChapterOffer {
         }),
       );
     }
-    this.hideTimer = window.setTimeout(() => this.hide(), CG2_U.photo.offerS * 1000);
+    this.hideTimer = window.setTimeout(() => {
+      this.hide();
+      this.onState?.('declined');
+    }, CG2_U.photo.offerS * 1000);
   }
 
   hide(): void {
