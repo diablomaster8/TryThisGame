@@ -34,7 +34,54 @@ storyline and keep all ten quotes, an exception to the three-quote cap. Backlogs
 default renderer is not changed; passes 1 and 2 are on `main`, deployed since 2026-10-19). Review D
 (`docs/review-independent-2026-10-21.md`): fixed 2026-10-21 except bugs 2–3 (share-code Eternals,
 accepted by Maor). Maor, 2026-10-21: daily refreshes and free daily gifts are allowed; only
-repetitive daily quests are out. Hollow art backlog: `docs/hollow-graphics-recommendations-2026-10-21.md`.
+repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below).
+
+## Hollow Below art pass, items 1–45 (2026-10-21)
+
+From `docs/hollow-graphics-recommendations-2026-10-21.md`. Agents A–H on `art/hollow-{a..h}` (plus
+`c0`, the split), merged as `art/hollow`. Before and after: `docs/samples/hollow-art-before-after.jpg`.
+Numbers in `DUNGEON` (`genVersion`, `layout`, `elev`, `water`, `crossing`, `vista`, `landmark`,
+`special`, `explore`) and `GROVE3D.cave` (`bands`, `light`, `atmos`, `rock`, `dress`, `read`, `pixel`).
+Works:
+- **Layout (sim):** version-2 floors (`sim/dungeon-gen.ts`), 48×34 growing to 72×48, a great chamber,
+  medium and small rooms, terraces and a pool basin (`Floor.elevation`, `elevationAt`), a landmark
+  (5 kinds), vistas, bridges and stepping stones, the chest nook, rare special floors (crystal,
+  flooded, glow-worm), an explored mask on the run. `DungeonRun.genVersion` keeps saved runs on
+  their old floors (version-1 fingerprint test).
+- **3D:** `hollow.ts` is assembly only; modules `hollow-rock` (tall leaning walls, triplanar,
+  strata, edge wear, moss, wet sheen, a texture per band, floor on elevation, chunked vertex-colour
+  bake), `hollow-light` (sconces with flame and halo, unlit sconces to light, instanced
+  crystals and mushrooms, baked light with flicker, lamp cookie), `hollow-dress*` (landmarks,
+  rounded stalagmites, arches, rails and cart, portal stairs, decals, worn path, roots and berries,
+  murals, vistas, bridges, nook, crystal chimes, instanced loot), `hollow-atmos` (shafts, motes,
+  water glow, drips and ripples with sound, basin fog, glow-worm stars, glow-bugs), `hollow-pop`
+  (loot halos, explored-room glow). Light rig from `bandFor(depth)` (`render/cave-bands.ts`, four
+  bands), bloom always on underground, cave vignette, exactly 4 point lights (`cave-lamps.ts`).
+- **Governor:** underground it sheds particles, then triplanar, then bloom, aiming at 55 fps
+  (`cave-shed.ts`, `GROVE3D.cave.light.governor`); render scale still only guards 30 fps. No sun
+  shadow pass underground.
+- **Pixel:** walls about 2.6× taller with strata, a moss lip and sconces, a sinking strip in front
+  of the Keeper, band colours on floor and walls, dust, drips and embers (`render/cave-ambience.ts`),
+  all five landmarks, vista lips, terraces as tone steps.
+- **UI:** minimap (`ui/hollow-map.ts`): a 44 px Map button in the floor bar, M toggles, Escape
+  closes, shapes and a legend for the Keeper, stairs and chest.
+- **Bugs fixed on the way:** 3D drew every Nubbin underground (now the party only, like pixel); emote
+  sprites wrote depth over their whole quad.
+
+| 375×812, 4× CPU throttle, 8 Nubbins, dev server, 10 s windows | origin/main | art/hollow |
+| --- | --- | --- |
+| Full 3D (great chamber after; start room before) | 45.9 / 44.8 / 41.5, 45.5 / 44.6 / 47.3 | 51.7 / 50.3 / 50.2, 54.0 / 54.7 / 54.8 |
+| Pixel | 56.6 / 56.6 / 56.5 | 56.7 / 56.6 / 56.6 |
+
+Stubbed or short: 3D misses the 55 target by about 2 fps at 4× throttle, and holds it only with
+particles, triplanar and bloom shed (unthrottled, everything comes back); the next lever would be
+shedding creature outlines underground, an art call for Maor. The environment is 49 draw calls in
+the great chamber (the cave's own meshes about 32, the rest scene and post passes). The pixel floor
+paint still runs on the main thread (about 420 ms on floor 1, up to 800 ms on 72×48). Pixel crystals
+are not taller; pixel landmarks do not take the band colours; a sconce lights when the Keeper
+walks up to it, not on the tap itself; the falling drip streak is brief and easy to miss. Known
+bugs: the 3D light-shaft foot can end in a hard line at a wall; the pixel sinking strip has an
+angular top. Not checked on a real phone.
 
 ## Review D fixes (2026-10-21)
 
@@ -73,55 +120,6 @@ from three.js, left), no control under 44 px. Stubbed: no gate model, so Corvin 
 can't be staged; scenes carry no `set`/`time`/`at` staging data (3D reads the hour from the
 narration); buildings don't fade as occluders; Klee One tracing alignment was checked with a
 fallback font only. Known bugs: bugs 2 and 3 stay by decision. Not checked on a real phone.
-
-## Full 3D art push 2: Hollow, buildings, sky, particles, rain (2026-10-19)
-
-Branch `art/3d-pass-2` (off `art/3d-flagship`, not merged; ask Maor before `main`). Before and
-after: `docs/samples/art3d-pass2-before-after.jpg`. Numbers in `GROVE3D.cave`, `.sky`,
-`.heightFog`, `.rain`. Works:
-- **Hollow (`hollow.ts`):** rock blocks bent by a world-space noise (shared corners move
-  together, so no gaps) and flat-shaded, the rock texture laid on from the world position, moss
-  on the tops; an earth floor darkened where it meets the rock; loose stones and spikes along
-  the walls; pools in the painted water with a foam shore. Walls between the camera and the
-  party now sink and rise smoothly instead of snapping.
-- **Buildings and props (`building-kit.ts`, `props.ts`, `village.ts`):** bevelled walls on
-  stone plinths, timber corners and eave bands, roofs with real overhangs, ridge caps and barge
-  boards, framed windows with sills and painted shutters, framed doors with a step, a cottage
-  chimney. The well has a turned rim and a windlass. The windmill has a footing, door, window
-  and lattice sails; lanterns are framed, the bridge is planked and railed, the cave mouth is
-  an arch of stones. All of it is toon-lit like the creatures, smooth pieces outlined (one
-  shared hull), merged by material (Grove draw calls 207 → 195). Pools of lamplight spill on
-  the ground at night (`buildSpills`, one additive mesh).
-- **Sky (`sky.ts`):** a painted dome in place of Preetham: a horizon-to-zenith gradient per
-  hour (day, golden, night, rain), a sun disc and halo, a two-tone cloud layer that drifts, and
-  stars. The PMREM warm-up is kept (same material in the bake scene). Height fog is patched
-  into three's exp² fog chunks (Grove and stage samples only). The fog takes the horizon's
-  colour. Golden hour is warm and bright, no longer muddy red; env fill was raised to match the
-  darker painted map.
-- **Particles (`quad-particles.ts`):** one instanced-quad program for everything, with analytic
-  shapes, rotation and soft fade, and additive and normal particles in one draw:
-  - bursts (one draw, was three) and falling leaves tumble;
-  - tap sparkles are stars;
-  - rain streaks and snow fall in the vertex shader (no per-frame CPU loop over 2,500 points);
-  - fireflies glow and wander on the GPU.
-- **Emotes (`emote-vector.ts`):** vector frames at 128 px with mipmaps. Pre-existing bug fixed:
-  the emote sat 0.48 above the head bone, inside the head, so the depth test hid it; it now
-  floats above the creature's height.
-- **Rain:** grade tint 0.96/0.98/1.02 (was 0.85/0.9/1), saturation 1.1, a clearer blue-grey
-  fog, sun 1.05. It reads as wet, not washed out.
-- **Waterfall (filmed this time):** it was a pale sheet hanging through the air (pass 1's
-  unverified item). It is now a cascade ribbon that hugs the hillside into the stream, with
-  the grass kept off it (grass checksum updated in `tests/render/grass-place.test.ts`).
-- **Numbers** (headless Edge, `vite preview` production builds, 375×812 at 4× CPU throttle,
-  10 s windows, interleaved, three pairs on the final build): day 51.5 → 53.0 fps, zoomed out
-  37.7 → 48.3, night 43.8 → 47.7. Run-to-run spread is about 10 fps. Earlier builds of this
-  pass, 8–14 runs each, gave day and zoomed out flat and night about 3% down; the final
-  build's partial uploads for particles are in the numbers above. 583 tests, lint and build pass.
-
-Stubbed: the cave's walls fade by sinking, not by dithering; the night spills are all on or all
-off (a single lit campaign lantern lights its glass but not its pool). Known bugs: none new.
-Not checked on a real phone. The minigames' `GroveSky` gets the painted dome too, but it is not
-filmed there.
 
 ## Standing approval (Maor, 2026-10-12)
 

@@ -2,6 +2,55 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Full 3D art push 2: Hollow, buildings, sky, particles, rain (2026-10-19)
+
+Branch `art/3d-pass-2` (off `art/3d-flagship`, not merged; ask Maor before `main`). Before and
+after: `docs/samples/art3d-pass2-before-after.jpg`. Numbers in `GROVE3D.cave`, `.sky`,
+`.heightFog`, `.rain`. Works:
+- **Hollow (`hollow.ts`):** rock blocks bent by a world-space noise (shared corners move
+  together, so no gaps) and flat-shaded, the rock texture laid on from the world position, moss
+  on the tops; an earth floor darkened where it meets the rock; loose stones and spikes along
+  the walls; pools in the painted water with a foam shore. Walls between the camera and the
+  party now sink and rise smoothly instead of snapping.
+- **Buildings and props (`building-kit.ts`, `props.ts`, `village.ts`):** bevelled walls on
+  stone plinths, timber corners and eave bands, roofs with real overhangs, ridge caps and barge
+  boards, framed windows with sills and painted shutters, framed doors with a step, a cottage
+  chimney. The well has a turned rim and a windlass. The windmill has a footing, door, window
+  and lattice sails; lanterns are framed, the bridge is planked and railed, the cave mouth is
+  an arch of stones. All of it is toon-lit like the creatures, smooth pieces outlined (one
+  shared hull), merged by material (Grove draw calls 207 → 195). Pools of lamplight spill on
+  the ground at night (`buildSpills`, one additive mesh).
+- **Sky (`sky.ts`):** a painted dome in place of Preetham: a horizon-to-zenith gradient per
+  hour (day, golden, night, rain), a sun disc and halo, a two-tone cloud layer that drifts, and
+  stars. The PMREM warm-up is kept (same material in the bake scene). Height fog is patched
+  into three's exp² fog chunks (Grove and stage samples only). The fog takes the horizon's
+  colour. Golden hour is warm and bright, no longer muddy red; env fill was raised to match the
+  darker painted map.
+- **Particles (`quad-particles.ts`):** one instanced-quad program for everything, with analytic
+  shapes, rotation and soft fade, and additive and normal particles in one draw:
+  - bursts (one draw, was three) and falling leaves tumble;
+  - tap sparkles are stars;
+  - rain streaks and snow fall in the vertex shader (no per-frame CPU loop over 2,500 points);
+  - fireflies glow and wander on the GPU.
+- **Emotes (`emote-vector.ts`):** vector frames at 128 px with mipmaps. Pre-existing bug fixed:
+  the emote sat 0.48 above the head bone, inside the head, so the depth test hid it; it now
+  floats above the creature's height.
+- **Rain:** grade tint 0.96/0.98/1.02 (was 0.85/0.9/1), saturation 1.1, a clearer blue-grey
+  fog, sun 1.05. It reads as wet, not washed out.
+- **Waterfall (filmed this time):** it was a pale sheet hanging through the air (pass 1's
+  unverified item). It is now a cascade ribbon that hugs the hillside into the stream, with
+  the grass kept off it (grass checksum updated in `tests/render/grass-place.test.ts`).
+- **Numbers** (headless Edge, `vite preview` production builds, 375×812 at 4× CPU throttle,
+  10 s windows, interleaved, three pairs on the final build): day 51.5 → 53.0 fps, zoomed out
+  37.7 → 48.3, night 43.8 → 47.7. Run-to-run spread is about 10 fps. Earlier builds of this
+  pass, 8–14 runs each, gave day and zoomed out flat and night about 3% down; the final
+  build's partial uploads for particles are in the numbers above. 583 tests, lint and build pass.
+
+Stubbed: the cave's walls fade by sinking, not by dithering; the night spills are all on or all
+off (a single lit campaign lantern lights its glass but not its pool). Known bugs: none new.
+Not checked on a real phone. The minigames' `GroveSky` gets the painted dome too, but it is not
+filmed there.
+
 ## Full 3D art push 1: toon creatures, ground, water, governor (2026-10-18)
 
 Branch `art/3d-flagship`. Before and after: `docs/samples/art3d-before-after.jpg`. Works:
