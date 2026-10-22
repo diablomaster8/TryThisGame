@@ -21,6 +21,8 @@ import type { World } from '../sim/types';
 import { leafHinge, pennedSpots } from './corvin-layout';
 import type { Daylight } from './daylight';
 import { NUMBER_CELL, numberCell, paintNumberAtlas } from './number-atlas';
+import { RasterAtlas } from './paint/atlas';
+import { paintFeatheredHill } from './paint/backdrop-w';
 import { buildStoryArt } from './paint/story-art';
 import { pondOutline } from './paint/shore';
 import { stageFlags } from './scene-stage';
@@ -49,6 +51,7 @@ let ice: Mesh | null = null;
 let gold: Mesh | null = null;
 let trees: Array<{ x: number; z: number; k: number; s: number }> = [];
 let hills: Array<{ x: number; z: number; w: number }> = [];
+let hillSheet: SpriteSheet | null = null;
 const state = { still: 0, glow: 0, gold: 0, open: [0, 0, 0] };
 
 const HILL = GROVE.hills[0];
@@ -153,6 +156,7 @@ export const dressC: PixelDressing = {
   id: 'c',
   build(ctx) {
     ctx0 = ctx;
+    hillSheet = null;
     state.still = state.glow = state.gold = 0;
     state.open = [0, 0, 0];
     const rnd = seq(23);
@@ -168,6 +172,11 @@ export const dressC: PixelDressing = {
     if (ctx.sprites) {
       art = buildStoryArt();
       ctx.track(art);
+      // M8: the backdrop hill with a feathered foot (the stock card ends in a hard line).
+      const atlas = new RasterAtlas(512);
+      atlas.add('hills', paintFeatheredHill());
+      hillSheet = atlas.build();
+      ctx.track(hillSheet);
       const cv = paintNumberAtlas();
       if (cv) {
         const map: Record<string, [number, number, number, number]> = {};
@@ -306,7 +315,12 @@ export const dressC: PixelDressing = {
     const yaw = cameraYaw(batch as unknown as { right?: Vector3 });
 
     if (flags.location === 'corvin') {
-      for (const h of hills) draw('hills', h.x, -0.2, h.z, { w: h.w });
+      const hr = hillSheet?.frames.get('hills');
+      for (const h of hills)
+        draw('hills', h.x, -0.2, h.z, {
+          w: h.w,
+          ...(hillSheet && hr ? { sheet: hillSheet, rect: hr } : {}),
+        });
       for (const t of trees) draw(`frostTree-${t.k}`, t.x, -0.1, t.z, { w: t.s });
       const hs = CG_C.corvin.house;
       draw('house', hs.x, -0.4, hs.z + hs.d / 2 - 0.6, { w: 6.9 });

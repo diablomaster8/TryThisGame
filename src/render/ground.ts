@@ -3,8 +3,9 @@ import { GROVE } from '../config/tuning';
 import { Rng } from '../sim/rng';
 import type { TileKind } from '../sim/types';
 import { fbm, ridged, warped } from './paint/noise';
-import { hex, mix, Raster, shade, type RGB } from './paint/raster';
+import { hash, hex, mix, Raster, shade, type RGB } from './paint/raster';
 import { shoreDistance } from './paint/shore';
+import { CG2_W } from '../config/tuning-w';
 import { BUILDINGS } from './scenery';
 
 /** Texels per world unit on the ground texture. */
@@ -54,11 +55,41 @@ export interface GroundPixels {
   rgba: Uint8Array;
 }
 
+/** The season the ground is painted for: winter frosts it (H8); anything else is the base. */
+export type GroundSeason = 'winter' | null;
+
+/**
+ * H8: winter on the painted ground. Grass loses most of its green (towards a cold grey-blue),
+ * and flecks of frost lie on it and, thinner, on the paths; sand, stone and soil keep their
+ * colour. A pure pass over the finished raster, so the worker does it with the rest.
+ */
+function frostGround(r: Raster): void {
+  const cold = hex('#a3b3c0');
+  const frost = hex('#eef5fb');
+  const { groundDesat, groundFleck } = CG2_W.winter;
+  for (let y = 0; y < r.h; y++)
+    for (let x = 0; x < r.w; x++) {
+      const c = r.get(x, y);
+      // Grass is green over red and blue; paths and sand are not.
+      const green = c[1] > c[0] * 1.08 && c[1] > c[2] * 1.15;
+      let out = c;
+      if (green) {
+        const grey = (c[0] + c[1] + c[2]) / 3;
+        out = mix(c, mix([grey, grey * 1.02, grey * 1.06], cold, 0.5), groundDesat);
+      }
+      const n = hash(x >> 1, y >> 1, 77);
+      if (n < (green ? groundFleck : groundFleck * 0.4)) out = mix(out, frost, 0.8);
+      else if (n > 0.93 && green) out = mix(out, frost, 0.3);
+      if (out !== c) r.set(x, y, out);
+    }
+}
+
 /** The painting itself, pure: safe to run in a worker. `ppu` sets the detail. */
 export function paintGround(
   seed = 7,
   tiles: Record<string, TileKind> = {},
   ppu: number = GROUND_PPU,
+  season: GroundSeason = null,
 ): GroundPixels {
   const size = GROVE.size * ppu;
   const r = new Raster(size, size, hex('#5f9e3c'));
@@ -402,6 +433,7 @@ export function paintGround(
     }
   }
 
+  if (season === 'winter') frostGround(r);
   return r.toRgba(1, true);
 }
 

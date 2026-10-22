@@ -631,3 +631,66 @@ function paintCaveMouth(): Raster {
   rimObjects(r);
   return r;
 }
+
+/** A painted frame's pixels, as `getImageData` gives them. */
+export interface CrownSource {
+  data: Uint8ClampedArray;
+  width: number;
+  height: number;
+}
+
+const SNOW = { top: '#f7fbff', body: '#e6eff8', shade: '#a9bfdc' } as const;
+
+/**
+ * H8: a snow crown cut to a painted tree or bush frame. Snow lies where the canopy's own
+ * pixels face the sky (a green pixel with air above it), `depth` painted pixels thick and a
+ * little uneven, so it follows every lobe's top edge instead of capping the whole crown with
+ * one blob. The lowest row is a 1 px blue shade, so the white sits on the leaves. Everything
+ * else in the frame is transparent: it is drawn over the stock sprite, same size and place.
+ */
+export function paintSnowCrown(src: CrownSource, depth: number, seed = 0): Raster {
+  const { width: w, height: h } = src;
+  const r = new Raster(w, h, null);
+  r.tracking = true;
+  const top = hex(SNOW.top);
+  const body = hex(SNOW.body);
+  const edge = hex(SNOW.shade);
+  const leafy = (x: number, y: number): boolean => {
+    if (x < 0 || y < 0 || x >= w || y >= h) return false;
+    const i = (y * w + x) * 4;
+    if (src.data[i + 3]! < 128) return false;
+    const R = src.data[i]!;
+    const G = src.data[i + 1]!;
+    const B = src.data[i + 2]!;
+    return G >= R * 0.92 && G >= B * 0.8;
+  };
+  const solid = (x: number, y: number): boolean =>
+    x >= 0 && y >= 0 && x < w && y < h && src.data[(y * w + x) * 4 + 3]! >= 128;
+  const limit = Math.round(h * 0.78);
+  for (let x = 0; x < w; x++) {
+    let air = 2;
+    for (let y = 0; y < limit; y++) {
+      if (!solid(x, y)) {
+        air = Math.min(2, air + 1);
+        continue;
+      }
+      if (!leafy(x, y) || air < 1) {
+        air = 0;
+        continue;
+      }
+      // A run of snow from here down; the depth wanders along the crown.
+      const d = Math.max(
+        2,
+        Math.round(depth * (0.55 + 0.9 * vnoise(x / 4.5 + seed, y / 9, 71 + seed))),
+      );
+      let n = 0;
+      for (let k = 0; k < d && leafy(x, y + k); k++) n++;
+      for (let k = 0; k < n; k++)
+        r.set(x, y + k, k === n - 1 && n >= 3 ? edge : k < 2 ? top : body);
+      air = 0;
+      y += n;
+    }
+  }
+  r.tracking = false;
+  return r;
+}

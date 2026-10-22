@@ -4,9 +4,12 @@ import { markAt } from '../config/stage-marks';
 import type { SceneStage } from '../config/story';
 import { LANTERN_POSTS } from '../config/tuning';
 import { HAND_LANTERN, HUSH, LANTERN_E, LANTERN_IDS } from '../config/tuning-e';
+import { CG2_W } from '../config/tuning-w';
 import type { World } from '../sim/types';
 import type { Daylight } from './daylight';
 import type { PixelDressCtx, PixelDressing } from './dressings';
+import { hushTexture } from './hush-art';
+import { LineClock } from './line-clock';
 import { npcHere, stageFlags, type StageFlags } from './scene-stage';
 import { frameKey } from './sprites/animations';
 import { buildHandLanternSheet } from './sprites/keeper';
@@ -49,7 +52,8 @@ export function lanternLights(
   if (goes || comes) {
     for (const p of LANTERN_POSTS) {
       const d = Math.hypot(p.x - HUSH.origin.x, p.z - HUSH.origin.z);
-      const gone = reduce || sceneT >= HUSH.delay + d / HUSH.speed;
+      // `sceneT` is seconds since the first line showed (C8); below 0 it is not up yet.
+      const gone = sceneT >= 0 && (reduce || sceneT >= HUSH.delay + d / HUSH.speed);
       out[p.id] = goes ? (gone ? 'out' : 'lit') : gone ? 'lit' : 'out';
     }
   }
@@ -69,7 +73,7 @@ export function flickerAt(t: number, hz: number): number {
 /** Whether the Hush's colossus shows for this scene, and how far in (0..1). */
 export function hushPresence(sid: string | null, sceneT: number, reduce: boolean): number {
   if (sid === null) return 0;
-  const k = reduce ? 1 : Math.min(1, sceneT / HUSH.colossus.fadeIn);
+  const k = reduce ? (sceneT < 0 ? 0 : 1) : Math.max(0, Math.min(1, sceneT / HUSH.colossus.fadeIn));
   if (HUSH.out.includes(sid)) return k;
   if (HUSH.back.includes(sid)) return 1 - k;
   return 0;
@@ -141,6 +145,7 @@ class PixelE implements PixelDressing {
   readonly id = 'e';
   private ctx: PixelDressCtx | null = null;
   private clock = new SceneClock();
+  private line = new LineClock();
   private time = 0;
   private colossus: Sprite | null = null;
   private halos = new Map<string, Sprite>();
@@ -149,6 +154,7 @@ class PixelE implements PixelDressing {
   build(ctx: PixelDressCtx): void {
     this.ctx = ctx;
     this.clock = new SceneClock();
+    this.line = new LineClock();
     this.time = 0;
     this.lights = null;
     this.colossus = null;
@@ -172,7 +178,7 @@ class PixelE implements PixelDressing {
         ctx.groups.grove.add(h);
         this.halos.set(p.id, h);
       }
-      const tex = colossusTexture();
+      const tex = hushTexture();
       const mat = new SpriteMaterial({
         map: tex,
         transparent: true,
@@ -181,9 +187,9 @@ class PixelE implements PixelDressing {
         opacity: 0,
       });
       const s = new Sprite(mat);
-      const c = HUSH.colossus;
-      s.scale.set(c.width, c.height, 1);
-      s.position.set(HUSH.origin.x, c.y, HUSH.origin.z);
+      const c = CG2_W.hush;
+      s.scale.set(c.pixelWidth, c.pixelHeight, 1);
+      s.position.set(HUSH.origin.x, c.pixelY, HUSH.origin.z);
       s.visible = false;
       ctx.groups.grove.add(s);
       ctx.track(tex);
@@ -201,12 +207,12 @@ class PixelE implements PixelDressing {
     const flags = stageFlags(world, stage);
     for (const hl of this.halos.values()) hl.visible = false;
     this.time += dt;
-    const sceneT = this.clock.tick(flags.sceneId, dt);
+    const sceneT = this.line.tick(flags.sceneId, this.clock.tick(flags.sceneId, dt), dt);
 
     if (this.colossus) {
       const p = flags.location === 'grove' ? hushPresence(flags.sceneId, sceneT, reduce) : 0;
       this.colossus.visible = p > 0.001;
-      this.colossus.material.opacity = p * HUSH.colossus.opacity;
+      this.colossus.material.opacity = p * CG2_W.hush.pixelOpacity;
     }
     const sp = ctx.sprites;
     if (!sp || flags.location !== 'grove') return;
