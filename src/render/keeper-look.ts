@@ -2,6 +2,7 @@ import type { KeeperAlignment } from '../sim/types';
 import { TRAINERS, type TrainerLook } from '../sim/trainers';
 import { EXTRA_LOOKS } from '../sim/npcs';
 import { C } from './sprites/palette';
+import { STORY_NPC_LOOKS } from '../config/npc-looks';
 
 /**
  * The one Keeper look rule, shared by both renderers: the chosen Keeper's outfit (the
@@ -12,7 +13,10 @@ import { C } from './sprites/palette';
  */
 export function trainerLook(trainerId: string): TrainerLook {
   return (
-    EXTRA_LOOKS[trainerId] ?? TRAINERS.find((t) => t.id === trainerId)?.look ?? TRAINERS[0]!.look
+    EXTRA_LOOKS[trainerId] ??
+    STORY_NPC_LOOKS[trainerId]?.trainer ??
+    TRAINERS.find((t) => t.id === trainerId)?.look ??
+    TRAINERS[0]!.look
   );
 }
 

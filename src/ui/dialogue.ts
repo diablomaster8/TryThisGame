@@ -20,6 +20,7 @@ import { playWord } from '../platform/lang-audio';
 import { SceneReplayGuard } from './scene-replay-guard';
 import { isControlTarget } from '../input/keys';
 import { StoryUi, type DialogueHooks } from './story-ui';
+import { SPEAKER_NOW } from '../render/stage-actors';
 
 /**
  * The story dialogue box: portrait, name, typewriter text, tap to advance, choices.
@@ -504,6 +505,8 @@ function portraitFrame(
   mood: Mood,
 ): { sheet: SpriteSheet | null; key: string } {
   const sheets = g.view.sheets;
+  // H6: the world's speaker chevron follows the line on screen.
+  SPEAKER_NOW.who = who;
   // You wear your own outfit (trim in your side's colours), as in the Grove, so you never
   // share a portrait with the villager whose look you chose.
   if (who === 'you') {
@@ -520,5 +523,6 @@ function portraitFrame(
     if (n) return { sheet: sheets.forNubbin(n), key: frameKey(clip, 'front', 0) };
     return { sheet: sheets.rival('neutral', 'normal'), key: frameKey(clip, 'front', 0) };
   }
+  // C2: a storyline speaker has a look of their own (`STORY_NPC_LOOKS`), never the player's.
   return { sheet: sheets.keeper(who), key: frameKey('idle', 'front', 0) };
 }

@@ -115,6 +115,26 @@ function drawBucket(pc: PixelCanvas, hx: number, hy: number): void {
   pc.thinLine(hx - 3, hy + 4, hx + 2, hy + 4, C.darkBark);
 }
 
+function drawBasket(
+  pc: PixelCanvas,
+  angle: DrawnAngle,
+  tx: number,
+  armY: number,
+  swing: number,
+): void {
+  // A wide woven basket on the left arm, flowers over its rim; the handle is an arc.
+  const hx = angle === 'side' ? 14 : tx - 2;
+  const y = armY + 5 + swing;
+  pc.thinLine(hx - 3, y + 1, hx - 1, y - 2, C.darkBark);
+  pc.thinLine(hx - 1, y - 2, hx + 2, y + 1, C.darkBark);
+  pc.rect(hx - 5, y + 1, 8, 5, C.wood);
+  pc.rect(hx - 5, y + 1, 8, 1, C.sandLight);
+  pc.thinLine(hx - 5, y + 3, hx + 2, y + 3, C.darkBark);
+  pc.dot(hx - 4, y, C.berry);
+  pc.dot(hx - 2, y - 0.5, C.sunYellow);
+  pc.dot(hx, y, C.rose);
+}
+
 function drawSatchel(
   pc: PixelCanvas,
   angle: DrawnAngle,
@@ -162,6 +182,253 @@ function drawShawl(
   // Fringe.
   for (let x = Math.round(cx - tw / 2 - 3); x <= Math.round(cx + tw / 2 + 2); x += 2)
     pc.px(x, top + 4, C.roseLight);
+}
+
+/** Where the figure's parts sit on the 32 px grid this frame, for the accessory drawers. */
+interface Rig {
+  angle: DrawnAngle;
+  torsoTop: number;
+  legY: number;
+  tx: number;
+  tw: number;
+  headCx: number;
+  headCy: number;
+  armY: number;
+  swing: number;
+}
+
+const isBack = (a: DrawnAngle): boolean => a === 'back' || a === 'backQuarter';
+
+/**
+ * M1 and C2: accessories that sit on the body, drawn before the arms so a sleeve crosses
+ * them. Each has its own outline (the portrait never leans on colour alone).
+ */
+function drawBodyAccessory(pc: PixelCanvas, look: NpcLook, g: Rig): void {
+  const { angle, torsoTop, legY, tx, tw } = g;
+  const cx = tx + tw / 2;
+  const [main, trim] = look.pal ?? [C.sandLight, C.bark];
+  const side = angle === 'side';
+  const back = isBack(angle);
+  switch (look.accessory) {
+    case 'apron': {
+      // A bib to the knee with a pocket; on the back only its ties show.
+      if (back) {
+        pc.thinLine(tx, torsoTop + 4, tx + tw, torsoTop + 4, trim);
+        pc.rect(Math.round(cx) - 1, torsoTop + 4, 2, 2, trim);
+        break;
+      }
+      const w = side ? 3 : tw - 2;
+      const x = side ? tx + tw - 3 : tx + 1;
+      pc.rect(x, torsoTop + 2, w, legY - torsoTop + 3, main);
+      if (!side) {
+        pc.thinLine(tx + 1.5, torsoTop + 1, tx + 3, torsoTop + 2, trim);
+        pc.thinLine(tx + tw - 1.5, torsoTop + 1, tx + tw - 3, torsoTop + 2, trim);
+        pc.rect(Math.round(cx) - 2, legY, 4, 2, trim);
+      }
+      pc.thinLine(x, legY + 3, x + w, legY + 3, trim);
+      break;
+    }
+    case 'scarf': {
+      // Wound at the neck, one long tail down to the knee.
+      pc.rect(tx - 1, torsoTop - 1, tw + 2, 2, C.violet);
+      pc.thinLine(tx - 1, torsoTop, tx + tw + 1, torsoTop, C.violetLight);
+      const tailX = side ? tx + 1 : tx + tw - 2;
+      pc.rect(tailX, torsoTop, 3, legY - torsoTop + 5, C.lavender);
+      pc.thinLine(tailX + 1, torsoTop + 1, tailX + 1, legY + 3, C.violet);
+      for (let x = tailX; x < tailX + 3; x++) pc.px(x, legY + 5, C.violetLight);
+      break;
+    }
+    case 'cloak': {
+      // A cape: shoulders and a long back that hangs to the knee.
+      pc.ellipse(cx, torsoTop + 1, tw / 2 + 3, 3, C.moonPurple);
+      const half = back ? tw / 2 + 3 : tw / 2 + 4;
+      for (let y = torsoTop + 2; y < legY + 4; y++) {
+        const h = half + (y - torsoTop) * 0.2;
+        const x0 = Math.round(cx - h);
+        const w = Math.round(h * 2);
+        if (back) pc.rect(x0, y, w, 1, y % 4 === 0 ? C.darkPlum : C.moonPurple);
+        else {
+          pc.rect(x0, y, 2, 1, C.moonPurple);
+          pc.rect(x0 + w - 2, y, 2, 1, C.darkPlum);
+        }
+      }
+      pc.dot(cx, torsoTop + 1.5, C.sunYellow);
+      break;
+    }
+    case 'scroll': {
+      // A map tube slung across the back: its capped ends show over each shoulder.
+      pc.thinLine(tx + tw + 2, torsoTop - 3, tx - 2, legY + 2, C.cream);
+      pc.thinLine(tx + tw + 2.5, torsoTop - 3, tx - 1.5, legY + 2, C.sandLight);
+      pc.rect(tx + tw + 1, torsoTop - 4, 3, 2, C.bark);
+      pc.rect(tx - 3, legY + 1, 3, 2, C.bark);
+      if (!back) pc.thinLine(tx + tw - 1, torsoTop, tx + 1, legY - 1, C.darkBark);
+      break;
+    }
+    case 'pack': {
+      // A tinker's bundle high on the back with a pot and a ladle hung from it.
+      if (back) {
+        pc.ellipse(cx, torsoTop + 3, tw / 2 + 3, 5.5, C.bark);
+        pc.ellipse(cx, torsoTop + 1.5, tw / 2 + 2, 3, C.wood);
+        pc.disc(cx + 3, torsoTop + 7, 2.2, C.greyLight);
+        pc.thinLine(cx - 4, torsoTop + 5, cx - 4, torsoTop + 11, C.greyDeep);
+      } else {
+        pc.ellipse(cx, torsoTop - 1, tw / 2 + 1.5, 3, C.bark);
+        pc.disc(side ? tx - 1 : tx - 3, torsoTop + 6, 2.2, C.greyLight);
+        pc.thinLine(side ? tx - 1 : tx - 3, torsoTop + 3, cx - 2, torsoTop + 1, C.greyDeep);
+      }
+      break;
+    }
+    case 'backpack': {
+      // A tall rucksack with a top flap and a pocket; the straps cross the chest.
+      if (back) {
+        pc.rect(tx - 1, torsoTop - 1, tw + 2, legY - torsoTop + 3, C.berry);
+        pc.rect(tx - 1, torsoTop - 1, tw + 2, 3, C.roseDeep);
+        pc.rect(tx + 1, torsoTop + 6, tw - 2, 3, C.roseLight);
+        pc.dot(cx, torsoTop + 2.5, C.sunYellow);
+      } else {
+        pc.rect(tx - 2, torsoTop - 1, 2, 7, C.berry);
+        pc.rect(tx + tw, torsoTop - 1, 2, 7, C.roseDeep);
+        if (!side) {
+          pc.thinLine(tx + 2, torsoTop, tx + 2, torsoTop + 6, C.sunYellow);
+          pc.thinLine(tx + tw - 2, torsoTop, tx + tw - 2, torsoTop + 6, C.sunYellow);
+        }
+      }
+      break;
+    }
+    case 'sling': {
+      // A big messenger bag on the right hip, a strap over the left shoulder, a star on the flap.
+      const bx = side ? tx + tw - 1 : tx + tw - 3;
+      if (!back) pc.thinLine(tx + 1, torsoTop, bx + 2, legY - 3, C.tealDeep);
+      pc.rect(bx, legY - 4, 6, 7, C.teal);
+      pc.rect(bx, legY - 4, 6, 2, C.tealDeep);
+      pc.dot(bx + 3, legY - 0.5, C.sunYellow);
+      break;
+    }
+    case 'notebook': {
+      // A notebook hung from the belt on a cord.
+      const bx = tx - 3;
+      pc.thinLine(tx, legY - 1, bx + 2, legY, C.darkBark);
+      pc.rect(bx, legY, 4, 6, C.berry);
+      pc.rect(bx + 3, legY, 1, 6, C.cream);
+      pc.thinLine(bx + 1, legY + 2, bx + 2.5, legY + 2, C.cream);
+      break;
+    }
+    default:
+      break;
+  }
+}
+
+/** M1 and C2: the accessories that sit on the head or stand above it, drawn after the hat. */
+function drawHeadAccessory(pc: PixelCanvas, look: NpcLook, g: Rig): void {
+  const { angle, headCx, headCy, tx, tw, legY } = g;
+  const brimY = headCy - 3;
+  const side = angle === 'side';
+  const back = isBack(angle);
+  switch (look.accessory) {
+    case 'goggles': {
+      // Big round lenses over the eyes on a strap that circles the head.
+      pc.rect(headCx - 5, headCy - 1, 11, 1, C.darkBark);
+      if (back) break;
+      const lens = (x: number) => {
+        pc.disc(x, headCy, 2.2, C.ink);
+        pc.disc(x, headCy, 1.4, C.skyLight);
+        pc.dot(x - 0.5, headCy - 0.8, C.white);
+      };
+      if (side) lens(headCx + 3);
+      else if (angle === 'front') {
+        lens(headCx - 2.4);
+        lens(headCx + 2.4);
+      } else {
+        lens(headCx - 1);
+        lens(headCx + 3);
+      }
+      break;
+    }
+    case 'headphones': {
+      // A band over the crown and a big cup over each ear.
+      for (let a = 0; a <= 8; a++) {
+        const t = (a / 8) * Math.PI;
+        pc.px(headCx - 5 * Math.cos(t), headCy - 1 - 6 * Math.sin(t), C.ink);
+      }
+      pc.rect(headCx - 7, headCy - 2, 3, 5, C.berry);
+      pc.rect(headCx + 4, headCy - 2, 3, 5, C.berry);
+      pc.rect(headCx - 7, headCy - 2, 1, 5, C.roseLight);
+      pc.rect(headCx + 4, headCy - 2, 1, 5, C.roseLight);
+      break;
+    }
+    case 'visor': {
+      // A glowing band across the eyes, a moderator's visor.
+      const x = side ? headCx : headCx - 5;
+      const w = side ? 6 : 11;
+      pc.rect(x, headCy - 1, w, 3, C.ink);
+      if (!back) pc.rect(x + 1, headCy, w - 2, 1, C.skyLight);
+      break;
+    }
+    case 'widehat': {
+      // A brim wider than the shoulders and a shallow crown.
+      pc.ellipse(headCx, brimY + 1, 9.5, 2.4, C.sandDeep);
+      pc.ellipse(headCx, brimY - 1.5, 4.8, 3, C.sandDeep);
+      pc.rect(headCx - 5, brimY - 0.5, 11, 1, C.bark);
+      pc.thinLine(headCx - 8, brimY, headCx + 8, brimY, C.sandLight);
+      break;
+    }
+    case 'cap': {
+      // A long peak that sticks out the front (or across the brow from the front).
+      if (back) break;
+      if (side) pc.rect(headCx + 3, brimY + 1, 7, 2, C.ink);
+      else pc.rect(headCx - 5, brimY + 2, 11, 2, C.ink);
+      pc.thinLine(headCx - 4, brimY, headCx + 4, brimY, C.mint);
+      break;
+    }
+    case 'bloom': {
+      // A big flower pinned over one ear.
+      const fx = side ? headCx - 2 : headCx - 5;
+      const fy = brimY + 1;
+      for (const [dx, dy] of [
+        [0, -2],
+        [2, -0.6],
+        [1.2, 1.8],
+        [-1.2, 1.8],
+        [-2, -0.6],
+      ] as const)
+        pc.disc(fx + dx, fy + dy, 1.3, C.sunYellow);
+      pc.disc(fx, fy, 1.1, C.orange);
+      break;
+    }
+    case 'antenna': {
+      // A thin stalk with a glowing bulb above the head.
+      pc.thinLine(headCx, brimY - 1, headCx, brimY - 7, C.lilacGrey);
+      pc.disc(headCx, brimY - 8, 1.7, C.mint);
+      pc.dot(headCx - 0.5, brimY - 8.5, C.white);
+      break;
+    }
+    case 'broom': {
+      // A broom shouldered: its handle rises past the head to a bundle of bristles.
+      pc.thinLine(tx + tw + 1, legY - 1, tx + tw + 5, 4, C.bark);
+      pc.thinLine(tx + tw + 1.5, legY - 1, tx + tw + 5.5, 4, C.wood);
+      pc.tri(tx + tw + 3, 1, tx + tw + 8, 1, tx + tw + 5.5, 6, C.sandDeep);
+      pc.thinLine(tx + tw + 5.5, 2, tx + tw + 5.5, 5, C.sandLight);
+      break;
+    }
+    case 'notebook': {
+      // A pencil behind the ear.
+      if (!back) pc.thinLine(headCx + 4, headCy - 1, headCx + 7, headCy - 5, C.sunYellow);
+      break;
+    }
+    default:
+      break;
+  }
+}
+
+/** M13: two darker patches at the sleeves' elbows. */
+function drawPatches(pc: PixelCanvas, g: Rig): void {
+  const { angle, tx, tw, armY, swing } = g;
+  if (angle === 'side') {
+    pc.rect(16 + swing, armY + 3, 2, 2, C.violetDeep);
+    return;
+  }
+  pc.rect(tx - 2, armY + 3 + swing, 2, 2, C.violetDeep);
+  pc.rect(tx + tw, armY + 3 - swing, 2, 2, C.violetDeep);
 }
 
 /** A nearest-neighbour shrink about the feet, for a smaller figure (Hazel in chapter 11). */
@@ -238,10 +505,22 @@ function drawKeeper(
   pc.rect(tx, legY - 1, tw, 1, col.boots);
   pc.dot(tx + tw / 2, legY - 0.5, C.sunYellow);
   if (look?.accessory === 'coat') drawCoat(pc, angle, torsoTop, feetY - 4, tx, tw);
+  const swing = clip === 'walk' ? (phase < 3 ? 1 : -1) : 0;
+  const rig: Rig = {
+    angle,
+    torsoTop,
+    legY,
+    tx,
+    tw,
+    headCx: 16,
+    headCy: torsoTop - 4,
+    armY: torsoTop + 1,
+    swing,
+  };
+  if (look) drawBodyAccessory(pc, look, rig);
 
   // Arms with cuffs and hands.
   const armY = torsoTop + 1;
-  const swing = clip === 'walk' ? (phase < 3 ? 1 : -1) : 0;
   if (angle === 'side') {
     pc.rect(16 + swing, armY + 1, 2, 5, col.shirt);
     pc.thinLine(16 + swing, armY + 5, 18 + swing, armY + 5, col.shirtShade);
@@ -255,6 +534,8 @@ function drawKeeper(
     pc.px(tx + tw + 1, armY + 6 - swing, col.skin);
   }
 
+  if (look?.patches) drawPatches(pc, rig);
+  if (look?.accessory === 'basket') drawBasket(pc, angle, tx, armY, swing);
   if (look?.accessory === 'bucket')
     drawBucket(
       pc,
@@ -304,6 +585,7 @@ function drawKeeper(
   if (angle === 'backQuarter') pc.ellipse(headCx - 1, headCy - 1, 4, 3, col.hair);
 
   drawHat(pc, col, headCx, headCy);
+  if (look) drawHeadAccessory(pc, look, rig);
 
   const out = look?.scale && look.scale < 1 ? shrink(pc, look.scale) : pc;
   out.finish(col.outline, [col.outline, C.white]);
@@ -354,5 +636,59 @@ export function buildHandLanternSheet(): SpriteSheet {
     pc.disc(cx, cy, r, C.sunLight);
     atlas.add(key, pc);
   }
+  return atlas.build();
+}
+
+/**
+ * N3: what a cast member holds in the hand on the viewer's right (the hand lantern's place
+ * on the same 32 px grid, so it lines up whatever the figure's size). One frame each:
+ * `carry-broom`, `carry-notebook`, `carry-egg`, `carry-keys`.
+ */
+export function buildCarrySheet(): SpriteSheet {
+  const atlas = new AtlasBuilder(KEEPER_SIZE, KEEPER_SIZE, 4);
+  const frame = (key: string, draw: (pc: PixelCanvas) => void): void => {
+    const pc = new PixelCanvas(KEEPER_SIZE, KEEPER_SIZE);
+    draw(pc);
+    pc.finish(C.ink, [C.cream, C.sunYellow, C.white]);
+    atlas.add(key, pc);
+  };
+  // A broom stood on its bristles: a long handle past the shoulder, bristles at the foot.
+  frame('carry-broom', (pc) => {
+    pc.thinLine(24.5, 9, 24.5, 26, C.bark);
+    pc.thinLine(25, 9, 25, 26, C.wood);
+    pc.rect(22, 26, 6, 4, C.sandDeep);
+    pc.rect(22, 26, 6, 1, C.sandLight);
+    pc.thinLine(23, 28, 23, 30, C.bark);
+    pc.thinLine(26, 28, 26, 30, C.bark);
+  });
+  // A notebook held open at the hip, a ribbon hanging from the spine.
+  frame('carry-notebook', (pc) => {
+    pc.rect(22, 22, 7, 6, C.berry);
+    pc.rect(23, 23, 5, 4, C.cream);
+    pc.thinLine(25.5, 22, 25.5, 28, C.roseDeep);
+    pc.thinLine(23.5, 24.5, 25, 24.5, C.lilacGrey);
+    pc.thinLine(26, 25.5, 27.5, 25.5, C.lilacGrey);
+    pc.thinLine(28, 27, 28, 30, C.sunYellow);
+  });
+  // An egg cradled in the palm, speckled, with the light on its shoulder.
+  frame('carry-egg', (pc) => {
+    pc.ellipse(24.5, 21, 2.6, 3.4, C.cream);
+    pc.ellipse(25.2, 22, 1.8, 2.4, C.sandLight);
+    pc.dot(23.6, 19.5, C.white);
+    pc.dot(25, 22, C.sandDeep);
+    pc.dot(24, 23, C.sandDeep);
+    pc.thinLine(22, 24.5, 27.5, 24.5, C.sand);
+  });
+  // A key ring on a finger, three keys hanging.
+  frame('carry-keys', (pc) => {
+    pc.thinLine(24.5, 21, 24.5, 24, C.greyDeep);
+    pc.disc(24.5, 25, 2, C.sunYellow);
+    pc.disc(24.5, 25, 1, C.ink);
+    pc.rect(22, 27, 1, 3, C.sunLight);
+    pc.rect(24, 28, 1, 3, C.sunYellow);
+    pc.rect(26, 27, 1, 3, C.sunLight);
+    pc.dot(22, 29.5, C.sunDeep);
+    pc.dot(26, 29.5, C.sunDeep);
+  });
   return atlas.build();
 }

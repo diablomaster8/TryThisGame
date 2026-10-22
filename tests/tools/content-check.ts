@@ -4,6 +4,11 @@ import { SPEAKERS } from '../../src/config/story';
 import { speakerNameIn } from '../../src/sim/story-scenes';
 import type { Quest } from '../../src/content/types';
 import type { Scene } from '../../src/config/story';
+import { STORY_NPC_LOOKS } from '../../src/config/npc-looks';
+import { BEETLE_SPEAKERS } from '../../src/content/storyline-beetle';
+import { DAWNDUSK_SPEAKERS } from '../../src/content/storyline-dawndusk';
+import { HUNDRED_SPEAKERS } from '../../src/content/storyline-hundred';
+import { LOGGED_SPEAKERS } from '../../src/content/storyline-logged';
 
 const packs: Record<string, Quest[]> = {
   python: C.QUESTS_PYTHON, bean: C.QUESTS_BEAN, sunny: C.QUESTS_SUNNY, avatar: C.QUESTS_AVATAR,
@@ -219,6 +224,16 @@ for (const course of [C.HEBREW_COURSE, C.JAPANESE_COURSE]) {
     if (!course.quests.includes(v.quest)) problems.push(`${course.id}: vocab ${v.id} names unknown quest ${v.quest}`);
   }
   for (const q of course.quests) if (!codes.has(q)) problems.push(`${course.id}: unknown quest ${q}`);
+}
+// 6. Every storyline speaker has a look of their own (C2): a portrait and a world figure that never
+// fall back to the player's outfit, and an accessory shape no other storyline speaker shares.
+const looksSeen = new Map<string, string>();
+for (const sp of [...BEETLE_SPEAKERS, ...DAWNDUSK_SPEAKERS, ...HUNDRED_SPEAKERS, ...LOGGED_SPEAKERS]) {
+  const look = STORY_NPC_LOOKS[sp.id];
+  if (!look) { problems.push(`speaker ${sp.id} (${sp.name}) has no look in STORY_NPC_LOOKS`); continue; }
+  const twin = looksSeen.get(look.accessory);
+  if (twin) problems.push(`speakers ${twin} and ${sp.id} share the accessory ${look.accessory}`);
+  looksSeen.set(look.accessory, sp.id);
 }
 console.log(JSON.stringify({ edu, hebrewWords: C.HEBREW_COURSE.vocab.length, japaneseWords: C.JAPANESE_COURSE.vocab.length }));
 let readings = 0; for (const r of C.READERS) readings += r.readings.length;

@@ -418,7 +418,11 @@ export class SceneStager {
     if (n) return this.holds.get(n.id) ?? n.pos;
     const nid = this.nubbinIdOf(world, who);
     const nb = nid ? world.nubbins.find((x) => x.id === nid) : undefined;
-    return nb ? (this.nubbinHolds.get(nb.id) ?? nb.pos) : null;
+    if (nb) return this.nubbinHolds.get(nb.id) ?? nb.pos;
+    // A stage actor (a storyline speaker with no sim NPC) stands on its cast mark.
+    const entry = this.stage.cast?.find((c) => c.who === who);
+    const m = entry ? markAt(world.location, entry.mark) : undefined;
+    return m ? { x: m.x, z: m.z } : null;
   }
 
   private nubbinIdOf(world: World, who: string): string | null {
