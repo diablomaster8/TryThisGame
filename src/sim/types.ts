@@ -517,6 +517,14 @@ export interface DungeonRun {
   fetch: Record<string, string>;
   haul: { shells: number; items: number };
   startedMs: number;
+  /** The generator version the current floor was made with (saves from before it: 1). */
+  genVersion: number;
+  /**
+   * The cells of the current floor the Keeper has seen, for the minimap: a hex string, one
+   * digit per 4 cells in row-major order (bit j of digit k is cell 4k + j); '' when none.
+   * Read it through `exploredMask` in sim/dungeon.ts.
+   */
+  explored: string;
 }
 
 export type LessonId = 'drawing' | 'singing' | 'dance' | 'instrument';
