@@ -539,3 +539,25 @@ export function ruinFrame(src: Rgba, spec: RuinSpec, level: number, seed: number
     }
   return r;
 }
+
+/** A millrace: a short run of water with pale foam edges, painted from above (runs along z). */
+export function paintMillrace(): Raster {
+  const w = 44;
+  const h = 132;
+  const r = new Raster(w, h, null);
+  r.tracking = true;
+  const deep = hex('#3f86c4');
+  const light = hex('#8cc6f0');
+  for (let y = 0; y < h; y++)
+    for (let x = 0; x < w; x++) {
+      const edge = Math.min(x, w - 1 - x);
+      const wob = vnoise(x / 5, y / 7, 41) * 3;
+      if (edge < 2 + wob * 0.3) continue;
+      const streak = ridged(x / 3, y / 9, 2, 43);
+      let c = mix(deep, light, streak * 0.8);
+      if (edge < 5 + wob) c = mix(c, hex('#f2fbff'), 0.7);
+      r.set(x, y, c);
+    }
+  rimObjects(r);
+  return r;
+}
