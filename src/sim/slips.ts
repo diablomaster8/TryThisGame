@@ -62,6 +62,17 @@ export function stepSlips(world: World, dtMs: number, events: SimEvent[], away =
   }
 }
 
+/**
+ * The player is in a minigame with this Nubbin (a race, an Expedition): that is time spent
+ * together, so its slip timers start again rather than run on (review 2026-10-21, bug 21).
+ * Cooldowns (negative timers) are left alone.
+ */
+export function holdSlips(world: World, nubbinId: string): void {
+  const n = world.nubbins.find((x) => x.id === nubbinId);
+  if (!n?.slipTimers) return;
+  for (const kind of SLIP_KINDS) if ((n.slipTimers[kind] ?? 0) > 0) n.slipTimers[kind] = 0;
+}
+
 /** The adult span for this Nubbin, trimmed by its slips. */
 export function lifespanMs(n: Nubbin): number {
   const f = Math.max(SLIPS.lifespanFloor, 1 - n.slipCount * SLIPS.lifespanPerSlip);

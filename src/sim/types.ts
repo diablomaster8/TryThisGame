@@ -781,6 +781,8 @@ export type Command =
   /** Throw the ball for a Nubbin to fetch. */
   | { kind: 'playCatch'; nubbinId: string }
   | { kind: 'setRunning'; running: boolean }
+  /** The player is in a minigame with this Nubbin (sent while it runs): no care slips. */
+  | { kind: 'playingWith'; nubbinId: string }
   // Orchards and crops
   | { kind: 'plant'; plantKind: 'tree' | 'crop'; flavor: Flavor; pos: Vec2 }
   | { kind: 'waterPlant'; id: string }

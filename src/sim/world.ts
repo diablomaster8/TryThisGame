@@ -40,7 +40,7 @@ import { advanceStage, evolve, hatch, secondEvolve } from './lifecycle';
 import { createEgg, EGG_COLORS, isFree, isHeld } from './nubbin';
 import { Rng } from './rng';
 import { addRecruit, festivalPrizeMultiplier, stepTown } from './town';
-import { stepSlips } from './slips';
+import { holdSlips, stepSlips } from './slips';
 import { trainResult } from './gym';
 import { merge, setPartner, stepPartners } from './partners';
 import { fuse } from './fusion';
@@ -638,6 +638,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'setRunning':
       k.running = cmd.running;
+      return;
+    case 'playingWith':
+      holdSlips(world, cmd.nubbinId);
       return;
     case 'plant':
       plant(world, cmd.plantKind, cmd.flavor, cmd.pos, events);
