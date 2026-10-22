@@ -13,10 +13,18 @@ const LIT: SceneStage['lights'] = {
   'lantern-4': 'lit',
 };
 
+/** The torches of the floors below: every post lit, the below grade, a fixed hour. */
+const BELOW = { grade: 'beetle-below', hour: 21, lights: LIT } as const;
+
 export const BEETLE_STAGES: Readonly<Record<string, SceneStage>> = chapterStages('b', [
   // 1 The Guard: night at the guard house, the three banners.
   [
-    { place: 'guardhouse', hour: 22.5, lights: LIT, shot: { kind: 'establish' } },
+    {
+      place: 'guardhouse',
+      hour: 22.5,
+      lights: LIT,
+      shot: { kind: 'establish', focus: ['guardhouse'] },
+    },
     { place: 'guardhouse', hour: 22.5, lights: LIT, shot: { kind: 'two' } },
   ],
   // 2 The Beetle: the cart under its tarp; home with the cargo.
@@ -26,13 +34,13 @@ export const BEETLE_STAGES: Readonly<Record<string, SceneStage>> = chapterStages
   ],
   // 3 The First Domain.
   [
-    { place: 'guardhouse', hour: 11, shot: { kind: 'wide' } },
-    { place: 'guardhouse', hour: 15, shot: { kind: 'two' } },
+    { place: 'guardhouse', ...BELOW, shot: { kind: 'wide' } },
+    { place: 'guardhouse', ...BELOW, shot: { kind: 'two' } },
   ],
   // 4 The Door's Opinion.
   [
-    { place: 'guardhouse', hour: 12, shot: { kind: 'two' } },
-    { place: 'guardhouse', hour: 15.5, shot: { kind: 'wide' } },
+    { place: 'guardhouse', ...BELOW, shot: { kind: 'two' } },
+    { place: 'guardhouse', ...BELOW, shot: { kind: 'wide' } },
   ],
   // 5 Two Into One: Vane on the bonnet.
   [
@@ -41,17 +49,17 @@ export const BEETLE_STAGES: Readonly<Record<string, SceneStage>> = chapterStages
   ],
   // 6 The Second Domain: the floor that rains.
   [
-    { place: 'guardhouse', hour: 9, shot: { kind: 'wide' } },
-    { place: 'guardhouse', hour: 12, weather: 'rain', shot: { kind: 'wide' } },
+    { place: 'guardhouse', ...BELOW, shot: { kind: 'wide' } },
+    { place: 'guardhouse', ...BELOW, weather: 'rain', shot: { kind: 'wide' } },
   ],
   // 7 The Weather Machine.
   [
-    { place: 'guardhouse', hour: 12, weather: 'rain', shot: { kind: 'wide' } },
-    { place: 'guardhouse', hour: 14, weather: 'rain', shot: { kind: 'two' } },
+    { place: 'guardhouse', ...BELOW, weather: 'rain', shot: { kind: 'wide' } },
+    { place: 'guardhouse', ...BELOW, weather: 'rain', shot: { kind: 'two' } },
   ],
   // 8 The Road Home: the last door, then the road driven end to end.
   [
-    { place: 'guardhouse', hour: 13, shot: { kind: 'wide' } },
+    { place: 'guardhouse', ...BELOW, shot: { kind: 'wide' } },
     { place: 'guardhouse', hour: 19, lights: LIT, shot: { kind: 'establish' } },
   ],
 ]);
