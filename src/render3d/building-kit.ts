@@ -146,6 +146,19 @@ export interface HouseStyle {
   /** Ridge height above the walls, as a share of the wall height. */
   pitch: number;
   chimney?: boolean;
+  /**
+   * Ruin level 0..3 (campaign graphics C6): 1 a few roof courses missing, 2 most of them
+   * gone and the windows boarded, 3 roofless to the rafters. From 1 up the plinth wears moss.
+   */
+  ruin?: number;
+}
+
+/** A repeatable 0..1 from a few integers, so a ruin is the same every time it is built. */
+function ruinRoll(a: number, b: number, c: number): number {
+  let h = Math.imul(a * 73856093 + 1, 2654435761) ^ Math.imul(b * 19349663 + 7, 2246822519);
+  h = Math.imul(h ^ (c * 83492791 + 3), 3266489917);
+  h ^= h >>> 15;
+  return (h >>> 0) / 4294967296;
 }
 
 /** Bucket keys the house builder uses; `kit` must have them all. */
@@ -172,20 +185,49 @@ export function house(
   const { x, y, z } = at;
   const { w, d, h } = size;
   const rh = h * style.pitch;
+  const ruin = Math.max(0, Math.min(3, style.ruin ?? 0));
   // Walls and gables: one tappable mesh.
   const parts: THREE.BufferGeometry[] = [];
-  const body = bevelBox(w, h, d, 0.09, 2.2);
-  body.translate(0, h / 2, 0);
-  parts.push(body.index ? body.toNonIndexed() : body);
+  if (ruin === 0) {
+    const body = bevelBox(w, h, d, 0.09, 2.2);
+    body.translate(0, h / 2, 0);
+    parts.push(body.index ? body.toNonIndexed() : body);
+  } else {
+    // Hollow, so the sky shows through a roof with courses gone: four wall slabs and a
+    // dark floor inside.
+    const th = 0.28;
+    const slabs: Array<[number, number, number, number, number]> = [
+      [w, h, th, 0, d / 2 - th / 2],
+      [w, h, th, 0, -d / 2 + th / 2],
+      [th, h, d - th * 2, -w / 2 + th / 2, 0],
+      [th, h, d - th * 2, w / 2 - th / 2, 0],
+    ];
+    for (const [sw, sh, sd, sx, sz] of slabs) {
+      const g = bevelBox(sw, sh, sd, 0.06, 2.2);
+      g.translate(sx, h / 2, sz);
+      parts.push(g.index ? g.toNonIndexed() : g);
+    }
+    kit.add('door', plainBox(w - th * 2, 0.1, d - th * 2), { x, y: y + 0.4, z });
+  }
   const tri = new THREE.Shape();
   tri.moveTo(-w / 2, 0);
   tri.lineTo(w / 2, 0);
   tri.lineTo(0, rh);
   tri.closePath();
-  const gable = new THREE.ExtrudeGeometry(tri, { depth: d - 0.04, bevelEnabled: false });
-  tile(gable, 1 / 2.2, 1 / 2.2);
-  gable.translate(0, h, -(d - 0.04) / 2);
-  parts.push(gable);
+  if (ruin === 0) {
+    const gable = new THREE.ExtrudeGeometry(tri, { depth: d - 0.04, bevelEnabled: false });
+    tile(gable, 1 / 2.2, 1 / 2.2);
+    gable.translate(0, h, -(d - 0.04) / 2);
+    parts.push(gable);
+  } else {
+    // A ruin has no roof to hide a solid gable under: just the two end walls, thin.
+    for (const sz of [-1, 1]) {
+      const end = new THREE.ExtrudeGeometry(tri, { depth: 0.14, bevelEnabled: false });
+      tile(end, 1 / 2.2, 1 / 2.2);
+      end.translate(0, h, sz > 0 ? d / 2 - 0.2 : -d / 2 + 0.06);
+      parts.push(end);
+    }
+  }
   for (const p of parts)
     for (const k of Object.keys(p.attributes))
       if (k !== 'position' && k !== 'normal' && k !== 'uv') p.deleteAttribute(k);
@@ -198,6 +240,18 @@ export function house(
 
   // Stone plinth, reaching under the slope so a house on a hillside never floats.
   kit.add('stone', bevelBox(w + 0.24, 0.9, d + 0.24, 0.07, 1.4), { x, y: y - 0.2, z });
+  if (ruin >= 1) {
+    // Moss on the plinth: green lumps along the foot of the front and the sides.
+    for (let i = 0; i < 3 + ruin; i++) {
+      const mw = 0.7 + ruinRoll(i, 5, Math.round(x)) * 1.1;
+      const mx = x + (ruinRoll(i, 6, Math.round(z)) - 0.5) * (w - 0.6);
+      kit.add(shutterKey, bevelBox(mw, 0.2, 0.1, 0.05), {
+        x: mx,
+        y: y - 0.1,
+        z: z + (d + 0.24) / 2 + 0.02,
+      });
+    }
+  }
   // Timber: corner posts and the eave band.
   const t = 0.16;
   for (const sx of [-1, 1])
@@ -218,21 +272,71 @@ export function house(
   const slope = Math.hypot(w / 2, rh) + o;
   const thick = 0.16;
   const len = d + o * 2;
+  // Roof courses: rows up the slope, columns along the ridge. A ruined roof keeps a share.
+  const ROWS = 5;
+  const COLS = 3;
+  const keep = ruin === 0 ? 1 : ruin === 1 ? 0.72 : ruin === 2 ? 0.3 : 0;
   for (const side of [-1, 1]) {
     const cx = side * Math.cos(a) * slope * 0.5;
     const cy = rh - Math.sin(a) * slope * 0.5;
     const nx = side * Math.sin(a) * (thick / 2);
     const ny = Math.cos(a) * (thick / 2);
-    kit.add(
-      'roof',
-      tile(bevelBox(slope, thick, len, 0.05), slope / 1.6, len / 1.6),
-      {
-        x: x + cx + nx,
-        y: y + h + cy + ny,
-        z,
-      },
-      [0, 0, -side * a],
-    );
+    const at = { x: x + cx + nx, y: y + h + cy + ny, z };
+    if (ruin === 0) {
+      kit.add('roof', tile(bevelBox(slope, thick, len, 0.05), slope / 1.6, len / 1.6), at, [
+        0,
+        0,
+        -side * a,
+      ]);
+    } else {
+      const th = -side * a;
+      const cw = slope / ROWS;
+      const cl = len / COLS;
+      for (let r = 0; r < ROWS; r++)
+        for (let c = 0; c < COLS; c++) {
+          // The eave row holds longest; the ridge row goes first.
+          const bias = side === 1 ? 0 : 0.0;
+          const edge = r === 0 ? 0.25 : r === ROWS - 1 ? -0.2 : 0;
+          if (
+            ruinRoll(Math.round(x * 10) + r, Math.round(z * 10) + c, side + 2 + bias) >
+            keep + edge
+          )
+            continue;
+          const lx = -slope / 2 + cw * (r + 0.5);
+          kit.add(
+            'roof',
+            tile(bevelBox(cw * 0.97, thick, cl * 0.97, 0.04), cw / 1.6, cl / 1.6),
+            {
+              x: at.x + lx * Math.cos(th),
+              y: at.y + lx * Math.sin(th),
+              z: z - len / 2 + cl * (c + 0.5),
+            },
+            [0, 0, th],
+          );
+        }
+      // Open rafters under the slope: a beam every step along the ridge, and two purlins.
+      const rafters = Math.max(3, Math.round(len / 0.85));
+      for (let i = 0; i < rafters; i++)
+        kit.add(
+          'timber',
+          plainBox(slope * 0.98, 0.1, 0.12),
+          {
+            x: at.x - Math.sin(a) * side * 0.1,
+            y: at.y - Math.cos(a) * 0.1,
+            z: z - len / 2 + 0.2 + ((len - 0.4) * i) / (rafters - 1),
+          },
+          [0, 0, th],
+        );
+      for (const f of [0.3, 0.7]) {
+        const lx = -slope / 2 + slope * f;
+        kit.add(
+          'timber',
+          plainBox(0.1, 0.1, len * 0.96),
+          { x: at.x + lx * Math.cos(th), y: at.y + lx * Math.sin(th) - 0.12, z },
+          [0, 0, th],
+        );
+      }
+    }
     // Barge boards along both gable ends.
     for (const sz of [-1, 1])
       kit.add(
@@ -250,9 +354,11 @@ export function house(
   if (style.chimney) {
     const cx = x + w * 0.25;
     const top = y + h + rh * 0.5 + 1.0;
-    kit.add('stone', bevelBox(0.62, 1.7, 0.62, 0.06, 1.2), {
+    // A ruin's chimney stands from the plinth up, so it never hangs over an open frame.
+    const ch = ruin > 0 ? top - y + 0.2 : 1.7;
+    kit.add('stone', bevelBox(0.62, ch, 0.62, 0.06, 1.2), {
       x: cx,
-      y: top - 0.85,
+      y: top - ch / 2,
       z: z - d * 0.15,
     });
     kit.add('stone', bevelBox(0.78, 0.16, 0.78, 0.05), { x: cx, y: top + 0.05, z: z - d * 0.15 });
@@ -271,7 +377,15 @@ export function house(
   for (const dx of [-w * 0.3, w * 0.3]) {
     const wx = x + dx;
     const wy = y + h * 0.55;
-    kit.add('glass', plainBox(0.7, 0.7, 0.06), { x: wx, y: wy, z: fz + 0.01 });
+    if (ruin >= 2) {
+      // Boarded: two planks across the opening and a dark pane behind them.
+      for (const k of [-1, 1])
+        kit.add('timber', plainBox(1.0, 0.16, 0.1), { x: wx, y: wy + k * 0.2, z: fz + 0.1 }, [
+          0,
+          0,
+          k * 0.12,
+        ]);
+    } else kit.add('glass', plainBox(0.7, 0.7, 0.06), { x: wx, y: wy, z: fz + 0.01 });
     kit.add('timber', plainBox(0.88, 0.1, 0.14), { x: wx, y: wy + 0.4, z: fz + 0.03 });
     kit.add('timber', plainBox(0.1, 0.8, 0.14), { x: wx - 0.4, y: wy, z: fz + 0.03 });
     kit.add('timber', plainBox(0.1, 0.8, 0.14), { x: wx + 0.4, y: wy, z: fz + 0.03 });
