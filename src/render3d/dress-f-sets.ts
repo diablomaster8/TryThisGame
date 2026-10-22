@@ -3,6 +3,7 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { holoClear, type BuntingShape } from '../config/campaign-look';
 import { TITLE_CARD_TEXT } from '../config/strings';
 import { LOOK_F } from '../config/tuning-f';
+import { fadeNearCamera } from './bunting-fade';
 
 /**
  * Campaign graphics package f, Full 3D: the geometry of the story sets (bunting, picnic
@@ -112,6 +113,7 @@ export function buildBunting(
   const group = new THREE.Group();
   const runs = posts.length;
   const mat = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, toneMapped: false });
+  fadeNearCamera(mat);
   const mesh = new THREE.InstancedMesh(pennantGeometry(shape, b.size), mat, runs * b.perRun);
   const m4 = new THREE.Matrix4();
   const q = new THREE.Quaternion();
@@ -158,6 +160,7 @@ export function buildBunting(
   const lineGeo = new THREE.BufferGeometry();
   lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
   const lineMat = new THREE.LineBasicMaterial({ color: '#5a4630' });
+  fadeNearCamera(lineMat);
   const strings = new THREE.LineSegments(lineGeo, lineMat);
   strings.frustumCulled = false;
   group.add(mesh, strings);
