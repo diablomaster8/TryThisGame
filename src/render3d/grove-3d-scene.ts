@@ -586,9 +586,9 @@ export class Grove3dScene {
     // the lit materials); here a grade over the whole frame. Corvin's rows are drained.
     // The Sun and Moon tints shift hue and keep luminance, held back on the grass (M15).
     const hue =
-      grove && this.groveKind === 'sun'
+      grove && !this.staging.exclusive && this.groveKind === 'sun'
         ? GROVE3D.groveTint.sun
-        : grove && this.groveKind === 'moon'
+        : grove && !this.staging.exclusive && this.groveKind === 'moon'
           ? GROVE3D.groveTint.moon
           : '#ffffff';
     (this.grade.uniforms.uHue!.value as THREE.Color).set(hue);
