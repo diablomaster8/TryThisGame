@@ -4,7 +4,7 @@ Read this with CLAUDE.md at the start of every session. Keep it under 150 lines:
 new pass goes in at line 12 and the file is long, move the oldest section to
 `docs/progress-archive.md` (newest first there too).
 
-## Status (2026-10-18)
+## Status (2026-10-21)
 
 Shipped and deployed (https://diablomaster8.github.io/TryThisGame/): v1, the organic
 painted Grove, the Digimon-inspired ten, the Hollow Below, the 96-unit field, three save
@@ -31,7 +31,48 @@ PA1–PA5" in `docs/progress-archive.md`). Decided 2026-10-18 (review B, item 16
 sung verses are fine (only lyrics from existing songs are banned); Holy Grail's Q1–Q7 are one
 storyline and keep all ten quotes, an exception to the three-quote cap. Backlogs: `docs/creature-improvements.md`,
 `docs/content-index.md`. Maor, 2026-10-18: Full 3D is the flagship for the AAA art push (the
-default renderer is not changed; passes 1 and 2 below, both on branches awaiting Maor's merge).
+default renderer is not changed; passes 1 and 2 are on `main`, deployed since 2026-10-19). Review D
+(`docs/review-independent-2026-10-21.md`): fixed 2026-10-21 except bugs 2–3 (share-code Eternals,
+accepted by Maor). Maor, 2026-10-21: daily refreshes and free daily gifts are allowed; only
+repetitive daily quests are out. Hollow art backlog: `docs/hollow-graphics-recommendations-2026-10-21.md`.
+
+## Review D fixes (2026-10-21)
+
+From `docs/review-independent-2026-10-21.md`. Branches `fix/review-d-{sim,core,ui,3d,bundle,docs}`
+merged as `fix/review-d`. Works (sim items tested):
+- **Sim:** end-of-life checks wait while the away screen is up, then run one at a time 4 s apart
+  with an `endOfLifeFocus` event the camera follows (bug 1); Eternals never degenerate and a
+  reverted adult gets no second upgrade (4); catch-up fruit uses the live interval (36); saved
+  Keeper intents are cleared and never run in catch-up (37); Normal critters and essences add
+  Normal lean (38); symmetric alignment rounding (39); debug evolve and end of life (40);
+  `joinTeam` once (41); side stories honour Mature content; lantern posts are obstacles and
+  NPCs hold still while a scene is queued.
+- **Core:** saved ground painted on load and on import/reset, which also resyncs the Hollow (5);
+  the loop restarts after a hidden-tab catch-up (6); pointer capture, pick slop and grab cursor
+  (9); the Graphics pick survives blocked storage for the session, and the Settings switch says
+  why it can't reload (13); shake and CSS animations follow the in-game reduced motion via
+  `html.reduce-motion` (42); audio suspends while hidden (43); fullscreen and service-worker
+  cache writes are caught (44); global error watch with a gentle toast (46).
+- **UI:** clearer "hatch first" toast (7); language steps complete from their scenes and the
+  friend arrives before Chapter 1 (8); bugs 18, 20–35 and the UI half of 40; every control at
+  least 44 px; phone Close/Leave buttons at the bottom of the panel; toasts clear of headers;
+  the docked desktop sheet aims the camera past itself.
+- **Full 3D:** framed shots on hatch, evolve, cocoon and rebirth with posts and trunks thinning
+  (10); campaign scenes framed with the speakers, NPCs held and the hour taken from the
+  narration (11, `render3d/staging.ts`); a lit Hollow with emissive stairs, chest and loot (12);
+  a real memorial flower (14); kit buildings (15); a side-on race (16); gold shells and solid
+  wing films in the Expedition (17); a 3D photo portrait (19); Hollow materials cached (45).
+- **Load:** each Learning Grove band is its own chunk (a sprout slot needs about 1.3 MB gzip
+  before play, was 4.0 MB); a Free Grove with no story boots without waiting for story chunks.
+- **Rules:** CLAUDE.md, `docs/brief.md`, `docs/canon.md` (22), `docs/content-index.md`,
+  `STORY-BIBLE.md`, `plan.md` and the backlog prompt now allow daily refreshes and free daily gifts.
+
+Gate: lint clean, 623 tests (11 skipped), build. Headless Edge at 1280×800 and 375×812 in both
+modes: no console errors except three's own PMREM shader warning on D3D11 (bug 48; it comes
+from three.js, left), no control under 44 px. Stubbed: no gate model, so Corvin "at the gate"
+can't be staged; scenes carry no `set`/`time`/`at` staging data (3D reads the hour from the
+narration); buildings don't fade as occluders; Klee One tracing alignment was checked with a
+fallback font only. Known bugs: bugs 2 and 3 stay by decision. Not checked on a real phone.
 
 ## Full 3D art push 2: Hollow, buildings, sky, particles, rain (2026-10-19)
 
@@ -81,50 +122,6 @@ Stubbed: the cave's walls fade by sinking, not by dithering; the night spills ar
 off (a single lit campaign lantern lights its glass but not its pool). Known bugs: none new.
 Not checked on a real phone. The minigames' `GroveSky` gets the painted dome too, but it is not
 filmed there.
-
-## Full 3D art push 1: toon creatures, ground, water, governor (2026-10-18)
-
-Branch `art/3d-flagship`. Before and after: `docs/samples/art3d-before-after.jpg`. Works:
-- **Toon creatures:** the Grove's rigs build with the line-up toon bands (`GROVE3D.toon`):
-  - a stepped light rim;
-  - a share of the sky's diffuse light (without it they went near black);
-  - no sun shadow on themselves (speckle at this scale);
-  - screen-sized outlines on parts of 2,500+ triangles (`render3d/toon-outline.ts`, one
-    shared hull material).
-  `surfaceMaterial`/`toonMaterial` now carry `customProgramCacheKey`: toon and physical shared
-  one program before.
-- **Light:** the sky map is soft fill (0.38 by day, was 0.7, which washed the meadow mint) and
-  the hemisphere carries the fill (0.6). Night has more moon and fill, exposure 0.6.
-- **Ground and foliage (`aaa-kit.ts`, opt-in so the stage samples keep their look):**
-  - the meadow is painted toward lush and dry greens with an anti-tiling second sample
-    (`GROVE3D.terrainLook`);
-  - tufts are dark at the root, lit like the ground, and sink away 34–46 units from the
-    camera (`grassFade`);
-  - the field frays over its last 5 units (grass golden hash updated);
-  - canopies shade as rounded masses and sway in the wind; crowns.ts chains its dither
-    after that patch.
-- **Water (`render3d/water.ts`, rewritten):** unlit painted shader on fine grids that carry
-  the bed's depth:
-  - turquoise to deep blue, with foam tracing the real shoreline;
-  - procedural ripples with stepped crests, a sky fresnel and a hard sun spark;
-  - the stream gets its own thin foam, and the waterfall has its own falling streaks;
-  - the race's swim strips use it too (`paintedWater`, `channelGeometry`, opaque).
-- **CPU:**
-  - Ground height is now a lazily built 0.25-unit tile grid (`terrain-shape.ts`). The exact
-    sum, which had been 20% of a throttled frame, now only builds the mesh and the grass.
-  - The governor steps through CPU savings once fewer pixels stop helping:
-    1. outlines;
-    2. the second grass pass and bloom;
-    3. shadows every fourth frame.
-    Savings come back before sharpness, and one that was needed stays.
-- **Numbers (headless Edge, GTX 1080, 375×812 at 4× CPU throttle, two 10 s runs each, main →
-  this):** day 44.6/40.1 → 53.7/51.4 fps, zoomed out 42.2/42.5 → 44.7/43.1, night
-  46.7/42.5 → 49.7/47.3. Desktop holds 57 (headless cap). 583 tests, lint and build pass.
-
-Stubbed: the waterfall was not filmed close up (its streaks and foam are unverified on
-screen); rain still greys the grade; the Hollow, buildings, props, sky and particles are
-untouched (next passes); visit-set trees do not sway (no clock there). Known bugs: none new.
-Not checked on a real phone.
 
 ## Standing approval (Maor, 2026-10-12)
 
