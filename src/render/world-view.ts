@@ -1,5 +1,6 @@
 import { memorialSpot } from './memorial-spot';
 import { Vector3 } from 'three';
+import { Y_STATE } from './dress-y-state';
 import { nubbinSits } from '../config/npc-looks';
 import { DUNGEON, EGG, LIFECYCLE, UI } from '../config/tuning';
 import { childHint } from '../sim/alignment';
@@ -419,9 +420,10 @@ export class WorldView {
       const lampsOn = this.lights.length > 0;
       for (const s of SCENERY) {
         if (isSceneryHidden(s.kind)) continue;
-        const litKey = lampsOn
-          ? scenery.frames.get(frameKey(`${s.kind}-lit`, 'front', 0))
-          : undefined;
+        const litKey =
+          lampsOn && !(Y_STATE.windowsOut && s.pick?.kind === 'building')
+            ? scenery.frames.get(frameKey(`${s.kind}-lit`, 'front', 0))
+            : undefined;
         const rect = litKey ?? scenery.frames.get(frameKey(s.kind, 'front', 0));
         if (!rect) continue;
         const sway = s.sway ? Math.sin(nowMs / 1400 + s.x) * s.sway : 0;

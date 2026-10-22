@@ -20,6 +20,46 @@ export interface LampSource {
   decay: number;
 }
 
+/**
+ * Campaign graphics 2 (H13, C5): which of the host's own sources are dark or dimmed this
+ * frame. Package y's 3D dressing fills it before the pool is placed, from the same lantern
+ * states package e reads (`lanternLights`); the host builds a light for every post and
+ * window regardless of state, so "lamps go out" never showed. A post at `level` 0 drops its
+ * pool light, 1 leaves it, between scales it. `windows` 0 drops every window source.
+ */
+export const LAMP_STATE: {
+  posts: Array<{ x: number; z: number; level: number }>;
+  windows: number;
+  radius: number;
+} = { posts: [], windows: 1, radius: 1.2 };
+
+/** The host's decay values: its lantern sources use 1.4, its window sources 1.6. */
+const LANTERN_DECAY = 1.4;
+const WINDOW_DECAY = 1.6;
+
+/** `sources` after the dark and dimmed lamps are taken out (a new list only if one changed). */
+export function filterLamps(sources: readonly LampSource[]): readonly LampSource[] {
+  const st = LAMP_STATE;
+  if (st.posts.every((p) => p.level >= 1) && st.windows >= 1) return sources;
+  const r2 = st.radius * st.radius;
+  const out: LampSource[] = [];
+  for (const s of sources) {
+    if (s.decay === WINDOW_DECAY) {
+      if (st.windows <= 0) continue;
+      out.push(st.windows >= 1 ? s : { ...s, intensity: s.intensity * st.windows });
+      continue;
+    }
+    if (s.decay !== LANTERN_DECAY) {
+      out.push(s);
+      continue;
+    }
+    const post = st.posts.find((p) => (p.x - s.x) ** 2 + (p.z - s.z) ** 2 < r2);
+    if (!post || post.level >= 1) out.push(s);
+    else if (post.level > 0) out.push({ ...s, intensity: s.intensity * post.level });
+  }
+  return out;
+}
+
 export class LampPool {
   private readonly lights: THREE.PointLight[] = [];
 
@@ -49,7 +89,8 @@ export class LampPool {
   }
 
   /** Give the lights to the sources nearest `focus`; the pool hides when there are none. */
-  place(sources: readonly LampSource[], focus: THREE.Vector3): void {
+  place(all: readonly LampSource[], focus: THREE.Vector3): void {
+    const sources = filterLamps(all);
     const on = sources.length > 0;
     const near = on
       ? [...sources]
