@@ -23,7 +23,9 @@ export type ParticleKind =
   | 'rain'
   | 'snow'
   | 'note'
-  | 'splash';
+  | 'splash'
+  | 'mote'
+  | 'ember';
 
 export const PARTICLE_FRAMES: Record<ParticleKind, number> = {
   dust: 3,
@@ -39,6 +41,9 @@ export const PARTICLE_FRAMES: Record<ParticleKind, number> = {
   snow: 2,
   note: 2,
   splash: 2,
+  // The Hollow's air (item 39): one still frame each, so nothing strobes.
+  mote: 1,
+  ember: 1,
 };
 
 function draw(kind: ParticleKind, f: number): PixelCanvas {
@@ -140,6 +145,18 @@ function draw(kind: ParticleKind, f: number): PixelCanvas {
       pc.thinLine(c, c + 1.5, c, c - 2.5, C.sunYellow);
       pc.thinLine(c, c - 2.5, c + 2, c - 1.8, C.sunYellow);
       if (f === 1) pc.dot(c + 2.5, c - 1, C.white);
+      break;
+    case 'mote':
+      // A speck of cave dust: two pale pixels and a dimmer one beside them.
+      pc.px(c, c, C.pale);
+      pc.px(c + 1, c, C.pale);
+      pc.px(c - 1, c, C.sand);
+      break;
+    case 'ember':
+      // A torch ember: a hot pixel with a dull tail beneath it.
+      pc.px(c, c - 1, C.sunLight);
+      pc.px(c, c, C.orange);
+      pc.px(c, c + 1, C.ember);
       break;
     case 'splash':
       pc.ellipse(c, c + 1, f === 0 ? 1.4 : 2.6, 0.7, C.skyLight);

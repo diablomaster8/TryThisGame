@@ -493,6 +493,41 @@ export const GROVE3D = {
         { tex: 'slate', freq: 3.4, amount: 0.9, warp: 1.4, thick: 0.6, fungus: 0.7 },
       ] as const,
     },
+    /**
+     * Pixel mode's Hollow (`render/paint/dungeon.ts`, `render/cave-ambience.ts`, items 37 to 39).
+     * Walls stand `wallH` tall (the old ones were 1.4) and take their painted face from a strata
+     * texture `faceW` x `faceH` px that covers `faceUnitsW` world units across. Walls between the
+     * camera and the Keeper sink to `cutHeight` of their height inside a `cutWidth`-wide strip
+     * (`cutSoft` is the soft edge, `cutExtra` extra reach). `landmarkScale` enlarges the landmark sprites; `sconceY` is the height of the wall
+     * torches and their lamps. `vistaLip` and `vistaSink` are the lip and the chasm of a vista.
+     * `ledge` is the lit lip and `ledgeShadow` the shadowed foot (px) of a terrace edge, and
+     * `elevTint` the brightness per world unit of height. Ambience: `motes` drifting dust near the
+     * Keeper, `drips` falling from wall lips and `embers` rising off torches, each with a spawn
+     * rate a second; `reach` is how far from the Keeper they are made.
+     */
+    pixel: {
+      wallH: 3.6,
+      cutHeight: 0.2,
+      cutWidth: 3.2,
+      cutSoft: 1.2,
+      cutExtra: 2.4,
+      sconceY: 1.9,
+      landmarkScale: 1.3,
+      faceW: 192,
+      faceH: 128,
+      faceUnitsW: 5.333,
+      vistaLip: 0.45,
+      vistaSink: -1.1,
+      ledge: 2,
+      ledgeShadow: 5,
+      elevTint: 0.22,
+      ambience: {
+        reach: 9,
+        motes: { rate: 3, life: 5200, size: 0.16 },
+        drips: { rate: 0.6, life: 1100, size: 0.3 },
+        embers: { rate: 1.6, life: 1500, size: 0.2 },
+      },
+    },
   },
   /**
    * The painted sky (`render3d/sky.ts`): a zenith-to-horizon gradient per time of day, a
