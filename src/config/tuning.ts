@@ -752,7 +752,7 @@ export const RACE3D = {
   /** World units per track unit (a course is 40 to 50 units long). */
   unitsPerTrack: 1.0,
   /** Depth between lanes, and the track's margin beyond the outer lanes. */
-  laneGap: 1.5,
+  laneGap: 2.1,
   margin: 1.6,
   /** A climb section rises this much over its length; the track stays up after it. */
   climbRise: 2.2,
@@ -771,10 +771,11 @@ export const RACE3D = {
   camera: {
     lookAhead: 1.2,
     lookHeight: 0.5,
-    // Steep enough that each lane sits clear above the one in front (review B, bug 27):
-    // a lane gap shows as gap × sin(pitch) on screen, and the field is framed whole.
-    pitchDeg: 38,
-    height: 9.5,
+    // Low enough to read as a side view with faces (review 2026-10-21, bug 16), and the
+    // lanes wide enough that each still sits clear above the one in front (review B,
+    // bug 27): a lane gap shows as gap × sin(pitch) on screen.
+    pitchDeg: 26,
+    height: 10.5,
     minSpan: 7,
     followRate: 5,
     fovDeg: 42,
@@ -1440,4 +1441,6 @@ export const READ3D = {
     pitchDeg: 42,
   },
   memorial: { height: 1.15, glow: 0.55 },
+  /** Racers and the Expedition runner turn this far from side-on toward the camera. */
+  faceTurn: 0.55,
 } as const;

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { GROVE3D, RACE3D } from '../config/tuning';
+import { GROVE3D, RACE3D, READ3D } from '../config/tuning';
 import { SECTION_LABELS } from '../config/strings';
 import type { RaceView } from '../minigames/race/view';
 import type { Rigged } from '../samples/species';
@@ -192,7 +192,8 @@ export class Race3dView implements RaceView {
       r.compiling = true;
       rig.ground = (x) => trackHeight(this.spans, x / U);
       rig.setPose('idle');
-      rig.face(Math.PI / 2);
+      // Three-quarters to the camera, so the face reads (bug 16).
+      rig.face(Math.PI / 2 - READ3D.faceTurn);
       void stage.compile([rig.group]).then(() => {
         if (this.stage !== stage) return;
         r.compiling = false;

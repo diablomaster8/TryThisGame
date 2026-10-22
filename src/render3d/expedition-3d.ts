@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { EXPEDITION3D } from '../config/tuning';
+import { EXPEDITION3D, READ3D } from '../config/tuning';
 import { NAMES } from '../config/strings';
 import type { ExpeditionTheme, ExpeditionView } from '../minigames/expedition/view';
 import { progressOf, type RunState, type ThingKind } from '../minigames/expedition/run';
@@ -137,7 +137,8 @@ export class Expedition3dView implements ExpeditionView {
       this.rig = rig;
       rig.ground = () => 0;
       rig.setPose('walk');
-      rig.face(Math.PI / 2);
+      // Three-quarters to the camera, so the face reads (bug 16).
+      rig.face(Math.PI / 2 - READ3D.faceTurn);
       this.compilingRig = true;
       void stage.compile([rig.group]).then(() => {
         if (this.stage !== stage) return;
@@ -221,7 +222,7 @@ export class Expedition3dView implements ExpeditionView {
       switch (thing.kind) {
         case 'shell':
           o.position.set(w.x, w.y + 0.1 + bob, 0);
-          o.rotation.set(0.5, t * 1.8 + thing.id, 0);
+          o.rotation.set(0, t * 1.8 + thing.id, 0);
           o.scale.setScalar(EXPEDITION3D.shellRadius);
           break;
         case 'essence':
