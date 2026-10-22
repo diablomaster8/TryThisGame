@@ -25,6 +25,8 @@ export const CG4_U4 = {
     h: 128,
     /** Lines on a request card, and the cards shown. */
     cards: 6,
+    /** How far (world x) Logged In's scoreboard stands from the message board, so neither hides the other. */
+    scoreDx: -2.7,
     /** World size of the face, its bottom edge and how far it stands off the board (pixel, 3D). */
     pixel: { w: 2.75, h: 2, bottom: 0.75, forward: 0.06 },
     three: { w: 1.38, h: 0.86, bottom: 0.67, forward: 0.052 },
