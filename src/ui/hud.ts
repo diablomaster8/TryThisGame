@@ -641,7 +641,7 @@ export function mountHud(
         holdRenderWhile(
           g,
           dialogue.isOpen || away.isOpen || photo.isOpen(),
-          `${g.world.location}|${g.world.campaign?.queue[0] ?? ''}|${dialogue.speaker ?? ''}`,
+          `${g.world.location}|${g.world.campaign?.queue[0] ?? ''}|${dialogue.speaker ?? ''}|${dialogue.line > 0}`,
         );
         setAmbience(
           dialogue.isOpen || expedition.isOpen || races.screen.isOpen || karate.screen.isOpen
@@ -705,6 +705,7 @@ export function mountHud(
       // On desktop the sheet docks on the right third: aim past it so the Nubbin stays clear.
       g.cameraSide = !sheet.root.hidden && window.innerWidth >= 720 ? CAMERA.sheetSide : 0;
       g.storySpeaker = dialogue.speaker;
+      g.storyLine = dialogue.line;
       // The Run and camera buttons sit under the dialogue box on a phone: hide them meanwhile.
       document.documentElement.classList.toggle('dialogue-open', dialogue.isOpen);
       if (g.placing) placingText.textContent = UI_TEXT.placing(placingLabel(g.placing));

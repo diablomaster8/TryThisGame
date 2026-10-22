@@ -113,6 +113,11 @@ export class Dialogue {
     return this.isOpen ? (this.lines[this.index]?.who ?? null) : null;
   }
 
+  /** The line on screen's index in its scene (0 on the first, and while closed). */
+  get line(): number {
+    return this.isOpen ? this.index : 0;
+  }
+
   get isOpen(): boolean {
     return !this.root.hidden;
   }

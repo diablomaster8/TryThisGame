@@ -285,6 +285,8 @@ export class Actors {
   keeperHold: Vec2 | null = null;
   /** A story scene's drawn spots for cast Nubbins, by id, or null. */
   nubbinHolds: ReadonlyMap<string, Vec2> | null = null;
+  /** A story scene's drawn facing for the held Keeper (H7), or null for the sim's. */
+  keeperFace: number | null = null;
 
   keeperDrawPos(world: World, alpha: number): Vec2 {
     if (this.keeperHold) return { x: this.keeperHold.x, z: this.keeperHold.z };
@@ -823,7 +825,7 @@ export class Actors {
         : this.keeperMoving
           ? 'walk'
           : 'idle';
-    this.driveKeeper(this.keeper!, kPose, kp, keeper.facing, t, dt);
+    this.driveKeeper(this.keeper!, kPose, kp, this.keeperFace ?? keeper.facing, t, dt);
     this.updateKeeper2(world, alpha, t, dt);
     // Stand-ins shimmer while they wait.
     this.kit.pulseStands(t);

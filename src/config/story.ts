@@ -50,17 +50,24 @@ export type StagePlace =
   | 'fold'
   | 'green'
   | 'guardhouse'
-  | 'rootNode';
+  | 'rootNode'
+  /** The Beetle Road's Hollow Below scenes (C4): a set drawn over the Grove's ground. */
+  | 'below'
+  /** Hazel ch12's festival ring round the picnic (H9). */
+  | 'festival';
 
 /** One figure on a mark: who (a speaker id), where, facing whom, doing what. */
 export interface StageCast {
+  /** Any speaker id: Hazel's ('fern', 'moss'…), a storyline's ('b-hob'…) or 'you'. */
   who: string;
   /** A mark name from config/stage-marks.ts. */
   mark: string;
   /** A speaker id to turn to ('you' is the Keeper); else the mark's own yaw. */
   face?: string;
   pose?: 'stand' | 'sit' | 'kneel' | 'walk';
-  carry?: 'lantern' | 'bucket' | 'bag' | 'pie';
+  carry?: 'lantern' | 'bucket' | 'bag' | 'pie' | 'broom' | 'notebook' | 'egg' | 'keys';
+  /** A look over the figure (C6): 'weathered' greys it, as Moss while "the grey shape". */
+  tint?: 'weathered';
 }
 
 export type ShotKind = 'establish' | 'wide' | 'two' | 'close' | 'over';
@@ -78,15 +85,35 @@ export interface SceneStage {
   weather?: 'clear' | 'rain' | 'snow' | 'frost' | 'wind';
   /** Who stands where, facing whom, doing what (C5, M6, H4). */
   cast?: StageCast[];
-  /** Camera (H8, H14). `focus` defaults to the speakers; `yaw` is radians, world frame. */
-  shot?: { kind: ShotKind; focus?: string[]; yaw?: number };
-  /** Props to show or set (story props, the gate, the shelf, bowls…). */
-  props?: Record<string, 'show' | 'hide' | 'open' | 'shut' | 'lit' | 'out'>;
-  /** Named lights (H3): lantern-1..4, windows, the porch. */
-  lights?: Record<string, 'lit' | 'out' | 'flicker'>;
+  /**
+   * Camera (H8, H14). `focus` defaults to the speakers; `yaw` is radians, world frame.
+   * `then` (H5) is the shot after the first line advance: default 'two' after an
+   * 'establish'. `fit` (H4) fits every focus point inside the HUD-safe area: default true
+   * for 'establish' and 'wide'.
+   */
+  shot?: { kind: ShotKind; focus?: string[]; yaw?: number; then?: ShotKind; fit?: boolean };
+  /**
+   * Props to show or set (story props, the gate, the shelf, bowls…). Keys added for the
+   * second pass: pondIce, hush, banners, cart, chair, shutters, lanternString, board
+   * (which takes 'final'), door.
+   */
+  props?: Record<string, 'show' | 'hide' | 'open' | 'shut' | 'lit' | 'out' | 'final'>;
+  /** Named lights (H3): lantern-1..4, `windows` (C5, M6), the porch. */
+  lights?: Record<string, 'lit' | 'out' | 'flicker'> & { windows?: 'lit' | 'out' };
+  /**
+   * Draw only the set (C3, C4): the renderers hide the Grove's terrain, buildings,
+   * scenery, water and every NPC not in `cast`, so a dressing can draw a void or a cave.
+   */
+  exclusive?: boolean;
+  /** A campaign's landmark kit (H3): Grove-only buildings (config/stage-sets.ts) hide. */
+  set?: 'fold' | 'logged' | 'beetle' | 'dawndusk';
+  /** A kit id for the close-up cutaway (M9). */
+  item?: string;
+  /** Seconds of postcard hold before the first line (N1). */
+  hold?: number;
   /** Held effects (H6, M5): no pulsing; each has a still form under reduced motion. */
   fx?: Array<'fallsStill' | 'stoneGlow' | 'goldWater' | 'fireflies' | 'seed' | 'breath'>;
-  /** Campaign look override (H18), e.g. ch9–11 grey-blue. */
+  /** Campaign look override (H18), e.g. ch9–11 grey-blue; 'crisp' for cold mornings (M10). */
   grade?: string;
   /** How to arrive: cut (default) or a short fade. */
   transition?: 'cut' | 'fade';

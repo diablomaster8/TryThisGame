@@ -26,6 +26,8 @@ import { bubbleFor, type EmoteShape } from './sprites/emote';
 import { buildShadowSheet } from './sprites/props';
 import { SheetCache } from './sprites/sheets';
 import { terraceY, type SceneStager } from './scene-stage';
+import { PIXEL_BUILDINGS, PIXEL_VIEW, rectOf } from './stage-api';
+import { STAGE2 } from '../config/tuning';
 
 interface Snapshot {
   pos: Vec2;
@@ -141,6 +143,25 @@ export class WorldView {
   /** Which neighbour is being visited, if any (their Nubbins are render-only). */
   get visiting(): string | null {
     return this.location.startsWith('visit:') ? this.location.slice('visit:'.length) : null;
+  }
+
+  /**
+   * Centre the building fade's dither circle (campaign graphics 2) on the framed cast, or
+   * the Keeper, and keep the camera for the dressings' world-to-screen function.
+   */
+  private aimDither(world: World, camera: OrbitCamera, alpha: number): void {
+    PIXEL_VIEW.camera = camera.camera;
+    const st = this.staging;
+    const pts = st?.active ? st.frame(world) : [this.keeperDrawPos(world, alpha)];
+    const cx = pts.reduce((a, p) => a + p.x, 0) / Math.max(1, pts.length);
+    const cz = pts.reduce((a, p) => a + p.z, 0) / Math.max(1, pts.length);
+    this.tmp.set(cx, 1, cz).project(camera.camera);
+    this.batch.ditherCircle.value.set(this.tmp.x, this.tmp.y);
+    const spread = Math.max(0, ...pts.map((p) => Math.hypot(p.x - cx, p.z - cz)));
+    this.batch.ditherRadius.value = Math.min(
+      0.45,
+      STAGE2.fadeRadius + spread / Math.max(1, camera.visibleHeight),
+    );
   }
 
   /** The Keeper's position as drawn this frame (between sim steps). */
@@ -351,7 +372,29 @@ export class WorldView {
     };
 
     const home = this.location === 'grove';
-    const inGrove = home || this.visiting !== null;
+    // An exclusive stage (campaign graphics C3, C4) draws only its set: no Grove scenery,
+    // garden, critters or items, and no NPC outside its cast.
+    const bare = this.staging?.exclusive ?? false;
+    const inGrove = (home || this.visiting !== null) && !bare;
+    this.aimDither(world, camera, alpha);
+    const buildings = PIXEL_BUILDINGS;
+    /** Draw a building sprite through the registry: hidden, thinned, its rect kept. */
+    const drawBuilding = (
+      id: string,
+      kind: string,
+      d: Parameters<SpriteBatch['draw']>[0],
+      pick?: Parameters<SpriteBatch['draw']>[1],
+    ): void => {
+      buildings.define(id, kind, d.x, d.z);
+      if (buildings.isHidden(id)) {
+        buildings.setRect(id, null);
+        return;
+      }
+      const fade = buildings.fadeOf(id);
+      batch.draw(fade > 0 ? { ...d, dither: fade } : d, pick);
+      const corners = batch.lastCorners;
+      buildings.setRect(id, corners ? rectOf(camera.camera, corners) : null);
+    };
     const run = this.location === 'dungeon' ? world.dungeon : null;
     const cave = run ? this.cave : null;
     const underground = cave !== null;
@@ -389,21 +432,21 @@ export class WorldView {
             s.size * (s.kind.startsWith('tree') ? 0.3 : 0.42),
           );
         }
-        batch.draw(
-          {
-            sheet: scenery,
-            rect,
-            flip: false,
-            x: s.x + sway,
-            y: 0,
-            z: s.z,
-            mode: 'billboard',
-            w: s.size,
-            h: (s.size * rect.h) / rect.w,
-            tint: this.lightAt(s.x, s.z),
-          },
-          s.pick,
-        );
+        const sprite = {
+          sheet: scenery,
+          rect,
+          flip: false,
+          x: s.x + sway,
+          y: 0,
+          z: s.z,
+          mode: 'billboard' as const,
+          w: s.size,
+          h: (s.size * rect.h) / rect.w,
+          tint: this.lightAt(s.x, s.z),
+        };
+        const bid = s.pick?.kind === 'building' ? s.pick.id : s.kind === 'well' ? 'well' : null;
+        if (bid) drawBuilding(bid, s.kind, sprite, s.pick);
+        else batch.draw(sprite, s.pick);
       }
       // The village square fills in as prosperity grows.
       const unlocks = townUnlocks(world);
@@ -490,14 +533,16 @@ export class WorldView {
     const flower = props.frames.get(frameKey('flower', 'front', 0));
     // Placed garden pieces, tappable so they can be picked up again.
     const scenerySheet = this.sheets.scenery();
-    for (const d of home ? world.placed : []) {
+    for (const d of home && !bare ? world.placed : []) {
       if (d.kind === 'nursery' || d.kind === 'bathhouse' || d.kind === 'workshop') {
         const brect =
           (this.lights.length > 0
             ? scenerySheet.frames.get(frameKey(`${d.kind}-lit`, 'front', 0))
             : undefined) ?? scenerySheet.frames.get(frameKey(d.kind, 'front', 0));
         if (!brect) continue;
-        batch.draw(
+        drawBuilding(
+          d.kind,
+          d.kind,
           {
             sheet: scenerySheet,
             rect: brect,
@@ -534,7 +579,7 @@ export class WorldView {
       );
     }
     // The side stories' props: the trowel on the step, the door in the Old Wall...
-    for (const p of home ? visibleStoryProps(world) : []) {
+    for (const p of home && !bare ? visibleStoryProps(world) : []) {
       const rect = props.frames.get(frameKey(`prop-${p.kind}`, 'front', 0));
       if (!rect) continue;
       batch.draw(
@@ -551,7 +596,7 @@ export class WorldView {
         { id: p.id, kind: 'storyProp' },
       );
     }
-    for (const m of home ? world.memorials : []) {
+    for (const m of home && !bare ? world.memorials : []) {
       if (flower) {
         batch.draw(
           {
@@ -570,7 +615,7 @@ export class WorldView {
     }
 
     // Orchard trees and crop rows, tappable to water or harvest.
-    for (const p of home ? world.plants : []) {
+    for (const p of home && !bare ? world.plants : []) {
       const rect = props.frames.get(frameKey(`${p.kind}Stage${p.stage}`, 'front', 0));
       if (!rect) continue;
       const size = p.kind === 'tree' ? 1 + p.stage * 0.45 : 1.1;
@@ -593,7 +638,7 @@ export class WorldView {
       );
     }
     // Wild visitors looking around their patch.
-    for (const w of home ? world.wild : []) {
+    for (const w of home && !bare ? world.wild : []) {
       const wsheet = this.sheets.species(w.species);
       const facing = Math.sin(nowMs / 2300 + w.pos.z) * 1.2;
       const wview = viewAngle(facing, yaw);
@@ -682,8 +727,10 @@ export class WorldView {
 
     // Items.
     const seenItems = new Set<string>();
-    for (const item of world.items.filter((i) =>
-      home ? i.kind !== 'notebook' : !this.visiting && !underground && i.kind === 'notebook',
+    for (const item of world.items.filter(
+      (i) =>
+        !bare &&
+        (home ? i.kind !== 'notebook' : !this.visiting && !underground && i.kind === 'notebook'),
     )) {
       seenItems.add(item.id);
       let prev = this.items.get(item.id);
@@ -747,7 +794,10 @@ export class WorldView {
           : this.location === 'corvin'
             ? t === 'corvin' || t === 'ember'
             : t === 'nova';
-    for (const npc of world.npcs.filter((p) => npcHere(p.trainer))) {
+    const cast = this.staging?.castIds;
+    for (const npc of world.npcs.filter(
+      (p) => npcHere(p.trainer) && (!bare || !!cast?.has(p.trainer)),
+    )) {
       const nsheet = this.sheets.keeper(npc.trainer);
       // In a story scene the cast is drawn on its marks, or brought in beside the Keeper
       // (render/scene-stage.ts); the sim's NPC stays where it is.
@@ -779,7 +829,7 @@ export class WorldView {
     }
 
     // Ambient creatures of the other places: the Hollow's strays, Corvin's rows.
-    if (!inGrove && !underground) this.drawAmbient(nowMs, yaw, shadow);
+    if (!inGrove && !underground && !bare) this.drawAmbient(nowMs, yaw, shadow);
 
     // Keeper.
     const k = world.keeper;
@@ -794,7 +844,9 @@ export class WorldView {
       this.keeperClipStart = nowMs;
     }
     const kclip: ClipName = moving ? 'walk' : 'idle';
-    const kview = viewAngle(k.facing, yaw);
+    // A scene that holds the Keeper on a mark turns them to whom it is with (H7).
+    const kface = this.staging?.active ? this.staging.keeperFace : null;
+    const kview = viewAngle(kface ?? k.facing, yaw);
     const krect = ksheet.frames.get(
       frameKey(
         kclip,

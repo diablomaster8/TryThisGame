@@ -4,7 +4,9 @@ import {
   DynamicDrawUsage,
   Mesh,
   MeshBasicMaterial,
+  Vector2,
   Vector3,
+  Vector4,
 } from 'three';
 import { CAMERA } from '../config/tuning';
 import type { FrameRect, SpriteSheet } from './sprites/atlas';
@@ -29,6 +31,11 @@ export interface SpriteDraw {
   opacity?: number;
   /** Brightness 0..1 multiplied into the vertex colour (night dimming). */
   tint?: number;
+  /**
+   * Checkerboard thinning 0..1 inside the batch's dither circle (`ditherCircle`): 1 drops
+   * every other pixel, as a building fades from in front of the cast (campaign graphics 2).
+   */
+  dither?: number;
 }
 
 /** A sprite's four corners as drawn, kept for CPU picking. */
@@ -74,7 +81,16 @@ export class SpriteBatch {
   private positions = new Float32Array(this.capacity * 12);
   private uvs = new Float32Array(this.capacity * 8);
   private colors = new Float32Array(this.capacity * 16);
+  private dithers = new Float32Array(this.capacity * 4);
   private indices = new Uint16Array(this.capacity * 6);
+  /**
+   * Where sprites drawn with `dither` thin: x, y the centre in NDC, z the radius as a share
+   * of the view's height. Set each frame by the WorldView (round the framed cast).
+   */
+  readonly ditherCircle = { value: new Vector2(0, 0) };
+  readonly ditherRadius = { value: 0 };
+  private readonly viewport = { value: new Vector2(1, 1) };
+  private readonly vp = new Vector4();
   private readonly right = new Vector3();
   private readonly up = new Vector3();
   /** What each quad of this frame shows, so its UVs can be rebuilt after an atlas repack. */
@@ -95,8 +111,42 @@ export class SpriteBatch {
     });
     this.mesh = new Mesh(geometry, material);
     this.mesh.frustumCulled = false;
+    material.onBeforeCompile = (shader) => {
+      shader.uniforms.uDitherC = this.ditherCircle;
+      shader.uniforms.uDitherR = this.ditherRadius;
+      shader.uniforms.uViewport = this.viewport;
+      shader.vertexShader = shader.vertexShader
+        .replace(
+          '#include <common>',
+          '#include <common>\nattribute float dither;\nvarying float vDither;',
+        )
+        .replace('#include <begin_vertex>', '#include <begin_vertex>\nvDither = dither;');
+      shader.fragmentShader = shader.fragmentShader
+        .replace(
+          '#include <common>',
+          '#include <common>\nuniform vec2 uDitherC;\nuniform float uDitherR;\nuniform vec2 uViewport;\nvarying float vDither;',
+        )
+        .replace(
+          '#include <clipping_planes_fragment>',
+          `#include <clipping_planes_fragment>
+          if (vDither > 0.0) {
+            vec2 ndc = gl_FragCoord.xy / uViewport * 2.0 - 1.0;
+            vec2 d = (ndc - uDitherC) * vec2(uViewport.x / uViewport.y, 1.0) * 0.5;
+            if (length(d) < uDitherR) {
+              vec2 c = mod(floor(gl_FragCoord.xy), 2.0);
+              float b = c.y < 0.5 ? (c.x < 0.5 ? 0.0 : 0.5) : (c.x < 0.5 ? 0.75 : 0.25);
+              if (b < vDither * 0.5) discard;
+            }
+          }`,
+        );
+    };
+    material.customProgramCacheKey = () => 'sprite-batch|dither';
     // New sheets upload only their own region, just before the batch is drawn.
-    this.mesh.onBeforeRender = (renderer) => this.atlas.flush(renderer);
+    this.mesh.onBeforeRender = (renderer) => {
+      this.atlas.flush(renderer);
+      renderer.getCurrentViewport(this.vp);
+      this.viewport.value.set(Math.max(1, this.vp.z), Math.max(1, this.vp.w));
+    };
   }
 
   private fillAttributes(geometry: BufferGeometry): void {
@@ -110,6 +160,10 @@ export class SpriteBatch {
     );
     geometry.setAttribute('uv', new BufferAttribute(this.uvs, 2).setUsage(DynamicDrawUsage));
     geometry.setAttribute('color', new BufferAttribute(this.colors, 4).setUsage(DynamicDrawUsage));
+    geometry.setAttribute(
+      'dither',
+      new BufferAttribute(this.dithers, 1).setUsage(DynamicDrawUsage),
+    );
     geometry.setIndex(new BufferAttribute(this.indices, 1));
   }
 
@@ -121,9 +175,12 @@ export class SpriteBatch {
     uvs.set(this.uvs);
     const colors = new Float32Array(this.capacity * 16);
     colors.set(this.colors);
+    const dithers = new Float32Array(this.capacity * 4);
+    dithers.set(this.dithers);
     this.positions = positions;
     this.uvs = uvs;
     this.colors = colors;
+    this.dithers = dithers;
     this.indices = new Uint16Array(this.capacity * 6);
     this.mesh.geometry.dispose();
     this.mesh.geometry = new BufferGeometry();
@@ -169,6 +226,7 @@ export class SpriteBatch {
         | 'storyProp';
     },
   ): void {
+    this.lastCorners = null;
     // Placing may evict and repack; then the quads already drawn this frame re-ask their UVs.
     if (!this.atlas.place(d.sheet)) return;
     if (this.atlas.generation !== this.uvGeneration) this.refreshUvs();
@@ -212,6 +270,8 @@ export class SpriteBatch {
     const a = d.opacity ?? 1;
     const b = d.tint ?? 1;
     for (let c = 0; c < 4; c++) this.colors.set([b, b, b, a], i * 16 + c * 4);
+    this.dithers.fill(d.dither ?? 0, i * 4, i * 4 + 4);
+    this.lastCorners = corners;
     if (pick) {
       this.quads.push({
         id: pick.id,
@@ -242,6 +302,9 @@ export class SpriteBatch {
     }
   }
 
+  /** The last drawn sprite's corners (for a renderer that wants its screen rect). */
+  lastCorners: [Vector3, Vector3, Vector3, Vector3] | null = null;
+
   /** Corners in order: top-left, top-right, bottom-left, bottom-right. */
   private cornersFor(d: SpriteDraw, w: number, h: number): [Vector3, Vector3, Vector3, Vector3] {
     const hw = w / 2;
@@ -264,7 +327,7 @@ export class SpriteBatch {
   /** Finish the frame: upload and set the draw range. */
   end(): void {
     const g = this.mesh.geometry;
-    for (const name of ['position', 'uv', 'color'] as const) {
+    for (const name of ['position', 'uv', 'color', 'dither'] as const) {
       (g.getAttribute(name) as BufferAttribute).needsUpdate = true;
     }
     g.setDrawRange(0, this.count * 6);

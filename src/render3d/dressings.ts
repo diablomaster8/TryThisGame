@@ -4,12 +4,20 @@ import type { Daylight } from '../render/daylight';
 import type { Tex } from '../samples/aaa-kit';
 import type { World } from '../sim/types';
 import type { LampSource } from './lamp-pool';
+import type { ScreenRect, StageBuildings } from '../render/stage-api';
 import { dress3dA } from './dress-a';
 import { dress3dB } from './dress-b';
 import { dress3dC } from './dress-c';
 import { dress3dD } from './dress-d';
 import { dress3dE } from './dress-e';
 import { dress3dF } from './dress-f';
+import { dress3dP } from './dress-p';
+import { dress3dS } from './dress-s';
+import { dress3dK } from './dress-k';
+import { dress3dW } from './dress-w';
+import { dress3dX } from './dress-x';
+import { dress3dY } from './dress-y';
+import { dress3dU } from './dress-u';
 
 /**
  * FULL 3D DRESSING REGISTRY (campaign graphics, wave 0). How a package adds story dressing
@@ -52,6 +60,12 @@ export interface Dress3dCtx {
   time: { value: number };
   /** Link `obj`'s programs for every light set in use, without blocking. */
   compile: (obj: THREE.Object3D) => Promise<unknown>;
+  /** Second pass (cg2-api.md): the Grove's buildings, to list, hide and thin. */
+  buildings: StageBuildings;
+  /** The camera the Grove is drawn with (read it; never move it). */
+  camera: THREE.PerspectiveCamera;
+  /** The view's HUD-safe rectangle in CSS pixels (below the top bar, above the dialogue). */
+  safeRect: () => ScreenRect;
 }
 
 export interface Dressing3d {
@@ -68,13 +82,20 @@ export const DRESSINGS_3D: readonly Dressing3d[] = [
   dress3dD,
   dress3dE,
   dress3dF,
+  dress3dP,
+  dress3dS,
+  dress3dK,
+  dress3dW,
+  dress3dX,
+  dress3dY,
+  dress3dU,
 ];
 
 /** Runs the registry for one 3D scene: build once, update per frame, dispose at the end. */
 export class Dressings3d {
   private built = false;
 
-  /** Every package's dressing, in a fixed order (a to f). */
+  /** Every package's dressing, in a fixed order (a to f, then the second pass's p..u). */
   constructor(private readonly list: readonly Dressing3d[] = DRESSINGS_3D) {}
 
   build(ctx: Dress3dCtx): void {
