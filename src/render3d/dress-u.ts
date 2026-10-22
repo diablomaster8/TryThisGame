@@ -19,7 +19,7 @@ const own: THREE.Material[] = [];
 const CREAM = '#f3ead2';
 
 /** The item upright, facing +z, about one unit tall, origin at its centre. */
-function buildItem(tex: Tex, kind: string): THREE.Group | null {
+export function buildItem(tex: Tex, kind: string): THREE.Group | null {
   const P = new Parts(tex);
   switch (kind) {
     case 'letter': {
