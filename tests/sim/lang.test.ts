@@ -141,8 +141,44 @@ describe('language quests (CV3)', () => {
     for (const id of langQuestIds()) expect(c(world).fun[id], id).toBeUndefined();
     applyCommand(world, { kind: 'langStart', course: 'japanese' }, events);
     playCourse(world, events, () => c(world).fun.lj1 !== undefined);
-    expect(c(world).fun.lj1?.status).toBe('open');
+    // Its steps are met by its own scenes, so it may already be through (bug 8).
+    expect(c(world).fun.lj1?.status).toMatch(/open|done/);
     expect(c(world).fun.lh1).toBeUndefined();
+  });
+
+  it('a fresh Learning Grove meets Hana before Chapter 1, and her scenes meet their steps', () => {
+    const { world, events } = eduWorld();
+    applyCommand(world, { kind: 'langStart', course: 'japanese' }, events);
+    const first = sideStory('lj1')!.steps[0]!;
+    expect(c(world).queue.slice(0, 2)).toEqual([first.scene.id, first.done!.id]);
+    // No Journal "Do it": playing the scenes alone carries LJ1 to its end.
+    for (let i = 0; i < 40 && c(world).fun.lj1?.status !== 'done'; i++) {
+      playScenes(world, events);
+      tick(world, events, 2);
+    }
+    expect(c(world).fun.lj1?.status).toBe('done');
+    expect(c(world).seen).toContain(first.scene.id);
+    expect(c(world).seen.indexOf(first.scene.id)).toBeLessThan(
+      c(world).seen.indexOf('c1-open') === -1 ? Infinity : c(world).seen.indexOf('c1-open'),
+    );
+  });
+
+  it('a tracing step still waits for the tracing game', () => {
+    const { world, events } = eduWorld();
+    applyCommand(world, { kind: 'langStart', course: 'japanese' }, events);
+    const lj2 = sideStory('lj2')!;
+    const traceStep = lj2.steps.findIndex((s) => TRACE_TARGETS[s.check]);
+    expect(traceStep).toBeGreaterThanOrEqual(0);
+    // Scenes only, never the tracing game or a Journal "Do it".
+    const atTrace = () => c(world).fun.lj2?.step === traceStep;
+    for (let i = 0; i < 3000 && !(atTrace() && c(world).fun.lj2?.stage === 'check'); i++) {
+      playScenes(world, events);
+      tick(world, events, 30);
+    }
+    tick(world, events, 30);
+    playScenes(world, events);
+    expect(c(world).fun.lj2?.step).toBe(traceStep);
+    expect(c(world).fun.lj2?.stage).toBe('check');
   });
 
   it('play a whole course in order, with words heard and the tracing words used', () => {
