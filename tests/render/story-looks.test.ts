@@ -30,7 +30,7 @@ describe('story looks (C2, M1)', () => {
     for (const id of speakers) expect(STORY_NPC_LOOKS[id], id).toBeDefined();
     const shapes = speakers.map((id) => STORY_NPC_LOOKS[id]!.accessory);
     expect(new Set(shapes).size).toBe(shapes.length);
-    expect(STORY_SPEAKER_IDS.sort()).toEqual([...speakers].sort());
+    expect([...STORY_SPEAKER_IDS].sort()).toEqual([...speakers].sort());
   });
 
   it('never dresses a storyline speaker as the default Gardener', () => {

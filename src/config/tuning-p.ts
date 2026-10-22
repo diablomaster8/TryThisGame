@@ -35,7 +35,7 @@ export const CG2_P = {
     nubbinHeight: 0.9,
   },
   /** H9: bunting fades out within this many units of the camera (full at `far`). */
-  buntingFade: { near: 2.2, far: 4.2 },
+  buntingFade: { near: 3.2, far: 6 },
   /** N3: the carry props in 3D, in units from the carrier's feet (the hand lantern's offset). */
   carry: { poolSize: 6 },
 } as const;
