@@ -332,7 +332,28 @@ export const GROVE3D = {
      * rock. The top shade starts `topFrom` up the frame (0 bottom, 1 top) and reaches `top`
      * at the edge. Above ground the vignette is `groundVignette` and there is no top shade.
      */
-    atmos: { vignette: 0.6, top: 0.35, topFrom: 0.55, groundVignette: 0.35 },
+    atmos: {
+      vignette: 0.6,
+      top: 0.35,
+      topFrom: 0.55,
+      groundVignette: 0.35,
+      /**
+       * The air (items 16, 17, 22, 35, 36, 42, 43; `render3d/hollow-atmos.ts`). Shafts: cracks
+       * in the ceiling, `perRoom` for each medium room up to `max`, one big one in the great
+       * chamber; `alpha` is the beam's peak. Motes and spores: `perCell` over open cells up to
+       * `moteMax`. Glow: the caustic over water. Drips: one per `perDrip` open cells (water
+       * favoured), falling every `period` s with a ring after, heard within `hear` units.
+       * Fog: low cards over basins and water. Stars: ceiling glow-worms (`glowCount` on the
+       * glowworm floor). Bugs: glow-bugs by the walls' feet.
+       */
+      shafts: { perRoom: 0.5, max: 5, height: 6.5, width: 1.8, alpha: 0.2, greatScale: 1.7 },
+      motes: { perCell: 0.22, moteMax: 260, size: 0.1, alpha: 0.5, spore: 0.3 },
+      glow: { alpha: 0.26, scale: 1.3, speed: 0.5 },
+      drips: { perDrip: 90, max: 14, period: [3.5, 8], fall: 0.45, ring: 1.4, hear: 9 },
+      fog: { alpha: 0.2, height: 0.3, layers: 2, speed: 0.12 },
+      stars: { count: 70, glowCount: 220, height: 4.6, range: 22, size: 0.14, alpha: 0.75 },
+      bugs: { count: 26, glowCount: 40, size: 0.09, alpha: 0.85 },
+    },
   },
   /**
    * The painted sky (`render3d/sky.ts`): a zenith-to-horizon gradient per time of day, a
