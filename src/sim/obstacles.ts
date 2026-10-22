@@ -1,4 +1,4 @@
-import { GROVE } from '../config/tuning';
+import { GROVE, LANTERN_POSTS } from '../config/tuning';
 import type { Vec2, World } from './types';
 
 /**
@@ -26,6 +26,8 @@ const FIXED: readonly Circle[] = (() => {
   for (const t of GROVE.trees) out.push({ x: t.x, z: t.z, r: 0.45, tree: true });
   for (const b of Object.values(GROVE.buildings)) out.push({ x: b.x, z: b.z + 0.4, r: b.r });
   for (const k of GROVE.rocks) out.push({ x: k.x, z: k.z, r: k.r });
+  // Lantern posts are thin but solid: nobody walks through one (review D, play-test).
+  for (const p of LANTERN_POSTS) out.push({ x: p.x, z: p.z, r: 0.3 });
   return out;
 })();
 

@@ -104,9 +104,11 @@ const dist = (a: Vec2, b: Vec2): number => Math.hypot(a.x - b.x, a.z - b.z);
 /** Visiting Keepers potter about near their spot and turn to face the player when close. */
 export function stepNpcs(world: World, dtMs: number, rng: Rng): void {
   const dt = dtMs / 1000;
+  // While a story scene is up the cast holds its places, turned to the Keeper (review D, 11).
+  const scene = (world.campaign?.queue.length ?? 0) > 0;
   for (const npc of world.npcs) {
     const near = dist(npc.pos, world.keeper.pos) < 2.5;
-    if (near) {
+    if (near || scene) {
       npc.facing = Math.atan2(world.keeper.pos.x - npc.pos.x, world.keeper.pos.z - npc.pos.z);
       npc.target = null;
       continue;

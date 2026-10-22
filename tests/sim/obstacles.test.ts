@@ -1,17 +1,18 @@
 import { describe, expect, it } from 'vitest';
-import { GROVE, SIM } from '../../src/config/tuning';
+import { GROVE, LANTERN_POSTS, SIM } from '../../src/config/tuning';
 import { blocked, obstacles, resolve } from '../../src/sim/obstacles';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
 
 describe('obstacles', () => {
-  it('lists hills, trees, buildings and rocks, plus placed buildings', () => {
+  it('lists hills, trees, buildings, rocks and lantern posts, plus placed buildings', () => {
     const world = createWorld(1, 0);
     const base = obstacles(world).length;
     expect(base).toBe(
       GROVE.hills.length +
         GROVE.trees.length +
         Object.keys(GROVE.buildings).length +
-        GROVE.rocks.length,
+        GROVE.rocks.length +
+        LANTERN_POSTS.length,
     );
     world.placed.push({ id: 'd1', kind: 'workshop', pos: { x: 0, z: 0 } });
     expect(obstacles(world).length).toBe(base + 1);
