@@ -43,5 +43,20 @@ export const CG4_U4 = {
   map: {
     /** A campaign landmark's grid spread: the same 6 x 6 cell layout as the Grove's own. */
     cells: 5,
+    /** Which stage set (config/stage-sets.ts) each separate campaign stands in. */
+    setOf: {
+      hundred: 'fold',
+      logged: 'logged',
+      beetle: 'beetle',
+      dawn: 'dawndusk',
+      dusk: 'dawndusk',
+    },
+    /** The story marks (config/stage-marks.ts, Grove set) each set shows on the Map. */
+    marks: {
+      fold: ['fold-well', 'fold-door-1'],
+      logged: ['board'],
+      beetle: ['guardhouse-bench', 'banner-1'],
+      dawndusk: ['green-centre', 'house-1-door'],
+    },
   },
 } as const;

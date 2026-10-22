@@ -1,4 +1,4 @@
-import { ATLAS_TEXT, STORYLINE_TEXT } from '../config/strings';
+import { ATLAS_TEXT, STORY_U4_TEXT, STORYLINE_TEXT } from '../config/strings';
 import { atlasPagesDone } from '../sim/cross-saves';
 import { readCrossSaves } from './atlas';
 import { TRAINER_LABELS } from '../config/strings';
@@ -16,6 +16,7 @@ import { LANG_TEXT } from '../config/strings';
 import { isLangQuestCode, TRACE_TARGETS } from '../sim/lang';
 import { scriptParagraph } from './lang-dom';
 import { TraceGame } from './trace';
+import { endingKey, getShots, thumbKey } from './u4-store';
 
 /**
  * The band's journal text in a Learning Grove save on the Learning story language (CV2):
@@ -52,7 +53,7 @@ function waitMoment(check: string): string {
 export class Journal {
   private readonly dialog;
   private readonly body: HTMLDivElement;
-  private page: 'chapter' | 'paths' = 'chapter';
+  private page: 'chapter' | 'paths' | 'endings' = 'chapter';
 
   constructor(
     parent: HTMLElement,
@@ -125,6 +126,7 @@ export class Journal {
     for (const [id, label] of [
       ['chapter', STORY_TEXT.chapter(view.n, eduJournal(g)?.chapter(view.n)?.title ?? view.title)],
       ['paths', STORY_TEXT.paths],
+      ['endings', STORY_U4_TEXT.endingsTab],
     ] as const) {
       const b = button(
         label,
@@ -139,6 +141,7 @@ export class Journal {
     }
     this.body.appendChild(tabs);
     if (this.page === 'paths') this.renderPaths(view);
+    else if (this.page === 'endings') this.renderEndings(view);
     else this.renderChapter(g, view);
   }
 
@@ -309,18 +312,20 @@ export class Journal {
     }
     // Chapter list.
     const chapters = el('div', 'journal-chapters');
+    const rows: Array<{ n: number; title: string; row: HTMLElement }> = [];
     for (const ch of view.chapters) {
       const done = ch.n < c.chapter;
       const current = ch.n === c.chapter;
-      chapters.appendChild(
-        el(
-          'div',
-          `journal-chapter${done ? ' done' : current ? ' current' : ''}`,
-          `${done ? '✓' : current ? '▶' : '·'} ${STORY_TEXT.chapter(ch.n, ch.title)}`,
-        ),
+      const row = el(
+        'div',
+        `journal-chapter${done ? ' done' : current ? ' current' : ''}`,
+        `${done ? '✓' : current ? '▶' : '·'} ${STORY_TEXT.chapter(ch.n, ch.title)}`,
       );
+      chapters.appendChild(row);
+      if (done) rows.push({ n: ch.n, title: ch.title, row });
     }
     this.body.appendChild(chapters);
+    void this.fillThumbs(c.storyline ?? 'hazel', rows);
   }
 
   /** A storyline's buttons: the goal's Do-it, travel between its areas, its own actions. */
@@ -377,6 +382,71 @@ export class Journal {
       }
       this.body.appendChild(areas);
     }
+  }
+
+  /** K31: each closed chapter's 160 x 90 picture, beside its title, once the store answers. */
+  private async fillThumbs(
+    key: string,
+    rows: Array<{ n: number; title: string; row: HTMLElement }>,
+  ): Promise<void> {
+    if (rows.length === 0) return;
+    const urls = await getShots(rows.map((r) => thumbKey(key, r.n)));
+    rows.forEach((r, i) => {
+      const url = urls[i];
+      if (!url || !r.row.isConnected) return;
+      const img = document.createElement('img');
+      img.className = 'journal-thumb';
+      img.src = url;
+      img.width = 160;
+      img.height = 90;
+      img.alt = STORY_U4_TEXT.thumbAlt(r.title);
+      r.row.classList.add('has-thumb');
+      r.row.prepend(img);
+    });
+  }
+
+  /** K47: every ending of this story, its last picture if reached, a lock icon if not. */
+  private renderEndings(view: JournalView): void {
+    const key = view.storyline ?? 'hazel';
+    this.body.appendChild(el('p', 'help', STORY_U4_TEXT.endingsHelp));
+    const grid = el('div', 'ending-gallery');
+    this.body.appendChild(grid);
+    const entries = Object.entries(view.endings);
+    const cells = entries.map(([id, e]) => {
+      const cell = el('div', 'ending-card locked');
+      const frame = el('div', 'ending-frame');
+      const lock = el('span', 'ending-lock', '🔒');
+      lock.setAttribute('role', 'img');
+      lock.setAttribute('aria-label', STORY_U4_TEXT.lockAlt);
+      frame.appendChild(lock);
+      cell.append(frame, el('div', 'btn-name ending-title', e.title));
+      cell.appendChild(el('div', 'help ending-state', STORY_U4_TEXT.endingLocked));
+      grid.appendChild(cell);
+      return { id, cell, frame, state: cell.querySelector('.ending-state') as HTMLElement };
+    });
+    // The ending the save has reached shows its title even before its picture is read back.
+    const open = (c: (typeof cells)[number], url: string | null): void => {
+      c.cell.classList.remove('locked');
+      c.frame.replaceChildren();
+      if (url) {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = entries.find(([id]) => id === c.id)?.[1].title ?? '';
+        c.frame.appendChild(img);
+        c.state.textContent = '';
+      } else {
+        c.frame.appendChild(el('span', 'ending-lock', '★'));
+        c.state.textContent = STORY_U4_TEXT.endingNoPicture;
+      }
+    };
+    for (const c of cells) if (c.id === view.ending) open(c, null);
+    void getShots(cells.map((c) => endingKey(key, c.id))).then((urls) => {
+      cells.forEach((c, i) => {
+        const url = urls[i];
+        if (!grid.isConnected) return;
+        if (url) open(c, url);
+      });
+    });
   }
 
   private renderPaths(view: JournalView): void {
