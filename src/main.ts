@@ -1,6 +1,6 @@
 import { Game } from './game';
 import type { EduAge } from './config/edu';
-import { resumeAudio, unlockAudio } from './platform/audio';
+import { isAudioUnlocked, resumeAudio, suspendAudio, unlockAudio } from './platform/audio';
 import type { EduBand } from './content/types';
 import {
   clearSlot,
@@ -14,7 +14,14 @@ import { loadEduScripts, loadStoryScripts } from './sim/story-scenes';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
 import { showTitle } from './ui/title';
 import { showUpdateNotice } from './ui/update-notice';
-import { hasWebGL2, showGlFailure } from './ui/gl-failure';
+import {
+  hasWebGL2,
+  isGraphicsError,
+  showCrashCard,
+  showErrorNotice,
+  showGlFailure,
+} from './ui/gl-failure';
+import { watchErrors } from './platform/error-watch';
 import { mountCameraButtons } from './ui/camera-buttons';
 import { FpsCounter } from './ui/fps';
 import { LoadingBar } from './ui/loading-bar';
@@ -27,6 +34,9 @@ function mustGet<T extends Element>(selector: string): T {
   return el;
 }
 
+// Anything nothing else caught is logged (within a budget) and gets a passing notice.
+watchErrors(showErrorNotice);
+
 const app = mustGet<HTMLDivElement>('#app');
 const canvas = mustGet<HTMLCanvasElement>('#game');
 const hudRoot = mustGet<HTMLDivElement>('#hud');
@@ -37,8 +47,10 @@ const hudRoot = mustGet<HTMLDivElement>('#hud');
 for (const type of ['pointerup', 'touchend', 'click', 'keydown'] as const) {
   window.addEventListener(type, unlockAudio, { passive: true });
 }
+// A hidden tab is silent; showing it again resumes a context that was unlocked before.
 document.addEventListener('visibilitychange', () => {
-  if (!document.hidden) resumeAudio();
+  if (document.hidden) suspendAudio();
+  else if (isAudioUnlocked()) resumeAudio();
 });
 
 const params = new URLSearchParams(location.search);
@@ -166,7 +178,7 @@ function startGame(
   }
 }
 
-/** Boot, or show the graphics card if the renderer cannot start (no blank screen). */
+/** Boot, or show a card with a way back if it cannot start (never a blank screen). */
 function bootOrReport(
   newCampaignTrainer: string | null,
   eduAge: NewEdu | undefined,
@@ -176,7 +188,13 @@ function bootOrReport(
   try {
     boot(newCampaignTrainer, eduAge, scene3d, storyline);
   } catch (err) {
-    showGlFailure('failed', scene3d ? '3d' : 'pixel', err);
+    // Only a renderer failure gets the graphics card and its "Switch to Pixel"; a bug
+    // anywhere else gets the plain reload card (review D, bug 46).
+    if (isGraphicsError(err)) showGlFailure('failed', scene3d ? '3d' : 'pixel', err);
+    else {
+      console.error('Grove: the game could not start.', err);
+      showCrashCard();
+    }
   }
 }
 

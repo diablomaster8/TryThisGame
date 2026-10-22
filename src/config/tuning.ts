@@ -356,6 +356,23 @@ export const INPUT = {
   shakeReversalsPerSecond: 4,
   /** Logo taps within this window open the debug panel. */
   tripleTapMs: 600,
+  /**
+   * A press this close (CSS px) to a Nubbin still lands on it: a wandering child is a small,
+   * moving target, and a near miss would walk the Keeper instead of lifting it.
+   */
+  nubbinPickSlopPx: 16,
+} as const;
+
+/** The safety net for uncaught errors (`platform/error-watch.ts`). */
+export const ERRORS = {
+  /** Uncaught errors logged per page load; past this, a loop cannot flood the console. */
+  maxLogged: 10,
+  /** The gentle notice shows at most this often (ms)... */
+  noticeGapMs: 60_000,
+  /** ...and at most this many times per page load. */
+  maxNotices: 3,
+  /** How long the notice stays on screen (ms). */
+  noticeMs: 6000,
 } as const;
 
 export const UI = {

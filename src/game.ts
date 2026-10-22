@@ -12,11 +12,11 @@ import {
 import { OrbitCamera } from './render/camera';
 import { daylightAt, localHour } from './render/daylight';
 import { litLanterns } from './sim/campaign';
-import { runFloor } from './sim/dungeon';
 import { GroveScene } from './render/grove-scene';
 import { Picker } from './render/picker';
 import { LowResPipeline, type FrameStats } from './render/pipeline';
 import { WorldView } from './render/world-view';
+import { syncDungeon, syncWorldScenes } from './render/world-sync';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
 import { Clock } from './sim/clock';
 import { catchUpInChunks } from './sim/offline';
@@ -165,6 +165,8 @@ export class Game {
       this.holdSaves = true;
       this.hooks.onOtherTab();
     });
+    // Loaded first so the Grove scene can paint the saved ground from its first frame.
+    this.world = this.load();
     this.scene3d = graphics === '3d' ? scene3d : null;
     if (this.scene3d) {
       this.lowRes = null;
@@ -175,7 +177,7 @@ export class Game {
       this.lowRes = new LowResPipeline(canvas);
       this.lowRes.enablePost();
       this.pipeline = this.lowRes;
-      this.grove = new GroveScene();
+      this.grove = new GroveScene(this.world.tiles);
       this.picker = new Picker(canvas);
       this.grove.scene.add(this.view.root);
     }
@@ -189,18 +191,17 @@ export class Game {
         s3 ? s3.pick(ndcX, ndcY) : this.view.pick(ndcX, ndcY, this.camera),
       hover: (hit) => {
         (s3 ?? this.view).setHighlight(hit);
-        canvas.style.cursor = hit ? 'pointer' : '';
+        // A Nubbin that can be lifted says so; anything else tappable gets the hand.
+        const grabbable = hit?.kind === 'nubbin' && this.canGrab(hit.id);
+        canvas.style.cursor = grabbable ? 'grab' : hit ? 'pointer' : '';
       },
       sparkle: (pos) => (s3 ?? this.view).sparkle(pos.x, pos.z),
       placing: () => this.placing,
-      canGrab: (id) => {
-        const n = findNubbin(this.world, id);
-        return !!n && n.behavior.state !== 'thrown' && n.stage !== 'cocoon';
-      },
+      canGrab: (id) => this.canGrab(id),
       send: (cmd) => this.send(cmd),
       onSelect: (id) => this.hooks.onSelect(id),
     });
-    this.world = this.load();
+    this.markReduceMotion();
     // The save mirrors the device-wide renderer choice made on the title screen.
     this.world.settings.graphics = graphics;
     if (this.scene3d) {
@@ -215,10 +216,27 @@ export class Game {
 
   /** The Hollow floor the scene and view should show, if underground. */
   private syncDungeon(): void {
-    const f = runFloor(this.world);
-    this.grove?.setDungeon(f);
-    this.scene3d?.setDungeon(f);
-    this.view.setDungeon(f);
+    syncDungeon(this.world, [this.grove, this.scene3d, this.view]);
+  }
+
+  /** Can this Nubbin be lifted right now? */
+  private canGrab(id: string): boolean {
+    const n = findNubbin(this.world, id);
+    return !!n && n.behavior.state !== 'thrown' && n.stage !== 'cocoon';
+  }
+
+  private reduceClass: boolean | null = null;
+
+  /**
+   * Mirror the effective Reduced motion choice (the Settings value, or the system's when it
+   * says "system") as `reduce-motion` on the root element, so the stylesheet can follow the
+   * in-game setting and not only the media query (review D, bug 42).
+   */
+  private markReduceMotion(): void {
+    const reduce = this.reduceMotion;
+    if (reduce === this.reduceClass || typeof document === 'undefined') return;
+    this.reduceClass = reduce;
+    document.documentElement.classList.toggle('reduce-motion', reduce);
   }
 
   // ---------- persistence ----------
@@ -247,10 +265,19 @@ export class Game {
   }
 
   /** Run the catch-up for the gap since the save was written; call once the HUD is bound. */
-  catchUpOnLoad(): Promise<void> {
+  async catchUpOnLoad(): Promise<void> {
     const gap = this.pendingGapMs;
     this.pendingGapMs = 0;
-    return this.runCatchUp(gap, Date.now());
+    await this.runCatchUp(gap, Date.now());
+    // A tab hidden and shown again during the catch-up stopped the loop, and its resume()
+    // stood aside while the catch-up ran: start again now, or the Grove stays frozen
+    // until the next hide and show (review D, bug 6).
+    this.startIfVisible();
+  }
+
+  /** Start the loop unless the page is hidden (the next visibility change starts it). */
+  private startIfVisible(): void {
+    if (typeof document === 'undefined' || !document.hidden) this.start();
   }
 
   /**
@@ -322,6 +349,10 @@ export class Game {
     this.crashed = false;
     this.world = world;
     this.world.lastWallMs = Date.now();
+    // The scenes keep the ground and the Hollow floor as their own state: show the new
+    // world's, and re-read its sky and place on the next frame (review D, bug 5).
+    syncWorldScenes(world, this.grove, [this.grove, this.scene3d, this.view]);
+    this.lastDaylightMs = -Infinity;
     this.save();
   }
 
@@ -356,11 +387,12 @@ export class Game {
 
   /** Tab shown again: catch up on the time hidden, then carry on. */
   async resume(): Promise<void> {
+    // A catch-up already running starts the loop itself when it finishes, if visible.
     if (this.catchingUp) return;
     const now = Date.now();
     await this.runCatchUp(now - this.world.lastWallMs, now);
     // Hidden again while catching up: the next visibility change resumes from here.
-    if (typeof document === 'undefined' || !document.hidden) this.start();
+    this.startIfVisible();
   }
 
   resize(width: number, height: number): void {
@@ -418,7 +450,8 @@ export class Game {
       else this.view.onEvents(events, nowMs);
       this.hooks.onEvents(events);
       for (const e of events) {
-        const shake = this.world.settings.screenShake;
+        // Shake is motion too: the in-game Reduced motion choice turns it off (review D, 42).
+        const shake = this.world.settings.screenShake && !this.reduceMotion;
         if (e.kind === 'landed' && shake) this.camera.shake(0.18);
         else if (e.kind === 'treeShaken' && shake) this.camera.shake(0.08);
         else if (e.kind === 'weather' || e.kind === 'located') this.lastDaylightMs = -Infinity;
@@ -450,6 +483,7 @@ export class Game {
     // The Settings choice reaches both cameras and the Grove's idle motion at once.
     const reduce = this.reduceMotion;
     this.camera.reduceMotion = reduce;
+    this.markReduceMotion();
     if (this.scene3d) this.scene3d.reduceMotion = reduce;
     this.camera.update(nowMs);
 

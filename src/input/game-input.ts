@@ -1,5 +1,5 @@
 import { INPUT, THROW } from '../config/tuning';
-import type { Picker } from '../render/picker';
+import type { PickHit, Picker } from '../render/picker';
 import type { Command, DecorKind, Flavor, TileKind, ToyKind, Vec2 } from '../sim/types';
 
 /** What a ground tap places while a panel is in placing mode. */
@@ -11,6 +11,24 @@ export type Placing =
   | null;
 import type { Camera, Object3D } from 'three';
 import { isControlTarget, isGameKey } from './keys';
+
+/** Hits a near-miss Nubbin may override: open ground and the scenery around it. */
+const LOOSE_KINDS = new Set<PickHit['kind']>(['ground', 'tree', 'building', 'decor', 'plant']);
+/** Probe directions for the Nubbin slack, in units of the slack radius, nearest first. */
+const SLOP_RING: ReadonlyArray<readonly [number, number]> = [
+  [0, -0.5],
+  [0, 0.5],
+  [-0.5, 0],
+  [0.5, 0],
+  [0, -1],
+  [0, 1],
+  [-1, 0],
+  [1, 0],
+  [-0.7, -0.7],
+  [0.7, -0.7],
+  [-0.7, 0.7],
+  [0.7, 0.7],
+];
 
 export interface InputHost {
   /** The orbit yaw (keys move relative to it) and the camera that rays are cast from. */
@@ -68,7 +86,12 @@ export class GameInput {
   private readonly abort = new AbortController();
   private readonly keys = new Set<string>();
   private pointerId: number | null = null;
-  private pointerCount = 0;
+  /**
+   * The pointers down on the surface, by id. A set rather than a counter: a release the
+   * surface never hears (over the HUD, outside the window) cannot leave a phantom finger
+   * that turns every later tap into a two-finger gesture (review D, bug 9).
+   */
+  private readonly down = new Set<number>();
   private downAt = 0;
   private downClient: Vec2 = { x: 0, z: 0 };
   private pressed: { kind: string; id: string } | null = null;
@@ -88,13 +111,45 @@ export class GameInput {
     surface.addEventListener('pointerdown', this.onDown, { signal });
     surface.addEventListener('pointermove', this.onMove, { signal });
     surface.addEventListener('pointermove', this.onHover, { signal });
-    surface.addEventListener('pointerleave', () => this.host.hover?.(null), { signal });
+    surface.addEventListener('pointerleave', this.onLeave, { signal });
     surface.addEventListener('pointerup', this.onUp, { signal });
     surface.addEventListener('pointercancel', this.onUp, { signal });
+    surface.addEventListener('lostpointercapture', this.onLost, { signal });
     window.addEventListener('keydown', this.onKey, { signal });
     window.addEventListener('keyup', this.onKey, { signal });
-    window.addEventListener('blur', () => this.keys.clear(), { signal });
+    window.addEventListener(
+      'blur',
+      () => {
+        this.keys.clear();
+        this.resetPointers();
+      },
+      { signal },
+    );
   }
+
+  /** Forget every pointer: a held Nubbin is put down gently and taps start fresh. */
+  private resetPointers(): void {
+    this.cancelDrag();
+    this.down.clear();
+    this.pointerId = null;
+    this.pressed = null;
+    this.surface.style.cursor = '';
+  }
+
+  private readonly onLeave = (e: PointerEvent): void => {
+    this.host.hover?.(null);
+    // A mouse that leaves with no button held is certainly up, whatever the surface heard.
+    if (e.pointerType === 'mouse' && e.buttons === 0) {
+      this.down.delete(e.pointerId);
+      if (e.pointerId === this.pointerId) this.resetPointers();
+    }
+  };
+
+  /** Capture ended without a release here (the element changed, the browser took it). */
+  private readonly onLost = (e: PointerEvent): void => {
+    this.down.delete(e.pointerId);
+    if (e.pointerId === this.pointerId) this.resetPointers();
+  };
 
   dispose(): void {
     this.abort.abort();
@@ -177,22 +232,24 @@ export class GameInput {
   };
 
   private readonly onDown = (e: PointerEvent): void => {
-    this.pointerCount += 1;
-    if (this.pointerCount > 1) {
+    // There is only one mouse: a stale id from a release nobody heard is dropped here.
+    if (e.pointerType === 'mouse') this.down.clear();
+    this.down.add(e.pointerId);
+    if (this.down.size > 1) {
       this.cancelDrag();
       return;
     }
     if (!e.isPrimary) return;
     this.pointerId = e.pointerId;
+    // The release comes back here even over the HUD or outside the window.
+    try {
+      this.surface.setPointerCapture?.(e.pointerId);
+    } catch {
+      // A pointer that is already gone cannot be captured; its release resets us anyway.
+    }
     this.downAt = performance.now();
     this.downClient = { x: e.clientX, z: e.clientY };
-    const hit = this.host.picker.pick(
-      e.clientX,
-      e.clientY,
-      this.host.camera.camera,
-      this.host.pickables(),
-      this.host.pickSprite,
-    );
+    const hit = this.pickNear(e.clientX, e.clientY);
     this.pressed = hit && hit.kind !== 'ground' ? { kind: hit.kind, id: hit.id } : null;
     this.samples = [];
     this.reversals = [];
@@ -208,20 +265,37 @@ export class GameInput {
     const now = performance.now();
     if (now - this.lastHoverMs < 50) return;
     this.lastHoverMs = now;
-    const hit = this.host.picker.pick(
-      e.clientX,
-      e.clientY,
-      this.host.camera.camera,
-      this.host.pickables(),
-      this.host.pickSprite,
-    );
+    const hit = this.pickNear(e.clientX, e.clientY);
     const tappable =
       hit && hit.kind !== 'ground' && hit.kind !== 'tree' ? hit : hit?.kind === 'tree' ? hit : null;
     this.host.hover?.(tappable ? { kind: tappable.kind, id: tappable.id } : null);
   };
 
+  /**
+   * What is under a screen point, with some slack for Nubbins: when the exact point finds
+   * only ground or scenery, a ring of nearby points is tried for a Nubbin, so a press just
+   * beside a small wandering child still lifts it (review D, bug 9).
+   */
+  private pickNear(clientX: number, clientY: number): PickHit | null {
+    const { picker, camera, pickSprite } = this.host;
+    const hit = picker.pick(clientX, clientY, camera.camera, this.host.pickables(), pickSprite);
+    if (hit && !LOOSE_KINDS.has(hit.kind)) return hit;
+    // Decorating: a ground tap places a piece exactly where it lands.
+    if (this.host.placing?.()) return hit;
+    const rect = this.surface.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) return hit;
+    const ndcX = ((clientX - rect.left) / rect.width) * 2 - 1;
+    const ndcY = -((clientY - rect.top) / rect.height) * 2 + 1;
+    const r = INPUT.nubbinPickSlopPx;
+    for (const [ox, oy] of SLOP_RING) {
+      const s = pickSprite(ndcX + (ox * r * 2) / rect.width, ndcY - (oy * r * 2) / rect.height);
+      if (s?.kind === 'nubbin') return { kind: 'nubbin', id: s.id, ground: hit?.ground ?? null };
+    }
+    return hit;
+  }
+
   private readonly onMove = (e: PointerEvent): void => {
-    if (e.pointerId !== this.pointerId || this.pointerCount > 1) return;
+    if (e.pointerId !== this.pointerId || this.down.size > 1) return;
     const dx = e.clientX - this.downClient.x;
     const dy = e.clientY - this.downClient.z;
     if (!this.dragging) {
@@ -230,6 +304,7 @@ export class GameInput {
       if (!this.host.canGrab(this.pressed.id)) return;
       this.dragging = this.pressed.id;
       this.host.send({ kind: 'grab', nubbinId: this.dragging });
+      if (e.pointerType === 'mouse') this.surface.style.cursor = 'grabbing';
     }
     const ground = this.host.picker.groundPoint(e.clientX, e.clientY, this.host.camera.camera);
     if (!ground) return;
@@ -254,7 +329,7 @@ export class GameInput {
   };
 
   private readonly onUp = (e: PointerEvent): void => {
-    this.pointerCount = Math.max(0, this.pointerCount - 1);
+    this.down.delete(e.pointerId);
     if (e.pointerId !== this.pointerId) return;
     this.pointerId = null;
     const now = performance.now();
@@ -262,6 +337,7 @@ export class GameInput {
       this.host.send({ kind: 'release', vel: this.releaseVelocity(now) });
       this.dragging = null;
       this.pressed = null;
+      this.surface.style.cursor = '';
       return;
     }
     const moved = Math.hypot(e.clientX - this.downClient.x, e.clientY - this.downClient.z);
@@ -271,13 +347,7 @@ export class GameInput {
   };
 
   private tap(e: PointerEvent): void {
-    const hit = this.host.picker.pick(
-      e.clientX,
-      e.clientY,
-      this.host.camera.camera,
-      this.host.pickables(),
-      this.host.pickSprite,
-    );
+    const hit = this.pickNear(e.clientX, e.clientY);
     if (!hit) return;
     if (hit.kind !== 'ground') {
       // Feedback for the tap: sparkles where it landed and a short halo (touch has no hover).
@@ -390,5 +460,6 @@ export class GameInput {
     this.host.send({ kind: 'release', vel: { x: 0, z: 0 } });
     this.dragging = null;
     this.pressed = null;
+    this.surface.style.cursor = '';
   }
 }

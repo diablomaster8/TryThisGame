@@ -515,7 +515,7 @@ export function mountHud(
     // PC: F toggles fullscreen.
     if (e.key === 'f' && isGameKey(e) && !e.repeat) {
       const el = document.documentElement;
-      if (document.fullscreenElement) void document.exitFullscreen?.();
+      if (document.fullscreenElement) void document.exitFullscreen?.().catch(() => undefined);
       else void el.requestFullscreen?.().catch(() => undefined);
     }
     if (e.key === '`' && isGameKey(e)) {
