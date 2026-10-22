@@ -1,0 +1,165 @@
+# Expansion E1: The Square
+
+## E1. The Square
+
+*Original (the prosperity system, Digimon World-style town building)* · audience: main · where: The cottage table, then the square beyond the cottage · when: The first morning after the ending
+
+**Cast:** Old Pell
+
+### Step 1: Walk out past the cottage and look at the square.
+
+Hint: The journal’s button takes you there. · check: `walk:square`
+
+#### Scene `e1-letter`
+
+_A second page, folded small, slips out of the hatch register. Hazel’s hand, later and shakier._  
+_“The square past the cottage was the heart once. I let it go to nettles. Someone with slow hands might not.”_  
+_Under it, smaller, as if she had nearly not written it: “Pell will still be there. He was always there.”_  
+**You**: Past the cottage. You have walked by it a hundred times and never looked.  
+
+#### Done `e1-square`
+
+_Beyond the cottage wall the ground opens into a square you never saw as one. Flags under moss, a capped well._  
+_An old man sits on a block of stone as if he came with it. He nods at the moss, not at you._  
+**Old Pell**: I laid these. Nineteen-seventy. Hazel held the line.  
+**Old Pell**: She’d come out with a string and a bit of chalk and stand there till the row was straight. Never said a word about it being slow.  
+**Old Pell**: You’re the one with the letter. She said there’d be one. What did she say about me?  
+
+**Choices**
+
+- **“That you were always here.”** — sets `{"e1-hazel":"held"}`
+    - **Old Pell**: Was I. Well. Somebody had to be.
+    - He looks at the moss a long while, and then at you, which he has not done till now.
+- **“That someone with slow hands might not let it go.”** — sets `{"e1-hazel":"slow"}`
+    - **Old Pell**: Slow hands. Hers were. Mine were. Show me yours.
+    - You hold them out. He looks at them the way he looks at stone, and nods, once.
+
+### Step 2: Win over one creature who will stay.
+
+Hint: A settled wild visitor, a returned stray, a beaten rival: any of them moves in. · check: `recruits:>=1`
+
+#### Scene `e1-first`
+
+**Old Pell**: A square isn’t stone, mind. It’s whoever stands on it. Bring one who’ll stay.  
+**Old Pell**: Anyone who wanders in and wanders off again is weather. I want one who stays.  
+_He points his chin at the Grove: the wild ones at the patches, the strays at the edge, the dojo, the race posts._  
+**Old Pell**: Win one over. Then we’ll talk about flags.  
+_He goes back to the moss. He is not lifting it. He is, you realise, counting it._  
+
+#### Done `e1-first-done`
+
+_The first one moves in. Pell watches it pick a corner of the square and sit down in it like a cat choosing a chair._  
+**Old Pell** _(soft)_: There. Now it’s a square.  
+_He lifts one flag’s worth of moss, folds it like a cloth, and sets it on the wall. One._  
+
+### Step 3: Fill the square enough for a stall.
+
+Hint: Each recruit raises prosperity. The stall opens at 20. · check: `prosperity:>=20`
+
+#### Scene `e1-stall`
+
+**Old Pell**: Next you want a stall. A square with no stall is a car park.  
+_He has the trestle already. He has had it, you suspect, for forty years._  
+**Old Pell**: Legs are sound. Top wants a cloth. Hazel had a cloth. Blue. You’ll not find it, I’ve looked.  
+_Your Nubbins have found the trestle before he has finished talking, and are under it._  
+
+#### Done `e1-stall-done`
+
+_A trestle, a cloth, a row of fruit that is cheaper than the shop’s and tastes the same._  
+**Old Pell**: Prices come down when people come in. That’s not economics, that’s a square.  
+_The cloth is not blue. Pell does not mention it, which is how you know he has noticed._  
+
+### Step 4: Bring the gym back.
+
+Hint: Prosperity 40. · check: `prosperity:>=40`
+
+#### Scene `e1-gym`
+
+**Old Pell**: There was a gym here. Four stations and a bench. The bench is under that nettle.  
+**You**: You pull the nettle. The bench is under it.  
+**Old Pell**: Hazel sat there of an evening and told the Nubbins they were doing it wrong. They weren’t. She liked saying it.  
+**Old Pell**: More of them, then. A bench wants sitters.  
+
+#### Done `e1-gym-done`
+
+_The stations come back one by one: a lane, rings, a track, a beam. Nubbins queue for them without being asked._  
+_Pell sits on the bench in the evening and tells them they are doing it wrong. They are not. He likes saying it._  
+
+### Step 5: Find a minder for the bathhouse step.
+
+Hint: Prosperity 60. · check: `prosperity:>=60`
+
+#### Scene `e1-attendant`
+
+**Old Pell**: The bathhouse step needs someone to mind it. Hazel did, for a year. Said it was restful.  
+**Old Pell**: It isn’t restful. It’s a step. She meant the people. People coming by, saying the same four things. That’s the rest.  
+**Old Pell**: Find me a few more who’ll stay and I’ll find you a minder.  
+
+#### Done `e1-attendant-done`
+
+_A recruit takes the bathhouse step with a towel over one arm and the air of someone who has waited a long time for a job._  
+**Old Pell**: Restful. Told you.  
+_By the end of the day it has heard the same four things eleven times and looks, if anything, pleased._  
+
+### Step 6: Fill the fortune tent.
+
+Hint: Prosperity 80. · check: `prosperity:>=80`
+
+#### Scene `e1-fortune`
+
+**Old Pell**: There was a fortune teller. Free readings. She was wrong about everything and nobody minded.  
+**Old Pell**: Told me I’d travel. I’ve been to the quarry and back. Told Hazel she’d be lonely. Look at the square.  
+**Old Pell**: Fill it a bit more and someone will take the tent.  
+
+#### Done `e1-fortune-done`
+
+_A tent goes up by the well. The readings are free. The first one says you will have a good week, and you do._  
+_The second, to Pell, says he will travel. He goes to the quarry for a block, and comes back, and says nothing._  
+
+### Step 7: Raise the standing festival.
+
+Hint: Prosperity 100. · check: `prosperity:>=100`
+
+#### Scene `e1-festival`
+
+**Old Pell**: Last thing. A standing festival. Lanterns up, prizes up, the lot. That wants a full square.  
+_He stands, which takes a while, and walks the flags, counting the moss he will not have to lift._  
+**Old Pell**: Nineteen-seventy we had one. Lanterns in the trees, a band that knew three tunes. Hazel danced. Don’t tell anyone.  
+**You**: You will tell everyone.  
+**Old Pell** _(soft)_: I know. That’s why I said it.  
+
+#### Done `e1-festival-done`
+
+_Bunting. A banner nobody can read because the paint ran. Race prizes up by a shell in seven._  
+_Someone has found a drum that knows three tunes. Someone else has found the lanterns. The trees fill up with light._  
+
+#### Complete `e1-complete`
+
+_The first festival on the square. Every recruit on it, every stall out, the well uncapped and somebody’s hat in it._  
+**Old Pell**: Nineteen-seventy, she held the line. I never asked who’d hold it after.  
+**You**: You put your hand on the warm stone of the block he sat on.  
+**Old Pell** _(soft)_: Slow hands. She said that about you. I didn’t know what she meant till the nettles.  
+_The last fold of moss is on the wall. He has counted it. It is, he says, the right number._  
+_Behind the cottage, in the register, the second page of the letter lies flat for the first time._  
+
+**Rewards**
+
+- Square Warden (title): You held the line after Hazel.
+
+Sets on completion: `{"e1Done":true}`
+
+**Notes:** Steps 2–7 are met by the town system alone (autoOnly). Step 5’s done scene is e1-attendant-corvin when the ending was hazels-grove with Corvin reconciled; the rule spawns Corvin as an NPC and a recruit of species "keeper". The e1-square choice is voice only (e1-hazel) and nothing reads it yet.
+
+## Variant scenes
+
+#### Variant `e1-attendant-corvin`
+
+_Someone is already on the bathhouse step. Coat brushed, hands folded, a barrow beside him with a mop in it._  
+**Corvin Vale** _(soft)_: I heard there was a square. I thought I might push a barrow round it for a while.  
+**Old Pell**: He turned up at six. Asked where the mop was. I’ve never seen a man so glad of a mop.  
+**Corvin Vale**: I’m not asking for anything. The step wants minding. I can mind a step.  
+**You**: You look at Pell. Pell looks at the mop.  
+**Old Pell**: He stays. Squares are for the ones who come back.  
+_Corvin says nothing to that. He picks up the mop, and finds, after a moment, that he knows what to do with it._  
+
+Sets `{"e1-corvin":true}`

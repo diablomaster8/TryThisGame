@@ -7,7 +7,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import * as C from '../../src/content/index';
 import { SPEAKERS, type Scene } from '../../src/config/story';
-import type { Quest } from '../../src/content/types';
+import type { Quest, Storyline } from '../../src/content/types';
 const args = process.argv.slice(2);
 const check = args.includes('--check');
 const BOOK = 'script-book';
@@ -119,6 +119,12 @@ const withVariants: [string, string, Quest[], Scene[]][] = [
   ...ARCADE.map(([list, variants, name], i): [string, string, Quest[], Scene[]] => [`23-arcade-pa${i + 1}`, `Pixel's Arcade, cartridge PA${i + 1}: ${name}`, list, variants]),
   ['24-line-lb', 'Learning Grove line LB: Play (LB1–LB12)', C.LINE_LB, C.LINE_LB_VARIANTS],
   ['25-line-lk', 'Learning Grove line LK: Mouse-Deer (LK1–LK10)', C.LINE_LK, C.LINE_LK_VARIANTS],
+  ['26a-fun-alice', 'Fun quests: Alice in Wonderland (Q66–Q75)', C.QUESTS_ALICE, C.QUESTS_ALICE_VARIANTS],
+  ['26b-fun-holmes', 'Fun quests: Sherlock Holmes (Q76–Q85)', C.QUESTS_HOLMES, C.QUESTS_HOLMES_VARIANTS],
+  ['26c-fun-hodja', 'Fun quests: Nasreddin Hodja (Q86–Q95)', C.QUESTS_HODJA, C.QUESTS_HODJA_VARIANTS],
+  ['27a-expansion-e1', 'Expansion E1: The Square', C.EXPANSION_E1, C.EXPANSION_E1_VARIANTS],
+  ['27b-expansion-e2', 'Expansion E2: Nova’s Season', C.EXPANSION_E2, C.EXPANSION_E2_VARIANTS],
+  ['27c-expansion-e3', 'Expansion E3: The Twine', C.EXPANSION_E3, C.EXPANSION_E3_VARIANTS],
 ];
 for (const [file, title, list, variants] of [...packs.map(([f, t, l]): [string, string, Quest[], Scene[]] => [f, t, l, []]), ...withVariants]) {
   const md: string[] = [`# ${title}`, ''];
@@ -142,6 +148,30 @@ for (const [file, title, list, variants] of [...packs.map(([f, t, l]): [string, 
   }
   writeFileSync(`${out}/${file}.md`, md.join('\n'));
   index += `- [${title}](${file}.md): ${list.length} quests${variants.length ? `, ${variants.length} variant scenes` : ''}\n`;
+}
+// ---- the separate campaigns (storylines SL1–SL4, each its own save mode)
+const STORYLINES: [string, Storyline[]][] = [
+  ['28a-storyline-hundred', [C.STORYLINE_HUNDRED]], ['28b-storyline-logged', [C.STORYLINE_LOGGED]],
+  ['28c-storyline-beetle', [C.STORYLINE_BEETLE]], ['28d-storyline-dawndusk', [C.STORYLINE_DAWN, C.STORYLINE_DUSK]],
+];
+for (const [file, halves] of STORYLINES) {
+  const md: string[] = [`# Storyline ${halves[0]!.code}: ${halves.length > 1 ? halves[0]!.title.split(':')[0] : halves[0]!.title}`, ''];
+  for (const sl of halves) {
+    const cast = { speakers: sl.speakers } as unknown as Quest;
+    if (halves.length > 1) md.push(`## ${sl.title}`, '');
+    md.push(`*${sl.tagline}* · ${sl.source} · audience: ${sl.audience} · save id: \`${sl.id}\``, '');
+    if (sl.speakers.length) md.push('**Cast:** ' + sl.speakers.map((s) => `${s.name}${s.basedOn ? ` (${s.basedOn})` : ''}`).join(', '), '');
+    for (const ch of sl.chapters) {
+      md.push(`### Chapter ${ch.n}: ${ch.title}`, '', `Goal: ${ch.goalText} (\`${ch.goal}\`) · Hint: ${ch.hint}`, '', scene(cast, ch.opening, 'Opening'), '');
+      for (const b of ch.beats ?? []) md.push(`When \`${b.when}\`:`, '', scene(cast, b.scene, 'Beat'), '');
+      md.push(scene(cast, ch.closing, 'Closing'), '');
+    }
+    md.push('### Endings', '', ...Object.entries(sl.endings).map(([id, e]) => `- **${e.title}** (\`${id}\`): ${e.how}`), '');
+    for (const s of sl.extra) md.push(scene(cast, s, s.id.startsWith('end-') ? 'Ending scene' : 'Scene'), '');
+    if (sl.notes) md.push('**Notes:** ' + sl.notes, '');
+  }
+  writeFileSync(`${out}/${file}.md`, md.join('\n'));
+  index += `- [${md[0]!.slice(2)}](${file}.md): ${halves.reduce((n, sl) => n + sl.chapters.length, 0)} chapters\n`;
 }
 // ---- the Learning Grove (educational versions)
 {

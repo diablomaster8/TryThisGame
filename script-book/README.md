@@ -61,6 +61,16 @@ Generated from `src/content/`. One file per pack.
 - [Pixel's Arcade, cartridge PA5: The Hundred-Year Sleep](23-arcade-pa5.md): 18 quests, 15 variant scenes
 - [Learning Grove line LB: Play (LB1–LB12)](24-line-lb.md): 12 quests, 10 variant scenes
 - [Learning Grove line LK: Mouse-Deer (LK1–LK10)](25-line-lk.md): 10 quests, 5 variant scenes
+- [Fun quests: Alice in Wonderland (Q66–Q75)](26a-fun-alice.md): 10 quests, 4 variant scenes
+- [Fun quests: Sherlock Holmes (Q76–Q85)](26b-fun-holmes.md): 10 quests, 6 variant scenes
+- [Fun quests: Nasreddin Hodja (Q86–Q95)](26c-fun-hodja.md): 10 quests, 4 variant scenes
+- [Expansion E1: The Square](27a-expansion-e1.md): 1 quests, 1 variant scenes
+- [Expansion E2: Nova’s Season](27b-expansion-e2.md): 1 quests, 3 variant scenes
+- [Expansion E3: The Twine](27c-expansion-e3.md): 1 quests, 1 variant scenes
+- [Storyline SL1: The Hundred Days](28a-storyline-hundred.md): 10 chapters
+- [Storyline SL2: Logged In](28b-storyline-logged.md): 8 chapters
+- [Storyline SL3: The Beetle Road](28c-storyline-beetle.md): 8 chapters
+- [Storyline SL4: Dawn & Dusk](28d-storyline-dawndusk.md): 14 chapters
 - [Learning Grove, Little Sprouts (ages 3–6, read aloud): campaign](20a-edu-sprout-campaign.md)
 - [Learning Grove, Little Sprouts (ages 3–6, read aloud): side stories and fun quests](20b-edu-sprout-stories.md)
 - [Learning Grove, Grove Readers (ages 7–10): campaign](21a-edu-reader-campaign.md)
