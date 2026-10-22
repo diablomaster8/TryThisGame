@@ -517,6 +517,14 @@ export class Actors {
     return { feet, head: feet.clone().setY(o.position.y + 0.45) };
   }
 
+  /** Which way a Nubbin's face points, flat on the ground (its head bone's forward). */
+  nubbinFront(id: string): THREE.Vector3 | null {
+    const head = this.nubbins.get(id)?.rig?.bones.head;
+    if (!head) return null;
+    const d = head.getWorldDirection(new THREE.Vector3()).setY(0);
+    return d.lengthSq() > 1e-6 ? d.normalize() : null;
+  }
+
   /** Where an item is drawn, or null once it is gone. */
   itemPosition(id: string): THREE.Vector3 | null {
     return this.items.get(id)?.mesh.position.clone() ?? null;

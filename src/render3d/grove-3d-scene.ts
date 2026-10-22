@@ -617,6 +617,54 @@ export class Grove3dScene {
     this.actors.sparkle(x, z, y, this.lastMs);
   }
 
+  /**
+   * A snapshot of a Nubbin in the 3D Grove for photo mode (review 2026-10-21, bug 19): the
+   * camera steps in to frame it, one frame is drawn and copied out of the canvas in the same
+   * task (so no preserved drawing buffer is needed), and the view is put back and drawn
+   * again. `w` × `h` is the picture's size and shape; null when the Nubbin is not drawn.
+   */
+  portrait(id: string, w: number, h: number): HTMLCanvasElement | null {
+    const spot = this.actors.nubbinSpot(id);
+    if (!spot || !this.compiled) return null;
+    const cam = this.camera;
+    const pos = cam.position.clone();
+    const quat = cam.quaternion.clone();
+    const look = spot.feet.clone().lerp(spot.head, 0.75);
+    const tall = Math.max(0.5, spot.head.y - spot.feet.y);
+    // From the side the view already looks from, a little above, close enough that the
+    // Nubbin fills the middle of the picture.
+    // From in front of its face, turned a little toward where the view already looks
+    // from, so the picture shows the Nubbin and not its back.
+    const side = pos.clone().sub(look).setY(0);
+    if (side.lengthSq() < 1e-6) side.set(0, 0, 1);
+    side.normalize();
+    const front = this.actors.nubbinFront(id);
+    const dir = front ? front.multiplyScalar(2).add(side).normalize() : side;
+    const dist = tall * 4.5 + 2;
+    cam.position
+      .copy(look)
+      .addScaledVector(dir, dist)
+      .setY(look.y + dist * 0.45);
+    cam.lookAt(look);
+    this.composer.render();
+    const src = this.renderer.domElement;
+    const out = document.createElement('canvas');
+    out.width = w;
+    out.height = h;
+    const ctx = out.getContext('2d');
+    if (ctx) {
+      // The middle of the frame at the picture's shape.
+      const k = Math.min(src.width / w, src.height / h);
+      const sw = w * k;
+      const sh = h * k;
+      ctx.drawImage(src, (src.width - sw) / 2, (src.height - sh) / 2, sw, sh, 0, 0, w, h);
+    }
+    cam.position.copy(pos);
+    cam.quaternion.copy(quat);
+    this.composer.render();
+    return ctx ? out : null;
+  }
+
   /** Creatures under a screen point (NDC), nearest first. */
   pick(ndcX: number, ndcY: number): Pick3d | null {
     this.raycaster.setFromCamera(new THREE.Vector2(ndcX, ndcY), this.camera);

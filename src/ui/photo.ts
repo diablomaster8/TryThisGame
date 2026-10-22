@@ -51,7 +51,8 @@ export class PhotoMode {
 
   private render(g: Game, n: Nubbin): void {
     const W = 160;
-    const H = 120;
+    // Tall enough that the four lines of the footer sit inside the frame (bug 19).
+    const H = 128;
     const S = 3;
     this.canvas.width = W * S;
     this.canvas.height = H * S;
@@ -68,23 +69,41 @@ export class PhotoMode {
     ctx.fillRect(6, 66, W - 12, H - 72);
     ctx.fillStyle = color(C.leaf);
     for (let x = 8; x < W - 8; x += 7) ctx.fillRect(x, 66 + ((x * 7) % 5), 2, 1);
-    const sheet = g.view.sheets.forNubbin(n);
-    const rect =
-      sheet.frames.get(frameKey(n.stage === 'egg' ? 'idle' : 'happy', 'front', 0)) ??
-      sheet.frames.values().next().value;
-    if (rect) {
-      const image = sheet.texture.image as HTMLCanvasElement;
-      const size = 64;
-      ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, W / 2 - size / 2, 72 - size, size, size);
+    // In Full 3D the picture is the Nubbin as it stands in the 3D Grove, not the sprite.
+    const shot = g.scene3d?.portrait(n.id, (W - 12) * S, 72 * S) ?? null;
+    if (shot) {
+      ctx.imageSmoothingEnabled = true;
+      ctx.drawImage(shot, 6, 6, W - 12, 72);
+      ctx.imageSmoothingEnabled = false;
+    } else {
+      const sheet = g.view.sheets.forNubbin(n);
+      const rect =
+        sheet.frames.get(frameKey(n.stage === 'egg' ? 'idle' : 'happy', 'front', 0)) ??
+        sheet.frames.values().next().value;
+      if (rect) {
+        const image = sheet.texture.image as HTMLCanvasElement;
+        const size = 64;
+        ctx.drawImage(
+          image,
+          rect.x,
+          rect.y,
+          rect.w,
+          rect.h,
+          W / 2 - size / 2,
+          72 - size,
+          size,
+          size,
+        );
+      }
     }
-    drawShadowText(ctx, n.name, W / 2, 82, color(C.darkPlum), color(C.cream), 1, 'center');
+    drawShadowText(ctx, n.name, W / 2, 84, color(C.darkPlum), color(C.cream), 1, 'center');
     const form = n.species === 'chao' ? keyLabel(formKey(n)) : keyLabel(n.species);
-    drawText(ctx, form, W / 2, 93, color(C.plum), 1, 'center');
+    drawText(ctx, form, W / 2, 95, color(C.plum), 1, 'center');
     drawText(
       ctx,
       `${STAGE_LABELS[n.stage]} · ${formatDuration(n.ageMs)}`,
       W / 2,
-      102,
+      104,
       color(C.plum),
       1,
       'center',
@@ -93,7 +112,7 @@ export class PhotoMode {
       ctx,
       `${NAMES.game} · ${new Date().toLocaleDateString()}`,
       W / 2,
-      111,
+      114,
       color(C.lilacGrey),
       1,
       'center',
