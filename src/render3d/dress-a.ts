@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { CG_A } from '../config/tuning';
+import { CG_A, CG2_X } from '../config/tuning';
 import { SceneStager } from '../render/scene-stage';
 import { NIGHT_RIM } from '../samples/creatures';
 import type { SceneStage } from '../config/story';
@@ -81,6 +81,30 @@ function skylineTexture(): THREE.CanvasTexture {
 }
 
 const SEGMENTS = 72;
+
+/**
+ * H10: a mesh the occluder must leave alone: a ground-hugging card or slab (light spills,
+ * the well's water, a step; under 0.35 tall over its whole box), or a shadow-only proxy
+ * (drawn with no colour, or a material switched off).
+ */
+function flatOrHidden(mesh: THREE.Mesh): boolean {
+  const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+  if (mats.every((m) => !m.visible || !m.colorWrite)) return true;
+  const box = new THREE.Box3().setFromObject(mesh);
+  return !box.isEmpty() && box.max.y - box.min.y < 0.35;
+}
+
+/**
+ * C9: the names a staged scene is about, its place, its shot's focus and the props it
+ * sets; a building or tagged piece named here never thins. The step is the cottage's.
+ */
+export function subjectsOf(stage: SceneStage): ReadonlySet<string> {
+  const out = new Set<string>(stage.shot?.focus ?? []);
+  if (stage.place) out.add(stage.place);
+  if (stage.place === 'step') out.add('cottage');
+  for (const k of Object.keys(stage.props ?? {})) out.add(k);
+  return out;
+}
 
 /** Whether `o` and every parent are visible (drawn this frame, if in view). */
 function shown(o: THREE.Object3D | null): boolean {
@@ -253,7 +277,7 @@ class LightAndGrade implements Dressing3d {
     void ctx.compile(this.windows);
   }
 
-  update(world: World, _stage: SceneStage, daylight: Daylight): void {
+  update(world: World, stage: SceneStage, daylight: Daylight): void {
     const ctx = this.ctx;
     if (!ctx) return;
     const night = THREE.MathUtils.smoothstep(
@@ -276,7 +300,12 @@ class LightAndGrade implements Dressing3d {
     OCCLUDE.radius.value = occ.radius;
     OCCLUDE.keep.value = occ.keep;
     OCCLUDE.margin.value = occ.margin;
-    OCCLUDE.nearCam.value = points.length > 0 ? occ.nearCam : 0;
+    // Campaign graphics 2 (H10, H14): ground-hugging pieces never thin, a thinned building
+    // thins in a round hole, and in a staged scene anything right by the lens thins.
+    const x = CG2_X.occlude;
+    OCCLUDE.nearCam.value = points.length > 0 ? Math.max(occ.nearCam, x.nearCam) : 0;
+    OCCLUDE.ground.value = points.length > 0 ? Math.min(...points.map(groundAt)) + x.ground : -1e9;
+    OCCLUDE.boxRadius.value = x.boxRadius;
     OCCLUDE.points.value.forEach((v, i) => {
       const p = points[i];
       if (p) v.set(p.x, groundAt(p) + occ.height, p.z, 1);
@@ -284,6 +313,7 @@ class LightAndGrade implements Dressing3d {
     });
     OCCLUDE.boxes.value = this.blockers(
       points.map((p) => new THREE.Vector3(p.x, groundAt(p), p.z)),
+      subjectsOf(stage),
     );
 
     // C3's story key: soft and shadowless (pool lights cast none), over the speakers and
@@ -322,7 +352,7 @@ class LightAndGrade implements Dressing3d {
    * never ghosts, and a story set the shot is about stays solid. Its glass, lamp and
    * spill cards sit in the same box and thin with it. Four at most; returns how many.
    */
-  private blockers(feet: THREE.Vector3[]): number {
+  private blockers(feet: THREE.Vector3[], subjects: ReadonlySet<string>): number {
     const cam = this.camera;
     if (!cam || feet.length === 0) return 0;
     const occ = CG_A.occlude;
@@ -336,6 +366,9 @@ class LightAndGrade implements Dressing3d {
     for (const [o, box] of this.buildings) {
       if (n >= OCCLUDE.boxMin.value.length) break;
       if (!shown(o)) continue;
+      // C9: a building the scene is about (its focus or place) never thins.
+      const id = (o.userData.pick as { id?: string } | undefined)?.id;
+      if (id && subjects.has(id)) continue;
       const blocks = sights.some((s) => {
         this.ray.origin.copy(cam.position);
         this.ray.direction.copy(s.to).sub(cam.position).normalize();
@@ -373,7 +406,7 @@ class LightAndGrade implements Dressing3d {
     }
     ctx.scene.traverse((o) => {
       const mesh = o as THREE.Mesh;
-      if (!mesh.isMesh || o.userData.hull) return;
+      if (!mesh.isMesh || o.userData.hull || flatOrHidden(mesh)) return;
       const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
       const geo = mesh.geometry.type;
       const crown =

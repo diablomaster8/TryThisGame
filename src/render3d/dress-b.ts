@@ -281,6 +281,7 @@ export const dress3dB: Dressing3d = (() => {
       gate = buildGate(c.tex, false);
       gate.group.position.set(mark.x, groveHeight(mark.x, mark.z), mark.z);
       c.world3d.add(gate.group);
+      gate.group.visible = false; // Campaign graphics 2 x: dress-x.ts draws the lychgate (C9).
       void c.compile(gate.group);
       // The windmill's sails: a still copy, shown when the Fold's sails have stopped.
       if (props) {
