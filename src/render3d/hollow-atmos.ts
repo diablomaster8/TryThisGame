@@ -219,7 +219,7 @@ export class HollowAtmos implements HollowModule {
         x: x!,
         z: z!,
         y: elev(cx, cy) + 0.05,
-        top: elev(cx, cy) + WALL_H + 0.6,
+        top: elev(cx, cy) + WALL_H * 0.7,
         period: dr.period[0]! + cellHash(i, 6, 92) * (dr.period[1]! - dr.period[0]!),
         off: cellHash(i, 7, 93) * 10,
         wet: wetPick,
@@ -484,13 +484,23 @@ export class HollowAtmos implements HollowModule {
           const p = lt / dr.fall;
           fx.set(
             d.x,
-            d.top - (d.top - d.y) * p * p,
+            d.y + (d.top - d.y) * (1 - p * p),
             d.z,
             { r: ring.r, g: ring.g, b: ring.b },
-            0.7,
-            0.1,
+            0.9 * dr.alpha,
+            dr.size,
             'streak',
-            { additive: true, stretch: 3 },
+            { additive: true, stretch: 4 },
+          );
+          fx.set(
+            d.x,
+            d.y + (d.top - d.y) * (1 - p * p),
+            d.z,
+            { r: ring.r, g: ring.g, b: ring.b },
+            0.8 * dr.alpha,
+            dr.size * 1.4,
+            'glow',
+            { additive: true },
           );
         } else if (lt < dr.fall + dr.ring) {
           const p = (lt - dr.fall) / dr.ring;
@@ -507,8 +517,8 @@ export class HollowAtmos implements HollowModule {
             d.y + 0.02,
             d.z,
             { r: ring.r, g: ring.g, b: ring.b },
-            (d.wet ? 0.55 : 0.3) * (1 - p),
-            0.15 + p * (d.wet ? 0.9 : 0.6),
+            (d.wet ? 1.6 : 1.1) * dr.alpha * (1 - p * p),
+            0.2 + p * dr.ringSize * (d.wet ? 1 : 0.7),
             'ring',
             { additive: true, stretch: 0.6 },
           );
@@ -553,7 +563,7 @@ function sheet(
             (ok(x + dx - 1, y + dz) ? 1 : 0) +
             (ok(x + dx, y + dz) ? 1 : 0);
           pos.push((x + dx - f.cols / 2) * CELL, h, (y + dz - f.rows / 2) * CELL);
-          edge.push(n / 4);
+          edge.push((n / 4) ** 2);
         }
         pos.push((x + 0.5 - f.cols / 2) * CELL, h, (y + 0.5 - f.rows / 2) * CELL);
         edge.push(1);
