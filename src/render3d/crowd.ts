@@ -128,6 +128,8 @@ export interface CrowdOptions {
   holds?: ReadonlyMap<string, Vec2>;
   /** A story scene's drawn facings, by NPC id (render/scene-stage.ts); else toward the Keeper. */
   faces?: ReadonlyMap<string, number>;
+  /** K5: NPC ids walking on to their marks now (their walk pose while held). */
+  walking?: ReadonlySet<string>;
   /** The Grove's lantern posts, which a visiting Keeper is drawn clear of. */
   posts?: ReadonlyArray<Vec2>;
   /**
@@ -200,7 +202,7 @@ export function crowdFor(
       x: at.x,
       z: at.z,
       facing: held ? (opts.faces?.get(npc.id) ?? Math.atan2(k.x - at.x, k.z - at.z)) : npc.facing,
-      pose: npc.target && !held ? 'walk' : 'idle',
+      pose: (npc.target && !held) || opts.walking?.has(npc.id) ? 'walk' : 'idle',
     });
   }
   out.push(...STAGE_FIGURES.list);

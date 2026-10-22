@@ -2,7 +2,7 @@ import { NPC_LOOKS, STORY_NPC_LOOKS, type StoryNpcLook } from '../config/npc-loo
 import { markAt } from '../config/stage-marks';
 import type { SceneStage, StageCast } from '../config/story';
 import { mossOnHill } from '../sim/roster';
-import { TRAINERS } from '../sim/trainers';
+import { trainerLook } from './keeper-look';
 import type { Vec2, World } from '../sim/types';
 import { npcHere, SceneStager } from './scene-stage';
 
@@ -105,12 +105,14 @@ export class StageTracker {
         if (to && Math.hypot(to.x - m.x, to.z - m.z) > 0.05)
           yaw = Math.atan2(to.x - m.x, to.z - m.z);
       }
+      // K5: a walk-on is somewhere between its `from` mark and its own, in its walk clip.
+      const w = this.stager.actorWalk.get(c.who);
       out.push({
         who: c.who,
-        x: m.x,
-        z: m.z,
-        yaw,
-        pose: c.pose ?? 'stand',
+        x: w ? w.x : m.x,
+        z: w ? w.z : m.z,
+        yaw: w ? w.yaw : yaw,
+        pose: w?.walking ? 'walk' : (c.pose ?? 'stand'),
         carry: carryOf(c),
         look,
       });
@@ -205,9 +207,9 @@ export class StageTracker {
  */
 function villagerLook(world: World, who: string): StoryNpcLook | undefined {
   const acc = NPC_LOOKS[who];
-  const t = TRAINERS.find((x) => x.id === who);
-  if (!acc || !t || who !== world.trainer) return undefined;
-  return { ...acc, trainer: t.look };
+  // Corvin has no sim NPC in the Grove, so he is drawn here too (K5: he walks up to the gate).
+  if (!acc || (who !== world.trainer && who !== 'corvin')) return undefined;
+  return { ...acc, trainer: trainerLook(who) };
 }
 
 function carryOf(c: StageCast): CarryProp | null {

@@ -1,6 +1,7 @@
 import { memorialSpot } from '../render/memorial-spot';
 import * as THREE from 'three';
 import type { EmoteShape } from '../render/sprites/emote';
+import type { SceneStager } from '../render/scene-stage';
 import { frameKey } from '../render/sprites/animations';
 import { emoteFor } from '../render/world-view';
 import type { PoseName, Rigged } from '../samples/species';
@@ -286,6 +287,8 @@ export class Actors {
   keeperHold: Vec2 | null = null;
   /** A story scene's drawn spots for cast Nubbins, by id, or null. */
   nubbinHolds: ReadonlyMap<string, Vec2> | null = null;
+  /** K5, K40: the story stager, for walk-ons' facing and pose and the partner's reactions. */
+  stager: SceneStager | null = null;
   /** A story scene's drawn facing for the held Keeper (H7), or null for the sim's. */
   keeperFace: number | null = null;
 
@@ -738,8 +741,13 @@ export class Actors {
       if (a.rig) {
         const near = Math.hypot(keeper.pos.x - n.pos.x, keeper.pos.z - n.pos.z) < 1.5;
         // M6: the scene seats Moss (the sleep pose, the nearest the rig has to sitting).
-        const pose =
-          stagedSeat.id === n.id ? 'sleep' : poseFor(n, moving, petting === n.id && near);
+        let pose = stagedSeat.id === n.id ? 'sleep' : poseFor(n, moving, petting === n.id && near);
+        // K5, K40: a walk-on walks to its mark; the partner at the Keeper's side holds the
+        // line's mood (happy, sad, surprised) and otherwise stands.
+        const st = held ? this.stager : null;
+        if (st && st.partner?.id === n.id)
+          pose = st.walking.has(n.id) ? 'walk' : (st.partnerPose() ?? 'idle');
+        else if (st?.walking.has(n.id)) pose = 'walk';
         if (pose !== a.pose) {
           a.pose = pose;
           a.rig.setPose(pose);
@@ -754,7 +762,7 @@ export class Actors {
         // body is lifted off the real ground so its shadow blob stays down there under it.
         a.rig.ground = inWater ? () => footY : this.ground;
         a.rig.lift = inWater ? 0 : Math.max(0, y);
-        a.rig.face(n.facing);
+        a.rig.face((held && this.stager?.faces.get(n.id)) ?? n.facing);
         a.rig.lookAt = pose === 'pet' ? hand : null;
         if (n.behavior.state === 'pet' && near) petted = true;
         if (eggFamily(n) === 'chao') this.dresser.update(a.rig, n);
@@ -788,7 +796,11 @@ export class Actors {
         bubble = undefined;
       }
       const shape: EmoteShape =
-        n.stage === 'egg' || n.stage === 'cocoon' ? 'none' : (bubble?.shape ?? emoteFor(n));
+        n.stage === 'egg' || n.stage === 'cocoon'
+          ? 'none'
+          : (bubble?.shape ??
+            (held && this.stager?.partner?.id === n.id ? this.stager.partnerEmote() : null) ??
+            emoteFor(n));
       const flip = Math.floor(nowMs / 400) % 2;
       const key =
         shape === 'none' ? '' : `${n.shadow ? 'shadow:' : ''}${frameKey(shape, 'front', flip)}`;
@@ -816,7 +828,8 @@ export class Actors {
     // The Keeper.
     const kp = this.keeperDrawPos(world, alpha);
     const kMoving =
-      Math.hypot(keeper.pos.x - this.keeperPrev.x, keeper.pos.z - this.keeperPrev.z) > 0.004;
+      Math.hypot(keeper.pos.x - this.keeperPrev.x, keeper.pos.z - this.keeperPrev.z) > 0.004 ||
+      !!this.stager?.walking.has('you');
     this.keeperMoving = kMoving;
     // The Keeper strokes for as long as the Nubbin at its feet holds the pet state.
     const kPose: PoseName = keeper.carrying
