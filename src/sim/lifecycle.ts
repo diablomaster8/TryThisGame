@@ -6,6 +6,7 @@ import { nextSpecies, speciesOf } from './species';
 import { levelOf, nextGrade } from './stats';
 import { lifespanMs, noteEvolutionSlips } from './slips';
 import { beforeRebirth } from './inheritance';
+import { evolvedThisLife } from './degeneration';
 import type {
   AlignmentBand,
   CocoonKind,
@@ -41,8 +42,13 @@ export function advanceStage(
   }
   // The baby step above needs the child stage timer, which hatch() resets.
   if (n.awaitingKeeper) {
-    // Frozen at the end of its life until live play runs the check.
-    if (!offline && world) runEndOfLife(n, world, false, events);
+    // Frozen at the end of its life until live play runs the check, once the away screen
+    // has closed and one at a time, so the player sees every cocoon.
+    if (!offline && world && endOfLifeDue(world)) {
+      events.push({ kind: 'endOfLifeFocus', nubbinId: n.id });
+      runEndOfLife(n, world, false, events);
+      world.endOfLife = { held: false, nextMs: world.timeMs + LIFECYCLE.awaitingStaggerMs };
+    }
     return;
   }
   n.stageMs += dtMs;
@@ -107,8 +113,10 @@ function finishCocoon(n: Nubbin, events: SimEvent[], world?: World): void {
   switch (kind) {
     case 'evolve': {
       const wasChild = n.form === null;
+      // A Nubbin that reverted to an egg (Dawn & Dusk) had its upgrades already this life.
+      const again = evolvedThisLife(n);
       const upgraded = evolve(n, events, world);
-      if (wasChild && noteEvolutionSlips(n) === 'wellRaised') {
+      if (wasChild && noteEvolutionSlips(n) === 'wellRaised' && !again) {
         // Well raised: a second stat steps up a grade too, never the one evolution just
         // raised (evolution picks by level, so a tie can make that one not the top by points).
         const sorted = [...STAT_KEYS].sort((a, b) => n.stats[b].points - n.stats[a].points);
@@ -131,8 +139,31 @@ function finishCocoon(n: Nubbin, events: SimEvent[], world?: World): void {
   }
 }
 
+/** Whether a waiting Nubbin's check may run now: not held, and the last one has had its moment. */
+export function endOfLifeDue(world: World): boolean {
+  const s = world.endOfLife;
+  return !s || (!s.held && world.timeMs >= s.nextMs);
+}
+
+/** The away screen opened (hold) or closed (release); see `World.endOfLife`. */
+export function holdEndOfLife(world: World, hold: boolean): void {
+  // On release the first check waits a beat, so the screen has closed before a cocoon forms.
+  const nextMs = hold
+    ? (world.endOfLife?.nextMs ?? 0)
+    : Math.max(world.endOfLife?.nextMs ?? 0, world.timeMs + LIFECYCLE.awaitingAfterReleaseMs);
+  world.endOfLife = { held: hold, nextMs };
+}
+
 /** The end-of-life check. Rebirth when loved; otherwise a departure (or a wait). */
 export function runEndOfLife(n: Nubbin, world: World, offline: boolean, events: SimEvent[]): void {
+  // While the away screen is up, a check that comes due waits like one from catch-up.
+  if (!offline && world.endOfLife?.held) {
+    if (!n.awaitingKeeper) {
+      n.awaitingKeeper = true;
+      events.push({ kind: 'awaitingKeeper', nubbinId: n.id });
+    }
+    return;
+  }
   const loved =
     lifetimeHappiness(n) >= REBIRTH.minLifetimeHappiness &&
     n.needs.affection >= REBIRTH.minAffection;
@@ -209,8 +240,9 @@ export function evolve(n: Nubbin, events: SimEvent[], world?: World): StatKey | 
   n.behavior.sinceMs = world?.timeMs ?? 0;
   n.behavior.untilMs = (world?.timeMs ?? 0) + BEHAVIOR.reactMs * 2;
 
-  // Permanent grade upgrade on the highest-level stat that is not already S.
-  const upgraded = upgradeCandidate(n);
+  // Permanent grade upgrade on the highest-level stat that is not already S, once a life:
+  // a Nubbin that reverted to an egg and grows up again does not earn a second one.
+  const upgraded = evolvedThisLife(n) ? null : upgradeCandidate(n);
   if (upgraded) {
     n.stats[upgraded].grade = nextGrade(n.stats[upgraded].grade);
     n.gradeUpgrades[upgraded] = (n.gradeUpgrades[upgraded] ?? 0) + 1;
@@ -238,8 +270,9 @@ export function evolve(n: Nubbin, events: SimEvent[], world?: World): StatKey | 
   });
 
   const eternal = eternalBandFor(n, type);
+  // Cleared when the rules are not met, so no older save keeps a stray Eternal flag.
+  n.eternal = eternal;
   if (eternal) {
-    n.eternal = eternal;
     events.push({ kind: 'eternal', nubbinId: n.id, band: eternal });
   }
   return upgraded;
@@ -283,6 +316,9 @@ export function secondEvolve(n: Nubbin, events: SimEvent[]): void {
 export function rebirth(n: Nubbin, events: SimEvent[]): void {
   const keep = beforeRebirth(n);
   n.rebirths += 1;
+  // A new life: nothing left to restore, and evolution may upgrade a grade again.
+  delete n.genes.degenerated;
+  delete n.genes.evolvedThisLife;
   n.stage = 'egg';
   n.stageMs = 0;
   n.ageMs = 0;

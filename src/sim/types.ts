@@ -627,6 +627,12 @@ export interface World {
   inventory: Inventory;
   settings: Settings;
   memorials: Memorial[];
+  /**
+   * End-of-life checks for Nubbins that waited for the Keeper: held while the "While you
+   * were away" screen is up, then run one at a time `nextMs` apart so each cocoon is seen.
+   * Absent in older saves; a load always starts released.
+   */
+  endOfLife?: { held: boolean; nextMs: number };
   /** Sim time from which a rock or the stream bank can be tapped for materials again. */
   gatherReadyMs: number;
   unlocks: { sunGrove: boolean; moonGrove: boolean };
@@ -732,6 +738,8 @@ export type Command =
   | { kind: 'setSettings'; settings: Settings }
   | { kind: 'confirmRift' }
   | { kind: 'rename'; nubbinId: string; name: string }
+  /** The UI holds waiting end-of-life checks while the away screen is open. */
+  | { kind: 'holdEndOfLife'; hold: boolean }
   // Debug
   | { kind: 'debugGive'; what: 'shells' | 'fruit' | 'critter' | 'essence' | 'egg'; amount: number }
   | { kind: 'debugFillNeeds'; nubbinId: string }
@@ -857,6 +865,8 @@ export type SimEvent =
   | { kind: 'cocoonStarted'; nubbinId: string; cocoon: CocoonKind }
   | { kind: 'eternal'; nubbinId: string; band: AlignmentBand }
   | { kind: 'awaitingKeeper'; nubbinId: string }
+  /** A waiting Nubbin's end-of-life check runs now: renderers may bring it into view. */
+  | { kind: 'endOfLifeFocus'; nubbinId: string }
   | { kind: 'critterGiven'; nubbinId: string; species: string }
   | { kind: 'essenceGiven'; nubbinId: string; type: NubbinType }
   | { kind: 'reborn'; nubbinId: string }

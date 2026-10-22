@@ -22,6 +22,9 @@ const MISSIONS: ReadonlyArray<{ kind: MissionKind; target: number }> = TEAMS.mis
 export const MISSION_COUNT = MISSIONS.length;
 
 export function joinTeam(world: World, team: TeamId, events: SimEvent[]): void {
+  // Joining again would wipe the points and rank already earned; the UI hides the choice,
+  // and the sim refuses it too, so a stale or replayed command cannot reset a team.
+  if (world.team) return;
   world.team = { id: team, rank: 0, points: 0, week: '', mission: null };
   events.push({ kind: 'teamJoined', team });
 }

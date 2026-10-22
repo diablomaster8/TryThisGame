@@ -482,6 +482,10 @@ export const LIFECYCLE = {
   thirdEvolutionMs: 3 * HOUR,
   /** A hatchling with a fixed rule to another baby grows into it after this long. */
   babyGrowthMs: 10 * MINUTE,
+  /** Waiting end-of-life checks run this far apart once the Keeper is back, one cocoon at a time. */
+  awaitingStaggerMs: 4 * SECOND,
+  /** After the away screen closes, the first waiting check runs this much later. */
+  awaitingAfterReleaseMs: 1 * SECOND,
 } as const;
 
 export const REBIRTH = {
@@ -1195,6 +1199,8 @@ export const INHERITANCE = {
 export const SKILLS = {
   pointsPerAchievement: 1,
   pointsPerQuest: 1,
+  /** Green Thumb shortens the time between fruit drops to this fraction. */
+  greenThumbFruitInterval: 0.9,
 } as const;
 
 /** Scanning wild and neighbour species toward an egg. */

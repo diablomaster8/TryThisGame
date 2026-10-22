@@ -1,5 +1,5 @@
 import { NUBBIN_NAMES } from '../config/strings';
-import { EGG, GROVE, LIFECYCLE, OFFLINE, THROW, TREES, TRUST } from '../config/tuning';
+import { EGG, GROVE, OFFLINE, SKILLS, THROW, TREES, TRUST } from '../config/tuning';
 import { nudgeAlignment } from './alignment';
 import { confirmRift, sanitizeOfflineAging } from './audience';
 import { applyDrop, decayNeeds } from './needs';
@@ -36,11 +36,11 @@ import { stepNpcs } from './npcs';
 import { addRewards, buy } from './shop';
 import { SPECIES } from './species';
 import { DEFAULT_TRAINER, rollEggSpecies, TRAINERS, trainerOf } from './trainers';
-import { advanceStage, evolve, hatch, secondEvolve } from './lifecycle';
+import { advanceStage, evolve, hatch, holdEndOfLife, secondEvolve } from './lifecycle';
 import { createEgg, EGG_COLORS, isFree, isHeld } from './nubbin';
 import { Rng } from './rng';
 import { addRecruit, festivalPrizeMultiplier, stepTown } from './town';
-import { stepSlips } from './slips';
+import { lifespanMs, stepSlips } from './slips';
 import { trainResult } from './gym';
 import { merge, setPartner, stepPartners } from './partners';
 import { fuse } from './fusion';
@@ -484,6 +484,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
         });
       }
       return;
+    case 'holdEndOfLife':
+      holdEndOfLife(world, cmd.hold);
+      return;
     case 'debugFillNeeds': {
       const n = findNubbin(world, cmd.nubbinId);
       if (!n) return;
@@ -493,7 +496,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     }
     case 'debugForceEvolve': {
       const n = findNubbin(world, cmd.nubbinId);
-      if (!n || n.stage === 'egg') return;
+      if (!n || n.stage === 'egg' || n.stage === 'cocoon') return;
       if (n.stage === 'adult') {
         if (n.form && n.form.second === null) secondEvolve(n, events);
         return;
@@ -505,7 +508,8 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       const n = findNubbin(world, cmd.nubbinId);
       if (!n || n.stage !== 'adult') return;
       n.eternal = null;
-      n.stageMs = LIFECYCLE.adultMs;
+      // The Nubbin's own lifespan: slips shorten it and some storylines lengthen it.
+      n.stageMs = lifespanMs(n);
       return;
     }
     case 'giveHeartFruit':
@@ -853,7 +857,9 @@ export function stepWorld(
         resolve(n.pos, world, 0.3, true);
       }
     }
-    updateKeeper(world, dtMs, events);
+    // Keeper actions happen only in live play: catch-up never walks to or acts on a saved
+    // intent (pet, feed, hug), and the intent waits for the Keeper to come back.
+    if (!offline) updateKeeper(world, dtMs, events);
     stepTrust(world, dtMs, events);
     stepNpcs(world, dtMs, rng);
     stepWeather(world, dtMs, rng, events);
@@ -890,14 +896,20 @@ export function stepWorld(
   return events;
 }
 
+/**
+ * The time between fruit drops now: the season (autumn) and Green Thumb change it. Live play
+ * and offline catch-up both read it, so time away grows the same fruit as time here.
+ */
+export function fruitIntervalMs(world: World): number {
+  const thumb = hasSkill(world, 'greenThumb') ? SKILLS.greenThumbFruitInterval : 1;
+  return TREES.fruitIntervalMs * fruitIntervalMultiplier(world) * thumb;
+}
+
 function updateTrees(world: World, dtMs: number, rng: Rng, events: SimEvent[]): void {
   for (const tree of world.trees) {
     tree.fruitTimerMs -= dtMs;
     if (tree.fruitTimerMs <= 0) {
-      tree.fruitTimerMs +=
-        TREES.fruitIntervalMs *
-        fruitIntervalMultiplier(world) *
-        (hasSkill(world, 'greenThumb') ? 0.9 : 1);
+      tree.fruitTimerMs += fruitIntervalMs(world);
       if (world.items.filter((i) => i.kind === 'fruit').length >= TREES.maxFruitOnGround) continue;
       dropFruit(world, tree, rng, events);
     }

@@ -8,6 +8,7 @@ export class AwayScreen {
   private readonly list: HTMLUListElement;
   private readonly summary: HTMLParagraphElement;
   private readonly focus: ReturnType<typeof dialogFocus>;
+  private onClosed: (() => void) | null = null;
 
   constructor(parent: HTMLElement) {
     this.root = el('div', 'modal');
@@ -31,7 +32,19 @@ export class AwayScreen {
     return !this.root.hidden;
   }
 
-  show(report: AwayReport, world: World): void {
+  /**
+   * `onClosed` runs once when the player closes the screen: the game releases the
+   * end-of-life checks it held, so waiting cocoons play out in front of the player.
+   */
+  show(report: AwayReport, world: World, onClosed?: () => void): void {
+    // A second report over an open screen keeps the first one's release too.
+    const earlier = this.onClosed;
+    this.onClosed = onClosed
+      ? () => {
+          earlier?.();
+          onClosed();
+        }
+      : earlier;
     this.summary.textContent = `${UI_TEXT.awayElapsed(formatDuration(report.elapsedMs))} ${UI_TEXT.awaySimulated(formatDuration(report.simulatedMs))}`;
     this.list.innerHTML = '';
     const nameOf = (id: string) => world.nubbins.find((n) => n.id === id)?.name ?? NAMES.creature;
@@ -74,6 +87,9 @@ export class AwayScreen {
     if (this.root.hidden) return;
     this.root.hidden = true;
     this.focus.closed();
+    const closed = this.onClosed;
+    this.onClosed = null;
+    closed?.();
   }
 }
 

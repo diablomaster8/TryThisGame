@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { CRITTERS, EGG, ESSENCES, LIFECYCLE, SIM } from '../../src/config/tuning';
 import { CRITTER_SPECIES, giveCritter, giveEssence, mainStatOf } from '../../src/sim/critters';
+import { winningType } from '../../src/sim/alignment';
 import { secondTypeFor, upgradeCandidate } from '../../src/sim/lifecycle';
 import { createEgg } from '../../src/sim/nubbin';
 import { Rng } from '../../src/sim/rng';
@@ -59,12 +60,29 @@ describe('critters', () => {
     expect(n.parts.tail).toBe('penguin-tail');
   });
 
-  it('normal critters train Stamina and do not nudge lean', () => {
+  it('normal critters train Stamina and nudge lean toward Normal', () => {
     const n = child();
     giveCritter(n, 'sheep', Rng.fromSeed(1), []);
     expect(n.stats.stamina.points).toBeCloseTo(CRITTERS.mainStatPoints);
-    expect(Object.values(n.typeLean).every((v) => v === 0)).toBe(true);
+    expect(n.typeLean.normal).toBe(CRITTERS.leanNudge);
+    expect(n.typeLean.swim + n.typeLean.fly + n.typeLean.run + n.typeLean.power).toBe(0);
     expect(mainStatOf('normal')).toBe('stamina');
+  });
+
+  it('a normal essence nudges lean toward Normal', () => {
+    const n = child();
+    giveEssence(n, 'normal', []);
+    expect(n.typeLean.normal).toBe(ESSENCES.leanNudge);
+  });
+
+  it('Normal critters can win the lean, and no clear lead still ends Normal', () => {
+    // Normal now competes like any type: Normal critters can win outright.
+    const n = child();
+    for (let i = 0; i < 4; i++) giveCritter(n, 'sheep', Rng.fromSeed(i), []);
+    giveCritter(n, 'rabbit', Rng.fromSeed(9), []);
+    expect(winningType(n.typeLean)).toBe('normal');
+    // Two types neck and neck with no Normal lean still resolve to Normal.
+    expect(winningType({ swim: 100, fly: 95, run: 0, power: 0, normal: 0 })).toBe('normal');
   });
 
   it('essences add +50 and nudge lean, no parts', () => {

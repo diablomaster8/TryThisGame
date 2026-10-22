@@ -26,7 +26,11 @@ import { applyCommand, createWorld, findNubbin, stepWorld } from './sim/world';
 
 export interface GameHooks {
   onEvents(events: SimEvent[]): void;
-  onAway(report: AwayReport): void;
+  /**
+   * Show "While you were away". End-of-life checks are held until `closed` is called, so
+   * call it once the player has closed the screen.
+   */
+  onAway(report: AwayReport, closed: () => void): void;
   onSelect(id: string | null): void;
   onStorageBlocked(): void;
   /** Another tab saved this same slot; this tab has stopped autosaving over it. */
@@ -271,8 +275,15 @@ export class Game {
         if (next.done) {
           // A quick reload is not "being away": only report real absences or actual news.
           const report = next.value;
-          if (report.simulatedMs > 0 && (report.events.length > 0 || elapsedMs > SIM.coarseAfterMs))
-            this.hooks.onAway(report);
+          if (
+            report.simulatedMs > 0 &&
+            (report.events.length > 0 || elapsedMs > SIM.coarseAfterMs)
+          ) {
+            // Nubbins waiting for the Keeper meet their end-of-life check in front of the
+            // player, not under this screen: the sim holds the checks until it closes.
+            this.send({ kind: 'holdEndOfLife', hold: true });
+            this.hooks.onAway(report, () => this.send({ kind: 'holdEndOfLife', hold: false }));
+          }
           break;
         }
         // Most catch-ups finish in one slice; past a short budget, show the indicator and
