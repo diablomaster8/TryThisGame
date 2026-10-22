@@ -63,12 +63,10 @@ export const OCCLUDE = {
   /** Anything this near the camera (view depth) thins too: the camera inside a crown. */
   nearCam: { value: 0 },
   /**
-   * Campaign graphics 2 (H10): fragments below this world height never thin (ground-hugging
-   * slabs, steps and cards), and a thinned building box thins inside a soft screen circle
-   * round each framed point, `boxRadius` times `radius`, not over its whole rectangle.
+   * Campaign graphics 2 (H10): fragments below this world height, or facing straight up
+   * or down (floors, steps, seats), are never cut by the circle or the near-lens test.
    */
   ground: { value: -1e9 },
-  boxRadius: { value: 1 },
   boxes: { value: 0 },
   boxMin: { value: [0, 1, 2, 3].map(() => new THREE.Vector3()) },
   boxMax: { value: [0, 1, 2, 3].map(() => new THREE.Vector3()) },
@@ -94,7 +92,6 @@ export function occludable(shader: THREE.WebGLProgramParametersWithUniforms, cir
   shader.uniforms.uOccMargin = OCCLUDE.margin;
   shader.uniforms.uOccBoxes = OCCLUDE.boxes;
   shader.uniforms.uOccGround = OCCLUDE.ground;
-  shader.uniforms.uOccBoxR = OCCLUDE.boxRadius;
   shader.uniforms.uOccBoxMin = OCCLUDE.boxMin;
   shader.uniforms.uOccBoxMax = OCCLUDE.boxMax;
   shader.uniforms.uOccHides = OCCLUDE.hides;
@@ -133,7 +130,6 @@ export function occludable(shader: THREE.WebGLProgramParametersWithUniforms, cir
       uniform float uOccNearCam;
       uniform float uOccBoxes;
       uniform float uOccGround;
-      uniform float uOccBoxR;
       uniform vec3 uOccBoxMin[4];
       uniform vec3 uOccBoxMax[4];
       uniform float uOccHides;
@@ -146,31 +142,34 @@ export function occludable(shader: THREE.WebGLProgramParametersWithUniforms, cir
         vec2 d = (f - p.xy / p.w) * vec2(vOccK.x, 1.0);
         float r = uOccR * vOccK.y / p.w;
         return 1.0 - smoothstep(r * 0.75, r, length(d));
-      }
-      float occRing(vec4 p, vec2 f) {
-        if (p.w <= 0.0) return 0.0;
-        vec2 d = (f - p.xy / p.w) * vec2(vOccK.x, 1.0);
-        float r = uOccR * uOccBoxR * vOccK.y / p.w;
-        return 1.0 - smoothstep(r * 0.6, r, length(d));
       }`,
     )
     .replace(
       '#include <clipping_planes_fragment>',
       `#include <clipping_planes_fragment>
-      if (uOccOn > 0.5 && vOccWorld.y > uOccGround) {
-        vec2 f = vOccClip.xy / vOccClip.w;
-        float hole = ${circle ? 'max(occHole(vOcc0, f), max(occHole(vOcc1, f), occHole(vOcc2, f)))' : '0.0'};
-        if (vOccClip.w < uOccNearCam * 0.4) discard;
-        if (vOccClip.w < uOccNearCam) hole = 1.0;
+      if (uOccOn > 0.5) {
+        // Flat pieces (floors, paving, steps, seats, slabs) are never cut near the ground:
+        // cutting them opened holes onto the void under it.
+        vec3 occN = cross(dFdx(vOccWorld), dFdy(vOccWorld));
+        bool occFlat = abs(occN.y) > 0.9 * length(occN);
+        // Boxes: a building that blocks the cast or crowds the lens is hidden outright
+        // whole (the dressing sets its box), never screen-doored; only its floor and the
+        // paving at its foot stay.
         for (int i = 0; i < 4; i++) {
           if (float(i) >= uOccBoxes) break;
           vec3 lo = uOccBoxMin[i];
-          vec3 hi = uOccBoxMax[i];
-          if (all(greaterThanEqual(vOccWorld, lo)) && all(lessThanEqual(vOccWorld, hi)))
-            hole = max(hole, max(occRing(vOcc0, f), max(occRing(vOcc1, f), occRing(vOcc2, f))));
+          if (occFlat && vOccWorld.y < lo.y + 0.5) continue;
+          if (all(greaterThanEqual(vOccWorld, lo)) && all(lessThanEqual(vOccWorld, uOccBoxMax[i]))) discard;
         }
-        float n = fract(52.9829189 * fract(dot(gl_FragCoord.xy, vec2(0.06711056, 0.00583715))));
-        if (hole > 0.0 && n >= mix(1.0, uOccKeep, hole)) discard;
+        // Low and flat pieces are never cut by the window or the near-lens test.
+        if (vOccWorld.y > uOccGround && !occFlat) {
+          if (vOccClip.w < uOccNearCam) discard;
+          vec2 f = vOccClip.xy / vOccClip.w;
+          float hole = ${circle ? 'max(occHole(vOcc0, f), max(occHole(vOcc1, f), occHole(vOcc2, f)))' : '0.0'};
+          // A clean round window round each subject, dithered only on its rim.
+          float n = fract(52.9829189 * fract(dot(gl_FragCoord.xy, vec2(0.06711056, 0.00583715))));
+          if (hole > 0.999 || (hole > 0.0 && n < hole)) discard;
+        }
       }
       if (uOccHides > 0.5) {
         float thin = 0.0;
@@ -386,6 +385,8 @@ export function house(
   const walls = new THREE.Mesh(wallGeo, wallMat);
   walls.position.set(x, y, z);
   walls.castShadow = walls.receiveShadow = true;
+  // The occluder (render3d/dress-a.ts) finds every house by this, tappable or not.
+  walls.userData.house = true;
   addHull(walls);
 
   // Stone plinth, reaching under the slope so a house on a hillside never floats.

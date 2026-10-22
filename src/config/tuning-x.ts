@@ -1,6 +1,6 @@
 /**
  * Tunables for campaign-graphics-2 package x (re-exported from tuning.ts): the 3D lychgate
- * (C9), the occluder's ground skip and round box fade (H10), the pixel building fade over
+ * (C9), the occluder's ground skip, round window and building hiding (H10), the pixel building fade over
  * the cast (H12) and the near-camera clear-out (H14). Every number is a default.
  */
 export const CG2_X = {
@@ -33,12 +33,24 @@ export const CG2_X = {
     scenes: ['c2-corvin', 'c8-open', 'c11-open', 'c11-gate'] as readonly string[],
   },
   occlude: {
-    /** H10: nothing within this height of the framed subjects' lowest ground thins. */
-    ground: 0.3,
-    /** H10: a thinned building thins in a circle this many times the occluder's radius. */
-    boxRadius: 1.9,
-    /** H14: in a staged scene, anything nearer the camera than this (view depth) thins. */
+    /** H10: nothing within this height of the subjects' lowest ground is cut (knee height). */
+    ground: 0.9,
+    /** The round window cut round each subject (world units at the subject's distance). */
+    radius: 1.6,
+    /**
+     * A hidden building's box starts this far up from its walls' foot, so paving and
+     * ground pads round it stay (cutting them showed the void under the Grove).
+     */
+    floor: 0.05,
+    /** H14: in a staged scene, anything nearer the camera than this (view depth) is cut. */
     nearCam: 5,
+    /** H14: a building whose box comes this near the camera hides outright. */
+    nearHide: 7,
+    /**
+     * A building nearer the camera than every subject hides when it is cut by the frame's
+     * bottom edge (foreground clutter) or covers this share of the frame.
+     */
+    fill: 0.4,
   },
   pixel: {
     /** H12: a subject's feet must sit this far (CSS px) above a sprite's foot to be behind it. */

@@ -83,7 +83,7 @@ function gateMaterial(tex: Tex, fade: { value: number }): THREE.MeshStandardMate
     shader.uniforms.uOccMine = fade;
     shader.fragmentShader = shader.fragmentShader
       .replace('uniform float uOccOn;', 'uniform float uOccOn;\nuniform float uOccMine;')
-      .replace('if (uOccOn > 0.5 &&', 'if (uOccOn * uOccMine > 0.5 &&');
+      .replace('if (uOccOn > 0.5) {', 'if (uOccOn * uOccMine > 0.5) {');
   };
   m.customProgramCacheKey = () => `${key}|vc|gate-x`;
   return m;
