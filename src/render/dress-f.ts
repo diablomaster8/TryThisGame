@@ -54,10 +54,11 @@ export const dressF: PixelDressing = {
     const dim = 1 - 0.55 * daylight.darkness;
     const d = new Draw(sp.batch, art, dim);
 
-    // Autumn and winter over the tree and bush sprites: a dithered wash, with snow caps.
+    // Autumn over the tree and bush sprites: a dithered wash. Winter's snow crowns are package
+    // w's (render/dress-w.ts), cut from each tree; the grey wash and its cloud-like cap are gone.
     const season = m.season?.season;
-    if (season === 'winter' || season === 'autumn') {
-      const key = season === 'winter' ? 'wc-winter' : 'wc-autumn';
+    if (season === 'autumn') {
+      const key = 'wc-autumn';
       for (const sc of SCENERY) {
         const tree = sc.kind.startsWith('tree');
         if (!tree && !sc.kind.startsWith('bush')) continue;
