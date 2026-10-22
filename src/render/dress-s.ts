@@ -37,6 +37,8 @@ let art: ArtS | null = null;
 let props: SpriteSheet | null = null;
 let clock = 0;
 let root: Group | null = null;
+/** The white room's floor disc, scaled so its radius is a share of the view's height. */
+let disc: Group | null = null;
 let below: Group | null = null;
 let grid: Mesh | null = null;
 let gridMat: MeshBasicMaterial | null = null;
@@ -68,11 +70,19 @@ function buildRoot(c: PixelDressCtx): Group {
   const g = new Group();
   g.name = 'dress-s-root';
   const m = rootMark();
-  const parts = [
-    flat(new PlaneGeometry(240, 240), basic(R.void), -0.06),
-    flat(new CircleGeometry(R.floorRadius, 48), basic(R.floor), -0.04, m),
-    flat(new RingGeometry(R.floorRadius, R.floorRadius + 0.07, 64), basic(R.horizon), -0.03, m),
-  ];
+  const parts = [flat(new PlaneGeometry(240, 240), basic(R.void), -0.06)];
+  // The disc and its horizon ring at unit radius, scaled each frame to the framing.
+  disc = new Group();
+  disc.position.set(m.x, 0, m.z);
+  for (const p of [
+    flat(new CircleGeometry(1, 48), basic(R.floor), -0.04),
+    flat(new RingGeometry(1, 1 + R.rimShare, 64), basic(R.horizon), -0.03),
+  ]) {
+    c.track(p.geometry);
+    c.track(p.material as MeshBasicMaterial);
+    disc.add(p);
+  }
+  g.add(disc);
   for (const p of parts) {
     c.track(p.geometry);
     c.track(p.material as MeshBasicMaterial);
@@ -130,6 +140,24 @@ function buildGrid(c: PixelDressCtx): Mesh | null {
   return mesh;
 }
 
+/**
+ * The room's radius in world units: `CG2_S.root.viewShare` of the HUD-safe view's height,
+ * measured through the pixel camera round the chair (the floor's ellipse is widest across
+ * the screen, so the larger of the two axes' spans sets the scale).
+ */
+function roomRadius(c: PixelDressCtx): number {
+  const R = CG2_S.root;
+  const m = rootMark();
+  const o = c.camera.toScreen(m.x, 0, m.z);
+  const ax = c.camera.toScreen(m.x + 1, 0, m.z);
+  const az = c.camera.toScreen(m.x, 0, m.z + 1);
+  if (!o || !ax || !az) return R.floorRadius;
+  const ppu = Math.max(Math.hypot(ax.x - o.x, ax.y - o.y), Math.hypot(az.x - o.x, az.y - o.y));
+  if (ppu < 1e-3) return R.floorRadius;
+  const want = (c.safeRect().h * R.viewShare) / ppu;
+  return Math.max(R.minRadius, Math.min(R.floorRadius, want));
+}
+
 export const dressS: PixelDressing = {
   id: 's',
   build(c) {
@@ -139,6 +167,7 @@ export const dressS: PixelDressing = {
     if (art) c.track(art.sheet);
     props = null;
     root = null;
+    disc = null;
     below = null;
     grid = null;
     gridMat = null;
@@ -156,6 +185,11 @@ export const dressS: PixelDressing = {
     clock += dt;
     const s = setsS(world, stage);
     if (root) root.visible = s.root;
+    if (s.root && disc) {
+      // Across only: a lift would sink the disc under the void.
+      const r = roomRadius(ctx);
+      disc.scale.set(r, 1, r);
+    }
     if (below) below.visible = s.below;
     if (grid && gridMat) {
       grid.visible = s.digital;
@@ -182,6 +216,25 @@ export const dressS: PixelDressing = {
         opacity,
       });
     };
+
+    if (s.root) {
+      // The chair, larger than package f's, so it reads at the close framing.
+      const rm = rootMark();
+      const r = a.frame('chair');
+      const h = CG2_S.root.chairH;
+      sp.batch.draw({
+        sheet: a.sheet,
+        rect: r,
+        flip: false,
+        x: rm.x,
+        y: 0,
+        z: rm.z,
+        mode: 'billboard',
+        w: (h * r.w) / r.h,
+        h,
+        tint: 1,
+      });
+    }
 
     if (s.below) {
       const m = belowMark();

@@ -25,7 +25,8 @@ import { RasterAtlas } from './paint/atlas';
 import { FROST_PX, paintFrostDecal } from './paint/frost-w';
 import { paintSnowCrown } from './paint/scenery';
 import { pondOutline } from './paint/shore';
-import { ICE_MARGIN, paintPondIce } from './paint/terrain';
+import { ICE_MARGIN, paintPondIce, paintStreamIce } from './paint/terrain';
+import { iceRibbon } from './ice-ribbon';
 import { stageFlags } from './scene-stage';
 import { SCENERY } from './scenery';
 import { isSceneryHidden } from './scenery-hide';
@@ -70,12 +71,16 @@ function iceGeometry(): ShapeGeometry {
   return geo;
 }
 
-/** Whether this scene wants the pond frozen: its own `pondIce` prop, else Hazel's chapter 10. */
+/**
+ * Whether this scene wants the pond (and the stream) frozen: its own `pondIce` prop, else
+ * Hazel's chapters 10 to 12 (the frost line, the winter, and chapter 12's "cold and very
+ * bright" morning). Both renderers ask this, so they agree.
+ */
 export function pondIceWanted(stage: SceneStage, campaign: string, chapter: number): boolean {
   const own = stage.props?.pondIce;
   if (own === 'show') return true;
   if (own === 'hide') return false;
-  return campaign === 'hazel' && chapter === 10;
+  return campaign === 'hazel' && chapter >= 10 && chapter <= 12;
 }
 
 /**
@@ -190,6 +195,7 @@ class PixelW implements PixelDressing {
   private ctx: PixelDressCtx | null = null;
   private ice: Mesh<ShapeGeometry, MeshBasicMaterial> | null = null;
   private ground: WinterGround | null = null;
+  private stream: Mesh | null = null;
   private crowns: SpriteSheet | null = null;
   private crownsTried = false;
   private decal: SpriteSheet | null = null;
@@ -221,6 +227,20 @@ class PixelW implements PixelDressing {
       ctx.track(geo);
       ctx.track(mat);
       this.ice = ice;
+      // The stream freezes with it: two strips of ice along the river.
+      const st = paintStreamIce();
+      const sm = new MeshBasicMaterial({ map: st, depthWrite: false, side: DoubleSide });
+      const group = new Mesh();
+      for (const line of [GROVE.river.inflow, GROVE.river.outflow]) {
+        const g = iceRibbon(line, GROVE.river.width + 0.1, CG2_W.ice.pixelY + 0.001);
+        ctx.track(g);
+        group.add(new Mesh(g, sm));
+      }
+      group.visible = false;
+      ctx.groups.grove.add(group);
+      ctx.track(st);
+      ctx.track(sm);
+      this.stream = group;
       this.ground = new WinterGround(ctx);
       if (ctx.sprites) {
         const atlas = new RasterAtlas(256);
@@ -268,6 +288,7 @@ class PixelW implements PixelDressing {
     if (this.ice) {
       const on = home && pondIceWanted(stage, flags.campaign, flags.chapter);
       this.ice.visible = on;
+      if (this.stream) this.stream.visible = on;
       if (on) this.ice.material.color.setScalar(0.5 + 0.5 * (1 - daylight.darkness));
     }
 
@@ -351,6 +372,8 @@ class PixelW implements PixelDressing {
   dispose(): void {
     this.ice?.removeFromParent();
     this.ice = null;
+    this.stream?.removeFromParent();
+    this.stream = null;
     this.ground?.dispose();
     this.ground = null;
     this.ctx = null;

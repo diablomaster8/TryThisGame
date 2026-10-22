@@ -114,6 +114,41 @@ function spark(s: number): Paint {
   };
 }
 
+/**
+ * The Root Node's one chair, 28 by 40, seen three-quarter: a dark outline round a pale
+ * wooden back with two slats, the seat as a lit top face, four legs. Shape first, so it
+ * reads on white without its colour.
+ */
+function chair(c: CanvasRenderingContext2D): void {
+  const ink = '#3a2c22';
+  const wood = '#b9895a';
+  const lit = '#d9ad7a';
+  const dark = '#8a6240';
+  // Back legs and back frame.
+  rect(c, ink, 5, 1, 18, 2);
+  rect(c, ink, 5, 1, 4, 37);
+  rect(c, ink, 19, 1, 4, 30);
+  rect(c, wood, 6, 2, 2, 35);
+  rect(c, wood, 20, 2, 2, 28);
+  rect(c, wood, 6, 2, 16, 1);
+  // Slats.
+  for (const y of [7, 13]) {
+    rect(c, ink, 8, y, 12, 3);
+    rect(c, lit, 8, y + 1, 12, 1);
+  }
+  // Seat: top face lit, front edge dark.
+  rect(c, ink, 2, 20, 25, 8);
+  rect(c, lit, 3, 21, 23, 4);
+  rect(c, dark, 3, 25, 23, 2);
+  // Front legs.
+  rect(c, ink, 2, 27, 4, 12);
+  rect(c, ink, 23, 27, 4, 12);
+  rect(c, wood, 3, 27, 2, 11);
+  rect(c, wood, 24, 27, 2, 11);
+  // A floor shadow under it.
+  rect(c, 'rgba(60,64,90,0.25)', 0, 38, 28, 2);
+}
+
 function drip(c: CanvasRenderingContext2D): void {
   rect(c, 'rgba(170,215,255,0.5)', 0, 0, 2, 3);
   rect(c, 'rgba(200,230,255,0.85)', 0, 3, 2, 3);
@@ -154,6 +189,7 @@ export function buildArtS(): ArtS | null {
   const list: Array<[string, number, number, Paint]> = [
     ['board-edge', 80, 100, boardEdge],
     ['door', 40, 80, door],
+    ['chair', 28, 40, chair],
     ['drip', 2, 8, drip],
     ['ripple', 12, 6, ripple],
     ['glow', 32, 32, glow],

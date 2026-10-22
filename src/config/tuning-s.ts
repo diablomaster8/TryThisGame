@@ -13,6 +13,12 @@ export const CG2_S = {
     horizon: '#c4c8d6',
     /** The chair's scale in 3D (the prop kit's chair is a child's size). */
     chairScale: 1.6,
+    /** Pixel: the room's radius as a share of the safe view's height, its floor and ceiling. */
+    viewShare: 0.34,
+    minRadius: 2.5,
+    /** Pixel: the horizon ring's width as a share of the radius, and the chair's height. */
+    rimShare: 0.012,
+    chairH: 1.5,
     /** 3D: the whites are lifted past 1 so the warm grade leaves them white. */
     gain: 1.45,
   },

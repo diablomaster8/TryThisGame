@@ -36,10 +36,12 @@ export const CG2_W = {
     pixelY: 7.6,
     pixelOpacity: 0.8,
     /** 3D colossus scale against the stock card, and its fog-coloured rim. */
-    scale3d: 0.42,
-    opacity3d: 0.85,
+    scale3d: 0.6,
+    opacity3d: 0.95,
     /** 3D colossus centre height above the ground: its foot fades out at the ground. */
-    y3d: 4,
+    y3d: 7,
+    /** 3D: how far the card stands toward the camera from the Hush's mark, so the shot has headroom for it. */
+    z3d: 13,
     rimColor: '#dfe7f2',
     /** Frost decals under put-out lanterns: radius (world units), seconds to grow, tint. */
     frostRadius: 2.1,
