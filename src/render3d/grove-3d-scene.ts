@@ -26,7 +26,7 @@ import { FrameGovernor } from './governor';
 import { LampPool, type LampSource } from './lamp-pool';
 import { setOutlines } from './toon-outline';
 import { CrownFade } from './crowns';
-import { Garden } from './garden';
+import { Garden, useBuildingKit } from './garden';
 import { Halo } from './halo';
 import { Hollow } from './hollow';
 import { buildGroveProps, buildGroveTrees, type GroveProps } from './props';
@@ -306,6 +306,8 @@ export class Grove3dScene {
       holds: this.staging.holds,
     };
     this.bursts = new Bursts(this.scene);
+    // The garden's and the story's buildings wear the Grove's building kit (bug 15).
+    useBuildingKit(this.tex);
     this.garden = new Garden(this.world3d);
     this.hollow = new Hollow(this.scene, this.tex, this.sky);
     this.halo = new Halo(this.scene);
