@@ -2410,3 +2410,326 @@ select {
 .chapter-offer-row .btn {
   min-height: 44px;
 }
+
+/* ---------- campaign graphics 4, package u4: inspector, box skins, thumbnails, gallery, map ---------- */
+
+/* K12: the item card opens the keepsake inspector. */
+.item-card {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.item-card:focus-visible {
+  outline: 3px solid #f2d34c;
+  outline-offset: 2px;
+}
+
+.inspect {
+  z-index: 45;
+  text-align: center;
+}
+
+.inspect-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: min(320px, calc(100% - 24px));
+}
+
+.inspect-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 40%, rgba(255, 241, 201, 0.14), rgba(0, 0, 0, 0.25));
+  border: 2px solid var(--px-edge);
+  touch-action: none;
+}
+
+.inspect-canvas {
+  display: block;
+  touch-action: none;
+  cursor: grab;
+}
+
+.inspect-canvas.pixel {
+  image-rendering: pixelated;
+}
+
+.inspect-line {
+  margin: 4px 0 0;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.inspect-row {
+  display: flex;
+  gap: 8px;
+}
+
+.inspect-row .btn {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* K20: a frame and corner ornament per campaign, each recognisable by its shape. */
+.dialogue[class*='box-'] .dialogue-box::before,
+.dialogue[class*='box-'] .dialogue-box::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+
+.box-orn {
+  position: absolute;
+  pointer-events: none;
+}
+
+/* Logged In: a terminal bevel (a dark screen, a thin inner rule, corner brackets) and a caret. */
+.dialogue.box-terminal .dialogue-box {
+  background: rgba(2, 16, 28, 0.94);
+  border: 2px solid #52e6ff;
+  border-radius: 0;
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  box-shadow:
+    inset 0 0 0 3px #04141f,
+    inset 0 0 0 4px rgba(82, 230, 255, 0.55),
+    inset 3px 3px 0 4px rgba(82, 230, 255, 0.16),
+    0 0 0 2px rgba(0, 0, 0, 0.45);
+}
+
+.dialogue.box-terminal .dialogue-box::before {
+  inset: 7px;
+  background:
+    linear-gradient(#52e6ff, #52e6ff) top left / 12px 2px no-repeat,
+    linear-gradient(#52e6ff, #52e6ff) top left / 2px 12px no-repeat,
+    linear-gradient(#52e6ff, #52e6ff) top right / 12px 2px no-repeat,
+    linear-gradient(#52e6ff, #52e6ff) top right / 2px 12px no-repeat,
+    linear-gradient(#52e6ff, #52e6ff) bottom left / 12px 2px no-repeat,
+    linear-gradient(#52e6ff, #52e6ff) bottom left / 2px 12px no-repeat,
+    linear-gradient(#52e6ff, #52e6ff) bottom right / 12px 2px no-repeat,
+    linear-gradient(#52e6ff, #52e6ff) bottom right / 2px 12px no-repeat;
+}
+
+.dialogue.box-terminal .box-orn {
+  right: 16px;
+  bottom: 10px;
+  color: #52e6ff;
+  font-size: 16px;
+  line-height: 1;
+  animation: box-caret 1.1s steps(1) infinite;
+}
+
+@keyframes box-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* The Beetle Road: ruled ledger paper with a folded, stamped corner. */
+.dialogue.box-ledger .dialogue-box {
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 21px, rgba(255, 179, 71, 0.13) 21px 22px),
+    rgba(40, 22, 8, 0.93);
+  border: 2px solid #8a5a2a;
+  border-radius: 0;
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 220, 160, 0.22),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.5),
+    0 0 0 2px rgba(0, 0, 0, 0.4);
+}
+
+.dialogue.box-ledger .dialogue-box::before {
+  top: -2px;
+  right: -2px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 28px 28px 0;
+  border-color: transparent #ffb347 #8a5a2a transparent;
+}
+
+.dialogue.box-ledger .dialogue-box::after {
+  top: 7px;
+  right: 40px;
+  width: 30px;
+  height: 18px;
+  border: 2px double #ff9a3c;
+  border-radius: 3px;
+  transform: rotate(-9deg);
+  opacity: 0.8;
+}
+
+/* Dawn & Dusk: a half sun rising over the box's edge, or a half moon hanging from it. */
+.dialogue.box-sun .dialogue-box {
+  border-color: #ffb3c6;
+}
+
+.dialogue.box-sun .dialogue-box::before {
+  top: -23px;
+  right: 22px;
+  width: 46px;
+  height: 23px;
+  border-radius: 46px 46px 0 0;
+  background: #ffd27a;
+  border: 2px solid #ffb3c6;
+  border-bottom: 0;
+  box-sizing: border-box;
+}
+
+.dialogue.box-sun .dialogue-box::after {
+  top: -34px;
+  right: 14px;
+  width: 62px;
+  height: 31px;
+  background: repeating-conic-gradient(
+    from -90deg at 50% 100%,
+    #ffb3c6 0 6deg,
+    transparent 6deg 24deg
+  );
+  -webkit-mask: radial-gradient(
+    circle at 50% 100%,
+    transparent 25px,
+    #000 26px,
+    #000 31px,
+    transparent 32px
+  );
+  mask: radial-gradient(
+    circle at 50% 100%,
+    transparent 25px,
+    #000 26px,
+    #000 31px,
+    transparent 32px
+  );
+}
+
+.dialogue.box-moon .dialogue-box {
+  border-color: #b5a0ff;
+}
+
+.dialogue.box-moon .dialogue-box::before {
+  top: -2px;
+  right: 24px;
+  width: 46px;
+  height: 23px;
+  border-radius: 0 0 46px 46px;
+  background: radial-gradient(circle at 62% 8%, transparent 14px, #b5a0ff 15px);
+  border: 2px solid #b5a0ff;
+  border-top: 0;
+  box-sizing: border-box;
+}
+
+/* The Hundred Days: a small day tally in the corner, a slash through every fifth stroke. */
+.dialogue.box-tally .dialogue-box {
+  border-color: #d9c46a;
+}
+
+.dialogue.box-tally .box-orn {
+  top: 7px;
+  right: 12px;
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.dialogue.box-tally .box-orn i {
+  display: block;
+  width: 2px;
+  height: 13px;
+  background: #d9c46a;
+}
+
+.dialogue.box-tally .box-orn i.gap {
+  margin-left: 7px;
+}
+
+.dialogue.box-tally .box-orn i.slash {
+  margin-left: -17px;
+  height: 17px;
+  transform: rotate(68deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialogue.box-terminal .box-orn {
+    animation: none;
+  }
+}
+
+/* K31: a chapter's picture beside its title in the journal. */
+.journal-chapter.has-thumb {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.journal-thumb {
+  flex: none;
+  width: 80px;
+  height: 45px;
+  object-fit: cover;
+  border: 2px solid var(--px-edge);
+}
+
+/* K47: the ending gallery. */
+.ending-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.ending-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ending-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #0e0a1c;
+  border: 2px solid var(--px-edge);
+}
+
+.ending-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ending-card.locked .ending-frame {
+  border-style: dashed;
+  background: repeating-linear-gradient(135deg, #14102a 0 8px, #0e0a1c 8px 16px);
+}
+
+.ending-lock {
+  font-size: 26px;
+  line-height: 1;
+}
+
+.ending-title {
+  font-size: 13px;
+}
+
+.ending-card.locked .ending-title {
+  opacity: 0.7;
+}
+
+.ending-state {
+  margin: 0;
+  font-size: 12px;
+}
+
+/* K33: a campaign's own places on the Map, marked with a diamond as well as a colour. */
+.map-grid .btn.map-campaign {
+  border-style: dashed;
+  border-width: 2px;
+  z-index: 1;
+}
+
+.map-campaign-title[hidden] {
+  display: none;
+}

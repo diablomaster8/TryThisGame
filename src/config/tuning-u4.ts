@@ -25,11 +25,11 @@ export const CG4_U4 = {
     h: 128,
     /** Lines on a request card, and the cards shown. */
     cards: 6,
-    /** World size of the face in the pixel view and in 3D. */
-    pixel: { w: 1.75, h: 1.4, y: 0.62, forward: 0.06 },
-    three: { w: 1.38, h: 0.86, y: 1.1, forward: 0.075 },
-    /** The guard house notices: a small pinned pair beside the door (world units). */
-    notice: { w: 0.9, h: 0.7, y: 1.05, dx: 0.0, dz: 0.0 },
+    /** World size of the face, its bottom edge and how far it stands off the board (pixel, 3D). */
+    pixel: { w: 2.75, h: 2, bottom: 0.75, forward: 0.06 },
+    three: { w: 1.38, h: 0.86, bottom: 0.67, forward: 0.052 },
+    /** The guard house notices: size, bottom edge, how far out from the wall and to the right of the door. */
+    notice: { w: 0.9, h: 0.7, bottom: 0.9, out: 1.34, side: 1.2, pixelOut: 0.05, pixelBottom: 0.9 },
   },
   thumb: { w: 160, h: 90, quality: 0.8 },
   photoQuality: 0.85,
