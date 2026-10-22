@@ -46,7 +46,25 @@ export const CG_A = {
    * round that point. `radius` is in world units at the point's distance, `keep` the
    * share of the wall drawn inside it, `height` the point's height off the ground.
    */
-  occlude: { radius: 2, keep: 0.2, height: 0.9, margin: 0.8 },
+  occlude: {
+    radius: 2.8,
+    keep: 0.2,
+    height: 0.85,
+    margin: 0.8,
+    /** A building between the camera and the subjects that fills more of the frame than this
+     * share thins whole; its box is its walls' grown by `eaves` and lifted by `roof`. */
+    bigShare: 0.15,
+    eaves: 0.8,
+    roof: 3.5,
+  },
+  /**
+   * C3 on the story sets (the Hollow camp and Corvin's garden in 3D): a floor under the
+   * fill, so their ground reads at about a fifth of full brightness like the Grove's night.
+   * `hollowColor` replaces the cave rig's dark sky tint on the camp.
+   */
+  storyFloor: { hemi: 12, env: 6, hollowColor: '#aab6ee', hollowGround: 4, corvinHemi: 12 },
+  /** C2 in the pixel view: the Hollow camp's fill and key are held at least this high. */
+  pixelHollow: { hemi: 10, sun: 5, color: '#c8d0ff' },
   /**
    * M16: the skyline ring at the fog's edge, three painted layers of hill and treeline
    * round the Grove's centre. `fog` is how far each layer melts into the fog's colour.

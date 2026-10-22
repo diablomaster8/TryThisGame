@@ -55,6 +55,14 @@ export const OCCLUDE = {
   radius: { value: CG_A.occlude.radius as number },
   keep: { value: CG_A.occlude.keep as number },
   margin: { value: CG_A.occlude.margin as number },
+  /**
+   * Whole buildings to thin (up to four world boxes, min and max corners): one that stands
+   * between the camera and the framed subjects and fills more than a set share of the
+   * frame (`CG_A.occlude.bigShare`). Box `i` is in use when `i < boxes`.
+   */
+  boxes: { value: 0 },
+  boxMin: { value: [0, 1, 2, 3].map(() => new THREE.Vector3()) },
+  boxMax: { value: [0, 1, 2, 3].map(() => new THREE.Vector3()) },
 };
 
 /** Hook the H9 dither into any lit or basic material's shader (buildings and their hulls). */
@@ -64,8 +72,11 @@ export function occludable(shader: THREE.WebGLProgramParametersWithUniforms): vo
   shader.uniforms.uOccR = OCCLUDE.radius;
   shader.uniforms.uOccKeep = OCCLUDE.keep;
   shader.uniforms.uOccMargin = OCCLUDE.margin;
+  shader.uniforms.uOccBoxes = OCCLUDE.boxes;
+  shader.uniforms.uOccBoxMin = OCCLUDE.boxMin;
+  shader.uniforms.uOccBoxMax = OCCLUDE.boxMax;
   const vary =
-    'varying vec4 vOccClip;\nvarying vec4 vOcc0;\nvarying vec4 vOcc1;\nvarying vec4 vOcc2;\nvarying vec2 vOccK;';
+    'varying vec4 vOccClip;\nvarying vec4 vOcc0;\nvarying vec4 vOcc1;\nvarying vec4 vOcc2;\nvarying vec2 vOccK;\nvarying vec3 vOccWorld;';
   shader.vertexShader = shader.vertexShader
     .replace('#include <common>', `#include <common>\nuniform vec4 uOccP[3];\n${vary}`)
     .replace(
@@ -74,6 +85,7 @@ export function occludable(shader: THREE.WebGLProgramParametersWithUniforms): vo
       {
         mat4 vp = projectionMatrix * viewMatrix;
         vOccClip = gl_Position;
+        vOccWorld = (modelMatrix * vec4(transformed, 1.0)).xyz;
         vOcc0 = uOccP[0].w > 0.5 ? vp * vec4(uOccP[0].xyz, 1.0) : vec4(0.0);
         vOcc1 = uOccP[1].w > 0.5 ? vp * vec4(uOccP[1].xyz, 1.0) : vec4(0.0);
         vOcc2 = uOccP[2].w > 0.5 ? vp * vec4(uOccP[2].xyz, 1.0) : vec4(0.0);
@@ -88,12 +100,15 @@ export function occludable(shader: THREE.WebGLProgramParametersWithUniforms): vo
       uniform float uOccR;
       uniform float uOccKeep;
       uniform float uOccMargin;
+      uniform float uOccBoxes;
+      uniform vec3 uOccBoxMin[4];
+      uniform vec3 uOccBoxMax[4];
       ${vary}
       float occHole(vec4 p, vec2 f) {
         if (p.w <= 0.0 || vOccClip.w > p.w - uOccMargin) return 0.0;
         vec2 d = (f - p.xy / p.w) * vec2(vOccK.x, 1.0);
         float r = uOccR * vOccK.y / p.w;
-        return 1.0 - smoothstep(r * 0.6, r, length(d));
+        return 1.0 - smoothstep(r * 0.75, r, length(d));
       }`,
     )
     .replace(
@@ -102,6 +117,12 @@ export function occludable(shader: THREE.WebGLProgramParametersWithUniforms): vo
       if (uOccOn > 0.5) {
         vec2 f = vOccClip.xy / vOccClip.w;
         float hole = max(occHole(vOcc0, f), max(occHole(vOcc1, f), occHole(vOcc2, f)));
+        for (int i = 0; i < 4; i++) {
+          if (float(i) >= uOccBoxes) break;
+          vec3 lo = uOccBoxMin[i];
+          vec3 hi = uOccBoxMax[i];
+          if (all(greaterThanEqual(vOccWorld, lo)) && all(lessThanEqual(vOccWorld, hi))) hole = 1.0;
+        }
         float n = fract(52.9829189 * fract(dot(gl_FragCoord.xy, vec2(0.06711056, 0.00583715))));
         if (hole > 0.0 && n >= mix(1.0, uOccKeep, hole)) discard;
       }`,
