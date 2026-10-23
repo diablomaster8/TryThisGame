@@ -10,7 +10,9 @@ export const CG4_C4 = {
    * footprint goes with it: `side` across the ground (porch boards, steps, the plinth's
    * lip, rubble), `down` below the walls (the plinth reaches 0.65 under them).
    */
-  footprint: { side: 0.3, down: 1.0 },
+  // `ground`: stone and plaster flat pieces up to this far over the walls' foot stay (the
+  // plinth's top is the only ground under a story house); floors, boards and tiles go.
+  footprint: { side: 0.3, down: 1.0, ground: 0.5 },
   /** K16 review: cells a floor mark keeps clear of the stairs, chest, torches and loot. */
   floorClear: 1,
   /**

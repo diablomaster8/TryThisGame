@@ -32,9 +32,13 @@ export function buildingMaterial(
     color: o.color ?? '#ffffff',
   });
   const sky = GROVE3D.toon.sky;
+  // K2 review: whether this material's low flat pieces count as ground under a hidden box
+  // (stone and plaster do; `markFootprint` turns it off for floors, boards and roof tiles).
+  const ground = { value: 1 };
+  m.userData.occGround = ground;
   m.onBeforeCompile = (shader) => {
     toonShader(shader, 0, sky);
-    occludable(shader);
+    occludable(shader, true, true, ground);
     m.userData.shader = shader;
   };
   m.customProgramCacheKey = () => `building-toon|${sky}|occ`;
@@ -86,7 +90,31 @@ export const OCCLUDE = {
    * steps, rubble), `y` down (the plinth reaches under the slope, the floor inside).
    */
   footprint: { value: new THREE.Vector2(CG4_C4.footprint.side, CG4_C4.footprint.down) },
+  /** Flat pieces this far over a hidden box's foot stay: they are the ground there. */
+  eaves: { value: CG4_C4.footprint.ground },
 };
+
+const GROUND_YES = { value: 1 };
+
+/** Bucket names whose low flat pieces are part of a house, never ground (K2 review). */
+const NOT_GROUND = /^(roof|timber|door|plank|shutter)/;
+
+/**
+ * K2 review: a hidden house's floor, porch boards and fallen roof tiles must go with it,
+ * while the stone and plaster ground round and under it stays. The kit's merged buckets
+ * are named by key, so the materials of the house-only buckets are marked here.
+ */
+export function markFootprint(root: THREE.Object3D): void {
+  root.traverse((o) => {
+    const mesh = o as THREE.Mesh;
+    if (!mesh.isMesh || !NOT_GROUND.test(mesh.name)) return;
+    const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+    for (const m of mats) {
+      const g = m.userData.occGround as { value: number } | undefined;
+      if (g) g.value = 0;
+    }
+  });
+}
 
 /**
  * Hook the H9 dither into any lit or basic material's shader (buildings and their hulls).
@@ -97,7 +125,9 @@ export function occludable(
   shader: THREE.WebGLProgramParametersWithUniforms,
   circle = true,
   flatStays = true,
+  ground: { value: number } = GROUND_YES,
 ): void {
+  shader.uniforms.uOccIsGround = ground;
   shader.uniforms.uOccNearCam = OCCLUDE.nearCam;
   shader.uniforms.uOccOn = OCCLUDE.on;
   shader.uniforms.uOccP = OCCLUDE.points;
@@ -113,6 +143,7 @@ export function occludable(
   shader.uniforms.uOccHideMax = OCCLUDE.hideMax;
   shader.uniforms.uOccHideFade = OCCLUDE.hideFade;
   shader.uniforms.uOccFoot = OCCLUDE.footprint;
+  shader.uniforms.uOccEaves = OCCLUDE.eaves;
   const vary =
     'varying vec4 vOccClip;\nvarying vec4 vOcc0;\nvarying vec4 vOcc1;\nvarying vec4 vOcc2;\nvarying vec2 vOccK;\nvarying vec3 vOccWorld;';
   shader.vertexShader = shader.vertexShader
@@ -152,7 +183,15 @@ export function occludable(
       uniform vec3 uOccHideMax[8];
       uniform float uOccHideFade[8];
       uniform vec2 uOccFoot;
+      uniform float uOccEaves;
+      uniform float uOccIsGround;
       ${vary}
+      // Flat pieces at the walls' foot stay: under the story houses the plinth's top is the
+      // only ground there is (nothing lies beneath it), and the yards round them are kit too.
+      // A ruin's floor, higher up, goes with the house, as do the plinth's sides.
+      bool occGroundStays(vec3 p, bool isFlat, vec3 lo) {
+        return isFlat && uOccIsGround > 0.5 && p.y < lo.y + uOccEaves;
+      }
       // A hidden box's whole footprint (K2 review): grown across and down.
       bool occInFoot(vec3 p, vec3 lo, vec3 hi) {
         vec3 g = vec3(uOccFoot.x, uOccFoot.y, uOccFoot.x);
@@ -179,9 +218,10 @@ export function occludable(
         for (int i = 0; i < 4; i++) {
           if (float(i) >= uOccBoxes) break;
           // The whole footprint goes with the house: floor, plinth, porch and steps (K2
-          // review). Only flat pieces below the plinth's reach stay (paving over the void).
+          // review). Only flat ground at the walls' foot stays (the yards and paving the
+          // house stands on, with nothing under them).
           vec3 lo = uOccBoxMin[i];
-          ${flatStays ? 'if (occFlat && vOccWorld.y < lo.y - uOccFoot.y) continue;' : ''}
+          ${flatStays ? 'if (occGroundStays(vOccWorld, occFlat, lo)) continue;' : ''}
           if (occInFoot(vOccWorld, lo, uOccBoxMax[i])) discard;
         }
         // Low and flat pieces are never cut by the window or the near-lens test.
@@ -195,10 +235,12 @@ export function occludable(
         }
       }
       if (uOccHides > 0.5) {
+        vec3 occNH = cross(dFdx(vOccWorld), dFdy(vOccWorld));
+        bool occFlatH = abs(occNH.y) > 0.9 * length(occNH);
         float thin = 0.0;
         for (int i = 0; i < 8; i++) {
           if (float(i) >= uOccHides) break;
-          if (uOccHideFade[i] > 1.5 && occInFoot(vOccWorld, uOccHideMin[i], uOccHideMax[i])) discard;
+          if (uOccHideFade[i] > 1.5 && occInFoot(vOccWorld, uOccHideMin[i], uOccHideMax[i]) && !occGroundStays(vOccWorld, occFlatH, uOccHideMin[i])) discard;
           if (all(greaterThanEqual(vOccWorld, uOccHideMin[i])) && all(lessThanEqual(vOccWorld, uOccHideMax[i]))) {
             thin = max(thin, min(1.0, uOccHideFade[i]));
           }
