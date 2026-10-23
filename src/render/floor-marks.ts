@@ -8,6 +8,7 @@ import {
   runFloor,
   type Cell,
   type Floor,
+  type Room,
 } from '../sim/dungeon';
 import type { World } from '../sim/types';
 
@@ -62,12 +63,19 @@ function openNear(
   taken: ReadonlySet<string>,
   blocked: ReadonlySet<string>,
   level: number | null = null,
+  room: Room | null = null,
 ): Cell {
+  const flat = (x: number, y: number): boolean =>
+    level === null || Math.abs((f.elevation[cellIndex(f, x, y)] ?? 0) - level) < 0.05;
+  const inRoom = (x: number, y: number): boolean =>
+    !room || (x >= room.x && x < room.x + room.w && y >= room.y && y < room.y + room.h);
+  const clear = (x: number, y: number): boolean => !blocked.has(key(x, y));
+  // In the stairs' own room first (nothing between the cast and the Keeper), on the flat.
   const passes: Array<(x: number, y: number) => boolean> = [
-    (x, y) =>
-      !blocked.has(key(x, y)) &&
-      (level === null || Math.abs((f.elevation[cellIndex(f, x, y)] ?? 0) - level) < 0.05),
-    (x, y) => !blocked.has(key(x, y)),
+    (x, y) => clear(x, y) && flat(x, y) && inRoom(x, y),
+    (x, y) => clear(x, y) && inRoom(x, y),
+    (x, y) => clear(x, y) && flat(x, y),
+    clear,
     () => true,
   ];
   for (const ok of passes)
@@ -94,9 +102,16 @@ function cellOfWorld(f: Floor, x: number, z: number): Cell {
   return { x: Math.floor(x / s + f.cols / 2), y: Math.floor(z / s + f.rows / 2) };
 }
 
+/** The room holding `c`, if any. */
+function roomOf(f: Floor, c: Cell): Room | null {
+  return (
+    f.rooms.find((r) => c.x >= r.x && c.x < r.x + r.w && c.y >= r.y && c.y < r.y + r.h) ?? null
+  );
+}
+
 /** The middle of the room holding `c`, or `c`. */
 function roomMiddle(f: Floor, c: Cell): Cell {
-  const r = f.rooms.find((r) => c.x >= r.x && c.x < r.x + r.w && c.y >= r.y && c.y < r.y + r.h);
+  const r = roomOf(f, c);
   return r ? { x: Math.floor(r.x + r.w / 2), y: Math.floor(r.y + r.h / 2) } : c;
 }
 
@@ -118,6 +133,7 @@ export function floorMarks(f: Floor): Record<string, StageMark> {
   out['floor-chest-at'] = at(f.chest);
 
   // The Keeper: clear of the stairs up, toward the room's middle, facing in.
+  const home = roomOf(f, f.stairsUp);
   const mid = roomMiddle(f, f.stairsUp);
   const dx = Math.sign(mid.x - f.stairsUp.x);
   const dy = Math.sign(mid.y - f.stairsUp.y) || (dx === 0 ? 1 : 0);
@@ -128,6 +144,7 @@ export function floorMarks(f: Floor): Record<string, StageMark> {
     taken,
     blocked,
     level,
+    home,
   );
   taken.add(key(kc.x, kc.y));
   const keeper = at(kc);
@@ -150,7 +167,7 @@ export function floorMarks(f: Floor): Record<string, StageMark> {
   for (const [name, ahead, side] of spots) {
     const wx = keeper.x + (fx * ahead + fz * side) * s;
     const wz = keeper.z + (fz * ahead - fx * side) * s;
-    const c = openNear(f, cellOfWorld(f, wx, wz), taken, blocked, level);
+    const c = openNear(f, cellOfWorld(f, wx, wz), taken, blocked, level, home);
     taken.add(key(c.x, c.y));
     const m = at(c);
     m.yaw = yawTo(m, keeper);
