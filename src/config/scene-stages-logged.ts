@@ -190,6 +190,7 @@ export const LOGGED_STAGES: Readonly<Record<string, SceneStage>> = {
   },
   // ---- endings: the board's last post in first light, everyone on the meadow (N2) --------
   'end-logged-everyone-wakes': {
+    grave: true,
     place: 'grove',
     hour: 6,
     props: { board: 'final' },
@@ -197,12 +198,14 @@ export const LOGGED_STAGES: Readonly<Record<string, SceneStage>> = {
     shot: { kind: 'wide', focus: ['board', 'lobby'] },
   },
   'end-logged-quiet-exit': {
+    grave: true,
     place: 'grove',
     hour: 6.5,
     cast: [juno('board'), warden('lobby')],
     shot: { kind: 'wide', focus: ['board', 'lobby'] },
   },
   'end-logged-one-short': {
+    grave: true,
     place: 'grove',
     hour: 6,
     props: { board: 'final' },

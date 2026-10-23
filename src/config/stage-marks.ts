@@ -160,7 +160,10 @@ const GROVE_MARKS: Record<string, StageMark> = {
   'house-2-door': houseDoor(1, 0),
   'house-3-door': houseDoor(0, 1),
   'house-4-door': houseDoor(-1, 0),
-  'guardhouse-bench': seated({ x: GH.x + CAB.w / 2 + 1.0, z: GH.z + CAB.d / 2 + 0.6, yaw: S }, 0.24),
+  'guardhouse-bench': seated(
+    { x: GH.x + CAB.w / 2 + 1.0, z: GH.z + CAB.d / 2 + 0.6, yaw: S },
+    0.24,
+  ),
   // Behind Hob's counter, at the window (the 3D counter stands just in front of this).
   'guardhouse-counter': seated(
     { x: GH.x - CAB.w * 0.25, z: GH.z + CAB.d / 2 + 0.45, yaw: S },

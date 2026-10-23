@@ -67,7 +67,14 @@ export const HUNDRED_STAGES: Readonly<Record<string, SceneStage>> = {
     // 5 The Cave: Sorrel on the well lip; the stairs hold.
     [
       { place: 'fold', hour: 13, cast: [sorrel('fold-well', SIT)], shot: { kind: 'two' } },
-      { place: 'fold', hour: 18.5, cast: [sorrel('fold-door-3')], shot: { kind: 'two' } },
+      // "A roof with a hole in it": the Fold's house by lamplight, drawn alone (K10).
+      {
+        place: 'inside-fold',
+        exclusive: true,
+        hour: 18,
+        cast: [sorrel('in-fold-kettle')],
+        shot: { kind: 'establish' },
+      },
     ],
     // 6 Grown.
     [
@@ -215,6 +222,7 @@ export const HUNDRED_STAGES: Readonly<Record<string, SceneStage>> = {
   // ---- endings: the whole Fold at the last wide shot (N2) --------------------------------
   // Bunting on the mill, a festival in the square, afternoon.
   'end-hundred-bright-fold': {
+    grave: true,
     place: 'fold',
     hour: 15.5,
     cast: [ida(STEP, SIT), sorrel('fold-well', { face: 'h-ida' })],
@@ -222,6 +230,7 @@ export const HUNDRED_STAGES: Readonly<Record<string, SceneStage>> = {
   },
   // Bathhouse steaming, the wheel turning, the lamps lit at dusk.
   'end-hundred-the-fold': {
+    grave: true,
     place: 'fold',
     hour: 18.5,
     lights: LIT,
@@ -230,6 +239,7 @@ export const HUNDRED_STAGES: Readonly<Record<string, SceneStage>> = {
   },
   // Half the doorsteps with someone on them, Ida sweeping the whole square.
   'end-hundred-quiet-fold': {
+    grave: true,
     place: 'fold',
     hour: 17.5,
     cast: [ida('fold-square', BROOM), sorrel('fold-door-3', SIT)],
@@ -237,6 +247,7 @@ export const HUNDRED_STAGES: Readonly<Record<string, SceneStage>> = {
   },
   // The grey one apart, the lamps lit, the Keeper beside it.
   'end-hundred-grey-fold': {
+    grave: true,
     place: 'fold',
     hour: 19.5,
     lights: LIT,
