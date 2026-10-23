@@ -73,7 +73,8 @@ export const HUNDRED_STAGES: Readonly<Record<string, SceneStage>> = {
         exclusive: true,
         hour: 18,
         cast: [sorrel('in-fold-kettle')],
-        shot: { kind: 'establish' },
+        // The camera keeps to the room's open side, the south-east.
+        shot: { kind: 'establish', yaw: 0.45 },
       },
     ],
     // 6 Grown.
