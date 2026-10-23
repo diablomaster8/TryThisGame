@@ -15,6 +15,7 @@ import { CaveAmbience, landmarkSprites } from './cave-ambience';
 import { placeDecorations } from './decor';
 import { fenceSpots, SCENERY } from './scenery';
 import { isSceneryHidden } from './scenery-hide';
+import { windSway } from './wind-px';
 import { neighbourGarden } from '../sim/neighbourhood';
 import { isMerged } from '../sim/partners';
 import { visibleStoryProps } from '../sim/story-props';
@@ -427,7 +428,10 @@ export class WorldView {
             : undefined;
         const rect = litKey ?? scenery.frames.get(frameKey(s.kind, 'front', 0));
         if (!rect) continue;
-        const sway = s.sway ? Math.sin(nowMs / 1400 + s.x) * s.sway : 0;
+        // K35: bushes take the wind's two-frame sway.
+        const sway =
+          (s.sway ? Math.sin(nowMs / 1400 + s.x) * s.sway : 0) +
+          (s.kind.startsWith('bush') ? windSway(s.x, nowMs) : 0);
         if (!s.kind.startsWith('rock') && !s.kind.startsWith('log')) {
           shadow(
             s.x + s.size * 0.08,
