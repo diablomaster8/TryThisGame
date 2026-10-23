@@ -6,6 +6,7 @@ import { fbm, ridged, warped } from './paint/noise';
 import { hash, hex, mix, Raster, shade, type RGB } from './paint/raster';
 import { shoreDistance } from './paint/shore';
 import { CG2_W } from '../config/tuning-w';
+import { CG4_D4 } from '../config/tuning-d4';
 import { BUILDINGS } from './scenery';
 
 /** Texels per world unit on the ground texture. */
@@ -84,13 +85,39 @@ function frostGround(r: Raster): void {
     }
 }
 
+/**
+ * K25: snow lying on the ground at a level 1..3: patchy at first, then most of the grass, then
+ * a full white cover with only the paths and banks showing through. A pure pass over the
+ * finished raster, so the worker does it with the rest.
+ */
+function snowGround(r: Raster, level: number): void {
+  const frac = CG4_D4.snow.cover[Math.min(3, level) - 1] ?? 1;
+  const white = hex('#f2f7fc');
+  const shadow = hex('#d6e1ee');
+  for (let y = 0; y < r.h; y++)
+    for (let x = 0; x < r.w; x++) {
+      const c = r.get(x, y);
+      const v = 0.62 * fbm(x / 13, y / 13, 3, 91) + 0.38 * hash(x >> 1, y >> 1, 93);
+      // Paths hold the snow less than the grass does.
+      const path = c[0] > c[1] * 0.95 && c[0] > c[2] * 1.2;
+      if (v > (path ? frac * 0.5 : frac)) continue;
+      const tone = hash(x, y, 95) > 0.8 ? shadow : white;
+      r.set(x, y, mix(c, tone, 0.92));
+    }
+}
+
 /** The painting itself, pure: safe to run in a worker. `ppu` sets the detail. */
 export function paintGround(
   seed = 7,
   tiles: Record<string, TileKind> = {},
   ppu: number = GROUND_PPU,
   season: GroundSeason = null,
+  /** K25: snow cover level 0..3 (three repaints, switched at the vigil's waves). */
+  snow = 0,
+  /** K26: path wear level 0..3 (wider, barer paths as the chapters pass). */
+  wearLevel = 0,
 ): GroundPixels {
+  const wearK = wearLevel / 3;
   const size = GROVE.size * ppu;
   const r = new Raster(size, size, hex('#5f9e3c'));
   const half = GROVE.size / 2;
@@ -291,8 +318,11 @@ export function paintGround(
           bestT = t;
         }
       }
-      if (best < bestW * 0.8 + 0.4) {
-        const widthW = (bestW / 2) * (1 + (fbm(bestT * 9 + x * 0.1, z * 0.1, 3, 7) - 0.5) * 0.7);
+      // K26: wear widens the paths and bares them (more soil, less grass at the edge).
+      const wide = 1 + wearK * CG4_D4.wear.widen;
+      if (best < (bestW * 0.8 + 0.4) * wide) {
+        const widthW =
+          (bestW / 2) * wide * (1 + (fbm(bestT * 9 + x * 0.1, z * 0.1, 3, 7) - 0.5) * 0.7);
         const edgeW = widthW * (0.75 + 0.5 * fbm(px / 14, py / 14, 3, 8));
         if (best < edgeW + 0.3) {
           const wear = fbm(px / 7, py / 7, 3, 9);
@@ -300,7 +330,7 @@ export function paintGround(
             c = mix(c, hex('#5a6a33'), 0.5 * (1 - (best - edgeW) / 0.3));
           } else {
             const centre = clamp01(1 - best / edgeW);
-            let p = mix(pathDark, pathLight, centre * 0.7 + wear * 0.3);
+            let p = mix(pathDark, pathLight, centre * 0.7 + wear * 0.3 - wearK * 0.18);
             if (wear > 0.68) p = mix(p, stone, 0.6);
             if (wear < 0.3) p = shade(p, 0.86);
             c = p;
@@ -434,6 +464,7 @@ export function paintGround(
   }
 
   if (season === 'winter') frostGround(r);
+  if (snow > 0) snowGround(r, snow);
   return r.toRgba(1, true);
 }
 

@@ -77,6 +77,12 @@ const SKY_FRAG = /* glsl */ `
   uniform float uStars;
   uniform float uGain;
   uniform float uBand;
+  // K24: the moon. uMoonL points the light at the disc (x across it, z toward the viewer),
+  // uMoonLit is the lit share, uStarGain brightens the stars at new moon.
+  uniform vec3 uMoonL;
+  uniform float uMoonLit;
+  uniform float uMoonRadius;
+  uniform float uStarGain;
   varying vec3 vDir;
 
   float skyHash( vec2 p ) { return fract( sin( dot( p, vec2( 127.1, 311.7 ) ) ) * 43758.5453 ); }
@@ -105,8 +111,26 @@ const SKY_FRAG = /* glsl */ `
     }
     float sd = max( dot( dir, uSunDir ), 0.0 );
     // A wide warm halo, a tighter glow, and the disc with a soft rim.
-    col += uSunColor * ( pow( sd, 6.0 ) * 0.22 + pow( sd, 80.0 ) * 0.5 );
+    // At night this is the moon's glow, dimmer toward the new moon (uStars is the night share).
+    float moonK = mix( 1.0, 0.25 + 0.75 * uMoonLit, uStars );
+    col += uSunColor * moonK * ( pow( sd, 6.0 ) * 0.22 + pow( sd, 80.0 ) * 0.5 );
     col = mix( col, uSunColor * 2.2, smoothstep( 1.0 - uSunSize, 1.0 - uSunSize * 0.55, sd ) );
+    // K24: the moon's disc with its phase, craters and the faint earthshine on the dark part.
+    if ( uStars > 0.0 && sd > 0.9 ) {
+      vec3 mz = uSunDir;
+      vec3 mx = normalize( cross( vec3( 0.0, 1.0, 0.0 ), mz ) );
+      vec3 my = cross( mz, mx );
+      vec2 q = vec2( dot( dir, mx ), dot( dir, my ) ) / uMoonRadius;
+      float rr = length( q );
+      if ( rr < 1.0 ) {
+        vec3 n = vec3( q, sqrt( 1.0 - rr * rr ) );
+        float lit = smoothstep( -0.04, 0.04, dot( n, uMoonL ) );
+        float mare = skyNoise( q * 3.0 + 4.0 ) * 0.5 + skyNoise( q * 7.0 ) * 0.25;
+        vec3 face = mix( vec3( 0.97, 0.97, 0.9 ), vec3( 0.62, 0.66, 0.74 ), smoothstep( 0.35, 0.7, mare ) );
+        vec3 earth = vec3( 0.12, 0.15, 0.24 );
+        col = mix( col, mix( earth, face * 1.5, lit ), smoothstep( 1.0, 0.92, rr ) * uStars );
+      }
+    }
     // Stars, in cells on the dome, a few twinkling.
     if ( uStars > 0.0 && h > 0.0 ) {
       vec2 q = vec2( atan( dir.z, dir.x ) * 60.0, h * 120.0 );
@@ -115,7 +139,7 @@ const SKY_FRAG = /* glsl */ `
       float d = length( fract( q ) - 0.5 );
       float star = step( 0.985, r ) * smoothstep( 0.22, 0.0, d );
       star *= 0.6 + 0.4 * sin( uTime * 2.0 + r * 50.0 );
-      col += vec3( 0.9, 0.95, 1.0 ) * star * uStars * smoothstep( 0.02, 0.2, h );
+      col += vec3( 0.9, 0.95, 1.0 ) * star * uStars * uStarGain * smoothstep( 0.02, 0.2, h );
     }
     // Clouds: a layer seen through the dome, painted in two tones with a soft edge.
     if ( h > 0.0 ) {
@@ -157,6 +181,10 @@ function skyMaterial(): THREE.ShaderMaterial {
       uStars: { value: 0 },
       uGain: { value: 1.6 },
       uBand: FIRST_LIGHT,
+      uMoonL: { value: new THREE.Vector3(0, 0, 1) },
+      uMoonLit: { value: 0.5 },
+      uMoonRadius: { value: 0.05 },
+      uStarGain: { value: 1 },
     },
     vertexShader: SKY_VERT,
     fragmentShader: SKY_FRAG,
@@ -300,7 +328,7 @@ export class GroveSky {
         .set('#fff1d2')
         .lerp(tmpA.set('#ffa04a'), gold)
         .multiplyScalar(rain ? 0.25 : 1);
-    u.uSunSize!.value = night ? 0.0007 : 0.0012;
+    u.uSunSize!.value = night ? 0.00002 : 0.0012;
     u.uStars!.value = rain ? 0 : 1 - THREE.MathUtils.smoothstep(elevation, -8, -1);
     u.uCover!.value = rain ? GROVE3D.sky.rainCover : GROVE3D.sky.cloudCover;
     const cl = u.uCloudLit!.value as THREE.Color;
