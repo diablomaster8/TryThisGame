@@ -178,6 +178,8 @@ export const MV_DRAGONBALL: Quest[] = [
             BU('It is not a monster, it is a motorbike! Ow. My elbow. My hair.', 'angry'),
             N('He has spiky black hair, a red staff on his back, and a monkey’s tail. Your Nubbin spots the tail and is instantly in love.'),
             G('You’ve got a tail too! A little round one. I’m Goku. I live here. Well, up there.', 'happy'),
+            G('Is it a fish? It looks a bit like a fish.', 'think'),
+            BU('It’s a Nubbin, Goku. Don’t eat it.'),
             G('And you’re… What are you? You haven’t got a tail. Grandpa said girls were a whole different thing.', 'think'),
             BU('Your grandpa was right about something. Listen, do you have an orange ball? About this big, with stars inside?'),
             N('Goku’s face goes still. He leads you to a hut where a small orange ball sits on a cushion beside an old man’s photo.'),
@@ -425,7 +427,7 @@ export const MV_DRAGONBALL: Quest[] = [
     ],
     sets: { 'mv-db02': true },
     notes:
-      'Oolong joins the party until DB5. The trigger word is the player’s choice (`mv-db-oolong-word`), and Bulma uses that word in DB3–DB5 whenever the script says “the word”; implementer swaps it in (piggy / oink / bathtime). The source’s pill gag is kept off-screen: Oolong runs out of frame, a door slams, done. No toilet visuals. Shapeshift bout: three rounds, each a different Oolong form (bull-demon, bat, rocket), each shorter; the round timer is the five-minute limit compressed. The village girl’s name Pochawompa is from the source. `mv-db-oolong-plan` gains `nubbin` (added in review); Goku still wears the dress. Chapters checked from memory: ch. 3–4 (1984).',
+      'Oolong joins the party until DB5. The trigger word is the player’s choice (`mv-db-oolong-word`: piggy / oink / bathtime); MV_DRAGONBALL_VARIANTS plays it back in DB3 (mv-db03-desert) and DB5 (mv-db05-summoning). The source’s pill gag is kept off-screen: Oolong runs out of frame, a door slams, done. No toilet visuals. Shapeshift bout: three rounds, each a different Oolong form (bull-demon, bat, rocket), each shorter; the round timer is the five-minute limit compressed. The village girl’s name Pochawompa is from the source. `mv-db-oolong-plan` gains `nubbin` (added in review); Goku still wears the dress. Chapters checked from memory: ch. 3–4 (1984).',
   },
 
   // ------------------------------------------------------------------ DB3
@@ -1836,6 +1838,7 @@ export const MV_DRAGONBALL: Quest[] = [
           id: 'mv-db14-crane',
           lines: [
             N('Three years on, Papaya Island again. Goku is taller, Krillin braver, and Yamcha has a new haircut he is sure about.'),
+            N('The four-star ball turned up in a river near Goku’s hut last spring, as if it had come home. He keeps it in his bag.'),
             N('In the courtyard stands an old man in a crane hat, and with him two students in green.'),
             CR('Turtle Hermit. You look old. Older than me, which is impressive, since we started together.', 'happy'),
             RO('Crane Hermit. You look exactly as trustworthy as you always did.'),
@@ -2112,7 +2115,7 @@ export const MV_DRAGONBALL: Quest[] = [
               label: 'Hold the rice cooker steady with your Nubbins.',
               set: { 'mv-db-roshi-wave': 'held' },
               then: [
-                N('A whirlwind of green light lifts King Piccolo off his feet and drags him, howling, towards the little jar.'),
+                N('A whirlwind of green light lifts King Piccolo off his feet and drags him, howling, towards the dented rice cooker.'),
                 N('Your Nubbins hold the cooker with every paw they have. It shakes, and they don’t let go.'),
               ],
             },
@@ -2311,7 +2314,7 @@ export const MV_DRAGONBALL: Quest[] = [
     complete: {
       id: 'mv-db17-complete',
       lines: [
-        KP('You think you have won, monkey. You have only made me an orphan’s father.', 'angry'),
+        KP('You think you have won, monkey. You have only made my son an orphan.', 'angry'),
         N('With his last breath, King Piccolo spits out an egg. It cracks a little as it flies, out over the walls, towards the mountains.'),
         N('Then the Demon King is dust on the wind, and the city is quiet.'),
         TI('He’s gone. Goku, he’s gone.', 'soft'),
@@ -2338,7 +2341,7 @@ export const MV_DRAGONBALL: Quest[] = [
     audience: 'adult',
     trigger: { where: GATE, when: 'After DB17, Goku vs. King Piccolo' },
     requires: ['DB17'],
-    speakers: [GOKU, KORIN, POPO, KAMI, SHENRON, KRILLIN, BULMA],
+    speakers: [GOKU, KORIN, POPO, KAMI, SHENRON, KRILLIN, BULMA, YAMCHA],
     steps: [
       {
         id: 'mv-db18-s1',
@@ -2379,7 +2382,8 @@ export const MV_DRAGONBALL: Quest[] = [
             KA('Yes. Once, long ago, he and I were one being. To become Kami, I had to cast out all the evil in me.', 'sad'),
             KA('The evil became King Piccolo. Everything he did was what I put out of myself. Do you understand?'),
             G('So it’s your fault?', 'angry'),
-            KA('It is my responsibility. That’s worse. And if he dies, I die. We still share one life.'),
+            KA('It is my responsibility. That’s worse. When he died, I should have gone with him. I didn’t.'),
+            KA('So part of him is still alive somewhere. I can feel it, like a draught.', 'sad'),
             N('Your Nubbins look from Kami to Goku and back. Then one of them walks over and leans on Kami’s staff.'),
             KA('I made Shenron. I can make him again. I will. It is the least I owe the people he would have saved.', 'soft'),
           ],
@@ -2442,6 +2446,10 @@ export const MV_DRAGONBALL: Quest[] = [
       id: 'mv-db18-complete',
       lines: [
         N('Far below, Bulma, Yamcha and Oolong race the world with a radar, gathering the glowing balls one by one.'),
+        YA('It says left.'),
+        BU('It says left-ish. Look at the dot, Yamcha. The dot.'),
+        YA('I like the way you say my name.', 'soft'),
+        BU('I said it like a complaint.'),
         N('From the edge of the Lookout you watch a column of green rise out of a city park. Shenron is back.'),
         BU('Shenron! Bring back everyone King Piccolo and his demons killed! All of them! Every last one!', 'happy'),
         SR('It is a large wish. I have been dead a while. I will allow it.'),
@@ -2528,7 +2536,7 @@ export const MV_DRAGONBALL: Quest[] = [
             {
               id: 'nubbins',
               label: 'Let your Nubbins carry them, one each, turn and turn about.',
-              set: { 'mv-db-set2-keeping': 'nubbins' },
+              set: { 'mv-db-set2-keeping': 'carried' },
               then: [
                 N('Your Nubbins take it in turns to hold a ball through the night. Whoever is holding one sleeps best.'),
               ],
@@ -2703,6 +2711,8 @@ export const MV_DRAGONBALL: Quest[] = [
         G('I never lose on purpose. Only by accident.', 'happy'),
         MJ('Enjoy it while you can, Son Goku. My father waited three hundred years. I have waited three.', 'angry'),
         N('Your Nubbins claim front-row seats on top of the Announcer’s microphone stand. He lets them. He has met Goku before.'),
+        G('Look, Krillin. Nubbins. Not fish. I’m learning.', 'happy'),
+        BU('Took him six years.'),
         N('The gong sounds, and the 23rd World Martial Arts Tournament begins. With it begins the end of the story.'),
       ],
     },
@@ -2741,7 +2751,8 @@ function payoff(quests: Quest[], baseId: string, suffix: string, at: number, cou
 export const MV_DRAGONBALL_VARIANTS: Scene[] = [
   // DB7: how Bulma hands over the radar and the four-star (replaces the two hand-over lines).
   payoff(MV_DRAGONBALL, 'mv-db07-complete', 'deal-truth', 7, 2, [
-    BU('Goku, here. A radar, all yours. I said I’d borrow the ball once, and I did. Deal’s done. Go find your grandpa’s four-star.'),
+    BU('Goku, here. A radar, all yours. I borrowed the ball once, like I said. A pig spent the wish on knickers. Deal’s still done.'),
+    BU('Go find your grandpa’s four-star.'),
     N('Your Nubbin checks Bulma’s hands anyway, from habit. Nothing crossed, and it looks almost disappointed.'),
   ]),
   payoff(MV_DRAGONBALL, 'mv-db07-complete', 'deal-pitch', 7, 2, [
@@ -2755,7 +2766,7 @@ export const MV_DRAGONBALL_VARIANTS: Scene[] = [
   ]),
   // DB13: what Goku says to his grandfather's ball before the wish.
   payoff(MV_DRAGONBALL, 'mv-db13-complete', 'deal-truth', 7, 0, [
-    G('Bulma borrowed it once, like she said she would. This time it’s my turn, and I know exactly what for.', 'soft'),
+    G('Bulma borrowed it once. Oolong got the knickers. This time it’s my turn, and I know what for.', 'soft'),
   ]),
   payoff(MV_DRAGONBALL, 'mv-db13-complete', 'deal-pitch', 7, 0, [
     G('Bulma said come and see the world. I did. This is the bit of it I wanted most.', 'soft'),
@@ -2777,6 +2788,46 @@ export const MV_DRAGONBALL_VARIANTS: Scene[] = [
     G('Then I’d better be strong by then.', 'think'),
   ]),
 ];
+
+/** Bulma's trigger word (mv-db-oolong-word, chosen in DB2) said back in DB3 and DB5. */
+const WORDS: [suffix: string, said: string, letter: string][] = [
+  ['piggy', 'Piggy!', 'P'],
+  ['oink', 'Oink!', 'O'],
+  ['bathtime', 'Bathtime!', 'B'],
+];
+for (const [suffix, said, letter] of WORDS) {
+  // DB3: the threat, after "I choose to suffer." Saying the word would cost them the car.
+  MV_DRAGONBALL_VARIANTS.push(
+    payoff(MV_DRAGONBALL, 'mv-db03-desert', suffix, 4, 0, [
+      BU(`Suffer quietly, or I say the word. It starts with ${letter}.`),
+      N('Oolong drives very carefully, and very quietly, for an hour.'),
+    ]),
+  );
+  // DB5: the word used once as a tool, to pop Oolong through the bars.
+  MV_DRAGONBALL_VARIANTS.push(
+    payoff(MV_DRAGONBALL, 'mv-db05-summoning', suffix, 7, 1, [
+      N('Oolong sticks in the bars as a bat. Your Nubbin shoves, and nothing happens.'),
+      BU(said, 'angry'),
+      N('Oolong is through the bars and out of the window before the word has finished.'),
+    ]),
+  );
+}
+
+// Who carries the second set (mv-db-set2-keeping, chosen in DB19): the 'carried' answer
+// moves the balls from the capsule case into your Nubbins' arms for DB19 and DB20.
+MV_DRAGONBALL_VARIANTS.push(
+  payoff(MV_DRAGONBALL, 'mv-db19-complete', 'carried', 2, 1, [
+    N('Five balls in your Nubbins’ arms, and two more somewhere. The radar is flickering towards Papaya Island.'),
+    N('Nobody has dropped one yet, though one was licked.'),
+  ]),
+  payoff(MV_DRAGONBALL, 'mv-db20-arrival', 'carried', 4, 1, [
+    N('A Dragon Ball. Your smallest Nubbin takes it and will not discuss it further.'),
+  ]),
+  payoff(MV_DRAGONBALL, 'mv-db20-complete', 'carried', 0, 1, [
+    N('Seven Dragon Balls glow in your Nubbins’ arms. They hold them up to show Bulma.'),
+    BU('Fine. You win. Best courier service I ever hired.', 'think'),
+  ]),
+);
 
 // ------------------------------------------------------------------ checks
 

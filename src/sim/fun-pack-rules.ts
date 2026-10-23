@@ -41,6 +41,10 @@ export const FUN_PACK_RULES: Record<string, PackRule> = {
   },
   // Holmes: Jem's fate in Q78 brings the guide or Toby's nose (Q84) and the beekeeper's
   // boy or the stung Inspector (Q85); any contradiction earns the lens, else the cap.
+  // Q81's own contradiction earns Holmes's admission after the kite.
+  q81: {
+    after: (_w, c, i) => (i === 2 && c.flags['q81-contradicted'] ? ['q81-var-children'] : []),
+  },
   q84: {
     after: (_w, c, i) => {
       if (i !== 1 || c.flags['q78-jem'] === undefined) return [];

@@ -28,7 +28,6 @@ const say =
     mood ? { who, text, mood } : { who, text };
 
 const N = say('narrator');
-const Y = say('you');
 const NOVA = say('nova');
 
 export const EXPANSION_E2_SPEAKERS: Speaker[] = [];
@@ -116,6 +115,8 @@ const day8Moody: Scene = {
     N('Day eight. Dandy is grown and grumpy with it, a small cloud that follows the sun around.'),
     NOVA('It came up moody. That’s on the days we missed, not on it.'),
     N('It sits on the far end of the step from her. It is still on the step.'),
+    N('It glares at the sun, which comes up anyway.'),
+    NOVA('Don’t take it personally. It glares at everything. You’re just nearer than the sun.'),
     NOVA('See that. Grumpy, and on the step. That’s the whole of what I know about love.'),
     NOVA('Feed it something good anyway. Grumpy isn’t the same as unloved.'),
   ],
@@ -148,7 +149,7 @@ const day11: Scene = {
       label: 'Don’t ask.',
       set: { 'e2-asked': 'quiet' },
       then: [
-        Y('You don’t ask which she thinks. She doesn’t say.'),
+        N('You don’t ask. Nova notices, and leans on your shoulder for a moment.'),
         NOVA('Sit with it till dark. That’s all there is to do, and it’s a lot.', 'soft'),
       ],
     },
@@ -163,21 +164,29 @@ const end: Scene = {
   ],
 };
 
-const completeReborn: Scene = {
-  id: 'e2-complete-reborn',
+// Nova answers what you said at the gate on day one (e2-answer), in both ends.
+const ANSWER_ENOUGH = NOVA(
+  'You said twelve was enough. You were right. I don’t know how you knew.',
+  'soft',
+);
+const ANSWER_SHORT = NOVA('You said it wasn’t long. It wasn’t. It was all of it, though.', 'soft');
+
+const reborn = (id: string, answer: Line): Scene => ({
+  id,
   lines: [
     N(
       'The cocoon glows from the inside, slow, like a lamp turned up. It splits. An egg, warm, with the same freckle on it.',
     ),
     NOVA('Twelve days and it wanted twelve more. That’s what you did.', 'happy'),
+    answer,
     N('When it hatches it greets you with a heart, and remembers its name before you say it.'),
     N('It goes to the step, and moves over a Nova’s width, and waits.'),
     NOVA('I’ll come on day four. Don’t be a stranger it liked once.'),
   ],
-};
+});
 
-const completeDeparted: Scene = {
-  id: 'e2-complete-departed',
+const departed = (id: string, answer: Line): Scene => ({
+  id,
   lines: [
     N(
       'The cocoon is soft and grey and getting softer. There is no bang and no door. It simply isn’t there, and then a flower is.',
@@ -186,13 +195,20 @@ const completeDeparted: Scene = {
       'Twelve days. It had all twelve. That’s the whole of what there was, and it was yours.',
       'sad',
     ),
+    answer,
     N('The flower has a mark on one petal, off-centre, the kind a thumb would find.'),
     N(
       'Nova stays until the flower has opened. Then she goes, and comes back the next morning anyway.',
     ),
     NOVA('Short line. I keep taking them on. You’d think I’d learn.', 'soft'),
   ],
-};
+});
+
+// e2-answer = enough (the first choice) plays the plain ids; short plays the -short variants.
+const completeReborn = reborn('e2-complete-reborn', ANSWER_ENOUGH);
+const completeRebornShort = reborn('e2-complete-reborn-short', ANSWER_SHORT);
+const completeDeparted = departed('e2-complete-departed', ANSWER_ENOUGH);
+const completeDepartedShort = departed('e2-complete-departed-short', ANSWER_SHORT);
 
 export const EXPANSION_E2: Quest[] = [
   {
@@ -254,12 +270,19 @@ export const EXPANSION_E2: Quest[] = [
     notes:
       'Day gates come from dayCount on the flagged Nubbin. e2-day4-slips plays with two or ' +
       'more slips; e2-day8-moody when it evolved moody. The complete scene is ' +
-      'e2-complete-departed when the Nubbin departed. The day-11 choice (e2-asked) is voice ' +
-      'only; nothing reads it yet.',
+      'e2-complete-departed when the Nubbin departed; either takes a -short suffix ' +
+      '(e2-complete-reborn-short, e2-complete-departed-short) when e2-answer is short. The ' +
+      'day-11 choice (e2-asked) pays off inside its own branch: Nova answers, or leans on you.',
   },
 ];
 
-export const EXPANSION_E2_VARIANTS: Scene[] = [day4Slips, day8Moody, completeDeparted];
+export const EXPANSION_E2_VARIANTS: Scene[] = [
+  day4Slips,
+  day8Moody,
+  completeDeparted,
+  completeRebornShort,
+  completeDepartedShort,
+];
 export const EXPANSION_E2_FLAGS: string[] = [
   'e2-answer',
   'e2-nubbin',

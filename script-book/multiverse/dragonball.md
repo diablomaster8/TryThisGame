@@ -37,6 +37,8 @@ Hint: Be honest with him. He can tell when people aren’t, he just doesn’t mi
 **Bulma** _(angry)_: It is not a monster, it is a motorbike! Ow. My elbow. My hair.  
 _He has spiky black hair, a red staff on his back, and a monkey’s tail. Your Nubbin spots the tail and is instantly in love._  
 **Goku** _(happy)_: You’ve got a tail too! A little round one. I’m Goku. I live here. Well, up there.  
+**Goku** _(think)_: Is it a fish? It looks a bit like a fish.  
+**Bulma**: It’s a Nubbin, Goku. Don’t eat it.  
 **Goku** _(think)_: And you’re… What are you? You haven’t got a tail. Grandpa said girls were a whole different thing.  
 **Bulma**: Your grandpa was right about something. Listen, do you have an orange ball? About this big, with stars inside?  
 _Goku’s face goes still. He leads you to a hut where a small orange ball sits on a cushion beside an old man’s photo._  
@@ -202,7 +204,7 @@ _Oolong sulks all the way back to the bike. Your Nubbin walks beside him, which 
 
 Sets on completion: `{"mv-db02":true}`
 
-**Notes:** Oolong joins the party until DB5. The trigger word is the player’s choice (`mv-db-oolong-word`), and Bulma uses that word in DB3–DB5 whenever the script says “the word”; implementer swaps it in (piggy / oink / bathtime). The source’s pill gag is kept off-screen: Oolong runs out of frame, a door slams, done. No toilet visuals. Shapeshift bout: three rounds, each a different Oolong form (bull-demon, bat, rocket), each shorter; the round timer is the five-minute limit compressed. The village girl’s name Pochawompa is from the source. `mv-db-oolong-plan` gains `nubbin` (added in review); Goku still wears the dress. Chapters checked from memory: ch. 3–4 (1984).
+**Notes:** Oolong joins the party until DB5. The trigger word is the player’s choice (`mv-db-oolong-word`: piggy / oink / bathtime); MV_DRAGONBALL_VARIANTS plays it back in DB3 (mv-db03-desert) and DB5 (mv-db05-summoning). The source’s pill gag is kept off-screen: Oolong runs out of frame, a door slams, done. No toilet visuals. Shapeshift bout: three rounds, each a different Oolong form (bull-demon, bat, rocket), each shorter; the round timer is the five-minute limit compressed. The village girl’s name Pochawompa is from the source. `mv-db-oolong-plan` gains `nubbin` (added in review); Goku still wears the dress. Chapters checked from memory: ch. 3–4 (1984).
 
 ## DB3. Yamcha and Puar
 
@@ -220,6 +222,84 @@ _The radar points straight across a desert. Oolong turns into a car to carry eve
 **Oolong** _(sad)_: Nobody said anything about deserts. My bumper’s melting.  
 **Bulma**: You could turn into a bigger car.  
 **Oolong**: I could turn into a lot of things. I choose to suffer.  
+_Far off, on a rock, someone is watching through a spyglass. Beside him floats a small blue cat with a curly tail._  
+**Puar**: Lord Yamcha, they’ve got capsules. A capsule case and a radar thing. That’s a rich girl, that is.  
+**Yamcha** _(happy)_: Then tonight we eat well, Puar. Desert bandit rule one: never rob anybody who looks poor.  
+_Oolong hears the cat’s voice on the wind and goes white under his paint._  
+**Oolong** _(shock)_: I know that voice. Shapeshifting school. That’s Puar. Where Puar is, there’s a bandit.  
+
+**Choices**
+
+- **Ration the water. Small sips, everybody, the car included.** — sets `{"mv-db-desert":"ration"}`
+    - **Oolong**: Small sips! For the car! I have a radiator now, you know. It is very thirsty and very hot.
+    - Your Nubbins pour their own sip over the bonnet. The bonnet goes quiet, and pretends it wasn’t touched.
+- **Floor it. Get out of the sun faster.** — sets `{"mv-db-desert":"floor-it"}`
+    - Bulma floors it. You cover a mile in four minutes and fifty-nine seconds, and then there is a pop.
+    - **Oolong**: FIVE MINUTES! I TOLD you about the five minutes!
+    - Everyone is sitting on a pig in the middle of a dune. Bulma gets out a capsule car of her own, sighing.
+
+#### <a id="mv-db03-desert-piggy"></a>Variant `mv-db03-desert-piggy`
+
+_Variant of `mv-db03-desert`._
+
+_The radar points straight across a desert. Oolong turns into a car to carry everyone: a very small car._  
+**Oolong** _(sad)_: Nobody said anything about deserts. My bumper’s melting.  
+**Bulma**: You could turn into a bigger car.  
+**Oolong**: I could turn into a lot of things. I choose to suffer.  
+**Bulma**: Suffer quietly, or I say the word. It starts with P.  
+_Oolong drives very carefully, and very quietly, for an hour._  
+_Far off, on a rock, someone is watching through a spyglass. Beside him floats a small blue cat with a curly tail._  
+**Puar**: Lord Yamcha, they’ve got capsules. A capsule case and a radar thing. That’s a rich girl, that is.  
+**Yamcha** _(happy)_: Then tonight we eat well, Puar. Desert bandit rule one: never rob anybody who looks poor.  
+_Oolong hears the cat’s voice on the wind and goes white under his paint._  
+**Oolong** _(shock)_: I know that voice. Shapeshifting school. That’s Puar. Where Puar is, there’s a bandit.  
+
+**Choices**
+
+- **Ration the water. Small sips, everybody, the car included.** — sets `{"mv-db-desert":"ration"}`
+    - **Oolong**: Small sips! For the car! I have a radiator now, you know. It is very thirsty and very hot.
+    - Your Nubbins pour their own sip over the bonnet. The bonnet goes quiet, and pretends it wasn’t touched.
+- **Floor it. Get out of the sun faster.** — sets `{"mv-db-desert":"floor-it"}`
+    - Bulma floors it. You cover a mile in four minutes and fifty-nine seconds, and then there is a pop.
+    - **Oolong**: FIVE MINUTES! I TOLD you about the five minutes!
+    - Everyone is sitting on a pig in the middle of a dune. Bulma gets out a capsule car of her own, sighing.
+
+#### <a id="mv-db03-desert-oink"></a>Variant `mv-db03-desert-oink`
+
+_Variant of `mv-db03-desert`._
+
+_The radar points straight across a desert. Oolong turns into a car to carry everyone: a very small car._  
+**Oolong** _(sad)_: Nobody said anything about deserts. My bumper’s melting.  
+**Bulma**: You could turn into a bigger car.  
+**Oolong**: I could turn into a lot of things. I choose to suffer.  
+**Bulma**: Suffer quietly, or I say the word. It starts with O.  
+_Oolong drives very carefully, and very quietly, for an hour._  
+_Far off, on a rock, someone is watching through a spyglass. Beside him floats a small blue cat with a curly tail._  
+**Puar**: Lord Yamcha, they’ve got capsules. A capsule case and a radar thing. That’s a rich girl, that is.  
+**Yamcha** _(happy)_: Then tonight we eat well, Puar. Desert bandit rule one: never rob anybody who looks poor.  
+_Oolong hears the cat’s voice on the wind and goes white under his paint._  
+**Oolong** _(shock)_: I know that voice. Shapeshifting school. That’s Puar. Where Puar is, there’s a bandit.  
+
+**Choices**
+
+- **Ration the water. Small sips, everybody, the car included.** — sets `{"mv-db-desert":"ration"}`
+    - **Oolong**: Small sips! For the car! I have a radiator now, you know. It is very thirsty and very hot.
+    - Your Nubbins pour their own sip over the bonnet. The bonnet goes quiet, and pretends it wasn’t touched.
+- **Floor it. Get out of the sun faster.** — sets `{"mv-db-desert":"floor-it"}`
+    - Bulma floors it. You cover a mile in four minutes and fifty-nine seconds, and then there is a pop.
+    - **Oolong**: FIVE MINUTES! I TOLD you about the five minutes!
+    - Everyone is sitting on a pig in the middle of a dune. Bulma gets out a capsule car of her own, sighing.
+
+#### <a id="mv-db03-desert-bathtime"></a>Variant `mv-db03-desert-bathtime`
+
+_Variant of `mv-db03-desert`._
+
+_The radar points straight across a desert. Oolong turns into a car to carry everyone: a very small car._  
+**Oolong** _(sad)_: Nobody said anything about deserts. My bumper’s melting.  
+**Bulma**: You could turn into a bigger car.  
+**Oolong**: I could turn into a lot of things. I choose to suffer.  
+**Bulma**: Suffer quietly, or I say the word. It starts with B.  
+_Oolong drives very carefully, and very quietly, for an hour._  
 _Far off, on a rock, someone is watching through a spyglass. Beside him floats a small blue cat with a curly tail._  
 **Puar**: Lord Yamcha, they’ve got capsules. A capsule case and a radar thing. That’s a rich girl, that is.  
 **Yamcha** _(happy)_: Then tonight we eat well, Puar. Desert bandit rule one: never rob anybody who looks poor.  
@@ -435,6 +515,93 @@ _The sky goes black. Out of the seven balls pours an enormous green dragon, coil
 **Shenron**: You have gathered the seven. Speak your wish, and speak it soon. I am not a patient dragon.  
 **Emperor Pilaf**: I wish… ahem. Mai, the speech. Where is my speech?  
 _Oolong squeezes through the bars as a bat, your Nubbin shoving from behind. He pops out and flaps for the window._  
+**Oolong** _(shock)_: What do I wish for? What do I say? Somebody tell me what to say!  
+
+**Choices**
+
+- **Shout: “Anything! Just wish something stupid!”** — sets `{"mv-db-pilaf-wish":"anything"}`
+    - **Oolong**: Something stupid! Right! Dragon! Give me the finest pair of ladies’ knickers in the world!
+    - **Shenron**: Granted. That was easy.
+- **Shout: “Wish for what you really want!”** — sets `{"mv-db-pilaf-wish":"heart"}`
+    - **Oolong**: What I really want… Dragon! Give me the finest pair of ladies’ knickers in the world!
+    - Everybody turns to look at you. You did tell him to be honest.
+- **Shout: “Snacks! Wish for snacks! You love snacks!”** — sets `{"mv-db-pilaf-wish":"snacks"}`
+    - **Oolong**: Snacks! Yes! Dragon, give me a lifetime of… the finest… ladies’ knickers? Why did I say that?
+    - **Shenron**: Granted. No refunds.
+    - His mouth and his brain have clearly never been introduced.
+
+#### <a id="mv-db05-summoning-piggy"></a>Variant `mv-db05-summoning-piggy`
+
+_Variant of `mv-db05-summoning`._
+
+_Pilaf’s castle is all traps, and you fall through three of them. The third drops everyone into a cell with one barred window._  
+**Emperor Pilaf** _(happy)_: Ha! Ha! Behold, you peasants! All seven balls are mine! I am about to become ruler of the world!  
+_He is very small and very blue, and his cape is too long. Mai holds the end of it so he won’t trip._  
+**Emperor Pilaf**: Eternal Dragon, I summon you! Rise! Rise now! Please rise.  
+_The sky goes black. Out of the seven balls pours an enormous green dragon, coiled up into the clouds._  
+**Shenron**: You have gathered the seven. Speak your wish, and speak it soon. I am not a patient dragon.  
+**Emperor Pilaf**: I wish… ahem. Mai, the speech. Where is my speech?  
+_Oolong sticks in the bars as a bat. Your Nubbin shoves, and nothing happens._  
+**Bulma** _(angry)_: Piggy!  
+_Oolong is through the bars and out of the window before the word has finished._  
+**Oolong** _(shock)_: What do I wish for? What do I say? Somebody tell me what to say!  
+
+**Choices**
+
+- **Shout: “Anything! Just wish something stupid!”** — sets `{"mv-db-pilaf-wish":"anything"}`
+    - **Oolong**: Something stupid! Right! Dragon! Give me the finest pair of ladies’ knickers in the world!
+    - **Shenron**: Granted. That was easy.
+- **Shout: “Wish for what you really want!”** — sets `{"mv-db-pilaf-wish":"heart"}`
+    - **Oolong**: What I really want… Dragon! Give me the finest pair of ladies’ knickers in the world!
+    - Everybody turns to look at you. You did tell him to be honest.
+- **Shout: “Snacks! Wish for snacks! You love snacks!”** — sets `{"mv-db-pilaf-wish":"snacks"}`
+    - **Oolong**: Snacks! Yes! Dragon, give me a lifetime of… the finest… ladies’ knickers? Why did I say that?
+    - **Shenron**: Granted. No refunds.
+    - His mouth and his brain have clearly never been introduced.
+
+#### <a id="mv-db05-summoning-oink"></a>Variant `mv-db05-summoning-oink`
+
+_Variant of `mv-db05-summoning`._
+
+_Pilaf’s castle is all traps, and you fall through three of them. The third drops everyone into a cell with one barred window._  
+**Emperor Pilaf** _(happy)_: Ha! Ha! Behold, you peasants! All seven balls are mine! I am about to become ruler of the world!  
+_He is very small and very blue, and his cape is too long. Mai holds the end of it so he won’t trip._  
+**Emperor Pilaf**: Eternal Dragon, I summon you! Rise! Rise now! Please rise.  
+_The sky goes black. Out of the seven balls pours an enormous green dragon, coiled up into the clouds._  
+**Shenron**: You have gathered the seven. Speak your wish, and speak it soon. I am not a patient dragon.  
+**Emperor Pilaf**: I wish… ahem. Mai, the speech. Where is my speech?  
+_Oolong sticks in the bars as a bat. Your Nubbin shoves, and nothing happens._  
+**Bulma** _(angry)_: Oink!  
+_Oolong is through the bars and out of the window before the word has finished._  
+**Oolong** _(shock)_: What do I wish for? What do I say? Somebody tell me what to say!  
+
+**Choices**
+
+- **Shout: “Anything! Just wish something stupid!”** — sets `{"mv-db-pilaf-wish":"anything"}`
+    - **Oolong**: Something stupid! Right! Dragon! Give me the finest pair of ladies’ knickers in the world!
+    - **Shenron**: Granted. That was easy.
+- **Shout: “Wish for what you really want!”** — sets `{"mv-db-pilaf-wish":"heart"}`
+    - **Oolong**: What I really want… Dragon! Give me the finest pair of ladies’ knickers in the world!
+    - Everybody turns to look at you. You did tell him to be honest.
+- **Shout: “Snacks! Wish for snacks! You love snacks!”** — sets `{"mv-db-pilaf-wish":"snacks"}`
+    - **Oolong**: Snacks! Yes! Dragon, give me a lifetime of… the finest… ladies’ knickers? Why did I say that?
+    - **Shenron**: Granted. No refunds.
+    - His mouth and his brain have clearly never been introduced.
+
+#### <a id="mv-db05-summoning-bathtime"></a>Variant `mv-db05-summoning-bathtime`
+
+_Variant of `mv-db05-summoning`._
+
+_Pilaf’s castle is all traps, and you fall through three of them. The third drops everyone into a cell with one barred window._  
+**Emperor Pilaf** _(happy)_: Ha! Ha! Behold, you peasants! All seven balls are mine! I am about to become ruler of the world!  
+_He is very small and very blue, and his cape is too long. Mai holds the end of it so he won’t trip._  
+**Emperor Pilaf**: Eternal Dragon, I summon you! Rise! Rise now! Please rise.  
+_The sky goes black. Out of the seven balls pours an enormous green dragon, coiled up into the clouds._  
+**Shenron**: You have gathered the seven. Speak your wish, and speak it soon. I am not a patient dragon.  
+**Emperor Pilaf**: I wish… ahem. Mai, the speech. Where is my speech?  
+_Oolong sticks in the bars as a bat. Your Nubbin shoves, and nothing happens._  
+**Bulma** _(angry)_: Bathtime!  
+_Oolong is through the bars and out of the window before the word has finished._  
 **Oolong** _(shock)_: What do I wish for? What do I say? Somebody tell me what to say!  
 
 **Choices**
@@ -715,7 +882,8 @@ _Jackie Chun slips away. A few minutes later Master Roshi appears from behind th
 **Krillin** _(think)_: Master. Were you Jackie Chun?  
 **Master Roshi** _(happy)_: Jackie who? Never heard of him. Excellent fighter. Very handsome.  
 _Roshi’s prize pays for dinner, and Goku eats most of it. What is left goes in an envelope addressed to Nam’s village._  
-**Bulma**: Goku, here. A radar, all yours. I said I’d borrow the ball once, and I did. Deal’s done. Go find your grandpa’s four-star.  
+**Bulma**: Goku, here. A radar, all yours. I borrowed the ball once, like I said. A pig spent the wish on knickers. Deal’s still done.  
+**Bulma**: Go find your grandpa’s four-star.  
 _Your Nubbin checks Bulma’s hands anyway, from habit. Nothing crossed, and it looks almost disappointed._  
 _Goku takes the radar and Nimbus and heads off alone. Your Nubbins, of course, go with him._  
 
@@ -1265,7 +1433,7 @@ _Seven Dragon Balls. Shenron rises over Korin’s land, black sky, green coils, 
 **Shenron**: Seven gathered. Speak.  
 _Goku holds the four-star ball a moment longer than he needs to. Once he wishes, it flies off to the far side of the world again._  
 **Goku** _(soft)_: Grandpa said give it his love. I think this is how. Shenron, bring Bora back. Upa’s dad. Please.  
-**Goku** _(soft)_: Bulma borrowed it once, like she said she would. This time it’s my turn, and I know exactly what for.  
+**Goku** _(soft)_: Bulma borrowed it once. Oolong got the knickers. This time it’s my turn, and I know what for.  
 _Bora sits up by his own grave, puzzled and alive. Upa crashes into him so hard they both fall over._  
 **Bora** _(soft)_: Thank you, boy. And thank you, little ones. I heard you, I think, from very far off.  
 _The balls rise, turn grey, and scatter across the world. The first set of seven is spent, and well spent._  
@@ -1324,6 +1492,7 @@ Hint: Talk to the Crane Hermit in the courtyard. Keep your Nubbins away from the
 #### <a id="mv-db14-crane"></a>Scene `mv-db14-crane`
 
 _Three years on, Papaya Island again. Goku is taller, Krillin braver, and Yamcha has a new haircut he is sure about._  
+_The four-star ball turned up in a river near Goku’s hut last spring, as if it had come home. He keeps it in his bag._  
 _In the courtyard stands an old man in a crane hat, and with him two students in green._  
 **The Crane Hermit** _(happy)_: Turtle Hermit. You look old. Older than me, which is impressive, since we started together.  
 **Master Roshi**: Crane Hermit. You look exactly as trustworthy as you always did.  
@@ -1529,7 +1698,7 @@ _King Piccolo steps out of his tent, older than the hills, gathering power for h
 **Choices**
 
 - **Hold the rice cooker steady with your Nubbins.** — sets `{"mv-db-roshi-wave":"held"}`
-    - A whirlwind of green light lifts King Piccolo off his feet and drags him, howling, towards the little jar.
+    - A whirlwind of green light lifts King Piccolo off his feet and drags him, howling, towards the dented rice cooker.
     - Your Nubbins hold the cooker with every paw they have. It shakes, and they don’t let go.
 - **Go to Roshi. Steady him.** — sets `{"mv-db-roshi-wave":"steadied"}`
     - You take the old man’s shoulders; he is shaking like a reed. The whirlwind roars out of his hands.
@@ -1666,7 +1835,7 @@ _Piccolo stands for a moment with a hole in him where his heart would be. Then h
 
 #### <a id="mv-db17-complete"></a>Complete `mv-db17-complete`
 
-**King Piccolo** _(angry)_: You think you have won, monkey. You have only made me an orphan’s father.  
+**King Piccolo** _(angry)_: You think you have won, monkey. You have only made my son an orphan.  
 _With his last breath, King Piccolo spits out an egg. It cracks a little as it flies, out over the walls, towards the mountains._  
 _Then the Demon King is dust on the wind, and the city is quiet._  
 **Tien** _(soft)_: He’s gone. Goku, he’s gone.  
@@ -1687,7 +1856,7 @@ Sets on completion: `{"mv-db17":true,"mv-db-nimbus":"restored","mv-db-piccolo-eg
 
 *Dragon Ball, chapters 167–180 (approx.)* · audience: adult · where: The rift above the waterfall (Multiverse save slot) · when: After DB17, Goku vs. King Piccolo · requires: DB17
 
-**Cast:** Goku (Son Goku (Dragon Ball)), Korin (Korin, the cat sage of Korin Tower (Dragon Ball)), Mr. Popo (Mr. Popo, Kami’s attendant (Dragon Ball)), Kami (Kami, guardian of the Earth (Dragon Ball)), Shenron (Shenron, the Eternal Dragon (Dragon Ball)), Krillin (Krillin (Dragon Ball)), Bulma (Bulma (Dragon Ball))
+**Cast:** Goku (Son Goku (Dragon Ball)), Korin (Korin, the cat sage of Korin Tower (Dragon Ball)), Mr. Popo (Mr. Popo, Kami’s attendant (Dragon Ball)), Kami (Kami, guardian of the Earth (Dragon Ball)), Shenron (Shenron, the Eternal Dragon (Dragon Ball)), Krillin (Krillin (Dragon Ball)), Bulma (Bulma (Dragon Ball)), Yamcha (Yamcha, the desert bandit (Dragon Ball))
 
 ### Step 1: Climb from the top of Korin Tower to Kami’s Lookout.
 
@@ -1720,7 +1889,8 @@ _Kami is very old and very green, with antennae and a long robe. Goku freezes at
 **Kami** _(sad)_: Yes. Once, long ago, he and I were one being. To become Kami, I had to cast out all the evil in me.  
 **Kami**: The evil became King Piccolo. Everything he did was what I put out of myself. Do you understand?  
 **Goku** _(angry)_: So it’s your fault?  
-**Kami**: It is my responsibility. That’s worse. And if he dies, I die. We still share one life.  
+**Kami**: It is my responsibility. That’s worse. When he died, I should have gone with him. I didn’t.  
+**Kami** _(sad)_: So part of him is still alive somewhere. I can feel it, like a draught.  
 _Your Nubbins look from Kami to Goku and back. Then one of them walks over and leans on Kami’s staff._  
 **Kami** _(soft)_: I made Shenron. I can make him again. I will. It is the least I owe the people he would have saved.  
 
@@ -1762,6 +1932,10 @@ _Mr. Popo bows to it, all the way down._
 #### <a id="mv-db18-complete"></a>Complete `mv-db18-complete`
 
 _Far below, Bulma, Yamcha and Oolong race the world with a radar, gathering the glowing balls one by one._  
+**Yamcha**: It says left.  
+**Bulma**: It says left-ish. Look at the dot, Yamcha. The dot.  
+**Yamcha** _(soft)_: I like the way you say my name.  
+**Bulma**: I said it like a complaint.  
 _From the edge of the Lookout you watch a column of green rise out of a city park. Shenron is back._  
 **Bulma** _(happy)_: Shenron! Bring back everyone King Piccolo and his demons killed! All of them! Every last one!  
 **Shenron**: It is a large wish. I have been dead a while. I will allow it.  
@@ -1826,7 +2000,7 @@ _The old man takes the hug. He hasn’t had one in a while._
 
 - **Keep the balls safe, in Bulma’s capsule case.** — sets `{"mv-db-set2-keeping":"capsule"}`
     - The capsule case clicks shut. It weighs almost nothing, which is the most unsettling thing about it.
-- **Let your Nubbins carry them, one each, turn and turn about.** — sets `{"mv-db-set2-keeping":"nubbins"}`
+- **Let your Nubbins carry them, one each, turn and turn about.** — sets `{"mv-db-set2-keeping":"carried"}`
     - Your Nubbins take it in turns to hold a ball through the night. Whoever is holding one sleeps best.
 
 #### <a id="mv-db19-road-deal-truth"></a>Variant `mv-db19-road-deal-truth`
@@ -1849,7 +2023,7 @@ _The old man takes the hug. He hasn’t had one in a while._
 
 - **Keep the balls safe, in Bulma’s capsule case.** — sets `{"mv-db-set2-keeping":"capsule"}`
     - The capsule case clicks shut. It weighs almost nothing, which is the most unsettling thing about it.
-- **Let your Nubbins carry them, one each, turn and turn about.** — sets `{"mv-db-set2-keeping":"nubbins"}`
+- **Let your Nubbins carry them, one each, turn and turn about.** — sets `{"mv-db-set2-keeping":"carried"}`
     - Your Nubbins take it in turns to hold a ball through the night. Whoever is holding one sleeps best.
 
 #### <a id="mv-db19-road-deal-pitch"></a>Variant `mv-db19-road-deal-pitch`
@@ -1872,7 +2046,7 @@ _The old man takes the hug. He hasn’t had one in a while._
 
 - **Keep the balls safe, in Bulma’s capsule case.** — sets `{"mv-db-set2-keeping":"capsule"}`
     - The capsule case clicks shut. It weighs almost nothing, which is the most unsettling thing about it.
-- **Let your Nubbins carry them, one each, turn and turn about.** — sets `{"mv-db-set2-keeping":"nubbins"}`
+- **Let your Nubbins carry them, one each, turn and turn about.** — sets `{"mv-db-set2-keeping":"carried"}`
     - Your Nubbins take it in turns to hold a ball through the night. Whoever is holding one sleeps best.
 
 #### <a id="mv-db19-road-deal-asked"></a>Variant `mv-db19-road-deal-asked`
@@ -1895,7 +2069,7 @@ _The old man takes the hug. He hasn’t had one in a while._
 
 - **Keep the balls safe, in Bulma’s capsule case.** — sets `{"mv-db-set2-keeping":"capsule"}`
     - The capsule case clicks shut. It weighs almost nothing, which is the most unsettling thing about it.
-- **Let your Nubbins carry them, one each, turn and turn about.** — sets `{"mv-db-set2-keeping":"nubbins"}`
+- **Let your Nubbins carry them, one each, turn and turn about.** — sets `{"mv-db-set2-keeping":"carried"}`
     - Your Nubbins take it in turns to hold a ball through the night. Whoever is holding one sleeps best.
 
 #### <a id="mv-db19-road-done"></a>Done `mv-db19-road-done`
@@ -1928,6 +2102,17 @@ _Five balls in the capsule case, and two more somewhere. The radar is flickering
 **Goku** _(happy)_: Little ones, you drive. I want a nap.  
 _Your Nubbins fly Nimbus south, over the sea, with Goku snoring and you holding the radar. They don’t drop anybody._  
 
+#### <a id="mv-db19-complete-carried"></a>Variant `mv-db19-complete-carried`
+
+_Variant of `mv-db19-complete`._
+
+_Three years. Goku is taller than Yamcha now, and his clothes have been patched more times than they’ve been washed._  
+**Goku** _(happy)_: I think I’m ready. I don’t know for what. But I’m ready.  
+_Five balls in your Nubbins’ arms, and two more somewhere. The radar is flickering towards Papaya Island._  
+_Nobody has dropped one yet, though one was licked._  
+**Goku** _(happy)_: Little ones, you drive. I want a nap.  
+_Your Nubbins fly Nimbus south, over the sea, with Goku snoring and you holding the radar. They don’t drop anybody._  
+
 **Rewards**
 
 - Nimbus Flight (feature): Your Nubbins can fly Nimbus on their own. In the Dragon Ball line, Nimbus becomes a Nubbin-driven mount for travel and races.
@@ -1954,6 +2139,19 @@ _Papaya Island, the 23rd World Martial Arts Tournament. Goku lands on Nimbus, st
 **Bulma** _(happy)_: Look at you! You grew up handsome. That’s annoying. Here. Krillin found you something.  
 **Krillin**: Found it in a bakery in a loaf of bread. Didn’t eat it. Thought you’d want it.  
 _A Dragon Ball. Six in the capsule case now._  
+_Across the courtyard stands a figure in a white cloak and a white turban, very still. People walk around him without knowing why._  
+**Ma Junior** _(angry)_: Son Goku. So. You are the one.  
+_Your Nubbins have stopped, every hair on end. They have felt this once before, in a burned city._  
+
+#### <a id="mv-db20-arrival-carried"></a>Variant `mv-db20-arrival-carried`
+
+_Variant of `mv-db20-arrival`._
+
+_Papaya Island, the 23rd World Martial Arts Tournament. Goku lands on Nimbus, steered by your Nubbins, and nobody recognises him._  
+**Krillin** _(happy)_: Excuse me, sir, is that… No. Goku? You’re enormous! You’re taller than me! You were always taller than me, but now it’s rude.  
+**Bulma** _(happy)_: Look at you! You grew up handsome. That’s annoying. Here. Krillin found you something.  
+**Krillin**: Found it in a bakery in a loaf of bread. Didn’t eat it. Thought you’d want it.  
+_A Dragon Ball. Your smallest Nubbin takes it and will not discuss it further._  
 _Across the courtyard stands a figure in a white cloak and a white turban, very still. People walk around him without knowing why._  
 **Ma Junior** _(angry)_: Son Goku. So. You are the one.  
 _Your Nubbins have stopped, every hair on end. They have felt this once before, in a burned city._  
@@ -2024,6 +2222,24 @@ _The bracket goes up on the wall: Goku, Chi-Chi, Tien, Mercenary Tao, Krillin, Y
 **Goku** _(happy)_: I never lose on purpose. Only by accident.  
 **Ma Junior** _(angry)_: Enjoy it while you can, Son Goku. My father waited three hundred years. I have waited three.  
 _Your Nubbins claim front-row seats on top of the Announcer’s microphone stand. He lets them. He has met Goku before._  
+**Goku** _(happy)_: Look, Krillin. Nubbins. Not fish. I’m learning.  
+**Bulma**: Took him six years.  
+_The gong sounds, and the 23rd World Martial Arts Tournament begins. With it begins the end of the story._  
+
+#### <a id="mv-db20-complete-carried"></a>Variant `mv-db20-complete-carried`
+
+_Variant of `mv-db20-complete`._
+
+_Seven Dragon Balls glow in your Nubbins’ arms. They hold them up to show Bulma._  
+**Bulma** _(think)_: Fine. You win. Best courier service I ever hired.  
+**Bulma** _(think)_: Seven. Two whole sets, you lot. Don’t spend it. Not yet. My hunch is getting louder.  
+_The bracket goes up on the wall: Goku, Chi-Chi, Tien, Mercenary Tao, Krillin, Yamcha, a man called Shen, and a cloaked fighter called Ma Junior._  
+**Chi-Chi** _(happy)_: You’re going to win, and then we’re getting married. In that order. Don’t lose.  
+**Goku** _(happy)_: I never lose on purpose. Only by accident.  
+**Ma Junior** _(angry)_: Enjoy it while you can, Son Goku. My father waited three hundred years. I have waited three.  
+_Your Nubbins claim front-row seats on top of the Announcer’s microphone stand. He lets them. He has met Goku before._  
+**Goku** _(happy)_: Look, Krillin. Nubbins. Not fish. I’m learning.  
+**Bulma**: Took him six years.  
 _The gong sounds, and the 23rd World Martial Arts Tournament begins. With it begins the end of the story._  
 
 **Rewards**

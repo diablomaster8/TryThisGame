@@ -45,6 +45,10 @@ const CAT = spk('cheshire-cat', 'The Cheshire Cat', 'The Cheshire Cat (Wonderlan
 const HATTER = spk('hatter', 'The Hatter', 'The Hatter (Wonderland)');
 const HARE = spk('march-hare', 'The March Hare', 'The March Hare (Wonderland)');
 const QUEEN = spk('queen-of-hearts', 'The Queen of Hearts', 'The Queen of Hearts (Wonderland)');
+const KINGH = spk('king-of-hearts', 'The King of Hearts', 'The King of Hearts (Wonderland)');
+const CARD2 = spk('card-two', 'Two', 'The card-gardeners (Wonderland)');
+const CARD5 = spk('card-five', 'Five', 'The card-gardeners (Wonderland)');
+const CARD7 = spk('card-seven', 'Seven', 'The card-gardeners (Wonderland)');
 const GRYPHON = spk('gryphon', 'The Gryphon', 'The Gryphon (Wonderland)');
 const TURTLE = spk('mock-turtle', 'The Mock Turtle', 'The Mock Turtle (Wonderland)');
 const REDQ = spk('red-queen', 'The Red Queen', 'The Red Queen (Through the Looking-Glass)');
@@ -63,6 +67,10 @@ const CC = say('cheshire-cat');
 const HT = say('hatter');
 const MH = say('march-hare');
 const QH = say('queen-of-hearts');
+const KH = say('king-of-hearts');
+const C2 = say('card-two');
+const C5 = say('card-five');
+const C7 = say('card-seven');
 const GR = say('gryphon');
 const MT = say('mock-turtle');
 const RQ = say('red-queen');
@@ -525,7 +533,7 @@ export const QUESTS_ALICE: Quest[] = [
     audience: 'all',
     trigger: { where: 'A garden of rose-trees behind high hedges', when: WHEN_NEXT('Q69') },
     requires: ['Q69'],
-    speakers: [QUEEN, GRYPHON, ALICE],
+    speakers: [QUEEN, KINGH, CARD2, CARD5, CARD7, GRYPHON, ALICE],
     steps: [
       {
         id: 'q70-s1',
@@ -536,7 +544,10 @@ export const QUESTS_ALICE: Quest[] = [
           id: 'q70-roses',
           lines: [
             N('Three playing cards are on their knees by a rose-tree, painting its white roses red as fast as they can.'),
-            N('One of them is whispering that they planted a white rose-tree by mistake. The others are whispering back.'),
+            N('One of them whispers that they planted a white rose-tree by mistake. The others do not whisper for long.'),
+            C2('It was Five’s fault. He planted the white one.'),
+            C5('Seven jogged my elbow!'),
+            C7('Nobody jogged anything. Keep painting.'),
             AL('Why are you painting them?'),
             N('The cards go quiet, and then start painting faster. A trumpet sounds close by.'),
             N('Your Nubbin picks up a brush in its mouth and takes a long red stripe off the lowest rose.'),
@@ -595,6 +606,9 @@ export const QUESTS_ALICE: Quest[] = [
             QH('Off with their heads!', 'angry'),
             N('The cards come forward, looking unhappy about it. Alice takes a step back and stands in front of you both.'),
             AL('Nonsense!', 'angry'),
+            N('The King lays a timid hand on the Queen’s arm.'),
+            KH('Consider, my dear. She is only a child.'),
+            N('The Queen goes the colour of a beetroot, and says nothing at all.'),
           ],
         },
       },
@@ -640,7 +654,7 @@ export const QUESTS_ALICE: Quest[] = [
     audience: 'all',
     trigger: { where: 'A court-room under a great painted ceiling', when: WHEN_NEXT('Q70') },
     requires: ['Q70'],
-    speakers: [GRYPHON, TURTLE, QUEEN, ALICE],
+    speakers: [GRYPHON, TURTLE, QUEEN, KINGH, HATTER, ALICE],
     steps: [
       {
         id: 'q71-s1',
@@ -678,6 +692,9 @@ export const QUESTS_ALICE: Quest[] = [
           lines: [
             N('The Knave of Hearts stands in chains, with the stolen tarts on a dish. The King is the judge, and the Queen is, as ever, louder.'),
             N('The Hatter is first on the stand, with a teacup in one hand and a piece of bread in the other.'),
+            N('The Hatter, trembling, takes a large bite out of his teacup.'),
+            KH('Write that down.'),
+            N('The jury writes it down twelve different ways. One of them spells “teacup” with a K.'),
             N('Alice feels a strange feeling. She is growing, a little at a time, and has not yet decided to mind.'),
             QH('Call the next witness!', 'angry'),
             N('The little Nubbin from the croquet ground is called. It climbs out of your coat and sits, solemnly, on your foot.'),
@@ -762,7 +779,8 @@ export const QUESTS_ALICE: Quest[] = [
             N('It is raining on the windows. The fire is low and your Nubbin has tangled itself in a ball of wool, up to the ears.'),
             N('You unwind it. When you look up, the mirror over the mantelpiece has gone soft, like silver mist.'),
             AL('Look! It is turning into mist. It will be easy to get through.', 'happy'),
-            N('Alice is already up on the mantelpiece, with one knee through. Your Nubbin follows, trailing wool.'),
+            N('Alice has been staying since the trial, and is quite at home. She is already on the mantelpiece, one knee through.'),
+            N('Your Nubbin follows, trailing wool.'),
             Y('You go first. I am only the one holding the Nubbin.'),
           ],
         },
@@ -1029,10 +1047,9 @@ export const QUESTS_ALICE: Quest[] = [
       id: 'q74-complete',
       lines: [
         N('Alice walks a little more quietly for a while. You walk beside her, a step behind.'),
-        HD('When I say “breakfast”, I mean a nap. So I’ve had three today.', 'happy'),
-        N('His voice is somewhere behind you, from a long way off. You tell yourself it is only an echo.'),
-        Y('He was a very good talker.'),
-        AL('He was. I hope he will be all right.', 'soft'),
+        N('You remember what Humpty said at the wall.'),
+        Y('He told me “breakfast” means a nap.'),
+        AL('Then I hope he is having a very long breakfast.', 'soft'),
         N('Your Nubbin touches its new cravat and looks up the road. There is a knight in the distance, in armour, falling off a horse.'),
       ],
     },
@@ -1114,7 +1131,7 @@ export const QUESTS_ALICE: Quest[] = [
       id: 'q75-wake',
       lines: [
         N('You wake by the fire, and the rain has stopped. The coals are red and low, and the mantelpiece mirror is only a mirror.'),
-        N('Your Nubbin is curled up inside your coat, exactly the way a small round Nubbin once was, in a dream.'),
+        N('Your Nubbin is curled up inside your coat. Beside it is a second warm dent, small and round, and already cooling.'),
         Y('Did you see that?'),
         N('Your Nubbin makes a noise like a very small sigh.'),
         N('You do not know whether you dreamed of Alice, or whether Alice dreamed of you.'),
@@ -1156,6 +1173,9 @@ export const QUESTS_ALICE_VARIANTS: Scene[] = [
     lines: [
       N('The Knave of Hearts stands in chains, with the stolen tarts on a dish. The King is the judge, and the Queen is, as ever, louder.'),
       N('The Hatter is first on the stand, with a teacup in one hand and a piece of bread in the other.'),
+      N('The Hatter, trembling, takes a large bite out of his teacup.'),
+      KH('Write that down.'),
+      N('The jury writes it down twelve different ways. One of them spells “teacup” with a K.'),
       N('Alice feels a strange feeling. She is growing, a little at a time, and has not yet decided to mind.'),
       QH('Call the next witness!', 'angry'),
       N('A small round Nubbin peeps out of the hedge by the jury box, and then ducks back. It has come to see how things go.'),
@@ -1167,6 +1187,9 @@ export const QUESTS_ALICE_VARIANTS: Scene[] = [
     lines: [
       N('The Knave of Hearts stands in chains, with the stolen tarts on a dish. The King is the judge, and the Queen is, as ever, louder.'),
       N('The Hatter is first on the stand, with a teacup in one hand and a piece of bread in the other.'),
+      N('The Hatter, trembling, takes a large bite out of his teacup.'),
+      KH('Write that down.'),
+      N('The jury writes it down twelve different ways. One of them spells “teacup” with a K.'),
       N('Alice feels a strange feeling. She is growing, a little at a time, and has not yet decided to mind.'),
       QH('Call the next witness!', 'angry'),
       N('A small round Nubbin pops its head out of Alice’s pocket, right beside yours. They look at each other with great interest.'),
@@ -1189,6 +1212,7 @@ export const QUESTS_ALICE_VARIANTS: Scene[] = [
     lines: [
       N('You wake by the fire, and the rain has stopped. In the dark of the mantelpiece mirror, something is moving.'),
       N('A girl on the far side is waking too, with a kitten on her lap. She looks at you and waves.'),
+      N('A small round Nubbin peeps out of her pocket. It waves too, with the wrong hand, because it is a mirror.'),
       Y('Hello.'),
       N('Your Nubbin waves back. Then the glass is only glass, and your own face is looking out of it.'),
       N('You do not know whether you dreamed of Alice, or whether Alice dreamed of you.'),

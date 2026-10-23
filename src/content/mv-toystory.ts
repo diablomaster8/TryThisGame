@@ -138,7 +138,9 @@ export const MV_TOYSTORY: Quest[] = [
               label: 'Send your Nubbins down with the army men.',
               set: { 'mv-ts-recon': 'nubbins' },
               then: [
-                SG('Fuzzy recruits. They’ll do. A soft landing is a tactical asset.'),
+                SG('Fuzzy recruits.'),
+                W('Nubbins, Sarge.'),
+                SG('Fuzzy Nubbins. They’ll do. A soft landing is a tactical asset.'),
                 N('Your Nubbins fall in at the back of the platoon, marching on feet that don’t really bend.'),
               ],
             },
@@ -721,7 +723,8 @@ export const MV_TOYSTORY: Quest[] = [
             W('Then I’ll use the other one.'),
             N('Woody climbs onto Buster’s back. Your Nubbins climb on behind him and hold on to the collar.'),
             RX('Be careful! There are people out there! There are tables! There are prices!', 'shock'),
-            N('Down the stairs, out of the door, across the lawn, through a forest of grown-up legs towards the 25¢ box.'),
+            N('Down the stairs, out of the door, across the lawn, through a forest of grown-up legs. A man in sandals steps on Buster’s tail.'),
+            N('Buster yelps, forgives him at once, and keeps going. Your Nubbins, on the collar, glare back at the sandals for him.'),
           ],
           choices: [
             {
@@ -917,7 +920,9 @@ export const MV_TOYSTORY: Quest[] = [
           lines: [
             N('The rest of the party has borrowed a pink convertible from the doll aisle, with the new Buzz up front and a Barbie at the wheel.'),
             BA('Welcome to the Barn, everybody! On your left, the doll aisle, where nobody has ever had a bad hair day.', 'happy'),
-            N('The new Buzz is navigating, very confidently. He is going the wrong way.'),
+            UB('Left at the lights! My sensors are certain!'),
+            HA('Which lights, spaceman? We’re in a shop. It’s all lights.'),
+            UB('…Those lights.', 'think'),
           ],
         },
       },
@@ -1273,7 +1278,7 @@ export const MV_TOYSTORY: Quest[] = [
     audience: 'adult',
     trigger: { where: GATE, when: 'After TS8, The Airport' },
     requires: ['TS8'],
-    speakers: [WOODY, BUZZ, HAMM, JESSIE, MUM, LOTSO, KEN, MRSP, CHATTER, BARBIE, REX, PLUSH],
+    speakers: [WOODY, BUZZ, HAMM, JESSIE, MUM, LOTSO, KEN, MRSP, POTATO, CHATTER, BARBIE, REX, PLUSH],
     steps: [
       {
         id: 'mv-ts09-s1',
@@ -1369,6 +1374,10 @@ export const MV_TOYSTORY: Quest[] = [
           lines: [
             N('Woody goes over the wall alone. The rest of you are carried to the Caterpillar Room, where the toddlers are.'),
             N('The toddlers paint Rex and chew Slinky. They bury Buzz in a sand bucket and try to post Hamm through a slot.'),
+            HA('Not the slot! I have a slot! I don’t need a second slot!', 'shock'),
+            N('A toddler holds your smallest Nubbin up to the light, then towards her mouth. It goes very still, and very boring.'),
+            N('It works. She drops it for a crayon. Your Nubbin now has a green moustache, and is the calmest toy in the room.'),
+            RX('I used to be a dinosaur. Now I’m a teething ring.', 'sad'),
             N('It ends at last. Your Nubbins lie flat on the carpet, damp and gluey, staring at the ceiling.'),
             B('This is not what we were promised. I’m going to have a word with that bear.', 'angry'),
           ],
@@ -1386,7 +1395,10 @@ export const MV_TOYSTORY: Quest[] = [
             B('Prisoners will remain in their cubbies. Lights out at eight.', 'angry'),
             N('Lotso’s gang found the switch in Buzz’s back and set him to demo mode. He doesn’t know you.'),
             N('Mrs. Potato Head has a spare eye still lying in Andy’s room. Through it she can see Andy searching the attic for them.'),
+            PH('Well? What do you see, sweet potato?'),
+            MP('The underneath of a bed. Now a sock. Hush, it’s my eye. It does what it likes.'),
             MP('He’s looking for us. He meant the attic all along. Oh, Andy, I’m sorry.', 'sad'),
+            PH('Not your fault, dear. Can he see me from there? I want him to know I’m cross.', 'soft'),
             N('That night Woody comes back over the wall. A girl called Bonnie took him home, and one of her toys told him the truth about Lotso.'),
             W('Lotso had a kid once. Daisy. She lost him on a trip, and by the time he walked home, she’d bought another Lotso.', 'sad'),
             W('So he decided every toy gets replaced. He runs this place like a prison. He always has.'),
@@ -1519,6 +1531,8 @@ export const MV_TOYSTORY: Quest[] = [
             N('The toys cross the dump in a line, holding on to each other. Lotso limps along behind, as if he were one of them.'),
             N('A shredder. Then a giant magnet that snatches everything metal, Buzz included, and Woody, holding on to Buzz.'),
             N('Your Nubbins have no metal in them anywhere. For once, being made of stuffing is a superpower.'),
+            N('Halfway across, the aliens see a crane on the far heap. “The claw,” they whisper, and wander off towards it.'),
+            N('Nobody can stop them. Nobody has ever been able to stop them.'),
             N('Then everyone tips down a chute onto a long conveyor belt, moving towards a bright orange glow.'),
             N('Beside the belt there is a ladder, and at the top of the ladder a big red emergency stop button.'),
             LO('Help me up! Help me, and I’ll stop it! I swear it on my stitching!', 'shock'),
@@ -1712,7 +1726,8 @@ export const MV_TOYSTORY: Quest[] = [
         N('Buzz puts a hand on his shoulder, and Jessie leans on his other side.'),
         N('Your plush Nubbin climbs into his lap and stays there.'),
         N('Nobody tells Woody it will be all right. They just sit on the step with him until the streetlights come on.'),
-        N('In the morning Bonnie draws all her new toys, your Nubbins included, and gives you the picture. Everybody is labelled wrong, and it is perfect.'),
+        N('In the morning Bonnie draws all her new toys, your Nubbins included, and gives you the picture.'),
+        N('Everybody is labelled wrong, except your Nubbins, who are labelled NUBINS. It is perfect.', 'soft'),
       ],
     },
     rewards: [
@@ -1733,7 +1748,7 @@ export const MV_TOYSTORY: Quest[] = [
     audience: 'adult',
     trigger: { where: GATE, when: 'After TS11, Bonnie' },
     requires: ['TS11'],
-    speakers: [WOODY, DOLLY, FORKY, GABBY, BO, GIGGLE],
+    speakers: [WOODY, BUZZ, DOLLY, FORKY, GABBY, BO, GIGGLE],
     steps: [
       {
         id: 'mv-ts12-s1',
@@ -1794,7 +1809,7 @@ export const MV_TOYSTORY: Quest[] = [
           id: 'mv-ts12-road',
           lines: [
             N('The camper van rattles down the highway. Forky spots an open window and jumps out of it, cheerfully, at sixty miles an hour.'),
-            W('Tell Buzz to keep everyone together. I’ll get him and meet you at the campsite.', 'angry'),
+            W('Buzz! Keep everyone together. I’ll get Forky and meet you at the campsite.', 'angry'),
             N('Woody jumps after him. Before you can think about it, you and your Nubbins have jumped too.'),
             N('A long walk in the dark beside the road. Forky waddles ahead, looking for bins, and finding several.'),
             FO('Why do you keep getting me back? What is a Bonnie, anyway?', 'think'),
@@ -1948,11 +1963,11 @@ export const MV_TOYSTORY_VARIANTS: Scene[] = [
     HA('The plushes have ears now? Fine. Left at the plushes.'),
   ]),
   // TS9: which job Woody gives you in the break-out, before the choice.
-  payoff(MV_TOYSTORY, 'mv-ts09-plan', 'nubbins', 8, 0, [
+  payoff(MV_TOYSTORY, 'mv-ts09-plan', 'nubbins', 11, 0, [
     W('Keeper. Your Nubbins went over the stairs with Sarge’s men once. The wall here is higher, and there’s a monkey watching it.', 'think'),
     W('I need them to do it anyway. Quietly this time.'),
   ]),
-  payoff(MV_TOYSTORY, 'mv-ts09-plan', 'monitor', 8, 0, [
+  payoff(MV_TOYSTORY, 'mv-ts09-plan', 'monitor', 11, 0, [
     W('Keeper. You worked a baby monitor at a party once. That monkey in the office has six screens and a cymbal. Same idea, more noise.', 'think'),
     W('If you can keep a channel open, we’ll know every move Lotso makes before he makes it.'),
   ]),

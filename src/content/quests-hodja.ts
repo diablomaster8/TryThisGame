@@ -794,7 +794,7 @@ export const QUESTS_HODJA: Quest[] = [
             N('Coins chime. The crowd goes very still.'),
             HO('You sold him a smell. He pays you with a sound. Fair is fair.', 'happy'),
             LA('But that’s only the sound!', 'angry'),
-            HO('And his was only the smell. Besides, I did not say you could keep the coins.'),
+            HO('And his was only the smell. Besides, these are my coins. I am keeping them. Sound is free.'),
             N(
               'The crowd, who have been waiting for exactly this, break into applause. The stall-keeper looks at her pot, and then, to her credit, laughs.',
             ),
@@ -907,11 +907,11 @@ export const QUESTS_HODJA: Quest[] = [
             N(
               'He climbs down, collects his donkey and goes home. The room is silent for quite some time.',
             ),
-            N('The next week they all shout “Yes!” before he has finished the question.'),
+            N('The next afternoon they all shout “Yes!” before he has finished the question.'),
             HO('Then you do not need me. Good afternoon.'),
             N('Sparks has her hand over her mouth. Her shoulders are shaking.'),
             N(
-              'The third week the room is split. Half the benches shout “Yes!” and the other half shout “No!”',
+              'On the third afternoon the room is split. Half the benches shout “Yes!” and the other half shout “No!”',
             ),
             HO('Wonderful. Those who know can tell those who do not. I will have a nap.', 'happy'),
           ],
@@ -1153,7 +1153,8 @@ export const QUESTS_HODJA: Quest[] = [
               'I am making a pond of yoghurt. A little goes in, and the rest should follow.',
               'soft',
             ),
-            BY('That’s my pan! And a pond can’t set!', 'angry'),
+            BY('That’s my pan! The dead one! And a pond can’t set!', 'angry'),
+            HO('Shh. It is resting.', 'soft'),
             HO('I know. It will not work.', 'think'),
             HO('But just imagine if it did!', 'happy'),
           ],
@@ -1237,7 +1238,7 @@ export const QUESTS_HODJA: Quest[] = [
       },
     ],
     childLines: {
-      'q94-intro#6': 'I know it won’t work. But just imagine if it did!',
+      'q94-intro#7': 'I know it won’t work. But just imagine if it did!',
     },
     notes:
       'Byte’s big jam pan returns here, spotless, after "dying" in Q89. The yoghurt is a white cloud on the pond surface, ' +

@@ -56,6 +56,8 @@ _Both of them look at you. Your Nubbins look at the forms._
 - **Sign the forms. Stand with Tony.** — sets `{"mv-cw":"registration"}`
     - **Tony Stark**: Thank you. Really. It’s easier to fix a thing from the inside.
     - Your Nubbins get small laminated badges. One of them eats a corner off its badge.
+    - **Tony Stark**: That’s a federal document.
+    - It was the corner with the number on. Your Nubbin is, technically, unregistered again, and very pleased about it.
 - **Tear up the forms. Go with Steve.** — sets `{"mv-cw":"resistance"}`
     - **Steve Rogers**: Then we move tonight. Pack light. Nobody sleeps much where we’re going.
     - Your Nubbins climb into a duffel bag without being asked. They have always liked bags.
@@ -416,6 +418,7 @@ _Strange hid Reed’s raft for eight years. Today Doom’s Thors found it. Every
 **Reed Richards**: Victor. What have you done with my family?  
 **Victor von Doom** _(angry)_: I saved them. You were not there. I was.  
 _Sue looks at Reed as if she almost remembers him, and doesn’t like the way that feels._  
+_Eight years ago, Doom took Reed’s place. Sue and the children remember Doom as husband and father, and nothing else._  
 **Valeria Richards** _(think)_: Father, who is that man? Why is he looking at Mother like that?  
 _Doom flinches at the word Father. Not from shame. From something closer to fear._  
 **Doctor Strange** _(sad)_: Victor, I hid them. I should have told you. I wanted to see what you would do.  
@@ -488,6 +491,9 @@ _As you leave, he puts the mask back on. Then he takes it off again and sets it 
 _At the edge of what is left, Reed and Sue stand by a small ship. Franklin and Valeria are already aboard, arguing._  
 **Sue Storm** _(happy)_: We’re going to rebuild it. All of it. Every universe, one at a time.  
 **Reed Richards** _(happy)_: Franklin makes them. Valeria checks his maths. I carry the toolbox.  
+**Sue Storm** _(happy)_: I’ve put a lamp in the window of the ship. For when you work late.  
+**Reed Richards** _(think)_: Sue. It’s a ship. It doesn’t have a window.  
+**Sue Storm**: It does now.  
 **Sue Storm** _(soft)_: Thank you, Keeper. For the raft, and the throne room, and for keeping my children company when they didn’t know me.  
 _The ship lifts off into a dark that is already beginning to fill up with stars._  
 _Back at the waterfall, your Nubbins watch the rift for a long time, as if a new world might come out of it._  
@@ -569,6 +575,7 @@ _Your Nubbins have found the Mission lantern. It is still lit. They have arrange
 #### <a id="mv-e3-sky-done"></a>Done `mv-e3-sky-done`
 
 **Khonshu**: Bring your little lamp-bearers, Marc. Bring the Keeper. All are welcome in my sky.  
+**Steven Grant**: Colleagues. Mr. Knight calls them colleagues.  
 _A stair of silver light comes down onto the Mission roof. Every step is a different phase of the moon._  
 **Marc Spector** _(think)_: First there’s a bridge. He says there’s a monster on it. He usually lies about the monsters.  
 
@@ -702,6 +709,9 @@ _Next, Yamcha draws the quiet stranger called Shen. Yamcha lands flat on his bac
 _Then the semi-final: Goku against Tien, the reigning champion._  
 **Tien**: No tricks this time, and nobody in my ear. Just you and me.  
 **Goku** _(happy)_: Yeah! I’ve waited three years for this!  
+_Your Nubbins have been given a towel, a bucket and one very serious sponge. They apply all three to Goku at once._  
+**Krillin**: That’s not how corners work.  
+**Goku** _(happy)_: It’s great! Do it again!  
 
 #### <a id="mv-e4-bracket-done"></a>Done `mv-e4-bracket-done`
 
@@ -943,6 +953,8 @@ _Buzz presses the button once more. The voice says something about the next hori
 **Buzz Lightyear** _(soft)_: Forky’s fine. Bonnie’s fine. She has all of us. She doesn’t need you the way Andy did.  
 **Woody** _(sad)_: That’s not true.  
 **Buzz Lightyear** _(soft)_: It is, and you know it is, and you’ve known it a while. It’s all right, Woody. It’s all right to go.  
+**Woody** _(sad)_: Bo asked when Bonnie last picked me. I’ve been counting back. I can’t find the day.  
+**Buzz Lightyear** _(soft)_: I can. It was the day she picked all of us. You were the one who carried us there.  
 
 #### <a id="mv-e5-innervoice-done"></a>Done `mv-e5-innervoice-done`
 
@@ -1448,6 +1460,9 @@ _Stark Tower, late. The armours stand in rows in the hangar, every one of them u
 _One armour’s faceplate is still warm. Tony goes over and pats it, like a horse after a long ride._  
 _He pours himself a sparkling water and raises it to your Nubbins. They raise their fruit back._  
 _Your Nubbins fall asleep on a workbench beside a half-built gauntlet. Tony puts his jacket over them._  
+**Rhodey**: Pepper called. She wants to know why Thursday still says “do not fly into the sun”.  
+**Tony Stark** _(happy)_: Tell her I stayed on the planet. That should count for something.  
+_On the hangar door is a note in Pepper’s hand: “Friday: come home.” Tony has underlined it twice._  
 **Tony Stark** _(soft)_: Come back whenever you like, Keeper. The door’s not locked. I don’t lock doors any more.  
 
 ### Step 17: Have breakfast with Steve’s resistance.

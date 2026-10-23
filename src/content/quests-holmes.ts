@@ -130,6 +130,11 @@ export const QUESTS_HOLMES_VARIANTS: Scene[] = [
     N('It finds the safe path slowly, stopping to sniff at every bend. Behind you, Watson follows exactly in your footprints, except once.'),
     WA('Ah. That one was not a footprint. That was a puddle with ambitions.', 'shock'),
     N('He goes in to the knees, and comes out with a small, dignified squelch. Nobody mentions it, and everybody remembers it.'),
+    N('Later, on a stone, Watson empties that boot. Nobody says anything until he has finished.'),
+  ]),
+  sc('q81-var-children', [
+    HO('You said children. You were right, and I was nearly too clever to notice. Make a note, Watson.', 'soft'),
+    WA('I have underlined it.', 'happy'),
   ]),
   sc('q85-var-jem', [
     N('Someone is already at the hives, tying down a lid with a bit of string and a great deal of care.'),
@@ -193,6 +198,7 @@ export const QUESTS_HOLMES: Quest[] = [
             N('The shop smells of jam and rain. In the back, a thin man in his shirtsleeves is holding a jar of plum jam up to the lamp.'),
             N('He is dusting the lid with flour and looking at it through a glass. There are a great many lids on the table.'),
             HO('Fingerprints, you see. Somebody in this valley has been into the plum jam without paying, and I intend to find who.', 'think'),
+            N('Byte is by the counter, holding a jar of plum jam. He puts it back, slowly, when Mr Holme looks up.'),
           ],
         },
       },
@@ -245,6 +251,9 @@ export const QUESTS_HOLMES: Quest[] = [
         WA('Why 221B?', 'think'),
         HO('Because I like how it sounds, Watson. A name is a good thing to have already.', 'soft'),
         WA('It is Warde, actually. But I think I am about to be called Watson from now on.', 'happy'),
+        HO('Then call me Holmes, with an s. It seems only fair.', 'happy'),
+        WA('What does the s stand for?', 'think'),
+        HO('Showing off.', 'soft'),
         N('Holmes presses a brass magnifying glass into your hand. It has a dent in the rim, from a fall in some other country.'),
         HO('You introduced us, so it is yours. Hold it to anything and you will see more of it, which is the whole of my method.', 'soft'),
         N('From now on, in Photo mode, you can zoom in on anything the Grove has to show.'),
@@ -303,6 +312,7 @@ export const QUESTS_HOLMES: Quest[] = [
           id: 'q77-door',
           lines: [
             N('The door has a card tacked up with one pin and a certain amount of hope. It is neat, and new, and not quite level.'),
+            WI('My new assistant found me the job. A lovely lad. Hardly ever at his desk.'),
             HO('Look at the knees of Mr Willet’s eager new assistant, who got him the job. They are worn through, and stained with clay.', 'think'),
             HO('A man who spends his days at a desk does not wear his knees like that. A man who digs does.'),
           ],
@@ -713,6 +723,7 @@ export const QUESTS_HOLMES: Quest[] = [
           lines: [
             N('Toby sniffs the footprints once and sets off across the valley with his nose to the ground and his tail like a flag.'),
             N('Your Nubbin trots behind him, copying everything he does. When he stops to sniff a post, your Nubbin stops to sniff a post.'),
+            N('Byte has come along to watch Holmes be wrong. He looks very cheerful about it.'),
           ],
         },
       },
@@ -729,8 +740,11 @@ export const QUESTS_HOLMES: Quest[] = [
             SP('It is a barrel of tar. I keep tar in it. That is what it is for.', 'think'),
             WA('The footprints, Holmes. They lead to the barrel, and nowhere else.', 'shock'),
             PX('Oh. Oh no. They are my footprints. I borrowed the tar yesterday.', 'shock'),
+            BY('I did say. I said, “Pixel, there is tar on your boots.”', 'happy'),
+            PX('You said boots. You did not say floor.', 'angry'),
             N('Toby looks from one of you to the other, with a face that says he would like a biscuit regardless.'),
             HO('Then the footprints tell us nothing, and Toby has done what he was asked. A great achievement, in its way.', 'soft'),
+            N('Byte, watching Holmes be right again, looks less cheerful.'),
           ],
         },
       },
@@ -903,7 +917,7 @@ export const QUESTS_HOLMES: Quest[] = [
       'The chalk figures appear in three places in order: Workshop wall, bridge, Fern’s gate. They are readable with the Q76 ' +
       'magnifying glass in Photo mode. The cipher is a simple substitution (a figure per letter, flags mark word ends); ' +
       'a small decoding display is optional. Hetty and Sam’s families have quarrelled over a hedge. Holmes asks "Well?" ' +
-      'after the count (Q81’s chance to contradict him); the choice writes q81-contradicted. Approved quote "What one man can ' +
+      'after the count (Q81’s chance to contradict him); the choice writes q81-contradicted; if it is true, play "q81-var-children" (in QUESTS_HOLMES_VARIANTS) straight after "q81-complete". Approved quote "What one man can ' +
       'invent another can discover." used once, swapped in childLines. The chalk set draws on path tiles only.',
   },
 
@@ -1056,7 +1070,7 @@ export const QUESTS_HOLMES: Quest[] = [
             N('You throw the little smoke-rocket through the open window. It makes a great deal of smoke and no fire at all.'),
             Y('Fire! Fire!', 'shock'),
             N('In the front room, the singer’s eyes flick to a cupboard by the fireplace, for one moment, before she looks away again.'),
-            HO('That is where she keeps it. Thank you, madam.', 'happy'),
+            HO('When people think their house is on fire, they look at what they love most. Thank you, madam.', 'happy'),
           ],
         },
         done: {
@@ -1095,7 +1109,7 @@ export const QUESTS_HOLMES: Quest[] = [
       id: 'q83-complete',
       lines: [
         N('The Count von Kramm is told the photograph is safe, since Irene has promised never to use it. He goes home content, in a coat that is nearly his own.'),
-        WA('To Sherlock Holmes she is always the woman. I have written it down, and I shall not change it.', 'soft'),
+        WA('To Holmes she is always the woman. I have written it down, and I shall not change it.', 'soft'),
         WA('Holmes was beaten, and by a singer. He has never been happier.', 'happy'),
         N('Irene’s picture goes in a plain frame on the mantelpiece at 221B, between the violin and the jar of plum jam.'),
         HO('You will find a clergyman’s hat, coat and collar in the cupboard, if you want them. They are very good for being overlooked.', 'happy'),
@@ -1177,7 +1191,7 @@ export const QUESTS_HOLMES: Quest[] = [
         done: {
           id: 'q84-bog',
           lines: [
-            N('On the far side, Watson sits on a stone and takes off a boot. Nobody says anything until he has finished emptying it.'),
+            N('On the far side, Watson sits on a stone and checks both boots, from habit. Nobody says anything until he has finished.'),
             WA('We are on the heath. The hound has not appeared. I suggest we find somewhere to be afraid in comfort.', 'soft'),
           ],
         },
@@ -1284,7 +1298,7 @@ export const QUESTS_HOLMES: Quest[] = [
         done: {
           id: 'q85-hives',
           lines: [
-            N('You carry three hives to the bank and set them in a row, facing south. The grass around them is thick with clover.'),
+            N('You build three hives in the Workshop yard. Holmes inspects every lid, and adds a fourth nail to each, in case of burglars.'),
             N('The first bee arrives before the lids are on. She inspects everyone, and approves of nobody in particular.'),
           ],
         },
@@ -1309,6 +1323,10 @@ export const QUESTS_HOLMES: Quest[] = [
             N('The bees move into the hives in the early afternoon, in a long dark ribbon through the sun. Somebody has to hold the lid, and it is you.'),
             WA('They are rather beautiful, Holmes. I had never noticed.', 'soft'),
             HO('That is the problem with noticing. You have to practise it on small things first.', 'soft'),
+            N('Byte has come up the bank behind you, with his arms folded and a jar under one elbow.'),
+            BY('I came to catch you guessing. Ten quests. Not once.', 'sad'),
+            HO('And the plum jam, Mr Byte?', 'think'),
+            BY('…I was testing whether it was real. It was. I will pay.', 'sad'),
           ],
         },
       },

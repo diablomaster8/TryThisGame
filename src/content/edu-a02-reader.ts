@@ -174,9 +174,8 @@ const Q01_SCENES: EduScene[] = [
       N(
         'At the very top sits an egg made of stone, taller than you are. Your Nubbin walks round it twice, very slowly.',
       ),
-      N(
-        'Suppose each trip round the egg is seven metres. Your Nubbin has gone round twice, listening with its cheek on the stone.',
-      ),
+      N('Your Nubbin has gone round twice, listening with its cheek on the stone.'),
+      Y('Seven metres each trip, and twice round. Nubbin, how far have you walked?'),
       N('Then it looks up at you, solemn as a doctor.'),
     ],
     [
@@ -193,7 +192,7 @@ const Q01_SCENES: EduScene[] = [
         'Your child heard that the story comes from a Chinese novel written long ago.',
       ),
       ask(
-        5,
+        6,
         'maths',
         'multiply: 2 trips of 7 metres',
         '3.OA.A.3',
@@ -543,9 +542,8 @@ const Q02_SCENES: EduScene[] = [
         'Nobody lives here! It’s got beds. It’s got pots. It’s got a front door made of waterfall!',
         'happy',
       ),
-      N(
-        'Suppose there are four rows of stone beds, with six beds in each row. Your Nubbin tries them all in turn.',
-      ),
+      MK('Four rows of stone beds, six in each row. How many beds is that? Everyone will want one.'),
+      N('Your Nubbin tries them all in turn.'),
       N('It finds every one of them exactly right.'),
       MK('Wait here. If I come back alone they’ll say I made it up.'),
     ],
@@ -695,9 +693,8 @@ const Q02_SCENES: EduScene[] = [
       ),
       N('You and your Nubbin are on the raft too. It seems rude to wave from the shore.'),
       MK('I’ll be back. When I come back, I won’t ever have to stop.'),
-      N(
-        'Suppose the monkeys loaded five baskets with twelve fruits in each. Your Nubbin counts them twice, to be sure.',
-      ),
+      MK('Five baskets, twelve fruits in each. How many pieces is that? Is it enough for the sea?'),
+      N('Your Nubbin counts them twice, to be sure.'),
       N(
         'Years go by on the water, as fast as you can turn a page. He learns to wear clothes and to walk like a person.',
       ),
@@ -2412,7 +2409,7 @@ const Q09_SCENES: EduScene[] = [
         'Then his face started to change. Now he has big ears and a long snout, and eats a whole barn a week.',
       ),
       GA(
-        'And he’s shut my daughter in the back house and won’t let anyone see her. Can you send him away?',
+        'He married my daughter, and now he’s shut her in the back house. Can you send my new son-in-law away?',
       ),
       MK('A monster with big ears who eats a lot? I’ll sort it. I’ll need a dress.', 'happy'),
       MO('A what?', 'shock'),
@@ -3093,7 +3090,7 @@ const Q11_SCENES: EduScene[] = [
       N(
         'You carry cup after cup. Your Nubbin carries a very small cup, and pours very slowly, and gets most of it in.',
       ),
-      N('Suppose each jade cup holds 250 millilitres and Nubbin’s little cup holds 50.'),
+      GY('Each jade cup holds 250 millilitres. That little cup holds 50. Keep count as you pour.'),
       N('Guanyin dips her willow branch in the vase and sprinkles the dew over all of it.'),
       N(
         'The tree stands up, and its leaves uncurl, green and glossy. There are fruit on it, exactly the right number.',
@@ -3341,6 +3338,10 @@ const Q12_SCENES: EduScene[] = [
         'The old man folds up like an empty coat. Where he stood lies a small heap of white bones, chalky as old shells.',
       ),
       MK('There. Bones. There’s your demon. Now do you believe me?', 'angry'),
+      PG(
+        'That’s a lot of bones. I’ve got two hundred and six, and I’d like to keep every one of them.',
+        'shock',
+      ),
       PG('He’s made them look like bones. It’s a trick, so you’ll stop saying the words.', 'think'),
       MO(
         'Three people, Wukong. A girl, her mother, her father. I can’t walk beside someone who does that.',
@@ -3353,7 +3354,7 @@ const Q12_SCENES: EduScene[] = [
     ],
     [
       ask(
-        3,
+        5,
         'science',
         'the skeleton',
         '4-LS1-1',
@@ -3377,7 +3378,7 @@ const Q12_SCENES: EduScene[] = [
         'Your child learned how many bones an adult human skeleton has.',
       ),
       ask(
-        7,
+        8,
         'sel',
         'who do you believe? (the big think question)',
         'CASEL: Responsible decision-making',
@@ -3886,7 +3887,7 @@ const Q14_SCENES: EduScene[] = [
         'At Fire Cloud Cave the boy comes out with a spear, pushes two little carts in front of him, and breathes fire.',
       ),
       RB(
-        'I am Red Boy! The Bull Demon King is my father. You’re supposed to be my uncle, but I don’t care.',
+        'I am Red Boy! You and my father were friends once. I don’t care!',
         'happy',
       ),
       N(
@@ -3899,7 +3900,7 @@ const Q14_SCENES: EduScene[] = [
       N(
         'You run with the bucket. Pigsy rubs Monkey’s back and hands, the way you rub a cold child after a swim.',
       ),
-      N('Suppose your bucket holds five litres, and you make six trips.'),
+      SD('Five litres a bucket, six trips. How much water is that? He needs every drop.', 'shock'),
       N('Your Nubbin lies on Monkey’s chest, because that is where it would want someone to lie.'),
     ],
     [
@@ -4719,7 +4720,7 @@ const Q17_SCENES: EduScene[] = [
         '3.OA.A.3',
         [
           N(
-            'The seven women turn out to be spiders, and a spider has eight legs. How many legs is that altogether?',
+            'Spiders have eight legs. If seven spiders were spinning in this garden, how many legs would that be?',
           ),
         ],
         [
@@ -4771,7 +4772,7 @@ const Q17_SCENES: EduScene[] = [
         'The cottage is really a cave, and the cave is all web. Silk hangs everywhere in great white sheets.',
       ),
       MK('I can cut it, but there’s more every time. It’s like trying to sweep up fog.', 'angry'),
-      N('Suppose each of the seven spiders has spun nine metres of thread.'),
+      MK('Seven spiders, nine metres each. Cousin, how much web is that? I’d like to know how long I’ll be cutting.'),
       N(
         'Your Nubbin puts one paw on a thread and follows it with its eyes. Then it starts walking along it.',
       ),
@@ -5181,7 +5182,7 @@ const Q18_SCENES: EduScene[] = [
     ],
     [
       ask(
-        3,
+        4,
         'maths',
         'compare: rolls and days',
         '4.MD.A.2',

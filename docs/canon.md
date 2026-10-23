@@ -197,6 +197,11 @@ this sheet, follow the sheet and note it. Maor approved these decisions.
       inventions (the Ant-Lifter is **Gerald**).
     - Doom: if welcomed at FF9, a Nubbin sits on his knee at the children's table, and he says so
       in the FF epilogue truce.
+    - Run 7 fixes (2026-10-23): Goku takes the Nubbins for fish (Bulma: "It's a Nubbin, Goku.
+      Don't eat it."), and his "Nubbins. Not fish. I'm learning." closes DB20. Sarge calls them
+      "fuzzy recruits" (Woody corrects, TS1); Bonnie's drawing labels them NUBINS (TS11).
+    - Dragon Ball: the four-star ball came home after the first wish, found in a river near
+      Goku's hut the spring before DB14.
 46. **Q64: what Kaito did.** Kaito once chased Pemba and was unkind to the group; Q64's Learning
     Grove bands say so before Nalu's "I haven't forgotten". Uncle Tenzo introduces him: "He helps.
     He also complains."

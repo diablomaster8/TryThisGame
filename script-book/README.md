@@ -58,9 +58,9 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Fun quests: Mr. Bean (Q21–Q30) | [bean.md](fun/bean.md) (822) | [sprout.md](learning/fun/bean/sprout.md) (998) | [reader.md](learning/fun/bean/reader.md) (1354) |
 | Fun quests: It's Always Sunny (Q31–Q45, adults only) | [sunny.md](fun/sunny.md) (1372) |  |  |
 | Fun quests: Avatar: The Last Airbender (Q46–Q65) | [avatar.md](fun/avatar.md) (1864) | [sprout.md](learning/fun/avatar/sprout.md) (2330) | [reader.md](learning/fun/avatar/reader.md) (3011) |
-| Fun quests: Alice in Wonderland (Q66–Q75) | [alice.md](fun/alice.md) (792) |  |  |
-| Fun quests: Sherlock Holmes (Q76–Q85) | [holmes.md](fun/holmes.md) (836) |  |  |
-| Fun quests: Nasreddin Hodja (Q86–Q95) | [hodja.md](fun/hodja.md) (755) |  |  |
+| Fun quests: Alice in Wonderland (Q66–Q75) | [alice.md](fun/alice.md) (808) |  |  |
+| Fun quests: Sherlock Holmes (Q76–Q85) | [holmes.md](fun/holmes.md) (857) |  |  |
+| Fun quests: Nasreddin Hodja (Q86–Q95) | [hodja.md](fun/hodja.md) (756) |  |  |
 
 ## Neopia
 
@@ -79,16 +79,16 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Multiverse: Ultron (UL1–UL10) | [ultron.md](multiverse/ultron.md) (1080) |
 | Multiverse: Moon Knight (MK1–MK8) | [moonknight.md](multiverse/moonknight.md) (956) |
 | Multiverse: Spawn (SP1–SP8) | [spawn.md](multiverse/spawn.md) (894) |
-| Multiverse: Dragon Ball (DB1–DB20) | [dragonball.md](multiverse/dragonball.md) (2037) |
-| Multiverse: Toy Story (TS1–TS12) | [toystory.md](multiverse/toystory.md) (1420) |
-| Multiverse: Endgames (E1–E6) | [endgames.md](multiverse/endgames.md) (1577) |
+| Multiverse: Dragon Ball (DB1–DB20) | [dragonball.md](multiverse/dragonball.md) (2253) |
+| Multiverse: Toy Story (TS1–TS12) | [toystory.md](multiverse/toystory.md) (1441) |
+| Multiverse: Endgames (E1–E6) | [endgames.md](multiverse/endgames.md) (1592) |
 
 ## Expansions
 
 | Storyline | Script |
 | --- | --- |
-| Expansion E1: The Square | [E1.md](expansions/E1.md) (167) |
-| Expansion E2: Nova’s Season | [E2.md](expansions/E2.md) (130) |
+| Expansion E1: The Square | [E1.md](expansions/E1.md) (182) |
+| Expansion E2: Nova’s Season | [E2.md](expansions/E2.md) (156) |
 | Expansion E3: The Twine | [E3.md](expansions/E3.md) (126) |
 
 ## Storylines
@@ -105,7 +105,7 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Storyline | Script | Little Sprouts | Grove Readers |
 | --- | --- | --- | --- |
 | Atlas, page A1: The Brothers’ Bargain | [main.md](atlas/A01/main.md) (1611) |  |  |
-| Atlas, page A2: The Monkey and the Monk | [main.md](atlas/A02/main.md) (1600) | [sprout.md](atlas/A02/sprout.md) (1949) | [reader.md](atlas/A02/reader.md) (2313) |
+| Atlas, page A2: The Monkey and the Monk | [main.md](atlas/A02/main.md) (1600) | [sprout.md](atlas/A02/sprout.md) (1957) | [reader.md](atlas/A02/reader.md) (2317) |
 | Atlas, page A3: Forty-Nine Days | [main.md](atlas/A03/main.md) (1200) |  |  |
 | Atlas, page A4: The Waterfall Prince | [main.md](atlas/A04/main.md) (1339) |  |  |
 | Atlas, page A5: The Lion of Mali | [main.md](atlas/A05/main.md) (1165) | [sprout.md](atlas/A05/sprout.md) (1419) | [reader.md](atlas/A05/reader.md) (1634) |

@@ -38,8 +38,12 @@ const E1: StoryRule = {
   opens: (w, c) => postGameMorning(w, c),
   auto: byWorld('e1'),
   autoOnly: [1, 2, 3, 4, 5, 6],
-  variant: (_w, c, scene) =>
-    scene === 'e1-attendant-done' && corvinEarned(c) ? 'e1-attendant-corvin' : scene,
+  variant: (_w, c, scene) => {
+    if (scene === 'e1-attendant-done' && corvinEarned(c)) return 'e1-attendant-corvin';
+    // Hazel's "slow" answer at the square earns its own ending lines.
+    if (scene === 'e1-complete' && c.flags['e1-hazel'] === 'slow') return 'e1-complete-slow';
+    return scene;
+  },
   sceneDone: (w, _c, scene, events) => {
     if (scene !== 'e1-attendant-corvin') return;
     // Corvin comes back as a reformed recruit: an NPC in the Grove and a name on the square.
@@ -107,8 +111,11 @@ const E2: StoryRule = {
     if (scene === 'e2-day4' && (n?.slipCount ?? 0) >= EXPANSIONS.novaSlipsForVariant)
       return 'e2-day4-slips';
     if (scene === 'e2-day8' && n?.moody) return 'e2-day8-moody';
-    if (scene === 'e2-complete-reborn' && c.flags['e2-outcome'] === 'departed')
-      return 'e2-complete-departed';
+    if (scene === 'e2-complete-reborn') {
+      const end = c.flags['e2-outcome'] === 'departed' ? 'e2-complete-departed' : scene;
+      // The "short" answer on day 1 changes what Nova says back at the end.
+      return c.flags['e2-answer'] === 'short' ? `${end}-short` : end;
+    }
     return scene;
   },
 };

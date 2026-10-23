@@ -5,11 +5,11 @@ import { EXPANSION_E3, EXPANSION_E3_VARIANTS } from '../../src/content/expansion
 import { SPEAKERS } from '../../src/config/story';
 import { EXPANSIONS, STORY, TOWN } from '../../src/config/tuning';
 import { lifespanMs } from '../../src/sim/slips';
-import { debugE2Day } from '../../src/sim/side-rules-expansions';
+import { debugE2Day, EXPANSION_RULES } from '../../src/sim/side-rules-expansions';
 import { sideActable } from '../../src/sim/side-stories';
 import { addRecruit } from '../../src/sim/town';
-import type { SimEvent, World } from '../../src/sim/types';
-import { applyCommand } from '../../src/sim/world';
+import type { CampaignState, SimEvent, World } from '../../src/sim/types';
+import { applyCommand, createWorld } from '../../src/sim/world';
 import { c, moss, playScenes, runCampaign, sable, tick } from './campaign-driver';
 
 /** A Grove just past the Hazel's Grove ending with Corvin reconciled. */
@@ -186,5 +186,22 @@ describe('E3 The Twine', () => {
     settle(world, events, () => c(world).side.e3?.status === 'done', 30);
     expect(c(world).seen).toContain('e3-tournament-done-merged');
     expect(c(world).flags.e3Done).toBe(true);
+  });
+});
+
+describe('expansion answer variants', () => {
+  it('play the slow E1 ending and the short E2 endings only for those answers', () => {
+    const [e1, e2] = EXPANSION_RULES;
+    const world = createWorld(11, 0);
+    const camp = { flags: {} } as unknown as CampaignState;
+    camp.flags['e1-hazel'] = 'slow';
+    expect(e1!.variant!(world, camp, 'e1-complete')).toBe('e1-complete-slow');
+    camp.flags['e1-hazel'] = 'held';
+    expect(e1!.variant!(world, camp, 'e1-complete')).toBe('e1-complete');
+    camp.flags['e2-answer'] = 'short';
+    camp.flags['e2-outcome'] = 'departed';
+    expect(e2!.variant!(world, camp, 'e2-complete-reborn')).toBe('e2-complete-departed-short');
+    camp.flags['e2-answer'] = 'enough';
+    expect(e2!.variant!(world, camp, 'e2-complete-reborn')).toBe('e2-complete-departed');
   });
 });

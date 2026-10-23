@@ -36,6 +36,15 @@ default renderer is not changed; passes 1 and 2 are on `main`, deployed since 20
 accepted by Maor). Maor, 2026-10-21: daily refreshes and free daily gifts are allowed; only
 repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below).
 
+## Story review run 7 fixes (2026-10-23)
+
+All 57 run-7 recs in `docs/story-review/LOG.md` fixed; no open recs remain.
+- **Works:** Alice, Holmes, Hodja, Dragon Ball, Toy Story, the Multiverse endgames, E1, E2 and both A02 bands.
+  New payoff variants are wired: Q81's `q81-var-children` (`fun-pack-rules.ts`), E1's slow ending and E2's
+  short-answer endings (`side-rules-expansions.ts`, tested). DB19's `mv-db-set2-keeping` value is now `carried`;
+  old saves holding `nubbins` hear the capsule-case lines. Canon 45 gained the run-7 gags.
+- **Partial:** none. **Known bugs:** none.
+
 ## Story review run 6 fixes (2026-10-23)
 
 All 57 open or partial recs in `docs/story-review/LOG.md` fixed (run 6's 56 plus run 5's -265); no open recs remain.

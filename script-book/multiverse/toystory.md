@@ -28,7 +28,9 @@ _The toy box lid lifts. Your plush Nubbin, the one from the shop that never once
 **Choices**
 
 - **Send your Nubbins down with the army men.** — sets `{"mv-ts-recon":"nubbins"}`
-    - **Sarge**: Fuzzy recruits. They’ll do. A soft landing is a tactical asset.
+    - **Sarge**: Fuzzy recruits.
+    - **Woody**: Nubbins, Sarge.
+    - **Sarge**: Fuzzy Nubbins. They’ll do. A soft landing is a tactical asset.
     - Your Nubbins fall in at the back of the platoon, marching on feet that don’t really bend.
 - **Stay up here and hold the monitor with Woody.** — sets `{"mv-ts-recon":"monitor"}`
     - **Woody**: Good. Keep it steady. Rex shakes it when he gets nervous, and Rex is always nervous.
@@ -492,7 +494,8 @@ _Buster is Andy’s dog, grown up now and almost exactly the size of a sofa._
 **Woody**: Then I’ll use the other one.  
 _Woody climbs onto Buster’s back. Your Nubbins climb on behind him and hold on to the collar._  
 **Rex** _(shock)_: Be careful! There are people out there! There are tables! There are prices!  
-_Down the stairs, out of the door, across the lawn, through a forest of grown-up legs towards the 25¢ box._  
+_Down the stairs, out of the door, across the lawn, through a forest of grown-up legs. A man in sandals steps on Buster’s tail._  
+_Buster yelps, forgives him at once, and keeps going. Your Nubbins, on the collar, glare back at the sandals for him._  
 
 **Choices**
 
@@ -623,7 +626,9 @@ _Down the aisle, the rescue party waves the new Buzz over, sure he’s theirs. H
 
 _The rest of the party has borrowed a pink convertible from the doll aisle, with the new Buzz up front and a Barbie at the wheel._  
 **Barbie** _(happy)_: Welcome to the Barn, everybody! On your left, the doll aisle, where nobody has ever had a bad hair day.  
-_The new Buzz is navigating, very confidently. He is going the wrong way._  
+**Utility Belt Buzz**: Left at the lights! My sensors are certain!  
+**Hamm**: Which lights, spaceman? We’re in a shop. It’s all lights.  
+**Utility Belt Buzz** _(think)_: …Those lights.  
 
 ### Complete
 
@@ -925,7 +930,7 @@ Sets on completion: `{"mv-ts08":true}`
 
 *Toy Story 3 (Pixar, 2010): college, the donation and Sunnyside Daycare* · audience: adult · where: The rift above the waterfall (Multiverse save slot) · when: After TS8, The Airport · requires: TS8
 
-**Cast:** Woody (Sheriff Woody (Pixar, Toy Story 1–4)), Buzz Lightyear (Buzz Lightyear (Pixar, Toy Story 1–4)), Hamm (Hamm the piggy bank (Pixar, Toy Story)), Jessie (Jessie the Yodelling Cowgirl (Pixar, Toy Story 2–4)), Andy’s Mum (Andy’s mother (Pixar, Toy Story 1–3)), Lotso (Lots-o’-Huggin’ Bear (Pixar, Toy Story 3)), Ken (Ken (Mattel; as in Pixar, Toy Story 3)), Mrs. Potato Head (Mrs. Potato Head (Pixar, Toy Story 2–3)), Chatter Telephone (Chatter Telephone (Pixar, Toy Story 3)), Barbie (Barbie (Mattel; as in Pixar, Toy Story 2–3)), Rex (Rex the dinosaur (Pixar, Toy Story)), Plush Nubbin (The plush Nubbin from fun quest Q12, Just Resting (original))
+**Cast:** Woody (Sheriff Woody (Pixar, Toy Story 1–4)), Buzz Lightyear (Buzz Lightyear (Pixar, Toy Story 1–4)), Hamm (Hamm the piggy bank (Pixar, Toy Story)), Jessie (Jessie the Yodelling Cowgirl (Pixar, Toy Story 2–4)), Andy’s Mum (Andy’s mother (Pixar, Toy Story 1–3)), Lotso (Lots-o’-Huggin’ Bear (Pixar, Toy Story 3)), Ken (Ken (Mattel; as in Pixar, Toy Story 3)), Mrs. Potato Head (Mrs. Potato Head (Pixar, Toy Story 2–3)), Mr. Potato Head (Mr. Potato Head (Pixar, Toy Story)), Chatter Telephone (Chatter Telephone (Pixar, Toy Story 3)), Barbie (Barbie (Mattel; as in Pixar, Toy Story 2–3)), Rex (Rex the dinosaur (Pixar, Toy Story)), Plush Nubbin (The plush Nubbin from fun quest Q12, Just Resting (original))
 
 ### Step 1: Get every toy out of the bin bag before the bin lorry arrives.
 
@@ -989,6 +994,10 @@ _Woody looks at you, the only one left who hasn’t picked a side._
 
 _Woody goes over the wall alone. The rest of you are carried to the Caterpillar Room, where the toddlers are._  
 _The toddlers paint Rex and chew Slinky. They bury Buzz in a sand bucket and try to post Hamm through a slot._  
+**Hamm** _(shock)_: Not the slot! I have a slot! I don’t need a second slot!  
+_A toddler holds your smallest Nubbin up to the light, then towards her mouth. It goes very still, and very boring._  
+_It works. She drops it for a crayon. Your Nubbin now has a green moustache, and is the calmest toy in the room._  
+**Rex** _(sad)_: I used to be a dinosaur. Now I’m a teething ring.  
 _It ends at last. Your Nubbins lie flat on the carpet, damp and gluey, staring at the ceiling._  
 **Buzz Lightyear** _(angry)_: This is not what we were promised. I’m going to have a word with that bear.  
 
@@ -1002,7 +1011,10 @@ _Buzz goes to find Lotso and is gone an hour. When he comes back, he’s differe
 **Buzz Lightyear** _(angry)_: Prisoners will remain in their cubbies. Lights out at eight.  
 _Lotso’s gang found the switch in Buzz’s back and set him to demo mode. He doesn’t know you._  
 _Mrs. Potato Head has a spare eye still lying in Andy’s room. Through it she can see Andy searching the attic for them._  
+**Mr. Potato Head**: Well? What do you see, sweet potato?  
+**Mrs. Potato Head**: The underneath of a bed. Now a sock. Hush, it’s my eye. It does what it likes.  
 **Mrs. Potato Head** _(sad)_: He’s looking for us. He meant the attic all along. Oh, Andy, I’m sorry.  
+**Mr. Potato Head** _(soft)_: Not your fault, dear. Can he see me from there? I want him to know I’m cross.  
 _That night Woody comes back over the wall. A girl called Bonnie took him home, and one of her toys told him the truth about Lotso._  
 **Woody** _(sad)_: Lotso had a kid once. Daisy. She lost him on a trip, and by the time he walked home, she’d bought another Lotso.  
 **Woody**: So he decided every toy gets replaced. He runs this place like a prison. He always has.  
@@ -1025,7 +1037,10 @@ _Buzz goes to find Lotso and is gone an hour. When he comes back, he’s differe
 **Buzz Lightyear** _(angry)_: Prisoners will remain in their cubbies. Lights out at eight.  
 _Lotso’s gang found the switch in Buzz’s back and set him to demo mode. He doesn’t know you._  
 _Mrs. Potato Head has a spare eye still lying in Andy’s room. Through it she can see Andy searching the attic for them._  
+**Mr. Potato Head**: Well? What do you see, sweet potato?  
+**Mrs. Potato Head**: The underneath of a bed. Now a sock. Hush, it’s my eye. It does what it likes.  
 **Mrs. Potato Head** _(sad)_: He’s looking for us. He meant the attic all along. Oh, Andy, I’m sorry.  
+**Mr. Potato Head** _(soft)_: Not your fault, dear. Can he see me from there? I want him to know I’m cross.  
 _That night Woody comes back over the wall. A girl called Bonnie took him home, and one of her toys told him the truth about Lotso._  
 **Woody** _(sad)_: Lotso had a kid once. Daisy. She lost him on a trip, and by the time he walked home, she’d bought another Lotso.  
 **Woody**: So he decided every toy gets replaced. He runs this place like a prison. He always has.  
@@ -1050,7 +1065,10 @@ _Buzz goes to find Lotso and is gone an hour. When he comes back, he’s differe
 **Buzz Lightyear** _(angry)_: Prisoners will remain in their cubbies. Lights out at eight.  
 _Lotso’s gang found the switch in Buzz’s back and set him to demo mode. He doesn’t know you._  
 _Mrs. Potato Head has a spare eye still lying in Andy’s room. Through it she can see Andy searching the attic for them._  
+**Mr. Potato Head**: Well? What do you see, sweet potato?  
+**Mrs. Potato Head**: The underneath of a bed. Now a sock. Hush, it’s my eye. It does what it likes.  
 **Mrs. Potato Head** _(sad)_: He’s looking for us. He meant the attic all along. Oh, Andy, I’m sorry.  
+**Mr. Potato Head** _(soft)_: Not your fault, dear. Can he see me from there? I want him to know I’m cross.  
 _That night Woody comes back over the wall. A girl called Bonnie took him home, and one of her toys told him the truth about Lotso._  
 **Woody** _(sad)_: Lotso had a kid once. Daisy. She lost him on a trip, and by the time he walked home, she’d bought another Lotso.  
 **Woody**: So he decided every toy gets replaced. He runs this place like a prison. He always has.  
@@ -1139,6 +1157,8 @@ _Dawn at the landfill. Gulls overhead, a smell like every bin in the world, and 
 _The toys cross the dump in a line, holding on to each other. Lotso limps along behind, as if he were one of them._  
 _A shredder. Then a giant magnet that snatches everything metal, Buzz included, and Woody, holding on to Buzz._  
 _Your Nubbins have no metal in them anywhere. For once, being made of stuffing is a superpower._  
+_Halfway across, the aliens see a crane on the far heap. “The claw,” they whisper, and wander off towards it._  
+_Nobody can stop them. Nobody has ever been able to stop them._  
 _Then everyone tips down a chute onto a long conveyor belt, moving towards a bright orange glow._  
 _Beside the belt there is a ladder, and at the top of the ladder a big red emergency stop button._  
 **Lotso** _(shock)_: Help me up! Help me, and I’ll stop it! I swear it on my stitching!  
@@ -1283,7 +1303,8 @@ _When the door shuts, Woody sits up. He watches the corner where the car went, a
 _Buzz puts a hand on his shoulder, and Jessie leans on his other side._  
 _Your plush Nubbin climbs into his lap and stays there._  
 _Nobody tells Woody it will be all right. They just sit on the step with him until the streetlights come on._  
-_In the morning Bonnie draws all her new toys, your Nubbins included, and gives you the picture. Everybody is labelled wrong, and it is perfect._  
+_In the morning Bonnie draws all her new toys, your Nubbins included, and gives you the picture._  
+_Everybody is labelled wrong, except your Nubbins, who are labelled NUBINS. It is perfect._  
 
 **Rewards**
 
@@ -1298,7 +1319,7 @@ Sets on completion: `{"mv-ts11":true}`
 
 *Toy Story 4 (Pixar, 2019): Forky, the road trip, the antique store and Bo Peep* · audience: adult · where: The rift above the waterfall (Multiverse save slot) · when: After TS11, Bonnie · requires: TS11
 
-**Cast:** Woody (Sheriff Woody (Pixar, Toy Story 1–4)), Dolly (Dolly, the rag doll in Bonnie’s room (Pixar, Toy Story 3–4)), Forky (Forky (Pixar, Toy Story 4)), Gabby Gabby (Gabby Gabby (Pixar, Toy Story 4)), Bo Peep (Bo Peep (Pixar, Toy Story 1, 2 and 4)), Giggle McDimples (Giggle McDimples (Pixar, Toy Story 4))
+**Cast:** Woody (Sheriff Woody (Pixar, Toy Story 1–4)), Buzz Lightyear (Buzz Lightyear (Pixar, Toy Story 1–4)), Dolly (Dolly, the rag doll in Bonnie’s room (Pixar, Toy Story 3–4)), Forky (Forky (Pixar, Toy Story 4)), Gabby Gabby (Gabby Gabby (Pixar, Toy Story 4)), Bo Peep (Bo Peep (Pixar, Toy Story 1, 2 and 4)), Giggle McDimples (Giggle McDimples (Pixar, Toy Story 4))
 
 ### Step 1: Keep Forky out of the bin until morning.
 
@@ -1340,7 +1361,7 @@ Hint: A night expedition along the verge. Stay out of headlights, and watch Fork
 #### <a id="mv-ts12-road"></a>Scene `mv-ts12-road`
 
 _The camper van rattles down the highway. Forky spots an open window and jumps out of it, cheerfully, at sixty miles an hour._  
-**Woody** _(angry)_: Tell Buzz to keep everyone together. I’ll get him and meet you at the campsite.  
+**Woody** _(angry)_: Buzz! Keep everyone together. I’ll get Forky and meet you at the campsite.  
 _Woody jumps after him. Before you can think about it, you and your Nubbins have jumped too._  
 _A long walk in the dark beside the road. Forky waddles ahead, looking for bins, and finding several._  
 **Forky** _(think)_: Why do you keep getting me back? What is a Bonnie, anyway?  

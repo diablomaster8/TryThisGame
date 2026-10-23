@@ -18,7 +18,8 @@ _In the margin Nova has pencilled: “A very long walk. Take snacks.”_
 _The ink goes wet under your fingers, then warm. You and your Nubbin step in and stand on warm rock, high above the clouds._  
 _This is the Mountain of Flowers and Fruit. Everything on it smells of peaches, even the stones._  
 _At the very top sits an egg made of stone, taller than you are. Your Nubbin walks round it twice, very slowly._  
-_Suppose each trip round the egg is seven metres. Your Nubbin has gone round twice, listening with its cheek on the stone._  
+_Your Nubbin has gone round twice, listening with its cheek on the stone._  
+**You**: Seven metres each trip, and twice round. Nubbin, how far have you walked?  
 
 > **Lesson** (maths, 3.OA.A.3, ask): multiply: 2 trips of 7 metres  
 > _Two trips round the egg, seven metres each. How far has your Nubbin walked?_  
@@ -174,7 +175,7 @@ _Over the doorway someone has carved the cave a name, long ago, in tidy characte
 > _For grown-ups: Your child heard that Chinese is written with characters._
 
 **Monkey**: Nobody lives here! It’s got beds. It’s got pots. It’s got a front door made of waterfall!  
-_Suppose there are four rows of stone beds, with six beds in each row. Your Nubbin tries them all in turn._  
+**Monkey**: Four rows of stone beds, six in each row. How many beds is that? Everyone will want one.  
 
 > **Lesson** (maths, 3.OA.A.1, ask): multiply: 4 rows of 6  
 > _Four rows of stone beds, six in each row. How many beds does your Nubbin have to try?_  
@@ -182,6 +183,7 @@ _Suppose there are four rows of stone beds, with six beds in each row. Your Nubb
 > - 10 → That adds 4 + 6. We need four equal groups of six. 4 × 6 = 24.
 > _For grown-ups: Your child used equal groups to multiply (4 × 6)._
 
+_Your Nubbin tries them all in turn._  
 _It finds every one of them exactly right._  
 **Monkey**: Wait here. If I come back alone they’ll say I made it up.  
 
@@ -234,7 +236,7 @@ _The cave goes very quiet. Your Nubbin climbs into his lap, which is all it know
 _In the morning the monkeys build him a raft and pile it with fruit. They wave until he is a dot._  
 _You and your Nubbin are on the raft too. It seems rude to wave from the shore._  
 **Monkey**: I’ll be back. When I come back, I won’t ever have to stop.  
-_Suppose the monkeys loaded five baskets with twelve fruits in each. Your Nubbin counts them twice, to be sure._  
+**Monkey**: Five baskets, twelve fruits in each. How many pieces is that? Is it enough for the sea?  
 
 > **Lesson** (maths, 3.OA.A.3, ask): multiply: 5 baskets of 12  
 > _Five baskets with twelve fruits in each. How many pieces of fruit are on the raft?_  
@@ -242,6 +244,7 @@ _Suppose the monkeys loaded five baskets with twelve fruits in each. Your Nubbin
 > - 17 → That adds 5 + 12. Five equal baskets means we multiply. 5 × 12 = 60.
 > _For grown-ups: Your child multiplied 5 × 12._
 
+_Your Nubbin counts them twice, to be sure._  
 _Years go by on the water, as fast as you can turn a page. He learns to wear clothes and to walk like a person._  
 _Behind them, the waterfall swings shut like a curtain, and the cave goes back to being quiet._  
 
@@ -965,7 +968,7 @@ _Your Nubbin folds the robe into a square so neat that even the monk is impresse
 > - It helps the pig fly → Pigs cannot fly, but their snouts are very useful on the ground. Digging up food and sniffing it out is what it is for.
 > _For grown-ups: Your child learned how a pig’s snout helps it find food._
 
-**Old Gao**: And he’s shut my daughter in the back house and won’t let anyone see her. Can you send him away?  
+**Old Gao**: He married my daughter, and now he’s shut her in the back house. Can you send my new son-in-law away?  
 **Monkey**: A monster with big ears who eats a lot? I’ll sort it. I’ll need a dress.  
 **Tang Sanzang**: A what?  
 **Monkey**: A dress. Trust me.  
@@ -1239,7 +1242,7 @@ _Guanyin comes with her vase. She draws a sign on Monkey’s palm and has him la
 > _For grown-ups: Your child said that a wilting plant needs water._
 
 _You carry cup after cup. Your Nubbin carries a very small cup, and pours very slowly, and gets most of it in._  
-_Suppose each jade cup holds 250 millilitres and Nubbin’s little cup holds 50._  
+**Guanyin**: Each jade cup holds 250 millilitres. That little cup holds 50. Keep count as you pour.  
 
 > **Lesson** (maths, 4.MD.A.1, ask): divide: millilitres in cups  
 > _One jade cup holds 250 millilitres, and your Nubbin’s cup holds 50. How many of its little cups would fill one jade cup?_  
@@ -1332,6 +1335,8 @@ _An old man comes last, fingering prayer beads, looking for his wife and daughte
 _This time Monkey calls the mountain spirits to stand guard, so she can’t slip away. Then he swings._  
 _The old man folds up like an empty coat. Where he stood lies a small heap of white bones, chalky as old shells._  
 **Monkey**: There. Bones. There’s your demon. Now do you believe me?  
+**Pigsy**: That’s a lot of bones. I’ve got two hundred and six, and I’d like to keep every one of them.  
+**Pigsy**: He’s made them look like bones. It’s a trick, so you’ll stop saying the words.  
 
 > **Lesson** (science, 4-LS1-1, ask): the skeleton  
 > _Bones are real parts of a living body. About how many bones does an adult human skeleton have?_  
@@ -1339,7 +1344,6 @@ _The old man folds up like an empty coat. Where he stood lies a small heap of wh
 > - 50 → Many more than that: 206 in an adult. Your hands alone have 54.
 > _For grown-ups: Your child learned how many bones an adult human skeleton has._
 
-**Pigsy**: He’s made them look like bones. It’s a trick, so you’ll stop saying the words.  
 **Tang Sanzang**: Three people, Wukong. A girl, her mother, her father. I can’t walk beside someone who does that.  
 _The monk writes a letter of dismissal and holds it out. Then everybody, even Monkey, looks at you._  
 **Tang Sanzang**: You carry our things. You have seen all we have seen. What do you think?  
@@ -1568,7 +1572,7 @@ _The boy makes himself as heavy as a mountain on Monkey’s back. Then, with a g
 #### `reader:a02-14-fire` · [main](main.md#a02-14-fire)
 
 _At Fire Cloud Cave the boy comes out with a spear, pushes two little carts in front of him, and breathes fire._  
-**Red Boy**: I am Red Boy! The Bull Demon King is my father. You’re supposed to be my uncle, but I don’t care.  
+**Red Boy**: I am Red Boy! You and my father were friends once. I don’t care!  
 _Monkey calls the dragon kings, and they rain on the fire. It only burns hotter: this fire doesn’t mind water at all._  
 _Monkey comes out singed and smoking, and dives into a cold stream to cool off. The cold knocks him flat._  
 **Sandy**: Water. More water, cold. Not too fast.  
@@ -1579,7 +1583,7 @@ _You run with the bucket. Pigsy rubs Monkey’s back and hands, the way you rub 
 > Check: `edu:rub:hands:warm`
 > _For grown-ups: Your child felt friction make heat by rubbing their hands._
 
-_Suppose your bucket holds five litres, and you make six trips._  
+**Sandy**: Five litres a bucket, six trips. How much water is that? He needs every drop.  
 
 > **Lesson** (maths, 3.OA.A.3, ask): multiply: 6 trips of 5 litres  
 > _Your bucket holds five litres, and you make six trips. How many litres of water do you bring?_  
@@ -1946,7 +1950,7 @@ _So he goes alone to a pretty cottage at the edge of the trees. Monkey sends you
 _Seven women sit in the garden, spinning, very politely. Their eyes are a little too many, and a little too shiny._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): multiply: 7 spiders with 8 legs  
-> _The seven women turn out to be spiders, and a spider has eight legs. How many legs is that altogether?_  
+> _Spiders have eight legs. If seven spiders were spinning in this garden, how many legs would that be?_  
 > - ✅ 56 → Yes. 7 × 8 = 56. Eight legs is how you tell a spider from an insect, which has six.
 > - 15 → That adds 7 + 8. Seven spiders with eight legs each means we multiply. 7 × 8 = 56.
 > _For grown-ups: Your child distinguished spiders from insects._
@@ -1968,7 +1972,7 @@ _Each thread is as fine as a hair, and none of them breaks._
 
 _The cottage is really a cave, and the cave is all web. Silk hangs everywhere in great white sheets._  
 **Monkey**: I can cut it, but there’s more every time. It’s like trying to sweep up fog.  
-_Suppose each of the seven spiders has spun nine metres of thread._  
+**Monkey**: Seven spiders, nine metres each. Cousin, how much web is that? I’d like to know how long I’ll be cutting.  
 
 > **Lesson** (maths, 3.OA.A.3, ask): multiply: 7 spiders, 9 metres each  
 > _Seven spiders have each spun nine metres of thread. How many metres of silk is that altogether?_  
@@ -2143,6 +2147,7 @@ _Five thousand and forty-eight rolls of scripture, tied up in neat bundles. You 
 **Tang Sanzang**: We have them. We actually have them.  
 **Monkey**: Told you. India by lunch.  
 **Pigsy**: It was fourteen years.  
+**Monkey**: A very long lunch.  
 
 > **Lesson** (maths, 4.MD.A.2, ask): compare: rolls and days  
 > _Fourteen years is about 5,110 days, and the pilgrims brought back 5,048 rolls. Are there more rolls than days, or fewer?_  
@@ -2150,7 +2155,6 @@ _Five thousand and forty-eight rolls of scripture, tied up in neat bundles. You 
 > - More: 5,048 is bigger → Compare digit by digit: 5,0 is below 5,1. 5,048 is less than 5,110.
 > _For grown-ups: Your child compared two four-digit numbers._
 
-**Monkey**: A very long lunch.  
 _The mountain behind you glows in the late sun, and the scrolls hang from the pole like a great, patient bird._  
 
 ### Glossary

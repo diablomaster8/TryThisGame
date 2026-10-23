@@ -24,6 +24,7 @@ _ROOM ABOVE THE SHOP TO SHARE. The card has a ring on it where somebody has put 
 _The shop smells of jam and rain. In the back, a thin man in his shirtsleeves is holding a jar of plum jam up to the lamp._  
 _He is dusting the lid with flour and looking at it through a glass. There are a great many lids on the table._  
 **Mr Hollis Holme** _(think)_: Fingerprints, you see. Somebody in this valley has been into the plum jam without paying, and I intend to find who.  
+_Byte is by the counter, holding a jar of plum jam. He puts it back, slowly, when Mr Holme looks up._  
 
 ### Step 2: Stay in the room above the shop while Mr Holme reads you.
 
@@ -61,6 +62,9 @@ _By noon, Dr Warde’s bag is on a chair and Mr Holme’s violin is on the other
 **Dr Weston Warde** _(think)_: Why 221B?  
 **Mr Hollis Holme** _(soft)_: Because I like how it sounds, Watson. A name is a good thing to have already.  
 **Dr Weston Warde** _(happy)_: It is Warde, actually. But I think I am about to be called Watson from now on.  
+**Mr Hollis Holme** _(happy)_: Then call me Holmes, with an s. It seems only fair.  
+**Dr Weston Warde** _(think)_: What does the s stand for?  
+**Mr Hollis Holme** _(soft)_: Showing off.  
 _Holmes presses a brass magnifying glass into your hand. It has a dent in the rim, from a fall in some other country._  
 **Mr Hollis Holme** _(soft)_: You introduced us, so it is yours. Hold it to anything and you will see more of it, which is the whole of my method.  
 _From now on, in Photo mode, you can zoom in on anything the Grove has to show._  
@@ -99,6 +103,7 @@ _Holmes taps the lane with his stick, three times, then listens, like a man tuni
 #### <a id="q77-door"></a>Done `q77-door`
 
 _The door has a card tacked up with one pin and a certain amount of hope. It is neat, and new, and not quite level._  
+**Old Mr Willet**: My new assistant found me the job. A lovely lad. Hardly ever at his desk.  
 **Mr Hollis Holme** _(think)_: Look at the knees of Mr Willet’s eager new assistant, who got him the job. They are worn through, and stained with clay.  
 **Mr Hollis Holme**: A man who spends his days at a desk does not wear his knees like that. A man who digs does.  
 
@@ -361,6 +366,7 @@ _Toby, a lop-eared hound with an expression of enormous patience, trots back wit
 
 _Toby sniffs the footprints once and sets off across the valley with his nose to the ground and his tail like a flag._  
 _Your Nubbin trots behind him, copying everything he does. When he stops to sniff a post, your Nubbin stops to sniff a post._  
+_Byte has come along to watch Holmes be wrong. He looks very cheerful about it._  
 
 ### Step 2: Follow Toby across the valley to the end of the trail.
 
@@ -373,8 +379,11 @@ _He leads you, proud as a drum major, straight to Sparks’s tar barrel by the b
 **Sparks** _(think)_: It is a barrel of tar. I keep tar in it. That is what it is for.  
 **Dr Weston Warde** _(shock)_: The footprints, Holmes. They lead to the barrel, and nowhere else.  
 **Pixel** _(shock)_: Oh. Oh no. They are my footprints. I borrowed the tar yesterday.  
+**Byte** _(happy)_: I did say. I said, “Pixel, there is tar on your boots.”  
+**Pixel** _(angry)_: You said boots. You did not say floor.  
 _Toby looks from one of you to the other, with a face that says he would like a biscuit regardless._  
 **Mr Hollis Holme** _(soft)_: Then the footprints tell us nothing, and Toby has done what he was asked. A great achievement, in its way.  
+_Byte, watching Holmes be right again, looks less cheerful._  
 
 ### Step 3: Use your Nubbin’s new nose to find the missing cogs.
 
@@ -480,6 +489,13 @@ _The kite goes up at dusk, a red diamond with a long tail, and the two families 
 _Hetty gives you a stick of chalk in a small tin, and a little paper kite to take home._  
 _You can write dancing-Nubbin letters on any path now. People will not know what they say, and that is half the point._  
 
+#### <a id="q81-var-children"></a>Variant `q81-var-children`
+
+_Variant within Q81; it has no single parent scene._
+
+**Mr Hollis Holme** _(soft)_: You said children. You were right, and I was nearly too clever to notice. Make a note, Watson.  
+**Dr Weston Warde** _(happy)_: I have underlined it.  
+
 **Rewards**
 
 - Dancing Chalk Set (feature): A chalk set that draws dancing-Nubbin letters on paths. Unlimited.
@@ -489,7 +505,7 @@ _You can write dancing-Nubbin letters on any path now. People will not know what
 
 - `q81-decode#0` → Count them. The shape you see most is probably the letter E.
 
-**Notes:** The chalk figures appear in three places in order: Workshop wall, bridge, Fern’s gate. They are readable with the Q76 magnifying glass in Photo mode. The cipher is a simple substitution (a figure per letter, flags mark word ends); a small decoding display is optional. Hetty and Sam’s families have quarrelled over a hedge. Holmes asks "Well?" after the count (Q81’s chance to contradict him); the choice writes q81-contradicted. Approved quote "What one man can invent another can discover." used once, swapped in childLines. The chalk set draws on path tiles only.
+**Notes:** The chalk figures appear in three places in order: Workshop wall, bridge, Fern’s gate. They are readable with the Q76 magnifying glass in Photo mode. The cipher is a simple substitution (a figure per letter, flags mark word ends); a small decoding display is optional. Hetty and Sam’s families have quarrelled over a hedge. Holmes asks "Well?" after the count (Q81’s chance to contradict him); the choice writes q81-contradicted; if it is true, play "q81-var-children" (in QUESTS_HOLMES_VARIANTS) straight after "q81-complete". Approved quote "What one man can invent another can discover." used once, swapped in childLines. The chalk set draws on path tiles only.
 
 ## Q82. The Ritual
 
@@ -592,7 +608,7 @@ _Someone helps him up, which is the whole of the plan. Within a minute he is in 
 _You throw the little smoke-rocket through the open window. It makes a great deal of smoke and no fire at all._  
 **You** _(shock)_: Fire! Fire!  
 _In the front room, the singer’s eyes flick to a cupboard by the fireplace, for one moment, before she looks away again._  
-**Mr Hollis Holme** _(happy)_: That is where she keeps it. Thank you, madam.  
+**Mr Hollis Holme** _(happy)_: When people think their house is on fire, they look at what they love most. Thank you, madam.  
 
 #### <a id="q83-cupboard"></a>Done `q83-cupboard`
 
@@ -621,7 +637,7 @@ _Holmes reads the letter twice, then folds it carefully and puts it in his breas
 #### <a id="q83-complete"></a>Complete `q83-complete`
 
 _The Count von Kramm is told the photograph is safe, since Irene has promised never to use it. He goes home content, in a coat that is nearly his own._  
-**Dr Weston Warde** _(soft)_: To Sherlock Holmes she is always the woman. I have written it down, and I shall not change it.  
+**Dr Weston Warde** _(soft)_: To Holmes she is always the woman. I have written it down, and I shall not change it.  
 **Dr Weston Warde** _(happy)_: Holmes was beaten, and by a singer. He has never been happier.  
 _Irene’s picture goes in a plain frame on the mantelpiece at 221B, between the violin and the jar of plum jam._  
 **Mr Hollis Holme** _(happy)_: You will find a clergyman’s hat, coat and collar in the cupboard, if you want them. They are very good for being overlooked.  
@@ -671,7 +687,7 @@ _Behind him, a long green stretch of grass lies perfectly flat and perfectly sti
 
 #### <a id="q84-bog"></a>Done `q84-bog`
 
-_On the far side, Watson sits on a stone and takes off a boot. Nobody says anything until he has finished emptying it._  
+_On the far side, Watson sits on a stone and checks both boots, from habit. Nobody says anything until he has finished._  
 **Dr Weston Warde** _(soft)_: We are on the heath. The hound has not appeared. I suggest we find somewhere to be afraid in comfort.  
 
 ### Step 3: Find the stone hut and wait for the glow to come out of the mist.
@@ -725,6 +741,7 @@ _Your Nubbin lowers its nose, the way Toby taught it. Sheep, sheep, old tar, a h
 _It finds the safe path slowly, stopping to sniff at every bend. Behind you, Watson follows exactly in your footprints, except once._  
 **Dr Weston Warde** _(shock)_: Ah. That one was not a footprint. That was a puddle with ambitions.  
 _He goes in to the knees, and comes out with a small, dignified squelch. Nobody mentions it, and everybody remembers it._  
+_Later, on a stone, Watson empties that boot. Nobody says anything until he has finished._  
 
 **Rewards**
 
@@ -759,7 +776,7 @@ _Under the title, in smaller letters: with Some Observations upon the Segregatio
 
 #### <a id="q85-hives"></a>Done `q85-hives`
 
-_You carry three hives to the bank and set them in a row, facing south. The grass around them is thick with clover._  
+_You build three hives in the Workshop yard. Holmes inspects every lid, and adds a fourth nail to each, in case of burglars._  
 _The first bee arrives before the lids are on. She inspects everyone, and approves of nobody in particular._  
 
 ### Step 2: Carry the hives up and settle the bees.
@@ -778,6 +795,10 @@ _Someone is coming up the bank behind you._
 _The bees move into the hives in the early afternoon, in a long dark ribbon through the sun. Somebody has to hold the lid, and it is you._  
 **Dr Weston Warde** _(soft)_: They are rather beautiful, Holmes. I had never noticed.  
 **Mr Hollis Holme** _(soft)_: That is the problem with noticing. You have to practise it on small things first.  
+_Byte has come up the bank behind you, with his arms folded and a jar under one elbow._  
+**Byte** _(sad)_: I came to catch you guessing. Ten quests. Not once.  
+**Mr Hollis Holme** _(think)_: And the plum jam, Mr Byte?  
+**Byte** _(sad)_: …I was testing whether it was real. It was. I will pay.  
 
 ### Complete
 

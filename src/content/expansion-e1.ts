@@ -48,7 +48,7 @@ const letter: Scene = {
     N(
       'Under it, smaller, as if she had nearly not written it: “Pell will still be there. He was always there.”',
     ),
-    Y('Past the cottage. You have walked by it a hundred times and never looked.'),
+    N('Past the cottage. You have walked by it a hundred times and never looked.'),
   ],
 };
 
@@ -79,7 +79,7 @@ const square: Scene = {
     },
     {
       id: 'slow',
-      label: '“That someone with slow hands might not let it go.”',
+      label: '“That you’d know slow hands when you saw them.”',
       set: { 'e1-hazel': 'slow' },
       then: [
         PELL('Slow hands. Hers were. Mine were. Show me yours.'),
@@ -128,7 +128,10 @@ const stall: Scene = {
 const stallDone: Scene = {
   id: 'e1-stall-done',
   lines: [
-    N('A trestle, a cloth, a row of fruit that is cheaper than the shop’s and tastes the same.'),
+    N(
+      'A trestle, a cloth, a row of fruit that is cheaper than the shop’s and tastes the same. One Nubbin is still under the trestle.',
+    ),
+    N('It hands up a pear to every customer. It has not been asked to. It is, apparently, staff.'),
     PELL('Prices come down when people come in. That’s not economics, that’s a square.'),
     N('The cloth is not blue. Pell does not mention it, which is how you know he has noticed.'),
   ],
@@ -138,7 +141,7 @@ const gym: Scene = {
   id: 'e1-gym',
   lines: [
     PELL('There was a gym here. Four stations and a bench. The bench is under that nettle.'),
-    Y('You pull the nettle. The bench is under it.'),
+    N('You pull the nettle. The bench is under it.'),
     PELL(
       'Hazel sat there of an evening and told the Nubbins they were doing it wrong. They weren’t. She liked saying it.',
     ),
@@ -196,7 +199,7 @@ const attendantCorvin: Scene = {
     ),
     PELL('He turned up at six. Asked where the mop was. I’ve never seen a man so glad of a mop.'),
     CORVIN('I’m not asking for anything. The step wants minding. I can mind a step.'),
-    Y('You look at Pell. Pell looks at the mop.'),
+    N('You look at Pell. Pell looks at the mop.'),
     PELL('He stays. Squares are for the ones who come back.'),
     N(
       'Corvin says nothing to that. He picks up the mop, and finds, after a moment, that he knows what to do with it.',
@@ -242,7 +245,7 @@ const festival: Scene = {
     PELL(
       'Nineteen-seventy we had one. Lanterns in the trees, a band that knew three tunes. Hazel danced. Don’t tell anyone.',
     ),
-    Y('You will tell everyone.'),
+    Y('I’m going to tell everyone.'),
     PELL('I know. That’s why I said it.', 'soft'),
   ],
 };
@@ -256,27 +259,44 @@ const festivalDone: Scene = {
     N(
       'Someone has found a drum that knows three tunes. Someone else has found the lanterns. The trees fill up with light.',
     ),
+    N(
+      'The Nubbin who works the stall has been sitting very still on a heap of old bunting. Under it, folded small, is a blue cloth.',
+    ),
+    PELL('Forty years I looked. In with the bunting. The one place I never thought to look.', 'soft'),
+    PELL('Well. Don’t stand there. Put it on the stall.'),
   ],
 };
 
-const complete: Scene = {
-  id: 'e1-complete',
+/** The festival close; `hazelLine` answers what you told Pell on the square (e1-hazel). */
+const closing = (id: string, hazelLine: Line): Scene => ({
+  id,
   lines: [
     N(
       'The first festival on the square. Every recruit on it, every stall out, the well uncapped and somebody’s hat in it.',
     ),
     PELL('Nineteen-seventy, she held the line. I never asked who’d hold it after.'),
-    Y('You put your hand on the warm stone of the block he sat on.'),
-    PELL(
-      'Slow hands. She said that about you. I didn’t know what she meant till the nettles.',
-      'soft',
-    ),
+    N('You put your hand on the warm stone of the block he sat on.'),
+    hazelLine,
     N('The last fold of moss is on the wall. He has counted it. It is, he says, the right number.'),
     N(
       'Behind the cottage, in the register, the second page of the letter lies flat for the first time.',
     ),
   ],
-};
+});
+
+// e1-hazel = held (the first choice) plays the default; slow plays the variant.
+const complete = closing(
+  'e1-complete',
+  PELL('Always here, she said. I never knew she’d noticed. Well. Now there’s two of us.', 'soft'),
+);
+
+const completeSlow = closing(
+  'e1-complete-slow',
+  PELL(
+    'Slow hands. She said that about you. I didn’t know what she meant till the nettles.',
+    'soft',
+  ),
+);
 
 export const EXPANSION_E1: Quest[] = [
   {
@@ -361,12 +381,13 @@ export const EXPANSION_E1: Quest[] = [
     notes:
       'Steps 2–7 are met by the town system alone (autoOnly). Step 5’s done scene is ' +
       'e1-attendant-corvin when the ending was hazels-grove with Corvin reconciled; the rule ' +
-      'spawns Corvin as an NPC and a recruit of species "keeper". The e1-square choice is ' +
-      'voice only (e1-hazel) and nothing reads it yet.',
+      'spawns Corvin as an NPC and a recruit of species "keeper". The e1-square choice ' +
+      '(e1-hazel) picks the complete scene: held plays e1-complete, slow plays ' +
+      'e1-complete-slow.',
   },
 ];
 
-export const EXPANSION_E1_VARIANTS: Scene[] = [attendantCorvin];
+export const EXPANSION_E1_VARIANTS: Scene[] = [attendantCorvin, completeSlow];
 export const EXPANSION_E1_FLAGS: string[] = ['e1-hazel', 'e1-corvin', 'e1Done'];
 export const EXPANSION_E1_CHECKS: string[] = [
   'walk:square',

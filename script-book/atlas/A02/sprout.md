@@ -84,6 +84,8 @@ _The tiny dot waves back!_
 _By evening, Monkey has learned to walk, then climb._  
 _Next he eats peaches. Last he argues with the other monkeys._  
 **Monkey**: Cousin! Tomorrow I will do something enormous.  
+_Long ago, twelve animals ran a big race._  
+_Monkey came ninth. He still says it was close._  
 _He gives your Nubbin a peach. It is mostly bite marks!_  
 _Your Nubbin holds it like treasure._  
 
@@ -549,7 +551,7 @@ _He bows to the monk four times. Then he hugs your Nubbin._
 > - Nothing → We can say something kind. Thank you makes a helper smile.
 > _For grown-ups: Your child practised saying thank you._
 
-**Monkey**: Right! Where are we going? India? Easy!  
+**Monkey**: Right! Where are we going? India? Easy! We will be there by lunch!  
 
 #### `sprout:a02-06-band` · [main](main.md#a02-06-band)
 
@@ -1125,7 +1127,7 @@ _The old man folds up. Where he stood is a chalky heap of bones._
     - **You**: I believe him. My Nubbin hid from her three times.
     - **Tang Sanzang**: A Nubbin’s feelings are not proof. I am sorry.
     - **Monkey**: Thank you. Remember you said it.
-- **Believe the monk. You can’t strike people on a hunch.**
+- **Believe the monk. You can’t hit people on a guess.**
     - **You**: Even if you are right, you cannot hit people because you are sure.
     - **Monkey**: I was not sure. I knew.
     - **Monkey**: Fine. Remember you said it, Cousin’s keeper.
@@ -1140,7 +1142,9 @@ _Three more Monkeys! Four Monkeys bow to the monk, all round him._
 > Check: `edu:add:monkeys:1+3`
 > _For grown-ups: Your child added one and three to make four._
 
-_Then Monkey is gone. Your Nubbin sits in the road, looking._  
+**Tang Sanzang**: Go home, Wukong. Please go.  
+_So Monkey goes home. He is very sad._  
+_Your Nubbin sits in the road. It looks at the empty place._  
 
 #### `sprout:a02-12-return` · [main](main.md#a02-12-return)
 
@@ -1267,7 +1271,7 @@ _An old man with a long white beard walks out of the clouds._
 > - Keep it → It is not ours to keep. We give it back.
 > _For grown-ups: Your child chose to return something to its owner._
 
-**Monkey**: You might have kept a closer eye.  
+**Monkey**: You might have watched them better.  
 **Lord Lao**: So might the Jade Emperor, on you. Yet here we all are.  
 _He leads both brothers home, by the hand._  
 
@@ -1326,7 +1330,7 @@ _You run with a bucket, three times. Pigsy rubs Monkey’s back and hands._
 > Check: `edu:count:buckets:3`
 > _For grown-ups: Your child counted three bucket trips._
 
-_Your Nubbin lies on his chest, where a friend would want it._  
+_Your Nubbin lies on Monkey’s chest, to warm him._  
 
 #### `sprout:a02-14-fire-done` · [main](main.md#a02-14-fire-done)
 
@@ -1367,7 +1371,7 @@ _The monk is untied, smelling of smoke._
 _Red Boy walks a step behind Guanyin, quite quiet._  
 **Tang Sanzang**: He was only a boy, really.  
 **Monkey**: He was a boy who set fire to me. But yes.  
-_Your Nubbin finds a red ribbon. It keeps it for his mum._  
+_Your Nubbin finds a red ribbon. It keeps it for Red Boy’s mum._  
 
 > **Lesson** (maths, K.MD.B.3, do): sort by colour  
 > _(Find three red things in the room. Count them.)_  
@@ -1386,9 +1390,10 @@ _Your Nubbin finds a red ribbon. It keeps it for his mum._
 
 _Bandits on the road again! Monkey is too rough, so he is sent away._  
 _Everyone is tired. Pigsy goes for water, and Sandy follows._  
-_Then Monkey comes back alone, with a cup of water._  
+_Then a Monkey comes back alone, with a cup of water._  
+_His tail is the wrong way round. Hmm!_  
 **Tang Sanzang**: Go away, Wukong. I meant it.  
-_Monkey’s face changes. He bumps the monk down._  
+_This Monkey’s face changes. He bumps the monk down._  
 _He grabs the luggage you carry. Your Nubbin hisses._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): noticing when someone acts unlike themselves  
@@ -1411,7 +1416,7 @@ _The monk sits up, dizzy but not hurt._
 
 #### `sprout:a02-15-twins` · [main](main.md#a02-15-twins)
 
-_Sandy brings news. Monkey is on the Mountain, with a monk and a Pigsy._  
+_Sandy brings news. A pretend Monkey is on the Mountain, with a pretend monk!_  
 _At Guanyin’s island, Sandy finds the real Monkey, sulking._  
 _Then the other one turns up. There are two Monkeys!_  
 
@@ -1605,14 +1610,15 @@ _Everybody runs, and Pigsy runs fastest. Nobody has seen that before._
 
 #### `sprout:a02-16-real` · [main](main.md#a02-16-real)
 
-_There is a long, silly business with disguises._  
+_Monkey puts on a big pretend beard. It falls off._  
+_He sticks it back on, upside down. Nobody notices!_  
 _At last, Princess Iron Fan brings the real fan to the monk._  
 **Princess Iron Fan**: Wave it forty-nine times. Then the fire goes out, and it rains.  
 **Princess Iron Fan**: My boy would have wanted the fire. I think I want the rain.  
 _The fan is huge. You and Sandy hold it, and Monkey swings it._  
 
 > **Lesson** (maths, K.CC.A.1, do): count in tens  
-> _(Count ten waves with Monkey. Then ten more. Keep going: ten, twenty, thirty.)_  
+> _(Count ten waves with Monkey. One, two... ten! Monkey keeps going for you.)_  
 > Check: `edu:count:waves:10`
 > _For grown-ups: Your child counted by tens._
 
@@ -1833,8 +1839,10 @@ _The scrolls are tied in neat bundles. There are so many!_
 _Far away, Guanyin reads a list of all the pilgrims’ hardships._  
 _There were eighty. There ought to be eighty-one._  
 **Guanyin**: One more, then. A gentle one.  
-_At the River of Heaven, an old white turtle waits, smiling._  
-**The old white turtle**: Welcome back. Did you ask the Buddha my question?  
+_At the river, an old white turtle waits._  
+_Long ago, he carried everyone across on his back._  
+_He asked the monk to ask the Buddha one question._  
+**The old white turtle**: Welcome back. Did you ask him?  
 **Tang Sanzang**: Oh no. I forgot. I am so sorry.  
 _The turtle sinks slowly into the river. He is sad._  
 

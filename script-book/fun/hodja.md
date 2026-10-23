@@ -399,7 +399,7 @@ _The Hodja takes a small leather purse out of his sleeve. He holds it up to the 
 _Coins chime. The crowd goes very still._  
 **The Hodja** _(happy)_: You sold him a smell. He pays you with a sound. Fair is fair.  
 **Merrow Ladle** _(angry)_: But that’s only the sound!  
-**The Hodja**: And his was only the smell. Besides, I did not say you could keep the coins.  
+**The Hodja**: And his was only the smell. Besides, these are my coins. I am keeping them. Sound is free.  
 _The crowd, who have been waiting for exactly this, break into applause. The stall-keeper looks at her pot, and then, to her credit, laughs._  
 **Merrow Ladle** _(soft)_: All right. I didn’t think of it like that.  
 
@@ -472,10 +472,10 @@ _The room is packed. The Hodja climbs onto the little platform, turns around twi
 _A murmur. Someone at the back calls out “No!” Sparks is sitting very upright, mouth pressed shut._  
 **The Hodja** _(happy)_: Then there is no point in my telling you. Good afternoon.  
 _He climbs down, collects his donkey and goes home. The room is silent for quite some time._  
-_The next week they all shout “Yes!” before he has finished the question._  
+_The next afternoon they all shout “Yes!” before he has finished the question._  
 **The Hodja**: Then you do not need me. Good afternoon.  
 _Sparks has her hand over her mouth. Her shoulders are shaking._  
-_The third week the room is split. Half the benches shout “Yes!” and the other half shout “No!”_  
+_On the third afternoon the room is split. Half the benches shout “Yes!” and the other half shout “No!”_  
 **The Hodja** _(happy)_: Wonderful. Those who know can tell those who do not. I will have a nap.  
 
 **Choices**
@@ -600,7 +600,8 @@ _The Hodja is at the edge of the pond with a spoon in one hand and Byte’s big 
 _The pan is full of thick white yoghurt. He is tipping it into the water, a spoonful at a time._  
 **You**: Hodja, what are you doing?  
 **The Hodja** _(soft)_: I am making a pond of yoghurt. A little goes in, and the rest should follow.  
-**Byte** _(angry)_: That’s my pan! And a pond can’t set!  
+**Byte** _(angry)_: That’s my pan! The dead one! And a pond can’t set!  
+**The Hodja** _(soft)_: Shh. It is resting.  
 **The Hodja** _(think)_: I know. It will not work.  
 **The Hodja** _(happy)_: But just imagine if it did!  
 
@@ -653,7 +654,7 @@ _He is smiling. He thinks nobody can see._
 
 **Learning Grove swaps**
 
-- `q94-intro#6` → I know it won’t work. But just imagine if it did!
+- `q94-intro#7` → I know it won’t work. But just imagine if it did!
 
 **Notes:** Byte’s big jam pan returns here, spotless, after "dying" in Q89. The yoghurt is a white cloud on the pond surface, nothing more; the pond must never be left looking spoiled. The Hodja knows it will not work; that is the whole joke. The traditional punchline is "what if it takes?" (Turkish "Ya tutarsa?"), in our own wording.
 

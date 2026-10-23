@@ -314,7 +314,7 @@ _The Hatter runs after you with his hat, which has a paper ticket in the band. H
 
 *Alice’s Adventures in Wonderland: The Queen’s Croquet-Ground* · audience: all · where: A garden of rose-trees behind high hedges · when: Straight after Q69 (never during Chapters 9–11) · requires: Q69
 
-**Cast:** The Queen of Hearts (The Queen of Hearts (Wonderland)), The Gryphon (The Gryphon (Wonderland)), Alice (Alice (Alice’s Adventures in Wonderland))
+**Cast:** The Queen of Hearts (The Queen of Hearts (Wonderland)), The King of Hearts (The King of Hearts (Wonderland)), Two (The card-gardeners (Wonderland)), Five (The card-gardeners (Wonderland)), Seven (The card-gardeners (Wonderland)), The Gryphon (The Gryphon (Wonderland)), Alice (Alice (Alice’s Adventures in Wonderland))
 
 ### Step 1: Help the three card-gardeners hide the white roses.
 
@@ -323,7 +323,10 @@ Hint: Carry a paint pot to each white rose and brush it red before the Queen arr
 #### <a id="q70-roses"></a>Scene `q70-roses`
 
 _Three playing cards are on their knees by a rose-tree, painting its white roses red as fast as they can._  
-_One of them is whispering that they planted a white rose-tree by mistake. The others are whispering back._  
+_One of them whispers that they planted a white rose-tree by mistake. The others do not whisper for long._  
+**Two**: It was Five’s fault. He planted the white one.  
+**Five**: Seven jogged my elbow!  
+**Seven**: Nobody jogged anything. Keep painting.  
 **Alice**: Why are you painting them?  
 _The cards go quiet, and then start painting faster. A trumpet sounds close by._  
 _Your Nubbin picks up a brush in its mouth and takes a long red stripe off the lowest rose._  
@@ -363,6 +366,9 @@ _You think of Hazel’s second rule. You think of it quite clearly._
 **The Queen of Hearts** _(angry)_: Off with their heads!  
 _The cards come forward, looking unhappy about it. Alice takes a step back and stands in front of you both._  
 **Alice** _(angry)_: Nonsense!  
+_The King lays a timid hand on the Queen’s arm._  
+**The King of Hearts**: Consider, my dear. She is only a child.  
+_The Queen goes the colour of a beetroot, and says nothing at all._  
 
 ### Complete
 
@@ -390,7 +396,7 @@ _The croquet ground is still in a muddle. The flamingos have gone off to look fo
 
 *Alice’s Adventures in Wonderland: The Mock Turtle’s Story; Who Stole the Tarts?; Alice’s Evidence* · audience: all · where: A court-room under a great painted ceiling · when: Straight after Q70 (never during Chapters 9–11) · requires: Q70
 
-**Cast:** The Gryphon (The Gryphon (Wonderland)), The Mock Turtle (The Mock Turtle (Wonderland)), The Queen of Hearts (The Queen of Hearts (Wonderland)), Alice (Alice (Alice’s Adventures in Wonderland))
+**Cast:** The Gryphon (The Gryphon (Wonderland)), The Mock Turtle (The Mock Turtle (Wonderland)), The Queen of Hearts (The Queen of Hearts (Wonderland)), The King of Hearts (The King of Hearts (Wonderland)), The Hatter (The Hatter (Wonderland)), Alice (Alice (Alice’s Adventures in Wonderland))
 
 ### Step 1: Sit with the Mock Turtle and hear his lessons.
 
@@ -420,6 +426,9 @@ Hint: Climb up into the witness box beside the Hatter, with your Nubbin. · chec
 
 _The Knave of Hearts stands in chains, with the stolen tarts on a dish. The King is the judge, and the Queen is, as ever, louder._  
 _The Hatter is first on the stand, with a teacup in one hand and a piece of bread in the other._  
+_The Hatter, trembling, takes a large bite out of his teacup._  
+**The King of Hearts**: Write that down.  
+_The jury writes it down twelve different ways. One of them spells “teacup” with a K._  
 _Alice feels a strange feeling. She is growing, a little at a time, and has not yet decided to mind._  
 **The Queen of Hearts** _(angry)_: Call the next witness!  
 _The little Nubbin from the croquet ground is called. It climbs out of your coat and sits, solemnly, on your foot._  
@@ -431,6 +440,9 @@ _Variant of `q71-witness`._
 
 _The Knave of Hearts stands in chains, with the stolen tarts on a dish. The King is the judge, and the Queen is, as ever, louder._  
 _The Hatter is first on the stand, with a teacup in one hand and a piece of bread in the other._  
+_The Hatter, trembling, takes a large bite out of his teacup._  
+**The King of Hearts**: Write that down.  
+_The jury writes it down twelve different ways. One of them spells “teacup” with a K._  
 _Alice feels a strange feeling. She is growing, a little at a time, and has not yet decided to mind._  
 **The Queen of Hearts** _(angry)_: Call the next witness!  
 _A small round Nubbin peeps out of the hedge by the jury box, and then ducks back. It has come to see how things go._  
@@ -442,6 +454,9 @@ _Variant of `q71-witness`._
 
 _The Knave of Hearts stands in chains, with the stolen tarts on a dish. The King is the judge, and the Queen is, as ever, louder._  
 _The Hatter is first on the stand, with a teacup in one hand and a piece of bread in the other._  
+_The Hatter, trembling, takes a large bite out of his teacup._  
+**The King of Hearts**: Write that down.  
+_The jury writes it down twelve different ways. One of them spells “teacup” with a K._  
 _Alice feels a strange feeling. She is growing, a little at a time, and has not yet decided to mind._  
 **The Queen of Hearts** _(angry)_: Call the next witness!  
 _A small round Nubbin pops its head out of Alice’s pocket, right beside yours. They look at each other with great interest._  
@@ -502,7 +517,8 @@ Hint: Free your Nubbin from the ball of wool, then step up onto the mantelpiece 
 _It is raining on the windows. The fire is low and your Nubbin has tangled itself in a ball of wool, up to the ears._  
 _You unwind it. When you look up, the mirror over the mantelpiece has gone soft, like silver mist._  
 **Alice** _(happy)_: Look! It is turning into mist. It will be easy to get through.  
-_Alice is already up on the mantelpiece, with one knee through. Your Nubbin follows, trailing wool._  
+_Alice has been staying since the trial, and is quite at home. She is already on the mantelpiece, one knee through._  
+_Your Nubbin follows, trailing wool._  
 **You**: You go first. I am only the one holding the Nubbin.  
 
 #### <a id="q72-room"></a>Done `q72-room`
@@ -689,10 +705,9 @@ _Your Nubbin takes your hand. It does not look back._
 #### <a id="q74-complete"></a>Complete `q74-complete`
 
 _Alice walks a little more quietly for a while. You walk beside her, a step behind._  
-**Humpty Dumpty** _(happy)_: When I say “breakfast”, I mean a nap. So I’ve had three today.  
-_His voice is somewhere behind you, from a long way off. You tell yourself it is only an echo._  
-**You**: He was a very good talker.  
-**Alice** _(soft)_: He was. I hope he will be all right.  
+_You remember what Humpty said at the wall._  
+**You**: He told me “breakfast” means a nap.  
+**Alice** _(soft)_: Then I hope he is having a very long breakfast.  
 _Your Nubbin touches its new cravat and looks up the road. There is a knight in the distance, in armour, falling off a horse._  
 
 **Rewards**
@@ -750,7 +765,7 @@ _She seizes the Red Queen and shakes her. It gets smaller, and rounder, and soft
 #### <a id="q75-wake"></a>Complete `q75-wake`
 
 _You wake by the fire, and the rain has stopped. The coals are red and low, and the mantelpiece mirror is only a mirror._  
-_Your Nubbin is curled up inside your coat, exactly the way a small round Nubbin once was, in a dream._  
+_Your Nubbin is curled up inside your coat. Beside it is a second warm dent, small and round, and already cooling._  
 **You**: Did you see that?  
 _Your Nubbin makes a noise like a very small sigh._  
 _You do not know whether you dreamed of Alice, or whether Alice dreamed of you._  
@@ -773,6 +788,7 @@ _Variant of `q75-wake`._
 
 _You wake by the fire, and the rain has stopped. In the dark of the mantelpiece mirror, something is moving._  
 _A girl on the far side is waking too, with a kitten on her lap. She looks at you and waves._  
+_A small round Nubbin peeps out of her pocket. It waves too, with the wrong hand, because it is a mirror._  
 **You**: Hello.  
 _Your Nubbin waves back. Then the glass is only glass, and your own face is looking out of it._  
 _You do not know whether you dreamed of Alice, or whether Alice dreamed of you._  

@@ -268,13 +268,15 @@ const Q01_SCENES: EduScene[] = [
       N('By evening, Monkey has learned to walk, then climb.'),
       N('Next he eats peaches. Last he argues with the other monkeys.'),
       MK('Cousin! Tomorrow I will do something enormous.', 'happy'),
+      N('Long ago, twelve animals ran a big race.'),
+      N('Monkey came ninth. He still says it was close.'),
       N('He gives your Nubbin a peach. It is mostly bite marks!'),
       N('Your Nubbin holds it like treasure.'),
       N('Then your Nubbin breaks it in two and gives Monkey half.'),
     ],
     [
       ask(
-        4,
+        6,
         'sel',
         'sharing',
         'CASEL: Relationship skills',
@@ -1006,7 +1008,7 @@ const Q06_SCENES: EduScene[] = [
     [
       N('The mountain splits like bread. Monkey bounds out!'),
       N('He bows to the monk four times. Then he hugs your Nubbin.'),
-      MK('Right! Where are we going? India? Easy!', 'happy'),
+      MK('Right! Where are we going? India? Easy! We will be there by lunch!', 'happy'),
     ],
     [
       ask(
@@ -1939,7 +1941,7 @@ const Q12_SCENES: EduScene[] = [
         },
         {
           id: 'monk',
-          label: 'Believe the monk. You can’t strike people on a hunch.',
+          label: 'Believe the monk. You can’t hit people on a guess.',
           set: { 'a02-believed': 'monk' },
           then: [
             Y('Even if you are right, you cannot hit people because you are sure.'),
@@ -1955,7 +1957,9 @@ const Q12_SCENES: EduScene[] = [
     [
       N('Monkey will not leave without a bow. He pulls three hairs and blows.'),
       N('Three more Monkeys! Four Monkeys bow to the monk, all round him.'),
-      N('Then Monkey is gone. Your Nubbin sits in the road, looking.'),
+      MO('Go home, Wukong. Please go.', 'sad'),
+      N('So Monkey goes home. He is very sad.'),
+      N('Your Nubbin sits in the road. It looks at the empty place.'),
     ],
     [
       doIt(
@@ -2154,7 +2158,7 @@ const Q13_SCENES: EduScene[] = [
     [
       N('An old man with a long white beard walks out of the clouds.'),
       LL('Those two are my helpers. They took my gourd. May I have it back?'),
-      MK('You might have kept a closer eye.', 'think'),
+      MK('You might have watched them better.', 'think'),
       LL('So might the Jade Emperor, on you. Yet here we all are.', 'soft'),
       N('He leads both brothers home, by the hand.'),
     ],
@@ -2244,7 +2248,7 @@ const Q14_SCENES: EduScene[] = [
       N('The cold stops him. He is shivery and still.'),
       SD('Water, not too cold, not too fast.', 'shock'),
       N('You run with a bucket, three times. Pigsy rubs Monkey’s back and hands.'),
-      N('Your Nubbin lies on his chest, where a friend would want it.'),
+      N('Your Nubbin lies on Monkey’s chest, to warm him.'),
     ],
     [
       doIt(
@@ -2323,7 +2327,7 @@ const Q14_SCENES: EduScene[] = [
       N('Red Boy walks a step behind Guanyin, quite quiet.'),
       MO('He was only a boy, really.', 'sad'),
       MK('He was a boy who set fire to me. But yes.', 'think'),
-      N('Your Nubbin finds a red ribbon. It keeps it for his mum.'),
+      N('Your Nubbin finds a red ribbon. It keeps it for Red Boy’s mum.'),
     ],
     [
       doIt(
@@ -2346,15 +2350,16 @@ const Q15_SCENES: EduScene[] = [
     [
       N('Bandits on the road again! Monkey is too rough, so he is sent away.'),
       N('Everyone is tired. Pigsy goes for water, and Sandy follows.'),
-      N('Then Monkey comes back alone, with a cup of water.'),
+      N('Then a Monkey comes back alone, with a cup of water.'),
+      N('His tail is the wrong way round. Hmm!'),
       MO('Go away, Wukong. I meant it.', 'sad'),
-      N('Monkey’s face changes. He bumps the monk down.'),
+      N('This Monkey’s face changes. He bumps the monk down.'),
       N('He grabs the luggage you carry. Your Nubbin hisses.'),
       N('It has never hissed at Monkey before.'),
     ],
     [
       ask(
-        5,
+        6,
         'sel',
         'noticing when someone acts unlike themselves',
         'CASEL: Social awareness',
@@ -2387,7 +2392,7 @@ const Q15_SCENES: EduScene[] = [
   sc(
     'a02-15-twins',
     [
-      N('Sandy brings news. Monkey is on the Mountain, with a monk and a Pigsy.'),
+      N('Sandy brings news. A pretend Monkey is on the Mountain, with a pretend monk!'),
       N('At Guanyin’s island, Sandy finds the real Monkey, sulking.'),
       N('Then the other one turns up. There are two Monkeys!'),
       MK('Who are you? Why do you have my face?', 'angry'),
@@ -2650,7 +2655,8 @@ const Q16_SCENES: EduScene[] = [
   sc(
     'a02-16-real',
     [
-      N('There is a long, silly business with disguises.'),
+      N('Monkey puts on a big pretend beard. It falls off.'),
+      N('He sticks it back on, upside down. Nobody notices!'),
       N('At last, Princess Iron Fan brings the real fan to the monk.'),
       IF('Wave it forty-nine times. Then the fire goes out, and it rains.', 'soft'),
       IF('My boy would have wanted the fire. I think I want the rain.'),
@@ -2659,12 +2665,12 @@ const Q16_SCENES: EduScene[] = [
     ],
     [
       doIt(
-        4,
+        5,
         'maths',
         'count in tens',
         'K.CC.A.1',
         'edu:count:waves:10',
-        [N('(Count ten waves with Monkey. Then ten more. Keep going: ten, twenty, thirty.)')],
+        [N('(Count ten waves with Monkey. One, two... ten! Monkey keeps going for you.)')],
         'Your child counted by tens.',
       ),
     ],
@@ -2999,15 +3005,17 @@ const Q19_SCENES: EduScene[] = [
       N('Far away, Guanyin reads a list of all the pilgrims’ hardships.'),
       N('There were eighty. There ought to be eighty-one.'),
       GY('One more, then. A gentle one.', 'soft'),
-      N('At the River of Heaven, an old white turtle waits, smiling.'),
-      TT('Welcome back. Did you ask the Buddha my question?'),
+      N('At the river, an old white turtle waits.'),
+      N('Long ago, he carried everyone across on his back.'),
+      N('He asked the monk to ask the Buddha one question.'),
+      TT('Welcome back. Did you ask him?'),
       MO('Oh no. I forgot. I am so sorry.', 'sad'),
       N('The turtle sinks slowly into the river. He is sad.'),
       N('Everyone goes into the water. Your Nubbin is delighted.'),
     ],
     [
       ask(
-        6,
+        8,
         'sel',
         'how it feels to be forgotten',
         'CASEL: Social awareness',
