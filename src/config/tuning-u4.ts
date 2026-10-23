@@ -37,10 +37,11 @@ export const CG4_U4 = {
   photoQuality: 0.85,
   gallery: { cols: 2 },
   card: {
-    /** The silhouette's height in the 560 x 170 card, its centre, and its alpha. */
-    h: 74,
-    y: 112,
-    alpha: 0.34,
+    /** The silhouette's height in the 560 x 170 card, its centre x, ground line and alpha. */
+    h: 70,
+    x: 66,
+    base: 134,
+    alpha: 0.62,
   },
   map: {
     /** A campaign landmark's grid spread: the same 6 x 6 cell layout as the Grove's own. */
@@ -55,10 +56,10 @@ export const CG4_U4 = {
     },
     /** The story marks (config/stage-marks.ts, Grove set) each set shows on the Map. */
     marks: {
-      fold: ['fold-well', 'fold-door-1'],
+      fold: ['fold-well'],
       logged: ['board'],
-      beetle: ['guardhouse-bench', 'banner-1'],
-      dawndusk: ['green-centre', 'house-1-door'],
+      beetle: ['guardhouse-bench'],
+      dawndusk: ['green-centre'],
     },
   },
 } as const;

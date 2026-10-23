@@ -381,7 +381,7 @@ function drawCard(canvas: HTMLCanvasElement, c: TitleCard, campaignName: string)
   ctx.fillRect(0, 10, W, H - 20);
   // K32: the campaign's landmark, a flat silhouette standing behind the title.
   ctx.globalAlpha = CG4_U4.card.alpha;
-  drawSilhouette(ctx, c.campaign, W / 2, CG4_U4.card.y + CG4_U4.card.h / 2 - 30, accent);
+  drawSilhouette(ctx, c.campaign, CG4_U4.card.x, CG4_U4.card.base, accent);
   ctx.globalAlpha = 1;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'alphabetic';
