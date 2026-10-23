@@ -33,6 +33,10 @@ export const dress3dC4: Dressing3d = (() => {
   const warm = new THREE.Color();
   const glass = new THREE.Color();
   const toCam = new THREE.Vector3();
+  // K10 review: a dark box round the room and the camera. Anything outside an exclusive
+  // interior (eggs and Nubbins out in the Grove, items, far props) is behind its walls.
+  let shell: THREE.Mesh | null = null;
+  const shellColor = new THREE.Color();
 
   const sweep = (root: THREE.Object3D): void => {
     shadowHides(root);
@@ -70,10 +74,27 @@ export const dress3dC4: Dressing3d = (() => {
 
       const id = interiorOf(stage);
       for (const [k, r] of rooms) r.group.visible = k === id;
+      if (shell) shell.visible = !!id;
       if (!id) return;
       const room = roomFor(ctx, id);
       room.group.visible = true;
       toCam.copy(ctx.camera.position).sub(room.group.position);
+      if (!shell) {
+        shell = new THREE.Mesh(
+          new THREE.BoxGeometry(1, 1, 1),
+          new THREE.MeshBasicMaterial({ side: THREE.BackSide, fog: false, toneMapped: false }),
+        );
+        shell.name = 'interior-shell';
+        ctx.scene.add(shell);
+      }
+      // Big enough to hold the camera, so it always looks out at the shell's inside.
+      const half = Math.max(CG4_C4.room.w, toCam.length()) + 2;
+      shell.position.copy(room.group.position);
+      shell.scale.set(half * 2, half * 2, half * 2);
+      const dark = Math.min(1, daylight.darkness / 0.7);
+      (shell.material as THREE.MeshBasicMaterial).color.copy(
+        shellColor.set(CG4_C4.light.voidDay).lerp(warm.set(CG4_C4.light.voidNight), dark),
+      );
       const shown = wallsShown({ x: toCam.x, z: toCam.z });
       room.walls.forEach((w, i) => (w.visible = shown[i]!));
       if (!mats) return;
@@ -89,6 +110,12 @@ export const dress3dC4: Dressing3d = (() => {
     },
     dispose() {
       for (const r of rooms.values()) disposeInterior(r);
+      if (shell) {
+        shell.removeFromParent();
+        shell.geometry.dispose();
+        (shell.material as THREE.Material).dispose();
+        shell = null;
+      }
       rooms.clear();
       if (mats) for (const m of Object.values(mats)) (m as THREE.Material).dispose();
       mats = null;

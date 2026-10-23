@@ -41,7 +41,8 @@ export const ROOM_FURNITURE: Readonly<Record<InteriorId, readonly Piece[]>> = {
     { kind: 'counter', x: -0.6, z: -1.0 },
     { kind: 'lamp', x: 0.9, z: -1.0, y: 1.0 },
     { kind: 'bench', x: 2.4, z: 1.2 },
-    { kind: 'stool', x: -0.6, z: -1.9 },
+    // Hob's stool behind the counter, under the `in-guardhouse-counter` mark.
+    { kind: 'stool', x: -0.6, z: -1.55 },
   ],
   corvin: [
     { kind: 'chair', x: -1.8, z: -1.5 },
