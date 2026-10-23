@@ -1,7 +1,7 @@
 import { memorialSpot } from './memorial-spot';
 import { Vector3 } from 'three';
 import { Y_STATE } from './dress-y-state';
-import { nubbinSits } from '../config/npc-looks';
+import { LOOK_STATE, nubbinSits, storyId } from '../config/npc-looks';
 import { DUNGEON, EGG, LIFECYCLE, UI } from '../config/tuning';
 import { childHint } from '../sim/alignment';
 import { moodOf } from '../sim/needs';
@@ -800,9 +800,9 @@ export class WorldView {
             : t === 'nova';
     const cast = this.staging?.castIds;
     for (const npc of world.npcs.filter(
-      (p) => npcHere(p.trainer) && (!bare || !!cast?.has(p.trainer)),
+      (p) => npcHere(p.trainer) && (!(bare || LOOK_STATE.tale) || !!cast?.has(p.trainer)),
     )) {
-      const nsheet = this.sheets.keeper(npc.trainer);
+      const nsheet = this.sheets.keeper(storyId(npc.trainer));
       // In a story scene the cast is drawn on its marks, or brought in beside the Keeper
       // (render/scene-stage.ts); the sim's NPC stays where it is.
       const held = this.staging?.active ? this.staging.holds.get(npc.id) : undefined;

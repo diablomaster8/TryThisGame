@@ -21,6 +21,10 @@ import { SceneReplayGuard } from './scene-replay-guard';
 import { isControlTarget } from '../input/keys';
 import { StoryUi, type DialogueHooks } from './story-ui';
 import { SPEAKER_NOW } from '../render/stage-actors';
+import { LOOK_STATE, npcLookOf, storyId } from '../config/npc-looks';
+import { keeperOutfit, trainerLook } from '../render/keeper-look';
+import { buildFaceSheet, expressionOf, faceKey } from '../render/sprites/faces';
+import { drawKeeperFrame } from '../render/sprites/keeper';
 
 /**
  * The story dialogue box: portrait, name, typewriter text, tap to advance, choices.
@@ -342,6 +346,9 @@ export class Dialogue {
     this.name.hidden = who === 'narrator';
     // H6: only a spoken line has a speaker in the world; narration and the chorus have none.
     SPEAKER_NOW.who = who === 'narrator' || chorus ? null : who;
+    // K37: the staging dressings read where the scene stands (the flower comes on the last line).
+    LOOK_STATE.line = this.index;
+    LOOK_STATE.lines = this.lines.length;
     this.root.classList.toggle('narration', who === 'narrator');
     // The chorus (everyone singing) has no portrait and is shown in italics.
     this.root.classList.toggle('chorus', chorus);
@@ -505,7 +512,7 @@ export function speakerName(who: string, g: Game, sceneId = ''): string {
   );
 }
 
-function portraitFrame(
+export function portraitFrame(
   who: string,
   g: Game,
   mood: Mood,
@@ -515,11 +522,19 @@ function portraitFrame(
   if (who !== 'narrator') SPEAKER_NOW.who = who;
   // You wear your own outfit (trim in your side's colours), as in the Grove, so you never
   // share a portrait with the villager whose look you chose.
+  // K8: a mood puts a face on the Keeper (smile, frown, surprise, eyes closed).
+  const expr = expressionOf(mood);
   if (who === 'you') {
-    return {
-      sheet: sheets.keeper(g.world.trainer, g.world.keeper.alignment),
-      key: frameKey('idle', 'front', 0),
-    };
+    const { trainer } = g.world;
+    const side = g.world.keeper.alignment;
+    if (expr) {
+      const col = keeperOutfit(trainer, side);
+      const sheet = sheets.get(`face:you:${trainer}:${side}`, () =>
+        buildFaceSheet((e) => drawKeeperFrame('front', 'idle', 0, col, undefined, e)),
+      );
+      return { sheet, key: faceKey(expr) };
+    }
+    return { sheet: sheets.keeper(trainer, side), key: frameKey('idle', 'front', 0) };
   }
   if (who === 'moss' || who === 'sable' || who === 'wisp') {
     const c = g.world.campaign;
@@ -530,5 +545,15 @@ function portraitFrame(
     return { sheet: sheets.rival('neutral', 'normal'), key: frameKey(clip, 'front', 0) };
   }
   // C2: a storyline speaker has a look of their own (`STORY_NPC_LOOKS`), never the player's.
-  return { sheet: sheets.keeper(who), key: frameKey('idle', 'front', 0) };
+  // K4, K38: Fern and Hazel go by their story looks (`storyId`).
+  const id = storyId(who);
+  if (expr) {
+    const col = trainerLook(id);
+    const look = npcLookOf(id);
+    const sheet = sheets.get(`face:${id}`, () =>
+      buildFaceSheet((e) => drawKeeperFrame('front', 'idle', 0, col, look, e)),
+    );
+    return { sheet, key: faceKey(expr) };
+  }
+  return { sheet: sheets.keeper(id), key: frameKey('idle', 'front', 0) };
 }

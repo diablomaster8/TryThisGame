@@ -21,7 +21,7 @@ import { EXTRA_LOOKS } from '../sim/npcs';
 import { TRAINERS } from '../sim/trainers';
 import { artSpec } from './art-species';
 import { withNpcAccessories } from './npc-accessories';
-import { STORY_NPC_LOOKS, WEATHERED } from '../config/npc-looks';
+import { STORY_NPC_LOOKS, STORY_ONLY_LOOKS, WEATHERED } from '../config/npc-looks';
 import { weathered } from './weathered';
 
 /**
@@ -199,7 +199,10 @@ export function keeperColours(trainerId: string, side: 'sun' | 'moon'): KeeperCo
  * shirt colour. Skin (warm, light, low-saturation hues) and near-greys stay as they are.
  */
 function dressed(base: SpeciesSpec, trainer: string): SpeciesSpec {
-  const look = EXTRA_LOOKS[trainer] ?? TRAINERS.find((t) => t.id === trainer)?.look;
+  const look =
+    EXTRA_LOOKS[trainer] ??
+    STORY_ONLY_LOOKS[trainer]?.trainer ??
+    TRAINERS.find((t) => t.id === trainer)?.look;
   if (!look) return base;
   const spec = cloneSpec(base);
   const shirt = new Color(color(look.shirt)).getHSL({ h: 0, s: 0, l: 0 });
@@ -220,7 +223,10 @@ function dressed(base: SpeciesSpec, trainer: string): SpeciesSpec {
 
 /** Whether a trainer id has a look (playable trainer or story Keeper). */
 const hasTrainer = (id: string): boolean =>
-  !!EXTRA_LOOKS[id] || !!STORY_NPC_LOOKS[id] || TRAINERS.some((t) => t.id === id);
+  !!EXTRA_LOOKS[id] ||
+  !!STORY_NPC_LOOKS[id] ||
+  !!STORY_ONLY_LOOKS[id] ||
+  TRAINERS.some((t) => t.id === id);
 
 /** The spec a look key builds; the base Nubbin when the key is unknown. */
 export function specForKey(key: string): SpeciesSpec {

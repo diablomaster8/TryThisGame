@@ -4,6 +4,7 @@ import { CLIPS, frameKey } from './animations';
 import { DRAWN_ANGLES, type DrawnAngle } from './angles';
 import { AtlasBuilder, type SpriteSheet } from './atlas';
 import { C, lightOf, shadeOf } from './palette';
+import { drawFace, type Expression } from './faces';
 import { PixelCanvas } from './pixel-canvas';
 
 export const KEEPER_SIZE = 32;
@@ -455,6 +456,7 @@ function drawKeeper(
   frame: number,
   col: KeeperColors,
   look?: NpcLook,
+  expr?: Expression,
 ): PixelCanvas {
   const pc = new PixelCanvas(KEEPER_SIZE, KEEPER_SIZE);
   // Walk: six frames, contact → push-off → passing for each foot.
@@ -584,6 +586,8 @@ function drawKeeper(
   }
   if (angle === 'backQuarter') pc.ellipse(headCx - 1, headCy - 1, 4, 3, col.hair);
 
+  // K8: a portrait expression repaints the front face before the hat goes on.
+  if (expr && angle === 'front') drawFace(pc, headCx, headCy, col, expr);
   drawHat(pc, col, headCx, headCy);
   if (look) drawHeadAccessory(pc, look, rig);
 

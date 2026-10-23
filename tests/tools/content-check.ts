@@ -4,7 +4,8 @@ import { SPEAKERS } from '../../src/config/story';
 import { speakerNameIn } from '../../src/sim/story-scenes';
 import type { Quest } from '../../src/content/types';
 import type { Scene } from '../../src/config/story';
-import { STORY_NPC_LOOKS } from '../../src/config/npc-looks';
+import { STORY_NPC_LOOKS, STORY_ONLY_LOOKS, storyId } from '../../src/config/npc-looks';
+import { TRAINERS, type TrainerLook } from '../../src/sim/trainers';
 import { BEETLE_SPEAKERS } from '../../src/content/storyline-beetle';
 import { DAWNDUSK_SPEAKERS } from '../../src/content/storyline-dawndusk';
 import { HUNDRED_SPEAKERS } from '../../src/content/storyline-hundred';
@@ -245,6 +246,20 @@ for (const sp of [...BEETLE_SPEAKERS, ...DAWNDUSK_SPEAKERS, ...HUNDRED_SPEAKERS,
   if (twin) problems.push(`speakers ${twin} and ${sp.id} share the accessory ${look.accessory}`);
   looksSeen.set(look.accessory, sp.id);
 }
+// 7. K4: no speaker's look may equal a selectable trainer's look, or a player who chose that trainer
+// stands beside a twin of themselves. Fern's story look (and Hazel's two ages) must differ from
+// every trainer's, and Fern must actually be drawn by it (storyId).
+const sameLook = (a: TrainerLook, b: TrainerLook): boolean =>
+  (Object.keys(a) as (keyof TrainerLook)[]).every((k) => a[k] === b[k]);
+const checked: Array<[string, TrainerLook]> = [
+  ...[...BEETLE_SPEAKERS, ...DAWNDUSK_SPEAKERS, ...HUNDRED_SPEAKERS, ...LOGGED_SPEAKERS].flatMap(
+    (sp): Array<[string, TrainerLook]> => (STORY_NPC_LOOKS[sp.id] ? [[sp.id, STORY_NPC_LOOKS[sp.id]!.trainer]] : []),
+  ),
+  ...Object.entries(STORY_ONLY_LOOKS).map(([id, l]): [string, TrainerLook] => [id, l.trainer]),
+];
+for (const [id, l] of checked)
+  for (const t of TRAINERS) if (sameLook(l, t.look)) problems.push(`speaker look ${id} equals the selectable trainer look ${t.id}`);
+if (storyId('fern') === 'fern' || !STORY_ONLY_LOOKS[storyId('fern')]) problems.push('Fern has no story-only look (K4)');
 console.log(JSON.stringify({ edu, hebrewWords: C.HEBREW_COURSE.vocab.length, japaneseWords: C.JAPANESE_COURSE.vocab.length }));
 let readings = 0; for (const r of C.READERS) readings += r.readings.length;
 let results = 0; for (const r of C.RESULT_SETS) results += r.lines.length;

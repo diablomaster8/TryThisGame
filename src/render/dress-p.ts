@@ -1,5 +1,5 @@
 import { Vector3 } from 'three';
-import { WEATHERED } from '../config/npc-looks';
+import { storyId, WEATHERED } from '../config/npc-looks';
 import type { SceneStage } from '../config/story';
 import { CG2_P } from '../config/tuning-p';
 import type { World } from '../sim/types';
@@ -97,7 +97,7 @@ class PixelP implements PixelDressing {
     // C1: the storyline speakers the stage puts on the ground.
     const actors = tracker.actors(world);
     for (const a of actors) {
-      const sheet = sp.sheets.keeper(a.who);
+      const sheet = sp.sheets.keeper(storyId(a.who));
       const clip = a.pose === 'walk' ? 'walk' : 'idle';
       const view = viewAngle(a.yaw, yaw);
       const rect = sheet.frames.get(

@@ -1,5 +1,6 @@
 import type { SceneStage } from './story';
 import { CG2_Y } from './tuning-y';
+import { CG4_B4 } from './tuning-b4';
 import { GROVE, LANTERN_POSTS } from './tuning';
 
 /**
@@ -56,6 +57,13 @@ function look(
   return { tint, tintAlpha, sat, shadow, shadowAlpha, motif, accent, grid: motif === 'grid' };
 }
 
+/**
+ * K11: set by the pixel dressing while the post pass draws the tale grade itself (a real
+ * desaturation, render/post.ts), so the screen overlay does not lay a second one on top.
+ * Full 3D has no such pass and takes the 'tale' look below.
+ */
+export const TALE_GRADE = { pixelPost: false };
+
 /** `CAMPAIGN_LOOK`: one grade per campaign (Hazel's Grove has more, by chapter). */
 export const CAMPAIGN_LOOK: Readonly<Record<string, LookDef>> = {
   hazel: look('#ffc46a', 0.3, 1, '#4a2a08', 0.28, 'honey', '#f2b84b'),
@@ -92,6 +100,19 @@ export const CAMPAIGN_LOOK: Readonly<Record<string, LookDef>> = {
     },
   },
   dusk: look('#8a6cff', 0.34, 0.9, '#120a30', 0.34, 'dusk', '#b5a0ff'),
+  // K11: a told tale, warm and washed, the frame's edges sunk in a soft vignette.
+  tale: {
+    ...look(
+      CG4_B4.tale.css.tint,
+      CG4_B4.tale.css.tintAlpha,
+      CG4_B4.tale.css.sat,
+      CG4_B4.tale.css.shadow,
+      CG4_B4.tale.css.shadowAlpha,
+      'honey',
+      CG4_B4.tale.css.accent,
+    ),
+    core: CG4_B4.tale.css.core,
+  },
 };
 
 /** The minimum of the story state a look needs (a subset of `StageFlags`). */
@@ -107,8 +128,10 @@ export interface LookInput {
 /** The grade for a story moment: a campaign's own, `stage.grade` naming one, or Hazel's. */
 export function lookFor(i: LookInput, stage: SceneStage | null): { key: string; look: LookDef } {
   const named = stage?.grade && CAMPAIGN_LOOK[stage.grade] ? stage.grade : null;
-  let key = named ?? i.campaign;
-  if (!named) {
+  // K11: a told tale takes its own grade (the pixel view's post pass does it there).
+  const tale = !named && stage?.tale === true && !TALE_GRADE.pixelPost;
+  let key = named ?? (tale ? 'tale' : i.campaign);
+  if (!named && !tale) {
     if (key === 'hazel')
       key = i.chapter >= 12 ? 'hazel-pale' : i.chapter >= 9 ? 'hazel-grey' : 'hazel';
     if (key === 'dawn' || key === 'dusk') key = i.half ?? key;
