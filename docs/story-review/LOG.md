@@ -101,24 +101,24 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `learning/side/S29/sprout.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 0 |
 | `learning/side/S29/reader.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 0 |
 | `side/S30.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S30/sprout.md` | never | 0 |
-| `learning/side/S30/reader.md` | never | 0 |
+| `learning/side/S30/sprout.md` | [review-2026-10-23](review-2026-10-23.md) | 9 |
+| `learning/side/S30/reader.md` | [review-2026-10-23](review-2026-10-23.md) | 7 |
 | `side/S31.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S31/sprout.md` | never | 0 |
-| `learning/side/S31/reader.md` | never | 0 |
+| `learning/side/S31/sprout.md` | [review-2026-10-23](review-2026-10-23.md) | 13 |
+| `learning/side/S31/reader.md` | [review-2026-10-23](review-2026-10-23.md) | 5 |
 | `learning/campaign/sprout.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `learning/campaign/reader-1.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `learning/campaign/reader-2.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `fun/python.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/fun/python/sprout.md` | never | 0 |
-| `learning/fun/python/reader.md` | never | 0 |
+| `learning/fun/python/sprout.md` | [review-2026-10-23](review-2026-10-23.md) | 7 |
+| `learning/fun/python/reader.md` | [review-2026-10-23](review-2026-10-23.md) | 8 |
 | `fun/bean.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/fun/bean/sprout.md` | never | 0 |
-| `learning/fun/bean/reader.md` | never | 0 |
+| `learning/fun/bean/sprout.md` | [review-2026-10-23](review-2026-10-23.md) | 4 |
+| `learning/fun/bean/reader.md` | [review-2026-10-23](review-2026-10-23.md) | 3 |
 | `fun/sunny.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `fun/avatar.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/fun/avatar/sprout.md` | never | 0 |
-| `learning/fun/avatar/reader.md` | never | 0 |
+| `learning/fun/avatar/sprout.md` | [review-2026-10-23](review-2026-10-23.md) | 9 |
+| `learning/fun/avatar/reader.md` | [review-2026-10-23](review-2026-10-23.md) | 9 |
 | `fun/alice.md` | never | 0 |
 | `fun/holmes.md` | never | 0 |
 | `fun/hodja.md` | never | 0 |
@@ -549,6 +549,62 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261022-295 | learning/side/S29/sprout.md<br>learning/side/S26/sprout.md<br>learning/side/S26/reader.md | cross-story | Medium | humour | Continue the wordless Nubbin who thinks everything is supper (picnic, bulbs, rosettes) | fixed | 2026-10-22-5 |
 | SR-20261022-296 | learning/side/S25/reader.md<br>learning/side/S29/reader.md | cross-story | Medium | continuity | Replace "the rain on the hill" with plain words for Fossil's death | fixed | 2026-10-22-5 |
 | SR-20261022-297 | learning/side/S25/reader.md<br>learning/side/S26/reader.md<br>learning/side/S26/sprout.md | cross-story | Medium | humour | Run Moss's "I'm not here" as a gag from S25 into S26's walled garden | fixed | 2026-10-22-5 |
+| SR-20261023-298 | learning/fun/avatar/sprout.md<br>learning/fun/avatar/reader.md | q64-rehearse | Critical | follow | Say what Kaito did before Nalu says "I haven't forgotten what you did"; the trust has no stake | open | 2026-10-23 |
+| SR-20261023-299 | learning/side/S30/sprout.md<br>learning/side/S30/reader.md | s30-wall | Critical | follow | Moss's Hush speech has dead Nubbins seeing her and shivering; say plainly who was dying | open | 2026-10-23 |
+| SR-20261023-300 | learning/side/S31/sprout.md | s31-wall | High | follow | Set up Tam's "never say if" rule so the "if" panic and the SEAT FOR A KEEPER (IF) sign land | open | 2026-10-23 |
+| SR-20261023-301 | learning/fun/avatar/sprout.md<br>learning/fun/avatar/reader.md | q51-desert | High | continuity | Nalu makes the "nothing strange" rule, then credits Tuk with it; give the rule to Tuk | open | 2026-10-23 |
+| SR-20261023-302 | learning/side/S31/sprout.md<br>learning/side/S31/reader.md | s31-shape | High | pacing | The lesson sits between the shape rising and "It's your Nubbin"; move it after the reveal | open | 2026-10-23 |
+| SR-20261023-303 | learning/fun/avatar/sprout.md<br>learning/fun/avatar/reader.md | q57-night | High | humour | Plant Nalu's sneeze so Ma Reedy's "Spirits don't sneeze" is a callback, not a puzzle | open | 2026-10-23 |
+| SR-20261023-304 | learning/side/S31/sprout.md | s31-guising | High | humour | "At each door they tell a joke" but no joke is told; give Ned one that goes wrong | open | 2026-10-23 |
+| SR-20261023-305 | learning/fun/avatar/sprout.md | q58-mountain-done | High | follow | The "tell a grown-up" lesson precedes a cloud trick; show Tuk telling Aunt Wen first | open | 2026-10-23 |
+| SR-20261023-306 | learning/fun/python/reader.md | q11-pop | High | pacing | The simile quiz plays after "a soft POP" and before we learn Gorbold is fine; move it after "Light!" | open | 2026-10-23 |
+| SR-20261023-307 | learning/fun/avatar/sprout.md<br>learning/fun/avatar/reader.md | q56-bout | High | follow | The champion is labelled "Bao" and the lemur "Lumi" before either name is revealed | open | 2026-10-23 |
+| SR-20261023-308 | learning/fun/bean/sprout.md | q28-plan | High | follow | Plant Mr. Tweed's unsent TEA card so "half the lane comes for tea" pays off his shyness | open | 2026-10-23 |
+| SR-20261023-309 | learning/side/S30/sprout.md | s30-luna | High | humour | Give the quiet middle (hole to wall) one wordless Nubbin laugh at Luna's yawn | open | 2026-10-23 |
+| SR-20261023-310 | learning/fun/avatar/sprout.md | q49-school | High | follow | "A new boy comes in" then Pemba speaks; say it is Pemba in disguise so "Kuzo" is a joke | open | 2026-10-23 |
+| SR-20261023-311 | learning/side/S31/sprout.md | s31-long-grass | High | child-read | "Guisers" and "three little bats" read as real bats; say they are children in costume | open | 2026-10-23 |
+| SR-20261023-312 | learning/side/S30/sprout.md | s30-fidget-hill | High | follow | Dusty's "Under your table. In a storm." pays off a table the sprout band never mentions | open | 2026-10-23 |
+| SR-20261023-313 | learning/side/S30/sprout.md<br>learning/side/S30/reader.md | s30-blanket-ask | Medium | child-read | Clover says "kick the bucket" in a story about a death; change the verb | open | 2026-10-23 |
+| SR-20261023-314 | learning/side/S30/reader.md | s30-shed | Medium | humour | Give the shed one escalating Fidget-counting gag before "Safe is not the same as well" | open | 2026-10-23 |
+| SR-20261023-315 | learning/side/S30/sprout.md | s30-sill | Medium | child-read | Name Drizzle and Dimple on the sill, and cut Clover's "Not a cloud on her" idiom | open | 2026-10-23 |
+| SR-20261023-316 | learning/side/S30/sprout.md | s30-sill | Medium | humour | Bring the reader band's bread-bin Flinch into the sprout kitchen | open | 2026-10-23 |
+| SR-20261023-317 | learning/side/S30/sprout.md | s30-gone | Medium | child-read | "Gone back to where the happy was" is abstract; name the place she was happy with Fossil | open | 2026-10-23 |
+| SR-20261023-318 | learning/side/S30/sprout.md | s30-complete | Medium | follow | Say whose mark is whose and who sent the parcel in the closing rubbing | open | 2026-10-23 |
+| SR-20261023-319 | learning/side/S30/reader.md | s30-gone | Medium | pacing | Two lessons cut into the search: daylight before Clover speaks, light-speed mid-story | open | 2026-10-23 |
+| SR-20261023-320 | learning/side/S30/reader.md | s30-after-clover | Medium | humour | Pay off Clover's "lift and push" gate gag in her after-story line | open | 2026-10-23 |
+| SR-20261023-321 | learning/side/S31/sprout.md | s31-kick | Medium | child-read | Ivy's "Your witness was on your side" is a lawyer joke a 5-year-old can't follow | open | 2026-10-23 |
+| SR-20261023-322 | learning/side/S31/sprout.md | s31-dusk | Medium | humour | Make Ivy's "opposite of you" costume joke one a 4-year-old can hear, with Ned as straight man | open | 2026-10-23 |
+| SR-20261023-323 | learning/side/S31/sprout.md | s31-moss | Medium | child-read | Moss's double negative is hard to read aloud; tie it to the wind lesson that follows | open | 2026-10-23 |
+| SR-20261023-324 | learning/side/S31/sprout.md | s31-complete | Medium | humour | "Moss sits very, very still" hides the acorn joke; give the sprout the reader's straight face | open | 2026-10-23 |
+| SR-20261023-325 | learning/side/S31/sprout.md | s31-frost | Medium | child-read | "That's what the cold is!" is a leap; say the cold means he is close | open | 2026-10-23 |
+| SR-20261023-326 | learning/side/S31/reader.md | s31-sincere | Medium | pacing | The fence-post maths lands between Tam stopping at the dark post and "This one." | open | 2026-10-23 |
+| SR-20261023-327 | learning/fun/python/sprout.md | q02-complete | Medium | child-read | Show that Sir Dentwhistle minds, so "I never mind!" is a joke and not a lesson in denial | open | 2026-10-23 |
+| SR-20261023-328 | learning/fun/python/sprout.md | q06-gate | Medium | follow | Say nobody is inside the rabbit, so "everyone looks at everyone" is a punchline | open | 2026-10-23 |
+| SR-20261023-329 | learning/fun/python/sprout.md | q08-water | Medium | humour | Soak grumpy Reggie when the water arrives, before he starts filling his teapot | open | 2026-10-23 |
+| SR-20261023-330 | learning/fun/python/sprout.md | q19-intro | Medium | child-read | The counting lesson names three runners before they appear; four new names in one scene | open | 2026-10-23 |
+| SR-20261023-331 | learning/fun/python/sprout.md | q20-complete | Medium | humour | Keep the giant foot, but give it a silly beat so it is daft rather than scary at 4 | open | 2026-10-23 |
+| SR-20261023-332 | learning/fun/python/reader.md | q04-gullwick | Medium | follow | A lesson reply calls the Run Nubbin "Trotwell" two scenes before its name is revealed | open | 2026-10-23 |
+| SR-20261023-333 | learning/fun/python/reader.md | q11-intro | Medium | follow | Mr Crisp asks the steam question before we meet him or Gorbold; move the lesson after | open | 2026-10-23 |
+| SR-20261023-334 | learning/fun/python/reader.md | q02-round1 | Medium | follow | The lesson's answer cites pink ears that only appear after the lesson | open | 2026-10-23 |
+| SR-20261023-335 | learning/fun/python/reader.md | q15-six | Medium | pacing | Two lessons stack at the end of the shop scene; fold the subtraction into dialogue | open | 2026-10-23 |
+| SR-20261023-336 | learning/fun/python/sprout.md<br>learning/fun/python/reader.md | q03-third | Medium | child-read | Idiom sweep: "smug as a cushion" (both bands) and Harrow's "cry for help" (reader Q10) | open | 2026-10-23 |
+| SR-20261023-337 | learning/fun/bean/sprout.md | q29-complete | Medium | follow | Odette's "Two eggs, side by side… a pram!" needs a second egg, and "His letter" a letter | open | 2026-10-23 |
+| SR-20261023-338 | learning/fun/bean/sprout.md | q21-complete | Medium | humour | The teeny bear Mr. Tweed gives you in Q21 never returns; make it a wordless running gag | open | 2026-10-23 |
+| SR-20261023-339 | learning/fun/bean/sprout.md | q24-complete | Medium | humour | Give Mrs Inkwell one deadpan line at the handshake, and drop her "looking at you" idiom | open | 2026-10-23 |
+| SR-20261023-340 | learning/fun/bean/reader.md | q26-complete | Medium | follow | "The first time in years he has needed the ruler" is too oblique for the loneliness payoff | open | 2026-10-23 |
+| SR-20261023-341 | learning/fun/bean/reader.md | q23-wiggle | Medium | pacing | Two lessons interrupt the conducting build-up; move the half-of-90 maths after the pop | open | 2026-10-23 |
+| SR-20261023-342 | learning/fun/avatar/sprout.md<br>learning/fun/avatar/reader.md | q54-complete | Medium | humour | Pay off Pian's wobbly spoon (sprout) and Tuk's "coming-back" boomerang (reader) | open | 2026-10-23 |
+| SR-20261023-343 | learning/fun/avatar/sprout.md | q53-flattened | Medium | child-read | Tuk's "My pride is still down there" and Q62's "0 °C (32 °F)" are beyond ages 3 to 6 | open | 2026-10-23 |
+| SR-20261023-344 | learning/fun/avatar/reader.md | q58-mountain | Medium | pacing | Three lessons in about thirty lines stall the volcano plan; move fast-or-slow change | open | 2026-10-23 |
+| SR-20261023-345 | learning/side/S31/sprout.md | s31-ace-roof | Nice | humour | Let the rain-barrel splash land before the "arms out" pilot lesson | open | 2026-10-23 |
+| SR-20261023-346 | learning/fun/python/reader.md | q17-splash | Nice | humour | The duck-oil fact is taught in Q3 and again in Q17; make the second a callback | open | 2026-10-23 |
+| SR-20261023-347 | learning/fun/bean/reader.md | q27-hall | Nice | humour | Sharpen Warden Pryce's "Supervised" so a 7-year-old reads it as a joke, not an error | open | 2026-10-23 |
+| SR-20261023-348 | learning/fun/avatar/reader.md | q47-complete | Nice | child-read | "A tunnel between two of your sections" is game talk; say it in Grove words | open | 2026-10-23 |
+| SR-20261023-349 | learning/fun/avatar/reader.md | q50-open | Nice | follow | Say early that Kaito is Uncle Tenzo's nephew; "nephew" first appears halfway through Q50 | open | 2026-10-23 |
+| SR-20261023-350 | learning/side/S31/sprout.md<br>learning/side/S31/reader.md | cross-story | High | continuity | Restore Granny Brock's quilt and soup (canon 42) and Tam's wrong skipping rhyme (canon 41) | open | 2026-10-23 |
+| SR-20261023-351 | learning/side/S30/sprout.md<br>learning/side/S30/reader.md<br>learning/side/S31/sprout.md<br>learning/side/S31/reader.md | cross-story | High | theme | Show Pixel and Byte married by bickering at S31's party and in S30's Byte epilogue | open | 2026-10-23 |
+| SR-20261023-352 | learning/fun/python/sprout.md<br>learning/fun/python/reader.md<br>learning/fun/avatar/sprout.md<br>learning/fun/avatar/reader.md | cross-story | High | theme | Fun-quest couples: say Frannie is Reggie's wife (Q8) and bring back Mrs Tibbs (Q61) | open | 2026-10-23 |
+| SR-20261023-353 | learning/side/S30/reader.md<br>learning/side/S31/sprout.md<br>learning/side/S31/reader.md | cross-story | Medium | follow | First-mention tags for Sable and Briar where S30 and S31 use them bare | open | 2026-10-23 |
 
 ## Runs
 
@@ -562,3 +618,4 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 - 2026-10-22 · fix pass on branch `fix/story-review-2026-10-22-4` · all 65 open or partial recs (run 4's 64 plus SR-20261022-162): 62 fixed, 3 partial (-179 and -198: a lesson can only play before a scene's choices, so the asks sit at the scene end, not after the choice; -229: S20's grudge exchange sits at the end of s20-declaration, since Wren and Gordon aren't introduced at the rec's spot) · also: S24's kept-stone Nubbin lines now swap by each band's own line (sprout had main's words, and falls-top hit the wrong line), with a test · no canon changes
 - 2026-10-22 run 5 · [review-2026-10-22-5](review-2026-10-22-5.md) · units: S25/sprout.md, S25/reader.md, S26/sprout.md, S26/reader.md, S27/sprout.md, S27/reader.md, S28/sprout.md, S28/reader.md, S29/sprout.md, S29/reader.md · 60 recs: Critical 0, High 15, Medium 35, Nice 10 (5 cross-story) · fixed since last run: 62 (3 partial)
 - 2026-10-23 · fix pass on branch `fix/story-review-2026-10-23` · all 63 open or partial recs (run 5's 60 plus SR-20261022-179, -198, -229): 59 fixed, 1 partial, 3 dropped · -265 partial: S26's robin "wages" joke had no set-up in either band, so the line was rewritten without it · -179, -198, -229 dropped: a lesson can only play before a scene's choices, and each already sits as late as the engine allows · no canon changes
+- 2026-10-23 run 6 · [review-2026-10-23](review-2026-10-23.md) · units: S30/sprout.md, S30/reader.md, S31/sprout.md, S31/reader.md, fun/python/sprout.md, fun/python/reader.md, fun/bean/sprout.md, fun/bean/reader.md, fun/avatar/sprout.md, fun/avatar/reader.md · 56 recs: Critical 2, High 16, Medium 33, Nice 5 (4 cross-story) · fixed since last run: 59 (1 partial, 3 dropped)
