@@ -18,6 +18,7 @@ import {
   paintWreath,
 } from './paint/campaign-k';
 import { SCENERY } from './scenery';
+import { windSway } from './wind-px';
 import { stageFlags } from './scene-stage';
 import { ddLayout, foldExtras } from './story-b-layout';
 import { stateFrom } from './story-b-state';
@@ -172,7 +173,14 @@ export const dressK: PixelDressing = (() => {
         });
         for (const m of B.milestones) draw(base, `stone:${m.n}`, m.x, m.z, 16 / K_PPU);
         if (stage.props?.banners !== 'hide')
-          for (const p of B.poles) draw(base, `pole:${p.crest}`, p.x, p.z, 24 / K_PPU);
+          for (const p of B.poles)
+            draw(
+              base,
+              `pole:${p.crest}`,
+              p.x + windSway(p.x, performance.now()) * 2,
+              p.z,
+              24 / K_PPU,
+            );
         const idx = f.storyChapter ?? -1;
         const open = stage.props?.cart ? stage.props.cart === 'open' : idx >= 4;
         const at = LOOK_F.beetle.cart;

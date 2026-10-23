@@ -237,7 +237,7 @@ class Dress3dW implements Dressing3d {
 
     // K35: one wind for the meadow (and anything else that reads WIND_U).
     this.wind.update(stage, dt, reduce);
-    setWind(this.wind, reduce);
+    setWind(this.wind, reduce, ctx.time.value);
 
     // C7: the pond's ice.
     if (this.ice) {

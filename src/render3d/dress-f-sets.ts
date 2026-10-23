@@ -4,6 +4,7 @@ import { holoClear, type BuntingShape } from '../config/campaign-look';
 import { TITLE_CARD_TEXT } from '../config/strings';
 import { LOOK_F } from '../config/tuning-f';
 import { fadeNearCamera } from './bunting-fade';
+import { windBend } from './wind-d4';
 
 /**
  * Campaign graphics package f, Full 3D: the geometry of the story sets (bunting, picnic
@@ -114,6 +115,8 @@ export function buildBunting(
   const runs = posts.length;
   const mat = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, toneMapped: false });
   fadeNearCamera(mat);
+  // K35: the pennants hang from the string and stream with the shared wind.
+  windBend(mat, 'clamp( -position.y / ' + b.size.toFixed(2) + ', 0.0, 1.0 )');
   const mesh = new THREE.InstancedMesh(pennantGeometry(shape, b.size), mat, runs * b.perRun);
   const m4 = new THREE.Matrix4();
   const q = new THREE.Quaternion();
@@ -332,6 +335,8 @@ function banner(kind: 'sun' | 'moon' | 'drop', w: number, h: number): THREE.Grou
       );
   };
   mat.customProgramCacheKey = () => 'cg-f-banner';
+  // K35: the cloth also leans and ripples with the shared wind, more toward its hem.
+  windBend(mat, 'pow( clamp( 0.5 - position.y / ' + h.toFixed(3) + ', 0.0, 1.0 ), 2.0 )');
   const cloth = new THREE.Mesh(new THREE.PlaneGeometry(w, h, 6, 8), mat);
   cloth.position.y = -h / 2;
   cloth.castShadow = true;

@@ -93,6 +93,47 @@ uniform vec3 uSnowCol;`,
   mat.needsUpdate = true;
 }
 
+/**
+ * K25: the roofs take snow caps. Every material drawn with the roof tile texture whitens where
+ * its surface faces up, in step with the ground's cover, so the snow reads on the houses too.
+ * Each material is patched once (a one-time relink the first time snow is wanted).
+ */
+function patchRoof(mat: THREE.MeshStandardMaterial): void {
+  if (mat.userData.d4roof) return;
+  mat.userData.d4roof = true;
+  const prev = mat.onBeforeCompile.bind(mat);
+  mat.onBeforeCompile = (shader, renderer) => {
+    prev(shader, renderer);
+    if (!shader.vertexShader.includes('#include <beginnormal_vertex>')) return;
+    Object.assign(shader.uniforms, SNOW_U);
+    shader.vertexShader = shader.vertexShader
+      .replace('#include <common>', '#include <common>\nvarying float vSnowUp;')
+      .replace(
+        '#include <beginnormal_vertex>',
+        `#include <beginnormal_vertex>
+        {
+          mat4 sm = modelMatrix;
+          #ifdef USE_INSTANCING
+            sm = modelMatrix * instanceMatrix;
+          #endif
+          vSnowUp = normalize( mat3( sm ) * objectNormal ).y;
+        }`,
+      );
+    shader.fragmentShader = shader.fragmentShader
+      .replace(
+        '#include <common>',
+        '#include <common>\nvarying float vSnowUp;\nuniform float uSnowAmt;',
+      )
+      .replace(
+        '#include <color_fragment>',
+        '#include <color_fragment>\n diffuseColor.rgb = mix( diffuseColor.rgb, vec3( 0.93, 0.96, 1.0 ), smoothstep( 0.45, 0.75, vSnowUp ) * smoothstep( 0.05, 0.4, uSnowAmt ) * 0.95 );',
+      );
+  };
+  const key = mat.customProgramCacheKey.bind(mat);
+  mat.customProgramCacheKey = () => `${key()}|d4roof`;
+  mat.needsUpdate = true;
+}
+
 /** A puddle: a dark wet disc with a pale sky glint, clear at its rim. */
 function puddleTexture(): THREE.CanvasTexture {
   const c = document.createElement('canvas');
@@ -217,6 +258,10 @@ class Dress3dD4 implements Dressing3d {
     if (typeof document === 'undefined') return;
     const terrain = ctx.world3d.getObjectByName('terrain') as THREE.Mesh | undefined;
     if (terrain) patchTerrain(terrain.material as THREE.Material, ctx.time);
+    ctx.world3d.traverse((o) => {
+      const m = (o as THREE.Mesh).material as THREE.MeshStandardMaterial | undefined;
+      if (m?.isMeshStandardMaterial && m.map && m.map === ctx.tex.roof.map) patchRoof(m);
+    });
     this.buildPuddles(ctx);
     this.buildRays(ctx);
   }
