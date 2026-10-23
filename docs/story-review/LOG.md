@@ -135,20 +135,20 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `multiverse/endgames.md` | [review-2026-10-23-2](review-2026-10-23-2.md) | 0 |
 | `expansions/E1.md` | [review-2026-10-23-2](review-2026-10-23-2.md) | 0 |
 | `expansions/E2.md` | [review-2026-10-23-2](review-2026-10-23-2.md) | 0 |
-| `expansions/E3.md` | never | 0 |
-| `storylines/hundred.md` | never | 0 |
-| `storylines/logged.md` | never | 0 |
-| `storylines/beetle.md` | never | 0 |
-| `storylines/dawndusk.md` | never | 0 |
-| `atlas/A01/main.md` | never | 0 |
-| `atlas/A02/main.md` | never | 0 |
+| `expansions/E3.md` | [review-2026-10-23-3](review-2026-10-23-3.md) | 5 |
+| `storylines/hundred.md` | [review-2026-10-23-3](review-2026-10-23-3.md) | 7 |
+| `storylines/logged.md` | [review-2026-10-23-3](review-2026-10-23-3.md) | 4 |
+| `storylines/beetle.md` | [review-2026-10-23-3](review-2026-10-23-3.md) | 7 |
+| `storylines/dawndusk.md` | [review-2026-10-23-3](review-2026-10-23-3.md) | 8 |
+| `atlas/A01/main.md` | [review-2026-10-23-3](review-2026-10-23-3.md) | 7 |
+| `atlas/A02/main.md` | [review-2026-10-23-3](review-2026-10-23-3.md) | 5 |
 | `atlas/A02/sprout.md` | [review-2026-10-23-2](review-2026-10-23-2.md) | 0 |
 | `atlas/A02/reader.md` | [review-2026-10-23-2](review-2026-10-23-2.md) | 0 |
-| `atlas/A03/main.md` | never | 0 |
+| `atlas/A03/main.md` | [review-2026-10-23-3](review-2026-10-23-3.md) | 6 |
 | `atlas/A04/main.md` | never | 0 |
 | `atlas/A05/main.md` | never | 0 |
-| `atlas/A05/sprout.md` | never | 0 |
-| `atlas/A05/reader.md` | never | 0 |
+| `atlas/A05/sprout.md` | [review-2026-10-23-3](review-2026-10-23-3.md) | 8 |
+| `atlas/A05/reader.md` | [review-2026-10-23-3](review-2026-10-23-3.md) | 7 |
 | `atlas/A06/main.md` | never | 0 |
 | `atlas/A06/sprout.md` | never | 0 |
 | `atlas/A06/reader.md` | never | 0 |
@@ -662,6 +662,65 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261023-408 | atlas/A02/reader.md | a02-17-cottage | Medium | child-read | The lesson says "The seven women turn out to be spiders" before the story reveals it | fixed | 2026-10-23-2 |
 | SR-20261023-409 | multiverse/dragonball.md<br>multiverse/toystory.md<br>multiverse/endgames.md | cross-story | High | humour | Bring canon 45's misname gag to Dragon Ball and Toy Story, with a closer each | fixed | 2026-10-23-2 |
 | SR-20261023-410 | expansions/E1.md<br>expansions/E2.md | cross-story | Medium | follow | Six narration lines in E1 and E2 are tagged as the Keeper speaking | fixed | 2026-10-23-2 |
+| SR-20261023-411 | storylines/logged.md | end-logged-everyone-wakes | Critical | compelling | The final choice (find Juno outside, or say goodbye) reaches no ending; give each ending a Juno line, and the cat | open | 2026-10-23-3 |
+| SR-20261023-412 | storylines/beetle.md | b-c8-close | Critical | continuity | Ottoline's stay-or-go choice reaches no ending, and Two As One puts her at the top of the stairs either way | open | 2026-10-23-3 |
+| SR-20261023-413 | storylines/logged.md | l-c7-open | High | follow | Nobody says Root is your sister, or who "the company" is, so the door down the hall may not land | open | 2026-10-23-3 |
+| SR-20261023-414 | storylines/hundred.md | h-c9-close | High | continuity | Ida's grave line contradicts itself ("Nobody stood in front of it. I did."); let the broom carry it | open | 2026-10-23-3 |
+| SR-20261023-415 | storylines/dawndusk.md | dawn-c4-second-house | High | compelling | The latched door "wants someone it knows on the other side" and never opens; four lamps appear from nowhere | open | 2026-10-23-3 |
+| SR-20261023-416 | storylines/dawndusk.md | dawn-c6-open | High | compelling | The wrong answer announces itself in both halves; give it evidence so the choice is real | open | 2026-10-23-3 |
+| SR-20261023-417 | atlas/A05/sprout.md | a05-10-basket | High | child-read | The child never learns the king is refusing Sogolon a grave, so the basket has no stake | open | 2026-10-23-3 |
+| SR-20261023-418 | atlas/A05/sprout.md | a05-06-leave | High | child-read | The family flees "because it is safer" with no reason, and two new names arrive at once | open | 2026-10-23-3 |
+| SR-20261023-419 | atlas/A01/main.md | a01-20-complete | High | compelling | The Nubbin has ridden inside Al for twenty quests; pay it off when Al has a body again | open | 2026-10-23-3 |
+| SR-20261023-420 | storylines/hundred.md | h-c5-close | High | humour | Ida and Sorrel never speak to each other; give the Fold its deadpan double act | open | 2026-10-23-3 |
+| SR-20261023-421 | expansions/E3.md | e3-tournament-done | High | humour | The whole tournament is one summary line; play three rounds of Nubbin slapstick | open | 2026-10-23-3 |
+| SR-20261023-422 | storylines/logged.md | l-c4-night | High | humour | Chapters 4 to 6 lose every laugh; give the partners the night ticks, and keep the cat alive | open | 2026-10-23-3 |
+| SR-20261023-423 | storylines/beetle.md | b-c5-notebook | High | theme | Make Hob and Ottoline a long-married couple who live four floors apart | open | 2026-10-23-3 |
+| SR-20261023-424 | storylines/beetle.md | b-c6-close | High | humour | Indoor rain gets no laugh; let the Nubbins meet weather and Hob meet an umbrella | open | 2026-10-23-3 |
+| SR-20261023-425 | storylines/dawndusk.md | dawn-c2-book | High | humour | Both twins claim the neat hand; turn the contradiction into their running quarrel | open | 2026-10-23-3 |
+| SR-20261023-426 | atlas/A03/main.md | a03-05-choice-done | High | humour | Deok-choon is promised to cry "at every verdict from here on" and then doesn't, twice | open | 2026-10-23-3 |
+| SR-20261023-427 | atlas/A01/main.md | a01-16-tunnels | High | humour | The longest stretch before the climax has no banter; let the brothers bicker about left | open | 2026-10-23-3 |
+| SR-20261023-428 | storylines/hundred.md | end-hundred-bright-fold | Medium | follow | "We're past sixty" reads as sixty residents in a Fold of about ten; count doorsteps instead | open | 2026-10-23-3 |
+| SR-20261023-429 | storylines/hundred.md | h-c6-trust | Medium | humour | The kettle Sorrel mends that "was not his" wants a running gag: its lid, and the Hush | open | 2026-10-23-3 |
+| SR-20261023-430 | storylines/hundred.md | h-c1-close | Medium | humour | The naming choice gets no reaction until chapter 10; give Ida a reply that plants the callback | open | 2026-10-23-3 |
+| SR-20261023-431 | storylines/logged.md | l-c6-close | Medium | humour | Keep the Warden's deadpan going through the angry middle | open | 2026-10-23-3 |
+| SR-20261023-432 | storylines/beetle.md | b-c2-errand | Medium | follow | The team leader you picked never appears; let Hob quote all three teams at every errand | open | 2026-10-23-3 |
+| SR-20261023-433 | storylines/beetle.md | b-c2-close | Medium | humour | The cart chapter's Nubbins do nothing; seat one on the cargo like a dragon on a hoard | open | 2026-10-23-3 |
+| SR-20261023-434 | storylines/dawndusk.md | dawn-c1-open | Medium | follow | "Twins" first appears in the last ending, and "the other half" assumes a storyline the player may not know exists | open | 2026-10-23-3 |
+| SR-20261023-435 | storylines/dawndusk.md | dawn-c6-wrong | Medium | humour | The wrong-answer scene is a flat sigh; add a gentle laugh around the disappointment | open | 2026-10-23-3 |
+| SR-20261023-436 | expansions/E3.md | e3-complete | Medium | continuity | Dusty says Hazel lied about the beans, then that she tied beans for twenty years; make the beans the joke | open | 2026-10-23-3 |
+| SR-20261023-437 | expansions/E3.md | e3-tournament | Medium | theme | Byte runs the bracket alone; let Pixel heckle it, as canon 38 asks | open | 2026-10-23-3 |
+| SR-20261023-438 | expansions/E3.md | e3-pair | Medium | compelling | "Pick again, or find out" promises a consequence for picking the strongest pair, and none comes | open | 2026-10-23-3 |
+| SR-20261023-439 | expansions/E3.md | e3-merge-done | Medium | humour | The merged Nubbin should not know who is steering | open | 2026-10-23-3 |
+| SR-20261023-440 | atlas/A01/main.md | a01-02-complete | Medium | follow | The page leaves the flashback with no signal, and Winry arrives as just a name | open | 2026-10-23-3 |
+| SR-20261023-441 | atlas/A01/main.md | a01-05-alley-done | Medium | follow | Three places where people are where the page never put them: Mustang in the alley, the Keeper at the eclipse, Envy after Gluttony | open | 2026-10-23-3 |
+| SR-20261023-442 | atlas/A01/main.md | a01-03-temple-done | Medium | humour | Cornello's radio confession is a ready joke played straight | open | 2026-10-23-3 |
+| SR-20261023-443 | atlas/A01/main.md | a01-14-sea | Medium | humour | Ling's unpaid lunch is set up twice and dropped in the darkest stretch | open | 2026-10-23-3 |
+| SR-20261023-444 | atlas/A01/main.md | a01-15-sloth | Medium | follow | The player carries fuel cans with no idea what they are for | open | 2026-10-23-3 |
+| SR-20261023-445 | atlas/A02/main.md | a02-16-real | Medium | humour | The chapter's big comic set piece is skipped in one flat sentence | open | 2026-10-23-3 |
+| SR-20261023-446 | atlas/A02/main.md | a02-19-turtle-done | Medium | compelling | The turtle's question is never answered; let Monkey fetch an answer in one somersault | open | 2026-10-23-3 |
+| SR-20261023-447 | atlas/A02/main.md | a02-04-stables | Medium | follow | Two pieces of off-page backstory need one line each: Monkey's staff and book, and Red Boy's "uncle" | open | 2026-10-23-3 |
+| SR-20261023-448 | atlas/A03/main.md | a03-11-hall | Medium | follow | "Harm to a parent" is too veiled for the reader to know what the last trial is about | open | 2026-10-23-3 |
+| SR-20261023-449 | atlas/A03/main.md | a03-12-house | Medium | follow | "Eomma" and "hyung" are glossed only in the notes | open | 2026-10-23-3 |
+| SR-20261023-450 | atlas/A03/main.md | a03-10-sit | Medium | humour | Only one branch of the brothers' night gets its laugh | open | 2026-10-23-3 |
+| SR-20261023-451 | atlas/A03/main.md | a03-14-complete | Medium | compelling | Nova's "Read it with somebody" is never paid off | open | 2026-10-23-3 |
+| SR-20261023-452 | atlas/A05/sprout.md | a05-11-allies | Medium | humour | "I crawled. It was the only way to win." has lost its set-up in the sprout band | open | 2026-10-23-3 |
+| SR-20261023-453 | atlas/A05/sprout.md | a05-13-fakoli | Medium | child-read | Three lessons are bolted on, and two lines speak in metaphor | open | 2026-10-23-3 |
+| SR-20261023-454 | atlas/A05/sprout.md | a05-12-secret | Medium | compelling | Nana Triban's reason is "I am my own person"; give her the reader band's leaves | open | 2026-10-23-3 |
+| SR-20261023-455 | atlas/A05/reader.md | a05-14-complete | Medium | pacing | The story's warm close is followed by two fact lessons; end on the Nubbin's tune | open | 2026-10-23-3 |
+| SR-20261023-456 | atlas/A05/reader.md | a05-06-garden | Medium | child-read | Irony and idioms a 7 to 10 year old will take literally | open | 2026-10-23-3 |
+| SR-20261023-457 | atlas/A05/reader.md | a05-12-secret | Medium | humour | Nana Triban's family tree arrives in one speech; make Dankaran's gift-giving the joke | open | 2026-10-23-3 |
+| SR-20261023-458 | atlas/A05/reader.md | a05-11-council | Medium | humour | The council and Fakoli scenes are talk with no Nubbin | open | 2026-10-23-3 |
+| SR-20261023-459 | atlas/A05/reader.md | a05-13-fakoli | Medium | child-read | "Took my wife out of my house and into his" is heavier than the band needs | open | 2026-10-23-3 |
+| SR-20261023-460 | storylines/hundred.md | h-c4-close | Nice | continuity | "The bathhouse wants a fourth" disagrees with the chapter 8 goal of prosperity 60 | open | 2026-10-23-3 |
+| SR-20261023-461 | storylines/dawndusk.md | dawn-c3-open | Nice | follow | "Morning, or evening:" shows the template in both halves | open | 2026-10-23-3 |
+| SR-20261023-462 | atlas/A03/main.md | a03-02-gate | Nice | humour | The queue of the dead is a good gag that stops after one beat | open | 2026-10-23-3 |
+| SR-20261023-463 | atlas/A02/main.md | a02-10-complete | Nice | humour | The monk's "fifth disciple" count wants a straight man | open | 2026-10-23-3 |
+| SR-20261023-464 | atlas/A02/main.md | a02-15-complete | Nice | humour | The Nubbin should not tell us which Monkey's tail was the real one | open | 2026-10-23-3 |
+| SR-20261023-465 | atlas/A05/sprout.md | a05-04-forge-done | Nice | humour | A small Nubbin pratfall on the iron rod | open | 2026-10-23-3 |
+| SR-20261023-466 | storylines/hundred.md<br>storylines/beetle.md<br>storylines/dawndusk.md | cross-story | High | continuity | Three new names clash with canon: Tam (canon 43), Hob (canon 43) and Ash (canon 7) | open | 2026-10-23-3 |
+| SR-20261023-467 | atlas/A05/sprout.md<br>atlas/A05/reader.md | cross-story | High | child-read | Both bands call the boy Mari Djata, then Sundiata, a scene before anyone links the names | open | 2026-10-23-3 |
+| SR-20261023-468 | storylines/beetle.md<br>storylines/dawndusk.md | cross-story | Medium | pacing | "Forty years" appears about ten times across two storylines; keep it where it matters | open | 2026-10-23-3 |
+| SR-20261023-469 | atlas/A05/sprout.md<br>atlas/A05/reader.md | cross-story | Medium | compelling | Balla promises to say "which door" the tune opens and never does; say it when the tune softens Soumaoro | open | 2026-10-23-3 |
 
 ## Runs
 
@@ -679,3 +738,4 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 - 2026-10-23 · fix pass on branch `fix/story-review-2026-10-23-2` · all 57 open or partial recs (run 6's 56 plus SR-20261022-265): 57 fixed · -307 uses narrator lines until Bao and Lumi are named; -314 and -316 place their beats where the props are on stage; -265 gives the robin a self-contained pay joke · canon 46 added (what Kaito did in Q64)
 - 2026-10-23 run 7 · [review-2026-10-23-2](review-2026-10-23-2.md) · units: fun/alice.md, fun/holmes.md, fun/hodja.md, multiverse/dragonball.md, multiverse/toystory.md, multiverse/endgames.md, expansions/E1.md, expansions/E2.md, atlas/A02/sprout.md, atlas/A02/reader.md · 57 recs: Critical 2, High 24, Medium 31, Nice 0 (2 cross-story) · fixed since last run: 57 (all)
 - 2026-10-23 · fix pass on branch `fix/story-review-2026-10-23-3` · run 7's 57 recs: 57 fixed · -355 renames the `mv-db-set2-keeping` value to `carried` (it clashed with DB17); -359 and -360 add variant scenes wired in `side-rules-expansions.ts` (E1 slow ending, E2 short-answer endings, with a test); -390 wires `q81-var-children` after the Q81 kite in `fun-pack-rules.ts` · canon: item 45 gains the Dragon Ball fish gag, Sarge's fuzzy recruits, NUBINS, and the four-star ball's homecoming
+- 2026-10-23 run 8 · [review-2026-10-23-3](review-2026-10-23-3.md) · units: expansions/E3.md, storylines/hundred.md, storylines/logged.md, storylines/beetle.md, storylines/dawndusk.md, atlas/A01/main.md, atlas/A02/main.md, atlas/A03/main.md, atlas/A05/sprout.md, atlas/A05/reader.md · 59 recs: Critical 2, High 17, Medium 34, Nice 6 (4 cross-story) · fixed since last run: 57 (all)
