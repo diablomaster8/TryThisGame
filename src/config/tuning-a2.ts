@@ -12,15 +12,6 @@ export const CG4_A2 = {
     /** Wait after the scene begins before the walk starts, in ms. */
     leadMs: 350,
   },
-  /**
-   * Marks a walk-on may come `from` that the stage-marks table does not have (the lane
-   * outside the gate, which the Grove's own marks stop short of). Looked up after `markAt`.
-   */
-  fromMarks: {
-    'lane-west': { x: -9, z: 31 },
-    'lane-east': { x: 9, z: 31 },
-    'lane-south': { x: 0, z: 33 },
-  } as Readonly<Record<string, { x: number; z: number }>>,
   prints: {
     /** The most footprints lying at once (one pool each renderer), and the gap between two. */
     cap: 64,
