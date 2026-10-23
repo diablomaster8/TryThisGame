@@ -27,6 +27,8 @@ import {
 import { PIXEL_BUILDINGS, safeRect, viewRect } from './render/stage-api';
 import { stageHides } from './config/stage-sets';
 import { WorldView } from './render/world-view';
+import { paintGrade } from './ui/look-paint';
+import { currentGrade } from './ui/title-card';
 import { syncDungeon, syncWorldScenes } from './render/world-sync';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
 import { Clock } from './sim/clock';
@@ -158,6 +160,15 @@ export class Game {
     const sw = w * k;
     const sh = h * k;
     ctx.drawImage(src, (src.width - sw) / 2, (src.height - sh) / 2, sw, sh, 0, 0, w, h);
+    // K30: the DOM grade layers (tint, split grade, desaturation, ground tint) are not in the
+    // canvas, so paint them on the copy; the grid's 48 CSS px spacing scales with the crop.
+    paintGrade(
+      ctx,
+      w,
+      h,
+      currentGrade(),
+      48 * (h / Math.max(1, src.clientHeight || src.height / k)),
+    );
     return out;
   }
 

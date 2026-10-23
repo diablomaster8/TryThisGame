@@ -19,6 +19,8 @@ import { TITLE_CARD_TEXT } from '../config/strings';
 import { stageFlags, type StageFlags } from '../render/scene-stage';
 import { chapterTitle, storylineOf } from '../sim/storyline';
 import type { World } from '../sim/types';
+import { CG4_U4 } from '../config/tuning-u4';
+import { drawSilhouette, type GradeFrame } from './look-paint';
 
 /**
  * The campaigns' screen layers and chapter title cards (campaign graphics H18, and the
@@ -57,6 +59,7 @@ export interface LookFrame {
 }
 
 let layers: Layers | null = null;
+let lastGrade: GradeFrame | null = null;
 let lastDrive = 0;
 let watchdog: number | null = null;
 const written = new Map<string, string>();
@@ -132,6 +135,11 @@ function setBlend(d: HTMLElement, key: string, blend: Blend): void {
   put(key, blend, () => (d.style.mixBlendMode = blend));
 }
 
+/** The grade layers as last driven, for the chapter photo (K30), or null when none shows. */
+export function currentGrade(): GradeFrame | null {
+  return layers && !layers.root.hidden ? lastGrade : null;
+}
+
 /** Lay the frame's look over the game. Cheap to call every frame from both renderers. */
 export function driveLook(f: LookFrame, nowMs = performance.now()): void {
   const l = ensure();
@@ -139,6 +147,16 @@ export function driveLook(f: LookFrame, nowMs = performance.now()): void {
   lastDrive = nowMs;
   l.root.hidden = false;
   const look = f.look;
+  lastGrade = {
+    look,
+    ground: f.ground
+      ? {
+          color: f.ground.tint.color,
+          alpha: f.ground.tint.alpha * Math.min(1, Math.max(0, f.ground.strength)),
+          blend: f.ground.tint.blend,
+        }
+      : null,
+  };
   l.grade.hidden = !look;
   if (look) {
     const t = look.tintAlpha;
@@ -361,6 +379,10 @@ function drawCard(canvas: HTMLCanvasElement, c: TitleCard, campaignName: string)
   plate.addColorStop(1, 'rgba(10,8,20,0)');
   ctx.fillStyle = plate;
   ctx.fillRect(0, 10, W, H - 20);
+  // K32: the campaign's landmark, a flat silhouette standing behind the title.
+  ctx.globalAlpha = CG4_U4.card.alpha;
+  drawSilhouette(ctx, c.campaign, CG4_U4.card.x, CG4_U4.card.base, accent);
+  ctx.globalAlpha = 1;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'alphabetic';
   ctx.fillStyle = accent;

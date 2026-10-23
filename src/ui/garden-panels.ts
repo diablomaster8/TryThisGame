@@ -1,4 +1,15 @@
-import { NAMES, SPECIES_LABELS, TEN_TEXT, TRAINER_LABELS, UI_TEXT } from '../config/strings';
+import {
+  NAMES,
+  SPECIES_LABELS,
+  STORY_U4_TEXT,
+  TEN_TEXT,
+  TITLE_CARD_TEXT,
+  TRAINER_LABELS,
+  UI_TEXT,
+} from '../config/strings';
+import { markAt } from '../config/stage-marks';
+import { STAGE_SET_HIDES, type StageSet } from '../config/stage-sets';
+import { CG4_U4 } from '../config/tuning-u4';
 import { GROVE, PLOTS, TOWN } from '../config/tuning';
 import { canMerge } from '../sim/partners';
 import { canBuySkill, SKILL_LIST } from '../sim/skills';
@@ -448,6 +459,7 @@ export class NeighbourhoodPanel {
 export class MapPanel {
   private readonly dialog;
   private readonly list: HTMLDivElement;
+  private readonly campaign: HTMLParagraphElement;
 
   constructor(
     parent: HTMLElement,
@@ -456,6 +468,8 @@ export class MapPanel {
   ) {
     this.dialog = modal(parent, UI_TEXT.map, UI_TEXT.close);
     this.dialog.body.appendChild(el('p', 'help', UI_TEXT.mapHelp));
+    this.campaign = el('p', 'help map-campaign-title');
+    this.dialog.body.appendChild(this.campaign);
     this.list = el('div', 'map-grid');
     this.dialog.body.appendChild(this.list);
   }
@@ -479,7 +493,43 @@ export class MapPanel {
     const w = g.world;
     this.list.innerHTML = '';
     const names = UI_TEXT.landmarkNames as Record<string, string>;
+    // K33: while a separate campaign runs, the Grove's own icons that its set takes away
+    // (the well, the cottage, the dojo, the school) go, and the set's places are added.
+    const story = w.campaign?.storyline ?? null;
+    const set = (story ? (CG4_U4.map.setOf as Record<string, StageSet>)[story] : undefined) ?? null;
+    const hidden: readonly string[] = set ? STAGE_SET_HIDES[set] : [];
+    this.campaign.hidden = !set;
+    this.campaign.textContent = story
+      ? STORY_U4_TEXT.mapCampaign(TITLE_CARD_TEXT.campaigns[story] ?? story)
+      : '';
+    const half = GROVE.size / 2;
+    const cells = CG4_U4.map.cells;
+    const place = (b: HTMLElement, x: number, z: number): void => {
+      // Lay the buttons out roughly where the spots are.
+      b.style.gridColumn = String(Math.round(((x + half) / GROVE.size) * cells) + 1);
+      b.style.gridRow = String(Math.round(((z + half) / GROVE.size) * cells) + 1);
+      this.list.appendChild(b);
+    };
+    for (const id of set ? CG4_U4.map.marks[set] : []) {
+      const m = markAt('grove', id);
+      if (!m) continue;
+      const b = button(
+        `◆ ${STORY_U4_TEXT.landmarks[id] ?? id}`,
+        () => {
+          if (w.location !== 'grove') {
+            this.toast(UI_TEXT.notFromHere);
+            return;
+          }
+          g.send({ kind: 'teleport', pos: { x: m.x, z: m.z } });
+          this.toast(UI_TEXT.travelled);
+          this.close();
+        },
+        'btn btn-small btn-primary map-campaign',
+      );
+      place(b, m.x, m.z);
+    }
     for (const l of landmarkList()) {
+      if (hidden.includes(l.id)) continue;
       const found = w.landmarks[l.id] !== undefined;
       const b = button(
         found ? `📍 ${names[l.id] ?? l.id}` : '?',
@@ -495,11 +545,7 @@ export class MapPanel {
         `btn btn-small${found ? ' btn-primary' : ''}`,
       );
       b.disabled = !found;
-      // Lay the buttons out roughly where the spots are.
-      const half = GROVE.size / 2;
-      b.style.gridColumn = String(Math.round(((l.x + half) / GROVE.size) * 5) + 1);
-      b.style.gridRow = String(Math.round(((l.z + half) / GROVE.size) * 5) + 1);
-      this.list.appendChild(b);
+      place(b, l.x, l.z);
     }
   }
 }

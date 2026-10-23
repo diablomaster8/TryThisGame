@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { markAt } from '../config/stage-marks';
 import { DUNGEON } from '../config/tuning';
 import { CG2_S } from '../config/tuning-s';
+import { CG4_U4 } from '../config/tuning-u4';
 import { flameTexture, gridTexture, holoEdgeTexture, softTexture } from '../render/art-s';
 import { bandFor } from '../render/cave-bands';
 import { paintFloorTexture } from '../render/paint/dungeon';
@@ -374,7 +375,8 @@ function buildDigital(): THREE.Group {
     keep(edge);
     const bm = markAt('grove', 'board') ?? { x: 3, z: -2, yaw: 0 };
     const card = yawCard(2.55, 1.6, edge, '#52e6ff');
-    card.position.set(bm.x, groveHeight(bm.x, bm.z) + 2.15, bm.z);
+    const bx = bm.x + CG4_U4.board.scoreDx;
+    card.position.set(bx, groveHeight(bx, bm.z) + 2.15, bm.z);
     g.add(card);
     // The door: frame, slab and knob, with its own holo edge.
     door = new THREE.Group();
