@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import { CG_A, GROVE3D } from '../config/tuning';
+import { CG4_C4, CG_A, GROVE3D } from '../config/tuning';
 import type { Surface } from '../samples/aaa-kit';
 import { toonShader } from '../samples/creatures';
 import { addHull } from './toon-outline';
@@ -80,6 +80,12 @@ export const OCCLUDE = {
   hideMin: { value: Array.from({ length: 8 }, () => new THREE.Vector3()) },
   hideMax: { value: Array.from({ length: 8 }, () => new THREE.Vector3()) },
   hideFade: { value: Array.from({ length: 8 }, () => 0) },
+  /**
+   * Campaign graphics 4 (K2 review): how far a hidden box reaches past its walls, so the
+   * whole footprint goes with the house: `x` across the ground each way (porch boards,
+   * steps, rubble), `y` down (the plinth reaches under the slope, the floor inside).
+   */
+  footprint: { value: new THREE.Vector2(CG4_C4.footprint.side, CG4_C4.footprint.down) },
 };
 
 /**
@@ -106,6 +112,7 @@ export function occludable(
   shader.uniforms.uOccHideMin = OCCLUDE.hideMin;
   shader.uniforms.uOccHideMax = OCCLUDE.hideMax;
   shader.uniforms.uOccHideFade = OCCLUDE.hideFade;
+  shader.uniforms.uOccFoot = OCCLUDE.footprint;
   const vary =
     'varying vec4 vOccClip;\nvarying vec4 vOcc0;\nvarying vec4 vOcc1;\nvarying vec4 vOcc2;\nvarying vec2 vOccK;\nvarying vec3 vOccWorld;';
   shader.vertexShader = shader.vertexShader
@@ -144,7 +151,13 @@ export function occludable(
       uniform vec3 uOccHideMin[8];
       uniform vec3 uOccHideMax[8];
       uniform float uOccHideFade[8];
+      uniform vec2 uOccFoot;
       ${vary}
+      // A hidden box's whole footprint (K2 review): grown across and down.
+      bool occInFoot(vec3 p, vec3 lo, vec3 hi) {
+        vec3 g = vec3(uOccFoot.x, uOccFoot.y, uOccFoot.x);
+        return all(greaterThanEqual(p, lo - g)) && all(lessThanEqual(p, hi + vec3(uOccFoot.x, 0.0, uOccFoot.x)));
+      }
       float occHole(vec4 p, vec2 f) {
         if (p.w <= 0.0 || vOccClip.w > p.w - uOccMargin) return 0.0;
         vec2 d = (f - p.xy / p.w) * vec2(vOccK.x, 1.0);
@@ -165,9 +178,11 @@ export function occludable(
         // paving at its foot stay.
         for (int i = 0; i < 4; i++) {
           if (float(i) >= uOccBoxes) break;
+          // The whole footprint goes with the house: floor, plinth, porch and steps (K2
+          // review). Only flat pieces below the plinth's reach stay (paving over the void).
           vec3 lo = uOccBoxMin[i];
-          ${flatStays ? 'if (occFlat && vOccWorld.y < lo.y + 0.5) continue;' : ''}
-          if (all(greaterThanEqual(vOccWorld, lo)) && all(lessThanEqual(vOccWorld, uOccBoxMax[i]))) discard;
+          ${flatStays ? 'if (occFlat && vOccWorld.y < lo.y - uOccFoot.y) continue;' : ''}
+          if (occInFoot(vOccWorld, lo, uOccBoxMax[i])) discard;
         }
         // Low and flat pieces are never cut by the window or the near-lens test.
         if (vOccWorld.y > uOccGround && !occFlat) {
@@ -183,8 +198,8 @@ export function occludable(
         float thin = 0.0;
         for (int i = 0; i < 8; i++) {
           if (float(i) >= uOccHides) break;
+          if (uOccHideFade[i] > 1.5 && occInFoot(vOccWorld, uOccHideMin[i], uOccHideMax[i])) discard;
           if (all(greaterThanEqual(vOccWorld, uOccHideMin[i])) && all(lessThanEqual(vOccWorld, uOccHideMax[i]))) {
-            if (uOccHideFade[i] > 1.5) discard;
             thin = max(thin, min(1.0, uOccHideFade[i]));
           }
         }
@@ -653,6 +668,11 @@ export function hideDepthMaterial(): THREE.MeshDepthMaterial {
     shader.uniforms.uOccHideMin = OCCLUDE.hideMin;
     shader.uniforms.uOccHideMax = OCCLUDE.hideMax;
     shader.uniforms.uOccHideFade = OCCLUDE.hideFade;
+    shader.uniforms.uOccFoot = OCCLUDE.footprint;
+    shader.uniforms.uOccBoxes = OCCLUDE.boxes;
+    shader.uniforms.uOccBoxMin = OCCLUDE.boxMin;
+    shader.uniforms.uOccBoxMax = OCCLUDE.boxMax;
+    shader.uniforms.uOccOn = OCCLUDE.on;
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', '#include <common>\nvarying vec3 vOccWorld;')
       .replace(
@@ -672,18 +692,33 @@ export function hideDepthMaterial(): THREE.MeshDepthMaterial {
         uniform vec3 uOccHideMin[8];
         uniform vec3 uOccHideMax[8];
         uniform float uOccHideFade[8];
-        varying vec3 vOccWorld;`,
+        uniform vec2 uOccFoot;
+        uniform float uOccOn;
+        uniform float uOccBoxes;
+        uniform vec3 uOccBoxMin[4];
+        uniform vec3 uOccBoxMax[4];
+        varying vec3 vOccWorld;
+        bool occInFoot(vec3 p, vec3 lo, vec3 hi) {
+          vec3 g = vec3(uOccFoot.x, uOccFoot.y, uOccFoot.x);
+          return all(greaterThanEqual(p, lo - g)) && all(lessThanEqual(p, hi + vec3(uOccFoot.x, 0.0, uOccFoot.x)));
+        }`,
       )
       .replace(
         '#include <clipping_planes_fragment>',
         `#include <clipping_planes_fragment>
         for (int i = 0; i < 8; i++) {
           if (float(i) >= uOccHides) break;
-          if (uOccHideFade[i] > 1.5 && all(greaterThanEqual(vOccWorld, uOccHideMin[i])) && all(lessThanEqual(vOccWorld, uOccHideMax[i]))) discard;
-        }`,
+          if (uOccHideFade[i] > 1.5 && occInFoot(vOccWorld, uOccHideMin[i], uOccHideMax[i])) discard;
+        }
+        // The occluder's whole-building boxes drop their shadow too.
+        if (uOccOn > 0.5)
+          for (int i = 0; i < 4; i++) {
+            if (float(i) >= uOccBoxes) break;
+            if (occInFoot(vOccWorld, uOccBoxMin[i], uOccBoxMax[i])) discard;
+          }`,
       );
   };
-  m.customProgramCacheKey = () => 'building-depth|occ-hide';
+  m.customProgramCacheKey = () => 'building-depth|occ-hide-foot';
   hideDepth = m;
   return m;
 }
@@ -720,7 +755,15 @@ export function inHiddenBox(p: THREE.Vector3Like): boolean {
     if ((OCCLUDE.hideFade.value[i] ?? 0) <= 1.5) continue;
     const lo = OCCLUDE.hideMin.value[i]!;
     const hi = OCCLUDE.hideMax.value[i]!;
-    if (p.x >= lo.x && p.x <= hi.x && p.y >= lo.y && p.y <= hi.y && p.z >= lo.z && p.z <= hi.z)
+    const g = OCCLUDE.footprint.value;
+    if (
+      p.x >= lo.x - g.x &&
+      p.x <= hi.x + g.x &&
+      p.y >= lo.y - g.y &&
+      p.y <= hi.y &&
+      p.z >= lo.z - g.x &&
+      p.z <= hi.z + g.x
+    )
       return true;
   }
   return false;
