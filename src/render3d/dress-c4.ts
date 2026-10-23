@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import type { InteriorId } from '../config/stage-marks';
 import { CG4_C4 } from '../config/tuning';
 import { interiorOf, roomOrigin, wallsShown } from '../render/interior-layout';
-import { OCCLUDE, shadowHides } from './building-kit';
+import { markFootprint, OCCLUDE, shadowHides } from './building-kit';
 import type { Dress3dCtx, Dressing3d } from './dressings';
 import {
   buildInterior,
@@ -33,13 +33,14 @@ export const dress3dC4: Dressing3d = (() => {
   const warm = new THREE.Color();
   const glass = new THREE.Color();
   const toCam = new THREE.Vector3();
-  // K10 review: a dark box round the room and the camera. Anything outside an exclusive
+  // K10 review: a dark sphere round the room and the camera. Anything outside an exclusive
   // interior (eggs and Nubbins out in the Grove, items, far props) is behind its walls.
   let shell: THREE.Mesh | null = null;
   const shellColor = new THREE.Color();
 
   const sweep = (root: THREE.Object3D): void => {
     shadowHides(root);
+    markFootprint(root);
     sweepIn = CG4_C4.shadowSweepS;
   };
 
@@ -81,16 +82,17 @@ export const dress3dC4: Dressing3d = (() => {
       toCam.copy(ctx.camera.position).sub(room.group.position);
       if (!shell) {
         shell = new THREE.Mesh(
-          new THREE.BoxGeometry(1, 1, 1),
+          new THREE.SphereGeometry(1, 24, 16),
           new THREE.MeshBasicMaterial({ side: THREE.BackSide, fog: false, toneMapped: false }),
         );
         shell.name = 'interior-shell';
         ctx.scene.add(shell);
       }
-      // Big enough to hold the camera, so it always looks out at the shell's inside.
-      const half = Math.max(CG4_C4.room.w, toCam.length()) + 2;
+      // Just big enough to hold the camera, so it always looks out at the shell's inside,
+      // and small enough that its far side stays inside the camera's far plane.
+      const r = Math.max(CG4_C4.room.w, toCam.length()) + 3;
       shell.position.copy(room.group.position);
-      shell.scale.set(half * 2, half * 2, half * 2);
+      shell.scale.set(r, r, r);
       const dark = Math.min(1, daylight.darkness / 0.7);
       (shell.material as THREE.MeshBasicMaterial).color.copy(
         shellColor.set(CG4_C4.light.voidDay).lerp(warm.set(CG4_C4.light.voidNight), dark),
