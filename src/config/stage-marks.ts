@@ -64,6 +64,8 @@ const doorOf = (dx: number, dz: number): StageMark => ({
 });
 
 const WELL = GROVE.buildings.well;
+/** A mark with a seat's height (K1): a step, a bench, a stump, for a `sit` or `kneel` pose. */
+const seated = (m: StageMark, seatY: number): StageMark => ({ ...m, seatY });
 /** The Fold's ruins round `fold-square` (STORY_B.fold.extras; package b draws them there). */
 const FOLD_SQ = { x: 0, z: 2 };
 /** A step in front of a Fold house (doors face +z), facing out to the square. */
@@ -103,14 +105,16 @@ const GROVE_MARKS: Record<string, StageMark> = {
   window: { x: COTTAGE.x + 1.6, z: COTTAGE.z + 2.6, yaw: N },
   // The four lanterns: lantern-3 by the pond, lantern-2 by the stream (the vigil's first
   // wave), lantern-1 by the wall, lantern-4 in the long grass (the second wave).
-  'pond-lantern': byPost('lantern-3'),
+  // Hazel and Moss sit here on the bank by the pond.
+  'pond-lantern': seated(byPost('lantern-3'), 0.1),
   'stream-lantern': byPost('lantern-2'),
   'wall-lantern': byPost('lantern-1'),
   'grass-lantern': byPost('lantern-4'),
   // The memorial hill (GROVE.hills[0]); the path climbs from the east.
   'hill-path': { x: HILL.x + HILL.r + 1, z: HILL.z + 1, yaw: W },
   // On the second terrace (0.62 r out), where package c draws the stone itself.
-  'flat-stone': { x: HILL.x + HILL.r * 0.61, z: HILL.z + 0.68, yaw: W },
+  // Moss's seat: the flat stone itself.
+  'flat-stone': seated({ x: HILL.x + HILL.r * 0.61, z: HILL.z + 0.68, yaw: W }, 0.12),
   'hill-top': { x: HILL.x, z: HILL.z, yaw: S },
   briar: { x: HILL.x - 1, z: HILL.z - 1.5, yaw: S },
   // The falls: the pool at the foot, the ledge behind the water.
@@ -119,7 +123,7 @@ const GROVE_MARKS: Record<string, StageMark> = {
   // The Hundred Days: the Fold round the Grove's heart, the mill, the shore.
   'fold-square': { x: 0, z: 2, yaw: S },
   mill: { x: WINDMILL.x + 2.4, z: WINDMILL.z + 2, yaw: W },
-  'shore-jetty': { x: POND.x, z: POND.z + POND.r + 0.6, yaw: N },
+  'shore-jetty': seated({ x: POND.x, z: POND.z + POND.r + 0.6, yaw: N }, 0.12),
   'pond-centre': { x: POND.x, z: POND.z, yaw: N },
   // Dawn & Dusk: four houses round a green (STORY_B.dawnDusk), each mark at a door.
   'green-centre': { x: GREEN.x, z: GREEN.z, yaw: S },
@@ -133,6 +137,10 @@ const GROVE_MARKS: Record<string, StageMark> = {
   'house-4': doorOf(-1, 0),
   shrine: { x: GREEN.x - 1.5, z: GREEN.z + 1.5, yaw: S },
   bell: { x: GREEN.x + 1.5, z: GREEN.z + 1.5, yaw: S },
+  // K5: where a walk-on comes from, down the lane past the gate (a2's `from` marks).
+  'lane-west': { x: -9, z: 31, yaw: N },
+  'lane-east': { x: 9, z: 31, yaw: N },
+  'lane-south': { x: 0, z: 33, yaw: N },
   // The Beetle Road: a guard house and the cart on the lane outside the gate, well clear
   // of the gate's posts and fence (the cart is LOOK_F's, drawn there by package f).
   guardhouse: { x: -7, z: 29.5, yaw: N },
@@ -142,18 +150,22 @@ const GROVE_MARKS: Record<string, StageMark> = {
   board: { x: 3, z: -2, yaw: S },
   'root-chair': { x: -3, z: -2.5, yaw: S },
   // ---- campaign graphics 2 (wave 0): the storylines' speakers and the festival ring ----
-  'fold-well': { x: WELL.x, z: WELL.z + WELL.r + 0.6, yaw: N },
-  'fold-door-1': { x: COTTAGE.x, z: COTTAGE.z + 2.8, yaw: S },
-  'fold-door-2': foldDoor(FOLD_SQ.x - 9, FOLD_SQ.z - 2),
-  'fold-door-3': foldDoor(FOLD_SQ.x - 7, FOLD_SQ.z + 6),
-  'fold-door-4': foldDoor(FOLD_SQ.x + 5, FOLD_SQ.z - 9),
+  'fold-well': seated({ x: WELL.x, z: WELL.z + WELL.r + 0.6, yaw: N }, 0.3),
+  // Ida's step: the one whole step of the Fold.
+  'fold-door-1': seated({ x: COTTAGE.x, z: COTTAGE.z + 2.8, yaw: S }, 0.14),
+  'fold-door-2': seated(foldDoor(FOLD_SQ.x - 9, FOLD_SQ.z - 2), 0.14),
+  'fold-door-3': seated(foldDoor(FOLD_SQ.x - 7, FOLD_SQ.z + 6), 0.14),
+  'fold-door-4': seated(foldDoor(FOLD_SQ.x + 5, FOLD_SQ.z - 9), 0.14),
   'house-1-door': houseDoor(0, -1),
   'house-2-door': houseDoor(1, 0),
   'house-3-door': houseDoor(0, 1),
   'house-4-door': houseDoor(-1, 0),
-  'guardhouse-bench': { x: GH.x + CAB.w / 2 + 1.0, z: GH.z + CAB.d / 2 + 0.6, yaw: S },
+  'guardhouse-bench': seated({ x: GH.x + CAB.w / 2 + 1.0, z: GH.z + CAB.d / 2 + 0.6, yaw: S }, 0.24),
   // Behind Hob's counter, at the window (the 3D counter stands just in front of this).
-  'guardhouse-counter': { x: GH.x - CAB.w * 0.25, z: GH.z + CAB.d / 2 + 0.45, yaw: S },
+  'guardhouse-counter': seated(
+    { x: GH.x - CAB.w * 0.25, z: GH.z + CAB.d / 2 + 0.45, yaw: S },
+    0.24,
+  ),
   'banner-1': { x: GH.x - CAB.w / 2 + 0.55, z: GH.z + CAB.d / 2 + 1.3, yaw: N },
   'banner-2': { x: GH.x + CAB.w / 2 - 0.55, z: GH.z + CAB.d / 2 + 1.3, yaw: N },
   'banner-3': { x: GH.x + CAB.w / 2 + 1.3, z: GH.z, yaw: W },
@@ -244,7 +256,8 @@ const ROOM_SPOTS: Readonly<Record<InteriorId, Readonly<Record<string, StageMark>
   },
   guardhouse: {
     // Behind the counter, which runs across the room a third of the way in.
-    counter: inRoom(-0.6, -1.5, S),
+    // Hob's stool behind the counter.
+    counter: seated(inRoom(-0.6, -1.5, S), 0.24),
     banners: inRoom(2.2, -2.0, S),
     door: inRoom(2.8, 1.8, toward(2.8, 1.8, 0, 0)),
   },
