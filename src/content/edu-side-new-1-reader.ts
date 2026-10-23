@@ -1068,14 +1068,14 @@ const S15_SCENES: EduScene[] = [
             label: '“Every egg a winner!”',
             reply: [
               JP('HOW WOULD YOU CHECK IT? WHAT IS A WINNER? HE NEVER SAYS.'),
-              BY('That’s a feeling pretending to be a fact. “One in ten” is a fact: we counted it.'),
+              BY('That’s a feeling pretending to be a fact. You can’t measure a “winner”. “One in ten” is a fact: we counted it.'),
             ],
           },
           {
             label: '“Dashwood has brought you luck!”',
             reply: [
               JP('LUCK CANNOT BE WEIGHED. I HAVE TRIED.'),
-              BY('That’s a claim you can’t check. “One in ten” is a fact: we counted it.'),
+              BY('That’s a claim you can’t check: nobody can measure luck. “One in ten” is a fact: we counted it.'),
             ],
           },
         ],

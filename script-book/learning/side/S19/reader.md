@@ -13,7 +13,7 @@ _Two days after the Long Night. The valley is white to the doorsteps, and very q
 _Moss sits on the cottage step, facing north, where the snowfield climbs to the high pass. He has sat like that since dawn._  
 _He is thinner than he was. On a bright morning you can see the step through him._  
 **Moss**: There is something warm up there.  
-**Moss**: There shouldn’t be. Nothing has been warm on the high pass since the White Year. Nothing.  
+**Moss**: There shouldn’t be. Nothing has been warm on the high pass since the White Year, the winter everything froze. Nothing.  
 _Up there, the snow is the blue of skimmed milk, and quite empty._  
 
 > **Lesson** (science, notice): the higher up a mountain, the colder the air  
@@ -21,7 +21,7 @@ _Up there, the snow is the blue of skimmed milk, and quite empty._
 > _That’s why snow stays on a high pass long after the valley has thawed. The tops of very high mountains keep snow all year._  
 > _For grown-ups: Learned that air usually gets colder the higher up a mountain you go, so snow lasts longer up high._
 
-**Moss**: I felt it on the night we unmade the stone. Like a candle someone forgot, in a room you thought was dark.  
+**Moss**: I felt it at the Long Night, when we unmade the cold stone. Like a candle someone forgot, in a room you thought was dark.  
 **Moss**: I am too thin to climb. I am going anyway. You may carry me, if you would. In your coat. I won’t talk much.  
 **Moss**: That last part was a lie. Marina knows the path. Ask her.  
 
@@ -124,7 +124,7 @@ _He weighs about as much as a held breath._
 > _For grown-ups: Worked out that left and right depend on which way you face, and why maps use compass directions._
 
 _The snowfield is crusted on top and soft beneath. Every step goes through with a crunch like biting toast._  
-**Marina**: Lovely, isn’t it? That wind. Takes your face right off.  
+**Marina**: Lovely, isn’t it? That wind. That wind could peel an apple.  
 **Moss**: Your heart is very loud. I am not complaining. It’s warm.  
 
 > **Lesson** (health, notice): why your heart beats faster when you exercise  
@@ -147,7 +147,7 @@ _First light. Marina ropes you to her. Sable will not be roped._
 _She goes ahead, a grey shape on the white, as if she knows the way._  
 _Moss’s pale light drifts along at her shoulder, where he used to walk._  
 _The snowfield is crusted on top and soft beneath. Each of your steps goes through with a crunch like biting toast._  
-**Marina**: Lovely, isn’t it? That wind. Takes your face right off.  
+**Marina**: Lovely, isn’t it? That wind. That wind could peel an apple.  
 _Sable is light enough not to break the crust. She leaves a line of small prints, neat as stitches._  
 
 > **Lesson** (science, ask): spreading weight helps you stay on top of snow  
@@ -174,16 +174,16 @@ _First light. Marina ropes you to her, checks the knot twice, and then checks yo
 > _For grown-ups: Worked out 2 × 2 = 4 by thinking of pairs as equal groups._
 
 _The snowfield is crusted on top and soft beneath. Every step goes through with a crunch like biting toast._  
+**Marina**: Lovely, isn’t it? That wind. That wind could peel an apple.  
+**Marina**: What are we looking for, exactly?  
+**You**: Something warm.  
+**Marina**: Up here? Well. You’re Hazel’s. I gave up asking years ago.  
 
 > **Lesson** (science, 2-PS1-4, notice): melting and freezing again can make a hard crust on snow  
 > **Marina**: That crust is sun and frost taking turns. By day the sun melts the top of the snow a little.  
 > **Marina**: At night it freezes again, harder. Melting and freezing, over and over, and you get a lid on the snow.  
 > _For grown-ups: Learned that snow can melt in the sun and refreeze at night, making a hard crust._
 
-**Marina**: Lovely, isn’t it? That wind. Takes your face right off.  
-**Marina**: What are we looking for, exactly?  
-**You**: Something warm.  
-**Marina**: Up here? Well. You’re Hazel’s. I gave up asking years ago.  
 
 #### `reader:s19-hollow` · [main](../../../side/S19.md#s19-hollow)
 
@@ -211,6 +211,7 @@ _Marina goes back up to the lip without being asked. She turns her back, and loo
 
 _Moss has gone completely still in your coat._  
 **Moss**: …Cinder.  
+**Moss**: She was a warden, like me, long ago. She kept the high pass.  
 _The red light doesn’t answer. It is too small to answer. It has kept itself barely alight for longer than the cottage has stood._  
 **Moss**: She can’t hear us. Not yet. We speak only to those who sit still long enough. She taught me that, once.  
 **Moss**: Let me out. I’ll sit by her. You sit by me. We’ll wait.  
@@ -232,6 +233,7 @@ _Marina goes back up to the lip without being asked. She turns her back, and loo
 > - She’s cross with you. → Nothing she says sounds cross. She offers you the rope, then steps away. She’s giving you privacy, which is kind.
 > _For grown-ups: Inferred that a character was giving others privacy, and why that is kind._
 
+_You know whose light it is. Moss told you about Cinder once: a warden like him, from long ago._  
 _Sable goes into the hollow, and stops a tail’s length from the light. The fur lifts all along her back._  
 
 > **Lesson** (science, 4-LS1-1, notice): animals’ fur can stand up when they are alarmed  
@@ -260,6 +262,7 @@ _Marina goes back up to the lip without being asked. She turns her back, and loo
 > - She’s cross with you. → Nothing she says sounds cross. She offers you the rope, then steps away. She’s giving you privacy, which is kind.
 > _For grown-ups: Inferred that a character was giving others privacy, and why that is kind._
 
+_You know whose light it is. Moss told you about Cinder once: a warden like him, from long ago._  
 _You go into the hollow on your own, and sit down a little way from the light._  
 _You remember something Moss told you once. Eternals only speak to those who sit still long enough._  
 
@@ -275,6 +278,7 @@ _You sit on the dry rock. The wind goes over the overhang with a sound like a lo
 _Below you lies the whole valley: the falls frozen white, smoke from the cottage, and four lantern posts too small to see._  
 _You wait. Nobody speaks. The red light stays very small._  
 _Your feet go cold._  
+_Your stomach growls into all that quiet, loud as a door in an empty house. Up on the lip, Marina coughs, very politely._  
 _You wriggle your toes inside your two pairs of socks, the way Marina showed you, and they warm up a little._  
 
 > **Lesson** (health, notice): notice cold fingers and toes and warm them up  
@@ -298,15 +302,6 @@ _After a long time, the light grows a little. Not brighter. Bigger, the way a co
 **Moss**: No. They’re well.  
 _The light is quiet for a long time. You watch it understand. It takes the whole of her._  
 **Cinder**: …Well. Well is better, isn’t it. I didn’t know there was a better.  
-
-> **Lesson** (literacy, RL.4.2, ask): find the big idea (theme) of a story  
-> _Cinder asked if the Nubbins were “safe”. The answer was “well”. Those words aren’t the same._  
-> _What is the difference?_  
-> - ✅ Safe means nothing can hurt you. Well means you’re free to live, and grow, and be happy. → Yes. Cinder kept them safe by keeping them still. But still isn’t living. That is the big idea of the whole Grove story: safe is not the same as well. A big idea like that is called a theme.
-> - They mean exactly the same. → They can sound alike. But a Nubbin frozen still is safe from harm, and not well at all. Well means free to live and grow. That difference is the story’s theme.
-> - A well is a hole you get water from. → Ha! Different well. Here “well” means healthy and happy, free to live. Safe is not the same as well. That’s the story’s theme.
-> _For grown-ups: Identified the story’s theme: being kept safe is not the same as being well._
-
 **Cinder**: I loved them. It was so cold, and I couldn’t carry them all. So I made a way to carry them all.  
 **Cinder**: I was so frightened. I held them so tight. And they were so quiet, after. I told myself it was resting.  
 **Cinder**: Do they still say my name, down there?  
@@ -318,6 +313,15 @@ _The light is quiet for a long time. You watch it understand. It takes the whole
 **Cinder**: …Thank you, Moss. You’re the Keeper. You live down there, with the grey ones in the grass, and what I did.  
 **Cinder**: Am I forgiven? By the ones who have to live with it?  
 **Moss**: Don’t look at me. It isn’t mine to give. It never was.  
+
+> **Lesson** (literacy, RL.4.2, ask): find the big idea (theme) of a story  
+> _Cinder asked if the Nubbins were “safe”. The answer was “well”. Those words aren’t the same._  
+> _What is the difference?_  
+> - ✅ Safe means nothing can hurt you. Well means you’re free to live, and grow, and be happy. → Yes. Cinder kept them safe by keeping them still. But still isn’t living. Safe is not the same as well. A big idea like that is called a theme.
+> - They mean exactly the same. → They can sound alike. But a Nubbin frozen still is safe from harm, and not well at all. Well means free to live and grow. That difference is the story’s theme.
+> - A well is a hole you get water from. → Ha! Different well. Here “well” means healthy and happy, free to live. Safe is not the same as well. That’s the story’s theme.
+> _For grown-ups: Identified the story’s theme: being kept safe is not the same as being well._
+
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): think about who can forgive, and for whom  
 > _Before you answer her, think about this._  
@@ -355,15 +359,6 @@ _Nobody answers. Moss would have. You can feel the shape of what he’d say, as 
 **You**: No. They’re well.  
 _The light is quiet for a long time. You watch it understand._  
 **Cinder**: …Well. Well is better, isn’t it. I didn’t know there was a better.  
-
-> **Lesson** (literacy, RL.4.2, ask): find the big idea (theme) of a story  
-> _Cinder asked if the Nubbins were “safe”. The answer was “well”. Those words aren’t the same._  
-> _What is the difference?_  
-> - ✅ Safe means nothing can hurt you. Well means you’re free to live, and grow, and be happy. → Yes. Cinder kept them safe by keeping them still. But still isn’t living. That is the big idea of the whole Grove story: safe is not the same as well. A big idea like that is called a theme.
-> - They mean exactly the same. → They can sound alike. But a Nubbin frozen still is safe from harm, and not well at all. Well means free to live and grow. That difference is the story’s theme.
-> - A well is a hole you get water from. → Ha! Different well. Here “well” means healthy and happy, free to live. Safe is not the same as well. That’s the story’s theme.
-> _For grown-ups: Identified the story’s theme: being kept safe is not the same as being well._
-
 _Then the light sees Sable, grey from her ears to her tail._  
 **Cinder**: Oh, little one. That grey is mine, isn’t it. I didn’t do it to you. But I did it.  
 **Cinder**: I loved them. It was so cold, and I was so frightened. I held them so tight.  
@@ -374,6 +369,15 @@ _She lies against the flat stone and leans her whole weight on it, the way she l
 **Cinder**: She has forgiven me. I don’t know how I know. I know.  
 **Cinder**: You’re the Keeper. You live down there, with the grey ones in the grass, and what I did.  
 **Cinder**: Am I forgiven? By the ones who have to live with it?  
+
+> **Lesson** (literacy, RL.4.2, ask): find the big idea (theme) of a story  
+> _Cinder asked if the Nubbins were “safe”. The answer was “well”. Those words aren’t the same._  
+> _What is the difference?_  
+> - ✅ Safe means nothing can hurt you. Well means you’re free to live, and grow, and be happy. → Yes. Cinder kept them safe by keeping them still. But still isn’t living. Safe is not the same as well. A big idea like that is called a theme.
+> - They mean exactly the same. → They can sound alike. But a Nubbin frozen still is safe from harm, and not well at all. Well means free to live and grow. That difference is the story’s theme.
+> - A well is a hole you get water from. → Ha! Different well. Here “well” means healthy and happy, free to live. Safe is not the same as well. That’s the story’s theme.
+> _For grown-ups: Identified the story’s theme: being kept safe is not the same as being well._
+
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): think about who can forgive, and for whom  
 > _Before you answer her, think about this._  
@@ -411,15 +415,6 @@ _Nobody answers. Moss would have. You can feel the shape of what he’d say, as 
 **You**: No. They’re well.  
 _The light is quiet for a long time. You watch it understand._  
 **Cinder**: …Well. Well is better, isn’t it. I didn’t know there was a better.  
-
-> **Lesson** (literacy, RL.4.2, ask): find the big idea (theme) of a story  
-> _Cinder asked if the Nubbins were “safe”. The answer was “well”. Those words aren’t the same._  
-> _What is the difference?_  
-> - ✅ Safe means nothing can hurt you. Well means you’re free to live, and grow, and be happy. → Yes. Cinder kept them safe by keeping them still. But still isn’t living. That is the big idea of the whole Grove story: safe is not the same as well. A big idea like that is called a theme.
-> - They mean exactly the same. → They can sound alike. But a Nubbin frozen still is safe from harm, and not well at all. Well means free to live and grow. That difference is the story’s theme.
-> - A well is a hole you get water from. → Ha! Different well. Here “well” means healthy and happy, free to live. Safe is not the same as well. That’s the story’s theme.
-> _For grown-ups: Identified the story’s theme: being kept safe is not the same as being well._
-
 **Cinder**: I loved them. It was so cold, and I was so frightened. I held them so tight.  
 **Cinder**: Do they still say my name, down there?  
 _You know one way they do. You say it to her plainly, without the bounce the children give it in the lane._  
@@ -430,6 +425,15 @@ _You know one way they do. You say it to her plainly, without the bounce the chi
 _Something passes through the light that might, in a bigger creature, be a laugh._  
 **Cinder**: You’re the Keeper. You live down there, with the grey ones in the grass, and what I did.  
 **Cinder**: Am I forgiven? By the ones who have to live with it?  
+
+> **Lesson** (literacy, RL.4.2, ask): find the big idea (theme) of a story  
+> _Cinder asked if the Nubbins were “safe”. The answer was “well”. Those words aren’t the same._  
+> _What is the difference?_  
+> - ✅ Safe means nothing can hurt you. Well means you’re free to live, and grow, and be happy. → Yes. Cinder kept them safe by keeping them still. But still isn’t living. Safe is not the same as well. A big idea like that is called a theme.
+> - They mean exactly the same. → They can sound alike. But a Nubbin frozen still is safe from harm, and not well at all. Well means free to live and grow. That difference is the story’s theme.
+> - A well is a hole you get water from. → Ha! Different well. Here “well” means healthy and happy, free to live. Safe is not the same as well. That’s the story’s theme.
+> _For grown-ups: Identified the story’s theme: being kept safe is not the same as being well._
+
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): think about who can forgive, and for whom  
 > _Before you answer her, think about this._  
@@ -462,17 +466,14 @@ _Something passes through the light that might, in a bigger creature, be a laugh
 _The light is getting smaller. It isn’t going out. It’s going, the way the last of the day goes off a hill._  
 **Cinder**: I kept myself alight so long. Just a little. Just in case there was news.  
 **Cinder**: There’s been news. I can stop now.  
-
-> **Lesson** (literacy, RL.3.3, ask): explain a character’s motive  
-> _Why did Cinder keep herself alight for so long?_  
-> - ✅ She was waiting to hear whether the Nubbins were all right. → Yes. “Just in case there was news.” She needed to know they were well. Now she knows, she can stop.
-> - She liked being cold. → She kept herself warm, not cold. She was waiting “just in case there was news” about the Nubbins.
-> - She forgot to stop. → She kept going on purpose: “just in case there was news”. She wanted to know the Nubbins were all right.
-> _For grown-ups: Explained why a character acted as she did, using her own words as evidence._
-
 _You understand what she means. Cinder is dying. When her light goes, it won’t come back._  
 **Cinder**: Will you stay? You don’t have to do anything. Just stay.  
 _You stay where you are, on the dry rock._  
+
+> **Lesson** (literacy, RL.3.3, notice): explain a character’s motive  
+> _Cinder kept her light on for news of the Nubbins. Now she has it, and she can rest._  
+> _For grown-ups: Understood why a character acted as she did, using her own words as evidence._
+
 
 > **Lesson** (sel, CASEL: Social awareness, notice): being with someone who is dying  
 > _When someone is dying, you don’t have to fix anything. Being there with them is a real kindness._  
@@ -482,18 +483,9 @@ _You stay where you are, on the dry rock._
 
 #### `reader:s19-fade` · [main](../../../side/S19.md#s19-fade)
 
-_You stay. Moss sits with his shoulder almost touching the light, the way he sat by Fossil’s flower in the rain._  
-_The light gets smaller. It doesn’t flicker, the way the fourth lantern used to. It just gets smaller, steadily._  
+_You stay. Moss sits with his shoulder almost touching the light, the way he sat by his old friend Fossil’s flower in the rain._  
+_The light gets smaller. It doesn’t flicker, the way the Long-Grass lantern used to. It just gets smaller, steadily._  
 _Like someone walking away up a long road, who turns round once to wave._  
-
-> **Lesson** (literacy, L.4.5, ask): explain how a simile changes the feeling of a moment  
-> _The light going is compared to “someone walking away up a long road, who turns round once to wave”._  
-> _How does that simile make the moment feel?_  
-> - ✅ Gentle and sad, like a goodbye. → Yes. A wave is how you say goodbye to someone you love. The simile makes her going sad, but not frightening.
-> - Fast and scary. → A long road and a slow wave aren’t fast. The simile makes it feel gentle, like a goodbye.
-> - Funny. → There are funny moments in this story, but not this one. A wave over the shoulder is a gentle goodbye.
-> _For grown-ups: Explained how a simile shapes the feeling of a sad moment._
-
 **Cinder**: Moss. It isn’t cold.  
 **Moss**: No. Not this way.  
 _…_  
@@ -502,6 +494,14 @@ _Cinder has faded. That means she has died. Her light has stopped, and it won’
 **Moss**: There.  
 **Moss**: That is fading done right. Not stilled. Let go.  
 _He sits there a long time. You let him._  
+
+> **Lesson** (literacy, L.4.5, ask): explain how a simile changes the feeling of a moment  
+> _The light going is compared to “someone walking away up a long road, who turns round once to wave”._  
+> _How does that simile make the moment feel?_  
+> - ✅ Gentle and sad, like a goodbye. → Yes. A wave is how you say goodbye to someone you love. The simile makes her going sad, but not frightening.
+> - Fast and scary. → A long road and a slow wave aren’t fast. The simile makes it feel gentle, like a goodbye.
+> _For grown-ups: Explained how a simile shapes the feeling of a sad moment._
+
 
 > **Lesson** (sel, CASEL: Self-awareness, notice): understand grief and what helps  
 > _Grief is the sadness we feel when someone dies. It can come in waves, strong and then quieter._  
@@ -514,17 +514,8 @@ _He sits there a long time. You let him._
 _Variant of `s19-fade`._
 
 _You stay. Sable doesn’t move from the stone. Moss’s pale light doesn’t either._  
-_The light gets smaller. It doesn’t flicker, the way the fourth lantern used to. It just gets smaller, steadily._  
+_The light gets smaller. It doesn’t flicker, the way the Long-Grass lantern used to. It just gets smaller, steadily._  
 _Like someone walking away up a long road, who turns round once to wave._  
-
-> **Lesson** (literacy, L.4.5, ask): explain how a simile changes the feeling of a moment  
-> _The light going is compared to “someone walking away up a long road, who turns round once to wave”._  
-> _How does that simile make the moment feel?_  
-> - ✅ Gentle and sad, like a goodbye. → Yes. A wave is how you say goodbye to someone you love. The simile makes her going sad, but not frightening.
-> - Fast and scary. → A long road and a slow wave aren’t fast. The simile makes it feel gentle, like a goodbye.
-> - Funny. → There are funny moments in this story, but not this one. A wave over the shoulder is a gentle goodbye.
-> _For grown-ups: Explained how a simile shapes the feeling of a sad moment._
-
 **Cinder**: Little one. It isn’t cold.  
 _Sable shuts her eyes._  
 _…_  
@@ -532,30 +523,29 @@ _Then there is only the flat stone, and the dry rock, and the wind going over._
 _Cinder has faded. That means she has died. Her light has stopped, and it won’t start again._  
 _You hear Moss’s words in your own mouth before you know you’re going to say them._  
 **You**: That is fading done right. Not stilled. Let go.  
-
-> **Lesson** (sel, CASEL: Self-awareness, notice): remembering someone who has died by carrying their words  
-> _When someone we love has died, we often carry their sayings with us. Using their words is one way of remembering them._  
-> _Moss used to say, “We are made of being remembered.” Today, you remembered him._  
-> _For grown-ups: Thought about how using a loved one’s words is a way of remembering them after they have died._
-
 _Sable stays curled against the stone a long time. You let her._  
-
-#### `reader:s19-fade-alone` · [main](../../../side/S19.md#s19-fade-alone)
-
-_Variant of `s19-fade`._
-
-_You stay. The wind goes over the overhang, and you keep your hands in your lap._  
-_The light gets smaller. It doesn’t flicker, the way the fourth lantern used to. It just gets smaller, steadily._  
-_Like someone walking away up a long road, who turns round once to wave._  
 
 > **Lesson** (literacy, L.4.5, ask): explain how a simile changes the feeling of a moment  
 > _The light going is compared to “someone walking away up a long road, who turns round once to wave”._  
 > _How does that simile make the moment feel?_  
 > - ✅ Gentle and sad, like a goodbye. → Yes. A wave is how you say goodbye to someone you love. The simile makes her going sad, but not frightening.
 > - Fast and scary. → A long road and a slow wave aren’t fast. The simile makes it feel gentle, like a goodbye.
-> - Funny. → There are funny moments in this story, but not this one. A wave over the shoulder is a gentle goodbye.
 > _For grown-ups: Explained how a simile shapes the feeling of a sad moment._
 
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): remembering someone who has died by carrying their words  
+> _When someone we love has died, we often carry their sayings with us. Using their words is one way of remembering them._  
+> _Moss used to say, “We are made of being remembered.” Today, you remembered him._  
+> _For grown-ups: Thought about how using a loved one’s words is a way of remembering them after they have died._
+
+
+#### `reader:s19-fade-alone` · [main](../../../side/S19.md#s19-fade-alone)
+
+_Variant of `s19-fade`._
+
+_You stay. The wind goes over the overhang, and you keep your hands in your lap._  
+_The light gets smaller. It doesn’t flicker, the way the Long-Grass lantern used to. It just gets smaller, steadily._  
+_Like someone walking away up a long road, who turns round once to wave._  
 **Cinder**: Keeper. It isn’t cold.  
 _…_  
 _Then there is only the flat stone, and the dry rock, and the wind going over._  
@@ -563,6 +553,14 @@ _Cinder has faded. That means she has died. Her light has stopped, and it won’
 _You hear Moss’s words in your own mouth before you know you’re going to say them._  
 **You**: That is fading done right. Not stilled. Let go.  
 _You sit there a long time. Up on the lip, Marina lets you._  
+
+> **Lesson** (literacy, L.4.5, ask): explain how a simile changes the feeling of a moment  
+> _The light going is compared to “someone walking away up a long road, who turns round once to wave”._  
+> _How does that simile make the moment feel?_  
+> - ✅ Gentle and sad, like a goodbye. → Yes. A wave is how you say goodbye to someone you love. The simile makes her going sad, but not frightening.
+> - Fast and scary. → A long road and a slow wave aren’t fast. The simile makes it feel gentle, like a goodbye.
+> _For grown-ups: Explained how a simile shapes the feeling of a sad moment._
+
 
 > **Lesson** (sel, CASEL: Social awareness, notice): letting someone have quiet time after a loss  
 > _After a sad moment, some people want a hug and some want to be left to sit quietly. Both are all right._  
@@ -594,6 +592,7 @@ _Marina is on the lip with the rope, looking at the view very hard. Her eyes are
 _That night you stand by the Long-Grass lantern. It burns as it has every night since the Long Night._  
 _But it’s warm now, standing beside it. The other three never are._  
 _You put the red pebble on the windowsill. By morning the Nubbins are asleep in a heap under it. None of them will say why._  
+_One Nubbin licks the red pebble. It is not supper. It is warm, though._  
 
 ### Glossary
 

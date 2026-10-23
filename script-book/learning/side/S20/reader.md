@@ -20,11 +20,13 @@ _“DECLARASHUN OF WAR. FORT NIGHT. THE COMMON. BRING MITTENS. — THE OTHER FOR
 > - DECKLERATION → Good try at the start. It’s “dec”, not “deck”: declaration. And the end is “-tion”, which says “shun”.
 > _For grown-ups: Learned that the “shun” sound at the end of many words is spelt “-tion” (declaration, station)._
 
-_Sparks’s cousin is back for the winter holidays, and has found out about snow._  
+_Sparks’s cousin Tilly is back for the winter holidays, and has found out about snow._  
 **Tilly**: You’re commanding one fort. I’m commanding the other. One of us is going to win, and it’s me.  
 _On the Common, two forts are marked out in sticks: one by the hedge, one by the frozen ditch._  
 _Neither has a wall. Both have flags._  
-**Pixel**: Morning. I’m the referee. I’ve written the rules. Forty-one pages. Nobody will read them. I’ll enforce them anyway.  
+**Pixel**: Morning. I’m the referee. I’ve written the rules. Forty-one pages. Nobody will read them.  
+**Pixel**: Byte has. Twice. He’s my husband. He had notes. I ignored the notes.  
+**Pixel**: I’ll enforce them anyway.  
 **Pixel**: Three rounds. Each round, the referee teaches one idea. This is educational. Nobody tell the children.  
 **Pixel**: Round one: economy. Snow makes walls. Sticks make the catapult. More gatherers early means more of everything later.  
 **Pixel**: Units: Speedy beats Splashy. Splashy beats Sturdy. Sturdy beats Speedy. It goes round and round, like the seasons. Or a grudge.  
@@ -41,6 +43,8 @@ _Behind Pixel, a small boy in a bobble hat is hit in the ear by a snowball. Nobo
 **Gordon**: I’m all right!  
 **Pixel**: That’s Gordon. Gordon gets hit. It isn’t a rule. It’s more like weather.  
 **Wren**: Commander! I’m Wren! What’s our battle cry, commander?  
+**Wren**: Also, what’s a grudge? Pixel said it.  
+**Gordon**: It’s when a snowball hits you and you remember it for ever. I remember all of them.  
 
 **Choices**
 
@@ -112,6 +116,7 @@ _Zip vibrates in your mittens like a sneeze that hasn’t happened yet._
 _Zip comes back with snow on his eyebrows and something urgent to say, which he says by running round you nine times._  
 _You read it in his tracks. Their wall is magnificent. Behind it, there is almost nobody._  
 _Three of their children have gone home: one lost a mitten, one lost a boot, and one just wanted his tea._  
+_Zip’s tracks say ten were here this morning. Of the seven left, four are busy patting the wall._  
 
 > **Lesson** (maths, 3.OA.D.8, ask): a two-step take-away problem  
 > _Zip’s tracks say: their fort started with 10 children. 3 went home. 4 more are busy patting the wall._  
@@ -163,6 +168,8 @@ _Over the ditch, the other fort is massing Sturdy: big children rolling big snow
 _Your fort answers with its battle cries. “I AM NOT COLD, I AM BRAVE!” “FOR DEREK!” “MUM SAID BE BACK BY FOUR!”_  
 _Above the hill the sky has gone the colour of a pigeon. Nobody is looking at it except Pixel._  
 **Pixel**: Hm.  
+**Gordon**: Is that sky going to hit me?  
+**Pixel**: This time, Gordon, it’s going to hit everybody.  
 
 > **Lesson** (science, K-ESS2-1, notice): reading the sky for a change in the weather  
 > **Pixel**: Thick, dark grey clouds rolling in. The wind picking up. When the sky changes like that, the weather often changes too.  
@@ -226,8 +233,9 @@ _A strategy is just a plan for getting what you want. Right now, what you want i
 
 **Pixel**: Head count.  
 **Pixel**: …Everyone. Even Gordon.  
+_The small crier was Wren, who had lost a mitten. It was on her head the whole time._  
 **Gordon**: I got hit by a whole sky.  
-_Inside it is close and blue and smells of wet wool. Forty mittens steam. Somebody is eating snow. Pixel rules against it, then allows it._  
+_Inside it is close and blue and smells of wet wool. Forty mittens steam. Zip is eating snow. It is not supper. Pixel rules against it, then allows it._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): division as sharing into pairs  
 > _Forty mittens are steaming. Every child has two. How many children are in the shelter?_  
@@ -248,7 +256,8 @@ _The roof is sticks from both forts, leaning together in pointed pairs, with sno
 > _For grown-ups: Found triangles in a roof frame and learned that triangles keep their shape under pressure, which makes frames strong._
 
 **Wren**: Commander? Which fort won?  
-_Outside, the wind drops as suddenly as it came. Somebody pokes a hole in the roof to look._  
+_The blizzard blows all afternoon. Pixel teaches the shelter a song with forty-one verses, one for each page of the rules._  
+_At last the wind drops, as suddenly as it came. Somebody pokes a hole in the roof. It is night._  
 
 #### `reader:s20-complete` · [main](../../../side/S20.md#s20-complete)
 
@@ -277,7 +286,7 @@ _Nobody goes home. Both forts lie on their backs in one fort and look up._
 
 _Up at the cottage a lamp is lit in the window, and somebody in a blanket is watching the Common._  
 _Tilly puts two fingers in her mouth and whistles the supper call, rising at the end. From the window, faintly, it comes back._  
-**Tilly**: She can still do it.  
+**Tilly**: Somebody up there still knows the supper call.  
 **Pixel**: Prizes. Commander’s hat: it was a tea cosy. Snowball launcher: a prototype. Ruling: point it away from Gordon.  
 **Pixel**: And the fort’s yours. I’ll build you one for the Grove that only comes out when it snows.  
 _All morning you practised winning. In the end, the useful part was building something big enough for everybody._  

@@ -51,6 +51,9 @@ _You go round roots and kerbs, not over them. On the flat path his one wheel whi
 > _For grown-ups: Learned that wheels roll easily on smooth ground but struggle with steps and bumps._
 
 _By the foot of the hill, every Nubbin in the Grove is following him in a line, like ducklings behind a teapot._  
+_One climbs onto his hood. Then three. He turns his chimney-light down low for them, and they purr._  
+**Clank**: They like me. Announcement: they LIKE me.  
+**Clank**: I didn’t know that was available.  
 
 > **Lesson** (literacy, L.4.5, ask): what a simile tells you  
 > _“Like ducklings behind a teapot.” What does that simile help you picture?_  
@@ -59,9 +62,6 @@ _By the foot of the hill, every Nubbin in the Grove is following him in a line, 
 > - Clank is making tea. → Not today. The simile compares him to a teapot because he’s round and warm, with a line of little followers behind.
 > _For grown-ups: Explained what a simile helps the reader picture._
 
-_One climbs onto his hood. Then three. He turns his chimney-light down low for them, and they purr._  
-**Clank**: They like me. Announcement: they LIKE me.  
-**Clank**: I didn’t know that was available.  
 
 #### `reader:s21-help` · [main](../../../side/S21.md#s21-help)
 
@@ -102,7 +102,7 @@ _Clank goes over the edge. The little grey one leaves his hands, turns once in t
 > _For grown-ups: Learned that balanced forces keep an object still, and unbalanced forces (like gravity with nothing pushing back) make it move._
 
 **Clank**: Announcement… I have found the step again.  
-_He looks at you for a long time. It’s the look of something very old that has been carried round a pond like a pie._  
+_The little grey one looks at you for a long time. It’s the look of something very old that has been carried round a pond like a pie._  
 _Then he turns and walks back up the hill, very dignified. It takes him the rest of the morning. He doesn’t look back once._  
 
 > **Lesson** (literacy, RL.3.3, ask): reading a silent character’s body language  
@@ -128,6 +128,7 @@ _That afternoon Byte is at the gate with a clipboard, a pencil behind each ear, 
 
 **Byte**: He’s a kettle on a wheel who wants to help. That is exactly how accidents introduce themselves.  
 **Byte**: Next time it’s a Nubbin he waters. Or drops. Pixel should switch Clank off. Tonight. Before he hurts someone.  
+**Pixel**: Twenty years married, and you still want everything switched off at night.  
 _Behind you, a small whistle starts to rise, and stops halfway._  
 _Clank is at the top of the cottage step. He has heard all of it. His chimney-light has gone very dim._  
 _He reverses. He goes off the step backwards, lands in the thyme, and doesn’t announce anything at all._  
@@ -202,9 +203,10 @@ _Next afternoon Byte comes up the lane with a plank, a saw, and the face of a su
 > - Kilometres → 19 kilometres would take about four hours to walk! For a step, centimetres make sense: 19 cm.
 > _For grown-ups: Chose centimetres as the sensible unit for a step’s height, comparing it with metres and kilometres._
 
+**Byte**: I measured it eleven times. It was nineteen every time. I’m still a little suspicious.  
 **Byte**: So it isn’t him. Statistically, it’s the step.  
 **Byte**: I said he should be switched off. That was a conclusion. I hadn’t finished collecting the data.  
-**Byte**: The data now includes eleven Nubbins who follow him everywhere. That is a significant result.  
+**Byte**: The data now includes eight Nubbins out of eight, following him everywhere. That is a significant result.  
 
 > **Lesson** (science, K-2-ETS1-1, notice): defining the real problem before fixing it  
 > _Byte has changed the problem. Not “Clank keeps falling”, but “the step is too high for a wheel”._  
@@ -219,12 +221,6 @@ _Next afternoon Byte comes up the lane with a plank, a saw, and the face of a su
 _The ramp is finished: small, sanded, very well made. Byte calls it an inclined plane. Everyone else calls it a ramp._  
 **Clank**: Announcement. I am going down the step.  
 **Clank**: Announcement. Would somebody… come with me? The first time?  
-
-> **Lesson** (sel, CASEL: Relationship skills, notice): asking for help is brave  
-> _That might be the bravest thing Clank has done. He asked for help._  
-> _Asking isn’t the opposite of being helpful. It’s how everybody gets down hard steps. Robots included._  
-> _For grown-ups: Learned that asking for help is a brave and normal thing to do._
-
 _Byte puts one hand on his hood. You put one on the other side. Pixel holds the wheelbarrow, for reasons._  
 _He goes down the ramp at the speed of a snail with doubts. He reaches the bottom. Nothing falls._  
 
@@ -237,7 +233,14 @@ _He goes down the ramp at the speed of a snail with doubts. He reaches the botto
 
 **Clank**: I DID THE STEP! I did the step and I didn’t find it!  
 _He does a little dance: forward, back, a spin on his one wheel. You copy it. Byte copies it, and later denies it._  
+**Pixel**: He did. He danced like that at our wedding. His lace came undone then too.  
 **Pixel**: That’s… none. I’ll take none.  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): asking for help is brave  
+> _That might be the bravest thing Clank has done. He asked for help._  
+> _Asking isn’t the opposite of being helpful. It’s how everybody gets down hard steps. Robots included._  
+> _For grown-ups: Learned that asking for help is a brave and normal thing to do._
+
 
 #### `reader:s21-evening` · [main](../../../side/S21.md#s21-evening)
 
@@ -271,13 +274,11 @@ _Seven of them. Eight. One on his wheel. One perched on his lantern hood, like a
 > _That’s why they choose him. He’s the warmest seat in the Grove._  
 > _For grown-ups: Learned that heat moves from warmer objects to cooler ones._
 
+_One Nubbin licks Clank’s brass nose. It is not supper. Clank announces it anyway._  
 **Clank**: Announcement.  
 **Clank**: I am being very still.  
 _He is. For an hour, the chattiest thing in the valley doesn’t move a bolt. Not even to announce that he isn’t moving._  
 _You sit beside him. That’s all. It turns out that’s plenty._  
-**Pixel**: Keep him. He’s yours now. He’ll water things, slowly. Mostly plants.  
-_Pixel drops a spare lantern hood on your head. It fits, as if it was waiting to._  
-_Next morning he is out among the beans with a watering can, one bean a minute. Mustard watches from Fern’s wall, from very far away._  
 
 > **Lesson** (maths, 3.MD.A.1, ask): a time interval: one bean a minute  
 > _Clank waters one bean a minute. There are 30 beans in the row. How long will the whole row take?_  
@@ -286,7 +287,11 @@ _Next morning he is out among the beans with a watering can, one bean a minute. 
 > - 30 hours → He’s slow, but not that slow! One bean a minute means 30 beans take 30 minutes: half an hour.
 > _For grown-ups: Worked out a time interval (30 beans at one a minute takes 30 minutes, half an hour)._
 
-_Clank is still a machine. He is also, it turns out, somebody’s friend. Both things can be true at once._  
+**Pixel**: Keep him. He’s yours now. He’ll water things, slowly. Mostly plants.  
+_Pixel drops a spare lantern hood on your head. It fits, as if it was waiting to._  
+_Next morning he is out among the beans with a watering can, one bean a minute._  
+_Byte’s log has a new line: “Best friends: fifteen. One of them still a bucket.”_  
+_Mustard watches from Fern’s wall, from very far away._  
 
 ### Glossary
 

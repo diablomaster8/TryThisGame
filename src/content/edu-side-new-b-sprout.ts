@@ -555,10 +555,10 @@ const s19Choices = (forgivenExtra: Line[], rememberedAsk: Line, rememberedExtra:
   },
   {
     id: 'remembered',
-    label: '“That’s theirs to say. But you’ll be remembered.”',
+    label: '“Only the grey Nubbins can say. But we’ll remember you.”',
     set: { cinder: 'remembered' },
     then: [
-      Y('That’s theirs to say. But you’ll be remembered.'),
+      Y('Only the grey Nubbins can say. But we’ll remember you.'),
       CI('Remembered. That’s what I should have asked for.', 'soft'),
       rememberedAsk,
       Y('All of it.'),
@@ -638,10 +638,10 @@ const S19: EduQuest = quest(
       's19-marina',
       [
         N('Marina is in a rock pool, breaking the ice. She’s very happy.'),
-        MA('The high pass? In winter? Lovely! You’ll hate it.', 'happy'),
+        MA('The high pass? In winter? Lovely! It’s freezing up there. I love it.', 'happy'),
         MA('All our water comes down from that snow. I know the way.'),
         MA('Boots. A rope. Two pairs of socks.'),
-        MA('Don’t be brave. Be careful.'),
+        MA('Go slowly. Be careful.'),
         MA('Two pairs. I will check!'),
       ],
       [
@@ -665,10 +665,11 @@ const S19: EduQuest = quest(
       's19-climb',
       [
         N('First light. Marina ties a rope to you. Then Moss to your button.'),
-        N('He rides in your coat. Just his little face pokes out.'),
+        N('He rides in your coat, facing you. Just his little face pokes out.'),
         M('Left.', 'think'),
         MA('Right.'),
-        M('Her right. My left. We agree, in different directions!', 'happy'),
+        N('Marina points at a rock. Moss points at the same rock.'),
+        M('Her right is my left. We both mean that rock!', 'happy'),
         N('Crunch, crunch, crunch. The snow sounds like biting toast.'),
         MA('Lovely wind! It makes your cheeks tingle!', 'happy'),
         M('Your heart is very loud. I don’t mind. It’s warm.', 'soft'),
@@ -679,7 +680,7 @@ const S19: EduQuest = quest(
           skill: 'left and right',
           standard: 'ELOF: Mathematics Development',
           kind: 'do',
-          after: 4,
+          after: 5,
           check: 'edu:wave:hand:left-right',
           lines: [
             N('(Wave your left hand, like Moss. Now your right, like Marina!)'),
@@ -721,7 +722,10 @@ const S19: EduQuest = quest(
         N('You sit on the dry rock. The wind goes over. Whoooo.'),
         N('Far below is the whole valley. The cottage looks tiny.'),
         N('The waterfall is frozen white. It doesn’t move at all.'),
-        N('You wait. Your feet get cold. You keep waiting.'),
+        N('You wait. Your feet get cold.'),
+        N('Grrrrr! Your tummy is very loud in all this quiet.'),
+        N('Up on the edge, Marina coughs. A very polite cough.'),
+        N('You keep waiting.'),
       ],
       [
         {
@@ -745,13 +749,15 @@ const S19: EduQuest = quest(
         N('After a long time, the red light grows a tiny bit bigger.'),
         CI('Are they safe?', 'soft'),
         M('Not just safe. They’re well.', 'soft'),
-        M('They run and play and eat too many plums.', 'happy'),
+        M('Safe is sitting still. Well is running, and playing, and too many plums.', 'happy'),
         CI('Well. Well is better. I didn’t know.', 'sad'),
         CI('Long ago, I held them too tight. To keep them safe.', 'sad'),
         CI('They went still and grey. I am so sorry.', 'sad'),
-        M('Cinder, I forgave you long ago. Here. It’s yours.', 'soft'),
-        CI('Thank you, Moss. Keeper, the grey ones live by you.', 'soft'),
-        CI('Am I forgiven by them?', 'soft'),
+        M('Every day. They skip to it. Badly. Very, very loudly.', 'happy'),
+        N('The little light flickers. It might be a laugh.'),
+        M('Cinder, I forgave you long ago. I still do.', 'soft'),
+        CI('Thank you, Moss. Keeper, the grey Nubbins live by you.', 'soft'),
+        CI('Do the grey Nubbins forgive me?', 'soft'),
       ],
       [
         {
@@ -777,7 +783,7 @@ const S19: EduQuest = quest(
           skill: 'saying sorry and forgiving',
           standard: 'CASEL: Relationship skills',
           kind: 'notice',
-          after: 7,
+          after: 9,
           lines: [
             N('Saying sorry is brave. Forgiving is kind.'),
             N('(Ask: when did someone forgive you? Wait for an answer.)'),
@@ -818,11 +824,11 @@ const S19: EduQuest = quest(
       [
         N('You stay. Moss sits right next to the little light.'),
         N('The light gets smaller and smaller. Slowly. Gently.'),
-        CI('Moss. It isn’t cold.', 'soft'),
-        M('No. Not this way.', 'soft'),
+        CI('Moss. It isn’t cold, like the grey Nubbins were.', 'soft'),
+        M('No. This is the gentle kind.', 'soft'),
         N('Then the light is gone. Cinder has died.'),
         N('There is only the flat stone, and the wind.'),
-        M('That is fading done right. Not frozen still. Let go.', 'soft'),
+        M('That is fading done right. Gentle. Then you let go.', 'soft'),
         N('Moss sits there a long time. You sit with him.'),
       ],
       [S19_FADE_LESSON('Moss')],
@@ -832,11 +838,13 @@ const S19: EduQuest = quest(
       [
         N('Where the light was, the stone is still warm. Like a hand.'),
         N('On it sits a little red pebble. It stays warm all the way home.'),
-        N('Marina’s eyes are red. She says it’s the wind.'),
+        N('Marina’s eyes are red. She has been crying a bit.'),
+        MA('It’s the wind. Mostly.', 'soft'),
         MA('Come on. Feet in my footprints. Home before dark.', 'soft'),
-        N('That night, the Long-Grass lantern feels warm to stand by.'),
+        N('That night, the lantern by the long grass feels warm to stand by.'),
         N('You put the red pebble on the windowsill.'),
-        N('By morning, the Nubbins are asleep in a heap under it.'),
+        N('By morning, five Nubbins are asleep in a heap under it. Snore!'),
+        N('One wakes up and licks the red pebble. Not supper!'),
       ],
       [
         {
@@ -844,7 +852,7 @@ const S19: EduQuest = quest(
           skill: 'count to 5',
           standard: 'K.CC.B.5',
           kind: 'do',
-          after: 6,
+          after: 8,
           check: 'edu:count:nubbins:5',
           lines: [N('(Count the sleepy Nubbins: one, two, three, four, five.)'), N('Five Nubbins, warm and snug. Shh!')],
           parentNote: 'Counted five sleeping Nubbins.',
@@ -857,7 +865,8 @@ const S19: EduQuest = quest(
     'will stop, and it won’t start again”) and s19-fade says “Cinder has died”, followed by comfort. Moss’s “No. ' +
     'They’re well.” becomes “Not just safe. They’re well.” so a young child hears the difference. Both choices kept. ' +
     'Scene-level set on s19-warmth (s19-with = moss) still comes from the original. The Sable route uses the -sable ' +
-    'versions in EDU_SIDE_NEW_B_SPROUT_VARIANTS. If Moss has left the world and Sable is not bonded, the -alone ' +
+    'versions in EDU_SIDE_NEW_B_SPROUT_VARIANTS; s19-warmth-sable says plainly that Moss died at the Long Night, ' +
+    'with the comfort of his pale light staying with Sable. If Moss has left the world and Sable is not bonded, the -alone ' +
     'versions (you and Marina only) play instead; you answer Cinder yourself.',
 );
 
@@ -893,6 +902,7 @@ const S22: EduQuest = quest(
         NO('I asked you for help once. It went well. So here I am!', 'soft'),
         N('Next to her sits a little shadow, the size of a cat.'),
         N('It looks just like Nova. Same hair. Same boots.'),
+        N('It has a tiny rope too, and it trips on it. Flop!'),
         WO('What if you slip?', 'think'),
         NO('…You can see it? Nobody ever sees it!', 'shock'),
         NO('It’s my Worry. It talks to me. It’s mostly right. Annoying!', 'think'),
@@ -904,7 +914,7 @@ const S22: EduQuest = quest(
           skill: 'naming a worry',
           standard: 'CASEL: Self-awareness',
           kind: 'notice',
-          after: 8,
+          after: 9,
           lines: [
             NO('Everybody has worries. Mine always says “what if”.', 'think'),
             N('Giving a worry a name makes it easier to carry.'),
@@ -920,7 +930,8 @@ const S22: EduQuest = quest(
         N('The little stones slide under your feet. Clatter, clatter!'),
         NO('♪ Little stones, little stones, sliding under my toes! ♪', 'happy'),
         NO('♪ I’m going up, but I’m sliding down, and that’s how it goes! ♪', 'happy'),
-        N('She sings it four times. It gets worse each time.'),
+        N('She sings it again. And again. And again!'),
+        N('The Worry puts its hands over its ears.'),
         WO('Last time you slipped here. You hurt your knee.'),
         NO('It’s right about that. It’s the next bit it gets wrong.', 'think'),
       ],
@@ -963,7 +974,7 @@ const S22: EduQuest = quest(
       [
         N('The Chimney is a narrow crack in the rock.'),
         N('Back on one side. Boots on the other. Push and step!'),
-        NO('♪ I’m in a chimney, I am not soot! This is my foot! ♪', 'happy'),
+        NO('♪ I’m in a crack, I’m in a crack! This is my foot! ♪', 'happy'),
         NO('♪ This is my other foot! ♪', 'happy'),
         N('Far below, a big bird called a buzzard flies round and round.'),
       ],
@@ -987,10 +998,10 @@ const S22: EduQuest = quest(
       's22-chimney-top',
       [
         N('Halfway up, Nova stops. The Worry sits just above her.'),
-        WO('When you were little, somebody left. What if it happens again?', 'soft'),
+        WO('When you were little, somebody went away. What if somebody goes again?', 'soft'),
         N('Nova holds the rock tight. She doesn’t move.'),
-        NO('That’s true. Somebody left when I was nine.', 'sad'),
-        NO('So now I always leave first. It hurts less.', 'sad'),
+        NO('That’s true. Somebody went away when I was nine. I was very sad.', 'sad'),
+        NO('So now I always go first. Then nobody can go away from me.', 'sad'),
       ],
       [
         {
@@ -1043,7 +1054,8 @@ const S22: EduQuest = quest(
         N('This is where Nova always turns back.'),
         N('There’s a little pile of stones. One stone for every try.'),
         WO('Go back. It’s windy. It’s high. Come another day.', 'soft'),
-        NO('Every time it talks, I feel smaller. Up here, it always wins.', 'sad'),
+        NO('When my Worry talks, I feel small.', 'sad'),
+        NO('So I go home. Three times. Three stones.', 'sad'),
       ],
       [
         {
@@ -1146,9 +1158,12 @@ const S22: EduQuest = quest(
       [
         N('Going down is quicker, and much more slippy.'),
         N('Nova and the Worry sing all the way.'),
-        N('At the bottom, Nova shares out the oatcakes. They’re a bit squashed.'),
+        N('At the bottom, Nova opens the bag of oatcakes.'),
+        N('Squish! They are all flat.'),
+        N('Somebody sat on them. Nova looks at the Worry.'),
+        N('The Worry looks at the sky.'),
         NO('Keep the flag. And my spare boots. I won’t need spares.', 'happy'),
-        NO('I’m not going anywhere. I’m staying.', 'soft'),
+        NO('I’m not going anywhere. I’m staying here, in the valley.', 'soft'),
         N('The Worry waves. Small. Only you can see it.'),
       ],
       [
@@ -1157,7 +1172,7 @@ const S22: EduQuest = quest(
           skill: 'one each: counting to share fairly',
           standard: 'K.CC.B.4',
           kind: 'ask',
-          after: 2,
+          after: 5,
           prompt: [NO('Three of us: me, you, and my Worry. How many oatcakes do we need?', 'think')],
           options: [
             opt('3', [NO('Three! One each. Fair and square.', 'happy')], true),
@@ -1640,9 +1655,11 @@ const S20: EduQuest = quest(
       [
         N('Deep, squeaky snow. Every child in the valley is out in it.'),
         N('A card on your gate says: WAR! FORT NIGHT! BRING MITTENS!'),
-        N('Sparks’s cousin has come for the holidays. And there is snow!'),
+        N('Tilly has come for the holidays. She is Sparks’s cousin.'),
+        N('And there is snow!'),
         TI('You lead one fort. I lead the other. I’m going to win!', 'happy'),
         PX('I’m the referee. I wrote the rules. Forty-one pages.'),
+        PX('My husband Byte read them all. He had notes.', 'think'),
         PX('Three kinds of snow-fighter: Speedy, Splashy and Sturdy.'),
         PX('Speedy beats Splashy. Splashy beats Sturdy. Sturdy beats Speedy!'),
         N('Bonk! A snowball hits a small boy called Gordon.'),
@@ -1655,7 +1672,7 @@ const S20: EduQuest = quest(
           skill: 'what comes next in a pattern',
           standard: 'ELOF: Mathematics Development',
           kind: 'ask',
-          after: 6,
+          after: 8,
           prompt: [
             PX('It goes round and round, like a pattern.', 'think'),
             PX('Speedy, Splashy, Sturdy, Speedy, Splashy… what comes next?'),
@@ -1752,9 +1769,12 @@ const S20: EduQuest = quest(
         N('Zip runs back. He has snow on his eyebrows.'),
         N('He runs round you nine times. That means: news!'),
         N('Their wall is big. But behind it, hardly anyone.'),
-        N('Three children went home. A lost mitten. A lost boot. Teatime.'),
+        N('Five children were behind their wall. Then three went home!'),
+        N('One lost a mitten, one lost a boot, and one wanted his tea.'),
         TI('We’re FINE! We have LOADS of people!', 'angry'),
+        TI('Some are IN the wall. They’re bricks!', 'happy'),
         PX('Rule: children are not bricks.'),
+        PX('…Mostly not.', 'think'),
       ],
       [
         {
@@ -1762,7 +1782,7 @@ const S20: EduQuest = quest(
           skill: 'take away within 5',
           standard: 'K.OA.A.2',
           kind: 'ask',
-          after: 3,
+          after: 4,
           prompt: [PX('Five children were behind their wall. Three went home. How many are left?')],
           options: [
             opt('2', [PX('Two! Five take away three leaves two.', 'happy'), N('(Show five fingers. Fold three down. Two left!)')], true),
@@ -1811,6 +1831,8 @@ const S20: EduQuest = quest(
         N('Above the hill, the sky goes dark grey, like a pigeon.'),
         N('Nobody looks at it. Only Pixel.'),
         PX('Hm.', 'think'),
+        GO('Is that sky going to hit me?', 'think'),
+        PX('This time, Gordon, it’s going to hit everybody.', 'think'),
       ],
       [
         {
@@ -1818,7 +1840,7 @@ const S20: EduQuest = quest(
           skill: 'dark clouds can mean a storm',
           standard: 'K-ESS2-1',
           kind: 'notice',
-          after: 7,
+          after: 9,
           lines: [
             PX('Dark grey clouds can mean a storm is coming.', 'think'),
             PX('When the sky changes, it’s good to look up and notice.'),
@@ -1848,6 +1870,7 @@ const S20: EduQuest = quest(
           check: 'edu:hold:hands:together',
           lines: [
             PX('In a big storm: stop, stay together, and find a grown-up.', 'think'),
+            PX('Today, the grown-up is me. Hold hands!'),
             N('(Hold hands with your grown-up. Stay together!)'),
           ],
           parentNote: 'Learned what to do in a storm: stop, stay together and find a grown-up.',
@@ -1896,7 +1919,7 @@ const S20: EduQuest = quest(
             id: 'middle',
             label: 'Meet in the middle. Both walls, one shelter.',
             set: { 's20-merge': 'middle' },
-            then: [N('Both forts bring snow. Both bring sticks.'), N('The catapult is the roof. Derek the snowman is the door.')],
+            then: [N('Both forts bring snow. Both bring sticks.'), N('Their pointy sticks are the roof. Derek the snowman is the door.')],
           },
         ],
       },
@@ -1906,11 +1929,14 @@ const S20: EduQuest = quest(
       [
         PX('Head count!'),
         PX('…Everyone. Even Gordon.', 'soft'),
+        N('The small one who cried was Wren. She lost a mitten.'),
+        N('Pixel finds it. It was on Wren’s head!'),
         GO('I got hit by a whole sky!', 'happy'),
         N('Inside it’s blue and snug. It smells of wet wool.'),
         TI('That bit of the roof is mine.'),
         WR('Commander? Which fort won?'),
-        N('Outside, the wind stops. Someone pokes a hole to look out.'),
+        N('The storm blows for hours. Pixel sings a song with forty-one verses.'),
+        N('Then the wind stops. Someone pokes a hole, and it’s night!'),
       ],
       [
         {
@@ -1936,7 +1962,7 @@ const S20: EduQuest = quest(
         WR('That one’s a mitten. That one’s Gordon. That one’s Derek!', 'happy'),
         PX('Final rule: both forts win. I wrote it in pen.'),
         TI('So what was it all for? The snow and the peeking?', 'think'),
-        Y('So we could build one fort fast, when it mattered.'),
+        Y('So we knew how to build fast. When the storm came, we did!'),
         TI('…That’s a really good answer.'),
         N('Up at the cottage, someone in a blanket waves from the window.'),
         N('Everybody waves back.'),
@@ -1960,7 +1986,9 @@ const S20: EduQuest = quest(
     ),
   ],
   'S20 sprout. COUSIN VARIANT: every tilly line here is written to work for either cousin (no Tax Toad and no ' +
-    'whistle), so if s14Done is false, play the same lines with speaker bodge; no index replacements are needed. ' +
+    'whistle), so if s14Done is false, play the same lines with speaker bodge, with one narration replacement: ' +
+    'sprout:s20-declaration#2 → (narrator) “Sparks’s other cousin, Bodge, has come for the holidays.” (#3, “And ' +
+    'there is snow!”, stays). No other narration names the cousin. ' +
     'The s20-complete window glimpse is Hazel, never named. SUN AND MOON: s20-declaration names no flags, so it fits ' +
     'either variant. All choices kept, including “press” (it is a friendly snowball game).',
 );
@@ -2004,7 +2032,7 @@ const S21: EduQuest = quest(
         Y('We’ve only just—'),
         N('He rolls forward. Off the step. Bump! Into the herbs.'),
         CK('Announcement! I have found the step!', 'happy'),
-        PX('That’s one.', 'think'),
+        PX('That’s one bump.', 'think'),
       ],
       [
         {
@@ -2055,10 +2083,12 @@ const S21: EduQuest = quest(
       [
         N('At dawn, a whistle wakes you. WHEEEE!'),
         CK('GOOD MORNING! I have done SO MUCH HELPING!', 'happy'),
-        N('Fern holds her cat, Mustard. He is soaking wet and very cross.'),
+        N('Fern holds her cat, Mustard. Drip, drip, drip.'),
+        N('Mustard says MROWW. That means very, very cross.'),
         FE('He watered my cat. To be fair, Mustard was in the beans.', 'think'),
         CK('Cats are plants that run! I think!'),
-        N('And Fern’s best apple tree is cut into the shape of a duck.'),
+        N('Snip, snip, snip! Fern’s best apple tree is now a duck.'),
+        FE('It’s a very good duck. It was a better tree.', 'think'),
         CK('And I rescued a little old one! He was stuck up the hill!', 'happy'),
         N('Round the pond zooms Clank, holding the little grey one like a pie.'),
       ],
@@ -2068,7 +2098,7 @@ const S21: EduQuest = quest(
           skill: 'what plants and animals need',
           standard: 'K-LS1-1',
           kind: 'ask',
-          after: 4,
+          after: 5,
           prompt: [N('Do cats need watering, like plants?')],
           options: [
             opt('No! Cats drink from a bowl', [FE('Right. Plants drink through their roots. Cats lap water from a bowl.', 'happy')], true),
@@ -2084,9 +2114,9 @@ const S21: EduQuest = quest(
         N('Clank reaches the cottage. And the step. Bump!'),
         N('The little grey one flies out of his hands. He lands on his feet.'),
         CK('Announcement… I found the step again.', 'sad'),
-        N('He gives you a long, long look.'),
+        N('The little grey one gives you a long, long look.'),
         N('Then he walks all the way back up the hill. Slowly.'),
-        PX('That’s two.'),
+        PX('That’s two bumps.'),
       ],
       [
         {
@@ -2107,14 +2137,16 @@ const S21: EduQuest = quest(
     sc(
       's21-log',
       [
-        N('Byte comes with a clipboard and a pencil behind each ear.'),
+        N('Byte, Pixel’s husband, comes with a clipboard and a pencil behind each ear.'),
         BY('One wet cat. One duck-shaped tree. One old Nubbin, zoomed.'),
         BY('He means to help. But next time, someone could get hurt.', 'think'),
         BY('Pixel should switch Clank off. Tonight.'),
+        PX('You said that about my clocks.', 'think'),
+        BY('Your clocks shout at me.'),
         N('Behind you, a little whistle starts, then stops.'),
         N('Clank heard. His light goes very dim.'),
         N('He rolls backwards, off the step. Bump. He doesn’t say a thing.'),
-        PX('…That’s three.', 'sad'),
+        PX('…That’s three bumps.', 'sad'),
         N('Then he’s gone. A wheel-track leads to the lantern shed.'),
         BY('I didn’t know he could hear. I didn’t know he could… mind.', 'sad'),
       ],
@@ -2124,7 +2156,7 @@ const S21: EduQuest = quest(
           skill: 'count to 3',
           standard: 'K.CC.B.5',
           kind: 'do',
-          after: 7,
+          after: 9,
           check: 'edu:count:falls:3',
           lines: [
             N('(Count Clank’s bumps with Pixel, on your fingers: one, two, three.)'),
@@ -2148,7 +2180,7 @@ const S21: EduQuest = quest(
             id: 'unfair',
             label: 'Tell Byte that wasn’t fair. Clank is only days old.',
             set: { 's21-byte': 'unfair' },
-            then: [BY('Days old. I forgot that.', 'sad'), BY('I was days old once. I’m told I bit a vicar.')],
+            then: [BY('Days old. I forgot that.', 'sad'), BY('I was days old once. I’m told I bit a goose.')],
           },
         ],
       },
@@ -2161,7 +2193,7 @@ const S21: EduQuest = quest(
         CK('Announcement. I’m a lantern now. Nobody switches off a lantern.', 'sad'),
         CK('I watered a cat. I made a duck tree. I zoomed the old one.'),
         CK('Am I a friend? Or just a thing that does jobs?', 'think'),
-        CK('If I stop being useful, will you still…', 'sad'),
+        CK('If I stop helping, will you still…', 'sad'),
         N('Click. Click. He looks for a word. He can’t find it.'),
       ],
       [
@@ -2211,8 +2243,10 @@ const S21: EduQuest = quest(
       [
         N('Next day, Byte comes with a plank and a saw.'),
         BY('I measured the step. It’s too tall for one wheel.'),
+        N('Byte measures again. And again. Eleven times!'),
+        BY('Still too tall. I checked.'),
         BY('So it isn’t Clank. It’s the step.', 'think'),
-        BY('Eleven Nubbins follow him everywhere. That matters.', 'soft'),
+        BY('All the Nubbins follow him everywhere. Eight out of eight. That matters.', 'soft'),
         CK('Byte! Does that mean you’re my best—', 'happy'),
         BY('Maybe.', 'happy'),
       ],
@@ -2222,7 +2256,7 @@ const S21: EduQuest = quest(
           skill: 'solving a problem: a ramp helps wheels',
           standard: 'K-2-ETS1-1',
           kind: 'ask',
-          after: 2,
+          after: 4,
           prompt: [BY('How can a wheel get down a step safely?', 'think')],
           options: [
             opt('A ramp: a gentle slope', [BY('Yes. A ramp. The wheel rolls down slowly. No bump.', 'happy')], true),
@@ -2243,8 +2277,11 @@ const S21: EduQuest = quest(
         N('Down he goes. Slow as a snail. He reaches the bottom!'),
         CK('I DID THE STEP! And I didn’t fall!', 'happy'),
         N('He does a dance: forward, back, and a spin!'),
-        N('You copy it. Byte copies it too. Later, he says he didn’t.'),
-        PX('That’s… none. I’ll take none.', 'happy'),
+        N('You copy it. Byte copies it too.'),
+        N('Later, Byte says he didn’t. His shoelace has come undone.'),
+        PX('He did. He danced like that at our wedding.', 'happy'),
+        PX('His shoelace came undone that day too.'),
+        PX('That’s… no bumps! I’ll take no bumps.', 'happy'),
       ],
       [
         {
@@ -2290,6 +2327,7 @@ const S21: EduQuest = quest(
         N('At dusk the Nubbins come in from the long grass.'),
         N('One by one, they climb onto Clank. He’s warm, like a kettle.'),
         N('One sits on his wheel. One curls up inside his glass tummy.'),
+        N('One Nubbin licks Clank’s nose. Not supper!'),
         CK('Announcement.', 'soft'),
         CK('I am being very still.', 'soft'),
         N('He is. For a whole hour. You sit beside him.'),
@@ -2314,7 +2352,8 @@ const S21: EduQuest = quest(
     ),
   ],
   'S21 sprout. Moss never speaks in S21 and is never named (it can run before chapter 4): he is “the little grey one”. Pixel’s running count of Clank’s falls ' +
-    '(“That’s one… two… three… none”) is the maths thread. The heart lessons are asking before picking someone up ' +
+    '(“That’s one bump… two bumps… three bumps… no bumps!”) is the maths thread. Byte is named as Pixel’s ' +
+    'husband in s21-log (canon 38), with the clocks and shoelace bickering. The heart lessons are asking before picking someone up ' +
     '(s21-moss) and friends liking you for who you are (s21-shed). All choices kept.',
 );
 
@@ -2413,7 +2452,8 @@ const S19_VARIANTS: EduScene[] = [
       N('Two days after the Long Night. Snow everywhere. Very quiet.'),
       N('Sable sits at the top of the garden. She hasn’t eaten her breakfast.'),
       N('She stares up at the high snowy hill.'),
-      N('Beside her floats Moss’s pale light. It leans that way too.'),
+      N('Moss faded at the Long Night. That means he died.'),
+      N('His pale light stayed with Sable. It leans up the hill too.'),
       N('Up in the white snow there is a tiny red dot.'),
       N('Sable looks at you. Then the hill. Then you.'),
       Y('All right. We’ll ask Marina.'),
@@ -2423,7 +2463,7 @@ const S19_VARIANTS: EduScene[] = [
         domain: 'art',
         skill: 'spotting a colour: red',
         kind: 'do',
-        after: 4,
+        after: 5,
         check: 'edu:find:colour:red',
         lines: [N('Red on white is easy to spot. Like a berry in the snow.'), N('(Find something red near you. Point to it!)')],
         parentNote: 'Spotted red against white, and found something red nearby.',
@@ -2454,6 +2494,20 @@ const S19_VARIANTS: EduScene[] = [
           opt('Sable', [MA('Look at the footprints. Yours are deep. Hers are tiny. You’re heavier!')]),
         ],
         parentNote: 'Compared weight by looking at deep and shallow footprints in snow.',
+      },
+      {
+        domain: 'literacy',
+        skill: 'first sounds: s',
+        standard: 'RF.K.2',
+        kind: 'ask',
+        after: 6,
+        prompt: [N('Sable. Snow. S-s-s!'), N('Which one starts with s too?')],
+        options: [
+          opt('Sun', [N('S-s-sun! Yes!')], true),
+          opt('Moon', [N('M-m-moon starts with m. S-s-sun starts with s!')]),
+          opt('Tree', [N('T-t-tree starts with t. S-s-sun starts with s!')]),
+        ],
+        parentNote: 'Heard the “s” sound at the start of Sable and snow, and found another s word.',
       },
     ],
   ),
@@ -2491,34 +2545,23 @@ const S19_VARIANTS: EduScene[] = [
       CI('Are they safe?', 'soft'),
       N('Moss would know what to say. You say it for him.'),
       Y('Not just safe. They’re well.'),
+      Y('Safe is sitting still. Well is running, and playing, and too many plums.'),
       CI('Well. Well is better. I didn’t know.', 'sad'),
+      CI('Do the children still say my name?', 'soft'),
+      Y('They skip to it. Badly. But they love it!'),
       N('Then the light sees Sable. Grey from her ears to her tail.'),
       CI('Oh, little one. I held them too tight, long ago. I’m so sorry.', 'sad'),
       N('Sable walks up to the warm stone. She leans on it.'),
       CI('She came to me. Nobody made her. She forgives me.', 'soft'),
-      CI('Keeper, am I forgiven by the others too?', 'soft'),
+      CI('Keeper, do the other grey Nubbins forgive me too?', 'soft'),
     ],
     [
-      {
-        domain: 'literacy',
-        skill: 'first sounds: s',
-        standard: 'RF.K.2',
-        kind: 'ask',
-        after: 5,
-        prompt: [N('Sable. Snow. Stone. Sorry. Listen: s-s-s!'), N('Which one starts with s too?')],
-        options: [
-          opt('Sun', [N('S-s-sun! Yes!')], true),
-          opt('Moon', [N('M-m-moon starts with m. S-s-sun starts with s!')]),
-          opt('Tree', [N('T-t-tree starts with t. S-s-sun starts with s!')]),
-        ],
-        parentNote: 'Heard the “s” sound at the start of Sable, snow and stone, and found another s word.',
-      },
       {
         domain: 'sel',
         skill: 'showing love and forgiveness without words',
         standard: 'CASEL: Relationship skills',
         kind: 'notice',
-        after: 7,
+        after: 10,
         lines: [
           N('Sable leans on the stone. That is her way of saying “it’s all right”.'),
           N('Leaning close is a way to show love.'),
@@ -2533,11 +2576,11 @@ const S19_VARIANTS: EduScene[] = [
     [
       N('You stay. Sable stays by the stone. So does Moss’s light.'),
       N('The red light gets smaller and smaller. Slowly. Gently.'),
-      CI('Little one. It isn’t cold.', 'soft'),
+      CI('Little one. It isn’t cold, like the grey Nubbins were.', 'soft'),
       N('Sable shuts her eyes.'),
       N('Then the light is gone. Cinder has died.'),
       N('There is only the flat stone, and the wind.'),
-      Y('That is fading done right. Not frozen still. Let go.'),
+      Y('That is fading done right. Gentle. Then you let go.'),
       N('Sable stays curled by the stone a long time. You let her.'),
     ],
     [S19_FADE_LESSON('Sable')],
@@ -2583,7 +2626,7 @@ const S19_ALONE: EduScene[] = [
       MA('Lovely wind! It makes your cheeks tingle!', 'happy'),
       MA('What are we looking for?'),
       Y('Something warm.'),
-      MA('Up here? Well. You’re Hazel’s. I won’t ask.', 'think'),
+      MA('Up here? Hazel did odd things too. I stopped asking!', 'happy'),
     ],
     [
       {
@@ -2632,12 +2675,13 @@ const S19_ALONE: EduScene[] = [
       CI('Are they safe?', 'soft'),
       N('Moss would know what to say. You say it for him.'),
       Y('Not just safe. They’re well.'),
+      Y('Safe is sitting still. Well is running, and playing, and too many plums.'),
       CI('Well. Well is better. I didn’t know.', 'sad'),
       CI('Long ago, I held them too tight. I am so sorry.', 'sad'),
       CI('Do the children still skip to my rhyme?', 'soft'),
       Y('Yes. Badly. But they love it!'),
       N('The little light flickers. It might be a laugh.'),
-      CI('Keeper, am I forgiven by the grey ones?', 'soft'),
+      CI('Keeper, do the grey Nubbins forgive me?', 'soft'),
     ],
     [
       {
@@ -2645,7 +2689,7 @@ const S19_ALONE: EduScene[] = [
         skill: 'hear words that rhyme',
         standard: 'RF.K.2',
         kind: 'ask',
-        after: 6,
+        after: 7,
         prompt: [
           N('Children skip to a rhyme about her:'),
           Y('Cinder held them close and tight, kept them warm one winter night.'),
@@ -2665,11 +2709,11 @@ const S19_ALONE: EduScene[] = [
     [
       N('You stay. You keep your hands in your lap.'),
       N('The red light gets smaller and smaller. Slowly. Gently.'),
-      CI('Keeper. It isn’t cold.', 'soft'),
+      CI('Keeper. It isn’t cold, like the grey Nubbins were.', 'soft'),
       N('Then the light is gone. Cinder has died.'),
       N('There is only the flat stone, and the wind.'),
       N('You say Moss’s words, the way he would.'),
-      Y('That is fading done right. Not frozen still. Let go.'),
+      Y('That is fading done right. Gentle. Then you let go.'),
       N('You sit there a long time. Marina lets you.'),
     ],
     [

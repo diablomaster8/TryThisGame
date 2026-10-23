@@ -27,7 +27,7 @@ _Pixel winds the nose. Wheee! He whistles like a happy kettle._
 **You**: We’ve only just—  
 _He rolls forward. Off the step. Bump! Into the herbs._  
 **Clank**: Announcement! I have found the step!  
-**Pixel**: That’s one.  
+**Pixel**: That’s one bump.  
 
 #### `sprout:s21-tour` · [main](../../../side/S21.md#s21-tour)
 
@@ -50,7 +50,8 @@ _He turns his light down low for them. They purr._
 
 _At dawn, a whistle wakes you. WHEEEE!_  
 **Clank**: GOOD MORNING! I have done SO MUCH HELPING!  
-_Fern holds her cat, Mustard. He is soaking wet and very cross._  
+_Fern holds her cat, Mustard. Drip, drip, drip._  
+_Mustard says MROWW. That means very, very cross._  
 **Fern**: He watered my cat. To be fair, Mustard was in the beans.  
 **Clank**: Cats are plants that run! I think!  
 
@@ -60,7 +61,8 @@ _Fern holds her cat, Mustard. He is soaking wet and very cross._
 > - Yes → Ha! No. Plants need watering. Cats drink from a bowl. And they hate baths.
 > _For grown-ups: Sorted out what plants need (watering) from what cats need (a drink from a bowl)._
 
-_And Fern’s best apple tree is cut into the shape of a duck._  
+_Snip, snip, snip! Fern’s best apple tree is now a duck._  
+**Fern**: It’s a very good duck. It was a better tree.  
 **Clank**: And I rescued a little old one! He was stuck up the hill!  
 _Round the pond zooms Clank, holding the little grey one like a pie._  
 
@@ -69,7 +71,7 @@ _Round the pond zooms Clank, holding the little grey one like a pie._
 _Clank reaches the cottage. And the step. Bump!_  
 _The little grey one flies out of his hands. He lands on his feet._  
 **Clank**: Announcement… I found the step again.  
-_He gives you a long, long look._  
+_The little grey one gives you a long, long look._  
 _Then he walks all the way back up the hill. Slowly._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): asking before we pick someone up  
@@ -79,18 +81,20 @@ _Then he walks all the way back up the hill. Slowly._
 > - Just grab them → He didn’t like being grabbed. We always ask first, and listen.
 > _For grown-ups: Learned to ask before picking up a pet or a person, and to listen to the answer._
 
-**Pixel**: That’s two.  
+**Pixel**: That’s two bumps.  
 
 #### `sprout:s21-log` · [main](../../../side/S21.md#s21-log)
 
-_Byte comes with a clipboard and a pencil behind each ear._  
+_Byte, Pixel’s husband, comes with a clipboard and a pencil behind each ear._  
 **Byte**: One wet cat. One duck-shaped tree. One old Nubbin, zoomed.  
 **Byte**: He means to help. But next time, someone could get hurt.  
 **Byte**: Pixel should switch Clank off. Tonight.  
+**Pixel**: You said that about my clocks.  
+**Byte**: Your clocks shout at me.  
 _Behind you, a little whistle starts, then stops._  
 _Clank heard. His light goes very dim._  
 _He rolls backwards, off the step. Bump. He doesn’t say a thing._  
-**Pixel**: …That’s three.  
+**Pixel**: …That’s three bumps.  
 
 > **Lesson** (maths, K.CC.B.5, do): count to 3  
 > _(Count Clank’s bumps with Pixel, on your fingers: one, two, three.)_  
@@ -108,7 +112,7 @@ _Then he’s gone. A wheel-track leads to the lantern shed._
     - **Pixel**: He needs a bit of slow. I can help with that.
 - **Tell Byte that wasn’t fair. Clank is only days old.**
     - **Byte**: Days old. I forgot that.
-    - **Byte**: I was days old once. I’m told I bit a vicar.
+    - **Byte**: I was days old once. I’m told I bit a goose.
 
 #### `sprout:s21-shed` · [main](../../../side/S21.md#s21-shed)
 
@@ -117,7 +121,7 @@ _He’s pretending to be a lantern. But lanterns don’t shake._
 **Clank**: Announcement. I’m a lantern now. Nobody switches off a lantern.  
 **Clank**: I watered a cat. I made a duck tree. I zoomed the old one.  
 **Clank**: Am I a friend? Or just a thing that does jobs?  
-**Clank**: If I stop being useful, will you still…  
+**Clank**: If I stop helping, will you still…  
 _Click. Click. He looks for a word. He can’t find it._  
 
 > **Lesson** (sel, CASEL: Relationship skills, notice): friends like you for who you are  
@@ -144,6 +148,8 @@ _Click. Click. He looks for a word. He can’t find it._
 
 _Next day, Byte comes with a plank and a saw._  
 **Byte**: I measured the step. It’s too tall for one wheel.  
+_Byte measures again. And again. Eleven times!_  
+**Byte**: Still too tall. I checked.  
 **Byte**: So it isn’t Clank. It’s the step.  
 
 > **Lesson** (science, K-2-ETS1-1, ask): solving a problem: a ramp helps wheels  
@@ -153,7 +159,7 @@ _Next day, Byte comes with a plank and a saw._
 > - Fly → He hasn’t got wings. A ramp is a gentle slope he can roll down.
 > _For grown-ups: Worked out that a ramp solves the problem of a wheel and a step._
 
-**Byte**: Eleven Nubbins follow him everywhere. That matters.  
+**Byte**: All the Nubbins follow him everywhere. Eight out of eight. That matters.  
 **Clank**: Byte! Does that mean you’re my best—  
 **Byte**: Maybe.  
 
@@ -173,8 +179,11 @@ _He does a dance: forward, back, and a spin!_
 > Check: `edu:dance:clank:forward-back-spin`
 > _For grown-ups: Did the Clank dance: a step forward, a step back and a spin._
 
-_You copy it. Byte copies it too. Later, he says he didn’t._  
-**Pixel**: That’s… none. I’ll take none.  
+_You copy it. Byte copies it too._  
+_Later, Byte says he didn’t. His shoelace has come undone._  
+**Pixel**: He did. He danced like that at our wedding.  
+**Pixel**: His shoelace came undone that day too.  
+**Pixel**: That’s… no bumps! I’ll take no bumps.  
 
 #### `sprout:s21-evening` · [main](../../../side/S21.md#s21-evening)
 
@@ -203,10 +212,11 @@ _One sits on his wheel. One curls up inside his glass tummy._
 > Check: `edu:count:nubbins:8`
 > _For grown-ups: Counted eight Nubbins snuggled on Clank._
 
+_One Nubbin licks Clank’s nose. Not supper!_  
 **Clank**: Announcement.  
 **Clank**: I am being very still.  
 _He is. For a whole hour. You sit beside him._  
 **Pixel**: Keep him. He’s yours. He’ll water things, slowly.  
 _Next morning he waters the beans. One bean a minute._  
 
-**Notes:** S21 sprout. Moss never speaks in S21 and is never named (it can run before chapter 4): he is “the little grey one”. Pixel’s running count of Clank’s falls (“That’s one… two… three… none”) is the maths thread. The heart lessons are asking before picking someone up (s21-moss) and friends liking you for who you are (s21-shed). All choices kept.
+**Notes:** S21 sprout. Moss never speaks in S21 and is never named (it can run before chapter 4): he is “the little grey one”. Pixel’s running count of Clank’s falls (“That’s one bump… two bumps… three bumps… no bumps!”) is the maths thread. Byte is named as Pixel’s husband in s21-log (canon 38), with the clocks and shoelace bickering. The heart lessons are asking before picking someone up (s21-moss) and friends liking you for who you are (s21-shed). All choices kept.

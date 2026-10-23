@@ -15,6 +15,7 @@ _Nova waits at the bottom with a rope and a bag of oatcakes._
 **Nova**: I asked you for help once. It went well. So here I am!  
 _Next to her sits a little shadow, the size of a cat._  
 _It looks just like Nova. Same hair. Same boots._  
+_It has a tiny rope too, and it trips on it. Flop!_  
 **Nova’s Worry**: What if you slip?  
 **Nova**: …You can see it? Nobody ever sees it!  
 **Nova**: It’s my Worry. It talks to me. It’s mostly right. Annoying!  
@@ -32,7 +33,7 @@ _It looks just like Nova. Same hair. Same boots._
 _The little stones slide under your feet. Clatter, clatter!_  
 **Nova**: ♪ Little stones, little stones, sliding under my toes! ♪  
 **Nova**: ♪ I’m going up, but I’m sliding down, and that’s how it goes! ♪  
-_She sings it four times. It gets worse each time._  
+_She sings it again. And again. And again!_  
 
 > **Lesson** (music, do): clapping a steady beat  
 > _(Clap along as you sing: lit-tle stones, lit-tle stones!)_  
@@ -40,6 +41,7 @@ _She sings it four times. It gets worse each time._
 > Check: `edu:clap:beat:stones-song`
 > _For grown-ups: Clapped a steady beat along with Nova’s climbing song._
 
+_The Worry puts its hands over its ears._  
 **Nova’s Worry**: Last time you slipped here. You hurt your knee.  
 **Nova**: It’s right about that. It’s the next bit it gets wrong.  
 
@@ -58,7 +60,7 @@ _She sings it four times. It gets worse each time._
 
 _The Chimney is a narrow crack in the rock._  
 _Back on one side. Boots on the other. Push and step!_  
-**Nova**: ♪ I’m in a chimney, I am not soot! This is my foot! ♪  
+**Nova**: ♪ I’m in a crack, I’m in a crack! This is my foot! ♪  
 **Nova**: ♪ This is my other foot! ♪  
 _Far below, a big bird called a buzzard flies round and round._  
 
@@ -72,10 +74,10 @@ _Far below, a big bird called a buzzard flies round and round._
 #### `sprout:s22-chimney-top` · [main](../../../side/S22.md#s22-chimney-top)
 
 _Halfway up, Nova stops. The Worry sits just above her._  
-**Nova’s Worry**: When you were little, somebody left. What if it happens again?  
+**Nova’s Worry**: When you were little, somebody went away. What if somebody goes again?  
 _Nova holds the rock tight. She doesn’t move._  
-**Nova**: That’s true. Somebody left when I was nine.  
-**Nova**: So now I always leave first. It hurts less.  
+**Nova**: That’s true. Somebody went away when I was nine. I was very sad.  
+**Nova**: So now I always go first. Then nobody can go away from me.  
 
 > **Lesson** (health, CASEL: Self-management, do): slow breathing to feel calm  
 > _(Help Nova feel calm. Smell a flower: breathe in…)_  
@@ -110,7 +112,8 @@ _There’s a little pile of stones. One stone for every try._
 > _For grown-ups: Counted three stones and worked out that one more try makes four._
 
 **Nova’s Worry**: Go back. It’s windy. It’s high. Come another day.  
-**Nova**: Every time it talks, I feel smaller. Up here, it always wins.  
+**Nova**: When my Worry talks, I feel small.  
+**Nova**: So I go home. Three times. Three stones.  
 
 #### `sprout:s22-ridge-cross` · [main](../../../side/S22.md#s22-ridge-cross)
 
@@ -166,7 +169,10 @@ _Nova sits down. The Worry sits next to her, holding her hand._
 
 _Going down is quicker, and much more slippy._  
 _Nova and the Worry sing all the way._  
-_At the bottom, Nova shares out the oatcakes. They’re a bit squashed._  
+_At the bottom, Nova opens the bag of oatcakes._  
+_Squish! They are all flat._  
+_Somebody sat on them. Nova looks at the Worry._  
+_The Worry looks at the sky._  
 
 > **Lesson** (maths, K.CC.B.4, ask): one each: counting to share fairly  
 > **Nova**: Three of us: me, you, and my Worry. How many oatcakes do we need?  
@@ -176,7 +182,7 @@ _At the bottom, Nova shares out the oatcakes. They’re a bit squashed._
 > _For grown-ups: Matched one oatcake to each of three friends to share fairly._
 
 **Nova**: Keep the flag. And my spare boots. I won’t need spares.  
-**Nova**: I’m not going anywhere. I’m staying.  
+**Nova**: I’m not going anywhere. I’m staying here, in the valley.  
 _The Worry waves. Small. Only you can see it._  
 
 **Notes:** S22 sprout. Nova’s Worry is small, a little funny and never frightening: it says “What if…?”, which gives the child the words for their own worries. The quest’s SEL thread is naming a worry (s22-foot), calming it (s22-chimney-top) and sharing it (s22-ridge-cross). Both choices at each fork are kept.

@@ -113,7 +113,7 @@ const TEA_OPEN: Line[] = [
     'Somebody comes over the far ridge in the early light, under a pack so big it looks like a walking hedge.',
   ),
   N('It is Nova. She comes straight up the hill path, and at the top she stops, which is new.'),
-  NO('Morning. Don’t get up. I was passing. I’m always passing.'),
+  NO('Morning. Don’t get up. I live here now, apparently. I still walk past everything.'),
   NO('I thought I’d sit here a minute and not pass.', 'think'),
 ];
 const TEA_SIT = N(
@@ -442,7 +442,7 @@ const HOME_CLOSE: Line[] = [
     'She read every story Nova ever brought her, and had something to say about all of them. Of course she did.',
   ),
   N(
-    'Nova stays three days, and has tea every afternoon. On the fourth she goes over the far ridge with a pack you could lift with a finger.',
+    'Nova stays three days, and has tea every afternoon. On the fourth she sets off over the far ridge for a long walk, with a pack you could lift with a finger. She says twice that she’ll be back.',
   ),
   N('At the top she turns and waves, and doesn’t wait to see whether you wave back. She knows.'),
 ];

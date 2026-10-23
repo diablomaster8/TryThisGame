@@ -35,12 +35,12 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Side story S16: The Workyard · opens in chapter 6 | [S16.md](side/S16.md) (159) | [sprout.md](learning/side/S16/sprout.md) (196) | [reader.md](learning/side/S16/reader.md) (285) |
 | Side story S17: Nightjar · opens in chapter 7 | [S17.md](side/S17.md) (176) | [sprout.md](learning/side/S17/sprout.md) (235) | [reader.md](learning/side/S17/reader.md) (318) |
 | Side story S18: The Grove Museum · opens in chapter 6 | [S18.md](side/S18.md) (191) | [sprout.md](learning/side/S18/sprout.md) (258) | [reader.md](learning/side/S18/reader.md) (343) |
-| Side story S19: Cinder’s Last Light · opens in chapter 11 | [S19.md](side/S19.md) (427) | [sprout.md](learning/side/S19/sprout.md) (426) | [reader.md](learning/side/S19/reader.md) (609) |
-| Side story S20: Fort Night · opens in chapter 11 | [S20.md](side/S20.md) (182) | [sprout.md](learning/side/S20/sprout.md) (209) | [reader.md](learning/side/S20/reader.md) (297) |
-| Side story S21: CL-4NK · opens in chapter 3 | [S21.md](side/S21.md) (185) | [sprout.md](learning/side/S21/sprout.md) (212) | [reader.md](learning/side/S21/reader.md) (304) |
-| Side story S22: The Climb · opens in chapter 8 | [S22.md](side/S22.md) (150) | [sprout.md](learning/side/S22/sprout.md) (182) | [reader.md](learning/side/S22/reader.md) (283) |
+| Side story S19: Cinder’s Last Light · opens in chapter 11 | [S19.md](side/S19.md) (427) | [sprout.md](learning/side/S19/sprout.md) (439) | [reader.md](learning/side/S19/reader.md) (608) |
+| Side story S20: Fort Night · opens in chapter 11 | [S20.md](side/S20.md) (182) | [sprout.md](learning/side/S20/sprout.md) (220) | [reader.md](learning/side/S20/reader.md) (306) |
+| Side story S21: CL-4NK · opens in chapter 3 | [S21.md](side/S21.md) (185) | [sprout.md](learning/side/S21/sprout.md) (222) | [reader.md](learning/side/S21/reader.md) (309) |
+| Side story S22: The Climb · opens in chapter 8 | [S22.md](side/S22.md) (150) | [sprout.md](learning/side/S22/sprout.md) (188) | [reader.md](learning/side/S22/reader.md) (280) |
 | Side story S23: Three Visitors · opens in chapter 9 | [S23.md](side/S23.md) (742) |  |  |
-| Side story S24: The Adventure Book · opens post-game | [S24.md](side/S24.md) (813) | [sprout.md](learning/side/S24/sprout.md) (1144) | [reader.md](learning/side/S24/reader.md) (1253) |
+| Side story S24: The Adventure Book · opens post-game | [S24.md](side/S24.md) (813) | [sprout.md](learning/side/S24/sprout.md) (1167) | [reader.md](learning/side/S24/reader.md) (1255) |
 | Side story S25: Real · opens in chapter 3 | [S25.md](side/S25.md) (596) | [sprout.md](learning/side/S25/sprout.md) (883) | [reader.md](learning/side/S25/reader.md) (888) |
 | Side story S26: The Walled Garden · opens in chapter 6 | [S26.md](side/S26.md) (622) | [sprout.md](learning/side/S26/sprout.md) (821) | [reader.md](learning/side/S26/reader.md) (989) |
 | Side story S27: Some Nubbin · opens in chapter 5 | [S27.md](side/S27.md) (573) | [sprout.md](learning/side/S27/sprout.md) (744) | [reader.md](learning/side/S27/reader.md) (874) |

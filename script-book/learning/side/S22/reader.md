@@ -88,12 +88,7 @@ _You go up it with your back pressed on one side and your boots on the other._
 **Nova**: ♪ This is my other foot. ♪  
 _Far below, a buzzard turns and turns in circles, watching you with what feels like professional interest._  
 _It hardly flaps its wings at all._  
-
-> **Lesson** (science, 4-LS1-1, notice): how buzzards soar on rising warm air  
-> _Buzzards ride on rising warm air, called a thermal. They circle round and round inside it, going higher without flapping._  
-> _Their long, broad wings are made for it. They save their energy for hunting._  
-> _For grown-ups: Learned how a buzzard’s broad wings let it soar on rising warm air (thermals)._
-
+**Nova**: Show-off.  
 
 #### `reader:s22-chimney-top` · [main](../../../side/S22.md#s22-chimney-top)
 
@@ -102,14 +97,6 @@ _Halfway up the Chimney, Nova stops. The Worry is wedged in above her, looking d
 _Nova doesn’t move. Her knuckles are white on the rock._  
 **Nova**: It’s true. That’s the thing. That one’s true.  
 **Nova**: Somebody left. So I learned to be the one who leaves first. It hurts less.  
-
-> **Lesson** (literacy, RL.3.3, ask): explain a character’s motive  
-> _Why does Nova always leave places first?_  
-> - ✅ Someone left her when she was young, so she leaves first to avoid being hurt again. → Yes. Her habit of leaving comes from an old hurt. Knowing why a character acts helps us understand them, and be kind.
-> - She gets bored easily. → She says why herself: “Somebody left. So I learned to be the one who leaves first.” It’s about an old hurt.
-> - She doesn’t like anyone. → She likes you enough to ask for help! She leaves first because somebody once left her, and it hurt.
-> _For grown-ups: Explained a character’s behaviour using what she says about her past._
-
 **Nova**: It’s quicker.  
 
 > **Lesson** (sel, CASEL: Self-management, do): calm your body with counted breathing  
@@ -118,6 +105,14 @@ _Nova doesn’t move. Her knuckles are white on the rock._
 > **Nova**: …Better. My hands feel like mine again.  
 > Check: `edu:breathe:count:4-in-4-out`
 > _For grown-ups: Practised counted breathing (in for 4, out for 4) as a way to calm a big feeling._
+
+
+> **Lesson** (literacy, RL.3.3, ask): explain a character’s motive  
+> _Why does Nova always leave places first?_  
+> - ✅ Someone left her when she was young, so she leaves first to avoid being hurt again. → Yes. Her habit of leaving comes from an old hurt. Knowing why a character acts helps us understand them, and be kind.
+> - She gets bored easily. → She says why herself: “Somebody left. So I learned to be the one who leaves first.” It’s about an old hurt.
+> - She doesn’t like anyone. → She likes you enough to ask for help! She leaves first because somebody once left her, and it hurt.
+> _For grown-ups: Explained a character’s behaviour using what she says about her past._
 
 
 **Choices**
@@ -168,6 +163,10 @@ _She looks at it for a long time. Then she holds out her hand._
 **Nova**: You’re coming anyway. You always come. So come with me. Not at me.  
 _The Worry looks at her hand. Then it takes it._  
 _It’s smaller, with its hand in hers. Not gone. Smaller._  
+_They cross the Ridge together, crouched low in the gusts, because a low body is harder for the wind to push over._  
+_Nova starts the stones song again, and a second voice joins in, horribly flat._  
+**Nova’s Worry**: ♪ …little stones, which are very loose, and we should mind them… ♪  
+**Nova**: You can SING?  
 
 > **Lesson** (literacy, RL.4.2, ask): find the theme of a story  
 > _The Worry didn’t vanish. It got smaller when Nova walked with it instead of fighting it._  
@@ -177,15 +176,6 @@ _It’s smaller, with its hand in hers. Not gone. Smaller._
 > - You should never have worries. → Everyone has worries, even Nova. The story says a worry can come along without being the boss.
 > _For grown-ups: Identified the theme: a fear can shrink when you accept it and keep going._
 
-_They cross the Ridge together, keeping low in the gusts. Nova starts the stones song again, and a second voice joins in, horribly flat._  
-
-> **Lesson** (science, 3-PS2-1, notice): keeping low helps you balance against a push  
-> _Wind pushes on everything in its way. A tall, upright body is easy to push off balance._  
-> _Crouching low makes you steadier, so your grip and your weight can balance the wind’s push._  
-> _For grown-ups: Learned why crouching low helps you stay balanced against a strong push like the wind._
-
-**Nova’s Worry**: ♪ …little stones, which are very loose, and we should mind them… ♪  
-**Nova**: You can SING?  
 **Nova’s Worry**: I’ve always been able to sing. You never asked.  
 
 #### `reader:s22-scramble` · [main](../../../side/S22.md#s22-scramble)
@@ -216,6 +206,12 @@ _The Worry holds the corner of the flag so it doesn’t flap in your faces. It�
 
 _From the top of the Tooth you can see everything at once._  
 _The falls are a long white thread. There’s Dusty’s cliff. Marina’s pools are like spilled coins. The Circuit looks square and small._  
+
+> **Lesson** (science, 4-LS1-1, notice): how buzzards soar on rising warm air  
+> _Far below you now, the buzzard is still circling. Buzzards ride on rising warm air, called a thermal. They circle round and round inside it, going higher without flapping._  
+> _Their long, broad wings are made for it. They save their energy for hunting._  
+> _For grown-ups: Learned how a buzzard’s broad wings let it soar on rising warm air (thermals)._
+
 _The Hollow is dark in its fold of trees. And the Grove: the pond, the cottage roof, and four lantern posts no bigger than pins._  
 
 > **Lesson** (social-studies, D2.Geo.2.K-2, do): draw a simple map with symbols and a key  
@@ -226,9 +222,9 @@ _The Hollow is dark in its fold of trees. And the Grove: the pond, the cottage r
 > _For grown-ups: Drew a map of a landscape seen from above, using symbols and a key._
 
 _Nova sits down. The Worry sits beside her, holding her hand. Neither of them says anything for a while._  
-**Nova**: I’d like to stay for a while.  
+**Nova**: I’d like to stay.  
 _She says it to the valley first. Then, more quietly, to the Worry. Then, last of all, to you._  
-**Nova**: Not up here. Down there. I’d like to stay for a while.  
+**Nova**: Not up here. Down there. I’d like to stay.  
 
 > **Lesson** (literacy, RL.2.3, ask): describe how a character changes  
 > _At the start, Nova said she always leaves before anywhere can matter. What has changed?_  
@@ -243,7 +239,8 @@ _She says it to the valley first. Then, more quietly, to the Worry. Then, last o
 #### `reader:s22-complete` · [main](../../../side/S22.md#s22-complete)
 
 _Going down is quicker and much worse, as it always is. Nova sings the whole way. So does the Worry._  
-_At the bottom she unpacks the oatcakes, which have been sat on. There are nine. She shares them out in three._  
+_At the bottom she unpacks nine oatcakes, all sat on. Nova looks at the Worry, and the Worry looks at the view._  
+_She shares them out in three anyway. The Worry gets the flattest._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): share equally into groups (division)  
 > _Nine squashed oatcakes, shared fairly between Nova, you and the Worry. How many each?_  
@@ -253,7 +250,7 @@ _At the bottom she unpacks the oatcakes, which have been sat on. There are nine.
 > _For grown-ups: Shared 9 into 3 equal groups (9 ÷ 3 = 3)._
 
 **Nova**: Keep the flag. Put it somewhere you’ll see it. I’ll know where it is. I’ll come and look at it.  
-**Nova**: And have my boots. They’re my spare pair. I won’t need spares. I’m not going anywhere.  
+**Nova**: And have my boots. They’re my spare pair. I won’t need spares. I’m not going anywhere. I’m staying.  
 **Nova**: You can see the whole valley from up there now, whenever you like. In case you ever need to find me. I’ll be in it.  
 _The Worry waves. Small. Only you can see it._  
 

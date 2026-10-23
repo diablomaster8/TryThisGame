@@ -32,7 +32,8 @@ _Variant of `s19-warmth`._
 _Two days after the Long Night. Snow everywhere. Very quiet._  
 _Sable sits at the top of the garden. She hasn’t eaten her breakfast._  
 _She stares up at the high snowy hill._  
-_Beside her floats Moss’s pale light. It leans that way too._  
+_Moss faded at the Long Night. That means he died._  
+_His pale light stayed with Sable. It leans up the hill too._  
 _Up in the white snow there is a tiny red dot._  
 
 > **Lesson** (art, do): spotting a colour: red  
@@ -66,10 +67,10 @@ _You miss him. You pull on your boots._
 #### `sprout:s19-marina` · [main](../../../side/S19.md#s19-marina)
 
 _Marina is in a rock pool, breaking the ice. She’s very happy._  
-**Marina**: The high pass? In winter? Lovely! You’ll hate it.  
+**Marina**: The high pass? In winter? Lovely! It’s freezing up there. I love it.  
 **Marina**: All our water comes down from that snow. I know the way.  
 **Marina**: Boots. A rope. Two pairs of socks.  
-**Marina**: Don’t be brave. Be careful.  
+**Marina**: Go slowly. Be careful.  
 **Marina**: Two pairs. I will check!  
 
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, do): dressing warmly for cold weather  
@@ -83,10 +84,11 @@ _Marina is in a rock pool, breaking the ice. She’s very happy._
 #### `sprout:s19-climb` · [main](../../../side/S19.md#s19-climb)
 
 _First light. Marina ties a rope to you. Then Moss to your button._  
-_He rides in your coat. Just his little face pokes out._  
+_He rides in your coat, facing you. Just his little face pokes out._  
 **Moss**: Left.  
 **Marina**: Right.  
-**Moss**: Her right. My left. We agree, in different directions!  
+_Marina points at a rock. Moss points at the same rock._  
+**Moss**: Her right is my left. We both mean that rock!  
 
 > **Lesson** (maths, ELOF: Mathematics Development, do): left and right  
 > _(Wave your left hand, like Moss. Now your right, like Marina!)_  
@@ -117,6 +119,15 @@ _Sable is so light, she doesn’t sink at all._
 **Marina**: She’s not stopping! Is she always like this?  
 **You**: Only when it matters.  
 
+> **Lesson** (literacy, RF.K.2, ask): first sounds: s  
+> _Sable. Snow. S-s-s!_  
+> _Which one starts with s too?_  
+> - ✅ Sun → S-s-sun! Yes!
+> - Moon → M-m-moon starts with m. S-s-sun starts with s!
+> - Tree → T-t-tree starts with t. S-s-sun starts with s!
+> _For grown-ups: Heard the “s” sound at the start of Sable and snow, and found another s word._
+
+
 #### `sprout:s19-climb-alone` · [main](../../../side/S19.md#s19-climb-alone)
 
 _Variant of `s19-climb`._
@@ -135,7 +146,7 @@ _Crunch, crunch, crunch. The snow sounds like biting toast._
 **Marina**: Lovely wind! It makes your cheeks tingle!  
 **Marina**: What are we looking for?  
 **You**: Something warm.  
-**Marina**: Up here? Well. You’re Hazel’s. I won’t ask.  
+**Marina**: Up here? Hazel did odd things too. I stopped asking!  
 
 #### `sprout:s19-hollow` · [main](../../../side/S19.md#s19-hollow)
 
@@ -205,14 +216,17 @@ _The waterfall is frozen white. It doesn’t move at all._
 > - It got tired → Waterfalls don’t get tired! It got so cold, the water turned into ice.
 > _For grown-ups: Explained a frozen waterfall: very cold water turns into ice._
 
-_You wait. Your feet get cold. You keep waiting._  
+_You wait. Your feet get cold._  
+_Grrrrr! Your tummy is very loud in all this quiet._  
+_Up on the edge, Marina coughs. A very polite cough._  
+_You keep waiting._  
 
 #### `sprout:s19-question` · [main](../../../side/S19.md#s19-question)
 
 _After a long time, the red light grows a tiny bit bigger._  
 **Cinder**: Are they safe?  
 **Moss**: Not just safe. They’re well.  
-**Moss**: They run and play and eat too many plums.  
+**Moss**: Safe is sitting still. Well is running, and playing, and too many plums.  
 **Cinder**: Well. Well is better. I didn’t know.  
 **Cinder**: Long ago, I held them too tight. To keep them safe.  
 **Cinder**: They went still and grey. I am so sorry.  
@@ -226,15 +240,17 @@ _After a long time, the red light grows a tiny bit bigger._
 > - Warm → Listen: tight… night. Night rhymes with tight. They still say my name.
 > _For grown-ups: Heard the valley’s skipping rhyme and found the rhyming pair “tight” and “night”._
 
-**Moss**: Cinder, I forgave you long ago. Here. It’s yours.  
+**Moss**: Every day. They skip to it. Badly. Very, very loudly.  
+_The little light flickers. It might be a laugh._  
+**Moss**: Cinder, I forgave you long ago. I still do.  
 
 > **Lesson** (sel, CASEL: Relationship skills, notice): saying sorry and forgiving  
 > _Saying sorry is brave. Forgiving is kind._  
 > _(Ask: when did someone forgive you? Wait for an answer.)_  
 > _For grown-ups: Saw someone say sorry and be forgiven, and talked about a time they were forgiven._
 
-**Cinder**: Thank you, Moss. Keeper, the grey ones live by you.  
-**Cinder**: Am I forgiven by them?  
+**Cinder**: Thank you, Moss. Keeper, the grey Nubbins live by you.  
+**Cinder**: Do the grey Nubbins forgive me?  
 
 **Choices**
 
@@ -243,8 +259,8 @@ _After a long time, the red light grows a tiny bit bigger._
     - The light goes warm, like a fire with the kettle on.
     - **Cinder**: Oh. I thought being forgiven would be heavy. It’s light!
     - **Moss**: Yes. This one, you just put down.
-- **“That’s theirs to say. But you’ll be remembered.”**
-    - **You**: That’s theirs to say. But you’ll be remembered.
+- **“Only the grey Nubbins can say. But we’ll remember you.”**
+    - **You**: Only the grey Nubbins can say. But we’ll remember you.
     - **Cinder**: Remembered. That’s what I should have asked for.
     - **Cinder**: Will you tell them I loved them?
     - **You**: All of it.
@@ -258,17 +274,11 @@ _After a long time, the red light grows a tiny bit bigger._
 **Cinder**: Are they safe?  
 _Moss would know what to say. You say it for him._  
 **You**: Not just safe. They’re well.  
+**You**: Safe is sitting still. Well is running, and playing, and too many plums.  
 **Cinder**: Well. Well is better. I didn’t know.  
+**Cinder**: Do the children still say my name?  
+**You**: They skip to it. Badly. But they love it!  
 _Then the light sees Sable. Grey from her ears to her tail._  
-
-> **Lesson** (literacy, RF.K.2, ask): first sounds: s  
-> _Sable. Snow. Stone. Sorry. Listen: s-s-s!_  
-> _Which one starts with s too?_  
-> - ✅ Sun → S-s-sun! Yes!
-> - Moon → M-m-moon starts with m. S-s-sun starts with s!
-> - Tree → T-t-tree starts with t. S-s-sun starts with s!
-> _For grown-ups: Heard the “s” sound at the start of Sable, snow and stone, and found another s word._
-
 **Cinder**: Oh, little one. I held them too tight, long ago. I’m so sorry.  
 _Sable walks up to the warm stone. She leans on it._  
 
@@ -278,7 +288,7 @@ _Sable walks up to the warm stone. She leans on it._
 > _For grown-ups: Saw that we can show forgiveness and love without words, by being close._
 
 **Cinder**: She came to me. Nobody made her. She forgives me.  
-**Cinder**: Keeper, am I forgiven by the others too?  
+**Cinder**: Keeper, do the other grey Nubbins forgive me too?  
 
 **Choices**
 
@@ -287,8 +297,8 @@ _Sable walks up to the warm stone. She leans on it._
     - The light goes warm, like a fire with the kettle on.
     - **Cinder**: Oh. I thought being forgiven would be heavy. It’s light!
     - Sable breathes out, long and slow. The light warms her nose.
-- **“That’s theirs to say. But you’ll be remembered.”**
-    - **You**: That’s theirs to say. But you’ll be remembered.
+- **“Only the grey Nubbins can say. But we’ll remember you.”**
+    - **You**: Only the grey Nubbins can say. But we’ll remember you.
     - **Cinder**: Remembered. That’s what I should have asked for.
     - **Cinder**: Will you tell them I loved them? Not only what I did?
     - **You**: All of it.
@@ -302,6 +312,7 @@ _After a long time, the red light grows a tiny bit bigger._
 **Cinder**: Are they safe?  
 _Moss would know what to say. You say it for him._  
 **You**: Not just safe. They’re well.  
+**You**: Safe is sitting still. Well is running, and playing, and too many plums.  
 **Cinder**: Well. Well is better. I didn’t know.  
 **Cinder**: Long ago, I held them too tight. I am so sorry.  
 **Cinder**: Do the children still skip to my rhyme?  
@@ -316,7 +327,7 @@ _Moss would know what to say. You say it for him._
 
 **You**: Yes. Badly. But they love it!  
 _The little light flickers. It might be a laugh._  
-**Cinder**: Keeper, am I forgiven by the grey ones?  
+**Cinder**: Keeper, do the grey Nubbins forgive me?  
 
 **Choices**
 
@@ -325,8 +336,8 @@ _The little light flickers. It might be a laugh._
     - The light goes warm, like a fire with the kettle on.
     - **Cinder**: Oh. I thought being forgiven would be heavy. It’s light!
     - Up on the edge, Marina has stopped looking at the view.
-- **“That’s theirs to say. But you’ll be remembered.”**
-    - **You**: That’s theirs to say. But you’ll be remembered.
+- **“Only the grey Nubbins can say. But we’ll remember you.”**
+    - **You**: Only the grey Nubbins can say. But we’ll remember you.
     - **Cinder**: Remembered. That’s what I should have asked for.
     - **Cinder**: Will you tell them I loved them? Not only what I did?
     - **You**: All of it.
@@ -352,11 +363,11 @@ _Her light will stop, and it won’t start again._
 
 _You stay. Moss sits right next to the little light._  
 _The light gets smaller and smaller. Slowly. Gently._  
-**Cinder**: Moss. It isn’t cold.  
-**Moss**: No. Not this way.  
+**Cinder**: Moss. It isn’t cold, like the grey Nubbins were.  
+**Moss**: No. This is the gentle kind.  
 _Then the light is gone. Cinder has died._  
 _There is only the flat stone, and the wind._  
-**Moss**: That is fading done right. Not frozen still. Let go.  
+**Moss**: That is fading done right. Gentle. Then you let go.  
 _Moss sits there a long time. You sit with him._  
 
 > **Lesson** (sel, ELOF: Social and Emotional Development, notice): feeling sad when someone dies, and what helps  
@@ -372,11 +383,11 @@ _Variant of `s19-fade`._
 
 _You stay. Sable stays by the stone. So does Moss’s light._  
 _The red light gets smaller and smaller. Slowly. Gently._  
-**Cinder**: Little one. It isn’t cold.  
+**Cinder**: Little one. It isn’t cold, like the grey Nubbins were.  
 _Sable shuts her eyes._  
 _Then the light is gone. Cinder has died._  
 _There is only the flat stone, and the wind._  
-**You**: That is fading done right. Not frozen still. Let go.  
+**You**: That is fading done right. Gentle. Then you let go.  
 _Sable stays curled by the stone a long time. You let her._  
 
 > **Lesson** (sel, ELOF: Social and Emotional Development, notice): feeling sad when someone dies, and what helps  
@@ -392,11 +403,11 @@ _Variant of `s19-fade`._
 
 _You stay. You keep your hands in your lap._  
 _The red light gets smaller and smaller. Slowly. Gently._  
-**Cinder**: Keeper. It isn’t cold.  
+**Cinder**: Keeper. It isn’t cold, like the grey Nubbins were.  
 _Then the light is gone. Cinder has died._  
 _There is only the flat stone, and the wind._  
 _You say Moss’s words, the way he would._  
-**You**: That is fading done right. Not frozen still. Let go.  
+**You**: That is fading done right. Gentle. Then you let go.  
 _You sit there a long time. Marina lets you._  
 
 > **Lesson** (sel, ELOF: Social and Emotional Development, notice): feeling sad when someone dies, and what helps  
@@ -410,11 +421,13 @@ _You sit there a long time. Marina lets you._
 
 _Where the light was, the stone is still warm. Like a hand._  
 _On it sits a little red pebble. It stays warm all the way home._  
-_Marina’s eyes are red. She says it’s the wind._  
+_Marina’s eyes are red. She has been crying a bit._  
+**Marina**: It’s the wind. Mostly.  
 **Marina**: Come on. Feet in my footprints. Home before dark.  
-_That night, the Long-Grass lantern feels warm to stand by._  
+_That night, the lantern by the long grass feels warm to stand by._  
 _You put the red pebble on the windowsill._  
-_By morning, the Nubbins are asleep in a heap under it._  
+_By morning, five Nubbins are asleep in a heap under it. Snore!_  
+_One wakes up and licks the red pebble. Not supper!_  
 
 > **Lesson** (maths, K.CC.B.5, do): count to 5  
 > _(Count the sleepy Nubbins: one, two, three, four, five.)_  
@@ -423,4 +436,4 @@ _By morning, the Nubbins are asleep in a heap under it._
 > _For grown-ups: Counted five sleeping Nubbins._
 
 
-**Notes:** S19 sprout. Cinder is introduced simply: a warden who, long ago, held the Nubbins too tight to keep them safe, and they went still and grey. Her fading is honest: s19-after says what fading means (“she is dying… her light will stop, and it won’t start again”) and s19-fade says “Cinder has died”, followed by comfort. Moss’s “No. They’re well.” becomes “Not just safe. They’re well.” so a young child hears the difference. Both choices kept. Scene-level set on s19-warmth (s19-with = moss) still comes from the original. The Sable route uses the -sable versions in EDU_SIDE_NEW_B_SPROUT_VARIANTS. If Moss has left the world and Sable is not bonded, the -alone versions (you and Marina only) play instead; you answer Cinder yourself.
+**Notes:** S19 sprout. Cinder is introduced simply: a warden who, long ago, held the Nubbins too tight to keep them safe, and they went still and grey. Her fading is honest: s19-after says what fading means (“she is dying… her light will stop, and it won’t start again”) and s19-fade says “Cinder has died”, followed by comfort. Moss’s “No. They’re well.” becomes “Not just safe. They’re well.” so a young child hears the difference. Both choices kept. Scene-level set on s19-warmth (s19-with = moss) still comes from the original. The Sable route uses the -sable versions in EDU_SIDE_NEW_B_SPROUT_VARIANTS; s19-warmth-sable says plainly that Moss died at the Long Night, with the comfort of his pale light staying with Sable. If Moss has left the world and Sable is not bonded, the -alone versions (you and Marina only) play instead; you answer Cinder yourself.

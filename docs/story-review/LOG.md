@@ -59,7 +59,7 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `learning/side/S14/reader.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 0 |
 | `side/S15.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `learning/side/S15/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
-| `learning/side/S15/reader.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 1 |
+| `learning/side/S15/reader.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 0 |
 | `side/S16.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `learning/side/S16/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S16/reader.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 0 |
@@ -70,21 +70,21 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `learning/side/S18/sprout.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 0 |
 | `learning/side/S18/reader.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 0 |
 | `side/S19.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S19/sprout.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 12 |
-| `learning/side/S19/reader.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 8 |
+| `learning/side/S19/sprout.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 0 |
+| `learning/side/S19/reader.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 1 |
 | `side/S20.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S20/sprout.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 10 |
-| `learning/side/S20/reader.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 9 |
+| `learning/side/S20/sprout.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 0 |
+| `learning/side/S20/reader.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 1 |
 | `side/S21.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S21/sprout.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 9 |
-| `learning/side/S21/reader.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 9 |
+| `learning/side/S21/sprout.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 0 |
+| `learning/side/S21/reader.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 0 |
 | `side/S22.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S22/sprout.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 7 |
-| `learning/side/S22/reader.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 4 |
+| `learning/side/S22/sprout.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 0 |
+| `learning/side/S22/reader.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 1 |
 | `side/S23.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `side/S24.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S24/sprout.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 10 |
-| `learning/side/S24/reader.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 14 |
+| `learning/side/S24/sprout.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 0 |
+| `learning/side/S24/reader.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 0 |
 | `side/S25.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `learning/side/S25/sprout.md` | never | 0 |
 | `learning/side/S25/reader.md` | never | 0 |
@@ -413,7 +413,7 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261022-159 | learning/side/S13/sprout.md | s13-sluice | Medium | humour | "Marina could swim in soup" is a non-sequitur for sprouts; act it out instead | fixed | 2026-10-22-3 |
 | SR-20261022-160 | learning/side/S13/sprout.md | s13-wheelpit, s13-key, s13-complete | Medium | humour | Let the Sock of Nobody Knows Where keep turning up, so sprouts can shout "The sock!" | fixed | 2026-10-22-3 |
 | SR-20261022-161 | learning/side/S13/sprout.md | s13-desk | Medium | child-read | "Never once does it say rest" is abstract; show the missing bed, and let Tobin yawn | fixed | 2026-10-22-3 |
-| SR-20261022-162 | learning/side/S15/reader.md | s15-jackpot | Nice | character | Jackpot's lesson replies switch from capitals to lower case mid-reply; give the calm half to Byte | partial | 2026-10-22-3 |
+| SR-20261022-162 | learning/side/S15/reader.md | s15-jackpot | Nice | character | Jackpot's lesson replies switch from capitals to lower case mid-reply; give the calm half to Byte | fixed | 2026-10-22-3 |
 | SR-20261022-163 | learning/side/S16/reader.md | s16-question | Nice | child-read | Brisk's "trouble with being liked" line is too abstract for 7 to 10 | fixed | 2026-10-22-3 |
 | SR-20261022-164 | learning/side/S14/reader.md | s14-tower | Nice | humour | The Tax Toad's tower is drawn on Sparks's chimney; let Sparks notice | fixed | 2026-10-22-3 |
 | SR-20261022-165 | learning/side/S18/sprout.md | s18-complete | Nice | child-read | Sprouts clap "Cu-ra-tor" but are never told what it means | fixed | 2026-10-22-3 |
@@ -425,70 +425,70 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261022-171 | learning/side/S13/sprout.md<br>learning/side/S13/reader.md<br>learning/side/S14/sprout.md<br>learning/side/S14/reader.md<br>learning/side/S16/reader.md<br>learning/side/S18/sprout.md<br>learning/side/S18/reader.md | cross-story | Medium | humour | One wordless Nubbin thinks everything is supper, in every story | fixed | 2026-10-22-3 |
 | SR-20261022-172 | learning/side/S12/reader.md<br>learning/side/S13/sprout.md<br>learning/side/S13/reader.md<br>learning/side/S17/reader.md<br>learning/side/S18/sprout.md<br>learning/side/S18/reader.md | cross-story | Medium | child-read | Use one plain, gentle death pattern across the Learning Grove side stories | fixed | 2026-10-22-3 |
 | SR-20261022-173 | learning/side/S13/sprout.md<br>learning/side/S13/reader.md<br>learning/side/S14/reader.md<br>learning/side/S15/reader.md<br>learning/side/S16/reader.md | cross-story | Medium | follow | Tag each valley regular with five words on first appearance in a unit | fixed | 2026-10-22-3 |
-| SR-20261022-174 | learning/side/S19/sprout.md | s19-warmth-sable | Critical | follow | The Sable route never says Moss has died; say it plainly before his pale light appears | open | 2026-10-22-4 |
-| SR-20261022-175 | learning/side/S19/reader.md | s19-after, s19-fade, s19-fade-sable, s19-fade-alone | High | pacing | Take the two quizzes out of Cinder's last minutes; one of them offers "Funny." beside a death | open | 2026-10-22-4 |
-| SR-20261022-176 | learning/side/S20/sprout.md<br>learning/side/S20/reader.md | s20-count | High | continuity | Let the blizzard blow for hours, so the morning game can end under night stars | open | 2026-10-22-4 |
-| SR-20261022-177 | learning/side/S20/sprout.md<br>learning/side/S20/reader.md | s20-counters | High | humour | Gordon asks if the storm will hit him, so "hit by a whole sky" becomes a payoff | open | 2026-10-22-4 |
-| SR-20261022-178 | learning/side/S21/sprout.md | s21-unveil, s21-moss, s21-log, s21-down | High | follow | Pixel's running count says "one" but never one what; make it "one bump" to match the lesson | open | 2026-10-22-4 |
-| SR-20261022-179 | learning/side/S22/reader.md | s22-chimney, s22-chimney-top | High | pacing | A motive quiz splits "It hurts less." from "It's quicker."; move it after the choice | open | 2026-10-22-4 |
-| SR-20261022-180 | learning/side/S22/reader.md | s22-ridge-cross | High | pacing | The crouching lesson splits the unit's best laugh, the flat voice and "You can SING?" | open | 2026-10-22-4 |
-| SR-20261022-181 | learning/side/S24/sprout.md<br>learning/side/S24/reader.md | s24-bird-collector, s24-bird-collector-kept | High | follow | The collector routes hide why the bird shuns you; say the cause in plain words | open | 2026-10-22-4 |
-| SR-20261022-182 | learning/side/S24/sprout.md | s24-nest-fed, s24-nest-fed-collector, s24-nest-waited, s24-nest-waited-collector | High | child-read | Say why a cage is bad for the chicks, not just "wild birds must stay free" | open | 2026-10-22-4 |
-| SR-20261022-183 | learning/side/S19/sprout.md | s19-fade, s19-fade-sable, s19-fade-alone | High | child-read | "It isn't cold." / "Not this way." / "Not frozen still" is cryptic; tie it to the grey Nubbins | open | 2026-10-22-4 |
-| SR-20261022-184 | learning/side/S19/reader.md | s19-hollow, s19-hollow-sable, s19-hollow-alone | High | follow | Moss says "…Cinder." and nobody says who she is; give her one line of who | open | 2026-10-22-4 |
-| SR-20261022-185 | learning/side/S19/sprout.md | s19-question, s19-question-sable | High | humour | Give the main and Sable routes the "Badly" laugh the alone route already has | open | 2026-10-22-4 |
-| SR-20261022-186 | learning/side/S19/sprout.md | s19-question, s19-question-sable, s19-question-alone | High | child-read | "Here. It's yours." and "forgiven by them" hand a child two unnamed things; name them | open | 2026-10-22-4 |
-| SR-20261022-187 | learning/side/S22/sprout.md | s22-chimney-top | High | child-read | "Somebody left… I always leave first. It hurts less." is too abstract; say it plainly | open | 2026-10-22-4 |
-| SR-20261022-188 | learning/side/S20/sprout.md | s20-intel | High | humour | "Children are not bricks" lost its set-up; give Tilly the bricks line back | open | 2026-10-22-4 |
-| SR-20261022-189 | learning/side/S20/sprout.md<br>learning/side/S20/reader.md | s20-declaration | High | follow | Tilly is only "Sparks's cousin"; name her in the narration, with a Bodge line for the variant | open | 2026-10-22-4 |
-| SR-20261022-190 | learning/side/S20/sprout.md<br>learning/side/S20/reader.md | s20-blizzard, s20-count | High | follow | "Somebody small is crying" is never paid off; it was Wren, and her mitten was on her head | open | 2026-10-22-4 |
-| SR-20261022-191 | learning/side/S21/sprout.md<br>learning/side/S21/reader.md | s21-ramp, s21-complete | High | continuity | Byte's "eleven Nubbins" can't be; the roster holds eight and the child counts eight | open | 2026-10-22-4 |
-| SR-20261022-192 | learning/side/S24/reader.md | s24-camp | High | follow | Fairweather mentions her motto and never says it; it is Tilly's "The whole world's up here!" | open | 2026-10-22-4 |
-| SR-20261022-193 | learning/side/S24/sprout.md<br>learning/side/S24/reader.md | s24-net, s24-whistle, s24-lights | High | pacing | Lessons sit inside the net throw, the whistle's punchline and the sunrise; move each after | open | 2026-10-22-4 |
-| SR-20261022-194 | learning/side/S24/sprout.md | s24-camp | High | humour | Give Fairweather one deadpan beat: she looks at you through the wrong end of her telescope | open | 2026-10-22-4 |
-| SR-20261022-195 | learning/side/S22/sprout.md<br>learning/side/S22/reader.md | s22-complete | High | humour | The squashed oatcakes are the ending's joke; make the Worry the silent culprit | open | 2026-10-22-4 |
-| SR-20261022-196 | learning/side/S19/sprout.md | s19-question, s19-question-sable, s19-question-alone | Medium | theme | Show what "well" means against "safe", so it links to the Nubbins going still | open | 2026-10-22-4 |
-| SR-20261022-197 | learning/side/S19/sprout.md<br>learning/side/S19/reader.md | s19-sit | Medium | humour | Break the long wait with a tummy growl and Marina's polite cough | open | 2026-10-22-4 |
-| SR-20261022-198 | learning/side/S19/reader.md | s19-question, s19-question-sable, s19-question-alone | Medium | pacing | The theme quiz interrupts Cinder's "Well is better" and calls itself "the big idea" | open | 2026-10-22-4 |
-| SR-20261022-199 | learning/side/S20/sprout.md<br>learning/side/S20/reader.md | s20-intel | Medium | child-read | Put the take-away numbers in the story before the lesson asks about them | open | 2026-10-22-4 |
-| SR-20261022-200 | learning/side/S21/sprout.md<br>learning/side/S21/reader.md | s21-ramp | Medium | humour | Byte measures eleven times on the page, not just in the step hint and a lesson reply | open | 2026-10-22-4 |
-| SR-20261022-201 | learning/side/S21/reader.md | s21-down | Medium | pacing | The asking-for-help lesson explains the moral before the "snail with doubts" laugh | open | 2026-10-22-4 |
-| SR-20261022-202 | learning/side/S21/sprout.md | s21-help | Medium | humour | Show the wet cat and the duck tree with sounds, and give Fern a dry line | open | 2026-10-22-4 |
-| SR-20261022-203 | learning/side/S24/sprout.md | s24-bird, s24-bird-collector, s24-bird-collector-kept | Medium | humour | Your Nubbin counts the buns, gets four, and glares at the bird | open | 2026-10-22-4 |
-| SR-20261022-204 | learning/side/S24/sprout.md<br>learning/side/S24/reader.md | s24-lantern-corvin | Medium | follow | "It is Sunday, so Corvin is by the pond" explains nothing; bring Fern's pie dish | open | 2026-10-22-4 |
-| SR-20261022-205 | learning/side/S19/reader.md | s19-warmth, s19-fade | Medium | follow | Gloss the White Year and the unmade stone, and name Fossil and the fourth lantern | open | 2026-10-22-4 |
-| SR-20261022-206 | learning/side/S19/sprout.md | s19-climb | Medium | humour | Make the left-right joke physical: Moss faces you, and both point at the same rock | open | 2026-10-22-4 |
-| SR-20261022-207 | learning/side/S19/sprout.md | s19-marina, s19-climb-alone | Medium | child-read | Keep Marina's "Lovely" but drop the irony a sprout takes literally | open | 2026-10-22-4 |
-| SR-20261022-208 | learning/side/S20/sprout.md | s20-blizzard | Medium | humour | "Find a grown-up" in a storm: Pixel points out that today the grown-up is her | open | 2026-10-22-4 |
-| SR-20261022-209 | learning/side/S20/reader.md | s20-complete | Medium | follow | "She can still do it" has no "she"; keep the figure unnamed but give the line a subject | open | 2026-10-22-4 |
-| SR-20261022-210 | learning/side/S20/sprout.md | s20-complete | Medium | child-read | "So we could build one fort fast, when it mattered" is abstract for a sprout | open | 2026-10-22-4 |
-| SR-20261022-211 | learning/side/S21/sprout.md<br>learning/side/S21/reader.md | s21-moss | Medium | follow | "He looks at you" right after Clank speaks; name the little grey one | open | 2026-10-22-4 |
-| SR-20261022-212 | learning/side/S21/reader.md | s21-complete | Medium | humour | Pay off Byte's "One of them to a bucket" in his log at the end | open | 2026-10-22-4 |
-| SR-20261022-213 | learning/side/S21/sprout.md | s21-log | Medium | child-read | "I bit a vicar" uses a word no sprout knows; make it a goose | open | 2026-10-22-4 |
-| SR-20261022-214 | learning/side/S21/sprout.md | s21-shed | Medium | child-read | The scene hangs on "useful", a word too hard for the band; say "helping" | open | 2026-10-22-4 |
-| SR-20261022-215 | learning/side/S22/sprout.md | s22-scree | Medium | humour | "It gets worse each time" is a grown-up joke; the Worry covers its ears instead | open | 2026-10-22-4 |
-| SR-20261022-216 | learning/side/S22/sprout.md | s22-foot | Medium | humour | The Worry has a tiny rope too, and trips on it, just before it says "What if you slip?" | open | 2026-10-22-4 |
-| SR-20261022-217 | learning/side/S22/sprout.md | s22-chimney | Medium | child-read | The soot pun needs a word a sprout lacks; keep the foot joke, lose the soot | open | 2026-10-22-4 |
-| SR-20261022-218 | learning/side/S22/sprout.md | s22-ridge | Medium | follow | Tie the three stones to "I always go home", so the stakes are counted | open | 2026-10-22-4 |
-| SR-20261022-219 | learning/side/S24/sprout.md | s24-rock | Medium | child-read | "I feel awful" gets no comfort in the sprout; add that a mistake doesn't make her bad | open | 2026-10-22-4 |
-| SR-20261022-220 | learning/side/S24/reader.md | s24-home, s24-home-eternal | Medium | follow | The margin notes point at Atlas pages the child may not know; describe the stories instead | open | 2026-10-22-4 |
-| SR-20261022-221 | learning/side/S24/reader.md | s24-home, s24-home-eternal | Medium | pacing | Three theme questions is one too many; turn s24-home's into a small doing task | open | 2026-10-22-4 |
-| SR-20261022-222 | learning/side/S24/reader.md | s24-back-pages | Medium | follow | "I nearly told her" never says what; it was the doctor's news | open | 2026-10-22-4 |
-| SR-20261022-223 | learning/side/S24/reader.md | s24-lantern-done | Medium | humour | The lesson reply explains the "light" pun; name it as a pun and let the line be funny | open | 2026-10-22-4 |
-| SR-20261022-224 | learning/side/S24/sprout.md | s24-stowaway | Medium | humour | Reveal Tilly in pieces: one welly, another welly, then a cross girl | open | 2026-10-22-4 |
-| SR-20261022-225 | learning/side/S19/sprout.md | s19-complete | Medium | child-read | Say Marina cried, gloss the Long-Grass lantern, and let the Nubbin heap snore | open | 2026-10-22-4 |
-| SR-20261022-226 | learning/side/S19/sprout.md | s19-question-sable | Medium | pacing | Move the "s-s-s" sounds quiz out of Cinder's apology to Sable | open | 2026-10-22-4 |
-| SR-20261022-227 | learning/side/S19/reader.md | s19-climb, s19-climb-sable, s19-climb-alone | Nice | child-read | "Takes your face right off" is an idiom a literal reader may take seriously | open | 2026-10-22-4 |
-| SR-20261022-228 | learning/side/S20/sprout.md | s20-merge | Nice | child-read | The sprout never met the catapult; make the roof Tilly's big sticks | open | 2026-10-22-4 |
-| SR-20261022-229 | learning/side/S20/reader.md | s20-declaration | Nice | humour | Explain "Or a grudge" through Gordon, who remembers every snowball | open | 2026-10-22-4 |
-| SR-20261022-230 | learning/side/S21/reader.md | s21-complete | Nice | pacing | End on the beans and Mustard, not on a stated moral | open | 2026-10-22-4 |
-| SR-20261022-231 | learning/side/S24/reader.md | s24-tea-moss-stayed | Nice | child-read | The coping lesson tells the child how to read Nova's joke; say it plainer | open | 2026-10-22-4 |
-| SR-20261022-232 | learning/side/S24/reader.md | s24-rock | Nice | follow | "She was right there" follows Nova's "She's all right"; name Tilly | open | 2026-10-22-4 |
-| SR-20261022-233 | learning/side/S22/sprout.md<br>learning/side/S22/reader.md<br>learning/side/S24/sprout.md<br>learning/side/S24/reader.md | cross-story | High | continuity | S22's Nova stays; S24's Nova is "always passing" and leaves. Make her live here and walk | open | 2026-10-22-4 |
-| SR-20261022-234 | learning/side/S20/sprout.md<br>learning/side/S20/reader.md<br>learning/side/S21/sprout.md<br>learning/side/S21/reader.md | cross-story | High | theme | Pixel and Byte are married (canon 38); let S21's switch-off row and his dance show it | open | 2026-10-22-4 |
-| SR-20261022-235 | learning/side/S19/sprout.md<br>learning/side/S24/sprout.md<br>learning/side/S24/reader.md | cross-story | Medium | child-read | One plain death pattern: S24 reader never says Hazel died; S19's Sable route never says Moss did | open | 2026-10-22-4 |
-| SR-20261022-236 | learning/side/S19/sprout.md<br>learning/side/S19/reader.md<br>learning/side/S20/reader.md<br>learning/side/S21/sprout.md<br>learning/side/S21/reader.md<br>learning/side/S24/reader.md | cross-story | Medium | humour | Carry run 3's wordless supper Nubbin: it tries to eat a pebble, snow, Clank's nose, the buns | open | 2026-10-22-4 |
-| SR-20261022-237 | learning/side/S19/reader.md<br>learning/side/S21/reader.md<br>learning/side/S24/reader.md | cross-story | Medium | pacing | Keep run 3's rule (no lesson between a set-up and its payoff); three more spots break it | open | 2026-10-22-4 |
+| SR-20261022-174 | learning/side/S19/sprout.md | s19-warmth-sable | Critical | follow | The Sable route never says Moss has died; say it plainly before his pale light appears | fixed | 2026-10-22-4 |
+| SR-20261022-175 | learning/side/S19/reader.md | s19-after, s19-fade, s19-fade-sable, s19-fade-alone | High | pacing | Take the two quizzes out of Cinder's last minutes; one of them offers "Funny." beside a death | fixed | 2026-10-22-4 |
+| SR-20261022-176 | learning/side/S20/sprout.md<br>learning/side/S20/reader.md | s20-count | High | continuity | Let the blizzard blow for hours, so the morning game can end under night stars | fixed | 2026-10-22-4 |
+| SR-20261022-177 | learning/side/S20/sprout.md<br>learning/side/S20/reader.md | s20-counters | High | humour | Gordon asks if the storm will hit him, so "hit by a whole sky" becomes a payoff | fixed | 2026-10-22-4 |
+| SR-20261022-178 | learning/side/S21/sprout.md | s21-unveil, s21-moss, s21-log, s21-down | High | follow | Pixel's running count says "one" but never one what; make it "one bump" to match the lesson | fixed | 2026-10-22-4 |
+| SR-20261022-179 | learning/side/S22/reader.md | s22-chimney, s22-chimney-top | High | pacing | A motive quiz splits "It hurts less." from "It's quicker."; move it after the choice | partial | 2026-10-22-4 |
+| SR-20261022-180 | learning/side/S22/reader.md | s22-ridge-cross | High | pacing | The crouching lesson splits the unit's best laugh, the flat voice and "You can SING?" | fixed | 2026-10-22-4 |
+| SR-20261022-181 | learning/side/S24/sprout.md<br>learning/side/S24/reader.md | s24-bird-collector, s24-bird-collector-kept | High | follow | The collector routes hide why the bird shuns you; say the cause in plain words | fixed | 2026-10-22-4 |
+| SR-20261022-182 | learning/side/S24/sprout.md | s24-nest-fed, s24-nest-fed-collector, s24-nest-waited, s24-nest-waited-collector | High | child-read | Say why a cage is bad for the chicks, not just "wild birds must stay free" | fixed | 2026-10-22-4 |
+| SR-20261022-183 | learning/side/S19/sprout.md | s19-fade, s19-fade-sable, s19-fade-alone | High | child-read | "It isn't cold." / "Not this way." / "Not frozen still" is cryptic; tie it to the grey Nubbins | fixed | 2026-10-22-4 |
+| SR-20261022-184 | learning/side/S19/reader.md | s19-hollow, s19-hollow-sable, s19-hollow-alone | High | follow | Moss says "…Cinder." and nobody says who she is; give her one line of who | fixed | 2026-10-22-4 |
+| SR-20261022-185 | learning/side/S19/sprout.md | s19-question, s19-question-sable | High | humour | Give the main and Sable routes the "Badly" laugh the alone route already has | fixed | 2026-10-22-4 |
+| SR-20261022-186 | learning/side/S19/sprout.md | s19-question, s19-question-sable, s19-question-alone | High | child-read | "Here. It's yours." and "forgiven by them" hand a child two unnamed things; name them | fixed | 2026-10-22-4 |
+| SR-20261022-187 | learning/side/S22/sprout.md | s22-chimney-top | High | child-read | "Somebody left… I always leave first. It hurts less." is too abstract; say it plainly | fixed | 2026-10-22-4 |
+| SR-20261022-188 | learning/side/S20/sprout.md | s20-intel | High | humour | "Children are not bricks" lost its set-up; give Tilly the bricks line back | fixed | 2026-10-22-4 |
+| SR-20261022-189 | learning/side/S20/sprout.md<br>learning/side/S20/reader.md | s20-declaration | High | follow | Tilly is only "Sparks's cousin"; name her in the narration, with a Bodge line for the variant | fixed | 2026-10-22-4 |
+| SR-20261022-190 | learning/side/S20/sprout.md<br>learning/side/S20/reader.md | s20-blizzard, s20-count | High | follow | "Somebody small is crying" is never paid off; it was Wren, and her mitten was on her head | fixed | 2026-10-22-4 |
+| SR-20261022-191 | learning/side/S21/sprout.md<br>learning/side/S21/reader.md | s21-ramp, s21-complete | High | continuity | Byte's "eleven Nubbins" can't be; the roster holds eight and the child counts eight | fixed | 2026-10-22-4 |
+| SR-20261022-192 | learning/side/S24/reader.md | s24-camp | High | follow | Fairweather mentions her motto and never says it; it is Tilly's "The whole world's up here!" | fixed | 2026-10-22-4 |
+| SR-20261022-193 | learning/side/S24/sprout.md<br>learning/side/S24/reader.md | s24-net, s24-whistle, s24-lights | High | pacing | Lessons sit inside the net throw, the whistle's punchline and the sunrise; move each after | fixed | 2026-10-22-4 |
+| SR-20261022-194 | learning/side/S24/sprout.md | s24-camp | High | humour | Give Fairweather one deadpan beat: she looks at you through the wrong end of her telescope | fixed | 2026-10-22-4 |
+| SR-20261022-195 | learning/side/S22/sprout.md<br>learning/side/S22/reader.md | s22-complete | High | humour | The squashed oatcakes are the ending's joke; make the Worry the silent culprit | fixed | 2026-10-22-4 |
+| SR-20261022-196 | learning/side/S19/sprout.md | s19-question, s19-question-sable, s19-question-alone | Medium | theme | Show what "well" means against "safe", so it links to the Nubbins going still | fixed | 2026-10-22-4 |
+| SR-20261022-197 | learning/side/S19/sprout.md<br>learning/side/S19/reader.md | s19-sit | Medium | humour | Break the long wait with a tummy growl and Marina's polite cough | fixed | 2026-10-22-4 |
+| SR-20261022-198 | learning/side/S19/reader.md | s19-question, s19-question-sable, s19-question-alone | Medium | pacing | The theme quiz interrupts Cinder's "Well is better" and calls itself "the big idea" | partial | 2026-10-22-4 |
+| SR-20261022-199 | learning/side/S20/sprout.md<br>learning/side/S20/reader.md | s20-intel | Medium | child-read | Put the take-away numbers in the story before the lesson asks about them | fixed | 2026-10-22-4 |
+| SR-20261022-200 | learning/side/S21/sprout.md<br>learning/side/S21/reader.md | s21-ramp | Medium | humour | Byte measures eleven times on the page, not just in the step hint and a lesson reply | fixed | 2026-10-22-4 |
+| SR-20261022-201 | learning/side/S21/reader.md | s21-down | Medium | pacing | The asking-for-help lesson explains the moral before the "snail with doubts" laugh | fixed | 2026-10-22-4 |
+| SR-20261022-202 | learning/side/S21/sprout.md | s21-help | Medium | humour | Show the wet cat and the duck tree with sounds, and give Fern a dry line | fixed | 2026-10-22-4 |
+| SR-20261022-203 | learning/side/S24/sprout.md | s24-bird, s24-bird-collector, s24-bird-collector-kept | Medium | humour | Your Nubbin counts the buns, gets four, and glares at the bird | fixed | 2026-10-22-4 |
+| SR-20261022-204 | learning/side/S24/sprout.md<br>learning/side/S24/reader.md | s24-lantern-corvin | Medium | follow | "It is Sunday, so Corvin is by the pond" explains nothing; bring Fern's pie dish | fixed | 2026-10-22-4 |
+| SR-20261022-205 | learning/side/S19/reader.md | s19-warmth, s19-fade | Medium | follow | Gloss the White Year and the unmade stone, and name Fossil and the fourth lantern | fixed | 2026-10-22-4 |
+| SR-20261022-206 | learning/side/S19/sprout.md | s19-climb | Medium | humour | Make the left-right joke physical: Moss faces you, and both point at the same rock | fixed | 2026-10-22-4 |
+| SR-20261022-207 | learning/side/S19/sprout.md | s19-marina, s19-climb-alone | Medium | child-read | Keep Marina's "Lovely" but drop the irony a sprout takes literally | fixed | 2026-10-22-4 |
+| SR-20261022-208 | learning/side/S20/sprout.md | s20-blizzard | Medium | humour | "Find a grown-up" in a storm: Pixel points out that today the grown-up is her | fixed | 2026-10-22-4 |
+| SR-20261022-209 | learning/side/S20/reader.md | s20-complete | Medium | follow | "She can still do it" has no "she"; keep the figure unnamed but give the line a subject | fixed | 2026-10-22-4 |
+| SR-20261022-210 | learning/side/S20/sprout.md | s20-complete | Medium | child-read | "So we could build one fort fast, when it mattered" is abstract for a sprout | fixed | 2026-10-22-4 |
+| SR-20261022-211 | learning/side/S21/sprout.md<br>learning/side/S21/reader.md | s21-moss | Medium | follow | "He looks at you" right after Clank speaks; name the little grey one | fixed | 2026-10-22-4 |
+| SR-20261022-212 | learning/side/S21/reader.md | s21-complete | Medium | humour | Pay off Byte's "One of them to a bucket" in his log at the end | fixed | 2026-10-22-4 |
+| SR-20261022-213 | learning/side/S21/sprout.md | s21-log | Medium | child-read | "I bit a vicar" uses a word no sprout knows; make it a goose | fixed | 2026-10-22-4 |
+| SR-20261022-214 | learning/side/S21/sprout.md | s21-shed | Medium | child-read | The scene hangs on "useful", a word too hard for the band; say "helping" | fixed | 2026-10-22-4 |
+| SR-20261022-215 | learning/side/S22/sprout.md | s22-scree | Medium | humour | "It gets worse each time" is a grown-up joke; the Worry covers its ears instead | fixed | 2026-10-22-4 |
+| SR-20261022-216 | learning/side/S22/sprout.md | s22-foot | Medium | humour | The Worry has a tiny rope too, and trips on it, just before it says "What if you slip?" | fixed | 2026-10-22-4 |
+| SR-20261022-217 | learning/side/S22/sprout.md | s22-chimney | Medium | child-read | The soot pun needs a word a sprout lacks; keep the foot joke, lose the soot | fixed | 2026-10-22-4 |
+| SR-20261022-218 | learning/side/S22/sprout.md | s22-ridge | Medium | follow | Tie the three stones to "I always go home", so the stakes are counted | fixed | 2026-10-22-4 |
+| SR-20261022-219 | learning/side/S24/sprout.md | s24-rock | Medium | child-read | "I feel awful" gets no comfort in the sprout; add that a mistake doesn't make her bad | fixed | 2026-10-22-4 |
+| SR-20261022-220 | learning/side/S24/reader.md | s24-home, s24-home-eternal | Medium | follow | The margin notes point at Atlas pages the child may not know; describe the stories instead | fixed | 2026-10-22-4 |
+| SR-20261022-221 | learning/side/S24/reader.md | s24-home, s24-home-eternal | Medium | pacing | Three theme questions is one too many; turn s24-home's into a small doing task | fixed | 2026-10-22-4 |
+| SR-20261022-222 | learning/side/S24/reader.md | s24-back-pages | Medium | follow | "I nearly told her" never says what; it was the doctor's news | fixed | 2026-10-22-4 |
+| SR-20261022-223 | learning/side/S24/reader.md | s24-lantern-done | Medium | humour | The lesson reply explains the "light" pun; name it as a pun and let the line be funny | fixed | 2026-10-22-4 |
+| SR-20261022-224 | learning/side/S24/sprout.md | s24-stowaway | Medium | humour | Reveal Tilly in pieces: one welly, another welly, then a cross girl | fixed | 2026-10-22-4 |
+| SR-20261022-225 | learning/side/S19/sprout.md | s19-complete | Medium | child-read | Say Marina cried, gloss the Long-Grass lantern, and let the Nubbin heap snore | fixed | 2026-10-22-4 |
+| SR-20261022-226 | learning/side/S19/sprout.md | s19-question-sable | Medium | pacing | Move the "s-s-s" sounds quiz out of Cinder's apology to Sable | fixed | 2026-10-22-4 |
+| SR-20261022-227 | learning/side/S19/reader.md | s19-climb, s19-climb-sable, s19-climb-alone | Nice | child-read | "Takes your face right off" is an idiom a literal reader may take seriously | fixed | 2026-10-22-4 |
+| SR-20261022-228 | learning/side/S20/sprout.md | s20-merge | Nice | child-read | The sprout never met the catapult; make the roof Tilly's big sticks | fixed | 2026-10-22-4 |
+| SR-20261022-229 | learning/side/S20/reader.md | s20-declaration | Nice | humour | Explain "Or a grudge" through Gordon, who remembers every snowball | partial | 2026-10-22-4 |
+| SR-20261022-230 | learning/side/S21/reader.md | s21-complete | Nice | pacing | End on the beans and Mustard, not on a stated moral | fixed | 2026-10-22-4 |
+| SR-20261022-231 | learning/side/S24/reader.md | s24-tea-moss-stayed | Nice | child-read | The coping lesson tells the child how to read Nova's joke; say it plainer | fixed | 2026-10-22-4 |
+| SR-20261022-232 | learning/side/S24/reader.md | s24-rock | Nice | follow | "She was right there" follows Nova's "She's all right"; name Tilly | fixed | 2026-10-22-4 |
+| SR-20261022-233 | learning/side/S22/sprout.md<br>learning/side/S22/reader.md<br>learning/side/S24/sprout.md<br>learning/side/S24/reader.md | cross-story | High | continuity | S22's Nova stays; S24's Nova is "always passing" and leaves. Make her live here and walk | fixed | 2026-10-22-4 |
+| SR-20261022-234 | learning/side/S20/sprout.md<br>learning/side/S20/reader.md<br>learning/side/S21/sprout.md<br>learning/side/S21/reader.md | cross-story | High | theme | Pixel and Byte are married (canon 38); let S21's switch-off row and his dance show it | fixed | 2026-10-22-4 |
+| SR-20261022-235 | learning/side/S19/sprout.md<br>learning/side/S24/sprout.md<br>learning/side/S24/reader.md | cross-story | Medium | child-read | One plain death pattern: S24 reader never says Hazel died; S19's Sable route never says Moss did | fixed | 2026-10-22-4 |
+| SR-20261022-236 | learning/side/S19/sprout.md<br>learning/side/S19/reader.md<br>learning/side/S20/reader.md<br>learning/side/S21/sprout.md<br>learning/side/S21/reader.md<br>learning/side/S24/reader.md | cross-story | Medium | humour | Carry run 3's wordless supper Nubbin: it tries to eat a pebble, snow, Clank's nose, the buns | fixed | 2026-10-22-4 |
+| SR-20261022-237 | learning/side/S19/reader.md<br>learning/side/S21/reader.md<br>learning/side/S24/reader.md | cross-story | Medium | pacing | Keep run 3's rule (no lesson between a set-up and its payoff); three more spots break it | fixed | 2026-10-22-4 |
 
 ## Runs
 
@@ -499,3 +499,4 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 - 2026-10-22 run 3 · [review-2026-10-22-3](review-2026-10-22-3.md) · units: S12/reader.md, S13/sprout.md, S13/reader.md, S14/sprout.md, S14/reader.md, S15/reader.md, S16/reader.md, S17/reader.md, S18/sprout.md, S18/reader.md · 53 recs: Critical 2, High 17, Medium 27, Nice 7 (5 cross-story) · fixed since last run: 60 (5 partial)
 - 2026-10-22 · fix pass on branch `fix/story-review-2026-10-22-3` · all 58 open or partial recs (run 3's 53 plus SR-20261022-72, -79, -80, -110, -115): 57 fixed, 1 partial (SR-20261022-162: S15's lesson replies were already in Byte's voice, so only the wording changed) · -72 the J + I carving warms for both faeries; -79 names Doom's time platform; -80 rewords MK2's step so Marlene stays on the ridge; -110 tags Pip before the rhyme lesson; -115 was already done (s8-ring keeps one lesson) · no canon changes
 - 2026-10-22 run 4 · [review-2026-10-22-4](review-2026-10-22-4.md) · units: S19/sprout.md, S19/reader.md, S20/sprout.md, S20/reader.md, S21/sprout.md, S21/reader.md, S22/sprout.md, S22/reader.md, S24/sprout.md, S24/reader.md · 64 recs: Critical 1, High 23, Medium 34, Nice 6 (5 cross-story) · fixed since last run: 57 (1 partial)
+- 2026-10-22 · fix pass on branch `fix/story-review-2026-10-22-4` · all 65 open or partial recs (run 4's 64 plus SR-20261022-162): 62 fixed, 3 partial (-179 and -198: a lesson can only play before a scene's choices, so the asks sit at the scene end, not after the choice; -229: S20's grudge exchange sits at the end of s20-declaration, since Wren and Gordon aren't introduced at the rec's spot) · also: S24's kept-stone Nubbin lines now swap by each band's own line (sprout had main's words, and falls-top hit the wrong line), with a test · no canon changes

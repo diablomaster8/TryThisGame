@@ -1151,7 +1151,7 @@ const S19_MARINA_LOOKS_AWAY: LessonIn = {
 };
 
 const S19_GOES: Line[] = [
-  N('The light gets smaller. It doesn’t flicker, the way the fourth lantern used to. It just gets smaller, steadily.'),
+  N('The light gets smaller. It doesn’t flicker, the way the Long-Grass lantern used to. It just gets smaller, steadily.'),
   N('Like someone walking away up a long road, who turns round once to wave.'),
 ];
 const S19_GONE: Line[] = [
@@ -1165,7 +1165,7 @@ const S19_SIMILE_GOES: LessonIn = {
   skill: 'explain how a simile changes the feeling of a moment',
   standard: 'L.4.5',
   kind: 'ask',
-  after: 2,
+  after: 10,
   prompt: [N('The light going is compared to “someone walking away up a long road, who turns round once to wave”.'), N('How does that simile make the moment feel?')],
   options: [
     {
@@ -1177,10 +1177,6 @@ const S19_SIMILE_GOES: LessonIn = {
       label: 'Fast and scary.',
       reply: [N('A long road and a slow wave aren’t fast. The simile makes it feel gentle, like a goodbye.')],
     },
-    {
-      label: 'Funny.',
-      reply: [N('There are funny moments in this story, but not this one. A wave over the shoulder is a gentle goodbye.')],
-    },
   ],
   parentNote: 'Explained how a simile shapes the feeling of a sad moment.',
 };
@@ -1190,7 +1186,7 @@ const S19_SAFE_WELL = (who: (text: string, mood?: Mood) => Line): LessonIn => ({
   skill: 'find the big idea (theme) of a story',
   standard: 'RL.4.2',
   kind: 'ask',
-  after: 5,
+  after: 15,
   prompt: [N('Cinder asked if the Nubbins were “safe”. The answer was “well”. Those words aren’t the same.'), N('What is the difference?')],
   options: [
     {
@@ -1198,7 +1194,7 @@ const S19_SAFE_WELL = (who: (text: string, mood?: Mood) => Line): LessonIn => ({
       best: true,
       reply: [
         who('Yes. Cinder kept them safe by keeping them still. But still isn’t living.', 'soft'),
-        N('That is the big idea of the whole Grove story: safe is not the same as well. A big idea like that is called a theme.'),
+        N('Safe is not the same as well. A big idea like that is called a theme.'),
       ],
     },
     {
@@ -1316,9 +1312,9 @@ const S19_SCENES: EduScene[] = [
       N('Moss sits on the cottage step, facing north, where the snowfield climbs to the high pass. He has sat like that since dawn.'),
       N('He is thinner than he was. On a bright morning you can see the step through him.'),
       M('There is something warm up there.', 'think'),
-      M('There shouldn’t be. Nothing has been warm on the high pass since the White Year. Nothing.'),
+      M('There shouldn’t be. Nothing has been warm on the high pass since the White Year, the winter everything froze. Nothing.'),
       N('Up there, the snow is the blue of skimmed milk, and quite empty.'),
-      M('I felt it on the night we unmade the stone. Like a candle someone forgot, in a room you thought was dark.', 'soft'),
+      M('I felt it at the Long Night, when we unmade the cold stone. Like a candle someone forgot, in a room you thought was dark.', 'soft'),
       M('I am too thin to climb. I am going anyway. You may carry me, if you would. In your coat. I won’t talk much.', 'soft'),
       M('That last part was a lie. Marina knows the path. Ask her.'),
     ],
@@ -1419,7 +1415,7 @@ const S19_SCENES: EduScene[] = [
       MA('Right.'),
       M('Her right. My left. We are agreeing, in different directions.'),
       N('The snowfield is crusted on top and soft beneath. Every step goes through with a crunch like biting toast.'),
-      MA('Lovely, isn’t it? That wind. Takes your face right off.', 'happy'),
+      MA('Lovely, isn’t it? That wind. That wind could peel an apple.', 'happy'),
       M('Your heart is very loud. I am not complaining. It’s warm.', 'soft'),
     ],
     [
@@ -1476,6 +1472,7 @@ const S19_SCENES: EduScene[] = [
       ...S19_HOLLOW_START,
       N('Moss has gone completely still in your coat.'),
       M('…Cinder.', 'soft'),
+      M('She was a warden, like me, long ago. She kept the high pass.', 'soft'),
       N('The red light doesn’t answer. It is too small to answer. It has kept itself barely alight for longer than the cottage has stood.'),
       M('She can’t hear us. Not yet. We speak only to those who sit still long enough. She taught me that, once.', 'soft'),
       M('Let me out. I’ll sit by her. You sit by me. We’ll wait.'),
@@ -1522,6 +1519,7 @@ const S19_SCENES: EduScene[] = [
       N('Below you lies the whole valley: the falls frozen white, smoke from the cottage, and four lantern posts too small to see.'),
       N('You wait. Nobody speaks. The red light stays very small.'),
       N('Your feet go cold.'),
+      N('Your stomach growls into all that quiet, loud as a door in an empty house. Up on the lip, Marina coughs, very politely.'),
       N('You wriggle your toes inside your two pairs of socks, the way Marina showed you, and they warm up a little.'),
       N('You keep waiting. Waiting is the whole job today.'),
     ],
@@ -1530,7 +1528,7 @@ const S19_SCENES: EduScene[] = [
         domain: 'health',
         skill: 'notice cold fingers and toes and warm them up',
         kind: 'notice',
-        after: 4,
+        after: 5,
         lines: [
           N('In real cold, fingers and toes get cold first. If they hurt or start to go numb, tell a grown-up and warm up straight away.'),
           N('Wriggling them, dry socks, gloves and a warm drink all help.'),
@@ -1542,7 +1540,7 @@ const S19_SCENES: EduScene[] = [
         skill: 'slow breathing to help you sit still and calm',
         standard: 'CASEL: Self-management',
         kind: 'do',
-        after: 5,
+        after: 6,
         check: 'edu:breathe:slow:5',
         lines: [
           N('Sitting still is easier when you breathe slowly. Try it with the wind.'),
@@ -1573,7 +1571,7 @@ const S19_SCENES: EduScene[] = [
       CI('Am I forgiven? By the ones who have to live with it?', 'soft'),
       M('Don’t look at me. It isn’t mine to give. It never was.', 'soft'),
     ],
-    [{ ...S19_SAFE_WELL(M), after: 4 }, S19_THINK_FORGIVE],
+    [S19_SAFE_WELL(M), S19_THINK_FORGIVE],
     S19_CHOICES_MOSS,
   ),
   // ------------------------------------------------ step 4: after (shared by both versions)
@@ -1592,25 +1590,10 @@ const S19_SCENES: EduScene[] = [
         domain: 'literacy',
         skill: 'explain a character’s motive',
         standard: 'RL.3.3',
-        kind: 'ask',
-        after: 2,
-        prompt: [N('Why did Cinder keep herself alight for so long?')],
-        options: [
-          {
-            label: 'She was waiting to hear whether the Nubbins were all right.',
-            best: true,
-            reply: [N('Yes. “Just in case there was news.” She needed to know they were well. Now she knows, she can stop.')],
-          },
-          {
-            label: 'She liked being cold.',
-            reply: [N('She kept herself warm, not cold. She was waiting “just in case there was news” about the Nubbins.')],
-          },
-          {
-            label: 'She forgot to stop.',
-            reply: [N('She kept going on purpose: “just in case there was news”. She wanted to know the Nubbins were all right.')],
-          },
-        ],
-        parentNote: 'Explained why a character acted as she did, using her own words as evidence.',
+        kind: 'notice',
+        after: 5,
+        lines: [N('Cinder kept her light on for news of the Nubbins. Now she has it, and she can rest.')],
+        parentNote: 'Understood why a character acted as she did, using her own words as evidence.',
       },
       {
         domain: 'sel',
@@ -1630,7 +1613,7 @@ const S19_SCENES: EduScene[] = [
   scene(
     's19-fade',
     [
-      N('You stay. Moss sits with his shoulder almost touching the light, the way he sat by Fossil’s flower in the rain.'),
+      N('You stay. Moss sits with his shoulder almost touching the light, the way he sat by his old friend Fossil’s flower in the rain.'),
       ...S19_GOES,
       CI('Moss. It isn’t cold.', 'soft'),
       M('No. Not this way.', 'soft'),
@@ -1667,6 +1650,7 @@ const S19_SCENES: EduScene[] = [
       N('That night you stand by the Long-Grass lantern. It burns as it has every night since the Long Night.'),
       N('But it’s warm now, standing beside it. The other three never are.'),
       N('You put the red pebble on the windowsill. By morning the Nubbins are asleep in a heap under it. None of them will say why.'),
+      N('One Nubbin licks the red pebble. It is not supper. It is warm, though.'),
     ],
     [
       {
@@ -1761,7 +1745,7 @@ const S19_VARIANT_SCENES: EduScene[] = [
       N('She goes ahead, a grey shape on the white, as if she knows the way.'),
       N('Moss’s pale light drifts along at her shoulder, where he used to walk.'),
       N('The snowfield is crusted on top and soft beneath. Each of your steps goes through with a crunch like biting toast.'),
-      MA('Lovely, isn’t it? That wind. Takes your face right off.', 'happy'),
+      MA('Lovely, isn’t it? That wind. That wind could peel an apple.', 'happy'),
       N('Sable is light enough not to break the crust. She leaves a line of small prints, neat as stitches.'),
       MA('She’s not stopping. Is she always like this?'),
       Y('Only when it matters.'),
@@ -1810,6 +1794,7 @@ const S19_VARIANT_SCENES: EduScene[] = [
     's19-hollow-sable',
     [
       ...S19_HOLLOW_START,
+      N('You know whose light it is. Moss told you about Cinder once: a warden like him, from long ago.'),
       N('Sable goes into the hollow, and stops a tail’s length from the light. The fur lifts all along her back.'),
       N('She knows it. You don’t know how. Something in her knows the shape of the cold that was made here, and who made it.'),
       N('Moss’s pale light settles beside the red one. Two lights on a flat stone: one pale, one hardly there.'),
@@ -1822,7 +1807,7 @@ const S19_VARIANT_SCENES: EduScene[] = [
         skill: 'animals’ fur can stand up when they are alarmed',
         standard: '4-LS1-1',
         kind: 'notice',
-        after: 5,
+        after: 6,
         lines: [
           N('Many furry animals, like cats and dogs, raise the fur along their backs when they are alarmed or frightened.'),
           N('It makes them look bigger. Sable is telling you, without a word, that this place matters to her.'),
@@ -1873,7 +1858,7 @@ const S19_VARIANT_SCENES: EduScene[] = [
         skill: 'remembering someone who has died by carrying their words',
         standard: 'CASEL: Self-awareness',
         kind: 'notice',
-        after: 9,
+        after: 10,
         lines: [
           N('When someone we love has died, we often carry their sayings with us. Using their words is one way of remembering them.'),
           N('Moss used to say, “We are made of being remembered.” Today, you remembered him.'),
@@ -1917,7 +1902,7 @@ const S19_ALONE_SCENES: EduScene[] = [
     [
       N('First light. Marina ropes you to her, checks the knot twice, and then checks your socks.'),
       N('The snowfield is crusted on top and soft beneath. Every step goes through with a crunch like biting toast.'),
-      MA('Lovely, isn’t it? That wind. Takes your face right off.', 'happy'),
+      MA('Lovely, isn’t it? That wind. That wind could peel an apple.', 'happy'),
       MA('What are we looking for, exactly?'),
       Y('Something warm.'),
       MA('Up here? Well. You’re Hazel’s. I gave up asking years ago.', 'think'),
@@ -1952,7 +1937,7 @@ const S19_ALONE_SCENES: EduScene[] = [
         skill: 'melting and freezing again can make a hard crust on snow',
         standard: '2-PS1-4',
         kind: 'notice',
-        after: 1,
+        after: 5,
         lines: [
           MA('That crust is sun and frost taking turns. By day the sun melts the top of the snow a little.'),
           MA('At night it freezes again, harder. Melting and freezing, over and over, and you get a lid on the snow.'),
@@ -1965,6 +1950,7 @@ const S19_ALONE_SCENES: EduScene[] = [
     's19-hollow-alone',
     [
       ...S19_HOLLOW_START,
+      N('You know whose light it is. Moss told you about Cinder once: a warden like him, from long ago.'),
       N('You go into the hollow on your own, and sit down a little way from the light.'),
       N('You remember something Moss told you once. Eternals only speak to those who sit still long enough.'),
     ],
@@ -1975,7 +1961,7 @@ const S19_ALONE_SCENES: EduScene[] = [
         skill: 'being brave on your own, and knowing help is near',
         standard: 'CASEL: Self-management',
         kind: 'notice',
-        after: 6,
+        after: 7,
         lines: [
           N('Doing something important on your own can feel lonely, and a bit scary. That’s allowed.'),
           N('It helps to remember what people taught you, and to know who is near. Marina is just up on the lip, with the rope.'),
@@ -2019,7 +2005,7 @@ const S19_ALONE_SCENES: EduScene[] = [
       N('You sit there a long time. Up on the lip, Marina lets you.'),
     ],
     [
-      S19_SIMILE_GOES,
+      { ...S19_SIMILE_GOES, after: 9 },
       {
         domain: 'sel',
         skill: 'letting someone have quiet time after a loss',
@@ -2231,6 +2217,7 @@ const S22_SCENES: EduScene[] = [
       NO('♪ This is my other foot. ♪', 'happy'),
       N('Far below, a buzzard turns and turns in circles, watching you with what feels like professional interest.'),
       N('It hardly flaps its wings at all.'),
+      NO('Show-off.', 'happy'),
     ],
     [
       {
@@ -2243,18 +2230,6 @@ const S22_SCENES: EduScene[] = [
           NO('Move only one at a time. And real climbing is only ever with a grown-up, a helmet and the right gear.'),
         ],
         parentNote: 'Learned the climber’s “three points of contact” rule and that real climbing needs a grown-up and safety gear.',
-      },
-      {
-        domain: 'science',
-        skill: 'how buzzards soar on rising warm air',
-        standard: '4-LS1-1',
-        kind: 'notice',
-        after: 5,
-        lines: [
-          N('Buzzards ride on rising warm air, called a thermal. They circle round and round inside it, going higher without flapping.'),
-          N('Their long, broad wings are made for it. They save their energy for hunting.'),
-        ],
-        parentNote: 'Learned how a buzzard’s broad wings let it soar on rising warm air (thermals).',
       },
     ],
   ),
@@ -2271,11 +2246,25 @@ const S22_SCENES: EduScene[] = [
     ],
     [
       {
+        domain: 'sel',
+        skill: 'calm your body with counted breathing',
+        standard: 'CASEL: Self-management',
+        kind: 'do',
+        after: 5,
+        check: 'edu:breathe:count:4-in-4-out',
+        lines: [
+          N('Nova is frozen by a big feeling. Help her calm her body first.'),
+          N('(Breathe in slowly while you count to four. Breathe out while you count to four. Do it three times with Nova.)'),
+          NO('…Better. My hands feel like mine again.', 'soft'),
+        ],
+        parentNote: 'Practised counted breathing (in for 4, out for 4) as a way to calm a big feeling.',
+      },
+      {
         domain: 'literacy',
         skill: 'explain a character’s motive',
         standard: 'RL.3.3',
         kind: 'ask',
-        after: 4,
+        after: 5,
         prompt: [N('Why does Nova always leave places first?')],
         options: [
           {
@@ -2293,20 +2282,6 @@ const S22_SCENES: EduScene[] = [
           },
         ],
         parentNote: 'Explained a character’s behaviour using what she says about her past.',
-      },
-      {
-        domain: 'sel',
-        skill: 'calm your body with counted breathing',
-        standard: 'CASEL: Self-management',
-        kind: 'do',
-        after: 5,
-        check: 'edu:breathe:count:4-in-4-out',
-        lines: [
-          N('Nova is frozen by a big feeling. Help her calm her body first.'),
-          N('(Breathe in slowly while you count to four. Breathe out while you count to four. Do it three times with Nova.)'),
-          NO('…Better. My hands feel like mine again.', 'soft'),
-        ],
-        parentNote: 'Practised counted breathing (in for 4, out for 4) as a way to calm a big feeling.',
       },
     ],
     [
@@ -2425,7 +2400,8 @@ const S22_SCENES: EduScene[] = [
       NO('You’re coming anyway. You always come. So come with me. Not at me.', 'soft'),
       N('The Worry looks at her hand. Then it takes it.'),
       N('It’s smaller, with its hand in hers. Not gone. Smaller.'),
-      N('They cross the Ridge together, keeping low in the gusts. Nova starts the stones song again, and a second voice joins in, horribly flat.'),
+      N('They cross the Ridge together, crouched low in the gusts, because a low body is harder for the wind to push over.'),
+      N('Nova starts the stones song again, and a second voice joins in, horribly flat.'),
       WO('♪ …little stones, which are very loose, and we should mind them… ♪', 'happy'),
       NO('You can SING?', 'shock'),
       WO('I’ve always been able to sing. You never asked.', 'soft'),
@@ -2436,7 +2412,7 @@ const S22_SCENES: EduScene[] = [
         skill: 'find the theme of a story',
         standard: 'RL.4.2',
         kind: 'ask',
-        after: 6,
+        after: 10,
         prompt: [N('The Worry didn’t vanish. It got smaller when Nova walked with it instead of fighting it.'), N('What is the story telling us?')],
         options: [
           {
@@ -2454,18 +2430,6 @@ const S22_SCENES: EduScene[] = [
           },
         ],
         parentNote: 'Identified the theme: a fear can shrink when you accept it and keep going.',
-      },
-      {
-        domain: 'science',
-        skill: 'keeping low helps you balance against a push',
-        standard: '3-PS2-1',
-        kind: 'notice',
-        after: 7,
-        lines: [
-          N('Wind pushes on everything in its way. A tall, upright body is easy to push off balance.'),
-          N('Crouching low makes you steadier, so your grip and your weight can balance the wind’s push.'),
-        ],
-        parentNote: 'Learned why crouching low helps you stay balanced against a strong push like the wind.',
       },
     ],
   ),
@@ -2530,9 +2494,9 @@ const S22_SCENES: EduScene[] = [
       N('The falls are a long white thread. There’s Dusty’s cliff. Marina’s pools are like spilled coins. The Circuit looks square and small.'),
       N('The Hollow is dark in its fold of trees. And the Grove: the pond, the cottage roof, and four lantern posts no bigger than pins.'),
       N('Nova sits down. The Worry sits beside her, holding her hand. Neither of them says anything for a while.'),
-      NO('I’d like to stay for a while.', 'soft'),
+      NO('I’d like to stay.', 'soft'),
       N('She says it to the valley first. Then, more quietly, to the Worry. Then, last of all, to you.'),
-      NO('Not up here. Down there. I’d like to stay for a while.', 'soft'),
+      NO('Not up here. Down there. I’d like to stay.', 'soft'),
       WO('It’ll be frightening.', 'soft'),
       NO('Yes. You’ll come too.', 'soft'),
     ],
@@ -2575,6 +2539,18 @@ const S22_SCENES: EduScene[] = [
         ],
         parentNote: 'Described how a character changed from the beginning of the story to the end.',
       },
+      {
+        domain: 'science',
+        skill: 'how buzzards soar on rising warm air',
+        standard: '4-LS1-1',
+        kind: 'notice',
+        after: 1,
+        lines: [
+          N('Far below you now, the buzzard is still circling. Buzzards ride on rising warm air, called a thermal. They circle round and round inside it, going higher without flapping.'),
+          N('Their long, broad wings are made for it. They save their energy for hunting.'),
+        ],
+        parentNote: 'Learned how a buzzard’s broad wings let it soar on rising warm air (thermals).',
+      },
     ],
   ),
   // ------------------------------------------------ complete
@@ -2582,9 +2558,10 @@ const S22_SCENES: EduScene[] = [
     's22-complete',
     [
       N('Going down is quicker and much worse, as it always is. Nova sings the whole way. So does the Worry.'),
-      N('At the bottom she unpacks the oatcakes, which have been sat on. There are nine. She shares them out in three.'),
+      N('At the bottom she unpacks nine oatcakes, all sat on. Nova looks at the Worry, and the Worry looks at the view.'),
+      N('She shares them out in three anyway. The Worry gets the flattest.'),
       NO('Keep the flag. Put it somewhere you’ll see it. I’ll know where it is. I’ll come and look at it.', 'soft'),
-      NO('And have my boots. They’re my spare pair. I won’t need spares. I’m not going anywhere.', 'happy'),
+      NO('And have my boots. They’re my spare pair. I won’t need spares. I’m not going anywhere. I’m staying.', 'happy'),
       NO('You can see the whole valley from up there now, whenever you like. In case you ever need to find me. I’ll be in it.', 'soft'),
       N('The Worry waves. Small. Only you can see it.'),
     ],
@@ -2594,7 +2571,7 @@ const S22_SCENES: EduScene[] = [
         skill: 'share equally into groups (division)',
         standard: '3.OA.A.3',
         kind: 'ask',
-        after: 1,
+        after: 2,
         prompt: [N('Nine squashed oatcakes, shared fairly between Nova, you and the Worry. How many each?')],
         options: [
           {
@@ -2618,7 +2595,7 @@ const S22_SCENES: EduScene[] = [
         skill: 'choose a way to cope with worry',
         standard: 'CASEL: Self-management',
         kind: 'ask',
-        after: 5,
+        after: 6,
         prompt: [N('Nova tried lots of ways to climb with her Worry. Which one would you like to try next time you feel worried?')],
         options: [
           {
@@ -2673,7 +2650,7 @@ const S22: EduQuest = {
     gloss('scree', 'A slope covered in small, loose stones that have broken off the rock above.', 's22-foot'),
     gloss('weathering', 'The slow breaking-up of rock by things like frost, rain and wind.', 's22-scree'),
     gloss('professional', 'Done the way an expert would do it, as their job.', 's22-chimney'),
-    gloss('thermal', 'A rising current of warm air that birds can ride upwards.', 's22-chimney'),
+    gloss('thermal', 'A rising current of warm air that birds can ride upwards.', 's22-summit'),
     gloss('cairn', 'A pile of stones built as a marker, often on hills and mountains.', 's22-ridge'),
     gloss('contour line', 'A line on a map that joins places of the same height.', 's22-ridge'),
     gloss('gusts', 'Sudden, strong rushes of wind.', 's22-ridge-cross'),

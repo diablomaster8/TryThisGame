@@ -125,7 +125,8 @@ const TEA_OPEN: Line[] = [
   N('Look! The flowers on the hill are open, all at once.'),
   N('This one is Gran Hazel’s flower. It’s a bit untidy, like her.'),
   N('Gran Hazel died. Her flower grows here, so we remember her.'),
-  N('Here comes Nova, with a great big bag. She always walks on by.'),
+  N('Here comes Nova, with a great big bag. She lives in the valley now.'),
+  N('But she still walks past everything, very fast.'),
   NO('Hello. Today I thought I’d stop, and sit with her.', 'soft'),
 ];
 const TEA_SIT = N('Nova sits down by the flower. Her big bag stays on her back.');
@@ -181,11 +182,13 @@ const STOW_LAW: Line[] = [
 // ---------------------------------------------------------------- step 6: the tall bird
 const BIRD_OPEN: Line[] = [
   N('Up high, you walk into a cloud. It is misty and cool.'),
-  N('You put Fern’s five buns on a rock. Then there are fewer!'),
+  N('You put Fern’s five buns on a rock. Your Nubbin counts them.'),
+  N('One, two, three, four… four? It counts again. Still four!'),
   N('A huge bird stands in the mist, with a bun in its beak.'),
   N('It is taller than Nova. It has stripes and long, long legs.'),
   TI('Oh! He’s beautiful! He’s called Sir Reginald.', 'shock'),
   N('Gulp! The bun goes all the way down.'),
+  N('Your Nubbin glares at the bird. The bird looks at the sky.'),
   N('The bird steps forward, then back. It is shy.'),
   NO('Don’t grab. Be gentle and slow.', 'soft'),
 ];
@@ -212,12 +215,14 @@ const BIRD_WAITED: Choice = {
 type CollectorMode = 'sold' | 'kept';
 const BIRD_NOTICED: Record<CollectorMode, Line[]> = {
   sold: [
-    TI('It doesn’t come to you. That’s funny.', 'think'),
-    N('You think of your quiet grey Nubbins at home. You feel a bit sorry.'),
+    TI('It doesn’t come to you. That’s odd!', 'think'),
+    N('Your Nubbins at home are grey and quiet now. The bird can tell.'),
+    N('You feel sorry about that. You don’t say so.'),
   ],
   kept: [
     TI('Why are your hands cold? It’s nearly summer.', 'think'),
-    N('You put your hands in your pockets. You don’t say anything.'),
+    N('Your hands are cold, since you kept the cold stone.'),
+    N('You hide them in your pockets.'),
   ],
 };
 const birdFedCollector = (mode: CollectorMode): Choice => ({
@@ -242,7 +247,7 @@ const birdWaitedCollector = (mode: CollectorMode): Choice => ({
 });
 const BIRD_LESSONS: Beat[] = [
   ask(
-    1,
+    2,
     'maths',
     'take away 1 from 5',
     'K.OA.A.2',
@@ -257,7 +262,7 @@ const BIRD_LESSONS: Beat[] = [
     'Your child took one away from five with fingers.',
   ),
   notice(
-    6,
+    8,
     'science',
     'shy animals need slow, quiet people',
     'K-ESS3-3',
@@ -328,7 +333,8 @@ const nestScene = (of: string, payoff: keyof typeof NEST_PAYOFF): EduScene => {
       '1-LS1-2',
       [
         N('Mother birds sit over their chicks to keep them warm.'),
-        N('Chicks need their mums. That’s why wild birds must stay free.'),
+        N('In a cage, the mother bird can’t get home.'),
+        N('Then her chicks get cold. So wild birds stay free.'),
       ],
       'Your child heard how bird parents look after their chicks.',
     ),
@@ -468,8 +474,8 @@ const HOME_CLOSE: Line[] = [
   N('Look! Little notes in pencil, on every page. Gran Hazel wrote them!'),
   N('She read all of Nova’s stories, and wrote what she thought.'),
   N('Nova stays three days. She says yes to tea every time.'),
-  N('Then off she goes. Her bag is so light now!'),
-  N('At the top of the hill she waves. Goodbye, Nova! See you soon!'),
+  N('Then Nova goes for a long walk. Her bag is so light now!'),
+  N('She waves from the hill. She’ll be back. She said so twice!'),
 ];
 const homeScene = (of: string, eternal: boolean): EduScene => {
   const lines = [...HOME_OPEN, ...(eternal ? [HOME_ETERNAL] : []), ...HOME_CLOSE];
@@ -630,13 +636,14 @@ const S24_SCENES: EduScene[] = [
       N('Here comes Sparks, running and waving both arms.'),
       SP('Is she in there? Sorry! Sorry! It’s my cousin, Tilly.', 'shock'),
       SP('She calls Hazel “Gran”, too. All the little ones do.'),
-      N('You lift the cover. A girl in big wellies looks up at you.'),
+      N('You lift the cover. Up pops a welly. Then another welly.'),
+      N('Then a girl, in the wellies, looking cross.'),
       N('She has a sash with lots of home-made badges.'),
       ...STOW_LAW,
     ],
     [
       ask(
-        4,
+        5,
         'literacy',
         'first sounds: t',
         'RF.K.2',
@@ -816,6 +823,9 @@ const S24_SCENES: EduScene[] = [
     [
       AU('My name is Augusta Fairweather. I am an explorer.', 'think'),
       N('An explorer goes to new places, to find out about them.'),
+      N('She looks at you through her telescope. The wrong way round.'),
+      AU('Hmm. You are all very small.'),
+      N('Tilly turns it round for her. Fairweather says nothing at all.'),
       NO('THE Fairweather? From the old picture papers?', 'shock'),
       NO('Gran Hazel had your picture on her wall when she was a girl!'),
       N('Fairweather sees the old tin badge on Tilly’s sash.'),
@@ -825,7 +835,7 @@ const S24_SCENES: EduScene[] = [
     ],
     [
       notice(
-        6,
+        9,
         'social-studies',
         'things from long ago get passed down',
         'D2.His.2.K-2',
@@ -898,7 +908,7 @@ const S24_SCENES: EduScene[] = [
     ],
     [
       ask(
-        4,
+        7,
         'sel',
         'staying close to your grown-up',
         'CASEL: Responsible decision-making',
@@ -940,7 +950,10 @@ const S24_SCENES: EduScene[] = [
         [
           opt(
             'Sit with her, and wait',
-            [N('Yes. Sitting close says, “I’m here.” You don’t need words.')],
+            [
+              N('Yes. Sitting close says, “I’m here.” You don’t need words.'),
+              N('Nova made a mistake. A mistake doesn’t make her bad.'),
+            ],
             true,
           ),
           opt('Tell her to cheer up', [
@@ -1356,7 +1369,7 @@ const S24_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        8,
+        9,
         'literacy',
         'rhymes: hat',
         'RF.K.2',
@@ -1381,7 +1394,7 @@ const S24_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        6,
+        7,
         'science',
         'what plants need to grow',
         'K-LS1-1',
@@ -1412,7 +1425,7 @@ const S24_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        8,
+        9,
         'science',
         'animals show feelings with their bodies',
         'ELOF: Scientific Reasoning',
@@ -1466,7 +1479,8 @@ const S24_VARIANTS: EduScene[] = [
     's24-lantern-corvin',
     [
       ...LANTERN_ASK,
-      N('It is Sunday, so Corvin is by the pond.'),
+      N('It is Sunday. Corvin comes every Sunday, with Fern’s pie dish.'),
+      N('It is washed. There is a pie in it. Fern says it isn’t hers.'),
       N('He takes Gran Hazel’s lantern off its hook, very carefully.'),
       N('He trims the wick, so the flame will burn nicely.'),
       C('For the sunrise, on the far hill.', 'think'),
@@ -1475,7 +1489,7 @@ const S24_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        7,
+        8,
         'sel',
         'looking after things you borrow',
         'CASEL: Responsible decision-making',
@@ -1530,7 +1544,7 @@ const S24_VARIANTS: EduScene[] = [
     [
       N('Before the cart goes, Nova walks back up the hill.'),
       N('She puts a bun on Moss’s flat stone, by his flower.'),
-      N('Moss died. That means his body stopped working, and it won’t start again.'),
+      N('Moss died. His body stopped, and it won’t start again.'),
       N('His flower grows here, so everyone remembers him.'),
       NO('A bun for you, Moss. I’ll tell you about the trip when I’m back.', 'soft'),
       N('It’s all right to talk to someone we miss. Lots of people do.'),

@@ -21,10 +21,10 @@
 #### `reader:s24-tea` · [main](../../../side/S24.md#s24-tea)
 
 _Spring. The memorial flowers on the hill have opened all at once, as if somebody gave a signal._  
-_Hazel’s is the untidy one near Briar’s. It still faces the Grove, very firmly._  
+_Hazel died, and her flower came up here so the valley can remember her. It is the untidy one near Briar’s, and still faces the Grove, very firmly._  
 _Somebody comes over the far ridge in the early light, under a pack so big it looks like a walking hedge._  
 _It is Nova. She comes straight up the hill path, and at the top she stops, which is new._  
-**Nova**: Morning. Don’t get up. I was passing. I’m always passing.  
+**Nova**: Morning. Don’t get up. I live here now, apparently. I still walk past everything.  
 **Nova**: I thought I’d sit here a minute and not pass.  
 _She sits down by Hazel’s flower with her pack still on, like a tortoise that has decided to stay a while._  
 
@@ -46,10 +46,10 @@ _Nobody in the valley can remember Nova staying for tea. Down by the hedge, Fern
 _Variant of `s24-tea`._
 
 _Spring. The memorial flowers on the hill have opened all at once, as if somebody gave a signal._  
-_Hazel’s is the untidy one near Briar’s. It still faces the Grove, very firmly._  
+_Hazel died, and her flower came up here so the valley can remember her. It is the untidy one near Briar’s, and still faces the Grove, very firmly._  
 _Somebody comes over the far ridge in the early light, under a pack so big it looks like a walking hedge._  
 _It is Nova. She comes straight up the hill path, and at the top she stops, which is new._  
-**Nova**: Morning. Don’t get up. I was passing. I’m always passing.  
+**Nova**: Morning. Don’t get up. I live here now, apparently. I still walk past everything.  
 **Nova**: I thought I’d sit here a minute and not pass.  
 _She sits down by Hazel’s flower with her pack still on, like a tortoise that has decided to stay a while._  
 _Moss is on the flat stone by the path, where he always sits. He watches Nova sit down, and then he climbs your leg, slowly._  
@@ -74,10 +74,10 @@ _Nobody in the valley can remember Nova staying for tea. Down by the hedge, Fern
 _Variant of `s24-tea-moss`._
 
 _Spring. The memorial flowers on the hill have opened all at once, as if somebody gave a signal._  
-_Hazel’s is the untidy one near Briar’s. It still faces the Grove, very firmly._  
+_Hazel died, and her flower came up here so the valley can remember her. It is the untidy one near Briar’s, and still faces the Grove, very firmly._  
 _Somebody comes over the far ridge in the early light, under a pack so big it looks like a walking hedge._  
 _It is Nova. She comes straight up the hill path, and at the top she stops, which is new._  
-**Nova**: Morning. Don’t get up. I was passing. I’m always passing.  
+**Nova**: Morning. Don’t get up. I live here now, apparently. I still walk past everything.  
 **Nova**: I thought I’d sit here a minute and not pass.  
 _Beside Hazel’s flower, so close the two of them lean together, is a small grey-green one by the flat stone where Moss always sat._  
 _Moss faded up here, beside her, which means he died. His flower came up close to hers._  
@@ -85,7 +85,7 @@ _There is just room between them for one person, if she tucks her knees up. Nova
 **Nova**: Both of you. Right. I’ll sit in the middle and not take sides.  
 
 > **Lesson** (sel, CASEL: Self-awareness, notice): humour as a way of coping  
-> _Missing two people at once is a lot to carry. Nova makes a small joke to help carry it. Humour is one way people cope with sadness._  
+> _Nova misses two people at once, so she makes a small joke. A joke can make a sad moment a little lighter._  
 > _For grown-ups: Noticed that people sometimes use humour to cope with sad feelings._
 
 _Your Nubbin runs to her, then back to you, then to her again, to check you are both still there._  
@@ -99,10 +99,10 @@ _Nobody in the valley can remember Nova staying for tea. Down by the hedge, Fern
 _Variant of `s24-tea`._
 
 _Spring. The memorial flowers on the hill have opened all at once, as if somebody gave a signal._  
-_Hazel’s is the untidy one near Briar’s. It still faces the Grove, very firmly._  
+_Hazel died, and her flower came up here so the valley can remember her. It is the untidy one near Briar’s, and still faces the Grove, very firmly._  
 _Somebody comes over the far ridge in the early light, under a pack so big it looks like a walking hedge._  
 _It is Nova. She comes straight up the hill path, and at the top she stops, which is new._  
-**Nova**: Morning. Don’t get up. I was passing. I’m always passing.  
+**Nova**: Morning. Don’t get up. I live here now, apparently. I still walk past everything.  
 **Nova**: I thought I’d sit here a minute and not pass.  
 _She sits down by Hazel’s flower with her pack still on, like a tortoise that has decided to stay a while._  
 _Sable comes up the path behind you and sits down two steps from Nova, facing the far ridge._  
@@ -124,17 +124,17 @@ _Nobody in the valley can remember Nova staying for tea. Down by the hedge, Fern
 _You bring the pot up the hill. Nova drinks two cups, and holds the third without drinking it, for the warmth._  
 **Nova**: She asked me in every time. Every single time. I always said I couldn’t stop.  
 **Nova**: I could have stopped.  
+_That is regret: wishing you had done something differently, when you can’t go back and do it._  
+_Your Nubbin leans against Nova’s boot, the way it leans against yours._  
+_She looks at the flower for a while. Then she undoes the top of her pack._  
 
 > **Lesson** (literacy, RL.3.3, ask): a character’s motives  
 > _Why do you think Nova always said no to tea?_  
-> - She was always in a hurry to get somewhere new. → That fits. She calls herself “always passing”. Stopping was hard for her.
+> - She was always in a hurry to get somewhere new. → That fits. She still walks past everything. Stopping was hard for her.
 > - She thought there would always be another time. → A lot of people think that. It’s why her “I could have stopped” hurts so much.
 > - Staying felt too close, somehow. → That’s a thoughtful answer. Some people find kindness easier to visit than to sit inside.
 > _For grown-ups: Thought about the reasons behind a character’s choices._
 
-_That is regret: wishing you had done something differently, when you can’t go back and do it._  
-_Your Nubbin leans against Nova’s boot, the way it leans against yours._  
-_She looks at the flower for a while. Then she undoes the top of her pack._  
 
 #### `reader:s24-pages` · [main](../../../side/S24.md#s24-pages)
 
@@ -201,7 +201,8 @@ _Variant of `s24-lantern`._
 
 **Nova**: One more thing. Can we take her lantern? And light it up there, at sunrise?  
 **Nova**: So she sees it. From wherever she is, being difficult about something.  
-_It is Sunday, so Corvin is by the pond, saying nothing, badly. He gets up when he sees where you are looking._  
+_It is Sunday, so Corvin is by the pond with Fern’s pie dish, washed, with a pie in it, saying nothing, badly._  
+_He gets up when he sees where you are looking._  
 _Hazel’s lantern hangs on the hook by the cottage door. He takes it down before you can, the way he does every Sunday._  
 _He trims the wick with a penknife. His hands are steady now; he takes a long time about it, and doesn’t apologise._  
 **Corvin Vale**: The far ridge. For the sunrise.  
@@ -222,7 +223,7 @@ _The lantern is lighter than you remember. It was nearly always her carrying it.
 
 > **Lesson** (literacy, L.3.4, ask): multiple-meaning words: light  
 > _“The lantern is lighter than you remember.” What does “lighter” mean here?_  
-> - ✅ It weighs less. → Yes. “Light” can mean not heavy, or it can mean brightness. Here it’s weight. A lantern makes it a good joke.
+> - ✅ It weighs less. → Yes, it weighs less. “Light” can also mean bright, and a lantern is both. A word used two ways at once is called a pun.
 > - It shines more brightly. → Good thinking, it IS a lantern! But it isn’t lit yet. Here “lighter” means it weighs less. “Light” has both meanings.
 > _For grown-ups: Worked out which meaning of a multiple-meaning word fits._
 
@@ -318,8 +319,8 @@ _Nova gets her pack onto her back in three goes. It clanks, and it is the size o
 **Nova**: A shell I gave her, which she gave back, and I gave her again. Twice.  
 _You offer to take a strap, and she says no. Tilly offers to take a strap, and she says no, more kindly._  
 **Nova**: I’ll manage. I always manage. It’s only heavy when you think about it.  
-_Fern has sent a paper bag of lantern buns. It sits on top of everything, the only light thing in there._  
-_Your Nubbin is already halfway up the first stretch of stones, looking back to see why you are all so slow._  
+_Fern has sent a paper bag of lantern buns, the only light thing in there. Your Nubbin sits on it, to keep it safe from everybody but itself._  
+_Then your Nubbin is halfway up the first stretch of stones, looking back to see why you are all so slow._  
 
 #### `reader:s24-falls-top` · [main](../../../side/S24.md#s24-falls-top)
 
@@ -407,12 +408,12 @@ _It looks at the bag, and then at you. It takes one step forward and two steps b
     - You hold out a bun on your flat hand. The bird looks at your hand for a long time, and takes one step back.
     - Nova holds out a bun of her own without thinking. The bird walks straight past you and takes it from her.
     - **Tilly**: It doesn’t like you. That’s weird. Everything likes Keepers.
-    - You think of your pens at home, full of fast grey runners that never make a sound. You don’t say anything.
+    - You think of the pens at home, and the grey Nubbins in them that never make a sound. The bird can tell.
 - **Sit down on the path and wait for it to come to you.**
     - You sit down on the wet path. The bird stays where it is, three strides off, and comes no nearer.
     - Nova sits down too, a little way off. After a long while the bird goes and stands over her instead.
     - **Tilly**: It doesn’t like you. That’s weird. Everything likes Keepers.
-    - You think of your pens at home, full of fast grey runners that never make a sound. You don’t say anything.
+    - You think of the pens at home, and the grey Nubbins in them that never make a sound. The bird can tell.
 
 #### `reader:s24-bird-collector-kept` · [main](../../../side/S24.md#s24-bird-collector-kept)
 
@@ -447,12 +448,12 @@ _It looks at the bag, and then at you. It takes one step forward and two steps b
     - You hold out a bun on your flat hand. The bird looks at your hand for a long time, and takes one step back.
     - Nova holds out a bun of her own without thinking. The bird walks straight past you and takes it from her.
     - **Tilly**: It doesn’t like your hands. Why are your hands cold? It’s nearly summer.
-    - You put your hands in your pockets. One pocket is colder than the other, and you don’t say anything.
+    - You put your hands in your pockets. The one with the cold stone in it is colder than the other, and you don’t say anything.
 - **Sit down on the path and wait for it to come to you.**
     - You sit down on the wet path. The bird stays where it is, three strides off, and comes no nearer.
     - Nova sits down too, a little way off. After a long while the bird goes and stands over her instead.
     - **Tilly**: It doesn’t like your hands. Why are your hands cold? It’s nearly summer.
-    - You put your hands in your pockets. One pocket is colder than the other, and you don’t say anything.
+    - You put your hands in your pockets. The one with the cold stone in it is colder than the other, and you don’t say anything.
 
 #### `reader:s24-bird-done` · [main](../../../side/S24.md#s24-bird-done)
 
@@ -509,6 +510,8 @@ _Fairweather’s eye falls on Tilly’s sash, on the old tin badge, and stays th
 **Augusta Fairweather**: That’s one of mine. The Young Explorers. Where did you get that?  
 **Tilly**: Gran Hazel. It was hers when she was little. She gave it me. It’s my oldest one.  
 **Augusta Fairweather**: …Of course it was. I heard somebody shout my old motto up at the falls today. I thought I’d dreamed it.  
+**Augusta Fairweather**: “The whole world’s up here.” It was stamped on every badge.  
+_Tilly turns her tin badge over. The words are on the back, very small._  
 **Nova**: She wrote her list because of you. All of it. Every place.  
 
 #### `reader:s24-cage` · [main](../../../side/S24.md#s24-cage)
@@ -550,16 +553,17 @@ _She doesn’t finish. She folds a net over her arm, carefully, the way you fold
 #### `reader:s24-net` · [main](../../../side/S24.md#s24-net)
 
 _Dusk. The bird comes down to the spring, all stripes and stilts, and bends to drink._  
-
-> **Lesson** (science, 5-ESS1-2, notice): day and night come from Earth spinning  
-> _Dusk is the dim time just after sunset. It comes because Earth spins, and our side is turning away from the Sun._  
-> _For grown-ups: Learned that dusk and night happen because Earth spins._
-
 _The net goes over it with a sound like a sail filling. Fairweather is faster than anyone that old has a right to be._  
 _The bird bolts up the ridge into the dark, dragging net and old woman both. Tilly is after them before anyone can catch her collar._  
 _Nova lunges. Her pack swings, slides on the wet rock, and goes towards the drop._  
 _She grabs the pack. She grabs it with both arms._  
 _When she looks up, Tilly is gone into the dark._  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, notice): if you are lost, stay put and make a noise  
+> _If you ever get lost, the safest thing is to stop where you are and make a noise, like a whistle or a shout._  
+> _People find you much faster when you stay still. Tilly, as it turns out, knows this._  
+> _For grown-ups: Learned what to do if lost: stay where you are and make a noise so people can find you._
+
 
 #### `reader:s24-rock` · [main](../../../side/S24.md#s24-rock)
 
@@ -568,7 +572,7 @@ _Your Nubbin is off up the ridge into the dark before you can call it. A moment 
 _Then, from high up the ridge, a whistle: two fingers, rising at the end. Hazel’s supper call._  
 **Tilly**: I’M FINE. I’M WITH SIR REGINALD. NOBODY COME, YOU’LL SCARE HIM.  
 **Nova**: She’s all right. She’s all right.  
-**Nova**: I grabbed the pack. She was right there, and I grabbed the pack.  
+**Nova**: I grabbed the pack. Tilly was right there, and I grabbed the pack.  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): mistakes don’t make someone a bad person  
 > _Nova grabbed the pack, not Tilly. Does that make her a bad person?_  
@@ -612,7 +616,7 @@ _She laughs. It comes out wrong._
 _Pages of it: rain, frost, Fern’s trees, the weather, and who came to the gate, and who didn’t._  
 **Nova**: “Sun. Moss sat on my foot all afternoon. Got nothing done. Best day this year.”  
 **Nova**: “Nova came. Taller. Ticked off a sea. Tea (refused). Don’t mind. She’ll stop for tea when she’s ready.”  
-**Nova**: “Nova came. I nearly told her. Didn’t. She’d have stayed, and hated it, and so would I.”  
+**Nova**: “Nova came. I nearly told her what the doctor said. Didn’t. She’d have stayed, and hated it, and so would I.”  
 _Nova can’t read the last one out. She turns the book round and holds the lantern so you can see._  
 **Gran Hazel**: “Thank you for every bit of it. Now off you go, and find somewhere new!”  
 _Nova cries. All of it, at once, with her whole face, the lantern shaking in her hands._  
@@ -692,12 +696,12 @@ _Your Nubbin runs ahead into the dark, and back, and ahead, as if it is pulling 
 _Nova’s empty pack slaps on her back. Every few steps she turns to check the cairn is still there, a pale heap in the dark._  
 **Nova**: It’s fine. It’s just stones. I know it’s just stones.  
 _The whistle again, much closer, and very fed up._  
+**Tilly**: I CAN SEE YOUR LANTERN. YOU’RE GOING THE LONG WAY.  
 
 > **Lesson** (science, 4-PS3-2, notice): sound is energy carried by vibrations  
 > _Sound is energy carried by vibrations in the air. It spreads out as it travels, so it fades with distance. Louder means nearer._  
 > _For grown-ups: Learned that sound is energy carried by vibrations, and fades with distance._
 
-**Tilly**: I CAN SEE YOUR LANTERN. YOU’RE GOING THE LONG WAY.  
 
 #### `reader:s24-nest-fed` · [main](../../../side/S24.md#s24-nest-fed)
 
@@ -842,15 +846,15 @@ _Then she lies down, chin on her paws, and watches it all._
 
 _The sun comes over the far rim and runs down into the valley one place at a time, as if it is calling a register._  
 _The Tooth, then the Circuit’s square roofs, then the falls, smoking white; the Hollow, where the paths stop; the tide pools, flashing._  
+_Then the Grove: the pond, the cottage, the hill. All of it at once, small and bright, exactly as she wrote it._  
+**Tilly**: Oh.  
+**Nova**: There. The whole valley. At once.  
 
 > **Lesson** (science, 5-ESS1-2, notice): why high places catch the sunrise first  
 > _At sunrise the Sun sits very low, so its light skims sideways across the land._  
 > _The tallest places poke up into it first. The valley floor stays in shadow until the Sun climbs higher._  
 > _For grown-ups: Learned why the tops of hills light up before the valley at sunrise._
 
-_Then the Grove: the pond, the cottage, the hill. All of it at once, small and bright, exactly as she wrote it._  
-**Tilly**: Oh.  
-**Nova**: There. The whole valley. At once.  
 _Down in the Grove, four small lights are still burning, one at each post, as if somebody left them on for you._  
 _You lift Hazel’s lantern as high as it will go. Nova puts her hand under your elbow, to help hold it up._  
 
@@ -860,15 +864,15 @@ _Variant of `s24-lights`._
 
 _The sun comes over the far rim and runs down into the valley one place at a time, as if it is calling a register._  
 _The Tooth, then the Circuit’s square roofs, then the falls, smoking white; the Hollow, where the paths stop; the tide pools, flashing._  
+_Then the Grove: the pond, the cottage, the hill. All of it at once, small and bright, exactly as she wrote it._  
+**Tilly**: Oh.  
+**Nova**: There. The whole valley. At once.  
 
 > **Lesson** (science, 5-ESS1-2, notice): why high places catch the sunrise first  
 > _At sunrise the Sun sits very low, so its light skims sideways across the land._  
 > _The tallest places poke up into it first. The valley floor stays in shadow until the Sun climbs higher._  
 > _For grown-ups: Learned why the tops of hills light up before the valley at sunrise._
 
-_Then the Grove: the pond, the cottage, the hill. All of it at once, small and bright, exactly as she wrote it._  
-**Tilly**: Oh.  
-**Nova**: There. The whole valley. At once.  
 _Down in the Grove, four small lights are still burning, one at each post, as if somebody left them on for you._  
 _Then more lights, all the way up the western hill: lanterns, a long line of them, climbing in the last of the dark._  
 _The valley has walked up her hill to watch the far ridge. Fern saw the cart go, and Sparks told everyone else._  
@@ -886,15 +890,15 @@ _Variant of `s24-lights-told`._
 
 _The sun comes over the far rim and runs down into the valley one place at a time, as if it is calling a register._  
 _The Tooth, then the Circuit’s square roofs, then the falls, smoking white; the Hollow, where the paths stop; the tide pools, flashing._  
+_Then the Grove: the pond, the cottage, the hill. All of it at once, small and bright, exactly as she wrote it._  
+**Tilly**: Oh.  
+**Nova**: There. The whole valley. At once.  
 
 > **Lesson** (science, 5-ESS1-2, notice): why high places catch the sunrise first  
 > _At sunrise the Sun sits very low, so its light skims sideways across the land._  
 > _The tallest places poke up into it first. The valley floor stays in shadow until the Sun climbs higher._  
 > _For grown-ups: Learned why the tops of hills light up before the valley at sunrise._
 
-_Then the Grove: the pond, the cottage, the hill. All of it at once, small and bright, exactly as she wrote it._  
-**Tilly**: Oh.  
-**Nova**: There. The whole valley. At once.  
 _Down in the Grove, small lights still burn at the posts: three steady, and one by the long grass that only flickers._  
 _Then more lights, all the way up the western hill: lanterns, a long line of them, climbing in the last of the dark._  
 _The valley has walked up her hill to watch the far ridge. Fern saw the cart go, and Sparks told everyone else._  
@@ -912,15 +916,15 @@ _Variant of `s24-lights`._
 
 _The sun comes over the far rim and runs down into the valley one place at a time, as if it is calling a register._  
 _The Tooth, then the Circuit’s square roofs, then the falls, smoking white; the Hollow, where the paths stop; the tide pools, flashing._  
+_Then the Grove: the pond, the cottage, the hill. All of it at once, small and bright, exactly as she wrote it._  
+**Tilly**: Oh.  
+**Nova**: There. The whole valley. At once.  
 
 > **Lesson** (science, 5-ESS1-2, notice): why high places catch the sunrise first  
 > _At sunrise the Sun sits very low, so its light skims sideways across the land._  
 > _The tallest places poke up into it first. The valley floor stays in shadow until the Sun climbs higher._  
 > _For grown-ups: Learned why the tops of hills light up before the valley at sunrise._
 
-_Then the Grove: the pond, the cottage, the hill. All of it at once, small and bright, exactly as she wrote it._  
-**Tilly**: Oh.  
-**Nova**: There. The whole valley. At once.  
 _Down in the Grove, small lights still burn at the posts: three steady, and one by the long grass that only flickers._  
 _You lift Hazel’s lantern as high as it will go. Nova puts her hand under your elbow, to help hold it up._  
 
@@ -1052,17 +1056,16 @@ _You come down off the ridge in the afternoon, slowly, because Augusta Fairweath
 _She takes the empty cottage at the foot of the falls path, for a week, she says. Nobody believes her, kindly._  
 _That night you light Hazel’s lantern by the cottage table and open the atlas, to read her list again._  
 _In the margins there is writing, in faint pencil. It wasn’t there before, or it was, and it needed this light._  
-_It is on every page. Beside a boy and a dragon: “I’d have fed the dragon.” Beside a building of endless counters: “Ha. Typical.”_  
+_It is on every page. Beside a story about a hungry dragon: “I’d have fed the dragon.” Beside a story about endless forms and queues: “Ha. Typical.”_  
 _She read every story Nova ever brought her, and had something to say about all of them. Of course she did._  
-_Nova stays three days, and has tea every afternoon. On the fourth she goes over the far ridge with a pack you could lift with a finger._  
+_Nova stays three days, and has tea every afternoon._  
+_On the fourth she sets off over the far ridge for a long walk, with a pack you could lift with a finger. She says twice that she’ll be back._  
 _At the top she turns and waves, and doesn’t wait to see whether you wave back. She knows._  
 
-> **Lesson** (literacy, RL.4.2, ask): finding the theme of a story  
-> _Nova set off to see one last faraway place. What do you think this story is really about?_  
-> - ✅ Learning that everyday life with people you love can be the adventure. → Yes. The list was the adventure Hazel planned. The back pages were the one she had.
-> - Climbing a very tall ridge. → The climb happens! But it carries a bigger idea. The list was the adventure Hazel planned. The back pages, full of ordinary days, were the one she had.
-> - Catching a rare bird. → Fairweather wanted that, and gave it up. The bigger idea is in the book. Ordinary days with people you love can be the adventure.
-> _For grown-ups: Worked out the theme of the story._
+> **Lesson** (literacy, RL.4.2, do): theme: small, ordinary days can be the adventure  
+> _Hazel wrote down small, ordinary days. (Tell someone at home about one ordinary day you’d put in a book like hers.)_  
+> Check: `edu:tell:ordinary-day`
+> _For grown-ups: Linked the theme to their own life by choosing an ordinary day worth writing down._
 
 
 #### `reader:s24-moss-kept` · [main](../../../side/S24.md#s24-moss-kept)
@@ -1174,17 +1177,16 @@ _She takes the empty cottage at the foot of the falls path, for a week, she says
 _Your Eternal is on the cottage step when you get in, as if it had been there all along. It probably had._  
 _That night you light Hazel’s lantern by the cottage table and open the atlas, to read her list again._  
 _In the margins there is writing, in faint pencil. It wasn’t there before, or it was, and it needed this light._  
-_It is on every page. Beside a boy and a dragon: “I’d have fed the dragon.” Beside a building of endless counters: “Ha. Typical.”_  
+_It is on every page. Beside a story about a hungry dragon: “I’d have fed the dragon.” Beside a story about endless forms and queues: “Ha. Typical.”_  
 _She read every story Nova ever brought her, and had something to say about all of them. Of course she did._  
-_Nova stays three days, and has tea every afternoon. On the fourth she goes over the far ridge with a pack you could lift with a finger._  
+_Nova stays three days, and has tea every afternoon._  
+_On the fourth she sets off over the far ridge for a long walk, with a pack you could lift with a finger. She says twice that she’ll be back._  
 _At the top she turns and waves, and doesn’t wait to see whether you wave back. She knows._  
 
-> **Lesson** (literacy, RL.4.2, ask): finding the theme of a story  
-> _Nova set off to see one last faraway place. What do you think this story is really about?_  
-> - ✅ Learning that everyday life with people you love can be the adventure. → Yes. The list was the adventure Hazel planned. The back pages were the one she had.
-> - Climbing a very tall ridge. → The climb happens! But it carries a bigger idea. The list was the adventure Hazel planned. The back pages, full of ordinary days, were the one she had.
-> - Catching a rare bird. → Fairweather wanted that, and gave it up. The bigger idea is in the book. Ordinary days with people you love can be the adventure.
-> _For grown-ups: Worked out the theme of the story._
+> **Lesson** (literacy, RL.4.2, do): theme: small, ordinary days can be the adventure  
+> _Hazel wrote down small, ordinary days. (Tell someone at home about one ordinary day you’d put in a book like hers.)_  
+> Check: `edu:tell:ordinary-day`
+> _For grown-ups: Linked the theme to their own life by choosing an ordinary day worth writing down._
 
 
 #### `reader:s24-home-corvin` · [main](../../../side/S24.md#s24-home-corvin)

@@ -124,8 +124,8 @@ _Stepping stones lead along the stream. One wobbles. One is a frog._
 > **Lesson** (literacy, ask): telling a fact you can check from a claim you can’t  
 > **Jackpot**: I CANNOT LIE. WHICH OF THESE CAN BE CHECKED?  
 > - ✅ “One egg in ten is sparkly.” → CORRECT. YOU COUNTED IT. A FACT CAN BE CHECKED. Right. “Every egg a winner” is a feeling pretending to be a fact. You can’t measure it.
-> - “Every egg a winner!” → HOW WOULD YOU CHECK IT? WHAT IS A WINNER? HE NEVER SAYS. That’s a feeling pretending to be a fact. “One in ten” is a fact: we counted it.
-> - “Dashwood has brought you luck!” → LUCK CANNOT BE WEIGHED. I HAVE TRIED. That’s a claim you can’t check. “One in ten” is a fact: we counted it.
+> - “Every egg a winner!” → HOW WOULD YOU CHECK IT? WHAT IS A WINNER? HE NEVER SAYS. That’s a feeling pretending to be a fact. You can’t measure a “winner”. “One in ten” is a fact: we counted it.
+> - “Dashwood has brought you luck!” → LUCK CANNOT BE WEIGHED. I HAVE TRIED. That’s a claim you can’t check: nobody can measure luck. “One in ten” is a fact: we counted it.
 > _For grown-ups: Sorted a checkable fact from claims that can’t be checked._
 
 **You**: What happens to the eggs nobody buys?  

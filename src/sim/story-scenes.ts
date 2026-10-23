@@ -536,34 +536,77 @@ function openLetter(c: CampaignState, s: Swapper): void {
   );
 }
 
-/** S24 with the kept stone: the Grove's Nubbins are stilled, so yours walks, never runs. */
-const S24_STILL: Array<[string, string, string]> = [
+/**
+ * S24 with the kept stone: the Grove's Nubbins are stilled, so yours walks, never runs. Each
+ * band's lines are rewritten, so each names its own line by its opening words.
+ */
+type StillLine = [from: string, to: string];
+const S24_STILL: Array<{ scene: string; main: StillLine; sprout?: StillLine; reader?: StillLine }> =
   [
-    's24-tea',
-    'Your Nubbin runs to her, then back to you, then to her again, to check you are both still there.',
-    'Your Nubbin goes and sits by her, grey and quiet, and doesn’t move again until you do.',
-  ],
-  [
-    's24-pack',
-    'Your Nubbin is already halfway up the first stretch of scree, looking back to see why you are all so slow.',
-    'Your Nubbin waits at the foot of the scree, quite still, until you start. Then it climbs at your heel.',
-  ],
-  [
-    's24-falls-top',
-    'Your Nubbin finds the dry ones. It runs up, waits on each, runs back to you, and goes up again.',
-    'Your Nubbin finds the dry ones, slowly, and waits on each until you catch up.',
-  ],
-  [
-    's24-rock',
-    'Your Nubbin is off up the ridge into the dark before you can call it. A moment later it comes back, calm, and sits at your feet.',
-    'Your Nubbin goes a little way up the ridge into the dark, slowly, and comes back calm, and sits at your feet.',
-  ],
-  [
-    's24-whistle',
-    'Your Nubbin runs ahead into the dark, and back, and ahead, as if it is pulling you along on a string.',
-    'Your Nubbin walks ahead into the dark, slowly, and waits for the lantern at every turn.',
-  ],
-];
+    {
+      scene: 's24-tea',
+      main: [
+        'Your Nubbin runs to her, then back to you, then to her again, to check you are both still there.',
+        'Your Nubbin goes and sits by her, grey and quiet, and doesn’t move again until you do.',
+      ],
+      sprout: [
+        'Your Nubbin runs to Nova. Then back to you.',
+        'Your Nubbin sits by Nova, grey and quiet. It does not move.',
+      ],
+    },
+    {
+      scene: 's24-pack',
+      main: [
+        'Your Nubbin is already halfway up the first stretch of scree, looking back to see why you are all so slow.',
+        'Your Nubbin waits at the foot of the scree, quite still, until you start. Then it climbs at your heel.',
+      ],
+      sprout: [
+        'Your Nubbin runs ahead up the stones.',
+        'Your Nubbin waits at the bottom. Then it walks at your heel.',
+      ],
+      reader: [
+        'Then your Nubbin is halfway up the first stretch of stones',
+        'Then your Nubbin waits at the foot of the stones, quite still, until you start. Then it climbs at your heel.',
+      ],
+    },
+    {
+      scene: 's24-falls-top',
+      main: [
+        'Your Nubbin finds the dry ones. It runs up, waits on each, runs back to you, and goes up again.',
+        'Your Nubbin finds the dry ones, slowly, and waits on each until you catch up.',
+      ],
+      sprout: [
+        'Your Nubbin finds the dry stones. Run up, wait, run back!',
+        'Your Nubbin finds the dry stones, slowly. It waits for you.',
+      ],
+      reader: [
+        'This slope of loose, broken stone is called scree. Your Nubbin finds the dry stones.',
+        'This slope of loose, broken stone is called scree. Your Nubbin finds the dry stones, slowly, and waits on each.',
+      ],
+    },
+    {
+      scene: 's24-rock',
+      main: [
+        'Your Nubbin is off up the ridge into the dark before you can call it. A moment later it comes back, calm, and sits at your feet.',
+        'Your Nubbin goes a little way up the ridge into the dark, slowly, and comes back calm, and sits at your feet.',
+      ],
+      sprout: [
+        'Your Nubbin runs up the hill into the dark.',
+        'Your Nubbin walks a little way into the dark. It comes back, calm.',
+      ],
+    },
+    {
+      scene: 's24-whistle',
+      main: [
+        'Your Nubbin runs ahead into the dark, and back, and ahead, as if it is pulling you along on a string.',
+        'Your Nubbin walks ahead into the dark, slowly, and waits for the lantern at every turn.',
+      ],
+      sprout: [
+        'Your Nubbin runs ahead, and back, and ahead again.',
+        'Your Nubbin walks ahead, slowly. It waits at every turn.',
+      ],
+    },
+  ];
 
 /**
  * Applies swaps to one band's lines, finding each anchor in the main scene so a band's
@@ -637,6 +680,14 @@ class Swapper {
     this.insert(at, [{ who, text: textFor(text, this.band), ...(mood ? { mood } : {}) }]);
   }
 
+  /** S24's kept-stone line for this band, found by its opening words (bands rewrite it). */
+  stillLine(still: { main: StillLine; sprout?: StillLine; reader?: StillLine }): void {
+    const [from, to] = (this.band === 'main' ? undefined : still[this.band]) ?? still.main;
+    const i = this.lines.findIndex((l) => l.text.startsWith(from));
+    if (i < 0) return;
+    this.lines = this.lines.map((l, j) => (j === i ? { ...l, text: to } : l));
+  }
+
   /** Where the base line `i` sits now (lines added after it come later). */
   position(i: number): number {
     const at = this.origins.indexOf(i);
@@ -688,8 +739,8 @@ export function sceneFor(
   SWAPS[id]?.(c, s);
   CHOICE_PAYOFFS[id]?.(c, s);
   if (c.flags.keptStone) {
-    for (const [prefix, from, to] of S24_STILL)
-      if (id === prefix || id.startsWith(`${prefix}-`)) s.swap(from, { main: to });
+    for (const still of S24_STILL)
+      if (id === still.scene || id.startsWith(`${still.scene}-`)) s.stillLine(still);
   }
   if (s.lines === base.lines) return base;
   // A swap may add lines; each lesson still plays after the line it was written for.

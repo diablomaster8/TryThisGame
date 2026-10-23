@@ -11,9 +11,11 @@
 
 _Deep, squeaky snow. Every child in the valley is out in it._  
 _A card on your gate says: WAR! FORT NIGHT! BRING MITTENS!_  
-_Sparks’s cousin has come for the holidays. And there is snow!_  
+_Tilly has come for the holidays. She is Sparks’s cousin._  
+_And there is snow!_  
 **Tilly**: You lead one fort. I lead the other. I’m going to win!  
 **Pixel**: I’m the referee. I wrote the rules. Forty-one pages.  
+**Pixel**: My husband Byte read them all. He had notes.  
 **Pixel**: Three kinds of snow-fighter: Speedy, Splashy and Sturdy.  
 **Pixel**: Speedy beats Splashy. Splashy beats Sturdy. Sturdy beats Speedy!  
 
@@ -82,7 +84,8 @@ _Zip wiggles in your mittens. Snow melts off his ears. Drip!_
 _Zip runs back. He has snow on his eyebrows._  
 _He runs round you nine times. That means: news!_  
 _Their wall is big. But behind it, hardly anyone._  
-_Three children went home. A lost mitten. A lost boot. Teatime._  
+_Five children were behind their wall. Then three went home!_  
+_One lost a mitten, one lost a boot, and one wanted his tea._  
 
 > **Lesson** (maths, K.OA.A.2, ask): take away within 5  
 > **Pixel**: Five children were behind their wall. Three went home. How many are left?  
@@ -92,7 +95,9 @@ _Three children went home. A lost mitten. A lost boot. Teatime._
 > _For grown-ups: Took three away from five, using fingers, to find two._
 
 **Tilly**: We’re FINE! We have LOADS of people!  
+**Tilly**: Some are IN the wall. They’re bricks!  
 **Pixel**: Rule: children are not bricks.  
+**Pixel**: …Mostly not.  
 
 **Choices**
 
@@ -118,6 +123,8 @@ _Your fort shouts back: “FOR DEREK!” “I’M BRAVE, NOT COLD!”_
 _Above the hill, the sky goes dark grey, like a pigeon._  
 _Nobody looks at it. Only Pixel._  
 **Pixel**: Hm.  
+**Gordon**: Is that sky going to hit me?  
+**Pixel**: This time, Gordon, it’s going to hit everybody.  
 
 > **Lesson** (science, K-ESS2-1, notice): dark clouds can mean a storm  
 > **Pixel**: Dark grey clouds can mean a storm is coming.  
@@ -133,6 +140,7 @@ _White everywhere. You can’t see their fort. You can’t see yours._
 
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, do): keeping safe in a storm  
 > **Pixel**: In a big storm: stop, stay together, and find a grown-up.  
+> **Pixel**: Today, the grown-up is me. Hold hands!  
 > _(Hold hands with your grown-up. Stay together!)_  
 > Check: `edu:hold:hands:together`
 > _For grown-ups: Learned what to do in a storm: stop, stay together and find a grown-up._
@@ -167,7 +175,7 @@ _They stand about, like dropped gloves._
     - That’s what it was for, all along.
 - **Meet in the middle. Both walls, one shelter.**
     - Both forts bring snow. Both bring sticks.
-    - The catapult is the roof. Derek the snowman is the door.
+    - Their pointy sticks are the roof. Derek the snowman is the door.
 
 #### `sprout:s20-count` · [main](../../../side/S20.md#s20-count)
 
@@ -180,11 +188,14 @@ _They stand about, like dropped gloves._
 > _For grown-ups: Counted to twenty to check every child was safe inside._
 
 **Pixel**: …Everyone. Even Gordon.  
+_The small one who cried was Wren. She lost a mitten._  
+_Pixel finds it. It was on Wren’s head!_  
 **Gordon**: I got hit by a whole sky!  
 _Inside it’s blue and snug. It smells of wet wool._  
 **Tilly**: That bit of the roof is mine.  
 **Wren**: Commander? Which fort won?  
-_Outside, the wind stops. Someone pokes a hole to look out._  
+_The storm blows for hours. Pixel sings a song with forty-one verses._  
+_Then the wind stops. Someone pokes a hole, and it’s night!_  
 
 #### `sprout:s20-complete` · [main](../../../side/S20.md#s20-complete)
 
@@ -200,10 +211,10 @@ _Both forts lie in one fort, looking up._
 **Wren**: That one’s a mitten. That one’s Gordon. That one’s Derek!  
 **Pixel**: Final rule: both forts win. I wrote it in pen.  
 **Tilly**: So what was it all for? The snow and the peeking?  
-**You**: So we could build one fort fast, when it mattered.  
+**You**: So we knew how to build fast. When the storm came, we did!  
 **Tilly**: …That’s a really good answer.  
 _Up at the cottage, someone in a blanket waves from the window._  
 _Everybody waves back._  
 **Pixel**: Prizes! A commander’s hat. It’s a tea cosy.  
 
-**Notes:** S20 sprout. COUSIN VARIANT: every tilly line here is written to work for either cousin (no Tax Toad and no whistle), so if s14Done is false, play the same lines with speaker bodge; no index replacements are needed. The s20-complete window glimpse is Hazel, never named. SUN AND MOON: s20-declaration names no flags, so it fits either variant. All choices kept, including “press” (it is a friendly snowball game).
+**Notes:** S20 sprout. COUSIN VARIANT: every tilly line here is written to work for either cousin (no Tax Toad and no whistle), so if s14Done is false, play the same lines with speaker bodge, with one narration replacement: sprout:s20-declaration#2 → (narrator) “Sparks’s other cousin, Bodge, has come for the holidays.” (#3, “And there is snow!”, stays). No other narration names the cousin. The s20-complete window glimpse is Hazel, never named. SUN AND MOON: s20-declaration names no flags, so it fits either variant. All choices kept, including “press” (it is a friendly snowball game).

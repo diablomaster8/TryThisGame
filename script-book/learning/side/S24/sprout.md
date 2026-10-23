@@ -30,7 +30,8 @@ _Look! The flowers on the hill are open, all at once._
 
 _This one is Gran Hazel’s flower. It’s a bit untidy, like her._  
 _Gran Hazel died. Her flower grows here, so we remember her._  
-_Here comes Nova, with a great big bag. She always walks on by._  
+_Here comes Nova, with a great big bag. She lives in the valley now._  
+_But she still walks past everything, very fast._  
 **Nova**: Hello. Today I thought I’d stop, and sit with her.  
 _Nova sits down by the flower. Her big bag stays on her back._  
 _Your Nubbin runs to Nova. Then back to you. Then to Nova again!_  
@@ -43,7 +44,8 @@ _Variant of `s24-tea`._
 _Look! The flowers on the hill are open, all at once._  
 _This one is Gran Hazel’s flower. It’s a bit untidy, like her._  
 _Gran Hazel died. Her flower grows here, so we remember her._  
-_Here comes Nova, with a great big bag. She always walks on by._  
+_Here comes Nova, with a great big bag. She lives in the valley now._  
+_But she still walks past everything, very fast._  
 **Nova**: Hello. Today I thought I’d stop, and sit with her.  
 _Nova sits down by the flower. Her big bag stays on her back._  
 _Moss is on his flat stone. Slowly, slowly, he climbs up your leg._  
@@ -65,7 +67,8 @@ _Variant of `s24-tea-moss`._
 _Look! The flowers on the hill are open, all at once._  
 _This one is Gran Hazel’s flower. It’s a bit untidy, like her._  
 _Gran Hazel died. Her flower grows here, so we remember her._  
-_Here comes Nova, with a great big bag. She always walks on by._  
+_Here comes Nova, with a great big bag. She lives in the valley now._  
+_But she still walks past everything, very fast._  
 **Nova**: Hello. Today I thought I’d stop, and sit with her.  
 _Next to Gran Hazel’s flower is a small grey-green one. It is Moss’s._  
 _Moss died too. His flower grows by the flat stone where he sat._  
@@ -87,7 +90,8 @@ _Variant of `s24-tea`._
 _Look! The flowers on the hill are open, all at once._  
 _This one is Gran Hazel’s flower. It’s a bit untidy, like her._  
 _Gran Hazel died. Her flower grows here, so we remember her._  
-_Here comes Nova, with a great big bag. She always walks on by._  
+_Here comes Nova, with a great big bag. She lives in the valley now._  
+_But she still walks past everything, very fast._  
 **Nova**: Hello. Today I thought I’d stop, and sit with her.  
 _Nova sits down by the flower. Her big bag stays on her back._  
 _Sable comes up the path. She sits near Nova, looking at the far hills._  
@@ -176,7 +180,8 @@ _Variant of `s24-lantern`._
 
 **Nova**: Can we take Gran Hazel’s lantern? And light it up high, at sunrise?  
 **Nova**: It’s for remembering her. Like saying hello to her.  
-_It is Sunday, so Corvin is by the pond._  
+_It is Sunday. Corvin comes every Sunday, with Fern’s pie dish._  
+_It is washed. There is a pie in it. Fern says it isn’t hers._  
 _He takes Gran Hazel’s lantern off its hook, very carefully._  
 _He trims the wick, so the flame will burn nicely._  
 **Corvin Vale**: For the sunrise, on the far hill.  
@@ -211,6 +216,7 @@ _Nova puts her big bag on. The cart goes, “Groan!”_
 _Under the cover, something says, “Ow!” Then, “Nobody heard that.”_  
 _Here comes Sparks, running and waving both arms._  
 **Sparks**: Is she in there? Sorry! Sorry! It’s my cousin, Tilly.  
+**Sparks**: She calls Hazel “Gran”, too. All the little ones do.  
 
 > **Lesson** (literacy, RF.K.2, ask): first sounds: t  
 > _Tilly starts with a “t” sound. T-t-Tilly!_  
@@ -219,8 +225,8 @@ _Here comes Sparks, running and waving both arms._
 > - Bun → B-b-bun starts with “b”. T-t-tea starts with “t”, like Tilly!
 > _For grown-ups: Your child listened for the first sound in a word._
 
-**Sparks**: She calls Hazel “Gran”, too. All the little ones do.  
-_You lift the cover. A girl in big wellies looks up at you._  
+_You lift the cover. Up pops a welly. Then another welly._  
+_Then a girl, in the wellies, looking cross._  
 _She has a sash with lots of home-made badges._  
 **Tilly**: I’m a stowaway. You can’t send a stowaway home. That’s the rule.  
 **Nova**: A stowaway is someone who hides, to come on a trip.  
@@ -311,7 +317,8 @@ _Nova is very puffed. But she is smiling, just a little._
 #### `sprout:s24-bird` · [main](../../../side/S24.md#s24-bird)
 
 _Up high, you walk into a cloud. It is misty and cool._  
-_You put Fern’s five buns on a rock. Then there are fewer!_  
+_You put Fern’s five buns on a rock. Your Nubbin counts them._  
+_One, two, three, four… four? It counts again. Still four!_  
 
 > **Lesson** (maths, K.OA.A.2, ask): take away 1 from 5  
 > _Fern packed five buns. Someone took one! How many are left?_  
@@ -323,6 +330,7 @@ _A huge bird stands in the mist, with a bun in its beak._
 _It is taller than Nova. It has stripes and long, long legs._  
 **Tilly**: Oh! He’s beautiful! He’s called Sir Reginald.  
 _Gulp! The bun goes all the way down._  
+_Your Nubbin glares at the bird. The bird looks at the sky._  
 _The bird steps forward, then back. It is shy._  
 
 > **Lesson** (science, K-ESS3-3, notice): shy animals need slow, quiet people  
@@ -348,7 +356,8 @@ _The bird steps forward, then back. It is shy._
 _Variant of `s24-bird`._
 
 _Up high, you walk into a cloud. It is misty and cool._  
-_You put Fern’s five buns on a rock. Then there are fewer!_  
+_You put Fern’s five buns on a rock. Your Nubbin counts them._  
+_One, two, three, four… four? It counts again. Still four!_  
 
 > **Lesson** (maths, K.OA.A.2, ask): take away 1 from 5  
 > _Fern packed five buns. Someone took one! How many are left?_  
@@ -360,6 +369,7 @@ _A huge bird stands in the mist, with a bun in its beak._
 _It is taller than Nova. It has stripes and long, long legs._  
 **Tilly**: Oh! He’s beautiful! He’s called Sir Reginald.  
 _Gulp! The bun goes all the way down._  
+_Your Nubbin glares at the bird. The bird looks at the sky._  
 _The bird steps forward, then back. It is shy._  
 
 > **Lesson** (science, K-ESS3-3, notice): shy animals need slow, quiet people  
@@ -374,20 +384,23 @@ _The bird steps forward, then back. It is shy._
 - **Hold out a bun on your flat hand.**
     - You hold out a bun. The bird looks at your hand, and steps back.
     - Nova holds out a bun too. The bird goes to Nova instead.
-    - **Tilly**: It doesn’t come to you. That’s funny.
-    - You think of your quiet grey Nubbins at home. You feel a bit sorry.
+    - **Tilly**: It doesn’t come to you. That’s odd!
+    - Your Nubbins at home are grey and quiet now. The bird can tell.
+    - You feel sorry about that. You don’t say so.
 - **Sit down and wait for it to come to you.**
     - You sit and wait. The bird stays far away.
     - Nova sits down too. After a long time, the bird goes to Nova.
-    - **Tilly**: It doesn’t come to you. That’s funny.
-    - You think of your quiet grey Nubbins at home. You feel a bit sorry.
+    - **Tilly**: It doesn’t come to you. That’s odd!
+    - Your Nubbins at home are grey and quiet now. The bird can tell.
+    - You feel sorry about that. You don’t say so.
 
 #### `sprout:s24-bird-collector-kept` · [main](../../../side/S24.md#s24-bird-collector-kept)
 
 _Variant of `s24-bird-collector`._
 
 _Up high, you walk into a cloud. It is misty and cool._  
-_You put Fern’s five buns on a rock. Then there are fewer!_  
+_You put Fern’s five buns on a rock. Your Nubbin counts them._  
+_One, two, three, four… four? It counts again. Still four!_  
 
 > **Lesson** (maths, K.OA.A.2, ask): take away 1 from 5  
 > _Fern packed five buns. Someone took one! How many are left?_  
@@ -399,6 +412,7 @@ _A huge bird stands in the mist, with a bun in its beak._
 _It is taller than Nova. It has stripes and long, long legs._  
 **Tilly**: Oh! He’s beautiful! He’s called Sir Reginald.  
 _Gulp! The bun goes all the way down._  
+_Your Nubbin glares at the bird. The bird looks at the sky._  
 _The bird steps forward, then back. It is shy._  
 
 > **Lesson** (science, K-ESS3-3, notice): shy animals need slow, quiet people  
@@ -414,12 +428,14 @@ _The bird steps forward, then back. It is shy._
     - You hold out a bun. The bird looks at your hand, and steps back.
     - Nova holds out a bun too. The bird goes to Nova instead.
     - **Tilly**: Why are your hands cold? It’s nearly summer.
-    - You put your hands in your pockets. You don’t say anything.
+    - Your hands are cold, since you kept the cold stone.
+    - You hide them in your pockets.
 - **Sit down and wait for it to come to you.**
     - You sit and wait. The bird stays far away.
     - Nova sits down too. After a long time, the bird goes to Nova.
     - **Tilly**: Why are your hands cold? It’s nearly summer.
-    - You put your hands in your pockets. You don’t say anything.
+    - Your hands are cold, since you kept the cold stone.
+    - You hide them in your pockets.
 
 #### `sprout:s24-bird-done` · [main](../../../side/S24.md#s24-bird-done)
 
@@ -457,6 +473,9 @@ _An old, old lady holds a telescope. Her hat has a feather._
 
 **Augusta Fairweather**: My name is Augusta Fairweather. I am an explorer.  
 _An explorer goes to new places, to find out about them._  
+_She looks at you through her telescope. The wrong way round._  
+**Augusta Fairweather**: Hmm. You are all very small.  
+_Tilly turns it round for her. Fairweather says nothing at all._  
 **Nova**: THE Fairweather? From the old picture papers?  
 **Nova**: Gran Hazel had your picture on her wall when she was a girl!  
 _Fairweather sees the old tin badge on Tilly’s sash._  
@@ -500,6 +519,9 @@ _The bird comes to the spring to drink._
 _Whoosh! Fairweather throws her net over it!_  
 _The bird runs off up the hill, pulling the net and Fairweather too._  
 _Tilly runs after them, fast!_  
+_Nova’s big bag slides on the wet rock. She grabs it with both arms._  
+_When she looks up, Tilly has gone into the dark._  
+_Don’t worry. Tilly is safe. You’ll find her soon._  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): staying close to your grown-up  
 > _Tilly ran off in the dark. On a walk, what should children do?_  
@@ -507,9 +529,6 @@ _Tilly runs after them, fast!_
 > - Run off on their own → Running off can mean getting lost. Stay close to your grown-up.
 > _For grown-ups: Your child talked about staying close to a grown-up on walks._
 
-_Nova’s big bag slides on the wet rock. She grabs it with both arms._  
-_When she looks up, Tilly has gone into the dark._  
-_Don’t worry. Tilly is safe. You’ll find her soon._  
 
 #### `sprout:s24-rock` · [main](../../../side/S24.md#s24-rock)
 
@@ -524,7 +543,7 @@ _You sit down next to Nova. You don’t talk. You just wait._
 
 > **Lesson** (sel, ELOF: Social and Emotional Development, ask): being with someone who feels awful  
 > _Nova feels awful. What can a friend do?_  
-> - ✅ Sit with her, and wait → Yes. Sitting close says, “I’m here.” You don’t need words.
+> - ✅ Sit with her, and wait → Yes. Sitting close says, “I’m here.” You don’t need words. Nova made a mistake. A mistake doesn’t make her bad.
 > - Tell her to cheer up → Cheering up takes time. Sitting close, and waiting, helps more.
 > _For grown-ups: Your child learned that sitting quietly with someone can comfort them._
 
@@ -660,7 +679,8 @@ _She stands over her chicks and looks at you. She remembers!_
 
 > **Lesson** (science, 1-LS1-2, notice): parent birds keep their chicks warm and fed  
 > _Mother birds sit over their chicks to keep them warm._  
-> _Chicks need their mums. That’s why wild birds must stay free._  
+> _In a cage, the mother bird can’t get home._  
+> _Then her chicks get cold. So wild birds stay free._  
 > _For grown-ups: Your child heard how bird parents look after their chicks._
 
 
@@ -687,7 +707,8 @@ _Nova makes the trail. Peck, peck! The mother bird comes home to her._
 
 > **Lesson** (science, 1-LS1-2, notice): parent birds keep their chicks warm and fed  
 > _Mother birds sit over their chicks to keep them warm._  
-> _Chicks need their mums. That’s why wild birds must stay free._  
+> _In a cage, the mother bird can’t get home._  
+> _Then her chicks get cold. So wild birds stay free._  
 > _For grown-ups: Your child heard how bird parents look after their chicks._
 
 
@@ -970,8 +991,8 @@ _That night you light Gran Hazel’s lantern and open the book._
 _Look! Little notes in pencil, on every page. Gran Hazel wrote them!_  
 _She read all of Nova’s stories, and wrote what she thought._  
 _Nova stays three days. She says yes to tea every time._  
-_Then off she goes. Her bag is so light now!_  
-_At the top of the hill she waves. Goodbye, Nova! See you soon!_  
+_Then Nova goes for a long walk. Her bag is so light now!_  
+_She waves from the hill. She’ll be back. She said so twice!_  
 
 > **Lesson** (literacy, RL.K.3, ask): retelling a story in order: first and last  
 > _What happened first, on this big adventure?_  
@@ -1002,7 +1023,7 @@ _Variant of `s24-home`._
 
 _Before the cart goes, Nova walks back up the hill._  
 _She puts a bun on Moss’s flat stone, by his flower._  
-_Moss died. That means his body stopped working, and it won’t start again._  
+_Moss died. His body stopped, and it won’t start again._  
 _His flower grows here, so everyone remembers him._  
 **Nova**: A bun for you, Moss. I’ll tell you about the trip when I’m back.  
 _It’s all right to talk to someone we miss. Lots of people do._  
@@ -1054,7 +1075,8 @@ _She tidies the fur on your Nubbin’s head again._
 
 > **Lesson** (science, 1-LS1-2, notice): parent birds keep their chicks warm and fed  
 > _Mother birds sit over their chicks to keep them warm._  
-> _Chicks need their mums. That’s why wild birds must stay free._  
+> _In a cage, the mother bird can’t get home._  
+> _Then her chicks get cold. So wild birds stay free._  
 > _For grown-ups: Your child heard how bird parents look after their chicks._
 
 
@@ -1081,7 +1103,8 @@ _Nova sits by the nest and waits. The mother bird comes home to her._
 
 > **Lesson** (science, 1-LS1-2, notice): parent birds keep their chicks warm and fed  
 > _Mother birds sit over their chicks to keep them warm._  
-> _Chicks need their mums. That’s why wild birds must stay free._  
+> _In a cage, the mother bird can’t get home._  
+> _Then her chicks get cold. So wild birds stay free._  
 > _For grown-ups: Your child heard how bird parents look after their chicks._
 
 
@@ -1097,8 +1120,8 @@ _That night you light Gran Hazel’s lantern and open the book._
 _Look! Little notes in pencil, on every page. Gran Hazel wrote them!_  
 _She read all of Nova’s stories, and wrote what she thought._  
 _Nova stays three days. She says yes to tea every time._  
-_Then off she goes. Her bag is so light now!_  
-_At the top of the hill she waves. Goodbye, Nova! See you soon!_  
+_Then Nova goes for a long walk. Her bag is so light now!_  
+_She waves from the hill. She’ll be back. She said so twice!_  
 
 > **Lesson** (literacy, RL.K.3, ask): retelling a story in order: first and last  
 > _What happened first, on this big adventure?_  
