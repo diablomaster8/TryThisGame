@@ -36,6 +36,73 @@ default renderer is not changed; passes 1 and 2 are on `main`, deployed since 20
 accepted by Maor). Maor, 2026-10-21: daily refreshes and free daily gifts are allowed; only
 repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below).
 
+## Campaign graphics 3, items K1–K50 (2026-10-22)
+
+Built from `docs/campaign-graphics-recommendations-2026-10-22-b.md` the same way as the second
+pass: wave 0 (`f4`, Opus), seven packages in parallel (a1 poses and rig, c4 interiors and places
+on Opus; a2 motion, b4 people, d4 sky and weather, e4 world detail, u4 story UI on Sonnet), a
+content wave, shots and perf, two review rounds with one fix round. Branches `cg4/foundation`,
+`cg4/pkg-{a1,a2,b4,c4,d4,e4,u4}` and `cg4/content` merged in `cg4/merge`. Rules and API:
+`cg4-rules.md`, `cg4-api.md` (session folder). Shots: `docs/samples/cg4-*.jpg`; golden set
+`docs/samples/golden/` with `tests/tools/story-shots.cjs` and `story-shots-diff.cjs` (K50).
+
+**What works**
+
+- **Staging (f4):** focus weights in the fit (people first, large props kept at 60%, a phone 3D
+  figure never under ~40 px, a line naming a prop makes it that line's subject); shot/reverse on
+  two-speaker exchanges; `grave` letterbox scenes (30); the stage inspector in `?debug`; the shot
+  test over every staged scene at desktop and phone (`tests/render/story-shots.test.ts`); new
+  fields `from`, `partner`, `inside-<id>`, `tale`, `grave`, `moon`, `Line.gesture`.
+- **Acting (a1, a2):** sit and kneel for Keepers and Nubbins (Moss sits upright, the Keeper beside
+  him), heads turn to the speaker (crowd at half), five gestures (122 lines carry one), hand and
+  neck pivots for carried props, the item-get pose; walk-ons with footprints by ground type; the
+  partner beside the Keeper reacting by mood.
+- **People (b4):** Fern's story look (cap, scarf, satchel) in both renderers; mood portraits; tale
+  grade with young Hazel (c4-tale scenes); older Hazel from ch11; speaker rim and ring in 3D;
+  separate-campaign departures at their memorial spots.
+- **Places (c4):** hidden buildings drop their shadows and taps; five interiors (kitchen, guard
+  house, Corvin's house, crest house, Fold house); the Beetle Road's below chapters on real Hollow
+  floors with a story seed (save-safe, sim test), cast kept clear of floor props.
+- **Sky and weather (d4):** the Hush walks with a fog band; depth of field on close/over shots
+  focused on the speaker (off on phones); light shafts (3D only), cloud shadows, moon by chapter,
+  snow building through the vigil (roof caps too), path wear, puddles, one wind uniform.
+- **World detail (e4):** window figures, lantern streaks on water, crop plot by season, four lantern
+  heads, rising lanterns, seasonal cottage decor, birds and moths, gate frost, the Logged In boot.
+- **Story UI (u4):** keepsake inspector, a box skin per campaign, readable boards, the chapter
+  photo with its grade, journal thumbnails, title-card silhouettes, the campaign map, the ending
+  gallery.
+- **Perf** (Full 3D, 390×844, 4× throttle, mean of two runs, before → after): Hazel ch10 60.1 →
+  59.0, ch11 56.7 → 56.6, ch12 56.7 → 56.8, Hundred ch9 44.1 → 55.8, Logged ch7 39.3 → 56.2,
+  Logged ch4 48.9 → 43.8 (run spread ≥8), Beetle ch3 48.6 → 56.3, Beetle ch1 50.1 → 48.9, Dawn ch1
+  44.1 → 56.7; pixel Beetle ch3 and Hazel ch12 unchanged. Desktop Hazel ch12 3D 57 fps in the
+  final shots.
+
+**Stubbed or approximate**
+
+- Fern's gate lines are not split out of `c1-letter` into a kitchen scene (needs the sim and the
+  edu versions to change); no Corvin's-house or crest-house scene exists to stage.
+- Pixel has no light shafts; coat tails don't read the wind (no coat geometry).
+- The photo offer state lives in localStorage (UI convenience), photos in IndexedDB.
+- The board's final words are still a placeholder.
+
+**Known bugs (after the second review round)**
+
+- 3D Hundred ch9 (`-1`, also `-0`): red floor slabs and loose boards remain where houses are
+  hidden (plinth tops kept on purpose; package k's rubble stays).
+- 3D Beetle ch1 on phone: the guard-house room shows tilted and wall-less with banners floating;
+  on desktop Hob stands at the counter instead of sitting.
+- The Logged In terminal skin still crops the Warden's portrait to a sliver on phone, and the
+  pixel phone box cuts his line at "Please"; Logged In ch1 pixel on phone drops to 35–42 fps (cause
+  not profiled).
+- Hazel ch10 phone `-1`: the pond is in frame but no person is.
+- Pixel keepsake inspector still shows the letter edge-on.
+- Hazel's kitchen (`cg4-c4-kitchen-*`) still draws Fern in the Gardener look, portrait included.
+- Pixel Beetle ch3 floor has a heavy purple grade instead of warm torchlight.
+- The Hollow minimap still shows in the c4 floor close-ups; Hazel ch12 on phone crowds the box.
+- Test suite: several sim/story-world tests time out under full-suite load and pass alone; watch
+  the CI runner.
+- No real-phone pass yet.
+
 ## Story review run 1 fixes (2026-10-22)
 
 All 60 recommendations of `docs/story-review/review-2026-10-22.md` applied (log: `docs/story-review/LOG.md`).
@@ -49,77 +116,6 @@ All 60 recommendations of `docs/story-review/review-2026-10-22.md` applied (log:
   branch, the chapter goal needs it), -53 (c6-close ask kept), -54 (c10-wisp says "the stone's
   bearer"; naming Sable or Moss needs per-route variants).
 - **Known bugs:** none. Some content regions near the edits are now in Prettier layout.
-
-## Campaign graphics 2, items 1–45 (2026-10-22)
-
-Built from `docs/campaign-graphics-recommendations-2026-10-22.md` the same way as the first pass:
-one orchestrator, wave 0 (foundation, Opus), seven packages in parallel (P people, K kits, W
-winter and water, Y light and grade, U story UI on Sonnet; S sets and X occlusion and gate on
-Opus), a content wave, shots and perf, and two review rounds with one fix round. Branches
-`cg2/foundation`, `cg2/pkg-{p,s,k,w,x,y,u}` and `cg2/content` merged in `cg2/merge`. Agent rules
-and API: `cg2-rules.md`, `cg2-api.md` (session folder, not in the repo). Shots:
-`docs/samples/cg2-*.jpg`.
-
-**What works**
-
-- **Staging (wave 0):** new `SceneStage` fields (`exclusive`, `set`, `shot.then`, `shot.fit`,
-  `lights.windows`, `item`, `hold`, `cast[].tint`, more `carry` and `props`); package overlays
-  `config/scene-stages-pkg-*.ts` layered under the content files field by field (props and lights
-  by key); `ctx.buildings` (hide/fade), `ctx.camera`, `safeRect()`; fit-to-focus inside the
-  HUD-safe area, push-in on the first spoken line, the Keeper on its place mark, camera yaw chosen
-  to see the speakers. H1: every chapter has a home location (`HAZEL_HOME`, `STORY_HOME`); a
-  debug jump moves there and always replays the chapter opening.
-- **People (P):** storyline speakers drawn as render-only stage actors with their own looks
-  (`STORY_NPC_LOOKS`) and portraits (content-check fails a speaker with no look); grey Moss on
-  the hill; speaker chevron (not on narration); festival ring; Keeper silhouettes; Hazel's patches;
-  carry props.
-- **Sets (S):** the Root Node white room and the Beetle Road's `below` cave (exclusive sets);
-  Logged In's grid, holo board, egg glints and door.
-- **Kits (K):** per-campaign `set` hides Grove-only buildings; Fold ruins mending by chapter, the
-  Beetle lane, banners and cart, crest plaques and sundial, tally post and wreaths, campaign
-  memorial spots.
-- **Winter and water (W):** pond and stream ice in ch10–12 in both renderers, snow crowns and
-  frosted ground, short frosted 3D grass, pixel Hush colossus, the Hush lantern ring and frost
-  trail, the mill sluice, Corvin's backdrop foot.
-- **Occlusion (X):** the lychgate (2 draws), round-hole fades, near-camera and frame-filling
-  pieces hidden, pixel building fade over the cast.
-- **Light (Y):** Logged In night with windows out, dark "out" lanterns in 3D, split-tone Dawn,
-  `crisp` grade, dawn/dusk cues, the lantern string, the board's final message.
-- **UI (U):** item close-up cards, chapter postcards (skippable), the chapter photo offer.
-- **Content:** all 197 scenes of the four storylines and every Hazel ending staged.
-- **Perf** (Full 3D, 390×844, 4× CPU throttle, mean fps before → after): Hazel ch10 56.6 → 56.6,
-  ch12 56.6 → 56.6, Hundred ch9 47.5 → 43.6, Logged ch7 47.9 → 47.1, Logged ch4 45.8 → 49.7,
-  Beetle ch3 46.9 → 52.1, Beetle ch1 45.5 → 51.2, Dawn ch1 55.0 → 49.4. No scene under 30;
-  run-to-run spread was 5–8 fps; draw calls unchanged at Dawn ch1.
-
-**Stubbed or approximate**
-
-- C4 uses the `below` set in the Grove, not the real dungeon location.
-- Stage actors hold a static pose (no sit or kneel); hidden 3D buildings still cast shadows and
-  stay pickable.
-- The board's final words are a placeholder in `tuning-y.ts`.
-- The chapter photo is the canvas only (no DOM grade layers); the offer isn't saved.
-
-**Known bugs (after the fix round of 2026-10-22, `docs/samples/cg3-*.jpg` before and after)**
-
-The nine defects the second review left are fixed: the Hush is a hooded figure (sRGB card) and
-the Fold's windows go out with the faster lamp ring; the occluder's hide box takes a roof's whole
-reach, the gate and package k's Fold pieces, and side-edge clutter (no dangling gable, no giant
-roof); a hidden well takes its water (no dark disc); Hazel ch10 fits the iced pond
-(`pond-centre`, kept whole when nothing else fits); Fern is cast at the gate (a stage actor when
-you wear her look); the chevron clears while a postcard holds a line; pixel push-ins and close
-shots use a story-only 64 px step; Hundred ch1 frames the gate and Ida, and pixel dojo ruins are
-cut from the cottage; Hob stands at a new counter; two-shots never look along the pair, and the
-twin stands off the sundial (`green-twin`).
-
-- Hazel ch9's narration chevron did not reproduce in headless Edge; the stale-speaker path is
-  fixed but unconfirmed.
-- Hazel ch10 3D: the floating fence rail did not show once the shot fits the pond; not traced.
-- On a phone held upright, Hazel ch10's pixel shot keeps the pond whole and loses the Keeper.
-- Fern as a stage actor wears the Gardener look, so in 3D she matches a Gardener Keeper.
-- The Fold keeps its mill and water wheel by design (`stage-sets.ts`); the reviewer flagged them.
-- Ida's line in Hundred ch9 still has a roof cut by the bottom-right edge (not nearer than the cast).
-- No real-phone pass yet.
 
 ## Standing approval (Maor, 2026-10-12)
 
