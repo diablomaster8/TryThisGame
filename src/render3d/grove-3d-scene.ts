@@ -24,6 +24,7 @@ import { Bursts } from './bursts';
 import { PARTICLE_TIME } from './quad-particles';
 import { FinishPass } from './finish-pass';
 import { caveShed } from './cave-shed';
+import { DofPass } from './dof-pass';
 import { FrameGovernor } from './governor';
 import { LampPool, type LampSource } from './lamp-pool';
 import { setOutlines } from './toon-outline';
@@ -200,6 +201,8 @@ export class Grove3dScene {
   private readonly grade: FinishPass;
   /** The HDR clamp ahead of bloom; the finish pass clamps on its own when bloom is off. */
   private readonly clamp: ShaderPass;
+  /** K21: depth of field for the close and over-the-shoulder story shots (render3d/dof-pass.ts). */
+  private readonly dof: DofPass;
   /** The night lights, and the lit lanterns and windows they may go to. */
   private readonly lamps: LampPool;
   private lampSources: LampSource[] = [];
@@ -403,6 +406,7 @@ export class Grove3dScene {
 
     this.composer = new EffectComposer(this.renderer);
     this.composer.addPass(new RenderPass(this.scene, this.camera));
+    this.dof = DofPass.install(this.composer, this.camera);
     this.clamp = new ShaderPass(CLAMP);
     this.clamp.enabled = false;
     this.composer.addPass(this.clamp);
@@ -1333,6 +1337,16 @@ export class Grove3dScene {
       this.shakeAmount *= Math.exp(-12 * dt);
     } else this.shakeAmount = 0;
     this.camera.lookAt(this.camTarget);
+    // K21: the close and over-the-shoulder shots blur what is past the speaker.
+    this.dof.setShot(
+      this.staging.active &&
+        (this.staging.shotKind() === 'close' ||
+          this.staging.shotKind() === 'over' ||
+          this.reverseYaw !== null),
+      this.camera.position.distanceTo(this.camTarget),
+      dt,
+      this.reduceMotion,
+    );
     // What the crowns, trunks and lantern posts keep clear of: the Keeper's middle and head
     // (the orbit target), and the focused Nubbin or the speakers, when there are any.
     const [mid, head] = this.keeperMarks as [THREE.Vector3, THREE.Vector3];
@@ -1413,6 +1427,7 @@ export class Grove3dScene {
     this.canvas.style.filter = this.fade > 0 ? `brightness(${(1 - this.fade).toFixed(3)})` : '';
     if (hold) return;
     this.governRenderScale(this.composer, interval);
+    this.dof.tick(interval);
     // One reset per frame with `autoReset` off, so the debug panel sums every composer pass.
     this.renderer.info.reset();
     this.composer.render();
