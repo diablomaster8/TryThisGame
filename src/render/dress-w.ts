@@ -3,6 +3,7 @@ import {
   Mesh,
   MeshBasicMaterial,
   Shape,
+  Sprite,
   ShapeGeometry,
   type CanvasTexture,
   type MeshLambertMaterial,
@@ -19,9 +20,13 @@ import { lanternLights, SceneClock } from './dress-e';
 import type { PixelDressCtx, PixelDressing } from './dressings';
 import { groundTexture } from './ground';
 import type { GroundJob, GroundResult } from './ground.worker';
+import { CG4_D4 } from '../config/tuning-d4';
+import { hushFog, hushWalk, levelOf, pathWear, snowCover } from './d4-state';
+import { HUSH_PX } from './hush-art';
 import { HushTrail } from './hush-trail';
 import { LineClock } from './line-clock';
 import { RasterAtlas } from './paint/atlas';
+import { FOG_PX, paintFogPuff } from './paint/d4';
 import { FROST_PX, paintFrostDecal } from './paint/frost-w';
 import { paintSnowCrown } from './paint/scenery';
 import { pondOutline } from './paint/shore';
@@ -96,6 +101,8 @@ class WinterGround {
   private tex: CanvasTexture | null = null;
   private base: Texture | null = null;
   private asked: Record<string, TileKind> | null = null;
+  /** K25, K26: the variant (winter, snow level, wear level) the current texture was asked for. */
+  private askedKey = '';
 
   constructor(private readonly ctx: PixelDressCtx) {}
 
@@ -117,7 +124,7 @@ class WinterGround {
     return this.mat;
   }
 
-  update(winter: boolean, tiles: Record<string, TileKind>): void {
+  update(winter: boolean, tiles: Record<string, TileKind>, snow = 0, wear = 0): void {
     const mat = this.find();
     if (!mat) return;
     // The Grove swapped its ground over ours (terraforming): ours is stale.
@@ -126,21 +133,34 @@ class WinterGround {
       this.tex = null;
       this.asked = null;
     }
-    if (!winter) {
+    // The base ground is the cheapest case: no winter, no snow, no wear to paint.
+    const key = `${winter ? 'w' : '-'}|${snow}|${wear}`;
+    if (!winter && snow === 0 && wear === 0) {
+      // Whatever was being painted is no longer wanted.
+      this.job++;
+      this.asked = null;
+      this.askedKey = '';
       if (this.tex && mat.map === this.tex) {
         mat.map = this.base;
         mat.needsUpdate = true;
       }
       return;
     }
-    if (this.tex && mat.map === this.tex) return;
-    if (this.asked === tiles) return;
-    this.request(tiles);
+    if (this.tex && mat.map === this.tex && this.askedKey === key) return;
+    if (this.asked === tiles && this.askedKey === key) return;
+    this.request(tiles, key, winter, snow, wear);
   }
 
-  private request(tiles: Record<string, TileKind>): void {
+  private request(
+    tiles: Record<string, TileKind>,
+    key: string,
+    winter: boolean,
+    snow: number,
+    wear: number,
+  ): void {
     if (typeof Worker === 'undefined') return;
     this.asked = tiles;
+    this.askedKey = key;
     try {
       if (!this.worker) {
         this.worker = new Worker(new URL('./ground.worker.ts', import.meta.url), {
@@ -155,7 +175,14 @@ class WinterGround {
           this.worker = null;
         };
       }
-      const job: GroundJob = { id: ++this.job, seed: 7, tiles, season: 'winter' };
+      const job: GroundJob = {
+        id: ++this.job,
+        seed: 7,
+        tiles,
+        season: winter ? 'winter' : null,
+        snow,
+        wear,
+      };
       this.worker.postMessage(job);
     } catch {
       this.worker = null;
@@ -202,6 +229,9 @@ class PixelW implements PixelDressing {
   private clock = new SceneClock();
   private line = new LineClock();
   private trail = new HushTrail();
+  /** K17: the colossus sprite dress-e draws, found by its size, and moved along the walk. */
+  private colossus: Sprite | null = null;
+  private colossusTried = 0;
 
   build(ctx: PixelDressCtx): void {
     this.ctx = ctx;
@@ -211,6 +241,8 @@ class PixelW implements PixelDressing {
     this.clock = new SceneClock();
     this.line = new LineClock();
     this.trail = new HushTrail();
+    this.colossus = null;
+    this.colossusTried = 0;
     this.ice = null;
     this.ground = null;
     if (typeof document === 'undefined') return;
@@ -245,11 +277,73 @@ class PixelW implements PixelDressing {
       if (ctx.sprites) {
         const atlas = new RasterAtlas(256);
         atlas.add('frost', paintFrostDecal());
+        atlas.add('fog', paintFogPuff());
         this.decal = atlas.build();
         ctx.track(this.decal);
       }
     } catch {
       this.ice = null;
+    }
+  }
+
+  /** The colossus dress-e builds, found among the grove's sprites by its painted size. */
+  private findColossus(ctx: PixelDressCtx): void {
+    if (this.colossus || this.colossusTried > 3) return;
+    this.colossusTried++;
+    for (const o of ctx.groups.grove.children) {
+      const s = o as Sprite;
+      const img = s.isSprite
+        ? (s.material.map?.image as { width?: number } | undefined)
+        : undefined;
+      if (
+        img?.width === HUSH_PX.w &&
+        (s.material.map?.image as { height?: number }).height === HUSH_PX.h
+      ) {
+        this.colossus = s;
+        return;
+      }
+    }
+  }
+
+  /**
+   * K17: the Hush walks from its mark toward the Fold, a stretch each scene, with a low band of
+   * fog behind it that reaches each lantern as the lantern's frost grows. Reduced motion: it
+   * stands at the stretch's end. dress-e owns the sprite's fade; this moves it and draws the fog.
+   */
+  private hushWalk(
+    ctx: PixelDressCtx,
+    sid: string | null,
+    sceneT: number,
+    grown: ReadonlyMap<string, number>,
+    reduce: boolean,
+    dim: number,
+  ): void {
+    this.findColossus(ctx);
+    const card = this.colossus;
+    const place = hushWalk(sid, sceneT, reduce);
+    if (!card || !place) return;
+    card.position.x = place.x;
+    card.position.z = place.z;
+    const batch = ctx.sprites?.batch;
+    const rect = this.decal?.frames.get('fog');
+    if (!batch || !this.decal || !rect || !card.visible) return;
+    const c = CG4_D4.hush;
+    const presence = Math.min(1, card.material.opacity / CG2_W.hush.pixelOpacity);
+    for (const p of hushFog(place, grown, LANTERN_POSTS)) {
+      const w = c.puffW * (0.7 + 0.3 * p.k);
+      batch.draw({
+        sheet: this.decal,
+        rect,
+        flip: false,
+        x: p.x,
+        y: 0.05,
+        z: p.z,
+        mode: 'billboard',
+        w,
+        h: (w * FOG_PX.h) / FOG_PX.w,
+        tint: dim,
+        opacity: c.opacity * presence * (0.6 + 0.4 * p.k),
+      });
     }
   }
 
@@ -295,7 +389,10 @@ class PixelW implements PixelDressing {
     // H8: winter on the ground and the crowns.
     const season = seasonFor(staged, flags.campaign, flags.chapter);
     const winter = home && season?.season === 'winter' && season.strength >= 0.9;
-    this.ground?.update(winter, world.tiles);
+    // K25, K26: snow and path wear are two more levels of the same repainted ground.
+    const snow = home ? levelOf(snowCover(flags), CG4_D4.snow.levels) : 0;
+    const wear = home ? levelOf(pathWear(flags), CG4_D4.wear.levels) : 0;
+    this.ground?.update(winter, world.tiles, snow, wear);
     const sp = ctx.sprites;
     if (!sp) return;
     const batch = sp.batch;
@@ -346,6 +443,7 @@ class PixelW implements PixelDressing {
       dt,
       reduce,
     );
+    this.hushWalk(ctx, sid, sceneT, grown, reduce, dim);
     const rect = this.decal.frames.get('frost');
     if (!rect) return;
     for (const p of LANTERN_POSTS) {

@@ -12,6 +12,9 @@ export interface GroundJob {
   tiles: Record<string, TileKind>;
   /** H8: the season to paint for; absent means the base ground. */
   season?: GroundSeason;
+  /** K25, K26: the snow and path-wear levels, 0..3. */
+  snow?: number;
+  wear?: number;
 }
 
 export interface GroundResult {
@@ -27,7 +30,7 @@ const scope = self as unknown as {
 };
 
 scope.onmessage = (e: MessageEvent<GroundJob>) => {
-  const { id, seed, tiles, season } = e.data;
-  const p = paintGround(seed, tiles, undefined, season ?? null);
+  const { id, seed, tiles, season, snow, wear } = e.data;
+  const p = paintGround(seed, tiles, undefined, season ?? null, snow ?? 0, wear ?? 0);
   scope.postMessage({ id, width: p.width, height: p.height, rgba: p.rgba }, [p.rgba.buffer]);
 };

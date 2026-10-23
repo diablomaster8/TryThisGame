@@ -6,6 +6,8 @@ import { HUSH } from '../config/tuning-e';
 import { CG2_W } from '../config/tuning-w';
 import type { Daylight } from '../render/daylight';
 import { pondIceWanted } from '../render/dress-w';
+import { CG4_D4 } from '../config/tuning-d4';
+import { hushFog, hushWalk, WindState } from '../render/d4-state';
 import { lanternLights, SceneClock } from '../render/dress-e';
 import { HushTrail } from '../render/hush-trail';
 import { LineClock } from '../render/line-clock';
@@ -15,7 +17,9 @@ import { stageFlags } from '../render/scene-stage';
 import type { World } from '../sim/types';
 import type { Dress3dCtx, Dressing3d } from './dressings';
 import { FrostDecals } from './frost-fx';
-import { WATER_LEVEL } from './terrain';
+import { hushFogTexture } from './hush-card';
+import { setWind, SNOW_U, WIND_GLSL_DECL, WIND_U } from './wind-d4';
+import { groveHeight, WATER_LEVEL } from './terrain';
 
 /**
  * Campaign graphics 2, package w, Full 3D (winter, water, the Hush): the pond's ice (C7), a
@@ -42,12 +46,27 @@ function patchGrass(mat: THREE.MeshStandardMaterial): void {
   mat.onBeforeCompile = (shader, renderer) => {
     prev.call(mat, shader, renderer);
     if (!shader.vertexShader.includes(FADE)) return;
-    shader.uniforms.uWinterH = grassHeight;
+    Object.assign(shader.uniforms, { uWinterH: grassHeight }, WIND_U, SNOW_U);
+    // K35: the shared wind leans every blade, more at the tip, and ripples gusts through. The
+    // push is a world-space offset, so it goes through the instance's inverse rotation.
+    const wind = `{
+      vec3 dl = ( vec3( uWindDir.x, 0.0, uWindDir.y ) * mat3( instanceMatrix ) ) /
+        dot( instanceMatrix[ 0 ].xyz, instanceMatrix[ 0 ].xyz );
+      float m = windMag( ip, uv.y * uv.y, uTime );
+      transformed.xz += dl.xz * m;
+    }`;
     shader.vertexShader = shader.vertexShader
-      .replace('#include <common>', '#include <common>\nuniform float uWinterH;')
-      .replace(FADE, `${FADE}\n transformed.y *= uWinterH;`);
+      .replace('#include <common>', `#include <common>\nuniform float uWinterH;\n${WIND_GLSL_DECL}`)
+      .replace(FADE, `${FADE}\n ${wind}\n transformed.y *= uWinterH;`);
+    // K25: under snow the blades go white with the ground, so the cover reads on the meadow.
+    shader.fragmentShader = shader.fragmentShader
+      .replace('#include <common>', '#include <common>\nuniform float uSnowAmt;')
+      .replace(
+        '#include <color_fragment>',
+        '#include <color_fragment>\n diffuseColor.rgb = mix( diffuseColor.rgb, vec3( 0.9, 0.95, 1.0 ), uSnowAmt * 0.8 );',
+      );
   };
-  mat.customProgramCacheKey = () => 'grove-grass-winter';
+  mat.customProgramCacheKey = () => 'grove-grass-winter-wind';
   mat.needsUpdate = true;
 }
 
@@ -65,10 +84,22 @@ class Dress3dW implements Dressing3d {
   private readonly frostColor = new THREE.Color(CG2_W.winter.groundFrost);
   private readonly frostGlow = new THREE.Color(CG2_W.winter.groundGlowColor);
   private scanned = -10;
+  private scannedHush = -10;
   private clock = new SceneClock();
   private line = new LineClock();
   private trail = new HushTrail();
   private time = 0;
+  /** K35: the wind the grass shares. K17: the Hush's walk and its fog band. */
+  private wind = new WindState();
+  private colossus: THREE.Sprite | null = null;
+  private fog: THREE.InstancedMesh | null = null;
+  private fogMat: THREE.MeshBasicMaterial | null = null;
+  private readonly fogM = new THREE.Matrix4();
+  private readonly fogQ = new THREE.Quaternion();
+  private readonly fogP = new THREE.Vector3();
+  private readonly fogS = new THREE.Vector3();
+  private readonly fogUp = new THREE.Vector3(0, 1, 0);
+  private readonly fogColor = new THREE.Color();
 
   build(ctx: Dress3dCtx): void {
     this.ctx = ctx;
@@ -79,7 +110,10 @@ class Dress3dW implements Dressing3d {
     this.earth = null;
     this.frostMix = 0;
     this.scanned = -10;
+    this.scannedHush = -10;
     this.time = 0;
+    this.wind = new WindState();
+    this.colossus = null;
     grassHeight.value = 1;
     if (typeof document === 'undefined') return;
     const R = GROVE.pond.r + CG2_W.ice.grow3d;
@@ -129,7 +163,43 @@ class Dress3dW implements Dressing3d {
     this.owned.push(st, sm);
     this.stream = group;
     this.frost = new FrostDecals(ctx.world3d, LANTERN_POSTS);
+    this.buildFog(ctx);
     void ctx.compile(ice);
+  }
+
+  /** K17: the walk's fog band, one instanced mesh of soft puffs (a single draw). */
+  private buildFog(ctx: Dress3dCtx): void {
+    const c = CG4_D4.hush;
+    const tex = hushFogTexture();
+    const mat = new THREE.MeshBasicMaterial({
+      map: tex,
+      transparent: true,
+      depthWrite: false,
+      opacity: 0,
+      fog: false,
+      color: '#c9d4e2',
+    });
+    const geo = new THREE.PlaneGeometry(1, 1);
+    const count = c.pathPuffs + LANTERN_POSTS.length * c.tendrilPuffs;
+    const fog = new THREE.InstancedMesh(geo, mat, count);
+    fog.count = 0;
+    fog.frustumCulled = false;
+    fog.renderOrder = 3;
+    fog.visible = false;
+    ctx.world3d.add(fog);
+    this.owned.push(tex, mat, geo);
+    this.fog = fog;
+    this.fogMat = mat;
+  }
+
+  /** The colossus card dress-e draws, found once by the mark its texture carries. */
+  private findColossus(ctx: Dress3dCtx): void {
+    if (this.colossus || this.time - this.scannedHush < 2) return;
+    this.scannedHush = this.time;
+    ctx.world3d.traverse((o) => {
+      const s = o as THREE.Sprite;
+      if (!this.colossus && s.isSprite && s.material.map?.userData.hush) this.colossus = s;
+    });
   }
 
   /** The meadow's material: the instanced meshes drawn with the tuft texture. */
@@ -165,6 +235,10 @@ class Dress3dW implements Dressing3d {
     const flags = stageFlags(world, staged);
     const home = flags.location === 'grove';
 
+    // K35: one wind for the meadow (and anything else that reads WIND_U).
+    this.wind.update(stage, dt, reduce);
+    setWind(this.wind, reduce);
+
     // C7: the pond's ice.
     if (this.ice) {
       this.ice.visible = home && pondIceWanted(stage, flags.campaign, flags.chapter);
@@ -197,25 +271,81 @@ class Dress3dW implements Dressing3d {
     if (!home) {
       this.trail.reset();
       this.frost.set(new Map());
+      if (this.fog) this.fog.visible = false;
       return;
     }
     const sceneT = this.line.tick(flags.sceneId, this.clock.tick(flags.sceneId, dt), dt);
     const states = lanternLights(flags, stage, sceneT, reduce);
     const sid = flags.sceneId;
-    this.frost.set(
-      this.trail.update(
-        flags,
-        states,
-        LANTERN_POSTS,
-        sid !== null && HUSH.out.includes(sid),
-        sid !== null && HUSH.back.includes(sid),
-        dt,
-        reduce,
-      ),
+    const grown = this.trail.update(
+      flags,
+      states,
+      LANTERN_POSTS,
+      sid !== null && HUSH.out.includes(sid),
+      sid !== null && HUSH.back.includes(sid),
+      dt,
+      reduce,
     );
+    this.frost.set(grown);
+    this.hushWalk(ctx, sid, sceneT, reduce, grown, daylight);
+  }
+
+  /**
+   * K17: the Hush walks from its mark toward the Fold, a stretch each scene, with a ground-fog
+   * band behind it that reaches each lantern as the lantern's frost grows. Reduced motion: it
+   * stands at the stretch's end. dress-e owns the card (its fade-in and its opacity); this
+   * moves it.
+   */
+  private hushWalk(
+    ctx: Dress3dCtx,
+    sid: string | null,
+    sceneT: number,
+    reduce: boolean,
+    grown: ReadonlyMap<string, number>,
+    daylight: Daylight,
+  ): void {
+    this.findColossus(ctx);
+    const fog = this.fog;
+    const mat = this.fogMat;
+    const place = hushWalk(sid, sceneT, reduce);
+    const card = this.colossus;
+    const shown = card !== null && card.visible && place !== null;
+    if (card && place) {
+      const c = CG2_W.hush;
+      card.position.set(place.x, groveHeight(place.x, place.z + c.z3d) + c.y3d, place.z + c.z3d);
+    }
+    if (!fog || !mat) return;
+    if (!shown || !place || !card) {
+      fog.visible = false;
+      return;
+    }
+    const puffs = hushFog(place, grown, LANTERN_POSTS, CG2_W.hush.z3d);
+    const c = CG4_D4.hush;
+    const cam = ctx.camera.position;
+    let n = 0;
+    for (const p of puffs) {
+      if (n >= fog.instanceMatrix.count) break;
+      const y = groveHeight(p.x, p.z) + c.lift;
+      this.fogP.set(p.x, y, p.z);
+      this.fogQ.setFromAxisAngle(this.fogUp, Math.atan2(cam.x - p.x, cam.z - p.z));
+      this.fogS.set(c.puffW * (0.7 + 0.3 * p.k), c.puffH * (0.7 + 0.3 * p.k), 1);
+      this.fogM.compose(this.fogP, this.fogQ, this.fogS);
+      fog.setMatrixAt(n++, this.fogM);
+    }
+    fog.count = n;
+    fog.instanceMatrix.needsUpdate = true;
+    fog.visible = n > 0;
+    // The band is as present as the figure, and dims with the night like the other frost.
+    const presence = Math.min(1, card.material.opacity / CG2_W.hush.opacity3d);
+    mat.opacity = c.opacity * presence;
+    mat.color.copy(this.fogColor.set('#c9d4e2')).multiplyScalar(1 - 0.5 * daylight.darkness);
   }
 
   dispose(): void {
+    this.fog?.removeFromParent();
+    this.fog = null;
+    this.fogMat = null;
+    this.colossus = null;
     this.ice?.removeFromParent();
     this.ice = null;
     this.stream?.removeFromParent();

@@ -71,5 +71,42 @@ export function hushCardTexture(): THREE.CanvasTexture {
   const tex = new THREE.CanvasTexture(c);
   // Painted in sRGB: without this the slate is read as linear and lifts to a pale grey.
   tex.colorSpace = THREE.SRGBColorSpace;
+  // K17: the walk finds the card by this mark and moves it.
+  tex.userData.hush = true;
+  return tex;
+}
+
+/**
+ * K17: one puff of the Hush's ground fog: a wide, soft, flat-bottomed cloud, white at its core
+ * and clear at the rim, so a row of them reads as a low band of mist (tinted by the material).
+ */
+export function hushFogTexture(): THREE.CanvasTexture {
+  const c = document.createElement('canvas');
+  c.width = 128;
+  c.height = 64;
+  const g = c.getContext('2d')!;
+  g.filter = 'blur(5px)';
+  g.fillStyle = 'rgba(255,255,255,0.85)';
+  for (const [x, y, rx, ry] of [
+    [64, 40, 44, 16],
+    [38, 42, 24, 12],
+    [92, 42, 26, 13],
+    [64, 30, 26, 12],
+  ] as const) {
+    g.beginPath();
+    g.ellipse(x, y, rx, ry, 0, 0, Math.PI * 2);
+    g.fill();
+  }
+  g.filter = 'none';
+  // The foot is level with the ground: the lowest part fades out.
+  g.globalCompositeOperation = 'destination-in';
+  const fade = g.createLinearGradient(0, 0, 0, 64);
+  fade.addColorStop(0, 'rgba(0,0,0,0.9)');
+  fade.addColorStop(0.7, 'rgba(0,0,0,1)');
+  fade.addColorStop(1, 'rgba(0,0,0,0.15)');
+  g.fillStyle = fade;
+  g.fillRect(0, 0, 128, 64);
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
   return tex;
 }
