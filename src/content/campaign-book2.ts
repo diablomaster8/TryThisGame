@@ -3,14 +3,18 @@
  * The world widens: the Circuit up the valley, the hill in the rain, the frost at the empty
  * post, the ledge behind the falls and the Hollow beyond. Canon: briefs/story-bible.md.
  */
-import type { Chapter, Scene, Line, Mood } from '../config/story';
+import type { Chapter, Scene, Line, LineGesture, Mood } from '../config/story';
 
 const S = (id: string, lines: Line[], extra: Partial<Scene> = {}): Scene => ({ id, lines, ...extra });
 
 const say =
   (who: string) =>
-  (text: string, mood?: Mood): Line =>
-    mood ? { who, text, mood } : { who, text };
+  (text: string, mood?: Mood, gesture?: LineGesture): Line => ({
+    who,
+    text,
+    ...(mood ? { mood } : {}),
+    ...(gesture ? { gesture } : {}),
+  });
 
 const N = say('narrator');
 const YOU = say('you');
@@ -75,7 +79,7 @@ const C6_FADING: Line[] = [
   DUSTY('She’s done. Not reborn. Done. You can tell by the light. Rebirth glows; this just… thins.'),
   N('It thins the way breath thins on a window. You keep thinking it has finished, and it hasn’t.'),
   N('Dusty puts one muddy finger against it. Inside, very faintly, something taps back. Twice.'),
-  DUSTY('Yes. All right. I know.', 'soft'),
+  DUSTY('Yes. All right. I know.', 'soft', 'nod'),
   N('…'),
   N('And then there is only rain, and where she was, a flower pushing up through the wet grass.'),
   DUSTY('Everyone keeps telling me it means she was happy enough to let go. That’s true. It’s also the worst thing anyone’s ever said to me.', 'sad'),
@@ -85,7 +89,7 @@ const C6_FADING: Line[] = [
 
 const C8_GATE: Line[] = [
   N('Fern catches you at the gate with a bag. In it: fruit, a jumper, a whistle, a second jumper, and a note that says SORRY ABOUT THE JUMPERS.'),
-  FERN('It’s cold where you’re going. Everyone says so. I don’t know anything else useful, so: jumpers.', 'think'),
+  FERN('It’s cold where you’re going. Everyone says so. I don’t know anything else useful, so: jumpers.', 'think', 'shrug'),
   N('Sable comes with you as far as the gate, and stops there, and sits. This is as far as she goes. She will be here.'),
   N('Marina is waiting at the pool below the falls, sleeves rolled, hair already wet.'),
   MARINA('Nova said you’d be coming this way. Nova never says anything, so I listened.'),
@@ -95,7 +99,7 @@ const C8_LEDGE_REST: Line[] = [
   N('The ledge is a hand’s width wide and runs behind the falling water. The roar fills your head until nothing else fits.'),
   N('Green light. White water. Spray on your face, cold; the rock under your palm, colder.'),
   N('Then, halfway along, warmth. It comes up through the stone into your hand like the side of a teapot.'),
-  MARINA('Look. Don’t stop. Just look.'),
+  MARINA('Look. Don’t stop. Just look.', undefined, 'point'),
   N('Through a split in the rock: a cave of glittering stone, and in it a pool, steaming gently, lit from underneath by nothing at all.'),
   N('The Wellspring. It is the stillest water you have ever seen, and the most alive.'),
   MARINA('That’s where they came from. The first ones. Up out of that, each one a little light. Moss told Hazel. Hazel told me.', 'soft'),
@@ -178,7 +182,7 @@ export const BOOK2_SCENES: Scene[] = [
     N('There is no shade. There is no tree for half a mile.'),
     N('At the start line, Corvin’s runners wait in a row. Grey, every one. Not touching. Not looking at anything.'),
     N('Your Nubbin presses against your leg and stays there.'),
-    SPARKS('Mine bounce. Look at them. Mine never stop bouncing. His just… wait.', 'sad'),
+    SPARKS('Mine bounce. Look at them. Mine never stop bouncing. His just… wait.', 'sad', 'down'),
     N('Byte is at the rail with a clipboard and a stopwatch, timing things that are not, strictly, racing.'),
     BYTE('His runners have a start variance of zero. Zero. I’ve timed sixty starts.', 'think'),
     BYTE('Nothing alive has a variance of zero. I thought I’d broken the stopwatch. I bought a second stopwatch.'),
@@ -192,7 +196,7 @@ export const BOOK2_SCENES: Scene[] = [
     N('Corvin touches his breast pocket, lightly, the way some people touch a ring. Then he turns to you.'),
     N('Your breath smokes in the August air. Corvin sees it.'),
     CORVIN('Cold? Is it. I hadn’t noticed. I don’t, any more.', 'think'),
-    CORVIN('Race well. I’d like to see what she taught you. I’d like to see if it’s changed.'),
+    CORVIN('Race well. I’d like to see what she taught you. I’d like to see if it’s changed.', undefined, 'chest'),
     CORVIN('One question first, since you’re her heir. What matters in a race? That they win, or that they want to?', 'think'),
   ], {
     choices: [
@@ -245,7 +249,7 @@ export const BOOK2_SCENES: Scene[] = [
     N('He says it without cruelty. He says it like someone reading out the weather.'),
     CORVIN('It’s faster. It’s steadier. Not one of mine has ever been hurt on this track. Can you say that?'),
     N('Behind him the grey runners stand in their line, perfectly still, frost on the rail beside them.'),
-    EMBER('Ash. Ash, it’s me.', 'sad'),
+    EMBER('Ash. Ash, it’s me.', 'sad', 'down'),
     N('One of the grey ones turns her head, very slightly.'),
     N('…and then turns it back.'),
     CORVIN('You see? Discipline. Come to the garden sometime. I’ll show you how it’s done.'),
@@ -292,6 +296,8 @@ export const BOOK2_SCENES: Scene[] = [
     DUSTY('Ignore Gerald. He thinks I’m onto something.'),
     DUSTY(
       'Thank you for the walk. The cliff, and the tree, and the water. I mean it. I don’t say thank you much. Ask anyone.',
+      undefined,
+      'chest',
     ),
     DUSTY('She hadn’t been in water in six years. Did you see her face? I’m keeping that face.'),
     DUSTY('And she tapped the rock when I told it wrong. Twenty years, and she still had to have the last word.', 'happy'),
@@ -307,7 +313,7 @@ export const BOOK2_SCENES: Scene[] = [
     [
       N('You sit with Dusty on the wet hill, by the flower. Neither of you says anything.'),
       N('It rains, and then it rains less, and then it is only the trees dripping. It is somehow the best part.'),
-      DUSTY('Thank you. Right. I’m going to go and dig something up. That’s what I do when I feel like this. It usually works.', 'soft'),
+      DUSTY('Thank you. Right. I’m going to go and dig something up. That’s what I do when I feel like this. It usually works.', 'soft', 'nod'),
       DUSTY('Yours will go one day. All of them. Love them anyway. Love them harder because of it. That’s the whole trade, and it’s a good one.'),
       N('Dusty goes down the hill. Halfway, they stop, look back at the flower, and lift one muddy hand to it.'),
       N('When you turn round, Moss is sitting by the flower. You didn’t see him come. The rain runs off him in silver threads.'),
@@ -329,7 +335,7 @@ export const BOOK2_SCENES: Scene[] = [
             N('You call down the hill. Dusty stops with their hand on the gate and listens to the whole thing without moving.'),
             DUSTY('…Tell him thank you.', 'soft'),
             DUSTY('And tell him he’s got grass on his head.'),
-            MOSS('I am aware of the grass.'),
+            MOSS('I am aware of the grass.', undefined, 'chest'),
             N('Moss does not move from the flower until it is dark.'),
           ],
         },
@@ -391,14 +397,14 @@ export const BOOK2_SCENES: Scene[] = [
             MOSS('Grey is not the cold. Grey is what the cold leaves behind. It is a scar, not a wound.'),
             MOSS('The cold says one thing, over and over. A Nubbin who hears it long enough stops being able to hear anything else.'),
             N('A crow goes over. Sable flinches, and then, slowly, remembers she does not have to.'),
-            MOSS('The colour goes first. Then the wanting. The wanting is the part that matters.', 'sad'),
+            MOSS('The colour goes first. Then the wanting. The wanting is the part that matters.', 'sad', 'down'),
           ],
         },
         {
           id: 'hurt',
           label: 'Does it hurt them?',
           then: [
-            MOSS('Not the way you mean. That is the worst of it.', 'sad'),
+            MOSS('Not the way you mean. That is the worst of it.', 'sad', 'down'),
             MOSS('Hunger hurts. Cold hurts. The Stillness does not. It is the end of hurting, and of everything that sits beside hurting.'),
             N('He looks at you sideways, the way old people check whether you have understood or only nodded.'),
             MOSS('Joy sits beside hurting. So does wanting your dinner. So does running at a gate every morning and bouncing off.'),
@@ -463,10 +469,10 @@ export const BOOK2_SCENES: Scene[] = [
           id: 'me',
           label: 'Could I hear it?',
           then: [
-            MOSS('Yes.'),
+            MOSS('Yes.', undefined, 'nod'),
             MOSS('You love them already. That is the door it uses. I would be lying if I told you that you were safe from it.'),
             MOSS('…Safe. Hm. There it is again. You see how it gets into everything.', 'think'),
-            MOSS('I am too old to start lying to you. I am also too old to let you go near it alone. Remember both.'),
+            MOSS('I am too old to start lying to you. I am also too old to let you go near it alone. Remember both.', undefined, 'chest'),
           ],
         },
       ],
@@ -486,7 +492,7 @@ export const BOOK2_SCENES: Scene[] = [
       N(
         'Your Nubbin, who has been listening, goes and fetches a stick. It lays it at Moss’s feet.',
       ),
-      MOSS('Yes. Thank you. Exactly that.', 'soft'),
+      MOSS('Yes. Thank you. Exactly that.', 'soft', 'nod'),
       MOSS('It gets lost in the long grass. It comes back. One day it goes up the hill.'),
       MOSS('A Nubbin that is safe cannot be hurt. And it cannot do any of the rest.'),
       N('…'),
@@ -503,7 +509,7 @@ export const BOOK2_SCENES: Scene[] = [
           then: [
             MOSS('What Hazel did. Feed her before you feed yourself. Never, ever throw her. And when you don’t know what to do—'),
             YOU('—sit down next to her and wait.'),
-            MOSS('Yes. You were listening. She will be pleased. Do not tell her I said so.', 'soft'),
+            MOSS('Yes. You were listening. She will be pleased. Do not tell her I said so.', 'soft', 'nod'),
           ],
         },
         {
@@ -520,7 +526,7 @@ export const BOOK2_SCENES: Scene[] = [
           label: 'Say nothing. Stay sitting.',
           then: [
             N('You say nothing. The three of you sit by the empty post while the sun comes down the hill.'),
-            MOSS('Good. You are learning faster than she did.', 'soft'),
+            MOSS('Good. You are learning faster than she did.', 'soft', 'nod'),
             MOSS('I sat beside her a whole winter before I said a word. She fidgeted all the way through it.'),
           ],
         },
@@ -535,7 +541,7 @@ export const BOOK2_SCENES: Scene[] = [
     LUNA('Still grey. Always will be. And look at her anyway.', 'soft'),
     N('Sable says nothing. Her ears stay up.'),
     N('The dark ball above her head flickers, just for a moment, with something that might be a heart.'),
-    BYTE('Statistically, a Shadow Nubbin initiating contact—', 'think'),
+    BYTE('Statistically, a Shadow Nubbin initiating contact—', 'think', 'shrug'),
     LUNA('Byte.'),
     BYTE('…Yes. All right. That was very nice. I’m writing it down as nice.'),
     CLOVER('Write it down twice.', 'happy'),
@@ -543,7 +549,7 @@ export const BOOK2_SCENES: Scene[] = [
     N('Pixel comes over the stile with a box under one arm. On the front is a dial, a needle and one hand-painted word: MAYBE.'),
     PIXEL('Trust meter. For Sable. I built it last night.', 'happy'),
     BYTE('What does it measure?'),
-    PIXEL('Mostly it says maybe. That’s accurate. Nothing about her is calibrated.'),
+    PIXEL('Mostly it says maybe. That’s accurate. Nothing about her is calibrated.', undefined, 'shrug'),
     N('The needle trembles, and stays on MAYBE. Sable looks at the box with deep suspicion and leans harder on your shin.'),
     N('Up on the hill, Moss watches, and then looks away, the way you look away from something private.'),
   ]),
@@ -589,7 +595,7 @@ export const BOOK2_SCENES: Scene[] = [
           label: 'Is she all right?',
           friendship: { nova: 2 },
           then: [
-            NOVA('I don’t know. That’s the honest answer, and you’d know if I gave you another one.', 'sad'),
+            NOVA('I don’t know. That’s the honest answer, and you’d know if I gave you another one.', 'sad', 'shrug'),
             NOVA('Take a Nubbin that trusts you. Take fruit. Take more fruit than that.'),
           ],
         },
@@ -694,7 +700,7 @@ export const BOOK2_SCENES: Scene[] = [
           label: 'Yes. I’d have liked the year.',
           friendship: { nova: 2 },
           then: [
-            NOVA('Good. Tell her, if you get the chance. She’d rather be argued with than forgiven.', 'soft'),
+            NOVA('Good. Tell her, if you get the chance. She’d rather be argued with than forgiven.', 'soft', 'nod'),
             N('You think of the letter. Don’t be dramatic about it. You think you might be, a bit, when you see her.'),
           ],
         },
@@ -703,7 +709,7 @@ export const BOOK2_SCENES: Scene[] = [
           label: 'No. They needed her more than I did.',
           friendship: { nova: 1 },
           then: [
-            NOVA('Maybe. I’m not sure need is a queue, though. I’m not sure anyone has to stand at the back of it.', 'think'),
+            NOVA('Maybe. I’m not sure need is a queue, though. I’m not sure anyone has to stand at the back of it.', 'think', 'shrug'),
             N('You walk on. You think about that for much longer than you expect to.'),
           ],
         },

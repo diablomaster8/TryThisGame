@@ -24,13 +24,17 @@
  * read), `l-paid` (teen: the deleted post), `l-root` (expose | spare), `l-juno`
  * (stayed | left).
  */
-import type { Line, Mood, Scene } from '../config/story';
+import type { Line, LineGesture, Mood, Scene } from '../config/story';
 import type { Speaker, Storyline, StorylineChapter } from './types';
 
 const say =
   (who: string) =>
-  (text: string, mood?: Mood): Line =>
-    mood ? { who, text, mood } : { who, text };
+  (text: string, mood?: Mood, gesture?: LineGesture): Line => ({
+    who,
+    text,
+    ...(mood ? { mood } : {}),
+    ...(gesture ? { gesture } : {}),
+  });
 
 const N = say('narrator');
 const Y = say('you');
@@ -198,7 +202,7 @@ export const LOGGED_CHAPTERS: StorylineChapter[] = [
           'You reach up for the visor. There is no visor. There is only the meadow, and your hand on your own hair.',
         ),
         WARDEN('Log out is temporarily unavailable. Please continue to enjoy your stay.'),
-        JUNO('Yeah. That. It said that on day one. It still says it.', 'sad'),
+        JUNO('Yeah. That. It said that on day one. It still says it.', 'sad', 'nod'),
         JUNO(
           'Bouts rank you. Rank opens doors. Nobody’s found the door out yet, but nobody’s been high enough to look.',
         ),
@@ -307,7 +311,11 @@ export const LOGGED_CHAPTERS: StorylineChapter[] = [
             N(
               'A night bout. The foes come out of the blue grass with no chime at all, and your three stand closer before the first turn.',
             ),
-            JUNO('Told you. Harder. Also quieter. I don’t know which I mind more.'),
+            JUNO(
+              'Told you. Harder. Also quieter. I don’t know which I mind more.',
+              undefined,
+              'shrug',
+            ),
           ],
         },
       },
@@ -373,6 +381,8 @@ export const LOGGED_CHAPTERS: StorylineChapter[] = [
           lines: [
             JUNO(
               'You never said who you were missing. I think I know now. I’m sorry. I’ll stand here while you read.',
+              undefined,
+              'chest',
             ),
             N(
               'She stands there. The board hums faintly, like something kept switched on too long.',
@@ -546,7 +556,7 @@ export const LOGGED_CHAPTERS: StorylineChapter[] = [
         N(
           'The last bout. The foes are the company’s, and they are not polite, and they do not blink out like lights going to bed.',
         ),
-        JUNO('Whatever you say after, I’m posting next to you. Witness.'),
+        JUNO('Whatever you say after, I’m posting next to you. Witness.', undefined, 'shrug'),
       ],
     },
     'count:partyBout:>=10',
