@@ -86,20 +86,20 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `learning/side/S24/sprout.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 0 |
 | `learning/side/S24/reader.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 0 |
 | `side/S25.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S25/sprout.md` | never | 0 |
-| `learning/side/S25/reader.md` | never | 0 |
+| `learning/side/S25/sprout.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 8 |
+| `learning/side/S25/reader.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 9 |
 | `side/S26.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S26/sprout.md` | never | 0 |
-| `learning/side/S26/reader.md` | never | 0 |
+| `learning/side/S26/sprout.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 9 |
+| `learning/side/S26/reader.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 7 |
 | `side/S27.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S27/sprout.md` | never | 0 |
-| `learning/side/S27/reader.md` | never | 0 |
+| `learning/side/S27/sprout.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 8 |
+| `learning/side/S27/reader.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 7 |
 | `side/S28.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S28/sprout.md` | never | 0 |
-| `learning/side/S28/reader.md` | never | 0 |
+| `learning/side/S28/sprout.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 8 |
+| `learning/side/S28/reader.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 8 |
 | `side/S29.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
-| `learning/side/S29/sprout.md` | never | 0 |
-| `learning/side/S29/reader.md` | never | 0 |
+| `learning/side/S29/sprout.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 8 |
+| `learning/side/S29/reader.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 7 |
 | `side/S30.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `learning/side/S30/sprout.md` | never | 0 |
 | `learning/side/S30/reader.md` | never | 0 |
@@ -489,6 +489,66 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261022-235 | learning/side/S19/sprout.md<br>learning/side/S24/sprout.md<br>learning/side/S24/reader.md | cross-story | Medium | child-read | One plain death pattern: S24 reader never says Hazel died; S19's Sable route never says Moss did | fixed | 2026-10-22-4 |
 | SR-20261022-236 | learning/side/S19/sprout.md<br>learning/side/S19/reader.md<br>learning/side/S20/reader.md<br>learning/side/S21/sprout.md<br>learning/side/S21/reader.md<br>learning/side/S24/reader.md | cross-story | Medium | humour | Carry run 3's wordless supper Nubbin: it tries to eat a pebble, snow, Clank's nose, the buns | fixed | 2026-10-22-4 |
 | SR-20261022-237 | learning/side/S19/reader.md<br>learning/side/S21/reader.md<br>learning/side/S24/reader.md | cross-story | Medium | pacing | Keep run 3's rule (no lesson between a set-up and its payoff); three more spots break it | fixed | 2026-10-22-4 |
+| SR-20261022-238 | learning/side/S29/sprout.md<br>learning/side/S29/reader.md | s29-complete, s29-complete-sat, s29-complete-pencil | High | theme | Both bands drop Marina's rule six, "Come back."; give all three endings their canon heart line | open | 2026-10-22-5 |
+| SR-20261022-239 | learning/side/S28/sprout.md<br>learning/side/S28/reader.md | s28-party | High | theme | Pixel and Byte share the party but never act married; give them the cake-stand and lace bicker | open | 2026-10-22-5 |
+| SR-20261022-240 | learning/side/S29/sprout.md<br>learning/side/S29/reader.md | s29-brock-knock | High | humour | Granny Brock said "Bring cake. Don't ring the bell"; the return visit pays off neither | open | 2026-10-22-5 |
+| SR-20261022-241 | learning/side/S25/sprout.md | s25-gap, s25-coda-wild-button, s25-coda-wild-bobble, s25-coda-wild-mister | High | follow | A child never links the little light, the vanished toy and the hopping wild Nubbin; hint it aloud | open | 2026-10-22-5 |
+| SR-20261022-242 | learning/side/S29/sprout.md<br>learning/side/S29/reader.md | s29-turnback | High | follow | Dusty can't go home and neither band says why until supper; say it, keep the name for later | open | 2026-10-22-5 |
+| SR-20261022-243 | learning/side/S27/reader.md | s27-wire, s27-tam | High | follow | "He doesn't like people in there" and "the first frost that isn't his" point at nobody; name Corvin | open | 2026-10-22-5 |
+| SR-20261022-244 | learning/side/S27/sprout.md | s27-midnight | High | follow | The midnight lesson cites "a wrong thing, a long time ago" that the band never told | open | 2026-10-22-5 |
+| SR-20261022-245 | learning/side/S28/sprout.md | s28-received | High | child-read | "Six. And you are one. Received!" means nothing to a 4-year-old, and it is the story's key word | open | 2026-10-22-5 |
+| SR-20261022-246 | learning/side/S27/sprout.md | s27-words, s27-words-sold | High | humour | Let Spindle try to spin Byte's enormous word until it trips your Nubbin | open | 2026-10-22-5 |
+| SR-20261022-247 | learning/side/S25/sprout.md | s25-wild | High | humour | The wild Nubbins only get described; show one hopping over the toy and waiting | open | 2026-10-22-5 |
+| SR-20261022-248 | learning/side/S26/sprout.md | s26-linnet | High | child-read | "KEPT" and "Mind yourself, love" carry Linnet's whole complaint in irony and idiom | open | 2026-10-22-5 |
+| SR-20261022-249 | learning/side/S26/sprout.md | s26-hush | High | follow | "Briar wanted the still Nubbins" opens the story's heart with an unexplained name and phrase | open | 2026-10-22-5 |
+| SR-20261022-250 | learning/side/S26/sprout.md | s26-mum | High | humour | Linnet's mum arrives with nothing funny to say; restore the houseplant she posted out | open | 2026-10-22-5 |
+| SR-20261022-251 | learning/side/S27/reader.md | s27-words, s27-words-sold | Medium | continuity | "When Bramble went" needs a tag, and it must say ran off, not died | open | 2026-10-22-5 |
+| SR-20261022-252 | learning/side/S25/reader.md | s25-storm, s25-storm-nosable | Medium | pacing | Two lessons sit between the lightning on the toy and the comfort; fold the counting into the story | open | 2026-10-22-5 |
+| SR-20261022-253 | learning/side/S25/sprout.md | s25-real | Medium | humour | Moss's "I'm not here" is irony a small child takes literally; turn it into the gag | open | 2026-10-22-5 |
+| SR-20261022-254 | learning/side/S25/sprout.md | s25-hurt, s25-storm | Medium | child-read | "Sharp edges" is a metaphor the band then uses to describe Sable | open | 2026-10-22-5 |
+| SR-20261022-255 | learning/side/S25/sprout.md | s25-fern | Medium | follow | The lesson says "on the floor", but Fern never says floor in this band | open | 2026-10-22-5 |
+| SR-20261022-256 | learning/side/S25/sprout.md | s25-bundle | Medium | child-read | "For the rag cart" doesn't tell a child what letting the toy go means | open | 2026-10-22-5 |
+| SR-20261022-257 | learning/side/S25/reader.md | s25-lantern | Medium | theme | The trust lesson praises keeping promises, but you never promised anything | open | 2026-10-22-5 |
+| SR-20261022-258 | learning/side/S25/reader.md | s25-real, s25-bundle, s25-line | Medium | child-read | "Fender", "copper" and "range" are old kitchen words a 7-year-old won't know | open | 2026-10-22-5 |
+| SR-20261022-259 | learning/side/S26/sprout.md | end-epi-garden-cold | Medium | follow | The cold epilogue never says why your Nubbins sit outside | open | 2026-10-22-5 |
+| SR-20261022-260 | learning/side/S26/sprout.md | s26-lift-1 | Medium | child-read | "Like a little, rude generator" is a grown-up joke the Sprout band can't follow | open | 2026-10-22-5 |
+| SR-20261022-261 | learning/side/S26/sprout.md | s26-tobin-bench, s26-tobin-bench-cellar | Medium | humour | Make Tobin's rose-and-worry saying a picture a child can laugh at | open | 2026-10-22-5 |
+| SR-20261022-262 | learning/side/S26/reader.md | s26-tobin-finds | Medium | follow | "It ends on a Thursday" has nothing for "it" to point at | open | 2026-10-22-5 |
+| SR-20261022-263 | learning/side/S26/reader.md | s26-moss-wall | Medium | humour | "Worth the wear" is a puzzle; make Moss's reply plain and dry | open | 2026-10-22-5 |
+| SR-20261022-264 | learning/side/S26/reader.md | s26-mum | Medium | child-read | Mum's "Dad says" reads as a new character | open | 2026-10-22-5 |
+| SR-20261022-265 | learning/side/S26/reader.md | s26-inside | Medium | humour | The grey-garden scene has no smile; call back the robin that "hired" you | open | 2026-10-22-5 |
+| SR-20261022-266 | learning/side/S27/sprout.md | s27-first-night | Medium | follow | "Spindle has work to do" never says the work is writing Nine's name | open | 2026-10-22-5 |
+| SR-20261022-267 | learning/side/S27/sprout.md<br>learning/side/S27/reader.md | s27-show | Medium | humour | Your Nubbin is absent from the Show; let it mistake the rosettes for sweets | open | 2026-10-22-5 |
+| SR-20261022-268 | learning/side/S27/sprout.md | s27-odd-things | Medium | child-read | "Frost does odd things" is Corvin's sarcasm, and a child will believe it | open | 2026-10-22-5 |
+| SR-20261022-269 | learning/side/S27/sprout.md | s27-home | Medium | follow | "That's what I paid" doesn't tell a child what the choice is | open | 2026-10-22-5 |
+| SR-20261022-270 | learning/side/S28/sprout.md | s28-bath | Medium | humour | Escalate the flood with Parcel bowing to each thing that gets wet | open | 2026-10-22-5 |
+| SR-20261022-271 | learning/side/S28/sprout.md | s28-for-byte | Medium | follow | The H lesson makes the child say "Hazel" just before the choice to keep it secret | open | 2026-10-22-5 |
+| SR-20261022-272 | learning/side/S28/sprout.md | s28-on-the-step | Medium | theme | Gran's illness jumps straight into a party; give the child a breath of comfort first | open | 2026-10-22-5 |
+| SR-20261022-273 | learning/side/S28/sprout.md<br>learning/side/S28/reader.md | s28-bench, s28-bench-bramble | Medium | pacing | The warm-layers lesson splits "Gran Hazel is home" from Parcel's bow | open | 2026-10-22-5 |
+| SR-20261022-274 | learning/side/S28/sprout.md<br>learning/side/S28/reader.md | s28-null-minder | Medium | child-read | "On a timetable", "It's borrowed" and "the Minder" don't say what is wrong for Null | open | 2026-10-22-5 |
+| SR-20261022-275 | learning/side/S28/sprout.md | s28-complete-unverified | Medium | follow | "We missed it" in Byte's list doesn't say missed what | open | 2026-10-22-5 |
+| SR-20261022-276 | learning/side/S28/reader.md | s28-kitchen | Medium | pacing | The kitchen opens on a pectin lesson before anyone speaks | open | 2026-10-22-5 |
+| SR-20261022-277 | learning/side/S28/reader.md | s28-complete | Medium | child-read | The closing theme question is a quiz with a joke wrong answer, after another lesson | open | 2026-10-22-5 |
+| SR-20261022-278 | learning/side/S29/sprout.md | s29-lessons | Medium | humour | Restore the rowing-backwards gag the band cut | open | 2026-10-22-5 |
+| SR-20261022-279 | learning/side/S29/sprout.md | s29-ford, s29-ford-ribbon, s29-ford-bell | Medium | child-read | "Must've been the early start" hides why Marina cries | open | 2026-10-22-5 |
+| SR-20261022-280 | learning/side/S29/reader.md | s29-launch | Medium | pacing | The forces lesson answers Dusty's trowel joke for Marina; give her the punchline | open | 2026-10-22-5 |
+| SR-20261022-281 | learning/side/S29/reader.md | s29-fire, s29-turnback, s29-night-ribbon | Medium | child-read | "Idiot", three times, once about a baby otter, is harsh for the band | open | 2026-10-22-5 |
+| SR-20261022-282 | learning/side/S29/reader.md | s29-island | Medium | child-read | "Kindly let off remembering it" doesn't tell a child that something was forgotten | open | 2026-10-22-5 |
+| SR-20261022-283 | learning/side/S25/reader.md | s25-page-byte | Nice | humour | Give Byte's tally chart one deadpan row | open | 2026-10-22-5 |
+| SR-20261022-284 | learning/side/S25/sprout.md<br>learning/side/S25/reader.md | s25-clank | Nice | follow | Remind the child that Clank is looking for a word before "Is Real the word?" | open | 2026-10-22-5 |
+| SR-20261022-285 | learning/side/S26/reader.md | s26-snow | Nice | humour | Sharpen Tobin's panicked arrival with one boot and one slipper | open | 2026-10-22-5 |
+| SR-20261022-286 | learning/side/S26/sprout.md | s26-race | Nice | humour | Mum races with her big bag still on | open | 2026-10-22-5 |
+| SR-20261022-287 | learning/side/S27/sprout.md | s27-spring, s27-spring-wisp | Nice | humour | Let Wisp sulk, and keep the closing line in the narrator's "you" | open | 2026-10-22-5 |
+| SR-20261022-288 | learning/side/S27/reader.md | s27-evening | Nice | humour | Point out that EVENING is spelled at eleven in the morning | open | 2026-10-22-5 |
+| SR-20261022-289 | learning/side/S27/reader.md | s27-spring, s27-spring-wisp | Nice | follow | "The lantern shed window" in spring could mean the Circuit's shed | open | 2026-10-22-5 |
+| SR-20261022-290 | learning/side/S28/reader.md | s28-eleven-seconds | Nice | humour | Tag Ember with a joke when Byte measures Parcel's stare against hers | open | 2026-10-22-5 |
+| SR-20261022-291 | learning/side/S28/reader.md | s28-one-jar | Nice | pacing | The preserves lesson splits the pantry memory from "Some" / "How many?" | open | 2026-10-22-5 |
+| SR-20261022-292 | learning/side/S29/sprout.md | s29-wildwood | Nice | child-read | "Dusty thought they saw" can read as other people seeing | open | 2026-10-22-5 |
+| SR-20261022-293 | learning/side/S25/sprout.md<br>learning/side/S25/reader.md<br>learning/side/S27/sprout.md<br>learning/side/S27/reader.md | cross-story | High | theme | Pixel and Byte's marriage, by bicker, wherever Byte turns up alone (S25, S27) | open | 2026-10-22-5 |
+| SR-20261022-294 | learning/side/S25/reader.md<br>learning/side/S27/reader.md<br>learning/side/S28/reader.md<br>learning/side/S29/sprout.md | cross-story | High | follow | Tag Hazel as "Gran" on first mention in each unit that leaves her bare | open | 2026-10-22-5 |
+| SR-20261022-295 | learning/side/S29/sprout.md<br>learning/side/S26/sprout.md<br>learning/side/S26/reader.md | cross-story | Medium | humour | Continue the wordless Nubbin who thinks everything is supper (picnic, bulbs, rosettes) | open | 2026-10-22-5 |
+| SR-20261022-296 | learning/side/S25/reader.md<br>learning/side/S29/reader.md | cross-story | Medium | continuity | Replace "the rain on the hill" with plain words for Fossil's death | open | 2026-10-22-5 |
+| SR-20261022-297 | learning/side/S25/reader.md<br>learning/side/S26/reader.md<br>learning/side/S26/sprout.md | cross-story | Medium | humour | Run Moss's "I'm not here" as a gag from S25 into S26's walled garden | open | 2026-10-22-5 |
 
 ## Runs
 
@@ -500,3 +560,4 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 - 2026-10-22 · fix pass on branch `fix/story-review-2026-10-22-3` · all 58 open or partial recs (run 3's 53 plus SR-20261022-72, -79, -80, -110, -115): 57 fixed, 1 partial (SR-20261022-162: S15's lesson replies were already in Byte's voice, so only the wording changed) · -72 the J + I carving warms for both faeries; -79 names Doom's time platform; -80 rewords MK2's step so Marlene stays on the ridge; -110 tags Pip before the rhyme lesson; -115 was already done (s8-ring keeps one lesson) · no canon changes
 - 2026-10-22 run 4 · [review-2026-10-22-4](review-2026-10-22-4.md) · units: S19/sprout.md, S19/reader.md, S20/sprout.md, S20/reader.md, S21/sprout.md, S21/reader.md, S22/sprout.md, S22/reader.md, S24/sprout.md, S24/reader.md · 64 recs: Critical 1, High 23, Medium 34, Nice 6 (5 cross-story) · fixed since last run: 57 (1 partial)
 - 2026-10-22 · fix pass on branch `fix/story-review-2026-10-22-4` · all 65 open or partial recs (run 4's 64 plus SR-20261022-162): 62 fixed, 3 partial (-179 and -198: a lesson can only play before a scene's choices, so the asks sit at the scene end, not after the choice; -229: S20's grudge exchange sits at the end of s20-declaration, since Wren and Gordon aren't introduced at the rec's spot) · also: S24's kept-stone Nubbin lines now swap by each band's own line (sprout had main's words, and falls-top hit the wrong line), with a test · no canon changes
+- 2026-10-22 run 5 · [review-2026-10-22-5](review-2026-10-22-5.md) · units: S25/sprout.md, S25/reader.md, S26/sprout.md, S26/reader.md, S27/sprout.md, S27/reader.md, S28/sprout.md, S28/reader.md, S29/sprout.md, S29/reader.md · 60 recs: Critical 0, High 15, Medium 35, Nice 10 (5 cross-story) · fixed since last run: 62 (3 partial)
