@@ -8,6 +8,13 @@ export const STAGE4 = {
   /** K3: a big prop (a MARK_FIT with `keep`) may be cropped to this share of its width. */
   propKeep: 0.6,
   /**
+   * K3 (cg5): when a line's subject is a big prop (the pond), the narrowest tier keeps the
+   * nearest person with the prop's middle, kept at this share of its width.
+   */
+  subjectRim: 0.25,
+  /** cg5: on a phone (under 600 CSS px wide) the fit keeps this much clear above the box. */
+  phoneBoxGap: 28,
+  /**
    * K3, 3D: a fitted shot that would stand back further than this (world units) drops
    * focus points by weight instead: just short of STAGE2.fitMaxDistance, where the
    * distance search gives up and the frame stops holding everything.

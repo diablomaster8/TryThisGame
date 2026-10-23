@@ -36,6 +36,54 @@ default renderer is not changed; passes 1 and 2 are on `main`, deployed since 20
 accepted by Maor). Maor, 2026-10-21: daily refreshes and free daily gifts are allowed; only
 repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below).
 
+## Campaign graphics 3 leftovers (cg5, 2026-10-23)
+
+The known bugs left by K1–K50 (02d0c86), fixed on branch `fix/cg5-leftovers` (worktree
+`wt-cg5`). Before and after frames: `docs/samples/cg5-*.jpg` (`-before` is origin/main at
+02d0c86 unless the name says `cg4`, the review round's frame).
+
+**What works**
+
+- **Hundred ch9 (3D):** package k's rubble (`k-fold-ruin-*`) has its own material, hooked as
+  house-only, so a hidden house takes its red tiles and loose boards, flat ones included
+  (`dress-k.ts`, `dress-a.ts` `HOUSE_ONLY`). The plinth tops stay, as before.
+- **Guard house (3D):** the counter is desk height in Full 3D (`interiors.ts`, the lamp's
+  `y3d`), so Hob reads seated on his stool. The phone room was already right at 02d0c86
+  (c4's "keep interior cameras on the open side"); the after frames confirm it.
+- **Logged In:** on a phone a skinned box frames a full-length portrait head and shoulders
+  (`CG4_U4.box.phoneCrop`), and the terminal puts a lit panel behind it, so the Warden shows a
+  face. The cut "Please" line was the typewriter caught mid-line; the full line fits.
+- **Logged In ch1 pixel perf (profiled):** 60 fps at 4× throttle in headless Edge (worst second
+  59, no frame over 50 ms). The top cost was `safeRect()` forcing a layout every call (6% of
+  frame time); it now keeps its answer for 150 ms (`stage-api.ts`).
+- **Hazel ch10 phone `-1`:** a line naming a big prop never narrows the frame to the prop
+  alone: the last tier keeps the nearest person with the prop's middle (`fitTiers`,
+  `STAGE4.subjectRim`; test `tests/render/stage-fit-subject.test.ts`), and the 3D phone
+  push-in is skipped for that tier (`fit-shot.ts`).
+- **Keepsake inspector:** flat keepsakes (the letter) turn only to 86% in the pixel card and
+  flip to their back on the 3D Turn button (`CG4_U4.inspect.flat`). The pixel card already
+  opened face-on at 02d0c86; the edge-on frame in `cg4-u4-box-phone.jpg` was the 3D one.
+- **Kitchen Fern:** already drawn in her story look (cap, scarf, satchel), portrait included,
+  in both renderers at 02d0c86 (b4's `storyId`); checked with `c1-letter` staged in the kitchen.
+- **Beetle ch3 floor (pixel):** underground the pixel fill light is warm stone
+  (`DUNGEON.caveAmbient`), not the night sky's blue at 1.5×.
+- **Minimap:** the Hollow bar also stays hidden while a story scene is queued
+  (`html.story-queued`), not only while a line is up. **Hazel ch12 phone:** the fit keeps
+  `STAGE4.phoneBoxGap` (28 px) clear above the box on a phone.
+
+**Stubbed or approximate**
+
+- The 3D kitchen and guard-house checks used a runtime overlay (no content scene is staged in
+  the kitchen yet).
+- Hazel ch12 phone looks the same: the festival ring is too wide to fit, and the well and
+  reeds (scenery, not cast) still reach the box's top edge.
+
+**Known bugs**
+
+- In Hazel ch10 `-1` on a phone the person kept is small in 3D (pushed-in framing would lose
+  the pond).
+- The plinth tops of hidden Fold houses stay as paving (by design since K2).
+
 ## Campaign graphics 3, items K1–K50 (2026-10-22)
 
 Built from `docs/campaign-graphics-recommendations-2026-10-22-b.md` the same way as the second
@@ -87,43 +135,11 @@ content wave, shots and perf, two review rounds with one fix round. Branches `cg
 
 **Known bugs (after the second review round)**
 
-- 3D Hundred ch9 (`-1`, also `-0`): red floor slabs and loose boards remain where houses are
-  hidden (plinth tops kept on purpose; package k's rubble stays).
-- 3D Beetle ch1 on phone: the guard-house room shows tilted and wall-less with banners floating;
-  on desktop Hob stands at the counter instead of sitting.
-- The Logged In terminal skin still crops the Warden's portrait to a sliver on phone, and the
-  pixel phone box cuts his line at "Please"; Logged In ch1 pixel on phone drops to 35–42 fps (cause
-  not profiled).
-- Hazel ch10 phone `-1`: the pond is in frame but no person is.
-- Pixel keepsake inspector still shows the letter edge-on.
-- Hazel's kitchen (`cg4-c4-kitchen-*`) still draws Fern in the Gardener look, portrait included.
-- Pixel Beetle ch3 floor has a heavy purple grade instead of warm torchlight.
-- The Hollow minimap still shows in the c4 floor close-ups; Hazel ch12 on phone crowds the box.
+- Fixed or checked in the cg5 pass above (Hundred ch9 debris, guard house, Logged In box and
+  perf, Hazel ch10 and ch12 on phone, keepsake inspector, kitchen Fern, Beetle ch3 grade, minimap).
 - Test suite: several sim/story-world tests time out under full-suite load and pass alone; watch
   the CI runner.
 - No real-phone pass yet.
-
-## Story review run 4 fixes (2026-10-22)
-
-All 65 open or partial recs in `docs/story-review/LOG.md` applied (run 4's 64 plus run 3's -162).
-- **Works:** 62 fixed. Learning Grove S19–S22 and S24, both bands: Moss's death said plainly on S19's Sable
-  route, no quiz inside Cinder's last minutes, S20's blizzard and S21's eight Nubbins add up, Nova lives in
-  the valley in S22 and S24 (main S24 too), Pixel and Byte married in S20/S21, the supper Nubbin. S24's
-  kept-stone Nubbin lines now swap by each band's own line (`stillLine` in `story-scenes.ts`, test
-  `tests/sim/s24-still.test.ts`); sprout used to get main's words and falls-top hit the wrong line.
-- **Partial:** -179, -198 (lessons can't play after a scene's choices, so the asks sit at the scene end),
-  -229 (S20's grudge exchange moved to where Wren and Gordon are already introduced).
-- **Known bugs:** none. A cold first `npm test` run timed out 5 slow tests; a rerun passed all 731.
-
-## Story review run 3 fixes (2026-10-22)
-
-All 58 open or partial recs in `docs/story-review/LOG.md` applied (run 3's 53 plus run 2's 5 partials).
-- **Works:** 57 fixed. Learning Grove S12–S18, both bands: plain, gentle deaths with comfort after
-  (Aldous, the Queen-Mother, the owl chicks, Fossil), S15's Shells and division fixed, lessons moved off
-  set-ups and grave beats, Pixel and Byte married in S12/S14/S15, the supper Nubbin, first-mention tags.
-  Run 2's -72, -79, -80, -110 finished; -115 was already done.
-- **Partial:** -162 (S15's replies were already in Byte's voice; only the wording changed).
-- **Known bugs:** none. A cold first `npm test` run timed out 5 slow tests; a rerun passed all 728.
 
 ## Standing approval (Maor, 2026-10-12)
 

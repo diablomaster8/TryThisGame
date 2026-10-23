@@ -1,4 +1,5 @@
 import { TRAINER_LABELS } from '../config/strings';
+import { CG4_U4 } from '../config/tuning-u4';
 import { ENDINGS, SPEAKERS, STORY_TEXT, type Line, type Mood, type Scene } from '../config/story';
 import type { Game } from '../game';
 import type { Lesson } from '../content/types';
@@ -479,12 +480,22 @@ export class Dialogue {
     const { sheet, key } = portraitFrame(who, g, mood);
     const rect = sheet?.frames.get(key) ?? sheet?.frames.values().next().value;
     if (!sheet || !rect) return;
+    // cg5: a skinned box on a phone frames a full-length figure head and shoulders, so a
+    // dark outfit on a dark skin (the Warden on Logged In's terminal) still shows a face.
+    const crop =
+      key === frameKey('idle', 'front', 0) &&
+      /\bbox-/.test(this.root.className) &&
+      window.matchMedia?.('(max-width: 600px)').matches
+        ? CG4_U4.box.phoneCrop
+        : 1;
+    const cw = Math.round(rect.w * crop);
+    const ch = Math.round(rect.h * crop);
     ctx.drawImage(
       sheet.texture.image as HTMLCanvasElement,
-      rect.x,
+      rect.x + Math.round((rect.w - cw) / 2),
       rect.y,
-      rect.w,
-      rect.h,
+      cw,
+      ch,
       0,
       0,
       this.portrait.width,

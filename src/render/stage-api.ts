@@ -6,6 +6,7 @@
  * in the sim (Keepers and Nubbins still walk round it).
  */
 import { Vector3, type Camera } from 'three';
+import { STAGE4 } from '../config/tuning-f4';
 
 /** A screen rectangle in CSS pixels, viewport coordinates (y down). */
 export interface ScreenRect {
@@ -35,10 +36,22 @@ const shownRect = (e: Element | null): DOMRect | null => {
  * box (and the phone's bottom action bar). Read from the DOM each call; without a DOM it
  * is the whole view. Never less than 40% of the view's height, so a tall HUD on a small
  * phone still leaves a frame to fit into.
+ * cg5: kept for `SAFE_TTL_MS`. Several callers read it every frame and each read forced a
+ * layout (6% of a phone frame on Logged In ch1); the HUD it measures moves far less often.
  */
 export function safeRect(): ScreenRect {
+  if (typeof document === 'undefined') return viewRect();
+  const now = performance.now();
+  if (safeCache && now - safeCache.at < SAFE_TTL_MS) return safeCache.r;
+  safeCache = { at: now, r: measureSafe() };
+  return safeCache.r;
+}
+
+const SAFE_TTL_MS = 150;
+let safeCache: { at: number; r: ScreenRect } | null = null;
+
+function measureSafe(): ScreenRect {
   const v = viewRect();
-  if (typeof document === 'undefined') return v;
   let top = v.y;
   let bottom = v.y + v.h;
   const bar = shownRect(document.querySelector('.topbar'));
@@ -51,7 +64,9 @@ export function safeRect(): ScreenRect {
     dialogue && !(dialogue as HTMLElement).hidden
       ? shownRect(document.querySelector('.dialogue-box'))
       : null;
-  if (box && box.top > v.y + v.h * 0.4) bottom = Math.min(bottom, box.top - 4);
+  // cg5: a phone keeps a wider gap, so a crowd's front row never sits on the box's edge.
+  const gap = v.w < 600 ? STAGE4.phoneBoxGap : 4;
+  if (box && box.top > v.y + v.h * 0.4) bottom = Math.min(bottom, box.top - gap);
   const actions = shownRect(document.querySelector('.actionbar'));
   if (actions && actions.top > v.y + v.h * 0.6) bottom = Math.min(bottom, actions.top - 4);
   const minH = v.h * 0.4;

@@ -91,6 +91,9 @@ const SEGMENTS = 72;
 /** The well's dark water colour (props.ts). */
 const WELL_WATER = 0x0d1a2a;
 
+/** Ground flag for pieces that belong to a house only (none of them is ground). */
+const HOUSE_ONLY = { value: 0 };
+
 function flatOrHidden(mesh: THREE.Mesh): boolean {
   const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
   if (mats.every((m) => !m.visible || !m.colorWrite)) return true;
@@ -518,14 +521,17 @@ class LightAndGrade implements Dressing3d {
           (s.color !== undefined && s.color.getHex() === WELL_WATER);
         // The Fold's rubble, mending and wreaths (package k) go with the house they dress.
         const kit = /^k-(fold-|wreaths)/.test(mesh.name);
+        const rubble = /^k-fold-ruin-/.test(mesh.name);
         if ((!card || s.vertexColors) && !crown && !kit) continue;
         this.patched.add(m);
         const prevHook = m.onBeforeCompile.bind(m);
         m.onBeforeCompile = (shader, renderer) => {
           prevHook(shader, renderer);
-          occludable(shader, crown, !water);
+          // The Fold's rubble is never ground: its flat boards and tiles go with the house.
+          occludable(shader, crown, !water && !rubble, rubble ? HOUSE_ONLY : undefined);
         };
-        m.customProgramCacheKey = () => `${key}|occ${crown ? '' : '-box'}${water ? '-water' : ''}`;
+        m.customProgramCacheKey = () =>
+          `${key}|occ${crown ? '' : '-box'}${water ? '-water' : ''}${rubble ? '-rubble' : ''}`;
         m.needsUpdate = true;
       }
     });

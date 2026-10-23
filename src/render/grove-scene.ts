@@ -826,7 +826,13 @@ export class GroveScene {
                   : '#ffffff',
       );
     }
-    this.hemi.color.set(kind === 'moon' && d.phase === 'day' ? color(C.violet) : d.hemiColor);
+    this.hemi.color.set(
+      place === 'dungeon'
+        ? DUNGEON.caveAmbient
+        : kind === 'moon' && d.phase === 'day'
+          ? color(C.violet)
+          : d.hemiColor,
+    );
     this.sun.intensity =
       gain *
       d.sunIntensity *

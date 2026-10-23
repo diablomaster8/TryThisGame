@@ -213,7 +213,10 @@ export function fitShot3d(
     out = { ...f, kept: t };
     if (f.distance <= STAGE4.fit3dBudget && (!phone || size(f, t) >= STAGE4.minPersonPx)) break;
   }
-  if (out && phone) {
+  // cg5: when the line's subject is a prop (the pond), pushing in on the person would crop
+  // the subject out, so the frame keeps both with the person drawn smaller.
+  const propSubject = !!out?.kept.some((p) => p.fit && p.speaker);
+  if (out && phone && !propSubject) {
     for (let i = 0; i < 4; i++) {
       const px = size(out, out.kept);
       if (!(px < STAGE4.minPersonPx) || out.distance <= READ3D.stage.minDistance) break;

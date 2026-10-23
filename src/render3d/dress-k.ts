@@ -100,7 +100,11 @@ export const dress3dK: Dressing3d = (() => {
       addRubble(pack, b, level, i + 1, ground);
       addMending(pack, b, level, i + 1, ground);
     });
-    addTo(g, pack.build(`k-fold-ruin-${level}`));
+    const mesh = pack.build(`k-fold-ruin-${level}`);
+    // Its own material: dress-a hooks it so a hidden house takes its rubble, boards and
+    // fallen tiles with it, flat ones included (cg5), without touching the other kits.
+    if (mesh) mesh.material = (mesh.material as THREE.Material).clone();
+    addTo(g, mesh);
     g.visible = false;
     root!.add(g);
     rubble.set(level, g);

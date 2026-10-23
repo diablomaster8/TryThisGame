@@ -265,7 +265,7 @@ function wall(
 function piece(P: Parts, p: Piece): void {
   const at = (dx: number, y: number, dz: number): [number, number, number] => [
     p.x + dx,
-    (p.y ?? 0) + y,
+    (p.y3d ?? p.y ?? 0) + y,
     p.z + dz,
   ];
   const W = '#a8784a';
@@ -295,15 +295,19 @@ function piece(P: Parts, p: Piece): void {
       P.add('stone', box(0.5, 0.36, 0.04), at(0, 0.38, 0.36), '#2a2020');
       P.add('glow', box(0.4, 0.22, 0.02), at(0, 0.34, 0.38), FIRE, [0, 0, 0], [1, 1, 1], 2.2);
       break;
-    case 'counter':
-      P.add('wood', box(3.75, 0.95, 0.7, 0.03), at(0, 0.48, 0), '#7a5232');
-      P.add('wood', box(3.9, 0.1, 0.84), at(0, 1.0, 0), W);
+    case 'counter': {
+      // Desk height (top 0.8), so Hob on his stool behind it shows seated from the waist
+      // up (cg5); at a standing counter's height only his head cleared it.
+      const k = 0.8;
+      P.add('wood', box(3.75, 0.95 * k, 0.7, 0.03), at(0, 0.48 * k, 0), '#7a5232');
+      P.add('wood', box(3.9, 0.1, 0.84), at(0, 1.0 * k, 0), W);
       for (let x = -1.5; x <= 1.5; x += 0.7)
-        P.add('wood', box(0.07, 0.86, 0.04), at(x, 0.45, 0.36), '#5e4026');
-      P.add('plain', box(0.8, 0.04, 0.5), at(-0.2, 1.07, 0.05), '#f4ecd8');
-      P.add('wood', box(0.04, 0.05, 0.5), at(-0.2, 1.08, 0.05), '#3a2a1a');
-      P.add('stone', cyl(0.08, 0.09, 0.14, 10), at(0.5, 1.12, 0.1), '#2a2a3a');
+        P.add('wood', box(0.07, 0.86 * k, 0.04), at(x, 0.45 * k, 0.36), '#5e4026');
+      P.add('plain', box(0.8, 0.04, 0.5), at(-0.2, 0.87, 0.05), '#f4ecd8');
+      P.add('wood', box(0.04, 0.05, 0.5), at(-0.2, 0.88, 0.05), '#3a2a1a');
+      P.add('stone', cyl(0.08, 0.09, 0.14, 10), at(0.5, 0.92, 0.1), '#2a2a3a');
       break;
+    }
     case 'chair':
       P.add('wood', box(0.7, 0.08, 0.66), at(0, 0.5, 0), '#a87a50');
       P.add('wood', box(0.7, 0.8, 0.08), at(0, 0.92, -0.3), '#8a6040');

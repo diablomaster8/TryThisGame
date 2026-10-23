@@ -14,8 +14,19 @@ export const CG4_U4 = {
     spinRad: 0.5,
     /** The pixel card's second angle: the sprite squeezed to this share of its width. */
     sideShare: 0.62,
+    /**
+     * Flat keepsakes (cg5): squeezed that far they read edge-on, so the pixel card turns
+     * them only this much, and the 3D Turn button flips them to their back instead.
+     */
+    flat: ['letter'] as readonly string[],
+    flatShare: 0.86,
   },
   box: {
+    /**
+     * On a phone a skinned box frames its portrait head and shoulders: the top share of the
+     * sprite frame, centred (cg5: the Warden read as a visor sliver at full length).
+     */
+    phoneCrop: 0.7,
     /** The Hundred Days' day tally: one stroke per chapter, a slash through every fifth. */
     tallyMax: 12,
   },

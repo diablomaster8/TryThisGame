@@ -2,6 +2,28 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Story review run 4 fixes (2026-10-22)
+
+All 65 open or partial recs in `docs/story-review/LOG.md` applied (run 4's 64 plus run 3's -162).
+- **Works:** 62 fixed. Learning Grove S19–S22 and S24, both bands: Moss's death said plainly on S19's Sable
+  route, no quiz inside Cinder's last minutes, S20's blizzard and S21's eight Nubbins add up, Nova lives in
+  the valley in S22 and S24 (main S24 too), Pixel and Byte married in S20/S21, the supper Nubbin. S24's
+  kept-stone Nubbin lines now swap by each band's own line (`stillLine` in `story-scenes.ts`, test
+  `tests/sim/s24-still.test.ts`); sprout used to get main's words and falls-top hit the wrong line.
+- **Partial:** -179, -198 (lessons can't play after a scene's choices, so the asks sit at the scene end),
+  -229 (S20's grudge exchange moved to where Wren and Gordon are already introduced).
+- **Known bugs:** none. A cold first `npm test` run timed out 5 slow tests; a rerun passed all 731.
+
+## Story review run 3 fixes (2026-10-22)
+
+All 58 open or partial recs in `docs/story-review/LOG.md` applied (run 3's 53 plus run 2's 5 partials).
+- **Works:** 57 fixed. Learning Grove S12–S18, both bands: plain, gentle deaths with comfort after
+  (Aldous, the Queen-Mother, the owl chicks, Fossil), S15's Shells and division fixed, lessons moved off
+  set-ups and grave beats, Pixel and Byte married in S12/S14/S15, the supper Nubbin, first-mention tags.
+  Run 2's -72, -79, -80, -110 finished; -115 was already done.
+- **Partial:** -162 (S15's replies were already in Byte's voice; only the wording changed).
+- **Known bugs:** none. A cold first `npm test` run timed out 5 slow tests; a rerun passed all 728.
+
 ## Story review run 2 fixes (2026-10-22)
 
 All 65 open or partial recs in `docs/story-review/LOG.md` applied (run 2's 60 plus run 1's 5 partials).

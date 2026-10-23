@@ -708,6 +708,9 @@ export function mountHud(
       g.storyLine = dialogue.line;
       // The Run and camera buttons sit under the dialogue box on a phone: hide them meanwhile.
       document.documentElement.classList.toggle('dialogue-open', dialogue.isOpen);
+      // cg5: the Hollow's floor bar and minimap stay off between a floor scene's lines too
+      // (the chapter card, the beat before the next scene), not only while a line is up.
+      document.documentElement.classList.toggle('story-queued', !!c?.queue.length);
       if (g.placing) placingText.textContent = UI_TEXT.placing(placingLabel(g.placing));
       if (kindergarten.isOpen() && Math.random() < 0.1) kindergarten.refresh();
       // A debug chapter jump empties the queue: drop the old scene so the new one plays now.

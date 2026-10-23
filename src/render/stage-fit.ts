@@ -59,6 +59,23 @@ export function fitTiers(
   const last = tiers[tiers.length - 1]!;
   const spk = last.find((p) => p.speaker);
   const first = last[0];
+  // A prop as the line's subject (the pond) never leaves the frame without a person: the
+  // nearest one stays, with the prop's middle and a sliver of it round that (cg5, Hazel ch10
+  // on a phone).
+  const person = spk?.fit
+    ? last
+        .filter((p) => !p.fit && !p.speaker && weightOf(p) >= STAGE4.weight.cast)
+        .sort(
+          (a, b) => Math.hypot(a.x - spk.x, a.z - spk.z) - Math.hypot(b.x - spk.x, b.z - spk.z),
+        )[0]
+    : undefined;
+  if (spk && person) {
+    const whole = points.find((p) => p.speaker && p.fit) ?? spk;
+    const rim = { ...whole, fit: { ...whole.fit!, r: whole.fit!.r * STAGE4.subjectRim } };
+    if (last.length > 2) tiers.push([person, spk]);
+    tiers.push([person, rim]);
+    return tiers;
+  }
   if (spk && first && last.length > 2) tiers.push(first === spk ? [spk] : [first, spk]);
   if (spk && tiers[tiers.length - 1]!.length > 1) tiers.push([spk]);
   return tiers;

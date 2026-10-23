@@ -1616,6 +1616,11 @@ export const TANK = {
 
 /** The Hollow Below: seeded cave floors under the Grove. */
 export const DUNGEON = {
+  /**
+   * The pixel view's fill light underground: warm stone, whatever the hour above (cg5: the
+   * night sky's blue at 1.5x turned the Beetle Road's torch-lit floor purple).
+   */
+  caveAmbient: '#9a7a5e',
   /** World units per grid cell. */
   cell: 1.5,
   baseCols: 34,

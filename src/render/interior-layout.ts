@@ -27,6 +27,8 @@ export interface Piece {
   x: number;
   z: number;
   y?: number;
+  /** Full 3D's lift when it differs (its counter stands lower than the pixel one, cg5). */
+  y3d?: number;
 }
 
 export const ROOM_FURNITURE: Readonly<Record<InteriorId, readonly Piece[]>> = {
@@ -39,7 +41,7 @@ export const ROOM_FURNITURE: Readonly<Record<InteriorId, readonly Piece[]>> = {
   ],
   guardhouse: [
     { kind: 'counter', x: -0.6, z: -1.0 },
-    { kind: 'lamp', x: 0.9, z: -1.0, y: 1.0 },
+    { kind: 'lamp', x: 0.9, z: -1.0, y: 1.0, y3d: 0.8 },
     { kind: 'bench', x: 2.4, z: 1.2 },
     // Hob's stool behind the counter, under the `in-guardhouse-counter` mark.
     { kind: 'stool', x: -0.6, z: -1.55 },

@@ -104,7 +104,12 @@ function liveInspect(kind: string, host: HTMLElement, reduce: boolean): InspectH
   // The model turns inside a pivot at its own centre, so any drag angle keeps it framed.
   const box3 = new THREE.Box3().setFromObject(model);
   const centre = box3.getCenter(new THREE.Vector3());
-  const radius = box3.getSize(new THREE.Vector3()).length();
+  const extent = box3.getSize(new THREE.Vector3());
+  const radius = extent.length();
+  // cg5: a flat keepsake (the letter) turns to its back, never stopping edge-on.
+  const flat =
+    CG4_U4.inspect.flat.includes(kind) ||
+    Math.min(extent.x, extent.y, extent.z) < 0.15 * Math.max(extent.x, extent.y, extent.z);
   model.position.sub(centre);
   const pivot = new THREE.Group();
   pivot.add(model);
@@ -161,7 +166,7 @@ function liveInspect(kind: string, host: HTMLElement, reduce: boolean): InspectH
   if (!reduce) raf = requestAnimationFrame(loop);
   return {
     turn: () => {
-      userYaw += Math.PI / 4;
+      userYaw += flat ? Math.PI : Math.PI / 4;
       pose();
       if (reduce) draw();
     },

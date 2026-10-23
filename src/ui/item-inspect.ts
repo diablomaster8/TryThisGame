@@ -51,7 +51,10 @@ function pixelInspect(kind: string, host: HTMLElement): InspectHandle | null {
       ctx.drawImage(art, 0, 0);
       return c;
     }
-    const w = Math.max(2, Math.round(art.width * CG4_U4.inspect.sideShare));
+    const share = CG4_U4.inspect.flat.includes(kind)
+      ? CG4_U4.inspect.flatShare
+      : CG4_U4.inspect.sideShare;
+    const w = Math.max(2, Math.round(art.width * share));
     const x = Math.round((art.width - w) / 2);
     ctx.save();
     if (mirror) {
