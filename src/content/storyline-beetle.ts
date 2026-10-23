@@ -10,7 +10,7 @@
  * SOURCE. Digimon World 2 (2000): the guard teams, the tank, the domains, DNA fusion.
  * Mechanics only; every name, line and place is original.
  *
- * SPEAKERS. Hob, the guard's quartermaster; Ottoline Vane, the engineer who built the
+ * SPEAKERS. Grist, the guard's quartermaster; Ottoline Vane, the engineer who built the
  * machine. The team leader is whichever team the Keeper joins (Marina, Luna or Fern).
  *
  * BEATS. Between each chapter's opening and its goal: the banners, the leader's errands
@@ -20,7 +20,7 @@
  *
  * FLAGS. `b-boss-1`, `b-boss-2` (dojo wins in chapters 4 and 8), `b-torch` (left | kept:
  * fruit for whoever lights the torches), `b-fusion` (fused | refused), `b-machine`
- * (stop | keep), `b-vane` (stayed | left).
+ * (stop | keep), `b-vane` (stayed | left: read by every ending's body).
  */
 import type { Line, LineGesture, Mood, Scene } from '../config/story';
 import type { Speaker, Storyline, StorylineChapter } from './types';
@@ -40,7 +40,7 @@ const HOB = say('b-hob');
 const VANE = say('b-vane');
 
 export const BEETLE_SPEAKERS: Speaker[] = [
-  { id: 'b-hob', name: 'Hob', kind: 'other' },
+  { id: 'b-hob', name: 'Grist', kind: 'other' },
   { id: 'b-vane', name: 'Ottoline Vane', kind: 'other' },
 ];
 
@@ -76,7 +76,7 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
         ),
         N('Behind the counter sits a man who has counted everything in the room twice.'),
         HOB(
-          'Hob. Quartermaster. You want down the Beetle Road, you want a team. Pick one, I don’t care which, they all owe me.',
+          'Grist. Quartermaster. You want down the Beetle Road, you want a team. Pick one, I don’t care which, they all owe me.',
           undefined,
           'shrug',
         ),
@@ -117,10 +117,10 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
           id: 'b-c1-ledger',
           lines: [
             N(
-              'Hob writes in a ledger while you decide. Every so often he reads a line back to himself and nods.',
+              'Grist writes in a ledger while you decide. Every so often he reads a line back to himself and nods.',
             ),
             HOB(
-              'Forty years of who went down and who came up. Same number in each column. I check it most mornings.',
+              'Every name that went down and every name that came up. Same number in each column. I check it most mornings.',
             ),
           ],
         },
@@ -149,8 +149,10 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
       id: 'b-c2-close',
       lines: [
         N(
-          'You come home with shells in the cargo and a spore stuck to the lamp. Hob peels it off and writes something in a ledger.',
+          'You come home with shells in the cargo and a spore stuck to the lamp. Grist peels it off and writes something in a ledger.',
         ),
+        N('Your Nubbin rides home on top of the shells, like a dragon on a very small hoard.'),
+        HOB('Forty-one shells. And one of those. I’m not writing that down.'),
         HOB(
           'That’ll do. The first domain’s under the lamp room. It has a door. The door has an opinion.',
           undefined,
@@ -181,9 +183,9 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
               'Your leader’s first errand is small and particular: a message to the lamp room, a bag of nails, a look at the weather vane.',
             ),
             HOB(
-              'Errand done? Good. Write it in the book. The book’s how the road knows you were here.',
+              'Errand done? Marina’s lot would shout about it. Luna’s would brood. Fern’s would knit it a cover. Write it in the book.',
             ),
-            N('You write it. Your hand is the newest in forty years of hands.'),
+            N('You write it. Your hand is the newest in the book, and the worst.'),
           ],
         },
       },
@@ -318,9 +320,9 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
         scene: {
           id: 'b-c4-errands',
           lines: [
-            HOB('Three errands. The leader says you’re all right.'),
+            HOB('Three errands. Your leader says you’re all right.'),
             HOB(
-              'The leader says that about everyone and means it about four. Congratulations, you’re one of the four.',
+              'Your leader says that about everyone and means it about four. Congratulations, you’re one of the four.',
             ),
           ],
         },
@@ -334,7 +336,7 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
       id: 'b-c5-open',
       lines: [
         N(
-          'A woman is sitting on the Beetle’s bonnet when you come up, swinging her boots, with a notebook older than the guard.',
+          'A woman is sitting on the Beetle’s bonnet when you come up, swinging her boots, with a notebook with more repairs than pages.',
         ),
         VANE(
           'Ottoline Vane. I built the thing under the second domain. Don’t look like that, everyone looks like that.',
@@ -410,6 +412,8 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
             ),
             VANE('I still catch myself calling it the other name. It still turns round.', 'soft'),
             HOB('She tells everyone that. It’s true every time.'),
+            VANE('He’s my husband. He counts, I make weather. It works if we take the stairs.'),
+            HOB('Thirty-nine years. She comes up on Thursdays.', undefined, 'nod'),
           ],
         },
       },
@@ -437,6 +441,13 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
       lines: [
         N(
           'The fourth floor rains. Underground, on a floor of stone, it rains, lightly and forever, out of a ceiling of pipes.',
+        ),
+        N(
+          'Your Nubbins stand under the pipes with their mouths open. One of them has brought a bowl, for later.',
+        ),
+        HOB('Don’t drink the weather.'),
+        N(
+          'He opens an umbrella he has owned for years and never had cause to use. It looks very pleased with itself.',
         ),
       ],
     },
@@ -496,7 +507,11 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
           undefined,
           'shrug',
         ),
-        HOB('I’m not on the lever. I count things. Count this one yourself.', undefined, 'chest'),
+        HOB(
+          'I’m not on the lever. I count things. I’ve counted the drips. I’m not saying the number. Count this one yourself.',
+          undefined,
+          'chest',
+        ),
       ],
       choices: [
         {
@@ -574,8 +589,11 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
           id: 'b-c8-wet',
           lines: [
             N('The rain on the fourth floor goes on, light and even, out of its ceiling of pipes.'),
-            VANE('I thought I’d mind. I find I’d mind more if it stopped. Don’t tell Hob.'),
+            VANE('I thought I’d mind. I find I’d mind more if it stopped. Don’t tell Grist.'),
             HOB('I counted that. I count everything.'),
+            HOB(
+              'Four hundred and twelve a minute. Thursdays it’s four hundred and eleven. Someone should look into that.',
+            ),
           ],
         },
       },
@@ -597,7 +615,7 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
           id: 'b-c8-two',
           lines: [
             N('Two of them at the last door, either side of you, in the way they always stand.'),
-            VANE('Narrower way. Longer road. You got here all the same. Write that in Hob’s book.'),
+            VANE('Narrower way. Longer road. You got here all the same. Write that in Grist’s book.'),
           ],
         },
       },
@@ -620,44 +638,69 @@ export const BEETLE_ENDINGS: Record<string, { title: string; how: string }> = {
   },
 };
 
+/*
+ * Each ending plays in two parts. The rule (sim/storyline-rules-beetle.ts) queues the body
+ * after b-c8-close, as `b-end-<ending>-<b-vane>` (Steady Rain adds `-fused` when two
+ * partners became one), so Ottoline's answer lands before the title card; then
+ * `end-beetle-<ending>` plays the card itself.
+ */
+const ARRIVE_CLEAR = N(
+  'You come up the guard stairs into weather nobody ordered. Cloud, then not cloud, then a wind that smells of somewhere else.',
+);
+const ARRIVE_ONE = N(
+  'You come up the guard stairs into weather nobody ordered, with one partner who answers to one name and knows two.',
+);
+const ARRIVE_RAIN = N(
+  'You come up the guard stairs into a light rain, on time, the way it has fallen for forty years. The valley does not know what it was spared.',
+);
+const HOB_THURSDAY = HOB(
+  'First real rain in forty years is due Thursday. I counted. I don’t know how, I just did.',
+  undefined,
+  'shrug',
+);
+const HOB_RAIN = HOB('Rain Thursday. Rain next Thursday. I like a Thursday I can count on.');
+const RAIN_ONE = N('Your one partner stands in the rain and turns round for both its names.');
+
+/** She came up: the anniversary joke. */
+const VANE_UP: Line[] = [
+  N('Ottoline comes up the guard stairs behind you, blinking at the sky as if it owed her money.'),
+  HOB('You’re late.'),
+  VANE('Forty years.'),
+  HOB('Thirty-nine. I counted.', 'soft'),
+];
+/** She stayed below with the gauges. */
+const VANE_DOWN = N(
+  'Far below, one lamp stays lit on the fourth floor, where somebody is still watching the weather. Grist writes that in the book too.',
+);
+const VANE_KEPT_BOTH = VANE(
+  'It kept both. I wasn’t sure it would. I’m glad I was wrong about one thing this year.',
+  'soft',
+);
+const HOB_TWICE = HOB('One name, and it turns round for two. I’ll put it in the book twice.');
+
 export const BEETLE_EXTRA: Scene[] = [
   {
-    id: 'end-beetle-open-sky',
-    lines: [
-      N(
-        'You come up the guard stairs into weather nobody ordered. Cloud, then not cloud, then a wind that smells of somewhere else.',
-      ),
-      HOB(
-        'First real rain in forty years is due Thursday. I counted. I don’t know how, I just did.',
-        undefined,
-        'shrug',
-      ),
-      N('The Beetle Road: the Open Sky.'),
-    ],
+    id: 'b-end-open-sky-stayed',
+    lines: [ARRIVE_CLEAR, ...VANE_UP, HOB_THURSDAY, HOB('I’ve bought a second umbrella.')],
   },
   {
-    id: 'end-beetle-two-as-one',
+    id: 'b-end-open-sky-left',
     lines: [
-      N(
-        'You come up the guard stairs into weather nobody ordered, with one partner who answers to one name and knows two.',
-      ),
-      VANE(
-        'It kept both. I wasn’t sure it would. I’m glad I was wrong about one thing this year.',
-        'soft',
-      ),
-      N('The Beetle Road: Two As One.'),
+      ARRIVE_CLEAR,
+      HOB_THURSDAY,
+      HOB('She’ll want to see it. I’ve bought a second umbrella.'),
+      VANE_DOWN,
     ],
   },
-  {
-    id: 'end-beetle-steady-rain',
-    lines: [
-      N(
-        'You come up the guard stairs into a light rain, on time, the way it has fallen for forty years. The valley does not know what it was spared.',
-      ),
-      HOB('Rain Thursday. Rain next Thursday. I like a Thursday I can count on.'),
-      N('The Beetle Road: Steady Rain.'),
-    ],
-  },
+  { id: 'b-end-two-as-one-stayed', lines: [ARRIVE_ONE, ...VANE_UP, VANE_KEPT_BOTH] },
+  { id: 'b-end-two-as-one-left', lines: [ARRIVE_ONE, VANE_DOWN, HOB_TWICE] },
+  { id: 'b-end-steady-rain-stayed', lines: [ARRIVE_RAIN, ...VANE_UP, HOB_RAIN] },
+  { id: 'b-end-steady-rain-left', lines: [ARRIVE_RAIN, HOB_RAIN, VANE_DOWN] },
+  { id: 'b-end-steady-rain-stayed-fused', lines: [ARRIVE_RAIN, RAIN_ONE, ...VANE_UP, HOB_RAIN] },
+  { id: 'b-end-steady-rain-left-fused', lines: [ARRIVE_RAIN, RAIN_ONE, HOB_RAIN, VANE_DOWN] },
+  { id: 'end-beetle-open-sky', lines: [N('The Beetle Road: the Open Sky.')] },
+  { id: 'end-beetle-two-as-one', lines: [N('The Beetle Road: Two As One.')] },
+  { id: 'end-beetle-steady-rain', lines: [N('The Beetle Road: Steady Rain.')] },
 ];
 
 export const STORYLINE_BEETLE: Storyline = {

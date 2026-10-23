@@ -89,26 +89,26 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | --- | --- |
 | Expansion E1: The Square | [E1.md](expansions/E1.md) (182) |
 | Expansion E2: Nova’s Season | [E2.md](expansions/E2.md) (156) |
-| Expansion E3: The Twine | [E3.md](expansions/E3.md) (126) |
+| Expansion E3: The Twine | [E3.md](expansions/E3.md) (152) |
 
 ## Storylines
 
 | Storyline | Script |
 | --- | --- |
-| Storyline SL1: The Hundred Days | [hundred.md](storylines/hundred.md) (426) |
-| Storyline SL2: Logged In | [logged.md](storylines/logged.md) (319) |
-| Storyline SL3: The Beetle Road | [beetle.md](storylines/beetle.md) (315) |
-| Storyline SL4: Dawn & Dusk | [dawndusk.md](storylines/dawndusk.md) (491) |
+| Storyline SL1: The Hundred Days | [hundred.md](storylines/hundred.md) (439) |
+| Storyline SL2: Logged In | [logged.md](storylines/logged.md) (363) |
+| Storyline SL3: The Beetle Road | [beetle.md](storylines/beetle.md) (385) |
+| Storyline SL4: Dawn & Dusk | [dawndusk.md](storylines/dawndusk.md) (517) |
 
 ## Atlas
 
 | Storyline | Script | Little Sprouts | Grove Readers |
 | --- | --- | --- | --- |
-| Atlas, page A1: The Brothers’ Bargain | [main.md](atlas/A01/main.md) (1611) |  |  |
-| Atlas, page A2: The Monkey and the Monk | [main.md](atlas/A02/main.md) (1600) | [sprout.md](atlas/A02/sprout.md) (1957) | [reader.md](atlas/A02/reader.md) (2317) |
-| Atlas, page A3: Forty-Nine Days | [main.md](atlas/A03/main.md) (1200) |  |  |
+| Atlas, page A1: The Brothers’ Bargain | [main.md](atlas/A01/main.md) (1627) |  |  |
+| Atlas, page A2: The Monkey and the Monk | [main.md](atlas/A02/main.md) (1607) | [sprout.md](atlas/A02/sprout.md) (1957) | [reader.md](atlas/A02/reader.md) (2317) |
+| Atlas, page A3: Forty-Nine Days | [main.md](atlas/A03/main.md) (1208) |  |  |
 | Atlas, page A4: The Waterfall Prince | [main.md](atlas/A04/main.md) (1339) |  |  |
-| Atlas, page A5: The Lion of Mali | [main.md](atlas/A05/main.md) (1165) | [sprout.md](atlas/A05/sprout.md) (1419) | [reader.md](atlas/A05/reader.md) (1634) |
+| Atlas, page A5: The Lion of Mali | [main.md](atlas/A05/main.md) (1165) | [sprout.md](atlas/A05/sprout.md) (1426) | [reader.md](atlas/A05/reader.md) (1638) |
 | Atlas, page A6: Seven Voyages | [main.md](atlas/A06/main.md) (1537) | [sprout.md](atlas/A06/sprout.md) (1872) | [reader.md](atlas/A06/reader.md) (2225) |
 | Atlas, page A7: The Marigold Bridge | [main.md](atlas/A07/main.md) (1200) | [sprout.md](atlas/A07/sprout.md) (1519) | [reader.md](atlas/A07/reader.md) (1861) |
 | Atlas, page A8: The Twelve Tasks | [main.md](atlas/A08/main.md) (1075) | [sprout.md](atlas/A08/sprout.md) (1250) | [reader.md](atlas/A08/reader.md) (1426) |

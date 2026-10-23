@@ -44,7 +44,12 @@ function toTheBoard(world: World, events: SimEvent[]): void {
   expect(c(world).seen).toContain('l-c4-night');
 }
 
-function toTheEnd(world: World, events: SimEvent[], root: 'expose' | 'spare'): string {
+function toTheEnd(
+  world: World,
+  events: SimEvent[],
+  root: 'expose' | 'spare',
+  juno: 'stayed' | 'left' = 'stayed',
+): string {
   applyCommand(world, { kind: 'storyAct', label: 'read-the-board' }, events);
   expect(toChapter(world, events, 6)).toBe(true);
   expect(c(world).flags['l-sister']).toBe(true);
@@ -57,8 +62,20 @@ function toTheEnd(world: World, events: SimEvent[], root: 'expose' | 'spare'): s
   ).toBe(true);
   expect(c(world).flags['l-root']).toBe(root);
   winBouts(world, events, 2);
-  settle(world, events, () => c(world).ending !== null, 20, { 'l-c8-close': 'stayed' });
-  return c(world).ending ?? '';
+  settle(
+    world,
+    events,
+    () => c(world).ending !== null && c(world).seen.includes(`end-logged-${c(world).ending}`),
+    20,
+    { 'l-c8-close': juno },
+  );
+  const ending = c(world).ending ?? '';
+  // The last choice is answered in the ending's body, which plays before the title card.
+  const body = c(world).seen.indexOf(`l-end-${ending}-${juno}`);
+  expect(body, `l-end-${ending}-${juno}`).toBeGreaterThanOrEqual(0);
+  expect(body).toBeLessThan(c(world).seen.indexOf(`end-logged-${ending}`));
+  expect(c(world).seen.filter((s) => s.startsWith('l-end-')).length).toBe(1);
+  return ending;
 }
 
 describe('S2 Logged In', () => {
@@ -106,7 +123,20 @@ describe('S2 Logged In', () => {
   it('ends with the quiet exit when the company’s word is taken', () => {
     const { world, events } = storylineWorld('logged', 'byte');
     toTheBoard(world, events);
-    expect(toTheEnd(world, events, 'spare')).toBe('quiet-exit');
+    expect(toTheEnd(world, events, 'spare', 'left')).toBe('quiet-exit');
+  });
+
+  it('answers the last choice in every ending, both ways', () => {
+    for (const juno of ['stayed', 'left'] as const)
+      for (const id of Object.keys(STORYLINE_LOGGED.endings))
+        expect(
+          STORYLINE_LOGGED.extra.some((s) => s.id === `l-end-${id}-${juno}`),
+          `${id}-${juno}`,
+        ).toBe(true);
+    const { world, events } = storylineWorld('logged', 'byte');
+    toTheBoard(world, events);
+    expect(toTheEnd(world, events, 'expose', 'left')).toBe('everyone-wakes');
+    expect(c(world).flags['l-juno']).toBe('left');
   });
 
   it('ends one short when a partner departed on the way', () => {

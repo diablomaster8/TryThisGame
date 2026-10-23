@@ -125,6 +125,34 @@ describe('S4 Dawn & Dusk', () => {
   });
 });
 
+// Run 8 (SR-20261023-415, 416, 434, 466): two lamps a half, the latched door opens on the
+// whole day, both causes cite a clue, and the night twin is Rowan.
+describe('S4 Dawn & Dusk, run 8 fixes', () => {
+  const text = (lines: readonly { text: string }[]) => lines.map((l) => l.text).join(' ');
+
+  it('lights two lamps a half and opens the latched door only on the whole day', () => {
+    for (const s of [STORYLINE_DAWN, STORYLINE_DUSK]) {
+      const end = (id: string) => s.extra.find((x) => x.id === `end-${s.id}-${id}`)!;
+      expect(text(end('half-day').lines)).toContain('two lamps lit');
+      expect(text(end('wrong-cause').lines)).toContain('two lamps lit');
+      expect(text(s.chapters[6]!.closing.lines)).toContain('Two lamps lit');
+      const whole = end('whole-day');
+      expect(text(whole.lines)).toContain('The latched door opens');
+      const other = s.id === 'dawn' ? 'd-ash' : 'd-marigold';
+      expect(whole.lines.some((l) => l.who === other)).toBe(true);
+    }
+  });
+
+  it('gives both causes evidence, and names the night twin Rowan', () => {
+    const labels = (s: typeof STORYLINE_DAWN) =>
+      (s.chapters[5]!.opening.choices ?? []).map((x) => x.label).join(' ');
+    expect(labels(STORYLINE_DAWN)).toContain('lens is cracked');
+    expect(labels(STORYLINE_DUSK)).toContain('the week the shrine was done up');
+    expect(STORYLINE_DUSK.speakers.find((x) => x.id === 'd-ash')?.name).toBe('Rowan Penhallow');
+    expect(JSON.stringify([STORYLINE_DAWN, STORYLINE_DUSK])).not.toMatch(/\bAsh\b/);
+  });
+});
+
 // Review 2026-10-21, Bug 4: degeneration must never make an Eternal egg or child, and a
 // Nubbin that grows up a second time in one life gets no second grade upgrade.
 describe('degeneration and the once-a-life rules', () => {

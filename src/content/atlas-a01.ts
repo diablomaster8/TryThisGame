@@ -171,6 +171,9 @@ const A20_END: Line[] = [
   E('See the world. Learn everything I missed. Al too, when he can walk. And then come back here. If that’s all right.'),
   W('…It’s all right.', 'soft'),
   N('Ed holds out his real hand to shake on it, very seriously, like a deal. Winry laughs at him, and takes it.'),
+  N('Your Nubbin climbs into Al’s lap and, out of long habit, looks for the way in. There isn’t one. There is just Al.'),
+  A('Sorry. No room in here now. It’s all me.', 'happy'),
+  N('It settles in his lap instead, which turns out to be warmer.'),
   N('The page shuts like the lid of a pocket watch. You are back in the Grove, and your Nubbin has chalk on its feet.'),
 ];
 
@@ -399,7 +402,7 @@ export const ATLAS_A01: Quest[] = [
         E('If it’s standing, we’ll want to come back. So it can’t be standing.'),
         A('It was Mum’s house too, Brother.', 'sad'),
         E('I know.'),
-        N('They burn it. Winry cries on the porch, and Granny Pinako doesn’t tell her not to.'),
+        N('They burn it. Winry, their oldest friend, cries on the porch. Granny Pinako doesn’t tell her not to.'),
         N('Ed scratches the date into the lid of his silver watch, so he can’t forget it. You stand with them until the roof goes.'),
       ],
     },
@@ -431,6 +434,7 @@ export const ATLAS_A01: Quest[] = [
         scene: {
           id: 'a01-03-square',
           lines: [
+            N('The page flicks forward four years. Ed’s watch has a date in its lid now.'),
             N('Lior is a desert town of white walls. Every radio in every window is playing the same man’s voice.'),
             CO('The sun god Leto loves you. Leto sees you. Leto will give you back what you have lost.'),
             N('On the temple steps, a robed man touches a bunch of dead flowers. They burst into a statue of bright brass.'),
@@ -481,7 +485,8 @@ export const ATLAS_A01: Quest[] = [
           id: 'a01-03-temple-done',
           lines: [
             CO('Believers? Fools. They’ll bring me money and their sons for my army, and thank me for it.', 'angry'),
-            N('That goes out to every radio in town. Outside, the square goes absolutely silent.'),
+            N('He goes on for another minute, rather pleased with how well his voice carries. So does every radio in town.'),
+            N('Outside, the square goes absolutely silent.'),
             N('The ring on Cornello’s finger cracks in half, cheap and red. It was never a Stone at all.'),
           ],
         },
@@ -707,7 +712,7 @@ export const ATLAS_A01: Quest[] = [
           lines: [
             E('Leave him. It’s me you want. Let my brother go and I won’t run.'),
             A('Brother, no!', 'shock'),
-            N('A gunshot cracks off a wall above Scar’s head. Mustang’s officers are at the end of the alley, Hawkeye first.'),
+            N('A gunshot cracks off a wall above Scar’s head. Hawkeye is at the end of the alley, and Colonel Mustang behind her, gloves already on.'),
             RH('Don’t snap in the rain, sir. Your fire won’t light. You’ll only get wet.'),
             N('Armstrong comes over a rooftop with his shirt already off.'),
             AR('Fear not, young Elrics! The Armstrong family has come to your aid!', 'happy'),
@@ -1684,6 +1689,10 @@ export const ATLAS_A01: Quest[] = [
             LI('We’re inside him. Inside him, and there is no inside. How is there no inside?', 'shock'),
             E('It’s a fake Gate. A copy. Somebody tried to make one, and got this.'),
             N('Days pass, or something like days, and Ling is very hungry. You share what’s left in your pockets.'),
+            E('You still owe me lunch.'),
+            LI('I’ll pay in here. If anyone sells noodles.'),
+            E('Nobody sells noodles inside a stomach.'),
+            LI('Then I’ll owe you two.'),
             N('Then Envy drops into the sea beside you, swallowed too, and furious about it.'),
             EN('Don’t look so pleased. You’ll all rot in here. Me too, I suppose. Lovely.', 'angry'),
           ],
@@ -1715,7 +1724,7 @@ export const ATLAS_A01: Quest[] = [
         done: {
           id: 'a01-14-circle-done',
           lines: [
-            N('You fall out of the dark onto a stone floor, all four of you, coughing.'),
+            N('You fall out of the dark onto a stone floor, coughing. Envy lands, sees the room, and slinks off down a drain.'),
             N('Somewhere below Central, in a huge round room full of pipes, an old man sits on a high seat and looks down at you.'),
             FA('Interesting. You came out by yourselves. You may be useful after all.'),
             N('He has Ed’s father’s face. Ed goes white.', 'shock'),
@@ -1804,7 +1813,8 @@ export const ATLAS_A01: Quest[] = [
             N('The thing that comes out of the wall is enormous and slow and bored, and says how bothersome everything is.'),
             OL('Lead it outside. It’s strong, but it’s still a living thing, and nothing living likes our winter.'),
             MI('The General says the cold will do what bullets can’t. She is usually right.'),
-            N('You carry fuel cans to the yard while the soldiers and the brothers bait the giant out into the snow.'),
+            N('You carry fuel cans to the yard, and the soldiers light a ring of fires. The giant lumbers towards the warmth.'),
+            N('Then Olivier orders every fire out at once, and the brothers bait the giant out into the snow.'),
             N('Al has the giant’s attention. He’s good at that: he doesn’t feel the hits, and he keeps standing up.'),
             N('By morning the giant is a statue of frost in the yard, slowly yawning, quite stuck.'),
           ],
@@ -1885,6 +1895,9 @@ export const ATLAS_A01: Quest[] = [
             E('This is it. The whole country. Every war we ever had was a point on this line.', 'angry'),
             N('Pale soldiers come out of the side tunnels: empty, grinning dolls the army made and filled with borrowed souls.'),
             A('Don’t let them touch the Nubbin. Brother, go left. I’ll go right.'),
+        E('You always give me left.'),
+        A('You always go left anyway. I’m saving us the argument.'),
+        N('Your Nubbin salutes a pale soldier, which stops, confused, and salutes back. Ed hits it while it’s busy.'),
             N('Your Nubbin rides inside Al, the way it always has, right through the dark.'),
             N('Somewhere far ahead, a great old voice is counting down the hours to noon.'),
           ],
@@ -2074,7 +2087,7 @@ export const ATLAS_A01: Quest[] = [
         scene: {
           id: 'a01-18-reverse',
           lines: [
-            N('Up in the city, Scar has a circle of his own. His brother spent his life working it out: a circle that runs the other way.'),
+            N('Hohenheim sends you up the stairs with a stub of chalk. In the city, Scar has a circle of his own. His brother spent his life working it out: a circle that runs the other way.'),
             SC('It needs one more line. There. The rubble broke it. Bring me the chalk.'),
             N('You run. Your Nubbin runs ahead of you, the chalk in its mouth, white dust all down its front.'),
             SC('My brother’s work. Never finished. Let it be finished now.'),
@@ -2095,7 +2108,7 @@ export const ATLAS_A01: Quest[] = [
     complete: {
       id: 'a01-18-complete',
       lines: [
-        N('Down in the round room, Father reaches for his power and finds it slipping through his fingers.'),
+        N('Through the broken floor below you, Father reaches for his power and finds it slipping through his fingers.'),
         FA('What is this? Who did this? This is my country. These are my circles.', 'angry'),
         E('Not any more. Somebody else drew one too.'),
         N('Father rises through the ceiling and the streets and out into the open air, wild and huge. Everyone follows him up.'),

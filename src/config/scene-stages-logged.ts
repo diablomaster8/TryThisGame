@@ -31,6 +31,24 @@ const juno = (mark = 'board', o: Partial<StageCast> = {}): StageCast => ({
 const NO_SET = { loggedSet: 'hide' } as const;
 const DOOR = { door: 'show' } as const;
 
+/** The endings: first light on the meadow, the board's last post (N2). */
+const END_WAKES: SceneStage = {
+  grave: true,
+  place: 'grove',
+  hour: 6,
+  props: { board: 'final' },
+  cast: [juno('board'), warden('lobby')],
+  shot: { kind: 'wide', focus: ['board', 'lobby'] },
+};
+const END_QUIET: SceneStage = {
+  grave: true,
+  place: 'grove',
+  hour: 6.5,
+  cast: [juno('board'), warden('lobby')],
+  shot: { kind: 'wide', focus: ['board', 'lobby'] },
+};
+const END_SHORT: SceneStage = END_WAKES;
+
 export const LOGGED_STAGES: Readonly<Record<string, SceneStage>> = {
   ...chapterStages('l', [
     // 1 Log In: the visor, three eggs on the grass.
@@ -189,27 +207,15 @@ export const LOGGED_STAGES: Readonly<Record<string, SceneStage>> = {
     shot: { kind: 'wide' },
   },
   // ---- endings: the board's last post in first light, everyone on the meadow (N2) --------
-  'end-logged-everyone-wakes': {
-    grave: true,
-    place: 'grove',
-    hour: 6,
-    props: { board: 'final' },
-    cast: [juno('board'), warden('lobby')],
-    shot: { kind: 'wide', focus: ['board', 'lobby'] },
-  },
-  'end-logged-quiet-exit': {
-    grave: true,
-    place: 'grove',
-    hour: 6.5,
-    cast: [juno('board'), warden('lobby')],
-    shot: { kind: 'wide', focus: ['board', 'lobby'] },
-  },
-  'end-logged-one-short': {
-    grave: true,
-    place: 'grove',
-    hour: 6,
-    props: { board: 'final' },
-    cast: [juno('board'), warden('lobby')],
-    shot: { kind: 'wide', focus: ['board', 'lobby'] },
-  },
+  // Each ending's body (`l-end-<ending>-<stayed|left>`, SR-20261023-411) takes the stage
+  // of its title card.
+  'end-logged-everyone-wakes': END_WAKES,
+  'l-end-everyone-wakes-stayed': END_WAKES,
+  'l-end-everyone-wakes-left': END_WAKES,
+  'end-logged-quiet-exit': END_QUIET,
+  'l-end-quiet-exit-stayed': END_QUIET,
+  'l-end-quiet-exit-left': END_QUIET,
+  'end-logged-one-short': END_SHORT,
+  'l-end-one-short-stayed': END_SHORT,
+  'l-end-one-short-left': END_SHORT,
 };

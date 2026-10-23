@@ -11,8 +11,8 @@
  * SOURCE. Digimon World: Dawn / Dusk (2007): the two-version frame, the species houses,
  * the tamer ranks, scan-and-convert, the degeneration mystery. Mechanics only.
  *
- * SPEAKERS. The Penhallow twins keep the houses: Marigold by day, Ash by night. Teodor
- * Vask runs the dojo on both halves.
+ * SPEAKERS. The Penhallow twins keep the houses: Marigold by day, Rowan by night (speaker
+ * id `d-ash` kept from before the rename; canon 43). Teodor Vask runs the dojo on both halves.
  *
  * BEATS. Built into the template, so both halves breathe the same way: the other twin
  * (when their half is done), the Book’s first visitor and settler, the egg that must not
@@ -40,7 +40,7 @@ const VASK = say('d-vask');
 
 export const DAWNDUSK_SPEAKERS: Speaker[] = [
   { id: 'd-marigold', name: 'Marigold Penhallow', kind: 'other' },
-  { id: 'd-ash', name: 'Ash Penhallow', kind: 'other' },
+  { id: 'd-ash', name: 'Rowan Penhallow', kind: 'other' },
   { id: 'd-vask', name: 'Teodor Vask', kind: 'other' },
 ];
 
@@ -57,9 +57,14 @@ interface Half {
   half: 'day' | 'night';
   sibling: 'brother' | 'sister';
   siblingHe: 'he' | 'she';
-  /** The real cause on this side, and the decoy. */
+  /** The other twin's speaker id and first name. */
+  siblingId: string;
+  siblingName: string;
+  /** How this twin counts the lamps: Marigold aloud and exactly, Rowan trailing off. */
+  lampCount: string;
+  /** The real cause on this side, and the decoy (with the joke about having fixed it). */
   right: { id: string; label: string; name: string };
-  wrong: { id: string; label: string; name: string };
+  wrong: { id: string; label: string; name: string; fixed: string };
   /** What Vask found at the shrine, and what the other half found. */
   found: string;
   otherFound: string;
@@ -76,6 +81,9 @@ const HALVES: Record<Side, Half> = {
     half: 'day',
     sibling: 'brother',
     siblingHe: 'he',
+    siblingId: 'd-ash',
+    siblingName: 'Rowan',
+    lampCount: 'Two lamps. One, two. I count them every morning, in case one has wandered off.',
     right: {
       id: 'lamp',
       label: 'The shrine lamp. Its new glass throws light into the scanner.',
@@ -83,8 +91,9 @@ const HALVES: Record<Side, Half> = {
     },
     wrong: {
       id: 'scanner',
-      label: 'The scanner itself. It was always going to do this.',
+      label: 'The scanner. Its lens is cracked, and it has read everything wrong since.',
       name: 'the scanner',
+      fixed: 'We’ve fixed a very good scanner. It looks thrilled.',
     },
     found: 'The new lamp glass, and a scanner lens under it, cracked.',
     otherFound: 'bell',
@@ -93,12 +102,15 @@ const HALVES: Record<Side, Half> = {
     id: 'dusk',
     title: 'Dusk',
     tagline: 'The Moon Keepers’ half of one long day.',
-    steward: 'Ash',
+    steward: 'Rowan',
     stewardId: 'd-ash',
     light: 'last light',
     half: 'night',
     sibling: 'sister',
     siblingHe: 'she',
+    siblingId: 'd-marigold',
+    siblingName: 'Marigold',
+    lampCount: 'Two lamps. That’s two, I think. Mostly.',
     right: {
       id: 'bell',
       label: 'The old bell. Someone has been ringing it at midnight.',
@@ -106,8 +118,9 @@ const HALVES: Record<Side, Half> = {
     },
     wrong: {
       id: 'mist',
-      label: 'The night mist. It comes off the pond and it always has.',
+      label: 'The night mist. It came in thick the week the shrine was done up.',
       name: 'the mist',
+      fixed: 'We’ve cleared a lot of mist. The pond is furious.',
     },
     found: 'A rope on the old bell, new, and footprints that come at midnight.',
     otherFound: 'lamp',
@@ -116,6 +129,10 @@ const HALVES: Record<Side, Half> = {
 
 function makeHalf(h: Half): Storyline {
   const S = say(h.stewardId);
+  const O = say(h.siblingId);
+  const otherHalf = h.half === 'day' ? 'night' : 'day';
+  const his = h.siblingHe === 'he' ? 'his' : 'hers';
+  const He = h.siblingHe === 'he' ? 'He' : 'She';
   const ch = (
     n: number,
     title: string,
@@ -149,7 +166,7 @@ function makeHalf(h: Half): Storyline {
             'Each has a creature carved over its door: a flier, a runner, a swimmer, a thicket thing.',
           ),
           S(
-            `${h.steward} Penhallow. I keep the houses by ${h.half}; my ${h.sibling} keeps them the other half. We don’t overlap. We don’t agree, either.`,
+            `${h.steward} Penhallow. I keep the houses by ${h.half}; my twin ${h.sibling} keeps them by ${otherHalf}. We don’t overlap. We don’t agree, either.`,
           ),
           S('Hatch what you brought. The houses like a Keeper who has something to lose.'),
         ],
@@ -171,8 +188,9 @@ function makeHalf(h: Half): Storyline {
                 `My ${h.sibling} finished ${h.siblingHe === 'he' ? 'his' : 'her'} half. Found a cause, fixed it, told me nothing, which is how I know it went well.`,
               ),
               S(
-                'If you find the other half of it, we’ll have the whole day. We have never once had the whole day.',
+                `If a Keeper from the ${otherHalf} side ever tells you how it ended there, listen.`,
               ),
+              S('We’d have the whole day. We have never once had the whole day.'),
               N(`${h.steward} looks at the green as if measuring it for something.`),
             ],
           },
@@ -258,6 +276,9 @@ function makeHalf(h: Half): Storyline {
               S(
                 `The neat hand’s mine. The other is my ${h.sibling}’s. We’ve never once finished a page together.`,
               ),
+              S(
+                `My ${h.sibling} will tell you the neat one’s ${his}. ${He}’s wrong, in very untidy handwriting.`,
+              ),
             ],
           },
         },
@@ -270,7 +291,7 @@ function makeHalf(h: Half): Storyline {
         id: `${p}-c3-open`,
         lines: [
           N(
-            'Morning, or evening: one of yours is an egg. Not a new egg. Its own egg, with its own name still on it, and nothing in it that remembers walking.',
+            `${h.half === 'day' ? 'Morning' : 'Evening'}: one of yours is an egg. Not a new egg. Its own egg, with its own name still on it, and nothing in it that remembers walking.`,
           ),
           S('It’s happening across the valley. Grown ones going back. Nobody knows why.', 'shock'),
           VASK('I might. I don’t talk to Keepers without a rank. Dojo. Yellow belt. Then we talk.'),
@@ -335,7 +356,7 @@ function makeHalf(h: Half): Storyline {
       'The Collection Book’s Convert button on a full page; the roster needs room.',
       {
         id: `${p}-c4-close`,
-        lines: [N('An egg from a page. Two lamps lit on the green.')],
+        lines: [N('An egg from a page. Two lamps lit on the green.'), S(h.lampCount)],
       },
       [
         {
@@ -350,6 +371,7 @@ function makeHalf(h: Half): Storyline {
                 'Now convert it. The page gives up a little of itself and you get an egg of the kind it knew. A fair trade.',
               ),
               S('The page doesn’t think so. Pages never do.'),
+              N('In a margin, untidy: “Goose.” Under it, neat: “Heron.” Under that, in both hands: “GOOSE.”'),
             ],
           },
         },
@@ -362,7 +384,7 @@ function makeHalf(h: Half): Storyline {
                 `The second house is the ${h.half === 'day' ? 'runners’' : 'swimmers’'}, and its door has been shut so long the latch has grown into the frame.`,
               ),
               S(
-                'I oil it every week. Forty years of oil and it still won’t give. It wants someone it knows on the other side.',
+                'I oil it every week, and have since I could reach it. It still won’t give. It wants someone it knows on the other side.',
               ),
             ],
           },
@@ -465,7 +487,9 @@ function makeHalf(h: Half): Storyline {
               N(
                 'The egg with the old name on it stays an egg, and hatches in its own time, small, with everything to learn again.',
               ),
-              S('Not that one, then. Well. It will grow. They do.', 'sad', 'down'),
+              N('The small one looks at its own shell, and eats it, in case it was important.'),
+              S(`Not that one, then. ${h.wrong.fixed}`, 'sad', 'down'),
+              S('Well. It will grow. They do.', 'soft'),
             ],
           },
         },
@@ -485,8 +509,9 @@ function makeHalf(h: Half): Storyline {
         id: `${p}-c7-close`,
         lines: [
           N(
-            `${Light} on the green. Four lamps, or most of them. The other half of the day belongs to someone else.`,
+            `${Light} on the green. Two lamps lit, and two doors waiting for someone they know.`,
           ),
+          N('The other half of the day belongs to someone else.'),
         ],
       },
       [
@@ -496,7 +521,7 @@ function makeHalf(h: Half): Storyline {
             id: `${p}-c7-after-right`,
             lines: [
               S(
-                `${h.right.name[0]!.toUpperCase()}${h.right.name.slice(1)}. Forty years of ${h.half} and I never once looked at it. Vask looked. You looked. I kept houses.`,
+                `${h.right.name[0]!.toUpperCase()}${h.right.name.slice(1)}. Every ${h.half} of my life and I never once looked at it. Vask looked. You looked. I kept houses.`,
               ),
               S('Keeping houses is looking, I used to think. It’s only half of it.', 'soft'),
             ],
@@ -561,7 +586,7 @@ function makeHalf(h: Half): Storyline {
         id: `end-${p}-half-day`,
         lines: [
           N(
-            `The green at ${h.light}, four lamps lit, and the reverted one asleep against your boot as if nothing had happened to it.`,
+            `The green at ${h.light}, two lamps lit, and the reverted one asleep against your boot as if nothing had happened to it.`,
           ),
           S('Half a day. The other half’s not mine to tell.', 'soft'),
           N(`Dawn & Dusk: ${h.id === 'dawn' ? 'First Light' : 'Last Light'}.`),
@@ -571,7 +596,7 @@ function makeHalf(h: Half): Storyline {
         id: `end-${p}-wrong-cause`,
         lines: [
           N(
-            'The green, four lamps lit, and a small one at your boot learning the grass again from the beginning.',
+            'The green, two lamps lit, and a small one at your boot learning the grass again from the beginning.',
           ),
           S('We fixed a thing. Not the thing. The valley goes on. So does it.'),
           N('Dawn & Dusk: a Fixed Shadow.'),
@@ -580,12 +605,22 @@ function makeHalf(h: Half): Storyline {
       {
         id: `end-${p}-whole-day`,
         lines: [
+          N(`The green at ${h.light}, and for once all four lamps are lit.`),
           N(
-            `The green at ${h.light}. For once the twins are both on it, not overlapping, not agreeing, and the four lamps are lit on both sides.`,
+            `The latched door opens at a touch. ${h.siblingName} is on the other side, holding an oil can.`,
           ),
+          O('I oil it every week.'),
+          S('So do I.'),
+          N(
+            'They look at the can, then at each other. For once the twins are both on the green, not overlapping, not agreeing.',
+          ),
+          VASK('I turned up. Don’t read anything into it.'),
           S(
-            `${h.siblingHe === 'he' ? 'He' : 'She'} found the ${h.otherFound}. You found the ${h.right.id}. It took both halves. It usually does.`,
+            `${He} found the ${h.otherFound}. You found the ${h.right.id}. It took both halves. It usually does.`,
             'happy',
+          ),
+          N(
+            'Asked whose is the neat hand, both twins point at the page at once. Your Nubbin points at the goose in the margin.',
           ),
           N('Dawn & Dusk: the Whole Day.'),
         ],

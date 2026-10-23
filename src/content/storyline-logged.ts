@@ -22,7 +22,8 @@
  * FLAGS. `party` (three ids, comma-joined), `area` (day | night), `l-told` (sister |
  * quiet: what you told Juno about who you miss), `l-sister` (the sibling thread was
  * read), `l-paid` (teen: the deleted post), `l-root` (expose | spare), `l-juno`
- * (stayed | left).
+ * (stayed | left: read by every ending's body), `l-end` (the ending, fixed by the rule when
+ * l-c8-close is done).
  */
 import type { Line, LineGesture, Mood, Scene } from '../config/story';
 import type { Speaker, Storyline, StorylineChapter } from './types';
@@ -300,6 +301,9 @@ export const LOGGED_CHAPTERS: StorylineChapter[] = [
             N(
               'Night, and the board by the gate has posts on it that were not there by day. Old ones. One is signed with a name you know.',
             ),
+            N(
+              'Your three have found out the green ticks glow blue at night. The smallest licks its own and glows faintly for an hour, delighted.',
+            ),
           ],
         },
       },
@@ -356,6 +360,7 @@ export const LOGGED_CHAPTERS: StorylineChapter[] = [
           '“Testing build four. If anyone reads this, the exit is where the game started. Not the lobby. The root.”',
         ),
         JUNO('Your sister was a tester. She was in here before any of us.', 'shock'),
+        JUNO('Testers work for the company that built this. The ones who say sorry as Tips.'),
         Y('You knew she tested games. You did not know which.'),
       ],
       set: { 'l-sister': true },
@@ -430,7 +435,7 @@ export const LOGGED_CHAPTERS: StorylineChapter[] = [
       id: 'l-c6-close',
       lines: [
         WARDEN(
-          'Rank four. A door has opened in the lobby. Warden is not permitted to describe it.',
+          'Rank four. A door has opened in the lobby. Warden is not permitted to describe it. Warden can confirm it is a door.',
         ),
         N(
           'The door is a plain door in the meadow, with a plain handle, and nothing on the other side you can see.',
@@ -479,6 +484,7 @@ export const LOGGED_CHAPTERS: StorylineChapter[] = [
             JUNO(
               'One more. Anywhere. I’ll be at the lobby door. I want to see it open from the front.',
             ),
+            JUNO('The cat would’ve done that in two. The cat is always fine.', 'happy'),
           ],
         },
       },
@@ -492,6 +498,7 @@ export const LOGGED_CHAPTERS: StorylineChapter[] = [
             ),
             Y('Somebody is on a wage.'),
             JUNO('Rank four. Then the root. Then we find out whose.', 'angry'),
+            WARDEN('Warden is also on a wage. The wage is nothing. Warden would like that noted.'),
           ],
         },
       },
@@ -504,10 +511,10 @@ export const LOGGED_CHAPTERS: StorylineChapter[] = [
       id: 'l-c7-open',
       lines: [
         N(
-          'Through the door: a white room with one chair and a recording that starts when you sit.',
+          'Through the door: a white room with one chair. You sit, and a recording starts in your sister’s voice, a year more tired.',
         ),
         ROOT(
-          'If you are hearing this, the lock has engaged and I am not there to open it. I am sorry. That is not a figure of speech.',
+          'Hello, you. If you are hearing this, the lock has engaged and I am not there to open it. I am sorry. That is not a figure of speech.',
         ),
         ROOT(
           'The exit is a word. Say it on the board and every session ends. Everyone wakes. Including the ones the company would rather you did not ask about.',
@@ -609,7 +616,7 @@ export const LOGGED_CHAPTERS: StorylineChapter[] = [
             N(
               'One down. The company’s foes do not regroup so much as reload, and come back with the same faces.',
             ),
-            JUNO('Rally. Now. Don’t wait for two of them to be low, they won’t be. Trust me.'),
+            JUNO('Rally. Now. Don’t wait for two of them to be low. These ones don’t let you get low.'),
             WARDEN(
               'Warden is not permitted to offer a tip at this rank. Warden suggests you guard.',
             ),
@@ -635,52 +642,72 @@ export const LOGGED_ENDINGS: Record<string, { title: string; how: string }> = {
   },
 };
 
+/*
+ * Each ending plays in two parts. The rule (sim/storyline-rules-logged.ts) queues the body
+ * after l-c8-close, as `l-end-<ending>-<l-juno>`, so the last choice is answered before the
+ * title card; then `end-logged-<ending>` plays the card itself.
+ */
+const WAKES_BODY: Line[] = [
+  N(
+    'Every scoreboard in the meadow goes white. Then the meadow goes. Then a ceiling, a bedroom, a visor in your hands that smells of your own hair.',
+  ),
+  N(
+    'Down the hall, a door opens that has been shut for a year. Someone says your name as if they have been practising it.',
+  ),
+  N(
+    'In the morning it is on every news site. In the evening three small shapes are asleep on your bed, which should not be possible, and is.',
+  ),
+];
+
+const QUIET_BODY: Line[] = [
+  N(
+    'A door, one at a time, no questions. You wake in your bedroom with the visor on the floor and nobody saying your name.',
+  ),
+  N('The game is still up. Juno’s session is still in it. Down the hall, a shut door stays shut.'),
+  N(
+    'Three small shapes on the bed, looking at you the way they looked at the too-green grass: deciding something.',
+  ),
+];
+
+const SHORT_BODY: Line[] = [
+  N('Every scoreboard goes white. You wake. Down the hall a door opens, and someone says your name.'),
+  N(
+    'Two small shapes on the bed. The third was the one who guarded when they looked at you funny, and did not get up.',
+  ),
+  N('In the morning there is a flower on the sill that nobody planted, and you leave it there.'),
+];
+
+/** Juno, outside: she wakes too, and the cat gets the last laugh. */
+const JUNO_OUT_STAYED: Line[] = [
+  N('A week later your phone buzzes.'),
+  JUNO('Witness. I’m outside. I brought the cat. The cat is fine.', 'happy'),
+];
+const JUNO_OUT_LEFT: Line[] = [
+  N('Somewhere across the city a girl wakes up and feeds a cat.'),
+  N('You said goodbye properly, and it still counts.'),
+];
+
+/** Juno, still in: the board is the only way to reach her. */
+const JUNO_IN_STAYED: Line[] = [
+  N('Every night a new post appears under yours on the board.'),
+  JUNO('Still in. Still counting. Witness.', 'soft'),
+  N('You answer every one.'),
+];
+const JUNO_IN_LEFT: Line[] = [
+  N('Her last post sits under yours on the board: “Go well.”'),
+  N('Nothing comes after it. You check anyway, most nights.'),
+];
+
 export const LOGGED_EXTRA: Scene[] = [
-  {
-    id: 'end-logged-everyone-wakes',
-    lines: [
-      N(
-        'Every scoreboard in the meadow goes white. Then the meadow goes. Then a ceiling, a bedroom, a visor in your hands that smells of your own hair.',
-      ),
-      N(
-        'Down the hall, a door opens that has been shut for a year. Someone says your name as if they have been practising it.',
-      ),
-      N(
-        'In the morning it is on every news site. In the evening three small shapes are asleep on your bed, which should not be possible, and is.',
-      ),
-      N('Logged In: Everyone Wakes.'),
-    ],
-  },
-  {
-    id: 'end-logged-quiet-exit',
-    lines: [
-      N(
-        'A door, one at a time, no questions. You wake in your bedroom with the visor on the floor and nobody saying your name.',
-      ),
-      N(
-        'The game is still up. Juno’s session is still in it. Down the hall, a shut door stays shut.',
-      ),
-      N(
-        'Three small shapes on the bed, looking at you the way they looked at the too-green grass: deciding something.',
-      ),
-      N('Logged In: the Quiet Exit.'),
-    ],
-  },
-  {
-    id: 'end-logged-one-short',
-    lines: [
-      N(
-        'Every scoreboard goes white. You wake. Down the hall a door opens, and someone says your name.',
-      ),
-      N(
-        'Two small shapes on the bed. The third was the one who guarded when they looked at you funny, and did not get up.',
-      ),
-      N(
-        'In the morning there is a flower on the sill that nobody planted, and you leave it there.',
-      ),
-      N('Logged In: One Short.'),
-    ],
-  },
+  { id: 'l-end-everyone-wakes-stayed', lines: [...WAKES_BODY, ...JUNO_OUT_STAYED] },
+  { id: 'l-end-everyone-wakes-left', lines: [...WAKES_BODY, ...JUNO_OUT_LEFT] },
+  { id: 'l-end-quiet-exit-stayed', lines: [...QUIET_BODY, ...JUNO_IN_STAYED] },
+  { id: 'l-end-quiet-exit-left', lines: [...QUIET_BODY, ...JUNO_IN_LEFT] },
+  { id: 'l-end-one-short-stayed', lines: [...SHORT_BODY, ...JUNO_OUT_STAYED] },
+  { id: 'l-end-one-short-left', lines: [...SHORT_BODY, ...JUNO_OUT_LEFT] },
+  { id: 'end-logged-everyone-wakes', lines: [N('Logged In: Everyone Wakes.')] },
+  { id: 'end-logged-quiet-exit', lines: [N('Logged In: the Quiet Exit.')] },
+  { id: 'end-logged-one-short', lines: [N('Logged In: One Short.')] },
 ];
 
 export const STORYLINE_LOGGED: Storyline = {
@@ -709,6 +736,7 @@ export const STORYLINE_LOGGED_FLAGS: string[] = [
   'l-paid',
   'l-root',
   'l-juno',
+  'l-end',
 ];
 export const STORYLINE_LOGGED_CHECKS: string[] = [
   ...LOGGED_CHAPTERS.map((c) => c.goal),

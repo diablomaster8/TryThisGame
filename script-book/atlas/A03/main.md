@@ -138,6 +138,7 @@ _Other dead are queuing in a long quiet line, most of them old, a few not. Every
 **Haewonmak**: Paragon. Front of the queue. Mind out.  
 **Deok-choon**: Say sorry when you push past. It’s their last queue. Be nice.  
 _Ja-hong says sorry to every single person in the line. Some of them pat his arm as he goes by._  
+_By the tenth sorry, the queue starts telling him it’s quite all right. An old man offers him a boiled sweet for the road._  
 _Your Nubbin’s glow brightens as you pass an old woman. She smiles at it and gives it her number to hold._  
 
 ### Complete
@@ -394,6 +395,7 @@ _Ja-hong doesn’t look at you. He is holding the mirror, watching a man in a sm
 
 _Gang-rim makes your argument to the court, word for word. The echoes come back the same both times, which never happens._  
 **The King of the Hell of Deceit**: Not guilty. Go on before I change my mind. And keep that mirror flat.  
+_Deok-choon is already crying. Haewonmak hands her a handkerchief he has clearly carried since the last verdict._  
 
 ### Complete
 
@@ -427,6 +429,7 @@ Hint: Walk with the guardians through both gates. · check: `walk:a03-gates:inju
 _The fourth court is a long hall of scales. The king there looks at Ja-hong once, and stamps a paper, and waves._  
 _The fifth court is a gate of knotted rope, and its king doesn’t even look up. Another stamp, another wave._  
 _It’s over before your Nubbin has finished being nervous about it._  
+_Deok-choon cries at both stamps anyway. A verdict is a verdict._  
 **Ja-hong** _(shock)_: That’s it? Two trials? Nobody asked me anything.  
 **Haewonmak**: Don’t complain. People don’t usually complain about not being shouted at.  
 _Gang-rim is already walking on, quickly. Faster than he walked anywhere else._  
@@ -763,7 +766,11 @@ _The guardians keep a little way off. Deok-choon looks at you, and at the step b
     - After a long time Su-hong says, “You got fat,” and Ja-hong says, “You got tall.” That will do, for a start.
 - **Leave them alone together.**
     - You leave them to it, and sit with the guardians instead. Your Nubbin stays behind on the step without being asked.
-    - Much later, you hear Su-hong laugh at something. Just once, short and surprised, as if it got out on its own.
+    - Much later, Ja-hong dozes off against a pillar for a minute. Voices carry over from the step.
+    - **Su-hong**: You still snore.
+    - **Ja-hong**: We’re dead. Neither of us snores.
+    - **Su-hong**: You do.
+    - Su-hong laughs, once, short and surprised, as if it got out on its own.
 
 ### Complete
 
@@ -796,7 +803,7 @@ Hint: Walk in with the brothers and the guardians at first light. · check: `vis
 
 _The doors of the great hall open by themselves, and the light that comes out is the colour of first light, only steadier._  
 _King Yeomra sits high. The Accuser stands below him with one scroll, and only one, very thin._  
-**The Accuser**: The Hell of Filial Impiety. The charge is the worst a child can answer: harm to a parent.  
+**The Accuser**: The Hell of Filial Impiety. The charge: he ran from a sick mother and a little brother, and broke her heart.  
 **The Accuser**: One night, fifteen years ago. The accused will not speak of it. He has not spoken of it to anyone, ever.  
 **King Yeomra**: He doesn’t need to speak of it. This court has the mirror.  
 _Ja-hong closes his eyes. Su-hong, beside him, takes hold of the back of his brother’s coat, the way a small boy would._  
@@ -922,7 +929,7 @@ _The small house is warm and very tidy. Somebody comes in every day to help; you
 _Their mother is asleep in her chair by the window. She is small, and older than she should be, and her hands are folded._  
 _On the shelf by her chair there is a biscuit tin. Inside, fifteen years of money-order envelopes, every one, flattened and kept._  
 _Not the money, which was spent long ago on medicine and rice. Just the envelopes, with his handwriting on the front._  
-**Su-hong** _(sad)_: She kept them. She kept every single one. Eomma.  
+**Su-hong** _(sad)_: She kept them. She kept every single one. Our mum. Eomma.  
 **Gang-rim**: Go in, Su-hong. You’re her son; her sleep will open for you. The witness and the spark come with you. I stay at the door.  
 
 #### <a id="a03-12-house-done"></a>Done `a03-12-house-done`
@@ -939,7 +946,7 @@ _In the dream it is the same house, younger. There is rice on the stove, and the
 _Their mother is at the stove, well and quick, humming something with no words. She turns round, and sees her son._  
 **Ja-hong’s mother** _(happy)_: Su-hong-ah. Look at you. You came. They said you ran, and I never believed it, not for a day.  
 _Su-hong can’t say anything. He just goes to her, and she holds him, and the rice nearly burns._  
-**Su-hong**: Eomma. It’s about hyung. He’s on trial. They need to know if you…  
+**Su-hong**: Eomma. It’s about hyung. My big brother. He’s on trial. They need to know if you…  
 **Ja-hong’s mother** _(soft)_: If I forgave him. For the worst night.  
 **Ja-hong’s mother**: I was awake that night. I saw his face. I forgave him before morning. He was gone before I could tell him.  
 **Ja-hong’s mother** _(sad)_: Fifteen years, a letter every month with nothing in it but money. I read his handwriting on the front, over and over.  
@@ -1176,6 +1183,7 @@ _He shoves a black coat into your arms, folded very neatly for somebody so cross
 _The page goes thin under your feet. The last thing you see is Deok-choon waving with both arms, crying, happy._  
 _You are back in the Grove, with Nova’s atlas on your knee. A black coat is over your arm, and the paper lantern by your boot is still faintly warm._  
 _Your Nubbin is entirely its own colour. It keeps checking, just in case._  
+_Under Nova’s note in the corner, a second line has appeared in the same hand: “Good. You did.”_  
 _On the page, at the bottom of the white sand road, four small figures in ink are setting out again. Day one of forty-nine._  
 
 **Rewards**

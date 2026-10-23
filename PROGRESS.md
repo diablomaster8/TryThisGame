@@ -36,6 +36,15 @@ default renderer is not changed; passes 1 and 2 are on `main`, deployed since 20
 accepted by Maor). Maor, 2026-10-21: daily refreshes and free daily gifts are allowed; only
 repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below).
 
+## Story review run 8 fixes (2026-10-23)
+
+All 59 run-8 recs in `docs/story-review/LOG.md` fixed; no open recs remain.
+- **Works:** E3, the four storylines (hundred, logged, beetle, dawndusk), the A01–A03 mains and both A05 bands.
+  Logged's and Beetle's last choices now reach every ending: `storyline-rules-logged.ts` and `-beetle.ts` queue an
+  `l-end-*` / `b-end-*` body scene before the title card (staged, tested). E3's `e3-merge-done-strong` is wired.
+  Tam, Hob and Ash Penhallow are now Nell, Grist and Rowan Penhallow; speaker ids are unchanged (canon 43).
+- **Partial:** none. **Known bugs:** none.
+
 ## Story review run 7 fixes (2026-10-23)
 
 All 57 run-7 recs in `docs/story-review/LOG.md` fixed; no open recs remain.

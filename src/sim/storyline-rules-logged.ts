@@ -2,6 +2,7 @@ import { createEgg } from './nubbin';
 import { setPartner } from './partners';
 import { registerStorylineRule } from './storyline-rules';
 import { counter } from './storyline-checks';
+import { queueScene } from './story-state';
 import { rollEggSpecies, trainerOf } from './trainers';
 import type { CampaignState } from './types';
 import { newId, uniqueName, withRng } from './world';
@@ -12,6 +13,12 @@ import { newId, uniqueName, withRng } from './world';
  * chapter, and an ending from the root-node choice and whether the party came through.
  */
 export const LOGGED_AREAS = ['day', 'night'] as const;
+
+/** The ending the flags add up to: Root's word or the company's, and whether all three came through. */
+function loggedEnding(c: CampaignState): string {
+  if (c.flags['l-root'] === 'spare') return 'quiet-exit';
+  return counter(c, 'departed') > 0 ? 'one-short' : 'everyone-wakes';
+}
 
 /** The party's ids, from the comma-joined flag. */
 export function partyIds(c: CampaignState): string[] {
@@ -61,9 +68,18 @@ registerStorylineRule({
     }
     world.grove = area === 'night' ? 'moon' : 'sun';
   },
+  // The last choice (l-juno) is answered inside the ending: its body plays as
+  // `l-end-<ending>-<stayed|left>` straight after l-c8-close, ahead of the title card
+  // (`end-logged-<ending>`), and the ending is fixed then so the two always agree.
+  onScene: (_world, c, scene) => {
+    if (scene !== 'l-c8-close') return;
+    const ending = loggedEnding(c);
+    c.flags['l-end'] = ending;
+    queueScene(c, `l-end-${ending}-${c.flags['l-juno'] === 'stayed' ? 'stayed' : 'left'}`);
+  },
   endingFor: (_world, c) => {
-    if (c.flags['l-root'] === 'spare') return 'quiet-exit';
-    return counter(c, 'departed') > 0 ? 'one-short' : 'everyone-wakes';
+    const fixed = c.flags['l-end'];
+    return typeof fixed === 'string' ? fixed : loggedEnding(c);
   },
   actions: (world, c) => [
     {

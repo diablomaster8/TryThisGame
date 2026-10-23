@@ -204,4 +204,17 @@ describe('expansion answer variants', () => {
     camp.flags['e2-answer'] = 'enough';
     expect(e2!.variant!(world, camp, 'e2-complete-reborn')).toBe('e2-complete-departed');
   });
+
+  it('play the wobbling E3 merge only when you picked the two strongest', () => {
+    const e3 = EXPANSION_RULES[2]!;
+    const world = createWorld(11, 0);
+    const camp = { flags: {} } as unknown as CampaignState;
+    expect(EXPANSION_E3_VARIANTS.map((s) => s.id)).toContain('e3-merge-done-strong');
+    camp.flags['e3-pick'] = 'strong';
+    expect(e3.variant!(world, camp, 'e3-merge-done')).toBe('e3-merge-done-strong');
+    camp.flags['e3-pick'] = 'wait';
+    expect(e3.variant!(world, camp, 'e3-merge-done')).toBe('e3-merge-done');
+    camp.flags['e3-merged-win'] = true;
+    expect(e3.variant!(world, camp, 'e3-tournament-done')).toBe('e3-tournament-done-merged');
+  });
 });

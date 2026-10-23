@@ -181,6 +181,13 @@ this sheet, follow the sheet and note it. Maor approved these decisions.
     shared `granny-brock` speaker.
 43. **Names settled by the 2026-10-22 review fixes.**
     - S27's stable lad is **Hob** (speaker id `s27-tam` kept). S31's seven-year-old is **Tam**.
+    - Storylines (2026-10-23 run 8 fixes): SL1's child artist is **Nell**; SL3's quartermaster is
+      **Grist** (speaker id `b-hob` kept); SL4's night keeper is **Rowan Penhallow** (speaker id
+      `d-ash` kept), because Ash is Ember's Nubbin (item 7).
+    - Beetle Road: Grist (the quartermaster) and Ottoline Vane are married, thirty-nine years (she
+      says forty); she lives on the fourth floor with the machine and comes up on Thursdays.
+    - Logged In: Root is the Keeper's sister, a tester for the company that built Grove Online.
+      Juno has a mum and a cat; the cat is always fine.
     - Q32's inspector is **Inspector Plimsoll** (Thimble is S23's; Pell is Old Mr Pell's).
     - Q8: **Frannie is Reggie's wife.** Q61: **Mrs Tibbs** is the mayor's wife.
     - Q9: **Mother Brindle** is Barty's Keeper, who hatched him; "mother" is her own word for it.

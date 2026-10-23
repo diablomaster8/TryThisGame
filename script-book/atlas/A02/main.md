@@ -259,7 +259,8 @@ Hint: Climb the cloud stair to the heavenly stables. · check: `visit:a02-stable
 
 #### <a id="a02-04-stables"></a>Scene `a02-04-stables`
 
-_Since the teacher, Monkey has been busy. He has an iron staff from the sea-dragons, and he has rubbed his name out of the Book of Life and Death._  
+_Monkey has not been idle. He has a staff that grows and shrinks, borrowed from a dragon king who didn’t quite agree to lend it._  
+_And he has crossed his own name out of Heaven’s book of lifespans, so nobody can ever come to collect him._  
 _Heaven decides it would be simpler to give him a job. So up you all go._  
 **Monkey** _(happy)_: Keeper of the Heavenly Horses! A grand title. They must think a lot of me.  
 _He is very good with the horses. They grow fat and shiny, and your Nubbin rides one round the paddock._  
@@ -787,6 +788,7 @@ _Moksa sets the red gourd on the water. It grows into a raft, steady as a floor.
 _The raft crosses eight hundred li in what feels like an afternoon. On the far bank it shrinks back into a gourd._  
 **Tang Sanzang** _(soft)_: Wujing. Sha Wujing. We shall call you Sandy.  
 **Tang Sanzang** _(happy)_: Wukong, Bajie, Wujing, the horse, and you. My fifth disciple. I think I have the count right at last.  
+**Pigsy**: You said that about the last three.  
 _Now there are six of you, and the horse. Sandy takes the back end of the luggage pole, and you take the front._  
 _It is much easier like that. Your Nubbin rides in the middle and does the steering._  
 
@@ -1094,6 +1096,7 @@ Hint: Fill the bucket at the stream and run it to Monkey. · check: `carry:a02-w
 
 _At Fire Cloud Cave the boy comes out with a spear, pushes two little carts in front of him, and breathes fire._  
 **Red Boy** _(happy)_: I am Red Boy! The Bull Demon King is my father. You’re supposed to be my uncle, but I don’t care.  
+**Monkey**: Uncle? I swore brothers with his father over a jug once. It was a very good jug.  
 _Monkey calls the dragon kings, and they rain on the fire. It only burns hotter: this fire doesn’t mind water at all._  
 _Monkey comes out singed and smoking, and dives into a cold stream to cool off. The cold knocks him flat._  
 **Sandy** _(shock)_: Water. More water, cold. Not too fast.  
@@ -1256,7 +1259,7 @@ _The six-eared monkey runs off into the trees and doesn’t look back. The lugga
 **Tang Sanzang** _(sad)_: Wukong. Will you come back? Please?  
 **Monkey** _(soft)_: Only if you say it twice.  
 **Tang Sanzang** _(soft)_: Please.  
-_Your Nubbin lets go of the tail it has been holding. It has been holding the right one, as it happens, all along._  
+_Your Nubbin lets go of the tail it has been holding. It looks perfectly certain which one it was. It isn’t telling._  
 
 **Rewards**
 
@@ -1324,7 +1327,8 @@ Hint: Hold the fan steady while Monkey works it. Count every wave aloud. · chec
 
 #### <a id="a02-16-real"></a>Scene `a02-16-real`
 
-_There is a long and complicated business with the Bull Demon King, Monkey in disguise, and Pigsy in a temper._  
+_Monkey turns into the Bull Demon King. The Bull Demon King turns into Pigsy._  
+_The real Pigsy hits both of them, and is right exactly once._  
 _In the end, Princess Iron Fan comes out herself with the real fan, and gives it to the monk, not to Monkey._  
 **Princess Iron Fan** _(soft)_: Wave it forty-nine times. Then the fire goes out for ever, and it rains, and things grow.  
 **Princess Iron Fan**: My boy would have wanted the fire. I think I want the rain.  
@@ -1525,6 +1529,9 @@ _Everyone goes into the water: monk, Monkey, Pigsy, Sandy, horse, scrolls, you. 
 
 _Your Nubbin swims round and round the turtle, then sits on his shell and pats it, as if to say it was a fair point._  
 **The old white turtle** _(soft)_: No harm done. I only wanted to be remembered.  
+**Monkey**: Right. Stay there. You’re a turtle, you’re good at it.  
+_He somersaults off and is back before the turtle finishes sighing._  
+**Monkey**: He says anyone who carries kind folk over a river is a person already. The paperwork’s slow.  
 
 ### Step 2: Dry the scriptures on the flat rock by the river.
 

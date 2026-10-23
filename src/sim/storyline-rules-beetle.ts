@@ -3,7 +3,8 @@ import { canFuse } from './fusion';
 import { Rng } from './rng';
 import { registerStorylineRule } from './storyline-rules';
 import { counter } from './storyline-checks';
-import type { SimEvent, World } from './types';
+import { queueScene } from './story-state';
+import type { CampaignState, SimEvent, World } from './types';
 
 /**
  * K16 (campaign graphics 4): the Beetle Road's Hollow Below chapters are played on a real
@@ -45,6 +46,12 @@ export function beetleFloorFor(world: World, n: number, events: SimEvent[]): voi
   });
 }
 
+/** The ending the lever and the fusion add up to. */
+function beetleEnding(c: CampaignState): string {
+  if (c.flags['b-machine'] === 'keep') return 'steady-rain';
+  return c.flags['b-fusion'] === 'fused' ? 'two-as-one' : 'open-sky';
+}
+
 /**
  * SL3 "The Beetle Road" (content/storyline-beetle.ts): the ordinary roster, dojo wins as
  * the two door keepers while their chapters are open, the Fuse button on the partners,
@@ -61,10 +68,17 @@ registerStorylineRule({
     if (c.chapter === 4) c.flags['b-boss-1'] = true;
     if (c.chapter === 8) c.flags['b-boss-2'] = true;
   },
-  endingFor: (_world, c) => {
-    if (c.flags['b-machine'] === 'keep') return 'steady-rain';
-    return c.flags['b-fusion'] === 'fused' ? 'two-as-one' : 'open-sky';
+  // Ottoline's stay-or-go (b-vane) is answered inside the ending: its body plays as
+  // `b-end-<ending>-<stayed|left>` straight after b-c8-close, ahead of the title card
+  // (`end-beetle-<ending>`); Steady Rain also remembers a fused partner.
+  onScene: (_world, c, scene) => {
+    if (scene !== 'b-c8-close') return;
+    const ending = beetleEnding(c);
+    const vane = c.flags['b-vane'] === 'stayed' ? 'stayed' : 'left';
+    const fused = ending === 'steady-rain' && c.flags['b-fusion'] === 'fused' ? '-fused' : '';
+    queueScene(c, `b-end-${ending}-${vane}${fused}`);
   },
+  endingFor: (_world, c) => beetleEnding(c),
   actions: (world, c) => {
     const [a, b] = world.partners;
     return [

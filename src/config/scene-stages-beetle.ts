@@ -6,7 +6,7 @@ import type { SceneStage, StageCast } from './story';
  * the long road down. The floors below (chapters 3, 4, 6, 7 and the last door of 8) are the
  * `below` place, drawn alone (`exclusive`), at a fixed hour with every post lit; the
  * chapters at the guard house keep their own hours. Every opening, closing, beat and
- * ending is staged (campaign graphics 2, H2 and N2). Hob stands at the guard house bench,
+ * ending is staged (campaign graphics 2, H2 and N2). Grist stands at the guard house bench,
  * Vane by the cart; the banners show from chapter 1 and the cart is shut until chapter 5.
  */
 const LIT: SceneStage['lights'] = {
@@ -41,13 +41,27 @@ const vane = (mark = 'cart', o: Partial<StageCast> = {}): StageCast => ({
 /** The guard house by lamplight, drawn alone (K10): the counter, the banners. */
 const INSIDE = { place: 'inside-guardhouse', exclusive: true } as const;
 const COUNTER = 'in-guardhouse-counter';
-/** Hob on his stool behind the counter. */
+/** Grist on his stool behind the counter. */
 const SAT = { pose: 'sit' } as const;
 /** Indoors the camera keeps to the room's open side, the south-east (K10). */
 const ROOM_YAW = 0.45;
 const NOTEBOOK = { carry: 'notebook' } as const;
 const SHUT = { banners: 'show', cart: 'shut' } as const;
 const OPEN = { banners: 'show', cart: 'open' } as const;
+
+/** The endings: the guard yard after the last door, Grist at his bench (N2). */
+const YARD_CLEAR: SceneStage = {
+  grave: true,
+  place: 'guardhouse',
+  hour: 10,
+  weather: 'wind',
+  props: OPEN,
+  cast: [hob('guardhouse-bench')],
+  shot: { kind: 'wide', focus: ['guardhouse', 'cart', 'banner-3'] },
+};
+const YARD_RAIN: SceneStage = { ...YARD_CLEAR, hour: 17, weather: 'rain' };
+const VANE_UP = vane('cart', { pose: 'sit', ...NOTEBOOK });
+const VANE_UP_RAIN = vane('cart', NOTEBOOK);
 
 export const BEETLE_STAGES: Readonly<Record<string, SceneStage>> = {
   ...chapterStages('b', [
@@ -56,7 +70,7 @@ export const BEETLE_STAGES: Readonly<Record<string, SceneStage>> = {
       {
         ...INSIDE,
         hour: 22.5,
-        // "Behind the counter sits a man": Hob at his counter, the banners on the wall.
+        // "Behind the counter sits a man": Grist at his counter, the banners on the wall.
         cast: [hob(COUNTER, SAT)],
         shot: { kind: 'establish', yaw: ROOM_YAW },
       },
@@ -119,7 +133,7 @@ export const BEETLE_STAGES: Readonly<Record<string, SceneStage>> = {
     cast: [hob()],
     shot: { kind: 'wide', focus: ['banner-1', 'banner-2', 'banner-3'] },
   },
-  // Hob writes in his ledger behind the counter (indoors, K10).
+  // Grist writes in his ledger behind the counter (indoors, K10).
   'b-c1-ledger': {
     ...INSIDE,
     hour: 9,
@@ -204,31 +218,20 @@ export const BEETLE_STAGES: Readonly<Record<string, SceneStage>> = {
   'b-c8-one': { ...BELOW, shot: { kind: 'two' } },
   'b-c8-two': { ...BELOW, cast: [vane('floor-up')], shot: { kind: 'two' } },
   // ---- endings: up the guard stairs, the whole yard in the last wide shot (N2) -----------
-  'end-beetle-open-sky': {
-    grave: true,
-    place: 'guardhouse',
-    hour: 10,
-    weather: 'wind',
-    props: OPEN,
-    cast: [hob('guardhouse-bench'), vane('cart', { pose: 'sit', ...NOTEBOOK })],
-    shot: { kind: 'wide', focus: ['guardhouse', 'cart', 'banner-3'] },
+  // The title cards leave Ottoline out (she may be on the fourth floor); each ending's body
+  // (`b-end-<ending>-<stayed|left>`, SR-20261023-412) has her by the cart only if she came up.
+  'end-beetle-open-sky': YARD_CLEAR,
+  'b-end-open-sky-stayed': { ...YARD_CLEAR, cast: [hob('guardhouse-bench'), VANE_UP] },
+  'b-end-open-sky-left': YARD_CLEAR,
+  'end-beetle-two-as-one': YARD_CLEAR,
+  'b-end-two-as-one-stayed': { ...YARD_CLEAR, cast: [hob('guardhouse-bench'), VANE_UP] },
+  'b-end-two-as-one-left': YARD_CLEAR,
+  'end-beetle-steady-rain': YARD_RAIN,
+  'b-end-steady-rain-stayed': { ...YARD_RAIN, cast: [hob('guardhouse-bench'), VANE_UP_RAIN] },
+  'b-end-steady-rain-left': YARD_RAIN,
+  'b-end-steady-rain-stayed-fused': {
+    ...YARD_RAIN,
+    cast: [hob('guardhouse-bench'), VANE_UP_RAIN],
   },
-  'end-beetle-two-as-one': {
-    grave: true,
-    place: 'guardhouse',
-    hour: 10,
-    weather: 'wind',
-    props: OPEN,
-    cast: [hob('guardhouse-bench'), vane('cart', { pose: 'sit', ...NOTEBOOK })],
-    shot: { kind: 'wide', focus: ['guardhouse', 'cart', 'banner-3'] },
-  },
-  'end-beetle-steady-rain': {
-    grave: true,
-    place: 'guardhouse',
-    hour: 17,
-    weather: 'rain',
-    props: OPEN,
-    cast: [hob('guardhouse-bench'), vane('cart', NOTEBOOK)],
-    shot: { kind: 'wide', focus: ['guardhouse', 'cart', 'banner-3'] },
-  },
+  'b-end-steady-rain-left-fused': YARD_RAIN,
 };

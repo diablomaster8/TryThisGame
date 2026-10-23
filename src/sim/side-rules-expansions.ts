@@ -142,10 +142,13 @@ const E3: StoryRule = {
     return byWorld('e3')(w, c, st, i);
   },
   autoOnly: [0, 1, 2, 3, 4],
-  variant: (_w, c, scene) =>
-    scene === 'e3-tournament-done' && c.flags['e3-merged-win']
-      ? 'e3-tournament-done-merged'
-      : scene,
+  variant: (_w, c, scene) => {
+    if (scene === 'e3-tournament-done' && c.flags['e3-merged-win'])
+      return 'e3-tournament-done-merged';
+    // Telling Dusty "the two strongest" earns the merge a wobble before it holds.
+    if (scene === 'e3-merge-done' && c.flags['e3-pick'] === 'strong') return 'e3-merge-done-strong';
+    return scene;
+  },
 };
 
 export const EXPANSION_RULES: StoryRule[] = [E1, E2, E3];

@@ -43,7 +43,12 @@ function toTheFusion(world: World, events: SimEvent[]): void {
   applyCommand(world, { kind: 'setPartner', slot: 1, nubbinId: world.nubbins[1]!.id }, events);
 }
 
-function toTheEnd(world: World, events: SimEvent[], lever: 'stop' | 'keep'): string {
+function toTheEnd(
+  world: World,
+  events: SimEvent[],
+  lever: 'stop' | 'keep',
+  vane: 'stayed' | 'left' = 'stayed',
+): string {
   expect(toChapter(world, events, 6)).toBe(true);
   run(world, events);
   run(world, events);
@@ -56,8 +61,21 @@ function toTheEnd(world: World, events: SimEvent[], lever: 'stop' | 'keep'): str
   ).toBe(true);
   expect(c(world).flags['b-machine']).toBe(lever);
   win(world, events);
-  settle(world, events, () => c(world).ending !== null, 20);
-  return c(world).ending ?? '';
+  settle(
+    world,
+    events,
+    () => c(world).ending !== null && c(world).seen.includes(`end-beetle-${c(world).ending}`),
+    20,
+    { 'b-c8-close': vane },
+  );
+  const ending = c(world).ending ?? '';
+  // Ottoline's answer is in the ending's body, which plays before the title card.
+  const fused = ending === 'steady-rain' && c(world).flags['b-fusion'] === 'fused' ? '-fused' : '';
+  const body = `b-end-${ending}-${vane}${fused}`;
+  expect(c(world).seen.indexOf(body), body).toBeGreaterThanOrEqual(0);
+  expect(c(world).seen.indexOf(body)).toBeLessThan(c(world).seen.indexOf(`end-beetle-${ending}`));
+  expect(c(world).seen.filter((s) => s.startsWith('b-end-')).length).toBe(1);
+  return ending;
 }
 
 describe('S3 The Beetle Road', () => {
@@ -91,7 +109,7 @@ describe('S3 The Beetle Road', () => {
     settle(world, events, () => c(world).seen.includes('b-c5-refused'), 10);
     expect(c(world).flags['b-fusion']).toBe('refused');
     expect(world.nubbins.length).toBe(2);
-    expect(toTheEnd(world, events, 'stop')).toBe('open-sky');
+    expect(toTheEnd(world, events, 'stop', 'left')).toBe('open-sky');
   });
 
   it('ends in steady rain when the machine is left running', () => {
@@ -99,5 +117,21 @@ describe('S3 The Beetle Road', () => {
     toTheFusion(world, events);
     applyCommand(world, { kind: 'storyAct', label: 'refuse-the-fusion' }, events);
     expect(toTheEnd(world, events, 'keep')).toBe('steady-rain');
+  });
+
+  it('has a body for every ending both ways, and Steady Rain remembers a fused partner', () => {
+    for (const vane of ['stayed', 'left'] as const)
+      for (const id of Object.keys(STORYLINE_BEETLE.endings))
+        expect(
+          STORYLINE_BEETLE.extra.some((s) => s.id === `b-end-${id}-${vane}`),
+          `${id}-${vane}`,
+        ).toBe(true);
+    const { world, events } = storylineWorld('beetle', 'marina');
+    toTheFusion(world, events);
+    applyCommand(world, { kind: 'fuse' }, events);
+    settle(world, events, () => c(world).seen.includes('b-c5-fused'), 10);
+    expect(toTheEnd(world, events, 'keep', 'left')).toBe('steady-rain');
+    expect(c(world).seen).toContain('b-end-steady-rain-left-fused');
+    expect(c(world).flags['b-vane']).toBe('left');
   });
 });

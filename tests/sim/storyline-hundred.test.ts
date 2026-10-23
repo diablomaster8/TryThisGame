@@ -91,7 +91,10 @@ describe('S1 The Hundred Days', () => {
     expect(storylines().some((s) => s.id === 'hundred')).toBe(true);
     expect(STORYLINE_HUNDRED.chapters.length).toBe(10);
     for (const id of Object.keys(STORYLINE_HUNDRED.endings))
-      expect(STORYLINE_HUNDRED.extra.some((s) => s.id === `end-hundred-${id}`), id).toBe(true);
+      expect(
+        STORYLINE_HUNDRED.extra.some((s) => s.id === `end-hundred-${id}`),
+        id,
+      ).toBe(true);
   });
 
   it('starts with one egg as the partner, its span stretched to the hundred days', () => {
@@ -130,5 +133,23 @@ describe('S1 The Hundred Days', () => {
     const { world, events } = storylineWorld('hundred');
     toTheLastDay(world, events, { recruits: 10, moody: true });
     expect(finish(world, events)).toBe('grey-fold');
+  });
+
+  // Run 8 (SR-20261023-430, 414): the naming choice gets Ida's reply on screen, which her
+  // chapter 10 lines call back to, and her grave line at the Hush reads straight.
+  it('answers the naming choice at once and keeps the chapter 10 callback for each', () => {
+    const close = STORYLINE_HUNDRED.chapters[0]!.closing;
+    for (const id of ['quick', 'slow']) {
+      const choice = close.choices?.find((x) => x.id === id);
+      expect(choice?.then?.[0]?.who, id).toBe('h-ida');
+      const beats = STORYLINE_HUNDRED.chapters[9]!.beats ?? [];
+      expect(
+        beats.some((b) => b.when === `flag:h-first-name:${id}`),
+        id,
+      ).toBe(true);
+    }
+    const hush = STORYLINE_HUNDRED.chapters[8]!.closing.lines.map((l) => l.text).join(' ');
+    expect(hush).toContain('nobody stood in front of it but me');
+    expect(hush).not.toContain('I did.');
   });
 });

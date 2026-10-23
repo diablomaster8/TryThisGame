@@ -159,7 +159,7 @@ _Back in Resembool, the brothers walk up to their own house in the dark with a c
 **Ed**: If it’s standing, we’ll want to come back. So it can’t be standing.  
 **Al** _(sad)_: It was Mum’s house too, Brother.  
 **Ed**: I know.  
-_They burn it. Winry cries on the porch, and Granny Pinako doesn’t tell her not to._  
+_They burn it. Winry, their oldest friend, cries on the porch. Granny Pinako doesn’t tell her not to._  
 _Ed scratches the date into the lid of his silver watch, so he can’t forget it. You stand with them until the roof goes._  
 
 **Rewards**
@@ -181,6 +181,7 @@ Hint: Follow the radio voice to the crowd under the temple steps. · check: `vis
 
 #### <a id="a01-03-square"></a>Scene `a01-03-square`
 
+_The page flicks forward four years. Ed’s watch has a date in its lid now._  
 _Lior is a desert town of white walls. Every radio in every window is playing the same man’s voice._  
 **Father Cornello**: The sun god Leto loves you. Leto sees you. Leto will give you back what you have lost.  
 _On the temple steps, a robed man touches a bunch of dead flowers. They burst into a statue of bright brass._  
@@ -218,7 +219,8 @@ _Your Nubbin hops out of Al and looks at the switch with great interest._
 #### <a id="a01-03-temple-done"></a>Done `a01-03-temple-done`
 
 **Father Cornello** _(angry)_: Believers? Fools. They’ll bring me money and their sons for my army, and thank me for it.  
-_That goes out to every radio in town. Outside, the square goes absolutely silent._  
+_He goes on for another minute, rather pleased with how well his voice carries. So does every radio in town._  
+_Outside, the square goes absolutely silent._  
 _The ring on Cornello’s finger cracks in half, cheap and red. It was never a Stone at all._  
 
 ### Step 3: Find Rose afterwards.
@@ -385,7 +387,7 @@ _Your Nubbin tumbles out of the hole into the gutter, rolls, and comes up splutt
 
 **Ed**: Leave him. It’s me you want. Let my brother go and I won’t run.  
 **Al** _(shock)_: Brother, no!  
-_A gunshot cracks off a wall above Scar’s head. Mustang’s officers are at the end of the alley, Hawkeye first._  
+_A gunshot cracks off a wall above Scar’s head. Hawkeye is at the end of the alley, and Colonel Mustang behind her, gloves already on._  
 **Lieutenant Hawkeye**: Don’t snap in the rain, sir. Your fire won’t light. You’ll only get wet.  
 _Armstrong comes over a rooftop with his shirt already off._  
 **Major Armstrong** _(happy)_: Fear not, young Elrics! The Armstrong family has come to your aid!  
@@ -1115,6 +1117,10 @@ _It is dark and endless and ankle-deep. Things float in the dark water, rubble a
 **Ling** _(shock)_: We’re inside him. Inside him, and there is no inside. How is there no inside?  
 **Ed**: It’s a fake Gate. A copy. Somebody tried to make one, and got this.  
 _Days pass, or something like days, and Ling is very hungry. You share what’s left in your pockets._  
+**Ed**: You still owe me lunch.  
+**Ling**: I’ll pay in here. If anyone sells noodles.  
+**Ed**: Nobody sells noodles inside a stomach.  
+**Ling**: Then I’ll owe you two.  
 _Then Envy drops into the sea beside you, swallowed too, and furious about it._  
 **Envy** _(angry)_: Don’t look so pleased. You’ll all rot in here. Me too, I suppose. Lovely.  
 
@@ -1138,7 +1144,7 @@ _The world goes white._
 
 #### <a id="a01-14-circle-done"></a>Done `a01-14-circle-done`
 
-_You fall out of the dark onto a stone floor, all four of you, coughing._  
+_You fall out of the dark onto a stone floor, coughing. Envy lands, sees the room, and slinks off down a drain._  
 _Somewhere below Central, in a huge round room full of pipes, an old man sits on a high seat and looks down at you._  
 **Father**: Interesting. You came out by yourselves. You may be useful after all.  
 _He has Ed’s father’s face. Ed goes white._  
@@ -1205,7 +1211,8 @@ Hint: Carry the fuel cans to the shed where Olivier says. The cold is the trap. 
 _The thing that comes out of the wall is enormous and slow and bored, and says how bothersome everything is._  
 **General Armstrong**: Lead it outside. It’s strong, but it’s still a living thing, and nothing living likes our winter.  
 **Major Miles**: The General says the cold will do what bullets can’t. She is usually right.  
-_You carry fuel cans to the yard while the soldiers and the brothers bait the giant out into the snow._  
+_You carry fuel cans to the yard, and the soldiers light a ring of fires. The giant lumbers towards the warmth._  
+_Then Olivier orders every fire out at once, and the brothers bait the giant out into the snow._  
 _Al has the giant’s attention. He’s good at that: he doesn’t feel the hits, and he keeps standing up._  
 _By morning the giant is a statue of frost in the yard, slowly yawning, quite stuck._  
 
@@ -1280,6 +1287,9 @@ _Under the city the tunnels go on for miles. A groove is cut into the floor, and
 **Ed** _(angry)_: This is it. The whole country. Every war we ever had was a point on this line.  
 _Pale soldiers come out of the side tunnels: empty, grinning dolls the army made and filled with borrowed souls._  
 **Al**: Don’t let them touch the Nubbin. Brother, go left. I’ll go right.  
+**Ed**: You always give me left.  
+**Al**: You always go left anyway. I’m saving us the argument.  
+_Your Nubbin salutes a pale soldier, which stops, confused, and salutes back. Ed hits it while it’s busy._  
 _Your Nubbin rides inside Al, the way it always has, right through the dark._  
 _Somewhere far ahead, a great old voice is counting down the hours to noon._  
 
@@ -1424,7 +1434,7 @@ Hint: Carry chalk to the gap in the reverse circle. Scar will do the rest. · ch
 
 #### <a id="a01-18-reverse"></a>Scene `a01-18-reverse`
 
-_Up in the city, Scar has a circle of his own. His brother spent his life working it out: a circle that runs the other way._  
+_Hohenheim sends you up the stairs with a stub of chalk. In the city, Scar has a circle of his own. His brother spent his life working it out: a circle that runs the other way._  
 **Scar**: It needs one more line. There. The rubble broke it. Bring me the chalk.  
 _You run. Your Nubbin runs ahead of you, the chalk in its mouth, white dust all down its front._  
 **Scar**: My brother’s work. Never finished. Let it be finished now.  
@@ -1449,7 +1459,7 @@ _Variant of `a01-18-reverse-done`._
 
 #### <a id="a01-18-complete"></a>Complete `a01-18-complete`
 
-_Down in the round room, Father reaches for his power and finds it slipping through his fingers._  
+_Through the broken floor below you, Father reaches for his power and finds it slipping through his fingers._  
 **Father** _(angry)_: What is this? Who did this? This is my country. These are my circles.  
 **Ed**: Not any more. Somebody else drew one too.  
 _Father rises through the ceiling and the streets and out into the open air, wild and huge. Everyone follows him up._  
@@ -1583,6 +1593,9 @@ _Hohenheim sits down by Trisha’s grave in the sun, with an armful of flowers, 
 **Ed**: See the world. Learn everything I missed. Al too, when he can walk. And then come back here. If that’s all right.  
 **Winry** _(soft)_: …It’s all right.  
 _Ed holds out his real hand to shake on it, very seriously, like a deal. Winry laughs at him, and takes it._  
+_Your Nubbin climbs into Al’s lap and, out of long habit, looks for the way in. There isn’t one. There is just Al._  
+**Al** _(happy)_: Sorry. No room in here now. It’s all me.  
+_It settles in his lap instead, which turns out to be warmer._  
 _The page shuts like the lid of a pocket watch. You are back in the Grove, and your Nubbin has chalk on its feet._  
 
 #### <a id="a01-20-complete-silent"></a>Variant `a01-20-complete-silent`
@@ -1599,6 +1612,9 @@ _Hohenheim sits down by Trisha’s grave in the sun, with an armful of flowers, 
 **Ed**: See the world. Learn everything I missed. Al too, when he can walk. And then come back here. If that’s all right.  
 **Winry** _(soft)_: …It’s all right.  
 _Ed holds out his real hand to shake on it, very seriously, like a deal. Winry laughs at him, and takes it._  
+_Your Nubbin climbs into Al’s lap and, out of long habit, looks for the way in. There isn’t one. There is just Al._  
+**Al** _(happy)_: Sorry. No room in here now. It’s all me.  
+_It settles in his lap instead, which turns out to be warmer._  
 _The page shuts like the lid of a pocket watch. You are back in the Grove, and your Nubbin has chalk on its feet._  
 
 **Rewards**

@@ -118,6 +118,7 @@ When `area:night`:
 #### <a id="l-c4-night"></a>Beat `l-c4-night`
 
 _Night, and the board by the gate has posts on it that were not there by day. Old ones. One is signed with a name you know._  
+_Your three have found out the green ticks glow blue at night. The smallest licks its own and glows faintly for an hour, delighted._  
 
 When `area:night&count:partyBout:>=4`:
 
@@ -177,6 +178,7 @@ Sets `{"l-paid":true}`
 
 _“Testing build four. If anyone reads this, the exit is where the game started. Not the lobby. The root.”_  
 **Juno** _(shock)_: Your sister was a tester. She was in here before any of us.  
+**Juno**: Testers work for the company that built this. The ones who say sorry as Tips.  
 **You**: You knew she tested games. You did not know which.  
 
 Sets `{"l-sister":true}`
@@ -211,6 +213,7 @@ When `count:partyBout:>=7`:
 
 _A win by night, with no chime. The blue grass lies down flat where the foes stood and does not get up._  
 **Juno**: One more. Anywhere. I’ll be at the lobby door. I want to see it open from the front.  
+**Juno** _(happy)_: The cat would’ve done that in two. The cat is always fine.  
 
 When `mature:teen&flag:l-paid`:
 
@@ -219,10 +222,11 @@ When `mature:teen&flag:l-paid`:
 **Juno**: If they paid her to keep quiet, they’re paying someone now to keep this running. Somebody is on a wage while we’re in here.  
 **You**: Somebody is on a wage.  
 **Juno** _(angry)_: Rank four. Then the root. Then we find out whose.  
+**Warden**: Warden is also on a wage. The wage is nothing. Warden would like that noted.  
 
 #### <a id="l-c6-close"></a>Closing `l-c6-close`
 
-**Warden**: Rank four. A door has opened in the lobby. Warden is not permitted to describe it.  
+**Warden**: Rank four. A door has opened in the lobby. Warden is not permitted to describe it. Warden can confirm it is a door.  
 _The door is a plain door in the meadow, with a plain handle, and nothing on the other side you can see._  
 
 ### Chapter 7: The Root Node
@@ -231,8 +235,8 @@ Goal: Choose a word. (`flag:l-root`) · Hint: The choice is the goal.
 
 #### <a id="l-c7-open"></a>Opening `l-c7-open`
 
-_Through the door: a white room with one chair and a recording that starts when you sit._  
-**Root**: If you are hearing this, the lock has engaged and I am not there to open it. I am sorry. That is not a figure of speech.  
+_Through the door: a white room with one chair. You sit, and a recording starts in your sister’s voice, a year more tired._  
+**Root**: Hello, you. If you are hearing this, the lock has engaged and I am not there to open it. I am sorry. That is not a figure of speech.  
 **Root**: The exit is a word. Say it on the board and every session ends. Everyone wakes. Including the ones the company would rather you did not ask about.  
 **Juno**: Say it. Say it now.  
 _There is a second recording. It is the company, offering a different word: a quiet exit, one at a time, no questions, no sister._  
@@ -277,7 +281,7 @@ When `count:partyBout:>=9`:
 #### <a id="l-c8-nine"></a>Beat `l-c8-nine`
 
 _One down. The company’s foes do not regroup so much as reload, and come back with the same faces._  
-**Juno**: Rally. Now. Don’t wait for two of them to be low, they won’t be. Trust me.  
+**Juno**: Rally. Now. Don’t wait for two of them to be low. These ones don’t let you get low.  
 **Warden**: Warden is not permitted to offer a tip at this rank. Warden suggests you guard.  
 
 #### <a id="l-c8-close"></a>Closing `l-c8-close`
@@ -295,25 +299,65 @@ _You post the word. The board takes it. The meadow holds its breath, which it ha
 - **The Quiet Exit** (`quiet-exit`): Take the company’s word.
 - **One Short** (`one-short`): Say Root’s word, having lost a partner along the way.
 
-#### <a id="end-logged-everyone-wakes"></a>Ending scene `end-logged-everyone-wakes`
+#### <a id="l-end-everyone-wakes-stayed"></a>Scene `l-end-everyone-wakes-stayed`
 
 _Every scoreboard in the meadow goes white. Then the meadow goes. Then a ceiling, a bedroom, a visor in your hands that smells of your own hair._  
 _Down the hall, a door opens that has been shut for a year. Someone says your name as if they have been practising it._  
 _In the morning it is on every news site. In the evening three small shapes are asleep on your bed, which should not be possible, and is._  
-_Logged In: Everyone Wakes._  
+_A week later your phone buzzes._  
+**Juno** _(happy)_: Witness. I’m outside. I brought the cat. The cat is fine.  
 
-#### <a id="end-logged-quiet-exit"></a>Ending scene `end-logged-quiet-exit`
+#### <a id="l-end-everyone-wakes-left"></a>Scene `l-end-everyone-wakes-left`
+
+_Every scoreboard in the meadow goes white. Then the meadow goes. Then a ceiling, a bedroom, a visor in your hands that smells of your own hair._  
+_Down the hall, a door opens that has been shut for a year. Someone says your name as if they have been practising it._  
+_In the morning it is on every news site. In the evening three small shapes are asleep on your bed, which should not be possible, and is._  
+_Somewhere across the city a girl wakes up and feeds a cat._  
+_You said goodbye properly, and it still counts._  
+
+#### <a id="l-end-quiet-exit-stayed"></a>Scene `l-end-quiet-exit-stayed`
 
 _A door, one at a time, no questions. You wake in your bedroom with the visor on the floor and nobody saying your name._  
 _The game is still up. Juno’s session is still in it. Down the hall, a shut door stays shut._  
 _Three small shapes on the bed, looking at you the way they looked at the too-green grass: deciding something._  
-_Logged In: the Quiet Exit._  
+_Every night a new post appears under yours on the board._  
+**Juno** _(soft)_: Still in. Still counting. Witness.  
+_You answer every one._  
 
-#### <a id="end-logged-one-short"></a>Ending scene `end-logged-one-short`
+#### <a id="l-end-quiet-exit-left"></a>Scene `l-end-quiet-exit-left`
+
+_A door, one at a time, no questions. You wake in your bedroom with the visor on the floor and nobody saying your name._  
+_The game is still up. Juno’s session is still in it. Down the hall, a shut door stays shut._  
+_Three small shapes on the bed, looking at you the way they looked at the too-green grass: deciding something._  
+_Her last post sits under yours on the board: “Go well.”_  
+_Nothing comes after it. You check anyway, most nights._  
+
+#### <a id="l-end-one-short-stayed"></a>Scene `l-end-one-short-stayed`
 
 _Every scoreboard goes white. You wake. Down the hall a door opens, and someone says your name._  
 _Two small shapes on the bed. The third was the one who guarded when they looked at you funny, and did not get up._  
 _In the morning there is a flower on the sill that nobody planted, and you leave it there._  
+_A week later your phone buzzes._  
+**Juno** _(happy)_: Witness. I’m outside. I brought the cat. The cat is fine.  
+
+#### <a id="l-end-one-short-left"></a>Scene `l-end-one-short-left`
+
+_Every scoreboard goes white. You wake. Down the hall a door opens, and someone says your name._  
+_Two small shapes on the bed. The third was the one who guarded when they looked at you funny, and did not get up._  
+_In the morning there is a flower on the sill that nobody planted, and you leave it there._  
+_Somewhere across the city a girl wakes up and feeds a cat._  
+_You said goodbye properly, and it still counts._  
+
+#### <a id="end-logged-everyone-wakes"></a>Ending scene `end-logged-everyone-wakes`
+
+_Logged In: Everyone Wakes._  
+
+#### <a id="end-logged-quiet-exit"></a>Ending scene `end-logged-quiet-exit`
+
+_Logged In: the Quiet Exit._  
+
+#### <a id="end-logged-one-short"></a>Ending scene `end-logged-one-short`
+
 _Logged In: One Short._  
 
 **Notes:** Areas: day, night (the Sun and Moon Grove recolours, both unlocked by the rule). The bout button opens the party bout panel at the chapter’s tier. l-c5-thread and l-c6-wage are teen. The lost-partner beat (l-c6-lost) is in chapter 6 only, so a loss elsewhere is carried by the ending.

@@ -143,6 +143,7 @@ const A09_SPARED: Line[] = [
   N(
     'Balla bows. When he straightens, he looks at you once, and you understand: he isn’t free, but he isn’t finished.',
   ),
+  B('There’s your door, apprentice. It didn’t open the room. It opened him.', 'happy'),
 ];
 
 /** A5-14: the end of the complete scene and the way home (both tune variants). */
@@ -153,6 +154,7 @@ const A14_END: Line[] = [
   ),
   B('That’s how you know a story is alive. Nobody argues about a dead one.'),
   N('He puts the little balafon into your arms, and the beaters into your Nubbin’s hands.'),
+  N('You think about what you chose to keep, and what a griot would keep for you.'),
   B('Go home, apprentice. Remember us properly.', 'soft'),
   N('The red earth goes soft under your feet, then smooth, then paper.'),
   N(
@@ -633,7 +635,7 @@ const SCENES: EduScene[] = [
         'Sogolon’s son is seven years old. He sits in the dust outside her door, broad and solemn, and he crawls wherever he goes.',
       ),
       B(
-        'His name is Mari Djata. He doesn’t talk much. He eats like three boys and he watches everything.',
+        'His name is Mari Djata. One day everyone will call him Sundiata. He doesn’t talk much. He eats like three boys and he watches everything.',
       ),
       N(
         'Your Nubbin toddles over and sits down in front of him. The boy looks at it for a long time.',
@@ -724,7 +726,7 @@ const SCENES: EduScene[] = [
           ),
           think(
             'I’m not sure',
-            B('That’s fair. It’s the kind of question griots chew on for years.'),
+            B('That’s fair. It’s the kind of question griots think about for years.'),
           ),
         ],
         'Reflected on whether going slowly means being behind (no single right answer).',
@@ -1382,7 +1384,7 @@ const SCENES: EduScene[] = [
     'a05-06-garden',
     [
       B(
-        'Sassouma has paid nine old women to come into Sogolon’s garden tonight. Everyone in Niani knows, except Sassouma, who thinks it’s a secret.',
+        'Sassouma has paid nine old women to come into Sogolon’s garden tonight. Sassouma thinks it’s a secret. The cooks told me before breakfast.',
       ),
       B(
         'They have powers, these nine. Some say they were sent to harm him. Some say only to steal, and make him angry enough to harm them.',
@@ -1550,7 +1552,7 @@ const SCENES: EduScene[] = [
         'My mother says I should stay. I said I’m going where Djata goes. She cried, and then she packed me food.',
         'sad',
       ),
-      KO('Walk quietly. The road out of Niani has ears.'),
+      KO('Walk quietly. Someone on the road out of Niani may be listening.'),
       N(
         'Sundiata looks back once at the town, at the dark shape of the baobab at his mother’s door.',
       ),
@@ -2037,7 +2039,7 @@ const SCENES: EduScene[] = [
         'Sit, apprentice. You and your round one. I like a quiet visitor. My son visits like a herd of cattle.',
       ),
       N('You sit, and your Nubbin lies down against her side. She puts her hand on it.'),
-      SO('I won’t see Niani again. Don’t argue. I’m old and I can count.', 'soft'),
+      SO('I won’t see Niani again. Don’t argue. I’m very old, and my body is tired.', 'soft'),
       SO(
         'I’ve done my part. I carried him, and I waited for him, and I walked him to the edge of the world. He can do the rest.',
       ),
@@ -2188,7 +2190,7 @@ const SCENES: EduScene[] = [
         'Oh. It’s the page, isn’t it. A griot can stand in two places: where it happened, and where it’s told.',
       ),
       B(
-        'Soumaoro is out. And at the top of his tower is a door that nobody is allowed through. So, naturally.',
+        'Soumaoro is out. And at the top of his tower is a door that nobody is allowed through. So of course we’re going to look. Griots are nosy.',
       ),
     ],
     [
@@ -2823,6 +2825,7 @@ const SCENES: EduScene[] = [
       N(
         'Sundiata looks into the fire for a long time. You know that look: his mother had it, waiting.',
       ),
+      N('Your Nubbin falls asleep by the fire with one foot still tapping the tune.'),
     ],
     [
       ask(
@@ -3079,7 +3082,7 @@ const SCENES: EduScene[] = [
         'In Sundiata’s tent, the young woman lets her hood fall. She is Nana Triban, his half-sister: Sassouma’s daughter.',
       ),
       NT(
-        'My brother the king married me to Soumaoro, to keep him friendly. It didn’t work. Nothing does, with him.',
+        'My brother Dankaran sent me to Soumaoro as a gift, to keep him friendly. He sends everyone as gifts. It didn’t work.',
       ),
       NT(
         'So I made him trust me. I praised him, and listened, and laughed in the right places, for a long time.',
@@ -3186,7 +3189,7 @@ const SCENES: EduScene[] = [
       ),
       SU('Why would Soumaoro’s nephew change sides on the eve of a battle?'),
       FK(
-        'Because he took my wife Keleya out of my house and into his. Because nothing is ever enough for him.',
+        'Because he took my wife, Keleya, away from me. Because nothing is ever enough for him.',
         'angry',
       ),
       FK(
@@ -3196,6 +3199,7 @@ const SCENES: EduScene[] = [
         'In Sosso they’ll call Fakoli a traitor. In Manding they’ll call him a hero. He’s a man who had enough.',
         'think',
       ),
+      N('A smith’s hammer slips. Your Nubbin catches it, then falls over with it. Fakoli laughs for the first time that day.'),
     ],
     [
       note(
@@ -3666,11 +3670,10 @@ const SCENES: EduScene[] = [
       ),
       SU('My hunting tune. The one they played when I came home.', 'happy'),
       ...A14_END,
-      N('You think about what you chose to keep, and what a griot would keep for you.'),
     ],
     [
       note(
-        10,
+        6,
         'social-studies',
         'later Mali: Mansa Musa and the libraries of Timbuktu',
         'D2.His.2.K-2',
@@ -3687,7 +3690,7 @@ const SCENES: EduScene[] = [
         'Learned that Mansa Musa ruled Mali less than a century later, and that Timbuktu’s libraries hold ancient manuscripts.',
       ),
       note(
-        9,
+        6,
         'music',
         'the balafon today: the Sosso-Bala is still kept in Niagassola',
         'D2.His.2.K-2',
@@ -3762,11 +3765,10 @@ export const EDU_A05_READER_VARIANTS: EduScene[] = [
       KO('That’s our mother’s grinding tune. She never knew anyone heard it.', 'soft'),
       SU('She’d be cross to be the first thing in the story. Then she’d be very pleased.', 'happy'),
       ...A14_END,
-      N('You think about what you chose to keep, and what a griot would keep for you.'),
     ],
     [
       note(
-        11,
+        7,
         'social-studies',
         'later Mali: Mansa Musa and the libraries of Timbuktu',
         'D2.His.2.K-2',
@@ -3783,7 +3785,7 @@ export const EDU_A05_READER_VARIANTS: EduScene[] = [
         'Learned that Mansa Musa ruled Mali less than a century later, and that Timbuktu’s libraries hold ancient manuscripts.',
       ),
       note(
-        10,
+        7,
         'music',
         'the balafon today: the Sosso-Bala is still kept in Niagassola',
         'D2.His.2.K-2',

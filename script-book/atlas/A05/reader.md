@@ -228,7 +228,7 @@ _The atlas page turns a little, the way a griot skips ahead. A wedding, a birth 
 > _For grown-ups: Learned that much of West Africa has rainy and dry seasons, and that seven rainy seasons means seven years._
 
 _Sogolon’s son is seven years old. He sits in the dust outside her door, broad and solemn, and he crawls wherever he goes._  
-**Balla Fasséké**: His name is Mari Djata. He doesn’t talk much. He eats like three boys and he watches everything.  
+**Balla Fasséké**: His name is Mari Djata. One day everyone will call him Sundiata. He doesn’t talk much. He eats like three boys and he watches everything.  
 _Your Nubbin toddles over and sits down in front of him. The boy looks at it for a long time._  
 _Then he puts out one hand, very slowly, and pats it on the head._  
 
@@ -259,7 +259,7 @@ _Then he puts out one hand, very slowly, and pats it on the head._
 > _Balla says Sundiata is already someone, only not finished. Is going slowly the same as being behind?_  
 > - No. Everyone grows at their own pace → A thoughtful answer. A seed isn’t behind a tree. It’s a seed.
 > - Sometimes, but it can still be fine → That’s honest. Being slower can feel like being behind, even when it isn’t.
-> - I’m not sure → That’s fair. It’s the kind of question griots chew on for years.
+> - I’m not sure → That’s fair. It’s the kind of question griots think about for years.
 > _For grown-ups: Reflected on whether going slowly means being behind (no single right answer)._
 
 
@@ -561,7 +561,7 @@ _Your Nubbin plays the first three notes again, just to check they’re still th
 
 #### `reader:a05-06-garden` · [main](main.md#a05-06-garden)
 
-**Balla Fasséké**: Sassouma has paid nine old women to come into Sogolon’s garden tonight. Everyone in Niani knows, except Sassouma, who thinks it’s a secret.  
+**Balla Fasséké**: Sassouma has paid nine old women to come into Sogolon’s garden tonight. Sassouma thinks it’s a secret. The cooks told me before breakfast.  
 **Balla Fasséké**: They have powers, these nine. Some say they were sent to harm him. Some say only to steal, and make him angry enough to harm them.  
 _The garden is silver with moonlight. Nine bent shapes come through the gap in the fence and begin to fill their baskets with gourds and greens._  
 
@@ -630,7 +630,7 @@ _Far down the road, faintly, the balafon on Balla’s back answers with the next
 **Sogolon**: We go tonight. While my son is angry, he isn’t safe here, and while we stay, nor is anyone who loves him.  
 _There are five of them at the west gate: Sogolon, Sundiata, his sisters Kolonkan and little Djamarou, and his half-brother Manding Bory._  
 **Manding Bory**: My mother says I should stay. I said I’m going where Djata goes. She cried, and then she packed me food.  
-**Kolonkan**: Walk quietly. The road out of Niani has ears.  
+**Kolonkan**: Walk quietly. Someone on the road out of Niani may be listening.  
 _Sundiata looks back once at the town, at the dark shape of the baobab at his mother’s door._  
 **Sundiata**: I’ll come back. Remember I said so.  
 
@@ -851,7 +851,7 @@ _You sit, and your Nubbin lies down against her side. She puts her hand on it._
 > - The wind blows the shade → Wind moves the leaves, not the shade. Shade moves because the Sun seems to cross the sky.
 > _For grown-ups: Learned that shadows move during the day because the Earth turns and the Sun appears to cross the sky._
 
-**Sogolon**: I won’t see Niani again. Don’t argue. I’m old and I can count.  
+**Sogolon**: I won’t see Niani again. Don’t argue. I’m very old, and my body is tired.  
 **Sogolon**: I’ve done my part. I carried him, and I waited for him, and I walked him to the edge of the world. He can do the rest.  
 **Sogolon**: Tell Balla that I wasn’t sad about it. Tell him I was very proud, and very tired, and both are fine.  
 
@@ -928,7 +928,7 @@ _Sosso is a city of forges. Its walls ring with hammers, and above them stands a
 > _Those are two points of view, and a good griot holds both._  
 > _For grown-ups: Heard that a storyteller can show events as they happened and as they are told, two different points of view._
 
-**Balla Fasséké**: Soumaoro is out. And at the top of his tower is a door that nobody is allowed through. So, naturally.  
+**Balla Fasséké**: Soumaoro is out. And at the top of his tower is a door that nobody is allowed through. So of course we’re going to look. Griots are nosy.  
 
 **Choices**
 
@@ -984,6 +984,7 @@ _It names the forges, his fathers and the walls of Sosso, and gets every one rig
 **Soumaoro Kanté**: Hm.  
 **Soumaoro Kanté**: Dankaran Touman sent you as a gift, griot. I think he gave me more than he knew. You stay here, and you play for me.  
 _Balla bows. When he straightens, he looks at you once, and you understand: he isn’t free, but he isn’t finished._  
+**Balla Fasséké**: There’s your door, apprentice. It didn’t open the room. It opened him.  
 
 #### `reader:a05-09-chamber-done-lullaby` · [main](main.md#a05-09-chamber-done-lullaby)
 
@@ -1005,6 +1006,7 @@ _It names the forges, his fathers and the walls of Sosso, and gets every one rig
 **Soumaoro Kanté**: Hm.  
 **Soumaoro Kanté**: Dankaran Touman sent you as a gift, griot. I think he gave me more than he knew. You stay here, and you play for me.  
 _Balla bows. When he straightens, he looks at you once, and you understand: he isn’t free, but he isn’t finished._  
+**Balla Fasséké**: There’s your door, apprentice. It didn’t open the room. It opened him.  
 
 #### `reader:a05-09-march` · [main](main.md#a05-09-march)
 
@@ -1232,6 +1234,7 @@ _Sundiata looks into the fire for a long time. You know that look: his mother ha
 > _Once a problem is clearly stated, you can compare ideas for solving it, and test which works best._  
 > _For grown-ups: Learned that stating a problem clearly is the first step in comparing solutions._
 
+_Your Nubbin falls asleep by the fire with one foot still tapping the tune._  
 
 #### `reader:a05-11-complete` · [main](main.md#a05-11-complete)
 
@@ -1330,7 +1333,7 @@ _Balla doesn’t interrupt once. Now and then his lips move, saying a thing over
 #### `reader:a05-12-secret` · [main](main.md#a05-12-secret)
 
 _In Sundiata’s tent, the young woman lets her hood fall. She is Nana Triban, his half-sister: Sassouma’s daughter._  
-**Nana Triban**: My brother the king married me to Soumaoro, to keep him friendly. It didn’t work. Nothing does, with him.  
+**Nana Triban**: My brother Dankaran sent me to Soumaoro as a gift, to keep him friendly. He sends everyone as gifts. It didn’t work.  
 **Nana Triban**: So I made him trust me. I praised him, and listened, and laughed in the right places, for a long time.  
 **Nana Triban**: One night he told me what he fears. Not iron, not arrows. A white rooster’s spur, on the point of an arrow.  
 
@@ -1386,7 +1389,7 @@ _A big man comes up the road with a company of smiths behind him, their hammers 
 
 **Fakoli**: I am Fakoli, son of Soumaoro’s sister. I’ve made his iron all my life. I’ve come to make yours.  
 **Sundiata**: Why would Soumaoro’s nephew change sides on the eve of a battle?  
-**Fakoli**: Because he took my wife Keleya out of my house and into his. Because nothing is ever enough for him.  
+**Fakoli**: Because he took my wife, Keleya, away from me. Because nothing is ever enough for him.  
 **Fakoli**: A man who will take that from his own family will take everything from everyone. So I’ve come.  
 **Balla Fasséké**: In Sosso they’ll call Fakoli a traitor. In Manding they’ll call him a hero. He’s a man who had enough.  
 
@@ -1397,6 +1400,7 @@ _A big man comes up the road with a company of smiths behind him, their hammers 
 > - Because he changed his name → His name didn’t change. What changed was which side he stood on.
 > _For grown-ups: Explained that “traitor” and “hero” depend on the point of view of whoever is judging._
 
+_A smith’s hammer slips. Your Nubbin catches it, then falls over with it. Fakoli laughs for the first time that day._  
 
 **Choices**
 
@@ -1572,9 +1576,14 @@ _Your Nubbin plays the hunters’ tune on Balla’s balafon. A hundred hunters s
 **Balla Fasséké**: Eight hundred years from now, my children’s children will still be telling this. And they’ll argue about it.  
 **Balla Fasséké**: That’s how you know a story is alive. Nobody argues about a dead one.  
 _He puts the little balafon into your arms, and the beaters into your Nubbin’s hands._  
-**Balla Fasséké**: Go home, apprentice. Remember us properly.  
-_The red earth goes soft under your feet, then smooth, then paper._  
-_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): later Mali: Mansa Musa and the libraries of Timbuktu  
+> _Less than a hundred years after Sundiata, Mali’s most famous ruler, Mansa Musa, made a celebrated journey to Mecca._  
+> _He carried so much gold that people talked about it for generations._  
+> _Under later Malian and Songhai rulers, Timbuktu became a centre of learning._  
+> _Its libraries still hold hundreds of thousands of handwritten manuscripts: science, law, poetry and history._  
+> _For grown-ups: Learned that Mansa Musa ruled Mali less than a century later, and that Timbuktu’s libraries hold ancient manuscripts._
+
 
 > **Lesson** (music, D2.His.2.K-2, notice): the balafon today: the Sosso-Bala is still kept in Niagassola  
 > _A very old balafon called the Sosso-Bala is still kept in Niagassola, in Guinea, by Kouyaté families._  
@@ -1584,14 +1593,9 @@ _You are back in the Grove with Nova’s atlas on your knee. From under the cove
 > _For grown-ups: Learned that the balafon tradition is alive today, and that the Sosso-Bala is kept in Niagassola, Guinea._
 
 _You think about what you chose to keep, and what a griot would keep for you._  
-
-> **Lesson** (social-studies, D2.His.2.K-2, notice): later Mali: Mansa Musa and the libraries of Timbuktu  
-> _Less than a hundred years after Sundiata, Mali’s most famous ruler, Mansa Musa, made a celebrated journey to Mecca._  
-> _He carried so much gold that people talked about it for generations._  
-> _Under later Malian and Songhai rulers, Timbuktu became a centre of learning._  
-> _Its libraries still hold hundreds of thousands of handwritten manuscripts: science, law, poetry and history._  
-> _For grown-ups: Learned that Mansa Musa ruled Mali less than a century later, and that Timbuktu’s libraries hold ancient manuscripts._
-
+**Balla Fasséké**: Go home, apprentice. Remember us properly.  
+_The red earth goes soft under your feet, then smooth, then paper._  
+_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
 
 #### `reader:a05-14-complete-lullaby` · [main](main.md#a05-14-complete-lullaby)
 
@@ -1605,9 +1609,14 @@ _Your Nubbin plays Sogolon’s lullaby on Balla’s balafon. Thousands of people
 **Balla Fasséké**: Eight hundred years from now, my children’s children will still be telling this. And they’ll argue about it.  
 **Balla Fasséké**: That’s how you know a story is alive. Nobody argues about a dead one.  
 _He puts the little balafon into your arms, and the beaters into your Nubbin’s hands._  
-**Balla Fasséké**: Go home, apprentice. Remember us properly.  
-_The red earth goes soft under your feet, then smooth, then paper._  
-_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): later Mali: Mansa Musa and the libraries of Timbuktu  
+> _Less than a hundred years after Sundiata, Mali’s most famous ruler, Mansa Musa, made a celebrated journey to Mecca._  
+> _He carried so much gold that people talked about it for generations._  
+> _Under later Malian and Songhai rulers, Timbuktu became a centre of learning._  
+> _Its libraries still hold hundreds of thousands of handwritten manuscripts: science, law, poetry and history._  
+> _For grown-ups: Learned that Mansa Musa ruled Mali less than a century later, and that Timbuktu’s libraries hold ancient manuscripts._
+
 
 > **Lesson** (music, D2.His.2.K-2, notice): the balafon today: the Sosso-Bala is still kept in Niagassola  
 > _A very old balafon called the Sosso-Bala is still kept in Niagassola, in Guinea, by Kouyaté families._  
@@ -1617,14 +1626,9 @@ _You are back in the Grove with Nova’s atlas on your knee. From under the cove
 > _For grown-ups: Learned that the balafon tradition is alive today, and that the Sosso-Bala is kept in Niagassola, Guinea._
 
 _You think about what you chose to keep, and what a griot would keep for you._  
-
-> **Lesson** (social-studies, D2.His.2.K-2, notice): later Mali: Mansa Musa and the libraries of Timbuktu  
-> _Less than a hundred years after Sundiata, Mali’s most famous ruler, Mansa Musa, made a celebrated journey to Mecca._  
-> _He carried so much gold that people talked about it for generations._  
-> _Under later Malian and Songhai rulers, Timbuktu became a centre of learning._  
-> _Its libraries still hold hundreds of thousands of handwritten manuscripts: science, law, poetry and history._  
-> _For grown-ups: Learned that Mansa Musa ruled Mali less than a century later, and that Timbuktu’s libraries hold ancient manuscripts._
-
+**Balla Fasséké**: Go home, apprentice. Remember us properly.  
+_The red earth goes soft under your feet, then smooth, then paper._  
+_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
 
 ### Glossary
 

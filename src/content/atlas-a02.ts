@@ -531,7 +531,8 @@ export const ATLAS_A02: Quest[] = [
         scene: {
           id: 'a02-04-stables',
           lines: [
-            N('Since the teacher, Monkey has been busy. He has an iron staff from the sea-dragons, and he has rubbed his name out of the Book of Life and Death.'),
+            N('Monkey has not been idle. He has a staff that grows and shrinks, borrowed from a dragon king who didn’t quite agree to lend it.'),
+            N('And he has crossed his own name out of Heaven’s book of lifespans, so nobody can ever come to collect him.'),
             N('Heaven decides it would be simpler to give him a job. So up you all go.'),
             MK('Keeper of the Heavenly Horses! A grand title. They must think a lot of me.', 'happy'),
             N('He is very good with the horses. They grow fat and shiny, and your Nubbin rides one round the paddock.'),
@@ -1247,6 +1248,7 @@ export const ATLAS_A02: Quest[] = [
         N('The raft crosses eight hundred li in what feels like an afternoon. On the far bank it shrinks back into a gourd.'),
         MO('Wujing. Sha Wujing. We shall call you Sandy.', 'soft'),
         MO('Wukong, Bajie, Wujing, the horse, and you. My fifth disciple. I think I have the count right at last.', 'happy'),
+        PG('You said that about the last three.'),
         N('Now there are six of you, and the horse. Sandy takes the back end of the luggage pole, and you take the front.'),
         N('It is much easier like that. Your Nubbin rides in the middle and does the steering.'),
       ],
@@ -1671,6 +1673,7 @@ export const ATLAS_A02: Quest[] = [
           lines: [
             N('At Fire Cloud Cave the boy comes out with a spear, pushes two little carts in front of him, and breathes fire.'),
             RB('I am Red Boy! The Bull Demon King is my father. You’re supposed to be my uncle, but I don’t care.', 'happy'),
+            MK('Uncle? I swore brothers with his father over a jug once. It was a very good jug.'),
             N('Monkey calls the dragon kings, and they rain on the fire. It only burns hotter: this fire doesn’t mind water at all.'),
             N('Monkey comes out singed and smoking, and dives into a cold stream to cool off. The cold knocks him flat.'),
             SD('Water. More water, cold. Not too fast.', 'shock'),
@@ -1822,7 +1825,7 @@ export const ATLAS_A02: Quest[] = [
         MO('Wukong. Will you come back? Please?', 'sad'),
         MK('Only if you say it twice.', 'soft'),
         MO('Please.', 'soft'),
-        N('Your Nubbin lets go of the tail it has been holding. It has been holding the right one, as it happens, all along.'),
+        N('Your Nubbin lets go of the tail it has been holding. It looks perfectly certain which one it was. It isn’t telling.'),
       ],
     },
     rewards: [],
@@ -1926,7 +1929,8 @@ export const ATLAS_A02: Quest[] = [
         scene: {
           id: 'a02-16-real',
           lines: [
-            N('There is a long and complicated business with the Bull Demon King, Monkey in disguise, and Pigsy in a temper.'),
+            N('Monkey turns into the Bull Demon King. The Bull Demon King turns into Pigsy.'),
+            N('The real Pigsy hits both of them, and is right exactly once.'),
             N('In the end, Princess Iron Fan comes out herself with the real fan, and gives it to the monk, not to Monkey.'),
             IF('Wave it forty-nine times. Then the fire goes out for ever, and it rains, and things grow.', 'soft'),
             IF('My boy would have wanted the fire. I think I want the rain.'),
@@ -2189,6 +2193,9 @@ export const ATLAS_A02: Quest[] = [
           lines: [
             N('Your Nubbin swims round and round the turtle, then sits on his shell and pats it, as if to say it was a fair point.'),
             TT('No harm done. I only wanted to be remembered.', 'soft'),
+            MK('Right. Stay there. You’re a turtle, you’re good at it.'),
+            N('He somersaults off and is back before the turtle finishes sighing.'),
+            MK('He says anyone who carries kind folk over a river is a person already. The paperwork’s slow.'),
           ],
         },
       },

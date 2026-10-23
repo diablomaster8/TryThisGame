@@ -119,6 +119,7 @@ const A09_SPARED: Line[] = [
   SK('Hm.'),
   SK('Stay here, griot. Play for me.', 'think'),
   N('Balla bows and looks at you. He is not free, but he is fine.'),
+  B('The tune made the king gentle. That was the door, helper!', 'happy'),
 ];
 
 /** A5-14: the end of the complete scene (both tune variants). */
@@ -427,15 +428,16 @@ const SCENES: EduScene[] = [
     [
       N('The page turns. A wedding, a baby, and seven years go by.'),
       N('Sogolon’s son is seven. He crawls everywhere, and he watches everything.'),
-      B('His name is Mari Djata. He doesn’t talk much.'),
+      B('His name is Djata.'),
+      B('One day they will call him Sundiata. He doesn’t talk much.'),
       N('Your Nubbin sits in front of him. He pats its head, slowly.'),
       SO('He doesn’t do that for many people. Your friend is honoured.', 'soft'),
       B('The old king died. His body stopped working, and it won’t start again.', 'sad'),
-      B('I’m very sad. His older son, Dankaran, is king now.'),
+      B('I’m very sad. His big brother is king now.'),
     ],
     [
       ask(
-        6,
+        7,
         'sel',
         'what helps when someone is sad',
         'CASEL: Social awareness',
@@ -592,6 +594,7 @@ const SCENES: EduScene[] = [
     'a05-04-forge-done',
     [
       N('Six helpers carry the rod up the hill.'),
+      N('Your Nubbin sits on the end to help. The rod does not notice.'),
       N('Half the children in town follow.'),
       B('Everyone wants to see. Stay close to me.'),
     ],
@@ -856,8 +859,8 @@ const SCENES: EduScene[] = [
   sc(
     'a05-05-complete',
     [
-      B('Keep that tune. A tune you know by heart is a door.'),
-      B('I’ll tell you which door when we get there.', 'think'),
+      B('Keep that tune. One day it will open a door for us.'),
+      B('I won’t say which door yet.', 'think'),
       N('Your Nubbin plays the first three notes. They’re still there.'),
     ],
     [
@@ -927,7 +930,8 @@ const SCENES: EduScene[] = [
     'a05-06-sent',
     [
       N('In the morning, horses wait at the palace gate.'),
-      DT('I send gifts to the king of Sosso. And a griot. Balla will go.'),
+      DT('The king of Sosso is strong, and I am scared.'),
+      DT('So I send him gifts. And Balla.'),
       SU('You can’t take my griot!', 'angry'),
       DT('I am king now, brother.'),
       N('Balla touches Sundiata’s arm. Sundiata shakes, but stays.'),
@@ -935,7 +939,7 @@ const SCENES: EduScene[] = [
     ],
     [
       ask(
-        4,
+        5,
         'sel',
         'a good way to handle a big feeling',
         'CASEL: Self-management',
@@ -983,16 +987,17 @@ const SCENES: EduScene[] = [
   sc(
     'a05-06-leave',
     [
-      SO('We go tonight. It is safer.'),
+      SO('Queen Sassouma does not want Sundiata here.'),
+      SO('So we go tonight, while it is dark.'),
       N('Five wait at the west gate: Sogolon, Sundiata, two sisters and Bory.'),
       MB('I’m going where Djata goes.', 'sad'),
-      KO('Walk quietly.'),
+      SO('Walk quietly.'),
       N('Sundiata looks back at the dark baobab.'),
       SU('I’ll come back. Remember I said so.'),
     ],
     [
       ask(
-        2,
+        3,
         'social-studies',
         'the sun sets in the west',
         'D2.Geo.2.K-2',
@@ -1237,17 +1242,12 @@ const SCENES: EduScene[] = [
       MT('I am getting old. I have no son.', 'think'),
     ],
     [
-      ask(
+      note(
         1,
         'social-studies',
         'life long ago and today',
         'D2.His.2.K-2',
-        [N('This was long ago. How did people travel far then?')],
-        [
-          o('On a horse or on foot', N('Yes! There were no cars then.'), true),
-          o('In a rocket', N('Rockets came much later. Long ago, people rode horses or walked.')),
-          o('In a car', N('Cars weren’t invented yet. People rode horses or walked.')),
-        ],
+        [N('The king rides a horse. There are no cars yet.'), N('Horses need grass and water.')],
         'Learned that long ago people travelled by horse or on foot.',
       ),
     ],
@@ -1340,7 +1340,7 @@ const SCENES: EduScene[] = [
       N('You are in Sosso, a city of forges. Hammers ring.'),
       N('A tall tower has seven floors.'),
       B('Helper? You’re not meant to be here!', 'shock'),
-      B('A griot can stand where it happened, and where it’s told.'),
+      B('A griot goes where the story goes.'),
       B('At the top of this tower is a door nobody opens.'),
     ],
     [
@@ -1536,7 +1536,8 @@ const SCENES: EduScene[] = [
     'a05-10-basket',
     [
       N('Sogolon must be buried. The king of Mema is unhappy.'),
-      MT('I wanted Sundiata to stay.', 'angry'),
+      MT('Sogolon may not rest in my ground.', 'angry'),
+      MT('I want Sundiata to stay here.'),
       SU('Bring me a basket, helper.'),
       SU('Put in broken pots, old straw and some feathers.'),
       N('Your Nubbin adds one big feather.'),
@@ -1544,7 +1545,7 @@ const SCENES: EduScene[] = [
     ],
     [
       act(
-        4,
+        5,
         'maths',
         'sort into three groups',
         'K.MD.B.3',
@@ -1570,7 +1571,7 @@ const SCENES: EduScene[] = [
     'a05-10-basket-done',
     [
       CO('King, this basket is a broken town.'),
-      CO('He says: be kind to us, so this never happens.'),
+      CO('He says: be kind to his mother. Then your town stays whole.'),
       MT('I know what it says.', 'sad'),
       MT('Give her the best ground. Give him horsemen. I’d rather be his friend.'),
     ],
@@ -1616,11 +1617,12 @@ const SCENES: EduScene[] = [
     'a05-11-allies',
     [
       N('Word goes ahead of Sundiata. Kings wait at the iron hills.'),
-      FR('I’m Fran Kamara. We played together as boys.'),
+      FR('I’m Fran Kamara. We wrestled as boys. You always cheated!'),
       SU('I crawled. It was the only way to win.'),
       FR('Tabon is with you!', 'happy'),
       MB('Every king who was afraid is coming up this road.'),
       N('They come with drums and banners. Your Nubbin greets each one.'),
+      N('It bows to every king, so low that it rolls over. Thump!'),
     ],
     [
       act(
@@ -1858,7 +1860,7 @@ const SCENES: EduScene[] = [
       NT('I stayed in Sosso a long time. I made him trust me.'),
       NT('One night he told me his secret. A white rooster’s spur.'),
       SU('Your mother was unkind to mine. Why help me?'),
-      NT('I am my own person too, brother.', 'soft'),
+      NT('Your mother gave me leaves once. I did not forget.', 'soft'),
     ],
     [
       ask(
@@ -1910,10 +1912,11 @@ const SCENES: EduScene[] = [
       SU('Why change sides now?'),
       FK('Soumaoro was very unkind to my family.', 'angry'),
       B('In Sosso they’ll call Fakoli a traitor. In Manding, a hero.', 'think'),
+      FK('I walked all night. My mouth is dry.'),
     ],
     [
       ask(
-        4,
+        5,
         'sel',
         'doing something kind for a tired traveller',
         ELOF_SED,
@@ -1927,7 +1930,7 @@ const SCENES: EduScene[] = [
       ),
     ],
     [
-      ch('welcome', 'Bring him water.', [
+      ch('welcome', 'Bring Fakoli water.', [
         FK('Thank you. That’s the first kindness in a long time.', 'soft'),
       ]),
       ch('smiths', 'Show the smiths where to set up their forge.', [

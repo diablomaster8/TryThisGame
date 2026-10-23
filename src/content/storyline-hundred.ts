@@ -101,8 +101,22 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
         IDA('Name it. I’ll not call it “the egg” for a hundred days.'),
       ],
       choices: [
-        { id: 'quick', label: 'Say the first name that comes.', set: { 'h-first-name': 'quick' } },
-        { id: 'slow', label: 'Take a while over it.', set: { 'h-first-name': 'slow' } },
+        {
+          id: 'quick',
+          label: 'Say the first name that comes.',
+          set: { 'h-first-name': 'quick' },
+          then: [
+            IDA('That was quick. I’ll be shouting that across a square for a hundred days, mind.'),
+          ],
+        },
+        {
+          id: 'slow',
+          label: 'Take a while over it.',
+          set: { 'h-first-name': 'slow' },
+          then: [
+            IDA('Take your time. The step’s not going anywhere. Neither am I, it turns out.', 'soft'),
+          ],
+        },
       ],
     },
     [
@@ -305,7 +319,7 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
           'A swimmer follows you up from the shore with the walk of something that has never had legs for long. It takes the house nearest the well.',
         ),
         IDA(
-          'Three. The bathhouse wants a fourth before it’ll steam. Don’t ask me why, I don’t make the rules, I only kept them.',
+          'Three. The bathhouse wants a good many more than three before it’ll steam. Don’t ask me why, I don’t make the rules, I only kept them.',
         ),
       ],
     },
@@ -379,7 +393,12 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
           'The stairs hold. You come up with dust in your hair and your partner carrying a shell it will not put down.',
         ),
         SORREL('Stairs hold. Good. I’ll stay a bit, then.', undefined, 'chest'),
-        N('Sorrel takes a roof with a hole in it and starts, that evening, on the hole.'),
+        IDA('A bit. The last tinker said that. He stayed twelve years and never mended my gate.'),
+        SORREL('Your gate’s got no fence.'),
+        IDA('That’s what wanted mending.'),
+        N(
+          'Sorrel takes the roof with the hole in it and starts on the hole that evening. Ida writes his name on a list of one.',
+        ),
       ],
     },
     [
@@ -470,6 +489,9 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
             N(
               'It brings you things now. A stone. The kettle lid. Once, with great ceremony, a beetle, alive, which you give back.',
             ),
+            N('Sorrel, passing, stops dead.'),
+            SORREL('That’s the lid. I’ve been looking for that lid since Tuesday.', 'shock'),
+            N('Your partner gives it back. Then it takes it again, to see whether he meant it.'),
             IDA('That’s trust. It thinks you need looking after. It’s not wrong.'),
           ],
         },
@@ -579,6 +601,8 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
           'It’ll turn. The square has to be worth turning it for. Fill the Fold till the bathhouse steams, and I’ll lift the brake.',
         ),
         IDA('Sixty of us, that wheel fed. Don’t go for sixty. Go for enough.'),
+        SORREL('She says that to everyone.'),
+        IDA('I’ve said it to you twice. You’re slow.'),
       ],
     },
     'area:mill&prosperity:>=60',
@@ -670,9 +694,13 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
       id: 'h-c9-close',
       lines: [
         N(
-          'It breaks like fog breaks, not all at once, and then all at once. Where it stood, the mountain path, and the Fold’s lamps lit below it one by one.',
+          'It breaks like fog breaks, not all at once, and then all at once. Where it stood there is only path, and below it the Fold’s lamps come on one by one.',
         ),
-        IDA('Nobody stood in front of it last time. I did. I was eleven.', 'sad', 'down'),
+        IDA(
+          'Last time, nobody stood in front of it but me. I was eleven, and I had that broom.',
+          'sad',
+          'down',
+        ),
         IDA('You can put that broom down now.', 'soft'),
       ],
     },
@@ -682,6 +710,8 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
         scene: {
           id: 'h-c9-mountain',
           lines: [
+            N('Before you set off, Sorrel presses the kettle on you, “for courage”. It is empty.'),
+            N('Your partner carries it up the mountain anyway, lid on.'),
             N(
               'The mountain path is cold and the cold is listening. Your partner walks ahead of you for the first time in a hundred days.',
             ),
@@ -776,8 +806,9 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
               'The drawing from the cave is pinned inside Ida’s window, beside the lamp. Sixty-odd roofs, every window a dot.',
             ),
             IDA(
-              'Tam drew that. Year before the cold. I set it out this morning and counted. We’re short a few roofs.',
+              'Nell drew that, the year before the cold. She was seven, and she counted every roof twice.',
             ),
+            IDA('I set it out this morning and counted. We’re short a few roofs.'),
             IDA('Short’s not the same as missing. I had to be old to learn that.'),
           ],
         },
@@ -840,7 +871,10 @@ export const HUNDRED_EXTRA: Scene[] = [
       N(
         'Bunting on the mill. A festival on the square. Sorrel has mended a drum and is wrong about how to play it.',
       ),
-      IDA('Sixty, once. I counted this morning. We’re past sixty.', 'happy'),
+      IDA(
+        'Sixty of us, once. I counted doorsteps this morning. Every one has somebody on it, and two have a queue.',
+        'happy',
+      ),
       N(
         'Your partner sleeps through the whole festival on the warm step, and nobody will wake it, and nobody needs to.',
       ),

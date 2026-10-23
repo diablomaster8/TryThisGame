@@ -202,11 +202,12 @@ _Doua laughs kindly, and the king laughs. Then everyone does._
 
 _The page turns. A wedding, a baby, and seven years go by._  
 _Sogolon’s son is seven. He crawls everywhere, and he watches everything._  
-**Balla Fasséké**: His name is Mari Djata. He doesn’t talk much.  
+**Balla Fasséké**: His name is Djata.  
+**Balla Fasséké**: One day they will call him Sundiata. He doesn’t talk much.  
 _Your Nubbin sits in front of him. He pats its head, slowly._  
 **Sogolon**: He doesn’t do that for many people. Your friend is honoured.  
 **Balla Fasséké**: The old king died. His body stopped working, and it won’t start again.  
-**Balla Fasséké**: I’m very sad. His older son, Dankaran, is king now.  
+**Balla Fasséké**: I’m very sad. His big brother is king now.  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): what helps when someone is sad  
 > _Balla is sad. What helps a sad friend?_  
@@ -327,6 +328,7 @@ _Six helpers carry the rod up the hill._
 > Check: `edu:count:helpers:6`
 > _For grown-ups: Counted six helpers carrying the rod._
 
+_Your Nubbin sits on the end to help. The rod does not notice._  
 _Half the children in town follow._  
 **Balla Fasséké**: Everyone wants to see. Stay close to me.  
 
@@ -488,8 +490,8 @@ _Sogolon’s door is open. She sits just inside, listening._
 
 #### `sprout:a05-05-complete` · [main](main.md#a05-05-complete)
 
-**Balla Fasséké**: Keep that tune. A tune you know by heart is a door.  
-**Balla Fasséké**: I’ll tell you which door when we get there.  
+**Balla Fasséké**: Keep that tune. One day it will open a door for us.  
+**Balla Fasséké**: I won’t say which door yet.  
 
 > **Lesson** (literacy, RL.K.3, do): first, next, last  
 > _(Put three things in order: first, next, last.)_  
@@ -536,7 +538,8 @@ _He fills their baskets. Your Nubbin brings a gourd each._
 #### `sprout:a05-06-sent` · [main](main.md#a05-06-sent)
 
 _In the morning, horses wait at the palace gate._  
-**Dankaran Touman**: I send gifts to the king of Sosso. And a griot. Balla will go.  
+**Dankaran Touman**: The king of Sosso is strong, and I am scared.  
+**Dankaran Touman**: So I send him gifts. And Balla.  
 **Sundiata**: You can’t take my griot!  
 **Dankaran Touman**: I am king now, brother.  
 _Balla touches Sundiata’s arm. Sundiata shakes, but stays._  
@@ -573,7 +576,8 @@ _Far down the road, Balla’s balafon answers with three more._
 
 #### `sprout:a05-06-leave` · [main](main.md#a05-06-leave)
 
-**Sogolon**: We go tonight. It is safer.  
+**Sogolon**: Queen Sassouma does not want Sundiata here.  
+**Sogolon**: So we go tonight, while it is dark.  
 _Five wait at the west gate: Sogolon, Sundiata, two sisters and Bory._  
 **Manding Bory**: I’m going where Djata goes.  
 
@@ -584,7 +588,7 @@ _Five wait at the west gate: Sogolon, Sundiata, two sisters and Bory._
 > - East → The sun comes up in the east. It goes down in the west.
 > _For grown-ups: Learned that the sun sets in the west._
 
-**Kolonkan**: Walk quietly.  
+**Sogolon**: Walk quietly.  
 _Sundiata looks back at the dark baobab._  
 **Sundiata**: I’ll come back. Remember I said so.  
 
@@ -751,11 +755,9 @@ _They come back at dusk. Twenty went, and twenty came back!_
 _Year by year, the king gives Sundiata more to lead._  
 **King Moussa Tounkara**: I am getting old. I have no son.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): life long ago and today  
-> _This was long ago. How did people travel far then?_  
-> - ✅ On a horse or on foot → Yes! There were no cars then.
-> - In a rocket → Rockets came much later. Long ago, people rode horses or walked.
-> - In a car → Cars weren’t invented yet. People rode horses or walked.
+> **Lesson** (social-studies, D2.His.2.K-2, notice): life long ago and today  
+> _The king rides a horse. There are no cars yet._  
+> _Horses need grass and water._  
 > _For grown-ups: Learned that long ago people travelled by horse or on foot._
 
 
@@ -829,7 +831,7 @@ _A tall tower has seven floors._
 > _For grown-ups: Counted seven floors of the tower._
 
 **Balla Fasséké**: Helper? You’re not meant to be here!  
-**Balla Fasséké**: A griot can stand where it happened, and where it’s told.  
+**Balla Fasséké**: A griot goes where the story goes.  
 **Balla Fasséké**: At the top of this tower is a door nobody opens.  
 
 **Choices**
@@ -885,6 +887,7 @@ _It is a good song. It gets every name right._
 **Soumaoro Kanté**: Hm.  
 **Soumaoro Kanté**: Stay here, griot. Play for me.  
 _Balla bows and looks at you. He is not free, but he is fine._  
+**Balla Fasséké**: The tune made the king gentle. That was the door, helper!  
 
 #### `sprout:a05-09-chamber-done-lullaby` · [main](main.md#a05-09-chamber-done-lullaby)
 
@@ -906,6 +909,7 @@ _It is a good song. It gets every name right._
 **Soumaoro Kanté**: Hm.  
 **Soumaoro Kanté**: Stay here, griot. Play for me.  
 _Balla bows and looks at you. He is not free, but he is fine._  
+**Balla Fasséké**: The tune made the king gentle. That was the door, helper!  
 
 #### `sprout:a05-09-march` · [main](main.md#a05-09-march)
 
@@ -981,7 +985,8 @@ _Four tired travellers stop. One sniffs a bunch of leaves._
 #### `sprout:a05-10-basket` · [main](main.md#a05-10-basket)
 
 _Sogolon must be buried. The king of Mema is unhappy._  
-**King Moussa Tounkara**: I wanted Sundiata to stay.  
+**King Moussa Tounkara**: Sogolon may not rest in my ground.  
+**King Moussa Tounkara**: I want Sundiata to stay here.  
 **Sundiata**: Bring me a basket, helper.  
 **Sundiata**: Put in broken pots, old straw and some feathers.  
 _Your Nubbin adds one big feather._  
@@ -1005,7 +1010,7 @@ _Your Nubbin adds one big feather._
 #### `sprout:a05-10-basket-done` · [main](main.md#a05-10-basket-done)
 
 **The Old Counsellor**: King, this basket is a broken town.  
-**The Old Counsellor**: He says: be kind to us, so this never happens.  
+**The Old Counsellor**: He says: be kind to his mother. Then your town stays whole.  
 
 > **Lesson** (literacy, ELOF: Language and Communication, notice): things can tell a story without words  
 > _A basket told a story with no words at all._  
@@ -1037,7 +1042,7 @@ _Then the horses are saddled. The road home is open._
 #### `sprout:a05-11-allies` · [main](main.md#a05-11-allies)
 
 _Word goes ahead of Sundiata. Kings wait at the iron hills._  
-**Fran Kamara**: I’m Fran Kamara. We played together as boys.  
+**Fran Kamara**: I’m Fran Kamara. We wrestled as boys. You always cheated!  
 **Sundiata**: I crawled. It was the only way to win.  
 **Fran Kamara**: Tabon is with you!  
 **Manding Bory**: Every king who was afraid is coming up this road.  
@@ -1049,6 +1054,7 @@ _They come with drums and banners. Your Nubbin greets each one._
 > Check: `edu:count:to:10`
 > _For grown-ups: Counted to ten on ten drums._
 
+_It bows to every king, so low that it rolls over. Thump!_  
 
 **Choices**
 
@@ -1206,7 +1212,7 @@ _She is Nana Triban, his half-sister._
 > _For grown-ups: Matched the rooster with its sound._
 
 **Sundiata**: Your mother was unkind to mine. Why help me?  
-**Nana Triban**: I am my own person too, brother.  
+**Nana Triban**: Your mother gave me leaves once. I did not forget.  
 
 #### `sprout:a05-12-complete` · [main](main.md#a05-12-complete)
 
@@ -1236,6 +1242,7 @@ _A big man comes up the road. Smiths follow, hammers on shoulders._
 **Sundiata**: Why change sides now?  
 **Fakoli**: Soumaoro was very unkind to my family.  
 **Balla Fasséké**: In Sosso they’ll call Fakoli a traitor. In Manding, a hero.  
+**Fakoli**: I walked all night. My mouth is dry.  
 
 > **Lesson** (sel, ELOF: Social and Emotional Development, ask): doing something kind for a tired traveller  
 > _Fakoli has walked far, and he is thirsty. What could you give him?_  
@@ -1247,7 +1254,7 @@ _A big man comes up the road. Smiths follow, hammers on shoulders._
 
 **Choices**
 
-- **Bring him water.**
+- **Bring Fakoli water.**
     - **Fakoli**: Thank you. That’s the first kindness in a long time.
 - **Show the smiths where to set up their forge.**
     - By night, a forge glows at the edge. Your Nubbin warms its feet.

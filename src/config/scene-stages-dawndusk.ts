@@ -7,7 +7,7 @@ import type { SceneStage, StageCast } from './story';
  * here (campaign graphics 2, H2 and N2): openings, closings, beats and the endings. The
  * Keeper is never given a door mark: the houses stand tight round a small green, so the
  * stager's default Keeper mark for the `green` place (`PLACE_KEEPER`) stands. The twin
- * (Marigold by day, Ash by dusk) stands at the doors, the keys in hand where a latch is
+ * (Marigold by day, Rowan by dusk) stands at the doors, the keys in hand where a latch is
  * the point; Vask keeps the west house, the dojo's side.
  */
 export const DAWN_HOUR = 6.5;

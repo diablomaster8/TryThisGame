@@ -39,7 +39,9 @@ _The shell goes. Something small blinks at the ruined square as if it were a pal
 **Choices**
 
 - **Say the first name that comes.** — sets `{"h-first-name":"quick"}`
+    - **Ida Brack**: That was quick. I’ll be shouting that across a square for a hundred days, mind.
 - **Take a while over it.** — sets `{"h-first-name":"slow"}`
+    - **Ida Brack**: Take your time. The step’s not going anywhere. Neither am I, it turns out.
 
 ### Chapter 2: The Fold
 
@@ -149,7 +151,7 @@ _Ida, up on the dune where the mud cannot reach her, nods once as if a sum had c
 #### <a id="h-c4-close"></a>Closing `h-c4-close`
 
 _A swimmer follows you up from the shore with the walk of something that has never had legs for long. It takes the house nearest the well._  
-**Ida Brack**: Three. The bathhouse wants a fourth before it’ll steam. Don’t ask me why, I don’t make the rules, I only kept them.  
+**Ida Brack**: Three. The bathhouse wants a good many more than three before it’ll steam. Don’t ask me why, I don’t make the rules, I only kept them.  
 
 ### Chapter 5: The Cave
 
@@ -193,7 +195,10 @@ _Sixty-odd houses, counted carefully, and a lamp in every window, drawn as a dot
 
 _The stairs hold. You come up with dust in your hair and your partner carrying a shell it will not put down._  
 **Sorrel**: Stairs hold. Good. I’ll stay a bit, then.  
-_Sorrel takes a roof with a hole in it and starts, that evening, on the hole._  
+**Ida Brack**: A bit. The last tinker said that. He stayed twelve years and never mended my gate.  
+**Sorrel**: Your gate’s got no fence.  
+**Ida Brack**: That’s what wanted mending.  
+_Sorrel takes the roof with the hole in it and starts on the hole that evening. Ida writes his name on a list of one._  
 
 ### Chapter 6: Grown
 
@@ -209,6 +214,9 @@ When `partner:trust:>=40`:
 #### <a id="h-c6-trust"></a>Beat `h-c6-trust`
 
 _It brings you things now. A stone. The kettle lid. Once, with great ceremony, a beetle, alive, which you give back._  
+_Sorrel, passing, stops dead._  
+**Sorrel** _(shock)_: That’s the lid. I’ve been looking for that lid since Tuesday.  
+_Your partner gives it back. Then it takes it again, to see whether he meant it._  
 **Ida Brack**: That’s trust. It thinks you need looking after. It’s not wrong.  
 
 When `partner:slips:>=3`:
@@ -270,6 +278,8 @@ Goal: Fill the Fold until the bathhouse steams, then go to the mill. (`area:mill
 _The old mill stands over the stream with its wheel stopped at a quarter past something. Sorrel walks round it twice before he speaks._  
 **Sorrel**: It’ll turn. The square has to be worth turning it for. Fill the Fold till the bathhouse steams, and I’ll lift the brake.  
 **Ida Brack**: Sixty of us, that wheel fed. Don’t go for sixty. Go for enough.  
+**Sorrel**: She says that to everyone.  
+**Ida Brack**: I’ve said it to you twice. You’re slow.  
 
 When `area:mill`:
 
@@ -318,6 +328,8 @@ When `area:mountain`:
 
 #### <a id="h-c9-mountain"></a>Beat `h-c9-mountain`
 
+_Before you set off, Sorrel presses the kettle on you, “for courage”. It is empty._  
+_Your partner carries it up the mountain anyway, lid on._  
 _The mountain path is cold and the cold is listening. Your partner walks ahead of you for the first time in a hundred days._  
 
 When `area:mountain&flag:h-mill:lit`:
@@ -337,8 +349,8 @@ _Your partner steps in front. It is not quiet. It has never once been quiet._
 
 #### <a id="h-c9-close"></a>Closing `h-c9-close`
 
-_It breaks like fog breaks, not all at once, and then all at once. Where it stood, the mountain path, and the Fold’s lamps lit below it one by one._  
-**Ida Brack** _(sad)_: Nobody stood in front of it last time. I did. I was eleven.  
+_It breaks like fog breaks, not all at once, and then all at once. Where it stood there is only path, and below it the Fold’s lamps come on one by one._  
+**Ida Brack** _(sad)_: Last time, nobody stood in front of it but me. I was eleven, and I had that broom.  
 **Ida Brack** _(soft)_: You can put that broom down now.  
 
 ### Chapter 10: The Hundredth Day
@@ -369,7 +381,8 @@ When `flag:h-drawing:ida`:
 #### <a id="h-c10-drawing-ida"></a>Beat `h-c10-drawing-ida`
 
 _The drawing from the cave is pinned inside Ida’s window, beside the lamp. Sixty-odd roofs, every window a dot._  
-**Ida Brack**: Tam drew that. Year before the cold. I set it out this morning and counted. We’re short a few roofs.  
+**Ida Brack**: Nell drew that, the year before the cold. She was seven, and she counted every roof twice.  
+**Ida Brack**: I set it out this morning and counted. We’re short a few roofs.  
 **Ida Brack**: Short’s not the same as missing. I had to be old to learn that.  
 
 When `flag:h-drawing:box`:
@@ -400,7 +413,7 @@ _Dusk. Your partner leans against your knee, the weight of a hundred days, and t
 #### <a id="end-hundred-bright-fold"></a>Ending scene `end-hundred-bright-fold`
 
 _Bunting on the mill. A festival on the square. Sorrel has mended a drum and is wrong about how to play it._  
-**Ida Brack** _(happy)_: Sixty, once. I counted this morning. We’re past sixty.  
+**Ida Brack** _(happy)_: Sixty of us, once. I counted doorsteps this morning. Every one has somebody on it, and two have a queue.  
 _Your partner sleeps through the whole festival on the warm step, and nobody will wake it, and nobody needs to._  
 _The Hundred Days: the Bright Fold._  
 

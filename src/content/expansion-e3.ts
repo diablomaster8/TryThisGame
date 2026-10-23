@@ -28,6 +28,7 @@ const N = say('narrator');
 const Y = say('you');
 const DUSTY = say('dusty');
 const BYTE = say('byte');
+const PIXEL = say('pixel');
 
 export const EXPANSION_E3_SPEAKERS: Speaker[] = [];
 
@@ -140,25 +141,41 @@ const merge: Scene = {
       'They don’t become one thing. They become two things that agree. It lasts a minute. It changes nothing when it ends.',
     ),
     DUSTY(
-      'Hazel tied it twice in her life that I saw. Once for the beans. Once the winter the lane froze, and she never said for what.',
+      'Hazel tied it twice in her life that I saw. Once, she said, for the beans. There were no beans.',
     ),
+    DUSTY('Once the winter the lane froze, and she never said for what.'),
     N('They do not say who she tied it round. You do not ask. Some tying is private.'),
   ],
 };
 
+const MERGE_SHAPE = N(
+  'The twine goes slack and then isn’t there. Where two Nubbins stood there is a shape made of both, glowing at the seams.',
+);
+const MERGE_END: Line[] = [
+  N('It moves like the faster one and stands like the stronger.'),
+  N(
+    'It does not yet know which half is steering, and walks into the dojo door twice. Both halves look at you as if you moved it.',
+  ),
+  N('After a minute it is two again, blinking, pleased.'),
+  DUSTY('That’s it. That’s the whole trick. The rest is being worth tying to.', 'soft'),
+  N(
+    'The two of them sit down on the same side of you, closer than they were, and stay there till dark.',
+  ),
+];
+
 const mergeDone: Scene = {
   id: 'e3-merge-done',
+  lines: [MERGE_SHAPE, ...MERGE_END],
+};
+
+// Plays instead of e3-merge-done when you told Dusty you would tie the two strongest (e3-pick).
+const mergeDoneStrong: Scene = {
+  id: 'e3-merge-done-strong',
   lines: [
-    N(
-      'The twine goes slack and then isn’t there. Where two Nubbins stood there is a shape made of both, glowing at the seams.',
-    ),
-    N(
-      'It moves like the faster one and stands like the stronger. After a minute it is two again, blinking, pleased.',
-    ),
-    DUSTY('That’s it. That’s the whole trick. The rest is being worth tying to.', 'soft'),
-    N(
-      'The two of them sit down on the same side of you, closer than they were, and stay there till dark.',
-    ),
+    MERGE_SHAPE,
+    N('For one second the shape tries to go two ways at once.'),
+    N('Then the stronger one waits, for the first time in its life, and it holds.'),
+    ...MERGE_END,
   ],
 };
 
@@ -174,6 +191,10 @@ const tournament: Scene = {
     BYTE(
       'Win your rounds in the dojo. The twine is allowed. Everyone agreed, after some shouting.',
     ),
+    PIXEL('He drew the bracket himself. Eleven lines for ten names.'),
+    BYTE('The eleventh is structural.'),
+    PIXEL('So’s your shoelace.'),
+    N('He does not look down. It is undone.'),
     BYTE(
       'Luna did most of the shouting. Then she said “fine” in a way that was not fine. Then she sent her champion anyway.',
     ),
@@ -187,9 +208,13 @@ const tournament: Scene = {
 const tournamentDone: Scene = {
   id: 'e3-tournament-done',
   lines: [
+    N('Round one: your two reach the ring and politely wave each other in first, for a full minute.'),
+    N('The referee rings the bell out of despair.'),
     N(
-      'Round after round. Clover’s champion goes down to a feint. Ember’s to stamina. Luna’s, in the end, to two who agree.',
+      'Clover’s champion falls for a feint it saw coming. Ember’s runs out of puff and sits down, offended.',
     ),
+    N('Luna’s is last. Your two look at each other and step left together.'),
+    N('Luna’s champion hits the place they used to be.'),
     BYTE('That’s the bracket. I have never seen a bracket do that.', 'shock'),
     N('Luna says nothing, and claps twice, slowly, which from Luna is a speech.'),
   ],
@@ -198,6 +223,8 @@ const tournamentDone: Scene = {
 const tournamentDoneMerged: Scene = {
   id: 'e3-tournament-done-merged',
   lines: [
+    N('Round one: your two reach the ring and politely wave each other in first, for a full minute.'),
+    N('The referee rings the bell out of despair.'),
     N(
       'Round after round, and the last one tied. Luna’s champion swings at a shape made of two and hits the agreement between them.',
     ),
@@ -215,7 +242,7 @@ const complete: Scene = {
     N(
       'A cup, dented, on the dojo bench. Dusty puts the old grey twine inside it and leaves it there.',
     ),
-    DUSTY('Hazel tied beans with that. Twenty years. The beans never once came apart.'),
+    DUSTY('Hazel said beans. Twenty years, she said beans. I never once saw a bean.'),
     BYTE('I’m writing this up as a draw. For diplomacy.'),
     N(
       'Your two sit either side of the cup and look at the twine in it as if it were theirs now. It is.',
@@ -288,12 +315,13 @@ export const EXPANSION_E3: Quest[] = [
     notes:
       'Steps 1–5 are met by the sim (autoOnly). Step 5 counts dojo wins since the bracket ' +
       'scene; e3-tournament-done-merged plays if a win came while merged. The e3-pair choice ' +
-      '(e3-pick) is voice only; the merge’s own affection rule is what actually refuses two ' +
+      '(e3-pick) changes no sim rule: "strong" plays e3-merge-done-strong, where the shape ' +
+      'nearly pulls two ways and holds; the merge’s own affection rule is what refuses two ' +
       'who are not sure.',
   },
 ];
 
-export const EXPANSION_E3_VARIANTS: Scene[] = [tournamentDoneMerged];
+export const EXPANSION_E3_VARIANTS: Scene[] = [mergeDoneStrong, tournamentDoneMerged];
 export const EXPANSION_E3_FLAGS: string[] = ['e3-pick', 'e3-wins-at', 'e3-merged-win', 'e3Done'];
 export const EXPANSION_E3_CHECKS: string[] = [
   'count:strayFed:>=1',
