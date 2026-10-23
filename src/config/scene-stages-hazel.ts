@@ -118,9 +118,11 @@ const RAW: Readonly<Record<string, SceneStage>> = {
     hour: 10,
     cast: [
       { who: 'moss', mark: 'flat-stone', pose: 'sit' },
-      { who: 'you', mark: 'hill-path', face: 'moss' },
+      // "You sit down next to him, because that is the rule."
+      { who: 'you', mark: 'flat-stone-beside', face: 'moss', pose: 'sit' },
     ],
-    shot: { kind: 'two', focus: ['moss'] },
+    // From in front of the pair, a little to the south: the side two-shot sat in tall grass.
+    shot: { kind: 'two', focus: ['moss', 'you'], yaw: -1.0 },
   },
   'c4-close': { place: 'pond', hour: 19.2, shot: { kind: 'wide' } },
   'c4-tale': {

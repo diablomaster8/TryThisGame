@@ -115,6 +115,8 @@ const GROVE_MARKS: Record<string, StageMark> = {
   // On the second terrace (0.62 r out), where package c draws the stone itself.
   // Moss's seat: the flat stone itself.
   'flat-stone': seated({ x: HILL.x + HILL.r * 0.61, z: HILL.z + 0.68, yaw: W }, 0.12),
+  // Beside it on the same terrace, where the Keeper sits down next to Moss (c4-open).
+  'flat-stone-beside': seated({ x: HILL.x + HILL.r * 0.61, z: HILL.z + 1.6, yaw: W }, 0.12),
   'hill-top': { x: HILL.x, z: HILL.z, yaw: S },
   briar: { x: HILL.x - 1, z: HILL.z - 1.5, yaw: S },
   // The falls: the pool at the foot, the ledge behind the water.
