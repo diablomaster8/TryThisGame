@@ -198,7 +198,10 @@ const GROVE_MARKS: Record<string, StageMark> = {
   },
   'keeper-guardhouse': { x: GH.x + 0.5, z: GH.z + CAB.d / 2 + 2.2, yaw: N },
   'keeper-below': { x: GH.x + 0.5, z: GH.z + CAB.d / 2 + 2.2, yaw: N },
-  'keeper-rootNode': { x: -1.2, z: -0.8, yaw: toward(-1.2, -0.8, -3, -2.5) },
+  // The white room, on one line across the view (chair, Keeper, Root, Juno: 2.2 or more apart).
+  'keeper-rootNode': { x: -0.8, z: -2.5, yaw: E },
+  'root-stand': { x: 1.6, z: -2.5, yaw: W },
+  'root-juno': { x: 3.8, z: -2.5, yaw: W },
   'keeper-festival': { x: PICNIC.x, z: PICNIC.z + 2.1, yaw: N },
 };
 
