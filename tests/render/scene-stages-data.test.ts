@@ -29,7 +29,9 @@ describe('authored scene stages (campaign graphics C1)', () => {
     const marks = new Set(Object.values(STAGE_MARKS).flatMap((m) => Object.keys(m)));
     for (const [id, st] of Object.entries(SCENE_STAGES)) {
       expect(ids.has(id), id).toBe(true);
-      for (const c of st.cast ?? []) expect(marks.has(c.mark), `${id}: ${c.mark}`).toBe(true);
+      // `floor-*` marks belong to the Hollow Below floor under way (render/floor-marks.ts).
+      for (const c of st.cast ?? [])
+        expect(marks.has(c.mark) || c.mark.startsWith('floor-'), `${id}: ${c.mark}`).toBe(true);
     }
   });
 

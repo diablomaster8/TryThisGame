@@ -24,13 +24,17 @@
  * `h-first-name` (how Ida took the news of the partner's name), `h-mill` (lit | left),
  * `h-drawing` (ida | box: what became of the drawing in the cave chest).
  */
-import type { Line, Mood, Scene } from '../config/story';
+import type { Line, LineGesture, Mood, Scene } from '../config/story';
 import type { Speaker, Storyline, StorylineChapter } from './types';
 
 const say =
   (who: string) =>
-  (text: string, mood?: Mood): Line =>
-    mood ? { who, text, mood } : { who, text };
+  (text: string, mood?: Mood, gesture?: LineGesture): Line => ({
+    who,
+    text,
+    ...(mood ? { mood } : {}),
+    ...(gesture ? { gesture } : {}),
+  });
 
 const N = say('narrator');
 const Y = say('you');
@@ -78,7 +82,11 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
         IDA(
           'One, is it. That’s how it starts. One egg and a hundred days to see what it comes to.',
         ),
-        IDA('I’m Ida. I stayed. Hatch it where I can see, I like to know who I’m feeding.'),
+        IDA(
+          'I’m Ida. I stayed. Hatch it where I can see, I like to know who I’m feeding.',
+          undefined,
+          'chest',
+        ),
       ],
     },
     'stat:hatched:>=1',
@@ -122,7 +130,11 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
               'The step you’re sat on was the bakery. The one with the hole was the school. I taught in it, nine years.',
             ),
             N('She says it to the egg, not to you. The egg, for its part, rocks once.'),
-            IDA('Nine years and not one of them could spell “February”. I miss every one.', 'soft'),
+            IDA(
+              'Nine years and not one of them could spell “February”. I miss every one.',
+              'soft',
+              'down',
+            ),
           ],
         },
       },
@@ -366,7 +378,7 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
         N(
           'The stairs hold. You come up with dust in your hair and your partner carrying a shell it will not put down.',
         ),
-        SORREL('Stairs hold. Good. I’ll stay a bit, then.'),
+        SORREL('Stairs hold. Good. I’ll stay a bit, then.', undefined, 'chest'),
         N('Sorrel takes a roof with a hole in it and starts, that evening, on the hole.'),
       ],
     },
@@ -548,7 +560,7 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
             ),
             SORREL('That’s my roof. That’s the roof I mended.'),
             N('He looks at the thicket thing. The thicket thing drips.'),
-            SORREL('Fine. Fine. There’s a hole in the one next door.'),
+            SORREL('Fine. Fine. There’s a hole in the one next door.', undefined, 'nod'),
           ],
         },
       },
@@ -596,7 +608,11 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
             N(
               'Close to, the wheel is taller than the house. Moss on the paddles, a nest in the hub, the brake rusted the colour of the stream.',
             ),
-            SORREL('Don’t pull that. I mean it. It’s not the lever, it’s what it’s holding back.'),
+            SORREL(
+              'Don’t pull that. I mean it. It’s not the lever, it’s what it’s holding back.',
+              undefined,
+              'chest',
+            ),
           ],
         },
       },
@@ -622,7 +638,11 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
             N(
               'Somebody has cleared the yard behind the bathhouse: a lane, a beam, a bar. The square’s creatures queue for it at dawn.',
             ),
-            SORREL('I didn’t do that. I was going to. I’d like to know who beat me to it.'),
+            SORREL(
+              'I didn’t do that. I was going to. I’d like to know who beat me to it.',
+              undefined,
+              'chest',
+            ),
             N('Ida, sweeping, does not look up, and does not stop looking pleased.'),
           ],
         },
@@ -652,7 +672,7 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
         N(
           'It breaks like fog breaks, not all at once, and then all at once. Where it stood, the mountain path, and the Fold’s lamps lit below it one by one.',
         ),
-        IDA('Nobody stood in front of it last time. I did. I was eleven.', 'sad'),
+        IDA('Nobody stood in front of it last time. I did. I was eleven.', 'sad', 'down'),
         IDA('You can put that broom down now.', 'soft'),
       ],
     },
@@ -727,7 +747,11 @@ export const HUNDRED_CHAPTERS: StorylineChapter[] = [
             IDA(
               'You named it in a breath. I thought, that’s a child who’ll lose interest by Tuesday.',
             ),
-            IDA('I was wrong, and I’m glad to say so. I don’t often get the chance.', 'soft'),
+            IDA(
+              'I was wrong, and I’m glad to say so. I don’t often get the chance.',
+              'soft',
+              'chest',
+            ),
           ],
         },
       },
@@ -829,7 +853,7 @@ export const HUNDRED_EXTRA: Scene[] = [
       N(
         'The bathhouse steams. The wheel turns. Not sixty, but enough, and enough was what Ida asked for.',
       ),
-      IDA('That’ll do. That’s the Fold. It was never more than that at its best.', 'soft'),
+      IDA('That’ll do. That’s the Fold. It was never more than that at its best.', 'soft', 'nod'),
       N('The Hundred Days: the Fold.'),
     ],
   },

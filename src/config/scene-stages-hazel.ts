@@ -47,6 +47,12 @@ const RING_GUESTS: StageCast[] = [
   { who: 'corvin', mark: 'festival-11' },
   { who: 'sable', mark: 'festival-12' },
 ];
+/** The ring as c12-open has it: two arrivals, late to it (K5), walk on from the step and the gate. */
+const LATE_FROM: Readonly<Record<string, string>> = { ember: 'step', dusty: 'gate-inside' };
+const RING_LATE: StageCast[] = RING.map((c) => {
+  const from = LATE_FROM[c.who];
+  return from ? { ...c, from } : c;
+});
 const RING_FOCUS = ['festival-1', 'festival-4', 'festival-7', 'festival-10'];
 
 const RAW: Readonly<Record<string, SceneStage>> = {
@@ -84,7 +90,7 @@ const RAW: Readonly<Record<string, SceneStage>> = {
     hour: 17,
     season: 'spring',
     props: { gate: 'shut' },
-    cast: [{ who: 'corvin', mark: 'gate-outside', face: 'you' }],
+    cast: [{ who: 'corvin', mark: 'gate-outside', face: 'you', from: 'lane-west' }],
     shot: { kind: 'two', focus: ['corvin'] },
   },
   // ---------------------------------------------------------------- 3 The One Who Hides
@@ -118,6 +124,7 @@ const RAW: Readonly<Record<string, SceneStage>> = {
   },
   'c4-close': { place: 'pond', hour: 19.2, shot: { kind: 'wide' } },
   'c4-tale': {
+    tale: true,
     place: 'pond',
     hour: 22.5,
     lights: { 'lantern-3': 'lit' },
@@ -125,6 +132,7 @@ const RAW: Readonly<Record<string, SceneStage>> = {
     shot: { kind: 'close', focus: ['moss'] },
   },
   'c4-tale-2': {
+    tale: true,
     place: 'pond',
     hour: 22.5,
     lights: { 'lantern-3': 'lit' },
@@ -132,10 +140,15 @@ const RAW: Readonly<Record<string, SceneStage>> = {
     shot: { kind: 'close', focus: ['moss'] },
   },
   'c4-tale-3': {
+    tale: true,
     place: 'pond',
     hour: 23.5,
     lights: { 'lantern-3': 'lit', 'lantern-4': 'flicker' },
-    cast: [{ who: 'moss', mark: 'pond-lantern', pose: 'sit' }],
+    // Young Hazel sits beside him on the jetty ("I sat beside her a whole winter").
+    cast: [
+      { who: 'moss', mark: 'pond-lantern', pose: 'sit' },
+      { who: 'hazel', mark: 'shore-jetty', face: 'moss', pose: 'sit' },
+    ],
     shot: { kind: 'two', focus: ['moss'] },
   },
   'c4-out': {
@@ -339,6 +352,7 @@ const RAW: Readonly<Record<string, SceneStage>> = {
   'c10-lull': { place: 'grove', hour: 2.5, weather: 'frost', shot: { kind: 'wide' } },
   // The falls stop; the ledge behind them; the stone; the warm water.
   'c10-falls': {
+    grave: true,
     ...DRY_FALLS,
     cast: [{ who: 'marina', mark: 'falls-foot', face: 'you', carry: 'lantern' }],
   },
@@ -392,13 +406,20 @@ const RAW: Readonly<Record<string, SceneStage>> = {
     shot: { kind: 'two', focus: ['moss'] },
   },
   'c10-moss-fades': {
+    grave: true,
     place: 'hill',
     hour: 8,
     weather: 'frost',
     cast: [{ who: 'moss', mark: 'hill-path' }],
     shot: { kind: 'close', focus: ['moss'] },
   },
-  'c10-moss-mourned': { place: 'gate', hour: 8.3, weather: 'frost', shot: { kind: 'two' } },
+  'c10-moss-mourned': {
+    grave: true,
+    place: 'gate',
+    hour: 8.3,
+    weather: 'frost',
+    shot: { kind: 'two' },
+  },
   'c10-moss-light': {
     place: 'hill',
     hour: 8.2,
@@ -416,22 +437,26 @@ const RAW: Readonly<Record<string, SceneStage>> = {
   'c10-bramble': { place: 'grove', hour: 9.5, weather: 'frost', shot: { kind: 'close' } },
   // ---------------------------------------------------------------- 11 Hazel
   'c11-open': {
+    grave: true,
     place: 'gate',
     hour: 10.5,
     season: 'winter',
-    cast: [{ who: 'hazel', mark: 'gate', face: 'you' }],
+    // She walks back in through the gate.
+    cast: [{ who: 'hazel', mark: 'gate', face: 'you', from: 'lane-south' }],
     shot: { kind: 'two', then: 'close', focus: ['hazel'] },
   },
   // c11-moss-here and c11-moss-kept: Moss's seat comes from E_STAGES.
   'c11-moss-here': { place: 'pond', hour: 11, shot: { kind: 'close', focus: ['moss'] } },
   'c11-moss-kept': { place: 'hill', hour: 11, shot: { kind: 'close', focus: ['hazel'] } },
   'c11-moss-gone': {
+    grave: true,
     place: 'hill',
     hour: 11,
     cast: [{ who: 'hazel', mark: 'hill-path', face: 'you' }],
     shot: { kind: 'close', focus: ['hazel'] },
   },
   'c11-moss-passed': {
+    grave: true,
     place: 'hill',
     hour: 11,
     cast: [{ who: 'hazel', mark: 'hill-path', face: 'you' }],
@@ -463,13 +488,20 @@ const RAW: Readonly<Record<string, SceneStage>> = {
     hour: 16,
     props: { gate: 'shut', pondIce: 'show' },
     cast: [
-      { who: 'corvin', mark: 'gate-outside', face: 'you' },
+      { who: 'corvin', mark: 'gate-outside', face: 'you', from: 'lane-west' },
       { who: 'hazel', mark: 'pond-lantern', face: 'corvin', pose: 'sit' },
     ],
     shot: { kind: 'two', focus: ['corvin'] },
   },
   // ---------------------------------------------------------------- 12 Keepers
-  'c12-open': { place: 'festival', hour: 9.5, season: 'winter', shot: { kind: 'establish' } },
+  // Every Keeper is here: the ring with Hazel among them; Ember and Dusty come late.
+  'c12-open': {
+    place: 'festival',
+    hour: 9.5,
+    season: 'winter',
+    cast: [...RING_LATE, { who: 'hazel', mark: 'festival-11' }],
+    shot: { kind: 'establish' },
+  },
   'c12-foot-told': {
     place: 'grove',
     hour: 11.5,
@@ -513,6 +545,7 @@ const RAW: Readonly<Record<string, SceneStage>> = {
   },
   // By the pond, in the place nobody says anything.
   'end-hazels-grove-last': {
+    grave: true,
     place: 'pond',
     hour: 19.5,
     lights: ALL_LIT,
@@ -538,6 +571,7 @@ const RAW: Readonly<Record<string, SceneStage>> = {
     shot: { kind: 'wide', focus: ['moss'] },
   },
   'end-eternal-dawn-last': {
+    grave: true,
     place: 'festival',
     hour: 19.5,
     lights: ALL_LIT,
@@ -557,6 +591,7 @@ const RAW: Readonly<Record<string, SceneStage>> = {
     shot: { kind: 'wide', focus: ['gate', 'gate-outside'] },
   },
   'end-shadow-keeper-last': {
+    grave: true,
     place: 'gate',
     hour: 8.5,
     props: { gate: 'open' },
@@ -579,6 +614,7 @@ const RAW: Readonly<Record<string, SceneStage>> = {
     shot: { kind: 'wide', focus: ['flat-stone', 'hill-path'] },
   },
   'end-moss-sleeps-last': {
+    grave: true,
     place: 'hill',
     hour: 7,
     season: 'spring',
@@ -594,6 +630,7 @@ const RAW: Readonly<Record<string, SceneStage>> = {
     shot: { kind: 'wide', focus: ['gate', 'falls-foot'] },
   },
   'end-wild-grove-last': {
+    grave: true,
     place: 'grove',
     hour: 15,
     props: { gate: 'open' },
@@ -609,6 +646,7 @@ const RAW: Readonly<Record<string, SceneStage>> = {
     shot: { kind: 'wide', focus: ['grass-lantern', 'step'] },
   },
   'end-empty-lantern-last': {
+    grave: true,
     place: 'grove',
     hour: 22.5,
     lights: { 'lantern-4': 'lit' },
@@ -631,10 +669,11 @@ const RAW: Readonly<Record<string, SceneStage>> = {
   'end-collector-kept': {
     place: 'grove',
     hour: 14,
-    cast: [{ who: 'corvin', mark: 'gate-outside', face: 'you' }],
+    cast: [{ who: 'corvin', mark: 'gate-outside', face: 'you', from: 'lane-west' }],
     shot: { kind: 'wide', focus: ['corvin'] },
   },
   'end-collector-last': {
+    grave: true,
     place: 'gate',
     hour: 17.5,
     props: { gate: 'open' },
@@ -651,6 +690,7 @@ const RAW: Readonly<Record<string, SceneStage>> = {
     shot: { kind: 'wide', focus: ['step', 'porch'] },
   },
   'end-long-road-last': {
+    grave: true,
     place: 'step',
     hour: 17.5,
     cast: [

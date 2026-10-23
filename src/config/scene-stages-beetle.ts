@@ -38,6 +38,9 @@ const vane = (mark = 'cart', o: Partial<StageCast> = {}): StageCast => ({
   face: 'you',
   ...o,
 });
+/** The guard house by lamplight, drawn alone (K10): the counter, the banners. */
+const INSIDE = { place: 'inside-guardhouse', exclusive: true } as const;
+const COUNTER = 'in-guardhouse-counter';
 const NOTEBOOK = { carry: 'notebook' } as const;
 const SHUT = { banners: 'show', cart: 'shut' } as const;
 const OPEN = { banners: 'show', cart: 'open' } as const;
@@ -47,14 +50,13 @@ export const BEETLE_STAGES: Readonly<Record<string, SceneStage>> = {
     // 1 The Guard: night at the guard house, the three banners.
     [
       {
-        place: 'guardhouse',
+        ...INSIDE,
         hour: 22.5,
-        lights: LIT,
-        // "Behind the counter sits a man": Hob at his counter, before the window.
-        cast: [hob('guardhouse-counter')],
-        shot: { kind: 'establish', focus: ['guardhouse'] },
+        // "Behind the counter sits a man": Hob at his counter, the banners on the wall.
+        cast: [hob(COUNTER)],
+        shot: { kind: 'establish' },
       },
-      { place: 'guardhouse', hour: 22.5, lights: LIT, cast: [hob()], shot: { kind: 'two' } },
+      { ...INSIDE, hour: 22.5, cast: [hob(COUNTER)], shot: { kind: 'two' } },
     ],
     // 2 The Beetle: the cart under its tarp; home with the cargo.
     [
@@ -63,13 +65,13 @@ export const BEETLE_STAGES: Readonly<Record<string, SceneStage>> = {
     ],
     // 3 The First Domain.
     [
-      { ...BELOW, cast: [hob()], shot: { kind: 'wide' } },
-      { ...BELOW, cast: [hob()], shot: { kind: 'two' } },
+      { ...BELOW, cast: [hob('floor-up')], shot: { kind: 'wide' } },
+      { ...BELOW, cast: [hob('floor-up')], shot: { kind: 'two' } },
     ],
     // 4 The Door's Opinion.
     [
-      { ...BELOW, cast: [hob()], shot: { kind: 'two' } },
-      { ...BELOW, cast: [hob()], shot: { kind: 'wide' } },
+      { ...BELOW, cast: [hob('floor-up')], shot: { kind: 'two' } },
+      { ...BELOW, cast: [hob('floor-up')], shot: { kind: 'wide' } },
     ],
     // 5 Two Into One: Vane on the bonnet.
     [
@@ -83,17 +85,17 @@ export const BEETLE_STAGES: Readonly<Record<string, SceneStage>> = {
     ],
     // 6 The Second Domain: the floor that rains.
     [
-      { ...BELOW, cast: [hob(), vane('banner-1')], shot: { kind: 'wide' } },
-      { ...BELOW, ...RAIN, cast: [hob(), vane('banner-1')], shot: { kind: 'wide' } },
+      { ...BELOW, cast: [hob('floor-up'), vane('banner-1')], shot: { kind: 'wide' } },
+      { ...BELOW, ...RAIN, cast: [hob('floor-up'), vane('banner-1')], shot: { kind: 'wide' } },
     ],
     // 7 The Weather Machine.
     [
-      { ...BELOW, ...RAIN, cast: [hob(), vane('banner-1')], shot: { kind: 'wide' } },
-      { ...BELOW, ...RAIN, cast: [vane('banner-1')], shot: { kind: 'two' } },
+      { ...BELOW, ...RAIN, cast: [hob('floor-up'), vane('banner-1')], shot: { kind: 'wide' } },
+      { ...BELOW, ...RAIN, cast: [vane('floor-up')], shot: { kind: 'two' } },
     ],
     // 8 The Road Home: the last door, then the road driven end to end.
     [
-      { ...BELOW, cast: [hob()], shot: { kind: 'wide' } },
+      { ...BELOW, cast: [hob('floor-up')], shot: { kind: 'wide' } },
       {
         place: 'guardhouse',
         hour: 19,
@@ -113,13 +115,12 @@ export const BEETLE_STAGES: Readonly<Record<string, SceneStage>> = {
     cast: [hob()],
     shot: { kind: 'wide', focus: ['banner-1', 'banner-2', 'banner-3'] },
   },
+  // Hob writes in his ledger behind the counter (indoors, K10).
   'b-c1-ledger': {
-    place: 'guardhouse',
-    hour: 23,
-    lights: LIT,
-    props: { banners: 'show' },
-    cast: [hob('guardhouse-bench', { pose: 'sit', ...NOTEBOOK })],
-    shot: { kind: 'close', focus: ['b-hob'] },
+    ...INSIDE,
+    hour: 9,
+    cast: [hob(COUNTER, NOTEBOOK)],
+    shot: { kind: 'two' },
   },
   // 2: the Beetle under its tarp; the first errand
   'b-c2-tarp': {
@@ -129,15 +130,15 @@ export const BEETLE_STAGES: Readonly<Record<string, SceneStage>> = {
     cast: [hob('cart')],
     shot: { kind: 'two', focus: ['cart'] },
   },
+  // "Write it in the book": the ledger on the counter (indoors, K10).
   'b-c2-errand': {
-    place: 'guardhouse',
-    hour: 11,
-    props: SHUT,
-    cast: [hob('guardhouse-bench', NOTEBOOK)],
+    ...INSIDE,
+    hour: 17.5,
+    cast: [hob(COUNTER, NOTEBOOK)],
     shot: { kind: 'two' },
   },
   // 3: the first domain's stair and torches; back up at dusk
-  'b-c3-stair': { ...BELOW, cast: [hob()], shot: { kind: 'wide' } },
+  'b-c3-stair': { ...BELOW, cast: [hob('floor-up')], shot: { kind: 'wide' } },
   'b-c3-back-up': {
     place: 'guardhouse',
     hour: 17,
@@ -185,16 +186,22 @@ export const BEETLE_STAGES: Readonly<Record<string, SceneStage>> = {
     shot: { kind: 'two' },
   },
   // 6: the rain floors
-  'b-c6-second-run': { ...BELOW, ...RAIN, cast: [hob()], shot: { kind: 'wide' } },
+  'b-c6-second-run': { ...BELOW, ...RAIN, cast: [hob('floor-up')], shot: { kind: 'wide' } },
   'b-c6-third-floor': { ...BELOW, shot: { kind: 'wide' } },
   'b-c6-torch': { ...BELOW, shot: { kind: 'close' } },
   // 8: the last door
-  'b-c8-dry': { ...BELOW, cast: [vane('banner-1')], shot: { kind: 'wide' } },
-  'b-c8-wet': { ...BELOW, ...RAIN, cast: [vane('banner-1'), hob()], shot: { kind: 'wide' } },
+  'b-c8-dry': { ...BELOW, cast: [vane('floor-up')], shot: { kind: 'wide' } },
+  'b-c8-wet': {
+    ...BELOW,
+    ...RAIN,
+    cast: [vane('banner-1'), hob('floor-up')],
+    shot: { kind: 'wide' },
+  },
   'b-c8-one': { ...BELOW, shot: { kind: 'two' } },
-  'b-c8-two': { ...BELOW, cast: [vane('banner-1')], shot: { kind: 'two' } },
+  'b-c8-two': { ...BELOW, cast: [vane('floor-up')], shot: { kind: 'two' } },
   // ---- endings: up the guard stairs, the whole yard in the last wide shot (N2) -----------
   'end-beetle-open-sky': {
+    grave: true,
     place: 'guardhouse',
     hour: 10,
     weather: 'wind',
@@ -203,6 +210,7 @@ export const BEETLE_STAGES: Readonly<Record<string, SceneStage>> = {
     shot: { kind: 'wide', focus: ['guardhouse', 'cart', 'banner-3'] },
   },
   'end-beetle-two-as-one': {
+    grave: true,
     place: 'guardhouse',
     hour: 10,
     weather: 'wind',
@@ -211,6 +219,7 @@ export const BEETLE_STAGES: Readonly<Record<string, SceneStage>> = {
     shot: { kind: 'wide', focus: ['guardhouse', 'cart', 'banner-3'] },
   },
   'end-beetle-steady-rain': {
+    grave: true,
     place: 'guardhouse',
     hour: 17,
     weather: 'rain',

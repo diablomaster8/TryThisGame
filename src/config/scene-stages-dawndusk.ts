@@ -148,6 +148,7 @@ function half(prefix: 'dawn' | 'dusk'): Record<string, SceneStage> {
     out[`end-${prefix}-${name}`] = {
       place: 'green',
       hour,
+      grave: true,
       lights: LIT,
       shot: ENDING_SHOT,
       cast: e.cast(who, other),

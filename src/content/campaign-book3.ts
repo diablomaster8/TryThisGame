@@ -4,14 +4,18 @@
  * back to the water it came from, and Hazel comes down the hill, and then goes up it.
  * Canon: briefs/story-bible.md. Branching is done with small variant scenes; see BOOK3_NOTES.
  */
-import type { Chapter, Scene, Line, Mood } from '../config/story';
+import type { Chapter, Scene, Line, LineGesture, Mood } from '../config/story';
 
 const S = (id: string, lines: Line[], extra: Partial<Scene> = {}): Scene => ({ id, lines, ...extra });
 
 const say =
   (who: string) =>
-  (text: string, mood?: Mood): Line =>
-    mood ? { who, text, mood } : { who, text };
+  (text: string, mood?: Mood, gesture?: LineGesture): Line => ({
+    who,
+    text,
+    ...(mood ? { mood } : {}),
+    ...(gesture ? { gesture } : {}),
+  });
 
 const N = say('narrator');
 const YOU = say('you');
@@ -95,7 +99,7 @@ const STONE_UNMADE: Line[] = [
 
 const MOSS_GOES_IN: Line[] = [
   MOSS('I laid her shard under the long grass. I can take it the rest of the way. That seems fair.', 'think'),
-  MOSS('Hold the lantern up, would you. I’d like to see where I’m going.', 'soft'),
+  MOSS('Hold the lantern up, would you. I’d like to see where I’m going.', 'soft', 'chest'),
   N('You hold it up. Your arm is shaking. You hold it up anyway.'),
   MOSS('I sat down next to Hazel for a whole winter before I said a word to her. She fidgeted. She was very bad at it.', 'soft'),
   MOSS('You aren’t to fidget.', 'happy'),
@@ -152,7 +156,7 @@ const C9_ARRIVE: Line[] = [
 
 const C9_GARDEN: Line[] = [
   CORVIN('You came. Good. And you brought Ember, who hates me. That’s fair. I’d have brought someone who hated me.'),
-  CORVIN('Look at them. Not one has ever thrown a race, bitten a judge, or run off into the night. Yours can’t say that.'),
+  CORVIN('Look at them. Not one has ever thrown a race, bitten a judge, or run off into the night. Yours can’t say that.', undefined, 'point'),
   EMBER('Ash is in the third row. She won’t look at me. You did that.', 'angry'),
   CORVIN('I made her a champion, Ember. You made her a pet. One of those lasts.'),
   N('Ember’s hands are shaking. Corvin’s are not. They are very white, and he keeps the left one pressed flat to his coat.'),
@@ -197,7 +201,7 @@ const C9_CHOICE: Partial<Scene> = {
         N('You open the notebook and read it to him. Day 300-something. The brown one let me touch her ear. Took two months. Worth it.'),
         N('He listens with his eyes shut.'),
         CORVIN('…She said that to me once. “Took two months. Worth it.” I told her I didn’t have two months.', 'sad'),
-        CORVIN('I was twenty-two. I had nothing but months.', 'sad'),
+        CORVIN('I was twenty-two. I had nothing but months.', 'sad', 'down'),
         N('He opens his eyes. He looks at the third row for a long time, the way you look at something you have walked past every day.'),
         N('Then he goes to the gate and opens it, and does not close it.'),
         CORVIN('Tell Ember Ash can go. Tell her I never made it quicker. I only made it quieter.'),
@@ -217,7 +221,7 @@ const C9_CHOICE: Partial<Scene> = {
         CORVIN('Two hundred. The same as always. A fair price for a champion who no longer wins.'),
         N('You count it out onto the gatepost. The Shells stick to the frost, and you have to prise each one off with your thumb.'),
         N('Ash walks out beside Ember without looking at either of you. She is grey, and she is going home, and both are true.'),
-        EMBER('I don’t know how to thank you. I’ll work it out. Give me a few years.', 'soft'),
+        EMBER('I don’t know how to thank you. I’ll work it out. Give me a few years.', 'soft', 'shrug'),
       ],
     },
     {
@@ -303,9 +307,9 @@ export const BOOK3_SCENES: Scene[] = [
     N('You pick it up. It is so cold it burns, and very slightly humming, and much heavier than a tin should be.'),
     CORVIN('Give it back. You don’t know what it is. You don’t know what it’s for.', 'angry'),
     N('He gets one foot under him and reaches for it. Then he stops with his hand out, and looks at the hand, as if he has never seen it empty.'),
-    CORVIN('…No. Keep it. Keep it, and see how long you last.', 'sad'),
+    CORVIN('…No. Keep it. Keep it, and see how long you last.', 'sad', 'down'),
     N('Ember takes your arm and walks you to the road. She doesn’t let go until the frost stops crunching under your boots.'),
-    EMBER('Whatever that is, don’t let it near Ash. Don’t let it near anyone.', 'angry'),
+    EMBER('Whatever that is, don’t let it near Ash. Don’t let it near anyone.', 'angry', 'shrug'),
     N('On the road home, something grey is following Ember, three steps behind. Ember doesn’t look round. She doesn’t dare.'),
   ]),
   S('c9-shard-collector', [
@@ -330,10 +334,11 @@ export const BOOK3_SCENES: Scene[] = [
     LUNA('She knows that cold. She knows it better than any of us ever will.', 'soft'),
   ]),
   S('c9-close', [
-    MARINA('Whatever you did up there, the valley’s already talking about it.'),
+    MARINA('Whatever you did up there, the valley’s already talking about it.', undefined, 'shrug'),
     MARINA(
       'Fern says it was brave. Byte says it was statistically unwise. Both of them are right. That’s the trouble with this valley.',
       'think',
+      'shrug',
     ),
     N(
       'On your step is a pie from Fern, still warm, with a note on top: RULE ONE. THE SECOND HALF. THE BIT SHE NEVER DID.',
@@ -348,7 +353,7 @@ export const BOOK3_SCENES: Scene[] = [
     N('You open the tin. Inside, on a bed of grey felt, is a shard of something like ice. Dark at the heart. No longer than your thumb.'),
     N('Moss looks at it for a long time.'),
     MOSS('Cinder.', 'soft'),
-    MOSS('She made it to save them. She did save them. That is the trouble with it.', 'sad'),
+    MOSS('She made it to save them. She did save them. That is the trouble with it.', 'sad', 'down'),
     MOSS('I promised Hazel I wouldn’t tell you where it had gone. She wanted him to walk it down this lane himself.', 'think'),
     MOSS('He couldn’t. You did. I will let her decide how she feels about that.'),
     N('For the first time in twenty-two years, all four pieces of the Heartstone are in the Grove.'),
@@ -362,8 +367,8 @@ export const BOOK3_SCENES: Scene[] = [
       'Only a grey one can carry it close. The cold has already done its worst to the grey. It has nothing new to say to them.',
     ),
     YOU('So. The longest night, the Wellspring, and someone grey carries it.'),
-    MOSS('Yes. Three days. Eat something first.'),
-    MOSS('None of us was grey, then. We could only break it, and wait.', 'sad'),
+    MOSS('Yes. Three days. Eat something first.', undefined, 'nod'),
+    MOSS('None of us was grey, then. We could only break it, and wait.', 'sad', 'down'),
     MOSS('…I am grey enough.', 'soft'),
     N('He doesn’t go back up the hill. He sits by the long-grass post all night, and you sit with him, and neither of you says anything.'),
     N('By morning the frost has crept from the long grass halfway to the pond. Moss is a little harder to see.'),
@@ -394,7 +399,7 @@ export const BOOK3_SCENES: Scene[] = [
     N('Marina, with rope. She doesn’t say what for. She looks up the valley towards the falls, and then at you.'),
     N('Ember, last, with a lantern. Ash walks a step behind her heel, grey, looking at nobody. But she came.'),
     N('And Byte, with a clipboard.'),
-    BYTE('Statistically, an Eternal that has been petted regularly fades sixty per cent slower. I ran the numbers.', 'think'),
+    BYTE('Statistically, an Eternal that has been petted regularly fades sixty per cent slower. I ran the numbers.', 'think', 'shrug'),
     BYTE('I would like it noted that I ran them while believing it was a hoax.'),
     MOSS('Noted.', 'soft'),
     N('Byte can’t hear him. Byte nods anyway.'),
@@ -421,7 +426,7 @@ export const BOOK3_SCENES: Scene[] = [
     N('Fern has matches. Fern has, it turns out, everything that was near the door.'),
     N('The stream lantern catches. The cold passes the way a wave passes, and the flames stand up again.'),
     N('Between the waves, people talk. That is most of what a vigil is.'),
-    CLOVER('Soup. Everyone has soup. I don’t care if you aren’t hungry. You’re holding a lantern, you’re working.', 'happy'),
+    CLOVER('Soup. Everyone has soup. I don’t care if you aren’t hungry. You’re holding a lantern, you’re working.', 'happy', 'shrug'),
     DUSTY('Fossil hated the cold. She used to ride in my coat. I keep putting my hand in the pocket.', 'soft'),
     NOVA('In the high passes they say: stand closer than is polite. Nobody minds, on a night like this.'),
     N('So everyone stands closer than is polite. Nobody minds.'),
@@ -459,7 +464,7 @@ export const BOOK3_SCENES: Scene[] = [
     [
       N('Some time after the song, in the deep middle of the night, the cold stops coming for a while.'),
       N('Nobody trusts it. Everybody sits down anyway, on whatever is nearest: a bucket, a step, Dusty.'),
-      DUSTY('I don’t mind. I’m warm. I’ve been digging.'),
+      DUSTY('I don’t mind. I’m warm. I’ve been digging.', undefined, 'shrug'),
       N('Pixel is asleep across the timing box, cheek on the dial. It beeps, very softly, at every out-breath.'),
       FERN('I brought biscuits. They’ve frozen. You can still suck them.', 'happy'),
       N(
@@ -467,9 +472,9 @@ export const BOOK3_SCENES: Scene[] = [
       ),
       N('Pixel opens one eye as Byte steps over her.'),
       PIXEL('Your lace is undone.'),
-      BYTE('I’m aware of the lace.'),
+      BYTE('I’m aware of the lace.', undefined, 'chest'),
       PIXEL('He’s been aware of it since our wedding. All the way down the aisle.', 'happy'),
-      BYTE('It was a short aisle. Statistically, I nearly made it.'),
+      BYTE('It was a short aisle. Statistically, I nearly made it.', undefined, 'shrug'),
       N(
         'She is asleep again before he has finished. He tucks her scarf over the dial so the beeping won’t wake her.',
       ),
@@ -487,7 +492,7 @@ export const BOOK3_SCENES: Scene[] = [
           label: 'The lanterns. Light is light.',
           friendship: { byte: 1 },
           then: [
-            BYTE('Thank you. That’s measurable. I find that very comforting.', 'happy'),
+            BYTE('Thank you. That’s measurable. I find that very comforting.', 'happy', 'nod'),
             BYTE('…I don’t believe you. But I find it very comforting.'),
           ],
         },
@@ -496,7 +501,7 @@ export const BOOK3_SCENES: Scene[] = [
           label: 'Us. The lanterns just show people where to stand.',
           friendship: { byte: 2 },
           then: [
-            BYTE('That sounds like something Moss would say. I can’t hear him. I’m starting to think that’s my fault.', 'think'),
+            BYTE('That sounds like something Moss would say. I can’t hear him. I’m starting to think that’s my fault.', 'think', 'chest'),
             N('He writes it down anyway: one line, slowly, on a clipboard that has frozen to his glove.'),
           ],
         },
@@ -505,7 +510,7 @@ export const BOOK3_SCENES: Scene[] = [
           label: 'Does it matter, if the morning comes?',
           friendship: { byte: 1 },
           then: [
-            BYTE('Yes. Enormously. To me.', 'think'),
+            BYTE('Yes. Enormously. To me.', 'think', 'nod'),
             BYTE('…Not tonight, though. Tonight I’ll take the morning however it comes.', 'soft'),
           ],
         },
@@ -515,10 +520,10 @@ export const BOOK3_SCENES: Scene[] = [
   S('c10-falls', [
     N('And then, somewhere past the ridge, the falls stop.'),
     N('You have heard them every night since you came here, without ever once hearing them. Now there is nothing. The silence is enormous.'),
-    MARINA('That’s it. That’s the turn.', 'think'),
+    MARINA('That’s it. That’s the turn.', 'think', 'nod'),
     MARINA('The falls are frozen. The spring’s open. We’ve got till dawn, and the ledge will be ice.'),
     N('Moss comes down the hill. It takes him a long time. Nobody hurries him.'),
-    MOSS('The rest of them hold the lanterns. Until the sun’s up. Whatever they hear.', 'think'),
+    MOSS('The rest of them hold the lanterns. Until the sun’s up. Whatever they hear.', 'think', 'shrug'),
     YOU('Moss says hold them. Till the sun’s up. Whatever you hear.'),
     SPARKS('What would we hear?'),
     N('Moss doesn’t answer that. You don’t pass it on.'),
@@ -530,7 +535,7 @@ export const BOOK3_SCENES: Scene[] = [
     [
       N('Moss bends towards it. Before he can reach it, something grey steps between you.'),
       N('Sable. She looks at the shard. She looks at Moss. Then she looks at you, for a long moment, the way she looked at your hands the first night.'),
-      LUNA('Oh, sweetheart. No.', 'sad'),
+      LUNA('Oh, sweetheart. No.', 'sad', 'down'),
       MOSS('…Yes.', 'soft'),
       MOSS('Only the grey can carry it close. I am grey with age. She is grey with what was done to her. That kind goes all the way through.', 'think'),
       MOSS('It has already done its worst to her. It has nothing new to say. That is the sad thing. Tonight it is also the useful thing.'),
@@ -563,7 +568,7 @@ export const BOOK3_SCENES: Scene[] = [
     N('Behind the ice, the cave opens out. The rock glitters. It is warm in here, properly warm, like a kitchen, and it smells of wet moss and spring.'),
     N('The Wellspring is open. The frost round its rim has cracked and drawn back, and the water underneath is moving, lit from below by nothing at all.'),
     N('You have never seen anything so old. Moss told you the first ones came up out of this, each a small light. Now you believe it.'),
-    MARINA('I’ll stay at the mouth. Somebody has to hold the rope.', 'soft'),
+    MARINA('I’ll stay at the mouth. Somebody has to hold the rope.', 'soft', 'chest'),
   ]),
   S(
     'c10-edge',
@@ -595,7 +600,7 @@ export const BOOK3_SCENES: Scene[] = [
             N('You hold out your hand.'),
             N('For a moment nothing happens. Then the stone is given to you, gently, because it has been carried gently all the way here.'),
             N('It isn’t cold. That is the first thing you notice. It isn’t cold at all.'),
-            MOSS('…Ah.', 'sad'),
+            MOSS('…Ah.', 'sad', 'down'),
             N('That is all he says. He turns and walks back towards the cave mouth, and does not wait for you.'),
           ],
         },
@@ -631,8 +636,8 @@ export const BOOK3_SCENES: Scene[] = [
     MOSS('…Oh.', 'shock'),
     MOSS('It’s her voice. It’s using her voice.', 'soft'),
     MOSS('It sounds like Cinder on the last warm day before the White Year. Calling me in out of the rain.', 'sad'),
-    MOSS('Safe, she says. Come in where it’s safe.', 'sad'),
-    MOSS('I loved her. I can’t put her down.', 'sad'),
+    MOSS('Safe, she says. Come in where it’s safe.', 'sad', 'down'),
+    MOSS('I loved her. I can’t put her down.', 'sad', 'down'),
     N('He stands in the water with the stone in his mouth, and the frost creeps back up his face, and he does not move.'),
   ]),
   S(
@@ -669,8 +674,8 @@ export const BOOK3_SCENES: Scene[] = [
     'c10-moss-walks-bearer',
     [
       N('Moss stands in the water with Cinder’s voice in his mouth. Then, slowly, he turns his head and looks at you.'),
-      MOSS('I can’t put her down.', 'sad'),
-      MOSS('So I won’t. I’ll carry her home instead. That is what you do, with a friend who has stayed out too late.', 'soft'),
+      MOSS('I can’t put her down.', 'sad', 'down'),
+      MOSS('So I won’t. I’ll carry her home instead. That is what you do, with a friend who has stayed out too late.', 'soft', 'down'),
       ...MOSS_GOES_IN,
     ],
     { set: { stoneUnmadeBy: 'moss' } },
@@ -685,7 +690,7 @@ export const BOOK3_SCENES: Scene[] = [
     N('He is asleep. He is grey, and he will be grey always. His torn ear lies flat against his head.'),
     N('And for the first time since you have known him, he is not trembling.'),
     MOSS('…Well.', 'soft'),
-    MOSS('I was wrong about him. I am nearly never wrong. Don’t tell Hazel.', 'happy'),
+    MOSS('I was wrong about him. I am nearly never wrong. Don’t tell Hazel.', 'happy', 'chest'),
     N('You carry him home. He doesn’t bite you. He doesn’t even wake up.'),
   ]),
   S(
@@ -701,7 +706,7 @@ export const BOOK3_SCENES: Scene[] = [
       MOSS('You were very loud.', 'soft'),
       MOSS('All of you. I could hear you from the bottom.', 'happy'),
       N('He is thinner. The light goes through him in places it didn’t before. But he is here, and you can see him, and he is wet and cross.'),
-      MOSS('Don’t pick me up. I mean it.', 'think'),
+      MOSS('Don’t pick me up. I mean it.', 'think', 'chest'),
       MOSS('…No. Go on, then.', 'soft'),
     ],
     { set: { mossReturned: true } },
@@ -741,7 +746,7 @@ export const BOOK3_SCENES: Scene[] = [
     N('Moss walks to the foot of the hill and sits down, carefully, like something that has decided to.'),
     N('He looks at the Keepers: red-eyed, frozen, grinning, every one of them holding a lantern burnt down to the stub.'),
     MOSS('Hazel stood there. You stand there. The chin is the same. The hands are slower. That’s better, actually.', 'soft'),
-    MOSS('I’ve decided. I’ll stay a while. Someone has to tell the pale one about his shoelaces.'),
+    MOSS('I’ve decided. I’ll stay a while. Someone has to tell the pale one about his shoelaces.', undefined, 'chest'),
     BYTE('They are TIED.'),
     MOSS('Are they.'),
     N('Byte looks down. Byte looks up. Byte goes very pale, even for Byte.'),
@@ -753,7 +758,7 @@ export const BOOK3_SCENES: Scene[] = [
   S('c10-moss-fades', [
     N('Moss stops at the foot of the hill. In the morning light you can hardly see him. He is mostly a place where the light bends.'),
     MOSS('That’s done, then. All four lit. I wanted to see it once more.', 'soft'),
-    MOSS('I’m going up now, I think. Not because of anything. Because it’s time, and I’m tired, and the view is good.', 'soft'),
+    MOSS('I’m going up now, I think. Not because of anything. Because it’s time, and I’m tired, and the view is good.', 'soft', 'chest'),
     N('You kneel down by him. You want to say something. You don’t know what.'),
     MOSS('Don’t be dramatic about it. That’s Hazel’s. She won’t mind me borrowing it.', 'happy'),
     MOSS('Tell the pale one his shoelace is untied.', 'soft'),
@@ -808,9 +813,9 @@ export const BOOK3_SCENES: Scene[] = [
     N('Byte is standing very straight with his clipboard, and his face is wet.'),
     HAZEL('Byte, love. You’re crying.', 'soft'),
     BYTE('Condensation.', 'think'),
-    HAZEL('Of course it is.', 'happy'),
+    HAZEL('Of course it is.', 'happy', 'nod'),
     N('She sits down on the bench by the cottage door, quite suddenly, as if her legs have made the decision for her.'),
-    HAZEL('I’m not staying long. I want to be clear about that now, so nobody gets dramatic later.', 'think'),
+    HAZEL('I’m not staying long. I want to be clear about that now, so nobody gets dramatic later.', 'think', 'chest'),
     HAZEL('I wrote that I’d gone up the hill. I was optimistic about the timing.', 'happy'),
     HAZEL('The doctor gave me a year and I’ve had fourteen months, which I will be mentioning to him.', 'happy'),
     HAZEL('I spent them in the Hollow. Feeding anyone who’d let me. Following the cold up the valley. Waiting for him to walk it home.', 'soft'),
@@ -820,9 +825,9 @@ export const BOOK3_SCENES: Scene[] = [
     HAZEL('This one I found the night before last. She’d stopped eating.', 'soft'),
     HAZEL('She took a bit of apple off my thumb at sunrise. Took two days. Worth it.', 'soft'),
     N('She looks round at the Keepers, all of them still here, holding lanterns burnt to stubs, too tired to go home.'),
-    HAZEL('Look at you. Up all night in the cold, for an old stone and an older Nubbin and a garden that isn’t even yours.', 'soft'),
-    CLOVER('It’s a bit ours.', 'sad'),
-    HAZEL('Yes, Clover. It is. That’s rather the point.', 'soft'),
+    HAZEL('Look at you. Up all night in the cold, for an old stone and an older Nubbin and a garden that isn’t even yours.', 'soft', 'point'),
+    CLOVER('It’s a bit ours.', 'sad', 'down'),
+    HAZEL('Yes, Clover. It is. That’s rather the point.', 'soft', 'nod'),
     HAZEL('Go on. Go and talk to them. Properly. Not about me.'),
     HAZEL('A Grove isn’t the Nubbins, love. It’s the people who show up when the lanterns are lit.', 'soft'),
   ]),
@@ -830,7 +835,7 @@ export const BOOK3_SCENES: Scene[] = [
     N('Moss has come down from the hill. He sits by Hazel’s boot and looks up at her.'),
     HAZEL('Hello, old thing.', 'soft'),
     MOSS('You’re late.', 'think'),
-    HAZEL('I’m always late. You’re thinner.', 'soft'),
+    HAZEL('I’m always late. You’re thinner.', 'soft', 'chest'),
     MOSS('You’re late, and I’m thinner. We’re even.', 'soft'),
     N('She laughs, and has to stop, and holds her side, and laughs anyway.'),
     N('Then she puts her hand on his head, the way she did every evening for forty years. He shuts his eyes.'),
@@ -838,7 +843,7 @@ export const BOOK3_SCENES: Scene[] = [
   S('c11-moss-kept', [
     N('Moss doesn’t come down. He sits on the hill with his back to the Grove, where he has sat since the Long Night.'),
     N('Hazel looks up at him. After a long time he turns his head and looks back at her, and then away.'),
-    HAZEL('Hello, old thing. Like that, is it.', 'sad'),
+    HAZEL('Hello, old thing. Like that, is it.', 'sad', 'down'),
   ]),
   S('c11-moss-gone', [
     N('Hazel looks up the hill, at the place where he always sat. She doesn’t ask.'),
@@ -847,7 +852,7 @@ export const BOOK3_SCENES: Scene[] = [
   ]),
   S('c11-moss-passed', [
     N('Hazel looks up the hill, at the place where he always sat. She doesn’t ask.'),
-    HAZEL('I passed him on the path. He told me I was late.', 'soft'),
+    HAZEL('I passed him on the path. He told me I was late.', 'soft', 'down'),
     ...MOSS_GONE_TAIL,
   ]),
   S('c11-sable', [
@@ -862,13 +867,13 @@ export const BOOK3_SCENES: Scene[] = [
     HAZEL('Your hands are cold, love.', 'think'),
     N('You take your hand back and put it on your coat, over the breast pocket. You don’t mean to. It just goes there.'),
     N('Hazel watches it go. She has seen someone do that before. A long time ago, in this garden.'),
-    HAZEL('…Ah.', 'sad'),
+    HAZEL('…Ah.', 'sad', 'down'),
     N('She doesn’t say anything else. Her silences were always the loudest thing about her.'),
   ]),
   S('c11-close', [
     N('Days go by like that. Hazel sleeps a lot, and wakes up for the good bits.'),
-    HAZEL('Good. They like you. Sparks likes everyone, that doesn’t count, but Ember likes you, and Ember doesn’t like anyone.', 'happy'),
-    HAZEL('I’m not even sure Ember likes Ember.', 'happy'),
+    HAZEL('Good. They like you. Sparks likes everyone, that doesn’t count, but Ember likes you, and Ember doesn’t like anyone.', 'happy', 'nod'),
+    HAZEL('I’m not even sure Ember likes Ember.', 'happy', 'chest'),
     EMBER('I can hear you.', 'angry'),
     HAZEL('I know, dear.', 'happy'),
     HAZEL('Sit with me. Here. By the pond. Don’t say anything.', 'soft'),
@@ -953,10 +958,10 @@ export const BOOK3_SCENES: Scene[] = [
       N('Hazel walks the Grove. Slowly. She touches each lantern post as she passes, the way you touch the shoulder of someone you are about to leave.'),
       N('At the fourth post, the long grass, she stands a long time.'),
       HAZEL('And the long grass. Cinder’s.', 'soft'),
-      HAZEL('She loved them too, you know. That was never the trouble.', 'sad'),
+      HAZEL('She loved them too, you know. That was never the trouble.', 'sad', 'down'),
       N('Then she comes to the pond, and stands in the place where she doesn’t say anything, and waits for you to.'),
       HAZEL('It’s yours now. Properly.', 'soft'),
-      HAZEL('I had forty years of it. I shut the gate when I was frightened and opened it when I was brave, and I was wrong both ways about half the time.', 'think'),
+      HAZEL('I had forty years of it. I shut the gate when I was frightened and opened it when I was brave, and I was wrong both ways about half the time.', 'think', 'chest'),
       HAZEL('So. Tell me. What is it going to be?', 'soft'),
     ],
     {
@@ -1008,7 +1013,7 @@ export const BOOK3_SCENES: Scene[] = [
     HAZEL('I used to come up here and tell them what I’d done that week. Briar mostly. She liked the bad bits best.', 'happy'),
     HAZEL('Come and tell them about you, sometimes. Not me. You. Let them know how it’s going.', 'soft'),
     ...WALK_TOP,
-    HAZEL('Right. Off you go.', 'soft'),
+    HAZEL('Right. Off you go.', 'soft', 'nod'),
     HAZEL('Don’t look back on the way down. It turns everything into a scene.', 'happy'),
     N('You get up. You go down.'),
     N('You look back once. Of course you do.'),
@@ -1016,7 +1021,7 @@ export const BOOK3_SCENES: Scene[] = [
   ]),
   S('c12-walk-moss', [
     N('Moss is sitting on the first stone of the hill path. You don’t know how long he has been there. Longer than you, probably.'),
-    MOSS('I’m coming. Don’t argue.', 'think'),
+    MOSS('I’m coming. Don’t argue.', 'think', 'chest'),
     HAZEL('I wasn’t going to argue.', 'soft'),
     MOSS('You were. You had the chin out.', 'soft'),
     N('He climbs onto her shoulder, slowly, the way he climbs everything. She doesn’t stagger. He weighs about as much as a memory.'),
@@ -1176,7 +1181,7 @@ export const BOOK3_SCENES: Scene[] = [
     N('They sit in the grass in the sun, all of them, quite still. They are grey by spring, every one. They are perfectly safe.'),
     N('Moss stayed on the hill after Hazel went up. He never came down again.'),
     N('Corvin came once. He stood in the lane and looked at your hand, resting on your coat, over the pocket.'),
-    CORVIN('I’m sorry. I am so sorry. I know exactly how sorry.', 'sad'),
+    CORVIN('I’m sorry. I am so sorry. I know exactly how sorry.', 'sad', 'chest'),
     N('Your hands are always cold now. You keep meaning to mind.'),
   ]),
   S('end-collector-last', [
@@ -1211,7 +1216,7 @@ export const BOOK3_SCENES: Scene[] = [
   S('end-epi-wisp-kept', [
     N('Wisp comes every evening and sits at your feet, and looks at your pocket.'),
     N('He never tries to take it. He just looks, and shakes. In the morning he is gone, and in the evening he is back.'),
-    WISP('…warm. warm.', 'sad'),
+    WISP('…warm. warm.', 'sad', 'down'),
     N('It isn’t. You could tell him. You never do.'),
   ]),
   S('end-epi-wisp-driven', [
@@ -1231,7 +1236,7 @@ export const BOOK3_SCENES: Scene[] = [
     N(
       'On the first Sunday he brings back a pie dish, washed, with a pie in it. It is not a good pie. Everyone has some.',
     ),
-    FERN('I’ve no idea whose dish that is. It’s a lovely dish.', 'think'),
+    FERN('I’ve no idea whose dish that is. It’s a lovely dish.', 'think', 'shrug'),
     N(
       'He comes in the way Hazel taught everyone, every time, as if he isn’t sure it will still work. It always does.',
     ),

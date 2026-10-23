@@ -32,12 +32,10 @@ export interface WalkPose {
   walking: boolean;
 }
 
-/** Where a `from` mark stands: the stage-marks table first, then the lane marks. */
+/** Where a `from` mark stands: the stage-marks table (the lane marks are in it). */
 export function fromSpot(location: string, name: string): Vec2 | null {
   const m = markAt(location, name);
-  if (m) return { x: m.x, z: m.z };
-  const extra = CG4_A2.fromMarks[name];
-  return extra ? { x: extra.x, z: extra.z } : null;
+  return m ? { x: m.x, z: m.z } : null;
 }
 
 /** How long a walk of this length takes, in ms. */

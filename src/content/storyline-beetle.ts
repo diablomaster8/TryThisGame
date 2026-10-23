@@ -22,13 +22,17 @@
  * fruit for whoever lights the torches), `b-fusion` (fused | refused), `b-machine`
  * (stop | keep), `b-vane` (stayed | left).
  */
-import type { Line, Mood, Scene } from '../config/story';
+import type { Line, LineGesture, Mood, Scene } from '../config/story';
 import type { Speaker, Storyline, StorylineChapter } from './types';
 
 const say =
   (who: string) =>
-  (text: string, mood?: Mood): Line =>
-    mood ? { who, text, mood } : { who, text };
+  (text: string, mood?: Mood, gesture?: LineGesture): Line => ({
+    who,
+    text,
+    ...(mood ? { mood } : {}),
+    ...(gesture ? { gesture } : {}),
+  });
 
 const N = say('narrator');
 const Y = say('you');
@@ -67,10 +71,14 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
     {
       id: 'b-c1-open',
       lines: [
-        N('The guard house is a shed with ambitions. Three team banners hang on the wall: Dawn, Dusk and Dew.'),
+        N(
+          'The guard house is a shed with ambitions. Three team banners hang on the wall: Dawn, Dusk and Dew.',
+        ),
         N('Behind the counter sits a man who has counted everything in the room twice.'),
         HOB(
           'Hob. Quartermaster. You want down the Beetle Road, you want a team. Pick one, I don’t care which, they all owe me.',
+          undefined,
+          'shrug',
         ),
       ],
     },
@@ -82,6 +90,8 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
       lines: [
         HOB(
           'Good. Here’s your badge, it’s a bottle cap. Your leader will have errands. Errands are how you find out what the road wants.',
+          undefined,
+          'nod',
         ),
       ],
     },
@@ -143,6 +153,8 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
         ),
         HOB(
           'That’ll do. The first domain’s under the lamp room. It has a door. The door has an opinion.',
+          undefined,
+          'nod',
         ),
       ],
     },
@@ -368,6 +380,8 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
             Y('No. They stay two.'),
             VANE(
               'Good answer. Not the only one, but a good one. The second door has a side way, it’s narrower, and it’s the Beetle that fits it.',
+              undefined,
+              'nod',
             ),
           ],
           set: { 'b-fusion': 'refused' },
@@ -410,6 +424,8 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
         HOB('Fourth floor. The Beetle goes in first, three times, to clear the slope. Then you.'),
         VANE(
           'There’s weather on the fourth floor. I’d say I’m sorry, but I was very young and it was a very good idea.',
+          undefined,
+          'chest',
         ),
       ],
     },
@@ -477,8 +493,10 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
         ),
         VANE(
           'There’s a lever. Down stops it: real weather again, whatever that turns out to be. Leave it, and the valley keeps its guarantee and the Hollow keeps its rain.',
+          undefined,
+          'shrug',
         ),
-        HOB('I’m not on the lever. I count things. Count this one yourself.'),
+        HOB('I’m not on the lever. I count things. Count this one yourself.', undefined, 'chest'),
       ],
       choices: [
         {
@@ -528,6 +546,8 @@ export const BEETLE_CHAPTERS: StorylineChapter[] = [
         ),
         VANE(
           'I’ll stay on the fourth floor a while. Someone should watch what the weather does next.',
+          undefined,
+          'chest',
         ),
       ],
       choices: [
@@ -609,6 +629,8 @@ export const BEETLE_EXTRA: Scene[] = [
       ),
       HOB(
         'First real rain in forty years is due Thursday. I counted. I don’t know how, I just did.',
+        undefined,
+        'shrug',
       ),
       N('The Beetle Road: the Open Sky.'),
     ],

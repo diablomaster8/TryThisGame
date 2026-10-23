@@ -22,13 +22,17 @@
  * FLAGS. `side`, `dd-other-done` (passed in by the title), `dd-reverted` (the Nubbin’s
  * id), `dd-cause` (the chosen cause), `dd-right` (whether it was the real one).
  */
-import type { Line, Mood, Scene } from '../config/story';
+import type { Line, LineGesture, Mood, Scene } from '../config/story';
 import type { Speaker, Storyline, StorylineChapter } from './types';
 
 const say =
   (who: string) =>
-  (text: string, mood?: Mood): Line =>
-    mood ? { who, text, mood } : { who, text };
+  (text: string, mood?: Mood, gesture?: LineGesture): Line => ({
+    who,
+    text,
+    ...(mood ? { mood } : {}),
+    ...(gesture ? { gesture } : {}),
+  });
 
 const N = say('narrator');
 const Y = say('you');
@@ -141,7 +145,9 @@ function makeHalf(h: Half): Storyline {
         id: `${p}-c1-open`,
         lines: [
           N(`You come into the valley at ${h.light}. Four houses stand round the green.`),
-          N('Each has a creature carved over its door: a flier, a runner, a swimmer, a thicket thing.'),
+          N(
+            'Each has a creature carved over its door: a flier, a runner, a swimmer, a thicket thing.',
+          ),
           S(
             `${h.steward} Penhallow. I keep the houses by ${h.half}; my ${h.sibling} keeps them the other half. We don’t overlap. We don’t agree, either.`,
           ),
@@ -292,6 +298,8 @@ function makeHalf(h: Half): Storyline {
               ),
               S(
                 'Keep it warm. Don’t hatch it. If it hatches it’s a child, and whatever it was is gone for good.',
+                undefined,
+                'shrug',
               ),
               S('I know you want to hold it. Hold it. Just don’t shake it.', 'soft'),
             ],
@@ -457,7 +465,7 @@ function makeHalf(h: Half): Storyline {
               N(
                 'The egg with the old name on it stays an egg, and hatches in its own time, small, with everything to learn again.',
               ),
-              S('Not that one, then. Well. It will grow. They do.', 'sad'),
+              S('Not that one, then. Well. It will grow. They do.', 'sad', 'down'),
             ],
           },
         },
