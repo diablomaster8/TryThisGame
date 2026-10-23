@@ -285,7 +285,8 @@ function interiorMarks(): Record<string, StageMark> {
 export const INTERIOR_MARKS: Readonly<Record<string, StageMark>> = interiorMarks();
 
 export const STAGE_MARKS: Readonly<Record<MarkSet, Readonly<Record<string, StageMark>>>> = {
-  grove: GROVE_MARKS,
+  // The interiors are listed with the Grove's (their place is in the grove set).
+  grove: { ...GROVE_MARKS, ...INTERIOR_MARKS },
   hollow: HOLLOW_MARKS,
   corvin: CORVIN_MARKS,
   dungeon: DUNGEON_MARKS,

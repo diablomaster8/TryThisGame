@@ -52,8 +52,9 @@ describe('chapter home locations', () => {
   it('brings a storyline jump home to the Grove', () => {
     const { world, events } = storylineWorld('beetle');
     world.location = 'corvin';
-    applyCommand(world, { kind: 'debugChapter', chapter: 3 }, events);
-    expect(c(world).chapter).toBe(3);
+    // Chapter 2 is played above (3 is on a real Hollow Below floor since K16).
+    applyCommand(world, { kind: 'debugChapter', chapter: 2 }, events);
+    expect(c(world).chapter).toBe(2);
     expect(world.location).toBe('grove');
   });
 });
