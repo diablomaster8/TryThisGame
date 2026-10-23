@@ -281,6 +281,7 @@ export class Grove3dScene {
   private lampsOn = false;
   private readonly camPos = new THREE.Vector3(0, 6, 12);
   private readonly camTarget = new THREE.Vector3(0, 1, 0);
+  private readonly dofSpot = new THREE.Vector3();
   private readonly raycaster = new THREE.Raycaster();
   private lastMs = 0;
   /** Frame times, for the report: the last 120 frames' render durations in ms. */
@@ -1009,6 +1010,14 @@ export class Grove3dScene {
   }
 
   /** Where whoever speaks the line on screen is drawn, or null (the narrator, the Keeper). */
+  /** K21: how far the speaker stands from the lens (else the shot's focus point). */
+  private dofFocus(world: World): number {
+    const spk = this.speakerSpot(world);
+    if (!spk) return this.camera.position.distanceTo(this.camTarget);
+    const y = (this.location === 'grove' ? standHeight(spk.x, spk.z) : 0) + GROVE3D.lookHeight;
+    return this.camera.position.distanceTo(this.dofSpot.set(spk.x, y, spk.z));
+  }
+
   private speakerSpot(world: World): Vec2 | null {
     const who = this.staging.speaker;
     if (!who || who === 'narrator' || speaksAsKeeper(world, who, this.staging.stage)) return null;
@@ -1346,7 +1355,7 @@ export class Grove3dScene {
         (this.staging.shotKind() === 'close' ||
           this.staging.shotKind() === 'over' ||
           this.reverseYaw !== null),
-      this.camera.position.distanceTo(this.camTarget),
+      this.dofFocus(world),
       dt,
       this.reduceMotion,
     );

@@ -204,7 +204,7 @@ class PixelD4 implements PixelDressing {
       if (rect) {
         const k = world.keeper.pos;
         for (let i = 0; i < r.pixelBands; i++) {
-          const lat = (i - (r.pixelBands - 1) / 2) * r.spread * 0.9;
+          const lat = (i % 2 ? 1 : -1) * (r.spread + i * 0.5);
           batch.draw({
             sheet,
             rect,
