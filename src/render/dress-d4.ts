@@ -2,7 +2,8 @@ import type { SceneStage } from '../config/story';
 import { CG4_D4 } from '../config/tuning-d4';
 import type { World } from '../sim/types';
 import type { Daylight } from './daylight';
-import { moonPhaseFor, rainingNow, WetTracker, type MoonPhase } from './d4-state';
+import { moonPhaseFor, rainingNow, WetTracker, WindState, type MoonPhase } from './d4-state';
+import { PIXEL_WIND } from './wind-px';
 import type { PixelDressCtx, PixelDressing } from './dressings';
 import { RasterAtlas } from './paint/atlas';
 import { paintLightBand, paintPuddle, PUDDLE_PX, RAY_PX } from './paint/d4';
@@ -113,6 +114,7 @@ class PixelD4 implements PixelDressing {
   private sheet: SpriteSheet | null = null;
   private wet = new WetTracker();
   private rayK = 0;
+  private wind = new WindState();
 
   build(ctx: PixelDressCtx): void {
     this.ctx = ctx;
@@ -120,6 +122,7 @@ class PixelD4 implements PixelDressing {
     this.sheet = null;
     this.wet = new WetTracker();
     this.rayK = 0;
+    this.wind = new WindState();
     if (typeof document === 'undefined') return;
     try {
       this.moon = new MoonOverlay();
@@ -143,6 +146,12 @@ class PixelD4 implements PixelDressing {
     const flags = stageFlags(world, staged);
     const home = flags.location === 'grove';
     const shown = home && stage.exclusive !== true;
+
+    // K35: the bushes' and banners' two-frame sway follows the scene's wind (still under reduced motion).
+    this.wind.update(stage, dt, reduce);
+    PIXEL_WIND.lean = this.wind.lean;
+    PIXEL_WIND.windy = this.wind.windy;
+    PIXEL_WIND.still = reduce;
 
     // K24: the moon and stars at the sky's edge.
     if (this.moon) {

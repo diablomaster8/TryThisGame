@@ -172,4 +172,6 @@ export const CG4_D4 = {
     /** Seconds the strength eases between scenes. */
     easeS: 1.5,
   },
+  /** K35, pixel: the two-frame sway of bushes and banners (world units). */
+  windPx: { frameMs: 700, swing: 0.03, leanShare: 0.5 },
 } as const;
