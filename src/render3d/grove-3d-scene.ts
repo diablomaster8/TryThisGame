@@ -1086,7 +1086,7 @@ export class Grove3dScene {
       safe.sy1.toFixed(3),
     ].join('|');
     if (this.fitCache?.key === key) return this.fitCache;
-    const f = fitShot3d(points, yaw, pitchDeg, this.camera, safe, ground, this.fitCam);
+    const f = fitShot3d(points, yaw, pitchDeg, this.camera, safe, ground, this.fitCam, view.h);
     this.fitCache = { key, x: f.x, z: f.z, distance: f.distance };
     this.fitKept = f.kept;
     return this.fitCache;

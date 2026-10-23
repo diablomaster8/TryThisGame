@@ -46,7 +46,7 @@ export function fitTiers(
   points: readonly FitPoint[],
   keep: number = STAGE4.propKeep,
 ): FitPoint[][] {
-  const people = points.filter((p) => weightOf(p) >= STAGE4.weight.cast);
+  const people = points.filter((p) => weightOf(p) >= STAGE4.weight.cast && !p.fit);
   const tiers: FitPoint[][] = [points.slice()];
   if (points.some((p) => p.fit?.keep)) tiers.push(points.map((p) => cropped(p, people, keep)));
   const above = (min: number) =>

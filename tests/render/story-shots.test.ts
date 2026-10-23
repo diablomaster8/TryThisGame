@@ -10,7 +10,15 @@ import { STORYLINE_LOGGED } from '../../src/content/storyline-logged';
 import { yawIndexToRadians } from '../../src/render/camera';
 import { fitPixel, SceneStager, speaksAsKeeper } from '../../src/render/scene-stage';
 import { projectPixel, type FitPoint } from '../../src/render/stage-fit';
-import { fitShot3d, fovFor, projectShot } from '../../src/render3d/fit-shot';
+import {
+  fitShot3d,
+  fovFor,
+  projectShot,
+  type Lens,
+  type SafeNdc,
+} from '../../src/render3d/fit-shot';
+import { STAGE4 } from '../../src/config/tuning-f4';
+import { markAt } from '../../src/config/stage-marks';
 import { standHeight } from '../../src/render3d/terrain-shape';
 import { startCampaign } from '../../src/sim/campaign';
 import { registerStorylines, sceneFor } from '../../src/sim/story-scenes';
@@ -139,7 +147,19 @@ function check(): { misses: Miss[]; scenes: number; shots: number } {
           sy0: 1 - v.safe.y1 * 2,
         };
         const pitchDeg = GROVE3D.pitchDeg + 6;
-        const g = fitShot3d(pts, yaw, pitchDeg, lens, safe, ground);
+        const g = fitShot3d(pts, yaw, pitchDeg, lens, safe, ground, undefined, v.h);
+        // K3 review: on a phone a person is never drawn under STAGE4.minPersonPx tall.
+        if (aspect < 1) {
+          const feet = projectShot(spot, { ...g, yaw, pitchDeg }, lens, ground, 0);
+          const head = projectShot(spot, { ...g, yaw, pitchDeg }, lens, ground, STAGE4.personH);
+          if (((head.y - feet.y) / 2) * v.h < STAGE4.minPersonPx - 1)
+            misses.push({
+              id,
+              who,
+              view: vk,
+              renderer: `3d-small ${Math.round(((head.y - feet.y) / 2) * v.h)}px d${g.distance.toFixed(1)}`,
+            });
+        }
         const in3d = [0.1, 1.6].every((up) => {
           const n = projectShot(spot, { ...g, yaw, pitchDeg }, lens, ground, up);
           return (
@@ -156,6 +176,24 @@ function check(): { misses: Miss[]; scenes: number; shots: number } {
   }
   return { misses, scenes, shots };
 }
+
+/** Shares of the view a point lands at in 3D (y down), from NDC. */
+const share3d = (n: { x: number; y: number }) => ({ x: (n.x + 1) / 2, y: (1 - n.y) / 2 });
+
+const lensOf = (v: { w: number; h: number }): Lens => {
+  const aspect = v.w / v.h;
+  return { fov: fovFor(aspect), aspect, near: GROVE3D.near, far: GROVE3D.far };
+};
+const ndcOf = (s: { x0: number; y0: number; x1: number; y1: number }): SafeNdc => ({
+  sx0: s.x0 * 2 - 1,
+  sx1: s.x1 * 2 - 1,
+  sy1: 1 - s.y0 * 2,
+  sy0: 1 - s.y1 * 2,
+});
+const inside = (
+  p: { x: number; y: number },
+  s: { x0: number; y0: number; x1: number; y1: number },
+) => p.x >= s.x0 - TOL && p.x <= s.x1 + TOL && p.y >= s.y0 - TOL && p.y <= s.y1 + TOL;
 
 describe('the story shot test (K49)', () => {
   it('keeps every speaker of every staged scene inside the HUD-safe rect, both renderers', () => {
@@ -185,5 +223,52 @@ describe('the story shot test (K49)', () => {
       expect(s.y).toBeGreaterThanOrEqual(v.safe.y0);
       expect(s.y).toBeLessThanOrEqual(v.safe.y1);
     }
+  });
+
+  it("keeps the Keeper a readable size in Hazel ch10's opening on a phone, 3D (K3 review)", () => {
+    const w = worldFor('c10-open')!;
+    const st = new SceneStager();
+    st.update(w, 0);
+    const v = VIEWS.phone;
+    const lens = lensOf(v);
+    const yaw = yawIndexToRadians(CAMERA.initialYawIndex);
+    const pitchDeg = GROVE3D.pitchDeg + 6;
+    const g = fitShot3d(
+      st.frame(w),
+      yaw,
+      pitchDeg,
+      lens,
+      ndcOf(v.safe),
+      standHeight,
+      undefined,
+      v.h,
+    );
+    const k = st.keeperSpot(w);
+    const feet = projectShot(k, { ...g, yaw, pitchDeg }, lens, standHeight, 0);
+    const head = projectShot(k, { ...g, yaw, pitchDeg }, lens, standHeight, STAGE4.personH);
+    expect(((head.y - feet.y) / 2) * v.h).toBeGreaterThanOrEqual(STAGE4.minPersonPx - 1);
+  });
+
+  it('keeps the pond in frame on the line that names it, both renderers on a phone (K3 review)', () => {
+    const w = worldFor('c10-open')!;
+    const st = new SceneStager();
+    st.update(w, 0);
+    const i = st.lines.findIndex((l) => /\bpond\b/i.test(l.text));
+    expect(i).toBeGreaterThanOrEqual(0);
+    st.speaker = st.lines[i]!.who;
+    st.noteLine(i, 1, st.speaker);
+    const pts = st.frame(w);
+    const pond = markAt('grove', 'pond-centre')!;
+    const v = VIEWS.phone;
+    const aspect = v.w / v.h;
+    const yaw = yawIndexToRadians(CAMERA.initialYawIndex);
+    const views = CAMERA.pixelsPerUnit.map((p) => ({ w: (540 / p) * aspect, h: 540 / p }));
+    const f = fitPixel(pts, yaw, CAMERA.pitchRad, views, v.safe, STAGE2.figureH, STAGE2.fitRadius);
+    expect(inside(projectPixel(pond, f, yaw, CAMERA.pitchRad, views[f.zoom]!), v.safe)).toBe(true);
+    const lens = lensOf(v);
+    const pitchDeg = GROVE3D.pitchDeg + 6;
+    const g = fitShot3d(pts, yaw, pitchDeg, lens, ndcOf(v.safe), standHeight, undefined, v.h);
+    const n = projectShot(pond, { ...g, yaw, pitchDeg }, lens, standHeight, 0);
+    expect(inside(share3d(n), v.safe)).toBe(true);
   });
 });

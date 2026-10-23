@@ -779,20 +779,27 @@ export class SceneStager {
     const near = (p: Vec2) => Math.hypot(p.x - k.x, p.z - k.z) < READ3D.stage.radius;
     const focus = this.focusNow();
     const names = focus ?? [...this.speakers];
+    // K3: a focus prop the line on screen names is that line's subject (kept like a speaker).
+    const text = this.lines[this.line]?.text ?? '';
+    const named = (who: string): boolean => {
+      const cue = MARK_FIT[who]?.cue;
+      return !!cue && new RegExp(cue, 'i').test(text);
+    };
     for (const who of names) {
       if (who === 'narrator' || speaksAsKeeper(world, who, this.stage)) continue;
       // K3: a person weighs 1, a sized prop (MARK_FIT) 0.5, any other mark (a place) 0.3.
       const person = this.castSpot(world, who);
       const p = person ?? this.spotOf(world, who);
       const fit = focus ? MARK_FIT[who] : undefined;
-      const w = person ? W.cast : fit ? W.prop : W.place;
+      const subject = !person && !!fit && named(who);
+      const w = person || subject ? W.cast : fit ? W.prop : W.place;
       if (p && (focus || who === now || near(p)))
         out.push({
           x: p.x,
           z: p.z,
           w,
           ...(fit ? { fit } : {}),
-          ...(who === now ? { speaker: true } : {}),
+          ...(who === now || subject ? { speaker: true } : {}),
         });
     }
     return out;
