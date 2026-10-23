@@ -160,7 +160,35 @@ function fitOnce(
 
 const scratch = new THREE.PerspectiveCamera();
 
-/** K3's weighted fit: the first tier that fits within the budget, else the narrowest. */
+/**
+ * K3 review: the smallest a person (`STAGE4.personH` tall, a weight-1 point with no size of
+ * its own) is drawn from this camera, in CSS px of a view `viewPxH` high; Infinity with none.
+ */
+function smallestPerson(
+  points: readonly FitPoint[],
+  cam: THREE.PerspectiveCamera,
+  ground: (x: number, z: number) => number,
+  viewPxH: number,
+): number {
+  let least = Infinity;
+  const a = new THREE.Vector3();
+  const b = new THREE.Vector3();
+  for (const p of points) {
+    if ((p.w ?? STAGE4.weight.cast) < STAGE4.weight.cast || p.fit) continue;
+    const g = ground(p.x, p.z);
+    a.set(p.x, g, p.z).project(cam);
+    b.set(p.x, g + STAGE4.personH, p.z).project(cam);
+    least = Math.min(least, ((b.y - a.y) / 2) * viewPxH);
+  }
+  return least;
+}
+
+/**
+ * K3's weighted fit: the first tier that fits within the budget, else the narrowest. On a
+ * phone held upright (`lens.aspect < 1` and `viewPxH` given), a tier also has to draw every
+ * person in it at least `STAGE4.minPersonPx` tall; the narrowest tier is pushed in until it
+ * does (never nearer than the shortest story distance).
+ */
 export function fitShot3d(
   points: readonly FitPoint[],
   yaw: number,
@@ -169,15 +197,29 @@ export function fitShot3d(
   safe: SafeNdc,
   ground: (x: number, z: number) => number,
   cam: THREE.PerspectiveCamera = scratch,
+  viewPxH = 0,
 ): Fit3d {
   lensCam(cam, lens);
   const pitch = THREE.MathUtils.degToRad(pitchDeg);
+  const phone = lens.aspect < 1 && viewPxH > 0;
+  const size = (f: { x: number; z: number; distance: number }, t: readonly FitPoint[]) => {
+    placeCam(cam, f.x, f.z, f.distance, yaw, pitch, ground);
+    return smallestPerson(t, cam, ground, viewPxH);
+  };
   const tiers = fitTiers(points);
   let out: Fit3d | null = null;
   for (const t of tiers) {
     const f = fitOnce(t, yaw, pitch, cam, safe, ground);
     out = { ...f, kept: t };
-    if (f.distance <= STAGE4.fit3dBudget) break;
+    if (f.distance <= STAGE4.fit3dBudget && (!phone || size(f, t) >= STAGE4.minPersonPx)) break;
+  }
+  if (out && phone) {
+    for (let i = 0; i < 4; i++) {
+      const px = size(out, out.kept);
+      if (!(px < STAGE4.minPersonPx) || out.distance <= READ3D.stage.minDistance) break;
+      const d = Math.max(READ3D.stage.minDistance, (out.distance * px) / STAGE4.minPersonPx);
+      out = { ...out, distance: d };
+    }
   }
   return out ?? { x: 0, z: 0, distance: READ3D.stage.minDistance, kept: [] };
 }

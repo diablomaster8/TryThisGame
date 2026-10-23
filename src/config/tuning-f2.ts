@@ -40,6 +40,11 @@ export interface MarkFit {
    * fit beside it whole (unset: kept whole until it is dropped by weight).
    */
   keep?: number;
+  /**
+   * K3: a word that names it in a line (a regex source, case-insensitive). While the line on
+   * screen names it, it is that line's subject: kept (at its `keep` share) over the rest.
+   */
+  cue?: string;
 }
 
 /**
@@ -54,5 +59,5 @@ export const MARK_FIT: Readonly<Record<string, MarkFit>> = {
     r: (HUSH.colossus.width * CG2_W.hush.scale3d) / 2,
   },
   /** The pond, kept whole round its centre (GROVE.pond's radius is 5; the shore is enough). */
-  'pond-centre': { h3d: 0.5, dz3d: 0, hPx: 0.5, r: 4, keep: 0.6 },
+  'pond-centre': { h3d: 0.5, dz3d: 0, hPx: 0.5, r: 4, keep: 0.6, cue: '\\bpond\\b' },
 };

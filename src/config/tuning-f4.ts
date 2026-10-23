@@ -13,6 +13,12 @@ export const STAGE4 = {
    * distance search gives up and the frame stops holding everything.
    */
   fit3dBudget: 68,
+  /**
+   * K3, 3D on a phone held upright: a person (this tall, world units) is never drawn under
+   * this many CSS px; the fit drops low weights before it stands back further.
+   */
+  personH: 1.4,
+  minPersonPx: 40,
   /** K9: alternating two-speaker exchanges cut to `over` shots (3D) or pan (pixel). */
   reverse: {
     /** The 3D over-the-shoulder: share of the way from the listener to the speaker aimed at. */
