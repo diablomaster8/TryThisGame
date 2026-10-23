@@ -1572,7 +1572,8 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
         const ease = still ? 1 : smooth(Math.min(1, dt / 0.6));
         const lie = Math.max(0, bellyY - footY - 0.03);
         const drop = Math.max(0, lie - poseCtx.seat);
-        set('head', s(t * 0.9) * 0.03 * ease, s(t * 0.5) * 0.06, 0);
+        // Chin up a touch: a seated body looks out, not down at its feet.
+        set('head', (-0.12 + s(t * 0.9) * 0.03) * ease, s(t * 0.5) * 0.06, 0);
         if (spider || hover) {
           hips.position.y = spec.hipY - (hover ? 0 : 0.25 * ease);
         } else if (quad) {
@@ -1582,10 +1583,12 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
           set('tail', 0.3 * ease, s(t * 1.3) * 0.2, 0);
         } else {
           hips.position.y = spec.hipY - Math.min(drop, spec.hipY * 0.55) * ease;
-          hips.rotation.x = -0.08 * ease;
-          set('legL', -1.25 * ease, 0, 0.2 * ease);
-          set('legR', -1.25 * ease, 0, -0.2 * ease);
-          for (const leg of legs) bendKnee(leg, (pose === 'kneel' ? 1.4 : 0.35) * ease);
+          // Upright, leaning back a little onto the seat, the legs straight out in front (a
+          // knee bend folds a short Nubbin leg under the body and reads as lying down).
+          hips.rotation.x = -0.18 * ease;
+          set('legL', -1.45 * ease, 0, 0.22 * ease);
+          set('legR', -1.45 * ease, 0, -0.22 * ease);
+          for (const leg of legs) bendKnee(leg, (pose === 'kneel' ? 1.4 : 0) * ease);
           set('armL', -0.15 * ease, 0, 0.45 * ease);
           set('armR', -0.15 * ease, 0, -0.45 * ease);
           set('tail', 0.2, s(t * 1.1) * 0.25, 0);
@@ -1950,8 +1953,10 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       const hL = rig.ground(px - rx, pz - rz);
       // Positive rotation.x drops the nose (local +z), so a higher front pitches it up
       // with the negative sign; positive rotation.z lifts the local +x side.
-      root.rotation.x = -Math.atan2(hF - hB, 2 * f) * 0.85;
-      root.rotation.z = Math.atan2(hR - hL, 2 * f) * 0.85;
+      // A seated body stays upright on its seat instead of leaning down the slope (K1).
+      const tilt = pose === 'sit' || pose === 'kneel' ? 0.15 : 0.85;
+      root.rotation.x = -Math.atan2(hF - hB, 2 * f) * tilt;
+      root.rotation.z = Math.atan2(hR - hL, 2 * f) * tilt;
       root.position.y = (hF + hB + hR + hL) / 4 - GROUND_SINK - footY * spec.scale;
       // Then the exact drop: the lowest contact point, carried by the root's yaw and tilt
       // alone (so a hop still leaves the ground), lands a hair into the grass.

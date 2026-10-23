@@ -881,14 +881,17 @@ export class WorldView {
             frameAt(CLIPS[kclip], (nowMs - this.keeperClipStart) * (k.running ? 1.7 : 1)),
           ),
     );
-    shadow(kx, 0, kz, 0.45);
+    // A Keeper held on a hill mark stands (or sits) on the terrace, as held NPCs do.
+    const kHeld = this.staging?.active && this.staging.keeperHold && this.location === 'grove';
+    const ky = (kHeld ? terraceY(kx, kz) : 0) + (kpose?.lift ?? 0);
+    shadow(kx, ky, kz, 0.45);
     if (krect) {
       batch.draw({
         sheet: ksheet,
         rect: krect,
         flip: kview.flip,
         x: kx,
-        y: kpose?.lift ?? 0,
+        y: ky,
         z: kz,
         mode: 'billboard',
         tint: this.dim,
