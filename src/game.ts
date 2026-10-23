@@ -34,6 +34,7 @@ import { catchUpInChunks } from './sim/offline';
 import { deserialize, serialize } from './sim/save';
 import type { AwayReport, Command, GraphicsMode, SimEvent, World } from './sim/types';
 import { applyCommand, createWorld, findNubbin, stepWorld } from './sim/world';
+import { STAGE_LINE } from './render/stage-pose';
 
 export interface GameHooks {
   onEvents(events: SimEvent[]): void;
@@ -733,6 +734,8 @@ export class Game {
     if (this.scene3d) this.scene3d.reduceMotion = reduce;
     this.camera.update(nowMs);
 
+    // K7 (package a1): the stage poses read the line on screen for its gesture.
+    STAGE_LINE.line = this.storyLine;
     if (!this.renderPaused) {
       if (this.scene3d) {
         this.updateDaylight(nowMs);
