@@ -4,6 +4,7 @@ import { markAt } from '../config/stage-marks';
 import type { SceneStage } from '../config/story';
 import { LANTERN_POSTS } from '../config/tuning';
 import { HAND_LANTERN, HUSH, LANTERN_E } from '../config/tuning-e';
+import { CG4_A1 } from '../config/tuning-a1';
 import { CG2_W } from '../config/tuning-w';
 import type { Daylight } from '../render/daylight';
 import { flickerAt, glowTexture, hushPresence, lanternLights, SceneClock } from '../render/dress-e';
@@ -13,6 +14,7 @@ import type { World } from '../sim/types';
 import type { Dress3dCtx, Dressing3d } from './dressings';
 import { stagedSeat } from './npc-accessories';
 import { hushCardTexture } from './hush-card';
+import { handPoint } from './stage-pose3d';
 import { groveHeight } from './terrain';
 
 /**
@@ -40,6 +42,7 @@ class Dress3dE implements Dressing3d {
   private hand: THREE.Group[] = [];
   private colossus: THREE.Sprite | null = null;
   private owned: Array<{ dispose(): void }> = [];
+  private readonly handAt = new THREE.Vector3();
 
   build(ctx: Dress3dCtx): void {
     this.ctx = ctx;
@@ -219,6 +222,14 @@ class Dress3dE implements Dressing3d {
         if (om) yaw = Math.atan2(om.x - m.x, om.z - m.z);
       }
       const s = npcLookOf(c.who)?.scale ?? 1;
+      // K13 (package a1): hung from the right hand when the Keeper's rig is up.
+      const npc = world.npcs.find((n) => n.trainer === c.who);
+      if (npc && handPoint(npc.id, this.handAt)) {
+        g.position.set(this.handAt.x, this.handAt.y - CG4_A1.hand.lanternDrop * s, this.handAt.z);
+        g.rotation.z = reduce ? 0 : Math.sin(this.time * 2 + i) * 0.07;
+        g.visible = true;
+        return;
+      }
       const lx = HAND_LANTERN.side * s;
       const lz = HAND_LANTERN.forward * s;
       const cs = Math.cos(yaw);
