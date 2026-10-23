@@ -265,7 +265,8 @@ const ROOM_SPOTS: Readonly<Record<InteriorId, Readonly<Record<string, StageMark>
   guardhouse: {
     // Behind the counter, which runs across the room a third of the way in.
     // Hob's stool behind the counter.
-    counter: seated(inRoom(-0.6, -1.5, S), 0.24),
+    // On the stool behind the counter (its seat is 0.52 up; interior-layout.ts).
+    counter: seated(inRoom(-0.6, -1.55, S), 0.52),
     banners: inRoom(2.2, -2.0, S),
     door: inRoom(2.8, 1.8, toward(2.8, 1.8, 0, 0)),
   },

@@ -41,6 +41,10 @@ const vane = (mark = 'cart', o: Partial<StageCast> = {}): StageCast => ({
 /** The guard house by lamplight, drawn alone (K10): the counter, the banners. */
 const INSIDE = { place: 'inside-guardhouse', exclusive: true } as const;
 const COUNTER = 'in-guardhouse-counter';
+/** Hob on his stool behind the counter. */
+const SAT = { pose: 'sit' } as const;
+/** Indoors the camera keeps to the room's open side, the south-east (K10). */
+const ROOM_YAW = 0.45;
 const NOTEBOOK = { carry: 'notebook' } as const;
 const SHUT = { banners: 'show', cart: 'shut' } as const;
 const OPEN = { banners: 'show', cart: 'open' } as const;
@@ -53,10 +57,10 @@ export const BEETLE_STAGES: Readonly<Record<string, SceneStage>> = {
         ...INSIDE,
         hour: 22.5,
         // "Behind the counter sits a man": Hob at his counter, the banners on the wall.
-        cast: [hob(COUNTER)],
-        shot: { kind: 'establish' },
+        cast: [hob(COUNTER, SAT)],
+        shot: { kind: 'establish', yaw: ROOM_YAW },
       },
-      { ...INSIDE, hour: 22.5, cast: [hob(COUNTER)], shot: { kind: 'two' } },
+      { ...INSIDE, hour: 22.5, cast: [hob(COUNTER, SAT)], shot: { kind: 'two', yaw: ROOM_YAW } },
     ],
     // 2 The Beetle: the cart under its tarp; home with the cargo.
     [
@@ -119,8 +123,8 @@ export const BEETLE_STAGES: Readonly<Record<string, SceneStage>> = {
   'b-c1-ledger': {
     ...INSIDE,
     hour: 9,
-    cast: [hob(COUNTER, NOTEBOOK)],
-    shot: { kind: 'two' },
+    cast: [hob(COUNTER, { ...NOTEBOOK, ...SAT })],
+    shot: { kind: 'two', yaw: ROOM_YAW },
   },
   // 2: the Beetle under its tarp; the first errand
   'b-c2-tarp': {
@@ -134,8 +138,8 @@ export const BEETLE_STAGES: Readonly<Record<string, SceneStage>> = {
   'b-c2-errand': {
     ...INSIDE,
     hour: 17.5,
-    cast: [hob(COUNTER, NOTEBOOK)],
-    shot: { kind: 'two' },
+    cast: [hob(COUNTER, { ...NOTEBOOK, ...SAT })],
+    shot: { kind: 'two', yaw: ROOM_YAW },
   },
   // 3: the first domain's stair and torches; back up at dusk
   'b-c3-stair': { ...BELOW, cast: [hob('floor-up')], shot: { kind: 'wide' } },

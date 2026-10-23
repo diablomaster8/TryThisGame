@@ -18,6 +18,15 @@ describe('K16 floor marks', () => {
       const f = floorOf(BEETLE_STORY_SEED, depth);
       const m = floorMarks(f);
       const names = ['keeper', 'guardhouse-bench', 'banner-1', 'cart', 'guardhouse-counter'];
+      // Nobody stands in the stairs' gateway: a clear cell round each stair.
+      const near = (mk: { x: number; z: number }, c: { x: number; y: number }) => {
+        const p = cellCentre(f, c);
+        return Math.max(Math.abs(mk.x - p.x), Math.abs(mk.z - p.z)) < 2.9;
+      };
+      for (const n of [...names, 'floor-up'])
+        expect(near(m[n]!, f.stairsUp) || (!!f.stairsDown && near(m[n]!, f.stairsDown)), n).toBe(
+          false,
+        );
       const spots = new Set<string>();
       for (const n of names) {
         const mk = m[n]!;

@@ -1,4 +1,5 @@
 import { setFloorMarks, type StageMark } from '../config/stage-marks';
+import { CG4_C4 } from '../config/tuning';
 import {
   cellAt,
   cellCentre,
@@ -7,6 +8,7 @@ import {
   runFloor,
   type Cell,
   type Floor,
+  type Room,
 } from '../sim/dungeon';
 import type { World } from '../sim/types';
 
@@ -15,39 +17,75 @@ import type { World } from '../sim/types';
  * rooms. The story stager calls `syncFloorMarks` before it places anyone
  * (render/scene-stage.ts); the marks change only when the floor does.
  *
- * - `floor-up`, `floor-down`, `floor-chest`: the stairs and the chest.
- * - `floor-room-1`..: every room's centre (the nearest open cell to it); `floor-great` the
- *   great chamber's.
- * - The names the Beetle Road's below scenes already use, so they stand on the floor rather
- *   than in the Grove: `keeper` and `keeper-below` a step off the stairs up, and
- *   `guardhouse-bench`, `guardhouse-counter`, `banner-1` and `cart` round the Keeper, each
- *   on open ground and turned to them.
+ * Every mark a figure stands on keeps `CG4_C4.floorClear` cells clear of the floor's props
+ * (the stairs' lit gateways, the chest, torches, crystals, loot), on dry ground at the
+ * stairs' level where it can, so nobody is boxed in a gateway or washed out by its light.
+ *
+ * - `floor-up`, `floor-down`, `floor-chest`: a clear spot beside the stairs up, the stairs
+ *   down and the chest, turned to the Keeper. `floor-up-at`, `floor-down-at`,
+ *   `floor-chest-at`: the props' own cells (for a camera focus, never to stand on).
+ * - `floor-room-1`..: every room's centre (the nearest clear cell); `floor-great` the great
+ *   chamber's.
+ * - The names the Beetle Road's below scenes use: `keeper` and `keeper-below` clear of the
+ *   stairs up, toward the room; `guardhouse-bench`, `guardhouse-counter`, `banner-1` and
+ *   `cart` round the Keeper, each turned to them.
  */
 
 let shown = '';
 
+const key = (x: number, y: number): string => `${x},${y}`;
+
+/** The cells within `r` (Chebyshev) of a floor prop, which nobody is stood on. */
+function blockedCells(f: Floor, r: number): Set<string> {
+  const props: Cell[] = [
+    f.stairsUp,
+    ...(f.stairsDown ? [f.stairsDown] : []),
+    f.chest,
+    ...f.torches,
+    ...f.crystals,
+    ...f.loot.map((l) => l.cell),
+  ];
+  const out = new Set<string>();
+  for (const c of props)
+    for (let dy = -r; dy <= r; dy++)
+      for (let dx = -r; dx <= r; dx++) out.add(key(c.x + dx, c.y + dy));
+  return out;
+}
+
 /**
- * The open cell nearest `c` (itself if open), searching outward a few rings. With `level`,
- * a dry cell at that ground height is taken first (a figure off it would stand in a terrace
- * wall: the cast is drawn on the flat), then any open cell.
+ * The open cell nearest `c`, searching outward a few rings: first a dry cell clear of the
+ * props at `level` (the cast is drawn on the flat), then clear at any height, then any dry
+ * cell not taken, then `c` itself.
  */
 function openNear(
   f: Floor,
   c: Cell,
-  avoid: ReadonlySet<string> = new Set(),
+  taken: ReadonlySet<string>,
+  blocked: ReadonlySet<string>,
   level: number | null = null,
+  room: Room | null = null,
 ): Cell {
-  const fits = (x: number, y: number, strict: boolean): boolean => {
-    if (cellAt(f, x, y) !== FLOOR || avoid.has(`${x},${y}`)) return false;
-    if (!strict || level === null) return true;
-    return Math.abs((f.elevation[cellIndex(f, x, y)] ?? 0) - level) < 0.05;
-  };
-  for (const strict of [true, false])
-    for (let r = 0; r <= 6; r++)
+  const flat = (x: number, y: number): boolean =>
+    level === null || Math.abs((f.elevation[cellIndex(f, x, y)] ?? 0) - level) < 0.05;
+  const inRoom = (x: number, y: number): boolean =>
+    !room || (x >= room.x && x < room.x + room.w && y >= room.y && y < room.y + room.h);
+  const clear = (x: number, y: number): boolean => !blocked.has(key(x, y));
+  // In the stairs' own room first (nothing between the cast and the Keeper), on the flat.
+  const passes: Array<(x: number, y: number) => boolean> = [
+    (x, y) => clear(x, y) && flat(x, y) && inRoom(x, y),
+    (x, y) => clear(x, y) && inRoom(x, y),
+    (x, y) => clear(x, y) && flat(x, y),
+    clear,
+    () => true,
+  ];
+  for (const ok of passes)
+    for (let r = 0; r <= 7; r++)
       for (let dy = -r; dy <= r; dy++)
         for (let dx = -r; dx <= r; dx++) {
           if (Math.max(Math.abs(dx), Math.abs(dy)) !== r) continue;
-          if (fits(c.x + dx, c.y + dy, strict)) return { x: c.x + dx, y: c.y + dy };
+          const x = c.x + dx;
+          const y = c.y + dy;
+          if (cellAt(f, x, y) === FLOOR && !taken.has(key(x, y)) && ok(x, y)) return { x, y };
         }
   return c;
 }
@@ -55,76 +93,8 @@ function openNear(
 const yawTo = (a: { x: number; z: number }, b: { x: number; z: number }): number =>
   Math.atan2(b.x - a.x, b.z - a.z);
 
-/** The marks for one floor. */
-export function floorMarks(f: Floor): Record<string, StageMark> {
-  const out: Record<string, StageMark> = {};
-  const at = (c: Cell, yaw = 0): StageMark => {
-    const p = cellCentre(f, c);
-    return { x: p.x, z: p.z, yaw };
-  };
-  // Room centres, each facing the stairs up.
-  const up = cellCentre(f, f.stairsUp);
-  f.rooms.forEach((r, i) => {
-    const c = openNear(f, { x: Math.floor(r.x + r.w / 2), y: Math.floor(r.y + r.h / 2) });
-    const m = at(c);
-    m.yaw = yawTo(m, up);
-    out[`floor-room-${i + 1}`] = m;
-    if (i === f.greatRoom) out['floor-great'] = m;
-  });
-  out['floor-up'] = at(f.stairsUp);
-  if (f.stairsDown) out['floor-down'] = at(f.stairsDown);
-  out['floor-chest'] = at(f.chest);
-  // The scene's group: the Keeper a step off the stairs, toward the room's middle; the
-  // others two cells round them, turned to them.
-  const used = new Set([`${f.stairsUp.x},${f.stairsUp.y}`]);
-  const home = f.rooms.find(
-    (r) =>
-      f.stairsUp.x >= r.x &&
-      f.stairsUp.x < r.x + r.w &&
-      f.stairsUp.y >= r.y &&
-      f.stairsUp.y < r.y + r.h,
-  );
-  const mid = home
-    ? { x: Math.floor(home.x + home.w / 2), y: Math.floor(home.y + home.h / 2) }
-    : f.stairsUp;
-  const sx = Math.sign(mid.x - f.stairsUp.x);
-  const sy = Math.sign(mid.y - f.stairsUp.y) || (sx === 0 ? 1 : 0);
-  // Everyone stands on the stairs' own level (the stairs sit level at 0).
-  const level = f.elevation[cellIndex(f, f.stairsUp.x, f.stairsUp.y)] ?? 0;
-  const kc = openNear(f, { x: f.stairsUp.x + sx, y: f.stairsUp.y + sy }, used, level);
-  used.add(`${kc.x},${kc.y}`);
-  const keeper = at(kc);
-  // Face the way in (from the stairs toward the room's middle).
-  keeper.yaw = yawTo(cellCentre(f, f.stairsUp), cellCentre(f, mid));
-  out.keeper = keeper;
-  out['keeper-below'] = keeper;
-  // Round the Keeper, ahead of them: ahead, ahead-left, ahead-right, then beside.
-  const fx = Math.sin(keeper.yaw);
-  const fz = Math.cos(keeper.yaw);
-  const spots: Array<[number, number]> = [
-    [2, 0],
-    [2, 1.4],
-    [2, -1.4],
-    [0.4, 2],
-  ];
-  const names = ['guardhouse-bench', 'banner-1', 'cart', 'guardhouse-counter'];
-  spots.forEach(([ahead, side], i) => {
-    // Ahead along the facing, `side` across it, in cells.
-    const wx = keeper.x + (fx * ahead + fz * side) * cellSize(f);
-    const wz = keeper.z + (fz * ahead - fx * side) * cellSize(f);
-    const c = openNear(f, cellOfWorld(f, wx, wz), used, level);
-    used.add(`${c.x},${c.y}`);
-    const m = at(c);
-    m.yaw = yawTo(m, keeper);
-    out[names[i]!] = m;
-  });
-  return out;
-}
-
 function cellSize(f: Floor): number {
-  const a = cellCentre(f, { x: 0, y: 0 });
-  const b = cellCentre(f, { x: 1, y: 0 });
-  return b.x - a.x;
+  return cellCentre(f, { x: 1, y: 0 }).x - cellCentre(f, { x: 0, y: 0 }).x;
 }
 
 function cellOfWorld(f: Floor, x: number, z: number): Cell {
@@ -132,12 +102,112 @@ function cellOfWorld(f: Floor, x: number, z: number): Cell {
   return { x: Math.floor(x / s + f.cols / 2), y: Math.floor(z / s + f.rows / 2) };
 }
 
+/** The room holding `c`, if any. */
+function roomOf(f: Floor, c: Cell): Room | null {
+  return (
+    f.rooms.find((r) => c.x >= r.x && c.x < r.x + r.w && c.y >= r.y && c.y < r.y + r.h) ?? null
+  );
+}
+
+/** The middle of the room holding `c`, or `c`. */
+function roomMiddle(f: Floor, c: Cell): Cell {
+  const r = roomOf(f, c);
+  return r ? { x: Math.floor(r.x + r.w / 2), y: Math.floor(r.y + r.h / 2) } : c;
+}
+
+/** The marks for one floor. */
+export function floorMarks(f: Floor): Record<string, StageMark> {
+  const out: Record<string, StageMark> = {};
+  const blocked = blockedCells(f, CG4_C4.floorClear);
+  const taken = new Set<string>();
+  const at = (c: Cell, yaw = 0): StageMark => {
+    const p = cellCentre(f, c);
+    return { x: p.x, z: p.z, yaw };
+  };
+  const level = f.elevation[cellIndex(f, f.stairsUp.x, f.stairsUp.y)] ?? 0;
+  const up = cellCentre(f, f.stairsUp);
+
+  // The props' own cells, for a focus.
+  out['floor-up-at'] = at(f.stairsUp);
+  if (f.stairsDown) out['floor-down-at'] = at(f.stairsDown);
+  out['floor-chest-at'] = at(f.chest);
+
+  // The Keeper: clear of the stairs up, toward the room's middle, facing in.
+  const home = roomOf(f, f.stairsUp);
+  const mid = roomMiddle(f, f.stairsUp);
+  const dx = Math.sign(mid.x - f.stairsUp.x);
+  const dy = Math.sign(mid.y - f.stairsUp.y) || (dx === 0 ? 1 : 0);
+  const reach = CG4_C4.floorClear + 1;
+  const kc = openNear(
+    f,
+    { x: f.stairsUp.x + dx * reach, y: f.stairsUp.y + dy * reach },
+    taken,
+    blocked,
+    level,
+    home,
+  );
+  taken.add(key(kc.x, kc.y));
+  const keeper = at(kc);
+  keeper.yaw = yawTo(up, cellCentre(f, mid));
+  if (Math.hypot(keeper.x - up.x, keeper.z - up.z) > 0.1) keeper.yaw = yawTo(up, keeper);
+  out.keeper = keeper;
+  out['keeper-below'] = keeper;
+
+  // Round the Keeper, ahead of them: ahead, ahead-left, ahead-right, then beside. The first
+  // of them is `floor-up` too: the one who meets the Keeper by the stairs.
+  const fx = Math.sin(keeper.yaw);
+  const fz = Math.cos(keeper.yaw);
+  const s = cellSize(f);
+  const spots: Array<[string, number, number]> = [
+    ['guardhouse-bench', 2, 0],
+    ['banner-1', 2, 1.4],
+    ['cart', 2, -1.4],
+    ['guardhouse-counter', 0.4, 2],
+  ];
+  for (const [name, ahead, side] of spots) {
+    const wx = keeper.x + (fx * ahead + fz * side) * s;
+    const wz = keeper.z + (fz * ahead - fx * side) * s;
+    const c = openNear(f, cellOfWorld(f, wx, wz), taken, blocked, level, home);
+    taken.add(key(c.x, c.y));
+    const m = at(c);
+    m.yaw = yawTo(m, keeper);
+    out[name] = m;
+  }
+  out['floor-up'] = out['guardhouse-bench']!;
+
+  // Beside the stairs down and the chest, turned toward the stairs up (the way in).
+  const beside = (c: Cell): StageMark => {
+    const b = openNear(f, c, taken, blocked);
+    taken.add(key(b.x, b.y));
+    const m = at(b);
+    m.yaw = yawTo(m, up);
+    return m;
+  };
+  if (f.stairsDown) out['floor-down'] = beside(f.stairsDown);
+  out['floor-chest'] = beside(f.chest);
+
+  // Room centres, each facing the stairs up.
+  f.rooms.forEach((r, i) => {
+    const c = openNear(
+      f,
+      { x: Math.floor(r.x + r.w / 2), y: Math.floor(r.y + r.h / 2) },
+      new Set(),
+      blocked,
+    );
+    const m = at(c);
+    m.yaw = yawTo(m, up);
+    out[`floor-room-${i + 1}`] = m;
+    if (i === f.greatRoom) out['floor-great'] = m;
+  });
+  return out;
+}
+
 /** Keep the dungeon mark set on the world's floor (or empty off it). */
 export function syncFloorMarks(world: World): void {
   const run = world.dungeon;
   const f = runFloor(world);
-  const key = f && run ? `${run.seed}:${run.depth}:${run.genVersion}` : '';
-  if (key === shown) return;
-  shown = key;
+  const k = f && run ? `${run.seed}:${run.depth}:${run.genVersion}` : '';
+  if (k === shown) return;
+  shown = k;
   setFloorMarks(f ? floorMarks(f) : {});
 }
