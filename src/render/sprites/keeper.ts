@@ -449,19 +449,187 @@ function shrink(src: PixelCanvas, k: number): PixelCanvas {
   return dst;
 }
 
+/**
+ * Campaign graphics 4, package a1: the stage clips on every Keeper sheet, with their frame
+ * counts. `sit` (K1) breathes over two frames, `kneel` (K1) is one; each line gesture (K7,
+ * `g-nod`...) and the item-get (K39, `itemget`) is one held frame.
+ */
+export const KEEPER_STAGE_CLIPS = {
+  sit: 2,
+  kneel: 1,
+  itemget: 1,
+  'g-nod': 1,
+  'g-shrug': 1,
+  'g-point': 1,
+  'g-down': 1,
+  'g-chest': 1,
+} as const;
+export type KeeperClip = 'idle' | 'walk' | keyof typeof KEEPER_STAGE_CLIPS;
+
+/**
+ * K1: the legs of a seated or kneeling figure, drawn where the standing legs would be. The
+ * body has dropped 3 px; the boots stay on the ground line.
+ */
+function drawLowLegs(
+  pc: PixelCanvas,
+  angle: DrawnAngle,
+  kneel: boolean,
+  legY: number,
+  col: KeeperColors,
+): void {
+  const pantsShade = shadeOf(col.pants);
+  const bootLight = lightOf(col.boots);
+  if (angle === 'side') {
+    if (kneel) {
+      // The back knee on the ground, its shin along the grass; the front thigh forward.
+      pc.rect(13, legY, 3, 3, col.pants);
+      pc.rect(10, 30, 4, 1, col.pants);
+      pc.rect(8, 30, 2, 2, col.boots);
+      pc.rect(15, legY, 5, 2, col.pants);
+      pc.rect(18, legY + 2, 2, 1, col.pants);
+      pc.rect(18, 30, 4, 2, col.boots);
+      pc.thinLine(18, 30, 21.5, 30, bootLight);
+      return;
+    }
+    // A thigh straight out in front and the shin hanging from the knee.
+    pc.rect(14, legY, 7, 2, col.pants);
+    pc.thinLine(14, legY + 1.5, 20.5, legY + 1.5, pantsShade);
+    pc.rect(19, legY + 2, 2, 1, col.pants);
+    pc.rect(19, 30, 4, 2, col.boots);
+    pc.thinLine(19, 30, 22.5, 30, bootLight);
+    return;
+  }
+  const back = angle === 'back' || angle === 'backQuarter';
+  if (kneel) {
+    // Left knee down (a square of trouser on the ground), right knee up with its boot in front.
+    pc.rect(11, legY, 4, 3, col.pants);
+    if (!back) pc.thinLine(11, legY + 2.5, 14.5, legY + 2.5, pantsShade);
+    pc.rect(17, legY - 1, 4, 2, col.pants);
+    pc.rect(17, legY + 1, 3, 1, col.pants);
+    pc.rect(16, 30, 5, 2, col.boots);
+    pc.thinLine(16, 30, 20, 30, bootLight);
+    return;
+  }
+  // Seated, seen from the front: the knees come toward you, the boots below them.
+  pc.rect(11, legY, 4, 2, col.pants);
+  pc.rect(17, legY, 4, 2, col.pants);
+  if (!back) {
+    pc.thinLine(11.5, legY + 0.5, 14, legY + 0.5, lightOf(col.pants));
+    pc.thinLine(17.5, legY + 0.5, 20, legY + 0.5, lightOf(col.pants));
+  }
+  pc.rect(11, 30, 5, 2, col.boots);
+  pc.rect(16, 30, 5, 2, col.boots);
+  pc.thinLine(11, 30, 15, 30, bootLight);
+  pc.thinLine(16, 30, 20, 30, bootLight);
+}
+
+/**
+ * K7 and K39: the arms of a gesture or the item-get; false for the stock arms. Each has its
+ * own shape (arms out, one arm pointing, hands to the chest, both arms up), not a colour.
+ */
+function drawPoseArms(
+  pc: PixelCanvas,
+  clip: KeeperClip,
+  angle: DrawnAngle,
+  tx: number,
+  tw: number,
+  armY: number,
+  col: KeeperColors,
+): boolean {
+  const side = angle === 'side';
+  const hand = col.skin;
+  switch (clip) {
+    case 'g-shrug':
+      if (side) {
+        pc.rect(16, armY + 1, 2, 3, col.shirt);
+        pc.rect(18, armY, 3, 2, col.shirt);
+        pc.px(21, armY - 1, hand);
+        return true;
+      }
+      // Elbows out, forearms up and open, palms up.
+      pc.rect(tx - 3, armY + 1, 2, 3, col.shirt);
+      pc.rect(tx - 5, armY - 1, 2, 3, col.shirt);
+      pc.px(tx - 5, armY - 2, hand);
+      pc.rect(tx + tw + 1, armY + 1, 2, 3, col.shirt);
+      pc.rect(tx + tw + 3, armY - 1, 2, 3, col.shirt);
+      pc.px(tx + tw + 4, armY - 2, hand);
+      return true;
+    case 'g-point':
+      if (side) {
+        pc.rect(16, armY + 1, 7, 2, col.shirt);
+        pc.px(23, armY + 1, hand);
+        pc.px(24, armY + 1, hand);
+        return true;
+      }
+      // The left arm hangs; the right reaches straight out with a finger.
+      pc.rect(tx - 2, armY + 1, 2, 5, col.shirt);
+      pc.px(tx - 2, armY + 6, hand);
+      pc.rect(tx + tw, armY + 1, 6, 2, col.shirt);
+      pc.thinLine(tx + tw, armY + 2.5, tx + tw + 5.5, armY + 2.5, col.shirtShade);
+      pc.px(tx + tw + 6, armY + 1, hand);
+      pc.px(tx + tw + 7, armY + 1, hand);
+      return true;
+    case 'g-chest':
+      if (side) {
+        pc.rect(16, armY + 1, 2, 3, col.shirt);
+        pc.rect(17, armY + 3, 3, 2, col.shirt);
+        pc.px(19, armY + 2, hand);
+        return true;
+      }
+      // Both forearms folded in, the hands meeting over the heart.
+      pc.rect(tx - 2, armY + 1, 2, 3, col.shirt);
+      pc.rect(tx - 1, armY + 3, 5, 2, col.shirt);
+      pc.rect(tx + tw, armY + 1, 2, 3, col.shirt);
+      pc.rect(tx + tw - 4, armY + 3, 5, 2, col.shirt);
+      pc.px(Math.round(tx + tw / 2) - 1, armY + 2, hand);
+      pc.px(Math.round(tx + tw / 2), armY + 2, hand);
+      return true;
+    case 'itemget':
+      if (side) {
+        pc.rect(16, armY - 9, 2, 10, col.shirt);
+        pc.px(16, armY - 10, hand);
+        pc.px(17, armY - 10, hand);
+        return true;
+      }
+      // Both arms straight up beside the head, the hands at the item's corners.
+      pc.rect(tx - 2, armY - 9, 2, 10, col.shirt);
+      pc.rect(tx + tw, armY - 9, 2, 10, col.shirt);
+      pc.px(tx - 2, armY - 10, hand);
+      pc.px(tx + tw + 1, armY - 10, hand);
+      return true;
+    default:
+      return false;
+  }
+}
+
+/** K39: the found thing held overhead: a pale card with a fold line and a glint. */
+function drawHeldItem(pc: PixelCanvas, angle: DrawnAngle, top: number): void {
+  const x = angle === 'side' ? 13 : 10;
+  const w = angle === 'side' ? 7 : 13;
+  pc.rect(x, top, w, 4, C.sandLight);
+  pc.thinLine(x + 1, top + 2, x + w - 1.5, top + 2, C.bark);
+  pc.px(x + w - 2, top + 1, C.white);
+}
+
 function drawKeeper(
   angle: DrawnAngle,
-  clip: 'idle' | 'walk',
+  clip: KeeperClip,
   frame: number,
   col: KeeperColors,
   look?: NpcLook,
 ): PixelCanvas {
   const pc = new PixelCanvas(KEEPER_SIZE, KEEPER_SIZE);
+  const sitting = clip === 'sit';
+  const kneeling = clip === 'kneel';
+  const low = sitting || kneeling;
+  // K7: a nod and a look down drop the head; a shrug sinks it between the shoulders.
+  const headDrop = clip === 'g-down' ? 2 : clip === 'g-nod' || clip === 'g-shrug' ? 1 : 0;
   // Walk: six frames, contact → push-off → passing for each foot.
   const phase = clip === 'walk' ? frame % 6 : 0;
-  const bob = clip === 'walk' && (phase === 2 || phase === 5) ? -1 : 0;
-  const breathe = clip === 'idle' && frame % 8 >= 2 && frame % 8 <= 5 ? 1 : 0;
-  const blink = clip === 'idle' && frame % 8 === 7;
+  const bob = (clip === 'walk' && (phase === 2 || phase === 5) ? -1 : 0) + (low ? 3 : 0);
+  const breathe =
+    (clip === 'idle' && frame % 8 >= 2 && frame % 8 <= 5) || (sitting && frame % 2 === 1) ? 1 : 0;
+  const blink = (clip === 'idle' && frame % 8 === 7) || clip === 'g-nod' || clip === 'g-down';
   const feetY = 30;
   const step = clip === 'walk' ? ([2, 1, 0, -2, -1, 0][phase] ?? 0) : 0;
 
@@ -471,7 +639,9 @@ function drawKeeper(
 
   // Legs / boots, with a seam and a lit sole.
   const legY = feetY - 5 + bob;
-  if (angle === 'side') {
+  if (low) {
+    drawLowLegs(pc, angle, kneeling, legY, col);
+  } else if (angle === 'side') {
     pc.rect(14 + step, legY, 3, 5, col.pants);
     pc.rect(15 - step, legY, 3, 5, col.pants);
     pc.thinLine(16.5 + step, legY, 16.5 + step, legY + 4, pantsShade);
@@ -513,7 +683,7 @@ function drawKeeper(
     tx,
     tw,
     headCx: 16,
-    headCy: torsoTop - 4,
+    headCy: torsoTop - 4 + headDrop,
     armY: torsoTop + 1,
     swing,
   };
@@ -521,7 +691,9 @@ function drawKeeper(
 
   // Arms with cuffs and hands.
   const armY = torsoTop + 1;
-  if (angle === 'side') {
+  if (drawPoseArms(pc, clip, angle, tx, tw, armY, col)) {
+    // K7, K39: the gesture's arms are drawn.
+  } else if (angle === 'side') {
     pc.rect(16 + swing, armY + 1, 2, 5, col.shirt);
     pc.thinLine(16 + swing, armY + 5, 18 + swing, armY + 5, col.shirtShade);
     pc.px(17 + swing, armY + 6, col.skin);
@@ -546,7 +718,7 @@ function drawKeeper(
   if (look?.accessory === 'shawl') drawShawl(pc, angle, torsoTop, legY, tx, tw);
 
   // Head: face with whites in the eyes, a brow, a mouth, a jaw shadow, hair under the hat.
-  const headCy = torsoTop - 4;
+  const headCy = torsoTop - 4 + headDrop;
   const headCx = 16;
   pc.ellipse(headCx, headCy, 4.5, 4, col.skin);
   pc.ellipse(headCx + 1, headCy + 1.5, 3.5, 2.2, skinShade);
@@ -586,6 +758,7 @@ function drawKeeper(
 
   drawHat(pc, col, headCx, headCy);
   if (look) drawHeadAccessory(pc, look, rig);
+  if (clip === 'itemget') drawHeldItem(pc, angle, armY - 14);
 
   const out = look?.scale && look.scale < 1 ? shrink(pc, look.scale) : pc;
   out.finish(col.outline, [col.outline, C.white]);
@@ -601,6 +774,10 @@ export function buildKeeperSheet(col: KeeperColors, look?: NpcLook): SpriteSheet
       }
     }
   }
+  for (const [clip, frames] of Object.entries(KEEPER_STAGE_CLIPS) as Array<[KeeperClip, number]>)
+    for (const angle of DRAWN_ANGLES)
+      for (let f = 0; f < frames; f++)
+        atlas.add(frameKey(clip, angle, f), drawKeeper(angle, clip, f, col, look));
   return atlas.build();
 }
 
