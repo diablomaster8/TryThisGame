@@ -34,7 +34,12 @@ export const NO_SETS: SetsS = {
 export function setsS(world: World, stage: SceneStage): SetsS {
   const ex = stage.exclusive === true;
   const root = ex && stage.place === 'rootNode';
-  const below = ex && (stage.place === 'below' || stage.grade === 'beetle-below');
+  // K16 (campaign graphics 4): on a real Hollow Below floor the floor itself is the set;
+  // the made-up cave stays the fallback for below scenes staged anywhere else.
+  const below =
+    ex &&
+    world.location !== 'dungeon' &&
+    (stage.place === 'below' || stage.grade === 'beetle-below');
   const f = stageFlags(world, stage);
   const digital =
     !ex &&

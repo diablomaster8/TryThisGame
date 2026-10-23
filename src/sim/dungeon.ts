@@ -769,14 +769,26 @@ export function dailySeed(wallMs: number): { day: string; seed: number } {
   return { day, seed: hashString(`hollow:${day}`) % 1_000_000_007 };
 }
 
-export function enterDungeon(world: World, daily: boolean, rng: Rng, events: SimEvent[]): boolean {
+/**
+ * Go down into the Hollow Below. `story` (campaign graphics 4, K16) starts a storyline's
+ * fixed floor instead: its seed, straight at its depth, never a daily.
+ */
+export function enterDungeon(
+  world: World,
+  daily: boolean,
+  rng: Rng,
+  events: SimEvent[],
+  story?: { seed: number; depth: number },
+): boolean {
   if (world.location !== 'grove' || world.dungeon) return false;
+  if (story) daily = false;
   const today = dailySeed(world.lastWallMs);
-  const seed = daily ? today.seed : rng.int(1, 2_000_000_000);
+  const seed = story ? story.seed : daily ? today.seed : rng.int(1, 2_000_000_000);
+  const depth = story ? Math.max(1, Math.round(story.depth)) : 1;
   const party = choosePartyFor(world);
   const run: DungeonRun = {
     seed,
-    depth: 1,
+    depth,
     daily: daily ? today.day : null,
     party,
     returnKeeper: { x: world.keeper.pos.x, z: world.keeper.pos.z },
@@ -798,7 +810,7 @@ export function enterDungeon(world: World, daily: boolean, rng: Rng, events: Sim
     genVersion: DUNGEON.genVersion,
     explored: '',
   };
-  const f = floorOf(seed, 1, run.genVersion);
+  const f = floorOf(seed, depth, run.genVersion);
   populate(run, f);
   world.dungeon = run;
   world.location = 'dungeon';
@@ -807,7 +819,7 @@ export function enterDungeon(world: World, daily: boolean, rng: Rng, events: Sim
     world.hollow.dailyDay = today.day;
     world.hollow.dailyDepth = 1;
   }
-  events.push({ kind: 'dungeonEntered', depth: 1, daily });
+  events.push({ kind: 'dungeonEntered', depth, daily });
   events.push({ kind: 'located', location: 'dungeon' });
   return true;
 }
