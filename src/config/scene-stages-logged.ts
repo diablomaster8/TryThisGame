@@ -81,7 +81,7 @@ export const LOGGED_STAGES: Readonly<Record<string, SceneStage>> = {
         place: 'rootNode',
         hour: 12,
         exclusive: true,
-        cast: [{ who: 'l-root', mark: 'root-chair', pose: 'sit' }, juno('lobby')],
+        cast: [{ who: 'l-root', mark: 'root-stand', face: 'you' }, juno('root-juno')],
         shot: { kind: 'close' },
       },
       { place: 'grove', hour: 12, cast: [warden()], shot: { kind: 'two' } },
