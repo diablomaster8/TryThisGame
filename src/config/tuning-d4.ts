@@ -34,7 +34,7 @@ export const CG4_D4 = {
     /** Distance past the focus over which the blur ramps in, in world units. */
     ramp: 6,
     /** The focus sits this far past the camera's target (the speaker), world units. */
-    focusPad: 0.5,
+    focusPad: 2.2,
     /** Below this frame rate (from the governor's average) the pass is off. */
     minFps: 45,
     /** Seconds the blur eases in or out. */
@@ -57,11 +57,11 @@ export const CG4_D4 = {
     moteHeight: 4,
     /** Seconds a mote takes to drift its loop. */
     moteDriftS: 18,
-    /** Pixel: card count, opacity, size on the ground plane. */
-    pixelBands: 3,
-    pixelOpacity: 0.34,
-    pixelW: 7,
-    pixelH: 13,
+    /** Pixel: band count (0: dropped, they read as columns), opacity, size on the ground. */
+    pixelBands: 0,
+    pixelOpacity: 0.16,
+    pixelW: 6,
+    pixelH: 3,
   },
   /** K23: cloud shadows in the terrain shader. */
   clouds: {

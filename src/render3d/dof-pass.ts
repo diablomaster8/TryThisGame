@@ -66,12 +66,8 @@ const SHADER = {
         // The outer ring, then an inner one half as far: two taps' worth of reach.
         vec2 p1 = vUv + o * r;
         vec2 p2 = vUv + o * r * 0.5;
-        // A sharp foreground sample counts for less, so the speaker does not bleed into
-        // the background behind them.
-        float w1 = cocAt( p1 ) > 0.0 ? 1.0 : 0.2;
-        float w2 = cocAt( p2 ) > 0.0 ? 1.0 : 0.2;
-        sum += texture2D( tDiffuse, p1 ).rgb * w1 + texture2D( tDiffuse, p2 ).rgb * w2;
-        wsum += w1 + w2;
+        sum += texture2D( tDiffuse, p1 ).rgb + texture2D( tDiffuse, p2 ).rgb;
+        wsum += 2.0;
       }
       gl_FragColor = vec4( sum / wsum, c.a );
     }`,

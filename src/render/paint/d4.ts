@@ -34,7 +34,7 @@ export function paintFogPuff(): Raster {
   return r;
 }
 
-export const RAY_PX = { w: 40, h: 72 };
+export const RAY_PX = { w: 48, h: 40 };
 
 /** K22: a soft diagonal shaft of morning light, dithered at its edges, brighter at its head. */
 export function paintLightBand(): Raster {
@@ -49,9 +49,10 @@ export function paintLightBand(): Raster {
       const cx = w * 0.3 + (y / h) * w * 0.4;
       const d = Math.abs(x - cx) / (w * 0.26);
       const along = 1 - y / h;
-      const dens = (1 - d) * (0.45 + 0.55 * along) + (fbm(x / 6, y / 9, 2, 531) - 0.5) * 0.25;
-      if (dens <= 0.05) continue;
-      if (bayer(x, y) > dens * 1.25) continue;
+      const dens = (1 - d) * (0.5 + 0.5 * along) + (fbm(x / 7, y / 9, 2, 531) - 0.5) * 0.2;
+      if (dens <= 0.12) continue;
+      // A soft core, and an edge that thins on a fine ordered dither (low contrast, no columns).
+      if (dens < 0.5 && bayer(x, y) > (dens - 0.12) / 0.38) continue;
       r.set(x, y, mix(pale, warm, d));
     }
   r.tracking = false;
