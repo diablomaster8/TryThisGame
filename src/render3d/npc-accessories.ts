@@ -404,6 +404,11 @@ export function withNpcAccessories(spec: SpeciesSpec, trainer: string): SpeciesS
       addAntenna(spec, look);
       break;
   }
+  // K4: Fern's story look also wears a green cap and a rose scarf, so she is not the Gardener.
+  if (trainer === 'fern-story') {
+    addCap(spec, { ...look, main: '#2f6a3a', trim: '#d94a7a' });
+    addScarf(spec, { ...look, main: '#d94a7a', trim: '#f3b0c4' });
+  }
   if (look.patches) addPatches(spec);
   return spec;
 }
