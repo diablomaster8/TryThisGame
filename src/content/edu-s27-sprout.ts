@@ -71,8 +71,12 @@ const WORD_HUNT: Line[] = [
   CL('Mine is WARM. Everybody needs to feel warm.', 'soft'),
   LU('Mine is HOME. Everything grows towards home.', 'soft'),
   BY('Mine is “statistically above average”!', 'happy'),
-  N('Spindle looks at Byte’s word for a long, long time.'),
+  N('Spindle tries Byte’s word. It goes across the window. Then across the wall.'),
+  N('It goes out of the door. Your Nubbin trips on it. Bump!'),
   SP('Too long for a fence, Byte. Sorry!', 'happy'),
+  BY('It’s a very accurate word.'),
+  BY('My wife Pixel says that’s too many words. She says my lace is undone.'),
+  N('Byte looks down. It is!'),
 ];
 
 /** The morning after the Show (s27-letgo and s27-home). Line 1 is HOME on the rail. */
@@ -318,7 +322,7 @@ const S27_SCENES: EduScene[] = [
         skill: 'compare a short word and a long word',
         standard: 'ELOF: Literacy',
         kind: 'ask',
-        after: 5,
+        after: 9,
         prompt: [N('Which word is longer? WARM, or “statistically above average”?')],
         options: [
           opt(
@@ -373,7 +377,8 @@ const S27_SCENES: EduScene[] = [
       N('You carry her gently to Nine’s pen.'),
       N('The fence is very cold. Spindle steps out onto it.'),
       N('Nine watches her. Nine is curious!'),
-      N('Now you go home to bed. Spindle has work to do.'),
+      N('Spindle is going to write Nine’s name. She will do it in the night.'),
+      N('You go home to bed. No peeking!'),
     ],
     [
       {
@@ -426,6 +431,7 @@ const S27_SCENES: EduScene[] = [
       N('Corvin is a lonely, grumpy man. The runners are his.'),
       N('He looks at the name on the fence for a long time.'),
       C('Frost does odd things.', 'think'),
+      N('Frost can’t write names. Corvin knows that. He says it anyway.'),
       N('Then two children come to the fence. And a man with a bike.'),
       N('More people come. They all want to see the runner with a name.'),
       N('Corvin looks across the yard. At you.'),
@@ -436,7 +442,7 @@ const S27_SCENES: EduScene[] = [
         skill: 'add 2 and 1',
         standard: 'K.OA.A.2',
         kind: 'ask',
-        after: 4,
+        after: 5,
         prompt: [N('Two children, and one man with a bike. How many people?')],
         options: [
           opt('Three', [N('Yes! Two and one more make three.')], true),
@@ -663,6 +669,8 @@ const S27_SCENES: EduScene[] = [
     [
       N('It’s the Autumn Show! Flags! A little band! Oom-pah!'),
       N('So many people came. They came to see Nine.'),
+      N('The judge has a table of ribbons. Your Nubbin thinks they are sweets.'),
+      N('It licks one. Not a sweet! It looks very let down.'),
       N('The runners race. Number One wins, like always.'),
       N('Nine comes last. Nine was busy looking at all the people.'),
       N('Three runners get ribbons. Nine doesn’t get one.'),
@@ -675,7 +683,7 @@ const S27_SCENES: EduScene[] = [
         skill: 'first and last',
         standard: 'ELOF: Mathematics Development',
         kind: 'ask',
-        after: 3,
+        after: 5,
         prompt: [N('Number One came first. Where did Nine come?')],
         options: [
           opt(
@@ -743,8 +751,8 @@ const S27_SCENES: EduScene[] = [
         kind: 'notice',
         after: 7,
         lines: [
-          N('Corvin did a wrong thing, a long time ago.'),
-          N('Tonight he did a right thing. He let Spindle finish.'),
+          N('Corvin did not like the writing on his fences.'),
+          N('But tonight he chose a kind thing. He let Spindle finish.'),
           N('People can change. Even grumpy people.'),
         ],
         parentNote: 'Talked about how people can choose to do the right thing.',
@@ -1106,7 +1114,8 @@ export const EDU_S27_SPROUT_VARIANTS: EduScene[] = [
     [
       ...MORNING,
       N('Hob says its real name. The name you gave it.'),
-      C('It was yours once. Two hundred Shells. That’s what I paid.', 'think'),
+      C('It was yours once. I paid you two hundred Shells for it.', 'think'),
+      C('Pay me the same, and it can go home.'),
     ],
     [
       {
@@ -1252,7 +1261,7 @@ export const EDU_S27_SPROUT_VARIANTS: EduScene[] = [
       N('Three baby spiders stay.'),
       N('Next morning, there’s a tiny web in the shed window.'),
       N('It says EVENING. You laugh, and say “Evening!” back.'),
-      N('We will always remember Spindle.'),
+      N('You will always remember Spindle.'),
     ],
     [
       {
@@ -1289,9 +1298,9 @@ export const EDU_S27_SPROUT_VARIANTS: EduScene[] = [
       N('They climb on his nose. He doesn’t mind one bit!'),
       N('They climb up to the top of the gate.'),
       N('Each one lets out a silky thread. Whoosh! The wind lifts them away.'),
-      N('Wisp watches them go. Then he goes back under his step.'),
+      N('Wisp watches them go. Then he sulks under his step. Hmph!'),
       N('Three baby spiders stay. Next morning, a tiny web says EVENING.'),
-      N('We will always remember Spindle.'),
+      N('You will always remember Spindle.'),
     ],
     [
       {

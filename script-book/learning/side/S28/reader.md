@@ -18,7 +18,7 @@
 
 #### `reader:s28-cart` · [main](../../../side/S28.md#s28-cart)
 
-_The morning after the Hollow. You slept badly, with Hazel’s notebook under your pillow._  
+_The morning after the Hollow. You slept badly, with Gran Hazel’s notebook under your pillow._  
 _Hooves in the lane. The carrier’s cart pulls up at the gate, and the carter leans down without getting off._  
 **The carter**: Morning. Got a passenger for this end of the valley. Wouldn’t give its name.  
 _On a crate in the back sits a small brown Nubbin, very upright, with a basket on its knees._  
@@ -46,7 +46,7 @@ _Byte opens his door before you knock. He has a pencil behind each ear, in case 
 _The Nubbin bows to him, from the middle. After a long moment Byte bows back, very slightly, in case it’s a trick._  
 _He reads the tag, then the back of the tag, which is blank, then the front again._  
 **Byte**: “For Byte. H.” Who’s H.?  
-_You think you know. But you can’t prove it, and you don’t know where she is._  
+_You think you know. But you can’t prove it, and you don’t know where Gran Hazel is._  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): honesty and when to share what you know  
 > _Is keeping what you suspect to yourself the same as lying?_  
@@ -77,16 +77,16 @@ _The jar has a label, in the same leaning hand: “Marmalade. Hollow. Last of.�
 **Byte**: Nubbins eat fruit. Fruit. It’s in every book. Nobody writes “marmalade” in a book.  
 _The Nubbin holds the jar out to him upside down, to show him it’s empty. Then it waits, politely, in case he has another._  
 _You remember a shelf in Hazel’s pantry. Preserves in jars with paper lids and string, all in a row, all the same orange._  
+**You**: I think I know where there’s more.  
+**Byte**: How many?  
+**You**: Some.  
+**Byte**: “Some” isn’t a number. Go and get “some”. I’ll make a note.  
 
 > **Lesson** (literacy, L.3.4, notice): sugar preserves fruit; one word with more than one meaning  
 > _To “preserve” something means to keep it safe from spoiling. “Preserves” are jams and marmalades._  
 > _They keep for months because they are full of sugar. Moulds and germs find it very hard to grow in that much sugar._  
 > _For grown-ups: Learned the two meanings of “preserve”, and why sugary jams keep for so long._
 
-**You**: I think I know where there’s more.  
-**Byte**: How many?  
-**You**: Some.  
-**Byte**: “Some” isn’t a number. Go and get “some”. I’ll make a note.  
 
 #### `reader:s28-received` · [main](../../../side/S28.md#s28-received)
 
@@ -172,7 +172,7 @@ _Mr Grue stops. Mr Grue starts again, and stops._
 **Mr Grue**: Well. I…  
 _He folds the list and puts it in his cardigan pocket. He goes home, and shuts his gate very quietly._  
 **Byte**: Eleven seconds.  
-**Byte**: Eleven. I’ve never seen anybody hold one past four. Not even Ember.  
+**Byte**: Eleven. I’ve never seen anybody hold one past four. Not even Ember, and she once out-stared a goose.  
 _That evening Byte opens a fresh notebook and writes on the cover, in neat capitals: PARCEL: INCIDENTS._  
 _Inside, he rules a column, INCIDENT, and a second, TIME. Then he looks at you over the top of it._  
 
@@ -265,7 +265,7 @@ _Nobody has ever held the stare before, and Parcel seems delighted. It gives Nul
 
 _Variant of `s28-null`._
 
-_Byte’s front room. The Minder ticks on the shelf: the clock face, the three little bells, the chute._  
+_Byte’s front room. The Minder ticks on the shelf: a clock that rings a bell and drops a treat down a chute._  
 _Null sits in the little bed under it, perfectly upright, waiting. Its blue has gone thin at the edges._  
 **Byte**: This is Null. It’s on a schedule. Don’t mind the clock. It’s an experiment. It’s going very well.  
 _Parcel bows to Null, but Null doesn’t look up. It is watching the bell._  
@@ -434,12 +434,6 @@ _You have never seen Byte stand in front of anything that wasn’t a number. Fro
 #### `reader:s28-kitchen` · [main](../../../side/S28.md#s28-kitchen)
 
 _Byte’s kitchen, on a Saturday. Oranges cut, pips in a muslin bag, and the whole house smelling like a brighter house._  
-
-> **Lesson** (science, 2-PS1-1, notice): why marmalade uses Seville oranges  
-> _Seville oranges are named after Seville, a city in Spain. They’re too bitter to eat raw, but perfect for marmalade._  
-> _Their peel and pips are rich in pectin, a natural substance that helps jam set. That’s why the pips go in the muslin bag, not the bin._  
-> _For grown-ups: Learned why bitter Seville oranges, rich in pectin, make good marmalade._
-
 **Byte**: Setting point is a hundred and four and a half degrees. I’ve calibrated the thermometer. Twice.  
 
 > **Lesson** (maths, 4.MD.A.2, ask): measuring temperature, and finding a difference  
@@ -457,6 +451,12 @@ _Byte turns the card over, looking for the rest of the method. On the back, in t
 **Byte**: That isn’t a recipe.  
 **You**: It’s on the recipe card.  
 **Byte**: Then it’s an ingredient. Unverified.  
+
+> **Lesson** (science, 2-PS1-1, notice): why marmalade uses Seville oranges  
+> _Seville oranges are named after Seville, a city in Spain. They’re too bitter to eat raw, but perfect for marmalade._  
+> _Their peel and pips are rich in pectin, a natural substance that helps jam set. That’s why the pips go in the muslin bag, not the bin._  
+> _For grown-ups: Learned why bitter Seville oranges, rich in pectin, make good marmalade._
+
 _He props the card back against the sugar bag. Writing side out._  
 
 #### `reader:s28-wrinkle` · [main](../../../side/S28.md#s28-wrinkle)
@@ -555,34 +555,34 @@ _You don’t. Parcel looks up the lane at Hazel’s chimney, smoking, and sets o
 #### `reader:s28-bench` · [main](../../../side/S28.md#s28-bench)
 
 _Hazel is on the bench by the cottage door, in three coats, awake. The thin grey Nubbin sleeps in the crook of her arm._  
-
-> **Lesson** (science, 2-PS1-1, notice): layers trap air, which keeps heat in  
-> _Layers keep you warm. Air gets trapped between them, and still air is very slow to let heat escape._  
-> _Birds do the same thing when they fluff up their feathers in winter._  
-> _For grown-ups: Learned that layers of clothing trap air, which keeps body heat in._
-
 _Parcel walks up the path, stops at her boot, and bows. Lower than it has ever bowed to anyone._  
 **Gran Hazel**: Hello again, you. Look at that coat. Somebody’s been looking after you.  
 _Parcel undoes one toggle, takes out half a sandwich, and holds it up to the thin grey Nubbin._  
 _The thin grey Nubbin wakes and sniffs. It takes one corner, very carefully, and eats it._  
 **Gran Hazel**: Two days it took me, with an apple. You turn up with a sandwich and do it in one go. Show-off.  
 
+> **Lesson** (science, 2-PS1-1, notice): layers trap air, which keeps heat in  
+> _Layers keep you warm. Air gets trapped between them, and still air is very slow to let heat escape._  
+> _Birds do the same thing when they fluff up their feathers in winter._  
+> _For grown-ups: Learned that layers of clothing trap air, which keeps body heat in._
+
+
 #### `reader:s28-bench-bramble` · [main](../../../side/S28.md#s28-bench-bramble)
 
 _Variant of `s28-bench`._
 
 _Hazel is on the bench by the cottage door, in three coats, awake. Bramble’s youngest sleeps in the crook of her arm._  
+_Parcel walks up the path, stops at her boot, and bows. Lower than it has ever bowed to anyone._  
+**Gran Hazel**: Hello again, you. Look at that coat. Somebody’s been looking after you.  
+_Parcel undoes one toggle, takes out half a sandwich, and holds it up to the little grey one with the folded ear._  
+_Bramble’s youngest wakes and sniffs. It takes one corner, very carefully, and eats it._  
+**Gran Hazel**: Two days it took me, with an apple. You turn up with a sandwich and do it in one go. Show-off.  
 
 > **Lesson** (science, 2-PS1-1, notice): layers trap air, which keeps heat in  
 > _Layers keep you warm. Air gets trapped between them, and still air is very slow to let heat escape._  
 > _Birds do the same thing when they fluff up their feathers in winter._  
 > _For grown-ups: Learned that layers of clothing trap air, which keeps body heat in._
 
-_Parcel walks up the path, stops at her boot, and bows. Lower than it has ever bowed to anyone._  
-**Gran Hazel**: Hello again, you. Look at that coat. Somebody’s been looking after you.  
-_Parcel undoes one toggle, takes out half a sandwich, and holds it up to the little grey one with the folded ear._  
-_Bramble’s youngest wakes and sniffs. It takes one corner, very carefully, and eats it._  
-**Gran Hazel**: Two days it took me, with an apple. You turn up with a sandwich and do it in one go. Show-off.  
 **Gran Hazel**: Fern will want to hear about this. Fern wants to hear about everything this one does.  
 
 #### `reader:s28-why` · [main](../../../side/S28.md#s28-why)
@@ -647,6 +647,9 @@ _It’s all right to feel sad about Hazel and happy to be here, both at once._
 
 _Byte’s front room, decorated: bunting cut from squared paper, and a cake with PARCEL on it, iced in very straight capitals._  
 **Pixel**: Hi! I brought a cake stand. It rotates. You don’t have to use the rotate.  
+**Byte**: We own three cake stands.  
+**Pixel**: None of them rotate. Twenty years married and you’ve never let a thing rotate. Also, your lace.  
+**Byte**: It came undone at our wedding. All the way down the aisle. It’s tradition now.  
 _Mr Grue has come “for procedure”, in his best cardigan. He sits on the edge of his chair as if it might go off._  
 **Byte**: And now. Parcel has prepared a trick. I wasn’t told what. I’m finding that difficult.  
 _Parcel walks up to Mr Grue and bows. Then it holds out one paw towards his waistcoat pocket, and waits._  
@@ -659,6 +662,7 @@ _Parcel taps the napkin again and unwraps it. The watch is back, in eleven piece
 **Mr Grue**: MY FATHER’S WATCH!  
 _Mr Grue goes out of the front door so hard that the bunting comes down._  
 **Pixel**: Give me all the bits. All of them. Nobody sneeze.  
+**Byte**: She’ll fix it. She fixes every clock in our house, broken or not.  
 
 > **Lesson** (science, 4-PS3-4, notice): a wound spring stores energy that makes a watch move  
 > **Pixel**: Look: the mainspring. Winding the watch coils it tight, and a tight spring stores energy.  
@@ -745,11 +749,11 @@ _At the door, Mr Grue gives you a cutting from the orange tree in damp newspaper
 _It will. You can tell from how carefully he wrapped it._  
 
 > **Lesson** (literacy, RL.4.2, ask): finding the theme of a story  
-> _Byte started the log to count Parcel’s mistakes. What do you think this whole story is saying?_  
-> - ✅ Kindness counts, even when you can’t measure it. → That’s the heart of it. Byte’s best column is the one that isn’t a measurement.
-> - Never let a stranger in. → Parcel was a stranger, and look what Byte would have missed. The story says the opposite: welcome matters.
-> - Marmalade is the best food. → Your Nubbin would agree! But the story is really about how kindness counts, even when it can’t be measured.
-> _For grown-ups: Worked out the theme of the story: kindness matters even when it can’t be measured._
+> _Byte started the log to count Parcel’s mistakes. What do you think his longest column is saying?_  
+> - That kindness counts, even when you can’t measure it. → That’s a fair answer. Byte’s best column is the one that isn’t a measurement.
+> - That Parcel did far more good than harm. → That’s a fair answer. Byte set out to count mistakes, and the page told him something else.
+> - That Byte changed his mind about Parcel. → That’s a fair answer. A man who trusts proof had to trust what he saw. That is a big change.
+> _For grown-ups: Thought about what the story is saying, with no single right answer._
 
 
 #### `reader:s28-complete-unverified` · [main](../../../side/S28.md#s28-complete-unverified)
@@ -776,11 +780,11 @@ _At the door, Mr Grue gives you a cutting from the orange tree in damp newspaper
 _It will. You can tell from how carefully he wrapped it._  
 
 > **Lesson** (literacy, RL.4.2, ask): finding the theme of a story  
-> _Byte started the log to count Parcel’s mistakes. What do you think this whole story is saying?_  
-> - ✅ Kindness counts, even when you can’t measure it. → That’s the heart of it. Byte’s best column is the one that isn’t a measurement.
-> - Never let a stranger in. → Parcel was a stranger, and look what Byte would have missed. The story says the opposite: welcome matters.
-> - Marmalade is the best food. → Your Nubbin would agree! But the story is really about how kindness counts, even when it can’t be measured.
-> _For grown-ups: Worked out the theme of the story: kindness matters even when it can’t be measured._
+> _Byte started the log to count Parcel’s mistakes. What do you think his longest column is saying?_  
+> - That kindness counts, even when you can’t measure it. → That’s a fair answer. Byte’s best column is the one that isn’t a measurement.
+> - That Parcel did far more good than harm. → That’s a fair answer. Byte set out to count mistakes, and the page told him something else.
+> - That Byte changed his mind about Parcel. → That’s a fair answer. A man who trusts proof had to trust what he saw. That is a big change.
+> _For grown-ups: Thought about what the story is saying, with no single right answer._
 
 
 #### `reader:s28-complete-none` · [main](../../../side/S28.md#s28-complete-none)
@@ -808,11 +812,11 @@ _At the door, Mr Grue gives you a cutting from the orange tree in damp newspaper
 _It will. You can tell from how carefully he wrapped it._  
 
 > **Lesson** (literacy, RL.4.2, ask): finding the theme of a story  
-> _Byte started the log to count Parcel’s mistakes. What do you think this whole story is saying?_  
-> - ✅ Kindness counts, even when you can’t measure it. → That’s the heart of it. Byte’s best column is the one that isn’t a measurement.
-> - Never let a stranger in. → Parcel was a stranger, and look what Byte would have missed. The story says the opposite: welcome matters.
-> - Marmalade is the best food. → Your Nubbin would agree! But the story is really about how kindness counts, even when it can’t be measured.
-> _For grown-ups: Worked out the theme of the story: kindness matters even when it can’t be measured._
+> _Byte started the log to count Parcel’s mistakes. What do you think his longest column is saying?_  
+> - That kindness counts, even when you can’t measure it. → That’s a fair answer. Byte’s best column is the one that isn’t a measurement.
+> - That Parcel did far more good than harm. → That’s a fair answer. Byte set out to count mistakes, and the page told him something else.
+> - That Byte changed his mind about Parcel. → That’s a fair answer. A man who trusts proof had to trust what he saw. That is a big change.
+> _For grown-ups: Thought about what the story is saying, with no single right answer._
 
 
 #### `reader:s28-byte-barks` · [main](../../../side/S28.md#s28-byte-barks)

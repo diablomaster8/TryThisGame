@@ -22,7 +22,7 @@ _Early-summer rain, steady and warm. The loft lamp has died, and Sparks says it�
 _Small and fiddly is Pixel’s department. Pixel is coming after lunch._  
 _You go up the ladder first, to clear a space, and because you were never once allowed up there as a child._  
 _The loft smells of apples, dust and mothballs. Rain ticks on the roof just above your head._  
-_Hazel’s things are up here: seed trays, a broken umbrella labelled STILL GOOD, and forty years of Lantern Night programmes._  
+_Gran Hazel’s things are up here: seed trays, a broken umbrella labelled STILL GOOD, and forty years of Lantern Night programmes._  
 
 > **Lesson** (social-studies, D2.His.2.K-2, notice): old objects are clues to life in the past  
 > _Forty years of programmes is forty years of Lantern Nights. You could read them in order and see what changed._  
@@ -122,7 +122,7 @@ _Moss is on the outside ledge of the window seat, in the sun. The toy is on the 
 _It is a long way down from the hill for him. He must have set out before it was light._  
 **Moss**: Don’t mention it. I’m not here.  
 _You sit on the window seat and wait, because that is the rule. A bee comes in, considers them both, and leaves._  
-**Moss**: She knitted that in a week, with her feet on the fender. She dropped a stitch every night.  
+**Moss**: She knitted that in a week, with her feet up by the fire. She dropped a stitch every night.  
 **Moss**: You were three. You carried it by the bobble and you wouldn’t let anyone else hold it. Not even her.  
 **Moss**: She read you that book on this seat, every night of one wet August. I sat on this ledge and heard every word.  
 _He turns, not to you, but to the toy._  
@@ -176,20 +176,14 @@ _In the morning there is frost on the path where she lay, and none at all on the
 _Then, at the end of a hot week, a storm. It comes over the hill at bedtime, all at once, like a dropped tray._  
 _Your Nubbin won’t settle. It goes from the basket to the hearth to the door and back, ears flat at every bang._  
 _You look for the old sock it likes, and can’t find it. You warm a stone by the fire, and it pushes the stone away._  
+_A first flash. You count under your breath until the thunder: six seconds._  
+_Two kilometres off, and going. Your Nubbin does not believe you._  
 _A flash, then thunder right overhead. The window seat lights up white, and the knitted toy on its sill with it._  
 
 > **Lesson** (science, 4-PS3-2, notice): light travels faster than sound, so we see lightning before we hear thunder  
 > _Thunder is the sound a lightning flash makes, so the two start together. You see the flash first because light is far faster than sound._  
 > _Sound takes about three seconds to travel one kilometre. So you can count the gap to tell how far away the storm is._  
 > _For grown-ups: Learned that light travels faster than sound, which is why the flash comes before the thunder._
-
-
-> **Lesson** (maths, 3.OA.A.3, ask): divide by 3 in a word problem  
-> _Say you count six seconds between a flash and its thunder. About how far away is the storm?_  
-> - ✅ About 2 kilometres → Yes. Six seconds, three seconds for each kilometre: 6 ÷ 3 = 2.
-> - About 6 kilometres → Close thinking, but sound needs about three seconds per kilometre. 6 ÷ 3 = 2 kilometres.
-> - About 18 kilometres → That’s 6 × 3. We need to share the seconds into groups of three: 6 ÷ 3 = 2 kilometres.
-> _For grown-ups: Used division to turn the flash-to-thunder gap into a distance._
 
 
 #### `reader:s25-storm-nosable` · [main](../../../side/S25.md#s25-storm-nosable)
@@ -201,20 +195,14 @@ _Not yet, then._
 _Then, at the end of a hot week, a storm. It comes over the hill at bedtime, all at once, like a dropped tray._  
 _Your Nubbin won’t settle. It goes from the basket to the hearth to the door and back, ears flat at every bang._  
 _You look for the old sock it likes, and can’t find it. You warm a stone by the fire, and it pushes the stone away._  
+_A first flash. You count under your breath until the thunder: six seconds._  
+_Two kilometres off, and going. Your Nubbin does not believe you._  
 _A flash, then thunder right overhead. The window seat lights up white, and the knitted toy on its sill with it._  
 
 > **Lesson** (science, 4-PS3-2, notice): light travels faster than sound, so we see lightning before we hear thunder  
 > _Thunder is the sound a lightning flash makes, so the two start together. You see the flash first because light is far faster than sound._  
 > _Sound takes about three seconds to travel one kilometre. So you can count the gap to tell how far away the storm is._  
 > _For grown-ups: Learned that light travels faster than sound, which is why the flash comes before the thunder._
-
-
-> **Lesson** (maths, 3.OA.A.3, ask): divide by 3 in a word problem  
-> _Say you count six seconds between a flash and its thunder. About how far away is the storm?_  
-> - ✅ About 2 kilometres → Yes. Six seconds, three seconds for each kilometre: 6 ÷ 3 = 2.
-> - About 6 kilometres → Close thinking, but sound needs about three seconds per kilometre. 6 ÷ 3 = 2 kilometres.
-> - About 18 kilometres → That’s 6 × 3. We need to share the seconds into groups of three: 6 ÷ 3 = 2 kilometres.
-> _For grown-ups: Used division to turn the flash-to-thunder gap into a distance._
 
 
 #### `reader:s25-sleeps` · [main](../../../side/S25.md#s25-sleeps)
@@ -252,9 +240,9 @@ _The toy is out in the Grove somewhere. It’s getting dark, and the dew is comi
 _You take a lantern. You find the toy face down in the grass by the pond, soaked with dew, its loose eye trailing._  
 _Your Nubbin is still standing up in the basket when you get back, as if it never once doubted you._  
 
-> **Lesson** (sel, CASEL: Relationship skills, notice): trust is built by keeping promises  
-> _Your Nubbin waited because it trusted you to come back._  
-> _Trust grows each time someone does what they said they would, especially when it’s dark, wet and inconvenient._  
+> **Lesson** (sel, CASEL: Relationship skills, notice): trust is built by turning up  
+> _You never promised to come. Your Nubbin trusted you anyway._  
+> _Trust grows each time someone turns up when they’re needed, especially when it’s dark and wet._  
 > _For grown-ups: Talked about how trust is built by being reliable._
 
 _It takes the toy in both arms, lies down, and is asleep before you’ve blown out the lantern._  
@@ -343,6 +331,7 @@ _Something squeaks up the path, whistling, and stops under the window. It’s Cl
 > _For grown-ups: Gave their own view on a big question and compared it with the characters’ views._
 
 _Clank rolls closer, until his chimney nearly touches the glass. His whistle goes very quiet._  
+**Clank**: Announcement: I am still looking for my word. The one that means me.  
 **Clank**: Is there a book? There’s a book. Is there a me in it?  
 
 #### `reader:s25-clank-next-door` · [main](../../../side/S25.md#s25-clank-next-door)
@@ -409,7 +398,7 @@ _You tell him. Byte looks at the toy for a long time, then at his clipboard, the
 **Byte**: Fine. A log. Hours held. Times carried. Times dropped, and gone back for in the dark. I’ll let you know.  
 
 > **Lesson** (maths, 3.MD.B.3, do): reading a tally chart and finding a difference  
-> **Byte**: A week later, the tally chart: carried 23 times, dropped 7 times, gone back for 7 times out of 7.  
+> **Byte**: A week later. Carried: 23. Dropped: 7. Gone back for: 7 out of 7. Complaints from the toy: 0.  
 > **Byte**: Read it with me. How many more times carried than dropped? 23 − 7 = 16. And every drop was gone back for.  
 > Check: `edu:read:tally:s25-log`
 > _For grown-ups: Read a tally chart and worked out a difference by subtracting._
@@ -456,7 +445,7 @@ _She knots it, bites the thread, and gives him back. Your Nubbin checks the elbo
 
 #### `reader:s25-chill` · [main](../../../side/S25.md#s25-chill)
 
-_A few days after the rain on the hill, your Nubbin sneezes at breakfast. Then again._  
+_A few days after Fossil’s flower goes up on the hill, your Nubbin sneezes at breakfast. Then again._  
 _It is warm to the touch and droopy, and it doesn’t want its plum._  
 _You have your boots on to fetch somebody before you know you’re doing it. Clover is already at the gate._  
 **Clover**: It’s a chill. Only a chill. I’m saying it first, so you don’t have to wonder.  
@@ -487,7 +476,7 @@ _By morning your Nubbin is cool and hungry and cross about it. It eats two plums
 
 #### `reader:s25-bundle` · [main](../../../side/S25.md#s25-bundle)
 
-_The copper in the wash-house is lit by ten. In go the blankets, the basket cushion, and the old sock, which turns up at last._  
+_The big copper boiler in the wash-house is lit by ten. In go the blankets, the basket cushion, and the old sock, which turns up at last._  
 
 > **Lesson** (health, CASEL: Responsible decision-making, notice): why bedding is washed hot after illness  
 > _Germs from a cold can stay on bedding. Washing it in very hot water gets rid of most of them, so nobody else catches it._  
@@ -580,6 +569,7 @@ _Up on the hill, Moss is looking at the long grass. He doesn’t say anything al
 
 _You come home from the Hollow with the notebook inside your coat. It’s late, and the cottage smells of cold ashes._  
 _Moss is on the window ledge. He doesn’t ask about the notebook, and you don’t tell him yet._  
+**Moss**: You’re late. I’ve been not waiting for hours. It’s very tiring.  
 _On the window seat, where the toy used to sit, there is a patch of faded cushion the shape of a small lumpy Nubbin._  
 _There is one thing you do want to tell him._  
 _You went along the ledge behind the falls today. You put your hand on the rock, and the rock was warm._  
@@ -596,6 +586,7 @@ _Variant of `s25-falls`._
 
 _You come home from the Hollow with the notebook inside your coat. It’s late, and the cottage smells of cold ashes._  
 _Moss is on the window ledge. He doesn’t ask about the notebook, and you don’t tell him yet._  
+**Moss**: You’re late. I’ve been not waiting for hours. It’s very tiring.  
 _On your Nubbin’s bed the toy is waiting, a size smaller, with both eyes on tight._  
 _There is one thing you do want to tell him._  
 _You went along the ledge behind the falls today. You put your hand on the rock, and the rock was warm._  
@@ -669,6 +660,7 @@ _A wet afternoon. Moss is on the window ledge again; he says the hill is too dam
 _You were not aware he had knees. You decide not to raise it._  
 _Byte comes up the path under an umbrella, with his clipboard in a plastic bag, to return a pencil Hazel lent him nine years ago._  
 **Byte**: She said bring it back when I’d finished with it. I’ve finished with it. It took longer than projected.  
+**Byte**: Pixel says nine years, four months and a day. My wife times everything. Even my apologies.  
 _He sees the toy on the sill, and stops._  
 **Byte**: Fern says your Nubbin made her apologise to that. Formally. With the good cups.  
 **Byte**: And that you said it was Real. I’d like to know what you meant. Ideally in a unit.  
@@ -694,10 +686,10 @@ _You roll him in a towel and press, and never twist. Clover nods, which from Clo
 > - The towel keeps him warm. → It might, a little. But mostly the towel absorbs the water, pulling it out of the wool.
 > _For grown-ups: Explained how an absorbent material soaks up water._
 
-**Clover**: Now you leave him. Overnight, flat, by the range. Not too near. Wool doesn’t like being rushed any more than the rest of us.  
+**Clover**: Now you leave him. Overnight, flat, by the kitchen stove. Not too near. Wool doesn’t like being rushed any more than the rest of us.  
 _His loose eye came off in the rinse. Clover holds out her palm for it._  
 **Clover**: I’ll sew it back tomorrow, with proper thread. It’ll outlast both of us.  
-_Your Nubbin wakes on the step, looks round for him, and finds him on the towel by the range._  
+_Your Nubbin wakes on the step, looks round for him, and finds him on the towel by the kitchen stove._  
 _It lies down beside the towel: not on it, beside it._  
 
 #### `reader:s25-line-dry` · [main](../../../side/S25.md#s25-line-dry)

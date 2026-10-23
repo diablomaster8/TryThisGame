@@ -572,6 +572,9 @@ const S26: EduQuest = {
         N(
           'She folds her arms in the doorway at the top of the three steps, and guards a garden nobody has wanted for a hundred years.',
         ),
+        N(
+          'The robin guards the step beside her, chest out. Nothing has tried to get past, and neither of them minds.',
+        ),
       ],
       [
         {
@@ -839,7 +842,7 @@ const S26: EduQuest = {
         L('You were doing it upside down.', 'angry'),
         M('I have hands the size of buttons, child. With shears, everything is upside down.'),
         L('…You talk.', 'shock'),
-        M('When there is something worth the wear.'),
+        M('When there is something worth saying. It doesn’t happen often.'),
         DU('Moss. How long have you been coming in here?', 'shock'),
         M(
           'Once a year. On this day, as it happens. For longer than any of you have been alive. Put together.',
@@ -883,6 +886,7 @@ const S26: EduQuest = {
       's26-earth-ask',
       [
         N('Moss is on the wall again before anyone else, pretending he has always been there.'),
+        M('I’m not here. I’m a bit of wall.'),
         N(
           'Linnet watches him for a long time. She is not used to wanting things out loud, and it shows.',
         ),
@@ -911,7 +915,7 @@ const S26: EduQuest = {
           skill: 'asking out loud for what you want',
           standard: 'CASEL: Self-awareness',
           kind: 'notice',
-          after: 6,
+          after: 7,
           lines: [
             N(
               'Asking for something you really want can feel risky. If they say no, it stings more.',
@@ -926,7 +930,7 @@ const S26: EduQuest = {
           skill: 'plants need light and water',
           standard: '2-LS2-1',
           kind: 'ask',
-          after: 10,
+          after: 11,
           prompt: [
             M('Before you choose, what will a patch need, for seeds to grow well?', 'think'),
           ],
@@ -1092,7 +1096,10 @@ const S26: EduQuest = {
         M(
           'Then she planted roses up every wall. Not for herself. A still thing can still be looked at, she said, and should have something back.',
         ),
-        M('The last of them went in the second winter, here, with the roses bare above it. She said bare was still something.', 'soft'),
+        M(
+          'The last of them went in the second winter, here, with the roses bare above it. She said bare was still something.',
+          'soft',
+        ),
         N(
           'Faded is the Grove’s word. It means died: the body stops working, and it doesn’t start again.',
         ),
@@ -1250,6 +1257,9 @@ const S26: EduQuest = {
       [
         N('Your Nubbin carries the bulbs very seriously, two at a time, one in each cheek.'),
         N(
+          'It checks one bulb carefully for supper, finds it isn’t, and plants it with an air of complaint.',
+        ),
+        N(
           'It plants about half of them. The other half it hides all over the garden, in places it seems to choose by feel.',
         ),
         L('Your Nubbin has no sense of order whatsoever.', 'think'),
@@ -1268,7 +1278,7 @@ const S26: EduQuest = {
           skill: 'unit fractions: one half',
           standard: '3.NF.A.1',
           kind: 'ask',
-          after: 1,
+          after: 2,
           prompt: [
             N('Your Nubbin carried 20 bulbs and planted half of them. How many did it plant?'),
           ],
@@ -1308,7 +1318,9 @@ const S26: EduQuest = {
     scene(
       's26-tobin-finds',
       [
-        N('It ends on a Thursday, when the library van comes and Linnet isn’t at it.'),
+        N(
+          'Linnet’s secret lasts until a Thursday, when the library van comes and Linnet isn’t at it.',
+        ),
         N(
           'Tobin finds the ivy door by following her wheel tracks. He comes through it the way you would come into a burning house.',
         ),
@@ -1418,7 +1430,7 @@ const S26: EduQuest = {
         N(
           'The Long Night is over. The days after it are short and white, and the valley is snowed in to the hedge tops.',
         ),
-        N('Tobin comes up the lane at a sort of run, in two scarves and the wrong boots.'),
+        N('Tobin comes up the lane at a sort of run, in two scarves, one boot and one slipper.'),
         T(
           'She’s gone out. First light. The chair tracks go up the lane and I can’t keep up with them.',
           'shock',
@@ -1535,7 +1547,7 @@ const S26: EduQuest = {
           'She has Linnet’s chin exactly, and Linnet’s way of looking at a hill as if it owes her money.',
         ),
         MU(
-          'I’m Linnet’s mum. The boats are laid up for the winter. Dad says she’s never at home. Dad says she’s up here.',
+          'I’m Linnet’s mum. The boats are laid up for the winter. My dad, Tobin, says she’s never at home. He says she’s up here.',
           'think',
         ),
         MU(

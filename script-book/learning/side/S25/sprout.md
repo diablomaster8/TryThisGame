@@ -124,7 +124,8 @@ _On the hill, Moss is looking this way. Is he looking at the toy?_
 _One morning, Moss comes all the way down the hill._  
 _He sits on the ledge outside the window. The toy sits inside._  
 _It is a long walk for Moss. He is very old and slow._  
-**Moss**: Don’t say anything. I’m not here.  
+**Moss**: Shh. Don’t say anything. I’m not here.  
+_Moss is right there on the ledge. You can see all of him._  
 _You sit on the window seat and wait. Quietly._  
 
 > **Lesson** (sel, CASEL: Self-management, do): waiting quietly  
@@ -162,7 +163,7 @@ _Then Moss talks to the toy, not to you._
 > - A sneeze → Atchoo! A sneeze is quick. A tree grows slowly.
 > _For grown-ups: Compared fast and slow changes: a tree grows slowly._
 
-**Moss**: It’s harder for someone with sharp edges.  
+**Moss**: It’s harder for someone prickly, who won’t let anyone close.  
 **Moss**: Or someone kept on a high shelf, where nobody can hug them.  
 _Then Moss climbs down, one slow foot at a time._  
 _He walks back to his hill. It will take him all day._  
@@ -172,7 +173,7 @@ _He walks back to his hill. It will take him all day._
 
 _Later that week, Sable walks past the window._  
 _She stops. She looks at the toy for a long time._  
-_Moss said sharp edges make it hard. Sable has sharp edges._  
+_Sable is shy and prickly. She never lets anyone close._  
 _She lies down near the toy and goes to sleep. She doesn’t take it._  
 _Then, one night, a big storm comes. Boom! Crash!_  
 _Your Nubbin can’t settle. Its ears are flat._  
@@ -259,7 +260,7 @@ _It hugs the toy and falls asleep. Zzz._
 
 _You go to Fern’s house. The toy comes too._  
 _Your Nubbin puts the toy on Fern’s good chair._  
-**Fern**: Oh, not on the chair, love. It’s only a toy.  
+**Fern**: Oh, not on the chair, love. It’s only a toy. Floor, please.  
 _Fern reaches for it. Your Nubbin squeaks, very loudly!_  
 _Your Nubbin stands in front of the toy. It looks at you._  
 
@@ -319,8 +320,11 @@ _Out come the wild Nubbins._
 > _For grown-ups: Counted three wild Nubbins._
 
 _Sniff, sniff. They bounce away. They come back._  
+_One wild Nubbin hops right over the toy. Boing! Then it waits._  
+_The toy does not hop. It is a toy._  
 **Moss**: That one thinks your toy can’t hop.  
-**Moss**: That one says he smells of indoors.  
+_Another one sniffs him. Atchoo!_  
+**Moss**: That one says he smells of indoors. Of cushions.  
 _Then the wild ones are gone. Whoosh!_  
 _Your Nubbin hugs the toy tight._  
 **Moss**: They think Real means hopping. I used to think so too.  
@@ -341,6 +345,7 @@ _Squeak, squeak, whistle! Clank rolls up the path._
 **Clank**: What is that? On the windowsill?  
 **You**: He’s a toy. Gran Hazel knitted him.  
 **Clank**: Somebody made him? Pixel made me!  
+**Clank**: I am still looking for my word. The word for me.  
 **Clank**: Is there a book? Is there a me in it?  
 
 #### `sprout:s25-clank-next-door` · [main](../../../side/S25.md#s25-clank-next-door)
@@ -497,7 +502,8 @@ _The big wash pot is hot. In go the blankets. Splash!_
 
 _Clover reaches for the toy. Then she stops._  
 **Clover**: Oh, no. Hot water makes old wool shrink, tiny and hard.  
-**Clover**: He could go out with the old rags, for the rag cart.  
+**Clover**: He could go with the old rags. The rag cart takes them away.  
+**Clover**: Old rags get made into new things.  
 **Clover**: Or you could wash him by hand, in cold water. Slowly.  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): hot and cold change things  
@@ -571,6 +577,7 @@ _You don’t follow it. You just watch._
 
 _In the morning, the toy is not on the bundle._  
 _There is a toy-shaped gap. Nothing else has moved._  
+_You remember last night’s little light. Did it go where the toy went?_  
 _In the grass you find his button eye. You keep it._  
 
 > **Lesson** (sel, ELOF: Social and Emotional Development, ask): remembering someone we miss  
@@ -688,6 +695,7 @@ _Byte comes up the path with an umbrella._
 > _For grown-ups: Matched rainy weather to what keeps us dry._
 
 **Byte**: Hazel lent me a pencil. I’m bringing it back. Nine years late.  
+**Byte**: Pixel says nine years and four months. She timed it on a clock.  
 _He sees the toy on the windowsill._  
 **Byte**: Fern says you called this toy Real. What does Real mean?  
 **Byte**: Hazel had a book for everything. Is there a book?  
@@ -744,9 +752,11 @@ _Spring is here! Flowers open on the hill._
 _A wild Nubbin sits at the edge of the long grass._  
 _Its coat is soft and lumpy, like knitting._  
 _One eye shines like a button._  
+_It is lumpy in just the same places as your toy._  
 **You**: Button?  
 _It turns its head!_  
 _Hop, hop! It hops twice, high and neat._  
+_The wild ones said your toy couldn’t hop. This one can._  
 _Then it goes back into the long grass._  
 
 #### `sprout:s25-coda-wild-bobble` · [main](../../../side/S25.md#s25-coda-wild-bobble)
@@ -765,9 +775,11 @@ _Spring is here! Flowers open on the hill._
 _A wild Nubbin sits at the edge of the long grass._  
 _Its coat is soft and lumpy, like knitting._  
 _One eye shines like a button._  
+_It is lumpy in just the same places as your toy._  
 **You**: Bobble?  
 _It turns its head!_  
 _Hop, hop! It hops twice, high and neat._  
+_The wild ones said your toy couldn’t hop. This one can._  
 _Then it goes back into the long grass._  
 
 #### `sprout:s25-coda-wild-mister` · [main](../../../side/S25.md#s25-coda-wild-mister)
@@ -786,9 +798,11 @@ _Spring is here! Flowers open on the hill._
 _A wild Nubbin sits at the edge of the long grass._  
 _Its coat is soft and lumpy, like knitting._  
 _One eye shines like a button._  
+_It is lumpy in just the same places as your toy._  
 **You**: Mister?  
 _It turns its head!_  
 _Hop, hop! It hops twice, high and neat._  
+_The wild ones said your toy couldn’t hop. This one can._  
 _Then it goes back into the long grass._  
 
 #### `sprout:s25-coda-coat-button` · [main](../../../side/S25.md#s25-coda-coat-button)

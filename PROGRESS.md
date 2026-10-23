@@ -38,7 +38,7 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below).
 
 ## Campaign graphics 3 leftovers (cg5, 2026-10-23)
 
-The known bugs left by K1–K50 (02d0c86), fixed on branch `fix/cg5-leftovers` (worktree
+The known bugs left by K1–K50 (02d0c86; its section is now in `docs/progress-archive.md`), fixed on branch `fix/cg5-leftovers` (worktree
 `wt-cg5`). Before and after frames: `docs/samples/cg5-*.jpg` (`-before` is origin/main at
 02d0c86 unless the name says `cg4`, the review round's frame).
 
@@ -83,63 +83,18 @@ The known bugs left by K1–K50 (02d0c86), fixed on branch `fix/cg5-leftovers` (
 - In Hazel ch10 `-1` on a phone the person kept is small in 3D (pushed-in framing would lose
   the pond).
 - The plinth tops of hidden Fold houses stay as paving (by design since K2).
+- Carried from K1–K50: no real-phone pass yet; some sim/story-world tests time out under
+  full-suite load and pass alone.
 
-## Campaign graphics 3, items K1–K50 (2026-10-22)
+## Story review run 5 fixes (2026-10-23)
 
-Built from `docs/campaign-graphics-recommendations-2026-10-22-b.md` the same way as the second
-pass: wave 0 (`f4`, Opus), seven packages in parallel (a1 poses and rig, c4 interiors and places
-on Opus; a2 motion, b4 people, d4 sky and weather, e4 world detail, u4 story UI on Sonnet), a
-content wave, shots and perf, two review rounds with one fix round. Branches `cg4/foundation`,
-`cg4/pkg-{a1,a2,b4,c4,d4,e4,u4}` and `cg4/content` merged in `cg4/merge`. Rules and API:
-`cg4-rules.md`, `cg4-api.md` (session folder). Shots: `docs/samples/cg4-*.jpg`; golden set
-`docs/samples/golden/` with `tests/tools/story-shots.cjs` and `story-shots-diff.cjs` (K50).
-
-**What works**
-
-- **Staging (f4):** focus weights in the fit (people first, large props kept at 60%, a phone 3D
-  figure never under ~40 px, a line naming a prop makes it that line's subject); shot/reverse on
-  two-speaker exchanges; `grave` letterbox scenes (30); the stage inspector in `?debug`; the shot
-  test over every staged scene at desktop and phone (`tests/render/story-shots.test.ts`); new
-  fields `from`, `partner`, `inside-<id>`, `tale`, `grave`, `moon`, `Line.gesture`.
-- **Acting (a1, a2):** sit and kneel for Keepers and Nubbins (Moss sits upright, the Keeper beside
-  him), heads turn to the speaker (crowd at half), five gestures (122 lines carry one), hand and
-  neck pivots for carried props, the item-get pose; walk-ons with footprints by ground type; the
-  partner beside the Keeper reacting by mood.
-- **People (b4):** Fern's story look (cap, scarf, satchel) in both renderers; mood portraits; tale
-  grade with young Hazel (c4-tale scenes); older Hazel from ch11; speaker rim and ring in 3D;
-  separate-campaign departures at their memorial spots.
-- **Places (c4):** hidden buildings drop their shadows and taps; five interiors (kitchen, guard
-  house, Corvin's house, crest house, Fold house); the Beetle Road's below chapters on real Hollow
-  floors with a story seed (save-safe, sim test), cast kept clear of floor props.
-- **Sky and weather (d4):** the Hush walks with a fog band; depth of field on close/over shots
-  focused on the speaker (off on phones); light shafts (3D only), cloud shadows, moon by chapter,
-  snow building through the vigil (roof caps too), path wear, puddles, one wind uniform.
-- **World detail (e4):** window figures, lantern streaks on water, crop plot by season, four lantern
-  heads, rising lanterns, seasonal cottage decor, birds and moths, gate frost, the Logged In boot.
-- **Story UI (u4):** keepsake inspector, a box skin per campaign, readable boards, the chapter
-  photo with its grade, journal thumbnails, title-card silhouettes, the campaign map, the ending
-  gallery.
-- **Perf** (Full 3D, 390×844, 4× throttle, mean of two runs, before → after): Hazel ch10 60.1 →
-  59.0, ch11 56.7 → 56.6, ch12 56.7 → 56.8, Hundred ch9 44.1 → 55.8, Logged ch7 39.3 → 56.2,
-  Logged ch4 48.9 → 43.8 (run spread ≥8), Beetle ch3 48.6 → 56.3, Beetle ch1 50.1 → 48.9, Dawn ch1
-  44.1 → 56.7; pixel Beetle ch3 and Hazel ch12 unchanged. Desktop Hazel ch12 3D 57 fps in the
-  final shots.
-
-**Stubbed or approximate**
-
-- Fern's gate lines are not split out of `c1-letter` into a kitchen scene (needs the sim and the
-  edu versions to change); no Corvin's-house or crest-house scene exists to stage.
-- Pixel has no light shafts; coat tails don't read the wind (no coat geometry).
-- The photo offer state lives in localStorage (UI convenience), photos in IndexedDB.
-- The board's final words are still a placeholder.
-
-**Known bugs (after the second review round)**
-
-- Fixed or checked in the cg5 pass above (Hundred ch9 debris, guard house, Logged In box and
-  perf, Hazel ch10 and ch12 on phone, keepsake inspector, kitchen Fern, Beetle ch3 grade, minimap).
-- Test suite: several sim/story-world tests time out under full-suite load and pass alone; watch
-  the CI runner.
-- No real-phone pass yet.
+All 63 open or partial recs in `docs/story-review/LOG.md` worked (run 5's 60 plus run 4's 3 partials).
+- **Works:** 59 fixed. Learning Grove S25–S29, both bands: Marina's rule six "Come back." in all six S29
+  endings, Granny Brock's cake and bell paid off, why Dusty can't go home, the S25 light-toy-wild-Nubbin link,
+  Pixel and Byte bickering at S28's party and in S25/S27, first-mention tags for Hazel, the supper Nubbin.
+- **Partial:** -265 (S26's robin line rewritten without the unset-up "wages" joke). Dropped: -179, -198, -229
+  (lessons can only play before a scene's choices; each ask already sits as late as the engine allows).
+- **Known bugs:** none.
 
 ## Standing approval (Maor, 2026-10-12)
 

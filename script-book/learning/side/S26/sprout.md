@@ -65,13 +65,13 @@ _A girl in her wheelchair is by the door. Her name is Linnet._
 > _For grown-ups: Heard how street lamps were once lit by hand each evening, and acted it out._
 
 **Old Tobin**: Linnet is staying with me till winter.  
-**Linnet**: He means I’m KEPT here till winter.  
+**Linnet**: He says staying. I say KEPT. Like a hamster!  
 **Linnet**: Nothing in this valley is flat! Not one thing.  
-**Old Tobin**: Mind yourself, love.  
-**Linnet**: There! That’s what everybody says.  
+**Old Tobin**: Be careful, love.  
+**Linnet**: There! Everybody says “be careful”. All day long!  
 
 > **Lesson** (sel, ELOF: Social and Emotional Development, ask): name a feeling: cross  
-> _Everyone tells Linnet to mind herself. How does she feel?_  
+> _Everyone tells Linnet to be careful. How does she feel?_  
 > - ✅ Cross → Yes. She feels cross. Everybody fusses, and nobody lets her do things. Cross is fine to feel. Saying it out loud helps.
 > - Sleepy → Look at her face. She is cross! Everybody fusses at her.
 > _For grown-ups: Named the feeling “cross” and talked about why someone might feel it._
@@ -90,7 +90,7 @@ _A girl in her wheelchair is by the door. Her name is Linnet._
 - **Say nothing. Walk beside her.**
     - Linnet zooms up the lane. She is fast!
     - You walk beside her, at her speed.
-    - **Linnet**: You’re not going to tell me to mind myself?
+    - **Linnet**: You’re not going to tell me to be careful?
     - **You**: Do you need telling?
     - **Linnet**: No.
 
@@ -276,6 +276,7 @@ _It has a rose twig in its mouth. It’s Moss!_
 #### `sprout:s26-earth-ask` · [main](../../../side/S26.md#s26-earth-ask)
 
 _Moss sits on the wall again._  
+**Moss**: I’m not here. I’m part of the wall.  
 **Linnet**: Moss? Could I have a little patch of garden?  
 **Moss**: What would you do with it?  
 **Linnet**: Grow things. Seeds and flowers. All by myself.  
@@ -339,7 +340,8 @@ _You sit on the bench too. And you wait._
 
 #### `sprout:s26-hush` · [main](../../../side/S26.md#s26-hush)
 
-**Moss**: Briar wanted the still Nubbins up on the sunny hill.  
+**Moss**: Long ago, some Nubbins got very old and tired. They lay still.  
+**Moss**: Briar, my friend who laughed at everything, wanted them on the sunny hill.  
 **Moss**: Hush said no. The wind up there was too cold.  
 **Moss**: So she carried them in here, one by one, all winter.  
 **Moss**: Then she planted roses, so they had something pretty.  
@@ -402,7 +404,8 @@ _Puff, puff. Two bulbs at a time._
 > Check: `edu:add:bulbs:2-and-2`
 > _For grown-ups: Added two and two on their fingers to make four._
 
-_It plants some. It hides some all over the garden!_  
+_Your Nubbin sniffs a bulb. Not supper. It plants it, very crossly._  
+_It plants more. It hides some all over the garden!_  
 **Linnet**: Your Nubbin has no sense of order at all.  
 _It hides one under the bench. Pat, pat._  
 **Linnet**: …I like it.  
@@ -451,7 +454,7 @@ _He sits and watches her until it’s dark._
 
 _On the way out, Tobin pats the old wall._  
 **Old Tobin**: My old boss used to say: plant a rose where your worry sits.  
-**Old Tobin**: Then the worry has to move somewhere else!  
+**Old Tobin**: Then the worry has to stand up and find another seat!  
 
 #### `sprout:s26-tobin-bench-cellar` · [main](../../../side/S26.md#s26-tobin-bench-cellar)
 
@@ -473,7 +476,7 @@ _Tobin watches Linnet dig. She doesn’t tip._
 _He sits and watches her until it’s dark._  
 _On the way out, Tobin pats the old wall._  
 **Old Tobin**: My old boss used to say: plant a rose where your worry sits.  
-**Old Tobin**: Then the worry has to move somewhere else!  
+**Old Tobin**: Then the worry has to stand up and find another seat!  
 
 #### `sprout:s26-snow` · [main](../../../side/S26.md#s26-snow)
 
@@ -543,7 +546,8 @@ _Her coat smells of the sea. She has a big bag._
 > Check: `edu:say:first-sound:l`
 > _For grown-ups: Practised the first sound of “Linnet” and found other words that start with L._
 
-**Linnet’s mum**: Grandad says Linnet is gardening! Is that true?  
+**Linnet’s mum**: Grandad says Linnet is gardening! My Linnet?  
+**Linnet’s mum**: She once put a plant out of the window. It was looking at her!  
 **Linnet’s mum**: Is she happy? Really?  
 **You**: Come and see!  
 
@@ -561,7 +565,7 @@ _Zoom! Down the ramp and along the path._
 > - Up → Up is slow and hard. Down is fast. Whee!
 > _For grown-ups: Talked about how things speed up going down a slope._
 
-_Linnet wins! Her mum comes second._  
+_Linnet wins! Her mum comes second, still holding her big bag._  
 **Linnet**: The garden fits me now.  
 
 #### `sprout:s26-key-choice` · [main](../../../side/S26.md#s26-key-choice)
@@ -669,7 +673,7 @@ _Variant of `s26-complete`._
 
 _Next evening, Sparks lifts Linnet down again._  
 _Front and back. Never the sides. Just as Linnet said._  
-**Sparks**: Smooth! Like a little, rude generator!  
+**Sparks**: Smooth! You’re lighter than my generator. And you don’t buzz!  
 **Linnet**: Thank you.  
 _Linnet says thank you every time. Every single time._  
 
@@ -808,7 +812,8 @@ _Pink and red and white. Like a party!_
 #### `sprout:end-epi-garden-cold` · [main](../../../side/S26.md#end-epi-garden-cold)
 
 _The door in the old wall is open._  
-_But your Nubbins don’t go in. They sit outside, very still._  
+_You always kept your Nubbins safe, and close._  
+_Now they don’t go in. They sit outside, very still._  
 _Linnet came one summer. She looked at them for a long time._  
 **Linnet**: Why don’t they play?  
 _Being safe is not the same as being happy._  

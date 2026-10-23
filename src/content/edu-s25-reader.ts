@@ -75,6 +75,8 @@ const STORM: Line[] = [
   N(
     'You look for the old sock it likes, and can’t find it. You warm a stone by the fire, and it pushes the stone away.',
   ),
+  N('A first flash. You count under your breath until the thunder: six seconds.'),
+  N('Two kilometres off, and going. Your Nubbin does not believe you.'),
   N(
     'A flash, then thunder right overhead. The window seat lights up white, and the knitted toy on its sill with it.',
   ),
@@ -97,42 +99,6 @@ const stormLessons = (after: number): LessonIn[] => [
     ],
     parentNote:
       'Learned that light travels faster than sound, which is why the flash comes before the thunder.',
-  },
-  {
-    domain: 'maths',
-    skill: 'divide by 3 in a word problem',
-    standard: '3.OA.A.3',
-    kind: 'ask',
-    after,
-    prompt: [
-      N(
-        'Say you count six seconds between a flash and its thunder. About how far away is the storm?',
-      ),
-    ],
-    options: [
-      {
-        label: 'About 2 kilometres',
-        best: true,
-        reply: [N('Yes. Six seconds, three seconds for each kilometre: 6 ÷ 3 = 2.')],
-      },
-      {
-        label: 'About 6 kilometres',
-        reply: [
-          N(
-            'Close thinking, but sound needs about three seconds per kilometre. 6 ÷ 3 = 2 kilometres.',
-          ),
-        ],
-      },
-      {
-        label: 'About 18 kilometres',
-        reply: [
-          N(
-            'That’s 6 × 3. We need to share the seconds into groups of three: 6 ÷ 3 = 2 kilometres.',
-          ),
-        ],
-      },
-    ],
-    parentNote: 'Used division to turn the flash-to-thunder gap into a distance.',
   },
 ];
 
@@ -170,7 +136,7 @@ const fallsLesson: LessonIn = {
   skill: 'warm springs are heated from deep underground',
   standard: '4-PS3-2',
   kind: 'notice',
-  after: 4,
+  after: 5,
   lines: [
     N(
       'Deep under the ground, the rock is very hot. Rainwater can soak down a long way, get warmed, and rise again.',
@@ -344,7 +310,7 @@ const S25_SCENES: EduScene[] = [
         'The loft smells of apples, dust and mothballs. Rain ticks on the roof just above your head.',
       ),
       N(
-        'Hazel’s things are up here: seed trays, a broken umbrella labelled STILL GOOD, and forty years of Lantern Night programmes.',
+        'Gran Hazel’s things are up here: seed trays, a broken umbrella labelled STILL GOOD, and forty years of Lantern Night programmes.',
       ),
       N(
         'Your Nubbin climbs up behind you, sneezes at the dust, and sets off to investigate a hatbox.',
@@ -536,7 +502,7 @@ const S25_SCENES: EduScene[] = [
         'You sit on the window seat and wait, because that is the rule. A bee comes in, considers them both, and leaves.',
       ),
       M(
-        'She knitted that in a week, with her feet on the fender. She dropped a stitch every night.',
+        'She knitted that in a week, with her feet up by the fire. She dropped a stitch every night.',
         'happy',
       ),
       M(
@@ -681,7 +647,7 @@ const S25_SCENES: EduScene[] = [
       N('In the morning there is frost on the path where she lay, and none at all on the toy.'),
       ...STORM,
     ],
-    stormLessons(8),
+    stormLessons(10),
   ),
   // ------------------------------------------------ step 4 done: it sleeps
   scene(
@@ -771,14 +737,14 @@ const S25_SCENES: EduScene[] = [
     [
       {
         domain: 'sel',
-        skill: 'trust is built by keeping promises',
+        skill: 'trust is built by turning up',
         standard: 'CASEL: Relationship skills',
         kind: 'notice',
         after: 1,
         lines: [
-          N('Your Nubbin waited because it trusted you to come back.'),
+          N('You never promised to come. Your Nubbin trusted you anyway.'),
           N(
-            'Trust grows each time someone does what they said they would, especially when it’s dark, wet and inconvenient.',
+            'Trust grows each time someone turns up when they’re needed, especially when it’s dark and wet.',
           ),
         ],
         parentNote: 'Talked about how trust is built by being reliable.',
@@ -995,6 +961,7 @@ const S25_SCENES: EduScene[] = [
       N(
         'Clank rolls closer, until his chimney nearly touches the glass. His whistle goes very quiet.',
       ),
+      CK('Announcement: I am still looking for my word. The one that means me.'),
       CK('Is there a book? There’s a book. Is there a me in it?', 'soft'),
     ],
     [
@@ -1166,7 +1133,9 @@ const S25_SCENES: EduScene[] = [
   scene(
     's25-chill',
     [
-      N('A few days after the rain on the hill, your Nubbin sneezes at breakfast. Then again.'),
+      N(
+        'A few days after Fossil’s flower goes up on the hill, your Nubbin sneezes at breakfast. Then again.',
+      ),
       N('It is warm to the touch and droopy, and it doesn’t want its plum.'),
       N(
         'You have your boots on to fetch somebody before you know you’re doing it. Clover is already at the gate.',
@@ -1254,7 +1223,7 @@ const S25_SCENES: EduScene[] = [
     's25-bundle',
     [
       N(
-        'The copper in the wash-house is lit by ten. In go the blankets, the basket cushion, and the old sock, which turns up at last.',
+        'The big copper boiler in the wash-house is lit by ten. In go the blankets, the basket cushion, and the old sock, which turns up at last.',
       ),
       N('Then Clover holds her hand out for the toy, and stops.'),
       CL(
@@ -1485,6 +1454,7 @@ const S25_SCENES: EduScene[] = [
       N(
         'Moss is on the window ledge. He doesn’t ask about the notebook, and you don’t tell him yet.',
       ),
+      M('You’re late. I’ve been not waiting for hours. It’s very tiring.'),
       N(
         'On the window seat, where the toy used to sit, there is a patch of faded cushion the shape of a small lumpy Nubbin.',
       ),
@@ -1602,7 +1572,7 @@ export const EDU_S25_READER_VARIANTS: EduScene[] = [
       N('Not yet, then.'),
       ...STORM,
     ],
-    stormLessons(5),
+    stormLessons(7),
   ),
   // step 8 done, with s21Done and a13-clank-word
   scene(
@@ -1659,6 +1629,9 @@ export const EDU_S25_READER_VARIANTS: EduScene[] = [
         'She said bring it back when I’d finished with it. I’ve finished with it. It took longer than projected.',
         'think',
       ),
+      BY(
+        'Pixel says nine years, four months and a day. My wife times everything. Even my apologies.',
+      ),
       N('He sees the toy on the sill, and stops.'),
       BY('Fern says your Nubbin made her apologise to that. Formally. With the good cups.'),
       BY('And that you said it was Real. I’d like to know what you meant. Ideally in a unit.'),
@@ -1670,7 +1643,7 @@ export const EDU_S25_READER_VARIANTS: EduScene[] = [
         skill: 'multiple-meaning words: “long”',
         standard: 'L.3.4',
         kind: 'ask',
-        after: 6,
+        after: 7,
         prompt: [
           BY(
             'I want to log how long the toy gets held. But “long” has two meanings. Which one do I mean?',
@@ -1729,7 +1702,7 @@ export const EDU_S25_READER_VARIANTS: EduScene[] = [
         check: 'edu:read:tally:s25-log',
         lines: [
           BY(
-            'A week later, the tally chart: carried 23 times, dropped 7 times, gone back for 7 times out of 7.',
+            'A week later. Carried: 23. Dropped: 7. Gone back for: 7 out of 7. Complaints from the toy: 0.',
             'happy',
           ),
           BY(
@@ -1809,12 +1782,12 @@ export const EDU_S25_READER_VARIANTS: EduScene[] = [
         'You roll him in a towel and press, and never twist. Clover nods, which from Clover is a medal.',
       ),
       CL(
-        'Now you leave him. Overnight, flat, by the range. Not too near. Wool doesn’t like being rushed any more than the rest of us.',
+        'Now you leave him. Overnight, flat, by the kitchen stove. Not too near. Wool doesn’t like being rushed any more than the rest of us.',
       ),
       N('His loose eye came off in the rinse. Clover holds out her palm for it.'),
       CL('I’ll sew it back tomorrow, with proper thread. It’ll outlast both of us.'),
       N(
-        'Your Nubbin wakes on the step, looks round for him, and finds him on the towel by the range.',
+        'Your Nubbin wakes on the step, looks round for him, and finds him on the towel by the kitchen stove.',
       ),
       N('It lies down beside the towel: not on it, beside it.'),
     ],
@@ -1897,6 +1870,7 @@ export const EDU_S25_READER_VARIANTS: EduScene[] = [
       N(
         'Moss is on the window ledge. He doesn’t ask about the notebook, and you don’t tell him yet.',
       ),
+      M('You’re late. I’ve been not waiting for hours. It’s very tiring.'),
       N('On your Nubbin’s bed the toy is waiting, a size smaller, with both eyes on tight.'),
       N('There is one thing you do want to tell him.'),
       N(
