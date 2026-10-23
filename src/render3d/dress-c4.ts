@@ -84,7 +84,7 @@ export const dress3dC4: Dressing3d = (() => {
       glass
         .set('#cfe6f2')
         .multiplyScalar(L.dayWindow)
-        .lerp(warm.set('#ffc070').multiplyScalar(L.window), k);
+        .lerp(warm.set('#ffa040').multiplyScalar(L.window), k);
       mats.glass.color.copy(glass);
     },
     dispose() {

@@ -23,7 +23,7 @@ export const CG4_C4 = {
     emissive: '#ffb066',
     emissiveNight: 0.32,
     emissiveDay: 0.06,
-    window: 2.2,
+    window: 1.5,
     dayWindow: 0.95,
   },
 } as const;

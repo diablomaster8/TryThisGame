@@ -1,17 +1,18 @@
 import * as THREE from 'three';
 import type { InteriorId } from '../config/stage-marks';
-import { CG4_C4 } from '../config/tuning';
+import { CG4_C4, GROVE3D } from '../config/tuning';
 import { ROOM_FURNITURE, type Piece } from '../render/interior-layout';
 import { ROOM_LOOKS } from '../render/paint/interiors';
 import type { Tex } from '../samples/aaa-kit';
-import { buildingMaterial } from './building-kit';
+import { toonShader } from '../samples/creatures';
 import { box, cyl, Parts, sph } from './prop-kit';
 
 /**
  * Campaign graphics 4, K10, Full 3D: an interior as a three-wall box. Four walls are built
  * (each its own group, so the one between the camera and the room can be left out), from
- * the building kit's painted, toon-lit plaster, wood and stone with timber trim, plus the
- * room's feature on the back wall and its furniture from prop-kit boxes. No light is added:
+ * the building kit's painted, toon-lit plaster, wood and stone (own instances, never cut by
+ * the occluder) with timber trim, plus the room's feature on the back wall and its
+ * furniture from prop-kit boxes. No light is added:
  * the walls and furniture carry a warm emissive fill by night, the windows glow (bloom),
  * and the stove and hearth fires are the prop kit's glow. Origin at the room's centre on
  * the floor; the back wall is at z = -d/2.
@@ -25,11 +26,27 @@ export interface InteriorMats {
   glass: THREE.MeshBasicMaterial;
 }
 
-/** The rooms' own materials (the kit's programs; own instances for the night fill). */
+/**
+ * The rooms' own materials: the building kit's painted, toon-lit look, but without the
+ * occluder (H9). Inside a room nothing should be cut away round a speaker: the counter in
+ * front of Hob is part of the shot. Own instances also carry the night fill.
+ */
 export function interiorMats(tex: Tex): InteriorMats {
+  const sky = GROVE3D.toon.sky;
   const tinted = (s: Tex['wood'], normal: number) => {
-    const m = buildingMaterial(s, { normal });
-    m.vertexColors = true;
+    const m = new THREE.MeshStandardMaterial({
+      map: s.map,
+      normalMap: s.normal,
+      normalScale: new THREE.Vector2(normal, normal),
+      roughness: 1,
+      metalness: 0,
+      vertexColors: true,
+    });
+    m.onBeforeCompile = (shader) => {
+      toonShader(shader, 0, sky);
+      m.userData.shader = shader;
+    };
+    m.customProgramCacheKey = () => `interior-toon|${sky}`;
     return m;
   };
   return {
