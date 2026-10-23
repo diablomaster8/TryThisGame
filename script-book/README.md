@@ -1,71 +1,165 @@
 # Grove script book
 
-Generated from `src/content/`. One file per pack.
+Generated from `src/content/` by `tests/tools/script-book.ts`; never edit by hand. Rerun it after any content change and check with `--check`.
 
-- [Hazel's Grove: the campaign (12 chapters, 8 endings)](00-campaign.md)
-- [Side-story variant scenes](01b-side-story-variants.md)
-- [Hazel's Grove side stories (S1–S22)](01-side-stories.md): 22 quests
-- [Fun quests: Monty Python (Q1–Q20)](02-fun-python.md): 20 quests
-- [Fun quests: Mr. Bean (Q21–Q30)](03-fun-bean.md): 10 quests
-- [Fun quests: It's Always Sunny (Q31–Q45, adults only)](04-fun-sunny.md): 15 quests
-- [Fun quests: Avatar: The Last Airbender (Q46–Q65)](05-fun-avatar.md): 20 quests
-- [Neopia line (NP1–NP13)](06-neopia-line.md): 13 quests
-- [Neopia quests (NQ1–NQ32)](07-neopia-quests.md): 32 quests
-- [Multiverse: Iron Man (IM1–IM15)](08-mv-ironman.md): 15 quests
-- [Multiverse: Captain America (CA1–CA10)](09-mv-cap.md): 10 quests
-- [Multiverse: Doom and the Fantastic Four (FF1–FF10)](10-mv-doom.md): 11 quests
-- [Multiverse: Ultron (UL1–UL10)](11-mv-ultron.md): 10 quests
-- [Multiverse: Moon Knight (MK1–MK8)](12-mv-moonknight.md): 8 quests
-- [Multiverse: Spawn (SP1–SP8)](13-mv-spawn.md): 8 quests
-- [Multiverse: Dragon Ball (DB1–DB20)](14-mv-dragonball.md): 20 quests
-- [Multiverse: Toy Story (TS1–TS12)](15-mv-toystory.md): 12 quests
-- [Multiverse: Endgames (E1–E6)](16-mv-endgames.md): 6 quests
-- [Learning Grove: Ori's Alef-Bet, Hebrew (LH1–LH6)](19a-lang-hebrew.md): 6 quests
-- [Learning Grove: Hana's Hiragana, Japanese (LJ1–LJ6)](19b-lang-japanese.md): 6 quests
-- [Hazel's Grove side stories (S23–S31)](01c-side-stories-s23-s31.md): 9 quests, 143 variant scenes
-- [Atlas, page A1: The Brothers’ Bargain](22-atlas-a01.md): 20 quests, 5 variant scenes
-- [Atlas, page A2: The Monkey and the Monk](22-atlas-a02.md): 19 quests, 2 variant scenes
-- [Atlas, page A3: Forty-Nine Days](22-atlas-a03.md): 14 quests, 8 variant scenes
-- [Atlas, page A4: The Waterfall Prince](22-atlas-a04.md): 16 quests, 2 variant scenes
-- [Atlas, page A5: The Lion of Mali](22-atlas-a05.md): 14 quests, 2 variant scenes
-- [Atlas, page A6: Seven Voyages](22-atlas-a06.md): 16 quests, 7 variant scenes
-- [Atlas, page A7: The Marigold Bridge](22-atlas-a07.md): 12 quests, 8 variant scenes
-- [Atlas, page A8: The Twelve Tasks](22-atlas-a08.md): 14 quests, 3 variant scenes
-- [Atlas, page A9: The Comet](22-atlas-a09.md): 12 quests, 3 variant scenes
-- [Atlas, page A10: The Heart of the Island](22-atlas-a10.md): 14 quests, 4 variant scenes
-- [Atlas, page A11: The Enchanted Place](22-atlas-a11.md): 20 quests, 11 variant scenes
-- [Atlas, page A12: The Mirror Shard](22-atlas-a12.md): 18 quests, 12 variant scenes
-- [Atlas, page A13: The Wooden Boy](22-atlas-a13.md): 20 quests, 12 variant scenes
-- [Atlas, page A14: Homecoming](22-atlas-a14.md): 20 quests, 15 variant scenes
-- [Atlas, page A15: The Humbug](22-atlas-a15.md): 20 quests, 8 variant scenes
-- [Atlas, page A16: The Fox and the Rose](22-atlas-a16.md): 17 quests, 19 variant scenes
-- [Atlas, page A17: The Camphor Tree](22-atlas-a17.md): 16 quests, 20 variant scenes
-- [Atlas, page A18: The Doll in the Pocket](22-atlas-a18.md): 16 quests, 14 variant scenes
-- [Atlas, page A19: The Dragon Who Fell](22-atlas-a19.md): 18 quests, 8 variant scenes
-- [Atlas, page A20: The Weeping](22-atlas-a20.md): 17 quests, 14 variant scenes
-- [Atlas, page A21: The Flower Field](22-atlas-a21.md): 20 quests, 13 variant scenes
-- [Atlas, page A22: The Candle](22-atlas-a22.md): 16 quests, 23 variant scenes
-- [Atlas, page A23: Remember Who You Are](22-atlas-a23.md): 16 quests, 19 variant scenes
-- [Atlas, page A24: The Law of the Jungle](22-atlas-a24.md): 18 quests, 14 variant scenes
-- [Atlas, page A25: The Nothing](22-atlas-a25.md): 20 quests, 11 variant scenes
-- [Atlas, page A26: The Wall of Uruk](22-atlas-a26.md): 18 quests, 15 variant scenes
-- [Atlas, page A27: The White-Haired Prince](22-atlas-a27.md): 17 quests, 12 variant scenes
-- [Atlas, page A28: The Box of Stories](22-atlas-a28.md): 12 quests, 11 variant scenes
-- [Atlas, page A29: The Honmoon](22-atlas-a29.md): 16 quests, 17 variant scenes
-- [Atlas, page A30: The Word on the Brow](22-atlas-a30.md): 13 quests, 20 variant scenes
-- [Atlas, page A31: The Hero Twins](22-atlas-a31.md): 17 quests, 23 variant scenes
-- [Pixel's Arcade, cartridge PA1: The Chao Altar](23-arcade-pa1.md): 18 quests, 9 variant scenes
-- [Pixel's Arcade, cartridge PA2: The Clone Island](23-arcade-pa2.md): 18 quests, 8 variant scenes
-- [Pixel's Arcade, cartridge PA3: The Hollow Kingdom](23-arcade-pa3.md): 18 quests, 14 variant scenes
-- [Pixel's Arcade, cartridge PA4: Mercy](23-arcade-pa4.md): 19 quests, 27 variant scenes
-- [Pixel's Arcade, cartridge PA5: The Hundred-Year Sleep](23-arcade-pa5.md): 18 quests, 15 variant scenes
-- [Learning Grove line LB: Play (LB1–LB12)](24-line-lb.md): 12 quests, 10 variant scenes
-- [Learning Grove line LK: Mouse-Deer (LK1–LK10)](25-line-lk.md): 10 quests, 5 variant scenes
-- [Learning Grove, Little Sprouts (ages 3–6, read aloud): campaign](20a-edu-sprout-campaign.md)
-- [Learning Grove, Little Sprouts (ages 3–6, read aloud): side stories and fun quests](20b-edu-sprout-stories.md)
-- [Learning Grove, Grove Readers (ages 7–10): campaign](21a-edu-reader-campaign.md)
-- [Learning Grove, Grove Readers (ages 7–10): side stories and fun quests](21b-edu-reader-stories.md)
-- [Ori’s Alef-Bet: word list and script primer](19c-hebrew-words.md)
-- [Hana’s Hiragana: word list and script primer](19d-japanese-words.md)
-- [Readers: fortune teller, doctor, Aunt Wen, Island Mystic, the kings](17-readers.md)
-- [Result lines for every result screen and Neopia freebie](18-results.md)
+One storyline per file, scenes in play order. Variants sit under their parent scene ("Variant of …"); variants with no parent close their storyline's file. Learning Grove versions are separate files, one per band, each scene linking to its main scene. No file runs past 3500 lines; longer ones split at their `##` headings into `-1`, `-2`. Each file is one review unit (`docs/story-review/LOG.md`).
+
+`ids.tsv` maps every scene id to its book file:line and its source file:line. Line counts are in brackets.
+
+For one file per line to read straight through (gitignored): `npx tsx tests/tools/script-book.ts --whole script-book-whole`.
+
+## Hazel's Grove
+
+| Storyline | Script | Little Sprouts | Grove Readers |
+| --- | --- | --- | --- |
+| The campaign, Book 1: The Letter | [book-1.md](campaign/book-1.md) (453) |  |  |
+| The campaign, Book 2: The Cold | [book-2.md](campaign/book-2.md) (529) |  |  |
+| The campaign, Book 3: The Long Night | [book-3.md](campaign/book-3.md) (1029) |  |  |
+| The campaign: triggered scenes | [triggered.md](campaign/triggered.md) (68) |  |  |
+| The campaign: endings | [endings.md](campaign/endings.md) (325) |  |  |
+| Side story S1: The Wardens’ Walk · opens in chapter 4 | [S01.md](side/S01.md) (199) | [sprout.md](learning/side/S01/sprout.md) (245) | [reader.md](learning/side/S01/reader.md) (333) |
+| Side story S2: Wisp · opens in chapter 3 | [S02.md](side/S02.md) (205) | [sprout.md](learning/side/S02/sprout.md) (218) | [reader.md](learning/side/S02/reader.md) (317) |
+| Side story S3: The Cycle · opens in chapter 4 | [S03.md](side/S03.md) (170) | [sprout.md](learning/side/S03/sprout.md) (210) | [reader.md](learning/side/S03/reader.md) (274) |
+| Side story S4: The Wellspring · opens in chapter 5 | [S04.md](side/S04.md) (146) | [sprout.md](learning/side/S04/sprout.md) (191) | [reader.md](learning/side/S04/reader.md) (253) |
+| Side story S5: Fossil’s Last Walk · opens in chapter 5 | [S05.md](side/S05.md) (141) | [sprout.md](learning/side/S05/sprout.md) (183) | [reader.md](learning/side/S05/reader.md) (253) |
+| Side story S6: Ash’s True Name · opens in chapter 9 | [S06.md](side/S06.md) (163) | [sprout.md](learning/side/S06/sprout.md) (193) | [reader.md](learning/side/S06/reader.md) (238) |
+| Side story S7: Unverified · opens in chapter 7 | [S07.md](side/S07.md) (164) | [sprout.md](learning/side/S07/sprout.md) (192) | [reader.md](learning/side/S07/reader.md) (265) |
+| Side story S8: The Warren in the Hollow · opens in chapter 8 | [S08.md](side/S08.md) (178) | [sprout.md](learning/side/S08/sprout.md) (225) | [reader.md](learning/side/S08/reader.md) (302) |
+| Side story S9: The Gate That Sticks · opens in chapter 11 | [S09.md](side/S09.md) (198) | [sprout.md](learning/side/S09/sprout.md) (219) | [reader.md](learning/side/S09/reader.md) (312) |
+| Side story S10: Fourteen Months · opens in chapter 11 | [S10.md](side/S10.md) (387) | [sprout.md](learning/side/S10/sprout.md) (478) | [reader.md](learning/side/S10/reader.md) (563) |
+| Side story S11: The Blight · opens in chapter 5 | [S11.md](side/S11.md) (168) | [sprout.md](learning/side/S11/sprout.md) (212) | [reader.md](learning/side/S11/reader.md) (305) |
+| Side story S12: The Hum · opens in chapter 6 | [S12.md](side/S12.md) (172) | [sprout.md](learning/side/S12/sprout.md) (209) | [reader.md](learning/side/S12/reader.md) (297) |
+| Side story S13: The Mill Cellar · opens in chapter 7 | [S13.md](side/S13.md) (339) | [sprout.md](learning/side/S13/sprout.md) (361) | [reader.md](learning/side/S13/reader.md) (542) |
+| Side story S14: Tilly’s Tabletop · opens in chapter 8 | [S14.md](side/S14.md) (218) | [sprout.md](learning/side/S14/sprout.md) (262) | [reader.md](learning/side/S14/reader.md) (343) |
+| Side story S15: Lucky Eggs · opens in chapter 5 | [S15.md](side/S15.md) (170) | [sprout.md](learning/side/S15/sprout.md) (211) | [reader.md](learning/side/S15/reader.md) (307) |
+| Side story S16: The Workyard · opens in chapter 6 | [S16.md](side/S16.md) (159) | [sprout.md](learning/side/S16/sprout.md) (196) | [reader.md](learning/side/S16/reader.md) (285) |
+| Side story S17: Nightjar · opens in chapter 7 | [S17.md](side/S17.md) (176) | [sprout.md](learning/side/S17/sprout.md) (235) | [reader.md](learning/side/S17/reader.md) (318) |
+| Side story S18: The Grove Museum · opens in chapter 6 | [S18.md](side/S18.md) (191) | [sprout.md](learning/side/S18/sprout.md) (258) | [reader.md](learning/side/S18/reader.md) (343) |
+| Side story S19: Cinder’s Last Light · opens in chapter 11 | [S19.md](side/S19.md) (427) | [sprout.md](learning/side/S19/sprout.md) (439) | [reader.md](learning/side/S19/reader.md) (608) |
+| Side story S20: Fort Night · opens in chapter 11 | [S20.md](side/S20.md) (182) | [sprout.md](learning/side/S20/sprout.md) (220) | [reader.md](learning/side/S20/reader.md) (306) |
+| Side story S21: CL-4NK · opens in chapter 3 | [S21.md](side/S21.md) (185) | [sprout.md](learning/side/S21/sprout.md) (222) | [reader.md](learning/side/S21/reader.md) (309) |
+| Side story S22: The Climb · opens in chapter 8 | [S22.md](side/S22.md) (150) | [sprout.md](learning/side/S22/sprout.md) (188) | [reader.md](learning/side/S22/reader.md) (280) |
+| Side story S23: Three Visitors · opens in chapter 9 | [S23.md](side/S23.md) (742) |  |  |
+| Side story S24: The Adventure Book · opens post-game | [S24.md](side/S24.md) (813) | [sprout.md](learning/side/S24/sprout.md) (1167) | [reader.md](learning/side/S24/reader.md) (1255) |
+| Side story S25: Real · opens in chapter 3 | [S25.md](side/S25.md) (596) | [sprout.md](learning/side/S25/sprout.md) (883) | [reader.md](learning/side/S25/reader.md) (888) |
+| Side story S26: The Walled Garden · opens in chapter 6 | [S26.md](side/S26.md) (622) | [sprout.md](learning/side/S26/sprout.md) (821) | [reader.md](learning/side/S26/reader.md) (989) |
+| Side story S27: Some Nubbin · opens in chapter 5 | [S27.md](side/S27.md) (573) | [sprout.md](learning/side/S27/sprout.md) (744) | [reader.md](learning/side/S27/reader.md) (874) |
+| Side story S28: Please Look After This Nubbin · opens in chapter 8 | [S28.md](side/S28.md) (582) | [sprout.md](learning/side/S28/sprout.md) (783) | [reader.md](learning/side/S28/reader.md) (855) |
+| Side story S29: The Gates of Dawn · opens in chapter 4 | [S29.md](side/S29.md) (665) | [sprout.md](learning/side/S29/sprout.md) (800) | [reader.md](learning/side/S29/reader.md) (1021) |
+| Side story S30: What Sad Is For · opens in chapter 6 | [S30.md](side/S30.md) (554) | [sprout.md](learning/side/S30/sprout.md) (763) | [reader.md](learning/side/S30/reader.md) (886) |
+| Side story S31: The Great Gourd · opens in chapter 7 | [S31.md](side/S31.md) (617) | [sprout.md](learning/side/S31/sprout.md) (834) | [reader.md](learning/side/S31/reader.md) (913) |
+| Learning Grove: the campaign | | [sprout.md](learning/campaign/sprout.md) (2805) | [reader-1.md](learning/campaign/reader-1.md) (2547), [reader-2.md](learning/campaign/reader-2.md) (1378) |
+
+## Fun quests
+
+| Storyline | Script | Little Sprouts | Grove Readers |
+| --- | --- | --- | --- |
+| Fun quests: Monty Python (Q1–Q20) | [python.md](fun/python.md) (1838) | [sprout.md](learning/fun/python/sprout.md) (2193) | [reader.md](learning/fun/python/reader.md) (2835) |
+| Fun quests: Mr. Bean (Q21–Q30) | [bean.md](fun/bean.md) (822) | [sprout.md](learning/fun/bean/sprout.md) (990) | [reader.md](learning/fun/bean/reader.md) (1354) |
+| Fun quests: It's Always Sunny (Q31–Q45, adults only) | [sunny.md](fun/sunny.md) (1372) |  |  |
+| Fun quests: Avatar: The Last Airbender (Q46–Q65) | [avatar.md](fun/avatar.md) (1864) | [sprout.md](learning/fun/avatar/sprout.md) (2319) | [reader.md](learning/fun/avatar/reader.md) (3006) |
+| Fun quests: Alice in Wonderland (Q66–Q75) | [alice.md](fun/alice.md) (792) |  |  |
+| Fun quests: Sherlock Holmes (Q76–Q85) | [holmes.md](fun/holmes.md) (836) |  |  |
+| Fun quests: Nasreddin Hodja (Q86–Q95) | [hodja.md](fun/hodja.md) (755) |  |  |
+
+## Neopia
+
+| Storyline | Script |
+| --- | --- |
+| Neopia line (NP1–NP13) | [line.md](neopia/line.md) (1876) |
+| Neopia quests (NQ1–NQ32) | [quests.md](neopia/quests.md) (1850) |
+
+## Multiverse
+
+| Storyline | Script |
+| --- | --- |
+| Multiverse: Iron Man (IM1–IM15) | [ironman.md](multiverse/ironman.md) (1919) |
+| Multiverse: Captain America (CA1–CA10) | [cap.md](multiverse/cap.md) (1139) |
+| Multiverse: Doom and the Fantastic Four (FF1–FF10) | [doom.md](multiverse/doom.md) (1248) |
+| Multiverse: Ultron (UL1–UL10) | [ultron.md](multiverse/ultron.md) (1080) |
+| Multiverse: Moon Knight (MK1–MK8) | [moonknight.md](multiverse/moonknight.md) (956) |
+| Multiverse: Spawn (SP1–SP8) | [spawn.md](multiverse/spawn.md) (894) |
+| Multiverse: Dragon Ball (DB1–DB20) | [dragonball.md](multiverse/dragonball.md) (2037) |
+| Multiverse: Toy Story (TS1–TS12) | [toystory.md](multiverse/toystory.md) (1420) |
+| Multiverse: Endgames (E1–E6) | [endgames.md](multiverse/endgames.md) (1577) |
+
+## Expansions
+
+| Storyline | Script |
+| --- | --- |
+| Expansion E1: The Square | [E1.md](expansions/E1.md) (167) |
+| Expansion E2: Nova’s Season | [E2.md](expansions/E2.md) (130) |
+| Expansion E3: The Twine | [E3.md](expansions/E3.md) (126) |
+
+## Storylines
+
+| Storyline | Script |
+| --- | --- |
+| Storyline SL1: The Hundred Days | [hundred.md](storylines/hundred.md) (426) |
+| Storyline SL2: Logged In | [logged.md](storylines/logged.md) (319) |
+| Storyline SL3: The Beetle Road | [beetle.md](storylines/beetle.md) (315) |
+| Storyline SL4: Dawn & Dusk | [dawndusk.md](storylines/dawndusk.md) (491) |
+
+## Atlas
+
+| Storyline | Script | Little Sprouts | Grove Readers |
+| --- | --- | --- | --- |
+| Atlas, page A1: The Brothers’ Bargain | [main.md](atlas/A01/main.md) (1611) |  |  |
+| Atlas, page A2: The Monkey and the Monk | [main.md](atlas/A02/main.md) (1600) | [sprout.md](atlas/A02/sprout.md) (1949) | [reader.md](atlas/A02/reader.md) (2313) |
+| Atlas, page A3: Forty-Nine Days | [main.md](atlas/A03/main.md) (1200) |  |  |
+| Atlas, page A4: The Waterfall Prince | [main.md](atlas/A04/main.md) (1339) |  |  |
+| Atlas, page A5: The Lion of Mali | [main.md](atlas/A05/main.md) (1165) | [sprout.md](atlas/A05/sprout.md) (1419) | [reader.md](atlas/A05/reader.md) (1634) |
+| Atlas, page A6: Seven Voyages | [main.md](atlas/A06/main.md) (1537) | [sprout.md](atlas/A06/sprout.md) (1872) | [reader.md](atlas/A06/reader.md) (2225) |
+| Atlas, page A7: The Marigold Bridge | [main.md](atlas/A07/main.md) (1200) | [sprout.md](atlas/A07/sprout.md) (1519) | [reader.md](atlas/A07/reader.md) (1861) |
+| Atlas, page A8: The Twelve Tasks | [main.md](atlas/A08/main.md) (1075) | [sprout.md](atlas/A08/sprout.md) (1250) | [reader.md](atlas/A08/reader.md) (1426) |
+| Atlas, page A9: The Comet | [main.md](atlas/A09/main.md) (1095) | [sprout.md](atlas/A09/sprout.md) (1431) | [reader.md](atlas/A09/reader.md) (1702) |
+| Atlas, page A10: The Heart of the Island | [main.md](atlas/A10/main.md) (1295) | [sprout.md](atlas/A10/sprout.md) (1696) | [reader.md](atlas/A10/reader.md) (1933) |
+| Atlas, page A11: The Enchanted Place | [main.md](atlas/A11/main.md) (1884) | [sprout.md](atlas/A11/sprout.md) (2352) | [reader.md](atlas/A11/reader.md) (2535) |
+| Atlas, page A12: The Mirror Shard | [main.md](atlas/A12/main.md) (1962) | [sprout.md](atlas/A12/sprout.md) (2412) | [reader.md](atlas/A12/reader.md) (2739) |
+| Atlas, page A13: The Wooden Boy | [main.md](atlas/A13/main.md) (1858) | [sprout.md](atlas/A13/sprout.md) (2285) | [reader.md](atlas/A13/reader.md) (2703) |
+| Atlas, page A14: Homecoming | [main.md](atlas/A14/main.md) (2230) | [sprout.md](atlas/A14/sprout.md) (2743) | [reader.md](atlas/A14/reader.md) (3332) |
+| Atlas, page A15: The Humbug | [main.md](atlas/A15/main.md) (2211) | [sprout.md](atlas/A15/sprout.md) (2737) | [reader.md](atlas/A15/reader.md) (3293) |
+| Atlas, page A16: The Fox and the Rose | [main.md](atlas/A16/main.md) (1636) |  | [reader.md](atlas/A16/reader.md) (1841) |
+| Atlas, page A17: The Camphor Tree | [main.md](atlas/A17/main.md) (1639) | [sprout.md](atlas/A17/sprout.md) (1925) | [reader.md](atlas/A17/reader.md) (2605) |
+| Atlas, page A18: The Doll in the Pocket | [main.md](atlas/A18/main.md) (1716) | [sprout.md](atlas/A18/sprout.md) (2286) | [reader.md](atlas/A18/reader.md) (2489) |
+| Atlas, page A19: The Dragon Who Fell | [main.md](atlas/A19/main.md) (1610) | [sprout.md](atlas/A19/sprout.md) (1988) | [reader.md](atlas/A19/reader.md) (2318) |
+| Atlas, page A20: The Weeping | [main.md](atlas/A20/main.md) (1494) | [sprout.md](atlas/A20/sprout.md) (1815) | [reader.md](atlas/A20/reader.md) (2085) |
+| Atlas, page A21: The Flower Field | [main.md](atlas/A21/main.md) (2060) |  |  |
+| Atlas, page A22: The Candle | [main.md](atlas/A22/main.md) (1596) | [sprout.md](atlas/A22/sprout.md) (1997) | [reader.md](atlas/A22/reader.md) (2114) |
+| Atlas, page A23: Remember Who You Are | [main.md](atlas/A23/main.md) (1678) | [sprout.md](atlas/A23/sprout.md) (1756) | [reader.md](atlas/A23/reader.md) (2177) |
+| Atlas, page A24: The Law of the Jungle | [main.md](atlas/A24/main.md) (1933) | [sprout.md](atlas/A24/sprout.md) (2576) | [reader.md](atlas/A24/reader.md) (3052) |
+| Atlas, page A25: The Nothing | [main.md](atlas/A25/main.md) (1711) |  | [reader.md](atlas/A25/reader.md) (1679) |
+| Atlas, page A26: The Wall of Uruk | [main.md](atlas/A26/main.md) (1703) | [sprout.md](atlas/A26/sprout.md) (2176) | [reader.md](atlas/A26/reader.md) (2273) |
+| Atlas, page A27: The White-Haired Prince | [main.md](atlas/A27/main.md) (1625) | [sprout.md](atlas/A27/sprout.md) (2128) | [reader.md](atlas/A27/reader.md) (2475) |
+| Atlas, page A28: The Box of Stories | [main.md](atlas/A28/main.md) (1248) | [sprout.md](atlas/A28/sprout.md) (1739) | [reader.md](atlas/A28/reader.md) (1893) |
+| Atlas, page A29: The Honmoon | [main.md](atlas/A29/main.md) (1390) |  | [reader.md](atlas/A29/reader.md) (2055) |
+| Atlas, page A30: The Word on the Brow | [main.md](atlas/A30/main.md) (1091) | [sprout.md](atlas/A30/sprout.md) (1402) | [reader.md](atlas/A30/reader.md) (1457) |
+| Atlas, page A31: The Hero Twins | [main.md](atlas/A31/main.md) (1643) | [sprout.md](atlas/A31/sprout.md) (1879) | [reader.md](atlas/A31/reader.md) (1944) |
+
+## Pixel's Arcade
+
+| Storyline | Script | Little Sprouts | Grove Readers |
+| --- | --- | --- | --- |
+| Pixel's Arcade, cartridge PA1: The Chao Altar | [main.md](arcade/PA1/main.md) (1427) | [sprout.md](arcade/PA1/sprout.md) (1851) | [reader.md](arcade/PA1/reader.md) (2022) |
+| Pixel's Arcade, cartridge PA2: The Clone Island | [main.md](arcade/PA2/main.md) (1490) |  |  |
+| Pixel's Arcade, cartridge PA3: The Hollow Kingdom | [main.md](arcade/PA3/main.md) (1502) |  |  |
+| Pixel's Arcade, cartridge PA4: Mercy | [main.md](arcade/PA4/main.md) (1641) |  |  |
+| Pixel's Arcade, cartridge PA5: The Hundred-Year Sleep | [main.md](arcade/PA5/main.md) (1501) |  |  |
+
+## Learning Grove lines
+
+| Storyline | Script | Little Sprouts | Grove Readers |
+| --- | --- | --- | --- |
+| Learning Grove line LB: Play (LB1–LB12) | [main.md](lines/LB/main.md) (911) | [sprout.md](lines/LB/sprout.md) (1040) | [reader.md](lines/LB/reader.md) (1168) |
+| Learning Grove line LK: Mouse-Deer (LK1–LK10) | [main.md](lines/LK/main.md) (698) | [sprout.md](lines/LK/sprout.md) (787) | [reader.md](lines/LK/reader.md) (928) |
+| Ori's Alef-Bet, Hebrew (LH1–LH6) | [main.md](lines/lang-hebrew/main.md) (700) | [sprout.md](lines/lang-hebrew/sprout.md) (1046) | [reader.md](lines/lang-hebrew/reader.md) (1262) |
+| Ori's Alef-Bet: word list and script primer | [words.md](lines/lang-hebrew/words.md) (111) |  |  |
+| Hana's Hiragana, Japanese (LJ1–LJ6) | [main.md](lines/lang-japanese/main.md) (772) | [sprout.md](lines/lang-japanese/sprout.md) (1007) | [reader.md](lines/lang-japanese/reader.md) (1189) |
+| Hana's Hiragana: word list and script primer | [words.md](lines/lang-japanese/words.md) (110) |  |  |
+
+## Extras
+
+| Storyline | Script |
+| --- | --- |
+| Readers: fortune teller, doctor, Aunt Wen, Island Mystic, the kings | [readers.md](extras/readers.md) (365) |
+| Result lines for every result screen and Neopia freebie | [results.md](extras/results.md) (543) |

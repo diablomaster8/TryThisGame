@@ -76,7 +76,9 @@ const S14_SCENES: EduScene[] = [
       TI('Rule three: there are snacks, but only at the end. If you ask about the snacks, the end gets further away.'),
       BY('Is there a rulebook? I’d like to read the rulebook first.', 'think'),
       TI('I’m the rulebook.'),
-      N('Pixel is already building a dice tower out of a cereal box. Tilly watches it the way a hawk watches a vole.'),
+      N('Pixel, the inventor, is already building a dice tower out of a cereal box. Tilly watches it the way a hawk watches a vole.'),
+      BY('Twenty years married, and she still builds a tower before reading the rules.'),
+      PX('Twenty years, and he still reads the rules.'),
       TI('Pick your hero. Ten seconds. Nine. Four.'),
     ],
     [
@@ -182,7 +184,7 @@ const S14_SCENES: EduScene[] = [
         skill: 'adding two dice: the smallest and biggest totals',
         standard: '1.OA.A.1',
         kind: 'ask',
-        after: 3,
+        after: 5,
         prompt: [
           N('Sparks rolled a one and a one. 1 + 1 = 2. That’s the smallest total two dice can make.'),
           SP('What’s the BIGGEST total? I want it. I want it for my sandwich.'),
@@ -208,24 +210,9 @@ const S14_SCENES: EduScene[] = [
         domain: 'sel',
         skill: 'how to disagree kindly',
         standard: 'CASEL: Relationship skills',
-        kind: 'ask',
+        kind: 'notice',
         after: 9,
-        prompt: [N('Byte keeps saying “actually”, and Tilly keeps taking his hit points. What’s a kind way to disagree with someone?')],
-        options: [
-          {
-            label: 'Say: “I see it differently. Can I explain?”',
-            best: true,
-            reply: [N('Yes. That shows you’ve listened, and asks them to listen back. Byte may try it. He may not.')],
-          },
-          {
-            label: 'Shout “WRONG!” until they give up.',
-            reply: [N('Shouting usually makes people dig their heels in. Byte would run out of hit points. Try: “I see it differently. Can I explain?”')],
-          },
-          {
-            label: 'Never say anything, ever.',
-            reply: [N('You’re allowed to disagree! You can do it kindly: “I see it differently. Can I explain?”')],
-          },
-        ],
+        lines: [N('A kind way to disagree is to say: “I see it differently. Can I explain?” Byte may try it. He may not.')],
         parentNote: 'Practised a respectful way to disagree with someone.',
       },
     ],
@@ -235,10 +222,12 @@ const S14_SCENES: EduScene[] = [
     's14-tower',
     [
       N('Next afternoon there’s a new tower on the map, drawn exactly where Sparks’s workshop chimney stands.'),
+      SP('Hang on. That’s my chimney. Am I the Toad?'),
+      TI('No comment.'),
       TI('The Tower of the Tax Toad. He taxes everything. He’s very rich and very damp.'),
       PX('Can I build a siege engine?', 'happy'),
       TI('You can build a siege engine. Roll. …Three. Your siege engine is now a toad. It works for him.'),
-      N('Pixel looks at the cereal-box dice tower, then at Tilly, and very slowly moves it out of her reach.'),
+      N('Pixel looks at the cereal-box dice tower, then at Tilly, and very slowly moves it out of Tilly’s reach.'),
       TI('RIBBIT. That’ll be two Shells for the ribbit.', 'angry'),
       TI('There’s a tax on hats. A tax on stairs. A tax on being taller than a toad. That’s all of you. Sorry.'),
       BY('And is there a tax on paying the tax?', 'think'),
@@ -251,7 +240,7 @@ const S14_SCENES: EduScene[] = [
         skill: 'equal groups: 4 taxes of 2 Shells',
         standard: '3.OA.A.1',
         kind: 'ask',
-        after: 6,
+        after: 8,
         prompt: [
           TI('Every tax is two Shells. The ribbit, the hats, the stairs, and being taller than a toad.'),
           N('Four taxes, two Shells each. How many Shells does the Toad want?'),
@@ -272,7 +261,7 @@ const S14_SCENES: EduScene[] = [
         skill: 'words that show a character’s feelings',
         standard: 'RL.1.4',
         kind: 'ask',
-        after: 8,
+        after: 10,
         prompt: [N('“Tilly’s eyes go very wide and very bright.” What is she feeling?')],
         options: [
           {
@@ -290,7 +279,7 @@ const S14_SCENES: EduScene[] = [
   scene(
     's14-toad',
     [
-      BY('Each tax is a tenth of the one before. It keeps shrinking. We owe him two Shells, two, two, two… forever.'),
+      BY('The tax on the tax is a tenth of it. Then a tenth of that. It shrinks and shrinks, and never quite stops.'),
       TI('The Toad doesn’t do maths. The Toad does vibes.'),
       BY('Actually—'),
       TI('Six.'),
@@ -360,30 +349,12 @@ const S14_SCENES: EduScene[] = [
     [
       N('The morning of the last session, Sparks is waiting at your gate, quietly. You didn’t know Sparks had a quiet setting.'),
       SP('The dragon in that corner’s got bigger. She redraws it every night. Last night it got a cardigan.', 'sad'),
-      SP('It’s Hazel. Obviously it’s Hazel. Hazel taught her to whistle. Two fingers. The supper call.'),
+      SP('It’s Hazel. Obviously it’s Hazel.'),
       SP('Hazel went off at the end of the winter. She left Tilly a note, with just “Tilly” on the front. She won’t open it. It’s in her welly.'),
       SP('She won’t say the name. Just “the dragon”.'),
-      SP('She’s gone off somewhere. She does that. You go. She likes you. You’re not a sandwich.', 'soft'),
+      SP('Tilly’s gone off somewhere. She does that. You go and find her. She likes you. You’re not a sandwich.', 'soft'),
     ],
     [
-      {
-        domain: 'literacy',
-        skill: 'understanding a metaphor',
-        standard: 'L.4.5',
-        kind: 'ask',
-        after: 0,
-        prompt: [N('Sparks isn’t a radio. So what does “a quiet setting” mean here?')],
-        options: [
-          {
-            label: 'Sparks is usually loud, so being quiet is very unusual.',
-            best: true,
-            reply: [N('Yes. It’s a metaphor: it talks about Sparks as if Sparks were a machine with a volume knob. It tells you something is wrong.')],
-          },
-          { label: 'Sparks has a real button on the back.', reply: [N('Ha! No button. It’s a metaphor: it talks about Sparks like a machine to show how unusual it is for Sparks to be quiet.')] },
-          { label: 'Sparks is asleep standing up.', reply: [N('Not asleep! Sparks is just unusually quiet. The writer compares Sparks to a machine on a low setting. That’s a metaphor.')] },
-        ],
-        parentNote: 'Worked out the meaning of a metaphor (“a quiet setting”) from context.',
-      },
       {
         domain: 'sel',
         skill: 'missing someone, and different ways of carrying a big feeling',
@@ -405,7 +376,7 @@ const S14_SCENES: EduScene[] = [
       N('You hear her before you see her: a whistle through two fingers, rising at the end. Every Nubbin in the Grove looks up.'),
       N('Tilly is sitting on the gate that sticks, kicking it. It doesn’t swing. It hardly ever does.'),
       TI('They think it’s supper. It isn’t supper. I just do it.'),
-      TI('She said if you whistle it properly, anyone who loves you comes running. She said that.'),
+      TI('Hazel taught me. She said if you whistle it properly, anyone who loves you comes running.'),
       N('The Nubbins arrive, hopeful, and sit in a row in front of her wellies.'),
       TI('See. It works on them.', 'sad'),
     ],
@@ -633,30 +604,12 @@ const S14_SCENES: EduScene[] = [
         skill: 'crying is allowed, and what helps',
         standard: 'CASEL: Self-awareness',
         kind: 'notice',
-        after: 6,
+        after: 8,
         lines: [
           N('Crying is allowed. It’s one of the ways a body lets a big feeling out.'),
           N('Afterwards, lots of people feel a little lighter. It helps to have someone close by, even if nobody says anything.'),
         ],
         parentNote: 'Learned that crying is a normal way to let out big feelings, and that having someone nearby helps.',
-      },
-      {
-        domain: 'literacy',
-        skill: 'understanding a surprising description of a character',
-        standard: 'RL.3.3',
-        kind: 'ask',
-        after: 7,
-        prompt: [N('Sparks says nothing at all. So why does the story call it “the loudest thing Sparks has ever done”?')],
-        options: [
-          {
-            label: 'Because loud Sparks being silent shows how much Sparks cares.',
-            best: true,
-            reply: [N('Yes. Sparks is always loud. Choosing to be quiet, just to be there for Tilly, says more than any shout.')],
-          },
-          { label: 'Because Sparks hugged her very noisily.', reply: [N('No noise at all! That’s the point. For Sparks, silence is so unusual that it “speaks” loudly. It shows how much Sparks cares.')] },
-          { label: 'It’s a mistake in the story.', reply: [N('It’s on purpose! A writer can say something surprising to make you think. Sparks’s silence shows how much Sparks cares.')] },
-        ],
-        parentNote: 'Explained why a writer described a character’s silence as “loud”, and what it shows about the character.',
       },
     ],
   ),
@@ -774,11 +727,13 @@ const S20_SCENES: EduScene[] = [
       N('The snow after the Long Night is the deep, squeaky kind. Every child in the valley is out in it. None of them is cold, they say.'),
       N('A sheet of cereal-box card is tied to your gate. The capitals are very angry and the spelling is very brave.'),
       N('“DECLARASHUN OF WAR. FORT NIGHT. THE COMMON. BRING MITTENS. — THE OTHER FORT”'),
-      N('Sparks’s cousin is back for the winter holidays, and has found out about snow.'),
+      N('Sparks’s cousin Tilly is back for the winter holidays, and has found out about snow.'),
       TI('You’re commanding one fort. I’m commanding the other. One of us is going to win, and it’s me.', 'happy'),
       N('On the Common, two forts are marked out in sticks: one by the hedge, one by the frozen ditch.'),
       N('Neither has a wall. Both have flags.'),
-      PX('Morning. I’m the referee. I’ve written the rules. Forty-one pages. Nobody will read them. I’ll enforce them anyway.'),
+      PX('Morning. I’m the referee. I’ve written the rules. Forty-one pages. Nobody will read them.'),
+      PX('Byte has. Twice. He’s my husband. He had notes. I ignored the notes.'),
+      PX('I’ll enforce them anyway.'),
       PX('Three rounds. Each round, the referee teaches one idea. This is educational. Nobody tell the children.'),
       PX('Round one: economy. Snow makes walls. Sticks make the catapult. More gatherers early means more of everything later.'),
       PX('Units: Speedy beats Splashy. Splashy beats Sturdy. Sturdy beats Speedy. It goes round and round, like the seasons. Or a grudge.'),
@@ -786,6 +741,8 @@ const S20_SCENES: EduScene[] = [
       GO('I’m all right!', 'happy'),
       PX('That’s Gordon. Gordon gets hit. It isn’t a rule. It’s more like weather.'),
       WR('Commander! I’m Wren! What’s our battle cry, commander?', 'happy'),
+      WR('Also, what’s a grudge? Pixel said it.', 'think'),
+      GO('It’s when a snowball hits you and you remember it for ever. I remember all of them.', 'think'),
     ],
     [
       {
@@ -809,7 +766,7 @@ const S20_SCENES: EduScene[] = [
         domain: 'maths',
         skill: 'following a rule in a cycle, like rock-paper-scissors',
         kind: 'ask',
-        after: 10,
+        after: 12,
         prompt: [
           PX('Speedy beats Splashy. Splashy beats Sturdy. Sturdy beats Speedy.'),
           PX('Say the other fort sends Sturdy rollers at you. What do you send back?'),
@@ -957,6 +914,7 @@ const S20_SCENES: EduScene[] = [
       N('Zip comes back with snow on his eyebrows and something urgent to say, which he says by running round you nine times.'),
       N('You read it in his tracks. Their wall is magnificent. Behind it, there is almost nobody.'),
       N('Three of their children have gone home: one lost a mitten, one lost a boot, and one just wanted his tea.'),
+      N('Zip’s tracks say ten were here this morning. Of the seven left, four are busy patting the wall.'),
       TI('We are FINE. We have LOADS of people. Some of them are in the wall. As bricks.', 'angry'),
       PX('Ruling: children are not bricks.'),
       PX('…Ruling: nearly.'),
@@ -967,7 +925,7 @@ const S20_SCENES: EduScene[] = [
         skill: 'a two-step take-away problem',
         standard: '3.OA.D.8',
         kind: 'ask',
-        after: 2,
+        after: 3,
         prompt: [
           N('Zip’s tracks say: their fort started with 10 children. 3 went home. 4 more are busy patting the wall.'),
           N('How many are left to defend it?'),
@@ -988,7 +946,7 @@ const S20_SCENES: EduScene[] = [
         skill: 'fair play: using a chance or waiting (think question)',
         standard: 'D2.Civ.8.K-2',
         kind: 'ask',
-        after: 5,
+        after: 6,
         prompt: [N('Their fort is thin right now. Is it fair to attack while three of them are missing?')],
         options: [
           {
@@ -1044,6 +1002,8 @@ const S20_SCENES: EduScene[] = [
       N('Your fort answers with its battle cries. “I AM NOT COLD, I AM BRAVE!” “FOR DEREK!” “MUM SAID BE BACK BY FOUR!”'),
       N('Above the hill the sky has gone the colour of a pigeon. Nobody is looking at it except Pixel.'),
       PX('Hm.', 'think'),
+      GO('Is that sky going to hit me?', 'think'),
+      PX('This time, Gordon, it’s going to hit everybody.'),
     ],
     [
       {
@@ -1064,7 +1024,7 @@ const S20_SCENES: EduScene[] = [
         skill: 'reading the sky for a change in the weather',
         standard: 'K-ESS2-1',
         kind: 'notice',
-        after: 6,
+        after: 8,
         lines: [
           PX('Thick, dark grey clouds rolling in. The wind picking up. When the sky changes like that, the weather often changes too.'),
           PX('Weather watchers look up. Commanders, it turns out, look at flags.'),
@@ -1179,12 +1139,14 @@ const S20_SCENES: EduScene[] = [
     [
       PX('Head count.'),
       PX('…Everyone. Even Gordon.', 'soft'),
+      N('The small crier was Wren, who had lost a mitten. It was on her head the whole time.'),
       GO('I got hit by a whole sky.', 'happy'),
-      N('Inside it is close and blue and smells of wet wool. Forty mittens steam. Somebody is eating snow. Pixel rules against it, then allows it.'),
+      N('Inside it is close and blue and smells of wet wool. Forty mittens steam. Zip is eating snow. It is not supper. Pixel rules against it, then allows it.'),
       TI('That’s my wall, in our roof. That bit’s mine.'),
       N('The roof is sticks from both forts, leaning together in pointed pairs, with snow packed on top.'),
       WR('Commander? Which fort won?'),
-      N('Outside, the wind drops as suddenly as it came. Somebody pokes a hole in the roof to look.'),
+      N('The blizzard blows all afternoon. Pixel teaches the shelter a song with forty-one verses, one for each page of the rules.'),
+      N('At last the wind drops, as suddenly as it came. Somebody pokes a hole in the roof. It is night.'),
     ],
     [
       {
@@ -1192,7 +1154,7 @@ const S20_SCENES: EduScene[] = [
         skill: 'division as sharing into pairs',
         standard: '3.OA.A.3',
         kind: 'ask',
-        after: 3,
+        after: 4,
         prompt: [N('Forty mittens are steaming. Every child has two. How many children are in the shelter?')],
         options: [
           {
@@ -1209,7 +1171,7 @@ const S20_SCENES: EduScene[] = [
         domain: 'science',
         skill: 'why triangles make strong frames',
         kind: 'do',
-        after: 5,
+        after: 6,
         lines: [
           PX('Look up. Two sticks leaning together, with the ground underneath, make a triangle.'),
           PX('Push on a triangle and it keeps its shape. Push on a square and it squashes into a diamond.'),
@@ -1236,7 +1198,7 @@ const S20_COMPLETE: EduScene = scene(
     TI('…That’s annoying. That’s a really good answer.'),
     N('Up at the cottage a lamp is lit in the window, and somebody in a blanket is watching the Common.'),
     N('Tilly puts two fingers in her mouth and whistles the supper call, rising at the end. From the window, faintly, it comes back.'),
-    TI('She can still do it.', 'soft'),
+    TI('Somebody up there still knows the supper call.', 'soft'),
     PX('Prizes. Commander’s hat: it was a tea cosy. Snowball launcher: a prototype. Ruling: point it away from Gordon.'),
     PX('And the fort’s yours. I’ll build you one for the Grove that only comes out when it snows.'),
     N('All morning you practised winning. In the end, the useful part was building something big enough for everybody.'),
@@ -1426,7 +1388,7 @@ const S21_SCENES: EduScene[] = [
         skill: 'what a simile tells you',
         standard: 'L.4.5',
         kind: 'ask',
-        after: 3,
+        after: 6,
         prompt: [N('“Like ducklings behind a teapot.” What does that simile help you picture?')],
         options: [
           {
@@ -1499,7 +1461,7 @@ const S21_SCENES: EduScene[] = [
       N('You catch up with Clank at the cottage. So does the step.'),
       N('Clank goes over the edge. The little grey one leaves his hands, turns once in the air, and lands on his feet, as if he’d planned the morning.'),
       CK('Announcement… I have found the step again.', 'sad'),
-      N('He looks at you for a long time. It’s the look of something very old that has been carried round a pond like a pie.'),
+      N('The little grey one looks at you for a long time. It’s the look of something very old that has been carried round a pond like a pie.'),
       N('Then he turns and walks back up the hill, very dignified. It takes him the rest of the morning. He doesn’t look back once.'),
       PX('That’s two.'),
     ],
@@ -1545,6 +1507,7 @@ const S21_SCENES: EduScene[] = [
       BY('Two falls down the step. Fourteen announcements of best friendship. One of them to a bucket.'),
       BY('He’s a kettle on a wheel who wants to help. That is exactly how accidents introduce themselves.', 'think'),
       BY('Next time it’s a Nubbin he waters. Or drops. Pixel should switch Clank off. Tonight. Before he hurts someone.'),
+      PX('Twenty years married, and you still want everything switched off at night.'),
       N('Behind you, a small whistle starts to rise, and stops halfway.'),
       N('Clank is at the top of the cottage step. He has heard all of it. His chimney-light has gone very dim.'),
       N('He reverses. He goes off the step backwards, lands in the thyme, and doesn’t announce anything at all.'),
@@ -1570,7 +1533,7 @@ const S21_SCENES: EduScene[] = [
         domain: 'science',
         skill: 'what makes something alive; can a robot be a friend (think question)',
         kind: 'ask',
-        after: 10,
+        after: 11,
         prompt: [N('Byte didn’t know Clank could mind. What do you think? Is Clank alive? Can a robot be a real friend?')],
         options: [
           {
@@ -1690,9 +1653,10 @@ const S21_SCENES: EduScene[] = [
     [
       N('Next afternoon Byte comes up the lane with a plank, a saw, and the face of a sum that won’t come out.'),
       BY('I measured the step. Nineteen centimetres. The safe height for one wheel is, as far as I can find, zero.'),
+      BY('I measured it eleven times. It was nineteen every time. I’m still a little suspicious.'),
       BY('So it isn’t him. Statistically, it’s the step.'),
       BY('I said he should be switched off. That was a conclusion. I hadn’t finished collecting the data.', 'think'),
-      BY('The data now includes eleven Nubbins who follow him everywhere. That is a significant result.', 'soft'),
+      BY('The data now includes eight Nubbins out of eight, following him everywhere. That is a significant result.', 'soft'),
       CK('Byte! Byte! Does that mean you’re my best—', 'happy'),
       BY('Provisionally.', 'happy'),
     ],
@@ -1720,7 +1684,7 @@ const S21_SCENES: EduScene[] = [
         skill: 'defining the real problem before fixing it',
         standard: 'K-2-ETS1-1',
         kind: 'notice',
-        after: 4,
+        after: 5,
         lines: [
           N('Byte has changed the problem. Not “Clank keeps falling”, but “the step is too high for a wheel”.'),
           N('Engineers and scientists work like this. Say exactly what the problem is, look at all the data, and change your mind when the data changes.'),
@@ -1739,6 +1703,7 @@ const S21_SCENES: EduScene[] = [
       N('He goes down the ramp at the speed of a snail with doubts. He reaches the bottom. Nothing falls.'),
       CK('I DID THE STEP! I did the step and I didn’t find it!', 'happy'),
       N('He does a little dance: forward, back, a spin on his one wheel. You copy it. Byte copies it, and later denies it.'),
+      PX('He did. He danced like that at our wedding. His lace came undone then too.', 'happy'),
       PX('That’s… none. I’ll take none.', 'happy'),
     ],
     [
@@ -1747,7 +1712,7 @@ const S21_SCENES: EduScene[] = [
         skill: 'asking for help is brave',
         standard: 'CASEL: Relationship skills',
         kind: 'notice',
-        after: 2,
+        after: 8,
         lines: [
           N('That might be the bravest thing Clank has done. He asked for help.'),
           N('Asking isn’t the opposite of being helpful. It’s how everybody gets down hard steps. Robots included.'),
@@ -1822,14 +1787,16 @@ const S21_COMPLETE: EduScene = scene(
   [
     N('At dusk the Nubbins come in from the long grass one by one, and climb onto Clank, because he’s warm, like a kettle that’s just been on.'),
     N('Seven of them. Eight. One on his wheel. One perched on his lantern hood, like a hat.'),
+    N('One Nubbin licks Clank’s brass nose. It is not supper. Clank announces it anyway.'),
     CK('Announcement.', 'soft'),
     CK('I am being very still.', 'soft'),
     N('He is. For an hour, the chattiest thing in the valley doesn’t move a bolt. Not even to announce that he isn’t moving.'),
     N('You sit beside him. That’s all. It turns out that’s plenty.'),
     PX('Keep him. He’s yours now. He’ll water things, slowly. Mostly plants.'),
     N('Pixel drops a spare lantern hood on your head. It fits, as if it was waiting to.'),
-    N('Next morning he is out among the beans with a watering can, one bean a minute. Mustard watches from Fern’s wall, from very far away.'),
-    N('Clank is still a machine. He is also, it turns out, somebody’s friend. Both things can be true at once.'),
+    N('Next morning he is out among the beans with a watering can, one bean a minute.'),
+    N('Byte’s log has a new line: “Best friends: fifteen. One of them still a bucket.”'),
+    N('Mustard watches from Fern’s wall, from very far away.'),
   ],
   [
     {
@@ -1849,7 +1816,7 @@ const S21_COMPLETE: EduScene = scene(
       skill: 'a time interval: one bean a minute',
       standard: '3.MD.A.1',
       kind: 'ask',
-      after: 8,
+      after: 6,
       prompt: [N('Clank waters one bean a minute. There are 30 beans in the row. How long will the whole row take?')],
       options: [
         {

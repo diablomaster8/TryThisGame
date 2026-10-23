@@ -2,6 +2,32 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Story review run 2 fixes (2026-10-22)
+
+All 65 open or partial recs in `docs/story-review/LOG.md` applied (run 2's 60 plus run 1's 5 partials).
+- **Works:** 60 fixed. The Multiverse's misnamed-Nubbin running gag and three bickering couples (canon 45),
+  FF3 and IM9 choices that now change what follows, Doom's FF9 knee paid off in the FF epilogue; the Neopian
+  Times Reporter across NP1–NP13 (canon 44); the Learning Grove S1–S17 fixes; c4-open's answer (`c4-lamps`)
+  remembered in c10-dawn, c10-wisp naming Sable or Moss (`choice-payoffs.ts`, `story-scenes.ts`;
+  `insertAfter` now takes per-band anchors like `spliceScene`). Tests added in `choice-payoffs.test.ts`.
+- **Partial:** -72 (NQ27's optional Jhudora/Illusen side not built), -79 (no time machine named), -80 (Marlene
+  stays back at the ridge), -110 (Pip still named in s15-wagon by a main choice), -115 (S8's elephant notice kept).
+- **Known bugs:** none. A cold first `npm test` run timed out 3 timing tests; a rerun passed all 728.
+
+## Story review run 1 fixes (2026-10-22)
+
+All 60 recommendations of `docs/story-review/review-2026-10-22.md` applied (log: `docs/story-review/LOG.md`).
+- **Works:** 55 fixed, 5 partial. New beats across the campaign, S1–S31, Q1–Q65 and the Learning Grove
+  campaign; canon 38–43 (Pixel and Byte married, Marina's rules, Fern's pies, the skipping rhyme,
+  Granny Brock, settled names: Hob in S27, Inspector Plimsoll in Q32, Mrs Tibbs, Frannie). Sprout
+  cuts its unreachable keep-stone and sell scenes (exempted in `content-check.ts`). Q50 and Q65
+  now require Q64. The c12-open garden splice anchors on its own reader-band line.
+- **Partial:** -25/-28 (every real Learning Grove line is under its cap; the screenplay joins
+  choice replies into one bullet, so the joined count stays high), -43 (the c4 pet stays in every
+  branch, the chapter goal needs it), -53 (c6-close ask kept), -54 (c10-wisp says "the stone's
+  bearer"; naming Sable or Moss needs per-route variants).
+- **Known bugs:** none. Some content regions near the edits are now in Prettier layout.
+
 ## Campaign graphics 2, items 1–45 (2026-10-22)
 
 Built from `docs/campaign-graphics-recommendations-2026-10-22.md` the same way as the first pass:

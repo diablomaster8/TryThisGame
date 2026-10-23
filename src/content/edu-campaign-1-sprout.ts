@@ -54,12 +54,6 @@ const scene = (
 
 const lid = (of: string, n: number): string => `sprout:${of}-l${n}`;
 
-/** The tail of every c4-open answer: Moss invites the pet the chapter goal needs. */
-const C4_PET: Line[] = [
-  MOSS('You may pat my head, if you like. She always did.', 'soft'),
-  MOSS('Don’t tell anyone. I have a reputation.'),
-];
-
 // ---------------------------------------------------------------- chapter 1: The Letter
 
 const CH1: EduScene[] = [
@@ -624,24 +618,37 @@ const CH4: EduScene[] = [
       {
         id: 'lamps-remember',
         label: 'To remember the ones who’ve gone.',
-        then: [MOSS('Yes. That is the oldest answer, and a good one.'), ...C4_PET],
+        then: [
+          MOSS('Yes. That is the oldest answer, and a good one.'),
+          MOSS('Gran patted my head while she remembered. You may too.', 'soft'),
+          MOSS('Light the pond lantern first tonight.'),
+        ],
       },
       {
         id: 'lamps-home',
         label: 'So people can find their way home.',
-        then: [MOSS('That was Gran’s answer. She said it every year.', 'soft'), ...C4_PET],
+        then: [
+          MOSS('That was Gran’s answer. She said it every year.', 'soft'),
+          MOSS('Pat my head while we look down the road. She always did.', 'soft'),
+          MOSS('Light the long-grass lantern last. That side faces home.'),
+        ],
       },
       {
         id: 'lamps-together',
         label: 'So nobody is alone in the dark.',
-        then: [MOSS('Hm. Nobody ever said that before. I like it.', 'think'), ...C4_PET],
+        then: [
+          MOSS('Hm. Nobody ever said that before. I like it.', 'think'),
+          MOSS('Sit closer. You may pat my head, if you like.', 'soft'),
+          N('Your sleepy Nubbin shuffles closer too. Nobody is alone.'),
+        ],
       },
       {
         id: 'lamps-dunno',
         label: 'I don’t know.',
         then: [
           MOSS('Good. I didn’t either, for a hundred years. Light them anyway.', 'happy'),
-          ...C4_PET,
+          MOSS('You may pat my head while you wonder. She always did.', 'soft'),
+          MOSS('Don’t tell anyone. I have a reputation.'),
         ],
       },
     ],

@@ -748,12 +748,6 @@ const CH3: EduScene[] = [
 ];
 
 // ---------------------------------------------------------------- chapter 4: Moss Remembers
-/** The tail every branch of c4-open's lantern question ends on: the pet the chapter goal needs. */
-const C4_PET = [
-  { who: 'moss', text: 'You may put your hand on my head, if you like. She always did. I have missed it, a little.', mood: 'soft' as const },
-  { who: 'moss', text: 'Don’t tell anyone I said so. I have a reputation.' },
-];
-
 const CH4: EduScene[] = [
   {
     id: 'reader:c4-open',
@@ -784,7 +778,8 @@ const CH4: EduScene[] = [
         then: [
           { who: 'moss', text: 'Yes. That is the oldest answer, and a good one.' },
           { who: 'moss', text: 'The flowers on this hill would agree with you, if flowers bothered to agree with anyone.', mood: 'happy' },
-          ...C4_PET,
+          { who: 'moss', text: 'She used to rest her hand on my head while she counted them. You may, if you like.', mood: 'soft' },
+          { who: 'moss', text: 'Light the pond lantern first tonight. That is where the first ones woke.' },
         ],
       },
       {
@@ -793,7 +788,8 @@ const CH4: EduScene[] = [
         then: [
           { who: 'moss', text: 'That was Hazel’s answer. She said it every year, and looked up the valley when she said it.', mood: 'soft' },
           { who: 'moss', text: 'I never asked her who she was lighting the way for. I am old, not stupid.' },
-          ...C4_PET,
+          { who: 'moss', text: 'You may put your hand on my head while we look up the valley. She always did.', mood: 'soft' },
+          { who: 'moss', text: 'Leave the long-grass post till last. If anyone is coming home, that is the side they will come from.' },
         ],
       },
       {
@@ -802,7 +798,8 @@ const CH4: EduScene[] = [
         then: [
           { who: 'moss', text: 'Hm. Nobody has said that one before.', mood: 'think' },
           { who: 'moss', text: 'I shall have to think about it, and I think slowly. Ask me again in a year.' },
-          ...C4_PET,
+          { who: 'moss', text: 'Sit closer, meanwhile. You may put your hand on my head. Nobody has, since she went.', mood: 'soft' },
+          { who: 'narrator', text: 'You shift closer. Your sleepy Nubbin shuffles after you, so nobody on this stone is on their own.' },
         ],
       },
       {
@@ -810,7 +807,8 @@ const CH4: EduScene[] = [
         label: 'Honestly? I don’t know.',
         then: [
           { who: 'moss', text: 'Good. Neither did I, for the first hundred years. Light them anyway. The knowing comes after.', mood: 'happy' },
-          ...C4_PET,
+          { who: 'moss', text: 'A hand on my head is a fine place to start not knowing. She always thought so.', mood: 'soft' },
+          { who: 'moss', text: 'Don’t tell anyone I said so. I have a reputation.' },
         ],
       },
     ],
@@ -1234,36 +1232,29 @@ const CH4: EduScene[] = [
         kind: 'ask',
         after: 9,
         prompt: [
-          { who: 'narrator', text: 'A theme is a big idea about life that a story keeps coming back to. It isn’t one fact from the story.' },
-          { who: 'narrator', text: 'Which of these is a theme of Moss’s tale?' },
+          { who: 'moss', text: 'One day you will tell this tale to someone small. They will ask what it is about. What will you tell them?', mood: 'think' },
         ],
         options: [
           {
             label: 'Holding on too tight can hurt the ones you love.',
             best: true,
             reply: [
-              { who: 'narrator', text: 'Yes. Cinder loved them so tightly she made them still. That idea runs right through the tale.' },
-              { who: 'narrator', text: 'Stories can have more than one theme. Another one here: being remembered keeps us going.' },
+              { who: 'moss', text: 'Yes. Cinder loved them so tightly she made them still. Put that one at the front.', mood: 'soft' },
+              { who: 'moss', text: 'There is another underneath: being remembered keeps us going. A tale is allowed two.' },
             ],
           },
           {
             label: 'Being remembered keeps us going.',
             reply: [
-              {
-                who: 'narrator',
-                text: 'That’s a theme too. The song says it: we are made of the ones who remember us.',
-              },
-              {
-                who: 'narrator',
-                text: 'The biggest theme runs under all of it: holding on too tight can hurt the ones you love.',
-              },
+              { who: 'moss', text: 'That too. The song says it: we are made of the ones who remember us.', mood: 'soft' },
+              { who: 'moss', text: 'But under it is Cinder. Holding on too tight can hurt the ones you love.' },
             ],
           },
           {
             label: 'There are four lantern posts.',
             reply: [
-              { who: 'narrator', text: 'That’s true, but it’s a detail, not a theme. A theme is a big idea you could use in your own life.' },
-              { who: 'narrator', text: 'Like: “holding too tight can hurt”, or “being remembered matters”.' },
+              { who: 'moss', text: 'True. That is what the tale has in it. Not what it is about.', mood: 'happy' },
+              { who: 'moss', text: 'What it is about is something you can carry home. Holding too tight can hurt. Being remembered matters.' },
             ],
           },
         ],

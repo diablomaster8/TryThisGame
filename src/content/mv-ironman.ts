@@ -390,6 +390,8 @@ export const MV_IRONMAN: Quest[] = [
       id: 'mv-im02-complete',
       lines: [
         l('pepper', 'Let me check I have this right. He blew up three factories, and now he works for us.'),
+        l('tony', 'Yes. The small appliances can stay too. They’ve been very good for morale.'),
+        l('pepper', 'Nubbins, Tony. They have a name.'),
         l('tony', 'For the record, I’m not good at forgiving people. I’m practising. On the expensive ones first.'),
         l('vanko', 'I will repay you in science. Your plants will be the safest in the world.'),
         n('Vanko unscrews a burnt-out coil from his gauntlet and hands it to you.'),
@@ -588,6 +590,9 @@ export const MV_IRONMAN: Quest[] = [
             l('bullski', 'Meet me before the cameras, in a neutral country. We will see whose science deserves the future.'),
             l('pepper', 'You don’t have to go. Nobody wins an argument by turning up when a man shouts on television.'),
             l('tony', 'If I don’t go, he gets to say the shouting won.'),
+            l('pepper', 'Then go. It’s in your calendar. Thursday: do not fly into the sun.'),
+            l('tony', 'I have never once flown into the sun.'),
+            l('pepper', 'It’s a recurring entry. It’s recurring because you keep asking.'),
             n('On the bench, two suits: the heavy one, slow but tough, and a light one, barely more than plating.'),
             l('tony', 'He’s big. Big means slow to turn. I could match him plate for plate, or I could make him chase.', 'think'),
             l('tony', 'Keeper. You’ve fought things bigger than you. What would you do?'),
@@ -1066,7 +1071,8 @@ export const MV_IRONMAN: Quest[] = [
             l('stane', 'Obadiah Stane. I buy things, Keeper. Shares, debts, people. This week I bought Tony Stark’s company.', 'happy'),
             l('stane', 'I didn’t have to fight him. I only had to wait for him to fight himself. He’s losing.'),
             n('Two of his men are building a house of cards on the table. Stane flicks it over without looking.'),
-            l('rhodey', 'Tony isn’t picking up. Hasn’t for three days. Last time I saw him, he had a bottle and a grudge.', 'sad'),
+            l('rhodey', 'Tony was sober for months after the embassy. Then something knocked him over again. Three days, no answer.', 'sad'),
+            l('bethany', 'He told me he’d rather be useless alone than useless watched.', 'sad'),
             l('bethany', 'Stane went after every friend Tony has. Debts called in. Threats. He’s pulling up the floor one board at a time.'),
             l('stane', 'Go and look for him if you like. I’d start low.'),
             l('stane', 'You think I’m the villain, Keeper. I’m a man who read the accounts. He was drinking the company into the sea.'),
@@ -1278,6 +1284,10 @@ export const MV_IRONMAN: Quest[] = [
             l('tony', 'Their suits are mine too. Licensed once, years ago. Copied since. I’m switching them off.'),
             l('guardsman', 'Stark, stand down! We keep the worst people on Earth behind these walls!', 'angry'),
             l('tony', 'With my armour. Without asking me. That’s the problem.'),
+            l('guardsman', 'Stand down, Stark. That is an order.'),
+            l('tony', 'By what authority?'),
+            l('guardsman', 'Yours, technically. It’s on the label.'),
+            n('By the big red lever, a guard asks your Nubbin very politely to let go. It does not.'),
             n('Alarms. Cell doors stutter as the power flickers. Inside, prisoners start to shout.'),
             l('you', 'Tony, if the guards go down, who keeps the doors shut?'),
             l('tony', 'I— I hadn’t got as far as that part.', 'shock'),
@@ -1488,7 +1498,7 @@ export const MV_IRONMAN: Quest[] = [
           lines: [
             n('Foom sinks, beaten, and the other dragons scatter into the mountains.'),
             l('mandarin', 'Now, Stark. The dragons are gone, and there is only one enemy left in this valley.', 'angry'),
-            n('All ten rings glow. He turns them on Tony.'),
+            n('The Mandarin fires first. All ten rings glow, and he turns them on Tony.'),
           ],
         },
       },
@@ -1497,7 +1507,8 @@ export const MV_IRONMAN: Quest[] = [
       id: 'mv-im09-complete',
       lines: [
         n('It is over quickly. Tony fires once, at the rings, not the man. There is a terrible flash.'),
-        n('When it clears, the Mandarin is on his knees. His hands are gone. The rings lie scattered in the mud.'),
+        n('When it clears, the Mandarin kneels in the mud, empty-handed. The rings lie scattered, melted at the edges.'),
+        l('tony', 'I aimed at the rings. I’d like that noted somewhere.'),
         l('mandarin', 'You have taken everything I was.', 'sad'),
         l('tony', 'You were going to use them on me. Again. I’m sorry it ended like this. I am.', 'sad'),
         n('Your Nubbin finds a single dragon scale on the shore, bright green, and keeps it.'),
@@ -1535,7 +1546,7 @@ export const MV_IRONMAN: Quest[] = [
     ],
     sets: { 'mv-im09': true },
     notes:
-      'Needs IM3 (the Mandarin’s first appearance). The dragons of Kakaranathara are named only in the journal, not in dialogue. If mv-im09-promise is true, Tony adds nothing new, but the journal notes the broken promise. The rings choice (mv-im09-rings: lake / left) is flavour; the rings return in later stories whatever you pick, as the Mandarin warns. The Mandarin’s injury happens inside the white flash and is stated in one line; his arms stay out of frame or behind his sleeves. Step 2 is a dive minigame ("mv-dragon-lake") with Foom’s tail as a moving hazard. Check Iron Man #270–275 beats before ship.',
+      'Needs IM3 (the Mandarin’s first appearance). The dragons of Kakaranathara are named only in the journal, not in dialogue. If mv-im09-promise is true, the variant of mv-im09-foom-done has Tony hold him to it and fire first, only at the rings, and the variant of mv-im09-complete has Tony name the broken promise; otherwise the Mandarin fires first. The rings choice (mv-im09-rings: lake / left) is flavour; the rings return in later stories whatever you pick, as the Mandarin warns. The Mandarin’s loss happens inside the white flash and is stated in one line: he is left empty-handed, with nothing shown. Step 2 is a dive minigame ("mv-dragon-lake") with Foom’s tail as a moving hazard. Check Iron Man #270–275 beats before ship.',
   },
 
   // ---------------------------------------------------------------- IM10
@@ -2032,6 +2043,8 @@ export const MV_IRONMAN: Quest[] = [
             l('pepper', 'Justine Hammer, Justin’s daughter. And Sasha, hers. They inherited the grudge along with the money.'),
             l('tony', 'Three generations of Hammers. You’d think one of them would take up knitting.'),
             l('pepper', 'They’ll try to bury us. We have to be quicker.'),
+            l('pepper', 'Also, your calendar says: Thursday, do not fly into the sun. I’ve added “again”.'),
+            l('tony', 'I only went near it.'),
           ],
           choices: [
             {
@@ -2432,6 +2445,9 @@ export const MV_IRONMAN: Quest[] = [
             l('superior', 'I fixed myself, Keeper. No shaking hands. No drink. No doubt. Why does everyone look at me like that?', 'sad'),
             l('superior', 'The old Tony was weak. He needed people sitting up with him. I don’t need anyone.'),
             n('Your Nubbin walks across the floor to him, slowly, and sits by his boot, the way it did on the docks.'),
+            n('It hums four notes, slightly flat. His head comes up as if someone had said his name.'),
+            l('superior', 'Who taught the little one that?', 'think'),
+            n('Nobody did. It just never forgot.'),
             l('pepper', 'You needed people. That wasn’t the weak part. That was the best part.', 'soft'),
             l('superior', 'I don’t remember why that matters.'),
             l('you', 'Then let us remind you.'),
@@ -2481,6 +2497,9 @@ export const MV_IRONMAN: Quest[] = [
       lines: [
         l('tony', 'I’ll pay back every person. Every dollar. Every day they lost. It’ll take a while.', 'sad'),
         l('pepper', 'Then we’ll take a while.', 'soft'),
+        l('pepper', 'I’ve put it in the calendar. Friday: come home.', 'soft'),
+        l('tony', 'Friday. Home. I’ll be early.', 'happy'),
+        n('He is, by an hour. Pepper pretends she hadn’t been watching the door.'),
         l('daredevil', 'For what it’s worth, Stark, your heartbeat sounds like you again. Slower. More scared. Better.'),
         n('Tony unpins something from his old jacket and fastens it to your coat: a small ring of glowing blue light.'),
         l('tony', 'An arc-reactor badge. The thing that kept my heart going. You did that too, all of you, every time.', 'soft'),
@@ -2554,18 +2573,27 @@ export const MV_IRONMAN_VARIANTS: Scene[] = [
     l('tony', 'Keeper, in the cave you wanted to build the man a weapon that jammed. These don’t jam. That’s the whole trouble with me.', 'sad'),
     l('steve', 'Then build the one that stops. That’s all I’m asking.'),
   ]),
-  // IM15: the first crack in the Superior Tony, after the Nubbin sits by his boot.
-  payoff(MV_IRONMAN, 'mv-im15-return', 'walk', 4, 0, [
+  // IM15: the first crack in the Superior Tony, after the Nubbin sits by his boot and hums.
+  payoff(MV_IRONMAN, 'mv-im15-return', 'walk', 7, 0, [
     l('superior', 'A cave. A bad bulb. Two round animals holding a torch while a dying man tightened my bolts. Why is that still in here?', 'think'),
     l('pepper', 'Because it’s you. That’s the bit the cure couldn’t reach.', 'soft'),
   ]),
-  payoff(MV_IRONMAN, 'mv-im15-return', 'doubt', 4, 0, [
+  payoff(MV_IRONMAN, 'mv-im15-return', 'doubt', 7, 0, [
     l('superior', 'Somebody asked, once, whether it could be done in a week. I remember the question. I can’t remember why it mattered.', 'think'),
     l('pepper', 'It mattered because you were building it for someone else.', 'soft'),
   ]),
-  payoff(MV_IRONMAN, 'mv-im15-return', 'decoy', 4, 0, [
+  payoff(MV_IRONMAN, 'mv-im15-return', 'decoy', 7, 0, [
     l('superior', 'Someone in a cave once suggested a weapon that jams. The weak Tony said no. I would have said yes and been out in a day.', 'think'),
     l('pepper', 'And Yinsen would have died for nothing. Listen to yourself.', 'angry'),
+  ]),
+  // IM9: the promise the Keeper made the Mandarin take (mv-im09-promise) is broken, and it costs.
+  payoff(MV_IRONMAN, 'mv-im09-foom-done', 'mv-im09-promise', 2, 1, [
+    l('tony', 'You promised. Afterwards, you said.', 'angry'),
+    l('mandarin', 'I said if there was an afterwards. There is. Forgive me.', 'sad'),
+    n('Tony fires first, and only at the rings. The rings flare and go dark before the Mandarin can aim.'),
+  ]),
+  payoff(MV_IRONMAN, 'mv-im09-complete', 'mv-im09-promise', 4, 1, [
+    l('tony', 'You swore on the rings. I held you to it, and I’m sorry it ended like this. I am.', 'sad'),
   ]),
 ];
 

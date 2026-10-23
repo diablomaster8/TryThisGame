@@ -1456,7 +1456,7 @@ export const BOOK3_NOTES: Record<string, string> = {
     'After c10-edge unmake, if stoneBearer = moss. The stone speaks to him in Cinder’s voice.',
   'c10-wisp':
     'After c10-safe-*, if wisp = spared or sable. The eucatastrophe: Wisp snatches the shard (“mine — warm — mine —”) and ' +
-    'falls into the spring; the stone unmakes. Bearer-neutral. Sets stoneUnmadeBy = wisp. FX: gold bloom; falls ice goes ' +
+    'falls into the spring; the stone unmakes. Written bearer-neutral; LINE SWAP: line 13 (“In the shallows, the one who carried it…”) names the bearer by stoneBearer (Sable, her | Moss, his) in main and reader. Sets stoneUnmadeBy = wisp. FX: gold bloom; falls ice goes ' +
     'honey-coloured.',
   'c10-moss-walks':
     'After c10-safe-sable, if wisp is NOT spared/sable (driven or unset). Moss takes the shard from Sable, forehead to ' +

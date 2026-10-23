@@ -345,6 +345,17 @@ const S6_SCENES: EduScene[] = [
     ],
     [
       {
+        domain: 'music',
+        skill: 'a tune is a pattern of notes',
+        kind: 'notice',
+        after: 0,
+        lines: [
+          N('Ember whistled quietly, and the notes still came out in their pattern: low, high, and a small one at the end.'),
+          N('A tune is a pattern of high and low notes. Play it slow, fast or quiet, and the pattern stays the same.'),
+        ],
+        parentNote: 'Learned that a tune is a pattern of notes that stays recognisable at different speeds.',
+      },
+      {
         domain: 'sel',
         skill: 'what helps when you’re scared to try (think question)',
         standard: 'CASEL: Self-management',
@@ -402,23 +413,9 @@ const S6_SCENES: EduScene[] = [
         skill: 'animals turn their ears to catch sounds',
         standard: '4-LS1-2',
         kind: 'notice',
-        after: 6,
-        lines: [
-          N('Many animals, like cats, dogs and horses, can turn their ears towards a sound.'),
-          N('It helps them hear it better and work out where it’s coming from. Ash is listening.'),
-        ],
-        parentNote: 'Learned that many animals move their ears to catch a sound and find where it comes from.',
-      },
-      {
-        domain: 'music',
-        skill: 'a tune is a pattern of notes',
-        kind: 'notice',
-        after: 8,
-        lines: [
-          N('Ember’s whistle was slower and wobblier than yours, and Ash still knew it.'),
-          N('A tune is a pattern of high and low notes. Play it slow, fast or shaky, and the pattern stays the same.'),
-        ],
-        parentNote: 'Learned that a tune is a pattern of notes that stays recognisable at different speeds.',
+        after: 3,
+        lines: [N('Cats and horses turn their ears towards a sound they know. So does Ash.')],
+        parentNote: 'Learned that many animals move their ears towards a sound they know.',
       },
     ],
     [
@@ -528,11 +525,12 @@ const S7_SCENES: EduScene[] = [
       N('Beside him sits a pale blue Nubbin with a flat, tidy ball above its head. It is watching the notebook.'),
       B('This is Null. Grown-up. Four years and some weeks. I know the weeks. Pixel says saying the weeks is unsettling.'),
       B('Moss says a Nubbin loved enough becomes an Eternal. “Enough.” That isn’t a unit.', 'think'),
+      N('An Eternal is a Nubbin that never grows old.'),
       N('He shows you the page. Under everything Moss said tonight, in neat capitals: UNVERIFIED.'),
       B('When Fossil faded, everybody just sat with her. Sitting isn’t a method.', 'sad'),
       N('Fossil was Dusty’s old Nubbin. “Fade” is the Grove’s word for die. Fossil died this summer, on the hill.'),
       B('Enough is an amount. Amounts can be put on a schedule. Pixel’s timer runs four lanterns to the second.'),
-      B('Before you say it: no stone. I’m not Cinder. I’m using a clock. Completely different.'),
+      B('Before you say it: I’m not holding on too tight, like Cinder. I’m using a clock. Completely different.'),
       M('Your shoelace is untied.'),
       N('Byte looks down. It is. It always is.'),
       N('He goes very quiet.'),
@@ -569,7 +567,7 @@ const S7_SCENES: EduScene[] = [
         skill: 'use the prefix un- to work out a word',
         standard: 'L.2.4',
         kind: 'ask',
-        after: 4,
+        after: 5,
         prompt: [
           N('UN-VERIFIED. “Un” at the start of a word means “not”. To verify something means to check that it’s true.'),
           N('So what does Byte mean when he writes UNVERIFIED?'),
@@ -629,6 +627,7 @@ const S7_SCENES: EduScene[] = [
       N('The clock ticks. The chute fires a plum across the shed and hits Byte right on his clipboard.'),
       P('That was calibration.', 'think'),
       B('That was a plum.'),
+      P('Twenty years married, and he still argues with my clocks.', 'happy'),
       N('On the next tick, a piece of fruit drops neatly into the bowl, exactly on the beat.'),
       P('I built the clock. Clocks don’t care what they count down to. I’m trying to care for it.', 'sad'),
       B('Null eats on the bell, sleeps on the bell, is loved on the bell. If enough is an amount, this is enough.'),
@@ -663,7 +662,7 @@ const S7_SCENES: EduScene[] = [
         skill: 'a push is a force that starts and stops motion',
         standard: '3-PS2-1',
         kind: 'notice',
-        after: 7,
+        after: 8,
         lines: [
           P('Pushes and pulls are called forces. The chute gave that plum a big push, so it flew.'),
           P('Then Byte’s clipboard pushed back and stopped it. Too much push. I’ll turn the spring down.', 'think'),
@@ -1120,18 +1119,6 @@ const S8_SCENES: EduScene[] = [
     [
       {
         domain: 'science',
-        skill: 'animals huddle in groups to survive the cold',
-        standard: '3-LS2-1',
-        kind: 'notice',
-        after: 1,
-        lines: [
-          NO('Lots of animals huddle together to stay warm.'),
-          NO('Emperor penguins stand in huge huddles all winter. They take turns on the cold outside edge, then shuffle back into the warm middle.'),
-        ],
-        parentNote: 'Learned that some animals, like emperor penguins, huddle in groups to survive the cold.',
-      },
-      {
-        domain: 'science',
         skill: 'what a habitat gives the animals that live there',
         standard: 'K-ESS3-1',
         kind: 'ask',
@@ -1535,7 +1522,7 @@ const S8: EduQuest = {
     gloss('opinions', 'What someone thinks or believes about things.', 's8-complete'),
   ],
   notes:
-    'Lessons: animals in groups (penguin huddles, wolf packs, elephant matriarchs), habitat needs, fireflies, light ' +
+    'Lessons: animals in groups (penguin huddles cut from s8-ring in the 2026-10-22 pass; wolf packs, elephant matriarchs), habitat needs, fireflies, light ' +
     'and dark-adapted eyes, parents and young; 19 − 12, 12 ÷ 3, symmetry; inference, simile, theme; respecting an ' +
     'animal’s space, helping a grieving friend, happy tears. Think question (s8-reunion): did Fern do wrong to stop ' +
     'looking? The scene-level set (s8Reunited) stays on the original s8-reunion. ' +
@@ -1749,10 +1736,10 @@ const S9_SCENES: EduScene[] = [
       H('I wondered where that went. I bought another. It was never as good.', 'think'),
       H('You’ll want the story. You’ve been very good about not asking. It’s been unbearable to watch.', 'happy'),
       H('He came to me at twenty-two. Clever. Quick. In a hurry, which I took for keen.'),
-      H('He found the old clay tablets in this cottage. Older than me. Older than the wall. They told him where the fourth shard lay.', 'think'),
+      H('He found the old clay tablets in this cottage. Older than me. Older than the wall. They showed him how to make a Nubbin keep very still, for ever.', 'think'),
       H('One winter he tried their method on my Nubbins, in my Grove. Quiet as stones, by morning.', 'sad'),
       H('I stopped him. I said things. He said things. I was right, which is very tiring for everyone.'),
-      H('That night he opened the gate, let the buyers in, and went with them. Nubbins, and the stone.', 'sad'),
+      H('That night he let strangers in through the gate. They took Nubbins, and the cold stone from under the fourth post.', 'sad'),
       H('In the morning I wedged the gate.'),
       Y('So he couldn’t get back in.'),
       H('No, love. So I’d hear him if he ever came back.', 'soft'),
@@ -2246,17 +2233,6 @@ const S10_LETTER_LESSONS: LessonIn[] = [
     ],
     parentNote: 'Learned the word grief, that it comes in waves, and that people and remembering help.',
   },
-  {
-    domain: 'literacy',
-    skill: 'how a letter is set out',
-    kind: 'notice',
-    after: 13,
-    lines: [
-      N('Gran’s letter talks straight to you, and ends with a sign-off: “Love, Gran.”'),
-      N('“P.S.” is short for postscript, which means “written after”. It’s for one last thing you think of after you sign.'),
-    ],
-    parentNote: 'Learned how a letter is set out, including the sign-off and the P.S. (postscript).',
-  },
 ];
 
 const S10_SCENES: EduScene[] = [
@@ -2437,7 +2413,8 @@ const S10_SCENES: EduScene[] = [
       N('The usual roar from the stands. Under it, from the back row, one voice carries over all the others.'),
       N('Sparks, beside her, shouted herself hoarse on the first lap and has been cheering in mime ever since.'),
       N('Win or lose, when you come off the course, Hazel is on her feet, holding half a pie, beaming.'),
-      H('Pies are four Shells each, and I’ve had two. Worth every Shell.', 'happy'),
+      SP('Two pies, four Shells each, and I’ve only got a ten-Shell coin. How much change?', 'soft'),
+      H('I’ve had two. Worth every Shell.', 'happy'),
       H('That one runs for you. Don’t ever spend that.', 'soft'),
       H('You can spend Shells. You can spend time. You can spend a perfectly good pie, and I have. Never that.', 'happy'),
       N('She sits down again rather suddenly, and stays sitting while the stands empty. Nobody hurries her.'),
@@ -2449,7 +2426,7 @@ const S10_SCENES: EduScene[] = [
         standard: '3.OA.D.8',
         kind: 'ask',
         after: 3,
-        prompt: [N('Hazel paid for her two pies with a 10-Shell coin.'), N('How many Shells did she get back?')],
+        prompt: [N('Sparks paid for Hazel’s two pies with a 10-Shell coin.'), N('How many Shells did she get back?')],
         options: [
           { label: '2', best: true, reply: [N('Yes. Two pies at 4 Shells is 8 Shells. 10 − 8 = 2 Shells change.')] },
           { label: '6', reply: [N('That would be one pie: 10 − 4 = 6. But she had two: 4 + 4 = 8, and 10 − 8 = 2.')] },
@@ -2462,7 +2439,7 @@ const S10_SCENES: EduScene[] = [
         skill: 'recognise a metaphor',
         standard: 'L.4.5',
         kind: 'notice',
-        after: 5,
+        after: 6,
         lines: [
           N('Hazel talks about your Nubbin’s trust as if it were money: something you could spend, and must never spend.'),
           N('Talking about one thing as if it were another is called a metaphor.'),

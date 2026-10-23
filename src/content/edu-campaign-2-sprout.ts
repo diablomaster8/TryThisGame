@@ -885,7 +885,9 @@ const CH8: EduScene[] = [
         friendship: { nova: 3 },
         then: [
           NOVA('Oh! Good. That was easier than I thought.', 'happy'),
-          NOVA('Bring fruit. Lots of fruit. More than that!'),
+          NOVA('I made up a speech. It has owls in it. Hoo, hoo!', 'happy'),
+          NOVA('I’ll get Marina. You get fruit. Lots of fruit!'),
+          N('Nova runs off down the lane, calling for Marina.'),
         ],
       },
       {

@@ -1358,7 +1358,9 @@ const CH8: EduScene[] = [
         friendship: { nova: 3 },
         then: [
           NOVA('Oh. Good. That was much easier than I’d feared.', 'happy'),
-          NOVA('Take a Nubbin that trusts you. Take fruit. Take more fruit than that.'),
+          NOVA('I’d practised a speech. It has a bit about owls in it. You’ll get it on the way.', 'happy'),
+          NOVA('So we go and find out. Take a Nubbin that trusts you, and more fruit than seems sensible.'),
+          N('Nova holds her lantern to your kitchen fire until it catches. She doesn’t say why she waited to light it here.', 'soft'),
         ],
       },
       {
@@ -1367,7 +1369,8 @@ const CH8: EduScene[] = [
         friendship: { nova: 2 },
         then: [
           NOVA('I don’t know. That’s the honest answer, and you’d know if I gave you a different one.', 'sad'),
-          NOVA('Take a Nubbin that trusts you. Take fruit. Take more fruit than that.'),
+          NOVA('I’ll fetch Marina. You fetch a Nubbin that trusts you, and fruit. More fruit than that.'),
+          N('Nova is halfway down the lane, shouting for Marina, before you have found a bag.'),
         ],
       },
       {

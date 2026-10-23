@@ -1654,21 +1654,18 @@ const C10B: EduScene[] = [
       N(
         'For one moment he holds it: the warmest thing he has ever seen. His whole thin face is joy.',
       ),
-      N(
-        'Then his back feet slip on the wet stone, and he tumbles into the Wellspring, stone and all. The water closes over him.',
-      ),
-      N(
-        'And the light comes up. Not cold. Warm. Gold, like the inside of a lantern, like a kitchen window seen from a dark road.',
-      ),
+      N('Then his back feet slip on the wet stone, and he tumbles into the Wellspring, stone and all.'),
+      N('The water closes over him.'),
+      N('And the light comes up.'),
+      N('Not cold. Warm. Gold, like the inside of a lantern, like a kitchen window seen from a dark road.'),
       N(
         'It fills the cave and the ledge and the frozen falls, and the ice on the falls glows the colour of honey.',
       ),
       N(
         'Somewhere very deep, something that has whispered for longer than anyone has been alive goes quiet.',
       ),
-      N(
-        'In the shallows, the stone’s bearer stands blinking. The frost is melting off the bearer’s face, drip by drip.',
-      ),
+      N('…'),
+      N('In the shallows, the stone’s bearer stands blinking. The frost is melting off the bearer’s face, drip by drip.'),
       N('The water is still. And Wisp is gone.'),
     ],
     [
@@ -1678,7 +1675,7 @@ const C10B: EduScene[] = [
         skill: 'light passes through clear materials',
         standard: '1-PS4-2',
         kind: 'notice',
-        after: 8,
+        after: 10,
         lines: [
           N('Why does the frozen waterfall turn gold? Clear ice lets light pass through it.'),
           N('When golden light shines through ice, the ice glows gold too. We see things only when light reaches our eyes, and tonight the light is coming from the spring.'),

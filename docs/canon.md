@@ -184,3 +184,16 @@ this sheet, follow the sheet and note it. Maor approved these decisions.
     - Q32's inspector is **Inspector Plimsoll** (Thimble is S23's; Pell is Old Mr Pell's).
     - Q8: **Frannie is Reggie's wife.** Q61: **Mrs Tibbs** is the mayor's wife.
     - Q9: **Mother Brindle** is Barty's Keeper, who hatched him; "mother" is her own word for it.
+44. **The Neopian Times Reporter** (speaker `times-reporter`) is Neopia's recurring weary straight
+    man. He tries to caption "the Keeper and…" and the Nubbin eats his notebook (NP1). From NP4 he
+    writes "unnamed associate"; NP13 prints "THE KEEPER (AND ASSOCIATE)", and the Nubbin eats that
+    too. Cameos in NQ27, NQ29 and NQ30.
+45. **Multiverse running gags (2026-10-22 run 2 fixes).** Each line misnames the Nubbins once and
+    a straight man corrects it: Tony's "small appliances" (Pepper), Mr. Knight's "Colleagues",
+    Spawn's "rodent" (Cogliostro), Ben Grimm's "pebbles" (Sue, then nobody). Sam's "Not a rodent.
+    I'm learning." closes Cap; Doom's "Nubbin. I learned the word. I had time." closes UL10.
+    - Couples: Pepper's calendar ("Thursday: do not fly into the sun"; IM15 "Friday: come home.");
+      Reed always leaves the lab light on, and in FF9 Sue leaves it on for him; Jan renames Hank's
+      inventions (the Ant-Lifter is **Gerald**).
+    - Doom: if welcomed at FF9, a Nubbin sits on his knee at the children's table, and he says so
+      in the FF epilogue truce.

@@ -132,12 +132,14 @@ const TEA_OPEN: Line[] = [
   N(
     'Spring. The memorial flowers on the hill have opened all at once, as if somebody gave a signal.',
   ),
-  N('Hazel’s is the untidy one near Briar’s. It still faces the Grove, very firmly.'),
+  N(
+    'Hazel died, and her flower came up here so the valley can remember her. It is the untidy one near Briar’s, and still faces the Grove, very firmly.',
+  ),
   N(
     'Somebody comes over the far ridge in the early light, under a pack so big it looks like a walking hedge.',
   ),
   N('It is Nova. She comes straight up the hill path, and at the top she stops, which is new.'),
-  NO('Morning. Don’t get up. I was passing. I’m always passing.'),
+  NO('Morning. Don’t get up. I live here now, apparently. I still walk past everything.'),
   NO('I thought I’d sit here a minute and not pass.', 'think'),
 ];
 const TEA_SIT = N(
@@ -229,13 +231,13 @@ const BIRD_NOTICED: Record<CollectorMode, Line[]> = {
   sold: [
     TI('It doesn’t like you. That’s weird. Everything likes Keepers.', 'think'),
     N(
-      'You think of your pens at home, full of fast grey runners that never make a sound. You don’t say anything.',
+      'You think of the pens at home, and the grey Nubbins in them that never make a sound. The bird can tell.',
     ),
   ],
   kept: [
     TI('It doesn’t like your hands. Why are your hands cold? It’s nearly summer.', 'think'),
     N(
-      'You put your hands in your pockets. One pocket is colder than the other, and you don’t say anything.',
+      'You put your hands in your pockets. The one with the cold stone in it is colder than the other, and you don’t say anything.',
     ),
   ],
 };
@@ -437,7 +439,7 @@ const lightsScene = (of: string, told: boolean, kept: boolean): EduScene => {
   ];
   const lessons: LessonIn[] = [
     notice(
-      1,
+      4,
       'science',
       'why high places catch the sunrise first',
       '5-ESS1-2',
@@ -584,51 +586,32 @@ const HOME_CLOSE: Line[] = [
     'In the margins there is writing, in faint pencil. It wasn’t there before, or it was, and it needed this light.',
   ),
   N(
-    'It is on every page. Beside a boy and a dragon: “I’d have fed the dragon.” Beside a building of endless counters: “Ha. Typical.”',
+    'It is on every page. Beside a story about a hungry dragon: “I’d have fed the dragon.” Beside a story about endless forms and queues: “Ha. Typical.”',
   ),
   N(
     'She read every story Nova ever brought her, and had something to say about all of them. Of course she did.',
   ),
+  N('Nova stays three days, and has tea every afternoon.'),
   N(
-    'Nova stays three days, and has tea every afternoon. On the fourth she goes over the far ridge with a pack you could lift with a finger.',
+    'On the fourth she sets off over the far ridge for a long walk, with a pack you could lift with a finger. She says twice that she’ll be back.',
   ),
   N('At the top she turns and waves, and doesn’t wait to see whether you wave back. She knows.'),
 ];
 const homeScene = (of: string, eternal: boolean): EduScene => {
   const lines = [...HOME_OPEN, ...(eternal ? [HOME_ETERNAL] : []), ...HOME_CLOSE];
   return scene(of, lines, [
-    ask(
+    doIt(
       lines.length - 1,
       'literacy',
-      'finding the theme of a story',
+      'theme: small, ordinary days can be the adventure',
       'RL.4.2',
+      'edu:tell:ordinary-day',
       [
         N(
-          'Nova set off to see one last faraway place. What do you think this story is really about?',
+          'Hazel wrote down small, ordinary days. (Tell someone at home about one ordinary day you’d put in a book like hers.)',
         ),
       ],
-      [
-        opt(
-          'Learning that everyday life with people you love can be the adventure.',
-          [
-            N(
-              'Yes. The list was the adventure Hazel planned. The back pages were the one she had.',
-            ),
-          ],
-          true,
-        ),
-        opt('Climbing a very tall ridge.', [
-          N('The climb happens! But it carries a bigger idea.'),
-          N(
-            'The list was the adventure Hazel planned. The back pages, full of ordinary days, were the one she had.',
-          ),
-        ]),
-        opt('Catching a rare bird.', [
-          N('Fairweather wanted that, and gave it up. The bigger idea is in the book.'),
-          N('Ordinary days with people you love can be the adventure.'),
-        ]),
-      ],
-      'Worked out the theme of the story.',
+      'Linked the theme to their own life by choosing an ordinary day worth writing down.',
     ),
   ]);
 };
@@ -686,14 +669,14 @@ const S24_SCENES: EduScene[] = [
     ],
     [
       ask(
-        2,
+        5,
         'literacy',
         'a character’s motives',
         'RL.3.3',
         [N('Why do you think Nova always said no to tea?')],
         [
           opt('She was always in a hurry to get somewhere new.', [
-            N('That fits. She calls herself “always passing”. Stopping was hard for her.'),
+            N('That fits. She still walks past everything. Stopping was hard for her.'),
           ]),
           opt('She thought there would always be another time.', [
             N('A lot of people think that. It’s why her “I could have stopped” hurts so much.'),
@@ -891,7 +874,7 @@ const S24_SCENES: EduScene[] = [
             'It weighs less.',
             [
               N(
-                'Yes. “Light” can mean not heavy, or it can mean brightness. Here it’s weight. A lantern makes it a good joke.',
+                'Yes, it weighs less. “Light” can also mean bright, and a lantern is both. A word used two ways at once is called a pun.',
               ),
             ],
             true,
@@ -1035,10 +1018,10 @@ const S24_SCENES: EduScene[] = [
       ),
       NO('I’ll manage. I always manage. It’s only heavy when you think about it.'),
       N(
-        'Fern has sent a paper bag of lantern buns. It sits on top of everything, the only light thing in there.',
+        'Fern has sent a paper bag of lantern buns, the only light thing in there. Your Nubbin sits on it, to keep it safe from everybody but itself.',
       ),
       N(
-        'Your Nubbin is already halfway up the first stretch of stones, looking back to see why you are all so slow.',
+        'Then your Nubbin is halfway up the first stretch of stones, looking back to see why you are all so slow.',
       ),
     ],
     [
@@ -1220,6 +1203,8 @@ const S24_SCENES: EduScene[] = [
         '…Of course it was. I heard somebody shout my old motto up at the falls today. I thought I’d dreamed it.',
         'soft',
       ),
+      AU('“The whole world’s up here.” It was stamped on every badge.', 'soft'),
+      N('Tilly turns her tin badge over. The words are on the back, very small.'),
       NO('She wrote her list because of you. All of it. Every place.', 'soft'),
     ],
     [
@@ -1359,16 +1344,17 @@ const S24_SCENES: EduScene[] = [
     ],
     [
       notice(
-        0,
-        'science',
-        'day and night come from Earth spinning',
-        '5-ESS1-2',
+        5,
+        'sel',
+        'if you are lost, stay put and make a noise',
+        'CASEL: Responsible decision-making',
         [
           N(
-            'Dusk is the dim time just after sunset. It comes because Earth spins, and our side is turning away from the Sun.',
+            'If you ever get lost, the safest thing is to stop where you are and make a noise, like a whistle or a shout.',
           ),
+          N('People find you much faster when you stay still. Tilly, as it turns out, knows this.'),
         ],
-        'Learned that dusk and night happen because Earth spins.',
+        'Learned what to do if lost: stay where you are and make a noise so people can find you.',
       ),
     ],
   ),
@@ -1385,7 +1371,7 @@ const S24_SCENES: EduScene[] = [
       ),
       TI('I’M FINE. I’M WITH SIR REGINALD. NOBODY COME, YOU’LL SCARE HIM.', 'angry'),
       NO('She’s all right. She’s all right.', 'shock'),
-      NO('I grabbed the pack. She was right there, and I grabbed the pack.', 'sad'),
+      NO('I grabbed the pack. Tilly was right there, and I grabbed the pack.', 'sad'),
       N(
         'It is too dark for the ridge path now, and too steep to hurry on. The whistle comes again, cross and steady.',
       ),
@@ -1478,7 +1464,7 @@ const S24_SCENES: EduScene[] = [
         '“Nova came. Taller. Ticked off a sea. Tea (refused). Don’t mind. She’ll stop for tea when she’s ready.”',
       ),
       NO(
-        '“Nova came. I nearly told her. Didn’t. She’d have stayed, and hated it, and so would I.”',
+        '“Nova came. I nearly told her what the doctor said. Didn’t. She’d have stayed, and hated it, and so would I.”',
         'sad',
       ),
       N(
@@ -1684,7 +1670,7 @@ const S24_SCENES: EduScene[] = [
     ],
     [
       notice(
-        4,
+        5,
         'science',
         'sound is energy carried by vibrations',
         '4-PS3-2',
@@ -2088,7 +2074,7 @@ const S24_VARIANTS: EduScene[] = [
         'CASEL: Self-awareness',
         [
           N(
-            'Missing two people at once is a lot to carry. Nova makes a small joke to help carry it. Humour is one way people cope with sadness.',
+            'Nova misses two people at once, so she makes a small joke. A joke can make a sad moment a little lighter.',
           ),
         ],
         'Noticed that people sometimes use humour to cope with sad feelings.',
@@ -2168,8 +2154,9 @@ const S24_VARIANTS: EduScene[] = [
     [
       ...LANTERN_ASK,
       N(
-        'It is Sunday, so Corvin is by the pond, saying nothing, badly. He gets up when he sees where you are looking.',
+        'It is Sunday, so Corvin is by the pond with Fern’s pie dish, washed, with a pie in it, saying nothing, badly.',
       ),
+      N('He gets up when he sees where you are looking.'),
       N(
         'Hazel’s lantern hangs on the hook by the cottage door. He takes it down before you can, the way he does every Sunday.',
       ),
@@ -2182,7 +2169,7 @@ const S24_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        7,
+        8,
         'literacy',
         'reading a character’s words for hidden meaning',
         'RL.3.3',
@@ -2505,4 +2492,4 @@ export const EDU_S24_READER: EduQuest[] = [S24];
 export const EDU_S24_READER_VARIANTS: EduScene[] = S24_VARIANTS;
 
 /** Every `edu:` check used by a `do` lesson in this file. */
-export const CHECKS: string[] = ['edu:point:compass:east'];
+export const CHECKS: string[] = ['edu:point:compass:east', 'edu:tell:ordinary-day'];
