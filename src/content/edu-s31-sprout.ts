@@ -32,6 +32,9 @@ const FERN = say('fern');
 const SPARKS = say('sparks');
 const CLOVER = say('clover');
 const TAM = say('s31-tam');
+const GB = say('granny-brock');
+const BYTE = say('byte');
+const PIXEL = say('pixel');
 const IVY = say('s31-ivy');
 const NED = say('s31-ned');
 const NETTIE = say('s31-nettie');
@@ -107,6 +110,7 @@ const SCENES: EduScene[] = [
       TAM('It’s to the Great Gourd. Can you help me spell?', 'think'),
       Y('The Great Gourd?'),
       TAM('He flies over on Gourd Night. He brings toys!', 'happy'),
+      TAM('He only comes if you’re really sure. You must never say “if”.'),
       TAM('Nobody else believes in him. That’s all right.'),
       N('His letter says DEAR GRAET GORD. Oh dear.'),
     ],
@@ -116,7 +120,7 @@ const SCENES: EduScene[] = [
         skill: 'hear the first sound of a word',
         standard: 'RF.K.2',
         kind: 'ask',
-        after: 7,
+        after: 8,
         prompt: [N('Say them slowly: Gourd. Great.'), N('Which sound do they both start with?')],
         options: [
           opt(
@@ -392,7 +396,7 @@ const SCENES: EduScene[] = [
       N('Ivy lifts her finger. The ball rolls away.'),
       N('Ned kicks the air. Whoosh! He lands on his back. Bump!'),
       NED('You promised.', 'sad'),
-      IVY('Doesn’t count. Your witness was on your side.'),
+      IVY('Doesn’t count. The Keeper is your friend. Friends don’t count.'),
       N('Ivy walks off. Ned looks up at the sky.'),
       N('Ned isn’t hurt. But he is sad. A broken promise hurts inside.'),
     ],
@@ -470,7 +474,7 @@ const SCENES: EduScene[] = [
       N('Tam looks at every gourd patch in the valley. Then he picks a spot.'),
       N('Three lantern posts are lit. The fourth post is dark.'),
       N('The dark post stands in the long, wild grass.'),
-      TAM('This one. It isn’t pretending. It’s just itself.', 'think'),
+      TAM('This one. It isn’t pretending. The Great Gourd likes a patch that’s honest.', 'think'),
       N('Tam’s sign says WELCOME GREAT GOURD.'),
       N('One R is backwards. On purpose. For luck!'),
       N('He has a toffee apple too, in case the Great Gourd is hungry.'),
@@ -498,7 +502,7 @@ const SCENES: EduScene[] = [
       N('Tam puts the toffee apple on top of the sign.'),
       N('Moss walks by, slowly. He stops to read the sign.'),
       TAM('Moss, you’re very old. Is the Great Gourd real?'),
-      MOSS('I have never seen him. But I have never seen lots of real things.', 'think'),
+      MOSS('I have never seen him. I have never seen the wind, either.', 'think'),
       N('Tam nods. He thinks that means yes.'),
       N('Clover comes with three blankets. She puts them down by the sign.'),
       CLOVER('One each, and a spare. Don’t ask me about it.'),
@@ -525,7 +529,9 @@ const SCENES: EduScene[] = [
     [
       N('It’s Gourd Night! The sun goes down behind the hill.'),
       N('Gourd lanterns glow on every step. One, then another, then another.'),
-      IVY('I’m a witch. A costume should be the opposite of you.'),
+      IVY('I’m a witch. Witches are mean. So it’s the opposite of me.'),
+      N('Ned says nothing. Very, very carefully.'),
+      IVY('NED.'),
       N('Ned is a ghost. His sheet has lots and lots of holes.'),
       NED('The scissors were tricky. But I can see really well!', 'happy'),
       SPARKS('For your Nubbin! Goggles and a scarf!', 'happy'),
@@ -573,13 +579,18 @@ const SCENES: EduScene[] = [
   sc(
     's31-long-grass',
     [
-      N('Guisers stop by the grass: a witch, a ghost, three little bats.'),
+      N('The guisers stop by the grass. Guisers are children in costumes.'),
+      N('Ivy is a witch. Ned is a ghost. Three tiny children are bats.'),
       IVY('Tam, you’ll sit out here all night? In the cold?'),
       TAM('If I’m not here, he’ll think nobody meant it.'),
       NETTIE('I’m staying too. I mean it. I think.'),
       IVY('I’ll fetch you both at four. I told Mum and Clover.'),
       N('Up the lane, Clover’s window has a lamp. It stays on all night.'),
-      IVY('Keeper, come with us? The bats are very small.'),
+      N('Granny Brock comes down the lane. She looks at the sign.'),
+      GB('Waiting for a gourd. In the cold. Hm.'),
+      N('She leaves a quilt and a flask of soup. She says nothing else.'),
+      N('Tam skips to keep warm. He gets the rhyme wrong. Again.'),
+      IVY('Keeper, come with us? The bat children are very small.'),
       SPARKS('Keeper! Party! Everybody’s on the list!', 'happy'),
       N('Tam doesn’t ask you anything. He just waits.'),
     ],
@@ -589,7 +600,7 @@ const SCENES: EduScene[] = [
         skill: 'waiting is hard; noticing what helps',
         standard: 'ELOF: Social and Emotional Development',
         kind: 'notice',
-        after: 8,
+        after: 13,
         lines: [
           N('Waiting is hard. It can feel very, very long.'),
           N('What helps you wait? (Talk about it together.)'),
@@ -637,11 +648,14 @@ const SCENES: EduScene[] = [
     [
       N('Down the lane go the guisers. Knock, knock!'),
       N('At each door they tell a joke. Then they hold out their bags.'),
+      NED('Knock, knock! Who’s there? Ned! Ned who? Um… I forget.'),
+      N('Everybody laughs. Even Ivy. Ned gets a rock.'),
       N('Ivy gets a toffee apple. The bats get nuts.'),
       N('Ned looks in his bag. A rock!'),
       N('Knock, knock! Another door, another rock. And another!'),
       FERN('Oh dear. I panicked. Here’s a rock.', 'shock'),
       N('At Byte’s door, Ned gets a rock with a little label.'),
+      NED('Knock, knock! I remember now! … No, I don’t.'),
       N('Five doors. Five rocks. Poor Ned!'),
     ],
     [COUNT_ROCKS(7)],
@@ -679,6 +693,7 @@ const SCENES: EduScene[] = [
       N('It ducks. It weaves. It shakes a paw at the sky.'),
       N('Brrm, brrm… sputter! Pretend engine trouble!'),
       N('It spins, slides down the roof, and lands in the rain barrel. Splash!'),
+      N('It sits in the barrel. It has a hat of leaves now.'),
       N('It climbs out and wrings out its scarf. Very brave.'),
       N('Far away, Sparks’s workshop glows. Party time!'),
     ],
@@ -688,7 +703,7 @@ const SCENES: EduScene[] = [
         skill: 'move like a pilot: balance and big arm movements',
         standard: 'ELOF: Perceptual, Motor, and Physical Development',
         kind: 'do',
-        after: 2,
+        after: 5,
         check: 'edu:act:fly:arms',
         lines: [
           N('(Stand up. Be a flying ace! Arms out wide.)'),
@@ -704,7 +719,10 @@ const SCENES: EduScene[] = [
       N('Your Nubbin creeps under the hedges to the party.'),
       N('It hides in the apple tub. Ivy dips her face in for an apple.'),
       IVY('Something LICKED me!', 'shock'),
-      N('Pixel plays the pianola. A fast tune. Then a slow tune.'),
+      N('Pixel plays the pianola. A fast tune.'),
+      BYTE('Too fast, Pixel.'),
+      PIXEL('Your feet are too slow, Byte.'),
+      N('Then a slow tune.'),
       N('Your Nubbin dances to the fast one. It droops for the slow one.'),
       N('Then it howls by accident. Ooo! It looks very surprised.'),
       N('Off it creeps into the dark, scarf trailing.'),
@@ -714,7 +732,7 @@ const SCENES: EduScene[] = [
         domain: 'music',
         skill: 'fast and slow music feel different',
         kind: 'do',
-        after: 4,
+        after: 7,
         check: 'edu:clap:tempo:fast-slow',
         lines: [
           N('(Clap fast, like a happy tune. Now clap slow.)'),
@@ -730,10 +748,11 @@ const SCENES: EduScene[] = [
     [
       N('It’s midnight. The middle of the night.'),
       N('Three lanterns glow. The fourth post is dark.'),
+      N('Granny Brock’s flask is still warm. Nettie has the soup. Tam has the lid.'),
       NETTIE('Tam, my feet are cold.', 'sad'),
       NETTIE('What if he isn’t coming?'),
       TAM('He’s coming! If he comes, I’ll ask him—', 'happy'),
-      TAM('…If. I said “if”.', 'sad'),
+      TAM('…If. I said “if”. Now he’ll think I’m not sure!', 'sad'),
       N('Tam pulls his quilt over his head. Sniff.'),
     ],
     [
@@ -806,7 +825,7 @@ const SCENES: EduScene[] = [
       N('It creeps over the grass, white and sparkly.'),
       N('The grass goes stiff and crunchy.'),
       N('Nettie is asleep. One boot is off.'),
-      TAM('Here he comes! That’s what the cold is!', 'shock'),
+      TAM('It’s so cold! The Great Gourd must be close!', 'shock'),
       N('Out by the post, something moves.'),
     ],
     [
@@ -840,7 +859,7 @@ const SCENES: EduScene[] = [
         skill: 'naming feelings: surprised and scared',
         standard: 'ELOF: Social and Emotional Development',
         kind: 'ask',
-        after: 1,
+        after: 5,
         prompt: [N('Tam got a big fright. How did he feel?')],
         options: [
           opt(
@@ -982,6 +1001,7 @@ const SCENES: EduScene[] = [
       N('By his sign is one acorn. Round and shiny.'),
       TAM('A toy! A medium toy! He read my letter!', 'happy'),
       N('Up on the hill, Moss sits very, very still.'),
+      N('He looks like someone who has never seen an acorn. Ever.'),
       KEEPSAKES,
     ],
     [
@@ -1105,7 +1125,7 @@ export const EDU_S31_SPROUT_VARIANTS: EduScene[] = [
     [
       N('A grey shape rises out of the frosty grass.'),
       N('Tam says “Oh.” Then he faints. Flop!'),
-      N('It’s Sable. The cold can’t hurt her.'),
+      N('It’s Sable, the grey wild Nubbin. The cold can’t hurt her.'),
       N('She looks at Tam. Then she looks at you.'),
       N('She sits down beside you. Close.'),
       N('Sable says nothing. Her ears stay up.'),

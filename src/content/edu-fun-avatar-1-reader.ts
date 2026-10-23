@@ -672,7 +672,7 @@ const Q47: EduQuest = {
         N('The nomads wave goodbye from the far side of the ridge, singing their song again, slightly wrong.'),
         K('Take some of these. They broke off on the way out.', 'soft'),
         N('She hands you a pouch of crystal shards. They glow faintly whenever two friends sit near them.'),
-        T('And now there’s a tunnel between two of your sections. You can thank me for not getting us lost.'),
+        T('And now your Grove has a secret cave path. You can thank me for not getting us lost.'),
         P('You were humming the whole time.'),
         T('Strategically.'),
         J('Remember, friends: the dark is only scary when you’re alone in it. Doo-be-doo!', 'happy'),
@@ -1302,6 +1302,7 @@ const Q50: EduQuest = {
       [
         N('A little wooden stall has appeared by the pond overnight, with a hand-painted sign and a kettle already singing.'),
         I('Ah, the Keeper! Welcome to my tea stall. I have retired from being a general. Now I only command leaves.', 'happy'),
+        I('This is my nephew, Kaito. He helps. He also complains.'),
         Z('He’s been up since four. He painted the sign twice. The dragon looked “too fierce”.'),
         I('A tea shop should not frighten its customers. That is the job of the prices.'),
         I('Good tea is simple. The water must be hot, but not angry. The leaves must steep, but not sulk.', 'soft'),
@@ -1312,7 +1313,7 @@ const Q50: EduQuest = {
       ],
       [
         ask(
-          5,
+          6,
           'literacy',
           'understand figurative language: talking about water as if it had feelings',
           [
@@ -1335,7 +1336,7 @@ const Q50: EduQuest = {
           'L.4.5',
         ),
         ask(
-          8,
+          9,
           'maths',
           'add minutes to find an end time',
           [I('Leaves in at 7:10. Three minutes to steep. When must we take them out?')],
@@ -1620,7 +1621,8 @@ const Q51: EduQuest = {
       'q51-desert',
       [
         N('The desert stretches flat and gold in every direction. Your water skins are empty.'),
-        K('Right. I’m going to find water. Nobody wanders off. Nobody eats anything strange. Tuk, that means you.'),
+        T('Rules. One: nobody wanders off. Two: nobody eats anything strange. Everyone sign the list.'),
+        K('Signed. I’m going to find water. Tuk, that rule means you.'),
         T('Me? I’m the responsible one. I have a schedule.'),
         N('Nalu leaves. Tuk eyes a fat green cactus. Thirty seconds pass.'),
         T('You know what cacti are full of? Juice. Survival juice. It would be silly not to.'),
@@ -1632,7 +1634,7 @@ const Q51: EduQuest = {
       ],
       [
         notice(
-          5,
+          6,
           'health',
           'never eat or drink wild plants unless a grown-up says they are safe',
           [
@@ -2628,6 +2630,8 @@ const Q54: EduQuest = {
         T('Star Stabber.', 'happy'),
         PI('…You may also think about it for longer.'),
         N('Master Pian forges a smaller twin from the leftover sky-iron and lays it in your hands. It is lighter than it looks.'),
+        N('Tuk throws his boomerang to celebrate. It comes back and taps him on the head.'),
+        PI('It, too, is still learning.'),
       ],
       [
         ask(

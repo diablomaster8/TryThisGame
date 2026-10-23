@@ -762,7 +762,7 @@ const SCENES: EduScene[] = [
       ),
       N('Halfway up the path, there she is. Dimple, walking slowly uphill, on her own.'),
       N(
-        'She isn’t smiling. Her face is just a face, and the ball above it is darker than any ball you have seen except Sable’s.',
+        'She isn’t smiling. Her face is just a face, and the ball above it is darker than any ball you have seen, except Sable’s, the grey one who lives wild.',
       ),
       LU('That’s where she stops. Every night.', 'soft'),
       N(
@@ -841,16 +841,17 @@ const SCENES: EduScene[] = [
         'Hush. The quiet one. You may have heard she kept the griefs. Nobody told you how. She sat.',
       ),
       M(
-        'When the White Year stilled half the valley, the rest of us dug. Hush went and sat where the still ones, the ones who had died, could see her.',
+        'When the White Year came, half the valley’s Nubbins grew cold and died. The rest of us dug at the snow.',
         'sad',
       ),
       M(
-        'She never tried to wake one. If one shivered, she took it for a conversation. That was her job, and nobody gave it her.',
-      ),
-      M(
-        'People thought that made her a sad thing. They were wrong about which part was sad.',
+        'Hush went and sat where the dying ones could see her, so not one of them was alone.',
         'soft',
       ),
+      M(
+        'If one shivered, she talked back to it. That was her job, though nobody asked her to do it.',
+      ),
+      M('People thought that made her a sad thing. It didn’t. The staying was the kind part.', 'soft'),
       M(
         'Low in the wall. The flat stone, by your foot. Look at it properly. She meant it to be looked at.',
       ),
@@ -888,7 +889,7 @@ const SCENES: EduScene[] = [
       ),
       M('Most things are both. She knew that before any of us.'),
       M(
-        'Briar thought Hush was gloomy. Hush thought Briar was loud. They were never more than a field apart, those two.',
+        'Briar laughed at everything. Hush hardly spoke. Briar thought Hush was gloomy; Hush thought Briar was loud. They were never more than a field apart.',
         'happy',
       ),
       Y('What did she think sad was for?'),
@@ -1001,6 +1002,10 @@ const SCENES: EduScene[] = [
       N(
         'Then she drags the slop bucket across the yard, an inch at a time, and shoves it hard against the shed door.',
       ),
+      N(
+        'Flinch tries to climb out over the bucket. Fidget counts Flinch twice, to be safe, and pushes him back in.',
+      ),
+      N('Flinch tries again. Fidget counts him three times.'),
       FI('…', 'shock'),
       CL('Every night since the frost. In they go, and the bucket.', 'sad'),
       N(
@@ -1021,7 +1026,7 @@ const SCENES: EduScene[] = [
         skill: 'worry tries to keep us safe',
         standard: 'CASEL: Self-awareness',
         kind: 'ask',
-        after: 8,
+        after: 10,
         prompt: [N('“Safe is not the same as well.” What does Clover mean?')],
         options: [
           opt(
@@ -1047,7 +1052,7 @@ const SCENES: EduScene[] = [
         skill: 'similes',
         standard: 'L.4.5',
         kind: 'notice',
-        after: 6,
+        after: 8,
         lines: [
           N(
             '“The way pot plants go in a cupboard.” Plants in the dark go pale and droop. The simile shows the Nubbins wilting without light.',
@@ -1062,7 +1067,7 @@ const SCENES: EduScene[] = [
     's30-blanket-ask',
     [
       CL(
-        'I can’t just kick the bucket over. She’d go to pieces. She’s a week old and she’s doing her best.',
+        'I can’t just shove the bucket over. She’d be frantic. She’s a week old and she’s doing her best.',
         'sad',
       ),
       CL('And I can’t leave them in there. Listen to Dimple. Listen to the others not.'),
@@ -1102,7 +1107,7 @@ const SCENES: EduScene[] = [
             ],
             true,
           ),
-          opt('Kick the bucket away', [
+          opt('Shove the bucket away', [
             CL('That opens it, but Fidget would panic. It only solves half the problem.', 'sad'),
           ]),
           opt('Leave the door shut', [
@@ -1197,7 +1202,7 @@ const SCENES: EduScene[] = [
         skill: 'daylight changes through the year',
         standard: '1-ESS1-2',
         kind: 'notice',
-        after: 0,
+        after: 7,
         lines: [
           N(
             'In summer, it was light long before breakfast. Now, in early autumn, the sun rises later every day.',
@@ -1395,7 +1400,7 @@ const SCENES: EduScene[] = [
         skill: 'light travels faster than sound',
         standard: '4-PS3-2',
         kind: 'notice',
-        after: 2,
+        after: 7,
         lines: [
           N(
             'In a storm you see the lightning before you hear the thunder, because light travels far faster than sound.',
@@ -2104,6 +2109,10 @@ export const EDU_S30_READER_VARIANTS: EduScene[] = [
     's30-after-clover',
     [
       N(
+        'Clover comes to your gate, lifts the latch and pushes. It opens first time. She looks almost disappointed.',
+      ),
+      CL('Well. Look at that. Lift and push.', 'happy'),
+      N(
         'Clover’s shed door stands half shut every dusk now. Fidget sees to it herself; she has decided half is the right amount.',
       ),
       N(
@@ -2123,7 +2132,7 @@ export const EDU_S30_READER_VARIANTS: EduScene[] = [
         skill: 'halves',
         standard: '1.G.A.3',
         kind: 'notice',
-        after: 0,
+        after: 2,
         lines: [
           N(
             'Half shut is also half open: two equal halves make the whole doorway. Fidget’s fudge, in fractions.',
@@ -2176,6 +2185,7 @@ export const EDU_S30_READER_VARIANTS: EduScene[] = [
         'Mostly gold. Sometimes blue. Sometimes both, which my scale didn’t cover, so I drew a new column. It’s my favourite column.',
         'soft',
       ),
+      BY('My wife says a third column is showing off. My wife hasn’t seen the data.', 'think'),
       BY('Also she pulled my laces on Tuesday. Both of them. I’ve logged it as a result.', 'happy'),
       N(
         'He shows you the chart. The “both” column has been drawn in twice, in two colours of pencil.',

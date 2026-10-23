@@ -46,18 +46,18 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Side story S27: Some Nubbin · opens in chapter 5 | [S27.md](side/S27.md) (573) | [sprout.md](learning/side/S27/sprout.md) (757) | [reader.md](learning/side/S27/reader.md) (880) |
 | Side story S28: Please Look After This Nubbin · opens in chapter 8 | [S28.md](side/S28.md) (582) | [sprout.md](learning/side/S28/sprout.md) (794) | [reader.md](learning/side/S28/reader.md) (859) |
 | Side story S29: The Gates of Dawn · opens in chapter 4 | [S29.md](side/S29.md) (665) | [sprout.md](learning/side/S29/sprout.md) (814) | [reader.md](learning/side/S29/reader.md) (1034) |
-| Side story S30: What Sad Is For · opens in chapter 6 | [S30.md](side/S30.md) (554) | [sprout.md](learning/side/S30/sprout.md) (763) | [reader.md](learning/side/S30/reader.md) (886) |
-| Side story S31: The Great Gourd · opens in chapter 7 | [S31.md](side/S31.md) (617) | [sprout.md](learning/side/S31/sprout.md) (834) | [reader.md](learning/side/S31/reader.md) (913) |
+| Side story S30: What Sad Is For · opens in chapter 6 | [S30.md](side/S30.md) (554) | [sprout.md](learning/side/S30/sprout.md) (772) | [reader.md](learning/side/S30/reader.md) (892) |
+| Side story S31: The Great Gourd · opens in chapter 7 | [S31.md](side/S31.md) (617) | [sprout.md](learning/side/S31/sprout.md) (851) | [reader.md](learning/side/S31/reader.md) (920) |
 | Learning Grove: the campaign | | [sprout.md](learning/campaign/sprout.md) (2805) | [reader-1.md](learning/campaign/reader-1.md) (2547), [reader-2.md](learning/campaign/reader-2.md) (1378) |
 
 ## Fun quests
 
 | Storyline | Script | Little Sprouts | Grove Readers |
 | --- | --- | --- | --- |
-| Fun quests: Monty Python (Q1–Q20) | [python.md](fun/python.md) (1838) | [sprout.md](learning/fun/python/sprout.md) (2193) | [reader.md](learning/fun/python/reader.md) (2835) |
-| Fun quests: Mr. Bean (Q21–Q30) | [bean.md](fun/bean.md) (822) | [sprout.md](learning/fun/bean/sprout.md) (990) | [reader.md](learning/fun/bean/reader.md) (1354) |
+| Fun quests: Monty Python (Q1–Q20) | [python.md](fun/python.md) (1838) | [sprout.md](learning/fun/python/sprout.md) (2201) | [reader.md](learning/fun/python/reader.md) (2835) |
+| Fun quests: Mr. Bean (Q21–Q30) | [bean.md](fun/bean.md) (822) | [sprout.md](learning/fun/bean/sprout.md) (998) | [reader.md](learning/fun/bean/reader.md) (1354) |
 | Fun quests: It's Always Sunny (Q31–Q45, adults only) | [sunny.md](fun/sunny.md) (1372) |  |  |
-| Fun quests: Avatar: The Last Airbender (Q46–Q65) | [avatar.md](fun/avatar.md) (1864) | [sprout.md](learning/fun/avatar/sprout.md) (2319) | [reader.md](learning/fun/avatar/reader.md) (3006) |
+| Fun quests: Avatar: The Last Airbender (Q46–Q65) | [avatar.md](fun/avatar.md) (1864) | [sprout.md](learning/fun/avatar/sprout.md) (2330) | [reader.md](learning/fun/avatar/reader.md) (3011) |
 | Fun quests: Alice in Wonderland (Q66–Q75) | [alice.md](fun/alice.md) (792) |  |  |
 | Fun quests: Sherlock Holmes (Q76–Q85) | [holmes.md](fun/holmes.md) (836) |  |  |
 | Fun quests: Nasreddin Hodja (Q86–Q95) | [hodja.md](fun/hodja.md) (755) |  |  |

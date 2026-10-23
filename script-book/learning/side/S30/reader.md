@@ -285,7 +285,7 @@ _Three in the morning. The hill is grey and silver: wet grass, a thin crescent o
 > _For grown-ups: Learned why the Moon seems to change shape over about a month._
 
 _Halfway up the path, there she is. Dimple, walking slowly uphill, on her own._  
-_She isn’t smiling. Her face is just a face, and the ball above it is darker than any ball you have seen except Sable’s._  
+_She isn’t smiling. Her face is just a face, and the ball above it is darker than any ball you have seen, except Sable’s, the grey one who lives wild._  
 **Luna**: That’s where she stops. Every night.  
 _Dimple stops and looks up the hill towards the flower. Then she turns round, and sees you._  
 _For a second her face does nothing at all._  
@@ -314,9 +314,10 @@ _The frosts have come, and the Grove is white at dawn round the fourth post._
 _You find Moss at the old wall, by Hush’s lantern post, with frost on his back that he hasn’t bothered to shake off._  
 **Moss**: Clover’s gold one. Luna told me. Luna tells me things at dawn, when I am too tired to argue.  
 **Moss**: Hush. The quiet one. You may have heard she kept the griefs. Nobody told you how. She sat.  
-**Moss**: When the White Year stilled half the valley, the rest of us dug. Hush went and sat where the still ones, the ones who had died, could see her.  
-**Moss**: She never tried to wake one. If one shivered, she took it for a conversation. That was her job, and nobody gave it her.  
-**Moss**: People thought that made her a sad thing. They were wrong about which part was sad.  
+**Moss**: When the White Year came, half the valley’s Nubbins grew cold and died. The rest of us dug at the snow.  
+**Moss**: Hush went and sat where the dying ones could see her, so not one of them was alone.  
+**Moss**: If one shivered, she talked back to it. That was her job, though nobody asked her to do it.  
+**Moss**: People thought that made her a sad thing. It didn’t. The staying was the kind part.  
 **Moss**: Low in the wall. The flat stone, by your foot. Look at it properly. She meant it to be looked at.  
 
 #### `reader:s30-wall-s1` · [main](../../../side/S30.md#s30-wall-s1)
@@ -349,7 +350,7 @@ _There are a few plain rings, and a few plain lines. Nearly all the rest are bot
 > _Hush’s stone is a record like that. Reading it tells you what mattered to someone long ago._  
 > _For grown-ups: Learned how people recorded events with marks before writing was common._
 
-**Moss**: Briar thought Hush was gloomy. Hush thought Briar was loud. They were never more than a field apart, those two.  
+**Moss**: Briar laughed at everything. Hush hardly spoke. Briar thought Hush was gloomy; Hush thought Briar was loud. They were never more than a field apart.  
 **You**: What did she think sad was for?  
 **Moss**: Sad is a lantern, she said. It shows people where you are.  
 **Moss**: A Nubbin smiling on the outside is a Nubbin in the dark with its lantern out. Nobody can find it. It thinks that is a kindness.  
@@ -385,6 +386,8 @@ _Dimple bounces over to welcome her, beaming. Fidget counts Dimple twice._
 _At dusk the frost comes down over the yard like a cloth over a cage. Fidget goes very still for one second, then gets to work._  
 _She herds the whole household into the shed: Bristle, Flinch, the fussy one, Drizzle, Dimple. She pushes from behind with her head._  
 _Then she drags the slop bucket across the yard, an inch at a time, and shoves it hard against the shed door._  
+_Flinch tries to climb out over the bucket. Fidget counts Flinch twice, to be safe, and pushes him back in._  
+_Flinch tries again. Fidget counts him three times._  
 **Fidget**: …  
 **Clover**: Every night since the frost. In they go, and the bucket.  
 _From inside the shed comes Dimple, louder than ever: bounce, bounce, bounce off the walls._  
@@ -408,7 +411,7 @@ _Clover hears herself say it. She sits down, quite suddenly, on the bucket._
 
 #### `reader:s30-blanket-ask` · [main](../../../side/S30.md#s30-blanket-ask)
 
-**Clover**: I can’t just kick the bucket over. She’d go to pieces. She’s a week old and she’s doing her best.  
+**Clover**: I can’t just shove the bucket over. She’d be frantic. She’s a week old and she’s doing her best.  
 **Clover**: And I can’t leave them in there. Listen to Dimple. Listen to the others not.  
 _Fidget sits by the bucket, guarding it. Her ball is whirling so fast it looks like a little orange wheel._  
 _Your Nubbin sits down beside her and looks hard at the bucket too, to be helpful._  
@@ -418,7 +421,7 @@ _There’s a blanket frozen stiff on the washing line. There’s the bucket, and
 > **Lesson** (science, 3-5-ETS1-2, ask): compare solutions to a problem  
 > **Clover**: Three ideas. Which one solves both problems: Fidget needs “shut”, the others need “open”?  
 > - ✅ Hang the blanket in the doorway with a gap under it → Yes. Fidget sees it shut; the others can slip underneath. Both problems, one fix.
-> - Kick the bucket away → That opens it, but Fidget would panic. It only solves half the problem.
+> - Shove the bucket away → That opens it, but Fidget would panic. It only solves half the problem.
 > - Leave the door shut → That keeps Fidget calm, but the others stay stuck. Half again.
 > _For grown-ups: Compared three solutions against two needs and chose the one that met both._
 
@@ -444,12 +447,6 @@ _Dimple doesn’t come out. When you look under the hem, she is sitting at the b
 #### `reader:s30-gone` · [main](../../../side/S30.md#s30-gone)
 
 _Early autumn. Clover is at your gate before it is light, in her dressing gown and wellies, with Drizzle under one arm._  
-
-> **Lesson** (science, 1-ESS1-2, notice): daylight changes through the year  
-> _In summer, it was light long before breakfast. Now, in early autumn, the sun rises later every day._  
-> _The days shorten until midwinter, then lengthen again towards midsummer. It’s the Earth’s tilt as it goes round the Sun._  
-> _For grown-ups: Noticed that daylight shrinks in autumn and grows again after midwinter._
-
 **Clover**: She’s gone. Dimple. Her basket was cold when I got up.  
 **Clover**: She’s taken nothing but the cushion off the sill. Fossil’s cushion, toys and all.  
 _Drizzle wriggles out from under Clover’s arm, drops to the path, and sets off down the lane on her own, slow and certain._  
@@ -457,6 +454,12 @@ _Drizzle wriggles out from under Clover’s arm, drops to the path, and sets off
 _Dusty is coming up the lane with a spade on one shoulder. One look at Clover, and they put the spade down._  
 **Dusty**: She’s going back to where the happy was. I would. I’ve been trying to all summer.  
 _You go after Drizzle, all three of you, down the lane in the half dark._  
+
+> **Lesson** (science, 1-ESS1-2, notice): daylight changes through the year  
+> _In summer, it was light long before breakfast. Now, in early autumn, the sun rises later every day._  
+> _The days shorten until midwinter, then lengthen again towards midsummer. It’s the Earth’s tilt as it goes round the Sun._  
+> _For grown-ups: Noticed that daylight shrinks in autumn and grows again after midwinter._
+
 
 #### `reader:s30-gone-helped` · [main](../../../side/S30.md#s30-gone-helped)
 
@@ -597,17 +600,17 @@ _Nobody tells her to cheer up. Everybody stays._
 _Clover sits down at the rim. She doesn’t take her eyes off the hollow._  
 **Clover**: Do you know how they met? Dimple and Fossil? I never told anyone. It didn’t seem like a story.  
 **Clover**: Dimple hatched in a thunderstorm, under my kitchen table. First night of her life, and the sky fell in.  
+**Clover**: She wailed. Hours. I tried everything. Milk, humming, the lot. Nothing.  
+**Clover**: And Fossil came down off the sill. She never came down off the sill. She walked across my kitchen and sat beside her.  
+**Clover**: Didn’t lick her. Didn’t fuss. Just sat, the whole storm, till it blew over. I made three pots of tea and drank none.  
+**Clover**: After that they shared the sill every digging day, for years. Gold one and sand one in the window, like two loaves.  
+**Dusty**: I never knew that. Twenty years, and I never knew that.  
 
 > **Lesson** (science, 4-PS3-2, notice): light travels faster than sound  
 > _In a storm you see the lightning before you hear the thunder, because light travels far faster than sound._  
 > _Count the seconds between flash and boom: about three seconds for every kilometre away the storm is._  
 > _For grown-ups: Learned that light outruns sound, and how to estimate a storm’s distance._
 
-**Clover**: She wailed. Hours. I tried everything. Milk, humming, the lot. Nothing.  
-**Clover**: And Fossil came down off the sill. She never came down off the sill. She walked across my kitchen and sat beside her.  
-**Clover**: Didn’t lick her. Didn’t fuss. Just sat, the whole storm, till it blew over. I made three pots of tea and drank none.  
-**Clover**: After that they shared the sill every digging day, for years. Gold one and sand one in the window, like two loaves.  
-**Dusty**: I never knew that. Twenty years, and I never knew that.  
 **Clover**: Her best thing started on her worst day.  
 
 > **Lesson** (literacy, RL.4.2, notice): theme  
@@ -788,6 +791,8 @@ _The note says Fossil would want it sat on, not kept. Sparks has added a blue-an
 
 _Variant of `s30-complete`._
 
+_Clover comes to your gate, lifts the latch and pushes. It opens first time. She looks almost disappointed._  
+**Clover**: Well. Look at that. Lift and push.  
 _Clover’s shed door stands half shut every dusk now. Fidget sees to it herself; she has decided half is the right amount._  
 
 > **Lesson** (maths, 1.G.A.3, notice): halves  
@@ -830,6 +835,7 @@ _Variant of `s30-complete`._
 > - 18 → That’s gold plus both. “How many more” means subtract: 12 − 6 = 6.
 > _For grown-ups: Compared two bars on a chart by subtracting (12 − 6 = 6)._
 
+**Byte**: My wife says a third column is showing off. My wife hasn’t seen the data.  
 **Byte**: Also she pulled my laces on Tuesday. Both of them. I’ve logged it as a result.  
 _He shows you the chart. The “both” column has been drawn in twice, in two colours of pencil._  
 **Byte**: Single knots, still. Obviously. For science.  

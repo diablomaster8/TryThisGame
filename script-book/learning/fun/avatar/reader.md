@@ -313,7 +313,7 @@ _At last, a crack of daylight. You squeeze through into warm air, blinking. Your
 _The nomads wave goodbye from the far side of the ridge, singing their song again, slightly wrong._  
 **Nalu**: Take some of these. They broke off on the way out.  
 _She hands you a pouch of crystal shards. They glow faintly whenever two friends sit near them._  
-**Tuk**: And now there’s a tunnel between two of your sections. You can thank me for not getting us lost.  
+**Tuk**: And now your Grove has a secret cave path. You can thank me for not getting us lost.  
 **Pemba**: You were humming the whole time.  
 **Tuk**: Strategically.  
 **Wandering Juno**: Remember, friends: the dark is only scary when you’re alone in it. Doo-be-doo!  
@@ -647,6 +647,7 @@ _Pemba pulls off the red headband and ties it round your wrist. Your Nubbins are
 
 _A little wooden stall has appeared by the pond overnight, with a hand-painted sign and a kettle already singing._  
 **Uncle Tenzo**: Ah, the Keeper! Welcome to my tea stall. I have retired from being a general. Now I only command leaves.  
+**Uncle Tenzo**: This is my nephew, Kaito. He helps. He also complains.  
 **Kaito**: He’s been up since four. He painted the sign twice. The dragon looked “too fierce”.  
 **Uncle Tenzo**: A tea shop should not frighten its customers. That is the job of the prices.  
 **Uncle Tenzo**: Good tea is simple. The water must be hot, but not angry. The leaves must steep, but not sulk.  
@@ -811,7 +812,8 @@ _He hands you a tin of jasmine tea with a dragon on the lid. The dragon is not f
 #### `reader:q51-desert` · [main](../../../fun/avatar.md#q51-desert)
 
 _The desert stretches flat and gold in every direction. Your water skins are empty._  
-**Nalu**: Right. I’m going to find water. Nobody wanders off. Nobody eats anything strange. Tuk, that means you.  
+**Tuk**: Rules. One: nobody wanders off. Two: nobody eats anything strange. Everyone sign the list.  
+**Nalu**: Signed. I’m going to find water. Tuk, that rule means you.  
 **Tuk**: Me? I’m the responsible one. I have a schedule.  
 _Nalu leaves. Tuk eyes a fat green cactus. Thirty seconds pass._  
 **Tuk**: You know what cacti are full of? Juice. Survival juice. It would be silly not to.  
@@ -1393,6 +1395,8 @@ _The blade comes out of the water as dark as night, with tiny silver flecks like
 > _For grown-ups: Recognised alliteration: words close together that start with the same sound._
 
 _Master Pian forges a smaller twin from the leftover sky-iron and lays it in your hands. It is lighter than it looks._  
+_Tuk throws his boomerang to celebrate. It comes back and taps him on the head._  
+**Master Pian**: It, too, is still learning.  
 
 ### Glossary
 
@@ -1598,7 +1602,7 @@ _He’s right. Every stamp and every cheer makes the stone steps tremble very sl
 **Tuk**: Why is he talking about himself like that?  
 _The champion walks into the ring barefoot. She is tiny, dressed in green, with a fringe over her pale eyes._  
 **Rumble Master Gorro**: THE LITTLE LANDSLIDE!  
-**Bao**: Let’s get this over with. I have a bedtime.  
+_The Little Landslide says, “Let’s get this over with. I have a bedtime.”_  
 _The Big Slab charges. The champion plants her bare feet wide apart and doesn’t budge._  
 _He pushes. She pushes back just as hard. For a long moment, nobody moves at all._  
 _Then she shoves harder. The ground lifts like a trapdoor, and he sails out of the ring into the noodle stand._  
@@ -1606,23 +1610,23 @@ _Then she shoves harder. The ground lifts like a trapdoor, and he sails out of t
 > **Lesson** (science, 3-PS2-1, ask): balanced and unbalanced forces  
 > _When they pushed equally hard, nobody moved. Then the Little Landslide pushed harder._  
 > _What happened to the Big Slab?_  
-> - ✅ He moved, in the direction she was pushing. → Yep. Equal pushes are balanced, so nothing moves. A bigger push on one side is unbalanced, and something goes flying. Usually him.
+> - ✅ He moved, in the direction she was pushing. → She says, “Yep. Equal pushes are balanced, so nothing moves. A bigger push on one side is unbalanced, and something goes flying.” She says, “Usually him.”
 > - Nothing. He’s bigger, so he stays put. → Being big helps, but the pushes decide. When her push became bigger than his, the forces were unbalanced, and he moved.
 > - They both slid backwards. → Not this time. When one push is bigger, things move the way the bigger push goes. Out of the ring, into the noodles.
 > _For grown-ups: Explained that equal pushes are balanced and a bigger push on one side makes something move._
 
-**Bao**: Next! Anybody? Come on, I can feel you all shuffling.  
+_She says, “Next! Anybody? Come on, I can feel you all shuffling.”_  
 _Your Power Nubbin steps forward. The whole arena goes quiet._  
-**Bao**: Huh. Small, heavy, walks like it means it. I like it already.  
+_She says, “Huh. Small, heavy, walks like it means it. I like it already.”_  
 
 **Choices**
 
 - **Ask her to go easy on it**
-    - **Bao**: Nope. Going easy would be an insult. Your Nubbin deserves a real match.
+    - She says, “Nope. Going easy would be an insult. Your Nubbin deserves a real match.”
 - **Tell her not to hold back**
-    - **Bao**: Oh, I won’t. But I like that you asked.
+    - She says, “Oh, I won’t. But I like that you asked.”
 - **Bow to her**
-    - **Bao**: You know I can’t see that, right?
+    - She says, “You know I can’t see that, right?”
     - She grins anyway. She felt the floorboards creak as you bent.
 
 #### `reader:q56-bout-done` · [main](../../../fun/avatar.md#q56-bout-done)
@@ -1631,21 +1635,21 @@ _The match is short and very sandy. Your Nubbin stands perfectly still, and for 
 _Then it shuffles one foot, and she finds it at once._  
 
 > **Lesson** (science, 4-LS1-2, notice): some animals sense the world through vibrations  
-> **Bao**: I can’t see with my eyes, so I see with my feet. Every step sends a little shake through the ground.  
+> _She says, “I can’t see with my eyes, so I see with my feet. Every step sends a little shake through the ground.”_  
 > _Some real animals do this too. A spider feels tiny shakes in its web, and knows where a fly has landed._  
 > _When your Nubbin stood still, it made no shakes at all. So for a moment, it was hidden._  
 > _For grown-ups: Learned that some animals, like spiders, sense movement through vibrations._
 
-**Bao**: Not bad! Not bad at all. Hardly anyone lasts that long.  
+_She says, “Not bad! Not bad at all. Hardly anyone lasts that long.”_  
 _Your Nubbin is either covered in glory or covered in sand. Possibly both._  
-**Bao**: And you didn’t run. Most people run. Running’s loud.  
+_She says, “And you didn’t run. Most people run. Running’s loud.”_  
 **Tuk**: Is it me, or did she just say “good job” in the grumpiest way possible?  
-**Bao**: I heard that, Ponytail. And yes.  
+_She says, “I heard that, Ponytail. And yes.”_  
 
 > **Lesson** (sel, CASEL: Self-management, ask): being a good sport  
 > _Your Nubbin gave it everything. What does a good sport do at the end of a match?_  
-> - ✅ Shake hands (or paws) and say “good match”. → That’s the one. Win or lose, you thank the person who gave you a real fight.
-> - Say the sand was unfair. → Blaming the sand? The sand was the same for both of us, Keeper. A good sport thanks the other player instead: “Good match.”
+> - ✅ Shake hands (or paws) and say “good match”. → She says, “That’s the one. Win or lose, you thank the person who gave you a real fight.”
+> - Say the sand was unfair. → She says, “Blaming the sand? The sand was the same for both of us, Keeper.” A good sport thanks the other player instead: “Good match.”
 > - Stomp off without a word. → It’s fine to feel disappointed. But a good sport still says “good match” first, then has a sulk later if they need one.
 > _For grown-ups: Practised what a good sport says and does at the end of a match._
 
@@ -1736,6 +1740,9 @@ _Underneath, in wobbly letters, he has written: COME BACK PLEASE._
 
 _Midnight. Nalu steps into a boat wearing a white veil, a wide straw hat and red painted marks._  
 **Nalu**: Well? Do I look like a river spirit?  
+_The veil tickles. A very small, very un-spirit-like sneeze escapes._  
+**Tuk**: Spirits don’t sneeze.  
+**Nalu**: This one does.  
 **Tuk**: You look like Nalu in a hat. But a really mysterious hat.  
 **Pemba**: I think you look amazing. And spooky. Amazing-spooky.  
 _Mist rises off the river and curls round the boat like steam from a bath._  
@@ -1899,14 +1906,6 @@ _At the top, the air is hot and smells of boiled eggs. Inside the crater, red ro
 **Pemba**: We have to tell everyone! Today!  
 **Tuk**: They won’t listen to us. They only listen to Aunt Wen. And Aunt Wen only listens to clouds.  
 
-> **Lesson** (science, 2-ESS1-1, ask): some changes to the land are fast and some are slow  
-> **Pemba**: Some changes to the land happen slowly, over thousands of years. Some happen fast.  
-> **Pemba**: Which kind is a volcano erupting?  
-> - ✅ Fast: it can change the land in hours or days. → Right. A river wearing out a valley takes ages. An eruption can reshape a mountainside in a day.
-> - Slow: it takes thousands of years. → The mountain itself took a very long time to build up. But the eruption is fast: hours or days. That’s why we have to warn them now.
-> _For grown-ups: Sorted a volcanic eruption as a fast change to the land, compared with slow changes like a river wearing a valley._
-
-
 #### `reader:q58-mountain-done` · [main](../../../fun/avatar.md#q58-mountain-done)
 
 _You hurry back down the zigzag path. A hot wind pushes at your back._  
@@ -1987,10 +1986,12 @@ _Your Nubbins drift down out of it, damp and proud. Their fur is dotted with tin
 
 _The villagers dig a trench all night. When Mount Grumble finally pops, the lava runs down the trench and away from the houses._  
 
-> **Lesson** (science, notice): lava flows downhill and can be steered  
-> **Tuk**: Lava flows downhill, like very slow, very hot porridge. A trench gives it an easier path, away from the houses.  
-> _In real life, people have built long walls of earth to steer lava away from their towns._  
-> _For grown-ups: Learned that lava flows downhill and that people build barriers to steer it away from homes._
+> **Lesson** (science, 2-ESS1-1, ask): some changes to the land are fast and some are slow  
+> **Tuk**: Lava flows downhill, like very slow, very hot porridge. The trench gave it an easier path, away from the houses.  
+> **Pemba**: Some changes to the land happen slowly, over thousands of years. Some happen fast. Which kind was the lava?  
+> - ✅ Fast: it changed the land in hours or days. → Right. A river wearing out a valley takes ages. An eruption can reshape a mountainside in a day.
+> - Slow: it takes thousands of years. → The mountain took a very long time to build up. But the lava running down the trench was fast: hours, not years.
+> _For grown-ups: Sorted a volcanic eruption as a fast change to the land, compared with slow changes like a river wearing a valley._
 
 **Aunt Wen**: I owe you, young man. Even if you don’t believe a word I say.  
 **Tuk**: I believe one word. “Shovels.” That was a great call.  
@@ -2168,7 +2169,7 @@ _Your Swim Nubbins have been watching closely. One flicks its tail at the stream
 _Your fruit basket is empty. Again. There are tiny footprints in the dew, and a peach stone on the fence._  
 **Pemba**: Third time this week? That’s no bird. Birds don’t leave the stones in a neat little pile.  
 _Above you, something with huge ears and leathery wings sits on a branch, eating your last peach._  
-**Lumi**: Chirrup!  
+_“Chirrup!” chirps the lemur, delighted with itself._  
 **Pemba**: A winged lemur! I haven’t seen one since I was little. They used to live at the old temple.  
 _The lemur stuffs the peach in its cheek, launches off the branch and glides away towards the hills._  
 
@@ -2236,7 +2237,7 @@ _It doesn’t move a whisker. It doesn’t grab. It just waits._
 > _Staying still and quiet, like your Nubbin, shows an animal you are not a danger. Then it can choose to come closer._  
 > _For grown-ups: Learned that staying still and quiet helps a wild animal feel safe._
 
-**Lumi**: …Chirr?  
+_“…Chirr?” The lemur tilts its head._  
 
 #### `reader:q60-friends-done` · [main](../../../fun/avatar.md#q60-friends-done)
 
@@ -2367,6 +2368,9 @@ _The trial is held in the village square. The judge is Mayor Tibbs. The jury is 
 > _That’s why real courts have a judge, and often a jury, who did not bring the case._  
 > _For grown-ups: Thought about why fair trials need people who listen to both sides before deciding._
 
+_Mrs Tibbs, the mayor’s wife, is in the front row._  
+**Mrs Tibbs**: Dear. You can’t be the judge. You can’t find your own socks.  
+**Mayor Tibbs**: I found one of them.  
 **Mayor Tibbs**: The prisoner may speak, but briefly. We have a parade at four.  
 **Tuk**: Your Honour. We have found Marshal Brag’s diary, written in his own hand.  
 **Nalu**: “Today I shall march onto Avatar Kesh’s island and take it. Then the next island. Then all the islands.”  
@@ -2753,6 +2757,7 @@ _You go home with a short stone slide for the Grove, and a laugh that makes ever
 
 #### `reader:q64-rehearse` · [main](../../../fun/avatar.md#q64-rehearse)
 
+_Kaito used to chase Pemba across half the world, and he was unkind to all of them. Now he wants to say sorry._  
 _Behind a broken pillar, you find Kaito pacing in circles, muttering to a rock._  
 **Kaito**: Oh! Keeper. I wasn’t… I’m not talking to a rock. Why would I be talking to a rock.  
 **Kaito**: Fine. I was talking to the rock. I’m practising. I want to ask Pemba if I can join his group.  
@@ -2834,7 +2839,7 @@ _Kaito looks at you. Your Nubbin looks at you. Everyone, suddenly, is looking at
 **Pemba**: Okay. You can join. Welcome to the team!  
 **Kaito**: Really? Just like that?  
 **Tuk**: No. Not just like that. There will be a trial period. With paperwork.  
-**Nalu**: I haven’t forgotten what you did, Kaito.  
+**Nalu**: I haven’t forgotten what you did, Kaito. All that chasing.  
 **Kaito**: Good. You shouldn’t. I don’t want you to forget it. I want the chance to be more than it.  
 **Nalu**: …One chance.  
 

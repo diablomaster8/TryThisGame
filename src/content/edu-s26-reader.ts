@@ -573,7 +573,7 @@ const S26: EduQuest = {
           'She folds her arms in the doorway at the top of the three steps, and guards a garden nobody has wanted for a hundred years.',
         ),
         N(
-          'The robin guards the step beside her, chest out. Nothing has tried to get past, and neither of them minds.',
+          'The robin guards the step beside her, chest out, like a very small boss. It still hasn’t said what your pay is.',
         ),
       ],
       [

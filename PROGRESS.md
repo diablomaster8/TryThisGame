@@ -36,6 +36,15 @@ default renderer is not changed; passes 1 and 2 are on `main`, deployed since 20
 accepted by Maor). Maor, 2026-10-21: daily refreshes and free daily gifts are allowed; only
 repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below).
 
+## Story review run 6 fixes (2026-10-23)
+
+All 57 open or partial recs in `docs/story-review/LOG.md` fixed (run 6's 56 plus run 5's -265); no open recs remain.
+- **Works:** Learning Grove S30, S31 and the Python, Bean and Avatar quests, both bands: s30-wall's Hush speech
+  says plainly that the Nubbins died, with comfort after; Q64 says what Kaito did (canon 46); S31's "never say if"
+  rule is set up; Avatar Q51's rule-maker fixed; spouse beats for Frannie and Reggie (Q8) and Mrs Tibbs (Q61);
+  Pixel and Byte in S30/S31; Granny Brock's quilt and flask in S31.
+- **Partial:** none. **Known bugs:** none.
+
 ## Campaign graphics 3 leftovers (cg5, 2026-10-23)
 
 The known bugs left by K1–K50 (02d0c86; its section is now in `docs/progress-archive.md`), fixed on branch `fix/cg5-leftovers` (worktree

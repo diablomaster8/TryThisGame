@@ -25,6 +25,7 @@ _A boy sits on your Grove wall, wrapped in a patchwork quilt._
 **Tam**: It’s to the Great Gourd. Can you help me spell?  
 **You**: The Great Gourd?  
 **Tam**: He flies over on Gourd Night. He brings toys!  
+**Tam**: He only comes if you’re really sure. You must never say “if”.  
 **Tam**: Nobody else believes in him. That’s all right.  
 _His letter says DEAR GRAET GORD. Oh dear._  
 
@@ -187,7 +188,7 @@ _Ned kicks the air. Whoosh! He lands on his back. Bump!_
 > _For grown-ups: Heard that a kick is a push, and a push makes things move._
 
 **Ned**: You promised.  
-**Ivy**: Doesn’t count. Your witness was on your side.  
+**Ivy**: Doesn’t count. The Keeper is your friend. Friends don’t count.  
 _Ivy walks off. Ned looks up at the sky._  
 _Ned isn’t hurt. But he is sad. A broken promise hurts inside._  
 
@@ -237,7 +238,7 @@ _Three lantern posts are lit. The fourth post is dark._
 > _For grown-ups: Counted three lit posts and one dark one: four._
 
 _The dark post stands in the long, wild grass._  
-**Tam**: This one. It isn’t pretending. It’s just itself.  
+**Tam**: This one. It isn’t pretending. The Great Gourd likes a patch that’s honest.  
 _Tam’s sign says WELCOME GREAT GOURD._  
 _One R is backwards. On purpose. For luck!_  
 _He has a toffee apple too, in case the Great Gourd is hungry._  
@@ -248,7 +249,7 @@ _You knock the sign in. Tap, tap, tap._
 _Tam puts the toffee apple on top of the sign._  
 _Moss walks by, slowly. He stops to read the sign._  
 **Tam**: Moss, you’re very old. Is the Great Gourd real?  
-**Moss**: I have never seen him. But I have never seen lots of real things.  
+**Moss**: I have never seen him. I have never seen the wind, either.  
 _Tam nods. He thinks that means yes._  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): some real things can’t be seen, like the wind  
@@ -270,7 +271,9 @@ _It’s Gourd Night! The sun goes down behind the hill._
 > _For grown-ups: Heard that autumn days get shorter and nights get longer._
 
 _Gourd lanterns glow on every step. One, then another, then another._  
-**Ivy**: I’m a witch. A costume should be the opposite of you.  
+**Ivy**: I’m a witch. Witches are mean. So it’s the opposite of me.  
+_Ned says nothing. Very, very carefully._  
+**Ivy**: NED.  
 _Ned is a ghost. His sheet has lots and lots of holes._  
 **Ned**: The scissors were tricky. But I can see really well!  
 **Sparks**: For your Nubbin! Goggles and a scarf!  
@@ -292,13 +295,18 @@ _It’s a flying ace now. A brave pretend pilot._
 
 #### `sprout:s31-long-grass` · [main](../../../side/S31.md#s31-long-grass)
 
-_Guisers stop by the grass: a witch, a ghost, three little bats._  
+_The guisers stop by the grass. Guisers are children in costumes._  
+_Ivy is a witch. Ned is a ghost. Three tiny children are bats._  
 **Ivy**: Tam, you’ll sit out here all night? In the cold?  
 **Tam**: If I’m not here, he’ll think nobody meant it.  
 **Nettie**: I’m staying too. I mean it. I think.  
 **Ivy**: I’ll fetch you both at four. I told Mum and Clover.  
 _Up the lane, Clover’s window has a lamp. It stays on all night._  
-**Ivy**: Keeper, come with us? The bats are very small.  
+_Granny Brock comes down the lane. She looks at the sign._  
+**Granny Brock**: Waiting for a gourd. In the cold. Hm.  
+_She leaves a quilt and a flask of soup. She says nothing else._  
+_Tam skips to keep warm. He gets the rhyme wrong. Again._  
+**Ivy**: Keeper, come with us? The bat children are very small.  
 **Sparks**: Keeper! Party! Everybody’s on the list!  
 _Tam doesn’t ask you anything. He just waits._  
 
@@ -326,12 +334,12 @@ _Tam doesn’t ask you anything. He just waits._
 
 _Down the lane go the guisers. Knock, knock!_  
 _At each door they tell a joke. Then they hold out their bags._  
+**Ned**: Knock, knock! Who’s there? Ned! Ned who? Um… I forget.  
+_Everybody laughs. Even Ivy. Ned gets a rock._  
 _Ivy gets a toffee apple. The bats get nuts._  
 _Ned looks in his bag. A rock!_  
 _Knock, knock! Another door, another rock. And another!_  
 **Fern**: Oh dear. I panicked. Here’s a rock.  
-_At Byte’s door, Ned gets a rock with a little label._  
-_Five doors. Five rocks. Poor Ned!_  
 
 > **Lesson** (maths, K.CC.B.5, do): count to 5  
 > _(Count Ned’s rocks together on your fingers.)_  
@@ -339,6 +347,9 @@ _Five doors. Five rocks. Poor Ned!_
 > Check: `edu:count:rocks:5`
 > _For grown-ups: Counted five rocks, one finger for each._
 
+_At Byte’s door, Ned gets a rock with a little label._  
+**Ned**: Knock, knock! I remember now! … No, I don’t.  
+_Five doors. Five rocks. Poor Ned!_  
 
 #### `sprout:s31-guising-sat` · [main](../../../side/S31.md#s31-guising-sat)
 
@@ -396,6 +407,9 @@ _It’s heavy and cold. You keep it safe in your pocket._
 _Up on a roof, your Nubbin plays flying aces._  
 _It ducks. It weaves. It shakes a paw at the sky._  
 _Brrm, brrm… sputter! Pretend engine trouble!_  
+_It spins, slides down the roof, and lands in the rain barrel. Splash!_  
+_It sits in the barrel. It has a hat of leaves now._  
+_It climbs out and wrings out its scarf. Very brave._  
 
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, do): move like a pilot: balance and big arm movements  
 > _(Stand up. Be a flying ace! Arms out wide.)_  
@@ -403,8 +417,6 @@ _Brrm, brrm… sputter! Pretend engine trouble!_
 > Check: `edu:act:fly:arms`
 > _For grown-ups: Played at being a pilot: arms out, zooming, and a gentle landing._
 
-_It spins, slides down the roof, and lands in the rain barrel. Splash!_  
-_It climbs out and wrings out its scarf. Very brave._  
 _Far away, Sparks’s workshop glows. Party time!_  
 
 #### `sprout:s31-ace-party` · [main](../../../side/S31.md#s31-ace-party)
@@ -412,7 +424,10 @@ _Far away, Sparks’s workshop glows. Party time!_
 _Your Nubbin creeps under the hedges to the party._  
 _It hides in the apple tub. Ivy dips her face in for an apple._  
 **Ivy**: Something LICKED me!  
-_Pixel plays the pianola. A fast tune. Then a slow tune._  
+_Pixel plays the pianola. A fast tune._  
+**Byte**: Too fast, Pixel.  
+**Pixel**: Your feet are too slow, Byte.  
+_Then a slow tune._  
 _Your Nubbin dances to the fast one. It droops for the slow one._  
 
 > **Lesson** (music, do): fast and slow music feel different  
@@ -434,10 +449,11 @@ _It’s midnight. The middle of the night._
 > _For grown-ups: Learned that midnight is twelve o’clock at night._
 
 _Three lanterns glow. The fourth post is dark._  
+_Granny Brock’s flask is still warm. Nettie has the soup. Tam has the lid._  
 **Nettie**: Tam, my feet are cold.  
 **Nettie**: What if he isn’t coming?  
 **Tam**: He’s coming! If he comes, I’ll ask him—  
-**Tam**: …If. I said “if”.  
+**Tam**: …If. I said “if”. Now he’ll think I’m not sure!  
 _Tam pulls his quilt over his head. Sniff._  
 
 **Choices**
@@ -514,13 +530,17 @@ _The grass goes stiff and crunchy._
 > _For grown-ups: Heard that frost is water that froze on the grass._
 
 _Nettie is asleep. One boot is off._  
-**Tam**: Here he comes! That’s what the cold is!  
+**Tam**: It’s so cold! The Great Gourd must be close!  
 _Out by the post, something moves._  
 
 #### `sprout:s31-shape` · [main](../../../side/S31.md#s31-shape)
 
 _A round shape rises at the edge of the grass. Goggles! A scarf!_  
 _Tam says “Oh,” very politely. Then he faints. Flop!_  
+_It’s your Nubbin, home from its game._  
+_It climbs into your lap and falls asleep._  
+**Nettie**: He does that. He fainted at a goose once. He’s fine.  
+_Tam is all right. He was very tired. Now he is fast asleep._  
 
 > **Lesson** (sel, ELOF: Social and Emotional Development, ask): naming feelings: surprised and scared  
 > _Tam got a big fright. How did he feel?_  
@@ -528,10 +548,6 @@ _Tam says “Oh,” very politely. Then he faints. Flop!_
 > - Happy → More like surprised! Frights feel big, and then they pass.
 > _For grown-ups: Named a fright as surprised and a bit scared, and heard that frights pass._
 
-_It’s your Nubbin, home from its game._  
-_It climbs into your lap and falls asleep._  
-**Nettie**: He does that. He fainted at a goose once. He’s fine.  
-_Tam is all right. He was very tired. Now he is fast asleep._  
 
 #### `sprout:s31-shape-sable` · [main](../../../side/S31.md#s31-shape-sable)
 
@@ -539,7 +555,7 @@ _Variant of `s31-shape`._
 
 _A grey shape rises out of the frosty grass._  
 _Tam says “Oh.” Then he faints. Flop!_  
-_It’s Sable. The cold can’t hurt her._  
+_It’s Sable, the grey wild Nubbin. The cold can’t hurt her._  
 _She looks at Tam. Then she looks at you._  
 _She sits down beside you. Close._  
 _Sable says nothing. Her ears stay up._  
@@ -732,6 +748,7 @@ _By his sign is one acorn. Round and shiny._
 > _For grown-ups: Learned that an acorn is an oak seed that can grow into a tree._
 
 _Up on the hill, Moss sits very, very still._  
+_He looks like someone who has never seen an acorn. Ever._  
 _Sparks says to keep the goggles. Your gourd lantern glows by the gate._  
 
 #### `sprout:s31-complete-strays` · [main](../../../side/S31.md#s31-complete-strays)

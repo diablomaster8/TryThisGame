@@ -250,6 +250,7 @@ _It does not have lots more. It keeps looking at the helmet._
 > - Stamp and shout → It’s OK to feel cross when we lose. Then we take a big breath and say “good game”.
 > _For grown-ups: Your child talked about what to do when we lose a game._
 
+_Its ears go pink. It minds a little bit._  
 _You cross the plank in two big steps._  
 _Now your Nubbins lose karate games with a smile._  
 
@@ -328,7 +329,7 @@ _He leans in. The ducks go quiet._
 **You**: I don’t know!  
 **Old Gorrel**: Nor do I. Nobody has ever answered.  
 **Old Gorrel**: Go and find out. I shall wait.  
-_He sits back, smug as a cushion._  
+_He sits back, very pleased with himself._  
 
 #### `sprout:q03-timed` · [main](../../../fun/python.md#q03-timed)
 
@@ -658,6 +659,8 @@ _You leave the rabbit at the gate. You hide behind a bush._
 
 _Creak! The man drags the rabbit inside._  
 _Behind the bush, everyone looks at everyone._  
+_Oh no. Nobody is hiding inside the rabbit. Oops!_  
+_Your Nubbin climbs into your pocket instead. Too late._  
 **You**: Wait… was somebody meant to be inside it?  
 _Your Nubbins look at their feet._  
 _One looks at a different bush._  
@@ -797,9 +800,9 @@ _Three Keepers. Four chairs. Lots of paper._
 **Frannie Quill**: Fences. Paths. Something with a drawbridge.  
 **Old Mags**: My cousin tripped on a fence post. A new one!  
 **Reggie Thistlewood**: What good has any of it done us?  
-**Frannie Quill**: Reggie, you are sitting on the Keeper’s bench.  
+**Frannie Quill**: Reggie, dear. You are sitting on the Keeper’s bench.  
+_Frannie is Reggie’s wife. She has heard this speech before._  
 **Reggie Thistlewood**: If you must build, build something useful!  
-**Reggie Thistlewood**: The crops are thirsty. My back hurts from carrying buckets.  
 
 > **Lesson** (science, K-LS1-1, ask): what plants need  
 > _The crops are thirsty. What do plants need to grow?_  
@@ -807,6 +810,7 @@ _Three Keepers. Four chairs. Lots of paper._
 > - Socks → Ha! No socks. Plants need water and sunlight.
 > _For grown-ups: Your child named water and sunlight as things plants need._
 
+**Reggie Thistlewood**: The crops are thirsty. My back hurts from carrying buckets.  
 
 **Choices**
 
@@ -831,6 +835,8 @@ _Water slides down from the falls. Whoosh!_
 _Splish, splash, into the crop beds._  
 _The crops droop… then perk up. Ahh!_  
 _Your Nubbins jump in the spray._  
+_Reggie comes to say it is a waste. SPLASH!_  
+_Reggie says nothing. A frog sits on his hat._  
 
 #### `sprout:q08-invite` · [main](../../../fun/python.md#q08-invite)
 
@@ -875,8 +881,8 @@ _He sniffs it. He holds it up to the light._
 **Frannie Quill**: It hums at night. Very calming.  
 **Old Mags**: My cousin can’t trip on it. It’s up high!  
 **Frannie Quill**: And Reggie fills his teapot from it every day.  
+**Reggie Thistlewood**: My wife exaggerates. Twice a day, at most.  
 **Reggie Thistlewood**: …All right. Hands up to thank the Keeper.  
-_Up go the hands. Reggie’s goes up last, slowly._  
 
 > **Lesson** (maths, K.CC.B.5, do): count to 3  
 > _(Count the hands together.)_  
@@ -884,6 +890,7 @@ _Up go the hands. Reggie’s goes up last, slowly._
 > Check: `edu:count:hands:3`
 > _For grown-ups: Your child counted the hands raised in the meeting._
 
+_Up go the hands. Reggie’s goes up last, slowly._  
 _The crops will never be thirsty again._  
 
 ## Q9. The Gourd and the Shoe
@@ -1999,7 +2006,7 @@ _A banner says: THE GRAND CUP RACE. EVERYONE WELCOME!_
 > **Lesson** (maths, K.OA.A.2, ask): adding one more  
 > _Three runners, and you join. How many runners now?_  
 > - ✅ Four → Yes! Three and one more makes four.
-> - Three → Count again: Bunty, Piers, Algernon… and you! Four.
+> - Three → Count again: one runner, two runners, three runners… and you! Four.
 > _For grown-ups: Your child added one more to three to make four._
 
 _The three runners stand at the start. One faces the wrong way._  
@@ -2189,5 +2196,6 @@ _A small larch seed: a new tree for your Grove!_
 > _For grown-ups: Your child named what a seed needs to grow into a plant._
 
 **Mr Arbour**: And a new button for your camera. Very surprising.  
-_A very big foot comes down from the sky…_  
-_…and goes back up. Nobody mentions it._  
+_A very big foot comes down from the sky. It wiggles its toes._  
+_Your Nubbin waves at it. The foot does not wave back._  
+_Up it goes. Nobody mentions it._  

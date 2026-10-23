@@ -162,7 +162,7 @@ const Q11 = quest(
       ],
       [
         ask(
-          0,
+          6,
           m(
             'science',
             'what steam really is: water vapour turning back into tiny drops',
@@ -288,17 +288,17 @@ const Q11 = quest(
         N('Gorbold does a slow, happy spin. It is the first time in weeks it has been able to turn round.'),
       ],
       [
-        ask(
-          2,
-          m('literacy', 'spotting a simile', 'Learned that a simile compares two things using “like” or “as”, and picked one out.', 'L.4.5'),
+        think(
+          5,
+          m('literacy', 'spotting a simile', 'Thought about what a simile compares, using the cork in “bobs like a cork”.', 'L.4.5'),
           [
-            N('The confetti drifts down “like snow”. Comparing two things with “like” or “as” is called a simile.'),
-            N('Which of these is a simile?'),
+            N('The confetti drifted down “like snow”. Comparing two things with “like” or “as” is called a simile.'),
+            N('Picture Gorbold bobbing like a cork. What does a cork do in water? How is Gorbold like it now?'),
           ],
           [
-            best('Gorbold bobs like a cork.', N('Yes. “Like a cork” compares Gorbold to a cork, which bobs on water too.')),
-            opt('Gorbold is very round.', N('That describes Gorbold, but it doesn’t compare it to anything. “Bobs like a cork” is a simile.')),
-            opt('The confetti is glittery.', N('A good describing word, but no comparison. “Drifts down like snow” is the simile.')),
+            opt('A cork floats and bobs on top. Gorbold is light now, so it bobs too.', N('That is the comparison. A simile lends you what you know about a cork, so you can picture Gorbold.')),
+            opt('A cork stays put. Gorbold is happy, not stuck.', N('A fair point: a simile borrows only one thing. Here it is the light, bobbing part, not the staying put.')),
+            opt('Corks are small, and Gorbold was huge.', N('Good noticing. Gorbold was huge, and now it is small and light. That is why the cork fits.')),
           ],
         ),
       ],
@@ -1044,6 +1044,8 @@ const Q15 = quest(
         DB('Eaten by a tired one. Fair enough, really.'),
         Y('Sun fruit?'),
         DB('Set. They do that, in the evening.', 'sad'),
+        Y('That’s six fruits asked for. Six to go.'),
+        DB('Six more excuses. I was up all night writing them.', 'happy'),
       ],
       [
         ask(
@@ -1056,15 +1058,11 @@ const Q15 = quest(
             opt('Ready to go, like “ready, steady, set”.', N('Another real meaning! But with the sun, “set” means going down below the hills in the evening.')),
           ],
         ),
-        ask(
-          7,
+        act(
+          9,
           m('maths', 'subtraction within 20', 'Worked out 12 − 6 = 6 fruits left to ask about.', '2.OA.A.1'),
-          [N('The order list has twelve fruits. You have asked for six. Every one was “just out”.'), N('How many fruits are left to ask about?')],
-          [
-            best('6', N('Yes: 12 − 6 = 6. Halfway. Mr Dibble needs six more excuses.')),
-            opt('18', N('That’s 12 add 6. You’ve used some up, so take them away: 12 − 6 = 6.')),
-            opt('0', N('Not yet! You’ve asked for 6 of the 12. 12 − 6 = 6 still to go.')),
-          ],
+          'edu:subtract:fruits-left:12-6',
+          [N('The order list has twelve fruits. Six are crossed off. How many are left to ask about?')],
         ),
       ],
     ),
@@ -1584,8 +1582,8 @@ const Q17 = quest(
           4,
           m('science', 'how ducks stay dry', 'Learned that ducks spread oil on their feathers to keep water out.', '4-LS1-1'),
           [
-            N('Ducks have a little gland near their tail that makes oil. They spread it over their feathers with their beaks.'),
-            N('The oil keeps water out, so the duck stays dry. You, sadly, have no such gland.'),
+            N('Remember Old Gorrel’s ducks? That oil gland near the tail keeps them dry.'),
+            N('You, sadly, have no such gland.'),
           ],
         ),
       ],

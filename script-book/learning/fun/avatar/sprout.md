@@ -402,8 +402,9 @@ _Ding, ding! The school bell rings._
 _The children sit very still. Nobody smiles._  
 **Kaito**: I came to this school once. The rules are the same.  
 **Kaito**: No running. No humming. No being too happy.  
-_A new boy comes in. He has a red headband._  
+_In comes Pemba, in a red headband. It is a very bad disguise._  
 **Pemba**: Hi! I’m new! I’m, um, Kuzo!  
+_Pemba is pretending to be Kuzo. Shh! Don’t tell._  
 **The Headmaster**: In this school, we do not dance. We do not sing.  
 
 > **Lesson** (social-studies, D2.Civ.8.K-2, ask): good rules keep us safe  
@@ -634,11 +635,12 @@ _Uncle Tenzo smiles and smiles._
 
 _The desert is hot and sandy. Sand, sand, sand!_  
 _Uh-oh. The water bottles are empty._  
-**Nalu**: I’ll go and find water. Nobody eat anything strange!  
-**Tuk**: Me? I never eat strange things.  
+**Tuk**: Rule one: nobody eats anything strange. I’m writing it down.  
+**Nalu**: Good rule, Tuk. I’ll go and find water.  
 _Nalu goes. Tuk looks at a fat green cactus._  
 _He cuts it open. He drinks the juice. Slurp!_  
 **Tuk**: Ooh! Best. Drink. EVER!  
+_The juice makes Tuk’s head go fuzzy. Wibble!_  
 
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): never eat or drink plants you don’t know  
 > **Pemba**: Should we eat or drink plants we don’t know?  
@@ -896,7 +898,7 @@ _Whoosh! Tuk is flat on his back. Bump!_
 **Choices**
 
 - **Help Tuk up**
-    - **Tuk**: Thanks. My pride is still down there.
+    - **Tuk**: Thanks. My bottom hurts. So do my feelings.
 - **Ask Sumi to teach you**
     - **Sumi**: You I like. Him, we’ll see.
     - **Tuk**: Him is right here.
@@ -1076,6 +1078,8 @@ _Master Pian makes a little wooden practice sword for you too._
 > - Your sword → Yours is the small one. Tuk’s is bigger. Small, and just right for you.
 > _For grown-ups: Your child compared two objects and named the bigger and the smaller one._
 
+**Master Pian**: Here is my spoon. I made it first.  
+_Tuk tries it. Wobble, wobble. Soup everywhere!_  
 
 ## Q55. The Ember Bay Players
 
@@ -1232,33 +1236,33 @@ _In walks the champion. She is tiny. Her feet are bare._
 **Rumble Master Gorro**: THE LITTLE LANDSLIDE!  
 _The Big Slab runs at her. Stomp, stomp, stomp!_  
 _She stamps her foot. Whoosh! He flies into the noodle stand._  
-**Bao**: Next! Anyone? I can feel you all wriggling.  
+_The Little Landslide calls, “Next! Anyone? I can feel you all wriggling.”_  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): senses: feeling with our feet  
 > _She can’t see with her eyes._  
 > _How does she know where everyone is?_  
-> - ✅ She feels it with her feet → Yep. Footsteps make the ground shake a little. My feet feel it. Easy.
-> - She guesses → Guesses? Ha! I feel it with my feet. Footsteps make the ground shake a little.
+> - ✅ She feels it with her feet → She says, “Yep. Footsteps make the ground shake a little.” She says, “My feet feel it. Easy.”
+> - She guesses → She says, “Guesses? Ha! I feel it with my feet.” She says, “Footsteps make the ground shake a little.”
 > _For grown-ups: Your child learned that we can sense things through touch, like feeling footsteps through the ground._
 
 _Your Power Nubbin steps up. Everyone goes quiet._  
-**Bao**: Small and heavy. I like it already.  
+_She says, “Small and heavy. I like it already.”_  
 
 **Choices**
 
 - **Ask her to go easy**
-    - **Bao**: Nope. Your Nubbin deserves a real match.
+    - She says, “Nope. Your Nubbin deserves a real match.”
 - **Tell her to do her best**
-    - **Bao**: Oh, I will. I like that you asked.
+    - She says, “Oh, I will. I like that you asked.”
 - **Bow to her**
-    - **Bao**: You know I can’t see that, right?
+    - She says, “You know I can’t see that, right?”
     - She grins. She felt the floor creak.
 
 #### `sprout:q56-bout-done` · [main](../../../fun/avatar.md#q56-bout-done)
 
-**Bao**: Not bad! Hardly anyone lasts that long.  
+_She says, “Not bad! Hardly anyone lasts that long.”_  
 _Your Nubbin is covered in sand. And glory!_  
-**Bao**: And you didn’t run away. Most people run.  
+_She says, “And you didn’t run away. Most people run.”_  
 _Your Nubbin bows. She bows back._  
 
 > **Lesson** (sel, CASEL: Self-management, ask): being a good sport  
@@ -1347,6 +1351,8 @@ _Night-time. Mist floats on the river._
 
 _Nalu wears a white veil and a big straw hat._  
 **Nalu**: Do I look like a river spirit?  
+_Nalu’s veil tickles her nose. Achoo! A big one._  
+**Tuk**: Shh! Spirits do not sneeze.  
 **Tuk**: You look like Nalu in a hat. A spooky hat.  
 **Pemba**: You look amazing! Amazing and spooky!  
 **Nalu**: I lift the muck out. You scoop it into barrels.  
@@ -1471,6 +1477,8 @@ _Inside, red rock bubbles. Blub, blub, hiss!_
 
 #### `sprout:q58-mountain-done` · [main](../../../fun/avatar.md#q58-mountain-done)
 
+_Tuk runs to Aunt Wen. He tells her about the red, bubbling rock._  
+**Aunt Wen**: The clouds say all is well, dear. The clouds are never wrong.  
 **Pemba**: Wait! They only listen to clouds…  
 **Tuk**: Then we make them a cloud!  
 
@@ -1674,7 +1682,7 @@ _There are tiny footprints. And peach stones in a neat pile._
 > _For grown-ups: Your child counted three peach stones, pointing to each one._
 
 _Up in a tree sits a furry thing. Big ears. Wings!_  
-**Lumi**: Chirrup!  
+_“Chirrup!” says the lemur. It looks happy._  
 **Pemba**: A winged lemur! They used to live at the old temple.  
 _It grabs a peach and glides away. Whee!_  
 **Pemba**: Let’s follow it. Gently!  
@@ -1701,7 +1709,7 @@ _…you find a nest! Fruit stones. Buttons. Your spoon!_
 > _For grown-ups: Your child matched an animal to its home._
 
 **Pemba**: Oh. It lives up here all alone.  
-**Lumi**: Chirr.  
+_“Chirr,” says the lemur. It looks sad._  
 
 #### `sprout:q60-friends` · [main](../../../fun/avatar.md#q60-friends)
 
@@ -1717,7 +1725,7 @@ _Old paintings show people laughing with lemurs._
 > _For grown-ups: Your child named loneliness and thought about what helps._
 
 _Your Nubbin sits in the middle. It holds up a fruit._  
-**Lumi**: …Chirr?  
+_“Chirr?” The lemur tilts its head._  
 
 #### `sprout:q60-friends-done` · [main](../../../fun/avatar.md#q60-friends-done)
 
@@ -1811,6 +1819,8 @@ _It has Marshal Brag’s own stamp on it._
 
 _The trial is in the square. Mayor Tibbs is the judge._  
 _Mayor Tibbs is also everyone else. Hmm._  
+_Mrs Tibbs is the mayor’s wife._  
+**Mrs Tibbs**: Dear. You can’t be the judge. You can’t find your own socks.  
 **Nalu**: Brag wrote this: “I will take Kesh’s island.”  
 **Tuk**: And this: “Note to self: get a bigger hat.”  
 
@@ -1961,7 +1971,7 @@ _Pemba lands next to you. He is laughing so hard._
 > **Lesson** (science, K-ESS2-1, notice): snow is frozen water  
 > **Nalu**: Snow is frozen water.  
 > **Nalu**: It falls when the air is very cold.  
-> **Nalu**: Water freezes at 0 °C (32 °F). Brr!  
+> **Nalu**: When it is very, very cold, water turns to ice. Brr!  
 > _For grown-ups: Your child heard that snow is frozen water and falls when it is very cold._
 
 **Pemba**: The penguins say come back on snow days!  
@@ -2113,6 +2123,7 @@ _Biscuit says thank you. By eating your hat._
 
 #### `sprout:q64-rehearse` · [main](../../../fun/avatar.md#q64-rehearse)
 
+_This is Kaito. Once, Kaito chased Pemba and was very unkind._  
 _Behind a pillar, Kaito walks in circles. He talks to a rock._  
 **Kaito**: Oh! Keeper. I wasn’t talking to a rock.  
 **Kaito**: Fine. I was. I’m practising.  
@@ -2186,7 +2197,7 @@ _Everyone looks at you. Even your Nubbin._
 **Pemba**: You can join! Welcome to the team!  
 **Kaito**: Really? Just like that?  
 **Tuk**: Not just like that. There will be rules. On paper.  
-**Nalu**: I haven’t forgotten what you did, Kaito.  
+**Nalu**: I haven’t forgotten. You chased us all over the hills, Kaito.  
 **Kaito**: That’s fair. I want the chance to do better.  
 **Nalu**: …One chance.  
 

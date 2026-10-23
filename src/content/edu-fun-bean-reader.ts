@@ -903,8 +903,21 @@ const Q23 = quest(
             N('The speed of the beat is called the tempo. For a good wiggle, the tempo has to stay steady.'),
           ],
         ),
+      ],
+    ),
+    scene(
+      'q23-pop',
+      [
+        N('Wiggle. Wiggle. Wiggle.'),
+        N('On the third wiggle there is a soft pop, and the Nubbin slides out in a shower of seeds.'),
+        N('It is orange up to the elbows, and it smells wonderful.'),
+        N('Mr. Tweed picks a seed off his eyebrow and studies it. Then he picks another one out of his ear.'),
+        N('The Nubbin looks back at the empty pumpkin. It was warm in there, and snug, and full of dinner.'),
+        N('Its bottom lip wobbles.'),
+      ],
+      [
         ask(
-          7,
+          1,
           m(
             'maths',
             'halving within 100',
@@ -927,19 +940,6 @@ const Q23 = quest(
             ),
           ],
         ),
-      ],
-    ),
-    scene(
-      'q23-pop',
-      [
-        N('Wiggle. Wiggle. Wiggle.'),
-        N('On the third wiggle there is a soft pop, and the Nubbin slides out in a shower of seeds.'),
-        N('It is orange up to the elbows, and it smells wonderful.'),
-        N('Mr. Tweed picks a seed off his eyebrow and studies it. Then he picks another one out of his ear.'),
-        N('The Nubbin looks back at the empty pumpkin. It was warm in there, and snug, and full of dinner.'),
-        N('Its bottom lip wobbles.'),
-      ],
-      [
         ask(
           3,
           m(
@@ -1695,7 +1695,7 @@ const Q26 = quest(
         N('Everyone gets a square.'),
         N('Mr. Tweed takes the last one, which is mostly crust, and eats it as if it were cake.'),
         N('The brass plate on the bench has only ever had one name on it.'),
-        N('It is the first time in years he has needed the ruler.'),
+        N('It is the first time in years he has cut his sandwich into more than one piece.'),
         N('The Nubbins lie in a sleepy pile on the blanket: sticky, full and very happy.'),
         N('Mr. Tweed goes to fold the blanket. He looks at the pile of sleeping Nubbins, and quietly leaves it where it is.'),
         N('He tips his hat to you. The blanket is yours now. The Nubbins have decided.'),
@@ -1764,7 +1764,7 @@ const Q27 = quest(
       'q27-hall',
       [
         N('The Keepers’ Hall smells of floor polish. On the far wall hangs the Founders’ Portrait: two serious old Keepers and three Nubbins.'),
-        W('Mr. Tweed is cleaning the portrait today. Supervised. I’ll be back within the hour. Touch nothing but the frame.'),
+        W('Mr. Tweed is cleaning the portrait today. Supervised. By me. From the tea room. Back within the hour. Touch nothing but the frame.'),
         N('The Warden leaves. The hall clock says quarter past two.'),
         N('Mr. Tweed bows to the portrait and dabs it with a wet cloth. His nose begins to twitch.'),
         N('He holds the twitch in. Then he holds it in harder. His face goes through every colour.'),

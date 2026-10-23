@@ -197,3 +197,6 @@ this sheet, follow the sheet and note it. Maor approved these decisions.
       inventions (the Ant-Lifter is **Gerald**).
     - Doom: if welcomed at FF9, a Nubbin sits on his knee at the children's table, and he says so
       in the FF epilogue truce.
+46. **Q64: what Kaito did.** Kaito once chased Pemba and was unkind to the group; Q64's Learning
+    Grove bands say so before Nalu's "I haven't forgotten". Uncle Tenzo introduces him: "He helps.
+    He also complains."

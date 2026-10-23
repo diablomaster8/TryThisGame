@@ -386,6 +386,11 @@ _Inside the pumpkin, the Nubbin starts to hum along, louder and louder._
 
 **You**: Gently. On the beat.  
 
+#### `reader:q23-pop` · [main](../../../fun/bean.md#q23-pop)
+
+_Wiggle. Wiggle. Wiggle._  
+_On the third wiggle there is a soft pop, and the Nubbin slides out in a shower of seeds._  
+
 > **Lesson** (maths, 3.OA.A.3, ask): halving within 100  
 > _The pumpkin glows 90 times every minute. Musicians say the tempo is 90 beats per minute._  
 > _How many beats happen in half a minute?_  
@@ -394,11 +399,6 @@ _Inside the pumpkin, the Nubbin starts to hum along, louder and louder._
 > - 180 → 180 is double 90: that would be two whole minutes. Half a minute is half of 90, which is 45.
 > _For grown-ups: Worked out half of 90 to find how many beats happen in half a minute._
 
-
-#### `reader:q23-pop` · [main](../../../fun/bean.md#q23-pop)
-
-_Wiggle. Wiggle. Wiggle._  
-_On the third wiggle there is a soft pop, and the Nubbin slides out in a shower of seeds._  
 _It is orange up to the elbows, and it smells wonderful._  
 _Mr. Tweed picks a seed off his eyebrow and studies it. Then he picks another one out of his ear._  
 
@@ -783,7 +783,7 @@ _He pulls a checked blanket out of his coat. It is bigger than the coat._
 _Everyone gets a square._  
 _Mr. Tweed takes the last one, which is mostly crust, and eats it as if it were cake._  
 _The brass plate on the bench has only ever had one name on it._  
-_It is the first time in years he has needed the ruler._  
+_It is the first time in years he has cut his sandwich into more than one piece._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): why sharing can feel good  
 > _Mr. Tweed got the smallest, crustiest piece. Yet he looks happier than he did with the whole sandwich._  
@@ -816,7 +816,7 @@ _He tips his hat to you. The blanket is yours now. The Nubbins have decided._
 #### `reader:q27-hall` · [main](../../../fun/bean.md#q27-hall)
 
 _The Keepers’ Hall smells of floor polish. On the far wall hangs the Founders’ Portrait: two serious old Keepers and three Nubbins._  
-**Warden Pryce**: Mr. Tweed is cleaning the portrait today. Supervised. I’ll be back within the hour. Touch nothing but the frame.  
+**Warden Pryce**: Mr. Tweed is cleaning the portrait today. Supervised. By me. From the tea room. Back within the hour. Touch nothing but the frame.  
 _The Warden leaves. The hall clock says quarter past two._  
 _Mr. Tweed bows to the portrait and dabs it with a wet cloth. His nose begins to twitch._  
 _He holds the twitch in. Then he holds it in harder. His face goes through every colour._  

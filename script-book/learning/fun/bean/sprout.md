@@ -334,7 +334,7 @@ _Some creatures just like a snug place to be._
 **Mrs Inkwell**: Test day! Shapes, colours, and counting to five!  
 _Your Nubbin sits at one desk. Buttons, Mr. Tweed’s Nubbin, at the other._  
 _Buttons wears a tiny tweed waistcoat._  
-**Mrs Inkwell**: Grown-ups may stay. Quietly. I’m looking at you, Mr. Tweed.  
+**Mrs Inkwell**: Grown-ups may stay. Quietly. Mr. Tweed, that means you.  
 _He zips his lips and puts the key in his pocket._  
 _Your Nubbin draws a perfect circle._  
 
@@ -406,8 +406,8 @@ _Both arms. Very proud._
 _Mr. Tweed lifts Buttons up high and walks round the room._  
 **Mrs Inkwell**: Mr. Tweed. Please put the Nubbin down.  
 _He shakes everyone’s hand. Even Mrs Inkwell’s._  
+**Mrs Inkwell**: I did not offer it.  
 **Mrs Inkwell**: These two learn better together.  
-_Buttons and your Nubbin draw circles on each other’s papers._  
 
 > **Lesson** (art, do): colour patterns  
 > **Mrs Inkwell**: Let’s colour our circles. Red, blue, red, blue…  
@@ -415,6 +415,7 @@ _Buttons and your Nubbin draw circles on each other’s papers._
 > Check: `edu:colour:circles:red-blue`
 > _For grown-ups: Your child coloured circles in a red, blue pattern._
 
+_Buttons and your Nubbin draw circles on each other’s papers._  
 _Mr. Tweed holds up one finger. Hopeful._  
 **Mrs Inkwell**: …One paper. Just one.  
 _He squeezes into a tiny desk. He draws a circle, tongue out._  
@@ -489,8 +490,8 @@ _Mr. Tweed walks to the end. He looks down. He freezes._
 _The water is just below his toes._  
 _You wait. Your Nubbin waits. The bird comes back._  
 _He holds his nose, shuts his eyes… and steps off. Plop!_  
+_The teeny bear on your shoulder covers its eyes. Then it peeks._  
 **Mr. Tweed**: Ha!  
-_He climbs out and does it again, and again, and again!_  
 
 > **Lesson** (maths, K.CC.A.1, do): count to 10  
 > _(Count his jumps! Clap for each one.)_  
@@ -498,6 +499,7 @@ _He climbs out and does it again, and again, and again!_
 > Check: `edu:count:jumps:10`
 > _For grown-ups: Your child counted ten jumps, clapping for each one._
 
+_He climbs out and does it again, and again, and again!_  
 
 ## Q26. The Bench Sandwich
 
@@ -687,6 +689,7 @@ _Behind his back, he gives you a pile of empty frames._
 > - Hide it → Hiding feels worse inside. Telling the truth helps fix it.
 > _For grown-ups: Your child thought about telling the truth after an accident._
 
+_The teeny bear hides in your collar until the Warden goes._  
 
 **Choices**
 
@@ -706,16 +709,18 @@ _Behind his back, he gives you a pile of empty frames._
 #### `sprout:q28-plan` · [main](../../../fun/bean.md#q28-plan)
 
 _Mr. Tweed’s room is the colour of old porridge._  
+_A card on the shelf says: TEA. SATURDAY. EVERYONE._  
+_He never sent it._  
 _He has a tin of yellow paint and a tiny brush._  
 _He paints one stroke. He looks at four big walls._  
-**Mr. Tweed**: Hnn.  
-_He picks up a firework. A big idea!_  
 
 > **Lesson** (health, notice): fireworks are for grown-ups  
 > _Fireworks are only for grown-ups._  
 > _Even grown-ups stand far, far back._  
 > _For grown-ups: Your child heard that fireworks are only for grown-ups, and everyone stands far back._
 
+**Mr. Tweed**: Hnn.  
+_He picks up a firework. A big idea!_  
 _He mimes: firework in the paint… BOOM! Paint everywhere!_  
 **Mr. Tweed**: Boom.  
 _Your Nubbin hides behind your legs._  
@@ -775,8 +780,8 @@ _One porridge square is left, where a picture hung._
 **Mr. Tweed**: Ha!  
 _He gives you a big, wide brush for one big swish._  
 _Then he shakes his head at the firework. No more booms._  
+_You take the card down the lane. You show everyone._  
 _On Saturday, half the lane comes for tea in the yellow room._  
-_Mr. Tweed beams in the doorway, holding the teapot._  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): mixed feelings  
 > _Lots of guests! How does Mr. Tweed feel?_  
@@ -784,6 +789,7 @@ _Mr. Tweed beams in the doorway, holding the teapot._
 > - Cross → Look at his big smile. Happy, and a little bit shy.
 > _For grown-ups: Your child heard that we can feel happy and shy at the same time._
 
+_Mr. Tweed beams in the doorway, holding the teapot._  
 
 **Notes:** Sprout leaves out the “Can I light it?” choice in q28-plan (a child should never be offered lighting a firework); defaultChoice is “outside”. Mr. Tweed, a grown-up, handles the firework with everyone well back, and in the end puts fireworks away for good.
 
@@ -866,8 +872,8 @@ _All afternoon, nobody puts the egg down._
 _Mr. Tweed knits it a woolly hat. It’s lumpy. The egg likes it._  
 _You put a blanket in a fruit box, and add wheels._  
 _A stone at each end stops it rolling._  
-_The egg tries the box. It stays!_  
-_The sun goes down. Odette comes back over the hill._  
+_The egg tries the box. There is room for two._  
+_Your own egg looks in too._  
 
 > **Lesson** (science, 1-ESS1-1, ask): sunset and evening  
 > _The sun is going down. What time of day is it?_  
@@ -875,6 +881,7 @@ _The sun goes down. Odette comes back over the hill._
 > - Morning → In the morning the sun comes up. Going down means evening.
 > _For grown-ups: Your child connected the sun going down with evening._
 
+_The sun goes down. Odette comes back over the hill._  
 
 #### `sprout:q29-complete` · [main](../../../fun/bean.md#q29-complete)
 
@@ -887,7 +894,7 @@ _The sun goes down. Odette comes back over the hill._
 > - T → T is straight lines. O is round, like an egg!
 > _For grown-ups: Your child found the letter O at the start of Odette’s name._
 
-_Mr. Tweed bows. His letter is knitted on it, upside down._  
+_Mr. Tweed bows. A big T is knitted on the hat. Upside down!_  
 **Odette Pennant**: Keep the box. Two eggs, side by side, on wheels? That’s a pram!  
 _Mr. Tweed holds the egg a moment longer. Pat, pat. He lets go._  
 **Odette Pennant**: So. Was it good?  
@@ -988,3 +995,4 @@ _Mr. Tweed shakes his hand. The parked Bluebell tips over again._
 **Rufus Crankshaw**: I have a little old one at home. Your Nubbins can have it!  
 _Next morning, a little blue cart sits in your garden._  
 _A Nubbin bumps it. It tips. The Nubbin is thrilled!_  
+_The teeny bear leans left, to help the Bluebell tip._  

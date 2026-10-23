@@ -476,6 +476,7 @@ const Q02 = quest(
         DW('Keep it. I have lots more. At home. In a box.', 'sad'),
         N('It does not have lots more. It keeps looking at the helmet.'),
         DW('Remember: losing is fine if you don’t mind. I never mind!', 'happy'),
+        N('Its ears go pink. It minds a little bit.'),
         N('You cross the plank in two big steps.'),
         N('Now your Nubbins lose karate games with a smile.'),
       ],
@@ -591,7 +592,7 @@ const Q03 = quest(
         Y('I don’t know!'),
         GO('Nor do I. Nobody has ever answered.', 'think'),
         GO('Go and find out. I shall wait.'),
-        N('He sits back, smug as a cushion.'),
+        N('He sits back, very pleased with himself.'),
       ],
       [
         ask(
@@ -1045,6 +1046,8 @@ const Q06 = quest(
         N('You leave the rabbit at the gate. You hide behind a bush.'),
         N('Creak! The man drags the rabbit inside.'),
         N('Behind the bush, everyone looks at everyone.'),
+        N('Oh no. Nobody is hiding inside the rabbit. Oops!'),
+        N('Your Nubbin climbs into your pocket instead. Too late.'),
         Y('Wait… was somebody meant to be inside it?', 'think'),
         N('Your Nubbins look at their feet.'),
         N('One looks at a different bush.'),
@@ -1251,7 +1254,8 @@ const Q08 = quest(
         FQ('Fences. Paths. Something with a drawbridge.'),
         MG('My cousin tripped on a fence post. A new one!'),
         RG('What good has any of it done us?', 'angry'),
-        FQ('Reggie, you are sitting on the Keeper’s bench.'),
+        FQ('Reggie, dear. You are sitting on the Keeper’s bench.'),
+        N('Frannie is Reggie’s wife. She has heard this speech before.'),
         RG('If you must build, build something useful!'),
         RG('The crops are thirsty. My back hurts from carrying buckets.'),
       ],
@@ -1285,6 +1289,8 @@ const Q08 = quest(
         N('Splish, splash, into the crop beds.'),
         N('The crops droop… then perk up. Ahh!'),
         N('Your Nubbins jump in the spray.'),
+        N('Reggie comes to say it is a waste. SPLASH!'),
+        N('Reggie says nothing. A frog sits on his hat.'),
       ],
       [
         notice(
@@ -1338,6 +1344,7 @@ const Q08 = quest(
         FQ('It hums at night. Very calming.'),
         MG('My cousin can’t trip on it. It’s up high!'),
         FQ('And Reggie fills his teapot from it every day.'),
+        RG('My wife exaggerates. Twice a day, at most.'),
         RG('…All right. Hands up to thank the Keeper.', 'sad'),
         N('Up go the hands. Reggie’s goes up last, slowly.'),
         N('The crops will never be thirsty again.'),
@@ -2885,7 +2892,7 @@ const Q19 = quest(
           [N('Three runners, and you join. How many runners now?')],
           [
             best('Four', N('Yes! Three and one more makes four.')),
-            opt('Three', N('Count again: Bunty, Piers, Algernon… and you! Four.')),
+            opt('Three', N('Count again: one runner, two runners, three runners… and you! Four.')),
           ],
         ),
       ],
@@ -3125,8 +3132,9 @@ const Q20 = quest(
         AR('The larch just got you looking. Here. Grow your own!'),
         N('A small larch seed: a new tree for your Grove!'),
         AR('And a new button for your camera. Very surprising.', 'think'),
-        N('A very big foot comes down from the sky…'),
-        N('…and goes back up. Nobody mentions it.'),
+        N('A very big foot comes down from the sky. It wiggles its toes.'),
+        N('Your Nubbin waves at it. The foot does not wave back.'),
+        N('Up it goes. Nobody mentions it.'),
       ],
       [
         ask(
@@ -3608,7 +3616,7 @@ const Q24 = quest(
         IN('Test day! Shapes, colours, and counting to five!', 'happy'),
         N('Your Nubbin sits at one desk. Buttons, Mr. Tweed’s Nubbin, at the other.'),
         N('Buttons wears a tiny tweed waistcoat.'),
-        IN('Grown-ups may stay. Quietly. I’m looking at you, Mr. Tweed.'),
+        IN('Grown-ups may stay. Quietly. Mr. Tweed, that means you.'),
         N('He zips his lips and puts the key in his pocket.'),
         N('Your Nubbin draws a perfect circle.'),
         N('Buttons draws nothing. Buttons leans… slowly… to the left.'),
@@ -3700,6 +3708,7 @@ const Q24 = quest(
         N('Mr. Tweed lifts Buttons up high and walks round the room.'),
         IN('Mr. Tweed. Please put the Nubbin down.'),
         N('He shakes everyone’s hand. Even Mrs Inkwell’s.'),
+        IN('I did not offer it.'),
         IN('These two learn better together.', 'soft'),
         N('Buttons and your Nubbin draw circles on each other’s papers.'),
         N('Mr. Tweed holds up one finger. Hopeful.'),
@@ -3820,6 +3829,7 @@ const Q25 = quest(
         N('The water is just below his toes.'),
         N('You wait. Your Nubbin waits. The bird comes back.'),
         N('He holds his nose, shuts his eyes… and steps off. Plop!'),
+        N('The teeny bear on your shoulder covers its eyes. Then it peeks.'),
         TW('Ha!', 'happy'),
         N('He climbs out and does it again, and again, and again!'),
       ],
@@ -4091,6 +4101,7 @@ const Q27 = quest(
         WP('It looks… brighter. And that Keeper has your chin.', 'think'),
         N('Mr. Tweed looks at the ceiling. Half a moustache is still on his lip.'),
         N('Behind his back, he gives you a pile of empty frames.'),
+        N('The teeny bear hides in your collar until the Warden goes.'),
       ],
       [
         ask(
@@ -4144,6 +4155,8 @@ const Q28 = quest(
       'q28-plan',
       [
         N('Mr. Tweed’s room is the colour of old porridge.'),
+        N('A card on the shelf says: TEA. SATURDAY. EVERYONE.'),
+        N('He never sent it.'),
         N('He has a tin of yellow paint and a tiny brush.'),
         N('He paints one stroke. He looks at four big walls.'),
         TW('Hnn.', 'sad'),
@@ -4222,6 +4235,7 @@ const Q28 = quest(
         TW('Ha!', 'happy'),
         N('He gives you a big, wide brush for one big swish.'),
         N('Then he shakes his head at the firework. No more booms.'),
+        N('You take the card down the lane. You show everyone.'),
         N('On Saturday, half the lane comes for tea in the yellow room.'),
         N('Mr. Tweed beams in the doorway, holding the teapot.'),
       ],
@@ -4361,7 +4375,8 @@ const Q29 = quest(
         N('Mr. Tweed knits it a woolly hat. It’s lumpy. The egg likes it.'),
         N('You put a blanket in a fruit box, and add wheels.'),
         N('A stone at each end stops it rolling.'),
-        N('The egg tries the box. It stays!'),
+        N('The egg tries the box. There is room for two.'),
+        N('Your own egg looks in too.'),
         N('The sun goes down. Odette comes back over the hill.'),
       ],
       [
@@ -4380,7 +4395,7 @@ const Q29 = quest(
       'q29-complete',
       [
         OD('There it is! Safe! And wearing a hat!', 'happy'),
-        N('Mr. Tweed bows. His letter is knitted on it, upside down.'),
+        N('Mr. Tweed bows. A big T is knitted on the hat. Upside down!'),
         OD('Keep the box. Two eggs, side by side, on wheels? That’s a pram!'),
         N('Mr. Tweed holds the egg a moment longer. Pat, pat. He lets go.'),
         OD('So. Was it good?'),
@@ -4523,6 +4538,7 @@ const Q30 = quest(
         RF('I have a little old one at home. Your Nubbins can have it!'),
         N('Next morning, a little blue cart sits in your garden.'),
         N('A Nubbin bumps it. It tips. The Nubbin is thrilled!'),
+        N('The teeny bear leans left, to help the Bluebell tip.'),
       ],
       [
         ask(

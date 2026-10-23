@@ -172,6 +172,7 @@ _Underneath, Sir Dentwhistle has very flat hair._
 **Sir Dentwhistle**: Barely a bump! I hardly felt a thing!  
 **You**: It was your hat.  
 **Sir Dentwhistle**: A hat is a sort of bump. A bump on the head. Again!  
+_Its ears have gone pink. The snail stops climbing, out of tact._  
 
 > **Lesson** (literacy, RL.3.3, ask): character traits from what a character says and does  
 > _Sir Dentwhistle just lost its helmet. It says it was “barely a bump”._  
@@ -181,7 +182,6 @@ _Underneath, Sir Dentwhistle has very flat hair._
 > - It is very brave. → It is brave, in a way! But calling it “barely a bump” shows something else too. It is proud and hates admitting a loss. Watch for it: it will do it again.
 > _For grown-ups: Worked out a character’s trait (proud, won’t admit losing) from its words and its pink ears._
 
-_Its ears have gone pink. The snail stops climbing, out of tact._  
 
 #### `reader:q02-scarf` · [main](../../../fun/python.md#q02-scarf)
 
@@ -380,7 +380,7 @@ _The card says: “How quickly can a small bird fly, with nothing at all in its 
 > - Just how long it takes. → Half right! But 10 seconds to cross a puddle is slow, and 10 seconds to cross a lake is fast. You need both: how far it goes, and how long it takes.
 > _For grown-ups: Worked out that to measure speed you need two measurements: how far something goes, and how long it takes._
 
-_He sits back, smug as a cushion. Nobody has ever answered the third question._  
+_He sits back, very pleased with himself. Nobody has ever answered the third question._  
 
 #### `reader:q03-timed` · [main](../../../fun/python.md#q03-timed)
 
@@ -489,7 +489,7 @@ _A headwind is wind that blows straight into your face, the opposite way to wher
 > **Lesson** (maths, 3.NF.A.1, ask): unit fractions: halves and quarters  
 > _The coconut split into two equal halves. Each half is 1/2._  
 > _If it had smashed into four equal pieces instead, what fraction would each piece be?_  
-> - ✅ 1/4, a quarter → Yes. Four equal pieces: each one is a quarter, 1/4. A quarter is smaller than a half. Trotwell would have had a much quieter clop.
+> - ✅ 1/4, a quarter → Yes. Four equal pieces: each one is a quarter, 1/4. A quarter is smaller than a half. The Run Nubbin would have had a much quieter clop.
 > - 1/2 → 1/2 is one of two equal pieces. With four equal pieces, each is one of four: 1/4. More pieces means smaller pieces. A quarter is smaller than a half.
 > - 4 → There would be 4 pieces, yes! But each piece is one out of four: 1/4, a quarter.
 > _For grown-ups: Compared halves and quarters: the more equal pieces something is split into, the smaller each piece._
@@ -972,8 +972,8 @@ _A committee is a small group that meets to talk things over and decide. This on
 **Frannie Quill**: Fences everywhere. Paths. Lanterns. Something with a drawbridge, I’m told.  
 **Old Mags**: My cousin tripped over a fence post. A brand-new one.  
 **Reggie Thistlewood**: Has one single bit of this building done anybody any good? Name one thing!  
-_There is a pause. Frannie raises a hand._  
-**Frannie Quill**: Reggie. The chair you are sitting on. The Keeper made it last week.  
+_There is a pause. Frannie, who is Reggie’s wife, raises a hand._  
+**Frannie Quill**: Reggie, my love. The chair you are sitting on. The Keeper made it last week.  
 **Reggie Thistlewood**: That is beside the point, Frannie. The point is the point.  
 **Reggie Thistlewood**: Anyway. If you must build, Keeper, build something USEFUL. The crops are parched and my back is gone from carrying buckets.  
 
@@ -1066,6 +1066,7 @@ _Reggie takes two biscuits at once, which is how you can tell he is upset._
 **Frannie Quill**: It keeps the path cool in summer.  
 **Old Mags**: It’s pretty.  
 **Frannie Quill**: And you’ve been filling your teapot from it since Tuesday, Reggie. We’ve all seen you.  
+**Reggie Thistlewood**: My wife exaggerates. Twice a day, at most.  
 
 > **Lesson** (maths, 2.MD.D.10, ask): tally charts  
 > _Frannie has been keeping a tally of every good thing anyone said about the aqueduct._  
@@ -1261,7 +1262,7 @@ _Harrow stares at the Shells. Then at you. His face falls by about a mile._
 - **Sorry. How does this work?**
     - **Harrow Tuppence**: You say a number. I say a bigger number. We weep. We meet in the middle. We shake. It’s beautiful.
 - **Twenty is what the tag says.**
-    - **Harrow Tuppence**: The tag is the OPENING. Nobody listens to the tag. The tag is a cry for help.
+    - **Harrow Tuppence**: The tag is the OPENING. Nobody listens to the tag. The tag is where we start. Nobody pays the tag.
 
 #### `reader:q10-first-offer` · [main](../../../fun/python.md#q10-first-offer)
 
@@ -1372,6 +1373,12 @@ _From now on, any purchase in the shop can start with a bit of haggling, for up 
 #### `reader:q11-intro` · [main](../../../fun/python.md#q11-intro)
 
 _At the bathhouse the steam is thick, and the snack table is empty. Very, very empty._  
+_In the warm pool floats a Nubbin so round it has stopped swimming. It just bobs._  
+_This is Gorbold. Around it float fruit stones, a crust and one sad lettuce leaf._  
+**Gorbold**: More.  
+_A Keeper in a crisp white apron appears at your elbow, holding a silver tray._  
+**Mr Crisp**: Good afternoon. Mr Crisp, in charge of refreshments. Gorbold has eaten the menu.  
+**Mr Crisp**: Not the food on the menu. The menu itself. Both sides.  
 
 > **Lesson** (science, 2-PS1-4, ask): what steam really is: water vapour turning back into tiny drops  
 > **Mr Crisp**: Mind the steam on my tray, please. Do you know what steam actually is?  
@@ -1380,12 +1387,6 @@ _At the bathhouse the steam is thick, and the snack table is empty. Very, very e
 > - A cloud that fell out of the sky. → Good thinking: real clouds are made of tiny water drops too! But this one rose up from the pool. Warm water turns into invisible water vapour, which cools into tiny drops. A little indoor cloud.
 > _For grown-ups: Learned that the cloud above warm water is tiny water drops: water evaporates, then condenses in cooler air._
 
-_In the warm pool floats a Nubbin so round it has stopped swimming. It just bobs._  
-_This is Gorbold. Around it float fruit stones, a crust and one sad lettuce leaf._  
-**Gorbold**: More.  
-_A Keeper in a crisp white apron appears at your elbow, holding a silver tray._  
-**Mr Crisp**: Good afternoon. Mr Crisp, in charge of refreshments. Gorbold has eaten the menu.  
-**Mr Crisp**: Not the food on the menu. The menu itself. Both sides.  
 **Mr Crisp**: Before that, the fruit. Then the fruit bowl. Then the table, and then a fern.  
 **Mr Crisp**: I have one last treat to serve, but I need fresh mint. Could you fetch some?  
 **You**: Is that wise? Gorbold looks very full.  
@@ -1457,18 +1458,18 @@ _Mr Crisp holds out the tray. The steam goes very still._
 _Gorbold eats the slice. There is a pause. Then a tiny hiccup._  
 _Then a soft POP._  
 _Glittering confetti fills the bathhouse and drifts down onto the water like snow._  
-
-> **Lesson** (literacy, L.4.5, ask): spotting a simile  
-> _The confetti drifts down “like snow”. Comparing two things with “like” or “as” is called a simile._  
-> _Which of these is a simile?_  
-> - ✅ Gorbold bobs like a cork. → Yes. “Like a cork” compares Gorbold to a cork, which bobs on water too.
-> - Gorbold is very round. → That describes Gorbold, but it doesn’t compare it to anything. “Bobs like a cork” is a simile.
-> - The confetti is glittery. → A good describing word, but no comparison. “Drifts down like snow” is the simile.
-> _For grown-ups: Learned that a simile compares two things using “like” or “as”, and picked one out._
-
 _When it clears, Gorbold is bobbing in the pool, normal-sized and blinking._  
 **Gorbold**: Light!  
 _Gorbold does a slow, happy spin. It is the first time in weeks it has been able to turn round._  
+
+> **Lesson** (literacy, L.4.5, ask): spotting a simile  
+> _The confetti drifted down “like snow”. Comparing two things with “like” or “as” is called a simile._  
+> _Picture Gorbold bobbing like a cork. What does a cork do in water? How is Gorbold like it now?_  
+> - A cork floats and bobs on top. Gorbold is light now, so it bobs too. → That is the comparison. A simile lends you what you know about a cork, so you can picture Gorbold.
+> - A cork stays put. Gorbold is happy, not stuck. → A fair point: a simile borrows only one thing. Here it is the light, bobbing part, not the staying put.
+> - Corks are small, and Gorbold was huge. → Good noticing. Gorbold was huge, and now it is small and light. That is why the cork fits.
+> _For grown-ups: Thought about what a simile compares, using the cork in “bobs like a cork”._
+
 
 #### `reader:q11-complete` · [main](../../../fun/python.md#q11-complete)
 
@@ -1987,13 +1988,12 @@ _Behind him are twelve crates, each under a cloth. Neat, clean, suspiciously fla
 > - Ready to go, like “ready, steady, set”. → Another real meaning! But with the sun, “set” means going down below the hills in the evening.
 > _For grown-ups: Explained the joke in “the sun fruit set”: “set” can mean the sun going down._
 
+**You**: That’s six fruits asked for. Six to go.  
+**Mr Pomeroy Dibble**: Six more excuses. I was up all night writing them.  
 
-> **Lesson** (maths, 2.OA.A.1, ask): subtraction within 20  
-> _The order list has twelve fruits. You have asked for six. Every one was “just out”._  
-> _How many fruits are left to ask about?_  
-> - ✅ 6 → Yes: 12 − 6 = 6. Halfway. Mr Dibble needs six more excuses.
-> - 18 → That’s 12 add 6. You’ve used some up, so take them away: 12 − 6 = 6.
-> - 0 → Not yet! You’ve asked for 6 of the 12. 12 − 6 = 6 still to go.
+> **Lesson** (maths, 2.OA.A.1, do): subtraction within 20  
+> _The order list has twelve fruits. Six are crossed off. How many are left to ask about?_  
+> Check: `edu:subtract:fruits-left:12-6`
 > _For grown-ups: Worked out 12 − 6 = 6 fruits left to ask about._
 
 
@@ -2352,8 +2352,8 @@ _You topple off the dock into the pond with a soft splash._
 _The water is warm. A duck paddles over and looks at you. Its feathers are perfectly dry._  
 
 > **Lesson** (science, 4-LS1-1, notice): how ducks stay dry  
-> _Ducks have a little gland near their tail that makes oil. They spread it over their feathers with their beaks._  
-> _The oil keeps water out, so the duck stays dry. You, sadly, have no such gland._  
+> _Remember Old Gorrel’s ducks? That oil gland near the tail keeps them dry._  
+> _You, sadly, have no such gland._  
 > _For grown-ups: Learned that ducks spread oil on their feathers to keep water out._
 
 _The Nubbins on the bank cheer as if this was the plan. It was._  

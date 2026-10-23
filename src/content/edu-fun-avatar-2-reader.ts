@@ -44,6 +44,7 @@ const SL = say('big-slab');
 const RE = say('ma-reedy');
 const CH = say('captain-hake');
 const TI = say('mayor-tibbs');
+const MT = say('mrs-tibbs');
 
 // ---------------------------------------------------------------- builders
 type LessonDraft = Omit<Lesson, 'id'>;
@@ -215,13 +216,13 @@ const Q56: EduQuest = {
         T('Why is he talking about himself like that?'),
         N('The champion walks into the ring barefoot. She is tiny, dressed in green, with a fringe over her pale eyes.'),
         G('THE LITTLE LANDSLIDE!'),
-        B('Let’s get this over with. I have a bedtime.'),
+        N('The Little Landslide says, “Let’s get this over with. I have a bedtime.”'),
         N('The Big Slab charges. The champion plants her bare feet wide apart and doesn’t budge.'),
         N('He pushes. She pushes back just as hard. For a long moment, nobody moves at all.'),
         N('Then she shoves harder. The ground lifts like a trapdoor, and he sails out of the ring into the noodle stand.'),
-        B('Next! Anybody? Come on, I can feel you all shuffling.', 'happy'),
+        N('She says, “Next! Anybody? Come on, I can feel you all shuffling.”'),
         N('Your Power Nubbin steps forward. The whole arena goes quiet.'),
-        B('Huh. Small, heavy, walks like it means it. I like it already.', 'think'),
+        N('She says, “Huh. Small, heavy, walks like it means it. I like it already.”'),
       ],
       [
         ask(
@@ -234,8 +235,8 @@ const Q56: EduQuest = {
           ],
           [
             opt('He moved, in the direction she was pushing.', [
-              B('Yep. Equal pushes are balanced, so nothing moves. A bigger push on one side is unbalanced, and something goes flying.'),
-              B('Usually him.', 'happy'),
+              N('She says, “Yep. Equal pushes are balanced, so nothing moves. A bigger push on one side is unbalanced, and something goes flying.”'),
+              N('She says, “Usually him.”'),
             ], true),
             opt('Nothing. He’s bigger, so he stays put.', [
               N('Being big helps, but the pushes decide. When her push became bigger than his, the forces were unbalanced, and he moved.'),
@@ -249,12 +250,12 @@ const Q56: EduQuest = {
         ),
       ],
       [
-        ch('easy', 'Ask her to go easy on it', [B('Nope. Going easy would be an insult. Your Nubbin deserves a real match.')]),
-        ch('all', 'Tell her not to hold back', [B('Oh, I won’t. But I like that you asked.', 'happy')]),
+        ch('easy', 'Ask her to go easy on it', [N('She says, “Nope. Going easy would be an insult. Your Nubbin deserves a real match.”')]),
+        ch('all', 'Tell her not to hold back', [N('She says, “Oh, I won’t. But I like that you asked.”')]),
         ch(
           'bow',
           'Bow to her',
-          [B('You know I can’t see that, right?'), N('She grins anyway. She felt the floorboards creak as you bent.')],
+          [N('She says, “You know I can’t see that, right?”'), N('She grins anyway. She felt the floorboards creak as you bent.')],
           { 'q56-bowed': true },
         ),
       ],
@@ -264,11 +265,11 @@ const Q56: EduQuest = {
       [
         N('The match is short and very sandy. Your Nubbin stands perfectly still, and for a second she loses track of it.'),
         N('Then it shuffles one foot, and she finds it at once.'),
-        B('Not bad! Not bad at all. Hardly anyone lasts that long.', 'happy'),
+        N('She says, “Not bad! Not bad at all. Hardly anyone lasts that long.”'),
         N('Your Nubbin is either covered in glory or covered in sand. Possibly both.'),
-        B('And you didn’t run. Most people run. Running’s loud.', 'soft'),
+        N('She says, “And you didn’t run. Most people run. Running’s loud.”'),
         T('Is it me, or did she just say “good job” in the grumpiest way possible?'),
-        B('I heard that, Ponytail. And yes.'),
+        N('She says, “I heard that, Ponytail. And yes.”'),
       ],
       [
         notice(
@@ -276,7 +277,7 @@ const Q56: EduQuest = {
           'science',
           'some animals sense the world through vibrations',
           [
-            B('I can’t see with my eyes, so I see with my feet. Every step sends a little shake through the ground.'),
+            N('She says, “I can’t see with my eyes, so I see with my feet. Every step sends a little shake through the ground.”'),
             N('Some real animals do this too. A spider feels tiny shakes in its web, and knows where a fly has landed.'),
             N('When your Nubbin stood still, it made no shakes at all. So for a moment, it was hidden.'),
           ],
@@ -289,9 +290,9 @@ const Q56: EduQuest = {
           'being a good sport',
           [N('Your Nubbin gave it everything. What does a good sport do at the end of a match?')],
           [
-            opt('Shake hands (or paws) and say “good match”.', [B('That’s the one. Win or lose, you thank the person who gave you a real fight.')], true),
+            opt('Shake hands (or paws) and say “good match”.', [N('She says, “That’s the one. Win or lose, you thank the person who gave you a real fight.”')], true),
             opt('Say the sand was unfair.', [
-              B('Blaming the sand? The sand was the same for both of us, Keeper.'),
+              N('She says, “Blaming the sand? The sand was the same for both of us, Keeper.”'),
               N('A good sport thanks the other player instead: “Good match.”'),
             ]),
             opt('Stomp off without a word.', [
@@ -437,6 +438,9 @@ const Q57: EduQuest = {
       [
         N('Midnight. Nalu steps into a boat wearing a white veil, a wide straw hat and red painted marks.'),
         K('Well? Do I look like a river spirit?'),
+        N('The veil tickles. A very small, very un-spirit-like sneeze escapes.'),
+        T('Spirits don’t sneeze.'),
+        K('This one does.'),
         T('You look like Nalu in a hat. But a really mysterious hat.'),
         P('I think you look amazing. And spooky. Amazing-spooky.', 'happy'),
         N('Mist rises off the river and curls round the boat like steam from a bath.'),
@@ -447,7 +451,7 @@ const Q57: EduQuest = {
       ],
       [
         notice(
-          4,
+          7,
           'science',
           'mist is made of tiny drops of water',
           [
@@ -457,7 +461,7 @@ const Q57: EduQuest = {
           'Learned that mist is a low cloud of tiny water drops that forms when water vapour cools.',
         ),
         ask(
-          6,
+          9,
           'literacy',
           'understand a simile',
           [
@@ -693,26 +697,6 @@ const Q58: EduQuest = {
           ],
           'Learned the difference between magma (under the ground) and lava (above it).',
         ),
-        ask(
-          7,
-          'science',
-          'some changes to the land are fast and some are slow',
-          [
-            P('Some changes to the land happen slowly, over thousands of years. Some happen fast.'),
-            P('Which kind is a volcano erupting?'),
-          ],
-          [
-            opt('Fast: it can change the land in hours or days.', [
-              T('Right. A river wearing out a valley takes ages. An eruption can reshape a mountainside in a day.'),
-            ], true),
-            opt('Slow: it takes thousands of years.', [
-              T('The mountain itself took a very long time to build up. But the eruption is fast: hours or days.'),
-              T('That’s why we have to warn them now.'),
-            ]),
-          ],
-          'Sorted a volcanic eruption as a fast change to the land, compared with slow changes like a river wearing a valley.',
-          '2-ESS1-1',
-        ),
       ],
     ),
     scene(
@@ -852,15 +836,24 @@ const Q58: EduQuest = {
         N('Aunt Wen now reads bones at the Grove’s fortune tent. Tuk says he will never go. He goes twice a week, in a hat.'),
       ],
       [
-        notice(
+        ask(
           0,
           'science',
-          'lava flows downhill and can be steered',
+          'some changes to the land are fast and some are slow',
           [
-            T('Lava flows downhill, like very slow, very hot porridge. A trench gives it an easier path, away from the houses.'),
-            N('In real life, people have built long walls of earth to steer lava away from their towns.'),
+            T('Lava flows downhill, like very slow, very hot porridge. The trench gave it an easier path, away from the houses.'),
+            P('Some changes to the land happen slowly, over thousands of years. Some happen fast. Which kind was the lava?'),
           ],
-          'Learned that lava flows downhill and that people build barriers to steer it away from homes.',
+          [
+            opt('Fast: it changed the land in hours or days.', [
+              T('Right. A river wearing out a valley takes ages. An eruption can reshape a mountainside in a day.'),
+            ], true),
+            opt('Slow: it takes thousands of years.', [
+              T('The mountain took a very long time to build up. But the lava running down the trench was fast: hours, not years.'),
+            ]),
+          ],
+          'Sorted a volcanic eruption as a fast change to the land, compared with slow changes like a river wearing a valley.',
+          '2-ESS1-1',
         ),
         ask(
           5,
@@ -1134,7 +1127,7 @@ const Q60: EduQuest = {
         N('Your fruit basket is empty. Again. There are tiny footprints in the dew, and a peach stone on the fence.'),
         P('Third time this week? That’s no bird. Birds don’t leave the stones in a neat little pile.', 'think'),
         N('Above you, something with huge ears and leathery wings sits on a branch, eating your last peach.'),
-        M('Chirrup!', 'happy'),
+        N('“Chirrup!” chirps the lemur, delighted with itself.'),
         P('A winged lemur! I haven’t seen one since I was little. They used to live at the old temple.', 'happy'),
         N('The lemur stuffs the peach in its cheek, launches off the branch and glides away towards the hills.'),
         P('Come on, let’s follow it! Gently! Wingy little things scare easily.'),
@@ -1208,7 +1201,7 @@ const Q60: EduQuest = {
         P('It’s been on its own for ages. It isn’t really stealing. It’s just hungry and lonely. Like me, a bit.', 'soft'),
         N('Your Nubbin takes a fruit from your bag, walks to the middle of the floor and sits holding it up high.'),
         N('It doesn’t move a whisker. It doesn’t grab. It just waits.'),
-        M('…Chirr?', 'think'),
+        N('“…Chirr?” The lemur tilts its head.'),
       ],
       [
         ask(
@@ -1432,6 +1425,9 @@ const Q61: EduQuest = {
       'q61-evidence',
       [
         N('The trial is held in the village square. The judge is Mayor Tibbs. The jury is also Mayor Tibbs.'),
+        N('Mrs Tibbs, the mayor’s wife, is in the front row.'),
+        MT('Dear. You can’t be the judge. You can’t find your own socks.'),
+        TI('I found one of them.'),
         TI('The prisoner may speak, but briefly. We have a parade at four.'),
         T('Your Honour. We have found Marshal Brag’s diary, written in his own hand.'),
         K('“Today I shall march onto Avatar Kesh’s island and take it. Then the next island. Then all the islands.”'),
@@ -1455,7 +1451,7 @@ const Q61: EduQuest = {
           'D2.Civ.8.K-2',
         ),
         ask(
-          4,
+          7,
           'literacy',
           'describe a character from his own words',
           [N('Brag’s own words tell us what he was like. Which word fits him best?')],
@@ -2091,6 +2087,7 @@ const Q64: EduQuest = {
     scene(
       'q64-rehearse',
       [
+        N('Kaito used to chase Pemba across half the world, and he was unkind to all of them. Now he wants to say sorry.'),
         N('Behind a broken pillar, you find Kaito pacing in circles, muttering to a rock.'),
         Z('Oh! Keeper. I wasn’t… I’m not talking to a rock. Why would I be talking to a rock.', 'shock'),
         Z('Fine. I was talking to the rock. I’m practising. I want to ask Pemba if I can join his group.'),
@@ -2101,7 +2098,7 @@ const Q64: EduQuest = {
       ],
       [
         notice(
-          2,
+          3,
           'sel',
           'practice makes hard things easier',
           [
@@ -2112,7 +2109,7 @@ const Q64: EduQuest = {
           'CASEL: Self-management',
         ),
         ask(
-          5,
+          6,
           'sel',
           'kind self-talk',
           [N('Kaito just told himself, “It’s going to be bad.” What could he say to himself instead?')],
@@ -2223,7 +2220,7 @@ const Q64: EduQuest = {
         P('Okay. You can join. Welcome to the team!', 'happy'),
         Z('Really? Just like that?', 'shock'),
         T('No. Not just like that. There will be a trial period. With paperwork.'),
-        K('I haven’t forgotten what you did, Kaito.'),
+        K('I haven’t forgotten what you did, Kaito. All that chasing.'),
         Z('Good. You shouldn’t. I don’t want you to forget it. I want the chance to be more than it.', 'soft'),
         K('…One chance.'),
       ],

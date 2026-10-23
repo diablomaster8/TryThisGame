@@ -46,6 +46,7 @@ const SL = say('big-slab');
 const RE = say('ma-reedy');
 const CH = say('captain-hake');
 const TI = say('mayor-tibbs');
+const MT = say('mrs-tibbs');
 
 type LessonDraft = Omit<Lesson, 'id'>;
 
@@ -759,15 +760,16 @@ const Q49: EduQuest = {
         N('The children sit very still. Nobody smiles.'),
         Z('I came to this school once. The rules are the same.'),
         Z('No running. No humming. No being too happy.', 'think'),
-        N('A new boy comes in. He has a red headband.'),
+        N('In comes Pemba, in a red headband. It is a very bad disguise.'),
         P('Hi! I’m new! I’m, um, Kuzo!', 'happy'),
+        N('Pemba is pretending to be Kuzo. Shh! Don’t tell.'),
         H('In this school, we do not dance. We do not sing.', 'angry'),
         R('(whispering) What is dancing?', 'soft'),
         P('Oh! Then we will have a party!', 'shock'),
       ],
       [
         ask(
-          6,
+          7,
           'social-studies',
           'good rules keep us safe',
           [Z('Some rules help us. Which rule helps?')],
@@ -1133,18 +1135,19 @@ const Q51: EduQuest = {
       [
         N('The desert is hot and sandy. Sand, sand, sand!'),
         N('Uh-oh. The water bottles are empty.'),
-        K('I’ll go and find water. Nobody eat anything strange!'),
-        T('Me? I never eat strange things.'),
+        T('Rule one: nobody eats anything strange. I’m writing it down.'),
+        K('Good rule, Tuk. I’ll go and find water.'),
         N('Nalu goes. Tuk looks at a fat green cactus.'),
         N('He cuts it open. He drinks the juice. Slurp!'),
         T('Ooh! Best. Drink. EVER!', 'happy'),
+        N('The juice makes Tuk’s head go fuzzy. Wibble!'),
         P('Tuk, why are you smiling at that rock?'),
         T('It smiled first!', 'happy'),
         N('Tuk wobbles off across the sand. Wibble, wobble!'),
       ],
       [
         ask(
-          6,
+          7,
           'health',
           'never eat or drink plants you don’t know',
           [P('Should we eat or drink plants we don’t know?')],
@@ -1540,7 +1543,7 @@ const Q53: EduQuest = {
         ),
       ],
       [
-        ch('help', 'Help Tuk up', [T('Thanks. My pride is still down there.')]),
+        ch('help', 'Help Tuk up', [T('Thanks. My bottom hurts. So do my feelings.')]),
         ch('learn', 'Ask Sumi to teach you', [S('You I like. Him, we’ll see.', 'happy'), T('Him is right here.')]),
       ],
       'help',
@@ -1789,6 +1792,8 @@ const Q54: EduQuest = {
         T('Star Stabber!', 'happy'),
         PI('You may also think about it for longer.'),
         N('Master Pian makes a little wooden practice sword for you too.'),
+        PI('Here is my spoon. I made it first.'),
+        N('Tuk tries it. Wobble, wobble. Soup everywhere!'),
       ],
       [
         ask(
@@ -2049,9 +2054,9 @@ const Q56: EduQuest = {
         G('THE LITTLE LANDSLIDE!'),
         N('The Big Slab runs at her. Stomp, stomp, stomp!'),
         N('She stamps her foot. Whoosh! He flies into the noodle stand.'),
-        B('Next! Anyone? I can feel you all wriggling.', 'happy'),
+        N('The Little Landslide calls, “Next! Anyone? I can feel you all wriggling.”'),
         N('Your Power Nubbin steps up. Everyone goes quiet.'),
-        B('Small and heavy. I like it already.', 'think'),
+        N('She says, “Small and heavy. I like it already.”'),
       ],
       [
         ask(
@@ -2062,19 +2067,19 @@ const Q56: EduQuest = {
           [
             opt(
               'She feels it with her feet',
-              [B('Yep. Footsteps make the ground shake a little.'), B('My feet feel it. Easy.', 'happy')],
+              [N('She says, “Yep. Footsteps make the ground shake a little.”'), N('She says, “My feet feel it. Easy.”')],
               true,
             ),
-            opt('She guesses', [B('Guesses? Ha! I feel it with my feet.'), B('Footsteps make the ground shake a little.')]),
+            opt('She guesses', [N('She says, “Guesses? Ha! I feel it with my feet.”'), N('She says, “Footsteps make the ground shake a little.”')]),
           ],
           'Your child learned that we can sense things through touch, like feeling footsteps through the ground.',
           'ELOF: Scientific Reasoning',
         ),
       ],
       [
-        ch('easy', 'Ask her to go easy', [B('Nope. Your Nubbin deserves a real match.')]),
-        ch('all', 'Tell her to do her best', [B('Oh, I will. I like that you asked.', 'happy')]),
-        ch('bow', 'Bow to her', [B('You know I can’t see that, right?'), N('She grins. She felt the floor creak.')], {
+        ch('easy', 'Ask her to go easy', [N('She says, “Nope. Your Nubbin deserves a real match.”')]),
+        ch('all', 'Tell her to do her best', [N('She says, “Oh, I will. I like that you asked.”')]),
+        ch('bow', 'Bow to her', [N('She says, “You know I can’t see that, right?”'), N('She grins. She felt the floor creak.')], {
           'q56-bowed': true,
         }),
       ],
@@ -2082,9 +2087,9 @@ const Q56: EduQuest = {
     scene(
       'q56-bout-done',
       [
-        B('Not bad! Hardly anyone lasts that long.', 'happy'),
+        N('She says, “Not bad! Hardly anyone lasts that long.”'),
         N('Your Nubbin is covered in sand. And glory!'),
-        B('And you didn’t run away. Most people run.', 'soft'),
+        N('She says, “And you didn’t run away. Most people run.”'),
         N('Your Nubbin bows. She bows back.'),
       ],
       [
@@ -2214,6 +2219,8 @@ const Q57: EduQuest = {
         N('Night-time. Mist floats on the river.'),
         N('Nalu wears a white veil and a big straw hat.'),
         K('Do I look like a river spirit?'),
+        N('Nalu’s veil tickles her nose. Achoo! A big one.'),
+        T('Shh! Spirits do not sneeze.'),
         T('You look like Nalu in a hat. A spooky hat.'),
         P('You look amazing! Amazing and spooky!', 'happy'),
         K('I lift the muck out. You scoop it into barrels.'),
@@ -2421,6 +2428,8 @@ const Q58: EduQuest = {
     scene(
       'q58-mountain-done',
       [
+        N('Tuk runs to Aunt Wen. He tells her about the red, bubbling rock.'),
+        W('The clouds say all is well, dear. The clouds are never wrong.'),
         P('Wait! They only listen to clouds…', 'happy'),
         T('Then we make them a cloud!', 'happy'),
         P('A danger cloud! Big and clear!'),
@@ -2428,7 +2437,7 @@ const Q58: EduQuest = {
       ],
       [
         ask(
-          1,
+          3,
           'health',
           'tell a grown-up about danger',
           [N('If you see something dangerous, what should you do?')],
@@ -2725,7 +2734,7 @@ const Q60: EduQuest = {
         N('There are tiny footprints. And peach stones in a neat pile.'),
         P('That’s no bird. Birds don’t make neat piles.', 'think'),
         N('Up in a tree sits a furry thing. Big ears. Wings!'),
-        M('Chirrup!', 'happy'),
+        N('“Chirrup!” says the lemur. It looks happy.'),
         P('A winged lemur! They used to live at the old temple.', 'happy'),
         N('It grabs a peach and glides away. Whee!'),
         P('Let’s follow it. Gently!'),
@@ -2760,7 +2769,7 @@ const Q60: EduQuest = {
         N('Up in an old temple, under the broken roof…'),
         N('…you find a nest! Fruit stones. Buttons. Your spoon!'),
         P('Oh. It lives up here all alone.', 'soft'),
-        M('Chirr.', 'sad'),
+        N('“Chirr,” says the lemur. It looks sad.'),
       ],
       [
         ask(
@@ -2785,7 +2794,7 @@ const Q60: EduQuest = {
         P('I learned to fly here. It used to be full of friends.', 'sad'),
         P('The lemur isn’t really a thief. It’s hungry and lonely.', 'soft'),
         N('Your Nubbin sits in the middle. It holds up a fruit.'),
-        M('…Chirr?', 'think'),
+        N('“Chirr?” The lemur tilts its head.'),
       ],
       [
         ask(
@@ -2950,6 +2959,8 @@ const Q61: EduQuest = {
       [
         N('The trial is in the square. Mayor Tibbs is the judge.'),
         N('Mayor Tibbs is also everyone else. Hmm.'),
+        N('Mrs Tibbs is the mayor’s wife.'),
+        MT('Dear. You can’t be the judge. You can’t find your own socks.'),
         K('Brag wrote this: “I will take Kesh’s island.”'),
         T('And this: “Note to self: get a bigger hat.”'),
         N('Someone takes off a Brag hat. They put it in the bin.'),
@@ -2959,7 +2970,7 @@ const Q61: EduQuest = {
       ],
       [
         ask(
-          3,
+          5,
           'maths',
           'compare sizes',
           [T('Brag had a big hat. He wanted a bigger one.'), T('Which is bigger: a hat or a house?')],
@@ -3186,7 +3197,7 @@ const Q62: EduQuest = {
           1,
           'science',
           'snow is frozen water',
-          [K('Snow is frozen water.'), K('It falls when the air is very cold.'), K('Water freezes at 0 °C (32 °F). Brr!')],
+          [K('Snow is frozen water.'), K('It falls when the air is very cold.'), K('When it is very, very cold, water turns to ice. Brr!')],
           'Your child heard that snow is frozen water and falls when it is very cold.',
           'K-ESS2-1',
         ),
@@ -3428,6 +3439,7 @@ const Q64: EduQuest = {
     scene(
       'q64-rehearse',
       [
+        N('This is Kaito. Once, Kaito chased Pemba and was very unkind.'),
         N('Behind a pillar, Kaito walks in circles. He talks to a rock.'),
         Z('Oh! Keeper. I wasn’t talking to a rock.', 'shock'),
         Z('Fine. I was. I’m practising.'),
@@ -3438,7 +3450,7 @@ const Q64: EduQuest = {
       ],
       [
         ask(
-          4,
+          5,
           'sel',
           'what helps when we feel nervous',
           [N('Kaito feels nervous. What can help?')],
@@ -3526,7 +3538,7 @@ const Q64: EduQuest = {
         P('You can join! Welcome to the team!', 'happy'),
         Z('Really? Just like that?', 'shock'),
         T('Not just like that. There will be rules. On paper.'),
-        K('I haven’t forgotten what you did, Kaito.'),
+        K('I haven’t forgotten. You chased us all over the hills, Kaito.'),
         Z('That’s fair. I want the chance to do better.', 'soft'),
         K('…One chance.'),
       ],

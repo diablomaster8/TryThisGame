@@ -421,7 +421,7 @@ const Q02 = quest(
       ],
       [
         ask(
-          4,
+          5,
           m(
             'literacy',
             'character traits from what a character says and does',
@@ -807,7 +807,7 @@ const Q03 = quest(
         Y('Birds aren’t really my area.'),
         GO('Nor mine. I have never actually seen the bird on the card.', 'think'),
         GO('Then a Fly Nubbin. Carrying a coconut. How fast? Go and find out.'),
-        N('He sits back, smug as a cushion. Nobody has ever answered the third question.'),
+        N('He sits back, very pleased with himself. Nobody has ever answered the third question.'),
       ],
       [
         ask(
@@ -1066,7 +1066,7 @@ const Q04 = quest(
             best(
               '1/4, a quarter',
               N('Yes. Four equal pieces: each one is a quarter, 1/4.'),
-              N('A quarter is smaller than a half. Trotwell would have had a much quieter clop.'),
+              N('A quarter is smaller than a half. The Run Nubbin would have had a much quieter clop.'),
             ),
             opt(
               '1/2',
@@ -2002,8 +2002,8 @@ const Q08 = quest(
         FQ('Fences everywhere. Paths. Lanterns. Something with a drawbridge, I’m told.'),
         MG('My cousin tripped over a fence post. A brand-new one.'),
         RG('Has one single bit of this building done anybody any good? Name one thing!', 'angry'),
-        N('There is a pause. Frannie raises a hand.'),
-        FQ('Reggie. The chair you are sitting on. The Keeper made it last week.'),
+        N('There is a pause. Frannie, who is Reggie’s wife, raises a hand.'),
+        FQ('Reggie, my love. The chair you are sitting on. The Keeper made it last week.'),
         RG('That is beside the point, Frannie. The point is the point.', 'think'),
         RG('Anyway. If you must build, Keeper, build something USEFUL. The crops are parched and my back is gone from carrying buckets.'),
       ],
@@ -2168,13 +2168,14 @@ const Q08 = quest(
         FQ('It keeps the path cool in summer.'),
         MG('It’s pretty.', 'soft'),
         FQ('And you’ve been filling your teapot from it since Tuesday, Reggie. We’ve all seen you.'),
+        RG('My wife exaggerates. Twice a day, at most.'),
         RG('…I propose a motion to thank the Keeper. All in favour.', 'sad'),
         N('A motion is an idea put to a meeting for a vote. Every hand goes up, Reggie’s last and slowly.'),
         N('The crops beside the aqueduct will never need watering again.'),
       ],
       [
         ask(
-          8,
+          9,
           m(
             'maths',
             'tally charts',
@@ -2204,7 +2205,7 @@ const Q08 = quest(
           ],
         ),
         ask(
-          11,
+          12,
           m(
             'sel',
             'think question: why do people grumble about changes that help them?',
@@ -2556,7 +2557,7 @@ const Q10 = quest(
         ch(
           'tag',
           'Twenty is what the tag says.',
-          [HT('The tag is the OPENING. Nobody listens to the tag. The tag is a cry for help.', 'angry')],
+          [HT('The tag is the OPENING. Nobody listens to the tag. The tag is where we start. Nobody pays the tag.', 'angry')],
           { 'q10-stubborn': true },
         ),
       ],

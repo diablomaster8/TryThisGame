@@ -195,7 +195,7 @@ _Nothing moves. Even the robin lands without a sound._
 **You**: I don’t know. I know someone who would.  
 **Linnet**: Then fetch them. I’ll wait here. I’m very good at the tops of things.  
 _She folds her arms in the doorway at the top of the three steps, and guards a garden nobody has wanted for a hundred years._  
-_The robin guards the step beside her, chest out. Nothing has tried to get past, and neither of them minds._  
+_The robin guards the step beside her, chest out, like a very small boss. It still hasn’t said what your pay is._  
 
 #### `reader:s26-wick` · [main](../../../side/S26.md#s26-wick)
 

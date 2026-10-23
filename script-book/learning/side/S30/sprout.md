@@ -41,6 +41,7 @@ _Your Nubbin looks at Dimple. Then it puts on a smile too._
 #### `sprout:s30-sill` · [main](../../../side/S30.md#s30-sill)
 
 _Clover’s kitchen is warm and noisy. Bang! Bristle stamps on a lid._  
+_Flinch jumps into the bread bin. Thump! Only his ears stick out._  
 _There is a cushion on the windowsill. It has a dent in the middle._  
 **Clover**: That was Fossil’s seat. She sat there for years.  
 _Dimple has filled the dent with toys. Reel, cone, sock, peg._  
@@ -51,8 +52,8 @@ _Dimple has filled the dent with toys. Reel, cone, sock, peg._
 > Check: `edu:count:toys:4`
 > _For grown-ups: Counted four toys, one number for each toy._
 
-_Drizzle climbs up slowly. She puts her hand in the dent._  
-_Dimple pulls her off at once. Dimple is still smiling._  
+_Drizzle climbs up slowly. Drizzle puts a hand in the dent._  
+_Dimple pulls Drizzle off at once. Dimple is still smiling._  
 **Dimple**: …  
 _Now look at the ball above Dimple’s head. It is pale and thin._  
 
@@ -62,7 +63,7 @@ _Now look at the ball above Dimple’s head. It is pale and thin._
 > - Yes, they match → Look again. Her face is bright. Her ball is pale. A face and a feeling can be different.
 > _For grown-ups: Noticed that a smiling face can hide a different feeling inside._
 
-**Clover**: See? Not a cloud on her!  
+**Clover**: See? The happiest Nubbin in the house!  
 _Clover looks at the smile. She doesn’t look at the ball._  
 
 **Choices**
@@ -249,6 +250,9 @@ _Dimple watches. Her smile slips, just a little._
 
 _Tap, tap. It’s Luna. She is going to bed, and it’s morning!_  
 **Luna**: I work in the garden at night. I sleep in the day.  
+_Luna yawns. A huge yawn. Your Nubbin yawns too._  
+_Then it falls asleep on your foot. Snore!_  
+**Luna**: See? Even it knows it’s my bedtime.  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): some animals are awake at night  
 > **Luna**: Like me, some animals wake up at night. Which one?  
@@ -290,8 +294,9 @@ _Frost! The Grove is white and sparkly this morning._
 _Moss is by the old wall. There is frost on his back._  
 **Moss**: Luna told me about Clover’s gold one.  
 **Moss**: Long ago, there was a very long, cold winter.  
-**Moss**: Some Nubbins died in it. Hush sat where they could see her.  
-**Moss**: If one shivered, she called it a chat. That was her job.  
+**Moss**: Many Nubbins got too cold. Some of them died.  
+**Moss**: Hush sat close by them, so they could see her.  
+**Moss**: Nobody was alone at the end. That was her job.  
 **Moss**: Look at the flat stone by your foot. She made it for looking.  
 
 #### `sprout:s30-wall-s1` · [main](../../../side/S30.md#s30-wall-s1)
@@ -341,6 +346,7 @@ _Crack! An egg hatches in Clover’s kitchen._
 _Out runs a tiny orange Nubbin. Door, window, table, door!_  
 **Clover**: She hasn’t stopped once! I’ll call her Fidget.  
 _Fidget counts every Nubbin in the kitchen. Then she counts them again._  
+_She counts the bread bin too. Just in case._  
 _Bristle, Flinch, the fussy one, Drizzle and Dimple. Five Nubbins._  
 
 > **Lesson** (maths, K.OA.A.1, ask): add one more  
@@ -374,7 +380,7 @@ _Clover sits down on the bucket._
 
 #### `sprout:s30-blanket-ask` · [main](../../../side/S30.md#s30-blanket-ask)
 
-**Clover**: I can’t kick the bucket away. Fidget would be so scared.  
+**Clover**: I can’t push the bucket away. Fidget would be so scared.  
 **Clover**: And I can’t leave them shut in. Help me?  
 _Fidget sits by the bucket, guarding it. Her ball spins and spins._  
 _Your Nubbin sits beside her. It stares at the bucket too._  
@@ -417,7 +423,7 @@ _Drizzle wriggles down from Clover’s arms. Off she goes, slow and sure._
 > _For grown-ups: Heard that asking someone for help is a good thing to do when scared._
 
 _Dusty comes up the lane with a spade._  
-**Dusty**: Dimple’s gone back to where the happy was.  
+**Dusty**: Dimple has gone to a place she was happy with Fossil.  
 _You all follow Drizzle down the lane._  
 
 #### `sprout:s30-gone-helped` · [main](../../../side/S30.md#s30-gone-helped)
@@ -435,7 +441,7 @@ _Early, early morning. Clover is at your gate in her slippers._
 > _For grown-ups: Heard that asking someone for help is a good thing to do when worried._
 
 _Dusty comes up the lane with a spade._  
-**Dusty**: Dimple’s gone back to where the happy was.  
+**Dusty**: Dimple has gone to a place she was happy with Fossil.  
 _The three of you set off to find her._  
 
 #### `sprout:s30-trail` · [main](../../../side/S30.md#s30-trail)
@@ -543,7 +549,7 @@ _Up at the top, Clover puts her hands over her mouth._
 #### `sprout:s30-thunder` · [main](../../../side/S30.md#s30-thunder)
 
 **Clover**: Do you know how Dimple and Fossil met?  
-**Clover**: Dimple hatched in a big storm. Flash! Boom! Thunder!  
+**Clover**: Dimple hatched under my table, in a big storm. Flash! Boom!  
 
 > **Lesson** (science, 1-PS4-1, notice): thunder is a loud sound  
 > _Thunder is a very loud sound. Lightning makes the air shake. Boom!_  
@@ -658,7 +664,7 @@ _Fidget spins slower… and slower… and stops. She leans on Dimple._
 > _For grown-ups: Talked about sitting with a scared friend until they feel calmer._
 
 **Clover**: Where did Dimple learn that?  
-**Dusty**: Under your table. In a storm.  
+**Dusty**: Under your table. In a storm. Fossil showed her how.  
 
 #### `sprout:s30-complete` · [main](../../../side/S30.md#s30-complete)
 
@@ -674,9 +680,10 @@ _You draw her a ring with a line through it. Happy and sad._
 > Check: `edu:draw:shape:ring-with-line`
 > _For grown-ups: Drew a circle with a line through it, a mark for happy and sad together._
 
-_Next to it, you draw Drizzle’s mark: a ring, just touching._  
-**Clover**: That’s her now. Both.  
-_Next morning, presents! A blue rain hat, and Fossil’s cushion!_  
+**Clover**: That’s Dimple now. Happy and sad. Both!  
+_Next to it, you draw Drizzle’s mark: a plain ring, touching Dimple’s._  
+_Next morning, a parcel from Clover!_  
+_A blue rain hat, and Fossil’s cushion, all puffed up._  
 
 #### `sprout:s30-complete-helped` · [main](../../../side/S30.md#s30-complete-helped)
 
@@ -694,9 +701,10 @@ _You draw her a ring with a line through it. Happy and sad._
 > Check: `edu:draw:shape:ring-with-line`
 > _For grown-ups: Drew a circle with a line through it, a mark for happy and sad together._
 
-_Clover draws one more next to it: a ring, just touching. That’s yours!_  
-**Clover**: That’s her now. Both.  
-_Next morning, presents! A blue rain hat, and Fossil’s cushion!_  
+**Clover**: That’s Dimple now. Happy and sad. Both!  
+_Clover draws a plain ring, just touching Dimple’s. That’s yours!_  
+_Next morning, a parcel from Clover!_  
+_A blue rain hat, and Fossil’s cushion, all puffed up._  
 
 #### `sprout:s30-after-clover` · [main](../../../side/S30.md#s30-after-clover)
 
@@ -742,6 +750,7 @@ _Variant of `s30-complete`._
 > Check: `edu:sort:balls:gold-blue-both`
 > _For grown-ups: Sorted things into three groups, including a group for “both”._
 
+**Byte**: Pixel says three columns is showing off. Pixel is wrong.  
 **Byte**: Also, she pulled my laces on Tuesday. Both of them!  
 
 #### `sprout:s30-after-sparks` · [main](../../../side/S30.md#s30-after-sparks)

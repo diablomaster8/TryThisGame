@@ -243,6 +243,11 @@ _Sparks climbs back up the ladder, still muttering about lists._
 _Tam has been all round the valley looking at gourd patches. He comes back with his quilt full of burrs and his mind made up._  
 _He walks past three lantern posts, lit and neat, and stops at the fourth._  
 _The fourth post stands dark at the edge of the long grass. There isn’t a gourd anywhere near it._  
+**Tam**: This one.  
+**You**: There aren’t any gourds here.  
+**Tam**: No. But it isn’t pretending. Everywhere else is tidy, for people. This one’s just itself.  
+_His sign is painted on the back of a tea tray: WELCOME GREAT GOURD. The R is backwards, on purpose, for luck._  
+_He also has a toffee apple in a hanky, for the Great Gourd, in case he’s hungry from flying._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): gaps between posts: multiplication word problem  
 > _The lantern posts stand 15 metres apart. How far is it from the first post to the fourth?_  
@@ -251,11 +256,6 @@ _The fourth post stands dark at the edge of the long grass. There isn’t a gour
 > - 19 metres → That adds 15 and 4. Each gap is 15 metres, and there are three gaps: 3 × 15 = 45 metres.
 > _For grown-ups: Worked out that four posts have three gaps, so 3 × 15 = 45 metres._
 
-**Tam**: This one.  
-**You**: There aren’t any gourds here.  
-**Tam**: No. But it isn’t pretending. Everywhere else is tidy, for people. This one’s just itself.  
-_His sign is painted on the back of a tea tray: WELCOME GREAT GOURD. The R is backwards, on purpose, for luck._  
-_He also has a toffee apple in a hanky, for the Great Gourd, in case he’s hungry from flying._  
 
 #### `reader:s31-moss` · [main](../../../side/S31.md#s31-moss)
 
@@ -321,6 +321,10 @@ _Nettie looks at the guisers, and at the bag in Ivy’s hand. Then she sits back
 **Nettie**: I’m staying. I mean it too. I think.  
 **Ivy**: Fine. I’m fetching you both at four. I’ve told Mum. I’ve told Clover. Clover’s told everyone.  
 _Up the lane, Clover’s window has a lamp in it. It stays lit all night._  
+_Granny Brock, the charcoal-burner from the Wood, comes down the lane with a basket, and stops at the gate to look at the sign._  
+**Granny Brock**: Waiting for a gourd. In the cold. Hm.  
+_She hangs a second quilt over the gate and sets a flask of soup on the wall. She says nothing else._  
+_Tam skips on the spot to keep warm, to a rhyme you almost know. He gets the words wrong in a new way._  
 **Ivy**: Keeper. I need a grown-up for the lane. Some of the bats are very small.  
 **Sparks**: KEEPER! PARTY! You’re on the list! Everyone is!  
 _Tam doesn’t ask you anything. He just looks at the dark post, and waits._  
@@ -452,6 +456,8 @@ _Ivy, back from guising, puts her hands behind her back and plunges her face in 
 
 **Ivy**: Something LICKED me. Something in the TUB licked me.  
 _Pixel plays old tunes on the pianola. Your Nubbin, dripping, is merry for a jig, tragic for a slow one, and merry again._  
+**Byte**: You’re playing it too fast.  
+**Pixel**: Twenty years, and you’ve never once danced at the right speed.  
 
 > **Lesson** (music, notice): tempo and mood in music  
 > _Musicians call the speed of a tune its tempo. A quick tempo tends to sound merry; a slow one can sound sad or thoughtful._  
@@ -465,6 +471,7 @@ _Before anyone can say anything, it slinks out into the dark, scarf trailing._
 _Nearly midnight. Three lanterns burn steady across the Grove, and the fourth post stands dark over the long grass._  
 _The cold has come up out of the ground. Your knees have stopped being knees and become opinions._  
 _The spare blanket stays folded on top of the sign. Tam says it’s for the Great Gourd, in case he’s cold from flying._  
+_Granny Brock’s flask is still warm. Nettie has the soup. Tam has the lid._  
 **Nettie**: Tam. My feet have gone.  
 **Nettie**: Tam. What if he isn’t coming?  
 **Tam**: He’s coming. And when he comes, I’ll put in a good word for everybody. You. Ivy, even. The Keeper.  
@@ -567,6 +574,8 @@ _Out in the white grass, by the post, something moves._
 _A shape rises at the edge of the white grass, where the frost hasn’t reached. Round, and goggled, and trailing a scarf._  
 _Tam takes one look, says “Oh,” very politely, and faints clean away._  
 _He comes round almost at once, says he is perfectly fine, and falls fast asleep in his quilt._  
+_It is your Nubbin, home from the war. It climbs into your lap, still damp from the water butt, and falls asleep too._  
+**Nettie**: He does that. He fainted at a goose once. Leave him; he likes it.  
 
 > **Lesson** (health, notice): what fainting is and what helps  
 > _A big fright can make some people faint: for a moment, not enough blood reaches the brain._  
@@ -574,8 +583,6 @@ _He comes round almost at once, says he is perfectly fine, and falls fast asleep
 > _If someone faints near you, help them lie down and fetch a grown-up straight away._  
 > _For grown-ups: Learned simply what fainting is and that lying flat helps._
 
-_It is your Nubbin, home from the war. It climbs into your lap, still damp from the water butt, and falls asleep too._  
-**Nettie**: He does that. He fainted at a goose once. Leave him; he likes it.  
 
 #### `reader:s31-shape-sable` · [main](../../../side/S31.md#s31-shape-sable)
 
@@ -583,7 +590,7 @@ _Variant of `s31-shape`._
 
 _A grey shape rises out of the white grass by the post. It comes slowly, and the frost doesn’t seem to touch it at all._  
 _Tam takes one look, says “Oh,” very politely, and faints clean away._  
-_It is Sable. The frost can’t do anything more to her than it has already done._  
+_It is Sable, the grey one who lives wild. Cold is nothing new to her._  
 _She looks at Tam, flat out in his quilt. Then she looks at you, for a long time._  
 _Then she sits down beside you, close enough to touch, and faces the dark lane with you._  
 _Sable says nothing. Her ears stay up._  

@@ -44,6 +44,9 @@ const TAM = say('s31-tam');
 const IVY = say('s31-ivy');
 const NED = say('s31-ned');
 const NETTIE = say('s31-nettie');
+const GB = say('granny-brock');
+const BYTE = say('byte');
+const PIXEL = say('pixel');
 
 // ---------------------------------------------------------------- builders
 type LessonIn = Omit<Lesson, 'id'>;
@@ -739,7 +742,7 @@ const SCENES: EduScene[] = [
         skill: 'gaps between posts: multiplication word problem',
         standard: '3.OA.A.3',
         kind: 'ask',
-        after: 2,
+        after: 7,
         prompt: [
           N(
             'The lantern posts stand 15 metres apart. How far is it from the first post to the fourth?',
@@ -919,6 +922,16 @@ const SCENES: EduScene[] = [
         'Fine. I’m fetching you both at four. I’ve told Mum. I’ve told Clover. Clover’s told everyone.',
       ),
       N('Up the lane, Clover’s window has a lamp in it. It stays lit all night.'),
+      N(
+        'Granny Brock, the charcoal-burner from the Wood, comes down the lane with a basket, and stops at the gate to look at the sign.',
+      ),
+      GB('Waiting for a gourd. In the cold. Hm.'),
+      N(
+        'She hangs a second quilt over the gate and sets a flask of soup on the wall. She says nothing else.',
+      ),
+      N(
+        'Tam skips on the spot to keep warm, to a rhyme you almost know. He gets the words wrong in a new way.',
+      ),
       IVY('Keeper. I need a grown-up for the lane. Some of the bats are very small.'),
       SPARKS('KEEPER! PARTY! You’re on the list! Everyone is!', 'happy'),
       N('Tam doesn’t ask you anything. He just looks at the dark post, and waits.'),
@@ -945,7 +958,7 @@ const SCENES: EduScene[] = [
         skill: 'choosing between good things; responsibility to others',
         standard: 'CASEL: Responsible decision-making',
         kind: 'ask',
-        after: 11,
+        after: 15,
         prompt: [
           N(
             'Think: Ivy needs help, Sparks wants you, and Tam is waiting. Who needs you most tonight?',
@@ -1171,6 +1184,8 @@ const SCENES: EduScene[] = [
       N(
         'Pixel plays old tunes on the pianola. Your Nubbin, dripping, is merry for a jig, tragic for a slow one, and merry again.',
       ),
+      BYTE('You’re playing it too fast.'),
+      PIXEL('Twenty years, and you’ve never once danced at the right speed.'),
       N('Then it howls, once, by accident, and looks shocked at itself.'),
       N('Before anyone can say anything, it slinks out into the dark, scarf trailing.'),
     ],
@@ -1196,7 +1211,7 @@ const SCENES: EduScene[] = [
         domain: 'music',
         skill: 'tempo and mood in music',
         kind: 'notice',
-        after: 3,
+        after: 5,
         lines: [
           N(
             'Musicians call the speed of a tune its tempo. A quick tempo tends to sound merry; a slow one can sound sad or thoughtful.',
@@ -1219,6 +1234,7 @@ const SCENES: EduScene[] = [
       N(
         'The spare blanket stays folded on top of the sign. Tam says it’s for the Great Gourd, in case he’s cold from flying.',
       ),
+      N('Granny Brock’s flask is still warm. Nettie has the soup. Tam has the lid.'),
       NETTIE('Tam. My feet have gone.', 'sad'),
       NETTIE('Tam. What if he isn’t coming?'),
       TAM(
@@ -1237,7 +1253,7 @@ const SCENES: EduScene[] = [
         skill: 'doubt and hope can live together',
         standard: 'CASEL: Self-awareness',
         kind: 'ask',
-        after: 8,
+        after: 9,
         prompt: [N('Think: does saying “if” mean Tam has stopped believing?')],
         options: [
           think('No. You can hope for something and still be unsure.', [
@@ -1366,7 +1382,7 @@ const SCENES: EduScene[] = [
         domain: 'health',
         skill: 'what fainting is and what helps',
         kind: 'notice',
-        after: 2,
+        after: 4,
         lines: [
           N(
             'A big fright can make some people faint: for a moment, not enough blood reaches the brain.',
@@ -1828,7 +1844,7 @@ export const EDU_S31_READER_VARIANTS: EduScene[] = [
         'A grey shape rises out of the white grass by the post. It comes slowly, and the frost doesn’t seem to touch it at all.',
       ),
       FAINT,
-      N('It is Sable. The frost can’t do anything more to her than it has already done.'),
+      N('It is Sable, the grey one who lives wild. Cold is nothing new to her.'),
       N('She looks at Tam, flat out in his quilt. Then she looks at you, for a long time.'),
       N('Then she sits down beside you, close enough to touch, and faces the dark lane with you.'),
       N('Sable says nothing. Her ears stay up.'),

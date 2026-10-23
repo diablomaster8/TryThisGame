@@ -115,14 +115,15 @@ const SCENES: EduScene[] = [
     's30-sill',
     [
       N('Clover’s kitchen is warm and noisy. Bang! Bristle stamps on a lid.'),
+      N('Flinch jumps into the bread bin. Thump! Only his ears stick out.'),
       N('There is a cushion on the windowsill. It has a dent in the middle.'),
       CL('That was Fossil’s seat. She sat there for years.', 'soft'),
       N('Dimple has filled the dent with toys. Reel, cone, sock, peg.'),
-      N('Drizzle climbs up slowly. She puts her hand in the dent.'),
-      N('Dimple pulls her off at once. Dimple is still smiling.'),
+      N('Drizzle climbs up slowly. Drizzle puts a hand in the dent.'),
+      N('Dimple pulls Drizzle off at once. Dimple is still smiling.'),
       DI('…', 'happy'),
       N('Now look at the ball above Dimple’s head. It is pale and thin.'),
-      CL('See? Not a cloud on her!', 'happy'),
+      CL('See? The happiest Nubbin in the house!', 'happy'),
       N('Clover looks at the smile. She doesn’t look at the ball.'),
     ],
     [
@@ -131,7 +132,7 @@ const SCENES: EduScene[] = [
         skill: 'count to 4',
         standard: 'K.CC.B.5',
         kind: 'do',
-        after: 3,
+        after: 4,
         check: 'edu:count:toys:4',
         lines: [
           N('(Count Dimple’s toys together: reel, cone, sock, peg.)'),
@@ -144,7 +145,7 @@ const SCENES: EduScene[] = [
         skill: 'a face and a feeling can be different',
         standard: 'ELOF: Social and Emotional Development',
         kind: 'ask',
-        after: 7,
+        after: 8,
         prompt: [N('Dimple’s face is smiling. Her ball is pale and thin. Do they match?')],
         options: [
           opt(
@@ -465,6 +466,9 @@ const SCENES: EduScene[] = [
     [
       N('Tap, tap. It’s Luna. She is going to bed, and it’s morning!'),
       LU('I work in the garden at night. I sleep in the day.', 'think'),
+      N('Luna yawns. A huge yawn. Your Nubbin yawns too.'),
+      N('Then it falls asleep on your foot. Snore!'),
+      LU('See? Even it knows it’s my bedtime.'),
       LU('Three nights now, I’ve seen Dimple on the hill path.'),
       LU('She walks up towards Fossil’s flower. Then she turns back.'),
       LU('She doesn’t bounce up there. She walks.', 'sad'),
@@ -476,7 +480,7 @@ const SCENES: EduScene[] = [
         skill: 'some animals are awake at night',
         standard: 'ELOF: Scientific Reasoning',
         kind: 'ask',
-        after: 1,
+        after: 4,
         prompt: [LU('Like me, some animals wake up at night. Which one?')],
         options: [
           opt(
@@ -528,8 +532,9 @@ const SCENES: EduScene[] = [
       N('Moss is by the old wall. There is frost on his back.'),
       M('Luna told me about Clover’s gold one.', 'think'),
       M('Long ago, there was a very long, cold winter.'),
-      M('Some Nubbins died in it. Hush sat where they could see her.', 'sad'),
-      M('If one shivered, she called it a chat. That was her job.', 'soft'),
+      M('Many Nubbins got too cold. Some of them died.', 'sad'),
+      M('Hush sat close by them, so they could see her.', 'soft'),
+      M('Nobody was alone at the end. That was her job.', 'soft'),
       M('Look at the flat stone by your foot. She made it for looking.'),
     ],
     [
@@ -596,6 +601,7 @@ const SCENES: EduScene[] = [
       N('Out runs a tiny orange Nubbin. Door, window, table, door!'),
       CL('She hasn’t stopped once! I’ll call her Fidget.', 'happy'),
       N('Fidget counts every Nubbin in the kitchen. Then she counts them again.'),
+      N('She counts the bread bin too. Just in case.'),
       N('Bristle, Flinch, the fussy one, Drizzle and Dimple. Five Nubbins.'),
       CL('At last! Someone who fusses even more than me.', 'happy'),
       N('Dimple bounces over to say hello. Fidget counts her twice.'),
@@ -606,7 +612,7 @@ const SCENES: EduScene[] = [
         skill: 'add one more',
         standard: 'K.OA.A.1',
         kind: 'ask',
-        after: 4,
+        after: 5,
         prompt: [N('There were five Nubbins. Now Fidget is here too. How many now?')],
         options: [
           opt('Six', [CL('Six! Five and one more makes six.', 'happy')], true),
@@ -659,7 +665,7 @@ const SCENES: EduScene[] = [
   sc(
     's30-blanket-ask',
     [
-      CL('I can’t kick the bucket away. Fidget would be so scared.', 'sad'),
+      CL('I can’t push the bucket away. Fidget would be so scared.', 'sad'),
       CL('And I can’t leave them shut in. Help me?'),
       N('Fidget sits by the bucket, guarding it. Her ball spins and spins.'),
       N('Your Nubbin sits beside her. It stares at the bucket too.'),
@@ -726,7 +732,7 @@ const SCENES: EduScene[] = [
       N('Drizzle wriggles down from Clover’s arms. Off she goes, slow and sure.'),
       CL('Drizzle never goes anywhere on her own!', 'shock'),
       N('Dusty comes up the lane with a spade.'),
-      DU('Dimple’s gone back to where the happy was.', 'soft'),
+      DU('Dimple has gone to a place she was happy with Fossil.', 'soft'),
       N('You all follow Drizzle down the lane.'),
     ],
     [
@@ -836,7 +842,7 @@ const SCENES: EduScene[] = [
     's30-thunder',
     [
       CL('Do you know how Dimple and Fossil met?', 'soft'),
-      CL('Dimple hatched in a big storm. Flash! Boom! Thunder!'),
+      CL('Dimple hatched under my table, in a big storm. Flash! Boom!'),
       CL('She was a tiny baby. She cried and cried.', 'sad'),
       CL('Then Fossil came down off the windowsill. She sat beside her.'),
       CL('She sat there all through the storm.'),
@@ -978,7 +984,7 @@ const SCENES: EduScene[] = [
       N('No bouncing. No smiling. She just sits, like Fossil did.'),
       N('Fidget spins slower… and slower… and stops. She leans on Dimple.'),
       CL('Where did Dimple learn that?', 'soft'),
-      DU('Under your table. In a storm.', 'soft'),
+      DU('Under your table. In a storm. Fossil showed her how.', 'soft'),
     ],
     [
       {
@@ -1012,9 +1018,10 @@ const SCENES: EduScene[] = [
       N('The marks come up! Rings, lines, and rings with lines.'),
       CL('Dimple needs a mark of her own.', 'soft'),
       N('You draw her a ring with a line through it. Happy and sad.'),
-      N('Next to it, you draw Drizzle’s mark: a ring, just touching.'),
-      CL('That’s her now. Both.', 'soft'),
-      N('Next morning, presents! A blue rain hat, and Fossil’s cushion!'),
+      CL('That’s Dimple now. Happy and sad. Both!', 'soft'),
+      N('Next to it, you draw Drizzle’s mark: a plain ring, touching Dimple’s.'),
+      N('Next morning, a parcel from Clover!'),
+      N('A blue rain hat, and Fossil’s cushion, all puffed up.'),
     ],
     [
       {
@@ -1097,7 +1104,7 @@ export const EDU_S30_SPROUT_VARIANTS: EduScene[] = [
       CL('Drizzle won’t come out from under the rain butt.', 'sad'),
       CL('I didn’t know who else to ask.', 'sad'),
       N('Dusty comes up the lane with a spade.'),
-      DU('Dimple’s gone back to where the happy was.', 'soft'),
+      DU('Dimple has gone to a place she was happy with Fossil.', 'soft'),
       N('The three of you set off to find her.'),
     ],
     [
@@ -1237,9 +1244,10 @@ export const EDU_S30_SPROUT_VARIANTS: EduScene[] = [
       N('The marks come up! Rings, lines, and rings with lines.'),
       CL('Dimple needs a mark of her own.', 'soft'),
       N('You draw her a ring with a line through it. Happy and sad.'),
-      N('Clover draws one more next to it: a ring, just touching. That’s yours!'),
-      CL('That’s her now. Both.', 'soft'),
-      N('Next morning, presents! A blue rain hat, and Fossil’s cushion!'),
+      CL('That’s Dimple now. Happy and sad. Both!', 'soft'),
+      N('Clover draws a plain ring, just touching Dimple’s. That’s yours!'),
+      N('Next morning, a parcel from Clover!'),
+      N('A blue rain hat, and Fossil’s cushion, all puffed up.'),
     ],
     [
       {
@@ -1310,6 +1318,7 @@ export const EDU_S30_SPROUT_VARIANTS: EduScene[] = [
       BY('I’m keeping a chart of Dimple’s ball. For science.', 'think'),
       BY('Mostly gold. Sometimes blue. Sometimes both!', 'soft'),
       BY('So I made a new column for both. It’s my favourite.', 'soft'),
+      BY('Pixel says three columns is showing off. Pixel is wrong.'),
       BY('Also, she pulled my laces on Tuesday. Both of them!', 'happy'),
     ],
     [
