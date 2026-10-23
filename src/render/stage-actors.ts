@@ -9,6 +9,7 @@ import { markAt } from '../config/stage-marks';
 import type { SceneStage, StageCast } from '../config/story';
 import { mossOnHill } from '../sim/roster';
 import { trainerLook } from './keeper-look';
+import { TRAINERS } from '../sim/trainers';
 import type { Vec2, World } from '../sim/types';
 import { npcHere, SceneStager } from './scene-stage';
 
