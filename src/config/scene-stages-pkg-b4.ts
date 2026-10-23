@@ -8,7 +8,7 @@ import type { SceneStage } from './story';
  * scenes). `tale: true` gives the warm washed grade with a soft vignette and hides every
  * present-day Keeper but the cast. Young Hazel is the cast's `hazel` entry (the content wave
  * should seat her beside Moss in c4-tale-3, where he says "I sat beside her a whole winter":
- * `{ who: 'hazel', mark: 'grass-lantern', face: 'moss', pose: 'sit' }`); a content `cast`
+ * `{ who: 'hazel', mark: 'shore-jetty', face: 'moss', pose: 'sit' }`); a content `cast`
  * replaces any overlay's, so it cannot be added from here.
  *
  * K37, departures in the separate campaigns: `props.cocoon: 'show'` draws the soft fading

@@ -278,7 +278,7 @@ export const STORY_ONLY_LOOKS: Readonly<Record<string, StoryNpcLook>> = {
       pants: C.bark,
       boots: C.darkBark,
       hair: C.wood,
-      hatStyle: 'band',
+      hatStyle: 'cap',
     }),
   },
   'young-hazel': {

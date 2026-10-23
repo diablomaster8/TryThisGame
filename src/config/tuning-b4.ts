@@ -19,11 +19,11 @@ export const CG4_B4 = {
   tale: {
     css: {
       tint: '#e8b878',
-      tintAlpha: 0.3,
-      sat: 0.5,
+      tintAlpha: 0.42,
+      sat: 0.3,
       shadow: '#2a1a0a',
-      shadowAlpha: 0.5,
-      core: 0.34,
+      shadowAlpha: 0.62,
+      core: 0.26,
       accent: '#e8c890',
     },
     /** Pixel post: how far toward warm sepia, the vignette strength, the ease-in time (s). */

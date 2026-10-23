@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { TALE_GRADE } from '../config/campaign-look';
 import { LOOK_STATE, storyId } from '../config/npc-looks';
 import type { SceneStage } from '../config/story';
 import { GROVE3D } from '../config/tuning';
@@ -146,6 +147,9 @@ class Dress3dB4 implements Dressing3d {
     const flags = stageFlags(world, stage);
     const home = world.location === 'grove';
 
+    // K11: Full 3D has no post pass for the grade: the screen overlay takes it (a pixel dressing
+    // built earlier in the session must not stand it down).
+    TALE_GRADE.pixelPost = false;
     // K11, K38: what the look keys and the crowd's tale filter read.
     LOOK_STATE.tale = stage.tale === true && home;
     LOOK_STATE.campaign = flags.campaign;

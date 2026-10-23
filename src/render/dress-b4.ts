@@ -71,6 +71,7 @@ class PixelB4 implements PixelDressing {
     const flags = stageFlags(world, stage);
     const home = world.location === 'grove';
 
+    TALE_GRADE.pixelPost = true;
     // K11, K38: what the looks and the world view read.
     const tale = stage.tale === true && home;
     LOOK_STATE.tale = tale;
