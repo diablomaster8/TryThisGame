@@ -108,10 +108,18 @@ function liveInspect(kind: string, host: HTMLElement, reduce: boolean): InspectH
   model.position.sub(centre);
   const pivot = new THREE.Group();
   pivot.add(model);
-  pivot.rotation.set(-0.12, -0.42, 0);
+  // Opens at a three-quarter angle facing the viewer, tilted so a flat item shows its face.
+  const BASE_YAW = 0.5;
+  let userYaw = 0;
+  let t = 0;
+  const pose = (): void => {
+    const sway = reduce ? 0 : Math.sin(t * CG4_U4.inspect.spinRad * 2) * 0.35;
+    pivot.rotation.set(-0.35, BASE_YAW + userYaw + sway, 0);
+  };
+  pose();
   scene.add(pivot);
   const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 50);
-  camera.position.set(0, radius * 0.12, radius * 1.55);
+  camera.position.set(0, radius * 0.1, radius * 2.0);
   camera.lookAt(0, 0, 0);
 
   let dragging = false;
@@ -124,7 +132,8 @@ function liveInspect(kind: string, host: HTMLElement, reduce: boolean): InspectH
     if (!alive) return;
     const dt = Math.min(0.1, (now - last) / 1000);
     last = now;
-    if (!dragging) pivot.rotation.y += CG4_U4.inspect.spinRad * dt;
+    if (!dragging) t += dt;
+    pose();
     draw();
     raf = requestAnimationFrame(loop);
   };
@@ -135,7 +144,8 @@ function liveInspect(kind: string, host: HTMLElement, reduce: boolean): InspectH
   };
   const onMove = (e: PointerEvent): void => {
     if (!dragging) return;
-    pivot.rotation.y += (e.clientX - lastX) * CG4_U4.inspect.dragRad;
+    userYaw += (e.clientX - lastX) * CG4_U4.inspect.dragRad;
+    pose();
     lastX = e.clientX;
     if (reduce) draw();
   };
@@ -151,7 +161,8 @@ function liveInspect(kind: string, host: HTMLElement, reduce: boolean): InspectH
   if (!reduce) raf = requestAnimationFrame(loop);
   return {
     turn: () => {
-      pivot.rotation.y += Math.PI / 4;
+      userYaw += Math.PI / 4;
+      pose();
       if (reduce) draw();
     },
     dispose: () => {

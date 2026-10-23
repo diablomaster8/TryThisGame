@@ -2735,3 +2735,32 @@ select {
 .map-campaign-title[hidden] {
   display: none;
 }
+
+/* A box skin never shrinks, crops or covers the speaker's portrait (review: phone, 390 px). */
+.dialogue[class*='box-'] .dialogue-portrait {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  min-width: 64px;
+  min-height: 64px;
+  object-fit: contain;
+}
+
+.dialogue[class*='box-'] .dialogue-box {
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+}
+
+@media (min-width: 601px) {
+  .dialogue[class*='box-'] .dialogue-portrait {
+    min-width: 96px;
+    min-height: 96px;
+  }
+  .dialogue[class*='box-'] .dialogue-box {
+    grid-template-columns: 96px minmax(0, 1fr) auto;
+  }
+}
+
+.dialogue.narration[class*='box-'] .dialogue-box,
+.dialogue.chorus[class*='box-'] .dialogue-box {
+  grid-template-columns: minmax(0, 1fr) auto;
+}

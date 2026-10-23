@@ -9,7 +9,7 @@ export const CG4_U4 = {
     /** The live 3D view's side, in CSS pixels, and its pixel ratio cap on phones. */
     size: 168,
     pixelRatio: 2,
-    /** Radians per CSS pixel of drag, and the idle spin (radians per second; 0 under reduced motion). */
+    /** Radians per CSS pixel of drag, and the idle sway rate (no sway under reduced motion). */
     dragRad: 0.012,
     spinRad: 0.5,
     /** The pixel card's second angle: the sprite squeezed to this share of its width. */
