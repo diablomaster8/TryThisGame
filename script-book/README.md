@@ -28,13 +28,13 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Side story S9: The Gate That Sticks · opens in chapter 11 | [S09.md](side/S09.md) (198) | [sprout.md](learning/side/S09/sprout.md) (219) | [reader.md](learning/side/S09/reader.md) (312) |
 | Side story S10: Fourteen Months · opens in chapter 11 | [S10.md](side/S10.md) (387) | [sprout.md](learning/side/S10/sprout.md) (478) | [reader.md](learning/side/S10/reader.md) (563) |
 | Side story S11: The Blight · opens in chapter 5 | [S11.md](side/S11.md) (168) | [sprout.md](learning/side/S11/sprout.md) (212) | [reader.md](learning/side/S11/reader.md) (305) |
-| Side story S12: The Hum · opens in chapter 6 | [S12.md](side/S12.md) (172) | [sprout.md](learning/side/S12/sprout.md) (209) | [reader.md](learning/side/S12/reader.md) (294) |
-| Side story S13: The Mill Cellar · opens in chapter 7 | [S13.md](side/S13.md) (339) | [sprout.md](learning/side/S13/sprout.md) (350) | [reader.md](learning/side/S13/reader.md) (543) |
-| Side story S14: Tilly’s Tabletop · opens in chapter 8 | [S14.md](side/S14.md) (218) | [sprout.md](learning/side/S14/sprout.md) (254) | [reader.md](learning/side/S14/reader.md) (358) |
-| Side story S15: Lucky Eggs · opens in chapter 5 | [S15.md](side/S15.md) (170) | [sprout.md](learning/side/S15/sprout.md) (211) | [reader.md](learning/side/S15/reader.md) (306) |
+| Side story S12: The Hum · opens in chapter 6 | [S12.md](side/S12.md) (172) | [sprout.md](learning/side/S12/sprout.md) (209) | [reader.md](learning/side/S12/reader.md) (297) |
+| Side story S13: The Mill Cellar · opens in chapter 7 | [S13.md](side/S13.md) (339) | [sprout.md](learning/side/S13/sprout.md) (361) | [reader.md](learning/side/S13/reader.md) (542) |
+| Side story S14: Tilly’s Tabletop · opens in chapter 8 | [S14.md](side/S14.md) (218) | [sprout.md](learning/side/S14/sprout.md) (262) | [reader.md](learning/side/S14/reader.md) (343) |
+| Side story S15: Lucky Eggs · opens in chapter 5 | [S15.md](side/S15.md) (170) | [sprout.md](learning/side/S15/sprout.md) (211) | [reader.md](learning/side/S15/reader.md) (307) |
 | Side story S16: The Workyard · opens in chapter 6 | [S16.md](side/S16.md) (159) | [sprout.md](learning/side/S16/sprout.md) (196) | [reader.md](learning/side/S16/reader.md) (285) |
-| Side story S17: Nightjar · opens in chapter 7 | [S17.md](side/S17.md) (176) | [sprout.md](learning/side/S17/sprout.md) (235) | [reader.md](learning/side/S17/reader.md) (317) |
-| Side story S18: The Grove Museum · opens in chapter 6 | [S18.md](side/S18.md) (191) | [sprout.md](learning/side/S18/sprout.md) (252) | [reader.md](learning/side/S18/reader.md) (345) |
+| Side story S17: Nightjar · opens in chapter 7 | [S17.md](side/S17.md) (176) | [sprout.md](learning/side/S17/sprout.md) (235) | [reader.md](learning/side/S17/reader.md) (318) |
+| Side story S18: The Grove Museum · opens in chapter 6 | [S18.md](side/S18.md) (191) | [sprout.md](learning/side/S18/sprout.md) (258) | [reader.md](learning/side/S18/reader.md) (343) |
 | Side story S19: Cinder’s Last Light · opens in chapter 11 | [S19.md](side/S19.md) (427) | [sprout.md](learning/side/S19/sprout.md) (426) | [reader.md](learning/side/S19/reader.md) (609) |
 | Side story S20: Fort Night · opens in chapter 11 | [S20.md](side/S20.md) (182) | [sprout.md](learning/side/S20/sprout.md) (209) | [reader.md](learning/side/S20/reader.md) (297) |
 | Side story S21: CL-4NK · opens in chapter 3 | [S21.md](side/S21.md) (185) | [sprout.md](learning/side/S21/sprout.md) (212) | [reader.md](learning/side/S21/reader.md) (304) |
@@ -67,7 +67,7 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Storyline | Script |
 | --- | --- |
 | Neopia line (NP1–NP13) | [line.md](neopia/line.md) (1876) |
-| Neopia quests (NQ1–NQ32) | [quests.md](neopia/quests.md) (1846) |
+| Neopia quests (NQ1–NQ32) | [quests.md](neopia/quests.md) (1850) |
 
 ## Multiverse
 

@@ -13,7 +13,8 @@
 _Hazel’s old barn smells of hay, apples and long-ago rain. Swallows’ nests line the rafters like little clay cups._  
 _In the middle of the floor stands a mole in a tweed waistcoat, beside a wheelbarrow full of empty glass cases._  
 **Professor Delve**: Ah. The grandchild. Professor Delve, archivist. I wrote to your grandmother about a museum. She said yes.  
-**Professor Delve**: In principle. Eleven years ago. Moles are patient. I have come to collect the principle.  
+**Professor Delve**: “In principle,” Hazel said. That means “yes, one day”. That was eleven years ago.  
+**Professor Delve**: Moles are patient. I have come to collect my “one day”.  
 **Professor Delve**: Four wings. Three exhibits each. Fossils, night creatures, shore life, the heavens. Twelve. A tidy number.  
 
 > **Lesson** (maths, 3.OA.A.1, ask): multiplication as equal groups  
@@ -28,11 +29,11 @@ _A small brown moth drifts down from the rafters and lands on the end of his nos
 **Professor Delve**: Oh. Oh dear. Oh, no, not one of—  
 _Professor Delve faints, quite neatly, into the wheelbarrow._  
 **Professor Delve**: I’m perfectly all right. I’m simply horizontal.  
-_A muddy figure stands in the doorway: Dusty, two days after the rain on the hill, holding a trowel with nothing to dig._  
+_Dusty stands in the doorway, muddy, holding a trowel with nothing to dig. Dusty’s Nubbin, Fossil, died two days ago._  
 **Dusty**: I heard “fossils”. From the lane. My hands want something to do. Can they do this?  
 
 > **Lesson** (sel, CASEL: Self-management, notice): how keeping busy can help with grief  
-> _Dusty’s Nubbin, Fossil, died on the hill two days ago. Dusty is still very sad._  
+> _Losing Fossil is a big loss, and Dusty is still very sad. It’s sad, and it’s all right to be sad._  
 > _Sometimes, when you’re grieving, it helps to give your hands a job, especially alongside a friend._  
 > _It doesn’t make the sadness go away. It gives it somewhere to sit for a while._  
 > _For grown-ups: Learned that a gentle, shared task can help someone who is grieving._
@@ -104,7 +105,7 @@ _Near midnight a moth lands on the sheet, green and black like lichen on old bar
 > _For grown-ups: Learned that camouflage helps animals hide from predators and survive._
 
 **Luna**: Merveille du Jour. It means “marvel of the day”, and it flies by night. Somebody had a sense of humour.  
-_From the far end of the garden comes a soft thump. Professor Delve has fainted from a mile away, on principle._  
+_From the far end of the garden comes a soft thump. Professor Delve has fainted from a mile away, just to be safe._  
 _By dawn you have a drawing of the moth, a spider’s web lifted whole onto black card, and an owl pellet from under the ash._  
 **Professor Delve**: “The Merveille du Jour is a moth that flies in autumn. Its green and black wings hide it on lichen-covered bark.”  
 **Professor Delve**: “Owls swallow small prey whole. The fur and bones they can’t digest are pressed into a pellet and coughed up.”  
@@ -137,7 +138,7 @@ _Low tide past the ridge. Marina’s rock pools are full of sky, and the seaweed
 > **Marina**: From low tide to high tide takes about 6 hours. Low tide today is 11 o’clock in the morning. When is high tide?  
 > - ✅ About 5 o’clock in the afternoon. → Spot on. 11 o’clock, plus 1 hour is 12, then 5 more hours is 5 o’clock. Plenty of time, if we don’t dawdle.
 > - About 6 o’clock. → Count on from 11: 12, 1, 2, 3, 4, 5. That’s 6 hours, and we land on 5 o’clock.
-> - About 17 o’clock. → Ha! On a 24-hour clock, that’s right: 17:00 is 5 o’clock in the afternoon. On a normal clock face we’d just say 5 o’clock.
+> - About 4 o’clock. → Nearly! Count on from 11: 12, 1, 2, 3, 4 is only 5 hours. One more hour, and we land on 5 o’clock.
 > _For grown-ups: Added 6 hours to 11 o’clock to find a later time._
 
 **Professor Delve**: I have brought a bucket, a net and a deep respect for things with pincers.  
@@ -181,17 +182,18 @@ _And a hermit crab halfway between houses, hurrying out of a cramped winkle shel
 
 _Nova is on the western hill at nightfall, flat on her back in the cold grass beside the memorial flowers._  
 **Nova**: Clear night. No moon till late. Best sky in the valley. I’ve slept under most of them, so I’d know.  
-**Nova**: I brought you something for the museum. I don’t give people things. It’s a rock. Don’t make it a moment.  
+**Nova**: I brought you something for the museum. I don’t give people things. It’s a rock. Please don’t say anything nice. I’ll go red.  
+_She drops a stone the size of a walnut into your palm: black, heavy for its size, with a crust like burnt toast._  
+_A Nubbin sniffs the rock that looks like burnt toast. It is still not toast._  
+**Nova**: I watched it come down over the moor, years back. Walked two days to find it. Carried it ever since.  
 
 > **Lesson** (literacy, RL.3.3, ask): working out a character’s hidden feelings  
-> _Nova carried that rock for years. So why does she say, “Don’t make it a moment”?_  
+> _Nova has carried that rock for years. Then she says, “Please don’t say anything nice.” Why?_  
 > - ✅ It matters a lot to her, and she feels shy showing it. → Yes. Some people go gruff when they care most. Carrying it for years gives her away.
 > - She doesn’t care about the rock. → Nobody carries a rock for years and walks two days for it unless they care. She feels shy about showing how much it matters, so she keeps it short.
 > - She’s in a hurry. → She’s lying in the grass all evening. Not much of a hurry! She cares a lot, and feels shy showing it, so she keeps it short.
 > _For grown-ups: Used a character’s actions to understand feelings she doesn’t say out loud._
 
-_She drops a stone the size of a walnut into your palm: black, heavy for its size, with a crust like burnt toast._  
-**Nova**: I watched it come down over the moor, years back. Walked two days to find it. Carried it ever since.  
 **Professor Delve**: A meteorite! Oh, that is wonderful. And it isn’t a moth. A very good day.  
 
 > **Lesson** (science, notice): what a meteorite is  
@@ -216,16 +218,11 @@ _The Pole Star isn’t the brightest. It’s just the one that stays put while t
 **Nova**: That one got me home more times than I’ve told anyone. Which is none.  
 _Near midnight the Moon comes up over the ridge, low and orange, and turns white as it climbs._  
 **Nova**: Same face. Always the same face. Hazel looked at that face. So did whoever was here before her.  
-
-> **Lesson** (science, 5-ESS1-2, notice): why the stars and Moon seem to move  
-> _The sky isn’t really wheeling. The Earth is spinning, once every day, and we spin with it._  
-> _That’s why the Moon rises in the east and sets in the west, like the Sun._  
-> _The Pole Star sits almost right above the North Pole, the middle of the spin, so it barely seems to move._  
-> _For grown-ups: Learned that the Earth’s daily spin makes the stars and Moon seem to move across the sky._
-
 **Professor Delve**: “Polaris, the Pole Star, sits almost directly above Earth’s North Pole, so it hardly moves across the night sky.”  
 **Professor Delve**: “The Moon always shows Earth the same face. Its pull, together with the Sun’s, raises the tides.”  
 **Professor Delve**: “A shooting star isn’t a star. It is space rock or dust burning up in Earth’s air. A piece that lands is a meteorite.”  
+_Whoosh! A shooting star. Professor Delve ducks under his hat._  
+**Professor Delve**: It isn’t a moth. I just like to be safe.  
 **Nova**: You read plaques to the sky, Professor.  
 **Professor Delve**: The sky has never once corrected me. I find that very restful.  
 
@@ -246,7 +243,7 @@ _Dusty comes in out of the cold, turning something over in their hands: a card, 
 > - Sharing special things with everyone. → That’s a fair answer. A thing in a drawer belongs to one person. A thing in a museum belongs to everyone who visits. That’s what Dusty wants: somewhere people come.
 > _For grown-ups: Think question (no right answer): considered what museums are for, from remembering the past to sharing knowledge._
 
-**Professor Delve**: Though I wonder. Your grandmother kept a hatch register. Every egg in forty years, and its first sound.  
+**Professor Delve**: Though I wonder. Your grandmother kept a hatch register: a book of every egg she hatched in forty years, and its first sound.  
 **Professor Delve**: That is not one Nubbin remembered. That is all of them. It could go in the middle. On loan, naturally.  
 **Dusty**: …That’s fair. That’s a good thing. It just isn’t Fossil.  
 
@@ -280,6 +277,7 @@ _The swallows are long gone south, and have left their little clay cups behind._
 > _In spring they fly all the way back. Many return to the very same barn, and even the same nest._  
 > _For grown-ups: Learned that swallows migrate south in autumn and return in spring, often to the same nest._
 
+**Professor Delve**: They have left their cups unwashed. Very untidy. They will be back for them in spring.  
 **Professor Delve**: One last matter. The door. Glass needs polishing. Plaques come loose. Archivists need… worms.  
 **Professor Delve**: Two Shells a visit would pay for the upkeep and keep the place standing.  
 **Professor Delve**: Or it could be free, and we would manage. Somehow. Probably.  
@@ -306,7 +304,7 @@ _Dusty raises an eyebrow at the word “worms”. The professor pretends not to 
 
 _On opening day half the valley comes. Most of them stand at the centre case longer than they meant to._  
 _Children press their noses to the trilobite. Sparks reads every plaque aloud, loudly, to people already reading them._  
-**Professor Delve**: You did this, Curator. I only had the principle.  
+**Professor Delve**: You did this, Curator. I only had the “one day”.  
 
 > **Lesson** (literacy, L.2.4, ask): working out a new word from context  
 > _The professor calls you “Curator”. You found the exhibits, checked the plaques and filled the cases. So what is a curator?_  
@@ -342,4 +340,4 @@ _Then a moth comes in through the open door, and the Curator’s first official 
 - **upkeep**: The work and money needed to keep something in good condition.
 - **curator**: A person who looks after the things in a museum and explains them to visitors.
 
-**Notes:** Lessons: rock layers, oldest at the bottom (4-ESS1-1) and sea fossils on land (3-LS4-1); moths vs butterflies; camouflage; spiders vs insects; turning stones back; tide timing (11 o’clock + 6 hours); sea stars are not fish; limpets at low tide; meteorites; the Plough’s pointers to the Pole Star (1-ESS1-1); the Earth’s spin (5-ESS1-2); swallows migrating; 4 × 3, 9 × 2; exaggeration, hidden feelings, “curator” from context; grief and remembering; think question on what a museum is for. The twelve plaque texts are kept word for word from the main script.
+**Notes:** Lessons: rock layers, oldest at the bottom (4-ESS1-1) and sea fossils on land (3-LS4-1); moths vs butterflies; camouflage; spiders vs insects; turning stones back; tide timing (11 o’clock + 6 hours); sea stars are not fish; limpets at low tide; meteorites; the Plough’s pointers to the Pole Star (1-ESS1-1); swallows migrating; 4 × 3, 9 × 2; exaggeration, hidden feelings, “curator” from context; grief and remembering; think question on what a museum is for. The twelve plaque texts are kept word for word from the main script.

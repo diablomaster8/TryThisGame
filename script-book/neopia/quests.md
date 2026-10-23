@@ -1462,6 +1462,8 @@ _You tell the Brain Tree both memories. Its branches go still, the way a person 
 **The Brain Tree**: I am whole again. Take this. Plant it somewhere you do your thinking.  
 _Far away, on a purple cloud, a sprig of mint lands on a windowsill. Nobody admits to sending it._  
 _Far away, in a glade, a book appears on a doorstep in brown paper. It is overdue by about two hundred years._  
+_On the trunk, the J and the I go faintly warm inside their lopsided star. Nobody sees it. The bark is quietly pleased._  
+_By teatime each faerie has a note in the other’s handwriting, and no memory of writing it. Both pretend it is a mistake, and keep it._  
 _An acorn drops into your hand. It is grey, folded like a walnut, and very slightly warm._  
 **The Times Reporter**: Name? And the tree’s name? Never mind. Keeper, and unnamed associate.  
 _The Brain Tree reads his notes over his shoulder and rustles, offended._  
@@ -1475,6 +1477,8 @@ _You tell the Brain Tree both memories. Its branches go still, the way a person 
 **The Brain Tree** _(soft)_: I am whole again. You asked how a tree feels, earlier. Nobody does. Take this, and ask it now and then.  
 _Far away, on a purple cloud, a sprig of mint lands on a windowsill. Nobody admits to sending it._  
 _Far away, in a glade, a book appears on a doorstep in brown paper. It is overdue by about two hundred years._  
+_On the trunk, the J and the I go faintly warm inside their lopsided star. Nobody sees it. The bark is quietly pleased._  
+_By teatime each faerie has a note in the other’s handwriting, and no memory of writing it. Both pretend it is a mistake, and keep it._  
 _An acorn drops into your hand. It is grey, folded like a walnut, and very slightly warm._  
 **The Times Reporter**: Name? And the tree’s name? Never mind. Keeper, and unnamed associate.  
 _The Brain Tree reads his notes over his shoulder and rustles, offended._  

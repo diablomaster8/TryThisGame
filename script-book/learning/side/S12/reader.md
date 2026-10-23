@@ -5,7 +5,7 @@
 - `s12-step1`: Carry Solo home to the Thrums in the old wall. · _Hush’s old wall is the tumbled stone one on the north side of the Grove. Keep the teacup level: Solo gets seasick._
 - `s12-step2`: Put your ear to the old wall at dusk and listen for the Queen-Mother. · _She lives at the heart of the wall, low down by Hush’s lantern post. Go when the hum is quietest, and keep still._
 - `s12-step3`: Sit with Solo in Luna’s garden until the first warm, still morning. · _Sit on the bench by the moonflowers after dark, and don’t get up. Solo doesn’t need answers. It needs company._
-- `s12-step4`: Follow the swarm by sound with Pixel’s tuning fork. · _Strike the fork and turn slowly. It buzzes hardest when you face the swarm. If you lose them, stand still and strike it again._
+- `s12-step4`: Follow the swarm by sound with Pixel’s tuning fork. · _Strike the fork and turn slowly. The hum sounds loudest when you face the swarm. If you lose them, stand still and strike it again._
 
 #### `reader:s12-solo` · [main](../../../side/S12.md#s12-solo)
 
@@ -119,16 +119,16 @@ _Deep in the wall, under all the others, there is one slow note, like a big bee 
 > _For grown-ups: Compared listening through stone and through air, to learn that sound travels through solid things._
 
 **The Queen-Mother**: Ah. The Keeper. And the one in your sleeve. Yes, I can hear it. I can hear all of them.  
-**The Queen-Mother**: I am going to tell you something, and you are not to tell the we.  
+**The Queen-Mother**: I will tell you a secret. Don’t tell the others. They all think together, as one big “we”.  
 **The Queen-Mother**: I have said “I” for a very long time. Somebody has to, in the middle of a we. Somebody has to decide when.  
 **The Queen-Mother**: It is quite lonely. Nobody tells you that about the middle.  
 _Solo makes a small sound in your sleeve, like a question with no words in it._  
 **The Queen-Mother**: On the first warm, still morning, half will go. The young one must choose. Go, stay, or something else.  
-**The Queen-Mother**: Don’t choose for it. That would be the we all over again, only taller.  
+**The Queen-Mother**: Don’t choose for it. Then you would be one more crowd, deciding for one small beetle.  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): letting others make their own choices  
 > _Why does the Queen-Mother tell you not to choose for Solo?_  
-> - ✅ Because Solo has only just learned to say “I”, and should get to choose. → Yes. If you chose, you’d be the we all over again: deciding for Solo. You can help someone think. The choice is still theirs.
+> - ✅ Because Solo has only just learned to say “I”, and should get to choose. → Yes. If you chose, you’d be one more crowd deciding for Solo. You can help someone think. The choice is still theirs.
 > - Because she wants to choose herself. → She could, but she doesn’t. She says the young one must choose. Solo has just started saying “I”. Choosing for itself is part of that.
 > - Because it doesn’t matter what Solo does. → It matters a lot to Solo. That’s exactly why the choice should be Solo’s. You can help someone think. The choice is still theirs.
 > _For grown-ups: Thought about why people should get to make their own choices, with help rather than orders._
@@ -149,6 +149,7 @@ _Luna has raked the gravel into slow spirals. In the dark they shine a little, l
 **Solo**: If I go back, I stop. Not die. Stop being the one who is frightened. I would quite like to stop.  
 **Solo**: But I would also like to see what happens next. To me. Is that greedy?  
 **Luna**: I garden at night because nobody else does. I liked being on my own before I liked anything else.  
+_Solo buzzes so hard at every word that the teacup rattles. Luna holds it still with one finger, and carries on._  
 **Luna**: No. That’s not true. It took years. Some nights I still don’t like it. I come out anyway.  
 **Luna**: That isn’t an answer. I haven’t got one. I’ve just got a garden.  
 
@@ -201,7 +202,7 @@ _Pixel presses the fork into your hand. It is warm from her pocket and has PROPE
 **Pixel**: Walk that way. Strike it again when it goes quiet.  
 
 > **Lesson** (science, 4-LS1-2, do): using sound to find where something is  
-> _Strike the fork. Turn slowly, a little at a time. Stop when it buzzes hardest in your fingers._  
+> _Strike the fork. Turn slowly, a little at a time. Stop where the hum sounds loudest in your ears._  
 > _Your ears do this all day, too. Turn your head, and a sound gets louder when you face it._  
 > Check: `edu:turn:tuning-fork:loudest`
 > _For grown-ups: Turned to find the direction a sound was strongest, to locate something by hearing._
@@ -221,8 +222,9 @@ _The swarm hangs from a branch in a great buzzing lump, the shape of a pear._
 > _For grown-ups: Learned that a bee swarm waits in a cluster while scout bees find a new home and dance to share it._
 
 _Pixel holds her fork to it, then towards the wall, then to it again. Then she sits down hard on the bank._  
+_Her left boot squelches. She does not mention it._  
 **Pixel**: It was never one note.  
-**Pixel**: It’s hundreds. All a tiny bit apart. They lean towards each other till it sounds like one. That’s all a hum is.  
+**Pixel**: It’s hundreds of tiny notes, all a bit different. Together they sound like one big note. That’s all a hum is.  
 **Pixel**: I’ve been tuning a clock to a crowd. For years.  
 
 > **Lesson** (music, notice): many voices on nearly the same note sound like one  
@@ -257,7 +259,8 @@ _You don’t choose for it. You sit down on the bank beside the teacup, and wait
 
 #### `reader:s12-complete` · [main](../../../side/S12.md#s12-complete)
 
-_A week later, the Queen-Mother’s note goes quiet for good, in the night, with the whole wall humming round her._  
+_A week later, the Queen-Mother dies in the night. She was very old, and the whole wall hummed round her, so she was not alone._  
+_It is sad, and it is all right to be sad._  
 _In the morning there is a gift on your doorstep: a little hive of clay and wax, no bigger than a teapot._  
 
 > **Lesson** (maths, do): hexagons, and shapes that fit together with no gaps  
@@ -271,14 +274,14 @@ _In the morning there is a gift on your doorstep: a little hive of clay and wax,
 _At dusk it hums a tune you know: the bit of the Lantern Song that comes round twice._  
 _Beside it stands a thimble of pale gold nectar that smells of the wall in summer._  
 **The Thrums**: Hum-nectar. A Nubbin who sips it is calm for a day. Only a day. We did not want to overdo it.  
+_You find you can now hum in tune with anyone nearby. You and Pixel try it, and get B-flat. Nearly._  
 
 > **Lesson** (sel, CASEL: Self-management, notice): ways to feel calm  
 > _There’s no hum-nectar for people. But there are other ways to calm down when feelings get big._  
 > _Slow breaths. A quiet hum. Sitting with someone you trust. Each of these can help, and you can try more than one._  
 > _For grown-ups: Talked about real ways to calm down: slow breathing, humming, and sitting with someone trusted._
 
-_You find you can now say things in chorus with whoever is nearby. It is a skill you didn’t know you lacked._  
-**Pixel**: I’ve retuned the lantern timer. Not to B-flat. To the whole crowd. It runs a bit early now. I like it.  
+**Pixel**: I’ve retuned the lantern timer. Not to B-flat. To the whole crowd. It runs a bit early now. Byte will hate it. I like it.  
 
 ### Glossary
 

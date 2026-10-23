@@ -780,7 +780,8 @@ const S15_SCENES: EduScene[] = [
       N('In the window, on a velvet cushion, an egg glitters like frost on a web. Its card says LEGENDARY. NOT FOR SALE (YET).'),
       KD('Sparkly! Sparkly! Sparkly!', 'happy'),
       PI('I’ve got forty Shells. I’ve saved since my birthday. That’s four eggs. That’s one and a third sparkly!', 'happy'),
-      N('Byte appears at your elbow with a clipboard. He has the face of someone who has just heard maths done wrong.'),
+      N('Byte, the inventor Pixel’s husband, appears at your elbow with a clipboard. His shoelace is undone, as it was all the way down the aisle at his own wedding.'),
+      N('He has the face of someone who has just heard maths done wrong.'),
       BY('One in three. Says who? I want to see it happen. Thirty eggs. We count every single one.', 'think'),
       BY('And while we count, read that poster again. Properly.'),
     ],
@@ -790,7 +791,7 @@ const S15_SCENES: EduScene[] = [
         skill: 'keeping a tally in bundles of five',
         standard: '3.MD.B.3',
         kind: 'do',
-        after: 11,
+        after: 12,
         lines: [
           BY('We’ll keep a tally. One stroke for every egg, under PLAIN or SPARKLY.'),
           BY('Four strokes standing up. The fifth goes across them, like a gate. That’s a bundle of five.'),
@@ -803,7 +804,7 @@ const S15_SCENES: EduScene[] = [
         domain: 'literacy',
         skill: 'spotting the small print in an advert',
         kind: 'ask',
-        after: 12,
+        after: 13,
         prompt: [BY('Which part of that poster should make you most careful?')],
         options: [
           {
@@ -871,7 +872,7 @@ const S15_SCENES: EduScene[] = [
       N('By noon Byte’s card is full. Thirty eggs. Thirty faces, mostly falling.'),
       N('The tally says it all. PLAIN: five gates and two extra strokes. SPARKLY: three strokes.'),
       BY('Twenty-seven plain. Three sparkly. That isn’t one in three. Not even close.', 'think'),
-      BY('The poster is out by three point three three three… and the threes go on forever.', 'angry'),
+      BY('The poster promised ten sparkly. We got three. Ten divided by three is three point three three three… and the threes go on forever.', 'angry'),
       BY('That’s called recurring. I’ve underlined it. Twice.'),
       N('Pip sits on the bridge with four plain eggs in her lap. She isn’t crying. She is being extremely brave at the water.'),
       PI('The plain ones are nice too. They’re warm.', 'sad'),
@@ -1019,7 +1020,7 @@ const S15_SCENES: EduScene[] = [
       JP('HE SAYS THE POSTER IS A POEM. I CANNOT LIE. A POEM IS NOT A NUMBER.'),
       Y('What happens to the eggs nobody buys?'),
       JP('THEY GO UP THE VALLEY. TO A MAN WHO BUYS IN BULK. HE NEVER HAGGLES. HE NEVER SMILES.'),
-      N('Among the stickers on the tailboard, you notice one small, neat silver square: the Circuit’s mark.'),
+      N('Among the stickers on the tailboard, you notice one small, neat silver square: the mark of Corvin’s Circuit, up the valley.'),
       JP('ALSO THE LEGENDARY EGG IS NOT LEGENDARY. I HAVE TRIED NOT TO SAY THAT. IT IS VERY UNCOMFORTABLE.'),
       N('The snoring stops. You both freeze. It starts again.'),
     ],
@@ -1060,14 +1061,14 @@ const S15_SCENES: EduScene[] = [
             best: true,
             reply: [
               JP('CORRECT. YOU COUNTED IT. A FACT CAN BE CHECKED.'),
-              BY('“Every egg a winner” is a feeling dressed up as a fact. You can’t measure it.', 'think'),
+              BY('Right. “Every egg a winner” is a feeling pretending to be a fact. You can’t measure it.', 'think'),
             ],
           },
           {
             label: '“Every egg a winner!”',
             reply: [
               JP('HOW WOULD YOU CHECK IT? WHAT IS A WINNER? HE NEVER SAYS.'),
-              BY('That’s a feeling dressed up as a fact. “One in ten” is a fact: we counted it.'),
+              BY('That’s a feeling pretending to be a fact. “One in ten” is a fact: we counted it.'),
             ],
           },
           {
@@ -1322,7 +1323,7 @@ const S15_SCENES: EduScene[] = [
       PI('Those are worse odds. Why do I like it better?', 'think'),
       BY('Because you know where you are. Knowing where you are is the second-best feeling there is. After winning.', 'happy'),
       N('The children queue anyway. Some buy. Some just come to read the board.'),
-      PI('I’ve got ten Shells left. An egg, or a bag of honey drops for the walk home? I need to think.', 'think'),
+      PI('Gran gave me ten Shells, for being brave about the eggs. An egg, or a bag of honey drops for the walk home?', 'think'),
     ],
     [
       {
@@ -1500,7 +1501,8 @@ const S16_SCENES: EduScene[] = [
     [
       N('Sparks turns up with a coil of wire over each shoulder, like a very small, very loud pirate electrician.'),
       SP('Job upriver! A big one! A sawmill wants lights in every shed. I need someone to hold the ladder and say “wow”.', 'happy'),
-      SP('The owner’s called Brisk Hollins. Nice man. Very nice. Suspiciously cheerful. I’ve brought Clover. She’s good with ladders.'),
+      SP('The owner’s called Brisk Hollins. Nice man. Very nice. Suspiciously cheerful.'),
+      SP('I’ve brought Clover. She looks after the gentlest Nubbins in the valley. She’s good with ladders.'),
       CL('I’m not good with ladders. I’m good at not falling off them. It’s different.', 'think'),
       N('The river path is soft after the rain. Somewhere ahead the saws are going: a bright, busy whine, like wasps in a jar.'),
       SP('He says his Nubbins love it there. Love it! He wrote it in his letter twice, and underlined it both times.'),
@@ -1512,7 +1514,7 @@ const S16_SCENES: EduScene[] = [
         skill: 'sound bends round things; light travels in straight lines',
         standard: '4-PS3-2',
         kind: 'notice',
-        after: 4,
+        after: 5,
         lines: [
           CL('Funny. We can hear the saws, but we can’t see them.', 'think'),
           SP('Sound spreads out and bends round trees and corners. Light goes in straight lines, so the trees block the view.', 'happy'),
@@ -1525,8 +1527,8 @@ const S16_SCENES: EduScene[] = [
         skill: 'reading between the lines',
         standard: 'RL.3.3',
         kind: 'ask',
-        after: 6,
-        prompt: [N('Why does Clover think twice is a lot of underlining?')],
+        after: 7,
+        prompt: [CL('Why does Clover think twice is a lot of underlining?')],
         options: [
           {
             label: 'When someone insists very hard, something might not be quite right.',
@@ -1564,7 +1566,7 @@ const S16_SCENES: EduScene[] = [
       N('Over the gate, a banner says WORK IS PLAY! In the middle of the yard, three Nubbins run inside a big wooden treadwheel.'),
       N('Wires run from the treadwheel to every shed. Every bulb in the yard flickers in time with their feet.'),
       BK('Welcome! Brisk Hollins. Pleased as punch. Output’s up this month. More logs than ever!', 'happy'),
-      BK('I’m no Circuit man, mind. Mine get Sundays off.', 'happy'),
+      BK('I’m not like Corvin up at the Circuit, mind. My Nubbins get Sundays off.', 'happy'),
       N('A big Power Nubbin trundles past with a log three times his size on his back, humming. His hat says LUG in pencil.'),
       BK('That’s Lug. Best worker I’ve got. Can’t stop him. Tried once. He sulked for a week.', 'happy'),
       N('Behind the log pile sit five Nubbins. Their colours have worn grey at the edges, like a flag left out all summer.'),
@@ -1629,6 +1631,9 @@ const S16_SCENES: EduScene[] = [
       SP('Brisk. When nobody’s telling them what to do, what do they do?', 'think'),
       N('Brisk opens his mouth to answer. He shuts it again. He has clearly never once wondered.'),
       BK('…Well. Good question. Splendid question. Find out! Have a clipboard. I’ve got forty.', 'think'),
+      N('He hands you a clipboard. Then another, in case. Then a third.'),
+      CL('We’ve only got two hands each, Brisk.', 'think'),
+      BK('Then you’ll want a spare.', 'happy'),
       CL('Observe them from where they can’t see you. If they know they’re watched, they’ll work to be polite. Nubbins are like that.', 'soft'),
     ],
     [
@@ -1669,7 +1674,7 @@ const S16_SCENES: EduScene[] = [
         domain: 'science',
         skill: 'observing animals without changing what they do',
         kind: 'notice',
-        after: 7,
+        after: 10,
         lines: [
           CL('Scientists who study wild animals often watch from a hide: a little hut or screen the animals can’t see into.', 'soft'),
           CL('That way the animals behave as they really would. And the notes are true.'),
@@ -1714,20 +1719,6 @@ const S16_SCENES: EduScene[] = [
     ],
     [
       {
-        domain: 'maths',
-        skill: 'turning notes into a bar chart and reading it',
-        standard: '3.MD.B.3',
-        kind: 'do',
-        after: 5,
-        lines: [
-          N('Turn your clipboard into a bar chart. One bar for each choice: CHOP 2, STACK 1, REST 4, CARRY 1.'),
-          N('Which bar is tallest? REST: four of the eight Nubbins. Four out of eight is one half.'),
-          N('Half the Nubbins you watched chose rest, when nobody was asking.'),
-        ],
-        check: 'edu:chart:bar:nubbin-choices',
-        parentNote: 'Made a bar chart from observation notes, found the tallest bar, and saw that 4 out of 8 is one half.',
-      },
-      {
         domain: 'literacy',
         skill: 'using evidence to explain a character’s actions',
         standard: 'RL.3.3',
@@ -1760,6 +1751,20 @@ const S16_SCENES: EduScene[] = [
         ],
         parentNote: 'Used evidence from the story to explain why a character did something.',
       },
+      {
+        domain: 'maths',
+        skill: 'turning notes into a bar chart and reading it',
+        standard: '3.MD.B.3',
+        kind: 'do',
+        after: 8,
+        lines: [
+          N('Turn your clipboard into a bar chart. One bar for each choice: CHOP 2, STACK 1, REST 4, CARRY 1.'),
+          N('Which bar is tallest? REST: four of the eight Nubbins. Four out of eight is one half.'),
+          N('Half the Nubbins you watched chose rest, when nobody was asking.'),
+        ],
+        check: 'edu:chart:bar:nubbin-choices',
+        parentNote: 'Made a bar chart from observation notes, found the tallest bar, and saw that 4 out of 8 is one half.',
+      },
     ],
   ),
   // ------------------------------------------------ step 3 scene: the roster
@@ -1773,29 +1778,17 @@ const S16_SCENES: EduScene[] = [
       SP('That’s worse.', 'think'),
       BK('I know. I’m working on it.', 'sad'),
       SP('Right. That treadwheel’s coming off the wires. Your lights go on the waterwheel. Like a normal person’s.', 'happy'),
+      SP('And a river never gets tired. It just keeps coming.'),
       CL('And every Nubbin gets a card on a roster, under the job it picked. And breaks. With fruit.', 'soft'),
       BK('And the ones who don’t want a job at all? What then? What’s a yard for?', 'shock'),
       N('Nobody answers. Brisk puts up another banner: REST IS A KIND OF WORK?? It has two question marks.'),
     ],
     [
       {
-        domain: 'science',
-        skill: 'the waterwheel: a wheel and axle that turns moving water into electricity',
-        standard: '4-PS3-4',
-        kind: 'notice',
-        after: 6,
-        lines: [
-          SP('A waterwheel is a simple machine: a wheel and axle. The axle is the rod in the middle. It turns with the wheel.', 'happy'),
-          SP('The river pushes the paddles round. Hook the axle to a generator, and the moving water’s energy becomes electricity.'),
-          SP('And a river never gets tired. It just keeps coming.'),
-        ],
-        parentNote: 'Learned that a waterwheel is a wheel and axle, and that it can change moving water’s energy into electricity.',
-      },
-      {
         domain: 'health',
         skill: 'why bodies need rest, food and water',
         kind: 'ask',
-        after: 7,
+        after: 8,
         prompt: [CL('Why do you think workers need breaks, with fruit?', 'soft')],
         options: [
           {
@@ -1831,7 +1824,9 @@ const S16_SCENES: EduScene[] = [
       N('The big treadwheel stands still. Sparks has hung a sign on it: RETIRED. A Nubbin is already asleep inside it.'),
       N('A wheel runner waddles to the bell. It looks round at everyone. Then it rings it. Once. Very softly.'),
       N('Then it goes and sits in the sun. Nobody stops it. It looks astonished.'),
-      BK('Well, I’ll be. I’ll be. Output’s going to be awful.', 'happy'),
+      BK('Well, I never. Output’s going to be awful.', 'shock'),
+      N('He beams.'),
+      BK('And I don’t mind one bit. I’m quite shocked at myself.', 'happy'),
     ],
     [
       {
@@ -1888,7 +1883,7 @@ const S16_SCENES: EduScene[] = [
       BK('Apples. Sticks. Do you ask them? Or do they just do it, because you’re the one who feeds them?', 'think'),
       N('You think of your Nubbins dragging fallen apples to your door. How pleased they look. How pleased you look back.'),
       Y('I don’t know.'),
-      BK('No. Me neither. That’s the trouble with being liked. You never find out what they’d do if they didn’t like you.', 'sad'),
+      BK('No. Me neither. If they like you, you can’t tell if they’re choosing, or just being kind.', 'sad'),
       BK('Now. The five in the reeds. They don’t want to work. Not a bit. What do I do with them?', 'think'),
     ],
     [
@@ -2051,6 +2046,7 @@ const S16_SCENES: EduScene[] = [
     [
       BK('Here. Can’t have a Keeper on my yard without a hat. Regulations. My regulations. New ones.', 'happy'),
       N('A yellow hard hat in your size, painted to match the walnut-shell ones. On the brim, in Lug’s pencil: KEEPER.'),
+      N('A Workyard Nubbin tries to eat your new hard hat. It is not supper.'),
       BK('And take a copy of the roster. Try it at the Grove. Let them pick their jobs, and see what they pick.', 'soft'),
       CL('And see what they don’t. That’s just as worth knowing.', 'soft'),
       N('Back home you nail the Fair Roster by the cottage door. By morning, three Nubbins have pushed their cards under jobs.'),
@@ -2075,7 +2071,7 @@ const S16_SCENES: EduScene[] = [
         skill: 'your point of view and a character’s',
         standard: 'RL.3.6',
         kind: 'ask',
-        after: 7,
+        after: 8,
         prompt: [N('Sparks says sitting with Moss isn’t a job. Clover says it is, to Moss. What’s your point of view?')],
         options: [
           {
@@ -2088,7 +2084,7 @@ const S16_SCENES: EduScene[] = [
           {
             label: 'Clover is right. Keeping someone company helps them.',
             reply: [
-              N('That’s a fair point of view too. Moss is old and fading, and company matters to him.'),
+              N('That’s a fair point of view too. Moss is very old, and a quiet friend means a lot to him.'),
               N('Sparks sees it differently. Same Nubbin, two ways of looking.'),
             ],
           },
@@ -2140,7 +2136,6 @@ const S16: EduQuest = {
     gloss('offcuts', 'Small leftover pieces cut off a bigger piece of wood.', 's16-notes'),
     gloss('lean-to', 'A simple shelter with a sloping roof, often propped against something.', 's16-notes'),
     gloss('roster', 'A list that shows who does which job, and when.', 's16-roster'),
-    gloss('axle', 'The rod through the middle of a wheel, which turns with it or lets it turn.', 's16-roster'),
     gloss('consent', 'Saying yes because you really want to, when saying no is allowed too.', 's16-bell'),
     gloss('astonished', 'Very, very surprised.', 's16-bell'),
     gloss('slogan', 'A short, catchy phrase that is easy to remember.', 's16-question'),
@@ -2153,7 +2148,7 @@ const S16: EduQuest = {
     'Lessons: sound bends round obstacles, light doesn’t; reading between the lines; the treadwheel changing movement into ' +
     'electricity and light (4-PS3-4); tired vs lazy; what a graph measures; observing from a hide; a bar chart of the eight ' +
     'watched Nubbins (CHOP 2, STACK 1, REST 4, CARRY 1, matching the mini-game’s log) and 4/8 = one half; Lug’s motive from ' +
-    'evidence; the waterwheel as a wheel and axle (4-PS3-4); rest, food and water; fair rules for the smallest; consent; what ' +
+    'evidence; rest, food and water; fair rules for the smallest; consent; what ' +
     'working animals need; 11 to 3 is 4 hours; redrafting; hard hats; point of view. Think question (s16-question): when an ' +
     'animal works because you feed it, is it choosing? “Output’s up nine per cent” in s16-yard is simplified to “Output’s up”; ' +
     '“per cent” is glossed in s16-week. The big wooden wheel is called a treadwheel throughout.',

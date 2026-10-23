@@ -14,6 +14,8 @@ _Rain on the window. Pitter, patter._
 _In comes Sparks, with a small girl in big wellies._  
 **Sparks**: This is Tilly. My cousin. She’s nine. She’s the boss now. Sorry!  
 **Tilly**: I’m the Game Mistress. It’s like a boss, but more.  
+_Pixel and Byte come too. They are married._  
+_They argue about who rolls first._  
 _She spreads a felt-tip map on Hazel’s table._  
 _Then the dice. Cardboard, cut by hand, with tape on the corners._  
 
@@ -25,6 +27,7 @@ _Then the dice. Cardboard, cut by hand, with tape on the corners._
 
 **Tilly**: Rule one: the Game Mistress is always right. Rule two: see rule one.  
 **Tilly**: Rule three: snacks at the end. Only at the end.  
+**Tilly**: Everybody starts with eight points. Don’t lose them.  
 **Tilly**: Pick your hero. Ten seconds. Nine. Four!  
 
 **Choices**
@@ -53,7 +56,8 @@ _A felt-tip frog sits in it. He does not look impressed._
 _Sparks rolls. One dot._  
 **Tilly**: A one! Your sword is now a cheese sandwich.  
 **Byte**: Actually, that’s not how—  
-**Tilly**: Rule four! Say “actually”, lose a point.  
+**Tilly**: Rule four! Say “actually”, lose a point. Byte has seven.  
+_Byte opens his mouth. Byte shuts his mouth. Pop!_  
 _You roll a LOTS. The bog likes you. Everybody gets across!_  
 **Tilly**: Game over. Nobody’s hurt. Somebody’s a sandwich.  
 
@@ -73,13 +77,15 @@ _Next day there’s a new tower on the map._
 
 **Pixel**: Can I build a machine to beat him?  
 **Tilly**: Roll. Three dots. Your machine is a toad now. It works for him.  
-**Byte**: Is there a tax on paying the tax?  
-**Tilly**: …Yes. Thanks SO much, Byte.  
+**Byte**: Do we pay a shell for paying a shell?  
+**Tilly**: …Yes! Thanks SO much, Byte.  
+_Byte hands over one more shell. Clink._  
+**Tilly**: That was a very “actually” question. Six!  
 
 #### `sprout:s14-toad` · [main](../../../side/S14.md#s14-toad)
 
 **Byte**: The Toad owes… no, we owe… I’ve muddled it.  
-**Tilly**: The Toad doesn’t do sums. The Toad does feelings.  
+**Tilly**: The Toad can’t count. He just likes shells. RIBBIT!  
 _Then Pixel’s Nubbin wakes up. It climbs onto the map._  
 _Chomp! It eats the cardboard Tax Toad._  
 **Tilly**: The Toad has been eaten! No more paying for anyone!  
@@ -101,7 +107,8 @@ _It’s coloured grey. So hard, it went right through the paper._
 
 _Next morning, Sparks is at your gate. Being quiet. Sparks is never quiet!_  
 **Sparks**: The dragon in the corner of the map keeps getting bigger.  
-**Sparks**: Last night it got a cardigan. It’s Hazel. Of course it’s Hazel.  
+**Sparks**: Last night it got a cardigan. Hazel always wears a cardigan.  
+**Sparks**: So the dragon is really Hazel. Tilly misses her.  
 **Sparks**: Hazel went away on a long trip. She didn’t say goodbye.  
 
 > **Lesson** (sel, CASEL: Self-awareness, notice): missing someone: two feelings at once  
@@ -110,7 +117,7 @@ _Next morning, Sparks is at your gate. Being quiet. Sparks is never quiet!_
 > _For grown-ups: Heard that missing someone can make us feel sad and cross at once, and that both are all right._
 
 **Sparks**: Hazel left Tilly a note. She won’t open it. It’s in her welly.  
-**Sparks**: Go and find her. She likes you. You’re not a sandwich.  
+**Sparks**: Go and find Tilly. She likes you. You’re not a sandwich!  
 
 #### `sprout:s14-gate` · [main](../../../side/S14.md#s14-gate)
 
@@ -135,7 +142,7 @@ _The Nubbins sit in a row in front of her wellies._
     - **Tilly**: I’m not talking about her.
     - A Nubbin licks her welly.
     - **Tilly**: She didn’t say goodbye. You’re supposed to say goodbye!
-    - She takes out the note. She looks at it. She puts it back.
+    - Tilly takes out Hazel’s note. She does not open it. She puts it back.
     - **Tilly**: Come and play. I’ve got a dragon to do.
 - **Ask her about the dragon.**
     - **Tilly**: She’s the Grey Grandmother. Very old. Very rude.
@@ -157,8 +164,9 @@ _Then you roll. LOTS again! Another goose is your friend._
 > - 4 → Not that many! One and one more make two.
 > _For grown-ups: Added one goose and one more goose to make two._
 
-**Byte**: Do I still have seven points?  
-**Tilly**: Four. You said “do” in an “actually” voice.  
+**Byte**: Do I still have six points?  
+**Tilly**: Five! You said “do” very, very actually.  
+_Byte’s ears go pink. He writes a tiny sad 5._  
 
 #### `sprout:s14-dragon` · [main](../../../side/S14.md#s14-dragon)
 
@@ -237,7 +245,7 @@ _You keep your button right where it is._
 _Crisps, Fern’s burnt biscuits, and grapes the Nubbins already found._  
 _Tilly eats with the dragon in her lap._  
 **Tilly**: The Grey Grandmother isn’t the boss now. You can visit her.  
-**Tilly**: And Byte gets all his points back. For the tea towel.  
+**Tilly**: And Byte gets all eight points back. For the tea towel.  
 _She puts her cardboard crown on your head. GAME MISTRESS!_  
 _Later, you look at the map. The grey corner is coloured yellow now._  
 

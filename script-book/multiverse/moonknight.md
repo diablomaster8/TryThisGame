@@ -127,7 +127,7 @@ _You reach Marlene. You don’t reach the tomb in time. Shots, then shouting, th
 _Her father lies still at the tomb’s mouth. Bushman steps over him without looking down._  
 **Marlene** _(sad)_: No. No, no, no.  
 
-### Step 2: Bring Marlene and Frenchie to the statue before dawn.
+### Step 2: Reach Khonshu’s statue before dawn, with Marlene and Frenchie close behind.
 
 Hint: Cross the dunes on the Expedition map; the moonlit path shows the way. · check: `expedition:clear:mv-khonshu-tomb`
 

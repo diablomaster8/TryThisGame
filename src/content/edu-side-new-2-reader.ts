@@ -293,12 +293,12 @@ const S12_SCENES: EduScene[] = [
       N('At dusk you lie in the grass with your ear against the bottom stone, where the moss is warmest.'),
       N('Deep in the wall, under all the others, there is one slow note, like a big bee in a shut room.'),
       QM('Ah. The Keeper. And the one in your sleeve. Yes, I can hear it. I can hear all of them.', 'soft'),
-      QM('I am going to tell you something, and you are not to tell the we.'),
+      QM('I will tell you a secret. Don’t tell the others. They all think together, as one big “we”.'),
       QM('I have said “I” for a very long time. Somebody has to, in the middle of a we. Somebody has to decide when.', 'think'),
       QM('It is quite lonely. Nobody tells you that about the middle.', 'sad'),
       N('Solo makes a small sound in your sleeve, like a question with no words in it.'),
       QM('On the first warm, still morning, half will go. The young one must choose. Go, stay, or something else.', 'soft'),
-      QM('Don’t choose for it. That would be the we all over again, only taller.', 'happy'),
+      QM('Don’t choose for it. Then you would be one more crowd, deciding for one small beetle.', 'happy'),
     ],
     [
       {
@@ -327,7 +327,7 @@ const S12_SCENES: EduScene[] = [
             label: 'Because Solo has only just learned to say “I”, and should get to choose.',
             best: true,
             reply: [
-              N('Yes. If you chose, you’d be the we all over again: deciding for Solo.'),
+              N('Yes. If you chose, you’d be one more crowd deciding for Solo.'),
               N('You can help someone think. The choice is still theirs.'),
             ],
           },
@@ -361,6 +361,7 @@ const S12_SCENES: EduScene[] = [
       SO('If I go back, I stop. Not die. Stop being the one who is frightened. I would quite like to stop.'),
       SO('But I would also like to see what happens next. To me. Is that greedy?', 'think'),
       LU('I garden at night because nobody else does. I liked being on my own before I liked anything else.', 'soft'),
+      N('Solo buzzes so hard at every word that the teacup rattles. Luna holds it still with one finger, and carries on.'),
       LU('No. That’s not true. It took years. Some nights I still don’t like it. I come out anyway.'),
       LU('That isn’t an answer. I haven’t got one. I’ve just got a garden.', 'think'),
     ],
@@ -382,7 +383,7 @@ const S12_SCENES: EduScene[] = [
         skill: 'thinking about belonging and being yourself',
         standard: 'CASEL: Self-awareness',
         kind: 'ask',
-        after: 8,
+        after: 9,
         prompt: [
           N('Solo is torn. In the hum it belongs, and it’s safe. Out here it’s itself, and it’s scared.'),
           N('What do you think matters more: belonging to a group, or being yourself?'),
@@ -509,7 +510,7 @@ const S12_SCENES: EduScene[] = [
         kind: 'do',
         after: 3,
         lines: [
-          N('Strike the fork. Turn slowly, a little at a time. Stop when it buzzes hardest in your fingers.'),
+          N('Strike the fork. Turn slowly, a little at a time. Stop where the hum sounds loudest in your ears.'),
           N('Your ears do this all day, too. Turn your head, and a sound gets louder when you face it.'),
         ],
         check: 'edu:turn:tuning-fork:loudest',
@@ -523,8 +524,9 @@ const S12_SCENES: EduScene[] = [
       N('The fork leads you over the stream to Hazel’s crooked tree.'),
       N('The swarm hangs from a branch in a great buzzing lump, the shape of a pear.'),
       N('Pixel holds her fork to it, then towards the wall, then to it again. Then she sits down hard on the bank.'),
+      N('Her left boot squelches. She does not mention it.'),
       PX('It was never one note.', 'shock'),
-      PX('It’s hundreds. All a tiny bit apart. They lean towards each other till it sounds like one. That’s all a hum is.'),
+      PX('It’s hundreds of tiny notes, all a bit different. Together they sound like one big note. That’s all a hum is.'),
       PX('I’ve been tuning a clock to a crowd. For years.', 'happy'),
       TH('We are here. We are a new we. We are not yet sure what we are like.', 'think'),
       TH('One. Solo. Will you come into a we? This one or the old one. Either is warm.', 'soft'),
@@ -549,7 +551,7 @@ const S12_SCENES: EduScene[] = [
         domain: 'music',
         skill: 'many voices on nearly the same note sound like one',
         kind: 'notice',
-        after: 5,
+        after: 6,
         lines: [
           PX('A choir works the same way. Lots of voices, each a tiny bit different, blend into one big, rich sound.'),
           PX('One voice is a solo. Lots together is a chorus. Both are music.'),
@@ -599,21 +601,22 @@ const S12_SCENES: EduScene[] = [
   scene(
     's12-complete',
     [
-      N('A week later, the Queen-Mother’s note goes quiet for good, in the night, with the whole wall humming round her.'),
+      N('A week later, the Queen-Mother dies in the night. She was very old, and the whole wall hummed round her, so she was not alone.'),
+      N('It is sad, and it is all right to be sad.'),
       N('In the morning there is a gift on your doorstep: a little hive of clay and wax, no bigger than a teapot.'),
       TH('For the Keeper. It hums. We taught it. We hope that is not rude.', 'soft'),
       N('At dusk it hums a tune you know: the bit of the Lantern Song that comes round twice.'),
       N('Beside it stands a thimble of pale gold nectar that smells of the wall in summer.'),
       TH('Hum-nectar. A Nubbin who sips it is calm for a day. Only a day. We did not want to overdo it.'),
-      N('You find you can now say things in chorus with whoever is nearby. It is a skill you didn’t know you lacked.'),
-      PX('I’ve retuned the lantern timer. Not to B-flat. To the whole crowd. It runs a bit early now. I like it.', 'happy'),
+      N('You find you can now hum in tune with anyone nearby. You and Pixel try it, and get B-flat. Nearly.'),
+      PX('I’ve retuned the lantern timer. Not to B-flat. To the whole crowd. It runs a bit early now. Byte will hate it. I like it.', 'happy'),
     ],
     [
       {
         domain: 'maths',
         skill: 'hexagons, and shapes that fit together with no gaps',
         kind: 'do',
-        after: 1,
+        after: 2,
         lines: [
           N('Look inside the little hive. The wax is made of rows of tiny cells, like real honeycomb.'),
           N('Tap one cell and count its sides. Six sides: a hexagon. Bees build their honeycomb cells this shape too.'),
@@ -627,7 +630,7 @@ const S12_SCENES: EduScene[] = [
         skill: 'ways to feel calm',
         standard: 'CASEL: Self-management',
         kind: 'notice',
-        after: 5,
+        after: 7,
         lines: [
           N('There’s no hum-nectar for people. But there are other ways to calm down when feelings get big.'),
           N('Slow breaths. A quiet hum. Sitting with someone you trust. Each of these can help, and you can try more than one.'),
@@ -658,7 +661,7 @@ const S12: EduQuest = {
     },
     's12-step4': {
       goal: 'Follow the swarm by sound with Pixel’s tuning fork.',
-      hint: 'Strike the fork and turn slowly. It buzzes hardest when you face the swarm. If you lose them, stand still and strike it again.',
+      hint: 'Strike the fork and turn slowly. The hum sounds loudest when you face the swarm. If you lose them, stand still and strike it again.',
     },
   },
   scenes: S12_SCENES,
@@ -872,8 +875,11 @@ const S17_SCENES: EduScene[] = [
         skill: 'why owls turn their heads',
         standard: '4-LS1-1',
         kind: 'ask',
-        after: 3,
-        prompt: [N('You can look sideways just by moving your eyes. Why does an owl turn its whole head instead?')],
+        after: 5,
+        prompt: [
+          N('Before she flew off, the owl turned her whole head to look at you.'),
+          N('You can look sideways just by moving your eyes. Why does an owl turn its whole head instead?'),
+        ],
         options: [
           {
             label: 'Its eyes can’t move in their sockets.',
@@ -881,6 +887,7 @@ const S17_SCENES: EduScene[] = [
             reply: [
               N('Yes. An owl’s eyes are shaped like short tubes, fixed in place. So it turns its head instead.'),
               N('Its neck bends so well that it can turn its head about three-quarters of the way round.'),
+              N('Her eyes are huge, too. Big eyes let in lots of light, so owls see well when it’s nearly dark. Animals active at night are called nocturnal.'),
             ],
           },
           {
@@ -888,6 +895,7 @@ const S17_SCENES: EduScene[] = [
             reply: [
               N('It does look like showing off! But an owl has to do it.'),
               N('Its eyes are fixed in place and can’t roll like ours. So it turns its head, nearly three-quarters of the way round.'),
+              N('Her eyes are huge, too. Big eyes let in lots of light, so owls see well when it’s nearly dark. Animals active at night are called nocturnal.'),
             ],
           },
           {
@@ -895,22 +903,12 @@ const S17_SCENES: EduScene[] = [
             reply: [
               N('Turning helps owls hear too. But the main reason is its eyes: they can’t move in their sockets.'),
               N('So it turns its whole head, about three-quarters of the way round.'),
+              N('Her eyes are huge, too. Big eyes let in lots of light, so owls see well when it’s nearly dark. Animals active at night are called nocturnal.'),
             ],
           },
         ],
-        parentNote: 'Learned that owls’ eyes are fixed in their sockets, so owls turn their heads to look around.',
-      },
-      {
-        domain: 'science',
-        skill: 'how owls see at night',
-        standard: '4-LS1-2',
-        kind: 'notice',
-        after: 5,
-        lines: [
-          LU('How did she find the nursery at midnight? Her eyes. An owl’s eyes are huge for the size of its head.'),
-          LU('Big eyes let in lots of light, so owls can see well when it’s nearly dark. Animals active at night are called nocturnal.'),
-        ],
-        parentNote: 'Learned that owls’ very large eyes gather lots of light, helping them see at night.',
+        parentNote:
+          'Learned that owls’ eyes are fixed in their sockets, so owls turn their heads to look around, and that their very large eyes gather lots of light to see at night.',
       },
     ],
   ),
@@ -991,10 +989,10 @@ const S17_SCENES: EduScene[] = [
       N('She has turned them so that each one gets its time in the middle.'),
       N('Woven deep into the lining, where they can never be dropped, are two very old eggshells, grey and cracked across.'),
       LU('Hazel told me about a night before my time. Spring, blossom out. Then a cold came down the valley, out of season.', 'soft'),
-      LU('Frost on the blossom. Ice in the stream. In the morning the owl on the cliff was calling and calling.', 'sad'),
+      LU('Frost on the blossom. Ice in the stream. Two of her chicks died that night. In the morning she was calling and calling.', 'sad'),
       LU('Hazel said she never really stopped. That was twenty-two years ago.'),
-      N('…'),
-      NO('That number keeps turning up.', 'think'),
+      N('Nova goes quiet, counting something on her fingers.'),
+      NO('Twenty-two. That number keeps turning up.', 'think'),
       NJ('Hoo-oo.', 'sad'),
       N('She settles lower over the eggs, the way you would pull a blanket up over someone already asleep.'),
     ],
@@ -1021,7 +1019,7 @@ const S17_SCENES: EduScene[] = [
         lines: [
           N('Those two old eggs never hatched. The chicks inside died in the cold, and they can’t come back.'),
           N('Nightjar still keeps their shells. That deep sadness after losing someone you love is called grief.'),
-          N('Grief can last a long time. It isn’t wrong. It shows how much she loved them.'),
+          N('Grief can last a long time. It isn’t wrong, and it’s all right to be sad. It shows how much she loved them.'),
         ],
         parentNote: 'Learned the word grief, in plain words about death, and that grief is a sign of love.',
       },
@@ -1093,7 +1091,7 @@ const S17_SCENES: EduScene[] = [
       N('There is still one egg under her. Small, speckled like lichen, and it doesn’t glow. It isn’t the Grove’s.'),
       NO('That’s nobody’s. Wild. Its mother never came back, I’d guess. It happens.', 'think'),
       N('Nightjar looks at the egg, then at you. She does not hide it. She does not move off it, either.'),
-      LU('Leave it with her. Let somebody keep something warm and have it work.', 'soft'),
+      LU('Leave it with her. Let her keep one egg warm, and see it hatch.', 'soft'),
       N('You leave it. On the way down, Luna stops on the path.'),
       LU('Next spring she’ll come back to the nursery. Grief keeps a better calendar than I do. What do we do?', 'think'),
     ],
@@ -1175,7 +1173,7 @@ const S17_SCENES: EduScene[] = [
         then: [
           NO('A night nurse. With a beak. That’s either brilliant or a disaster.', 'happy'),
           LU('If she wants eggs to sit on, she can sit on ours, where we can see. Hazel would have done that.', 'soft'),
-          LU('Then worried all night. Then done it again.'),
+          LU('Then she’d have worried all night. Then she’d have done it again.'),
         ],
       },
       {
@@ -1250,11 +1248,17 @@ const S17_SCENES: EduScene[] = [
     's17-hatching',
     [
       N('The wind has dropped. The egg under her is rocking. Nightjar shifts off it, just enough, and you both watch.'),
+      N('At nine o’clock exactly, Nova comes up the cliff path, out of breath, by accident.'),
+      NO('Don’t look at me. I’m not here. I’m not stopping.'),
+      N('Nova sits down beside you anyway, and stays till dawn.'),
       N('A crack. A beak like a fingernail. Then a damp grey thing the size of a dumpling, eyes shut tight, very offended.'),
       NJ('Hoo-oo. Hoo-oo.', 'happy'),
       N('The same two notes. They don’t sound the same at all.'),
       N('Later the owlet tumbles across the rock and into your lap. Nightjar watches. She does not call it back.'),
       LU('She’s sharing. Owls don’t share. Look at that.', 'soft'),
+      NO('It’s small and cross and fluffy.'),
+      LU('Like someone I know.', 'happy'),
+      N('Nova does not ask who.'),
     ],
     [
       {
@@ -1262,7 +1266,7 @@ const S17_SCENES: EduScene[] = [
         skill: 'an owl’s life cycle, and how a chick hatches',
         standard: '3-LS1-1',
         kind: 'do',
-        after: 1,
+        after: 4,
         lines: [
           LU('See the tiny hard point on its beak? That’s an egg tooth. Chicks use it to chip their way out. It drops off soon after.'),
           LU('Owlets hatch with their eyes shut and a coat of soft, fluffy feathers called down.'),
@@ -1276,7 +1280,7 @@ const S17_SCENES: EduScene[] = [
         skill: 'how a character’s feelings change the meaning',
         standard: 'RL.2.3',
         kind: 'ask',
-        after: 3,
+        after: 6,
         prompt: [N('Nightjar calls the same two notes she always calls. Why don’t they sound the same?')],
         options: [
           {
@@ -1404,14 +1408,15 @@ const S18_SCENES: EduScene[] = [
       N('Hazel’s old barn smells of hay, apples and long-ago rain. Swallows’ nests line the rafters like little clay cups.'),
       N('In the middle of the floor stands a mole in a tweed waistcoat, beside a wheelbarrow full of empty glass cases.'),
       DE('Ah. The grandchild. Professor Delve, archivist. I wrote to your grandmother about a museum. She said yes.', 'happy'),
-      DE('In principle. Eleven years ago. Moles are patient. I have come to collect the principle.'),
+      DE('“In principle,” Hazel said. That means “yes, one day”. That was eleven years ago.'),
+      DE('Moles are patient. I have come to collect my “one day”.'),
       DE('Four wings. Three exhibits each. Fossils, night creatures, shore life, the heavens. Twelve. A tidy number.'),
       DE('Every exhibit gets a plaque, and every plaque must be true. Not nearly true. Not true-ish. True.', 'think'),
       N('A small brown moth drifts down from the rafters and lands on the end of his nose.'),
       DE('Oh. Oh dear. Oh, no, not one of—', 'shock'),
       N('Professor Delve faints, quite neatly, into the wheelbarrow.'),
       DE('I’m perfectly all right. I’m simply horizontal.', 'sad'),
-      N('A muddy figure stands in the doorway: Dusty, two days after the rain on the hill, holding a trowel with nothing to dig.'),
+      N('Dusty stands in the doorway, muddy, holding a trowel with nothing to dig. Dusty’s Nubbin, Fossil, died two days ago.'),
       DU('I heard “fossils”. From the lane. My hands want something to do. Can they do this?', 'soft'),
     ],
     [
@@ -1420,7 +1425,7 @@ const S18_SCENES: EduScene[] = [
         skill: 'multiplication as equal groups',
         standard: '3.OA.A.1',
         kind: 'ask',
-        after: 4,
+        after: 5,
         prompt: [DE('Check my sums, please. Four wings, three exhibits in each. How many exhibits altogether?')],
         options: [
           {
@@ -1450,9 +1455,9 @@ const S18_SCENES: EduScene[] = [
         skill: 'how keeping busy can help with grief',
         standard: 'CASEL: Self-management',
         kind: 'notice',
-        after: 11,
+        after: 12,
         lines: [
-          N('Dusty’s Nubbin, Fossil, died on the hill two days ago. Dusty is still very sad.'),
+          N('Losing Fossil is a big loss, and Dusty is still very sad. It’s sad, and it’s all right to be sad.'),
           N('Sometimes, when you’re grieving, it helps to give your hands a job, especially alongside a friend.'),
           N('It doesn’t make the sadness go away. It gives it somewhere to sit for a while.'),
         ],
@@ -1588,7 +1593,7 @@ const S18_SCENES: EduScene[] = [
     [
       N('Near midnight a moth lands on the sheet, green and black like lichen on old bark. You lose it twice while looking at it.'),
       LU('Merveille du Jour. It means “marvel of the day”, and it flies by night. Somebody had a sense of humour.', 'happy'),
-      N('From the far end of the garden comes a soft thump. Professor Delve has fainted from a mile away, on principle.'),
+      N('From the far end of the garden comes a soft thump. Professor Delve has fainted from a mile away, just to be safe.'),
       N('By dawn you have a drawing of the moth, a spider’s web lifted whole onto black card, and an owl pellet from under the ash.'),
       DE('“The Merveille du Jour is a moth that flies in autumn. Its green and black wings hide it on lichen-covered bark.”'),
       DE('“Owls swallow small prey whole. The fur and bones they can’t digest are pressed into a pellet and coughed up.”'),
@@ -1693,10 +1698,10 @@ const S18_SCENES: EduScene[] = [
             ],
           },
           {
-            label: 'About 17 o’clock.',
+            label: 'About 4 o’clock.',
             reply: [
-              MA('Ha! On a 24-hour clock, that’s right: 17:00 is 5 o’clock in the afternoon.'),
-              MA('On a normal clock face we’d just say 5 o’clock.'),
+              MA('Nearly! Count on from 11: 12, 1, 2, 3, 4 is only 5 hours.'),
+              MA('One more hour, and we land on 5 o’clock.'),
             ],
           },
         ],
@@ -1788,8 +1793,9 @@ const S18_SCENES: EduScene[] = [
     [
       N('Nova is on the western hill at nightfall, flat on her back in the cold grass beside the memorial flowers.'),
       NO('Clear night. No moon till late. Best sky in the valley. I’ve slept under most of them, so I’d know.'),
-      NO('I brought you something for the museum. I don’t give people things. It’s a rock. Don’t make it a moment.', 'think'),
+      NO('I brought you something for the museum. I don’t give people things. It’s a rock. Please don’t say anything nice. I’ll go red.', 'think'),
       N('She drops a stone the size of a walnut into your palm: black, heavy for its size, with a crust like burnt toast.'),
+      N('A Nubbin sniffs the rock that looks like burnt toast. It is still not toast.'),
       NO('I watched it come down over the moor, years back. Walked two days to find it. Carried it ever since.'),
       DE('A meteorite! Oh, that is wonderful. And it isn’t a moth. A very good day.', 'happy'),
       NO('Now. Find me north. Then you can have the other two exhibits as well.'),
@@ -1800,8 +1806,8 @@ const S18_SCENES: EduScene[] = [
         skill: 'working out a character’s hidden feelings',
         standard: 'RL.3.3',
         kind: 'ask',
-        after: 2,
-        prompt: [N('Nova carried that rock for years. So why does she say, “Don’t make it a moment”?')],
+        after: 5,
+        prompt: [N('Nova has carried that rock for years. Then she says, “Please don’t say anything nice.” Why?')],
         options: [
           {
             label: 'It matters a lot to her, and she feels shy showing it.',
@@ -1829,7 +1835,7 @@ const S18_SCENES: EduScene[] = [
         domain: 'science',
         skill: 'what a meteorite is',
         kind: 'notice',
-        after: 5,
+        after: 6,
         lines: [
           DE('A meteorite is a rock from space that falls all the way to the ground.'),
           DE('That black crust formed as its outside melted, rushing down through Earth’s air.'),
@@ -1849,6 +1855,8 @@ const S18_SCENES: EduScene[] = [
       DE('“Polaris, the Pole Star, sits almost directly above Earth’s North Pole, so it hardly moves across the night sky.”'),
       DE('“The Moon always shows Earth the same face. Its pull, together with the Sun’s, raises the tides.”'),
       DE('“A shooting star isn’t a star. It is space rock or dust burning up in Earth’s air. A piece that lands is a meteorite.”', 'happy'),
+      N('Whoosh! A shooting star. Professor Delve ducks under his hat.'),
+      DE('It isn’t a moth. I just like to be safe.', 'shock'),
       NO('You read plaques to the sky, Professor.', 'happy'),
       DE('The sky has never once corrected me. I find that very restful.', 'soft'),
     ],
@@ -1867,19 +1875,6 @@ const S18_SCENES: EduScene[] = [
         check: 'edu:draw:pointer-line:pole-star',
         parentNote: 'Used the two pointer stars of the Plough to find the Pole Star and north.',
       },
-      {
-        domain: 'science',
-        skill: 'why the stars and Moon seem to move',
-        standard: '5-ESS1-2',
-        kind: 'notice',
-        after: 3,
-        lines: [
-          N('The sky isn’t really wheeling. The Earth is spinning, once every day, and we spin with it.'),
-          N('That’s why the Moon rises in the east and sets in the west, like the Sun.'),
-          N('The Pole Star sits almost right above the North Pole, the middle of the spin, so it barely seems to move.'),
-        ],
-        parentNote: 'Learned that the Earth’s daily spin makes the stars and Moon seem to move across the sky.',
-      },
     ],
   ),
   // ------------------------------------------------ step 5: the centre case
@@ -1892,7 +1887,7 @@ const S18_SCENES: EduScene[] = [
       DU('Fossil’s card. From the hill. The rain got at it, so I made a new one for the flower and kept this.', 'soft'),
       DU('I don’t want it in a drawer. I don’t want it rained on. I want it somewhere people come.', 'sad'),
       DE('That is exactly what a museum is for. A museum is a place where a valley remembers.', 'soft'),
-      DE('Though I wonder. Your grandmother kept a hatch register. Every egg in forty years, and its first sound.'),
+      DE('Though I wonder. Your grandmother kept a hatch register: a book of every egg she hatched in forty years, and its first sound.'),
       DE('That is not one Nubbin remembered. That is all of them. It could go in the middle. On loan, naturally.', 'think'),
       DU('…That’s fair. That’s a good thing. It just isn’t Fossil.', 'sad'),
     ],
@@ -1986,6 +1981,7 @@ const S18_SCENES: EduScene[] = [
     [
       N('The barn is swept. Twelve plaques shine.'),
       N('The swallows are long gone south, and have left their little clay cups behind.'),
+      DE('They have left their cups unwashed. Very untidy. They will be back for them in spring.'),
       DE('One last matter. The door. Glass needs polishing. Plaques come loose. Archivists need… worms.', 'think'),
       DE('Two Shells a visit would pay for the upkeep and keep the place standing.'),
       DE('Or it could be free, and we would manage. Somehow. Probably.'),
@@ -2008,7 +2004,7 @@ const S18_SCENES: EduScene[] = [
         skill: 'multiplying to find a total cost',
         standard: '3.OA.A.3',
         kind: 'ask',
-        after: 4,
+        after: 5,
         prompt: [DE('Suppose 9 visitors come on a Saturday, and each pays 2 Shells. How many Shells is that?')],
         options: [
           {
@@ -2061,7 +2057,7 @@ const S18_SCENES: EduScene[] = [
     [
       N('On opening day half the valley comes. Most of them stand at the centre case longer than they meant to.'),
       N('Children press their noses to the trilobite. Sparks reads every plaque aloud, loudly, to people already reading them.'),
-      DE('You did this, Curator. I only had the principle.', 'happy'),
+      DE('You did this, Curator. I only had the “one day”.', 'happy'),
       N('He gives you a brass magnifying glass on a ribbon, worn smooth where a great many thumbs have held it.'),
       DE('It was mine. I can’t see much through it any more. I’d like it to keep looking at things.', 'soft'),
       N('Then a moth comes in through the open door, and the Curator’s first official act is to catch the professor.'),
@@ -2159,7 +2155,7 @@ const S18: EduQuest = {
   notes:
     'Lessons: rock layers, oldest at the bottom (4-ESS1-1) and sea fossils on land (3-LS4-1); moths vs butterflies; ' +
     'camouflage; spiders vs insects; turning stones back; tide timing (11 o’clock + 6 hours); sea stars are not fish; ' +
-    'limpets at low tide; meteorites; the Plough’s pointers to the Pole Star (1-ESS1-1); the Earth’s spin (5-ESS1-2); ' +
+    'limpets at low tide; meteorites; the Plough’s pointers to the Pole Star (1-ESS1-1); ' +
     'swallows migrating; 4 × 3, 9 × 2; exaggeration, hidden feelings, “curator” from context; grief and remembering; ' +
     'think question on what a museum is for. The twelve plaque texts are kept word for word from the main script.',
 };

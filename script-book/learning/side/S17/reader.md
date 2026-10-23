@@ -95,21 +95,16 @@ _Midnight. The wind drops. Something crosses the moon without a sound, and the g
 _An owl lands on the nursery roof. She is enormous, grey as ash, and one long feather on her left wing is torn._  
 _She lifts an egg out of the straw in her feet, slowly, the way you would carry a held breath._  
 _Then she turns her head right round and looks at your hiding place. For a long moment she only looks._  
-
-> **Lesson** (science, 4-LS1-1, ask): why owls turn their heads  
-> _You can look sideways just by moving your eyes. Why does an owl turn its whole head instead?_  
-> - ✅ Its eyes can’t move in their sockets. → Yes. An owl’s eyes are shaped like short tubes, fixed in place. So it turns its head instead. Its neck bends so well that it can turn its head about three-quarters of the way round.
-> - Because it’s showing off. → It does look like showing off! But an owl has to do it. Its eyes are fixed in place and can’t roll like ours. So it turns its head, nearly three-quarters of the way round.
-> - To hear better. → Turning helps owls hear too. But the main reason is its eyes: they can’t move in their sockets. So it turns its whole head, about three-quarters of the way round.
-> _For grown-ups: Learned that owls’ eyes are fixed in their sockets, so owls turn their heads to look around._
-
 **Nightjar**: Hoo-oo.  
 _Then she’s gone towards the cliffs, low over the hedges, carrying the egg as if it were the only thing in the world._  
 
-> **Lesson** (science, 4-LS1-2, notice): how owls see at night  
-> **Luna**: How did she find the nursery at midnight? Her eyes. An owl’s eyes are huge for the size of its head.  
-> **Luna**: Big eyes let in lots of light, so owls can see well when it’s nearly dark. Animals active at night are called nocturnal.  
-> _For grown-ups: Learned that owls’ very large eyes gather lots of light, helping them see at night._
+> **Lesson** (science, 4-LS1-1, ask): why owls turn their heads  
+> _Before she flew off, the owl turned her whole head to look at you._  
+> _You can look sideways just by moving your eyes. Why does an owl turn its whole head instead?_  
+> - ✅ Its eyes can’t move in their sockets. → Yes. An owl’s eyes are shaped like short tubes, fixed in place. So it turns its head instead. Its neck bends so well that it can turn its head about three-quarters of the way round. Her eyes are huge, too. Big eyes let in lots of light, so owls see well when it’s nearly dark. Animals active at night are called nocturnal.
+> - Because it’s showing off. → It does look like showing off! But an owl has to do it. Its eyes are fixed in place and can’t roll like ours. So it turns its head, nearly three-quarters of the way round. Her eyes are huge, too. Big eyes let in lots of light, so owls see well when it’s nearly dark. Animals active at night are called nocturnal.
+> - To hear better. → Turning helps owls hear too. But the main reason is its eyes: they can’t move in their sockets. So it turns its whole head, about three-quarters of the way round. Her eyes are huge, too. Big eyes let in lots of light, so owls see well when it’s nearly dark. Animals active at night are called nocturnal.
+> _For grown-ups: Learned that owls’ eyes are fixed in their sockets, so owls turn their heads to look around, and that their very large eyes gather lots of light to see at night._
 
 **Nova**: …I’m crossing off the badgers.  
 **Luna**: Nightjar. That’s what Hazel called her. I thought she was a story. The biggest owl in the valley, Hazel said.  
@@ -157,17 +152,17 @@ _She has turned them so that each one gets its time in the middle._
 
 _Woven deep into the lining, where they can never be dropped, are two very old eggshells, grey and cracked across._  
 **Luna**: Hazel told me about a night before my time. Spring, blossom out. Then a cold came down the valley, out of season.  
-**Luna**: Frost on the blossom. Ice in the stream. In the morning the owl on the cliff was calling and calling.  
+**Luna**: Frost on the blossom. Ice in the stream. Two of her chicks died that night. In the morning she was calling and calling.  
 **Luna**: Hazel said she never really stopped. That was twenty-two years ago.  
 
 > **Lesson** (sel, CASEL: Social awareness, notice): understanding grief  
 > _Those two old eggs never hatched. The chicks inside died in the cold, and they can’t come back._  
 > _Nightjar still keeps their shells. That deep sadness after losing someone you love is called grief._  
-> _Grief can last a long time. It isn’t wrong. It shows how much she loved them._  
+> _Grief can last a long time. It isn’t wrong, and it’s all right to be sad. It shows how much she loved them._  
 > _For grown-ups: Learned the word grief, in plain words about death, and that grief is a sign of love._
 
-_…_  
-**Nova**: That number keeps turning up.  
+_Nova goes quiet, counting something on her fingers._  
+**Nova**: Twenty-two. That number keeps turning up.  
 **Nightjar**: Hoo-oo.  
 _She settles lower over the eggs, the way you would pull a blanket up over someone already asleep._  
 
@@ -201,7 +196,7 @@ _Dawn. Four eggs are back in the nursery straw. You climb up one last time for t
 _There is still one egg under her. Small, speckled like lichen, and it doesn’t glow. It isn’t the Grove’s._  
 **Nova**: That’s nobody’s. Wild. Its mother never came back, I’d guess. It happens.  
 _Nightjar looks at the egg, then at you. She does not hide it. She does not move off it, either._  
-**Luna**: Leave it with her. Let somebody keep something warm and have it work.  
+**Luna**: Leave it with her. Let her keep one egg warm, and see it hatch.  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): thinking about right and wrong when someone is hurting  
 > _Nightjar took eggs that weren’t hers. But she kept every one safe and warm, because she was grieving._  
@@ -227,7 +222,7 @@ _You leave it. On the way down, Luna stops on the path._
 - **Leave the nursery open, with a lantern lit for her.**
     - **Nova**: A night nurse. With a beak. That’s either brilliant or a disaster.
     - **Luna**: If she wants eggs to sit on, she can sit on ours, where we can see. Hazel would have done that.
-    - **Luna**: Then worried all night. Then done it again.
+    - **Luna**: Then she’d have worried all night. Then she’d have done it again.
 - **Move the nursery in by the stove, with a latch.**
     - **Luna**: That’s fair. The eggs come first. Feed them before you feed yourself, nearly.
     - **Nova**: She won’t take it personally. She’ll just sit on the roof and look at the chimney. Sadly. For ever.
@@ -259,6 +254,9 @@ _Next night, there is another._
 #### `reader:s17-hatching` · [main](../../../side/S17.md#s17-hatching)
 
 _The wind has dropped. The egg under her is rocking. Nightjar shifts off it, just enough, and you both watch._  
+_At nine o’clock exactly, Nova comes up the cliff path, out of breath, by accident._  
+**Nova**: Don’t look at me. I’m not here. I’m not stopping.  
+_Nova sits down beside you anyway, and stays till dawn._  
 _A crack. A beak like a fingernail. Then a damp grey thing the size of a dumpling, eyes shut tight, very offended._  
 
 > **Lesson** (science, 3-LS1-1, do): an owl’s life cycle, and how a chick hatches  
@@ -280,6 +278,9 @@ _The same two notes. They don’t sound the same at all._
 
 _Later the owlet tumbles across the rock and into your lap. Nightjar watches. She does not call it back._  
 **Luna**: She’s sharing. Owls don’t share. Look at that.  
+**Nova**: It’s small and cross and fluffy.  
+**Luna**: Like someone I know.  
+_Nova does not ask who._  
 
 #### `reader:s17-complete` · [main](../../../side/S17.md#s17-complete)
 

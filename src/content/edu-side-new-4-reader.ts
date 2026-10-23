@@ -76,7 +76,9 @@ const S14_SCENES: EduScene[] = [
       TI('Rule three: there are snacks, but only at the end. If you ask about the snacks, the end gets further away.'),
       BY('Is there a rulebook? I’d like to read the rulebook first.', 'think'),
       TI('I’m the rulebook.'),
-      N('Pixel is already building a dice tower out of a cereal box. Tilly watches it the way a hawk watches a vole.'),
+      N('Pixel, the inventor, is already building a dice tower out of a cereal box. Tilly watches it the way a hawk watches a vole.'),
+      BY('Twenty years married, and she still builds a tower before reading the rules.'),
+      PX('Twenty years, and he still reads the rules.'),
       TI('Pick your hero. Ten seconds. Nine. Four.'),
     ],
     [
@@ -182,7 +184,7 @@ const S14_SCENES: EduScene[] = [
         skill: 'adding two dice: the smallest and biggest totals',
         standard: '1.OA.A.1',
         kind: 'ask',
-        after: 3,
+        after: 5,
         prompt: [
           N('Sparks rolled a one and a one. 1 + 1 = 2. That’s the smallest total two dice can make.'),
           SP('What’s the BIGGEST total? I want it. I want it for my sandwich.'),
@@ -208,24 +210,9 @@ const S14_SCENES: EduScene[] = [
         domain: 'sel',
         skill: 'how to disagree kindly',
         standard: 'CASEL: Relationship skills',
-        kind: 'ask',
+        kind: 'notice',
         after: 9,
-        prompt: [N('Byte keeps saying “actually”, and Tilly keeps taking his hit points. What’s a kind way to disagree with someone?')],
-        options: [
-          {
-            label: 'Say: “I see it differently. Can I explain?”',
-            best: true,
-            reply: [N('Yes. That shows you’ve listened, and asks them to listen back. Byte may try it. He may not.')],
-          },
-          {
-            label: 'Shout “WRONG!” until they give up.',
-            reply: [N('Shouting usually makes people dig their heels in. Byte would run out of hit points. Try: “I see it differently. Can I explain?”')],
-          },
-          {
-            label: 'Never say anything, ever.',
-            reply: [N('You’re allowed to disagree! You can do it kindly: “I see it differently. Can I explain?”')],
-          },
-        ],
+        lines: [N('A kind way to disagree is to say: “I see it differently. Can I explain?” Byte may try it. He may not.')],
         parentNote: 'Practised a respectful way to disagree with someone.',
       },
     ],
@@ -235,10 +222,12 @@ const S14_SCENES: EduScene[] = [
     's14-tower',
     [
       N('Next afternoon there’s a new tower on the map, drawn exactly where Sparks’s workshop chimney stands.'),
+      SP('Hang on. That’s my chimney. Am I the Toad?'),
+      TI('No comment.'),
       TI('The Tower of the Tax Toad. He taxes everything. He’s very rich and very damp.'),
       PX('Can I build a siege engine?', 'happy'),
       TI('You can build a siege engine. Roll. …Three. Your siege engine is now a toad. It works for him.'),
-      N('Pixel looks at the cereal-box dice tower, then at Tilly, and very slowly moves it out of her reach.'),
+      N('Pixel looks at the cereal-box dice tower, then at Tilly, and very slowly moves it out of Tilly’s reach.'),
       TI('RIBBIT. That’ll be two Shells for the ribbit.', 'angry'),
       TI('There’s a tax on hats. A tax on stairs. A tax on being taller than a toad. That’s all of you. Sorry.'),
       BY('And is there a tax on paying the tax?', 'think'),
@@ -251,7 +240,7 @@ const S14_SCENES: EduScene[] = [
         skill: 'equal groups: 4 taxes of 2 Shells',
         standard: '3.OA.A.1',
         kind: 'ask',
-        after: 6,
+        after: 8,
         prompt: [
           TI('Every tax is two Shells. The ribbit, the hats, the stairs, and being taller than a toad.'),
           N('Four taxes, two Shells each. How many Shells does the Toad want?'),
@@ -272,7 +261,7 @@ const S14_SCENES: EduScene[] = [
         skill: 'words that show a character’s feelings',
         standard: 'RL.1.4',
         kind: 'ask',
-        after: 8,
+        after: 10,
         prompt: [N('“Tilly’s eyes go very wide and very bright.” What is she feeling?')],
         options: [
           {
@@ -290,7 +279,7 @@ const S14_SCENES: EduScene[] = [
   scene(
     's14-toad',
     [
-      BY('Each tax is a tenth of the one before. It keeps shrinking. We owe him two Shells, two, two, two… forever.'),
+      BY('The tax on the tax is a tenth of it. Then a tenth of that. It shrinks and shrinks, and never quite stops.'),
       TI('The Toad doesn’t do maths. The Toad does vibes.'),
       BY('Actually—'),
       TI('Six.'),
@@ -360,30 +349,12 @@ const S14_SCENES: EduScene[] = [
     [
       N('The morning of the last session, Sparks is waiting at your gate, quietly. You didn’t know Sparks had a quiet setting.'),
       SP('The dragon in that corner’s got bigger. She redraws it every night. Last night it got a cardigan.', 'sad'),
-      SP('It’s Hazel. Obviously it’s Hazel. Hazel taught her to whistle. Two fingers. The supper call.'),
+      SP('It’s Hazel. Obviously it’s Hazel.'),
       SP('Hazel went off at the end of the winter. She left Tilly a note, with just “Tilly” on the front. She won’t open it. It’s in her welly.'),
       SP('She won’t say the name. Just “the dragon”.'),
-      SP('She’s gone off somewhere. She does that. You go. She likes you. You’re not a sandwich.', 'soft'),
+      SP('Tilly’s gone off somewhere. She does that. You go and find her. She likes you. You’re not a sandwich.', 'soft'),
     ],
     [
-      {
-        domain: 'literacy',
-        skill: 'understanding a metaphor',
-        standard: 'L.4.5',
-        kind: 'ask',
-        after: 0,
-        prompt: [N('Sparks isn’t a radio. So what does “a quiet setting” mean here?')],
-        options: [
-          {
-            label: 'Sparks is usually loud, so being quiet is very unusual.',
-            best: true,
-            reply: [N('Yes. It’s a metaphor: it talks about Sparks as if Sparks were a machine with a volume knob. It tells you something is wrong.')],
-          },
-          { label: 'Sparks has a real button on the back.', reply: [N('Ha! No button. It’s a metaphor: it talks about Sparks like a machine to show how unusual it is for Sparks to be quiet.')] },
-          { label: 'Sparks is asleep standing up.', reply: [N('Not asleep! Sparks is just unusually quiet. The writer compares Sparks to a machine on a low setting. That’s a metaphor.')] },
-        ],
-        parentNote: 'Worked out the meaning of a metaphor (“a quiet setting”) from context.',
-      },
       {
         domain: 'sel',
         skill: 'missing someone, and different ways of carrying a big feeling',
@@ -405,7 +376,7 @@ const S14_SCENES: EduScene[] = [
       N('You hear her before you see her: a whistle through two fingers, rising at the end. Every Nubbin in the Grove looks up.'),
       N('Tilly is sitting on the gate that sticks, kicking it. It doesn’t swing. It hardly ever does.'),
       TI('They think it’s supper. It isn’t supper. I just do it.'),
-      TI('She said if you whistle it properly, anyone who loves you comes running. She said that.'),
+      TI('Hazel taught me. She said if you whistle it properly, anyone who loves you comes running.'),
       N('The Nubbins arrive, hopeful, and sit in a row in front of her wellies.'),
       TI('See. It works on them.', 'sad'),
     ],
@@ -633,30 +604,12 @@ const S14_SCENES: EduScene[] = [
         skill: 'crying is allowed, and what helps',
         standard: 'CASEL: Self-awareness',
         kind: 'notice',
-        after: 6,
+        after: 8,
         lines: [
           N('Crying is allowed. It’s one of the ways a body lets a big feeling out.'),
           N('Afterwards, lots of people feel a little lighter. It helps to have someone close by, even if nobody says anything.'),
         ],
         parentNote: 'Learned that crying is a normal way to let out big feelings, and that having someone nearby helps.',
-      },
-      {
-        domain: 'literacy',
-        skill: 'understanding a surprising description of a character',
-        standard: 'RL.3.3',
-        kind: 'ask',
-        after: 7,
-        prompt: [N('Sparks says nothing at all. So why does the story call it “the loudest thing Sparks has ever done”?')],
-        options: [
-          {
-            label: 'Because loud Sparks being silent shows how much Sparks cares.',
-            best: true,
-            reply: [N('Yes. Sparks is always loud. Choosing to be quiet, just to be there for Tilly, says more than any shout.')],
-          },
-          { label: 'Because Sparks hugged her very noisily.', reply: [N('No noise at all! That’s the point. For Sparks, silence is so unusual that it “speaks” loudly. It shows how much Sparks cares.')] },
-          { label: 'It’s a mistake in the story.', reply: [N('It’s on purpose! A writer can say something surprising to make you think. Sparks’s silence shows how much Sparks cares.')] },
-        ],
-        parentNote: 'Explained why a writer described a character’s silence as “loud”, and what it shows about the character.',
       },
     ],
   ),

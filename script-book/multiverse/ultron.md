@@ -723,8 +723,8 @@ _Your Nubbins are warm. Out here, warm is the most dangerous thing you can be._
 **Sue Storm** _(sad)_: Welcome to what’s left. A few of us. Hiding in the dark. Waiting.  
 **Logan** _(angry)_: Waiting’s done. I know where Pym was when he built the thing. I know when.  
 **Logan**: I go back. I end Pym before he ever starts. No Ultron. No this.  
-**Sue Storm**: On Doom’s old time platform? It has one jump left in it. Maybe.  
-**Logan**: Then I’ll make it count.  
+**Sue Storm**: On Doom’s old time platform, down in the cellar? It has one jump left in it. Maybe.  
+**Logan**: Then I’ll make it count. One Logan goes in. One Logan comes out.  
 **Sue Storm**: Logan. You can’t kill a man for something he hasn’t done yet.  
 **Logan** _(angry)_: Billions dead, Sue. Against one guy who ain’t done it yet. You tell me the sums come out different.  
 **Sue Storm** _(sad)_: They don’t. That’s what frightens me. The sums are what Ultron would do.  
@@ -753,7 +753,7 @@ _You come home to a present that is not the one you left. The sky is green. The 
 **Sue Storm** _(shock)_: No Ultron. And no Hank to stop all the other things he stopped. Look at it.  
 **Logan** _(sad)_: This ain’t better. This is worse. I did this.  
 _Something huge and winged is circling over the city. It has noticed you._  
-**Sue Storm**: We go back again. Further back than you did. We stop you from doing it.  
+**Sue Storm**: We go back again, on the platform, further than you did. We stop that Logan, the one with the claws out.  
 **Logan**: And then Ultron gets built.  
 **Sue Storm** _(angry)_: Then we make sure he gets built with a hole in him.  
 _The time-stream opens under your feet. It does not look stable. It is not._  

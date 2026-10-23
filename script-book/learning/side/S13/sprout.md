@@ -41,7 +41,9 @@ _Little noses. Little whiskers. Rats!_
 > Check: `edu:count:rats:5`
 > _For grown-ups: Counted five rats in the grain store._
 
-**Old Tobin**: Mill rats. Very tidy. They never take a day off.  
+**Old Tobin**: Mill rats. They never take a day off.  
+_One rat sniffs the old flour. Sniff, sniff… ACHOO!_  
+_All five rats jump. So does Tobin._  
 
 **Choices**
 
@@ -70,9 +72,11 @@ _And three old things, dusty and forgotten._
 > _For grown-ups: Found a word that rhymes with “sock”._
 
 **Old Tobin**: A cheese rind. The Cheese Rind of Being Brave!  
+_A Nubbin licks the brave cheese rind. Brave Nubbin!_  
 _Below the hatch, water lies still in the dark._  
 **Old Tobin**: Floor two is flooded. Three gates. Open them in the right order!  
-**Old Tobin**: Or we’ll be swimming. Marina could swim in soup.  
+**Old Tobin**: Or we’ll be swimming. Splish, splash!  
+_Tobin pretends to swim in the air. He is not very good at it._  
 
 #### `sprout:s13-level2` · [main](../../../side/S13.md#s13-level2)
 
@@ -96,6 +100,8 @@ _Tobin goes quiet. He walks on down the steps._
 _On the steps the flood left boots, a doorknob and a soggy scarf._  
 **Old Tobin**: The Squeaky Boots! The Doorknob That Won’t Open!  
 **Old Tobin**: And the Soggy Scarf. It still thinks it will dry.  
+_The sock is on the steps too. Nobody brought it._  
+**Old Tobin**: Sock! How did you get here?  
 _Floor three: the wheel pit. The giant wheel drips. Plip, plop._  
 _The river pushes it. The whole mill shakes. Rumble!_  
 _Moss calls down. He is staying on his millstone, thank you._  
@@ -115,8 +121,9 @@ _In the biggest gear is a wooden wedge. Somebody put it there._
 _A label hangs from it. It says: STOPPED. LEAVE IT._  
 **You**: Somebody stopped the wheel on purpose.  
 **Old Tobin**: Aldous did, in his last winter. He sat on that step.  
-**Old Tobin**: He was very old. Soon after that, he died.  
-**Old Tobin**: His body stopped working, and it won’t start again.  
+**Old Tobin**: Aldous died. He was very old.  
+**Old Tobin**: When someone dies, their body stops, for always.  
+**Old Tobin**: Not like the wheel. The wheel can start again. Aldous can’t.  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): noticing when someone is sad, and what helps  
 > _Tobin is sad. He misses Aldous._  
@@ -127,16 +134,18 @@ _A label hangs from it. It says: STOPPED. LEAVE IT._
 
 _Past the wheel, a stair goes down to an iron door. It is locked._  
 **Old Tobin**: Not that door. Not yet.  
-**Old Tobin**: Read Hazel’s notebook first. Then come back for the key.  
+**Old Tobin**: Hazel’s notebook has a page about Aldous. Read it first.  
+**Old Tobin**: Then come back, and I’ll give you the key.  
 
 #### `sprout:s13-key` · [main](../../../side/S13.md#s13-key)
 
-_Later, with Hazel’s notebook in your coat, you go back._  
+_Later, you have read Hazel’s page about Aldous. You go back to the mill._  
 **Old Tobin**: Corvin was Hazel’s helper once. Before that, he was this mill’s boy.  
 **Old Tobin**: Every evening I lit the lamp by the gate.  
 **Old Tobin**: And every evening there was a boy at the window. Working.  
 **Old Tobin**: That’s the whole story. The only one I ever finished.  
 _He gives you a little iron key. It’s warm from his pocket._  
+_The sock is in Tobin’s pocket. He does not know how._  
 **Old Tobin**: I found more treasure. A cog: the Cog of Very Big Patience.  
 **Old Tobin**: And a tiny hat, cut from a round millstone. Heavy!  
 
@@ -158,7 +167,8 @@ _A pocket watch, stopped just after five o’clock._
 _Inside the big book are three rules, in chalk._  
 _ONE: the wheel never stops. TWO: nobody rests. THREE: keep up!_  
 _Under them, in a child’s careful writing, the same three rules._  
-_Every page says work, work, work. Never once does it say rest._  
+_Every page says work, work, work. Not one page says sleep._  
+_Tobin yawns, just from reading it._  
 
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): everybody needs rest and sleep  
 > **Old Tobin**: Hazel’s rules were kind ones. These say: never rest.  
@@ -195,7 +205,7 @@ _You open the letter. It is short._
     - You fold it up and put it in your coat, by Hazel’s notebook.
     - **Old Tobin**: Yes. Cold hands can’t hold a thing like that.
     - **Old Tobin**: You’ll know when. Your grandmother always knew when.
-- **Ask Tobin to burn it in the stove. Some things end with the person.**
+- **Ask Tobin to burn it in the stove, like Aldous’s other letters.**
     - **Old Tobin**: That’s a real answer. I’ve thought it too.
     - **Old Tobin**: He wrote lots of letters, and burned them. This would be the last.
 - **Read it to Moss, and leave it at Aldous’s grave.**
@@ -251,7 +261,7 @@ _You open the letter. It is short._
     - You fold it up and put it in your coat, by Hazel’s notebook.
     - **Old Tobin**: Yes. Cold hands can’t hold a thing like that.
     - **Old Tobin**: You’ll know when. Your grandmother always knew when.
-- **Ask Tobin to burn it in the stove. Some things end with the person.**
+- **Ask Tobin to burn it in the stove, like Aldous’s other letters.**
     - **Old Tobin**: That’s a real answer. I’ve thought it too.
     - **Old Tobin**: He wrote lots of letters, and burned them. This would be the last.
 - **Read it out loud at Aldous’s grave, and leave it there.**
@@ -279,6 +289,7 @@ _A week later, Tobin gives you the apron and the stopped watch._
 **Old Tobin**: Somebody meant to hand these down. He never stopped long enough.  
 _Then he knocks the wedge out of the gear. Bonk!_  
 _The wheel turns. Slowly. As slowly as the river likes._  
+_The sock is on the wheel, going round and round. Wheee!_  
 **Old Tobin**: There. Nobody’s counting.  
 **Old Tobin**: Bring your seeds down. The mill makes lovely flour.  
 

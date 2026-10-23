@@ -11,7 +11,8 @@
 
 _Sparks turns up with a coil of wire over each shoulder, like a very small, very loud pirate electrician._  
 **Sparks**: Job upriver! A big one! A sawmill wants lights in every shed. I need someone to hold the ladder and say “wow”.  
-**Sparks**: The owner’s called Brisk Hollins. Nice man. Very nice. Suspiciously cheerful. I’ve brought Clover. She’s good with ladders.  
+**Sparks**: The owner’s called Brisk Hollins. Nice man. Very nice. Suspiciously cheerful.  
+**Sparks**: I’ve brought Clover. She looks after the gentlest Nubbins in the valley. She’s good with ladders.  
 **Clover**: I’m not good with ladders. I’m good at not falling off them. It’s different.  
 _The river path is soft after the rain. Somewhere ahead the saws are going: a bright, busy whine, like wasps in a jar._  
 
@@ -25,7 +26,7 @@ _The river path is soft after the rain. Somewhere ahead the saws are going: a br
 **Clover**: Twice is a lot of underlining.  
 
 > **Lesson** (literacy, RL.3.3, ask): reading between the lines  
-> _Why does Clover think twice is a lot of underlining?_  
+> **Clover**: Why does Clover think twice is a lot of underlining?  
 > - ✅ When someone insists very hard, something might not be quite right. → Yes. Clover is reading between the lines: noticing what the words don’t say. If the Nubbins really loved it, would Brisk need to underline it twice?
 > - She thinks underlining is untidy. → Ha. Maybe! But Clover is noticing something else. When someone insists very hard, it can be a clue that something isn’t quite right. That’s reading between the lines.
 > - She doesn’t like Brisk. → She hasn’t met him yet! She’s noticing a clue in his letter. When someone insists very hard, it can mean something isn’t quite right. That’s reading between the lines.
@@ -47,7 +48,7 @@ _Wires run from the treadwheel to every shed. Every bulb in the yard flickers in
 > _For grown-ups: Explained how a treadwheel changes movement energy into electricity and then light._
 
 **Brisk Hollins**: Welcome! Brisk Hollins. Pleased as punch. Output’s up this month. More logs than ever!  
-**Brisk Hollins**: I’m no Circuit man, mind. Mine get Sundays off.  
+**Brisk Hollins**: I’m not like Corvin up at the Circuit, mind. My Nubbins get Sundays off.  
 _A big Power Nubbin trundles past with a log three times his size on his back, humming. His hat says LUG in pencil._  
 **Brisk Hollins**: That’s Lug. Best worker I’ve got. Can’t stop him. Tried once. He sulked for a week.  
 _Behind the log pile sit five Nubbins. Their colours have worn grey at the edges, like a flag left out all summer._  
@@ -76,6 +77,9 @@ _He unrolls a chart. A red line climbs so steeply it runs off the paper and carr
 **Sparks**: Brisk. When nobody’s telling them what to do, what do they do?  
 _Brisk opens his mouth to answer. He shuts it again. He has clearly never once wondered._  
 **Brisk Hollins**: …Well. Good question. Splendid question. Find out! Have a clipboard. I’ve got forty.  
+_He hands you a clipboard. Then another, in case. Then a third._  
+**Clover**: We’ve only got two hands each, Brisk.  
+**Brisk Hollins**: Then you’ll want a spare.  
 **Clover**: Observe them from where they can’t see you. If they know they’re watched, they’ll work to be polite. Nubbins are like that.  
 
 > **Lesson** (science, notice): observing animals without changing what they do  
@@ -101,14 +105,6 @@ _The two choppers chop on their breaks too. They like the thunk. One chops the s
 _The stacker stacks. The two wheel runners step out the moment Brisk turns his back, and sit under the bench with their eyes shut._  
 _The two tired ones you watched never once choose work. They lie in a patch of sun and watch the river go by._  
 _And Lug, on his breaks, carries offcuts. Not to the stack. Out to the bank, behind the reeds, one at a time._  
-
-> **Lesson** (maths, 3.MD.B.3, do): turning notes into a bar chart and reading it  
-> _Turn your clipboard into a bar chart. One bar for each choice: CHOP 2, STACK 1, REST 4, CARRY 1._  
-> _Which bar is tallest? REST: four of the eight Nubbins. Four out of eight is one half._  
-> _Half the Nubbins you watched chose rest, when nobody was asking._  
-> Check: `edu:chart:bar:nubbin-choices`
-> _For grown-ups: Made a bar chart from observation notes, found the tallest bar, and saw that 4 out of 8 is one half._
-
 _You follow him. In the reeds stands a little lean-to of planks and bark, roofed with moss. All five tired ones are asleep inside._  
 **Clover**: He built them a house.  
 **Sparks**: Nobody asked him to. He just… did.  
@@ -121,6 +117,14 @@ _You follow him. In the reeds stands a little lean-to of planks and bark, roofed
 > _For grown-ups: Used evidence from the story to explain why a character did something._
 
 
+> **Lesson** (maths, 3.MD.B.3, do): turning notes into a bar chart and reading it  
+> _Turn your clipboard into a bar chart. One bar for each choice: CHOP 2, STACK 1, REST 4, CARRY 1._  
+> _Which bar is tallest? REST: four of the eight Nubbins. Four out of eight is one half._  
+> _Half the Nubbins you watched chose rest, when nobody was asking._  
+> Check: `edu:chart:bar:nubbin-choices`
+> _For grown-ups: Made a bar chart from observation notes, found the tallest bar, and saw that 4 out of 8 is one half._
+
+
 #### `reader:s16-roster` · [main](../../../side/S16.md#s16-roster)
 
 _You show Brisk the clipboard, and then the lean-to in the reeds. He stands in the wet grass a long time._  
@@ -130,13 +134,7 @@ _He takes down WORK IS PLAY! and puts up a new banner: WORK IS… OFTEN PLAY!_
 **Sparks**: That’s worse.  
 **Brisk Hollins**: I know. I’m working on it.  
 **Sparks**: Right. That treadwheel’s coming off the wires. Your lights go on the waterwheel. Like a normal person’s.  
-
-> **Lesson** (science, 4-PS3-4, notice): the waterwheel: a wheel and axle that turns moving water into electricity  
-> **Sparks**: A waterwheel is a simple machine: a wheel and axle. The axle is the rod in the middle. It turns with the wheel.  
-> **Sparks**: The river pushes the paddles round. Hook the axle to a generator, and the moving water’s energy becomes electricity.  
-> **Sparks**: And a river never gets tired. It just keeps coming.  
-> _For grown-ups: Learned that a waterwheel is a wheel and axle, and that it can change moving water’s energy into electricity._
-
+**Sparks**: And a river never gets tired. It just keeps coming.  
 **Clover**: And every Nubbin gets a card on a roster, under the job it picked. And breaks. With fruit.  
 
 > **Lesson** (health, ask): why bodies need rest, food and water  
@@ -171,7 +169,9 @@ _Then it goes and sits in the sun. Nobody stops it. It looks astonished._
 > **Clover**: It goes for people too. Your body, your answer. And a good friend listens.  
 > _For grown-ups: Learned that saying no is allowed, and that asking first and listening is called consent._
 
-**Brisk Hollins**: Well, I’ll be. I’ll be. Output’s going to be awful.  
+**Brisk Hollins**: Well, I never. Output’s going to be awful.  
+_He beams._  
+**Brisk Hollins**: And I don’t mind one bit. I’m quite shocked at myself.  
 
 #### `reader:s16-question` · [main](../../../side/S16.md#s16-question)
 
@@ -186,7 +186,7 @@ _Brisk walks you to the river path, hands in his pockets. He has a new slogan in
 
 _You think of your Nubbins dragging fallen apples to your door. How pleased they look. How pleased you look back._  
 **You**: I don’t know.  
-**Brisk Hollins**: No. Me neither. That’s the trouble with being liked. You never find out what they’d do if they didn’t like you.  
+**Brisk Hollins**: No. Me neither. If they like you, you can’t tell if they’re choosing, or just being kind.  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): thinking about fairness and consent for animals  
 > _Brisk has asked a hard question. When an animal does a job because you feed it, is it really choosing?_  
@@ -247,6 +247,7 @@ _A yellow hard hat in your size, painted to match the walnut-shell ones. On the 
 > _If something drops on it, the shell and the gap take the knock, not your head. That’s why builders wear them._  
 > _For grown-ups: Learned how a hard hat protects the head, and why builders wear them._
 
+_A Workyard Nubbin tries to eat your new hard hat. It is not supper._  
 **Brisk Hollins**: And take a copy of the roster. Try it at the Grove. Let them pick their jobs, and see what they pick.  
 **Clover**: And see what they don’t. That’s just as worth knowing.  
 _Back home you nail the Fair Roster by the cottage door. By morning, three Nubbins have pushed their cards under jobs._  
@@ -257,7 +258,7 @@ _One has chosen watering. One has chosen fetching apples. One has pushed its car
 > **Lesson** (literacy, RL.3.6, ask): your point of view and a character’s  
 > _Sparks says sitting with Moss isn’t a job. Clover says it is, to Moss. What’s your point of view?_  
 > - Sparks is right. A job is making or fixing something. → That’s a fair point of view. Sparks likes jobs you can see: lights on, wires fixed. Clover sees it from Moss’s side. Same Nubbin, two ways of looking.
-> - Clover is right. Keeping someone company helps them. → That’s a fair point of view too. Moss is old and fading, and company matters to him. Sparks sees it differently. Same Nubbin, two ways of looking.
+> - Clover is right. Keeping someone company helps them. → That’s a fair point of view too. Moss is very old, and a quiet friend means a lot to him. Sparks sees it differently. Same Nubbin, two ways of looking.
 > - Both. It depends whose eyes you look through. → That’s a thoughtful answer. To Sparks it’s sitting. To Moss it’s everything. Seeing a thing from more than one side is a big part of being fair.
 > _For grown-ups: Compared their own point of view with two characters’ different views._
 
@@ -273,7 +274,6 @@ _One has chosen watering. One has chosen fetching apples. One has pushed its car
 - **offcuts**: Small leftover pieces cut off a bigger piece of wood.
 - **lean-to**: A simple shelter with a sloping roof, often propped against something.
 - **roster**: A list that shows who does which job, and when.
-- **axle**: The rod through the middle of a wheel, which turns with it or lets it turn.
 - **consent**: Saying yes because you really want to, when saying no is allowed too.
 - **astonished**: Very, very surprised.
 - **slogan**: A short, catchy phrase that is easy to remember.
@@ -282,4 +282,4 @@ _One has chosen watering. One has chosen fetching apples. One has pushed its car
 - **per cent**: Out of every hundred. Eleven per cent means eleven in every hundred.
 - **regulations**: Official rules.
 
-**Notes:** Lessons: sound bends round obstacles, light doesn’t; reading between the lines; the treadwheel changing movement into electricity and light (4-PS3-4); tired vs lazy; what a graph measures; observing from a hide; a bar chart of the eight watched Nubbins (CHOP 2, STACK 1, REST 4, CARRY 1, matching the mini-game’s log) and 4/8 = one half; Lug’s motive from evidence; the waterwheel as a wheel and axle (4-PS3-4); rest, food and water; fair rules for the smallest; consent; what working animals need; 11 to 3 is 4 hours; redrafting; hard hats; point of view. Think question (s16-question): when an animal works because you feed it, is it choosing? “Output’s up nine per cent” in s16-yard is simplified to “Output’s up”; “per cent” is glossed in s16-week. The big wooden wheel is called a treadwheel throughout.
+**Notes:** Lessons: sound bends round obstacles, light doesn’t; reading between the lines; the treadwheel changing movement into electricity and light (4-PS3-4); tired vs lazy; what a graph measures; observing from a hide; a bar chart of the eight watched Nubbins (CHOP 2, STACK 1, REST 4, CARRY 1, matching the mini-game’s log) and 4/8 = one half; Lug’s motive from evidence; rest, food and water; fair rules for the smallest; consent; what working animals need; 11 to 3 is 4 hours; redrafting; hard hats; point of view. Think question (s16-question): when an animal works because you feed it, is it choosing? “Output’s up nine per cent” in s16-yard is simplified to “Output’s up”; “per cent” is glossed in s16-week. The big wooden wheel is called a treadwheel throughout.

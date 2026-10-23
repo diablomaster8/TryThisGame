@@ -37,7 +37,9 @@ _Then the dice: cardboard, cut out by hand, sellotaped at the corners. On every 
 > - It depends if it’s still fun for everyone. → That’s a thoughtful answer. A good rule keeps a game fun and fair for all the players, not just the one in charge.
 > _For grown-ups: Thought about who gets to make rules, and what makes a rule fair for everyone._
 
-_Pixel is already building a dice tower out of a cereal box. Tilly watches it the way a hawk watches a vole._  
+_Pixel, the inventor, is already building a dice tower out of a cereal box. Tilly watches it the way a hawk watches a vole._  
+**Byte**: Twenty years married, and she still builds a tower before reading the rules.  
+**Pixel**: Twenty years, and he still reads the rules.  
 **Tilly**: Pick your hero. Ten seconds. Nine. Four.  
 
 **Choices**
@@ -55,6 +57,8 @@ _The Bog of Mild Peril is the pond, coloured green and labelled “BOG (MILD)”
 **Sparks**: I ATTACK THE BOG.  
 **Tilly**: You can’t attack a bog. Roll anyway.  
 **Tilly**: …A one and a one. Your sword is now a sandwich.  
+**Sparks**: What KIND of sandwich?  
+**Tilly**: Cheese. A sad one. You ate the good half on the way here.  
 
 > **Lesson** (maths, 1.OA.A.1, ask): adding two dice: the smallest and biggest totals  
 > _Sparks rolled a one and a one. 1 + 1 = 2. That’s the smallest total two dice can make._  
@@ -64,18 +68,13 @@ _The Bog of Mild Peril is the pond, coloured green and labelled “BOG (MILD)”
 > - LOTS of LOTS → That’s what I’d say. In numbers, though, LOTS is 6. So LOTS + LOTS is 6 + 6 = 12.
 > _For grown-ups: Added dice faces to find the smallest (2) and largest (12) totals of two six-sided dice._
 
-**Sparks**: What KIND of sandwich?  
-**Tilly**: Cheese. A sad one. You ate the good half on the way here.  
 **Byte**: Actually, that’s not how dice—  
 **Tilly**: Rule four. Anybody who says “actually” loses a hit point.  
 **Byte**: That isn’t—  
 _Byte writes “HP: 8” on his character sheet, crosses it out, and writes “HP: 7 (DISPUTED)”._  
 
-> **Lesson** (sel, CASEL: Relationship skills, ask): how to disagree kindly  
-> _Byte keeps saying “actually”, and Tilly keeps taking his hit points. What’s a kind way to disagree with someone?_  
-> - ✅ Say: “I see it differently. Can I explain?” → Yes. That shows you’ve listened, and asks them to listen back. Byte may try it. He may not.
-> - Shout “WRONG!” until they give up. → Shouting usually makes people dig their heels in. Byte would run out of hit points. Try: “I see it differently. Can I explain?”
-> - Never say anything, ever. → You’re allowed to disagree! You can do it kindly: “I see it differently. Can I explain?”
+> **Lesson** (sel, CASEL: Relationship skills, notice): how to disagree kindly  
+> _A kind way to disagree is to say: “I see it differently. Can I explain?” Byte may try it. He may not._  
 > _For grown-ups: Practised a respectful way to disagree with someone._
 
 _You roll a LOTS. Tilly decides the bog likes you, and lets the whole party across. Nobody knows why, including her._  
@@ -84,10 +83,12 @@ _You roll a LOTS. Tilly decides the bog likes you, and lets the whole party acro
 #### `reader:s14-tower` · [main](../../../side/S14.md#s14-tower)
 
 _Next afternoon there’s a new tower on the map, drawn exactly where Sparks’s workshop chimney stands._  
+**Sparks**: Hang on. That’s my chimney. Am I the Toad?  
+**Tilly**: No comment.  
 **Tilly**: The Tower of the Tax Toad. He taxes everything. He’s very rich and very damp.  
 **Pixel**: Can I build a siege engine?  
 **Tilly**: You can build a siege engine. Roll. …Three. Your siege engine is now a toad. It works for him.  
-_Pixel looks at the cereal-box dice tower, then at Tilly, and very slowly moves it out of her reach._  
+_Pixel looks at the cereal-box dice tower, then at Tilly, and very slowly moves it out of Tilly’s reach._  
 **Tilly**: RIBBIT. That’ll be two Shells for the ribbit.  
 **Tilly**: There’s a tax on hats. A tax on stairs. A tax on being taller than a toad. That’s all of you. Sorry.  
 
@@ -113,7 +114,7 @@ _Tilly’s eyes go very wide and very bright._
 
 #### `reader:s14-toad` · [main](../../../side/S14.md#s14-toad)
 
-**Byte**: Each tax is a tenth of the one before. It keeps shrinking. We owe him two Shells, two, two, two… forever.  
+**Byte**: The tax on the tax is a tenth of it. Then a tenth of that. It shrinks and shrinks, and never quite stops.  
 
 > **Lesson** (maths, 4.OA.C.5, ask): a number pattern with a rule: divide by ten each time  
 > **Byte**: Let’s cut each Shell into a hundred tiny bits. So the first tax is 200 bits. The tax on that is a tenth: 20 bits.  
@@ -146,19 +147,11 @@ _That corner is coloured grey. The felt tip was pressed so hard it went through 
 #### `reader:s14-sparks` · [main](../../../side/S14.md#s14-sparks)
 
 _The morning of the last session, Sparks is waiting at your gate, quietly. You didn’t know Sparks had a quiet setting._  
-
-> **Lesson** (literacy, L.4.5, ask): understanding a metaphor  
-> _Sparks isn’t a radio. So what does “a quiet setting” mean here?_  
-> - ✅ Sparks is usually loud, so being quiet is very unusual. → Yes. It’s a metaphor: it talks about Sparks as if Sparks were a machine with a volume knob. It tells you something is wrong.
-> - Sparks has a real button on the back. → Ha! No button. It’s a metaphor: it talks about Sparks like a machine to show how unusual it is for Sparks to be quiet.
-> - Sparks is asleep standing up. → Not asleep! Sparks is just unusually quiet. The writer compares Sparks to a machine on a low setting. That’s a metaphor.
-> _For grown-ups: Worked out the meaning of a metaphor (“a quiet setting”) from context._
-
 **Sparks**: The dragon in that corner’s got bigger. She redraws it every night. Last night it got a cardigan.  
-**Sparks**: It’s Hazel. Obviously it’s Hazel. Hazel taught her to whistle. Two fingers. The supper call.  
+**Sparks**: It’s Hazel. Obviously it’s Hazel.  
 **Sparks**: Hazel went off at the end of the winter. She left Tilly a note, with just “Tilly” on the front. She won’t open it. It’s in her welly.  
 **Sparks**: She won’t say the name. Just “the dragon”.  
-**Sparks**: She’s gone off somewhere. She does that. You go. She likes you. You’re not a sandwich.  
+**Sparks**: Tilly’s gone off somewhere. She does that. You go and find her. She likes you. You’re not a sandwich.  
 
 > **Lesson** (sel, CASEL: Self-awareness, notice): missing someone, and different ways of carrying a big feeling  
 > _Missing someone very much is a kind of grief. It can feel sad, or cross, or both at once._  
@@ -179,7 +172,7 @@ _You hear her before you see her: a whistle through two fingers, rising at the e
 
 _Tilly is sitting on the gate that sticks, kicking it. It doesn’t swing. It hardly ever does._  
 **Tilly**: They think it’s supper. It isn’t supper. I just do it.  
-**Tilly**: She said if you whistle it properly, anyone who loves you comes running. She said that.  
+**Tilly**: Hazel taught me. She said if you whistle it properly, anyone who loves you comes running.  
 _The Nubbins arrive, hopeful, and sit in a row in front of her wellies._  
 **Tilly**: See. It works on them.  
 
@@ -293,22 +286,14 @@ _She stops. She picks up the dragon and holds it in both hands._
 **Tilly**: She says—  
 **Tilly**: I don’t know what she says. I don’t KNOW. She didn’t SAY.  
 _Tilly cries the way nine-year-olds cry: all at once, with her whole face._  
+_Sparks is round the table before anyone else can move, and says nothing at all. It is the loudest thing Sparks has ever done._  
+_Pixel quietly passes a tea towel. Byte quietly passes a better tea towel._  
 
 > **Lesson** (sel, CASEL: Self-awareness, notice): crying is allowed, and what helps  
 > _Crying is allowed. It’s one of the ways a body lets a big feeling out._  
 > _Afterwards, lots of people feel a little lighter. It helps to have someone close by, even if nobody says anything._  
 > _For grown-ups: Learned that crying is a normal way to let out big feelings, and that having someone nearby helps._
 
-_Sparks is round the table before anyone else can move, and says nothing at all. It is the loudest thing Sparks has ever done._  
-
-> **Lesson** (literacy, RL.3.3, ask): understanding a surprising description of a character  
-> _Sparks says nothing at all. So why does the story call it “the loudest thing Sparks has ever done”?_  
-> - ✅ Because loud Sparks being silent shows how much Sparks cares. → Yes. Sparks is always loud. Choosing to be quiet, just to be there for Tilly, says more than any shout.
-> - Because Sparks hugged her very noisily. → No noise at all! That’s the point. For Sparks, silence is so unusual that it “speaks” loudly. It shows how much Sparks cares.
-> - It’s a mistake in the story. → It’s on purpose! A writer can say something surprising to make you think. Sparks’s silence shows how much Sparks cares.
-> _For grown-ups: Explained why a writer described a character’s silence as “loud”, and what it shows about the character._
-
-_Pixel quietly passes a tea towel. Byte quietly passes a better tea towel._  
 _You keep your button where it is._  
 
 #### `reader:s14-complete` · [main](../../../side/S14.md#s14-complete)

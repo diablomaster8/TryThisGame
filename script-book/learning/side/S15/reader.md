@@ -19,7 +19,8 @@ _A poster unrolls down the side of the wagon in gold letters: 1 IN 3 SPARKLY! Un
 _In the window, on a velvet cushion, an egg glitters like frost on a web. Its card says LEGENDARY. NOT FOR SALE (YET)._  
 **The children**: Sparkly! Sparkly! Sparkly!  
 **Pip**: I’ve got forty Shells. I’ve saved since my birthday. That’s four eggs. That’s one and a third sparkly!  
-_Byte appears at your elbow with a clipboard. He has the face of someone who has just heard maths done wrong._  
+_Byte, the inventor Pixel’s husband, appears at your elbow with a clipboard. His shoelace is undone, as it was all the way down the aisle at his own wedding._  
+_He has the face of someone who has just heard maths done wrong._  
 **Byte**: One in three. Says who? I want to see it happen. Thirty eggs. We count every single one.  
 
 > **Lesson** (maths, 3.MD.B.3, do): keeping a tally in bundles of five  
@@ -67,7 +68,7 @@ _The tally says it all. PLAIN: five gates and two extra strokes. SPARKLY: three 
 > - 3 in 10 → That would be nine sparkly in thirty. We only saw three. Three groups of ten, one sparkly in each: 1 in 10. One tenth.
 > _For grown-ups: Read a tally chart and saw that 3 in 30 is the same chance as 1 in 10 (one tenth)._
 
-**Byte**: The poster is out by three point three three three… and the threes go on forever.  
+**Byte**: The poster promised ten sparkly. We got three. Ten divided by three is three point three three three… and the threes go on forever.  
 **Byte**: That’s called recurring. I’ve underlined it. Twice.  
 _Pip sits on the bridge with four plain eggs in her lap. She isn’t crying. She is being extremely brave at the water._  
 **Pip**: The plain ones are nice too. They’re warm.  
@@ -122,14 +123,14 @@ _Stepping stones lead along the stream. One wobbles. One is a frog._
 
 > **Lesson** (literacy, ask): telling a fact you can check from a claim you can’t  
 > **Jackpot**: I CANNOT LIE. WHICH OF THESE CAN BE CHECKED?  
-> - ✅ “One egg in ten is sparkly.” → CORRECT. YOU COUNTED IT. A FACT CAN BE CHECKED. “Every egg a winner” is a feeling dressed up as a fact. You can’t measure it.
-> - “Every egg a winner!” → HOW WOULD YOU CHECK IT? WHAT IS A WINNER? HE NEVER SAYS. That’s a feeling dressed up as a fact. “One in ten” is a fact: we counted it.
+> - ✅ “One egg in ten is sparkly.” → CORRECT. YOU COUNTED IT. A FACT CAN BE CHECKED. Right. “Every egg a winner” is a feeling pretending to be a fact. You can’t measure it.
+> - “Every egg a winner!” → HOW WOULD YOU CHECK IT? WHAT IS A WINNER? HE NEVER SAYS. That’s a feeling pretending to be a fact. “One in ten” is a fact: we counted it.
 > - “Dashwood has brought you luck!” → LUCK CANNOT BE WEIGHED. I HAVE TRIED. That’s a claim you can’t check. “One in ten” is a fact: we counted it.
 > _For grown-ups: Sorted a checkable fact from claims that can’t be checked._
 
 **You**: What happens to the eggs nobody buys?  
 **Jackpot**: THEY GO UP THE VALLEY. TO A MAN WHO BUYS IN BULK. HE NEVER HAGGLES. HE NEVER SMILES.  
-_Among the stickers on the tailboard, you notice one small, neat silver square: the Circuit’s mark._  
+_Among the stickers on the tailboard, you notice one small, neat silver square: the mark of Corvin’s Circuit, up the valley._  
 **Jackpot**: ALSO THE LEGENDARY EGG IS NOT LEGENDARY. I HAVE TRIED NOT TO SAY THAT. IT IS VERY UNCOMFORTABLE.  
 _The snoring stops. You both freeze. It starts again._  
 
@@ -247,7 +248,7 @@ _Underneath, smaller: ALL OF THEM ARE WARM._
 **Pip**: Those are worse odds. Why do I like it better?  
 **Byte**: Because you know where you are. Knowing where you are is the second-best feeling there is. After winning.  
 _The children queue anyway. Some buy. Some just come to read the board._  
-**Pip**: I’ve got ten Shells left. An egg, or a bag of honey drops for the walk home? I need to think.  
+**Pip**: Gran gave me ten Shells, for being brave about the eggs. An egg, or a bag of honey drops for the walk home?  
 
 > **Lesson** (social-studies, D2.Eco.1.K-2, notice): scarcity: having only so much means choosing  
 > **Byte**: Ten Shells can be an egg, or honey drops. Not both. When you only have so much, you have to choose.  

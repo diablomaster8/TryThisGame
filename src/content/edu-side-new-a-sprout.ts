@@ -468,7 +468,7 @@ const S15: EduQuest = quest(
         DA('Thank you, Jackpot.', 'happy'),
         N('A big sign says: ONE IN THREE IS SPARKLY!'),
         KD('Sparkly! Sparkly! Sparkly!', 'happy'),
-        N('A little girl from the village jingles her purse.'),
+        N('A little girl from the village jingles her purse. That’s Pip.'),
         BY('Is that true? Let’s count every egg and see.', 'think'),
       ],
       [
@@ -1920,7 +1920,7 @@ const S18: EduQuest = quest(
         DE('Hello! I’m Professor Delve. I want to make a museum!', 'happy'),
         DE('Four rooms. Twelve treasures. And every sign must be true!', 'think'),
         N('A little brown moth lands on his nose.'),
-        DE('Oh! Oh dear! A moth!', 'shock'),
+        DE('Oh! A mo… a mo… a MOTH!', 'shock'),
         N('Professor Delve faints, very neatly, into the barrow.'),
         DE('I’m all right. I’m just lying down.', 'sad'),
         N('Dusty is at the door, holding a trowel.'),
@@ -1950,8 +1950,10 @@ const S18: EduQuest = quest(
         DU('Deeper is older. Like blankets on a bed.', 'think'),
         N('Fossils are signs of plants and animals from long ago, kept in stone.'),
         N('You find a curly shell, a flat fern and a little stone bug.'),
-        DU('Fossil was my Nubbin. She always fell asleep while I dug.', 'happy'),
-        DU('Fossil died, not long ago. It’s quiet without her snoring.', 'soft'),
+        DU('My Nubbin was called Fossil. Like these! She always slept while I dug.', 'happy'),
+        DU('Fossil died, not long ago. She was my best friend.', 'soft'),
+        DU('It’s very quiet without her snoring.', 'soft'),
+        N('Dusty does Fossil’s snore. Zzz-pff. Then Dusty smiles, a little.'),
         DE('A trilobite! A sea animal from long, long ago.', 'happy'),
         DE('A fern! Ferns have no flowers.'),
         DE('An ammonite! A curly-shelled sea animal. A cousin of the octopus.'),
@@ -1976,8 +1978,9 @@ const S18: EduQuest = quest(
           skill: 'missing someone who died',
           standard: 'CASEL: Self-awareness',
           kind: 'notice',
-          after: 5,
+          after: 6,
           lines: [
+            N('When someone dies, their body stops, for always.'),
             DU('I miss her. Missing someone means you loved them.', 'soft'),
             N('Dusty feels sad. It’s all right to feel sad.'),
           ],
@@ -2119,8 +2122,9 @@ const S18: EduQuest = quest(
       [
         N('Night on the hill. Nova lies in the cold grass.'),
         NO('Clear night. Best sky in the valley.'),
-        NO('I brought you something. Don’t make a fuss. It’s a rock.', 'think'),
+        NO('I brought you something. It’s a rock. It’s not a big thing.', 'think'),
         N('A black stone, heavy and bumpy. Like burnt toast.'),
+        N('A Nubbin sniffs the rock that looks like toast. It is not toast!'),
         NO('It fell from the sky. I walked two days to find it.'),
         DE('A rock from space! And it isn’t a moth!', 'happy'),
         NO('Now. Find me north.'),
@@ -2134,7 +2138,7 @@ const S18: EduQuest = quest(
           after: 3,
           prompt: [N('Nova gives you a present. What can you say?')],
           options: [
-            opt('“Thank you!”', [NO('…You’re welcome. Don’t make it a moment.', 'happy')], true),
+            opt('“Thank you!”', [NO('…You’re welcome. Shh. Look at the stars.', 'happy'), N('Nova smiles at the sky. Just a little.')], true),
             opt('“Is that all?”', [N('That might hurt Nova’s feelings. “Thank you” is kinder.')]),
             opt('Say nothing', [N('A “thank you” lets Nova know you love it.')]),
           ],
@@ -2152,7 +2156,8 @@ const S18: EduQuest = quest(
         N('Late at night, the Moon comes up. Orange, then white.'),
         DE('The Moon always shows us the same face.'),
         DE('A shooting star isn’t a star. It’s space rock or dust, burning up.', 'happy'),
-        NO('You read signs to the sky, Professor.', 'happy'),
+        N('Whoosh! A shooting star. Professor Delve ducks under his hat.'),
+        DE('It isn’t a moth. I just like to be safe.', 'shock'),
       ],
       [
         {
@@ -2175,8 +2180,8 @@ const S18: EduQuest = quest(
         N('Dusty comes in, holding a bent card.'),
         DU('Fossil’s card. From the hill, by her flower.', 'soft'),
         DU('I don’t want it in a drawer. I want people to see it.', 'sad'),
-        DE('A museum is where a valley remembers.', 'soft'),
-        DE('Or there’s Hazel’s egg book. Forty years of eggs are in it.', 'think'),
+        DE('A museum helps everybody remember.', 'soft'),
+        DE('Or there’s Hazel’s egg book. Every egg Hazel ever hatched is in it.', 'think'),
         DU('That’s a good thing. It just isn’t Fossil.', 'sad'),
       ],
       [
@@ -2233,8 +2238,9 @@ const S18: EduQuest = quest(
       [
         N('The barn is swept. Twelve signs shine.'),
         DE('One last thing. The door.', 'think'),
-        DE('Two Shells a visit would keep the barn mended.'),
-        DE('Or it could be free. We’d manage. Probably.'),
+        DE('The roof has a hole. Drip, drip! Two Shells a visit would mend it.'),
+        DE('Or it could be free. Then I’ll mend the roof with my hat.'),
+        N('He looks at his hat. His hat looks worried.'),
       ],
       [
         {
@@ -2278,7 +2284,7 @@ const S18: EduQuest = quest(
         N('Opening day! Half the valley comes.'),
         N('Children press their noses on the trilobite case.'),
         N('Sparks reads every sign out loud. Very loud.'),
-        DE('You did this, Curator. Well done.', 'happy'),
+        DE('You did this, Curator. That means you look after the museum. Well done!', 'happy'),
         N('He gives you his old magnifying glass, on a ribbon.'),
         DE('It makes little things look big. I’d like it to keep looking.', 'soft'),
         N('Then a moth flies in. The Curator catches the professor!'),

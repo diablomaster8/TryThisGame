@@ -64,6 +64,7 @@ _Somewhere behind the sacks is the hatch to level two. The rats are between you 
 > - 4 rats to each plum → Close. 8 × 4 is only 32, so eight rats would get nothing. 8 × 5 = 40, so it’s five rats to a plum.
 > _For grown-ups: Divided 40 by 8 by thinking about equal groups and multiplication._
 
+_The rats sort themselves into eight neat groups of five. One rat in the wrong group is gently moved._  
 
 **Choices**
 
@@ -83,6 +84,7 @@ _The old hoist lifts the hard sacks with a shriek. Under them is a hatch, and th
 **Old Tobin**: A ladle. Plain, that. Look at it. The Gently Used Ladle of Second Thoughts.  
 **Old Tobin**: A sock. Also Plain. The Sock of Uncertain Origin. Don’t ask it where it’s been.  
 **Old Tobin**: And the cheese rind the rats were guarding. Oh, that’s Fine, that is. The Rat-Nibbled Cheese Rind of Courage.  
+_A Nubbin from the Grove has followed you down. It licks the Cheese Rind of Courage. It is very brave about it._  
 **You**: Does everything get a name?  
 **Old Tobin**: Everything found in a cellar gets a name. It’s the rule. I made it up just now, and it’s very old.  
 _Below the hatch you can hear water. Not running. Just lying there in the dark, breathing._  
@@ -109,7 +111,8 @@ _Below the hatch you can hear water. Not running. Just lying there in the dark, 
 #### `reader:s13-level2` · [main](../../../side/S13.md#s13-level2)
 
 _The last gate groans open. The water rushes out of the room with a long sigh, like a bath let out after twenty years._  
-_On the wet floor are two eels, very annoyed about it._  
+_On the wet floor are two eels, very annoyed about it. One of them glares at Tobin._  
+**Old Tobin**: Don’t look at me. The Keeper opened the gates.  
 _And up one wall is a row of chalk marks. Somebody measured a boy here, year after year._  
 _Each mark has a number beside it. The lowest says 98 cm. The highest says 131 cm._  
 
@@ -184,7 +187,8 @@ _A tag hangs from it on a bit of string, in the same square hand: STOPPED. LEAVE
 > _For grown-ups: Explained that balanced forces (the river and the wedge) cause no movement._
 
 **Old Tobin**: Aldous. His last winter.  
-**Old Tobin**: That step, there. That’s where they found him, the day he died. Sitting down. First time anyone ever saw him sit.  
+**Old Tobin**: Aldous died on that step, very old. Sitting down. First time anyone ever saw him sit.  
+**Old Tobin**: It’s sad, and it’s all right to be sad. I sat down beside him a while, myself.  
 _Past the wheel, a narrow stair goes down to an iron door. It is locked. The lock has been oiled._  
 **Old Tobin**: Not that one. Not yet.  
 **Old Tobin**: There’s a thing you ought to know first, about him and your grandmother. It’s hers to tell, not mine.  
@@ -193,8 +197,8 @@ _Past the wheel, a narrow stair goes down to an iron door. It is locked. The loc
 
 #### `reader:s13-key` · [main](../../../side/S13.md#s13-key)
 
-_After the Hollow, with Hazel’s notebook still in your coat, you go back to the mill. Tobin is on the step, waiting._  
-**Old Tobin**: You know now. About him and her. I can see it on you. You’ve the look of someone who read the last page first.  
+_Later, when you have read Hazel’s notebook, you go back to the mill. Tobin is on the step, waiting._  
+**Old Tobin**: You know now, about Corvin and Hazel. I can see it on you.  
 **Old Tobin**: He was her apprentice. Before that, he was this mill’s boy.  
 **Old Tobin**: I lit the lamp at that gate every dusk for thirty years. There was always a boy at the window. Working.  
 
@@ -251,6 +255,8 @@ _Near the back: “Boy, 12, put on the night shift. New method: the wheel never 
 > - Nothing. It’s only numbers. → Numbers tell stories too. Hours that only go up, and a boy of 12 on the night shift, tell us how hard life was there. That’s why historians read old ledgers.
 > _For grown-ups: Used an old ledger as a historical source and compared children’s lives then and now._
 
+_Tobin tries the chair. It creaks like a gate, and he stands straight back up._  
+**Old Tobin**: Even the chair won’t let you sit. That’s this mill all over.  
 _Folded inside the back cover is a letter. It was addressed, but never sent. The name on it is Corvin._  
 **Old Tobin**: I found it the day they found him. I read it. I shouldn’t have. Then I shut the door on it, so nobody else had to carry it.  
 **Old Tobin**: Twenty years. It got heavy, keeping it from people. I didn’t know it would.  
@@ -260,8 +266,15 @@ _Folded inside the back cover is a letter. It was addressed, but never sent. The
 _The paper is good paper, the kind you’d buy for something that mattered. You unfold it._  
 **Aldous Vale**: Corvin.  
 **Aldous Vale**: I have started this nine times. The other eight went in the stove. You’d say that was waste. You’d be right. I taught you that.  
-**Aldous Vale**: They say in the valley that you did a wrong thing at the old woman’s Grove, and left in the night. I don’t know what. I know how.  
+**Aldous Vale**: They say you did a wrong thing at Hazel’s Grove, and left in the night. I don’t know what. I know how.  
 **Aldous Vale**: Quickly. In the dark. Without once sitting down to think. I know whose hands those were. They were mine first.  
+**Aldous Vale**: I can tell you the weight of every sack this mill ground the year you were born. I can’t tell you what you laughed at.  
+**Aldous Vale**: Your mother used to sit by the mill race in the evenings, with her feet in the water. I called it idling.  
+**Aldous Vale**: I would give the whole mill to sit there once with her now.  
+**Aldous Vale**: I won’t say sorry. I don’t know how. You’d only hear it as one more order, because I gave you so many.  
+**Aldous Vale**: I’ve stopped the wheel. It’s very quiet. I think you’d hate it. I think you’d get used to it.  
+**Aldous Vale**: If you ever stop, stop here. You could sit as long as you liked. Nobody would count.  
+**Aldous Vale**: Your father.  
 
 > **Lesson** (literacy, L.4.5, ask): work out what a metaphor really means  
 > _Aldous writes: “I know whose hands those were. They were mine first.”_  
@@ -271,25 +284,10 @@ _The paper is good paper, the kind you’d buy for something that mattered. You 
 > - Aldous wants his hands back. → It’s a metaphor, so it isn’t about real hands at all. “Hands” means a way of doing things. Aldous is saying Corvin learned his ways from him.
 > _For grown-ups: Worked out the meaning of a metaphor in a letter (“they were mine first”)._
 
-**Aldous Vale**: I can tell you the weight of every sack this mill ground the year you were born. I can’t tell you what you laughed at.  
-**Aldous Vale**: Your mother used to sit by the mill race in the evenings, with her feet in the water. I called it idling.  
-**Aldous Vale**: I would give the whole mill to sit there once with her now.  
-**Aldous Vale**: I won’t say sorry. I don’t know how, and you’d hear it as one more order. You always heard me that way. I made sure of it.  
-**Aldous Vale**: I’ve stopped the wheel. It’s very quiet. I think you’d hate it. I think you’d get used to it.  
-**Aldous Vale**: If you ever stop, stop here. You could sit as long as you liked. Nobody would count.  
-**Aldous Vale**: Your father.  
 _…_  
 **Old Tobin**: “Nobody would count.” He counted everything. His own boy’s hours, in a book. And then he wrote that.  
+**Old Tobin**: The boy copied his father’s rules. And his father stopped the wheel, in the end. Late. But he chose.  
 **Old Tobin**: It isn’t mine to decide what happens to it. It never was. I only held the door shut.  
-
-> **Lesson** (sel, CASEL: Self-awareness, ask): think about whether we must become like the people who raised us  
-> **Old Tobin**: Aldous had three rules, and the boy copied them out. Hazel had three rules too, and hers were kind ones.  
-> **Old Tobin**: Here’s a hard one, and I’ve no answer to it. Do we have to turn out like the grown-ups who raised us? Or can we choose differently?  
-> - We can choose differently, even if it’s hard. → That’s a hopeful answer, and a fair one. Aldous himself stopped the wheel, right at the end. Late. But he chose.
-> - We copy them a lot, without even noticing. → That’s honest, and it’s often true. The boy copied those rules in his best writing. Noticing what you’ve copied is the first step to choosing what to keep.
-> - A bit of both. → I think that’s where I’d land too. We carry what we’re given. Then we decide what to keep, and what to set down.
-> _For grown-ups: Thought about how habits pass down through families, and whether we can choose differently (a think question with no single right answer)._
-
 
 **Choices**
 
@@ -297,7 +295,7 @@ _…_
     - You fold it along its old folds and put it inside your coat, next to Hazel’s notebook.
     - **Old Tobin**: When he can feel again. Yes. Cold hands can’t hold a thing like that. It would slip straight through them.
     - **Old Tobin**: You’ll know when. Your grandmother always knew when. It was infuriating.
-- **Burn it. Some things should end with the person.**
+- **Burn it, the way Aldous burned the other eight.**
     - **Old Tobin**: …That’s a real answer. I’ve thought it myself, most winters.
     - **Old Tobin**: He wrote nine and burned eight. You’d only be finishing what he started.
 - **Read it to Moss, and leave it on Aldous’s grave.**
@@ -346,8 +344,15 @@ _Variant of `s13-letter`._
 _The paper is good paper, the kind you’d buy for something that mattered. You unfold it._  
 **Aldous Vale**: Corvin.  
 **Aldous Vale**: I have started this nine times. The other eight went in the stove. You’d say that was waste. You’d be right. I taught you that.  
-**Aldous Vale**: They say in the valley that you did a wrong thing at the old woman’s Grove, and left in the night. I don’t know what. I know how.  
+**Aldous Vale**: They say you did a wrong thing at Hazel’s Grove, and left in the night. I don’t know what. I know how.  
 **Aldous Vale**: Quickly. In the dark. Without once sitting down to think. I know whose hands those were. They were mine first.  
+**Aldous Vale**: I can tell you the weight of every sack this mill ground the year you were born. I can’t tell you what you laughed at.  
+**Aldous Vale**: Your mother used to sit by the mill race in the evenings, with her feet in the water. I called it idling.  
+**Aldous Vale**: I would give the whole mill to sit there once with her now.  
+**Aldous Vale**: I won’t say sorry. I don’t know how. You’d only hear it as one more order, because I gave you so many.  
+**Aldous Vale**: I’ve stopped the wheel. It’s very quiet. I think you’d hate it. I think you’d get used to it.  
+**Aldous Vale**: If you ever stop, stop here. You could sit as long as you liked. Nobody would count.  
+**Aldous Vale**: Your father.  
 
 > **Lesson** (literacy, L.4.5, ask): work out what a metaphor really means  
 > _Aldous writes: “I know whose hands those were. They were mine first.”_  
@@ -357,25 +362,10 @@ _The paper is good paper, the kind you’d buy for something that mattered. You 
 > - Aldous wants his hands back. → It’s a metaphor, so it isn’t about real hands at all. “Hands” means a way of doing things. Aldous is saying Corvin learned his ways from him.
 > _For grown-ups: Worked out the meaning of a metaphor in a letter (“they were mine first”)._
 
-**Aldous Vale**: I can tell you the weight of every sack this mill ground the year you were born. I can’t tell you what you laughed at.  
-**Aldous Vale**: Your mother used to sit by the mill race in the evenings, with her feet in the water. I called it idling.  
-**Aldous Vale**: I would give the whole mill to sit there once with her now.  
-**Aldous Vale**: I won’t say sorry. I don’t know how, and you’d hear it as one more order. You always heard me that way. I made sure of it.  
-**Aldous Vale**: I’ve stopped the wheel. It’s very quiet. I think you’d hate it. I think you’d get used to it.  
-**Aldous Vale**: If you ever stop, stop here. You could sit as long as you liked. Nobody would count.  
-**Aldous Vale**: Your father.  
 _…_  
 **Old Tobin**: “Nobody would count.” He counted everything. His own boy’s hours, in a book. And then he wrote that.  
+**Old Tobin**: The boy copied his father’s rules. And his father stopped the wheel, in the end. Late. But he chose.  
 **Old Tobin**: It isn’t mine to decide what happens to it. It never was. I only held the door shut.  
-
-> **Lesson** (sel, CASEL: Self-awareness, ask): think about whether we must become like the people who raised us  
-> **Old Tobin**: Aldous had three rules, and the boy copied them out. Hazel had three rules too, and hers were kind ones.  
-> **Old Tobin**: Here’s a hard one, and I’ve no answer to it. Do we have to turn out like the grown-ups who raised us? Or can we choose differently?  
-> - We can choose differently, even if it’s hard. → That’s a hopeful answer, and a fair one. Aldous himself stopped the wheel, right at the end. Late. But he chose.
-> - We copy them a lot, without even noticing. → That’s honest, and it’s often true. The boy copied those rules in his best writing. Noticing what you’ve copied is the first step to choosing what to keep.
-> - A bit of both. → I think that’s where I’d land too. We carry what we’re given. Then we decide what to keep, and what to set down.
-> _For grown-ups: Thought about how habits pass down through families, and whether we can choose differently (a think question with no single right answer)._
-
 
 **Choices**
 
@@ -383,7 +373,7 @@ _…_
     - You fold it along its old folds and put it inside your coat, next to Hazel’s notebook.
     - **Old Tobin**: When he can feel again. Yes. Cold hands can’t hold a thing like that. It would slip straight through them.
     - **Old Tobin**: You’ll know when. Your grandmother always knew when. It was infuriating.
-- **Burn it. Some things should end with the person.**
+- **Burn it, the way Aldous burned the other eight.**
     - **Old Tobin**: …That’s a real answer. I’ve thought it myself, most winters.
     - **Old Tobin**: He wrote nine and burned eight. You’d only be finishing what he started.
 - **Read it aloud at Aldous’s grave, and leave it there.**
@@ -439,6 +429,15 @@ _Water drips off each paddle as it comes round, taking its time._
 > _For grown-ups: Learned that flour is made by grinding seeds, which store food for a new plant._
 
 **Old Tobin**: And come and sit, when you like. I’ve a story about the year of the Three Hats. I’ll get to the end of it one day.  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): think about rest, work and what we would say to someone who never stopped (think question)  
+> _Aldous never stopped working, and he never said what he felt. Think about the letter, and the quiet wheel._  
+> _What would you tell him, if you could?_  
+> - Rest is allowed. The work will still be there. → That’s a kind thing to say, and a fair one. He’d have argued, I think. Then he’d have gone very quiet.
+> - Tell your son you love him, before anything else. → Aye. He wrote it in the end. Late. Saying it sooner would have cost him nothing but nerve.
+> - I’d just sit with him, and say nothing. → That’s the one he never had. I think that might be the best answer of all. Or the hardest.
+> _For grown-ups: Thought about what to say to someone who worked without rest and found it hard to say what he felt (a think question with no single right answer)._
+
 **Old Tobin**: Where was I?  
 **You**: Mill. Yes. Light.  
 _Tobin looks at you for a long moment. Then he laughs until he has to sit down on the millstone._  
@@ -460,7 +459,7 @@ _For a moment you can read “Your father” in the flame. Then you can’t._
 > - Only if you glue the ash together. → Ash would just be gluey ash! Burning changes paper into new things that can’t change back.
 > _For grown-ups: Compared a change that can be undone (melting) with one that can’t (burning)._
 
-**Old Tobin**: Nine.  
+**Old Tobin**: Nine. That’s all of them now.  
 _Tobin sits on the step with you until the stove is cold. Neither of you counts how long._  
 
 > **Lesson** (sel, CASEL: Self-awareness, notice): notice mixed feelings after a big decision  

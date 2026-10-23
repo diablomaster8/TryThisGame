@@ -17,7 +17,7 @@ _A brass parrot sits on his shoulder. Tick, tick, tick._
 **Dashwood Prance**: Thank you, Jackpot.  
 _A big sign says: ONE IN THREE IS SPARKLY!_  
 **The children**: Sparkly! Sparkly! Sparkly!  
-_A little girl from the village jingles her purse._  
+_A little girl from the village jingles her purse. That’s Pip._  
 
 > **Lesson** (literacy, RF.K.2, ask): hearing rhymes  
 > **Pip**: Egg, egg, I love an egg!  

@@ -303,7 +303,7 @@ export const MV_MOONKNIGHT: Quest[] = [
       },
       {
         id: 'mv-mk02-statue',
-        goal: 'Bring Marlene and Frenchie to the statue before dawn.',
+        goal: 'Reach Khonshu’s statue before dawn, with Marlene and Frenchie close behind.',
         hint: 'Cross the dunes on the Expedition map; the moonlit path shows the way.',
         check: 'expedition:clear:mv-khonshu-tomb',
         scene: {

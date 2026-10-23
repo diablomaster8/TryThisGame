@@ -117,7 +117,7 @@ const S13_KEEP: Choice = {
 };
 const S13_BURN: Choice = {
   id: 'burned',
-  label: 'Ask Tobin to burn it in the stove. Some things end with the person.',
+  label: 'Ask Tobin to burn it in the stove, like Aldous’s other letters.',
   set: { millLetter: 'burned' },
   then: [
     T('That’s a real answer. I’ve thought it too.', 'think'),
@@ -230,7 +230,9 @@ const S13: EduQuest = quest(
         N('It smells of old flour. And mouse.'),
         N('Scritch, scratch. Scritch, scratch. Something is in the dark.'),
         N('Little noses. Little whiskers. Rats!'),
-        T('Mill rats. Very tidy. They never take a day off.', 'think'),
+        T('Mill rats. They never take a day off.', 'think'),
+        N('One rat sniffs the old flour. Sniff, sniff… ACHOO!'),
+        N('All five rats jump. So does Tobin.'),
       ],
       [
         {
@@ -278,9 +280,11 @@ const S13: EduQuest = quest(
         T('A ladle. The Ladle of Second Thoughts.'),
         T('A sock. The Sock of Nobody Knows Where.'),
         T('A cheese rind. The Cheese Rind of Being Brave!', 'happy'),
+        N('A Nubbin licks the brave cheese rind. Brave Nubbin!'),
         N('Below the hatch, water lies still in the dark.'),
         T('Floor two is flooded. Three gates. Open them in the right order!', 'think'),
-        T('Or we’ll be swimming. Marina could swim in soup.'),
+        T('Or we’ll be swimming. Splish, splash!'),
+        N('Tobin pretends to swim in the air. He is not very good at it.'),
       ],
       [
         {
@@ -332,6 +336,8 @@ const S13: EduQuest = quest(
         N('On the steps the flood left boots, a doorknob and a soggy scarf.'),
         T('The Squeaky Boots! The Doorknob That Won’t Open!', 'happy'),
         T('And the Soggy Scarf. It still thinks it will dry.', 'happy'),
+        N('The sock is on the steps too. Nobody brought it.'),
+        T('Sock! How did you get here?', 'happy'),
         N('Floor three: the wheel pit. The giant wheel drips. Plip, plop.'),
         N('The river pushes it. The whole mill shakes. Rumble!'),
         N('Moss calls down. He is staying on his millstone, thank you.'),
@@ -344,7 +350,7 @@ const S13: EduQuest = quest(
           skill: 'keeping safe near big machines',
           standard: 'ELOF: Perceptual, Motor, and Physical Development',
           kind: 'ask',
-          after: 6,
+          after: 8,
           prompt: [T('Where should our hands be, near a big wheel?', 'think')],
           options: [
             opt('Far away, by our sides', [T('Yes. Big machines can hurt fingers. We stay back.', 'happy')], true),
@@ -361,11 +367,13 @@ const S13: EduQuest = quest(
         N('A label hangs from it. It says: STOPPED. LEAVE IT.'),
         Y('Somebody stopped the wheel on purpose.'),
         T('Aldous did, in his last winter. He sat on that step.', 'sad'),
-        T('He was very old. Soon after that, he died.', 'soft'),
-        T('His body stopped working, and it won’t start again.', 'soft'),
+        T('Aldous died. He was very old.', 'soft'),
+        T('When someone dies, their body stops, for always.', 'soft'),
+        T('Not like the wheel. The wheel can start again. Aldous can’t.', 'soft'),
         N('Past the wheel, a stair goes down to an iron door. It is locked.'),
         T('Not that door. Not yet.', 'soft'),
-        T('Read Hazel’s notebook first. Then come back for the key.'),
+        T('Hazel’s notebook has a page about Aldous. Read it first.'),
+        T('Then come back, and I’ll give you the key.'),
       ],
       [
         {
@@ -373,7 +381,7 @@ const S13: EduQuest = quest(
           skill: 'noticing when someone is sad, and what helps',
           standard: 'CASEL: Social awareness',
           kind: 'ask',
-          after: 5,
+          after: 6,
           prompt: [N('Tobin is sad. He misses Aldous.'), N('What could help Tobin?')],
           options: [
             opt('Sit next to him for a bit', [T('Thank you. That helps. Sitting together always helps.', 'soft')], true),
@@ -389,12 +397,13 @@ const S13: EduQuest = quest(
     sc(
       's13-key',
       [
-        N('Later, with Hazel’s notebook in your coat, you go back.'),
+        N('Later, you have read Hazel’s page about Aldous. You go back to the mill.'),
         T('Corvin was Hazel’s helper once. Before that, he was this mill’s boy.', 'soft'),
         T('Every evening I lit the lamp by the gate.', 'soft'),
         T('And every evening there was a boy at the window. Working.', 'sad'),
         T('That’s the whole story. The only one I ever finished.', 'sad'),
         N('He gives you a little iron key. It’s warm from his pocket.'),
+        N('The sock is in Tobin’s pocket. He does not know how.'),
         T('I found more treasure. A cog: the Cog of Very Big Patience.', 'happy'),
         T('And a tiny hat, cut from a round millstone. Heavy!', 'happy'),
         T('Down we go. Together.', 'soft'),
@@ -405,7 +414,7 @@ const S13: EduQuest = quest(
           skill: 'circles, big and small',
           standard: 'K.G.A.2',
           kind: 'do',
-          after: 7,
+          after: 8,
           check: 'edu:draw:shape:circle',
           lines: [
             T('A cog is round, with little teeth all round the edge.'),
@@ -426,7 +435,8 @@ const S13: EduQuest = quest(
         N('Inside the big book are three rules, in chalk.'),
         N('ONE: the wheel never stops. TWO: nobody rests. THREE: keep up!'),
         N('Under them, in a child’s careful writing, the same three rules.'),
-        N('Every page says work, work, work. Never once does it say rest.'),
+        N('Every page says work, work, work. Not one page says sleep.'),
+        N('Tobin yawns, just from reading it.'),
         N('At the back is a letter. It was never sent. It says: Corvin.'),
         T('I kept it shut away for twenty years. It got heavy, keeping it.', 'soft'),
       ],
@@ -436,7 +446,7 @@ const S13: EduQuest = quest(
           skill: 'everybody needs rest and sleep',
           standard: 'ELOF: Perceptual, Motor, and Physical Development',
           kind: 'ask',
-          after: 7,
+          after: 8,
           prompt: [T('Hazel’s rules were kind ones. These say: never rest.', 'think'), T('Do people need rest?')],
           options: [
             opt('Yes! Everybody needs rest and sleep', [T('Yes. Rest and sleep help our bodies feel better and grow.', 'happy')], true),
@@ -479,6 +489,7 @@ const S13: EduQuest = quest(
         T('Somebody meant to hand these down. He never stopped long enough.', 'soft'),
         N('Then he knocks the wedge out of the gear. Bonk!'),
         N('The wheel turns. Slowly. As slowly as the river likes.'),
+        N('The sock is on the wheel, going round and round. Wheee!'),
         T('There. Nobody’s counting.', 'happy'),
         T('Bring your seeds down. The mill makes lovely flour.', 'happy'),
         T('Now, the year of the Three Hats… Where was I?', 'think'),
@@ -491,7 +502,7 @@ const S13: EduQuest = quest(
           skill: 'how a mill turns seeds into flour',
           standard: 'ELOF: Scientific Reasoning',
           kind: 'notice',
-          after: 5,
+          after: 6,
           lines: [
             T('The river turns the wheel. The wheel turns the big stone.', 'think'),
             T('The stone squashes seeds into soft flour. Flour makes bread!', 'happy'),
@@ -1197,10 +1208,13 @@ const S14: EduQuest = quest(
         N('In comes Sparks, with a small girl in big wellies.'),
         SP('This is Tilly. My cousin. She’s nine. She’s the boss now. Sorry!', 'happy'),
         TI('I’m the Game Mistress. It’s like a boss, but more.'),
+        N('Pixel and Byte come too. They are married.'),
+        N('They argue about who rolls first.'),
         N('She spreads a felt-tip map on Hazel’s table.'),
         N('Then the dice. Cardboard, cut by hand, with tape on the corners.'),
         TI('Rule one: the Game Mistress is always right. Rule two: see rule one.'),
         TI('Rule three: snacks at the end. Only at the end.'),
+        TI('Everybody starts with eight points. Don’t lose them.'),
         TI('Pick your hero. Ten seconds. Nine. Four!'),
       ],
       [
@@ -1209,7 +1223,7 @@ const S14: EduQuest = quest(
           skill: 'count to 6',
           standard: 'K.CC.B.5',
           kind: 'do',
-          after: 5,
+          after: 7,
           check: 'edu:count:dice-sides:6',
           lines: [
             N('(A die has six sides. Count them: one, two, three, four, five, six.)'),
@@ -1251,7 +1265,8 @@ const S14: EduQuest = quest(
         N('Sparks rolls. One dot.'),
         TI('A one! Your sword is now a cheese sandwich.', 'happy'),
         BY('Actually, that’s not how—'),
-        TI('Rule four! Say “actually”, lose a point.'),
+        TI('Rule four! Say “actually”, lose a point. Byte has seven.'),
+        N('Byte opens his mouth. Byte shuts his mouth. Pop!'),
         N('You roll a LOTS. The bog likes you. Everybody gets across!'),
         TI('Game over. Nobody’s hurt. Somebody’s a sandwich.', 'happy'),
       ],
@@ -1281,8 +1296,10 @@ const S14: EduQuest = quest(
         TI('And one shell for the stairs!'),
         PX('Can I build a machine to beat him?', 'happy'),
         TI('Roll. Three dots. Your machine is a toad now. It works for him.'),
-        BY('Is there a tax on paying the tax?', 'think'),
-        TI('…Yes. Thanks SO much, Byte.', 'happy'),
+        BY('Do we pay a shell for paying a shell?', 'think'),
+        TI('…Yes! Thanks SO much, Byte.', 'happy'),
+        N('Byte hands over one more shell. Clink.'),
+        TI('That was a very “actually” question. Six!'),
       ],
       [
         {
@@ -1305,7 +1322,7 @@ const S14: EduQuest = quest(
       's14-toad',
       [
         BY('The Toad owes… no, we owe… I’ve muddled it.', 'think'),
-        TI('The Toad doesn’t do sums. The Toad does feelings.'),
+        TI('The Toad can’t count. He just likes shells. RIBBIT!'),
         N('Then Pixel’s Nubbin wakes up. It climbs onto the map.'),
         N('Chomp! It eats the cardboard Tax Toad.'),
         TI('The Toad has been eaten! No more paying for anyone!', 'happy'),
@@ -1339,10 +1356,11 @@ const S14: EduQuest = quest(
       [
         N('Next morning, Sparks is at your gate. Being quiet. Sparks is never quiet!'),
         SP('The dragon in the corner of the map keeps getting bigger.', 'sad'),
-        SP('Last night it got a cardigan. It’s Hazel. Of course it’s Hazel.'),
+        SP('Last night it got a cardigan. Hazel always wears a cardigan.'),
+        SP('So the dragon is really Hazel. Tilly misses her.'),
         SP('Hazel went away on a long trip. She didn’t say goodbye.'),
         SP('Hazel left Tilly a note. She won’t open it. It’s in her welly.'),
-        SP('Go and find her. She likes you. You’re not a sandwich.', 'soft'),
+        SP('Go and find Tilly. She likes you. You’re not a sandwich!', 'soft'),
       ],
       [
         {
@@ -1350,7 +1368,7 @@ const S14: EduQuest = quest(
           skill: 'missing someone: two feelings at once',
           standard: 'CASEL: Self-awareness',
           kind: 'notice',
-          after: 3,
+          after: 4,
           lines: [
             SP('Tilly misses Hazel. She feels sad and cross at the same time.', 'sad'),
             N('Missing someone can feel like that. Both feelings are all right.'),
@@ -1394,7 +1412,7 @@ const S14: EduQuest = quest(
               TI('I’m not talking about her.', 'angry'),
               N('A Nubbin licks her welly.'),
               TI('She didn’t say goodbye. You’re supposed to say goodbye!', 'angry'),
-              N('She takes out the note. She looks at it. She puts it back.'),
+              N('Tilly takes out Hazel’s note. She does not open it. She puts it back.'),
               TI('Come and play. I’ve got a dragon to do.'),
             ],
           },
@@ -1419,8 +1437,9 @@ const S14: EduQuest = quest(
         SP('I HIT THE GOOSE WITH MY SANDWICH!', 'angry'),
         TI('Roll. LOTS! The goose eats the sandwich. Now it’s your friend.'),
         N('Then you roll. LOTS again! Another goose is your friend.'),
-        BY('Do I still have seven points?'),
-        TI('Four. You said “do” in an “actually” voice.'),
+        BY('Do I still have six points?'),
+        TI('Five! You said “do” very, very actually.'),
+        N('Byte’s ears go pink. He writes a tiny sad 5.'),
       ],
       [
         {
@@ -1562,7 +1581,7 @@ const S14: EduQuest = quest(
         N('Crisps, Fern’s burnt biscuits, and grapes the Nubbins already found.'),
         N('Tilly eats with the dragon in her lap.'),
         TI('The Grey Grandmother isn’t the boss now. You can visit her.'),
-        TI('And Byte gets all his points back. For the tea towel.'),
+        TI('And Byte gets all eight points back. For the tea towel.'),
         N('She puts her cardboard crown on your head. GAME MISTRESS!'),
         N('Later, you look at the map. The grey corner is coloured yellow now.'),
         N('It says: HERE BE HAZEL. SHE IS ALLOWED.'),

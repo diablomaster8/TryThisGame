@@ -15,7 +15,7 @@ _A mole in a tweed waistcoat stands by a barrow of glass boxes._
 **Professor Delve**: Hello! I’m Professor Delve. I want to make a museum!  
 **Professor Delve**: Four rooms. Twelve treasures. And every sign must be true!  
 _A little brown moth lands on his nose._  
-**Professor Delve**: Oh! Oh dear! A moth!  
+**Professor Delve**: Oh! A mo… a mo… a MOTH!  
 _Professor Delve faints, very neatly, into the barrow._  
 **Professor Delve**: I’m all right. I’m just lying down.  
 _Dusty is at the door, holding a trowel._  
@@ -42,14 +42,17 @@ _The cliff has stripes, like a cake. Lots of layers._
 
 _Fossils are signs of plants and animals from long ago, kept in stone._  
 _You find a curly shell, a flat fern and a little stone bug._  
-**Dusty**: Fossil was my Nubbin. She always fell asleep while I dug.  
-**Dusty**: Fossil died, not long ago. It’s quiet without her snoring.  
+**Dusty**: My Nubbin was called Fossil. Like these! She always slept while I dug.  
+**Dusty**: Fossil died, not long ago. She was my best friend.  
+**Dusty**: It’s very quiet without her snoring.  
 
 > **Lesson** (sel, CASEL: Self-awareness, notice): missing someone who died  
+> _When someone dies, their body stops, for always._  
 > **Dusty**: I miss her. Missing someone means you loved them.  
 > _Dusty feels sad. It’s all right to feel sad._  
 > _For grown-ups: Heard that missing someone who died is a sign of love, and that sadness is all right._
 
+_Dusty does Fossil’s snore. Zzz-pff. Then Dusty smiles, a little._  
 **Professor Delve**: A trilobite! A sea animal from long, long ago.  
 **Professor Delve**: A fern! Ferns have no flowers.  
 **Professor Delve**: An ammonite! A curly-shelled sea animal. A cousin of the octopus.  
@@ -138,16 +141,17 @@ _And a hermit crab, moving into a bigger shell!_
 
 _Night on the hill. Nova lies in the cold grass._  
 **Nova**: Clear night. Best sky in the valley.  
-**Nova**: I brought you something. Don’t make a fuss. It’s a rock.  
+**Nova**: I brought you something. It’s a rock. It’s not a big thing.  
 _A black stone, heavy and bumpy. Like burnt toast._  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): saying thank you for a gift  
 > _Nova gives you a present. What can you say?_  
-> - ✅ “Thank you!” → …You’re welcome. Don’t make it a moment.
+> - ✅ “Thank you!” → …You’re welcome. Shh. Look at the stars. Nova smiles at the sky. Just a little.
 > - “Is that all?” → That might hurt Nova’s feelings. “Thank you” is kinder.
 > - Say nothing → A “thank you” lets Nova know you love it.
 > _For grown-ups: Practised saying thank you for a present._
 
+_A Nubbin sniffs the rock that looks like toast. It is not toast!_  
 **Nova**: It fell from the sky. I walked two days to find it.  
 **Professor Delve**: A rock from space! And it isn’t a moth!  
 **Nova**: Now. Find me north.  
@@ -168,7 +172,8 @@ _The Pole Star stays still. The other stars turn slowly round it._
 _Late at night, the Moon comes up. Orange, then white._  
 **Professor Delve**: The Moon always shows us the same face.  
 **Professor Delve**: A shooting star isn’t a star. It’s space rock or dust, burning up.  
-**Nova**: You read signs to the sky, Professor.  
+_Whoosh! A shooting star. Professor Delve ducks under his hat._  
+**Professor Delve**: It isn’t a moth. I just like to be safe.  
 
 #### `sprout:s18-heart` · [main](../../../side/S18.md#s18-heart)
 
@@ -177,7 +182,7 @@ _Twelve cases are full. The big middle case is empty._
 _Dusty comes in, holding a bent card._  
 **Dusty**: Fossil’s card. From the hill, by her flower.  
 **Dusty**: I don’t want it in a drawer. I want people to see it.  
-**Professor Delve**: A museum is where a valley remembers.  
+**Professor Delve**: A museum helps everybody remember.  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): remembering someone we love  
 > _How can we remember someone we love?_  
@@ -185,7 +190,7 @@ _Dusty comes in, holding a bent card._
 > - Hide all their things away → Then I might forget. I want to see her card and remember.
 > _For grown-ups: Talked about remembering someone who died by sharing stories about them._
 
-**Professor Delve**: Or there’s Hazel’s egg book. Forty years of eggs are in it.  
+**Professor Delve**: Or there’s Hazel’s egg book. Every egg Hazel ever hatched is in it.  
 **Dusty**: That’s a good thing. It just isn’t Fossil.  
 
 **Choices**
@@ -206,7 +211,7 @@ _Dusty comes in, holding a bent card._
 
 _The barn is swept. Twelve signs shine._  
 **Professor Delve**: One last thing. The door.  
-**Professor Delve**: Two Shells a visit would keep the barn mended.  
+**Professor Delve**: The roof has a hole. Drip, drip! Two Shells a visit would mend it.  
 
 > **Lesson** (maths, K.OA.A.2, ask): adding 2 and 2  
 > **Professor Delve**: Two Shells for you. Two Shells for a friend. How many?  
@@ -215,7 +220,8 @@ _The barn is swept. Twelve signs shine._
 > - 2 → That’s just one visit. Two and two more make four!
 > _For grown-ups: Added two and two to make four._
 
-**Professor Delve**: Or it could be free. We’d manage. Probably.  
+**Professor Delve**: Or it could be free. Then I’ll mend the roof with my hat.  
+_He looks at his hat. His hat looks worried._  
 
 **Choices**
 
@@ -237,7 +243,7 @@ _Children press their noses on the trilobite case._
 > _For grown-ups: Heard that museums keep old things safe so we can learn about the past._
 
 _Sparks reads every sign out loud. Very loud._  
-**Professor Delve**: You did this, Curator. Well done.  
+**Professor Delve**: You did this, Curator. That means you look after the museum. Well done!  
 
 > **Lesson** (literacy, RF.K.2, do): clapping syllables  
 > _(Clap it together: Cu-ra-tor. How many claps?)_  

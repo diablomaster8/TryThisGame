@@ -1987,6 +1987,8 @@ export const NEOPIA_QUESTS: Quest[] = [
         l('brain-tree', 'I am whole again. Take this. Plant it somewhere you do your thinking.'),
         n('Far away, on a purple cloud, a sprig of mint lands on a windowsill. Nobody admits to sending it.'),
         n('Far away, in a glade, a book appears on a doorstep in brown paper. It is overdue by about two hundred years.'),
+        n('On the trunk, the J and the I go faintly warm inside their lopsided star. Nobody sees it. The bark is quietly pleased.'),
+        n('By teatime each faerie has a note in the other’s handwriting, and no memory of writing it. Both pretend it is a mistake, and keep it.'),
         n('An acorn drops into your hand. It is grey, folded like a walnut, and very slightly warm.'),
         l('times-reporter', 'Name? And the tree’s name? Never mind. Keeper, and unnamed associate.'),
         n('The Brain Tree reads his notes over his shoulder and rustles, offended.'),

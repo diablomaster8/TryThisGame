@@ -71,17 +71,18 @@ const S13_LETTER: Line[] = [
   N('The paper is good paper, the kind you’d buy for something that mattered. You unfold it.'),
   AL('Corvin.'),
   AL('I have started this nine times. The other eight went in the stove. You’d say that was waste. You’d be right. I taught you that.'),
-  AL('They say in the valley that you did a wrong thing at the old woman’s Grove, and left in the night. I don’t know what. I know how.'),
+  AL('They say you did a wrong thing at Hazel’s Grove, and left in the night. I don’t know what. I know how.'),
   AL('Quickly. In the dark. Without once sitting down to think. I know whose hands those were. They were mine first.'),
   AL('I can tell you the weight of every sack this mill ground the year you were born. I can’t tell you what you laughed at.'),
   AL('Your mother used to sit by the mill race in the evenings, with her feet in the water. I called it idling.'),
   AL('I would give the whole mill to sit there once with her now.'),
-  AL('I won’t say sorry. I don’t know how, and you’d hear it as one more order. You always heard me that way. I made sure of it.'),
+  AL('I won’t say sorry. I don’t know how. You’d only hear it as one more order, because I gave you so many.'),
   AL('I’ve stopped the wheel. It’s very quiet. I think you’d hate it. I think you’d get used to it.'),
   AL('If you ever stop, stop here. You could sit as long as you liked. Nobody would count.'),
   AL('Your father.'),
   N('…'),
   T('“Nobody would count.” He counted everything. His own boy’s hours, in a book. And then he wrote that.', 'sad'),
+  T('The boy copied his father’s rules. And his father stopped the wheel, in the end. Late. But he chose.', 'think'),
   T('It isn’t mine to decide what happens to it. It never was. I only held the door shut.', 'soft'),
 ];
 
@@ -91,7 +92,7 @@ const S13_LETTER_LESSONS: LessonIn[] = [
     skill: 'work out what a metaphor really means',
     standard: 'L.4.5',
     kind: 'ask',
-    after: 4,
+    after: 11,
     prompt: [
       N('Aldous writes: “I know whose hands those were. They were mine first.”'),
       N('He doesn’t mean real hands. What is he really saying?'),
@@ -119,38 +120,6 @@ const S13_LETTER_LESSONS: LessonIn[] = [
     ],
     parentNote: 'Worked out the meaning of a metaphor in a letter (“they were mine first”).',
   },
-  {
-    domain: 'sel',
-    skill: 'think about whether we must become like the people who raised us',
-    standard: 'CASEL: Self-awareness',
-    kind: 'ask',
-    after: 14,
-    prompt: [
-      T('Aldous had three rules, and the boy copied them out. Hazel had three rules too, and hers were kind ones.', 'think'),
-      T('Here’s a hard one, and I’ve no answer to it. Do we have to turn out like the grown-ups who raised us? Or can we choose differently?', 'soft'),
-    ],
-    options: [
-      {
-        label: 'We can choose differently, even if it’s hard.',
-        reply: [
-          T('That’s a hopeful answer, and a fair one. Aldous himself stopped the wheel, right at the end. Late. But he chose.', 'soft'),
-        ],
-      },
-      {
-        label: 'We copy them a lot, without even noticing.',
-        reply: [
-          T('That’s honest, and it’s often true. The boy copied those rules in his best writing.', 'think'),
-          T('Noticing what you’ve copied is the first step to choosing what to keep.'),
-        ],
-      },
-      {
-        label: 'A bit of both.',
-        reply: [T('I think that’s where I’d land too. We carry what we’re given. Then we decide what to keep, and what to set down.', 'soft')],
-      },
-    ],
-    parentNote:
-      'Thought about how habits pass down through families, and whether we can choose differently (a think question with no single right answer).',
-  },
 ];
 
 const S13_KEEP: Choice = {
@@ -165,7 +134,7 @@ const S13_KEEP: Choice = {
 };
 const S13_BURN: Choice = {
   id: 'burned',
-  label: 'Burn it. Some things should end with the person.',
+  label: 'Burn it, the way Aldous burned the other eight.',
   set: { millLetter: 'burned' },
   then: [
     T('…That’s a real answer. I’ve thought it myself, most winters.', 'think'),
@@ -286,6 +255,7 @@ const S13_SCENES: EduScene[] = [
       T('Aldous used to say they were the only staff who never asked for a day off.'),
       N('Dozens of small noses twitch at you from the shadows. They have smelt you already.'),
       N('Somewhere behind the sacks is the hatch to level two. The rats are between you and it.'),
+      N('The rats sort themselves into eight neat groups of five. One rat in the wrong group is gently moved.'),
     ],
     [
       {
@@ -363,6 +333,7 @@ const S13_SCENES: EduScene[] = [
       T('A ladle. Plain, that. Look at it. The Gently Used Ladle of Second Thoughts.'),
       T('A sock. Also Plain. The Sock of Uncertain Origin. Don’t ask it where it’s been.'),
       T('And the cheese rind the rats were guarding. Oh, that’s Fine, that is. The Rat-Nibbled Cheese Rind of Courage.', 'happy'),
+      N('A Nubbin from the Grove has followed you down. It licks the Cheese Rind of Courage. It is very brave about it.'),
       Y('Does everything get a name?'),
       T('Everything found in a cellar gets a name. It’s the rule. I made it up just now, and it’s very old.'),
       N('Below the hatch you can hear water. Not running. Just lying there in the dark, breathing.'),
@@ -375,7 +346,7 @@ const S13_SCENES: EduScene[] = [
         domain: 'science',
         skill: 'water flows downhill because gravity pulls it',
         kind: 'ask',
-        after: 9,
+        after: 10,
         prompt: [
           T('Three gates: a low one, a middle one and a top one. The water has to go out through them, down to the river.'),
           T('Which gate do you open first?'),
@@ -410,7 +381,7 @@ const S13_SCENES: EduScene[] = [
         domain: 'literacy',
         skill: 'spot exaggeration used to be funny',
         kind: 'ask',
-        after: 10,
+        after: 11,
         prompt: [N('Tobin says “Marina could swim a soup.” Does he mean it?')],
         options: [
           {
@@ -438,7 +409,8 @@ const S13_SCENES: EduScene[] = [
     's13-level2',
     [
       N('The last gate groans open. The water rushes out of the room with a long sigh, like a bath let out after twenty years.'),
-      N('On the wet floor are two eels, very annoyed about it.'),
+      N('On the wet floor are two eels, very annoyed about it. One of them glares at Tobin.'),
+      T('Don’t look at me. The Keeper opened the gates.'),
       N('And up one wall is a row of chalk marks. Somebody measured a boy here, year after year.'),
       N('Each mark has a number beside it. The lowest says 98 cm. The highest says 131 cm.'),
       N('Beside the last mark, in a square grown-up hand, someone has written: FIT FOR THE SLUICE.'),
@@ -452,7 +424,7 @@ const S13_SCENES: EduScene[] = [
         skill: 'find a difference in length by counting on',
         standard: '4.MD.A.2',
         kind: 'ask',
-        after: 3,
+        after: 4,
         prompt: [N('The boy’s lowest mark is 98 cm. His highest is 131 cm.'), N('How much did he grow between the two?')],
         options: [
           {
@@ -476,7 +448,7 @@ const S13_SCENES: EduScene[] = [
         skill: 'use a clue to work out how a character sees someone',
         standard: 'RL.3.3',
         kind: 'ask',
-        after: 7,
+        after: 8,
         prompt: [N('Think about the words by the last mark: FIT FOR THE SLUICE.'), N('What do they tell you about how Aldous saw his son?')],
         options: [
           {
@@ -571,7 +543,8 @@ const S13_SCENES: EduScene[] = [
       N('A tag hangs from it on a bit of string, in the same square hand: STOPPED. LEAVE IT.'),
       Y('Somebody wedged it on purpose.'),
       T('Aldous. His last winter.', 'sad'),
-      T('That step, there. That’s where they found him, the day he died. Sitting down. First time anyone ever saw him sit.', 'sad'),
+      T('Aldous died on that step, very old. Sitting down. First time anyone ever saw him sit.', 'sad'),
+      T('It’s sad, and it’s all right to be sad. I sat down beside him a while, myself.', 'soft'),
       N('Past the wheel, a narrow stair goes down to an iron door. It is locked. The lock has been oiled.'),
       T('Not that one. Not yet.', 'soft'),
       T('There’s a thing you ought to know first, about him and your grandmother. It’s hers to tell, not mine.'),
@@ -645,8 +618,8 @@ const S13_SCENES: EduScene[] = [
   scene(
     's13-key',
     [
-      N('After the Hollow, with Hazel’s notebook still in your coat, you go back to the mill. Tobin is on the step, waiting.'),
-      T('You know now. About him and her. I can see it on you. You’ve the look of someone who read the last page first.', 'soft'),
+      N('Later, when you have read Hazel’s notebook, you go back to the mill. Tobin is on the step, waiting.'),
+      T('You know now, about Corvin and Hazel. I can see it on you.', 'soft'),
       T('He was her apprentice. Before that, he was this mill’s boy.'),
       T('I lit the lamp at that gate every dusk for thirty years. There was always a boy at the window. Working.', 'sad'),
       T('That’s the whole story. Short, isn’t it. It’s the only one I’ve ever finished.', 'sad'),
@@ -701,6 +674,8 @@ const S13_SCENES: EduScene[] = [
       N('Under them, in a child’s careful hand, the same three rules are copied out again, with pencil lines to keep the letters straight.'),
       N('You turn the pages. Sacks, hours, men, wheel speed. Every year the hours go up. The word “rest” never appears.'),
       N('Near the back: “Boy, 12, put on the night shift. New method: the wheel never stops. Output up a third.”'),
+      N('Tobin tries the chair. It creaks like a gate, and he stands straight back up.'),
+      T('Even the chair won’t let you sit. That’s this mill all over.'),
       N('Folded inside the back cover is a letter. It was addressed, but never sent. The name on it is Corvin.'),
       T('I found it the day they found him. I read it. I shouldn’t have. Then I shut the door on it, so nobody else had to carry it.', 'sad'),
       T('Twenty years. It got heavy, keeping it from people. I didn’t know it would.', 'soft'),
@@ -882,6 +857,32 @@ const S13_SCENES: EduScene[] = [
         ],
         parentNote: 'Learned that flour is made by grinding seeds, which store food for a new plant.',
       },
+      {
+        domain: 'sel',
+        skill: 'think about rest, work and what we would say to someone who never stopped (think question)',
+        standard: 'CASEL: Social awareness',
+        kind: 'ask',
+        after: 7,
+        prompt: [
+          N('Aldous never stopped working, and he never said what he felt. Think about the letter, and the quiet wheel.'),
+          N('What would you tell him, if you could?'),
+        ],
+        options: [
+          {
+            label: 'Rest is allowed. The work will still be there.',
+            reply: [T('That’s a kind thing to say, and a fair one. He’d have argued, I think. Then he’d have gone very quiet.', 'soft')],
+          },
+          {
+            label: 'Tell your son you love him, before anything else.',
+            reply: [T('Aye. He wrote it in the end. Late. Saying it sooner would have cost him nothing but nerve.', 'soft')],
+          },
+          {
+            label: 'I’d just sit with him, and say nothing.',
+            reply: [T('That’s the one he never had. I think that might be the best answer of all. Or the hardest.', 'think')],
+          },
+        ],
+        parentNote: 'Thought about what to say to someone who worked without rest and found it hard to say what he felt (a think question with no single right answer).',
+      },
     ],
   ),
 ];
@@ -1015,7 +1016,7 @@ const S13_VARIANT_SCENES: EduScene[] = [
       N('He keeps charge of the stove door. You stand back from the heat, the way he tells you to.'),
       N('The letter catches at one corner. Then all of it goes at once, quickly, the way Aldous did everything.'),
       N('For a moment you can read “Your father” in the flame. Then you can’t.'),
-      T('Nine.', 'soft'),
+      T('Nine. That’s all of them now.', 'soft'),
       N('Tobin sits on the step with you until the stove is cold. Neither of you counts how long.'),
     ],
     [
