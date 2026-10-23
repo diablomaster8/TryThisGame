@@ -119,9 +119,9 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `fun/avatar.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `learning/fun/avatar/sprout.md` | [review-2026-10-23](review-2026-10-23.md) | 0 |
 | `learning/fun/avatar/reader.md` | [review-2026-10-23](review-2026-10-23.md) | 0 |
-| `fun/alice.md` | never | 0 |
-| `fun/holmes.md` | never | 0 |
-| `fun/hodja.md` | never | 0 |
+| `fun/alice.md` | [review-2026-10-23-2](review-2026-10-23-2.md) | 6 |
+| `fun/holmes.md` | [review-2026-10-23-2](review-2026-10-23-2.md) | 8 |
+| `fun/hodja.md` | [review-2026-10-23-2](review-2026-10-23-2.md) | 3 |
 | `neopia/line.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `neopia/quests.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `multiverse/ironman.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
@@ -130,11 +130,11 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `multiverse/ultron.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `multiverse/moonknight.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `multiverse/spawn.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
-| `multiverse/dragonball.md` | never | 0 |
-| `multiverse/toystory.md` | never | 0 |
-| `multiverse/endgames.md` | never | 0 |
-| `expansions/E1.md` | never | 0 |
-| `expansions/E2.md` | never | 0 |
+| `multiverse/dragonball.md` | [review-2026-10-23-2](review-2026-10-23-2.md) | 8 |
+| `multiverse/toystory.md` | [review-2026-10-23-2](review-2026-10-23-2.md) | 7 |
+| `multiverse/endgames.md` | [review-2026-10-23-2](review-2026-10-23-2.md) | 7 |
+| `expansions/E1.md` | [review-2026-10-23-2](review-2026-10-23-2.md) | 4 |
+| `expansions/E2.md` | [review-2026-10-23-2](review-2026-10-23-2.md) | 3 |
 | `expansions/E3.md` | never | 0 |
 | `storylines/hundred.md` | never | 0 |
 | `storylines/logged.md` | never | 0 |
@@ -142,8 +142,8 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `storylines/dawndusk.md` | never | 0 |
 | `atlas/A01/main.md` | never | 0 |
 | `atlas/A02/main.md` | never | 0 |
-| `atlas/A02/sprout.md` | never | 0 |
-| `atlas/A02/reader.md` | never | 0 |
+| `atlas/A02/sprout.md` | [review-2026-10-23-2](review-2026-10-23-2.md) | 8 |
+| `atlas/A02/reader.md` | [review-2026-10-23-2](review-2026-10-23-2.md) | 6 |
 | `atlas/A03/main.md` | never | 0 |
 | `atlas/A04/main.md` | never | 0 |
 | `atlas/A05/main.md` | never | 0 |
@@ -605,6 +605,63 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261023-351 | learning/side/S30/sprout.md<br>learning/side/S30/reader.md<br>learning/side/S31/sprout.md<br>learning/side/S31/reader.md | cross-story | High | theme | Show Pixel and Byte married by bickering at S31's party and in S30's Byte epilogue | fixed | 2026-10-23 |
 | SR-20261023-352 | learning/fun/python/sprout.md<br>learning/fun/python/reader.md<br>learning/fun/avatar/sprout.md<br>learning/fun/avatar/reader.md | cross-story | High | theme | Fun-quest couples: say Frannie is Reggie's wife (Q8) and bring back Mrs Tibbs (Q61) | fixed | 2026-10-23 |
 | SR-20261023-353 | learning/side/S30/reader.md<br>learning/side/S31/sprout.md<br>learning/side/S31/reader.md | cross-story | Medium | follow | First-mention tags for Sable and Briar where S30 and S31 use them bare | fixed | 2026-10-23 |
+| SR-20261023-354 | multiverse/dragonball.md | mv-db03-desert | Critical | continuity | Bulma's trigger word is chosen in DB2 and never said again; use it in DB3 and DB5 | open | 2026-10-23-2 |
+| SR-20261023-355 | multiverse/dragonball.md | mv-db19-road | Critical | continuity | The "Nubbins carry the balls" choice is never read, and DB19 to DB20 say "capsule case" anyway | open | 2026-10-23-2 |
+| SR-20261023-356 | atlas/A02/sprout.md | a02-12-bones-done | High | follow | Monkey vanishes from the road with no line saying the monk sent him away | open | 2026-10-23-2 |
+| SR-20261023-357 | atlas/A02/sprout.md | a02-15-snatch | High | follow | Plant the fake Monkey with one odd clue, and make Sandy's "Monkey is on the Mountain" clear | open | 2026-10-23-2 |
+| SR-20261023-358 | multiverse/endgames.md | mv-e2-throne | High | follow | Say who is whose family before Valeria calls Doom "Father" | open | 2026-10-23-2 |
+| SR-20261023-359 | expansions/E1.md | e1-square | High | continuity | Pell's "What did she say about me?" choice is never read; answer him, then pay it off at the end | open | 2026-10-23-2 |
+| SR-20261023-360 | expansions/E2.md | e2-day11 | High | continuity | E2's two choices (e2-answer, e2-asked) are read by nothing; let Nova answer each at the end | open | 2026-10-23-2 |
+| SR-20261023-361 | multiverse/dragonball.md | mv-db18-kami | High | follow | Kami says "if he dies, I die" one storyline after King Piccolo died | open | 2026-10-23-2 |
+| SR-20261023-362 | fun/holmes.md | q76-complete | High | follow | Mr Holme becomes "Holmes" with no reason; give him the s as a joke, and drop "Sherlock" in Q83 | open | 2026-10-23-2 |
+| SR-20261023-363 | atlas/A02/sprout.md | a02-19-turtle | High | follow | Sprout cut the turtle's crossing; say who he is and what he asked before he sinks | open | 2026-10-23-2 |
+| SR-20261023-364 | fun/alice.md | q75-wake-mirror | High | continuity | The pack's one choice pays off weakly; show the small Nubbin in the mirror and coat endings | open | 2026-10-23-2 |
+| SR-20261023-365 | multiverse/endgames.md | mv-e5-innervoice | High | compelling | Bo's "When did your kid last pick you?" ends TS12 and no line in E5 answers it | open | 2026-10-23-2 |
+| SR-20261023-366 | multiverse/toystory.md | mv-ts09-sunnyside-done | High | humour | The toddler playtime is a three-line summary; play it, with Hamm and Rex as straight men | open | 2026-10-23-2 |
+| SR-20261023-367 | multiverse/endgames.md | mv-e1-act | High | humour | E1 has no laugh before the courthouse; let the badge-eating Nubbin eat the important corner | open | 2026-10-23-2 |
+| SR-20261023-368 | fun/holmes.md | q76-arrive | High | humour | Byte the sceptic has no entrance, and the plum-jam thief is never caught; make them one joke | open | 2026-10-23-2 |
+| SR-20261023-369 | multiverse/endgames.md | mv-e6-aftertony | High | theme | Pepper's calendar gag (canon 45) never reaches Tony's ending; land it here | open | 2026-10-23-2 |
+| SR-20261023-370 | multiverse/toystory.md | mv-ts09-plan | High | theme | The Potato Heads are the only married toys and never bicker; give them the spare-eye scene | open | 2026-10-23-2 |
+| SR-20261023-371 | fun/holmes.md | q80-trail | High | theme | Pixel's tar is her own; let Byte, her husband, have told her so | open | 2026-10-23-2 |
+| SR-20261023-372 | multiverse/endgames.md | mv-e2-complete | High | theme | Sue and Reed leave together with no couple beat; call back to the lab light from FF9 | open | 2026-10-23-2 |
+| SR-20261023-373 | fun/alice.md | q71-witness | High | humour | The trial has no laugh before Alice's outburst; let the Hatter bite his teacup | open | 2026-10-23-2 |
+| SR-20261023-374 | expansions/E1.md | e1-stall | High | compelling | Hazel's blue cloth is set up twice and never found; let a Nubbin find it at the festival | open | 2026-10-23-2 |
+| SR-20261023-375 | atlas/A02/reader.md | a02-18-complete | High | humour | A maths lesson sits between "It was fourteen years." and "A very long lunch." | open | 2026-10-23-2 |
+| SR-20261023-376 | atlas/A02/sprout.md | a02-06-seal-done | High | humour | Sprout pays off "India by lunch" but never sets it up | open | 2026-10-23-2 |
+| SR-20261023-377 | atlas/A02/reader.md | a02-12-bones | High | humour | The 206-bones quiz lands on the grave bone reveal; give the fact to Pigsy as a joke | open | 2026-10-23-2 |
+| SR-20261023-378 | atlas/A02/reader.md | a02-17-web | High | child-read | Turn the narrator's "Suppose…" maths set-ups into questions a character needs answered | open | 2026-10-23-2 |
+| SR-20261023-379 | multiverse/dragonball.md | mv-db13-complete | Medium | humour | "Bulma borrowed it once" skips the best joke: a pig spent her wish on knickers | open | 2026-10-23-2 |
+| SR-20261023-380 | multiverse/dragonball.md | mv-db14-crane | Medium | continuity | The four-star ball scatters in DB13 and is back in Goku's bag in DB15 with no word | open | 2026-10-23-2 |
+| SR-20261023-381 | multiverse/dragonball.md | mv-db18-complete | Medium | theme | Bulma and Yamcha are a couple for ten storylines and never bicker on screen | open | 2026-10-23-2 |
+| SR-20261023-382 | multiverse/dragonball.md | mv-db16-roshi | Medium | follow | The rice cooker becomes "the little jar", and "an orphan's father" reads backwards | open | 2026-10-23-2 |
+| SR-20261023-383 | fun/alice.md | q70-off-with | Medium | follow | The Queen's "Off with their heads!" is never stopped; give the King his line from the book | open | 2026-10-23-2 |
+| SR-20261023-384 | fun/alice.md | q70-roses | Medium | humour | The card-gardeners only whisper; let them blame each other out loud | open | 2026-10-23-2 |
+| SR-20261023-385 | fun/alice.md | q72-intro | Medium | follow | Q71 ends on the bank and Q72 has Alice on your mantelpiece; say she came home with you | open | 2026-10-23-2 |
+| SR-20261023-386 | fun/alice.md | q74-complete | Medium | follow | Humpty's voice "from a long way off" after the crash reads as a ghost to a child | open | 2026-10-23-2 |
+| SR-20261023-387 | fun/holmes.md | q84-bog | Medium | continuity | The guide variant says "Dry boots at last", then Watson empties a boot | open | 2026-10-23-2 |
+| SR-20261023-388 | fun/holmes.md | q77-door | Medium | follow | Holmes reads the knees of an "eager new assistant" the player has never met | open | 2026-10-23-2 |
+| SR-20261023-389 | fun/holmes.md | q85-hives | Medium | pacing | Step 1 sets the hives on the bank, and step 2 carries them up the bank again | open | 2026-10-23-2 |
+| SR-20261023-390 | fun/holmes.md | q81-complete | Medium | compelling | "Maybe it is just children" was the right guess; let Holmes say so | open | 2026-10-23-2 |
+| SR-20261023-391 | fun/holmes.md | q83-rocket | Medium | follow | Nobody says why a shout of "Fire!" reveals the hiding place | open | 2026-10-23-2 |
+| SR-20261023-392 | fun/hodja.md | q94-intro | Medium | humour | Byte's dead pan returns and Byte doesn't notice; let him notice, once | open | 2026-10-23-2 |
+| SR-20261023-393 | fun/hodja.md | q91-judge | Medium | follow | "I did not say you could keep the coins" muddles whose coins they are | open | 2026-10-23-2 |
+| SR-20261023-394 | fun/hodja.md | q92-talk | Medium | continuity | The script says "next week" and "third week"; the notes say three days of story time | open | 2026-10-23-2 |
+| SR-20261023-395 | expansions/E1.md | e1-stall-done | Medium | humour | The Nubbins under the trestle are set up and dropped; make one of them staff | open | 2026-10-23-2 |
+| SR-20261023-396 | expansions/E2.md | e2-day8-moody | Medium | humour | The moody variant has room for one dry smile before the quiet end | open | 2026-10-23-2 |
+| SR-20261023-397 | multiverse/toystory.md | mv-ts10-landfill | Medium | continuity | The aliens drive the crane with no set-up; let them wander off after "the claw" | open | 2026-10-23-2 |
+| SR-20261023-398 | multiverse/toystory.md | mv-ts05-sale | Medium | humour | The dash across the yard sale is flat narration; add one stepped-on tail | open | 2026-10-23-2 |
+| SR-20261023-399 | multiverse/toystory.md | mv-ts06-aisle-done | Medium | humour | The new Buzz is the joke engine and gets one line; give Hamm a reply | open | 2026-10-23-2 |
+| SR-20261023-400 | multiverse/toystory.md | mv-ts12-road | Medium | follow | "Tell Buzz to keep everyone together. I'll get him" has no clear listener and no clear him | open | 2026-10-23-2 |
+| SR-20261023-401 | multiverse/endgames.md | mv-e4-bracket | Medium | humour | The hint makes the Nubbins Goku's seconds; give them a towel and a sponge | open | 2026-10-23-2 |
+| SR-20261023-402 | atlas/A02/sprout.md | a02-01-complete | Medium | child-read | Two lessons mention "the old race" that the band never tells | open | 2026-10-23-2 |
+| SR-20261023-403 | atlas/A02/sprout.md | a02-16-real | Medium | humour | "A long, silly business with disguises" tells the joke; show one disguise going wrong | open | 2026-10-23-2 |
+| SR-20261023-404 | atlas/A02/sprout.md | a02-16-real | Medium | child-read | The lesson counts in tens to thirty; the story needs forty-nine waves | open | 2026-10-23-2 |
+| SR-20261023-405 | atlas/A02/sprout.md | a02-13-complete | Medium | child-read | Swap two idioms and two unclear pronouns for plain words and names | open | 2026-10-23-2 |
+| SR-20261023-406 | atlas/A02/reader.md | a02-09-gao | Medium | follow | "The son-in-law gives a squeal" before anyone says the monster married Gao's daughter | open | 2026-10-23-2 |
+| SR-20261023-407 | atlas/A02/reader.md | a02-14-fire | Medium | child-read | Red Boy brings two new names and a family tree in one line | open | 2026-10-23-2 |
+| SR-20261023-408 | atlas/A02/reader.md | a02-17-cottage | Medium | child-read | The lesson says "The seven women turn out to be spiders" before the story reveals it | open | 2026-10-23-2 |
+| SR-20261023-409 | multiverse/dragonball.md<br>multiverse/toystory.md<br>multiverse/endgames.md | cross-story | High | humour | Bring canon 45's misname gag to Dragon Ball and Toy Story, with a closer each | open | 2026-10-23-2 |
+| SR-20261023-410 | expansions/E1.md<br>expansions/E2.md | cross-story | Medium | follow | Six narration lines in E1 and E2 are tagged as the Keeper speaking | open | 2026-10-23-2 |
 
 ## Runs
 
@@ -620,3 +677,4 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 - 2026-10-23 · fix pass on branch `fix/story-review-2026-10-23` · all 63 open or partial recs (run 5's 60 plus SR-20261022-179, -198, -229): 59 fixed, 1 partial, 3 dropped · -265 partial: S26's robin "wages" joke had no set-up in either band, so the line was rewritten without it · -179, -198, -229 dropped: a lesson can only play before a scene's choices, and each already sits as late as the engine allows · no canon changes
 - 2026-10-23 run 6 · [review-2026-10-23](review-2026-10-23.md) · units: S30/sprout.md, S30/reader.md, S31/sprout.md, S31/reader.md, fun/python/sprout.md, fun/python/reader.md, fun/bean/sprout.md, fun/bean/reader.md, fun/avatar/sprout.md, fun/avatar/reader.md · 56 recs: Critical 2, High 16, Medium 33, Nice 5 (4 cross-story) · fixed since last run: 59 (1 partial, 3 dropped)
 - 2026-10-23 · fix pass on branch `fix/story-review-2026-10-23-2` · all 57 open or partial recs (run 6's 56 plus SR-20261022-265): 57 fixed · -307 uses narrator lines until Bao and Lumi are named; -314 and -316 place their beats where the props are on stage; -265 gives the robin a self-contained pay joke · canon 46 added (what Kaito did in Q64)
+- 2026-10-23 run 7 · [review-2026-10-23-2](review-2026-10-23-2.md) · units: fun/alice.md, fun/holmes.md, fun/hodja.md, multiverse/dragonball.md, multiverse/toystory.md, multiverse/endgames.md, expansions/E1.md, expansions/E2.md, atlas/A02/sprout.md, atlas/A02/reader.md · 57 recs: Critical 2, High 24, Medium 31, Nice 0 (2 cross-story) · fixed since last run: 57 (all)
