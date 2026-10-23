@@ -195,6 +195,7 @@ _Nothing moves. Even the robin lands without a sound._
 **You**: I don’t know. I know someone who would.  
 **Linnet**: Then fetch them. I’ll wait here. I’m very good at the tops of things.  
 _She folds her arms in the doorway at the top of the three steps, and guards a garden nobody has wanted for a hundred years._  
+_The robin guards the step beside her, chest out. Nothing has tried to get past, and neither of them minds._  
 
 #### `reader:s26-wick` · [main](../../../side/S26.md#s26-wick)
 
@@ -300,7 +301,7 @@ _He takes the twig out of his mouth with great dignity, as if he had meant to be
 **Linnet**: You were doing it upside down.  
 **Moss**: I have hands the size of buttons, child. With shears, everything is upside down.  
 **Linnet**: …You talk.  
-**Moss**: When there is something worth the wear.  
+**Moss**: When there is something worth saying. It doesn’t happen often.  
 **Dusty**: Moss. How long have you been coming in here?  
 **Moss**: Once a year. On this day, as it happens. For longer than any of you have been alive. Put together.  
 
@@ -317,6 +318,7 @@ _He takes the twig out of his mouth with great dignity, as if he had meant to be
 #### `reader:s26-earth-ask` · [main](../../../side/S26.md#s26-earth-ask)
 
 _Moss is on the wall again before anyone else, pretending he has always been there._  
+**Moss**: I’m not here. I’m a bit of wall.  
 _Linnet watches him for a long time. She is not used to wanting things out loud, and it shows._  
 **Linnet**: Moss. It’s your garden, isn’t it? Or it’s somebody’s, and you look after it.  
 **Moss**: It was somebody’s. I cut the roses once a year. That isn’t the same as looking after.  
@@ -461,6 +463,7 @@ _Tobin thinks she spends her afternoons at the library van. The library van come
 #### `reader:s26-cheeks` · [main](../../../side/S26.md#s26-cheeks)
 
 _Your Nubbin carries the bulbs very seriously, two at a time, one in each cheek._  
+_It checks one bulb carefully for supper, finds it isn’t, and plants it with an air of complaint._  
 _It plants about half of them. The other half it hides all over the garden, in places it seems to choose by feel._  
 
 > **Lesson** (maths, 3.NF.A.1, ask): unit fractions: one half  
@@ -473,17 +476,17 @@ _It plants about half of them. The other half it hides all over the garden, in p
 **Linnet**: Your Nubbin has no sense of order whatsoever.  
 _She watches it bury one under the bench, pat it flat, and look round to see if anyone noticed._  
 **Linnet**: …I like it.  
-**Dusty**: Squirrels do that with nuts. Plenty of the oaks in this valley started as acorns a squirrel forgot.  
 
 > **Lesson** (science, 2-LS2-2, notice): animals that bury seeds help plants spread  
 > _Squirrels and jays bury nuts and acorns to eat in winter. They never find them all._  
 > _The forgotten ones can sprout, far from the parent tree. So a forgetful animal plants a wood._  
 > _For grown-ups: Learned that animals that bury seeds and forget some of them help plants spread._
 
+**Dusty**: Squirrels do that with nuts. Plenty of the oaks in this valley started as acorns a squirrel forgot.  
 
 #### `reader:s26-tobin-finds` · [main](../../../side/S26.md#s26-tobin-finds)
 
-_It ends on a Thursday, when the library van comes and Linnet isn’t at it._  
+_Linnet’s secret lasts until a Thursday, when the library van comes and Linnet isn’t at it._  
 _Tobin finds the ivy door by following her wheel tracks. He comes through it the way you would come into a burning house._  
 **Old Tobin**: Linnet! Away from that— off that— is that a SPADE?  
 **Old Tobin**: She’ll catch her death out here. She’ll tip. That wall could come down on her!  
@@ -569,7 +572,7 @@ _The Long Night is over. The days after it are short and white, and the valley i
 > _Linnet went out at first light, which in deep winter isn’t very early at all._  
 > _For grown-ups: Learned that winter days have fewer hours of daylight._
 
-_Tobin comes up the lane at a sort of run, in two scarves and the wrong boots._  
+_Tobin comes up the lane at a sort of run, in two scarves, one boot and one slipper._  
 **Old Tobin**: She’s gone out. First light. The chair tracks go up the lane and I can’t keep up with them.  
 **Old Tobin**: I know where. I know exactly where. It’s my knees, in this.  
 **Old Tobin**: Will you go and find her? Not fetch her. Find her.  
@@ -648,7 +651,7 @@ _She has Linnet’s chin exactly, and Linnet’s way of looking at a hill as if 
 > - They copy their parents’ faces on purpose. → Ha. You can copy a frown, but not a chin! Features like that are inherited from parents.
 > _For grown-ups: Learned that children inherit some features from their parents but are not identical to them._
 
-**Linnet’s mum**: I’m Linnet’s mum. The boats are laid up for the winter. Dad says she’s never at home. Dad says she’s up here.  
+**Linnet’s mum**: I’m Linnet’s mum. The boats are laid up for the winter. My dad, Tobin, says she’s never at home. He says she’s up here.  
 **Linnet’s mum**: Dad also says she’s been gardening. My Linnet once posted a houseplant out of a window because it was looking at her.  
 **Linnet’s mum**: Is she all right? Really?  
 **You**: Come and see.  

@@ -121,7 +121,7 @@ const CHARCOAL: LessonIn = {
 // ---------------------------------------------------------------- step 8: up to the weir
 const RIVER_START: Line[] = [
   N(
-    'Summer’s end. Since the rain on the hill, Dusty has been sleeping in Marina’s boathouse, and nobody has said a word about it.',
+    'Summer’s end. Since their old Nubbin died this summer, Dusty has been sleeping in Marina’s boathouse, and nobody has said a word about it.',
   ),
   N(
     'Marina wants to show you the top of the river before the weather turns. Dusty takes an oar without being asked, and sits down first.',
@@ -256,6 +256,9 @@ const COMPLETE_END: Line[] = [
     'Before. March, if it’s mild. You get the vests down from the loft and smell them. That’s the first day of the year.',
     'happy',
   ),
+  MA('Rule six. Come back. That one’s for all of you.', 'soft'),
+  DU('What were rules one to five?'),
+  MA('Mostly about Sparks. Six is the one that counts.', 'happy'),
   N(
     'Down at the ford a brown head comes up, looks at the three of you for a while, and goes under without a ripple.',
   ),
@@ -349,6 +352,8 @@ const SCENES: EduScene[] = [
         'But it’s heavy. Heavy things sink. I dropped a trowel in this stream once. It sank like a stone.',
         'think',
       ),
+      DU('And my trowel?'),
+      MA('Too heavy for its size. It went to live with the fish.', 'happy'),
     ],
     [
       {
@@ -359,12 +364,7 @@ const SCENES: EduScene[] = [
         after: 5,
         lines: [
           MA('A boat pushes water out of the way, and the water pushes back up on it.'),
-          MA(
-            'When that push up is as big as the boat’s weight, the forces balance, and she floats.',
-          ),
-          MA(
-            'A trowel’s solid metal, heavy for its size. It can’t push aside enough water to hold it up, so down it goes.',
-          ),
+          MA('The water pushes up as hard as the boat pushes down. Equal pushes: she floats.'),
         ],
         parentNote: 'Learned that a boat floats when the water’s upward push balances its weight.',
       },
@@ -592,7 +592,7 @@ const SCENES: EduScene[] = [
         'Marina gets everything ashore: you, Dusty, the basket, the rug and both oars. Then she swims back for the boat.',
       ),
       N('She lights a fire in a ring of stones and sits Dusty in front of it, wrapped in the rug.'),
-      DU('I’m so sorry. Your boat. Your lovely picnic. I’m an idiot.', 'sad'),
+      DU('I’m so sorry. Your boat. Your lovely picnic. I’m a disaster.', 'sad'),
       MA('Never mind. Honestly. Never mind.', 'soft'),
       DU('The cheese is in the river.'),
       MA('Never mind the cheese. The fish will have a lovely afternoon. Never mind.', 'happy'),
@@ -1227,7 +1227,7 @@ const SCENES: EduScene[] = [
         'They are looking up the cliff, at a small round door in the rock and a window with no light in it.',
       ),
       DU(
-        'That’s mine. I can smell it. Earth, and old tea, and… it’s mine. I haven’t been back. Not since the rain.',
+        'That’s mine. I can smell it. Earth, and old tea, and… it’s mine. I haven’t been back. Not since the summer.',
         'sad',
       ),
       DU('Marina! Marina, wait—'),
@@ -1266,7 +1266,10 @@ const SCENES: EduScene[] = [
       MA('Dusty. Oh, Dusty. What is it?', 'soft'),
       DU('It’s the house. It’s only the house. I can’t go in. Everything in it is hers.', 'sad'),
       DU('And I can’t walk past it either. I tried. My feet won’t.'),
-      MA('Then we won’t walk past it. I’m an idiot. I was thinking about my supper.', 'sad'),
+      N(
+        'Dusty means the old Nubbin they lived with, who died this summer. Dusty hasn’t said the name since.',
+      ),
+      MA('Then we won’t walk past it. I’m a great clumsy goose. I was thinking about my supper.', 'sad'),
       MA('Right. Up we go. All of us. I’m not leaving you on a stump.', 'soft'),
       N(
         'Dusty is homesick and heartsore at once: missing the house, and missing who used to be in it.',
@@ -1278,7 +1281,7 @@ const SCENES: EduScene[] = [
         skill: 'think question: not noticing a friend',
         standard: 'CASEL: Social awareness',
         kind: 'ask',
-        after: 5,
+        after: 6,
         prompt: [N('Marina rushed on and didn’t notice Dusty. Was that unkind?')],
         options: [
           opt('No. She just didn’t notice.', [
@@ -1287,7 +1290,7 @@ const SCENES: EduScene[] = [
             ),
           ]),
           opt('A bit. She should have looked back.', [
-            N('That’s fair too. Marina thinks so herself: she called herself an idiot.'),
+            N('That’s fair too. Marina thinks so herself: she called herself a goose.'),
           ]),
           opt('What matters is what she did next.', [
             N(
@@ -1614,7 +1617,7 @@ const SCENES: EduScene[] = [
       N('You are standing on an island at dawn, and you can’t think why you’re both so quiet.'),
       MA('Well, look at that. There he is. Fast asleep, the little beggar.', 'happy'),
       N(
-        'Whatever there was to remember, you’ve been kindly let off remembering it. Your Nubbin yawns, and its light is just a light.',
+        'Something happened here, and it has slipped out of your head, gently, like a dream at breakfast. Your Nubbin yawns, and its light is just a light.',
       ),
       N('Marina lifts Portly into the boat, still asleep, and wraps him in her scarf.'),
     ],
@@ -2096,7 +2099,7 @@ const VARIANTS: EduScene[] = [
       N(
         'It’s the ribbon, caught fast on a reed stem and pulled long and thin by the moving water.',
       ),
-      MA('He came this way. Up past the weir. Little idiot. Brave little idiot.', 'shock'),
+      MA('He came this way. Up past the weir. Little noodle. Brave little noodle.', 'shock'),
       N(
         'You work it free and put it in your pocket. Then you row on, towards the roar of the weir.',
       ),
@@ -2303,11 +2306,11 @@ const VARIANTS: EduScene[] = [
   scene(
     's29-brock-knock',
     [
-      N(
-        'You knock on the little green door. A long way back in the bank, somebody grumbles, and bolts go back: one, two, three, four.',
-      ),
+      N('You knock on the little green door, and you do not ring the bell. There is a seed cake under your arm.'),
+      N('A long way back in the bank, somebody grumbles, and bolts go back: one, two, three, four.'),
       GB('Daytime. Good. You can come in for ten minutes and get warm. Then I’m busy.', 'think'),
       N('Ten minutes turns into an hour by the red fire.'),
+      N('At some point the cake goes. Nobody sees it go, and Granny Brock has crumbs on her cardigan.'),
       N('She doesn’t say much, and neither do you, and it suits you both.'),
       GB('Charcoal’s cooling in the yard. Don’t touch it. It looks cold, and it isn’t.'),
       N('When you leave, she says nothing at all, which from Granny Brock is practically a hug.'),
@@ -2318,7 +2321,7 @@ const VARIANTS: EduScene[] = [
         skill: 'time intervals: minutes in an hour',
         standard: '3.MD.A.1',
         kind: 'ask',
-        after: 2,
+        after: 3,
         prompt: [N('Ten minutes turned into an hour. How many lots of ten minutes is that?')],
         options: [
           opt('6', [N('Yes. An hour is 60 minutes, and 60 is six tens.')], true),

@@ -160,8 +160,12 @@ _Spindle looks out at Nine. Then she lifts one leg._
 **Clover**: Mine is WARM. Everybody needs to feel warm.  
 **Luna**: Mine is HOME. Everything grows towards home.  
 **Byte**: Mine is “statistically above average”!  
-_Spindle looks at Byte’s word for a long, long time._  
+_Spindle tries Byte’s word. It goes across the window. Then across the wall._  
+_It goes out of the door. Your Nubbin trips on it. Bump!_  
 **Sparks**: Too long for a fence, Byte. Sorry!  
+**Byte**: It’s a very accurate word.  
+**Byte**: My wife Pixel says that’s too many words. She says my lace is undone.  
+_Byte looks down. It is!_  
 
 > **Lesson** (literacy, ELOF: Literacy, ask): compare a short word and a long word  
 > _Which word is longer? WARM, or “statistically above average”?_  
@@ -200,8 +204,12 @@ _Variant of `s27-words`._
 
 **Luna**: Mine is HOME. Everything grows towards home.  
 **Byte**: Mine is “statistically above average”!  
-_Spindle looks at Byte’s word for a long, long time._  
+_Spindle tries Byte’s word. It goes across the window. Then across the wall._  
+_It goes out of the door. Your Nubbin trips on it. Bump!_  
 **Sparks**: Too long for a fence, Byte. Sorry!  
+**Byte**: It’s a very accurate word.  
+**Byte**: My wife Pixel says that’s too many words. She says my lace is undone.  
+_Byte looks down. It is!_  
 _Then Spindle points at the runner at the end of the row._  
 **Sparks**: She wants its real name. Not the number.  
 _You tell her the name you gave it when it hatched._  
@@ -220,7 +228,8 @@ _You carry her gently to Nine’s pen._
 
 _The fence is very cold. Spindle steps out onto it._  
 _Nine watches her. Nine is curious!_  
-_Now you go home to bed. Spindle has work to do._  
+_Spindle is going to write Nine’s name. She will do it in the night._  
+_You go home to bed. No peeking!_  
 
 #### `sprout:s27-first-word` · [main](../../../side/S27.md#s27-first-word)
 
@@ -246,6 +255,7 @@ _Corvin comes out with his big book._
 _Corvin is a lonely, grumpy man. The runners are his._  
 _He looks at the name on the fence for a long time._  
 **Corvin Vale**: Frost does odd things.  
+_Frost can’t write names. Corvin knows that. He says it anyway._  
 _Then two children come to the fence. And a man with a bike._  
 
 > **Lesson** (maths, K.OA.A.2, ask): add 2 and 1  
@@ -373,6 +383,8 @@ _She rides on the brim of your hat. The best seat!_
 
 _It’s the Autumn Show! Flags! A little band! Oom-pah!_  
 _So many people came. They came to see Nine._  
+_The judge has a table of ribbons. Your Nubbin thinks they are sweets._  
+_It licks one. Not a sweet! It looks very let down._  
 _The runners race. Number One wins, like always._  
 _Nine comes last. Nine was busy looking at all the people._  
 
@@ -414,8 +426,8 @@ _Corvin puts his hand down._
 _He goes back inside. That was a kind thing to do._  
 
 > **Lesson** (sel, CASEL: Social awareness, notice): people can choose to do the right thing  
-> _Corvin did a wrong thing, a long time ago._  
-> _Tonight he did a right thing. He let Spindle finish._  
+> _Corvin did not like the writing on his fences._  
+> _But tonight he chose a kind thing. He let Spindle finish._  
 > _People can change. Even grumpy people._  
 > _For grown-ups: Talked about how people can choose to do the right thing._
 
@@ -667,7 +679,8 @@ _The whole long fence says HOME. Big white letters!_
 
 _Mr Tull drives away over the hill. His cart is empty._  
 _Hob says its real name. The name you gave it._  
-**Corvin Vale**: It was yours once. Two hundred Shells. That’s what I paid.  
+**Corvin Vale**: It was yours once. I paid you two hundred Shells for it.  
+**Corvin Vale**: Pay me the same, and it can go home.  
 
 **Choices**
 
@@ -713,7 +726,7 @@ _Three baby spiders stay._
 
 _Next morning, there’s a tiny web in the shed window._  
 _It says EVENING. You laugh, and say “Evening!” back._  
-_We will always remember Spindle._  
+_You will always remember Spindle._  
 
 #### `sprout:s27-spring-wisp` · [main](../../../side/S27.md#s27-spring-wisp)
 
@@ -731,7 +744,7 @@ _Wisp sees the baby spiders first. He watches them very carefully._
 _They climb on his nose. He doesn’t mind one bit!_  
 _They climb up to the top of the gate._  
 _Each one lets out a silky thread. Whoosh! The wind lifts them away._  
-_Wisp watches them go. Then he goes back under his step._  
+_Wisp watches them go. Then he sulks under his step. Hmph!_  
 _Three baby spiders stay. Next morning, a tiny web says EVENING._  
 
 > **Lesson** (maths, K.CC.B.5, do): count to 3  
@@ -739,6 +752,6 @@ _Three baby spiders stay. Next morning, a tiny web says EVENING._
 > Check: `edu:count:spiders:3`
 > _For grown-ups: Counted three._
 
-_We will always remember Spindle._  
+_You will always remember Spindle._  
 
 **Notes:** Lessons: frost is ice; a spider’s eight legs; tracing 9 (a number, not a name); naming Hob’s feeling; waiting beside someone; clapping Spin-dle; counting four friends; long and short words; carrying gently; frost forming on the web; 2 + 1; noticing a scared friend; tiptoeing; SOME + BODY; beside and behind; ice melting; autumn leaves; first and last; light to see by; people can change; the four letters of HOME; a friend going first; egg sacs; counting to ten; kind words to a friend; mixed feelings; a spider’s life span; what helps when we are sad; the S sound; names and respect. Sprout leaves out the shield choice (defaultChoice frost). Spindle’s death is said plainly in s27-empty-web, with comfort straight after.

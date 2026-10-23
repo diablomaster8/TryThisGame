@@ -47,11 +47,11 @@ _He reads the label. Then the back. Then the front again._
 **Byte**: “For Byte. H.” Who is H?  
 
 > **Lesson** (literacy, RF.K.2, ask): hearing the first sound of a name  
-> _H says “huh”. Which name starts with “huh”?_  
-> - ✅ Hazel → Yes! Huh, huh, Hazel. H is for Hazel.
-> - Moss → Moss starts with “mmm”. Hazel starts with “huh”, like H!
-> - Byte → Byte starts with “b-b-b”. Hazel starts with “huh”, like H!
-> _For grown-ups: Listened for the first sound in a name and matched it to the letter H._
+> _H says “huh”. Which word starts with “huh”?_  
+> - ✅ Hat → Yes! Huh, huh, hat. H is for hat.
+> - Moss → Moss starts with “mmm”. Hat starts with “huh”, like H!
+> - Byte → Byte starts with “b-b-b”. Hat starts with “huh”, like H!
+> _For grown-ups: Listened for the first sound in a word and matched it to the letter H._
 
 
 **Choices**
@@ -62,6 +62,7 @@ _He reads the label. Then the back. Then the front again._
     - **Byte**: Hazel. Then I’ll work out the rest.
 - **Keep it to yourself for now.**
     - You don’t say. Lots of names start with H.
+    - **Byte**: Harry. Hattie. Mr Hubble. This could take weeks.
     - **Byte**: I’ll make a list of everyone with an H!
 
 #### `sprout:s28-one-jar` · [main](../../../side/S28.md#s28-one-jar)
@@ -95,7 +96,8 @@ _Byte counts the jars. Then he counts them again!_
 > Check: `edu:count:jars:6`
 > _For grown-ups: Counted six jars, one by one._
 
-**Byte**: Six. And you are one. Received!  
+**Byte**: Six jars. And one Nubbin. All here, safe. Received!  
+**Byte**: Received means it came safely, like a parcel in the post.  
 **Byte**: That’s your name. Parcel! Like a parcel that came for me.  
 _Parcel bows._  
 _Your own Nubbin puts its face in a jar. Slurp!_  
@@ -108,7 +110,9 @@ _Parcel is muddy all over. Mud from the Hollow!_
 _Parcel wants to help. It turns both taps on. Whoosh!_  
 _Then it sits and waits for someone to say “stop”._  
 _Nobody says “stop”._  
-_Splish! The bath is full. Splash! So is the landing!_  
+_Splish! The bath is full. Parcel bows to the bath._  
+_Splash! The landing is full. Parcel bows to the landing._  
+_Splosh! The stairs are full. Parcel bows to the stairs._  
 **Byte**: WHY IS THE HALL WET?  
 _The water runs down the stairs, out of the door, and next door!_  
 
@@ -247,11 +251,12 @@ _Variant of `s28-null`._
 
 _Byte’s front room. A big clock sits on the shelf. Tick, tock._  
 _Null sits in a little bed under it. Null waits for the bell._  
-**Byte**: That’s Null. It’s on a timetable. It’s going very well.  
+**Byte**: That’s Null. It waits for the bell all day. It’s going very well.  
 _Parcel bows. Null doesn’t look. Null only watches the bell._  
 _So Parcel climbs in beside Null. It waits for the bell too._  
 _Byte’s face goes pale. That means white and worried._  
-**Byte**: No. Null isn’t mine. It’s borrowed. That isn’t fair on Null.  
+**Byte**: No. Null isn’t mine. I’m only minding it.  
+**Byte**: And a bell all day isn’t fair on Null.  
 _Byte lifts Parcel out, gently. Then he looks at the clock._  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): being fair to animals  
@@ -519,13 +524,6 @@ _Parcel sees smoke from Gran Hazel’s chimney. Off it goes!_
 #### `sprout:s28-bench` · [main](../../../side/S28.md#s28-bench)
 
 _Gran Hazel is home! She sits on her bench, in three coats._  
-
-> **Lesson** (science, K-ESS2-1, ask): warm clothes keep us warm in cold weather  
-> _It’s snowy. Why does Gran Hazel wear three coats?_  
-> - ✅ To keep warm → Yes! When it’s cold, more layers keep us warm.
-> - To go swimming → Brr! Not in the snow! The coats keep her warm.
-> _For grown-ups: Talked about wearing warm layers in cold, snowy weather._
-
 _A thin grey Nubbin sleeps in her arm._  
 _Parcel walks up the path. It bows, lower than ever before._  
 **Gran Hazel**: Hello again, you. Look at that coat! Somebody’s been looking after you.  
@@ -533,11 +531,24 @@ _Parcel opens its coat. It takes out half a sandwich._
 _It holds it up to the thin grey Nubbin. Sniff, sniff. Nibble!_  
 **Gran Hazel**: It took me two days to make friends. You did it at once!  
 
+> **Lesson** (science, K-ESS2-1, ask): warm clothes keep us warm in cold weather  
+> _It’s snowy. Why does Gran Hazel wear three coats?_  
+> - ✅ To keep warm → Yes! When it’s cold, more layers keep us warm.
+> - To go swimming → Brr! Not in the snow! The coats keep her warm.
+> _For grown-ups: Talked about wearing warm layers in cold, snowy weather._
+
+
 #### `sprout:s28-bench-bramble` · [main](../../../side/S28.md#s28-bench-bramble)
 
 _Variant of `s28-bench`._
 
 _Gran Hazel is home! She sits on her bench, in three coats._  
+_Bramble’s youngest sleeps in her arm. Its ear folds over at the tip._  
+_Parcel walks up the path. It bows, lower than ever before._  
+**Gran Hazel**: Hello again, you. Look at that coat! Somebody’s been looking after you.  
+_Parcel opens its coat. It takes out half a sandwich._  
+_It holds it up to the little grey one. Sniff, sniff. Nibble!_  
+**Gran Hazel**: It took me two days to make friends. You did it at once!  
 
 > **Lesson** (science, K-ESS2-1, ask): warm clothes keep us warm in cold weather  
 > _It’s snowy. Why does Gran Hazel wear three coats?_  
@@ -545,12 +556,6 @@ _Gran Hazel is home! She sits on her bench, in three coats._
 > - To go swimming → Brr! Not in the snow! The coats keep her warm.
 > _For grown-ups: Talked about wearing warm layers in cold, snowy weather._
 
-_Bramble’s youngest sleeps in her arm. Its ear folds over at the tip._  
-_Parcel walks up the path. It bows, lower than ever before._  
-**Gran Hazel**: Hello again, you. Look at that coat! Somebody’s been looking after you.  
-_Parcel opens its coat. It takes out half a sandwich._  
-_It holds it up to the little grey one. Sniff, sniff. Nibble!_  
-**Gran Hazel**: It took me two days to make friends. You did it at once!  
 **Gran Hazel**: Fern will want to hear about this.  
 
 #### `sprout:s28-why` · [main](../../../side/S28.md#s28-why)
@@ -604,6 +609,7 @@ _Nobody talks. It is a nice, quiet sit._
 _Gran Hazel is very poorly. The doctors can’t make her better._  
 _She sleeps a lot, and wakes up for the good bits._  
 _She is still Gran, still funny._  
+_Parcel leans on Byte. Byte leans on you. That helps a bit._  
 **Byte**: I’m going to give Parcel a party. A welcome party!  
 **Byte**: It’s very late for a welcome party. But there’s no rule.  
 
@@ -611,6 +617,10 @@ _She is still Gran, still funny._
 
 _Party time at Byte’s! Paper flags, and a cake that says PARCEL._  
 **Pixel**: Hi! I brought a cake stand. It spins round!  
+_Pixel is Byte’s wife. They are always like this._  
+**Byte**: We have four cake stands, Pixel.  
+**Pixel**: None of them spin, Byte. And your shoelace is undone.  
+**Byte**: It always comes undone at parties.  
 **Byte**: Now Parcel will do a trick. Nobody told me what. I don’t like that.  
 _Parcel bows to Mr Grue. It holds out a paw for his watch._  
 _Mr Grue gives it his watch. It was his dad’s._  
@@ -716,7 +726,8 @@ _Variant of `s28-complete`._
 _After the cake, Byte stands up with his notebook._  
 **Byte**: I’m going to read my notebook out loud. I want to.  
 **Byte**: Oops list: Bath. Jam jars. Oranges. Snow. Watch.  
-**Byte**: Not sure yet: Kind to Moss. Shares on purpose. We missed it.  
+**Byte**: Not sure yet: Kind to Moss. Shares on purpose.  
+**Byte**: We missed it when it ran off.  
 _Then Byte crosses out NOT SURE YET. Once, twice, three times._  
 
 > **Lesson** (maths, K.CC.B.4, do): count to 3  

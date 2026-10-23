@@ -162,7 +162,7 @@ const GIFTS: Line[] = [
   N('It will. You can tell from how carefully he wrapped it.'),
 ];
 
-/** Theme beat for every complete scene. */
+/** Theme beat for every complete scene: a think question, no marked answer. */
 const themeBeat = (after: number): LessonIn => ({
   domain: 'literacy',
   skill: 'finding the theme of a story',
@@ -170,28 +170,20 @@ const themeBeat = (after: number): LessonIn => ({
   kind: 'ask',
   after,
   prompt: [
-    N(
-      'Byte started the log to count Parcel’s mistakes. What do you think this whole story is saying?',
-    ),
+    N('Byte started the log to count Parcel’s mistakes. What do you think his longest column is saying?'),
   ],
   options: [
-    opt(
-      'Kindness counts, even when you can’t measure it.',
-      [N('That’s the heart of it. Byte’s best column is the one that isn’t a measurement.')],
-      true,
-    ),
-    opt('Never let a stranger in.', [
-      N(
-        'Parcel was a stranger, and look what Byte would have missed. The story says the opposite: welcome matters.',
-      ),
+    opt('That kindness counts, even when you can’t measure it.', [
+      N('That’s a fair answer. Byte’s best column is the one that isn’t a measurement.'),
     ]),
-    opt('Marmalade is the best food.', [
-      N(
-        'Your Nubbin would agree! But the story is really about how kindness counts, even when it can’t be measured.',
-      ),
+    opt('That Parcel did far more good than harm.', [
+      N('That’s a fair answer. Byte set out to count mistakes, and the page told him something else.'),
+    ]),
+    opt('That Byte changed his mind about Parcel.', [
+      N('That’s a fair answer. A man who trusts proof had to trust what he saw. That is a big change.'),
     ]),
   ],
-  parentNote: 'Worked out the theme of the story: kindness matters even when it can’t be measured.',
+  parentNote: 'Thought about what the story is saying, with no single right answer.',
 });
 
 /** Step 13 done: the watch, shared by all three versions. */
@@ -250,7 +242,7 @@ const SCENES: EduScene[] = [
   scene(
     's28-cart',
     [
-      N('The morning after the Hollow. You slept badly, with Hazel’s notebook under your pillow.'),
+      N('The morning after the Hollow. You slept badly, with Gran Hazel’s notebook under your pillow.'),
       N(
         'Hooves in the lane. The carrier’s cart pulls up at the gate, and the carter leans down without getting off.',
       ),
@@ -323,7 +315,7 @@ const SCENES: EduScene[] = [
       ),
       N('He reads the tag, then the back of the tag, which is blank, then the front again.'),
       BY('“For Byte. H.” Who’s H.?', 'think'),
-      N('You think you know. But you can’t prove it, and you don’t know where she is.'),
+      N('You think you know. But you can’t prove it, and you don’t know where Gran Hazel is.'),
     ],
     [
       {
@@ -416,7 +408,7 @@ const SCENES: EduScene[] = [
         skill: 'sugar preserves fruit; one word with more than one meaning',
         standard: 'L.3.4',
         kind: 'notice',
-        after: 5,
+        after: 9,
         lines: [
           N(
             'To “preserve” something means to keep it safe from spoiling. “Preserves” are jams and marmalades.',
@@ -646,7 +638,7 @@ const SCENES: EduScene[] = [
         'He folds the list and puts it in his cardigan pocket. He goes home, and shuts his gate very quietly.',
       ),
       BY('Eleven seconds.', 'shock'),
-      BY('Eleven. I’ve never seen anybody hold one past four. Not even Ember.'),
+      BY('Eleven. I’ve never seen anybody hold one past four. Not even Ember, and she once out-stared a goose.'),
       N(
         'That evening Byte opens a fresh notebook and writes on the cover, in neat capitals: PARCEL: INCIDENTS.',
       ),
@@ -1179,22 +1171,6 @@ const SCENES: EduScene[] = [
     ],
     [
       {
-        domain: 'science',
-        skill: 'why marmalade uses Seville oranges',
-        standard: '2-PS1-1',
-        kind: 'notice',
-        after: 0,
-        lines: [
-          N(
-            'Seville oranges are named after Seville, a city in Spain. They’re too bitter to eat raw, but perfect for marmalade.',
-          ),
-          N(
-            'Their peel and pips are rich in pectin, a natural substance that helps jam set. That’s why the pips go in the muslin bag, not the bin.',
-          ),
-        ],
-        parentNote: 'Learned why bitter Seville oranges, rich in pectin, make good marmalade.',
-      },
-      {
         domain: 'maths',
         skill: 'measuring temperature, and finding a difference',
         standard: '4.MD.A.2',
@@ -1225,6 +1201,22 @@ const SCENES: EduScene[] = [
           ]),
         ],
         parentNote: 'Found the difference between two temperatures, including a half.',
+      },
+      {
+        domain: 'science',
+        skill: 'why marmalade uses Seville oranges',
+        standard: '2-PS1-1',
+        kind: 'notice',
+        after: 9,
+        lines: [
+          N(
+            'Seville oranges are named after Seville, a city in Spain. They’re too bitter to eat raw, but perfect for marmalade.',
+          ),
+          N(
+            'Their peel and pips are rich in pectin, a natural substance that helps jam set. That’s why the pips go in the muslin bag, not the bin.',
+          ),
+        ],
+        parentNote: 'Learned why bitter Seville oranges, rich in pectin, make good marmalade.',
       },
     ],
   ),
@@ -1494,7 +1486,7 @@ const SCENES: EduScene[] = [
         skill: 'layers trap air, which keeps heat in',
         standard: '2-PS1-1',
         kind: 'notice',
-        after: 0,
+        after: 5,
         lines: [
           N(
             'Layers keep you warm. Air gets trapped between them, and still air is very slow to let heat escape.',
@@ -1602,6 +1594,11 @@ const SCENES: EduScene[] = [
         'Byte’s front room, decorated: bunting cut from squared paper, and a cake with PARCEL on it, iced in very straight capitals.',
       ),
       PX('Hi! I brought a cake stand. It rotates. You don’t have to use the rotate.', 'happy'),
+      BY('We own three cake stands.'),
+      PX(
+        'None of them rotate. Twenty years married and you’ve never let a thing rotate. Also, your lace.',
+      ),
+      BY('It came undone at our wedding. All the way down the aisle. It’s tradition now.'),
       N(
         'Mr Grue has come “for procedure”, in his best cardigan. He sits on the edge of his chair as if it might go off.',
       ),
@@ -1625,6 +1622,7 @@ const SCENES: EduScene[] = [
       GR('MY FATHER’S WATCH!', 'angry'),
       N('Mr Grue goes out of the front door so hard that the bunting comes down.'),
       PX('Give me all the bits. All of them. Nobody sneeze.', 'think'),
+      BY('She’ll fix it. She fixes every clock in our house, broken or not.'),
     ],
     [
       {
@@ -1632,7 +1630,7 @@ const SCENES: EduScene[] = [
         skill: 'a wound spring stores energy that makes a watch move',
         standard: '4-PS3-4',
         kind: 'notice',
-        after: 13,
+        after: 17,
         lines: [
           PX(
             'Look: the mainspring. Winding the watch coils it tight, and a tight spring stores energy.',
@@ -1727,7 +1725,7 @@ const VARIANTS: EduScene[] = [
     's28-null-minder',
     [
       N(
-        'Byte’s front room. The Minder ticks on the shelf: the clock face, the three little bells, the chute.',
+        'Byte’s front room. The Minder ticks on the shelf: a clock that rings a bell and drops a treat down a chute.',
       ),
       N(
         'Null sits in the little bed under it, perfectly upright, waiting. Its blue has gone thin at the edges.',
@@ -1839,7 +1837,7 @@ const VARIANTS: EduScene[] = [
         skill: 'layers trap air, which keeps heat in',
         standard: '2-PS1-1',
         kind: 'notice',
-        after: 0,
+        after: 5,
         lines: [
           N(
             'Layers keep you warm. Air gets trapped between them, and still air is very slow to let heat escape.',

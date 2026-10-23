@@ -36,6 +36,16 @@ default renderer is not changed; passes 1 and 2 are on `main`, deployed since 20
 accepted by Maor). Maor, 2026-10-21: daily refreshes and free daily gifts are allowed; only
 repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below).
 
+## Story review run 5 fixes (2026-10-23)
+
+All 63 open or partial recs in `docs/story-review/LOG.md` worked (run 5's 60 plus run 4's 3 partials).
+- **Works:** 59 fixed. Learning Grove S25–S29, both bands: Marina's rule six "Come back." in all six S29
+  endings, Granny Brock's cake and bell paid off, why Dusty can't go home, the S25 light-toy-wild-Nubbin link,
+  Pixel and Byte bickering at S28's party and in S25/S27, first-mention tags for Hazel, the supper Nubbin.
+- **Partial:** -265 (S26's robin line rewritten without the unset-up "wages" joke). Dropped: -179, -198, -229
+  (lessons can only play before a scene's choices; each ask already sits as late as the engine allows).
+- **Known bugs:** none.
+
 ## Campaign graphics 3, items K1–K50 (2026-10-22)
 
 Built from `docs/campaign-graphics-recommendations-2026-10-22-b.md` the same way as the second

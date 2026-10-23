@@ -106,7 +106,7 @@ const FORD_START: Line[] = [
   N('Portly wakes up. Splash! In he jumps.'),
   N('Two otters in the water, round and round each other.'),
   DU('Oh. Oh, look at them!', 'soft'),
-  MA('Look at me, crying. Must’ve been the early start.', 'soft'),
+  MA('Look at me, crying! Happy tears. Portly is safe.', 'soft'),
 ];
 const FORD_END: Line[] = [
   DU('That’s a thank-you, that is.', 'soft'),
@@ -123,6 +123,8 @@ const COMPLETE_END: Line[] = [
   MA('Come and take the little winter boat out with me. Vests on!', 'think'),
   DU('Same time next summer?', 'soft'),
   MA('Sooner! March, if it’s sunny.', 'happy'),
+  MA('Rule six. Come back. That’s for all of you.', 'soft'),
+  N('Your Nubbin nods. It nods so hard it sits down.'),
   N('Down at the ford, a little brown head pops up. Then it’s gone.'),
 ];
 
@@ -232,6 +234,7 @@ const SCENES: EduScene[] = [
       N('Marina opens her basket. Out comes the food!'),
       MA('Chicken. Ham. Two loaves. Three cheeses. Gherkins. Cake!', 'happy'),
       DU('Wait! Stop! Nobody could eat all that!', 'shock'),
+      N('Your Nubbin is already in the basket. It has started on the cake.'),
       N('Bubbles in the water. Pop, pop! Then a brown, whiskery head.'),
       N('Then a small round head. It’s a baby otter!'),
       MA('Shh. That’s the old otter. I call the little one Portly.', 'soft'),
@@ -258,7 +261,7 @@ const SCENES: EduScene[] = [
         skill: 'where otters live and what they need',
         standard: 'ELOF: Scientific Reasoning',
         kind: 'notice',
-        after: 6,
+        after: 7,
         lines: [
           MA('Otters live by rivers. They swim, and they catch fish.', 'soft'),
           MA('Their fur is so thick, they stay warm in cold water.'),
@@ -345,6 +348,9 @@ const SCENES: EduScene[] = [
       MA('Lesson one: sit down. Lesson two: stay sat down!', 'think'),
       MA('Oars in. Pull. Oars out. In, pull, out!'),
       N('In, pull, out! In, pull, out! (Say it together.)'),
+      DU('Why are we going backwards? I can’t see where we’re going!', 'shock'),
+      MA('Nobody can. Take it up with the river.', 'think'),
+      N('Your Nubbin turns round to look. Then back. Then round again.'),
       N('Marina gives your Nubbin a tiny vest. It marches up and down. So proud!'),
       N('A little brown head follows the boat. It’s Portly!'),
       MA('He likes you. Give him something to keep. Not food.'),
@@ -434,7 +440,7 @@ const SCENES: EduScene[] = [
       MA('Dusty went into the Wild Wood. All alone. And it’s getting dark!', 'angry'),
       N('Later, Dusty tells what happened.'),
       N('The wood was dark and cold. Crunch, crunch went the frost.'),
-      N('Dusty thought they saw little eyes. Then came pitter-pat noises.'),
+      N('Dusty was sure there were little eyes. Then came pitter-pat noises.'),
       N('Dusty ran. They hid inside a big hollow tree.'),
       MA('Wood rules: stay on the path. Don’t run. Keep talking.', 'think'),
       MA('Don’t worry. We’ll find Dusty. Come on.', 'soft'),
@@ -711,7 +717,8 @@ const SCENES: EduScene[] = [
       N('You run after Marina. You say, “Dusty!” and point.'),
       N('Marina turns round at once. She runs back.'),
       MA('Dusty. Oh, Dusty. What’s wrong?', 'soft'),
-      DU('My house. I can’t go in. And I can’t walk past it.', 'sad'),
+      DU('My house. I miss someone there. It’s too sad to go in.', 'sad'),
+      DU('And I can’t walk past it.', 'sad'),
       MA('I’m sorry. I was only thinking about my supper.', 'sad'),
       MA('Then we’ll go in together. All of us.', 'soft'),
     ],
@@ -721,7 +728,7 @@ const SCENES: EduScene[] = [
         skill: 'helping a friend who misses home',
         standard: 'CASEL: Social awareness',
         kind: 'ask',
-        after: 5,
+        after: 6,
         prompt: [N('How can we help a friend who misses home?')],
         options: [
           opt(
@@ -1053,7 +1060,7 @@ const SCENES: EduScene[] = [
           then: [
             N('You sit on the bed, next to the bag. You don’t say anything.'),
             N('Dusty sits on Marina’s other side. You all sit, quiet.'),
-            MA('Hazel used to do that. Just sit with me.', 'soft'),
+            MA('Gran Hazel used to do that. Just sit with me.', 'soft'),
             N('After a long time, Marina puts the jumper down.'),
           ],
         },
@@ -1382,10 +1389,13 @@ const VARIANTS: EduScene[] = [
   sc(
     's29-brock-knock',
     [
-      N('You knock on the little green door. Knock, knock.'),
+      N('You knock on the little green door. You do not ring the bell.'),
+      N('You have brought a cake. A big one.'),
       N('Bolts slide back. One, two, three, four.'),
       GB('Daytime. Good. Come in for ten minutes and get warm.', 'think'),
       N('Ten minutes turns into an hour by the fire.'),
+      N('The cake is gone. Nobody saw Granny Brock eat it.'),
+      GB('Hm. Bring two next time.', 'think'),
       N('Nobody says much. That’s nice too.'),
     ],
     [

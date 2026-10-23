@@ -37,7 +37,7 @@ _Sparks is on her back under the start lamp, with a screwdriver in her teeth._
 > _For grown-ups: Learned that copper wire carries electricity to complete a circuit._
 
 **Sparks**: There’s a cabinet of mine in the old lantern shed, behind the straight. Bottom drawer.  
-**Sparks**: He doesn’t like people in there. He’s never been in himself. Not once in eleven years.  
+**Sparks**: Corvin owns the Circuit. He doesn’t like people in there, and he’s never been in himself. Not once in eleven years.  
 **Sparks**: It’s the only place up here with dust in it. I love it. Don’t tell him.  
 _Your Nubbin climbs into your coat pocket for the walk. It doesn’t like the cold rails either._  
 
@@ -56,7 +56,8 @@ _A grey-brown spider no bigger than a fingernail sits beside it. She lifts two f
 > - Yes. She’s small and creepy-crawly. → Lots of people think so! But count again: eight legs. Insects only have six. Spiders are arachnids, with eight legs and two body parts, not three.
 > _For grown-ups: Learned how to tell a spider from an insect: eight legs and two body parts._
 
-_It is eleven in the morning. To your own surprise, you lift a hand back._  
+_It is eleven in the morning. She is not, it seems, a morning spider._  
+_To your own surprise, you lift a hand back._  
 
 #### `reader:s27-row` · [main](../../../side/S27.md#s27-row)
 
@@ -97,7 +98,7 @@ _Outside, a lad with two buckets goes along the pens, whistling. He stops whistl
 **Hob**: That’s Nine. Smallest we’ve got. Last every time. Not slow, exactly. It just doesn’t see the point.  
 **Hob**: I’m Hob. I do the buckets. I’m not meant to whistle. I forget.  
 _He fills Nine’s trough, and Nine doesn’t look round. Hob stands there a moment longer than the trough needs._  
-**Hob**: The Autumn Show’s at the first frost that isn’t his. Anything that doesn’t place goes over the pass.  
+**Hob**: The Autumn Show’s at the first proper frost, not the summer kind up here. Anything that doesn’t place gets sold, over the pass.  
 
 > **Lesson** (literacy, L.3.4, ask): words with more than one meaning: place  
 > _Hob says “anything that doesn’t place.” What does “place” mean here?_  
@@ -181,13 +182,15 @@ _She looks through the window at the end of the row, then back at you, and lifts
 
 _Fern is up a ladder in her orchard, losing an argument with a plum tree._  
 **Fern**: A word? For a spider? Easy. Somebody’s. As in, this one belongs to somebody.  
-**Fern**: When Bramble went, people said she was only a Nubbin. She wasn’t only. She was mine.  
+**Fern**: When my Bramble ran off at the Midsummer race, people said she was only a Nubbin. She wasn’t only. She was mine.  
 _Clover listens with her head on one side, the way she listens to the shy ones._  
 **Clover**: Warm. You can’t make a grey one stop being grey. But you can make it warm.  
 _Luna is asleep in a deckchair in her night garden at noon. She answers without opening her eyes._  
 **Luna**: Home. Everything in my garden grows towards it in the dark.  
 _Byte goes away to think, and comes back with a sheet of paper._  
 **Byte**: “Statistically above average.” It’s accurate. It’s kind. It’s the nicest thing I know how to say.  
+**Byte**: My wife Pixel says that’s three words too many. She also says my lace is undone.  
+_Byte looks down. It is._  
 _You read the four words to the shed window. Spindle listens to each one, like a judge._  
 _At Byte’s, she points one leg, very politely, along the whole length of the rail._  
 
@@ -223,13 +226,15 @@ _Variant of `s27-words`._
 
 _Fern is up a ladder in her orchard, losing an argument with a plum tree._  
 **Fern**: A word? For a spider? Easy. Somebody’s. As in, this one belongs to somebody.  
-**Fern**: When Bramble went, people said she was only a Nubbin. She wasn’t only. She was mine.  
+**Fern**: When my Bramble ran off at the Midsummer race, people said she was only a Nubbin. She wasn’t only. She was mine.  
 _Clover listens with her head on one side, the way she listens to the shy ones._  
 **Clover**: Warm. You can’t make a grey one stop being grey. But you can make it warm.  
 _Luna is asleep in a deckchair in her night garden at noon. She answers without opening her eyes._  
 **Luna**: Home. Everything in my garden grows towards it in the dark.  
 _Byte goes away to think, and comes back with a sheet of paper._  
 **Byte**: “Statistically above average.” It’s accurate. It’s kind. It’s the nicest thing I know how to say.  
+**Byte**: My wife Pixel says that’s three words too many. She also says my lace is undone.  
+_Byte looks down. It is._  
 _You read the four words to the shed window. Spindle listens to each one, like a judge._  
 _At Byte’s, she points one leg, very politely, along the whole length of the rail._  
 **Sparks**: She’s saying it won’t fit. Break it to Byte gently. He loves his long words.  
@@ -315,7 +320,7 @@ _Corvin comes out again and looks at the fence. Then he looks across the yard, a
 #### `reader:s27-was-it-you` · [main](../../../side/S27.md#s27-was-it-you)
 
 _He walks over without hurrying. His hands are bare, and blue at the knuckles._  
-**Corvin Vale**: Hazel’s heir. A straight question, and I’d like a straight answer. She always gave me one.  
+**Corvin Vale**: Hazel’s grandchild. A straight question, and I’d like a straight answer. Your gran always gave me one.  
 **Corvin Vale**: Somebody wrote on my rail in the night. I don’t care for things written on my rails. Was it you?  
 _Behind you, through the shed window, you can feel a very small person holding very still._  
 _Corvin waits. He is the kind of man who can wait a long time for an answer._  
@@ -441,6 +446,7 @@ _In the end she rides in the brim of your hat, which is the best seat at the Cir
 
 _The Autumn Show. Flags, a brass band of three, and more people at the fence than the Circuit has ever had._  
 _Most of them aren’t here for the racing. They are here to see a small grey runner with a name._  
+_Your Nubbin finds the rosettes on the judge’s table, decides they are biscuits, and tries one. It puts it back with great dignity._  
 _Eight runners line up. Corvin’s champion, the big grey Number One, wins as it always does._  
 _The little grey runner comes last. It spends the whole race looking at the people who came._  
 _It doesn’t place. The judge pins three rosettes on three grey runners who don’t look down at them._  
@@ -809,7 +815,7 @@ _Then, one by one, each lets out a thread into the wind, and lifts, and floats a
 
 _You stand at the gate and watch them go until they are just glints. It takes all morning, and you don’t mind._  
 _Three stay._  
-_The next morning, in the corner of the lantern shed window, there is a web no bigger than a thumbnail. It says EVENING._  
+_The next morning, in the corner of the Grove shed window, there is a web no bigger than a thumbnail. It says EVENING._  
 _You laugh out loud, on your own, in the shed. Then you say it back: “Evening.”_  
 
 > **Lesson** (literacy, RL.4.2, notice): how a story ends where it began  
@@ -841,7 +847,7 @@ _Wisp watches them go until they are just glints. Then he goes back under the st
 > _For grown-ups: Thought about how caring sometimes means letting go._
 
 _Three stay._  
-_The next morning, in the corner of the lantern shed window, there is a web no bigger than a thumbnail. It says EVENING._  
+_The next morning, in the corner of the Grove shed window, there is a web no bigger than a thumbnail. It says EVENING._  
 _You laugh out loud, on your own, in the shed. Then you say it back: “Evening.”_  
 _Few friends can write, and fewer writers would stay up all night for you. Spindle did both._  
 

@@ -85,6 +85,7 @@ _Marina opens her basket. Out comes the food!_
 > _For grown-ups: Counted the cheeses in Marina’s picnic (three)._
 
 **Dusty**: Wait! Stop! Nobody could eat all that!  
+_Your Nubbin is already in the basket. It has started on the cake._  
 _Bubbles in the water. Pop, pop! Then a brown, whiskery head._  
 _Then a small round head. It’s a baby otter!_  
 **Marina**: Shh. That’s the old otter. I call the little one Portly.  
@@ -147,6 +148,9 @@ _In, pull, out! In, pull, out! (Say it together.)_
 > Check: `edu:clap:pattern:in-pull-out`
 > _For grown-ups: Clapped a repeating pattern (in, pull, out) and said what comes next._
 
+**Dusty**: Why are we going backwards? I can’t see where we’re going!  
+**Marina**: Nobody can. Take it up with the river.  
+_Your Nubbin turns round to look. Then back. Then round again._  
 _Marina gives your Nubbin a tiny vest. It marches up and down. So proud!_  
 _A little brown head follows the boat. It’s Portly!_  
 **Marina**: He likes you. Give him something to keep. Not food.  
@@ -184,7 +188,7 @@ _Marina runs to your gate with a lantern._
 **Marina**: Dusty went into the Wild Wood. All alone. And it’s getting dark!  
 _Later, Dusty tells what happened._  
 _The wood was dark and cold. Crunch, crunch went the frost._  
-_Dusty thought they saw little eyes. Then came pitter-pat noises._  
+_Dusty was sure there were little eyes. Then came pitter-pat noises._  
 _Dusty ran. They hid inside a big hollow tree._  
 **Marina**: Wood rules: stay on the path. Don’t run. Keep talking.  
 
@@ -385,7 +389,8 @@ _Dusty sits on a tree stump and cries._
 _You run after Marina. You say, “Dusty!” and point._  
 _Marina turns round at once. She runs back._  
 **Marina**: Dusty. Oh, Dusty. What’s wrong?  
-**Dusty**: My house. I can’t go in. And I can’t walk past it.  
+**Dusty**: My house. I miss someone there. It’s too sad to go in.  
+**Dusty**: And I can’t walk past it.  
 **Marina**: I’m sorry. I was only thinking about my supper.  
 **Marina**: Then we’ll go in together. All of us.  
 
@@ -597,7 +602,7 @@ _The old otter is still on his stone. Dusty is there too._
 _Portly wakes up. Splash! In he jumps._  
 _Two otters in the water, round and round each other._  
 **Dusty**: Oh. Oh, look at them!  
-**Marina**: Look at me, crying. Must’ve been the early start.  
+**Marina**: Look at me, crying! Happy tears. Portly is safe.  
 _Portly comes back. You put the bead down for him._  
 _He pushes it back to you. He leaves a wet pebble too._  
 
@@ -619,7 +624,7 @@ _The old otter is still on his stone. Dusty is there too._
 _Portly wakes up. Splash! In he jumps._  
 _Two otters in the water, round and round each other._  
 **Dusty**: Oh. Oh, look at them!  
-**Marina**: Look at me, crying. Must’ve been the early start.  
+**Marina**: Look at me, crying! Happy tears. Portly is safe.  
 _Portly comes back. You hold out the muddy red ribbon._  
 _He pushes it back to you. And he leaves a wet pebble._  
 
@@ -640,7 +645,7 @@ _The old otter is still on his stone. Dusty is there too._
 _Portly wakes up. Splash! In he jumps._  
 _Two otters in the water, round and round each other._  
 **Dusty**: Oh. Oh, look at them!  
-**Marina**: Look at me, crying. Must’ve been the early start.  
+**Marina**: Look at me, crying! Happy tears. Portly is safe.  
 _Portly shakes. Ting! He slips the loose bell off his head._  
 _He leaves it on your boot, with a wet pebble beside it._  
 
@@ -690,7 +695,7 @@ _Marina keeps folding._
 - **Sit down beside her. Be quiet together.**
     - You sit on the bed, next to the bag. You don’t say anything.
     - Dusty sits on Marina’s other side. You all sit, quiet.
-    - **Marina**: Hazel used to do that. Just sit with me.
+    - **Marina**: Gran Hazel used to do that. Just sit with me.
     - After a long time, Marina puts the jumper down.
 - **Give her a pencil. Ask her to draw the tide pools.**
     - You find a pencil and some brown paper.
@@ -734,6 +739,8 @@ _It looks like a big beetle having a rest._
 **Marina**: Come and take the little winter boat out with me. Vests on!  
 **Dusty**: Same time next summer?  
 **Marina**: Sooner! March, if it’s sunny.  
+**Marina**: Rule six. Come back. That’s for all of you.  
+_Your Nubbin nods. It nods so hard it sits down._  
 _Down at the ford, a little brown head pops up. Then it’s gone._  
 
 #### `sprout:s29-complete-sat` · [main](../../../side/S29.md#s29-complete-sat)
@@ -755,6 +762,8 @@ _Dusty leans on Marina’s other side. You stand together._
 **Marina**: Come and take the little winter boat out with me. Vests on!  
 **Dusty**: Same time next summer?  
 **Marina**: Sooner! March, if it’s sunny.  
+**Marina**: Rule six. Come back. That’s for all of you.  
+_Your Nubbin nods. It nods so hard it sits down._  
 _Down at the ford, a little brown head pops up. Then it’s gone._  
 
 #### `sprout:s29-complete-pencil` · [main](../../../side/S29.md#s29-complete-pencil)
@@ -778,13 +787,15 @@ _In the corner is a tiny boat. Three people and a Nubbin!_
 **Marina**: Come and take the little winter boat out with me. Vests on!  
 **Dusty**: Same time next summer?  
 **Marina**: Sooner! March, if it’s sunny.  
+**Marina**: Rule six. Come back. That’s for all of you.  
+_Your Nubbin nods. It nods so hard it sits down._  
 _Down at the ford, a little brown head pops up. Then it’s gone._  
 
 #### `sprout:s29-brock-knock` · [main](../../../side/S29.md#s29-brock-knock)
 
 _Variant of `s29-complete`._
 
-_You knock on the little green door. Knock, knock._  
+_You knock on the little green door. You do not ring the bell._  
 
 > **Lesson** (social-studies, D2.Civ.8.K-2, ask): visiting politely: knock and wait  
 > _What do we do when we visit someone’s house?_  
@@ -792,9 +803,12 @@ _You knock on the little green door. Knock, knock._
 > - Walk right in → It’s their home! We knock, and wait to be asked in.
 > _For grown-ups: Talked about visiting politely: knock and wait to be asked in._
 
+_You have brought a cake. A big one._  
 _Bolts slide back. One, two, three, four._  
 **Granny Brock**: Daytime. Good. Come in for ten minutes and get warm.  
 _Ten minutes turns into an hour by the fire._  
+_The cake is gone. Nobody saw Granny Brock eat it._  
+**Granny Brock**: Hm. Bring two next time.  
 _Nobody says much. That’s nice too._  
 
 **Notes:** Sprout band. s29-packing leaves out `held` (defaultChoice sat); sprout:s29-complete is still written for saves that reach it. The Lantern Song is narrated, not sung, in this band (its second line pictures the dead as sleeping). Fossil is named only from s29-supper; her death is said plainly with comfort after.

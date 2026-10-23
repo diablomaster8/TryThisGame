@@ -58,10 +58,11 @@ _Your Nubbin is in before anyone else, and takes the very front: the little poin
 
 > **Lesson** (science, 3-PS2-1, notice): why boats float: balanced forces  
 > **Marina**: A boat pushes water out of the way, and the water pushes back up on it.  
-> **Marina**: When that push up is as big as the boat’s weight, the forces balance, and she floats.  
-> **Marina**: A trowel’s solid metal, heavy for its size. It can’t push aside enough water to hold it up, so down it goes.  
+> **Marina**: The water pushes up as hard as the boat pushes down. Equal pushes: she floats.  
 > _For grown-ups: Learned that a boat floats when the water’s upward push balances its weight._
 
+**Dusty**: And my trowel?  
+**Marina**: Too heavy for its size. It went to live with the fish.  
 
 #### `reader:s29-boats` · [main](../../../side/S29.md#s29-boats)
 
@@ -151,7 +152,7 @@ _She lights a fire in a ring of stones and sits Dusty in front of it, wrapped in
 > **Marina**: Out of the wet things and close to the fire. Cold water pulls heat out of your body much faster than cold air does.  
 > _For grown-ups: Learned that cold water draws heat from the body fast, so you get dry and warm quickly after a dip._
 
-**Dusty**: I’m so sorry. Your boat. Your lovely picnic. I’m an idiot.  
+**Dusty**: I’m so sorry. Your boat. Your lovely picnic. I’m a disaster.  
 **Marina**: Never mind. Honestly. Never mind.  
 **Dusty**: The cheese is in the river.  
 **Marina**: Never mind the cheese. The fish will have a lovely afternoon. Never mind.  
@@ -392,7 +393,7 @@ _She goes back into the culvert. Somewhere inside, a gate shuts, and four bolts.
 
 #### `reader:s29-low-river` · [main](../../../side/S29.md#s29-low-river)
 
-_Summer’s end. Since the rain on the hill, Dusty has been sleeping in Marina’s boathouse, and nobody has said a word about it._  
+_Summer’s end. Since their old Nubbin died this summer, Dusty has been sleeping in Marina’s boathouse, and nobody has said a word about it._  
 _Marina wants to show you the top of the river before the weather turns. Dusty takes an oar without being asked, and sits down first._  
 **Marina**: Look at that. Sitting down. I’ve made a sailor of you.  
 _Above the backwater the river is wrong. The banks stand high and dry, and weed lies flat on stones that should be under water._  
@@ -415,7 +416,7 @@ _The water round your ankles is cold enough to make your teeth hurt._
 
 _Variant of `s29-low-river`._
 
-_Summer’s end. Since the rain on the hill, Dusty has been sleeping in Marina’s boathouse, and nobody has said a word about it._  
+_Summer’s end. Since their old Nubbin died this summer, Dusty has been sleeping in Marina’s boathouse, and nobody has said a word about it._  
 _Marina wants to show you the top of the river before the weather turns. Dusty takes an oar without being asked, and sits down first._  
 **Marina**: Look at that. Sitting down. I’ve made a sailor of you.  
 _The river is full to its banks, running fast and clear the way it ought to at the end of a summer._  
@@ -463,7 +464,7 @@ _Dusk on the river path. Above you rises a cliff striped like a cake: brown, red
 _Marina walks ahead, fast, talking about supper. Halfway along, Dusty stops dead, as if somebody has called their name._  
 **Dusty**: Oh.  
 _They are looking up the cliff, at a small round door in the rock and a window with no light in it._  
-**Dusty**: That’s mine. I can smell it. Earth, and old tea, and… it’s mine. I haven’t been back. Not since the rain.  
+**Dusty**: That’s mine. I can smell it. Earth, and old tea, and… it’s mine. I haven’t been back. Not since the summer.  
 **Dusty**: Marina! Marina, wait—  
 **Marina**: Come on, you two! Supper! I’m starving, and it’s getting dark!  
 _Marina hasn’t heard; she’s already round the bend. Dusty looks after Marina, and up at the door, and along the path again._  
@@ -476,23 +477,24 @@ _She turns round at once, in the middle of a word, and goes back down the path a
 **Marina**: Dusty. Oh, Dusty. What is it?  
 **Dusty**: It’s the house. It’s only the house. I can’t go in. Everything in it is hers.  
 **Dusty**: And I can’t walk past it either. I tried. My feet won’t.  
-**Marina**: Then we won’t walk past it. I’m an idiot. I was thinking about my supper.  
+_Dusty means the old Nubbin they lived with, who died this summer. Dusty hasn’t said the name since._  
+**Marina**: Then we won’t walk past it. I’m a great clumsy goose. I was thinking about my supper.  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): think question: not noticing a friend  
 > _Marina rushed on and didn’t notice Dusty. Was that unkind?_  
 > - No. She just didn’t notice. → That’s fair. Not noticing isn’t the same as not caring. She turned round the moment she knew.
-> - A bit. She should have looked back. → That’s fair too. Marina thinks so herself: she called herself an idiot.
+> - A bit. She should have looked back. → That’s fair too. Marina thinks so herself: she called herself a goose.
 > - What matters is what she did next. → A thoughtful answer. Everyone misses things. Marina ran straight back, and that counts.
 > _For grown-ups: Thought about the difference between not noticing someone and not caring, and about putting things right._
 
 **Marina**: Right. Up we go. All of us. I’m not leaving you on a stump.  
-_Dusty is homesick and heartsore at once: missing the house, and missing who used to be in it._  
 
 > **Lesson** (sel, CASEL: Self-awareness, notice): homesickness: naming it and what helps  
 > _Homesickness is missing a place, or the people in it. It can arrive suddenly, from a smell or a sound._  
 > _It helps to name it, to have company, and to go back gently, a little at a time._  
 > _For grown-ups: Learned what homesickness is and what helps a friend who feels it._
 
+_Dusty is homesick and heartsore at once: missing the house, and missing who used to be in it._  
 
 #### `reader:s29-cliffhouse` · [main](../../../side/S29.md#s29-cliffhouse)
 
@@ -668,7 +670,7 @@ _It’s the ribbon, caught fast on a reed stem and pulled long and thin by the m
 > - Straight up in the air. → Ribbons don’t stand up on their own! The current pulls the free end downstream.
 > _For grown-ups: Reasoned that a river current pushes objects downstream._
 
-**Marina**: He came this way. Up past the weir. Little idiot. Brave little idiot.  
+**Marina**: He came this way. Up past the weir. Little noodle. Brave little noodle.  
 _You work it free and put it in your pocket. Then you row on, towards the roar of the weir._  
 _You haul the boat up the old slipway beside the weir and put her in again above it. Up here the water is very still._  
 _Then you hear it. Not music, exactly._  
@@ -727,7 +729,7 @@ _None of you looks up. It seems important, all at once, to look only at Portly a
 _Then a small warm wind comes off the water, goes over the island once, through your hair, and away._  
 _You are standing on an island at dawn, and you can’t think why you’re both so quiet._  
 **Marina**: Well, look at that. There he is. Fast asleep, the little beggar.  
-_Whatever there was to remember, you’ve been kindly let off remembering it. Your Nubbin yawns, and its light is just a light._  
+_Something happened here, and it has slipped out of your head, gently, like a dream at breakfast. Your Nubbin yawns, and its light is just a light._  
 _Marina lifts Portly into the boat, still asleep, and wraps him in her scarf._  
 
 #### `reader:s29-ford` · [main](../../../side/S29.md#s29-ford)
@@ -928,6 +930,9 @@ _The three of you stand and look at her. She looks like a beetle having a rest._
 **Marina**: Her little sister’s in the boathouse: the flat one, for winter water. We’ll take her out together. Vests on.  
 **Dusty**: Same time next summer?  
 **Marina**: Before. March, if it’s mild. You get the vests down from the loft and smell them. That’s the first day of the year.  
+**Marina**: Rule six. Come back. That one’s for all of you.  
+**Dusty**: What were rules one to five?  
+**Marina**: Mostly about Sparks. Six is the one that counts.  
 _Down at the ford a brown head comes up, looks at the three of you for a while, and goes under without a ripple._  
 
 #### `reader:s29-complete-sat` · [main](../../../side/S29.md#s29-complete-sat)
@@ -948,6 +953,9 @@ _Dusty leans on Marina’s other side. The three of you stand like that until th
 **Marina**: Her little sister’s in the boathouse: the flat one, for winter water. We’ll take her out together. Vests on.  
 **Dusty**: Same time next summer?  
 **Marina**: Before. March, if it’s mild. You get the vests down from the loft and smell them. That’s the first day of the year.  
+**Marina**: Rule six. Come back. That one’s for all of you.  
+**Dusty**: What were rules one to five?  
+**Marina**: Mostly about Sparks. Six is the one that counts.  
 _Down at the ford a brown head comes up, looks at the three of you for a while, and goes under without a ripple._  
 
 #### `reader:s29-complete-pencil` · [main](../../../side/S29.md#s29-complete-pencil)
@@ -970,13 +978,17 @@ _In the bottom corner, very small, there is a boat with three people in it and a
 **Marina**: Her little sister’s in the boathouse: the flat one, for winter water. We’ll take her out together. Vests on.  
 **Dusty**: Same time next summer?  
 **Marina**: Before. March, if it’s mild. You get the vests down from the loft and smell them. That’s the first day of the year.  
+**Marina**: Rule six. Come back. That one’s for all of you.  
+**Dusty**: What were rules one to five?  
+**Marina**: Mostly about Sparks. Six is the one that counts.  
 _Down at the ford a brown head comes up, looks at the three of you for a while, and goes under without a ripple._  
 
 #### `reader:s29-brock-knock` · [main](../../../side/S29.md#s29-brock-knock)
 
 _Variant of `s29-complete`._
 
-_You knock on the little green door. A long way back in the bank, somebody grumbles, and bolts go back: one, two, three, four._  
+_You knock on the little green door, and you do not ring the bell. There is a seed cake under your arm._  
+_A long way back in the bank, somebody grumbles, and bolts go back: one, two, three, four._  
 **Granny Brock**: Daytime. Good. You can come in for ten minutes and get warm. Then I’m busy.  
 _Ten minutes turns into an hour by the red fire._  
 
@@ -987,6 +999,7 @@ _Ten minutes turns into an hour by the red fire._
 > - 4 → Four tens is 40 minutes. An hour is 60, so six tens.
 > _For grown-ups: Worked out that an hour is six lots of ten minutes._
 
+_At some point the cake goes. Nobody sees it go, and Granny Brock has crumbs on her cardigan._  
 _She doesn’t say much, and neither do you, and it suits you both._  
 **Granny Brock**: Charcoal’s cooling in the yard. Don’t touch it. It looks cold, and it isn’t.  
 _When you leave, she says nothing at all, which from Granny Brock is practically a hug._  

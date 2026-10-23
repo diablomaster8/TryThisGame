@@ -69,7 +69,10 @@ const gloss = (word: string, meaning: string, of: string): GlossaryEntry => ({
 const WORD_HUNT: Line[] = [
   N('Fern is up a ladder in her orchard, losing an argument with a plum tree.'),
   FE('A word? For a spider? Easy. Somebody’s. As in, this one belongs to somebody.'),
-  FE('When Bramble went, people said she was only a Nubbin. She wasn’t only. She was mine.', 'sad'),
+  FE(
+    'When my Bramble ran off at the Midsummer race, people said she was only a Nubbin. She wasn’t only. She was mine.',
+    'sad',
+  ),
   N('Clover listens with her head on one side, the way she listens to the shy ones.'),
   CL('Warm. You can’t make a grey one stop being grey. But you can make it warm.', 'soft'),
   N(
@@ -81,6 +84,8 @@ const WORD_HUNT: Line[] = [
     '“Statistically above average.” It’s accurate. It’s kind. It’s the nicest thing I know how to say.',
     'think',
   ),
+  BY('My wife Pixel says that’s three words too many. She also says my lace is undone.'),
+  N('Byte looks down. It is.'),
   N('You read the four words to the shed window. Spindle listens to each one, like a judge.'),
   N('At Byte’s, she points one leg, very politely, along the whole length of the rail.'),
   SP('She’s saying it won’t fit. Break it to Byte gently. He loves his long words.', 'happy'),
@@ -134,7 +139,7 @@ const S27_SCENES: EduScene[] = [
       SP('Start lamp’s gone again. I need wire. Thin copper wire, a coil about this big.', 'angry'),
       SP('There’s a cabinet of mine in the old lantern shed, behind the straight. Bottom drawer.'),
       SP(
-        'He doesn’t like people in there. He’s never been in himself. Not once in eleven years.',
+        'Corvin owns the Circuit. He doesn’t like people in there, and he’s never been in himself. Not once in eleven years.',
         'think',
       ),
       SP('It’s the only place up here with dust in it. I love it. Don’t tell him.'),
@@ -195,7 +200,8 @@ const S27_SCENES: EduScene[] = [
       N(
         'A grey-brown spider no bigger than a fingernail sits beside it. She lifts two front legs at you, politely.',
       ),
-      N('It is eleven in the morning. To your own surprise, you lift a hand back.'),
+      N('It is eleven in the morning. She is not, it seems, a morning spider.'),
+      N('To your own surprise, you lift a hand back.'),
     ],
     [
       {
@@ -289,7 +295,7 @@ const S27_SCENES: EduScene[] = [
         'He fills Nine’s trough, and Nine doesn’t look round. Hob stands there a moment longer than the trough needs.',
       ),
       TA(
-        'The Autumn Show’s at the first frost that isn’t his. Anything that doesn’t place goes over the pass.',
+        'The Autumn Show’s at the first proper frost, not the summer kind up here. Anything that doesn’t place gets sold, over the pass.',
         'sad',
       ),
       TA(
@@ -546,7 +552,7 @@ const S27_SCENES: EduScene[] = [
         skill: 'subtract to compare word lengths',
         standard: '2.OA.A.1',
         kind: 'ask',
-        after: 10,
+        after: 12,
         prompt: [
           N(
             '“Statistically above average” has 25 letters. SOMEBODY’S has 9 letters, plus its apostrophe.',
@@ -795,7 +801,7 @@ const S27_SCENES: EduScene[] = [
     [
       N('He walks over without hurrying. His hands are bare, and blue at the knuckles.'),
       C(
-        'Hazel’s heir. A straight question, and I’d like a straight answer. She always gave me one.',
+        'Hazel’s grandchild. A straight question, and I’d like a straight answer. Your gran always gave me one.',
       ),
       C(
         'Somebody wrote on my rail in the night. I don’t care for things written on my rails. Was it you?',
@@ -1157,6 +1163,9 @@ const S27_SCENES: EduScene[] = [
         'Most of them aren’t here for the racing. They are here to see a small grey runner with a name.',
       ),
       N(
+        'Your Nubbin finds the rosettes on the judge’s table, decides they are biscuits, and tries one. It puts it back with great dignity.',
+      ),
+      N(
         'Eight runners line up. Corvin’s champion, the big grey Number One, wins as it always does.',
       ),
       N(
@@ -1178,7 +1187,7 @@ const S27_SCENES: EduScene[] = [
         skill: 'subtraction within 20',
         standard: '1.OA.A.1',
         kind: 'ask',
-        after: 4,
+        after: 5,
         prompt: [N('Eight runners raced. Three won rosettes. How many runners didn’t place?')],
         options: [
           {
@@ -1766,7 +1775,7 @@ export const EDU_S27_READER_VARIANTS: EduScene[] = [
         domain: 'literacy',
         skill: 'alphabetical order by first and second letters',
         kind: 'do',
-        after: 11,
+        after: 13,
         check: 'edu:order:words:alphabet',
         lines: [
           SP(
@@ -2073,7 +2082,7 @@ export const EDU_S27_READER_VARIANTS: EduScene[] = [
       ),
       N('Three stay.'),
       N(
-        'The next morning, in the corner of the lantern shed window, there is a web no bigger than a thumbnail. It says EVENING.',
+        'The next morning, in the corner of the Grove shed window, there is a web no bigger than a thumbnail. It says EVENING.',
       ),
       N('You laugh out loud, on your own, in the shed. Then you say it back: “Evening.”'),
       N(
@@ -2137,7 +2146,7 @@ export const EDU_S27_READER_VARIANTS: EduScene[] = [
       ),
       N('Three stay.'),
       N(
-        'The next morning, in the corner of the lantern shed window, there is a web no bigger than a thumbnail. It says EVENING.',
+        'The next morning, in the corner of the Grove shed window, there is a web no bigger than a thumbnail. It says EVENING.',
       ),
       N('You laugh out loud, on your own, in the shed. Then you say it back: “Evening.”'),
       N(

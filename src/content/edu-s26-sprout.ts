@@ -73,7 +73,7 @@ const sc = (
 const TOBIN_WAY_OUT: Line[] = [
   N('On the way out, Tobin pats the old wall.'),
   T('My old boss used to say: plant a rose where your worry sits.', 'soft'),
-  T('Then the worry has to move somewhere else!', 'happy'),
+  T('Then the worry has to stand up and find another seat!', 'happy'),
 ];
 
 /** The complete scene: shared start and end. The middle line follows s26-key. */
@@ -220,10 +220,10 @@ const S26: EduQuest = {
         L('Back wheels first, Grandad! Back. Wheels. First.', 'angry'),
         T('Hello! I’m Tobin. I lit the lamps in this valley for years.', 'happy'),
         T('Linnet is staying with me till winter.'),
-        L('He means I’m KEPT here till winter.', 'angry'),
+        L('He says staying. I say KEPT. Like a hamster!', 'angry'),
         L('Nothing in this valley is flat! Not one thing.'),
-        T('Mind yourself, love.', 'soft'),
-        L('There! That’s what everybody says.', 'angry'),
+        T('Be careful, love.', 'soft'),
+        L('There! Everybody says “be careful”. All day long!', 'angry'),
       ],
       [
         {
@@ -246,7 +246,7 @@ const S26: EduQuest = {
           standard: 'ELOF: Social and Emotional Development',
           kind: 'ask',
           after: 8,
-          prompt: [N('Everyone tells Linnet to mind herself. How does she feel?')],
+          prompt: [N('Everyone tells Linnet to be careful. How does she feel?')],
           options: [
             opt(
               'Cross',
@@ -287,7 +287,7 @@ const S26: EduQuest = {
             then: [
               N('Linnet zooms up the lane. She is fast!'),
               N('You walk beside her, at her speed.'),
-              L('You’re not going to tell me to mind myself?'),
+              L('You’re not going to tell me to be careful?'),
               Y('Do you need telling?'),
               L('No.', 'think'),
             ],
@@ -569,6 +569,7 @@ const S26: EduQuest = {
       's26-earth-ask',
       [
         N('Moss sits on the wall again.'),
+        M('I’m not here. I’m part of the wall.'),
         L('Moss? Could I have a little patch of garden?', 'soft'),
         M('What would you do with it?', 'think'),
         L('Grow things. Seeds and flowers. All by myself.', 'soft'),
@@ -583,7 +584,7 @@ const S26: EduQuest = {
           skill: 'what plants need to grow',
           standard: 'K-LS1-1',
           kind: 'ask',
-          after: 3,
+          after: 4,
           prompt: [M('What does a little plant need, to grow?', 'think')],
           options: [
             opt(
@@ -687,7 +688,8 @@ const S26: EduQuest = {
     sc(
       's26-hush',
       [
-        M('Briar wanted the still Nubbins up on the sunny hill.', 'sad'),
+        M('Long ago, some Nubbins got very old and tired. They lay still.', 'sad'),
+        M('Briar, my friend who laughed at everything, wanted them on the sunny hill.', 'sad'),
         M('Hush said no. The wind up there was too cold.'),
         M('So she carried them in here, one by one, all winter.'),
         M('Then she planted roses, so they had something pretty.'),
@@ -704,7 +706,7 @@ const S26: EduQuest = {
           skill: 'it is all right to feel sad, and remembering helps',
           standard: 'CASEL: Self-awareness',
           kind: 'notice',
-          after: 6,
+          after: 7,
           lines: [
             N('This is a sad story. It’s all right to feel sad.'),
             N('(What helps when you feel sad? A hug? A friend?)'),
@@ -785,7 +787,8 @@ const S26: EduQuest = {
       [
         N('Your Nubbin carries bulbs. One in each cheek!'),
         N('Puff, puff. Two bulbs at a time.'),
-        N('It plants some. It hides some all over the garden!'),
+        N('Your Nubbin sniffs a bulb. Not supper. It plants it, very crossly.'),
+        N('It plants more. It hides some all over the garden!'),
         L('Your Nubbin has no sense of order at all.', 'think'),
         N('It hides one under the bench. Pat, pat.'),
         L('…I like it.', 'soft'),
@@ -962,7 +965,8 @@ const S26: EduQuest = {
         N('A few days later, a lady walks up the valley road.'),
         N('Her coat smells of the sea. She has a big bag.'),
         MU('Hello! I’m Linnet’s mum. I work on the boats.', 'happy'),
-        MU('Grandad says Linnet is gardening! Is that true?', 'shock'),
+        MU('Grandad says Linnet is gardening! My Linnet?', 'shock'),
+        MU('She once put a plant out of the window. It was looking at her!'),
         MU('Is she happy? Really?', 'soft'),
         Y('Come and see!'),
       ],
@@ -991,7 +995,7 @@ const S26: EduQuest = {
         N('Linnet is at the top of the ramp. She sees her mum.'),
         L('Mum! Race you to the bench! GO!', 'happy'),
         N('Zoom! Down the ramp and along the path.'),
-        N('Linnet wins! Her mum comes second.'),
+        N('Linnet wins! Her mum comes second, still holding her big bag.'),
         L('The garden fits me now.', 'happy'),
       ],
       [
@@ -1218,7 +1222,7 @@ const S26_VARIANTS: EduScene[] = [
     [
       N('Next evening, Sparks lifts Linnet down again.'),
       N('Front and back. Never the sides. Just as Linnet said.'),
-      SP('Smooth! Like a little, rude generator!', 'happy'),
+      SP('Smooth! You’re lighter than my generator. And you don’t buzz!', 'happy'),
       L('Thank you.'),
       N('Linnet says thank you every time. Every single time.'),
     ],
@@ -1489,7 +1493,8 @@ const S26_VARIANTS: EduScene[] = [
     'end-epi-garden-cold',
     [
       N('The door in the old wall is open.'),
-      N('But your Nubbins don’t go in. They sit outside, very still.'),
+      N('You always kept your Nubbins safe, and close.'),
+      N('Now they don’t go in. They sit outside, very still.'),
       N('Linnet came one summer. She looked at them for a long time.'),
       L('Why don’t they play?', 'sad'),
       N('Being safe is not the same as being happy.', 'soft'),
@@ -1501,7 +1506,7 @@ const S26_VARIANTS: EduScene[] = [
         skill: 'safe and happy are not the same',
         standard: 'CASEL: Self-awareness',
         kind: 'notice',
-        after: 4,
+        after: 5,
         lines: [
           N('(What makes you feel happy, not just safe?)'),
           N('(Playing? Friends? Running about outside?)'),

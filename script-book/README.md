@@ -41,11 +41,11 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Side story S22: The Climb · opens in chapter 8 | [S22.md](side/S22.md) (150) | [sprout.md](learning/side/S22/sprout.md) (188) | [reader.md](learning/side/S22/reader.md) (280) |
 | Side story S23: Three Visitors · opens in chapter 9 | [S23.md](side/S23.md) (742) |  |  |
 | Side story S24: The Adventure Book · opens post-game | [S24.md](side/S24.md) (813) | [sprout.md](learning/side/S24/sprout.md) (1167) | [reader.md](learning/side/S24/reader.md) (1255) |
-| Side story S25: Real · opens in chapter 3 | [S25.md](side/S25.md) (596) | [sprout.md](learning/side/S25/sprout.md) (883) | [reader.md](learning/side/S25/reader.md) (888) |
-| Side story S26: The Walled Garden · opens in chapter 6 | [S26.md](side/S26.md) (622) | [sprout.md](learning/side/S26/sprout.md) (821) | [reader.md](learning/side/S26/reader.md) (989) |
-| Side story S27: Some Nubbin · opens in chapter 5 | [S27.md](side/S27.md) (573) | [sprout.md](learning/side/S27/sprout.md) (744) | [reader.md](learning/side/S27/reader.md) (874) |
-| Side story S28: Please Look After This Nubbin · opens in chapter 8 | [S28.md](side/S28.md) (582) | [sprout.md](learning/side/S28/sprout.md) (783) | [reader.md](learning/side/S28/reader.md) (855) |
-| Side story S29: The Gates of Dawn · opens in chapter 4 | [S29.md](side/S29.md) (665) | [sprout.md](learning/side/S29/sprout.md) (800) | [reader.md](learning/side/S29/reader.md) (1021) |
+| Side story S25: Real · opens in chapter 3 | [S25.md](side/S25.md) (596) | [sprout.md](learning/side/S25/sprout.md) (897) | [reader.md](learning/side/S25/reader.md) (880) |
+| Side story S26: The Walled Garden · opens in chapter 6 | [S26.md](side/S26.md) (622) | [sprout.md](learning/side/S26/sprout.md) (826) | [reader.md](learning/side/S26/reader.md) (992) |
+| Side story S27: Some Nubbin · opens in chapter 5 | [S27.md](side/S27.md) (573) | [sprout.md](learning/side/S27/sprout.md) (757) | [reader.md](learning/side/S27/reader.md) (880) |
+| Side story S28: Please Look After This Nubbin · opens in chapter 8 | [S28.md](side/S28.md) (582) | [sprout.md](learning/side/S28/sprout.md) (794) | [reader.md](learning/side/S28/reader.md) (859) |
+| Side story S29: The Gates of Dawn · opens in chapter 4 | [S29.md](side/S29.md) (665) | [sprout.md](learning/side/S29/sprout.md) (814) | [reader.md](learning/side/S29/reader.md) (1034) |
 | Side story S30: What Sad Is For · opens in chapter 6 | [S30.md](side/S30.md) (554) | [sprout.md](learning/side/S30/sprout.md) (763) | [reader.md](learning/side/S30/reader.md) (886) |
 | Side story S31: The Great Gourd · opens in chapter 7 | [S31.md](side/S31.md) (617) | [sprout.md](learning/side/S31/sprout.md) (834) | [reader.md](learning/side/S31/reader.md) (913) |
 | Learning Grove: the campaign | | [sprout.md](learning/campaign/sprout.md) (2805) | [reader-1.md](learning/campaign/reader-1.md) (2547), [reader-2.md](learning/campaign/reader-2.md) (1378) |

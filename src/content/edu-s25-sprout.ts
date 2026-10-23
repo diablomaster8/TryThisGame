@@ -154,9 +154,11 @@ const codaWild = (name: ToyName): EduScene =>
       N('A wild Nubbin sits at the edge of the long grass.'),
       N('Its coat is soft and lumpy, like knitting.'),
       N('One eye shines like a button.'),
+      N('It is lumpy in just the same places as your toy.'),
       Y(NAMES[name].said, 'soft'),
       N('It turns its head!'),
       N('Hop, hop! It hops twice, high and neat.'),
+      N('The wild ones said your toy couldn’t hop. This one can.'),
       N('Then it goes back into the long grass.'),
     ],
     [
@@ -397,7 +399,8 @@ const S25: EduQuest = {
         N('One morning, Moss comes all the way down the hill.'),
         N('He sits on the ledge outside the window. The toy sits inside.'),
         N('It is a long walk for Moss. He is very old and slow.'),
-        M('Don’t say anything. I’m not here.'),
+        M('Shh. Don’t say anything. I’m not here.'),
+        N('Moss is right there on the ledge. You can see all of him.'),
         N('You sit on the window seat and wait. Quietly.'),
         M('Hazel knitted that toy in one week.', 'happy'),
         M('She read you that book on this seat. I listened too.'),
@@ -411,7 +414,7 @@ const S25: EduQuest = {
           skill: 'waiting quietly',
           standard: 'CASEL: Self-management',
           kind: 'do',
-          after: 4,
+          after: 5,
           check: 'edu:sit:still:5',
           lines: [
             N('Waiting quietly is hard. Let’s try it.'),
@@ -448,7 +451,7 @@ const S25: EduQuest = {
       [
         M('Sometimes it hurts a little. But a Real one isn’t so scared of that.', 'soft'),
         M('It doesn’t happen quickly. It’s slow, like a tree growing tall.'),
-        M('It’s harder for someone with sharp edges.', 'think'),
+        M('It’s harder for someone prickly, who won’t let anyone close.', 'think'),
         M('Or someone kept on a high shelf, where nobody can hug them.'),
         N('Then Moss climbs down, one slow foot at a time.'),
         N('He walks back to his hill. It will take him all day.'),
@@ -477,7 +480,7 @@ const S25: EduQuest = {
       [
         N('Later that week, Sable walks past the window.'),
         N('She stops. She looks at the toy for a long time.'),
-        N('Moss said sharp edges make it hard. Sable has sharp edges.'),
+        N('Sable is shy and prickly. She never lets anyone close.'),
         N('She lies down near the toy and goes to sleep. She doesn’t take it.'),
         ...STORM,
       ],
@@ -578,7 +581,7 @@ const S25: EduQuest = {
       [
         N('You go to Fern’s house. The toy comes too.'),
         N('Your Nubbin puts the toy on Fern’s good chair.'),
-        FE('Oh, not on the chair, love. It’s only a toy.'),
+        FE('Oh, not on the chair, love. It’s only a toy. Floor, please.'),
         N('Fern reaches for it. Your Nubbin squeaks, very loudly!'),
         N('Your Nubbin stands in front of the toy. It looks at you.'),
         Y('He’s not only a toy! He matters. He’s Real to us!'),
@@ -672,8 +675,11 @@ const S25: EduQuest = {
       [
         N('Out come the wild Nubbins.'),
         N('Sniff, sniff. They bounce away. They come back.'),
+        N('One wild Nubbin hops right over the toy. Boing! Then it waits.'),
+        N('The toy does not hop. It is a toy.'),
         M('That one thinks your toy can’t hop.', 'think'),
-        M('That one says he smells of indoors.'),
+        N('Another one sniffs him. Atchoo!'),
+        M('That one says he smells of indoors. Of cushions.'),
         N('Then the wild ones are gone. Whoosh!'),
         N('Your Nubbin hugs the toy tight.'),
         M('They think Real means hopping. I used to think so too.', 'happy'),
@@ -704,6 +710,7 @@ const S25: EduQuest = {
         CK('What is that? On the windowsill?'),
         Y('He’s a toy. Gran Hazel knitted him.'),
         CK('Somebody made him? Pixel made me!', 'think'),
+        CK('I am still looking for my word. The word for me.'),
         CK('Is there a book? Is there a me in it?', 'soft'),
       ],
       [
@@ -865,7 +872,8 @@ const S25: EduQuest = {
         N('The big wash pot is hot. In go the blankets. Splash!'),
         N('Clover reaches for the toy. Then she stops.'),
         CL('Oh, no. Hot water makes old wool shrink, tiny and hard.', 'sad'),
-        CL('He could go out with the old rags, for the rag cart.'),
+        CL('He could go with the old rags. The rag cart takes them away.'),
+        CL('Old rags get made into new things.'),
         CL('Or you could wash him by hand, in cold water. Slowly.', 'think'),
         N('Your Nubbin is better. It is asleep in the sun.'),
         N('The toy is in your hands. What will you do?'),
@@ -888,7 +896,7 @@ const S25: EduQuest = {
           skill: 'hot and cold change things',
           standard: 'ELOF: Scientific Reasoning',
           kind: 'ask',
-          after: 4,
+          after: 5,
           prompt: [N('Which water keeps the old toy the same size?')],
           options: [
             opt('Cold water', [N('Yes! Cold water, and gentle hands, keep old wool soft.')], true),
@@ -976,6 +984,7 @@ const S25: EduQuest = {
       [
         N('In the morning, the toy is not on the bundle.'),
         N('There is a toy-shaped gap. Nothing else has moved.'),
+        N('You remember last night’s little light. Did it go where the toy went?'),
         N('In the grass you find his button eye. You keep it.'),
         N('Your Nubbin sits by the long grass for a while.'),
         N('It isn’t sad. It looks like it just waved goodbye.'),
@@ -987,7 +996,7 @@ const S25: EduQuest = {
           skill: 'remembering someone we miss',
           standard: 'ELOF: Social and Emotional Development',
           kind: 'ask',
-          after: 2,
+          after: 3,
           prompt: [N('You keep the button. Why?')],
           options: [
             opt(
@@ -1165,6 +1174,7 @@ export const EDU_S25_SPROUT_VARIANTS: EduScene[] = [
       N('A wet day. Moss sits on the window ledge again.'),
       N('Byte comes up the path with an umbrella.'),
       BY('Hazel lent me a pencil. I’m bringing it back. Nine years late.', 'think'),
+      BY('Pixel says nine years and four months. She timed it on a clock.'),
       N('He sees the toy on the windowsill.'),
       BY('Fern says you called this toy Real. What does Real mean?'),
       BY('Hazel had a book for everything. Is there a book?'),
