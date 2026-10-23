@@ -15,6 +15,7 @@ import { C } from './sprites/palette';
 import { PixelCanvas } from './sprites/pixel-canvas';
 import { buildShadowSheet } from './sprites/props';
 import type { SpriteBatch } from './sprite-batch';
+import { pixelPose } from './stage-pose';
 
 /**
  * Campaign graphics 2, package p, pixel ("people"): the storylines' speakers on the ground
@@ -99,11 +100,18 @@ class PixelP implements PixelDressing {
     for (const a of actors) {
       const sheet = sp.sheets.keeper(storyId(a.who));
       const clip = a.pose === 'walk' ? 'walk' : 'idle';
-      const view = viewAngle(a.yaw, yaw);
+      // Package a1 (K1, K6, K7): a seat, a gesture or the head turned to the speaker.
+      const pose =
+        clip === 'walk'
+          ? null
+          : pixelPose(`stage-${a.who}`, nowMs, (c) => sheet.frames.has(frameKey(c, 'front', 0)));
+      const view = viewAngle(pose?.face ?? a.yaw, yaw);
       const rect = sheet.frames.get(
-        frameKey(clip, view.angle, reduce ? 0 : frameAt(CLIPS[clip], nowMs + a.x * 97)),
+        pose?.clip
+          ? frameKey(pose.clip, view.angle, pose.frame)
+          : frameKey(clip, view.angle, reduce ? 0 : frameAt(CLIPS[clip], nowMs + a.x * 97)),
       );
-      const y = groundY(a.x, a.z);
+      const y = groundY(a.x, a.z) + (pose?.lift ?? 0);
       shadow(a.x, y, a.z, CG2_P.actor.shadow);
       if (!rect) continue;
       batch.draw({

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { V, type Prim } from './sculpted';
 import { digits, tuft, tuftRow } from './species-kit';
-import type { Mark, PoseContext, PoseName, SpeciesSpec } from './species';
+import type { GestureName, Mark, PoseContext, PoseName, RigContext, SpeciesSpec } from './species';
 
 /**
  * The Keeper in the species format: a kid adventurer in the Saturday-morning manner
@@ -301,6 +301,154 @@ function sleepSitting(c: PoseContext): void {
   c.mouth(0.08);
 }
 
+/** How far ahead of the hips a seated Keeper's soles rest, in body units. */
+const SIT_FOOT_AHEAD = 0.45;
+
+/**
+ * K1: sits. On a seat (a step, a bench, a cart's tail) the hips settle onto it, the thighs
+ * reach forward and the soles find the ground; on the ground (a seat under 0.15 body units) the legs fold
+ * cross-legged as in `sleepSitting`, but awake: the back straight, the head up, the hands on
+ * the knees. A slow breath, held still under reduced motion.
+ */
+function sit(c: PoseContext): void {
+  const { t, dt, set } = c;
+  const s = Math.sin;
+  const ease = c.still ? 1 : smooth(Math.min(1, dt / 0.8));
+  const sway = c.still ? 0 : 1;
+  // Hips at rest are 1.0 over the feet; on a seat they rest on its surface plus the thigh's
+  // thickness. A seat lower than a step (under 0.15 body units) is the ground: cross-legged.
+  const chair = c.seat >= 0.15;
+  const hipY = chair ? Math.min(0.95, c.seat + 0.2) : 0.25;
+  c.hips.position.y -= (1.0 - hipY) * ease;
+  c.hips.rotation.x = (chair ? -0.04 : 0.04) * ease;
+  if (chair) {
+    // Two-bone reach: the soles go to the ground a little ahead of the hips, so a low step
+    // brings the knees up and a high bench lets the shins hang.
+    const L1 = 0.4;
+    const L2 = 0.6;
+    const f = SIT_FOOT_AHEAD;
+    const d = THREE.MathUtils.clamp(Math.hypot(f, hipY), L2 - L1 + 0.01, L1 + L2 - 0.01);
+    const bend = Math.acos(
+      THREE.MathUtils.clamp((d * d - L1 * L1 - L2 * L2) / (2 * L1 * L2), -1, 1),
+    );
+    const along = Math.acos(
+      THREE.MathUtils.clamp((L1 * L1 + d * d - L2 * L2) / (2 * L1 * d), -1, 1),
+    );
+    const thigh = Math.atan2(f, hipY) + along;
+    set('legL', -thigh * ease, 0, -0.1 * ease);
+    set('legR', -thigh * ease, 0, 0.1 * ease);
+    c.bend('legL', bend * ease);
+    c.bend('legR', bend * ease);
+  } else {
+    set('legL', -1.45 * ease, 0, -0.55 * ease);
+    set('legR', -1.45 * ease, 0, 0.55 * ease);
+    c.bend('legL', 1.3 * ease);
+    c.bend('legR', 1.3 * ease);
+  }
+  // Hands resting on the knees.
+  set('armL', -0.7 * ease, 0.12 * ease, 0.05 * ease);
+  set('armR', -0.7 * ease, -0.12 * ease, -0.05 * ease);
+  set('elbowL', -0.45 * ease, 0, 0);
+  set('elbowR', -0.45 * ease, 0, 0);
+  c.hips.position.y += s(t * 1.4) * 0.008 * sway;
+  set('head', -0.04 * ease, s(t * 0.4) * 0.06 * sway, 0);
+  c.mouth(0.06);
+}
+
+/** K1: down on the left knee, the right foot planted, a hand on the raised knee. */
+function kneel(c: PoseContext): void {
+  const { t, dt, set } = c;
+  const ease = c.still ? 1 : smooth(Math.min(1, dt / 0.6));
+  c.hips.position.y -= 0.42 * ease;
+  c.hips.rotation.x = 0.1 * ease;
+  // The left thigh drops straight under the hips and the shin lies back along the grass.
+  set('legL', 0.15 * ease, 0, -0.05 * ease);
+  c.bend('legL', 1.55 * ease);
+  // The right thigh reaches forward, the knee folds the foot back under it.
+  set('legR', -1.35 * ease, 0, 0.06 * ease);
+  c.bend('legR', 1.4 * ease);
+  set('armR', -0.85 * ease, -0.1 * ease, -0.05 * ease);
+  set('elbowR', -0.5 * ease, 0, 0);
+  set('armL', -0.35 * ease, 0.15 * ease, 0.1 * ease);
+  set('elbowL', -0.4 * ease, 0, 0);
+  set('head', 0.12 * ease, Math.sin(t * 0.5) * 0.05 * (c.still ? 0 : 1), 0);
+  c.mouth(0.08);
+}
+
+/**
+ * K39: the item-get pose. Both hands lift the found thing high overhead, the chin up; the
+ * raise takes 0.3 s (none under reduced motion: the pose is held from the first frame).
+ */
+function itemGet(c: PoseContext): void {
+  const { dt, set } = c;
+  const ease = c.still ? 1 : smooth(Math.min(1, dt / 0.3));
+  c.hips.position.y += 0.05 * ease;
+  c.hips.rotation.x = -0.06 * ease;
+  // Up and a little forward, wide apart, so the hands frame the thing over the head rather
+  // than meet behind it (the head is big).
+  set('armL', -2.5 * ease, 0, -0.45 * ease);
+  set('armR', -2.5 * ease, 0, 0.45 * ease);
+  set('elbowL', -0.15 * ease, 0, 0);
+  set('elbowR', -0.15 * ease, 0, 0);
+  set('legL', 0, 0, 0);
+  set('legR', 0, 0, 0);
+  set('head', -0.3 * ease, 0, 0);
+  c.mouth(0.45);
+}
+
+/**
+ * K7: the five line gestures, laid over whatever the body holds with weight `k`. A nod dips
+ * twice (once, held, under reduced motion); a shrug lifts the forearms palm-up; a point sends
+ * the right arm out; a look down drops the chin; hands to the chest cross both forearms.
+ */
+const GESTURES: Partial<Record<GestureName, (c: PoseContext, k: number, t: number) => void>> = {
+  nod: (c, k, t) => {
+    const dip = c.still ? 0.18 : 0.06 + Math.abs(Math.sin(t * Math.PI * 2.2)) * 0.2;
+    c.add('head', dip * k, 0, 0);
+  },
+  shrug: (c, k) => {
+    c.add('armL', -0.25 * k, 0, 0.35 * k);
+    c.add('armR', -0.25 * k, 0, -0.35 * k);
+    c.add('elbowL', -0.9 * k, 0.3 * k, 0);
+    c.add('elbowR', -0.9 * k, -0.3 * k, 0);
+    c.add('head', -0.05 * k, 0, 0.14 * k);
+    c.hips.position.y += 0.03 * k;
+  },
+  point: (c, k) => {
+    c.add('armR', -1.45 * k, -0.2 * k, 0);
+    c.add('elbowR', 0.1 * k, 0, 0);
+    c.add('head', -0.05 * k, -0.15 * k, 0);
+  },
+  down: (c, k) => {
+    c.add('head', 0.42 * k, 0, 0);
+    c.hips.rotation.x += 0.06 * k;
+  },
+  chest: (c, k) => {
+    c.add('armL', -0.55 * k, 0.45 * k, 0);
+    c.add('armR', -0.55 * k, -0.45 * k, 0);
+    c.add('elbowL', -1.25 * k, 0, 0.2 * k);
+    c.add('elbowR', -1.25 * k, 0, -0.2 * k);
+    c.add('head', 0.12 * k, 0, 0);
+  },
+};
+
+/**
+ * K13 and K6: the rig's named pivots. `hand.R` hangs under the right elbow at the hand's
+ * centre, so a carried prop (a lantern, a broom, keys) follows the arm; `neck` names the
+ * head's own pivot (the head bone turns at the neck).
+ */
+function keeperPivots(rig: RigContext): void {
+  const elbow = rig.bones.elbowR;
+  if (elbow) {
+    const hand = new THREE.Group();
+    hand.name = 'hand.R';
+    hand.position.copy(KEEPER_HAND_FROM_ELBOW);
+    elbow.add(hand);
+    rig.bones['hand.R'] = hand;
+  }
+  if (rig.bones.head) rig.bones.neck = rig.bones.head;
+}
+
 /** Build the Keeper in one colour set. */
 export function keeperSpec(c: KeeperColors, name = 'Keeper'): SpeciesSpec {
   const hair: Prim[] = [
@@ -588,7 +736,9 @@ export function keeperSpec(c: KeeperColors, name = 'Keeper'): SpeciesSpec {
     expressions: {
       pet: { lid: 0.2, squint: 0.3, brow: 0.3, browLift: 0.05, arc: false },
     },
-    poses: { pet, carry, throw: throwPose, sleep: sleepSitting },
+    poses: { pet, carry, throw: throwPose, sleep: sleepSitting, sit, kneel, itemGet },
+    gestures: GESTURES,
+    extras: keeperPivots,
     hearts: false,
     footprint: 0.7,
     notes:

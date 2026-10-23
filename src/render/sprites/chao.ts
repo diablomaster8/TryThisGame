@@ -1139,6 +1139,13 @@ export function buildChaoSheet(look: ChaoLook): SpriteSheet {
       frameKey('held', angle, 0),
       drawChao(angle, { ...BASE, eyes: 'wide', mouth: 'flat', legs: 'tucked', arms: 'out' }, look),
     );
+    // K1 (campaign graphics 4, package a1): sitting awake, the feet tucked under a settled
+    // body, eyes open (the sleep frames shut them), with a slow breath over two frames.
+    for (let f = 0; f < 2; f++)
+      atlas.add(
+        frameKey('sit', angle, f),
+        drawChao(angle, { ...BASE, legs: 'tucked', lift: 2, squash: f === 0 ? 0.94 : 0.92 }, look),
+      );
   }
   return atlas.build();
 }

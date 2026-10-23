@@ -30,6 +30,7 @@ import { SheetCache } from './sprites/sheets';
 import { terraceY, type SceneStager } from './scene-stage';
 import { PIXEL_BUILDINGS, PIXEL_VIEW, rectOf } from './stage-api';
 import { STAGE2 } from '../config/tuning';
+import { pixelPose } from './stage-pose';
 
 interface Snapshot {
   pos: Vec2;
@@ -809,11 +810,19 @@ export class WorldView {
       const at = held ?? npc.pos;
       const moving = (npc.target !== null && !held) || !!this.staging?.walking.has(npc.id);
       const nclip: ClipName = moving ? 'walk' : 'idle';
-      const nview = viewAngle((held && this.staging?.faces.get(npc.id)) ?? npc.facing, yaw);
-      const nrect = nsheet.frames.get(
-        frameKey(nclip, nview.angle, frameAt(CLIPS[nclip], nowMs + npc.pos.x * 97)),
+      // Package a1: a staged pose, gesture or head turn (render/stage-pose.ts).
+      const npose = pixelPose(npc.id, nowMs, (c) => nsheet.frames.has(frameKey(c, 'front', 0)));
+      const nview = viewAngle(
+        npose?.face ?? (held && this.staging?.faces.get(npc.id)) ?? npc.facing,
+        yaw,
       );
-      const ay = held && this.location === 'grove' ? terraceY(at.x, at.z) : 0;
+      const nrect = nsheet.frames.get(
+        npose?.clip
+          ? frameKey(npose.clip, nview.angle, npose.frame)
+          : frameKey(nclip, nview.angle, frameAt(CLIPS[nclip], nowMs + npc.pos.x * 97)),
+      );
+      const ay =
+        (held && this.location === 'grove' ? terraceY(at.x, at.z) : 0) + (npose?.lift ?? 0);
       shadow(at.x, ay, at.z, 0.45);
       if (nrect) {
         batch.draw(
@@ -851,13 +860,22 @@ export class WorldView {
     const kclip: ClipName = moving ? 'walk' : 'idle';
     // A scene that holds the Keeper on a mark turns them to whom it is with (H7).
     const kface = this.staging?.keeperFaceNow(world, yaw) ?? null;
-    const kview = viewAngle(kface ?? k.facing, yaw);
+    // Package a1: a staged pose, gesture, item-get or head turn (render/stage-pose.ts).
+    const kpose = pixelPose(
+      'keeper',
+      nowMs,
+      (c) => ksheet.frames.has(frameKey(c, 'front', 0)),
+      moving,
+    );
+    const kview = viewAngle(kpose?.face ?? kface ?? k.facing, yaw);
     const krect = ksheet.frames.get(
-      frameKey(
-        kclip,
-        kview.angle,
-        frameAt(CLIPS[kclip], (nowMs - this.keeperClipStart) * (k.running ? 1.7 : 1)),
-      ),
+      kpose?.clip
+        ? frameKey(kpose.clip, kview.angle, kpose.frame)
+        : frameKey(
+            kclip,
+            kview.angle,
+            frameAt(CLIPS[kclip], (nowMs - this.keeperClipStart) * (k.running ? 1.7 : 1)),
+          ),
     );
     shadow(kx, 0, kz, 0.45);
     if (krect) {
@@ -866,7 +884,7 @@ export class WorldView {
         rect: krect,
         flip: kview.flip,
         x: kx,
-        y: 0,
+        y: kpose?.lift ?? 0,
         z: kz,
         mode: 'billboard',
         tint: this.dim,
@@ -1387,13 +1405,17 @@ export class WorldView {
         opacity = 0.85 + 0.15 * Math.sin(nowMs / 150);
       }
     } else {
-      // M6: a scene that seats Moss draws his sleep frames (he sits, not naps).
+      // M6 and K1: a scene that seats Moss draws his sit frames (awake), or the sleep ones on
+      // a sheet without them; package a1 turns a listener's head to the speaker.
+      const npose = pixelPose(n.id, nowMs, (c) => sheet.frames.has(frameKey(c, 'front', 0)));
       let clip = nubbinSits(this.staging?.stage, world.campaign?.mossId, n.id)
-        ? 'sleep'
+        ? sheet.frames.has(frameKey('sit', 'front', 0))
+          ? 'sit'
+          : 'sleep'
         : clipFor(n);
       // K5, K40: a walk-on faces its way; the partner at the Keeper's side keeps its pose.
       const hf = held ? this.staging?.faces.get(n.id) : undefined;
-      const view = viewAngle(hf ?? n.facing, yaw);
+      const view = viewAngle(hf ?? npose?.face ?? n.facing, yaw);
       if (held && this.staging?.partner?.id === n.id) {
         const pp = this.staging.partnerPose();
         clip = this.staging.walking.has(n.id)
@@ -1417,7 +1439,14 @@ export class WorldView {
       }
       flip = view.flip;
       const def = CLIPS[clip as ClipName];
-      const frame = def ? frameAt(def, nowMs - v.clipStartMs) : 0;
+      const frame =
+        clip === 'sit'
+          ? npose?.clip === 'sit'
+            ? npose.frame
+            : 0
+          : def
+            ? frameAt(def, nowMs - v.clipStartMs)
+            : 0;
       key = frameKey(clip, view.angle, frame);
       emote = emoteFor(n);
       // K40: the partner's ball follows the line's mood.

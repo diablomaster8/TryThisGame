@@ -24,6 +24,7 @@ import { flaps, swimsStroke } from '../sim/stats';
 import { moodOf } from '../sim/needs';
 import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
 import { stagedSeat } from './npc-accessories';
+import { poseRig } from './stage-pose3d';
 
 /**
  * Everything that moves in the 3D Grove: the Nubbins and the Keeper as pooled rigs,
@@ -740,8 +741,15 @@ export class Actors {
       const moving = Math.hypot(n.pos.x - a.prev.pos.x, n.pos.z - a.prev.pos.z) > 0.004;
       if (a.rig) {
         const near = Math.hypot(keeper.pos.x - n.pos.x, keeper.pos.z - n.pos.z) < 1.5;
-        // M6: the scene seats Moss (the sleep pose, the nearest the rig has to sitting).
-        let pose = stagedSeat.id === n.id ? 'sleep' : poseFor(n, moving, petting === n.id && near);
+        // M6 and K1: the scene seats Moss in the sit pose (awake, no Zzz); K6 and K7 turn
+        // the head to the speaker and play the line's gesture (package a1).
+        const cue = poseRig(a.rig, n.id);
+        let pose =
+          stagedSeat.id === n.id
+            ? 'sit'
+            : cue && !moving
+              ? cue
+              : poseFor(n, moving, petting === n.id && near);
         // K5, K40: a walk-on walks to its mark; the partner at the Keeper's side holds the
         // line's mood (happy, sad, surprised) and otherwise stands.
         const st = held ? this.stager : null;
@@ -832,13 +840,15 @@ export class Actors {
       !!this.stager?.walking.has('you');
     this.keeperMoving = kMoving;
     // The Keeper strokes for as long as the Nubbin at its feet holds the pet state.
+    // K1, K6, K7, K39 (package a1): the stage's pose, head turn and gesture for the Keeper.
+    const kCue = this.keeper?.rig ? poseRig(this.keeper.rig, 'keeper') : null;
     const kPose: PoseName = keeper.carrying
       ? 'carry'
       : petted
         ? 'pet'
         : this.keeperMoving
           ? 'walk'
-          : 'idle';
+          : (kCue ?? 'idle');
     this.driveKeeper(this.keeper!, kPose, kp, this.keeperFace ?? keeper.facing, t, dt);
     this.updateKeeper2(world, alpha, t, dt);
     // Stand-ins shimmer while they wait.

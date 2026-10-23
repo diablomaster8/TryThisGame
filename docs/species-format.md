@@ -224,6 +224,14 @@ every bone back at rest and worked out the look; the pose adds to that, as the s
 | `head`    | The head bone; `headRest` is its rest position, so the head slides by adding to `head.position`.       |
 | `look`    | `lookAt` as a head `yaw` and `pitch` in hip space, with its ease-in `k` (0 when nothing is looked at). |
 | `mouth`   | `mouth(open)`: how far the mouth opens, 0..1.                                                          |
+| `add`     | `add(bone, x, y, z)`: turn a bone further from where the pose left it (the gesture layer uses it).     |
+| `seat`    | The seat under a `sit`, in body units above the feet (0 on the ground); from `Rigged.seat`.            |
+| `still`   | Reduced motion: hold a pose's still form (no nod, no raise).                                           |
+
+**`gestures`** (spec field, campaign graphics 4, K7): `{ nod, shrug, point, down, chest }`, each
+`(c, k, t) => void`, laid over whatever pose the body holds with weight `k` (eased in over 0.3 s,
+held 1.6 s, eased out; `down` holds while set) at `t` seconds in; write them with `c.add`.
+Without one, `nod` and `down` still tip the head. The Keeper writes all five (`keeper-spec.ts`).
 
 ## Bone names the poser knows
 
@@ -241,28 +249,34 @@ strong in Fly (`flaps` in `sim/stats.ts`); swim → `swim` for an adult strong i
 eat → eat, nap → sleep; cry, or a low or hungry mood at rest → `sad`; react → its reaction
 (`dizzy`, `surprised`, `love`); thrown → `tumble`; everything else → idle.
 
-| Pose        | What it does                                                                                                                                                                                               |
-| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `idle`      | Stands; the irises wander slowly when nothing is looked at.                                                                                                                                                |
-| `happy`     | Hops with squash and stretch (hips 1.06 tall and 0.94 wide at the top, 0.94 and 1.06 on landing, moved so the feet stay planted); the tail curls up over the back; the mouth opens.                        |
-| `pet`       | Turns to `lookAt`, leans the head in with a tilt and a slow nuzzle, shuts the eyes into arcs, folds the ears back, wags fast; seven painted hearts rise from the crown, one every 0.22 s.                  |
-| `walk`      | Jointed legs plant their feet: on the ground for 0.6 of the cycle (0.5 for spiders), sliding back at the body's speed, then swinging forward on an arc. The rig exposes `strideLength` and `stridePeriod`. |
-| `eat`       | Chomps with the whole head, which stretches forward and thins a little on each bite.                                                                                                                       |
-| `sleep`     | Lies down: the belly comes to the grass, quadrupeds fold their legs, bipeds curl forward, hovering species sink to half their float; a Zzz of three glyphs drifts up every 3.2 s.                          |
-| `carry`     | Holding a creature. The stock pose just stands; the Keeper's (`keeper-spec.ts`) brings both arms forward and a little in, elbows barely bent, head tipped down to the bundle.                              |
-| `throw`     | A toss. The stock pose just stands; the Keeper's is a 3.6 s cycle (`KEEPER_THROW`): hold, swing the arms back and dip, swing through and release at 1.45 s, settle, and lift back to the hold.             |
-| `sad`       | Head down, ears and arms drooping, a slow sway; brows up at the inner ends, lids half down, a frown.                                                                                                       |
-| `dizzy`     | A wobbling stagger with the irises rolling round.                                                                                                                                                          |
-| `surprised` | A hop back with wide eyes and an O mouth.                                                                                                                                                                  |
-| `love`      | The happy bounce with hearts rising from the crown.                                                                                                                                                        |
-| `tumble`    | Limbs flailing under the thrown body's spin (the actor's `tumble` turns the whole figure).                                                                                                                 |
-| `flap`      | Arms out and wings fluttering fast, the body lifted a little.                                                                                                                                              |
-| `swim`      | A paddling stroke, the body sunk to the shoulders.                                                                                                                                                         |
+| Pose        | What it does                                                                                                                                                                                                |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `idle`      | Stands; the irises wander slowly when nothing is looked at.                                                                                                                                                 |
+| `happy`     | Hops with squash and stretch (hips 1.06 tall and 0.94 wide at the top, 0.94 and 1.06 on landing, moved so the feet stay planted); the tail curls up over the back; the mouth opens.                         |
+| `pet`       | Turns to `lookAt`, leans the head in with a tilt and a slow nuzzle, shuts the eyes into arcs, folds the ears back, wags fast; seven painted hearts rise from the crown, one every 0.22 s.                   |
+| `walk`      | Jointed legs plant their feet: on the ground for 0.6 of the cycle (0.5 for spiders), sliding back at the body's speed, then swinging forward on an arc. The rig exposes `strideLength` and `stridePeriod`.  |
+| `eat`       | Chomps with the whole head, which stretches forward and thins a little on each bite.                                                                                                                        |
+| `sleep`     | Lies down: the belly comes to the grass, quadrupeds fold their legs, bipeds curl forward, hovering species sink to half their float; a Zzz of three glyphs drifts up every 3.2 s.                           |
+| `carry`     | Holding a creature. The stock pose just stands; the Keeper's (`keeper-spec.ts`) brings both arms forward and a little in, elbows barely bent, head tipped down to the bundle.                               |
+| `throw`     | A toss. The stock pose just stands; the Keeper's is a 3.6 s cycle (`KEEPER_THROW`): hold, swing the arms back and dip, swing through and release at 1.45 s, settle, and lift back to the hold.              |
+| `sad`       | Head down, ears and arms drooping, a slow sway; brows up at the inner ends, lids half down, a frown.                                                                                                        |
+| `dizzy`     | A wobbling stagger with the irises rolling round.                                                                                                                                                           |
+| `surprised` | A hop back with wide eyes and an O mouth.                                                                                                                                                                   |
+| `love`      | The happy bounce with hearts rising from the crown.                                                                                                                                                         |
+| `tumble`    | Limbs flailing under the thrown body's spin (the actor's `tumble` turns the whole figure).                                                                                                                  |
+| `flap`      | Arms out and wings fluttering fast, the body lifted a little.                                                                                                                                               |
+| `swim`      | A paddling stroke, the body sunk to the shoulders.                                                                                                                                                          |
+| `sit`       | K1: sits awake on `Rigged.seat` (or the ground): the belly settles, the legs reach forward with soft knees, hands at the sides; eyes open and no Zzz (Moss's seat in the story, which used `sleep` before). |
+| `kneel`     | K1: the stock form is a lower `sit`; the Keeper's drops onto the left knee with the right foot planted.                                                                                                     |
+| `itemGet`   | K39: both arms high, chin up. The Keeper's lifts a found thing overhead in 0.3 s (held at once under reduced motion).                                                                                       |
 
 The Keeper (`src/samples/keeper-spec.ts`, `KEEPER_SPEC` and `KEEPER_MOON_SPEC` from one
 `keeperSpec(colours)`) writes its own `pet` (reaching out to `lookAt` with the right hand,
-leaning after it, the hand stroking) and `sleep` (sits down cross-legged and nods off), and
-turns `hearts` off. Its outfit is colour splits between primitives (tee sleeve, bare forearm,
+leaning after it, the hand stroking) and `sleep` (sits down cross-legged and nods off),
+`sit` (on a seat of 0.4 body units or more the thighs reach out and the shins hang; lower, it
+sits cross-legged, awake), `kneel`, `itemGet` and the five `gestures`, and turns `hearts` off.
+Its `extras` name two pivots: `hand.R` (under the right elbow at the hand's centre, where carry
+props hang, K13) and `neck` (the head bone, which turns at the neck). Its outfit is colour splits between primitives (tee sleeve, bare forearm,
 shorts, bare shin, sneaker) plus crisp marks (vest panels and trim, stripes, wristbands, soles).
 
 On top of every pose: blinking, a slow breath (the chest scales 1.5% at 0.25 Hz, slower
@@ -280,7 +294,10 @@ carried above the ground, in world units; the body rises by it after the groundi
 shadow blob stays down on the terrain, fainter the higher it is), `lookAt` (a world point or null; the `pet` pose turns and
 leans the head toward it, the yaw and pitch clamped to 0.7 and 0.4 rad, and the irises
 follow it in every pose) and `face(yaw)`, which turns the creature to a world yaw over
-0.4 s with a lean into the turn. `window.groveStage.turnTo(deg)` turns the whole stage
+0.4 s with a lean into the turn. Campaign graphics 4 adds `attend` (`{ x, z, k }` or null: the
+head turns toward a world point, clamped to 60 degrees and scaled by `k`, eased, or snapped
+when `still`), `gesture` (a `gestures` name, played from when it changes), `seat` (world units)
+and `still` (reduced motion); the stage sets them through `render3d/stage-pose3d.ts`. `window.groveStage.turnTo(deg)` turns the whole stage
 from the console.
 
 ## How to write a new species

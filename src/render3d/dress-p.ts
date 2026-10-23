@@ -4,6 +4,7 @@ import type { SceneStage } from '../config/story';
 import { GROVE3D } from '../config/tuning';
 import { HAND_LANTERN } from '../config/tuning-e';
 import { CG2_P } from '../config/tuning-p';
+import { CG4_A1 } from '../config/tuning-a1';
 import type { Daylight } from '../render/daylight';
 import {
   festivalNubbinSpots,
@@ -16,6 +17,7 @@ import type { World } from '../sim/types';
 import { STAGE_FIGURES, type Figure } from './crowd';
 import type { Dress3dCtx, Dressing3d } from './dressings';
 import { arc, box, cyl, Parts, sph } from './prop-kit';
+import { handPoint } from './stage-pose3d';
 import { groveHeight } from './terrain';
 
 /**
@@ -103,6 +105,7 @@ class Dress3dP implements Dressing3d {
   private pip: THREE.Sprite | null = null;
   private carry = new Map<CarryProp, THREE.Group[]>();
   private owned: Array<{ dispose(): void }> = [];
+  private readonly hand = new THREE.Vector3();
 
   build(ctx: Dress3dCtx): void {
     this.ctx = ctx;
@@ -208,6 +211,19 @@ class Dress3dP implements Dressing3d {
       used.set(c.prop, i + 1);
       const g = this.carryGroup(ctx, c.prop, i);
       const s = c.scale;
+      // K13 (package a1): held in the right hand when the figure's rig is up.
+      const npc = world.npcs.find((n) => n.trainer === c.who);
+      const fid = actors.some((a) => a.who === c.who) ? `stage-${c.who}` : npc?.id;
+      if (fid && handPoint(fid, this.hand)) {
+        const H = CG4_A1.hand;
+        const drop = c.prop === 'broom' ? H.broomDrop : H.heldDrop;
+        const floor = groveHeight(this.hand.x, this.hand.z);
+        g.position.set(this.hand.x, Math.max(floor, this.hand.y - drop * s), this.hand.z);
+        g.rotation.set(c.prop === 'notebook' ? -0.35 : 0, c.yaw, 0);
+        g.scale.setScalar(s);
+        g.visible = true;
+        continue;
+      }
       const lx = HAND_LANTERN.side * s;
       const lz = HAND_LANTERN.forward * s;
       const cs = Math.cos(c.yaw);

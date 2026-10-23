@@ -52,7 +52,10 @@ export type PoseName =
   | 'love'
   | 'tumble'
   | 'flap'
-  | 'swim';
+  | 'swim'
+  | 'sit'
+  | 'kneel'
+  | 'itemGet';
 /** The creature cycle on the stage. `carry` and `throw` are the Keeper's: see `KEEPER_POSES`. */
 export const POSES: PoseName[] = ['idle', 'happy', 'pet', 'walk', 'eat', 'sleep'];
 /**
@@ -68,7 +71,15 @@ export const MOTION_POSES: PoseName[] = [
   'flap',
   'swim',
 ];
-export const ALL_POSES: PoseName[] = [...POSES, 'carry', 'throw', ...MOTION_POSES];
+/**
+ * Campaign graphics 4 (K1, K39): the story stage's poses. `sit` lowers the hips onto a seat
+ * (`Rigged.seat`, or the ground), `kneel` drops onto one knee, `itemGet` holds a found thing
+ * up overhead. Every rig has a stock form of each; the Keeper writes its own.
+ */
+export const STAGE_POSES: PoseName[] = ['sit', 'kneel', 'itemGet'];
+export const ALL_POSES: PoseName[] = [...POSES, 'carry', 'throw', ...MOTION_POSES, ...STAGE_POSES];
+/** K7: the canned line gestures, played on top of whatever pose the body holds. */
+export type GestureName = 'nod' | 'shrug' | 'point' | 'down' | 'chest';
 
 /** A deliberate marking: a shape in body space, a colour, and how soft its edge is. */
 export interface Mark {
@@ -160,6 +171,12 @@ export interface PoseContext {
   look: { yaw: number; pitch: number; k: number };
   /** How far the mouth opens, 0..1. */
   mouth(open: number): void;
+  /** Turn a bone further from where the pose left it (the gestures layer on top). */
+  add(bone: string, x: number, y: number, z: number): void;
+  /** K1: the seat under the hips for `sit`, in body units above the feet (0 on the ground). */
+  seat: number;
+  /** Reduced motion: hold the still form of a pose or gesture (no nods, no raise). */
+  still: boolean;
 }
 
 /** What `extras` get to hang hand-built decorations on. */
@@ -248,6 +265,12 @@ export interface SpeciesSpec {
    * out for `pet` where a creature leans in, and is the only one with `carry` and `throw`.
    */
   poses?: Partial<Record<PoseName, (c: PoseContext) => void>>;
+  /**
+   * K7: the line gestures, each `(c, k, t)` laid over the pose with weight `k` (0..1, eased in
+   * and out) at `t` seconds into the gesture; use `c.add`. Without one, a nod and a look down
+   * still tip the head; the rest are the Keeper's.
+   */
+  gestures?: Partial<Record<GestureName, (c: PoseContext, k: number, t: number) => void>>;
   /** Whether hearts rise while petted; off for the one doing the petting. */
   hearts?: boolean;
   /** Translucent wings: the fairy pair by default, a feathered lobe or a scalloped bat wing. */
@@ -315,6 +338,9 @@ export const EXPRESSIONS: Record<PoseName, Expression> = {
   tumble: { lid: 0, squint: 0, brow: -0.25, browLift: 0.22, arc: false, gape: 1 },
   flap: { lid: 0.1, squint: 0.25, brow: 0.15, browLift: 0.04, arc: false },
   swim: { lid: 0.1, squint: 0.3, brow: 0.1, browLift: 0.02, arc: false },
+  sit: { lid: 0.1, squint: 0.1, brow: 0.05, browLift: 0, arc: false },
+  kneel: { lid: 0, squint: 0.1, brow: 0.1, browLift: 0.02, arc: false },
+  itemGet: { lid: 0, squint: 0, brow: 0.2, browLift: 0.2, arc: false, gape: 0.6 },
 };
 
 export interface Rigged extends Creature {
@@ -335,6 +361,18 @@ export interface Rigged extends Creature {
   lookAt: THREE.Vector3 | null;
   /** Turn to face a world yaw: eased over 0.4 s with a lean into the turn, not a snap. */
   face(yaw: number): void;
+  /**
+   * K6: a world point the head turns toward (the line's speaker) with a strength `k` (1 a
+   * cast member, 0.5 a crowd Nubbin), clamped to `HEAD_TURN_MAX`; null eases back. Set by
+   * the stage; the root is taken to sit in an untransformed parent, as on the stage.
+   */
+  attend?: { x: number; z: number; k: number } | null;
+  /** K7: the gesture to play over the pose (it starts when the name changes), or null. */
+  gesture?: GestureName | null;
+  /** K1: the seat's height above the ground under the root, in world units, for `sit`. */
+  seat?: number;
+  /** Reduced motion: the head turn snaps and the gestures hold still. */
+  still?: boolean;
   /**
    * How far the body advances per walk cycle, in the rig's own units (times
    * `group.scale` for world units), and how long a cycle takes in seconds: move the root
@@ -361,6 +399,13 @@ const IRIS_TRAVEL = 0.22;
 /** Eased rate (per second) at which the irises follow their target. */
 const IRIS_EASE = 6;
 const LOOK_PITCH = 0.4;
+/** K6: the furthest the head turns toward a speaker, radians (60 degrees). */
+export const HEAD_TURN_MAX = Math.PI / 3;
+/** K6: the head turn's ease rate, per second. */
+const HEAD_TURN_EASE = 5;
+/** K7: a gesture's ease in and out, and how long one plays before it lets go (seconds). */
+const GESTURE_IN = 0.3;
+const GESTURE_HOLD = 1.6;
 
 const smooth = (k: number) => k * k * (3 - 2 * k);
 
@@ -1188,6 +1233,24 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
     const r = rest[name]!;
     b.rotation.set(r.x + x, r.y + y, r.z + z);
   };
+  // The additive layer (K6's head turn, K7's gestures): what it added this frame is taken
+  // off again before the next, so a bone the pose does not set never drifts.
+  const added = new Map<THREE.Group, THREE.Vector3>();
+  const add = (name: string, x: number, y: number, z: number) => {
+    const b = bones[name];
+    if (!b) return;
+    b.rotation.x += x;
+    b.rotation.y += y;
+    b.rotation.z += z;
+    const a = added.get(b);
+    if (a) a.add(new THREE.Vector3(x, y, z));
+    else added.set(b, new THREE.Vector3(x, y, z));
+  };
+  // K6: the head's eased turn toward the speaker, radians from the body's forward.
+  let headTurn = 0;
+  // K7: the gesture playing, and when it began.
+  let gesture: GestureName | null = null;
+  let gestureAt = 0;
   const quad = spec.gait === 'quadruped';
   const spider = spec.gait === 'spider';
   const hover = spec.gait === 'hover';
@@ -1283,6 +1346,9 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
     mouth: (open) => {
       ownMouth = open;
     },
+    add,
+    seat: 0,
+    still: false,
   };
   const animate = (t: number) => {
     const fdt = Math.min(0.1, Math.max(0, t - lastFrame));
@@ -1290,6 +1356,15 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
     now = t;
     const dt = t - poseSince;
     const s = Math.sin;
+    for (const [b, a] of added) {
+      b.rotation.x -= a.x;
+      b.rotation.y -= a.y;
+      b.rotation.z -= a.z;
+    }
+    added.clear();
+    const still = rig.still === true;
+    poseCtx.still = still;
+    poseCtx.seat = Math.max(0, (rig.seat ?? 0) / (root.scale.y || 1));
     hips.position.set(0, spec.hipY, 0);
     hips.rotation.set(0, 0, 0);
     hips.scale.set(1, 1, 1);
@@ -1310,7 +1385,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
     let earFold = pose === 'sleep' ? 0.3 : pose === 'pet' ? 0.18 : 0;
     // The motion poses set only the bones they move, so they start from the rest pose
     // (the stock ones set every limb they know).
-    if (!own && MOTION_POSES.includes(pose))
+    if (!own && (MOTION_POSES.includes(pose) || STAGE_POSES.includes(pose)))
       for (const [k, b] of Object.entries(bones)) b.rotation.copy(rest[k]!);
     if (own) {
       poseCtx.t = t;
@@ -1487,6 +1562,47 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
           set('armR', -1.1, -0.3, -0.6);
         }
         mouthOpen = 0.25 + chomp * 0.6;
+        break;
+      }
+      case 'sit':
+      case 'kneel': {
+        // K1, the stock sit: the belly settles onto the seat (the ground, or a step), the
+        // legs reach forward with the knees soft, the hands rest at the sides. Awake: the
+        // eyes stay open and no Zzz rises, unlike `sleep`. A kneel is the same, lower.
+        const ease = still ? 1 : smooth(Math.min(1, dt / 0.6));
+        const lie = Math.max(0, bellyY - footY - 0.03);
+        const drop = Math.max(0, lie - poseCtx.seat);
+        set('head', s(t * 0.9) * 0.03 * ease, s(t * 0.5) * 0.06, 0);
+        if (spider || hover) {
+          hips.position.y = spec.hipY - (hover ? 0 : 0.25 * ease);
+        } else if (quad) {
+          hips.position.y = spec.hipY - drop * 0.6 * ease;
+          for (const n of ['legBL', 'legBR']) set(n, 0.9 * ease, 0, 0);
+          for (const n of ['legFL', 'legFR']) set(n, 0, 0, 0);
+          set('tail', 0.3 * ease, s(t * 1.3) * 0.2, 0);
+        } else {
+          hips.position.y = spec.hipY - Math.min(drop, spec.hipY * 0.55) * ease;
+          hips.rotation.x = -0.08 * ease;
+          set('legL', -1.25 * ease, 0, 0.2 * ease);
+          set('legR', -1.25 * ease, 0, -0.2 * ease);
+          for (const leg of legs) bendKnee(leg, (pose === 'kneel' ? 1.4 : 0.35) * ease);
+          set('armL', -0.15 * ease, 0, 0.45 * ease);
+          set('armR', -0.15 * ease, 0, -0.45 * ease);
+          set('tail', 0.2, s(t * 1.1) * 0.25, 0);
+        }
+        mouthOpen = 0.06;
+        break;
+      }
+      case 'itemGet': {
+        // K39, the stock form: up on the toes, both arms high, mouth open.
+        const ease = still ? 1 : smooth(Math.min(1, dt / 0.3));
+        hips.position.y = spec.hipY + 0.06 * ease;
+        set('head', -0.25 * ease, 0, 0);
+        set('armL', -0.4 * ease, 0, 2.2 * ease);
+        set('armR', -0.4 * ease, 0, -2.2 * ease);
+        set('legL', 0, 0, 0);
+        set('legR', 0, 0, 0);
+        mouthOpen = 0.6;
         break;
       }
       case 'sleep': {
@@ -1694,6 +1810,44 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
         mouthOpen = 0.15;
         break;
       }
+    }
+    // K7: the gesture over the pose, eased in, held, and let go (a look down holds while set).
+    const g = rig.gesture ?? null;
+    if (g !== gesture) {
+      gesture = g;
+      gestureAt = t;
+    }
+    if (gesture) {
+      const gt = t - gestureAt;
+      const kin = still ? 1 : smooth(Math.min(1, gt / GESTURE_IN));
+      const kout =
+        gesture === 'down'
+          ? 1
+          : 1 - smooth(THREE.MathUtils.clamp((gt - GESTURE_HOLD) / GESTURE_IN, 0, 1));
+      const gk = kin * kout;
+      if (gk > 0) {
+        poseCtx.t = t;
+        poseCtx.dt = dt;
+        const clip = spec.gestures?.[gesture];
+        if (clip) clip(poseCtx, gk, gt);
+        else if (gesture === 'nod')
+          add('head', (still ? 0.15 : 0.08 + Math.abs(s(gt * Math.PI * 2.2)) * 0.18) * gk, 0, 0);
+        else if (gesture === 'down') add('head', 0.4 * gk, 0, 0);
+      }
+    }
+    // K6: the head turns toward the speaker, clamped, eased (snapped under reduced motion).
+    {
+      const at = rig.attend;
+      let want = 0;
+      if (at) {
+        const to = Math.atan2(at.x - root.position.x, at.z - root.position.z);
+        const d = Math.atan2(Math.sin(to - root.rotation.y), Math.cos(to - root.rotation.y));
+        want = THREE.MathUtils.clamp(d, -HEAD_TURN_MAX, HEAD_TURN_MAX) * at.k;
+      }
+      headTurn = still
+        ? want
+        : headTurn + (want - headTurn) * (1 - Math.exp(-HEAD_TURN_EASE * fdt));
+      if (Math.abs(headTurn) > 1e-4) add('head', 0, headTurn, 0);
     }
     // Ears, wings, the ball and the blink run on top of every pose.
     // Ear flicks: one ear snaps out and back over a quarter second at irregular

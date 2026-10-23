@@ -12,6 +12,7 @@ import type { Location, Vec2, World } from '../sim/types';
 import type { CreaturePool, Look } from './creature-pool';
 import { gaitTime } from './gait';
 import { placeStand } from './item-kit';
+import { poseRig } from './stage-pose3d';
 
 /**
  * Everyone in the 3D scene who is not the Keeper or one of the Keeper's Nubbins: visiting
@@ -337,7 +338,10 @@ export class Crowd {
       const gy = ground(m.pos.x, m.pos.z);
       const hop = f.hop ? Math.abs(Math.sin(t * 5.5)) * 0.25 : 0;
       if (m.rig) {
-        const pose: PoseName = f.sad && f.pose === 'idle' ? 'sad' : f.pose;
+        // K1, K6, K7, K41 (package a1): the stage's pose, head turn and gesture for this figure.
+        const cue = poseRig(m.rig, f.id);
+        const pose: PoseName =
+          f.pose === 'walk' ? 'walk' : (cue ?? (f.sad && f.pose === 'idle' ? 'sad' : f.pose));
         if (m.pose !== pose) {
           m.pose = pose;
           m.rig.setPose(pose);
