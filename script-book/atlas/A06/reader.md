@@ -67,7 +67,7 @@ _Cool air comes from the gate with a smell of roast lamb and rosewater. Somewher
 > - Fair or not, grumbling aloud won’t change it. → That’s a fair point too. Though I notice the window opened. Speaking up can change things after all.
 > _For grown-ups: Thought about whether the porter’s situation is fair, giving their own reasons._
 
-_He says it quite loudly. A window above the gate is open._  
+_The porter says it quite loudly. A window above the gate is open._  
 _Your Nubbin looks up at the window, then at you, the way it does in the Grove when someone is about to be caught._  
 
 **Choices**
@@ -99,6 +99,7 @@ _At the head of the room sits an old man with a white beard, and a face burnt br
 **Sinbad the Sailor**: The whole street heard. What’s your name?  
 **Sinbad the Porter**: Sinbad. Sinbad the porter.  
 **Sinbad the Sailor**: So is mine. Sinbad the sailor. Well, Sinbad, anyway. The sailor part I had to earn.  
+**Sinbad the Sailor**: The young man in my stories is me, long ago. You will meet him.  
 **Sinbad the Sailor**: You think I sat here and the lamb walked in. Let me tell you what this house cost.  
 
 > **Lesson** (literacy, RL.3.3, ask): character motive  
@@ -155,7 +156,7 @@ _The old man looks at you and your Nubbin, as if he always knew the porter would
 
 **Sinbad the Sailor**: I was young, and my father left me money, and I spent it the way young men do. Quickly, and on friends.  
 **Sinbad the Sailor**: When it was nearly gone, I sold what was left, bought goods, and went down the river to Basra to take ship.  
-_As he talks, the pattern on the carpet under your hand turns blue, and begins to move._  
+_As the old sailor talks, the pattern on the carpet under your hand turns blue, and begins to move._  
 _The smell of lamb becomes a smell of tar and salt. The porter’s voice goes far away._  
 **Sinbad the Porter**: Go on, then. I’ll mind the dates.  
 _You are on the deck of a dhow, a ship of sewn planks, under a great triangular sail full of wind._  
@@ -173,7 +174,7 @@ _A young man with the old man’s eyes leans on the rail, grinning at the sea as
 - **Ask to hear a joke.**
     - **Young Sinbad**: What’s the difference between a merchant and a sailor?
     - **Young Sinbad**: About three days out of Basra.
-    - Behind him, the helmsman groans like a man who has heard it every day for a month.
+    - Behind Sinbad, the helmsman groans like a man who has heard it every day for a month.
 - **Ask if he’s been to sea before.**
     - **Young Sinbad**: Never. Isn’t it wonderful? Nothing can possibly go wrong.
 
@@ -211,7 +212,7 @@ _The ground is warm. Not sun-warm: warm from underneath, the way a sleeping anim
 
 - **Tell Sinbad the ground is warm.**
     - **Young Sinbad**: It’s the sun, friend. Have a date.
-    - He hands you one. Under your feet, the island breathes out.
+    - Sinbad hands you one. Under your feet, the island breathes out.
 - **Kick sand over the fire.**
     - **Young Sinbad**: Hey! That’s supper!
     - Too late, and not enough sand. The island has already noticed.
@@ -324,7 +325,7 @@ _The groom is kind, once he stops shouting. He feeds you both, and takes you up 
 #### `reader:a06-03-shore-done` · [main](main.md#a06-03-shore-done)
 
 _The king makes Sinbad keeper of his harbour. He writes down every ship that comes and goes._  
-_And he asks every captain the way to Baghdad._  
+_And Sinbad asks every captain the way to Baghdad._  
 _Sinbad’s notebook fills with names, dates and cargoes, in a neat hand that gets neater every month._  
 
 > **Lesson** (social-studies, D2.His.2.K-2, notice): records and ledgers: harbour-keepers wrote down ships and goods  
@@ -373,11 +374,11 @@ _Sinbad looks like a man who has just been told that he is dead._
 **The Captain**: Hm. Then what’s in the bale with the green cord?  
 
 > **Lesson** (maths, 3.OA.D.8, ask): two-step problem  
-> **The Captain**: One more test. If a bale holds twenty lengths of cloth, and I have two bales that size, plus three loose lengths, how many lengths in all?  
-> - ✅ 43 → Correct. Two bales of twenty is forty, then the three loose ones makes forty-three. You’d make a decent merchant.
-> - 23 → That’s one bale and the loose ones. But I said two bales: 20 + 20 = 40, and then +3 gives 43.
-> - 60 → That treats the three as another bale of twenty. Two bales is 40; the loose three are only three: 43.
-> _For grown-ups: Solved a two-step word problem (2 × 20 + 3 = 43)._
+> **The Captain**: One more test. A crate holds twelve jars of oil. I have two crates and five loose jars. How many jars in all?  
+> - ✅ 29 → Correct. Two crates of twelve is 24, and five loose jars makes 29. You’d make a decent merchant. Your Nubbin counts the jars on its fingers too, and nods.
+> - 17 → That’s one crate and the loose jars. But I said two crates: 12 + 12 = 24, and then 5 more is 29.
+> - 36 → That treats the loose jars as a third crate. Two crates is 24; the loose five are only five: 29.
+> _For grown-ups: Solved a two-step word problem (2 × 12 + 5 = 29)._
 
 _Sinbad goes blank. He was a young man who never read his own lists._  
 _Your Nubbin is already tugging at the green cord. A corner of something blue shows through: dyed cloth, folded the Baghdad way._  
@@ -413,8 +414,8 @@ _Sinbad looks at the hand for a long moment. Then he takes it._
 
 _Sinbad sells his bales, gives the king a fine gift, and sails home with the captain who left him behind._  
 _They are friends by the time they reach Basra. Sailors are like that._  
-**Sinbad the Porter**: He left you in the sea, and you shook his hand?  
-**Sinbad the Sailor**: He came back with my things. Every bale. Do you know how rare that is?  
+**Sinbad the Porter**: The captain left you in the sea, and you shook his hand?  
+**Sinbad the Sailor**: The captain came back with my things. Every bale. Do you know how rare that is?  
 **Sinbad the Porter**: I’ve carried for men who’d sell their own mother’s washing.  
 
 > **Lesson** (literacy, RL.4.2, ask): theme  
@@ -630,8 +631,8 @@ _Another lump of meat lands, and another. Diamonds stick to them, pressed into t
 _Men on the rim are throwing the meat down. Great eagles drop out of the sky, snatch it, and carry it up._  
 **Young Sinbad**: I’ve heard of this. The eagles bring the meat up, the merchants chase them off it, and they pick out the stones.  
 **Young Sinbad**: If an eagle can lift that, it can lift me. And you two are very small.  
-_He ties himself under the biggest piece of meat with what’s left of his turban. It is the least dignified thing you have ever seen._  
-_Then he starts filling his pockets, fast, with the biggest stones in reach._  
+_Sinbad ties himself under the biggest piece of meat with what’s left of his turban. It is the least dignified thing you have ever seen._  
+_Then Sinbad starts filling his pockets, fast, with the biggest stones in reach._  
 **Young Sinbad**: Take some! Quick! You’ll never be poor again!  
 _By your foot lies a small clear stone, no bigger than a lentil. Your Nubbin looks at it, and then at you._  
 
@@ -655,7 +656,7 @@ _By your foot lies a small clear stone, no bigger than a lentil. Your Nubbin loo
 
 #### `reader:a06-05-meat-done` · [main](main.md#a06-05-meat-done)
 
-_Your Nubbin climbs into Sinbad’s sash. You grab hold of his belt with both hands._  
+_Your Nubbin climbs into Sinbad’s sash. You grab hold of Sinbad’s belt with both hands._  
 _An eagle’s shadow slides across the valley floor, getting bigger._  
 
 > **Lesson** (social-studies, D2.His.2.K-2, ask): legends travel between cultures  
@@ -685,7 +686,7 @@ _Sinbad gives him a handful of stones. The merchant stops shouting all at once, 
 #### `reader:a06-05-lift-done` · [main](main.md#a06-05-lift-done)
 
 **A Diamond Merchant**: Twenty years I’ve thrown meat into that valley. Nobody ever came up with it before.  
-_He looks at Sinbad as if he has met a talking cat._  
+_The merchant looks at Sinbad as if he has met a talking cat._  
 
 > **Lesson** (sel, CASEL: Relationship skills, notice): a calm answer turns away anger  
 > _The merchant arrived angry. Sinbad answered with “Peace, friend” and a gift, and the anger drained away._  
@@ -952,6 +953,12 @@ _Sinbad lets out a breath he seems to have held since dusk._
 #### `reader:a06-07-sail` · [main](main.md#a06-07-sail)
 
 _A sail. A sail on the horizon, coming this way._  
+_Sinbad waves his whole turban at it. This takes some time, because it is very long._  
+**The Captain**: Castaways! Up you come, all of you. Mind the paint.  
+**The Captain**: We’ve goods aboard from a merchant we left asleep on an island, a year back. Sinbad, his name was.  
+**Young Sinbad**: You didn’t.  
+**The Captain**: We did. We’ve been trying to find his family ever since, to give them the money.  
+_Sinbad laughs until he has to sit down on the deck. Your Nubbin sits down too, to keep him company._  
 
 > **Lesson** (science, 1-PS4-2, notice): bright signals are easier to see; light travels in straight lines  
 > **Nova**: Nova’s notes: you see a sail because light bounces off it and travels in a straight line to your eyes.  
@@ -959,12 +966,6 @@ _A sail. A sail on the horizon, coming this way._
 > **Nova**: Sailors used flags, mirrors and fires for signals because light carries far over water, where there’s nothing to block it.  
 > _For grown-ups: Learned that light travels in straight lines, so bright waved signals can be seen from far away._
 
-_Sinbad waves his whole turban at it. This takes some time, because it is very long._  
-**The Captain**: Castaways! Up you come, all of you. Mind the paint.  
-**The Captain**: We’ve goods aboard from a merchant we left asleep on an island, a year back. Sinbad, his name was.  
-**Young Sinbad**: You didn’t.  
-**The Captain**: We did. We’ve been trying to find his family ever since, to give them the money.  
-_Sinbad laughs until he has to sit down on the deck. Your Nubbin sits down too, to keep him company._  
 
 #### `reader:a06-07-complete` · [main](main.md#a06-07-complete)
 
@@ -974,7 +975,7 @@ _Sinbad laughs until he has to sit down on the deck. Your Nubbin sits down too, 
 
 > **Lesson** (literacy, RL.2.4, ask): a repeated line as a running joke  
 > _“Never again,” says the porter. “Never again,” says the old man. Why does the story keep repeating this line, voyage after voyage?_  
-> - ✅ It’s a running joke: he always swears it, and always sails again. → Quite right. A repeated line becomes a joke the listener is in on. By now you can say it with me.
+> - ✅ It’s a running joke: he always swears it, and always sails again. → Quite right. A repeated line becomes a joke the listener is in on.
 > - Because the writer forgot it was already said. → Not forgotten: chosen. Each time it comes back it gets funnier, because we know what happens next.
 > _For grown-ups: Noticed how a repeated line works as a running joke across a story._
 
@@ -1094,15 +1095,14 @@ _He sits down on the stones and cries, for her and for the morning, both at once
 
 #### `reader:a06-08-tunnel-done` · [main](main.md#a06-08-tunnel-done)
 
-_Some days later a passing ship sees his fire on the shingle, and takes him home._  
+_Some days later a passing ship sees the fire on the shingle, and takes Sinbad home._  
+_Sinbad thanks the sailors, and doesn’t say much else for a while._  
 
-> **Lesson** (social-studies, 4-ESS2-2, do): direction: reading a compass  
-> **Nova**: Nova’s notes: sailors steered by the Sun and stars, and later by the compass, whose needle points north.  
-> **Nova**: If the cliff is to the east of the beach, which way must the ship be?  
-> Check: `edu:compass:cliff:directions`
-> _For grown-ups: Used compass directions to place the ship relative to the cliff._
+> **Lesson** (sel, notice): staying near is a way to help someone who is grieving  
+> **Nova**: Nova’s notes: after a loss, people are often quiet. They may not want to talk. They may just want someone close by.  
+> **Nova**: You sat beside Sinbad on the shingle and waited. Waiting beside someone is a kind of help.  
+> _For grown-ups: Learned that staying quietly near a grieving person is a way to help._
 
-_He thanks the sailors, and doesn’t say much else for a while._  
 
 #### `reader:a06-08-complete` · [main](main.md#a06-08-complete)
 
@@ -1135,17 +1135,19 @@ _The lamps in the long room. The porter has stopped eating altogether._
 #### `reader:a06-09-egg` · [main](main.md#a06-09-egg)
 
 **Sinbad the Sailor**: The fifth voyage. I had my own ship by then, and I let other merchants sail on it. That was my mistake.  
+_Sinbad’s new ship sails away from the sunrise. Nova’s compass needle points north, as always, and the cook trusts it more than the captain._  
+
+> **Lesson** (social-studies, 4-ESS2-2, ask): direction: reading a compass  
+> **Nova**: Nova’s notes: the Sun rises in the east. The ship sails away from it. Which way is the ship going?  
+> - ✅ West. → Yes. Away from the east is west. A compass needle points north, so west is to the left when you face north.
+> - East. → That would be sailing toward the sunrise. The ship sails away from it, so it goes west.
+> - North. → North is where the needle points. The sunrise is in the east, and away from east is west.
+> _For grown-ups: Used where the Sun rises, and a compass, to work out a direction._
+
 _An island, and a white dome. You know at once what it is, and the merchants don’t._  
 **Young Sinbad**: Don’t touch it. I mean it. I have met its mother.  
 _The merchants laugh at him, pick up rocks, and start knocking on the shell to see what is inside._  
 _The shell cracks. A huge wet chick tumbles out, all legs and fluff, and shrieks at the sky._  
-
-> **Lesson** (science, 1-LS1-2, notice): young birds hatch and need their parents  
-> **Nova**: Nova’s notes: a chick is helpless when it hatches. Many birds need their parents to feed, warm and guard them for weeks, or months.  
-> **Nova**: That’s why a cracked egg is a real emergency for a bird family. The chick will cry out, and the parents will come.  
-> _For grown-ups: Learned that parents feed, warm and guard young birds that cannot yet look after themselves._
-
-**Young Sinbad**: You fools. You complete, absolute fools.  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): listening to a warning  
 > _Sinbad warned the merchants, and they laughed. Why might people ignore a warning?_  
@@ -1153,6 +1155,7 @@ _The shell cracks. A huge wet chick tumbles out, all legs and fluff, and shrieks
 > - They never hear it at all. → They did hear it; the story says they laughed. Ignoring a warning is usually a choice.
 > _For grown-ups: Reasoned about why people ignore a warning._
 
+**Young Sinbad**: You fools. You complete, absolute fools.  
 
 **Choices**
 
@@ -1168,9 +1171,10 @@ _Two shadows cross the island, one after the other, each the size of a field._
 _The chick stops shrieking and begins to chirp, high and delighted. Its parents have come._  
 
 > **Lesson** (science, 1-LS3-1, notice): young birds and parents recognise each other by voice  
+> **Nova**: Nova’s notes: a chick is helpless when it hatches. Many birds need their parents to feed, warm and guard them for weeks, or months.  
 > **Nova**: Nova’s notes: many young birds learn their parents’ calls, and parents learn their chick’s, even in a crowd. Penguin chicks do this among thousands.  
 > **Nova**: Young are like their parents, but not the same: a fluffy chick has the same beak shape and the same call-style, long before it can fly.  
-> _For grown-ups: Learned that parent and young birds recognise each other by sound, and that young are like but not the same as their parents._
+> _For grown-ups: Learned that young birds need their parents, that parent and young recognise each other by sound, and that young are like but not the same as their parents._
 
 
 #### `reader:a06-09-boulders` · [main](main.md#a06-09-boulders)
@@ -1181,12 +1185,6 @@ _High above, the rocs are carrying something in their claws: boulders as big as 
 _The first boulder misses by a ship’s length, and sends up a wall of white water._  
 _The second doesn’t miss. The deck turns into planks, and the planks turn into sea._  
 _You come up with a plank under one arm and your Nubbin under the other. The sky is full of wings._  
-
-> **Lesson** (maths, 3.MD.A.1, do): time intervals  
-> **Young Sinbad**: One wave lifts the plank every six seconds. How many waves lift it in one minute? Remember, there are 60 seconds in a minute.  
-> Check: `edu:time:waves:interval`
-> _For grown-ups: Divided 60 seconds by 6 to get 10 waves a minute._
-
 _The rocs circle once, and go back down to their chick. They are not cruel: they were only answering._  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): think: was the rocs’ revenge fair?  
@@ -1203,17 +1201,24 @@ _The rocs circle once, and go back down to their chick. They are not cruel: they
 - **Shout for Sinbad.**
     - **Young Sinbad**: Here! Over here! Swim to me!
 - **Float, and save your breath.**
-    - Sinbad’s plank bumps into yours an hour later. He looks very pleased to see you.
+    - Sinbad’s plank bumps into yours an hour later. Sinbad looks very pleased to see you.
 
 #### `reader:a06-09-boulders-done` · [main](main.md#a06-09-boulders-done)
 
 _A current takes you both. By evening there is an island under your feet, full of fruit and running water._  
 _You have never been so glad of a fig._  
+_Sinbad says he counted the waves while you floated: one lifted the plank every six seconds._  
 
 > **Lesson** (science, 4-ESS2-1, notice): ocean currents carry things  
 > **Nova**: Nova’s notes: currents are rivers inside the sea, made by wind, tides and warmth. They carry floating things, from planks to seeds, a very long way.  
 > **Nova**: Coconuts reach faraway islands this way. A coconut can float for months and still grow when it lands.  
 > _For grown-ups: Learned that ocean currents carry floating things, including seeds, over long distances._
+
+
+> **Lesson** (maths, 3.MD.A.1, do): time intervals  
+> **Young Sinbad**: One wave lifted the plank every six seconds. How many waves lifted it in one minute? There are 60 seconds in a minute.  
+> Check: `edu:time:waves:interval`
+> _For grown-ups: Divided 60 seconds by 6 to get 10 waves a minute (6 × 10 = 60)._
 
 
 #### `reader:a06-09-complete` · [main](main.md#a06-09-complete)
@@ -1310,7 +1315,7 @@ _Your Nubbin points at the branch, then at the old man, then at Sinbad’s knees
 
 **Young Sinbad**: Now!  
 _Sinbad ducks. The old man is left hanging from the branch by both hands, his mouth full of fig, looking very surprised._  
-_He isn’t hurt. He is simply, for the first time in a week, on his own._  
+_The old man isn’t hurt. He is simply, for the first time in a week, on his own._  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): think: was the trick fair?  
 > _Sinbad tricked the old man, who had refused to get down. Nobody was hurt. Is a trick like this fair? There’s no single right answer._  
@@ -1417,7 +1422,7 @@ _The pebbles in the riverbed are jewels, red and blue and green, as common here 
 > **Nova**: Real gems, like rubies and sapphires, are found in river gravels in Sri Lanka, washed down from the hills and polished along the way.  
 > _For grown-ups: Learned that flowing water smooths stones, and that real gems are found in river gravels._
 
-_He fills a sack with them. Of course he does._  
+_Sinbad fills a sack with them. Of course he does._  
 _Your Nubbin picks up one green pebble, looks at it, and puts it back exactly where it was._  
 
 > **Lesson** (maths, 2.MD.D.10, ask): reading a bar graph  
@@ -1476,6 +1481,9 @@ _You wake to sunshine and voices. The raft is tied to a bank among green fields,
 
 **Sinbad the Porter**: You can’t stop there!  
 **Sinbad the Sailor**: I’m old. I can stop where I like.  
+**Sinbad the Porter**: Never again?  
+**Sinbad the Sailor**: …I am considering it.  
+**Sinbad the Porter**: That’s a no.  
 
 ### Glossary
 
@@ -1506,10 +1514,10 @@ _Along the paths stand trees whose bark smells of cinnamon when you rub it._
 _Your Nubbin rubs every tree it passes, and arrives at the palace smelling like a pudding._  
 
 > **Lesson** (maths, 3.NF.A.1, ask): unit fractions  
-> **A Farmer of Serendib**: A stream is shared equally between four terraces. What fraction of the water does each terrace get?  
-> - ✅ One quarter (1/4). → Yes! Four equal parts, so each terrace gets 1 of the 4: one quarter.
-> - One half (1/2). → Half would be for two terraces. With four sharing, each gets one quarter, 1/4.
-> - One fourth of four (4/4). → 4/4 would be all of it. One terrace gets just one part of the four: 1/4.
+> **A Farmer of Serendib**: We fill four terrace pools from one stream, the same amount in each. What fraction of the water does each pool get?  
+> - ✅ One quarter (1/4). → Yes! Four equal parts, so each pool gets 1 of the 4: one quarter.
+> - One half (1/2). → Half would be for two pools. With four sharing, each gets one quarter, 1/4.
+> - All of it (4/4). → 4/4 would be all of the water. One pool gets just one part of the four: 1/4.
 > _For grown-ups: Found a unit fraction (1/4) for four equal shares._
 
 
@@ -1551,7 +1559,7 @@ _Nobody has told him to be solemn. He is leaning forward, with his chin on his f
 
 - **Nudge Sinbad to accept.**
     - **Young Sinbad**: It would be an honour, majesty.
-    - He says it beautifully. Then he whispers to you, “What have I done?”
+    - Sinbad says it beautifully. Then he whispers to you, “What have I done?”
 - **Let your Nubbin bow to the king.**
     - It bows so low it rolls over. The king laughs out loud, and the whole court is allowed to laugh too.
 
@@ -1773,7 +1781,7 @@ _One morning the herd doesn’t pass. It stops, and gathers round the tree, and 
 _The old cow wraps her trunk round the tree and pulls it over slowly, the way you would pull a weed you were fond of._  
 _Sinbad falls. She catches him in her trunk, sets him on her back, and the herd turns off the path._  
 **Young Sinbad**: Don’t let go of me! Come with me!  
-_She lets you climb up behind him. She doesn’t seem to mind your Nubbin at all._  
+_She lets you climb up behind Sinbad. She doesn’t seem to mind your Nubbin at all._  
 _They walk all day, up into the hills, to a valley whose floor is white._  
 _It is a valley of old bones and old tusks. This is where the elephants come when they are very old, to lie down._  
 
@@ -1843,7 +1851,7 @@ _He puts a hand on your shoulder, once, and goes in to supper._
 _The master takes his carts to the valley, and loads them with the tusks the herd let fall when they died old._  
 _On the road back, the herd passes the carts. They don’t stop, and the master bows his head to them until they’re gone._  
 **The Ivory Merchant**: You’ve made me rich, Sinbad. You’re free. Go home, and take your share.  
-**Young Sinbad**: The elephants paid for my freedom. I want to remember that I didn’t.  
+**Young Sinbad**: The elephants bought my freedom with their old tusks. I didn’t earn it. I mean to remember that.  
 
 > **Lesson** (science, 3-LS4-4, notice): conservation: how people protect elephants  
 > **Nova**: Nova’s notes: real elephants are in danger from ivory hunters and shrinking habitats. Selling ivory across borders has been banned since 1989.  
@@ -2090,12 +2098,12 @@ _He sets nothing on the low table. He looks at the empty place where something c
 #### `reader:a06-16-telling-done` · [main](main.md#a06-16-telling-done)
 
 **Sinbad the Porter**: And at the end, a herd walked home through the hills, and nobody shot at them, and nobody ever will.  
-**Sinbad the Porter**: The elephants were paid for in bones.  
+**Sinbad the Porter**: My friend went free, and the old elephants paid for it, in bones.  
 
 > **Lesson** (literacy, L.4.5, ask): metaphor in the porter’s last line  
-> _“The elephants were paid for in bones.” The porter is using “paid for” in a surprising way. What is he saying?_  
-> - ✅ That Sinbad’s freedom came from the old tusks the elephants left, not from killing any. → Yes. “Paid for” turns bones into a kind of coin. It says freedom cost the elephants nothing they hadn’t already left behind.
-> - That the master paid the elephants money. → Not literally. “Paid for in bones” is a figure of speech: the price was what the herd had already left behind.
+> _“The old elephants paid for it, in bones.” The porter is using “paid for” in a surprising way. What is he saying?_  
+> - ✅ That Sinbad’s freedom came from the old tusks the elephants left, not from killing any. → Yes. “Paid for” turns bones into a kind of coin. The elephants gave only what they had already left behind.
+> - That the master paid the elephants money. → Not literally. “Paid for, in bones” is a figure of speech: the price was what the herd had already left behind.
 > _For grown-ups: Interpreted a figurative use of “paid for”._
 
 _Nobody says anything. Then the old man claps, slowly, and the steward joins in, and then everybody does._  
@@ -2105,11 +2113,11 @@ _Nobody says anything. Then the old man claps, slowly, and the steward joins in,
 _Variant of `a06-16-telling-done`._
 
 **Sinbad the Porter**: And at the end, a herd walked past a gate three times, and nobody shot at them, and nobody ever will.  
-**Sinbad the Porter**: The elephants were paid for in a season.  
+**Sinbad the Porter**: My friend went free, and the elephants paid for it with a season of patience.  
 
 > **Lesson** (literacy, L.4.5, ask): metaphor in the porter’s last line  
-> _“Paid for in a season.” What is the porter saying about what Sinbad’s freedom cost?_  
-> - ✅ That it cost time: a patient season of waiting, not a price in coins. → Yes. “Paid for in a season” turns time into a kind of coin. Sinbad’s freedom cost him patience.
+> _“The elephants paid for it with a season of patience.” What is the porter saying about what Sinbad’s freedom cost?_  
+> - ✅ That it cost time: a patient season of waiting, not a price in coins. → Yes. “Paid for” turns time and patience into a kind of coin. Sinbad’s freedom cost him patience.
 > - That someone paid the master a lot of money. → Not literally. A season is a stretch of time, so the “payment” was waiting and patience.
 > _For grown-ups: Interpreted a figurative use of “paid for” in a different ending._
 
@@ -2142,11 +2150,11 @@ _Your Nubbin is already dragging the cushion across the lawn, looking for the ri
 
 _One by one your Nubbins come over the grass and sit down in a ring round the cushion, as if somebody had rung a bell._  
 
-> **Lesson** (maths, 4.G.A.3, do): symmetry: a ring is the same all the way round  
-> _If the ring of Nubbins is evenly spaced, you could fold it down the middle and each half would match._  
-> _Count the Nubbins on one side, then the other. Are the two halves equal?_  
-> Check: `edu:count:nubbins:symmetry`
-> _For grown-ups: Counted two halves of a ring to check symmetry._
+> **Lesson** (maths, 2.OA.C.3, do): odd and even: pairing off a ring  
+> _Count the Nubbins in the ring. Is the number odd or even? Pair them off, two by two, to check._  
+> _If one is left over, it sits on your foot. It is usually the same one._  
+> Check: `edu:count:nubbins:odd-even`
+> _For grown-ups: Counted a ring of Nubbins and paired them off to tell odd from even._
 
 _There is a space left, exactly the size of a person._  
 
@@ -2207,7 +2215,6 @@ _Your Nubbins don’t leave the ring for a long time, even after the stars are o
 - **embroidered**: Decorated with a design sewn on cloth in thread.
 - **lentil**: A small, flat, round seed eaten as food.
 - **metaphor**: A way of describing something by saying it is something else.
-- **symmetry**: When two halves of a shape or pattern match each other exactly.
 
 ## Variant scenes
 

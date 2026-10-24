@@ -1424,3 +1424,199 @@ _He puts the little balafon in your arms._
 **Balla Fasséké**: Go home, helper. Remember us well.  
 _The red earth turns soft, then smooth, then paper._  
 _You are home. Your Nubbin taps a tune on the book, nearly in time._  
+
+#### `sprout:a05-14-complete-lullaby-waiting` · [main](main.md#a05-14-complete-lullaby-waiting)
+
+_Variant of `a05-14-complete-lullaby`._
+
+_The ring falls quiet. Balla stands to tell Sundiata’s story._  
+**Balla Fasséké**: My helper’s round friend will play us in.  
+_Your Nubbin plays Sogolon’s lullaby. Thousands of people go quiet._  
+
+> **Lesson** (music, ELOF: Perceptual, Motor, and Physical Development, do): a slow, gentle beat  
+> _(Sway slowly from side to side, like the lullaby.)_  
+> Check: `edu:act:sway:slow`
+> _For grown-ups: Swayed to a slow, gentle beat._
+
+**Kolonkan**: That’s our mother’s grinding tune. She never knew anyone heard it.  
+**Sundiata**: She’d be cross to come first. Then she’d be very pleased.  
+**Balla Fasséké**: This is the story of a boy nobody hurried.  
+**Sundiata**: You start there?  
+**Balla Fasséké**: My helper asked me to. Ask my helper!  
+**Balla Fasséké**: In eight hundred years, children will still hear this. And they’ll argue about it!  
+**Balla Fasséké**: A story that people argue about is a story that is alive.  
+_He puts the little balafon in your arms._  
+**Balla Fasséké**: Go home, helper. Remember us well.  
+_The red earth turns soft, then smooth, then paper._  
+_You are home. Your Nubbin taps a tune on the book, nearly in time._  
+
+#### `sprout:a05-14-complete-lullaby-mother` · [main](main.md#a05-14-complete-lullaby-mother)
+
+_Variant of `a05-14-complete-lullaby`._
+
+_The ring falls quiet. Balla stands to tell Sundiata’s story._  
+**Balla Fasséké**: My helper’s round friend will play us in.  
+_Your Nubbin plays Sogolon’s lullaby. Thousands of people go quiet._  
+
+> **Lesson** (music, ELOF: Perceptual, Motor, and Physical Development, do): a slow, gentle beat  
+> _(Sway slowly from side to side, like the lullaby.)_  
+> Check: `edu:act:sway:slow`
+> _For grown-ups: Swayed to a slow, gentle beat._
+
+**Kolonkan**: That’s our mother’s grinding tune. She never knew anyone heard it.  
+**Sundiata**: She’d be cross to come first. Then she’d be very pleased.  
+**Balla Fasséké**: This is the story of Sogolon, who carried it all.  
+**Sundiata**: You start with my mother?  
+**Balla Fasséké**: My helper asked me to. Ask my helper!  
+**Balla Fasséké**: In eight hundred years, children will still hear this. And they’ll argue about it!  
+**Balla Fasséké**: A story that people argue about is a story that is alive.  
+_He puts the little balafon in your arms._  
+**Balla Fasséké**: Go home, helper. Remember us well.  
+_The red earth turns soft, then smooth, then paper._  
+_You are home. Your Nubbin taps a tune on the book, nearly in time._  
+
+#### `sprout:a05-14-complete-lullaby-sister` · [main](main.md#a05-14-complete-lullaby-sister)
+
+_Variant of `a05-14-complete-lullaby`._
+
+_The ring falls quiet. Balla stands to tell Sundiata’s story._  
+**Balla Fasséké**: My helper’s round friend will play us in.  
+_Your Nubbin plays Sogolon’s lullaby. Thousands of people go quiet._  
+
+> **Lesson** (music, ELOF: Perceptual, Motor, and Physical Development, do): a slow, gentle beat  
+> _(Sway slowly from side to side, like the lullaby.)_  
+> Check: `edu:act:sway:slow`
+> _For grown-ups: Swayed to a slow, gentle beat._
+
+**Kolonkan**: That’s our mother’s grinding tune. She never knew anyone heard it.  
+**Sundiata**: She’d be cross to come first. Then she’d be very pleased.  
+**Balla Fasséké**: This is the story of Nana Triban, who chose.  
+**Sundiata**: You start there?  
+**Balla Fasséké**: My helper asked me to. Ask my helper!  
+**Balla Fasséké**: In eight hundred years, children will still hear this. And they’ll argue about it!  
+**Balla Fasséké**: A story that people argue about is a story that is alive.  
+_He puts the little balafon in your arms._  
+**Balla Fasséké**: Go home, helper. Remember us well.  
+_The red earth turns soft, then smooth, then paper._  
+_You are home. Your Nubbin taps a tune on the book, nearly in time._  
+
+#### `sprout:a05-14-complete-lullaby-enemy` · [main](main.md#a05-14-complete-lullaby-enemy)
+
+_Variant of `a05-14-complete-lullaby`._
+
+_The ring falls quiet. Balla stands to tell Sundiata’s story._  
+**Balla Fasséké**: My helper’s round friend will play us in.  
+_Your Nubbin plays Sogolon’s lullaby. Thousands of people go quiet._  
+
+> **Lesson** (music, ELOF: Perceptual, Motor, and Physical Development, do): a slow, gentle beat  
+> _(Sway slowly from side to side, like the lullaby.)_  
+> Check: `edu:act:sway:slow`
+> _For grown-ups: Swayed to a slow, gentle beat._
+
+**Kolonkan**: That’s our mother’s grinding tune. She never knew anyone heard it.  
+**Sundiata**: She’d be cross to come first. Then she’d be very pleased.  
+**Balla Fasséké**: This is the story of Sundiata, and an enemy who loved music.  
+**Sundiata**: You start there?  
+**Balla Fasséké**: My helper asked me to. Ask my helper!  
+**Balla Fasséké**: In eight hundred years, children will still hear this. And they’ll argue about it!  
+**Balla Fasséké**: A story that people argue about is a story that is alive.  
+_He puts the little balafon in your arms._  
+**Balla Fasséké**: Go home, helper. Remember us well.  
+_The red earth turns soft, then smooth, then paper._  
+_You are home. Your Nubbin taps a tune on the book, nearly in time._  
+
+#### `sprout:a05-14-complete-waiting` · [main](main.md#a05-14-complete-waiting)
+
+_Variant of `a05-14-complete`._
+
+_The ring falls quiet. Balla stands to tell Sundiata’s story._  
+**Balla Fasséké**: My helper’s round friend will play us in.  
+_Your Nubbin plays the hunters’ tune. The whole ring stamps along!_  
+
+> **Lesson** (music, ELOF: Perceptual, Motor, and Physical Development, do): keep a steady beat  
+> _(Stamp a steady beat with your feet. Stamp, stamp, stamp, stamp.)_  
+> Check: `edu:act:stamp:beat`
+> _For grown-ups: Stamped a steady beat along with the hunters’ tune._
+
+**Sundiata**: My hunting tune! The one they played when I came home.  
+**Balla Fasséké**: This is the story of a boy nobody hurried.  
+**Sundiata**: You start there?  
+**Balla Fasséké**: My helper asked me to. Ask my helper!  
+**Balla Fasséké**: In eight hundred years, children will still hear this. And they’ll argue about it!  
+**Balla Fasséké**: A story that people argue about is a story that is alive.  
+_He puts the little balafon in your arms._  
+**Balla Fasséké**: Go home, helper. Remember us well.  
+_The red earth turns soft, then smooth, then paper._  
+_You are home. Your Nubbin taps a tune on the book, nearly in time._  
+
+#### `sprout:a05-14-complete-mother` · [main](main.md#a05-14-complete-mother)
+
+_Variant of `a05-14-complete`._
+
+_The ring falls quiet. Balla stands to tell Sundiata’s story._  
+**Balla Fasséké**: My helper’s round friend will play us in.  
+_Your Nubbin plays the hunters’ tune. The whole ring stamps along!_  
+
+> **Lesson** (music, ELOF: Perceptual, Motor, and Physical Development, do): keep a steady beat  
+> _(Stamp a steady beat with your feet. Stamp, stamp, stamp, stamp.)_  
+> Check: `edu:act:stamp:beat`
+> _For grown-ups: Stamped a steady beat along with the hunters’ tune._
+
+**Sundiata**: My hunting tune! The one they played when I came home.  
+**Balla Fasséké**: This is the story of Sogolon, who carried it all.  
+**Sundiata**: You start with my mother?  
+**Balla Fasséké**: My helper asked me to. Ask my helper!  
+**Balla Fasséké**: In eight hundred years, children will still hear this. And they’ll argue about it!  
+**Balla Fasséké**: A story that people argue about is a story that is alive.  
+_He puts the little balafon in your arms._  
+**Balla Fasséké**: Go home, helper. Remember us well.  
+_The red earth turns soft, then smooth, then paper._  
+_You are home. Your Nubbin taps a tune on the book, nearly in time._  
+
+#### `sprout:a05-14-complete-sister` · [main](main.md#a05-14-complete-sister)
+
+_Variant of `a05-14-complete`._
+
+_The ring falls quiet. Balla stands to tell Sundiata’s story._  
+**Balla Fasséké**: My helper’s round friend will play us in.  
+_Your Nubbin plays the hunters’ tune. The whole ring stamps along!_  
+
+> **Lesson** (music, ELOF: Perceptual, Motor, and Physical Development, do): keep a steady beat  
+> _(Stamp a steady beat with your feet. Stamp, stamp, stamp, stamp.)_  
+> Check: `edu:act:stamp:beat`
+> _For grown-ups: Stamped a steady beat along with the hunters’ tune._
+
+**Sundiata**: My hunting tune! The one they played when I came home.  
+**Balla Fasséké**: This is the story of Nana Triban, who chose.  
+**Sundiata**: You start there?  
+**Balla Fasséké**: My helper asked me to. Ask my helper!  
+**Balla Fasséké**: In eight hundred years, children will still hear this. And they’ll argue about it!  
+**Balla Fasséké**: A story that people argue about is a story that is alive.  
+_He puts the little balafon in your arms._  
+**Balla Fasséké**: Go home, helper. Remember us well.  
+_The red earth turns soft, then smooth, then paper._  
+_You are home. Your Nubbin taps a tune on the book, nearly in time._  
+
+#### `sprout:a05-14-complete-enemy` · [main](main.md#a05-14-complete-enemy)
+
+_Variant of `a05-14-complete`._
+
+_The ring falls quiet. Balla stands to tell Sundiata’s story._  
+**Balla Fasséké**: My helper’s round friend will play us in.  
+_Your Nubbin plays the hunters’ tune. The whole ring stamps along!_  
+
+> **Lesson** (music, ELOF: Perceptual, Motor, and Physical Development, do): keep a steady beat  
+> _(Stamp a steady beat with your feet. Stamp, stamp, stamp, stamp.)_  
+> Check: `edu:act:stamp:beat`
+> _For grown-ups: Stamped a steady beat along with the hunters’ tune._
+
+**Sundiata**: My hunting tune! The one they played when I came home.  
+**Balla Fasséké**: This is the story of Sundiata, and an enemy who loved music.  
+**Sundiata**: You start there?  
+**Balla Fasséké**: My helper asked me to. Ask my helper!  
+**Balla Fasséké**: In eight hundred years, children will still hear this. And they’ll argue about it!  
+**Balla Fasséké**: A story that people argue about is a story that is alive.  
+_He puts the little balafon in your arms._  
+**Balla Fasséké**: Go home, helper. Remember us well.  
+_The red earth turns soft, then smooth, then paper._  
+_You are home. Your Nubbin taps a tune on the book, nearly in time._  

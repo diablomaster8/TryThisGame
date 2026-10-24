@@ -4546,6 +4546,194 @@ export const EDU_A09_READER_VARIANTS: EduScene[] = [
       ),
     ],
   ),
+  scene(
+    'a09-12-dawn-mamma',
+    [
+      N('In the morning you wake up with sand in your ear and your Nubbin asleep on your chest.'),
+      N('The light at the cave mouth is not red. It is ordinary, yellow, wonderful morning.'),
+      N(
+        'You go out, and the grey has gone off everything. The grass is green, and wet, and has never looked so like grass.',
+      ),
+      N(
+        'And the sea is coming back. It comes in over the seabed in long, slow, shining sheets, filling every hollow.',
+      ),
+      MT('It came back. Everything came back.', 'happy'),
+      SK('Things mostly do. Not always. But mostly.', 'soft'),
+      N(
+        'The Hemulen is already in the long grass with his notebook, because there are butterflies.',
+      ),
+        N(
+          'Down at the water’s edge, the raft drifts in on the first wave, its name still on the stern, as if it had only popped out.',
+        ),
+        SN('She came home on her own, with Moominmamma still on the stern. That’s allowed, isn’t it?', 'happy'),
+        MP('Naturally. She was named after someone who always comes home.', 'soft'),
+    ],
+    [
+      ask(
+        'literacy',
+        'sensory words',
+        2,
+        [
+          N(
+            '“Green, and wet, and has never looked so like grass.” Which word here tells you about how grass feels or looks?',
+          ),
+        ],
+        [
+          opt(
+            'Wet',
+            [
+              N(
+                'Yes. “Wet” is a sense word. It helps you feel the morning, and the green helps you see it.',
+              ),
+            ],
+            true,
+          ),
+          opt('Never', [
+            N(
+              '“Never” tells us about time, not the senses. “Wet” and “green” tell us how the grass feels and looks.',
+            ),
+          ]),
+        ],
+        'Picked out words that describe what the senses notice.',
+        'RL.1.4',
+      ),
+      note(
+        'science',
+        'tides: the sea moves in and out each day',
+        3,
+        [
+          N('On a real coast, the sea comes back after low tide, twice a day.'),
+          N(
+            'The Moon’s pull makes the water rise and fall in a steady rhythm, so the sea always returns.',
+          ),
+        ],
+        'Reviewed the idea that tides rise and fall twice a day, driven by the Moon.',
+      ),
+      ask(
+        'literacy',
+        'your view and a character’s: honest comfort',
+        5,
+        [
+          N(
+            'Snufkin says things “mostly” come back, “not always”. Would you rather hear “it will be fine” or “things mostly turn out all right”? Think about it.',
+          ),
+        ],
+        [
+          opt('“It will be fine” is better, because it comforts.', [
+            N(
+              'That’s a fair answer. Comfort has real value, especially when you are small and scared.',
+            ),
+          ]),
+          opt('“Mostly” is better, because it is honest.', [
+            N(
+              'That’s a fair answer, and it is Snufkin’s view. Honesty lets us trust the person who comforts us.',
+            ),
+          ]),
+          opt('Both, with the honest one for when we are ready.', [
+            N(
+              'That’s a fair answer. Comfort first, truth gently after, is a way to be kind and honest.',
+            ),
+          ]),
+        ],
+        'Compared their own view with Snufkin’s on comfort and honesty.',
+        'RL.3.6',
+      ),
+    ],
+  ),
+  scene(
+    'a09-12-dawn-valuable',
+    [
+      N('In the morning you wake up with sand in your ear and your Nubbin asleep on your chest.'),
+      N('The light at the cave mouth is not red. It is ordinary, yellow, wonderful morning.'),
+      N(
+        'You go out, and the grey has gone off everything. The grass is green, and wet, and has never looked so like grass.',
+      ),
+      N(
+        'And the sea is coming back. It comes in over the seabed in long, slow, shining sheets, filling every hollow.',
+      ),
+      MT('It came back. Everything came back.', 'happy'),
+      SK('Things mostly do. Not always. But mostly.', 'soft'),
+      N(
+        'The Hemulen is already in the long grass with his notebook, because there are butterflies.',
+      ),
+        N(
+          'Down at the water’s edge, the raft drifts in on the first wave, its name still on the stern, as if it had only popped out.',
+        ),
+        SN('She came home on her own. That’s what a valuable does.', 'happy'),
+        MP('Naturally. She is called The Valuable. One does not lose a valuable.'),
+    ],
+    [
+      ask(
+        'literacy',
+        'sensory words',
+        2,
+        [
+          N(
+            '“Green, and wet, and has never looked so like grass.” Which word here tells you about how grass feels or looks?',
+          ),
+        ],
+        [
+          opt(
+            'Wet',
+            [
+              N(
+                'Yes. “Wet” is a sense word. It helps you feel the morning, and the green helps you see it.',
+              ),
+            ],
+            true,
+          ),
+          opt('Never', [
+            N(
+              '“Never” tells us about time, not the senses. “Wet” and “green” tell us how the grass feels and looks.',
+            ),
+          ]),
+        ],
+        'Picked out words that describe what the senses notice.',
+        'RL.1.4',
+      ),
+      note(
+        'science',
+        'tides: the sea moves in and out each day',
+        3,
+        [
+          N('On a real coast, the sea comes back after low tide, twice a day.'),
+          N(
+            'The Moon’s pull makes the water rise and fall in a steady rhythm, so the sea always returns.',
+          ),
+        ],
+        'Reviewed the idea that tides rise and fall twice a day, driven by the Moon.',
+      ),
+      ask(
+        'literacy',
+        'your view and a character’s: honest comfort',
+        5,
+        [
+          N(
+            'Snufkin says things “mostly” come back, “not always”. Would you rather hear “it will be fine” or “things mostly turn out all right”? Think about it.',
+          ),
+        ],
+        [
+          opt('“It will be fine” is better, because it comforts.', [
+            N(
+              'That’s a fair answer. Comfort has real value, especially when you are small and scared.',
+            ),
+          ]),
+          opt('“Mostly” is better, because it is honest.', [
+            N(
+              'That’s a fair answer, and it is Snufkin’s view. Honesty lets us trust the person who comforts us.',
+            ),
+          ]),
+          opt('Both, with the honest one for when we are ready.', [
+            N(
+              'That’s a fair answer. Comfort first, truth gently after, is a way to be kind and honest.',
+            ),
+          ]),
+        ],
+        'Compared their own view with Snufkin’s on comfort and honesty.',
+        'RL.3.6',
+      ),
+    ],
+  ),
 ];
 
 // ================================================================== exports

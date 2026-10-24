@@ -188,6 +188,7 @@ this sheet, follow the sheet and note it. Maor approved these decisions.
       says forty); she lives on the fourth floor with the machine and comes up on Thursdays.
     - Logged In: Root is the Keeper's sister, a tester for the company that built Grove Online.
       Juno has a mum and a cat; the cat is always fine.
+    - Atlas A8 (2026-10-23 run 9 fixes): Asterix's javelin is called **Stick** (named in A8-3).
     - Q32's inspector is **Inspector Plimsoll** (Thimble is S23's; Pell is Old Mr Pell's).
     - Q8: **Frannie is Reggie's wife.** Q61: **Mrs Tibbs** is the mayor's wife.
     - Q9: **Mother Brindle** is Barty's Keeper, who hatched him; "mother" is her own word for it.

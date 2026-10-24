@@ -36,6 +36,15 @@ default renderer is not changed; passes 1 and 2 are on `main`, deployed since 20
 accepted by Maor). Maor, 2026-10-21: daily refreshes and free daily gifts are allowed; only
 repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below).
 
+## Story review run 9 fixes (2026-10-23)
+
+All 58 run-9 recs in `docs/story-review/LOG.md` fixed; no open recs remain.
+- **Works:** the A04–A09 mains and the A06 and A07 bands. A05's finale has eight Balla variants and A09 has
+  named raft returns (`a09-raft`), all with band versions. A07 sprout's twist now goes to Héctor; the band maths
+  lessons match their scenes. `content-check --warnings` has a new `maths:` check.
+- **Partial:** none. **Known bugs:** the `maths:` check raises 71 warnings, mostly sprout counted-object answers
+  and unit answers; they still need a human pass.
+
 ## Story review run 8 fixes (2026-10-23)
 
 All 59 run-8 recs in `docs/story-review/LOG.md` fixed; no open recs remain.

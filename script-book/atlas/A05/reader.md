@@ -1630,6 +1630,290 @@ _You think about what you chose to keep, and what a griot would keep for you._
 _The red earth goes soft under your feet, then smooth, then paper._  
 _You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
 
+#### `reader:a05-14-complete-lullaby-waiting` · [main](main.md#a05-14-complete-lullaby-waiting)
+
+_Variant of `a05-14-complete-lullaby`._
+
+_The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata._  
+**Balla Fasséké**: Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.  
+_Your Nubbin plays Sogolon’s lullaby on Balla’s balafon. Thousands of people go quiet to hear it._  
+**Kolonkan**: That’s our mother’s grinding tune. She never knew anyone heard it.  
+**Sundiata**: She’d be cross to be the first thing in the story. Then she’d be very pleased.  
+**Balla Fasséké**: This is the story of a boy nobody hurried.  
+**Sundiata**: You’re starting there?  
+**Balla Fasséké**: My apprentice insisted. Take it up with them.  
+**Balla Fasséké**: Eight hundred years from now, my children’s children will still be telling this. And they’ll argue about it.  
+**Balla Fasséké**: That’s how you know a story is alive. Nobody argues about a dead one.  
+_He puts the little balafon into your arms, and the beaters into your Nubbin’s hands._  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): later Mali: Mansa Musa and the libraries of Timbuktu  
+> _Less than a hundred years after Sundiata, Mali’s most famous ruler, Mansa Musa, made a celebrated journey to Mecca._  
+> _He carried so much gold that people talked about it for generations._  
+> _Under later Malian and Songhai rulers, Timbuktu became a centre of learning._  
+> _Its libraries still hold hundreds of thousands of handwritten manuscripts: science, law, poetry and history._  
+> _For grown-ups: Learned that Mansa Musa ruled Mali less than a century later, and that Timbuktu’s libraries hold ancient manuscripts._
+
+
+> **Lesson** (music, D2.His.2.K-2, notice): the balafon today: the Sosso-Bala is still kept in Niagassola  
+> _A very old balafon called the Sosso-Bala is still kept in Niagassola, in Guinea, by Kouyaté families._  
+> _Tradition says it is Soumaoro’s own great balafon, the one Balla played in the tower._  
+> _UNESCO lists its tradition as heritage worth protecting._  
+> _Balafons are still played at weddings, celebrations and ceremonies across West Africa, and the keys are still tuned by ear._  
+> _For grown-ups: Learned that the balafon tradition is alive today, and that the Sosso-Bala is kept in Niagassola, Guinea._
+
+_You think about what you chose to keep, and what a griot would keep for you._  
+**Balla Fasséké**: Go home, apprentice. Remember us properly.  
+_The red earth goes soft under your feet, then smooth, then paper._  
+_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
+
+#### `reader:a05-14-complete-lullaby-mother` · [main](main.md#a05-14-complete-lullaby-mother)
+
+_Variant of `a05-14-complete-lullaby`._
+
+_The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata._  
+**Balla Fasséké**: Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.  
+_Your Nubbin plays Sogolon’s lullaby on Balla’s balafon. Thousands of people go quiet to hear it._  
+**Kolonkan**: That’s our mother’s grinding tune. She never knew anyone heard it.  
+**Sundiata**: She’d be cross to be the first thing in the story. Then she’d be very pleased.  
+**Balla Fasséké**: This is the story of Sogolon, who carried it all.  
+**Sundiata**: You’re starting with my mother?  
+**Balla Fasséké**: My apprentice insisted. Take it up with them.  
+**Balla Fasséké**: Eight hundred years from now, my children’s children will still be telling this. And they’ll argue about it.  
+**Balla Fasséké**: That’s how you know a story is alive. Nobody argues about a dead one.  
+_He puts the little balafon into your arms, and the beaters into your Nubbin’s hands._  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): later Mali: Mansa Musa and the libraries of Timbuktu  
+> _Less than a hundred years after Sundiata, Mali’s most famous ruler, Mansa Musa, made a celebrated journey to Mecca._  
+> _He carried so much gold that people talked about it for generations._  
+> _Under later Malian and Songhai rulers, Timbuktu became a centre of learning._  
+> _Its libraries still hold hundreds of thousands of handwritten manuscripts: science, law, poetry and history._  
+> _For grown-ups: Learned that Mansa Musa ruled Mali less than a century later, and that Timbuktu’s libraries hold ancient manuscripts._
+
+
+> **Lesson** (music, D2.His.2.K-2, notice): the balafon today: the Sosso-Bala is still kept in Niagassola  
+> _A very old balafon called the Sosso-Bala is still kept in Niagassola, in Guinea, by Kouyaté families._  
+> _Tradition says it is Soumaoro’s own great balafon, the one Balla played in the tower._  
+> _UNESCO lists its tradition as heritage worth protecting._  
+> _Balafons are still played at weddings, celebrations and ceremonies across West Africa, and the keys are still tuned by ear._  
+> _For grown-ups: Learned that the balafon tradition is alive today, and that the Sosso-Bala is kept in Niagassola, Guinea._
+
+_You think about what you chose to keep, and what a griot would keep for you._  
+**Balla Fasséké**: Go home, apprentice. Remember us properly.  
+_The red earth goes soft under your feet, then smooth, then paper._  
+_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
+
+#### `reader:a05-14-complete-lullaby-sister` · [main](main.md#a05-14-complete-lullaby-sister)
+
+_Variant of `a05-14-complete-lullaby`._
+
+_The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata._  
+**Balla Fasséké**: Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.  
+_Your Nubbin plays Sogolon’s lullaby on Balla’s balafon. Thousands of people go quiet to hear it._  
+**Kolonkan**: That’s our mother’s grinding tune. She never knew anyone heard it.  
+**Sundiata**: She’d be cross to be the first thing in the story. Then she’d be very pleased.  
+**Balla Fasséké**: This is the story of Nana Triban, who chose.  
+**Sundiata**: You’re starting there?  
+**Balla Fasséké**: My apprentice insisted. Take it up with them.  
+**Balla Fasséké**: Eight hundred years from now, my children’s children will still be telling this. And they’ll argue about it.  
+**Balla Fasséké**: That’s how you know a story is alive. Nobody argues about a dead one.  
+_He puts the little balafon into your arms, and the beaters into your Nubbin’s hands._  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): later Mali: Mansa Musa and the libraries of Timbuktu  
+> _Less than a hundred years after Sundiata, Mali’s most famous ruler, Mansa Musa, made a celebrated journey to Mecca._  
+> _He carried so much gold that people talked about it for generations._  
+> _Under later Malian and Songhai rulers, Timbuktu became a centre of learning._  
+> _Its libraries still hold hundreds of thousands of handwritten manuscripts: science, law, poetry and history._  
+> _For grown-ups: Learned that Mansa Musa ruled Mali less than a century later, and that Timbuktu’s libraries hold ancient manuscripts._
+
+
+> **Lesson** (music, D2.His.2.K-2, notice): the balafon today: the Sosso-Bala is still kept in Niagassola  
+> _A very old balafon called the Sosso-Bala is still kept in Niagassola, in Guinea, by Kouyaté families._  
+> _Tradition says it is Soumaoro’s own great balafon, the one Balla played in the tower._  
+> _UNESCO lists its tradition as heritage worth protecting._  
+> _Balafons are still played at weddings, celebrations and ceremonies across West Africa, and the keys are still tuned by ear._  
+> _For grown-ups: Learned that the balafon tradition is alive today, and that the Sosso-Bala is kept in Niagassola, Guinea._
+
+_You think about what you chose to keep, and what a griot would keep for you._  
+**Balla Fasséké**: Go home, apprentice. Remember us properly.  
+_The red earth goes soft under your feet, then smooth, then paper._  
+_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
+
+#### `reader:a05-14-complete-lullaby-enemy` · [main](main.md#a05-14-complete-lullaby-enemy)
+
+_Variant of `a05-14-complete-lullaby`._
+
+_The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata._  
+**Balla Fasséké**: Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.  
+_Your Nubbin plays Sogolon’s lullaby on Balla’s balafon. Thousands of people go quiet to hear it._  
+**Kolonkan**: That’s our mother’s grinding tune. She never knew anyone heard it.  
+**Sundiata**: She’d be cross to be the first thing in the story. Then she’d be very pleased.  
+**Balla Fasséké**: This is the story of Sundiata, and an enemy who loved music.  
+**Sundiata**: You’re starting there?  
+**Balla Fasséké**: My apprentice insisted. Take it up with them.  
+**Balla Fasséké**: Eight hundred years from now, my children’s children will still be telling this. And they’ll argue about it.  
+**Balla Fasséké**: That’s how you know a story is alive. Nobody argues about a dead one.  
+_He puts the little balafon into your arms, and the beaters into your Nubbin’s hands._  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): later Mali: Mansa Musa and the libraries of Timbuktu  
+> _Less than a hundred years after Sundiata, Mali’s most famous ruler, Mansa Musa, made a celebrated journey to Mecca._  
+> _He carried so much gold that people talked about it for generations._  
+> _Under later Malian and Songhai rulers, Timbuktu became a centre of learning._  
+> _Its libraries still hold hundreds of thousands of handwritten manuscripts: science, law, poetry and history._  
+> _For grown-ups: Learned that Mansa Musa ruled Mali less than a century later, and that Timbuktu’s libraries hold ancient manuscripts._
+
+
+> **Lesson** (music, D2.His.2.K-2, notice): the balafon today: the Sosso-Bala is still kept in Niagassola  
+> _A very old balafon called the Sosso-Bala is still kept in Niagassola, in Guinea, by Kouyaté families._  
+> _Tradition says it is Soumaoro’s own great balafon, the one Balla played in the tower._  
+> _UNESCO lists its tradition as heritage worth protecting._  
+> _Balafons are still played at weddings, celebrations and ceremonies across West Africa, and the keys are still tuned by ear._  
+> _For grown-ups: Learned that the balafon tradition is alive today, and that the Sosso-Bala is kept in Niagassola, Guinea._
+
+_You think about what you chose to keep, and what a griot would keep for you._  
+**Balla Fasséké**: Go home, apprentice. Remember us properly.  
+_The red earth goes soft under your feet, then smooth, then paper._  
+_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
+
+#### `reader:a05-14-complete-waiting` · [main](main.md#a05-14-complete-waiting)
+
+_Variant of `a05-14-complete`._
+
+_The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata._  
+**Balla Fasséké**: Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.  
+_Your Nubbin plays the hunters’ tune on Balla’s balafon. A hundred hunters stamp along, and the whole ring stamps with them._  
+**Sundiata**: My hunting tune. The one they played when I came home.  
+**Balla Fasséké**: This is the story of a boy nobody hurried.  
+**Sundiata**: You’re starting there?  
+**Balla Fasséké**: My apprentice insisted. Take it up with them.  
+**Balla Fasséké**: Eight hundred years from now, my children’s children will still be telling this. And they’ll argue about it.  
+**Balla Fasséké**: That’s how you know a story is alive. Nobody argues about a dead one.  
+_He puts the little balafon into your arms, and the beaters into your Nubbin’s hands._  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): later Mali: Mansa Musa and the libraries of Timbuktu  
+> _Less than a hundred years after Sundiata, Mali’s most famous ruler, Mansa Musa, made a celebrated journey to Mecca._  
+> _He carried so much gold that people talked about it for generations._  
+> _Under later Malian and Songhai rulers, Timbuktu became a centre of learning._  
+> _Its libraries still hold hundreds of thousands of handwritten manuscripts: science, law, poetry and history._  
+> _For grown-ups: Learned that Mansa Musa ruled Mali less than a century later, and that Timbuktu’s libraries hold ancient manuscripts._
+
+
+> **Lesson** (music, D2.His.2.K-2, notice): the balafon today: the Sosso-Bala is still kept in Niagassola  
+> _A very old balafon called the Sosso-Bala is still kept in Niagassola, in Guinea, by Kouyaté families._  
+> _Tradition says it is Soumaoro’s own great balafon, the one Balla played in the tower._  
+> _UNESCO lists its tradition as heritage worth protecting._  
+> _Balafons are still played at weddings, celebrations and ceremonies across West Africa, and the keys are still tuned by ear._  
+> _For grown-ups: Learned that the balafon tradition is alive today, and that the Sosso-Bala is kept in Niagassola, Guinea._
+
+_You think about what you chose to keep, and what a griot would keep for you._  
+**Balla Fasséké**: Go home, apprentice. Remember us properly.  
+_The red earth goes soft under your feet, then smooth, then paper._  
+_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
+
+#### `reader:a05-14-complete-mother` · [main](main.md#a05-14-complete-mother)
+
+_Variant of `a05-14-complete`._
+
+_The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata._  
+**Balla Fasséké**: Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.  
+_Your Nubbin plays the hunters’ tune on Balla’s balafon. A hundred hunters stamp along, and the whole ring stamps with them._  
+**Sundiata**: My hunting tune. The one they played when I came home.  
+**Balla Fasséké**: This is the story of Sogolon, who carried it all.  
+**Sundiata**: You’re starting with my mother?  
+**Balla Fasséké**: My apprentice insisted. Take it up with them.  
+**Balla Fasséké**: Eight hundred years from now, my children’s children will still be telling this. And they’ll argue about it.  
+**Balla Fasséké**: That’s how you know a story is alive. Nobody argues about a dead one.  
+_He puts the little balafon into your arms, and the beaters into your Nubbin’s hands._  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): later Mali: Mansa Musa and the libraries of Timbuktu  
+> _Less than a hundred years after Sundiata, Mali’s most famous ruler, Mansa Musa, made a celebrated journey to Mecca._  
+> _He carried so much gold that people talked about it for generations._  
+> _Under later Malian and Songhai rulers, Timbuktu became a centre of learning._  
+> _Its libraries still hold hundreds of thousands of handwritten manuscripts: science, law, poetry and history._  
+> _For grown-ups: Learned that Mansa Musa ruled Mali less than a century later, and that Timbuktu’s libraries hold ancient manuscripts._
+
+
+> **Lesson** (music, D2.His.2.K-2, notice): the balafon today: the Sosso-Bala is still kept in Niagassola  
+> _A very old balafon called the Sosso-Bala is still kept in Niagassola, in Guinea, by Kouyaté families._  
+> _Tradition says it is Soumaoro’s own great balafon, the one Balla played in the tower._  
+> _UNESCO lists its tradition as heritage worth protecting._  
+> _Balafons are still played at weddings, celebrations and ceremonies across West Africa, and the keys are still tuned by ear._  
+> _For grown-ups: Learned that the balafon tradition is alive today, and that the Sosso-Bala is kept in Niagassola, Guinea._
+
+_You think about what you chose to keep, and what a griot would keep for you._  
+**Balla Fasséké**: Go home, apprentice. Remember us properly.  
+_The red earth goes soft under your feet, then smooth, then paper._  
+_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
+
+#### `reader:a05-14-complete-sister` · [main](main.md#a05-14-complete-sister)
+
+_Variant of `a05-14-complete`._
+
+_The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata._  
+**Balla Fasséké**: Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.  
+_Your Nubbin plays the hunters’ tune on Balla’s balafon. A hundred hunters stamp along, and the whole ring stamps with them._  
+**Sundiata**: My hunting tune. The one they played when I came home.  
+**Balla Fasséké**: This is the story of Nana Triban, who chose.  
+**Sundiata**: You’re starting there?  
+**Balla Fasséké**: My apprentice insisted. Take it up with them.  
+**Balla Fasséké**: Eight hundred years from now, my children’s children will still be telling this. And they’ll argue about it.  
+**Balla Fasséké**: That’s how you know a story is alive. Nobody argues about a dead one.  
+_He puts the little balafon into your arms, and the beaters into your Nubbin’s hands._  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): later Mali: Mansa Musa and the libraries of Timbuktu  
+> _Less than a hundred years after Sundiata, Mali’s most famous ruler, Mansa Musa, made a celebrated journey to Mecca._  
+> _He carried so much gold that people talked about it for generations._  
+> _Under later Malian and Songhai rulers, Timbuktu became a centre of learning._  
+> _Its libraries still hold hundreds of thousands of handwritten manuscripts: science, law, poetry and history._  
+> _For grown-ups: Learned that Mansa Musa ruled Mali less than a century later, and that Timbuktu’s libraries hold ancient manuscripts._
+
+
+> **Lesson** (music, D2.His.2.K-2, notice): the balafon today: the Sosso-Bala is still kept in Niagassola  
+> _A very old balafon called the Sosso-Bala is still kept in Niagassola, in Guinea, by Kouyaté families._  
+> _Tradition says it is Soumaoro’s own great balafon, the one Balla played in the tower._  
+> _UNESCO lists its tradition as heritage worth protecting._  
+> _Balafons are still played at weddings, celebrations and ceremonies across West Africa, and the keys are still tuned by ear._  
+> _For grown-ups: Learned that the balafon tradition is alive today, and that the Sosso-Bala is kept in Niagassola, Guinea._
+
+_You think about what you chose to keep, and what a griot would keep for you._  
+**Balla Fasséké**: Go home, apprentice. Remember us properly.  
+_The red earth goes soft under your feet, then smooth, then paper._  
+_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
+
+#### `reader:a05-14-complete-enemy` · [main](main.md#a05-14-complete-enemy)
+
+_Variant of `a05-14-complete`._
+
+_The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata._  
+**Balla Fasséké**: Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.  
+_Your Nubbin plays the hunters’ tune on Balla’s balafon. A hundred hunters stamp along, and the whole ring stamps with them._  
+**Sundiata**: My hunting tune. The one they played when I came home.  
+**Balla Fasséké**: This is the story of Sundiata, and an enemy who loved music.  
+**Sundiata**: You’re starting there?  
+**Balla Fasséké**: My apprentice insisted. Take it up with them.  
+**Balla Fasséké**: Eight hundred years from now, my children’s children will still be telling this. And they’ll argue about it.  
+**Balla Fasséké**: That’s how you know a story is alive. Nobody argues about a dead one.  
+_He puts the little balafon into your arms, and the beaters into your Nubbin’s hands._  
+
+> **Lesson** (social-studies, D2.His.2.K-2, notice): later Mali: Mansa Musa and the libraries of Timbuktu  
+> _Less than a hundred years after Sundiata, Mali’s most famous ruler, Mansa Musa, made a celebrated journey to Mecca._  
+> _He carried so much gold that people talked about it for generations._  
+> _Under later Malian and Songhai rulers, Timbuktu became a centre of learning._  
+> _Its libraries still hold hundreds of thousands of handwritten manuscripts: science, law, poetry and history._  
+> _For grown-ups: Learned that Mansa Musa ruled Mali less than a century later, and that Timbuktu’s libraries hold ancient manuscripts._
+
+
+> **Lesson** (music, D2.His.2.K-2, notice): the balafon today: the Sosso-Bala is still kept in Niagassola  
+> _A very old balafon called the Sosso-Bala is still kept in Niagassola, in Guinea, by Kouyaté families._  
+> _Tradition says it is Soumaoro’s own great balafon, the one Balla played in the tower._  
+> _UNESCO lists its tradition as heritage worth protecting._  
+> _Balafons are still played at weddings, celebrations and ceremonies across West Africa, and the keys are still tuned by ear._  
+> _For grown-ups: Learned that the balafon tradition is alive today, and that the Sosso-Bala is kept in Niagassola, Guinea._
+
+_You think about what you chose to keep, and what a griot would keep for you._  
+**Balla Fasséké**: Go home, apprentice. Remember us properly.  
+_The red earth goes soft under your feet, then smooth, then paper._  
+_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
+
 ### Glossary
 
 - **charter**: A set of rules for how people live together.

@@ -38,8 +38,10 @@
  *     a05-09-chamber-done-lullaby) and again at the Assembly, where it opens the griot's telling
  *     (A5-14: a05-14-complete | ATLAS_A05_VARIANTS a05-14-complete-lullaby).
  *   - a05-remember = waiting | mother | sister | enemy (A5-14, a05-14-ask): what you ask the griot
- *     to remember. The then-lines carry the payoff; the Grove's balafon plays a matching phrase
- *     (see A5-14 notes). The Grove only reads this Atlas value; nothing here writes Grove state.
+ *     to remember. The then-lines carry the payoff, and Balla opens his telling with it in the
+ *     complete scene (ATLAS_A05_VARIANTS a05-14-complete-<pick> and a05-14-complete-lullaby-<pick>);
+ *     the Grove's balafon plays a matching phrase (see A5-14 notes). The Grove only reads this Atlas
+ *     value; nothing here writes Grove state.
  *
  * LIFTED TEXT: none. Niane's English text and Eisner's book are in copyright, and the outline
  * lists no approved quotes, so every line is original. The opening griot speech ("I am a
@@ -174,6 +176,33 @@ const A14_END: Line[] = [
   N('The red earth goes soft under your feet, then smooth, then paper.'),
   N('You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time.'),
 ];
+
+/**
+ * A5-14: Balla's first line of the telling, by what you asked him never to leave out (a05-remember,
+ * a05-14-ask). Spliced into the eight a05-14-complete-* variants, after the tune and before A14_END.
+ */
+const A14_TELLING: Record<'waiting' | 'mother' | 'sister' | 'enemy', Line[]> = {
+  waiting: [
+    B('This is the story of a boy nobody hurried.'),
+    SU('You’re starting there?', 'shock'),
+    B('My apprentice insisted. Take it up with them.', 'happy'),
+  ],
+  mother: [
+    B('This is the story of Sogolon, who carried it all.'),
+    SU('You’re starting with my mother?', 'shock'),
+    B('My apprentice insisted. Take it up with them.', 'happy'),
+  ],
+  sister: [
+    B('This is the story of Nana Triban, who chose.'),
+    SU('You’re starting there?', 'shock'),
+    B('My apprentice insisted. Take it up with them.', 'happy'),
+  ],
+  enemy: [
+    B('This is the story of Sundiata, and of an enemy who loved music.'),
+    SU('You’re starting there?', 'shock'),
+    B('My apprentice insisted. Take it up with them.', 'happy'),
+  ],
+};
 
 // =================================================================== THE LION OF MALI
 
@@ -502,8 +531,9 @@ export const ATLAS_A05: Quest[] = [
     complete: {
       id: 'a05-03-complete',
       lines: [
+        B('Watch, apprentice. That’s Mari Djata. One day the tellers will call him Sundiata, and you’ll hear why.', 'soft'),
         SU('Mother. Why are you crying?'),
-        N('Sogolon looks up. So does Balla, and so, it seems, does the whole yard.'),
+        N('Sogolon looks up, and so, it seems, does the whole yard.'),
         SO('Because of leaves. Because of a woman with a sharp tongue. Because of you, my son.', 'sad'),
         SU('Then dry your eyes, Mother. Today I stand up.', 'angry'),
         SU('Send to the forges. Ask the smiths for a rod of iron, so heavy it takes all of them to carry it.'),
@@ -844,7 +874,8 @@ export const ATLAS_A05: Quest[] = [
           id: 'a05-06-leave',
           lines: [
             SO('We go tonight. While my son is angry, he isn’t safe here, and while we stay, nor is anyone who loves him.'),
-            N('There are five of them at the west gate: Sogolon, Sundiata, his sisters Kolonkan and little Djamarou, and his half-brother Manding Bory.'),
+            N('Five of them at the west gate: Sogolon, Sundiata, and two sisters. Kolonkan is the tall one. Djamarou is asleep standing up.'),
+            N('Then a boy comes running with a bundle bigger than he is: Manding Bory, Sundiata’s half-brother.'),
             MB('My mother says I should stay. I said I’m going where Djata goes. She cried, and then she packed me food.', 'sad'),
             KO('Walk quietly. The road out of Niani has ears.'),
             N('Sundiata looks back once at the town, at the dark shape of the baobab at his mother’s door.'),
@@ -1195,7 +1226,8 @@ export const ATLAS_A05: Quest[] = [
         scene: {
           id: 'a05-09-march',
           lines: [
-            N('The page turns forward again. From the tower window, you watch Soumaoro’s army go out of Sosso like smoke out of a forge.'),
+            N('The page turns forward by years. Balla has grey in his beard now, the same tower window, and still no key.'),
+            N('From it, you watch Soumaoro’s army go out of Sosso like smoke out of a forge.'),
             B('He’s taking Manding. Dankaran Touman sent him gifts, and a griot, and it wasn’t enough. It never is, with a man like that.', 'sad'),
             N('Far off, the page shows Niani, small, with its gates open, and Dankaran Touman riding hard the other way.'),
             DT('Don’t tell anyone I ran. No. Tell them. It doesn’t matter now.', 'sad'),
@@ -1361,6 +1393,8 @@ export const ATLAS_A05: Quest[] = [
             FR('Tabon is with you. So are the hunters of Sibi, and more are coming.', 'happy'),
             MB('Every king who’s been afraid of Soumaoro is walking up this road, Djata. They’ve just been waiting for someone to go first.'),
             N('All day they come in, with drums and banners. Your Nubbin greets every single one at the camp gate, very seriously.'),
+            N('It gives each king a pebble. By the ninth king it is down to gravel.'),
+            FR('It gave me its last pebble. I’m deeply moved, and slightly worried for it.', 'soft'),
           ],
           choices: [
             {
@@ -1805,7 +1839,8 @@ export const ATLAS_A05: Quest[] = [
       'SIGNATURE PAYOFF (a05-tune, set in A5-5). The complete scene shown is for hunters. For lullaby play ' +
       'ATLAS_A05_VARIANTS a05-14-complete-lullaby (the ring goes quiet instead of stamping; Kolonkan recognises her ' +
       'mother’s grinding tune). Both end with A14_END. SECOND CHOICE (a05-14-ask): a05-remember = waiting | mother | ' +
-      'sister | enemy. The then-line is the payoff; in the Grove, the balafon’s tune always adds a short phrase for the ' +
+      'sister | enemy. The then-line is the first payoff; Balla then opens his telling with the pick in the complete scene ' +
+      '(ATLAS_A05_VARIANTS a05-14-complete-<pick> and a05-14-complete-lullaby-<pick>, eight in all). In the Grove, the balafon’s tune always adds a short phrase for the ' +
       'pick (AUDIO: four two-bar phrases), so the choice is heard every time the reward is played. The Grove reads ' +
       'a05-remember from the Atlas save, read-only; no Grove flag is written. The balafon is unlimited: play it any ' +
       'time, no cooldown. KURUKAN FUGA: what was said is told in plain words that echo the Manden ' +
@@ -1825,6 +1860,10 @@ export const ATLAS_A05: Quest[] = [
  *   a05-14-complete-lullaby (replaces a05-14-complete). The main scenes are the hunters' versions,
  *   and they also play whenever a05-tune is unset (it can't be once A5-5 is done, but the engine
  *   should default to hunters).
+ *   a05-remember = waiting | mother | sister | enemy (A5-14, a05-14-ask): a05-14-complete-<pick> (hunters)
+ *   and a05-14-complete-lullaby-<pick> replace the complete scene, adding Balla's first line of the
+ *   telling (A14_TELLING). variantFor picks the most specific id, so lullaby-<pick> beats lullaby;
+ *   the plain a05-14-complete and a05-14-complete-lullaby stay as fallbacks if a05-remember is unset.
  */
 export const ATLAS_A05_VARIANTS: Scene[] = [
   // ---------------------------------------------------------------- A5-9, replacement (lullaby)
@@ -1847,6 +1886,106 @@ export const ATLAS_A05_VARIANTS: Scene[] = [
       N('Your Nubbin plays Sogolon’s lullaby on Balla’s balafon. Thousands of people go quiet to hear it.'),
       KO('That’s our mother’s grinding tune. She never knew anyone heard it.', 'soft'),
       SU('She’d be cross to be the first thing in the story. Then she’d be very pleased.', 'happy'),
+      ...A14_END,
+    ],
+  },
+  // ---------------------------------------------------------------- A5-14, replacement (hunters, waiting)
+  {
+    id: 'a05-14-complete-waiting',
+    lines: [
+      N('The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata.'),
+      B('Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.'),
+      N('Your Nubbin plays the hunters’ tune on Balla’s balafon. A hundred hunters stamp along, and the whole ring stamps with them.'),
+      SU('My hunting tune. The one they played when I came home.', 'happy'),
+      ...A14_TELLING.waiting,
+      ...A14_END,
+    ],
+  },
+  // ---------------------------------------------------------------- A5-14, replacement (hunters, mother)
+  {
+    id: 'a05-14-complete-mother',
+    lines: [
+      N('The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata.'),
+      B('Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.'),
+      N('Your Nubbin plays the hunters’ tune on Balla’s balafon. A hundred hunters stamp along, and the whole ring stamps with them.'),
+      SU('My hunting tune. The one they played when I came home.', 'happy'),
+      ...A14_TELLING.mother,
+      ...A14_END,
+    ],
+  },
+  // ---------------------------------------------------------------- A5-14, replacement (hunters, sister)
+  {
+    id: 'a05-14-complete-sister',
+    lines: [
+      N('The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata.'),
+      B('Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.'),
+      N('Your Nubbin plays the hunters’ tune on Balla’s balafon. A hundred hunters stamp along, and the whole ring stamps with them.'),
+      SU('My hunting tune. The one they played when I came home.', 'happy'),
+      ...A14_TELLING.sister,
+      ...A14_END,
+    ],
+  },
+  // ---------------------------------------------------------------- A5-14, replacement (hunters, enemy)
+  {
+    id: 'a05-14-complete-enemy',
+    lines: [
+      N('The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata.'),
+      B('Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.'),
+      N('Your Nubbin plays the hunters’ tune on Balla’s balafon. A hundred hunters stamp along, and the whole ring stamps with them.'),
+      SU('My hunting tune. The one they played when I came home.', 'happy'),
+      ...A14_TELLING.enemy,
+      ...A14_END,
+    ],
+  },
+  // ---------------------------------------------------------------- A5-14, replacement (lullaby, waiting)
+  {
+    id: 'a05-14-complete-lullaby-waiting',
+    lines: [
+      N('The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata.'),
+      B('Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.'),
+      N('Your Nubbin plays Sogolon’s lullaby on Balla’s balafon. Thousands of people go quiet to hear it.'),
+      KO('That’s our mother’s grinding tune. She never knew anyone heard it.', 'soft'),
+      SU('She’d be cross to be the first thing in the story. Then she’d be very pleased.', 'happy'),
+      ...A14_TELLING.waiting,
+      ...A14_END,
+    ],
+  },
+  // ---------------------------------------------------------------- A5-14, replacement (lullaby, mother)
+  {
+    id: 'a05-14-complete-lullaby-mother',
+    lines: [
+      N('The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata.'),
+      B('Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.'),
+      N('Your Nubbin plays Sogolon’s lullaby on Balla’s balafon. Thousands of people go quiet to hear it.'),
+      KO('That’s our mother’s grinding tune. She never knew anyone heard it.', 'soft'),
+      SU('She’d be cross to be the first thing in the story. Then she’d be very pleased.', 'happy'),
+      ...A14_TELLING.mother,
+      ...A14_END,
+    ],
+  },
+  // ---------------------------------------------------------------- A5-14, replacement (lullaby, sister)
+  {
+    id: 'a05-14-complete-lullaby-sister',
+    lines: [
+      N('The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata.'),
+      B('Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.'),
+      N('Your Nubbin plays Sogolon’s lullaby on Balla’s balafon. Thousands of people go quiet to hear it.'),
+      KO('That’s our mother’s grinding tune. She never knew anyone heard it.', 'soft'),
+      SU('She’d be cross to be the first thing in the story. Then she’d be very pleased.', 'happy'),
+      ...A14_TELLING.sister,
+      ...A14_END,
+    ],
+  },
+  // ---------------------------------------------------------------- A5-14, replacement (lullaby, enemy)
+  {
+    id: 'a05-14-complete-lullaby-enemy',
+    lines: [
+      N('The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata.'),
+      B('Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.'),
+      N('Your Nubbin plays Sogolon’s lullaby on Balla’s balafon. Thousands of people go quiet to hear it.'),
+      KO('That’s our mother’s grinding tune. She never knew anyone heard it.', 'soft'),
+      SU('She’d be cross to be the first thing in the story. Then she’d be very pleased.', 'happy'),
+      ...A14_TELLING.enemy,
       ...A14_END,
     ],
   },

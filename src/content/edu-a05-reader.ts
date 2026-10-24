@@ -3713,7 +3713,7 @@ const SCENES: EduScene[] = [
 ];
 
 // ================================================================== variants (lullaby)
-export const EDU_A05_READER_VARIANTS: EduScene[] = [
+const EDU_A05_READER_VARIANTS_BASE: EduScene[] = [
   scene(
     'a05-09-chamber-done-lullaby',
     [
@@ -3805,6 +3805,58 @@ export const EDU_A05_READER_VARIANTS: EduScene[] = [
       ),
     ],
   ),
+];
+
+// ================================================================== variants (Balla's telling)
+/** A5-14: Balla's first line of the telling, by what you asked him never to leave out (a05-remember). */
+const A14_TELLING: Record<'waiting' | 'mother' | 'sister' | 'enemy', Line[]> = {
+  waiting: [
+    B('This is the story of a boy nobody hurried.'),
+    SU('You’re starting there?', 'shock'),
+    B('My apprentice insisted. Take it up with them.', 'happy'),
+  ],
+  mother: [
+    B('This is the story of Sogolon, who carried it all.'),
+    SU('You’re starting with my mother?', 'shock'),
+    B('My apprentice insisted. Take it up with them.', 'happy'),
+  ],
+  sister: [
+    B('This is the story of Nana Triban, who chose.'),
+    SU('You’re starting there?', 'shock'),
+    B('My apprentice insisted. Take it up with them.', 'happy'),
+  ],
+  enemy: [
+    B('This is the story of Sundiata, and an enemy who loved music.'),
+    SU('You’re starting there?', 'shock'),
+    B('My apprentice insisted. Take it up with them.', 'happy'),
+  ],
+};
+
+/** Clones a complete scene with Balla's telling spliced in before the shared ending. */
+const withTelling = (base: EduScene, pick: keyof typeof A14_TELLING, ofId: string): EduScene => {
+  const at = base.lines.length - A14_END.length;
+  const extra = A14_TELLING[pick];
+  return {
+    ...base,
+    id: `reader:${ofId}`,
+    of: ofId,
+    lines: [...base.lines.slice(0, at), ...extra, ...base.lines.slice(at)],
+    lessons: base.lessons.map((l, i) => ({
+      ...l,
+      id: `reader:${ofId}-l${i + 1}`,
+      after: l.after >= at ? l.after + extra.length : l.after,
+    })),
+  };
+};
+
+const A14_PICKS = ['waiting', 'mother', 'sister', 'enemy'] as const;
+const A14_HUNTERS = SCENES.find((s) => s.of === 'a05-14-complete')!;
+const A14_LULLABY = EDU_A05_READER_VARIANTS_BASE.find((s) => s.of === 'a05-14-complete-lullaby')!;
+
+export const EDU_A05_READER_VARIANTS: EduScene[] = [
+  ...EDU_A05_READER_VARIANTS_BASE,
+  ...A14_PICKS.map((p) => withTelling(A14_HUNTERS, p, `a05-14-complete-${p}`)),
+  ...A14_PICKS.map((p) => withTelling(A14_LULLABY, p, `a05-14-complete-lullaby-${p}`)),
 ];
 
 // ================================================================== the quests

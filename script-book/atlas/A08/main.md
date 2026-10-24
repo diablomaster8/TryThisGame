@@ -190,6 +190,10 @@ _Asterix takes a sip from his flask and borrows a plain javelin from the cart. H
 _It goes over Verses’ javelin, over the trees and over the hill. It keeps going, and the whistle of it fades away._  
 **Verses** _(shock)_: Where is it going?  
 **Asterix**: I couldn’t tell you. I just threw it.  
+**Verses**: And what is she called?  
+**Asterix**: Er. Stick.  
+_Dogmatix, who has brought you eleven sticks today, looks up sharply._  
+**Verses** _(happy)_: Stick. A modest name. I like her already.  
 
 **Choices**
 
@@ -276,6 +280,7 @@ _High overhead, something whistles past, going east. It is Asterix’s javelin f
 #### <a id="a08-04-complete"></a>Complete `a08-04-complete`
 
 _You scratch a tick beside III on the wax tablet: the wrestler. Pupus looks at it, sighs, and initials it._  
+_Pupus sighs before you have finished scratching, to save time._  
 **Cilindric** _(happy)_: A clean result. Unusual, but clean. Please keep the book. I have three more at home.  
 _He bows once to each of you and folds his towel again, perfectly, and walks off with it under his arm._  
 **Obelix**: He was nice too.  
@@ -599,7 +604,7 @@ Hint: Go from counter to counter. Keep track of where each one sends you. · che
 _Counter two is on the third floor. The clerk is eating lunch, though it is ten in the morning._  
 **A Clerk**: The blue form? You need the pink form first, to prove you’re allowed to ask for the blue form. Counter one.  
 _Counter one has closed, and a sign says it has gone to counter four. Counter four is a broom cupboard._  
-_A man in a dusty toga drifts past, holding a scroll. He has a long white beard, and he looks about your age._  
+_A man in a dusty toga drifts past, holding a scroll. He has a long white beard and a badge that says NEW. The badge is very faded._  
 **Obelix** _(sad)_: Asterix. I think we’ve been here before. I think we’ve been here all our lives.  
 _You look at your tablet. You have written down every counter, and the arrows on it make a perfect circle._  
 
@@ -676,6 +681,7 @@ _The prefect stamps a small grey square of papyrus without even reading it, and 
 _It says PERMIT A38 in very large letters, and nothing else at all. You hold it up for everyone to see._  
 **Caius Pupus** _(shock)_: In the whole history of the building, nobody has ever got one. I didn’t think it was real.  
 _You scratch a tick beside VIII on the wax tablet: Permit A38. Pupus looks at it, sighs, and initials it._  
+_Pupus initials it in triplicate. Old habits._  
 _On your way out, the porter hands your form back to you, stamped, with great respect. He seems to think you’ll need it again._  
 **Obelix** _(happy)_: That was the best one. Can we do that one again?  
 **Asterix**: Never, Obelix. Never, ever again.  
@@ -745,7 +751,8 @@ _The crocodiles, below, look at each other with what seems to be disappointment.
 **Caius Pupus** _(think)_: That is not the magic rope. Technically, you have not crossed on the magic rope.  
 **Asterix**: Technically, there isn’t one.  
 _Pupus opens his mouth, closes it, and looks back at the empty air between the posts for a long moment._  
-**Caius Pupus**: Fine. Fine. Write it down.  
+**Caius Pupus**: Fine. Write down: "Rope: invisible. Crocodiles: unimpressed."  
+_Below, the biggest crocodile turns its back on you, very slowly, to make a point._  
 _You scratch a tick beside IX on the wax tablet: the ravine. Pupus looks at it, sighs, and initials it._  
 
 **Rewards**
@@ -811,6 +818,7 @@ _Behind the Old Man, in his cave, there are stacks and stacks of small white cak
 #### <a id="a08-11-complete"></a>Complete `a08-11-complete`
 
 _You scratch a tick beside X on the wax tablet: the riddle. Pupus looks at it, sighs, and initials it._  
+_Pupus has initialled it before your scratch is finished._  
 _The way down is quicker. You smell of goat’s milk and meadow flowers, and so, to his great dismay, does Obelix._  
 **Obelix** _(sad)_: I smell like a lamb. Asterix, I smell like a lamb.  
 **Asterix**: You smell lovely.  
@@ -889,6 +897,7 @@ _They shuffle off into the mist, sulking, chains dragging. One of them, at the b
 
 _Dawn comes up pink over the plain. The mist has gone, and so have the ghosts, and the potatoes, which nobody can explain._  
 _You scratch a tick beside XI on the wax tablet: the haunted plain. Pupus looks at it, sighs, and initials it._  
+_Pupus initials it and does not sigh. He looks worried about that._  
 **Caius Pupus** _(think)_: One left. The last one is in Rome. Caesar wants to see this himself.  
 **Asterix**: Good. I want to see him see it.  
 _Pupus does not argue. You notice that he has, at some point in the night, started walking on your side of the fire._  
@@ -940,7 +949,8 @@ _The first lion bounds at Asterix, and Asterix catches it under the front legs a
 _Obelix rubs the second lion behind the ears until it rolls on its back. Gladiators run out; the chief invites them to dinner._  
 _Someone lights a fire in the middle of the sand, and someone else has brought the boar. Somehow, there is a feast._  
 _Your Nubbin and Dogmatix chase a lion cub round the arena, and the cub chases them back, and the crowd goes wild._  
-_High in the stands, a white figure is cheering: Asbestos. Beside him are Verses, Cilindric, a floury Mannekenpix, and Iris, a person again._  
+_High in the stands, a white figure is cheering: Asbestos. Beside him are Cilindric, a floury Mannekenpix, and Iris, a person again._  
+_A muddy note arrives from Verses: "Still walking. Cheering from here. Stick sends regards."_  
 _The crowd isn’t booing the Gauls any more. It is coming down the steps to join the party._  
 
 #### <a id="a08-13-arena-done"></a>Done `a08-13-arena-done`
@@ -955,9 +965,9 @@ _Up on the balcony, Caesar stands, and the arena goes quiet. He looks down at th
 **Julius Caesar**: Gauls, you have done the twelve tasks of Hercules, and a few of your own. Rome declares you gods. Rome hopes you will be quiet ones.  
 **Vitalstatistix** _(happy)_: Thank you, Caesar! Come to dinner. Bring a boar.  
 **Julius Caesar**: I think not. But I shall look at your little dot on the map with… respect.  
-_Pupus climbs up beside you and takes the wax tablet, and looks at all twelve ticks, and initials the last one with a flourish._  
+_Pupus climbs up beside you and takes the wax tablet, and looks at all twelve ticks._  
 **Caius Pupus** _(soft)_: Referee. Your scoring was impartial, generous, and occasionally very strange. I would observe you again.  
-_You scratch a tick beside XII on the wax tablet: the arena. Pupus looks at it, sighs, and initials it._  
+_You scratch the last tick, XII. Pupus initials it with a flourish, and nobody sighs at all._  
 
 **Rewards**
 
@@ -1024,7 +1034,7 @@ _Then the feast goes on until the stars wheel round. Obelix eats four boars, the
 _Getafix gives you a tiny cauldron, no bigger than a cup, with something glimmering inside. Obelix looks at it, and sighs._  
 **Vitalstatistix** _(happy)_: And a helmet, with wings! And a menhir! Obelix, give the referee a menhir. A small one.  
 **Obelix** _(happy)_: This is my smallest one. I made it specially. It’s got a little face on it, look.  
-_Far overhead, Asterix’s javelin whistles past going east, still going. Somewhere, Verses is still following it._  
+_Far overhead, Asterix’s javelin whistles past going east, still going. Somewhere, Verses is still following Stick._  
 **Caius Pupus** _(soft)_: Will you come back? You could referee the next lot. Caesar is already thinking of something.  
 _The map closes round you like a hand. You are in the Grove, with a cauldron, a helmet, a very small menhir, and a dog’s hair on your sleeve._  
 

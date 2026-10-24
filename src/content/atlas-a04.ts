@@ -431,7 +431,8 @@ export const ATLAS_A04: Quest[] = [
             AV('There’s a woman in Mahishmati. A queen. She’s been chained in the palace courtyard for twenty-five years.'),
             AV('The king, Bhallaladeva, put her there. She gathers sticks every day for a fire. She says it’s his.'),
             RE('Our fathers swore to bring her out. Then we swore it. We’re not very good at it yet.', 'sad'),
-            AV('This was my turn. I’ve failed it before I’ve tried. The mask was the plan.', 'sad'),
+            AV('The mask was how I’d get past the palace guards. Without it, the plan is me, shouting.', 'sad'),
+            RE('We tried shouting last year. The gate didn’t notice.'),
             N('Shivudu looks at her, and then at the snow, and you can see him decide.'),
             SH('Then it’s my turn. I’ll bring her out. You can owe me.'),
           ],
@@ -561,7 +562,10 @@ export const ATLAS_A04: Quest[] = [
             {
               id: 'son',
               label: 'Ask her how she knows her son is alive.',
-              then: [DE('Because I haven’t finished the fire. When it’s ready, he’ll come. That’s the whole of it.', 'soft')],
+              then: [
+                DE('The fire is for Bhallaladeva. Only my son can bring him to it.', 'soft'),
+                DE('So when it’s ready, my son will come. That’s the whole of it.', 'soft'),
+              ],
             },
             {
               id: 'help',
@@ -781,7 +785,8 @@ export const ATLAS_A04: Quest[] = [
       lines: [
         N('That night, in the rebels’ cave, Kattappa sits by the fire. Everybody else sits round him.'),
         SH('Who was my father? Who am I?'),
-        KA('You were the king, before you could walk. And your father was the best man I ever served.', 'sad'),
+        KA('Your name is Mahendra. Your father was Amarendra. The people called him Baahubali: strong arms.', 'sad'),
+        KA('You were king before you could walk. And your father was the best man I ever served.', 'sad'),
         KA('I’ll tell it from the beginning. It’s long, and the end is mine to carry.'),
         N('He looks at you, the stranger, briefly. Then he looks into the fire, and the page begins to turn back.'),
       ],
@@ -803,7 +808,7 @@ export const ATLAS_A04: Quest[] = [
     audience: 'teen',
     trigger: { where: WHERE, when: after('A4-6') },
     requires: ['A4-6'],
-    speakers: [KATTAPPA, SIVAGAMI, AMARENDRA, BHALLA, BIJJALA],
+    speakers: [KATTAPPA, SIVAGAMI, AMARENDRA, BHALLA, BIJJALA, AVANTHIKA],
     steps: [
       {
         id: 'a4-07-s1',
@@ -892,6 +897,10 @@ export const ATLAS_A04: Quest[] = [
         N('Back in the cave, for a moment, the old Kattappa stops and rubs his eyes.'),
         KA('They grew up. Both of them strong, both of them brave. The country loved one more than the other.', 'sad'),
         KA('Then the Kalakeyas came.'),
+        AV('Could you skip to the bit with the sword?'),
+        KA('No.'),
+        AV('Fine. Carry on.'),
+        N('She carries on listening, harder than anyone.'),
         N('The fire leaps, and you are in the past again, on a hill, at dawn, looking at an army.'),
       ],
     },
@@ -1402,6 +1411,11 @@ export const ATLAS_A04: Quest[] = [
             N('Amarendra fixes things: gates, carts, a neighbour’s roof. People bring him their quarrels and he settles them sitting on a step.'),
             CR('Commander! Commander, the bridge has gone again!', 'happy'),
             AM('I’m not commander. I’m Amarendra. Bring a rope.', 'happy'),
+            DE('That’s the third time this month.'),
+            AM('It’s a popular bridge.'),
+            DE('It’s a terrible bridge. You keep mending it with the same rope.', 'think'),
+            AM('It’s good rope. We’ve been through a lot together.', 'happy'),
+            N('Devasena shoots a fig off the roof without looking. It drops into his hand, and he eats it as if that was the plan.'),
             N('Devasena teaches the girls of the street to shoot. Her targets are the figs, and the figs are losing.'),
             DE('Look at him. He lost a throne and he’s never once looked happier.', 'soft'),
             N('She puts a hand on her middle, and you understand, and she sees you understand, and smiles.'),
@@ -1866,7 +1880,7 @@ export const ATLAS_A04: Quest[] = [
           id: 'a4-16-duel-done',
           lines: [
             N('Devasena picks up a torch from the wall. Her hand doesn’t shake at all.'),
-            DE('I said I’d light it. I said it every day.', 'angry'),
+            DE('Twenty-five years I told him this fire was his. I keep my word.', 'angry'),
           ],
         },
       },

@@ -97,7 +97,8 @@ _It has candles, marigolds, bread, water and photos._
 
 _Some photos are very old. One has a torn corner._  
 _A man with a guitar was in that photo. His face is gone._  
-**Miguel**: Mamá Imelda was sad about him. So our house has no music.  
+**Miguel**: He went away to play music. He never came home.  
+**Miguel**: Mamá Imelda was very sad. So now our house has no music.  
 _An old, old lady sits by the ofrenda. This is Mamá Coco._  
 **Mamá Coco**: Who are you? Are you new?  
 
@@ -337,11 +338,14 @@ _A gust comes from nowhere. Marigold petals lift and glow._
 > Check: `edu:blow:feather:float`
 > _For grown-ups: Blew a feather and saw that wind moves light things._
 
-_The atlas in your pocket goes warm. The window feels far away._  
+_The atlas goes warm. Whoosh! Miguel is in the Land of the Dead now._  
+_People who are alive cannot see him any more._  
 
 #### `sprout:a7-03-visitors` · [main](main.md#a7-03-visitors)
 
 _Down the path come bright, friendly skeletons._  
+_They are Miguel’s family. They died long ago._  
+_Tonight they come home to visit. They are very happy to be here._  
 _They wear hats and shawls. They glow like lamps._  
 
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, do): our bodies have bones inside  
@@ -493,13 +497,15 @@ _You take a ticket that says 5. The board says 3._
 > _For grown-ups: Counted up from 3 to 5 to find two more turns._
 
 _A tall skeleton in a dress is arguing with a clerk._  
+_He has big, bushy eyebrows._  
 **The Painter**: Please! There’s someone I must see before she forgets me.  
-_The guards walk him out. He winks at your Nubbin._  
+_The guards walk him out._  
+_He winks at your Nubbin. Plop! One eyebrow falls off._  
 
 **Choices**
 
 - **Wave goodbye.**
-    - He waves back with a flourish.
+    - He waves back. Plop! There goes the other one.
 - **Ask who he is.**
     - **Papá Julio**: Somebody that nobody remembers. There are many.
 
@@ -1040,7 +1046,11 @@ _Héctor sits on a ledge, with his hat in his hands._
 #### `sprout:a7-10-dark-done` · [main](main.md#a7-10-dark-done)
 
 _Miguel takes out the old family photo._  
-**Miguel**: Mamá Coco! You’re the man in the photo!  
+**Miguel**: Héctor! Your girl Coco is my Mamá Coco!  
+**Miguel**: You are the man in the photo. You are my family!  
+_Héctor’s mouth falls open._  
+_His jaw nearly falls off. He catches it._  
+**Héctor**: I’m your what?  
 
 > **Lesson** (literacy, ELOF: Language and Communication, ask): family words: papá and daughter  
 > _Coco is Héctor’s daughter. So Héctor is Coco’s…?_  
@@ -1048,7 +1058,6 @@ _Miguel takes out the old family photo._
 > - Dog → Dante is the dog! Héctor is Coco’s papá, her dad.
 > _For grown-ups: Learned that Héctor is Coco’s papá, her dad._
 
-**Héctor**: I’m your what?  
 
 #### `sprout:a7-10-water` · [main](main.md#a7-10-water)
 
@@ -1117,6 +1126,7 @@ _Then a huge painted cat lands, with Mamá Imelda on her back._
 #### `sprout:a7-10-glow-done` · [main](main.md#a7-10-glow-done)
 
 **Miguel**: He didn’t leave you, Mamá Imelda. He was coming home.  
+**Héctor**: I was. I had my hat on and everything.  
 _Mamá Imelda is still hurt. But she pulls Héctor up onto the painted cat._  
 
 > **Lesson** (sel, CASEL: Social awareness, notice): helping someone even when you are still hurt  
@@ -1151,6 +1161,9 @@ _Below, the city glitters._
 
 _The Sunrise Spectacular fills a big stadium._  
 _The Rivera family sneaks in. The twins are a pantomime horse!_  
+_One twin is the front. One twin is the back._  
+_The back twin asks, “Where are we going?” The front twin stops._  
+_Bump! The back walks into the front._  
 **Papá Julio**: Find the photo. Find Ernesto. Get out.  
 _A stage manager pushes Mamá Imelda onto the stage._  
 **Mamá Imelda**: I… I don’t…  
@@ -1208,7 +1221,8 @@ _You can see the stage through his arm._
 
 _On a ledge above the city, the family gathers round Miguel._  
 _Dawn is close. Héctor is faint, like gold light._  
-**Miguel**: I have to go back. I have to make Mamá Coco remember.  
+**Miguel**: If Mamá Coco forgets Héctor, he will fade away. Like Chicharrón.  
+**Miguel**: I have to go home. I have to help her remember.  
 _Mamá Imelda holds a marigold petal._  
 **Mamá Imelda**: What blessing should I give?  
 
@@ -1225,7 +1239,7 @@ _Mamá Imelda holds a marigold petal._
     - **Mamá Imelda**: Miguel, go home.
 - **Say, “Bless Héctor too.”**
     - **Mamá Imelda**: Héctor. I never forgave you.
-    - **Mamá Imelda**: Miguel, go home, and bring your papá Héctor with you in your heart.
+    - **Mamá Imelda**: Miguel, go home. Carry Héctor with you, in your heart.
     - Héctor laughs softly, like someone given a present.
 - **Say nothing. Sit beside Miguel.**
     - You sit beside Miguel. Your Nubbin sits too.

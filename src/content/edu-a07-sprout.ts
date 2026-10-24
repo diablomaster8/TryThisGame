@@ -301,7 +301,8 @@ const Q01: EduQuest = quest(
         N('It has candles, marigolds, bread, water and photos.'),
         N('Some photos are very old. One has a torn corner.'),
         N('A man with a guitar was in that photo. His face is gone.'),
-        M('Mamá Imelda was sad about him. So our house has no music.', 'sad'),
+        M('He went away to play music. He never came home.', 'sad'),
+        M('Mamá Imelda was very sad. So now our house has no music.', 'sad'),
         N('An old, old lady sits by the ofrenda. This is Mamá Coco.'),
         CO('Who are you? Are you new?', 'think'),
       ],
@@ -713,7 +714,8 @@ const Q03: EduQuest = quest(
       [
         N('Miguel strums. One chord rings out.'),
         N('A gust comes from nowhere. Marigold petals lift and glow.'),
-        N('The atlas in your pocket goes warm. The window feels far away.'),
+        N('The atlas goes warm. Whoosh! Miguel is in the Land of the Dead now.'),
+        N('People who are alive cannot see him any more.'),
       ],
       [
         doIt(
@@ -731,6 +733,8 @@ const Q03: EduQuest = quest(
       'a7-03-visitors',
       [
         N('Down the path come bright, friendly skeletons.'),
+        N('They are Miguel’s family. They died long ago.'),
+        N('Tonight they come home to visit. They are very happy to be here.'),
         N('They wear hats and shawls. They glow like lamps.'),
         N('They stop to smell the marigolds on their own graves.'),
         RO('Miguel? Is that our Miguel?', 'shock'),
@@ -740,7 +744,7 @@ const Q03: EduQuest = quest(
       ],
       [
         doIt(
-          1,
+          3,
           'health',
           'our bodies have bones inside',
           ELOF_MOTOR,
@@ -984,8 +988,10 @@ const Q05: EduQuest = quest(
         N('You take a ticket that says 5. The board says 3.'),
         TW('It’s quick tonight.'),
         N('A tall skeleton in a dress is arguing with a clerk.'),
+        N('He has big, bushy eyebrows.'),
         PA('Please! There’s someone I must see before she forgets me.', 'sad'),
-        N('The guards walk him out. He winks at your Nubbin.'),
+        N('The guards walk him out.'),
+        N('He winks at your Nubbin. Plop! One eyebrow falls off.'),
       ],
       [
         ask(
@@ -1003,7 +1009,7 @@ const Q05: EduQuest = quest(
         ),
       ],
       [
-        ch('wave', 'Wave goodbye.', [N('He waves back with a flourish.')]),
+        ch('wave', 'Wave goodbye.', [N('He waves back. Plop! There goes the other one.')]),
         ch('ask', 'Ask who he is.', [JU('Somebody that nobody remembers. There are many.', 'sad')]),
       ],
     ),
@@ -1925,12 +1931,15 @@ const Q10: EduQuest = quest(
       'a7-10-dark-done',
       [
         N('Miguel takes out the old family photo.'),
-        M('Mamá Coco! You’re the man in the photo!', 'shock'),
+        M('Héctor! Your girl Coco is my Mamá Coco!', 'shock'),
+        M('You are the man in the photo. You are my family!', 'happy'),
+        N('Héctor’s mouth falls open.'),
+        N('His jaw nearly falls off. He catches it.'),
         H('I’m your what?', 'shock'),
       ],
       [
         ask(
-          1,
+          5,
           'literacy',
           'family words: papá and daughter',
           ELOF_LANG,
@@ -2027,12 +2036,13 @@ const Q10: EduQuest = quest(
       'a7-10-glow-done',
       [
         M('He didn’t leave you, Mamá Imelda. He was coming home.'),
+        H('I was. I had my hat on and everything.', 'soft'),
         N('Mamá Imelda is still hurt. But she pulls Héctor up onto the painted cat.'),
         I('We will get that photo back.'),
       ],
       [
         notice(
-          1,
+          2,
           'sel',
           'helping someone even when you are still hurt',
           'CASEL: Social awareness',
@@ -2094,6 +2104,9 @@ const Q11: EduQuest = quest(
       [
         N('The Sunrise Spectacular fills a big stadium.'),
         N('The Rivera family sneaks in. The twins are a pantomime horse!'),
+        N('One twin is the front. One twin is the back.'),
+        N('The back twin asks, “Where are we going?” The front twin stops.'),
+        N('Bump! The back walks into the front.'),
         JU('Find the photo. Find Ernesto. Get out.'),
         N('A stage manager pushes Mamá Imelda onto the stage.'),
         I('I… I don’t…', 'shock'),
@@ -2102,7 +2115,7 @@ const Q11: EduQuest = quest(
       ],
       [
         doIt(
-          6,
+          9,
           'music',
           'sing slowly and softly',
           ELOF_MOTOR,
@@ -2189,13 +2202,14 @@ const Q11: EduQuest = quest(
       [
         N('On a ledge above the city, the family gathers round Miguel.'),
         N('Dawn is close. Héctor is faint, like gold light.'),
-        M('I have to go back. I have to make Mamá Coco remember.', 'sad'),
+        M('If Mamá Coco forgets Héctor, he will fade away. Like Chicharrón.', 'sad'),
+        M('I have to go home. I have to help her remember.', 'sad'),
         N('Mamá Imelda holds a marigold petal.'),
         I('What blessing should I give?'),
       ],
       [
         doIt(
-          4,
+          5,
           'literacy',
           'say a kind wish in your own words',
           'ELOF: Language and Communication',
@@ -2216,7 +2230,7 @@ const Q11: EduQuest = quest(
           'Say, “Bless Héctor too.”',
           [
             I('Héctor. I never forgave you.', 'sad'),
-            I('Miguel, go home, and bring your papá Héctor with you in your heart.'),
+            I('Miguel, go home. Carry Héctor with you, in your heart.'),
             N('Héctor laughs softly, like someone given a present.'),
           ],
           { 'a7-plea': 'both' },

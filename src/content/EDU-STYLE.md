@@ -152,6 +152,7 @@ awareness`, `CASEL: Relationship skills`, `CASEL: Responsible decision-making`.
 | 3.OA.A.1 | Multiplication as equal groups |
 | 3.OA.A.3 | Multiply and divide within 100, word problems |
 | 3.OA.D.8 | Two-step word problems |
+| 4.NBT.B.4 | Add and subtract multi-digit whole numbers (and count on to find a gap) |
 | 3.NF.A.1 | Unit fractions (1/2, 1/3, 1/4…) |
 | 3.MD.A.1 | Time to the minute; time intervals |
 | 3.MD.B.3 | Scaled picture and bar graphs |

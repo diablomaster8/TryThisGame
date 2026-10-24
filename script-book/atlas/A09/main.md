@@ -129,10 +129,10 @@ _By noon there is a raft, and it floats. Moominpappa looks as if he has built a 
 
 **Choices**
 
-- **Suggest calling it after Moominmamma.**
+- **Suggest calling it after Moominmamma.** — sets `{"a09-raft":"mamma"}`
     - **Moominpappa**: Ah. Yes. Then she’ll be sure to bring you home.
     - He paints the name on the stern in careful blue letters.
-- **Suggest “The Valuable”.**
+- **Suggest “The Valuable”.** — sets `{"a09-raft":"valuable"}`
     - **Sniff**: Oh. Oh, that’s a very good name. That’s the best name.
     - Moominpappa paints it on, and Sniff stands next to it for a long time with his paws behind his back.
 
@@ -741,6 +741,7 @@ Hint: Keep to the ridge of rock. Don’t go near the dark pool. · check: `explo
 
 _The seabed dips into its deepest part. The mud gives way to black rock and pools that go down further than light._  
 _Everything is red under the comet. The puddles shine like spilt jam._  
+_The Snork lights the lantern from his pack and hangs it on a stick, as is correct. He has a rule about lanterns too._  
 **The Snork** _(think)_: We keep to the ridge. Single file. That is a rule.  
 _Moomintroll is in front, looking ahead to where the valley must be. He is going too fast._  
 **Moomintroll** _(happy)_: Not far now. I can almost smell the house. I can almost smell the jam.  
@@ -921,6 +922,9 @@ _Moomintroll runs into her apron and stays there for a while._
 
 #### <a id="a09-11-arrive-done"></a>Done `a09-11-arrive-done`
 
+**The Snork**: I move that the comet be asked to arrive quietly.  
+**The Muskrat** _(think)_: Seconded. I have no hope whatsoever. It’s very restful.  
+_Moominpappa hangs the hammock between a rock and his memoirs. Everybody politely pretends it is holding._  
 _The kitchen clock says half past seven. It ticks very loudly, as clocks do when everybody is listening._  
 
 ### Step 2: Choose the one thing you bring into the cave.
@@ -944,6 +948,7 @@ _Your arms are only so big._
     - **Moominmamma**: That one’s waiting for something. Yes. Bring it in.
 - **The garnet Sniff gave you to hold.** — sets `{"a09-brought":"garnet"}`
     - You bring the garnet. Sniff sees, and pretends very hard not to have seen.
+    - Your Nubbin stays in Sniff’s pocket and comes in as his one thing. Sniff says this is allowed. Nobody argues with him tonight.
     - **Moominmamma**: Somebody’s been generous. That’s worth a lot of room.
 - **Nothing but your Nubbin, held in both arms.** — sets `{"a09-brought":"nubbin"}`
     - You lift your Nubbin out of Sniff’s pocket and hold it in both arms. Everything else you leave on the rock.
@@ -1014,6 +1019,10 @@ _You can feel it going, the way you feel a cart go past in the street with your 
 _Somebody laughs in the dark: the Snork Maiden. Then Moomintroll, and then everybody._  
 **Sniff** _(shock)_: Has it gone? Is it over? Tell me exactly.  
 **Moominpappa** _(soft)_: It brushed us with its tail and went on its way. It had somewhere else to be, I expect.  
+**Moominpappa**: That goes in the memoirs. "The Night I Remained Calm."  
+**Moominmamma** _(soft)_: You were under the rocking chair, dear.  
+**Moominpappa**: Calmly under it.  
+**The Snork**: For the record, the comet did not attend. I shall minute it.  
 _The lamps come back on and Moominmamma cuts the cake. Nobody remembers afterwards if it was good, only that it was there._  
 
 #### <a id="a09-12-night-done"></a>Done `a09-12-night-done`
@@ -1033,6 +1042,37 @@ _And the sea is coming back. It comes in over the seabed in long, slow, shining 
 **Moomintroll** _(happy)_: It came back. Everything came back.  
 **Snufkin** _(soft)_: Things mostly do. Not always. But mostly.  
 _The Hemulen is already in the long grass with his notebook, because there are butterflies._  
+_Down at the water’s edge, the raft drifts in on the first wave, its name still on the stern, as if it had only popped out._  
+
+#### <a id="a09-12-dawn-mamma"></a>Variant `a09-12-dawn-mamma`
+
+_Variant of `a09-12-dawn`._
+
+_In the morning you wake up with sand in your ear and your Nubbin asleep on your chest._  
+_The light at the cave mouth is not red. It is ordinary, yellow, wonderful morning._  
+_You go out, and the grey has gone off everything. The grass is green, and wet, and has never looked so like grass._  
+_And the sea is coming back. It comes in over the seabed in long, slow, shining sheets, filling every hollow._  
+**Moomintroll** _(happy)_: It came back. Everything came back.  
+**Snufkin** _(soft)_: Things mostly do. Not always. But mostly.  
+_The Hemulen is already in the long grass with his notebook, because there are butterflies._  
+_Down at the water’s edge, the raft drifts in on the first wave, its name still on the stern, as if it had only popped out._  
+**Sniff** _(happy)_: She came home on her own, with Moominmamma still on the stern. That’s allowed, isn’t it?  
+**Moominpappa** _(soft)_: Naturally. She was named after someone who always comes home.  
+
+#### <a id="a09-12-dawn-valuable"></a>Variant `a09-12-dawn-valuable`
+
+_Variant of `a09-12-dawn`._
+
+_In the morning you wake up with sand in your ear and your Nubbin asleep on your chest._  
+_The light at the cave mouth is not red. It is ordinary, yellow, wonderful morning._  
+_You go out, and the grey has gone off everything. The grass is green, and wet, and has never looked so like grass._  
+_And the sea is coming back. It comes in over the seabed in long, slow, shining sheets, filling every hollow._  
+**Moomintroll** _(happy)_: It came back. Everything came back.  
+**Snufkin** _(soft)_: Things mostly do. Not always. But mostly.  
+_The Hemulen is already in the long grass with his notebook, because there are butterflies._  
+_Down at the water’s edge, the raft drifts in on the first wave, its name still on the stern, as if it had only popped out._  
+**Sniff** _(happy)_: She came home on her own. That’s what a valuable does.  
+**Moominpappa**: Naturally. She is called The Valuable. One does not lose a valuable.  
 
 #### <a id="a09-12-dawn-done"></a>Done `a09-12-dawn-done`
 

@@ -145,20 +145,20 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `atlas/A02/sprout.md` | [review-2026-10-23-2](review-2026-10-23-2.md) | 0 |
 | `atlas/A02/reader.md` | [review-2026-10-23-2](review-2026-10-23-2.md) | 0 |
 | `atlas/A03/main.md` | [review-2026-10-23-3](review-2026-10-23-3.md) | 0 |
-| `atlas/A04/main.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 5 |
-| `atlas/A05/main.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 5 |
+| `atlas/A04/main.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 0 |
+| `atlas/A05/main.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 0 |
 | `atlas/A05/sprout.md` | [review-2026-10-23-3](review-2026-10-23-3.md) | 0 |
 | `atlas/A05/reader.md` | [review-2026-10-23-3](review-2026-10-23-3.md) | 0 |
-| `atlas/A06/main.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 6 |
-| `atlas/A06/sprout.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 10 |
-| `atlas/A06/reader.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 9 |
-| `atlas/A07/main.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 5 |
-| `atlas/A07/sprout.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 8 |
-| `atlas/A07/reader.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 8 |
-| `atlas/A08/main.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 5 |
+| `atlas/A06/main.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 0 |
+| `atlas/A06/sprout.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 0 |
+| `atlas/A06/reader.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 0 |
+| `atlas/A07/main.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 0 |
+| `atlas/A07/sprout.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 0 |
+| `atlas/A07/reader.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 0 |
+| `atlas/A08/main.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 0 |
 | `atlas/A08/sprout.md` | never | 0 |
 | `atlas/A08/reader.md` | never | 0 |
-| `atlas/A09/main.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 5 |
+| `atlas/A09/main.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 0 |
 | `atlas/A09/sprout.md` | never | 0 |
 | `atlas/A09/reader.md` | never | 0 |
 | `atlas/A10/main.md` | never | 0 |
@@ -721,64 +721,64 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261023-467 | atlas/A05/sprout.md<br>atlas/A05/reader.md | cross-story | High | child-read | Both bands call the boy Mari Djata, then Sundiata, a scene before anyone links the names | fixed | 2026-10-23-3 |
 | SR-20261023-468 | storylines/beetle.md<br>storylines/dawndusk.md | cross-story | Medium | pacing | "Forty years" appears about ten times across two storylines; keep it where it matters | fixed | 2026-10-23-3 |
 | SR-20261023-469 | atlas/A05/sprout.md<br>atlas/A05/reader.md | cross-story | Medium | compelling | Balla promises to say "which door" the tune opens and never does; say it when the tune softens Soumaoro | fixed | 2026-10-23-3 |
-| SR-20261023-470 | atlas/A07/sprout.md | a7-10-dark-done | Critical | child-read | The page's twist is spoken to the wrong person; say plainly that Héctor's Coco is Mamá Coco | open | 2026-10-23-4 |
-| SR-20261023-471 | atlas/A07/reader.md | a7-05-queue | High | follow | The queue sum teaches a false fact: 2,409 and 2,377 do not share their hundreds | open | 2026-10-23-4 |
-| SR-20261023-472 | atlas/A04/main.md | a4-16-duel-done | High | follow | Say once whom Devasena's 25-year fire is for, so the pyre pays off without describing it | open | 2026-10-23-4 |
-| SR-20261023-473 | atlas/A06/reader.md | a06-03-proof | High | continuity | The captain's sum gives away "twenty lengths" one beat before Sinbad's proof; count oil jars instead | open | 2026-10-23-4 |
-| SR-20261023-474 | atlas/A09/main.md | a09-11-door | High | follow | On the garnet branch the Nubbin is never said to come into the cave; bring it in on Sniff's pocket | open | 2026-10-23-4 |
-| SR-20261023-475 | atlas/A07/sprout.md | a7-01-photo | High | follow | Plant that Imelda thinks her husband left, so "He didn't leave you" pays off | open | 2026-10-23-4 |
-| SR-20261023-476 | atlas/A06/main.md | a06-03-shore | High | follow | The player whispers "your uncle's shop" before anyone has mentioned an uncle; plant him on the shore | open | 2026-10-23-4 |
-| SR-20261023-477 | atlas/A07/main.md | a7-11-backstage-done | High | theme | Give Imelda and Héctor their one married bicker before the farewell, not in it | open | 2026-10-23-4 |
-| SR-20261023-478 | atlas/A06/reader.md | a06-16-grove-done | High | follow | The symmetry lesson can be false in the scene it describes; count odd and even instead | open | 2026-10-23-4 |
-| SR-20261023-479 | atlas/A07/sprout.md | a7-03-window-done | High | follow | Say that Miguel has crossed over, and that the skeletons are his family who have died | open | 2026-10-23-4 |
-| SR-20261023-480 | atlas/A07/sprout.md | a7-11-blessing | High | follow | State what happens to Héctor if Mamá Coco forgets, using Chicharrón | open | 2026-10-23-4 |
-| SR-20261023-481 | atlas/A06/sprout.md | a06-14-herd | High | child-read | Explain ivory, say the elephants' death plainly, and replace "paid for in bones" | open | 2026-10-23-4 |
-| SR-20261023-482 | atlas/A06/reader.md | a06-08-tunnel-done | High | pacing | A compass quiz lands straight after Sinbad cries for his wife; move it and ground it in the scene | open | 2026-10-23-4 |
-| SR-20261023-483 | atlas/A08/main.md | a08-13-complete | High | humour | Escalate Pupus's twelve identical tick lines into a running gag that cracks, and fix the last one's order | open | 2026-10-23-4 |
-| SR-20261023-484 | atlas/A04/main.md | a4-12-streets | High | humour | Give Amarendra and Devasena a married bicker about the bridge he keeps mending | open | 2026-10-23-4 |
-| SR-20261023-485 | atlas/A06/sprout.md | a06-07-complete | High | child-read | Change "swore" to "promised" through the page, which also fixes the one over-cap line | open | 2026-10-23-4 |
-| SR-20261023-486 | atlas/A06/sprout.md | a06-09-complete | High | child-read | Five idioms in a band that bans them, one of them unkind; say each thing plainly | open | 2026-10-23-4 |
-| SR-20261023-487 | atlas/A06/main.md | a06-12-court | High | humour | Serendib has no straight man; make the curious king ask about plain clothes and let the farmer sigh | open | 2026-10-23-4 |
-| SR-20261023-488 | atlas/A09/main.md | a09-11-arrive-done | High | humour | Pay off the Snork's minutes and the Muskrat's hammock in one breath before the comet comes | open | 2026-10-23-4 |
-| SR-20261023-489 | atlas/A08/main.md | a08-03-throws | High | humour | Verses names his javelins; let Asterix's be called "Stick" and pay it off at the end | open | 2026-10-23-4 |
-| SR-20261023-490 | atlas/A06/sprout.md | a06-06-castle | High | follow | The giant has no threat in the sprout; say why everyone hides, with a pot gag | open | 2026-10-23-4 |
-| SR-20261023-491 | atlas/A07/sprout.md | a7-05-queue-done | High | humour | Restore the painter's falling eyebrows, the Department's only laugh | open | 2026-10-23-4 |
-| SR-20261023-492 | atlas/A06/sprout.md | a06-13-palace | High | humour | Restore "promise again afterwards", gloss "Caliph", and name who the letter is from | open | 2026-10-23-4 |
-| SR-20261023-493 | atlas/A04/main.md | a4-03-camp | Medium | humour | Explain what the mask was for, and give Avanthika a deadpan rebel beside her | open | 2026-10-23-4 |
-| SR-20261023-494 | atlas/A04/main.md | a4-07-complete | Medium | humour | Break the eight-quest flashback with one heckle from the cave, and Kattappa's "No." | open | 2026-10-23-4 |
-| SR-20261023-495 | atlas/A04/main.md | a4-06-complete | Medium | follow | Say what "Baahubali" means and that Shivudu's real name is Mahendra | open | 2026-10-23-4 |
-| SR-20261023-496 | atlas/A05/main.md | a05-09-march | Medium | follow | A5-9 jumps back and forward in time; anchor the forward jump with a joke | open | 2026-10-23-4 |
-| SR-20261023-497 | atlas/A05/main.md | a05-14-complete | Medium | compelling | Let the "what should I never leave out?" choice be heard in Balla's first line | open | 2026-10-23-4 |
-| SR-20261023-498 | atlas/A05/main.md | a05-03-complete | Medium | follow | "Sundiata" speaks before anyone has said the name; let Balla give it | open | 2026-10-23-4 |
-| SR-20261023-499 | atlas/A05/main.md | a05-06-leave | Medium | follow | Five people and three new names in one line; meet them one at a time | open | 2026-10-23-4 |
-| SR-20261023-500 | atlas/A05/main.md | a05-11-allies | Medium | humour | The Nubbin greets every king "very seriously" and nothing happens; give it pebbles to run out of | open | 2026-10-23-4 |
-| SR-20261023-501 | atlas/A06/main.md | a06-10-complete | Medium | humour | Make "putting something down" plain, and let the porter be furious about feeling better | open | 2026-10-23-4 |
-| SR-20261023-502 | atlas/A06/main.md<br>atlas/A06/reader.md | a06-14-complete | Medium | follow | "The elephants paid for my freedom. I want to remember that I didn't" reads backwards; say who gave what | open | 2026-10-23-4 |
-| SR-20261023-503 | atlas/A06/main.md | a06-11-raft | Medium | humour | Turn Sinbad's sack of jewels into an escalating raft gag, and say which friend he means | open | 2026-10-23-4 |
-| SR-20261023-504 | atlas/A06/main.md | a06-02-telling | Medium | continuity | A6-3 and the Dhow Sail reward recall "a patch you have seen before"; put the patch on the sail in A6-2 | open | 2026-10-23-4 |
-| SR-20261023-505 | atlas/A06/sprout.md | a06-01-street | Medium | follow | Plant early that the porter can't read the paper he carries, so his last line lands | open | 2026-10-23-4 |
-| SR-20261023-506 | atlas/A06/sprout.md | a06-02-island-done | Medium | child-read | The captain says "fish", the lesson says fish live in the sea, then it's a whale; untangle it | open | 2026-10-23-4 |
-| SR-20261023-507 | atlas/A06/reader.md | a06-07-complete | Medium | humour | The "never again" lesson explains its own joke; cut the explanation and let the porter call it | open | 2026-10-23-4 |
-| SR-20261023-508 | atlas/A06/reader.md | a06-12-bank | Medium | continuity | The fractions lesson shares the stream equally, but the farmer says it passes field to field | open | 2026-10-23-4 |
-| SR-20261023-509 | atlas/A07/main.md | a7-07-stage-done | Medium | follow | The talent show's prize is a party invitation, then nobody wins; cut the compère off mid-announcement | open | 2026-10-23-4 |
-| SR-20261023-510 | atlas/A07/main.md | a7-02-square | Medium | follow | Show Miguel pocketing the old photo, so Imelda's missing photo has a cause | open | 2026-10-23-4 |
-| SR-20261023-511 | atlas/A07/main.md | a7-08-gate | Medium | humour | The party opens with a sigh; give the doorman a maraca to be defeated by | open | 2026-10-23-4 |
-| SR-20261023-512 | atlas/A07/main.md | a7-09-complete | Medium | humour | After the poisoning reveal and the drop, one breath of awkward relief in the water | open | 2026-10-23-4 |
-| SR-20261023-513 | atlas/A07/sprout.md | a7-11-backstage | Medium | humour | The twins are a pantomime horse and nothing happens; let the back end bump the front | open | 2026-10-23-4 |
-| SR-20261023-514 | atlas/A07/sprout.md<br>atlas/A07/reader.md | a7-11-blessing | Medium | child-read | "Your papá Héctor" sounds like Miguel's own Papá; just say Héctor | open | 2026-10-23-4 |
-| SR-20261023-515 | atlas/A07/reader.md | a7-11-complete | Medium | follow | The metaphor lesson picks a line that literally happens; teach a real simile instead | open | 2026-10-23-4 |
-| SR-20261023-516 | atlas/A07/reader.md | a7-12-song-done | Medium | follow | The torn corner is called a quarter of a photo of three; ask for Héctor's share of the family | open | 2026-10-23-4 |
-| SR-20261023-517 | atlas/A07/reader.md | a7-06-shantytown | Medium | pacing | Chicharrón's comfort line waits behind an oral-history lesson; put it straight after he fades | open | 2026-10-23-4 |
-| SR-20261023-518 | atlas/A07/reader.md | a7-01-photo | Medium | child-read | Miguel names six relatives in one breath; name Imelda and save the rest for A7-3 | open | 2026-10-23-4 |
-| SR-20261023-519 | atlas/A08/main.md | a08-13-arena | Medium | continuity | Verses is in the Rome stands in A8-13 and still chasing the javelin in A8-14; keep him walking | open | 2026-10-23-4 |
-| SR-20261023-520 | atlas/A08/main.md | a08-10-complete | Medium | humour | The ravine ends flat on the tick; let Pupus file the crocodiles' disappointment | open | 2026-10-23-4 |
-| SR-20261023-521 | atlas/A08/main.md | a08-09-counters | Medium | follow | "A long white beard, and he looks about your age" is a joke nobody can read; give him a faded NEW badge | open | 2026-10-23-4 |
-| SR-20261023-522 | atlas/A09/main.md | a09-12-night | Medium | theme | Pay off Pappa's memoirs with a gentle married correction from Mamma | open | 2026-10-23-4 |
-| SR-20261023-523 | atlas/A09/main.md | a09-09-deep | Medium | continuity | The Snork Maiden rescues Moomintroll with a lantern nobody has seen; hang it up first | open | 2026-10-23-4 |
-| SR-20261023-524 | atlas/A09/main.md | a09-12-dawn | Medium | compelling | The raft's name choice is art only and the raft is forgotten; float it home at dawn | open | 2026-10-23-4 |
-| SR-20261023-525 | atlas/A06/reader.md<br>atlas/A07/reader.md<br>atlas/A06/sprout.md<br>atlas/A07/sprout.md | cross-story | High | follow | Six maths and fact lessons disagree with their own scenes; every number must come from the narration and be worked aloud | open | 2026-10-23-4 |
-| SR-20261023-526 | atlas/A06/reader.md<br>atlas/A07/reader.md<br>atlas/A06/sprout.md | cross-story | Medium | pacing | Lessons interrupt grave and peril beats in both bands; a lesson goes after the beat's comfort or relief line | open | 2026-10-23-4 |
-| SR-20261023-527 | atlas/A06/sprout.md<br>atlas/A06/reader.md | cross-story | Medium | follow | Three Sinbads in two bands; tag them once and use "the porter" and "the old sailor" in narration | open | 2026-10-23-4 |
+| SR-20261023-470 | atlas/A07/sprout.md | a7-10-dark-done | Critical | child-read | The page's twist is spoken to the wrong person; say plainly that Héctor's Coco is Mamá Coco | fixed | 2026-10-23-4 |
+| SR-20261023-471 | atlas/A07/reader.md | a7-05-queue | High | follow | The queue sum teaches a false fact: 2,409 and 2,377 do not share their hundreds | fixed | 2026-10-23-4 |
+| SR-20261023-472 | atlas/A04/main.md | a4-16-duel-done | High | follow | Say once whom Devasena's 25-year fire is for, so the pyre pays off without describing it | fixed | 2026-10-23-4 |
+| SR-20261023-473 | atlas/A06/reader.md | a06-03-proof | High | continuity | The captain's sum gives away "twenty lengths" one beat before Sinbad's proof; count oil jars instead | fixed | 2026-10-23-4 |
+| SR-20261023-474 | atlas/A09/main.md | a09-11-door | High | follow | On the garnet branch the Nubbin is never said to come into the cave; bring it in on Sniff's pocket | fixed | 2026-10-23-4 |
+| SR-20261023-475 | atlas/A07/sprout.md | a7-01-photo | High | follow | Plant that Imelda thinks her husband left, so "He didn't leave you" pays off | fixed | 2026-10-23-4 |
+| SR-20261023-476 | atlas/A06/main.md | a06-03-shore | High | follow | The player whispers "your uncle's shop" before anyone has mentioned an uncle; plant him on the shore | fixed | 2026-10-23-4 |
+| SR-20261023-477 | atlas/A07/main.md | a7-11-backstage-done | High | theme | Give Imelda and Héctor their one married bicker before the farewell, not in it | fixed | 2026-10-23-4 |
+| SR-20261023-478 | atlas/A06/reader.md | a06-16-grove-done | High | follow | The symmetry lesson can be false in the scene it describes; count odd and even instead | fixed | 2026-10-23-4 |
+| SR-20261023-479 | atlas/A07/sprout.md | a7-03-window-done | High | follow | Say that Miguel has crossed over, and that the skeletons are his family who have died | fixed | 2026-10-23-4 |
+| SR-20261023-480 | atlas/A07/sprout.md | a7-11-blessing | High | follow | State what happens to Héctor if Mamá Coco forgets, using Chicharrón | fixed | 2026-10-23-4 |
+| SR-20261023-481 | atlas/A06/sprout.md | a06-14-herd | High | child-read | Explain ivory, say the elephants' death plainly, and replace "paid for in bones" | fixed | 2026-10-23-4 |
+| SR-20261023-482 | atlas/A06/reader.md | a06-08-tunnel-done | High | pacing | A compass quiz lands straight after Sinbad cries for his wife; move it and ground it in the scene | fixed | 2026-10-23-4 |
+| SR-20261023-483 | atlas/A08/main.md | a08-13-complete | High | humour | Escalate Pupus's twelve identical tick lines into a running gag that cracks, and fix the last one's order | fixed | 2026-10-23-4 |
+| SR-20261023-484 | atlas/A04/main.md | a4-12-streets | High | humour | Give Amarendra and Devasena a married bicker about the bridge he keeps mending | fixed | 2026-10-23-4 |
+| SR-20261023-485 | atlas/A06/sprout.md | a06-07-complete | High | child-read | Change "swore" to "promised" through the page, which also fixes the one over-cap line | fixed | 2026-10-23-4 |
+| SR-20261023-486 | atlas/A06/sprout.md | a06-09-complete | High | child-read | Five idioms in a band that bans them, one of them unkind; say each thing plainly | fixed | 2026-10-23-4 |
+| SR-20261023-487 | atlas/A06/main.md | a06-12-court | High | humour | Serendib has no straight man; make the curious king ask about plain clothes and let the farmer sigh | fixed | 2026-10-23-4 |
+| SR-20261023-488 | atlas/A09/main.md | a09-11-arrive-done | High | humour | Pay off the Snork's minutes and the Muskrat's hammock in one breath before the comet comes | fixed | 2026-10-23-4 |
+| SR-20261023-489 | atlas/A08/main.md | a08-03-throws | High | humour | Verses names his javelins; let Asterix's be called "Stick" and pay it off at the end | fixed | 2026-10-23-4 |
+| SR-20261023-490 | atlas/A06/sprout.md | a06-06-castle | High | follow | The giant has no threat in the sprout; say why everyone hides, with a pot gag | fixed | 2026-10-23-4 |
+| SR-20261023-491 | atlas/A07/sprout.md | a7-05-queue-done | High | humour | Restore the painter's falling eyebrows, the Department's only laugh | fixed | 2026-10-23-4 |
+| SR-20261023-492 | atlas/A06/sprout.md | a06-13-palace | High | humour | Restore "promise again afterwards", gloss "Caliph", and name who the letter is from | fixed | 2026-10-23-4 |
+| SR-20261023-493 | atlas/A04/main.md | a4-03-camp | Medium | humour | Explain what the mask was for, and give Avanthika a deadpan rebel beside her | fixed | 2026-10-23-4 |
+| SR-20261023-494 | atlas/A04/main.md | a4-07-complete | Medium | humour | Break the eight-quest flashback with one heckle from the cave, and Kattappa's "No." | fixed | 2026-10-23-4 |
+| SR-20261023-495 | atlas/A04/main.md | a4-06-complete | Medium | follow | Say what "Baahubali" means and that Shivudu's real name is Mahendra | fixed | 2026-10-23-4 |
+| SR-20261023-496 | atlas/A05/main.md | a05-09-march | Medium | follow | A5-9 jumps back and forward in time; anchor the forward jump with a joke | fixed | 2026-10-23-4 |
+| SR-20261023-497 | atlas/A05/main.md | a05-14-complete | Medium | compelling | Let the "what should I never leave out?" choice be heard in Balla's first line | fixed | 2026-10-23-4 |
+| SR-20261023-498 | atlas/A05/main.md | a05-03-complete | Medium | follow | "Sundiata" speaks before anyone has said the name; let Balla give it | fixed | 2026-10-23-4 |
+| SR-20261023-499 | atlas/A05/main.md | a05-06-leave | Medium | follow | Five people and three new names in one line; meet them one at a time | fixed | 2026-10-23-4 |
+| SR-20261023-500 | atlas/A05/main.md | a05-11-allies | Medium | humour | The Nubbin greets every king "very seriously" and nothing happens; give it pebbles to run out of | fixed | 2026-10-23-4 |
+| SR-20261023-501 | atlas/A06/main.md | a06-10-complete | Medium | humour | Make "putting something down" plain, and let the porter be furious about feeling better | fixed | 2026-10-23-4 |
+| SR-20261023-502 | atlas/A06/main.md<br>atlas/A06/reader.md | a06-14-complete | Medium | follow | "The elephants paid for my freedom. I want to remember that I didn't" reads backwards; say who gave what | fixed | 2026-10-23-4 |
+| SR-20261023-503 | atlas/A06/main.md | a06-11-raft | Medium | humour | Turn Sinbad's sack of jewels into an escalating raft gag, and say which friend he means | fixed | 2026-10-23-4 |
+| SR-20261023-504 | atlas/A06/main.md | a06-02-telling | Medium | continuity | A6-3 and the Dhow Sail reward recall "a patch you have seen before"; put the patch on the sail in A6-2 | fixed | 2026-10-23-4 |
+| SR-20261023-505 | atlas/A06/sprout.md | a06-01-street | Medium | follow | Plant early that the porter can't read the paper he carries, so his last line lands | fixed | 2026-10-23-4 |
+| SR-20261023-506 | atlas/A06/sprout.md | a06-02-island-done | Medium | child-read | The captain says "fish", the lesson says fish live in the sea, then it's a whale; untangle it | fixed | 2026-10-23-4 |
+| SR-20261023-507 | atlas/A06/reader.md | a06-07-complete | Medium | humour | The "never again" lesson explains its own joke; cut the explanation and let the porter call it | fixed | 2026-10-23-4 |
+| SR-20261023-508 | atlas/A06/reader.md | a06-12-bank | Medium | continuity | The fractions lesson shares the stream equally, but the farmer says it passes field to field | fixed | 2026-10-23-4 |
+| SR-20261023-509 | atlas/A07/main.md | a7-07-stage-done | Medium | follow | The talent show's prize is a party invitation, then nobody wins; cut the compère off mid-announcement | fixed | 2026-10-23-4 |
+| SR-20261023-510 | atlas/A07/main.md | a7-02-square | Medium | follow | Show Miguel pocketing the old photo, so Imelda's missing photo has a cause | fixed | 2026-10-23-4 |
+| SR-20261023-511 | atlas/A07/main.md | a7-08-gate | Medium | humour | The party opens with a sigh; give the doorman a maraca to be defeated by | fixed | 2026-10-23-4 |
+| SR-20261023-512 | atlas/A07/main.md | a7-09-complete | Medium | humour | After the poisoning reveal and the drop, one breath of awkward relief in the water | fixed | 2026-10-23-4 |
+| SR-20261023-513 | atlas/A07/sprout.md | a7-11-backstage | Medium | humour | The twins are a pantomime horse and nothing happens; let the back end bump the front | fixed | 2026-10-23-4 |
+| SR-20261023-514 | atlas/A07/sprout.md<br>atlas/A07/reader.md | a7-11-blessing | Medium | child-read | "Your papá Héctor" sounds like Miguel's own Papá; just say Héctor | fixed | 2026-10-23-4 |
+| SR-20261023-515 | atlas/A07/reader.md | a7-11-complete | Medium | follow | The metaphor lesson picks a line that literally happens; teach a real simile instead | fixed | 2026-10-23-4 |
+| SR-20261023-516 | atlas/A07/reader.md | a7-12-song-done | Medium | follow | The torn corner is called a quarter of a photo of three; ask for Héctor's share of the family | fixed | 2026-10-23-4 |
+| SR-20261023-517 | atlas/A07/reader.md | a7-06-shantytown | Medium | pacing | Chicharrón's comfort line waits behind an oral-history lesson; put it straight after he fades | fixed | 2026-10-23-4 |
+| SR-20261023-518 | atlas/A07/reader.md | a7-01-photo | Medium | child-read | Miguel names six relatives in one breath; name Imelda and save the rest for A7-3 | fixed | 2026-10-23-4 |
+| SR-20261023-519 | atlas/A08/main.md | a08-13-arena | Medium | continuity | Verses is in the Rome stands in A8-13 and still chasing the javelin in A8-14; keep him walking | fixed | 2026-10-23-4 |
+| SR-20261023-520 | atlas/A08/main.md | a08-10-complete | Medium | humour | The ravine ends flat on the tick; let Pupus file the crocodiles' disappointment | fixed | 2026-10-23-4 |
+| SR-20261023-521 | atlas/A08/main.md | a08-09-counters | Medium | follow | "A long white beard, and he looks about your age" is a joke nobody can read; give him a faded NEW badge | fixed | 2026-10-23-4 |
+| SR-20261023-522 | atlas/A09/main.md | a09-12-night | Medium | theme | Pay off Pappa's memoirs with a gentle married correction from Mamma | fixed | 2026-10-23-4 |
+| SR-20261023-523 | atlas/A09/main.md | a09-09-deep | Medium | continuity | The Snork Maiden rescues Moomintroll with a lantern nobody has seen; hang it up first | fixed | 2026-10-23-4 |
+| SR-20261023-524 | atlas/A09/main.md | a09-12-dawn | Medium | compelling | The raft's name choice is art only and the raft is forgotten; float it home at dawn | fixed | 2026-10-23-4 |
+| SR-20261023-525 | atlas/A06/reader.md<br>atlas/A07/reader.md<br>atlas/A06/sprout.md<br>atlas/A07/sprout.md | cross-story | High | follow | Six maths and fact lessons disagree with their own scenes; every number must come from the narration and be worked aloud | fixed | 2026-10-23-4 |
+| SR-20261023-526 | atlas/A06/reader.md<br>atlas/A07/reader.md<br>atlas/A06/sprout.md | cross-story | Medium | pacing | Lessons interrupt grave and peril beats in both bands; a lesson goes after the beat's comfort or relief line | fixed | 2026-10-23-4 |
+| SR-20261023-527 | atlas/A06/sprout.md<br>atlas/A06/reader.md | cross-story | Medium | follow | Three Sinbads in two bands; tag them once and use "the porter" and "the old sailor" in narration | fixed | 2026-10-23-4 |
 
 ## Runs
 
@@ -799,3 +799,4 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 - 2026-10-23 run 8 · [review-2026-10-23-3](review-2026-10-23-3.md) · units: expansions/E3.md, storylines/hundred.md, storylines/logged.md, storylines/beetle.md, storylines/dawndusk.md, atlas/A01/main.md, atlas/A02/main.md, atlas/A03/main.md, atlas/A05/sprout.md, atlas/A05/reader.md · 59 recs: Critical 2, High 17, Medium 34, Nice 6 (4 cross-story) · fixed since last run: 57 (all)
 - 2026-10-23 · fix pass on branch `fix/story-review-2026-10-23-4` · run 8's 59 recs: 59 fixed · -411 and -412 make Logged's and Beetle's last choices reach every ending through body scenes queued by `storyline-rules-logged.ts` and `-beetle.ts` (`l-end-*`, `b-end-*`, staged, tested); -466 renames Tam, Hob and Ash Penhallow to Nell, Grist and Rowan Penhallow (speaker ids kept); E3 gains `e3-merge-done-strong`, wired and tested · canon: item 43 gains the storyline names, Grist and Ottoline's marriage, and Root as the Keeper's sister
 - 2026-10-23 run 9 · [review-2026-10-23-4](review-2026-10-23-4.md) · units: atlas/A04/main.md, atlas/A05/main.md, atlas/A06/main.md, atlas/A06/sprout.md, atlas/A06/reader.md, atlas/A07/main.md, atlas/A07/sprout.md, atlas/A07/reader.md, atlas/A08/main.md, atlas/A09/main.md · 58 recs: Critical 1, High 23, Medium 34, Nice 0 (3 cross-story) · fixed since last run: 59 (all)
+- 2026-10-23 · fix pass on branch `fix/story-review-2026-10-23-5` · run 9's 58 recs: 58 fixed · -497 pays Balla's telling off in eight `a05-14-complete-*` variants (band versions added); -524 adds the `a09-raft` flag and two named dawn returns; -513 tells the sprout horse gag in narration to keep one new name per scene; -525 adds a `maths:` content-check warning (71 lessons to triage); -471 retags the queue lesson 4.NBT.B.4 (new row in EDU-STYLE.md) · canon: item 43 gains A8's javelin, Stick

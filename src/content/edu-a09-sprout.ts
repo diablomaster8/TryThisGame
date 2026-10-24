@@ -2744,6 +2744,60 @@ export const EDU_A09_SPROUT_VARIANTS: EduScene[] = [
       ),
     ],
   ),
+  sc(
+    'a09-12-dawn-mamma',
+    [
+      N('In the morning, you wake with sand in your ear.'),
+      N('The light is not red. It is ordinary, yellow, wonderful.'),
+      N('The grey has gone off everything. The grass is green.'),
+      N('The sea is coming back, in long, slow, shining sheets.'),
+      MT('It came back. Everything came back.', 'happy'),
+      SK('Things mostly do.', 'soft'),
+      N('The raft drifts in on the first wave.'),
+      N('Its name is still on the stern.'),
+      SN('She came home on her own. That is allowed, isn’t it?', 'happy'),
+      MP('Of course. She is named after someone who always comes home.', 'soft'),
+    ],
+    [
+      note(
+        'science',
+        'the tide: the sea goes out and comes back',
+        3,
+        [
+          N('Real seas move in and out each day. We call that the tide.'),
+          N('The sea goes out, and it always comes back.'),
+        ],
+        'Heard that the sea moves in and out each day, called the tide.',
+      ),
+    ],
+  ),
+  sc(
+    'a09-12-dawn-valuable',
+    [
+      N('In the morning, you wake with sand in your ear.'),
+      N('The light is not red. It is ordinary, yellow, wonderful.'),
+      N('The grey has gone off everything. The grass is green.'),
+      N('The sea is coming back, in long, slow, shining sheets.'),
+      MT('It came back. Everything came back.', 'happy'),
+      SK('Things mostly do.', 'soft'),
+      N('The raft drifts in on the first wave.'),
+      N('Its name is still on the stern.'),
+      SN('She came home on her own. That is what a valuable does.', 'happy'),
+      MP('Of course. She is called The Valuable. We do not lose a valuable.'),
+    ],
+    [
+      note(
+        'science',
+        'the tide: the sea goes out and comes back',
+        3,
+        [
+          N('Real seas move in and out each day. We call that the tide.'),
+          N('The sea goes out, and it always comes back.'),
+        ],
+        'Heard that the sea moves in and out each day, called the tide.',
+      ),
+    ],
+  ),
 ];
 
 // ================================================================== exports

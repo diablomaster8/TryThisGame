@@ -109,7 +109,7 @@ _And photographs. Dozens of them, some so old the faces are the colour of tea._
 > _Families add photos, marigolds, candles, water, salt and favourite foods. It is a living tradition, kept by millions of families today._  
 > _For grown-ups: Learned what an ofrenda holds and why Mexican families make one._
 
-**Miguel**: That’s Papá Julio. Tía Rosita. Tío Óscar and Tío Felipe, the twins. And that’s Mamá Imelda. She started the shoemaking.  
+**Miguel**: That’s Mamá Imelda. She started the shoemaking. The others you’ll meet. They’re very loud.  
 _In the oldest photo, a stern woman stands beside a little girl. Beside them is a man holding a guitar._  
 _The man’s face has been torn away. Someone has folded the edge under, so you can hardly see that anything is missing._  
 **Miguel**: Her husband was a musician. He left to play for the world, and he never came back.  
@@ -234,6 +234,13 @@ _In the square, a man is pinning up a sign: a talent show, tonight, in honour of
 _A mariachi with a kind face lets Miguel try his guitar on a bench._  
 **Abuelita**: MIGUEL!  
 _Abuelita crosses the square like weather. The mariachi suddenly remembers he has somewhere to be._  
+
+> **Lesson** (literacy, L.4.5, ask): tell a simile from a metaphor  
+> _“Abuelita crosses the square like weather.” Is that a simile or a metaphor?_  
+> - ✅ A simile → Yes. It uses “like”. Abuelita is as big and as hard to stop as a storm coming in.
+> - A metaphor → A metaphor says one thing is another. This line uses “like”, so it is a simile.
+> _For grown-ups: Told a simile from a metaphor, using a line about Abuelita._
+
 **Abuelita**: Music? In the square? On Día de Muertos, with your whole family watching from the ofrenda?  
 
 > **Lesson** (sel, CASEL: Self-management, ask): managing big feelings before speaking  
@@ -574,11 +581,11 @@ _You find a marigold petal stuck to your shoe, still glowing a little. You keep 
 _The Department of Family Reunions is a long room of desks, rubber stamps and filing cabinets. It is bureaucracy at its finest: lots of forms and lots of rules._  
 _You take a ticket that says 2,409. The board says 2,377._  
 
-> **Lesson** (maths, 2.OA.A.1, ask): subtract within 100 to find the gap  
+> **Lesson** (maths, 4.NBT.B.4, ask): count on to find a gap of less than 100  
 > _Your ticket is 2,409 and the board says 2,377. How many numbers until yours?_  
-> - ✅ 32 → Yes. 2,409 − 2,377 = 32. The thousands and hundreds match, so you only need 409 − 377.
+> - ✅ 32 → Yes. The thousands match, so you only need 409 − 377, which is 32.
 > - 42 → Check the tens: 409 − 377 = 32, not 42. Take away 300, then 70, then 7.
-> - 132 → The hundreds are the same in both numbers, so they cancel out. The difference is 32.
+> - 132 → One hundred too many. Count on: 2,377 and 23 more is 2,400, then 9 more is 2,409. That’s 32.
 > _For grown-ups: Subtracted to find how many numbers are left in a queue._
 
 **Tío Óscar and Tío Felipe**: It’s quick tonight. Last year we waited four years.  
@@ -768,6 +775,7 @@ _Héctor plays an old, rude, silly song about a man and his fine moustache. Chic
 _As the last note goes, a soft gold light lifts off Chicharrón, like dust in a sunbeam._  
 **Chicharrón**: Ah. That’s nice. That’s… nice.  
 _And then the hammock is empty, and still gently swinging. Chicharrón has faded, which in this story means he is gone for good._  
+_He wasn’t hurt. He went laughing, at a song he loved._  
 **Héctor**: Nobody up there remembers him any more. When the last one forgets you, you go. That’s all.  
 
 > **Lesson** (social-studies, D2.His.2.K-2, notice): oral history: people are carried by being remembered and talked about  
@@ -775,7 +783,6 @@ _And then the hammock is empty, and still gently swinging. Chicharrón has faded
 > _Names, songs and family stories can carry a person across hundreds of years, one retelling at a time._  
 > _For grown-ups: Learned that oral history keeps people and stories alive by telling them aloud._
 
-_It is this story’s idea, and a gentle one. He wasn’t hurt, and he went laughing._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): what helps when someone we know has died  
 > _Héctor is sad that Chicharrón has died. What helps people when someone they know has died?_  
@@ -1485,7 +1492,7 @@ _Mamá Imelda takes a marigold petal from her shawl. She looks at it, and at Mig
     - **Mamá Imelda**: Miguel, I give you my blessing. No conditions. Go home.
 - **“Bless him, and bless Héctor too. Let him come home.”**
     - **Mamá Imelda**: Héctor. You. I never forgave you.
-    - **Mamá Imelda**: Miguel, I give you my blessing. No conditions. Go home, and bring your papá Héctor home with you, in every way you can.
+    - **Mamá Imelda**: Miguel, I give you my blessing. No conditions. Go home, and carry Héctor home with you, in every way you can.
     - Héctor laughs, softly, a sound like someone very surprised to be given a present.
 - **Say nothing. Sit beside Miguel, and let him ask.**
     - You sit down next to Miguel on the ledge, and wait, and your Nubbin sits too. Mamá Imelda watches you both.
@@ -1507,15 +1514,15 @@ _The sun comes up over the edge of the world. Gold petals swirl round Miguel, an
 #### `reader:a7-11-complete` · [main](main.md#a7-11-complete)
 
 _The atlas in your pocket goes warm. The Land of the Dead turns to petals, and the petals turn to morning._  
-
-> **Lesson** (literacy, L.4.5, ask): understand a metaphor  
-> _“The Land of the Dead turns to petals, and the petals turn to morning.” Is that a simile or a metaphor?_  
-> - ✅ A metaphor: it says one thing becomes another → Yes. There is no “like” or “as”. The writer says the scene becomes petals, then morning, to show how gently it changes.
-> - A simile: it uses “like” or “as” → A simile does use “like” or “as”, but this line doesn’t. It states that one thing becomes another, which makes it a metaphor.
-> _For grown-ups: Told a metaphor from a simile._
-
 _You are on your knees on the cold floor of Ernesto’s tomb. Miguel is beside you, with the white guitar in his arms._  
 _Your Nubbin is beside you too, blue again, mostly. There is still a little pink at the tips of its ears._  
+
+> **Lesson** (literacy, L.3.4, ask): use context clues to find a meaning  
+> _Your Nubbin is “blue again, mostly”. What does “mostly” tell you?_  
+> - ✅ Nearly all of it is blue, but not quite all → Yes. The next words say so: a little pink is left at the tips of its ears.
+> - Every bit of it is blue → Not quite. “Mostly” means nearly all. The pink ear tips are the bit still left.
+> _For grown-ups: Used context to work out the meaning of mostly._
+
 **Miguel**: Mamá Coco. Come on. Come on, quick!  
 
 ### Glossary
@@ -1661,34 +1668,34 @@ _It is a corner of an old photograph: a smiling man with a moustache, and a guit
 #### `reader:a7-12-song-done` · [main](main.md#a7-12-song-done)
 
 _Miguel fits the corner back into the old photo. It is mended: a family of three, all their faces showing._  
-_Imagine folding the photo in half, and in half again. Coco’s corner would fill exactly one of the equal parts._  
-
-> **Lesson** (maths, 3.NF.A.1, ask): unit fractions  
-> _Folded in half twice, a photo has 4 equal parts. Coco kept 1 of them. What fraction is that?_  
-> - ✅ 1/4 → Yes. One part out of four equal parts is one quarter, written 1/4.
-> - 1/2 → A half would be 1 out of 2 equal parts. This is 1 out of 4, so 1/4.
-> - 4/1 → The top number is the parts you have, and the bottom is how many equal parts: 1/4.
-> _For grown-ups: Named a unit fraction: one of four equal parts is 1/4._
-
+_The mended photo shows three people: Imelda, little Coco and Héctor. Héctor is one of the three._  
 _You untie the orange ribbon from your Nubbin’s neck, with HÉCTOR stitched on it, and tie it round the mended photo._  
 **Mamá Coco**: There. Now he won’t get lost.  
+
+> **Lesson** (maths, 3.NF.A.1, ask): unit fractions of a group  
+> _What fraction of the family in the photo is Héctor?_  
+> - ✅ 1/3 → Yes. One person out of three is one third, written 1/3.
+> - 1/2 → A half would be 1 out of 2. There are three people, so Héctor is 1/3.
+> - 3/1 → The top number is the part, Héctor. The bottom is how many in all, three: 1/3.
+> _For grown-ups: Named a unit fraction: one person out of three is 1/3._
+
 
 #### `reader:a7-12-song-done-promise` · [main](main.md#a7-12-song-done-promise)
 
 _Variant of `a7-12-song-done`._
 
 _Miguel fits the corner back into the old photo. It is mended: a family of three, all their faces showing._  
-_Imagine folding the photo in half, and in half again. Coco’s corner would fill exactly one of the equal parts._  
-
-> **Lesson** (maths, 3.NF.A.1, ask): unit fractions  
-> _Folded in half twice, a photo has 4 equal parts. Coco kept 1 of them. What fraction is that?_  
-> - ✅ 1/4 → Yes. One part out of four equal parts is one quarter, written 1/4.
-> - 1/2 → A half would be 1 out of 2 equal parts. This is 1 out of 4, so 1/4.
-> - 4/1 → The top number is the parts you have, and the bottom is how many equal parts: 1/4.
-> _For grown-ups: Named a unit fraction: one of four equal parts is 1/4._
-
+_The mended photo shows three people: Imelda, little Coco and Héctor. Héctor is one of the three._  
 _Mamá Coco touches the man’s face in the photo, and then she looks at you, as if she knows you from somewhere._  
 **Mamá Coco**: You said his name. Before. You said it first. Thank you.  
+
+> **Lesson** (maths, 3.NF.A.1, ask): unit fractions of a group  
+> _What fraction of the family in the photo is Héctor?_  
+> - ✅ 1/3 → Yes. One person out of three is one third, written 1/3.
+> - 1/2 → A half would be 1 out of 2. There are three people, so Héctor is 1/3.
+> - 3/1 → The top number is the part, Héctor. The bottom is how many in all, three: 1/3.
+> _For grown-ups: Named a unit fraction: one person out of three is 1/3._
+
 
 #### `reader:a7-12-complete` · [main](main.md#a7-12-complete)
 

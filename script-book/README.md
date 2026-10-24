@@ -107,12 +107,12 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Atlas, page A1: The Brothers’ Bargain | [main.md](atlas/A01/main.md) (1627) |  |  |
 | Atlas, page A2: The Monkey and the Monk | [main.md](atlas/A02/main.md) (1607) | [sprout.md](atlas/A02/sprout.md) (1957) | [reader.md](atlas/A02/reader.md) (2317) |
 | Atlas, page A3: Forty-Nine Days | [main.md](atlas/A03/main.md) (1208) |  |  |
-| Atlas, page A4: The Waterfall Prince | [main.md](atlas/A04/main.md) (1339) |  |  |
-| Atlas, page A5: The Lion of Mali | [main.md](atlas/A05/main.md) (1165) | [sprout.md](atlas/A05/sprout.md) (1426) | [reader.md](atlas/A05/reader.md) (1638) |
-| Atlas, page A6: Seven Voyages | [main.md](atlas/A06/main.md) (1537) | [sprout.md](atlas/A06/sprout.md) (1872) | [reader.md](atlas/A06/reader.md) (2225) |
-| Atlas, page A7: The Marigold Bridge | [main.md](atlas/A07/main.md) (1200) | [sprout.md](atlas/A07/sprout.md) (1519) | [reader.md](atlas/A07/reader.md) (1861) |
-| Atlas, page A8: The Twelve Tasks | [main.md](atlas/A08/main.md) (1075) | [sprout.md](atlas/A08/sprout.md) (1250) | [reader.md](atlas/A08/reader.md) (1426) |
-| Atlas, page A9: The Comet | [main.md](atlas/A09/main.md) (1095) | [sprout.md](atlas/A09/sprout.md) (1431) | [reader.md](atlas/A09/reader.md) (1702) |
+| Atlas, page A4: The Waterfall Prince | [main.md](atlas/A04/main.md) (1351) |  |  |
+| Atlas, page A5: The Lion of Mali | [main.md](atlas/A05/main.md) (1318) | [sprout.md](atlas/A05/sprout.md) (1622) | [reader.md](atlas/A05/reader.md) (1922) |
+| Atlas, page A6: Seven Voyages | [main.md](atlas/A06/main.md) (1545) | [sprout.md](atlas/A06/sprout.md) (1887) | [reader.md](atlas/A06/reader.md) (2232) |
+| Atlas, page A7: The Marigold Bridge | [main.md](atlas/A07/main.md) (1211) | [sprout.md](atlas/A07/sprout.md) (1533) | [reader.md](atlas/A07/reader.md) (1868) |
+| Atlas, page A8: The Twelve Tasks | [main.md](atlas/A08/main.md) (1085) | [sprout.md](atlas/A08/sprout.md) (1250) | [reader.md](atlas/A08/reader.md) (1426) |
+| Atlas, page A9: The Comet | [main.md](atlas/A09/main.md) (1135) | [sprout.md](atlas/A09/sprout.md) (1473) | [reader.md](atlas/A09/reader.md) (1774) |
 | Atlas, page A10: The Heart of the Island | [main.md](atlas/A10/main.md) (1295) | [sprout.md](atlas/A10/sprout.md) (1696) | [reader.md](atlas/A10/reader.md) (1933) |
 | Atlas, page A11: The Enchanted Place | [main.md](atlas/A11/main.md) (1884) | [sprout.md](atlas/A11/sprout.md) (2352) | [reader.md](atlas/A11/reader.md) (2535) |
 | Atlas, page A12: The Mirror Shard | [main.md](atlas/A12/main.md) (1962) | [sprout.md](atlas/A12/sprout.md) (2412) | [reader.md](atlas/A12/reader.md) (2739) |

@@ -1338,6 +1338,48 @@ _The sea is coming back, in long, slow, shining sheets._
 **Moomintroll**: It came back. Everything came back.  
 **Snufkin**: Things mostly do.  
 
+#### `sprout:a09-12-dawn-mamma` · [main](main.md#a09-12-dawn-mamma)
+
+_Variant of `a09-12-dawn`._
+
+_In the morning, you wake with sand in your ear._  
+_The light is not red. It is ordinary, yellow, wonderful._  
+_The grey has gone off everything. The grass is green._  
+_The sea is coming back, in long, slow, shining sheets._  
+
+> **Lesson** (science, notice): the tide: the sea goes out and comes back  
+> _Real seas move in and out each day. We call that the tide._  
+> _The sea goes out, and it always comes back._  
+> _For grown-ups: Heard that the sea moves in and out each day, called the tide._
+
+**Moomintroll**: It came back. Everything came back.  
+**Snufkin**: Things mostly do.  
+_The raft drifts in on the first wave._  
+_Its name is still on the stern._  
+**Sniff**: She came home on her own. That is allowed, isn’t it?  
+**Moominpappa**: Of course. She is named after someone who always comes home.  
+
+#### `sprout:a09-12-dawn-valuable` · [main](main.md#a09-12-dawn-valuable)
+
+_Variant of `a09-12-dawn`._
+
+_In the morning, you wake with sand in your ear._  
+_The light is not red. It is ordinary, yellow, wonderful._  
+_The grey has gone off everything. The grass is green._  
+_The sea is coming back, in long, slow, shining sheets._  
+
+> **Lesson** (science, notice): the tide: the sea goes out and comes back  
+> _Real seas move in and out each day. We call that the tide._  
+> _The sea goes out, and it always comes back._  
+> _For grown-ups: Heard that the sea moves in and out each day, called the tide._
+
+**Moomintroll**: It came back. Everything came back.  
+**Snufkin**: Things mostly do.  
+_The raft drifts in on the first wave._  
+_Its name is still on the stern._  
+**Sniff**: She came home on her own. That is what a valuable does.  
+**Moominpappa**: Of course. She is called The Valuable. We do not lose a valuable.  
+
 #### `sprout:a09-12-dawn-done` · [main](main.md#a09-12-dawn-done)
 
 _Your Nubbin runs down to the water._  

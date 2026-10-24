@@ -160,6 +160,7 @@ _Abuelita crosses the square like weather. The mariachi suddenly remembers he ha
 _She marches him home by the ear. You follow, because you don’t know what else to do, and your Nubbin follows you._  
 _At the ofrenda, Miguel’s elbow knocks the oldest photo from its frame. The folded part falls open._  
 **Miguel** _(shock)_: Look. Look at the guitar. The man with no face. That’s his guitar. That’s Ernesto de la Cruz’s guitar.  
+_Miguel slips the old photo into his jacket. Nobody notices one frame on the ofrenda is now empty._  
 
 #### <a id="a7-02-square-done"></a>Done `a7-02-square-done`
 
@@ -628,7 +629,8 @@ _Somewhere in the middle of it, Héctor stops performing, and just watches Migue
 
 #### <a id="a7-07-stage-done"></a>Done `a7-07-stage-done`
 
-_The crowd roars. Then, behind them, a voice even louder than the crowd._  
+**Compère**: And tonight’s winner, by the loudest clapping this hall has ever had, is…  
+_Then, behind the crowd, a voice even louder than the crowd._  
 **Mamá Imelda** _(angry)_: MIGUEL!  
 _The whole Rivera family is pushing through the crowd. Mamá Imelda has her shoe in her hand._  
 
@@ -677,7 +679,7 @@ Sets on completion: `{"a7-07":true}`
 
 *Coco (2017): Ernesto de la Cruz’s party* · audience: all · where: Nova’s atlas: the Marigold Bridge page (Atlas campaign) · when: Any time after A7-7, from Nova’s atlas. · requires: A7-7
 
-**Cast:** Miguel (Miguel Rivera, Coco (Disney·Pixar, 2017); original design), Ernesto de la Cruz (Ernesto de la Cruz, Coco (Disney·Pixar, 2017); original design)
+**Cast:** Miguel (Miguel Rivera, Coco (Disney·Pixar, 2017); original design), Ernesto de la Cruz (Ernesto de la Cruz, Coco (Disney·Pixar, 2017); original design), Doorman (the doorman at Ernesto’s gate; original, Coco (Disney·Pixar, 2017); original design)
 
 ### Step 1: Get into Ernesto de la Cruz’s party with a band of musicians.
 
@@ -687,9 +689,12 @@ Hint: Pick up a guitar case and walk in with the band, as if you belong. · chec
 
 _The tower at the top of the city is Ernesto’s house. At the gate, a doorman is checking a list._  
 _A band of skeleton musicians is going in: guitars, trumpets, violins, a harp carried by three of them._  
-**Miguel**: I’m with the band. We’re all with the band.  
+**Miguel**: I never got my prize. Fine. I’m with the band now.  
 _You pick up a spare guitar case, which is heavier than it looks. Your Nubbin picks up a maraca, which is lighter than it looks._  
-_The doorman looks at Miguel’s painted face, your Nubbin’s stripes, and your case. He sighs and waves you through._  
+**Doorman**: Instruments?  
+**Miguel**: Guitar.  
+_Your Nubbin shakes its maraca once, with enormous authority._  
+_The doorman looks at the maraca for a long time. Then he sighs, and waves you all through._  
 _Inside, the party is enormous. There are fountains, and a pool, and a whole wall where Ernesto’s old films play on a loop._  
 **Miguel** _(happy)_: There he is. There he is!  
 
@@ -803,6 +808,8 @@ _Dante, out in the gardens, sees you go, and starts to bark and bark and bark._
 _The guards drop Miguel and Héctor into the hole. You jump after them, because you said you would stay with Miguel._  
 _Your Nubbin jumps after you, glowing all the way down like a dropped lantern._  
 _You land in cold water. Far above, the circle of sky closes, and goes dark._  
+**Miguel** _(shock)_: This is the worst party I have ever been to.  
+_Your Nubbin surfaces wearing a marigold, and looks deeply offended about it._  
 
 **Rewards**
 
@@ -947,6 +954,10 @@ _It is an old song, slow and fierce. The whole stadium goes quiet to hear it._
 
 _When the song ends, Mamá Imelda looks into the wings at Héctor. Something in her face has come undone, just a little._  
 **Mamá Imelda** _(soft)_: Don’t. Don’t say anything. Not yet.  
+**Héctor**: I wasn’t going to say anything.  
+**Mamá Imelda**: You were. You had your told-you-so face on.  
+**Héctor**: Imelda, I barely have a face.  
+**Mamá Imelda** _(soft)_: You have exactly the same one. That’s always been the trouble.  
 
 ### Step 2: Watch Ernesto in front of the cameras.
 

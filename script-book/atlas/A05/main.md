@@ -225,8 +225,9 @@ _Her son crawls over to her. Your Nubbin sits on her other side and leans._
 
 #### <a id="a05-03-complete"></a>Complete `a05-03-complete`
 
+**Balla Fasséké** _(soft)_: Watch, apprentice. That’s Mari Djata. One day the tellers will call him Sundiata, and you’ll hear why.  
 **Sundiata**: Mother. Why are you crying?  
-_Sogolon looks up. So does Balla, and so, it seems, does the whole yard._  
+_Sogolon looks up, and so, it seems, does the whole yard._  
 **Sogolon** _(sad)_: Because of leaves. Because of a woman with a sharp tongue. Because of you, my son.  
 **Sundiata** _(angry)_: Then dry your eyes, Mother. Today I stand up.  
 **Sundiata**: Send to the forges. Ask the smiths for a rod of iron, so heavy it takes all of them to carry it.  
@@ -465,7 +466,8 @@ Hint: Meet Sogolon and her children at the west gate in the dark. · check: `wal
 #### <a id="a05-06-leave"></a>Scene `a05-06-leave`
 
 **Sogolon**: We go tonight. While my son is angry, he isn’t safe here, and while we stay, nor is anyone who loves him.  
-_There are five of them at the west gate: Sogolon, Sundiata, his sisters Kolonkan and little Djamarou, and his half-brother Manding Bory._  
+_Five of them at the west gate: Sogolon, Sundiata, and two sisters. Kolonkan is the tall one. Djamarou is asleep standing up._  
+_Then a boy comes running with a bundle bigger than he is: Manding Bory, Sundiata’s half-brother._  
 **Manding Bory** _(sad)_: My mother says I should stay. I said I’m going where Djata goes. She cried, and then she packed me food.  
 **Kolonkan**: Walk quietly. The road out of Niani has ears.  
 _Sundiata looks back once at the town, at the dark shape of the baobab at his mother’s door._  
@@ -732,7 +734,8 @@ Hint: Stand at the tower window with Balla. · check: `watch:a05-sosso:army`
 
 #### <a id="a05-09-march"></a>Scene `a05-09-march`
 
-_The page turns forward again. From the tower window, you watch Soumaoro’s army go out of Sosso like smoke out of a forge._  
+_The page turns forward by years. Balla has grey in his beard now, the same tower window, and still no key._  
+_From it, you watch Soumaoro’s army go out of Sosso like smoke out of a forge._  
 **Balla Fasséké** _(sad)_: He’s taking Manding. Dankaran Touman sent him gifts, and a griot, and it wasn’t enough. It never is, with a man like that.  
 _Far off, the page shows Niani, small, with its gates open, and Dankaran Touman riding hard the other way._  
 **Dankaran Touman** _(sad)_: Don’t tell anyone I ran. No. Tell them. It doesn’t matter now.  
@@ -849,6 +852,8 @@ _Word goes ahead of him on the road. At the iron hills of Tabon, kings are waiti
 **Fran Kamara** _(happy)_: Tabon is with you. So are the hunters of Sibi, and more are coming.  
 **Manding Bory**: Every king who’s been afraid of Soumaoro is walking up this road, Djata. They’ve just been waiting for someone to go first.  
 _All day they come in, with drums and banners. Your Nubbin greets every single one at the camp gate, very seriously._  
+_It gives each king a pebble. By the ninth king it is down to gravel._  
+**Fran Kamara** _(soft)_: It gave me its last pebble. I’m deeply moved, and slightly worried for it.  
 
 **Choices**
 
@@ -1153,6 +1158,154 @@ _He puts the little balafon into your arms, and the beaters into your Nubbin’s
 _The red earth goes soft under your feet, then smooth, then paper._  
 _You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
 
+#### <a id="a05-14-complete-lullaby-waiting"></a>Variant `a05-14-complete-lullaby-waiting`
+
+_Variant of `a05-14-complete-lullaby`._
+
+_The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata._  
+**Balla Fasséké**: Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.  
+_Your Nubbin plays Sogolon’s lullaby on Balla’s balafon. Thousands of people go quiet to hear it._  
+**Kolonkan** _(soft)_: That’s our mother’s grinding tune. She never knew anyone heard it.  
+**Sundiata** _(happy)_: She’d be cross to be the first thing in the story. Then she’d be very pleased.  
+**Balla Fasséké**: This is the story of a boy nobody hurried.  
+**Sundiata** _(shock)_: You’re starting there?  
+**Balla Fasséké** _(happy)_: My apprentice insisted. Take it up with them.  
+**Balla Fasséké** _(happy)_: Eight hundred years from now, my children’s children will still be telling this. You’ll see. And they’ll argue about it.  
+**Balla Fasséké**: That’s how you know a story is alive. Dead ones nobody argues about.  
+_He puts the little balafon into your arms, and the beaters into your Nubbin’s hands._  
+**Balla Fasséké** _(soft)_: Go home, apprentice. Remember us properly.  
+_The red earth goes soft under your feet, then smooth, then paper._  
+_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
+
+#### <a id="a05-14-complete-lullaby-mother"></a>Variant `a05-14-complete-lullaby-mother`
+
+_Variant of `a05-14-complete-lullaby`._
+
+_The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata._  
+**Balla Fasséké**: Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.  
+_Your Nubbin plays Sogolon’s lullaby on Balla’s balafon. Thousands of people go quiet to hear it._  
+**Kolonkan** _(soft)_: That’s our mother’s grinding tune. She never knew anyone heard it.  
+**Sundiata** _(happy)_: She’d be cross to be the first thing in the story. Then she’d be very pleased.  
+**Balla Fasséké**: This is the story of Sogolon, who carried it all.  
+**Sundiata** _(shock)_: You’re starting with my mother?  
+**Balla Fasséké** _(happy)_: My apprentice insisted. Take it up with them.  
+**Balla Fasséké** _(happy)_: Eight hundred years from now, my children’s children will still be telling this. You’ll see. And they’ll argue about it.  
+**Balla Fasséké**: That’s how you know a story is alive. Dead ones nobody argues about.  
+_He puts the little balafon into your arms, and the beaters into your Nubbin’s hands._  
+**Balla Fasséké** _(soft)_: Go home, apprentice. Remember us properly.  
+_The red earth goes soft under your feet, then smooth, then paper._  
+_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
+
+#### <a id="a05-14-complete-lullaby-sister"></a>Variant `a05-14-complete-lullaby-sister`
+
+_Variant of `a05-14-complete-lullaby`._
+
+_The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata._  
+**Balla Fasséké**: Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.  
+_Your Nubbin plays Sogolon’s lullaby on Balla’s balafon. Thousands of people go quiet to hear it._  
+**Kolonkan** _(soft)_: That’s our mother’s grinding tune. She never knew anyone heard it.  
+**Sundiata** _(happy)_: She’d be cross to be the first thing in the story. Then she’d be very pleased.  
+**Balla Fasséké**: This is the story of Nana Triban, who chose.  
+**Sundiata** _(shock)_: You’re starting there?  
+**Balla Fasséké** _(happy)_: My apprentice insisted. Take it up with them.  
+**Balla Fasséké** _(happy)_: Eight hundred years from now, my children’s children will still be telling this. You’ll see. And they’ll argue about it.  
+**Balla Fasséké**: That’s how you know a story is alive. Dead ones nobody argues about.  
+_He puts the little balafon into your arms, and the beaters into your Nubbin’s hands._  
+**Balla Fasséké** _(soft)_: Go home, apprentice. Remember us properly.  
+_The red earth goes soft under your feet, then smooth, then paper._  
+_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
+
+#### <a id="a05-14-complete-lullaby-enemy"></a>Variant `a05-14-complete-lullaby-enemy`
+
+_Variant of `a05-14-complete-lullaby`._
+
+_The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata._  
+**Balla Fasséké**: Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.  
+_Your Nubbin plays Sogolon’s lullaby on Balla’s balafon. Thousands of people go quiet to hear it._  
+**Kolonkan** _(soft)_: That’s our mother’s grinding tune. She never knew anyone heard it.  
+**Sundiata** _(happy)_: She’d be cross to be the first thing in the story. Then she’d be very pleased.  
+**Balla Fasséké**: This is the story of Sundiata, and of an enemy who loved music.  
+**Sundiata** _(shock)_: You’re starting there?  
+**Balla Fasséké** _(happy)_: My apprentice insisted. Take it up with them.  
+**Balla Fasséké** _(happy)_: Eight hundred years from now, my children’s children will still be telling this. You’ll see. And they’ll argue about it.  
+**Balla Fasséké**: That’s how you know a story is alive. Dead ones nobody argues about.  
+_He puts the little balafon into your arms, and the beaters into your Nubbin’s hands._  
+**Balla Fasséké** _(soft)_: Go home, apprentice. Remember us properly.  
+_The red earth goes soft under your feet, then smooth, then paper._  
+_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
+
+#### <a id="a05-14-complete-waiting"></a>Variant `a05-14-complete-waiting`
+
+_Variant of `a05-14-complete`._
+
+_The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata._  
+**Balla Fasséké**: Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.  
+_Your Nubbin plays the hunters’ tune on Balla’s balafon. A hundred hunters stamp along, and the whole ring stamps with them._  
+**Sundiata** _(happy)_: My hunting tune. The one they played when I came home.  
+**Balla Fasséké**: This is the story of a boy nobody hurried.  
+**Sundiata** _(shock)_: You’re starting there?  
+**Balla Fasséké** _(happy)_: My apprentice insisted. Take it up with them.  
+**Balla Fasséké** _(happy)_: Eight hundred years from now, my children’s children will still be telling this. You’ll see. And they’ll argue about it.  
+**Balla Fasséké**: That’s how you know a story is alive. Dead ones nobody argues about.  
+_He puts the little balafon into your arms, and the beaters into your Nubbin’s hands._  
+**Balla Fasséké** _(soft)_: Go home, apprentice. Remember us properly.  
+_The red earth goes soft under your feet, then smooth, then paper._  
+_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
+
+#### <a id="a05-14-complete-mother"></a>Variant `a05-14-complete-mother`
+
+_Variant of `a05-14-complete`._
+
+_The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata._  
+**Balla Fasséké**: Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.  
+_Your Nubbin plays the hunters’ tune on Balla’s balafon. A hundred hunters stamp along, and the whole ring stamps with them._  
+**Sundiata** _(happy)_: My hunting tune. The one they played when I came home.  
+**Balla Fasséké**: This is the story of Sogolon, who carried it all.  
+**Sundiata** _(shock)_: You’re starting with my mother?  
+**Balla Fasséké** _(happy)_: My apprentice insisted. Take it up with them.  
+**Balla Fasséké** _(happy)_: Eight hundred years from now, my children’s children will still be telling this. You’ll see. And they’ll argue about it.  
+**Balla Fasséké**: That’s how you know a story is alive. Dead ones nobody argues about.  
+_He puts the little balafon into your arms, and the beaters into your Nubbin’s hands._  
+**Balla Fasséké** _(soft)_: Go home, apprentice. Remember us properly.  
+_The red earth goes soft under your feet, then smooth, then paper._  
+_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
+
+#### <a id="a05-14-complete-sister"></a>Variant `a05-14-complete-sister`
+
+_Variant of `a05-14-complete`._
+
+_The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata._  
+**Balla Fasséké**: Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.  
+_Your Nubbin plays the hunters’ tune on Balla’s balafon. A hundred hunters stamp along, and the whole ring stamps with them._  
+**Sundiata** _(happy)_: My hunting tune. The one they played when I came home.  
+**Balla Fasséké**: This is the story of Nana Triban, who chose.  
+**Sundiata** _(shock)_: You’re starting there?  
+**Balla Fasséké** _(happy)_: My apprentice insisted. Take it up with them.  
+**Balla Fasséké** _(happy)_: Eight hundred years from now, my children’s children will still be telling this. You’ll see. And they’ll argue about it.  
+**Balla Fasséké**: That’s how you know a story is alive. Dead ones nobody argues about.  
+_He puts the little balafon into your arms, and the beaters into your Nubbin’s hands._  
+**Balla Fasséké** _(soft)_: Go home, apprentice. Remember us properly.  
+_The red earth goes soft under your feet, then smooth, then paper._  
+_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
+
+#### <a id="a05-14-complete-enemy"></a>Variant `a05-14-complete-enemy`
+
+_Variant of `a05-14-complete`._
+
+_The ring falls quiet. Balla stands before the kings to tell, for the first time, the story of Sundiata._  
+**Balla Fasséké**: Before I begin, my apprentice’s round friend will play us in. It learned the tune I’d have chosen myself.  
+_Your Nubbin plays the hunters’ tune on Balla’s balafon. A hundred hunters stamp along, and the whole ring stamps with them._  
+**Sundiata** _(happy)_: My hunting tune. The one they played when I came home.  
+**Balla Fasséké**: This is the story of Sundiata, and of an enemy who loved music.  
+**Sundiata** _(shock)_: You’re starting there?  
+**Balla Fasséké** _(happy)_: My apprentice insisted. Take it up with them.  
+**Balla Fasséké** _(happy)_: Eight hundred years from now, my children’s children will still be telling this. You’ll see. And they’ll argue about it.  
+**Balla Fasséké**: That’s how you know a story is alive. Dead ones nobody argues about.  
+_He puts the little balafon into your arms, and the beaters into your Nubbin’s hands._  
+**Balla Fasséké** _(soft)_: Go home, apprentice. Remember us properly.  
+_The red earth goes soft under your feet, then smooth, then paper._  
+_You are back in the Grove with Nova’s atlas on your knee. From under the cover a tune keeps going, and your Nubbin taps it out, very nearly in time._  
+
 **Rewards**
 
 - Balafon (feature): A small wooden balafon from Balla Fasséké. Play it as often as you like: your Nubbins gather round and dance, and it never leaves out what you asked Balla to keep.
@@ -1162,4 +1315,4 @@ _You are back in the Grove with Nova’s atlas on your knee. From under the cove
 
 Sets on completion: `{"a05-14":true,"a05-done":true}`
 
-**Notes:** SIGNATURE PAYOFF (a05-tune, set in A5-5). The complete scene shown is for hunters. For lullaby play ATLAS_A05_VARIANTS a05-14-complete-lullaby (the ring goes quiet instead of stamping; Kolonkan recognises her mother’s grinding tune). Both end with A14_END. SECOND CHOICE (a05-14-ask): a05-remember = waiting | mother | sister | enemy. The then-line is the payoff; in the Grove, the balafon’s tune always adds a short phrase for the pick (AUDIO: four two-bar phrases), so the choice is heard every time the reward is played. The Grove reads a05-remember from the Atlas save, read-only; no Grove flag is written. The balafon is unlimited: play it any time, no cooldown. KURUKAN FUGA: what was said is told in plain words that echo the Manden Charter as UNESCO lists it (clans and their work, strangers as guests, the worth of every life); never quoted from any published text, and Balla says tellers differ. The Kouyaté line is real: Balla’s descendants are griots still. REWARDS (one-time, at a05-14-complete*): the Balafon feature (Nubbins dance), the Baobab Tree decor, the Griot’s Apprentice title, and the Night of Remembering Bookmark. SIM: the Night of Remembering festival (A3, A5, A7, any two) reads atlasDone('A5') from a05-done.
+**Notes:** SIGNATURE PAYOFF (a05-tune, set in A5-5). The complete scene shown is for hunters. For lullaby play ATLAS_A05_VARIANTS a05-14-complete-lullaby (the ring goes quiet instead of stamping; Kolonkan recognises her mother’s grinding tune). Both end with A14_END. SECOND CHOICE (a05-14-ask): a05-remember = waiting | mother | sister | enemy. The then-line is the first payoff; Balla then opens his telling with the pick in the complete scene (ATLAS_A05_VARIANTS a05-14-complete-<pick> and a05-14-complete-lullaby-<pick>, eight in all). In the Grove, the balafon’s tune always adds a short phrase for the pick (AUDIO: four two-bar phrases), so the choice is heard every time the reward is played. The Grove reads a05-remember from the Atlas save, read-only; no Grove flag is written. The balafon is unlimited: play it any time, no cooldown. KURUKAN FUGA: what was said is told in plain words that echo the Manden Charter as UNESCO lists it (clans and their work, strangers as guests, the worth of every life); never quoted from any published text, and Balla says tellers differ. The Kouyaté line is real: Balla’s descendants are griots still. REWARDS (one-time, at a05-14-complete*): the Balafon feature (Nubbins dance), the Baobab Tree decor, the Griot’s Apprentice title, and the Night of Remembering Bookmark. SIM: the Night of Remembering festival (A3, A5, A7, any two) reads atlasDone('A5') from a05-done.

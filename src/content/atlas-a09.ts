@@ -295,6 +295,7 @@ export const ATLAS_A09: Quest[] = [
             {
               id: 'mamma',
               label: 'Suggest calling it after Moominmamma.',
+              set: { 'a09-raft': 'mamma' },
               then: [
                 MP('Ah. Yes. Then she’ll be sure to bring you home.', 'soft'),
                 N('He paints the name on the stern in careful blue letters.'),
@@ -303,6 +304,7 @@ export const ATLAS_A09: Quest[] = [
             {
               id: 'sniff',
               label: 'Suggest “The Valuable”.',
+              set: { 'a09-raft': 'valuable' },
               then: [
                 SN('Oh. Oh, that’s a very good name. That’s the best name.', 'happy'),
                 N('Moominpappa paints it on, and Sniff stands next to it for a long time with his paws behind his back.'),
@@ -1167,6 +1169,7 @@ export const ATLAS_A09: Quest[] = [
           lines: [
             N('The seabed dips into its deepest part. The mud gives way to black rock and pools that go down further than light.'),
             N('Everything is red under the comet. The puddles shine like spilt jam.'),
+            N('The Snork lights the lantern from his pack and hangs it on a stick, as is correct. He has a rule about lanterns too.'),
             SO('We keep to the ridge. Single file. That is a rule.', 'think'),
             N('Moomintroll is in front, looking ahead to where the valley must be. He is going too fast.'),
             MT('Not far now. I can almost smell the house. I can almost smell the jam.', 'happy'),
@@ -1422,6 +1425,9 @@ export const ATLAS_A09: Quest[] = [
         done: {
           id: 'a09-11-arrive-done',
           lines: [
+            SO('I move that the comet be asked to arrive quietly.'),
+            MU('Seconded. I have no hope whatsoever. It’s very restful.', 'think'),
+            N('Moominpappa hangs the hammock between a rock and his memoirs. Everybody politely pretends it is holding.'),
             N('The kitchen clock says half past seven. It ticks very loudly, as clocks do when everybody is listening.'),
           ],
         },
@@ -1458,6 +1464,7 @@ export const ATLAS_A09: Quest[] = [
               set: { 'a09-brought': 'garnet' },
               then: [
                 N('You bring the garnet. Sniff sees, and pretends very hard not to have seen.'),
+                N('Your Nubbin stays in Sniff’s pocket and comes in as his one thing. Sniff says this is allowed. Nobody argues with him tonight.'),
                 MM('Somebody’s been generous. That’s worth a lot of room.', 'soft'),
               ],
             },
@@ -1542,6 +1549,10 @@ export const ATLAS_A09: Quest[] = [
             N('Somebody laughs in the dark: the Snork Maiden. Then Moomintroll, and then everybody.'),
             SN('Has it gone? Is it over? Tell me exactly.', 'shock'),
             MP('It brushed us with its tail and went on its way. It had somewhere else to be, I expect.', 'soft'),
+            MP('That goes in the memoirs. "The Night I Remained Calm."'),
+            MM('You were under the rocking chair, dear.', 'soft'),
+            MP('Calmly under it.'),
+            SO('For the record, the comet did not attend. I shall minute it.'),
             N('The lamps come back on and Moominmamma cuts the cake. Nobody remembers afterwards if it was good, only that it was there.'),
           ],
         },
@@ -1567,6 +1578,7 @@ export const ATLAS_A09: Quest[] = [
             MT('It came back. Everything came back.', 'happy'),
             SK('Things mostly do. Not always. But mostly.', 'soft'),
             N('The Hemulen is already in the long grass with his notebook, because there are butterflies.'),
+            N('Down at the water’s edge, the raft drifts in on the first wave, its name still on the stern, as if it had only popped out.'),
           ],
         },
         done: {
@@ -1642,6 +1654,8 @@ export const ATLAS_A09: Quest[] = [
 /**
  * Variant scenes chosen by this page's own flags (Atlas save only).
  * - a09-11-dark-home replaces a09-11-dark when a09-answer = home (the signature payoff).
+ * - a09-12-dawn-mamma and a09-12-dawn-valuable replace a09-12-dawn when a09-raft = mamma or valuable
+ *   (the base is the neutral raft return, for an unset flag).
  * - a09-12-dawn-done-shell and a09-12-dawn-done-garnet replace a09-12-dawn-done (the base, for
  *   nubbin) when a09-brought = shell or garnet.
  */
@@ -1658,6 +1672,36 @@ export const ATLAS_A09_VARIANTS: Scene[] = [
       N('He has been carrying it since the mountain, like a button in a pocket. Now he gives it back to you to hold.'),
       SN('And we are. We’re home. So that part came true.'),
       N('You sit there together and wait, and that is the whole of what you can do.'),
+    ],
+  },
+  {
+    id: 'a09-12-dawn-mamma',
+    lines: [
+      N('In the morning you wake up with sand in your ear and your Nubbin asleep on your chest.'),
+      N('The light at the cave mouth is not red. It is ordinary, yellow, wonderful morning.'),
+      N('You go out, and the grey has gone off everything. The grass is green, and wet, and has never looked so like grass.'),
+      N('And the sea is coming back. It comes in over the seabed in long, slow, shining sheets, filling every hollow.'),
+      MT('It came back. Everything came back.', 'happy'),
+      SK('Things mostly do. Not always. But mostly.', 'soft'),
+      N('The Hemulen is already in the long grass with his notebook, because there are butterflies.'),
+      N('Down at the water’s edge, the raft drifts in on the first wave, its name still on the stern, as if it had only popped out.'),
+      SN('She came home on her own, with Moominmamma still on the stern. That’s allowed, isn’t it?', 'happy'),
+      MP('Naturally. She was named after someone who always comes home.', 'soft'),
+    ],
+  },
+  {
+    id: 'a09-12-dawn-valuable',
+    lines: [
+      N('In the morning you wake up with sand in your ear and your Nubbin asleep on your chest.'),
+      N('The light at the cave mouth is not red. It is ordinary, yellow, wonderful morning.'),
+      N('You go out, and the grey has gone off everything. The grass is green, and wet, and has never looked so like grass.'),
+      N('And the sea is coming back. It comes in over the seabed in long, slow, shining sheets, filling every hollow.'),
+      MT('It came back. Everything came back.', 'happy'),
+      SK('Things mostly do. Not always. But mostly.', 'soft'),
+      N('The Hemulen is already in the long grass with his notebook, because there are butterflies.'),
+      N('Down at the water’s edge, the raft drifts in on the first wave, its name still on the stern, as if it had only popped out.'),
+      SN('She came home on her own. That’s what a valuable does.', 'happy'),
+      MP('Naturally. She is called The Valuable. One does not lose a valuable.'),
     ],
   },
   {
@@ -1696,6 +1740,7 @@ export const ATLAS_A09_FLAGS: string[] = [
   'a09-12',
   'a09-done', // A9-12: the whole page
   'a09-answer', // dunno | home (a09-04-step): THE SIGNATURE CHOICE, paid off in A9-11
+  'a09-raft', // mamma | valuable (a09-02-build): the raft's name, paid off at the A9-12 dawn
   'a09-brought', // shell | garnet | nubbin (a09-11-door): paid off in A9-12
 ];
 

@@ -218,7 +218,8 @@ _The rebels’ camp is cold and small. Nobody in it is older than thirty, and no
 **Avanthika**: There’s a woman in Mahishmati. A queen. She’s been chained in the palace courtyard for twenty-five years.  
 **Avanthika**: The king, Bhallaladeva, put her there. She gathers sticks every day for a fire. She says it’s his.  
 **A Rebel** _(sad)_: Our fathers swore to bring her out. Then we swore it. We’re not very good at it yet.  
-**Avanthika** _(sad)_: This was my turn. I’ve failed it before I’ve tried. The mask was the plan.  
+**Avanthika** _(sad)_: The mask was how I’d get past the palace guards. Without it, the plan is me, shouting.  
+**A Rebel**: We tried shouting last year. The gate didn’t notice.  
 _Shivudu looks at her, and then at the snow, and you can see him decide._  
 **Shivudu**: Then it’s my turn. I’ll bring her out. You can owe me.  
 
@@ -314,7 +315,8 @@ _She lays another stick on the heap, without looking, like a stitch._
 **Choices**
 
 - **Ask her how she knows her son is alive.**
-    - **Devasena**: Because I haven’t finished the fire. When it’s ready, he’ll come. That’s the whole of it.
+    - **Devasena**: The fire is for Bhallaladeva. Only my son can bring him to it.
+    - **Devasena**: So when it’s ready, my son will come. That’s the whole of it.
 - **Tell her someone is coming for her.**
     - **Devasena**: Someone always says so. You’re kind. Go before the guards come back.
     - She means it. She also doesn’t believe you.
@@ -478,7 +480,8 @@ _Nobody answers. Your Nubbin climbs on to the old man’s shoulder, because some
 
 _That night, in the rebels’ cave, Kattappa sits by the fire. Everybody else sits round him._  
 **Shivudu**: Who was my father? Who am I?  
-**Kattappa** _(sad)_: You were the king, before you could walk. And your father was the best man I ever served.  
+**Kattappa** _(sad)_: Your name is Mahendra. Your father was Amarendra. The people called him Baahubali: strong arms.  
+**Kattappa** _(sad)_: You were king before you could walk. And your father was the best man I ever served.  
 **Kattappa**: I’ll tell it from the beginning. It’s long, and the end is mine to carry.  
 _He looks at you, the stranger, briefly. Then he looks into the fire, and the page begins to turn back._  
 
@@ -493,7 +496,7 @@ Sets on completion: `{"a4-06":true}`
 
 *Baahubali: The Beginning (2015) and Baahubali 2: The Conclusion (2017), S. S. Rajamouli, Telugu and Tamil: Sivagami and the two princes* · audience: teen · where: Nova’s atlas: the Waterfall Prince page (Atlas campaign) · when: Any time after A4-6, from Nova’s atlas. Mature content at 13+ or 18+. · requires: A4-6
 
-**Cast:** Kattappa (Kattappa, the sworn warrior of the throne (Baahubali); original design), Sivagami (Sivagami, the queen mother of Mahishmati (Baahubali); original design), Amarendra Baahubali (Amarendra Baahubali, the boy’s father (Baahubali); original design), Bhallaladeva (Bhallaladeva, the tyrant cousin (Baahubali; Palvaal Thevan in Tamil); original design), Bijjaladeva (Bijjaladeva, Bhallaladeva’s scheming father (Baahubali); original design)
+**Cast:** Kattappa (Kattappa, the sworn warrior of the throne (Baahubali); original design), Sivagami (Sivagami, the queen mother of Mahishmati (Baahubali); original design), Amarendra Baahubali (Amarendra Baahubali, the boy’s father (Baahubali); original design), Bhallaladeva (Bhallaladeva, the tyrant cousin (Baahubali; Palvaal Thevan in Tamil); original design), Bijjaladeva (Bijjaladeva, Bhallaladeva’s scheming father (Baahubali); original design), Avanthika (Avanthika, a rebel warrior (Baahubali); original design)
 
 ### Step 1: Fall into Kattappa’s story, and find yourself in old Mahishmati.
 
@@ -562,6 +565,10 @@ _He looks down at the yard, at Amarendra helping his cousin brush the dust off._
 _Back in the cave, for a moment, the old Kattappa stops and rubs his eyes._  
 **Kattappa** _(sad)_: They grew up. Both of them strong, both of them brave. The country loved one more than the other.  
 **Kattappa**: Then the Kalakeyas came.  
+**Avanthika**: Could you skip to the bit with the sword?  
+**Kattappa**: No.  
+**Avanthika**: Fine. Carry on.  
+_She carries on listening, harder than anyone._  
 _The fire leaps, and you are in the past again, on a hill, at dawn, looking at an army._  
 
 **Rewards**
@@ -931,6 +938,11 @@ _They move into a small house in the lower city, with a well in the yard and a f
 _Amarendra fixes things: gates, carts, a neighbour’s roof. People bring him their quarrels and he settles them sitting on a step._  
 **The Crowd** _(happy)_: Commander! Commander, the bridge has gone again!  
 **Amarendra Baahubali** _(happy)_: I’m not commander. I’m Amarendra. Bring a rope.  
+**Devasena**: That’s the third time this month.  
+**Amarendra Baahubali**: It’s a popular bridge.  
+**Devasena** _(think)_: It’s a terrible bridge. You keep mending it with the same rope.  
+**Amarendra Baahubali** _(happy)_: It’s good rope. We’ve been through a lot together.  
+_Devasena shoots a fig off the roof without looking. It drops into his hand, and he eats it as if that was the plan._  
 _Devasena teaches the girls of the street to shoot. Her targets are the figs, and the figs are losing._  
 **Devasena** _(soft)_: Look at him. He lost a throne and he’s never once looked happier.  
 _She puts a hand on her middle, and you understand, and she sees you understand, and smiles._  
@@ -1260,7 +1272,7 @@ _In the end, Bhallaladeva is down on the stones of the courtyard, beside the hea
 #### <a id="a4-16-duel-done"></a>Done `a4-16-duel-done`
 
 _Devasena picks up a torch from the wall. Her hand doesn’t shake at all._  
-**Devasena** _(angry)_: I said I’d light it. I said it every day.  
+**Devasena** _(angry)_: Twenty-five years I told him this fire was his. I keep my word.  
 
 ### Step 3: Stay with Devasena while she keeps her promise.
 

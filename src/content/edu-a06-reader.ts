@@ -325,7 +325,7 @@ const A01: EduQuest = quest(
         P(
           'Same God made us both. I’m not complaining. I’m saying it out loud, which is different.',
         ),
-        N('He says it quite loudly. A window above the gate is open.'),
+        N('The porter says it quite loudly. A window above the gate is open.'),
         N(
           'Your Nubbin looks up at the window, then at you, the way it does in the Grove when someone is about to be caught.',
         ),
@@ -421,6 +421,7 @@ const A01: EduQuest = quest(
         S('The whole street heard. What’s your name?'),
         P('Sinbad. Sinbad the porter.'),
         S('So is mine. Sinbad the sailor. Well, Sinbad, anyway. The sailor part I had to earn.'),
+        S('The young man in my stories is me, long ago. You will meet him.'),
         S(
           'You think I sat here and the lamb walked in. Let me tell you what this house cost.',
           'think',
@@ -428,7 +429,7 @@ const A01: EduQuest = quest(
       ],
       [
         ak(
-          7,
+          8,
           'literacy',
           'character motive',
           'RL.3.3',
@@ -584,7 +585,7 @@ const A02: EduQuest = quest(
         S(
           'When it was nearly gone, I sold what was left, bought goods, and went down the river to Basra to take ship.',
         ),
-        N('As he talks, the pattern on the carpet under your hand turns blue, and begins to move.'),
+        N('As the old sailor talks, the pattern on the carpet under your hand turns blue, and begins to move.'),
         N('The smell of lamb becomes a smell of tar and salt. The porter’s voice goes far away.'),
         P('Go on, then. I’ll mind the dates.'),
         N(
@@ -619,7 +620,7 @@ const A02: EduQuest = quest(
           then: [
             YS('What’s the difference between a merchant and a sailor?'),
             YS('About three days out of Basra.', 'happy'),
-            N('Behind him, the helmsman groans like a man who has heard it every day for a month.'),
+            N('Behind Sinbad, the helmsman groans like a man who has heard it every day for a month.'),
           ],
         },
         {
@@ -728,7 +729,7 @@ const A02: EduQuest = quest(
           label: 'Tell Sinbad the ground is warm.',
           then: [
             YS('It’s the sun, friend. Have a date.'),
-            N('He hands you one. Under your feet, the island breathes out.'),
+            N('Sinbad hands you one. Under your feet, the island breathes out.'),
           ],
         },
         {
@@ -1019,7 +1020,7 @@ const A03: EduQuest = quest(
         N(
           'The king makes Sinbad keeper of his harbour. He writes down every ship that comes and goes.',
         ),
-        N('And he asks every captain the way to Baghdad.'),
+        N('And Sinbad asks every captain the way to Baghdad.'),
         N(
           'Sinbad’s notebook fills with names, dates and cargoes, in a neat hand that gets neater every month.',
         ),
@@ -1170,31 +1171,32 @@ const A03: EduQuest = quest(
           '3.OA.D.8',
           [
             CP(
-              'One more test. If a bale holds twenty lengths of cloth, and I have two bales that size, plus three loose lengths, how many lengths in all?',
+              'One more test. A crate holds twelve jars of oil. I have two crates and five loose jars. How many jars in all?',
             ),
           ],
           [
             o(
-              '43',
+              '29',
               [
                 CP(
-                  'Correct. Two bales of twenty is forty, then the three loose ones makes forty-three. You’d make a decent merchant.',
+                  'Correct. Two crates of twelve is 24, and five loose jars makes 29. You’d make a decent merchant.',
                 ),
+                N('Your Nubbin counts the jars on its fingers too, and nods.'),
               ],
               true,
             ),
-            o('23', [
+            o('17', [
               CP(
-                'That’s one bale and the loose ones. But I said two bales: 20 + 20 = 40, and then +3 gives 43.',
+                'That’s one crate and the loose jars. But I said two crates: 12 + 12 = 24, and then 5 more is 29.',
               ),
             ]),
-            o('60', [
+            o('36', [
               CP(
-                'That treats the three as another bale of twenty. Two bales is 40; the loose three are only three: 43.',
+                'That treats the loose jars as a third crate. Two crates is 24; the loose five are only five: 29.',
               ),
             ]),
           ],
-          'Solved a two-step word problem (2 × 20 + 3 = 43).',
+          'Solved a two-step word problem (2 × 12 + 5 = 29).',
         ),
       ],
       [
@@ -1248,8 +1250,8 @@ const A03: EduQuest = quest(
           'Sinbad sells his bales, gives the king a fine gift, and sails home with the captain who left him behind.',
         ),
         N('They are friends by the time they reach Basra. Sailors are like that.'),
-        P('He left you in the sea, and you shook his hand?'),
-        S('He came back with my things. Every bale. Do you know how rare that is?'),
+        P('The captain left you in the sea, and you shook his hand?'),
+        S('The captain came back with my things. Every bale. Do you know how rare that is?'),
         P('I’ve carried for men who’d sell their own mother’s washing.', 'think'),
         S(
           'Then you know. And I swore on my own doorstep: never again. That lasted nearly a year.',
@@ -1784,9 +1786,9 @@ const A05: EduQuest = quest(
         ),
         YS('If an eagle can lift that, it can lift me. And you two are very small.'),
         N(
-          'He ties himself under the biggest piece of meat with what’s left of his turban. It is the least dignified thing you have ever seen.',
+          'Sinbad ties himself under the biggest piece of meat with what’s left of his turban. It is the least dignified thing you have ever seen.',
         ),
-        N('Then he starts filling his pockets, fast, with the biggest stones in reach.'),
+        N('Then Sinbad starts filling his pockets, fast, with the biggest stones in reach.'),
         YS('Take some! Quick! You’ll never be poor again!', 'happy'),
         N(
           'By your foot lies a small clear stone, no bigger than a lentil. Your Nubbin looks at it, and then at you.',
@@ -1850,7 +1852,7 @@ const A05: EduQuest = quest(
     sc(
       'a06-05-meat-done',
       [
-        N('Your Nubbin climbs into Sinbad’s sash. You grab hold of his belt with both hands.'),
+        N('Your Nubbin climbs into Sinbad’s sash. You grab hold of Sinbad’s belt with both hands.'),
         N('An eagle’s shadow slides across the valley floor, getting bigger.'),
       ],
       [
@@ -1925,7 +1927,7 @@ const A05: EduQuest = quest(
           'Twenty years I’ve thrown meat into that valley. Nobody ever came up with it before.',
           'think',
         ),
-        N('He looks at Sinbad as if he has met a talking cat.'),
+        N('The merchant looks at Sinbad as if he has met a talking cat.'),
       ],
       [
         nt(
@@ -2574,7 +2576,7 @@ const A07: EduQuest = quest(
       ],
       [
         nt(
-          0,
+          6,
           'science',
           'bright signals are easier to see; light travels in straight lines',
           '1-PS4-2',
@@ -2619,7 +2621,7 @@ const A07: EduQuest = quest(
               'It’s a running joke: he always swears it, and always sails again.',
               [
                 S(
-                  'Quite right. A repeated line becomes a joke the listener is in on. By now you can say it with me.',
+                  'Quite right. A repeated line becomes a joke the listener is in on.',
                 ),
               ],
               true,
@@ -2942,23 +2944,22 @@ const A08: EduQuest = quest(
     sc(
       'a06-08-tunnel-done',
       [
-        N('Some days later a passing ship sees his fire on the shingle, and takes him home.'),
-        N('He thanks the sailors, and doesn’t say much else for a while.'),
+        N('Some days later a passing ship sees the fire on the shingle, and takes Sinbad home.'),
+        N('Sinbad thanks the sailors, and doesn’t say much else for a while.'),
       ],
       [
-        dn(
-          0,
-          'social-studies',
-          'direction: reading a compass',
-          '4-ESS2-2',
-          'edu:compass:cliff:directions',
+        nt(
+          1,
+          'sel',
+          'staying near is a way to help someone who is grieving',
+          undefined,
           [
             NV(
-              'Nova’s notes: sailors steered by the Sun and stars, and later by the compass, whose needle points north.',
+              'Nova’s notes: after a loss, people are often quiet. They may not want to talk. They may just want someone close by.',
             ),
-            NV('If the cliff is to the east of the beach, which way must the ship be?'),
+            NV('You sat beside Sinbad on the shingle and waited. Waiting beside someone is a kind of help.'),
           ],
-          'Used compass directions to place the ship relative to the cliff.',
+          'Learned that staying quietly near a grieving person is a way to help.',
         ),
       ],
     ),
@@ -3032,6 +3033,9 @@ const A09: EduQuest = quest(
         S(
           'The fifth voyage. I had my own ship by then, and I let other merchants sail on it. That was my mistake.',
         ),
+        N(
+          'Sinbad’s new ship sails away from the sunrise. Nova’s compass needle points north, as always, and the cook trusts it more than the captain.',
+        ),
         N('An island, and a white dome. You know at once what it is, and the merchants don’t.'),
         YS('Don’t touch it. I mean it. I have met its mother.'),
         N(
@@ -3043,20 +3047,34 @@ const A09: EduQuest = quest(
         YS('You fools. You complete, absolute fools.', 'angry'),
       ],
       [
-        nt(
-          4,
-          'science',
-          'young birds hatch and need their parents',
-          '1-LS1-2',
+        ak(
+          1,
+          'social-studies',
+          'direction: reading a compass',
+          '4-ESS2-2',
           [
             NV(
-              'Nova’s notes: a chick is helpless when it hatches. Many birds need their parents to feed, warm and guard them for weeks, or months.',
-            ),
-            NV(
-              'That’s why a cracked egg is a real emergency for a bird family. The chick will cry out, and the parents will come.',
+              'Nova’s notes: the Sun rises in the east. The ship sails away from it. Which way is the ship going?',
             ),
           ],
-          'Learned that parents feed, warm and guard young birds that cannot yet look after themselves.',
+          [
+            o(
+              'West.',
+              [
+                NV(
+                  'Yes. Away from the east is west. A compass needle points north, so west is to the left when you face north.',
+                ),
+              ],
+              true,
+            ),
+            o('East.', [
+              NV('That would be sailing toward the sunrise. The ship sails away from it, so it goes west.'),
+            ]),
+            o('North.', [
+              NV('North is where the needle points. The sunrise is in the east, and away from east is west.'),
+            ]),
+          ],
+          'Used where the Sun rises, and a compass, to work out a direction.',
         ),
         ak(
           5,
@@ -3119,13 +3137,16 @@ const A09: EduQuest = quest(
           '1-LS3-1',
           [
             NV(
+              'Nova’s notes: a chick is helpless when it hatches. Many birds need their parents to feed, warm and guard them for weeks, or months.',
+            ),
+            NV(
               'Nova’s notes: many young birds learn their parents’ calls, and parents learn their chick’s, even in a crowd. Penguin chicks do this among thousands.',
             ),
             NV(
               'Young are like their parents, but not the same: a fluffy chick has the same beak shape and the same call-style, long before it can fly.',
             ),
           ],
-          'Learned that parent and young birds recognise each other by sound, and that young are like but not the same as their parents.',
+          'Learned that young birds need their parents, that parent and young recognise each other by sound, and that young are like but not the same as their parents.',
         ),
       ],
     ),
@@ -3177,19 +3198,6 @@ const A09: EduQuest = quest(
           ],
           'Reasoned about whether revenge is fair, with no right answer.',
         ),
-        dn(
-          5,
-          'maths',
-          'time intervals',
-          '3.MD.A.1',
-          'edu:time:waves:interval',
-          [
-            YS(
-              'One wave lifts the plank every six seconds. How many waves lift it in one minute? Remember, there are 60 seconds in a minute.',
-            ),
-          ],
-          'Divided 60 seconds by 6 to get 10 waves a minute.',
-        ),
       ],
       [
         { id: 'shout', label: 'Shout for Sinbad.', then: [YS('Here! Over here! Swim to me!')] },
@@ -3197,7 +3205,7 @@ const A09: EduQuest = quest(
           id: 'float',
           label: 'Float, and save your breath.',
           then: [
-            N('Sinbad’s plank bumps into yours an hour later. He looks very pleased to see you.'),
+            N('Sinbad’s plank bumps into yours an hour later. Sinbad looks very pleased to see you.'),
           ],
         },
       ],
@@ -3209,10 +3217,11 @@ const A09: EduQuest = quest(
           'A current takes you both. By evening there is an island under your feet, full of fruit and running water.',
         ),
         N('You have never been so glad of a fig.'),
+        N('Sinbad says he counted the waves while you floated: one lifted the plank every six seconds.'),
       ],
       [
         nt(
-          1,
+          2,
           'science',
           'ocean currents carry things',
           '4-ESS2-1',
@@ -3225,6 +3234,19 @@ const A09: EduQuest = quest(
             ),
           ],
           'Learned that ocean currents carry floating things, including seeds, over long distances.',
+        ),
+        dn(
+          2,
+          'maths',
+          'time intervals',
+          '3.MD.A.1',
+          'edu:time:waves:interval',
+          [
+            YS(
+              'One wave lifted the plank every six seconds. How many waves lifted it in one minute? There are 60 seconds in a minute.',
+            ),
+          ],
+          'Divided 60 seconds by 6 to get 10 waves a minute (6 × 10 = 60).',
         ),
       ],
     ),
@@ -3476,7 +3498,7 @@ const A10: EduQuest = quest(
         N(
           'Sinbad ducks. The old man is left hanging from the branch by both hands, his mouth full of fig, looking very surprised.',
         ),
-        N('He isn’t hurt. He is simply, for the first time in a week, on his own.'),
+        N('The old man isn’t hurt. He is simply, for the first time in a week, on his own.'),
       ],
       [
         ak(
@@ -3724,7 +3746,7 @@ const A11: EduQuest = quest(
           'The pebbles in the riverbed are jewels, red and blue and green, as common here as gravel.',
         ),
         YS('Look at them. Nobody would believe me.', 'happy'),
-        N('He fills a sack with them. Of course he does.'),
+        N('Sinbad fills a sack with them. Of course he does.'),
         N(
           'Your Nubbin picks up one green pebble, looks at it, and puts it back exactly where it was.',
         ),
@@ -3866,6 +3888,9 @@ const A11: EduQuest = quest(
         S('Serendib. The great island at the foot of India. But that’s a story of its own.'),
         P('You can’t stop there!', 'angry'),
         S('I’m old. I can stop where I like.', 'happy'),
+        P('Never again?'),
+        S('…I am considering it.', 'think'),
+        P('That’s a no.'),
       ],
       [
         nt(
@@ -3960,20 +3985,20 @@ const A12: EduQuest = quest(
           '3.NF.A.1',
           [
             FA(
-              'A stream is shared equally between four terraces. What fraction of the water does each terrace get?',
+              'We fill four terrace pools from one stream, the same amount in each. What fraction of the water does each pool get?',
             ),
           ],
           [
             o(
               'One quarter (1/4).',
-              [FA('Yes! Four equal parts, so each terrace gets 1 of the 4: one quarter.')],
+              [FA('Yes! Four equal parts, so each pool gets 1 of the 4: one quarter.')],
               true,
             ),
             o('One half (1/2).', [
-              FA('Half would be for two terraces. With four sharing, each gets one quarter, 1/4.'),
+              FA('Half would be for two pools. With four sharing, each gets one quarter, 1/4.'),
             ]),
-            o('One fourth of four (4/4).', [
-              FA('4/4 would be all of it. One terrace gets just one part of the four: 1/4.'),
+            o('All of it (4/4).', [
+              FA('4/4 would be all of the water. One pool gets just one part of the four: 1/4.'),
             ]),
           ],
           'Found a unit fraction (1/4) for four equal shares.',
@@ -4080,7 +4105,7 @@ const A12: EduQuest = quest(
           label: 'Nudge Sinbad to accept.',
           then: [
             YS('It would be an honour, majesty.'),
-            N('He says it beautifully. Then he whispers to you, “What have I done?”'),
+            N('Sinbad says it beautifully. Then he whispers to you, “What have I done?”'),
           ],
         },
         {
@@ -4672,7 +4697,7 @@ const A14: EduQuest = quest(
           'Sinbad falls. She catches him in her trunk, sets him on her back, and the herd turns off the path.',
         ),
         YS('Don’t let go of me! Come with me!', 'shock'),
-        N('She lets you climb up behind him. She doesn’t seem to mind your Nubbin at all.'),
+        N('She lets you climb up behind Sinbad. She doesn’t seem to mind your Nubbin at all.'),
         N('They walk all day, up into the hills, to a valley whose floor is white.'),
         N(
           'It is a valley of old bones and old tusks. This is where the elephants come when they are very old, to lie down.',
@@ -4836,7 +4861,7 @@ const A14: EduQuest = quest(
           'On the road back, the herd passes the carts. They don’t stop, and the master bows his head to them until they’re gone.',
         ),
         MA('You’ve made me rich, Sinbad. You’re free. Go home, and take your share.'),
-        YS('The elephants paid for my freedom. I want to remember that I didn’t.', 'soft'),
+        YS('The elephants bought my freedom with their old tusks. I didn’t earn it. I mean to remember that.', 'soft'),
         MA('Nobody in this town will hunt them again. There’s no need now, and I’ve sworn.'),
       ],
       [
@@ -5203,7 +5228,7 @@ const A16: EduQuest = quest(
         P(
           'And at the end, a herd walked home through the hills, and nobody shot at them, and nobody ever will.',
         ),
-        P('The elephants were paid for in bones.', 'soft'),
+        P('My friend went free, and the old elephants paid for it, in bones.', 'soft'),
         N(
           'Nobody says anything. Then the old man claps, slowly, and the steward joins in, and then everybody does.',
         ),
@@ -5216,7 +5241,7 @@ const A16: EduQuest = quest(
           'L.4.5',
           [
             N(
-              '“The elephants were paid for in bones.” The porter is using “paid for” in a surprising way. What is he saying?',
+              '“The old elephants paid for it, in bones.” The porter is using “paid for” in a surprising way. What is he saying?',
             ),
           ],
           [
@@ -5224,14 +5249,14 @@ const A16: EduQuest = quest(
               'That Sinbad’s freedom came from the old tusks the elephants left, not from killing any.',
               [
                 N(
-                  'Yes. “Paid for” turns bones into a kind of coin. It says freedom cost the elephants nothing they hadn’t already left behind.',
+                  'Yes. “Paid for” turns bones into a kind of coin. The elephants gave only what they had already left behind.',
                 ),
               ],
               true,
             ),
             o('That the master paid the elephants money.', [
               N(
-                'Not literally. “Paid for in bones” is a figure of speech: the price was what the herd had already left behind.',
+                'Not literally. “Paid for, in bones” is a figure of speech: the price was what the herd had already left behind.',
               ),
             ]),
           ],
@@ -5319,16 +5344,14 @@ const A16: EduQuest = quest(
         dn(
           0,
           'maths',
-          'symmetry: a ring is the same all the way round',
-          '4.G.A.3',
-          'edu:count:nubbins:symmetry',
+          'odd and even: pairing off a ring',
+          '2.OA.C.3',
+          'edu:count:nubbins:odd-even',
           [
-            N(
-              'If the ring of Nubbins is evenly spaced, you could fold it down the middle and each half would match.',
-            ),
-            N('Count the Nubbins on one side, then the other. Are the two halves equal?'),
+            N('Count the Nubbins in the ring. Is the number odd or even? Pair them off, two by two, to check.'),
+            N('If one is left over, it sits on your foot. It is usually the same one.'),
           ],
-          'Counted two halves of a ring to check symmetry.',
+          'Counted a ring of Nubbins and paired them off to tell odd from even.',
         ),
       ],
     ),
@@ -5485,11 +5508,6 @@ const A16: EduQuest = quest(
       'metaphor',
       'A way of describing something by saying it is something else.',
       'a06-16-telling-done',
-    ),
-    gloss(
-      'symmetry',
-      'When two halves of a shape or pattern match each other exactly.',
-      'a06-16-grove-done',
     ),
   ],
 );
@@ -5810,7 +5828,7 @@ export const EDU_A06_READER_VARIANTS: EduScene[] = [
       P(
         'And at the end, a herd walked past a gate three times, and nobody shot at them, and nobody ever will.',
       ),
-      P('The elephants were paid for in a season.', 'soft'),
+      P('My friend went free, and the elephants paid for it with a season of patience.', 'soft'),
       N(
         'Nobody says anything. Then the old man claps, slowly, and the steward joins in, and then everybody does.',
       ),
@@ -5821,13 +5839,13 @@ export const EDU_A06_READER_VARIANTS: EduScene[] = [
         'literacy',
         'metaphor in the porter’s last line',
         'L.4.5',
-        [N('“Paid for in a season.” What is the porter saying about what Sinbad’s freedom cost?')],
+        [N('“The elephants paid for it with a season of patience.” What is the porter saying about what Sinbad’s freedom cost?')],
         [
           o(
             'That it cost time: a patient season of waiting, not a price in coins.',
             [
               N(
-                'Yes. “Paid for in a season” turns time into a kind of coin. Sinbad’s freedom cost him patience.',
+                'Yes. “Paid for” turns time and patience into a kind of coin. Sinbad’s freedom cost him patience.',
               ),
             ],
             true,
@@ -5869,10 +5887,9 @@ export const CHECKS: string[] = [
   'edu:count:nights:7',
   'edu:add:sailors:14',
   'edu:measure:box:perimeter',
-  'edu:compass:cliff:directions',
   'edu:time:waves:interval',
   'edu:multiply:figs:days',
   'edu:calculate:voyage:days',
-  'edu:count:nubbins:symmetry',
+  'edu:count:nubbins:odd-even',
   'edu:order:seasons:rains',
 ];

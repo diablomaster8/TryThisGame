@@ -108,6 +108,7 @@ const OFFICER = sp('a7-officer', 'Departures Officer', `the departures agent at 
 const CLERK = sp('a7-clerk', 'Clerk', `the clerk at the Department of Family Reunions, ${FILM}`);
 const CHICH = sp('a7-chicharron', 'Chicharrón', `Chicharrón, ${FILM}`);
 const EMCEE = sp('a7-emcee', 'Compère', `the talent-show host, ${FILM}`);
+const DOORMAN = sp('a7-doorman', 'Doorman', `the doorman at Ernesto’s gate; original, ${FILM}`);
 /** Héctor in A7-5, before he gives his name: the label must not spoil it. */
 const PAINTER = sp('a7-painter', 'The Painter', `Héctor in disguise, ${FILM}`);
 
@@ -127,6 +128,7 @@ const OF = say('a7-officer');
 const CL = say('a7-clerk');
 const CH = say('a7-chicharron');
 const EM = say('a7-emcee');
+const DM = say('a7-doorman');
 const PA = say('a7-painter');
 
 // ------------------------------------------------------------------ A7-12 epilogue pieces
@@ -391,6 +393,7 @@ export const ATLAS_A07: Quest[] = [
             N('She marches him home by the ear. You follow, because you don’t know what else to do, and your Nubbin follows you.'),
             N('At the ofrenda, Miguel’s elbow knocks the oldest photo from its frame. The folded part falls open.'),
             M('Look. Look at the guitar. The man with no face. That’s his guitar. That’s Ernesto de la Cruz’s guitar.', 'shock'),
+            N('Miguel slips the old photo into his jacket. Nobody notices one frame on the ofrenda is now empty.'),
           ],
         },
         done: {
@@ -1032,7 +1035,8 @@ export const ATLAS_A07: Quest[] = [
         done: {
           id: 'a7-07-stage-done',
           lines: [
-            N('The crowd roars. Then, behind them, a voice even louder than the crowd.'),
+            EM('And tonight’s winner, by the loudest clapping this hall has ever had, is…'),
+            N('Then, behind the crowd, a voice even louder than the crowd.'),
             I('MIGUEL!', 'angry'),
             N('The whole Rivera family is pushing through the crowd. Mamá Imelda has her shoe in her hand.'),
           ],
@@ -1109,7 +1113,7 @@ export const ATLAS_A07: Quest[] = [
     audience: 'all',
     trigger: { where: WHERE, when: after('A7-7') },
     requires: ['A7-7'],
-    speakers: [MIGUEL, ERNESTO],
+    speakers: [MIGUEL, ERNESTO, DOORMAN],
     steps: [
       {
         id: 'a7-08-s1',
@@ -1121,9 +1125,12 @@ export const ATLAS_A07: Quest[] = [
           lines: [
             N('The tower at the top of the city is Ernesto’s house. At the gate, a doorman is checking a list.'),
             N('A band of skeleton musicians is going in: guitars, trumpets, violins, a harp carried by three of them.'),
-            M('I’m with the band. We’re all with the band.'),
+            M('I never got my prize. Fine. I’m with the band now.'),
             N('You pick up a spare guitar case, which is heavier than it looks. Your Nubbin picks up a maraca, which is lighter than it looks.'),
-            N('The doorman looks at Miguel’s painted face, your Nubbin’s stripes, and your case. He sighs and waves you through.'),
+            DM('Instruments?'),
+            M('Guitar.'),
+            N('Your Nubbin shakes its maraca once, with enormous authority.'),
+            N('The doorman looks at the maraca for a long time. Then he sighs, and waves you all through.'),
             N('Inside, the party is enormous. There are fountains, and a pool, and a whole wall where Ernesto’s old films play on a loop.'),
             M('There he is. There he is!', 'happy'),
           ],
@@ -1276,6 +1283,8 @@ export const ATLAS_A07: Quest[] = [
         N('The guards drop Miguel and Héctor into the hole. You jump after them, because you said you would stay with Miguel.'),
         N('Your Nubbin jumps after you, glowing all the way down like a dropped lantern.'),
         N('You land in cold water. Far above, the circle of sky closes, and goes dark.'),
+        M('This is the worst party I have ever been to.', 'shock'),
+        N('Your Nubbin surfaces wearing a marigold, and looks deeply offended about it.'),
       ],
     },
     rewards: [],
@@ -1456,6 +1465,10 @@ export const ATLAS_A07: Quest[] = [
           lines: [
             N('When the song ends, Mamá Imelda looks into the wings at Héctor. Something in her face has come undone, just a little.'),
             I('Don’t. Don’t say anything. Not yet.', 'soft'),
+            H('I wasn’t going to say anything.'),
+            I('You were. You had your told-you-so face on.'),
+            H('Imelda, I barely have a face.'),
+            I('You have exactly the same one. That’s always been the trouble.', 'soft'),
           ],
         },
       },

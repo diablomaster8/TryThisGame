@@ -116,7 +116,7 @@ Hint: Sit on your cushion in the long room until the carpet turns to sea. · che
 _As he talks, the pattern on the carpet under your hand turns blue, and begins to move._  
 _The smell of lamb becomes a smell of tar and salt. The porter’s voice goes far away._  
 **Sinbad the Porter**: Go on, then. I’ll mind the dates.  
-_You are on the deck of a dhow, a ship of sewn planks, under a great triangular sail full of wind._  
+_You are on the deck of a dhow, a ship of sewn planks, under a great triangular sail with one square patch on it._  
 _A young man with the old man’s eyes leans on the rail, grinning at the sea as if it owes him money._  
 **Young Sinbad** _(happy)_: You’re new. Good. Everybody else here has heard my jokes.  
 
@@ -218,6 +218,8 @@ Hint: Follow the groom up from the beach where the horses graze. · check: `talk
 
 _You are back in the tale, on a beach, and Sinbad is sitting up and counting his fingers._  
 **Young Sinbad**: Ten. Good. And you’re still here. Where’s here?  
+**Young Sinbad** _(sad)_: Twenty bales lost. My uncle’s indigo on top, dyed with his own two hands.  
+**Young Sinbad**: He’ll dye me next. Blue, to the elbows.  
 _Down the beach, beautiful horses graze by the surf, and a groom shouts at you for frightening them._  
 _The groom is kind, once he stops shouting. He feeds you both, and takes you up to his king._  
 **The Island King** _(happy)_: A man who came out of the sea in a washtub. Sit by me. Tell me about Baghdad.  
@@ -935,8 +937,8 @@ _The monkeys throw coconuts back, with tremendous energy and no aim at all._
 **Young Sinbad** _(think)_: I’ve known merchants like that.  
 _Back in the long room, the porter rubs his own shoulders without noticing he’s doing it._  
 **Sinbad the Porter**: I’ve carried men like that. Never put them down, either.  
-**Sinbad the Sailor**: You did. You got up off my bench and came in. That’s putting something down.  
-**Sinbad the Porter** _(soft)_: …Hm.  
+**Sinbad the Sailor**: You did. You put your grudge down on my bench, came in, and had the lamb.  
+**Sinbad the Porter** _(soft)_: …I did, didn’t I. I’ll be furious about that later.  
 
 **Rewards**
 
@@ -987,7 +989,9 @@ _The pebbles in the riverbed are jewels, red and blue and green, as common here 
 **Young Sinbad** _(happy)_: Look at them. Nobody would believe me.  
 _He fills a sack with them. Of course he does._  
 _Your Nubbin picks up one green pebble, looks at it, and puts it back exactly where it was._  
-**Young Sinbad**: You and your friend. Neither of you is any good at being rich.  
+**Young Sinbad**: You and your Nubbin. Neither of you is any good at being rich.  
+_He adds a second sack. The raft sinks two fingers lower. He adds a third, and says nothing about it._  
+**Young Sinbad**: It rides better low. Steadier. Everybody knows that.  
 
 **Choices**
 
@@ -1073,6 +1077,9 @@ Hint: Sit with Sinbad before the king. · check: `talk:a06-king-serendib:court`
 **Young Sinbad**: I did, majesty. Not on purpose.  
 **The King of Serendib** _(think)_: Then you came by a road nobody has used. Tell me about your Caliph. Is he a just man?  
 **Young Sinbad**: I’ve never met him. They say he walks the city at night in plain clothes, to see how his people live.  
+**The King of Serendib** _(happy)_: Plain clothes! What sort of plain? Is it a good plain?  
+**Young Sinbad**: I’ve never seen them, majesty. That’s rather the point of them.  
+**A Farmer of Serendib**: He asks everyone that. Last month it was the Emperor of China’s breakfast.  
 **The King of Serendib** _(happy)_: A king who goes to look for himself. Good. Then I will write to him.  
 **The King of Serendib**: When a ship sails for Basra, you will carry my letter, and my gifts. You will be my messenger.  
 
@@ -1091,6 +1098,7 @@ Hint: Join the pilgrims on the steps at night. · check: `climb:a06-peak:dawn`
 #### <a id="a06-12-peak"></a>Scene `a06-12-peak`
 
 _Before the ship sails, Sinbad climbs the island’s great mountain with the pilgrims, all night, to see the sun rise._  
+_Your Nubbin counts the steps under its breath, loses count at four hundred, and starts again with dignity._  
 _At the top there is a footprint in the rock, far bigger than any foot._  
 **A Farmer of Serendib**: Some say it’s Adam’s, the first man. Some say the Buddha’s. Some say Shiva’s, and some say Saint Thomas’s.  
 **A Farmer of Serendib** _(soft)_: We all climb the same steps. It’s a good mountain for that.  
@@ -1281,7 +1289,7 @@ _That evening Sinbad limps in through the gate. He looks at you and at the maste
 _The master takes his carts to the valley, and loads them with the tusks the herd let fall when they died old._  
 _On the road back, the herd passes the carts. They don’t stop, and the master bows his head to them until they’re gone._  
 **The Ivory Merchant**: You’ve made me rich, Sinbad. You’re free. Go home, and take your share.  
-**Young Sinbad** _(soft)_: The elephants paid for my freedom. I want to remember that I didn’t.  
+**Young Sinbad** _(soft)_: The elephants bought my freedom with their old tusks. I didn’t earn it. I mean to remember that.  
 **The Ivory Merchant**: Nobody in this town will hunt them again. There’s no need now, and I’ve sworn.  
 
 #### <a id="a06-14-complete-kept"></a>Variant `a06-14-complete-kept`
@@ -1448,7 +1456,7 @@ _He sets nothing on the low table. He looks at the empty place where something c
 #### <a id="a06-16-telling-done"></a>Done `a06-16-telling-done`
 
 **Sinbad the Porter**: And at the end, a herd walked home through the hills, and nobody shot at them, and nobody ever will.  
-**Sinbad the Porter** _(soft)_: The elephants were paid for in bones.  
+**Sinbad the Porter** _(soft)_: My friend went free, and the old elephants paid for it, in bones.  
 _Nobody says anything. Then the old man claps, slowly, and the steward joins in, and then everybody does._  
 
 #### <a id="a06-16-telling-done-kept"></a>Variant `a06-16-telling-done-kept`
@@ -1456,7 +1464,7 @@ _Nobody says anything. Then the old man claps, slowly, and the steward joins in,
 _Variant of `a06-16-telling-done`._
 
 **Sinbad the Porter**: And at the end, a herd walked past a gate three times, and nobody shot at them, and nobody ever will.  
-**Sinbad the Porter** _(soft)_: The elephants were paid for in a season.  
+**Sinbad the Porter** _(soft)_: My friend went free, and the elephants paid for it with a season of patience.  
 _Nobody says anything. Then the old man claps, slowly, and the steward joins in, and then everybody does._  
 
 ### Step 2: Take the storyteller’s cushion home and find it a place in the Grove.

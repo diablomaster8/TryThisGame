@@ -1593,6 +1593,78 @@ _And the sea is coming back. It comes in over the seabed in long, slow, shining 
 
 _The Hemulen is already in the long grass with his notebook, because there are butterflies._  
 
+#### `reader:a09-12-dawn-mamma` · [main](main.md#a09-12-dawn-mamma)
+
+_Variant of `a09-12-dawn`._
+
+_In the morning you wake up with sand in your ear and your Nubbin asleep on your chest._  
+_The light at the cave mouth is not red. It is ordinary, yellow, wonderful morning._  
+_You go out, and the grey has gone off everything. The grass is green, and wet, and has never looked so like grass._  
+
+> **Lesson** (literacy, RL.1.4, ask): sensory words  
+> _“Green, and wet, and has never looked so like grass.” Which word here tells you about how grass feels or looks?_  
+> - ✅ Wet → Yes. “Wet” is a sense word. It helps you feel the morning, and the green helps you see it.
+> - Never → “Never” tells us about time, not the senses. “Wet” and “green” tell us how the grass feels and looks.
+> _For grown-ups: Picked out words that describe what the senses notice._
+
+_And the sea is coming back. It comes in over the seabed in long, slow, shining sheets, filling every hollow._  
+
+> **Lesson** (science, notice): tides: the sea moves in and out each day  
+> _On a real coast, the sea comes back after low tide, twice a day._  
+> _The Moon’s pull makes the water rise and fall in a steady rhythm, so the sea always returns._  
+> _For grown-ups: Reviewed the idea that tides rise and fall twice a day, driven by the Moon._
+
+**Moomintroll**: It came back. Everything came back.  
+**Snufkin**: Things mostly do. Not always. But mostly.  
+
+> **Lesson** (literacy, RL.3.6, ask): your view and a character’s: honest comfort  
+> _Snufkin says things “mostly” come back, “not always”. Would you rather hear “it will be fine” or “things mostly turn out all right”? Think about it._  
+> - “It will be fine” is better, because it comforts. → That’s a fair answer. Comfort has real value, especially when you are small and scared.
+> - “Mostly” is better, because it is honest. → That’s a fair answer, and it is Snufkin’s view. Honesty lets us trust the person who comforts us.
+> - Both, with the honest one for when we are ready. → That’s a fair answer. Comfort first, truth gently after, is a way to be kind and honest.
+> _For grown-ups: Compared their own view with Snufkin’s on comfort and honesty._
+
+_The Hemulen is already in the long grass with his notebook, because there are butterflies._  
+_Down at the water’s edge, the raft drifts in on the first wave, its name still on the stern, as if it had only popped out._  
+**Sniff**: She came home on her own, with Moominmamma still on the stern. That’s allowed, isn’t it?  
+**Moominpappa**: Naturally. She was named after someone who always comes home.  
+
+#### `reader:a09-12-dawn-valuable` · [main](main.md#a09-12-dawn-valuable)
+
+_Variant of `a09-12-dawn`._
+
+_In the morning you wake up with sand in your ear and your Nubbin asleep on your chest._  
+_The light at the cave mouth is not red. It is ordinary, yellow, wonderful morning._  
+_You go out, and the grey has gone off everything. The grass is green, and wet, and has never looked so like grass._  
+
+> **Lesson** (literacy, RL.1.4, ask): sensory words  
+> _“Green, and wet, and has never looked so like grass.” Which word here tells you about how grass feels or looks?_  
+> - ✅ Wet → Yes. “Wet” is a sense word. It helps you feel the morning, and the green helps you see it.
+> - Never → “Never” tells us about time, not the senses. “Wet” and “green” tell us how the grass feels and looks.
+> _For grown-ups: Picked out words that describe what the senses notice._
+
+_And the sea is coming back. It comes in over the seabed in long, slow, shining sheets, filling every hollow._  
+
+> **Lesson** (science, notice): tides: the sea moves in and out each day  
+> _On a real coast, the sea comes back after low tide, twice a day._  
+> _The Moon’s pull makes the water rise and fall in a steady rhythm, so the sea always returns._  
+> _For grown-ups: Reviewed the idea that tides rise and fall twice a day, driven by the Moon._
+
+**Moomintroll**: It came back. Everything came back.  
+**Snufkin**: Things mostly do. Not always. But mostly.  
+
+> **Lesson** (literacy, RL.3.6, ask): your view and a character’s: honest comfort  
+> _Snufkin says things “mostly” come back, “not always”. Would you rather hear “it will be fine” or “things mostly turn out all right”? Think about it._  
+> - “It will be fine” is better, because it comforts. → That’s a fair answer. Comfort has real value, especially when you are small and scared.
+> - “Mostly” is better, because it is honest. → That’s a fair answer, and it is Snufkin’s view. Honesty lets us trust the person who comforts us.
+> - Both, with the honest one for when we are ready. → That’s a fair answer. Comfort first, truth gently after, is a way to be kind and honest.
+> _For grown-ups: Compared their own view with Snufkin’s on comfort and honesty._
+
+_The Hemulen is already in the long grass with his notebook, because there are butterflies._  
+_Down at the water’s edge, the raft drifts in on the first wave, its name still on the stern, as if it had only popped out._  
+**Sniff**: She came home on her own. That’s what a valuable does.  
+**Moominpappa**: Naturally. She is called The Valuable. One does not lose a valuable.  
+
 #### `reader:a09-12-dawn-done` · [main](main.md#a09-12-dawn-done)
 
 _Your Nubbin scrambles down to the water’s edge, sits in the first wave and lets the sea come home round it._  

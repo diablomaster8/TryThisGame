@@ -11,7 +11,9 @@
 _A page in Nova’s atlas opens. A round city sits by a river._  
 _You touch the river and, whoosh, you are in a busy lane!_  
 **Sinbad the Porter**: Steady now! This basket has paper in it.  
-**Sinbad the Porter**: Paper is for writing. Clever people write books on it.  
+**Sinbad the Porter**: Paper is for writing. I carry it all day.  
+**Sinbad the Porter**: I cannot read one word of it. But I carry it very well!  
+_Your Nubbin pats the porter’s basket, to be kind._  
 _Your Nubbin rides on top of the paper rolls._  
 **Sinbad the Porter**: How many rolls are in your basket? Let’s count.  
 _(Point to each roll. Count them together.)_  
@@ -25,7 +27,7 @@ _One, two, three, four, five!_
 
 **Choices**
 
-- **Take one of his baskets as well.**
+- **Take one of the porter’s baskets as well.**
     - **Sinbad the Porter**: Thank you, friend! Now we carry together.
 - **Ask what the scholars do with all this paper.**
     - **Sinbad the Porter**: They write and read. They make books about stars, and numbers, and medicine.
@@ -93,6 +95,7 @@ _An old man with a white beard sits at the end._
 **Sinbad the Sailor**: The whole street heard! What is your name?  
 **Sinbad the Porter**: Sinbad. Sinbad the porter.  
 **Sinbad the Sailor**: Ha! I am Sinbad too. Sinbad the sailor.  
+**Sinbad the Sailor**: The young man in my stories is me, long ago. You will meet him.  
 
 > **Lesson** (maths, K.G.A.1, ask): positions: on, under, beside  
 > _Sinbad the porter sits on the very edge of a cushion._  
@@ -167,7 +170,7 @@ _A small green island. It is flat as a plate._
 
 > **Lesson** (science, K-ESS3-1, notice): sea and land are different places  
 > **Young Sinbad**: The sea is water, and the island is land.  
-> **Young Sinbad**: Fish live in the sea, and trees grow on land.  
+> **Young Sinbad**: Whales live in the sea, and trees grow on land.  
 > _For grown-ups: Noticed that sea and land are different places where different things live._
 
 
@@ -200,8 +203,9 @@ _All the little trees lean the same way._
 **The Captain**: It is not an island! It is a fish! Run!  
 
 > **Lesson** (science, K-LS1-1, notice): whales are big animals that breathe air  
-> _It is a whale! Whales are very big animals. They live in the sea._  
-> _Whales breathe air, like you. So they come up to the top to breathe._  
+> _The captain is wrong! It is not a fish._  
+> _It is a whale, a very big animal._  
+> _A whale breathes air, like you. Whoosh! goes its spout._  
 > _For grown-ups: Learned that a whale is a big sea animal that breathes air._
 
 
@@ -333,7 +337,7 @@ _Your Nubbin sniffs one. Sniff, sniff!_
 
 **Young Sinbad**: Ask me anything about the voyage.  
 **The Captain**: What is in the bale with the green cord?  
-_Sinbad goes blank. He cannot remember._  
+_Sinbad cannot remember. He scratches his head. Nothing falls out._  
 _Your Nubbin tugs the cord. A corner of blue cloth peeks out._  
 _(Point to the blue. Say “blue”!)_  
 
@@ -557,7 +561,7 @@ _It is as small as a lentil._
 
 - **Take one small stone, for the porter.**
     - You put it in your pocket. It is warm from the sun.
-    - **Young Sinbad**: Only one? You are madder than the fish!
+    - **Young Sinbad**: Only one? That is a very small diamond!
 - **Take nothing.**
     - You leave it where it lies. It goes on shining.
     - **Young Sinbad**: Nothing? Well, more for me.
@@ -580,14 +584,14 @@ _The snakes look as small as string._
 _At the top, a merchant bangs two pans._  
 _The eagle lets go and flaps away._  
 **A Diamond Merchant**: A man on my meat! And no diamonds!  
+**Young Sinbad**: Peace, friend. Here, take some stones.  
+_The merchant stops shouting at once._  
 
 > **Lesson** (sel, CASEL: Self-management, notice): calming down  
 > _The merchant was cross, and then he was calm. How? Sinbad spoke gently._  
 > _A kind voice can help someone calm down. So can a big, slow breath._  
 > _For grown-ups: Heard that a kind voice and slow breaths help us calm down._
 
-**Young Sinbad**: Peace, friend. Here, take some stones.  
-_The merchant stops shouting at once._  
 
 #### `sprout:a06-05-lift-done` · [main](main.md#a06-05-lift-done)
 
@@ -646,6 +650,9 @@ _Then an island, with a house as big as a hill._
 _In the yard there are cooking pots big enough to bath in._  
 _Boom, boom, the ground shakes! A giant ducks in at the gate._  
 _He has one big eye. He yawns and looks at his pots._  
+**Young Sinbad**: Those pots are for supper. And we are the supper!  
+_Your Nubbin climbs into a pot to check. It sniffs._  
+_It climbs out again, very fast._  
 
 > **Lesson** (maths, K.MD.A.2, ask): compare: bigger and smaller  
 > _The giant’s pot is as big as a bath. Your cup is little._  
@@ -771,7 +778,7 @@ _Everybody looks at the broken raft planks._
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): solving a problem together  
 > _Sinbad has a big problem. What can friends do with a big problem?_  
-> - ✅ Think of a plan together. → Yes! Friends can think together. Two heads are better than one.
+> - ✅ Think of a plan together. → Yes! Friends can think together. Two friends think better than one.
 > - Give up. → Giving up never fixes it. Friends can think of a plan together.
 > _For grown-ups: Thought about solving a problem by planning together with friends._
 
@@ -817,18 +824,18 @@ _Sinbad waves his long turban. Wave, wave, wave!_
 **The Captain**: Castaways! Up you come, all of you!  
 **The Captain**: We have goods for a man we left on an island.  
 **The Captain**: His name was Sinbad.  
+**Young Sinbad**: That is me! That is ME!  
+_Sinbad laughs and laughs._  
 
 > **Lesson** (literacy, ELOF: Literacy, do): find the letter S  
 > _Ship starts with S. Sinbad starts with S. Sail starts with S too. Sss!_  
 > Check: `edu:tap:letter:s`
 > _For grown-ups: Found the letter S in ship, sail and Sinbad._
 
-**Young Sinbad**: You did not!  
-_Sinbad laughs and laughs._  
 
 #### `sprout:a06-07-complete` · [main](main.md#a06-07-complete)
 
-**Sinbad the Sailor**: Third voyage done. I swore, never again.  
+**Sinbad the Sailor**: Third voyage done. I promised: never again!  
 
 > **Lesson** (maths, K.CC.B.4, do): count to 3 on fingers  
 > _Three voyages so far! Hold up a finger for each one: one, two, three._  
@@ -868,10 +875,10 @@ _Sinbad laughs and laughs._
 
 **Choices**
 
-- **Put your hand on his.**
+- **Put your hand on the old sailor’s hand.**
     - **Sinbad the Sailor**: Thank you. It was long ago. It is also tonight.
-- **Let your Nubbin climb into his lap.**
-    - It sits on his knee.
+- **Let your Nubbin climb into the old sailor’s lap.**
+    - It sits on the old sailor’s knee.
     - He rests a hand on its head, and goes on.
 
 #### `sprout:a06-08-telling-done` · [main](main.md#a06-08-telling-done)
@@ -992,7 +999,7 @@ _Crack! A big, fluffy chick tumbles out and shrieks._
     - It is as soft as a pillow.
     - It lets you push it, grumbling, into the shade.
 - **Stand between the merchants and the chick.**
-    - The merchants back away. One looks at the sky, and goes pale.
+    - The merchants back away. One looks at the sky. He looks very scared.
 
 #### `sprout:a06-09-egg-done` · [main](main.md#a06-09-egg-done)
 
@@ -1043,7 +1050,7 @@ _By evening there is an island. It has fruit and running water._
 #### `sprout:a06-09-complete` · [main](main.md#a06-09-complete)
 
 _The porter has brought his little daughter. She is asleep on the cushions._  
-**Sinbad the Porter**: The merchants had it coming.  
+**Sinbad the Porter**: The merchants should have listened.  
 **Sinbad the Sailor**: I knew, and I did not make them listen.  
 **Sinbad the Porter**: You told them.  
 
@@ -1311,7 +1318,7 @@ _The king is waiting. He is as curious as a boy._
 
 **The King of Serendib**: Welcome! Sit. You came through the mountain?  
 **Young Sinbad**: I did, your majesty. Not on purpose.  
-**The King of Serendib**: Tell me about your Caliph. Is he fair?  
+**The King of Serendib**: Tell me about your Caliph, the king of Baghdad. Is he fair?  
 **Young Sinbad**: They say he walks the city to see how people live.  
 **The King of Serendib**: A king who looks for himself. Good! I will write to him.  
 **The King of Serendib**: You will carry my letter. You will be my messenger.  
@@ -1357,7 +1364,7 @@ _The king gives Sinbad a letter, and gifts, and a ship home._
 > _Friendships can start in surprising ways. How did you meet a friend?_  
 > _For grown-ups: Heard that friendships can start in surprising ways, and remembered meeting a friend._
 
-**Sinbad the Porter**: Did you swear again?  
+**Sinbad the Porter**: Did you promise again?  
 **Sinbad the Sailor**: I did. That one nearly took.  
 
 ## A6-13. The Caliph’s Gift
@@ -1372,7 +1379,7 @@ _The court is full of scholars and busy clerks._
 **Harun al-Rashid**: Peace be upon you. You are the man who came out of a mountain?  
 **Young Sinbad**: And upon you, peace. Through a mountain, yes.  
 **Harun al-Rashid**: The King of Serendib has written to me. Please read it.  
-**The Translator**: He has heard that you are fair.  
+**The Translator**: The King of Serendib has heard that you are fair.  
 **The Translator**: He sends a ruby cup, and asks to be your friend.  
 **The Translator**: It is in Arabic, and very good Arabic. Somebody there reads our books.  
 
@@ -1384,6 +1391,9 @@ _The court is full of scholars and busy clerks._
 > _For grown-ups: Learned that a translator helps people understand another language._
 
 **Harun al-Rashid**: Then he shall have more books, and an answer. Sinbad, you will carry it.  
+**Young Sinbad**: But I promised. Never again!  
+**Harun al-Rashid**: Then promise again afterwards.  
+_Your Nubbin nods. It has heard Sinbad promise lots of times._  
 
 **Choices**
 
@@ -1460,6 +1470,7 @@ _He is not allowed to leave._
 
 **The Ivory Merchant**: You talk to kings? Good. Sit in the tree. When the elephants pass, shoot.  
 **The Ivory Merchant**: I need ivory.  
+_Ivory is the white tusk of an elephant._  
 _Every morning, you sit in the tree with Sinbad._  
 _The herd walks past. An old elephant leads them._  
 
@@ -1499,6 +1510,10 @@ _Sinbad falls. She catches him in her trunk, and sets him on her back._
 _You climb up too. Your Nubbin comes too._  
 _They walk all day to a valley with a white floor._  
 _It is full of old tusks and bones._  
+_Old elephants come here when they are very, very old._  
+_When they die, their bones rest here._  
+_It is quiet. Nobody hurts them._  
+_The herd remembers them. That is why they come._  
 _The old elephant sets you down, safe. The herd turns and goes._  
 
 > **Lesson** (science, 1-LS1-2, ask): elephants live in families led by an old female  
@@ -1536,7 +1551,7 @@ _Your Nubbin looks at the herd, then at you. It waits._
 
 **Choices**
 
-- **Tell him, once he swears to take only the old tusks and never hunt again.**
+- **Tell him, if he promises to take only old tusks and never hunt.**
     - **You**: There is a valley. Before I show you, you must promise.
     - **The Ivory Merchant**: I promise. On my children.
 - **Keep the elephants’ secret.**
@@ -1647,7 +1662,7 @@ _The carpet is a carpet again. The old man smiles at his hands._
 **Sinbad the Sailor**: I came home heavy that time. Porter, does your street have a fountain?  
 **Sinbad the Porter**: There is a well at the far end. The women walk there all morning.  
 **Sinbad the Sailor**: Then it has a fountain now.  
-_Next morning, workmen are on his street with stone._  
+_Next morning, workmen are on the porter’s street with stone._  
 
 > **Lesson** (social-studies, D2.Civ.8.K-2, notice): a fountain shares water with everyone  
 > _A fountain gives water to everybody in the street, big or small._  
@@ -1752,7 +1767,7 @@ _He puts nothing on the low table. He smiles at the empty place._
 
 **Sinbad the Porter**: And at the end, a herd walked home through the hills.  
 **Sinbad the Porter**: Nobody shot at them. Nobody ever will.  
-**Sinbad the Porter**: The elephants were paid for in bones.  
+**Sinbad the Porter**: The old elephants gave their tusks. And Sinbad was free.  
 _Nobody speaks. Then the old man claps, and everyone claps._  
 
 > **Lesson** (sel, CASEL: Self-awareness, notice): sharing a story is brave  
@@ -1768,7 +1783,7 @@ _Variant of `a06-16-telling-done`._
 
 **Sinbad the Porter**: And at the end, a herd walked past a gate three times.  
 **Sinbad the Porter**: Nobody shot at them. Nobody ever will.  
-**Sinbad the Porter**: The elephants were paid for in a season.  
+**Sinbad the Porter**: The elephants waited with Sinbad, a whole season. And Sinbad was free.  
 
 > **Lesson** (sel, CASEL: Self-management, ask): waiting is hard, and things help  
 > _Sinbad waited a whole dry season, and then the rains._  

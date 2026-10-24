@@ -412,7 +412,7 @@ const Q01: EduQuest = quest(
         ),
         N('And photographs. Dozens of them, some so old the faces are the colour of tea.'),
         M(
-          'That’s Papá Julio. Tía Rosita. Tío Óscar and Tío Felipe, the twins. And that’s Mamá Imelda. She started the shoemaking.',
+          'That’s Mamá Imelda. She started the shoemaking. The others you’ll meet. They’re very loud.',
         ),
         N(
           'In the oldest photo, a stern woman stands beside a little girl. Beside them is a man holding a guitar.',
@@ -732,6 +732,28 @@ const Q02: EduQuest = quest(
         M('Look at the guitar. That’s Ernesto de la Cruz’s guitar. The man with no face!', 'shock'),
       ],
       [
+        ask(
+          4,
+          'literacy',
+          'tell a simile from a metaphor',
+          'L.4.5',
+          [N('“Abuelita crosses the square like weather.” Is that a simile or a metaphor?')],
+          [
+            opt(
+              'A simile',
+              [
+                N(
+                  'Yes. It uses “like”. Abuelita is as big and as hard to stop as a storm coming in.',
+                ),
+              ],
+              true,
+            ),
+            opt('A metaphor', [
+              N('A metaphor says one thing is another. This line uses “like”, so it is a simile.'),
+            ]),
+          ],
+          'Told a simile from a metaphor, using a line about Abuelita.',
+        ),
         ask(
           5,
           'sel',
@@ -1544,15 +1566,15 @@ const Q05: EduQuest = quest(
         ask(
           1,
           'maths',
-          'subtract within 100 to find the gap',
-          '2.OA.A.1',
+          'count on to find a gap of less than 100',
+          '4.NBT.B.4',
           [N('Your ticket is 2,409 and the board says 2,377. How many numbers until yours?')],
           [
             opt(
               '32',
               [
                 N(
-                  'Yes. 2,409 − 2,377 = 32. The thousands and hundreds match, so you only need 409 − 377.',
+                  'Yes. The thousands match, so you only need 409 − 377, which is 32.',
                 ),
               ],
               true,
@@ -1562,7 +1584,7 @@ const Q05: EduQuest = quest(
             ]),
             opt('132', [
               N(
-                'The hundreds are the same in both numbers, so they cancel out. The difference is 32.',
+                'One hundred too many. Count on: 2,377 and 23 more is 2,400, then 9 more is 2,409. That’s 32.',
               ),
             ]),
           ],
@@ -1988,15 +2010,15 @@ const Q06: EduQuest = quest(
         N(
           'And then the hammock is empty, and still gently swinging. Chicharrón has faded, which in this story means he is gone for good.',
         ),
+        N('He wasn’t hurt. He went laughing, at a song he loved.'),
         H(
           'Nobody up there remembers him any more. When the last one forgets you, you go. That’s all.',
           'sad',
         ),
-        N('It is this story’s idea, and a gentle one. He wasn’t hurt, and he went laughing.'),
       ],
       [
         notice(
-          8,
+          9,
           'social-studies',
           'oral history: people are carried by being remembered and talked about',
           'D2.His.2.K-2',
@@ -3760,7 +3782,7 @@ const Q11: EduQuest = quest(
           [
             I('Héctor. You. I never forgave you.', 'sad'),
             I(
-              'Miguel, I give you my blessing. No conditions. Go home, and bring your papá Héctor home with you, in every way you can.',
+              'Miguel, I give you my blessing. No conditions. Go home, and carry Héctor home with you, in every way you can.',
             ),
             N('Héctor laughs, softly, a sound like someone very surprised to be given a present.'),
           ],
@@ -3825,32 +3847,22 @@ const Q11: EduQuest = quest(
       ],
       [
         ask(
-          0,
+          2,
           'literacy',
-          'understand a metaphor',
-          'L.4.5',
-          [
-            N(
-              '“The Land of the Dead turns to petals, and the petals turn to morning.” Is that a simile or a metaphor?',
-            ),
-          ],
+          'use context clues to find a meaning',
+          'L.3.4',
+          [N('Your Nubbin is “blue again, mostly”. What does “mostly” tell you?')],
           [
             opt(
-              'A metaphor: it says one thing becomes another',
-              [
-                N(
-                  'Yes. There is no “like” or “as”. The writer says the scene becomes petals, then morning, to show how gently it changes.',
-                ),
-              ],
+              'Nearly all of it is blue, but not quite all',
+              [N('Yes. The next words say so: a little pink is left at the tips of its ears.')],
               true,
             ),
-            opt('A simile: it uses “like” or “as”', [
-              N(
-                'A simile does use “like” or “as”, but this line doesn’t. It states that one thing becomes another, which makes it a metaphor.',
-              ),
+            opt('Every bit of it is blue', [
+              N('Not quite. “Mostly” means nearly all. The pink ear tips are the bit still left.'),
             ]),
           ],
-          'Told a metaphor from a simile.',
+          'Used context to work out the meaning of mostly.',
         ),
       ],
     ),
@@ -4220,7 +4232,7 @@ const Q12: EduQuest = quest(
           'Miguel fits the corner back into the old photo. It is mended: a family of three, all their faces showing.',
         ),
         N(
-          'Imagine folding the photo in half, and in half again. Coco’s corner would fill exactly one of the equal parts.',
+          'The mended photo shows three people: Imelda, little Coco and Héctor. Héctor is one of the three.',
         ),
         N(
           'You untie the orange ribbon from your Nubbin’s neck, with HÉCTOR stitched on it, and tie it round the mended photo.',
@@ -4229,29 +4241,21 @@ const Q12: EduQuest = quest(
       ],
       [
         ask(
-          1,
+          3,
           'maths',
-          'unit fractions',
+          'unit fractions of a group',
           '3.NF.A.1',
+          [N('What fraction of the family in the photo is Héctor?')],
           [
-            N(
-              'Folded in half twice, a photo has 4 equal parts. Coco kept 1 of them. What fraction is that?',
-            ),
-          ],
-          [
-            opt(
-              '1/4',
-              [N('Yes. One part out of four equal parts is one quarter, written 1/4.')],
-              true,
-            ),
-            opt('1/2', [N('A half would be 1 out of 2 equal parts. This is 1 out of 4, so 1/4.')]),
-            opt('4/1', [
-              N(
-                'The top number is the parts you have, and the bottom is how many equal parts: 1/4.',
-              ),
+            opt('1/3', [N('Yes. One person out of three is one third, written 1/3.')], true),
+            opt('1/2', [
+              N('A half would be 1 out of 2. There are three people, so Héctor is 1/3.'),
+            ]),
+            opt('3/1', [
+              N('The top number is the part, Héctor. The bottom is how many in all, three: 1/3.'),
             ]),
           ],
-          'Named a unit fraction: one of four equal parts is 1/4.',
+          'Named a unit fraction: one person out of three is 1/3.',
         ),
       ],
     ),
@@ -4395,7 +4399,7 @@ const VARIANTS: EduScene[] = [
         'Miguel fits the corner back into the old photo. It is mended: a family of three, all their faces showing.',
       ),
       N(
-        'Imagine folding the photo in half, and in half again. Coco’s corner would fill exactly one of the equal parts.',
+        'The mended photo shows three people: Imelda, little Coco and Héctor. Héctor is one of the three.',
       ),
       N(
         'Mamá Coco touches the man’s face in the photo, and then she looks at you, as if she knows you from somewhere.',
@@ -4404,27 +4408,19 @@ const VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        1,
+        3,
         'maths',
-        'unit fractions',
+        'unit fractions of a group',
         '3.NF.A.1',
+        [N('What fraction of the family in the photo is Héctor?')],
         [
-          N(
-            'Folded in half twice, a photo has 4 equal parts. Coco kept 1 of them. What fraction is that?',
-          ),
-        ],
-        [
-          opt(
-            '1/4',
-            [N('Yes. One part out of four equal parts is one quarter, written 1/4.')],
-            true,
-          ),
-          opt('1/2', [N('A half would be 1 out of 2 equal parts. This is 1 out of 4, so 1/4.')]),
-          opt('4/1', [
-            N('The top number is the parts you have, and the bottom is how many equal parts: 1/4.'),
+          opt('1/3', [N('Yes. One person out of three is one third, written 1/3.')], true),
+          opt('1/2', [N('A half would be 1 out of 2. There are three people, so Héctor is 1/3.')]),
+          opt('3/1', [
+            N('The top number is the part, Héctor. The bottom is how many in all, three: 1/3.'),
           ]),
         ],
-        'Named a unit fraction: one of four equal parts is 1/4.',
+        'Named a unit fraction: one person out of three is 1/3.',
       ),
     ],
   ),
