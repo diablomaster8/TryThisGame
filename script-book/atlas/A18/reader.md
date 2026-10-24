@@ -42,7 +42,7 @@ _A girl of about eight looks round his knee. She has a plait to her waist, and s
 _She goes, slowly, looking back at your Nubbin all the way up the stairs._  
 _You run a hand along the wall. It is made of whole logs, laid one on another and stuffed between with moss._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): why forest lands built with logs  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): why forest lands built with logs  
 > _Many houses in forest lands were built of logs, with moss in the gaps. Why might a village near a big forest build this way?_  
 > - ✅ Logs were plentiful, and thick wood keeps the cold out → Yes. People build from what is close at hand, and thick wood holds warmth well. The moss stops draughts.
 > - Because stone was not allowed → Nothing in the story says that. People used the nearest building material, and in a forest land that is wood.
@@ -103,6 +103,8 @@ _In the morning the merchant sits at the kitchen table with his hat in his hands
 _Vasilisa sits on the bottom stair, wrapped in her mother’s counterpane. Somebody has put it round her._  
 _You don’t know what to say, so you don’t say anything. You sit down on the stair beside her._  
 _After a while your Nubbin climbs up between you and sits too._  
+**Vasilisa**: She said I’m to be good, and not cry too much. I think I’m crying the right amount.  
+**You**: I think so too.  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): how to support someone who is grieving  
 > _Vasilisa is grieving. You don’t know what to say._  
@@ -112,8 +114,6 @@ _After a while your Nubbin climbs up between you and sits too._
 > - Leave her alone so she can forget → Some quiet is fine. But being left alone can feel lonely, and a grieving person doesn’t want to forget. Stay near, and let her cry.
 > _For grown-ups: Learned that staying close and listening is the best support for someone who is grieving._
 
-**Vasilisa**: She said I’m to be good, and not cry too much. I think I’m crying the right amount.  
-**You**: I think so too.  
 _Under the counterpane, her hand is closed round something small. She holds on to it all day._  
 
 ### Glossary
@@ -135,7 +135,7 @@ _At supper Vasilisa eats almost nothing. The best bits go off her plate and into
 **Vasilisa**: I am eating, Father. Look.  
 _She chews a bit of turnip very hard, for him to see. Then she slips off her bench and out of the room._  
 
-> **Lesson** (health, K-LS1-1, ask): people, like all animals, need food to live and grow  
+> **Lesson** (health, ask): people, like all animals, need food to live and grow  
 > _Vasilisa is hiding her food. People, like all animals, need food to live: it gives us energy to move, think and grow._  
 > _What will happen if she keeps going without?_  
 > - ✅ She will get tired and find it hard to concentrate → Yes. Without enough food the body runs low on energy, and the brain does too. Hungry people tire quickly and think less clearly.
@@ -203,7 +203,7 @@ _Your Nubbin is staring at the doll. The doll, as far as anyone can tell, is sta
 **Vasilisa**: Nobody should have to.  
 _The candle between you makes a small ring of gold on the floor. Beyond the ring, the crocks are only shapes._  
 
-> **Lesson** (science, 1-PS4-2, ask): we see because light reaches our eyes  
+> **Lesson** (science, 4-PS3-2, ask): we see because light reaches our eyes  
 > _Inside the candle’s ring you can see the crocks clearly. Beyond it you see only shapes._  
 > _How do we see anything at all?_  
 > - ✅ Light bounces off objects and into our eyes → Yes. The candle gives out light, the light bounces off the crocks, and some of it reaches your eyes. Where little light arrives, little can be seen.
@@ -246,7 +246,7 @@ _She shows you twice. Your Nubbin watches as if there will be a test, which ther
 _Climbing the cellar steps, you think of a rule you know. It is in your gran’s handwriting, the first of three._  
 _Feed them before you feed yourself._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, notice): sharing food shows respect in many cultures  
+> **Lesson** (social-studies, D2.Civ.8.3-5, notice): sharing food shows respect in many cultures  
 > _In many cultures around the world, offering a guest the best food first is a way of showing respect._  
 > _Sharing bread, tea or soup says: you are welcome, and you matter._  
 > _For grown-ups: Learned that sharing food is a sign of respect and welcome in many cultures._
@@ -256,7 +256,7 @@ _Night after night, Vasilisa has gone without her own best food so that someone 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): whether to feed others before yourself  
 > _Hazel’s rule says feed them before you feed yourself. Is it always right to put others first?_  
 > _What if you were the one who was starving?_  
-> - Feed others first, because caring means giving → That’s a fair answer. Giving to others first is a powerful kind of love. Notice that Vasilisa still sleeps and still eats her share of turnip, so she is giving, not vanishing.
+> - Feed others first, because caring means giving → That’s a fair answer. Giving to others first is a powerful kind of love. Notice that Vasilisa still eats her share of turnip: she is giving, not vanishing.
 > - Look after yourself too, or you can’t help anyone → That’s a fair answer. A hungry helper soon can’t help. Many caring people share what they have and still make sure they are fed.
 > - It depends on who needs it more → That’s a fair answer. A rule is a good start, and wise people check who needs the food most before they decide.
 > _For grown-ups: Thought about whether caring means always putting others first, or looking after yourself too._
@@ -267,7 +267,7 @@ _Night after night, Vasilisa has gone without her own best food so that someone 
 _After that, the best bits of Vasilisa’s supper always go missing. Her father worries that she’s thin._  
 _She is, a little. But she sleeps, and in the mornings she sings while she plaits her hair._  
 
-> **Lesson** (music, RL.2.4, ask): rhythm and repeated lines in work songs  
+> **Lesson** (music, ask): rhythm and repeated lines in work songs  
 > _Vasilisa sings while she works. Work songs often have a steady beat and lines that come round again and again._  
 > _Why might that help?_  
 > - ✅ A steady beat helps people keep time together, and makes the work lighter → Yes. A beat gives everyone the same rhythm to move to, and repeated lines are easy to join in with, so rowing, weaving or hauling feels smoother.
@@ -287,7 +287,7 @@ _Variant of `a18-02-complete`._
 _Beside the cellar picture, low in the margin, there is a pencil note you have never noticed. You know the hand._  
 _“Feed them first. Somebody’s mother said it before I did.”_  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): proverbs pass wisdom down the generations  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): proverbs pass wisdom down the generations  
 > _Hazel says somebody’s mother said it first. A short saying handed down through families is called a proverb._  
 > _Why do proverbs last for hundreds of years?_  
 > - ✅ They are short and easy to remember, and people keep passing them on → Yes. A few words carry a lesson that was worth keeping, so each generation repeats it. Hazel is passing one on, and so was Vasilisa’s mother.
@@ -359,7 +359,7 @@ _The beds are weeded and the water butts are full. Smoke is rising from the kitc
 **Vasilisa**: Shh. She did it. I fed her last night and asked her, and she said go to sleep. So I did.  
 _In the cabbage bed you find the doll, no taller than a weed, pulling up the last dandelion with both arms._  
 
-> **Lesson** (science, 2-LS2-1, ask): plants compete for water and light  
+> **Lesson** (science, ask): plants compete for water and light  
 > _Weeds grow among the cabbages. Why does pulling weeds help the cabbages grow?_  
 > - ✅ Weeds compete with the cabbages for water, light and space → Yes. Every plant in a bed needs water, light and room. A weed takes some of each, so a weeded bed leaves more for the crop.
 > - Weeds are poisonous to cabbages → Most aren’t. The trouble is crowding: weeds use up water, sunlight and soil space the cabbages need.
@@ -420,7 +420,7 @@ _You have about a second._
 _The stepmother walks round the whole garden and finds nothing wrong with it. This makes her crosser than anything could._  
 **The Stepmother**: Sun and wind. Every day. We shall see.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): fair sharing of household work  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): fair sharing of household work  
 > _One girl does every job in the house while two others sit. What would a fairer household do?_  
 > - ✅ Share the jobs in a rota, so everyone has a turn → Yes. A rota gives everyone the same share of work and rest. Fairness doesn’t mean everyone does the same job, only that nobody carries it all.
 > - Give the hardest jobs to the youngest → That can feel unfair, since the youngest are often the least strong. A fair plan shares hard jobs and easy jobs.
@@ -432,7 +432,7 @@ _The stepmother walks round the whole garden and finds nothing wrong with it. Th
 
 _Spring turns into summer. Every morning the work is done, and every evening the best bits go down to the cellar._  
 
-> **Lesson** (science, 1-ESS1-2, ask): why summer days are longer: the Earth’s tilt  
+> **Lesson** (science, 5-ESS1-2, ask): why summer days are longer: the Earth’s tilt  
 > _In summer the sun stays up much longer than in winter. What causes the difference?_  
 > - ✅ The Earth is tilted, so in summer our part of the world leans towards the Sun → Yes. The Earth’s axis is tilted. When our half leans towards the Sun we get more hours of daylight, and when it leans away the days are short.
 > - The Sun moves closer to the Earth in summer → A common guess, but no. The Earth is actually a little further from the Sun in the northern summer. The tilt is what matters.
@@ -461,7 +461,7 @@ _The atlas turns several pages at once, with a sound like a flock of birds getti
 _When you step in, the birches by the house are twice as tall. The apple tree has a swing on it, too small now for anyone._  
 _Vasilisa comes down the path. She is grown: taller than you, her plait wound round her head, a basket on her arm._  
 
-> **Lesson** (maths, 2.OA.A.1, ask): subtraction to find an interval of years  
+> **Lesson** (maths, 4.NBT.B.4, ask): subtraction to find an interval of years  
 > _Vasilisa was eight when you met her. She looks about seventeen now._  
 > _About how many years has the atlas skipped?_  
 > - ✅ About 9 years → Yes. 17 − 8 = 9. You can count up from 8 to 17 to check: nine steps.
@@ -479,6 +479,8 @@ _Your Nubbin walks round her twice, puzzled, as if she were a tree it used to kn
 - **Ask who’s been knocking.**
     - **Vasilisa**: Young men. For me.
     - **Vasilisa**: Not for my sisters. You can imagine how that’s going.
+    - **Vasilisa**: One brought a goose. I think he hoped the goose would do the talking.
+    - Your Nubbin looks round for the goose. It is a Nubbin with a lot of time for geese.
 - **Ask, very quietly, about her pocket.**
     - **Vasilisa**: Still there. Still eats better than I do.
     - **Vasilisa**: She says hello.
@@ -504,7 +506,7 @@ _At the gate stands a young man in a clean shirt, holding his hat. There is anot
 _The first young man goes pink and says Vasilisa’s name._  
 **The Stepmother**: Then go home. The youngest doesn’t marry before the elders. That is the custom in this house.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): whether a custom is reason enough  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): whether a custom is reason enough  
 > _The stepmother says it is the custom that the youngest doesn’t marry before the elders. Is “it’s the custom” a good enough reason to treat someone unfairly?_  
 > _What makes a custom worth keeping?_  
 > - A custom should be kept only if it is fair to everyone → That’s a fair answer. Many customs are kind, like greeting guests. But a custom that hurts people can be changed, because people made it.
@@ -578,7 +580,7 @@ _On the step lies a single cornflower, as blue as a clear morning. Somebody left
 
 _That winter the knocking stops. Word has got round the lanes._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): how news travelled before phones  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): how news travelled before phones  
 > _Word got round the lanes without phones, newspapers or post. How did news travel in a village long ago?_  
 > - ✅ By word of mouth, which meant it could change as it went → Yes. News passed from person to person, at wells, gates and markets. Each telling could add or lose a little, which is how rumours grow.
 > - By flags on the church roof → Some places did use signals, but most news moved by people talking to one another.
@@ -604,9 +606,9 @@ _You sit on the step above with your Nubbin, and nobody says a word. That seems 
 
 _The merchant’s sledge stands in the yard, loaded with bales. Two horses breathe steam at each other._  
 
-> **Lesson** (science, 2-PS1-4, ask): breath clouds: water vapour condensing in cold air, a change that reverses  
+> **Lesson** (science, ask): breath clouds: water vapour condensing in cold air, a change that reverses  
 > _The horses’ breath looks like steam on this cold morning. What is the cloud really made of?_  
-> - ✅ Tiny drops of water: warm, damp breath cools and turns from vapour to droplets → Yes. Your breath carries invisible water vapour. In cold air it cools and condenses into tiny droplets, which you can see as a cloud. Then the droplets dry back into vapour and the cloud vanishes: the change reverses.
+> - ✅ Tiny drops of water: warm, damp breath cools and turns from vapour to droplets → Yes. Your breath holds water vapour. Cold air turns it into tiny drops you can see. Then they dry back into vapour: the change reverses.
 > - Smoke from the horses’ lungs → Nothing is burning inside them. The cloud is water that was already in the warm breath.
 > - Cold air that the horses have breathed out → The breath is warm, not cold. The cloud forms because the warm, damp air meets the cold.
 > _For grown-ups: Learned that visible breath in cold air is water vapour cooling into tiny droplets (condensation)._
@@ -631,7 +633,7 @@ _He doesn’t say what he means by that. He looks up at the window where his wif
 _The sledge goes out of the gate and down the lane, and the gate creaks behind it._  
 _It is a long, low creak. A small rusty hinge would make a high squeak instead._  
 
-> **Lesson** (music, 1-PS4-1, ask): pitch depends on how fast something vibrates  
+> **Lesson** (music, 4-PS3-2, ask): pitch depends on how fast something vibrates  
 > _The big gate makes a low creak and a small hinge a high squeak. What makes a sound higher in pitch?_  
 > - ✅ Faster vibrations → Yes. A faster vibration gives a higher note, and a slower one gives a lower note. Short strings, small hinges and small bells vibrate faster than long, big ones.
 > - Louder vibrations → Loudness depends on how big the vibration is. Pitch, high or low, depends on how fast it is.
@@ -646,7 +648,7 @@ _The merchant is hardly over the hill before the stepmother sells the house, to 
 _Everything goes on one cart: the trunks, the crocks, the counterpane, and you on top with your Nubbin in your lap._  
 _The new house stands where the lane gives up. Behind it the birch wood begins: white trunks, then grey, then nothing you can see._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): birch woods grow across the cool north  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): birch woods grow across the cool north  
 > _Birch woods stretch across the cool north, from northern Europe far into Asia, and many old folk tales are set in them._  
 > _Why do birches do well in cool lands with long winters?_  
 > - ✅ They are hardy: they cope with cold and poor soil and grow quickly → Yes. Birches are tough pioneers. They colonise open ground fast, tolerate frost and thin soil, and shed their leaves for winter.
@@ -708,7 +710,7 @@ _Far off between the trunks, for one moment, you see a fence of pale sticks with
 _The doll brings you both home by dusk with a full basket. The stepmother, at the window, doesn’t look pleased to see you._  
 _Vasilisa tips out the basket. Her mother taught her each kind by sight: twelve red-capped mushrooms from the clearings and fifteen brown ones from the shade._  
 
-> **Lesson** (maths, 2.OA.A.1, ask): addition within 100  
+> **Lesson** (maths, 4.NBT.B.4, ask): addition within 100  
 > _Twelve red-capped mushrooms and fifteen brown ones. How many mushrooms are in the basket?_  
 > - ✅ 27 → Yes. 12 + 15 = 27. Add the tens (10 + 10 = 20) and the ones (2 + 5 = 7), then put them together.
 > - 17 → That’s 12 + 5. Remember to add the whole 15: 12 + 15 = 27.
@@ -789,10 +791,13 @@ _Nobody says a word. Something has just been agreed._
 _She reaches out with the scissors and snips, and the flame goes out. All of it, every bit of light in the house._  
 **The Elder Sister**: Oh! Oh dear. By accident.  
 _In the dark, your Nubbin climbs straight up your front and into your coat._  
+_Somebody walks into a chair._  
+**The Elder Sister**: Sorry! Oh, it’s a chair. Sorry, chair.  
+**The Elder Sister**: That wasn’t me, by the way. Nobody saw, so it wasn’t anybody.  
 
 > **Lesson** (science, 4-LS1-2, ask): eyes adjust to the dark  
 > _In the sudden dark you see nothing, but after a while shapes appear. What is happening in your eyes?_  
-> - ✅ The pupils widen to let in more light, and the eyes slowly grow more sensitive → Yes. The pupils open wide, and over many minutes the light-sensing cells at the back of the eye become more sensitive. That is why a dark room slowly reveals its shapes.
+> - ✅ The pupils widen to let in more light, and the eyes slowly grow more sensitive → Yes. The pupils open wide, and over many minutes the light-sensing cells at the back of the eye grow more sensitive. A dark room slowly shows its shapes.
 > - Your eyes make their own light → Eyes only receive light; they don’t send it out. They adapt to catch whatever little light there is.
 > - The room gets lighter by itself → The room is just as dark. It is your eyes that have changed to make the most of the little light.
 > _For grown-ups: Learned that in the dark the pupils widen and the eyes become more sensitive over several minutes._
@@ -808,7 +813,7 @@ _Both sisters push her out of the room into the dark, as if it had been her idea
 **Vasilisa**: Wait for me at the cellar door. I have to ask somebody first.  
 _The sisters sent her, and a sister snipped the wick. It was never her idea._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): blaming someone unfairly: a scapegoat  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): blaming someone unfairly: a scapegoat  
 > _When people blame one person for something they did themselves, that person is called a scapegoat. Why is this unfair?_  
 > - ✅ The person pays for something they didn’t do → Yes. A scapegoat takes the blame and the danger for others’ choices. Fair rules say people answer for their own actions.
 > - Because blaming is always rude → Sometimes blaming is deserved. Here it is unfair because the blame lands on the wrong person.
@@ -1060,7 +1065,7 @@ _Behind the fence the hut is old and black and leaning. There is smoke from its 
 _Then the trees round the clearing begin to creak, and the dry leaves on the ground all lift and turn over at once._  
 _Creak. Rustle. Rattle. The clearing is full of words that sound like what they mean._  
 
-> **Lesson** (literacy, RL.1.4, ask): onomatopoeia  
+> **Lesson** (literacy, RL.4.3, ask): onomatopoeia  
 > _Creak, rustle and rattle sound like the noises they name. What is a word like that called?_  
 > - ✅ Onomatopoeia → Yes. Onomatopoeia means a word that imitates a sound. Writers use it to let readers hear the scene: buzz, splash, thump.
 > - An adjective → An adjective describes a noun. A word that copies a sound is onomatopoeia.
@@ -1075,7 +1080,7 @@ _Out of the trees comes Baba Yaga, riding in a great stone mortar and rowing thr
 > **Lesson** (science, 3-PS2-1, ask): a push in one direction gives a push back: how oars work  
 > _Baba Yaga “rows” her mortar with a pestle. A real oar pushes the water backwards._  
 > _What makes a real boat go forwards?_  
-> - ✅ The water pushes back on the oar, so the boat is pushed forwards → Yes. A push always meets a push the other way. The oar shoves water backwards, the water shoves the oar forwards, and the boat goes with it. (Baba Yaga does it through air, by magic.)
+> - ✅ The water pushes back on the oar, so the boat is pushed forwards → Yes. A push meets a push the other way. The oar shoves water backwards, the water shoves the oar forwards, and the boat follows. (Baba Yaga uses magic.)
 > - The oar pulls the boat along by its handle → The handle is just where you hold it. It is the blade pushing on the water that moves the boat.
 > - The boat floats and drifts forward by itself → Floating keeps a boat up, but only a push makes it move. That push comes from the water pushing back on the oar.
 > _For grown-ups: Learned that rowing works because pushing water backwards pushes the boat forwards._
@@ -1136,6 +1141,7 @@ _Your Nubbin, deep in your coat, holds its breath again._
 **Baba Yaga**: Same terms for you as for her, since you’re here. Work, and you go home. Shirk, and you don’t.  
 _She lifts one hand. The gate opens by itself._  
 _The bolts on the hut door shoot back in a pattern: two clacks, then four, then six, then eight…_  
+_Your Nubbin counts along on its paws, runs out at four, and borrows your fingers for the rest._  
 
 > **Lesson** (maths, 4.OA.C.5, ask): number patterns that follow a rule  
 > _Two clacks, then four, then six, then eight. What comes next, and what is the rule?_  
@@ -1150,7 +1156,7 @@ _The bolts on the hut door shoot back in a pattern: two clacks, then four, then 
 **Baba Yaga**: In. In! Don’t stand there letting the night in. It’s mine. I know where it’s been.  
 _Inside, the hut is hot and smoky and very full: pots, bunches of herbs, and a great white stove that takes up half the room._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): how a great stove was used in old homes  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): how a great stove was used in old homes  
 > _In old homes in cold, forested lands, a great stove often took up half the room. What jobs did it do?_  
 > - ✅ It heated the home, cooked and baked, and gave a warm place to sleep → Yes. One big masonry stove did the work of a heater, an oven and, on cold nights, a bed. It tells us how families used every bit of warmth.
 > - It was only for show → In a land with hard winters nothing was only for show. The stove kept people alive.
@@ -1177,18 +1183,20 @@ _Soup enough for ten. A side of pork, pies, porridge, a whole goose, a jug of kv
 **Baba Yaga**: More! Is that the lot? Look in the back. There’s always something at the back.  
 _She eats the way the wind takes a field: all of it, from one side to the other, and nothing left standing._  
 _Your Nubbin watches the goose go, with an expression of real grief._  
+**Baba Yaga**: What? It was a small goose.  
+_It was not a small goose._  
 **Baba Yaga**: Ah. Better. That’s what an old woman needs. A little something.  
 _On the table she leaves a bowl with a little soup at the bottom, a crust, and a scrap of pork the size of your thumb._  
+**Baba Yaga**: Ten slices of pork. Nine for me, one for you. That’s yours, girl. Supper. And a crust for you, friend from elsewhere, since you carried. Don’t say I’m not fair.  
 
 > **Lesson** (maths, 3.NF.A.1, ask): unit fractions: 1 out of 10 equal parts  
-> _Imagine the pork was cut into 10 equal pieces. Baba Yaga ate 9 and left Vasilisa 1._  
+> _The pork was cut into 10 equal slices. Baba Yaga ate 9 and left Vasilisa 1._  
 > _What fraction of the pork did Vasilisa get?_  
 > - ✅ 1/10 → Yes. One part out of ten equal parts is one tenth, written 1/10. Baba Yaga ate the other 9/10.
 > - 1/9 → The whole is cut into 10 parts, not 9. The bottom number counts all the equal pieces, so it is 1/10.
 > - 9/10 → That is what Baba Yaga ate. Vasilisa got 1 piece out of 10, which is 1/10.
 > _For grown-ups: Used a unit fraction: 1 piece out of 10 equal pieces is 1/10 (and the rest is 9/10)._
 
-**Baba Yaga**: That’s yours, girl. Supper. And a crust for you, friend from elsewhere, since you carried. Don’t say I’m not fair.  
 
 #### `reader:a18-09-supper-done` · [main](main.md#a18-09-supper-done)
 
@@ -1240,7 +1248,7 @@ _Tomorrow is going to be very long. You know it the way you know it is going to 
 _The fire in the stove sinks to red. Vasilisa curls up on the bench with one hand in her pocket._  
 _There wasn’t enough food for everyone, so somebody had to choose. People call that scarcity._  
 
-> **Lesson** (social-studies, D2.Eco.1.K-2, ask): scarcity means choosing  
+> **Lesson** (social-studies, D2.Eco.1.3-5, ask): scarcity means choosing  
 > _When there isn’t enough of something for everyone, people have to choose who gets it. What is that shortage called?_  
 > - ✅ Scarcity → Yes. Scarcity is when wants and needs are bigger than what is available, so choices have to be made. Families, shops and countries all face it.
 > - Surplus → A surplus is more than is needed. Here there is less than is needed: that is scarcity.
@@ -1336,10 +1344,11 @@ _Variant of `a18-10-chores`._
 
 _Vasilisa sleeps on, as she was told to. The doll climbs down off the bench and goes to work._  
 _The broom sweeps the yard with nobody holding it. The pots scrub themselves, and the linen goes into the tub grey and comes out white._  
+_Baba Yaga’s list has twelve jobs on it. One doll could finish them all in a morning._  
 _The doll was fed twice last night, and it works like two dolls. When you get to the barn, the oats are already sifted._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): multiplication: two dolls’ worth of work  
-> _Say one doll can finish 12 jobs in a morning. Fed twice, it works like two dolls._  
+> _One doll can finish 12 jobs in a morning. Fed twice, it works like two dolls._  
 > _How many jobs does it finish?_  
 > - ✅ 24 → Yes. Two dolls’ worth of 12 jobs is 2 × 12 = 24 jobs. Doubling 12 gives 24.
 > - 14 → That’s 12 + 2. Twice the work means two groups of 12: 2 × 12 = 24.
@@ -1456,7 +1465,7 @@ _Mixed all through the seed there is earth: dry, crumbly, the same colour, and e
 **Baba Yaga**: Somebody did that to me once, out of spite. Somebody always does, sooner or later.  
 **Baba Yaga**: Get every bit of earth out of it. Every speck. I’ll know.  
 
-> **Lesson** (science, 2-PS1-1, ask): separating a mixture by a property such as size  
+> **Lesson** (science, ask): separating a mixture by a property such as size  
 > _Some of the earth is in lumps bigger than a poppy seed. Which tool separates things by size?_  
 > - ✅ A sieve → Yes. A sieve has holes of one size: smaller things fall through and larger ones stay. Mixtures can be separated by size, weight, magnetism or dissolving.
 > - A magnet → A magnet only picks up certain metals, not earth or seeds. For separating by size, use a sieve.
@@ -1549,7 +1558,7 @@ _Baba Yaga stands looking at the empty floor, and then at you, for a long time._
 **Baba Yaga**: Hm. You helped, didn’t you. Don’t answer. I can see it on your sleeves.  
 **Baba Yaga**: I pay for work. I always pay for work. Here.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): the difference between a gift and wages  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): the difference between a gift and wages  
 > _Baba Yaga insists that pay is not a present. What is the difference between a gift and wages?_  
 > _Does being paid fairly change how a person feels about their work?_  
 > - A gift is freely given; wages are owed for work done → That’s a fair answer. A gift comes from generosity, while wages are a fair exchange. Both can show respect, in different ways.
@@ -1601,7 +1610,7 @@ _Your Nubbin climbs into the cracked mortar, which fits it exactly, and goes to 
 
 ### Glossary
 
-- **tint**: A colour made lighter by adding white.
+- **shade**: A colour made darker by adding black. Also a cool place out of the sun.
 - **foreshadowing**: A hint in a story about what will happen later.
 
 ## A18-12. Questions
@@ -1624,7 +1633,7 @@ _Baba Yaga eats, and eats, and Vasilisa stands by the table with her hands folde
 **Baba Yaga**: My dark night. All three mine, all faithful. They come and go when I say.  
 _Vasilisa thinks of the three pairs of hands; you can see her think of them. She shuts her mouth._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): oral tradition: how old tales travel and change  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): oral tradition: how old tales travel and change  
 > _This tale was told aloud for hundreds of years before a collector, Alexander Afanasyev, gathered it into a book in the 1800s._  
 > _Baba Yaga is in Ukrainian, Belarusian, Polish and Russian stories too. Why do old tales change a little from place to place?_  
 > - ✅ Tellers remembered them and retold them in their own words, adding local details → Yes. Stories passed from person to person by speaking, not writing, are called oral tradition. Each teller keeps the heart of the tale and changes the details.
@@ -1638,7 +1647,7 @@ _Vasilisa thinks of the three pairs of hands; you can see her think of them. She
 **Baba Yaga**: Is that all? Nothing else?  
 _Bright day, red sun, dark night. Fairy tales love things that come in threes._  
 
-> **Lesson** (literacy, RL.2.4, ask): the rule of three in folk tales: patterns of repetition  
+> **Lesson** (literacy, ask): the rule of three in folk tales: patterns of repetition  
 > _Three riders: white, red and black. Folk tales often use three of things, like three wishes or three brothers._  
 > _Why might that be?_  
 > - ✅ A pattern of three is easy to remember aloud, and builds up to a surprise → Yes. Two sets a pattern and the third completes it, or breaks it. That makes three good for tales told from memory.
@@ -1682,7 +1691,7 @@ _You think of the hands, and you can’t help it. They are right there in your h
 _Baba Yaga leans back. She has eaten everything, as usual, and is in the mood to ask a question herself._  
 _Outside the window the birches stand pale in the dark. Their bark peels off in thin papery strips._  
 
-> **Lesson** (science, 2-PS1-1, ask): describing a material by its properties: birch bark  
+> **Lesson** (science, ask): describing a material by its properties: birch bark  
 > _Baba Yaga’s answer was a joke. Real birch bark is white, papery and peels in thin sheets._  
 > _Long ago, which property made it good for writing letters on?_  
 > - ✅ It peels in thin, flat sheets that a sharp point can scratch → Yes. People in some lands once scratched whole letters on birch bark. Its white colour comes from a natural substance in it called betulin.
@@ -1696,6 +1705,12 @@ _Outside the window the birches stand pale in the dark. Their bark peels off in 
 **Baba Yaga**: Now I’ll ask one. How did you get all my work done? Every husk. Every speck. Twice.  
 _Vasilisa’s hand goes towards her pocket, and stops, and goes back to her apron._  
 **Vasilisa**: My mother’s love helped me!  
+_Baba Yaga goes very still. Then she gets up, all of her, right up to the rafters._  
+**Baba Yaga**: Love like that? Then off you go, and quickly! Nobody so loved can stay with me!  
+_She bundles Vasilisa out of the hut, and you, and your Nubbin, and slams the door so hard the herbs fall off the beams._  
+_In the yard she pulls a skull off the fence, stake and all. Its eyes are burning like two coals._  
+**Baba Yaga**: Here. Here’s fire for your stepmother’s daughters. That’s what you came for. Take it and go!  
+_A bunch of herbs lands on your Nubbin. It wears it as a hat all the way home._  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): feeling loved helps us be brave  
 > _Vasilisa says her mother’s love helped her. How can feeling loved help someone be brave?_  
@@ -1704,11 +1719,6 @@ _Vasilisa’s hand goes towards her pocket, and stops, and goes back to her apro
 > - It only works when the person is in the room → It works long after: Vasilisa’s mother is gone, and her love still helps. Memory can be a very strong support.
 > _For grown-ups: Reflected on how feeling loved gives us courage even when the person is not with us._
 
-_Baba Yaga goes very still. Then she gets up, all of her, right up to the rafters._  
-**Baba Yaga**: Love like that? Then off you go, and quickly! Nobody so loved can stay with me!  
-_She bundles Vasilisa out of the hut, and you, and your Nubbin, and slams the door so hard the herbs fall off the beams._  
-_In the yard she pulls a skull off the fence, stake and all. Its eyes are burning like two coals._  
-**Baba Yaga**: Here. Here’s fire for your stepmother’s daughters. That’s what you came for. Take it and go!  
 
 #### `reader:a18-12-gate` · [main](main.md#a18-12-gate)
 
@@ -1764,7 +1774,7 @@ _She tips a fair handful of oats into your palm, folds your fingers over it, and
 _The gate swings shut behind you. The fence’s eyes watch you go, all but one pair, which is in Vasilisa’s hands._  
 _She holds the stick out in front of her as far as her arms will reach. The skull lights the path like a lantern._  
 
-> **Lesson** (art, K.MD.B.3, ask): sorting colours into warm and cool, and counting each group  
+> **Lesson** (art, ask): sorting colours into warm and cool, and counting each group  
 > _The skull’s glow is amber, a warm colour like fire. Artists sort colours into warm and cool._  
 > _Sort these six: red, blue, orange, green, yellow, purple. How many are warm?_  
 > - ✅ Three: red, orange and yellow → Yes. Red, orange and yellow are warm, the colours of fire and sunshine, and blue, green and purple are the three cool ones.
@@ -1791,7 +1801,7 @@ _She holds the stick out in front of her as far as her arms will reach. The skul
 
 _The wood at night is a different wood. The skull’s light makes a small round room of it, and you walk inside the room._  
 
-> **Lesson** (science, 1-PS4-2, ask): light spreads out and weakens with distance  
+> **Lesson** (science, 4-PS3-2, ask): light spreads out and weakens with distance  
 > _The skull’s light makes a bright round room, dim at its edge. Why is a light bright near the lamp and dim far away?_  
 > - ✅ Light spreads out as it travels, so the farther away you are the weaker it is → Yes. The same amount of light is spread over a wider and wider area, so each patch gets less. That is why distant lamps and stars look faint.
 > - Darkness pushes the light back → Darkness is just the absence of light, so it can’t push. The light itself spreads thinner with distance.
@@ -1831,7 +1841,7 @@ _The wood at night is a different wood. The skull’s light makes a small round 
 _Your Nubbin rides inside your coat with its eyes shut tight. Every time an owl calls, it shivers._  
 _Somewhere in the night you open your fist and give it Baba Yaga’s oats, a few at a time, as you walk._  
 
-> **Lesson** (health, K-LS1-1, ask): animals need food: it gives energy and warmth  
+> **Lesson** (health, ask): animals need food: it gives energy and warmth  
 > _Your Nubbin stops shivering after eating oats. Why does food help us keep warm and moving?_  
 > - ✅ Our bodies turn food into energy, and some of it becomes heat → Yes. Food is fuel. The body releases its energy for moving, thinking and staying warm. Oats release their energy slowly, which is why people eat them in winter.
 > - Food warms us only because it is hot → Even cold food gives energy. The warmth comes from the body using the food as fuel.
@@ -1874,6 +1884,8 @@ _She lifts the stick to throw. Your Nubbin puts both paws over its eyes._
 _The voice comes from the skull. It is a dry voice, like leaves, and not at all unkind._  
 **The Skull**: Take me to your stepmother’s house. That is where I’m wanted.  
 **Vasilisa**: Oh.  
+**The Skull**: And mind you don’t swing me. I’ve been on a stick all day.  
+_Vasilisa holds the stick very, very still. Your Nubbin takes its paws off its eyes, to see what manners look like on a skull._  
 
 **Choices**
 
@@ -1899,10 +1911,10 @@ _She has held a heavy stick out in front of her for a whole day._
 #### `reader:a18-13-carry` · [main](main.md#a18-13-carry)
 
 **You**: Give it to me. Just as far as the gate.  
-_You take the stick. It is lighter than you thought, and warm, like a cup of something._  
+_You take the stick. It weighs 450 grams, lighter than you thought, and warm like a cup of something._  
 
 > **Lesson** (maths, 4.MD.A.1, ask): grams and kilograms  
-> _Imagine the skull and its stick weigh 450 grams. Two of them would weigh 900 grams._  
+> _The skull and its stick weigh 450 grams. Two of them would weigh 900 grams._  
 > _Is that more or less than a kilogram?_  
 > - ✅ Less: a kilogram is 1000 grams → Yes. 1 kg = 1000 g, and 900 g is 100 g short of that. Always check which unit you are in before you compare.
 > - More: 900 is a big number → The size of the number depends on the unit. A kilogram is 1000 grams, so 900 grams is less.
@@ -1911,6 +1923,9 @@ _You take the stick. It is lighter than you thought, and warm, like a cup of som
 
 _Vasilisa shakes out her arms and blows on her hands, and walks beside you with one hand on your sleeve._  
 _The skull looks ahead at the dark house. Its eyes get brighter the nearer you come._  
+**The Skull**: Nearly there.  
+_It said that at the edge of the wood. It has said it four times since._  
+**Vasilisa**: Skulls have no idea how far anything is.  
 **The Skull**: Nearly there.  
 _Your Nubbin climbs up on to your shoulder to see where you’re all going._  
 
@@ -1984,15 +1999,16 @@ _Vasilisa sets the skull on the table, on its stick, facing the room. Its eyes a
 
 #### `reader:a18-14-door-done` · [main](main.md#a18-14-door-done)
 
-_The stepmother moves to the stove, and the skull’s eyes follow her. She moves to the window, and they follow her there too._  
-_The stove stands against the north wall of the kitchen, and the window is in the east wall._  
+_The stepmother moves to the stove, and the skull’s eyes follow her. She backs away towards the door, and they follow her there too._  
+_The stove stands against the north wall. The door is in the south wall, straight across from it._  
+_The eyes get to the door first._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): compass directions  
-> _The stepmother walks from the stove on the north wall to the window on the east wall. Roughly which way is she heading?_  
-> - ✅ South-east → Yes. Moving away from the north wall means heading south, and moving towards the east wall means heading east. Together that is south-east.
-> - North-west → That is the opposite way. She leaves the north wall, so she heads south, and she goes towards the east wall: south-east.
-> - North-east → She is leaving the north wall, not going towards it. South, plus east, makes south-east.
-> _For grown-ups: Used compass directions to describe movement from a north wall to an east wall (south-east)._
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): compass directions  
+> _The stepmother backs from the stove to the door. Which way is she going?_  
+> - ✅ South → Yes. The stove is on the north wall and the door is on the south wall, straight across. Moving from north to south means heading south.
+> - North → That is the opposite way. The stove is on the north wall, and she is leaving it for the door on the south wall.
+> - East → East is sideways from this path. The door is straight across from the stove, so she goes from north to south.
+> _For grown-ups: Used compass directions to describe movement from a north wall to a south wall (south)._
 
 
 #### `reader:a18-14-stare` · [main](main.md#a18-14-stare)
@@ -2003,6 +2019,7 @@ _Vasilisa turns it to the wall. The eyes still look at the stepmother, from the 
 _The sisters go down to the cellar, and the eyes find them there. They climb to the loft, and the eyes find them in the loft._  
 _There is no shouting, and nobody is hurt. There is only the steady light, and three people trying to get out of it._  
 _Vasilisa sits by the cold stove, and you sit beside her with your Nubbin in your lap. The light never once looks at you._  
+_Your Nubbin, who has been glared at by experts, is a little offended._  
 **Vasilisa**: I didn’t want this. I only went for fire.  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): whether unkind people deserve a fright, and what Vasilisa’s feelings show  
@@ -2047,7 +2064,7 @@ _The skull sits on the table, dim now, as if it were tired. Vasilisa wraps it in
 **Vasilisa**: It did what it came to do. It should go in the ground, under a tree. Somewhere quiet.  
 _You dig under the birch by the gate, where the snow is thin. Your Nubbin digs too, which helps less but means more._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): marking a place to remember  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): marking a place to remember  
 > _People mark places they want to remember with a stone, a tree or a flower. In the Grove a memorial flower grows for each Nubbin who has faded._  
 > _Why do people mark special places?_  
 > - ✅ It gives memories a place to stay, and a place to visit → Yes. A marked place makes remembering something you can do with your feet as well as your mind. It also tells others that someone or something mattered.
@@ -2082,7 +2099,7 @@ _The string is sixty centimetres long. The key is six centimetres long._
 **Vasilisa**: I’ll go to town and find somewhere to wait for Father. He said spring, if the roads were kind.  
 _You walk with her down the lane, the way the footprints went, and then the other way, towards the town._  
 
-> **Lesson** (music, RL.2.4, ask): tempo: the beat of words and feet  
+> **Lesson** (music, ask): tempo: the beat of words and feet  
 > _Walking has a steady beat. Say “not far now, not far now” in time with your feet._  
 > _If you walked twice as fast, what would happen to the beat?_  
 > - ✅ It would be twice as quick: a faster tempo → Yes. The speed of a beat is called tempo. Walking slowly is a slow tempo, and hurrying is a fast one. Music uses tempo to set a mood.
@@ -2130,7 +2147,7 @@ _The cat looks at your Nubbin, and your Nubbin looks at the cat. Neither of them
 **Vasilisa**: Granny, I can’t sit idle. Will you buy me some flax? The best you can find. I’ll spin it.  
 _Flax is a tall, slim plant with blue flowers. It is pulled up by the roots, not cut, so that its long stem fibres stay as long as possible._  
 
-> **Lesson** (science, 2-PS1-1, ask): flax is pulled to keep its fibres long: a material’s properties  
+> **Lesson** (science, ask): flax is pulled to keep its fibres long: a material’s properties  
 > _Why is flax pulled up by the roots instead of being cut?_  
 > - ✅ So the stem fibres stay as long as possible, making stronger thread → Yes. Long fibres twist into strong, fine thread; short ones make weaker thread. The way a crop is harvested depends on what we want from it.
 > - Because the roots are the part we eat → Flax is grown for its stem fibres and its seeds, not its roots. Pulling keeps the stem fibres long.
@@ -2168,7 +2185,7 @@ _The doll eats, and the lights come on. It talks to Vasilisa, low, for a long ti
 _By morning there is a loom in the corner, small and neat, strung with Vasilisa’s thread. Nobody heard it being made._  
 _While you thread it, your Nubbin falls asleep in the heap of combed flax beside it, curled up tight. Nobody has the heart to move it._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): how linen was made by hand long ago, step by step  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): how linen was made by hand long ago, step by step  
 > _Long ago, families made linen by hand in five steps: bleach, spin, pull, weave and ret (soak the stems so the woody part rots away)._  
 > _Which order did they go in?_  
 > - ✅ Pull, ret, spin, weave, bleach → Yes. Pull, ret, spin, weave, bleach: you can’t spin what hasn’t been retted, or weave what hasn’t been spun. Today machines do most of it, in the same order.
@@ -2200,7 +2217,7 @@ _Variant of `a18-15-loom-done`._
 _By morning there is a loom in the corner, small and neat, strung with Vasilisa’s thread. Nobody heard it being made._  
 _Your Nubbin is awake and helping, handing up the bobbins one at a time. It has kept close to your hands ever since the oats._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): how linen was made by hand long ago, step by step  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): how linen was made by hand long ago, step by step  
 > _Long ago, families made linen by hand in five steps: bleach, spin, pull, weave and ret (soak the stems so the woody part rots away)._  
 > _Which order did they go in?_  
 > - ✅ Pull, ret, spin, weave, bleach → Yes. Pull, ret, spin, weave, bleach, and the bleaching comes last, on finished cloth. Today machines do most of it, in the same order.
@@ -2287,7 +2304,7 @@ _He holds the linen up to the light, and the light goes through it as if it were
 **The Tsar**: What do you want for it?  
 **The Old Woman**: Nothing. Nobody could put a price on it, so I shan’t try. It’s a gift.  
 
-> **Lesson** (social-studies, D2.Eco.1.K-2, ask): whether something can be worth more than a price  
+> **Lesson** (social-studies, D2.Eco.1.3-5, ask): whether something can be worth more than a price  
 > _The old woman says cloth like this is a gift or it is nothing. Can some things be worth more than any price?_  
 > _When is giving better than selling?_  
 > - Some things are too special to sell: their worth is in the giving → That’s a fair answer. A gift makes a bond between giver and receiver that money can’t. The old woman values that more than coins.
@@ -2321,7 +2338,7 @@ _In the old tales “Tsar” is the title of a ruler of the land, a little like 
 _Three days later a man from the palace knocks at the door, with the linen under his arm and a worried face._  
 **The Old Woman**: Nobody at court can sew it. The needles slide off it. The Tsar asks, whoever spun it and wove it, can she make shirts of it?  
 **Vasilisa**: Yes. Tell him yes.  
-_She sews for a week: twelve shirts, one after another, at the window where the light is best._  
+_She sews two shirts a day at the window, where the light is best, until there are twelve. Your Nubbin guards the pile._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): division: 12 ÷ 2  
 > _She makes twelve shirts. If she finished two shirts every day, how many days would twelve shirts take?_  
@@ -2399,7 +2416,7 @@ _Vasilisa looks at you, and you look at her. She doesn’t need anybody to tell 
 _They are married within the month. Bells ring, somebody throws grain, and your Nubbin eats a good deal of it._  
 _The biggest bell in the tower gives a deep note, and the smallest rings high and bright._  
 
-> **Lesson** (music, 1-PS4-1, ask): bigger bells make lower notes  
+> **Lesson** (music, 4-PS3-2, ask): bigger bells make lower notes  
 > _The biggest bell gives the deepest note. Why?_  
 > - ✅ Bigger bells vibrate more slowly, and slower vibrations make lower notes → Yes. A big bell shakes slowly, so its note is deep, and a small bell shakes quickly, so its note is high. Pitch depends on the speed of vibration.
 > - Bigger bells are simply louder → Loudness and pitch are different. A big bell can be loud, but its note is lower because it vibrates more slowly.
@@ -2411,9 +2428,15 @@ _The biggest bell in the tower gives a deep note, and the smallest rings high an
 
 _In the spring the merchant comes home over the hill, thinner and browner, with a sledge full of far-off things._  
 **The Merchant**: Married? My Vasilisa? To whom? To the… oh. Oh, my goodness.  
+_He pats his coat and finds what he promised: a silver thimble. Vasilisa puts it in her other pocket, away from the doll._  
+**The Merchant**: And the woman with the map? Did she say who won?  
+**You**: She says it was a draw.  
+**The Merchant**: That is exactly what the winner would say.  
 _She takes him to live with her, and the old woman too, who complains about the palace stairs and is very happy._  
 _Your Nubbin carries Baba Yaga’s bag of oats down the palace steps, as proudly as it carried it out of the wood._  
-_Last of all, Vasilisa gives your Nubbin a painted doll no bigger than a thumb, in a pouch of its own on a cord._  
+_Last of all, Vasilisa gives your Nubbin a little painted copy of her doll, no bigger than a thumb, in a pouch on a cord._  
+**Vasilisa**: The real one stays with me. She has work to do. This one only has to be looked after.  
+_Your Nubbin looks into the pouch, then at Vasilisa’s pocket, and decides this is fair._  
 _The tale ends the way the old books end it: the little doll stayed in her pocket, always._  
 
 > **Lesson** (literacy, RL.4.2, ask): the theme of a story  
@@ -2424,6 +2447,8 @@ _The tale ends the way the old books end it: the little doll stayed in her pocke
 > _For grown-ups: Identified the story’s theme: caring for others, and being cared for in return, is a kind of strength._
 
 _The page settles, and you are back in the Grove with the atlas on your knee. Your Nubbin checks its pouch twice: the small painted doll is still there._  
+_Your Nubbin tucks the doll in its pouch in with the rest of its collection, which now lives in your coat._  
+_Your coat pocket has stopped trying._  
 
 #### `reader:a18-16-complete-doll` · [main](main.md#a18-16-complete-doll)
 
@@ -2431,10 +2456,16 @@ _Variant of `a18-16-complete`._
 
 _In the spring the merchant comes home over the hill, thinner and browner, with a sledge full of far-off things._  
 **The Merchant**: Married? My Vasilisa? To whom? To the… oh. Oh, my goodness.  
+_He pats his coat and finds what he promised: a silver thimble. Vasilisa puts it in her other pocket, away from the doll._  
+**The Merchant**: And the woman with the map? Did she say who won?  
+**You**: She says it was a draw.  
+**The Merchant**: That is exactly what the winner would say.  
 _She takes him to live with her, and the old woman too, who complains about the palace stairs and is very happy._  
 **Vasilisa**: She wove this on her little loom. She wants your little one to have something.  
 _A cloth the size of a handkerchief, fine as breath. Your Nubbin sniffs it, and lies down on it at once._  
-_Last of all, Vasilisa gives your Nubbin a painted doll no bigger than a thumb, in a pouch of its own on a cord._  
+_Last of all, Vasilisa gives your Nubbin a little painted copy of her doll, no bigger than a thumb, in a pouch on a cord._  
+**Vasilisa**: The real one stays with me. She has work to do. This one only has to be looked after.  
+_Your Nubbin looks into the pouch, then at Vasilisa’s pocket, and decides this is fair._  
 _The tale ends the way the old books end it: the little doll stayed in her pocket, always._  
 
 > **Lesson** (literacy, RL.4.2, ask): theme: kindness returns  
@@ -2445,6 +2476,8 @@ _The tale ends the way the old books end it: the little doll stayed in her pocke
 > _For grown-ups: Connected a story event to its theme: kindness is repaid._
 
 _The page settles, and you are back in the Grove with the atlas on your knee. Your Nubbin checks its pouch twice: the small painted doll is still there._  
+_Your Nubbin tucks the doll in its pouch in with the rest of its collection, which now lives in your coat._  
+_Your coat pocket has stopped trying._  
 
 #### `reader:a18-16-complete-self` · [main](main.md#a18-16-complete-self)
 
@@ -2452,10 +2485,16 @@ _Variant of `a18-16-complete`._
 
 _In the spring the merchant comes home over the hill, thinner and browner, with a sledge full of far-off things._  
 **The Merchant**: Married? My Vasilisa? To whom? To the… oh. Oh, my goodness.  
+_He pats his coat and finds what he promised: a silver thimble. Vasilisa puts it in her other pocket, away from the doll._  
+**The Merchant**: And the woman with the map? Did she say who won?  
+**You**: She says it was a draw.  
+**The Merchant**: That is exactly what the winner would say.  
 _She takes him to live with her, and the old woman too, who complains about the palace stairs and is very happy._  
 _At the wedding the Tsar wears one shirt you know: yours, the plainest of the twelve. He says it is for ordinary days._  
 _Vasilisa presses its spare button into your hand. It is plain, and white, and yours._  
-_Last of all, Vasilisa gives your Nubbin a painted doll no bigger than a thumb, in a pouch of its own on a cord._  
+_Last of all, Vasilisa gives your Nubbin a little painted copy of her doll, no bigger than a thumb, in a pouch on a cord._  
+**Vasilisa**: The real one stays with me. She has work to do. This one only has to be looked after.  
+_Your Nubbin looks into the pouch, then at Vasilisa’s pocket, and decides this is fair._  
 _The tale ends the way the old books end it: the little doll stayed in her pocket, always._  
 
 > **Lesson** (literacy, RL.4.2, ask): theme: honest work matters  
@@ -2466,6 +2505,8 @@ _The tale ends the way the old books end it: the little doll stayed in her pocke
 > _For grown-ups: Connected a story detail to its theme: honest work has worth even when plain._
 
 _The page settles, and you are back in the Grove with the atlas on your knee. Your Nubbin checks its pouch twice: the small painted doll is still there._  
+_Your Nubbin tucks the doll in its pouch in with the rest of its collection, which now lives in your coat._  
+_Your coat pocket has stopped trying._  
 
 #### `reader:a18-16-sable` · [main](main.md#a18-16-sable)
 

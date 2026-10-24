@@ -293,7 +293,7 @@ Hint: Borrow Granny’s bicycle and follow Mr Kusakabe along the road past the f
 
 #### <a id="a17-04-ride"></a>Scene `a17-04-ride`
 
-**Mr Kusakabe**: We’re visiting their mother today. Would you like to come? It’s a long way, but it’s all downhill. Going.  
+**Mr Kusakabe**: We’re visiting their mother today. Would you like to come? It’s all downhill on the way there. We don’t talk about the way back.  
 _Granny lends you her bicycle, which is black and heavy and squeaks on every turn of the pedals._  
 _Mr Kusakabe rides in front, with Mei on a little seat on the handlebars and Satsuki on the carrier behind._  
 _Your Nubbin rides in your basket, ears flat in the wind._  
@@ -305,6 +305,8 @@ _The road runs between the rice fields, past a pond, and over the hill. Everywhe
 - **Race them to the top of the hill.**
     - You stand on the pedals, and Mr Kusakabe stands on his. Both bicycles squeak like geese.
     - He wins, by a wheel, and then has to sit at the top getting his breath back for quite a long time.
+    - **Mr Kusakabe**: Downhill. I did say downhill.
+    - He says it lying on the verge, to the sky.
 - **Ride slowly and let them win.**
     - You let them win. Mei shouts back at you all the way down the other side, and your Nubbin waves at her from the basket.
 
@@ -462,7 +464,9 @@ _You slide down after it, into a hollow under the tree. It is warm, and dim, and
 _Something is breathing. Something very large._  
 _A great grey-and-white shape is asleep in the hollow, bigger than Granny’s house. Its ears twitch in its sleep._  
 _And on top of it, on its round white stomach, Mei is lying on her front with her chin in her hands._  
-**Mei** _(happy)_: Shh. He’s asleep. He’s so soft. He told me his name. It’s a big rumbly one.  
+**Mei** _(happy)_: Shh. He’s asleep. He told me his name. It goes rrrrOOOOMMMmmm.  
+**Mei**: I’m going to practise.  
+_She practises. The great spirit, asleep, rumbles back, much better._  
 _The great spirit opens his mouth in a yawn like a gate swinging open. Mei laughs, and he closes it again, and sleeps on._  
 _Your Nubbin climbs up his side, very carefully, and curls up next to Mei. The stomach rises and falls under both of them._  
 
@@ -609,7 +613,7 @@ _Kanta lives at Granny’s, in the room at the back. Through the hedge you can h
 
 _The next time it rains, the umbrella goes past Granny’s gate on its way to school, with Kanta under it._  
 _He holds it a little to one side, as if someone might want to share it. Nobody does, and he holds it to one side anyway._  
-**Granny** _(happy)_: That boy. He’d give you his head if it wasn’t screwed on.  
+**Granny** _(happy)_: That boy. He’d give you his own boots and walk home in the snow.  
 
 **Rewards**
 
@@ -652,7 +656,9 @@ _Mei has gone to the corn. She is pulling at a fat ear with both hands, and it i
 
 #### <a id="a17-08-field-done"></a>Done `a17-08-field-done`
 
-_Mei carries her ear of corn home herself, in both arms, like a baby. Nobody else is allowed to hold it._  
+_Mei carries her ear of corn home in both arms, like a baby. Your Nubbin offers to help._  
+**Mei**: No. You’ve looked at it twice.  
+_Your Nubbin walks home behind her, not looking at the corn, very hard._  
 
 ### Step 2: Read over Satsuki’s letter to her mother.
 
@@ -713,7 +719,7 @@ Hint: Carry Granny’s lantern and walk down the dark road with the girls. · ch
 
 _It has rained since teatime. Mr Kusakabe went to the university without an umbrella, as he always does._  
 **Satsuki**: We’ll take Dad’s umbrella to the bus stop. Mei’s coming too. She won’t stay behind.  
-**Granny**: Take my lantern, and take the Keeper. It’s black as a boot out there.  
+**Granny**: Take my lantern, and take the Keeper. It’s as dark as the inside of a boot out there.  
 _So the four of you go down the road in the dark: Satsuki with her umbrella and her father’s under her arm, Mei under a small one, you with the lantern._  
 _Your Nubbin walks under Mei’s umbrella, because there is just room._  
 _The bus stop is a sign on a post and a little wooden shelter, at the edge of the wood. The rain drums on everything._  
@@ -1258,7 +1264,7 @@ _A bicycle bell rings in the lane. Kanta, on a bicycle much too big for him, sto
 
 _Variant of `a17-14-tunnel-hunt`._
 
-_Kanta pedals hard along the lane, standing up, shouting Mei’s name at every turning._  
+_Kanta pedals hard along the lane, standing up, shouting Mei’s name at every turning. Twice he shouts it at a cow. The cow takes it well._  
 
 #### <a id="a17-14-tunnel-done"></a>Done `a17-14-tunnel-done`
 
@@ -1449,6 +1455,8 @@ _The Catbus runs over the hills in the dusk, through the pine woods, faster than
 _Mei sits in Satsuki’s lap with the corn in hers. Neither of them lets go of anything._  
 **Mei**: Onee-chan, are we nearly there?  
 **Satsuki** _(soft)_: Nearly.  
+_Mei counts the telegraph poles to make sure: “One, two, five, nine, eleven.” They go past very fast._  
+**Mei**: We’re nearly there. I counted.  
 
 #### <a id="a17-15-complete-hunt"></a>Variant `a17-15-complete-hunt`
 
@@ -1565,7 +1573,7 @@ _She doesn’t ask. She grabs Mei, and then Satsuki, and then, for some reason, 
 _Later in the summer Mrs Kusakabe comes home. It was only a cold, and she is getting well._  
 _She comes up the road from the bus stop, slowly, and the girls run down to meet her. You watch from Granny’s step._  
 _Then the page goes soft under your hand, and it is the Grove, with Nova’s atlas on your knee._  
-_Your Nubbin refuses to take its leaf off. By the lane stands a bench like a country bus stop; on the shelf, an ear of corn, dried gold._  
+_Your Nubbin adds a leaf it will not take off, even in the bath, to its collection. By the lane stands a bench like a country bus stop; on the shelf, an ear of corn, dried gold._  
 
 #### <a id="a17-16-complete-hunt"></a>Variant `a17-16-complete-hunt`
 
@@ -1578,7 +1586,7 @@ _Kanta goes red to the ears, and is very busy with the bicycle._
 _Later in the summer Mrs Kusakabe comes home. It was only a cold, and she is getting well._  
 _She comes up the road from the bus stop, slowly, and the girls run down to meet her. You watch from Granny’s step, with Kanta._  
 _Then the page goes soft under your hand, and it is the Grove, with Nova’s atlas on your knee._  
-_Your Nubbin refuses to take its leaf off. By the lane stands a bench like a country bus stop; on the shelf, an ear of corn, dried gold._  
+_Your Nubbin adds a leaf it will not take off, even in the bath, to its collection. By the lane stands a bench like a country bus stop; on the shelf, an ear of corn, dried gold._  
 
 **Rewards**
 
@@ -1588,7 +1596,7 @@ _Your Nubbin refuses to take its leaf off. By the lane stands a bench like a cou
 
 Sets on completion: `{"a17-16":true,"a17-done":true}`
 
-**Notes:** TUNNEL PAYOFF (a17-tunnel). The scenes shown are for wait: you watch from inside the Catbus. For hunt, play A17_VARIANTS a17-16-window-hunt (step 1), a17-16-corn-hunt (step 2), a17-16-corn-hunt-done and a17-16-complete-hunt: you watch from the road below with Kanta. Both are warm; one is closer. CARE NOTE: “only a cold” is the last word on the mother (a17-16-complete#3, and in a17-16-window#4). Her illness is never named. “To Mother” is scratched in Japanese on the husk (おかあさんへ, in a child’s hand guided by an older one); the atlas lets the player read it. SIM: (a) the bench is a decoration with a wooden shelter and a post sign; it is decor only, no bus, no timer. (b) The bookmark is an item in the atlas; the Long Table festival (A11, A13, A17, A18, A22, any two) reads atlasDone('A17'). (c) The leaf hat was given in A17-9.
+**Notes:** TUNNEL PAYOFF (a17-tunnel). The scenes shown are for wait: you watch from inside the Catbus. For hunt, play A17_VARIANTS a17-16-window-hunt (step 1), a17-16-corn-hunt (step 2), a17-16-corn-hunt-done and a17-16-complete-hunt: you watch from the road below with Kanta. Both are warm; one is closer. CARE NOTE: “only a cold” is the last word on the mother (a17-16-complete#3, and in a17-16-window#4). Her illness is never named. “To Mother” is scratched in Japanese on the husk (おかあさんへ, in a child’s hand guided by an older one); the atlas lets the player read it. SIM: (a) the bench is a decoration with a wooden shelter and a post sign; it is decor only, no bus, no timer. (b) The bookmark is an item in the atlas; the Long Table festival (A11, A13, A17, A18, A22, any two) reads atlasDone('A17'). (c) The leaf hat was given in A17-9. (d) KEEPSAKE GAG (SR-20261024-704): this page names only its own item, the leaf.
 
 ## Variant scenes
 

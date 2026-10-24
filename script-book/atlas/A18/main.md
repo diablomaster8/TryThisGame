@@ -136,7 +136,7 @@ Hint: Keep the candle steady and don’t speak. · check: `watch:a18-doll:cellar
 
 _Vasilisa kneels on an upturned tub between the potatoes and the pickle crocks. She sets the doll on the tub, facing her._  
 _Out of her apron come the crust, the egg and the honey cake. She lays them in front of the doll in a careful row._  
-_Vasilísa often ate nothing herself, and kept the tastiest morsels for the doll; tonight is the first night you see it._  
+_The old book says it plainly: “Vasilísa often ate nothing herself, and kept the tastiest morsels for the doll;” tonight you see it._  
 **Vasilisa** _(sad)_: Dollet, eat and listen to my misery.  
 **Vasilisa** _(sad)_: Mother’s gone and Father’s sad and everybody brings pies. I don’t want pies. I want to know what to do.  
 _For a moment nothing happens. Then the doll’s painted eyes begin to shine, like two drops of lamp oil with a light behind them._  
@@ -350,6 +350,8 @@ _Your Nubbin walks round her twice, puzzled, as if she were a tree it used to kn
 
 - **Ask who’s been knocking.**
     - **Vasilisa**: Young men. For me. Not for my sisters. You can imagine how that’s going.
+    - **Vasilisa**: One brought a goose. I think he hoped the goose would do the talking.
+    - Your Nubbin looks round for the goose. It is a Nubbin with a lot of time for geese.
 - **Ask, very quietly, about her pocket.**
     - **Vasilisa**: Still there. Still eats better than I do. She says hello.
     - The doll has said no such thing. Vasilisa is being kind to your Nubbin.
@@ -562,6 +564,9 @@ Hint: Stay at the table. It is about to go dark. · check: `watch:a18-wick:table
 _She reaches out with the scissors and snips, and the flame goes out. All of it, every bit of light in the house._  
 **The Elder Sister** _(shock)_: Oh! Oh dear. By accident.  
 _In the dark, your Nubbin climbs straight up your front and into your coat._  
+_Somebody walks into a chair._  
+**The Elder Sister** _(shock)_: Sorry! Oh, it’s a chair. Sorry, chair.  
+**The Elder Sister**: That wasn’t me, by the way. Nobody saw, so it wasn’t anybody.  
 **The Stepmother**: Now what? No fire in the house, and the stove gone out. We must have light.  
 **The Younger Sister**: Well, I’m not going. I can see by my pins.  
 **The Elder Sister**: And I can see by my needles. I’m not going either.  
@@ -834,6 +839,8 @@ _Soup enough for ten. A side of pork, pies, porridge, a whole goose, a jug of kv
 **Baba Yaga** _(happy)_: More! Is that the lot? Look in the back. There’s always something at the back.  
 _She eats the way the wind takes a field: all of it, from one side to the other, and nothing left standing._  
 _Your Nubbin watches the goose go, with an expression of real grief._  
+**Baba Yaga**: What? It was a small goose.  
+_It was not a small goose._  
 **Baba Yaga** _(happy)_: Ah. Better. That’s what an old woman needs. A little something.  
 _On the table she leaves a bowl with a little soup at the bottom, a crust, and a scrap of pork the size of your thumb._  
 **Baba Yaga**: That’s yours, girl. Supper. And a crust for you, friend from elsewhere, since you carried. Don’t say I’m not fair.  
@@ -1294,6 +1301,8 @@ _She lifts the stick to throw. Your Nubbin puts both paws over its eyes._
 _The voice comes from the skull. It is a dry voice, like leaves, and not at all unkind._  
 **The Skull**: Take me to your stepmother’s house. That is where I’m wanted.  
 **Vasilisa** _(shock)_: Oh.  
+**The Skull**: And mind you don’t swing me. I’ve been on a stick all day.  
+_Vasilisa holds the stick very, very still. Your Nubbin takes its paws off its eyes, to see what manners look like on a skull._  
 
 **Choices**
 
@@ -1656,11 +1665,19 @@ _They are married within the month. Bells ring, somebody throws grain, and your 
 
 _In the spring the merchant comes home over the hill, thinner and browner, with a sledge full of far-off things._  
 **The Merchant** _(shock)_: Married? My Vasilisa? To whom? To the… oh. Oh, my goodness.  
+_He pats his coat and finds what he promised: a silver thimble. Vasilisa puts it in her other pocket, away from the doll._  
+**The Merchant** _(happy)_: And the woman with the map? Did she say who won?  
+**You**: She says it was a draw.  
+**The Merchant** _(think)_: That is exactly what the winner would say.  
 _She takes him to live with her, and the old woman too, who complains about the palace stairs and is very happy._  
 _Your Nubbin carries Baba Yaga’s bag of oats down the palace steps, as proudly as it carried it out of the wood._  
-_Last of all, Vasilisa gives your Nubbin a painted doll no bigger than a thumb, in a pouch of its own on a cord._  
+_Last of all, Vasilisa gives your Nubbin a little painted copy of her doll, no bigger than a thumb, in a pouch on a cord._  
+**Vasilisa** _(soft)_: The real one stays with me. She has work to do. This one only has to be looked after.  
+_Your Nubbin looks into the pouch, then at Vasilisa’s pocket, and decides this is fair._  
 _The tale ends the way the old books end it: and the doll ever remained in her pocket._  
 _The page settles, and you are back in the Grove with the atlas on your knee. Your Nubbin checks its pouch twice: the small painted doll is still there._  
+_Your Nubbin tucks the doll in its pouch in with the rest of its collection, which now lives in your coat._  
+_Your coat pocket has stopped trying._  
 
 #### <a id="a18-16-complete-doll"></a>Variant `a18-16-complete-doll`
 
@@ -1668,12 +1685,20 @@ _Variant of `a18-16-complete`._
 
 _In the spring the merchant comes home over the hill, thinner and browner, with a sledge full of far-off things._  
 **The Merchant** _(shock)_: Married? My Vasilisa? To whom? To the… oh. Oh, my goodness.  
+_He pats his coat and finds what he promised: a silver thimble. Vasilisa puts it in her other pocket, away from the doll._  
+**The Merchant** _(happy)_: And the woman with the map? Did she say who won?  
+**You**: She says it was a draw.  
+**The Merchant** _(think)_: That is exactly what the winner would say.  
 _She takes him to live with her, and the old woman too, who complains about the palace stairs and is very happy._  
 **Vasilisa** _(soft)_: She wove this on her little loom. She wants your little one to have something.  
 _A cloth the size of a handkerchief, fine as breath. Your Nubbin sniffs it, and lies down on it at once._  
-_Last of all, Vasilisa gives your Nubbin a painted doll no bigger than a thumb, in a pouch of its own on a cord._  
+_Last of all, Vasilisa gives your Nubbin a little painted copy of her doll, no bigger than a thumb, in a pouch on a cord._  
+**Vasilisa** _(soft)_: The real one stays with me. She has work to do. This one only has to be looked after.  
+_Your Nubbin looks into the pouch, then at Vasilisa’s pocket, and decides this is fair._  
 _The tale ends the way the old books end it: and the doll ever remained in her pocket._  
 _The page settles, and you are back in the Grove with the atlas on your knee. Your Nubbin checks its pouch twice: the small painted doll is still there._  
+_Your Nubbin tucks the doll in its pouch in with the rest of its collection, which now lives in your coat._  
+_Your coat pocket has stopped trying._  
 
 #### <a id="a18-16-complete-self"></a>Variant `a18-16-complete-self`
 
@@ -1681,12 +1706,20 @@ _Variant of `a18-16-complete`._
 
 _In the spring the merchant comes home over the hill, thinner and browner, with a sledge full of far-off things._  
 **The Merchant** _(shock)_: Married? My Vasilisa? To whom? To the… oh. Oh, my goodness.  
+_He pats his coat and finds what he promised: a silver thimble. Vasilisa puts it in her other pocket, away from the doll._  
+**The Merchant** _(happy)_: And the woman with the map? Did she say who won?  
+**You**: She says it was a draw.  
+**The Merchant** _(think)_: That is exactly what the winner would say.  
 _She takes him to live with her, and the old woman too, who complains about the palace stairs and is very happy._  
 _At the wedding the Tsar wears one shirt you know: yours, the plainest of the twelve. He says it is for ordinary days._  
 _Vasilisa presses its spare button into your hand. It is plain, and white, and yours._  
-_Last of all, Vasilisa gives your Nubbin a painted doll no bigger than a thumb, in a pouch of its own on a cord._  
+_Last of all, Vasilisa gives your Nubbin a little painted copy of her doll, no bigger than a thumb, in a pouch on a cord._  
+**Vasilisa** _(soft)_: The real one stays with me. She has work to do. This one only has to be looked after.  
+_Your Nubbin looks into the pouch, then at Vasilisa’s pocket, and decides this is fair._  
 _The tale ends the way the old books end it: and the doll ever remained in her pocket._  
 _The page settles, and you are back in the Grove with the atlas on your knee. Your Nubbin checks its pouch twice: the small painted doll is still there._  
+_Your Nubbin tucks the doll in its pouch in with the rest of its collection, which now lives in your coat._  
+_Your coat pocket has stopped trying._  
 
 #### <a id="a18-16-sable"></a>Variant `a18-16-sable`
 
@@ -1709,8 +1742,8 @@ Sets on completion: `{"a18-16":true,"a18-done":true}`
 
 **Learning Grove swaps**
 
-- `a18-16-complete#5` → The tale ends the way the old books end it: the little doll stayed in her pocket, always.
-- `a18-16-complete-doll#6` → The tale ends the way the old books end it: the little doll stayed in her pocket, always.
-- `a18-16-complete-self#6` → The tale ends the way the old books end it: the little doll stayed in her pocket, always.
+- `a18-16-complete#11` → The tale ends the way the old books end it: the little doll stayed in her pocket, always.
+- `a18-16-complete-doll#12` → The tale ends the way the old books end it: the little doll stayed in her pocket, always.
+- `a18-16-complete-self#12` → The tale ends the way the old books end it: the little doll stayed in her pocket, always.
 
-**Notes:** CRUST PAYOFF (a18-crust). Step 2: the scene shown, a18-16-shirts, is for nubbin and doll; for self play ATLAS_A18_VARIANTS a18-16-shirts-self (you sew one of the twelve). Complete: the scene shown, a18-16-complete, is for nubbin (the bag of oats comes home). For doll play a18-16-complete-doll (Vasilisa gives you the handkerchief: "She wants your little one to have something"); for self play a18-16-complete-self (the Tsar picks your shirt as the plainest, and you keep its spare button). In every path the doll stays in Vasilisa’s pocket. REWARDS: the doll charm and the Long Table bookmark on every path. Grant only the keepsake matching a18-crust: nubbin → a18-yaga-oats, doll → a18-hanky-cloth, self → a18-shirt-button. All one-time. LIFTED TEXT: the tale’s last words, as a fragment inside our own sentence, at A16_END#1 in all three complete scenes (a18-16-complete#5, a18-16-complete-doll#6, a18-16-complete-self#6). SABLE (read-only): if Sable is bonded in the Grove, play ATLAS_A18_VARIANTS a18-16-sable straight after a18-16-complete*, as the atlas shuts. SIM: (a) the doll charm is a cosmetic pouch on a cord, worn by one Nubbin at a time. (b) The handkerchief cloth lines your Nubbin’s bed in the Grove (Tier 2): a texture swap on the bed, read through a read-only atlasFlag('a18-crust') lookup beside atlasDone(id). (c) The bookmark is an atlas item; the Long Table festival (A11, A13, A17, A18, A22, any two) reads atlasDone('A18'), and when A18 is done the festival lays one empty place at the table with the best morsels on it, "for the doll". (d) The merchant’s silver thimble is a story beat only, not a reward.
+**Notes:** CRUST PAYOFF (a18-crust). Step 2: the scene shown, a18-16-shirts, is for nubbin and doll; for self play ATLAS_A18_VARIANTS a18-16-shirts-self (you sew one of the twelve). Complete: the scene shown, a18-16-complete, is for nubbin (the bag of oats comes home). For doll play a18-16-complete-doll (Vasilisa gives you the handkerchief: "She wants your little one to have something"); for self play a18-16-complete-self (the Tsar picks your shirt as the plainest, and you keep its spare button). In every path the doll stays in Vasilisa’s pocket. REWARDS: the doll charm and the Long Table bookmark on every path. Grant only the keepsake matching a18-crust: nubbin → a18-yaga-oats, doll → a18-hanky-cloth, self → a18-shirt-button. All one-time. LIFTED TEXT: the tale’s last words, as a fragment inside our own sentence, at A16_END#3 in all three complete scenes (a18-16-complete#11, a18-16-complete-doll#12, a18-16-complete-self#12). SABLE (read-only): if Sable is bonded in the Grove, play ATLAS_A18_VARIANTS a18-16-sable straight after a18-16-complete*, as the atlas shuts. SIM: (a) the doll charm is a cosmetic pouch on a cord, worn by one Nubbin at a time. (b) The handkerchief cloth lines your Nubbin’s bed in the Grove (Tier 2): a texture swap on the bed, read through a read-only atlasFlag('a18-crust') lookup beside atlasDone(id). (c) The bookmark is an atlas item; the Long Table festival (A11, A13, A17, A18, A22, any two) reads atlasDone('A18'), and when A18 is done the festival lays one empty place at the table with the best morsels on it, "for the doll". (d) The merchant’s silver thimble is a story beat only, not a reward.

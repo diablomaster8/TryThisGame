@@ -1756,7 +1756,7 @@ _When he comes to your Nubbin, he stops, and looks at it, and looks at you._
 _Without the spectacles, the City is plain stone and glass, with a little green paint here and there._  
 _It is very pretty, and not very green at all._  
 _You put your pair in your pocket. Your Nubbin keeps its own on, and you let it._  
-_It now owns a paper troll, a green bottle, an olive leaf and spectacles. Your coat pocket is getting full._  
+_It tucks the green spectacles in with the rest of its collection. Your coat pocket is getting full._  
 
 #### <a id="a15-16-complete-promised"></a>Variant `a15-16-complete-promised`
 
@@ -1769,7 +1769,7 @@ _He winks at you, the wink of a man who has been told a secret too._
 _Without the spectacles, the City is plain stone and glass, with a little green paint here and there._  
 _It is very pretty, and not very green at all._  
 _You put your pair in your pocket. Your Nubbin keeps its own on, and you let it._  
-_It now owns a paper troll, a green bottle, an olive leaf and spectacles. Your coat pocket is getting full._  
+_It tucks the green spectacles in with the rest of its collection. Your coat pocket is getting full._  
 
 #### <a id="a15-16-complete-theirs"></a>Variant `a15-16-complete-theirs`
 
@@ -1782,7 +1782,7 @@ _When he comes to your Nubbin, he stops, and looks at it, and looks at you._
 _Without the spectacles, the City is plain stone and glass, with a little green paint here and there._  
 _It is very pretty, and not very green at all._  
 _You put your pair in your pocket. Your Nubbin keeps its own on, and you let it._  
-_It now owns a paper troll, a green bottle, an olive leaf and spectacles. Your coat pocket is getting full._  
+_It tucks the green spectacles in with the rest of its collection. Your coat pocket is getting full._  
 
 **Rewards**
 

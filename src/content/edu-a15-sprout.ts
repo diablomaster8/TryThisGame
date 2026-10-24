@@ -321,7 +321,7 @@ const Q1: EduQuest = quest(
           [
             o(
               'Flat',
-              [D('Yes! Flat all the way to the sky. Wide, flat, grassy land is a prairie.')],
+              [D('Yes! Wide, flat, grassy land is a prairie.')],
               true,
             ),
             o('Bumpy', [D('Look again. No hills here! It is flat. Flat grassland is a prairie.')]),
@@ -852,7 +852,9 @@ const Q3: EduQuest = quest(
             N('Each time you call “Hole!”, he steps round it.'),
           ]),
           ch('nubbin', 'Let your Nubbin lead him.', [
-            N('Your Nubbin walks slowly. He copies every step.'),
+            N('Your Nubbin walks slowly. The Scarecrow copies every step.'),
+            N('Your Nubbin sits. The Scarecrow sits. Flump!'),
+            N('Your Nubbin scratches its ear. The Scarecrow tries. Flop!'),
           ]),
         ],
       },
@@ -1282,7 +1284,7 @@ const Q5: EduQuest = quest(
           [
             o('Yes, brave', [N('Yes! It felt scared and sat down anyway. That is brave.')], true),
             o('No, just sleepy', [
-              N('Look at its trembling paws. It was scared and did it anyway. That is brave.'),
+              N('Look at its trembling paws. It was scared, and went anyway. Brave!'),
             ]),
           ],
           'Learned the word brave: doing something even when scared.',
@@ -2202,10 +2204,13 @@ const Q9: EduQuest = quest(
         N('At last you reach a great building.'),
         N('Its doors are tall and shiny.'),
         N('It is the Palace of Oz. It stands in the middle of the city.'),
+        N('A green cat sits on a green step. It looks at the Lion.'),
+        L('Do not look at me, cat. I am being very brave.'),
+        N('The cat yawns. The Lion walks a little faster.'),
       ],
       [
         ask(
-          2,
+          5,
           SS,
           'in the middle of a map',
           'D2.Geo.2.K-2',
@@ -2766,21 +2771,16 @@ const Q12: EduQuest = quest(
         D('I am sorry! I did not know!', 'shock'),
       ],
       [
-        ask(
-          4,
-          S,
-          'sugar dissolves in water',
-          SCI,
-          [N('Put a sugar lump in hot tea. What happens to it?')],
+        notice(
+          1,
+          E,
+          'big feelings like anger',
+          CASEL_SM,
           [
-            o(
-              'It dissolves',
-              [N('Yes! It mixes into the tea until you cannot see it. That is called dissolving.')],
-              true,
-            ),
-            o('It gets bigger', [N('It gets smaller! It dissolves into the tea.')]),
+            N('Dorothy feels very angry. Anger is a big feeling, and it is okay to feel it.'),
+            N('When you feel angry, take a slow breath before you act.'),
           ],
-          'Learned that sugar dissolves in water.',
+          'Learned that anger is a normal feeling and that a slow breath helps before acting.',
         ),
       ],
       {
@@ -2802,6 +2802,7 @@ const Q12: EduQuest = quest(
         N('She puts it back on.'),
         D('She is gone. And I did not mean it.', 'sad'),
         D('Now the Lion can come out.'),
+        N('That night Dorothy has sweet tea by the fire. Your Nubbin watches the sugar vanish, very suspicious.'),
       ],
       [
         ask(
@@ -2819,6 +2820,22 @@ const Q12: EduQuest = quest(
             o('Proud', [N('Not proud. She did not mean it, so she feels sad.')]),
           ],
           'Named feelings after an accident: sad and sorry.',
+        ),
+        ask(
+          4,
+          S,
+          'sugar dissolves in water',
+          SCI,
+          [N('Put a sugar lump in hot tea. What happens to it?')],
+          [
+            o(
+              'It dissolves',
+              [N('Yes! It mixes into the tea. That is called dissolving.')],
+              true,
+            ),
+            o('It gets bigger', [N('It gets smaller! It dissolves into the tea.')]),
+          ],
+          'Learned that sugar dissolves in water.',
         ),
       ],
     ),
@@ -3123,6 +3140,8 @@ const Q14: EduQuest = quest(
         choices: [
           ch('roar', 'Tell the Lion to go on, then.', [
             N('ROAR! Toto jumps and runs into a corner.'),
+            N('From behind a screen comes a tiny squeak. Eek!'),
+            O('Ahem. THE GREAT AND TERRIBLE OZ DID NOT SQUEAK.'),
           ]),
           ch('let', 'Let go of your Nubbin.', [
             N('Your Nubbin runs after Toto, who barks at a screen.'),
@@ -3196,8 +3215,8 @@ const Q14: EduQuest = quest(
       'a15-14-screen-done',
       [
         ...POOR_WIZARD,
-        N('Somebody in the valley says safe, safe, all the time.'),
-        N('Safe, he says. As if it came in a bottle.'),
+        N('Oz built high walls to feel safe.'),
+        N('But walls keep friends out too. Oz was very lonely in there.'),
       ],
       [
         ask(
@@ -4671,7 +4690,7 @@ export const EDU_A15_SPROUT_VARIANTS: EduScene[] = [
     'a15-14-screen-done-reconciled',
     [
       ...POOR_WIZARD,
-      N('You think of a lonely man you know.'),
+      N('You think of Corvin, back in the valley.'),
       N('He said sorry, and gave back what was not his.', 'soft'),
     ],
     [HUMBUG_ASK(3)],
@@ -4680,7 +4699,7 @@ export const EDU_A15_SPROUT_VARIANTS: EduScene[] = [
     'a15-14-screen-done-bargained',
     [
       ...POOR_WIZARD,
-      N('You think of a lonely man you know.'),
+      N('You think of Corvin, back in the valley.'),
       N('He swapped his trick for other things. That did not make it right.'),
     ],
     [HUMBUG_ASK(3)],
@@ -4689,7 +4708,7 @@ export const EDU_A15_SPROUT_VARIANTS: EduScene[] = [
     'a15-14-screen-done-forced',
     [
       ...POOR_WIZARD,
-      N('You think of a lonely man you know.'),
+      N('You think of Corvin, back in the valley.'),
       N('He only stopped when he fell, with a big bump.', 'sad'),
     ],
     [HUMBUG_ASK(3)],

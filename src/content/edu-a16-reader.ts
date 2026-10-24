@@ -194,7 +194,7 @@ const desertScene = (of: string, sable?: Line): EduScene => {
           PI('It’s the biggest hot desert on Earth. You’ll want a hat.'),
         ],
         'Learned that a desert gets very little rain, and that the Sahara is the biggest hot desert.',
-        '2-LS4-1',
+        '3-LS4-3',
       ),
     ],
     [
@@ -373,7 +373,7 @@ const Q1_SCENES: EduScene[] = [
           PI('Engine makers use them all the time. So do doctors, and so do people who dig wells.'),
         ],
         'Learned that a cross-section is a drawing that shows the inside of something.',
-        'L.2.4',
+        'L.3.4',
       ),
       ask(
         'sel',
@@ -466,7 +466,7 @@ const Q2_SCENES: EduScene[] = [
           ),
         ],
         'Learned why deserts can be very hot by day and cold at night.',
-        'K-PS3-1',
+        '4-PS3-2',
       ),
     ],
     [
@@ -557,7 +557,7 @@ const Q2_SCENES: EduScene[] = [
           ),
         ],
         'Learned that inferring means using clues to work out what is not said.',
-        'RL.2.3',
+        'RL.3.3',
       ),
     ],
   ),
@@ -593,7 +593,6 @@ const Q2_SCENES: EduScene[] = [
           ),
         ],
         'Learned that sheep are herbivores and what a muzzle is for.',
-        'K-LS1-1',
       ),
     ],
     [
@@ -764,7 +763,6 @@ const Q3_SCENES: EduScene[] = [
           ),
         ],
         'Learned that asteroids are small rocky worlds and that real ones are numbered.',
-        '1-ESS1-1',
       ),
       ask(
         'maths',
@@ -992,8 +990,10 @@ const Q4_SCENES: EduScene[] = [
       N(
         'You move your chair, and your Nubbin rolls its pebble. The sun goes down a third time, pink and then gold.',
       ),
-      PR(
-        'Once I watched it lots and lots of times in one day. I lost count somewhere after forty.',
+      PR('Once I watched it forty-four times in one day.'),
+      PR('It’s four steps of my chair each time. Let’s do ten, you and me.'),
+      N(
+        'Your Nubbin rolls its pebble four rolls every sunset. By the sixth it is rolling in circles, and so are its eyes.',
       ),
       N('He doesn’t say why. He moves his chair again, and sits, and holds his knees.'),
     ],
@@ -1001,13 +1001,11 @@ const Q4_SCENES: EduScene[] = [
       doIt(
         'maths',
         'multiplication: equal groups of steps',
-        5,
+        7,
         'edu:count:chair-steps:40',
         [
           PR('Four chair-steps for every sunset. Move your chair and count along with me.'),
-          N(
-            'Ten sunsets make ten groups of four steps. Count them in fours: 4, 8, 12, and on until you reach forty.',
-          ),
+          N('Ten sunsets, four steps each. Count in fours: 4, 8, 12, and on up to forty.'),
         ],
         'Skip-counted in fours to find 10 × 4 = 40.',
         '3.OA.A.3',
@@ -1050,7 +1048,6 @@ const Q4_SCENES: EduScene[] = [
           ),
         ],
         'Learned the difference between warm and cool colours, and that the names come from touch.',
-        'RL.1.4',
       ),
     ],
   ),
@@ -1296,7 +1293,7 @@ const Q5_SCENES: EduScene[] = [
           ]),
         ],
         'Thought about asking people what they want, and listening, as a way of showing respect.',
-        'D2.Civ.8.K-2',
+        'D2.Civ.8.3-5',
       ),
     ],
     [
@@ -1335,7 +1332,6 @@ const Q5_SCENES: EduScene[] = [
           ),
         ],
         'Learned some properties of glass: transparent, hard and brittle.',
-        '2-PS1-1',
       ),
     ],
   ),
@@ -1414,23 +1410,26 @@ const Q5_SCENES: EduScene[] = [
     'a16-05-goodbye-done',
     [
       RO('Go on, then. Don’t hang about. You’ve decided.'),
-      N('She looks hard at the sun, so he can’t see her face. Nobody is prouder than a rose.'),
+      N('She stares at the sun, and will not turn round. Nobody is prouder than a rose.'),
     ],
     [
-      notice(
+      ask(
         'literacy',
         'actions can show feelings that words hide',
         1,
+        [N('The Rose says “Go on, then,” but she stares at the sun. Why might she do that?')],
         [
-          N(
-            'The rose says “Go on, then,” but she looks hard at the sun. Her words and her actions don’t match.',
+          opt(
+            'So he can’t see her face.',
+            [N('Yes. Her words say go. Her face might say stay.')],
+            true,
           ),
-          N(
-            'When that happens in a story, the action often shows the real feeling. Here, she is hiding that she is sad.',
-          ),
+          opt('She likes the weather.', [
+            N('It’s a fine sun. But she is staring hard, so he can’t see her face.'),
+          ]),
         ],
-        'Learned that what a character does can show a feeling their words hide.',
-        'RL.2.3',
+        'Worked out that what a character does can show a feeling their words hide.',
+        'RL.3.3',
       ),
     ],
   ),
@@ -1454,7 +1453,7 @@ const Q5_SCENES: EduScene[] = [
       notice(
         'art',
         'a few simple marks can stand for a whole thing',
-        1,
+        4,
         [
           N('Four little marks in the sand, and we know exactly who he means.'),
           N(
@@ -1545,7 +1544,7 @@ const Q6_SCENES: EduScene[] = [
           ]),
         ],
         'Thought about what makes a rule fair and possible to follow.',
-        'D2.Civ.8.K-2',
+        'D2.Civ.8.3-5',
       ),
     ],
     [
@@ -1620,7 +1619,7 @@ const Q6_SCENES: EduScene[] = [
           ),
         ],
         'Learned that sunset times change through the year because the Earth is tilted.',
-        '1-ESS1-2',
+        '5-ESS1-2',
       ),
       ask(
         'maths',
@@ -1758,7 +1757,7 @@ const Q7_SCENES: EduScene[] = [
         'It is for raising. When people clap me, I raise it. Unfortunately, hardly anybody comes this way.',
       ),
       N(
-        'The boy claps a few times, to be kind, and off comes the hat. It goes on for five minutes and gets very dull.',
+        'The boy claps once every two seconds, to be kind, and off comes the hat each time. It goes on for five minutes and gets very dull.',
       ),
       N('Now the man looks at you hopefully. He has arranged his feet for bowing.'),
     ],
@@ -1769,7 +1768,7 @@ const Q7_SCENES: EduScene[] = [
         4,
         [
           N(
-            'Say the boy claps once every two seconds, and the hat comes off each time. How many times does it come off in five minutes?',
+            'The boy claps once every two seconds, and the hat comes off each time. How many times does it come off in five minutes?',
           ),
         ],
         [
@@ -1938,7 +1937,7 @@ const Q7_SCENES: EduScene[] = [
           ]),
         ],
         'Used a character’s actions as clues to how it feels.',
-        'RL.2.3',
+        'RL.3.3',
       ),
     ],
   ),
@@ -1978,7 +1977,6 @@ const Q7_SCENES: EduScene[] = [
           opt('Four.', [N('Four is how many came back. Nine take away four leaves five.')]),
         ],
         'Solved a subtraction word problem within 20.',
-        '1.OA.A.1',
       ),
     ],
   ),
@@ -2038,7 +2036,7 @@ const Q8_SCENES: EduScene[] = [
           ),
         ],
         'Learned the French word étoile (star).',
-        'L.2.4',
+        'L.3.4',
       ),
       ask(
         'social-studies',
@@ -2066,7 +2064,7 @@ const Q8_SCENES: EduScene[] = [
           ]),
         ],
         'Thought about what owning means and why fair rules matter.',
-        'D2.Civ.8.K-2',
+        'D2.Civ.8.3-5',
       ),
     ],
     [
@@ -2318,7 +2316,7 @@ const Q9_SCENES: EduScene[] = [
           ]),
         ],
         'Thought about why rules sometimes need to change.',
-        'D2.Civ.8.K-2',
+        'D2.Civ.8.3-5',
       ),
     ],
   ),
@@ -2354,7 +2352,7 @@ const Q9_SCENES: EduScene[] = [
           ),
         ],
         'Counted one lamp-lighting per minute to find how many in half an hour and an hour.',
-        '1.MD.B.3',
+        '3.MD.A.1',
       ),
     ],
   ),
@@ -2483,7 +2481,7 @@ const Q10_SCENES: EduScene[] = [
           ),
         ],
         'Learned the four compass directions and how the Sun’s position helps find them.',
-        '2-ESS2-2',
+        '4-ESS2-2',
       ),
       notice(
         'literacy',
@@ -2496,7 +2494,7 @@ const Q10_SCENES: EduScene[] = [
           N('Scientists check what people claim by asking for evidence too.'),
         ],
         'Learned the word “evidence”: something real you can check, as scientists do.',
-        'L.2.4',
+        'L.3.4',
       ),
     ],
     [
@@ -2717,7 +2715,7 @@ const Q11_SCENES: EduScene[] = [
           ]),
         ],
         'Learned that the Sahara is a desert in northern Africa.',
-        'D2.Geo.2.K-2',
+        'D2.Geo.2.3-5',
       ),
     ],
     [
@@ -2929,6 +2927,10 @@ const Q12_SCENES: EduScene[] = [
       N(
         'Your Nubbin sits down very firmly on the peak, and looks at the echo as if it has been rude.',
       ),
+      N('Your Nubbin squeaks. The mountains squeak back, smaller and crosser.'),
+      N(
+        'It squeaks louder, and so do they. Your Nubbin decides to win by never speaking to them again.',
+      ),
       PR('This planet doesn’t talk back. It only copies.', 'sad'),
     ],
     [
@@ -2965,6 +2967,32 @@ const Q12_SCENES: EduScene[] = [
       N('He lies down in the grass, puts his face in his arms, and cries.'),
     ],
     [
+      ask(
+        'maths',
+        'division with multiples of 100',
+        1,
+        [N('There are 5,000 roses growing in rows of 100. How many rows is that?')],
+        [
+          opt(
+            '50 rows.',
+            [
+              N('Yes: 50 × 100 = 5,000, so there are 50 rows.'),
+              N('Fifty rows of roses, and not one of them is his.'),
+            ],
+            true,
+          ),
+          opt('500 rows.', [
+            N('500 rows of 100 would be 50,000 roses. That’s ten times too many.'),
+            N('50 × 100 = 5,000, so it’s 50 rows.'),
+          ]),
+          opt('5 rows.', [
+            N('Five rows of 100 would only be 500 roses.'),
+            N('We need ten times as many: 50 rows.'),
+          ]),
+        ],
+        'Divided 5,000 by 100 to find the number of rows.',
+        '3.OA.A.3',
+      ),
       ask(
         'sel',
         'what helps when someone is very sad',
@@ -3016,31 +3044,16 @@ const Q12_SCENES: EduScene[] = [
       PR('Thank you for not saying anything.', 'soft'),
     ],
     [
-      ask(
-        'maths',
-        'division with multiples of 100',
+      notice(
+        'sel',
+        'staying beside someone is a way of helping',
         1,
-        [N('There are 5,000 roses growing in rows of 100. How many rows is that?')],
         [
-          opt(
-            '50 rows.',
-            [
-              N('Yes: 50 × 100 = 5,000, so there are 50 rows.'),
-              N('Fifty rows of roses, and not one of them is his.'),
-            ],
-            true,
-          ),
-          opt('500 rows.', [
-            N('500 rows of 100 would be 50,000 roses. That’s ten times too many.'),
-            N('50 × 100 = 5,000, so it’s 50 rows.'),
-          ]),
-          opt('5 rows.', [
-            N('Five rows of 100 would only be 500 roses.'),
-            N('We need ten times as many: 50 rows.'),
-          ]),
+          N('He didn’t thank you for fixing it. He thanked you for staying, and for being quiet.'),
+          N('Sometimes the kindest help is to be there and wait.'),
         ],
-        'Divided 5,000 by 100 to find the number of rows.',
-        '3.OA.A.3',
+        'Noticed that simply staying beside a sad friend can be a real kindness.',
+        'CASEL: Relationship skills',
       ),
     ],
   ),
@@ -3064,12 +3077,10 @@ const Q12_SCENES: EduScene[] = [
           N(
             'The book this page comes from was first written in French. In French, a fox is un renard, said “ruh-NAR”.',
           ),
-          N(
-            'So this is the renard of the story, the one who teaches the boy the biggest lesson of all.',
-          ),
+          N('Your Nubbin, who has never met a renard, hides behind your ankle and looks anyway.'),
         ],
         'Learned the French word renard (fox).',
-        'L.2.4',
+        'L.3.4',
       ),
     ],
   ),
@@ -3201,7 +3212,7 @@ const hourScene = (of: string, tail: Line[]): EduScene =>
           ),
         ],
         'Found one hour before four o’clock to work out when the fox starts looking forward.',
-        '1.MD.B.3',
+        '3.MD.A.1',
       ),
     ],
   );
@@ -3339,7 +3350,7 @@ const secretDoneScene = (of: string, glass: boolean): EduScene =>
           ),
         ],
         'Learned that artists use colour to stand for feelings and memories.',
-        'RL.1.4',
+        'RL.4.3',
       ),
     ],
   );
@@ -3352,7 +3363,7 @@ const Q13_SCENES: EduScene[] = [
     ),
     N('Sunset, stars, sunrise. The shadow crawls, and the boy sits down again, a little nearer.'),
     N(
-      'And again, a little nearer. On the fourth day, the fox is waiting at the stone before the shadow gets there.',
+      'And again, a little nearer. On the fourth day, the fox is already at the stone. It is pretending to look at a beetle.',
       'happy',
     ),
   ]),
@@ -3487,7 +3498,10 @@ const Q14_SCENES: EduScene[] = [
         'One a week, and you’ll never be thirsty. It saves fifty-three minutes. Experts worked it out.',
       ),
       PR('What do you do with the fifty-three minutes?'),
-      ME('Use them! Anything at all! Experts say it’s very efficient.', 'happy'),
+      ME('Use them! Anything at all!', 'happy'),
+      PR('What do the experts do with theirs?'),
+      ME('They write reports about saving minutes. It takes ages.'),
+      N('Your Nubbin sniffs the tray and turns its back on it, the way it does with soap.'),
       N('The boy thinks about it seriously, the way he thinks about everything.'),
       PR(
         'Fifty-three spare minutes? I’d use them to walk to a spring. Slowly, all the way there.',
@@ -3689,7 +3703,7 @@ const Q15_SCENES: EduScene[] = [
           ]),
         ],
         'Learned that the Pole Star shows north and used it to work out a walking direction.',
-        'D2.Geo.2.K-2',
+        'D2.Geo.2.3-5',
       ),
       notice(
         'science',
@@ -3702,7 +3716,6 @@ const Q15_SCENES: EduScene[] = [
           N('That’s why a long scarf makes a good coat for a cold desert night.'),
         ],
         'Learned that wool keeps us warm by trapping air.',
-        '2-PS1-1',
       ),
     ],
     [
@@ -3745,7 +3758,7 @@ const Q15_SCENES: EduScene[] = [
           ),
         ],
         'Learned that colour words can show feelings as well as colours.',
-        'RL.1.4',
+        'RL.4.3',
       ),
     ],
   ),
@@ -3762,8 +3775,10 @@ const Q15_SCENES: EduScene[] = [
       ),
       PR('It’s complaining. Nobody’s woken it up for ages.', 'happy'),
       PI('Let me. It’s too heavy for you.'),
+      N('The pilot hauls the bucket up, hand over hand, muttering.'),
+      PI('Don’t ask. It’s the system.'),
       N(
-        'The pilot hauls the bucket up, hand over hand. You steady it on the stone, with the sun shaking in the water.',
+        'You steady it on the stone, with the sun shaking in the water. Your Nubbin mutters too, to help.',
       ),
     ],
     [
@@ -3791,7 +3806,7 @@ const Q15_SCENES: EduScene[] = [
           N('Wells like this one reach down to water hidden far below the sand.'),
         ],
         'Learned the French word puits (well).',
-        'L.2.4',
+        'L.3.4',
       ),
     ],
   ),
@@ -3884,6 +3899,11 @@ const Q15_SCENES: EduScene[] = [
       PR('I’m going home to my rose. It’s a long way.', 'soft'),
       N('The pilot unwinds the scarf from your Nubbin, looks at it, and winds it back on again.'),
       PI('Keep it. It’s walked further than I have tonight.'),
+      N(
+        'The pilot takes a folded scrap from the back of his notebook: a muzzle, drawn with strap and buckle, just in case.',
+      ),
+      PI('For your sheep. I didn’t forget the strap.'),
+      PR('Then she’ll be safe. I’ll check it twice. Three times, if he looks hungry.', 'happy'),
       N(
         'Going home can mean a place, and it can mean someone you look after. For the boy, it means both.',
       ),

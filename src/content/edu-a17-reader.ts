@@ -227,7 +227,7 @@ const A1: EduQuest = quest(
           3,
           'social-studies',
           'Japan is a chain of islands; rice grows in flooded fields called paddies',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             GR(
               'Look at the rice. We grow it with its feet in water, in flooded fields called paddies.',
@@ -332,8 +332,10 @@ const A1: EduQuest = quest(
         ),
         SA('Mei! The porch post is rotten! Look, it wobbles!', 'happy'),
         ME('It’s rotten! It’s going to fall down!', 'happy'),
+        N('Mr Kusakabe puts a hand on the post. It leans politely, then leans a lot more.'),
+        FA('Ah. Structural.'),
         N(
-          'They push the post together, shrieking, and run off. Something drops off the porch roof and bounces at your feet: an acorn.',
+          'It falls over. Mei cheers, and the girls run off shrieking. Something drops off the porch roof and bounces at your feet: an acorn.',
         ),
         ME('Acorns! Onee-chan, there are acorns!'),
         N(
@@ -345,7 +347,7 @@ const A1: EduQuest = quest(
           3,
           'social-studies',
           'taking shoes off at the step keeps floors clean and shows respect',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N('In Japan, shoes come off in the entrance hall, called the genkan, and stay there.'),
             N(
@@ -355,10 +357,10 @@ const A1: EduQuest = quest(
           'Learned that taking shoes off at the genkan is an everyday custom that keeps floors clean and shows consideration.',
         ),
         ask(
-          4,
+          7,
           'science',
           'why the porch post is rotten: fungi break down damp wood slowly',
-          '2-ESS1-1',
+          '4-ESS2-1',
           [N('The porch post is rotten and wobbly. What most likely made it so?')],
           [
             o(
@@ -596,7 +598,7 @@ const A2: EduQuest = quest(
           6,
           'science',
           'we see things when light bounces off them into our eyes',
-          '1-PS4-2',
+          '4-PS3-2',
           [
             N(
               'You only see the small black things when the lantern shines on them. Why does the light help you see them?',
@@ -730,7 +732,7 @@ const A2: EduQuest = quest(
           2,
           'social-studies',
           'oral history: old stories are passed down by word of mouth',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             GR('My own granny told me about them, and her granny told her.'),
             GR(
@@ -762,7 +764,7 @@ const A2: EduQuest = quest(
             ]),
             o('Because the scary thing hears us and leaves.', [
               N(
-                'That’s a fair answer, and a lovely one. In stories, noise and cheer do drive shadows away.',
+                'That’s a fair answer. In stories, noise and cheer do drive shadows away.',
               ),
               N('Real fears often shrink the same way, though, when we aren’t alone with them.'),
             ]),
@@ -907,7 +909,7 @@ const A3: EduQuest = quest(
           5,
           'maths',
           'subtraction within 20: 9 − 5 = 4',
-          '2.OA.A.1',
+          '',
           [N('There are 9 shutters, and you slide 5 of them. How many does Mr Kusakabe slide?')],
           [
             o('4 shutters.', [N('Yes. 9 − 5 = 4.')], true),
@@ -1051,7 +1053,7 @@ const A3: EduQuest = quest(
           6,
           'science',
           'steam you can see is tiny drops of water that formed when hot water vapour met cooler air',
-          '2-PS1-4',
+          '',
           [
             N(
               'Steam drifts under the door. Hot bath water gives off invisible water vapour. What turns it into the steam you can see?',
@@ -1144,7 +1146,7 @@ const A3: EduQuest = quest(
           0,
           'science',
           'a full Moon comes about every 29½ days',
-          '1-ESS1-1',
+          '5-ESS1-2',
           [
             N(
               'The Moon is bright over the rice fields. A full Moon comes round about once a month. About how many days does the Moon take to go from full to full again?',
@@ -1232,7 +1234,7 @@ const A3: EduQuest = quest(
           2,
           'social-studies',
           'barley tea (mugicha) is a popular, caffeine-free tea in Japan, drunk hot or cold',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             GR('Mugicha. Roasted barley tea. We make it in summer by the potful.'),
             GR(
@@ -1274,7 +1276,7 @@ const A4: EduQuest = quest(
       'a17-04-ride',
       [
         FA(
-          'We’re visiting their mother today. Would you like to come? It’s a long way, but it’s all downhill. Going.',
+          'We’re visiting their mother today. Would you like to come? It’s all downhill on the way there. We don’t talk about the way back.',
         ),
         N(
           'Granny lends you her bicycle, which is black and heavy and squeaks on every turn of the pedals.',
@@ -1286,10 +1288,11 @@ const A4: EduQuest = quest(
           'You set off at ten past nine. The road runs between the rice fields, past a pond, and over the hill. Everywhere there are frogs.',
         ),
         ME('Faster, Dad! Faster than the Keeper!', 'happy'),
+        N('At the hospital gate the clock says ten to ten.'),
       ],
       [
         ask(
-          4,
+          5,
           'science',
           'on a downhill slope, gravity speeds a bicycle up; uphill needs more push',
           '3-PS2-1',
@@ -1320,7 +1323,7 @@ const A4: EduQuest = quest(
           'Learned that gravity pulls a bicycle down a slope and speeds it up.',
         ),
         ask(
-          4,
+          5,
           'maths',
           'time intervals: 9:10 to 9:50 is 40 minutes',
           '3.MD.A.1',
@@ -1347,6 +1350,8 @@ const A4: EduQuest = quest(
           N(
             'He wins, by a wheel, and then has to sit at the top getting his breath back for quite a long time.',
           ),
+          FA('Downhill. I did say downhill.'),
+          N('He says it lying on the verge, to the sky.'),
         ]),
         ch('slow', 'Ride slowly and let them win.', [
           N(
@@ -1674,7 +1679,7 @@ const A5: EduQuest = quest(
           '3-LS1-1',
           [
             N(
-              'Mei’s bucket is full of acorns. What does an acorn grow into, and how long does it take before the new tree makes acorns itself?',
+              'Mei counts her acorns. What does an acorn grow into, and how long does it take before the new tree makes acorns itself?',
             ),
           ],
           [
@@ -1702,7 +1707,7 @@ const A5: EduQuest = quest(
           2,
           'maths',
           'addition and subtraction within 20: 3 + 4 = 7, then 7 − 2 = 5',
-          '2.OA.A.1',
+          '3.OA.D.8',
           [
             N(
               'Mei has 3 acorns, and your Nubbin gives her 4 more. Then 2 roll away into the long grass. How many does she have left?',
@@ -1881,7 +1886,7 @@ const A5: EduQuest = quest(
           2,
           'social-studies',
           'about two thirds of Japan is forest, and shrines often protect old woods',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'Japan is a chain of islands, many of them hilly. About how much of the country is covered in forest?',
@@ -1965,7 +1970,7 @@ const A6: EduQuest = quest(
           1,
           'science',
           'a hollow in an old tree can shelter animals',
-          '2-LS4-1',
+          '3-LS4-3',
           [
             N(
               'The hollow under the tree is warm and dim. Why might a hollow in an old tree be a good home for animals?',
@@ -1996,7 +2001,7 @@ const A6: EduQuest = quest(
           1,
           'literacy',
           'sensory words: warm, dim, smelling of earth and leaves',
-          'RL.1.4',
+          'RL.4.3',
           [
             N(
               '“It is warm and dim, and smells of earth and leaves.” Which senses do those words use?',
@@ -2193,7 +2198,7 @@ const A6: EduQuest = quest(
           3,
           'social-studies',
           'in Japan a straw rope called shimenawa marks a very old tree or place as sacred',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'The rope is called a shimenawa. In Japan it marks a very old tree, a rock or a place as special, a place for respect.',
@@ -2401,7 +2406,7 @@ const A7: EduQuest = quest(
           6,
           'social-studies',
           'Jizo statues are guardians of children and travellers, and people treat them with respect',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'Jizo statues stand by roads all over Japan. They watch over children and travellers, and people leave flowers and food.',
@@ -2429,7 +2434,7 @@ const A7: EduQuest = quest(
           1,
           'science',
           'sorting materials by their properties: waterproof or water-soaking',
-          '2-PS1-1',
+          '',
           [
             N(
               'Rain is dripping through the hole in the umbrella. Which material would make the best patch?',
@@ -2538,8 +2543,12 @@ const A7: EduQuest = quest(
           N(
             'You stand it in Granny’s umbrella stand, with a note tied to the handle in Satsuki’s best writing: Thank you.',
           ),
+          GR('He did, did he? In that rain? The silly boy.'),
           N(
             'Next morning the note is gone and the umbrella is too. Kanta doesn’t say anything all day, and walks a bit taller.',
+          ),
+          N(
+            'At supper Granny says, “Your umbrella came back.” Kanta eats nine rice balls and says nothing at all.',
           ),
         ]),
         ch('granny', 'Give it to Granny to pass on.', [
@@ -2567,7 +2576,7 @@ const A7: EduQuest = quest(
         N(
           'He holds it a little to one side, as if someone might want to share it. Nobody does, and he holds it to one side anyway.',
         ),
-        GR('That boy. He’d give you his head if it wasn’t screwed on.', 'happy'),
+        GR('That boy. He’d give you his own boots and walk home in the snow.', 'happy'),
       ],
       [
         ask(
@@ -2648,7 +2657,7 @@ const A8: EduQuest = quest(
           3,
           'maths',
           'a two-step word problem: 4 + 6 = 10, then 15 − 10 = 5',
-          '2.OA.A.1',
+          '3.OA.D.8',
           [
             N(
               'Mei has picked 4 tomatoes and Satsuki 6 cucumbers. Granny wants 15 vegetables in all. How many more do they need?',
@@ -2889,7 +2898,7 @@ const A8: EduQuest = quest(
           3,
           'social-studies',
           'how people sent messages in the 1950s: letters by bus and train, telegrams, and telephones in few houses',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Today we can send a message across the world in a second. In the 1950s countryside, how did a letter get to Mrs Kusakabe?',
@@ -2955,7 +2964,7 @@ const A9: EduQuest = quest(
           'It has rained since teatime. Mr Kusakabe went to the university without an umbrella, as he always does.',
         ),
         SA('We’ll take Dad’s umbrella to the bus stop. Mei’s coming too. She won’t stay behind.'),
-        GR('Take my lantern, and take the Keeper. It’s black as a boot out there.'),
+        GR('Take my lantern, and take the Keeper. It’s as dark as the inside of a boot out there.'),
         N(
           'So the four of you go down the road in the dark: Satsuki with two umbrellas, Mei under a small one, you with the lantern.',
         ),
@@ -2998,7 +3007,7 @@ const A9: EduQuest = quest(
           7,
           'science',
           'light travels in straight lines, so a low lantern makes long shadows',
-          '1-PS4-2',
+          '4-PS3-2',
           [
             N(
               'Your lantern makes your shadow long and thin across the road. Why is a shadow long when the light is low down?',
@@ -3044,10 +3053,13 @@ const A9: EduQuest = quest(
         N(
           'She stands very straight, with one arm round her sister’s legs and the other hand on the handle. Her arm begins to shake.',
         ),
+        N(
+          'Mei snores into her ear. Your Nubbin pats Satsuki’s knee, to be useful, and then holds the hem of her skirt up out of the puddles.',
+        ),
       ],
       [
         ask(
-          2,
+          3,
           'sel',
           'a think question: when is it right to ask for help?',
           'CASEL: Relationship skills',
@@ -3097,7 +3109,7 @@ const A9: EduQuest = quest(
           0,
           'music',
           'keep a steady beat, four counts at a time',
-          'RL.2.4',
+          '',
           'edu:clap:beat:rain-four',
           [
             N(
@@ -3140,7 +3152,7 @@ const A9: EduQuest = quest(
           1,
           'science',
           'a drop hitting the umbrella makes it vibrate, and vibrations carry sound',
-          '1-PS4-1',
+          '4-PS3-2',
           [N('Each raindrop goes “tok” on the umbrella. What makes that sound?')],
           [
             o(
@@ -3497,17 +3509,17 @@ const A10: EduQuest = quest(
               N('4 + 4 = 8 seeds.'),
             ]),
             o('24 seeds.', [
-              N('24 looks like writing 2 and 4 side by side. We multiply instead.'),
-              N('3 × 4 = 12 seeds.'),
+              N('24 is just a 2 and a 4 side by side.'),
+              N('Two rows of 4 is 2 × 4 = 8 seeds.'),
             ]),
           ],
-          'Used equal rows to find that 3 rows of 4 seeds make 12 seeds.',
+          'Used equal rows to find that 2 rows of 4 seeds make 8 seeds.',
         ),
         ask(
           6,
           'science',
           'seeds need water and warmth to sprout, and a fair test changes one thing at a time',
-          '2-LS2-1',
+          '',
           [
             N(
               'Mei wonders why nothing has come up. Plants need water and light, and seeds need warmth. How could you find out if a seed needs light to sprout?',
@@ -3642,7 +3654,7 @@ const A11: EduQuest = quest(
           1,
           'science',
           'moonlight is sunlight that bounces off the Moon',
-          '1-ESS1-1',
+          '5-ESS1-2',
           [N('The full Moon lights the whole garden. Where does moonlight come from?')],
           [
             o(
@@ -3873,7 +3885,7 @@ const A11: EduQuest = quest(
           6,
           'music',
           'a shorter pipe gives a higher note',
-          '1-PS4-1',
+          '4-PS3-2',
           [
             N(
               'The smallest clay flute makes the highest note. Why does a shorter pipe sound higher?',
@@ -3938,7 +3950,7 @@ const A11: EduQuest = quest(
           5,
           'science',
           'camphor seeds are small black berries that birds spread',
-          '2-LS2-2',
+          '',
           [
             N(
               'The small black seed on your windowsill is a camphor seed: a little black berry. How might camphor seeds travel to new places?',
@@ -4018,10 +4030,10 @@ const A12: EduQuest = quest(
       ],
       [
         ask(
-          4,
+          8,
           'social-studies',
           'how telegrams worked: short messages sent along wires, priced by length',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [N('Why were telegrams short, and why did one that came out of the blue worry people?')],
           [
             o(
@@ -4043,29 +4055,6 @@ const A12: EduQuest = quest(
             ]),
           ],
           'Learned that telegrams were short, quick messages charged by length and kept for urgent news.',
-        ),
-        ask(
-          6,
-          'literacy',
-          'inference about feelings: why everyone goes quiet at a telegram',
-          'RL.3.3',
-          [N('Nobody says anything when Satsuki reads the telegram. Why does everyone go quiet?')],
-          [
-            o(
-              'A telegram out of the blue usually means urgent news, so they feel worried.',
-              [N('Yes. Silence can tell us how characters feel, even when nobody says it aloud.')],
-              true,
-            ),
-            o('They are all hungry.', [
-              N('They may be, but the scene is about the telegram.'),
-              N('They go quiet because urgent news makes them worry.'),
-            ]),
-            o('They are bored.', [
-              N('Nobody is bored when a telegram comes.'),
-              N('They go quiet because they are worried by the news.'),
-            ]),
-          ],
-          'Used what characters do to work out that they feel worried.',
         ),
       ],
       [
@@ -4283,7 +4272,7 @@ const A12: EduQuest = quest(
           2,
           'maths',
           'subtraction within 20: 5 − 2 = 3',
-          '2.OA.A.1',
+          '',
           [
             N(
               'Five were on the porch: you, Satsuki, Granny, Mei and your Nubbin. Mei and your Nubbin are gone. How many are left?',
@@ -4349,7 +4338,7 @@ const A13: EduQuest = quest(
           4,
           'social-studies',
           'reading a map and splitting up to search covers more ground',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'Picture a map of the village: three roads, the paddies and the pond. How can the searchers cover the most ground?',
@@ -4776,9 +4765,8 @@ const A14: EduQuest = quest(
             ]),
             o('It is not brave, it is just sensible.', [
               N(
-                'That’s a fair answer. Accepting help often is sensible, and sensible is a good thing to be.',
+                'That’s a fair answer. Accepting help often is sensible, and it can be brave too.',
               ),
-              N('And it can be brave too, when we have been holding out for a long time.'),
             ]),
             o('It depends who is offering.', [
               N('That’s a fair answer. We let in the people we trust.'),
@@ -5046,19 +5034,15 @@ const A16: EduQuest = quest(
       ],
       [
         notice(
-          4,
-          'health',
-          'a cold is caused by a virus; it goes away with rest and drinks, and washing hands stops it spreading',
-          'CASEL: Self-management',
+          0,
+          'science',
+          'pines are conifers: they keep their needles all year round',
+          '',
           [
-            N(
-              'A cold is caused by a tiny germ called a virus. It usually goes away in a week or so, with rest, warm drinks and sleep.',
-            ),
-            N(
-              'Antibiotics don’t work on colds. Washing your hands often does help stop a cold spreading.',
-            ),
+            N('A pine is a conifer, a tree with needles instead of broad leaves.'),
+            N('Its needles stay green all year, so the pine still hides the Catbus in winter.'),
           ],
-          'Learned that a cold is caused by a virus and goes away with rest, while handwashing stops it spreading.',
+          'Learned that pines are conifers that keep their needles all year.',
         ),
       ],
       [
@@ -5139,7 +5123,7 @@ const A16: EduQuest = quest(
           3,
           'science',
           'a light looks smaller and fainter the further away it is',
-          '1-PS4-2',
+          '4-PS3-2',
           [
             N(
               'The hospital lights shrink and fade as you fly away. Are they really getting smaller and dimmer?',
@@ -5186,10 +5170,25 @@ const A16: EduQuest = quest(
           'Then the page goes soft under your hand, and it is the Grove, with Nova’s atlas on your knee.',
         ),
         N(
-          'Your Nubbin refuses to take its leaf off. By the lane stands a bench like a country bus stop; on the shelf, an ear of corn, dried gold.',
+          'Your Nubbin adds a leaf it will not take off, even in the bath, to its collection. By the lane stands a bench like a country bus stop; on the shelf, an ear of corn, dried gold.',
         ),
       ],
       [
+        notice(
+          3,
+          'health',
+          'a cold is caused by a virus; it goes away with rest and drinks, and washing hands stops it spreading',
+          'CASEL: Self-management',
+          [
+            N(
+              'A cold is caused by a tiny germ called a virus. It usually goes away in a week or so, with rest, warm drinks and sleep.',
+            ),
+            N(
+              'Antibiotics don’t work on colds. Washing your hands often does help stop a cold spreading.',
+            ),
+          ],
+          'Learned that a cold is caused by a virus and goes away with rest, while handwashing stops it spreading.',
+        ),
         ask(
           3,
           'sel',
@@ -5224,7 +5223,7 @@ const A16: EduQuest = quest(
           6,
           'social-studies',
           'life in the 1950s countryside compared with today',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [N('Which of these did people in the 1950s countryside use to send news or get water?')],
           [
             o(
@@ -5288,7 +5287,7 @@ const A17_VARIANTS_READER: EduScene[] = [
         0,
         'music',
         'keep a steady beat, four counts at a time',
-        'RL.2.4',
+        '',
         'edu:clap:beat:rain-four',
         [
           N('Listen to the drips from the shelter edge. They fall at a steady beat, like a pulse.'),
@@ -5428,7 +5427,7 @@ const A17_VARIANTS_READER: EduScene[] = [
         5,
         'science',
         'a seed sends out its root first, underground, before any shoot shows',
-        '2-LS2-1',
+        '3-LS1-1',
         [
           N(
             'Where the acorn is planted, the earth is smooth and bare. Is it doing nothing? What is happening underground first?',
@@ -5557,6 +5556,9 @@ const A17_VARIANTS_READER: EduScene[] = [
     [
       N('From the hill behind you comes a roar. It rolls out over the whole valley like thunder.'),
       KA('What was that? Thunder? There’s no clouds.', 'shock'),
+      KA(
+        'That’s from the big hill. My uncle says it’s three thousand four hundred metres. He measured it once, for no reason.',
+      ),
       N(
         'A wind comes over the rice from behind you. The rice bends flat in a long line, as if something huge is running across it.',
       ),
@@ -5569,7 +5571,7 @@ const A17_VARIANTS_READER: EduScene[] = [
     ],
     [
       ask(
-        1,
+        2,
         'science',
         'sound travels about 340 metres a second in air, so a distant roar arrives seconds later',
         '4-PS3-2',
@@ -5856,7 +5858,7 @@ const A17_VARIANTS_READER: EduScene[] = [
         1,
         'social-studies',
         'Jizo statues stand by roads as guardians of travellers and children, and people treat them with respect',
-        'D2.Civ.8.K-2',
+        'D2.Civ.8.3-5',
         [
           N(
             'Roadside Jizo are cared for by the people who pass. Someone brings flowers and sweeps the ground.',
@@ -6057,7 +6059,7 @@ const A17_VARIANTS_READER: EduScene[] = [
         3,
         'science',
         'a light looks smaller and fainter the further away it is',
-        '1-PS4-2',
+        '4-PS3-2',
         [
           N(
             'The yellow lights shrink and fade as they go. Are they really getting smaller and dimmer?',
@@ -6102,7 +6104,7 @@ const A17_VARIANTS_READER: EduScene[] = [
         'Then the page goes soft under your hand, and it is the Grove, with Nova’s atlas on your knee.',
       ),
       N(
-        'Your Nubbin refuses to take its leaf off. By the lane stands a bench like a country bus stop; on the shelf, an ear of corn, dried gold.',
+        'Your Nubbin adds a leaf it will not take off, even in the bath, to its collection. By the lane stands a bench like a country bus stop; on the shelf, an ear of corn, dried gold.',
       ),
     ],
     [
@@ -6136,7 +6138,7 @@ const A17_VARIANTS_READER: EduScene[] = [
         5,
         'social-studies',
         'life in the 1950s countryside compared with today',
-        'D2.His.2.K-2',
+        'D2.His.2.3-5',
         [N('Which of these did people in the 1950s countryside use to send news or get water?')],
         [
           o(
@@ -6337,29 +6339,6 @@ const A17_VARIANTS_READER: EduScene[] = [
         ],
         'Learned that remembering someone with others helps when we are sad that they have died.',
       ),
-      ask(
-        4,
-        'literacy',
-        'how a setting detail carries feeling: the shade where Moss sat',
-        'RL.4.3',
-        [N('“The shade falls exactly where he used to sit.” Why might the writer tell us that?')],
-        [
-          o(
-            'It makes the oak seem to keep his place for him, so we think of him.',
-            [N('Yes. One small detail about a place can hold a lot of feeling.')],
-            true,
-          ),
-          o('To tell us what time of day it is.', [
-            N('Shade can tell the time, but that isn’t why it is here.'),
-            N('The oak seems to keep Moss’s place, so we think of him.'),
-          ]),
-          o('Because shade is cool.', [
-            N('It is, but the writer means more than that.'),
-            N('The oak seems to keep Moss’s place, so we think of him.'),
-          ]),
-        ],
-        'Explained how a detail of a setting can carry a feeling: the oak keeps Moss’s place.',
-      ),
     ],
   ),
   sc(
@@ -6382,7 +6361,7 @@ const A17_VARIANTS_READER: EduScene[] = [
         4,
         'science',
         'a potted plant needs light, water, and drainage so roots do not rot',
-        '2-LS2-1',
+        '',
         [N('Your young camphor tree is in a pot. Which set of things does it need to grow well?')],
         [
           o(

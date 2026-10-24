@@ -87,8 +87,8 @@ _Your Nubbin wants to!_
 > **Lesson** (sel, CASEL: Relationship skills, ask): taking turns when everyone wants to go first  
 > _Three friends all want to go first. What can they do?_  
 > - ✅ Take turns, one then the next. → Yes! Taking turns is fair. Everyone gets a go.
-> - Push to the front. → Oh dear. Pushing makes someone sad. Taking turns is kinder. Then everyone gets a go.
-> - Nobody goes. → That would be a pity. The well is fun! Taking turns means everyone gets a go.
+> - Push to the front. → Pushing makes someone sad. Taking turns is kinder.
+> - Nobody goes. → The well is fun! Taking turns lets everyone have a go.
 > _For grown-ups: Chose taking turns as a fair way for everyone to go first._
 
 
@@ -138,8 +138,8 @@ _You go up together with your lantern._
 > **Lesson** (science, 1-PS4-2, ask): we see when there is light  
 > _The stairs are dark. What helps you see?_  
 > - ✅ A lantern, to make light. → Yes! We see things when there is light.
-> - Closing my eyes. → With eyes shut, we see nothing at all. A lantern makes light. Then we can see.
-> - Going very fast. → Fast feet do not make light. A lantern makes light, and then we can see.
+> - Closing my eyes. → Eyes shut means no seeing. A lantern makes light, so we can see.
+> - Going very fast. → Fast feet make no light. A lantern makes light, so we can see.
 > _For grown-ups: Chose light as the thing that lets us see in the dark._
 
 _Scritch, scratch! Little black things run away from the light._  
@@ -176,17 +176,21 @@ _Granny comes with rags and a bucket._
 > **Lesson** (sel, CASEL: Self-management, ask): a way to calm down when something feels a bit scary: laugh and share  
 > **Granny**: Something feels a little scary. What can we do?  
 > - ✅ Laugh and sing with a friend. → Yes! It makes scary things feel smaller.
-> - Run away and hide alone. → That is a big worry to carry alone. Laughing with a friend can help it feel smaller.
-> - Stay still and say nothing. → Staying still is fine for a moment. But telling a friend, or laughing together, helps more.
+> - Run away and hide alone. → Laughing with a friend helps a worry feel smaller.
+> - Stay still and say nothing. → Telling a friend, or laughing together, helps more.
 > _For grown-ups: Thought of calming ways to feel braver: laughing and being with someone._
 
 **Mei**: I will laugh. I am good at it!  
-_Kanta shouts, “Your house is haunted!” and runs away._  
+_A boy looks over the hedge. It is Kanta._  
+_He puts a basket on the step._  
+**Kanta**: Your house is haunted!  
+_He runs away, very fast. The basket stays._  
 
 **Choices**
 
 - **Call: “Thank you for the basket!”**
-    - Kanta runs faster. Granny smiles.
+    - Kanta runs faster.
+    - **Granny**: He has good manners. He keeps them hidden.
 - **Laugh. It is a lovely house.**
     - **Satsuki**: It is! I always wanted one!
 - **Pick up the basket.**
@@ -236,7 +240,7 @@ _It runs all the way along._
 > **Lesson** (science, K-2-ETS1-1, ask): a stuck thing may move when we lift and push in a better way  
 > _The shutter is stuck. What can we try?_  
 > - ✅ Lift a little, then push. → Yes! Trying a new way solves a stuck problem.
-> - Walk away. → Then the shutter stays stuck. Trying a new way, like lift and push, can fix it.
+> - Walk away. → The shutter stays stuck. A new way, like lift and push, can fix it.
 > - Pull the wrong way harder. → Harder is not always better. Lifting a little and pushing works best.
 > _For grown-ups: Chose a new way of lifting and pushing to solve a stuck shutter._
 
@@ -268,8 +272,8 @@ _The lamp swings._
 > **Lesson** (sel, CASEL: Relationship skills, ask): telling a trusted grown-up when we feel scared  
 > _Mei heard a noise and felt scared. What did she do?_  
 > - ✅ She told her dad. → Yes! Telling someone you trust is a good thing to do.
-> - She hid and said nothing. → Hiding can feel safe, but the worry stays big. Mei told her dad, and that helped.
-> - She ran out into the storm. → That would not be safe. Mei told her dad. Telling a grown-up is a safe, brave thing.
+> - She hid and said nothing. → Hiding keeps the worry big. Mei told her dad, and that helped.
+> - She ran out into the storm. → Not safe! Mei told her dad. Telling a grown-up is brave.
 > _For grown-ups: Noticed that telling a trusted adult helps when we feel scared._
 
 **Mr Kusakabe**: Do you know what to do? Laugh, as loud as you can!  
@@ -346,7 +350,7 @@ _The road goes past the fields and a pond. Frogs everywhere._
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): a bicycle goes faster downhill and needs more push uphill  
 > _Which way is easier on a bike: down the hill, or up?_  
 > - ✅ Down the hill. → Yes! The hill helps you roll, whoosh! Uphill needs lots of push.
-> - Up the hill. → Uphill is hard work. Pedal, pedal, puff! Down the hill is easier. The hill helps you roll.
+> - Up the hill. → Uphill is hard work. Pedal, pedal, puff! Down the hill is easier.
 > _For grown-ups: Compared riding downhill and uphill: downhill is easier._
 
 
@@ -384,7 +388,7 @@ _Mei climbs on the bed. Satsuki holds her mum’s hand._
 > _Mei and Satsuki miss their mum. What helps when we miss someone?_  
 > - ✅ A big hug. → Yes! A hug is a good help.
 > - ✅ Talking about them. → Yes! Talking about someone helps too.
-> - Pretend we do not miss them. → Missing someone is a real feeling. It is okay to have it. A hug or a chat about them helps.
+> - Pretend we do not miss them. → Missing someone is okay. A hug helps. So does talking about them.
 > _For grown-ups: Named missing someone as a real feeling, and chose hugs and talking as help._
 
 
@@ -442,7 +446,7 @@ _Mei sleeps on the seat. Her dad keeps a hand on her back._
 
 #### `sprout:a17-05-garden` · [main](main.md#a17-05-garden)
 
-**Mr Kusakabe**: Please keep half an eye on Mei. I am just in here.  
+**Mr Kusakabe**: Please watch Mei for me. I am just in here, with my books.  
 _Mei is picking up acorns in a tin bucket. She has three._  
 _Your Nubbin gives her two more._  
 
@@ -459,8 +463,10 @@ _A bigger blue one follows. It has a little sack of acorns._
 **Choices**
 
 - **Call to Mr Kusakabe.**
+    - **You**: Mr Kusakabe! Mei is following something!
     - **Mr Kusakabe**: Is she? Good for her.
-    - **Mr Kusakabe**: Stay in the garden.
+    - He does not look up, and turns a page.
+    - Mei is nearly at the hedge.
 - **Follow quietly.**
     - You tiptoe. The small ones walk a little faster.
 
@@ -676,7 +682,7 @@ _The rain has stopped. The umbrella is dry and folded._
 > _How can they thank shy Kanta kindly?_  
 > - ✅ Leave a kind note. → Yes! A note lets him feel proud, not shy.
 > - Shout it in the street. → That would make him very shy. A quiet note is gentler.
-> - Say nothing at all. → Then he would not know they are grateful. A kind note says thank you gently.
+> - Say nothing at all. → Then he would not know. A kind note says thank you gently.
 > _For grown-ups: Chose a gentle way of saying thank you to someone who is shy._
 
 **Satsuki**: Keeper, what do we do?  
@@ -721,7 +727,7 @@ _Mei sniffs a tomato. It smells of sunshine._
 > **Lesson** (science, 2-LS2-1, ask): plants need sun and water to grow  
 > _What helped these tomatoes grow big?_  
 > - ✅ Sunshine and water. → Yes! Plants need light and water.
-> - Only a loud shout. → Shouting is fun, but plants cannot hear it grow. Sunshine and water help plants grow.
+> - Only a loud shout. → Plants cannot hear shouting. Sunshine and water help them grow.
 > _For grown-ups: Learned that plants need sunshine and water to grow._
 
 _The girls cool the vegetables in the stream._  
@@ -827,7 +833,7 @@ _Mei gets heavier and sleepier._
 > **Lesson** (sel, CASEL: Relationship skills, ask): helping a tired little one with a kind act  
 > _Mei is very tired. How does Satsuki help?_  
 > - ✅ She carries Mei on her back. → Yes! A kind helper makes a tired child feel safe.
-> - She leaves Mei on the road. → Oh no. That would not be safe or kind. Satsuki carries Mei. That is how we look after people.
+> - She leaves Mei on the road. → Not safe! Satsuki carries Mei. That is how we look after people.
 > _For grown-ups: Noticed Satsuki caring for her tired sister._
 
 _Satsuki lifts her on to her back._  
@@ -854,7 +860,8 @@ _Then it looks at you. It blinks, once, very slowly._
 - **Nod, like to a neighbour.**
     - His whiskers move. Maybe a nod back.
 - **Stand still and let him look.**
-    - He looks a long time, as if you are interesting weather.
+    - He looks at you, and you look at him. Nobody blinks.
+    - Then he blinks again, very slowly. You win!
 
 #### `sprout:a17-09-wait-hunt` · [main](main.md#a17-09-wait-hunt)
 
@@ -931,7 +938,7 @@ _A plain bus comes round the bend. Mr Kusakabe gets off._
 > **Lesson** (sel, CASEL: Relationship skills, ask): sharing something wonderful with someone you trust  
 > _You saw something wonderful. What can you do?_  
 > - ✅ Tell Dad all about it. → Yes! Sharing a happy thing makes it even bigger.
-> - Keep it a secret forever. → Secrets can be fun for a while. Sharing a happy thing with someone you trust feels lovely too.
+> - Keep it a secret forever. → Secrets are fun for a while. Sharing with someone you trust feels lovely.
 > _For grown-ups: Thought about sharing a happy discovery with someone trusted._
 
 
@@ -1027,7 +1034,7 @@ _Not tomorrow._
 > **Lesson** (sel, CASEL: Self-management, ask): waiting is hard, and we can wait kindly and calmly  
 > _Waiting is hard. What can we do while we wait?_  
 > - ✅ Sing, draw or look at the sky. → Yes! Doing something calm helps waiting go by.
-> - Shout at the seeds. → Seeds do not hear shouts. Singing, drawing or looking at the sky helps us wait.
+> - Shout at the seeds. → Seeds do not hear shouts. Singing or drawing helps us wait.
 > _For grown-ups: Chose calm things to do while waiting._
 
 _That night your Nubbin sits at the window. It looks at the old house._  
@@ -1328,14 +1335,13 @@ _Mei is walking somewhere with her corn. Your Nubbin is with her._
 
 _Someone shouts by the big pond._  
 _People start to run that way._  
-
-> **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): when lost, stay where you are and tell a grown-up  
-> _If you are ever lost, what is the safest thing to do?_  
-> - ✅ Stay put and call a grown-up. → Yes! Staying put helps people find you.
-> - Walk far away. → Walking far makes it harder to be found. Staying put and calling a grown-up is safest.
-> _For grown-ups: Learned that if you are lost, you stay where you are and call a trusted grown-up._
-
 _You run too, and your heart goes thump._  
+
+> **Lesson** (health, notice): our heart beats faster when we run  
+> _When you run, your heart beats faster. Thump, thump, thump!_  
+> _It slows down again when you rest._  
+> _For grown-ups: Learned that the heart beats faster when we run and slows again with rest._
+
 
 #### `sprout:a17-13-pond` · [main](main.md#a17-13-pond)
 
@@ -1388,7 +1394,7 @@ _The great one opens one eye. Then both._
 > **Lesson** (sel, CASEL: Relationship skills, ask): asking for help politely when we need it  
 > _Satsuki needs help. What does she say?_  
 > - ✅ Please help me. → Yes! Asking nicely, and saying what you need, is brave.
-> - Nothing, and hope. → Hoping is fine, but help comes when we ask. “Please help me” is how we ask.
+> - Nothing, and hope. → Help comes when we ask. “Please can you help me?” is how we ask.
 > _For grown-ups: Learned that asking for help politely is a brave thing to do._
 
 _He looks at her. Then he grins, the widest grin._  
@@ -1415,7 +1421,7 @@ _Ring, ring! Kanta rides up on a big bicycle._
 > **Lesson** (sel, CASEL: Relationship skills, ask): asking for help politely when we need it  
 > _You need help. What can you say to Kanta?_  
 > - ✅ Please can you help me? → Yes! Asking nicely, and saying what you need, is brave.
-> - Nothing, and hope. → Hoping is fine, but help comes when we ask. “Please can you help me?” is how we ask.
+> - Nothing, and hope. → Help comes when we ask. “Please can you help me?” is how we ask.
 > _For grown-ups: Learned that asking for help politely is a brave thing to do._
 
 **Kanta**: Then we look on our own. Get on!  
@@ -1453,7 +1459,7 @@ _Up, up, up. The roots are far below._
 > _You are at the top of the tree._  
 > _Are the roots above or below you?_  
 > - ✅ Below. → Yes! The roots are below. The sky is above.
-> - Above. → Above is up high, like the sky. The roots are below, down in the ground.
+> - Above. → Above is up high, like the sky. The roots are below.
 > _For grown-ups: Used the position words above and below._
 
 
@@ -1621,6 +1627,14 @@ _Six little statues keep watch by the road._
 
 **Satsuki**: Mei, do you still want to take Mum the corn?  
 _Mei nods hard._  
+_Mei walked a long way, and that was not safe. Satsuki was so scared._  
+
+> **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): when lost, stay where you are and tell a grown-up  
+> _If you are ever lost, what is the safest thing to do?_  
+> - ✅ Stay put and call a grown-up. → Yes! Staying put helps people find you.
+> - Walk far away. → Walking far makes finding you harder. Stay put and call a grown-up.
+> _For grown-ups: Learned that if you are lost, you stay where you are and call a trusted grown-up._
+
 _Satsuki bows a little to the Catbus. She asks it nicely._  
 _The sign rolls round. It says HOSPITAL._  
 _The sisters climb in. The door stays open for you._  
@@ -1827,7 +1841,7 @@ _She hugs Mei, then Satsuki, then you._
 > _Granny hugs everyone. “Oh, the three of you.”_  
 > _How does Granny feel?_  
 > - ✅ Happy and relieved. → Yes! Relieved means the worry is over. Phew!
-> - Cross. → She is not cross. She is hugging everyone. She is happy and relieved. The worry is over.
+> - Cross. → She is hugging everyone. She is happy and relieved.
 > _For grown-ups: Named a feeling from what a character says and does: relieved and happy._
 
 _Later in the summer, Mrs Kusakabe comes home. She is getting well._  
@@ -1845,7 +1859,7 @@ _At the old house gate, Granny waits with the lamp._
 > **Lesson** (literacy, RL.1.4, ask): feeling words: relieved and happy  
 > _Granny says, “Oh, the pair of you.” How does Granny feel?_  
 > - ✅ Happy and relieved. → Yes! Relieved means the worry is over. Phew!
-> - Cross. → She is not cross. She waited up with the lamp. She is happy and relieved. The worry is over.
+> - Cross. → She waited up with the lamp. She is happy and relieved.
 > _For grown-ups: Named a feeling from what a character says and does: relieved and happy._
 
 _Kanta goes pink to the ears._  
@@ -1862,13 +1876,14 @@ _You step out of the atlas. Something on the hill has changed._
 _By Moss’s flat stone stands a big oak tree._  
 _Moss looks up at it for a long time. Your Nubbin falls asleep._  
 **Moss**: I planted one of those, long ago. It took four hundred years.  
-**Moss**: You cheated.  
 
 > **Lesson** (sel, CASEL: Social awareness, notice): wonder and quiet shared with a friend  
 > _Moss does not say much. He looks at the tree._  
 > _It is nice to share a quiet moment with a friend._  
 > _For grown-ups: Noticed that we can share wonder and quiet with a friend._
 
+**Moss**: You did it in one night.  
+**Moss**: Show-off.  
 
 **Choices**
 
@@ -1917,7 +1932,7 @@ _In it is a young camphor tree, as high as your knee._
 > _The little tree is as high as your knee._  
 > _Is it taller or shorter than you?_  
 > - ✅ Shorter. → Yes! It only comes up to your knee. You are taller.
-> - Taller. → Stand next to it. It only reaches your knee. The tree is shorter. You are taller, for now!
+> - Taller. → It only reaches your knee. You are taller, for now!
 > _For grown-ups: Compared two heights and used the words taller and shorter._
 
 _Its leaves are glossy and smell sharp._  

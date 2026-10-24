@@ -18,7 +18,7 @@ _Just sky._
 
 > **Lesson** (social-studies, D2.Geo.2.K-2, ask): flat land is called a prairie  
 > _Look all around. Is this land flat, or bumpy with hills?_  
-> - ✅ Flat → Yes! Flat all the way to the sky. Wide, flat, grassy land is a prairie.
+> - ✅ Flat → Yes! Wide, flat, grassy land is a prairie.
 > - Bumpy → Look again. No hills here! It is flat. Flat grassland is a prairie.
 > _For grown-ups: Described a place: a prairie is wide, flat, grassy land._
 
@@ -358,7 +358,11 @@ _Then a brick gets in the way. Bump!_
 - **Walk ahead and call out the holes.**
     - Each time you call “Hole!”, he steps round it.
 - **Let your Nubbin lead him.**
-    - Your Nubbin walks slowly. He copies every step.
+    - Your Nubbin walks slowly. The Scarecrow copies every step.
+    - Your Nubbin sits. The Scarecrow sits.
+    - Flump!
+    - Your Nubbin scratches its ear. The Scarecrow tries.
+    - Flop!
 
 #### `sprout:a15-03-feet-done` · [main](main.md#a15-03-feet-done)
 
@@ -622,7 +626,7 @@ _It walks across the road. It sits down next to the Lion._
 > **Lesson** (literacy, ELOF: Language and Communication, ask): the word brave  
 > _Brave means doing a thing even when you feel scared. Was your Nubbin brave?_  
 > - ✅ Yes, brave → Yes! It felt scared and sat down anyway. That is brave.
-> - No, just sleepy → Look at its trembling paws. It was scared and did it anyway. That is brave.
+> - No, just sleepy → Look at its trembling paws. It was scared, and went anyway. Brave!
 > _For grown-ups: Learned the word brave: doing something even when scared._
 
 **The Cowardly Lion**: Oh! It is not afraid of me.  
@@ -1187,6 +1191,9 @@ _A man sells green lemonade. It costs three pennies._
 _At last you reach a great building._  
 _Its doors are tall and shiny._  
 _It is the Palace of Oz. It stands in the middle of the city._  
+_A green cat sits on a green step. It looks at the Lion._  
+**The Cowardly Lion**: Do not look at me, cat. I am being very brave.  
+_The cat yawns. The Lion walks a little faster._  
 
 > **Lesson** (social-studies, D2.Geo.2.K-2, ask): in the middle of a map  
 > _Where is the Palace: in the middle, or at the edge?_  
@@ -1527,16 +1534,16 @@ _The Witch snatches it and puts it on._
 
 **Dorothy**: Give me back my shoe!  
 **The Wicked Witch of the West**: Certainly not. It is mine now.  
+
+> **Lesson** (sel, CASEL: Self-management, notice): big feelings like anger  
+> _Dorothy feels very angry._  
+> _Anger is a big feeling, and it is okay to feel it._  
+> _When you feel angry, take a slow breath before you act._  
+> _For grown-ups: Learned that anger is a normal feeling and that a slow breath helps before acting._
+
 _Dorothy is so angry. She grabs the bucket and throws the water._  
 **The Wicked Witch of the West**: Water! Oh no!  
 _She melts quickly, like sugar in hot tea._  
-
-> **Lesson** (science, ELOF: Scientific Reasoning, ask): sugar dissolves in water  
-> _Put a sugar lump in hot tea. What happens to it?_  
-> - ✅ It dissolves → Yes! It mixes into the tea until you cannot see it. That is called dissolving.
-> - It gets bigger → It gets smaller! It dissolves into the tea.
-> _For grown-ups: Learned that sugar dissolves in water._
-
 _She melts all away, into a brown puddle. She cannot hurt anyone now._  
 **Dorothy**: I am sorry! I did not know!  
 
@@ -1561,6 +1568,15 @@ _She puts it back on._
 > _For grown-ups: Named feelings after an accident: sad and sorry._
 
 **Dorothy**: Now the Lion can come out.  
+_That night Dorothy has sweet tea by the fire._  
+_Your Nubbin watches the sugar vanish, very suspicious._  
+
+> **Lesson** (science, ELOF: Scientific Reasoning, ask): sugar dissolves in water  
+> _Put a sugar lump in hot tea. What happens to it?_  
+> - ✅ It dissolves → Yes! It mixes into the tea. That is called dissolving.
+> - It gets bigger → It gets smaller! It dissolves into the tea.
+> _For grown-ups: Learned that sugar dissolves in water._
+
 
 #### `sprout:a15-12-mend` · [main](main.md#a15-12-mend)
 
@@ -1738,6 +1754,8 @@ _The voice comes from high up. It seems to come from everywhere._
 
 - **Tell the Lion to go on, then.**
     - ROAR! Toto jumps and runs into a corner.
+    - From behind a screen comes a tiny squeak. Eek!
+    - **Oz**: Ahem. THE GREAT AND TERRIBLE OZ DID NOT SQUEAK.
 - **Let go of your Nubbin.**
     - Your Nubbin runs after Toto, who barks at a screen.
 
@@ -1783,8 +1801,8 @@ _Behind it stands a little old man. He looks as surprised as you._
 
 **Oz**: I am not a wicked man. I am only a very poor Wizard.  
 **Oz**: I was scared of the Witches. That is why the walls are so high.  
-_Somebody in the valley says safe, safe, all the time._  
-_Safe, he says. As if it came in a bottle._  
+_Oz built high walls to feel safe._  
+_But walls keep friends out too. Oz was very lonely in there._  
 
 > **Lesson** (literacy, ELOF: Language and Communication, ask): the word humbug  
 > _A humbug is someone who pretends. Who pretended: Oz, or the Lion?_  
@@ -1799,7 +1817,7 @@ _Variant of `a15-14-screen-done`._
 
 **Oz**: I am not a wicked man. I am only a very poor Wizard.  
 **Oz**: I was scared of the Witches. That is why the walls are so high.  
-_You think of a lonely man you know._  
+_You think of Corvin, back in the valley._  
 _He said sorry, and gave back what was not his._  
 
 > **Lesson** (literacy, ELOF: Language and Communication, ask): the word humbug  
@@ -1815,7 +1833,7 @@ _Variant of `a15-14-screen-done`._
 
 **Oz**: I am not a wicked man. I am only a very poor Wizard.  
 **Oz**: I was scared of the Witches. That is why the walls are so high.  
-_You think of a lonely man you know._  
+_You think of Corvin, back in the valley._  
 _He swapped his trick for other things. That did not make it right._  
 
 > **Lesson** (literacy, ELOF: Language and Communication, ask): the word humbug  
@@ -1831,7 +1849,7 @@ _Variant of `a15-14-screen-done`._
 
 **Oz**: I am not a wicked man. I am only a very poor Wizard.  
 **Oz**: I was scared of the Witches. That is why the walls are so high.  
-_You think of a lonely man you know._  
+_You think of Corvin, back in the valley._  
 _He only stopped when he fell, with a big bump._  
 
 > **Lesson** (literacy, ELOF: Language and Communication, ask): the word humbug  

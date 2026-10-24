@@ -187,7 +187,7 @@ const A16_PLAIN: Line[] = [
   N('Without the spectacles, the City is plain stone and glass, with a little green paint here and there.'),
   N('It is very pretty, and not very green at all.'),
   N('You put your pair in your pocket. Your Nubbin keeps its own on, and you let it.'),
-  N('It now owns a paper troll, a green bottle, an olive leaf and spectacles. Your coat pocket is getting full.'),
+  N('It tucks the green spectacles in with the rest of its collection. Your coat pocket is getting full.'),
 ];
 
 /** A15-19: arriving among the Quadlings (both versions of the complete). */

@@ -110,7 +110,7 @@ _The house is carried up into the very middle of the cyclone, where it is strang
 _Toto runs about barking. Then he goes too near the open trap door and falls in._  
 _The wind holds him up. Dorothy lies flat, reaches down, and pulls him back by one ear._  
 **Dorothy**: There. That is quite enough adventure for one dog.  
-_Hours go by. Dorothy shuts the trap door and lies down on her bed, with Toto beside her._  
+_Hours go by, three of them, at sixty kilometres an hour. Dorothy shuts the trap door and lies down with Toto._  
 
 > **Lesson** (maths, 4.MD.A.2, ask): multiplying a speed by a time to find a distance  
 > _Suppose the house flies at 60 kilometres an hour for 3 hours. How far does it travel?_  
@@ -178,7 +178,7 @@ _Three men and a woman come up, no taller than Dorothy. They wear blue, and roun
 _The woman is very old, in a white gown sprinkled with stars. She bows low to Dorothy._  
 **The Witch of the North**: Welcome to the land of the Munchkins, my dear. This is the East, and they thank you for setting them free.  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): compass directions  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): compass directions  
 > _The old woman says this is the East. If you stand facing north, which hand points east?_  
 > - ✅ Your right hand → Yes. Facing north, east is on your right and west is on your left. “Never Eat Soggy Waffles” goes clockwise: north, east, south, west.
 > - Your left hand → That one is west. Facing north, east is on your right.
@@ -346,7 +346,7 @@ _As you look at him, he winks: slowly, with his left eye._
 **The Scarecrow**: Good morning. How do you do?  
 **The Scarecrow**: Not very well myself, if you want the truth. It is dreadfully dull, up a pole all day.  
 
-> **Lesson** (science, 2-PS1-1, ask): materials and their properties  
+> **Lesson** (science, ask): materials and their properties  
 > _The Scarecrow is stuffed with straw. Why is straw a good filling for him, and not iron?_  
 > - ✅ Straw is light and soft, so it is easy to carry and cannot hurt anyone → Precisely. Light and soft. I am much easier to lift than a lump of iron, and I never bruise anyone I fall on.
 > - Straw is stronger than iron → Hardly. Iron is much stronger. It is also far too heavy and hard for a person like me.
@@ -388,6 +388,7 @@ _The Scarecrow has never walked before. His legs go wherever they like, and they
 **Dorothy**: I do not know. But come anyway.  
 **Dorothy**: If he has none, you will have lost nothing but the walk.  
 _He takes six steps, and steps into a hole in the road and goes full length on the bricks. He is not hurt in the least._  
+_By noon he has done this four times, six steps each time._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): multiplication word problem  
 > _Say the Scarecrow manages 6 steps before each tumble, and he tumbles 4 times before noon. How many steps has he taken?_  
@@ -464,7 +465,7 @@ _You sit down on the bank, and Dorothy shares out her bread. The Scarecrow does 
 _The road goes on, and the fields begin to give way to trees. The Scarecrow walks between you, nearly straight._  
 _Behind you the corn stands tall and gold in the sun, row after row._  
 
-> **Lesson** (science, 2-LS2-1, ask): what plants need to grow  
+> **Lesson** (science, ask): what plants need to grow  
 > _The corn grew tall in the fields. What does corn, like any plant, need to grow?_  
 > - ✅ Sunlight, water and soil → Yes. Plants make their food from sunlight and water, and roots hold them in soil that gives them minerals.
 > - Only soil → Soil matters, but without light and water the corn would not grow. Plants need all three.
@@ -515,7 +516,7 @@ _He speaks through his teeth, because his jaw will not open. His voice comes out
 **The Tin Woodman**: There is a can of it on the shelf in my cottage, just through the trees.  
 **The Tin Woodman**: Strictly speaking, tin hardly rusts. It is my iron hinges that seized.  
 
-> **Lesson** (science, 2-PS1-1, ask): rust: iron meets water and air  
+> **Lesson** (science, ask): rust: iron meets water and air  
 > _The Woodman’s iron hinges rusted in the rain. What two things must iron meet before it rusts?_  
 > - ✅ Water and air → Just so. Iron, water and the oxygen in the air make rust, that flaky red-brown crust. Oil keeps the water off.
 > - Sunlight and sand → Sand and sunlight do not rust anything. It takes water and the air together. Rain is the worst.
@@ -580,7 +581,7 @@ _You run back through the trees. The Woodman has not moved, but his eyes are gla
 _You keep thinking of the girl in the pencil picture: a kind, untidy face, drawn very carefully._  
 _Whoever drew it took trouble over her eyes._  
 
-> **Lesson** (art, 1.G.A.3, ask): proportion in a drawn face  
+> **Lesson** (art, 3.NF.A.1, ask): proportion in a drawn face  
 > _Artists who draw faces place the eyes with care. Where do the eyes sit on a real head?_  
 > - ✅ About halfway down → Yes. Most people draw them too high. The eyes sit about halfway between the top of the head and the chin.
 > - Near the top → That is the usual mistake! Look in a mirror: the eyes are about halfway down.
@@ -596,7 +597,7 @@ _Whoever drew it took trouble over her eyes._
 _The neck is rusted so badly that Dorothy has to work the head from side to side while you drip in oil._  
 _At last it turns, with a long, slow creak. The Woodman moves his head carefully, as if it might come off._  
 
-> **Lesson** (literacy, RL.1.4, ask): sound words that show what we hear  
+> **Lesson** (literacy, ask): sound words that show what we hear  
 > _The head turns with a long, slow creak. What kind of word is “creak”?_  
 > - ✅ A word that sounds like the noise it names → Yes. Words like creak, drip and clank copy a sound. They help a reader hear the page.
 > - A word for a colour → Not a colour. It is a word that imitates a sound, like drip and clank.
@@ -951,7 +952,7 @@ _The Woodman starts chopping. Your Nubbin finds a patch of sun on the bank and l
 
 _By morning the Woodman has cut enough logs. He pegs them together, and you tie every join twice, to be sure._  
 
-> **Lesson** (science, 2-PS1-1, ask): floating: wood is less dense than water  
+> **Lesson** (science, ask): floating: wood is less dense than water  
 > _Why does a raft made of logs float?_  
 > - ✅ Wood is lighter than the same amount of water → Yes. The scientist’s word is less dense. A log weighs less than the water it pushes aside, so the water holds it up.
 > - Because logs are flat → Shape helps a raft stay steady, but a flat stone sinks. Wood floats because it is lighter than the same amount of water.
@@ -994,7 +995,7 @@ _You count the joins between the logs. Each one is tied twice._
 _At first the raft goes well. Then, in the middle, the current takes it and carries it downstream, away from the yellow road._  
 **The Scarecrow**: We are going the wrong way! This river runs west, to the Wicked Witch’s country!  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): rivers: where the current is strongest  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): rivers: where the current is strongest  
 > _The raft went wrong in the middle of the river. Where is a river’s current usually strongest?_  
 > - ✅ In the middle → Yes. Banks and the river bed rub against the water and slow it down, so the fastest water is out in the middle.
 > - Right beside the bank → The bank slows the water down by rubbing against it. The fastest water is out in the middle.
@@ -1107,7 +1108,7 @@ _She flies away. The Scarecrow waves until she is gone, and then a little longer
 _The road leads you through meadows of flowers, yellow and white and blue. Then, ahead, a great field of scarlet poppies._  
 _Bees hum from flower to flower. The smell is very strong and very sweet._  
 
-> **Lesson** (science, 2-LS2-2, ask): pollination  
+> **Lesson** (science, ask): pollination  
 > _A bee visits a poppy to collect pollen. What does the bee also do, without meaning to?_  
 > - ✅ Carries pollen to the next flower, helping it make seeds → Yes. That is pollination. Pollen from one flower must reach another of the same kind before seeds can form.
 > - Eats the flower’s roots → Bees do not eat roots. As they travel from flower to flower, pollen sticks to them and helps flowers make seeds.
@@ -1151,7 +1152,7 @@ _You lay Dorothy on the grass by the river, where the fresh breeze can wake her.
 _A low growl, and a great yellow wildcat comes bounding through the grass, chasing something small and grey._  
 _It is a little field mouse, running for her life. The wildcat is gaining on her with every bound._  
 
-> **Lesson** (science, K-LS1-1, ask): food chains: producers  
+> **Lesson** (science, ask): food chains: producers  
 > _Seeds feed the mouse, and the mouse feeds the wildcat. Which part of this chain makes its own food from sunlight?_  
 > - ✅ The plant the seeds come from → Yes. Plants are the producers: they make food from sunlight, water and air. Everything else in a food chain depends on them.
 > - The mouse → The mouse eats seeds, so it is a consumer. The plant that grew them makes its own food from sunlight.
@@ -1208,7 +1209,7 @@ _So you tie: loop, knot, next mouse; loop, knot, next mouse. Your Nubbin hands y
 
 > **Lesson** (maths, 3.OA.A.3, ask): multiplication in arrays  
 > _The first mice stand in 12 rows of 8. How many strings have you tied for them?_  
-> - ✅ 96 → Yes. 12 rows of 8 is 12 × 8 = 96. You can check: 10 × 8 = 80, and 2 × 8 = 16, and 80 + 16 = 96.
+> - ✅ 96 → Yes. 12 rows of 8 is 12 × 8 = 96. Check: 10 × 8 = 80, and 2 × 8 = 16, so 80 + 16 = 96.
 > - 20 → That adds 12 and 8. Twelve rows of eight mice is 12 × 8 = 96.
 > - 86 → Close, but not quite. Try 10 × 8 = 80, then 2 × 8 = 16. Together that is 96.
 > _For grown-ups: Multiplied an array: 12 rows of 8 mice make 96._
@@ -1230,7 +1231,7 @@ _The Scarecrow and the Woodman go into the poppies, without breathing, and roll 
 _Then the Queen gives the word, and the mice pull, thousands together, and the heavy cart begins to move._  
 _They pull in time, with a tiny chant, one squeak for each step. It is an old way to share out a heavy job._  
 
-> **Lesson** (music, RL.2.4, ask): a steady beat helps people work together  
+> **Lesson** (music, ask): a steady beat helps people work together  
 > _Sailors and workers have long sung work songs while hauling ropes. Why does a steady beat help them?_  
 > - ✅ Everyone pulls at the same moment → Yes. A steady beat keeps a crowd in step, so all the pulls land together. That is what rhythm is for.
 > - It makes the rope lighter → The rope weighs the same! The beat helps everyone pull together at the same moment.
@@ -1245,7 +1246,7 @@ _Dorothy wakes up on the bank. She hears the whole story, and thanks every mouse
 **The Queen of the Field Mice**: You have only to call us. Come out into the fields and call, and we shall come running.  
 **The Queen of the Field Mice**: We are quick, for our size.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): communities work by helping one another  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): communities work by helping one another  
 > _The Queen promises help whenever Dorothy calls. Why do communities work better when members help each other?_  
 > - ✅ Together they can do things nobody could do alone → Just so. A mouse cannot pull a lion, and a thousand mice can. That is what a community is.
 > - Because a ruler orders it → Orders can help, but help freely given is stronger. The mice came because they were asked, and because Dorothy’s friend saved their Queen.
@@ -1273,7 +1274,7 @@ _Your Nubbin climbs up and lies down between his ears, very pleased with itself,
 _The fences by the road are painted green now, and so are the houses. Even the light seems a little green._  
 _Ahead there is a green glow in the sky. Then a great high wall, bright green, and a gate studded with emeralds._  
 
-> **Lesson** (art, 2-PS1-1, ask): mixing colours  
+> **Lesson** (art, ask): mixing colours  
 > _The Munchkins wear blue and the Winkies wear yellow, and the City is green. Which two paints mix to make green?_  
 > - ✅ Blue and yellow → Yes. Blue and yellow make green. Red and yellow make orange, and red and blue make purple.
 > - Red and yellow → Those make orange. For green you need blue and yellow.
@@ -1325,7 +1326,7 @@ _For your Nubbin he hunts a long time, and finds a very small pair with round le
 _The gold bands click shut behind your ears._  
 _Everything is green: the walls, the floor, your own hands. Your Nubbin looks up at you, green, through its little green lenses._  
 
-> **Lesson** (science, 1-PS4-2, ask): how coloured filters change what we see  
+> **Lesson** (science, 4-PS3-2, ask): how coloured filters change what we see  
 > _Green glass lets green light through and holds back most other colours. Through it, how would a red apple look?_  
 > - ✅ Dark, almost black → Yes. A red apple sends back mostly red light, and green glass blocks red, so little reaches your eye. White things would look green.
 > - Bright red → Not through green glass. It blocks red light, so the apple would look dark.
@@ -1387,7 +1388,7 @@ _Everyone looks happy and well off. Nobody looks up very much._
 _At last you come to a great building in the middle of the City: the Palace of Oz, the Great Wizard._  
 _You look back at the high wall, and the single gate you came in by._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): walled cities in history  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): walled cities in history  
 > _Many old cities had high walls with a few gates. Why?_  
 > - ✅ To defend the city and to control who came in → Yes. Walls kept out enemies and gates let guards check who entered. Here, it also keeps everybody in.
 > - To keep the wind out → Walls do give some shelter, but the real reason was defence, and to control who came in.
@@ -1400,7 +1401,7 @@ _Nobody in the streets raises a voice, and nobody looks up at the towers._
 
 _At the Palace door stands a soldier in a green uniform, with a long green beard that reaches to his knees._  
 
-> **Lesson** (science, 2-PS1-1, notice): minerals: emerald and hardness  
+> **Lesson** (science, notice): minerals: emerald and hardness  
 > _A real emerald is a green crystal of a mineral called beryl. Its green comes from tiny traces of chromium inside._  
 > _It is hard: an emerald can scratch glass, but glass cannot scratch an emerald._  
 > _For grown-ups: Learned that emerald is a green mineral, hard enough to scratch glass._
@@ -1572,7 +1573,7 @@ _That night you all sit in the green hall and talk it over. Nobody wants to go, 
 _In the morning the Guardian unlocks your spectacles and puts them back in his box._  
 _He points west, towards the setting sun, where there is no road at all._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): compass directions: the sun sets in the west  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): compass directions: the sun sets in the west  
 > _The Guardian points towards the setting sun. If you face the setting sun, which way are you facing?_  
 > - ✅ West → Yes. The sun rises in the east and sets in the west. So with the setting sun in front of you, east is behind you.
 > - East → East is where the sun rises, the other way. The setting sun is in the west.
@@ -1691,7 +1692,7 @@ _Out in the yard the Lion is shut behind a gate. The Witch means to harness him 
 _Every time she comes near, he roars so loud that she jumps back._  
 **The Wicked Witch of the West**: Then you shall have nothing to eat until you do as I say.  
 
-> **Lesson** (health, K-LS1-1, ask): why bodies need regular meals  
+> **Lesson** (health, ask): why bodies need regular meals  
 > _The Lion has gone hungry for days. Why do our bodies need regular meals?_  
 > - ✅ Food is fuel: it gives us energy to move, think and grow → Yes. Without fuel a body runs down, slows its thinking and gets weak. That is why Dorothy’s secret suppers matter so much.
 > - Food is only for pleasure → Food can be a pleasure, but it is mainly fuel: energy to move, think and grow.
@@ -1764,7 +1765,7 @@ _Dorothy comes in with the pail, humming too, because it seems to be catching._
 **The Wicked Witch of the West**: Straight across the floor. Don’t mind me.  
 _Dorothy starts across the floor, and you see your Nubbin’s ears go flat._  
 
-> **Lesson** (literacy, RL.2.3, ask): how characters respond; clues in a story  
+> **Lesson** (literacy, RL.3.3, ask): how characters respond; clues in a story  
 > _Which clue tells you that something unseen lies on the floor?_  
 > - ✅ Your Nubbin will not step there, and its ears go flat → Yes. Good readers look for what a character does, not only what is said. The Nubbin’s behaviour is real evidence.
 > - The Witch is humming → Her good mood is suspicious, and a fair clue to something being up. But the Nubbin’s behaviour points to the exact spot.
@@ -1803,20 +1804,18 @@ _Dorothy sits up, rubbing her knee. It is going to bruise._
 **Dorothy**: It is not yours! You have no right to it!  
 **Dorothy**: You are a mean, wicked old thing!  
 **The Wicked Witch of the West**: Shout all you like, girl. I shall have the other one off you too, one fine day.  
+
+> **Lesson** (sel, CASEL: Self-management, notice): big feelings like anger  
+> _Dorothy is angry, and anger is a big feeling. It is okay to feel it._  
+> _What matters is what we do next. A slow breath can give us a moment to choose._  
+> _For grown-ups: Learned that anger is a normal feeling and that a slow breath helps before acting._
+
 _Dorothy is so angry that she picks up the bucket of water by the door and throws it over the Witch, from head to foot._  
 _The Witch gives a gasp. Then, as Dorothy stares at her, she begins to shrink._  
 **The Wicked Witch of the West**: Water! Oh, you wretched girl, water!  
 **The Wicked Witch of the West**: I am going, I am going…  
 **Dorothy**: I am sorry! I did not know!  
 _She melts quickly and quietly, like sugar in hot tea. In a moment there is only a brown puddle on the floor, and her empty dress._  
-
-> **Lesson** (science, 2-PS1-1, ask): dissolving  
-> _We say sugar “melts” in hot tea. What really happens to it?_  
-> - ✅ It dissolves: it breaks into tiny pieces that spread through the water → Yes. The sugar is still there, just too small to see. Taste the tea and you would know. That is dissolving, which is different from melting.
-> - It disappears for ever → Matter does not just vanish. The sugar spreads out in tiny pieces. You can taste it, so it is still there.
-> - It turns into water → Sugar does not become water. It dissolves, spreading through the water as tiny pieces.
-> _For grown-ups: Learned that sugar dissolves in water: it spreads out in tiny pieces and is still there._
-
 
 **Choices**
 
@@ -1841,6 +1840,15 @@ _Then she pours a fresh bucket over the puddle and sweeps it all out of the door
 > - It was the Witch’s own fault → That’s a fair answer. The Witch chose to be cruel. Yet notice that Dorothy still feels sad. Both things can be true.
 > - It was nobody’s fault → That’s a fair answer. An accident is something nobody planned. What matters is how we act next.
 > _For grown-ups: Thought about feeling sorry and blame when something happens by accident._
+
+_That night Dorothy has sweet tea by the fire. Your Nubbin watches the sugar vanish, very suspicious._  
+
+> **Lesson** (science, ask): dissolving  
+> _We say sugar “melts” in hot tea. What really happens to it?_  
+> - ✅ It dissolves: it breaks into tiny pieces that spread through the water → Yes. The sugar is still there, just too small to see. Taste the tea and you would know. That is dissolving, which is different from melting.
+> - It disappears for ever → Matter does not just vanish. The sugar spreads out in tiny pieces. You can taste it, so it is still there.
+> - It turns into water → Sugar does not become water. It dissolves, spreading through the water as tiny pieces.
+> _For grown-ups: Learned that sugar dissolves in water: it spreads out in tiny pieces and is still there._
 
 
 #### `reader:a15-12-mend` · [main](main.md#a15-12-mend)
@@ -1882,7 +1890,7 @@ _He is himself, and the Woodman is himself, and the Lion is purring. Dorothy lau
 _The Winkies dance in yellow, and your eye keeps drifting to a purple ribbon one of them is wearing._  
 _The two colours seem to make each other glow._  
 
-> **Lesson** (art, 2-PS1-1, ask): the colour wheel: opposite colours  
+> **Lesson** (art, ask): the colour wheel: opposite colours  
 > _On a colour wheel, which colour sits opposite yellow, so that the two make each other glow?_  
 > - ✅ Purple → Yes. Purple (violet) is opposite yellow. Artists call opposites complementary colours, and put them side by side for punch.
 > - Orange → Orange sits next to yellow on the wheel, so the two blend rather than clash. The opposite of yellow is purple.
@@ -1898,8 +1906,11 @@ _Before you leave, Dorothy goes to the Witch’s cupboard to fill her basket. On
 _She does not know what it does, and neither, exactly, do you. It sits on her head, glittering, waiting._  
 **A Winkie**: And this is for your little one. We made it in the night.  
 _It is a tiny gold cap, beaten thin, with glass beads round the band for diamonds. It fits your Nubbin exactly._  
+**A Winkie**: It does not call anything. It is just a hat.  
+**A Winkie**: But it is a very good hat.  
+_Your Nubbin wears it all evening. It bows to everyone, including the furniture._  
 
-> **Lesson** (science, 2-PS1-1, ask): properties of metals: malleable  
+> **Lesson** (science, ask): properties of metals: malleable  
 > _The tinsmiths beat the little cap thin from a lump of gold. Gold can be hammered into very thin sheets without breaking._  
 > _What is that property called?_  
 > - ✅ Malleable → Yes. A malleable metal can be hammered or pressed into shape without cracking. Gold is one of the most malleable metals there is.
@@ -1907,8 +1918,6 @@ _It is a tiny gold cap, beaten thin, with glass beads round the band for diamond
 > - Magnetic → Magnetic means attracted to a magnet, which gold is not. Being easy to hammer thin is called malleable.
 > _For grown-ups: Learned that a malleable metal such as gold can be hammered thin without breaking._
 
-**A Winkie**: It does not call anything. It is just a hat.  
-**A Winkie**: But it is a very good hat.  
 _The Winkies ask the Woodman to stay and rule them. He says he will come back, once he has a heart._  
 
 ### Glossary
@@ -1926,7 +1935,7 @@ _The Winkies ask the Woodman to stay and rule them. He says he will come back, o
 _Going back east there is no road. You walk towards the rising sun, but the grass all looks the same, and soon you are lost._  
 **The Scarecrow**: I have no brains, so I cannot help. But it seems to me we have passed that bush three times.  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): compass directions: sunrise is east  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): compass directions: sunrise is east  
 > _You set out in the morning, walking towards the rising sun. Which way are you going?_  
 > - ✅ East → Yes. The sun rises in the east. With no landmarks, people tend to drift in circles, which is why we met the same bush three times.
 > - West → West is where the sun sets. We walked towards where it rises, which is east.
@@ -1973,7 +1982,7 @@ _The King carries you himself, with your Nubbin held tight. The ground goes by f
 **Dorothy**: Why do you have to do what the Cap says?  
 **The King of the Winged Monkeys**: It is a long story. But we have a long way to go, so I will tell it.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): oral history: how stories carry the past  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): oral history: how stories carry the past  
 > _The Monkey King tells his people’s past aloud, just as it was told to him._  
 > _Before writing was common, and in many places still, history is kept this way. It is called oral history._  
 > _For grown-ups: Learned that oral history carries the past by being told aloud._
@@ -2084,7 +2093,7 @@ _Toto tips over a screen that stands in the corner. It falls with a crash._
 _Behind it stands a little old man, with a bald head and a wrinkled face. He looks as surprised as anybody._  
 _Everything your friends believed is about to change. In a story, a moment like this is called a turning point._  
 
-> **Lesson** (literacy, RL.2.3, ask): turning point in a story  
+> **Lesson** (literacy, RL.3.3, ask): turning point in a story  
 > _What changes at this turning point?_  
 > - ✅ The friends find out that Oz is only a man, not a great Wizard → Yes. A turning point is where the story swings a new way. Everything after this scene is different.
 > - Toto learns to bark → Toto has barked all along. The turning point is that the friends discover who Oz really is.
@@ -2105,7 +2114,7 @@ _The Woodman raises his axe and rushes at the little man._
 **Oz**: Yes. Humbug is quite the right word for it.  
 **Oz**: I was born in Omaha. I was a ventriloquist, which means I can throw my voice, into a bird, or a statue, or a dome.  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): where Omaha is  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): where Omaha is  
 > _Omaha is a city in the state of Nebraska, just north of Kansas. If Dorothy walked from Kansas to Omaha, which way would she go?_  
 > - ✅ North → Yes. Nebraska lies directly north of Kansas. Omaha stands on the Missouri River, on the border with Iowa.
 > - South → South would take her towards Texas. Nebraska is north of Kansas.
@@ -2136,8 +2145,7 @@ _The Woodman raises his axe and rushes at the little man._
 **Oz**: I am not a wicked man, my dear. I am only a very poor Wizard.  
 **Oz**: There is a difference, though I grant it is a small one.  
 **Oz**: And I was frightened of the Witches, all along. That is why the walls are so high.  
-_Somebody in the valley promises things like this._  
-_Safe, he says. As if it came in a bottle._  
+_Oz built his walls high to feel safe. It did not make him happy._  
 
 > **Lesson** (literacy, L.3.4, ask): multiple-meaning words: humbug  
 > _Oz is called a humbug. What does the word mean here?_  
@@ -2154,7 +2162,7 @@ _Variant of `a15-14-screen-done`._
 **Oz**: I am not a wicked man, my dear. I am only a very poor Wizard.  
 **Oz**: There is a difference, though I grant it is a small one.  
 **Oz**: And I was frightened of the Witches, all along. That is why the walls are so high.  
-_You knew a man like this._  
+_You think of Corvin, back in the valley._  
 _He gave the trick back. His hand was blue._  
 
 > **Lesson** (literacy, L.3.4, ask): multiple-meaning words: humbug  
@@ -2172,7 +2180,7 @@ _Variant of `a15-14-screen-done`._
 **Oz**: I am not a wicked man, my dear. I am only a very poor Wizard.  
 **Oz**: There is a difference, though I grant it is a small one.  
 **Oz**: And I was frightened of the Witches, all along. That is why the walls are so high.  
-_You knew a man like this._  
+_You think of Corvin, back in the valley._  
 _He sold the trick, along with everything else._  
 
 > **Lesson** (literacy, L.3.4, ask): multiple-meaning words: humbug  
@@ -2190,7 +2198,7 @@ _Variant of `a15-14-screen-done`._
 **Oz**: I am not a wicked man, my dear. I am only a very poor Wizard.  
 **Oz**: There is a difference, though I grant it is a small one.  
 **Oz**: And I was frightened of the Witches, all along. That is why the walls are so high.  
-_You knew a man like this._  
+_You think of Corvin, back in the valley._  
 _He only let go when he fell._  
 
 > **Lesson** (literacy, L.3.4, ask): multiple-meaning words: humbug  
@@ -2215,7 +2223,7 @@ _He looks very old and very small, like someone who has been holding his breath 
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): secrets: when to tell a trusted adult  
 > _Which sort of secret should you always tell a trusted grown-up about?_  
-> - ✅ One that makes you feel scared, unsafe or uncomfortable → Yes. A surprise party is a happy secret. A secret that frightens you or makes your tummy flip is one to share with a grown-up you trust. So is any secret a grown-up asks you to keep from other grown-ups, like this one.
+> - ✅ One that makes you feel scared, unsafe or uncomfortable → Yes. A surprise party is a happy secret. A secret that scares you, or one a grown-up asks you to keep from other grown-ups, is one to share.
 > - A surprise birthday party → A surprise party is a happy secret, and fun to keep until the day. The ones to tell are those that make you feel scared or unsafe.
 > - Where a friend hid a present → That is a harmless secret, and kind to keep. The ones to tell a grown-up are secrets that make you feel scared or unsafe.
 > _For grown-ups: Learned to tell happy secrets from secrets that should be shared with a trusted adult._
@@ -2226,7 +2234,10 @@ _He looks very old and very small, like someone who has been holding his breath 
 - **Promise to keep his secret.**
     - **Oz**: Thank you. Thank you.
     - **Oz**: You do not know what that is, to someone like me.
-    - He shakes your hand. His hand is warm and damp, the hand of a frightened man.
+    - He shakes your hand. Then he stops, and lets go.
+    - **Oz**: No. That is too heavy for you to carry.
+    - **Oz**: I will tell them myself, when the balloon is ready.
+    - **Oz**: I am a humbug, but I am not that sort of humbug.
 - **Tell him it is not yours to keep. It is theirs.**
     - **Oz**: Theirs. Yes.
     - **Oz**: I suppose it is. I suppose it always was.
@@ -2242,7 +2253,7 @@ _You have waited four days already, and a day has 24 hours. You wonder how many 
 
 > **Lesson** (maths, 4.MD.A.1, ask): units of time: days and hours  
 > _How many hours are there in four days?_  
-> - ✅ 96 → Yes. There are 24 hours in a day, and 4 × 24 = 96. You can work it out as 4 × 20 = 80 plus 4 × 4 = 16.
+> - ✅ 96 → Yes. There are 24 hours in a day, and 4 × 24 = 96. Work it out as 4 × 20 = 80 plus 4 × 4 = 16.
 > - 24 → That is just one day. Four days is 4 × 24 = 96 hours.
 > - 48 → That is two days. Four days is 4 × 24 = 96 hours.
 > _For grown-ups: Converted days to hours: 4 × 24 = 96._
@@ -2407,6 +2418,7 @@ _It is green, and it fizzes a little. It smells of nothing at all._
 **The Cowardly Lion**: Oh! I feel… I feel very full of something.  
 **The Cowardly Lion**: Courage, I expect.  
 _The dish was round, and the bottle was tall and square. You notice that the bottle’s base is a perfect square._  
+_Your Nubbin folds itself in half to check. It does not match, and it looks surprised._  
 
 > **Lesson** (art, 4.G.A.3, ask): lines of symmetry  
 > _The base of the bottle is a square. How many lines of symmetry does a square have?_  
@@ -2457,7 +2469,7 @@ _He has thought of a way, he says: he came here in a balloon, and he will leave 
 **Dorothy**: Oh! Shall we really go home?  
 **Oz**: We shall make a balloon of silk and fill it with hot air. Hot air I have plenty of.  
 **Oz**: It is the silk we need.  
-_So for three days you sit with Dorothy and sew strips of green silk together, while Oz cuts them out._  
+_So for three days you sit with Dorothy and sew strips of green silk together, each two metres long, while Oz cuts them out._  
 _The finished balloon will be more than twenty feet long, which is about six metres._  
 
 > **Lesson** (maths, 4.MD.A.1, ask): measurement and division  
@@ -2501,7 +2513,7 @@ _The Woodman has built a fire. Oz holds the bottom of the balloon over it, and t
 
 > **Lesson** (science, 3-PS2-1, ask): how a hot-air balloon flies  
 > _Why does the balloon fill out and rise when the air inside is heated?_  
-> - ✅ Hot air is lighter than the cooler air around it, so the balloon is pushed up → Yes. Heating the air makes it spread out, so a balloonful weighs less than the same amount of cool air outside. The first people to fly this way did so in France, in 1783.
+> - ✅ Hot air is lighter than the cooler air around it, so the balloon is pushed up → Yes. Heating air makes it spread out, so a balloonful weighs less than cool air outside. The first flight like this was in France, in 1783.
 > - The fire pulls the balloon up → Fire does not pull. It heats the air, and hot air is lighter than the cooler air outside, so the balloon floats up.
 > - The silk is magic → The silk is only silk. It is the hot air inside, lighter than the cool air outside, that lifts the balloon.
 > _For grown-ups: Learned that heated air is lighter than cool air, so a hot-air balloon rises._
@@ -2574,7 +2586,7 @@ _They fly away. Dorothy sits down on the steps, and Toto licks her face._
 **The Soldier with the Green Whiskers**: If anyone knows the way over, she will.  
 _A desert is a place that gets less than about 250 millimetres of rain in a year, however hot or cold it is._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): what makes a desert  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): what makes a desert  
 > _A desert gets less than about 250 millimetres of rain a year. Which of these places is a desert?_  
 > - ✅ A place with 100 mm of rain a year → Yes. Deserts are defined by how little rain they get, not by heat. Parts of Antarctica are deserts too.
 > - A place with 900 mm of rain a year → That is plenty of rain, enough for woods and fields. A desert gets under about 250 mm a year.
@@ -2618,9 +2630,9 @@ _When he comes to your Nubbin, he stops, and looks at it, and looks at you._
 _Without the spectacles, the City is plain stone and glass, with a little green paint here and there._  
 _It is very pretty, and not very green at all._  
 
-> **Lesson** (art, RL.1.4, ask): warm and cool colours  
+> **Lesson** (art, ask): warm and cool colours  
 > _Artists call colours warm or cool. Which of these is a warm colour?_  
-> - ✅ Red → Yes. Red, orange and yellow are warm, like fire and sunshine. Blue, green and purple are cool, like water and shade. The City’s plain stone, with a little green paint, now feels cool.
+> - ✅ Red → Yes. Red, orange and yellow are warm, like fire and sunshine. Blue, green and purple are cool, like water and shade.
 > - Blue → Blue is a cool colour, like water and shade. Red, orange and yellow are the warm ones.
 > - Green → Green is cool, like leaves in shade. The warm colours are red, orange and yellow.
 > _For grown-ups: Learned to tell warm colours (red, orange, yellow) from cool ones (blue, green, purple)._
@@ -2635,13 +2647,14 @@ _In the morning the Guardian of the Gates unlocks everybody’s spectacles at th
 _When he comes to your Nubbin, he stops, and looks at it, and looks at you._  
 **The Guardian of the Gates**: Keep that pair. It has got used to them.  
 **The Guardian of the Gates**: Some do. Keep yours too, if you like, to remember us by.  
-_He winks at you, the wink of a man who has been told a secret too._  
+_He winks at you._  
+**The Guardian of the Gates**: Gatekeepers always know more than they say. It is most of the job.  
 _Without the spectacles, the City is plain stone and glass, with a little green paint here and there._  
 _It is very pretty, and not very green at all._  
 
-> **Lesson** (art, RL.1.4, ask): warm and cool colours  
+> **Lesson** (art, ask): warm and cool colours  
 > _Artists call colours warm or cool. Which of these is a warm colour?_  
-> - ✅ Red → Yes. Red, orange and yellow are warm, like fire and sunshine. Blue, green and purple are cool, like water and shade. The City’s plain stone, with a little green paint, now feels cool.
+> - ✅ Red → Yes. Red, orange and yellow are warm, like fire and sunshine. Blue, green and purple are cool, like water and shade.
 > - Blue → Blue is a cool colour, like water and shade. Red, orange and yellow are the warm ones.
 > - Green → Green is cool, like leaves in shade. The warm colours are red, orange and yellow.
 > _For grown-ups: Learned to tell warm colours (red, orange, yellow) from cool ones (blue, green, purple)._
@@ -2660,9 +2673,9 @@ _When he comes to your Nubbin, he stops, and looks at it, and looks at you._
 _Without the spectacles, the City is plain stone and glass, with a little green paint here and there._  
 _It is very pretty, and not very green at all._  
 
-> **Lesson** (art, RL.1.4, ask): warm and cool colours  
+> **Lesson** (art, ask): warm and cool colours  
 > _Artists call colours warm or cool. Which of these is a warm colour?_  
-> - ✅ Red → Yes. Red, orange and yellow are warm, like fire and sunshine. Blue, green and purple are cool, like water and shade. The City’s plain stone, with a little green paint, now feels cool.
+> - ✅ Red → Yes. Red, orange and yellow are warm, like fire and sunshine. Blue, green and purple are cool, like water and shade.
 > - Blue → Blue is a cool colour, like water and shade. Red, orange and yellow are the warm ones.
 > - Green → Green is cool, like leaves in shade. The warm colours are red, orange and yellow.
 > _For grown-ups: Learned to tell warm colours (red, orange, yellow) from cool ones (blue, green, purple)._
@@ -2691,7 +2704,7 @@ _He tries another tree, and is flung back again._
 **The Tin Woodman**: Let me go first.  
 _When a big branch bends down to seize him, the Woodman chops it through. The whole tree shakes its branches, crossly, and lets him by._  
 
-> **Lesson** (science, 2-LS2-1, ask): what tree roots do  
+> **Lesson** (science, ask): what tree roots do  
 > _Real trees cannot grab, but their roots do two important jobs. What are they?_  
 > - ✅ Hold the tree in the ground and take in water → Yes. Roots anchor a tree against wind and soak up water and minerals from the soil. Without them a tree could not stand or drink.
 > - Make leaves and flowers → Leaves and flowers grow higher up. Roots anchor the tree and take in water and minerals.
@@ -2756,7 +2769,7 @@ _The milkmaid leads the cow away limping on three legs, carrying the fourth, and
 **Dorothy**: We will have to walk very carefully. Everything here breaks.  
 _Fine plates and cups are made from clay, baked hard. The people of China first made them so finely, more than a thousand years ago._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): where the word china comes from  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): where the word china comes from  
 > _In English, fine plates and cups are called china. Why?_  
 > - ✅ Porcelain was first made in China, long ago → Yes. Potters in China perfected porcelain, and fine dishes travelled the world under the name of their country.
 > - Because they ring like a chime when tapped → Fine china does ring when you tap it, but that is not the reason. The name comes from China, where porcelain was first made.
@@ -2777,7 +2790,7 @@ _A little further on you meet a beautiful china Princess in a dress of many colo
 **The China Princess**: Out there our joints would go hard. We would stand on a shelf being admired, and never walk again.  
 **The China Princess**: Pretty is all we would be.  
 
-> **Lesson** (science, 2-PS1-4, ask): baking clay: changes that cannot be reversed  
+> **Lesson** (science, ask): baking clay: changes that cannot be reversed  
 > _China is made by baking soft clay in a very hot oven called a kiln, until it goes hard._  
 > _Can baked china be turned back into soft clay?_  
 > - ✅ No, baking is a change that cannot be undone → Yes. Some changes, like melting ice, can be reversed. Baking clay cannot. Once it has set hard, it stays hard.
@@ -2872,7 +2885,7 @@ _Your Nubbin is pressed against the back of your legs again, the way it was on t
 **The Cowardly Lion**: Then wait here.  
 _You wonder how the animals chose a King. Nobody voted, and nobody seems to have been asked._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): fair ways to choose a leader  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): fair ways to choose a leader  
 > _Which way of choosing a leader is the fairest?_  
 > - ✅ Everyone gets a vote → Yes. When everyone gets an equal say, the leader answers to the group. That is what voting is for.
 > - The biggest animal decides → Size is a poor reason. The biggest animal might be the least kind. A fair choice gives everyone a say.
@@ -2936,12 +2949,12 @@ _The Lion comes back to you. He lies down and puts his great head on the ground,
 **You**: I know. You went anyway.  
 **The Cowardly Lion**: Yes. I did, did I not?  
 
-> **Lesson** (literacy, RL.4.2, ask): theme  
-> _Which sentence best states the theme of the Lion’s whole journey?_  
-> - ✅ Courage is acting while you are afraid → Exactly. The Lion was afraid at the ditch, in the river, and here, and he acted each time. That is the idea running under the whole story.
-> - Lions are stronger than spiders → That might be true in this story, but it is a detail. The deeper idea is that courage means acting while afraid.
-> - Forests are dark → So they are, but it is only the setting. The theme is about courage.
-> _For grown-ups: Stated the theme of a character’s journey: courage is acting despite fear._
+> **Lesson** (sel, CASEL: Self-management, ask): feeling scared and going on anyway  
+> _The Lion’s knees knocked, and he went anyway. What can you do when you feel scared but still need to go on?_  
+> - Breathe slowly → That’s a fair answer. Slow breaths tell your body it is safe.
+> - Take one small step → That’s a fair answer. One step is easier than the whole road.
+> - Ask a friend to stay close → That’s a fair answer. The Lion had three.
+> _For grown-ups: Thought about ways to keep going when scared: slow breaths, one small step, a friend nearby._
 
 _Your Nubbin pats his nose, very gently, the way it did on the road where you met._  
 
@@ -3010,7 +3023,7 @@ _His nose is sore, and swelling a little. You sit him down, and he lets you look
 _Dorothy puts on the Golden Cap and says the words. You read them out with her, very clearly, since it is the last time._  
 _You tap the beat of the words as you read them, one-two-three-four, the way a band counts in a tune._  
 
-> **Lesson** (music, RL.2.4, ask): beats in a bar  
+> **Lesson** (music, ask): beats in a bar  
 > _Music is counted in groups of beats called bars. In 4/4 time, how many beats are in each bar?_  
 > - ✅ Four → Yes. The top number says how many beats are in a bar, so 4/4 means four. A waltz is 3/4, so it has three.
 > - Three → Three beats is a waltz, written 3/4. In 4/4 there are four beats in each bar.
@@ -3053,7 +3066,7 @@ _The Quadlings are small and cheerful. They give Dorothy something to eat, and s
 **Dorothy**: Please, which way is Glinda’s castle?  
 _A Quadling points. Far down the road a castle is shining in the sun._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): the lands of Oz and the compass  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): the lands of Oz and the compass  
 > _The Munchkins live in the east and the Winkies in the west. Where do the red-clad Quadlings live?_  
 > - ✅ In the south → Yes. East is blue, west is yellow, south is red, with the Emerald City in the middle. A map of Oz is a colour map and a compass in one.
 > - In the north → You have come south from the Emerald City, and here is red. The Quadlings live in the south.
@@ -3071,7 +3084,7 @@ _The Quadlings are small and cheerful. They give Dorothy something to eat, and s
 **Dorothy**: Please, which way is Glinda’s castle?  
 _A Quadling points. Far down the road a castle is shining in the sun._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): the lands of Oz and the compass  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): the lands of Oz and the compass  
 > _The Munchkins live in the east and the Winkies in the west. Where do the red-clad Quadlings live?_  
 > - ✅ In the south → Yes. East is blue, west is yellow, south is red, with the Emerald City in the middle. A map of Oz is a colour map and a compass in one.
 > - In the north → You have come south from the Emerald City, and here is red. The Quadlings live in the south.
@@ -3101,17 +3114,18 @@ _Glinda sits on a red throne. She is beautiful and young-looking, with rich red 
 **Dorothy**: Gladly. It is no use to me now.  
 **Dorothy**: I have used all three calls.  
 **Glinda**: The silver shoes will carry you over the desert. You could have gone home the day you came, if you had only known what they do.  
-
-> **Lesson** (science, 2-PS1-1, notice): properties of silver  
-> _Real silver is a shiny metal. It carries electricity better than any other metal._  
-> _It also tarnishes: left in the air, it slowly goes dark, because it reacts with sulphur gases there. That is why people polish it._  
-> _For grown-ups: Learned that silver is a shiny metal that is the best conductor of electricity and tarnishes in air._
-
 **Dorothy**: The very first day?  
 **The Scarecrow**: But then I would never have got my brains! I would have spent my whole life up a pole in a cornfield.  
 **The Tin Woodman**: And I would still be standing in that clearing with my axe in the air.  
 **The Cowardly Lion**: And I would still be roaring at little dogs, and crying about it afterwards.  
 _Dorothy looks down at the silver shoes for a long time. They have been on her feet the whole way._  
+
+> **Lesson** (science, notice): properties of silver  
+> _Real silver goes dark if nobody polishes it. These have walked the whole way, and they still shine._  
+> _Real silver is a shiny metal. It carries electricity better than any other metal._  
+> _Left in the air it slowly goes dark, because it reacts with sulphur gases there._  
+> _For grown-ups: Learned that silver is a shiny metal that is the best conductor of electricity and tarnishes in air._
+
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): the journey versus the destination  
 > _Dorothy could have gone home on the first day, but she would have missed her friends and everything she learned._  
@@ -3133,7 +3147,7 @@ _Dorothy looks down at the silver shoes for a long time. They have been on her f
 #### `reader:a15-20-glinda-done` · [main](main.md#a15-20-glinda-done)
 
 **Glinda**: Knock the heels together three times and tell them where you want to go. They will take you there in three steps.  
-_Three steps, over a desert. You wonder how far each step must be._  
+_Three steps, over a desert 600 km wide. You wonder how far each step must be._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): division word problem  
 > _Suppose the desert is 600 km wide and the shoes cross it in three equal steps. How long is each step?_  
@@ -3152,7 +3166,7 @@ _Dorothy looks at her heels as if she were meeting them for the first time._
 **The Scarecrow**: Thank you. I have just thought of eleven new laws.  
 **The Scarecrow**: I shall begin with those.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): fairness and rules  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): fairness and rules  
 > _The Scarecrow has thought of eleven new laws. What makes a law fair?_  
 > - ✅ It applies to everyone, including the ruler → Yes. A law that rulers can ignore is not fair. Fairness means the same rules for everybody.
 > - It only applies to people the ruler dislikes → That is the opposite of fair. A fair law is one that applies to everyone alike.
@@ -3190,13 +3204,16 @@ _Variant of `a15-20-goodbye`._
 **The Scarecrow**: I shall begin with those.  
 **The Scarecrow**: Law one: nobody looks behind screens. It is restful.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): fairness and rules  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): fairness and rules  
 > _The Scarecrow has thought of eleven new laws. What makes a law fair?_  
 > - ✅ It applies to everyone, including the ruler → Yes. A law that rulers can ignore is not fair. Fairness means the same rules for everybody.
 > - It only applies to people the ruler dislikes → That is the opposite of fair. A fair law is one that applies to everyone alike.
 > - It never changes, whatever happens → Good laws can be changed when they turn out to be wrong. What makes them fair is that they apply to everyone alike.
 > _For grown-ups: Talked about what makes a law fair: it applies to everyone alike._
 
+**Glinda**: Does Law one apply to you, Scarecrow?  
+**The Scarecrow**: Hm. Law two: every law applies to me too.  
+**The Scarecrow**: Law one may need another look. I have only had brains for a week.  
 **Glinda**: Woodman: they will carry you to the land of the Winkies, who want you for their ruler.  
 **The Tin Woodman**: I shall rule them kindly. I have the heart for it now.  
 **Glinda**: Lion: they will carry you over the Hammer-Heads to your forest, to be King of the Beasts.  
@@ -3228,7 +3245,7 @@ _Variant of `a15-20-goodbye`._
 **The Scarecrow**: I shall begin with those.  
 **The Scarecrow**: Law one: no more locked spectacles. Law two: the screen stays up, but anyone may look behind it.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): fairness and rules  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): fairness and rules  
 > _The Scarecrow has thought of eleven new laws. What makes a law fair?_  
 > - ✅ It applies to everyone, including the ruler → Yes. A law that rulers can ignore is not fair. Fairness means the same rules for everybody.
 > - It only applies to people the ruler dislikes → That is the opposite of fair. A fair law is one that applies to everyone alike.
@@ -3261,13 +3278,12 @@ _Glinda’s girls bring you a present: a pair of silver shoes, just your size, s
 _You put them on, and knock your heels together three times._  
 _Nothing happens at all._  
 **Glinda**: They are only shoes, dear. Most shoes are.  
+_Your Nubbin knocks its heels together, just in case. Nothing, so it tries again, harder._  
 
-> **Lesson** (literacy, L.4.5, ask): humour: understatement  
-> _Why is Glinda’s remark funny?_  
-> - ✅ She states the obvious in a calm, dry way → Exactly. Saying something plainly obvious, with a straight face, is called understatement. It is a favourite trick of dry humour.
-> - She says something that is not true → Quite the opposite. What she says is perfectly true. That is the joke.
-> - She shouts it → She is perfectly calm. The humour is in how plain and dry she is.
-> _For grown-ups: Recognised understatement as the source of a dry joke._
+> **Lesson** (literacy, notice): humour: understatement  
+> _Glinda says something plainly true, calmly._  
+> _Saying the obvious with a straight face is called understatement. It is a dry kind of joke._  
+> _For grown-ups: Noticed understatement as the source of a dry joke._
 
 
 #### `reader:a15-20-farewell` · [main](main.md#a15-20-farewell)

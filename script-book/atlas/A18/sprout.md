@@ -99,6 +99,8 @@ _In the morning, the merchant sits with his hat in his hands._
 _Vasilisa sits on the bottom stair. Someone wrapped her mother’s blanket round her._  
 _You do not know what to say. So you sit beside her._  
 _Your Nubbin climbs up and sits too._  
+**Vasilisa**: I am sad. I think I am crying the right amount.  
+**You**: I think so too.  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): what helps someone who is sad  
 > _Vasilisa is very sad. What helps a sad friend?_  
@@ -107,8 +109,6 @@ _Your Nubbin climbs up and sits too._
 > - Walk away → A sad friend feels better when someone stays. Sit beside them.
 > _For grown-ups: Learned that sitting beside a sad friend is a good way to help, and that crying is allowed._
 
-**Vasilisa**: I am sad. I think I am crying the right amount.  
-**You**: I think so too.  
 _Her hand is closed round something small. She holds on all day._  
 
 ## A18-2. Little Doll, Eat
@@ -435,6 +435,8 @@ _Your Nubbin walks round her twice, puzzled._
 - **Ask who is knocking.**
     - **Vasilisa**: Young men. For me.
     - **Vasilisa**: Not for my sisters.
+    - **Vasilisa**: One brought a goose. He hoped the goose would do the talking.
+    - Your Nubbin looks round for the goose. It has time for geese.
 - **Ask quietly about her pocket.**
     - **Vasilisa**: Still there. She says hello.
     - The doll did not say it. Vasilisa is being kind.
@@ -559,7 +561,9 @@ _Two horses breathe little clouds into the cold air._
 
 **The Merchant**: A long road this time. Far towns. Many months.  
 **The Merchant**: Vasilisa is in my wife’s hands. And a little in yours.  
-**The Merchant**: Tell the woman with the map I still do not know who won.  
+**The Merchant**: Tell Nova I still do not know who won.  
+**The Merchant**: She sold me needles. I sold her ribbons.  
+**The Merchant**: We both think we won.  
 **Vasilisa**: Bring me back something small, Father. For my pocket.  
 **The Merchant**: Something small for your pocket. I will remember.  
 
@@ -724,6 +728,9 @@ _Her mother nods, very slightly._
 _She snips, and the flame goes out. All the light is gone._  
 **The Elder Sister**: Oh! Oh dear. By accident.  
 _In the dark, your Nubbin climbs into your coat._  
+_Somebody walks into a chair._  
+**The Elder Sister**: Sorry! Oh, it is a chair. Sorry, chair.  
+**The Elder Sister**: That was not me, by the way.  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, notice): eyes open wide in the dark  
 > _In the dark we cannot see well at first._  
@@ -1075,7 +1082,9 @@ _Vasilisa carries, you carry, and your Nubbin carries a spoon._
 _Soup, pork, pies, porridge, a goose, and three big jugs._  
 **Baba Yaga**: More! Look in the back. There is always something at the back.  
 _She eats like the wind crossing a field. All of it!_  
-_Your Nubbin watches the goose go. It looks very sad._  
+_Your Nubbin watches the goose go. It puts a paw on its heart._  
+**Baba Yaga**: What? It was a small goose.  
+_It was not._  
 **Baba Yaga**: Ah. Better. That is what an old woman needs.  
 _She leaves a little soup, a crust and a tiny scrap of pork._  
 
@@ -1207,7 +1216,7 @@ _Baba Yaga whistles, her mortar comes, and she is gone._
 _Vasilisa sleeps on, as she was told. The doll climbs down and works._  
 _The broom sweeps by itself. The pots scrub themselves._  
 _Your Nubbin slept well on a full tummy. It follows you to the barn._  
-_A quarter of oats is a lot of oats. You sift._  
+_The sack of oats is bigger than your Nubbin. You sift and sift._  
 _Your Nubbin picks out the black grains and spits them in a pile._  
 
 > **Lesson** (maths, K.MD.B.3, do): sort into two groups and count  
@@ -1541,17 +1550,18 @@ _Birch bark is white and papery. It peels in thin strips._
 **Baba Yaga**: Now I ask one. How did you do all my work? Twice.  
 _Vasilisa’s hand goes to her pocket. It stops._  
 **Vasilisa**: My mother’s love helped me!  
+_Baba Yaga goes very still. She rises up to the rafters._  
+**Baba Yaga**: Love like that? Then off you go, quick! Nobody so loved stays here!  
+_She bundles you out and slams the door. The herbs fall down._  
+_In the yard she lifts a lantern on a stick. Its eyes glow warm._  
+**Baba Yaga**: Here is your fire. That is what you came for. Go!  
+_Herbs land on your Nubbin. It wears them as a hat home._  
 
 > **Lesson** (sel, CASEL: Self-awareness, notice): feeling loved helps us feel brave  
 > _Feeling loved helps us feel brave._  
 > _Think of one person who loves you. (Wait for an answer.)_  
 > _For grown-ups: Thought about a person who loves them and how feeling loved helps us feel brave._
 
-_Baba Yaga goes very still. She rises up to the rafters._  
-**Baba Yaga**: Love like that? Then off you go, quick! Nobody so loved stays here!  
-_She bundles you out and slams the door. The herbs fall down._  
-_In the yard she lifts a lantern on a stick. Its eyes glow warm._  
-**Baba Yaga**: Here is your fire. That is what you came for. Go!  
 
 #### `sprout:a18-12-gate` · [main](main.md#a18-12-gate)
 
@@ -1700,10 +1710,13 @@ _She lifts the stick to throw. Your Nubbin covers its eyes._
 > - Shout at someone → Shouting hurts others. Stop, breathe, then choose.
 > _For grown-ups: Practised a calming way to handle a big feeling: stop, breathe, then choose._
 
-**The Skull**: Please do not throw me away.  
+_The lantern gives a little flicker. A dry, kind voice comes out of it._  
+_The lantern says: Please do not throw me away._  
 _The voice is dry as leaves, and not unkind._  
-**The Skull**: Take me to your stepmother’s house. That is where I am wanted.  
+_The lantern says: Take me to your stepmother’s house. I am wanted there._  
 **Vasilisa**: Oh.  
+_The lantern says: And mind you do not swing me._  
+_Vasilisa holds the stick very still. Your Nubbin peeks to see lantern manners._  
 
 **Choices**
 
@@ -1741,7 +1754,7 @@ _You take the stick. It is lighter than you thought, and warm._
 
 _Vasilisa shakes out her arms. She walks beside you._  
 _The lantern looks at the dark house. Its eyes get brighter._  
-**The Skull**: Nearly there.  
+_The lantern says: Nearly there._  
 _Your Nubbin climbs on your shoulder to see._  
 
 **Choices**
@@ -1749,7 +1762,7 @@ _Your Nubbin climbs on your shoulder to see._
 - **Hold it steady, far out in front.**
     - You hold it far out. The light goes ahead like a carpet.
 - **Ask the lantern how it is.**
-    - **The Skull**: Busy. It has been long since anybody asked.
+    - The lantern says: Busy. It has been long since anybody asked.
     - It says no more. You do not ask again.
 
 #### `sprout:a18-13-carry-done` · [main](main.md#a18-13-carry-done)
@@ -1787,7 +1800,9 @@ _The door flies open before you reach it._
 **The Stepmother**: You! You came back. And you have fire!  
 _For the first time, she is pleased to see Vasilisa._  
 **The Elder Sister**: We have had no light since you left. None.  
-**The Younger Sister**: We fetched fire three times. Each time it went out at the door.  
+**The Younger Sister**: We fetched fire three times. Each time it went out!  
+**The Elder Sister**: Out! Out! Out!  
+_The lantern on the stick does not go out. The sisters glare at it._  
 **The Stepmother**: Never mind that. Put it on the table. It will do for a lamp.  
 _Vasilisa sets the lantern on the table, facing the room._  
 
@@ -1826,6 +1841,7 @@ _Vasilisa turns it. The light still shines at the stepmother._
 _The sisters hide in the cellar. The light finds them._  
 _They climb to the loft. The light finds them there._  
 _Nobody is hurt. There is only a steady light, and three people running._  
+_The light never looks at you. Your Nubbin is a bit cross about that._  
 _Vasilisa sits by the cold stove. You sit beside her._  
 **Vasilisa**: I did not want this. I only went for fire.  
 
@@ -2211,9 +2227,15 @@ _Bells ring, and somebody throws grain. Your Nubbin eats a good deal of it._
 
 _In spring the merchant comes home over the hill._  
 **The Merchant**: Married? My Vasilisa? To whom? To the… oh. Oh, my goodness.  
+_He finds what he promised: a silver thimble. It goes in her other pocket._  
+**The Merchant**: Did Nova say who won?  
+**You**: She says it was a draw. Nobody won.  
+**The Merchant**: That is just what a winner would say.  
 _She takes him to live with her, and the old woman too._  
 _Your Nubbin carries Baba Yaga’s bag of oats down the palace steps._  
-_Last of all, Vasilisa gives your Nubbin a doll the size of a thumb._  
+_Last of all, Vasilisa gives your Nubbin a little painted doll in a pouch._  
+**Vasilisa**: The real one stays with me. This one just needs looking after.  
+_Your Nubbin looks at the pouch, then her pocket. It thinks that is fair._  
 _The tale ends the old way: the little doll stayed in her pocket, always._  
 
 > **Lesson** (literacy, ELOF: Literacy, ask): the main idea of a story  
@@ -2224,6 +2246,8 @@ _The tale ends the old way: the little doll stayed in her pocket, always._
 > _For grown-ups: Named the main idea of the story: caring for others._
 
 _The page settles under your hand. You are back in the Grove._  
+_The doll goes in with the rest of its collection, in your coat._  
+_Your coat pocket has stopped trying._  
 
 #### `sprout:a18-16-complete-doll` · [main](main.md#a18-16-complete-doll)
 
@@ -2231,10 +2255,16 @@ _Variant of `a18-16-complete`._
 
 _In spring the merchant comes home over the hill._  
 **The Merchant**: Married? My Vasilisa? To whom? To the… oh. Oh, my goodness.  
+_He finds what he promised: a silver thimble. It goes in her other pocket._  
+**The Merchant**: Did Nova say who won?  
+**You**: She says it was a draw. Nobody won.  
+**The Merchant**: That is just what a winner would say.  
 _She takes him to live with her, and the old woman too._  
 **Vasilisa**: She wove this on her little loom. It is for your little one.  
 _A cloth the size of a handkerchief. Your Nubbin lies down on it._  
-_Last of all, Vasilisa gives your Nubbin a doll the size of a thumb._  
+_Last of all, Vasilisa gives your Nubbin a little painted doll in a pouch._  
+**Vasilisa**: The real one stays with me. This one just needs looking after.  
+_Your Nubbin looks at the pouch, then her pocket. It thinks that is fair._  
 _The tale ends the old way: the little doll stayed in her pocket, always._  
 
 > **Lesson** (literacy, ELOF: Literacy, ask): the main idea of a story  
@@ -2244,6 +2274,8 @@ _The tale ends the old way: the little doll stayed in her pocket, always._
 > _For grown-ups: Talked about the story’s main idea: kindness comes back round._
 
 _The page settles under your hand. You are back in the Grove._  
+_The doll goes in with the rest of its collection, in your coat._  
+_Your coat pocket has stopped trying._  
 
 #### `sprout:a18-16-complete-self` · [main](main.md#a18-16-complete-self)
 
@@ -2251,10 +2283,16 @@ _Variant of `a18-16-complete`._
 
 _In spring the merchant comes home over the hill._  
 **The Merchant**: Married? My Vasilisa? To whom? To the… oh. Oh, my goodness.  
+_He finds what he promised: a silver thimble. It goes in her other pocket._  
+**The Merchant**: Did Nova say who won?  
+**You**: She says it was a draw. Nobody won.  
+**The Merchant**: That is just what a winner would say.  
 _She takes him to live with her, and the old woman too._  
 _At the wedding the Tsar wears one shirt you know. Yours, the plainest._  
 _He says it is for ordinary days. Vasilisa gives you its spare button._  
-_Last of all, Vasilisa gives your Nubbin a doll the size of a thumb._  
+_Last of all, Vasilisa gives your Nubbin a little painted doll in a pouch._  
+**Vasilisa**: The real one stays with me. This one just needs looking after.  
+_Your Nubbin looks at the pouch, then her pocket. It thinks that is fair._  
 _The tale ends the old way: the little doll stayed in her pocket, always._  
 
 > **Lesson** (literacy, ELOF: Literacy, ask): the main idea of a story  
@@ -2264,6 +2302,8 @@ _The tale ends the old way: the little doll stayed in her pocket, always._
 > _For grown-ups: Talked about the story’s main idea: honest work matters, even when it is plain._
 
 _The page settles under your hand. You are back in the Grove._  
+_The doll goes in with the rest of its collection, in your coat._  
+_Your coat pocket has stopped trying._  
 
 #### `sprout:a18-16-sable` · [main](main.md#a18-16-sable)
 

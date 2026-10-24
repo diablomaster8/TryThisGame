@@ -522,7 +522,7 @@ export const ATLAS_A17: Quest[] = [
         scene: {
           id: 'a17-04-ride',
           lines: [
-            FA('We’re visiting their mother today. Would you like to come? It’s a long way, but it’s all downhill. Going.'),
+            FA('We’re visiting their mother today. Would you like to come? It’s all downhill on the way there. We don’t talk about the way back.'),
             N('Granny lends you her bicycle, which is black and heavy and squeaks on every turn of the pedals.'),
             N('Mr Kusakabe rides in front, with Mei on a little seat on the handlebars and Satsuki on the carrier behind.'),
             N('Your Nubbin rides in your basket, ears flat in the wind.'),
@@ -536,6 +536,8 @@ export const ATLAS_A17: Quest[] = [
               then: [
                 N('You stand on the pedals, and Mr Kusakabe stands on his. Both bicycles squeak like geese.'),
                 N('He wins, by a wheel, and then has to sit at the top getting his breath back for quite a long time.'),
+                FA('Downhill. I did say downhill.'),
+                N('He says it lying on the verge, to the sky.'),
               ],
             },
             {
@@ -757,7 +759,9 @@ export const ATLAS_A17: Quest[] = [
             N('Something is breathing. Something very large.'),
             N('A great grey-and-white shape is asleep in the hollow, bigger than Granny’s house. Its ears twitch in its sleep.'),
             N('And on top of it, on its round white stomach, Mei is lying on her front with her chin in her hands.'),
-            ME('Shh. He’s asleep. He’s so soft. He told me his name. It’s a big rumbly one.', 'happy'),
+            ME('Shh. He’s asleep. He told me his name. It goes rrrrOOOOMMMmmm.', 'happy'),
+            ME('I’m going to practise.'),
+            N('She practises. The great spirit, asleep, rumbles back, much better.'),
             N('The great spirit opens his mouth in a yawn like a gate swinging open. Mei laughs, and he closes it again, and sleeps on.'),
             N('Your Nubbin climbs up his side, very carefully, and curls up next to Mei. The stomach rises and falls under both of them.'),
           ],
@@ -974,7 +978,7 @@ export const ATLAS_A17: Quest[] = [
       lines: [
         N('The next time it rains, the umbrella goes past Granny’s gate on its way to school, with Kanta under it.'),
         N('He holds it a little to one side, as if someone might want to share it. Nobody does, and he holds it to one side anyway.'),
-        GR('That boy. He’d give you his head if it wasn’t screwed on.', 'happy'),
+        GR('That boy. He’d give you his own boots and walk home in the snow.', 'happy'),
       ],
     },
     rewards: [],
@@ -1036,7 +1040,9 @@ export const ATLAS_A17: Quest[] = [
         done: {
           id: 'a17-08-field-done',
           lines: [
-            N('Mei carries her ear of corn home herself, in both arms, like a baby. Nobody else is allowed to hold it.'),
+            N('Mei carries her ear of corn home in both arms, like a baby. Your Nubbin offers to help.'),
+            ME('No. You’ve looked at it twice.'),
+            N('Your Nubbin walks home behind her, not looking at the corn, very hard.'),
           ],
         },
       },
@@ -1121,7 +1127,7 @@ export const ATLAS_A17: Quest[] = [
           lines: [
             N('It has rained since teatime. Mr Kusakabe went to the university without an umbrella, as he always does.'),
             SA('We’ll take Dad’s umbrella to the bus stop. Mei’s coming too. She won’t stay behind.'),
-            GR('Take my lantern, and take the Keeper. It’s black as a boot out there.'),
+            GR('Take my lantern, and take the Keeper. It’s as dark as the inside of a boot out there.'),
             N('So the four of you go down the road in the dark: Satsuki with her umbrella and her father’s under her arm, Mei under a small one, you with the lantern.'),
             N('Your Nubbin walks under Mei’s umbrella, because there is just room.'),
             N('The bus stop is a sign on a post and a little wooden shelter, at the edge of the wood. The rain drums on everything.'),
@@ -1940,6 +1946,8 @@ export const ATLAS_A17: Quest[] = [
         N('Mei sits in Satsuki’s lap with the corn in hers. Neither of them lets go of anything.'),
         ME('Onee-chan, are we nearly there?'),
         SA('Nearly.', 'soft'),
+        N('Mei counts the telegraph poles to make sure: “One, two, five, nine, eleven.” They go past very fast.'),
+        ME('We’re nearly there. I counted.'),
       ],
     },
     rewards: [],
@@ -2033,7 +2041,7 @@ export const ATLAS_A17: Quest[] = [
         N('Later in the summer Mrs Kusakabe comes home. It was only a cold, and she is getting well.'),
         N('She comes up the road from the bus stop, slowly, and the girls run down to meet her. You watch from Granny’s step.'),
         N('Then the page goes soft under your hand, and it is the Grove, with Nova’s atlas on your knee.'),
-        N('Your Nubbin refuses to take its leaf off. By the lane stands a bench like a country bus stop; on the shelf, an ear of corn, dried gold.'),
+        N('Your Nubbin adds a leaf it will not take off, even in the bath, to its collection. By the lane stands a bench like a country bus stop; on the shelf, an ear of corn, dried gold.'),
       ],
     },
     rewards: [
@@ -2066,7 +2074,7 @@ export const ATLAS_A17: Quest[] = [
       'one); the atlas lets the player read it. ' +
       'SIM: (a) the bench is a decoration with a wooden shelter and a post sign; it is decor only, no bus, no timer. ' +
       '(b) The bookmark is an item in the atlas; the Long Table festival (A11, A13, A17, A18, A22, any two) reads ' +
-      'atlasDone(\'A17\'). (c) The leaf hat was given in A17-9.',
+      'atlasDone(\'A17\'). (c) The leaf hat was given in A17-9. (d) KEEPSAKE GAG (SR-20261024-704): this page names only its own item, the leaf.',
   },
 ];
 
@@ -2182,7 +2190,7 @@ export const A17_VARIANTS: Scene[] = [
   {
     id: 'a17-14-tunnel-hunt-done',
     lines: [
-      N('Kanta pedals hard along the lane, standing up, shouting Mei’s name at every turning.'),
+      N('Kanta pedals hard along the lane, standing up, shouting Mei’s name at every turning. Twice he shouts it at a cow. The cow takes it well.'),
     ],
   },
   // ---------------------------------------------------------------- A17-14, step 2 scene and done (hunt)
@@ -2356,7 +2364,7 @@ export const A17_VARIANTS: Scene[] = [
       N('Later in the summer Mrs Kusakabe comes home. It was only a cold, and she is getting well.'),
       N('She comes up the road from the bus stop, slowly, and the girls run down to meet her. You watch from Granny’s step, with Kanta.'),
       N('Then the page goes soft under your hand, and it is the Grove, with Nova’s atlas on your knee.'),
-      N('Your Nubbin refuses to take its leaf off. By the lane stands a bench like a country bus stop; on the shelf, an ear of corn, dried gold.'),
+      N('Your Nubbin adds a leaf it will not take off, even in the bath, to its collection. By the lane stands a bench like a country bus stop; on the shelf, an ear of corn, dried gold.'),
     ],
   },
   // ---------------------------------------------------------------- Grove keepsake: the oak (s1Done; Moss present)

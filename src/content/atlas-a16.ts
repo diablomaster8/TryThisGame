@@ -591,7 +591,10 @@ export const ATLAS_A16: Quest[] = [
             {
               id: 'pull',
               label: 'Pull it. It has a baobab’s fat stem.',
-              then: [N('Out it comes, root and all. The boy nods once, like a teacher who has seen a sum done right.')],
+              then: [
+                N('Out it comes, root and all. Your Nubbin holds it up like a prize fish.'),
+                N('It checks twice that it is not a rose. The boy nods once, like a teacher who has seen a sum done right.'),
+              ],
             },
             {
               id: 'ask',
@@ -1144,7 +1147,12 @@ export const ATLAS_A16: Quest[] = [
             {
               id: 'up',
               label: 'Ask him to look up, just once.',
-              then: [BU('Look up? I haven’t time to look up. I have them to count.', 'angry'), N('He still doesn’t.')],
+              then: [BU('Look up? I haven’t time to look up. I have them to count.', 'angry'),
+                N('He still doesn’t.'),
+                N('Your Nubbin helps by counting the stars out loud, in squeaks: one, two, three, two.'),
+                BU('Four hundred and… four hundred and… Now look what it’s done.', 'angry'),
+                PR('It’s lost its place too. You’re even.'),
+              ],
             },
           ],
         },
@@ -1741,7 +1749,10 @@ export const ATLAS_A16: Quest[] = [
             {
               id: 'wave',
               label: 'Wave at the children.',
-              then: [N('You wave. A small hand waves back from a window, and then the train is gone into the dark.')],
+              then: [
+                N('You wave. A small hand waves back from a window, and then the train is gone into the dark.'),
+                N('Your Nubbin waves too, with both paws, at the train going the other way.'),
+              ],
             },
             {
               id: 'where',
@@ -1762,7 +1773,10 @@ export const ATLAS_A16: Quest[] = [
             N('Then a merchant with a tray round his neck, selling little pills.'),
             ME('One a week, and you’ll never be thirsty. Saves fifty-three minutes. Experts worked it out.'),
             PR('What do you do with the fifty-three minutes?'),
-            ME('Use them! Anything at all! Experts say it’s very efficient.', 'happy'),
+            ME('Use them! Anything at all!', 'happy'),
+            PR('What do the experts do with theirs?'),
+            ME('They write reports about saving minutes. It takes ages.'),
+            N('Your Nubbin sniffs the tray, decides the pills are not food, and looks at the merchant as if he ought to know better.'),
             N('The boy thinks about it seriously, the way he thinks about everything.'),
             PR('If I had fifty-three minutes to spare, I’d spend them walking to a spring. Very slowly.', 'soft'),
             N('The merchant looks at his tray, and at the boy, and doesn’t seem to know what to say.'),
@@ -1821,7 +1835,7 @@ export const ATLAS_A16: Quest[] = [
         scene: {
           id: 'a16-15-night',
           lines: [
-            N('A well, in all this desert, is a silly idea. You set off anyway, all four of you, as the sun goes down.'),
+            N('A well, in all this desert, is a silly idea. You set off anyway, all of you, with your Nubbin in front as if it knows the way.'),
             N('The stars come out. The sand is cold under your feet, and silver, and goes on for ever.'),
             PI('Here. Your little one’s shivering.'),
             N('He unwinds the long scarf from his own neck and winds it round and round your Nubbin, until only its eyes show.'),
@@ -1867,7 +1881,9 @@ export const ATLAS_A16: Quest[] = [
             N('He takes hold of the rope and pulls. The pulley turns and creaks, like an old gate that hasn’t been asked to open for years.'),
             PR('It’s complaining. Nobody’s woken it up for ages.', 'happy'),
             PI('Let me. It’s too heavy for you.'),
-            N('The pilot hauls the bucket up, hand over hand. You steady it on the stone, with the sun shaking in the water.'),
+            N('The pilot hauls the bucket up, hand over hand, muttering.'),
+            PI('Don’t ask. It’s the system.'),
+            N('You steady it on the stone, with the sun shaking in the water. Your Nubbin mutters too, to help.'),
           ],
         },
         done: {
@@ -1926,6 +1942,7 @@ export const ATLAS_A16: Quest[] = [
         PR('I’m going home to my rose. It’s a long way.', 'soft'),
         N('The pilot unwinds the scarf from your Nubbin, looks at it, and winds it back on again.'),
         PI('Keep it. It’s walked further than I have tonight.'),
+        N('Whatever else your Nubbin has picked up on its travels, the scarf is winning.'),
       ],
     },
     rewards: [

@@ -289,7 +289,8 @@ _Your Nubbin takes hold of a shoot with both paws and looks up, waiting to be to
 **Choices**
 
 - **Pull it. It has a baobab’s fat stem.**
-    - Out it comes, root and all. The boy nods once, like a teacher who has seen a sum done right.
+    - Out it comes, root and all. Your Nubbin holds it up like a prize fish.
+    - It checks twice that it is not a rose. The boy nods once, like a teacher who has seen a sum done right.
 - **Ask him which it is first.**
     - **The Prince**: Baobab. Good. Asking is better than pulling up a rose.
     - Out it comes, root and all.
@@ -683,6 +684,9 @@ _He means the stars. You can tell, because he will not look up at a single one o
 - **Ask him to look up, just once.**
     - **The Businessman**: Look up? I haven’t time to look up. I have them to count.
     - He still doesn’t.
+    - Your Nubbin helps by counting the stars out loud, in squeaks: one, two, three, two.
+    - **The Businessman**: Four hundred and… four hundred and… Now look what it’s done.
+    - **The Prince**: It’s lost its place too. You’re even.
 
 #### <a id="a16-08-desk-done"></a>Done `a16-08-desk-done`
 
@@ -1244,6 +1248,7 @@ _A third train thunders by. In every window grown-ups sleep or yawn, but here an
 
 - **Wave at the children.**
     - You wave. A small hand waves back from a window, and then the train is gone into the dark.
+    - Your Nubbin waves too, with both paws, at the train going the other way.
 - **Ask where they’re all going.**
     - **The Switchman**: Somewhere else. Then back again. Same as yesterday.
 
@@ -1256,7 +1261,10 @@ Hint: Follow the boy to the man with the tray. · check: `talk:a16-merchant:tray
 _Then a merchant with a tray round his neck, selling little pills._  
 **The Merchant**: One a week, and you’ll never be thirsty. Saves fifty-three minutes. Experts worked it out.  
 **The Prince**: What do you do with the fifty-three minutes?  
-**The Merchant** _(happy)_: Use them! Anything at all! Experts say it’s very efficient.  
+**The Merchant** _(happy)_: Use them! Anything at all!  
+**The Prince**: What do the experts do with theirs?  
+**The Merchant**: They write reports about saving minutes. It takes ages.  
+_Your Nubbin sniffs the tray, decides the pills are not food, and looks at the merchant as if he ought to know better._  
 _The boy thinks about it seriously, the way he thinks about everything._  
 **The Prince** _(soft)_: If I had fifty-three minutes to spare, I’d spend them walking to a spring. Very slowly.  
 _The merchant looks at his tray, and at the boy, and doesn’t seem to know what to say._  
@@ -1298,7 +1306,7 @@ Hint: Keep up with the pilot across the dunes. Don’t stop. · check: `walk:a16
 
 #### <a id="a16-15-night"></a>Scene `a16-15-night`
 
-_A well, in all this desert, is a silly idea. You set off anyway, all four of you, as the sun goes down._  
+_A well, in all this desert, is a silly idea. You set off anyway, all of you, with your Nubbin in front as if it knows the way._  
 _The stars come out. The sand is cold under your feet, and silver, and goes on for ever._  
 **The Pilot**: Here. Your little one’s shivering.  
 _He unwinds the long scarf from his own neck and winds it round and round your Nubbin, until only its eyes show._  
@@ -1332,7 +1340,9 @@ _A well. Not a hole in the sand, like desert wells, but a real one: a stone ring
 _He takes hold of the rope and pulls. The pulley turns and creaks, like an old gate that hasn’t been asked to open for years._  
 **The Prince** _(happy)_: It’s complaining. Nobody’s woken it up for ages.  
 **The Pilot**: Let me. It’s too heavy for you.  
-_The pilot hauls the bucket up, hand over hand. You steady it on the stone, with the sun shaking in the water._  
+_The pilot hauls the bucket up, hand over hand, muttering._  
+**The Pilot**: Don’t ask. It’s the system.  
+_You steady it on the stone, with the sun shaking in the water. Your Nubbin mutters too, to help._  
 
 #### <a id="a16-15-well-done"></a>Done `a16-15-well-done`
 
@@ -1382,6 +1392,7 @@ _You all sit with your backs against the warm stone. The boy looks at the pilot 
 **The Prince** _(soft)_: I’m going home to my rose. It’s a long way.  
 _The pilot unwinds the scarf from your Nubbin, looks at it, and winds it back on again._  
 **The Pilot**: Keep it. It’s walked further than I have tonight.  
+_Whatever else your Nubbin has picked up on its travels, the scarf is winning._  
 
 **Rewards**
 

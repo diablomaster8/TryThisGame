@@ -316,7 +316,7 @@ const A01 = quest(
           3,
           'social-studies',
           'why forest lands built with logs',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'Many houses in forest lands were built of logs, with moss in the gaps. Why might a village near a big forest build this way?',
@@ -489,7 +489,7 @@ const A01 = quest(
       ],
       [
         ask(
-          4,
+          6,
           'sel',
           'how to support someone who is grieving',
           'CASEL: Social awareness',
@@ -567,7 +567,7 @@ const A02 = quest(
           4,
           'health',
           'people, like all animals, need food to live and grow',
-          'K-LS1-1',
+          undefined,
           [
             N(
               'Vasilisa is hiding her food. People, like all animals, need food to live: it gives us energy to move, think and grow. What will happen if she keeps going without?',
@@ -744,7 +744,7 @@ const A02 = quest(
           2,
           'science',
           'we see because light reaches our eyes',
-          '1-PS4-2',
+          '4-PS3-2',
           [
             N(
               'Inside the candle’s ring you can see the crocks clearly. Beyond it you see only shapes. How do we see anything at all?',
@@ -859,7 +859,7 @@ const A02 = quest(
           1,
           'social-studies',
           'sharing food shows respect in many cultures',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'In many cultures around the world, offering a guest the best food first is a way of showing respect.',
@@ -881,7 +881,7 @@ const A02 = quest(
           [
             o('Feed others first, because caring means giving', [
               N(
-                'That’s a fair answer. Giving to others first is a powerful kind of love. Notice that Vasilisa still sleeps and still eats her share of turnip, so she is giving, not vanishing.',
+                'That’s a fair answer. Giving to others first is a powerful kind of love. Notice that Vasilisa still eats her share of turnip: she is giving, not vanishing.',
                 'soft',
               ),
             ]),
@@ -927,7 +927,7 @@ const A02 = quest(
           1,
           'music',
           'rhythm and repeated lines in work songs',
-          'RL.2.4',
+          undefined,
           [
             N(
               'Vasilisa sings while she works. Work songs often have a steady beat and lines that come round again and again. Why might that help?',
@@ -1127,7 +1127,7 @@ const A03 = quest(
           4,
           'science',
           'plants compete for water and light',
-          '2-LS2-1',
+          undefined,
           [N('Weeds grow among the cabbages. Why does pulling weeds help the cabbages grow?')],
           [
             o(
@@ -1279,7 +1279,7 @@ const A03 = quest(
           1,
           'social-studies',
           'fair sharing of household work',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'One girl does every job in the house while two others sit. What would a fairer household do?',
@@ -1336,7 +1336,7 @@ const A03 = quest(
           0,
           'science',
           'why summer days are longer: the Earth’s tilt',
-          '1-ESS1-2',
+          '5-ESS1-2',
           [N('In summer the sun stays up much longer than in winter. What causes the difference?')],
           [
             o(
@@ -1414,7 +1414,7 @@ const A04 = quest(
           2,
           'maths',
           'subtraction to find an interval of years',
-          '2.OA.A.1',
+          '4.NBT.B.4',
           [
             N(
               'Vasilisa was eight when you met her. She looks about seventeen now. About how many years has the atlas skipped?',
@@ -1439,6 +1439,8 @@ const A04 = quest(
       [
         ch('knocking', 'Ask who’s been knocking.', [
           V('Young men. For me. Not for my sisters. You can imagine how that’s going.', 'think'),
+          V('One brought a goose. I think he hoped the goose would do the talking.'),
+          N('Your Nubbin looks round for the goose. It is a Nubbin with a lot of time for geese.'),
         ]),
         ch('pocket', 'Ask, very quietly, about her pocket.', [
           V('Still there. Still eats better than I do. She says hello.'),
@@ -1513,7 +1515,7 @@ const A04 = quest(
           3,
           'social-studies',
           'whether a custom is reason enough',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'The stepmother says it is the custom that the youngest doesn’t marry before the elders. Is “it’s the custom” a good enough reason to treat someone unfairly? What makes a custom worth keeping?',
@@ -1725,7 +1727,7 @@ const A04 = quest(
           0,
           'social-studies',
           'how news travelled before phones',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Word got round the lanes without phones, newspapers or post. How did news travel in a village long ago?',
@@ -1808,7 +1810,7 @@ const A05 = quest(
           0,
           'science',
           'breath clouds: water vapour condensing in cold air, a change that reverses',
-          '2-PS1-4',
+          undefined,
           [
             N(
               'The horses’ breath looks like steam on this cold morning. What is the cloud really made of?',
@@ -1819,7 +1821,7 @@ const A05 = quest(
               'Tiny drops of water: warm, damp breath cools and turns from vapour to droplets',
               [
                 N(
-                  'Yes. Your breath carries invisible water vapour. In cold air it cools and condenses into tiny droplets, which you can see as a cloud. Then the droplets dry back into vapour and the cloud vanishes: the change reverses.',
+                  'Yes. Your breath holds water vapour. Cold air turns it into tiny drops you can see. Then they dry back into vapour: the change reverses.',
                   'happy',
                 ),
               ],
@@ -1859,7 +1861,7 @@ const A05 = quest(
           1,
           'music',
           'pitch depends on how fast something vibrates',
-          '1-PS4-1',
+          '4-PS3-2',
           [
             N(
               'The big gate makes a low creak and a small hinge a high squeak. What makes a sound higher in pitch?',
@@ -1916,7 +1918,7 @@ const A05 = quest(
           3,
           'social-studies',
           'birch woods grow across the cool north',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'Birch woods stretch across the cool north, from northern Europe far into Asia, and many old folk tales are set in them. Why do birches do well in cool lands with long winters?',
@@ -2079,7 +2081,7 @@ const A05 = quest(
           1,
           'maths',
           'addition within 100',
-          '2.OA.A.1',
+          '4.NBT.B.4',
           [
             N(
               'Twelve red-capped mushrooms and fifteen brown ones. How many mushrooms are in the basket?',
@@ -2297,6 +2299,9 @@ const A06 = quest(
         ),
         ELD('Oh! Oh dear. By accident.', 'shock'),
         N('In the dark, your Nubbin climbs straight up your front and into your coat.'),
+        N('Somebody walks into a chair.'),
+        ELD('Sorry! Oh, it’s a chair. Sorry, chair.', 'shock'),
+        ELD('That wasn’t me, by the way. Nobody saw, so it wasn’t anybody.'),
         STEP('Now what? No fire in the house, and the stove gone out. We must have light.'),
         YNG('Well, I’m not going. I can see by my pins.'),
         ELD('And I can see by my needles. I’m not going either.'),
@@ -2308,7 +2313,7 @@ const A06 = quest(
       ],
       [
         ask(
-          3,
+          6,
           'science',
           'eyes adjust to the dark',
           '4-LS1-2',
@@ -2322,7 +2327,7 @@ const A06 = quest(
               'The pupils widen to let in more light, and the eyes slowly grow more sensitive',
               [
                 N(
-                  'Yes. The pupils open wide, and over many minutes the light-sensing cells at the back of the eye become more sensitive. That is why a dark room slowly reveals its shapes.',
+                  'Yes. The pupils open wide, and over many minutes the light-sensing cells at the back of the eye grow more sensitive. A dark room slowly shows its shapes.',
                   'happy',
                 ),
               ],
@@ -2354,7 +2359,7 @@ const A06 = quest(
           1,
           'social-studies',
           'blaming someone unfairly: a scapegoat',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'When people blame one person for something they did themselves, that person is called a scapegoat. Why is this unfair?',
@@ -3031,7 +3036,7 @@ const A08 = quest(
           1,
           'literacy',
           'onomatopoeia',
-          'RL.1.4',
+          'RL.4.3',
           [
             N(
               'Creak, rustle and rattle sound like the noises they name. What is a word like that called?',
@@ -3104,7 +3109,7 @@ const A08 = quest(
               'The water pushes back on the oar, so the boat is pushed forwards',
               [
                 N(
-                  'Yes. A push always meets a push the other way. The oar shoves water backwards, the water shoves the oar forwards, and the boat goes with it. (Baba Yaga does it through air, by magic.)',
+                  'Yes. A push meets a push the other way. The oar shoves water backwards, the water shoves the oar forwards, and the boat follows. (Baba Yaga uses magic.)',
                   'happy',
                 ),
               ],
@@ -3243,10 +3248,11 @@ const A08 = quest(
         N(
           'The bolts on the hut door shoot back in a pattern: two clacks, then four, then six, then eight…',
         ),
+        N('Your Nubbin counts along on its paws, runs out at four, and borrows your fingers for the rest.'),
       ],
       [
         ask(
-          2,
+          3,
           'maths',
           'number patterns that follow a rule',
           '4.OA.C.5',
@@ -3296,7 +3302,7 @@ const A08 = quest(
           1,
           'social-studies',
           'how a great stove was used in old homes',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'In old homes in cold, forested lands, a great stove often took up half the room. What jobs did it do?',
@@ -3373,23 +3379,25 @@ const A09 = quest(
           'She eats the way the wind takes a field: all of it, from one side to the other, and nothing left standing.',
         ),
         N('Your Nubbin watches the goose go, with an expression of real grief.'),
+        BY('What? It was a small goose.'),
+        N('It was not a small goose.'),
         BY('Ah. Better. That’s what an old woman needs. A little something.', 'happy'),
         N(
           'On the table she leaves a bowl with a little soup at the bottom, a crust, and a scrap of pork the size of your thumb.',
         ),
         BY(
-          'That’s yours, girl. Supper. And a crust for you, friend from elsewhere, since you carried. Don’t say I’m not fair.',
+          'Ten slices of pork. Nine for me, one for you. That’s yours, girl. Supper. And a crust for you, friend from elsewhere, since you carried. Don’t say I’m not fair.',
         ),
       ],
       [
         ask(
-          6,
+          9,
           'maths',
           'unit fractions: 1 out of 10 equal parts',
           '3.NF.A.1',
           [
             N(
-              'Imagine the pork was cut into 10 equal pieces. Baba Yaga ate 9 and left Vasilisa 1. What fraction of the pork did Vasilisa get?',
+              'The pork was cut into 10 equal slices. Baba Yaga ate 9 and left Vasilisa 1. What fraction of the pork did Vasilisa get?',
             ),
           ],
           [
@@ -3565,7 +3573,7 @@ const A09 = quest(
           1,
           'social-studies',
           'scarcity means choosing',
-          'D2.Eco.1.K-2',
+          'D2.Eco.1.3-5',
           [
             N(
               'When there isn’t enough of something for everyone, people have to choose who gets it. What is that shortage called?',
@@ -4090,7 +4098,7 @@ const A11 = quest(
           4,
           'science',
           'separating a mixture by a property such as size',
-          '2-PS1-1',
+          undefined,
           [
             N(
               'Some of the earth is in lumps bigger than a poppy seed. Which tool separates things by size?',
@@ -4296,7 +4304,7 @@ const A11 = quest(
           7,
           'social-studies',
           'the difference between a gift and wages',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'Baba Yaga insists that pay is not a present. What is the difference between a gift and wages? Does being paid fairly change how a person feels about their work?',
@@ -4428,7 +4436,11 @@ const A11 = quest(
     ),
   ],
   [
-    gloss('tint', 'A colour made lighter by adding white.', 'a18-11-poppy-done'),
+    gloss(
+      'shade',
+      'A colour made darker by adding black. Also a cool place out of the sun.',
+      'a18-11-poppy-done',
+    ),
     gloss('foreshadowing', 'A hint in a story about what will happen later.', 'a18-11-complete'),
   ],
 );
@@ -4479,7 +4491,7 @@ const A12 = quest(
           10,
           'social-studies',
           'oral tradition: how old tales travel and change',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'This tale was told aloud for hundreds of years before a collector, Alexander Afanasyev, gathered it into a book in the 1800s. Baba Yaga is in Ukrainian, Belarusian, Polish and Russian stories too. Why do old tales change a little from place to place?',
@@ -4522,7 +4534,7 @@ const A12 = quest(
           1,
           'literacy',
           'the rule of three in folk tales: patterns of repetition',
-          'RL.2.4',
+          undefined,
           [
             N(
               'Three riders: white, red and black. Folk tales often use three of things, like three wishes or three brothers. Why might that be?',
@@ -4635,7 +4647,7 @@ const A12 = quest(
           1,
           'science',
           'describing a material by its properties: birch bark',
-          '2-PS1-1',
+          undefined,
           [
             N(
               'Baba Yaga’s answer was a joke. Real birch bark is white, papery and peels in thin sheets. Long ago, which property made it good for writing letters on?',
@@ -4690,10 +4702,11 @@ const A12 = quest(
         BY(
           'Here. Here’s fire for your stepmother’s daughters. That’s what you came for. Take it and go!',
         ),
+        N('A bunch of herbs lands on your Nubbin. It wears it as a hat all the way home.'),
       ],
       [
         ask(
-          2,
+          8,
           'sel',
           'feeling loved helps us be brave',
           'CASEL: Self-awareness',
@@ -4795,7 +4808,7 @@ const A12 = quest(
           1,
           'art',
           'sorting colours into warm and cool, and counting each group',
-          'K.MD.B.3',
+          undefined,
           [
             N(
               'The skull’s glow is amber, a warm colour like fire. Artists sort colours into warm and cool. Sort these six: red, blue, orange, green, yellow, purple. How many are warm?',
@@ -4882,7 +4895,7 @@ const A13 = quest(
           0,
           'science',
           'light spreads out and weakens with distance',
-          '1-PS4-2',
+          '4-PS3-2',
           [
             N(
               'The skull’s light makes a bright round room, dim at its edge. Why is a light bright near the lamp and dim far away?',
@@ -4977,6 +4990,10 @@ const A13 = quest(
         N('The voice comes from the skull. It is a dry voice, like leaves, and not at all unkind.'),
         SK('Take me to your stepmother’s house. That is where I’m wanted.'),
         V('Oh.', 'shock'),
+        SK('And mind you don’t swing me. I’ve been on a stick all day.'),
+        N(
+          'Vasilisa holds the stick very, very still. Your Nubbin takes its paws off its eyes, to see what manners look like on a skull.',
+        ),
       ],
       [
         think(
@@ -5071,12 +5088,15 @@ const A13 = quest(
       'a18-13-carry',
       [
         Y('Give it to me. Just as far as the gate.'),
-        N('You take the stick. It is lighter than you thought, and warm, like a cup of something.'),
+        N('You take the stick. It weighs 450 grams, lighter than you thought, and warm like a cup of something.'),
         N(
           'Vasilisa shakes out her arms and blows on her hands, and walks beside you with one hand on your sleeve.',
         ),
         N('The skull looks ahead at the dark house. Its eyes get brighter the nearer you come.'),
         SK('Nearly there.', 'think'),
+        N('It said that at the edge of the wood. It has said it four times since.'),
+        V('Skulls have no idea how far anything is.'),
+        SK('Nearly there.'),
         N('Your Nubbin climbs up on to your shoulder to see where you’re all going.'),
       ],
       [
@@ -5087,7 +5107,7 @@ const A13 = quest(
           '4.MD.A.1',
           [
             N(
-              'Imagine the skull and its stick weigh 450 grams. Two of them would weigh 900 grams. Is that more or less than a kilogram?',
+              'The skull and its stick weigh 450 grams. Two of them would weigh 900 grams. Is that more or less than a kilogram?',
             ),
           ],
           [
@@ -5309,46 +5329,45 @@ const A14 = quest(
       'a18-14-door-done',
       [
         N(
-          'The stepmother moves to the stove, and the skull’s eyes follow her. She moves to the window, and they follow her there too.',
+          'The stepmother moves to the stove, and the skull’s eyes follow her. She backs away towards the door, and they follow her there too.',
         ),
-        N(
-          'The stove stands against the north wall of the kitchen, and the window is in the east wall.',
-        ),
+        N('The stove stands against the north wall. The door is in the south wall, straight across from it.'),
+        N('The eyes get to the door first.'),
       ],
       [
         ask(
-          1,
+          2,
           'social-studies',
           'compass directions',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
-              'The stepmother walks from the stove on the north wall to the window on the east wall. Roughly which way is she heading?',
+              'The stepmother backs from the stove to the door. Which way is she going?',
             ),
           ],
           [
             o(
-              'South-east',
+              'South',
               [
                 N(
-                  'Yes. Moving away from the north wall means heading south, and moving towards the east wall means heading east. Together that is south-east.',
+                  'Yes. The stove is on the north wall and the door is on the south wall, straight across. Moving from north to south means heading south.',
                   'happy',
                 ),
               ],
               true,
             ),
-            o('North-west', [
+            o('North', [
               N(
-                'That is the opposite way. She leaves the north wall, so she heads south, and she goes towards the east wall: south-east.',
+                'That is the opposite way. The stove is on the north wall, and she is leaving it for the door on the south wall.',
               ),
             ]),
-            o('North-east', [
+            o('East', [
               N(
-                'She is leaving the north wall, not going towards it. South, plus east, makes south-east.',
+                'East is sideways from this path. The door is straight across from the stove, so she goes from north to south.',
               ),
             ]),
           ],
-          'Used compass directions to describe movement from a north wall to an east wall (south-east).',
+          'Used compass directions to describe movement from a north wall to a south wall (south).',
         ),
       ],
     ),
@@ -5369,11 +5388,12 @@ const A14 = quest(
         N(
           'Vasilisa sits by the cold stove, and you sit beside her with your Nubbin in your lap. The light never once looks at you.',
         ),
+        N('Your Nubbin, who has been glared at by experts, is a little offended.'),
         V('I didn’t want this. I only went for fire.', 'sad'),
       ],
       [
         think(
-          6,
+          7,
           'sel',
           'whether unkind people deserve a fright, and what Vasilisa’s feelings show',
           'CASEL: Social awareness',
@@ -5486,7 +5506,7 @@ const A14 = quest(
           5,
           'social-studies',
           'marking a place to remember',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'People mark places they want to remember with a stone, a tree or a flower. In the Grove a memorial flower grows for each Nubbin who has faded. Why do people mark special places?',
@@ -5584,7 +5604,7 @@ const A14 = quest(
           1,
           'music',
           'tempo: the beat of words and feet',
-          'RL.2.4',
+          undefined,
           [
             N(
               'Walking has a steady beat. Say “not far now, not far now” in time with your feet. If you walked twice as fast, what would happen to the beat?',
@@ -5717,7 +5737,7 @@ const A15 = quest(
           1,
           'science',
           'flax is pulled to keep its fibres long: a material’s properties',
-          '2-PS1-1',
+          undefined,
           [N('Why is flax pulled up by the roots instead of being cut?')],
           [
             o(
@@ -5828,7 +5848,7 @@ const A15 = quest(
           1,
           'social-studies',
           'how linen was made by hand long ago, step by step',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Long ago, families made linen by hand in five steps: bleach, spin, pull, weave and ret (soak the stems so the woody part rots away). Which order did they go in?',
@@ -6082,7 +6102,7 @@ const A16 = quest(
           10,
           'social-studies',
           'whether something can be worth more than a price',
-          'D2.Eco.1.K-2',
+          'D2.Eco.1.3-5',
           [
             N(
               'The old woman says cloth like this is a gift or it is nothing. Can some things be worth more than any price? When is giving better than selling?',
@@ -6174,7 +6194,7 @@ const A16 = quest(
         ),
         V('Yes. Tell him yes.'),
         N(
-          'She sews for a week: twelve shirts, one after another, at the window where the light is best.',
+          'She sews two shirts a day at the window, where the light is best, until there are twelve. Your Nubbin guards the pile.',
         ),
         N(
           'You thread her needles, because her eyes are tired by evening. Your Nubbin sorts the buttons into rows.',
@@ -6338,7 +6358,7 @@ const A16 = quest(
           1,
           'music',
           'bigger bells make lower notes',
-          '1-PS4-1',
+          '4-PS3-2',
           [N('The biggest bell gives the deepest note. Why?')],
           [
             o(
@@ -6372,24 +6392,35 @@ const A16 = quest(
         ),
         MER('Married? My Vasilisa? To whom? To the… oh. Oh, my goodness.', 'shock'),
         N(
+          'He pats his coat and finds what he promised: a silver thimble. Vasilisa puts it in her other pocket, away from the doll.',
+        ),
+        MER('And the woman with the map? Did she say who won?', 'happy'),
+        Y('She says it was a draw.'),
+        MER('That is exactly what the winner would say.', 'think'),
+        N(
           'She takes him to live with her, and the old woman too, who complains about the palace stairs and is very happy.',
         ),
         N(
           'Your Nubbin carries Baba Yaga’s bag of oats down the palace steps, as proudly as it carried it out of the wood.',
         ),
         N(
-          'Last of all, Vasilisa gives your Nubbin a painted doll no bigger than a thumb, in a pouch of its own on a cord.',
+          'Last of all, Vasilisa gives your Nubbin a little painted copy of her doll, no bigger than a thumb, in a pouch on a cord.',
+
         ),
+        V('The real one stays with me. She has work to do. This one only has to be looked after.', 'soft'),
+        N('Your Nubbin looks into the pouch, then at Vasilisa’s pocket, and decides this is fair.'),
         N(
           'The tale ends the way the old books end it: the little doll stayed in her pocket, always.',
         ),
         N(
           'The page settles, and you are back in the Grove with the atlas on your knee. Your Nubbin checks its pouch twice: the small painted doll is still there.',
         ),
+        N('Your Nubbin tucks the doll in its pouch in with the rest of its collection, which now lives in your coat.'),
+        N('Your coat pocket has stopped trying.'),
       ],
       [
         ask(
-          5,
+          11,
           'literacy',
           'the theme of a story',
           'RL.4.2',
@@ -6448,7 +6479,7 @@ export const EDU_A18_READER_VARIANTS: EduScene[] = [
         1,
         'social-studies',
         'proverbs pass wisdom down the generations',
-        'D2.His.2.K-2',
+        'D2.His.2.3-5',
         [
           N(
             'Hazel says somebody’s mother said it first. A short saying handed down through families is called a proverb. Why do proverbs last for hundreds of years?',
@@ -6490,6 +6521,7 @@ export const EDU_A18_READER_VARIANTS: EduScene[] = [
       N(
         'The broom sweeps the yard with nobody holding it. The pots scrub themselves, and the linen goes into the tub grey and comes out white.',
       ),
+      N('Baba Yaga’s list has twelve jobs on it. One doll could finish them all in a morning.'),
       N(
         'The doll was fed twice last night, and it works like two dolls. When you get to the barn, the oats are already sifted.',
       ),
@@ -6506,13 +6538,13 @@ export const EDU_A18_READER_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        2,
+        3,
         'maths',
         'multiplication: two dolls’ worth of work',
         '3.OA.A.3',
         [
           N(
-            'Say one doll can finish 12 jobs in a morning. Fed twice, it works like two dolls. How many jobs does it finish?',
+            'One doll can finish 12 jobs in a morning. Fed twice, it works like two dolls. How many jobs does it finish?',
           ),
         ],
         [
@@ -6801,7 +6833,7 @@ export const EDU_A18_READER_VARIANTS: EduScene[] = [
         2,
         'health',
         'animals need food: it gives energy and warmth',
-        'K-LS1-1',
+        undefined,
         [
           N(
             'Your Nubbin stops shivering after eating oats. Why does food help us keep warm and moving?',
@@ -6891,7 +6923,7 @@ export const EDU_A18_READER_VARIANTS: EduScene[] = [
         1,
         'social-studies',
         'how linen was made by hand long ago, step by step',
-        'D2.His.2.K-2',
+        'D2.His.2.3-5',
         [
           N(
             'Long ago, families made linen by hand in five steps: bleach, spin, pull, weave and ret (soak the stems so the woody part rots away). Which order did they go in?',
@@ -6980,6 +7012,12 @@ export const EDU_A18_READER_VARIANTS: EduScene[] = [
       ),
       MER('Married? My Vasilisa? To whom? To the… oh. Oh, my goodness.', 'shock'),
       N(
+        'He pats his coat and finds what he promised: a silver thimble. Vasilisa puts it in her other pocket, away from the doll.',
+      ),
+      MER('And the woman with the map? Did she say who won?', 'happy'),
+      Y('She says it was a draw.'),
+      MER('That is exactly what the winner would say.', 'think'),
+      N(
         'She takes him to live with her, and the old woman too, who complains about the palace stairs and is very happy.',
       ),
       V('She wove this on her little loom. She wants your little one to have something.', 'soft'),
@@ -6987,18 +7025,23 @@ export const EDU_A18_READER_VARIANTS: EduScene[] = [
         'A cloth the size of a handkerchief, fine as breath. Your Nubbin sniffs it, and lies down on it at once.',
       ),
       N(
-        'Last of all, Vasilisa gives your Nubbin a painted doll no bigger than a thumb, in a pouch of its own on a cord.',
+        'Last of all, Vasilisa gives your Nubbin a little painted copy of her doll, no bigger than a thumb, in a pouch on a cord.',
+
       ),
+      V('The real one stays with me. She has work to do. This one only has to be looked after.', 'soft'),
+      N('Your Nubbin looks into the pouch, then at Vasilisa’s pocket, and decides this is fair.'),
       N(
         'The tale ends the way the old books end it: the little doll stayed in her pocket, always.',
       ),
       N(
         'The page settles, and you are back in the Grove with the atlas on your knee. Your Nubbin checks its pouch twice: the small painted doll is still there.',
       ),
+      N('Your Nubbin tucks the doll in its pouch in with the rest of its collection, which now lives in your coat.'),
+      N('Your coat pocket has stopped trying.'),
     ],
     [
       ask(
-        6,
+        12,
         'literacy',
         'theme: kindness returns',
         'RL.4.2',
@@ -7039,6 +7082,12 @@ export const EDU_A18_READER_VARIANTS: EduScene[] = [
       ),
       MER('Married? My Vasilisa? To whom? To the… oh. Oh, my goodness.', 'shock'),
       N(
+        'He pats his coat and finds what he promised: a silver thimble. Vasilisa puts it in her other pocket, away from the doll.',
+      ),
+      MER('And the woman with the map? Did she say who won?', 'happy'),
+      Y('She says it was a draw.'),
+      MER('That is exactly what the winner would say.', 'think'),
+      N(
         'She takes him to live with her, and the old woman too, who complains about the palace stairs and is very happy.',
       ),
       N(
@@ -7046,18 +7095,23 @@ export const EDU_A18_READER_VARIANTS: EduScene[] = [
       ),
       N('Vasilisa presses its spare button into your hand. It is plain, and white, and yours.'),
       N(
-        'Last of all, Vasilisa gives your Nubbin a painted doll no bigger than a thumb, in a pouch of its own on a cord.',
+        'Last of all, Vasilisa gives your Nubbin a little painted copy of her doll, no bigger than a thumb, in a pouch on a cord.',
+
       ),
+      V('The real one stays with me. She has work to do. This one only has to be looked after.', 'soft'),
+      N('Your Nubbin looks into the pouch, then at Vasilisa’s pocket, and decides this is fair.'),
       N(
         'The tale ends the way the old books end it: the little doll stayed in her pocket, always.',
       ),
       N(
         'The page settles, and you are back in the Grove with the atlas on your knee. Your Nubbin checks its pouch twice: the small painted doll is still there.',
       ),
+      N('Your Nubbin tucks the doll in its pouch in with the rest of its collection, which now lives in your coat.'),
+      N('Your coat pocket has stopped trying.'),
     ],
     [
       ask(
-        6,
+        12,
         'literacy',
         'theme: honest work matters',
         'RL.4.2',

@@ -118,10 +118,10 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Atlas, page A12: The Mirror Shard | [main.md](atlas/A12/main.md) (1976) | [sprout.md](atlas/A12/sprout.md) (2427) | [reader.md](atlas/A12/reader.md) (2748) |
 | Atlas, page A13: The Wooden Boy | [main.md](atlas/A13/main.md) (1896) | [sprout.md](atlas/A13/sprout.md) (2334) | [reader.md](atlas/A13/reader.md) (2762) |
 | Atlas, page A14: Homecoming | [main.md](atlas/A14/main.md) (2247) | [sprout.md](atlas/A14/sprout.md) (2772) | [reader.md](atlas/A14/reader.md) (3336) |
-| Atlas, page A15: The Humbug | [main.md](atlas/A15/main.md) (2307) | [sprout.md](atlas/A15/sprout.md) (2854) | [reader.md](atlas/A15/reader.md) (3430) |
-| Atlas, page A16: The Fox and the Rose | [main.md](atlas/A16/main.md) (1636) |  | [reader.md](atlas/A16/reader.md) (1841) |
-| Atlas, page A17: The Camphor Tree | [main.md](atlas/A17/main.md) (1639) | [sprout.md](atlas/A17/sprout.md) (1925) | [reader.md](atlas/A17/reader.md) (2605) |
-| Atlas, page A18: The Doll in the Pocket | [main.md](atlas/A18/main.md) (1716) | [sprout.md](atlas/A18/sprout.md) (2286) | [reader.md](atlas/A18/reader.md) (2489) |
+| Atlas, page A15: The Humbug | [main.md](atlas/A15/main.md) (2307) | [sprout.md](atlas/A15/sprout.md) (2872) | [reader.md](atlas/A15/reader.md) (3446) |
+| Atlas, page A16: The Fox and the Rose | [main.md](atlas/A16/main.md) (1647) |  | [reader.md](atlas/A16/reader.md) (1860) |
+| Atlas, page A17: The Camphor Tree | [main.md](atlas/A17/main.md) (1647) | [sprout.md](atlas/A17/sprout.md) (1940) | [reader.md](atlas/A17/reader.md) (2607) |
+| Atlas, page A18: The Doll in the Pocket | [main.md](atlas/A18/main.md) (1749) | [sprout.md](atlas/A18/sprout.md) (2326) | [reader.md](atlas/A18/reader.md) (2530) |
 | Atlas, page A19: The Dragon Who Fell | [main.md](atlas/A19/main.md) (1610) | [sprout.md](atlas/A19/sprout.md) (1988) | [reader.md](atlas/A19/reader.md) (2318) |
 | Atlas, page A20: The Weeping | [main.md](atlas/A20/main.md) (1494) | [sprout.md](atlas/A20/sprout.md) (1815) | [reader.md](atlas/A20/reader.md) (2085) |
 | Atlas, page A21: The Flower Field | [main.md](atlas/A21/main.md) (2060) |  |  |

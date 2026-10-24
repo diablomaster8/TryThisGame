@@ -55,7 +55,6 @@ const YNG = say('a18-younger');
 const DOLL = say('a18-doll');
 const SU = say('a18-suitor');
 const BY = say('a18-yaga');
-const SK = say('a18-skull');
 const OLD = say('a18-old-woman');
 const TS = say('a18-tsar');
 
@@ -345,7 +344,7 @@ const A01 = quest(
       ],
       [
         ask(
-          5,
+          7,
           'sel',
           'what helps someone who is sad',
           'CASEL: Social awareness',
@@ -897,6 +896,8 @@ const A04 = quest(
       [
         ch('knocking', 'Ask who is knocking.', [
           V('Young men. For me. Not for my sisters.', 'think'),
+          V('One brought a goose. He hoped the goose would do the talking.'),
+          N('Your Nubbin looks round for the goose. It has time for geese.'),
         ]),
         ch('pocket', 'Ask quietly about her pocket.', [
           V('Still there. She says hello.'),
@@ -1101,7 +1102,9 @@ const A05 = quest(
         N('Two horses breathe little clouds into the cold air.'),
         MER('A long road this time. Far towns. Many months.', 'think'),
         MER('Vasilisa is in my wife’s hands. And a little in yours.'),
-        MER('Tell the woman with the map I still do not know who won.', 'happy'),
+        MER('Tell Nova I still do not know who won.', 'happy'),
+        MER('She sold me needles. I sold her ribbons.'),
+        MER('We both think we won.'),
         V('Bring me back something small, Father. For my pocket.'),
         MER('Something small for your pocket. I will remember.', 'soft'),
       ],
@@ -1400,6 +1403,9 @@ const A06 = quest(
         N('She snips, and the flame goes out. All the light is gone.'),
         ELD('Oh! Oh dear. By accident.', 'shock'),
         N('In the dark, your Nubbin climbs into your coat.'),
+        N('Somebody walks into a chair.'),
+        ELD('Sorry! Oh, it is a chair. Sorry, chair.', 'shock'),
+        ELD('That was not me, by the way.'),
         STEP('Now what? No fire anywhere. We must have light.'),
         YNG('I am not going. I can see by my pins.'),
         ELD('Vasilisa can fetch it. Into the wood, to Baba Yaga!', 'angry'),
@@ -1407,7 +1413,7 @@ const A06 = quest(
       ],
       [
         notice(
-          3,
+          6,
           'science',
           'eyes open wide in the dark',
           'ELOF: Scientific Reasoning',
@@ -1980,14 +1986,16 @@ const A09 = quest(
         N('Soup, pork, pies, porridge, a goose, and three big jugs.'),
         BY('More! Look in the back. There is always something at the back.', 'happy'),
         N('She eats like the wind crossing a field. All of it!'),
-        N('Your Nubbin watches the goose go. It looks very sad.'),
+        N('Your Nubbin watches the goose go. It puts a paw on its heart.'),
+        BY('What? It was a small goose.'),
+        N('It was not.'),
         BY('Ah. Better. That is what an old woman needs.', 'happy'),
         N('She leaves a little soup, a crust and a tiny scrap of pork.'),
         BY('That is yours, girl. And a crust for you, since you carried.'),
       ],
       [
         ask(
-          7,
+          9,
           'maths',
           'more and fewer',
           'K.CC.C.6',
@@ -2217,7 +2225,7 @@ const A10 = quest(
         N('Vasilisa sleeps on, as she was told. The doll climbs down and works.'),
         N('The broom sweeps by itself. The pots scrub themselves.'),
         N('Your Nubbin slept well on a full tummy. It follows you to the barn.'),
-        N('A quarter of oats is a lot of oats. You sift.'),
+        N('The sack of oats is bigger than your Nubbin. You sift and sift.'),
         N('Your Nubbin picks out the black grains and spits them in a pile.'),
         N('The doll looks at the pile and nods like a foreman.'),
         N('By noon the oats are clean. Your Nubbin sleeps on the sack.'),
@@ -2689,10 +2697,11 @@ const A12 = quest(
         N('She bundles you out and slams the door. The herbs fall down.'),
         N('In the yard she lifts a lantern on a stick. Its eyes glow warm.'),
         BY('Here is your fire. That is what you came for. Go!'),
+        N('Herbs land on your Nubbin. It wears them as a hat home.'),
       ],
       [
         notice(
-          2,
+          8,
           'sel',
           'feeling loved helps us feel brave',
           'CASEL: Self-awareness',
@@ -2835,10 +2844,13 @@ const A13 = quest(
         V('I cannot take it into the house. I will throw it in the ditch.', 'sad'),
         V('They have fire by now. They will not need it.'),
         N('She lifts the stick to throw. Your Nubbin covers its eyes.'),
-        SK('Please do not throw me away.'),
+        N('The lantern gives a little flicker. A dry, kind voice comes out of it.'),
+        N('The lantern says: Please do not throw me away.'),
         N('The voice is dry as leaves, and not unkind.'),
-        SK('Take me to your stepmother’s house. That is where I am wanted.'),
+        N('The lantern says: Take me to your stepmother’s house. I am wanted there.'),
         V('Oh.', 'shock'),
+        N('The lantern says: And mind you do not swing me.'),
+        N('Vasilisa holds the stick very still. Your Nubbin peeks to see lantern manners.'),
       ],
       [
         ask(
@@ -2897,7 +2909,7 @@ const A13 = quest(
         N('You take the stick. It is lighter than you thought, and warm.'),
         N('Vasilisa shakes out her arms. She walks beside you.'),
         N('The lantern looks at the dark house. Its eyes get brighter.'),
-        SK('Nearly there.', 'think'),
+        N('The lantern says: Nearly there.', 'think'),
         N('Your Nubbin climbs on your shoulder to see.'),
       ],
       [
@@ -2919,7 +2931,7 @@ const A13 = quest(
           N('You hold it far out. The light goes ahead like a carpet.'),
         ]),
         ch('polite', 'Ask the lantern how it is.', [
-          SK('Busy. It has been long since anybody asked.'),
+          N('The lantern says: Busy. It has been long since anybody asked.'),
           N('It says no more. You do not ask again.'),
         ]),
       ],
@@ -2994,13 +3006,15 @@ const A14 = quest(
         STEP('You! You came back. And you have fire!', 'shock'),
         N('For the first time, she is pleased to see Vasilisa.'),
         ELD('We have had no light since you left. None.', 'sad'),
-        YNG('We fetched fire three times. Each time it went out at the door.'),
+        YNG('We fetched fire three times. Each time it went out!'),
+        ELD('Out! Out! Out!'),
+        N('The lantern on the stick does not go out. The sisters glare at it.'),
         STEP('Never mind that. Put it on the table. It will do for a lamp.'),
         N('Vasilisa sets the lantern on the table, facing the room.'),
       ],
       [
         notice(
-          5,
+          7,
           'science',
           'fire needs air to burn',
           'ELOF: Scientific Reasoning',
@@ -3047,12 +3061,13 @@ const A14 = quest(
         N('The sisters hide in the cellar. The light finds them.'),
         N('They climb to the loft. The light finds them there.'),
         N('Nobody is hurt. There is only a steady light, and three people running.'),
+        N('The light never looks at you. Your Nubbin is a bit cross about that.'),
         N('Vasilisa sits by the cold stove. You sit beside her.'),
         V('I did not want this. I only went for fire.', 'sad'),
       ],
       [
         ask(
-          7,
+          8,
           'sel',
           'naming mixed feelings: sorry and upset',
           'CASEL: Self-awareness',
@@ -3603,15 +3618,19 @@ const A16 = quest(
       [
         N('In spring the merchant comes home over the hill.'),
         MER('Married? My Vasilisa? To whom? To the… oh. Oh, my goodness.', 'shock'),
-        N('She takes him to live with her, and the old woman too.'),
+        N('He finds what he promised: a silver thimble. It goes in her other pocket.'),        MER('Did Nova say who won?', 'happy'),        Y('She says it was a draw. Nobody won.'),        MER('That is just what a winner would say.', 'think'),        N('She takes him to live with her, and the old woman too.'),
         N('Your Nubbin carries Baba Yaga’s bag of oats down the palace steps.'),
-        N('Last of all, Vasilisa gives your Nubbin a doll the size of a thumb.'),
+        N('Last of all, Vasilisa gives your Nubbin a little painted doll in a pouch.'),
+        V('The real one stays with me. This one just needs looking after.', 'soft'),
+        N('Your Nubbin looks at the pouch, then her pocket. It thinks that is fair.'),
         N('The tale ends the old way: the little doll stayed in her pocket, always.'),
         N('The page settles under your hand. You are back in the Grove.'),
+      N('The doll goes in with the rest of its collection, in your coat.'),
+      N('Your coat pocket has stopped trying.'),
       ],
       [
         ask(
-          5,
+          11,
           'literacy',
           'the main idea of a story',
           'ELOF: Literacy',
@@ -3891,16 +3910,20 @@ export const EDU_A18_SPROUT_VARIANTS: EduScene[] = [
     [
       N('In spring the merchant comes home over the hill.'),
       MER('Married? My Vasilisa? To whom? To the… oh. Oh, my goodness.', 'shock'),
-      N('She takes him to live with her, and the old woman too.'),
+      N('He finds what he promised: a silver thimble. It goes in her other pocket.'),      MER('Did Nova say who won?', 'happy'),      Y('She says it was a draw. Nobody won.'),      MER('That is just what a winner would say.', 'think'),      N('She takes him to live with her, and the old woman too.'),
       V('She wove this on her little loom. It is for your little one.', 'soft'),
       N('A cloth the size of a handkerchief. Your Nubbin lies down on it.'),
-      N('Last of all, Vasilisa gives your Nubbin a doll the size of a thumb.'),
+      N('Last of all, Vasilisa gives your Nubbin a little painted doll in a pouch.'),
+      V('The real one stays with me. This one just needs looking after.', 'soft'),
+      N('Your Nubbin looks at the pouch, then her pocket. It thinks that is fair.'),
       N('The tale ends the old way: the little doll stayed in her pocket, always.'),
       N('The page settles under your hand. You are back in the Grove.'),
+      N('The doll goes in with the rest of its collection, in your coat.'),
+      N('Your coat pocket has stopped trying.'),
     ],
     [
       ask(
-        6,
+        12,
         'literacy',
         'the main idea of a story',
         'ELOF: Literacy',
@@ -3922,16 +3945,20 @@ export const EDU_A18_SPROUT_VARIANTS: EduScene[] = [
     [
       N('In spring the merchant comes home over the hill.'),
       MER('Married? My Vasilisa? To whom? To the… oh. Oh, my goodness.', 'shock'),
-      N('She takes him to live with her, and the old woman too.'),
+      N('He finds what he promised: a silver thimble. It goes in her other pocket.'),      MER('Did Nova say who won?', 'happy'),      Y('She says it was a draw. Nobody won.'),      MER('That is just what a winner would say.', 'think'),      N('She takes him to live with her, and the old woman too.'),
       N('At the wedding the Tsar wears one shirt you know. Yours, the plainest.'),
       N('He says it is for ordinary days. Vasilisa gives you its spare button.'),
-      N('Last of all, Vasilisa gives your Nubbin a doll the size of a thumb.'),
+      N('Last of all, Vasilisa gives your Nubbin a little painted doll in a pouch.'),
+      V('The real one stays with me. This one just needs looking after.', 'soft'),
+      N('Your Nubbin looks at the pouch, then her pocket. It thinks that is fair.'),
       N('The tale ends the old way: the little doll stayed in her pocket, always.'),
       N('The page settles under your hand. You are back in the Grove.'),
+      N('The doll goes in with the rest of its collection, in your coat.'),
+      N('Your coat pocket has stopped trying.'),
     ],
     [
       ask(
-        6,
+        12,
         'literacy',
         'the main idea of a story',
         'ELOF: Literacy',

@@ -306,12 +306,12 @@ const A1: EduQuest = quest(
               true,
             ),
             o('Push to the front.', [
-              N('Oh dear. Pushing makes someone sad.'),
-              N('Taking turns is kinder. Then everyone gets a go.'),
+              N('Pushing makes someone sad.'),
+              N('Taking turns is kinder.'),
             ]),
             o('Nobody goes.', [
-              N('That would be a pity. The well is fun!'),
-              N('Taking turns means everyone gets a go.'),
+              N('The well is fun!'),
+              N('Taking turns lets everyone have a go.'),
             ]),
           ],
           'Chose taking turns as a fair way for everyone to go first.',
@@ -404,12 +404,12 @@ const A2: EduQuest = quest(
           [
             o('A lantern, to make light.', [N('Yes! We see things when there is light.')], true),
             o('Closing my eyes.', [
-              N('With eyes shut, we see nothing at all.'),
-              N('A lantern makes light. Then we can see.'),
+              N('Eyes shut means no seeing.'),
+              N('A lantern makes light, so we can see.'),
             ]),
             o('Going very fast.', [
-              N('Fast feet do not make light.'),
-              N('A lantern makes light, and then we can see.'),
+              N('Fast feet make no light.'),
+              N('A lantern makes light, so we can see.'),
             ]),
           ],
           'Chose light as the thing that lets us see in the dark.',
@@ -450,7 +450,9 @@ const A2: EduQuest = quest(
         GR('Soot sprites. I saw them when I was little.'),
         GR('They like quiet, dusty houses. A cheerful house makes them go.'),
         ME('I will laugh. I am good at it!'),
-        N('Kanta shouts, “Your house is haunted!” and runs away.'),
+        N('A boy looks over the hedge. It is Kanta. He puts a basket on the step.'),
+        KA('Your house is haunted!'),
+        N('He runs away, very fast. The basket stays.'),
       ],
       [
         ask(
@@ -466,19 +468,20 @@ const A2: EduQuest = quest(
               true,
             ),
             o('Run away and hide alone.', [
-              N('That is a big worry to carry alone.'),
-              N('Laughing with a friend can help it feel smaller.'),
+              N('Laughing with a friend helps a worry feel smaller.'),
             ]),
             o('Stay still and say nothing.', [
-              N('Staying still is fine for a moment.'),
-              N('But telling a friend, or laughing together, helps more.'),
+              N('Telling a friend, or laughing together, helps more.'),
             ]),
           ],
           'Thought of calming ways to feel braver: laughing and being with someone.',
         ),
       ],
       [
-        ch('call', 'Call: “Thank you for the basket!”', [N('Kanta runs faster. Granny smiles.')]),
+        ch('call', 'Call: “Thank you for the basket!”', [
+          N('Kanta runs faster.'),
+          GR('He has good manners. He keeps them hidden.'),
+        ]),
         ch('laugh', 'Laugh. It is a lovely house.', [SA('It is! I always wanted one!', 'happy')]),
         ch('quiet', 'Pick up the basket.', [N('Inside are warm rice cakes.')]),
       ],
@@ -572,8 +575,8 @@ const A3: EduQuest = quest(
               true,
             ),
             o('Walk away.', [
-              N('Then the shutter stays stuck.'),
-              N('Trying a new way, like lift and push, can fix it.'),
+              N('The shutter stays stuck.'),
+              N('A new way, like lift and push, can fix it.'),
             ]),
             o('Pull the wrong way harder.', [
               N('Harder is not always better.'),
@@ -629,12 +632,12 @@ const A3: EduQuest = quest(
               true,
             ),
             o('She hid and said nothing.', [
-              N('Hiding can feel safe, but the worry stays big.'),
+              N('Hiding keeps the worry big.'),
               N('Mei told her dad, and that helped.'),
             ]),
             o('She ran out into the storm.', [
-              N('That would not be safe.'),
-              N('Mei told her dad. Telling a grown-up is a safe, brave thing.'),
+              N('Not safe! Mei told her dad.'),
+              N('Telling a grown-up is brave.'),
             ]),
           ],
           'Noticed that telling a trusted adult helps when we feel scared.',
@@ -761,7 +764,7 @@ const A4: EduQuest = quest(
             ),
             o('Up the hill.', [
               N('Uphill is hard work. Pedal, pedal, puff!'),
-              N('Down the hill is easier. The hill helps you roll.'),
+              N('Down the hill is easier.'),
             ]),
           ],
           'Compared riding downhill and uphill: downhill is easier.',
@@ -815,8 +818,8 @@ const A4: EduQuest = quest(
             o('A big hug.', [N('Yes! A hug is a good help.')], true),
             o('Talking about them.', [N('Yes! Talking about someone helps too.')], true),
             o('Pretend we do not miss them.', [
-              N('Missing someone is a real feeling. It is okay to have it.'),
-              N('A hug or a chat about them helps.'),
+              N('Missing someone is okay. A hug helps.'),
+              N('So does talking about them.'),
             ]),
           ],
           'Named missing someone as a real feeling, and chose hugs and talking as help.',
@@ -920,7 +923,7 @@ const A5: EduQuest = quest(
     sc(
       'a17-05-garden',
       [
-        FA('Please keep half an eye on Mei. I am just in here.'),
+        FA('Please watch Mei for me. I am just in here, with my books.'),
         N('Mei is picking up acorns in a tin bucket. She has three.'),
         N('Your Nubbin gives her two more.'),
         N('Then your Nubbin stops. Something small and white walks through the grass.'),
@@ -941,7 +944,11 @@ const A5: EduQuest = quest(
         ),
       ],
       [
-        ch('call', 'Call to Mr Kusakabe.', [FA('Is she? Good for her. Stay in the garden.')]),
+        ch('call', 'Call to Mr Kusakabe.', [
+          Y('Mr Kusakabe! Mei is following something!'),
+          FA('Is she? Good for her.'),
+          N('He does not look up, and turns a page. Mei is nearly at the hedge.'),
+        ]),
         ch('follow', 'Follow quietly.', [N('You tiptoe. The small ones walk a little faster.')]),
       ],
     ),
@@ -1312,7 +1319,7 @@ const A7: EduQuest = quest(
               N('A quiet note is gentler.'),
             ]),
             o('Say nothing at all.', [
-              N('Then he would not know they are grateful.'),
+              N('Then he would not know.'),
               N('A kind note says thank you gently.'),
             ]),
           ],
@@ -1390,8 +1397,8 @@ const A8: EduQuest = quest(
           [
             o('Sunshine and water.', [N('Yes! Plants need light and water.')], true),
             o('Only a loud shout.', [
-              N('Shouting is fun, but plants cannot hear it grow.'),
-              N('Sunshine and water help plants grow.'),
+              N('Plants cannot hear shouting.'),
+              N('Sunshine and water help them grow.'),
             ]),
           ],
           'Learned that plants need sunshine and water to grow.',
@@ -1550,8 +1557,8 @@ const A9: EduQuest = quest(
               true,
             ),
             o('She leaves Mei on the road.', [
-              N('Oh no. That would not be safe or kind.'),
-              N('Satsuki carries Mei. That is how we look after people.'),
+              N('Not safe! Satsuki carries Mei.'),
+              N('That is how we look after people.'),
             ]),
           ],
           'Noticed Satsuki caring for her tired sister.',
@@ -1584,7 +1591,8 @@ const A9: EduQuest = quest(
       [
         ch('nod', 'Nod, like to a neighbour.', [N('His whiskers move. Maybe a nod back.')]),
         ch('still', 'Stand still and let him look.', [
-          N('He looks a long time, as if you are interesting weather.'),
+          N('He looks at you, and you look at him. Nobody blinks.'),
+          N('Then he blinks again, very slowly. You win!'),
         ]),
       ],
     ),
@@ -1659,8 +1667,8 @@ const A9: EduQuest = quest(
               true,
             ),
             o('Keep it a secret forever.', [
-              N('Secrets can be fun for a while.'),
-              N('Sharing a happy thing with someone you trust feels lovely too.'),
+              N('Secrets are fun for a while.'),
+              N('Sharing with someone you trust feels lovely.'),
             ]),
           ],
           'Thought about sharing a happy discovery with someone trusted.',
@@ -1826,7 +1834,7 @@ const A10: EduQuest = quest(
             ),
             o('Shout at the seeds.', [
               N('Seeds do not hear shouts.'),
-              N('Singing, drawing or looking at the sky helps us wait.'),
+              N('Singing or drawing helps us wait.'),
             ]),
           ],
           'Chose calm things to do while waiting.',
@@ -2214,24 +2222,16 @@ const A13: EduQuest = quest(
         N('You run too, and your heart goes thump.'),
       ],
       [
-        ask(
-          1,
+        notice(
+          2,
           'health',
-          'when lost, stay where you are and tell a grown-up',
-          'ELOF: Perceptual, Motor, and Physical Development',
-          [N('If you are ever lost, what is the safest thing to do?')],
+          'our heart beats faster when we run',
+          '',
           [
-            o(
-              'Stay put and call a grown-up.',
-              [N('Yes! Staying put helps people find you.')],
-              true,
-            ),
-            o('Walk far away.', [
-              N('Walking far makes it harder to be found.'),
-              N('Staying put and calling a grown-up is safest.'),
-            ]),
+            N('When you run, your heart beats faster. Thump, thump, thump!'),
+            N('It slows down again when you rest.'),
           ],
-          'Learned that if you are lost, you stay where you are and call a trusted grown-up.',
+          'Learned that the heart beats faster when we run and slows again with rest.',
         ),
       ],
     ),
@@ -2326,8 +2326,8 @@ const A14: EduQuest = quest(
               true,
             ),
             o('Nothing, and hope.', [
-              N('Hoping is fine, but help comes when we ask.'),
-              N('“Please help me” is how we ask.'),
+              N('Help comes when we ask.'),
+              N('“Please can you help me?” is how we ask.'),
             ]),
           ],
           'Learned that asking for help politely is a brave thing to do.',
@@ -2361,7 +2361,7 @@ const A14: EduQuest = quest(
             o('Below.', [N('Yes! The roots are below. The sky is above.')], true),
             o('Above.', [
               N('Above is up high, like the sky.'),
-              N('The roots are below, down in the ground.'),
+              N('The roots are below.'),
             ]),
           ],
           'Used the position words above and below.',
@@ -2478,11 +2478,31 @@ const A15: EduQuest = quest(
         N('Six little statues keep watch by the road.'),
         SA('Mei, do you still want to take Mum the corn?'),
         N('Mei nods hard.'),
+        N('Mei walked a long way, and that was not safe. Satsuki was so scared.'),
         N('Satsuki bows a little to the Catbus. She asks it nicely.'),
         N('The sign rolls round. It says HOSPITAL.'),
         N('The sisters climb in. The door stays open for you.'),
       ],
       [
+        ask(
+          3,
+          'health',
+          'when lost, stay where you are and tell a grown-up',
+          'ELOF: Perceptual, Motor, and Physical Development',
+          [N('If you are ever lost, what is the safest thing to do?')],
+          [
+            o(
+              'Stay put and call a grown-up.',
+              [N('Yes! Staying put helps people find you.')],
+              true,
+            ),
+            o('Walk far away.', [
+              N('Walking far makes finding you harder.'),
+              N('Stay put and call a grown-up.'),
+            ]),
+          ],
+          'Learned that if you are lost, you stay where you are and call a trusted grown-up.',
+        ),
         doit(
           0,
           'maths',
@@ -2640,8 +2660,8 @@ const A16: EduQuest = quest(
           [
             o('Happy and relieved.', [N('Yes! Relieved means the worry is over. Phew!')], true),
             o('Cross.', [
-              N('She is not cross. She is hugging everyone.'),
-              N('She is happy and relieved. The worry is over.'),
+              N('She is hugging everyone.'),
+              N('She is happy and relieved.'),
             ]),
           ],
           'Named a feeling from what a character says and does: relieved and happy.',
@@ -2780,7 +2800,7 @@ const A17_VARIANTS_SPROUT: EduScene[] = [
             true,
           ),
           o('Nothing, and hope.', [
-            N('Hoping is fine, but help comes when we ask.'),
+            N('Help comes when we ask.'),
             N('“Please can you help me?” is how we ask.'),
           ]),
         ],
@@ -3106,8 +3126,8 @@ const A17_VARIANTS_SPROUT: EduScene[] = [
         [
           o('Happy and relieved.', [N('Yes! Relieved means the worry is over. Phew!')], true),
           o('Cross.', [
-            N('She is not cross. She waited up with the lamp.'),
-            N('She is happy and relieved. The worry is over.'),
+            N('She waited up with the lamp.'),
+            N('She is happy and relieved.'),
           ]),
         ],
         'Named a feeling from what a character says and does: relieved and happy.',
@@ -3121,7 +3141,9 @@ const A17_VARIANTS_SPROUT: EduScene[] = [
       N('You step out of the atlas. Something on the hill has changed.'),
       N('By Moss’s flat stone stands a big oak tree.'),
       N('Moss looks up at it for a long time. Your Nubbin falls asleep.'),
-      M('I planted one of those, long ago. It took four hundred years. You cheated.', 'think'),
+      M('I planted one of those, long ago. It took four hundred years.', 'think'),
+      M('You did it in one night.'),
+      M('Show-off.'),
     ],
     [
       notice(
@@ -3213,8 +3235,8 @@ const A17_VARIANTS_SPROUT: EduScene[] = [
         [
           o('Shorter.', [N('Yes! It only comes up to your knee. You are taller.')], true),
           o('Taller.', [
-            N('Stand next to it. It only reaches your knee.'),
-            N('The tree is shorter. You are taller, for now!'),
+            N('It only reaches your knee.'),
+            N('You are taller, for now!'),
           ]),
         ],
         'Compared two heights and used the words taller and shorter.',

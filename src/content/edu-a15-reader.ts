@@ -94,9 +94,9 @@ const CASEL_SM = 'CASEL: Self-management';
 const CASEL_SO = 'CASEL: Social awareness';
 const CASEL_RS = 'CASEL: Relationship skills';
 const CASEL_RD = 'CASEL: Responsible decision-making';
-const GEO = 'D2.Geo.2.K-2';
-const CIV = 'D2.Civ.8.K-2';
-const HIS = 'D2.His.2.K-2';
+const GEO = 'D2.Geo.2.3-5';
+const CIV = 'D2.Civ.8.3-5';
+const HIS = 'D2.His.2.3-5';
 
 // ---------------------------------------------------------------- builders
 type Beat = Omit<Lesson, 'id'>;
@@ -619,7 +619,7 @@ const Q1: EduQuest = quest(
         N('The wind holds him up. Dorothy lies flat, reaches down, and pulls him back by one ear.'),
         D('There. That is quite enough adventure for one dog.'),
         N(
-          'Hours go by. Dorothy shuts the trap door and lies down on her bed, with Toto beside her.',
+          'Hours go by, three of them, at sixty kilometres an hour. Dorothy shuts the trap door and lies down with Toto.',
         ),
         D('If the house is going to fall, I would rather be asleep for it.', 'think'),
         N('You stay awake with your Nubbin in your lap. Somebody ought to.'),
@@ -1221,7 +1221,7 @@ const Q3: EduQuest = quest(
           4,
           S,
           'materials and their properties',
-          '2-PS1-1',
+          undefined,
           [
             N(
               'The Scarecrow is stuffed with straw. Why is straw a good filling for him, and not iron?',
@@ -1321,10 +1321,11 @@ const Q3: EduQuest = quest(
         N(
           'He takes six steps, and steps into a hole in the road and goes full length on the bricks. He is not hurt in the least.',
         ),
+        N('By noon he has done this four times, six steps each time.'),
       ],
       [
         ask(
-          5,
+          6,
           M,
           'multiplication word problem',
           '3.OA.A.3',
@@ -1528,7 +1529,7 @@ const Q3: EduQuest = quest(
           1,
           S,
           'what plants need to grow',
-          '2-LS2-1',
+          undefined,
           [N('The corn grew tall in the fields. What does corn, like any plant, need to grow?')],
           [
             o(
@@ -1656,7 +1657,7 @@ const Q4: EduQuest = quest(
           7,
           S,
           'rust: iron meets water and air',
-          '2-PS1-1',
+          undefined,
           [
             N(
               'The Woodman’s iron hinges rusted in the rain. What two things must iron meet before it rusts?',
@@ -1813,7 +1814,7 @@ const Q4: EduQuest = quest(
           2,
           A,
           'proportion in a drawn face',
-          '1.G.A.3',
+          '3.NF.A.1',
           [
             N(
               'Artists who draw faces place the eyes with care. Where do the eyes sit on a real head?',
@@ -1865,7 +1866,7 @@ const Q4: EduQuest = quest(
           4,
           LIT,
           'sound words that show what we hear',
-          'RL.1.4',
+          undefined,
           [N('The head turns with a long, slow creak. What kind of word is “creak”?')],
           [
             o(
@@ -2765,7 +2766,7 @@ const Q7: EduQuest = quest(
           0,
           S,
           'floating: wood is less dense than water',
-          '2-PS1-1',
+          undefined,
           [N('Why does a raft made of logs float?')],
           [
             o(
@@ -3186,7 +3187,7 @@ const Q8: EduQuest = quest(
           1,
           S,
           'pollination',
-          '2-LS2-2',
+          undefined,
           [
             N(
               'A bee visits a poppy to collect pollen. What does the bee also do, without meaning to?',
@@ -3297,7 +3298,7 @@ const Q8: EduQuest = quest(
           2,
           S,
           'food chains: producers',
-          'K-LS1-1',
+          undefined,
           [
             N(
               'Seeds feed the mouse, and the mouse feeds the wildcat. Which part of this chain makes its own food from sunlight?',
@@ -3420,7 +3421,7 @@ const Q8: EduQuest = quest(
               '96',
               [
                 N(
-                  'Yes. 12 rows of 8 is 12 × 8 = 96. You can check: 10 × 8 = 80, and 2 × 8 = 16, and 80 + 16 = 96.',
+                  'Yes. 12 rows of 8 is 12 × 8 = 96. Check: 10 × 8 = 80, and 2 × 8 = 16, so 80 + 16 = 96.',
                 ),
               ],
               true,
@@ -3462,7 +3463,7 @@ const Q8: EduQuest = quest(
           2,
           MU,
           'a steady beat helps people work together',
-          'RL.2.4',
+          undefined,
           [
             N(
               'Sailors and workers have long sung work songs while hauling ropes. Why does a steady beat help them?',
@@ -3604,7 +3605,7 @@ const Q9: EduQuest = quest(
           1,
           A,
           'mixing colours',
-          '2-PS1-1',
+          undefined,
           [
             N(
               'The Munchkins wear blue and the Winkies wear yellow, and the City is green. Which two paints mix to make green?',
@@ -3706,7 +3707,7 @@ const Q9: EduQuest = quest(
           6,
           S,
           'how coloured filters change what we see',
-          '1-PS4-2',
+          '4-PS3-2',
           [
             N(
               'Green glass lets green light through and holds back most other colours. Through it, how would a red apple look?',
@@ -3923,7 +3924,7 @@ const Q9: EduQuest = quest(
           0,
           S,
           'minerals: emerald and hardness',
-          '2-PS1-1',
+          undefined,
           [
             N(
               'A real emerald is a green crystal of a mineral called beryl. Its green comes from tiny traces of chromium inside.',
@@ -4623,7 +4624,7 @@ const Q11: EduQuest = quest(
           4,
           H,
           'why bodies need regular meals',
-          'K-LS1-1',
+          undefined,
           [N('The Lion has gone hungry for days. Why do our bodies need regular meals?')],
           [
             o(
@@ -4796,7 +4797,7 @@ const Q12: EduQuest = quest(
           5,
           LIT,
           'how characters respond; clues in a story',
-          'RL.2.3',
+          'RL.3.3',
           [N('Which clue tells you that something unseen lies on the floor?')],
           [
             o(
@@ -4888,34 +4889,16 @@ const Q12: EduQuest = quest(
         ),
       ],
       [
-        ask(
-          8,
-          S,
-          'dissolving',
-          '2-PS1-1',
-          [N('We say sugar “melts” in hot tea. What really happens to it?')],
+        notice(
+          3,
+          E,
+          'big feelings like anger',
+          CASEL_SM,
           [
-            o(
-              'It dissolves: it breaks into tiny pieces that spread through the water',
-              [
-                N(
-                  'Yes. The sugar is still there, just too small to see. Taste the tea and you would know. That is dissolving, which is different from melting.',
-                ),
-              ],
-              true,
-            ),
-            o('It disappears for ever', [
-              N(
-                'Matter does not just vanish. The sugar spreads out in tiny pieces. You can taste it, so it is still there.',
-              ),
-            ]),
-            o('It turns into water', [
-              N(
-                'Sugar does not become water. It dissolves, spreading through the water as tiny pieces.',
-              ),
-            ]),
+            N('Dorothy is angry, and anger is a big feeling. It is okay to feel it.'),
+            N('What matters is what we do next. A slow breath can give us a moment to choose.'),
           ],
-          'Learned that sugar dissolves in water: it spreads out in tiny pieces and is still there.',
+          'Learned that anger is a normal feeling and that a slow breath helps before acting.',
         ),
       ],
       [
@@ -4937,6 +4920,7 @@ const Q12: EduQuest = quest(
         N('Then she pours a fresh bucket over the puddle and sweeps it all out of the door.'),
         D('She is gone. She is really gone. And I did not mean it.', 'sad'),
         D('Now the Lion can come in.'),
+        N('That night Dorothy has sweet tea by the fire. Your Nubbin watches the sugar vanish, very suspicious.'),
       ],
       [
         think(
@@ -4976,6 +4960,35 @@ const Q12: EduQuest = quest(
             ],
           ],
           'Thought about feeling sorry and blame when something happens by accident.',
+        ),
+        ask(
+          4,
+          S,
+          'dissolving',
+          undefined,
+          [N('We say sugar “melts” in hot tea. What really happens to it?')],
+          [
+            o(
+              'It dissolves: it breaks into tiny pieces that spread through the water',
+              [
+                N(
+                  'Yes. The sugar is still there, just too small to see. Taste the tea and you would know. That is dissolving, which is different from melting.',
+                ),
+              ],
+              true,
+            ),
+            o('It disappears for ever', [
+              N(
+                'Matter does not just vanish. The sugar spreads out in tiny pieces. You can taste it, so it is still there.',
+              ),
+            ]),
+            o('It turns into water', [
+              N(
+                'Sugar does not become water. It dissolves, spreading through the water as tiny pieces.',
+              ),
+            ]),
+          ],
+          'Learned that sugar dissolves in water: it spreads out in tiny pieces and is still there.',
         ),
       ],
     ),
@@ -5064,7 +5077,7 @@ const Q12: EduQuest = quest(
           2,
           A,
           'the colour wheel: opposite colours',
-          '2-PS1-1',
+          undefined,
           [
             N(
               'On a colour wheel, which colour sits opposite yellow, so that the two make each other glow?',
@@ -5110,16 +5123,17 @@ const Q12: EduQuest = quest(
           'It is a tiny gold cap, beaten thin, with glass beads round the band for diamonds. It fits your Nubbin exactly.',
         ),
         WK('It does not call anything. It is just a hat. But it is a very good hat.'),
+        N('Your Nubbin wears it all evening. It bows to everyone, including the furniture.'),
         N(
           'The Winkies ask the Woodman to stay and rule them. He says he will come back, once he has a heart.',
         ),
       ],
       [
         ask(
-          4,
+          6,
           S,
           'properties of metals: malleable',
-          '2-PS1-1',
+          undefined,
           [
             N(
               'The tinsmiths beat the little cap thin from a lump of gold. Gold can be hammered into very thin sheets without breaking. What is that property called?',
@@ -5598,7 +5612,7 @@ const Q14: EduQuest = quest(
           2,
           LIT,
           'turning point in a story',
-          'RL.2.3',
+          'RL.3.3',
           [N('What changes at this turning point?')],
           [
             o(
@@ -5734,8 +5748,7 @@ const Q14: EduQuest = quest(
       'a15-14-screen-done',
       [
         ...POOR_WIZARD,
-        N('Somebody in the valley promises things like this.'),
-        N('Safe, he says. As if it came in a bottle.'),
+        N('Oz built his walls high to feel safe. It did not make him happy.'),
       ],
       [
         ask(
@@ -5800,7 +5813,7 @@ const Q14: EduQuest = quest(
               'One that makes you feel scared, unsafe or uncomfortable',
               [
                 N(
-                  'Yes. A surprise party is a happy secret. A secret that frightens you or makes your tummy flip is one to share with a grown-up you trust. So is any secret a grown-up asks you to keep from other grown-ups, like this one.',
+                  'Yes. A surprise party is a happy secret. A secret that scares you, or one a grown-up asks you to keep from other grown-ups, is one to share.',
                 ),
               ],
               true,
@@ -5825,7 +5838,12 @@ const Q14: EduQuest = quest(
           'Promise to keep his secret.',
           [
             O('Thank you. Thank you. You do not know what that is, to someone like me.', 'soft'),
-            N('He shakes your hand. His hand is warm and damp, the hand of a frightened man.'),
+            N('He shakes your hand. Then he stops, and lets go.'),
+            O(
+              'No. That is too heavy for you to carry. I will tell them myself, when the balloon is ready.',
+              'sad',
+            ),
+            O('I am a humbug, but I am not that sort of humbug.', 'soft'),
           ],
           { 'a15-secret': 'promised' },
         ),
@@ -5874,7 +5892,7 @@ const Q14: EduQuest = quest(
               '96',
               [
                 N(
-                  'Yes. There are 24 hours in a day, and 4 × 24 = 96. You can work it out as 4 × 20 = 80 plus 4 × 4 = 16.',
+                  'Yes. There are 24 hours in a day, and 4 × 24 = 96. Work it out as 4 × 20 = 80 plus 4 × 4 = 16.',
                 ),
               ],
               true,
@@ -6248,10 +6266,11 @@ const Q15: EduQuest = quest(
         N(
           'The dish was round, and the bottle was tall and square. You notice that the bottle’s base is a perfect square.',
         ),
+        N('Your Nubbin folds itself in half to check. It does not match, and it looks surprised.'),
       ],
       [
         ask(
-          1,
+          2,
           A,
           'lines of symmetry',
           '4.G.A.3',
@@ -6386,7 +6405,7 @@ const Q16: EduQuest = quest(
           'We shall make a balloon of silk and fill it with hot air. Hot air I have plenty of. It is the silk we need.',
         ),
         N(
-          'So for three days you sit with Dorothy and sew strips of green silk together, while Oz cuts them out.',
+          'So for three days you sit with Dorothy and sew strips of green silk together, each two metres long, while Oz cuts them out.',
         ),
         N('The finished balloon will be more than twenty feet long, which is about six metres.'),
         N(
@@ -6509,7 +6528,7 @@ const Q16: EduQuest = quest(
               'Hot air is lighter than the cooler air around it, so the balloon is pushed up',
               [
                 N(
-                  'Yes. Heating the air makes it spread out, so a balloonful weighs less than the same amount of cool air outside. The first people to fly this way did so in France, in 1783.',
+                  'Yes. Heating air makes it spread out, so a balloonful weighs less than cool air outside. The first flight like this was in France, in 1783.',
                 ),
               ],
               true,
@@ -6718,14 +6737,14 @@ const Q16: EduQuest = quest(
           4,
           A,
           'warm and cool colours',
-          'RL.1.4',
+          undefined,
           [N('Artists call colours warm or cool. Which of these is a warm colour?')],
           [
             o(
               'Red',
               [
                 N(
-                  'Yes. Red, orange and yellow are warm, like fire and sunshine. Blue, green and purple are cool, like water and shade. The City’s plain stone, with a little green paint, now feels cool.',
+                  'Yes. Red, orange and yellow are warm, like fire and sunshine. Blue, green and purple are cool, like water and shade.',
                 ),
               ],
               true,
@@ -6800,7 +6819,7 @@ const Q17: EduQuest = quest(
           6,
           S,
           'what tree roots do',
-          '2-LS2-1',
+          undefined,
           [N('Real trees cannot grab, but their roots do two important jobs. What are they?')],
           [
             o(
@@ -7025,7 +7044,7 @@ const Q17: EduQuest = quest(
           5,
           S,
           'baking clay: changes that cannot be reversed',
-          '2-PS1-4',
+          undefined,
           [
             N(
               'China is made by baking soft clay in a very hot oven called a kiln, until it goes hard. Can baked china be turned back into soft clay?',
@@ -7425,32 +7444,22 @@ const Q18: EduQuest = quest(
         N('Your Nubbin pats his nose, very gently, the way it did on the road where you met.'),
       ],
       [
-        ask(
+        think(
           6,
-          LIT,
-          'theme',
-          'RL.4.2',
-          [N('Which sentence best states the theme of the Lion’s whole journey?')],
+          E,
+          'feeling scared and going on anyway',
+          CASEL_SM,
           [
-            o(
-              'Courage is acting while you are afraid',
-              [
-                L(
-                  'Exactly. The Lion was afraid at the ditch, in the river, and here, and he acted each time. That is the idea running under the whole story.',
-                ),
-              ],
-              true,
+            N(
+              'The Lion’s knees knocked, and he went anyway. What can you do when you feel scared but still need to go on?',
             ),
-            o('Lions are stronger than spiders', [
-              L(
-                'That might be true in this story, but it is a detail. The deeper idea is that courage means acting while afraid.',
-              ),
-            ]),
-            o('Forests are dark', [
-              L('So they are, but it is only the setting. The theme is about courage.'),
-            ]),
           ],
-          'Stated the theme of a character’s journey: courage is acting despite fear.',
+          [
+            ['Breathe slowly', [N('That’s a fair answer. Slow breaths tell your body it is safe.')]],
+            ['Take one small step', [N('That’s a fair answer. One step is easier than the whole road.')]],
+            ['Ask a friend to stay close', [N('That’s a fair answer. The Lion had three.')]],
+          ],
+          'Thought about ways to keep going when scared: slow breaths, one small step, a friend nearby.',
         ),
       ],
     ),
@@ -7616,7 +7625,7 @@ const Q19: EduQuest = quest(
           5,
           MU,
           'beats in a bar',
-          'RL.2.4',
+          undefined,
           [
             N(
               'Music is counted in groups of beats called bars. In 4/4 time, how many beats are in each bar?',
@@ -7820,15 +7829,14 @@ const Q20: EduQuest = quest(
       ],
       [
         notice(
-          6,
+          11,
           S,
           'properties of silver',
-          '2-PS1-1',
+          undefined,
           [
+            N('Real silver goes dark if nobody polishes it. These have walked the whole way, and they still shine.'),
             N('Real silver is a shiny metal. It carries electricity better than any other metal.'),
-            N(
-              'It also tarnishes: left in the air, it slowly goes dark, because it reacts with sulphur gases there. That is why people polish it.',
-            ),
+            N('Left in the air it slowly goes dark, because it reacts with sulphur gases there.'),
           ],
           'Learned that silver is a shiny metal that is the best conductor of electricity and tarnishes in air.',
         ),
@@ -7892,7 +7900,7 @@ const Q20: EduQuest = quest(
         GL(
           'Knock the heels together three times and tell them where you want to go. They will take you there in three steps.',
         ),
-        N('Three steps, over a desert. You wonder how far each step must be.'),
+        N('Three steps, over a desert 600 km wide. You wonder how far each step must be.'),
         N('Dorothy looks at her heels as if she were meeting them for the first time.'),
       ],
       [
@@ -8007,32 +8015,19 @@ const Q20: EduQuest = quest(
         N('You put them on, and knock your heels together three times.'),
         N('Nothing happens at all.'),
         GL('They are only shoes, dear. Most shoes are.', 'happy'),
+        N('Your Nubbin knocks its heels together, just in case. Nothing, so it tries again, harder.'),
       ],
       [
-        ask(
-          3,
+        notice(
+          4,
           LIT,
           'humour: understatement',
-          'L.4.5',
-          [N('Why is Glinda’s remark funny?')],
+          undefined,
           [
-            o(
-              'She states the obvious in a calm, dry way',
-              [
-                GL(
-                  'Exactly. Saying something plainly obvious, with a straight face, is called understatement. It is a favourite trick of dry humour.',
-                ),
-              ],
-              true,
-            ),
-            o('She says something that is not true', [
-              GL('Quite the opposite. What she says is perfectly true. That is the joke.'),
-            ]),
-            o('She shouts it', [
-              GL('She is perfectly calm. The humour is in how plain and dry she is.'),
-            ]),
+            N('Glinda says something plainly true, calmly.'),
+            N('Saying the obvious with a straight face is called understatement. It is a dry kind of joke.'),
           ],
-          'Recognised understatement as the source of a dry joke.',
+          'Noticed understatement as the source of a dry joke.',
         ),
       ],
     ),
@@ -8228,7 +8223,8 @@ export const EDU_A15_READER_VARIANTS: EduScene[] = [
         'Keep that pair. It has got used to them. Some do. Keep yours too, if you like, to remember us by.',
         'think',
       ),
-      N('He winks at you, the wink of a man who has been told a secret too.'),
+      N('He winks at you.'),
+      G('Gatekeepers always know more than they say. It is most of the job.', 'happy'),
       N(
         'Without the spectacles, the City is plain stone and glass, with a little green paint here and there.',
       ),
@@ -8237,17 +8233,17 @@ export const EDU_A15_READER_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        5,
+        6,
         A,
         'warm and cool colours',
-        'RL.1.4',
+        undefined,
         [N('Artists call colours warm or cool. Which of these is a warm colour?')],
         [
           o(
             'Red',
             [
               N(
-                'Yes. Red, orange and yellow are warm, like fire and sunshine. Blue, green and purple are cool, like water and shade. The City’s plain stone, with a little green paint, now feels cool.',
+                'Yes. Red, orange and yellow are warm, like fire and sunshine. Blue, green and purple are cool, like water and shade.',
               ),
             ],
             true,
@@ -8291,14 +8287,14 @@ export const EDU_A15_READER_VARIANTS: EduScene[] = [
         5,
         A,
         'warm and cool colours',
-        'RL.1.4',
+        undefined,
         [N('Artists call colours warm or cool. Which of these is a warm colour?')],
         [
           o(
             'Red',
             [
               N(
-                'Yes. Red, orange and yellow are warm, like fire and sunshine. Blue, green and purple are cool, like water and shade. The City’s plain stone, with a little green paint, now feels cool.',
+                'Yes. Red, orange and yellow are warm, like fire and sunshine. Blue, green and purple are cool, like water and shade.',
               ),
             ],
             true,
@@ -8375,6 +8371,9 @@ export const EDU_A15_READER_VARIANTS: EduScene[] = [
       ),
       SC('Thank you. I have just thought of eleven new laws. I shall begin with those.', 'happy'),
       SC('Law one: nobody looks behind screens. It is restful.', 'happy'),
+      GL('Does Law one apply to you, Scarecrow?'),
+      SC('Hm. Law two: every law applies to me too.', 'think'),
+      SC('Law one may need another look. I have only had brains for a week.', 'happy'),
       GL('Woodman: they will carry you to the land of the Winkies, who want you for their ruler.'),
       TW('I shall rule them kindly. I have the heart for it now.', 'soft'),
       GL(
@@ -8515,7 +8514,7 @@ export const EDU_A15_READER_VARIANTS: EduScene[] = [
     'a15-14-screen-done-reconciled',
     [
       ...POOR_WIZARD,
-      N('You knew a man like this.'),
+      N('You think of Corvin, back in the valley.'),
       N('He gave the trick back. His hand was blue.', 'soft'),
     ],
     [HUMBUG_ASK(3)],
@@ -8524,14 +8523,14 @@ export const EDU_A15_READER_VARIANTS: EduScene[] = [
     'a15-14-screen-done-bargained',
     [
       ...POOR_WIZARD,
-      N('You knew a man like this.'),
+      N('You think of Corvin, back in the valley.'),
       N('He sold the trick, along with everything else.'),
     ],
     [HUMBUG_ASK(3)],
   ),
   sc(
     'a15-14-screen-done-forced',
-    [...POOR_WIZARD, N('You knew a man like this.'), N('He only let go when he fell.', 'sad')],
+    [...POOR_WIZARD, N('You think of Corvin, back in the valley.'), N('He only let go when he fell.', 'sad')],
     [HUMBUG_ASK(3)],
   ),
   sc(

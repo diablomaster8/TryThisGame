@@ -183,14 +183,22 @@ const A16_COURT: Line[] = [
 const A16_HOME: Line[] = [
   N('In the spring the merchant comes home over the hill, thinner and browner, with a sledge full of far-off things.'),
   MER('Married? My Vasilisa? To whom? To the… oh. Oh, my goodness.', 'shock'),
+  N('He pats his coat and finds what he promised: a silver thimble. Vasilisa puts it in her other pocket, away from the doll.'),
+  MER('And the woman with the map? Did she say who won?', 'happy'),
+  Y('She says it was a draw.'),
+  MER('That is exactly what the winner would say.', 'think'),
   N('She takes him to live with her, and the old woman too, who complains about the palace stairs and is very happy.'),
 ];
 
 /** A18-16 complete: the doll charm, the tale's last words, and the way home (all three crust paths). */
 const A16_END: Line[] = [
-  N('Last of all, Vasilisa gives your Nubbin a painted doll no bigger than a thumb, in a pouch of its own on a cord.'),
+  N('Last of all, Vasilisa gives your Nubbin a little painted copy of her doll, no bigger than a thumb, in a pouch on a cord.'),
+  V('The real one stays with me. She has work to do. This one only has to be looked after.', 'soft'),
+  N('Your Nubbin looks into the pouch, then at Vasilisa’s pocket, and decides this is fair.'),
   N(`The tale ends the way the old books end it: ${LIFT_POCKET}`),
   N('The page settles, and you are back in the Grove with the atlas on your knee. Your Nubbin checks its pouch twice: the small painted doll is still there.'),
+  N('Your Nubbin tucks the doll in its pouch in with the rest of its collection, which now lives in your coat.'),
+  N('Your coat pocket has stopped trying.'),
 ];
 
 // =================================================================== THE DOLL IN THE POCKET
@@ -389,7 +397,7 @@ export const ATLAS_A18: Quest[] = [
           lines: [
             N('Vasilisa kneels on an upturned tub between the potatoes and the pickle crocks. She sets the doll on the tub, facing her.'),
             N('Out of her apron come the crust, the egg and the honey cake. She lays them in front of the doll in a careful row.'),
-            N(`${LIFT_MORSELS} tonight is the first night you see it.`),
+            N(`The old book says it plainly: “${LIFT_MORSELS}” tonight you see it.`),
             V(LIFT_EAT, 'sad'),
             V('Mother’s gone and Father’s sad and everybody brings pies. I don’t want pies. I want to know what to do.', 'sad'),
             N('For a moment nothing happens. Then the doll’s painted eyes begin to shine, like two drops of lamp oil with a light behind them.'),
@@ -675,7 +683,11 @@ export const ATLAS_A18: Quest[] = [
             {
               id: 'knocking',
               label: 'Ask who’s been knocking.',
-              then: [V('Young men. For me. Not for my sisters. You can imagine how that’s going.', 'think')],
+              then: [
+                V('Young men. For me. Not for my sisters. You can imagine how that’s going.', 'think'),
+                V('One brought a goose. I think he hoped the goose would do the talking.'),
+                N('Your Nubbin looks round for the goose. It is a Nubbin with a lot of time for geese.'),
+              ],
             },
             {
               id: 'pocket',
@@ -972,6 +984,9 @@ export const ATLAS_A18: Quest[] = [
             N('She reaches out with the scissors and snips, and the flame goes out. All of it, every bit of light in the house.'),
             ELD('Oh! Oh dear. By accident.', 'shock'),
             N('In the dark, your Nubbin climbs straight up your front and into your coat.'),
+            N('Somebody walks into a chair.'),
+            ELD('Sorry! Oh, it’s a chair. Sorry, chair.', 'shock'),
+            ELD('That wasn’t me, by the way. Nobody saw, so it wasn’t anybody.'),
             STEP('Now what? No fire in the house, and the stove gone out. We must have light.'),
             YNG('Well, I’m not going. I can see by my pins.'),
             ELD('And I can see by my needles. I’m not going either.'),
@@ -1344,6 +1359,8 @@ export const ATLAS_A18: Quest[] = [
             BY('More! Is that the lot? Look in the back. There’s always something at the back.', 'happy'),
             N('She eats the way the wind takes a field: all of it, from one side to the other, and nothing left standing.'),
             N('Your Nubbin watches the goose go, with an expression of real grief.'),
+            BY('What? It was a small goose.'),
+            N('It was not a small goose.'),
             BY('Ah. Better. That’s what an old woman needs. A little something.', 'happy'),
             N('On the table she leaves a bowl with a little soup at the bottom, a crust, and a scrap of pork the size of your thumb.'),
             BY('That’s yours, girl. Supper. And a crust for you, friend from elsewhere, since you carried. Don’t say I’m not fair.'),
@@ -1876,6 +1893,8 @@ export const ATLAS_A18: Quest[] = [
             N('The voice comes from the skull. It is a dry voice, like leaves, and not at all unkind.'),
             SK('Take me to your stepmother’s house. That is where I’m wanted.'),
             V('Oh.', 'shock'),
+            SK('And mind you don’t swing me. I’ve been on a stick all day.'),
+            N('Vasilisa holds the stick very, very still. Your Nubbin takes its paws off its eyes, to see what manners look like on a skull.'),
           ],
           choices: [
             {
@@ -2377,9 +2396,9 @@ export const ATLAS_A18: Quest[] = [
     ],
     sets: { 'a18-16': true, 'a18-done': true },
     childLines: {
-      'a18-16-complete#5': CHILD_POCKET,
-      'a18-16-complete-doll#6': CHILD_POCKET,
-      'a18-16-complete-self#6': CHILD_POCKET,
+      'a18-16-complete#11': CHILD_POCKET,
+      'a18-16-complete-doll#12': CHILD_POCKET,
+      'a18-16-complete-self#12': CHILD_POCKET,
     },
     notes:
       'CRUST PAYOFF (a18-crust). Step 2: the scene shown, a18-16-shirts, is for nubbin and doll; for self play ' +
@@ -2389,8 +2408,8 @@ export const ATLAS_A18: Quest[] = [
       'the plainest, and you keep its spare button). In every path the doll stays in Vasilisa’s pocket. ' +
       'REWARDS: the doll charm and the Long Table bookmark on every path. Grant only the keepsake matching a18-crust: ' +
       'nubbin → a18-yaga-oats, doll → a18-hanky-cloth, self → a18-shirt-button. All one-time. ' +
-      'LIFTED TEXT: the tale’s last words, as a fragment inside our own sentence, at A16_END#1 in all three complete ' +
-      'scenes (a18-16-complete#5, a18-16-complete-doll#6, a18-16-complete-self#6). ' +
+      'LIFTED TEXT: the tale’s last words, as a fragment inside our own sentence, at A16_END#3 in all three complete ' +
+      'scenes (a18-16-complete#11, a18-16-complete-doll#12, a18-16-complete-self#12). ' +
       'SABLE (read-only): if Sable is bonded in the Grove, play ATLAS_A18_VARIANTS a18-16-sable straight after ' +
       'a18-16-complete*, as the atlas shuts. ' +
       'SIM: (a) the doll charm is a cosmetic pouch on a cord, worn by one Nubbin at a time. (b) The handkerchief cloth ' +

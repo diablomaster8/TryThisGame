@@ -16,7 +16,7 @@ _He slides out: a man with oil to his elbows and a face that hasn’t slept._
 **The Pilot**: I’m days from anywhere. You’re the last thing I expected to see.  
 **The Pilot**: Where did you come from? No, don’t tell me. I’ve stopped expecting sensible answers out here.  
 
-> **Lesson** (science, 2-LS4-1, notice): what a desert is, and that the Sahara is the biggest hot desert  
+> **Lesson** (science, 3-LS4-3, notice): what a desert is, and that the Sahara is the biggest hot desert  
 > **The Pilot**: Welcome to the Sahara, by the way. It’s a desert: a place that gets very little rain.  
 > **The Pilot**: Less than 25 centimetres (10 inches) in a whole year. Plenty of sand, not much to drink.  
 > **The Pilot**: It’s the biggest hot desert on Earth. You’ll want a hat.  
@@ -46,7 +46,7 @@ _He slides out: a man with oil to his elbows and a face that hasn’t slept._
 **The Pilot**: I’m days from anywhere. You’re the last thing I expected to see.  
 **The Pilot**: Where did you come from? No, don’t tell me. I’ve stopped expecting sensible answers out here.  
 
-> **Lesson** (science, 2-LS4-1, notice): what a desert is, and that the Sahara is the biggest hot desert  
+> **Lesson** (science, 3-LS4-3, notice): what a desert is, and that the Sahara is the biggest hot desert  
 > **The Pilot**: Welcome to the Sahara, by the way. It’s a desert: a place that gets very little rain.  
 > **The Pilot**: Less than 25 centimetres (10 inches) in a whole year. Plenty of sand, not much to drink.  
 > **The Pilot**: It’s the biggest hot desert on Earth. You’ll want a hat.  
@@ -76,7 +76,7 @@ _He slides out: a man with oil to his elbows and a face that hasn’t slept._
 **The Pilot**: I’m days from anywhere. You’re the last thing I expected to see.  
 **The Pilot**: Where did you come from? No, don’t tell me. I’ve stopped expecting sensible answers out here.  
 
-> **Lesson** (science, 2-LS4-1, notice): what a desert is, and that the Sahara is the biggest hot desert  
+> **Lesson** (science, 3-LS4-3, notice): what a desert is, and that the Sahara is the biggest hot desert  
 > **The Pilot**: Welcome to the Sahara, by the way. It’s a desert: a place that gets very little rain.  
 > **The Pilot**: Less than 25 centimetres (10 inches) in a whole year. Plenty of sand, not much to drink.  
 > **The Pilot**: It’s the biggest hot desert on Earth. You’ll want a hat.  
@@ -154,7 +154,7 @@ _Then it lies flat on its tummy and tries to look as full as possible._
 _He turns the page. The same snake is drawn again, opened up like a map, with a very calm elephant inside._  
 **The Pilot**: I had to draw the inside for them. Grown-ups always need things explained.  
 
-> **Lesson** (art, L.2.4, notice): a cross-section shows the inside of something  
+> **Lesson** (art, L.3.4, notice): a cross-section shows the inside of something  
 > **The Pilot**: A drawing that shows the inside of a thing is called a cross-section. It’s as if you’d cut it open.  
 > **The Pilot**: Engine makers use them all the time. So do doctors, and so do people who dig wells.  
 > _For grown-ups: Learned that a cross-section is a drawing that shows the inside of something._
@@ -189,7 +189,7 @@ _At sunrise a small voice wakes the pilot. It is quite a polite voice, and quite
 **The Prince**: Please. Would you draw a sheep for me?  
 _A boy stands in the sand with a long scarf, a serious face, and not a speck of dust on him._  
 
-> **Lesson** (science, K-PS3-1, notice): desert nights are cold because the dry, clear air lets heat escape  
+> **Lesson** (science, 4-PS3-2, notice): desert nights are cold because the dry, clear air lets heat escape  
 > **The Pilot**: Brr. Chilly, this early. You’d never think the sand was baking yesterday.  
 > **The Pilot**: In the Sahara it can be over 40 °C (104 °F) by day and near 10 °C (50 °F) by night.  
 > **The Pilot**: Dry, clear air has no clouds to hold the heat in. When the Sun goes, the warmth just leaves.  
@@ -241,7 +241,7 @@ _He bends close to the holes and whispers, so as not to wake anybody._
 _Your Nubbin climbs onto the lid of the box and sits on it gently, as if it might be somebody’s bed._  
 _Neither of you can see the sheep. The boy can, and that seems to be enough for everyone._  
 
-> **Lesson** (literacy, RL.2.3, notice): inferring: using clues to work out what the story doesn’t say  
+> **Lesson** (literacy, RL.3.3, notice): inferring: using clues to work out what the story doesn’t say  
 > _The boy sees a sheep because a box with holes and a few words give him clues, and his mind fills in the rest._  
 > _Readers do this too, using clues to work out what a story doesn’t say. That is called inferring._  
 > _For grown-ups: Learned that inferring means using clues to work out what is not said._
@@ -256,7 +256,7 @@ _From under the plane comes a muffled “Mostly.”_
 **The Prince**: And flowers? Do they eat flowers?  
 _The voice under the plane says sheep eat whatever they find, even flowers with thorns._  
 
-> **Lesson** (science, K-LS1-1, notice): sheep are herbivores; what a muzzle is for  
+> **Lesson** (science, notice): sheep are herbivores; what a muzzle is for  
 > **The Pilot**: Sheep are herbivores, which means they eat only plants. Mostly grass, but also leaves, shrubs and flowers.  
 > **The Pilot**: A muzzle goes round an animal’s nose and mouth so it can’t nibble things it shouldn’t.  
 > _For grown-ups: Learned that sheep are herbivores and what a muzzle is for._
@@ -322,7 +322,7 @@ _But at night, by the cold engine, under the stars, he begins to tell._
 _The pilot murmurs that it must be an asteroid, one of the little ones with only a number for a name._  
 **The Pilot**: Call it B-612, then, for now. Every little asteroid needs a number.  
 
-> **Lesson** (science, 1-ESS1-1, notice): asteroids are small rocky worlds; real ones have numbers and names  
+> **Lesson** (science, notice): asteroids are small rocky worlds; real ones have numbers and names  
 > **The Pilot**: Real asteroids are small, rocky worlds left over from when the planets were made.  
 > **The Pilot**: Most circle the Sun between Mars and Jupiter. Each gets a number, and many get a name too, like 4 Vesta.  
 > _For grown-ups: Learned that asteroids are small rocky worlds and that real ones are numbered._
@@ -421,11 +421,13 @@ _Then you are on his planet again. He sets out his little chair, one for you, an
 **The Prince**: On my planet you don’t have to wait for the sun to set. You just move your chair a few steps, and it sets again.  
 _The sun goes down. He gets up, moves his chair a few steps and sits, and the sun goes down again._  
 _You move your chair, and your Nubbin rolls its pebble. The sun goes down a third time, pink and then gold._  
-**The Prince**: Once I watched it lots and lots of times in one day. I lost count somewhere after forty.  
+**The Prince**: Once I watched it forty-four times in one day.  
+**The Prince**: It’s four steps of my chair each time. Let’s do ten, you and me.  
+_Your Nubbin rolls its pebble four rolls every sunset. By the sixth it is rolling in circles, and so are its eyes._  
 
 > **Lesson** (maths, 3.OA.A.3, do): multiplication: equal groups of steps  
 > **The Prince**: Four chair-steps for every sunset. Move your chair and count along with me.  
-> _Ten sunsets make ten groups of four steps. Count them in fours: 4, 8, 12, and on until you reach forty._  
+> _Ten sunsets, four steps each. Count in fours: 4, 8, 12, and on up to forty._  
 > Check: `edu:count:chair-steps:40`
 > _For grown-ups: Skip-counted in fours to find 10 × 4 = 40._
 
@@ -445,7 +447,7 @@ _He doesn’t say why. He moves his chair again, and sits, and holds his knees._
 
 _Pink, gold, red, violet. The planet is so small you can feel it turning under the chair legs._  
 
-> **Lesson** (art, RL.1.4, notice): warm and cool colours: touch words borrowed for colour  
+> **Lesson** (art, notice): warm and cool colours: touch words borrowed for colour  
 > _Warm and cool are words for how things feel to touch. Artists borrow them for colours._  
 > _Red, orange, pink and gold are warm colours, and blue and violet are cool. A sunset puts them side by side._  
 > _For grown-ups: Learned the difference between warm and cool colours, and that the names come from touch._
@@ -538,7 +540,7 @@ _After that she is always wanting something: water, the screen, a better angle t
 **The Prince**: I believed every word she said. That was the trouble.  
 **The Prince**: She filled the whole planet with her sweet smell every morning, and I only noticed the complaining.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): respecting what someone wants by asking them  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): respecting what someone wants by asking them  
 > _The boy guessed what the rose needed, and never asked her. How can you find out what someone really wants?_  
 > - ✅ Ask them, and really listen to the answer. → Yes. Asking and listening is a way of showing respect.
 > - Decide for them. You know best. → It can feel kind. But if you don’t ask, you may give them something they never wanted. Respect means listening first.
@@ -560,7 +562,7 @@ _You take one side and he takes the other. Your Nubbin walks in front, looking f
 
 _He puts the globe over her that night. Through the glass she looks like a flower in a story, and very far away._  
 
-> **Lesson** (science, 2-PS1-1, notice): properties of glass: transparent, hard, brittle, blocks wind  
+> **Lesson** (science, notice): properties of glass: transparent, hard, brittle, blocks wind  
 > _Glass is transparent, which means light passes through it. That is why the boy can see her, and she can see the stars._  
 > _It keeps the wind off. But it is hard and brittle, which means it smashes if it is dropped._  
 > _For grown-ups: Learned some properties of glass: transparent, hard and brittle._
@@ -601,18 +603,22 @@ _He turns to you with the globe in his hands. He looks very young, and very frig
 #### `reader:a16-05-goodbye-done` · [main](main.md#a16-05-goodbye-done)
 
 **The Rose**: Go on, then. Don’t hang about. You’ve decided.  
-_She looks hard at the sun, so he can’t see her face. Nobody is prouder than a rose._  
+_She stares at the sun, and will not turn round. Nobody is prouder than a rose._  
 
-> **Lesson** (literacy, RL.2.3, notice): actions can show feelings that words hide  
-> _The rose says “Go on, then,” but she looks hard at the sun. Her words and her actions don’t match._  
-> _When that happens in a story, the action often shows the real feeling. Here, she is hiding that she is sad._  
-> _For grown-ups: Learned that what a character does can show a feeling their words hide._
+> **Lesson** (literacy, RL.3.3, ask): actions can show feelings that words hide  
+> _The Rose says “Go on, then,” but she stares at the sun. Why might she do that?_  
+> - ✅ So he can’t see her face. → Yes. Her words say go. Her face might say stay.
+> - She likes the weather. → It’s a fine sun. But she is staring hard, so he can’t see her face.
+> _For grown-ups: Worked out that what a character does can show a feeling their words hide._
 
 
 #### `reader:a16-05-complete` · [main](main.md#a16-05-complete)
 
 _He goes with a flock of wild birds passing over, and the little planet drops away under him._  
 _Back on the sand, the boy is quiet for a long time. Then he takes a stick and draws four tiny thorns._  
+**The Prince**: I didn’t know how to look after her. I thought looking after was the same as fussing.  
+**The Pilot**: Do you think she’s all right?  
+**The Prince**: She has four thorns.  
 
 > **Lesson** (art, RL.4.3, notice): a few simple marks can stand for a whole thing  
 > _Four little marks in the sand, and we know exactly who he means._  
@@ -620,9 +626,6 @@ _Back on the sand, the boy is quiet for a long time. Then he takes a stick and d
 > _He chose her thorns, the thing she was proudest of. That shows how well he knows her._  
 > _For grown-ups: Learned that a simple mark or shape can stand for something bigger, and what the choice shows about a character._
 
-**The Prince**: I didn’t know how to look after her. I thought looking after was the same as fussing.  
-**The Pilot**: Do you think she’s all right?  
-**The Prince**: She has four thorns.  
 
 ### Glossary
 
@@ -645,7 +648,7 @@ _It has been a long night’s telling. Your Nubbin yawns, enormously._
 _Your Nubbin yawns again. It can’t help it._  
 **The King**: Then I command it. Yawn, small subject. Yawn as much as you like. By royal order.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): fair rules treat everyone equally and can be followed  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): fair rules treat everyone equally and can be followed  
 > _The king only gives orders that people will obey anyway. Which of these would be a fair rule for a place everyone shares?_  
 > - ✅ “Everyone takes turns on the swing.” → Yes. A fair rule treats everyone the same, and everyone can follow it.
 > - “Only the king may use the swing.” → That rule could be obeyed, but it isn’t fair to everybody else. A fair rule treats people equally.
@@ -680,7 +683,7 @@ _Your Nubbin yawns again. It can’t help it._
 **The King**: Certainly. Certainly. You shall have one. At the proper time.  
 _He brings out an enormous almanac, licks his thumb, and turns a great many pages._  
 
-> **Lesson** (science, 1-ESS1-2, notice): almanacs list sunrise and sunset times, which change through the year  
+> **Lesson** (science, 5-ESS1-2, notice): almanacs list sunrise and sunset times, which change through the year  
 > _An almanac is a book of tables for the year. It lists things like sunrise and sunset times._  
 > _Sunset comes at a different time each day, because the Earth is tilted as it travels round the Sun._  
 > _For grown-ups: Learned that sunset times change through the year because the Earth is tilted._
@@ -751,10 +754,10 @@ _The second planet belongs to a man in a very tall hat. He sees you coming from 
 **The Man in the Hat**: Visitors! Admirers! I knew you’d come eventually.  
 **The Prince**: That’s a funny hat.  
 **The Man in the Hat**: It is for raising. When people clap me, I raise it. Unfortunately, hardly anybody comes this way.  
-_The boy claps a few times, to be kind, and off comes the hat. It goes on for five minutes and gets very dull._  
+_The boy claps once every two seconds, to be kind, and off comes the hat each time. It goes on for five minutes and gets very dull._  
 
 > **Lesson** (maths, 4.MD.A.1, ask): changing minutes to seconds and dividing  
-> _Say the boy claps once every two seconds, and the hat comes off each time. How many times does it come off in five minutes?_  
+> _The boy claps once every two seconds, and the hat comes off each time. How many times does it come off in five minutes?_  
 > - ✅ 150 times. → Yes. Five minutes is 5 × 60 = 300 seconds, and 300 ÷ 2 = 150.
 > - 10 times. → That’s 5 × 2. First change five minutes into seconds: 5 × 60 = 300. Then split 300 into twos: 150.
 > - 300 times. → There are 300 seconds, but the hat only comes off once every two of them. So 300 ÷ 2 = 150.
@@ -819,7 +822,7 @@ _He says it as if it were a sum he has done many times, and always gets the same
 _The boy goes away very sad. He doesn’t say anything for a long time._  
 _Neither does your Nubbin. It holds on to the end of his scarf the whole way._  
 
-> **Lesson** (literacy, RL.2.3, ask): how characters respond to events  
+> **Lesson** (literacy, RL.3.3, ask): how characters respond to events  
 > _Your Nubbin holds the scarf and says nothing. What does that show?_  
 > - ✅ It is sad too, and wants to stay close. → Yes. Holding on and staying quiet shows it feels what the boy feels.
 > - It is bored. → Look at what it does: it holds on tight and stays quiet. That sounds like worry or sadness, not boredom.
@@ -831,7 +834,7 @@ _Neither does your Nubbin. It holds on to the end of his scarf the whole way._
 
 _Back by the plane, the boy throws pebbles at nothing. Your Nubbin brings them back, one by one._  
 
-> **Lesson** (maths, 1.OA.A.1, ask): subtraction within 20  
+> **Lesson** (maths, ask): subtraction within 20  
 > _The boy throws nine pebbles, and your Nubbin fetches four back. How many are still out in the sand?_  
 > - ✅ Five. → Yes. 9 − 4 = 5.
 > - Thirteen. → That adds them together. We want the ones still out there, so take four away from nine: five.
@@ -861,7 +864,7 @@ _The fourth planet is all desk. Behind the desk is a man adding up, so busy that
 **The Businessman**: The little shiny things that idle people stare at and daydream about. I am not idle. I count them.  
 _He means the stars. You can tell, because he will not look up at a single one of them._  
 
-> **Lesson** (literacy, L.2.4, notice): a French word: étoile means star  
+> **Lesson** (literacy, L.3.4, notice): a French word: étoile means star  
 > _The book this page comes from was first written in French. In French, a star is une étoile, said “ay-TWAL”._  
 > _“Les étoiles” means “the stars”. The businessman has never once looked at les étoiles._  
 > _For grown-ups: Learned the French word étoile (star)._
@@ -870,7 +873,7 @@ _He means the stars. You can tell, because he will not look up at a single one o
 **The Prince**: How can anybody own a star?  
 **The Businessman**: Nobody else had thought of owning them. So I did. That’s how owning works.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): what owning means, and why we need fair rules about it  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): what owning means, and why we need fair rules about it  
 > _Can a person own a star, just by being the first to say so? What do you think “owning” means?_  
 > - No. Owning needs a fair rule that everyone agrees on. → That’s a fair answer. Owning usually depends on shared rules, like buying something or being given it. Nobody has agreed a rule for stars.
 > - Yes, if he really looks after them. → That’s a fair answer, and the boy will say something close to it. Perhaps owning something means taking care of it.
@@ -977,7 +980,7 @@ _He mops his forehead with a large handkerchief. Dusk: he lights the lamp._
 **The Prince**: Your planet’s so tiny, you could just stroll after the sun. You’d never get to dusk at all.  
 **The Lamplighter**: I don’t want it to be day for ever. I want a night off.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): rules should change when things change  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): rules should change when things change  
 > _The lamplighter’s orders never changed, even though his planet did. What should happen to a rule when things change?_  
 > - Someone should look at it again, and change it if it no longer makes sense. → That’s a fair answer. A good rule serves the people who follow it. When it stops working, it needs another look.
 > - Keep it exactly as it is. Rules are rules. → That’s a fair answer. Keeping to a rule feels safe, and rules do matter. But the lamplighter hasn’t slept in a month. What would you say to him?
@@ -994,7 +997,7 @@ _The sky slides from gold to violet in the time it takes to breathe. The lamp wa
 _You lift the taper, with your Nubbin on your shoulder leaning too. The wick catches, and light spreads over the whole planet._  
 **The Lamplighter**: Oh, that’s lovely. I haven’t seen it from the outside in years.  
 
-> **Lesson** (maths, 1.MD.B.3, do): telling the time in hours and half hours; one dusk a minute  
+> **Lesson** (maths, 3.MD.A.1, do): telling the time in hours and half hours; one dusk a minute  
 > **The Lamplighter**: One dusk every minute, remember. Count the lightings with me, one for each minute that passes.  
 > _Thirty dusks make half an hour, and sixty make a whole hour. In one of our days he lights it 1,440 times._  
 > Check: `edu:count:lamp-lightings:30`
@@ -1046,7 +1049,7 @@ _The sixth planet is a good deal bigger. An old gentleman lives on it among book
 **The Prince**: What are all these books?  
 **The Geographer**: I am a geographer. I write down where the seas are, and the rivers, the towns, the mountains and the deserts.  
 
-> **Lesson** (social-studies, 2-ESS2-2, notice): maps and the four compass directions  
+> **Lesson** (social-studies, 4-ESS2-2, notice): maps and the four compass directions  
 > **The Geographer**: A map shows where things are. A compass rose on it shows four main directions: north, south, east and west.  
 > **The Geographer**: The Sun rises in the east and sets in the west. Stand with the sunrise on your right, and you are facing north.  
 > _For grown-ups: Learned the four compass directions and how the Sun’s position helps find them._
@@ -1055,7 +1058,7 @@ _The sixth planet is a good deal bigger. An old gentleman lives on it among book
 **The Geographer**: Haven’t the least idea. Going and looking is for explorers. I sit here, and they come and tell me.  
 **The Geographer**: Then I check what they say. If they claim a mountain, I make them bring me a big stone from it.  
 
-> **Lesson** (literacy, L.2.4, notice): the word “evidence”: something real that shows whether a claim is true  
+> **Lesson** (literacy, L.3.4, notice): the word “evidence”: something real that shows whether a claim is true  
 > _A stone from the mountain is evidence: something real you can look at and test, not just a story._  
 > _Scientists check what people claim by asking for evidence too._  
 > _For grown-ups: Learned the word “evidence”: something real you can check, as scientists do._
@@ -1143,7 +1146,7 @@ _In the telling, the boy lands on Earth, in this same desert, a year ago. Nobody
 **The Prince**: I thought I’d got the wrong planet. The geographer said it was full of people.  
 _It is a very big planet, and the desert is a very big part of it. Not a person in sight._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): the Sahara is in Africa  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): the Sahara is in Africa  
 > _This desert is the Sahara. Which continent is it in?_  
 > - ✅ Africa. → Yes. The Sahara covers a huge part of northern Africa. It is the biggest hot desert in the world.
 > - Asia. → Asia has big deserts too, such as the Gobi. But the Sahara is in the north of Africa.
@@ -1254,12 +1257,22 @@ _From the top you see peaks, sharp as needles, all the way round. No people at a
 > _For grown-ups: Learned that an echo is a sound wave bouncing back, and that sound takes time to travel._
 
 _Your Nubbin sits down very firmly on the peak, and looks at the echo as if it has been rude._  
+_Your Nubbin squeaks. The mountains squeak back, smaller and crosser._  
+_It squeaks louder, and so do they. Your Nubbin decides to win by never speaking to them again._  
 **The Prince**: This planet doesn’t talk back. It only copies.  
 
 #### `reader:a16-12-roses` · [main](main.md#a16-12-roses)
 
 _After a long time walking there is a road, and the road leads to a garden, and the garden is full of roses._  
 _Five thousand of them, nodding in rows. Every single one looks exactly like his._  
+
+> **Lesson** (maths, 3.OA.A.3, ask): division with multiples of 100  
+> _There are 5,000 roses growing in rows of 100. How many rows is that?_  
+> - ✅ 50 rows. → Yes: 50 × 100 = 5,000, so there are 50 rows. Fifty rows of roses, and not one of them is his.
+> - 500 rows. → 500 rows of 100 would be 50,000 roses. That’s ten times too many. 50 × 100 = 5,000, so it’s 50 rows.
+> - 5 rows. → Five rows of 100 would only be 500 roses. We need ten times as many: 50 rows.
+> _For grown-ups: Divided 5,000 by 100 to find the number of rows._
+
 **The Roses**: Good morning. We are roses.  
 **The Prince**: Roses.  
 _He stares at them. She told him she was the only one of her kind anywhere._  
@@ -1289,12 +1302,10 @@ _He lies down in the grass, puts his face in his arms, and cries._
 _The roses nod on their stalks, and the sun moves. After a long time he stops crying, rolls over, and looks at the sky._  
 **The Prince**: Thank you for not saying anything.  
 
-> **Lesson** (maths, 3.OA.A.3, ask): division with multiples of 100  
-> _There are 5,000 roses growing in rows of 100. How many rows is that?_  
-> - ✅ 50 rows. → Yes: 50 × 100 = 5,000, so there are 50 rows. Fifty rows of roses, and not one of them is his.
-> - 500 rows. → 500 rows of 100 would be 50,000 roses. That’s ten times too many. 50 × 100 = 5,000, so it’s 50 rows.
-> - 5 rows. → Five rows of 100 would only be 500 roses. We need ten times as many: 50 rows.
-> _For grown-ups: Divided 5,000 by 100 to find the number of rows._
+> **Lesson** (sel, CASEL: Relationship skills, notice): staying beside someone is a way of helping  
+> _He didn’t thank you for fixing it. He thanked you for staying, and for being quiet._  
+> _Sometimes the kindest help is to be there and wait._  
+> _For grown-ups: Noticed that simply staying beside a sad friend can be a real kindness._
 
 
 #### `reader:a16-12-complete` · [main](main.md#a16-12-complete)
@@ -1305,9 +1316,9 @@ _The telling holds its breath. So does your Nubbin._
 **The Prince**: Good morning. I can’t see you properly. Who are you?  
 **The Fox**: A fox. And you’re in a bad way. I can tell from here.  
 
-> **Lesson** (literacy, L.2.4, notice): a French word: renard means fox  
+> **Lesson** (literacy, L.3.4, notice): a French word: renard means fox  
 > _The book this page comes from was first written in French. In French, a fox is un renard, said “ruh-NAR”._  
-> _So this is the renard of the story, the one who teaches the boy the biggest lesson of all._  
+> _Your Nubbin, who has never met a renard, hides behind your ankle and looks anyway._  
 > _For grown-ups: Learned the French word renard (fox)._
 
 
@@ -1439,7 +1450,7 @@ _Sable sits at your heel in the long grass. The fox looks at her for a long mome
 **The Fox**: So I know when you’re coming. Then I can start being happy a whole hour before you get here.  
 **The Fox**: The closer it gets, the happier I am. Looking forward is half of it.  
 
-> **Lesson** (maths, 1.MD.B.3, do): time intervals: one hour before a clock time  
+> **Lesson** (maths, 3.MD.A.1, do): time intervals: one hour before a clock time  
 > **The Fox**: If the boy comes at four o’clock, at what time do I start being happy? Set the clock hands for me.  
 > _One hour before four o’clock is three o’clock. The fox starts feeling happy at three, long before the boy arrives._  
 > Check: `edu:read:clock:three`
@@ -1448,7 +1459,7 @@ _Sable sits at your heel in the long grass. The fox looks at her for a long mome
 _Days on this page are short: a few minutes from sunrise to stars. You watch the shadow crawl towards the white stone._  
 _The shadow touches the stone. The boy sits down a long way off and says nothing, and the fox looks at him sideways._  
 _Sunset, stars, sunrise. The shadow crawls, and the boy sits down again, a little nearer._  
-_And again, a little nearer. On the fourth day, the fox is waiting at the stone before the shadow gets there._  
+_And again, a little nearer. On the fourth day, the fox is already at the stone. It is pretending to look at a beetle._  
 
 #### `reader:a16-13-hour-t45` · [main](main.md#a16-13-hour-t45)
 
@@ -1461,7 +1472,7 @@ _Variant of `a16-13-hour`._
 **The Fox**: So I know when you’re coming. Then I can start being happy a whole hour before you get here.  
 **The Fox**: The closer it gets, the happier I am. Looking forward is half of it.  
 
-> **Lesson** (maths, 1.MD.B.3, do): time intervals: one hour before a clock time  
+> **Lesson** (maths, 3.MD.A.1, do): time intervals: one hour before a clock time  
 > **The Fox**: If the boy comes at four o’clock, at what time do I start being happy? Set the clock hands for me.  
 > _One hour before four o’clock is three o’clock. The fox starts feeling happy at three, long before the boy arrives._  
 > Check: `edu:read:clock:three`
@@ -1564,7 +1575,7 @@ _He comes back to the apple tree. The fox is waiting at the white stone, though 
 
 _The fox goes back into the wheat. You can see where it goes by the way the gold moves._  
 
-> **Lesson** (art, RL.1.4, notice): a colour can hold a memory of a person  
+> **Lesson** (art, RL.4.3, notice): a colour can hold a memory of a person  
 > _Ripe wheat is gold, and the wind makes it ripple like water. The fox says it will remind it of the boy._  
 > _Artists know that a colour can hold a memory. Gold, for the fox, now means “my friend”._  
 > _For grown-ups: Learned that artists use colour to stand for feelings and memories._
@@ -1580,7 +1591,7 @@ _Then the fox turns its head, and looks at you as well._
 **The Fox**: Think about that, both of you.  
 _Then it goes back into the wheat. You can see where it goes by the way the gold moves._  
 
-> **Lesson** (art, RL.1.4, notice): a colour can hold a memory of a person  
+> **Lesson** (art, RL.4.3, notice): a colour can hold a memory of a person  
 > _Ripe wheat is gold, and the wind makes it ripple like water. The fox says it will remind it of the boy._  
 > _Artists know that a colour can hold a memory. Gold, for the fox, now means “my friend”._  
 > _For grown-ups: Learned that artists use colour to stand for feelings and memories._
@@ -1648,7 +1659,10 @@ _Then a merchant with a tray round his neck, selling little pills._
 > _For grown-ups: Added two lots of 53 minutes and changed the total into hours and minutes._
 
 **The Prince**: What do you do with the fifty-three minutes?  
-**The Merchant**: Use them! Anything at all! Experts say it’s very efficient.  
+**The Merchant**: Use them! Anything at all!  
+**The Prince**: What do the experts do with theirs?  
+**The Merchant**: They write reports about saving minutes. It takes ages.  
+_Your Nubbin sniffs the tray and turns its back on it, the way it does with soap._  
 _The boy thinks about it seriously, the way he thinks about everything._  
 **The Prince**: Fifty-three spare minutes? I’d use them to walk to a spring. Slowly, all the way there.  
 _The merchant looks at his tray, and at the boy, and doesn’t seem to know what to say._  
@@ -1691,7 +1705,7 @@ _The telling stops: the boy has finished his travels. He looks at the pilot, who
 _A well, in all this desert, is a silly idea. You set off anyway, all of you together, as the sun goes down._  
 _The stars come out. The sand is cold under your feet, and silver, and goes on for ever._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): finding north with the Pole Star  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): finding north with the Pole Star  
 > **The Pilot**: Keep the Pole Star in front of us. It stays above the north all night, while the other stars wheel round it.  
 > **The Pilot**: If it’s straight ahead, which way are we walking?  
 > - ✅ North. → Yes. The Pole Star shows where north is, so walking towards it means walking north.
@@ -1702,7 +1716,7 @@ _The stars come out. The sand is cold under your feet, and silver, and goes on f
 **The Pilot**: Here. Your little one’s shivering.  
 _He unwinds the long scarf from his own neck and winds it round and round your Nubbin, until only its eyes show._  
 
-> **Lesson** (science, 2-PS1-1, notice): wool traps air, which keeps body heat in  
+> **Lesson** (science, notice): wool traps air, which keeps body heat in  
 > _A knitted wool scarf keeps you warm because it traps tiny pockets of air, and trapped air lets heat escape slowly._  
 > _That’s why a long scarf makes a good coat for a cold desert night._  
 > _For grown-ups: Learned that wool keeps us warm by trapping air._
@@ -1726,7 +1740,7 @@ _The pilot picks him up very carefully, as if he might break, and carries him on
 _Dawn comes up grey, then gold. The boy wakes in the pilot’s arms, and points._  
 _The cold slides out of the sand. The first sunlight is pale, then yellow, then warm on your face._  
 
-> **Lesson** (literacy, RL.1.4, notice): colour words and the feelings they carry  
+> **Lesson** (literacy, RL.4.3, notice): colour words and the feelings they carry  
 > _The sky goes grey, then gold. Writers use colour words to show a feeling as well as a colour._  
 > _Grey feels quiet and tired, while gold feels warm and hopeful. Can you find other colour words in this story?_  
 > _For grown-ups: Learned that colour words can show feelings as well as colours._
@@ -1746,13 +1760,15 @@ _He takes hold of the rope and pulls. The pulley turns and creaks, like an old g
 > **The Pilot**: It doesn’t make the bucket lighter. It changes the direction of the pull, so I can lean my weight on the rope.  
 > _For grown-ups: Learned that a pulley changes the direction of a pull to make lifting easier._
 
-_The pilot hauls the bucket up, hand over hand. You steady it on the stone, with the sun shaking in the water._  
+_The pilot hauls the bucket up, hand over hand, muttering._  
 
-> **Lesson** (literacy, L.2.4, notice): a French word: puits means well  
+> **Lesson** (literacy, L.3.4, notice): a French word: puits means well  
 > _In French, a well is un puits, said “pwee”._  
 > _Wells like this one reach down to water hidden far below the sand._  
 > _For grown-ups: Learned the French word puits (well)._
 
+**The Pilot**: Don’t ask. It’s the system.  
+_You steady it on the stone, with the sun shaking in the water. Your Nubbin mutters too, to help._  
 
 #### `reader:a16-15-well-done` · [main](main.md#a16-15-well-done)
 
@@ -1834,6 +1850,9 @@ _You all sit with your backs against the warm stone. The boy looks at the pilot 
 **The Prince**: I’m going home to my rose. It’s a long way.  
 _The pilot unwinds the scarf from your Nubbin, looks at it, and winds it back on again._  
 **The Pilot**: Keep it. It’s walked further than I have tonight.  
+_The pilot takes a folded scrap from the back of his notebook: a muzzle, drawn with strap and buckle, just in case._  
+**The Pilot**: For your sheep. I didn’t forget the strap.  
+**The Prince**: Then she’ll be safe. I’ll check it twice. Three times, if he looks hungry.  
 _Going home can mean a place, and it can mean someone you look after. For the boy, it means both._  
 
 ### Glossary

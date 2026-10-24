@@ -13,7 +13,7 @@ _The tree is drawn so big that it runs off the top of the page._
 _The page hums under your hand. It is cicadas, thousands of them, and you are standing in the road._  
 _An old woman waits at the bus stop in a straw hat. She looks you and your Nubbin up and down._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): Japan is a chain of islands; rice grows in flooded fields called paddies  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): Japan is a chain of islands; rice grows in flooded fields called paddies  
 > **Granny**: Look at the rice. We grow it with its feet in water, in flooded fields called paddies.  
 > **Granny**: Japan is a long chain of islands, and in summer the paddies are bright green.  
 > _For grown-ups: Learned that Japan is a chain of islands and that rice grows in flooded fields called paddies._
@@ -68,23 +68,26 @@ _A man in round glasses lifts a chest off the lorry. He hands you the other end 
 **Mr Kusakabe**: Wonderful. Mind the step, it bites.  
 _At the step everybody slips their shoes off and lines them up. Your Nubbin has no shoes, but it waits anyway._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, notice): taking shoes off at the step keeps floors clean and shows respect  
+> **Lesson** (social-studies, D2.Civ.8.3-5, notice): taking shoes off at the step keeps floors clean and shows respect  
 > _In Japan, shoes come off in the entrance hall, called the genkan, and stay there._  
 > _Many floors are for sitting and sleeping on, so keeping them clean is a way of being considerate._  
 > _For grown-ups: Learned that taking shoes off at the genkan is an everyday custom that keeps floors clean and shows consideration._
 
 **Satsuki**: Mei! The porch post is rotten!  
 **Satsuki**: Look, it wobbles!  
+**Mei**: It’s rotten! It’s going to fall down!  
+_Mr Kusakabe puts a hand on the post. It leans politely, then leans a lot more._  
+**Mr Kusakabe**: Ah. Structural.  
 
-> **Lesson** (science, 2-ESS1-1, ask): why the porch post is rotten: fungi break down damp wood slowly  
+> **Lesson** (science, 4-ESS2-1, ask): why the porch post is rotten: fungi break down damp wood slowly  
 > _The porch post is rotten and wobbly. What most likely made it so?_  
 > - ✅ Years of damp, which let fungi slowly break the wood down. → Yes. Rot is slow. A damp post that nobody has mended for years is perfect for fungi.
 > - The girls pushing it for a minute. → A push can make a rotten post wobble, but it was already weak. The weakness came slowly, from damp and fungi.
 > - It was built wobbly. → Possibly, but a sound post of good wood does not go wobbly on its own. Slow rot from damp and fungi is the usual cause.
 > _For grown-ups: Learned that wood rots slowly when it stays damp, because fungi break it down._
 
-**Mei**: It’s rotten! It’s going to fall down!  
-_They push the post together, shrieking, and run off. Something drops off the porch roof and bounces at your feet: an acorn._  
+_It falls over. Mei cheers, and the girls run off shrieking._  
+_Something drops off the porch roof and bounces at your feet: an acorn._  
 **Mei**: Acorns! Onee-chan, there are acorns!  
 _There are no oaks anywhere near the house. Your Nubbin looks up at the roof, and keeps looking._  
 
@@ -187,7 +190,7 @@ _In the end they go up together, side by side, which the stairs are not wide eno
 
 _At the top something rustles. Dozens of small black things scatter from the light, like soot with somewhere to be._  
 
-> **Lesson** (science, 1-PS4-2, ask): we see things when light bounces off them into our eyes  
+> **Lesson** (science, 4-PS3-2, ask): we see things when light bounces off them into our eyes  
 > _You only see the small black things when the lantern shines on them. Why does the light help you see them?_  
 > - ✅ Light bounces off them and into your eyes. → Yes. We see an object when light from it reaches our eyes. No light, nothing to see.
 > - The lantern makes the sprites move. → They do scatter, but that’s fright, not the light’s doing. We see because light bounces off them into our eyes.
@@ -230,7 +233,7 @@ _Granny has come over with rags and a bucket to help the family clean. Mei shows
 **Granny**: Soot sprites, were they? Well I never.  
 **Granny**: I saw them myself, when I was your age.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): oral history: old stories are passed down by word of mouth  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): oral history: old stories are passed down by word of mouth  
 > **Granny**: My own granny told me about them, and her granny told her.  
 > **Granny**: Stories get handed down like that, mouth to ear. Nobody writes them down, and they last for years anyway.  
 > _For grown-ups: Learned that stories can be handed down by word of mouth from one generation to the next._
@@ -246,7 +249,7 @@ _Granny has come over with rags and a bucket to help the family clean. Mei shows
 > _Think about it._  
 > - Because when we laugh our bodies relax. → That’s a fair answer. A laugh loosens tight shoulders, and a loose body feels braver. Granny would say you’d noticed something true.
 > - Because we aren’t alone with it. → That’s a fair answer. A fear shared with a friend is lighter to carry. Satsuki would agree.
-> - Because the scary thing hears us and leaves. → That’s a fair answer, and a lovely one. In stories, noise and cheer do drive shadows away. Real fears often shrink the same way, though, when we aren’t alone with them.
+> - Because the scary thing hears us and leaves. → That’s a fair answer. In stories, noise and cheer do drive shadows away. Real fears often shrink the same way, though, when we aren’t alone with them.
 > _For grown-ups: Thought about why laughing and being together can make fear feel smaller._
 
 **Mei**: I’ll laugh. I’m very good at it.  
@@ -317,7 +320,7 @@ _At the old house, Mr Kusakabe is pulling at a rain shutter that is stuck halfwa
 _You lift it a little and it runs, rattling, all the way along. Then the next one, and the next, until the house is shut._  
 _There are nine shutters in all. You slide five, and Mr Kusakabe does the rest._  
 
-> **Lesson** (maths, 2.OA.A.1, ask): subtraction within 20: 9 − 5 = 4  
+> **Lesson** (maths, ask): subtraction within 20: 9 − 5 = 4  
 > _There are 9 shutters, and you slide 5 of them. How many does Mr Kusakabe slide?_  
 > - ✅ 4 shutters. → Yes. 9 − 5 = 4.
 > - 5 shutters. → Let’s count: 9 shutters, take away the 5 you slid. 9 − 5 = 4 for Mr Kusakabe.
@@ -376,7 +379,7 @@ _A gust hits the house. Something bangs outside, and the lamp swings on its cord
 
 _Steam drifts under the door. From the bathhouse comes the biggest, silliest laugh you have ever heard from a grown man, and then two small ones._  
 
-> **Lesson** (science, 2-PS1-4, ask): steam you can see is tiny drops of water that formed when hot water vapour met cooler air  
+> **Lesson** (science, ask): steam you can see is tiny drops of water that formed when hot water vapour met cooler air  
 > _Steam drifts under the door. Hot bath water gives off invisible water vapour._  
 > _What turns it into the steam you can see?_  
 > - ✅ The vapour meets cooler air and turns back into tiny drops of water. → Yes. Cooling turns the vapour into drops, and the drops make the white cloud. It’s a change that can go backwards, too, with heat.
@@ -412,7 +415,7 @@ _She does not stir. The lamp goes down, and the house settles round her._
 
 _By the time you go home, the wind has blown itself out. The moon is up, and the fields are wet and shining._  
 
-> **Lesson** (science, 1-ESS1-1, ask): a full Moon comes about every 29½ days  
+> **Lesson** (science, 5-ESS1-2, ask): a full Moon comes about every 29½ days  
 > _The Moon is bright over the rice fields. A full Moon comes round about once a month._  
 > _About how many days does the Moon take to go from full to full again?_  
 > - ✅ About 29 and a half days. → Yes. The Moon takes about 29½ days to go through all its phases and come back to full.
@@ -451,7 +454,7 @@ _The last of the soot sprites goes into the dark of the tree. The house below is
 **Granny**: There’s always one.  
 _She brings you a cup of barley tea, and sits on the step with you a while without saying anything._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): barley tea (mugicha) is a popular, caffeine-free tea in Japan, drunk hot or cold  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): barley tea (mugicha) is a popular, caffeine-free tea in Japan, drunk hot or cold  
 > **Granny**: Mugicha. Roasted barley tea.  
 > **Granny**: We make it in summer by the potful.  
 > **Granny**: It has no caffeine, so even children can drink it. Some people have it hot, some cold, and I take it any way it comes.  
@@ -474,12 +477,13 @@ _You drink it slowly. It tastes of toast._
 #### `reader:a17-04-ride` · [main](main.md#a17-04-ride)
 
 **Mr Kusakabe**: We’re visiting their mother today. Would you like to come?  
-**Mr Kusakabe**: It’s a long way, but it’s all downhill. Going.  
+**Mr Kusakabe**: It’s all downhill on the way there. We don’t talk about the way back.  
 _Granny lends you her bicycle, which is black and heavy and squeaks on every turn of the pedals._  
 _Mr Kusakabe rides in front, with Mei on a little seat on the handlebars and Satsuki on the carrier behind._  
 _You set off at ten past nine. The road runs between the rice fields, past a pond, and over the hill._  
 _Everywhere there are frogs._  
 **Mei**: Faster, Dad! Faster than the Keeper!  
+_At the hospital gate the clock says ten to ten._  
 
 > **Lesson** (science, 3-PS2-1, ask): on a downhill slope, gravity speeds a bicycle up; uphill needs more push  
 > _Going downhill, your bicycle runs faster without any extra pedalling. What force is speeding it up?_  
@@ -502,6 +506,8 @@ _Everywhere there are frogs._
 - **Race them to the top of the hill.**
     - You stand on the pedals, and Mr Kusakabe stands on his. Both bicycles squeak like geese.
     - He wins, by a wheel, and then has to sit at the top getting his breath back for quite a long time.
+    - **Mr Kusakabe**: Downhill. I did say downhill.
+    - He says it lying on the verge, to the sky.
 - **Ride slowly and let them win.**
     - You let them win. Mei shouts back at you all the way down the other side, and your Nubbin waves at her from the basket.
 
@@ -632,14 +638,14 @@ _Mei is playing in the long grass with a tin bucket, picking up acorns. She has 
 _Your Nubbin finds four more and gives them to her._  
 
 > **Lesson** (science, 3-LS1-1, ask): an acorn grows into a seedling, a sapling and then an oak, which takes decades to make acorns of its own  
-> _Mei’s bucket is full of acorns. What does an acorn grow into, and how long does it take before the new tree makes acorns itself?_  
+> _Mei counts her acorns. What does an acorn grow into, and how long does it take before the new tree makes acorns itself?_  
 > - ✅ An oak tree, after many years, often twenty to fifty. → Yes. Seedling, sapling, tree. An oak is slow, and that is why oaks are treasured.
 > - An oak tree, by next week. → A seedling can sprout within weeks, but a tree takes much longer. It can be twenty to fifty years before an oak makes acorns of its own.
 > - A camphor tree. → A camphor tree grows from a camphor seed, which is a small round berry. An acorn grows into an oak, which takes many years.
 > _For grown-ups: Learned that an acorn grows into an oak, a slow process that takes many years._
 
 
-> **Lesson** (maths, 2.OA.A.1, ask): addition and subtraction within 20: 3 + 4 = 7, then 7 − 2 = 5  
+> **Lesson** (maths, 3.OA.D.8, ask): addition and subtraction within 20: 3 + 4 = 7, then 7 − 2 = 5  
 > _Mei has 3 acorns, and your Nubbin gives her 4 more. Then 2 roll away into the long grass._  
 > _How many does she have left?_  
 > - ✅ 5 acorns. → Yes. 3 + 4 = 7, and 7 − 2 = 5.
@@ -720,7 +726,7 @@ _You are in a wood. It is very old and very quiet, and the light comes down in l
 _In front of you there is a tree root as wide as a road, and above it the camphor tree goes up and up, out of sight._  
 _In Japan, old shrines often keep a little of the oldest woods around them, left to grow as they please._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): about two thirds of Japan is forest, and shrines often protect old woods  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): about two thirds of Japan is forest, and shrines often protect old woods  
 > _Japan is a chain of islands, many of them hilly. About how much of the country is covered in forest?_  
 > - ✅ About two thirds. → Yes. Forest covers around two thirds of Japan, much of it on steep hills where farming is hard.
 > - About one tenth. → That would be far too little for a country of so many mountains. It’s about two thirds.
@@ -745,7 +751,7 @@ _Mei’s hat is lying on the moss. Mei is not in it._
 _Your Nubbin finds the hole: a gap between two roots, big enough for a small girl who wasn’t looking where she was going._  
 _You slide down after it, into a hollow under the tree. It is warm and dim, and smells of earth and leaves._  
 
-> **Lesson** (science, 2-LS4-1, ask): a hollow in an old tree can shelter animals  
+> **Lesson** (science, 3-LS4-3, ask): a hollow in an old tree can shelter animals  
 > _The hollow under the tree is warm and dim. Why might a hollow in an old tree be a good home for animals?_  
 > - ✅ It gives shelter from weather and from enemies. → Yes. Owls, bats, squirrels and insects all use tree hollows. Old trees are full of lodgers.
 > - It is the only place they can find food. → Hollows are not food stores. They give shelter from weather and from enemies.
@@ -753,7 +759,7 @@ _You slide down after it, into a hollow under the tree. It is warm and dim, and 
 > _For grown-ups: Learned that a hollow in an old tree shelters animals from weather and enemies._
 
 
-> **Lesson** (literacy, RL.1.4, ask): sensory words: warm, dim, smelling of earth and leaves  
+> **Lesson** (literacy, RL.4.3, ask): sensory words: warm, dim, smelling of earth and leaves  
 > _“It is warm and dim, and smells of earth and leaves.” Which senses do those words use?_  
 > - ✅ Touch (warm), sight (dim) and smell. → Yes. A good writer gives you the hollow through three senses at once.
 > - Only sight. → “Dim” is sight, but “warm” is touch, and “smells” is smell. Touch, sight and smell are all there.
@@ -842,7 +848,7 @@ _A thick rope of twisted straw is tied round its trunk, with paper streamers han
 **Satsuki**: Dad, why does it have a rope on?  
 **Mr Kusakabe**: Because it’s a special tree. A very old one, that people have looked after for a very long time.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, notice): in Japan a straw rope called shimenawa marks a very old tree or place as sacred  
+> **Lesson** (social-studies, D2.Civ.8.3-5, notice): in Japan a straw rope called shimenawa marks a very old tree or place as sacred  
 > _The rope is called a shimenawa. In Japan it marks a very old tree, a rock or a place as special, a place for respect._  
 > _People bow and say thank you. It is a custom with meaning, not a game, so you only watch._  
 > _For grown-ups: Learned that a shimenawa rope marks a sacred tree or place in Japan, and that people treat it with respect._
@@ -916,7 +922,7 @@ _He wears a red bib. Somebody has left him a flower and a rice ball._
 _At the edge of the roof Satsuki stops, puts her hands together, and bows to him._  
 **Satsuki**: Jizo-sama, please may we shelter here a little while, till the rain stops?  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, notice): Jizo statues are guardians of children and travellers, and people treat them with respect  
+> **Lesson** (social-studies, D2.Civ.8.3-5, notice): Jizo statues are guardians of children and travellers, and people treat them with respect  
 > _Jizo statues stand by roads all over Japan. They watch over children and travellers, and people leave flowers and food._  
 > _Satsuki asks politely before she shelters. It is how you behave in someone else’s place._  
 > _For grown-ups: Learned about Jizo statues, which watch over children and travellers, and the respect people show them._
@@ -931,7 +937,7 @@ _He runs off into the rain with nothing over his head, his bag held over it inst
 _The umbrella is old and patched, with a hole near the top. It is the best thing that has happened all day._  
 _Rain drips through the hole in a thin silver line, on to Mei’s nose._  
 
-> **Lesson** (science, 2-PS1-1, ask): sorting materials by their properties: waterproof or water-soaking  
+> **Lesson** (science, ask): sorting materials by their properties: waterproof or water-soaking  
 > _Rain is dripping through the hole in the umbrella. Which material would make the best patch?_  
 > - ✅ Waterproof cloth, which water cannot soak through. → Yes. A good patch is waterproof. It keeps the rain out where the hole was.
 > - Paper, which is light and thin. → Plain paper soaks through and tears when wet. Oiled paper is waterproof, but ordinary paper is not. Waterproof cloth is the best patch.
@@ -973,7 +979,10 @@ _Kanta lives at Granny’s, in the room at the back. Through the hedge you can h
 
 - **Put it in Granny’s umbrella stand with a note.**
     - You stand it in Granny’s umbrella stand, with a note tied to the handle in Satsuki’s best writing: Thank you.
+    - **Granny**: He did, did he? In that rain?
+    - **Granny**: The silly boy.
     - Next morning the note is gone and the umbrella is too. Kanta doesn’t say anything all day, and walks a bit taller.
+    - At supper Granny says, “Your umbrella came back.” Kanta eats nine rice balls and says nothing at all.
 - **Give it to Granny to pass on.**
     - **Granny**: He did, did he? In that rain?
     - **Granny**: The daft thing.
@@ -997,7 +1006,7 @@ _He holds it a little to one side, as if someone might want to share it. Nobody 
 > - He wants to keep the rain off his bag only. → He kept his own head wet for Satsuki, remember. He is kind, and hopes someone might share.
 > _For grown-ups: Read a small action as a sign of a character’s shy kindness._
 
-**Granny**: That boy. He’d give you his head if it wasn’t screwed on.  
+**Granny**: That boy. He’d give you his own boots and walk home in the snow.  
 
 ### Glossary
 
@@ -1016,7 +1025,7 @@ _Granny’s field runs down to the stream: cucumbers, tomatoes, aubergines, and 
 **Granny**: Vegetables picked fresh and eaten fresh. There’s nothing better for anyone who’s been poorly.  
 _Mei picks 4 tomatoes and Satsuki picks 6 cucumbers. Granny wants 15 vegetables in the basket._  
 
-> **Lesson** (maths, 2.OA.A.1, ask): a two-step word problem: 4 + 6 = 10, then 15 − 10 = 5  
+> **Lesson** (maths, 3.OA.D.8, ask): a two-step word problem: 4 + 6 = 10, then 15 − 10 = 5  
 > _Mei has picked 4 tomatoes and Satsuki 6 cucumbers. Granny wants 15 vegetables in all._  
 > _How many more do they need?_  
 > - ✅ 5 more. → Yes. 4 + 6 = 10 so far, and 15 − 10 = 5 more.
@@ -1116,7 +1125,7 @@ _In the morning you post the letter in the red box by the bus stop, with Mei lif
 **Satsuki**: Then a man carries it. It’ll be there tomorrow.  
 **Mei**: I could go faster.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): how people sent messages in the 1950s: letters by bus and train, telegrams, and telephones in few houses  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): how people sent messages in the 1950s: letters by bus and train, telegrams, and telephones in few houses  
 > _Today we can send a message across the world in a second. In the 1950s countryside, how did a letter get to Mrs Kusakabe?_  
 > - ✅ By bus, then train, then a postman on foot or bicycle. → Yes. A letter might take a day or more. Fast messages were telegrams, and few houses had a telephone.
 > - By email. → Email did not exist yet. It would be about forty years before it spread. A letter went by bus, then train, then a postman.
@@ -1141,7 +1150,7 @@ _Nobody pays much attention to that, at the time._
 _It has rained since teatime. Mr Kusakabe went to the university without an umbrella, as he always does._  
 **Satsuki**: We’ll take Dad’s umbrella to the bus stop. Mei’s coming too.  
 **Satsuki**: She won’t stay behind.  
-**Granny**: Take my lantern, and take the Keeper. It’s black as a boot out there.  
+**Granny**: Take my lantern, and take the Keeper. It’s as dark as the inside of a boot out there.  
 _So the four of you go down the road in the dark: Satsuki with two umbrellas, Mei under a small one, you with the lantern._  
 _The bus stop is a sign on a post and a little wooden shelter, at the edge of the wood. The rain drums on everything._  
 _A bus comes, all lit up, with its wipers going. It stops, nobody gets off, and it drives away._  
@@ -1157,7 +1166,7 @@ _The shelter clock says 7:20._
 **Satsuki**: He’ll be on the next one. The sign says it’s due at 7:50.  
 _Your lantern makes a small yellow room in the rain, and your shadow stretches long and thin across the road._  
 
-> **Lesson** (science, 1-PS4-2, ask): light travels in straight lines, so a low lantern makes long shadows  
+> **Lesson** (science, 4-PS3-2, ask): light travels in straight lines, so a low lantern makes long shadows  
 > _Your lantern makes your shadow long and thin across the road. Why is a shadow long when the light is low down?_  
 > - ✅ Light travels in straight lines, and a low light stretches the shadow along the ground. → Yes. The lower the light, the longer the shadow. It is why shadows are long at sunset.
 > - The rain makes the shadow stretch. → Rain does not stretch shadows. A low light, shining in straight lines, makes a long shadow.
@@ -1179,6 +1188,7 @@ _Your lantern makes a small yellow room in the rain, and your shadow stretches l
 _The next bus is a long time coming. Mei gets heavier and heavier against her sister._  
 _In the end Satsuki lifts her on to her back, and holds her umbrella over both of them._  
 _She stands very straight, with one arm round her sister’s legs and the other hand on the handle. Her arm begins to shake._  
+_Mei snores into her ear. Your Nubbin pats Satsuki’s knee, to be useful, and then holds the hem of her skirt up out of the puddles._  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): a think question: when is it right to ask for help?  
 > _Satsuki carries Mei, an umbrella and a lantern’s worth of worry. When is it right to ask for help?_  
@@ -1193,7 +1203,7 @@ _She stands very straight, with one arm round her sister’s legs and the other 
 
 _Mei is asleep on Satsuki’s back. The rain drips off the edge of the shelter, steady as a clock._  
 
-> **Lesson** (music, RL.2.4, do): keep a steady beat, four counts at a time  
+> **Lesson** (music, do): keep a steady beat, four counts at a time  
 > _Listen to the drips from the shelter edge. They fall at a steady beat, like a pulse._  
 > _Clap along: one, two, three, four. Keep it even, and don’t rush._  
 > Check: `edu:clap:beat:rain-four`
@@ -1219,7 +1229,7 @@ _Variant of `a17-09-wait`._
 
 _Mei is asleep on Satsuki’s back. The rain drips off the edge of the shelter, steady as a clock._  
 
-> **Lesson** (music, RL.2.4, do): keep a steady beat, four counts at a time  
+> **Lesson** (music, do): keep a steady beat, four counts at a time  
 > _Listen to the drips from the shelter edge. They fall at a steady beat, like a pulse._  
 > _Clap along: one, two, three, four. Keep it even, and don’t rush._  
 > Check: `edu:clap:beat:rain-four`
@@ -1243,7 +1253,7 @@ _You lean, a little, to see round the umbrella. The feet shift away, politely, t
 _Satsuki holds out her father’s umbrella to him. He doesn’t know what it is, so she opens it and holds it up high, over his head._  
 _A drop falls from the trees on to the umbrella, tok, and everything under it goes still. Another drop: tok._  
 
-> **Lesson** (science, 1-PS4-1, ask): a drop hitting the umbrella makes it vibrate, and vibrations carry sound  
+> **Lesson** (science, 4-PS3-2, ask): a drop hitting the umbrella makes it vibrate, and vibrations carry sound  
 > _Each raindrop goes “tok” on the umbrella. What makes that sound?_  
 > - ✅ The drop makes the umbrella cloth vibrate, and the vibration travels through the air to our ears. → Yes. Every sound is a vibration. Hit something, and it shakes, and the shake carries as sound.
 > - The drop is shouting. → Ha! A drop can’t shout, though it makes a good noise. The cloth vibrates when the drop hits it, and that vibration is the sound.
@@ -1388,15 +1398,15 @@ _Your Nubbin pats the earth down over each one, very firmly, with both paws._
 > _Satsuki plants 2 rows with 4 seeds in each row. How many seeds is that?_  
 > - ✅ 8 seeds. → Yes. Two rows of 4 is 4 + 4 = 8, which is 2 × 4.
 > - 6 seeds. → 6 is 2 + 4. Rows of 4 mean we add 4 for each row. 4 + 4 = 8 seeds.
-> - 24 seeds. → 24 looks like writing 2 and 4 side by side. We multiply instead. 3 × 4 = 12 seeds.
-> _For grown-ups: Used equal rows to find that 3 rows of 4 seeds make 12 seeds._
+> - 24 seeds. → 24 is just a 2 and a 4 side by side. Two rows of 4 is 2 × 4 = 8 seeds.
+> _For grown-ups: Used equal rows to find that 2 rows of 4 seeds make 8 seeds._
 
 _They don’t. Mei squats over the bare earth with her chin on her knees, and waits._  
 _Your Nubbin squats beside her, chin on its knees, and waits too._  
 **Satsuki**: Mei, it’s been about a minute.  
 **Mei**: Then they’re late.  
 
-> **Lesson** (science, 2-LS2-1, ask): seeds need water and warmth to sprout, and a fair test changes one thing at a time  
+> **Lesson** (science, ask): seeds need water and warmth to sprout, and a fair test changes one thing at a time  
 > _Mei wonders why nothing has come up. Plants need water and light, and seeds need warmth._  
 > _How could you find out if a seed needs light to sprout?_  
 > - ✅ Plant two the same, give one light and the other none, and compare. → Yes. A fair test changes one thing, here the light, and keeps the rest the same.
@@ -1448,7 +1458,7 @@ _You think about waiting, and how it looks from the outside: like nothing at all
 _Something is patting your face. It is your Nubbin, and it is the middle of the night._  
 _The moon is full and bright. Across the hedge, in the old house garden, something is moving round the seed bed._  
 
-> **Lesson** (science, 1-ESS1-1, ask): moonlight is sunlight that bounces off the Moon  
+> **Lesson** (science, 5-ESS1-2, ask): moonlight is sunlight that bounces off the Moon  
 > _The full Moon lights the whole garden. Where does moonlight come from?_  
 > - ✅ It is sunlight bouncing off the Moon. → Yes. The Moon makes no light of its own. A full Moon is bright because we see the whole sunlit face.
 > - The Moon makes its own light, like a lamp. → It looks like a lamp, but it’s a mirror of sorts. Moonlight is sunlight bouncing off the Moon.
@@ -1572,7 +1582,7 @@ _It sounds like the night: frogs, and wind in the rice, and the stream, all at o
 
 _Below you the whole valley is asleep. Satsuki leans on your shoulder, and Mei is already asleep on his stomach._  
 
-> **Lesson** (music, 1-PS4-1, ask): a shorter pipe gives a higher note  
+> **Lesson** (music, 4-PS3-2, ask): a shorter pipe gives a higher note  
 > _The smallest clay flute makes the highest note. Why does a shorter pipe sound higher?_  
 > - ✅ The air inside it is a shorter column, so it vibrates faster. → Yes. A shorter column vibrates faster and makes a higher sound. A long column vibrates slower and sounds lower.
 > - Small flutes are just louder. → Loud and high are different. High is about speed of vibration. A shorter air column vibrates faster, and makes a higher note.
@@ -1597,7 +1607,7 @@ _But in the seed bed, in rows and in clumps, there are shoots. Little green ones
 **Mei**: We did it! We did it!  
 _On your windowsill, where nobody put it, there is a small black seed. It smells of the camphor tree._  
 
-> **Lesson** (science, 2-LS2-2, ask): camphor seeds are small black berries that birds spread  
+> **Lesson** (science, ask): camphor seeds are small black berries that birds spread  
 > _The small black seed on your windowsill is a camphor seed: a little black berry. How might camphor seeds travel to new places?_  
 > - ✅ Birds eat the berries and drop the seeds far away. → Yes. Animals spread seeds in what they leave behind, and that is how a forest of camphor trees can grow.
 > - The berries walk. → Ha! Not quite, though they do travel. Birds eat them and drop the seeds far away.
@@ -1617,7 +1627,7 @@ _But in the seed bed, in rows and in clumps, there are shoots. Little green ones
 **Mei**: We did it! We did it!  
 _Beside the bed, where you planted the acorn, the earth is smooth and bare. There is nothing there at all._  
 
-> **Lesson** (science, 2-LS2-1, ask): a seed sends out its root first, underground, before any shoot shows  
+> **Lesson** (science, 3-LS1-1, ask): a seed sends out its root first, underground, before any shoot shows  
 > _Where the acorn is planted, the earth is smooth and bare. Is it doing nothing?_  
 > _What is happening underground first?_  
 > - ✅ It is growing a root first, which goes down before any shoot comes up. → Yes. The root anchors the seed and drinks water. The shoot comes later.
@@ -1646,28 +1656,20 @@ _It is Kanta, red in the face, holding up a folded paper._
 **Kanta**: Nobody’s at your house! The man gave it to me!  
 _Satsuki takes it. A telegram is a short message sent along wires, and brought to the door on paper._  
 _Telegrams were charged by length, so they were short. One that came out of the blue was rarely good news._  
+**Satsuki**: It says… please telephone Shichikokuyama Hospital.  
+_Nobody says anything. Mei looks from face to face, holding her corn._  
+**Satsuki**: Dad’s in town. At the university.  
+**Satsuki**: We haven’t got a telephone.  
+**Kanta**: My uncle has. At the big house.  
+**Kanta**: Come on.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): how telegrams worked: short messages sent along wires, priced by length  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): how telegrams worked: short messages sent along wires, priced by length  
 > _Why were telegrams short, and why did one that came out of the blue worry people?_  
 > - ✅ They were charged by length, so people kept them brief, and only used them for urgent news. → Yes. Telegrams were quick but costly, so they were kept for news that could not wait.
 > - They were short because paper was rare. → It wasn’t the paper. It was the price per word or letter. They were charged by length, so people kept them brief.
 > - They were never short. → They almost always were, because every extra word cost money. They were charged by length, so people kept them brief.
 > _For grown-ups: Learned that telegrams were short, quick messages charged by length and kept for urgent news._
 
-**Satsuki**: It says… please telephone Shichikokuyama Hospital.  
-_Nobody says anything. Mei looks from face to face, holding her corn._  
-
-> **Lesson** (literacy, RL.3.3, ask): inference about feelings: why everyone goes quiet at a telegram  
-> _Nobody says anything when Satsuki reads the telegram. Why does everyone go quiet?_  
-> - ✅ A telegram out of the blue usually means urgent news, so they feel worried. → Yes. Silence can tell us how characters feel, even when nobody says it aloud.
-> - They are all hungry. → They may be, but the scene is about the telegram. They go quiet because urgent news makes them worry.
-> - They are bored. → Nobody is bored when a telegram comes. They go quiet because they are worried by the news.
-> _For grown-ups: Used what characters do to work out that they feel worried._
-
-**Satsuki**: Dad’s in town. At the university.  
-**Satsuki**: We haven’t got a telephone.  
-**Kanta**: My uncle has. At the big house.  
-**Kanta**: Come on.  
 
 **Choices**
 
@@ -1771,7 +1773,7 @@ _By the time the tea is made, Satsuki has stopped crying. She sits up and wipes 
 **Satsuki**: Mei, I’m sorry I shouted. Mei?  
 _Five of you were on the porch: you, Satsuki, Granny, Mei and your Nubbin. Where Mei sat, there is only a dent in the cushion._  
 
-> **Lesson** (maths, 2.OA.A.1, ask): subtraction within 20: 5 − 2 = 3  
+> **Lesson** (maths, ask): subtraction within 20: 5 − 2 = 3  
 > _Five were on the porch: you, Satsuki, Granny, Mei and your Nubbin. Mei and your Nubbin are gone._  
 > _How many are left?_  
 > - ✅ 3 are left. → Yes. 5 − 2 = 3: you, Satsuki and Granny.
@@ -1801,7 +1803,7 @@ _Satsuki is off down the road before anyone can stop her, running as fast as she
 _Kanta runs. In a very short time there are people in all the fields: neighbours, farmers, the man from the big house._  
 _They call Mei’s name along the paths and across the water. You are in it with them._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): reading a map and splitting up to search covers more ground  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): reading a map and splitting up to search covers more ground  
 > _Picture a map of the village: three roads, the paddies and the pond. How can the searchers cover the most ground?_  
 > - ✅ Split up, with each person or group taking a different road. → Yes. A map shows the places to cover, and splitting up covers more of them. They call to each other to share what they find.
 > - All go along the same road together. → That would search one road very well and leave the rest empty. Splitting up covers more ground.
@@ -2017,6 +2019,8 @@ _Variant of `a17-14-call`._
 _From the hill behind you comes a roar. It rolls out over the whole valley like thunder._  
 **Kanta**: What was that? Thunder?  
 **Kanta**: There’s no clouds.  
+**Kanta**: That’s from the big hill. My uncle says it’s three thousand four hundred metres.  
+**Kanta**: He measured it once, for no reason.  
 
 > **Lesson** (science, 4-PS3-2, ask): sound travels about 340 metres a second in air, so a distant roar arrives seconds later  
 > _Sound travels about 340 metres every second. The roar came from a hill 3,400 metres away._  
@@ -2072,7 +2076,7 @@ _Satsuki sits at the front with her face to the glass. You sit beside her and ho
 > _Satsuki lets you hold her hand, though she has been so strong. Why can accepting comfort feel hard, and is it a brave thing to do?_  
 > _Think about it._  
 > - It feels hard because it shows we are not fine, and that is brave. → That’s a fair answer. Showing a soft side takes courage. Satsuki shows it by letting you hold on.
-> - It is not brave, it is just sensible. → That’s a fair answer. Accepting help often is sensible, and sensible is a good thing to be. And it can be brave too, when we have been holding out for a long time.
+> - It is not brave, it is just sensible. → That’s a fair answer. Accepting help often is sensible, and it can be brave too.
 > - It depends who is offering. → That’s a fair answer. We let in the people we trust. Satsuki has come to trust you, a little.
 > _For grown-ups: Thought about why accepting comfort can feel hard, and whether it is brave._
 
@@ -2248,7 +2252,7 @@ _Variant of `a17-15-sign-hunt`._
 _The six statues stand in their red bibs in the last of the light, keeping the road, as they always have._  
 _Jizo statues like these stand beside roads all over Japan, because they are guardians of travellers and children._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, notice): Jizo statues stand by roads as guardians of travellers and children, and people treat them with respect  
+> **Lesson** (social-studies, D2.Civ.8.3-5, notice): Jizo statues stand by roads as guardians of travellers and children, and people treat them with respect  
 > _Roadside Jizo are cared for by the people who pass. Someone brings flowers and sweeps the ground._  
 > _It is a way a community shows it looks after its travellers and its children._  
 > _For grown-ups: Learned that Jizo statues by roads are guardians of travellers, cared for by the community._
@@ -2301,17 +2305,17 @@ _He doesn’t sound as if he minds at all._
 #### `reader:a17-16-window` · [main](main.md#a17-16-window)
 
 _The Catbus settles in a tall pine outside the hospital, as quietly as a cat settling on a wall._  
+
+> **Lesson** (science, notice): pines are conifers: they keep their needles all year round  
+> _A pine is a conifer, a tree with needles instead of broad leaves._  
+> _Its needles stay green all year, so the pine still hides the Catbus in winter._  
+> _For grown-ups: Learned that pines are conifers that keep their needles all year._
+
 _Through its window, and through the open window of the hospital, you can see the room and the bed._  
 _Mrs Kusakabe is sitting up, and Mr Kusakabe is sitting beside her. He came straight from town, and still has his bag._  
 _She is laughing at something he has said. She looks tired, but she is laughing._  
 **Mrs Kusakabe**: You needn’t have come all this way. It’s only a cold.  
 **Mrs Kusakabe**: The doctor’s fussing.  
-
-> **Lesson** (health, CASEL: Self-management, notice): a cold is caused by a virus; it goes away with rest and drinks, and washing hands stops it spreading  
-> _A cold is caused by a tiny germ called a virus. It usually goes away in a week or so, with rest, warm drinks and sleep._  
-> _Antibiotics don’t work on colds. Washing your hands often does help stop a cold spreading._  
-> _For grown-ups: Learned that a cold is caused by a virus and goes away with rest, while handwashing stops it spreading._
-
 **Mr Kusakabe**: You’d have come, if it were me.  
 **Mrs Kusakabe**: I just wanted to see the girls this weekend. That’s all.  
 **Mrs Kusakabe**: I wanted to see them so much.  
@@ -2410,7 +2414,7 @@ _Two yellow lights go away over the hills towards home. Kanta watches them all t
 _They grow small and faint, then smaller, then are only one point of yellow, then nothing._  
 _Then there is only the dark, and the frogs._  
 
-> **Lesson** (science, 1-PS4-2, ask): a light looks smaller and fainter the further away it is  
+> **Lesson** (science, 4-PS3-2, ask): a light looks smaller and fainter the further away it is  
 > _The yellow lights shrink and fade as they go. Are they really getting smaller and dimmer?_  
 > - ✅ No. They only look smaller and fainter because they are further away. → Yes. The lamp is the same; the light reaching your eyes is less, so it looks smaller and dimmer.
 > - Yes, someone is turning them off. → A good guess, but it is only the distance. They look smaller and fainter because they are further away.
@@ -2425,7 +2429,7 @@ _Mei falls asleep before the first field. Satsuki watches the hospital lights un
 _They grow small and dim, then smaller, then are only one yellow point, then nothing._  
 _Satsuki keeps watching the place where they were._  
 
-> **Lesson** (science, 1-PS4-2, ask): a light looks smaller and fainter the further away it is  
+> **Lesson** (science, 4-PS3-2, ask): a light looks smaller and fainter the further away it is  
 > _The hospital lights shrink and fade as you fly away. Are they really getting smaller and dimmer?_  
 > - ✅ No. They only look smaller and fainter because they are further away. → Yes. The lamp is the same; the light reaching your eyes is less, so it looks smaller and dimmer.
 > - Yes, someone is turning them off. → A good guess, but it is only the distance. They look smaller and fainter because they are further away.
@@ -2441,6 +2445,12 @@ _She doesn’t ask. She grabs Mei, and then Satsuki, and then, for some reason, 
 **Granny**: Oh, the pair of you. Oh, the three of you.  
 _Later in the summer Mrs Kusakabe comes home. It was only a cold, and she is getting well._  
 
+> **Lesson** (health, CASEL: Self-management, notice): a cold is caused by a virus; it goes away with rest and drinks, and washing hands stops it spreading  
+> _A cold is caused by a tiny germ called a virus. It usually goes away in a week or so, with rest, warm drinks and sleep._  
+> _Antibiotics don’t work on colds. Washing your hands often does help stop a cold spreading._  
+> _For grown-ups: Learned that a cold is caused by a virus and goes away with rest, while handwashing stops it spreading._
+
+
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): a think question: why did the sisters leave the corn instead of going in?  
 > _The sisters could have gone in, but they left the corn on the sill. Why might they have chosen that?_  
 > _Think about it._  
@@ -2451,10 +2461,10 @@ _Later in the summer Mrs Kusakabe comes home. It was only a cold, and she is get
 
 _She comes up the road from the bus stop, slowly, and the girls run down to meet her. You watch from Granny’s step._  
 _Then the page goes soft under your hand, and it is the Grove, with Nova’s atlas on your knee._  
-_Your Nubbin refuses to take its leaf off._  
+_Your Nubbin adds a leaf it will not take off, even in the bath, to its collection._  
 _By the lane stands a bench like a country bus stop; on the shelf, an ear of corn, dried gold._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): life in the 1950s countryside compared with today  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): life in the 1950s countryside compared with today  
 > _Which of these did people in the 1950s countryside use to send news or get water?_  
 > - ✅ A telegram, a crank telephone and a hand pump. → Yes. They are all in this story, and none is quaint to the people who used them. They were everyday tools.
 > - A smartphone and a video call. → Those came decades later. A telegram, a crank telephone and a hand pump were the tools of the time.
@@ -2483,7 +2493,7 @@ _It is full dark when you reach the old house gate. Granny is on the step with t
 _Kanta goes red to the ears, and is very busy with the bicycle._  
 _Later in the summer Mrs Kusakabe comes home. It was only a cold, and she is getting well._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): life in the 1950s countryside compared with today  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): life in the 1950s countryside compared with today  
 > _Which of these did people in the 1950s countryside use to send news or get water?_  
 > - ✅ A telegram, a crank telephone and a hand pump. → Yes. They are all in this story, and none is quaint to the people who used them. They were everyday tools.
 > - A smartphone and a video call. → Those came decades later. A telegram, a crank telephone and a hand pump were the tools of the time.
@@ -2491,7 +2501,7 @@ _Later in the summer Mrs Kusakabe comes home. It was only a cold, and she is get
 > _For grown-ups: Compared the tools of 1950s country life, such as telegrams and hand pumps, with those of today._
 
 _Then the page goes soft under your hand, and it is the Grove, with Nova’s atlas on your knee._  
-_Your Nubbin refuses to take its leaf off._  
+_Your Nubbin adds a leaf it will not take off, even in the bath, to its collection._  
 _By the lane stands a bench like a country bus stop; on the shelf, an ear of corn, dried gold._  
 
 ## Variant scenes
@@ -2560,14 +2570,6 @@ _Moss faded. That means he died: his body stopped working, and it will not start
 _His flower grows by the flat stone._  
 _The oak is full-grown, as if it had always been there. Its branches spread over the stone, and over his flower._  
 _The shade falls exactly where he used to sit._  
-
-> **Lesson** (literacy, RL.4.3, ask): how a setting detail carries feeling: the shade where Moss sat  
-> _“The shade falls exactly where he used to sit.” Why might the writer tell us that?_  
-> - ✅ It makes the oak seem to keep his place for him, so we think of him. → Yes. One small detail about a place can hold a lot of feeling.
-> - To tell us what time of day it is. → Shade can tell the time, but that isn’t why it is here. The oak seems to keep Moss’s place, so we think of him.
-> - Because shade is cool. → It is, but the writer means more than that. The oak seems to keep Moss’s place, so we think of him.
-> _For grown-ups: Explained how a detail of a setting can carry a feeling: the oak keeps Moss’s place._
-
 _The Nubbins have found it already. They are asleep in a heap in its shade, all of them, breathing slowly together._  
 _Something drops through the leaves and lands in your hand. An acorn: the oak’s first._  
 _You thread it on to the old string, where his used to be. You sit down on the flat stone a while, and remember him._  
@@ -2597,7 +2599,7 @@ _It has learned how you wait for a tree. It means to be very good at it._
 
 _You find it a place by the window, where the light is good, and wonder what else it will want._  
 
-> **Lesson** (science, 2-LS2-1, ask): a potted plant needs light, water, and drainage so roots do not rot  
+> **Lesson** (science, ask): a potted plant needs light, water, and drainage so roots do not rot  
 > _Your young camphor tree is in a pot. Which set of things does it need to grow well?_  
 > - ✅ Sunshine, water when the soil is dry, and a pot that drains. → Yes. Roots need air as well as water, so a pot with drainage holes keeps them healthy.
 > - Darkness and no water. → A plant needs light and water to grow. Sunshine, water when dry and a pot that drains keep it well.

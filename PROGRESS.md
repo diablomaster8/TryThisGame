@@ -36,6 +36,14 @@ default renderer is not changed; passes 1 and 2 are on `main`, deployed since 20
 accepted by Maor). Maor, 2026-10-21: daily refreshes and free daily gifts are allowed; only
 repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below).
 
+## Story review run 12 fixes (2026-10-24)
+
+- **Works:** all 60 run-12 recs fixed across the A15 bands, A16, A17 and A18 with their bands. A18's
+  merchant now pays off his thimble and "who won" joke at the homecoming. The keepsake gag runs A15
+  to A18, each page naming only its own item, ending "Your coat pocket has stopped trying."
+- **Partial:** none.
+- **Known bugs:** none new. A few A16/A18 reader `maths:` warnings stand (answers come from stated numbers).
+
 ## Story review run 11 fixes (2026-10-24)
 
 - **Works:** all 59 run-11 recs fixed across A12–A15 mains and bands. A15's honesty choice now sets
@@ -88,56 +96,6 @@ All 57 open or partial recs in `docs/story-review/LOG.md` fixed (run 6's 56 plus
   rule is set up; Avatar Q51's rule-maker fixed; spouse beats for Frannie and Reggie (Q8) and Mrs Tibbs (Q61);
   Pixel and Byte in S30/S31; Granny Brock's quilt and flask in S31.
 - **Partial:** none. **Known bugs:** none.
-
-## Campaign graphics 3 leftovers (cg5, 2026-10-23)
-
-The known bugs left by K1–K50 (02d0c86; its section is now in `docs/progress-archive.md`), fixed on branch `fix/cg5-leftovers` (worktree
-`wt-cg5`). Before and after frames: `docs/samples/cg5-*.jpg` (`-before` is origin/main at
-02d0c86 unless the name says `cg4`, the review round's frame).
-
-**What works**
-
-- **Hundred ch9 (3D):** package k's rubble (`k-fold-ruin-*`) has its own material, hooked as
-  house-only, so a hidden house takes its red tiles and loose boards, flat ones included
-  (`dress-k.ts`, `dress-a.ts` `HOUSE_ONLY`). The plinth tops stay, as before.
-- **Guard house (3D):** the counter is desk height in Full 3D (`interiors.ts`, the lamp's
-  `y3d`), so Hob reads seated on his stool. The phone room was already right at 02d0c86
-  (c4's "keep interior cameras on the open side"); the after frames confirm it.
-- **Logged In:** on a phone a skinned box frames a full-length portrait head and shoulders
-  (`CG4_U4.box.phoneCrop`), and the terminal puts a lit panel behind it, so the Warden shows a
-  face. The cut "Please" line was the typewriter caught mid-line; the full line fits.
-- **Logged In ch1 pixel perf (profiled):** 60 fps at 4× throttle in headless Edge (worst second
-  59, no frame over 50 ms). The top cost was `safeRect()` forcing a layout every call (6% of
-  frame time); it now keeps its answer for 150 ms (`stage-api.ts`).
-- **Hazel ch10 phone `-1`:** a line naming a big prop never narrows the frame to the prop
-  alone: the last tier keeps the nearest person with the prop's middle (`fitTiers`,
-  `STAGE4.subjectRim`; test `tests/render/stage-fit-subject.test.ts`), and the 3D phone
-  push-in is skipped for that tier (`fit-shot.ts`).
-- **Keepsake inspector:** flat keepsakes (the letter) turn only to 86% in the pixel card and
-  flip to their back on the 3D Turn button (`CG4_U4.inspect.flat`). The pixel card already
-  opened face-on at 02d0c86; the edge-on frame in `cg4-u4-box-phone.jpg` was the 3D one.
-- **Kitchen Fern:** already drawn in her story look (cap, scarf, satchel), portrait included,
-  in both renderers at 02d0c86 (b4's `storyId`); checked with `c1-letter` staged in the kitchen.
-- **Beetle ch3 floor (pixel):** underground the pixel fill light is warm stone
-  (`DUNGEON.caveAmbient`), not the night sky's blue at 1.5×.
-- **Minimap:** the Hollow bar also stays hidden while a story scene is queued
-  (`html.story-queued`), not only while a line is up. **Hazel ch12 phone:** the fit keeps
-  `STAGE4.phoneBoxGap` (28 px) clear above the box on a phone.
-
-**Stubbed or approximate**
-
-- The 3D kitchen and guard-house checks used a runtime overlay (no content scene is staged in
-  the kitchen yet).
-- Hazel ch12 phone looks the same: the festival ring is too wide to fit, and the well and
-  reeds (scenery, not cast) still reach the box's top edge.
-
-**Known bugs**
-
-- In Hazel ch10 `-1` on a phone the person kept is small in 3D (pushed-in framing would lose
-  the pond).
-- The plinth tops of hidden Fold houses stay as paving (by design since K2).
-- Carried from K1–K50: no real-phone pass yet; some sim/story-world tests time out under
-  full-suite load and pass alone.
 
 ## Standing approval (Maor, 2026-10-12)
 
