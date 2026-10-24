@@ -177,16 +177,16 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `atlas/A14/sprout.md` | [review-2026-10-24](review-2026-10-24.md) | 0 |
 | `atlas/A14/reader.md` | [review-2026-10-24](review-2026-10-24.md) | 0 |
 | `atlas/A15/main.md` | [review-2026-10-24](review-2026-10-24.md) | 0 |
-| `atlas/A15/sprout.md` | never | 0 |
-| `atlas/A15/reader.md` | never | 0 |
-| `atlas/A16/main.md` | never | 0 |
-| `atlas/A16/reader.md` | never | 0 |
-| `atlas/A17/main.md` | never | 0 |
-| `atlas/A17/sprout.md` | never | 0 |
-| `atlas/A17/reader.md` | never | 0 |
-| `atlas/A18/main.md` | never | 0 |
-| `atlas/A18/sprout.md` | never | 0 |
-| `atlas/A18/reader.md` | never | 0 |
+| `atlas/A15/sprout.md` | [review-2026-10-24-2](review-2026-10-24-2.md) | 4 |
+| `atlas/A15/reader.md` | [review-2026-10-24-2](review-2026-10-24-2.md) | 9 |
+| `atlas/A16/main.md` | [review-2026-10-24-2](review-2026-10-24-2.md) | 4 |
+| `atlas/A16/reader.md` | [review-2026-10-24-2](review-2026-10-24-2.md) | 7 |
+| `atlas/A17/main.md` | [review-2026-10-24-2](review-2026-10-24-2.md) | 5 |
+| `atlas/A17/sprout.md` | [review-2026-10-24-2](review-2026-10-24-2.md) | 4 |
+| `atlas/A17/reader.md` | [review-2026-10-24-2](review-2026-10-24-2.md) | 5 |
+| `atlas/A18/main.md` | [review-2026-10-24-2](review-2026-10-24-2.md) | 6 |
+| `atlas/A18/sprout.md` | [review-2026-10-24-2](review-2026-10-24-2.md) | 4 |
+| `atlas/A18/reader.md` | [review-2026-10-24-2](review-2026-10-24-2.md) | 4 |
 | `atlas/A19/main.md` | never | 0 |
 | `atlas/A19/sprout.md` | never | 0 |
 | `atlas/A19/reader.md` | never | 0 |
@@ -898,6 +898,66 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261024-644 | atlas/A12/sprout.md<br>atlas/A13/sprout.md<br>atlas/A14/sprout.md | cross-story | Medium | child-read | All three sprout files keep idioms and reversed meanings a 3-to-6 child takes literally | fixed | 2026-10-24 |
 | SR-20261024-645 | atlas/A14/sprout.md<br>atlas/A15/main.md | cross-story | Medium | follow | Corvin callbacks lean on a man the reader may not place: unnamed in A15's default lines, unexplained in A14 sprout | fixed | 2026-10-24 |
 | SR-20261024-646 | atlas/A12/main.md<br>atlas/A13/main.md<br>atlas/A14/main.md<br>atlas/A15/main.md | cross-story | Medium | humour | The Nubbin already keeps a souvenir on two pages; make it a running gag across the Atlas | fixed | 2026-10-24 |
+| SR-20261024-647 | atlas/A17/reader.md | a17-10-plant | Critical | continuity | The seed lesson's wrong-answer reply and parent note teach 3 x 4 = 12 for a 2-rows-of-4 question | open | 2026-10-24-2 |
+| SR-20261024-648 | atlas/A18/main.md | a18-16-complete | Critical | continuity | The merchant's promised thimble and his "who won" running joke never pay off; pay both off in A16_HOME | open | 2026-10-24-2 |
+| SR-20261024-649 | atlas/A15/reader.md | a15-14-secret | High | child-read | The lesson says tell a grown-up about "any secret a grown-up asks you to keep, like this one", then rewards keeping Oz's secret | open | 2026-10-24-2 |
+| SR-20261024-650 | atlas/A18/main.md | a18-16-complete | High | follow | "Vasilisa gives your Nubbin a painted doll" reads as her giving away the doll; say it is a little copy | open | 2026-10-24-2 |
+| SR-20261024-651 | atlas/A18/sprout.md | a18-13-throw | High | child-read | The sprout band shows only a lantern with eyes, but its speaker label still reads "The Skull" | open | 2026-10-24-2 |
+| SR-20261024-652 | atlas/A15/sprout.md | a15-14-screen-done | High | child-read | "Somebody in the valley says safe... As if it came in a bottle" is an unnamed callback plus irony a 4-year-old can't decode | open | 2026-10-24-2 |
+| SR-20261024-653 | atlas/A16/reader.md | a16-04-chairs | High | follow | "Lost count after forty" sunsets collides with the lesson's forty chair-steps, and "four steps a sunset" is only said inside the lesson | open | 2026-10-24-2 |
+| SR-20261024-654 | atlas/A17/sprout.md | a17-02-granny | High | child-read | The choice thanks Kanta "for the basket", but the sprout scene never shows a basket | open | 2026-10-24-2 |
+| SR-20261024-655 | atlas/A16/main.md | a16-14-pills | High | humour | A16-14 has no laugh; give the merchant a dry exchange and the switchman a Nubbin gag (no pill is ever taken) | open | 2026-10-24-2 |
+| SR-20261024-656 | atlas/A18/main.md, atlas/A18/sprout.md, atlas/A18/reader.md | a18-09-supper | High | humour | Let Baba Yaga answer the Nubbin's grief over the goose: "It was a small goose." | open | 2026-10-24-2 |
+| SR-20261024-657 | atlas/A18/main.md | a18-04-years | High | humour | A18-4 is the page's flattest quest; give the suitors one goose | open | 2026-10-24-2 |
+| SR-20261024-658 | atlas/A15/reader.md | a15-12-complete | High | humour | The malleable-gold lesson sits between the Winkies' gift and its punchline | open | 2026-10-24-2 |
+| SR-20261024-659 | atlas/A15/sprout.md | a15-14-voice | High | humour | The Lion's roar gets no answer; let the great and terrible voice squeak | open | 2026-10-24-2 |
+| SR-20261024-660 | atlas/A16/main.md | a16-08-desk | High | humour | The Businessman says "I'll lose my place" and never meets the Nubbin; let it make him lose it | open | 2026-10-24-2 |
+| SR-20261024-661 | atlas/A17/sprout.md | a17-05-garden | High | humour | Mr Kusakabe's "Is she? Good for her." is the deadpan of the page, but "half an eye" is an idiom and the set-up line is cut | open | 2026-10-24-2 |
+| SR-20261024-662 | atlas/A16/reader.md | a16-05-complete | High | compelling | Two lessons explain the Rose's best beats before the story lands them | open | 2026-10-24-2 |
+| SR-20261024-663 | atlas/A16/main.md, atlas/A16/reader.md | a16-15-well | Medium | humour | Bring back the pilot's "It's mostly muttering" system when he hauls the bucket | open | 2026-10-24-2 |
+| SR-20261024-664 | atlas/A17/main.md | a17-04-ride | Medium | follow | "It's all downhill. Going." reads as a typo; make the joke plain and pay it off in the race | open | 2026-10-24-2 |
+| SR-20261024-665 | atlas/A17/main.md | a17-06-hollow | Medium | humour | "It's a big rumbly one" wastes the name gag; let Mei try to say it | open | 2026-10-24-2 |
+| SR-20261024-666 | atlas/A17/main.md | a17-08-field-done | Medium | humour | Mei's corn gets one beat with the hungry Nubbin, planting the corn for A17-13 and A17-16 | open | 2026-10-24-2 |
+| SR-20261024-667 | atlas/A17/main.md | a17-14-tunnel-hunt-done | Medium | humour | Kanta's frantic ride needs one breath of relief beside the fear | open | 2026-10-24-2 |
+| SR-20261024-668 | atlas/A17/main.md | a17-15-complete | Medium | humour | Pay off Mei's "One, two, five, nine" counting on the Catbus | open | 2026-10-24-2 |
+| SR-20261024-669 | atlas/A18/main.md | a18-13-throw | Medium | humour | After the skull's grave first words, give it one dry request | open | 2026-10-24-2 |
+| SR-20261024-670 | atlas/A18/main.md | a18-06-wick | Medium | humour | In the dark, the sisters' cowardice gets one slapstick beat | open | 2026-10-24-2 |
+| SR-20261024-671 | atlas/A18/main.md | a18-02-cellar | Medium | follow | The verified lifted line breaks the narrator's voice without warning; frame it as the old book speaking | open | 2026-10-24-2 |
+| SR-20261024-672 | atlas/A15/reader.md | a15-16-complete-promised | Medium | follow | The Guardian winks "the wink of a man who has been told a secret too", but nobody told him | open | 2026-10-24-2 |
+| SR-20261024-673 | atlas/A15/reader.md | a15-20-goodbye-done | Medium | humour | "Why is Glinda's remark funny?" explains the joke straight after it | open | 2026-10-24-2 |
+| SR-20261024-674 | atlas/A15/reader.md | a15-20-glinda | Medium | pacing | The silver lesson cuts in between "You could have gone home the day you came" and "The very first day?" | open | 2026-10-24-2 |
+| SR-20261024-675 | atlas/A15/reader.md | a15-14-screen-done | Medium | follow | "Somebody in the valley" and "You knew a man like this" name nobody | open | 2026-10-24-2 |
+| SR-20261024-676 | atlas/A15/reader.md | a15-20-goodbye-promised | Medium | humour | "Law one: nobody looks behind screens" contradicts the lesson's fair-law answer; let the Scarecrow notice | open | 2026-10-24-2 |
+| SR-20261024-677 | atlas/A15/reader.md | a15-18-complete | Medium | child-read | The Lion's theme question repeats a15-15's "going on despite fear" almost word for word | open | 2026-10-24-2 |
+| SR-20261024-678 | atlas/A15/sprout.md | a15-03-feet | Medium | humour | "Your Nubbin walks slowly. He copies every step." is ambiguous and wastes a copycat gag | open | 2026-10-24-2 |
+| SR-20261024-679 | atlas/A15/sprout.md | a15-09-streets-done | Medium | humour | The Emerald City walk is the flattest stretch; give the Lion a green cat to be brave at | open | 2026-10-24-2 |
+| SR-20261024-680 | atlas/A16/main.md | a16-03-weeding | Medium | humour | Weeding has one joke at the very end; give the Nubbin the pull | open | 2026-10-24-2 |
+| SR-20261024-681 | atlas/A16/main.md | a16-15-night | Medium | continuity | "All four of you" miscounts when Sable came (a16-sable = came puts her on every scene) | open | 2026-10-24-2 |
+| SR-20261024-682 | atlas/A16/reader.md | a16-12-complete | Medium | compelling | The renard lesson spoils the Fox's entrance ("the one who teaches the boy the biggest lesson of all") | open | 2026-10-24-2 |
+| SR-20261024-683 | atlas/A16/reader.md | a16-15-complete | Medium | continuity | The band stops before A16-16, so the sheep's muzzle from A16-2 never closes; hand it over at the well | open | 2026-10-24-2 |
+| SR-20261024-684 | atlas/A16/reader.md | a16-12-echo | Medium | humour | Let the Nubbin lose an argument with the echo | open | 2026-10-24-2 |
+| SR-20261024-685 | atlas/A16/reader.md | a16-14-pills | Medium | humour | Same fix as main: a dry merchant exchange, and a Nubbin who refuses the tray (nobody takes a pill) | open | 2026-10-24-2 |
+| SR-20261024-686 | atlas/A17/sprout.md | a17-09-wait | Medium | humour | "As if you are interesting weather" is irony a 4-year-old won't catch; play it as a staring game | open | 2026-10-24-2 |
+| SR-20261024-687 | atlas/A17/sprout.md | a17-grove-oak | Medium | child-read | Moss's "You cheated" may read to a 5-year-old as a telling-off; keep him dry but clear | open | 2026-10-24-2 |
+| SR-20261024-688 | atlas/A17/reader.md | a17-09-walk-done | Medium | humour | Before the "when to ask for help" lesson, let Mei snore and the Nubbin help badly | open | 2026-10-24-2 |
+| SR-20261024-689 | atlas/A17/reader.md | a17-01-unload | Medium | humour | Give the rotten post a slow fall before the fungi lesson | open | 2026-10-24-2 |
+| SR-20261024-690 | atlas/A17/reader.md | a17-07-return | Medium | humour | Kanta deals with feelings by eating; let Granny land the umbrella's return | open | 2026-10-24-2 |
+| SR-20261024-691 | atlas/A18/reader.md, atlas/A18/sprout.md | a18-14-stare | Medium | humour | "The light never once looks at you" is a ready-made joke; let the Nubbin be offended | open | 2026-10-24-2 |
+| SR-20261024-692 | atlas/A18/reader.md | a18-14-door-done | Medium | follow | "North wall to east wall is south-east" has no single answer; give the room a door | open | 2026-10-24-2 |
+| SR-20261024-693 | atlas/A18/reader.md | a18-11-poppy-done | Medium | child-read | The glossary defines "tint" but the lesson teaches "shade" | open | 2026-10-24-2 |
+| SR-20261024-694 | atlas/A18/reader.md | a18-08-who-done | Medium | humour | The bolts' 2-4-6-8 pattern needs a Nubbin counting along and running out of paws | open | 2026-10-24-2 |
+| SR-20261024-695 | atlas/A18/reader.md | a18-13-carry | Medium | humour | The skull's "Nearly there" becomes a running gag | open | 2026-10-24-2 |
+| SR-20261024-696 | atlas/A18/sprout.md | a18-05-journey | Medium | follow | "The woman with the map ... who won" has no referent in the sprout band | open | 2026-10-24-2 |
+| SR-20261024-697 | atlas/A18/sprout.md | a18-14-door | Medium | child-read | The sisters' complaint needs a refrain a child can join | open | 2026-10-24-2 |
+| SR-20261024-698 | atlas/A18/sprout.md | a18-10-chores | Medium | child-read | "A quarter of oats" is an unexplained old measure for ages 3 to 6 | open | 2026-10-24-2 |
+| SR-20261024-699 | atlas/A15/reader.md | a15-15-brains-done | Nice | humour | Give the symmetry lesson a Nubbin who checks itself | open | 2026-10-24-2 |
+| SR-20261024-700 | atlas/A16/reader.md | a16-13-hour | Nice | humour | On the fourth day the fox arrives early and pretends not to have | open | 2026-10-24-2 |
+| SR-20261024-701 | atlas/A17/reader.md | a17-07-complete | Nice | child-read | Three of Granny's idioms will be taken literally by a 7-year-old | open | 2026-10-24-2 |
+| SR-20261024-702 | atlas/A15/reader.md, atlas/A16/reader.md, atlas/A17/reader.md, atlas/A18/reader.md | cross-story | High | follow | Lesson numbers that the scene never says; put each one in a story line (or change the sum) | open | 2026-10-24-2 |
+| SR-20261024-703 | atlas/A15/sprout.md, atlas/A15/reader.md, atlas/A16/reader.md, atlas/A17/sprout.md, atlas/A17/reader.md, atlas/A18/sprout.md, atlas/A18/reader.md | cross-story | High | pacing | Lessons land on grave beats in all seven band files; move each to just after the comfort | open | 2026-10-24-2 |
+| SR-20261024-704 | atlas/A16/main.md, atlas/A17/main.md, atlas/A18/main.md | cross-story | High | humour | Running gag: the Nubbin's keepsake list from A15 grows on every page, until your pocket gives up | open | 2026-10-24-2 |
+| SR-20261024-705 | atlas/A15/reader.md, atlas/A16/reader.md, atlas/A17/reader.md, atlas/A18/reader.md | cross-story | High | child-read | 145 reader-band lessons carry K-2 codes; re-tag from the approved list only, or drop the tag | open | 2026-10-24-2 |
+| SR-20261024-706 | atlas/A15/sprout.md, atlas/A17/sprout.md, atlas/A15/reader.md, atlas/A16/reader.md, atlas/A17/reader.md, atlas/A18/reader.md | cross-story | Medium | child-read | Lesson replies run long: 26 sprout replies over 14 words and 13 reader replies over 30; trim each to one idea | open | 2026-10-24-2 |
 
 ## Runs
 
@@ -923,3 +983,4 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 - 2026-10-24 · fix pass on branch `fix/story-review-2026-10-24` · run 10's 60 recs: 60 fixed · -529 puts the Friend ribbon on Eeyore's door in all three A11 files ("Took it off my door"); -587 retags reader bands to the grades 3–5 C3 codes and 3.NF.A.3 (both added to EDU-STYLE.md); -543 keeps one gentle notice in a09-11-dark-done because every scene needs a lesson; -566 and -573 fold a notice into narration to stay within two lessons a scene · canon: none
 - 2026-10-24 run 11 · [review-2026-10-24](review-2026-10-24.md) · units: atlas/A12/main.md, atlas/A12/sprout.md, atlas/A12/reader.md, atlas/A13/main.md, atlas/A13/sprout.md, atlas/A13/reader.md, atlas/A14/main.md, atlas/A14/sprout.md, atlas/A14/reader.md, atlas/A15/main.md · 59 recs: Critical 3, High 23, Medium 33, Nice 0 (4 cross-story) · fixed since last run: 60 (all)
 - 2026-10-24 · fix pass on branch `fix/story-review-2026-10-24-2` · run 11's 59 recs: 59 fixed · -588 makes the A14 bed scene the first time he names himself "under his own roof"; -590 sets a15-secret = 'promised' (not 'keep', which clashes with the Grove finalChoice flag) and pays it off in four new A15 variants with band clones; -600 moves the think ask after the last gate line because every scene needs a lesson; -611 splits the circus run inside the scene with a quiet pause, no new step; -646 runs the souvenir gag paper troll → green bottle → olive leaf → spectacles · canon: none
+- 2026-10-24 run 12 · [review-2026-10-24-2](review-2026-10-24-2.md) · units: atlas/A15/sprout.md, atlas/A15/reader.md, atlas/A16/main.md, atlas/A16/reader.md, atlas/A17/main.md, atlas/A17/sprout.md, atlas/A17/reader.md, atlas/A18/main.md, atlas/A18/sprout.md, atlas/A18/reader.md · 60 recs: Critical 2, High 18, Medium 37, Nice 3 (5 cross-story) · fixed since last run: 59 (all)
