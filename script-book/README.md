@@ -115,10 +115,10 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Atlas, page A9: The Comet | [main.md](atlas/A09/main.md) (1135) | [sprout.md](atlas/A09/sprout.md) (1491) | [reader.md](atlas/A09/reader.md) (1746) |
 | Atlas, page A10: The Heart of the Island | [main.md](atlas/A10/main.md) (1306) | [sprout.md](atlas/A10/sprout.md) (1708) | [reader.md](atlas/A10/reader.md) (1932) |
 | Atlas, page A11: The Enchanted Place | [main.md](atlas/A11/main.md) (1892) | [sprout.md](atlas/A11/sprout.md) (2366) | [reader.md](atlas/A11/reader.md) (2531) |
-| Atlas, page A12: The Mirror Shard | [main.md](atlas/A12/main.md) (1962) | [sprout.md](atlas/A12/sprout.md) (2412) | [reader.md](atlas/A12/reader.md) (2739) |
-| Atlas, page A13: The Wooden Boy | [main.md](atlas/A13/main.md) (1858) | [sprout.md](atlas/A13/sprout.md) (2285) | [reader.md](atlas/A13/reader.md) (2703) |
-| Atlas, page A14: Homecoming | [main.md](atlas/A14/main.md) (2230) | [sprout.md](atlas/A14/sprout.md) (2743) | [reader.md](atlas/A14/reader.md) (3332) |
-| Atlas, page A15: The Humbug | [main.md](atlas/A15/main.md) (2211) | [sprout.md](atlas/A15/sprout.md) (2737) | [reader.md](atlas/A15/reader.md) (3293) |
+| Atlas, page A12: The Mirror Shard | [main.md](atlas/A12/main.md) (1976) | [sprout.md](atlas/A12/sprout.md) (2427) | [reader.md](atlas/A12/reader.md) (2748) |
+| Atlas, page A13: The Wooden Boy | [main.md](atlas/A13/main.md) (1896) | [sprout.md](atlas/A13/sprout.md) (2334) | [reader.md](atlas/A13/reader.md) (2762) |
+| Atlas, page A14: Homecoming | [main.md](atlas/A14/main.md) (2247) | [sprout.md](atlas/A14/sprout.md) (2772) | [reader.md](atlas/A14/reader.md) (3336) |
+| Atlas, page A15: The Humbug | [main.md](atlas/A15/main.md) (2307) | [sprout.md](atlas/A15/sprout.md) (2854) | [reader.md](atlas/A15/reader.md) (3430) |
 | Atlas, page A16: The Fox and the Rose | [main.md](atlas/A16/main.md) (1636) |  | [reader.md](atlas/A16/reader.md) (1841) |
 | Atlas, page A17: The Camphor Tree | [main.md](atlas/A17/main.md) (1639) | [sprout.md](atlas/A17/sprout.md) (1925) | [reader.md](atlas/A17/reader.md) (2605) |
 | Atlas, page A18: The Doll in the Pocket | [main.md](atlas/A18/main.md) (1716) | [sprout.md](atlas/A18/sprout.md) (2286) | [reader.md](atlas/A18/reader.md) (2489) |

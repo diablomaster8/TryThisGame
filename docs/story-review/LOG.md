@@ -167,16 +167,16 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `atlas/A11/main.md` | [review-2026-10-23-5](review-2026-10-23-5.md) | 0 |
 | `atlas/A11/sprout.md` | [review-2026-10-23-5](review-2026-10-23-5.md) | 0 |
 | `atlas/A11/reader.md` | [review-2026-10-23-5](review-2026-10-23-5.md) | 0 |
-| `atlas/A12/main.md` | [review-2026-10-24](review-2026-10-24.md) | 6 |
-| `atlas/A12/sprout.md` | [review-2026-10-24](review-2026-10-24.md) | 11 |
-| `atlas/A12/reader.md` | [review-2026-10-24](review-2026-10-24.md) | 7 |
-| `atlas/A13/main.md` | [review-2026-10-24](review-2026-10-24.md) | 6 |
-| `atlas/A13/sprout.md` | [review-2026-10-24](review-2026-10-24.md) | 9 |
-| `atlas/A13/reader.md` | [review-2026-10-24](review-2026-10-24.md) | 6 |
-| `atlas/A14/main.md` | [review-2026-10-24](review-2026-10-24.md) | 6 |
-| `atlas/A14/sprout.md` | [review-2026-10-24](review-2026-10-24.md) | 10 |
-| `atlas/A14/reader.md` | [review-2026-10-24](review-2026-10-24.md) | 9 |
-| `atlas/A15/main.md` | [review-2026-10-24](review-2026-10-24.md) | 8 |
+| `atlas/A12/main.md` | [review-2026-10-24](review-2026-10-24.md) | 0 |
+| `atlas/A12/sprout.md` | [review-2026-10-24](review-2026-10-24.md) | 0 |
+| `atlas/A12/reader.md` | [review-2026-10-24](review-2026-10-24.md) | 0 |
+| `atlas/A13/main.md` | [review-2026-10-24](review-2026-10-24.md) | 0 |
+| `atlas/A13/sprout.md` | [review-2026-10-24](review-2026-10-24.md) | 0 |
+| `atlas/A13/reader.md` | [review-2026-10-24](review-2026-10-24.md) | 0 |
+| `atlas/A14/main.md` | [review-2026-10-24](review-2026-10-24.md) | 0 |
+| `atlas/A14/sprout.md` | [review-2026-10-24](review-2026-10-24.md) | 0 |
+| `atlas/A14/reader.md` | [review-2026-10-24](review-2026-10-24.md) | 0 |
+| `atlas/A15/main.md` | [review-2026-10-24](review-2026-10-24.md) | 0 |
 | `atlas/A15/sprout.md` | never | 0 |
 | `atlas/A15/reader.md` | never | 0 |
 | `atlas/A16/main.md` | never | 0 |
@@ -839,65 +839,65 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261023-585 | atlas/A09/sprout.md<br>atlas/A10/sprout.md<br>atlas/A10/reader.md<br>atlas/A11/sprout.md<br>atlas/A11/reader.md | cross-story | Medium | child-read | Idiom and irony sweep across the Atlas bands | fixed | 2026-10-23-5 |
 | SR-20261023-586 | atlas/A08/reader.md<br>atlas/A10/reader.md<br>atlas/A11/reader.md | cross-story | Medium | follow | Maths lessons invent numbers the scene never gives; state every number in the story first | fixed | 2026-10-23-5 |
 | SR-20261023-587 | atlas/A08/sprout.md<br>atlas/A08/reader.md<br>atlas/A09/sprout.md<br>atlas/A09/reader.md<br>atlas/A10/sprout.md<br>atlas/A10/reader.md<br>atlas/A11/sprout.md<br>atlas/A11/reader.md | cross-story | Medium | continuity | Standard-tag pass: reader bands use K-2 codes and tags that don't fit what the lesson asks | fixed | 2026-10-23-5 |
-| SR-20261024-588 | atlas/A14/main.md<br>atlas/A14/reader.md | a14-20-bed | Critical | continuity | The "dont" name payoff says he hasn't said his name since the giant; he said it to the Phaeacians and to Laertes | open | 2026-10-24 |
-| SR-20261024-589 | atlas/A13/reader.md | a13-14-martens | Critical | child-read | The martens lesson invents 30 hens and "each took 7", so the answer contradicts the deal just spoken | open | 2026-10-24 |
-| SR-20261024-590 | atlas/A15/main.md | a15-14-secret | Critical | compelling | Oz's secret is the page's honesty choice and sets no flag; pay it off through the Scarecrow's "eleven new laws" | open | 2026-10-24 |
-| SR-20261024-591 | atlas/A12/sprout.md<br>atlas/A12/reader.md | a12-16-found | High | theme | An ice-melt quiz cuts in between Gerda's tears and "Kay looks at her", the emotional peak of the page | open | 2026-10-24 |
-| SR-20261024-592 | atlas/A14/reader.md | a14-11-shades | High | child-read | The grief lesson tells the child Anticlea is wrong about why she died, while she is still speaking | open | 2026-10-24 |
-| SR-20261024-593 | atlas/A13/reader.md | a13-17-complete | High | follow | Nine maths lessons use numbers the scene never says; the Snail's 4:30 a.m. even fights "that night" | open | 2026-10-24 |
-| SR-20261024-594 | atlas/A12/sprout.md | a12-03-arch | High | child-read | Sprout never says the troll's mirror got into Kay, so his sudden meanness has no cause | open | 2026-10-24 |
-| SR-20261024-595 | atlas/A13/sprout.md | a13-20-complete | High | child-read | The slumped "old puppet" with "his head on one side" can read to a small child as Pinocchio's body | open | 2026-10-24 |
-| SR-20261024-596 | atlas/A14/sprout.md | a14-17-scar-done | High | child-read | "Tell a grown-up about a worrying secret" lands right after Eurycleia keeps Odysseus's secret and the child keeps quiet | open | 2026-10-24 |
-| SR-20261024-597 | atlas/A14/sprout.md | a14-13-fig | High | child-read | The sailors are lost, and the next thing is a counting game "to make the time go faster" | open | 2026-10-24 |
-| SR-20261024-598 | atlas/A12/sprout.md<br>atlas/A12/reader.md | a12-04-kiss | High | theme | Both bands break the forgetting kiss with a lesson: a "feelings are okay" ask in sprout, a simile quiz in reader | open | 2026-10-24 |
-| SR-20261024-599 | atlas/A13/reader.md | a13-15-stone-done | High | pacing | Echo physics over the night of crying, mould science over the reunion, two lessons stacked on the donkey gag | open | 2026-10-24 |
-| SR-20261024-600 | atlas/A14/reader.md | a14-16-gate | High | pacing | The "is it right to hide love?" ask sits between "he can't kneel" and Argos's last moment | open | 2026-10-24 |
-| SR-20261024-601 | atlas/A14/sprout.md<br>atlas/A14/reader.md | a14-16-gate | High | child-read | "Nobody." whispered to Argos is a mystery to children, and sprout also uses "nobody" as an ordinary word everywhere | open | 2026-10-24 |
-| SR-20261024-602 | atlas/A14/sprout.md | a14-01-hearth-done | High | follow | Mentes turns into a bird, Mentor appears unexplained, and Nestor says "That was Athena" to a child who never met her | open | 2026-10-24 |
-| SR-20261024-603 | atlas/A13/reader.md | a13-05-window-done | High | compelling | The halves lesson imagines Geppetto sharing the pears, undoing his quiet gift of his whole breakfast | open | 2026-10-24 |
-| SR-20261024-604 | atlas/A12/main.md | a12-17-doe | High | theme | Kay's "Waited? Out here? For me?" is never answered; pay it off with the berry count | open | 2026-10-24 |
-| SR-20261024-605 | atlas/A13/main.md | a13-16-water | High | compelling | Pinocchio cries all night at the Fairy's gravestone, then finds her alive and never mentions it | open | 2026-10-24 |
-| SR-20261024-606 | atlas/A14/main.md | a14-20-bed | High | humour | The best marriage scene in the run has no bickering; let Penelope tease him about the bed | open | 2026-10-24 |
-| SR-20261024-607 | atlas/A13/sprout.md | a13-18-sea | High | follow | "The sea washed the donkey off" has no cause; sprout cut the little fish nibbling the donkey away | open | 2026-10-24 |
-| SR-20261024-608 | atlas/A12/sprout.md<br>atlas/A12/reader.md | a12-02-roses | High | humour | Sprout cut the sulking peas and the bed with opinions; reader kept the peas but broke the timing and dropped the bed's set-up | open | 2026-10-24 |
-| SR-20261024-609 | atlas/A14/main.md | a14-13-island | High | humour | Eurylochus's mutiny is all menace in the page's grimmest run; give the grumbler a dry line and Odysseus a reply | open | 2026-10-24 |
-| SR-20261024-610 | atlas/A15/main.md | a15-11-complete | High | humour | The Witch's kitchen is the flattest stretch; let her grumble and pay off the bucket nobody empties | open | 2026-10-24 |
-| SR-20261024-611 | atlas/A13/main.md | a13-18-circus | High | pacing | Eight narration lines carry the sale, the circus, the lame leg and the drowning rope with no breath and no smile | open | 2026-10-24 |
-| SR-20261024-612 | atlas/A12/sprout.md | a12-10-pigeons | High | follow | "A white hen pulled his sledge" and "Spitsbergen" stop a 3-to-6 listener | open | 2026-10-24 |
-| SR-20261024-613 | atlas/A13/sprout.md | a13-14-martens | High | humour | Sprout cut the "reasonable dog" joke, so the trap has no wit; give the counting to the Nubbin | open | 2026-10-24 |
-| SR-20261024-614 | atlas/A12/main.md<br>atlas/A12/reader.md | a12-17-doe | Medium | humour | Gerda's "He's cross about his feet, which is how I know" has no set-up in main or reader | open | 2026-10-24 |
-| SR-20261024-615 | atlas/A12/sprout.md | a12-05-winter | Medium | child-read | "Some people say Kay has died" is never explained, and the spring quiz cuts into the line | open | 2026-10-24 |
-| SR-20261024-616 | atlas/A14/main.md<br>atlas/A14/reader.md | a14-09-complete | Medium | follow | "Only one ship left of all the ships they had" arrives with no fleet ever mentioned | open | 2026-10-24 |
-| SR-20261024-617 | atlas/A14/sprout.md | a14-13-fig-done | Medium | child-read | Four lessons ask about things their scenes never show | open | 2026-10-24 |
-| SR-20261024-618 | atlas/A13/main.md | a13-20-hut | Medium | compelling | The "carried" cricket route pays off three times; the "left" route gets almost nothing | open | 2026-10-24 |
-| SR-20261024-619 | atlas/A13/main.md | a13-20-wheel | Medium | theme | Candlewick fades and nobody comforts Pinocchio before Giangio's "He cost you nothing" | open | 2026-10-24 |
-| SR-20261024-620 | atlas/A13/main.md | a13-19-belly | Medium | humour | With s21Done, Clank is drawn in every scene but silent from A13-18 to the end of the Dog-fish | open | 2026-10-24 |
-| SR-20261024-621 | atlas/A13/sprout.md<br>atlas/A13/reader.md | a13-20-word | Medium | compelling | Reader's lesson asks about Clank's line before he says it; sprout's version is too abstract for 3 to 6 | open | 2026-10-24 |
-| SR-20261024-622 | atlas/A12/reader.md | a12-01-shards-done | Medium | compelling | The lesson explains the magic glint away as moonlight off glass | open | 2026-10-24 |
-| SR-20261024-623 | atlas/A12/reader.md | a12-16-word | Medium | pacing | Three lessons land on the wrong line: ETERNITY gets a times-table, Gerda's entrance gets clothing advice, the knife lesson follows the wrong line | open | 2026-10-24 |
-| SR-20261024-624 | atlas/A12/main.md | a12-08-complete | Medium | humour | The raven and his sweetheart are the page's only couple; give them one bicker | open | 2026-10-24 |
-| SR-20261024-625 | atlas/A12/main.md | a12-18-roses-done | Medium | humour | The homecoming room callback is flat; bring back the bed with opinions | open | 2026-10-24 |
-| SR-20261024-626 | atlas/A12/main.md<br>atlas/A12/sprout.md | a12-15-south | Medium | follow | "Inside the palace, a little earlier" is a time jump a reader can lose, and a sprout can't hold | open | 2026-10-24 |
-| SR-20261024-627 | atlas/A12/sprout.md | a12-04-kept | Medium | continuity | Three sprout variants mention "the stone in your pocket", which sprout can never have | open | 2026-10-24 |
-| SR-20261024-628 | atlas/A12/sprout.md | a12-15-south-done | Medium | pacing | Three quiz-tone lessons at tense beats, and the page repeats seasons, take-away and slow breaths four times each | open | 2026-10-24 |
-| SR-20261024-629 | atlas/A13/sprout.md | a13-18-complete | Medium | pacing | A shark fact lands on the cliffhanger, and a squirrel notice lands mid-gag | open | 2026-10-24 |
-| SR-20261024-630 | atlas/A13/sprout.md | a13-04-egg | Medium | humour | The chick is only sweet; restore the polite chick and Pinocchio's open mouth | open | 2026-10-24 |
-| SR-20261024-631 | atlas/A13/sprout.md | a13-12-oak | Medium | continuity | The lesson says Pinocchio promised to meet Babbo, and the hut's goat comes from nowhere | open | 2026-10-24 |
-| SR-20261024-632 | atlas/A14/sprout.md | a14-18-axes | Medium | humour | The bow scene is all tension; let the Nubbin carry one axe and lose | open | 2026-10-24 |
-| SR-20261024-633 | atlas/A14/sprout.md | a14-10-woods-done | Medium | humour | The "nervous and curious" lesson needs a surprise to feel both things about | open | 2026-10-24 |
-| SR-20261024-634 | atlas/A14/sprout.md | a14-14-harbour | Medium | theme | After a lesson that truth builds trust, Odysseus tells "a made-up story" and nobody says why | open | 2026-10-24 |
-| SR-20261024-635 | atlas/A14/reader.md | a14-06-complete | Medium | follow | A wrong-answer reply quotes "since Troy", a line that hasn't been said yet | open | 2026-10-24 |
-| SR-20261024-636 | atlas/A14/reader.md | a14-10-sty | Medium | humour | A pig-snout fact sits on the crying pig-men; give the Nubbin a staring contest instead | open | 2026-10-24 |
-| SR-20261024-637 | atlas/A14/reader.md | a14-19-clean | Medium | humour | The cups sum is the flattest line in the storyline; let the 42nd cup be a hat | open | 2026-10-24 |
-| SR-20261024-638 | atlas/A14/main.md | a14-20-hall | Medium | humour | Pay off the "eleven or twelve days" running gag when Eurycleia wakes Penelope | open | 2026-10-24 |
-| SR-20261024-639 | atlas/A15/main.md | a15-18-council | Medium | humour | The animals' council is pure menace before the grave wait; give the Tiger a committee joke | open | 2026-10-24 |
-| SR-20261024-640 | atlas/A15/main.md | a15-10-fire | Medium | continuity | "On the third day the Lion goes in" should be the fourth | open | 2026-10-24 |
-| SR-20261024-641 | atlas/A15/main.md | a15-11-waves | Medium | follow | The Golden Cap's three calls are told cold; its bargain only arrives in A15-13 | open | 2026-10-24 |
-| SR-20261024-642 | atlas/A15/main.md | a15-19-complete | Medium | compelling | The pocketed lamb is first seen stiff at Glinda's with no hint on the road | open | 2026-10-24 |
-| SR-20261024-643 | atlas/A12/reader.md<br>atlas/A13/reader.md<br>atlas/A14/reader.md<br>atlas/A12/sprout.md<br>atlas/A13/sprout.md | cross-story | Medium | child-read | Standard tags out of band: 42 K-2 C3 codes in the reader files, grade-4 NGSS in sprout, and several that don't fit | open | 2026-10-24 |
-| SR-20261024-644 | atlas/A12/sprout.md<br>atlas/A13/sprout.md<br>atlas/A14/sprout.md | cross-story | Medium | child-read | All three sprout files keep idioms and reversed meanings a 3-to-6 child takes literally | open | 2026-10-24 |
-| SR-20261024-645 | atlas/A14/sprout.md<br>atlas/A15/main.md | cross-story | Medium | follow | Corvin callbacks lean on a man the reader may not place: unnamed in A15's default lines, unexplained in A14 sprout | open | 2026-10-24 |
-| SR-20261024-646 | atlas/A12/main.md<br>atlas/A13/main.md<br>atlas/A14/main.md<br>atlas/A15/main.md | cross-story | Medium | humour | The Nubbin already keeps a souvenir on two pages; make it a running gag across the Atlas | open | 2026-10-24 |
+| SR-20261024-588 | atlas/A14/main.md<br>atlas/A14/reader.md | a14-20-bed | Critical | continuity | The "dont" name payoff says he hasn't said his name since the giant; he said it to the Phaeacians and to Laertes | fixed | 2026-10-24 |
+| SR-20261024-589 | atlas/A13/reader.md | a13-14-martens | Critical | child-read | The martens lesson invents 30 hens and "each took 7", so the answer contradicts the deal just spoken | fixed | 2026-10-24 |
+| SR-20261024-590 | atlas/A15/main.md | a15-14-secret | Critical | compelling | Oz's secret is the page's honesty choice and sets no flag; pay it off through the Scarecrow's "eleven new laws" | fixed | 2026-10-24 |
+| SR-20261024-591 | atlas/A12/sprout.md<br>atlas/A12/reader.md | a12-16-found | High | theme | An ice-melt quiz cuts in between Gerda's tears and "Kay looks at her", the emotional peak of the page | fixed | 2026-10-24 |
+| SR-20261024-592 | atlas/A14/reader.md | a14-11-shades | High | child-read | The grief lesson tells the child Anticlea is wrong about why she died, while she is still speaking | fixed | 2026-10-24 |
+| SR-20261024-593 | atlas/A13/reader.md | a13-17-complete | High | follow | Nine maths lessons use numbers the scene never says; the Snail's 4:30 a.m. even fights "that night" | fixed | 2026-10-24 |
+| SR-20261024-594 | atlas/A12/sprout.md | a12-03-arch | High | child-read | Sprout never says the troll's mirror got into Kay, so his sudden meanness has no cause | fixed | 2026-10-24 |
+| SR-20261024-595 | atlas/A13/sprout.md | a13-20-complete | High | child-read | The slumped "old puppet" with "his head on one side" can read to a small child as Pinocchio's body | fixed | 2026-10-24 |
+| SR-20261024-596 | atlas/A14/sprout.md | a14-17-scar-done | High | child-read | "Tell a grown-up about a worrying secret" lands right after Eurycleia keeps Odysseus's secret and the child keeps quiet | fixed | 2026-10-24 |
+| SR-20261024-597 | atlas/A14/sprout.md | a14-13-fig | High | child-read | The sailors are lost, and the next thing is a counting game "to make the time go faster" | fixed | 2026-10-24 |
+| SR-20261024-598 | atlas/A12/sprout.md<br>atlas/A12/reader.md | a12-04-kiss | High | theme | Both bands break the forgetting kiss with a lesson: a "feelings are okay" ask in sprout, a simile quiz in reader | fixed | 2026-10-24 |
+| SR-20261024-599 | atlas/A13/reader.md | a13-15-stone-done | High | pacing | Echo physics over the night of crying, mould science over the reunion, two lessons stacked on the donkey gag | fixed | 2026-10-24 |
+| SR-20261024-600 | atlas/A14/reader.md | a14-16-gate | High | pacing | The "is it right to hide love?" ask sits between "he can't kneel" and Argos's last moment | fixed | 2026-10-24 |
+| SR-20261024-601 | atlas/A14/sprout.md<br>atlas/A14/reader.md | a14-16-gate | High | child-read | "Nobody." whispered to Argos is a mystery to children, and sprout also uses "nobody" as an ordinary word everywhere | fixed | 2026-10-24 |
+| SR-20261024-602 | atlas/A14/sprout.md | a14-01-hearth-done | High | follow | Mentes turns into a bird, Mentor appears unexplained, and Nestor says "That was Athena" to a child who never met her | fixed | 2026-10-24 |
+| SR-20261024-603 | atlas/A13/reader.md | a13-05-window-done | High | compelling | The halves lesson imagines Geppetto sharing the pears, undoing his quiet gift of his whole breakfast | fixed | 2026-10-24 |
+| SR-20261024-604 | atlas/A12/main.md | a12-17-doe | High | theme | Kay's "Waited? Out here? For me?" is never answered; pay it off with the berry count | fixed | 2026-10-24 |
+| SR-20261024-605 | atlas/A13/main.md | a13-16-water | High | compelling | Pinocchio cries all night at the Fairy's gravestone, then finds her alive and never mentions it | fixed | 2026-10-24 |
+| SR-20261024-606 | atlas/A14/main.md | a14-20-bed | High | humour | The best marriage scene in the run has no bickering; let Penelope tease him about the bed | fixed | 2026-10-24 |
+| SR-20261024-607 | atlas/A13/sprout.md | a13-18-sea | High | follow | "The sea washed the donkey off" has no cause; sprout cut the little fish nibbling the donkey away | fixed | 2026-10-24 |
+| SR-20261024-608 | atlas/A12/sprout.md<br>atlas/A12/reader.md | a12-02-roses | High | humour | Sprout cut the sulking peas and the bed with opinions; reader kept the peas but broke the timing and dropped the bed's set-up | fixed | 2026-10-24 |
+| SR-20261024-609 | atlas/A14/main.md | a14-13-island | High | humour | Eurylochus's mutiny is all menace in the page's grimmest run; give the grumbler a dry line and Odysseus a reply | fixed | 2026-10-24 |
+| SR-20261024-610 | atlas/A15/main.md | a15-11-complete | High | humour | The Witch's kitchen is the flattest stretch; let her grumble and pay off the bucket nobody empties | fixed | 2026-10-24 |
+| SR-20261024-611 | atlas/A13/main.md | a13-18-circus | High | pacing | Eight narration lines carry the sale, the circus, the lame leg and the drowning rope with no breath and no smile | fixed | 2026-10-24 |
+| SR-20261024-612 | atlas/A12/sprout.md | a12-10-pigeons | High | follow | "A white hen pulled his sledge" and "Spitsbergen" stop a 3-to-6 listener | fixed | 2026-10-24 |
+| SR-20261024-613 | atlas/A13/sprout.md | a13-14-martens | High | humour | Sprout cut the "reasonable dog" joke, so the trap has no wit; give the counting to the Nubbin | fixed | 2026-10-24 |
+| SR-20261024-614 | atlas/A12/main.md<br>atlas/A12/reader.md | a12-17-doe | Medium | humour | Gerda's "He's cross about his feet, which is how I know" has no set-up in main or reader | fixed | 2026-10-24 |
+| SR-20261024-615 | atlas/A12/sprout.md | a12-05-winter | Medium | child-read | "Some people say Kay has died" is never explained, and the spring quiz cuts into the line | fixed | 2026-10-24 |
+| SR-20261024-616 | atlas/A14/main.md<br>atlas/A14/reader.md | a14-09-complete | Medium | follow | "Only one ship left of all the ships they had" arrives with no fleet ever mentioned | fixed | 2026-10-24 |
+| SR-20261024-617 | atlas/A14/sprout.md | a14-13-fig-done | Medium | child-read | Four lessons ask about things their scenes never show | fixed | 2026-10-24 |
+| SR-20261024-618 | atlas/A13/main.md | a13-20-hut | Medium | compelling | The "carried" cricket route pays off three times; the "left" route gets almost nothing | fixed | 2026-10-24 |
+| SR-20261024-619 | atlas/A13/main.md | a13-20-wheel | Medium | theme | Candlewick fades and nobody comforts Pinocchio before Giangio's "He cost you nothing" | fixed | 2026-10-24 |
+| SR-20261024-620 | atlas/A13/main.md | a13-19-belly | Medium | humour | With s21Done, Clank is drawn in every scene but silent from A13-18 to the end of the Dog-fish | fixed | 2026-10-24 |
+| SR-20261024-621 | atlas/A13/sprout.md<br>atlas/A13/reader.md | a13-20-word | Medium | compelling | Reader's lesson asks about Clank's line before he says it; sprout's version is too abstract for 3 to 6 | fixed | 2026-10-24 |
+| SR-20261024-622 | atlas/A12/reader.md | a12-01-shards-done | Medium | compelling | The lesson explains the magic glint away as moonlight off glass | fixed | 2026-10-24 |
+| SR-20261024-623 | atlas/A12/reader.md | a12-16-word | Medium | pacing | Three lessons land on the wrong line: ETERNITY gets a times-table, Gerda's entrance gets clothing advice, the knife lesson follows the wrong line | fixed | 2026-10-24 |
+| SR-20261024-624 | atlas/A12/main.md | a12-08-complete | Medium | humour | The raven and his sweetheart are the page's only couple; give them one bicker | fixed | 2026-10-24 |
+| SR-20261024-625 | atlas/A12/main.md | a12-18-roses-done | Medium | humour | The homecoming room callback is flat; bring back the bed with opinions | fixed | 2026-10-24 |
+| SR-20261024-626 | atlas/A12/main.md<br>atlas/A12/sprout.md | a12-15-south | Medium | follow | "Inside the palace, a little earlier" is a time jump a reader can lose, and a sprout can't hold | fixed | 2026-10-24 |
+| SR-20261024-627 | atlas/A12/sprout.md | a12-04-kept | Medium | continuity | Three sprout variants mention "the stone in your pocket", which sprout can never have | fixed | 2026-10-24 |
+| SR-20261024-628 | atlas/A12/sprout.md | a12-15-south-done | Medium | pacing | Three quiz-tone lessons at tense beats, and the page repeats seasons, take-away and slow breaths four times each | fixed | 2026-10-24 |
+| SR-20261024-629 | atlas/A13/sprout.md | a13-18-complete | Medium | pacing | A shark fact lands on the cliffhanger, and a squirrel notice lands mid-gag | fixed | 2026-10-24 |
+| SR-20261024-630 | atlas/A13/sprout.md | a13-04-egg | Medium | humour | The chick is only sweet; restore the polite chick and Pinocchio's open mouth | fixed | 2026-10-24 |
+| SR-20261024-631 | atlas/A13/sprout.md | a13-12-oak | Medium | continuity | The lesson says Pinocchio promised to meet Babbo, and the hut's goat comes from nowhere | fixed | 2026-10-24 |
+| SR-20261024-632 | atlas/A14/sprout.md | a14-18-axes | Medium | humour | The bow scene is all tension; let the Nubbin carry one axe and lose | fixed | 2026-10-24 |
+| SR-20261024-633 | atlas/A14/sprout.md | a14-10-woods-done | Medium | humour | The "nervous and curious" lesson needs a surprise to feel both things about | fixed | 2026-10-24 |
+| SR-20261024-634 | atlas/A14/sprout.md | a14-14-harbour | Medium | theme | After a lesson that truth builds trust, Odysseus tells "a made-up story" and nobody says why | fixed | 2026-10-24 |
+| SR-20261024-635 | atlas/A14/reader.md | a14-06-complete | Medium | follow | A wrong-answer reply quotes "since Troy", a line that hasn't been said yet | fixed | 2026-10-24 |
+| SR-20261024-636 | atlas/A14/reader.md | a14-10-sty | Medium | humour | A pig-snout fact sits on the crying pig-men; give the Nubbin a staring contest instead | fixed | 2026-10-24 |
+| SR-20261024-637 | atlas/A14/reader.md | a14-19-clean | Medium | humour | The cups sum is the flattest line in the storyline; let the 42nd cup be a hat | fixed | 2026-10-24 |
+| SR-20261024-638 | atlas/A14/main.md | a14-20-hall | Medium | humour | Pay off the "eleven or twelve days" running gag when Eurycleia wakes Penelope | fixed | 2026-10-24 |
+| SR-20261024-639 | atlas/A15/main.md | a15-18-council | Medium | humour | The animals' council is pure menace before the grave wait; give the Tiger a committee joke | fixed | 2026-10-24 |
+| SR-20261024-640 | atlas/A15/main.md | a15-10-fire | Medium | continuity | "On the third day the Lion goes in" should be the fourth | fixed | 2026-10-24 |
+| SR-20261024-641 | atlas/A15/main.md | a15-11-waves | Medium | follow | The Golden Cap's three calls are told cold; its bargain only arrives in A15-13 | fixed | 2026-10-24 |
+| SR-20261024-642 | atlas/A15/main.md | a15-19-complete | Medium | compelling | The pocketed lamb is first seen stiff at Glinda's with no hint on the road | fixed | 2026-10-24 |
+| SR-20261024-643 | atlas/A12/reader.md<br>atlas/A13/reader.md<br>atlas/A14/reader.md<br>atlas/A12/sprout.md<br>atlas/A13/sprout.md | cross-story | Medium | child-read | Standard tags out of band: 42 K-2 C3 codes in the reader files, grade-4 NGSS in sprout, and several that don't fit | fixed | 2026-10-24 |
+| SR-20261024-644 | atlas/A12/sprout.md<br>atlas/A13/sprout.md<br>atlas/A14/sprout.md | cross-story | Medium | child-read | All three sprout files keep idioms and reversed meanings a 3-to-6 child takes literally | fixed | 2026-10-24 |
+| SR-20261024-645 | atlas/A14/sprout.md<br>atlas/A15/main.md | cross-story | Medium | follow | Corvin callbacks lean on a man the reader may not place: unnamed in A15's default lines, unexplained in A14 sprout | fixed | 2026-10-24 |
+| SR-20261024-646 | atlas/A12/main.md<br>atlas/A13/main.md<br>atlas/A14/main.md<br>atlas/A15/main.md | cross-story | Medium | humour | The Nubbin already keeps a souvenir on two pages; make it a running gag across the Atlas | fixed | 2026-10-24 |
 
 ## Runs
 
@@ -922,3 +922,4 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 - 2026-10-23 run 10 · [review-2026-10-23-5](review-2026-10-23-5.md) · units: atlas/A08/sprout.md, atlas/A08/reader.md, atlas/A09/sprout.md, atlas/A09/reader.md, atlas/A10/main.md, atlas/A10/sprout.md, atlas/A10/reader.md, atlas/A11/main.md, atlas/A11/sprout.md, atlas/A11/reader.md · 60 recs: Critical 2, High 24, Medium 29, Nice 5 (5 cross-story) · fixed since last run: 58 (all)
 - 2026-10-24 · fix pass on branch `fix/story-review-2026-10-24` · run 10's 60 recs: 60 fixed · -529 puts the Friend ribbon on Eeyore's door in all three A11 files ("Took it off my door"); -587 retags reader bands to the grades 3–5 C3 codes and 3.NF.A.3 (both added to EDU-STYLE.md); -543 keeps one gentle notice in a09-11-dark-done because every scene needs a lesson; -566 and -573 fold a notice into narration to stay within two lessons a scene · canon: none
 - 2026-10-24 run 11 · [review-2026-10-24](review-2026-10-24.md) · units: atlas/A12/main.md, atlas/A12/sprout.md, atlas/A12/reader.md, atlas/A13/main.md, atlas/A13/sprout.md, atlas/A13/reader.md, atlas/A14/main.md, atlas/A14/sprout.md, atlas/A14/reader.md, atlas/A15/main.md · 59 recs: Critical 3, High 23, Medium 33, Nice 0 (4 cross-story) · fixed since last run: 60 (all)
+- 2026-10-24 · fix pass on branch `fix/story-review-2026-10-24-2` · run 11's 59 recs: 59 fixed · -588 makes the A14 bed scene the first time he names himself "under his own roof"; -590 sets a15-secret = 'promised' (not 'keep', which clashes with the Grove finalChoice flag) and pays it off in four new A15 variants with band clones; -600 moves the think ask after the last gate line because every scene needs a lesson; -611 splits the circus run inside the scene with a quiet pause, no new step; -646 runs the souvenir gag paper troll → green bottle → olive leaf → spectacles · canon: none

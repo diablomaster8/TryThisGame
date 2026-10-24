@@ -247,7 +247,7 @@ const A1: EduQuest = quest(
       [
         N('The atlas page is blue, with a little island on it.'),
         N('You step in. Now you are at a big gate, with your Nubbin.'),
-        N('Inside, young men are eating and playing. Nobody comes to the gate.'),
+        N('Inside, young men are eating and playing. No one comes to the gate.'),
         N('An old traveller with a spear waits beside you.'),
         MS('A good house always welcomes a stranger.', 'think'),
         N('A young man sees you. His cheeks go red.'),
@@ -345,8 +345,9 @@ const A1: EduQuest = quest(
       'a14-01-hearth-done',
       [
         N('Mentes walks across the yard.'),
-        N('A bird flies up through the roof. Mentes is gone!'),
-        TM('That was no ordinary traveller!', 'shock'),
+        N('A bird flies up through the roof.'),
+        N('Mentes was Athena, a goddess who helps Telemachus!'),
+        TM('Athena can look like anybody. Even a bird. Even a man with a beard.', 'shock'),
       ],
       [
         ask(
@@ -659,7 +660,8 @@ const A2: EduQuest = quest(
     sc(
       'a14-02-complete',
       [
-        N('The meeting ends. Nobody helps Telemachus.'),
+        N('The meeting ends. No one helps Telemachus.'),
+        N('Old Mentor, Telemachus’s friend, comes close.'),
         MR('I have a ship. Fill it with food. Tell no one.'),
         EC('Take care, my dear. Come home safe.', 'sad'),
         N('At nightfall the ship sails out of the harbour.'),
@@ -742,7 +744,8 @@ const A3: EduQuest = quest(
       [
         N('After the feast, Mentor turns into a big sea-eagle.'),
         N('He flies away over the water.'),
-        NE('That was Athena. She is looking after you.', 'soft'),
+        NE('That was Athena again! She is looking after you.', 'soft'),
+        N('Your Nubbin checks every bird in the sky for a beard.'),
         N('The people on the beach are praying quietly.'),
         N('You stand back and keep quiet.'),
       ],
@@ -875,7 +878,7 @@ const A3: EduQuest = quest(
     sc(
       'a14-03-complete',
       [
-        N('You ride back to the ship.'),
+        N('Two more days in the chariot, and you ride back to the ship.'),
         N('Helen waves from the gate until you are far away.'),
         N('Telemachus stands at the front of the ship.'),
         N('Then the atlas turns its page. You are somewhere new.'),
@@ -1065,10 +1068,10 @@ const A4: EduQuest = quest(
       ],
       {
         choices: [
-          ch('home', 'Say, “No. Home.”', [OD('Home. Yes. That word says it all.')]),
+          ch('home', 'Say, “No. Home.”', [OD('Home. Yes! Home is where I want to be.')]),
           ch('unsure', 'Say, “I do not know.”', [OD('That is an honest answer.')]),
           ch('happen', 'Say, “Not if nothing ever happens.”', [
-            OD('Yes! Safe is not the same as happy.'),
+            OD('A safe cave is nice. But I want to be happy, with my family.'),
           ]),
         ],
       },
@@ -1742,7 +1745,7 @@ const A8: EduQuest = quest(
       'a14-08-cave',
       [
         N('A cave high above the sea. It is full of cheeses.'),
-        N('There are lambs in pens. Nobody is home.'),
+        N('There are lambs in pens. No one is home.'),
         N('A giant with one eye comes home. He rolls a big stone across the door.'),
         CY('Who are you? Why are you in my cave?', 'angry'),
         N('You are shut in. Your Nubbin’s heart goes thump, thump.'),
@@ -1979,7 +1982,7 @@ const A8: EduQuest = quest(
     sc(
       'a14-08-complete',
       [
-        N('They row on. Nobody speaks for a long time.'),
+        N('They row on. No one speaks for a long time.'),
         N('That evening, Odysseus carves a word on a small board.'),
         OD('Here, for the little one. It was so brave.', 'soft'),
         N('The word is Nobody.'),
@@ -2137,7 +2140,7 @@ const A9: EduQuest = quest(
         N('The winds blow you back to the floating island.'),
         OD('My crew opened the bag. Please help us again.', 'sad'),
         AE('No. I cannot help you now.', 'angry'),
-        N('Nobody offers you dinner. It is the first shut door.'),
+        N('No one offers you dinner. It is the first shut door.'),
       ],
       [
         ask(
@@ -2170,7 +2173,7 @@ const A9: EduQuest = quest(
         N('No wind now. They row, day after day.'),
         N('Big grumpy giants chase them out of a harbour. Only one ship gets away.'),
         OD('I was so close to home. I could see the smoke.', 'sad'),
-        OD('Close is harder than far.', 'sad'),
+        OD('It hurts more to be close, and not get home.', 'sad'),
       ],
       [
         ask(
@@ -2247,7 +2250,8 @@ const A10: EduQuest = quest(
       [
         N('The house is made of smooth stone.'),
         N('Wolves and lions come up, wagging their tails.'),
-        N('Your Nubbin peeks out from behind your legs.'),
+        N('Your Nubbin peeks out. A lion licks it from head to toe.'),
+        N('It comes out shiny, and very surprised.'),
       ],
       [
         ask(
@@ -2662,18 +2666,18 @@ const A12: EduQuest = quest(
         ask(
           0,
           'health',
-          'protect your ears from very loud sounds',
+          'wax and covered ears keep sound out',
           'ELOF: Perceptual, Motor, and Physical Development',
-          [N('Very loud noise can hurt our ears. What can we do?')],
+          [N('Wax is in the sailors’ ears. Is the world quiet or loud for them?')],
           [
             o(
-              'Cover our ears, or go away from it',
-              [N('Yes. Covering your ears protects them.')],
+              'Quiet',
+              [N('Yes. Wax blocks sound. Covering your ears also keeps loud noise away.')],
               true,
             ),
-            o('Make it louder', [N('Louder would hurt more. Cover your ears and move away.')]),
+            o('Loud', [N('Wax makes it quieter, not louder. Covering ears protects them from noise.')]),
           ],
-          'Learned to protect ears from very loud noise.',
+          'Learned that covering your ears keeps sound out.',
         ),
       ],
     ),
@@ -2700,7 +2704,7 @@ const A12: EduQuest = quest(
               [N('Yes. Together, the sailors get past safely.')],
               true,
             ),
-            o('It is not good', [N('Teams can do things nobody can do alone.')]),
+            o('It is not good', [N('Teams can do things no one can do alone.')]),
           ],
           'Talked about how teamwork helps people get big jobs done.',
         ),
@@ -2866,7 +2870,7 @@ const A13: EduQuest = quest(
           ]),
           ch('argue', 'Stay and talk to the crew.', [
             EL('We are too hungry!'),
-            N('Nobody listens.'),
+            N('No one listens.'),
           ]),
           ch('herd', 'Stand with the cows.', [N('The men walk round you, politely.')]),
         ],
@@ -2877,6 +2881,7 @@ const A13: EduQuest = quest(
       [
         N('Odysseus comes back. The hungry sailors have eaten some of the cows!'),
         N('He cries out. Far above, the Sun is sad too.'),
+        N('The Sun goes down, and the sky turns dark. The stars come out.'),
       ],
       [
         ask(
@@ -2899,24 +2904,24 @@ const A13: EduQuest = quest(
         N('Six days the sailors eat. Then they sail.'),
         N('A black cloud comes, and a big storm hits the ship.'),
         N('The ship breaks apart, and the sailors die.'),
-        N('That is very sad. Odysseus is shaking, so you hold on to him.'),
+        N('That is very sad. It is all right to feel sad.'),
+        N('Odysseus is shaking, so you hold on to him.'),
         N('You cling to the mast. All night the wind carries you back.'),
         N('At dawn you are at the swirl again.'),
         N('Odysseus grabs a fig tree and hangs on. You hold his hand.'),
         N('You can only hang on, and wait.'),
       ],
       [
-        doit(
-          7,
-          'maths',
-          'count aloud to ten',
-          'K.CC.A.1',
-          'edu:count:aloud:10',
+        notice(
+          8,
+          'sel',
+          'it is all right to feel sad, and to hold on to someone',
+          'ELOF: Social and Emotional Development',
           [
-            N('Count while you hang on, to make the time go faster.'),
-            N('(Count to ten together, nice and slow.)'),
+            N('It is all right to feel sad. It helps to hold on to someone.'),
+            N('You held on to Odysseus, and he held on to you.'),
           ],
-          'Counted aloud to ten.',
+          'Heard that it is all right to feel sad, and that holding on to someone helps.',
         ),
       ],
       {
@@ -2924,7 +2929,7 @@ const A13: EduQuest = quest(
           ch('hang', 'Hang on.', [
             N('Your arms are tired. Odysseus talks about goats, so you do not let go.'),
           ]),
-          ch('count', 'Count, to make it go faster.', [
+          ch('count', 'Count, to help the time pass.', [
             N('You count and count. Odysseus counts with you.'),
           ]),
           ch('look', 'Look at Odysseus.', [N('He is calm. You decide to believe him.')]),
@@ -2934,26 +2939,32 @@ const A13: EduQuest = quest(
     sc(
       'a14-13-fig-done',
       [
-        N('When evening comes, the wood comes back up.'),
+        N('You hold on, and you count together. It helps a little.'),
+        N('The swirl spits the mast out. Up it pops, because wood floats!'),
         N('Odysseus drops onto the wood, and you follow.'),
         N('He paddles away with his hands.'),
       ],
       [
-        ask(
+        doit(
           0,
-          'social-studies',
-          'before clocks, people told time by the Sun',
-          'D2.His.2.K-2',
+          'maths',
+          'count aloud to ten',
+          'K.CC.A.1',
+          'edu:count:aloud:10',
+          [N('Count to ten together, nice and slow.'), N('(Count to ten, as you hold on.)')],
+          'Counted aloud to ten.',
+        ),
+        ask(
+          1,
+          'science',
+          'wood floats on water',
+          'ELOF: Scientific Reasoning',
+          [N('The mast came up out of the swirl. Does wood float or sink in water?')],
           [
-            N(
-              'Long ago, people told time by the Sun. When the Sun is high up, is it noon or night?',
-            ),
+            o('It floats', [N('Yes. Wood floats, so the mast pops up. Your plank floated too.')], true),
+            o('It sinks', [N('A stone sinks. Wood floats, and that is why the mast came back up.')]),
           ],
-          [
-            o('Noon', [N('Yes. When the Sun is high, it is the middle of the day.')], true),
-            o('Night', [N('At night, the Sun is gone. High in the sky means noon.')]),
-          ],
-          'Learned that long ago people told time by where the Sun was in the sky.',
+          'Learned that wood floats on water.',
         ),
       ],
     ),
@@ -2963,7 +2974,7 @@ const A13: EduQuest = quest(
         N('Nine days he drifts, until he reaches an island.'),
         N('The page turns back. You are in the hall again.'),
         OD('That is my story. I do not like to tell it twice.', 'soft'),
-        N('Nobody speaks for a long time.'),
+        N('No one speaks for a long time.'),
         AC('Tomorrow you go home, with gifts from all of us.'),
       ],
       [
@@ -2994,13 +3005,16 @@ const HARBOUR_SPROUT: Line[] = [
   OD('Where am I? Is this a strange shore?', 'angry'),
   N('A young shepherd comes along.'),
   SH('This is Ithaca. Even far away, people have heard of Ithaca.'),
-  N('Odysseus is so happy. But he tells the shepherd a made-up story.'),
+  N('Odysseus is so happy. He tells the shepherd a pretend story, to stay safe for now.'),
   N('The shepherd smiles, and turns into Athena.'),
+  AT('A pretend story to stay safe. Only this once.'),
+  N('Odysseus tries to look honest. It is not his best face.'),
   AT('You cannot help being clever, Odysseus. Look! Your harbour, your tree, your hill.', 'soft'),
   N('Odysseus kneels and kisses the ground.'),
   AT('Bad guests are in your house. Keep who you are secret, for now.'),
   N('She touches him with her wand. He is an old beggar!'),
-  BG('Well. Nobody will know me now.', 'think'),
+  BG('Well. No one will know me now. Not even Nobody!', 'think'),
+  N('Your Nubbin giggles. It remembers the giant.'),
 ];
 const harbourBeatsS = (): Beat[] => [
   doit(
@@ -3361,7 +3375,7 @@ const A15: EduQuest = quest(
     sc(
       'a14-15-complete',
       [
-        OD('Tell nobody yet.', 'think'),
+        OD('Tell no one yet.', 'think'),
         TM('There are lots of bad guests, and only two of us.', 'sad'),
         OD('Two, and the guest. That makes three.'),
         N('Three friends, and Athena helping.'),
@@ -3387,7 +3401,7 @@ const A15: EduQuest = quest(
 // ================================================================== A14-16 Argos
 const GATE_S: Line[] = [
   N('Outside the gate is a heap, and on it lies an old dog.'),
-  N('He is thin, and nobody looks after him now.'),
+  N('He is thin, and no one looks after him now.'),
   EU('That is Argos. He was the best hunting dog.', 'sad'),
   N('The old dog lifts his head. His nose twitches.'),
   N('He knows! After twenty years, he knows his master.'),
@@ -3503,8 +3517,8 @@ const A16: EduQuest = quest(
       'a14-16-gate',
       [
         ...GATE_S,
-        N('The beggar whispers one word, so only the dog hears.'),
-        BG('Nobody.', 'soft'),
+        N('The beggar whispers his giant-trick name, so only the dog hears.'),
+        BG('Nobody. It is me, old friend.', 'soft'),
         ...GATE_S_END,
       ],
       gateBeatsS(),
@@ -3694,7 +3708,7 @@ const A17: EduQuest = quest(
         N('She drops his foot, and splash! The water spills.'),
         EC('You are Odysseus! I know you!', 'shock'),
         N('The beggar gently holds her hand.'),
-        BG('Shh. Nobody must know yet.', 'soft'),
+        BG('Shh. No one must know yet.', 'soft'),
       ],
       [
         ask(
@@ -3733,15 +3747,23 @@ const A17: EduQuest = quest(
           'sel',
           'a secret that worries you should be told to a grown-up',
           'ELOF: Social and Emotional Development',
-          [N('A surprise secret can be fun. What if a secret makes you feel worried?')],
+          [
+            N(
+              'Eurycleia keeps a happy secret: Odysseus is home! Which is a kind secret: a birthday surprise, or hiding that you are hurt?',
+            ),
+          ],
           [
             o(
-              'Tell a trusted grown-up',
-              [N('Yes. A worrying secret should always be shared with a grown-up you trust.')],
+              'A birthday surprise',
+              [
+                N(
+                  'Yes. Happy secrets can wait. If a secret makes you worried, you tell a grown-up you trust.',
+                ),
+              ],
               true,
             ),
-            o('Keep it to yourself', [
-              N('A worried feeling is too big to carry alone. Tell a trusted grown-up.'),
+            o('Hiding that you are hurt', [
+              N('That one you always tell. A grown-up can help.'),
             ]),
           ],
           'Learned to tell a trusted grown-up about a secret that makes you worried.',
@@ -3849,7 +3871,8 @@ const A18: EduQuest = quest(
         N('Penelope brings down the great bow.'),
         PN('Whoever can string this bow and shoot through twelve axes, I will go with.', 'sad'),
         N('Telemachus lines up the axes in a straight row.'),
-        N('You carry them in, two at a time.'),
+        N('You carry them in, two at a time. Your Nubbin carries one axe, then sits down under it.'),
+        TM('Leave it there. It is holding the floor down.'),
         TM('I will try first.'),
         N('He nearly does it. Then his dad shakes his head, so he stops.'),
       ],
@@ -4098,7 +4121,7 @@ const A19: EduQuest = quest(
         N('A swallow flies up to the roof.'),
         N('A great shield makes everyone afraid.'),
         N('The bad guests run away, whoosh! Over the wall and down the road.'),
-        N('Odysseus lets them go. Nobody is hurt.'),
+        N('Odysseus lets them go. No one is hurt.'),
         N('They do not come back.'),
       ],
       [
@@ -4192,7 +4215,7 @@ const A19: EduQuest = quest(
               [N('Yes. Helping together makes a big job small.')],
               true,
             ),
-            o('So nobody has to help', [N('When everybody helps, the job is quicker and kinder.')]),
+            o('So no one has to help', [N('When everybody helps, the job is quicker and kinder.')]),
           ],
           'Talked about how helping together makes a big job small.',
         ),
@@ -4228,7 +4251,7 @@ const BED_S: Line[] = [
   OD('Make me a bed out here. I will sleep alone.', 'sad'),
   PN('Move the bed out of our room.', 'think'),
   N('Odysseus goes pale.'),
-  OD('Nobody could move that bed! I built it round a living olive tree.', 'angry'),
+  OD('No one could move that bed! I built it round a living olive tree.', 'angry'),
   OD('That was our secret.', 'sad'),
   N('Penelope runs to him and hugs him.'),
   PN('I had to be sure it was you.', 'sad'),
@@ -4462,7 +4485,8 @@ export const EDU_A14_SPROUT_VARIANTS: EduScene[] = [
   sc(
     'a14-corvin-joins',
     [
-      N('Corvin Vale is on the page beside you, in his good coat. He is out of breath.'),
+      N('Corvin, the grumpy man from the lane by the Grove, is on the page.'),
+      N('He stands beside you, in his good coat. He is out of breath.'),
       CV('I saw the atlas open. There is no gate on a page, so I could not knock.', 'soft'),
       CV('I know a little about the long way home.', 'soft'),
       N('Your Nubbin walks on ahead. That means he can come.'),
@@ -4529,7 +4553,7 @@ export const EDU_A14_SPROUT_VARIANTS: EduScene[] = [
     [
       N('The hall is empty. The swallow is gone.'),
       TM('They are gone. Really gone.', 'shock'),
-      CV('I did a wrong thing once, long ago. I opened a gate.', 'sad'),
+      CV('I did a wrong thing once, long ago. I said sorry. I am still saying it.', 'sad'),
       CV('Bad guests can learn to be good.', 'soft'),
     ],
     [
@@ -4651,7 +4675,7 @@ export const EDU_A14_SPROUT_VARIANTS: EduScene[] = [
         [N('The lane is empty. Is it busy or quiet?')],
         [
           o('Quiet', [N('Yes. Quiet is the opposite of busy and noisy.')], true),
-          o('Busy', [N('Nobody is there, so it is not busy. It is quiet.')]),
+          o('Busy', [N('No one is there, so it is not busy. It is quiet.')]),
         ],
         'Used the words busy and quiet to describe a place.',
       ),

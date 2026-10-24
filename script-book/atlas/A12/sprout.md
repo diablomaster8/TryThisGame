@@ -12,6 +12,7 @@ _Nova’s atlas opens at a page made of cut paper._
 _Rooftops! Chimneys! Two attic windows, side by side._  
 _You climb a steep wooden stair with your Nubbin._  
 **Grandmother**: There you are, lodger. Your bed is by the chimney.  
+**Grandmother**: The other bed creaks. It grumbles all night.  
 **Grandmother**: Mind your head on the beam. Everyone bumps it.  
 
 > **Lesson** (maths, K.G.A.1, ask): above and below  
@@ -115,6 +116,7 @@ _In the dark, something glints once. Then it is gone._
 #### `sprout:a12-01-complete` · [main](main.md#a12-01-complete)
 
 _Later you lie in the bed by the chimney._  
+_The other bed goes creak, creak. It grumbles, just as Grandmother said._  
 _Two small rose trees bloom in the dark across the gutter._  
 _Your Nubbin curls up on your feet._  
 _Rain begins to fall. Pitter, patter, pitter, patter._  
@@ -164,7 +166,10 @@ _It flickers now and then, as if remembering. It never goes out._
 _In the morning you see two attics. Their roofs nearly touch._  
 _A gutter runs between them. Peas hang over the boxes._  
 _In each box grows a rose tree. Together they make an arch._  
-**Gerda**: You’re tallest. Water the top of the arch. Not too much!  
+**Gerda**: You’re tallest. Water the top of the arch.  
+**Gerda**: Not too much water! The peas sulk.  
+**Kay**: Peas don’t sulk.  
+**Gerda**: These ones do. Look. Sulky peas.  
 
 > **Lesson** (science, K-LS1-1, ask): what plants need  
 > _What do roses need to grow?_  
@@ -305,6 +310,7 @@ _They look at a picture book of animals. Kay does the noises._
 **Kay**: That is an elk. It goes like this.  
 **Gerda**: It does not!  
 _The church clock begins to strike five._  
+**Kay**: Ow! Something stung my heart. And my eye!  
 
 > **Lesson** (maths, K.CC.B.5, ask): count the bongs  
 > _Bong, bong, bong, bong, bong. How many bongs did the clock make?_  
@@ -312,8 +318,8 @@ _The church clock begins to strike five._
 > - Three → Let’s count again: one, two, three, four, five. Five bongs.
 > _For grown-ups: Counted five bongs of a clock._
 
-**Kay**: Ow! Something stung my heart. And my eye!  
-_You see a glint, smaller than a grain of sand. It is gone._  
+_A tiny bit of the troll’s mirror flies into Kay’s eye._  
+_Another bit goes into his heart._  
 
 **Choices**
 
@@ -342,6 +348,7 @@ _It hasn’t gone._
 **Gerda**: Kay? Are you all right?  
 **Kay**: Stop crying! It looks silly!  
 **Kay**: These roses are ugly. They have worms.  
+_The mirror bit makes Kay say mean things. It is not really Kay talking._  
 _He kicks the box. Two roses fall over the edge._  
 _You reach for him. But you can’t pull a splinter out of a heart._  
 _Kay slams his window. Gerda holds her book close._  
@@ -353,6 +360,7 @@ _Kay slams his window. Gerda holds her book close._
 > _For grown-ups: Talked about what really helps a sad friend._
 
 **Gerda**: He said it is a baby book.  
+_Your Nubbin glares at every window in the street, just in case._  
 
 **Choices**
 
@@ -435,7 +443,7 @@ _You wait with her. Waiting together is a kind of help._
 
 _Kay comes past with big gloves and his sledge on his back._  
 **Kay**: I’m going to the big square!  
-**Gerda**: Go with him, please. Keep an eye on him.  
+**Gerda**: Go with him, please. Stay close to him.  
 _The square is busy. Bold boys tie sledges to farmers’ carts._  
 
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): staying safe on sledges  
@@ -505,14 +513,14 @@ _She wraps Kay in her white bearskin. He sinks in like a snowdrift._
 **The Snow Queen**: Are you still cold?  
 _She touches his forehead. It is colder than ice._  
 _Now Kay does not feel cold at all._  
+_Gerda, Grandmother, the roses: Kay forgets them. But you do not._  
 
 > **Lesson** (sel, ELOF: Social and Emotional Development, ask): all feelings are allowed  
-> _Is it okay to feel cold, or sad, sometimes?_  
-> - ✅ Yes. All feelings are okay → Yes. Feelings are part of being alive. Sad, cross and cold are fine.
-> - No. We should feel nothing → Feelings are allowed. A hug or a friend helps with the hard ones.
+> _Kay feels nothing now. Is feeling nothing better than feeling sad?_  
+> - ✅ No. Feelings come with loving people → Yes. Feelings are part of being alive. Sad is allowed.
+> - Yes. Feeling nothing is better → Feelings are allowed. A hug or a friend helps with the hard ones.
 > _For grown-ups: Talked about how all feelings, even sad ones, are okay._
 
-_Gerda, Grandmother, the roses: Kay forgets them. But you do not._  
 _The sledge rises over the forest. A big white moon comes out._  
 
 **Choices**
@@ -550,6 +558,7 @@ _Grandmother is sad all winter. Gerda is brave and quiet._
 
 _Variant of `a12-04-complete`._
 
+_You have a small cold stone from the Wellspring. You kept it._  
 _The white sledge doesn’t pass you. It stops right beside you._  
 _The driver looks down. Her face is ice, lovely and still._  
 **The Snow Queen**: You keep things too.  
@@ -585,7 +594,10 @@ _It is a long, dark winter. People stop saying Kay’s name._
 _Only Gerda says it._  
 _Then spring comes. The sun is warm on the gutter again._  
 **Gerda**: Some people say Kay has died.  
+_Died means a body stops working, and does not start again._  
+**Gerda**: But I think Kay is alive. I think he is just far away.  
 _The sunshine does not believe it. Neither do the swallows._  
+**Gerda**: I don’t believe it either.  
 
 > **Lesson** (science, K-ESS2-1, ask): signs of spring  
 > _The swallows are back. What else says it is spring?_  
@@ -593,7 +605,6 @@ _The sunshine does not believe it. Neither do the swallows._
 > - Snow and ice → Snow and ice come in winter. Spring has warm sun and flowers.
 > _For grown-ups: Named signs of spring: warm sun, flowers and returning birds._
 
-**Gerda**: I don’t believe it either.  
 
 **Choices**
 
@@ -607,7 +618,7 @@ _The sunshine does not believe it. Neither do the swallows._
 
 #### `sprout:a12-05-winter-done` · [main](main.md#a12-05-winter-done)
 
-**Gerda**: I’m going to give the river my red shoes.  
+**Gerda**: I’m going to give the river my two red shoes.  
 **Gerda**: Kay never saw them. They are my best thing.  
 
 > **Lesson** (maths, K.CC.B.4, ask): a pair is two  
@@ -829,11 +840,10 @@ _Gerda runs to the gate. It is rusty and stuck._
 _You push with her. Your Nubbin pushes too. Creeeak!_  
 _Outside, it is late autumn. Yellow leaves fall._  
 
-> **Lesson** (science, K-ESS2-1, ask): autumn leaves  
-> _Leaves turn yellow and fall. Which season is it?_  
-> - ✅ Autumn → Yes! Leaves fall in autumn.
-> - Spring → In spring, new leaves come out. Falling yellow leaves mean autumn.
-> _For grown-ups: Linked yellow falling leaves to autumn._
+> **Lesson** (maths, K.CC.A.1, do): count to three  
+> _(Count the yellow leaves as they fall: one, two, three!)_  
+> Check: `edu:count:leaves:3`
+> _For grown-ups: Counted three falling leaves._
 
 **Gerda**: How long was I there? It was always summer.  
 _Gerda’s feet are bare and sore. She keeps walking._  
@@ -914,7 +924,7 @@ _Gerda tells him everything. Has he seen Kay?_
 
 > **Lesson** (sel, CASEL: Self-management, ask): waiting patiently  
 > _The raven says “wait here”. What can you do while you wait?_  
-> - ✅ Wait calmly → Yes. Taking slow breaths helps us wait well.
+> - ✅ Wait calmly → Yes. Waiting calmly helps the plan work.
 > - Run in anyway → Running in could spoil the plan. Waiting calmly is better.
 > _For grown-ups: Talked about waiting calmly when asked._
 
@@ -1235,12 +1245,12 @@ _Only the robber girl sleeps. She sleeps like someone who has won._
 
 **The Wood Pigeons**: Coo, coo. We have seen little Kay.  
 **Gerda**: What? What did you say?  
-**The Wood Pigeons**: A white hen pulled his sledge. He sat in the Snow Queen’s carriage.  
+**The Wood Pigeons**: A big white bird pulled his sledge. Like a hen, but flying!  
 **The Wood Pigeons**: She flew low over the forest and breathed on us. We were cold.  
 **Gerda**: Where was she going?  
 **The Wood Pigeons**: North, we think, where there is always snow. Ask the reindeer.  
 **Bae**: Snow and ice! It’s glorious. You can run free in great shining valleys.  
-**Bae**: The Snow Queen’s strong castle is far north, on an island called Spitsbergen.  
+**Bae**: The Snow Queen’s castle is far north, in the ice. Very far. Bring socks.  
 
 > **Lesson** (social-studies, D2.Geo.2.K-2, ask): north is up on a map  
 > _Bae says north. On most maps, which way is north? Up, or down?_  
@@ -1265,8 +1275,8 @@ _Nobody sleeps much after that, except the robber girl and one very old pigeon._
 
 > **Lesson** (sel, CASEL: Self-management, ask): what helps when you are worried at bedtime  
 > _Gerda can’t sleep. What helps when we are worried at bedtime?_  
-> - ✅ A cuddle and slow breaths → Yes. A cuddle and slow breaths help worries get smaller.
-> - Lying awake and worrying → That makes worries bigger. A cuddle and slow breaths help.
+> - ✅ A cuddle and a soft song → Yes. A cuddle and a soft song help worries get smaller.
+> - Lying awake and worrying → That makes worries bigger. A cuddle and a soft song help.
 > _For grown-ups: Talked about calming down when worried at bedtime._
 
 
@@ -1274,7 +1284,7 @@ _Nobody sleeps much after that, except the robber girl and one very old pigeon._
 
 _In the morning Gerda tells the robber girl what the pigeons said._  
 **The Robber Girl**: The far north. Bae, do you know the way?  
-**Bae**: Do I know? I was born there. Ask a fish about the river!  
+**Bae**: Of course I know it! I was born there.  
 _His eyes shine. He shakes his big antlers._  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, notice): reindeer mums and dads both grow antlers  
@@ -1305,7 +1315,8 @@ _At noon the old robber woman has a nap, chin on chest._
 #### `sprout:a12-10-free` · [main](main.md#a12-10-free)
 
 _The robber girl goes to Bae. She does not look at you._  
-**The Robber Girl**: Don’t think this is for you. I was going to anyway.  
+**The Robber Girl**: I am helping Bae. I am not helping you.  
+_She sounds cross. But she is being kind._  
 **The Robber Girl**: Bae, I’m untying you. Carry this girl to the Snow Queen’s.  
 
 > **Lesson** (social-studies, D2.Civ.8.K-2, ask): fairness: letting someone go home  
@@ -1570,11 +1581,9 @@ _She takes Bae to a corner and puts fresh ice on his head._
 
 _Gerda, by the stove, hasn’t heard a word. She sleeps in the heat._  
 
-> **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): warm clothes for snow  
-> _It is snowing outside. What should Gerda wear: boots and mittens, or a swimsuit?_  
-> - ✅ Boots and mittens → Yes! Boots and mittens keep her warm in the snow.
-> - A swimsuit → Brrr! A swimsuit is for the beach. Boots and mittens for snow.
-> _For grown-ups: Chose warm clothes for snowy weather._
+> **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, notice): warm clothes for snow  
+> _It is snowing outside. Boots and mittens keep Gerda warm._  
+> _For grown-ups: Heard that warm clothes help in snowy weather._
 
 
 #### `sprout:a12-12-ask` · [main](main.md#a12-12-ask)
@@ -1588,8 +1597,8 @@ _She looks at you, as if checking you are the waiting sort._
 
 > **Lesson** (sel, CASEL: Self-management, ask): waiting well  
 > _The Finnish woman asks you to wait. What helps with waiting?_  
-> - ✅ Slow breaths and counting → Yes. Slow breaths and counting make waiting easier.
-> - Running about → Running about is hard to do while waiting. Slow breaths help.
+> - ✅ Counting quietly → Yes. Counting quietly makes waiting easier.
+> - Running about → Running about is hard to do while waiting. Counting helps.
 > _For grown-ups: Talked about ways to wait calmly._
 
 
@@ -1619,7 +1628,7 @@ _The Finnish woman lifts sleeping Gerda onto Bae. Off he runs!_
 **Gerda**: Oh! My boots! My mittens!  
 _Bae doesn’t dare stop. He runs through the hard cold._  
 
-> **Lesson** (science, 4-LS1-1, notice): reindeer hooves spread on snow  
+> **Lesson** (science, K-LS1-1, notice): reindeer hooves spread on snow  
 > _Reindeer have wide hooves. They spread out on the snow, like snowshoes._  
 > _For grown-ups: Heard that reindeer have wide hooves that help them walk on snow._
 
@@ -1856,6 +1865,7 @@ _She walks on, quickly and bravely._
 
 _Variant of `a12-14-prayer`._
 
+_You have a small cold stone from the Wellspring. You kept it._  
 _Gerda says her prayer. Her breath turns to smoke, then to bright figures._  
 _They clear the road. She walks on, quickly and bravely._  
 _Then some snowflakes turn, and run along the ground towards you._  
@@ -1913,7 +1923,7 @@ _Now there is nothing to watch but the walls._
 #### `sprout:a12-15-south` · [main](main.md#a12-15-south)
 
 _Your Nubbin breathes on the frozen crust. The frost clears like a window._  
-_The atlas shows you the next page: inside the palace, a little earlier._  
+_You see inside the palace, before Gerda gets there._  
 _The halls are drifted snow. Cold winds are the windows._  
 _Northern lights shine on them. They are huge and empty._  
 _The Snow Queen stands in the greatest hall, ready to go._  
@@ -1938,11 +1948,11 @@ _The Snow Queen stands in the greatest hall, ready to go._
 
 _In the great hall Kay is alone. He is the only thing that moves._  
 
-> **Lesson** (literacy, ELOF: Language and Communication, ask): opposites  
-> _The hall is empty. What is the opposite of empty?_  
-> - ✅ Full → Yes! Full is the opposite of empty.
-> - Cold → Cold is the opposite of hot. The opposite of empty is full.
-> _For grown-ups: Found the opposite of the word empty._
+> **Lesson** (maths, K.MD.A.2, ask): compare sizes  
+> _Kay is small in a huge hall. Is the hall bigger than Kay?_  
+> - ✅ Bigger → Yes! The hall is much bigger than Kay.
+> - Smaller → Look how tiny Kay is. The hall is much bigger.
+> _For grown-ups: Compared the size of a hall and a boy._
 
 
 #### `sprout:a12-15-puzzle` · [main](main.md#a12-15-puzzle)
@@ -2012,14 +2022,12 @@ _Kay sits quite still. He is stiff and cold. He doesn’t know her._
 _Gerda cries, the way you cry at the end of a very long way._  
 _Her warm tears fall on his chest and reach his heart._  
 _They thaw the ice. The little splinter melts, as if it never was._  
-
-> **Lesson** (science, 2-PS1-4, ask): warm things melt ice  
-> _Gerda’s tears are warm. What does warm do to ice?_  
-> - ✅ It melts it → Yes! Warm melts ice. Her warm tears melt the cold.
-> - It makes it bigger → Warm things make ice melt away, not grow. Drip, drip!
-> _For grown-ups: Learned that something warm melts ice._
-
 _Kay looks at her._  
+
+> **Lesson** (sel, CASEL: Self-management, notice): not giving up  
+> _Gerda walked a very long way. She did not give up._  
+> _For grown-ups: Talked about how Gerda kept going until she found Kay._
+
 
 **Choices**
 
@@ -2036,6 +2044,12 @@ _Gerda sings the rose hymn. You know the tune, and hum along._
 > _(Hum a slow tune and clap a steady beat together.)_  
 > Check: `edu:clap:beat:slow`
 > _For grown-ups: Clapped a steady beat to a hummed tune._
+
+
+> **Lesson** (science, 2-PS1-4, notice): warm things melt ice  
+> _Gerda’s tears are warm. Warm melts ice._  
+> _That is how her tears melt the cold in Kay._  
+> _For grown-ups: Learned that something warm melts ice._
 
 
 #### `sprout:a12-16-tears` · [main](main.md#a12-16-tears)
@@ -2372,6 +2386,7 @@ _Another stands on the lantern shed across the way. Between them is a plank._
 
 _Variant of `a12-18-complete`._
 
+_You have a small cold stone from the Wellspring. You kept it._  
 **Grandmother**: Lodger. Why is your hand always on your pocket?  
 _You look down, and it is. You hadn’t noticed._  
 **Grandmother**: Kay held his burning-glass tight, all last winter. I would not see that again.  

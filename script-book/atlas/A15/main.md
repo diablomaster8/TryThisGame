@@ -1042,7 +1042,7 @@ Hint: Stand by the door with the others and watch the light under it. · check: 
 
 #### <a id="a15-10-fire"></a>Scene `a15-10-fire`
 
-_On the third day the Lion goes in. The door shuts behind him with a click._  
+_On the fourth day the Lion goes in, last, which he says is out of politeness. The door shuts behind him with a click._  
 _You wait outside with the others. Under the door there is a line of light, and it is getting brighter, and redder._  
 _Then the heat comes, so strong that the Woodman takes a step back and the Scarecrow takes three._  
 **The Scarecrow** _(shock)_: Mind the door. Mind the door, please. I am very dry.  
@@ -1113,7 +1113,8 @@ _Far away in her castle, the Witch stamps her foot._
 
 #### <a id="a15-11-waves-done"></a>Done `a15-11-waves-done`
 
-_In the Witch’s cupboard is a Golden Cap with a ring of diamonds round it. Whoever owns it may call the Winged Monkeys three times._  
+_In the Witch’s cupboard is a Golden Cap with a ring of diamonds round it._  
+_The Cap comes with a bargain: whoever owns it may call the Winged Monkeys three times. Nobody asked the Monkeys._  
 _She has used it twice already. She puts it on, stands on one foot and then the other, and says the words._  
 
 ### Step 2: Hold on to Dorothy when the Winged Monkeys come.
@@ -1182,7 +1183,10 @@ _Tonight it is your turn to carry it. Your Nubbin follows you out across the dar
 _Days go by. The Witch watches the silver shoes all the time with her one eye, and wants them more than anything._  
 _Dorothy only takes them off at night, and for her bath._  
 _The Witch is afraid of the dark, and more afraid of water, so she never comes near either._  
-_You sweep the floor round the bucket by the kitchen door. Nobody ever empties it._  
+**The Wicked Witch of the West** _(angry)_: I have commanded wolves, crows, bees and Monkeys. I cannot get one girl to sweep behind the door.  
+_You sweep round the bucket by the kitchen door instead. It is full to the brim._  
+**The Wicked Witch of the West** _(angry)_: And somebody empty that bucket!  
+_Nobody does. Your Nubbin looks at it every day, and decides it is not its job._  
 
 **Rewards**
 
@@ -1249,6 +1253,7 @@ _She melts quickly and quietly, like sugar in hot tea. In a moment there is only
 
 #### <a id="a15-12-bucket-done"></a>Done `a15-12-bucket-done`
 
+_Your Nubbin looks at the empty bucket, then at you. It is very glad it never emptied it._  
 _Dorothy picks the silver shoe out of the puddle, dries it, and puts it back on._  
 _Then she pours a fresh bucket over the puddle and sweeps it all out of the door._  
 **Dorothy**: She’s gone. She’s really gone. Now the Lion can come in.  
@@ -1454,8 +1459,8 @@ _The Woodman raises his axe and rushes at the little man._
 
 **Oz** _(sad)_: I’m not a wicked man, my dear. Truly I’m not. I’m only a very poor Wizard. There’s a difference, though I grant it’s small.  
 **Oz** _(sad)_: And I was frightened of the Witches. All of them, all along. That’s why the walls are so high.  
-_Somebody in the valley promises things like this._  
-_Safe, he says. As if it came in a bottle._  
+_Somebody back home sells safety too._  
+_You hope he never meets this little man. They would get on far too well._  
 
 #### <a id="a15-14-screen-done-reconciled"></a>Variant `a15-14-screen-done-reconciled`
 
@@ -1499,13 +1504,13 @@ _He looks very old and very small, like someone who has been holding his breath 
 
 **Choices**
 
-- **Promise to keep his secret.**
+- **Promise to keep his secret.** — sets `{"a15-secret":"promised"}`
     - **Oz**: Thank you. Thank you. You don’t know what that is, to someone like me.
     - He shakes your hand. His hand is warm and damp, the hand of a frightened man.
-- **Tell him it isn’t yours to keep. It’s theirs.**
+- **Tell him it isn’t yours to keep. It’s theirs.** — sets `{"a15-secret":"theirs"}`
     - **Oz**: Theirs. Yes. I suppose it is. I suppose it always was.
     - He doesn’t argue. He looks almost relieved, the way people do when the worst has been said out loud.
-- **Say nothing, and look at the screen.**
+- **Say nothing, and look at the screen.** — sets `{"a15-secret":"quiet"}`
     - You look at the screen on the floor, and so does he. Neither of you says anything for quite a long time.
 
 #### <a id="a15-14-secret-done"></a>Done `a15-14-secret-done`
@@ -1529,7 +1534,7 @@ _Going out, you stand the screen back up in its corner. It seems kinder, somehow
 
 Sets on completion: `{"a15-14":true}`
 
-**Notes:** CORVIN READ (Grove flag `corvin`, read-only, at the moment a15-14-screen-done plays). The scene shown is the DEFAULT: `corvin` unset (chapter 9 not reached) or any value other than the three below (the Collector route). For reconciled play ATLAS_A15_VARIANTS a15-14-screen-done-reconciled; for bargained, a15-14-screen-done-bargained; for forced, a15-14-screen-done-forced. Each keeps the Wizard’s two lines and changes only the two narrator lines after them (the outline’s words, split at a sentence break). Hold a beat (one second, no music) before the narrator lines. LIFTED TEXT: none here; passages 3 and 4 are told in our own words (A14_POOR_WIZARD#0, a15-14-screen#11–12). The secret choice sets no flag; it is the player’s own. The screen is a plain folding screen. The Wizard is a little bald man in an ordinary coat (Denslow); NO film curtain, no booth of levers.
+**Notes:** CORVIN READ (Grove flag `corvin`, read-only, at the moment a15-14-screen-done plays). The scene shown is the DEFAULT: `corvin` unset (chapter 9 not reached) or any value other than the three below (the Collector route). For reconciled play ATLAS_A15_VARIANTS a15-14-screen-done-reconciled; for bargained, a15-14-screen-done-bargained; for forced, a15-14-screen-done-forced. Each keeps the Wizard’s two lines and changes only the two narrator lines after them (the outline’s words, split at a sentence break). Hold a beat (one second, no music) before the narrator lines. LIFTED TEXT: none here; passages 3 and 4 are told in our own words (A14_POOR_WIZARD#0, a15-14-screen#11–12). SECRET CHOICE (a15-14-secret): a15-secret = promised (keep) | theirs | quiet. It pays off twice: a small beat in a15-16-complete (ATLAS_A15_VARIANTS a15-16-complete-promised / -theirs) and the real one six quests on, in the Scarecrow’s first law at a15-20-goodbye (a15-20-goodbye-promised / -theirs). quiet plays the default scenes. The keep value is "promised", not "keep", because the Grove flag finalChoice can be keep and variants answer Grove values too. The screen is a plain folding screen. The Wizard is a little bald man in an ordinary coat (Denslow); NO film curtain, no booth of levers.
 
 ## A15-15. The Magic Art
 
@@ -1751,6 +1756,33 @@ _When he comes to your Nubbin, he stops, and looks at it, and looks at you._
 _Without the spectacles, the City is plain stone and glass, with a little green paint here and there._  
 _It is very pretty, and not very green at all._  
 _You put your pair in your pocket. Your Nubbin keeps its own on, and you let it._  
+_It now owns a paper troll, a green bottle, an olive leaf and spectacles. Your coat pocket is getting full._  
+
+#### <a id="a15-16-complete-promised"></a>Variant `a15-16-complete-promised`
+
+_Variant of `a15-16-complete`._
+
+_In the morning the Guardian of the Gates unlocks everybody’s spectacles at the gate and puts them back in his box._  
+_When he comes to your Nubbin, he stops, and looks at it, and looks at you._  
+**The Guardian of the Gates** _(think)_: Keep that pair. It has got used to them. Some do. Keep yours too, if you like, to remember us by.  
+_He winks at you, the wink of a man who has been told a secret too._  
+_Without the spectacles, the City is plain stone and glass, with a little green paint here and there._  
+_It is very pretty, and not very green at all._  
+_You put your pair in your pocket. Your Nubbin keeps its own on, and you let it._  
+_It now owns a paper troll, a green bottle, an olive leaf and spectacles. Your coat pocket is getting full._  
+
+#### <a id="a15-16-complete-theirs"></a>Variant `a15-16-complete-theirs`
+
+_Variant of `a15-16-complete`._
+
+_In the morning the Guardian of the Gates unlocks everybody’s spectacles at the gate and puts them back in his box._  
+_When he comes to your Nubbin, he stops, and looks at it, and looks at you._  
+**The Guardian of the Gates** _(think)_: Keep that pair. It has got used to them. Some do. Keep yours too, if you like, to remember us by.  
+**The Guardian of the Gates** _(happy)_: The Scarecrow says everyone may know the City is only paint. Nobody minded as much as I feared.  
+_Without the spectacles, the City is plain stone and glass, with a little green paint here and there._  
+_It is very pretty, and not very green at all._  
+_You put your pair in your pocket. Your Nubbin keeps its own on, and you let it._  
+_It now owns a paper troll, a green bottle, an olive leaf and spectacles. Your coat pocket is getting full._  
 
 **Rewards**
 
@@ -1884,6 +1916,9 @@ _When they see the Lion, they all go quiet. A great tiger comes up and bows._
 **The Cowardly Lion** _(think)_: What has happened here?  
 **The Tiger**: A monster. A spider bigger than an elephant, with legs like tree trunks, eight of them.  
 **The Tiger** _(sad)_: It creeps through the forest and catches us, one by one. None of us is safe. We were talking about what to do.  
+**The Tiger** _(think)_: We have held nine meetings about the spider. We agreed a seating plan. We have not agreed on the spider.  
+**The Cowardly Lion**: I’ll go.  
+_Nobody objects. That is how you know a meeting is over._  
 _Your Nubbin is pressed against the back of your legs again, the way it was on the road the day you met the Lion._  
 
 **Choices**
@@ -2021,6 +2056,17 @@ _The Quadlings are small and round and cheerful. They give Dorothy something to 
 **Dorothy**: Please, which way is Glinda’s castle?  
 _A Quadling points. Far down the road a castle is shining in the sun._  
 
+#### <a id="a15-19-complete-pocketed"></a>Variant `a15-19-complete-pocketed`
+
+_Variant of `a15-19-complete`._
+
+_The Monkeys set you down in the country of the Quadlings, and fly away. The King looks back once from the sky._  
+_Everything here is red: the fences, the houses, the bridges, the Quadlings’ clothes._  
+_The Quadlings are small and round and cheerful. They give Dorothy something to eat, and she thanks them._  
+**Dorothy**: Please, which way is Glinda’s castle?  
+_A Quadling points. Far down the road a castle is shining in the sun._  
+_Your Nubbin pats the pocket. The lump has gone very still, and the Nubbin pats it again, slower._  
+
 **Rewards**
 
 
@@ -2073,6 +2119,56 @@ Hint: Stand with your friends while Glinda tells each of them where he will go. 
 **Glinda** _(think)_: Now. The Golden Cap, and its three calls. Let me see.  
 **Glinda**: Scarecrow: the Monkeys will carry you back to the Emerald City, to rule. The people will be lucky in you.  
 **The Scarecrow** _(happy)_: Thank you. I have just thought of eleven new laws. I shall begin with those.  
+**Glinda**: Woodman: they will carry you to the land of the Winkies, who want you for their ruler.  
+**The Tin Woodman** _(soft)_: I shall rule them kindly. I have the heart for it now.  
+**Glinda**: Lion: they will carry you over the Hammer-Heads to your forest, to be King of the Beasts.  
+**The Cowardly Lion**: Thank you. I shouldn’t care to meet the Hammer-Heads again, even as a King.  
+**Glinda** _(soft)_: And then I shall give the Cap to the King of the Monkeys, so that he and his band are free for ever.  
+_Dorothy hugs each of them in turn, and cries, and kisses the Lion on his great nose._  
+
+**Choices**
+
+- **Oil the Woodman’s jaw. He is crying.**
+    - The Woodman is crying, of course. You oil his jaw one last time, while the Scarecrow holds his hat, as he did once before.
+    - **The Tin Woodman**: Keep the can. I mean it. You have been the best oil-can-carrier in all of Oz.
+- **Shake the Scarecrow’s hand.**
+    - **The Scarecrow**: If you ever need a thought, come to the Emerald City. I have plenty now. I can spare one.
+- **Rest your hand on the Lion’s mane.**
+    - **The Cowardly Lion**: Goodbye, Keeper. Goodbye, little one. You sat by me first. I shan’t forget it.
+
+#### <a id="a15-20-goodbye-promised"></a>Variant `a15-20-goodbye-promised`
+
+_Variant of `a15-20-goodbye`._
+
+**Glinda** _(think)_: Now. The Golden Cap, and its three calls. Let me see.  
+**Glinda**: Scarecrow: the Monkeys will carry you back to the Emerald City, to rule. The people will be lucky in you.  
+**The Scarecrow** _(happy)_: Thank you. I have just thought of eleven new laws. I shall begin with those.  
+**The Scarecrow** _(happy)_: Law one: nobody looks behind screens. It’s restful.  
+**Glinda**: Woodman: they will carry you to the land of the Winkies, who want you for their ruler.  
+**The Tin Woodman** _(soft)_: I shall rule them kindly. I have the heart for it now.  
+**Glinda**: Lion: they will carry you over the Hammer-Heads to your forest, to be King of the Beasts.  
+**The Cowardly Lion**: Thank you. I shouldn’t care to meet the Hammer-Heads again, even as a King.  
+**Glinda** _(soft)_: And then I shall give the Cap to the King of the Monkeys, so that he and his band are free for ever.  
+_Dorothy hugs each of them in turn, and cries, and kisses the Lion on his great nose._  
+
+**Choices**
+
+- **Oil the Woodman’s jaw. He is crying.**
+    - The Woodman is crying, of course. You oil his jaw one last time, while the Scarecrow holds his hat, as he did once before.
+    - **The Tin Woodman**: Keep the can. I mean it. You have been the best oil-can-carrier in all of Oz.
+- **Shake the Scarecrow’s hand.**
+    - **The Scarecrow**: If you ever need a thought, come to the Emerald City. I have plenty now. I can spare one.
+- **Rest your hand on the Lion’s mane.**
+    - **The Cowardly Lion**: Goodbye, Keeper. Goodbye, little one. You sat by me first. I shan’t forget it.
+
+#### <a id="a15-20-goodbye-theirs"></a>Variant `a15-20-goodbye-theirs`
+
+_Variant of `a15-20-goodbye`._
+
+**Glinda** _(think)_: Now. The Golden Cap, and its three calls. Let me see.  
+**Glinda**: Scarecrow: the Monkeys will carry you back to the Emerald City, to rule. The people will be lucky in you.  
+**The Scarecrow** _(happy)_: Thank you. I have just thought of eleven new laws. I shall begin with those.  
+**The Scarecrow** _(happy)_: Law one: no more locked spectacles. Law two: the screen stays up, but anyone may look behind it.  
 **Glinda**: Woodman: they will carry you to the land of the Winkies, who want you for their ruler.  
 **The Tin Woodman** _(soft)_: I shall rule them kindly. I have the heart for it now.  
 **Glinda**: Lion: they will carry you over the Hammer-Heads to your forest, to be King of the Beasts.  

@@ -36,6 +36,15 @@ default renderer is not changed; passes 1 and 2 are on `main`, deployed since 20
 accepted by Maor). Maor, 2026-10-21: daily refreshes and free daily gifts are allowed; only
 repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below).
 
+## Story review run 11 fixes (2026-10-24)
+
+- **Works:** all 59 run-11 recs fixed across A12–A15 mains and bands. A15's honesty choice now sets
+  `a15-secret = 'promised'` and pays off in four new variants (Oz's goodbye, the Scarecrow's laws), with
+  sprout and reader clones. A13 gains a Clank variant of the belly scene. The Nubbin's souvenirs run
+  as a gag from A12 to A15.
+- **Partial:** none.
+- **Known bugs:** none new. Two A14 reader `maths:` warnings stand (answers come from stated numbers).
+
 ## Story review run 10 fixes (2026-10-24)
 
 All 60 run-10 recs in `docs/story-review/LOG.md` fixed; no open recs remain.

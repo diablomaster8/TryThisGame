@@ -10,7 +10,7 @@
 
 _The atlas page is blue, with a little island on it._  
 _You step in. Now you are at a big gate, with your Nubbin._  
-_Inside, young men are eating and playing. Nobody comes to the gate._  
+_Inside, young men are eating and playing. No one comes to the gate._  
 _An old traveller with a spear waits beside you._  
 
 > **Lesson** (social-studies, D2.Geo.2.K-2, notice): an island is land with water all around it  
@@ -73,7 +73,7 @@ _She brings bread. She brings meat._
 #### `sprout:a14-01-hearth-done` · [main](main.md#a14-01-hearth-done)
 
 _Mentes walks across the yard._  
-_A bird flies up through the roof. Mentes is gone!_  
+_A bird flies up through the roof._  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): smoke and warm air go up  
 > _The bird flew up through a hole in the roof._  
@@ -82,7 +82,8 @@ _A bird flies up through the roof. Mentes is gone!_
 > - Down → Smoke floats up, not down. The warm air carries it up and out of the hole.
 > _For grown-ups: Learned that smoke and warm air rise._
 
-**Telemachus**: That was no ordinary traveller!  
+_Mentes was Athena, a goddess who helps Telemachus!_  
+**Telemachus**: Athena can look like anybody. Even a bird. Even a man with a beard.  
 
 #### `sprout:a14-01-stair` · [main](main.md#a14-01-stair)
 
@@ -239,10 +240,10 @@ _Now it is daytime again. You are back at the meeting._
 
 #### `sprout:a14-02-complete` · [main](main.md#a14-02-complete)
 
-_The meeting ends. Nobody helps Telemachus._  
+_The meeting ends. No one helps Telemachus._  
+_Old Mentor, Telemachus’s friend, comes close._  
 **Mentor**: I have a ship. Fill it with food. Tell no one.  
 **Eurycleia**: Take care, my dear. Come home safe.  
-_At nightfall the ship sails out of the harbour._  
 
 > **Lesson** (literacy, RF.K.2, ask): rhyming words  
 > _Sail rhymes with a word. Which one: tail or tree?_  
@@ -250,6 +251,7 @@ _At nightfall the ship sails out of the harbour._
 > - Tree → Tree ends in ee. Sail ends in ail, just like tail.
 > _For grown-ups: Found a rhyme for sail (tail)._
 
+_At nightfall the ship sails out of the harbour._  
 _The wind blows from behind. It fills the sail._  
 
 ## A14-3. Nestor and Menelaus
@@ -288,8 +290,8 @@ _Nestor is very, very old. He is kind._
 
 _After the feast, Mentor turns into a big sea-eagle._  
 _He flies away over the water._  
-**Nestor**: That was Athena. She is looking after you.  
-_The people on the beach are praying quietly._  
+**Nestor**: That was Athena again! She is looking after you.  
+_Your Nubbin checks every bird in the sky for a beard._  
 
 > **Lesson** (social-studies, D2.Civ.8.K-2, ask): be quiet and kind when others are praying  
 > _The people are praying on the beach. What should a good guest do?_  
@@ -297,6 +299,7 @@ _The people on the beach are praying quietly._
 > - Shout and run about → Shouting would spoil it for them. A good guest stays quiet and kind.
 > _For grown-ups: Learned to be quiet and respectful when others are praying._
 
+_The people on the beach are praying quietly._  
 _You stand back and keep quiet._  
 
 #### `sprout:a14-03-sparta` · [main](main.md#a14-03-sparta)
@@ -372,7 +375,7 @@ _At last he is an old man again, and he answers._
 
 #### `sprout:a14-03-complete` · [main](main.md#a14-03-complete)
 
-_You ride back to the ship._  
+_Two more days in the chariot, and you ride back to the ship._  
 _Helen waves from the gate until you are far away._  
 
 > **Lesson** (maths, K.OA.A.2, ask): add two and two  
@@ -486,11 +489,11 @@ _He works four days. Now there is a raft with a sail._
 **Choices**
 
 - **Say, “No. Home.”**
-    - **Odysseus**: Home. Yes. That word says it all.
+    - **Odysseus**: Home. Yes! Home is where I want to be.
 - **Say, “I do not know.”**
     - **Odysseus**: That is an honest answer.
 - **Say, “Not if nothing ever happens.”**
-    - **Odysseus**: Yes! Safe is not the same as happy.
+    - **Odysseus**: A safe cave is nice. But I want to be happy, with my family.
 
 #### `sprout:a14-04-raft-done` · [main](main.md#a14-04-raft-done)
 
@@ -871,7 +874,7 @@ _You go inside his story. Your Nubbin holds your tunic._
 #### `sprout:a14-08-cave` · [main](main.md#a14-08-cave)
 
 _A cave high above the sea. It is full of cheeses._  
-_There are lambs in pens. Nobody is home._  
+_There are lambs in pens. No one is home._  
 _A giant with one eye comes home._  
 _He rolls a big stone across the door._  
 **Polyphemus**: Who are you? Why are you in my cave?  
@@ -1006,7 +1009,7 @@ _Another rock goes splash! The waves push you out to sea._
 
 #### `sprout:a14-08-complete` · [main](main.md#a14-08-complete)
 
-_They row on. Nobody speaks for a long time._  
+_They row on. No one speaks for a long time._  
 _That evening, Odysseus carves a word on a small board._  
 **Odysseus**: Here, for the little one. It was so brave.  
 _The word is Nobody._  
@@ -1114,7 +1117,7 @@ _The winds blow you back to the floating island._
 > _For grown-ups: Talked about saying sorry and owning a mistake._
 
 **Aeolus**: No. I cannot help you now.  
-_Nobody offers you dinner. It is the first shut door._  
+_No one offers you dinner. It is the first shut door._  
 
 **Choices**
 
@@ -1135,7 +1138,7 @@ _Big grumpy giants chase them out of a harbour. Only one ship gets away._
 > - Soon → Soon is about time. The opposite of close, near, is far.
 > _For grown-ups: Learned that close and far are opposite words._
 
-**Odysseus**: Close is harder than far.  
+**Odysseus**: It hurts more to be close, and not get home.  
 
 ## A14-10. Circe
 
@@ -1170,7 +1173,7 @@ _It has a dark root and a white flower._
 
 _The house is made of smooth stone._  
 _Wolves and lions come up, wagging their tails._  
-_Your Nubbin peeks out from behind your legs._  
+_Your Nubbin peeks out. A lion licks it from head to toe._  
 
 > **Lesson** (sel, ELOF: Social and Emotional Development, ask): name feelings: nervous and curious  
 > _Your Nubbin hides, and peeks out. How does it feel?_  
@@ -1178,6 +1181,7 @@ _Your Nubbin peeks out from behind your legs._
 > - Sleepy → Sleepy ones do not peek. Your Nubbin feels nervous and curious.
 > _For grown-ups: Named mixed feelings (nervous and curious) from a character’s actions._
 
+_It comes out shiny, and very surprised._  
 
 #### `sprout:a14-10-sty` · [main](main.md#a14-10-sty)
 
@@ -1413,11 +1417,11 @@ _The sailors tie Odysseus to the mast._
 
 _Your Nubbin keeps touching its ears, in case they have gone._  
 
-> **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): protect your ears from very loud sounds  
-> _Very loud noise can hurt our ears. What can we do?_  
-> - ✅ Cover our ears, or go away from it → Yes. Covering your ears protects them.
-> - Make it louder → Louder would hurt more. Cover your ears and move away.
-> _For grown-ups: Learned to protect ears from very loud noise._
+> **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): wax and covered ears keep sound out  
+> _Wax is in the sailors’ ears. Is the world quiet or loud for them?_  
+> - ✅ Quiet → Yes. Wax blocks sound. Covering your ears also keeps loud noise away.
+> - Loud → Wax makes it quieter, not louder. Covering ears protects them from noise.
+> _For grown-ups: Learned that covering your ears keeps sound out._
 
 
 #### `sprout:a14-12-sirens` · [main](main.md#a14-12-sirens)
@@ -1430,7 +1434,7 @@ _His friends keep rowing, all together._
 > **Lesson** (sel, ELOF: Social and Emotional Development, ask): working together  
 > _The sailors row all together. Why is it good to work together?_  
 > - ✅ We can do big things as a team → Yes. Together, the sailors get past safely.
-> - It is not good → Teams can do things nobody can do alone.
+> - It is not good → Teams can do things no one can do alone.
 > _For grown-ups: Talked about how teamwork helps people get big jobs done._
 
 _They tie the rope tighter, just as he asked._  
@@ -1529,7 +1533,7 @@ _The sailors are very hungry._
     - He is asleep in a hollow. You shake him awake.
 - **Stay and talk to the crew.**
     - **Eurylochus**: We are too hungry!
-    - Nobody listens.
+    - No one listens.
 - **Stand with the cows.**
     - The men walk round you, politely.
 
@@ -1544,44 +1548,53 @@ _Odysseus comes back. The hungry sailors have eaten some of the cows!_
 > _For grown-ups: Learned that it is light in the day and dark at night._
 
 _He cries out. Far above, the Sun is sad too._  
+_The Sun goes down, and the sky turns dark. The stars come out._  
 
 #### `sprout:a14-13-fig` · [main](main.md#a14-13-fig)
 
 _Six days the sailors eat. Then they sail._  
 _A black cloud comes, and a big storm hits the ship._  
 _The ship breaks apart, and the sailors die._  
-_That is very sad. Odysseus is shaking, so you hold on to him._  
+_That is very sad. It is all right to feel sad._  
+_Odysseus is shaking, so you hold on to him._  
 _You cling to the mast. All night the wind carries you back._  
 _At dawn you are at the swirl again._  
 _Odysseus grabs a fig tree and hangs on. You hold his hand._  
 _You can only hang on, and wait._  
 
-> **Lesson** (maths, K.CC.A.1, do): count aloud to ten  
-> _Count while you hang on, to make the time go faster._  
-> _(Count to ten together, nice and slow.)_  
-> Check: `edu:count:aloud:10`
-> _For grown-ups: Counted aloud to ten._
+> **Lesson** (sel, ELOF: Social and Emotional Development, notice): it is all right to feel sad, and to hold on to someone  
+> _It is all right to feel sad. It helps to hold on to someone._  
+> _You held on to Odysseus, and he held on to you._  
+> _For grown-ups: Heard that it is all right to feel sad, and that holding on to someone helps._
 
 
 **Choices**
 
 - **Hang on.**
     - Your arms are tired. Odysseus talks about goats, so you do not let go.
-- **Count, to make it go faster.**
+- **Count, to help the time pass.**
     - You count and count. Odysseus counts with you.
 - **Look at Odysseus.**
     - He is calm. You decide to believe him.
 
 #### `sprout:a14-13-fig-done` · [main](main.md#a14-13-fig-done)
 
-_When evening comes, the wood comes back up._  
+_You hold on, and you count together. It helps a little._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): before clocks, people told time by the Sun  
-> _Long ago, people told time by the Sun._  
-> _When the Sun is high up, is it noon or night?_  
-> - ✅ Noon → Yes. When the Sun is high, it is the middle of the day.
-> - Night → At night, the Sun is gone. High in the sky means noon.
-> _For grown-ups: Learned that long ago people told time by where the Sun was in the sky._
+> **Lesson** (maths, K.CC.A.1, do): count aloud to ten  
+> _Count to ten together, nice and slow._  
+> _(Count to ten, as you hold on.)_  
+> Check: `edu:count:aloud:10`
+> _For grown-ups: Counted aloud to ten._
+
+_The swirl spits the mast out. Up it pops, because wood floats!_  
+
+> **Lesson** (science, ELOF: Scientific Reasoning, ask): wood floats on water  
+> _The mast came up out of the swirl._  
+> _Does wood float or sink in water?_  
+> - ✅ It floats → Yes. Wood floats, so the mast pops up. Your plank floated too.
+> - It sinks → A stone sinks. Wood floats, and that is why the mast came back up.
+> _For grown-ups: Learned that wood floats on water._
 
 _Odysseus drops onto the wood, and you follow._  
 _He paddles away with his hands._  
@@ -1598,7 +1611,7 @@ _The page turns back. You are in the hall again._
 > _For grown-ups: Told who the storyteller is in a story told inside a story._
 
 **Odysseus**: That is my story. I do not like to tell it twice.  
-_Nobody speaks for a long time._  
+_No one speaks for a long time._  
 **Alcinous**: Tomorrow you go home, with gifts from all of us.  
 
 ## A14-14. Home Asleep
@@ -1657,13 +1670,17 @@ _A young shepherd comes along._
 > Check: `edu:clap:syllables:ithaca`
 > _For grown-ups: Clapped the three syllables in the word Ithaca._
 
-_Odysseus is so happy. But he tells the shepherd a made-up story._  
+_Odysseus is so happy._  
+_He tells the shepherd a pretend story, to stay safe for now._  
 _The shepherd smiles, and turns into Athena._  
+**Athena**: A pretend story to stay safe. Only this once.  
+_Odysseus tries to look honest. It is not his best face._  
 **Athena**: You cannot help being clever, Odysseus. Look! Your harbour, your tree, your hill.  
 _Odysseus kneels and kisses the ground._  
 **Athena**: Bad guests are in your house. Keep who you are secret, for now.  
 _She touches him with her wand. He is an old beggar!_  
-**The Beggar**: Well. Nobody will know me now.  
+**The Beggar**: Well. No one will know me now. Not even Nobody!  
+_Your Nubbin giggles. It remembers the giant._  
 **The Beggar**: You told me once to keep my name. I am keeping it now.  
 
 #### `sprout:a14-14-harbour-shout` · [main](main.md#a14-14-harbour-shout)
@@ -1681,13 +1698,17 @@ _A young shepherd comes along._
 > Check: `edu:clap:syllables:ithaca`
 > _For grown-ups: Clapped the three syllables in the word Ithaca._
 
-_Odysseus is so happy. But he tells the shepherd a made-up story._  
+_Odysseus is so happy._  
+_He tells the shepherd a pretend story, to stay safe for now._  
 _The shepherd smiles, and turns into Athena._  
+**Athena**: A pretend story to stay safe. Only this once.  
+_Odysseus tries to look honest. It is not his best face._  
 **Athena**: You cannot help being clever, Odysseus. Look! Your harbour, your tree, your hill.  
 _Odysseus kneels and kisses the ground._  
 **Athena**: Bad guests are in your house. Keep who you are secret, for now.  
 _She touches him with her wand. He is an old beggar!_  
-**The Beggar**: Well. Nobody will know me now.  
+**The Beggar**: Well. No one will know me now. Not even Nobody!  
+_Your Nubbin giggles. It remembers the giant._  
 **The Beggar**: And you. Not a word this time, not even a little one.  
 
 #### `sprout:a14-14-harbour-silence` · [main](main.md#a14-14-harbour-silence)
@@ -1705,13 +1726,17 @@ _A young shepherd comes along._
 > Check: `edu:clap:syllables:ithaca`
 > _For grown-ups: Clapped the three syllables in the word Ithaca._
 
-_Odysseus is so happy. But he tells the shepherd a made-up story._  
+_Odysseus is so happy._  
+_He tells the shepherd a pretend story, to stay safe for now._  
 _The shepherd smiles, and turns into Athena._  
+**Athena**: A pretend story to stay safe. Only this once.  
+_Odysseus tries to look honest. It is not his best face._  
 **Athena**: You cannot help being clever, Odysseus. Look! Your harbour, your tree, your hill.  
 _Odysseus kneels and kisses the ground._  
 **Athena**: Bad guests are in your house. Keep who you are secret, for now.  
 _She touches him with her wand. He is an old beggar!_  
-**The Beggar**: Well. Nobody will know me now.  
+**The Beggar**: Well. No one will know me now. Not even Nobody!  
+_Your Nubbin giggles. It remembers the giant._  
 **The Beggar**: You will not say a word. You never do. I am counting on it.  
 
 #### `sprout:a14-14-harbour-done` · [main](main.md#a14-14-harbour-done)
@@ -1864,7 +1889,7 @@ _You and your Nubbin sit on the wall, and let them be._
 
 #### `sprout:a14-15-complete` · [main](main.md#a14-15-complete)
 
-**Odysseus**: Tell nobody yet.  
+**Odysseus**: Tell no one yet.  
 **Telemachus**: There are lots of bad guests, and only two of us.  
 **Odysseus**: Two, and the guest. That makes three.  
 
@@ -1913,7 +1938,7 @@ _You hear a lyre, and smell meat cooking._
 #### `sprout:a14-16-gate` · [main](main.md#a14-16-gate)
 
 _Outside the gate is a heap, and on it lies an old dog._  
-_He is thin, and nobody looks after him now._  
+_He is thin, and no one looks after him now._  
 **Eumaeus**: That is Argos. He was the best hunting dog.  
 _The old dog lifts his head. His nose twitches._  
 _He knows! After twenty years, he knows his master._  
@@ -1926,8 +1951,8 @@ _His ears go flat and his tail wags. He cannot get up._
 > _For grown-ups: Read a dog’s body language: a wagging tail shows he is glad._
 
 _The beggar cannot go to him, or everyone will know._  
-_The beggar whispers one word, so only the dog hears._  
-**The Beggar**: Nobody.  
+_The beggar whispers his giant-trick name, so only the dog hears._  
+**The Beggar**: Nobody. It is me, old friend.  
 **Eumaeus**: Come on, old man.  
 _They go in through the gate. He does not look back._  
 
@@ -1936,7 +1961,7 @@ _They go in through the gate. He does not look back._
 _Variant of `a14-16-gate`._
 
 _Outside the gate is a heap, and on it lies an old dog._  
-_He is thin, and nobody looks after him now._  
+_He is thin, and no one looks after him now._  
 **Eumaeus**: That is Argos. He was the best hunting dog.  
 _The old dog lifts his head. His nose twitches._  
 _He knows! After twenty years, he knows his master._  
@@ -1958,7 +1983,7 @@ _They go in through the gate. He does not look back._
 _Variant of `a14-16-gate`._
 
 _Outside the gate is a heap, and on it lies an old dog._  
-_He is thin, and nobody looks after him now._  
+_He is thin, and no one looks after him now._  
 **Eumaeus**: That is Argos. He was the best hunting dog.  
 _The old dog lifts his head. His nose twitches._  
 _He knows! After twenty years, he knows his master._  
@@ -2136,7 +2161,7 @@ _The scar is from when he was a boy._
 _She drops his foot, and splash! The water spills._  
 **Eurycleia**: You are Odysseus! I know you!  
 _The beggar gently holds her hand._  
-**The Beggar**: Shh. Nobody must know yet.  
+**The Beggar**: Shh. No one must know yet.  
 
 **Choices**
 
@@ -2153,9 +2178,10 @@ _The beggar gently holds her hand._
 **The Beggar**: Thank you, nurse.  
 
 > **Lesson** (sel, ELOF: Social and Emotional Development, ask): a secret that worries you should be told to a grown-up  
-> _A surprise secret can be fun. What if a secret makes you feel worried?_  
-> - ✅ Tell a trusted grown-up → Yes. A worrying secret should always be shared with a grown-up you trust.
-> - Keep it to yourself → A worried feeling is too big to carry alone. Tell a trusted grown-up.
+> _Eurycleia keeps a happy secret: Odysseus is home!_  
+> _Which is a kind secret: a birthday surprise, or hiding that you are hurt?_  
+> - ✅ A birthday surprise → Yes. Happy secrets can wait. If a secret makes you worried, you tell a grown-up you trust.
+> - Hiding that you are hurt → That one you always tell. A grown-up can help.
 > _For grown-ups: Learned to tell a trusted grown-up about a secret that makes you worried._
 
 
@@ -2220,6 +2246,8 @@ _Telemachus lines up the axes in a straight row._
 > _For grown-ups: Counted twelve axes in a row._
 
 _You carry them in, two at a time._  
+_Your Nubbin carries one axe, then sits down under it._  
+**Telemachus**: Leave it there. It is holding the floor down.  
 **Telemachus**: I will try first.  
 _He nearly does it. Then his dad shakes his head, so he stops._  
 
@@ -2367,7 +2395,7 @@ _The bad guests run away, whoosh! Over the wall and down the road._
 > Check: `edu:say:sound-words:whoosh`
 > _For grown-ups: Said a sound word (whoosh) and moved to it._
 
-_Odysseus lets them go. Nobody is hurt._  
+_Odysseus lets them go. No one is hurt._  
 _They do not come back._  
 
 #### `sprout:a14-19-aegis-done` · [main](main.md#a14-19-aegis-done)
@@ -2395,7 +2423,8 @@ _The hall is empty. The swallow is gone._
 > _For grown-ups: Learned that many birds fly far away to warm places in winter._
 
 **Telemachus**: They are gone. Really gone.  
-**Corvin Vale**: I did a wrong thing once, long ago. I opened a gate.  
+**Corvin Vale**: I did a wrong thing once, long ago. I said sorry.  
+**Corvin Vale**: I am still saying it.  
 **Corvin Vale**: Bad guests can learn to be good.  
 
 #### `sprout:a14-19-clean` · [main](main.md#a14-19-clean)
@@ -2430,7 +2459,7 @@ _The hall is clean. The fire burns bright._
 > **Lesson** (sel, ELOF: Social and Emotional Development, ask): helping together  
 > _Everyone helped tidy the hall. Why is it good to help together?_  
 > - ✅ The job gets done, and friends feel happy → Yes. Helping together makes a big job small.
-> - So nobody has to help → When everybody helps, the job is quicker and kinder.
+> - So no one has to help → When everybody helps, the job is quicker and kinder.
 > _For grown-ups: Talked about how helping together makes a big job small._
 
 _Eurycleia goes to wake Penelope._  
@@ -2498,7 +2527,7 @@ _His hair curls like hyacinth petals._
 **Odysseus**: Make me a bed out here. I will sleep alone.  
 **Penelope**: Move the bed out of our room.  
 _Odysseus goes pale._  
-**Odysseus**: Nobody could move that bed! I built it round a living olive tree.  
+**Odysseus**: No one could move that bed! I built it round a living olive tree.  
 
 > **Lesson** (science, K-LS1-1, ask): roots hold a tree in the ground  
 > _The bed is built round a living olive tree._  
@@ -2521,7 +2550,7 @@ _Variant of `a14-20-bed`._
 **Odysseus**: Make me a bed out here. I will sleep alone.  
 **Penelope**: Move the bed out of our room.  
 _Odysseus goes pale._  
-**Odysseus**: Nobody could move that bed! I built it round a living olive tree.  
+**Odysseus**: No one could move that bed! I built it round a living olive tree.  
 
 > **Lesson** (science, K-LS1-1, ask): roots hold a tree in the ground  
 > _The bed is built round a living olive tree._  
@@ -2544,7 +2573,7 @@ _Variant of `a14-20-bed`._
 **Odysseus**: Make me a bed out here. I will sleep alone.  
 **Penelope**: Move the bed out of our room.  
 _Odysseus goes pale._  
-**Odysseus**: Nobody could move that bed! I built it round a living olive tree.  
+**Odysseus**: No one could move that bed! I built it round a living olive tree.  
 
 > **Lesson** (science, K-LS1-1, ask): roots hold a tree in the ground  
 > _The bed is built round a living olive tree._  
@@ -2654,8 +2683,7 @@ Versions of the variants with no parent scene in this storyline.
 
 #### `sprout:a14-corvin-joins` · [main](main.md#a14-corvin-joins)
 
-_Corvin Vale is on the page beside you, in his good coat._  
-_He is out of breath._  
+_Corvin, the grumpy man from the lane by the Grove, is on the page._  
 
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): breathing speeds up when we hurry, and slows down when we rest  
 > _Corvin hurried to get here. When you run fast, what does your breathing do?_  
@@ -2663,6 +2691,7 @@ _He is out of breath._
 > - It stops → Breathing never stops. It goes fast when you run, and slow when you rest.
 > _For grown-ups: Learned that breathing goes faster when we run and slows down again when we rest._
 
+_He stands beside you, in his good coat. He is out of breath._  
 **Corvin Vale**: I saw the atlas open.  
 **Corvin Vale**: There is no gate on a page, so I could not knock.  
 **Corvin Vale**: I know a little about the long way home.  
@@ -2703,7 +2732,7 @@ _The lane is empty._
 > **Lesson** (literacy, ELOF: Language and Communication, ask): opposite words: busy and quiet  
 > _The lane is empty. Is it busy or quiet?_  
 > - ✅ Quiet → Yes. Quiet is the opposite of busy and noisy.
-> - Busy → Nobody is there, so it is not busy. It is quiet.
+> - Busy → No one is there, so it is not busy. It is quiet.
 > _For grown-ups: Used the words busy and quiet to describe a place._
 
 _You lift and push. It sticks, as always._  

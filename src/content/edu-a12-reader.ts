@@ -194,7 +194,7 @@ const Q01: EduQuest = quest(
         GR(
           'There you are. The lodger. You’ll want the room under the eaves, and the bed by the chimney.',
         ),
-        GR('Mind your head on the beam. Everybody hits it, the first week.'),
+        GR('The other bed has opinions. Mind your head on the beam; everybody hits it, the first week.'),
         N('Grandmother is small and quick, with her spectacles pushed up into white hair.'),
         N(
           'In the window across the gutter, two faces appear: a boy and a girl, both trying to see you at once.',
@@ -208,7 +208,7 @@ const Q01: EduQuest = quest(
           4,
           'social-studies',
           'where Denmark is',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'This town is in Denmark, a small country in northern Europe. It is one long peninsula and hundreds of islands.',
@@ -339,7 +339,7 @@ const Q01: EduQuest = quest(
           1,
           'social-studies',
           'who Hans Christian Andersen was',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'This story was written by Hans Christian Andersen, born in 1805 in Odense, a town in Denmark. It came out in 1844.',
@@ -521,7 +521,7 @@ const Q01: EduQuest = quest(
           '1-PS4-2',
           [
             N(
-              'The candle is out, so where did the glint come from? A little moonlight from the window, bouncing off glass.',
+              'Glass glints when it bounces light back to your eyes. Paper doesn’t. So what was Grandmother’s troll really cut from?',
             ),
           ],
           'Learned that a shiny thing glints because it bounces light back to our eyes.',
@@ -634,7 +634,7 @@ const Q02: EduQuest = quest(
       ],
       [
         ask(
-          3,
+          5,
           'science',
           'what plants need',
           '2-LS2-1',
@@ -963,21 +963,23 @@ const Q02: EduQuest = quest(
         ask(
           5,
           'science',
-          'the seasons in order',
-          'K-ESS2-1',
-          [N('The story began in late summer. Which season comes next, after this spring?')],
+          'why waiting makes time feel long',
+          'CASEL: Self-awareness',
+          [N('Gerda has watched a whole year turn, missing Kay. Why might her year feel longer than his?')],
           [
             opt(
-              'Summer',
-              [N('Yes. Summer, autumn, winter, spring, and round to summer again.', 'happy')],
+              'She spent it waiting and missing him',
+              [N('Yes. Time feels long when we miss someone. Kay has hardly noticed it pass.', 'soft')],
               true,
             ),
-            opt('Autumn', [N('Autumn comes after summer. After spring comes summer again.')]),
-            opt('Winter', [
-              N('Winter came before spring. Next it’s summer: the year goes round like a wheel.'),
+            opt('Her year has more days', [
+              N('Every year has the same days. It is how she feels about them that is different.'),
+            ]),
+            opt('Spring is a longer season', [
+              N('The seasons are about the same length. Missing someone is what stretches the time.'),
             ]),
           ],
-          'Put the four seasons in order.',
+          'Thought about why waiting and missing someone makes time feel long.',
         ),
       ],
     ),
@@ -1642,34 +1644,6 @@ const Q04: EduQuest = quest(
         ),
       ],
       [
-        ask(
-          7,
-          'literacy',
-          'similes',
-          'L.4.5',
-          [
-            N(
-              '“Like lamps going out down a street.” What does this simile show about Kay’s memories?',
-            ),
-          ],
-          [
-            opt(
-              'They go dark one by one',
-              [
-                N(
-                  'Yes. Not all at once: one, then the next, then the next, until the street is dark.',
-                ),
-              ],
-              true,
-            ),
-            opt('He is turning the lamps off', [
-              N(
-                'He isn’t doing it himself. His memories are fading, one by one, like lamps going out.',
-              ),
-            ]),
-          ],
-          'Explained a simile about memories fading.',
-        ),
         note(
           8,
           'sel',
@@ -1774,6 +1748,26 @@ const Q04: EduQuest = quest(
           ],
           'Thought about the difference between rumour and what someone actually saw.',
         ),
+        ask(
+          4,
+          'literacy',
+          'a character’s word choice',
+          'RL.3.3',
+          [
+            N(
+              'The town says Kay is lost. Gerda says he was taken. Why does her word matter?',
+            ),
+          ],
+          [
+            opt('“Taken” means someone did it, so he can be found', [
+              N('Yes. “Lost” means nobody is to blame. “Taken” means there is someone to follow.'),
+            ], true),
+            opt('They mean exactly the same thing', [
+              N('Not quite. “Lost” is an accident. “Taken” means someone chose it.'),
+            ]),
+          ],
+          'Thought about how one word changes what a character believes and does.',
+        ),
       ],
     ),
   ],
@@ -1827,7 +1821,7 @@ const Q05: EduQuest = quest(
           4,
           'science',
           'birds that migrate',
-          '3-LS2-1',
+          '3-LS4-4',
           [
             N(
               'Swallows migrate. Each autumn they fly thousands of kilometres south to Africa, where there are insects to eat, and come back in spring.',
@@ -1937,7 +1931,7 @@ const Q05: EduQuest = quest(
           5,
           'science',
           'how water moves near the bank',
-          '3-PS2-1',
+          '4-PS3-2',
           [N('Why do the shoes come straight back to the bank?')],
           [
             opt(
@@ -2095,7 +2089,7 @@ const Q05: EduQuest = quest(
           0,
           'science',
           'rivers flow downhill',
-          '2-ESS2-2',
+          '4-ESS2-1',
           [N('The boat drifts downstream all on its own. Which way does a river always flow?')],
           [
             opt(
@@ -3142,7 +3136,7 @@ const Q08: EduQuest = quest(
           2,
           'social-studies',
           'choices have costs',
-          'D2.Eco.1.K-2',
+          'D2.Eco.1.3-5',
           [
             N(
               'Freedom, or a safe job with food for life: you can’t have both. Which would you pick, if you were a raven?',
@@ -3203,7 +3197,7 @@ const Q08: EduQuest = quest(
           0,
           'social-studies',
           'coats of arms',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Long ago, noble families had a coat of arms: a special picture on a shield, so everyone knew whose coach or castle it was.',
@@ -3410,7 +3404,19 @@ const Q09: EduQuest = quest(
       ],
       [
         note(
-          6,
+          10,
+          'health',
+          'knives are for grown-ups',
+          'CASEL: Responsible decision-making',
+          [
+            N(
+              'In real life, knives are tools for grown-ups, never toys. If you find one, leave it and tell an adult.',
+            ),
+          ],
+          'Talked about leaving knives alone and telling an adult.',
+        ),
+        note(
+          7,
           'science',
           'reindeer antlers',
           '4-LS1-1',
@@ -3471,15 +3477,15 @@ const Q09: EduQuest = quest(
       [
         note(
           0,
-          'health',
-          'knives are for grown-ups',
-          'CASEL: Responsible decision-making',
+          'sel',
+          'telling a worry to a listener',
+          'CASEL: Relationship skills',
           [
             N(
-              'In real life, knives are tools for grown-ups, never toys. If you find one, leave it and tell an adult.',
+              'Gerda tells Kay’s story again to someone who listens. Sharing a worry with a listener can make it lighter.',
             ),
           ],
-          'Talked about leaving knives alone and telling an adult.',
+          'Talked about how sharing a worry with a listener can help.',
         ),
       ],
     ),
@@ -3596,7 +3602,7 @@ const Q09: EduQuest = quest(
       ],
       [
         ask(
-          2,
+          3,
           'maths',
           'multiplication as equal groups',
           '3.OA.A.1',
@@ -3799,7 +3805,7 @@ const Q10: EduQuest = quest(
           7,
           'social-studies',
           'the far north today',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'Lapland is the far north of Norway, Sweden and Finland, much of it inside the Arctic. Spitsbergen is a real island, part of Svalbard, which belongs to Norway.',
@@ -4098,7 +4104,7 @@ const Q11: EduQuest = quest(
           2,
           'social-studies',
           'the Sámi homeland, Sápmi',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'This woman is Sámi. The Sámi are the Indigenous people of the far north, and have lived here for thousands of years.',
@@ -4196,7 +4202,7 @@ const Q11: EduQuest = quest(
           3,
           'social-studies',
           'reindeer herding as a living job',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Reindeer herding is a real Sámi job, in the past and today. Herding families move with their reindeer between summer and winter grazing lands.',
@@ -4274,7 +4280,7 @@ const Q11: EduQuest = quest(
           0,
           'social-studies',
           'the Sámi languages',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'There are several Sámi languages, not just one. North Sámi is the one spoken most widely, and children can learn it at school today.',
@@ -5473,19 +5479,16 @@ const Q15: EduQuest = quest(
         N(
           'Then, at the far end of the hall, a small figure in stockings comes in through the gate of winds.',
         ),
+        N('Her bare steps ring, tiny, in the empty hall. Count them: one, two, three.'),
       ],
       [
         note(
-          0,
-          'health',
-          'dressing for the cold',
-          '',
-          [
-            N(
-              'Gerda has no boots or mittens, but in real life you’d want warm feet, hands and head in the snow. Most body heat escapes where skin is bare.',
-            ),
-          ],
-          'Learned to cover up hands, feet and head in cold weather.',
+          1,
+          'science',
+          'sound echoes in empty rooms',
+          '4-PS3-2',
+          [N('Sound echoes in big, empty rooms, because hard walls bounce it back.')],
+          'Heard that hard walls bounce sound back, making an echo.',
         ),
       ],
     ),
@@ -5579,42 +5582,16 @@ const Q16: EduQuest = quest(
       ],
       [
         note(
-          3,
-          'sel',
-          'crying is allowed',
-          'CASEL: Self-awareness',
+          6,
+          'literacy',
+          'what a character wants and does',
+          'RL.3.3',
           [
             N(
-              'Crying is one way big feelings come out. It’s allowed, for anyone, and it often helps.',
+              'Gerda walked a whole year to reach this hall. What she does shows how much she loves Kay.',
             ),
           ],
-          'Talked about crying as a healthy way to let big feelings out.',
-        ),
-        ask(
-          5,
-          'science',
-          'warmth melts ice',
-          '2-PS1-4',
-          [
-            N(
-              'Tears come out at about body temperature, 37 °C (98.6 °F). What happens when something that warm touches ice?',
-            ),
-          ],
-          [
-            opt(
-              'The ice melts',
-              [
-                N(
-                  'Yes. Warmth melts ice. In the story, Gerda’s warm tears melt the cold in Kay’s heart.',
-                ),
-              ],
-              true,
-            ),
-            opt('The tears freeze and nothing happens', [
-              N('In this story the warmth wins: warm things melt ice, and the ice turns to water.'),
-            ]),
-          ],
-          'Learned that warm things melt ice.',
+          'Noticed how a character’s actions show her feelings.',
         ),
       ],
       {
@@ -5654,6 +5631,30 @@ const Q16: EduQuest = quest(
             ),
           ],
           'Hummed a slow melody along with the story.',
+        ),
+        note(
+          0,
+          'science',
+          'warmth melts ice',
+          '2-PS1-4',
+          [
+            N(
+              'Tears come out at about 37 °C (98.6 °F), warm enough to melt ice. In the story they melt something harder than ice.',
+            ),
+          ],
+          'Learned that warm things melt ice.',
+        ),
+        note(
+          0,
+          'sel',
+          'crying is allowed',
+          'CASEL: Self-awareness',
+          [
+            N(
+              'Crying is one way big feelings come out. It’s allowed, for anyone, and it often helps.',
+            ),
+          ],
+          'Talked about crying as a healthy way to let big feelings out.',
         ),
       ],
     ),
@@ -5767,7 +5768,7 @@ const Q16: EduQuest = quest(
       ],
       [
         ask(
-          2,
+          5,
           'maths',
           'multiplication as equal groups',
           '3.OA.A.1',
@@ -6040,7 +6041,7 @@ const Q17: EduQuest = quest(
           3,
           'social-studies',
           'Sámi National Day',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Every year on 6 February, Sámi people in all four countries celebrate Sámi National Day, with the Sámi flag, songs and gatherings.',

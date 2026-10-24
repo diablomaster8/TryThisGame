@@ -11,7 +11,7 @@
 _Nova’s atlas opens on a page of blue: the sea, a scatter of islands, and one rough island with goats on it._  
 _The blue turns warm and salty under your fingers. Then you are standing at a courtyard gate with your Nubbin._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): find Greece and Ithaca on a map and say which way home lies from Troy  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): find Greece and Ithaca on a map and say which way home lies from Troy  
 > **Mentes**: This page shows Greece, in the south-east of Europe, with its ragged coast and hundreds of islands. Ithaca is one, out in the Ionian Sea.  
 > **Mentes**: Troy stood far to the east, across the sea, in what is now Turkey. Odysseus is trying to sail home from there to Ithaca.  
 > **Mentes**: Which way must he mostly sail?  
@@ -168,7 +168,7 @@ _You stand behind the seat with your Nubbin. The suitors sit in a row along the 
 **Telemachus**: Go home, all of you, and eat your own dinners. Aren’t you ashamed?  
 _He throws the speaker’s staff on the ground, and his eyes fill with tears. For a moment nobody says anything._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): a meeting needs a way to give people turns  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): a meeting needs a way to give people turns  
 > _At Ithaca’s meetings, only the person holding the speaker’s staff could talk. Why might a meeting need something like that?_  
 > - ✅ So everyone knows whose turn it is, and one person talks at a time. → Yes. Taking turns lets every voice be heard. Much later, in the city of Athens, citizens met in an assembly and used rules like this to make decisions together.
 > - So the speaker looks taller. → Nice idea, but no. It was for turns: whoever held the staff had the right to speak, and the others waited and listened.
@@ -339,7 +339,7 @@ _When the feast is over, Mentor rises, and is a sea-eagle, and is gone over the 
 **Nestor**: That was Athena, daughter of Zeus. She stood by your father at Troy. If she walks beside you, you won’t go far wrong.  
 _Nestor’s people honour her on the shore in the old way. You stand back with your Nubbin and keep quiet, as guests should._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): show respect at someone else’s ceremony  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): show respect at someone else’s ceremony  
 > _Nestor’s people are honouring Athena in their own way. You and your Nubbin stand back and keep quiet. Why is that good manners for a guest?_  
 > - ✅ It shows respect for what matters to other people. → Yes. You don’t have to share a belief to be respectful of it. For some people in Greece today, these old gods are still honoured, so a quiet guest is a kind guest.
 > - It means nobody will notice you. → That might be a side effect, but it isn’t the reason. Standing quietly says: this matters to you, so it matters to me to be careful.
@@ -429,7 +429,7 @@ _At last he is an old man again, and tired, and he answers._
 **Telemachus**: Alive. He’s alive. Then I have to go home, now, and tell her.  
 **Menelaus**: Stay eleven or twelve days! No? Then take a gift: a silver mixing-bowl with a rim of gold. A guest goes home with something.  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): follow a route on a map using compass directions  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): follow a route on a map using compass directions  
 > _Telemachus came by sea to Pylos, then by chariot east to Sparta. To get back to his ship at Pylos, which way must the chariot go?_  
 > - ✅ Roughly west → Yes. Sparta lies east of Pylos, so the way back is roughly west. Reverse a route and each direction flips to its opposite.
 > - Roughly east → East is the way they came. To go back the way they came, flip it to its opposite: west.
@@ -498,7 +498,7 @@ _She sets the food of the gods in front of him, ambrosia and red nectar. You are
 
 _Hermes goes away over the sea the way he came. Calypso puts down her shuttle and goes to find Odysseus._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): the old Greek gods each had a job, and some people honour them today  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): the old Greek gods each had a job, and some people honour them today  
 > _In the old Greek stories each god looked after part of the world: Hermes carried messages, Poseidon ruled the sea, and Athena was wise in crafts and strategy._  
 > _For some people in Greece today, these gods are still honoured, so we tell their stories with care._  
 > _For grown-ups: Learned that Greek gods in the old stories each had a role, and that some people still honour them._
@@ -863,7 +863,7 @@ _When he comes back up the bank he looks taller and younger, and the maids stare
 **Nausicaa**: If she likes you, you’ll get home. Don’t ask me why it works like that. It just does.  
 _Odysseus listens like a man taking notes. He has plainly been given directions before, and lost ships ignoring them._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): put directions in order: first, next, then  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): put directions in order: first, next, then  
 > _Nausicaa gave Odysseus four steps: walk behind the cart; wait in Athena’s grove; ask for the palace; go straight to the queen._  
 > _What does he do just before he asks anyone for the palace?_  
 > - ✅ Wait in Athena’s grove → Yes. The order matters: cart, grove, ask for the palace, then the queen. Giving directions in order, with “first”, “next” and “then”, makes them easy to follow.
@@ -895,7 +895,7 @@ _Odysseus thanks her. When he looks back, the lane is empty._
 > _This girl has grey eyes, walks very lightly, and vanishes. Earlier, Mentor also “walked too lightly for an old man”. Who do you think she is?_  
 > - ✅ Athena, in disguise again → Yes. Two clues that repeat, light steps and a sudden vanishing, point to Athena. A good reader keeps a list of clues like this.
 > - Just a girl from the town → She might be, but an ordinary girl doesn’t vanish from an empty lane. The repeated clues point somewhere else: Athena.
-> - Nausicaa’s maid → A maid would head home, not disappear. And Odysseus says she has been with him since Troy. That points to Athena.
+> - Nausicaa’s maid → A maid would head home, not disappear. Look at the clues: grey eyes, light steps, gone from an empty lane. Who else walked too lightly?
 > _For grown-ups: Used repeated clues (light steps, vanishing) to infer that the girl is Athena._
 
 **Odysseus**: She has been with me since Troy. And sometimes, for years, she hasn’t. I don’t ask why.  
@@ -950,7 +950,7 @@ _Next day there are games, and dancing, and a feast. The herald leads in the bar
 _They hang his lyre on a peg above his head, and guide his hand to it, so he can find it._  
 _He sings of Troy: of a quarrel between two great captains, and the long war. The Phaeacians love it; they have never been to a war._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): stories were sung and remembered before they were written  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): stories were sung and remembered before they were written  
 > _Homer’s great poems were first sung by bards like Demodocus, with no book at all. They were written down much later._  
 > _How could a bard remember such long poems?_  
 > - ✅ With a steady rhythm and phrases that come round again and again. → Yes. Beats, patterns and phrases that come round again act like handholds for the memory. People still use the same trick with songs and times tables.
@@ -1210,7 +1210,7 @@ _That evening Odysseus sits apart in the stern with his knife and a split piece 
 **Odysseus**: Here. For the little one. It got out under a lamb, which is more than its share of courage.  
 _It is a small board with one word cut into it: Nobody._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): the Greek alphabet gave us the word alphabet  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): the Greek alphabet gave us the word alphabet  
 > _Odysseus’s word would have been cut in Greek letters. The first two letters of the Greek alphabet are alpha and beta._  
 > _Which English word comes from them?_  
 > - ✅ alphabet → Yes. Alpha plus beta gives alphabet. The Greeks borrowed their letters from traders from the east, and the alphabet we use today grew from theirs.
@@ -1265,7 +1265,7 @@ _He stows it in the hold himself, so not a breath leaks out. Only the west wind 
 
 _The west wind fills the sail. Odysseus takes the steering oar, and won’t give it to anyone else._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): winds are named for where they come from, so a west wind blows towards the east  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): winds are named for where they come from, so a west wind blows towards the east  
 > _A west wind blows from the west, towards the east. Ithaca lies east of the floating island._  
 > _Why is a west wind just right for sailing home?_  
 > - ✅ It blows towards the east, the way they want to go. → Yes. Winds are named for where they come from, so a west wind pushes things east. Sailors have always used that to plan their routes.
@@ -1346,7 +1346,7 @@ _Nobody offers you dinner. It is the first door in this story that has been shut
 #### `reader:a14-09-complete` · [main](main.md#a14-09-complete)
 
 _No wind now: they row, day after day. The men don’t look at Odysseus, and he doesn’t look at them._  
-_After a harbour of giants that nobody will talk about, there is only one ship left of all the ships they had._  
+_Twelve ships sailed home from Troy. After a harbour of giants that nobody will talk about, there is one._  
 **Odysseus**: I was so close I could see the smoke from their fires.  
 
 > **Lesson** (maths, 3.OA.A.3, ask): multiply days by 24 hours  
@@ -1419,15 +1419,8 @@ _Odysseus goes in. You don’t, because Hermes gave you no moly, so you go round
 _There are the sties, and in them the pigs: bristly, grunting, with pigs’ snouts and pigs’ voices._  
 _But their minds are what they were, and you can see it in their eyes. They are crying._  
 _Circe has thrown them acorns, beech-mast and cornel berries, the food that pigs eat. Some of it lies in the mud, untouched._  
-
-> **Lesson** (science, 4-LS1-1, ask): a pig’s snout is made for finding food underground  
-> _Real pigs poke about in the ground with strong, flat snouts, finding acorns, roots and berries. How does a snout like that help a pig survive?_  
-> - ✅ It sniffs out and digs up food hidden in the ground. → Yes. A pig’s snout is a nose and a digging tool in one, which is why pigs are good at finding acorns in an oak wood.
-> - It lets the pig fly short distances. → Pigs can’t fly! The snout is for smelling and digging up food from the ground.
-> - It keeps the rain off. → Not at all. A pig’s snout is for finding and digging up food.
-> _For grown-ups: Learned that a pig’s snout is an adaptation for finding and digging up food._
-
 _Your Nubbin stands at the rail and looks at the biggest pig for a long time. The pig looks back._  
+_Neither of them blinks. It is not a contest, but your Nubbin is winning._  
 _These are the men who opened the bag of winds, and you remember that. You feed them anyway._  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): think about being kind to someone who has let you down  
@@ -1457,6 +1450,13 @@ _From inside the house comes a shout, and a cry, and then a woman’s voice: not
 > - Odysseus has been turned into a pig. → If so, you’d expect Circe to sound pleased, not surprised. The clue points to her spell failing.
 > - Circe has dropped her cup. → That could make a shout, but the clue is that she sounds very surprised. That fits her spell failing on Odysseus.
 > _For grown-ups: Predicted what happened offscreen from clues (a shout and a surprised voice)._
+
+
+> **Lesson** (science, 4-LS1-1, notice): a pig’s snout is made for finding food underground  
+> _While you wait, your Nubbin is still thinking about that pig._  
+> _Real pigs poke about in the ground with strong, flat snouts._  
+> _A snout is a nose and a digging tool in one, for finding acorns, roots and berries._  
+> _For grown-ups: Learned that a pig’s snout is an adaptation for finding and digging up food._
 
 
 #### `reader:a14-10-change` · [main](main.md#a14-10-change)
@@ -1543,7 +1543,7 @@ _The prophet Tiresias comes first, old and blind, with a gold staff. He knows Od
 **Tiresias**: Leave the Sun’s cattle alone, on the island where you find them. Harm them, and you’ll come home late, alone, on a stranger’s ship.  
 **Tiresias**: And you’ll find trouble in your house: proud men eating your bread and courting your wife.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): ancient Greeks imagined the dead as shadows, and people’s beliefs differ  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): ancient Greeks imagined the dead as shadows, and people’s beliefs differ  
 > _In the old Greek stories the dead became pale shadows in a dim place beneath the earth. That is how those storytellers imagined it._  
 > _People in different times and places have believed many different things about death, and every family’s beliefs deserve respect._  
 > _For grown-ups: Learned how ancient Greek storytellers imagined the dead, and that people hold many different beliefs about death._
@@ -1555,17 +1555,6 @@ _Then a woman comes up out of the dark, and Odysseus makes a sound you have neve
 **Odysseus**: Not yet. Tell me how you died. Was it a long illness? Tell me about my father, my son. And my wife: does she wait still?  
 **Anticlea**: She waits, and cries at night. Your son keeps the land. Your father lives out on the farm, sleeps on leaves in the vineyard, and grieves.  
 **Anticlea**: And I wasn’t ill. It was missing you, and wondering where you were, and remembering how kind you were to me. It wore me out.  
-
-> **Lesson** (sel, CASEL: Self-awareness, ask): missing someone is a big feeling and there are ways to cope  
-> _In the story, Anticlea says missing her son wore her out._  
-> _Missing someone is a very heavy feeling, but it is not what makes a body stop._  
-> _Bodies stop for other reasons, such as being very old or very ill._  
-> _What can help when you miss someone?_  
-> - ✅ Talking about them, looking at pictures, or telling their stories. → Yes. Sharing memories keeps a person close in your heart, and talking to someone who listens makes the heavy feeling lighter.
-> - Pretending you don’t miss them. → Pretending usually makes the feeling heavier. It’s all right to say “I miss them”, and it helps to say it to someone who cares.
-> - Staying away from everyone. → Being alone with a big feeling is hard. Being near people who love you, even quietly, helps it get smaller.
-> _For grown-ups: Learned that missing someone is a heavy but normal feeling, and ways to cope: talking, remembering, being with people._
-
 
 #### `reader:a14-11-shades-done` · [main](main.md#a14-11-shades-done)
 
@@ -1580,6 +1569,17 @@ _He reaches for her, and she goes through his arms like a shadow, or a dream. He
 > - To go on living and not stay stuck in sorrow. → That’s a fair answer. She wants him to go home to the living, not linger with the dead. Loving someone can mean wanting them to be well.
 > - To share the news so his wife isn’t left wondering. → That’s a fair answer. Telling the people who love you what happened is a kindness in itself.
 > _For grown-ups: Thought about what a mother asks of her son, and why remembering matters (a think question)._
+
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): missing someone is a big feeling and there are ways to cope  
+> _In the story, Anticlea says missing her son wore her out. Anticlea was old, and very sad._  
+> _In real life, bodies stop because they are very old or very ill._  
+> _Missing someone is heavy, and it is also how we know we love them._  
+> _What can help when you miss someone?_  
+> - ✅ Talking about them, looking at pictures, or telling their stories. → Yes. Sharing memories keeps a person close in your heart, and talking to someone who listens makes the heavy feeling lighter.
+> - Pretending you don’t miss them. → Pretending usually makes the feeling heavier. It’s all right to say “I miss them”, and it helps to say it to someone who cares.
+> - Staying away from everyone. → Being alone with a big feeling is hard. Being near people who love you, even quietly, helps it get smaller.
+> _For grown-ups: Learned that missing someone is a heavy but normal feeling, and ways to cope: talking, remembering, being with people._
 
 
 #### `reader:a14-11-after` · [main](main.md#a14-11-after)
@@ -1618,7 +1618,7 @@ _Odysseus stands at the stern and watches the edge of the world go grey behind h
 **Odysseus**: My father sleeps on leaves in the vineyard. In winter he sleeps by the fire, in the ashes, with the farmhands. An old king.  
 **Odysseus**: When I get home, I’ll go to him. Not first. But I’ll go.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): telling stories about people keeps them remembered  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): telling stories about people keeps them remembered  
 > _Anticlea asked Odysseus to remember it all and tell it. How does telling stories about a person keep them remembered?_  
 > - ✅ Each time a story is told, someone new learns who that person was. → Yes. Families and whole peoples have kept their past alive this way, long before books. Historians call it oral history.
 > - It doesn’t. Only writing keeps people remembered. → Writing helps, but for most of human history stories were spoken. Homer’s poems were remembered for generations before anyone wrote them down.
@@ -1755,7 +1755,7 @@ _The men row harder with their eyes on their oars. Nobody looks at the meadow, a
 
 _The meadow falls behind. The men take the wax out of their ears, and untie him._  
 
-> **Lesson** (art, D2.His.2.K-2, notice): ancient Greek painters showed the Sirens as part bird, part woman  
+> **Lesson** (art, D2.His.2.3-5, notice): ancient Greek painters showed the Sirens as part bird, part woman  
 > _Greek painters loved this scene._  
 > _On a famous painted jar made about 2,500 years ago, Odysseus is tied to the mast while the Sirens, shown as women with bird bodies, circle the ship._  
 > _Painters, like bards, kept the story alive for people who couldn’t read._  
@@ -1796,7 +1796,7 @@ _On the other, under a fig tree, the sea goes down a great hole._
 _That is Charybdis._  
 _Three times a day she drinks the sea down, and three times she throws it up, and when she drinks you can see the sand._  
 
-> **Lesson** (science, 4-ESS2-2, ask): whirlpools form where strong currents squeeze through a gap or meet  
+> **Lesson** (science, ask): whirlpools form where strong currents squeeze through a gap or meet  
 > _Real whirlpools form where strong currents squeeze through a narrow gap or crash into each other._  
 > _Many people think this story was inspired by the narrow Strait of Messina, between Italy and Sicily. Where is a whirlpool most likely?_  
 > - ✅ A narrow strait with strong currents → Yes. Squeezed water speeds up and starts to spin. Sailors in Homer’s time had good reason to fear places like that.
@@ -1920,7 +1920,7 @@ _There is no foothold, and no climbing up. You can only hang, and wait for her t
 
 _At the hour when a judge gets up from the court to go home to supper, the timbers come back up out of Charybdis._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): before clocks, people told time by the Sun and by daily events  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): before clocks, people told time by the Sun and by daily events  
 > _“The hour when a judge goes home to supper” tells you roughly when it is: late afternoon._  
 > _Before clocks, people told time by the Sun and by what happened each day._  
 > _The Greeks also used sundials, which tell time by the shadow of a stick._  
@@ -1963,7 +1963,7 @@ _The ship runs faster than a falcon, and the water hisses along her sides._
 _You sit by him, with your Nubbin in your lap, and watch the stars._  
 _Behind you Scheria goes small. Ahead there is nothing but dark sea, and then, before dawn, a dark shape._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): Ithaca is a real island off Greece’s west coast  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): Ithaca is a real island off Greece’s west coast  
 > _The dark shape ahead is Ithaca. It is a real island, still there today, on Greece’s west coast._  
 > _If you stood on the Greek mainland and looked towards Ithaca, which way would you face?_  
 > - ✅ West → Yes. Ithaca lies off the west coast, in the Ionian Sea. A few thousand people live there today.
@@ -2113,7 +2113,7 @@ _He is an old beggar with a staff and a torn bag on a cord. He looks down at him
 
 _Together you hide his gifts deep in the cave of the nymphs: gold and bronze and fine cloth. Athena sets a stone across the mouth._  
 
-> **Lesson** (science, 2-ESS1-1, ask): caves form slowly as rainwater dissolves limestone  
+> **Lesson** (science, 4-ESS2-1, ask): caves form slowly as rainwater dissolves limestone  
 > _Greece has many caves in limestone rock. Rainwater is very slightly acidic, and it slowly dissolves limestone and leaves hollows behind._  
 > _Is that a fast change or a slow one?_  
 > - ✅ Very slow, over thousands of years → Yes. Rain wears away rock a tiny amount at a time. Some changes to the Earth happen in a day, like a landslide, and others take longer than people have been alive.
@@ -2162,7 +2162,7 @@ _He brings the best he has, and a drink in a wooden bowl, and serves you himself
 **The Beggar**: May Zeus give you what you most want, friend, for taking me in like this.  
 **Eumaeus**: Every stranger and beggar is in Zeus’s care. You don’t turn them away, even when you’ve only a little to give.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): a shared rule about welcoming strangers makes a community safer  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): a shared rule about welcoming strangers makes a community safer  
 > _Eumaeus is poor, yet he gives a ragged stranger his best food and a seat. In his world everybody shared the rule of welcoming strangers._  
 > _What does a community gain from a rule like that?_  
 > - ✅ Travellers and people in need can count on being safe and fed. → Yes. When everyone follows the rule, anybody who falls on hard times, including you, can expect a welcome. A shared rule makes people safer.
@@ -2352,19 +2352,21 @@ _The old dog lifts his head. His nose works at the air._
 _He knows. After twenty years, through the rags and the staff and the old man’s face, he knows._  
 _His ears go flat against his head, and his tail thumps once in the dirt, then again. He can’t get up._  
 _The beggar can’t go to him. If he kneels to this dog in front of the swineherd, the whole town will know by dinner._  
+_He says one word, so low that only the dog and you hear it._  
+_It is the name he gave the giant, the only safe one here._  
+**The Beggar**: Nobody.  
+**Eumaeus**: Come on, old man. They’ll have eaten it all.  
+_Eumaeus goes in through the gate, and the beggar follows. He doesn’t look back at the heap, because he can’t._  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): think about hiding love to stay safe  
-> _The beggar loves his dog, but if he kneels to him the whole town will know who he is._  
+> _The beggar did not look at his dog. What do you think that cost him?_  
+> _He loves his dog, but if he kneels to him the whole town will know who he is._  
 > _Is it right to hide love in order to stay safe?_  
 > - Yes. His plan matters more than one moment. → That’s a fair answer. He is choosing the bigger good, though it costs him something precious.
 > - No. Love is more important than any plan. → That’s a fair answer. Some people would say that a loved one waiting twenty years deserves a kind word, whatever the cost.
 > - He can show love in small ways that nobody else notices. → That’s a thoughtful answer. A small, secret sign of love can be a way to keep faith with both his plan and his dog.
 > _For grown-ups: Thought about whether hiding love to stay safe is right (a think question)._
 
-_The beggar says one word under his breath, so that only the dog and you can hear it._  
-**The Beggar**: Nobody.  
-**Eumaeus**: Come on, old man. They’ll have eaten it all.  
-_Eumaeus goes in through the gate, and the beggar follows. He doesn’t look back at the heap, because he can’t._  
 
 #### `reader:a14-16-gate-shout` · [main](main.md#a14-16-gate-shout)
 
@@ -2379,18 +2381,19 @@ _The old dog lifts his head. His nose works at the air._
 _He knows. After twenty years, through the rags and the staff and the old man’s face, he knows._  
 _His ears go flat against his head, and his tail thumps once in the dirt, then again. He can’t get up._  
 _The beggar can’t go to him. If he kneels to this dog in front of the swineherd, the whole town will know by dinner._  
+_The beggar turns his face away and wipes a tear off quickly, so that Eumaeus won’t see._  
+**Eumaeus**: Come on, old man. They’ll have eaten it all.  
+_Eumaeus goes in through the gate, and the beggar follows. He doesn’t look back at the heap, because he can’t._  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): think about hiding love to stay safe  
-> _The beggar loves his dog, but if he kneels to him the whole town will know who he is._  
+> _The beggar did not look at his dog. What do you think that cost him?_  
+> _He loves his dog, but if he kneels to him the whole town will know who he is._  
 > _Is it right to hide love in order to stay safe?_  
 > - Yes. His plan matters more than one moment. → That’s a fair answer. He is choosing the bigger good, though it costs him something precious.
 > - No. Love is more important than any plan. → That’s a fair answer. Some people would say that a loved one waiting twenty years deserves a kind word, whatever the cost.
 > - He can show love in small ways that nobody else notices. → That’s a thoughtful answer. A small, secret sign of love can be a way to keep faith with both his plan and his dog.
 > _For grown-ups: Thought about whether hiding love to stay safe is right (a think question)._
 
-_The beggar turns his face away and wipes a tear off quickly, so that Eumaeus won’t see._  
-**Eumaeus**: Come on, old man. They’ll have eaten it all.  
-_Eumaeus goes in through the gate, and the beggar follows. He doesn’t look back at the heap, because he can’t._  
 
 #### `reader:a14-16-gate-silence` · [main](main.md#a14-16-gate-silence)
 
@@ -2405,24 +2408,25 @@ _The old dog lifts his head. His nose works at the air._
 _He knows. After twenty years, through the rags and the staff and the old man’s face, he knows._  
 _His ears go flat against his head, and his tail thumps once in the dirt, then again. He can’t get up._  
 _The beggar can’t go to him. If he kneels to this dog in front of the swineherd, the whole town will know by dinner._  
+_The beggar looks at you, once. That’s all._  
+**Eumaeus**: Come on, old man. They’ll have eaten it all.  
+_Eumaeus goes in through the gate, and the beggar follows. He doesn’t look back at the heap, because he can’t._  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): think about hiding love to stay safe  
-> _The beggar loves his dog, but if he kneels to him the whole town will know who he is._  
+> _The beggar did not look at his dog. What do you think that cost him?_  
+> _He loves his dog, but if he kneels to him the whole town will know who he is._  
 > _Is it right to hide love in order to stay safe?_  
 > - Yes. His plan matters more than one moment. → That’s a fair answer. He is choosing the bigger good, though it costs him something precious.
 > - No. Love is more important than any plan. → That’s a fair answer. Some people would say that a loved one waiting twenty years deserves a kind word, whatever the cost.
 > - He can show love in small ways that nobody else notices. → That’s a thoughtful answer. A small, secret sign of love can be a way to keep faith with both his plan and his dog.
 > _For grown-ups: Thought about whether hiding love to stay safe is right (a think question)._
 
-_The beggar looks at you, once. That’s all._  
-**Eumaeus**: Come on, old man. They’ll have eaten it all.  
-_Eumaeus goes in through the gate, and the beggar follows. He doesn’t look back at the heap, because he can’t._  
 
 #### `reader:a14-16-gate-done` · [main](main.md#a14-16-gate-done)
 
 _You stay at the gate with your Nubbin. Somebody should._  
 
-> **Lesson** (health, K-LS1-1, ask): what an old dog needs to stay healthy  
+> **Lesson** (health, 3-LS4-3, ask): what an old dog needs to stay healthy  
 > _Argos is old and thin and covered in ticks, because nobody is looking after him. What does an old dog need to stay healthy?_  
 > - ✅ Good food, clean water, a soft bed, and visits to the vet. → Yes. Older dogs also like short walks and gentle brushing, and someone to check them for ticks. Looking after a pet well is a big and kind job.
 > - Only a heap to lie on. → A dung heap isn’t kind or safe. Pets need food, water, shelter, and a person who cares for them.
@@ -2522,7 +2526,7 @@ _Later, Eumaeus comes out and finds you there. He looks at the dog for a long ti
 _Eumaeus doesn’t know, and you don’t tell him. That isn’t yours to tell._  
 _Together you carry Argos out to the edge of the fields, under an olive tree. Your Nubbin pats the earth down flat with its paws._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): people in ancient Greece put up stones for animals they loved  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): people in ancient Greece put up stones for animals they loved  
 > _In ancient Greece and Rome, people sometimes put up small carved stones, with a few lines of writing, for dogs and other animals they loved._  
 > _Remembering a loved animal is a very old human habit._  
 > _For grown-ups: Learned that people in ancient Greece sometimes made memorial stones for loved animals._
@@ -2574,7 +2578,7 @@ _Penelope weeps, the way snow melts on the high mountains when the wind changes.
 
 **Penelope**: You’re my guest now. Nurse! Come and wash this man’s feet. He’s the age your master would be.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): washing a guest’s feet was part of Greek hospitality  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): washing a guest’s feet was part of Greek hospitality  
 > _In a hot, dusty land where people wore sandals, a host would have a guest’s feet washed. Why would that feel kind after a long walk?_  
 > - ✅ It cools and cleans tired feet, and shows the host cares. → Yes. It soothes the guest and says, “You are welcome here.” Many cultures have a small kindness like this for guests.
 > - It is just to make the floor clean. → The floor isn’t the point. The washing is a comfort and a welcome for the guest.
@@ -2781,7 +2785,7 @@ _Eumaeus ropes the yard gate shut and tests it twice. It doesn’t stick; it jus
 
 _Eurymachus tries, and fails, and groans. Antinous says it’s a holy day, no day for bending bows: they’ll try again tomorrow._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): the ancient Greeks kept festival days, and many communities still do  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): the ancient Greeks kept festival days, and many communities still do  
 > _The ancient Greeks set aside days for festivals, with feasts, music, games and processions for their gods._  
 > _A holy day was a day apart from ordinary work._  
 > _Many communities around the world still keep festival days, which bring people together to share food, stories and traditions._  
@@ -2845,7 +2849,7 @@ _He doesn’t say his name, and he doesn’t need to. Every face in the hall has
 **Eurymachus**: If you really are Odysseus, home again, then you’re right, all of it. We’ll pay it back. Every sheep, every cup, twenty times over.  
 **Odysseus**: Not if you gave me everything your fathers ever had. This is my house.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): think about whether paying back is enough to make things fair  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): think about whether paying back is enough to make things fair  
 > _Eurymachus offers to pay everything back twenty times over, and Odysseus says no._  
 > _When someone has wronged others, is paying back enough to make things fair?_  
 > - Yes. Repairing the damage is the heart of fairness. → That’s a fair answer. Putting right what was damaged matters a great deal, and many fair systems start there.
@@ -2947,7 +2951,8 @@ _Under a table, hugging his lyre, is Phemius the bard. Beside him, under a cowhi
 _Then the work. The maids carry out the broken stools, Telemachus and Eumaeus scrape the tables, and you collect cups from under everything._  
 
 > **Lesson** (maths, 2.OA.A.1, ask): add one to a count  
-> _You find 41 cups on the tables, and your Nubbin finds one more under the bard’s chair. How many cups is that?_  
+> _You find 41 cups. Your Nubbin finds one more under the bard’s chair, and is wearing it as a hat._  
+> _How many cups is that, counting the hat?_  
 > - ✅ 42 cups → Yes. 41 + 1 = 42.
 > - 40 cups → That is 41 − 1. Your Nubbin found an extra cup, so add: 41 + 1 = 42.
 > - 82 cups → That is 41 + 41. Your Nubbin found just one extra cup, so it is 41 + 1 = 42.
@@ -3067,8 +3072,7 @@ _Her knees give way. She runs to him, and puts her arms round his neck, and kiss
 _He holds her and weeps. She is to him what the land is to a swimmer who has been a long time in the sea._  
 _Athena holds back the dawn at the edge of the world, and keeps the horses of the morning in their stable, so the night goes on._  
 **Odysseus**: Penelope. It’s me. It’s Odysseus.  
-_It is the first time he has said his own name aloud since the giant’s island, and you hear it._  
-_It sounds different, said quietly, at home._  
+_It is the first time he has said his own name under his own roof, and you hear it. It sounds different, said quietly, at home._  
 
 #### `reader:a14-20-bed-shout` · [main](main.md#a14-20-bed-shout)
 
@@ -3129,7 +3133,7 @@ _Penelope looks at you over his shoulder for a moment, as if to ask who you are.
 _You go quietly out of the hall with your Nubbin, and leave them by the fire._  
 _There is a lot to tell, and the night is as long as Athena has made it._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): the olive tree was sacred to Athena, and Athens is named for her  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): the olive tree was sacred to Athena, and Athens is named for her  
 > _In the old Greek story of how Athens got its name, Athena won the city by giving it the first olive tree, which brought food, oil and wood._  
 > _The city of Athens is named for her, and olives are still a big part of Greek life today._  
 > _For grown-ups: Learned the old story of Athena and the olive tree, and that Athens is named for her._
@@ -3179,7 +3183,7 @@ _Laertes’s knees give way. He puts his arms round his son’s neck, and Odysse
 **Laertes**: Father Zeus, the gods are still on Olympus after all, if those men have had what they deserved.  
 _Then the families of the suitors come up the road from the town, angry, with spears, wanting payment for their shame._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): ways to settle a quarrel between two groups peacefully  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): ways to settle a quarrel between two groups peacefully  
 > _Two angry groups face each other with spears. What are some ways to settle a quarrel peacefully?_  
 > - ✅ Stop, listen, and let a fair go-between help them agree. → Yes. Putting down weapons, hearing both sides, and having a fair person help are the beginnings of peace.
 > - Fight until one side wins. → That might end a quarrel for a while, but the losers stay angry and the fight can start again. Peace needs both sides to agree.
@@ -3272,7 +3276,7 @@ _When you close the atlas it is evening in the Grove, and somebody is at the gat
 _It is Corvin Vale, with his hands on the top bar. He doesn’t try the latch; he knocks on the gatepost, twice, and waits._  
 **Corvin Vale**: I saw the light. I won’t stay. I only wanted to see that you’d come back.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): waiting to be invited in shows respect for someone else’s home  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): waiting to be invited in shows respect for someone else’s home  
 > _Corvin knocks on the gatepost and waits, instead of trying the latch. What does that show about how he treats a home that isn’t his?_  
 > - ✅ He respects that he must be invited in. → Yes. Knocking and waiting is a way of saying “this is your place, and I will come in only if you say so”. It is the same spirit as xenia.
 > - He doesn’t know how latches work. → He knows perfectly well. He is choosing not to touch it, out of respect.

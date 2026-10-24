@@ -175,13 +175,14 @@ const Q01: EduQuest = quest(
         N('Rooftops! Chimneys! Two attic windows, side by side.'),
         N('You climb a steep wooden stair with your Nubbin.'),
         GR('There you are, lodger. Your bed is by the chimney.'),
+        GR('The other bed creaks. It grumbles all night.'),
         GR('Mind your head on the beam. Everyone bumps it.'),
         N('Across the gutter, a boy and a girl wave. They are Kay and Gerda.'),
         GR('And what is this? It is not a cat.', 'think'),
       ],
       [
         ask(
-          4,
+          5,
           'maths',
           'above and below',
           'K.G.A.1',
@@ -366,13 +367,14 @@ const Q01: EduQuest = quest(
       'a12-01-complete',
       [
         N('Later you lie in the bed by the chimney.'),
+        N('The other bed goes creak, creak. It grumbles, just as Grandmother said.'),
         N('Two small rose trees bloom in the dark across the gutter.'),
         N('Your Nubbin curls up on your feet.'),
         N('Rain begins to fall. Pitter, patter, pitter, patter.'),
       ],
       [
         doit(
-          3,
+          4,
           'literacy',
           'clap the syllables',
           'RF.K.2',
@@ -410,13 +412,16 @@ const Q02: EduQuest = quest(
         N('In the morning you see two attics. Their roofs nearly touch.'),
         N('A gutter runs between them. Peas hang over the boxes.'),
         N('In each box grows a rose tree. Together they make an arch.'),
-        GE('You’re tallest. Water the top of the arch. Not too much!'),
+        GE('You’re tallest. Water the top of the arch.'),
+        GE('Not too much water! The peas sulk.'),
+        KA('Peas don’t sulk.'),
+        GE('These ones do. Look. Sulky peas.'),
         KA('Gran says the roses will last until we’re old.'),
         N('Your Nubbin tries to help. It sits in the watering can.'),
       ],
       [
         ask(
-          3,
+          6,
           'science',
           'what plants need',
           'K-LS1-1',
@@ -669,11 +674,12 @@ const Q03: EduQuest = quest(
         GE('It does not!', 'happy'),
         N('The church clock begins to strike five.'),
         KA('Ow! Something stung my heart. And my eye!', 'sad'),
-        N('You see a glint, smaller than a grain of sand. It is gone.'),
+        N('A tiny bit of the troll’s mirror flies into Kay’s eye.'),
+        N('Another bit goes into his heart.'),
       ],
       [
         ask(
-          5,
+          6,
           'maths',
           'count the bongs',
           'K.CC.B.5',
@@ -736,14 +742,16 @@ const Q03: EduQuest = quest(
         GE('Kay? Are you all right?', 'sad'),
         KA('Stop crying! It looks silly!', 'angry'),
         KA('These roses are ugly. They have worms.'),
+        N('The mirror bit makes Kay say mean things. It is not really Kay talking.'),
         N('He kicks the box. Two roses fall over the edge.'),
         N('You reach for him. But you can’t pull a splinter out of a heart.', 'sad'),
         N('Kay slams his window. Gerda holds her book close.'),
         GE('He said it is a baby book.', 'sad'),
+        N('Your Nubbin glares at every window in the street, just in case.'),
       ],
       [
         ask(
-          5,
+          6,
           'sel',
           'helping a sad friend',
           'CASEL: Social awareness',
@@ -903,7 +911,7 @@ const Q04: EduQuest = quest(
       [
         N('Kay comes past with big gloves and his sledge on his back.'),
         KA('I’m going to the big square!'),
-        GE('Go with him, please. Keep an eye on him.', 'sad'),
+        GE('Go with him, please. Stay close to him.', 'sad'),
         N('The square is busy. Bold boys tie sledges to farmers’ carts.'),
         N('A great white sledge comes in. The driver wears white fur.'),
         N('The white driver watches only Kay.'),
@@ -1034,18 +1042,18 @@ const Q04: EduQuest = quest(
       ],
       [
         ask(
-          5,
+          6,
           'sel',
           'all feelings are allowed',
           'ELOF: Social and Emotional Development',
-          [N('Is it okay to feel cold, or sad, sometimes?')],
+          [N('Kay feels nothing now. Is feeling nothing better than feeling sad?')],
           [
             opt(
-              'Yes. All feelings are okay',
-              [N('Yes. Feelings are part of being alive. Sad, cross and cold are fine.', 'soft')],
+              'No. Feelings come with loving people',
+              [N('Yes. Feelings are part of being alive. Sad is allowed.', 'soft')],
               true,
             ),
-            opt('No. We should feel nothing', [
+            opt('Yes. Feeling nothing is better', [
               N('Feelings are allowed. A hug or a friend helps with the hard ones.', 'soft'),
             ]),
           ],
@@ -1137,12 +1145,14 @@ const Q05: EduQuest = quest(
         N('Only Gerda says it.'),
         N('Then spring comes. The sun is warm on the gutter again.'),
         GE('Some people say Kay has died.', 'sad'),
+        N('Died means a body stops working, and does not start again.'),
+        GE('But I think Kay is alive. I think he is just far away.', 'soft'),
         N('The sunshine does not believe it. Neither do the swallows.'),
         GE('I don’t believe it either.', 'soft'),
       ],
       [
         ask(
-          4,
+          7,
           'science',
           'signs of spring',
           'K-ESS2-1',
@@ -1183,7 +1193,7 @@ const Q05: EduQuest = quest(
     sc(
       'a12-05-winter-done',
       [
-        GE('I’m going to give the river my red shoes.'),
+        GE('I’m going to give the river my two red shoes.'),
         GE('Kay never saw them. They are my best thing.'),
       ],
       [
@@ -1597,19 +1607,14 @@ const Q06: EduQuest = quest(
         N('You walk with her.'),
       ],
       [
-        ask(
+        doit(
           2,
-          'science',
-          'autumn leaves',
-          'K-ESS2-1',
-          [N('Leaves turn yellow and fall. Which season is it?')],
-          [
-            opt('Autumn', [N('Yes! Leaves fall in autumn.', 'happy')], true),
-            opt('Spring', [
-              N('In spring, new leaves come out. Falling yellow leaves mean autumn.'),
-            ]),
-          ],
-          'Linked yellow falling leaves to autumn.',
+          'maths',
+          'count to three',
+          'K.CC.A.1',
+          'edu:count:leaves:3',
+          [N('(Count the yellow leaves as they fall: one, two, three!)')],
+          'Counted three falling leaves.',
         ),
       ],
     ),
@@ -1759,7 +1764,7 @@ const Q07: EduQuest = quest(
           'CASEL: Self-management',
           [N('The raven says “wait here”. What can you do while you wait?')],
           [
-            opt('Wait calmly', [N('Yes. Taking slow breaths helps us wait well.')], true),
+            opt('Wait calmly', [N('Yes. Waiting calmly helps the plan work.')], true),
             opt('Run in anyway', [N('Running in could spoil the plan. Waiting calmly is better.')]),
           ],
           'Talked about waiting calmly when asked.',
@@ -2416,12 +2421,12 @@ const Q10: EduQuest = quest(
       [
         PI('Coo, coo. We have seen little Kay.'),
         GE('What? What did you say?', 'shock'),
-        PI('A white hen pulled his sledge. He sat in the Snow Queen’s carriage.'),
+        PI('A big white bird pulled his sledge. Like a hen, but flying!'),
         PI('She flew low over the forest and breathed on us. We were cold.'),
         GE('Where was she going?'),
         PI('North, we think, where there is always snow. Ask the reindeer.'),
         BA('Snow and ice! It’s glorious. You can run free in great shining valleys.', 'happy'),
-        BA('The Snow Queen’s strong castle is far north, on an island called Spitsbergen.'),
+        BA('The Snow Queen’s castle is far north, in the ice. Very far. Bring socks.'),
         GE('Oh, Kay. Little Kay.', 'sad'),
       ],
       [
@@ -2470,12 +2475,12 @@ const Q10: EduQuest = quest(
           [N('Gerda can’t sleep. What helps when we are worried at bedtime?')],
           [
             opt(
-              'A cuddle and slow breaths',
-              [N('Yes. A cuddle and slow breaths help worries get smaller.', 'soft')],
+              'A cuddle and a soft song',
+              [N('Yes. A cuddle and a soft song help worries get smaller.', 'soft')],
               true,
             ),
             opt('Lying awake and worrying', [
-              N('That makes worries bigger. A cuddle and slow breaths help.'),
+              N('That makes worries bigger. A cuddle and a soft song help.'),
             ]),
           ],
           'Talked about calming down when worried at bedtime.',
@@ -2487,7 +2492,7 @@ const Q10: EduQuest = quest(
       [
         N('In the morning Gerda tells the robber girl what the pigeons said.'),
         RG('The far north. Bae, do you know the way?'),
-        BA('Do I know? I was born there. Ask a fish about the river!', 'happy'),
+        BA('Of course I know it! I was born there.', 'happy'),
         N('His eyes shine. He shakes his big antlers.'),
         RG('The men are all out. Only Mother is here, and she naps at noon.'),
         RG('Then I’ll do something for you.'),
@@ -2539,12 +2544,13 @@ const Q10: EduQuest = quest(
       'a12-10-free',
       [
         N('The robber girl goes to Bae. She does not look at you.'),
-        RG('Don’t think this is for you. I was going to anyway.', 'angry'),
+        RG('I am helping Bae. I am not helping you.', 'angry'),
+        N('She sounds cross. But she is being kind.'),
         ...FREE,
       ],
       [
         ask(
-          2,
+          3,
           'social-studies',
           'fairness: letting someone go home',
           'D2.Civ.8.K-2',
@@ -2956,23 +2962,13 @@ const Q12: EduQuest = quest(
       'a12-12-power-done',
       [N('Gerda, by the stove, hasn’t heard a word. She sleeps in the heat.')],
       [
-        ask(
+        note(
           0,
           'health',
           'warm clothes for snow',
           'ELOF: Perceptual, Motor, and Physical Development',
-          [N('It is snowing outside. What should Gerda wear: boots and mittens, or a swimsuit?')],
-          [
-            opt(
-              'Boots and mittens',
-              [N('Yes! Boots and mittens keep her warm in the snow.', 'happy')],
-              true,
-            ),
-            opt('A swimsuit', [
-              N('Brrr! A swimsuit is for the beach. Boots and mittens for snow.'),
-            ]),
-          ],
-          'Chose warm clothes for snowy weather.',
+          [N('It is snowing outside. Boots and mittens keep Gerda warm.')],
+          'Heard that warm clothes help in snowy weather.',
         ),
       ],
     ),
@@ -2995,12 +2991,12 @@ const Q12: EduQuest = quest(
           [N('The Finnish woman asks you to wait. What helps with waiting?')],
           [
             opt(
-              'Slow breaths and counting',
-              [FI('Yes. Slow breaths and counting make waiting easier.', 'soft')],
+              'Counting quietly',
+              [FI('Yes. Counting quietly makes waiting easier.', 'soft')],
               true,
             ),
             opt('Running about', [
-              FI('Running about is hard to do while waiting. Slow breaths help.'),
+              FI('Running about is hard to do while waiting. Counting helps.'),
             ]),
           ],
           'Talked about ways to wait calmly.',
@@ -3062,7 +3058,7 @@ const Q12: EduQuest = quest(
           2,
           'science',
           'reindeer hooves spread on snow',
-          '4-LS1-1',
+          'K-LS1-1',
           [N('Reindeer have wide hooves. They spread out on the snow, like snowshoes.')],
           'Heard that reindeer have wide hooves that help them walk on snow.',
         ),
@@ -3396,7 +3392,7 @@ const Q15: EduQuest = quest(
       'a12-15-south',
       [
         N('Your Nubbin breathes on the frozen crust. The frost clears like a window.'),
-        N('The atlas shows you the next page: inside the palace, a little earlier.'),
+        N('You see inside the palace, before Gerda gets there.'),
         N('The halls are drifted snow. Cold winds are the windows.'),
         N('Northern lights shine on them. They are huge and empty.'),
         N('The Snow Queen stands in the greatest hall, ready to go.'),
@@ -3438,15 +3434,15 @@ const Q15: EduQuest = quest(
       [
         ask(
           0,
-          'literacy',
-          'opposites',
-          'ELOF: Language and Communication',
-          [N('The hall is empty. What is the opposite of empty?')],
+          'maths',
+          'compare sizes',
+          'K.MD.A.2',
+          [N('Kay is small in a huge hall. Is the hall bigger than Kay?')],
           [
-            opt('Full', [N('Yes! Full is the opposite of empty.', 'happy')], true),
-            opt('Cold', [N('Cold is the opposite of hot. The opposite of empty is full.')]),
+            opt('Bigger', [N('Yes! The hall is much bigger than Kay.', 'happy')], true),
+            opt('Smaller', [N('Look how tiny Kay is. The hall is much bigger.')]),
           ],
-          'Found the opposite of the word empty.',
+          'Compared the size of a hall and a boy.',
         ),
       ],
     ),
@@ -3573,21 +3569,13 @@ const Q16: EduQuest = quest(
         N('Kay looks at her.'),
       ],
       [
-        ask(
-          6,
-          'science',
-          'warm things melt ice',
-          '2-PS1-4',
-          [N('Gerda’s tears are warm. What does warm do to ice?')],
-          [
-            opt(
-              'It melts it',
-              [N('Yes! Warm melts ice. Her warm tears melt the cold.', 'happy')],
-              true,
-            ),
-            opt('It makes it bigger', [N('Warm things make ice melt away, not grow. Drip, drip!')]),
-          ],
-          'Learned that something warm melts ice.',
+        note(
+          7,
+          'sel',
+          'not giving up',
+          'CASEL: Self-management',
+          [N('Gerda walked a very long way. She did not give up.')],
+          'Talked about how Gerda kept going until she found Kay.',
         ),
       ],
       {
@@ -3617,6 +3605,17 @@ const Q16: EduQuest = quest(
           'edu:clap:beat:slow',
           [N('(Hum a slow tune and clap a steady beat together.)')],
           'Clapped a steady beat to a hummed tune.',
+        ),
+        note(
+          0,
+          'science',
+          'warm things melt ice',
+          '2-PS1-4',
+          [
+            N('Gerda’s tears are warm. Warm melts ice.'),
+            N('That is how her tears melt the cold in Kay.'),
+          ],
+          'Learned that something warm melts ice.',
         ),
       ],
     ),
@@ -4197,6 +4196,7 @@ const A12_SPROUT_VARIANTS: EduScene[] = [
   sc(
     'a12-04-kept',
     [
+      N('You have a small cold stone from the Wellspring. You kept it.'),
       N('The white sledge doesn’t pass you. It stops right beside you.'),
       N('The driver looks down. Her face is ice, lovely and still.'),
       QU('You keep things too.'),
@@ -4206,7 +4206,7 @@ const A12_SPROUT_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        5,
+        6,
         'sel',
         'feelings are part of you',
         'ELOF: Social and Emotional Development',
@@ -4370,6 +4370,7 @@ const A12_SPROUT_VARIANTS: EduScene[] = [
   sc(
     'a12-14-prayer-kept',
     [
+      N('You have a small cold stone from the Wellspring. You kept it.'),
       N('Gerda says her prayer. Her breath turns to smoke, then to bright figures.'),
       N('They clear the road. She walks on, quickly and bravely.'),
       N('Then some snowflakes turn, and run along the ground towards you.'),
@@ -4380,7 +4381,7 @@ const A12_SPROUT_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        6,
+        7,
         'sel',
         'keeping a promise',
         'CASEL: Responsible decision-making',
@@ -4448,13 +4449,14 @@ const A12_SPROUT_VARIANTS: EduScene[] = [
   sc(
     'a12-18-pocket',
     [
+      N('You have a small cold stone from the Wellspring. You kept it.'),
       GR('Lodger. Why is your hand always on your pocket?', 'think'),
       N('You look down, and it is. You hadn’t noticed.'),
       GR('Kay held his burning-glass tight, all last winter. I would not see that again.', 'sad'),
     ],
     [
       ask(
-        2,
+        3,
         'sel',
         'noticing our habits',
         'CASEL: Self-awareness',

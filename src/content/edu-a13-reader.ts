@@ -351,6 +351,63 @@ const WORD_B: Line[] = [
   ),
 ];
 
+/** A13-19 belly: the light lesson and the two choices, shared by the main scene and its Clank variant. */
+const bellyAsk = (after: number): Beat =>
+  ask(
+    after,
+    'science',
+    'we see only when light reaches our eyes',
+    '1-PS4-2',
+    [
+      N(
+        'It is completely dark inside the Dog-fish, yet you can spot one tiny candle from far away. Why does a small light show up so well in total darkness?',
+      ),
+    ],
+    [
+      o(
+        'Because light travels straight to our eyes, and there is no other light to hide it.',
+        [
+          N(
+            'Yes. Light moves in straight lines, and a dark place has nothing to drown it out. On a dark night, one candle flame can be seen from more than a kilometre away.',
+          ),
+        ],
+        true,
+      ),
+      o('Because the candle makes a sound.', [
+        N(
+          'We see light, not sound. Light from the flame reaches your eyes, and that is how you see it.',
+        ),
+      ]),
+      o('Because eyes shine in the dark.', [
+        N(
+          'Eyes do not make light. They collect it. In a dark place, even a tiny flame is easy to spot.',
+        ),
+      ]),
+    ],
+    'Learned that we see when light reaches our eyes, and that a small light shows up in the dark.',
+  );
+const BELLY_CHOICES: Choice[] = [
+  {
+    id: 'light',
+    label: 'Head for the light.',
+    then: [
+      N(
+        'You start towards it. Your Nubbin goes first, because it is smallest and has the best eyes.',
+      ),
+    ],
+  },
+  {
+    id: 'how',
+    label: 'Ask the Tunny how big the Dog-fish is.',
+    then: [
+      TU(
+        'A mile long, not counting the tail. I have never counted the tail. Nobody comes back from counting the tail.',
+      ),
+      N('You decide to head for the light.'),
+    ],
+  },
+];
+
 // ================================================================== A13-1 The Piece of Wood
 const A1: EduQuest = quest(
   'a13-01',
@@ -385,7 +442,7 @@ const A1: EduQuest = quest(
           2,
           'social-studies',
           'Pinocchio’s author, Carlo Collodi, and the Tuscany he wrote about',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'This page is a real place: Tuscany, in the middle of Italy, with hill towns, vineyards and a coast far to the west.',
@@ -522,7 +579,7 @@ const A1: EduQuest = quest(
       'a13-01-plane-done',
       [
         N(
-          'The two old men go at each other like cats on a roof. When they come apart, Geppetto is wearing Master Cherry’s grey wig, and Master Cherry the yellow.',
+          'The two old men shout and tug at each other, loud as two cats. When they come apart, Geppetto is wearing Master Cherry’s grey wig, and Master Cherry the yellow.',
         ),
         N('They swap back, shake hands, and swear to be friends for the rest of their lives.'),
         N(
@@ -1335,7 +1392,7 @@ const A4: EduQuest = quest(
           1,
           'social-studies',
           'why many Tuscan villages are built on hills',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'Many old Tuscan villages sit on top of hills, with the farm fields below. Why might people have built them there long ago?',
@@ -1572,43 +1629,25 @@ const A5: EduQuest = quest(
         ),
       ],
       [
-        ask(
+        notice(
           1,
-          'maths',
-          'sharing equally: halves',
-          '3.NF.A.1',
+          'sel',
+          'quiet giving: kindness that does not ask to be noticed',
+          'CASEL: Social awareness',
           [
-            N(
-              'Imagine Geppetto cut the three pears in half and shared them equally with Pinocchio. How many halves would each of them get?',
-            ),
+            N('Geppetto hands over his whole breakfast and says nothing about it. Some kindness is quiet.'),
+            N('He does not want thanks. He wants Pinocchio fed.'),
           ],
-          [
-            o(
-              '3 halves each.',
-              [
-                N(
-                  'Yes. Three pears make 6 halves, and 6 shared by 2 is 3 halves each: one and a half pears.',
-                ),
-              ],
-              true,
-            ),
-            o('6 halves each.', [
-              N('There are 6 halves in total. Shared between 2 people, it is 3 each.'),
-            ]),
-            o('2 halves each.', [
-              N('Count them: 3 pears × 2 halves = 6 halves. Split between two, each gets 3.'),
-            ]),
-          ],
-          'Used halves to share three pears equally between two people.',
+          'Talked about quiet kindness that does not ask for thanks.',
         ),
       ],
     ),
     sc(
       'a13-05-pears',
       [
-        P('Peel them for me, please. I can’t eat skins. I’m very particular.'),
+        P('Peel them for me, please. And cut every one in half. I can’t eat skins. I’m very particular.'),
         G('Particular. At your age. With your feet in the fire. Well, well.', 'think'),
-        N('He peels them anyway, and lays the peel and the cores in a corner of the table.'),
+        N('He peels all three anyway, cuts each one in half, and lays the peel and the cores in a corner of the table.'),
         N(
           'Pinocchio eats the first pear in two bites and throws the core away. Then the second, then the third.',
         ),
@@ -1619,7 +1658,36 @@ const A5: EduQuest = quest(
       ],
       [
         ask(
-          1,
+          3,
+          'maths',
+          'equal groups: three pears, each cut in half',
+          '3.OA.A.1',
+          [
+            N(
+              'Pinocchio wants every pear peeled and cut in half. Geppetto has three pears. How many halves does he cut?',
+            ),
+          ],
+          [
+            o(
+              '6 halves.',
+              [
+                N(
+                  'Yes, 3 × 2 = 6. Geppetto eats none of them, and doesn’t mention it.',
+                ),
+              ],
+              true,
+            ),
+            o('3 halves.', [
+              N('That counts only one half for each pear. Each pear makes 2 halves: 3 × 2 = 6.'),
+            ]),
+            o('5 halves.', [
+              N('That adds 3 and 2. Three pears with 2 halves each is 3 × 2 = 6.'),
+            ]),
+          ],
+          'Found 3 pears × 2 halves each = 6 halves.',
+        ),
+        ask(
+          4,
           'science',
           'seeds spread by animals, and a seed inside a fruit',
           '2-LS2-2',
@@ -1684,7 +1752,7 @@ const A5: EduQuest = quest(
           2,
           'social-studies',
           'scarcity: when there is not enough, we choose between needs and wants',
-          'D2.Eco.1.K-2',
+          'D2.Eco.1.3-5',
           [
             N(
               'Geppetto has only enough for one breakfast. He gave it all away. In a hard time, how do we decide what to spend on first?',
@@ -1946,7 +2014,7 @@ const A6: EduQuest = quest(
           1,
           'social-studies',
           'what something is worth: cost, value and trade-offs',
-          'D2.Eco.1.K-2',
+          'D2.Eco.1.3-5',
           [
             N(
               'The book cost Geppetto his only coat. Pinocchio sold it for one evening’s ticket. Is something worth only what someone will pay for it?',
@@ -2000,7 +2068,7 @@ const A6: EduQuest = quest(
           1,
           'social-studies',
           'Harlequin and Punchinello come from the old Italian masked theatre, commedia dell’arte',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Harlequin and Punchinello are stock characters from commedia dell’arte, Italian street theatre that began in the 1500s. Actors in masks acted out the same types again and again.',
@@ -2305,19 +2373,20 @@ const A7: EduQuest = quest(
       [
         FE('Oh, very well! Nobody burns tonight. I shall eat my mutton half-raw.', 'sad'),
         FE('But next time, woe betide! Atchoo!'),
+        FE('Half past nine, and you are still dancing? You will dance till six, the lot of you! Atchoo!'),
         N(
           'The puppets dance till dawn, and so do you. Your Nubbin dances along Fire-eater’s beard, and he doesn’t even notice.',
         ),
       ],
       [
         ask(
-          2,
+          3,
           'maths',
           'time intervals: how long from start to finish',
           '3.MD.A.1',
           [
             N(
-              'The puppets start dancing at 9:30 in the evening and stop at 6:00 in the morning. How long did they dance?',
+              'Fire-eater said the puppets started dancing at 9:30 in the evening and would stop at 6:00 in the morning. How long do they dance?',
             ),
           ],
           [
@@ -2597,7 +2666,7 @@ const A8: EduQuest = quest(
           1,
           'social-studies',
           'how a traditional Italian supper is served in courses',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'In an Italian inn, supper comes in courses. What is the usual order, according to tradition?',
@@ -2870,6 +2939,7 @@ const A9: EduQuest = quest(
     sc(
       'a13-09-chase',
       [
+        N('Pinocchio runs six metres every second. The sacks hop along at five, huffing and puffing.'),
         N('He runs across the fields and you run after him, and the two sacks run after you both.'),
         N(
           'There is a ditch full of muddy water. Pinocchio jumps it, you jump it, and the sacks jump it too, and land in the middle.',
@@ -2889,7 +2959,7 @@ const A9: EduQuest = quest(
       ],
       [
         ask(
-          0,
+          1,
           'maths',
           'comparing distances covered at different speeds',
           '4.MD.A.2',
@@ -3709,7 +3779,7 @@ const A12: EduQuest = quest(
           1,
           'social-studies',
           'needs, wants and selling what you cannot do without',
-          'D2.Eco.1.K-2',
+          'D2.Eco.1.3-5',
           [
             N(
               'The animals of Catchfools sold their coats, wings and tails for money. Is it wise to sell something you need to buy something you want? What does the town show us?',
@@ -3746,7 +3816,7 @@ const A12: EduQuest = quest(
         N(
           'Pinocchio digs with his hands, and you help. He has nothing to carry water in, so he fills his shoe at the ditch and pours it on.',
         ),
-        FX('Now go away for twenty minutes. Trees are very shy when you watch them grow.'),
+        FX('It’s a quarter past ten. Go away for twenty minutes. Trees are very shy when you watch them grow.'),
         CT('And we want nothing for it. Nothing at all. Our reward is your happiness.'),
         N('They go off down the road together, very quickly for a lame Fox and a blind Cat.'),
       ],
@@ -3787,7 +3857,7 @@ const A12: EduQuest = quest(
           '3.MD.A.1',
           [
             N(
-              'The Fox sends Pinocchio away at 10:15. If they come back exactly twenty minutes later, what time is it?',
+              'The Fox sent Pinocchio away at a quarter past ten, which is 10:15. If they come back exactly twenty minutes later, what time is it?',
             ),
           ],
           [
@@ -3958,7 +4028,7 @@ const A13: EduQuest = quest(
           6,
           'social-studies',
           'what makes a judge fair: listening, evidence and equal rules',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'The Judge listens kindly, then jails the victim. What should a fair judge do instead?',
@@ -4067,7 +4137,7 @@ const A13: EduQuest = quest(
           3,
           'social-studies',
           'an amnesty is an official pardon; Collodi’s Italy had only just become one country',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'An amnesty is when a ruler pardons many people at once, often to celebrate. Collodi’s readers would have known the idea well.',
@@ -4173,7 +4243,7 @@ const A13: EduQuest = quest(
           1,
           'social-studies',
           'vineyards are a big part of Tuscan farming; grapes are picked in early autumn',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'Tuscany is famous for its vineyards: rows of grapevines trained on wires over the hills. The grapes are harvested by hand in September and October.',
@@ -4342,31 +4412,33 @@ const A14: EduQuest = quest(
         ask(
           7,
           'maths',
-          'a two-step word problem with multiplication and subtraction',
-          '3.OA.D.8',
+          'dividing seven hens among four martens, with a remainder',
+          '3.OA.A.3',
           [
             N(
-              'Suppose each of the four martens took 7 hens. The farmer has 30 hens. How many would be left?',
+              'The martens’ deal was seven hens, shared between the four of them. How many whole hens does each marten get, and how many are left over?',
             ),
           ],
           [
             o(
-              '2 hens.',
+              '1 each, and 3 left over.',
               [
                 N(
-                  'Yes. First 4 × 7 = 28 hens taken, then 30 − 28 = 2 left. Pinocchio’s trick saved the other 28.',
+                  'Yes. 4 × 1 = 4, and 7 − 4 = 3. Three spare hens is how martens start arguments.',
                 ),
               ],
               true,
             ),
-            o('11 hens.', [
-              N('That adds 4 and 7. Multiply first: 4 × 7 = 28, then subtract: 30 − 28 = 2.'),
+            o('7 each.', [
+              N('That would be 28 hens, and the deal was seven. Melampo would have noticed.'),
             ]),
-            o('28 hens.', [
-              N('28 is how many are taken. The question asks how many are left: 30 − 28 = 2.'),
+            o('2 each.', [
+              N(
+                '2 each would need 8 hens, and the deal was seven. Four martens get 1 each, with 3 left over.',
+              ),
             ]),
           ],
-          'Solved a two-step problem: 4 × 7 = 28, then 30 − 28 = 2.',
+          'Shared 7 among 4: 1 each, remainder 3. Tonight Pinocchio’s trick saves all seven.',
         ),
       ],
     ),
@@ -4560,19 +4632,15 @@ const A15: EduQuest = quest(
       ],
       [
         notice(
-          0,
-          'science',
-          'an echo is sound bouncing back from a hard surface',
-          '1-PS4-1',
+          1,
+          'sel',
+          'grief: it is a heavy feeling, and it helps to be near someone',
+          'CASEL: Self-awareness',
           [
-            N(
-              'An echo is a sound that reflects, or bounces, off a hard, flat surface such as a hillside or a cliff, and comes back to your ears a moment later.',
-            ),
-            N(
-              'Sound travels about 343 metres each second in the air. If you hear your echo after 2 seconds, the hill is roughly 343 metres away: it went there and back in that time.',
-            ),
+            N('Crying all night is what grief can feel like. It helps to be near someone.'),
+            N('Your Nubbin stays close to Pinocchio, and that is a good thing to do.'),
           ],
-          'Learned that an echo is a reflected sound, and that the delay can show how far away the surface is.',
+          'Learned that grief is a heavy feeling, and that being near someone helps.',
         ),
       ],
     ),
@@ -4671,38 +4739,16 @@ const A15: EduQuest = quest(
         ),
       ],
       [
-        ask(
+        notice(
           5,
-          'science',
-          'floating: balanced forces',
-          '3-PS2-1',
+          'sel',
+          'rescue takes courage: being afraid and brave at once',
+          'CASEL: Self-awareness',
           [
-            N(
-              'A floating thing has its weight pulling down and the water pushing up. For a log of wood bobbing on the sea, what do you know about those two forces?',
-            ),
+            N('Pinocchio is frightened, and he jumps anyway. Being brave does not mean having no fear.'),
+            N('It means doing the caring thing while the fear is still there.'),
           ],
-          [
-            o(
-              'They are balanced: equal and opposite.',
-              [
-                N(
-                  'Yes. When the upward push of the water equals the downward pull of weight, the log neither sinks nor rises: it floats. Wood is light for its size, so a little water is enough to hold it up.',
-                ),
-              ],
-              true,
-            ),
-            o('The water pushes harder than gravity.', [
-              N(
-                'If it did, the log would shoot up. At the surface the forces are equal and it sits steady.',
-              ),
-            ]),
-            o('There is no push from the water.', [
-              N(
-                'Water pushes up on anything in it. That upward push is called buoyancy, and it is what keeps boats afloat.',
-              ),
-            ]),
-          ],
-          'Learned that floating happens when the water’s upward push balances an object’s weight.',
+          'Learned that courage is acting with care even when you feel afraid.',
         ),
       ],
     ),
@@ -4873,6 +4919,10 @@ const A16: EduQuest = quest(
           'It’s you! You were a little girl, and now you’re grown up. You’re almost like a mother.',
           'happy',
         ),
+        P('I read your stone. I cried on it all night. The Pigeon said I was very loud.'),
+        FY('I know. I could hear you from the next valley.', 'soft'),
+        P('Then why didn’t you come?'),
+        FY('Because you had to come to me. That’s the whole trick of it.', 'soft'),
         FY('Then call me mother, if you like.', 'soft'),
       ],
       [
@@ -4880,7 +4930,7 @@ const A16: EduQuest = quest(
           0,
           'social-studies',
           'Italian towns have public fountains, some fed by springs and old Roman water systems',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Many Italian towns still have public fountains where people fetch water. Some are fed by springs, and some by channels first built by the Romans two thousand years ago.',
@@ -4890,6 +4940,39 @@ const A16: EduQuest = quest(
             ),
           ],
           'Learned that many Italian towns have public fountains, some fed by ancient Roman water systems.',
+        ),
+        ask(
+          13,
+          'science',
+          'floating: balanced forces',
+          '3-PS2-1',
+          [
+            N(
+              'A floating thing has its weight pulling down and the water pushing up. Pinocchio is made of wood, and wood floats. For a log bobbing on water, what do you know about those two forces?',
+            ),
+          ],
+          [
+            o(
+              'They are balanced: equal and opposite.',
+              [
+                N(
+                  'Yes. When the upward push of the water equals the downward pull of weight, the log neither sinks nor rises: it floats. Wood is light for its size, so a little water is enough to hold it up.',
+                ),
+              ],
+              true,
+            ),
+            o('The water pushes harder than gravity.', [
+              N(
+                'If it did, the log would shoot up. At the surface the forces are equal and it sits steady.',
+              ),
+            ]),
+            o('There is no push from the water.', [
+              N(
+                'Water pushes up on anything in it. That upward push is called buoyancy, and it is what keeps boats afloat.',
+              ),
+            ]),
+          ],
+          'Learned that floating happens when the water’s upward push balances an object’s weight.',
         ),
       ],
     ),
@@ -4956,25 +5039,28 @@ const A16: EduQuest = quest(
           'He puts up with it for a morning. Then he kicks a few shins with his bark shoes, and after that they like him very much.',
         ),
         N(
+          'Eight caps by nine o’clock. Five by ten. Two by eleven. By noon, none, and a few sore shins.',
+        ),
+        N(
           'The schoolmaster praises him. He is quick, he pays attention, and he is first through the door every morning.',
         ),
       ],
       [
         doit(
-          3,
+          6,
           'maths',
           'reading a bar graph: caps on Pinocchio’s nose each day',
           '3.MD.B.3',
           'edu:read:bar-graph:caps',
           [
             N(
-              'Here is the count of caps hung on Pinocchio’s nose that first morning: 8 at nine o’clock, 5 at ten, 2 at eleven, and none at noon.',
+              'Here is the count of caps hung on Pinocchio’s nose that first morning: 8 by nine o’clock, 5 by ten, 2 by eleven, and none by noon.',
             ),
             N(
               'Draw one bar for each hour, and read the story in the shape: the bars shrink as the boys come to like him.',
             ),
           ],
-          'Made and read a bar graph showing a falling number of caps over four days.',
+          'Made and read a bar graph showing a falling number of caps over four hours.',
         ),
       ],
     ),
@@ -5369,6 +5455,7 @@ const A17: EduQuest = quest(
         N(
           'He has a net full of fish, and he is sorting them, very pleased with himself. In the middle of the net is Pinocchio.',
         ),
+        N('There are twelve mullet in the net, and his pan holds four fish at a time.'),
         GF(
           'Mullet. Into the pan. Bream. Into the pan. Anchovies, into the pan. And what are you?',
           'happy',
@@ -5385,7 +5472,7 @@ const A17: EduQuest = quest(
       ],
       [
         ask(
-          6,
+          7,
           'maths',
           'division: equal groups and batches',
           '3.OA.A.3',
@@ -5452,8 +5539,9 @@ const A17: EduQuest = quest(
         N(
           'Pinocchio walks home to the Fairy that night, floured like a loaf, and knocks. The Snail who keeps the door looks out of the top window.',
         ),
+        SN('I’m coming!'),
         N(
-          'It takes her nine hours to come down. Pinocchio is asleep on the step when the door opens.',
+          'It is half past four in the morning. It takes her nine hours to come down, and Pinocchio is asleep on the step when the door opens.',
         ),
         N(
           'The Fairy forgives him, again. He goes back to school, and works, and this time he is good for a whole year.',
@@ -5466,13 +5554,13 @@ const A17: EduQuest = quest(
       ],
       [
         ask(
-          1,
+          3,
           'maths',
           'time intervals: when does the Snail arrive',
           '3.MD.A.1',
           [
             N(
-              'The Snail sets off from the top window at 4:30 in the morning and takes 9 hours to come down. What time does she open the door?',
+              'The Snail set off from the top window at half past four in the morning, which is 4:30, and took 9 hours to come down. What time does she open the door?',
             ),
           ],
           [
@@ -5726,6 +5814,9 @@ const A18: EduQuest = quest(
         N(
           'Pinocchio sees her and tries to call out to her. What comes out is a bray, so loud that the audience laughs.',
         ),
+        N('Your Nubbin’s paper ears flap in sympathy. It brays too, very small.'),
+        N('Far off across the fields, another bray answers. Candlewick can’t help it either.'),
+        N('Then the laughing stops, and the tent goes very quiet.', 'sad'),
         N(
           'He jumps for the hoop, catches his back leg on it and comes down hard. After that he is lame.',
         ),
@@ -5767,7 +5858,7 @@ const A18: EduQuest = quest(
       [...SEA],
       [
         notice(
-          0,
+          3,
           'science',
           'sea water is salty and wood floats in it more easily than in fresh water',
           '2-PS1-1',
@@ -5776,41 +5867,10 @@ const A18: EduQuest = quest(
               'Sea water holds about 35 grams of salt in every litre. The salt makes the water denser, so it holds things up better than fresh water does.',
             ),
             N(
-              'A wooden puppet floats in a fresh pond. In the sea, he floats even higher, which is how he bobs up out of a rope-and-rock job.',
+              'A wooden puppet floats in a fresh pond. In the sea, he floats even higher, which is how he bobs up out of the rope and the rock.',
             ),
           ],
           'Learned that salt makes sea water denser, so things float more easily in it.',
-        ),
-        ask(
-          3,
-          'maths',
-          'multiplying by ten: salt in a bucket of sea water',
-          '3.OA.A.3',
-          [
-            N(
-              'Sea water has about 35 grams of salt in each litre. How much salt is in a 10-litre bucket of it?',
-            ),
-          ],
-          [
-            o(
-              '350 grams.',
-              [
-                N(
-                  'Yes. 35 × 10 = 350 g. That is about a mugful of salt in one bucket of sea water.',
-                ),
-              ],
-              true,
-            ),
-            o('45 grams.', [
-              N('That adds 35 and 10. Ten litres means ten times as much: 35 × 10 = 350.'),
-            ]),
-            o('3.5 grams.', [
-              N(
-                'That divides by 10. A bucket holds ten times as much as one litre, so multiply: 350.',
-              ),
-            ]),
-          ],
-          'Multiplied 35 g by 10 litres to find 350 g of salt in a bucket of sea water.',
         ),
       ],
     ),
@@ -5901,71 +5961,20 @@ const A19: EduQuest = quest(
         N('Far away, down the long dark of the Dog-fish, there is a little light.'),
       ],
       [
-        ask(
-          9,
-          'science',
-          'we see only when light reaches our eyes',
-          '1-PS4-2',
-          [
-            N(
-              'It is completely dark inside the Dog-fish, yet you can spot one tiny candle from far away. Why does a small light show up so well in total darkness?',
-            ),
-          ],
-          [
-            o(
-              'Because light travels straight to our eyes, and there is no other light to hide it.',
-              [
-                N(
-                  'Yes. Light moves in straight lines, and a dark place has nothing to drown it out. On a dark night, one candle flame can be seen from more than a kilometre away.',
-                ),
-              ],
-              true,
-            ),
-            o('Because the candle makes a sound.', [
-              N(
-                'We see light, not sound. Light from the flame reaches your eyes, and that is how you see it.',
-              ),
-            ]),
-            o('Because eyes shine in the dark.', [
-              N(
-                'Eyes do not make light. They collect it. In a dark place, even a tiny flame is easy to spot.',
-              ),
-            ]),
-          ],
-          'Learned that we see when light reaches our eyes, and that a small light shows up in the dark.',
-        ),
+        bellyAsk(9),
       ],
-      [
-        {
-          id: 'light',
-          label: 'Head for the light.',
-          then: [
-            N(
-              'You start towards it. Your Nubbin goes first, because it is smallest and has the best eyes.',
-            ),
-          ],
-        },
-        {
-          id: 'how',
-          label: 'Ask the Tunny how big the Dog-fish is.',
-          then: [
-            TU(
-              'A mile long, not counting the tail. I have never counted the tail. Nobody comes back from counting the tail.',
-            ),
-            N('You decide to head for the light.'),
-          ],
-        },
-      ],
+      BELLY_CHOICES,
     ),
     sc(
       'a13-19-belly-done',
       [
         N('The light is a candle, stuck in the neck of a green glass bottle on a little table.'),
         N('At the table sits an old man, as white as snow, eating a very small fish.'),
+        N('He has lived in here for two years, with a new candle every week. A year has 52 weeks, and he has counted every one.'),
       ],
       [
         ask(
-          1,
+          2,
           'maths',
           'time units: two years in weeks',
           '4.MD.A.2',
@@ -6056,36 +6065,16 @@ const A19: EduQuest = quest(
         ),
       ],
       [
-        ask(
+        notice(
           1,
-          'science',
-          'why dry food keeps and moist food goes mouldy',
-          '2-PS1-1',
+          'sel',
+          'happy tears and quiet joy: being found after a long time',
+          'CASEL: Self-awareness',
           [
-            N(
-              'Geppetto lived on biscuits and cheese for two years. Hard dry biscuits keep for a very long time, while a soft loaf goes mouldy in days. Why?',
-            ),
+            N('Laughing for the first time in two years is a big feeling. Joy can be quiet, and it can be loud.'),
+            N('Either way, it is good to share it with the one who found you.'),
           ],
-          [
-            o(
-              'Mould is a fungus that needs moisture to grow.',
-              [
-                N(
-                  'Yes. Dry biscuits give mould little water, so it cannot spread. People have dried food for thousands of years, and ship’s biscuit was made to last for months.',
-                ),
-              ],
-              true,
-            ),
-            o('Biscuits are too hard for mould to bite.', [
-              N(
-                'Mould does not bite. It grows on food from tiny spores, and it needs water to do it.',
-              ),
-            ]),
-            o('Mould only likes the colour of bread.', [
-              N('Mould does not care about colour. It cares about water, warmth and food.'),
-            ]),
-          ],
-          'Learned that mould needs moisture, so dry foods like ship’s biscuit keep for a long time.',
+          'Talked about the joy of being found after a long wait.',
         ),
       ],
     ),
@@ -6170,6 +6159,21 @@ const A19: EduQuest = quest(
         ...CANDLE,
       ],
       [
+        notice(
+          5,
+          'science',
+          'why dry food keeps and moist food goes mouldy',
+          '2-PS1-1',
+          [
+            N(
+              'Geppetto lived on biscuits and cheese for two years. Hard dry biscuits keep for a very long time, while a soft loaf goes mouldy in days.',
+            ),
+            N(
+              'Mould is a fungus, and it needs moisture to grow. Dry biscuits give it little water, so it cannot spread. Ship’s biscuit was made to last for months.',
+            ),
+          ],
+          'Learned that mould needs moisture, so dry foods like ship’s biscuit keep for a long time.',
+        ),
         ask(
           1,
           'literacy',
@@ -6420,6 +6424,7 @@ const A20: EduQuest = quest(
         N(
           'Pinocchio turns the wheel, and you count. Your Nubbin counts on its paws, and loses its place at four, every time.',
         ),
+        N('Each bucket takes Pinocchio twelve seconds to draw up. A hundred buckets is a long morning.'),
         N(
           'He has never worked so hard in his life. At a hundred buckets he is wet through to the grain.',
         ),
@@ -6437,7 +6442,7 @@ const A20: EduQuest = quest(
       ],
       [
         ask(
-          3,
+          4,
           'maths',
           'time problems: how long for a hundred buckets',
           '4.MD.A.2',
@@ -6470,7 +6475,7 @@ const A20: EduQuest = quest(
           'Multiplied 100 by 12 seconds and converted 1,200 seconds to 20 minutes.',
         ),
         notice(
-          4,
+          5,
           'science',
           'a water-wheel is a wheel and axle: a simple machine that turns a pull into rotation',
           '4-PS3-4',
@@ -6539,7 +6544,7 @@ const A20: EduQuest = quest(
           'He reads by the fire, from a book with no cover. He looks after Geppetto as if Geppetto were the puppet.',
         ),
         N(
-          'He saves forty pennies in a jar. Forty pennies is a new coat, and his paper jacket has lost most of its flowers.',
+          'He saves two pennies a day in a jar, until it holds forty. Forty pennies is a new coat, and his paper jacket has lost most of its flowers.',
         ),
         N(
           'One morning, on his way to market to buy the coat, he sees a Snail coming across the road towards him. It takes some time.',
@@ -6558,7 +6563,7 @@ const A20: EduQuest = quest(
       ],
       [
         ask(
-          2,
+          3,
           'maths',
           'division: how long to save forty pennies',
           '3.OA.A.3',
@@ -6851,6 +6856,32 @@ export const EDU_A13_READER_VARIANTS: EduScene[] = [
       ),
     ],
   ),
+  // ------------------------------------------------ A13-19 step 1 scene, with Clank
+  sc(
+    'a13-19-belly-clank',
+    [
+      N(
+        'It is dark and wet, and it smells of fried fish, which is not reassuring when you are inside one.',
+      ),
+      N('Your boat lies on its side in a shallow pool.'),
+      P('Help! Help! Isn’t anyone here?', 'shock'),
+      TU('Only us unfortunates.'),
+      CK('Announcement: we have been eaten.', 'shock'),
+      CK('I have a ramp. There is no door. This is a design problem.'),
+      TU('Dignity, please. It is all we have left.'),
+      P('Who’s that?'),
+      TU('A poor Tunny, swallowed at the same time as you. What sort of fish are you?'),
+      P('I’m not any sort of fish! I’m a puppet. And that’s a traveller, and that’s a Nubbin.'),
+      TU(
+        'Then why let yourselves be swallowed? Never mind. Now we wait to be digested, with dignity.',
+        'think',
+      ),
+      P('I don’t want to be digested!'),
+      N('Far away, down the long dark of the Dog-fish, there is a little light.'),
+    ],
+    [bellyAsk(12)],
+    BELLY_CHOICES,
+  ),
   // ------------------------------------------------ A13-19 complete, with Clank
   sc(
     'a13-19-complete-clank',
@@ -6871,7 +6902,7 @@ export const EDU_A13_READER_VARIANTS: EduScene[] = [
         1,
         'science',
         'why a steel kettle sinks but a steel ship floats',
-        '3-PS2-1',
+        undefined,
         [N('A metal kettle sinks, but a huge steel ship floats. What is the difference?')],
         [
           o(
@@ -6981,7 +7012,7 @@ export const EDU_A13_READER_VARIANTS: EduScene[] = [
     [...WORD_A, ...WORD_B, ...HOME],
     [
       ask(
-        8,
+        10,
         'sel',
         'what love is: something that is done to us first, and then is there',
         'CASEL: Self-awareness',
@@ -7022,7 +7053,7 @@ export const EDU_A13_READER_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        8,
+        10,
         'literacy',
         'metaphor: “Real lives next door”',
         'L.4.5',
@@ -7072,7 +7103,7 @@ export const EDU_A13_READER_VARIANTS: EduScene[] = [
         1,
         'science',
         'sunsets look red and orange because blue light is scattered away',
-        '5-ESS1-2',
+        undefined,
         [
           N(
             'At dusk the Sun is low, and its light must travel through far more air before it reaches you. The air scatters away the blue light, and the reds and oranges get through.',

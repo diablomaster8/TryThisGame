@@ -240,9 +240,10 @@ const COAT: Line[] = [
 ];
 const LEAVE: Line[] = [N('The doctors pick up their bags. The cricket goes last, slowly.')];
 const SEA: Line[] = [
+  N('Little fish nibble and nibble. Nibble, nibble! The donkey coat is all gone.'),
   N('Up from the sea comes a wooden puppet, wriggling like an eel!'),
   BU('Where is my donkey?', 'shock'),
-  P('The sea washed the donkey off. I am a puppet again!', 'happy'),
+  P('The fish ate my donkey coat! Nibble, nibble! I am a puppet again!', 'happy'),
   N('Pinocchio swims away, laughing.'),
 ];
 const THANKS: Line[] = [
@@ -254,6 +255,8 @@ const CANDLE: Line[] = [N('Your Nubbin keeps the green bottle. It will not give 
 const HUT: Line[] = [
   CR('Oh, my Pinocchio.'),
   P('Oh, my dear little Cricket!', 'happy'),
+  CR('A goat gave me this hut. A blue goat.'),
+  P('Blue... like the Fairy’s hair!'),
   P('I am sorry about the mallet. Please forgive me.', 'sad'),
   CR('I forgive you. I only wanted to remind you.', 'soft'),
   CR('Be kind to everyone you can. Then someone may be kind to you.'),
@@ -263,7 +266,9 @@ const WAKE: Line[] = [
   N('Geppetto is well again. He is carving a frame and whistling.'),
   P('Babbo! Look at me!', 'happy'),
   G('I am looking. I have always been looking.', 'soft'),
-  N('The old puppet leans on a chair. His head is on one side.'),
+  N('The old wooden puppet leans on a chair. It is only wood now.'),
+  P('Look at it! All knees and nose!', 'happy'),
+  N('Your Nubbin taps the wooden nose. Nothing happens. Your Nubbin is relieved.'),
   P('I am glad that is over. I am so glad I am me.', 'happy'),
 ];
 const HOME: Line[] = [
@@ -274,7 +279,9 @@ const WORD_A: Line[] = [
   CK('Did they love this one? The wooden one?', 'think'),
   Y('Yes. He sold his coat for him.'),
   G('Before he did a single thing.', 'soft'),
-  CK('If I stop being useful, will you still love me?', 'soft'),
+  CK('If I am not helpful, will you still love me?', 'soft'),
+  G('Yes. Always. Even when you knock things over.'),
+  N('Clank knocks something over, to check.'),
   N('Your Nubbin climbs up on his hood. Geppetto puts down his chisel.'),
   CK('Love. That is the word.', 'soft'),
 ];
@@ -284,7 +291,7 @@ const WORD_B: Line[] = [
 ];
 
 const LOVE_LESSON: Beat = ask(
-  5,
+  7,
   'sel',
   'what love can feel like: being looked after and looked at',
   'CASEL: Social awareness',
@@ -871,13 +878,14 @@ const A4: EduQuest = quest(
       [
         N('He puts a pan on the brazier. The water steams.'),
         N('He cracks the egg. Out pops a fluffy chick!'),
-        CH('Thank you, Pinocchio, for helping me out. Good evening!', 'happy'),
+        CH('Thank you for opening my house! Good evening! Give my love to your family!', 'happy'),
+        N('Pinocchio holds the empty shell. His mouth is wide open. Your Nubbin opens its mouth too.'),
         N('The chick flies out of the window and away.'),
         P('Oh. The cricket was right. I wish I had not run off.', 'sad'),
       ],
       [
         ask(
-          4,
+          5,
           'sel',
           'saying what you wish you had done differently',
           'CASEL: Self-awareness',
@@ -1124,7 +1132,7 @@ const A5: EduQuest = quest(
       [
         N('A minute later the peel is gone, and the cores too.'),
         P('I feel very well now.', 'happy'),
-        G('You see? It does not pay to be too fussy.'),
+        G('You see? Do not be too fussy.'),
       ],
       [
         ask(
@@ -1730,7 +1738,7 @@ const A9: EduQuest = quest(
       ],
       [
         notice(
-          2,
+          5,
           'science',
           'squirrels hide food to eat later',
           'ELOF: Scientific Reasoning',
@@ -1891,7 +1899,7 @@ const A10: EduQuest = quest(
           2,
           'science',
           'a falcon has a hooked beak, sharp claws and big eyes that help it hunt',
-          '4-LS1-1',
+          'K-LS1-1',
           [
             N('A falcon is a bird with a hooked beak and sharp claws.'),
             N('Its eyes are very good. It can spot a mouse from far away.'),
@@ -2157,7 +2165,7 @@ const A11: EduQuest = quest(
           2,
           'science',
           'woodpeckers tap on trees with strong beaks to find food and make homes',
-          '4-LS1-1',
+          'K-LS1-1',
           [
             N('Real woodpeckers tap on trees. Tap, tap, tap!'),
             N('Their strong beaks help them find bugs and make a home.'),
@@ -2219,13 +2227,14 @@ const A12: EduQuest = quest(
         N('At the Big Oak sit the Fox and the Cat, as if nothing happened.'),
         FX('Our dear Pinocchio!', 'happy'),
         N('The Cat keeps one paw tucked in his coat.'),
+        P('I promised the Fairy. I will go and meet Babbo. Straight there!'),
         FX('With four coins, you could have two thousand. Think how proud Babbo would be.'),
         P('Is it far?'),
         N('Pinocchio thinks of the Fairy, and of Babbo. And of two thousand.'),
       ],
       [
         ask(
-          5,
+          6,
           'sel',
           'keeping a promise, even when someone tempts you',
           'CASEL: Responsible decision-making',
@@ -2609,7 +2618,7 @@ const A14: EduQuest = quest(
           1,
           'science',
           'dogs hear and smell much better than people, which helps them guard',
-          '4-LS1-2',
+          'K-LS1-1',
           [
             N('Real dogs are good guards. They hear tiny sounds and smell very well.'),
             N('A dog’s nose is much better than ours.'),
@@ -2625,15 +2634,16 @@ const A14: EduQuest = quest(
         N('They are martens. They smell of hens.'),
         MT('Good evening, Melampo.'),
         P('I am not Melampo.'),
-        MT('You look reasonable. Keep quiet, and we will share the hens.'),
-        P('Oh yes. Go right in.'),
+        MT('Melampo was very reasonable. He kept quiet. Are you reasonable too?'),
+        P('Oh, very reasonable. Go right in.'),
         N('One by one, they go into the hen-house.'),
+        N('Your Nubbin counts the tails going in. One, two, three, four. Shut!'),
         N('Pinocchio shuts the door. He rolls a stone against it.'),
         N('Bow-wow! Bow-wow! Bow-wow!'),
       ],
       [
         doit(
-          6,
+          8,
           'maths',
           'count four martens going in',
           'K.CC.B.5',
@@ -3246,16 +3256,16 @@ const A17: EduQuest = quest(
         ask(
           3,
           'sel',
-          'kindness comes back around',
+          'kindness often finds its way back to you',
           'CASEL: Social awareness',
           [N('Pinocchio helped the dog who chased him. What do you think the dog feels?')],
           [
-            o('Thankful.', [N('Yes! Thankful. And kindness often comes back around.')], true),
+            o('Thankful.', [N('Yes! Thankful. Kindness often finds its way back to you.')], true),
             o('Cross.', [
-              N('He was in trouble. Now he is thankful. Kindness often comes back around.'),
+              N('He was in trouble. Now he is thankful. Kindness often finds its way back to you.'),
             ]),
           ],
-          'Talked about being thankful, and about kindness coming back around.',
+          'Talked about being thankful, and about kindness finding its way back to you.',
         ),
       ],
     ),
@@ -3480,6 +3490,8 @@ const A18: EduQuest = quest(
         N('Pinocchio goes to a circus. He has to jump through hoops.'),
         N('A lady in a box has a locket with a puppet’s picture.'),
         N('He tries to call to her. Out comes a bray!'),
+        N('Your Nubbin’s paper ears flap. It brays too, very small.'),
+        N('Then the laughing stops. The tent goes quiet.', 'sad'),
         N('He catches his leg on a hoop. After that, he limps.'),
         N('A drum-maker buys him. He lowers the donkey into the sea on a rope.'),
       ],
@@ -3503,7 +3515,7 @@ const A18: EduQuest = quest(
       [...SEA],
       [
         notice(
-          3,
+          4,
           'health',
           'sea water is too salty to drink',
           'ELOF: Perceptual, Motor, and Physical Development',
@@ -3524,10 +3536,11 @@ const A18: EduQuest = quest(
         N(
           'It is the Terrible Dog-fish. It breathes in. In goes Pinocchio, and in goes the sea. In go you!',
         ),
+        N('Gulp! Everything goes dark.'),
       ],
       [
         notice(
-          3,
+          5,
           'science',
           'a dog-fish is a kind of shark; the biggest shark eats only tiny food',
           'ELOF: Scientific Reasoning',
@@ -3853,7 +3866,7 @@ const A20: EduQuest = quest(
       [...HUT],
       [
         ask(
-          4,
+          6,
           'literacy',
           'how a character changes: the mallet then, sorry now',
           'RL.2.3',
@@ -4007,12 +4020,12 @@ const A20: EduQuest = quest(
       [
         ...WAKE,
         N('Your Nubbin climbs into the old puppet’s lap and curls up, nose to tail.'),
-        G('Leave it. He would like the company. He always did.', 'soft'),
+        G('Leave it. The little Nubbin likes it.', 'soft'),
         ...HOME,
       ],
       [
         doit(
-          6,
+          8,
           'literacy',
           'tell a story in order: first, next, last',
           'RL.K.3',
@@ -4137,6 +4150,53 @@ export const EDU_A13_SPROUT_VARIANTS: EduScene[] = [
       ),
     ],
   ),
+  // ------------------------------------------------ A13-19 step 1 scene, with Clank
+  sc(
+    'a13-19-belly-clank',
+    [
+      N('It is dark and wet in here. It smells of fried fish.'),
+      P('Help! Is anyone here?', 'shock'),
+      TU('Only us unfortunates.'),
+      CK('Announcement: we have been eaten!', 'shock'),
+      CK('I have a ramp. There is no door. That is a problem.'),
+      TU('Please. Be dignified. We are in a fish.'),
+      TU('I am a Tunny. I was swallowed too.'),
+      P('I am a puppet. And that is a traveller, and a Nubbin.'),
+      N('Far away, down the dark, there is a little light.'),
+    ],
+    [
+      ask(
+        8,
+        'science',
+        'we need light to see',
+        '1-PS4-2',
+        [N('It is very dark inside. Why can we see the little light far away?')],
+        [
+          o(
+            'Because it is a light in the dark.',
+            [N('Yes! We see things when there is light.')],
+            true,
+          ),
+          o('Because it is loud.', [N('Light is not a sound. We see because of light.')]),
+        ],
+        'Learned that we can see because of light.',
+      ),
+    ],
+    {
+      choices: [
+        {
+          id: 'light',
+          label: 'Head for the light.',
+          then: [N('You start towards it. Your Nubbin goes first. It has the best eyes.')],
+        },
+        {
+          id: 'how',
+          label: 'Ask the Tunny how big the Dog-fish is.',
+          then: [TU('Very big. I never counted the tail.'), N('You decide to head for the light.')],
+        },
+      ],
+    },
+  ),
   // ------------------------------------------------ A13-19 complete, with Clank
   sc(
     'a13-19-complete-clank',
@@ -4173,7 +4233,7 @@ export const EDU_A13_SPROUT_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        5,
+        7,
         'sel',
         'saying thank you to someone who helped us',
         'ELOF: Social and Emotional Development',
@@ -4202,7 +4262,7 @@ export const EDU_A13_SPROUT_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        7,
+        9,
         'sel',
         'sitting quietly beside someone is a way to care',
         'ELOF: Social and Emotional Development',
@@ -4224,7 +4284,6 @@ export const EDU_A13_SPROUT_VARIANTS: EduScene[] = [
     'a13-20-word-next-door',
     [
       ...WORD_A,
-      CK('Moss said Real lives next door to the word. This is the house.', 'happy'),
       ...WORD_B,
       ...HOME,
     ],

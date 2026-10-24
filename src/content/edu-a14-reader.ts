@@ -253,7 +253,7 @@ const A1: EduQuest = quest(
           1,
           'social-studies',
           'find Greece and Ithaca on a map and say which way home lies from Troy',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             MS(
               'This page shows Greece, in the south-east of Europe, with its ragged coast and hundreds of islands. Ithaca is one, out in the Ionian Sea.',
@@ -693,7 +693,7 @@ const A2: EduQuest = quest(
           5,
           'social-studies',
           'a meeting needs a way to give people turns',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'At Ithaca’s meetings, only the person holding the speaker’s staff could talk. Why might a meeting need something like that?',
@@ -1179,7 +1179,7 @@ const A3: EduQuest = quest(
           2,
           'social-studies',
           'show respect at someone else’s ceremony',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'Nestor’s people are honouring Athena in their own way. You and your Nubbin stand back and keep quiet. Why is that good manners for a guest?',
@@ -1443,7 +1443,7 @@ const A3: EduQuest = quest(
           1,
           'social-studies',
           'follow a route on a map using compass directions',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'Telemachus came by sea to Pylos, then by chariot east to Sparta. To get back to his ship at Pylos, which way must the chariot go?',
@@ -1637,7 +1637,7 @@ const A4: EduQuest = quest(
           0,
           'social-studies',
           'the old Greek gods each had a job, and some people honour them today',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'In the old Greek stories each god looked after part of the world: Hermes carried messages, Poseidon ruled the sea, and Athena was wise in crafts and strategy.',
@@ -2653,7 +2653,7 @@ const A6: EduQuest = quest(
           5,
           'social-studies',
           'put directions in order: first, next, then',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'Nausicaa gave Odysseus four steps: walk behind the cart; wait in Athena’s grove; ask for the palace; go straight to the queen. What does he do just before he asks anyone for the palace?',
@@ -2770,7 +2770,7 @@ const A6: EduQuest = quest(
             ]),
             o('Nausicaa’s maid', [
               N(
-                'A maid would head home, not disappear. And Odysseus says she has been with him since Troy. That points to Athena.',
+                'A maid would head home, not disappear. Look at the clues: grey eyes, light steps, gone from an empty lane. Who else walked too lightly?',
               ),
             ]),
           ],
@@ -2948,7 +2948,7 @@ const A7: EduQuest = quest(
           2,
           'social-studies',
           'stories were sung and remembered before they were written',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Homer’s great poems were first sung by bards like Demodocus, with no book at all. They were written down much later. How could a bard remember such long poems?',
@@ -3687,7 +3687,7 @@ const A8: EduQuest = quest(
           3,
           'social-studies',
           'the Greek alphabet gave us the word alphabet',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Odysseus’s word would have been cut in Greek letters. The first two letters of the Greek alphabet are alpha and beta. Which English word comes from them?',
@@ -3833,7 +3833,7 @@ const A9: EduQuest = quest(
           0,
           'social-studies',
           'winds are named for where they come from, so a west wind blows towards the east',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'A west wind blows from the west, towards the east. Ithaca lies east of the floating island. Why is a west wind just right for sailing home?',
@@ -4042,7 +4042,7 @@ const A9: EduQuest = quest(
           'No wind now: they row, day after day. The men don’t look at Odysseus, and he doesn’t look at them.',
         ),
         N(
-          'After a harbour of giants that nobody will talk about, there is only one ship left of all the ships they had.',
+          'Twelve ships sailed home from Troy. After a harbour of giants that nobody will talk about, there is one.',
         ),
         OD('I was so close I could see the smoke from their fires.', 'sad'),
         OD('That’s the worst of it. Not that it was far. That it was close.', 'sad'),
@@ -4238,41 +4238,15 @@ const A10: EduQuest = quest(
           'Your Nubbin stands at the rail and looks at the biggest pig for a long time. The pig looks back.',
         ),
         N(
+          'Neither of them blinks. It is not a contest, but your Nubbin is winning.',
+        ),
+        N(
           'These are the men who opened the bag of winds, and you remember that. You feed them anyway.',
         ),
       ],
       [
         ask(
-          3,
-          'science',
-          'a pig’s snout is made for finding food underground',
-          '4-LS1-1',
-          [
-            N(
-              'Real pigs poke about in the ground with strong, flat snouts, finding acorns, roots and berries. How does a snout like that help a pig survive?',
-            ),
-          ],
-          [
-            o(
-              'It sniffs out and digs up food hidden in the ground.',
-              [
-                N(
-                  'Yes. A pig’s snout is a nose and a digging tool in one, which is why pigs are good at finding acorns in an oak wood.',
-                ),
-              ],
-              true,
-            ),
-            o('It lets the pig fly short distances.', [
-              N('Pigs can’t fly! The snout is for smelling and digging up food from the ground.'),
-            ]),
-            o('It keeps the rain off.', [
-              N('Not at all. A pig’s snout is for finding and digging up food.'),
-            ]),
-          ],
-          'Learned that a pig’s snout is an adaptation for finding and digging up food.',
-        ),
-        ask(
-          5,
+          6,
           'sel',
           'think about being kind to someone who has let you down',
           'CASEL: Relationship skills',
@@ -4359,6 +4333,19 @@ const A10: EduQuest = quest(
             ]),
           ],
           'Predicted what happened offscreen from clues (a shout and a surprised voice).',
+        ),
+        notice(
+          0,
+          'science',
+          'a pig’s snout is made for finding food underground',
+          '4-LS1-1',
+          [
+            N('While you wait, your Nubbin is still thinking about that pig.'),
+            N(
+              'Real pigs poke about in the ground with strong, flat snouts. A snout is a nose and a digging tool in one, for finding acorns, roots and berries.',
+            ),
+          ],
+          'Learned that a pig’s snout is an adaptation for finding and digging up food.',
         ),
       ],
     ),
@@ -4616,7 +4603,7 @@ const A11: EduQuest = quest(
           3,
           'social-studies',
           'ancient Greeks imagined the dead as shadows, and people’s beliefs differ',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'In the old Greek stories the dead became pale shadows in a dim place beneath the earth. That is how those storytellers imagined it.',
@@ -4626,40 +4613,6 @@ const A11: EduQuest = quest(
             ),
           ],
           'Learned how ancient Greek storytellers imagined the dead, and that people hold many different beliefs about death.',
-        ),
-        ask(
-          10,
-          'sel',
-          'missing someone is a big feeling and there are ways to cope',
-          'CASEL: Self-awareness',
-          [
-            N(
-              'In the story, Anticlea says missing her son wore her out. Missing someone is a very heavy feeling, but it is not what makes a body stop. Bodies stop for other reasons, such as being very old or very ill.',
-            ),
-            N('What can help when you miss someone?'),
-          ],
-          [
-            o(
-              'Talking about them, looking at pictures, or telling their stories.',
-              [
-                N(
-                  'Yes. Sharing memories keeps a person close in your heart, and talking to someone who listens makes the heavy feeling lighter.',
-                ),
-              ],
-              true,
-            ),
-            o('Pretending you don’t miss them.', [
-              N(
-                'Pretending usually makes the feeling heavier. It’s all right to say “I miss them”, and it helps to say it to someone who cares.',
-              ),
-            ]),
-            o('Staying away from everyone.', [
-              N(
-                'Being alone with a big feeling is hard. Being near people who love you, even quietly, helps it get smaller.',
-              ),
-            ]),
-          ],
-          'Learned that missing someone is a heavy but normal feeling, and ways to cope: talking, remembering, being with people.',
         ),
       ],
     ),
@@ -4704,6 +4657,41 @@ const A11: EduQuest = quest(
             ]),
           ],
           'Thought about what a mother asks of her son, and why remembering matters (a think question).',
+        ),
+        ask(
+          2,
+          'sel',
+          'missing someone is a big feeling and there are ways to cope',
+          'CASEL: Self-awareness',
+          [
+            N(
+              'In the story, Anticlea says missing her son wore her out. Anticlea was old, and very sad. In real life, bodies stop because they are very old or very ill.',
+            ),
+            N('Missing someone is heavy, and it is also how we know we love them.'),
+            N('What can help when you miss someone?'),
+          ],
+          [
+            o(
+              'Talking about them, looking at pictures, or telling their stories.',
+              [
+                N(
+                  'Yes. Sharing memories keeps a person close in your heart, and talking to someone who listens makes the heavy feeling lighter.',
+                ),
+              ],
+              true,
+            ),
+            o('Pretending you don’t miss them.', [
+              N(
+                'Pretending usually makes the feeling heavier. It’s all right to say “I miss them”, and it helps to say it to someone who cares.',
+              ),
+            ]),
+            o('Staying away from everyone.', [
+              N(
+                'Being alone with a big feeling is hard. Being near people who love you, even quietly, helps it get smaller.',
+              ),
+            ]),
+          ],
+          'Learned that missing someone is a heavy but normal feeling, and ways to cope: talking, remembering, being with people.',
         ),
       ],
     ),
@@ -4800,7 +4788,7 @@ const A11: EduQuest = quest(
           3,
           'social-studies',
           'telling stories about people keeps them remembered',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Anticlea asked Odysseus to remember it all and tell it. How does telling stories about a person keep them remembered?',
@@ -5213,7 +5201,7 @@ const A12: EduQuest = quest(
           0,
           'art',
           'ancient Greek painters showed the Sirens as part bird, part woman',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Greek painters loved this scene. On a famous painted jar made about 2,500 years ago, Odysseus is tied to the mast while the Sirens, shown as women with bird bodies, circle the ship.',
@@ -5323,7 +5311,7 @@ const A13: EduQuest = quest(
           1,
           'science',
           'whirlpools form where strong currents squeeze through a gap or meet',
-          '4-ESS2-2',
+          undefined,
           [
             N(
               'Real whirlpools form where strong currents squeeze through a narrow gap or crash into each other. Many people think this story was inspired by the narrow Strait of Messina, between Italy and Sicily. Where is a whirlpool most likely?',
@@ -5640,7 +5628,7 @@ const A13: EduQuest = quest(
           0,
           'social-studies',
           'before clocks, people told time by the Sun and by daily events',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               '“The hour when a judge goes home to supper” tells you roughly when it is: late afternoon. Before clocks, people told time by the Sun and by what happened each day.',
@@ -5851,7 +5839,7 @@ const A14: EduQuest = quest(
           3,
           'social-studies',
           'Ithaca is a real island off Greece’s west coast',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'The dark shape ahead is Ithaca. It is a real island, still there today, on Greece’s west coast. If you stood on the Greek mainland and looked towards Ithaca, which way would you face?',
@@ -5964,7 +5952,7 @@ const A14: EduQuest = quest(
           0,
           'science',
           'caves form slowly as rainwater dissolves limestone',
-          '2-ESS1-1',
+          '4-ESS2-1',
           [
             N(
               'Greece has many caves in limestone rock. Rainwater is very slightly acidic, and it slowly dissolves limestone and leaves hollows behind. Is that a fast change or a slow one?',
@@ -6109,7 +6097,7 @@ const A15: EduQuest = quest(
           7,
           'social-studies',
           'a shared rule about welcoming strangers makes a community safer',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'Eumaeus is poor, yet he gives a ragged stranger his best food and a seat. In his world everybody shared the rule of welcoming strangers. What does a community gain from a rule like that?',
@@ -6545,15 +6533,17 @@ const GATE_END: Line[] = [
     'Eumaeus goes in through the gate, and the beggar follows. He doesn’t look back at the heap, because he can’t.',
   ),
 ];
-const gateBeats = (): Beat[] => [
+/** The think ask, played after the last gate line (Eumaeus gone in, the beggar not looking back). */
+const gateThink = (after: number): Beat =>
   ask(
-    7,
+    after,
     'sel',
     'think about hiding love to stay safe',
     'CASEL: Responsible decision-making',
     [
+      N('The beggar did not look at his dog. What do you think that cost him?'),
       N(
-        'The beggar loves his dog, but if he kneels to him the whole town will know who he is. Is it right to hide love in order to stay safe?',
+        'He loves his dog, but if he kneels to him the whole town will know who he is. Is it right to hide love in order to stay safe?',
       ),
     ],
     [
@@ -6574,8 +6564,7 @@ const gateBeats = (): Beat[] => [
       ]),
     ],
     'Thought about whether hiding love to stay safe is right (a think question).',
-  ),
-];
+  );
 const A16: EduQuest = quest(
   'a14-16',
   'Argos',
@@ -6695,11 +6684,13 @@ const A16: EduQuest = quest(
       'a14-16-gate',
       [
         ...GATE_COMMON,
-        N('The beggar says one word under his breath, so that only the dog and you can hear it.'),
+        N(
+          'He says one word, so low that only the dog and you hear it. It is the name he gave the giant, the only safe one here.',
+        ),
         BG('Nobody.', 'soft'),
         ...GATE_END,
       ],
-      gateBeats(),
+      [gateThink(11)],
     ),
     sc(
       'a14-16-gate-done',
@@ -6709,7 +6700,7 @@ const A16: EduQuest = quest(
           0,
           'health',
           'what an old dog needs to stay healthy',
-          'K-LS1-1',
+          '3-LS4-3',
           [
             N(
               'Argos is old and thin and covered in ticks, because nobody is looking after him. What does an old dog need to stay healthy?',
@@ -6870,7 +6861,7 @@ const A16: EduQuest = quest(
           3,
           'social-studies',
           'people in ancient Greece put up stones for animals they loved',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'In ancient Greece and Rome, people sometimes put up small carved stones, with a few lines of writing, for dogs and other animals they loved.',
@@ -7007,7 +6998,7 @@ const A17: EduQuest = quest(
           0,
           'social-studies',
           'washing a guest’s feet was part of Greek hospitality',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'In a hot, dusty land where people wore sandals, a host would have a guest’s feet washed. Why would that feel kind after a long walk?',
@@ -7608,7 +7599,7 @@ const A18: EduQuest = quest(
           0,
           'social-studies',
           'the ancient Greeks kept festival days, and many communities still do',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'The ancient Greeks set aside days for festivals, with feasts, music, games and processions for their gods. A holy day was a day apart from ordinary work.',
@@ -7795,7 +7786,7 @@ const A19: EduQuest = quest(
           7,
           'social-studies',
           'think about whether paying back is enough to make things fair',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'Eurymachus offers to pay everything back twenty times over, and Odysseus says no. When someone has wronged others, is paying back enough to make things fair?',
@@ -8050,7 +8041,7 @@ const A19: EduQuest = quest(
           '2.OA.A.1',
           [
             N(
-              'You find 41 cups on the tables, and your Nubbin finds one more under the bard’s chair. How many cups is that?',
+              'You find 41 cups. Your Nubbin finds one more under the bard’s chair, and is wearing it as a hat. How many cups is that, counting the hat?',
             ),
           ],
           [
@@ -8390,7 +8381,7 @@ const A20: EduQuest = quest(
         ...BED_COMMON,
         OD('Penelope. It’s me. It’s Odysseus.', 'soft'),
         N(
-          'It is the first time he has said his own name aloud since the giant’s island, and you hear it. It sounds different, said quietly, at home.',
+          'It is the first time he has said his own name under his own roof, and you hear it. It sounds different, said quietly, at home.',
         ),
       ],
       bedBeats(),
@@ -8407,7 +8398,7 @@ const A20: EduQuest = quest(
           0,
           'social-studies',
           'the olive tree was sacred to Athena, and Athens is named for her',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'In the old Greek story of how Athens got its name, Athena won the city by giving it the first olive tree, which brought food, oil and wood.',
@@ -8541,7 +8532,7 @@ const A20: EduQuest = quest(
           1,
           'social-studies',
           'ways to settle a quarrel between two groups peacefully',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'Two angry groups face each other with spears. What are some ways to settle a quarrel peacefully?',
@@ -8792,12 +8783,12 @@ export const EDU_A14_READER_VARIANTS: EduScene[] = [
       N('The beggar turns his face away and wipes a tear off quickly, so that Eumaeus won’t see.'),
       ...GATE_END,
     ],
-    gateBeats(),
+    [gateThink(10)],
   ),
   sc(
     'a14-16-gate-silence',
     [...GATE_COMMON, N('The beggar looks at you, once. That’s all.'), ...GATE_END],
-    gateBeats(),
+    [gateThink(10)],
   ),
   sc(
     'a14-16-sit-corvin',
@@ -8994,7 +8985,7 @@ export const EDU_A14_READER_VARIANTS: EduScene[] = [
         2,
         'social-studies',
         'waiting to be invited in shows respect for someone else’s home',
-        'D2.Civ.8.K-2',
+        'D2.Civ.8.3-5',
         [
           N(
             'Corvin knocks on the gatepost and waits, instead of trying the latch. What does that show about how he treats a home that isn’t his?',

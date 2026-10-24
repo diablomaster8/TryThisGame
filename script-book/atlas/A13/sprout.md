@@ -336,7 +336,9 @@ _In the heap is something round and white. An egg!_
 
 _He puts a pan on the brazier. The water steams._  
 _He cracks the egg. Out pops a fluffy chick!_  
-**The Chick**: Thank you, Pinocchio, for helping me out. Good evening!  
+**The Chick**: Thank you for opening my house! Good evening! Give my love to your family!  
+_Pinocchio holds the empty shell. His mouth is wide open._  
+_Your Nubbin opens its mouth too._  
 _The chick flies out of the window and away._  
 **Pinocchio**: Oh. The cricket was right. I wish I had not run off.  
 
@@ -467,7 +469,7 @@ _Pinocchio looks at them for quite a while._
 
 _A minute later the peel is gone, and the cores too._  
 **Pinocchio**: I feel very well now.  
-**Geppetto**: You see? It does not pay to be too fussy.  
+**Geppetto**: You see? Do not be too fussy.  
 
 > **Lesson** (sel, ELOF: Social and Emotional Development, ask): sharing: Geppetto gave away his own breakfast  
 > _Geppetto gave away his breakfast. What is that called?_  
@@ -811,15 +813,15 @@ _He walks faster. There is only dark in the hedge._
 _Behind you, two shapes in black sacks hop along._  
 **Pinocchio**: Robbers!  
 _Pinocchio pops the gold under his tongue, quick as a squirrel._  
+**The Taller Sack**: Give us your gold!  
+_Pinocchio cannot answer. His mouth is full of gold!_  
+**The Shorter Sack**: Hand it over, or else!  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, notice): squirrels hide food to eat later  
 > _Squirrels hide nuts in the ground and in trees._  
 > _They find them later, in winter._  
 > _For grown-ups: Heard that squirrels store food to eat later._
 
-**The Taller Sack**: Give us your gold!  
-_Pinocchio cannot answer. His mouth is full of gold!_  
-**The Shorter Sack**: Hand it over, or else!  
 _One sounds just like a Fox with a cold._  
 
 **Choices**
@@ -901,7 +903,7 @@ _The girl at the window is a Fairy with blue hair._
 _She claps three times. A great Falcon lands on the sill._  
 **The Fairy**: Cut the knot with your beak. Let him down gently.  
 
-> **Lesson** (science, 4-LS1-1, notice): a falcon has a hooked beak, sharp claws and big eyes that help it hunt  
+> **Lesson** (science, K-LS1-1, notice): a falcon has a hooked beak, sharp claws and big eyes that help it hunt  
 > _A falcon is a bird with a hooked beak and sharp claws._  
 > _Its eyes are very good. It can spot a mouse from far away._  
 > _For grown-ups: Learned how a falcon’s beak, claws and eyes help it live._
@@ -1064,7 +1066,7 @@ _Pinocchio cries for a while. The Fairy lets him._
 _Then she claps. A thousand woodpeckers fly in._  
 _Tap, tap, tap! They peck his nose back to size._  
 
-> **Lesson** (science, 4-LS1-1, notice): woodpeckers tap on trees with strong beaks to find food and make homes  
+> **Lesson** (science, K-LS1-1, notice): woodpeckers tap on trees with strong beaks to find food and make homes  
 > _Real woodpeckers tap on trees. Tap, tap, tap!_  
 > _Their strong beaks help them find bugs and make a home._  
 > _For grown-ups: Learned how a woodpecker’s beak helps it find food and make a home._
@@ -1094,6 +1096,7 @@ _He is off in a rattle of bark shoes._
 _At the Big Oak sit the Fox and the Cat, as if nothing happened._  
 **The Fox**: Our dear Pinocchio!  
 _The Cat keeps one paw tucked in his coat._  
+**Pinocchio**: I promised the Fairy. I will go and meet Babbo. Straight there!  
 **The Fox**: With four coins, you could have two thousand. Think how proud Babbo would be.  
 **Pinocchio**: Is it far?  
 _Pinocchio thinks of the Fairy, and of Babbo. And of two thousand._  
@@ -1299,7 +1302,7 @@ _At dark, a farmer comes with a lantern._
 _The farmer puts a brass collar on Pinocchio, on a long chain._  
 **The Farmer**: If thieves come, bark. Goodnight.  
 
-> **Lesson** (science, 4-LS1-2, notice): dogs hear and smell much better than people, which helps them guard  
+> **Lesson** (science, K-LS1-1, notice): dogs hear and smell much better than people, which helps them guard  
 > _Real dogs are good guards. They hear tiny sounds and smell very well._  
 > _A dog’s nose is much better than ours._  
 > _For grown-ups: Learned that dogs have very good hearing and sense of smell._
@@ -1312,9 +1315,11 @@ _Around midnight, four long little shapes slip out of the dark._
 _They are martens. They smell of hens._  
 **Marten**: Good evening, Melampo.  
 **Pinocchio**: I am not Melampo.  
-**Marten**: You look reasonable. Keep quiet, and we will share the hens.  
-**Pinocchio**: Oh yes. Go right in.  
+**Marten**: Melampo was very reasonable. He kept quiet. Are you reasonable too?  
+**Pinocchio**: Oh, very reasonable. Go right in.  
 _One by one, they go into the hen-house._  
+_Your Nubbin counts the tails going in. One, two, three, four. Shut!_  
+_Pinocchio shuts the door. He rolls a stone against it._  
 
 > **Lesson** (maths, K.CC.B.5, do): count four martens going in  
 > _Four martens go into the hen-house. Count them as they go in._  
@@ -1322,7 +1327,6 @@ _One by one, they go into the hen-house._
 > Check: `edu:count:martens:4`
 > _For grown-ups: Counted four martens one by one._
 
-_Pinocchio shuts the door. He rolls a stone against it._  
 _Bow-wow! Bow-wow! Bow-wow!_  
 
 #### `sprout:a13-14-martens-done` · [main](main.md#a13-14-martens-done)
@@ -1655,11 +1659,11 @@ _Out comes the dog, like a wet carpet._
 **Alidoro**: You saved me. I do not forget a thing like that.  
 _He shakes himself all over you, and trots off home._  
 
-> **Lesson** (sel, CASEL: Social awareness, ask): kindness comes back around  
+> **Lesson** (sel, CASEL: Social awareness, ask): kindness often finds its way back to you  
 > _Pinocchio helped the dog who chased him. What do you think the dog feels?_  
-> - ✅ Thankful. → Yes! Thankful. And kindness often comes back around.
-> - Cross. → He was in trouble. Now he is thankful. Kindness often comes back around.
-> _For grown-ups: Talked about being thankful, and about kindness coming back around._
+> - ✅ Thankful. → Yes! Thankful. Kindness often finds its way back to you.
+> - Cross. → He was in trouble. Now he is thankful. Kindness often finds its way back to you.
+> _For grown-ups: Talked about being thankful, and about kindness finding its way back to you._
 
 
 #### `sprout:a13-17-fisher` · [main](main.md#a13-17-fisher)
@@ -1793,14 +1797,17 @@ _Pinocchio goes to a circus. He has to jump through hoops._
 
 _A lady in a box has a locket with a puppet’s picture._  
 _He tries to call to her. Out comes a bray!_  
+_Your Nubbin’s paper ears flap. It brays too, very small._  
+_Then the laughing stops. The tent goes quiet._  
 _He catches his leg on a hoop. After that, he limps._  
 _A drum-maker buys him. He lowers the donkey into the sea on a rope._  
 
 #### `sprout:a13-18-sea` · [main](main.md#a13-18-sea)
 
+_Little fish nibble and nibble. Nibble, nibble! The donkey coat is all gone._  
 _Up from the sea comes a wooden puppet, wriggling like an eel!_  
 **The Drum Man**: Where is my donkey?  
-**Pinocchio**: The sea washed the donkey off. I am a puppet again!  
+**Pinocchio**: The fish ate my donkey coat! Nibble, nibble! I am a puppet again!  
 _Pinocchio swims away, laughing._  
 
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, notice): sea water is too salty to drink  
@@ -1813,12 +1820,12 @@ _Pinocchio swims away, laughing._
 
 _Variant of `a13-18-sea`._
 
+_Little fish nibble and nibble. Nibble, nibble! The donkey coat is all gone._  
 _Up from the sea comes a wooden puppet, wriggling like an eel!_  
 **The Drum Man**: Where is my donkey?  
-**Pinocchio**: The sea washed the donkey off. I am a puppet again!  
+**Pinocchio**: The fish ate my donkey coat! Nibble, nibble! I am a puppet again!  
 _Pinocchio swims away, laughing._  
 _He swims under your rock and looks up._  
-**Pinocchio**: Your cricket was right. I did grow up a donkey.  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): saying “I was wrong” is brave  
 > _Pinocchio says the cricket was right. Is it hard to say “I was wrong”?_  
@@ -1826,6 +1833,7 @@ _He swims under your rock and looks up._
 > - No, it is easy. → For most of us, it is hard. That is why it is so brave.
 > _For grown-ups: Talked about how brave it is to say “I was wrong”._
 
+**Pinocchio**: Your cricket was right. I did grow up a donkey.  
 **Pinocchio**: Do not tell him I said so.  
 
 #### `sprout:a13-18-complete` · [main](main.md#a13-18-complete)
@@ -1836,8 +1844,6 @@ _Ahead, Pinocchio swims for a white rock._
 _A little goat with blue wool bleats at him._  
 _Behind him, the sea rises._  
 _A great head comes out, with a mouth like a cave._  
-_It is the Terrible Dog-fish. It breathes in._  
-_In goes Pinocchio, and in goes the sea. In go you!_  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, notice): a dog-fish is a kind of shark; the biggest shark eats only tiny food  
 > _A dog-fish is a kind of shark._  
@@ -1846,6 +1852,9 @@ _In goes Pinocchio, and in goes the sea. In go you!_
 > _It eats only tiny sea creatures!_  
 > _For grown-ups: Heard that a dog-fish is a small shark, and that the biggest shark eats tiny food._
 
+_It is the Terrible Dog-fish. It breathes in._  
+_In goes Pinocchio, and in goes the sea. In go you!_  
+_Gulp! Everything goes dark._  
 
 ## A13-19. The Terrible Dog-fish
 
@@ -1858,6 +1867,35 @@ _In goes Pinocchio, and in goes the sea. In go you!_
 _It is dark and wet in here. It smells of fried fish._  
 **Pinocchio**: Help! Is anyone here?  
 **The Tunny**: Only us unfortunates.  
+**The Tunny**: I am a Tunny. I was swallowed too.  
+**Pinocchio**: I am a puppet. And that is a traveller, and a Nubbin.  
+_Far away, down the dark, there is a little light._  
+
+> **Lesson** (science, 1-PS4-2, ask): we need light to see  
+> _It is very dark inside. Why can we see the little light far away?_  
+> - ✅ Because it is a light in the dark. → Yes! We see things when there is light.
+> - Because it is loud. → Light is not a sound. We see because of light.
+> _For grown-ups: Learned that we can see because of light._
+
+
+**Choices**
+
+- **Head for the light.**
+    - You start towards it. Your Nubbin goes first. It has the best eyes.
+- **Ask the Tunny how big the Dog-fish is.**
+    - **The Tunny**: Very big. I never counted the tail.
+    - You decide to head for the light.
+
+#### `sprout:a13-19-belly-clank` · [main](main.md#a13-19-belly-clank)
+
+_Variant of `a13-19-belly`._
+
+_It is dark and wet in here. It smells of fried fish._  
+**Pinocchio**: Help! Is anyone here?  
+**The Tunny**: Only us unfortunates.  
+**Clank**: Announcement: we have been eaten!  
+**Clank**: I have a ramp. There is no door. That is a problem.  
+**The Tunny**: Please. Be dignified. We are in a fish.  
 **The Tunny**: I am a Tunny. I was swallowed too.  
 **Pinocchio**: I am a puppet. And that is a traveller, and a Nubbin.  
 _Far away, down the dark, there is a little light._  
@@ -2034,6 +2072,8 @@ _Inside, on a beam, sits the Talking-cricket._
 
 **The Talking-cricket**: Oh, my Pinocchio.  
 **Pinocchio**: Oh, my dear little Cricket!  
+**The Talking-cricket**: A goat gave me this hut. A blue goat.  
+**Pinocchio**: Blue... like the Fairy’s hair!  
 **Pinocchio**: I am sorry about the mallet. Please forgive me.  
 **The Talking-cricket**: I forgive you. I only wanted to remind you.  
 **The Talking-cricket**: Be kind to everyone you can. Then someone may be kind to you.  
@@ -2051,6 +2091,8 @@ _Variant of `a13-20-hut`._
 
 **The Talking-cricket**: Oh, my Pinocchio.  
 **Pinocchio**: Oh, my dear little Cricket!  
+**The Talking-cricket**: A goat gave me this hut. A blue goat.  
+**Pinocchio**: Blue... like the Fairy’s hair!  
 **Pinocchio**: I am sorry about the mallet. Please forgive me.  
 **The Talking-cricket**: I forgive you. I only wanted to remind you.  
 **The Talking-cricket**: Be kind to everyone you can. Then someone may be kind to you.  
@@ -2150,7 +2192,9 @@ _Pinocchio jumps out of bed. He is not wood. He is a boy!_
 _Geppetto is well again. He is carving a frame and whistling._  
 **Pinocchio**: Babbo! Look at me!  
 **Geppetto**: I am looking. I have always been looking.  
-_The old puppet leans on a chair. His head is on one side._  
+_The old wooden puppet leans on a chair. It is only wood now._  
+**Pinocchio**: Look at it! All knees and nose!  
+_Your Nubbin taps the wooden nose. Nothing happens. Your Nubbin is relieved._  
 **Pinocchio**: I am glad that is over. I am so glad I am me.  
 _Your Nubbin climbs into the old puppet’s lap and curls up, nose to tail._  
 
@@ -2161,7 +2205,7 @@ _Your Nubbin climbs into the old puppet’s lap and curls up, nose to tail._
 > Check: `edu:order:story:pinocchio`
 > _For grown-ups: Retold the story in order: first, next, last._
 
-**Geppetto**: Leave it. He would like the company. He always did.  
+**Geppetto**: Leave it. The little Nubbin likes it.  
 **Geppetto**: Take my old bench. The little Nubbin on it is lovely as it is.  
 _The page closes softly._  
 _You are back in the Grove, with sawdust in your hair._  
@@ -2174,7 +2218,9 @@ _Pinocchio jumps out of bed. He is not wood. He is a boy!_
 _Geppetto is well again. He is carving a frame and whistling._  
 **Pinocchio**: Babbo! Look at me!  
 **Geppetto**: I am looking. I have always been looking.  
-_The old puppet leans on a chair. His head is on one side._  
+_The old wooden puppet leans on a chair. It is only wood now._  
+**Pinocchio**: Look at it! All knees and nose!  
+_Your Nubbin taps the wooden nose. Nothing happens. Your Nubbin is relieved._  
 **Pinocchio**: I am glad that is over. I am so glad I am me.  
 _Clank rolls down his ramp. He parks beside the old puppet._  
 _He does not say anything about it._  
@@ -2193,7 +2239,9 @@ _Variant of `a13-20-complete`._
 **Clank**: Did they love this one? The wooden one?  
 **You**: Yes. He sold his coat for him.  
 **Geppetto**: Before he did a single thing.  
-**Clank**: If I stop being useful, will you still love me?  
+**Clank**: If I am not helpful, will you still love me?  
+**Geppetto**: Yes. Always. Even when you knock things over.  
+_Clank knocks something over, to check._  
 _Your Nubbin climbs up on his hood. Geppetto puts down his chisel._  
 **Clank**: Love. That is the word.  
 
@@ -2218,7 +2266,9 @@ _Variant of `a13-20-word`._
 **Clank**: Did they love this one? The wooden one?  
 **You**: Yes. He sold his coat for him.  
 **Geppetto**: Before he did a single thing.  
-**Clank**: If I stop being useful, will you still love me?  
+**Clank**: If I am not helpful, will you still love me?  
+**Geppetto**: Yes. Always. Even when you knock things over.  
+_Clank knocks something over, to check._  
 _Your Nubbin climbs up on his hood. Geppetto puts down his chisel._  
 **Clank**: Love. That is the word.  
 
@@ -2230,7 +2280,6 @@ _Your Nubbin climbs up on his hood. Geppetto puts down his chisel._
 > - I do not know yet. → That is fine. Love is often small and quiet. Look out for it today.
 > _For grown-ups: Talked about the people who show love to us, and the small ways they do it._
 
-**Clank**: Moss said Real lives next door to the word. This is the house.  
 **Clank**: Nobody puts it in. Somebody does it to you first.  
 _Clank is still a kettle on one wheel. And that is just right._  
 **Geppetto**: Take my old bench. The little Nubbin on it is lovely as it is.  

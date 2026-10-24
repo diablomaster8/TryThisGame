@@ -39,7 +39,11 @@
  *   - a15-cap = asked | silent (A15-13, a15-13-flight, the signature choice): picks the A15-20
  *     ending (the Monkey King's answer, "Play.", and the feather; and who carries you to the wall).
  *   - a15-lamb = pocketed | returned (A15-17, a15-17-lamb): picks the A15-20 farewell scene (the
- *     lamb coda before Dorothy's heels click) and the A15-20 ending.
+ *     lamb coda before Dorothy's heels click) and the A15-20 ending; pocketed also plays
+ *     a15-19-complete-pocketed (the lump in your pocket goes still).
+ *   - a15-secret = promised | theirs | quiet (A15-14, a15-14-secret; promised is the keep choice):
+ *     picks a15-16-complete-promised / -theirs and a15-20-goodbye-promised / -theirs (the
+ *     Scarecrow's first law). quiet plays the defaults.
  *
  * LIFTED TEXT (verbatim; only the passages Part M marks as verified, rechecked there on 2026-10-14
  * against Project Gutenberg #55, The Wonderful Wizard of Oz, the 1900 George M. Hill first edition
@@ -169,6 +173,69 @@ const A16_GONE: Line[] = [
   D('Wait! Wait for me! Oh, come back!', 'sad'),
   O('I can’t steer it! I never could! Goodbye, my dear! Goodbye!', 'sad'),
   N('The green balloon goes up over the green towers, and gets smaller.'),
+];
+
+/** A15-16: the spectacles come off, up to the Guardian's line (all three versions of the complete). */
+const A16_SPECS: Line[] = [
+  N('In the morning the Guardian of the Gates unlocks everybody’s spectacles at the gate and puts them back in his box.'),
+  N('When he comes to your Nubbin, he stops, and looks at it, and looks at you.'),
+  G('Keep that pair. It has got used to them. Some do. Keep yours too, if you like, to remember us by.', 'think'),
+];
+
+/** A15-16: the plain City, and the souvenir gag (SR-20261024-646), after the a15-secret beat (all three versions). */
+const A16_PLAIN: Line[] = [
+  N('Without the spectacles, the City is plain stone and glass, with a little green paint here and there.'),
+  N('It is very pretty, and not very green at all.'),
+  N('You put your pair in your pocket. Your Nubbin keeps its own on, and you let it.'),
+  N('It now owns a paper troll, a green bottle, an olive leaf and spectacles. Your coat pocket is getting full.'),
+];
+
+/** A15-19: arriving among the Quadlings (both versions of the complete). */
+const A19_QUADLINGS: Line[] = [
+  N('The Monkeys set you down in the country of the Quadlings, and fly away. The King looks back once from the sky.'),
+  N('Everything here is red: the fences, the houses, the bridges, the Quadlings’ clothes.'),
+  N('The Quadlings are small and round and cheerful. They give Dorothy something to eat, and she thanks them.'),
+  D('Please, which way is Glinda’s castle?'),
+  N('A Quadling points. Far down the road a castle is shining in the sun.'),
+];
+
+/** A15-20: Glinda spends the Cap, up to the Scarecrow's eleven laws (all three versions of the goodbye). */
+const A20_LAWS: Line[] = [
+  GL('Now. The Golden Cap, and its three calls. Let me see.', 'think'),
+  GL('Scarecrow: the Monkeys will carry you back to the Emerald City, to rule. The people will be lucky in you.'),
+  SC('Thank you. I have just thought of eleven new laws. I shall begin with those.', 'happy'),
+];
+
+/** A15-20: the other two friends, and Glinda frees the Monkeys (all three versions of the goodbye). */
+const A20_REST: Line[] = [
+  GL('Woodman: they will carry you to the land of the Winkies, who want you for their ruler.'),
+  TW('I shall rule them kindly. I have the heart for it now.', 'soft'),
+  GL('Lion: they will carry you over the Hammer-Heads to your forest, to be King of the Beasts.'),
+  L('Thank you. I shouldn’t care to meet the Hammer-Heads again, even as a King.'),
+  GL('And then I shall give the Cap to the King of the Monkeys, so that he and his band are free for ever.', 'soft'),
+  N('Dorothy hugs each of them in turn, and cries, and kisses the Lion on his great nose.'),
+];
+
+/** A15-20: the goodbye choices (all three versions of the goodbye). */
+const A20_GOODBYE_CHOICES: Choice[] = [
+  {
+    id: 'oil',
+    label: 'Oil the Woodman’s jaw. He is crying.',
+    then: [
+      N('The Woodman is crying, of course. You oil his jaw one last time, while the Scarecrow holds his hat, as he did once before.'),
+      TW('Keep the can. I mean it. You have been the best oil-can-carrier in all of Oz.', 'soft'),
+    ],
+  },
+  {
+    id: 'scarecrow',
+    label: 'Shake the Scarecrow’s hand.',
+    then: [SC('If you ever need a thought, come to the Emerald City. I have plenty now. I can spare one.', 'happy')],
+  },
+  {
+    id: 'lion',
+    label: 'Rest your hand on the Lion’s mane.',
+    then: [L('Goodbye, Keeper. Goodbye, little one. You sat by me first. I shan’t forget it.', 'soft')],
+  },
 ];
 
 /** A15-20: Dorothy's farewell to you (both farewell versions), before the choices. */
@@ -1677,7 +1744,7 @@ export const ATLAS_A15: Quest[] = [
         scene: {
           id: 'a15-10-fire',
           lines: [
-            N('On the third day the Lion goes in. The door shuts behind him with a click.'),
+            N('On the fourth day the Lion goes in, last, which he says is out of politeness. The door shuts behind him with a click.'),
             N('You wait outside with the others. Under the door there is a line of light, and it is getting brighter, and redder.'),
             N('Then the heat comes, so strong that the Woodman takes a step back and the Scarecrow takes three.'),
             SC('Mind the door. Mind the door, please. I am very dry.', 'shock'),
@@ -1773,7 +1840,8 @@ export const ATLAS_A15: Quest[] = [
         done: {
           id: 'a15-11-waves-done',
           lines: [
-            N('In the Witch’s cupboard is a Golden Cap with a ring of diamonds round it. Whoever owns it may call the Winged Monkeys three times.'),
+            N('In the Witch’s cupboard is a Golden Cap with a ring of diamonds round it.'),
+            N('The Cap comes with a bargain: whoever owns it may call the Winged Monkeys three times. Nobody asked the Monkeys.'),
             N('She has used it twice already. She puts it on, stands on one foot and then the other, and says the words.'),
           ],
         },
@@ -1869,7 +1937,10 @@ export const ATLAS_A15: Quest[] = [
         N('Days go by. The Witch watches the silver shoes all the time with her one eye, and wants them more than anything.'),
         N('Dorothy only takes them off at night, and for her bath.'),
         N('The Witch is afraid of the dark, and more afraid of water, so she never comes near either.'),
-        N('You sweep the floor round the bucket by the kitchen door. Nobody ever empties it.'),
+        W('I have commanded wolves, crows, bees and Monkeys. I cannot get one girl to sweep behind the door.', 'angry'),
+        N('You sweep round the bucket by the kitchen door instead. It is full to the brim.'),
+        W('And somebody empty that bucket!', 'angry'),
+        N('Nobody does. Your Nubbin looks at it every day, and decides it is not its job.'),
       ],
     },
     rewards: [],
@@ -1970,6 +2041,7 @@ export const ATLAS_A15: Quest[] = [
         done: {
           id: 'a15-12-bucket-done',
           lines: [
+            N('Your Nubbin looks at the empty bucket, then at you. It is very glad it never emptied it.'),
             N('Dorothy picks the silver shoe out of the puddle, dries it, and puts it back on.'),
             N('Then she pours a fresh bucket over the puddle and sweeps it all out of the door.'),
             D('She’s gone. She’s really gone. Now the Lion can come in.'),
@@ -2259,8 +2331,8 @@ export const ATLAS_A15: Quest[] = [
           id: 'a15-14-screen-done',
           lines: [
             ...A14_POOR_WIZARD,
-            N('Somebody in the valley promises things like this.'),
-            N('Safe, he says. As if it came in a bottle.'),
+            N('Somebody back home sells safety too.'),
+            N('You hope he never meets this little man. They would get on far too well.'),
           ],
         },
       },
@@ -2283,6 +2355,7 @@ export const ATLAS_A15: Quest[] = [
             {
               id: 'keep',
               label: 'Promise to keep his secret.',
+              set: { 'a15-secret': 'promised' },
               then: [
                 O('Thank you. Thank you. You don’t know what that is, to someone like me.', 'soft'),
                 N('He shakes your hand. His hand is warm and damp, the hand of a frightened man.'),
@@ -2291,6 +2364,7 @@ export const ATLAS_A15: Quest[] = [
             {
               id: 'theirs',
               label: 'Tell him it isn’t yours to keep. It’s theirs.',
+              set: { 'a15-secret': 'theirs' },
               then: [
                 O('Theirs. Yes. I suppose it is. I suppose it always was.', 'sad'),
                 N('He doesn’t argue. He looks almost relieved, the way people do when the worst has been said out loud.'),
@@ -2299,6 +2373,7 @@ export const ATLAS_A15: Quest[] = [
             {
               id: 'quiet',
               label: 'Say nothing, and look at the screen.',
+              set: { 'a15-secret': 'quiet' },
               then: [N('You look at the screen on the floor, and so does he. Neither of you says anything for quite a long time.')],
             },
           ],
@@ -2330,7 +2405,11 @@ export const ATLAS_A15: Quest[] = [
       'for forced, a15-14-screen-done-forced. Each keeps the Wizard’s two lines and changes only the two narrator lines ' +
       'after them (the outline’s words, split at a sentence break). Hold a beat (one second, no music) before the ' +
       'narrator lines. LIFTED TEXT: none here; passages 3 and 4 are told in our own words (A14_POOR_WIZARD#0, ' +
-      'a15-14-screen#11–12). The secret choice sets no flag; it is the player’s own. The screen is a plain folding ' +
+      'a15-14-screen#11–12). SECRET CHOICE (a15-14-secret): a15-secret = promised (keep) | theirs | quiet. It pays off ' +
+      'twice: a small beat in a15-16-complete (ATLAS_A15_VARIANTS a15-16-complete-promised / -theirs) and the real one ' +
+      'six quests on, in the Scarecrow’s first law at a15-20-goodbye (a15-20-goodbye-promised / -theirs). quiet plays ' +
+      'the default scenes. The keep value is "promised", not "keep", because the Grove flag finalChoice can be keep and ' +
+      'variants answer Grove values too. The screen is a plain folding ' +
       'screen. The Wizard is a little bald man in an ordinary coat (Denslow); NO film curtain, no booth of levers.',
   },
 
@@ -2613,14 +2692,7 @@ export const ATLAS_A15: Quest[] = [
     ],
     complete: {
       id: 'a15-16-complete',
-      lines: [
-        N('In the morning the Guardian of the Gates unlocks everybody’s spectacles at the gate and puts them back in his box.'),
-        N('When he comes to your Nubbin, he stops, and looks at it, and looks at you.'),
-        G('Keep that pair. It has got used to them. Some do. Keep yours too, if you like, to remember us by.', 'think'),
-        N('Without the spectacles, the City is plain stone and glass, with a little green paint here and there.'),
-        N('It is very pretty, and not very green at all.'),
-        N('You put your pair in your pocket. Your Nubbin keeps its own on, and you let it.'),
-      ],
+      lines: [...A16_SPECS, ...A16_PLAIN],
     },
     rewards: [
       {
@@ -2817,6 +2889,9 @@ export const ATLAS_A15: Quest[] = [
             L('What has happened here?', 'think'),
             TG('A monster. A spider bigger than an elephant, with legs like tree trunks, eight of them.'),
             TG('It creeps through the forest and catches us, one by one. None of us is safe. We were talking about what to do.', 'sad'),
+            TG('We have held nine meetings about the spider. We agreed a seating plan. We have not agreed on the spider.', 'think'),
+            L('I’ll go.'),
+            N('Nobody objects. That is how you know a meeting is over.'),
             N('Your Nubbin is pressed against the back of your legs again, the way it was on the road the day you met the Lion.'),
           ],
           choices: [
@@ -2999,13 +3074,7 @@ export const ATLAS_A15: Quest[] = [
     ],
     complete: {
       id: 'a15-19-complete',
-      lines: [
-        N('The Monkeys set you down in the country of the Quadlings, and fly away. The King looks back once from the sky.'),
-        N('Everything here is red: the fences, the houses, the bridges, the Quadlings’ clothes.'),
-        N('The Quadlings are small and round and cheerful. They give Dorothy something to eat, and she thanks them.'),
-        D('Please, which way is Glinda’s castle?'),
-        N('A Quadling points. Far down the road a castle is shining in the sun.'),
-      ],
+      lines: A19_QUADLINGS,
     },
     rewards: [],
     sets: { 'a15-19': true },
@@ -3073,37 +3142,8 @@ export const ATLAS_A15: Quest[] = [
         check: 'talk:a15-friends:goodbye',
         scene: {
           id: 'a15-20-goodbye',
-          lines: [
-            GL('Now. The Golden Cap, and its three calls. Let me see.', 'think'),
-            GL('Scarecrow: the Monkeys will carry you back to the Emerald City, to rule. The people will be lucky in you.'),
-            SC('Thank you. I have just thought of eleven new laws. I shall begin with those.', 'happy'),
-            GL('Woodman: they will carry you to the land of the Winkies, who want you for their ruler.'),
-            TW('I shall rule them kindly. I have the heart for it now.', 'soft'),
-            GL('Lion: they will carry you over the Hammer-Heads to your forest, to be King of the Beasts.'),
-            L('Thank you. I shouldn’t care to meet the Hammer-Heads again, even as a King.'),
-            GL('And then I shall give the Cap to the King of the Monkeys, so that he and his band are free for ever.', 'soft'),
-            N('Dorothy hugs each of them in turn, and cries, and kisses the Lion on his great nose.'),
-          ],
-          choices: [
-            {
-              id: 'oil',
-              label: 'Oil the Woodman’s jaw. He is crying.',
-              then: [
-                N('The Woodman is crying, of course. You oil his jaw one last time, while the Scarecrow holds his hat, as he did once before.'),
-                TW('Keep the can. I mean it. You have been the best oil-can-carrier in all of Oz.', 'soft'),
-              ],
-            },
-            {
-              id: 'scarecrow',
-              label: 'Shake the Scarecrow’s hand.',
-              then: [SC('If you ever need a thought, come to the Emerald City. I have plenty now. I can spare one.', 'happy')],
-            },
-            {
-              id: 'lion',
-              label: 'Rest your hand on the Lion’s mane.',
-              then: [L('Goodbye, Keeper. Goodbye, little one. You sat by me first. I shan’t forget it.', 'soft')],
-            },
-          ],
+          lines: [...A20_LAWS, ...A20_REST],
+          choices: A20_GOODBYE_CHOICES,
         },
         done: {
           id: 'a15-20-goodbye-done',
@@ -3209,6 +3249,42 @@ export const ATLAS_A15_VARIANTS: Scene[] = [
       N('Some of them come back, you think.', 'soft'),
     ],
   },
+  // ---------------------------------------------------------------- A15-16, complete (a15-secret)
+  {
+    id: 'a15-16-complete-promised',
+    lines: [...A16_SPECS, N('He winks at you, the wink of a man who has been told a secret too.'), ...A16_PLAIN],
+  },
+  {
+    id: 'a15-16-complete-theirs',
+    lines: [
+      ...A16_SPECS,
+      G('The Scarecrow says everyone may know the City is only paint. Nobody minded as much as I feared.', 'happy'),
+      ...A16_PLAIN,
+    ],
+  },
+  // ---------------------------------------------------------------- A15-19, complete (a15-lamb = pocketed)
+  {
+    id: 'a15-19-complete-pocketed',
+    lines: [
+      ...A19_QUADLINGS,
+      N('Your Nubbin pats the pocket. The lump has gone very still, and the Nubbin pats it again, slower.'),
+    ],
+  },
+  // ---------------------------------------------------------------- A15-20, step 2 scene (a15-secret)
+  {
+    id: 'a15-20-goodbye-promised',
+    lines: [...A20_LAWS, SC('Law one: nobody looks behind screens. It’s restful.', 'happy'), ...A20_REST],
+    choices: A20_GOODBYE_CHOICES,
+  },
+  {
+    id: 'a15-20-goodbye-theirs',
+    lines: [
+      ...A20_LAWS,
+      SC('Law one: no more locked spectacles. Law two: the screen stays up, but anyone may look behind it.', 'happy'),
+      ...A20_REST,
+    ],
+    choices: A20_GOODBYE_CHOICES,
+  },
   // ---------------------------------------------------------------- A15-20, step 3 scene (a15-lamb = pocketed)
   {
     id: 'a15-20-farewell-pocketed',
@@ -3288,7 +3364,8 @@ export const ATLAS_A15_FLAGS: string[] = [
   'a15-20',
   'a15-done', // A15-20: the whole page; read by atlasDone('A15') for the Price of Power festival
   'a15-cap', // asked | silent (a15-13-flight): the A15-20 ending
-  'a15-lamb', // pocketed | returned (a15-17-lamb): the A15-20 farewell and ending
+  'a15-lamb', // pocketed | returned (a15-17-lamb): the A15-20 farewell and ending; the A15-19 complete
+  'a15-secret', // promised | theirs | quiet (a15-14-secret): the A15-16 complete and the A15-20 goodbye
 ];
 
 export const ATLAS_A15_CHECKS: string[] = [

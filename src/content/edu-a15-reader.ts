@@ -4,7 +4,7 @@
  *
  * Source: atlas-a15.ts (ATLAS_A15 and ATLAS_A15_VARIANTS). One EduScene per original scene (every
  * step scene, every done scene, every complete scene and every variant), id `reader:<original id>`,
- * with every choice kept under its original id and `set` flag (`a15-cap`, `a15-lamb`). Reader keeps
+ * with every choice kept under its original id and `set` flag (`a15-cap`, `a15-lamb`, `a15-secret`). Reader keeps
  * all choices, so no `defaultChoice` is needed. See EDU-STYLE.md. British spelling.
  *
  * Learning angles, from the outline: geography and history (Kansas and the prairie in 1900, the
@@ -4180,7 +4180,9 @@ const Q10: EduQuest = quest(
     sc(
       'a15-10-fire',
       [
-        N('On the third day the Lion goes in. The door shuts behind him with a click.'),
+        N(
+          'On the fourth day the Lion goes in, last, which he says is out of politeness. The door shuts behind him with a click.',
+        ),
         N(
           'You wait outside with the others. Under the door there is a line of light, and it is getting brighter, and redder.',
         ),
@@ -5818,21 +5820,36 @@ const Q14: EduQuest = quest(
         ),
       ],
       [
-        ch('keep', 'Promise to keep his secret.', [
-          O('Thank you. Thank you. You do not know what that is, to someone like me.', 'soft'),
-          N('He shakes your hand. His hand is warm and damp, the hand of a frightened man.'),
-        ]),
-        ch('theirs', 'Tell him it is not yours to keep. It is theirs.', [
-          O('Theirs. Yes. I suppose it is. I suppose it always was.', 'sad'),
-          N(
-            'He does not argue. He looks almost relieved, the way people do when the worst has been said out loud.',
-          ),
-        ]),
-        ch('quiet', 'Say nothing, and look at the screen.', [
-          N(
-            'You look at the screen on the floor, and so does he. Neither of you says anything for quite a long time.',
-          ),
-        ]),
+        ch(
+          'keep',
+          'Promise to keep his secret.',
+          [
+            O('Thank you. Thank you. You do not know what that is, to someone like me.', 'soft'),
+            N('He shakes your hand. His hand is warm and damp, the hand of a frightened man.'),
+          ],
+          { 'a15-secret': 'promised' },
+        ),
+        ch(
+          'theirs',
+          'Tell him it is not yours to keep. It is theirs.',
+          [
+            O('Theirs. Yes. I suppose it is. I suppose it always was.', 'sad'),
+            N(
+              'He does not argue. He looks almost relieved, the way people do when the worst has been said out loud.',
+            ),
+          ],
+          { 'a15-secret': 'theirs' },
+        ),
+        ch(
+          'quiet',
+          'Say nothing, and look at the screen.',
+          [
+            N(
+              'You look at the screen on the floor, and so does he. Neither of you says anything for quite a long time.',
+            ),
+          ],
+          { 'a15-secret': 'quiet' },
+        ),
       ],
     ),
     sc(
@@ -5841,7 +5858,9 @@ const Q14: EduQuest = quest(
         O(
           'Come to me in the morning, all of you. I shall have something for each of you. I always do.',
         ),
-        N('You have waited four days already. You wonder how many hours that is.'),
+        N(
+          'You have waited four days already, and a day has 24 hours. You wonder how many hours that is.',
+        ),
       ],
       [
         ask(
@@ -8198,6 +8217,300 @@ const GONE_THINK = (after: number): Beat =>
   );
 
 export const EDU_A15_READER_VARIANTS: EduScene[] = [
+  sc(
+    'a15-16-complete-promised',
+    [
+      N(
+        'In the morning the Guardian of the Gates unlocks everybody’s spectacles at the gate and puts them back in his box.',
+      ),
+      N('When he comes to your Nubbin, he stops, and looks at it, and looks at you.'),
+      G(
+        'Keep that pair. It has got used to them. Some do. Keep yours too, if you like, to remember us by.',
+        'think',
+      ),
+      N('He winks at you, the wink of a man who has been told a secret too.'),
+      N(
+        'Without the spectacles, the City is plain stone and glass, with a little green paint here and there.',
+      ),
+      N('It is very pretty, and not very green at all.'),
+      N('You put your pair in your pocket. Your Nubbin keeps its own on, and you let it.'),
+    ],
+    [
+      ask(
+        5,
+        A,
+        'warm and cool colours',
+        'RL.1.4',
+        [N('Artists call colours warm or cool. Which of these is a warm colour?')],
+        [
+          o(
+            'Red',
+            [
+              N(
+                'Yes. Red, orange and yellow are warm, like fire and sunshine. Blue, green and purple are cool, like water and shade. The City’s plain stone, with a little green paint, now feels cool.',
+              ),
+            ],
+            true,
+          ),
+          o('Blue', [
+            N(
+              'Blue is a cool colour, like water and shade. Red, orange and yellow are the warm ones.',
+            ),
+          ]),
+          o('Green', [
+            N('Green is cool, like leaves in shade. The warm colours are red, orange and yellow.'),
+          ]),
+        ],
+        'Learned to tell warm colours (red, orange, yellow) from cool ones (blue, green, purple).',
+      ),
+    ],
+  ),
+  sc(
+    'a15-16-complete-theirs',
+    [
+      N(
+        'In the morning the Guardian of the Gates unlocks everybody’s spectacles at the gate and puts them back in his box.',
+      ),
+      N('When he comes to your Nubbin, he stops, and looks at it, and looks at you.'),
+      G(
+        'Keep that pair. It has got used to them. Some do. Keep yours too, if you like, to remember us by.',
+        'think',
+      ),
+      G(
+        'The Scarecrow says everyone may know the City is only paint. Nobody minded as much as I feared.',
+        'happy',
+      ),
+      N(
+        'Without the spectacles, the City is plain stone and glass, with a little green paint here and there.',
+      ),
+      N('It is very pretty, and not very green at all.'),
+      N('You put your pair in your pocket. Your Nubbin keeps its own on, and you let it.'),
+    ],
+    [
+      ask(
+        5,
+        A,
+        'warm and cool colours',
+        'RL.1.4',
+        [N('Artists call colours warm or cool. Which of these is a warm colour?')],
+        [
+          o(
+            'Red',
+            [
+              N(
+                'Yes. Red, orange and yellow are warm, like fire and sunshine. Blue, green and purple are cool, like water and shade. The City’s plain stone, with a little green paint, now feels cool.',
+              ),
+            ],
+            true,
+          ),
+          o('Blue', [
+            N(
+              'Blue is a cool colour, like water and shade. Red, orange and yellow are the warm ones.',
+            ),
+          ]),
+          o('Green', [
+            N('Green is cool, like leaves in shade. The warm colours are red, orange and yellow.'),
+          ]),
+        ],
+        'Learned to tell warm colours (red, orange, yellow) from cool ones (blue, green, purple).',
+      ),
+    ],
+  ),
+  sc(
+    'a15-19-complete-pocketed',
+    [
+      N(
+        'The Monkeys set you down in the country of the Quadlings, and fly away. The King looks back once from the sky.',
+      ),
+      N('Everything here is red: the fences, the houses, the bridges, the Quadlings’ clothes.'),
+      N(
+        'The Quadlings are small and cheerful. They give Dorothy something to eat, and she thanks them.',
+      ),
+      D('Please, which way is Glinda’s castle?'),
+      N('A Quadling points. Far down the road a castle is shining in the sun.'),
+      N(
+        'Your Nubbin pats the pocket. The lump has gone very still, and the Nubbin pats it again, slower.',
+      ),
+    ],
+    [
+      ask(
+        4,
+        SS,
+        'the lands of Oz and the compass',
+        GEO,
+        [
+          N(
+            'The Munchkins live in the east and the Winkies in the west. Where do the red-clad Quadlings live?',
+          ),
+        ],
+        [
+          o(
+            'In the south',
+            [
+              N(
+                'Yes. East is blue, west is yellow, south is red, with the Emerald City in the middle. A map of Oz is a colour map and a compass in one.',
+              ),
+            ],
+            true,
+          ),
+          o('In the north', [
+            N(
+              'You have come south from the Emerald City, and here is red. The Quadlings live in the south.',
+            ),
+          ]),
+          o('In the middle', [
+            N('The middle is the green Emerald City. The Quadlings are in the south.'),
+          ]),
+        ],
+        'Matched a colour-coded land to its compass direction: the Quadlings live in the south.',
+      ),
+    ],
+  ),
+  sc(
+    'a15-20-goodbye-promised',
+    [
+      GL('Now. The Golden Cap, and its three calls. Let me see.', 'think'),
+      GL(
+        'Scarecrow: the Monkeys will carry you back to the Emerald City, to rule. The people will be lucky in you.',
+      ),
+      SC('Thank you. I have just thought of eleven new laws. I shall begin with those.', 'happy'),
+      SC('Law one: nobody looks behind screens. It is restful.', 'happy'),
+      GL('Woodman: they will carry you to the land of the Winkies, who want you for their ruler.'),
+      TW('I shall rule them kindly. I have the heart for it now.', 'soft'),
+      GL(
+        'Lion: they will carry you over the Hammer-Heads to your forest, to be King of the Beasts.',
+      ),
+      L('Thank you. I should not care to meet the Hammer-Heads again, even as a King.'),
+      GL(
+        'And then I shall give the Cap to the King of the Monkeys, so that he and his band are free for ever.',
+        'soft',
+      ),
+      N('Dorothy hugs each of them in turn, and cries, and kisses the Lion on his great nose.'),
+    ],
+    [
+      ask(
+        3,
+        SS,
+        'fairness and rules',
+        CIV,
+        [N('The Scarecrow has thought of eleven new laws. What makes a law fair?')],
+        [
+          o(
+            'It applies to everyone, including the ruler',
+            [
+              N(
+                'Yes. A law that rulers can ignore is not fair. Fairness means the same rules for everybody.',
+              ),
+            ],
+            true,
+          ),
+          o('It only applies to people the ruler dislikes', [
+            N('That is the opposite of fair. A fair law is one that applies to everyone alike.'),
+          ]),
+          o('It never changes, whatever happens', [
+            N(
+              'Good laws can be changed when they turn out to be wrong. What makes them fair is that they apply to everyone alike.',
+            ),
+          ]),
+        ],
+        'Talked about what makes a law fair: it applies to everyone alike.',
+      ),
+    ],
+    [
+      ch('oil', 'Oil the Woodman’s jaw. He is crying.', [
+        N(
+          'The Woodman is crying, of course. You oil his jaw one last time, while the Scarecrow holds his hat, as he did once before.',
+        ),
+        TW('Keep the can. I mean it. You have been the best oil-can-carrier in all of Oz.', 'soft'),
+      ]),
+      ch('scarecrow', 'Shake the Scarecrow’s hand.', [
+        SC(
+          'If you ever need a thought, come to the Emerald City. I have plenty now. I can spare one.',
+          'happy',
+        ),
+      ]),
+      ch('lion', 'Rest your hand on the Lion’s mane.', [
+        L(
+          'Goodbye, Keeper. Goodbye, little one. You sat by me first. I shall not forget it.',
+          'soft',
+        ),
+      ]),
+    ],
+  ),
+  sc(
+    'a15-20-goodbye-theirs',
+    [
+      GL('Now. The Golden Cap, and its three calls. Let me see.', 'think'),
+      GL(
+        'Scarecrow: the Monkeys will carry you back to the Emerald City, to rule. The people will be lucky in you.',
+      ),
+      SC('Thank you. I have just thought of eleven new laws. I shall begin with those.', 'happy'),
+      SC(
+        'Law one: no more locked spectacles. Law two: the screen stays up, but anyone may look behind it.',
+        'happy',
+      ),
+      GL('Woodman: they will carry you to the land of the Winkies, who want you for their ruler.'),
+      TW('I shall rule them kindly. I have the heart for it now.', 'soft'),
+      GL(
+        'Lion: they will carry you over the Hammer-Heads to your forest, to be King of the Beasts.',
+      ),
+      L('Thank you. I should not care to meet the Hammer-Heads again, even as a King.'),
+      GL(
+        'And then I shall give the Cap to the King of the Monkeys, so that he and his band are free for ever.',
+        'soft',
+      ),
+      N('Dorothy hugs each of them in turn, and cries, and kisses the Lion on his great nose.'),
+    ],
+    [
+      ask(
+        3,
+        SS,
+        'fairness and rules',
+        CIV,
+        [N('The Scarecrow has thought of eleven new laws. What makes a law fair?')],
+        [
+          o(
+            'It applies to everyone, including the ruler',
+            [
+              N(
+                'Yes. A law that rulers can ignore is not fair. Fairness means the same rules for everybody.',
+              ),
+            ],
+            true,
+          ),
+          o('It only applies to people the ruler dislikes', [
+            N('That is the opposite of fair. A fair law is one that applies to everyone alike.'),
+          ]),
+          o('It never changes, whatever happens', [
+            N(
+              'Good laws can be changed when they turn out to be wrong. What makes them fair is that they apply to everyone alike.',
+            ),
+          ]),
+        ],
+        'Talked about what makes a law fair: it applies to everyone alike.',
+      ),
+    ],
+    [
+      ch('oil', 'Oil the Woodman’s jaw. He is crying.', [
+        N(
+          'The Woodman is crying, of course. You oil his jaw one last time, while the Scarecrow holds his hat, as he did once before.',
+        ),
+        TW('Keep the can. I mean it. You have been the best oil-can-carrier in all of Oz.', 'soft'),
+      ]),
+      ch('scarecrow', 'Shake the Scarecrow’s hand.', [
+        SC(
+          'If you ever need a thought, come to the Emerald City. I have plenty now. I can spare one.',
+          'happy',
+        ),
+      ]),
+      ch('lion', 'Rest your hand on the Lion’s mane.', [
+        L(
+          'Goodbye, Keeper. Goodbye, little one. You sat by me first. I shall not forget it.',
+          'soft',
+        ),
+      ]),
+    ],
+  ),
   sc(
     'a15-14-screen-done-reconciled',
     [

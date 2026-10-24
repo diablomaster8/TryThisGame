@@ -263,6 +263,10 @@ const A14_BED: Line[] = [
   O('That was our secret. Has someone cut the trunk? Tell me. Is my bed still there?', 'sad'),
   N('Her knees give way. She runs to him, and puts her arms round his neck, and kisses him.'),
   PE('Don’t be angry with me. So many men have come with stories. I had to be sure it was you.', 'sad'),
+  PE('Twenty years, and the first thing you do is shout about carpentry.', 'happy'),
+  O('It’s very good carpentry.'),
+  PE('It’s a bed, my love. It was never the interesting part of you.'),
+  N('Your Nubbin, who has been sitting on the bed, decides it is the interesting part.'),
   N('He holds her and weeps. She is to him what the land is to a swimmer who has been a long time in the sea.'),
   N('Athena holds back the dawn at the edge of the world, and keeps the horses of the morning in their stable, so the night goes on.'),
 ];
@@ -1622,7 +1626,7 @@ export const ATLAS_A14: Quest[] = [
       id: 'a14-09-complete',
       lines: [
         N('No wind now: they row, day after day. The men don’t look at Odysseus, and he doesn’t look at them.'),
-        N('After a harbour of giants that nobody will talk about, there is only one ship left of all the ships they had.'),
+        N('Twelve ships sailed home from Troy. After a harbour of giants that nobody will talk about, there is one.'),
         O('I was so close I could see the smoke from their fires.', 'sad'),
         O('That’s the worst of it. Not that it was far. That it was close.', 'sad'),
       ],
@@ -2063,7 +2067,9 @@ export const ATLAS_A14: Quest[] = [
           lines: [
             N('The island of the Sun. Fat cattle with broad brows and curling horns graze along the shore: seven herds, and seven flocks of sheep.'),
             O('Tiresias warned me. Circe warned me. We sail past.', 'think'),
-            EL('You’re made of iron, you. We’re tired, and it’s getting dark. Let us land and sleep. One night.', 'angry'),
+            EL('You may be made of iron. The rest of us are made of tired. One night. We’ll even be quiet.', 'angry'),
+            O('You have never once been quiet.'),
+            EL('Then this will be a nice change for everybody.'),
             N('The men all shout for Eurylochus. Odysseus makes them swear not to touch the cattle, and they swear, and you land.'),
             N('In the night the wind changes and blows from the south for a month, and never stops. The food runs out.'),
             N('The men fish, and snare birds, and go hungry. Odysseus goes inland alone to ask the gods for help, and falls asleep.'),
@@ -2951,6 +2957,8 @@ export const ATLAS_A14: Quest[] = [
           id: 'a14-20-hall',
           lines: [
             EU('Wake up, child! He’s home. He’s here. The beggar in the hall was him all along. Telemachus knew!', 'happy'),
+            PE('Nurse. You knew my son had sailed and said nothing for twelve days. Now you wake me with this?', 'angry'),
+            EU('Eleven. And this time it’s true.'),
             PE('Nurse, the gods have made you mad. Why wake me? I was sleeping so well. I haven’t slept like that since he went.', 'angry'),
             N('Penelope comes down the stair, and stops. She sits down across the hearth from him in the firelight, and looks at him, and doesn’t speak.'),
             N('He sits by a pillar with his eyes down, waiting for her to say something. She doesn’t.'),
@@ -2992,12 +3000,15 @@ export const ATLAS_A14: Quest[] = [
           lines: [
             ...A14_BED,
             O('Penelope. It’s me. It’s Odysseus.', 'soft'),
-            N('It is the first time he has said his own name aloud since the giant’s island, and you hear it. It sounds different, said quietly, at home.'),
+            N('It is the first time he has said his own name under his own roof, and you hear it. It sounds different, said quietly, at home.'),
           ],
         },
         done: {
           id: 'a14-20-bed-done',
-          lines: [N('You go quietly out of the hall with your Nubbin, and leave them by the fire. There is a lot to tell, and the night is as long as Athena has made it.')],
+          lines: [
+            N('You go quietly out of the hall with your Nubbin, and leave them by the fire. There is a lot to tell, and the night is as long as Athena has made it.'),
+            N('Your Nubbin comes away with an olive leaf from the bedpost. The tree has plenty, and nobody is moving that bed.'),
+          ],
         },
       },
       {
@@ -3074,7 +3085,7 @@ export const ATLAS_A14: Quest[] = [
     sets: { 'a14-20': true, 'a14-done': true },
     notes:
       'NAME PAYOFF (a14-name). The step 2 scene shown, a14-20-bed, is for dont: he says his own name aloud for the first ' +
-      'time since the Cyclops, and you hear it. For shout play A14_VARIANTS a14-20-bed-shout (he tells Penelope a friend ' +
+      'time under his own roof, and you hear it. For shout play A14_VARIANTS a14-20-bed-shout (he tells Penelope a friend ' +
       'once shouted his name with him at a giant, that it cost him ten years, and that he isn’t sorry about the company). ' +
       'For silence play a14-20-bed-silence in step 2, and a14-20-complete-silence in place of a14-20-complete (he ' +
       'thanks you "for not telling me what I already knew"). LIFTED TEXT: none; the olive passage Part M lists is ' +

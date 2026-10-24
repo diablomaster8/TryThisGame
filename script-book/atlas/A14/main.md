@@ -936,7 +936,7 @@ _Nobody offers you dinner. It is the first door in this story that has been shut
 #### <a id="a14-09-complete"></a>Complete `a14-09-complete`
 
 _No wind now: they row, day after day. The men don’t look at Odysseus, and he doesn’t look at them._  
-_After a harbour of giants that nobody will talk about, there is only one ship left of all the ships they had._  
+_Twelve ships sailed home from Troy. After a harbour of giants that nobody will talk about, there is one._  
 **Odysseus** _(sad)_: I was so close I could see the smoke from their fires.  
 **Odysseus** _(sad)_: That’s the worst of it. Not that it was far. That it was close.  
 
@@ -1256,7 +1256,9 @@ Hint: Go ashore with the crew, and keep away from the herds. · check: `visit:a1
 
 _The island of the Sun. Fat cattle with broad brows and curling horns graze along the shore: seven herds, and seven flocks of sheep._  
 **Odysseus** _(think)_: Tiresias warned me. Circe warned me. We sail past.  
-**Eurylochus** _(angry)_: You’re made of iron, you. We’re tired, and it’s getting dark. Let us land and sleep. One night.  
+**Eurylochus** _(angry)_: You may be made of iron. The rest of us are made of tired. One night. We’ll even be quiet.  
+**Odysseus**: You have never once been quiet.  
+**Eurylochus**: Then this will be a nice change for everybody.  
 _The men all shout for Eurylochus. Odysseus makes them swear not to touch the cattle, and they swear, and you land._  
 _In the night the wind changes and blows from the south for a month, and never stops. The food runs out._  
 _The men fish, and snare birds, and go hungry. Odysseus goes inland alone to ask the gods for help, and falls asleep._  
@@ -2020,6 +2022,8 @@ Hint: Sit on the step by the hearth and keep out of the way. · check: `wait:a14
 #### <a id="a14-20-hall"></a>Scene `a14-20-hall`
 
 **Eurycleia** _(happy)_: Wake up, child! He’s home. He’s here. The beggar in the hall was him all along. Telemachus knew!  
+**Penelope** _(angry)_: Nurse. You knew my son had sailed and said nothing for twelve days. Now you wake me with this?  
+**Eurycleia**: Eleven. And this time it’s true.  
 **Penelope** _(angry)_: Nurse, the gods have made you mad. Why wake me? I was sleeping so well. I haven’t slept like that since he went.  
 _Penelope comes down the stair, and stops. She sits down across the hearth from him in the firelight, and looks at him, and doesn’t speak._  
 _He sits by a pillar with his eyes down, waiting for her to say something. She doesn’t._  
@@ -2057,10 +2061,14 @@ _Odysseus goes white. He stands up._
 **Odysseus** _(sad)_: That was our secret. Has someone cut the trunk? Tell me. Is my bed still there?  
 _Her knees give way. She runs to him, and puts her arms round his neck, and kisses him._  
 **Penelope** _(sad)_: Don’t be angry with me. So many men have come with stories. I had to be sure it was you.  
+**Penelope** _(happy)_: Twenty years, and the first thing you do is shout about carpentry.  
+**Odysseus**: It’s very good carpentry.  
+**Penelope**: It’s a bed, my love. It was never the interesting part of you.  
+_Your Nubbin, who has been sitting on the bed, decides it is the interesting part._  
 _He holds her and weeps. She is to him what the land is to a swimmer who has been a long time in the sea._  
 _Athena holds back the dawn at the edge of the world, and keeps the horses of the morning in their stable, so the night goes on._  
 **Odysseus** _(soft)_: Penelope. It’s me. It’s Odysseus.  
-_It is the first time he has said his own name aloud since the giant’s island, and you hear it. It sounds different, said quietly, at home._  
+_It is the first time he has said his own name under his own roof, and you hear it. It sounds different, said quietly, at home._  
 
 #### <a id="a14-20-bed-shout"></a>Variant `a14-20-bed-shout`
 
@@ -2076,6 +2084,10 @@ _Odysseus goes white. He stands up._
 **Odysseus** _(sad)_: That was our secret. Has someone cut the trunk? Tell me. Is my bed still there?  
 _Her knees give way. She runs to him, and puts her arms round his neck, and kisses him._  
 **Penelope** _(sad)_: Don’t be angry with me. So many men have come with stories. I had to be sure it was you.  
+**Penelope** _(happy)_: Twenty years, and the first thing you do is shout about carpentry.  
+**Odysseus**: It’s very good carpentry.  
+**Penelope**: It’s a bed, my love. It was never the interesting part of you.  
+_Your Nubbin, who has been sitting on the bed, decides it is the interesting part._  
 _He holds her and weeps. She is to him what the land is to a swimmer who has been a long time in the sea._  
 _Athena holds back the dawn at the edge of the world, and keeps the horses of the morning in their stable, so the night goes on._  
 **Odysseus** _(soft)_: A friend once shouted my name with me, at a giant. It cost me ten years.  
@@ -2096,6 +2108,10 @@ _Odysseus goes white. He stands up._
 **Odysseus** _(sad)_: That was our secret. Has someone cut the trunk? Tell me. Is my bed still there?  
 _Her knees give way. She runs to him, and puts her arms round his neck, and kisses him._  
 **Penelope** _(sad)_: Don’t be angry with me. So many men have come with stories. I had to be sure it was you.  
+**Penelope** _(happy)_: Twenty years, and the first thing you do is shout about carpentry.  
+**Odysseus**: It’s very good carpentry.  
+**Penelope**: It’s a bed, my love. It was never the interesting part of you.  
+_Your Nubbin, who has been sitting on the bed, decides it is the interesting part._  
 _He holds her and weeps. She is to him what the land is to a swimmer who has been a long time in the sea._  
 _Athena holds back the dawn at the edge of the world, and keeps the horses of the morning in their stable, so the night goes on._  
 _Penelope looks at you over his shoulder for a moment, as if to ask who you are. Then she doesn’t mind._  
@@ -2103,6 +2119,7 @@ _Penelope looks at you over his shoulder for a moment, as if to ask who you are.
 #### <a id="a14-20-bed-done"></a>Done `a14-20-bed-done`
 
 _You go quietly out of the hall with your Nubbin, and leave them by the fire. There is a lot to tell, and the night is as long as Athena has made it._  
+_Your Nubbin comes away with an olive leaf from the bedpost. The tree has plenty, and nobody is moving that bed._  
 
 ### Step 3: Go with him to his father’s orchard.
 
@@ -2173,7 +2190,7 @@ _In one hand there is an olive cutting in wet cloth. Your Nubbin is holding the 
 
 Sets on completion: `{"a14-20":true,"a14-done":true}`
 
-**Notes:** NAME PAYOFF (a14-name). The step 2 scene shown, a14-20-bed, is for dont: he says his own name aloud for the first time since the Cyclops, and you hear it. For shout play A14_VARIANTS a14-20-bed-shout (he tells Penelope a friend once shouted his name with him at a giant, that it cost him ten years, and that he isn’t sorry about the company). For silence play a14-20-bed-silence in step 2, and a14-20-complete-silence in place of a14-20-complete (he thanks you "for not telling me what I already knew"). LIFTED TEXT: none; the olive passage Part M lists is [unverified], so a14-20-bed#5–6 tell it in our own words. Laertes’s trees (13 pear, 10 apple, 40 fig, 50 rows of vines) are Homer’s numbers. CARE: the families’ revenge (Book XXIV) is cut to the road and Athena’s peace; no blow is struck. Athena’s words are brief and commanding, Zeus’s thunder one roll. Odysseus’s test of Laertes (a cruel tale in Homer) is cut short by his own pity. CLOSE: straight after the complete scene, play a14-close-family if a14-corvin is set; otherwise a14-close-guest or a14-close-shut by corvinGate; nothing if corvinGate is unset. SIM: (a) Penelope’s loom is a cottage decoration whose cloth grows by one band per finished Atlas page, read through atlasDone(id) across every page (never by chores, never by time); the bands take each page’s colours. (b) The olive sapling is placed by the pond. (c) The Great Voyage festival (A2, A6, A9, A10, A12, A14, A19, any two) reads atlasDone('A14').
+**Notes:** NAME PAYOFF (a14-name). The step 2 scene shown, a14-20-bed, is for dont: he says his own name aloud for the first time under his own roof, and you hear it. For shout play A14_VARIANTS a14-20-bed-shout (he tells Penelope a friend once shouted his name with him at a giant, that it cost him ten years, and that he isn’t sorry about the company). For silence play a14-20-bed-silence in step 2, and a14-20-complete-silence in place of a14-20-complete (he thanks you "for not telling me what I already knew"). LIFTED TEXT: none; the olive passage Part M lists is [unverified], so a14-20-bed#5–6 tell it in our own words. Laertes’s trees (13 pear, 10 apple, 40 fig, 50 rows of vines) are Homer’s numbers. CARE: the families’ revenge (Book XXIV) is cut to the road and Athena’s peace; no blow is struck. Athena’s words are brief and commanding, Zeus’s thunder one roll. Odysseus’s test of Laertes (a cruel tale in Homer) is cut short by his own pity. CLOSE: straight after the complete scene, play a14-close-family if a14-corvin is set; otherwise a14-close-guest or a14-close-shut by corvinGate; nothing if corvinGate is unset. SIM: (a) Penelope’s loom is a cottage decoration whose cloth grows by one band per finished Atlas page, read through atlasDone(id) across every page (never by chores, never by time); the bands take each page’s colours. (b) The olive sapling is placed by the pond. (c) The Great Voyage festival (A2, A6, A9, A10, A12, A14, A19, any two) reads atlasDone('A14').
 
 ## Variant scenes
 

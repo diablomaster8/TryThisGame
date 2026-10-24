@@ -3,7 +3,7 @@
  * (Baum’s The Wonderful Wizard of Oz, 1900, USA).
  *
  * Source: atlas-a15.ts (ATLAS_A15 and ATLAS_A15_VARIANTS). One EduScene per original scene, id
- * `sprout:<original id>`, with the same choice ids and `set` flags (`a15-cap`, `a15-lamb`). Every
+ * `sprout:<original id>`, with the same choice ids and `set` flags (`a15-cap`, `a15-lamb`, `a15-secret`). Every
  * step scene, done scene, complete scene and variant has a version, and each has exactly one
  * lesson. See EDU-STYLE.md.
  *
@@ -24,7 +24,8 @@
  *   West melts quickly in a puddle, said plainly (“She melts all away, into a brown puddle. She cannot hurt anyone now”),
  *   with Dorothy sorry straight after.
  * - One choice is left out: in a15-14-secret a grown-up asks the child to keep a secret from the
- *   others, so “keep” is dropped (`defaultChoice: 'theirs'`; the choice sets no flag). The lamb
+ *   others, so “keep” is dropped (`defaultChoice: 'theirs'`; theirs and quiet set `a15-secret` as in the main
+ *   script, so promised is never set here and the two -promised variants play the default lines). The lamb
  *   choices stay: the china lamb never suffers, it only goes still.
  * - Corvin: the three variants of a15-14-screen-done name only “a lonely man who fibbed to keep
  *   folk safe”; the chapter 9 detail is left out for this band.
@@ -3238,12 +3239,18 @@ const Q14: EduQuest = quest(
       ],
       {
         choices: [
-          ch('theirs', 'Tell him it is not yours to keep. It is theirs.', [
-            O('Theirs. Yes. I suppose it always was.', 'sad'),
-          ]),
-          ch('quiet', 'Say nothing, and look at the screen.', [
-            N('You both look at the screen on the floor. Neither of you speaks.'),
-          ]),
+          ch(
+            'theirs',
+            'Tell him it is not yours to keep. It is theirs.',
+            [O('Theirs. Yes. I suppose it always was.', 'sad')],
+            { 'a15-secret': 'theirs' },
+          ),
+          ch(
+            'quiet',
+            'Say nothing, and look at the screen.',
+            [N('You both look at the screen on the floor. Neither of you speaks.')],
+            { 'a15-secret': 'quiet' },
+          ),
         ],
         defaultChoice: 'theirs',
       },
@@ -4492,6 +4499,174 @@ const GONE_ASK = (after: number): Beat =>
   );
 
 export const EDU_A15_SPROUT_VARIANTS: EduScene[] = [
+  sc(
+    'a15-16-complete-promised',
+    [
+      N('In the morning, the Guardian unlocks the spectacles.'),
+      G('Keep that pair. Some people get used to them.', 'think'),
+      N('Without the glasses, the city is plain stone.'),
+      N('There is a little green paint here and there.'),
+      N('Your Nubbin keeps its own pair on.'),
+    ],
+    [
+      doit(
+        3,
+        A,
+        'sorting by colour',
+        APP,
+        'edu:sort:colours:green-grey',
+        [
+          N('The city looks grey stone with a little green paint.'),
+          N('(Tap something grey. Then tap something green.)'),
+        ],
+        'Sorted things by colour: grey and green.',
+      ),
+    ],
+  ),
+  sc(
+    'a15-16-complete-theirs',
+    [
+      N('In the morning, the Guardian unlocks the spectacles.'),
+      G('Keep that pair. Some people get used to them.', 'think'),
+      G('The Scarecrow told everyone the city is only paint.'),
+      G('Nobody minded much, after all.', 'happy'),
+      N('Without the glasses, the city is plain stone.'),
+      N('There is a little green paint here and there.'),
+      N('Your Nubbin keeps its own pair on.'),
+    ],
+    [
+      doit(
+        5,
+        A,
+        'sorting by colour',
+        APP,
+        'edu:sort:colours:green-grey',
+        [
+          N('The city looks grey stone with a little green paint.'),
+          N('(Tap something grey. Then tap something green.)'),
+        ],
+        'Sorted things by colour: grey and green.',
+      ),
+    ],
+  ),
+  sc(
+    'a15-19-complete-pocketed',
+    [
+      N('The Monkeys put you down in the Quadlings’ land.'),
+      N('The King looks back once from the sky.'),
+      N('Everything here is red: fences, houses, bridges.'),
+      D('Which way is Glinda’s castle?'),
+      N('A Quadling points. Far away, a castle shines.'),
+      N('Your Nubbin pats your pocket. The little lamb is very still.'),
+      N('Your Nubbin pats it again, slower.', 'sad'),
+    ],
+    [
+      ask(
+        2,
+        SS,
+        'matching colours to places',
+        'D2.Geo.2.K-2',
+        [N('Which land is red: the Quadlings’ land, or the Munchkins’ land?')],
+        [
+          o(
+            'The Quadlings’',
+            [N('Yes! The Quadlings’ land is red. The Munchkins’ land is blue.')],
+            true,
+          ),
+          o('The Munchkins’', [N('The Munchkins’ land is blue. The Quadlings’ land is red.')]),
+        ],
+        'Matched the colours of the lands of Oz with their people.',
+      ),
+    ],
+  ),
+  sc(
+    'a15-20-goodbye-promised',
+    [
+      GL('Scarecrow: the Monkeys will take you to the Emerald City, to rule.'),
+      SC('Thank you. I have thought of eleven new rules.', 'happy'),
+      GL('Woodman: they will take you to the Winkies, who want you to rule.'),
+      TW('I will rule kindly. I have the heart for it.', 'soft'),
+      GL('Lion: they will take you to your forest.'),
+      L('Thank you. I would not like to meet the Hammer-Heads again.'),
+      N('Dorothy hugs each friend, and cries, and kisses the Lion’s nose.'),
+    ],
+    [
+      ask(
+        1,
+        SS,
+        'fair rules',
+        'D2.Civ.8.K-2',
+        [
+          N(
+            'The Scarecrow will make rules. What makes a rule fair: everyone gets a turn, or only me?',
+          ),
+        ],
+        [
+          o('Everyone gets a turn', [N('Yes! A fair rule is fair to everyone.')], true),
+          o('Only me', [N('That is not fair to others. Fair means everyone gets a turn.')]),
+        ],
+        'Talked about what makes a rule fair.',
+      ),
+    ],
+    {
+      choices: [
+        ch('oil', 'Oil the Woodman’s jaw. He is crying.', [
+          TW('Keep the can. You are the best oil-can-carrier in Oz.', 'soft'),
+        ]),
+        ch('scarecrow', 'Shake the Scarecrow’s hand.', [
+          SC('If you need a thought, come to me. I can spare one.', 'happy'),
+        ]),
+        ch('lion', 'Rest your hand on the Lion’s mane.', [
+          L('Goodbye, Keeper. Goodbye, little one. You sat by me first.', 'soft'),
+        ]),
+      ],
+    },
+  ),
+  sc(
+    'a15-20-goodbye-theirs',
+    [
+      GL('Scarecrow: the Monkeys will take you to the Emerald City, to rule.'),
+      SC('Thank you. I have thought of eleven new rules.', 'happy'),
+      SC('Rule one: no locked glasses!', 'happy'),
+      SC('Rule two: anyone may look behind the screen.'),
+      GL('Woodman: they will take you to the Winkies, who want you to rule.'),
+      TW('I will rule kindly. I have the heart for it.', 'soft'),
+      GL('Lion: they will take you to your forest.'),
+      L('Thank you. I would not like to meet the Hammer-Heads again.'),
+      N('Dorothy hugs each friend, and cries, and kisses the Lion’s nose.'),
+    ],
+    [
+      ask(
+        3,
+        SS,
+        'fair rules',
+        'D2.Civ.8.K-2',
+        [
+          N(
+            'The Scarecrow will make rules. What makes a rule fair: everyone gets a turn, or only me?',
+          ),
+        ],
+        [
+          o('Everyone gets a turn', [N('Yes! A fair rule is fair to everyone.')], true),
+          o('Only me', [N('That is not fair to others. Fair means everyone gets a turn.')]),
+        ],
+        'Talked about what makes a rule fair.',
+      ),
+    ],
+    {
+      choices: [
+        ch('oil', 'Oil the Woodman’s jaw. He is crying.', [
+          TW('Keep the can. You are the best oil-can-carrier in Oz.', 'soft'),
+        ]),
+        ch('scarecrow', 'Shake the Scarecrow’s hand.', [
+          SC('If you need a thought, come to me. I can spare one.', 'happy'),
+        ]),
+        ch('lion', 'Rest your hand on the Lion’s mane.', [
+          L('Goodbye, Keeper. Goodbye, little one. You sat by me first.', 'soft'),
+        ]),
+      ],
+    },
+  ),
   sc(
     'a15-14-screen-done-reconciled',
     [

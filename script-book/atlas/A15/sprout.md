@@ -2184,6 +2184,42 @@ _There is a little green paint here and there._
 
 _Your Nubbin keeps its own pair on._  
 
+#### `sprout:a15-16-complete-promised` · [main](main.md#a15-16-complete-promised)
+
+_Variant of `a15-16-complete`._
+
+_In the morning, the Guardian unlocks the spectacles._  
+**The Guardian of the Gates**: Keep that pair. Some people get used to them.  
+_Without the glasses, the city is plain stone._  
+_There is a little green paint here and there._  
+
+> **Lesson** (art, ELOF: Approaches to Learning, do): sorting by colour  
+> _The city looks grey stone with a little green paint._  
+> _(Tap something grey. Then tap something green.)_  
+> Check: `edu:sort:colours:green-grey`
+> _For grown-ups: Sorted things by colour: grey and green._
+
+_Your Nubbin keeps its own pair on._  
+
+#### `sprout:a15-16-complete-theirs` · [main](main.md#a15-16-complete-theirs)
+
+_Variant of `a15-16-complete`._
+
+_In the morning, the Guardian unlocks the spectacles._  
+**The Guardian of the Gates**: Keep that pair. Some people get used to them.  
+**The Guardian of the Gates**: The Scarecrow told everyone the city is only paint.  
+**The Guardian of the Gates**: Nobody minded much, after all.  
+_Without the glasses, the city is plain stone._  
+_There is a little green paint here and there._  
+
+> **Lesson** (art, ELOF: Approaches to Learning, do): sorting by colour  
+> _The city looks grey stone with a little green paint._  
+> _(Tap something grey. Then tap something green.)_  
+> Check: `edu:sort:colours:green-grey`
+> _For grown-ups: Sorted things by colour: grey and green._
+
+_Your Nubbin keeps its own pair on._  
+
 ## A15-17. The Fighting Trees and the China Country
 
 - `a15-17-s1`: Get through the forest of grabbing trees. · _Keep behind the Woodman. When a branch grabs, let him help._
@@ -2508,6 +2544,25 @@ _Everything here is red: fences, houses, bridges._
 **Dorothy**: Which way is Glinda’s castle?  
 _A Quadling points. Far away, a castle shines._  
 
+#### `sprout:a15-19-complete-pocketed` · [main](main.md#a15-19-complete-pocketed)
+
+_Variant of `a15-19-complete`._
+
+_The Monkeys put you down in the Quadlings’ land._  
+_The King looks back once from the sky._  
+_Everything here is red: fences, houses, bridges._  
+
+> **Lesson** (social-studies, D2.Geo.2.K-2, ask): matching colours to places  
+> _Which land is red: the Quadlings’ land, or the Munchkins’ land?_  
+> - ✅ The Quadlings’ → Yes! The Quadlings’ land is red. The Munchkins’ land is blue.
+> - The Munchkins’ → The Munchkins’ land is blue. The Quadlings’ land is red.
+> _For grown-ups: Matched the colours of the lands of Oz with their people._
+
+**Dorothy**: Which way is Glinda’s castle?  
+_A Quadling points. Far away, a castle shines._  
+_Your Nubbin pats your pocket. The little lamb is very still._  
+_Your Nubbin pats it again, slower._  
+
 ## A15-20. Glinda
 
 - `a15-20-s1`: Go before Glinda, the Good Witch of the South. · _Walk up to her throne with Dorothy and the others. Listen._
@@ -2557,6 +2612,68 @@ _Knock, knock, knock._
 
 **Glinda**: Scarecrow: the Monkeys will take you to the Emerald City, to rule.  
 **The Scarecrow**: Thank you. I have thought of eleven new rules.  
+
+> **Lesson** (social-studies, D2.Civ.8.K-2, ask): fair rules  
+> _The Scarecrow will make rules._  
+> _What makes a rule fair: everyone gets a turn, or only me?_  
+> - ✅ Everyone gets a turn → Yes! A fair rule is fair to everyone.
+> - Only me → That is not fair to others. Fair means everyone gets a turn.
+> _For grown-ups: Talked about what makes a rule fair._
+
+**Glinda**: Woodman: they will take you to the Winkies, who want you to rule.  
+**The Tin Woodman**: I will rule kindly. I have the heart for it.  
+**Glinda**: Lion: they will take you to your forest.  
+**The Cowardly Lion**: Thank you. I would not like to meet the Hammer-Heads again.  
+_Dorothy hugs each friend, and cries, and kisses the Lion’s nose._  
+
+**Choices**
+
+- **Oil the Woodman’s jaw. He is crying.**
+    - **The Tin Woodman**: Keep the can. You are the best oil-can-carrier in Oz.
+- **Shake the Scarecrow’s hand.**
+    - **The Scarecrow**: If you need a thought, come to me. I can spare one.
+- **Rest your hand on the Lion’s mane.**
+    - **The Cowardly Lion**: Goodbye, Keeper. Goodbye, little one.
+    - **The Cowardly Lion**: You sat by me first.
+
+#### `sprout:a15-20-goodbye-promised` · [main](main.md#a15-20-goodbye-promised)
+
+_Variant of `a15-20-goodbye`._
+
+**Glinda**: Scarecrow: the Monkeys will take you to the Emerald City, to rule.  
+**The Scarecrow**: Thank you. I have thought of eleven new rules.  
+
+> **Lesson** (social-studies, D2.Civ.8.K-2, ask): fair rules  
+> _The Scarecrow will make rules._  
+> _What makes a rule fair: everyone gets a turn, or only me?_  
+> - ✅ Everyone gets a turn → Yes! A fair rule is fair to everyone.
+> - Only me → That is not fair to others. Fair means everyone gets a turn.
+> _For grown-ups: Talked about what makes a rule fair._
+
+**Glinda**: Woodman: they will take you to the Winkies, who want you to rule.  
+**The Tin Woodman**: I will rule kindly. I have the heart for it.  
+**Glinda**: Lion: they will take you to your forest.  
+**The Cowardly Lion**: Thank you. I would not like to meet the Hammer-Heads again.  
+_Dorothy hugs each friend, and cries, and kisses the Lion’s nose._  
+
+**Choices**
+
+- **Oil the Woodman’s jaw. He is crying.**
+    - **The Tin Woodman**: Keep the can. You are the best oil-can-carrier in Oz.
+- **Shake the Scarecrow’s hand.**
+    - **The Scarecrow**: If you need a thought, come to me. I can spare one.
+- **Rest your hand on the Lion’s mane.**
+    - **The Cowardly Lion**: Goodbye, Keeper. Goodbye, little one.
+    - **The Cowardly Lion**: You sat by me first.
+
+#### `sprout:a15-20-goodbye-theirs` · [main](main.md#a15-20-goodbye-theirs)
+
+_Variant of `a15-20-goodbye`._
+
+**Glinda**: Scarecrow: the Monkeys will take you to the Emerald City, to rule.  
+**The Scarecrow**: Thank you. I have thought of eleven new rules.  
+**The Scarecrow**: Rule one: no locked glasses!  
+**The Scarecrow**: Rule two: anyone may look behind the screen.  
 
 > **Lesson** (social-studies, D2.Civ.8.K-2, ask): fair rules  
 > _The Scarecrow will make rules._  

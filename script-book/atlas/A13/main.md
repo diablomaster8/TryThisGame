@@ -1260,6 +1260,10 @@ _He eats like a wolf. Then he looks up at her to say thank you, and stops, and s
 **Pinocchio** _(shock)_: You’ve got blue hair. Like her. Just like her.  
 _The little woman says nothing. She smiles, and that is enough._  
 **Pinocchio** _(happy)_: It’s you! You were a little girl, and now you’re grown up. You’re almost like a mother.  
+**Pinocchio**: I read your stone. I cried on it all night. The Pigeon said I was very loud.  
+**The Fairy** _(soft)_: I know. I could hear you from the next valley.  
+**Pinocchio**: Then why didn’t you come?  
+**The Fairy** _(soft)_: Because you had to come to me. That’s the whole trick of it.  
 **The Fairy** _(soft)_: Then call me mother, if you like.  
 
 #### <a id="a13-16-water-done"></a>Done `a13-16-water-done`
@@ -1476,6 +1480,9 @@ _The Little Man comes to collect them, smiling his little smile, and sells them 
 _Candlewick goes to a farmer. Pinocchio goes to a circus, where the director teaches him to dance and jump through hoops, and is not gentle about it._  
 _On the first night, in a box above the ring, there is a lady with a gold locket. In the locket is a picture of a puppet._  
 _Pinocchio sees her and tries to call out to her. What comes out is a bray, so loud that the audience laughs._  
+_Your Nubbin’s paper ears flap in sympathy. It brays too, very small._  
+_Far off across the fields, another bray answers. Candlewick doesn’t encourage him; he just can’t help it either._  
+_Then the laughing stops, and the tent goes very quiet._  
 _He jumps for the hoop, catches his back leg on it and comes down hard. After that he is lame._  
 _The director sells him for a few pennies to a man who wants a donkey’s hide to make a drum._  
 _The man ties a rope to him and drops him off a rock into the sea, to soak the hide soft. You watch from the cliff, and can’t stop it._  
@@ -1532,6 +1539,32 @@ _It is dark and wet, and it smells of fried fish, which is not reassuring when y
 _Your boat lies on its side in a shallow pool._  
 **Pinocchio** _(shock)_: Help! Help! Isn’t anyone here?  
 **The Tunny**: Only us unfortunates.  
+**Pinocchio**: Who’s that?  
+**The Tunny**: A poor Tunny, swallowed at the same time as you. What sort of fish are you?  
+**Pinocchio**: I’m not any sort of fish! I’m a puppet. And that’s a traveller, and that’s a Nubbin.  
+**The Tunny** _(think)_: Then why let yourselves be swallowed? Never mind. Now we wait to be digested, with dignity.  
+**Pinocchio**: I don’t want to be digested!  
+_Far away, down the long dark of the Dog-fish, there is a little light._  
+
+**Choices**
+
+- **Head for the light.**
+    - You start towards it. Your Nubbin goes first, because it is smallest and has the best eyes.
+- **Ask the Tunny how big the Dog-fish is.**
+    - **The Tunny**: A mile long, not counting the tail. I have never counted the tail. Nobody comes back from counting the tail.
+    - You decide to head for the light.
+
+#### <a id="a13-19-belly-clank"></a>Variant `a13-19-belly-clank`
+
+_Variant of `a13-19-belly`._
+
+_It is dark and wet, and it smells of fried fish, which is not reassuring when you are inside one._  
+_Your boat lies on its side in a shallow pool._  
+**Pinocchio** _(shock)_: Help! Help! Isn’t anyone here?  
+**The Tunny**: Only us unfortunates.  
+**Clank** _(shock)_: Announcement: we have been eaten.  
+**Clank**: I have a ramp. There is no door. This is a design problem.  
+**The Tunny**: Dignity, please. It is all we have left.  
 **Pinocchio**: Who’s that?  
 **The Tunny**: A poor Tunny, swallowed at the same time as you. What sort of fish are you?  
 **Pinocchio**: I’m not any sort of fish! I’m a puppet. And that’s a traveller, and that’s a Nubbin.  
@@ -1627,7 +1660,7 @@ _Your Nubbin is still holding the green bottle. The candle went out in the sea, 
 
 Sets on completion: `{"a13-19":true}`
 
-**Notes:** Lifted texts 5, 6 and 7 are [unverified] and told in our own words (a13-19-babbo#1, a13-19-mouth#3, A19_THANKS#2). CLANK (s21Done): play A13_VARIANTS a13-19-complete-clank in place of a13-19-complete. Clank has been in the Dog-fish with you all along (he was in the boat), and rides out on the Tunny’s back, because a kettle sinks; draw him on the Tunny in the escape. The Dog-fish is huge and sleepy, never fierce: an old wheezing thing. Geppetto eats “a very small fish”, not live ones. The candle goes out in the sea; the bottle is the reward, and in the Grove it glows (the decoration, not a real flame).
+**Notes:** Lifted texts 5, 6 and 7 are [unverified] and told in our own words (a13-19-babbo#1, a13-19-mouth#3, A19_THANKS#2). CLANK (s21Done): play A13_VARIANTS a13-19-belly-clank in place of the step 1 scene a13-19-belly (Clank on being eaten), and a13-19-complete-clank in place of a13-19-complete. Clank has been in the Dog-fish with you all along (he was in the boat), and rides out on the Tunny’s back, because a kettle sinks; draw him on the Tunny in the escape. The Dog-fish is huge and sleepy, never fierce: an old wheezing thing. Geppetto eats “a very small fish”, not live ones. The candle goes out in the sea; the bottle is the reward, and in the Grove it glows (the decoration, not a real flame).
 
 ## A13-20. The Wheel and the Chair
 
@@ -1673,6 +1706,9 @@ Hint: Let him say it himself. It has taken him the whole book. · check: `talk:a
 #### <a id="a13-20-hut"></a>Scene `a13-20-hut`
 
 **The Talking-cricket**: Oh, my Pinocchio.  
+**The Talking-cricket**: I walked out under the door myself. It took all night.  
+**Pinocchio**: Was it far?  
+**The Talking-cricket**: Far enough to hold a grudge. Not far enough to keep it.  
 **Pinocchio** _(happy)_: Oh, my dear little Cricket!  
 **The Talking-cricket**: My dear little Cricket, now, is it? Do you remember the mallet?  
 **Pinocchio** _(sad)_: You’re right. Throw one at me. I deserve it. Only, please, spare my poor father.  
@@ -1717,6 +1753,8 @@ _Pinocchio kneels down and looks at him. The donkey opens his eyes, and knows hi
 **Candlewick** _(soft)_: Pinocchio. It’s me. Candlewick.  
 **Pinocchio** _(sad)_: Candlewick! Oh, Candlewick.  
 _Candlewick lays his head in Pinocchio’s lap and closes his eyes. After a little while he stops breathing, very quietly, like a candle at the end of an evening._  
+**Pinocchio** _(soft)_: He was the laziest boy in school, and the best friend I ever had.  
+_Your Nubbin leans against Pinocchio’s leg until Giangio speaks._  
 
 #### <a id="a13-20-wheel-done"></a>Done `a13-20-wheel-done`
 

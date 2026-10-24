@@ -11,10 +11,10 @@
 _Nova’s atlas falls open at a page of cut paper: rooftops, chimneys, and two attic windows with a gutter between them._  
 _The paper is so fine it stirs when you breathe. Then it’s a steep wooden stair, and you’re on it, with a bag and your Nubbin._  
 **Grandmother**: There you are. The lodger. You’ll want the room under the eaves, and the bed by the chimney.  
-**Grandmother**: Mind your head on the beam. Everybody hits it, the first week.  
+**Grandmother**: The other bed has opinions. Mind your head on the beam; everybody hits it, the first week.  
 _Grandmother is small and quick, with her spectacles pushed up into white hair._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): where Denmark is  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): where Denmark is  
 > _This town is in Denmark, a small country in northern Europe. It is one long peninsula and hundreds of islands._  
 > _Denmark’s peninsula is joined by land to only one other country. Which one?_  
 > - ✅ Germany, to the south → That’s right. Walk south out of Denmark and you’re in Germany. Every other way, there’s sea.
@@ -55,7 +55,7 @@ _In the window across the gutter, two faces appear: a boy and a girl, both tryin
 _It’s late summer, and the light goes about nine. Kay and Gerda come across by the gutter boxes, the way they always do in summer._  
 _Grandmother sits with a sheet of black paper and a long pair of scissors, snipping without looking._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): who Hans Christian Andersen was  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): who Hans Christian Andersen was  
 > _This story was written by Hans Christian Andersen, born in 1805 in Odense, a town in Denmark. It came out in 1844._  
 > _Andersen often cut pictures out of paper while he told his stories, just as Grandmother does._  
 > _For grown-ups: Learned that Hans Christian Andersen was a Danish storyteller who made paper cut-outs._
@@ -125,7 +125,7 @@ _The troll laughs on the wall until his paper sides split. Grandmother blows out
 _In the dark, the draught from the window lifts one snip that isn’t paper. It glints once, and is gone._  
 
 > **Lesson** (science, 1-PS4-2, notice): mirrors and glass reflect light  
-> _The candle is out, so where did the glint come from? A little moonlight from the window, bouncing off glass._  
+> _Glass glints when it bounces light back to your eyes. Paper doesn’t. So what was Grandmother’s troll really cut from?_  
 > _For grown-ups: Learned that a shiny thing glints because it bounces light back to our eyes._
 
 
@@ -190,6 +190,8 @@ _In the morning you see it all properly: two attics with roofs that nearly touch
 _Long ago the two families each put a box across the gutter. Now peas hang over the edges, and in each box grows a rose tree._  
 _The roses have climbed into an arch. Under it are two little stools, and two children who think it’s the best room in town._  
 **Gerda**: You’re tallest. You can do the top of the arch. Don’t drown the peas; they sulk.  
+**Kay**: Peas don’t sulk.  
+**Gerda**: These ones do.  
 
 > **Lesson** (science, 2-LS2-1, ask): what plants need  
 > **Gerda**: Why do roses up on a roof grow so well, do you think?  
@@ -198,8 +200,6 @@ _The roses have climbed into an arch. Under it are two little stools, and two ch
 > - Roses don’t need anything → Everything living needs something! Roses need light, water and good soil.
 > _For grown-ups: Learned that plants need light and water to grow._
 
-**Kay**: Peas don’t sulk.  
-**Gerda**: These ones do.  
 **Kay**: Gran says the roses are older than both of us put together. She says they’ll still be here when we’re old.  
 _Your Nubbin tries to help by sitting in the watering can._  
 
@@ -321,12 +321,12 @@ _Grandmother, cutting the bread, looks at Kay a moment longer than usual._
 _Then the thaw comes, and the swallows come back, and the roses wake up in the gutter as if nothing at all has happened._  
 _You have seen late summer, then deep winter, and now spring. The year is turning._  
 
-> **Lesson** (science, K-ESS2-1, ask): the seasons in order  
-> _The story began in late summer. Which season comes next, after this spring?_  
-> - ✅ Summer → Yes. Summer, autumn, winter, spring, and round to summer again.
-> - Autumn → Autumn comes after summer. After spring comes summer again.
-> - Winter → Winter came before spring. Next it’s summer: the year goes round like a wheel.
-> _For grown-ups: Put the four seasons in order._
+> **Lesson** (science, CASEL: Self-awareness, ask): why waiting makes time feel long  
+> _Gerda has watched a whole year turn, missing Kay. Why might her year feel longer than his?_  
+> - ✅ She spent it waiting and missing him → Yes. Time feels long when we miss someone. Kay has hardly noticed it pass.
+> - Her year has more days → Every year has the same days. It is how she feels about them that is different.
+> - Spring is a longer season → The seasons are about the same length. Missing someone is what stretches the time.
+> _For grown-ups: Thought about why waiting and missing someone makes time feel long._
 
 
 ### Glossary
@@ -578,13 +578,6 @@ _After that he doesn’t feel the cold at all._
 **Kay**: My sledge! Don’t forget my sledge.  
 _It’s tied to one of the white hens that fly behind her. She touches his forehead once more, and you watch him forget._  
 _Gerda, Grandmother, the roses, the attic: you see them go out of his face like lamps going out down a street._  
-
-> **Lesson** (literacy, L.4.5, ask): similes  
-> _“Like lamps going out down a street.” What does this simile show about Kay’s memories?_  
-> - ✅ They go dark one by one → Yes. Not all at once: one, then the next, then the next, until the street is dark.
-> - He is turning the lamps off → He isn’t doing it himself. His memories are fading, one by one, like lamps going out.
-> _For grown-ups: Explained a simile about memories fading._
-
 _Then the sledge rises over the forest. The wolves howl, and the moon comes out huge and white._  
 
 > **Lesson** (sel, CASEL: Self-awareness, notice): feeling helpless  
@@ -626,6 +619,13 @@ _By the end of the week the town says Kay fell in the river by the school. Peopl
 > _For grown-ups: Thought about the difference between rumour and what someone actually saw._
 
 _Grandmother cries quietly for a long winter. Gerda doesn’t, which is worse._  
+
+> **Lesson** (literacy, RL.3.3, ask): a character’s word choice  
+> _The town says Kay is lost. Gerda says he was taken. Why does her word matter?_  
+> - ✅ “Taken” means someone did it, so he can be found → Yes. “Lost” means nobody is to blame. “Taken” means there is someone to follow.
+> - They mean exactly the same thing → Not quite. “Lost” is an accident. “Taken” means someone chose it.
+> _For grown-ups: Thought about how one word changes what a character believes and does._
+
 
 #### `reader:a12-04-kept` · [main](main.md#a12-04-kept)
 
@@ -674,7 +674,7 @@ _Dead would mean his body had stopped working, for ever. But nobody saw that hap
 _Then spring comes. The sun comes out over the roofs, warm on the gutter for the first time since the sledges._  
 _The swallows come back from their winter far away, and sit on the gutter, chattering._  
 
-> **Lesson** (science, 3-LS2-1, notice): birds that migrate  
+> **Lesson** (science, 3-LS4-4, notice): birds that migrate  
 > _Swallows migrate. Each autumn they fly thousands of kilometres south to Africa, where there are insects to eat, and come back in spring._  
 > _For grown-ups: Learned that swallows migrate south for the winter and return in spring._
 
@@ -718,7 +718,7 @@ _The little waves nod at her, oddly, as if they understand._
 _She throws the shoes in. They don’t go far, and the waves carry them straight back to her feet._  
 **Gerda**: I didn’t throw them far enough. The river can’t take them unless they go right out in the middle.  
 
-> **Lesson** (science, 3-PS2-1, ask): how water moves near the bank  
+> **Lesson** (science, 4-PS3-2, ask): how water moves near the bank  
 > _Why do the shoes come straight back to the bank?_  
 > - ✅ Little waves push floating things towards the shore → Yes. Near the edge, ripples wash floating things back in. Out in the middle, the current carries them away.
 > - Shoes can’t float → These ones float. It’s the little waves at the edge that push them back to shore.
@@ -778,7 +778,7 @@ _The red shoes float along behind the boat. They can’t catch up, and the boat 
 
 _The banks are lovely: flowers, old trees, sheep and cows on the slopes. There isn’t a single person anywhere._  
 
-> **Lesson** (science, 2-ESS2-2, ask): rivers flow downhill  
+> **Lesson** (science, 4-ESS2-1, ask): rivers flow downhill  
 > _The boat drifts downstream all on its own. Which way does a river always flow?_  
 > - ✅ Downhill, towards a lake or the sea → Yes. Water runs downhill, so every river flows down towards a lake or the sea.
 > - Whichever way the wind blows → Wind makes ripples, but the river itself runs downhill, towards a lake or the sea.
@@ -1179,7 +1179,7 @@ _Gerda cries, and tells them the whole story, and everything the ravens have don
 _Both ravens bow, and ask for the post. They are thinking of their old age._  
 **The Raven**: A bird must think ahead.  
 
-> **Lesson** (social-studies, D2.Eco.1.K-2, ask): choices have costs  
+> **Lesson** (social-studies, D2.Eco.1.3-5, ask): choices have costs  
 > _Freedom, or a safe job with food for life: you can’t have both. Which would you pick, if you were a raven?_  
 > - Freedom → A wild choice. Brave. Cold in winter, mind.
 > - The safe job → A sensible choice, and mine. Scraps are scraps.
@@ -1207,7 +1207,7 @@ _In the morning she is dressed in silk and velvet from head to foot, and asked t
 
 _The coach is pure gold. The prince’s and princess’s coat of arms shines on the door like a star._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): coats of arms  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): coats of arms  
 > _Long ago, noble families had a coat of arms: a special picture on a shield, so everyone knew whose coach or castle it was._  
 > _For grown-ups: Learned what a coat of arms was for in the past._
 
@@ -1293,12 +1293,12 @@ _In the great hall a fire burns on the stone floor. Soup bubbles in a big pot, a
 _In her corner there’s straw and old rugs. Above it, on rails and perches, sit about a hundred pigeons, asleep._  
 **The Robber Girl**: All mine. Those two are wood pigeons; they’d fly off if they weren’t tied. And here’s my dear old Bae.  
 _She tugs a reindeer forward by his antler. He has a bright copper ring round his neck, tied to the wall._  
+**The Robber Girl**: He’d run off too, if he could. Everybody would. That’s why you tie things.  
 
 > **Lesson** (science, 4-LS1-1, notice): reindeer antlers  
 > _Reindeer are the only deer where females grow antlers as well as males. Antlers fall off and grow back every year._  
 > _For grown-ups: Learned that both male and female reindeer grow antlers, which regrow every year._
 
-**The Robber Girl**: He’d run off too, if he could. Everybody would. That’s why you tie things.  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): fairness to animals  
 > _“That’s why you tie things,” she says. Is that fair to Bae, do you think?_  
@@ -1310,6 +1310,11 @@ _She tugs a reindeer forward by his antler. He has a bright copper ring round hi
 _She pulls a long knife out of a crack in the wall and waves it about, mostly at the ceiling._  
 **Gerda**: Do you sleep with the knife?  
 **The Robber Girl**: Always. You never know what might happen.  
+
+> **Lesson** (health, CASEL: Responsible decision-making, notice): knives are for grown-ups  
+> _In real life, knives are tools for grown-ups, never toys. If you find one, leave it and tell an adult._  
+> _For grown-ups: Talked about leaving knives alone and telling an adult._
+
 
 **Choices**
 
@@ -1323,9 +1328,9 @@ _She pulls a long knife out of a crack in the wall and waves it about, mostly at
 
 **The Robber Girl**: Now tell me about Kay again. The lodger can listen. And the warm thing stays where I can see it.  
 
-> **Lesson** (health, CASEL: Responsible decision-making, notice): knives are for grown-ups  
-> _In real life, knives are tools for grown-ups, never toys. If you find one, leave it and tell an adult._  
-> _For grown-ups: Talked about leaving knives alone and telling an adult._
+> **Lesson** (sel, CASEL: Relationship skills, notice): telling a worry to a listener  
+> _Gerda tells Kay’s story again to someone who listens. Sharing a worry with a listener can make it lighter._  
+> _For grown-ups: Talked about how sharing a worry with a listener can help._
 
 
 #### `reader:a12-09-keep` · [main](main.md#a12-09-keep)
@@ -1376,6 +1381,7 @@ _Gerda lies awake and stares at the pigeons. You lie awake and stare at Gerda._
 _By the fire the robbers sing and drink. The old robber woman turns a somersault, badly._  
 _Bae stands in the dark with his copper ring on, looking at the door._  
 _The pigeons shuffle on their ten rails and murmur, about ten to a rail. One of them opens an eye._  
+_Nobody in the corner is asleep except the robber girl, and she sleeps like somebody who has won._  
 
 > **Lesson** (maths, 3.OA.A.1, ask): multiplication as equal groups  
 > _Ten rails, about ten pigeons on each. About how many pigeons is that?_  
@@ -1384,7 +1390,6 @@ _The pigeons shuffle on their ten rails and murmur, about ten to a rail. One of 
 > - About 1,000 → Too many! Ten times ten is a hundred.
 > _For grown-ups: Used equal groups to estimate a total._
 
-_Nobody in the corner is asleep except the robber girl, and she sleeps like somebody who has won._  
 
 ### Glossary
 
@@ -1415,7 +1420,7 @@ _Nobody in the corner is asleep except the robber girl, and she sleeps like some
 **Bae**: Snow and ice! It’s glorious there. You can leap about free in great glittering valleys.  
 **Bae**: The Snow Queen has her summer tent there. But her strong castle is far to the north, on the island they call Spitsbergen.  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): the far north today  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): the far north today  
 > _Lapland is the far north of Norway, Sweden and Finland, much of it inside the Arctic. Spitsbergen is a real island, part of Svalbard, which belongs to Norway._  
 > _For grown-ups: Learned where Lapland and Svalbard are._
 
@@ -1581,7 +1586,7 @@ _Bae stops at a little house. Its roof comes right down to the snow, and smoke r
 _The door is so low you have to go in on hands and knees. Your Nubbin goes in on its belly._  
 _Inside, by the light of her lamp, a woman is frying fish. Nobody else is at home._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): the Sámi homeland, Sápmi  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): the Sámi homeland, Sápmi  
 > _This woman is Sámi. The Sámi are the Indigenous people of the far north, and have lived here for thousands of years._  
 > _Their homeland, Sápmi, stretches across Norway, Sweden, Finland and part of Russia. How many countries is that?_  
 > - ✅ Four → Yes, four. Sápmi is one homeland, though the map draws borders across it.
@@ -1616,7 +1621,7 @@ _Bae tells his own story first, because it seems to him much the more important.
 _She looks over Bae’s legs and the rubbed place under his chin, quickly and gently, like somebody who has done it all her life._  
 **The Sámi Woman**: My son has our herd out on the winter grazing. I know a tired reindeer when one comes to my door.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): reindeer herding as a living job  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): reindeer herding as a living job  
 > _Reindeer herding is a real Sámi job, in the past and today. Herding families move with their reindeer between summer and winter grazing lands._  
 > _Today many herders use snowmobiles as well as skis. Most Sámi people do all sorts of other jobs too._  
 > _For grown-ups: Learned that reindeer herding is a living Sámi job today._
@@ -1646,7 +1651,7 @@ _She feeds you fish and broth, and fetches Bae a heap of lichen from her store. 
 
 **The Sámi Woman**: I’ll tell you who’ll know more: my friend, further north. She knows that country better than I do.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): the Sámi languages  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): the Sámi languages  
 > _There are several Sámi languages, not just one. North Sámi is the one spoken most widely, and children can learn it at school today._  
 > _For grown-ups: Learned that there are several Sámi languages spoken today._
 
@@ -2248,10 +2253,11 @@ _It doesn’t. He sits and thinks until he creaks, so stiff and still that you�
 #### `reader:a12-15-puzzle-done` · [main](main.md#a12-15-puzzle-done)
 
 _Then, at the far end of the hall, a small figure in stockings comes in through the gate of winds._  
+_Her bare steps ring, tiny, in the empty hall. Count them: one, two, three._  
 
-> **Lesson** (health, notice): dressing for the cold  
-> _Gerda has no boots or mittens, but in real life you’d want warm feet, hands and head in the snow. Most body heat escapes where skin is bare._  
-> _For grown-ups: Learned to cover up hands, feet and head in cold weather._
+> **Lesson** (science, 4-PS3-2, notice): sound echoes in empty rooms  
+> _Sound echoes in big, empty rooms, because hard walls bounce it back._  
+> _For grown-ups: Heard that hard walls bounce sound back, making an echo._
 
 
 #### `reader:a12-15-complete` · [main](main.md#a12-15-complete)
@@ -2286,21 +2292,14 @@ _Gerda sees him. She knows him at once, and she runs, and throws her arms round 
 **Gerda**: Kay! Kay, it’s you! I’ve found you!  
 _Kay sits quite still. He is stiff and cold, and he doesn’t know her._  
 _Gerda cries. Not a little: she cries the way you cry at the end of a very long way._  
-
-> **Lesson** (sel, CASEL: Self-awareness, notice): crying is allowed  
-> _Crying is one way big feelings come out. It’s allowed, for anyone, and it often helps._  
-> _For grown-ups: Talked about crying as a healthy way to let big feelings out._
-
 _Her tears fall on his chest. They’re hot, and they go through, all the way to his heart._  
 _They thaw the ice round his heart. They melt the little splinter of glass inside it, as if it had never been._  
-
-> **Lesson** (science, 2-PS1-4, ask): warmth melts ice  
-> _Tears come out at about body temperature, 37 °C (98.6 °F). What happens when something that warm touches ice?_  
-> - ✅ The ice melts → Yes. Warmth melts ice. In the story, Gerda’s warm tears melt the cold in Kay’s heart.
-> - The tears freeze and nothing happens → In this story the warmth wins: warm things melt ice, and the ice turns to water.
-> _For grown-ups: Learned that warm things melt ice._
-
 _Kay looks at her._  
+
+> **Lesson** (literacy, RL.3.3, notice): what a character wants and does  
+> _Gerda walked a whole year to reach this hall. What she does shows how much she loves Kay._  
+> _For grown-ups: Noticed how a character’s actions show her feelings._
+
 
 **Choices**
 
@@ -2317,6 +2316,16 @@ _Gerda hums the old tune with the roses in it, the one from the gutter boxes. Yo
 > _Hum along, slow and soft. A tune you share with someone can bring back where you were together._  
 > Check: `edu:hum:tune:slow`
 > _For grown-ups: Hummed a slow melody along with the story._
+
+
+> **Lesson** (science, 2-PS1-4, notice): warmth melts ice  
+> _Tears come out at about 37 °C (98.6 °F), warm enough to melt ice. In the story they melt something harder than ice._  
+> _For grown-ups: Learned that warm things melt ice._
+
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): crying is allowed  
+> _Crying is one way big feelings come out. It’s allowed, for anyone, and it often helps._  
+> _For grown-ups: Talked about crying as a healthy way to let big feelings out._
 
 
 #### `reader:a12-16-tears` · [main](main.md#a12-16-tears)
@@ -2359,15 +2368,6 @@ _They shiver, and lift, as if they want to join in._
 _It is such a glad moment that the pieces of ice dance. They spin round Kay and Gerda, glittering._  
 _When they’re tired, they lie down. They lie down in the shape of a word, the very word Kay couldn’t make._  
 _It says ETERNITY, in letters of ice, as clear as a sign._  
-
-> **Lesson** (maths, 3.OA.A.1, ask): multiplication as equal groups  
-> _Count the ice letters: E, T, E, R, N, I, T, Y. That makes eight._  
-> _Each letter is made of six pieces of ice. How many pieces lie on the lake?_  
-> - ✅ 48 → Yes. Eight groups of six: six, twelve, eighteen, twenty-four, and on to forty-eight.
-> - 14 → That’s eight plus six. Eight groups of six is eight times six: forty-eight.
-> - 40 → That’s eight fives. Each letter has six pieces, so it’s eight sixes: forty-eight.
-> _For grown-ups: Counted the letters in a word, then multiplied equal groups._
-
 _Kay didn’t make it. It made itself, the moment he stopped trying to be clever and started being glad._  
 
 > **Lesson** (literacy, L.2.4, ask): word meaning  
@@ -2378,6 +2378,15 @@ _Kay didn’t make it. It made itself, the moment he stopped trying to be clever
 
 _Gerda kisses his cheeks, and they go pink. She kisses his eyes, and they shine like hers._  
 _She kisses his hands and feet, and he is well and strong again. The Snow Queen can come home whenever she likes._  
+
+> **Lesson** (maths, 3.OA.A.1, ask): multiplication as equal groups  
+> _Count the ice letters: E, T, E, R, N, I, T, Y. That makes eight._  
+> _Each letter is made of six pieces of ice. How many pieces lie on the lake?_  
+> - ✅ 48 → Yes. Eight groups of six: six, twelve, eighteen, twenty-four, and on to forty-eight.
+> - 14 → That’s eight plus six. Eight groups of six is eight times six: forty-eight.
+> - 40 → That’s eight fives. Each letter has six pieces, so it’s eight sixes: forty-eight.
+> _For grown-ups: Counted the letters in a word, then multiplied equal groups._
+
 
 **Choices**
 
@@ -2471,7 +2480,7 @@ _First you stop at the Finnish woman’s hot little house. The children get warm
 _Then on to the Sámi woman. She has sewn new clothes for both children, and has her sledge ready._  
 **The Sámi Woman**: Well. You’re back, and there’s two of them. So that’s how it ends.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): Sámi National Day  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): Sámi National Day  
 > _Every year on 6 February, Sámi people in all four countries celebrate Sámi National Day, with the Sámi flag, songs and gatherings._  
 > _For grown-ups: Learned that Sámi National Day is celebrated on 6 February._
 

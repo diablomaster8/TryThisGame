@@ -1520,7 +1520,7 @@ _Tomorrow it is the Lion’s turn. Everyone goes quiet, and the lamp in the hall
 
 #### `reader:a15-10-fire` · [main](main.md#a15-10-fire)
 
-_On the third day the Lion goes in. The door shuts behind him with a click._  
+_On the fourth day the Lion goes in, last, which he says is out of politeness. The door shuts behind him with a click._  
 _You wait outside with the others. Under the door there is a line of light, and it is getting brighter, and redder._  
 _Then the heat comes, so strong that the Woodman takes a step back and the Scarecrow takes three._  
 **The Scarecrow**: Mind the door. Mind the door, please.  
@@ -2238,7 +2238,7 @@ _He looks very old and very small, like someone who has been holding his breath 
 
 **Oz**: Come to me in the morning, all of you. I shall have something for each of you.  
 **Oz**: I always do.  
-_You have waited four days already. You wonder how many hours that is._  
+_You have waited four days already, and a day has 24 hours. You wonder how many hours that is._  
 
 > **Lesson** (maths, 4.MD.A.1, ask): units of time: days and hours  
 > _How many hours are there in four days?_  
@@ -2615,6 +2615,48 @@ _In the morning the Guardian of the Gates unlocks everybody’s spectacles at th
 _When he comes to your Nubbin, he stops, and looks at it, and looks at you._  
 **The Guardian of the Gates**: Keep that pair. It has got used to them.  
 **The Guardian of the Gates**: Some do. Keep yours too, if you like, to remember us by.  
+_Without the spectacles, the City is plain stone and glass, with a little green paint here and there._  
+_It is very pretty, and not very green at all._  
+
+> **Lesson** (art, RL.1.4, ask): warm and cool colours  
+> _Artists call colours warm or cool. Which of these is a warm colour?_  
+> - ✅ Red → Yes. Red, orange and yellow are warm, like fire and sunshine. Blue, green and purple are cool, like water and shade. The City’s plain stone, with a little green paint, now feels cool.
+> - Blue → Blue is a cool colour, like water and shade. Red, orange and yellow are the warm ones.
+> - Green → Green is cool, like leaves in shade. The warm colours are red, orange and yellow.
+> _For grown-ups: Learned to tell warm colours (red, orange, yellow) from cool ones (blue, green, purple)._
+
+_You put your pair in your pocket. Your Nubbin keeps its own on, and you let it._  
+
+#### `reader:a15-16-complete-promised` · [main](main.md#a15-16-complete-promised)
+
+_Variant of `a15-16-complete`._
+
+_In the morning the Guardian of the Gates unlocks everybody’s spectacles at the gate and puts them back in his box._  
+_When he comes to your Nubbin, he stops, and looks at it, and looks at you._  
+**The Guardian of the Gates**: Keep that pair. It has got used to them.  
+**The Guardian of the Gates**: Some do. Keep yours too, if you like, to remember us by.  
+_He winks at you, the wink of a man who has been told a secret too._  
+_Without the spectacles, the City is plain stone and glass, with a little green paint here and there._  
+_It is very pretty, and not very green at all._  
+
+> **Lesson** (art, RL.1.4, ask): warm and cool colours  
+> _Artists call colours warm or cool. Which of these is a warm colour?_  
+> - ✅ Red → Yes. Red, orange and yellow are warm, like fire and sunshine. Blue, green and purple are cool, like water and shade. The City’s plain stone, with a little green paint, now feels cool.
+> - Blue → Blue is a cool colour, like water and shade. Red, orange and yellow are the warm ones.
+> - Green → Green is cool, like leaves in shade. The warm colours are red, orange and yellow.
+> _For grown-ups: Learned to tell warm colours (red, orange, yellow) from cool ones (blue, green, purple)._
+
+_You put your pair in your pocket. Your Nubbin keeps its own on, and you let it._  
+
+#### `reader:a15-16-complete-theirs` · [main](main.md#a15-16-complete-theirs)
+
+_Variant of `a15-16-complete`._
+
+_In the morning the Guardian of the Gates unlocks everybody’s spectacles at the gate and puts them back in his box._  
+_When he comes to your Nubbin, he stops, and looks at it, and looks at you._  
+**The Guardian of the Gates**: Keep that pair. It has got used to them.  
+**The Guardian of the Gates**: Some do. Keep yours too, if you like, to remember us by.  
+**The Guardian of the Gates**: The Scarecrow says everyone may know the City is only paint. Nobody minded as much as I feared.  
 _Without the spectacles, the City is plain stone and glass, with a little green paint here and there._  
 _It is very pretty, and not very green at all._  
 
@@ -3019,6 +3061,25 @@ _A Quadling points. Far down the road a castle is shining in the sun._
 > _For grown-ups: Matched a colour-coded land to its compass direction: the Quadlings live in the south._
 
 
+#### `reader:a15-19-complete-pocketed` · [main](main.md#a15-19-complete-pocketed)
+
+_Variant of `a15-19-complete`._
+
+_The Monkeys set you down in the country of the Quadlings, and fly away. The King looks back once from the sky._  
+_Everything here is red: the fences, the houses, the bridges, the Quadlings’ clothes._  
+_The Quadlings are small and cheerful. They give Dorothy something to eat, and she thanks them._  
+**Dorothy**: Please, which way is Glinda’s castle?  
+_A Quadling points. Far down the road a castle is shining in the sun._  
+
+> **Lesson** (social-studies, D2.Geo.2.K-2, ask): the lands of Oz and the compass  
+> _The Munchkins live in the east and the Winkies in the west. Where do the red-clad Quadlings live?_  
+> - ✅ In the south → Yes. East is blue, west is yellow, south is red, with the Emerald City in the middle. A map of Oz is a colour map and a compass in one.
+> - In the north → You have come south from the Emerald City, and here is red. The Quadlings live in the south.
+> - In the middle → The middle is the green Emerald City. The Quadlings are in the south.
+> _For grown-ups: Matched a colour-coded land to its compass direction: the Quadlings live in the south._
+
+_Your Nubbin pats the pocket. The lump has gone very still, and the Nubbin pats it again, slower._  
+
 ### Glossary
 
 - **Quadling**: One of the small, cheerful people of the southern land of Oz, who wear red.
@@ -3090,6 +3151,82 @@ _Dorothy looks at her heels as if she were meeting them for the first time._
 **Glinda**: Scarecrow: the Monkeys will carry you back to the Emerald City, to rule. The people will be lucky in you.  
 **The Scarecrow**: Thank you. I have just thought of eleven new laws.  
 **The Scarecrow**: I shall begin with those.  
+
+> **Lesson** (social-studies, D2.Civ.8.K-2, ask): fairness and rules  
+> _The Scarecrow has thought of eleven new laws. What makes a law fair?_  
+> - ✅ It applies to everyone, including the ruler → Yes. A law that rulers can ignore is not fair. Fairness means the same rules for everybody.
+> - It only applies to people the ruler dislikes → That is the opposite of fair. A fair law is one that applies to everyone alike.
+> - It never changes, whatever happens → Good laws can be changed when they turn out to be wrong. What makes them fair is that they apply to everyone alike.
+> _For grown-ups: Talked about what makes a law fair: it applies to everyone alike._
+
+**Glinda**: Woodman: they will carry you to the land of the Winkies, who want you for their ruler.  
+**The Tin Woodman**: I shall rule them kindly. I have the heart for it now.  
+**Glinda**: Lion: they will carry you over the Hammer-Heads to your forest, to be King of the Beasts.  
+**The Cowardly Lion**: Thank you. I should not care to meet the Hammer-Heads again, even as a King.  
+**Glinda**: And then I shall give the Cap to the King of the Monkeys, so that he and his band are free for ever.  
+_Dorothy hugs each of them in turn, and cries, and kisses the Lion on his great nose._  
+
+**Choices**
+
+- **Oil the Woodman’s jaw. He is crying.**
+    - The Woodman is crying, of course. You oil his jaw one last time, while the Scarecrow holds his hat, as he did once before.
+    - **The Tin Woodman**: Keep the can. I mean it.
+    - **The Tin Woodman**: You have been the best oil-can-carrier in all of Oz.
+- **Shake the Scarecrow’s hand.**
+    - **The Scarecrow**: If you ever need a thought, come to the Emerald City. I have plenty now.
+    - **The Scarecrow**: I can spare one.
+- **Rest your hand on the Lion’s mane.**
+    - **The Cowardly Lion**: Goodbye, Keeper. Goodbye, little one.
+    - **The Cowardly Lion**: You sat by me first. I shall not forget it.
+
+#### `reader:a15-20-goodbye-promised` · [main](main.md#a15-20-goodbye-promised)
+
+_Variant of `a15-20-goodbye`._
+
+**Glinda**: Now. The Golden Cap, and its three calls.  
+**Glinda**: Let me see.  
+**Glinda**: Scarecrow: the Monkeys will carry you back to the Emerald City, to rule. The people will be lucky in you.  
+**The Scarecrow**: Thank you. I have just thought of eleven new laws.  
+**The Scarecrow**: I shall begin with those.  
+**The Scarecrow**: Law one: nobody looks behind screens. It is restful.  
+
+> **Lesson** (social-studies, D2.Civ.8.K-2, ask): fairness and rules  
+> _The Scarecrow has thought of eleven new laws. What makes a law fair?_  
+> - ✅ It applies to everyone, including the ruler → Yes. A law that rulers can ignore is not fair. Fairness means the same rules for everybody.
+> - It only applies to people the ruler dislikes → That is the opposite of fair. A fair law is one that applies to everyone alike.
+> - It never changes, whatever happens → Good laws can be changed when they turn out to be wrong. What makes them fair is that they apply to everyone alike.
+> _For grown-ups: Talked about what makes a law fair: it applies to everyone alike._
+
+**Glinda**: Woodman: they will carry you to the land of the Winkies, who want you for their ruler.  
+**The Tin Woodman**: I shall rule them kindly. I have the heart for it now.  
+**Glinda**: Lion: they will carry you over the Hammer-Heads to your forest, to be King of the Beasts.  
+**The Cowardly Lion**: Thank you. I should not care to meet the Hammer-Heads again, even as a King.  
+**Glinda**: And then I shall give the Cap to the King of the Monkeys, so that he and his band are free for ever.  
+_Dorothy hugs each of them in turn, and cries, and kisses the Lion on his great nose._  
+
+**Choices**
+
+- **Oil the Woodman’s jaw. He is crying.**
+    - The Woodman is crying, of course. You oil his jaw one last time, while the Scarecrow holds his hat, as he did once before.
+    - **The Tin Woodman**: Keep the can. I mean it.
+    - **The Tin Woodman**: You have been the best oil-can-carrier in all of Oz.
+- **Shake the Scarecrow’s hand.**
+    - **The Scarecrow**: If you ever need a thought, come to the Emerald City. I have plenty now.
+    - **The Scarecrow**: I can spare one.
+- **Rest your hand on the Lion’s mane.**
+    - **The Cowardly Lion**: Goodbye, Keeper. Goodbye, little one.
+    - **The Cowardly Lion**: You sat by me first. I shall not forget it.
+
+#### `reader:a15-20-goodbye-theirs` · [main](main.md#a15-20-goodbye-theirs)
+
+_Variant of `a15-20-goodbye`._
+
+**Glinda**: Now. The Golden Cap, and its three calls.  
+**Glinda**: Let me see.  
+**Glinda**: Scarecrow: the Monkeys will carry you back to the Emerald City, to rule. The people will be lucky in you.  
+**The Scarecrow**: Thank you. I have just thought of eleven new laws.  
+**The Scarecrow**: I shall begin with those.  
+**The Scarecrow**: Law one: no more locked spectacles. Law two: the screen stays up, but anyone may look behind it.  
 
 > **Lesson** (social-studies, D2.Civ.8.K-2, ask): fairness and rules  
 > _The Scarecrow has thought of eleven new laws. What makes a law fair?_  

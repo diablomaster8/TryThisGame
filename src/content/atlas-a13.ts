@@ -30,7 +30,7 @@
  *   - s21Done: Clank comes too, with a folding ramp Byte made him, because Collodi's world is all
  *     steps. He is drawn in every A13 scene, silent, parked on his ramp, and speaks only in his
  *     variants: a13-01-page-clank (A13-1 step 1 scene), a13-05-coat-clank (A13-5 step 3 done),
- *     a13-19-complete-clank (A13-19 complete), a13-20-complete-clank (A13-20 complete) and then
+ *     a13-19-belly-clank (A13-19 step 1 scene), a13-19-complete-clank (A13-19 complete), a13-20-complete-clank (A13-20 complete) and then
  *     the word, a13-20-word.
  *   - s25Done (with s21Done): a13-20-word-next-door plays instead of a13-20-word. Clank says Real
  *     "lives next door" to the word, as Moss told him in S25.
@@ -86,7 +86,7 @@
  *   - Clank is he/him, Pixel she/her, Byte he/him. Clank never becomes anything: he is still a
  *     kettle on one wheel at the end, and that is the point.
  */
-import type { Line, Mood, Scene } from '../config/story';
+import type { Choice, Line, Mood, Scene } from '../config/story';
 import type { Quest, Speaker } from './types';
 
 // ------------------------------------------------------------------ helpers
@@ -246,6 +246,38 @@ const A19_THANKS: Line[] = [
   N('He opens his mouth, and shuts it, and opens it again.'),
   P('You saved my babbo. I want to thank you properly, and I can’t. I’ve looked, and there isn’t a word big enough.', 'soft'),
   N('So he kisses the Tunny on the nose instead. The Tunny, who is not used to it, dives at once, so that nobody will see him cry.'),
+];
+
+/** A13-19: inside the Dog-fish. The Clank variant adds three lines after the Tunny's first. */
+const A19_BELLY_START: Line[] = [
+  N('It is dark and wet, and it smells of fried fish, which is not reassuring when you are inside one.'),
+  N('Your boat lies on its side in a shallow pool.'),
+  P('Help! Help! Isn’t anyone here?', 'shock'),
+  TU('Only us unfortunates.'),
+];
+const A19_BELLY_END: Line[] = [
+  P('Who’s that?'),
+  TU('A poor Tunny, swallowed at the same time as you. What sort of fish are you?'),
+  P('I’m not any sort of fish! I’m a puppet. And that’s a traveller, and that’s a Nubbin.'),
+  TU('Then why let yourselves be swallowed? Never mind. Now we wait to be digested, with dignity.', 'think'),
+  P('I don’t want to be digested!'),
+  N('Far away, down the long dark of the Dog-fish, there is a little light.'),
+];
+const A19_BELLY: Line[] = [...A19_BELLY_START, ...A19_BELLY_END];
+const A19_BELLY_CHOICES: Choice[] = [
+  {
+    id: 'light',
+    label: 'Head for the light.',
+    then: [N('You start towards it. Your Nubbin goes first, because it is smallest and has the best eyes.')],
+  },
+  {
+    id: 'how',
+    label: 'Ask the Tunny how big the Dog-fish is.',
+    then: [
+      TU('A mile long, not counting the tail. I have never counted the tail. Nobody comes back from counting the tail.'),
+      N('You decide to head for the light.'),
+    ],
+  },
 ];
 
 /** A13-19: the last line of both complete scenes. */
@@ -1947,6 +1979,10 @@ export const ATLAS_A13: Quest[] = [
             P('You’ve got blue hair. Like her. Just like her.', 'shock'),
             N('The little woman says nothing. She smiles, and that is enough.'),
             P('It’s you! You were a little girl, and now you’re grown up. You’re almost like a mother.', 'happy'),
+            P('I read your stone. I cried on it all night. The Pigeon said I was very loud.'),
+            FY('I know. I could hear you from the next valley.', 'soft'),
+            P('Then why didn’t you come?'),
+            FY('Because you had to come to me. That’s the whole trick of it.', 'soft'),
             FY('Then call me mother, if you like.', 'soft'),
           ],
         },
@@ -2231,6 +2267,9 @@ export const ATLAS_A13: Quest[] = [
             N('Candlewick goes to a farmer. Pinocchio goes to a circus, where the director teaches him to dance and jump through hoops, and is not gentle about it.'),
             N('On the first night, in a box above the ring, there is a lady with a gold locket. In the locket is a picture of a puppet.'),
             N('Pinocchio sees her and tries to call out to her. What comes out is a bray, so loud that the audience laughs.'),
+            N('Your Nubbin’s paper ears flap in sympathy. It brays too, very small.'),
+            N('Far off across the fields, another bray answers. Candlewick doesn’t encourage him; he just can’t help it either.'),
+            N('Then the laughing stops, and the tent goes very quiet.', 'sad'),
             N('He jumps for the hoop, catches his back leg on it and comes down hard. After that he is lame.'),
             N('The director sells him for a few pennies to a man who wants a donkey’s hide to make a drum.'),
             N('The man ties a rope to him and drops him off a rock into the sea, to soak the hide soft. You watch from the cliff, and can’t stop it.'),
@@ -2288,33 +2327,8 @@ export const ATLAS_A13: Quest[] = [
         check: 'explore:a13-dogfish:belly',
         scene: {
           id: 'a13-19-belly',
-          lines: [
-            N('It is dark and wet, and it smells of fried fish, which is not reassuring when you are inside one.'),
-            N('Your boat lies on its side in a shallow pool.'),
-            P('Help! Help! Isn’t anyone here?', 'shock'),
-            TU('Only us unfortunates.'),
-            P('Who’s that?'),
-            TU('A poor Tunny, swallowed at the same time as you. What sort of fish are you?'),
-            P('I’m not any sort of fish! I’m a puppet. And that’s a traveller, and that’s a Nubbin.'),
-            TU('Then why let yourselves be swallowed? Never mind. Now we wait to be digested, with dignity.', 'think'),
-            P('I don’t want to be digested!'),
-            N('Far away, down the long dark of the Dog-fish, there is a little light.'),
-          ],
-          choices: [
-            {
-              id: 'light',
-              label: 'Head for the light.',
-              then: [N('You start towards it. Your Nubbin goes first, because it is smallest and has the best eyes.')],
-            },
-            {
-              id: 'how',
-              label: 'Ask the Tunny how big the Dog-fish is.',
-              then: [
-                TU('A mile long, not counting the tail. I have never counted the tail. Nobody comes back from counting the tail.'),
-                N('You decide to head for the light.'),
-              ],
-            },
-          ],
+          lines: [...A19_BELLY],
+          choices: A19_BELLY_CHOICES,
         },
         done: {
           id: 'a13-19-belly-done',
@@ -2400,7 +2414,7 @@ export const ATLAS_A13: Quest[] = [
     sets: { 'a13-19': true },
     notes:
       'Lifted texts 5, 6 and 7 are [unverified] and told in our own words (a13-19-babbo#1, a13-19-mouth#3, ' +
-      'A19_THANKS#2). CLANK (s21Done): play A13_VARIANTS a13-19-complete-clank in place of a13-19-complete. Clank has ' +
+      'A19_THANKS#2). CLANK (s21Done): play A13_VARIANTS a13-19-belly-clank in place of the step 1 scene a13-19-belly (Clank on being eaten), and a13-19-complete-clank in place of a13-19-complete. Clank has ' +
       'been in the Dog-fish with you all along (he was in the boat), and rides out on the Tunny’s back, because a ' +
       'kettle sinks; draw him on the Tunny in the escape. The Dog-fish is huge and sleepy, never fierce: an old ' +
       'wheezing thing. Geppetto eats “a very small fish”, not live ones. The candle goes out in the sea; the bottle ' +
@@ -2461,7 +2475,13 @@ export const ATLAS_A13: Quest[] = [
         check: 'talk:a13-cricket:hut',
         scene: {
           id: 'a13-20-hut',
-          lines: [...A20_HUT],
+          lines: [
+            ...A20_HUT.slice(0, 1),
+            CR('I walked out under the door myself. It took all night.'),
+            P('Was it far?'),
+            CR('Far enough to hold a grudge. Not far enough to keep it.'),
+            ...A20_HUT.slice(1),
+          ],
         },
         done: {
           id: 'a13-20-hut-done',
@@ -2489,6 +2509,8 @@ export const ATLAS_A13: Quest[] = [
             CW2('Pinocchio. It’s me. Candlewick.', 'soft'),
             P('Candlewick! Oh, Candlewick.', 'sad'),
             N('Candlewick lays his head in Pinocchio’s lap and closes his eyes. After a little while he stops breathing, very quietly, like a candle at the end of an evening.'),
+            P('He was the laziest boy in school, and the best friend I ever had.', 'soft'),
+            N('Your Nubbin leans against Pinocchio’s leg until Giangio speaks.'),
           ],
         },
         done: {
@@ -2628,6 +2650,18 @@ export const A13_VARIANTS: Scene[] = [
       P('Your cricket. The one you carried out to the hedge. He was right. He said I’d grow up a donkey, and I did, all of me.', 'sad'),
       P('Don’t tell him I said so.'),
     ],
+  },
+  // ---------------------------------------------------------------- A13-19, step 1 scene (s21Done)
+  {
+    id: 'a13-19-belly-clank',
+    lines: [
+      ...A19_BELLY_START,
+      CK('Announcement: we have been eaten.', 'shock'),
+      CK('I have a ramp. There is no door. This is a design problem.'),
+      TU('Dignity, please. It is all we have left.'),
+      ...A19_BELLY_END,
+    ],
+    choices: A19_BELLY_CHOICES,
   },
   // ---------------------------------------------------------------- A13-19, complete (s21Done)
   {

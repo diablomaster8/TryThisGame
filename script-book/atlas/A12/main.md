@@ -883,6 +883,9 @@ _The coach is pure gold. The prince’s and princess’s arms shine on the door 
 _The coach is lined with sugar plums, and there’s fruit and gingerbread on the seat. Footmen ride behind in golden crowns._  
 _The raven rides along for the first few miles, sitting beside Gerda, because he can’t ride backwards._  
 _His sweetheart stays in the palace doorway, flapping. She has had a headache since her promotion, from eating too much._  
+**The Palace Raven**: I told you not to take the second helping.  
+**The Raven**: You took the third, my dear. I counted.  
+**The Palace Raven**: Somebody had to.  
 **Gerda** _(happy)_: Goodbye! Goodbye!  
 _The raven flies up into a tree, and flaps his black wings for as long as he can see the coach shining._  
 _Gerda keeps her hands in the muff the whole way, and your Nubbin keeps them warm._  
@@ -1567,7 +1570,7 @@ Hint: Look through the clear patch in the frost, then up at the sky. · check: `
 #### <a id="a12-15-south"></a>Scene `a12-15-south`
 
 _Your Nubbin breathes on the frozen crust by your feet. The frost clears like a window, and the atlas does what atlases do._  
-_It shows you the next page while you’re still on this one: inside the palace, a little earlier, in cut paper and ice._  
+_It shows you the palace a few hours before Gerda arrives, in cut paper and ice. The Snow Queen has not left yet._  
 _The halls are drifted snow, and the windows are cutting winds. There are more than a hundred of them, lit by the northern lights._  
 _They are vast and empty and icy and glittering. Nobody has ever had any fun in them, not once._  
 _The Snow Queen stands in the greatest hall, ready to go._  
@@ -1718,6 +1721,7 @@ _Kay’s freedom is written there on the lake, in shining letters. Nobody can un
 
 _Kay and Gerda take each other’s hands and walk out of the great palace._  
 _They talk about Grandmother, and the roses up on the roof. Wherever they go, the winds drop and the sun comes out._  
+_Kay complains about his cold feet the whole way down the steps. Gerda, who has walked barefoot from Denmark, says nothing, loudly._  
 _The clear patch in the frost fogs over. It doesn’t need to show you anything now; you can see them coming._  
 **Gerda** _(happy)_: There! By the bush! That’s our lodger. They waited!  
 **Kay** _(think)_: Waited? Out here? For me?  
@@ -1746,6 +1750,12 @@ _She gives the children her warm milk to drink, and touches her nose to their fa
 **Bae** _(happy)_: I said I’d come straight back. I never said I’d stay away.  
 **Kay** _(sad)_: Hello, lodger. Gerda says you saw the sledge. I’m sorry about the face I did at you.  
 _He means the impression at the window, a long time ago. He remembers it, and he’s ashamed of it, which is a good sign._  
+**Kay**: Gerda says you waited. In the snow. For a boy who made faces at you.  
+**You**: I counted the berries.  
+**Kay**: How many?  
+**You**: Two hundred and twelve. Or eleven.  
+**Gerda**: Eleven. I counted on the way in.  
+_Kay counts them anyway. He gets nine, and is cross about it._  
 **Gerda** _(happy)_: He’s back. He’s really back. He’s cross about his feet, which is how I know.  
 
 **Choices**
@@ -1911,6 +1921,10 @@ _And it is summer: warm, glorious summer._
 
 **Grandmother** _(soft)_: There you are, lodger. I kept your room.  
 **Grandmother**: I thought you’d want it back, after.  
+**Grandmother**: The other bed has been asking after you. Loudly. Every night.  
+_It creaks as you sit down, which is as close as a bed gets to saying welcome back._  
+_Your Nubbin will not leave without Grandmother’s paper troll._  
+**Grandmother**: Take him. He’s caused enough trouble in this house.  
 
 ### Complete
 

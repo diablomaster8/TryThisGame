@@ -11,7 +11,7 @@ _Nova’s atlas falls open at a page in brown ink: a hill town, a long white roa
 _The words across the top begin the way stories for children do. Once upon a time there was… a king, you think._  
 _No. Once upon a time there was a piece of wood._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): Pinocchio’s author, Carlo Collodi, and the Tuscany he wrote about  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): Pinocchio’s author, Carlo Collodi, and the Tuscany he wrote about  
 > _This page is a real place: Tuscany, in the middle of Italy, with hill towns, vineyards and a coast far to the west._  
 > _The writer was Carlo Lorenzini. He called himself Collodi, after a Tuscan town, and his story first ran in a children’s newspaper in 1881._  
 > _For grown-ups: Learned that Pinocchio comes from Tuscany in Italy, and that Collodi first published it in a children’s newspaper in 1881._
@@ -103,7 +103,7 @@ _Geppetto turns the colour of a beetroot, and looks straight at Master Cherry._
 
 #### `reader:a13-01-plane-done` · [main](main.md#a13-01-plane-done)
 
-_The two old men go at each other like cats on a roof._  
+_The two old men shout and tug at each other, loud as two cats._  
 _When they come apart, Geppetto is wearing Master Cherry’s grey wig, and Master Cherry the yellow._  
 _They swap back, shake hands, and swear to be friends for the rest of their lives._  
 _Master Cherry gives him the log very gladly. It jumps out of his hands and cracks Geppetto on the shins, and they start all over again._  
@@ -412,7 +412,7 @@ _Pinocchio stands with the empty shell in his hands and his mouth wide open._
 _Outside, the wind has turned into a storm. Pinocchio puts his cap on._  
 **Pinocchio**: There’s a village. Somebody in it will give me bread. I’ll ask nicely. I can ask nicely.  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): why many Tuscan villages are built on hills  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): why many Tuscan villages are built on hills  
 > _Many old Tuscan villages sit on top of hills, with the farm fields below. Why might people have built them there long ago?_  
 > - ✅ To see enemies coming, and to be easy to defend. → Yes. A hilltop gives a long view and is harder to attack. The fields and vines stayed down below in the good soil.
 > - Because hills are warmer in winter. → Sometimes, but the main reason was safety: a hilltop is easier to watch and defend.
@@ -504,18 +504,27 @@ _He came in meaning to give Pinocchio the scolding of his life. He looks at the 
 **Pinocchio**: I’m so hungry, Babbo. I’ve had nothing but a chick, and the chick left.  
 _Geppetto takes three pears out of his pocket: his breakfast. He holds them out and says nothing about it._  
 
-> **Lesson** (maths, 3.NF.A.1, ask): sharing equally: halves  
-> _Imagine Geppetto cut the three pears in half and shared them equally with Pinocchio. How many halves would each of them get?_  
-> - ✅ 3 halves each. → Yes. Three pears make 6 halves, and 6 shared by 2 is 3 halves each: one and a half pears.
-> - 6 halves each. → There are 6 halves in total. Shared between 2 people, it is 3 each.
-> - 2 halves each. → Count them: 3 pears × 2 halves = 6 halves. Split between two, each gets 3.
-> _For grown-ups: Used halves to share three pears equally between two people._
+> **Lesson** (sel, CASEL: Social awareness, notice): quiet giving: kindness that does not ask to be noticed  
+> _Geppetto hands over his whole breakfast and says nothing about it. Some kindness is quiet._  
+> _He does not want thanks. He wants Pinocchio fed._  
+> _For grown-ups: Talked about quiet kindness that does not ask for thanks._
 
 
 #### `reader:a13-05-pears` · [main](main.md#a13-05-pears)
 
-**Pinocchio**: Peel them for me, please. I can’t eat skins. I’m very particular.  
+**Pinocchio**: Peel them for me, please. And cut every one in half. I can’t eat skins. I’m very particular.  
 **Geppetto**: Particular. At your age. With your feet in the fire. Well, well.  
+_He peels all three anyway, cuts each one in half, and lays the peel and the cores in a corner of the table._  
+_Pinocchio eats the first pear in two bites and throws the core away. Then the second, then the third._  
+
+> **Lesson** (maths, 3.OA.A.1, ask): equal groups: three pears, each cut in half  
+> _Pinocchio wants every pear peeled and cut in half. Geppetto has three pears. How many halves does he cut?_  
+> - ✅ 6 halves. → Yes, 3 × 2 = 6. Geppetto eats none of them, and doesn’t mention it.
+> - 3 halves. → That counts only one half for each pear. Each pear makes 2 halves: 3 × 2 = 6.
+> - 5 halves. → That adds 3 and 2. Three pears with 2 halves each is 3 × 2 = 6.
+> _For grown-ups: Found 3 pears × 2 halves each = 6 halves._
+
+**Pinocchio**: I’m still hungry.  
 
 > **Lesson** (science, 2-LS2-2, ask): seeds spread by animals, and a seed inside a fruit  
 > _Pinocchio throws away a pear core with the little seeds in it. How might an animal help a fruit’s seeds travel and grow?_  
@@ -524,9 +533,6 @@ _Geppetto takes three pears out of his pocket: his breakfast. He holds them out 
 > - Animals do not help seeds at all. → They do a great deal! Birds, mice and foxes carry fruit and spread seeds far from the parent tree.
 > _For grown-ups: Learned that animals spread seeds by eating fruit and dropping or burying the seeds._
 
-_He peels them anyway, and lays the peel and the cores in a corner of the table._  
-_Pinocchio eats the first pear in two bites and throws the core away. Then the second, then the third._  
-**Pinocchio**: I’m still hungry.  
 **Geppetto**: Well, I’ve nothing else. Except the peel and the cores.  
 **Pinocchio**: I don’t eat peel. I don’t eat cores.  
 _He looks at them for quite a long while._  
@@ -545,7 +551,7 @@ _A minute later the peel is gone, and the cores after it. Pinocchio pats his fro
 **Pinocchio**: I feel very well now.  
 **Geppetto**: You see? It doesn’t pay to be too fussy, my boy. You never know what’s coming.  
 
-> **Lesson** (social-studies, D2.Eco.1.K-2, ask): scarcity: when there is not enough, we choose between needs and wants  
+> **Lesson** (social-studies, D2.Eco.1.3-5, ask): scarcity: when there is not enough, we choose between needs and wants  
 > _Geppetto has only enough for one breakfast. He gave it all away. In a hard time, how do we decide what to spend on first?_  
 > - ✅ Needs first, like food and warmth, then wants. → Yes. A need is something you must have to be well. A want is nice but can wait. Choosing needs first is how families get through hard times.
 > - Wants first, because they make us happy. → Wants do bring joy. But if the needs go unmet, the joy does not last long.
@@ -668,7 +674,7 @@ _At the bottom of the hill there is a great painted tent with flags on it. The p
 _A ticket costs four pennies, and Pinocchio hasn’t got four pennies. He has a spelling-book._  
 _He sells it to a man who deals in old clothes, for four pennies exactly, before you can catch his arm._  
 
-> **Lesson** (social-studies, D2.Eco.1.K-2, ask): what something is worth: cost, value and trade-offs  
+> **Lesson** (social-studies, D2.Eco.1.3-5, ask): what something is worth: cost, value and trade-offs  
 > _The book cost Geppetto his only coat. Pinocchio sold it for one evening’s ticket. Is something worth only what someone will pay for it?_  
 > - No. It is worth what it cost the person who gave it. → That’s a fair answer. The four pennies were the price, but the coat was the cost, and it was paid in cold and love.
 > - Yes. A thing is worth what it will sell for. → That’s a fair answer for the market. But some things are valued for who gave them, and the market misses that.
@@ -681,7 +687,7 @@ _He sells it to a man who deals in old clothes, for four pennies exactly, before
 _You crawl in under the canvas behind your Nubbin, and find a place at the back among the boots._  
 _The curtain is up. On the stage Harlequin and Punchinello are quarrelling, as they always do, and about to hit each other with a stick._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): Harlequin and Punchinello come from the old Italian masked theatre, commedia dell’arte  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): Harlequin and Punchinello come from the old Italian masked theatre, commedia dell’arte  
 > _Harlequin and Punchinello are stock characters from commedia dell’arte, Italian street theatre that began in the 1500s._  
 > _Actors in masks acted out the same types again and again._  
 > _Harlequin wears a patchwork of coloured diamonds and is quick and clever. Punchinello, from Naples, wears white and a black mask with a hooked nose._  
@@ -805,10 +811,11 @@ _Fire-eater’s nose twitches. He sneezes, and sneezes again, and goes on sneezi
 
 **Fire-eater**: Oh, very well! Nobody burns tonight. I shall eat my mutton half-raw.  
 **Fire-eater**: But next time, woe betide! Atchoo!  
+**Fire-eater**: Half past nine, and you are still dancing? You will dance till six, the lot of you! Atchoo!  
 _The puppets dance till dawn, and so do you. Your Nubbin dances along Fire-eater’s beard, and he doesn’t even notice._  
 
 > **Lesson** (maths, 3.MD.A.1, ask): time intervals: how long from start to finish  
-> _The puppets start dancing at 9:30 in the evening and stop at 6:00 in the morning. How long did they dance?_  
+> _Fire-eater said the puppets started dancing at 9:30 in the evening and would stop at 6:00 in the morning. How long do they dance?_  
 > - ✅ 8 hours and 30 minutes. → Yes. From 9:30 pm to midnight is 2 hours 30 minutes, then 6 more hours to 6:00 am: 8 hours 30 minutes.
 > - 3 hours and 30 minutes. → That would be 9:30 to 1:00 am. Count on: to midnight is 2½ hours, and midnight to 6:00 is 6 hours more.
 > - 9 hours and 30 minutes. → Close, but check: 9:30 to 10:00 is half an hour, then 10:00 to 6:00 is 8 hours. That is 8½ in all.
@@ -898,7 +905,7 @@ _The Cat springs at it, and it gets away in a burst of feathers._
 _By evening you reach the Inn of the Red Craw-fish and sit down to supper, because the Fox says no great venture was ever begun hungry._  
 _The Cat orders thirty-five red mullet in tomato sauce and four helpings of tripe with cheese. He says he isn’t very hungry._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): how a traditional Italian supper is served in courses  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): how a traditional Italian supper is served in courses  
 > _In an Italian inn, supper comes in courses. What is the usual order, according to tradition?_  
 > - ✅ A starter, then pasta or soup, then meat or fish, then a sweet. → Yes. Starter (antipasto), first course (primo), second course (secondo), and a dessert (dolce). The meal is slow and shared; the Cat and Fox are making it very long.
 > - One big plate with everything at once. → Not at a traditional table. Italian meals come in courses, one after another, and people take their time.
@@ -1000,6 +1007,7 @@ _While they are both staring at that, he is over the hedge and running._
 
 #### `reader:a13-09-chase` · [main](main.md#a13-09-chase)
 
+_Pinocchio runs six metres every second. The sacks hop along at five, huffing and puffing._  
 _He runs across the fields and you run after him, and the two sacks run after you both._  
 
 > **Lesson** (maths, 4.MD.A.2, ask): comparing distances covered at different speeds  
@@ -1334,7 +1342,7 @@ _The town of Catchfools is full of coatless dogs yawning with hunger, shorn shee
 _There are butterflies who have sold their wings, and peacocks ashamed of their tails._  
 _Now and then a fine coach goes by, with a fox in it, or a magpie._  
 
-> **Lesson** (social-studies, D2.Eco.1.K-2, ask): needs, wants and selling what you cannot do without  
+> **Lesson** (social-studies, D2.Eco.1.3-5, ask): needs, wants and selling what you cannot do without  
 > _The animals of Catchfools sold their coats, wings and tails for money. Is it wise to sell something you need to buy something you want?_  
 > _What does the town show us?_  
 > - No. The things they sold were what kept them safe and warm. → That’s a fair answer. When you sell a need to pay for a want, you can be left worse off than before.
@@ -1357,10 +1365,10 @@ _Just outside the town there is a lonely field that looks like every other field
 
 _Pinocchio digs with his hands, and you help._  
 _He has nothing to carry water in, so he fills his shoe at the ditch and pours it on._  
-**The Fox**: Now go away for twenty minutes. Trees are very shy when you watch them grow.  
+**The Fox**: It’s a quarter past ten. Go away for twenty minutes. Trees are very shy when you watch them grow.  
 
 > **Lesson** (maths, 3.MD.A.1, ask): time intervals: twenty minutes later  
-> _The Fox sends Pinocchio away at 10:15. If they come back exactly twenty minutes later, what time is it?_  
+> _The Fox sent Pinocchio away at a quarter past ten, which is 10:15. If they come back exactly twenty minutes later, what time is it?_  
 > - ✅ 10:35 → Yes. 10:15 plus 20 minutes is 10:35. Counting on in fives or tens makes it easy.
 > - 10:20 → That is only five minutes later. Add the full 20: 10:15, 10:25, 10:35.
 > - 11:15 → That is a whole hour. Twenty minutes is a third of an hour, so 10:35.
@@ -1425,7 +1433,7 @@ _The Judge listens with great kindness, nodding all the way through, and blows h
 _Two mastiffs come in, dressed as policemen._  
 **The Judge**: This poor creature has been robbed of four gold pieces. Take him away, and put him in prison at once.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): what makes a judge fair: listening, evidence and equal rules  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): what makes a judge fair: listening, evidence and equal rules  
 > _The Judge listens kindly, then jails the victim. What should a fair judge do instead?_  
 > - ✅ Look at the evidence and punish the one who did the wrong. → Yes. Justice means judging what was done, not who is easiest to punish. A fair judge treats everyone by the same rules.
 > - Punish whoever is nearest, to keep order. → That is what the Gorilla does, and it is unjust. Order built on punishing the wrong person is not order at all.
@@ -1460,7 +1468,7 @@ _Your Nubbin climbs in through the bars with crusts, and comes back out with mes
 _Then one morning, bells. The young Emperor of Catchfools has won a great victory over somebody, and there are flags everywhere._  
 _All the prisons are to be opened. All the rogues are to go free._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): an amnesty is an official pardon; Collodi’s Italy had only just become one country  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): an amnesty is an official pardon; Collodi’s Italy had only just become one country  
 > _An amnesty is when a ruler pardons many people at once, often to celebrate. Collodi’s readers would have known the idea well._  
 > _Collodi himself fought in the wars that joined the Italian states into one country._  
 > _Italy became one kingdom in 1861, only twenty years before Pinocchio first appeared in the newspaper._  
@@ -1491,7 +1499,7 @@ _Make of that what you will._
 **Pinocchio**: Straight home now. Straight to the Fairy, then straight to Babbo. No stopping. Not for anything.  
 _You set off at a great pace. After an hour he is walking more slowly, and after two he is looking at the vineyards._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): vineyards are a big part of Tuscan farming; grapes are picked in early autumn  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): vineyards are a big part of Tuscan farming; grapes are picked in early autumn  
 > _Tuscany is famous for its vineyards: rows of grapevines trained on wires over the hills. The grapes are harvested by hand in September and October._  
 > _Some become wine, some are dried as raisins, and the Tuscan farmers have taken great care of them for centuries, which is why Pinocchio’s vineyard has a trap._  
 > _For grown-ups: Learned that vineyards are an important Tuscan crop, harvested in early autumn._
@@ -1570,12 +1578,12 @@ _They are martens. They like eggs, and chickens, and most of all they like not b
 **Marten**: Died? Poor beast. He was such a reasonable dog.  
 **Marten**: You look reasonable too. Here’s what we had with him. You keep quiet, we take seven hens, and you get one, plucked.  
 
-> **Lesson** (maths, 3.OA.D.8, ask): a two-step word problem with multiplication and subtraction  
-> _Suppose each of the four martens took 7 hens. The farmer has 30 hens. How many would be left?_  
-> - ✅ 2 hens. → Yes. First 4 × 7 = 28 hens taken, then 30 − 28 = 2 left. Pinocchio’s trick saved the other 28.
-> - 11 hens. → That adds 4 and 7. Multiply first: 4 × 7 = 28, then subtract: 30 − 28 = 2.
-> - 28 hens. → 28 is how many are taken. The question asks how many are left: 30 − 28 = 2.
-> _For grown-ups: Solved a two-step problem: 4 × 7 = 28, then 30 − 28 = 2._
+> **Lesson** (maths, 3.OA.A.3, ask): dividing seven hens among four martens, with a remainder  
+> _The martens’ deal was seven hens, shared between the four of them. How many whole hens does each marten get, and how many are left over?_  
+> - ✅ 1 each, and 3 left over. → Yes. 4 × 1 = 4, and 7 − 4 = 3. Three spare hens is how martens start arguments.
+> - 7 each. → That would be 28 hens, and the deal was seven. Melampo would have noticed.
+> - 2 each. → 2 each would need 8 hens, and the deal was seven. Four martens get 1 each, with 3 left over.
+> _For grown-ups: Shared 7 among 4: 1 each, remainder 3. Tonight Pinocchio’s trick saves all seven._
 
 **Pinocchio**: Oh, yes. Very reasonable. Go right in.  
 _The martens go into the hen-house, one after another. Pinocchio waits until the last tail is through the door._  
@@ -1649,14 +1657,13 @@ _The wind goes through the grass. The Big Oak creaks behind you, the way it did 
 #### `reader:a13-15-stone-done` · [main](main.md#a13-15-stone-done)
 
 _He cries all night. The hills hear him and cry back, in echoes, until morning._  
-
-> **Lesson** (science, 1-PS4-1, notice): an echo is sound bouncing back from a hard surface  
-> _An echo is a sound that reflects, or bounces, off a hard, flat surface such as a hillside or a cliff, and comes back to your ears a moment later._  
-> _Sound travels about 343 metres each second in the air._  
-> _If you hear your echo after 2 seconds, the hill is roughly 343 metres away: it went there and back in that time._  
-> _For grown-ups: Learned that an echo is a reflected sound, and that the delay can show how far away the surface is._
-
 **Pinocchio**: Little Fairy, come back. Where’s Babbo? Who’s going to give me bread now? Who’s going to tell me off?  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): grief: it is a heavy feeling, and it helps to be near someone  
+> _Crying all night is what grief can feel like. It helps to be near someone._  
+> _Your Nubbin stays close to Pinocchio, and that is a good thing to do._  
+> _For grown-ups: Learned that grief is a heavy feeling, and that being near someone helps._
+
 
 #### `reader:a13-15-pigeon` · [main](main.md#a13-15-pigeon)
 
@@ -1701,13 +1708,10 @@ _The crowd groans, but Pinocchio doesn’t make a sound. He climbs to the top of
 _He swims like a fish, because he is wood, and wood floats._  
 _He goes out and out through the waves, until you can’t see him at all._  
 
-> **Lesson** (science, 3-PS2-1, ask): floating: balanced forces  
-> _A floating thing has its weight pulling down and the water pushing up._  
-> _For a log of wood bobbing on the sea, what do you know about those two forces?_  
-> - ✅ They are balanced: equal and opposite. → Yes. When the upward push of the water equals the downward pull of weight, the log neither sinks nor rises: it floats. Wood is light for its size, so a little water is enough to hold it up.
-> - The water pushes harder than gravity. → If it did, the log would shoot up. At the surface the forces are equal and it sits steady.
-> - There is no push from the water. → Water pushes up on anything in it. That upward push is called buoyancy, and it is what keeps boats afloat.
-> _For grown-ups: Learned that floating happens when the water’s upward push balances an object’s weight._
+> **Lesson** (sel, CASEL: Self-awareness, notice): rescue takes courage: being afraid and brave at once  
+> _Pinocchio is frightened, and he jumps anyway. Being brave does not mean having no fear._  
+> _It means doing the caring thing while the fear is still there._  
+> _For grown-ups: Learned that courage is acting with care even when you feel afraid._
 
 
 ### Glossary
@@ -1774,7 +1778,7 @@ _Along the street comes a little woman, carrying two cans of water from the foun
 
 **Pinocchio**: Good woman, will you give me a drink?  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): Italian towns have public fountains, some fed by springs and old Roman water systems  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): Italian towns have public fountains, some fed by springs and old Roman water systems  
 > _Many Italian towns still have public fountains where people fetch water._  
 > _Some are fed by springs, and some by channels first built by the Romans two thousand years ago._  
 > _A fountain is where neighbours meet. That is why the Fairy, grown up, is found at one, carrying water like anyone else._  
@@ -1788,7 +1792,20 @@ _He eats like a wolf. Then he looks up at her to say thank you, and stops, and s
 **Pinocchio**: You’ve got blue hair. Like her. Just like her.  
 _The little woman says nothing. She smiles, and that is enough._  
 **Pinocchio**: It’s you! You were a little girl, and now you’re grown up. You’re almost like a mother.  
+**Pinocchio**: I read your stone. I cried on it all night. The Pigeon said I was very loud.  
+**The Fairy**: I know. I could hear you from the next valley.  
+**Pinocchio**: Then why didn’t you come?  
+**The Fairy**: Because you had to come to me. That’s the whole trick of it.  
 **The Fairy**: Then call me mother, if you like.  
+
+> **Lesson** (science, 3-PS2-1, ask): floating: balanced forces  
+> _A floating thing has its weight pulling down and the water pushing up. Pinocchio is made of wood, and wood floats._  
+> _For a log bobbing on water, what do you know about those two forces?_  
+> - ✅ They are balanced: equal and opposite. → Yes. When the upward push of the water equals the downward pull of weight, the log neither sinks nor rises: it floats. Wood is light for its size, so a little water is enough to hold it up.
+> - The water pushes harder than gravity. → If it did, the log would shoot up. At the surface the forces are equal and it sits steady.
+> - There is no push from the water. → Water pushes up on anything in it. That upward push is called buoyancy, and it is what keeps boats afloat.
+> _For grown-ups: Learned that floating happens when the water’s upward push balances an object’s weight._
+
 
 #### `reader:a13-16-water-done` · [main](main.md#a13-16-water-done)
 
@@ -1811,15 +1828,16 @@ _The little woman says nothing. She smiles, and that is enough._
 **The Fairy**: If you are good, I think you will.  
 _Next morning he goes to school, the only wooden boy in a class of forty._  
 _The other boys try to hang their caps on his nose, and draw a moustache on him in ink._  
+_He puts up with it for a morning. Then he kicks a few shins with his bark shoes, and after that they like him very much._  
+_Eight caps by nine o’clock. Five by ten. Two by eleven. By noon, none, and a few sore shins._  
+_The schoolmaster praises him. He is quick, he pays attention, and he is first through the door every morning._  
 
 > **Lesson** (maths, 3.MD.B.3, do): reading a bar graph: caps on Pinocchio’s nose each day  
-> _Here is the count of caps hung on Pinocchio’s nose that first morning: 8 at nine o’clock, 5 at ten, 2 at eleven, and none at noon._  
+> _Here is the count of caps hung on Pinocchio’s nose that first morning: 8 by nine o’clock, 5 by ten, 2 by eleven, and none by noon._  
 > _Draw one bar for each hour, and read the story in the shape: the bars shrink as the boys come to like him._  
 > Check: `edu:read:bar-graph:caps`
-> _For grown-ups: Made and read a bar graph showing a falling number of caps over four days._
+> _For grown-ups: Made and read a bar graph showing a falling number of caps over four hours._
 
-_He puts up with it for a morning. Then he kicks a few shins with his bark shoes, and after that they like him very much._  
-_The schoolmaster praises him. He is quick, he pays attention, and he is first through the door every morning._  
 
 #### `reader:a13-16-school-done` · [main](main.md#a13-16-school-done)
 
@@ -1969,6 +1987,7 @@ _Round the point there is a cave with smoke coming out of it. You go in carefull
 _A fisherman is frying fish._  
 _He is green all over: green skin, green hair, and a beard of long green grass, like a lizard that has stood up._  
 _He has a net full of fish, and he is sorting them, very pleased with himself. In the middle of the net is Pinocchio._  
+_There are twelve mullet in the net, and his pan holds four fish at a time._  
 **The Green Fisherman**: Mullet. Into the pan. Bream. Into the pan. Anchovies, into the pan. And what are you?  
 **Pinocchio**: I’m a puppet!  
 **The Green Fisherman**: A puppet-fish! I’ve never had a puppet-fish. A talking one, too. I’ll keep you for last, as a treat.  
@@ -1999,17 +2018,19 @@ _He takes Pinocchio out of the fisherman’s hand, gently, in his teeth, and is 
 #### `reader:a13-17-complete` · [main](main.md#a13-17-complete)
 
 _Pinocchio walks home to the Fairy that night, floured like a loaf, and knocks. The Snail who keeps the door looks out of the top window._  
-_It takes her nine hours to come down. Pinocchio is asleep on the step when the door opens._  
+**The Snail**: I’m coming!  
+_It is half past four in the morning._  
+_It takes her nine hours to come down, and Pinocchio is asleep on the step when the door opens._  
+_The Fairy forgives him, again. He goes back to school, and works, and this time he is good for a whole year._  
 
 > **Lesson** (maths, 3.MD.A.1, ask): time intervals: when does the Snail arrive  
-> _The Snail sets off from the top window at 4:30 in the morning and takes 9 hours to come down._  
+> _The Snail set off from the top window at half past four in the morning, which is 4:30, and took 9 hours to come down._  
 > _What time does she open the door?_  
 > - ✅ 1:30 in the afternoon. → Yes. 4:30 plus 9 hours is 13:30, which is 1:30 pm. Snails move on one muscular foot over a trail of slime, which is why they are not in a hurry.
 > - 9:30 in the morning. → That adds only 5 hours. Count on 9 hours from 4:30: noon is 7½ hours, then 1½ more.
 > - 4:30 in the afternoon. → That would be 12 hours. Nine hours from 4:30 am lands at 1:30 pm.
 > _For grown-ups: Added 9 hours to 4:30 am to find 1:30 pm._
 
-_The Fairy forgives him, again. He goes back to school, and works, and this time he is good for a whole year._  
 **The Fairy**: Tomorrow you will stop being a puppet. Tomorrow, you will be a boy.  
 **Pinocchio**: Tomorrow? Really tomorrow? I’ll invite everybody! I’ll go and invite them now!  
 
@@ -2117,6 +2138,9 @@ _Pinocchio sees her and tries to call out to her. What comes out is a bray, so l
 > - The quack of a duck. → Ducks quack. A donkey brays.
 > _For grown-ups: Learned that bray is the sound a donkey makes._
 
+_Your Nubbin’s paper ears flap in sympathy. It brays too, very small._  
+_Far off across the fields, another bray answers. Candlewick can’t help it either._  
+_Then the laughing stops, and the tent goes very quiet._  
 _He jumps for the hoop, catches his back leg on it and comes down hard. After that he is lame._  
 _The director sells him for a few pennies to a drum-maker._  
 _The man ties a rope to him and lowers him off a rock into the sea. You watch from the cliff, and can’t stop it._  
@@ -2124,23 +2148,16 @@ _The man ties a rope to him and lowers him off a rock into the sea. You watch fr
 #### `reader:a13-18-sea` · [main](main.md#a13-18-sea)
 
 _After an hour the man hauls in his rope. Up out of the sea comes, not a donkey, but a wooden puppet, wriggling like an eel._  
-
-> **Lesson** (science, 2-PS1-1, notice): sea water is salty and wood floats in it more easily than in fresh water  
-> _Sea water holds about 35 grams of salt in every litre._  
-> _The salt makes the water denser, so it holds things up better than fresh water does._  
-> _A wooden puppet floats in a fresh pond. In the sea, he floats even higher, which is how he bobs up out of a rope-and-rock job._  
-> _For grown-ups: Learned that salt makes sea water denser, so things float more easily in it._
-
 **The Drum Man**: Where’s my donkey?  
 **Pinocchio**: The sea washed him off. All the little fish had a nibble. It turns out the donkey was only a sort of coat.  
 _He wriggles out of the rope, dives, and swims away laughing._  
 
-> **Lesson** (maths, 3.OA.A.3, ask): multiplying by ten: salt in a bucket of sea water  
-> _Sea water has about 35 grams of salt in each litre. How much salt is in a 10-litre bucket of it?_  
-> - ✅ 350 grams. → Yes. 35 × 10 = 350 g. That is about a mugful of salt in one bucket of sea water.
-> - 45 grams. → That adds 35 and 10. Ten litres means ten times as much: 35 × 10 = 350.
-> - 3.5 grams. → That divides by 10. A bucket holds ten times as much as one litre, so multiply: 350.
-> _For grown-ups: Multiplied 35 g by 10 litres to find 350 g of salt in a bucket of sea water._
+> **Lesson** (science, 2-PS1-1, notice): sea water is salty and wood floats in it more easily than in fresh water  
+> _Sea water holds about 35 grams of salt in every litre._  
+> _The salt makes the water denser, so it holds things up better than fresh water does._  
+> _A wooden puppet floats in a fresh pond._  
+> _In the sea, he floats even higher, which is how he bobs up out of the rope and the rock._  
+> _For grown-ups: Learned that salt makes sea water denser, so things float more easily in it._
 
 
 #### `reader:a13-18-sea-carried` · [main](main.md#a13-18-sea-carried)
@@ -2221,10 +2238,46 @@ _Far away, down the long dark of the Dog-fish, there is a little light._
     - **The Tunny**: A mile long, not counting the tail. I have never counted the tail. Nobody comes back from counting the tail.
     - You decide to head for the light.
 
+#### `reader:a13-19-belly-clank` · [main](main.md#a13-19-belly-clank)
+
+_Variant of `a13-19-belly`._
+
+_It is dark and wet, and it smells of fried fish, which is not reassuring when you are inside one._  
+_Your boat lies on its side in a shallow pool._  
+**Pinocchio**: Help! Help! Isn’t anyone here?  
+**The Tunny**: Only us unfortunates.  
+**Clank**: Announcement: we have been eaten.  
+**Clank**: I have a ramp. There is no door. This is a design problem.  
+**The Tunny**: Dignity, please. It is all we have left.  
+**Pinocchio**: Who’s that?  
+**The Tunny**: A poor Tunny, swallowed at the same time as you. What sort of fish are you?  
+**Pinocchio**: I’m not any sort of fish! I’m a puppet. And that’s a traveller, and that’s a Nubbin.  
+**The Tunny**: Then why let yourselves be swallowed? Never mind. Now we wait to be digested, with dignity.  
+**Pinocchio**: I don’t want to be digested!  
+_Far away, down the long dark of the Dog-fish, there is a little light._  
+
+> **Lesson** (science, 1-PS4-2, ask): we see only when light reaches our eyes  
+> _It is completely dark inside the Dog-fish, yet you can spot one tiny candle from far away._  
+> _Why does a small light show up so well in total darkness?_  
+> - ✅ Because light travels straight to our eyes, and there is no other light to hide it. → Yes. Light moves in straight lines, and a dark place has nothing to drown it out. On a dark night, one candle flame can be seen from more than a kilometre away.
+> - Because the candle makes a sound. → We see light, not sound. Light from the flame reaches your eyes, and that is how you see it.
+> - Because eyes shine in the dark. → Eyes do not make light. They collect it. In a dark place, even a tiny flame is easy to spot.
+> _For grown-ups: Learned that we see when light reaches our eyes, and that a small light shows up in the dark._
+
+
+**Choices**
+
+- **Head for the light.**
+    - You start towards it. Your Nubbin goes first, because it is smallest and has the best eyes.
+- **Ask the Tunny how big the Dog-fish is.**
+    - **The Tunny**: A mile long, not counting the tail. I have never counted the tail. Nobody comes back from counting the tail.
+    - You decide to head for the light.
+
 #### `reader:a13-19-belly-done` · [main](main.md#a13-19-belly-done)
 
 _The light is a candle, stuck in the neck of a green glass bottle on a little table._  
 _At the table sits an old man, as white as snow, eating a very small fish._  
+_He has lived in here for two years, with a new candle every week. A year has 52 weeks, and he has counted every one._  
 
 > **Lesson** (maths, 4.MD.A.2, ask): time units: two years in weeks  
 > _Geppetto has been inside the Dog-fish for two years. A year has 52 weeks._  
@@ -2262,13 +2315,10 @@ _Pinocchio is in his arms before he has finished, kissing him, talking, crying, 
 **Geppetto**: And you. The traveller who slept in my corner. You came all this way.  
 _Your Nubbin climbs up onto his shoulder, the way it rode in his cap, and he laughs for the first time in two years._  
 
-> **Lesson** (science, 2-PS1-1, ask): why dry food keeps and moist food goes mouldy  
-> _Geppetto lived on biscuits and cheese for two years. Hard dry biscuits keep for a very long time, while a soft loaf goes mouldy in days._  
-> _Why?_  
-> - ✅ Mould is a fungus that needs moisture to grow. → Yes. Dry biscuits give mould little water, so it cannot spread. People have dried food for thousands of years, and ship’s biscuit was made to last for months.
-> - Biscuits are too hard for mould to bite. → Mould does not bite. It grows on food from tiny spores, and it needs water to do it.
-> - Mould only likes the colour of bread. → Mould does not care about colour. It cares about water, warmth and food.
-> _For grown-ups: Learned that mould needs moisture, so dry foods like ship’s biscuit keep for a long time._
+> **Lesson** (sel, CASEL: Self-awareness, notice): happy tears and quiet joy: being found after a long time  
+> _Laughing for the first time in two years is a big feeling. Joy can be quiet, and it can be loud._  
+> _Either way, it is good to share it with the one who found you._  
+> _For grown-ups: Talked about the joy of being found after a long wait._
 
 
 #### `reader:a13-19-mouth` · [main](main.md#a13-19-mouth)
@@ -2324,6 +2374,13 @@ _The Tunny, who is not used to it, dives at once, so that nobody will see him cr
 _Your Nubbin is still holding the green bottle._  
 _The candle went out in the sea, but the bottle kept it dry, and it won’t give it up._  
 
+> **Lesson** (science, 2-PS1-1, notice): why dry food keeps and moist food goes mouldy  
+> _Geppetto lived on biscuits and cheese for two years. Hard dry biscuits keep for a very long time, while a soft loaf goes mouldy in days._  
+> _Mould is a fungus, and it needs moisture to grow. Dry biscuits give it little water, so it cannot spread._  
+> _Ship’s biscuit was made to last for months._  
+> _For grown-ups: Learned that mould needs moisture, so dry foods like ship’s biscuit keep for a long time._
+
+
 #### `reader:a13-19-complete-clank` · [main](main.md#a13-19-complete-clank)
 
 _Variant of `a13-19-complete`._
@@ -2331,7 +2388,7 @@ _Variant of `a13-19-complete`._
 _The Tunny carries Pinocchio and Geppetto to the shore. Clank, who would sink like a kettle, rides on his back like a figurehead._  
 _On the sand Pinocchio helps his father up, gently, as if Geppetto were made of glass. Then he turns to the Tunny._  
 
-> **Lesson** (science, 3-PS2-1, ask): why a steel kettle sinks but a steel ship floats  
+> **Lesson** (science, ask): why a steel kettle sinks but a steel ship floats  
 > _A metal kettle sinks, but a huge steel ship floats. What is the difference?_  
 > - ✅ A ship’s shape pushes aside a lot of water, so the water pushes back up hard enough. → Yes. A floating thing must displace its own weight in water. A hollow, wide ship does; a small solid kettle does not. That is why Clank rides on the Tunny.
 > - Ships are made of lighter metal. → Both are steel. It is the shape that matters, not the metal.
@@ -2465,6 +2522,7 @@ _Pinocchio lays his father on the straw. Geppetto is so weak that he can only sm
 _The gardener up the lane is called Giangio. He has milk, at a penny a glass, and Pinocchio hasn’t got a penny._  
 **Giangio**: Then turn my water-wheel. Draw up a hundred buckets, and you’ll have your glass.  
 _Pinocchio turns the wheel, and you count. Your Nubbin counts on its paws, and loses its place at four, every time._  
+_Each bucket takes Pinocchio twelve seconds to draw up. A hundred buckets is a long morning._  
 _He has never worked so hard in his life. At a hundred buckets he is wet through to the grain._  
 
 > **Lesson** (maths, 4.MD.A.2, ask): time problems: how long for a hundred buckets  
@@ -2509,7 +2567,9 @@ _Your Nubbin sits down by the donkey’s head and doesn’t move, so you don’t
 
 _The atlas turns its pages slowly now. Pinocchio turns the wheel every morning, and weaves rush baskets every evening, and sells them._  
 _He reads by the fire, from a book with no cover. He looks after Geppetto as if Geppetto were the puppet._  
-_He saves forty pennies in a jar. Forty pennies is a new coat, and his paper jacket has lost most of its flowers._  
+_He saves two pennies a day in a jar, until it holds forty._  
+_Forty pennies is a new coat, and his paper jacket has lost most of its flowers._  
+_One morning, on his way to market to buy the coat, he sees a Snail coming across the road towards him. It takes some time._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): division: how long to save forty pennies  
 > _Pinocchio saves 2 pennies a day. How many days does it take to save 40 pennies?_  
@@ -2518,7 +2578,6 @@ _He saves forty pennies in a jar. Forty pennies is a new coat, and his paper jac
 > - 80 days. → That multiplies. Division asks how many 2-penny days make 40: 20.
 > _For grown-ups: Divided 40 pennies by 2 pennies a day to find 20 days._
 
-_One morning, on his way to market to buy the coat, he sees a Snail coming across the road towards him. It takes some time._  
 **The Snail**: Pinocchio. Do you remember me? I kept the Fairy’s door.  
 **The Snail**: She is ill, and in hospital. She has nothing left, not even enough for bread.  
 **Pinocchio**: The Fairy? Ill? Wait.  
@@ -2603,6 +2662,8 @@ _Clank clicks, and clicks again, the way he did on the shelf in the lantern shed
 _It isn’t a question. He says it the way you say a thing you have just found in your pocket._  
 _Nobody answers. Your Nubbin climbs up onto his hood and sits there, warm, and Geppetto puts down his chisel._  
 **Clank**: Love. That’s the word.  
+**Clank**: Pixel didn’t put it in. Nobody puts it in. Somebody does it to you first, and then it’s there.  
+_He doesn’t become anything. He is still a kettle on one wheel, with a ramp that says BYTE underneath, and that is the whole point._  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): what love is: something that is done to us first, and then is there  
 > _Clank says nobody puts love in us: somebody does it to us first, and then it is there. Do you think that is true?_  
@@ -2612,8 +2673,6 @@ _Nobody answers. Your Nubbin climbs up onto his hood and sits there, warm, and G
 > - No. Some people are simply born kind. → That’s a fair answer. Kindness may come easier to some, though even they need others to show them how it can be used.
 > _For grown-ups: Reflected on how people learn what love is and whether it is something given before it is understood._
 
-**Clank**: Pixel didn’t put it in. Nobody puts it in. Somebody does it to you first, and then it’s there.  
-_He doesn’t become anything. He is still a kettle on one wheel, with a ramp that says BYTE underneath, and that is the whole point._  
 **Geppetto**: And take my old bench, traveller. The little Nubbin on it never got finished. It’s lovely as it is.  
 _The page settles under your hand like a door closed quietly._  
 _You are back in the Grove, with sawdust in your hair and pine on your sleeve._  
@@ -2631,6 +2690,8 @@ _Clank clicks, and clicks again, the way he did on the shelf in the lantern shed
 _It isn’t a question. He says it the way you say a thing you have just found in your pocket._  
 _Nobody answers. Your Nubbin climbs up onto his hood and sits there, warm, and Geppetto puts down his chisel._  
 **Clank**: Love. That’s the word.  
+**Clank**: Moss said Real lives next door to it. I went next door. This is the house.  
+**Clank**: Pixel didn’t put it in. Nobody puts it in. Somebody does it to you first, and then it’s there.  
 
 > **Lesson** (literacy, L.4.5, ask): metaphor: “Real lives next door”  
 > _Clank says Real “lives next door” to the word. Of course, Real is not a person with a house. What does he mean?_  
@@ -2639,8 +2700,6 @@ _Nobody answers. Your Nubbin climbs up onto his hood and sits there, warm, and G
 > - He is joking, and it means nothing. → He is warm, not joking. The picture makes a hard idea easier to hold.
 > _For grown-ups: Interpreted a metaphor: Real and love as neighbours._
 
-**Clank**: Moss said Real lives next door to it. I went next door. This is the house.  
-**Clank**: Pixel didn’t put it in. Nobody puts it in. Somebody does it to you first, and then it’s there.  
 _He doesn’t become anything. He is still a kettle on one wheel, with a ramp that says BYTE underneath, and that is the whole point._  
 **Geppetto**: And take my old bench, traveller. The little Nubbin on it never got finished. It’s lovely as it is.  
 _The page settles under your hand like a door closed quietly._  
@@ -2660,7 +2719,7 @@ Versions of the variants with no parent scene in this storyline.
 _Dusk in the Grove. The Nubbins come in from the long grass one by one and climb onto Clank, because he is warm._  
 _One on his wheel, one on his hood like a hat. He turns his chimney-light down low for them._  
 
-> **Lesson** (science, 5-ESS1-2, notice): sunsets look red and orange because blue light is scattered away  
+> **Lesson** (science, notice): sunsets look red and orange because blue light is scattered away  
 > _At dusk the Sun is low, and its light must travel through far more air before it reaches you._  
 > _The air scatters away the blue light, and the reds and oranges get through._  
 > _That is why the sky glows warm at the end of the day, and why the Grove looks so gentle when Clank turns his light down._  
